@@ -1,304 +1,145 @@
-Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E64A9248867;
-	Fri, 27 Mar 2026 04:13:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.156
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C78C25EF87;
+	Fri, 27 Mar 2026 05:26:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774584815; cv=none; b=C8FZjcWa7/9hdT/QMsJ9kdFWENr+EnT0YPEAXmGk5gW+8yuhdJR/+28pO8edJ8JtaF/LoddQP47SCxDFrYPu0dVAmGHEFPeY0Q8dxAmhpiDerbLY7mgZJjXqGkhLiKKV0l2v8SNM7CHy/1LLZPAEbJ+u1qvtsVSazk79c6Qeyno=
+	t=1774589214; cv=none; b=XloGWDSkSMx9pkAni9lzHwpXfsi0b88XNy5k1+W6b+qVBhadQF9tQBt5bKvY+E65v9emXBuyW0e4Q18RRLCNvNtGF8NAmD4pe9Ju3ejsV/ZNZgsA9aHES9nkuo9whtNlJbfnJShpFh2MrXVAhNRz/+FfxZBH/6O19QuQyWEq7e4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774584815; c=relaxed/simple;
-	bh=O1r2TB7AZDhv/ye2uot4lJ8UrQc85iSzpdILU89Cq9o=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=uhN3dQxzZBBo7P7WijDcDpU/iS9EvkApTwDULtlu9X4BLt8HaneiQLtPs2UYD4xgbPnKgx7anGSefcOR7cWUKllwgZkuIC4ORD5hwTcFZRf25hvH6ytOGEEb8bIBIxroH88tm2CLmp1XyVy+6usO+H0lM8ow1ljXiXWE9FsUEjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=iIHUxczi; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=MCJY5Ufu; arc=none smtp.client-ip=202.12.124.156
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	s=arc-20240116; t=1774589214; c=relaxed/simple;
+	bh=0NvdU30yd+O/PNabiDauHBwgThhg6DzK5S6xWv5y7hA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=foYRia85PSWYbGr3xf5lxLLLonF9fZMgH847Z2U3rWAzWhGPRmBd/BGWAnsprt185xwKmIVFg5oAugojcZJE/JSfKMcVnwdV8/uWf/et2FmhXKBu8nzzse6GHu0v0YsWAMCmByQh+nfv4T2og6rytn3W3zSo8ZO4sIDRkCzM2PU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DGO44JYy; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="iIHUxczi";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="MCJY5Ufu"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id BF45F7A0169;
-	Fri, 27 Mar 2026 00:13:30 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Fri, 27 Mar 2026 00:13:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm1; t=
-	1774584810; x=1774671210; bh=WyVInZcZr68/eNJ6NMis1vjr9ENyg87XN4z
-	U87cAIXw=; b=iIHUxcziG/GkywLtm1/bJzw0DUY8tt4b3TQLybWfs6S+FkiKHWh
-	W9cGw9O7v01Dl4UQ9kvXiAxHRNfua/YleuWnpfQuQsaIBXdOlyojDlfxerf7Wu+7
-	tECal6FeSfW/Z5LAJTR9On4ZBL5pB4IjmGlkXjqqxPtyLrTzkw5J49u5cxQA8ahW
-	Quvva38P3Z6OPakMfy10Vs+dJCJ5ql5XcqDQCSm4jxf6KNg4avTKK3NfHhLj5aDi
-	D34yxiT/1kyhxoeVogbtDm3ci0Km/WR9ZkNAPX+xZJo/3e5RmJhr+aWvAxVGIKfY
-	zaxjnV4D6RofydqMRhCW24TiJwOb2TaVXVA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1774584810; x=
-	1774671210; bh=WyVInZcZr68/eNJ6NMis1vjr9ENyg87XN4zU87cAIXw=; b=M
-	CJY5UfuGfBGliGIvIbSfgTi+R+EyT37gVZdbrlsZrKPClwBFLPDfjtVaGaOL2e1J
-	zfGzBBj+xhi33mzSoEl0osQmLY221Rzk9o/8Fr9+JVKYBCUiFCjpGXG5jA2BT2YQ
-	mSC5fZN7A+ZxiZoANwCAIhGy43mKwW0vba8yMUE1uxyGElww8ivTxWK36AxKdqER
-	UZuVejy4hmTFMg0unpBrHLv7W7HtdPtusOWzcD4YQqczsxD8d9BOTuLB/77iDDWK
-	zPczgWcNwo4ng+gokkZ57K8oyInXjiYGzqkjdrGB81nTyab8/gO+9jQlr0Ro2svv
-	lTUz/DTnt9OadXuzPHpfw==
-X-ME-Sender: <xms:6QPGafsB-kzA3OHCSdBvUFQU0uMVqQu7uw8aVez4NojrmiQwpJMjIQ>
-    <xme:6QPGaVYPK-9mv_gOBUrX8JnEdQBp9jOrtnAi8Qq2iuRevNDbkx2p8bh4wOp1o9AL7
-    8J3gKUER2zn_vJ-jptTH7PJTokI52tpUsOlM8GkPTWN_ya6JA>
-X-ME-Received: <xmr:6QPGaXD75L33ZW2L_DG6h-leHMid5qIeugWJTL5BMBBdXv5yMKi9Yj5oZCuk7W_ps8Ov75in3zhmXMPqJuJJY1wTL9x9PkLrgE7dtyrn2Usk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefvdelvdelucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurheptgfgggfhvfevufgjfhffkfhrsehtqhertddttdejnecuhfhrohhmpefpvghilheu
-    rhhofihnuceonhgvihhlsgesohifnhhmrghilhdrnhgvtheqnecuggftrfgrthhtvghrnh
-    epleejtdefgeeukeeiteduveehudevfeffvedutefgteduhfegvdfgtdeigeeuudejnecu
-    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhgvihhlsg
-    esohifnhhmrghilhdrnhgvthdpnhgspghrtghpthhtohepkedpmhhouggvpehsmhhtphho
-    uhhtpdhrtghpthhtohepvhhirhhoseiivghnihhvrdhlihhnuhigrdhorhhgrdhukhdprh
-    gtphhtthhopehlihhnuhigqdhunhhiohhnfhhssehvghgvrhdrkhgvrhhnvghlrdhorhhg
-    pdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorh
-    hgpdhrtghpthhtoheplhhinhhugidqfhhsuggvvhgvlhesvhhgvghrrdhkvghrnhgvlhdr
-    ohhrghdprhgtphhtthhopehmihhklhhoshesshiivghrvgguihdrhhhupdhrtghpthhtoh
-    epthhorhhvrghlughssehlihhnuhigqdhfohhunhgurghtihhonhdrohhrghdprhgtphht
-    thhopegsrhgruhhnvghrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrmhhirhejfe
-    hilhesghhmrghilhdrtghomh
-X-ME-Proxy: <xmx:6QPGad9kR5HiZ78xBJMO0ehBhybmsTHG5ZKHpEg6H5Tf3xc_ua2Lsw>
-    <xmx:6QPGaTRJoSgtIOA3f9j-e4zeakPUC3IsKp8bOOUKTPGdoF9JM7ooSA>
-    <xmx:6QPGaRXKLEDFxhC9-Io5otAIjRn4qS8e2s1KolEDsMOC__bHrRKpaw>
-    <xmx:6QPGadQho4X42sBOmBfSnvittKZuy8qhPM5gezt8G_T-tIzR96GTQQ>
-    <xmx:6gPGaQfGw1ali5kZUrVlIs8Kt60XERuaIOjlNWgVWldtYtKQFcKViLFo>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 27 Mar 2026 00:13:27 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DGO44JYy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774589213; x=1806125213;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0NvdU30yd+O/PNabiDauHBwgThhg6DzK5S6xWv5y7hA=;
+  b=DGO44JYyCKxmAoaDekfNBtfuCKaSy346tC3Ky8h6FRQf+dBtg1ifewvC
+   SIH1Wxppkv0L/kSAUFuI+7aXFQgEDh50Z0YGNcXnouCGgrRe962ccknOs
+   FFGuqOoi+dvVrqycxafGbpg2O+2+xDCsFLd/8Y1hJ11oS9XwnpDhnZQQ8
+   aS49aS3bnS1Qwo84FqXYx7uE1usc6upHZmwK05ut2xcGr/FbpsFUHs6IY
+   olfNzG5okNVSKrekJd9VCvFuPopFwtnW46JknT1NkrKpIIq9GkDVKDlqt
+   qOSfUsewoQcGYYr8pEzFAh5NAbeTfoJvB8SWAFsqf7mQ9Jsid6uXf74Ar
+   g==;
+X-CSE-ConnectionGUID: LFNDsmX7R6uD8Mgu+/fIzg==
+X-CSE-MsgGUID: 3Rs69HyfSQKRYckoBj2wGw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="78254803"
+X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
+   d="scan'208";a="78254803"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 22:26:53 -0700
+X-CSE-ConnectionGUID: +aZcZ+2NSieSOEaKngZHWw==
+X-CSE-MsgGUID: i+SMycimSQ2Igf1wBTyDsQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
+   d="scan'208";a="225459176"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa007.jf.intel.com with ESMTP; 26 Mar 2026 22:26:51 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w5zia-000000007Rx-1KrO;
+	Fri, 27 Mar 2026 05:26:48 +0000
+Date: Fri, 27 Mar 2026 06:26:00 +0100
+From: kernel test robot <lkp@intel.com>
+To: Chuck Lever <cel@kernel.org>, NeilBrown <neil@brown.name>,
+	Jeff Layton <jlayton@kernel.org>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-nfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, Chuck Lever <chuck.lever@oracle.com>
+Subject: Re: [PATCH v5 1/7] NFSD: Extract revoke_one_stid() utility function
+Message-ID: <202603270614.CgH26mor-lkp@intel.com>
+References: <20260326-umount-kills-nfsv4-state-v5-1-d2ce071b3570@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Amir Goldstein" <amir73il@gmail.com>
-Cc: "Linus Torvalds" <torvalds@linux-foundation.org>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Christian Brauner" <brauner@kernel.org>,
- "Miklos Szeredi" <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org,
- linux-unionfs@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 16/53] ovl: drop dir lock for lookups in impure readdir
-In-reply-to:
- <CAOQ4uxgvD3COuoD5r67CfpYSiRFSr0LY5TB-QPcSn-zD9Ht1HQ@mail.gmail.com>
-References: <20260312214330.3885211-1-neilb@ownmail.net>,
- <20260312214330.3885211-17-neilb@ownmail.net>,
- <CAOQ4uxjmcNxsCmDSVgkTns=3BAuQcT3pVvsQzza+u3iqXqrz5g@mail.gmail.com>,
- <177386823998.3934327.10803400222725196190@noble.neil.brown.name>,
- <CAOQ4uxgvD3COuoD5r67CfpYSiRFSr0LY5TB-QPcSn-zD9Ht1HQ@mail.gmail.com>
-Date: Fri, 27 Mar 2026 15:13:23 +1100
-Message-id: <177458480314.1851489.4686537284269032199@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260326-umount-kills-nfsv4-state-v5-1-d2ce071b3570@oracle.com>
 
-On Sat, 21 Mar 2026, Amir Goldstein wrote:
-> On Wed, Mar 18, 2026 at 10:10=E2=80=AFPM NeilBrown <neilb@ownmail.net> wrot=
-e:
-> >
-> > [[ CC list trimmed ]]
-> >
-> > On Mon, 16 Mar 2026, Amir Goldstein wrote:
-> > > On Thu, Mar 12, 2026 at 10:49=E2=80=AFPM NeilBrown <neilb@ownmail.net> =
-wrote:
-> > > >
-> > > > From: NeilBrown <neil@brown.name>
-> > > >
-> > > > When performing an "impure" readdir, ovl needs to perform a lookup on=
- some
-> > > > of the names that it found.
-> > > > With proposed locking changes it will not be possible to perform this
-> > > > lookup (in particular, not safe to wait for d_alloc_parallel()) while
-> > > > holding a lock on the directory.
-> > > >
-> > > > ovl doesn't really need the lock at this point.
-> > >
-> > > Not exactly. see below.
-> > >
-> > > > It has already iterated
-> > > > the directory and has cached a list of the contents.  It now needs to
-> > > > gather extra information about some contents.  It can do this without
-> > > > the lock.
-> > > >
-> > > > After gathering that info it needs to retake the lock for API
-> > > > correctness.  After doing this it must check IS_DEADDIR() again to
-> > > > ensure readdir always returns -ENOENT on a removed directory.
-> > > >
-> > > > Note that while ->iterate_shared is called with a shared lock, ovl us=
-es
-> > > > WRAP_DIR_ITER() so an exclusive lock is held and so we drop and retake
-> > > > that exclusive lock.
-> > > >
-> > > > As the directory is no longer locked in ovl_cache_update() we need
-> > > > dget_parent() to get a reference to the parent.
-> > > >
-> > > > Signed-off-by: NeilBrown <neil@brown.name>
-> > > > ---
-> > > >  fs/overlayfs/readdir.c | 19 ++++++++++++-------
-> > > >  1 file changed, 12 insertions(+), 7 deletions(-)
-> > > >
-> > > > diff --git a/fs/overlayfs/readdir.c b/fs/overlayfs/readdir.c
-> > > > index 1dcc75b3a90f..d5123b37921c 100644
-> > > > --- a/fs/overlayfs/readdir.c
-> > > > +++ b/fs/overlayfs/readdir.c
-> > > > @@ -568,13 +568,12 @@ static int ovl_cache_update(const struct path *=
-path, struct ovl_cache_entry *p,
-> > > >                         goto get;
-> > > >                 }
-> > > >                 if (p->len =3D=3D 2) {
-> > > > -                       /* we shall not be moved */
-> > > > -                       this =3D dget(dir->d_parent);
-> > > > +                       this =3D dget_parent(dir);
-> > > >                         goto get;
-> > > >                 }
-> > > >         }
-> > > >         /* This checks also for xwhiteouts */
-> > > > -       this =3D lookup_one(mnt_idmap(path->mnt), &QSTR_LEN(p->name, =
-p->len), dir);
-> > > > +       this =3D lookup_one_unlocked(mnt_idmap(path->mnt), &QSTR_LEN(=
-p->name, p->len), dir);
-> > >
-> > > ovl_cache_update() is also called from ovl_iterate_merged() where inode
-> > > is locked.
-> > >
-> > > >         if (IS_ERR_OR_NULL(this) || !this->d_inode) {
-> > > >                 /* Mark a stale entry */
-> > > >                 p->is_whiteout =3D true;
-> > > > @@ -666,11 +665,12 @@ static int ovl_dir_read_impure(const struct pat=
-h *path,  struct list_head *list,
-> > > >         if (err)
-> > > >                 return err;
-> > > >
-> > > > +       inode_unlock(path->dentry->d_inode);
-> > > >         list_for_each_entry_safe(p, n, list, l_node) {
-> > > >                 if (!name_is_dot_dotdot(p->name, p->len)) {
-> > > >                         err =3D ovl_cache_update(path, p, true);
-> > > >                         if (err)
-> > > > -                               return err;
-> > > > +                               break;
-> > > >                 }
-> > > >                 if (p->ino =3D=3D p->real_ino) {
-> > > >                         list_del(&p->l_node);
-> > > > @@ -680,14 +680,19 @@ static int ovl_dir_read_impure(const struct pat=
-h *path,  struct list_head *list,
-> > > >                         struct rb_node *parent =3D NULL;
-> > > >
-> > > >                         if (WARN_ON(ovl_cache_entry_find_link(p->name=
-, p->len,
-> > > > -                                                             &newp, =
-&parent)))
-> > > > -                               return -EIO;
-> > > > +                                                             &newp, =
-&parent))) {
-> > > > +                               err =3D -EIO;
-> > > > +                               break;
-> > > > +                       }
-> > > >
-> > > >                         rb_link_node(&p->node, parent, newp);
-> > > >                         rb_insert_color(&p->node, root);
-> > > >                 }
-> > > >         }
-> > > > -       return 0;
-> > > > +       inode_lock(path->dentry->d_inode);
-> > > > +       if (IS_DEADDIR(path->dentry->d_inode))
-> > > > +               err =3D -ENOENT;
-> > > > +       return err;
-> > > >  }
-> > > >
-> > > >  static struct ovl_dir_cache *ovl_cache_get_impure(const struct path =
-*path)
-> > > > --
-> > >
-> > > You missed the fact that overlayfs uses the dir inode lock
-> > > to protect the readdir inode cache, so your patch introduces
-> > > a risk for storing a stale readdir cache when dir modify operations
-> > > invalidate the readdir cache version while lock is dropped
-> > > and also introduces memory leak when cache is stomped
-> > > without freeing cache created by a competing thread.
-> > > I think something like the untested patch below should fix this.
-> >
-> > Yes, I did miss that - thanks. I think I missed a few other details too.
-> > I no longer think it can be safe to drop the lock without substantial
-> > rewrites - and even then maybe not.
-> >
-> > So I'm considering a different approach.
-> > This patch demonstrates what I'm thinking, though it still needs work I
-> > think.
->=20
-> I like this direction.
->=20
-> I always thought that we need to get rid of this vfs lookup
-> inside readdir but I thought it would be a lot of work.
->=20
-> Your suggestion walks around this in an elegant way.
->=20
+Hi Chuck,
 
-Thanks :-)
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 65058e9e9b20619f920397f529072e853dd43811]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chuck-Lever/NFSD-Extract-revoke_one_stid-utility-function/20260327-081757
+base:   65058e9e9b20619f920397f529072e853dd43811
+patch link:    https://lore.kernel.org/r/20260326-umount-kills-nfsv4-state-v5-1-d2ce071b3570%40oracle.com
+patch subject: [PATCH v5 1/7] NFSD: Extract revoke_one_stid() utility function
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260327/202603270614.CgH26mor-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603270614.CgH26mor-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603270614.CgH26mor-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   fs/nfsd/nfs4state.c: In function 'revoke_one_stid':
+>> fs/nfsd/nfs4state.c:1830:28: error: 'state_lock' undeclared (first use in this function); did you mean 'task_lock'?
+    1830 |                 spin_lock(&state_lock);
+         |                            ^~~~~~~~~~
+         |                            task_lock
+   fs/nfsd/nfs4state.c:1830:28: note: each undeclared identifier is reported only once for each function it appears in
 
 
-> >
-> > Thanks,
-> > NeilBrown
-> >
-> > From: NeilBrown <neil@brown.name>
-> > Subject: [PATCH] ovl: stop using lookup_one() in iterate_shared() handlin=
-g.
-> >
-> > lookup_one() is expected to be removed as it does not fit well with
-> > proposed changes to directory locking.
-> > Specifically d_alloc_parallel() will be ordered outside of i_rwsem
-> > and as iterate_shared() is called with i_rwsem held it is not safe
-> > to call d_alloc_parallel().
-> >
-> > We can instead call d_alloc_noblock() and then call the ->lookup, but
-> > that can fail if there is a lookup attempt concurrent with the
-> > readdir().
-> >
-> > ovl cannot afford for the lookup to fail as that could produce incorrect
-> > results, and it cannot safely drop i_rwsem temporarily and that could
-> > introduce races with handling of the directory cache.
-> >
-> > Instead we rely on the fact that ovl_iterate() has an exclusive lock on
-> > the directory, so any concurrent lookup will wait for the ovl_iterate()
-> > call to complete.  We allocate a separate dentry and if the lookup is
-> > successful, it is hashed with the result.
-> >
-> > When the concurrent lookup gets i_rwsem it mustn't do its own lookup -
-> > it must use the existing dentry.  This is done using
-> > try_lookup_noperm().  To manage overheads we keep a counter of the
-> > number of "Stray dentries" there might be on each directory and only
-> > check for one when this count is non zero.
-> >
-> > If a 'stray dentry' were discarded for any reason before the concurrent
-> > lookup completed, the count would never reach zero.  That might be a prob=
-lem.
->=20
-> Can we deal with the discarded dentries using OVL_E_FLAGS() for
-> a stray ovl dentry implement the relevant ovl_dentry_operations to decrement
-> the stray counter?
+vim +1830 fs/nfsd/nfs4state.c
 
-Maybe ... though I'd really rather get rid of the stray counter.
-We could drop it completely and always do the try_lookup_noperm() in
-ovl_lookup(), but that might have a performance cost.
-I'd really like to be able to mark the in-lookup dentry which caused
-d_alloc_noblock() to fail so that when the lookup on that dentry happens
-we can know to do the try_lookup_noperm().  That avoids both the counter
-and the cost.
+  1805	
+  1806	static void revoke_one_stid(struct nfs4_client *clp, struct nfs4_stid *stid)
+  1807	{
+  1808		struct nfs4_ol_stateid *stp;
+  1809		struct nfs4_delegation *dp;
+  1810	
+  1811		switch (stid->sc_type) {
+  1812		case SC_TYPE_OPEN:
+  1813			stp = openlockstateid(stid);
+  1814			mutex_lock_nested(&stp->st_mutex, OPEN_STATEID_MUTEX);
+  1815			revoke_ol_stid(clp, stp);
+  1816			mutex_unlock(&stp->st_mutex);
+  1817			break;
+  1818		case SC_TYPE_LOCK:
+  1819			stp = openlockstateid(stid);
+  1820			mutex_lock_nested(&stp->st_mutex, LOCK_STATEID_MUTEX);
+  1821			revoke_ol_stid(clp, stp);
+  1822			mutex_unlock(&stp->st_mutex);
+  1823			break;
+  1824		case SC_TYPE_DELEG:
+  1825			/*
+  1826			 * Extra reference guards against concurrent FREE_STATEID.
+  1827			 */
+  1828			refcount_inc(&stid->sc_count);
+  1829			dp = delegstateid(stid);
+> 1830			spin_lock(&state_lock);
+  1831			if (!unhash_delegation_locked(dp, SC_STATUS_ADMIN_REVOKED))
+  1832				dp = NULL;
+  1833			spin_unlock(&state_lock);
+  1834			if (dp)
+  1835				revoke_delegation(dp);
+  1836			else
+  1837				nfs4_put_stid(stid);
+  1838			break;
+  1839		case SC_TYPE_LAYOUT:
+  1840			nfsd4_close_layout(layoutstateid(stid));
+  1841			break;
+  1842		}
+  1843	}
+  1844	
 
-I had previously suggested a d_alloc_locked() which could return an
-in-lookup dentry providing the filesystem provided some interlock so the
-caller of d_alloc_locked() and ->lookup wouldn't both instantiate the
-dentry.  Al wasn't keen on that.  Maybe I could try again.  I'd like to
-get some review from him on the current patches first though...
-
-Thanks,
-NeilBrown
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
