@@ -1,449 +1,225 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22CA43F787A
-	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Mar 2026 14:31:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E47C3F7E9C;
+	Fri, 27 Mar 2026 14:31:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774621872; cv=none; b=pLzZxtym923MZWDWzBvxGTqt4lbbyrz3AUgYm0+4ytj0N+KPMtKnemAdSgTcUUO6iAgUHWW/66AMtZNSPbqaWzEhx6LV9X+Atm9IVTJ91RjF2c3++yFdUy/Lq6RuvRSOtSqzQmH+fORKraf7yAaNu0Yryv2P+lskFWA4J8UfC6k=
+	t=1774621873; cv=none; b=V/ELPGJvy2w1LV74rgdg2ienVc1GWzuciTbxrisi/ID96dAhuaMxf3qYwDdzcbl/Rt6aRGG6oX8XtZBiYWdHdHfUPOHQNTeAUrx+ceiE/v7/sVEBUpzmitKj/PElhsOmBtmX0g/cPPcogkJAOCCX/7/2cQiCEvW8cF0ZareRiwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774621872; c=relaxed/simple;
-	bh=/ttNPNbuQ2CEZ7eM5OC3+OHXe+jaIax8k5R4iS3UIWM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=jS8dl5KXvN9tPmIVlzWhpC82EaUA1GxTQpM+i3pCQvIGYVFbp08tNoRTl6eMota9NYq2C6SXcF/4XjkYF80mfP8TCO16ZXeDzIUX4cXMAuH+JYlsp1pK8mI2P7ZkrzLK3UgXnLvpjMyTuJJb68wAynV0firfg+2oo3ud/EFF80s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ardZco8e; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=fIHQ5vLZ; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1774621873; c=relaxed/simple;
+	bh=MrvKjRWkl1Y6HHbAPwGm0kWozY8T3Glyl78Hgi7yspY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aROwFMGDBJhBez+iVFVDQ7dyPpEZxFiQYcoKcfFWdSqE9r9BSUywzMWnyITOxSZJEBMNXhuJY32QjYIL7f14/Td5nMgeP+uNxV4fjjWxCaGRK0K2BwZ5Ou0d2R4a5bsNiWVRb6aXVkBeixDwNAZwf18qUWLY0rmn2KfNvbgaRXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FA65YRld; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ardZco8e";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="fIHQ5vLZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1774621870;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2Qrj1W4Ce5NzDY4IsgwcpP1cuY8hbH3L9WyiJQRf3TM=;
-	b=ardZco8ei8QWup7cv41ENzmlOoUfnisbUFAJx5ICqdxq28lFgDdshP/jpfKA6AoiCcSMqv
-	ftOISWhbd1F7B0vXXao69K6/4Ze35484Io6duEwb1x2wkNXOQ/wyp9tJfglvnXtEBJ1JNk
-	H95A5TaBSFIo7EOeYq3ecuaBg6k237c=
-Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
- [209.85.161.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-653-yY0b4SVbNwK2XZ6lvBC5jA-1; Fri, 27 Mar 2026 10:31:08 -0400
-X-MC-Unique: yY0b4SVbNwK2XZ6lvBC5jA-1
-X-Mimecast-MFC-AGG-ID: yY0b4SVbNwK2XZ6lvBC5jA_1774621867
-Received: by mail-oo1-f69.google.com with SMTP id 006d021491bc7-67dece24dbcso6597194eaf.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 27 Mar 2026 07:31:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1774621867; x=1775226667; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2Qrj1W4Ce5NzDY4IsgwcpP1cuY8hbH3L9WyiJQRf3TM=;
-        b=fIHQ5vLZLQ76//+fa4rOTGVl0U775C5A92hyspywvL6Ue31I00PArev8Cu6XXi6OLW
-         zoqgCeSfZgqMGLLX6kDfaTHu8KYiDCs8gATcy9c0hhIK1kT03JECeGeT0uivl5j9TOpL
-         jZgf9N7xTnbSofwJraMNBqSiErS3G1jLuhmD0rYSXORfzlaAZErE6iYqu8bS71GWZpBd
-         GW6LkGby5LuZrmrxUDDLduEi8NgG5Y6Dq5tW/uLsy+GmaVd21b31wRDYf0x18Nj3gLOf
-         FfJqQHb6t/m8Z6Oq1SGx6p7Tf6bRIGX3JQNSs5alCGj/0GqtyBeY/29ViIDhNXd07SZ3
-         90yQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774621867; x=1775226667;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=2Qrj1W4Ce5NzDY4IsgwcpP1cuY8hbH3L9WyiJQRf3TM=;
-        b=UEGNREXVT3sm7uVhe2KiJcenp96AvGGlmpCHKZ26e8snXnWcTAF1jA3muFfn4HPD31
-         iEtm6CG6G6ppClaSIA9Us3TTCCma7FUi6axnqPzHb4bICgjKRhReXxMImhViA5WTz6q1
-         lC+D9BGBXAnqSGa3aMVJu4+kif1naetSLEfrcxLvA/AhT4fEaws3j0IpJzdkH+X9fyr7
-         G3FTK0rZYN9FjsTlFIMHlUyKBxht9tO8sTQ0t5xSekNFvmhm6h/1HafE3c8DH2vNgNuH
-         BbPOVHbnsYuhn/LBpmINMMmysMNrBagyNGfS6IfQyoOKWMERJs5bEErisBnzXu9VhpY2
-         q8jw==
-X-Forwarded-Encrypted: i=1; AJvYcCXyTOfADackQJs7rdM877KG37etx3QfxkHnqmH43DCw4exDUFHYvMtf+iVxlLaJsArE54gI9SwRRViNM6WW@vger.kernel.org
-X-Gm-Message-State: AOJu0YyoIslY29QxeDTfKndEnH2jM4YawPYRx/DXETU3SuogWTTN9dw3
-	BSxqTKetU5HJO6vj3NQewDJQ/ElPCy+Pd7xxLGEoAtS9gvyCQycNE2JCMHen/5FNxjB0DI4Idyl
-	Xw0r6vbtXMfJ5FwPvAdDAkTW7pAijPFu2Qu2eUdNngr2Dirh3YW96hJwQ8uG6WxXzKDX0oKZmFR
-	1qZw==
-X-Gm-Gg: ATEYQzwQ/Lq+x/VeVEAGCKuJRCnGn1DtyKSz+vVjVP0Bavn17MCU9VvKOmtMOSv+GG+
-	zJXuCp7hIVn/bvvmGA7/MF4c/uxB+HXNFPE1tNGdjxkQAqxhlt5F2+MFopMGA6FsT+OuK7llFIT
-	MQlJ3qjII197ooRJT9r0MpJdfchPlFBZH4VyLVWXC8jqoyEW4+WbXT8QXIOeRWvnGWKBcA+Fb6p
-	9AdgC1/n2L81GqWXD86tJK9+cZXDOI3LhHCgm++URW0xie+HOqHjitmg05enyOa85JovF3NAoLw
-	i7GW2ugTmB2hKjGoaba85n16SYgCURg/APXKFXVQ2UpArHerjWXdEqsc60de2XdC+9K8QaAudZ3
-	NGzTYTsSE7yZCCWemQSQCCIU+ebzXPtH2hHMirEwwbKxLcrLHhWE4N8E=
-X-Received: by 2002:a4a:e90e:0:b0:67e:eb4:238f with SMTP id 006d021491bc7-67e186156ebmr1493431eaf.18.1774621867265;
-        Fri, 27 Mar 2026 07:31:07 -0700 (PDT)
-X-Received: by 2002:a4a:e90e:0:b0:67e:eb4:238f with SMTP id 006d021491bc7-67e186156ebmr1493407eaf.18.1774621866819;
-        Fri, 27 Mar 2026 07:31:06 -0700 (PDT)
-Received: from cluster.. (4f.55.790d.ip4.static.sl-reverse.com. [13.121.85.79])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8d00e502081sm515168585a.36.2026.03.27.07.31.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Mar 2026 07:31:06 -0700 (PDT)
-From: Alex Markuze <amarkuze@redhat.com>
-To: ceph-devel@vger.kernel.org
-Cc: idryomov@gmail.com,
-	linux-fsdevel@vger.kernel.org,
-	amarkuze@redhat.com,
-	vdubeyko@redhat.com
-Subject: [PATCH 08/10] ceph: drop reset reconnect bookkeeping after direct teardown switch
-Date: Fri, 27 Mar 2026 14:30:44 +0000
-Message-Id: <20260327143045.1393612-9-amarkuze@redhat.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260327143045.1393612-1-amarkuze@redhat.com>
-References: <20260327143045.1393612-1-amarkuze@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FA65YRld"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B8E8C2BC87;
+	Fri, 27 Mar 2026 14:31:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774621873;
+	bh=MrvKjRWkl1Y6HHbAPwGm0kWozY8T3Glyl78Hgi7yspY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FA65YRldQYG5G3drQMMoAc8SfQ4mmeIUA90nBgmb1APmS8p6BhrzYu9nrBDDjJfto
+	 tMBA9seiAdGawC246pLjV+Fl5yut7bDI2tSd1BoHbsW+K3JnTkXzANWLMFai+Z0b+8
+	 +lyTw8FpFfTPmDRtT9Qo8aGRXT3lo236j74uh/mLZvP2qfIlCIGdmBFY+f1STVdcdV
+	 i7GtH/LWRU0i++pN+8Bt945zXeQXk5IQKYViC1aplops7W8LmQ8KPMcMekKZnq2GHT
+	 wZX83qWDlNnCQT3ZAIXM+3nmM7S475HJjU6WRuj+KtTSvG7Mw46mbRhKWnsePUXjna
+	 7p88Q+af6JbLw==
+Date: Fri, 27 Mar 2026 14:31:05 +0000
+From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+To: Baolin Wang <baolin.wang@linux.alibaba.com>
+Cc: Zi Yan <ziy@nvidia.com>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Song Liu <songliubraving@fb.com>, Chris Mason <clm@fb.com>, 
+	David Sterba <dsterba@suse.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>, linux-btrfs@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v1 02/10] mm/khugepaged: remove READ_ONLY_THP_FOR_FS check
+Message-ID: <6442d533-27ae-4e2d-b8d1-64acdd2dfbd9@lucifer.local>
+References: <20260327014255.2058916-1-ziy@nvidia.com>
+ <20260327014255.2058916-3-ziy@nvidia.com>
+ <7fd90f5e-65b5-4734-abb2-77b22c733af5@linux.alibaba.com>
+ <8f5119a1-9aa9-4a39-ac94-ca1631db26e1@lucifer.local>
+ <ec927492-4577-4192-8fad-85eb1bb43121@linux.alibaba.com>
+ <89c8b93c-f6dd-4d8e-bcee-3c1ff1c04295@lucifer.local>
+ <b9bc241f-91a0-4df3-a5fb-2221bee3ab68@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b9bc241f-91a0-4df3-a5fb-2221bee3ab68@linux.alibaba.com>
 
-Once manual reset tears sessions down locally, it no longer tracks
-per-reset reconnect completions. Remove the leftover generation and
-pending-reconnect state and simplify peer-reset handling to match the
-new teardown-based reset path.
+On Fri, Mar 27, 2026 at 10:26:53PM +0800, Baolin Wang wrote:
+>
+>
+> On 3/27/26 10:12 PM, Lorenzo Stoakes (Oracle) wrote:
+> > On Fri, Mar 27, 2026 at 09:45:03PM +0800, Baolin Wang wrote:
+> > >
+> > >
+> > > On 3/27/26 8:02 PM, Lorenzo Stoakes (Oracle) wrote:
+> > > > On Fri, Mar 27, 2026 at 05:44:49PM +0800, Baolin Wang wrote:
+> > > > >
+> > > > >
+> > > > > On 3/27/26 9:42 AM, Zi Yan wrote:
+> > > > > > collapse_file() requires FSes supporting large folio with at least
+> > > > > > PMD_ORDER, so replace the READ_ONLY_THP_FOR_FS check with that. shmem with
+> > > > > > huge option turned on also sets large folio order on mapping, so the check
+> > > > > > also applies to shmem.
+> > > > > >
+> > > > > > While at it, replace VM_BUG_ON with returning failure values.
+> > > > > >
+> > > > > > Signed-off-by: Zi Yan <ziy@nvidia.com>
+> > > > > > ---
+> > > > > >     mm/khugepaged.c | 7 +++++--
+> > > > > >     1 file changed, 5 insertions(+), 2 deletions(-)
+> > > > > >
+> > > > > > diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> > > > > > index d06d84219e1b..45b12ffb1550 100644
+> > > > > > --- a/mm/khugepaged.c
+> > > > > > +++ b/mm/khugepaged.c
+> > > > > > @@ -1899,8 +1899,11 @@ static enum scan_result collapse_file(struct mm_struct *mm, unsigned long addr,
+> > > > > >     	int nr_none = 0;
+> > > > > >     	bool is_shmem = shmem_file(file);
+> > > > > > -	VM_BUG_ON(!IS_ENABLED(CONFIG_READ_ONLY_THP_FOR_FS) && !is_shmem);
+> > > > > > -	VM_BUG_ON(start & (HPAGE_PMD_NR - 1));
+> > > > > > +	/* "huge" shmem sets mapping folio order and passes the check below */
+> > > > > > +	if (mapping_max_folio_order(mapping) < PMD_ORDER)
+> > > > > > +		return SCAN_FAIL;
+> > > > >
+> > > > > This is not true for anonymous shmem, since its large order allocation logic
+> > > > > is similar to anonymous memory. That means it will not call
+> > > > > mapping_set_large_folios() for anonymous shmem.
+> > > > >
+> > > > > So I think the check should be:
+> > > > >
+> > > > > if (!is_shmem && mapping_max_folio_order(mapping) < PMD_ORDER)
+> > > > >        return SCAN_FAIL;
+> > > >
+> > > > Hmm but in shmem_init() we have:
+> > > >
+> > > > #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> > > > 	if (has_transparent_hugepage() && shmem_huge > SHMEM_HUGE_DENY)
+> > > > 		SHMEM_SB(shm_mnt->mnt_sb)->huge = shmem_huge;
+> > > > 	else
+> > > > 		shmem_huge = SHMEM_HUGE_NEVER; /* just in case it was patched */
+> > > >
+> > > > 	/*
+> > > > 	 * Default to setting PMD-sized THP to inherit the global setting and
+> > > > 	 * disable all other multi-size THPs.
+> > > > 	 */
+> > > > 	if (!shmem_orders_configured)
+> > > > 		huge_shmem_orders_inherit = BIT(HPAGE_PMD_ORDER);
+> > > > #endif
+> > > >
+> > > > And shm_mnt->mnt_sb is the superblock used for anon shmem. Also
+> > > > shmem_enabled_store() updates that if necessary.
+> > > >
+> > > > So we're still fine right?
+> > > >
+> > > > __shmem_file_setup() (used for anon shmem) calls shmem_get_inode() ->
+> > > > __shmem_get_inode() which has:
+> > > >
+> > > > 	if (sbinfo->huge)
+> > > > 		mapping_set_large_folios(inode->i_mapping);
+> > > >
+> > > > Shared for both anon shmem and tmpfs-style shmem.
+> > > >
+> > > > So I think it's fine as-is.
+> > >
+> > > I'm afraid not. Sorry, I should have been clearer.
+> > >
+> > > First, anonymous shmem large order allocation is dynamically controlled via
+> > > the global interface (/sys/kernel/mm/transparent_hugepage/shmem_enabled) and
+> > > the mTHP interfaces
+> > > (/sys/kernel/mm/transparent_hugepage/hugepages-*kB/shmem_enabled).
+> > >
+> > > This means that during anonymous shmem initialization, these interfaces
+> > > might be set to 'never'. so it will not call mapping_set_large_folios()
+> > > because sbinfo->huge is 'SHMEM_HUGE_NEVER'.
+> > >
+> > > Even if shmem large order allocation is subsequently enabled via the
+> > > interfaces, __shmem_file_setup -> mapping_set_large_folios() is not called
+> > > again.
+> >
+> > I see your point, oh this is all a bit of a mess...
+> >
+> > It feels like entirely the wrong abstraction anyway, since at best you're
+> > getting a global 'is enabled'.
+> >
+> > I guess what happened before was we'd never call into this with ! r/o thp for fs
+> > && ! is_shmem.
+>
+> Right.
+>
+> > But now we are allowing it, but should STILL be gating on !is_shmem so yeah your
+> > suggestion is correct I think actualyl.
+> >
+> > I do hate:
+> >
+> > 	if (!is_shmem && mapping_max_folio_order(mapping) < PMD_ORDER)
+> >
+> > As a bit of code though. It's horrible.
+>
+> Indeed.
+>
+> > Let's abstract that...
+> >
+> > It'd be nice if we could find a way to clean things up in the lead up to changes
+> > in series like this instead of sticking with the mess, but I guess since it
+> > mostly removes stuff that's ok for now.
+>
+> I think this check can be removed from this patch.
+>
+> During the khugepaged's scan, it will call thp_vma_allowable_order() to
+> check if the VMA is allowed to collapse into a PMD.
+>
+> Specifically, within the call chain thp_vma_allowable_order() ->
+> __thp_vma_allowable_orders(), shmem is checked via
+> shmem_allowable_huge_orders(), while other FSes are checked via
+> file_thp_enabled().
 
-Signed-off-by: Alex Markuze <amarkuze@redhat.com>
----
- fs/ceph/debugfs.c    |   4 --
- fs/ceph/mds_client.c | 165 ++++++++++++++++++++++++-------------------
- fs/ceph/mds_client.h |   6 --
- 3 files changed, 91 insertions(+), 84 deletions(-)
+It sucks not to have an assert. Maybe in that case make it a
+VM_WARN_ON_ONCE().
 
-diff --git a/fs/ceph/debugfs.c b/fs/ceph/debugfs.c
-index 88969dc5dde5..0c26491dbbf8 100644
---- a/fs/ceph/debugfs.c
-+++ b/fs/ceph/debugfs.c
-@@ -378,7 +378,6 @@ static int reset_status_show(struct seq_file *s, void *p)
- 	bool inject_error = false;
- 	bool drain_timed_out = false;
- 	int sessions_reset = 0;
--	int pending_reconnects = 0;
- 	int blocked_requests = 0;
- 	char reason[CEPH_CLIENT_RESET_REASON_LEN];
- 
-@@ -401,7 +400,6 @@ static int reset_status_show(struct seq_file *s, void *p)
- 	strscpy(reason, st->last_reason, sizeof(reason));
- 	spin_unlock(&st->lock);
- 
--	pending_reconnects = atomic_read(&st->pending_reconnects);
- 	blocked_requests = atomic_read(&st->blocked_requests);
- 
- 	seq_printf(s, "phase: %s\n", ceph_reset_phase_name(phase));
-@@ -426,8 +424,6 @@ static int reset_status_show(struct seq_file *s, void *p)
- 	seq_printf(s, "drain_timed_out: %s\n",
- 		   drain_timed_out ? "yes" : "no");
- 	seq_printf(s, "sessions_reset: %d\n", sessions_reset);
--	/* pending_reconnects: always 0 for manual reset (MDS-reconnect only) */
--	seq_printf(s, "pending_reconnects: %d\n", pending_reconnects);
- 	seq_printf(s, "blocked_requests: %d\n", blocked_requests);
- 
- 	return 0;
-diff --git a/fs/ceph/mds_client.c b/fs/ceph/mds_client.c
-index 287cee71227b..8b86c577c127 100644
---- a/fs/ceph/mds_client.c
-+++ b/fs/ceph/mds_client.c
-@@ -62,7 +62,6 @@ struct ceph_reconnect_state {
- 	struct ceph_pagelist *pagelist;
- 	unsigned msg_version;
- 	bool allow_multi;
--	bool from_reset;
- };
- 
- static void __wake_requests(struct ceph_mds_client *mdsc,
-@@ -70,8 +69,6 @@ static void __wake_requests(struct ceph_mds_client *mdsc,
- static void ceph_cap_release_work(struct work_struct *work);
- static void ceph_cap_reclaim_work(struct work_struct *work);
- static void ceph_mdsc_reset_workfn(struct work_struct *work);
--static void ceph_mdsc_reconnect_session_done(struct ceph_mds_client *mdsc,
--					     struct ceph_mds_session *session);
- 
- static const struct ceph_connection_operations mds_con_ops;
- 
-@@ -4401,11 +4398,9 @@ static void handle_session(struct ceph_mds_session *session,
- 
- 	switch (op) {
- 	case CEPH_SESSION_OPEN:
--		if (session->s_state == CEPH_MDS_SESSION_RECONNECTING) {
-+		if (session->s_state == CEPH_MDS_SESSION_RECONNECTING)
- 			pr_info_client(cl, "mds%d reconnect success\n",
- 				       session->s_mds);
--			ceph_mdsc_reconnect_session_done(mdsc, session);
--		}
- 
- 		session->s_features = features;
- 		if (session->s_state == CEPH_MDS_SESSION_OPEN) {
-@@ -4438,11 +4433,9 @@ static void handle_session(struct ceph_mds_session *session,
- 		break;
- 
- 	case CEPH_SESSION_CLOSE:
--		if (session->s_state == CEPH_MDS_SESSION_RECONNECTING) {
-+		if (session->s_state == CEPH_MDS_SESSION_RECONNECTING)
- 			pr_info_client(cl, "mds%d reconnect denied\n",
- 				       session->s_mds);
--			ceph_mdsc_reconnect_session_done(mdsc, session);
--		}
- 		session->s_state = CEPH_MDS_SESSION_CLOSED;
- 		cleanup_session_requests(mdsc, session);
- 		remove_session_caps(session);
-@@ -4483,11 +4476,9 @@ static void handle_session(struct ceph_mds_session *session,
- 	case CEPH_SESSION_REJECT:
- 		WARN_ON(session->s_state != CEPH_MDS_SESSION_OPENING &&
- 			session->s_state != CEPH_MDS_SESSION_RECONNECTING);
--		if (session->s_state == CEPH_MDS_SESSION_RECONNECTING) {
-+		if (session->s_state == CEPH_MDS_SESSION_RECONNECTING)
- 			pr_info_client(cl, "mds%d reconnect rejected\n",
- 				       session->s_mds);
--			ceph_mdsc_reconnect_session_done(mdsc, session);
--		}
- 		pr_info_client(cl, "mds%d rejected session\n",
- 			       session->s_mds);
- 		session->s_state = CEPH_MDS_SESSION_REJECTED;
-@@ -4775,22 +4766,9 @@ static int reconnect_caps_cb(struct inode *inode, int mds, void *arg)
- 		rec.v2.issued = cpu_to_le32(cap->issued);
- 		rec.v2.snaprealm = cpu_to_le64(ci->i_snap_realm->ino);
- 		rec.v2.pathbase = cpu_to_le64(path_info.vino.ino);
--		if (recon_state->from_reset) {
--			/*
--			 * Reset-initiated reconnect: always try to reclaim
--			 * locks. The MDS does best-effort; failures are
--			 * handled on future lock operations.
--			 */
--			rec.v2.flock_len = cpu_to_le32(1);
--		} else {
--			/*
--			 * Normal reconnect: skip lock reclaim if locks
--			 * were already known to be in error state.
--			 */
--			rec.v2.flock_len = cpu_to_le32(
--				test_bit(CEPH_I_ERROR_FILELOCK_BIT,
--					 &ci->i_ceph_flags) ? 0 : 1);
--		}
-+		rec.v2.flock_len = cpu_to_le32(
-+			test_bit(CEPH_I_ERROR_FILELOCK_BIT,
-+				 &ci->i_ceph_flags) ? 0 : 1);
- 	} else {
- 		struct timespec64 ts;
- 
-@@ -4988,8 +4966,7 @@ static int encode_snap_realms(struct ceph_mds_client *mdsc,
-  * This is a relatively heavyweight operation, but it's rare.
-  */
- static int send_mds_reconnect(struct ceph_mds_client *mdsc,
--			      struct ceph_mds_session *session,
--			      bool from_reset)
-+			      struct ceph_mds_session *session)
- {
- 	struct ceph_client *cl = mdsc->fsc->client;
- 	struct ceph_msg *reply;
-@@ -4997,7 +4974,6 @@ static int send_mds_reconnect(struct ceph_mds_client *mdsc,
- 	int err = -ENOMEM;
- 	struct ceph_reconnect_state recon_state = {
- 		.session = session,
--		.from_reset = from_reset,
- 	};
- 	LIST_HEAD(dispose);
- 
-@@ -5181,40 +5157,6 @@ static int send_mds_reconnect(struct ceph_mds_client *mdsc,
- 	return err;
- }
- 
--/*
-- * Called when a session completes reconnection (success or failure).
-- * Only counts toward reset completion if this session's reconnect was
-- * initiated by the currently active reset generation.  Late completions
-- * from a prior (timed-out) reset are silently ignored.
-- *
-- * Caller must hold session->s_mutex to serialize s_reset_gen updates.
-- */
--static void ceph_mdsc_reconnect_session_done(struct ceph_mds_client *mdsc,
--					     struct ceph_mds_session *session)
--{
--	struct ceph_client_reset_state *st = &mdsc->reset_state;
--	u64 active_gen;
--
--	lockdep_assert_held(&session->s_mutex);
--
--	if (!session->s_reset_gen)
--		return;
--
--	spin_lock(&st->lock);
--	active_gen = st->active_reset_gen;
--	spin_unlock(&st->lock);
--
--	if (session->s_reset_gen != active_gen) {
--		session->s_reset_gen = 0;
--		return;
--	}
--
--	session->s_reset_gen = 0;
--
--	if (atomic_dec_and_test(&st->pending_reconnects))
--		complete(&st->reconnect_done);
--}
--
- const char *ceph_reset_phase_name(enum ceph_client_reset_phase phase)
- {
- 	switch (phase) {
-@@ -5533,7 +5475,6 @@ int ceph_mdsc_schedule_reset(struct ceph_mds_client *mdsc,
- 	}
- 
- 	st->phase = CEPH_CLIENT_RESET_QUIESCING;
--	st->active_reset_gen++;
- 	st->last_start = jiffies;
- 	st->last_errno = 0;
- 	st->drain_timed_out = false;
-@@ -5641,7 +5582,7 @@ static void check_new_map(struct ceph_mds_client *mdsc,
- 
- 			mutex_unlock(&mdsc->mutex);
- 			clear_bit(i, targets);
--			rc = send_mds_reconnect(mdsc, s, false);
-+			rc = send_mds_reconnect(mdsc, s);
- 			if (rc)
- 				pr_err_client(cl,
- 					      "mds%d reconnect failed: %d\n",
-@@ -5709,7 +5650,7 @@ static void check_new_map(struct ceph_mds_client *mdsc,
- 		}
- 		doutc(cl, "send reconnect to export target mds.%d\n", i);
- 		mutex_unlock(&mdsc->mutex);
--		err = send_mds_reconnect(mdsc, s, false);
-+		err = send_mds_reconnect(mdsc, s);
- 		if (err)
- 			pr_err_client(cl,
- 				      "mds%d export target reconnect failed: %d\n",
-@@ -6109,10 +6050,7 @@ int ceph_mdsc_init(struct ceph_fs_client *fsc)
- 	mdsc->reset_state.inject_error = false;
- 	mdsc->reset_state.drain_timed_out = false;
- 	mdsc->reset_state.sessions_reset = 0;
--	mdsc->reset_state.active_reset_gen = 0;
- 	mdsc->reset_state.last_reason[0] = '\0';
--	atomic_set(&mdsc->reset_state.pending_reconnects, 0);
--	init_completion(&mdsc->reset_state.reconnect_done);
- 	init_waitqueue_head(&mdsc->reset_state.blocked_wq);
- 	atomic_set(&mdsc->reset_state.blocked_requests, 0);
- 	INIT_WORK(&mdsc->reset_work, ceph_mdsc_reset_workfn);
-@@ -6827,16 +6765,95 @@ static void mds_peer_reset(struct ceph_connection *con)
- {
- 	struct ceph_mds_session *s = con->private;
- 	struct ceph_mds_client *mdsc = s->s_mdsc;
-+	int session_state;
- 
- 	pr_warn_client(mdsc->fsc->client, "mds%d closed our session\n",
- 		       s->s_mds);
--	if (READ_ONCE(mdsc->fsc->mount_state) != CEPH_MOUNT_FENCE_IO &&
--	    ceph_mdsmap_get_state(mdsc->mdsmap, s->s_mds) >= CEPH_MDS_STATE_RECONNECT) {
--		int rc = send_mds_reconnect(mdsc, s, false);
-+
-+	if (READ_ONCE(mdsc->fsc->mount_state) == CEPH_MOUNT_FENCE_IO ||
-+	    ceph_mdsmap_get_state(mdsc->mdsmap, s->s_mds) < CEPH_MDS_STATE_RECONNECT)
-+		return;
-+
-+	if (ceph_mdsmap_get_state(mdsc->mdsmap, s->s_mds) == CEPH_MDS_STATE_RECONNECT) {
-+		int rc = send_mds_reconnect(mdsc, s);
- 		if (rc)
- 			pr_err_client(mdsc->fsc->client,
- 				      "mds%d reconnect failed: %d\n",
- 				      s->s_mds, rc);
-+		return;
-+	}
-+
-+	/*
-+	 * Snapshot session state under s->s_mutex, then release before
-+	 * re-acquiring in the correct order: s->s_mutex -> mdsc->mutex
-+	 * (consistent with check_new_map() and cleanup_session_requests(),
-+	 * which achieve the same ordering via drop-and-reacquire).
-+	 *
-+	 * An ABA race (e.g. OPEN -> CLOSED -> OPEN) between the snapshot
-+	 * and re-acquire is prevented by mdsc->mutex serialization of
-+	 * session re-registration.
-+	 */
-+	mutex_lock(&s->s_mutex);
-+	session_state = s->s_state;
-+	mutex_unlock(&s->s_mutex);
-+
-+	switch (session_state) {
-+	case CEPH_MDS_SESSION_RECONNECTING: {
-+		int rc;
-+
-+		pr_info_client(mdsc->fsc->client,
-+			       "mds%d reset during reconnect, restarting\n",
-+			       s->s_mds);
-+		rc = send_mds_reconnect(mdsc, s);
-+		if (rc)
-+			pr_err_client(mdsc->fsc->client,
-+				      "mds%d reconnect restart failed: %d\n",
-+				      s->s_mds, rc);
-+		return;
-+	}
-+	case CEPH_MDS_SESSION_CLOSING:
-+	case CEPH_MDS_SESSION_OPEN:
-+	case CEPH_MDS_SESSION_HUNG:
-+	case CEPH_MDS_SESSION_OPENING:
-+		mutex_lock(&s->s_mutex);
-+		mutex_lock(&mdsc->mutex);
-+		if (s->s_state != session_state) {
-+			pr_info_client(mdsc->fsc->client,
-+				       "mds%d state changed to %s during peer reset\n",
-+				       s->s_mds,
-+				       ceph_session_state_name(s->s_state));
-+			mutex_unlock(&mdsc->mutex);
-+			mutex_unlock(&s->s_mutex);
-+			return;
-+		}
-+
-+		ceph_get_mds_session(s);
-+		__unregister_session(mdsc, s);
-+
-+		s->s_state = CEPH_MDS_SESSION_CLOSED;
-+		__wake_requests(mdsc, &s->s_waiting);
-+		mutex_unlock(&mdsc->mutex);
-+		mutex_unlock(&s->s_mutex);
-+
-+		mutex_lock(&s->s_mutex);
-+		cleanup_session_requests(mdsc, s);
-+		remove_session_caps(s);
-+		mutex_unlock(&s->s_mutex);
-+
-+		wake_up_all(&mdsc->session_close_wq);
-+
-+		mutex_lock(&mdsc->mutex);
-+		kick_requests(mdsc, s->s_mds);
-+		mutex_unlock(&mdsc->mutex);
-+
-+		ceph_put_mds_session(s);
-+		break;
-+	default:
-+		pr_warn_client(mdsc->fsc->client,
-+			       "mds%d peer reset in unexpected state %s\n",
-+			       s->s_mds,
-+			       ceph_session_state_name(session_state));
-+		break;
- 	}
- }
- 
-diff --git a/fs/ceph/mds_client.h b/fs/ceph/mds_client.h
-index 87302755461c..07d79653c0a6 100644
---- a/fs/ceph/mds_client.h
-+++ b/fs/ceph/mds_client.h
-@@ -99,11 +99,6 @@ struct ceph_client_reset_state {
- 	int sessions_reset;
- 	char last_reason[CEPH_CLIENT_RESET_REASON_LEN];
- 
--	/* Async reconnect completion (used by mds_peer_reset path) */
--	u64 active_reset_gen;
--	atomic_t pending_reconnects;
--	struct completion reconnect_done;
--
- 	/* Request blocking during reset */
- 	wait_queue_head_t blocked_wq;
- 	atomic_t blocked_requests;
-@@ -286,7 +281,6 @@ struct ceph_mds_session {
- 	struct list_head  s_unsafe;   /* unsafe requests */
- 	struct xarray	  s_delegated_inos;
- 
--	u64		  s_reset_gen; /* generation of reset that initiated reconnect */
- };
- 
- /*
--- 
-2.34.1
+I hate that you're left tracing things back like that...
 
+>
+> For those other filesystems, Patch 5 has already added the following check,
+> which I think is sufficient to filter out those FSes that do not support
+> large folios:
+>
+> if (mapping_max_folio_order(inode->i_mapping) < PMD_ORDER)
+> 	return false;
+
+2 < 5, we won't tolerate bisection hazards.
+
+>
+>
+> > > Anonymous shmem behaves similarly to anonymous pages: it is controlled by
+> > > the 'shmem_enabled' interfaces and uses shmem_allowable_huge_orders() to
+> > > check for allowed large orders, rather than relying on
+> > > mapping_max_folio_order().
+> > >
+> > > The mapping_max_folio_order() is intended to control large page allocation
+> > > only for tmpfs mounts. Therefore, I find the current code confusing and
+> > > think it needs to be fixed:
+> > >
+> > > /* Don't consider 'deny' for emergencies and 'force' for testing */
+> > > if (sb != shm_mnt->mnt_sb && sbinfo->huge)
+> > >         mapping_set_large_folios(inode->i_mapping);
+> >
+> > Cheers, Lorenzo
+>
+
+Cheers, Lorenzo
