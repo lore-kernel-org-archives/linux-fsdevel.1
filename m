@@ -1,119 +1,80 @@
-Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40CE8359A97
-	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Mar 2026 03:34:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E67AE375F9E
+	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Mar 2026 04:06:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774582500; cv=none; b=AUxq8llD8ehN11gW+UECIZfRXUD9/E98bPLAT53sIRjxrEGSLi0I6Fc6030fkxoNLjO5YBdcCejFQNGuVeywqAIAaE5zXkrnbrbK17mDr9WgKFlgyPzb6SiFtyaBr3s7jFeaMNB4kR8VJgJIa2LlR1Ad02Bba6vre8uEsmzzd2Q=
+	t=1774584408; cv=none; b=qx9LL6CB8e2Ty8zjZf8hHX+cn8byStB4p+zK3t2oAO4HdH4MxhefSYMFFE9doCi15wWipqgWrecWiDTPJsvNqjy31Or8SG6X+Csk+lgr94/W8cuPcqOgwJT+dYHz6UEmcPoNdVNiLpHLXNdIj55x92U272VwIC5o1at6gZyGwl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774582500; c=relaxed/simple;
-	bh=rjU42GzsJ8D4He9RlZ1RusrcVlvGFOqA9ThQRr0yrls=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MbXi2pBdQz0g21OtwHbPMEqjO1bvahPS7S+d6LYaeyt2T5FjzrB4CQ+RMd2sojn3Irvqh8mKdcEWD0zaZzGjtJQkQPJEB6uUOcqzMU2hmJOn5ikAq4PgdVrqzRQ22nrmJ9dAZENUBeWbHXxb2ymtPkUt+Uqt3RqnodgKxDMuZ/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=I/gT1eEe; arc=none smtp.client-ip=91.218.175.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1774584408; c=relaxed/simple;
+	bh=mdty/nU6DAHFlbdxupRpNrqX7pH3hYcFPanNsRdBUG4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UPU+g2yCnV+Dxr+XowjDHuK5MwSbNiXFUnA88FuHX9jpydwvOIGVRtL0sca99835Lq/oX7Cn5YQhYxFdngdDBtDP4t45eVMhbC7E62rxGo2g+WtsBiZkFuZ6DoTtbqHTmeYF/bTmbx23acBPUb7OPJ7v5bAFqr6zv8SBXf+hPs8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=VIq7GiA2; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="I/gT1eEe"
-Message-ID: <1dcba0ef-372a-474b-8d70-23459f0f6511@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1774582487;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6TWDsxV9lU7FBIa32CWnztZa9knkN9tMw44cGL5HLts=;
-	b=I/gT1eEeSyEToxNlVnMH/CCJCSe05HzFNgWKQFUlGhY6scwL4X6yf7paHgq/7XyJO3SNPM
-	295kl4/TYQ1HT/bNr5evjmY0CbL2ZHx3LQvJ1UqEEUBKvShJ8GXELPnoHl9VJkxfs9m3WN
-	p1t7HX2dffY2d9jJKwB6QxSFpOXagm8=
-Date: Fri, 27 Mar 2026 11:33:43 +0800
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="VIq7GiA2"
+Received: from trampoline.thunk.org (pool-173-48-121-153.bstnma.fios.verizon.net [173.48.121.153])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 62R46TEN005937
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 27 Mar 2026 00:06:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1774584391; bh=dD1rIYX6BpA2CD0bhhc1IxMXs3KcmYFN28+dVKWZkic=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=VIq7GiA2TRZ3qn/q7ZADj9RU3Zj1F/1MEsziJeoe2nj2V8YprO3vz/QixHIogY03x
+	 OBe5feRgKL5rciYGqa/c1+pzoxFhQoA/1BI7vUd23Njm0kyQFuMlrrEB2o+fJQHIO1
+	 b5x+wpPddpkdtEkSXyXqIWP1vs8bHenuUQld51ByoccRVgLXTfozqVUNpbPQgTpQ6/
+	 OmXI+ArGgWHCJO8G8xbIh9Sy2RJKIGzaV8H9Pf+E6G/3qPH02NTCc/Zf5fenwUnAnB
+	 GgSLqsE1OvXNROzQmkko9GrZ+KWwn1m8nwg28HX50B1VgB6MWThKR97SU2xaxIe9er
+	 TS/PPM9rEMJtQ==
+Received: by trampoline.thunk.org (Postfix, from userid 15806)
+	id 4A46C2E00D6; Fri, 27 Mar 2026 00:06:29 -0400 (EDT)
+From: "Theodore Ts'o" <tytso@mit.edu>
+To: jack@suse.cz, Edward Adam Davis <eadavis@qq.com>
+Cc: "Theodore Ts'o" <tytso@mit.edu>, brauner@kernel.org,
+        linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        syzbot+1659aaaaa8d9d11265d7@syzkaller.appspotmail.com,
+        syzkaller-bugs@googlegroups.com, viro@zeniv.linux.org.uk
+Subject: Re: [PATCH v5] ext4: avoid infinite loops caused by residual data
+Date: Fri, 27 Mar 2026 00:06:21 -0400
+Message-ID: <177454194755.1228042.6904864995689919812.b4-ty@b4>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <tencent_43696283A68450B761D76866C6F360E36705@qq.com>
+References: <tencent_43696283A68450B761D76866C6F360E36705@qq.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v1 07/10] mm/truncate: use folio_split() in
- truncate_inode_partial_folio()
-Content-Language: en-US
-To: Zi Yan <ziy@nvidia.com>
-Cc: Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
- Song Liu <songliubraving@fb.com>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Shuah Khan <shuah@kernel.org>, linux-btrfs@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-References: <20260327014255.2058916-1-ziy@nvidia.com>
- <20260327014255.2058916-8-ziy@nvidia.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Lance Yang <lance.yang@linux.dev>
-In-Reply-To: <20260327014255.2058916-8-ziy@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
 
-
-On 2026/3/27 09:42, Zi Yan wrote:
-> After READ_ONLY_THP_FOR_FS is removed, FS either supports large folio or
-> not. folio_split() can be used on a FS with large folio support without
-> worrying about getting a THP on a FS without large folio support.
+On Fri, 06 Mar 2026 09:31:58 +0800, Edward Adam Davis wrote:
+> On the mkdir/mknod path, when mapping logical blocks to physical blocks,
+> if inserting a new extent into the extent tree fails (in this example,
+> because the file system disabled the huge file feature when marking the
+> inode as dirty), ext4_ext_map_blocks() only calls ext4_free_blocks() to
+> reclaim the physical block without deleting the corresponding data in
+> the extent tree. This causes subsequent mkdir operations to reference
+> the previously reclaimed physical block number again, even though this
+> physical block is already being used by the xattr block. Therefore, a
+> situation arises where both the directory and xattr are using the same
+> buffer head block in memory simultaneously.
 > 
-> Signed-off-by: Zi Yan <ziy@nvidia.com>
-> ---
->   include/linux/huge_mm.h | 25 ++-----------------------
->   mm/truncate.c           |  8 ++++----
->   2 files changed, 6 insertions(+), 27 deletions(-)
-> 
-> diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
-> index 1258fa37e85b..171de8138e98 100644
-> --- a/include/linux/huge_mm.h
-> +++ b/include/linux/huge_mm.h
-> @@ -389,27 +389,6 @@ static inline int split_huge_page_to_order(struct page *page, unsigned int new_o
->   	return split_huge_page_to_list_to_order(page, NULL, new_order);
->   }
->   
-> -/**
-> - * try_folio_split_to_order() - try to split a @folio at @page to @new_order
-> - * using non uniform split.
-> - * @folio: folio to be split
-> - * @page: split to @new_order at the given page
-> - * @new_order: the target split order
-> - *
-> - * Try to split a @folio at @page using non uniform split to @new_order, if
-> - * non uniform split is not supported, fall back to uniform split. After-split
-> - * folios are put back to LRU list. Use min_order_for_split() to get the lower
-> - * bound of @new_order.
-> - *
-> - * Return: 0 - split is successful, otherwise split failed.
-> - */
-> -static inline int try_folio_split_to_order(struct folio *folio,
-> -		struct page *page, unsigned int new_order)
-> -{
-> -	if (folio_check_splittable(folio, new_order, SPLIT_TYPE_NON_UNIFORM))
-> -		return split_huge_page_to_order(&folio->page, new_order);
-> -	return folio_split(folio, new_order, page, NULL);
-> -}
->   static inline int split_huge_page(struct page *page)
->   {
->   	return split_huge_page_to_list_to_order(page, NULL, 0);
-> @@ -641,8 +620,8 @@ static inline int split_folio_to_list(struct folio *folio, struct list_head *lis
->   	return -EINVAL;
->   }
->   
-> -static inline int try_folio_split_to_order(struct folio *folio,
-> -		struct page *page, unsigned int new_order)
-> +static inline int folio_split(struct folio *folio, unsigned int new_order,
-> +		struct page *page, struct list_head *list);
+> [...]
 
-Ouch, that ';' wasn't supposed to be there, right?
+Applied, thanks!
+
+[1/1] ext4: avoid infinite loops caused by residual data
+      commit: 86709d389530941e5816505e3c12c757ceca374d
+
+Best regards,
+-- 
+Theodore Ts'o <tytso@mit.edu>
