@@ -1,39 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 998911B808
-	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Mar 2026 00:42:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE8FA285CA3
+	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Mar 2026 00:50:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774572158; cv=none; b=R/QNT12LpA0tjriFDs2BSCWM0i64wKWq/RjtpeBVIrKAvzbcjQhFNvG/bB5G+aMKyk4KId3zH993OSLjM54jMSPIW1z/zvkhZyYgzSQBpMyGk13Rt4/pXTVmfnEGKlFxyVx+JBt2irFpflbIY5w2ekT9eRMWryGsN0tYeUoko/0=
+	t=1774572653; cv=none; b=o2+Oq96jIGyt7oTOhXujkq4QDuVtURBFOpxXsHatPYMj5P+/5LNuql25toN7MhUKnsJmpXxYV0v1y/zaAGqWF6TcGxHjM8P9kPO9lIwvx+x3e9mzexyRh/W0R9epCv6bu8iLFZjXZnRN+SbgzU0KYB9SVpKrXtcJLxUhKZbClr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774572158; c=relaxed/simple;
-	bh=1oTRYaaDGtL88x3nFZWM19mGdEaN35XXt49N44uFQhk=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=rZkvv98luqD7aSsI4rrN6nttEOaIy8FhgJRfPpm7cJ/bKbe6mA5MDsLaxvqY/1KF+cm9lyiVeFP6J7VAIREQDCfKKcnrpdxKTLWYh5O5AEK0s3dom5WOganyAvjfaZvH1z4yIHOJEHkihV9Jk5PNJQoulDHFsxKsaSSse+BUX/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=uPiIgOz2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774572653; c=relaxed/simple;
+	bh=KkXQvPzPwbE2ulwwTtCgJ705N/C/D+U1v1MM1+vxmYc=;
+	h=Date:From:To:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=RVq9Lg2ICLRLgqS1J0mEyxHYui4rjQ1srZHGWQurwdMGwsAqCezd7GNx7q+7yJAoAfu73uZocwE4ePeqW4+spH1r5dlXmljKQsGQl0Fa6o+DqpjQXMhMVvHBqVmyAnsnz1VNY9vt7vnzMMWbfkDsMmoaew3SmFf9D99kKygi050=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=Dsd3gqOS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="uPiIgOz2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCEE1C116C6;
-	Fri, 27 Mar 2026 00:42:37 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="Dsd3gqOS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54271C2BC87;
+	Fri, 27 Mar 2026 00:50:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1774572158;
-	bh=1oTRYaaDGtL88x3nFZWM19mGdEaN35XXt49N44uFQhk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=uPiIgOz2EKjU20I92IZN1kKK3Tu84i391v+qGEZo3cNDi430ZInilKOPBX+90XFFs
-	 oBkIixFaIIoSXX8vHNqCMvxTlJ3Nvp2jCtp7rIchdtb+kRg3I/luit48SLiQNzgkHg
-	 1WHSYOt1FSeiBXzq/CMDM/77MUwsUWFhao3FwCS8=
-Date: Thu, 26 Mar 2026 17:42:37 -0700
+	s=korg; t=1774572653;
+	bh=KkXQvPzPwbE2ulwwTtCgJ705N/C/D+U1v1MM1+vxmYc=;
+	h=Date:From:To:Subject:In-Reply-To:References:From;
+	b=Dsd3gqOSRXZ5UsSv8d3py1AIUe+z3FVQfH0fFjtGWfXn6vhRptl+6Vl8d4aLxzr97
+	 4MV9awn5Lk+G+Zpja7/4+grOQ2pMIBw1JS4QCpT9Ap4jUBjRA4j2GV3PCmpnFpo3C6
+	 r0vMaUGt/Lwb4F40XPw19lgEkJ13Fxg2BA+GotHk=
+Date: Thu, 26 Mar 2026 17:50:52 -0700
 From: Andrew Morton <akpm@linux-foundation.org>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: jack@suse.cz, willy@infradead.org, miklos@szeredi.hu,
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+To: Joanne Koong <joannelkoong@gmail.com>, jack@suse.cz,
+ willy@infradead.org, miklos@szeredi.hu, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org
 Subject: Re: [PATCH v1 1/1] mm: start background writeback based on per-wb
  threshold for strictlimit BDIs
-Message-Id: <20260326174237.0ad75b578219aad36f137e4b@linux-foundation.org>
-In-Reply-To: <20260326234629.840938-2-joannelkoong@gmail.com>
+Message-Id: <20260326175052.06871e1fe76af965a114bb3d@linux-foundation.org>
+In-Reply-To: <20260326174237.0ad75b578219aad36f137e4b@linux-foundation.org>
 References: <20260326234629.840938-1-joannelkoong@gmail.com>
 	<20260326234629.840938-2-joannelkoong@gmail.com>
+	<20260326174237.0ad75b578219aad36f137e4b@linux-foundation.org>
 X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -44,68 +45,24 @@ Mime-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Thu, 26 Mar 2026 16:46:29 -0700 Joanne Koong <joannelkoong@gmail.com> wrote:
+On Thu, 26 Mar 2026 17:42:37 -0700 Andrew Morton <akpm@linux-foundation.org> wrote:
 
-> The proactive nr_dirty > gdtc->bg_thresh check in balance_dirty_pages()
-> only checks the global dirty threshold to start background writeback
-> while the writer is still free-running, but for strictlimit BDIs (eg
-> fuse), the per-wb dirty count can exceed the per-wb background threshold
-> while the global threshold is not yet exceeded, so background writeback
-> for this case never gets proactively started.
+> > fio runs on fuse show about a 3-4% improvement in perf for buffered
+> > writes:
+> > fio --name=writeback_test --ioengine=psync --rw=write --bs=128k \
+> >     --size=2G --numjobs=4 --ramp_time=10 --runtime=20 \
+> >     --time_based --group_reporting=1 --direct=0
+> > 
 > 
-> Add a per-wb threshold check for strictlimit BDIs so that background
-> writeback is started when wb_dirty exceeds wb_bg_thresh, which drains
-> dirty pages before the writer hits the throttle wall, matching the
-> proactive behavior that the global check provides for non-strictlimit
-> BDIs.
-> 
-> fio runs on fuse show about a 3-4% improvement in perf for buffered
-> writes:
-> fio --name=writeback_test --ioengine=psync --rw=write --bs=128k \
->     --size=2G --numjobs=4 --ramp_time=10 --runtime=20 \
->     --time_based --group_reporting=1 --direct=0
-> 
+> Thanks.
+>
+> [bunch of nonsense]
+>
 
-Thanks.
+argh, sorry, I didn't read your [0/N].  Ignore.
 
-Your v1 patch's changelog had useful information showing the
-performance impact on fuse.  I've pasted one sentence from that
-changelog into my copy of this changelog, but please don't be sparing
-in describing the importance of a fix.
+btw, a [0/N] isn't really needed for a singleton patch - best to just
+put everything into the patch's changelog.
 
-Also, we lost the Fixes tag.  I've added
-
-Fixes: 64dd89ae01f2 ("mm/block/fs: remove laptop_mode") 
-Cc: <stable@vger.kernel.org>
-
-to my copy of this v2 patch.  Please confirm that this is appropriate.
-
-> --- a/mm/page-writeback.c
-> +++ b/mm/page-writeback.c
-> @@ -1862,15 +1864,9 @@ static int balance_dirty_pages(struct bdi_writeback *wb,
->  		 * Unconditionally start background writeback if it's not
->  		 * already in progress. We need to do this because the global
->  		 * dirty threshold check above (nr_dirty > gdtc->bg_thresh)
-> -		 * doesn't account for these cases:
-> -		 *
-> -		 * a) strictlimit BDIs: throttling is calculated using per-wb
-> -		 * thresholds. The per-wb threshold can be exceeded even when
-> -		 * nr_dirty < gdtc->bg_thresh
-> -		 *
-> -		 * b) memcg-based throttling: memcg uses its own dirty count and
-> -		 * thresholds and can trigger throttling even when global
-> -		 * nr_dirty < gdtc->bg_thresh
-> +		 * doesn't account for the memcg-based throttling case. memcg
-> +		 * uses its own dirty count and thresholds and can trigger
-> +		 * throttling even when global nr_dirty < gdtc->bg_thresh
->  		 *
->  		 * Writeback needs to be started else the writer stalls in the
->  		 * throttle loop waiting for dirty pages to be written back
-
-My copy of balance_dirty_pages() doesn't have this comment block.  I
-assume you're patching a different kernel version.  I dropped this
-hunk.  Please check current Linus mainline and see if there's somewhere
-else where you'd like to add this information.
-
-
-
+Transient info such as "this depends on my other patch" can be placed
+below the singleton patch's "---" separator.
