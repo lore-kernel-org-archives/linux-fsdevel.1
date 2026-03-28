@@ -1,146 +1,302 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B993F15C14F
-	for <linux-fsdevel@vger.kernel.org>; Sat, 28 Mar 2026 15:47:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774712845; cv=none; b=I3LTisv27X+INd5VLuNdUSbRRSs43nkR/W2Tnr9FuAWl7AndLdaoe6V7zuOcaEC/aQBTkgT0IDgT37E+i1Sz4+RukjHdo8BL/mcbfEcgKZ+EbhLU1fF0HAaf0xHC7VsblIzNWnzYKDqgHsZgp7pPBXGcFqjy7TW92pjWsAN4ejA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774712845; c=relaxed/simple;
-	bh=jKFU9ClukmgrQPWCuZbiDz6loGcaVsfq+0devSW3yqM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XJISgTGdcUiowdtgOPOV0v5UDeiL58MWCoUeGBu200f/ACCU48bHsP8sDe51IV5ATBNCM9KDqDI7/RhSxRblkPnvg9rMQBT2FVmnpvU7Vh4z72IS9/I9MgJw7hqqPFblO0/x7abHRqvNIXejRKyNtcK7VzyG2mdMy8OsUPaqCNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h5GmkdFj; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B1663A3827
+	for <linux-fsdevel@vger.kernel.org>; Sat, 28 Mar 2026 16:35:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.181
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774715705; cv=pass; b=G2X/euvdyR4pxcZbj0puVT0FxhbkKeAd2li2dgLusKV7FEt68m+GmTWeTD2xaHQvbLvuvLwtQkZt/p0WA8GJlhBEpJBo1IgEh9qtzRvxOi+YCV2GGZnWTaKxT/OoHkliDeT4wdkFJnFC90NZ9oYBTHMD2G1ojuLdfhup+X9gkLQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774715705; c=relaxed/simple;
+	bh=s5sN6iliewGZRbUgKiX31JEhzt9vXzLoxPGBEq1Xqlw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DsKxksN89a29WqtQ6pAU6miICKAMNZnQhib84xEmIxQhJdsOoVg8YPIOdM8XX3Aaj1SYP2UxpccIpmtvb1QLwBQ75gTrJNBqkjni5ZC/ZIUL73bkej70wHpFXErrwiL3sXPZYYW1YfuA0aUasjBsnfUvBWgeGLTimboTQiX6VlE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=CegqdAB+; arc=pass smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h5GmkdFj"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-48541edecf9so39320065e9.1
-        for <linux-fsdevel@vger.kernel.org>; Sat, 28 Mar 2026 08:47:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="CegqdAB+"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2aecefc7503so20978615ad.1
+        for <linux-fsdevel@vger.kernel.org>; Sat, 28 Mar 2026 09:35:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774715702; cv=none;
+        d=google.com; s=arc-20240605;
+        b=U15ZKIh5DGDIjloCBh49dvppfiLq4zusJbBB1aAjemsnAs4tAxoItGq2OA2sXNtLji
+         ar7hFZuV3SaBKiE9xYZGo/2Ed7c+yFvc/SvwJUPN/MxBslnIPW03di5jFyKxpGiB7Cj2
+         21YcVchhq95CwK/sBC7bKmjquwLSS4LLruW6mAHLV41MfufVikNkiSeHtA1Zt/blZbCJ
+         KStUEbkD9wYXE1vYLgBaF0RRAjmqyhm5i4XoGxTl79Ddo3mHJ0aVzCvPbSSgewDsZDnP
+         oiij0p6MxCa5iM0/KDOSC6xJbJsUWQ5M3IxhaOH4UUGVP+HtB07RAShH6fFF53szEz6X
+         3YHA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Ususnq+NIOoRs4YDsb/bU1UpkObKkRjHaCrFz3SAoog=;
+        fh=jjpR9cDH5nqfAZHVFQZP1vkS79BlLcN5ViMJbMQc1+4=;
+        b=LFVjOhD7WAR1y4TPmGZS9o2mBLbJuWDfmEv9+nAl/E1YmZAzC6Il7P+aKrqSloVK3U
+         zATZTloZTWGG1N9PtomePqe+JtSNfT9TBtgpvgz3cRDUaA+0LvCWWsRjML/p5TE4Qyzm
+         mjQ0Oa7PLQRD3lNmWJxhwzX4KDAQeV8zQw5QJF+XzwuzSENqzqSa/ngC5d3XlHcQufZ4
+         9qd6OlXiLQ562yjWPAWiNUq66l8vXGCgyo+eQhB5nY+lYj9iMXVBhcQoCc4cOmGQogju
+         MWhPal6wTws/HPlUeOrCHsepNm/vYOCeQyyfWdTkK/azHgLfb62lK2+kSsf0C8XW7YEU
+         nyww==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774712842; x=1775317642; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=paul-moore.com; s=google; t=1774715702; x=1775320502; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VSDysc2SqFR5k0dxgouFFuDk3xltDf+gaI9kO7u+6DU=;
-        b=h5GmkdFjYCFVbrmTejFKLXUfTCIR3jMpIk+333b7OrPiBE/0d+EXACBU7b5l6JmNeA
-         hszXEckf+QPIxRgfG7lxUgZVgvMTZQTRW12qlX9p+PGms14vMC2gGgMMINVRfik8lmnP
-         w1jsqlgPo0WOMhkepmqNUh+8cSerF5h/Hpq7y6di+8v0EkeB07+xiTsyclvm9NgSfovQ
-         qasTWE5UkO2BkjoV4QqliZF6sZsjmkuNEKpyufByKO+5XLRb+22rfbaArWMmTQtwnr75
-         vIWH4Z1TM9i7vn4iHE5xnCrSzXKFBm/slDZrD6yc+ojShyYKMOPzqBPdITxym6QoyGSl
-         AGuQ==
+        bh=Ususnq+NIOoRs4YDsb/bU1UpkObKkRjHaCrFz3SAoog=;
+        b=CegqdAB+sl9TfUQ4dDMQci0nnVilGKQCgnPCE4xPJj4OJBbq/VkiqCEK964ANx2AZx
+         bq6pCsjiFQ6sY8aMUWy78n/lcSj44inN6oD2sglNt/hsmyoaNgMMyvafcOT5qnvyAIu9
+         y8qv9dcV3cQ7CAvPojR9lINOoXp48aFsQOTqXQ7RGo/1aBIla+uwPn9n/o4DE0/oNroh
+         XO/8Vww7w6XxOl27j8QIF6Jqbl6IpHmYUhO8p7q365l+VXqjTmbNxv1tU8zqMS5Kp1OL
+         ZmbBvtExI7z3CDPofUisX67mAZj9C/Pbqy7I8PiCyWKNhyuQusUWIRJTojmy2s945urc
+         hJQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774712842; x=1775317642;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1774715702; x=1775320502;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=VSDysc2SqFR5k0dxgouFFuDk3xltDf+gaI9kO7u+6DU=;
-        b=Kwt9j/J2uUhm3TJnEyFcpdQxTbrL/1bPcR6mWA0Z5omCOygfYE6e+7RoU6VOFZghE1
-         MexNwY/zHloC8erNhFobr5lNhVqXD0w0ews5mYlrsT9+cwXF09hL9V+b82Ugf2/T6FuC
-         cko3kJlyoJINqJwwmAwaA4DQS5HC03UjAG3yTZRXkl4IrSj9QdXaYjsTi4T2SgvBy/0x
-         b844zEWCOQpWkyAgXH/F7GBzecnW3ki7lfWwRDYS2BduSDSj4htuqZHMF2A8sAWVCdxc
-         RPSOacyG61ITH1eqHwsVXbkIo4qnPWYivRZouwrhTojelnuRF+u50cq22W3jiRFnCV8C
-         XJSg==
-X-Forwarded-Encrypted: i=1; AJvYcCWcEqWIu0v/ioIPZ4GWvir7O50jKlJRwgDF3GdDHJvoX54O+xYmhmIsdBmmaGwUHNCPiJFOJyYF/obkjVW6@vger.kernel.org
-X-Gm-Message-State: AOJu0YzZ5nIPXLaNWcyshKn845Vlb9KyHHBm8kJW+V8kYouXXpV0ZCzS
-	l67sBEOi6OlpjLy4lhY3Npus7nvYtrpv0ANCPwRJ17GTYsojAfhtI9ZI8NnOKA==
-X-Gm-Gg: ATEYQzyJar6ptfYj8BdPlT1AbFWU3OsUNQavGeqOSs9MzdsPHFF8Xq2TWrK3d/a8/hx
-	WADRdSTBoUjohbkb3RXZsZrumnpUxdjVY65KDRHdZS/ZE4RkHuUVnCU09BnKPWcsJQp7fV+9z/R
-	ubxjswiKfXaNVVlD7jG/l5SDsktzF/swnt8mm/OWUGi8deC/Nil4mmNzmmp+ShV/Wsuti5MA0lO
-	U0hehI7B817ZSqjFTGbBDbIVt6A3gY1Jx0UKpfgg3n0XjPiE9VbA4NsvtfFpSYC1A66h4pTD7Ov
-	rZfL7MTpTueKzjBlc1WB1JrxEkOAnq6gYux9vy+CtRoveTMcTR2KlIbND8h+Rozpvf8EBplYnf+
-	oNGZbiPv55S160A9wyD04in2us/2URFk5nPU+8Rp6udXXuRawPDqIJGnfpTN2a7l4jRupz9ZFly
-	2kFYPxjmRqgFeArwYycCspHG9AdQzdOMw782pAIAjjFQKN9mRnRXddJG7yIYYVlhpmNq6m/Abo1
-	A==
-X-Received: by 2002:a05:6000:26d3:b0:439:ba4d:bf40 with SMTP id ffacd0b85a97d-43b9ea62f50mr10725997f8f.43.1774712306142;
-        Sat, 28 Mar 2026 08:38:26 -0700 (PDT)
-Received: from f.. (cst-prg-89-171.cust.vodafone.cz. [46.135.89.171])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf247102dsm7196887f8f.27.2026.03.28.08.38.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Mar 2026 08:38:25 -0700 (PDT)
-From: Mateusz Guzik <mjguzik@gmail.com>
-To: brauner@kernel.org
-Cc: viro@zeniv.linux.org.uk,
-	jack@suse.cz,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	Mateusz Guzik <mjguzik@gmail.com>
-Subject: [PATCH v2 4/5] fs: handle hypothetical filesystems hich use I_DONTCACHE and drop the lock in ->drop_inode
-Date: Sat, 28 Mar 2026 16:38:06 +0100
-Message-ID: <20260328153807.3368975-5-mjguzik@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260328153807.3368975-1-mjguzik@gmail.com>
-References: <20260328153807.3368975-1-mjguzik@gmail.com>
+        bh=Ususnq+NIOoRs4YDsb/bU1UpkObKkRjHaCrFz3SAoog=;
+        b=Mw8H+HOlc2nqntBIht0sYmHA1sCRUI8CKmd6uQWxwIDT5g6+jxxIagIWozLypEDaG1
+         dScqQznRxQDgH+e/HYp5WV9Alq6Fh0H6Wizo+1Bnm3jVYFd5z6lKTFsfsA/5b361p/0F
+         DSIQvlPSTdDd2HHr900hT+qJnFmlQlcwORFVvoifIqArhMjHDLitSM/W1lXtID7cyObc
+         bTnnLBYLmVWEGjRjfWfqqswQCGDkoEJZkC/d2LMvzEqLIVIhn+qqHZ40sQNIkPEsaz9V
+         qI2IEzFMe59m5IKiq7COoOkHD3duyezjLoYmddLW6isz6cPd9c3rDIB4EWUYY9NV3RZR
+         ElpA==
+X-Forwarded-Encrypted: i=1; AJvYcCWKG2NnuSGkXoXWqnv30ALu+oaydvi+W7UmKKWUJvukKSIrbcU7uGQjFNXSI9A1XUz8ckOT8x4/fMhSPMn1@vger.kernel.org
+X-Gm-Message-State: AOJu0YyHf6FjsmIHUstLhhj7HcTs7h7axZuP7vCLOSz+BYr0tIM2SPk7
+	Zd8LfY3fE19aOm8rZDjDGBhxuHx1g3q1o45XQ4Qy121HV7pX/81MHuwrO/p29Ea2mi9o+xuP1/R
+	HVUvT5iDW4KAyPtsNxQNOK/ZZBeUWlaBJe3IlKmFd
+X-Gm-Gg: ATEYQzxz+x+oYnOt/BoTzcrSgMzp2NxiCU5qIOCHPuxFToVj3fF1npyLYvi+Z9CHg7C
+	byM0xtYRYeIY90GNK1IaLMPMoM3FIbOsd4hSB6ZUZDoYDV/iQCi9GZDOdjV1it1ReonNAFOFxvO
+	It43J+d++Mk6P1MaHkSg157LwTTYozEmvI4YRtdvBYrndfhH68BoGTDJrkFLhgS5mY0QUiCMGXo
+	UrcD8ZCbOCnyY7R9omySXrBfaOM+pVI4jalfPCpksoFCEdFyhbgS/BcpGoH8J9oR494x4aiiQX1
+	h6UQ/k0=
+X-Received: by 2002:a17:902:e812:b0:2b0:5fa0:3afa with SMTP id
+ d9443c01a7336-2b0cdc9ef75mr73151175ad.27.1774715702275; Sat, 28 Mar 2026
+ 09:35:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260327220446.353103-4-paul@paul-moore.com> <20260327220446.353103-5-paul@paul-moore.com>
+ <CAOQ4uxjvCYRLcRM-JGgtCPXKRB1agCBacN1tmR7hDR9TLdVS4w@mail.gmail.com>
+In-Reply-To: <CAOQ4uxjvCYRLcRM-JGgtCPXKRB1agCBacN1tmR7hDR9TLdVS4w@mail.gmail.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Sat, 28 Mar 2026 12:34:50 -0400
+X-Gm-Features: AQROBzCPb0SK1-R-ZrfrAvua_40DjlegqsKhZho-n3cMPQ3__jjQot92OFc74FM
+Message-ID: <CAHC9VhQQZ69LAGZE2DSyM_qidTJ8oGfqSSvysrO6r9BAXW9mkQ@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] lsm: add backing_file LSM hooks
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-unionfs@vger.kernel.org, 
+	linux-erofs@lists.ozlabs.org, Gao Xiang <xiang@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-f2fs and ntfs play games where they transitiong the refcount 0->1 and release
-the inode spinlock, allowing other threads to grab a ref of their own.
-They also return 0 in that case, making this problem harmless.
+On Sat, Mar 28, 2026 at 4:29=E2=80=AFAM Amir Goldstein <amir73il@gmail.com>=
+ wrote:
+> On Fri, Mar 27, 2026 at 11:05=E2=80=AFPM Paul Moore <paul@paul-moore.com>=
+ wrote:
+> >
+> > Stacked filesystems such as overlayfs do not currently provide the
+> > necessary mechanisms for LSMs to properly enforce access controls on th=
+e
+> > mmap() and mprotect() operations.  In order to resolve this gap, a LSM
+> > security blob is being added to the backing_file struct and the followi=
+ng
+> > new LSM hooks are being created:
+> >
+> >  security_backing_file_alloc()
+> >  security_backing_file_free()
+> >  security_mmap_backing_file()
+> >
+> > The first two hooks are to manage the lifecycle of the LSM security blo=
+b
+> > in the backing_file struct, while the third provides a new mmap() acces=
+s
+> > control point for the underlying backing file.  It is also expected tha=
+t
+> > LSMs will likely want to update their security_file_mprotect() callback
+> > to address issues with their mprotect() controls, but that does not
+> > require a change to the security_file_mprotect() LSM hook.
+> >
+> > There are a two other small changes to support these new LSM hooks.  We
+> > pass the user file associated with a backing file down to
+> > alloc_empty_backing_file() so it can be included in the
+> > security_backing_file_alloc() hook, and we constify the file struct fie=
+ld
+> > in the LSM common_audit_data struct to better support LSMs that need to
+> > pass a const file struct pointer into the common LSM audit code.
+> >
+> > Thanks to Arnd Bergmann for identifying the missing EXPORT_SYMBOL_GPL()
+> > and supplying a fixup.
+> >
+> > Cc: stable@vger.kernel.org
+> > Acked-by: Christian Brauner <brauner@kernel.org>
+> > Signed-off-by: Paul Moore <paul@paul-moore.com>
+> > ---
+>
+> I 100% agree with Christian.
+> This is much better than my O_PATH file hack
 
-Should they start using the I_DONTCACHE machinery down the road while
-retaining the above, iput_final() will get a race where it can proceed
-to teardown an inode with references.
+I'm not surprised that both you and Christian prefer this solution, it
+moves all the pain of resolving this issue to the individual LSMs.
+Just look at how the SELinux code has changed, even trying to pretty
+it up as best as possible, it's objectively much uglier now, not to
+mention more complicated.
 
-Future-proof it.
+From my perspective the root cause of this issue lies in the
+overlayfs/backing-file design, specifically how overlayfs hides
+multiple files under a single file so that it can plug into the
+existing VFS/userspace paradigm of a single file.  While the design
+and abstraction are no doubt very clever things, and for the most part
+they "just work", there are definitely some corner cases that require
+special handling, e.g. LSM access controls around mprotect().  In my
+opinion, the burden of hiding any ugliness associated with this
+special handling lies with the subsystem implementing the abstraction,
+which is why I was pushing for a solution where the VFS and/or
+backing-file layer would provide the user file (or a stand-in) for the
+LSMs to use.  Unfortunately, that was not something the overlayfs and
+VFS communities were willing to tolerate, so those of us in the LSM
+space were left with a terrible choice: accept that the overlayfs/VFS
+folks don't care and hack around the shortcomings of overlayfs, or
+leave a public vulnerability for an unknown period of time while the
+overlayfs/VFS folks argue over a solution, with the a non-trivial
+chance that the LSMs would need to hack around the problem anyway.
 
-Developing better ->drop_inode and sanitizing all users is left as en
-exercise for the reader.
+That's my view of were things were at, and why I begrudgingly took
+this approach.  I'm sure you have your own perspecitve, and I'm not
+going to be surprised if you view this primarily as a LSM problem;
+it's a common viewpoint amongst Linux kernel maintainers not
+responsible for a LSM.
 
-Signed-off-by: Mateusz Guzik <mjguzik@gmail.com>
----
- fs/inode.c | 27 ++++++++++++++++++---------
- 1 file changed, 18 insertions(+), 9 deletions(-)
+> It is also what Miklos had initially suggested.
 
-diff --git a/fs/inode.c b/fs/inode.c
-index 1f5a383ccf27..fc6045e6d43f 100644
---- a/fs/inode.c
-+++ b/fs/inode.c
-@@ -1933,20 +1933,29 @@ static void iput_final(struct inode *inode)
- 	else
- 		drop = inode_generic_drop(inode);
- 
--	if (!drop &&
--	    !(inode_state_read(inode) & I_DONTCACHE) &&
--	    (sb->s_flags & SB_ACTIVE)) {
-+	/*
-+	 * XXXCRAP: there are ->drop_inode hooks playing nasty games releasing the
-+	 * spinlock and temporarily grabbing refs. This opens a possibility someone
-+	 * else will sneak in and grab a ref while it happens.
-+	 *
-+	 * If such a hook returns 0 (== don't drop) this happens to be harmless as long
-+	 * as the inode is not marked with I_DONTCACHE. Otherwise we are proceeding with
-+	 * teardown despite references being present.
-+	 *
-+	 * Damage-control the problem by including the count in the decision. However,
-+	 * assert no refs showed up if the hook decided to drop the inode.
-+	 */
-+	if (drop)
-+		VFS_BUG_ON_INODE(icount_read(inode) != 0, inode);
-+
-+	if (icount_read(inode) > 0 ||
-+	    (!drop && !(inode_state_read(inode) & I_DONTCACHE) &&
-+	    (sb->s_flags & SB_ACTIVE))) {
- 		__inode_lru_list_add(inode, true);
- 		spin_unlock(&inode->i_lock);
- 		return;
- 	}
- 
--	/*
--	 * Re-check ->i_count in case the ->drop_inode() hooks played games.
--	 * Note we only execute this if the verdict was to drop the inode.
--	 */
--	VFS_BUG_ON_INODE(icount_read(inode) != 0, inode);
--
- 	if (drop) {
- 		inode_state_set(inode, I_FREEING);
- 	} else {
--- 
-2.48.1
+Perhaps I've lost the mail, but going back to when this issue was
+first discovered, I don't see anything from Miklos relating to this in
+either my inbox or the mailing lists.
 
+> > diff --git a/fs/file_table.c b/fs/file_table.c
+> > index aaa5faaace1e..0bdc26cae138 100644
+> > --- a/fs/file_table.c
+> > +++ b/fs/file_table.c
+> > @@ -50,6 +50,7 @@ struct backing_file {
+> >                 struct path user_path;
+> >                 freeptr_t bf_freeptr;
+> >         };
+>
+> Shouldn't we wrap this with
+> #ifdef CONFIG_SECURITY
+
+Sure, I'll change that.
+
+> > +       void *security;
+>
+> please initialize it in init_file()
+
+We lack a clean way to access the backing_file struct in init_file().
+I placed the security_backing_file_alloc() initializer in
+alloc_empty_backing_file() as it was the first place where we could
+both allocate the necessary LSM blob and initialize it with the data
+from the user file at the same time.
+
+If you want to intialize backing_file->security in init_file(),
+init_file() we will need to add a FMODE_BACKING check in init_file and
+split the security_backing_file_alloc() hook into two: one in
+init_file() to do the allocation and basic init, one in
+alloc_empty_backing_file() to capture the necessary user file data.
+
+Do you still prefer to move the backing_file->security initializtion
+into init_file()?
+
+> > +void *backing_file_security(const struct file *f)
+> > +{
+> > +       return backing_file(f)->security;
+>
+> I think LSM code should be completely responsible for this ptr
+> assignment/free so you should export
+>
+> void **backing_file_security_ptr(const struct file *f)
+> {
+>        return &backing_file(f)->security;
+> }
+
+Doing so would require us to also move the backing_file struct
+definition into include/linux/backing-file.h (or similar), which I
+tried very hard to avoid as I suspected you would not approve of that.
+I figured if you had wanted to expose the struct definition you would
+have defined it in backing-file.h as opposed to file_table.c.
+
+Would you like me to move the backing_file struct definition into
+include/linux/backing-file.h?
+
+> > @@ -73,8 +79,11 @@ static inline void file_free(struct file *f)
+> >                 percpu_counter_dec(&nr_files);
+> >         put_cred(f->f_cred);
+> >         if (unlikely(f->f_mode & FMODE_BACKING)) {
+> > -               path_put(backing_file_user_path(f));
+> > -               kmem_cache_free(bfilp_cachep, backing_file(f));
+> > +               struct backing_file *ff =3D backing_file(f);
+> > +
+> > +               security_backing_file_free(&ff->security);
+>
+> Why do you need to add this in vfs code?
+>
+> Can't you do the same in security_file_free(f)?
+>         if (unlikely(f->f_mode & FMODE_BACKING))
+>                 security_backing_file_free(backing_file_security_ptr(f));
+
+See my comments above regarding the visibility of the backing_file struct.
+
+> > +               path_put(&ff->user_path);
+> > +               kmem_cache_free(bfilp_cachep, ff);
+> >         } else {
+> >                 kmem_cache_free(filp_cachep, f);
+> >         }
+> > @@ -290,7 +299,8 @@ struct file *alloc_empty_file_noaccount(int flags, =
+const struct cred *cred)
+> >   * This is only for kernel internal use, and the allocate file must no=
+t be
+> >   * installed into file tables or such.
+> >   */
+> > -struct file *alloc_empty_backing_file(int flags, const struct cred *cr=
+ed)
+> > +struct file *alloc_empty_backing_file(int flags, const struct cred *cr=
+ed,
+> > +                                     const struct file *user_file)
+> >  {
+> >         struct backing_file *ff;
+> >         int error;
+> > @@ -306,6 +316,11 @@ struct file *alloc_empty_backing_file(int flags, c=
+onst struct cred *cred)
+> >         }
+> >
+> >         ff->file.f_mode |=3D FMODE_BACKING | FMODE_NOACCOUNT;
+> > +       error =3D security_backing_file_alloc(&ff->security, user_file)=
+;> +       if (unlikely(error)) {
+> > +               fput(&ff->file);
+> > +               return ERR_PTR(error);
+> > +       }
+> >         return &ff->file;
+> >  }
+> >  EXPORT_SYMBOL_GPL(alloc_empty_backing_file);
+>
+> Maybe, and I am not sure,
+> alloc_empty_backing_file() should call ONLY
+>             error =3D security_backing_file_alloc(&ff->file, user_file);
+>
+> Instead of security_file_alloc() AND security_backing_file_alloc()
+> and security_backing_file_alloc() can make use of
+> backing_file_security_ptr() accessor internally?
+
+This is another case of the code being structured so that we don't
+need to expose the backing_file struct definition to the LSMs.  If you
+would prefer to expose the backing_file struct in include/linux I can
+probably make a few additional simplifications to the code.
+
+--=20
+paul-moore.com
