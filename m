@@ -1,111 +1,73 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE2A03A3821
-	for <linux-fsdevel@vger.kernel.org>; Sat, 28 Mar 2026 17:24:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4201F1F8691
+	for <linux-fsdevel@vger.kernel.org>; Sat, 28 Mar 2026 17:37:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774718681; cv=none; b=tXwlqc1x5MPyHMN075YXLdE1WQViaeQWbhRyIj90pYFvNWVhzNIQ6kJxF/lN7lckQCCjshGAqPETclSPHrvLGCL70KbJLZqprbwa/Cf2yGSEfOZNcb12Ugg7v+CYd1jKhekwtRCsrSgK5s6AdDpmanc+ODeAUm+i3chFDBxaoAI=
+	t=1774719457; cv=none; b=r6uHqQ7+fRB0F1PHH5nO/EE72DQOLnjhb0FUfGyF7w9nGgST/qNaPSl43/tr3BxUwTTPV6ZagGEfxP7+mvWElTV9RLS8+LTJX09T1fpU83qdxo3VqouCqvSdOTOsCdWf1jwl8hxLXv2tUiUtqJDbb0kkBlW/PUs9Sq6FTwOpSuE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774718681; c=relaxed/simple;
-	bh=EKC+gjybz5QCo3/A2SoLkAdJ9dHzP8glwvLLU31BmCA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SbZUoO+XTI2AeRtYfdsQ4iz1n1o3NE7mqcrMu3lruIDldoYo8rr/qjlTTXc8uY3LtLsZsf/v6A6VHzSf5uILpTyH7g1nlWs+oulRZPkKNMqG5+AG88hJPJgMqMGeoLRuXhhIMXt/2NhkBAiz6FzxMtgIuIlBIL7wF1F2u0cLNGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Sy39ev+Y; arc=none smtp.client-ip=209.85.216.44
+	s=arc-20240116; t=1774719457; c=relaxed/simple;
+	bh=saITh143n5goVoqxHFf64RaqseXoQz5ztjuI1873DXY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=utrcbkIhnWB9R+Eu0XYtmmDECtCgDBEcT1uNmJHlupHHbWTuqrHBwP4LzWvWrwsjq9lWOWmcjCY7vRqZXdlCHZjHAolmK5xKXYEw+yVrpg7YqbkS5myWMIptR4AJPEuMaWneGzjceBCC3C0JRjAq4260WWtOawM7DdF4aWd0Gg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G0ctgQz6; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Sy39ev+Y"
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-35691a231a7so1909686a91.3
-        for <linux-fsdevel@vger.kernel.org>; Sat, 28 Mar 2026 10:24:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G0ctgQz6"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-486ff3a0fc1so28781395e9.2
+        for <linux-fsdevel@vger.kernel.org>; Sat, 28 Mar 2026 10:37:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774718679; x=1775323479; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cE+gTqS6Acm3OjdFoCwcpAog50aFpqNiNU85af164dY=;
-        b=Sy39ev+YkaB+KPsi1XAs4pyTqpWDmmoH72QwZXEGTQq1QlboeGJWmYKxoqtg6gn41k
-         YmK6kJvrsEL9BzLhgPWUUm0/ZZdVfkAD98gMPFCDaf4retCZzzOdlIb71Atq12Jx9fTd
-         jzDDdFCg6vTtCgauFJqsGyCF2zJUPWbmn4yjivFB43fgCk/BWGtOOgQuyhKh2+2oaOqf
-         mTzlitOp5a9pqYZu7J9vBOwBmFVVQA0TIuKNqe3Iv4K6/8bmw5B1L7xJLj/4MZOsqWhA
-         W1KjDh8CKcEgp5Cryqh+moIxfcFxsnCUQZys9Z8rb6YLeH39Jee1LOeRM05Yk0LqhHTI
-         GSiw==
+        d=gmail.com; s=20251104; t=1774719454; x=1775324254; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+GiqKUzuLjWLwvp2WlBTPs4nhbibVGRU86wxjVFSVmM=;
+        b=G0ctgQz6axvS/BjCXb/GT1y6cQPeKAKHcnL0C0wvFKkW//4SO041XlX+10elABKV7x
+         YFUhsGwiXesa1SxY/Q8r13J424sQdavoI0rvahkwIx5IavsrLt7ADDoEVGhRiOakKAiB
+         xiNsXaqoMjsMIO5ywldlx807OaWqCuKhlpIIK30AnffYX6YrTOTYdqmCS9WhHhMuWCH+
+         pwPmrUhFDH69dabhtiCRkMaXB2UMipgOTqJvnaOZVUhZb+K7YZHYwzvbItp1LRBMnM4C
+         yAZuyBtir8mpzoLxP8auCH2+LjyfObyLMvmyOaxDGhMbAUEL7E341UN9Ln5nUXGyM7fU
+         dG2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774718679; x=1775323479;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=cE+gTqS6Acm3OjdFoCwcpAog50aFpqNiNU85af164dY=;
-        b=DP8lK3TLOY2MmcrAazxyrf1El81c5lwcGulKPCcJdMNBtAHlozdsXPHdvVZdr8E4zL
-         Ih/22THpsiRGs83FBwcGbYqAhuWZV9Lxa8aoc3M1mTFxQOS5WgJyPya96Rh0om1atmOn
-         arDSOblMGEqEwu2tRsqr2rvnOtsr6CE5dQ65GccqGDl2WqtiGOwDWzggyXSyfPLc00GC
-         zkSTcTTxhH5Ef5rCErPhMQyvS8gkY96WpbhBxNsSyJwnXZ9du/qKi6/HedVpzJg+5y+4
-         OGTWMNEPnjIzoGUXmMQXtJN3kw+0c1n8K6SF9wDzN6NcHSNeiWDEcqozw5i2DCc5W0ui
-         Ftuw==
-X-Gm-Message-State: AOJu0YwFwvyqC36W1avkKy8Gs4EVuDRrg76UDylWjXDxK5+88QomfPli
-	fDnQTtWQIC5mOjIjaJYp/jad8pQk2lhYfsZ/15QZMcwufdOnIFfSSfHzkDnm2dAy
-X-Gm-Gg: ATEYQzzKPhORdcrjUWHqJalL3ZgLWE21OyjWZHzJDyXR6ar0upWVqMJtFreNA34YLH/
-	IjXSMg/gYqiT9plk0FIxlWyBIJ73yCMbzNONevgYKJNEUTvi4mnH/I2+aMEL0fpIOsJMmGLtPjX
-	NTAw/+Xx95Z1ows1iWMOnUE0V0aMMyrizStg6UpTdhUkM31EPjzI8Dx5oLOv0/0x5IO+k/cNZrK
-	7b4AfJppvF9hAXWHGexiRKwqjPadSCgS3pvKdFco1nvCseuSealHgBk5jgTOA1R/pKTyV1SbFos
-	6zlD4bSLi5EHGCWVmL58a/I70coOIGcEmJeqJs+mW4URFEfJssmFSnRsJbpyM1F3OtCgVqmHWvy
-	rgrKx22BpmrGUnyi0FgFB8JglGs5KUTfjLvnqNbMKHVDpQzDyWfI1Jj17o4FR75FRyDIesbuIHN
-	D/G/3ctagEe5T4cEe6cukEO8SiVcJp4t8agUo8ZKN3CAes0Yj06IuMZGE=
-X-Received: by 2002:a17:90a:da8d:b0:356:22ef:57ba with SMTP id 98e67ed59e1d1-35c2ff1be2cmr6736609a91.7.1774718678998;
-        Sat, 28 Mar 2026 10:24:38 -0700 (PDT)
-Received: from toolbx ([103.103.35.11])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35c22a5570esm10513773a91.3.2026.03.28.10.24.24
+        d=1e100.net; s=20251104; t=1774719454; x=1775324254;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+GiqKUzuLjWLwvp2WlBTPs4nhbibVGRU86wxjVFSVmM=;
+        b=oXDLZj2BonCvNczm+dgrCF+DpjnIaliwilXyLQla/lhJXQ5aGoIPrdIwOnSaF9XbXx
+         awAy06mh9fC/kE5KvTuIMxQOgAfM6rdXUwmNArbZyU5fq6TYMtTXOfstK4TZkd283NJt
+         VSd31xRxaOZjg/W/WjZrSe3gjk0yg/vgVL87YhFwXFQOoCE3ylzuA3JV/LuqSJ6XLTuu
+         jMuv7XHB0HpfE9CH9ybPgKTky68wc3cb12dDyaq4IqlNWsiMtsPWrtTWLfbk9If06ff1
+         0Diyw2QjcOBP+qbHBUEE4UOa8kV8Dc++Ya7fVPlsGl2pr1paPD5LunPiFfaiK+CjaF1k
+         UiGQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV2n+Ecw4+zvZ5vqKzRdnv4Nns6svRMtJeps8RLZzPu1m1IZLIrZz3U8u3bpY5pkKgb0Eg4iXkOalrtORKr@vger.kernel.org
+X-Gm-Message-State: AOJu0YwRgMnmwATmZ2gWDvhGNnBv6YBrh6pWTPs1RKAfhT2WmTkCojFs
+	ickbU71L9BA/P+IAcSRn3cn7JRv2htbBZo/AT0EJ4aDLR8VGO/AUN512
+X-Gm-Gg: ATEYQzxr1HKn2fhQ1NfMr0F/9yZ3TZkD5CVWfLjWpevjIkSjl4xhPcwtALDqOLTuAxL
+	E0d66NKw0UAUyS8WtnbIwQxuMred6fEYo3VHyATJGACJStUuBWXE58UIj1rzwmn9cHupwPod+Td
+	appT991KYOn3VRIGOQnxbrmhmFBtbUT3/NC0vfNtUy3ts1MhyuGHA1vEXzLYqGbSj8iM907gY2O
+	2uyxO1UOP67bynuge9omBN4ITu/PWZIIqXY6V4wXhKG1QdQjWVSkQCARhjVvOo4Vfnz5ne2KOI3
+	ySbX1OlOcoIiZhN/P5YSmJ98yNbgjT1CiFXsA62yVID8lyggAzL79SpQLekyqlhdRyy5Lz1iyDr
+	zWnH+lFUDnu6jdY1/qeu4b9KgoVa7SwdCBTEIBx6yFEFphWTAnsMZJYgIebN09dLVH1g/592J4c
+	lg7bJAhvtCanByykT7BH7B4BFemH7yZG0FxS1jUFXAr2fDh/W0rn6lqFIRhYuZudgKsnN+mFqp8
+	Q==
+X-Received: by 2002:a05:600c:3505:b0:485:4135:5c92 with SMTP id 5b1f17b1804b1-48727c7c6e0mr101567555e9.0.1774719453499;
+        Sat, 28 Mar 2026 10:37:33 -0700 (PDT)
+Received: from f.. (cst-prg-89-171.cust.vodafone.cz. [46.135.89.171])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48722be608bsm226605195e9.0.2026.03.28.10.37.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Mar 2026 10:24:38 -0700 (PDT)
-From: Dorjoy Chowdhury <dorjoychy111@gmail.com>
-To: linux-fsdevel@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	ceph-devel@vger.kernel.org,
-	gfs2@lists.linux.dev,
-	linux-nfs@vger.kernel.org,
-	linux-cifs@vger.kernel.org,
-	v9fs@lists.linux.dev,
-	linux-kselftest@vger.kernel.org,
-	viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
+        Sat, 28 Mar 2026 10:37:32 -0700 (PDT)
+From: Mateusz Guzik <mjguzik@gmail.com>
+To: brauner@kernel.org
+Cc: viro@zeniv.linux.org.uk,
 	jack@suse.cz,
-	jlayton@kernel.org,
-	chuck.lever@oracle.com,
-	alex.aring@gmail.com,
-	arnd@arndb.de,
-	adilger@dilger.ca,
-	mjguzik@gmail.com,
-	smfrench@gmail.com,
-	richard.henderson@linaro.org,
-	mattst88@gmail.com,
-	linmag7@gmail.com,
-	tsbogend@alpha.franken.de,
-	James.Bottomley@HansenPartnership.com,
-	deller@gmx.de,
-	davem@davemloft.net,
-	andreas@gaisler.com,
-	idryomov@gmail.com,
-	amarkuze@redhat.com,
-	slava@dubeyko.com,
-	agruenba@redhat.com,
-	trondmy@kernel.org,
-	anna@kernel.org,
-	sfrench@samba.org,
-	pc@manguebit.org,
-	ronniesahlberg@gmail.com,
-	sprasad@microsoft.com,
-	tom@talpey.com,
-	bharathsm@microsoft.com,
-	shuah@kernel.org,
-	miklos@szeredi.hu,
-	hansg@kernel.org
-Subject: [PATCH v6 4/4] mips/fcntl.h: convert O_* flag macros from hex to octal
-Date: Sat, 28 Mar 2026 23:22:25 +0600
-Message-ID: <20260328172314.45807-5-dorjoychy111@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260328172314.45807-1-dorjoychy111@gmail.com>
-References: <20260328172314.45807-1-dorjoychy111@gmail.com>
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	Mateusz Guzik <mjguzik@gmail.com>
+Subject: [PATCH] fs: hide file and bfile caches behind runtime const machinery
+Date: Sat, 28 Mar 2026 18:37:28 +0100
+Message-ID: <20260328173728.3388070-1-mjguzik@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -114,55 +76,149 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Following the convention in include/uapi/asm-generic/fcntl.h and other
-architecture specific arch/*/include/uapi/asm/fcntl.h files.
+s/cachep/cache/ for consistency with namei and dentry caches.
 
-Signed-off-by: Dorjoy Chowdhury <dorjoychy111@gmail.com>
+Signed-off-by: Mateusz Guzik <mjguzik@gmail.com>
 ---
- arch/mips/include/uapi/asm/fcntl.h | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+ fs/file.c                         |  2 +-
+ fs/file_table.c                   | 31 +++++++++++++++++++------------
+ include/asm-generic/vmlinux.lds.h |  4 +++-
+ 3 files changed, 23 insertions(+), 14 deletions(-)
 
-diff --git a/arch/mips/include/uapi/asm/fcntl.h b/arch/mips/include/uapi/asm/fcntl.h
-index 0369a38e3d4f..6aa3f49df17e 100644
---- a/arch/mips/include/uapi/asm/fcntl.h
-+++ b/arch/mips/include/uapi/asm/fcntl.h
-@@ -11,15 +11,15 @@
+diff --git a/fs/file.c b/fs/file.c
+index 384c83ce768d..2c81c0b162d0 100644
+--- a/fs/file.c
++++ b/fs/file.c
+@@ -200,7 +200,7 @@ static struct fdtable *alloc_fdtable(unsigned int slots_wanted)
+ 	/*
+ 	 * Check if the allocation size would exceed INT_MAX. kvmalloc_array()
+ 	 * and kvmalloc() will warn if the allocation size is greater than
+-	 * INT_MAX, as filp_cachep objects are not __GFP_NOWARN.
++	 * INT_MAX, as filp_cache objects are not __GFP_NOWARN.
+ 	 *
+ 	 * This can happen when sysctl_nr_open is set to a very high value and
+ 	 * a process tries to use a file descriptor near that limit. For example,
+diff --git a/fs/file_table.c b/fs/file_table.c
+index aaa5faaace1e..c40ec1be2899 100644
+--- a/fs/file_table.c
++++ b/fs/file_table.c
+@@ -30,6 +30,8 @@
  
- #include <asm/sgidefs.h>
+ #include <linux/atomic.h>
  
--#define O_APPEND	0x0008
--#define O_DSYNC		0x0010	/* used to be O_SYNC, see below */
--#define O_NONBLOCK	0x0080
--#define O_CREAT		0x0100	/* not fcntl */
--#define O_TRUNC		0x0200	/* not fcntl */
--#define O_EXCL		0x0400	/* not fcntl */
--#define O_NOCTTY	0x0800	/* not fcntl */
--#define FASYNC		0x1000	/* fcntl, for BSD compatibility */
--#define O_LARGEFILE	0x2000	/* allow large file opens */
-+#define O_APPEND	0000010
-+#define O_DSYNC		0000020	/* used to be O_SYNC, see below */
-+#define O_NONBLOCK	0000200
-+#define O_CREAT		0000400	/* not fcntl */
-+#define O_TRUNC		0001000	/* not fcntl */
-+#define O_EXCL		0002000	/* not fcntl */
-+#define O_NOCTTY	0004000	/* not fcntl */
-+#define FASYNC		0010000	/* fcntl, for BSD compatibility */
-+#define O_LARGEFILE	0020000	/* allow large file opens */
- /*
-  * Before Linux 2.6.33 only O_DSYNC semantics were implemented, but using
-  * the O_SYNC flag.  We continue to use the existing numerical value
-@@ -33,9 +33,9 @@
-  *
-  * Note: __O_SYNC must never be used directly.
-  */
--#define __O_SYNC	0x4000
-+#define __O_SYNC	0040000
- #define O_SYNC		(__O_SYNC|O_DSYNC)
--#define O_DIRECT	0x8000	/* direct disk access hint */
-+#define O_DIRECT	0100000	/* direct disk access hint */
++#include <asm/runtime-const.h>
++
+ #include "internal.h"
  
- #define F_GETLK		14
- #define F_SETLK		6
+ /* sysctl tunables... */
+@@ -38,8 +40,10 @@ static struct files_stat_struct files_stat = {
+ };
+ 
+ /* SLAB cache for file structures */
+-static struct kmem_cache *filp_cachep __ro_after_init;
+-static struct kmem_cache *bfilp_cachep __ro_after_init;
++static struct kmem_cache *__filp_cache __ro_after_init;
++#define filp_cache runtime_const_ptr(__filp_cache)
++static struct kmem_cache *__bfilp_cache __ro_after_init;
++#define bfilp_cache runtime_const_ptr(__bfilp_cache)
+ 
+ static struct percpu_counter nr_files __cacheline_aligned_in_smp;
+ 
+@@ -74,9 +78,9 @@ static inline void file_free(struct file *f)
+ 	put_cred(f->f_cred);
+ 	if (unlikely(f->f_mode & FMODE_BACKING)) {
+ 		path_put(backing_file_user_path(f));
+-		kmem_cache_free(bfilp_cachep, backing_file(f));
++		kmem_cache_free(bfilp_cache, backing_file(f));
+ 	} else {
+-		kmem_cache_free(filp_cachep, f);
++		kmem_cache_free(filp_cache, f);
+ 	}
+ }
+ 
+@@ -234,13 +238,13 @@ struct file *alloc_empty_file(int flags, const struct cred *cred)
+ 			goto over;
+ 	}
+ 
+-	f = kmem_cache_alloc(filp_cachep, GFP_KERNEL);
++	f = kmem_cache_alloc(filp_cache, GFP_KERNEL);
+ 	if (unlikely(!f))
+ 		return ERR_PTR(-ENOMEM);
+ 
+ 	error = init_file(f, flags, cred);
+ 	if (unlikely(error)) {
+-		kmem_cache_free(filp_cachep, f);
++		kmem_cache_free(filp_cache, f);
+ 		return ERR_PTR(error);
+ 	}
+ 
+@@ -268,13 +272,13 @@ struct file *alloc_empty_file_noaccount(int flags, const struct cred *cred)
+ 	struct file *f;
+ 	int error;
+ 
+-	f = kmem_cache_alloc(filp_cachep, GFP_KERNEL);
++	f = kmem_cache_alloc(filp_cache, GFP_KERNEL);
+ 	if (unlikely(!f))
+ 		return ERR_PTR(-ENOMEM);
+ 
+ 	error = init_file(f, flags, cred);
+ 	if (unlikely(error)) {
+-		kmem_cache_free(filp_cachep, f);
++		kmem_cache_free(filp_cache, f);
+ 		return ERR_PTR(error);
+ 	}
+ 
+@@ -295,13 +299,13 @@ struct file *alloc_empty_backing_file(int flags, const struct cred *cred)
+ 	struct backing_file *ff;
+ 	int error;
+ 
+-	ff = kmem_cache_alloc(bfilp_cachep, GFP_KERNEL);
++	ff = kmem_cache_alloc(bfilp_cache, GFP_KERNEL);
+ 	if (unlikely(!ff))
+ 		return ERR_PTR(-ENOMEM);
+ 
+ 	error = init_file(&ff->file, flags, cred);
+ 	if (unlikely(error)) {
+-		kmem_cache_free(bfilp_cachep, ff);
++		kmem_cache_free(bfilp_cache, ff);
+ 		return ERR_PTR(error);
+ 	}
+ 
+@@ -593,14 +597,17 @@ void __init files_init(void)
+ 		.freeptr_offset = offsetof(struct file, f_freeptr),
+ 	};
+ 
+-	filp_cachep = kmem_cache_create("filp", sizeof(struct file), &args,
++	__filp_cache = kmem_cache_create("filp", sizeof(struct file), &args,
+ 				SLAB_HWCACHE_ALIGN | SLAB_PANIC |
+ 				SLAB_ACCOUNT | SLAB_TYPESAFE_BY_RCU);
++	runtime_const_init(ptr, __filp_cache);
+ 
+ 	args.freeptr_offset = offsetof(struct backing_file, bf_freeptr);
+-	bfilp_cachep = kmem_cache_create("bfilp", sizeof(struct backing_file),
++	__bfilp_cache = kmem_cache_create("bfilp", sizeof(struct backing_file),
+ 				&args, SLAB_HWCACHE_ALIGN | SLAB_PANIC |
+ 				SLAB_ACCOUNT | SLAB_TYPESAFE_BY_RCU);
++	runtime_const_init(ptr, __bfilp_cache);
++
+ 	percpu_counter_init(&nr_files, 0, GFP_KERNEL);
+ }
+ 
+diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
+index 1e1580febe4b..4f8e734c4336 100644
+--- a/include/asm-generic/vmlinux.lds.h
++++ b/include/asm-generic/vmlinux.lds.h
+@@ -975,7 +975,9 @@
+ 		RUNTIME_CONST(shift, d_hash_shift)			\
+ 		RUNTIME_CONST(ptr, dentry_hashtable)			\
+ 		RUNTIME_CONST(ptr, __dentry_cache)			\
+-		RUNTIME_CONST(ptr, __names_cache)
++		RUNTIME_CONST(ptr, __names_cache)			\
++		RUNTIME_CONST(ptr, __filp_cache)			\
++		RUNTIME_CONST(ptr, __bfilp_cache)
+ 
+ /* Alignment must be consistent with (kunit_suite *) in include/kunit/test.h */
+ #define KUNIT_TABLE()							\
 -- 
-2.53.0
+2.48.1
 
