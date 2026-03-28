@@ -1,291 +1,328 @@
-Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A1664204E
-	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Mar 2026 23:07:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.158
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774652861; cv=none; b=rR4B7AxVLqC7KqU3FNjK3YCd/KdDB5kBxu4T8wndz0QOWbka7QgUbfxJdljRKvEaA1xeQIgtOkUzWYZgQfOyoTa0dFs2r6ouY8HWLTNAtYHamlNOGt8YVKGgOX28DkajatJpqpDEu3DeNjIacSYkhKiP+4V2FrN9ENMEfDt4SEk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774652861; c=relaxed/simple;
-	bh=xiGdQa3FqpPK22tmcS1FAxYsr87beRM4sIdjxG13Nyo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=h2MM6OUXpyTOiKSHZeGMJ2V9/AeYKr8ArShBjsRgl1vNzb/Akh3xlEFp5yopB0EB0OmAE6lMc4EL9JXUlZOoPscvk4iJ3Dom8PLoedoASH84UicEx/6ZMHI0njNx4gnI+sRCoMGn+KOP/bvdxt0Qv0k2t5g+RQT+Z8P6yYiEC6U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=XSfaMnUN; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=eCCUzWeD; arc=none smtp.client-ip=202.12.124.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 397871A683C
+	for <linux-fsdevel@vger.kernel.org>; Sat, 28 Mar 2026 00:21:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.176
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774657300; cv=pass; b=ppPaJ+Zby2QxAW6D8VTL4KCbyDsVuxP7f1OyY5SqKL5Atz6S7LEJIRN/ZH1/TB9O6bPqxx77fdFCVNy8mkh4hGZCaAGqWcPWSJeG7MsrzjVL920goeySz6uGYXBd+1eXLGOGhjrXWaw+K0v9TSqm3H1zeLOPgPB6cy832j69LNM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774657300; c=relaxed/simple;
+	bh=vV5WV0HLSYcQy+A0cA2Js7gosI1iQQ3g9tIu/GBiDJ8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GViNcXns0vJEighjuiTNArkHnXck3MnNqtk6AAFAMwIv/c7FPneGyyUuZ/vCmBgq0+Ayn29mHpXg9zfFpskyhHHqKCIirwMfeIJ1iiBZ8RX+wpFj3QuWOYa2dplL3d758ek5pxBKKMRoqPZKiZ8OIl3y36Tyy+W5o+LuFWLVqkg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NWwyjB3U; arc=pass smtp.client-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="XSfaMnUN";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="eCCUzWeD"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 7A8C37A0076;
-	Fri, 27 Mar 2026 19:07:38 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Fri, 27 Mar 2026 19:07:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1774652858;
-	 x=1774739258; bh=BjhUfA4o6yw8lesqJjlkLGaLuAPL/0+OR4DYwo+3gRE=; b=
-	XSfaMnUNIl5LezjZAw0ff2cArEhcR5MFcrGCN9vQGfVPVq8nOlwLqHCSfUaKfbCK
-	mOpqBW6aCI2wk9pVHn0HYMUlGir18QL/qHeeEY1FALCAm/HROq2VBr42gV4+jcKT
-	gjgVjBMNjJgYDYi03F3T+D9NoLaayo/NIgScybN3mUYB0XIt3CpqGGbTZihzbHft
-	WOjF+V9q5a366i26teIdMHoxvDU7gNRbVtVpiO0+6eaw11zaiXU6PfA/njl+85+d
-	Q9zR96FhaPwuWjcvSb77CALM53bU74/hWJYa4L2NOmfW2fXRJBK7Cy0RmBtDLUpk
-	x+A31MVUY4WXy+N0794NCQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1774652858; x=
-	1774739258; bh=BjhUfA4o6yw8lesqJjlkLGaLuAPL/0+OR4DYwo+3gRE=; b=e
-	CCUzWeDkjNnMHWeVhzM2ow5m3Q8FPoaFXF/ev2GVA5rEbwDNJI2dsmcmzuwvRIQ+
-	vo8OzzRJD2QMLCZU/+GlolgqQ4Jy5PZHkCw49Y6KMAzpxs0Hh1y1czkgWS4cVpW5
-	vyWGa1dLb+cH1gZIPVxrY1hi/gzqOCNyH0OFDWPHiZe3cjlsmYaew34ow2+b73cE
-	UX4xvoMZAOTK9PAzmAWJ4So8Pu8isq3NDOaoWUQmlHivUbdZGDE/r9eLxe2XuPbq
-	QCXlB1wnRXpowcBHlXt3TDovxzE0Xdo2pU+COXT4uPOIQc5d6t+zZMeHwWBT8DEE
-	VNtDX2FDEJulVyYjkwPmA==
-X-ME-Sender: <xms:uQ3HacVytCOl45Gfj7dhzbzLUprIML2AqoccDlb12c_Hez42lJxIiQ>
-    <xme:uQ3HaXfCuhFKL4uMzTc3HX_vcaZKhIIcgVsbsr5anO2qeOEd-b7MLYh7exjlFhDVJ
-    5-nbIlAAdL9qXQAheupJndosW9plcmsbgflyF9iRz8ylEGEEpo>
-X-ME-Received: <xmr:uQ3HaYtJAnIKKK6ihmGo_WZT3u1OnK9cDTRw09sjem5eeVECukIOywIoKYdSx1oscGbz5PHEG3ueHkgaQyCJH850qHatcfnfpncSozfPJ_KwbrZoQA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeffeduheeiucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
-    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
-    htthgvrhhnpeehhfejueejleehtdehteefvdfgtdelffeuudejhfehgedufedvhfehueev
-    udeugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeehpdhmohguvgep
-    shhmthhpohhuthdprhgtphhtthhopegujhifohhngheskhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtoheplhhinhhugidqfhhsuggvvhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdp
-    rhgtphhtthhopehmihhklhhoshesshiivghrvgguihdrhhhupdhrtghpthhtohepjhhorg
-    hnnhgvlhhkohhonhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtohepkhgthhgvnhesuggu
-    nhdrtghomh
-X-ME-Proxy: <xmx:uQ3HaW9c0XQ8ZGphnhqiPF6XBBmDvrK2fFPDisJaQpsDtV8BAvBYag>
-    <xmx:uQ3HaT3SmYNzYZ55umLqVcGhttNMpEN5sTMksbKEoVyNKG9-h5gmMQ>
-    <xmx:uQ3HabCrmfWf1N71vPtdtz2-ty8XrJuRWZMX_y_n8GVZUK8l1CZQjw>
-    <xmx:uQ3HafeBJ9_tdNjzVQZHfXEdDwMpydv8HahtAA2oGhSFPMUF9B5oTQ>
-    <xmx:ug3HaeVQlTfwmzO3ejwDg9a5HY_ZcN1_lWu42WSTGPTAUpcjryxrplk3>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 27 Mar 2026 19:07:36 -0400 (EDT)
-Message-ID: <db13185d-787a-41a2-9204-ba469a5cf5b1@bsbernd.com>
-Date: Sat, 28 Mar 2026 00:07:35 +0100
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NWwyjB3U"
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-50b6c45781aso239221cf.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 27 Mar 2026 17:21:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774657298; cv=none;
+        d=google.com; s=arc-20240605;
+        b=HSLCD6pF8SyMs0jrX42uBv31Bd8BInhHzBuSrmNDLbneiLP6LsPvqqN+cdvQWjm8wP
+         L2PSliTzOpwdRQ/AY4yAhrN0+vF6u1DoYMVqoUZU0J6Gth9fv+Lburm2XcIllaBpG0Tq
+         KOeURyBvTWU4/ojJ+s+8g2iWb82mfYr4/I/D11rZPPjfjoRv4PuFuNsK3AKs3vKHjyy5
+         TFTNDKiAfJd0rgjf/VpF3M/R2ss6z/BU74aULhfj3G6vm9TbXHVbjwNZ7Xw2tzRA2Kw/
+         JbiomkAbBaIwaw4cSYzBalvcFijeYaLZbPaCgQldTMEFbjt4mZp/EVKdnfnN2VaEKhTm
+         HL7Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=K9bPtEBHXKpRO9CjXfaCqUQKt7R+Gz6rl79/OVT+YNo=;
+        fh=bcRG1X0st0xFiC5H4sh04eKR8d2cJAE33RAOUSGIPLs=;
+        b=B0bOIt1egHMthYxgi0bHOkGXSpUPgFhFCcN/igOX1AXxFXBlQcvrSgENDZhXj1bZd4
+         j3ivYkt/+A2W7kuVEbIJR3oXT5qMLzMDxwbw9t33p8oym5plSV4+2fwoAhhMctEkr6JO
+         cik97PXAxwUM3cMGVp80ea3Y37dLv+zQjZ3xWAxpAlHN8zwDPiTT6FwA5hRN8KzHk/OP
+         1nNJF4OLwFResMa5VUwdKzfL5K6e6ocrOeqRZq0ZwuZuN7uAKO0NtDG49QHeU0Jl+FsE
+         AqhVTe+ow24do/kyAnH+0xCGlLJTZ8kk30JRPjTqXsNBKHsi7DpQ2hYxlbF01E+StNBV
+         bphQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1774657298; x=1775262098; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=K9bPtEBHXKpRO9CjXfaCqUQKt7R+Gz6rl79/OVT+YNo=;
+        b=NWwyjB3UfYeV7edM9egaGo7HgyNb/papUg2FICs1v4K996gpTD631K0ks6qsaoXnip
+         1XKQQJ7XugBoN95nibA/VOYFXsMd3m4sKD4h1xEZvIC0fu0Qs7EUEEK3acAHPb/YHZjQ
+         /vezt11v8Yd4wBQbDge8sJnNth4jo6/11rp9oU4Y5O+NoSVeb+KK1toc+/l89T8MgVYA
+         P5919sChlIVa+LVoCmJEZ5seas/+vMXbyI2hn19fS8hbdtjjRUkCVuP36pH4EeovELpp
+         b+xCsFrvJifzzlU4o/BJ7o0pV1wQ0rUGZ4pR56ewhBNJVLD7RLEBIRJ+y4owp5dNDYXJ
+         qNmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774657298; x=1775262098;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=K9bPtEBHXKpRO9CjXfaCqUQKt7R+Gz6rl79/OVT+YNo=;
+        b=BHeAUfdSfuXWIpu+BtLxIjJexSMZEawGS0URSCzOI93oZqBKg5VLdbo/1R2PsouMb1
+         gbhM91Ufmra2icMtRwZOQJsk+1cBmMZ59y3EvcbGv4c4XlvveA8rPFAfBOEl1LGPnWs7
+         NQs2twDZBYq1vizpxb34JuPU7HeRuZB5LoyN80rGjqT45PHCafnAcTqfGb6ySMt91bK0
+         9YbnjbUAfdTFocuv969DbrsE+HrJ366b9xkqQLnolP+2Mi6lhCEBp7JfH2WHMqy8XO6l
+         zdGYl6XqE3zyg4p48DZmCOssHE4nfWduI9uOlaqw/gDgW9Tb+uCFs5Fq7usvSK76lM5S
+         vwMQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUeejNz6dJm+S15TATAruHiWxjpeUnw0jiwAplURJd4npSZySTk7UMl6KzvSnBgMK1FUqs1s1xfHEX3HpN/@vger.kernel.org
+X-Gm-Message-State: AOJu0YyzqxJzDk1XHIX73okebtX8knx51al4c/FkzRGX46lXyXylS2dt
+	TrNFTiEnIzHZVhG3Zugo1tumJ4MyguElfaueT7tp5+z4j77wLef4Db9SIe1SZBR5foXoIgyIbDP
+	SJuHKS66vEt9/AQaGFYGEgRqYhGHf1zgWlQUaiwiD
+X-Gm-Gg: ATEYQzz60sKyWx/W/yBqq26k6j2Lf5FBhZzW4bBrE0bG/vh2ktWxvUFiQ27PNqR98Zv
+	aRrgibXv8eJObTMrYlOuRJHIRR1bFecupqleC/IpHy0DgQ4KnbzCpqQxxN4O7NDO/2Ll4YalNYQ
+	jA/rjqW2YrMlqUscDaDmLJMqvXhroC/+zROOFNxpopELtF4NtQ0taxt4uN/13wWwlCuajy9nfs7
+	FeoaICQAg3JKLRa8hfZ/Cc30QupiYsHejJMQLqE8ePHnu9w0kjVXrirVRagypSLfsnxR3OVI8JK
+	gTQsKHLB7SCBd+So/Q==
+X-Received: by 2002:a05:622a:4c8e:b0:509:14f0:bff2 with SMTP id
+ d75a77b69052e-50bb27f62edmr6416861cf.12.1774657297623; Fri, 27 Mar 2026
+ 17:21:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 04/25] Add a new daemonize API
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
- Joanne Koong <joannelkoong@gmail.com>, Kevin Chen <kchen@ddn.com>
-References: <20260326-fuse-init-before-mount-v2-0-b1ca8fcbf60f@bsbernd.com>
- <20260326-fuse-init-before-mount-v2-4-b1ca8fcbf60f@bsbernd.com>
- <20260327220614.GH6254@frogsfrogsfrogs>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: en-US, de-DE, fr
-In-Reply-To: <20260327220614.GH6254@frogsfrogsfrogs>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260323175340.3361311-1-avagin@google.com> <20260323175340.3361311-2-avagin@google.com>
+ <acGEonF9I6sPA42B@J2N7QTR9R3.cambridge.arm.com> <acJnOB-rlyt-3jU4@willie-the-truck>
+ <CAEWA0a7iR8YHooqXJfhersV6YhAXGMZDUhib3QQH5XGn=KNowA@mail.gmail.com> <acarA3sGKY4Acozw@J2N7QTR9R3.cambridge.arm.com>
+In-Reply-To: <acarA3sGKY4Acozw@J2N7QTR9R3.cambridge.arm.com>
+From: Andrei Vagin <avagin@google.com>
+Date: Fri, 27 Mar 2026 17:21:26 -0700
+X-Gm-Features: AQROBzAZx6vusK91xtphbHO0OyQ8WklBK8fprRQAhCkwYE-GzsBGKaet5s4vnp4
+Message-ID: <CAEWA0a7AZiuy1F+0LDxtEtJpdu=zA-RKhPb1wcDMpy2tSMFO5g@mail.gmail.com>
+Subject: Re: [PATCH 1/4] exec: inherit HWCAPs from the parent process
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: Will Deacon <will@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Marek Szyprowski <m.szyprowski@samsung.com>, 
+	Cyrill Gorcunov <gorcunov@gmail.com>, Mike Rapoport <rppt@kernel.org>, 
+	Alexander Mikhalitsyn <alexander@mihalicyn.com>, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, criu@lists.linux.dev, 
+	Catalin Marinas <catalin.marinas@arm.com>, linux-arm-kernel@lists.infradead.org, 
+	Chen Ridong <chenridong@huawei.com>, Christian Brauner <brauner@kernel.org>, 
+	David Hildenbrand <david@kernel.org>, Eric Biederman <ebiederm@xmission.com>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Michal Koutny <mkoutny@suse.com>, 
+	Alexander Mikhalitsyn <aleksandr.mikhalitsyn@futurfusion.io>, 
+	Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Darrick,
+On Fri, Mar 27, 2026 at 9:06=E2=80=AFAM Mark Rutland <mark.rutland@arm.com>=
+ wrote:
+>
+> On Tue, Mar 24, 2026 at 03:19:49PM -0700, Andrei Vagin wrote:
+> > Hi Mark and Will,
+> >
+> > Thanks for the feedback. Please read the inline comments.
+> >
+> > On Tue, Mar 24, 2026 at 3:28=E2=80=AFAM Will Deacon <will@kernel.org> w=
+rote:
+> > >
+> > > On Mon, Mar 23, 2026 at 06:21:22PM +0000, Mark Rutland wrote:
+> > > > On Mon, Mar 23, 2026 at 05:53:37PM +0000, Andrei Vagin wrote:
+> > > > > Introduces a mechanism to inherit hardware capabilities (AT_HWCAP=
+,
+> > > > > AT_HWCAP2, etc.) from a parent process when they have been modifi=
+ed via
+> > > > > prctl.
+> > > > >
+> > > > > To support C/R operations (snapshots, live migration) in heteroge=
+neous
+> > > > > clusters, we must ensure that processes utilize CPU features avai=
+lable
+> > > > > on all potential target nodes. To solve this, we need to advertis=
+e a
+> > > > > common feature set across the cluster.
+> > > > >
+> > > > > This patch adds a new mm flag MMF_USER_HWCAP, which is set when t=
+he
+> > > > > auxiliary vector is modified via prctl(PR_SET_MM, PR_SET_MM_AUXV)=
+.  When
+> > > > > execve() is called, if the current process has MMF_USER_HWCAP set=
+, the
+> > > > > HWCAP values are extracted from the current auxiliary vector and =
+stored
+> > > > > in the linux_binprm structure. These values are then used to popu=
+late
+> > > > > the auxiliary vector of the new process, effectively inheriting t=
+he
+> > > > > hardware capabilities.
+> > > > >
+> > > > > The inherited HWCAPs are masked with the hardware capabilities su=
+pported
+> > > > > by the current kernel to ensure that we don't report more feature=
+s than
+> > > > > actually supported. This is important to avoid unexpected behavio=
+r,
+> > > > > especially for processes with additional privileges.
+> > > >
+> > > > At a high level, I don't think that's going to be sufficient:
+> > > >
+> > > > * On an architecture with other userspace accessible feature
+> > > >   identification mechanism registers (e.g. ID registers), userspace
+> > > >   might read those. So you might need to hide stuff there too, and
+> > > >   that's going to require architecture-specific interfaces to manag=
+e.
+> > > >
+> > > >   It's possible that some code checks HWCAPs and others check ID
+> > > >   registers, and mismatch between the two could be problematic.
+> > > >
+> > > > * If the HWCAPs can be inherited by a more privileged task, then a
+> > > >   malicious user could use this to hide security features (e.g. sha=
+dow
+> > > >   stack or pointer authentication on arm64), and make it easier to
+> > > >   attack that task. While not a direct attack, it would undermine t=
+hose
+> > > >   features.
+> >
+> > I agree with Mark that only a privileged process have to be able to mas=
+k
+> > certain hardware features. Currently, PR_SET_MM_AUXV is guarded by
+> > CAP_SYS_RESOURCE, but PR_SET_MM_MAP allows changing the auxiliary vecto=
+r
+> > without specific capabilities. This is definitely the issue. To address
+> > this, I think we can consider to introduce a new prctl command to enabl=
+e
+> > HWCAP inheritance explicitly.
+> >
+> > > Yeah, this looks like a non-starter to me on arm64. Even if it was
+> > > extended to apply the same treatment to the idregs, many of the hwcap
+> > > features can't actually be disabled by the kernel and so you still ru=
+n
+> > > the risk of a task that probes for the presence of a feature using
+> > > something like a SIGILL handler or, perhaps more likely, assumes that
+> > > the presence of one hwcap implies the presence of another. And then
+> > > there are the applications that just base everything off the MIDR...
+> >
+> > The goal of this mechanism is not to provide strict architectural
+> > enforcement or to trap the use of hardware features; rather, it is to
+> > provide a consistent discovery interface for applications. I chose the
+> > HWCAP vector because it mirrors the existing behavior of running an
+> > older kernel on newer hardware: while ID registers might report a
+> > feature as physically present, the HWCAPs will omit it if the kernel
+> > lacks support.
+>
+> On arm64, the view of the ID registers that userspace gets *only*
+> exposes features that the kernel knows about, as userspace reads of
+> those registers are trapped+emulated by the kernel. On arm64 it's
+> not true to say that something appears in those but not the HWCAPs.
+>
+> I understand that might be different on other architectures, and so
+> maybe this approach is sufficient on other architectures, but it is not
+> sufficient on arm64.
+>
+> > Applications are generally expected to treat HWCAPs as
+> > the source of truth for which features are safe to use, even if the
+> > underlying hardware is technically capable of more.
+>
+> I'm fairly certain that there are arm64 applications (and libraries)
+> which check only the ID register values, and not the HWCAPs.
+>
+> Architecturally, there are features which are detected via other
+> mechanisms (e.g. CHKFEAT), for which HWCAPs are also irrelevant. Even if
+> that happens to be ok today, there are almost certainly future uses that
+> will not be compatible with the scheme you propose.
+>
+> I don't think we can say "applications must check the HWCAPs", when we
+> know that applications and libraries legitimately don't always do that.
+>
+> > Another significant advantage of using HWCAPs is that many
+> > applications already rely on them for feature detection. This interface
+> > allows these applications to work correctly "out-of-the-box" in a
+> > migrated environment without requiring any userspace modifications.  I
+> > understand that some apps may use other detection methods; however, the=
+re
+> > it no gurantee that these applications will work correctly after
+> > migration to another machine.
+>
+> I think the existince of applications that detect features by other
+> (legitimate!) means implies that there's no guarantee that this feature
+> is useful and will remain useful going forwards.
+>
+> For example, what do you plan to do if an application or library starts
+> doing something legitimate that causes it to become incompatible with
+> this scheme?
+>
+> I don't want to be in a position where userspace is asked to steer clear
+> of legitimate mechanisms, or where architecture code suddently has to
+> pick up a lot of complexity to make this work.
+>
+> > > There's also kvm, which provides a roundabout way to query some featu=
+res
+> > > of the underlying hardware.
+> > >
+> > > You're probably better off using/extending the idreg overrides we hav=
+e
+> > > in arch/arm64/kernel/pi/idreg-override.c so that you can make your
+> > > cluster of heterogeneous machines look alike.
+> >
+> > IIRC, idreg-override/cpuid-masking usually works for an entire machine.
+> > We actually need to have a mechanism that will work on a per-container
+> > basis. Workloads inside one cluster can have different
+> > migration/snapshot requirements. Some are pinned to a specific node,
+> > others are never migrated, while others need to be migratable across a
+> > cluster or even between clusters. We need a mechanism that can be
+> > tunable on a per-container/per-process basis.
+>
+> I think that's theoretically possible, BUT it will require substantially
+> more complexity, to address the issues that Will and I have mentioned. I
+> don't think people are very happy to pick up that complexity.
+>
+> There are many other aspects that are going to be problematic for
+> heterogeneous migration. Even if you hide the HWCAP for a stateful
+> feature (e.g. SME), it might appear in one machine's signal frames (and
+> be mandatory there), but might not appear in anothers, and so migration
+> might not work either way. Likewise, that state can appear via ptrace.
 
-On 3/27/26 23:06, Darrick J. Wong wrote:
-> On Thu, Mar 26, 2026 at 10:34:37PM +0100, Bernd Schubert wrote:
->> Existing example/ file systems do the fuse_daemonize() after
->> fuse_session_mount() - i.e. after the mount point is already
->> established. Though, these example/ daemons do not start
->> extra threads and do not need network initialization either.
-> 
-> AFAICT the situation here with the extra threads and async FUSE_INIT is:
-> 
-> a) You can't start them until after fuse_daemonize() because that might
->    fork the whole process
+Hi Mark,
 
-The extra threads are not cloned - they stay attached to the parent.
+I understand all these points and they are valid. However, as I
+mentioned, we are not trying to introduce a mechanism that will strictly
+enforce feature sets for every container. While we would like to have
+that functionality, as you and will mentioned, it would require
+substantially more complexity to address, and maintainers would unlikely
+to pick up that complexity. Even masking ID registers on a per-container
+basis would introduce extra complexity that could make architecture
+maintainers unhappy. There were a few attempts to introduce container
+CPUID masking on x86_64 in the past.
 
-> 
-> b) You don't want to start them until you know that the mount()
->    succeeds (maybe?)
+In CRIU, we are not aiming to handle every possible workload. Our goal
+is to target workloads where developers are ready to cooperate and
+willing to make adjustments to be C/R compatible. The goal here is to
+provide developers with clear instructions on what they can do to ensure
+their applications are C/R compatible. When I say "workloads", I mean
+this in a broad sense. A container might pack a set of tools with
+different runtimes (Go, Java, libc-based). All these runtimes should
+detect only allowed features.
 
-For me the other way around, I want to start them before the mount and
-let them do things like network connection/authorization. Not nice if
-the mount has already suceeded and then part of the initialization fails
-and a stale mount come up.
+Returning to the subject of this patchset: this series extends the role
+of hwcaps. With this change, we would establish that hwcaps is the
+"source of truth" for which features an application can safely use. Any
+other features available on the current CPU would not be guaranteed to
+remain available after migration to another machine.
 
-> 
-> c) You need those threads to be active to start serving the fuse
->    requests that come after FUSE_INIT
-> 
-> d) libfuse apparently starts even more threads to wait on the iouring
->    queues after the fuse server returns from FUSE_INIT.
+After this discussion, I found that the current version missed one major
+thing: there should be a signal indicating that hwcaps must be used for
+feature detection. Since we will need to integrate this interface into
+libc, Go, and other runtimes, they definitely should not rely just on
+hwcaps by default, especially in the early stages. This can be solved
+via the prctl command.  Libraries like libc would call
+prctl(PR_USER_HWCAP_ENABLED). If this returns true, the runtime knows
+that only the features explicitly listed in hwcaps should be used.
 
-Actually it starts these threads from FUSE_INIT and before replying
-FUSE_INIT success. In order to tell the fuse-client/kernel if
-fuse-server wants io-uring.
+You are right, the controlled feature set will be limited to features
+the kernel knows about. And yes, we would need to report CPU features in
+hwcaps even if the kernel isn't directly involved in handling them.
+Honestly, I am not certain if this is the "right" interface for that,
+and I would be happy to consider other ideas. I understand that these
+hwcaps will not work right out of the box, but we need a way to solve
+this problem. Having a centralized API for CPU/kernel feature detection
+seems like the right direction.
 
-
-> 
-> e) fuse_loop_mt() starts up the request handler threads and waits for
->    the session to exit and/or for mt_finish to be sem_post()ed.
-> 
-> Does that sound right?
-
-
-> 
-> Looking at fuse4fs, I realize that it need /not/ start its background
-> threads from the FUSE_INIT handler; all that should be done after
-> daemonize before calling fuse_session_loop_mt.  The only reason I wrote
-
-So after the mount? What is if starting the threads would fail for some
-reason?
-
-> it that way was blind patterning after fuse2fs, which doesn't call
-> daemonize() directly, so FUSE_INIT is the first time any fuse2fs code
-> gets called after daemonizing.
-> 
->> fuse_daemonize() also does not allow to return notification
->> from the forked child to the parent.
->>
->> Complex fuse file system daemons often want the order of
->> 1) fork - parent watches, child does the work
->>
->> Child:
->>     2) start extra threads and system initialization (like network
->>        connection and RDMA memory registration) from the fork child.
->>     3) Start the fuse session after everything else succeeded
->>
->> Parent:
->>     Report child initialization success or failure
-> 
-> Under classic async FUSE_INIT, the sequence in most fuse servers is:
-> 
-> 1) The parent opens /dev/fuse and mounts the fuse filesystem before even
->    daemonizing
-> 
-> 2) Mounting the fuse fs causes an async FUSE_INIT to be sent to the
->    queues, which sits there because nobody's looking for event yet
-> 
-> 3) The parent daemonize()s, and the child proceeds with setting signal
->    handlers and starting up the fuse-request processing threads
-> 
-> 4) The parent exits, the child continues on to set up the fuse worker
->    threads
-> 
-> 5) One of the request handler threads finally reads /dev/fuse to find
->    the FUSE_INIT request and processes it
-> 
-> 6) do_init (in the lowlevel fuse library) starts up the uring workers
->    if the kernel acknowledges the uring feature.  The fuse server has
->    no means to discover if the fusedev would permit uring before
->    calling mount().
-
-Yeah, initially I wanted to handle that through an ioctl and independent
-of FUSE_INIT, Miklos had asked to change that.
-
-> 
-> Does my understanding make sense?
-> 
->> A new API is introduced to overcome the limitations of
->> fuse_daemonize()
->>
->> fuse_daemonize_start() - fork, but foreground process does not
->> terminate yet and watches the background.
-> 
-> But with sync FUSE_INIT this is not workable because the child has to
-> have done (4) before (1) can complete, or it has to set up a temporary
-> request handler thread to process the FUSE_INIT.  That's partly why
-> fuse_daemonize_start/success/fail() is created here, right?
-
-I have written two similar APIs for two different daemons at DDN (one in
-C and the other in C++), independent of sync FUSE_INIT. For us it is
-important to only create the mount point when the network connection
-works - that is done by threads not under control from libfuse. With
-network you want to see something like "authorization failure" or "host
-not reachable" in foreground.
-
-With sync FUSE_INIT the additional issue of
-FUSE_INIT-creates-the-io-uring ring thread came up - even the
-<libfuse>/example/* file systems all don't work, because now
-fuse_session_mount() creates the ring threads, then comes
-fuse_daemonize() - parent exits - ring threads gone.
-
-> 
-> And the rest of the reason for the new functions is to enable
-> communication between the parent and child processes -- if one dies
-> the other can find out about it; and the child can tell the parent the
-> outcome of mount()ing the filesystem.
-> 
-> I wonder -- if you know that the kernel supports synchronous FUSE_INIT,
-> can you start the main event handling threadpool (i.e. the one created
-> in fuse_loop_mt.c) after opening /dev/fuse (obviously) but before
-> calling mount()?  That would make a hard requirement of having at least
-> one event handling thread, but you wouldn't have to create this temp
-> thread just to handle the FUSE_INIT.
-
-That would work and I believe it would be feasible for libfuse examples,
-but what about all the other real file systems out there? They would
-need to be rewritten to get sync INIT? And how many people understand
-the difference between sync and async init? Is this temp thread causing
-issues?
-
-> 
-> Even better the daemonize() changes reduce to just the pipe between
-> parent and child and watching either for a return value or the POLLERR
-> when either program fails unexpectedly.
-
-We also need to send a signal to the parent that child has success. How
-many pipes we use is an internal detail? If we find a better way later
-to reduce the number of pipes, even better.
-
-> 
->> fuse_daemonize_success() / fuse_daemonize_fail() - background
->> daemon signals to the foreground process success or failure.
->>
->> fuse_daemonize_active() - helper function for the high level
->> interface, which needs to handle both APIs. fuse_daemonize()
->> is called within fuse_main(), which now needs to know if the caller
->> actually already used the new API itself.
->>
->> The object 'struct fuse_daemonize *' is allocated dynamically
->> and stored a global variable in fuse_daemonize.c, because
->> - high level fuse_main_real_versioned() needs to know
->> if already daemonized
->> - high level daemons do not have access to struct fuse_session
->> - FUSE_SYNC_INIT in later commits can only be done if the new
->> API (or a file system internal) daemonization is used.
-> 
-> I don't know exactly what's required to switch libfuse into uring mode.
-> It look as though you inject -oio_uring as a mount option, then libfuse
-> sets up the uring, starts some extra workers to handle the ring(?) and
-> puts them to sleep.  If the kernel says it supports uring in FUSE_INIT
-> then do_init wakes them up.  Each uring thread submits SQEs and waits
-> for fuse requests to appear as CQEs, right?
-
-Yeah, we can also make that later on a default, without the -oio_uring
-option (there is also env for ci test purposes to enforce io-uring
-mode). Right now it starts too many threads (got distracted today and
-didn't send the new version of ring reduction patches - will try
-tomorrow). And I also expected bugs in all that new code, so I didn't
-want to make it a default.
-
-> 
-> So after a fuse server negotiates with the kernel about iouring, the
-> background threads started by fuse_loop_mt just sit there in read()
-> doing nothing else, while new fuse requests get sent to userspace as a
-> CQE, right?
-
-Exactly.
-
-
-My question is now, are you ok with the new fuse_daemonize API? It
-sounds a bit like you don't like it too much.
-
+As for signal frame size and extended states like SVE/SME, we aware
+about this problem.  However, it is partly mitigated by the fact that if
+an application does not use some features, those states are not placed
+in the signal frame. In the future, when we construct/reload a signal
+frame, we could look at a process feature set for a process and generate
+a frame according to those features...
 
 Thanks,
-Bernd
+Andrei
