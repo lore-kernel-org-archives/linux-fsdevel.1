@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CAB4126BF7
-	for <linux-fsdevel@vger.kernel.org>; Sat, 28 Mar 2026 12:55:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F05A78287E
+	for <linux-fsdevel@vger.kernel.org>; Sat, 28 Mar 2026 13:03:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774702534; cv=none; b=ZJ0aUxFQ9qFF2DnRM+PuoxaUNXl6PgwIy61GIt2WTs+LgwX9D698P7s/EDlso3zlaPP6WCe2Pc8bCa7eJHacvCV0jzoPNOYpeyKm0xHE8Z8B/q6yNUw0Khpt+bHdNtId80VGEMBaH4KhiTPXMxHeJ9VCPbqRNi7TjyZilQue1qs=
+	t=1774702987; cv=none; b=P7kfvX22Jn6JDEjI6hndXNw77twxpZE5wRweAM5ocyXdtGY0wPWugIvsT0pobFqfSHJ/wqGVPYmeWmoS2Uso5to5JlvlKT1KDeQfnIgrBw9I981qfWYrhgyOe4jAzDh1vB+ZN+b+P+9w4Zy7C42aXSrQeHTLqwWx3q9GquElL2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774702534; c=relaxed/simple;
-	bh=lqKhZusTlxWaStkhrhG9DXoPubhACuloS9RsyJgXU3U=;
+	s=arc-20240116; t=1774702987; c=relaxed/simple;
+	bh=mpcl99Y1Wgs2WIaOOGVPg+jte1H/M3NUefB5eQJQNAU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p9c5ju1m2ubUD/DTghajEoIBiMi6BsAmYoXt8rfbRDu0HyaWvg5ZCIZUQgXvG3iIsdUSkFWHDZo44mH2S2AyVZGDF6GpLmRr8VSehCa4IS2hcys4exoENeiVsSChuA6PTzDbWBr4izxbi7I7VfnGqqzF3+wnxF9Cm9LzId440/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ht5cyVFr; arc=none smtp.client-ip=198.175.65.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=k5PkrV3VOAtHNug4vnEHP+mhRTcuTdo20aGXPktcRjl27icX3nWKZF+hLUdzV989GKQ8aPRSIiAZqC1/zirq/nbYRshW21nJzhbBkSJaUAnGGXx4U4Cr3ALBAqDNgFFkWQ7/BFenjZp1aFEXFPPhaEwzOMrUxjDAbZsaRXTC4OE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X3qi5vFj; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ht5cyVFr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X3qi5vFj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774702532; x=1806238532;
+  t=1774702986; x=1806238986;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=lqKhZusTlxWaStkhrhG9DXoPubhACuloS9RsyJgXU3U=;
-  b=ht5cyVFrq7KDmIU0uBse7Pkqx1ex0IwCbzmUM+lRI1FC3gfbrYl3AHeQ
-   tnlCM/ZTmH0xOEtPmBKAuED8XDWsOP+cTjlbHoCgk8nNBc7Ua073tHyYg
-   kVqPIMOptKDWR9ICN8I4EKjWgik+C4kZiTHbmCnLfVxYT+DXRWbpdrC2g
-   qgzjSZyUxd4/YwLH1pfbo91ULfXNV3xuzkiqgFwfQhKZuutEJif82z0D+
-   7Zmicdul7PvlWWCVAx1mv6XLvLKM9j6ZZG5TQ0JllpgX5gUIVzg4dd15Q
-   E+dpzOttBAlacKAAVa3/SAIn9R7FBVxIz3/G/2TD+sVwkbsRGBixO0in4
-   g==;
-X-CSE-ConnectionGUID: K4Jgf9BtQyOs7L4wrzcphw==
-X-CSE-MsgGUID: R5VzMxeRQzecYkj604hKQw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="75954488"
+  bh=mpcl99Y1Wgs2WIaOOGVPg+jte1H/M3NUefB5eQJQNAU=;
+  b=X3qi5vFj+ifiVv2hRS3ewMz1tCiQjs5wOh6+98NxA1Ne2fv7uICacBgH
+   RnLEaIf9dW4ktnTubXADnOZlcnYIZ477v1LxqUAtvXV+o76thUY29MzKs
+   Ig7cJC+ccTMtweSvFMYlHEk58UpkWWbRwUl3jrLSOQErZ7EeztcxXXWoY
+   KQMU/94KPmVh8XOw12opeYP1AUJM38rjfo4gWGZFmAoAyNCicjV4aZFo1
+   ADzYbX0OYIZEvoclfqiwIwI8GDrN1GOKVLuPurtPMAXgitHTt0hiyZRzX
+   qvUZwRuf32ZGzSMpvVwe9mCFGBuyn89/JUswONTsgSNlAWDyIhZbS6EF7
+   A==;
+X-CSE-ConnectionGUID: tPP91uTESfOXafoHem3+HA==
+X-CSE-MsgGUID: Y+SEVyfOS3iHLzLiYrQYsA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="87230956"
 X-IronPort-AV: E=Sophos;i="6.23,146,1770624000"; 
-   d="scan'208";a="75954488"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2026 05:55:32 -0700
-X-CSE-ConnectionGUID: sJZhv7+STkS3Y4UAblWZRg==
-X-CSE-MsgGUID: 1YDaTWDdTh+KRI5uBi5Q+Q==
+   d="scan'208";a="87230956"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2026 06:03:05 -0700
+X-CSE-ConnectionGUID: 0BukFwvMS5StND6WXwRgPA==
+X-CSE-MsgGUID: z5dM877dSwW4E1p3bV6DCA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,146,1770624000"; 
-   d="scan'208";a="222703510"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 28 Mar 2026 05:55:30 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+   d="scan'208";a="263514646"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa001.jf.intel.com with ESMTP; 28 Mar 2026 06:03:03 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w6TCJ-00000000BQP-2WVh;
-	Sat, 28 Mar 2026 12:55:27 +0000
-Date: Sat, 28 Mar 2026 20:54:46 +0800
+	id 1w6TJd-000000007fx-0284;
+	Sat, 28 Mar 2026 13:03:01 +0000
+Date: Sat, 28 Mar 2026 14:02:20 +0100
 From: kernel test robot <lkp@intel.com>
 To: Joanne Koong <joannelkoong@gmail.com>, axboe@kernel.dk
 Cc: oe-kbuild-all@lists.linux.dev, miklos@szeredi.hu, bschubert@ddn.com,
 	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v1 7/9] fuse: add io-uring kernel-managed buffer ring
-Message-ID: <202603282050.aq4eO74Y-lkp@intel.com>
-References: <20260324224532.3733468-8-joannelkoong@gmail.com>
+Subject: Re: [PATCH v1 8/9] fuse: add zero-copy over io-uring
+Message-ID: <202603281328.m7ticaDV-lkp@intel.com>
+References: <20260324224532.3733468-9-joannelkoong@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -63,7 +63,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260324224532.3733468-8-joannelkoong@gmail.com>
+In-Reply-To: <20260324224532.3733468-9-joannelkoong@gmail.com>
 
 Hi Joanne,
 
@@ -77,147 +77,185 @@ https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Joanne-Koong/fuse-separate-next-request-fetching-from-sending-logic/20260328-142620
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git for-next
-patch link:    https://lore.kernel.org/r/20260324224532.3733468-8-joannelkoong%40gmail.com
-patch subject: [PATCH v1 7/9] fuse: add io-uring kernel-managed buffer ring
-config: hexagon-randconfig-r071-20260328 (https://download.01.org/0day-ci/archive/20260328/202603282050.aq4eO74Y-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
-smatch: v0.5.0-9004-gb810ac53
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260328/202603282050.aq4eO74Y-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20260324224532.3733468-9-joannelkoong%40gmail.com
+patch subject: [PATCH v1 8/9] fuse: add zero-copy over io-uring
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260328/202603281328.m7ticaDV-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260328/202603281328.m7ticaDV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603282050.aq4eO74Y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603281328.m7ticaDV-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from fs/fuse/trace.c:6:
->> fs/fuse/dev_uring_i.h:63:16: error: field has incomplete type 'struct kvec'
-      63 |                         struct kvec payload_kvec;
-         |                                     ^
-   include/linux/mm.h:3010:8: note: forward declaration of 'struct kvec'
-    3010 | struct kvec;
-         |        ^
-   1 error generated.
---
-   In file included from fs/fuse/dev_uring.c:8:
->> fs/fuse/dev_uring_i.h:63:16: error: field has incomplete type 'struct kvec'
-      63 |                         struct kvec payload_kvec;
-         |                                     ^
-   include/linux/mm.h:3010:8: note: forward declaration of 'struct kvec'
-    3010 | struct kvec;
-         |        ^
->> fs/fuse/dev_uring.c:296:17: error: call to undeclared function 'io_uring_registered_mem_region_get'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     296 |         mem_reg_addr = io_uring_registered_mem_region_get(cmd, &nr_pages,
-         |                        ^
->> fs/fuse/dev_uring.c:296:15: error: incompatible integer to pointer conversion assigning to 'void *' from 'int' [-Wint-conversion]
-     296 |         mem_reg_addr = io_uring_registered_mem_region_get(cmd, &nr_pages,
-         |                      ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     297 |                                                           issue_flags);
-         |                                                           ~~~~~~~~~~~~
->> fs/fuse/dev_uring.c:334:8: error: call to undeclared function 'io_uring_buf_ring_pin'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     334 |         err = io_uring_buf_ring_pin(cmd, FUSE_URING_BUFRING_GROUP, issue_flags,
-         |               ^
->> fs/fuse/dev_uring.c:339:7: error: call to undeclared function 'io_uring_is_kmbuf_ring'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     339 |         if (!io_uring_is_kmbuf_ring(cmd, FUSE_URING_BUFRING_GROUP, issue_flags))
-         |              ^
->> fs/fuse/dev_uring.c:349:2: error: call to undeclared function 'io_uring_buf_ring_unpin'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     349 |         io_uring_buf_ring_unpin(cmd, FUSE_URING_BUFRING_GROUP, issue_flags);
-         |         ^
-   fs/fuse/dev_uring.c:400:4: error: call to undeclared function 'io_uring_buf_ring_unpin'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     400 |                         io_uring_buf_ring_unpin(cmd, FUSE_URING_BUFRING_GROUP,
-         |                         ^
->> fs/fuse/dev_uring.c:703:48: error: no member named 'id' in 'struct fuse_ring_ent'
-     703 |                         sizeof(struct fuse_uring_req_header) * ent->id;
-         |                                                                ~~~  ^
-   fs/fuse/dev_uring.c:733:48: error: no member named 'id' in 'struct fuse_ring_ent'
-     733 |                         sizeof(struct fuse_uring_req_header) * ent->id;
-         |                                                                ~~~  ^
->> fs/fuse/dev_uring.c:771:18: error: no member named 'payload_kvec' in 'struct fuse_ring_ent'
-     771 |                 cs->len = ent->payload_kvec.iov_len;
-         |                           ~~~  ^
-   fs/fuse/dev_uring.c:772:20: error: no member named 'payload_kvec' in 'struct fuse_ring_ent'
-     772 |                 cs->kaddr = ent->payload_kvec.iov_base;
-         |                             ~~~  ^
-   fs/fuse/dev_uring.c:903:8: error: call to undeclared function 'io_ring_buffer_select'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     903 |         sel = io_ring_buffer_select(cmd_to_io_kiocb(ent->cmd), &len,
-         |               ^
-   fs/fuse/dev_uring.c:903:8: note: did you mean 'io_uring_cmd_buffer_select'?
-   include/linux/io_uring/cmd.h:83:18: note: 'io_uring_cmd_buffer_select' declared here
-      83 | struct io_br_sel io_uring_cmd_buffer_select(struct io_uring_cmd *ioucmd,
-         |                  ^
-   fs/fuse/dev_uring.c:903:6: error: assigning to 'struct io_br_sel' from incompatible type 'int'
-     903 |         sel = io_ring_buffer_select(cmd_to_io_kiocb(ent->cmd), &len,
-         |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     904 |                                     ent->queue->bufring.list, issue_flags);
-         |                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/fuse/dev_uring.c:907:11: error: no member named 'kaddr' in 'struct io_br_sel'
-     907 |         if (!sel.kaddr)
-         |              ~~~ ^
-   fs/fuse/dev_uring.c:910:7: error: no member named 'payload_kvec' in 'struct fuse_ring_ent'
-     910 |         ent->payload_kvec.iov_base = sel.kaddr;
-         |         ~~~  ^
-   fs/fuse/dev_uring.c:910:35: error: no member named 'kaddr' in 'struct io_br_sel'
-     910 |         ent->payload_kvec.iov_base = sel.kaddr;
-         |                                      ~~~ ^
-   fs/fuse/dev_uring.c:911:7: error: no member named 'payload_kvec' in 'struct fuse_ring_ent'
-     911 |         ent->payload_kvec.iov_len = len;
-         |         ~~~  ^
-   fs/fuse/dev_uring.c:912:7: error: no member named 'buf_id' in 'struct fuse_ring_ent'
-     912 |         ent->buf_id = sel.buf_id;
-         |         ~~~  ^
-   fs/fuse/dev_uring.c:912:20: error: no member named 'buf_id' in 'struct io_br_sel'
-     912 |         ent->buf_id = sel.buf_id;
-         |                       ~~~ ^
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   20 errors generated.
+   fs/fuse/dev_uring.c: In function 'fuse_uring_req_end':
+   fs/fuse/dev_uring.c:132:17: error: implicit declaration of function 'io_buffer_unregister'; did you mean 'io_buffer_unregister_bvec'? [-Wimplicit-function-declaration]
+     132 |                 io_buffer_unregister(ent->cmd, ent->id, issue_flags);
+         |                 ^~~~~~~~~~~~~~~~~~~~
+         |                 io_buffer_unregister_bvec
+   fs/fuse/dev_uring.c: In function 'fuse_uring_get_buf_ring_headers':
+   fs/fuse/dev_uring.c:317:24: error: implicit declaration of function 'io_uring_registered_mem_region_get' [-Wimplicit-function-declaration]
+     317 |         mem_reg_addr = io_uring_registered_mem_region_get(cmd, &nr_pages,
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/fuse/dev_uring.c:317:22: error: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     317 |         mem_reg_addr = io_uring_registered_mem_region_get(cmd, &nr_pages,
+         |                      ^
+   fs/fuse/dev_uring.c: In function 'fuse_uring_buf_ring_setup':
+   fs/fuse/dev_uring.c:356:15: error: implicit declaration of function 'io_uring_buf_ring_pin'; did you mean 'fuse_uring_buf_ring_setup'? [-Wimplicit-function-declaration]
+     356 |         err = io_uring_buf_ring_pin(cmd, FUSE_URING_BUFRING_GROUP, issue_flags,
+         |               ^~~~~~~~~~~~~~~~~~~~~
+         |               fuse_uring_buf_ring_setup
+   fs/fuse/dev_uring.c:361:14: error: implicit declaration of function 'io_uring_is_kmbuf_ring' [-Wimplicit-function-declaration]
+     361 |         if (!io_uring_is_kmbuf_ring(cmd, FUSE_URING_BUFRING_GROUP, issue_flags))
+         |              ^~~~~~~~~~~~~~~~~~~~~~
+   fs/fuse/dev_uring.c:372:9: error: implicit declaration of function 'io_uring_buf_ring_unpin'; did you mean 'fuse_uring_buf_ring_setup'? [-Wimplicit-function-declaration]
+     372 |         io_uring_buf_ring_unpin(cmd, FUSE_URING_BUFRING_GROUP, issue_flags);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+         |         fuse_uring_buf_ring_setup
+   fs/fuse/dev_uring.c: In function 'fuse_uring_set_up_zero_copy':
+   fs/fuse/dev_uring.c:859:25: error: 'IO_BUF_DEST' undeclared (first use in this function)
+     859 |                 ddir |= IO_BUF_DEST;
+         |                         ^~~~~~~~~~~
+   fs/fuse/dev_uring.c:859:25: note: each undeclared identifier is reported only once for each function it appears in
+   fs/fuse/dev_uring.c:861:25: error: 'IO_BUF_SOURCE' undeclared (first use in this function); did you mean 'ITER_SOURCE'?
+     861 |                 ddir |= IO_BUF_SOURCE;
+         |                         ^~~~~~~~~~~~~
+         |                         ITER_SOURCE
+   fs/fuse/dev_uring.c:881:49: error: passing argument 2 of 'io_buffer_register_bvec' from incompatible pointer type [-Wincompatible-pointer-types]
+     881 |         err = io_buffer_register_bvec(ent->cmd, bvs, ap->num_folios,
+         |                                                 ^~~
+         |                                                 |
+         |                                                 struct bio_vec *
+   In file included from fs/fuse/dev_uring.c:14:
+   include/linux/io_uring/cmd.h:185:71: note: expected 'struct request *' but argument is of type 'struct bio_vec *'
+     185 | int io_buffer_register_bvec(struct io_uring_cmd *cmd, struct request *rq,
+         |                                                       ~~~~~~~~~~~~~~~~^~
+   fs/fuse/dev_uring.c:881:56: error: passing argument 3 of 'io_buffer_register_bvec' makes pointer from integer without a cast [-Wint-conversion]
+     881 |         err = io_buffer_register_bvec(ent->cmd, bvs, ap->num_folios,
+         |                                                      ~~^~~~~~~~~~~~
+         |                                                        |
+         |                                                        unsigned int
+   include/linux/io_uring/cmd.h:186:36: note: expected 'void (*)(void *)' but argument is of type 'unsigned int'
+     186 |                             void (*release)(void *), unsigned int index,
+         |                             ~~~~~~~^~~~~~~~~~~~~~~~
+   fs/fuse/dev_uring.c:882:39: error: passing argument 4 of 'io_buffer_register_bvec' makes integer from pointer without a cast [-Wint-conversion]
+     882 |                                       fuse_zero_copy_release, zc_bvs,
+         |                                       ^~~~~~~~~~~~~~~~~~~~~~
+         |                                       |
+         |                                       void (*)(void *)
+   include/linux/io_uring/cmd.h:186:67: note: expected 'unsigned int' but argument is of type 'void (*)(void *)'
+     186 |                             void (*release)(void *), unsigned int index,
+         |                                                      ~~~~~~~~~~~~~^~~~~
+   fs/fuse/dev_uring.c:882:63: error: passing argument 5 of 'io_buffer_register_bvec' makes integer from pointer without a cast [-Wint-conversion]
+     882 |                                       fuse_zero_copy_release, zc_bvs,
+         |                                                               ^~~~~~
+         |                                                               |
+         |                                                               struct fuse_zero_copy_bvs *
+   include/linux/io_uring/cmd.h:187:42: note: expected 'unsigned int' but argument is of type 'struct fuse_zero_copy_bvs *'
+     187 |                             unsigned int issue_flags);
+         |                             ~~~~~~~~~~~~~^~~~~~~~~~~
+>> fs/fuse/dev_uring.c:881:15: error: too many arguments to function 'io_buffer_register_bvec'
+     881 |         err = io_buffer_register_bvec(ent->cmd, bvs, ap->num_folios,
+         |               ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/io_uring/cmd.h:185:5: note: declared here
+     185 | int io_buffer_register_bvec(struct io_uring_cmd *cmd, struct request *rq,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+   fs/fuse/dev_uring.c: In function 'fuse_uring_select_buffer':
+   fs/fuse/dev_uring.c:1013:15: error: implicit declaration of function 'io_ring_buffer_select'; did you mean 'io_uring_cmd_buffer_select'? [-Wimplicit-function-declaration]
+    1013 |         sel = io_ring_buffer_select(cmd_to_io_kiocb(ent->cmd), &len,
+         |               ^~~~~~~~~~~~~~~~~~~~~
+         |               io_uring_cmd_buffer_select
+   fs/fuse/dev_uring.c:1013:15: error: incompatible types when assigning to type 'struct io_br_sel' from type 'int'
+   fs/fuse/dev_uring.c:1017:18: error: 'struct io_br_sel' has no member named 'kaddr'; did you mean 'addr'?
+    1017 |         if (!sel.kaddr)
+         |                  ^~~~~
+         |                  addr
+   fs/fuse/dev_uring.c:1020:42: error: 'struct io_br_sel' has no member named 'kaddr'; did you mean 'addr'?
+    1020 |         ent->payload_kvec.iov_base = sel.kaddr;
+         |                                          ^~~~~
+         |                                          addr
+   fs/fuse/dev_uring.c:1022:27: error: 'struct io_br_sel' has no member named 'buf_id'; did you mean 'buf_list'?
+    1022 |         ent->buf_id = sel.buf_id;
+         |                           ^~~~~~
+         |                           buf_list
+   In file included from arch/x86/include/asm/bug.h:193,
+                    from arch/x86/include/asm/alternative.h:9,
+                    from arch/x86/include/asm/segment.h:6,
+                    from arch/x86/include/asm/ptrace.h:5,
+                    from arch/x86/include/asm/math_emu.h:5,
+                    from arch/x86/include/asm/processor.h:13,
+                    from arch/x86/include/asm/timex.h:5,
+                    from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from include/linux/stat.h:19,
+                    from include/linux/fs_dirent.h:5,
+                    from include/linux/fs/super_types.h:5,
+                    from include/linux/fs/super.h:5,
+                    from include/linux/fs.h:5,
+                    from fs/fuse/fuse_i.h:17,
+                    from fs/fuse/dev_uring.c:7:
+   fs/fuse/dev_uring.c: In function 'fuse_uring_recycle_buffer':
+   fs/fuse/dev_uring.c:1038:22: error: implicit declaration of function 'io_uring_kmbuf_recycle' [-Wimplicit-function-declaration]
+    1038 |         WARN_ON_ONCE(io_uring_kmbuf_recycle(ent->cmd, FUSE_URING_BUFRING_GROUP,
+         |                      ^~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bug.h:120:32: note: in definition of macro 'WARN_ON_ONCE'
+     120 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
 
 
-vim +63 fs/fuse/dev_uring_i.h
+vim +/io_buffer_register_bvec +881 fs/fuse/dev_uring.c
 
-    38	
-    39	/** A fuse ring entry, part of the ring queue */
-    40	struct fuse_ring_ent {
-    41		union {
-    42			/* queue->bufring.enabled == false */
-    43			struct {
-    44				/* userspace buffers */
-    45				struct fuse_uring_req_header __user *headers;
-    46				void __user *payload;
-    47			};
-    48			/* queue->bufring.enabled == true */
-    49			struct {
-    50				/*
-    51				 * unique fixed id for the ent. Used by kernel/server to
-    52				 * locate the header data.
-    53				 */
-    54				unsigned int id;
-    55				/*
-    56				 * id of the bufring buffer the ent is using for the
-    57				 * current request. May differ per-request.
-    58				 *
-    59				 * this needs to be tracked so we can recycle the buffer
-    60				 * back to the ring when the request is done.
-    61				 */
-    62				unsigned int buf_id;
-  > 63				struct kvec payload_kvec;
-    64			};
-    65		};
-    66	
-    67		/* the ring queue that owns the request */
-    68		struct fuse_ring_queue *queue;
-    69	
-    70		/* fields below are protected by queue->lock */
-    71	
-    72		struct io_uring_cmd *cmd;
-    73	
-    74		struct list_head list;
-    75	
-    76		enum fuse_ring_req_state state;
-    77	
-    78		struct fuse_req *fuse_req;
-    79	};
-    80	
+   847	
+   848	static int fuse_uring_set_up_zero_copy(struct fuse_ring_ent *ent,
+   849					       struct fuse_req *req,
+   850					       unsigned issue_flags)
+   851	{
+   852		struct fuse_args_pages *ap;
+   853		int err, i, ddir = 0;
+   854		struct fuse_zero_copy_bvs *zc_bvs;
+   855		struct bio_vec *bvs;
+   856	
+   857		/* out_pages indicates a read, in_pages indicates a write */
+   858		if (req->args->out_pages)
+   859			ddir |= IO_BUF_DEST;
+   860		if (req->args->in_pages)
+   861			ddir |= IO_BUF_SOURCE;
+   862	
+   863		WARN_ON_ONCE(!ddir);
+   864	
+   865		ap = container_of(req->args, typeof(*ap), args);
+   866	
+   867		zc_bvs = kmalloc(struct_size(zc_bvs, bvs, ap->num_folios),
+   868				 GFP_KERNEL_ACCOUNT);
+   869		if (!zc_bvs)
+   870			return -ENOMEM;
+   871	
+   872		zc_bvs->nr_bvs = ap->num_folios;
+   873		bvs = zc_bvs->bvs;
+   874		for (i = 0; i < ap->num_folios; i++) {
+   875			bvs[i].bv_page = folio_page(ap->folios[i], 0);
+   876			bvs[i].bv_offset = ap->descs[i].offset;
+   877			bvs[i].bv_len = ap->descs[i].length;
+   878			folio_get(page_folio(bvs[i].bv_page));
+   879		}
+   880	
+ > 881		err = io_buffer_register_bvec(ent->cmd, bvs, ap->num_folios,
+ > 882					      fuse_zero_copy_release, zc_bvs,
+   883					      ddir, ent->id,
+   884					      issue_flags);
+   885		if (err) {
+   886			fuse_zero_copy_release(zc_bvs);
+   887			return err;
+   888		}
+   889	
+   890		ent->zero_copied = true;
+   891	
+   892		return 0;
+   893	}
+   894	
 
 -- 
 0-DAY CI Kernel Test Service
