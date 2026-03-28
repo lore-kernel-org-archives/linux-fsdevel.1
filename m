@@ -1,302 +1,198 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B1663A3827
-	for <linux-fsdevel@vger.kernel.org>; Sat, 28 Mar 2026 16:35:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.181
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774715705; cv=pass; b=G2X/euvdyR4pxcZbj0puVT0FxhbkKeAd2li2dgLusKV7FEt68m+GmTWeTD2xaHQvbLvuvLwtQkZt/p0WA8GJlhBEpJBo1IgEh9qtzRvxOi+YCV2GGZnWTaKxT/OoHkliDeT4wdkFJnFC90NZ9oYBTHMD2G1ojuLdfhup+X9gkLQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774715705; c=relaxed/simple;
-	bh=s5sN6iliewGZRbUgKiX31JEhzt9vXzLoxPGBEq1Xqlw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DsKxksN89a29WqtQ6pAU6miICKAMNZnQhib84xEmIxQhJdsOoVg8YPIOdM8XX3Aaj1SYP2UxpccIpmtvb1QLwBQ75gTrJNBqkjni5ZC/ZIUL73bkej70wHpFXErrwiL3sXPZYYW1YfuA0aUasjBsnfUvBWgeGLTimboTQiX6VlE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=CegqdAB+; arc=pass smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFD16359714
+	for <linux-fsdevel@vger.kernel.org>; Sat, 28 Mar 2026 17:23:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774718623; cv=none; b=jX/ccHrK8knxE/kfQT2QSukNz///3DMJhhJlAEekNgxX9Fd1t/mZ/f65BfRWa7yd4cGHGnTTI2KgVCulntngQ0WsLiTX1R67nh+Hju/Cz6p6A6RdzQrAAwaaXwyPNINGzqhbjlWNIkCvU2/Udyw2sjERp0/+3dLOCD2KuDspeZM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774718623; c=relaxed/simple;
+	bh=WbXqvQhn4qwD4XjOM1f/RolmfvXydvP/QpIVZ5/s984=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mNqpo+M4q/edPKAKXgljF9v3ue2H1D81DRhBhj/GnDC8zT/d+oZbMVLCPpbuj5utoY8IvkzVD8zloGgyyxhjuHG4IMPvJMBdck/zmmsYV1De/YUcUlVsQWvMjnThyaxkxPharzUqmahjtI0g9p+zsPv8+MqS0AhcvdQB+lmzybo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=he2Tc3id; arc=none smtp.client-ip=209.85.216.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="CegqdAB+"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2aecefc7503so20978615ad.1
-        for <linux-fsdevel@vger.kernel.org>; Sat, 28 Mar 2026 09:35:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774715702; cv=none;
-        d=google.com; s=arc-20240605;
-        b=U15ZKIh5DGDIjloCBh49dvppfiLq4zusJbBB1aAjemsnAs4tAxoItGq2OA2sXNtLji
-         ar7hFZuV3SaBKiE9xYZGo/2Ed7c+yFvc/SvwJUPN/MxBslnIPW03di5jFyKxpGiB7Cj2
-         21YcVchhq95CwK/sBC7bKmjquwLSS4LLruW6mAHLV41MfufVikNkiSeHtA1Zt/blZbCJ
-         KStUEbkD9wYXE1vYLgBaF0RRAjmqyhm5i4XoGxTl79Ddo3mHJ0aVzCvPbSSgewDsZDnP
-         oiij0p6MxCa5iM0/KDOSC6xJbJsUWQ5M3IxhaOH4UUGVP+HtB07RAShH6fFF53szEz6X
-         3YHA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Ususnq+NIOoRs4YDsb/bU1UpkObKkRjHaCrFz3SAoog=;
-        fh=jjpR9cDH5nqfAZHVFQZP1vkS79BlLcN5ViMJbMQc1+4=;
-        b=LFVjOhD7WAR1y4TPmGZS9o2mBLbJuWDfmEv9+nAl/E1YmZAzC6Il7P+aKrqSloVK3U
-         zATZTloZTWGG1N9PtomePqe+JtSNfT9TBtgpvgz3cRDUaA+0LvCWWsRjML/p5TE4Qyzm
-         mjQ0Oa7PLQRD3lNmWJxhwzX4KDAQeV8zQw5QJF+XzwuzSENqzqSa/ngC5d3XlHcQufZ4
-         9qd6OlXiLQ562yjWPAWiNUq66l8vXGCgyo+eQhB5nY+lYj9iMXVBhcQoCc4cOmGQogju
-         MWhPal6wTws/HPlUeOrCHsepNm/vYOCeQyyfWdTkK/azHgLfb62lK2+kSsf0C8XW7YEU
-         nyww==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="he2Tc3id"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-35c238f1063so1520069a91.1
+        for <linux-fsdevel@vger.kernel.org>; Sat, 28 Mar 2026 10:23:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1774715702; x=1775320502; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ususnq+NIOoRs4YDsb/bU1UpkObKkRjHaCrFz3SAoog=;
-        b=CegqdAB+sl9TfUQ4dDMQci0nnVilGKQCgnPCE4xPJj4OJBbq/VkiqCEK964ANx2AZx
-         bq6pCsjiFQ6sY8aMUWy78n/lcSj44inN6oD2sglNt/hsmyoaNgMMyvafcOT5qnvyAIu9
-         y8qv9dcV3cQ7CAvPojR9lINOoXp48aFsQOTqXQ7RGo/1aBIla+uwPn9n/o4DE0/oNroh
-         XO/8Vww7w6XxOl27j8QIF6Jqbl6IpHmYUhO8p7q365l+VXqjTmbNxv1tU8zqMS5Kp1OL
-         ZmbBvtExI7z3CDPofUisX67mAZj9C/Pbqy7I8PiCyWKNhyuQusUWIRJTojmy2s945urc
-         hJQw==
+        d=gmail.com; s=20251104; t=1774718621; x=1775323421; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BNS/xpL/hsal7ModqBYJCvXhQFGlskOPOCno4hyw7aY=;
+        b=he2Tc3id36N/dNrImAB0FtQFWApWtJHTjZ72YR26i8lE+n/7H96TCzG9qYvHmqk+2e
+         uhIK/YFXplWVcKkPvGinoa+vojsICJPfJOCo90pDQcWKUw0bcf9YMhWHaGc6t3aDXzaz
+         J0ZN74GIXjZxZ1cHytdCxoivIZe9H2+5LHik+R0ySUgsb7V81/k2KYAcaoJxglkogLHt
+         itgBsuq/w5xhyhloX2BJw9loZpXt2izQxnRHpMpCU28qK6a3lsRUy1qiplwSVk2WBqXf
+         i+gHVslEVJre6VrlGsJP/g1RxCmDbsoFkhecX6fevPzYq0iINcrs9faBGCP9baFUrKFp
+         WCFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774715702; x=1775320502;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Ususnq+NIOoRs4YDsb/bU1UpkObKkRjHaCrFz3SAoog=;
-        b=Mw8H+HOlc2nqntBIht0sYmHA1sCRUI8CKmd6uQWxwIDT5g6+jxxIagIWozLypEDaG1
-         dScqQznRxQDgH+e/HYp5WV9Alq6Fh0H6Wizo+1Bnm3jVYFd5z6lKTFsfsA/5b361p/0F
-         DSIQvlPSTdDd2HHr900hT+qJnFmlQlcwORFVvoifIqArhMjHDLitSM/W1lXtID7cyObc
-         bTnnLBYLmVWEGjRjfWfqqswQCGDkoEJZkC/d2LMvzEqLIVIhn+qqHZ40sQNIkPEsaz9V
-         qI2IEzFMe59m5IKiq7COoOkHD3duyezjLoYmddLW6isz6cPd9c3rDIB4EWUYY9NV3RZR
-         ElpA==
-X-Forwarded-Encrypted: i=1; AJvYcCWKG2NnuSGkXoXWqnv30ALu+oaydvi+W7UmKKWUJvukKSIrbcU7uGQjFNXSI9A1XUz8ckOT8x4/fMhSPMn1@vger.kernel.org
-X-Gm-Message-State: AOJu0YyHf6FjsmIHUstLhhj7HcTs7h7axZuP7vCLOSz+BYr0tIM2SPk7
-	Zd8LfY3fE19aOm8rZDjDGBhxuHx1g3q1o45XQ4Qy121HV7pX/81MHuwrO/p29Ea2mi9o+xuP1/R
-	HVUvT5iDW4KAyPtsNxQNOK/ZZBeUWlaBJe3IlKmFd
-X-Gm-Gg: ATEYQzxz+x+oYnOt/BoTzcrSgMzp2NxiCU5qIOCHPuxFToVj3fF1npyLYvi+Z9CHg7C
-	byM0xtYRYeIY90GNK1IaLMPMoM3FIbOsd4hSB6ZUZDoYDV/iQCi9GZDOdjV1it1ReonNAFOFxvO
-	It43J+d++Mk6P1MaHkSg157LwTTYozEmvI4YRtdvBYrndfhH68BoGTDJrkFLhgS5mY0QUiCMGXo
-	UrcD8ZCbOCnyY7R9omySXrBfaOM+pVI4jalfPCpksoFCEdFyhbgS/BcpGoH8J9oR494x4aiiQX1
-	h6UQ/k0=
-X-Received: by 2002:a17:902:e812:b0:2b0:5fa0:3afa with SMTP id
- d9443c01a7336-2b0cdc9ef75mr73151175ad.27.1774715702275; Sat, 28 Mar 2026
- 09:35:02 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1774718621; x=1775323421;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BNS/xpL/hsal7ModqBYJCvXhQFGlskOPOCno4hyw7aY=;
+        b=O80hoFdafm0xrCPatKRWtOdV80myw3DZWSIzLUomSW1Q/nkWJanmCjnceQTUw/M53r
+         cKHSIail0jnBKUVvPOUdJ0mW25CPpZ7Gb0ZqhYeIUq525ifgL5LeRWwkvOdNeKpy084U
+         4FiXuQuaJn1X97w8QqPVNiaL5Fzbod0DjnBxf+5RZJUQvp+808VSFwuTJkQGNumLuBDg
+         YfRx6LBm/Ajwg55l5W7QgPYkJ8Za3Gf4TP0zd9q7FF6HKLIb2LxrUSMSmMtCyzz7amNj
+         VubwjIiyrTBQJe7KoSh1VA3PqnDHL/mQBJZ4u91CEyOJqi57r+M3WlCNbsjm+NBDyHk1
+         n8UA==
+X-Gm-Message-State: AOJu0Yzx8LJwZeSlFgsTU8hQxXKPEZjwJdH/A8BBIAwOMScq3WcW6F2m
+	3dk9PUO12EZ2m5xmL5r2lxGQyz75L5+uLVrWP6mSI82j/b/1Hafqh84Lc7dQQmMW
+X-Gm-Gg: ATEYQzwkiXl+TVh1lB9LAlYzhjudZ+jmkulcj8Ua+Csr0ekuaHJrp2/B9U1Sz9UQiBB
+	mIzsSM+1TjN20CDzWMGOxc7bxxpO7z8O4lSRXGxKGsoW9ldQBmqzXWLKYZd+tDaKMXSUegaytR4
+	XqBTUV3i8JB4BVVrpl36pps4xSkwWl3meoyQPMaleFeSjKcwo77ZyBQnWCgZHi+E3ZbX7HAEAsJ
+	3NQezPWXjFf/m4o0z6Q+BGH4OjXSuKIVU/R5Hpc0t3zi2+eFsomeOpV/P++RM4cxr7cMEAr1ZWz
+	//0VjSazlVZAsHmYuM3suCGYqHVQx3TIh8Hk19omS4RczpHqeQBO57fJSn+HM6j6lAZtMsVSDiJ
+	QHBkuCJ8J3FzPwxTDExJMX8vncekrQJAqS8fipI7O7oEcAe6mqadyxYdd+GgttVbultoTk0m9AM
+	GZk5vtehcXhgoddSo66WfbaWPD4+PktWuuiRQUaC8mAFlb83h+V9Hld7Y=
+X-Received: by 2002:a17:90b:2744:b0:35b:e690:c5ad with SMTP id 98e67ed59e1d1-35c30094a5amr6635171a91.25.1774718620730;
+        Sat, 28 Mar 2026 10:23:40 -0700 (PDT)
+Received: from toolbx ([103.103.35.11])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35c22a5570esm10513773a91.3.2026.03.28.10.23.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Mar 2026 10:23:40 -0700 (PDT)
+From: Dorjoy Chowdhury <dorjoychy111@gmail.com>
+To: linux-fsdevel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	ceph-devel@vger.kernel.org,
+	gfs2@lists.linux.dev,
+	linux-nfs@vger.kernel.org,
+	linux-cifs@vger.kernel.org,
+	v9fs@lists.linux.dev,
+	linux-kselftest@vger.kernel.org,
+	viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	jack@suse.cz,
+	jlayton@kernel.org,
+	chuck.lever@oracle.com,
+	alex.aring@gmail.com,
+	arnd@arndb.de,
+	adilger@dilger.ca,
+	mjguzik@gmail.com,
+	smfrench@gmail.com,
+	richard.henderson@linaro.org,
+	mattst88@gmail.com,
+	linmag7@gmail.com,
+	tsbogend@alpha.franken.de,
+	James.Bottomley@HansenPartnership.com,
+	deller@gmx.de,
+	davem@davemloft.net,
+	andreas@gaisler.com,
+	idryomov@gmail.com,
+	amarkuze@redhat.com,
+	slava@dubeyko.com,
+	agruenba@redhat.com,
+	trondmy@kernel.org,
+	anna@kernel.org,
+	sfrench@samba.org,
+	pc@manguebit.org,
+	ronniesahlberg@gmail.com,
+	sprasad@microsoft.com,
+	tom@talpey.com,
+	bharathsm@microsoft.com,
+	shuah@kernel.org,
+	miklos@szeredi.hu,
+	hansg@kernel.org
+Subject: [PATCH v6 0/4] OPENAT2_REGULAR flag support for openat2
+Date: Sat, 28 Mar 2026 23:22:21 +0600
+Message-ID: <20260328172314.45807-1-dorjoychy111@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260327220446.353103-4-paul@paul-moore.com> <20260327220446.353103-5-paul@paul-moore.com>
- <CAOQ4uxjvCYRLcRM-JGgtCPXKRB1agCBacN1tmR7hDR9TLdVS4w@mail.gmail.com>
-In-Reply-To: <CAOQ4uxjvCYRLcRM-JGgtCPXKRB1agCBacN1tmR7hDR9TLdVS4w@mail.gmail.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Sat, 28 Mar 2026 12:34:50 -0400
-X-Gm-Features: AQROBzCPb0SK1-R-ZrfrAvua_40DjlegqsKhZho-n3cMPQ3__jjQot92OFc74FM
-Message-ID: <CAHC9VhQQZ69LAGZE2DSyM_qidTJ8oGfqSSvysrO6r9BAXW9mkQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] lsm: add backing_file LSM hooks
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-unionfs@vger.kernel.org, 
-	linux-erofs@lists.ozlabs.org, Gao Xiang <xiang@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sat, Mar 28, 2026 at 4:29=E2=80=AFAM Amir Goldstein <amir73il@gmail.com>=
- wrote:
-> On Fri, Mar 27, 2026 at 11:05=E2=80=AFPM Paul Moore <paul@paul-moore.com>=
- wrote:
-> >
-> > Stacked filesystems such as overlayfs do not currently provide the
-> > necessary mechanisms for LSMs to properly enforce access controls on th=
-e
-> > mmap() and mprotect() operations.  In order to resolve this gap, a LSM
-> > security blob is being added to the backing_file struct and the followi=
-ng
-> > new LSM hooks are being created:
-> >
-> >  security_backing_file_alloc()
-> >  security_backing_file_free()
-> >  security_mmap_backing_file()
-> >
-> > The first two hooks are to manage the lifecycle of the LSM security blo=
-b
-> > in the backing_file struct, while the third provides a new mmap() acces=
-s
-> > control point for the underlying backing file.  It is also expected tha=
-t
-> > LSMs will likely want to update their security_file_mprotect() callback
-> > to address issues with their mprotect() controls, but that does not
-> > require a change to the security_file_mprotect() LSM hook.
-> >
-> > There are a two other small changes to support these new LSM hooks.  We
-> > pass the user file associated with a backing file down to
-> > alloc_empty_backing_file() so it can be included in the
-> > security_backing_file_alloc() hook, and we constify the file struct fie=
-ld
-> > in the LSM common_audit_data struct to better support LSMs that need to
-> > pass a const file struct pointer into the common LSM audit code.
-> >
-> > Thanks to Arnd Bergmann for identifying the missing EXPORT_SYMBOL_GPL()
-> > and supplying a fixup.
-> >
-> > Cc: stable@vger.kernel.org
-> > Acked-by: Christian Brauner <brauner@kernel.org>
-> > Signed-off-by: Paul Moore <paul@paul-moore.com>
-> > ---
->
-> I 100% agree with Christian.
-> This is much better than my O_PATH file hack
+Hi,
 
-I'm not surprised that both you and Christian prefer this solution, it
-moves all the pain of resolving this issue to the individual LSMs.
-Just look at how the SELinux code has changed, even trying to pretty
-it up as best as possible, it's objectively much uglier now, not to
-mention more complicated.
+I came upon this "Ability to only open regular files" uapi feature suggestion
+from https://uapi-group.org/kernel-features/#ability-to-only-open-regular-files
+and thought it would be something I could do as a first patch and get to
+know the kernel code a bit better.
 
-From my perspective the root cause of this issue lies in the
-overlayfs/backing-file design, specifically how overlayfs hides
-multiple files under a single file so that it can plug into the
-existing VFS/userspace paradigm of a single file.  While the design
-and abstraction are no doubt very clever things, and for the most part
-they "just work", there are definitely some corner cases that require
-special handling, e.g. LSM access controls around mprotect().  In my
-opinion, the burden of hiding any ugliness associated with this
-special handling lies with the subsystem implementing the abstraction,
-which is why I was pushing for a solution where the VFS and/or
-backing-file layer would provide the user file (or a stand-in) for the
-LSMs to use.  Unfortunately, that was not something the overlayfs and
-VFS communities were willing to tolerate, so those of us in the LSM
-space were left with a terrible choice: accept that the overlayfs/VFS
-folks don't care and hack around the shortcomings of overlayfs, or
-leave a public vulnerability for an unknown period of time while the
-overlayfs/VFS folks argue over a solution, with the a non-trivial
-chance that the LSMs would need to hack around the problem anyway.
+The following filesystems have been tested by building and booting the kernel
+x86 bzImage in a Fedora 43 VM in QEMU. I have tested with OPENAT2_REGULAR that
+regular files can be successfully opened and non-regular files (directory, fifo etc)
+return -EFTYPE.
+- btrfs
+- NFS (loopback)
+- SMB (loopback)
 
-That's my view of were things were at, and why I begrudgingly took
-this approach.  I'm sure you have your own perspecitve, and I'm not
-going to be surprised if you view this primarily as a LSM problem;
-it's a common viewpoint amongst Linux kernel maintainers not
-responsible for a LSM.
+Changes in v6:
+- OPENAT2_REGULAR stripped from file->f_flags in do_dentry_open so that it doesn't leak in fcntl(fd, F_GETFL)
+- BUILD_BUG_ON updated to use VALID_OPENAT2_FLAGS instead of VALID_OPEN_FLAGS in build_open_flags and in fcntl_init
+- v5 is at: https://lore.kernel.org/linux-fsdevel/20260307140726.70219-1-dorjoychy111@gmail.com/T/
 
-> It is also what Miklos had initially suggested.
+Changes in v5:
+- EFTYPE is already used in BSDs mentioned in commit message
+- consistently return -EFTYPE in all filesystems
+- v4 is at: https://lore.kernel.org/linux-fsdevel/20260221145915.81749-1-dorjoychy111@gmail.com/T/
 
-Perhaps I've lost the mail, but going back to when this issue was
-first discovered, I don't see anything from Miklos relating to this in
-either my inbox or the mailing lists.
+Changes in v4:
+- changed O_REGULAR to OPENAT2_REGULAR
+- OPENAT2_REGULAR does not affect O_PATH
+- atomic_open codepaths updated to work properly for OPENAT2_REGULAR
+- commit message includes the uapi-group URL
+- v3 is at: https://lore.kernel.org/linux-fsdevel/20260127180109.66691-1-dorjoychy111@gmail.com/T/
 
-> > diff --git a/fs/file_table.c b/fs/file_table.c
-> > index aaa5faaace1e..0bdc26cae138 100644
-> > --- a/fs/file_table.c
-> > +++ b/fs/file_table.c
-> > @@ -50,6 +50,7 @@ struct backing_file {
-> >                 struct path user_path;
-> >                 freeptr_t bf_freeptr;
-> >         };
->
-> Shouldn't we wrap this with
-> #ifdef CONFIG_SECURITY
+Changes in v3:
+- included motivation about O_REGULAR flag in commit message e.g., programs not wanting to be tricked into opening device nodes
+- fixed commit message wrongly referencing ENOTREGULAR instead of ENOTREG
+- fixed the O_REGULAR flag in arch/parisc/include/uapi/asm/fcntl.h from 060000000 to 0100000000
+- added 2 commits converting arch/{mips,sparc}/include/uapi/asm/fcntl.h O_* macros from hex to octal
+- v2 is at: https://lore.kernel.org/linux-fsdevel/20260126154156.55723-1-dorjoychy111@gmail.com/T/
 
-Sure, I'll change that.
+Changes in v2:
+- rename ENOTREGULAR to ENOTREG
+- define ENOTREG in uapi/asm-generic/errno.h (instead of errno-base.h) and in arch/*/include/uapi/asm/errno.h files
+- override O_REGULAR in arch/{alpha,sparc,parisc}/include/uapi/asm/fcntl.h due to clash with include/uapi/asm-generic/fcntl.h
+- I have kept the kselftest but now that O_REGULAR and ENOTREG can have different value on different architectures I am not sure if it's right
+- v1 is at: https://lore.kernel.org/linux-fsdevel/20260125141518.59493-1-dorjoychy111@gmail.com/T/
 
-> > +       void *security;
->
-> please initialize it in init_file()
+Thanks.
 
-We lack a clean way to access the backing_file struct in init_file().
-I placed the security_backing_file_alloc() initializer in
-alloc_empty_backing_file() as it was the first place where we could
-both allocate the necessary LSM blob and initialize it with the data
-from the user file at the same time.
+Regards,
+Dorjoy
 
-If you want to intialize backing_file->security in init_file(),
-init_file() we will need to add a FMODE_BACKING check in init_file and
-split the security_backing_file_alloc() hook into two: one in
-init_file() to do the allocation and basic init, one in
-alloc_empty_backing_file() to capture the necessary user file data.
+Dorjoy Chowdhury (4):
+  openat2: new OPENAT2_REGULAR flag support
+  kselftest/openat2: test for OPENAT2_REGULAR flag
+  sparc/fcntl.h: convert O_* flag macros from hex to octal
+  mips/fcntl.h: convert O_* flag macros from hex to octal
 
-Do you still prefer to move the backing_file->security initializtion
-into init_file()?
+ arch/alpha/include/uapi/asm/errno.h           |  2 +
+ arch/alpha/include/uapi/asm/fcntl.h           |  1 +
+ arch/mips/include/uapi/asm/errno.h            |  2 +
+ arch/mips/include/uapi/asm/fcntl.h            | 22 +++++------
+ arch/parisc/include/uapi/asm/errno.h          |  2 +
+ arch/parisc/include/uapi/asm/fcntl.h          |  1 +
+ arch/sparc/include/uapi/asm/errno.h           |  2 +
+ arch/sparc/include/uapi/asm/fcntl.h           | 35 +++++++++---------
+ fs/ceph/file.c                                |  4 ++
+ fs/fcntl.c                                    |  4 +-
+ fs/gfs2/inode.c                               |  6 +++
+ fs/namei.c                                    |  4 ++
+ fs/nfs/dir.c                                  |  4 ++
+ fs/open.c                                     |  8 ++--
+ fs/smb/client/dir.c                           | 14 ++++++-
+ include/linux/fcntl.h                         |  2 +
+ include/uapi/asm-generic/errno.h              |  2 +
+ include/uapi/asm-generic/fcntl.h              |  4 ++
+ tools/arch/alpha/include/uapi/asm/errno.h     |  2 +
+ tools/arch/mips/include/uapi/asm/errno.h      |  2 +
+ tools/arch/parisc/include/uapi/asm/errno.h    |  2 +
+ tools/arch/sparc/include/uapi/asm/errno.h     |  2 +
+ tools/include/uapi/asm-generic/errno.h        |  2 +
+ .../testing/selftests/openat2/openat2_test.c  | 37 ++++++++++++++++++-
+ 24 files changed, 131 insertions(+), 35 deletions(-)
 
-> > +void *backing_file_security(const struct file *f)
-> > +{
-> > +       return backing_file(f)->security;
->
-> I think LSM code should be completely responsible for this ptr
-> assignment/free so you should export
->
-> void **backing_file_security_ptr(const struct file *f)
-> {
->        return &backing_file(f)->security;
-> }
+-- 
+2.53.0
 
-Doing so would require us to also move the backing_file struct
-definition into include/linux/backing-file.h (or similar), which I
-tried very hard to avoid as I suspected you would not approve of that.
-I figured if you had wanted to expose the struct definition you would
-have defined it in backing-file.h as opposed to file_table.c.
-
-Would you like me to move the backing_file struct definition into
-include/linux/backing-file.h?
-
-> > @@ -73,8 +79,11 @@ static inline void file_free(struct file *f)
-> >                 percpu_counter_dec(&nr_files);
-> >         put_cred(f->f_cred);
-> >         if (unlikely(f->f_mode & FMODE_BACKING)) {
-> > -               path_put(backing_file_user_path(f));
-> > -               kmem_cache_free(bfilp_cachep, backing_file(f));
-> > +               struct backing_file *ff =3D backing_file(f);
-> > +
-> > +               security_backing_file_free(&ff->security);
->
-> Why do you need to add this in vfs code?
->
-> Can't you do the same in security_file_free(f)?
->         if (unlikely(f->f_mode & FMODE_BACKING))
->                 security_backing_file_free(backing_file_security_ptr(f));
-
-See my comments above regarding the visibility of the backing_file struct.
-
-> > +               path_put(&ff->user_path);
-> > +               kmem_cache_free(bfilp_cachep, ff);
-> >         } else {
-> >                 kmem_cache_free(filp_cachep, f);
-> >         }
-> > @@ -290,7 +299,8 @@ struct file *alloc_empty_file_noaccount(int flags, =
-const struct cred *cred)
-> >   * This is only for kernel internal use, and the allocate file must no=
-t be
-> >   * installed into file tables or such.
-> >   */
-> > -struct file *alloc_empty_backing_file(int flags, const struct cred *cr=
-ed)
-> > +struct file *alloc_empty_backing_file(int flags, const struct cred *cr=
-ed,
-> > +                                     const struct file *user_file)
-> >  {
-> >         struct backing_file *ff;
-> >         int error;
-> > @@ -306,6 +316,11 @@ struct file *alloc_empty_backing_file(int flags, c=
-onst struct cred *cred)
-> >         }
-> >
-> >         ff->file.f_mode |=3D FMODE_BACKING | FMODE_NOACCOUNT;
-> > +       error =3D security_backing_file_alloc(&ff->security, user_file)=
-;> +       if (unlikely(error)) {
-> > +               fput(&ff->file);
-> > +               return ERR_PTR(error);
-> > +       }
-> >         return &ff->file;
-> >  }
-> >  EXPORT_SYMBOL_GPL(alloc_empty_backing_file);
->
-> Maybe, and I am not sure,
-> alloc_empty_backing_file() should call ONLY
->             error =3D security_backing_file_alloc(&ff->file, user_file);
->
-> Instead of security_file_alloc() AND security_backing_file_alloc()
-> and security_backing_file_alloc() can make use of
-> backing_file_security_ptr() accessor internally?
-
-This is another case of the code being structured so that we don't
-need to expose the backing_file struct definition to the LSMs.  If you
-would prefer to expose the backing_file struct in include/linux I can
-probably make a few additional simplifications to the code.
-
---=20
-paul-moore.com
