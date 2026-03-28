@@ -1,68 +1,71 @@
-Received: from smtp153-171.sina.com.cn (smtp153-171.sina.com.cn [61.135.153.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f71.google.com (mail-oo1-f71.google.com [209.85.161.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45B19329E46
-	for <linux-fsdevel@vger.kernel.org>; Sat, 28 Mar 2026 21:14:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=61.135.153.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E52BA1AF0BB
+	for <linux-fsdevel@vger.kernel.org>; Sat, 28 Mar 2026 21:41:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774732493; cv=none; b=P1he1zGROuvsm2KanoSraTUs/wXBUVXzWBJ9+wZGdKOU88DZc1ukm/r+yYyzbjnLarHCoBvc0yakJwwNTS1CI5XE38ROrWSo1IbhCftg1Pb/et38QktfgorGV5yuXmQICluxk9UI2oyXK0mO6AK8zHITtSLVnB2fCpQ42x7uBgw=
+	t=1774734065; cv=none; b=O7sCdoGT5l/i5Kj81ig2XVz0gRvQqdPRztZAMb/JBHQiymFps6v815iczOZ4GcVR/29TI30QUMct3zvFCUmQW0kNDS5DzJqSTRMGnb6av1Ka1AnJG4mZ2nvq7/pf9tdetLrAu212njZx7CnKCBynRyUZR5BfXc4WT427OiecbEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774732493; c=relaxed/simple;
-	bh=x1KF3VUvJKMnwvgJtqvORA+nBgN1MElN1B3pDqoD6bY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sOitDvIge58TOYBHMJSbDy6jvNpBXcVYq9zUUYPW2Han7oHIHE1ceYsDOtJZeo67CiFnesTtNy+4HzoamvDxHOjrDYlXbCknyiyuiaeZHdrGGfF+Wf5MxW1PBhuK5kyPE2ZHpBNwY62AomJARG8K2CtRE/bYe1I4aRb/az78Eag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com; spf=pass smtp.mailfrom=sina.com; dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b=XqstIjCm; arc=none smtp.client-ip=61.135.153.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sina.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b="XqstIjCm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sina.com; s=201208; t=1774732487;
-	bh=ZUkzZ9D1mRsmvB/2kqeiIBOtgxxGGWnSEDpz4d1SVqc=;
-	h=From:Subject:Date:Message-ID;
-	b=XqstIjCmbkmNLzgFqKllopqosChG13m044tt25IE0KmnGOJP4xZWCdRiozjnTK6m1
-	 aoRcLzYqy2K9Aciiyj9zvCoLWUqJpzLj/Qw37ffZxXdcjpbTzTkJ+SH49gnmfAcsPz
-	 bJ5RIEy7H4/iK0mW1BBy84XndF5Ib+d/tH27BYII=
-X-SMAIL-HELO: localhost.localdomain
-Received: from unknown (HELO localhost.localdomain)([114.249.62.144])
-	by sina.com (10.54.253.34) with ESMTP
-	id 69C8437C00005DD1; Sat, 29 Mar 2026 05:09:19 +0800 (CST)
-X-Sender: hdanton@sina.com
-X-Auth-ID: hdanton@sina.com
-Authentication-Results: sina.com;
-	 spf=none smtp.mailfrom=hdanton@sina.com;
-	 dkim=none header.i=none;
-	 dmarc=none action=none header.from=hdanton@sina.com
-X-SMAIL-MID: 3162436291843
-X-SMAIL-UIID: 562DBEFB91D646C29BDFBE4581DE689B-20260329-050919-1
-From: Hillf Danton <hdanton@sina.com>
-To: syzbot <syzbot+e4470cc28308f2081ec8@syzkaller.appspotmail.com>
-Cc: brauner@kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] [fs?] general protection fault in __umount_mnt
-Date: Sun, 29 Mar 2026 05:09:06 +0800
-Message-ID: <20260328210912.1571-1-hdanton@sina.com>
-In-Reply-To: <69c7d4aa.a70a0220.128fd0.0027.GAE@google.com>
-References: 
+	s=arc-20240116; t=1774734065; c=relaxed/simple;
+	bh=bL12h10HEpfGfdWgtsZvGQUfwVYvfG4d4PsXyhpn8Dw=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=ZEKl7N0muwqNcBcTcyo07jZYvz5zON7E6Zx6kiOmTMJ42roMYpMuFdlS+eojBrP/XS8CTeKu1YzLGRZLWe77nlbzRY+j6km4opq29tlaTbfW18LNO/GwVSvanFhHjq9g1cBe7Tw8HnVZMwtKU9LAM6/iku4IUPmYQtlZ/e8uf/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f71.google.com with SMTP id 006d021491bc7-67e0f16975dso10276243eaf.0
+        for <linux-fsdevel@vger.kernel.org>; Sat, 28 Mar 2026 14:41:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774734063; x=1775338863;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wL8+eiT8AbffLq91m61tYTd+b+pEPJaA32/D7HSsGjY=;
+        b=oBbX7eFYXuZYanZOEnUKTyUBJy8bZrmEtdqZbYGIeboq/f/8NsaG+xdFKrOCUrWpdp
+         wf2gV9i2miSAFVGstpGbdhmGoV79E65vCghM853jIwrvCz5S+bJEwPTJsqMXbit5ykDh
+         RV1YukSmqQZfXF4Sbtod1PNXgERgBLq/tLrXGo0efMVIdQX6xYc1rJFftzcK60Go8Eh2
+         Eam+rDNMM+4wqZcBrDgSDDxt4nMFONFiWXZResZDDnOyTwEzvGBv4MpCam8Knhn3wKvU
+         Q1WT10MnraaiHC0Pt6o5aUaqt/M1vXGACr4SbU+Bf/LoKk+phzjSJaYc4uZCvYNGqPyB
+         26mg==
+X-Forwarded-Encrypted: i=1; AJvYcCUZ98xW9oPZ+hJLtY+9Ew/frdNQqIoNltqi379qSjgE/k82igvVKSuNsH7LIxnzw5/ZfC0a1Jw48kG4UNZr@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz6YuJkB07dmgz2HkZOOOP32g9N9yQXNefj8aaAD0sYiYNChr3Y
+	ys2zuezPR2dXmuieBvRuyJp7aZLbnPH9/e1cZN+NaHWuCgYilCmpxDCPWLXYc5K9z8sbEh8yA82
+	crDHTkuheMmx5LUTz05k8qCYAx9pjo68f+hCxb2gNFs2PzHNydJ9QBURtFgA=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6820:6008:b0:67e:1e75:7f5e with SMTP id
+ 006d021491bc7-67e1e758528mr2056912eaf.33.1774734062997; Sat, 28 Mar 2026
+ 14:41:02 -0700 (PDT)
+Date: Sat, 28 Mar 2026 14:41:02 -0700
+In-Reply-To: <20260328210912.1571-1-hdanton@sina.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <69c84aee.050a0220.183828.0008.GAE@google.com>
+Subject: Re: [syzbot] [fs?] general protection fault in __umount_mnt
+From: syzbot <syzbot+e4470cc28308f2081ec8@syzkaller.appspotmail.com>
+To: brauner@kernel.org, hdanton@sina.com, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-> Date: Sat, 28 Mar 2026 06:16:26 -0700	[thread overview]
-> syzbot has found a reproducer for the following issue on:
-> 
-> HEAD commit:    3b058d1aeeef Add linux-next specific files for 20260327
-> git tree:       linux-next
-> console output: https://syzkaller.appspot.com/x/log.txt?x=11bd16f6580000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=4acce231a75c746f
-> dashboard link: https://syzkaller.appspot.com/bug?extid=e4470cc28308f2081ec8
-> compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11dc6606580000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15baca26580000
->
-#syz test: https://github.com/brauner/linux.git 14594a141c760dd4c462b38d73406e1b48e44b84
+Hello,
+
+syzbot has tested the proposed patch and the reproducer did not trigger any issue:
+
+Reported-by: syzbot+e4470cc28308f2081ec8@syzkaller.appspotmail.com
+Tested-by: syzbot+e4470cc28308f2081ec8@syzkaller.appspotmail.com
+
+Tested on:
+
+commit:         14594a14 mount: always duplicate mount
+git tree:       https://github.com/brauner/linux.git
+console output: https://syzkaller.appspot.com/x/log.txt?x=10af36da580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=3f75584c428d66f3
+dashboard link: https://syzkaller.appspot.com/bug?extid=e4470cc28308f2081ec8
+compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
+
+Note: no patches were applied.
+Note: testing is done by a robot and is best-effort only.
