@@ -1,464 +1,147 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93ADF2AF1D;
-	Sat, 28 Mar 2026 08:36:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 589872036E9;
+	Sat, 28 Mar 2026 09:55:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774686974; cv=none; b=ZAqoBScP7kDRZN3fHvD2rhuu9tOJ4l1l7CxyGpgdVKIBecnRrldLehQEu4SX8MeUsOBFDiNQTZXbZc3VjUdV5nI6COZa02o54JOCYS28AXlmB/aRs5RqVzgHm/E50JHA1HseF4PNrJ8h9mI3Q+BBJahg/UVeLKaCFmldkFhPyIA=
+	t=1774691722; cv=none; b=J0ZwR6pCXdfjZbBH8LqBWrZ89CZWyjW4ypKaFjXWDeyuVSP6fKqRQERzsDq5I0/GWFnmz7fGEYkdUs2rwM2wg1l0lGNWAhL3apXO1BTzwYXhVd7I0vMstgIxDjbxyDPv+qkW5WklncLILqESyeF6LXA5HPfgxOtUHQgaDqqBa34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774686974; c=relaxed/simple;
-	bh=7JIz/fS5U2Hyv6KufCUkjrsmB9vmAArBE2K7u804MpI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ggqs+S2nLVOoWFFKcwUpzUvCwwXrij5exuY2LTWtxiYiCJUftbEhvAL/NKEGOCsZuFu4L2twpMOnRS67NDRMd3iQHkFRnHnmWjVW/dNZx2nTMvH/f9Ica8Nr4IzG5d2AqB9DR0iKJknrNXBhgRxqQDtb0USVxWEnBRzp/Ir65eI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PvoQOLJP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774691722; c=relaxed/simple;
+	bh=tGRNjEkmKkP55RyI36TLF24P2O39ClA0J2pu35ocaXQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=i1cHWh5IHTmTOfaFQ+z8a/UpVYrGQ6HvSafMM/GG7RE1FepfoOY9FGOeLsSyOpBX4DuE9RCejCnmw2K+HO/bihIdh+0PlZDm1ua+Fqqx8r/SNWfs7ZQQ/JT63P6z5zal0jyZo4ec9sXO5mY5rWFZcU5237ws52XBpzGkK0zDQoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Td77NANE; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PvoQOLJP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EDB7C4CEF7;
-	Sat, 28 Mar 2026 08:36:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774686974;
-	bh=7JIz/fS5U2Hyv6KufCUkjrsmB9vmAArBE2K7u804MpI=;
-	h=From:To:Cc:Subject:Date:From;
-	b=PvoQOLJPqCf388SIXD5H/cza2Qzwr/Jjx7xkH1QOVeLHKv6Vk6sNxcYKStyRbgE5G
-	 erJcWgS0Af4OCG1UrFHpI8tzCw0jqnyahkfwpd/FqLXpClER04cVbV/4qtbc+fk9/e
-	 2rcEYp5IQdqpEqWz0i6dJ8J+esmlhsNk4f4smGwnwQuH0qXd5dSejJt7hi6ahT1ClU
-	 d6+b5fxkP/aJGvVkfkrnnJ5MUdCDnN/EgOiedIKW7LaLZWm778Zc8xvT4R+iPhYjkS
-	 lHxBJNET0wp32evQ/Q/F2qczZvzyBXwkehLNhdR31vS5HAbYpqJDExn4TTomvRN4VN
-	 3B6Q5U38XfrYA==
-From: Chao Yu <chao@kernel.org>
-To: jaegeuk@kernel.org
-Cc: linux-f2fs-devel@lists.sourceforge.net,
-	linux-kernel@vger.kernel.org,
-	chao@kernel.org,
-	djwong@kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	hch@infradead.org
-Subject: [PATCH v2] f2fs: support to report fserror
-Date: Sat, 28 Mar 2026 08:36:02 +0000
-Message-ID: <20260328083602.2775154-1-chao@kernel.org>
-X-Mailer: git-send-email 2.53.0.1118.gaef5881109-goog
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Td77NANE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774691720; x=1806227720;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tGRNjEkmKkP55RyI36TLF24P2O39ClA0J2pu35ocaXQ=;
+  b=Td77NANE9E85rUskshjPxE+WliZPVu9phaaqu+WHFxlnlnMxJEmQEE9p
+   ZMRlQyE0MpRL87F/95nwzYQHClmBTmnM6mKS6o6BZJUbEvYNux/+taTeV
+   xXlIBJKcLVE2fY0eVcrGNn8O1YHdozx9QEsbEioJzu8c7xGIlP9i/Cn9m
+   ctyTyMlt9QA69Hv+kpl2Ulicg9+wsuKcdtN3NzkG9/Ua3Nbk27+VR0gi6
+   TSsBcQlRuoaqCJPE199FbUVy1scrIYvOKn0TXvFmxkClSzlVRAE11GWV5
+   kDDzSA+NSOG6vjkb9m3HG+ARacCu7/8bexJyDB1+7sJiOTyMXNhW8jOwn
+   g==;
+X-CSE-ConnectionGUID: MElUTVqtTAGzIGihEaFh3w==
+X-CSE-MsgGUID: B7iBwJZTSJeFciKc7vNhCA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="75633807"
+X-IronPort-AV: E=Sophos;i="6.23,145,1770624000"; 
+   d="scan'208";a="75633807"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2026 02:55:19 -0700
+X-CSE-ConnectionGUID: v9BKKQRJS6W2wyd96Ksx5Q==
+X-CSE-MsgGUID: kuXnB5WIS620/P7LJwxCMw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,145,1770624000"; 
+   d="scan'208";a="248786208"
+Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 28 Mar 2026 02:55:13 -0700
+Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w6QNp-00000000BI1-3ouf;
+	Sat, 28 Mar 2026 09:55:09 +0000
+Date: Sat, 28 Mar 2026 17:54:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Zi Yan <ziy@nvidia.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Song Liu <songliubraving@fb.com>
+Cc: oe-kbuild-all@lists.linux.dev, Chris Mason <chris.mason@fusionio.com>,
+	David Sterba <dsterba@suse.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>, Zi Yan <ziy@nvidia.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+	Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+	Lance Yang <lance.yang@linux.dev>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-btrfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v1 07/10] mm/truncate: use folio_split() in
+ truncate_inode_partial_folio()
+Message-ID: <202603281704.ILlsxaUM-lkp@intel.com>
+References: <20260327014255.2058916-8-ziy@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260327014255.2058916-8-ziy@nvidia.com>
 
-This patch supports to report fserror, it provides another way to let
-userspace to monitor filesystem level error. In addition, it exports
-/sys/fs/f2fs/features/fserror once f2fs kernel module start to support
-the new feature, then generic/791 of fstests can notice the feature,
-and verify validation of fserror report.
+Hi Zi,
 
-Cc: Darrick J. Wong <djwong@kernel.org>
-Signed-off-by: Chao Yu <chao@kernel.org>
----
-v2:
-- drop fserror_report_io from softIRQ context pointed out by Darrick.
- Documentation/ABI/testing/sysfs-fs-f2fs |  3 ++-
- fs/f2fs/compress.c                      |  2 ++
- fs/f2fs/data.c                          |  5 ++++-
- fs/f2fs/dir.c                           |  2 ++
- fs/f2fs/inline.c                        |  3 +++
- fs/f2fs/inode.c                         |  5 +++++
- fs/f2fs/node.c                          |  8 ++++++++
- fs/f2fs/recovery.c                      |  2 ++
- fs/f2fs/segment.c                       |  2 ++
- fs/f2fs/super.c                         | 26 +++++++++++++++++++++++++
- fs/f2fs/sysfs.c                         |  2 ++
- fs/f2fs/verity.c                        |  2 ++
- fs/f2fs/xattr.c                         |  6 ++++++
- 13 files changed, 66 insertions(+), 2 deletions(-)
+kernel test robot noticed the following build errors:
 
-diff --git a/Documentation/ABI/testing/sysfs-fs-f2fs b/Documentation/ABI/testing/sysfs-fs-f2fs
-index 423ec40e2e4e..27d5e88facbe 100644
---- a/Documentation/ABI/testing/sysfs-fs-f2fs
-+++ b/Documentation/ABI/testing/sysfs-fs-f2fs
-@@ -270,7 +270,8 @@ Description:	Shows all enabled kernel features.
- 		inode_checksum, flexible_inline_xattr, quota_ino,
- 		inode_crtime, lost_found, verity, sb_checksum,
- 		casefold, readonly, compression, test_dummy_encryption_v2,
--		atomic_write, pin_file, encrypted_casefold, linear_lookup.
-+		atomic_write, pin_file, encrypted_casefold, linear_lookup,
-+		fserror.
- 
- What:		/sys/fs/f2fs/<disk>/inject_rate
- Date:		May 2016
-diff --git a/fs/f2fs/compress.c b/fs/f2fs/compress.c
-index aa8ba4cdfe34..012e2b71b78c 100644
---- a/fs/f2fs/compress.c
-+++ b/fs/f2fs/compress.c
-@@ -14,6 +14,7 @@
- #include <linux/lz4.h>
- #include <linux/zstd.h>
- #include <linux/pagevec.h>
-+#include <linux/fserror.h>
- 
- #include "f2fs.h"
- #include "node.h"
-@@ -760,6 +761,7 @@ void f2fs_decompress_cluster(struct decompress_io_ctx *dic, bool in_task)
- 
- 		/* Avoid f2fs_commit_super in irq context */
- 		f2fs_handle_error(sbi, ERROR_FAIL_DECOMPRESSION);
-+		fserror_report_file_metadata(dic->inode, ret, GFP_NOFS);
- 		goto out_release;
- 	}
- 
-diff --git a/fs/f2fs/data.c b/fs/f2fs/data.c
-index a210a7a627c6..22ff63d6cb58 100644
---- a/fs/f2fs/data.c
-+++ b/fs/f2fs/data.c
-@@ -20,6 +20,7 @@
- #include <linux/sched/signal.h>
- #include <linux/fiemap.h>
- #include <linux/iomap.h>
-+#include <linux/fserror.h>
- 
- #include "f2fs.h"
- #include "node.h"
-@@ -377,9 +378,10 @@ static void f2fs_write_end_io(struct bio *bio)
- 
- 		if (unlikely(bio->bi_status != BLK_STS_OK)) {
- 			mapping_set_error(folio->mapping, -EIO);
--			if (type == F2FS_WB_CP_DATA)
-+			if (type == F2FS_WB_CP_DATA) {
- 				f2fs_stop_checkpoint(sbi, true,
- 						STOP_CP_REASON_WRITE_FAIL);
-+			}
- 		}
- 
- 		if (is_node_folio(folio)) {
-@@ -1745,6 +1747,7 @@ int f2fs_map_blocks(struct inode *inode, struct f2fs_map_blocks *map, int flag)
- 			err = -EFSCORRUPTED;
- 			f2fs_handle_error(sbi,
- 					ERROR_CORRUPTED_CLUSTER);
-+			fserror_report_file_metadata(inode, err, GFP_NOFS);
- 			goto sync_out;
- 		}
- 
-diff --git a/fs/f2fs/dir.c b/fs/f2fs/dir.c
-index f70092e231f0..e8d2e27e8cec 100644
---- a/fs/f2fs/dir.c
-+++ b/fs/f2fs/dir.c
-@@ -11,6 +11,7 @@
- #include <linux/filelock.h>
- #include <linux/sched/signal.h>
- #include <linux/unicode.h>
-+#include <linux/fserror.h>
- #include "f2fs.h"
- #include "node.h"
- #include "acl.h"
-@@ -1020,6 +1021,7 @@ int f2fs_fill_dentries(struct dir_context *ctx, struct f2fs_dentry_ptr *d,
- 			set_sbi_flag(sbi, SBI_NEED_FSCK);
- 			err = -EFSCORRUPTED;
- 			f2fs_handle_error(sbi, ERROR_CORRUPTED_DIRENT);
-+			fserror_report_file_metadata(d->inode, err, GFP_NOFS);
- 			goto out;
- 		}
- 
-diff --git a/fs/f2fs/inline.c b/fs/f2fs/inline.c
-index 62a8a1192a41..fb415ff9314a 100644
---- a/fs/f2fs/inline.c
-+++ b/fs/f2fs/inline.c
-@@ -9,6 +9,7 @@
- #include <linux/fs.h>
- #include <linux/f2fs_fs.h>
- #include <linux/fiemap.h>
-+#include <linux/fserror.h>
- 
- #include "f2fs.h"
- #include "node.h"
-@@ -179,6 +180,7 @@ int f2fs_convert_inline_folio(struct dnode_of_data *dn, struct folio *folio)
- 		f2fs_warn(fio.sbi, "%s: corrupted inline inode ino=%lx, i_addr[0]:0x%x, run fsck to fix.",
- 			  __func__, dn->inode->i_ino, dn->data_blkaddr);
- 		f2fs_handle_error(fio.sbi, ERROR_INVALID_BLKADDR);
-+		fserror_report_file_metadata(dn->inode, -EFSCORRUPTED, GFP_NOFS);
- 		return -EFSCORRUPTED;
- 	}
- 
-@@ -435,6 +437,7 @@ static int f2fs_move_inline_dirents(struct inode *dir, struct folio *ifolio,
- 			  __func__, dir->i_ino, dn.data_blkaddr);
- 		f2fs_handle_error(F2FS_F_SB(folio), ERROR_INVALID_BLKADDR);
- 		err = -EFSCORRUPTED;
-+		fserror_report_file_metadata(dn.inode, err, GFP_NOFS);
- 		goto out;
- 	}
- 
-diff --git a/fs/f2fs/inode.c b/fs/f2fs/inode.c
-index 89240be8cc59..ac1a73a61af9 100644
---- a/fs/f2fs/inode.c
-+++ b/fs/f2fs/inode.c
-@@ -11,6 +11,7 @@
- #include <linux/sched/mm.h>
- #include <linux/lz4.h>
- #include <linux/zstd.h>
-+#include <linux/fserror.h>
- 
- #include "f2fs.h"
- #include "node.h"
-@@ -480,6 +481,7 @@ static int do_read_inode(struct inode *inode)
- 		f2fs_folio_put(node_folio, true);
- 		set_sbi_flag(sbi, SBI_NEED_FSCK);
- 		f2fs_handle_error(sbi, ERROR_CORRUPTED_INODE);
-+		fserror_report_file_metadata(inode, -EFSCORRUPTED, GFP_NOFS);
- 		return -EFSCORRUPTED;
- 	}
- 
-@@ -541,6 +543,7 @@ static int do_read_inode(struct inode *inode)
- 	if (!sanity_check_extent_cache(inode, node_folio)) {
- 		f2fs_folio_put(node_folio, true);
- 		f2fs_handle_error(sbi, ERROR_CORRUPTED_INODE);
-+		fserror_report_file_metadata(inode, -EFSCORRUPTED, GFP_NOFS);
- 		return -EFSCORRUPTED;
- 	}
- 
-@@ -583,6 +586,7 @@ struct inode *f2fs_iget(struct super_block *sb, unsigned long ino)
- 			trace_f2fs_iget_exit(inode, ret);
- 			iput(inode);
- 			f2fs_handle_error(sbi, ERROR_CORRUPTED_INODE);
-+			fserror_report_file_metadata(inode, ret, GFP_NOFS);
- 			return ERR_PTR(ret);
- 		}
- 
-@@ -787,6 +791,7 @@ void f2fs_update_inode_page(struct inode *inode)
- 		if (err == -ENOMEM || ++count <= DEFAULT_RETRY_IO_COUNT)
- 			goto retry;
- stop_checkpoint:
-+		fserror_report_file_metadata(inode, -EFSCORRUPTED, GFP_NOFS);
- 		f2fs_stop_checkpoint(sbi, false, STOP_CP_REASON_UPDATE_INODE);
- 		return;
- 	}
-diff --git a/fs/f2fs/node.c b/fs/f2fs/node.c
-index 662a61306ec6..f0e6a024ee81 100644
---- a/fs/f2fs/node.c
-+++ b/fs/f2fs/node.c
-@@ -12,6 +12,7 @@
- #include <linux/blkdev.h>
- #include <linux/pagevec.h>
- #include <linux/swap.h>
-+#include <linux/fserror.h>
- 
- #include "f2fs.h"
- #include "node.h"
-@@ -1265,6 +1266,8 @@ int f2fs_truncate_inode_blocks(struct inode *inode, pgoff_t from)
- 		if (err == -ENOENT) {
- 			set_sbi_flag(F2FS_F_SB(folio), SBI_NEED_FSCK);
- 			f2fs_handle_error(sbi, ERROR_INVALID_BLKADDR);
-+			fserror_report_file_metadata(dn.inode, -EFSCORRUPTED,
-+								GFP_NOFS);
- 			f2fs_err_ratelimited(sbi,
- 				"truncate node fail, ino:%lu, nid:%u, "
- 				"offset[0]:%d, offset[1]:%d, nofs:%d",
-@@ -1556,6 +1559,8 @@ int f2fs_sanity_check_node_footer(struct f2fs_sb_info *sbi,
- 		next_blkaddr_of_node(folio));
- 
- 	f2fs_handle_error(sbi, ERROR_INCONSISTENT_FOOTER);
-+	fserror_report_file_metadata(folio->mapping->host,
-+			-EFSCORRUPTED, in_irq ? GFP_NOWAIT : GFP_NOFS);
- 	return -EFSCORRUPTED;
- }
- 
-@@ -1778,6 +1783,7 @@ static bool __write_node_folio(struct folio *folio, bool atomic, bool do_fsync,
- 
- 	if (f2fs_sanity_check_node_footer(sbi, folio, nid,
- 					NODE_TYPE_REGULAR, false)) {
-+		fserror_report_metadata(sbi->sb, -EFSCORRUPTED, GFP_NOFS);
- 		f2fs_stop_checkpoint(sbi, false, STOP_CP_REASON_CORRUPTED_NID);
- 		goto redirty_out;
- 	}
-@@ -2703,6 +2709,8 @@ bool f2fs_alloc_nid(struct f2fs_sb_info *sbi, nid_t *nid)
- 			spin_unlock(&nm_i->nid_list_lock);
- 			f2fs_err(sbi, "Corrupted nid %u in free_nid_list",
- 								i->nid);
-+			fserror_report_metadata(sbi->sb, -EFSCORRUPTED,
-+								GFP_NOFS);
- 			f2fs_stop_checkpoint(sbi, false,
- 					STOP_CP_REASON_CORRUPTED_NID);
- 			return false;
-diff --git a/fs/f2fs/recovery.c b/fs/f2fs/recovery.c
-index a26071f2b0bc..b127dfc91338 100644
---- a/fs/f2fs/recovery.c
-+++ b/fs/f2fs/recovery.c
-@@ -9,6 +9,7 @@
- #include <linux/fs.h>
- #include <linux/f2fs_fs.h>
- #include <linux/sched/mm.h>
-+#include <linux/fserror.h>
- #include "f2fs.h"
- #include "node.h"
- #include "segment.h"
-@@ -679,6 +680,7 @@ static int do_recover_data(struct f2fs_sb_info *sbi, struct inode *inode,
- 			  ofs_of_node(folio));
- 		err = -EFSCORRUPTED;
- 		f2fs_handle_error(sbi, ERROR_INCONSISTENT_FOOTER);
-+		fserror_report_file_metadata(dn.inode, err, GFP_NOFS);
- 		goto err;
- 	}
- 
-diff --git a/fs/f2fs/segment.c b/fs/f2fs/segment.c
-index 788f8b050249..553d54965201 100644
---- a/fs/f2fs/segment.c
-+++ b/fs/f2fs/segment.c
-@@ -17,6 +17,7 @@
- #include <linux/freezer.h>
- #include <linux/sched/signal.h>
- #include <linux/random.h>
-+#include <linux/fserror.h>
- 
- #include "f2fs.h"
- #include "segment.h"
-@@ -2896,6 +2897,7 @@ static int get_new_segment(struct f2fs_sb_info *sbi,
- 	/* set it as dirty segment in free segmap */
- 	if (test_bit(segno, free_i->free_segmap)) {
- 		ret = -EFSCORRUPTED;
-+		fserror_report_metadata(sbi->sb, -EFSCORRUPTED, GFP_NOFS);
- 		f2fs_stop_checkpoint(sbi, false, STOP_CP_REASON_CORRUPTED_FREE_BITMAP);
- 		goto out_unlock;
- 	}
-diff --git a/fs/f2fs/super.c b/fs/f2fs/super.c
-index 5b552f08fe7b..5330ef981340 100644
---- a/fs/f2fs/super.c
-+++ b/fs/f2fs/super.c
-@@ -29,6 +29,7 @@
- #include <linux/lz4.h>
- #include <linux/ctype.h>
- #include <linux/fs_parser.h>
-+#include <linux/fserror.h>
- 
- #include "f2fs.h"
- #include "node.h"
-@@ -4632,6 +4633,8 @@ static void f2fs_record_stop_reason(struct f2fs_sb_info *sbi)
- 		f2fs_err_ratelimited(sbi,
- 			"f2fs_commit_super fails to record stop_reason, err:%d",
- 			err);
-+
-+	fserror_report_shutdown(sbi->sb, GFP_NOFS);
- }
- 
- void f2fs_save_errors(struct f2fs_sb_info *sbi, unsigned char flag)
-@@ -4646,6 +4649,27 @@ void f2fs_save_errors(struct f2fs_sb_info *sbi, unsigned char flag)
- 	spin_unlock_irqrestore(&sbi->error_lock, flags);
- }
- 
-+static void f2fs_report_fserror(struct f2fs_sb_info *sbi, unsigned char error)
-+{
-+	switch (error) {
-+	case ERROR_INVALID_BLKADDR:
-+	case ERROR_CORRUPTED_INODE:
-+	case ERROR_INCONSISTENT_SUMMARY:
-+	case ERROR_INCONSISTENT_SUM_TYPE:
-+	case ERROR_CORRUPTED_JOURNAL:
-+	case ERROR_INCONSISTENT_NODE_COUNT:
-+	case ERROR_INCONSISTENT_BLOCK_COUNT:
-+	case ERROR_INVALID_CURSEG:
-+	case ERROR_INCONSISTENT_SIT:
-+	case ERROR_INVALID_NODE_REFERENCE:
-+	case ERROR_INCONSISTENT_NAT:
-+		fserror_report_metadata(sbi->sb, -EFSCORRUPTED, GFP_NOFS);
-+		break;
-+	default:
-+		return;
-+	}
-+}
-+
- void f2fs_handle_error(struct f2fs_sb_info *sbi, unsigned char error)
- {
- 	f2fs_save_errors(sbi, error);
-@@ -4655,6 +4679,8 @@ void f2fs_handle_error(struct f2fs_sb_info *sbi, unsigned char error)
- 	if (!test_bit(error, (unsigned long *)sbi->errors))
- 		return;
- 	schedule_work(&sbi->s_error_work);
-+
-+	f2fs_report_fserror(sbi, error);
- }
- 
- static bool system_going_down(void)
-diff --git a/fs/f2fs/sysfs.c b/fs/f2fs/sysfs.c
-index 969e06b65b04..5c1358e48206 100644
---- a/fs/f2fs/sysfs.c
-+++ b/fs/f2fs/sysfs.c
-@@ -1396,6 +1396,7 @@ F2FS_FEATURE_RO_ATTR(pin_file);
- F2FS_FEATURE_RO_ATTR(linear_lookup);
- #endif
- F2FS_FEATURE_RO_ATTR(packed_ssa);
-+F2FS_FEATURE_RO_ATTR(fserror);
- 
- #define ATTR_LIST(name) (&f2fs_attr_##name.attr)
- static struct attribute *f2fs_attrs[] = {
-@@ -1563,6 +1564,7 @@ static struct attribute *f2fs_feat_attrs[] = {
- 	BASE_ATTR_LIST(linear_lookup),
- #endif
- 	BASE_ATTR_LIST(packed_ssa),
-+	BASE_ATTR_LIST(fserror),
- 	NULL,
- };
- ATTRIBUTE_GROUPS(f2fs_feat);
-diff --git a/fs/f2fs/verity.c b/fs/f2fs/verity.c
-index 92ebcc19cab0..39f482515445 100644
---- a/fs/f2fs/verity.c
-+++ b/fs/f2fs/verity.c
-@@ -25,6 +25,7 @@
-  */
- 
- #include <linux/f2fs_fs.h>
-+#include <linux/fserror.h>
- 
- #include "f2fs.h"
- #include "xattr.h"
-@@ -243,6 +244,7 @@ static int f2fs_get_verity_descriptor(struct inode *inode, void *buf,
- 		f2fs_warn(F2FS_I_SB(inode), "invalid verity xattr");
- 		f2fs_handle_error(F2FS_I_SB(inode),
- 				ERROR_CORRUPTED_VERITY_XATTR);
-+		fserror_report_file_metadata(inode, -EFSCORRUPTED, GFP_NOFS);
- 		return -EFSCORRUPTED;
- 	}
- 	if (buf_size) {
-diff --git a/fs/f2fs/xattr.c b/fs/f2fs/xattr.c
-index 941dc62a6d6f..3ef1e5df0036 100644
---- a/fs/f2fs/xattr.c
-+++ b/fs/f2fs/xattr.c
-@@ -19,6 +19,7 @@
- #include <linux/f2fs_fs.h>
- #include <linux/security.h>
- #include <linux/posix_acl_xattr.h>
-+#include <linux/fserror.h>
- #include "f2fs.h"
- #include "xattr.h"
- #include "segment.h"
-@@ -371,6 +372,7 @@ static int lookup_all_xattrs(struct inode *inode, struct folio *ifolio,
- 		err = -ENODATA;
- 		f2fs_handle_error(F2FS_I_SB(inode),
- 					ERROR_CORRUPTED_XATTR);
-+		fserror_report_file_metadata(inode, err, GFP_NOFS);
- 		goto out;
- 	}
- check:
-@@ -590,6 +592,8 @@ ssize_t f2fs_listxattr(struct dentry *dentry, char *buffer, size_t buffer_size)
- 			set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
- 			f2fs_handle_error(F2FS_I_SB(inode),
- 						ERROR_CORRUPTED_XATTR);
-+			fserror_report_file_metadata(inode,
-+						-EFSCORRUPTED, GFP_NOFS);
- 			break;
- 		}
- 
-@@ -677,6 +681,7 @@ static int __f2fs_setxattr(struct inode *inode, int index,
- 		error = -EFSCORRUPTED;
- 		f2fs_handle_error(F2FS_I_SB(inode),
- 					ERROR_CORRUPTED_XATTR);
-+		fserror_report_file_metadata(inode, error, GFP_NOFS);
- 		goto exit;
- 	}
- 
-@@ -705,6 +710,7 @@ static int __f2fs_setxattr(struct inode *inode, int index,
- 			error = -EFSCORRUPTED;
- 			f2fs_handle_error(F2FS_I_SB(inode),
- 						ERROR_CORRUPTED_XATTR);
-+			fserror_report_file_metadata(inode, error, GFP_NOFS);
- 			goto exit;
- 		}
- 		last = XATTR_NEXT_ENTRY(last);
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on brauner-vfs/vfs.all kdave/for-next linus/master v7.0-rc5 next-20260327]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Zi-Yan/mm-remove-READ_ONLY_THP_FOR_FS-Kconfig-option/20260327-142622
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20260327014255.2058916-8-ziy%40nvidia.com
+patch subject: [PATCH v1 07/10] mm/truncate: use folio_split() in truncate_inode_partial_folio()
+config: nios2-allnoconfig (https://download.01.org/0day-ci/archive/20260328/202603281704.ILlsxaUM-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260328/202603281704.ILlsxaUM-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603281704.ILlsxaUM-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+   In file included from include/linux/mm.h:1746,
+                    from include/linux/pid_namespace.h:7,
+                    from include/linux/ptrace.h:10,
+                    from arch/nios2/kernel/asm-offsets.c:10:
+>> include/linux/huge_mm.h:625:1: error: expected identifier or '(' before '{' token
+     625 | {
+         | ^
+>> include/linux/huge_mm.h:623:19: warning: 'folio_split' declared 'static' but never defined [-Wunused-function]
+     623 | static inline int folio_split(struct folio *folio, unsigned int new_order,
+         |                   ^~~~~~~~~~~
+   make[3]: *** [scripts/Makefile.build:184: arch/nios2/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1337: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
+
+
+vim +625 include/linux/huge_mm.h
+
+e220917fa50774 Luis Chamberlain 2024-08-22  622  
+9ee18d22957981 Zi Yan           2026-03-26 @623  static inline int folio_split(struct folio *folio, unsigned int new_order,
+9ee18d22957981 Zi Yan           2026-03-26  624  		struct page *page, struct list_head *list);
+7460b470a131f9 Zi Yan           2025-03-07 @625  {
+a488ba3124c82d Pankaj Raghav    2025-09-05  626  	VM_WARN_ON_ONCE_FOLIO(1, folio);
+a488ba3124c82d Pankaj Raghav    2025-09-05  627  	return -EINVAL;
+7460b470a131f9 Zi Yan           2025-03-07  628  }
+7460b470a131f9 Zi Yan           2025-03-07  629  
+
 -- 
-2.49.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
