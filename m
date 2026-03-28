@@ -1,64 +1,64 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF234343D66
-	for <linux-fsdevel@vger.kernel.org>; Sat, 28 Mar 2026 15:38:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA1E833D6D6
+	for <linux-fsdevel@vger.kernel.org>; Sat, 28 Mar 2026 15:38:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774712309; cv=none; b=TiI1EBb0/xv2vtgKbT41UJ/i7iXOWhHZubBG35XTYKJYf2CcwK72TQ99ySOo2P6Beraef5yHNEv++sjfGDtMI+v4dHcVEeXiwufNb/tOcaEM/H3Cr4rRZYbCk63l+utRmcXUqyvnpsH0oJqLLlestNLzSBaloTEwBwxngB+Vew0=
+	t=1774712311; cv=none; b=i/fsM/SKLmIkQgRVwqGnltOO9kJfRwPvBLhdMQXeDXnvD61GFTwJ5J0b3u5octN3mMtFNqP56JVwhJjYcRVjAo8HimUpk9ae6WEIa+M/XKHsjuJd+A17mEFGqVnTiKmPuFgRJ5goJtlE3ysQ+6U3Ph6aqb7yS1Bdb/CsNB0yvDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774712309; c=relaxed/simple;
-	bh=HZYHztId16pgGQ1AA2UfRM6DJRt8s7EcWewCjcgDwxM=;
+	s=arc-20240116; t=1774712311; c=relaxed/simple;
+	bh=gmOLacFBLCNj5VvdypSCbBb3+/owFsIUDBdTNEiM7QU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ed1zR8ubNe4HO859P48W2lcRGVaZQ5w6grJuC9nHM8a4vjOppY5O9eaf7+CXaTp6sfd6z/hXqCQOM//FQQqHJw1SxdRud0/A96eXnZijDYg0/FK3gBXvpDKveJjP0p111edMKW6xf/rRngIo4M5QJMkeM4DCMyzNEPCnzXC0RSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jGjGQAHZ; arc=none smtp.client-ip=209.85.128.47
+	 MIME-Version; b=Kdy9vBR26OvoA2Oabn1Mtx7TKYYuwFvUDRN5y5QUr2ADFGY/Yq8GGv5WxniPeHaxsZcKM6T35OR9rSFnNRpP4uxkHAqpYb/cTPkAYs1coPmN4h4My10B2YmoqGgkzSm+evz7uAyLIYJ2fQUES6aJx3aryaehjvbQv92l6F+XmmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OsKO5nu2; arc=none smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jGjGQAHZ"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-48374014a77so36651815e9.3
-        for <linux-fsdevel@vger.kernel.org>; Sat, 28 Mar 2026 08:38:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OsKO5nu2"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-43cf5d14d6eso315141f8f.0
+        for <linux-fsdevel@vger.kernel.org>; Sat, 28 Mar 2026 08:38:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774712304; x=1775317104; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1774712308; x=1775317108; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Wqq43BIgVMA1uE3zJr5f2QtdxqeDEFGIZU0biEFlpEg=;
-        b=jGjGQAHZCQpqf21JRvQ0p72RUWwEpjXDoKJqUIlIDJmAv7vBiDt06uJngLZql6YIUc
-         WANmoobeQkQOMuC+MwNtKLeO2RDSZPIcIKS5NsCKn6GeaF+YUes1wR0yJ/pTLVbkUXfs
-         L0wEUbuS4Y4MUzkIeN/GL7dSYCTEenczaDpMLFW1DY7UmZ5oZCTLV1McyiGutFVDvAhu
-         6ptPkDEe9RmtEHPSUtv+nI+dTTAqF17dv5MY5g4XrxWpW6AV32A6gQ4zC5HtDOexz7Az
-         akTFscg+45/xOM7A/yOZheEH2WMSL2FpzunIYH/eYqn07QY7f1H9rhRURlYI3VzAJ8NU
-         7OHQ==
+        bh=KQLr+3qAuCwpPc4ueOptHqyuEcLu/FKN06xV1u7l/MM=;
+        b=OsKO5nu2vgjueinaqtcweQ0o9XDaX3yPAAJCZxzoRl1HnxU6+2csLTkKu1ZHYV8LQr
+         jKXycxLj0P6YWGBwmlQjdQUBPiEjG+EhC5F98xi4R/rzbVqJjSGYLSt8NmJKQxDpKjZQ
+         NvVRCb/o7qSfPiEro6CyEZV7xhi4oT7oYAtxr+jPIKH6P1nYK00Lq1DF5PLrtRE/7y+E
+         PIsjSrZv5ZDQT5uRXFOFvx+BLXbB2mDhIL6U0hmr2tbtmyxO2Vreadyo/nmHhXFfjq7x
+         p1QL45mMEQgKLUdMCOWI3YCOIVo9oe1qAkGsBMvy5yvtFzOXYfiDGEDBv9UuuOuaHIHu
+         cSRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774712304; x=1775317104;
+        d=1e100.net; s=20251104; t=1774712308; x=1775317108;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Wqq43BIgVMA1uE3zJr5f2QtdxqeDEFGIZU0biEFlpEg=;
-        b=rHAVUZ9ItXT1uEeXItzsn8UpW1PpJ5SQLUVwQIqscupZBKQH/wbfH9gx+fq0FvxKlR
-         MAg94uJkyp8YYrDm/jYbWPCEoysilCrHWh/5CBVH8z9slS9F5/EeMJebM40YBRwKFQGC
-         8RdM8Is5aqK3DB3XNwfpi855a0+kOn5opzjwhayKzN44/Vsbet2SxnYCrdcCGrc2p8ac
-         NiXSBVnOWSGdQBh47fneidlkIuNbJtPt/S3sMEu36nWcX944g/ONsv6yhS2JaqW6zgwn
-         8FSwSk2Q8CANNGNy00i+x7KzieE7ms1VrPIyKAYB7bF8bSz3ZET0h0Y5TbKRoM3VyQnZ
-         h3qg==
-X-Forwarded-Encrypted: i=1; AJvYcCVqUAP1qMbkYv/WowcX7CwFV+xXV8y4P1XLhUrsClfFLrmkuBPDMaRtPujyfziRzKiR1JxzbIf0lKBy7uv0@vger.kernel.org
-X-Gm-Message-State: AOJu0YwfbWkA/0s4BgihbH1yOPi3p6aG7qntwEyUsIiqkBz5q4lK+buT
-	YGXCK941xAKERbuShhiAusvwfWGjT8KM3YxFxOiZpELKUzMudBk7orDS
-X-Gm-Gg: ATEYQzyYNIU5SuTFW6zdH96kQscY8qIfUb7x+rR0Sif+maBa3Rb6kyixGdstutqoQuB
-	Gam3wonIWUctcaJTFXxBFisWNw/9TD/AyZb9RHbzV7mVeHDNKOLwFqLXetfJEldC5Z8InEP6w0u
-	YqaPu8+lo4M2/ueW5/8zPvSGX0SzXdRA9VSEcEYwxIlNHaVJhBqgeD6YAed62B6vOun9dz/0ZET
-	kzS2qJMgWD7R+W036f7IBRVWZ0P72+Y52UcUZwZpXnHy4bYc4Meca4ppw/h0iUzHOrv6MP9stoe
-	6Om154x7dtLGQVav0Yaaz6Cd2psVOUfzKkPZMgFo3x+eEZNU4RbTsYeAi2OkxxQ6GqGJaLhC1Yo
-	+WeCCJsiuwnwLZMF6JcI+Grpyn853WZV95mVY9X0qymI/Eibuj+gLdb//StJ3F5Urx0A6Bn/Z/y
-	LBQ7BfMfFP0v+MTe6/QixEml2jtBG8hZCe5EtFESLf1mrX6ahORvZ3nlgynee23uQwyvpejlScV
-	fm/QaOp8DW7
-X-Received: by 2002:a05:600c:c8f:b0:487:21c7:2885 with SMTP id 5b1f17b1804b1-48727d45a8emr109339485e9.5.1774712304275;
-        Sat, 28 Mar 2026 08:38:24 -0700 (PDT)
+        bh=KQLr+3qAuCwpPc4ueOptHqyuEcLu/FKN06xV1u7l/MM=;
+        b=Wk8W1UJhVZQDRECrff8SJc9tkpuZmE8OYbDtLnJoPXjqfj/R1n8iwu3/25DZs9IlUz
+         TCNeK74W1tH27WynRQHvDTTQtXFS9ihakoK2O96oHox8O9wAvhFqzIkCC+iq2vgypYdQ
+         x+kcJrnUHrgyC1gh08kwVhTgBGhqucV8CFsPfNR5AdY9GQNlQvtocf9GZ1jLdvBHqyIF
+         UcH2VImfA1OlQovmOb9WnKrAVby1/4oT3MsgnI6JqG1PZvQJl5Yy9dzfvd1XsRWhtRG2
+         nRzOzc5J3PKPPy6D3mPl1nw05THXvhlqGkAXBNmfjYqP41vA/M16zV8KmPiuCiTDb0if
+         mxEg==
+X-Forwarded-Encrypted: i=1; AJvYcCUuEETrENwF9CATjGoj5KpOSepFIbj3SoMp+MQsSNPZPG0gaDpIt6uNQ55xfllpSXclylDhzZcqpF5jBOSb@vger.kernel.org
+X-Gm-Message-State: AOJu0YzVcrTdzpT8S5RW5/3Ge32Z78GpTl1sct0MhfgRqy9aBusgLftO
+	nt7Nx2GNuzr236XTleuBcp23Q833S46RAPd4EG+tC54gK2yFWS6OUAJc
+X-Gm-Gg: ATEYQzwILpEx7oxHI+pY2yd509CF3syPvWzxXgXFezZ+KjEUGRvV2cRmEaKCNygQoNP
+	P1NC1SmLamzZAQI5ywJtsewvs1it7AzOXv4MQ/RaGLXvn6RpHqXQUfXAFD+WIZ47uVoJ3EYn2Fh
+	fuSIn4FlaYpiIBv6sz98VjoukTyYMys3zLoDuHiPatKR+2C7nXsmE2u6t+PRRy8AhYIPqgTIXsz
+	QY61fEXTCkd0NZ2tXgUyEgOqwQ1LzWEew3T8acz0TVvQOX2VX8nf2vqSCPdP1y3xUwlnSyn5ZCh
+	6SlL/EOv4ig18l1m0PM1gTsUghgEIJxrgiv+gNzd0RLC7JebiFX6aL11B1xNEZzwWXLuXXW2q74
+	HdO39so9Zg1J4VWH/HT9uzmXVZwE+QHo3HmN/M/SCCNhSq2OoQy0E2FCoMIAeAmXHEMOoPQUcI6
+	qjMVM1VGQvsoq8OEW7rdTEI3bfnl3cdKBJ0v9pT1MsJqhW1ahy94CG5tU+omn/QKN83wdiF9z+H
+	50+RKNBV1Hs
+X-Received: by 2002:a05:6000:2311:b0:43b:6a16:17e with SMTP id ffacd0b85a97d-43b9e9da63dmr10805829f8f.11.1774712307989;
+        Sat, 28 Mar 2026 08:38:27 -0700 (PDT)
 Received: from f.. (cst-prg-89-171.cust.vodafone.cz. [46.135.89.171])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf247102dsm7196887f8f.27.2026.03.28.08.38.23
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf247102dsm7196887f8f.27.2026.03.28.08.38.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Mar 2026 08:38:23 -0700 (PDT)
+        Sat, 28 Mar 2026 08:38:27 -0700 (PDT)
 From: Mateusz Guzik <mjguzik@gmail.com>
 To: brauner@kernel.org
 Cc: viro@zeniv.linux.org.uk,
@@ -66,9 +66,9 @@ Cc: viro@zeniv.linux.org.uk,
 	linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	Mateusz Guzik <mjguzik@gmail.com>
-Subject: [PATCH v2 3/5] fs: enforce locking in icount_read(), add some commentary
-Date: Sat, 28 Mar 2026 16:38:05 +0100
-Message-ID: <20260328153807.3368975-4-mjguzik@gmail.com>
+Subject: [PATCH v2 5/5] fs: locklessly bump refs in igrab as long as it does not transition 0->1
+Date: Sat, 28 Mar 2026 16:38:07 +0100
+Message-ID: <20260328153807.3368975-6-mjguzik@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260328153807.3368975-1-mjguzik@gmail.com>
 References: <20260328153807.3368975-1-mjguzik@gmail.com>
@@ -80,37 +80,53 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+The bump is gated by I_FREEING | I_WILL_FREE, but these flags can only
+legally show up if the count is 0. Consequently if the value is at least
+1 and it succesfully CAS'ed to something higher, the flags must not be
+there.
+
+I verified all places which look at the refcount either only care about
+it staying 0 (and have the lock enforce it) or don't hold the inode lock
+to begin with. Thus the patch retains the invariant for correct consumers
+and does not make things worse for the rest.
+
 Signed-off-by: Mateusz Guzik <mjguzik@gmail.com>
 ---
- include/linux/fs.h | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ fs/inode.c         | 5 +++++
+ include/linux/fs.h | 4 ++--
+ 2 files changed, 7 insertions(+), 2 deletions(-)
 
+diff --git a/fs/inode.c b/fs/inode.c
+index fc6045e6d43f..17b925887382 100644
+--- a/fs/inode.c
++++ b/fs/inode.c
+@@ -1580,6 +1580,11 @@ EXPORT_SYMBOL(iunique);
+ 
+ struct inode *igrab(struct inode *inode)
+ {
++	if (atomic_add_unless(&inode->i_count, 1, 0)) {
++		VFS_BUG_ON_INODE(inode_state_read_once(inode) & (I_FREEING | I_WILL_FREE), inode);
++		return inode;
++	}
++
+ 	spin_lock(&inode->i_lock);
+ 	if (!(inode_state_read(inode) & (I_FREEING | I_WILL_FREE))) {
+ 		__iget(inode);
 diff --git a/include/linux/fs.h b/include/linux/fs.h
-index 0cf27085a579..07363fce4406 100644
+index 07363fce4406..119e0a3d2f42 100644
 --- a/include/linux/fs.h
 +++ b/include/linux/fs.h
-@@ -2225,13 +2225,21 @@ static inline void mark_inode_dirty_sync(struct inode *inode)
- 	__mark_inode_dirty(inode, I_DIRTY_SYNC);
+@@ -2234,8 +2234,8 @@ static inline int icount_read_once(const struct inode *inode)
  }
  
-+/*
-+ * returns the refcount on the inode. it can change arbitrarily.
-+ */
- static inline int icount_read_once(const struct inode *inode)
- {
- 	return atomic_read(&inode->i_count);
- }
- 
-+/*
-+ * returns the refcount on the inode. The lock guarantees no new references
-+ * are added, but references can be dropped as long as the result is > 0.
-+ */
+ /*
+- * returns the refcount on the inode. The lock guarantees no new references
+- * are added, but references can be dropped as long as the result is > 0.
++ * returns the refcount on the inode. The lock guarantees no 0->1 or 1->0 transitions
++ * of the count are going to take place, otherwise it changes arbitrarily.
+  */
  static inline int icount_read(const struct inode *inode)
  {
-+	lockdep_assert_held(&inode->i_lock);
- 	return atomic_read(&inode->i_count);
- }
- 
 -- 
 2.48.1
 
