@@ -1,99 +1,91 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx1.manguebit.org (mx1.manguebit.org [143.255.12.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C41171DDC3F
-	for <linux-fsdevel@vger.kernel.org>; Sat, 28 Mar 2026 17:58:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43CB738A70A;
+	Sat, 28 Mar 2026 18:20:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=143.255.12.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774720730; cv=none; b=GhWOdp/uA69ifWjYISnaGiVM25K2zTcy8psro3/eO34oZjO96XApRw8u5TwHvVvAwvQBU37iTCRL4dkmU4OPjkjSCPB9+S6ol6to5yRKPFldv7vDqB2EFRdvUgp3XNgKlO+CD7pGQJFi4zEeN4fjhVSmYRkOjjA1g3RiNUc9sv8=
+	t=1774722061; cv=none; b=Za3dZod/bl9+4tpkj2lT+lWo6QbSNVWCEJmi0K7amYQY0cfXWNiSzwCke3tGDjdImVW6Wiyzz6ehwiXqDwz08FDgbCxV/X6yATXW2fIbQlsxj3ROco0D1vmVqvF4fRT4XxoZalAtTbBtefc6zLjalQgIFDAjnYmpGv9/UXD2xek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774720730; c=relaxed/simple;
-	bh=zrCsS31CNOHlR4LAqP3nODK/VPreyOD/MAFs8v6Bm1Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZYq0jNe4ILof4Oc+kg+HqEhDqtv+/ZJngVz0wlij4yGuGswxmYydAMBr38qA8hS3f5br1HdEAPY0uovMzrbLFS4VLtKFcG4rhqa81/Hnnmo2re+CUKjW4E/P5U936GbR170CYzlytV3wonX0Hjll0xIbJoezmHBdmEA1eQyaR2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oK7eAYTd; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774722061; c=relaxed/simple;
+	bh=NRoMd/7d12F1ENt5m8qXDzmQksu82jSPGugSRjcnwtA=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Date:
+	 MIME-Version:Content-Type; b=MFN7eEW503t+7+rJyWNwpkAl/iiWUSRyWWZpv2c5W7fIuBdYh4u/MIh8Hva2anLbx/tfKoNrOjYsGQa+JMKDb5vby4XMvXQ2omHiDd0TJhh2ZasBsQC+wLFc+HFNMBWRMkW1DyNKHYvCam5YdlRRhVPjnHLf4sWF6IyqSGB8v1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manguebit.org; spf=pass smtp.mailfrom=manguebit.org; dkim=pass (2048-bit key) header.d=manguebit.org header.i=@manguebit.org header.b=sqT5cKpt; arc=none smtp.client-ip=143.255.12.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manguebit.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manguebit.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oK7eAYTd"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-486fd5360d4so40979895e9.1
-        for <linux-fsdevel@vger.kernel.org>; Sat, 28 Mar 2026 10:58:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774720726; x=1775325526; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=if3Z26t2aYaIJWeen3qlPA46Qm7+5y2EZzYdQgSfu9Y=;
-        b=oK7eAYTdwoqZD+QKPZHbnf6vVk8HTbpNqiFZPsdb+boCwanSSP6JGEX4L4hg+YiB7w
-         tKxsPqOTFL3FrJBOKvIyPezHnxZOzUf5Fs127RtCkoZHC0pgfiTWc5fWvblS26RQfjhY
-         ZUjwEt3twj+VNovOcSHd2+fTmWmmWamW1rrBteFhbg41SLp0FHCJfrJ6Db5iJTetpl2O
-         cNGC5o42dpODDdLT1NHUzkqufMZ6kvxYUuiXkSAwvz/0Ex27iy/s6rfgDBUoJeKbOk9U
-         1KFAOgCoL/VH0GK8BNOwuq7N0EvW12nJE/SVL8yTyLpwzObU74qteguvty4knvHOmd24
-         LtsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774720726; x=1775325526;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=if3Z26t2aYaIJWeen3qlPA46Qm7+5y2EZzYdQgSfu9Y=;
-        b=V4Hjh2e4MeZbHT/kDrU2FsWGWKatbnGm/ngoPaxVy/jDJEBa6mGzTPRp1i2QaW0XFb
-         oPuGyvuEWQvV0CFQe7uYXTohp3luVQnHJikvOJL42IT6KiHCtBS2E2UsuMWt3HMNi9UA
-         /zP4eWwu+TtWE7jKb3rhvu+eaq1BfAqrdw5J+GZlc6Rp2I4W+dZPEiN8GkNaqXHpnEZF
-         Hu0ePKMf2uuo5pk1qdDr3/JPspElacVS7BSAXkp8sQbpEtwxs4LdMRdQiG6hBrCRvbpZ
-         TbE6oMEKpXVuKj8tPyPPNwg9fSw6w+J2+vaK/dpxa7Z8VohtfFa2trm0qQfpXzM8iXas
-         FVjw==
-X-Forwarded-Encrypted: i=1; AJvYcCWDbklAEhjPHnvA5wUZfs4sGgfIuP35gE8Dqbklkzir/EhNXXq2iViRR47ECAUDYTH+xGPBv51mImYwiFvd@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw+OOCIDf0+EUKucRHrIzA5rTHk9QHmFYZAf8w4Sly7yvdlVKqx
-	+JdsVJlEE9KSyUjcQIllVz1+mFvOEG150mpUhek3aCff5NxIfz19SauzozUwXQ==
-X-Gm-Gg: ATEYQzzGPjbuCDBcG121J0VJGtvRbI5t+gA0QSP25pxTlwXljgpSfcG39xqTQqeRpIN
-	HrV91sWMxPIL5IzysFba2IqTXgkqJITV0zZeT0AETmDxkiEKNb1KxwVvn30U03/GtCrFQxMvejv
-	j0xpAshb/vTkPop+Dyw8vZxyp1VS/LVJikhTfHprbIqM5nqH5fUXPQPY2U+q9sdAzw/nsm2cTHP
-	L0EhwKnmzMYM8TWHzxKH6MAra6a9M4zYVsuTWn7lzws8p/YYzolW+CAptWlau/zIvatDgPz3nrx
-	9AT3BbWG/GZ+AFt9VM8kA0lbdjlgo3QpLgVhmHniDlZeaKA7eRG0A8ttqCqjatAqdfOFv4QfyQh
-	MhEqYFLVRUcdLxcK5AHv7a0y2hlYXTGDeJToizPB/SaPAGqHHtlFdh6mGxTZ9gDP0dZg+oQ+3Dl
-	m48R+g77xeRiUQhu07EjV9+QIBP/YkDEwf3sDnigFzWXR4hTF9RbAKEdEmbyrXu8zUMDVDB/78s
-	fYzUUILaNCp
-X-Received: by 2002:a05:600c:c109:b0:486:f9d0:aac8 with SMTP id 5b1f17b1804b1-48727ec776bmr86007715e9.18.1774720725823;
-        Sat, 28 Mar 2026 10:58:45 -0700 (PDT)
-Received: from f.. (cst-prg-89-171.cust.vodafone.cz. [46.135.89.171])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf21e2a7asm6713033f8f.7.2026.03.28.10.58.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Mar 2026 10:58:45 -0700 (PDT)
-From: Mateusz Guzik <mjguzik@gmail.com>
-To: brauner@kernel.org
-Cc: viro@zeniv.linux.org.uk,
-	jack@suse.cz,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	Mateusz Guzik <mjguzik@gmail.com>
-Subject: [PATCH] fs: write a better comment in step_into() concerning .mnt assignment
-Date: Sat, 28 Mar 2026 18:58:40 +0100
-Message-ID: <20260328175841.3390950-1-mjguzik@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=manguebit.org header.i=@manguebit.org header.b="sqT5cKpt"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=manguebit.org; s=dkim; h=Content-Type:MIME-Version:Date:References:
+	In-Reply-To:Subject:Cc:To:From:Message-ID:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=reVttJ4xFR0WcZPDlyXMurvNf6WDPPLRFPlRnwcnixk=; b=sqT5cKpt/tMHM/kACWo4Il0ZHF
+	IUn796fZuwnC+Wyu5QTqvpyb9bJ6qK8ZoJAGB4agtzpORv3z2VlKCzgEkPc4syqvJNIBWy7OEoOkn
+	c9gCghMvJCWFLiYP4XakWG1pNiMyLAhVENhn9MIXdrLgexLNZu9R6oej67AMc7IyHkkHeY9CNPowv
+	Cxg83PHujJQVOiNsgjiK2ughsIWXPfBn5VbD7eKMYxgTBWCsr+i8d5wQwaZz1X76zNVZGxvyF16Bs
+	tZl4exrAbAMoRFSuzdMDCmT07ly8JceXPTMH0KuLk1ohGPE/60mwdmWtufn4QiD7Q57hCJWEo9U/A
+	zvcmaNUw==;
+Received: from pc by mx1.manguebit.org with local (Exim 4.99.1)
+	id 1w6YGz-00000001nf0-3jFV;
+	Sat, 28 Mar 2026 15:20:37 -0300
+Message-ID: <9677d7ab513928a8677a1ce99f18d189@manguebit.org>
+From: Paulo Alcantara <pc@manguebit.org>
+To: David Howells <dhowells@redhat.com>, Christian Brauner
+ <christian@brauner.io>, Matthew Wilcox <willy@infradead.org>, Christoph
+ Hellwig <hch@infradead.org>
+Cc: David Howells <dhowells@redhat.com>, Jens Axboe <axboe@kernel.dk>, Leon
+ Romanovsky <leon@kernel.org>, Steve French <sfrench@samba.org>,
+ ChenXiaoSong <chenxiaosong@chenxiaosong.com>, Marc Dionne
+ <marc.dionne@auristor.com>, Eric Van Hensbergen <ericvh@kernel.org>,
+ Dominique Martinet <asmadeus@codewreck.org>, Ilya Dryomov
+ <idryomov@gmail.com>, Trond Myklebust <trondmy@kernel.org>,
+ netfs@lists.linux.dev, linux-afs@lists.infradead.org,
+ linux-cifs@vger.kernel.org, linux-nfs@vger.kernel.org,
+ ceph-devel@vger.kernel.org, v9fs@lists.linux.dev,
+ linux-erofs@lists.ozlabs.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Deepanshu Kartikey <kartikey406@gmail.com>,
+ syzbot+7227db0fbac9f348dba0@syzkaller.appspotmail.com, Deepanshu Kartikey
+ <Kartikey406@gmail.com>
+Subject: Re: [PATCH 01/26] netfs: Fix NULL pointer dereference in
+ netfs_unbuffered_write() on retry
+In-Reply-To: <20260326104544.509518-2-dhowells@redhat.com>
+References: <20260326104544.509518-1-dhowells@redhat.com>
+ <20260326104544.509518-2-dhowells@redhat.com>
+Date: Sat, 28 Mar 2026 15:20:37 -0300
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Signed-off-by: Mateusz Guzik <mjguzik@gmail.com>
----
- fs/namei.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+David Howells <dhowells@redhat.com> writes:
 
-diff --git a/fs/namei.c b/fs/namei.c
-index 2113958c3b7a..c7fac83c9a85 100644
---- a/fs/namei.c
-+++ b/fs/namei.c
-@@ -2140,7 +2140,7 @@ static __always_inline const char *step_into(struct nameidata *nd, int flags,
- 		if (unlikely(!inode))
- 			return ERR_PTR(-ENOENT);
- 		nd->path.dentry = dentry;
--		/* nd->path.mnt is retained on purpose */
-+		/* nd->path.mnt remains unchanged as no mount point was crossed */
- 		nd->inode = inode;
- 		nd->seq = nd->next_seq;
- 		return NULL;
--- 
-2.48.1
+> From: Deepanshu Kartikey <kartikey406@gmail.com>
+>
+> When a write subrequest is marked NETFS_SREQ_NEED_RETRY, the retry path
+> in netfs_unbuffered_write() unconditionally calls stream->prepare_write()
+> without checking if it is NULL.
+>
+> Filesystems such as 9P do not set the prepare_write operation, so
+> stream->prepare_write remains NULL. When get_user_pages() fails with
+> -EFAULT and the subrequest is flagged for retry, this results in a NULL
+> pointer dereference at fs/netfs/direct_write.c:189.
+>
+> Fix this by mirroring the pattern already used in write_retry.c: if
+> stream->prepare_write is NULL, skip renegotiation and directly reissue
+> the subrequest via netfs_reissue_write(), which handles iterator reset,
+> IN_PROGRESS flag, stats update and reissue internally.
+>
+> Fixes: a0b4c7a49137 ("netfs: Fix unbuffered/DIO writes to dispatch subrequests in strict sequence")
+> Reported-by: syzbot+7227db0fbac9f348dba0@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=7227db0fbac9f348dba0
+> Signed-off-by: Deepanshu Kartikey <Kartikey406@gmail.com>
+> Signed-off-by: David Howells <dhowells@redhat.com>
+> ---
+>  fs/netfs/direct_write.c | 14 +++++++++++---
+>  1 file changed, 11 insertions(+), 3 deletions(-)
 
+Reviewed-by: Paulo Alcantara (Red Hat) <pc@manguebit.org>
