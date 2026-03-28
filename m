@@ -1,62 +1,64 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FD0D19A2A3
-	for <linux-fsdevel@vger.kernel.org>; Sat, 28 Mar 2026 15:31:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D31634D912
+	for <linux-fsdevel@vger.kernel.org>; Sat, 28 Mar 2026 15:32:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774711920; cv=none; b=Lv/ggEDyDF+wll1ppqekIZyLyN+Keg5iTrUiMcd7FUYaTYjG9OscXDlRIpgziNJY7n9HiPixlQ9Pqu3ay5t8ebIBqZITDupkQyDy23uiWCM+wKw/dixaHwUX8PZGuQme5rjlmrEhA2qBA2XjuuDHGcrPNvqY8PcseVf3Dla+c9g=
+	t=1774711923; cv=none; b=g0fcxs/jdtxmxnSTCtX97biQhVG0MH6y8xGaTHQ03q1zzGLyWDVhhudh5N3ddgScvbxQGq8vvy2isZbYt2p5QlIvrbHImU6LvtjVoshs4TQNCWEPc2ckAmup2gEDOKJyEaXyXsr+isArPOz6l7dXi8IG8fzyMd6GHUQHJS9rr9Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774711920; c=relaxed/simple;
-	bh=0F7j9rUuiWlBNk8YVlJPt64MaBp5s5MausN3CBgy3rM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IVUx2yOzeP0teBEiBfhZBlQeY+Y2pYOVL3whS1E6RFQvlTM4D/3QmQxGv+lC7aWPb6D/swQjpzyOtcji8ZzagMOqelIJAQfRIsxHA+QYOyt8M9QpnvhCRuwu6xxruVWhvwR74bVarjqTBSkORtD+PmbgqZ8eIsLvgLhbm3lJQ0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b5PnOZGl; arc=none smtp.client-ip=209.85.221.49
+	s=arc-20240116; t=1774711923; c=relaxed/simple;
+	bh=q6/M4OdZtc+alS1DwnvRyoUObRGRNii9NRUn255hTcA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=HX0PnSJ4bLeQItIcN5GUDfvDhOMdlI5xvXhufCV+T45g7vpyKxyH+Bi+5DBtl50i6O2RThjBtYb0cUAPnFem1caCSD/EQPoSFcmWpiTozImUm5g90iGC/AKVuKiSr55NxoKM8SLuomlGOUEiIoWtvLJ3H9xvnR9VCOW9lIpe704=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=om9yepfQ; arc=none smtp.client-ip=209.85.221.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b5PnOZGl"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-43b9f43a1feso1207324f8f.1
-        for <linux-fsdevel@vger.kernel.org>; Sat, 28 Mar 2026 08:31:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="om9yepfQ"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-43b4f48c47cso2101015f8f.0
+        for <linux-fsdevel@vger.kernel.org>; Sat, 28 Mar 2026 08:32:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774711918; x=1775316718; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=u7mQPIC0ps2Jv1aGIJBEdjAFDdHo2SlLPn6PZfFqoiY=;
-        b=b5PnOZGl7F4N4e2QALbzE6BGiFQqkaUhbCbpLtAkggoDUR9LiGC5O9/nB68r4bHgOt
-         jWR7UHsQDMAOXanbgFuAsKBiTy2vU1KJwmpuLSukZ7C1nM4ZKUHp2GlOsZuio1N+dFL9
-         bGYe2c3QKYFIu72dbsVHmBJgtoS0xLd7TV7TBxNi20FRPHibxZL1mTSByJ0/SHmt3Sr9
-         8IylnffV23FMF32b1/+wXQz1JH85/8aTbczssmvPjcRsv+5otAdov3h0rFzw7D8/cwLn
-         4Ua4npl5Rex9FX8mZiH7XoXtV6aIdI85y/stNkr9N/75DV1pamEScQsjCniOOthrxyJI
-         wgvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774711918; x=1775316718;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1774711921; x=1775316721; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=u7mQPIC0ps2Jv1aGIJBEdjAFDdHo2SlLPn6PZfFqoiY=;
-        b=YPGyRJYDyKvrTeJ8hcrQHoxl5mD8kwrU2jx1ZlTuceCZkYcxq9AshNGiVVGXBaqJSc
-         1nfta+tlUjkqXOGlqiSexT0MToLyJTXefTouxsy9z9eBlbbsje/y0twi8c7wQRRQnBwM
-         KQtKDRwIlSiq1s0ptgW4wcyERKCoXJWcASqvvzrgx33E2ZbRmhvIf1Ws4Enn+BnQ8Bo7
-         ZAYFXhMpUBE9uxk6oFofBwXm67GmGDM8RrNVp6nlcB3uj+Wfzm9/BvUsHNGwLe04PxDR
-         WDj6owzTjJY83sw6KpT9yYhb8CfnXyCxB+goESA1JcVyfSQyp2vyc9yI+dlU7gO/bbGD
-         LhAw==
-X-Forwarded-Encrypted: i=1; AJvYcCWIcACnEwweTdSb0PSWyb2TrTqXQlRrMl/LwYYOZs8Ghft5sTRsqfhxhis23XRamckp3xQOSNzG+IrK9VsE@vger.kernel.org
-X-Gm-Message-State: AOJu0Yys4TCy4AFFmirHkEJ4/G+F3mSIVjnArNS7dnanx8O/nDbvzoJ4
-	Ss34zBTwimVbuFpnQaxoct7+uU5BfLgnQZprpet+aKqY2VX4OEwhUw66x8qhpg==
-X-Gm-Gg: ATEYQzya8mg45sk9VY/SsomPPXm2a4Q5i/LB4L/QatMPZB0QXk9pjJax6UMV1Aby1F7
-	j7q9S0Qww/Ypuwh62imtkQAUdjZ9OtPZT7ABCwEoMkvbSeGdNQEiZ5Q8sVenrL5SFavQGGIE9Ho
-	R0BL4QlIIDgBOc/J0lntMXI0Du/imJ0L6s2K6sE9/zksIgSVyQvy8/zcv8t7HlVrVlmRqEuMovK
-	KC8Rcx4EJSSJFrlkxUTtQbmaDPr9L0ZQCN9Wod8BznVmdl9wzees2L8sIYSwHfbP5SHuS5Bf56U
-	L+jY1r0ZfrKtq25gIIJi4sTc8H8HOBq3g8KGHv4vDpXPg9BdNLd4T6Dc9Ouf8dRG1ot4QZjtRLY
-	PXxa9c7FDaBJMzh3LGpZKAWNFnuDMGacpLC69OQO5ZMb7zjQq8eEfIYftbcCp8oVVQ900uC4F+F
-	kNEqyDVoa486aFJsVICmjd3iYXrci9ISIKIOdqg7JbZ1R2Bfz/wdxCv1/Ieraj90b92TOWn7zBt
-	A==
-X-Received: by 2002:a5d:584f:0:b0:43b:54c9:7d1b with SMTP id ffacd0b85a97d-43b9ea638c4mr11428917f8f.41.1774711917400;
-        Sat, 28 Mar 2026 08:31:57 -0700 (PDT)
+        bh=ALuBtMTHfXISMz1y0xRBvnd5xru82Lmp3xXwNF/dfxA=;
+        b=om9yepfQRr8klFNMvWLAWi2Kab1UlzKAjEjBAqi0HPoGBjhw5Mb3yaICWhsYG2GMTJ
+         wiBrcbBaMavI+LxFOhKPf6guVOzUTLWV6/ARU3uUGhFlk2JZUyR3bkde7a1SF6jmw/ao
+         eegKZfUTjeMx61exPWqMkWxo3Do/siBJZO/urJ8MYKenhux+hX8TiOnKXjx2wFyiPCyr
+         FQhrUbGLpMwBJF88EsKSNqXnehFGEfO/K9N82HhK0FC+yVzh43TyOUS++UIwC59H6TWm
+         VIxivIpIAwbGgdcaVlwQf2YjvapUjCkgbD6FG9UYbDrWB0YdWMZDA0eQUuZeoGj5LCzs
+         GlMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774711921; x=1775316721;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ALuBtMTHfXISMz1y0xRBvnd5xru82Lmp3xXwNF/dfxA=;
+        b=l/PH9ZJLcusMhkkmB/mWPvQgPcEiE5eHY4FZkNt/1sH7+SAntEH7VXbEqw5C6VbKvq
+         7k7M4bzfwXzKH4aGB58HGSDkRLS0YKW9M67GNviTn2KtVi+GzPlDQrXe2N3WrSYhpCib
+         s2vUr0+8IlHtU3Uev1r264lfa1GV/0DissgZ/zw8JNvkiL21VOlYXD++LR5zy8b5PMkR
+         sgnTpg7FFSsXvbNRWBNH5nbYUkaTjQthOHpmqG/i7izurnal3KBXIxeRGj+ZVYSyvN4I
+         lULf9MUnwioB8GfFKuLbkvPEiiE+ETSa3U+gbl07D1aniuG2Ot3ElPM0vBF1SB/clSOt
+         RAoQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXhE9nZ3C1r1JzG+qFeBlDbA4Y1/hkcwy/Mb7+Bv8tVIHAJD50P3LzHpQSgm3qf0RABTVd3rJA8l0m5Z65k@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzu8taMUUt+sKpzEWP4nB5qXsnMAwQBwkUaE7NnILPDgOViDHVn
+	6IAuY3VK/Lb6HsVFNz/9khH1nP4drmdlb/25Df0IFekVbBZCrtKpzDtbAb18rg==
+X-Gm-Gg: ATEYQzyl0dRqMOFyyeRE6u4kAgxKiQE0YBmLZqH2RxlAa4A2UAA2cIgc4iEUuk1zhvi
+	wm3jIDI7ueq43Rh+avZQJx/Du4l8JFzO2mAyVZp+Gqh76zr0FqDD2JgmFZSAQMmlnBpuXBNZPuw
+	X36NFRzwvCLtAAvUhhxlIUHN3uqYL7COzrdcgzbH4Vp7N7GTopv+ve8SyXfCOV+PV1gC88rw/y6
+	nQOjd7sB167wpLWrCLUp4cnseY1uhjMSY9uOtvT1zUjkxKC5bkg3GSQ3ts4D+E2d65HkE4Bo8+L
+	6CcyS2u8f9zSLfscGs7mFhs3NSniM+DlHuJXf8ZstS3hzsQIq7BGVLnG/cfwHtmv371wq26nBAZ
+	xHkM/XGjcJ57ojODsCfV+BjkCX1QxnGPAwJPY0YiQE1prd4iCoqJVyX298gX6vv04FsAeu9W+fm
+	kyhKfOhJbePusPgT1eY+EufWiCYperWgSTYAevCZc/4LTnp/vka6IrOmIp739fs6NujF6xJsoZf
+	Q==
+X-Received: by 2002:a05:6000:2013:b0:43b:8fa4:194d with SMTP id ffacd0b85a97d-43b9e9d5eacmr10558088f8f.6.1774711919377;
+        Sat, 28 Mar 2026 08:31:59 -0700 (PDT)
 Received: from f.. (cst-prg-89-171.cust.vodafone.cz. [46.135.89.171])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf245f8a3sm6725310f8f.24.2026.03.28.08.31.55
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf245f8a3sm6725310f8f.24.2026.03.28.08.31.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Mar 2026 08:31:56 -0700 (PDT)
+        Sat, 28 Mar 2026 08:31:58 -0700 (PDT)
 From: Mateusz Guzik <mjguzik@gmail.com>
 To: brauner@kernel.org
 Cc: viro@zeniv.linux.org.uk,
@@ -64,10 +66,12 @@ Cc: viro@zeniv.linux.org.uk,
 	linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	Mateusz Guzik <mjguzik@gmail.com>
-Subject: [PATCH 0/5] assorted ->i_count-related changes
-Date: Sat, 28 Mar 2026 16:31:40 +0100
-Message-ID: <20260328153146.3368470-1-mjguzik@gmail.com>
+Subject: [PATCH 1/5] fs: add icount_read_once()
+Date: Sat, 28 Mar 2026 16:31:41 +0100
+Message-ID: <20260328153146.3368470-2-mjguzik@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260328153146.3368470-1-mjguzik@gmail.com>
+References: <20260328153146.3368470-1-mjguzik@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -76,45 +80,30 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The icount_read_once() stuff lines up with inode_state_read_once().
-The prefix is different but I opted to not change it due to igrab(),
-ihold() et al.
+It will be used to denote the caller acknowledges how the count can
+change from under them.
 
-There is a future-proofing change in iput_final(). I am not going to
-strongly insist on it, but at the very least the problem needs to be
-noted in a comment.
+Signed-off-by: Mateusz Guzik <mjguzik@gmail.com>
+---
+ include/linux/fs.h | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Finally, igrab() gets lockless treatment. I verified btrfs likes to call
-into it in writeback code with the count > 1, same with procfs during
-process reaping. Grep shows nfs also calls there, but I have not checked
-how often that happens. This is a minor single-threaded speed up at
-least as a lock trip is avoided in the common case.
-
-Mateusz Guzik (5):
-  fs: add icount_read_once()
-  Use icount_read() and icount_read_once() as appropriate.
-  fs: enforce locking in icount_read(), add some commentary
-  fs: handle hypothetical filesystems hich use I_DONTCACHE and drop the
-    lock in ->drop_inode
-  fs: locklessly bump refs in igrab as long as it does not transition
-    0->1
-
- arch/powerpc/platforms/cell/spufs/file.c |  2 +-
- fs/btrfs/inode.c                         |  2 +-
- fs/ceph/mds_client.c                     |  2 +-
- fs/ext4/ialloc.c                         |  4 +--
- fs/hpfs/inode.c                          |  2 +-
- fs/inode.c                               | 42 ++++++++++++++++--------
- fs/nfs/inode.c                           |  4 +--
- fs/smb/client/inode.c                    |  2 +-
- fs/ubifs/super.c                         |  2 +-
- fs/xfs/xfs_inode.c                       |  2 +-
- fs/xfs/xfs_trace.h                       |  2 +-
- include/linux/fs.h                       | 13 ++++++++
- include/trace/events/filelock.h          |  2 +-
- security/landlock/fs.c                   |  2 +-
- 14 files changed, 55 insertions(+), 28 deletions(-)
-
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index 8afbe2ef2686..0cf27085a579 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -2225,6 +2225,11 @@ static inline void mark_inode_dirty_sync(struct inode *inode)
+ 	__mark_inode_dirty(inode, I_DIRTY_SYNC);
+ }
+ 
++static inline int icount_read_once(const struct inode *inode)
++{
++	return atomic_read(&inode->i_count);
++}
++
+ static inline int icount_read(const struct inode *inode)
+ {
+ 	return atomic_read(&inode->i_count);
 -- 
 2.48.1
 
