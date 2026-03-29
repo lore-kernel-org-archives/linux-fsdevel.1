@@ -1,31 +1,31 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 135EE3815EA;
-	Sun, 29 Mar 2026 16:34:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0128736EA8F;
+	Sun, 29 Mar 2026 16:34:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774802077; cv=none; b=iPaIW7B5dBS1eEYSSgDD+S4giflLnQLsnbQAJRoxCcVx212q3Z2TGDfwMRyHcnsIhauJb4gD8grW01TK8TPJCBk9sEMXUCCf0DbA9Z9j2NoD7HJkKkOl51CP05CYRXSMyToezjgzCQzMwe/gc+jEH+91nhmv7wtDHPU6AcJ0xz8=
+	t=1774802078; cv=none; b=irrIkURboExniS+UNCOUVTJOWX+tbX9wZJvPCDkOJdNtlCfrNAwy/51zQQjbKKetk1YB5bsU3mRYjdvw2moHQ9Bu4qVs4PWkwo+E7vWuup621FB1zbJjQkAH7cAIPgfA1NL9HicTsogDDYSeRjKmDQHkS/hLbTzLjNxR0tlHhHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774802077; c=relaxed/simple;
-	bh=fnXhKVdhlY/emgRar6UTkKK8jLufTrQGSkiiNKTy9CA=;
+	s=arc-20240116; t=1774802078; c=relaxed/simple;
+	bh=nTOKHUR2ROWvul6nIWZeDg1k40hab5DcwyUy2jqATz8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=At+kj9LhOy/MqFiRSEmRBANiBzLrP3D8Gf8yqyC0tiJO0KsExT3mJwgB+jNkrl7RqPBMTxPwUV3H99VnjWyUPz3oDLqnnNAF+irN+PHdOW3LQcqeXuOX662Pv+enZ8HjFd5+GIXhDvEDkHDNd9CL14bsfOz6bO2u+XoCIbfo3Sk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=l8qWKYlc; arc=none smtp.client-ip=217.140.110.172
+	 MIME-Version; b=TPvmXhtSOS5YzL8XWoyHD8t80+tlhyNELww7DKOr4tSlnFNxjx/ulH6MRY+xkqEmERZAIwOQHy8+4AETFaIMNcPjhProz9a2fzTIFpM9QzDWB0v28x9Hb27s8GmPTO85K8R5dIE+SSrgYaGfWVXBHBJ8cPuqhlKVmC5u5svBzaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=l8EhYKwh; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="l8qWKYlc"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="l8EhYKwh"
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8EE112A31;
-	Sun, 29 Mar 2026 09:34:23 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AD90C4387;
+	Sun, 29 Mar 2026 09:34:30 -0700 (PDT)
 Received: from pluto.fritz.box (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9AA2E3F915;
-	Sun, 29 Mar 2026 09:34:26 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8E2CF3F915;
+	Sun, 29 Mar 2026 09:34:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1774802069; bh=fnXhKVdhlY/emgRar6UTkKK8jLufTrQGSkiiNKTy9CA=;
+	t=1774802076; bh=nTOKHUR2ROWvul6nIWZeDg1k40hab5DcwyUy2jqATz8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=l8qWKYlczfaOXWs4RZZHRS9JREnbz6EEWo3rrdnG59I3dIUiCRqherz1qzVnmV9/O
-	 zxlgWL5BUtAZo7/pPLDcqKHOsOhyj9DKFYtS+Gzc8lJqNc/eR79IVxEYhxZVM6oM4o
-	 EKTSKUpSH6kwQGVyqUOLN7smvJIJi4eL+NH1iFYo=
+	b=l8EhYKwh4KvTFDvgxYU8Ji0ZxHSnNmaIZldFf/e+So+Plpnp4d8AYD7RNHMuEA/4e
+	 lfn5GrElCeDiZQ0rG1D4G4lY3LCFmQuz7kzhQ2a+Z1C+bjsPtsDZDywrGFWCEA+ZDZ
+	 fn+t6EMEa4lzQ1oqNZwmDiLvUIMgU1wjloF7YAXA=
 From: Cristian Marussi <cristian.marussi@arm.com>
 To: linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -48,9 +48,9 @@ Cc: sudeep.holla@kernel.org,
 	brauner@kernel.org,
 	souvik.chakravarty@arm.com,
 	Cristian Marussi <cristian.marussi@arm.com>
-Subject: [PATCH v3 05/24] uapi: Add ARM SCMI definitions
-Date: Sun, 29 Mar 2026 17:33:16 +0100
-Message-ID: <20260329163337.637393-6-cristian.marussi@arm.com>
+Subject: [PATCH v3 07/24] include: trace: Add Telemetry trace events
+Date: Sun, 29 Mar 2026 17:33:18 +0100
+Message-ID: <20260329163337.637393-8-cristian.marussi@arm.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260329163337.637393-1-cristian.marussi@arm.com>
 References: <20260329163337.637393-1-cristian.marussi@arm.com>
@@ -62,332 +62,80 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a number of structures and ioctls definitions used by the ARM
-SCMI Telemetry protocol.
+Add custom traces to report Telemetry failed accesses and to report when DE
+values are updated internally after a notification is processed.
 
 Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
 ---
-v2 --> v3
- - Change tstamp_exp tp ts_rate
- - renamed num -> num_intervals in scmi_tlm_interval
- - added padding in scmi_tlm_de_sample to avoid packing issues on 32bit
-v1 --> v2
- - Added proper __counted_by marks
- - Fixed a few dox comments
- - Renamed reserved[] fields to pad[]
----
- MAINTAINERS               |   1 +
- include/uapi/linux/scmi.h | 289 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 290 insertions(+)
- create mode 100644 include/uapi/linux/scmi.h
+ include/trace/events/scmi.h | 48 ++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 47 insertions(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7d10988cbc62..dcf2c97e4e5c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -25708,6 +25708,7 @@ F:	drivers/regulator/scmi-regulator.c
- F:	drivers/reset/reset-scmi.c
- F:	include/linux/sc[mp]i_protocol.h
- F:	include/trace/events/scmi.h
-+F:	include/uapi/linux/scmi.h
- F:	include/uapi/linux/virtio_scmi.h
+diff --git a/include/trace/events/scmi.h b/include/trace/events/scmi.h
+index 703b7bb68e44..b70b26e467b8 100644
+--- a/include/trace/events/scmi.h
++++ b/include/trace/events/scmi.h
+@@ -7,7 +7,8 @@
  
- SYSTEM CONTROL MANAGEMENT INTERFACE (SCMI) i.MX Extension Message Protocol drivers
-diff --git a/include/uapi/linux/scmi.h b/include/uapi/linux/scmi.h
-new file mode 100644
-index 000000000000..abf68bb99960
---- /dev/null
-+++ b/include/uapi/linux/scmi.h
-@@ -0,0 +1,289 @@
-+/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-+/*
-+ * Copyright (C) 2026 ARM Ltd.
-+ */
-+#ifndef _UAPI_LINUX_SCMI_H
-+#define _UAPI_LINUX_SCMI_H
+ #include <linux/tracepoint.h>
+ 
+-#define TRACE_SCMI_MAX_TAG_LEN	6
++#define TRACE_SCMI_MAX_TAG_LEN		6
++#define TRACE_SCMI_TLM_MAX_TAG_LEN	16
+ 
+ TRACE_EVENT(scmi_fc_call,
+ 	TP_PROTO(u8 protocol_id, u8 msg_id, u32 res_id, u32 val1, u32 val2),
+@@ -180,6 +181,51 @@ TRACE_EVENT(scmi_msg_dump,
+ 		  __entry->tag, __entry->msg_id, __entry->seq, __entry->status,
+ 		__print_hex_str(__get_dynamic_array(cmd), __entry->len))
+ );
 +
-+/*
-+ * Userspace interface SCMI Telemetry
-+ */
++TRACE_EVENT(scmi_tlm_access,
++	TP_PROTO(u64 de_id, unsigned char *tag, u64 startm, u64 endm),
++	TP_ARGS(de_id, tag, startm, endm),
 +
-+#include <linux/ioctl.h>
-+#include <linux/types.h>
++	TP_STRUCT__entry(
++		__field(u64, de_id)
++		__array(char, tag, TRACE_SCMI_TLM_MAX_TAG_LEN)
++		__field(u64, startm)
++		__field(u64, endm)
++	),
 +
-+#define SCMI_TLM_DE_IMPL_MAX_DWORDS	4
++	TP_fast_assign(
++		__entry->de_id = de_id;
++		strscpy(__entry->tag, tag, TRACE_SCMI_TLM_MAX_TAG_LEN);
++		__entry->startm = startm;
++		__entry->endm = endm;
++	),
 +
-+#define SCMI_TLM_GRP_INVALID            0xFFFFFFFF
++	TP_printk("de_id=0x%llX [%s] - startm=%016llX endm=%016llX",
++		  __entry->de_id, __entry->tag, __entry->startm, __entry->endm)
++);
 +
-+/**
-+ * scmi_tlm_base_info - Basic info about an instance
-+ *
-+ * @version: SCMI Telemetry protocol version
-+ * @de_impl_version: SCMI Telemetry DE implementation revision
-+ * @num_de: Number of defined DEs
-+ * @num_groups Number of defined DEs groups
-+ * @num_intervals: Number of update intervals available (instance-level)
-+ * @flags: Instance specific feature-support bitmap
-+ *
-+ * Used by:
-+ *	RO - SCMI_TLM_GET_INFO
-+ *
-+ * Supported by:
-+ *	control/
-+ */
-+struct scmi_tlm_base_info {
-+	__u32 version;
-+	__u32 de_impl_version[SCMI_TLM_DE_IMPL_MAX_DWORDS];
-+	__u32 num_des;
-+	__u32 num_groups;
-+	__u32 num_intervals;
-+	__u32 flags;
-+#define SCMI_TLM_CAN_RESET	(1 << 0)
-+};
++TRACE_EVENT(scmi_tlm_collect,
++	TP_PROTO(u64 ts, u64 de_id, u64 value, unsigned char *tag),
++	TP_ARGS(ts, de_id, value, tag),
 +
-+/**
-+ * scmi_tlm_config  - Whole instance or group configuration
-+ *
-+ * @enable: Enable/Disable Telemetry for the whole instance or the group.
-+ * @t_enable: Enable/Disable timestamping for all the DEs belonging to a group.
-+ * @pad: Padding fields to enforce alignment.
-+ * @current_update_interval: Get/Set currently active update interval for the
-+ *			     whole instance or a group.
-+ *
-+ * Used by:
-+ *	RO - SCMI_TLM_GET_CFG
-+ *	WO - SCMI_TLM_SET_CFG
-+ *
-+ * Supported by:
-+ *	control/
-+ *	groups/<N>/control
-+ */
-+struct scmi_tlm_config {
-+	__u8 enable;
-+	__u8 t_enable;
-+	__u8 pad[2];
-+	__u32 current_update_interval;
-+};
++	TP_STRUCT__entry(
++		__field(u64, ts)
++		__field(u64, de_id)
++		__field(u64, value)
++		__array(char, tag, TRACE_SCMI_TLM_MAX_TAG_LEN)
++	),
 +
-+/**
-+ * scmi_tlm_intervals  - Update intervals descriptor
-+ *
-+ * @discrete: Flag to indicate the nature of the intervals described in
-+ *	      @update_intervals.
-+ *	      When 'false' @update_intervals is a triplet: min/max/step
-+ * @pad: Padding fields to enforce alignment.
-+ * @num_intervals: Number of entries of @update_intervals
-+ * @update_intervals: A variably-sized array containing the update intervals
-+ *
-+ * Used by:
-+ *	RW - SCMI_TLM_GET_INTRVS
-+ *
-+ * Supported by:
-+ *	control/
-+ *	groups/<N>/control
-+ */
-+struct scmi_tlm_intervals {
-+	__u8 discrete;
-+	__u8 pad[3];
-+	__u32 num_intervals;
-+#define SCMI_TLM_UPDATE_INTVL_SEGMENT_LOW	0
-+#define SCMI_TLM_UPDATE_INTVL_SEGMENT_HIGH	1
-+#define SCMI_TLM_UPDATE_INTVL_SEGMENT_STEP	2
-+	__u32 update_intervals[] __counted_by(num_intervals);
-+};
++	TP_fast_assign(
++		__entry->ts = ts;
++		__entry->de_id = de_id;
++		__entry->value = value;
++		strscpy(__entry->tag, tag, TRACE_SCMI_TLM_MAX_TAG_LEN);
++	),
 +
-+/**
-+ * scmi_tlm_de_config  - DE configuration
-+ *
-+ * @id: Identifier of the DE to act upon (ignored by SCMI_TLM_SET_ALL_CFG)
-+ * @enable: A boolean to enable/disable the DE
-+ * @t_enable: A boolean to enable/disable the timestamp for this DE
-+ *	      (if supported)
-+ *
-+ * Used by:
-+ *	RW - SCMI_TLM_GET_DE_CFG
-+ *	RW - SCMI_TLM_SET_DE_CFG
-+ *	WO - SCMI_TLM_SET_ALL_CFG
-+ *
-+ * Supported by:
-+ *	control/
-+ */
-+struct scmi_tlm_de_config {
-+	__u32 id;
-+	__u32 enable;
-+	__u32 t_enable;
-+};
++	TP_printk("ts=%llu  de_id=0x%04llX  value=%016llu [%s]",
++		  __entry->ts, __entry->de_id, __entry->value, __entry->tag)
++);
 +
-+/**
-+ * scmi_tlm_de_info  - DE Descriptor
-+ *
-+ * @id: DE identifier
-+ * @grp_id: Identifier of the group which this DE belongs to; reported as
-+ *	    SCMI_TLM_GRP_INVALID when not part of any group
-+ * @data_sz: DE data size in bytes
-+ * @type: DE type
-+ * @unit: DE unit of measurements
-+ * @unit_exp: Power-of-10 multiplier for DE unit
-+ * @ts_rate: Clock rate in kHz used to generate the DE timestamp
-+ * @instance_id: DE instance ID
-+ * @compo_instance_id: DE component instance ID
-+ * @compo_type: Type of component which is associated to this DE
-+ * @persistent: Data value for this DE survives reboot (non-cold ones)
-+ * @name: Optional name of this DE
-+ *
-+ * Used to get the full description of a DE: it reflects DE Descriptors
-+ * definitions in 3.12.4.6.
-+ *
-+ * Used by:
-+ *	RW - SCMI_TLM_GET_DE_INFO
-+ *
-+ * Supported by:
-+ *	control/
-+ */
-+struct scmi_tlm_de_info {
-+	__u32 id;
-+	__u32 grp_id;
-+	__u32 data_sz;
-+	__u32 type;
-+	__u32 unit;
-+	__s32 unit_exp;
-+	__s32 ts_rate;
-+	__u32 instance_id;
-+	__u32 compo_instance_id;
-+	__u32 compo_type;
-+	__u32 persistent;
-+	__u8 name[16];
-+};
-+
-+/**
-+ * scmi_tlm_des_list  - List of all defined DEs
-+ *
-+ * @num_des: Number of entries in @des
-+ * @des: An array containing descriptors for all defined DEs
-+ *
-+ * Used by:
-+ *	RW - SCMI_TLM_GET_DE_LIST
-+ *
-+ * Supported by:
-+ *	control/
-+ */
-+struct scmi_tlm_des_list {
-+	__u32 num_des;
-+	struct scmi_tlm_de_info des[] __counted_by(num_des);
-+};
-+
-+/**
-+ * scmi_tlm_de_sample - A DE reading
-+ *
-+ * @id: DE identifier
-+ * @pad: Padding fields to enforce alignment.
-+ * @tstamp: DE reading timestamp (equal 0 is NOT supported)
-+ * @val: Reading of the DE data value
-+ *
-+ * Used by:
-+ *	RW - SCMI_TLM_GET_DE_VALUE
-+ *
-+ * Supported by:
-+ *	control/
-+ */
-+struct scmi_tlm_de_sample {
-+	__u32 id;
-+	__u32 pad;
-+	__u64 tstamp;
-+	__u64 val;
-+};
-+
-+/**
-+ * scmi_tlm_data_read - Bulk read of multiple DEs
-+ *
-+ * @num_samples: Number of entries returned in @samples
-+ * @samples: An array of samples containing an entry for each DE that was
-+ *	     enabled when the single sample read request was issued.
-+ *
-+ * Used by:
-+ *	RW - SCMI_TLM_SINGLE_SAMPLE
-+ *	RW - SCMI_TLM_BULK_READ
-+ *
-+ * Supported by:
-+ *	control/
-+ *	groups/<N>/control
-+ */
-+struct scmi_tlm_data_read {
-+	__u32 num_samples;
-+	struct scmi_tlm_de_sample samples[] __counted_by(num_samples);
-+};
-+
-+/**
-+ * scmi_tlm_grp_info  - DE-group descriptor
-+ *
-+ * @id: Group ID number
-+ * @num_des: Number of DEs part of this group
-+ * @num_intervals: Number of update intervals supported. Zero if group does not
-+ *		   support per-group update interval configuration.
-+ *
-+ * Used by:
-+ *	RO - SCMI_TLM_GET_GRP_INFO
-+ *
-+ * Supported by:
-+ *	groups/<N>control/
-+ */
-+struct scmi_tlm_grp_info {
-+	__u32 id;
-+	__u32 num_des;
-+	__u32 num_intervals;
-+};
-+
-+/**
-+ * scmi_tlm_grps_list  - DE-groups List
-+ *
-+ * @num_grps: Number of entries returned in @grps
-+ * @grps: An array containing descriptors for all defined DE Groups
-+ *
-+ * Used by:
-+ *	RW - SCMI_TLM_GET_GRP_LIST
-+ *
-+ * Supported by:
-+ *	control/
-+ */
-+struct scmi_tlm_grps_list {
-+	__u32 num_grps;
-+	struct scmi_tlm_grp_info grps[] __counted_by(num_grps);
-+};
-+
-+/**
-+ * scmi_tlm_grp_desc  - Group descriptor
-+ *
-+ * @num_des: Number of DEs part of this group
-+ * @composing_des: An array containing the DE IDs that belongs to this group.
-+ *
-+ * Used by:
-+ *	RW - SCMI_TLM_GET_GRP_DESC
-+ *
-+ * Supported by:
-+ *	groups/<N>control/
-+ */
-+struct scmi_tlm_grp_desc {
-+	__u32 num_des;
-+	__u32 composing_des[] __counted_by(num_des);
-+};
-+
-+#define SCMI 0xF1
-+
-+#define SCMI_TLM_GET_INFO	_IOR(SCMI,  0x00, struct scmi_tlm_base_info)
-+#define SCMI_TLM_GET_CFG	_IOR(SCMI,  0x01, struct scmi_tlm_config)
-+#define SCMI_TLM_SET_CFG	_IOW(SCMI,  0x02, struct scmi_tlm_config)
-+#define SCMI_TLM_GET_INTRVS	_IOWR(SCMI, 0x03, struct scmi_tlm_intervals)
-+#define SCMI_TLM_GET_DE_CFG	_IOWR(SCMI, 0x04, struct scmi_tlm_de_config)
-+#define SCMI_TLM_SET_DE_CFG	_IOWR(SCMI, 0x05, struct scmi_tlm_de_config)
-+#define SCMI_TLM_GET_DE_INFO	_IOWR(SCMI, 0x06, struct scmi_tlm_de_info)
-+#define SCMI_TLM_GET_DE_LIST	_IOWR(SCMI, 0x07, struct scmi_tlm_des_list)
-+#define SCMI_TLM_GET_DE_VALUE	_IOWR(SCMI, 0x08, struct scmi_tlm_de_sample)
-+#define SCMI_TLM_SET_ALL_CFG	_IOW(SCMI,  0x09, struct scmi_tlm_de_config)
-+#define SCMI_TLM_GET_GRP_LIST	_IOWR(SCMI, 0x0A, struct scmi_tlm_grps_list)
-+#define SCMI_TLM_GET_GRP_INFO	_IOR(SCMI,  0x0B, struct scmi_tlm_grp_info)
-+#define SCMI_TLM_GET_GRP_DESC	_IOWR(SCMI, 0x0C, struct scmi_tlm_grp_desc)
-+#define SCMI_TLM_SINGLE_SAMPLE	_IOWR(SCMI, 0x0D, struct scmi_tlm_data_read)
-+#define SCMI_TLM_BULK_READ	_IOWR(SCMI, 0x0E, struct scmi_tlm_data_read)
-+
-+#endif /* _UAPI_LINUX_SCMI_H */
+ #endif /* _TRACE_SCMI_H */
+ 
+ /* This part must be outside protection */
 -- 
 2.53.0
 
