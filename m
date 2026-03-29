@@ -1,61 +1,74 @@
-Received: from out203-205-221-155.mail.qq.com (out203-205-221-155.mail.qq.com [203.205.221.155])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1CBE19A2A3
-	for <linux-fsdevel@vger.kernel.org>; Sun, 29 Mar 2026 07:12:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84F272BEC52
+	for <linux-fsdevel@vger.kernel.org>; Sun, 29 Mar 2026 09:27:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774768329; cv=none; b=Kxfvo+0cpjgGVdJIPYYiR5bz4TdiuMZ+5V8hdFUnkOc6toDSVmHGsPRFxSzZMjSUwdkmKPVgsJFlLMyFWDRrgxrUy0gIPaegnm0ROFFmzDCk7Vl+HaaTnt3V8fuIlYrvviHpkHYTrOZZC4uCbv/pmioizHNWQ7UqY3uyii6Q5Fs=
+	t=1774776423; cv=none; b=ZRrhm7Q4ZCimmyO8I6YPocyPC1u57QsBK/bgVeDX9a1dNlCaS7Lfg4mQ0g5o//myP9Gm/md0BorbYpLZxfgHj78o39U8hIO3ZgN/UVjZSV2qk4O62NEk3+CcQ9e3yYAn7RxfPgh1Zy83kHIKFAjLyKBGdIx5oARc0mVLo7OEaP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774768329; c=relaxed/simple;
-	bh=v7sbO8DyNs+joZ7B14ykL2r9xFws9di0WNwBv2bVd8U=;
-	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=GPMmEUSc2VNfCRzw8H9Al2D/M+e3OnocCacv+Zx5Q+zmycZgdJJN6q6Dh4GoiGb7Z5+YvvEgOVOWFQpKTpsF3G+gefDMwCttndKB+ZEts1qW7IOsnqrAlW2oGc0U2IjnqOH4vlRw0GjoSnJVyixLLZ8yidXdGfJlXc04mVrQ/2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=w1TKQdn0; arc=none smtp.client-ip=203.205.221.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1774776423; c=relaxed/simple;
+	bh=LpGECJxUAlUMKo1joZzZiQhs3hwDPvgm8N6IKu8Ky8A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fUN5BAB0aIOspI+R01czpj2TfROwLdNgAFtK0wBuxFLtU2ehlOBhsiRRxcpfsV9p0e548ZWcZAUqSEVCrd8IKdJVCiZObpdHUBtccJ6AGqCwZIsTzNbhyBRoTOPz5DSovWzHpUlc5IFgPR/VlT2cV29jWWbuhaVWzZnlHgjxnCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HkNP1iBS; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="w1TKQdn0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1774768321; bh=wfxkopMEf8snz7GDylx0uY/ZNTSwEcdRJVxehXkEdKU=;
-	h=From:To:Cc:Subject:Date;
-	b=w1TKQdn0Qaom410u1Ub6+1eIelobKkXBVmtF9U/4E74j33Fci07GtgE/G3je90gWE
-	 ZH5i3iIcBE2LSuNZjQFPMQ//Q8PA2mGi1sIlAmv+w/9cluaqHCFL8g32/5nAlSvmxq
-	 xQvk4TVtFTq3ifo4WAdCnUh3WpenIHhvc1lWK/Fw=
-Received: from shy-Super-Server.. ([220.168.100.40])
-	by newxmesmtplogicsvrszc43-0.qq.com (NewEsmtp) with SMTP
-	id 2FB1885A; Sun, 29 Mar 2026 15:11:59 +0800
-X-QQ-mid: xmsmtpt1774768319tmifb0gwf
-Message-ID: <tencent_623D72C80E4BD5CC991C29AA31C751E23B05@qq.com>
-X-QQ-XMAILINFO: MStTOrhA1CLVKFvdPqSqfGzUo0PLJxE7XKcH7vmknxujNDmRtAmfu6ujCemCPi
-	 wIW6roJa+tG+Tpjh5LCZq4UHXDJ7lsOhIrYa9AJQPbISJM9HTprCp+ACh1Fz0n+aDoJ5zRo/JdfG
-	 n2uVEmXkqRJC/eghzo4/731gbllJWgeV89J+D5FSsapLk6NIsC40i5ltJyZE3pNdn+44oxQ67lIz
-	 HA/fItgXcbxuSS/94bTMRL3PbNsAnCWrav/EDGj0k0bK7TRg3icemTLKdav4vpyFVDbIvvb6xyuB
-	 j4R91uIRsh2yPWN8H07Ac2LfIwquQqbKtsfHPWptPjuUPBjUeNKNhvLbIFksUCalGjpELEaQI9xA
-	 lBfyKTEzOxxVK7hBvzc4YOUyNZ9E8MDzCJ0Y/LhUMMCXB+2vvvnOg7m4TTknC+VnhpBuarYW8Lul
-	 1nfzdiPozkISRhflNeyCXGrcxlb+HRRo6gZAW9YwKd6U6qu8/4ySPtQfWRaf0cS1qtgZGJr8gyXW
-	 eMbtHum+Mq9HAp28sXwCP+O2EmWyMDmEc+gBk15uu4eQX0dY/ZRYzyi5777mYG+73zbDPT11fBVw
-	 kLls7og77UV/h8vkHvFY9rF6i6d0z32fwfTgGGW48Q2/q9KIHuatXR+oCA9Lx8gWAjuFqwRGQelk
-	 igxo7B7ssTIijya3cwaaLjQAd/QpA1f6n5d2syyrd5DrDDpI0eo3V6kcrzbAn75vkHwsp143dgJ8
-	 uqC4QpU18rk/Xl9bwKrqVQmZRPeiFBJL5BA+9EbWGhaKdNCsWaZF22GmUmGDSeOHJV5oNGtXg6sU
-	 PEuSypKkjOVOSYdVE2Y7zKovBmyT0RTudAZCjbc0pJ/UZixEJuYDaajvGbzWxk5TXOzCg2rW/Iyl
-	 Oqg1YP2zE0tTMZDIEOwhw959e6HXcg9v416wyULto4u5KjqHqmn4iJ2RZvyhJ+KDLs35YuN5u0zV
-	 TGzEK6NSZsXx2HXggls1VCKWPIB91qiZkszQSHVNEFZd4HnKdurVrr+c7dVHV8oVVHb3fQts6bzY
-	 yNqaudnw6O7DT0WDSgQ+pYqh9mWvnb8vs6+UmwXIFzpD1ewhSrwchCznuEdytTWqS+tgt0fKUpke
-	 BaN2aupEHLYYJ6hjNMF3a6B9SiIMd/YgoOIwX97kLnDtGT+VZysC9cFL9uXQ==
-X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
-From: Changjian Liu <driz2t@qq.com>
-To: 1016331059@qq.com
-Cc: liuchangjian@csu.edu.cn,
-	Changjian Liu <driz2t@qq.com>,
-	Wenzhi Wang <wenzhi.wang@uwaterloo.ca>,
-	Viacheslav Dubeyko <slava@dubeyko.com>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Yangtao Li <frank.li@vivo.com>,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH 6.1.y] hfs: fix general protection fault in hfs_find_init()
-Date: Sun, 29 Mar 2026 15:11:55 +0800
-X-OQ-MSGID: <20260329071155.1439455-1-driz2t@qq.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HkNP1iBS"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b982b0889d8so417022366b.2
+        for <linux-fsdevel@vger.kernel.org>; Sun, 29 Mar 2026 02:27:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774776420; x=1775381220; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1pOBvNq97bdGzDJHCDKOSBm+QEbxiD1zQcrqgsMvIjU=;
+        b=HkNP1iBShysBM0EagRnBNvjh5CEfolio/cFS1QFa2i+DAMKfo60dTLFZ+/qNcwLmkX
+         7KZ5J0HVg/E7kj6CJzh2HztwouaMtXcrtsz/EQZlcUEPbAY3R5pKC224P20FPCyHyr9i
+         r1Vb98wPzgfTa0L+FE0tSt7FYCffwkShrNUJjpx0hCqrZWwz18OJArnjnIAszt5+6ZHZ
+         k0LAw9BTg/HvA5xWpTE15OeF6eM+Q5TJgFORNa3nu6sbxzrV3DG29/OH/ofxPkG+QnX9
+         C8MM1DJrDQVUEEpNl4GXkR0pMvS8A0+LKSWytosuhTec5iOFbxpcwDChRXBO4OaLMzd8
+         5DPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774776420; x=1775381220;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1pOBvNq97bdGzDJHCDKOSBm+QEbxiD1zQcrqgsMvIjU=;
+        b=Pk4jSJLLKyCn2BGB4eFAl/u9eZDKDy0HicfUi/hElpK8xwy1R2eO+2JlVxOrLCxft8
+         cSRqgXS7V/qXtpESn/yGWrFIl3bHbu1ZAFljocq7ML+oHDj55Kvm7vdtWeBtYw7MRnIH
+         VXcEhWrdLgSa/uZUokukEy22yHuMuFpV4RjbJ3pugbooNcpOyznphwIgExInc3Bet6/4
+         u5IGbzrHdHUpUlO9c/j9l/pDp30eZ5tYM3vG2vX3OkbdGgRq/+gVmg3w8ezuPiU3/Msz
+         /MoTi+j0+aow3oMPMiwcwdM3VI0LzfVFpXva5yLX+RztCqGe0v/42ZleanI8jiKWzEiZ
+         BwJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUqhWw2AJ74pDJOyFs9HWRgKL4cfpFXFnvkAnjgLXn04tNqsPLUFUZY+9B+wwY+BhL1ROQXEjoVaAJCCobA@vger.kernel.org
+X-Gm-Message-State: AOJu0YyHc+fb3PJgGv6mHm6cs64AmQ6a0SPfKvUEObDwiTGJf0+9Hht7
+	05r/9D/Glpp2dAOTJeiudSOVpPWVJFW9xugLjGeSzqIMyCpsJApwXcUM
+X-Gm-Gg: ATEYQzx3kf9BWqokyshQJjt+yNQ3viMA3XYSw2xLaXgVqihOvsEVqKyS4Ht4prTZ+0F
+	EuBHIOXFmuSnPejb5O6JA7dSh7nrQKhjxzJ6eNLoIs6PsA6CNwvzDnNDISE68yMZzG1GFDcgvqD
+	MO6on54CZDEy3M11+1g9xXlylo/lJq0IDYpdhXCLtUT+9N9CDuj101jquVozSztq2/oP1m64fqa
+	PpR9D3fk31mGc68mNFp+qU/MwjXydErKriHGqzYaOteXQcJ6KeH/SSzkrycW/0dceyzzDk7OeGo
+	XQ8HV57v4nLWhEwtTWhQDEe/+2VEQt2ydl+gRQsQy0e+nT2h9tw9bZyFaRmqVhmSwB5Wv8Y/E3S
+	HKuP9kzMnlYY3Z1LZnz4N8viU6HlvU/lUcTJY6JvP0CDNg0PMtiyabILu0mL+xprTM2HBjQwvsf
+	z9cORm9plu88hFme/NlK8IQCV5rIqdEr9qa0UiHI+L0T4FsfZTAgXYl51uC40ZaDUvZ9v4ebzLR
+	GGJ+YuPSkhsLCU2bRHczICLWUZc
+X-Received: by 2002:a17:907:1b1f:b0:b97:9139:738 with SMTP id a640c23a62f3a-b9b50909ac0mr547783666b.33.1774776419330;
+        Sun, 29 Mar 2026 02:26:59 -0700 (PDT)
+Received: from localhost (2001-1c00-570d-ee00-cfdf-bf3f-5ad7-346a.cable.dynamic.v6.ziggo.nl. [2001:1c00:570d:ee00:cfdf:bf3f:5ad7:346a])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9b7b1df761sm156863366b.42.2026.03.29.02.26.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 29 Mar 2026 02:26:58 -0700 (PDT)
+From: Amir Goldstein <amir73il@gmail.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Miklos Szeredi <miklos@szeredi.hu>,
+	Christian Brauner <brauner@kernel.org>,
+	Chenglong Tang <chenglongtang@google.com>,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-unionfs@vger.kernel.org
+Subject: [GIT PULL] overlayfs fixes for 7.0-rc6
+Date: Sun, 29 Mar 2026 11:26:58 +0200
+Message-ID: <20260329092658.90712-1-amir73il@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -64,162 +77,60 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-[ Upstream commit 736a0516a16268995f4898eded49bfef077af709 ]
+Hi Linus,
 
-The hfs_find_init() method can trigger a crash if tree pointer is NULL.
+Please pull overlayfs fixes for 7.0-rc6 to fix two regressions
+from v6.7 (minor impact) and from v6.12 (major performance impact).
 
-hfs_fill_super() calls hfs_mdb_get(), which tries to construct Extents
-Tree and Catalog Tree. However, hfs_btree_open() calls read_mapping_page(),
-which calls hfs_get_block(), and that in turn calls hfs_ext_read_extent().
+This branch has been sitting in linux-next for a couple of day and
+it has gone through the usual overlayfs test routines.
 
-The problem is that hfs_find_init() tries to use
-HFS_SB(inode->i_sb)->ext_tree before it has been initialized. It will
-only be initialized after hfs_btree_open() finishes.
+The branch merges cleanly with master branch of the moment.
 
-Fix this by checking the tree pointer in hfs_find_init() and reworking
-hfs_btree_open() to read the b-tree header directly from the volume.
-Replace read_mapping_page() with filemap_grab_folio(), then use sb_bread()
-to extract the b-tree header content and copy it into the folio.
+Thanks,
+Amir.
 
-Reported-by: Wenzhi Wang <wenzhi.wang@uwaterloo.ca>
-Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
-cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-cc: Yangtao Li <frank.li@vivo.com>
-cc: linux-fsdevel@vger.kernel.org
-Link: https://lore.kernel.org/r/20250710213657.108285-1-slava@dubeyko.com
-Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
-Signed-off-by: Changjian Liu <driz2t@qq.com>
----
- fs/hfs/bfind.c  |  3 +++
- fs/hfs/btree.c  | 33 +++++++++++++++++++++++----------
- fs/hfs/extent.c |  2 +-
- fs/hfs/hfs_fs.h |  1 +
- 4 files changed, 28 insertions(+), 11 deletions(-)
+----------------------------------------------------------------
+The following changes since commit f338e77383789c0cae23ca3d48adcc5e9e137e3c:
 
-diff --git a/fs/hfs/bfind.c b/fs/hfs/bfind.c
-index 6d37b4c75903..1b1cbb589f82 100644
---- a/fs/hfs/bfind.c
-+++ b/fs/hfs/bfind.c
-@@ -16,6 +16,9 @@ int hfs_find_init(struct hfs_btree *tree, struct hfs_find_data *fd)
- {
- 	void *ptr;
- 
-+if (!tree || !fd)
-+	return -EINVAL;
-+
- 	fd->tree = tree;
- 	fd->bnode = NULL;
- 	ptr = kzalloc(tree->max_key_len * 2 + 4, GFP_KERNEL);
-diff --git a/fs/hfs/btree.c b/fs/hfs/btree.c
-index 2fa4b1f8cc7f..e46e961d40dd 100644
---- a/fs/hfs/btree.c
-+++ b/fs/hfs/btree.c
-@@ -21,8 +21,10 @@ struct hfs_btree *hfs_btree_open(struct super_block *sb, u32 id, btree_keycmp ke
- 	struct hfs_btree *tree;
- 	struct hfs_btree_header_rec *head;
- 	struct address_space *mapping;
--	struct page *page;
-+struct page *page;
-+struct buffer_head *bh;
- 	unsigned int size;
-+u16 dblock;
- 
- 	tree = kzalloc(sizeof(*tree), GFP_KERNEL);
- 	if (!tree)
-@@ -75,12 +77,22 @@ struct hfs_btree *hfs_btree_open(struct super_block *sb, u32 id, btree_keycmp ke
- 	unlock_new_inode(tree->inode);
- 
- 	mapping = tree->inode->i_mapping;
--	page = read_mapping_page(mapping, 0, NULL);
--	if (IS_ERR(page))
-+page = read_mapping_page(mapping, 0, NULL);
-+if (IS_ERR(page))
- 		goto free_inode;
- 
-+dblock = hfs_ext_find_block(HFS_I(tree->inode)->first_extents, 0);
-+bh = sb_bread(sb, HFS_SB(sb)->fs_start + dblock);
-+if (!bh) {
-+pr_err("unable to read tree header\n");
-+goto put_page;
-+}
-+
-+memcpy(kmap_local_page(page), bh->b_data, sb->s_blocksize);
-+brelse(bh);
-+
- 	/* Load the header */
--	head = (struct hfs_btree_header_rec *)(kmap_local_page(page) +
-+head = (struct hfs_btree_header_rec *)(kmap_local_page(page) +
- 					       sizeof(struct hfs_bnode_desc));
- 	tree->root = be32_to_cpu(head->root);
- 	tree->leaf_count = be32_to_cpu(head->leaf_count);
-@@ -95,22 +107,22 @@ struct hfs_btree *hfs_btree_open(struct super_block *sb, u32 id, btree_keycmp ke
- 
- 	size = tree->node_size;
- 	if (!is_power_of_2(size))
--		goto fail_page;
-+goto fail_page;
- 	if (!tree->node_count)
--		goto fail_page;
-+goto fail_page;
- 	switch (id) {
- 	case HFS_EXT_CNID:
- 		if (tree->max_key_len != HFS_MAX_EXT_KEYLEN) {
- 			pr_err("invalid extent max_key_len %d\n",
- 			       tree->max_key_len);
--			goto fail_page;
-+goto fail_page;
- 		}
- 		break;
- 	case HFS_CAT_CNID:
- 		if (tree->max_key_len != HFS_MAX_CAT_KEYLEN) {
- 			pr_err("invalid catalog max_key_len %d\n",
- 			       tree->max_key_len);
--			goto fail_page;
-+goto fail_page;
- 		}
- 		break;
- 	default:
-@@ -121,12 +133,13 @@ struct hfs_btree *hfs_btree_open(struct super_block *sb, u32 id, btree_keycmp ke
- 	tree->pages_per_bnode = (tree->node_size + PAGE_SIZE - 1) >> PAGE_SHIFT;
- 
- 	kunmap_local(head);
--	put_page(page);
-+put_page(page);
- 	return tree;
- 
- fail_page:
- 	kunmap_local(head);
--	put_page(page);
-+put_page(page);
-+put_page:
- free_inode:
- 	tree->inode->i_mapping->a_ops = &hfs_aops;
- 	iput(tree->inode);
-diff --git a/fs/hfs/extent.c b/fs/hfs/extent.c
-index 3f7e9bef9874..070245f8c215 100644
---- a/fs/hfs/extent.c
-+++ b/fs/hfs/extent.c
-@@ -71,7 +71,7 @@ int hfs_ext_keycmp(const btree_key *key1, const btree_key *key2)
-  *
-  * Find a block within an extent record
-  */
--static u16 hfs_ext_find_block(struct hfs_extent *ext, u16 off)
-+u16 hfs_ext_find_block(struct hfs_extent *ext, u16 off)
- {
- 	int i;
- 	u16 count;
-diff --git a/fs/hfs/hfs_fs.h b/fs/hfs/hfs_fs.h
-index 68d0305880f7..1353af3169d5 100644
---- a/fs/hfs/hfs_fs.h
-+++ b/fs/hfs/hfs_fs.h
-@@ -190,6 +190,7 @@ extern const struct inode_operations hfs_dir_inode_operations;
- 
- /* extent.c */
- extern int hfs_ext_keycmp(const btree_key *, const btree_key *);
-+extern u16 hfs_ext_find_block(struct hfs_extent *ext, u16 off);
- extern int hfs_free_fork(struct super_block *, struct hfs_cat_file *, int);
- extern int hfs_ext_write_extent(struct inode *);
- extern int hfs_extend_file(struct inode *);
--- 
-2.43.0
+  Linux 7.0-rc4 (2026-03-15 13:52:05 -0700)
 
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/overlayfs/vfs.git ovl-fixes-7.0-rc6
+
+for you to fetch changes up to 1f6ee9be92f8df85a8c9a5a78c20fd39c0c21a95:
+
+  ovl: make fsync after metadata copy-up opt-in mount option (2026-03-27 12:48:10 +0100)
+
+----------------------------------------------------------------
+overlayfs fixes for 7.0-rc6:
+
+- Fix regression in 'xino' feature detection.
+  I clumsily introduced this regression myself when working on another
+  subsystem (fsnotify).  Both the regression and the fix have almost
+  no visible impact on users except for some kmsg prints.
+
+- Fix to performance regression in v6.12.
+  This regression was reported by Google GOC developers.
+  It is not uncommon these days for the year-old mature LTS to
+  get adopted by distros and get exposed to many new workloads.
+  We made a sub-smart move of making a behavior change in v6.12
+  which could impact performance, without making it opt-in.
+  Fixing this mistake retroactively, to be picked by LTS.
+
+----------------------------------------------------------------
+Amir Goldstein (1):
+      ovl: fix wrong detection of 32bit inode numbers
+
+Fei Lv (1):
+      ovl: make fsync after metadata copy-up opt-in mount option
+
+ Documentation/filesystems/overlayfs.rst | 50 +++++++++++++++++++++++++++++++++
+ fs/overlayfs/copy_up.c                  |  6 ++--
+ fs/overlayfs/overlayfs.h                | 21 ++++++++++++++
+ fs/overlayfs/ovl_entry.h                |  7 +----
+ fs/overlayfs/params.c                   | 33 ++++++++++++++++++----
+ fs/overlayfs/super.c                    |  2 +-
+ fs/overlayfs/util.c                     |  5 +++-
+ 7 files changed, 108 insertions(+), 16 deletions(-)
