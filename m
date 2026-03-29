@@ -1,110 +1,67 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E7E2313E33
-	for <linux-fsdevel@vger.kernel.org>; Sun, 29 Mar 2026 10:53:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6BBD26FA6F;
+	Sun, 29 Mar 2026 10:54:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774781636; cv=none; b=BhHKEp6ga5YSFE+NSDkXlsPqxGOMyXdLeBJ1nuQGq4wWCUEHZ2NRDAqa8JD25vrTBZJrZZSlwybMGRAqUrPhkn3nlaKnEm1UbRHjcTLlPiNhPBa4OLnOb6JIDoVt5R19n55kwVuYWOgVzzol7adWL/SD11JAWGWlJnR99q/b7ZM=
+	t=1774781677; cv=none; b=aGKCH9snNUqCBe7Wll0MS0GwKUFUjMduH1f7EzRQSCHCRraA3ElQ/mPXdUnUlYJEtTWmKTIm29PjslThc9vmYDBuvcKct0xd9s7h0RRASTX/cgSfGi7r0fhNhyUpiJg7eOEUIluTzOJleENMn3iUwvTu1liixaM1ZiHzpgmI9IU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774781636; c=relaxed/simple;
-	bh=NtdlBhQV2VlxX2h7MdXsFGBQD9aeOUTYJysty5gVNJ4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=O/Z5e9ANTkCddQ4Cr+yxpkBOYaluYvd0081SBAYLTq9b5vSg681v0HoesR8CC+W5GNJG52M79TMVoQ30VspI3GwKSAn48AMlRFSUqbNNXSuMSl+RHHjKcM82Ir6azzrr1TEFCHohoukAul3FBCEFJMws4EXCfrCNT5cgLIAzubo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0600E5BDD1;
-	Sun, 29 Mar 2026 10:53:54 +0000 (UTC)
-Authentication-Results: smtp-out2.suse.de;
-	none
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0C1754A0A2;
-	Sun, 29 Mar 2026 10:53:49 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id gC6/Lb0EyWkqcwAAD6G6ig
-	(envelope-from <ddiss@suse.de>); Sun, 29 Mar 2026 10:53:49 +0000
-From: David Disseldorp <ddiss@suse.de>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	David Disseldorp <ddiss@suse.de>,
-	Petr Mladek <pmladek@suse.com>,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Cc: Al Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH v4 6/6] kstrtox: Drop extern keyword in the simple_strtox() declarations
-Date: Sun, 29 Mar 2026 21:30:28 +1100
-Message-ID: <20260329105307.2876-7-ddiss@suse.de>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260329105307.2876-1-ddiss@suse.de>
-References: <20260329105307.2876-1-ddiss@suse.de>
+	s=arc-20240116; t=1774781677; c=relaxed/simple;
+	bh=dT2qA6aZVfjiPPJT73pea/ktjc3HMrRRPVzTps0LIdg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s/zjcMuIrZWiF1xzAVtd6lEKdnvBa8Z5w5ABBv7RQt0nXap/tZrdI8unKvCmyjFat5gqEJWPqZwcX70/V72zW7ehi5D4YXYiXfC5jKDN1j9LqFz8ctG82xKQRKOvdD8HDHiGD3HoucUZ9Obi4yFiRL/aT+wgP6utrAndVVVP0o4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=jRrOhFbw; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="jRrOhFbw"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=MfgbsFHO4daydCv5aduyJSSSj40QMps65Z/65z7W3KE=; b=jRrOhFbwlWMkujuYaeyEwPSBRF
+	Sx9aq70ZzoauT/POtnzV1GLJJ02TsomcWcvHBC2Tzj7b64byzNkN1Qb/pkopY6de01pKSws4kQD5e
+	fywYY9wm/drv/6zEVWfuSLdogDkqKFC8PxsVvP/cse4Pw/ql1ABgFZKrXT74l3aBsK83tlA5S8rkC
+	HLACkPZVDX5+Y3iL056hrUTBhOOVVRGY9Bd2wqCTxl2RODDWY7aVtrkd8yDZ8Wv4ptXB/QHHMmEsD
+	PoXugNcV7PxYkdAN7MTgn2WS/yUgBRELLLBeC4pg3kh8/LZXGW/psFsYNMG3CiQ0xjCPL/vf+me4B
+	wqvZNjuw==;
+Received: from authenticated user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <zeha@debian.org>)
+	id 1w6nms-000crl-0t;
+	Sun, 29 Mar 2026 10:54:33 +0000
+Date: Sun, 29 Mar 2026 12:54:30 +0200
+From: Chris Hofstaedtler <zeha@debian.org>
+To: Christian Albrecht Goeschel Ndjomouo <cgoesc2@wgu.edu>
+Cc: Karel Zak <kzak@redhat.com>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	"util-linux@vger.kernel.org" <util-linux@vger.kernel.org>, Helmut Grohne <helmut@subdivi.de>
+Subject: Re: unshare regression in 2.42-rc1
+Message-ID: <acfvsnyxAM00mKVq@zeha.at>
+References: <wid276gkq7tblvkfwc6kum4nacamstiigqjj5ux6j6zd4blz4l@jzq3sgfh6cj5>
+ <ab_SfC1JDOhNmg6D@zeha.at>
+ <SJ0P220MB05417CC33D6BA305A9CEE320E94AA@SJ0P220MB0541.NAMP220.PROD.OUTLOOK.COM>
+ <acU7uB76HwZlBu6B@zeha.at>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Rspamd-Queue-Id: 0600E5BDD1
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Rspamd-Action: no action
-X-Spam-Score: -4.00
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+In-Reply-To: <acU7uB76HwZlBu6B@zeha.at>
+X-Debian-User: zeha
 
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+* Chris Hofstaedtler <zeha@debian.org> [260326 15:12]:
+>I see Karel has in the meantime merged a different approach. I'll 
+>recheck with 2.42-rc2.
 
-There is legacy 'extern' keyword for the exported simple_strtox()
-function which are the artefact that can be removed. So drop it.
+The debvm CI tests also pass with 2.42-rc2.
 
-While at it, tweak the declaration to provide parameter names.
+Thanks!
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Reviewed-by: David Disseldorp <ddiss@suse.de>
-Reviewed-by: Petr Mladek <pmladek@suse.com>
----
- include/linux/kstrtox.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/include/linux/kstrtox.h b/include/linux/kstrtox.h
-index 7fcf29a4e0de4..6c92828667704 100644
---- a/include/linux/kstrtox.h
-+++ b/include/linux/kstrtox.h
-@@ -142,9 +142,9 @@ static inline int __must_check kstrtos32_from_user(const char __user *s, size_t
-  * Keep in mind above caveat.
-  */
- 
--extern unsigned long simple_strtoul(const char *,char **,unsigned int);
--extern long simple_strtol(const char *,char **,unsigned int);
--extern unsigned long long simple_strtoull(const char *,char **,unsigned int);
--extern long long simple_strtoll(const char *,char **,unsigned int);
-+unsigned long simple_strtoul(const char *cp, char **endp, unsigned int base);
-+long simple_strtol(const char *cp, char **endp, unsigned int base);
-+unsigned long long simple_strtoull(const char *cp, char **endp, unsigned int base);
-+long long simple_strtoll(const char *cp, char **endp, unsigned int base);
- 
- #endif	/* _LINUX_KSTRTOX_H */
--- 
-2.51.0
+Chris
 
