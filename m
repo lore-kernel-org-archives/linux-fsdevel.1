@@ -1,263 +1,174 @@
-Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54D77288B1;
-	Sun, 29 Mar 2026 21:00:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2C1F1DF755;
+	Sun, 29 Mar 2026 21:06:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774818026; cv=none; b=I2eq+VhiNFHHeR6aN1fqP3iET0tYk8ojIilI2nXegJqySIgSwbjom1EX29OQ5/LHc9EOgE+JLvvMeIoQUxxUfWqsLLvyQXMiHt5in8Q/TCL1e0QF0RLXhYSn89aHtpzOSdwY610ZkXqKNO+iLhyuQYywB/vNCzR0oQhdf6Vqny8=
+	t=1774818374; cv=none; b=kWZQb+U/uJ8EW4xpq+RG3MoSL6d6cjQA0SF3j8eOCP9JYlj4PS5D0JWEoXg8ZjZrglIladg6+vCEx9GBKLIjrpvS2Owy4USjluhpCC9AJhmNcxRCIhNNv3Rs2AJtYHCIJ4hvcskHjDkZo2Usyq9pTIONaa6EM3TWAaF4hAHau7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774818026; c=relaxed/simple;
-	bh=VgaEc5WygRxqzDIHpPNqToej6+br4NkW6t3d7s+WGow=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cuqyiG7X+TTnZPhO4KvGbh4Ba469U7CpdFTgIosgeCr/2d76D5R9GL7sIa2k1B4R7coqL453A26qaXWcQpEgkNZJyQncRbXYM2fou4WgshZHUDKhX2qs21p5J6nTScHvlKMbHIMK7zDdvx14WUY5bqUjnbDWNDb4xMA4QkS8lC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gvernon.com; spf=pass smtp.mailfrom=gvernon.com; dkim=pass (2048-bit key) header.d=gvernon.com header.i=@gvernon.com header.b=b5hiMcYw; arc=none smtp.client-ip=91.218.175.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gvernon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gvernon.com
+	s=arc-20240116; t=1774818374; c=relaxed/simple;
+	bh=miKE+jJbvoXtdpjtS++2uMlMb3Ab/grwgmQ2uu1bADM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aQ+F7+7IhgEj6jV0Hh14x7Z3JCnGH6s9/6o6wb6pwksA9deIRiTHgiXqtdYhFgtfWd/+7sNMSs8b13olqDe68xwh/6M4BXZ7Ajbr/9NhBfhAMKZ8LZKk9BD5yyIL6X0zVJf541LjV8KyFV/3398T6Fi3fzr7MAHbq2WtAcnjF/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BGIW3kQf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gvernon.com header.i=@gvernon.com header.b="b5hiMcYw"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gvernon.com; s=key1;
-	t=1774818021;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=tkfmoKTV0gg3zyPU+VPykJYmn/8VVKbz5TP/SxmAkFQ=;
-	b=b5hiMcYwJ9/fFHEHUpoDg33wkBntD03p5fcfCC6D3ILTFEoqPDkZoXul32ddjbT9wP/ssf
-	nhIasI0upuazFgLr4JEV6/+/lSScbwbu4SDPRrBGSB/LeOkix4rjbTl/l2vz6jwBTL3hVe
-	/rk1WaknFxaJp8CjZWZrDXuwyzOeOqmJqBuvCXo5oLid4t3AgSp/7164ocutfPWo6cRh1Q
-	d4a1CFOtwXLBUApcoTdx6i6Zk2JbUnWsyHbiJ+SckxPqQdEfDVZECGn2XI1TT5NHlQd3pe
-	vay3yA54uQaGF4YyxrKZQsET5L7zVhvu+r/0fXKaENGkjfV3sQP71t6n9WUY7w==
-From: George Anthony Vernon <contact@gvernon.com>
-To: slava@dubeyko.com,
-	glaubitz@physik.fu-berlin.de,
-	frank.li@vivo.com
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	penguin-kernel@i-love.sakura.ne.jp,
-	George Anthony Vernon <contact@gvernon.com>,
-	syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com
-Subject: [PATCH v5] hfs: Validate CNIDs in hfs_read_inode
-Date: Sun, 29 Mar 2026 21:59:49 +0100
-Message-ID: <20260329205949.701267-1-contact@gvernon.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BGIW3kQf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18B47C116C6;
+	Sun, 29 Mar 2026 21:06:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774818374;
+	bh=miKE+jJbvoXtdpjtS++2uMlMb3Ab/grwgmQ2uu1bADM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=BGIW3kQfNkZldOkiv4QICCKtKOTZIQYySToU+Au+OlqorMICWniVIyJ1YT10uK1N0
+	 59jHaBfVQsh7Sr8+mvHS7yhSielzSKkerk9XyUaRw8+Snpi7nEo3Z3xwC+n/+BH3/v
+	 Xc154L2WE+ZcDgFNeEdRosC6AsylFaBfrCIIyujI7royqfrv+Tvd5dmBDT/RaB+A66
+	 BxMmPgBM0pciK2WlYc/eO92hzpQNil6GjubcPIdHLsn2VgR1bPSzlowweu4YZFUAh0
+	 QO526EJBPsGZfkjdzWPA3I+Nt5Vss61QCprgMRd4BLA+BkqA8eno4SCtrAsxUtJM96
+	 Re6P5YXk60Oog==
+From: Christian Brauner <brauner@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Christian Brauner <brauner@kernel.org>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [GIT PULL for v7.0] vfs fixes
+Date: Sun, 29 Mar 2026 23:06:07 +0200
+Message-ID: <20260329-vfs-fixes-846b973993eb@brauner>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5329; i=brauner@kernel.org; h=from:subject:message-id; bh=miKE+jJbvoXtdpjtS++2uMlMb3Ab/grwgmQ2uu1bADM=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSenOLgNuV8qfF8W/3t4csf/T/6wkTn8cnlq8qyg9ffc /NaO2taQEcpC4MYF4OsmCKLQ7tJuNxynorNRpkaMHNYmUCGMHBxCsBELGcxMnzX26bBafP0TOzl oubA+5VnuuZXCP0yvnNk76pZsW7KrzUZ/ofdS9pVbvax8IKLkNf+1n17Cq8aLVon0TF1TwzjOvM fz7gA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
-hfs_read_inode previously did not validate CNIDs read from disk, thereby
-allowing inodes to be constructed with disallowed CNIDs and placed on
-the dirty list, eventually hitting a bug on writeback.
+Hey Linus,
 
-Validate reserved CNIDs as specified for HFS according to
-"Inside Macintosh: Files."
+Sorry for being late with this. Feel free to delay this after you have
+tagged. I didn't get around to sending a pull request earlier
+unfortunately as the vfs ci took quite a while to run.
 
-This issue was discussed at length on LKML previously, the discussion
-is linked below.
+/* Summary */
 
-This patch was regression tested by issuing various system calls on a
-mounted HFS filesystem and validating that file creation, deletion,
-reads and writes all work.
+This contains fixes for this cycle:
 
-Link: https://lore.kernel.org/all/427fcb57-8424-4e52-9f21-7041b2c4ae5b@
-I-love.SAKURA.ne.jp/T/
-Reported-by: syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=97e301b4b82ae803d21b
-Cc: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Signed-off-by: George Anthony Vernon <contact@gvernon.com>
----
+- Fix netfs_limit_iter() hitting BUG() when an ITER_KVEC iterator reaches
+  it via core dump writes to 9P filesystems. Add ITER_KVEC handling
+  following the same pattern as the existing ITER_BVEC code.
 
-Thanks to Tetsuo and Slava for the reviews on V4. All correct feedback
-has been addressed. Tetsuo's patch to validate the superblock on read
-remains a very good further improvement.
+- Fix a NULL pointer dereference in the netfs unbuffered write retry path
+  when the filesystem (e.g., 9P) doesn't set the prepare_write operation.
 
-I have tested this with syzbot's reproducer and my own reproducer.
-Previous patch versions were tested with Syzbot also, however I was
-unable to test this patch version with Syzbot due to
-https://github.com/google/syzkaller/issues/7025.
+- Clear I_DIRTY_TIME in sync_lazytime for filesystems implementing
+  ->sync_lazytime. Without this the flag stays set and may cause
+  additional unnecessary calls during inode deactivation.
 
-Changes from V4->V5:
-- Free bad inode in hfs_fill_super
-- Make sure cnid is initialised before accessing it in warning message
-- Use be32_to_cpu helpers for correct accesses of catalog record fields
-- Removed syzbot tested-by tag
+- Increase tmpfs size in mount_setattr selftests. A recent commit bumped
+  the ext4 image size to 2 GB but didn't adjust the tmpfs backing store,
+  so mkfs.ext4 fails with ENOSPC writing metadata.
 
-Changes from V3->V4:
-- Remove explicit "do nothing" case statement labels in favor of
-  implicit default
-- Check superblock for bad inode
+- Fix an invalid folio access in iomap when i_blkbits matches the folio
+  size but differs from the I/O granularity. The cur_folio pointer would
+  not get invalidated and iomap_read_end() would still be called on it
+  despite the IO helper owning it.
 
-Changes from V2->V3:
-- Use HFS-specific references in preference to TN1150
-- Remove Tetsuo's additional superblock check from patch series
-- Rename is_valid_cnid() -> is_valid_catalog_record()
-- Add static inline hfs_inode_type() helper function
-- Do not BUG() on detected bad inode, use pr_warn()
+- Fix hash_name() docstring.
 
-Changes from V1->V2:
-- is_valid_cnid prototype now takes u32 and u8 types
-- Add fsck advice in dmesg
-- Replace make_bad_inode calls in hfs_read_inode with gotos
-- Reuse same check in hfs_write_inode
-- Disallow HFS_POR_CNID, HFS_BAD_CNID, and HFS_EXCH_CNID
-- Add Tetsuo's patch to mine and make it a patch series
+- Fix read abandonment during netfs retry where the subreq variable used
+  for abandonment could be uninitialized on the first pass or point to a
+  deleted subrequest on later passes.
 
- fs/hfs/inode.c | 72 +++++++++++++++++++++++++++++++++++++++-----------
- fs/hfs/super.c |  4 +++
- 2 files changed, 60 insertions(+), 16 deletions(-)
+- Don't block sync for filesystems with no data integrity guarantees. Add
+  a SB_I_NO_DATA_INTEGRITY superblock flag replacing the per-inode
+  AS_NO_DATA_INTEGRITY mapping flag so sync kicks off writeback but
+  doesn't wait for flusher threads. This fixes a suspend-to-RAM hang on
+  fuse-overlayfs where the flusher thread blocks when the fuse daemon is
+  frozen.
 
-diff --git a/fs/hfs/inode.c b/fs/hfs/inode.c
-index 878535db64d6..833261261aba 100644
---- a/fs/hfs/inode.c
-+++ b/fs/hfs/inode.c
-@@ -340,6 +340,31 @@ static int hfs_test_inode(struct inode *inode, void *data)
- 	}
- }
- 
-+/*
-+ * is_valid_catalog_record
-+ *
-+ * Validate the CNID of a catalog record
-+ */
-+static inline
-+bool is_valid_catalog_record(u32 cnid, u8 type)
-+{
-+	if (likely(cnid >= HFS_FIRSTUSER_CNID))
-+		return true;
-+
-+	switch (cnid) {
-+	case HFS_ROOT_CNID:
-+		return type == HFS_CDR_DIR;
-+	case HFS_EXT_CNID:
-+	case HFS_CAT_CNID:
-+		return type == HFS_CDR_FIL;
-+	default:
-+		/* Invalid reserved CNID */
-+		break;
-+	}
-+
-+	return false;
-+}
-+
- /*
-  * hfs_read_inode
-  */
-@@ -348,6 +373,7 @@ static int hfs_read_inode(struct inode *inode, void *data)
- 	struct hfs_iget_data *idata = data;
- 	struct hfs_sb_info *hsb = HFS_SB(inode->i_sb);
- 	hfs_cat_rec *rec;
-+	u32 cnid;
- 
- 	HFS_I(inode)->flags = 0;
- 	HFS_I(inode)->rsrc_inode = NULL;
-@@ -369,6 +395,9 @@ static int hfs_read_inode(struct inode *inode, void *data)
- 	rec = idata->rec;
- 	switch (rec->type) {
- 	case HFS_CDR_FIL:
-+		cnid = be32_to_cpu(rec->file.FlNum);
-+		if (!is_valid_catalog_record(cnid, rec->type))
-+			goto make_bad_inode;
- 		if (!HFS_IS_RSRC(inode)) {
- 			hfs_inode_read_fork(inode, rec->file.ExtRec, rec->file.LgLen,
- 					    rec->file.PyLen, be16_to_cpu(rec->file.ClpSize));
-@@ -377,7 +406,7 @@ static int hfs_read_inode(struct inode *inode, void *data)
- 					    rec->file.RPyLen, be16_to_cpu(rec->file.ClpSize));
- 		}
- 
--		inode->i_ino = be32_to_cpu(rec->file.FlNum);
-+		inode->i_ino = cnid;
- 		inode->i_mode = S_IRUGO | S_IXUGO;
- 		if (!(rec->file.Flags & HFS_FIL_LOCK))
- 			inode->i_mode |= S_IWUGO;
-@@ -390,7 +419,10 @@ static int hfs_read_inode(struct inode *inode, void *data)
- 		inode->i_mapping->a_ops = &hfs_aops;
- 		break;
- 	case HFS_CDR_DIR:
--		inode->i_ino = be32_to_cpu(rec->dir.DirID);
-+		cnid = be32_to_cpu(rec->dir.DirID);
-+		if (!is_valid_catalog_record(cnid, rec->type))
-+			goto make_bad_inode;
-+		inode->i_ino = cnid;
- 		inode->i_size = be16_to_cpu(rec->dir.Val) + 2;
- 		HFS_I(inode)->fs_blocks = 0;
- 		inode->i_mode = S_IFDIR | (S_IRWXUGO & ~hsb->s_dir_umask);
-@@ -399,8 +431,13 @@ static int hfs_read_inode(struct inode *inode, void *data)
- 		inode->i_op = &hfs_dir_inode_operations;
- 		inode->i_fop = &hfs_dir_operations;
- 		break;
-+make_bad_inode:
-+		pr_warn("Invalid inode with cnid %lu\n", cnid);
-+		pr_warn("Volume is probably corrupted, try performing fsck.\n");
-+		fallthrough;
- 	default:
- 		make_bad_inode(inode);
-+		break;
- 	}
- 	return 0;
- }
-@@ -448,6 +485,11 @@ void hfs_inode_write_fork(struct inode *inode, struct hfs_extent *ext,
- 					 HFS_SB(inode->i_sb)->alloc_blksz);
- }
- 
-+static inline u8 hfs_inode_type(struct inode *inode)
-+{
-+	return S_ISDIR(inode->i_mode) ? HFS_CDR_DIR : HFS_CDR_FIL;
-+}
-+
- int hfs_write_inode(struct inode *inode, struct writeback_control *wbc)
- {
- 	struct inode *main_inode = inode;
-@@ -460,20 +502,18 @@ int hfs_write_inode(struct inode *inode, struct writeback_control *wbc)
- 	if (res)
- 		return res;
- 
--	if (inode->i_ino < HFS_FIRSTUSER_CNID) {
--		switch (inode->i_ino) {
--		case HFS_ROOT_CNID:
--			break;
--		case HFS_EXT_CNID:
--			hfs_btree_write(HFS_SB(inode->i_sb)->ext_tree);
--			return 0;
--		case HFS_CAT_CNID:
--			hfs_btree_write(HFS_SB(inode->i_sb)->cat_tree);
--			return 0;
--		default:
--			BUG();
--			return -EIO;
--		}
-+	if (!is_valid_catalog_record(inode->i_ino, hfs_inode_type(inode)))
-+		return -EIO;
-+
-+	switch (inode->i_ino) {
-+	case HFS_EXT_CNID:
-+		hfs_btree_write(HFS_SB(inode->i_sb)->ext_tree);
-+		return 0;
-+	case HFS_CAT_CNID:
-+		hfs_btree_write(HFS_SB(inode->i_sb)->cat_tree);
-+		return 0;
-+	default:
-+		break;
- 	}
- 
- 	if (HFS_IS_RSRC(inode))
-diff --git a/fs/hfs/super.c b/fs/hfs/super.c
-index a4f2a2bfa6d3..18d49db551ac 100644
---- a/fs/hfs/super.c
-+++ b/fs/hfs/super.c
-@@ -371,6 +371,10 @@ static int hfs_fill_super(struct super_block *sb, struct fs_context *fc)
- 	hfs_find_exit(&fd);
- 	if (!root_inode)
- 		goto bail_no_root;
-+	if (is_bad_inode(root_inode)) {
-+		iput(root_inode);
-+		goto bail_no_root;
-+	}
- 
- 	set_default_d_op(sb, &hfs_dentry_operations);
- 	res = -ENOMEM;
--- 
-2.53.0
+- Fix a lockdep splat in iomap when reads fail. iomap_read_end_io()
+  invokes fserror_report() which calls igrab() taking i_lock in hardirq
+  context while i_lock is normally held with interrupts enabled. Kick
+  failed read handling to a workqueue.
 
+- Remove the redundant netfs_io_stream::front member and use
+  stream->subrequests.next instead, fixing a potential issue in the
+  direct write code path.
+
+/* Conflicts */
+
+Merge conflicts with mainline
+=============================
+
+No known conflicts.
+
+Merge conflicts with other trees
+================================
+
+The following changes since commit d320f160aa5ff36cdf83c645cca52b615e866e32:
+
+  iomap: reject delalloc mappings during writeback (2026-03-04 14:31:56 +0100)
+
+are available in the Git repository at:
+
+  git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.0-rc6.fixes
+
+for you to fetch changes up to 0e764b9d46071668969410ec5429be0e2f38c6d3:
+
+  netfs: Fix the handling of stream->front by removing it (2026-03-26 15:18:45 +0100)
+
+----------------------------------------------------------------
+vfs-7.0-rc6.fixes
+
+Please consider pulling these changes from the signed vfs-7.0-rc6.fixes tag.
+
+Thanks!
+Christian
+
+----------------------------------------------------------------
+Christian Brauner (1):
+      selftests/mount_setattr: increase tmpfs size for idmapped mount tests
+
+Christoph Hellwig (1):
+      fs: clear I_DIRTY_TIME in sync_lazytime
+
+Darrick J. Wong (1):
+      iomap: fix lockdep complaint when reads fail
+
+David Howells (2):
+      netfs: Fix read abandonment during retry
+      netfs: Fix the handling of stream->front by removing it
+
+Deepanshu Kartikey (2):
+      netfs: Fix kernel BUG in netfs_limit_iter() for ITER_KVEC iterators
+      netfs: Fix NULL pointer dereference in netfs_unbuffered_write() on retry
+
+Joanne Koong (2):
+      iomap: fix invalid folio access when i_blkbits differs from I/O granularity
+      writeback: don't block sync for filesystems with no data integrity guarantees
+
+Jori Koolstra (1):
+      vfs: fix docstring of hash_name()
+
+ fs/fs-writeback.c                                  | 36 +++++++++++----
+ fs/fuse/file.c                                     |  4 +-
+ fs/fuse/inode.c                                    |  1 +
+ fs/iomap/bio.c                                     | 51 +++++++++++++++++++++-
+ fs/iomap/buffered-io.c                             | 15 ++++---
+ fs/namei.c                                         | 10 ++++-
+ fs/netfs/buffered_read.c                           |  3 +-
+ fs/netfs/direct_read.c                             |  3 +-
+ fs/netfs/direct_write.c                            | 15 +++++--
+ fs/netfs/iterator.c                                | 43 ++++++++++++++++++
+ fs/netfs/read_collect.c                            |  4 +-
+ fs/netfs/read_retry.c                              |  5 ++-
+ fs/netfs/read_single.c                             |  1 -
+ fs/netfs/write_collect.c                           |  4 +-
+ fs/netfs/write_issue.c                             |  3 +-
+ include/linux/fs/super_types.h                     |  1 +
+ include/linux/netfs.h                              |  1 -
+ include/linux/pagemap.h                            | 11 -----
+ include/trace/events/netfs.h                       |  8 ++--
+ .../selftests/mount_setattr/mount_setattr_test.c   |  2 +-
+ 20 files changed, 168 insertions(+), 53 deletions(-)
