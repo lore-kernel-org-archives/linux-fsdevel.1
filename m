@@ -1,64 +1,64 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B5F93859DE
-	for <linux-fsdevel@vger.kernel.org>; Sun, 29 Mar 2026 17:20:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EFB0386C39
+	for <linux-fsdevel@vger.kernel.org>; Sun, 29 Mar 2026 17:20:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774804823; cv=none; b=c7c9Fsn/WWCmO+/8kiwtTvx8ReepGN0MfNcX0AIUjYnxuEz1xGhFUPBUMNHVAl270uQLeFpAp7a4ye0MAqF7lzjTh3NT5GkjnhprP8o64hV6WRQmpGOpf3wOAIjeYLwcn2CqRw5wPfXS/GC1/QVTdQnx6ZemlFVjUtBufkpvDOQ=
+	t=1774804825; cv=none; b=FZk7Ll86BiFwqcVMewuz2w1cWRQ2DtHJBCQO1wx7YOHCyn1Pfa0V4TWOV7Nco3UoNPZSf91SsxnWzjgjVuQi9qoD3Jc9UPib25i1TuAnIqPFiPCuHmbTwGezLNK8DP07PR7D749HZ8Oco8zcgshOMCKfg46kM5/nuDxLtpWDyI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774804823; c=relaxed/simple;
-	bh=3wWUg5LSl4md60Gl4sfBqptcrZXuVuHRnorf8MypEC8=;
+	s=arc-20240116; t=1774804825; c=relaxed/simple;
+	bh=pSGIt1gpj97rMHRo/uSF1TFQzt+/bTerdPhiTqudf/w=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qpRnRZUAUMChRI8SDVX+bpVMx2ENh16orhyeIVlRlB38tXdb49xCrOKVxDbp107+FgzdYrQRFQgcW3ZaM4ecv/UZIdBrY5cen6shvWVrLBf+jEv/27jdTCTyiGvcfmuoPL99xA8XyEs3dEtbyDFInbsgW00QVFYRirqOTM90hAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PAK+FuEw; arc=none smtp.client-ip=209.85.128.51
+	 MIME-Version; b=iVIzYNWz/11fAu0RXU8MVr17Ix05bdIzm8mySQJ8t16Q9bj5o4MU9Cnf0pKvB+iutzCrm5czDh2SLBaTMvY7Q309NYnPSdm5uT5o82f2BDSPDyQNEUOMDNQ3RXUu6zmy3oJeNWeCQLINdDumfwOrNOlmnRWv9n5amlOc8xd6Ai4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tEPc1U26; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PAK+FuEw"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-486fba7ce4cso36743165e9.3
-        for <linux-fsdevel@vger.kernel.org>; Sun, 29 Mar 2026 10:20:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tEPc1U26"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4853e1ce427so45534455e9.3
+        for <linux-fsdevel@vger.kernel.org>; Sun, 29 Mar 2026 10:20:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774804820; x=1775409620; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1774804822; x=1775409622; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tE4V2dhR2jT7NrbkOWfwwUAC12jyCa2VsCL+/A8CWNg=;
-        b=PAK+FuEwo/FnUbA43J7PQTFpjD49fEADnsWzoNXP89Wzi+9d17xRcJSmTE2U+w7JbJ
-         CM44nYK+RDKJXs6YIV0utHwXFipKwrrcsA3scUJkYDJ4u4yvAnw766M0/xgNWq/wBOzj
-         oq0eC7aybl7+TNoOEzkVhFEarq9tvG/609S/73Rn414ffX39/A9PD0hVCAJDic+MRMVc
-         Lix/rkYrEkDtGYChQUMFmid6TxGisngmR4gjjs0IR/Ny2dxGpvfuZcclqHSL7K4JIbZp
-         Wen7ZAplzGGOgyu7n4DmCNJ5QpV7AvU8ExpcWRQKW0/ZE7N2xAtbdS5ZxfsHPB1jzDdv
-         8ksA==
+        bh=/g2CowQdixIfq8ensM5Khpl9kYXMah3qefhvCGYiZ7M=;
+        b=tEPc1U26Zm3mAiPYX7qSNo05GlyVeepw1Sqg8+lR9bKGa+kfP7AQ5zYWapk+J1E3eJ
+         j5RFsQ5tc0WGWIG9wB7+qN3gUccHuHkTmb9cC15EFSB5nQtS/kfEHPE8tzzPnCa6oMlK
+         zZ9TAAhEnIUdCo/zNfEidVivMjB3Lt+KjYNuKaFLcCuA0teRnPWAXDOtVWybbDYX6Csb
+         XdLBEo7eONpYbHxk+qIrFlRnghdPmug5s6/YMPiKuMRHMAPqf4D1CYcdXDxDOx2gwtH7
+         /lPofDF81Cw9/SIfYcvunOXj8rX3izhQUDWCultOETDRafVje7x7gFTTJRXH4vlyHoIH
+         HYFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774804820; x=1775409620;
+        d=1e100.net; s=20251104; t=1774804822; x=1775409622;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=tE4V2dhR2jT7NrbkOWfwwUAC12jyCa2VsCL+/A8CWNg=;
-        b=qjvtVCuF+8087MuYDj+C9PuJQMI8hu5EdPoQBzWg/iRHiaCPTxPeqGMHw0zdpPL8Jg
-         wNBg5WFrSp0P6rC/Pdz/KuR7LLrTE+ifybWXQoQEnzzMG6Q9fBBGgfFCNE4wWs6pVLP5
-         hwb5HKcWrF8IVD53lgC+j/SacXY+h0kRHWwxbXC+wPo5Lvj6cHxjhvg6CLa6OrVdIhOO
-         JcUdlmK7r8n/hG5cjfB0SLghm7PG0WjBpdF3Q/rcyu/2c8kdALibx/OxTro+4uGRfQSw
-         pvXgBqqUx5jbTdfZ6EXCPwkXf45C0HS5CznqesobCSLuDNU6jdTzTAuriGVgaoD4i7mC
-         wsGQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX0ho9bUjFahGca+hsqcuz/hF6UmvzTvUe4t42+JSpgADwHzNE7EP3E9/5QaUuTf8Yfppv7xAjMX+mitwHF@vger.kernel.org
-X-Gm-Message-State: AOJu0YwhS7RQ0JSHvCGwrsWYWEEZKJok2+CB2iDcU52LOLxl7i1A+Y4J
-	V7YAEFuyZsQhThp0tqUbEZlMf+L9WTdAxWnOH/LA1etjPwqwhpbpxgBDBHECug==
-X-Gm-Gg: ATEYQzx1NRCnF8h9LcY23NdSrKIvNATKUiexIYk3d6A4W7p7GG96VpGDeufJ5SRFC8W
-	ix0a6JRcdezCmXFAFY/HVnC6dXrTRIYNSuPRKQWmFtZ5I668UkYhddIi1JRLgSpjpo8HBgHCdu9
-	PM1UfJ0Ik60Vn4Ef4HKFhNDqxR8k95u5O16JWi9x0hnqQeyJNHE/fADzGvTh3caR5Ty91/TiNNz
-	r+pWUnpWrCxuPpTdyXU/BNf/iGBbL3+Fjr4yu8tNQzE5cRnltqlsA3V1bzYRsnROOMUaN2tZuno
-	sXXNF2vhcckAtYR6oSqHVJs7tJXmvHA7FMzGQKQW5ACqYBvSuTfl9kAt3GDGjxZT7JrwbJI1tkq
-	QvF3YFz23y6qANZX7vlhsFDgNW55uzZrMaEvghifsDQpJidjHZ6458lZNDiFIBzzpg2qRYXNxD0
-	4tguuNy4Sq6/lMm26zjhSmB4Xd5NKwP+vmu3kKQuEQi8JQhFtHLoDgyeabSqdisxqaT232nGud9
-	g==
-X-Received: by 2002:a05:600c:34c3:b0:485:3f65:94a1 with SMTP id 5b1f17b1804b1-48727eda72fmr171565335e9.18.1774804819534;
-        Sun, 29 Mar 2026 10:20:19 -0700 (PDT)
+        bh=/g2CowQdixIfq8ensM5Khpl9kYXMah3qefhvCGYiZ7M=;
+        b=H4dCcnNG+BYAwZc2mbQ4ycxpnUqYQcb88jRXOeUzqVvuNvWc2Lj2YhiOoW6TFcR33r
+         lwHSGcvdEU2ddV4+kni5bVosDqJ+UwrDtLhzvWL2dqXT1DxoCSPl/qpxtId6KLxMYaLA
+         vw5RgjtrVqlahuTJo4bUombFTm6k01Oixe+Ppmk2A92iLHAHojZEr9yrJ2OL2vzWt6Fp
+         02iAT+CBm0AaVSwqT8FuaCm0PgYK7dh3Z3xrbXElPZHDDXF9kxGLwLlzA8W5nVVzO+74
+         QzKn8tIlmjPSssL3x39UmN8032xNi0YEIo/ploAiTxLdAT4rSWrEkIUhdtDu4PRZhsj3
+         w23Q==
+X-Forwarded-Encrypted: i=1; AJvYcCW71tZcrt79IHeCtQPj/R570w2JbpF3UTq7epf5ntsOsq+zPINzmd1F07RxAJ5e9x+AN0y0ESh9Mob+W97V@vger.kernel.org
+X-Gm-Message-State: AOJu0YxzoUfm/7Y3qkVlCJ+M4saY/+PzAXImmLWvrNtUVmKCnX+vbpuP
+	nSVrHbyUqeAJULsgw/iCGShXoLQ4cJdqhBBZO3lsZlCjVOhmsqObjP4X
+X-Gm-Gg: ATEYQzygXIx+FpWCupTqyOiq/FU33Xptan8IK6bJ9UwrLiuBqEYn2pbAOLdHW78snAE
+	8NWQQaiHRbPZTUPSPqy3Q2Mwyqa5GuBNfaVQEq6JFBD1SgcuO4OfcLA5p52V3o2hEwuE8tqsRt9
+	ubQaC7OlNcHocQ0J7QO6R28FbtDJ38FN7aRRQMidHQR6ySTVqZb04LwX8wzXT/vXD4vwzWtRn2c
+	osjcaGSfKBhntc146zw4M5pKUGjYME9qI0GOfN8HD2xanr6f198sqSX827wSLFWJ2UFj1joNmHR
+	ie3Ii+sIuiLwVuW2yAAy5MxUiN1uG8NB3Cg0MH4OeMSgB8hX9FF171k9edMzV6VBaN3glJDzUaF
+	flvlF4EAdKKcwM8jSMcKXpoRnQJ+nQDWpotA/faTAxCKOTCv9a3pD4HqfNHLHyfWuIxtiSfyW21
+	nR2R+JLqsWt5g0YfwM1U8BASeN201jWKCDnpzi5XoKe1pHpXi8+IF6S28fG6bnL+OfccqK+gPJt
+	A==
+X-Received: by 2002:a05:600c:5304:b0:485:f1d1:8f3d with SMTP id 5b1f17b1804b1-48727d67a43mr164826365e9.6.1774804821809;
+        Sun, 29 Mar 2026 10:20:21 -0700 (PDT)
 Received: from f.. (cst-prg-89-171.cust.vodafone.cz. [46.135.89.171])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4873cd7d039sm9776805e9.15.2026.03.29.10.20.18
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4873cd7d039sm9776805e9.15.2026.03.29.10.20.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Mar 2026 10:20:19 -0700 (PDT)
+        Sun, 29 Mar 2026 10:20:21 -0700 (PDT)
 From: Mateusz Guzik <mjguzik@gmail.com>
 To: brauner@kernel.org
 Cc: viro@zeniv.linux.org.uk,
@@ -66,9 +66,9 @@ Cc: viro@zeniv.linux.org.uk,
 	linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	Mateusz Guzik <mjguzik@gmail.com>
-Subject: [PATCH v3 5/7] fs: handle hypothetical filesystems which use I_DONTCACHE and drop the lock in ->drop_inode
-Date: Sun, 29 Mar 2026 19:20:00 +0200
-Message-ID: <20260329172002.3557801-6-mjguzik@gmail.com>
+Subject: [PATCH v3 7/7] fs: locklessly bump refs in the inode hash when possible
+Date: Sun, 29 Mar 2026 19:20:02 +0200
+Message-ID: <20260329172002.3557801-8-mjguzik@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260329172002.3557801-1-mjguzik@gmail.com>
 References: <20260329172002.3557801-1-mjguzik@gmail.com>
@@ -80,67 +80,125 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-f2fs and ntfs play games where they transitiong the refcount 0->1 and release
-the inode spinlock, allowing other threads to grab a ref of their own.
-They also return 0 in that case, making this problem harmless.
-
-Should they start using the I_DONTCACHE machinery down the road while
-retaining the above, iput_final() will get a race where it can proceed
-to teardown an inode with references.
-
-Future-proof it.
-
-Developing better ->drop_inode and sanitizing all users is left as en
-exercise for the reader.
-
 Signed-off-by: Mateusz Guzik <mjguzik@gmail.com>
 ---
- fs/inode.c | 27 ++++++++++++++++++---------
- 1 file changed, 18 insertions(+), 9 deletions(-)
+ fs/dcache.c |  4 ++++
+ fs/inode.c  | 52 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 56 insertions(+)
 
+diff --git a/fs/dcache.c b/fs/dcache.c
+index 9ceab142896f..b63450ebb85c 100644
+--- a/fs/dcache.c
++++ b/fs/dcache.c
+@@ -2033,6 +2033,10 @@ void d_instantiate_new(struct dentry *entry, struct inode *inode)
+ 	__d_instantiate(entry, inode);
+ 	spin_unlock(&entry->d_lock);
+ 	WARN_ON(!(inode_state_read(inode) & I_NEW));
++	/*
++	 * Paired with igrab_try_lockless()
++	 */
++	smp_wmb();
+ 	inode_state_clear(inode, I_NEW | I_CREATING);
+ 	inode_wake_up_bit(inode, __I_NEW);
+ 	spin_unlock(&inode->i_lock);
 diff --git a/fs/inode.c b/fs/inode.c
-index 0050eca6d83f..a417abc64822 100644
+index c7585924d5c8..c6e53ec90057 100644
 --- a/fs/inode.c
 +++ b/fs/inode.c
-@@ -1935,20 +1935,29 @@ static void iput_final(struct inode *inode)
- 	else
- 		drop = inode_generic_drop(inode);
+@@ -1029,6 +1029,7 @@ long prune_icache_sb(struct super_block *sb, struct shrink_control *sc)
+ }
  
--	if (!drop &&
--	    !(inode_state_read(inode) & I_DONTCACHE) &&
--	    (sb->s_flags & SB_ACTIVE)) {
+ static void __wait_on_freeing_inode(struct inode *inode, bool hash_locked, bool rcu_locked);
++static bool igrab_try_lockless(struct inode *inode);
+ 
+ /*
+  * Called with the inode lock held.
+@@ -1053,6 +1054,11 @@ static struct inode *find_inode(struct super_block *sb,
+ 			continue;
+ 		if (!test(inode, data))
+ 			continue;
++		if (igrab_try_lockless(inode)) {
++			rcu_read_unlock();
++			*isnew = false;
++			return inode;
++		}
+ 		spin_lock(&inode->i_lock);
+ 		if (inode_state_read(inode) & (I_FREEING | I_WILL_FREE)) {
+ 			__wait_on_freeing_inode(inode, hash_locked, true);
+@@ -1095,6 +1101,11 @@ static struct inode *find_inode_fast(struct super_block *sb,
+ 			continue;
+ 		if (inode->i_sb != sb)
+ 			continue;
++		if (igrab_try_lockless(inode)) {
++			rcu_read_unlock();
++			*isnew = false;
++			return inode;
++		}
+ 		spin_lock(&inode->i_lock);
+ 		if (inode_state_read(inode) & (I_FREEING | I_WILL_FREE)) {
+ 			__wait_on_freeing_inode(inode, hash_locked, true);
+@@ -1212,6 +1223,10 @@ void unlock_new_inode(struct inode *inode)
+ 	lockdep_annotate_inode_mutex_key(inode);
+ 	spin_lock(&inode->i_lock);
+ 	WARN_ON(!(inode_state_read(inode) & I_NEW));
 +	/*
-+	 * XXXCRAP: there are ->drop_inode hooks playing nasty games releasing the
-+	 * spinlock and temporarily grabbing refs. This opens a possibility someone
-+	 * else will sneak in and grab a ref while it happens.
-+	 *
-+	 * If such a hook returns 0 (== don't drop) this happens to be harmless as long
-+	 * as the inode is not marked with I_DONTCACHE. Otherwise we are proceeding with
-+	 * teardown despite references being present.
-+	 *
-+	 * Damage-control the problem by including the count in the decision. However,
-+	 * assert no refs showed up if the hook decided to drop the inode.
++	 * Paired with igrab_try_lockless()
 +	 */
-+	if (drop)
-+		VFS_BUG_ON_INODE(icount_read(inode) != 0, inode);
-+
-+	if (icount_read(inode) > 0 ||
-+	    (!drop && !(inode_state_read(inode) & I_DONTCACHE) &&
-+	    (sb->s_flags & SB_ACTIVE))) {
- 		__inode_lru_list_add(inode, true);
- 		spin_unlock(&inode->i_lock);
- 		return;
- 	}
++	smp_wmb();
+ 	inode_state_clear(inode, I_NEW | I_CREATING);
+ 	inode_wake_up_bit(inode, __I_NEW);
+ 	spin_unlock(&inode->i_lock);
+@@ -1223,6 +1238,10 @@ void discard_new_inode(struct inode *inode)
+ 	lockdep_annotate_inode_mutex_key(inode);
+ 	spin_lock(&inode->i_lock);
+ 	WARN_ON(!(inode_state_read(inode) & I_NEW));
++	/*
++	 * Paired with igrab_try_lockless()
++	 */
++	smp_wmb();
+ 	inode_state_clear(inode, I_NEW);
+ 	inode_wake_up_bit(inode, __I_NEW);
+ 	spin_unlock(&inode->i_lock);
+@@ -1604,6 +1623,39 @@ struct inode *igrab(struct inode *inode)
+ }
+ EXPORT_SYMBOL(igrab);
  
--	/*
--	 * Re-check ->i_count in case the ->drop_inode() hooks played games.
--	 * Note we only execute this if the verdict was to drop the inode.
--	 */
--	VFS_BUG_ON_INODE(icount_read(inode) != 0, inode);
--
- 	if (drop) {
- 		inode_state_set(inode, I_FREEING);
- 	} else {
++/*
++ * Special routine for the inode hash. Don't use elsewhere.
++ *
++ * It provides lockless refcount acquire in the common case of no problematic
++ * flags being set.
++ *
++ * Any of I_NEW, I_CREATING, I_FREEING and I_WILL_FREE require dedicated treatment
++ * during lookup and bumping inodes with these is intentionally avoided. Additionally
++ * it is illegal to add refs if eiter I_FREEING or I_WILL_FREE is set in the first place.
++ *
++ * Correctness is achieved as follows:
++ * 1. both I_NEW and I_CREATING can only legally get set *before* the inode is visible
++ *    in the hash, meaning the upfront read takes care of them.
++ * 2. unsetting of I_NEW is preceded with a store fence, paired with full fence in
++ *    atomic_add_unless
++ * 3. both I_FREEING and I_WILL_FREE can only legally get set if ->i_count == 0, thus if
++ *    cmpxchg managed to replace any non-0 value, we have an invariant these flags are
++ *    not present
++ */
++static bool igrab_try_lockless(struct inode *inode)
++{
++	if (inode_state_read_once(inode) & (I_NEW | I_CREATING | I_FREEING | I_WILL_FREE))
++		return false;
++	/*
++	 * Paired with routines clearing I_NEW
++	 */
++	if (atomic_add_unless(&inode->i_count, 1, 0)) {
++		VFS_BUG_ON_INODE(inode_state_read_once(inode) & (I_FREEING | I_WILL_FREE), inode);
++		return true;
++	}
++	return false;
++}
++
+ /**
+  * ilookup5_nowait - search for an inode in the inode cache
+  * @sb:		super block of file system to search
 -- 
 2.48.1
 
