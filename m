@@ -1,282 +1,159 @@
-Received: from hr2.samba.org (hr2.samba.org [144.76.82.148])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B37A430CDAE;
-	Sun, 29 Mar 2026 10:39:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.76.82.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8BD4274B39
+	for <linux-fsdevel@vger.kernel.org>; Sun, 29 Mar 2026 10:53:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774780792; cv=none; b=YrMHkc16uhVmIueGWQl7MVtaVJ6QNim9/zvrdDeu364Kf9WfgybRYihWGTg/BGRwmkdTd3gegAk92HAwFI5S+9nJoY6qFkXzflD3Kpvq8URqjM/77rdMYTvfeKGUFp7Mc5sLwOStbpz2/1QOUUkjywb+HHt7PE+zEaaOpcHMmlY=
+	t=1774781610; cv=none; b=X8nrtfSFRqh1/HQqtfdS1rXk1eN5SX0EAjYO/vgQKfUJWWTZBuML1CxQ4QIndCY57V1UllaJ7dFSx8bEJNhYdBMCL7Izp7aA2MOqU0FHcZt92Jlo5WzxPg2euQ61CfWAraK45RvOL5fw5x9L1eMwDg3CkdQMwMrr97DZPVZ7THI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774780792; c=relaxed/simple;
-	bh=BJkPnJCO8ABpdlvl78QTURZEAzWWbIlz6G8H5tRn6gQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Vou2FIBzRsW6dP5pf0NOaI8K/nw7vwa8CIbfDCCqQB7K7RoXnep03xYfr4QC4Y2vGaA7amLoXQ8dqfCz0LjvG2LlEOkyeE3h0r1JJnNC+5EoIBPo9hjkhFCxc29HByLpoMlPjQw0Ydod+zNtZF5OBhKL3xcGo7RD1b3k9aZ58C8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=samba.org; spf=pass smtp.mailfrom=samba.org; dkim=pass (3072-bit key) header.d=samba.org header.i=@samba.org header.b=LSA/p24b; arc=none smtp.client-ip=144.76.82.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=samba.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samba.org
+	s=arc-20240116; t=1774781610; c=relaxed/simple;
+	bh=B5s6BrBxmKPMlGATL6TG2UgN41wSmnXZdfBl9YC7S2M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YziDxYxuCzrGM+LXCitsmTMBQWvXu1qAg+X2Fm4D8ECv9zk98TekfFQS55qkK0hAupH+7pEs+9QAa4V0F/SpODdAztXju5WrhYMlgxkon2RNxmuApDnj+cgW1j61QS3gY1FLZZF7nBjNkYPp2Yax55fFdJPl/8nQ2OnG/SDs1YM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rq/xWJPy; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xgyoWXtl; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ua92QrVn; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xTRiFeDa; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (3072-bit key) header.d=samba.org header.i=@samba.org header.b="LSA/p24b"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=samba.org;
-	s=42; h=From:Cc:To:Date:Message-ID;
-	bh=35kKxUVBYro2SeM6ocrFn0qXSAY7oP/wMRsnYfWK9ak=; b=LSA/p24bex3iCNjrbr2Y3gClIg
-	smlF06ao/O1GVSiKS7XeUE24ZKDRYRwvOOzGM8uoA5rnb22Onyz1P8NBz9nGSfD/g3jS2nNqaPe9A
-	DGfj2L8iJCkYb47IpNE4El3HuTyRODDTi7K13OlSPJmD+8WCXL9ubiVLHtkKyqwAhiGKCY/rT3gLP
-	2ICJJjnfxuJHHMduL5P1My7iVnuIgv1lZlGkVlKfapfkpCpAIQITV7o3CLnmmKwomXJpbpwZ0Xa4x
-	StLcOYfQf7Yqnu+iARwQNmAcqiu8lYmHl/YikLgN3Lw+b4KbTM5WgoIStacBJ8UP4wo2toCUHDLe4
-	+OKQRehRm9bUN9Xcg761+3HHfNTWuPPjmKqrJ+qMOT5roAzTNNAztSCEL1wM32TKxr3iPjmNiGwno
-	nvpVS8TIGe+8LcHASXL1CLVANYD93DcMII9vVSIha9G1usEaQwj8z3U50VDUeR2omGhj2An0CsqxF
-	Q3NFYFpj5ztkVfHsH2utDuUE;
-Received: from [127.0.0.2] (localhost [127.0.0.1])
-	by hr2.samba.org with esmtpsa (TLS1.3:ECDHE_SECP256R1__ECDSA_SECP256R1_SHA256__CHACHA20_POLY1305:256)
-	(Exim)
-	id 1w6nYZ-00000004jEZ-0gHh;
-	Sun, 29 Mar 2026 10:39:47 +0000
-Message-ID: <3f19c05a-d8aa-4ce5-8bcf-b51a1f110cb5@samba.org>
-Date: Sun, 29 Mar 2026 12:39:46 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rq/xWJPy";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xgyoWXtl";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ua92QrVn";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xTRiFeDa"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id DCA1E5BCE6;
+	Sun, 29 Mar 2026 10:53:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1774781607; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=RgBSrZopiOptTJCWGnAFa9Jr1wx7RwVRAFzOn8AqQoI=;
+	b=rq/xWJPyIqLFSM1GzCBqcFXS6VvUJMnLx5LBGD/ABoDLRguSiC7OJPLf+A6VYihSpaBCd6
+	BnEhU64HGtO/B3UFyIaPEYzJNX2kmdp6QLHLloxkBAujVaugKOUp7Q5kzrhVYqOvQXgSno
+	jH+lynsu3jjUQ90EnjR9Pwafce0JM0k=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1774781607;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=RgBSrZopiOptTJCWGnAFa9Jr1wx7RwVRAFzOn8AqQoI=;
+	b=xgyoWXtlW8f5zmensnQy3iS19btIqiRerb8f+AoQHVyEKa+irqlR4w7jadienM9o5G7cSi
+	7JeFwgcxQ4K4dMAw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1774781606; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=RgBSrZopiOptTJCWGnAFa9Jr1wx7RwVRAFzOn8AqQoI=;
+	b=Ua92QrVnkyqiq8JFZtffYAIb9473Zc4YXGrZco2ErNtDt8HnH0aGPK+azQw5DibmjIn5Io
+	Oqrr6Vl4T2LkHT+e6frqiJRkE8wuNXIsTs4+wRvltfaXfYpYzZ+VO31hfJreKsO/ZODcRG
+	QfYvhG4wnt+jXbEUZeKZt6FywzbwYhI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1774781606;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=RgBSrZopiOptTJCWGnAFa9Jr1wx7RwVRAFzOn8AqQoI=;
+	b=xTRiFeDaECkRuY+TR06PW7BajLNufZHVTCnrLFz9NvD4jdAzY8wlC/zhXVQxpTS8ASbEs2
+	3PFbfu+dqY24iYAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DAD4D4A0A2;
+	Sun, 29 Mar 2026 10:53:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id BokCJKIEyWkqcwAAD6G6ig
+	(envelope-from <ddiss@suse.de>); Sun, 29 Mar 2026 10:53:22 +0000
+From: David Disseldorp <ddiss@suse.de>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	David Disseldorp <ddiss@suse.de>,
+	Petr Mladek <pmladek@suse.com>,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Cc: Al Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: [PATCH v4 0/6] initramfs: test and improve cpio hex header validation
+Date: Sun, 29 Mar 2026 21:30:22 +1100
+Message-ID: <20260329105307.2876-1-ddiss@suse.de>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 19/26] cifs: Remove support for ITER_KVEC/BVEC/FOLIOQ from
- smb_extract_iter_to_rdma()
-To: David Howells <dhowells@redhat.com>,
- Christian Brauner <christian@brauner.io>,
- Matthew Wilcox <willy@infradead.org>, Christoph Hellwig <hch@infradead.org>
-Cc: Paulo Alcantara <pc@manguebit.com>, Jens Axboe <axboe@kernel.dk>,
- Leon Romanovsky <leon@kernel.org>, Steve French <sfrench@samba.org>,
- ChenXiaoSong <chenxiaosong@chenxiaosong.com>,
- Marc Dionne <marc.dionne@auristor.com>,
- Eric Van Hensbergen <ericvh@kernel.org>,
- Dominique Martinet <asmadeus@codewreck.org>,
- Ilya Dryomov <idryomov@gmail.com>, Trond Myklebust <trondmy@kernel.org>,
- netfs@lists.linux.dev, linux-afs@lists.infradead.org,
- linux-cifs@vger.kernel.org, linux-nfs@vger.kernel.org,
- ceph-devel@vger.kernel.org, v9fs@lists.linux.dev,
- linux-erofs@lists.ozlabs.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, Paulo Alcantara <pc@manguebit.org>,
- Shyam Prasad N <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>
-References: <20260326104544.509518-1-dhowells@redhat.com>
- <20260326104544.509518-20-dhowells@redhat.com>
-Content-Language: en-US
-From: Stefan Metzmacher <metze@samba.org>
-In-Reply-To: <20260326104544.509518-20-dhowells@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,intel.com:email,suse.de:mid,suse.de:email];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[]
+X-Spam-Flag: NO
+X-Spam-Score: -2.80
+X-Spam-Level: 
 
-Hi David,
+Changes v4:
+- rework initramfs_test changes to use an inject_ox parameter instead of
+  having tests pass through an unvalidated format string.
+  + drop Andy's reviewed-by from 1/6 and 2/6 to account for changed test
+  + 4/6 minor changes for test context and comment
+- add review tags for 3/6, 5/6 and 6/6 following list feedback
 
-in ksmbd-for-next smbdirect_map_sges_from_iter is also called
-in the server from smb_direct_writev() =>
-smbdirect_connection_send_iter() =>
-smbdirect_connection_send_single_iter()
+----------------------------------------------------------------
+v3: 20260323150054.3587083-1-andriy.shevchenko@linux.intel.com
 
-So we still need ITER_KVEC.
+The series that introduced simple_strntoul() had passed into kernel
+without proper review and hence reinvented a wheel that's not needed.
+Here is the refactoring to show that. It can go via PRINTK or VFS
+tree.
 
-Thanks!
-metze
+I have tested this on x86, but I believe the same result will be
+on big-endian CPUs (I deduced that from how strtox() works).
 
-Am 26.03.26 um 11:45 schrieb David Howells:
-> netfslib now only presents an bvecq queue and an associated ITER_BVECQ
-> iterator to the filesystem, so it isn't going to see ITER_KVEC, ITER_BVEC
-> or ITER_FOLIOQ iterators.  So remove that code.
-> 
-> Signed-off-by: David Howells <dhowells@redhat.com>
-> cc: Steve French <sfrench@samba.org>
-> cc: Paulo Alcantara <pc@manguebit.org>
-> cc: Shyam Prasad N <sprasad@microsoft.com>
-> cc: Tom Talpey <tom@talpey.com>
-> cc: linux-cifs@vger.kernel.org
-> cc: netfs@lists.linux.dev
-> cc: linux-fsdevel@vger.kernel.org
-> ---
->   fs/smb/client/smbdirect.c | 165 --------------------------------------
->   1 file changed, 165 deletions(-)
-> 
-> diff --git a/fs/smb/client/smbdirect.c b/fs/smb/client/smbdirect.c
-> index f8a6be83db98..d9e026d5e9f9 100644
-> --- a/fs/smb/client/smbdirect.c
-> +++ b/fs/smb/client/smbdirect.c
-> @@ -3142,162 +3142,6 @@ static bool smb_set_sge(struct smb_extract_to_rdma *rdma,
->   	return true;
->   }
->   
-> -/*
-> - * Extract page fragments from a BVEC-class iterator and add them to an RDMA
-> - * element list.  The pages are not pinned.
-> - */
-> -static ssize_t smb_extract_bvec_to_rdma(struct iov_iter *iter,
-> -					struct smb_extract_to_rdma *rdma,
-> -					ssize_t maxsize)
-> -{
-> -	const struct bio_vec *bv = iter->bvec;
-> -	unsigned long start = iter->iov_offset;
-> -	unsigned int i;
-> -	ssize_t ret = 0;
-> -
-> -	for (i = 0; i < iter->nr_segs; i++) {
-> -		size_t off, len;
-> -
-> -		len = bv[i].bv_len;
-> -		if (start >= len) {
-> -			start -= len;
-> -			continue;
-> -		}
-> -
-> -		len = min_t(size_t, maxsize, len - start);
-> -		off = bv[i].bv_offset + start;
-> -
-> -		if (!smb_set_sge(rdma, bv[i].bv_page, off, len))
-> -			return -EIO;
-> -
-> -		ret += len;
-> -		maxsize -= len;
-> -		if (rdma->nr_sge >= rdma->max_sge || maxsize <= 0)
-> -			break;
-> -		start = 0;
-> -	}
-> -
-> -	if (ret > 0)
-> -		iov_iter_advance(iter, ret);
-> -	return ret;
-> -}
-> -
-> -/*
-> - * Extract fragments from a KVEC-class iterator and add them to an RDMA list.
-> - * This can deal with vmalloc'd buffers as well as kmalloc'd or static buffers.
-> - * The pages are not pinned.
-> - */
-> -static ssize_t smb_extract_kvec_to_rdma(struct iov_iter *iter,
-> -					struct smb_extract_to_rdma *rdma,
-> -					ssize_t maxsize)
-> -{
-> -	const struct kvec *kv = iter->kvec;
-> -	unsigned long start = iter->iov_offset;
-> -	unsigned int i;
-> -	ssize_t ret = 0;
-> -
-> -	for (i = 0; i < iter->nr_segs; i++) {
-> -		struct page *page;
-> -		unsigned long kaddr;
-> -		size_t off, len, seg;
-> -
-> -		len = kv[i].iov_len;
-> -		if (start >= len) {
-> -			start -= len;
-> -			continue;
-> -		}
-> -
-> -		kaddr = (unsigned long)kv[i].iov_base + start;
-> -		off = kaddr & ~PAGE_MASK;
-> -		len = min_t(size_t, maxsize, len - start);
-> -		kaddr &= PAGE_MASK;
-> -
-> -		maxsize -= len;
-> -		do {
-> -			seg = min_t(size_t, len, PAGE_SIZE - off);
-> -
-> -			if (is_vmalloc_or_module_addr((void *)kaddr))
-> -				page = vmalloc_to_page((void *)kaddr);
-> -			else
-> -				page = virt_to_page((void *)kaddr);
-> -
-> -			if (!smb_set_sge(rdma, page, off, seg))
-> -				return -EIO;
-> -
-> -			ret += seg;
-> -			len -= seg;
-> -			kaddr += PAGE_SIZE;
-> -			off = 0;
-> -		} while (len > 0 && rdma->nr_sge < rdma->max_sge);
-> -
-> -		if (rdma->nr_sge >= rdma->max_sge || maxsize <= 0)
-> -			break;
-> -		start = 0;
-> -	}
-> -
-> -	if (ret > 0)
-> -		iov_iter_advance(iter, ret);
-> -	return ret;
-> -}
-> -
-> -/*
-> - * Extract folio fragments from a FOLIOQ-class iterator and add them to an RDMA
-> - * list.  The folios are not pinned.
-> - */
-> -static ssize_t smb_extract_folioq_to_rdma(struct iov_iter *iter,
-> -					  struct smb_extract_to_rdma *rdma,
-> -					  ssize_t maxsize)
-> -{
-> -	const struct folio_queue *folioq = iter->folioq;
-> -	unsigned int slot = iter->folioq_slot;
-> -	ssize_t ret = 0;
-> -	size_t offset = iter->iov_offset;
-> -
-> -	BUG_ON(!folioq);
-> -
-> -	if (slot >= folioq_nr_slots(folioq)) {
-> -		folioq = folioq->next;
-> -		if (WARN_ON_ONCE(!folioq))
-> -			return -EIO;
-> -		slot = 0;
-> -	}
-> -
-> -	do {
-> -		struct folio *folio = folioq_folio(folioq, slot);
-> -		size_t fsize = folioq_folio_size(folioq, slot);
-> -
-> -		if (offset < fsize) {
-> -			size_t part = umin(maxsize, fsize - offset);
-> -
-> -			if (!smb_set_sge(rdma, folio_page(folio, 0), offset, part))
-> -				return -EIO;
-> -
-> -			offset += part;
-> -			ret += part;
-> -			maxsize -= part;
-> -		}
-> -
-> -		if (offset >= fsize) {
-> -			offset = 0;
-> -			slot++;
-> -			if (slot >= folioq_nr_slots(folioq)) {
-> -				if (!folioq->next) {
-> -					WARN_ON_ONCE(ret < iter->count);
-> -					break;
-> -				}
-> -				folioq = folioq->next;
-> -				slot = 0;
-> -			}
-> -		}
-> -	} while (rdma->nr_sge < rdma->max_sge && maxsize > 0);
-> -
-> -	iter->folioq = folioq;
-> -	iter->folioq_slot = slot;
-> -	iter->iov_offset = offset;
-> -	iter->count -= ret;
-> -	return ret;
-> -}
-> -
->   /*
->    * Extract memory fragments from a BVECQ-class iterator and add them to an RDMA
->    * list.  The folios are not pinned.
-> @@ -3373,15 +3217,6 @@ static ssize_t smb_extract_iter_to_rdma(struct iov_iter *iter, size_t len,
->   	int before = rdma->nr_sge;
->   
->   	switch (iov_iter_type(iter)) {
-> -	case ITER_BVEC:
-> -		ret = smb_extract_bvec_to_rdma(iter, rdma, len);
-> -		break;
-> -	case ITER_KVEC:
-> -		ret = smb_extract_kvec_to_rdma(iter, rdma, len);
-> -		break;
-> -	case ITER_FOLIOQ:
-> -		ret = smb_extract_folioq_to_rdma(iter, rdma, len);
-> -		break;
->   	case ITER_BVECQ:
->   		ret = smb_extract_bvecq_to_rdma(iter, rdma, len);
->   		break;
-> 
+I also run KUnit tests.
+
+Changelog v3:
+- rebased on top of latest kernel
+- squashed patches proposed by David
+
+v2: 20260121172749.32322-1-ddiss@suse.de
+v1: 20260119204151.1447503-1-andriy.shevchenko@linux.intel.com
+
+----------------------------------------------------------------
+Andy Shevchenko (4):
+      initramfs: Sort headers alphabetically
+      initramfs: Refactor to use hex2bin() instead of custom approach
+      vsprintf: Revert "add simple_strntoul"
+      kstrtox: Drop extern keyword in the simple_strtox() declarations
+
+David Disseldorp (2):
+      initramfs_test: add fill_cpio() inject_ox parameter
+      initramfs_test: test header fields with 0x hex prefix
+
+ include/linux/kstrtox.h |  9 +++--
+ init/initramfs.c        | 68 ++++++++++++++++++++----------------
+ init/initramfs_test.c   | 76 ++++++++++++++++++++++++++++++++++-------
+ lib/vsprintf.c          |  7 ----
+ 4 files changed, 105 insertions(+), 55 deletions(-)
+
 
