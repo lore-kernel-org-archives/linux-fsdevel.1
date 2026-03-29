@@ -1,63 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AAB53806D2;
-	Sun, 29 Mar 2026 16:43:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5122415687D
+	for <linux-fsdevel@vger.kernel.org>; Sun, 29 Mar 2026 17:20:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774802587; cv=none; b=IxolDF92F6XukQDAiVzvbE4jq3bK6qWI32+sdZvaaG7kBjEFwZZhE1HkyNIih0qF0KDIZEvsl1QMJdASywIU2+EY/HBjrXIjDhme1JYSvtuws+dfRP2+186ohiywbSXx52KPsilXSsTE9eONHzd2syJExnrnxLTudzKG4m/xry8=
+	t=1774804816; cv=none; b=kvn8sVjPk1rZNSiGqJ4C3dA5bu6bEGuilk+IbTw0wOp8RradGNY/qGVfalKKNA11UeFtjoq9wQqXTm8T6uTmdzXpn6rsUydwmnUAu3Cfr8Oyg0ncyKE2PeSKZdS7WpRvbrFBMWaxdQDOJ2uGzx4aYxYjd/KVM6U6HCIVF9ubTmg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774802587; c=relaxed/simple;
-	bh=vEJJC9PRGIMj4WMk8BNU74JudnrXZhCT1LPcV2A4jh0=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=Sd9GAoM6qumjxc180Qi1T1gWMnvSFqqMREKxMP9QqEkbiygKAJFSSdkOEc6rOgN6n+DCsPG/gUJXg/szS9jMiQXS8v/ev2H0+cPs35LC+lOLMbDCT2RGzMvB/oUaoDWp/teHJXZgAcltp0g/H/8fLkM4+4WKz32m5eIaxkHby5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=chLhdBx2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774804816; c=relaxed/simple;
+	bh=6R+9nd88tZ3TlYfp/qqHQHU2Es9EiRsRPP1CEhhHxP0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RjPHXx65ejtBNWcAm0kwSasE51bqlW42x3fECC1brGNWr7573Fix7U9dbwsCaxGLlqN/UbxfXsBfdW47TVqJiUpDhz4jqbyrJccK+XNJ53u1Vz0R+6ySWTuF0GMXdPi20il/zsmkbAyy3LPUn1riQLHrw0O7HZK9JYv2IvQRXJY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M+aG3cpM; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="chLhdBx2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C32EDC116C6;
-	Sun, 29 Mar 2026 16:43:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774802586;
-	bh=vEJJC9PRGIMj4WMk8BNU74JudnrXZhCT1LPcV2A4jh0=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=chLhdBx2I2O/GnqsxR0bWFnmVGj9aTTRjUGsLzfGYDg11ARvbmzSfRyaxQA7IzoO8
-	 yCEq/x87G/PhZnIoIpZ4JjBXWxVuZ1APiPGJyuF9VCyqsK09NuViJLZqwqAgj3kJ37
-	 7rseqCW/Hs5n+5qZmH7jIfWoLgQhAsumgopfUKdVnMmHIvsnoVLYILDoaV76L61eXe
-	 qmGcrV0/urKqmaVmPa5hByK0cLMgs531j9jNULxayD3BpSlNsGYYXuXnGG9kvzfCMd
-	 MRQ2SLHmok4548E0GpBMkWrr8DXkIHlHVEGXtRqwktUVeC0LC2Zd5QKFUKN9uSYexA
-	 H3Zm5IDtJlEYQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id BA0B2393000F;
-	Sun, 29 Mar 2026 16:42:52 +0000 (UTC)
-Subject: Re: [GIT PULL] overlayfs fixes for 7.0-rc6
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <20260329092658.90712-1-amir73il@gmail.com>
-References: <20260329092658.90712-1-amir73il@gmail.com>
-X-PR-Tracked-List-Id: <linux-fsdevel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20260329092658.90712-1-amir73il@gmail.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/overlayfs/vfs.git ovl-fixes-7.0-rc6
-X-PR-Tracked-Commit-Id: 1f6ee9be92f8df85a8c9a5a78c20fd39c0c21a95
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: a3d97d1d3fa68253927a6e6c2fdfe7c039073af7
-Message-Id: <177480257128.408055.13096087469157811467.pr-tracker-bot@kernel.org>
-Date: Sun, 29 Mar 2026 16:42:51 +0000
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Miklos Szeredi <miklos@szeredi.hu>, Christian Brauner <brauner@kernel.org>, Chenglong Tang <chenglongtang@google.com>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-unionfs@vger.kernel.org
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M+aG3cpM"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4852b81c73aso31551465e9.3
+        for <linux-fsdevel@vger.kernel.org>; Sun, 29 Mar 2026 10:20:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774804814; x=1775409614; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Uzw4iBHMRARSh5usnBy+gH9KubUL5EZBuRXquFbr29E=;
+        b=M+aG3cpM/mPBdVreOAUXQEBrxrTEFPyJKItBPkvGf7FWPT9mG+hsPT0P7d1V3qVTQf
+         u/tzBAB/l909uk9DWONC/f4hNeJSDm6/Y7tx0bKFGF3QmR9mOf2/oIiWsL5vh872r+t6
+         MPXm6EBma0sCiYqot13+dd1RDUbBsgAaQEAxkeSFOEcUxI4zHQsO1B4jPQZG9BqRzbry
+         TqstTXEb6765bKVSpN+Z6oIWD8Y/tNjMvgNhU726W9hrIxURUW6FaAKsLsDMuu2Xmd9v
+         +ZfguMTsQiA6wPZsGGmoKsxQQ63wCOmuck+Zgsk+lHTbScjk7DN36Ciazqy26eNxqbY3
+         Cy2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774804814; x=1775409614;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Uzw4iBHMRARSh5usnBy+gH9KubUL5EZBuRXquFbr29E=;
+        b=GROlo7SH7f/Eg/1MdP9ZYN2Q6W7bBb+FI0moU+NYHA3cgfhiLqCD8Idlj7BoQ+1w7w
+         v3lRmkuD0DFndS0MEx9R4/YZ5EKYlVZDaWEQE+LqqG21fGCWBJmZV47rI4ETNSZwxZJo
+         fTecjBgKYOAa3V4HEcyhqrSozOEKyrFYa4NLoAsYLU3umbGGs8zFmMqdB+SMSJer33kN
+         CFpxpMZNA1+tA3Zdwh7AYWAY0KB5S2h2GtJrpme4x6Gi0V5WqeXBn1Ee36DJ9SIEXRRv
+         vJiVz6ltlZ//oU8zyikukkJJrsXB4yLpNSd+yu3FYJMExlcPL9BBbLwIXhV+C8Am1SMM
+         tazw==
+X-Forwarded-Encrypted: i=1; AJvYcCVQx9j1UcwqCwAOzhrHyVg920+WYOrxVfDkWC19n6+c2f+8ez1HbBO2Zp5B4SoW8txLDil6w8DQtYYIjsI9@vger.kernel.org
+X-Gm-Message-State: AOJu0YyZw/wXvPYQTdBXlwBF2jslFa5zRoPNcj9SqIqCYSMU8k1K4F4o
+	56+cpdJK5SHzlKNl9SEKnlcCIbzkuGvgTjWw4tqrFjUCnr/QfuVlFWLh
+X-Gm-Gg: ATEYQzzmByUSIs32pnTH/i/do/z9t6w0rvdcYNxBBpUkZRfUrHVvGoZ5m/cYGhgCiFH
+	o7dMJd7Ez+EsTN+cXVf9VsWztzJ86mQxjzPLRwQldb1lzCVaH/E1mCNJlMXvSbLl1mkVfGQIrZi
+	GJG1B9SBdN7rN9mGTQt+7b47Z+dMy/WZ4MzIzjSEDXf5ZB5cN5g44X4pncaCSLqNbuj52wHFYsb
+	6qXRpvvMflKx5nnQ8uJtVcLG8nDcv3+n8d4LQb8DCPPAGfIZ6/vQ1IdiFIAINSf/iupwi6kOXTE
+	XeWzBsDGStIWSO897fMRamqJe9qgbGhJ9XJNQ9zTaupuf3cUszvyRdd6wnZs5TBm1eb04xLnqS7
+	a6IKKWOpderVYMZ2IwtZ77CffbazwBX8y0gc2Qk/rfeLUh6ZPSpVsA5Fc55mVS7c1cPnM01uU93
+	wMq8Dn5pJXOyH0EuJE2SAa3rcvN1Uvve2HQciYaKfsI59bdGvHyXDygQtv75KNIGWxNvh9B+fbJ
+	w==
+X-Received: by 2002:a05:600c:8b70:b0:47e:e952:86c9 with SMTP id 5b1f17b1804b1-48727d317f6mr167084705e9.0.1774804813402;
+        Sun, 29 Mar 2026 10:20:13 -0700 (PDT)
+Received: from f.. (cst-prg-89-171.cust.vodafone.cz. [46.135.89.171])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4873cd7d039sm9776805e9.15.2026.03.29.10.20.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 29 Mar 2026 10:20:12 -0700 (PDT)
+From: Mateusz Guzik <mjguzik@gmail.com>
+To: brauner@kernel.org
+Cc: viro@zeniv.linux.org.uk,
+	jack@suse.cz,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	Mateusz Guzik <mjguzik@gmail.com>
+Subject: [PATCH v3 0/7] assorted ->i_count changes + extension of lockless handling
+Date: Sun, 29 Mar 2026 19:19:55 +0200
+Message-ID: <20260329172002.3557801-1-mjguzik@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-The pull request you sent on Sun, 29 Mar 2026 11:26:58 +0200:
+The stock kernel support partial lockless in handling in that iput() can
+decrement any value > 1. Any ref acquire however requires the spinlock.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/overlayfs/vfs.git ovl-fixes-7.0-rc6
+With this patchset ref acquires when the value was already at least 1
+also become lockless. That is, only transitions 0->1 and 1->0 take the
+lock.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/a3d97d1d3fa68253927a6e6c2fdfe7c039073af7
+I verified when nfs calls into the hash taking the lock is typically
+avoided. Similarly, btrfs likes to igrab() and avoids the lock.
+However, I have to fully admit I did not perform any benchmarks. While
+cleaning stuff up I noticed lockless operation is almost readily
+available so I went for it.
 
-Thank you!
+Clean-up wise, the icount_read_once() stuff lines up with inode_state_read_once().
+The prefix is different but I opted to not change it due to igrab(), ihold() et al.
+
+There is a future-proofing change in iput_final(). I am not going to
+strongly insist on it, but at the very least the problem needs to be
+noted in a comment.
+
+v2:
+- tidy up ihold
+- add lockless handling to the hash
+
+Mateusz Guzik (7):
+  fs: add icount_read_once()
+  Use icount_read() and icount_read_once() as appropriate.
+  fs: enforce locking in icount_read(), add some commentary
+  fs: relocate and tidy up ihold()
+  fs: handle hypothetical filesystems which use I_DONTCACHE and drop the
+    lock in ->drop_inode
+  fs: locklessly bump refs in igrab as long as it does not transition
+    0->1
+  fs: locklessly bump refs in the inode hash when possible
+
+ arch/powerpc/platforms/cell/spufs/file.c |   2 +-
+ fs/btrfs/inode.c                         |   2 +-
+ fs/ceph/mds_client.c                     |   2 +-
+ fs/dcache.c                              |   4 +
+ fs/ext4/ialloc.c                         |   4 +-
+ fs/hpfs/inode.c                          |   2 +-
+ fs/inode.c                               | 114 ++++++++++++++++++-----
+ fs/nfs/inode.c                           |   4 +-
+ fs/smb/client/inode.c                    |   2 +-
+ fs/ubifs/super.c                         |   2 +-
+ fs/xfs/xfs_inode.c                       |   2 +-
+ fs/xfs/xfs_trace.h                       |   2 +-
+ include/linux/fs.h                       |  13 +++
+ include/trace/events/filelock.h          |   2 +-
+ security/landlock/fs.c                   |   2 +-
+ 15 files changed, 122 insertions(+), 37 deletions(-)
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.48.1
+
