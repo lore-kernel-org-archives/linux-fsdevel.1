@@ -1,40 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E43EB3DE431
-	for <linux-fsdevel@vger.kernel.org>; Mon, 30 Mar 2026 17:55:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A390B3A6F1A
+	for <linux-fsdevel@vger.kernel.org>; Mon, 30 Mar 2026 17:57:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774893350; cv=none; b=QGJLO0e+Ds/Xqz/ah9rXF9s/sQx9M1XLfPR57mpNQfrL8Ck+ywT05HiwbML5u0sOsjZNNDFUUiXq503JYi+271S9csJ1gEU8Hwwx53KnxWesRwHYhempc3aQjbDAEYpU+QR2G5PSXzqv48hdHfUu5VjtLMY4keT7o/K2M7iFeos=
+	t=1774893458; cv=none; b=hdDGFG5d1eroXdWT+hULSZSvWAX+wtMiFYqJsUckz+oqE/3C4avQIw3hFDVp+mPH/WfVwkmXBSuocnAVc5btsZjcivaVnvtob0ij44alAA3O1hB+8zw2k9EA7ePY/JPDsvh9c0j3YUrixfd8yujNeiY4eisSY2OT6lryo1WjpEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774893350; c=relaxed/simple;
-	bh=aNTZG3vzQ+bX+kugAAOH1ARLUiKa1YXwimDkRznXgF0=;
+	s=arc-20240116; t=1774893458; c=relaxed/simple;
+	bh=mz5W6QO3D5HjvSuLLPYjKCxzhqfKfrfFEuI2QHTN2xE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cHchlE1EXvyuqSMZ6jZGo5zmODI1lZ1oozSI389GKALAX6KXVXWFy8V9N35wJQquiIqPrRed0G/18Rf7Dv1BloJD0IGGXzB1/duBWYgLdOmTf8dTydf6GwSIPF/YUq73B2g/+6zDz98cSSyP/t5cy/ew3ApjQIDhcW1AraGgVno=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S9+Ct3iN; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=eV4fBh6IvL3heyIfBQVifHXfLEoC54i6c3RfqV6BZOGlk5MnW4aFxtjHK/X055Gre1jiWFtDX59ENg8EgOSN1pyplyEF0wpsO9p7Brl18SV5DMnO1s+8M71yq/JxixyugblZonDdfoQjh0ULH845h9pubYmSlZ9JKss3EPNaI5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mPWddP1N; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S9+Ct3iN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B05CC4CEF7;
-	Mon, 30 Mar 2026 17:55:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mPWddP1N"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34F57C4CEF7;
+	Mon, 30 Mar 2026 17:57:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774893349;
-	bh=aNTZG3vzQ+bX+kugAAOH1ARLUiKa1YXwimDkRznXgF0=;
+	s=k20201202; t=1774893458;
+	bh=mz5W6QO3D5HjvSuLLPYjKCxzhqfKfrfFEuI2QHTN2xE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=S9+Ct3iN0mKekFtYiw+AGvJZUBTOetMxa8lc2gTSXkHP4FKLGHX54vvWKrG70PmmL
-	 su8zbEZ7/1a4e/Eaw7//3CdBVC26O5MXIvEEK4q/RVsGxPG9+Sk4qSYm7ZU5ro4OIs
-	 K2KMEg9Me8IremQoFzK554efYxNthx0sHWQ9lQOfcQfBCbD6//eiSbsFMmiYp2m+AC
-	 zB/58pXxPkzZjJ3lb5MmR1xEWwECGhdEzrUmRIvCDHmwUrURs8eXtIOBulFsls3Bjh
-	 73PqFcGugtqHYbv5ZoiFmpiQGhyEIQh20iMriWV+EDchZ9luujsZdxZDN17QOPR7xu
-	 ZJuIf/D3lCZDg==
-Date: Mon, 30 Mar 2026 10:55:48 -0700
+	b=mPWddP1NX5cxB03ke0AmEEXL29+ljfxKDRslJotCcHNhA11nMWnOCmNfDo59s2Idt
+	 mtA+LDQkVXuQGegErKyqKvUIfsKeJTsUXirSYU7sq2bVE7FSuKD9xZQDyLgnl6/EB7
+	 UvXnCUV1euANv2AZWYrXU39SEwwpv/V5Je7NY9USphILTVeTYRuutSAdl6oQk4WDgL
+	 meq7Typ4he1SFb1FuiGgTJYbgrlY7G0e5EFX9CmZeHjj+m4Jy4uJKBAMd5TuSt51n7
+	 IL90zBpSDf3enx01BEQ/4zeIpVuIpQQdg7ijqVJDYUL+yXjrptu04Nr4HyyMPIR9Ks
+	 V31kRdoynI49A==
+Date: Mon, 30 Mar 2026 10:57:37 -0700
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: Bernd Schubert <bernd@bsbernd.com>
 Cc: linux-fsdevel@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
 	Joanne Koong <joannelkoong@gmail.com>, Kevin Chen <kchen@ddn.com>
-Subject: Re: [PATCH v2 04/25] Add a new daemonize API
-Message-ID: <20260330175548.GS6202@frogsfrogsfrogs>
+Subject: Re: [PATCH v2 18/25] fusermout: Remove the large read check
+Message-ID: <20260330175737.GT6202@frogsfrogsfrogs>
 References: <20260326-fuse-init-before-mount-v2-0-b1ca8fcbf60f@bsbernd.com>
- <20260326-fuse-init-before-mount-v2-4-b1ca8fcbf60f@bsbernd.com>
+ <20260326-fuse-init-before-mount-v2-18-b1ca8fcbf60f@bsbernd.com>
+ <20260327033213.GN6202@frogsfrogsfrogs>
+ <75b57936-be43-4240-878d-2fa988494bc5@bsbernd.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -43,659 +45,98 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260326-fuse-init-before-mount-v2-4-b1ca8fcbf60f@bsbernd.com>
+In-Reply-To: <75b57936-be43-4240-878d-2fa988494bc5@bsbernd.com>
 
-On Thu, Mar 26, 2026 at 10:34:37PM +0100, Bernd Schubert wrote:
-> Existing example/ file systems do the fuse_daemonize() after
-> fuse_session_mount() - i.e. after the mount point is already
-> established. Though, these example/ daemons do not start
-> extra threads and do not need network initialization either.
+On Mon, Mar 30, 2026 at 05:26:15PM +0200, Bernd Schubert wrote:
 > 
-> fuse_daemonize() also does not allow to return notification
-> from the forked child to the parent.
 > 
-> Complex fuse file system daemons often want the order of
-> 1) fork - parent watches, child does the work
+> On 3/27/26 04:32, Darrick J. Wong wrote:
+> > On Thu, Mar 26, 2026 at 10:34:51PM +0100, Bernd Schubert wrote:
+> >> <quote Darrick>
+> >> Nobody's running 2.4 kernels
+> >> anymore, right?
+> >> </quote>
+> >>
+> >> Suggested-by: "Darrick J. Wong" <djwong@kernel.org>
+> >> Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
+> >> ---
+> >>  util/fusermount.c | 37 +------------------------------------
+> >>  1 file changed, 1 insertion(+), 36 deletions(-)
+> >>
+> >> diff --git a/util/fusermount.c b/util/fusermount.c
+> >> index 8d7598998788f72ea05c2a065a88cb5efd61df35..254f24a98abf935846cfed754693cc1958c8d2ff 100644
+> >> --- a/util/fusermount.c
+> >> +++ b/util/fusermount.c
+> >> @@ -915,33 +915,6 @@ static void free_mount_params(struct mount_params *mp)
+> >>  	free(mp->mnt_opts);
+> >>  }
+> >>  
+> >> -/*
+> >> - * Check if option is deprecated large_read.
+> >> - *
+> >> - * Returns true if the option should be skipped (large_read on kernel > 2.4),
+> >> - * false otherwise (all other options or large_read on old kernels).
+> >> - */
+> >> -static bool check_large_read(const char *opt, unsigned int len)
+> >> -{
+> >> -	struct utsname utsname;
+> >> -	unsigned int kmaj, kmin;
+> >> -	int res;
+> >> -
+> >> -	if (!opt_eq(opt, len, "large_read"))
+> >> -		return false;
+> >> -
+> >> -	res = uname(&utsname);
+> >> -	if (res == 0 &&
+> >> -	    sscanf(utsname.release, "%u.%u", &kmaj, &kmin) == 2 &&
+> >> -	    (kmaj > 2 || (kmaj == 2 && kmin > 4))) {
+> >> -		fprintf(stderr,
+> >> -			"%s: note: 'large_read' mount option is deprecated for %i.%i kernels\n",
+> >> -			progname, kmaj, kmin);
+> >> -		return true;
+> >> -	}
+> >> -	return false;
+> >> -}
+> >> -
+> >>  /*
+> >>   * Check if user has permission to use allow_other or allow_root options.
+> >>   *
+> >> @@ -1041,19 +1014,11 @@ static int prepare_mount(const char *opts, struct mount_params *mp)
+> >>  			   !begins_with(s, "rootmode=") &&
+> >>  			   !begins_with(s, "user_id=") &&
+> >>  			   !begins_with(s, "group_id=")) {
+> >> -			bool skip;
+> >>  
+> >>  			if (check_allow_permission(s, len) == -1)
+> >>  				goto err;
+> >>  
+> >> -			skip = check_large_read(s, len);
+> >> -
+> >> -			/*
+> >> -			 * Skip deprecated large_read to avoid passing it to
+> >> -			 * kernel which would reject it as unknown option.
+> >> -			 */
+> >> -			if (!skip)
+> >> -				process_generic_option(s, len, &mp->flags, &d);
+> >> +			process_generic_option(s, len, &mp->flags, &d);
+> > 
+> > Er... we should still ignore large_read, right?  It's been defunct since
+> > 2.4, but there could be some script/fstab/whatever that still contains
+> > the mount option.
 > 
-> Child:
->     2) start extra threads and system initialization (like network
->        connection and RDMA memory registration) from the fork child.
->     3) Start the fuse session after everything else succeeded
-> 
-> Parent:
->     Report child initialization success or failure
-> 
-> A new API is introduced to overcome the limitations of
-> fuse_daemonize()
-> 
-> fuse_daemonize_start() - fork, but foreground process does not
-> terminate yet and watches the background.
-> 
-> fuse_daemonize_success() / fuse_daemonize_fail() - background
-> daemon signals to the foreground process success or failure.
-> 
-> fuse_daemonize_active() - helper function for the high level
-> interface, which needs to handle both APIs. fuse_daemonize()
-> is called within fuse_main(), which now needs to know if the caller
-> actually already used the new API itself.
-> 
-> The object 'struct fuse_daemonize *' is allocated dynamically
-> and stored a global variable in fuse_daemonize.c, because
-> - high level fuse_main_real_versioned() needs to know
-> if already daemonized
-> - high level daemons do not have access to struct fuse_session
-> - FUSE_SYNC_INIT in later commits can only be done if the new
-> API (or a file system internal) daemonization is used.
-> 
-> Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
+> Dunno, I'm more tempted to remove it and to filter it out if someone
+> ever complains. 2.4 was a long time ago.
 
-Only a couple nitpicks now...
+Ok by me then :)
+Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
 
-> ---
->  example/passthrough_hp.cc   |  18 ++-
->  include/fuse_daemonize.h    |  74 +++++++++++
->  include/meson.build         |   3 +-
->  lib/fuse_daemonize.c        | 292 ++++++++++++++++++++++++++++++++++++++++++++
->  lib/fuse_i.h                |   4 +-
->  lib/fuse_lowlevel.c         |   3 +
->  lib/fuse_versionscript      |   4 +
->  lib/helper.c                |  13 +-
->  lib/meson.build             |   3 +-
->  test/test_want_conversion.c |   1 +
->  10 files changed, 404 insertions(+), 11 deletions(-)
-> 
-> diff --git a/example/passthrough_hp.cc b/example/passthrough_hp.cc
-> index 9f795c5546ee8312e1393c5b8fcebfd77724fb49..bad435077697e8832cf5a5195c17f2f873f2dfe6 100644
-> --- a/example/passthrough_hp.cc
-> +++ b/example/passthrough_hp.cc
-> @@ -55,6 +55,7 @@
->  #include <errno.h>
->  #include <ftw.h>
->  #include <fuse_lowlevel.h>
-> +#include <fuse_daemonize.h>
->  #include <inttypes.h>
->  #include <string.h>
->  #include <sys/file.h>
-> @@ -243,6 +244,9 @@ static void sfs_init(void *userdata, fuse_conn_info *conn)
->  
->  	/* Try a large IO by default */
->  	conn->max_write = 4 * 1024 * 1024;
-> +
-> +	/* Signal successful init to parent */
-> +	fuse_daemonize_success();
->  }
->  
->  static void sfs_getattr(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi)
-> @@ -1580,6 +1584,7 @@ int main(int argc, char *argv[])
->  {
->  	struct fuse_loop_config *loop_config = NULL;
->  	void *teardown_watchog = NULL;
-> +	unsigned int daemon_flags = 0;
->  
->  	// Parse command line options
->  	auto options{ parse_options(argc, argv) };
-> @@ -1638,10 +1643,14 @@ int main(int argc, char *argv[])
->  
->  	fuse_loop_cfg_set_clone_fd(loop_config, fs.clone_fd);
->  
-> -	if (fuse_session_mount(se, argv[2]) != 0)
-> +	/* Start daemonization before mount so parent can report mount failure */
-> +	if (fs.foreground)
-> +		daemon_flags |= FUSE_DAEMONIZE_NO_BACKGROUND;
-> +	if (fuse_daemonize_start(daemon_flags) != 0)
->  		goto err_out3;
->  
-> -	fuse_daemonize(fs.foreground);
-
-Should the old fuse_daemonize() no-op (or complain) if the client has
-already called fuse_daemonize_start()?  You've done something like that
-in fuse_main_real_versioned, so maybe it should be automatic.
-
-> +	if (fuse_session_mount(se, argv[2]) != 0)
-> +		goto err_out4;
->  
->  	if (!fs.foreground)
->  		fuse_log_enable_syslog("passthrough-hp", LOG_PID | LOG_CONS,
-> @@ -1650,7 +1659,7 @@ int main(int argc, char *argv[])
->  	teardown_watchog = fuse_session_start_teardown_watchdog(
->  		se, fs.root.stop_timeout_secs, NULL, NULL);
->  	if (teardown_watchog == NULL)
-> -		goto err_out3;
-> +		goto err_out4;
->  
->  	if (options.count("single"))
->  		ret = fuse_session_loop(se);
-> @@ -1659,6 +1668,9 @@ int main(int argc, char *argv[])
->  
->  	fuse_session_unmount(se);
->  
-> +err_out4:
-> +	if (fuse_daemonize_is_active())
-> +		fuse_daemonize_fail(ret);
->  err_out3:
->  	fuse_remove_signal_handlers(se);
->  err_out2:
-> diff --git a/include/fuse_daemonize.h b/include/fuse_daemonize.h
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..c35dddd668b399535c53b44ab06c65fc0b3ddefa
-> --- /dev/null
-> +++ b/include/fuse_daemonize.h
-> @@ -0,0 +1,74 @@
-> +/*
-> + * FUSE: Filesystem in Userspace
-> + * Copyright (C) 2026 Bernd Schubert <bsbernd.com>
-> + *
-> + * This program can be distributed under the terms of the GNU LGPLv2.
-> + * See the file COPYING.LIB.
-> + *
-> + */
-> +
-> +#ifndef FUSE_DAEMONIZE_H_
-> +#define FUSE_DAEMONIZE_H_
-> +
-> +#include <stdint.h>
-> +#include <stdbool.h>
-> +
-> +#ifdef __cplusplus
-> +extern "C" {
-> +#endif
-> +
-> +/**
-> + * Flags for fuse_daemonize_start()
-> + */
-> +#define FUSE_DAEMONIZE_NO_CHDIR      (1 << 0)
-> +#define FUSE_DAEMONIZE_NO_BACKGROUND (1 << 1)
-> +
-> +/**
-> + * Start daemonization process.
-> + *
-> + * Unless FUSE_DAEMONIZE_NO_BACKGROUND is set, this forks the process.
-> + * The parent waits for a signal from the child via fuse_daemonize_success()
-> + * or fuse_daemonize_fail().
-> + * The child returns from this call and continues setup.
-> + *
-> + * Unless FUSE_DAEMONIZE_NO_CHDIR is set, changes directory to "/".
-> + *
-> + * Must be called before fuse_session_mount().
-> + *
-> + * @param flags combination of FUSE_DAEMONIZE_* flags
-> + * @return 0 on success, negative errno on error
-> + */
-> +int fuse_daemonize_start(unsigned int flags);
-> +
-> +/**
-> + * Signal daemonization success to parent and cleanup.
-> + */
-> +void fuse_daemonize_success(void);
-> +
-> +/**
-> + * Signal daemonization failure to parent and cleanup.
-> + *
-> + * @param err error code to pass to parent
-
-I think this should say explicitly that @err will become the exit code
-of the parent process.
-
-It might also be useful to state that except for fuse_daemonize_start,
-all the other APIs must only be called from the child process.
+(who recently got flames whilst trying to remove defunct mount options
+from xfs and is probably now overcautious about that)
 
 --D
 
-> + */
-> +void fuse_daemonize_fail(int err);
-> +
-> +/**
-> + * Check if daemonization is active and waiting for signal.
-> + *
-> + * @return true if active, false otherwise
-> + */
-> +bool fuse_daemonize_is_active(void);
-> +
-> +/**
-> + * Set mounted flag.
-> + *
-> + * Called from fuse_session_mount().
-> + */
-> +void fuse_daemonize_set_mounted(void);
-> +
-> +#ifdef __cplusplus
-> +}
-> +#endif
-> +
-> +#endif /* FUSE_DAEMONIZE_H_ */
-> +
-> diff --git a/include/meson.build b/include/meson.build
-> index bf671977a5a6a9142bd67aceabd8a919e3d968d0..cfbaf52ac5d84369e92948c631e2fcfdd04ac2eb 100644
-> --- a/include/meson.build
-> +++ b/include/meson.build
-> @@ -1,4 +1,5 @@
->  libfuse_headers = [ 'fuse.h', 'fuse_common.h', 'fuse_lowlevel.h',
-> -	            'fuse_opt.h', 'cuse_lowlevel.h', 'fuse_log.h' ]
-> +	            'fuse_opt.h', 'cuse_lowlevel.h', 'fuse_log.h',
-> +	            'fuse_daemonize.h' ]
->  
->  install_headers(libfuse_headers, subdir: 'fuse3')
-> diff --git a/lib/fuse_daemonize.c b/lib/fuse_daemonize.c
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..865acad7db56dbe5ed8a1bee52e7353627e89b75
-> --- /dev/null
-> +++ b/lib/fuse_daemonize.c
-> @@ -0,0 +1,292 @@
-> +/*
-> + * FUSE: Filesystem in Userspace
-> + * Copyright (C) 2026 Bernd Schubert <bsbernd.com>
-> + *
-> + * This program can be distributed under the terms of the GNU LGPLv2.
-> + * See the file COPYING.LIB.
-> + */
-> +
-> +#define _GNU_SOURCE
-> +
-> +#include "fuse_daemonize.h"
-> +
-> +#include <fcntl.h>
-> +#include <poll.h>
-> +#include <pthread.h>
-> +#include <stdatomic.h>
-> +#include <stdio.h>
-> +#include <stdlib.h>
-> +#include <string.h>
-> +#include <sys/types.h>
-> +#include <unistd.h>
-> +#include <stdbool.h>
-> +#include <errno.h>
-> +
-> +/**
-> + * Status values for fuse_daemonize_success() and fuse_daemonize_fail()
-> + */
-> +#define FUSE_DAEMONIZE_SUCCESS 0
-> +#define FUSE_DAEMONIZE_FAILURE 1
-> +
-> +/* Private/internal data  */
-> +struct fuse_daemonize {
-> +	unsigned int flags;
-> +	int signal_pipe_wr;	/* write end for signaling parent */
-> +	int death_pipe_rd;	/* read end, POLLHUP when parent dies */
-> +	int stop_pipe_rd;	/* read end for stop signal */
-> +	int stop_pipe_wr;	/* write end for stop signal */
-> +	pthread_t watcher;
-> +	bool watcher_started;
-> +	_Atomic bool active;
-> +	_Atomic bool daemonized;
-> +	_Atomic bool mounted;
-> +};
-> +
-> +/* Global daemonization object pointer */
-> +static struct fuse_daemonize daemonize = {
-> +	.signal_pipe_wr = -1,
-> +	.death_pipe_rd = -1,
-> +	.stop_pipe_rd = -1,
-> +	.stop_pipe_wr = -1,
-> +};
-> +
-> +/* Watcher thread: polls for parent death or stop signal */
-> +static void *parent_watcher_thread(void *arg)
-> +{
-> +	struct fuse_daemonize *di = arg;
-> +	struct pollfd pfd[2];
-> +
-> +	pfd[0].fd = di->death_pipe_rd;
-> +	pfd[0].events = POLLIN;
-> +	pfd[1].fd = di->stop_pipe_rd;
-> +	pfd[1].events = POLLIN;
-> +
-> +	while (1) {
-> +		int rc = poll(pfd, 2, -1);
-> +
-> +		if (rc < 0)
-> +			continue;
-> +
-> +		/* Parent died - death pipe write end closed */
-> +		if (pfd[0].revents & (POLLHUP | POLLERR))
-> +			_exit(EXIT_FAILURE);
-> +
-> +		/* Stop signal received */
-> +		if (pfd[1].revents & POLLIN)
-> +			break;
-> +	}
-> +	return NULL;
-> +}
-> +
-> +static int start_parent_watcher(struct fuse_daemonize *daemonize)
-> +{
-> +	int rc;
-> +
-> +	rc = pthread_create(&daemonize->watcher, NULL, parent_watcher_thread,
-> +			    daemonize);
-> +	if (rc != 0) {
-> +		fprintf(stderr, "fuse_daemonize: pthread_create: %s\n",
-> +			strerror(rc));
-> +		return -rc;
-> +	}
-> +	daemonize->watcher_started = true;
-> +	return 0;
-> +}
-> +
-> +static void stop_parent_watcher(struct fuse_daemonize *daemonize)
-> +{
-> +	char byte = 0;
-> +
-> +	if (daemonize && daemonize->watcher_started) {
-> +		/* Signal watcher to stop */
-> +		if (write(daemonize->stop_pipe_wr, &byte, 1) != 1)
-> +			perror("fuse_daemonize: stop write");
-> +		pthread_join(daemonize->watcher, NULL);
-> +		daemonize->watcher_started = false;
-> +	}
-> +}
-> +
-> +static int daemonize_child(struct fuse_daemonize *daemonize)
-> +{
-> +	int stop_pipe[2], err = 0;
-> +
-> +	if (pipe(stop_pipe) == -1) {
-> +		err = -errno;
-> +		perror("fuse_daemonize_start: stop pipe");
-> +		return err;
-> +	}
-> +	daemonize->stop_pipe_rd = stop_pipe[0];
-> +	daemonize->stop_pipe_wr = stop_pipe[1];
-> +
-> +	if (setsid() == -1) {
-> +		err = -errno;
-> +		perror("fuse_daemonize_start: setsid");
-> +		goto err_close_stop;
-> +	}
-> +
-> +	/* Close stdin immediately */
-> +	int nullfd = open("/dev/null", O_RDWR, 0);
-> +
-> +	if (nullfd != -1) {
-> +		(void)dup2(nullfd, 0);
-> +		if (nullfd > 0)
-> +			close(nullfd);
-> +	}
-> +
-> +	/* Start watcher thread to detect parent death */
-> +	err = start_parent_watcher(daemonize);
-> +	if (err)
-> +		goto err_close_stop;
-> +
-> +	daemonize->daemonized = true;
-> +	return 0;
-> +
-> +err_close_stop:
-> +	close(daemonize->stop_pipe_rd);
-> +	close(daemonize->stop_pipe_wr);
-> +	return err;
-> +}
-> +
-> +/* Fork and daemonize. Returns 0 in child, never returns in parent. */
-> +static int do_daemonize(struct fuse_daemonize *daemonize)
-> +{
-> +	int signal_pipe[2], death_pipe[2], err;
-> +
-> +	if (pipe(signal_pipe) == -1) {
-> +		err = -errno;
-> +		perror("fuse_daemonize_start: signal pipe");
-> +		return err;
-> +	}
-> +
-> +	if (pipe(death_pipe) == -1) {
-> +		err = -errno;
-> +		perror("fuse_daemonize_start: death pipe");
-> +		close(signal_pipe[0]);
-> +		close(signal_pipe[1]);
-> +		return err;
-> +	}
-> +
-> +	switch (fork()) {
-> +	case -1:
-> +		err = -errno;
-> +		perror("fuse_daemonize_start: fork");
-> +		close(signal_pipe[0]);
-> +		close(signal_pipe[1]);
-> +		close(death_pipe[0]);
-> +		close(death_pipe[1]);
-> +		return err;
-> +
-> +	case 0:
-> +		/* Child: signal write end, death read end */
-> +		close(signal_pipe[0]);
-> +		close(death_pipe[1]);
-> +		daemonize->signal_pipe_wr = signal_pipe[1];
-> +		daemonize->death_pipe_rd = death_pipe[0];
-> +		return daemonize_child(daemonize);
-> +
-> +	default: {
-> +		/* Parent: signal read end, death write end (kept open) */
-> +		int status;
-> +		ssize_t res;
-> +
-> +		close(signal_pipe[1]);
-> +		close(death_pipe[0]);
-> +
-> +		res = read(signal_pipe[0], &status, sizeof(status));
-> +		close(signal_pipe[0]);
-> +		close(death_pipe[1]);
-> +
-> +		if (res != sizeof(status))
-> +			_exit(EXIT_FAILURE);
-> +		_exit(status);
-> +	}
-> +	}
-> +}
-> +
-> +int fuse_daemonize_start(unsigned int flags)
-> +{
-> +	struct fuse_daemonize *dm = &daemonize;
-> +	int err = 0;
-> +
-> +	dm->flags = flags;
-> +	dm->signal_pipe_wr = -1;
-> +	dm->death_pipe_rd = -1;
-> +	dm->stop_pipe_rd = -1;
-> +	dm->stop_pipe_wr = -1;
-> +	dm->active = true;
-> +
-> +	if (!(flags & FUSE_DAEMONIZE_NO_CHDIR))
-> +		(void)chdir("/");
-> +
-> +	if (!(flags & FUSE_DAEMONIZE_NO_BACKGROUND))
-> +		err = do_daemonize(dm);
-> +
-> +	return err;
-> +}
-> +
-> +static void close_if_valid(int *fd)
-> +{
-> +	if (*fd != -1) {
-> +		close(*fd);
-> +		*fd = -1;
-> +	}
-> +}
-> +
-> +static void fuse_daemonize_signal(int status)
-> +{
-> +	struct fuse_daemonize *dm = &daemonize;
-> +	int rc;
-> +
-> +	/* Warn because there might be races */
-> +	if (status == FUSE_DAEMONIZE_SUCCESS && !dm->mounted)
-> +		fprintf(stderr, "fuse daemonize success without being mounted\n");
-> +
-> +	dm->active = false;
-> +
-> +	/* Stop watcher before signaling - parent will exit after this */
-> +	stop_parent_watcher(dm);
-> +
-> +	/* Signal status to parent */
-> +	if (dm->signal_pipe_wr != -1) {
-> +		rc = write(dm->signal_pipe_wr, &status, sizeof(status));
-> +		if (rc != sizeof(status))
-> +			fprintf(stderr, "%s: write failed\n", __func__);
-> +	}
-> +
-> +	/* Redirect stdout/stderr to /dev/null on success */
-> +	if (status == FUSE_DAEMONIZE_SUCCESS && dm->daemonized) {
-> +		int nullfd = open("/dev/null", O_RDWR, 0);
-> +
-> +		if (nullfd != -1) {
-> +			(void)dup2(nullfd, 1);
-> +			(void)dup2(nullfd, 2);
-> +			if (nullfd > 2)
-> +				close(nullfd);
-> +		}
-> +	}
-> +
-> +	close_if_valid(&dm->signal_pipe_wr);
-> +	close_if_valid(&dm->death_pipe_rd);
-> +	close_if_valid(&dm->stop_pipe_rd);
-> +	close_if_valid(&dm->stop_pipe_wr);
-> +}
-> +
-> +void fuse_daemonize_success(void)
-> +{
-> +	fuse_daemonize_signal(FUSE_DAEMONIZE_SUCCESS);
-> +}
-> +
-> +void fuse_daemonize_fail(int err)
-> +{
-> +	fuse_daemonize_signal(err);
-> +}
-> +
-> +bool fuse_daemonize_is_active(void)
-> +{
-> +	return daemonize.daemonized || daemonize.active;
-> +}
-> +
-> +void fuse_daemonize_set_mounted(void)
-> +{
-> +	daemonize.mounted = true;
-> +}
-> diff --git a/lib/fuse_i.h b/lib/fuse_i.h
-> index 65d2f68f7f30918a3c3ee4d473796cb013428a8f..9e3c5dc5021e210a2778e975a37ab609af324010 100644
-> --- a/lib/fuse_i.h
-> +++ b/lib/fuse_i.h
-> @@ -17,7 +17,6 @@
->  #include <semaphore.h>
->  #include <stdint.h>
->  #include <stdbool.h>
-> -#include <errno.h>
->  #include <stdatomic.h>
->  
->  #define MIN(a, b) \
-> @@ -110,6 +109,9 @@ struct fuse_session {
->  	/* true if reading requests from /dev/fuse are handled internally */
->  	bool buf_reallocable;
->  
-> +	/* synchronous FUSE_INIT support */
-> +	bool want_sync_init;
-> +
->  	/* io_uring */
->  	struct fuse_session_uring uring;
->  
-> diff --git a/lib/fuse_lowlevel.c b/lib/fuse_lowlevel.c
-> index 3234f0ce3b246a4c2c40dc0757177de91b6608b2..ccff6a768f0b8c32469abda9405ff29623f3fff7 100644
-> --- a/lib/fuse_lowlevel.c
-> +++ b/lib/fuse_lowlevel.c
-> @@ -19,6 +19,7 @@
->  #include "mount_util.h"
->  #include "util.h"
->  #include "fuse_uring_i.h"
-> +#include "fuse_daemonize.h"
->  
->  #include <pthread.h>
->  #include <stdatomic.h>
-> @@ -4451,6 +4452,8 @@ int fuse_session_mount(struct fuse_session *se, const char *_mountpoint)
->  	/* Save mountpoint */
->  	se->mountpoint = mountpoint;
->  
-> +	fuse_daemonize_set_mounted();
-> +
->  	return 0;
->  
->  error_out:
-> diff --git a/lib/fuse_versionscript b/lib/fuse_versionscript
-> index cce09610316f4b0b1d6836dd0e63686342b70037..dc6ed0135fb8d82937c756c3fb04a7fcb48fe1f4 100644
-> --- a/lib/fuse_versionscript
-> +++ b/lib/fuse_versionscript
-> @@ -227,6 +227,10 @@ FUSE_3.19 {
->  		fuse_session_start_teardown_watchdog;
->  		fuse_session_stop_teardown_watchdog;
->  		fuse_lowlevel_notify_prune;
-> +		fuse_daemonize_start;
-> +		fuse_daemonize_success;
-> +		fuse_daemonize_fail;
-> +		fuse_daemonize_is_active;
->  } FUSE_3.18;
->  
->  # Local Variables:
-> diff --git a/lib/helper.c b/lib/helper.c
-> index 5c13b93a473181f027eba01e0bfefd78875ede3e..35285be19aa0cc390a432d16701b9eefa16ec12a 100644
-> --- a/lib/helper.c
-> +++ b/lib/helper.c
-> @@ -15,6 +15,7 @@
->  #include "fuse_misc.h"
->  #include "fuse_opt.h"
->  #include "fuse_lowlevel.h"
-> +#include "fuse_daemonize.h"
->  #include "mount_util.h"
->  
->  #include <stdio.h>
-> @@ -352,17 +353,19 @@ int fuse_main_real_versioned(int argc, char *argv[],
->  		goto out1;
->  	}
->  
-> +	struct fuse_session *se = fuse_get_session(fuse);
->  	if (fuse_mount(fuse,opts.mountpoint) != 0) {
->  		res = 4;
->  		goto out2;
->  	}
->  
-> -	if (fuse_daemonize(opts.foreground) != 0) {
-> -		res = 5;
-> -		goto out3;
-> +	if (!fuse_daemonize_is_active()) {
-> +		/* Avoid daemonizing if we are already daemonized by the newer API */
-> +		if (fuse_daemonize(opts.foreground) != 0) {
-> +			res = 5;
-> +			goto out3;
-> +		}
->  	}
-> -
-> -	struct fuse_session *se = fuse_get_session(fuse);
->  	if (fuse_set_signal_handlers(se) != 0) {
->  		res = 6;
->  		goto out3;
-> diff --git a/lib/meson.build b/lib/meson.build
-> index fcd95741c9d3748fa01d9ec52b417aca66745f26..5bd449ebffe7c9229df904d647d990c6c47f80b5 100644
-> --- a/lib/meson.build
-> +++ b/lib/meson.build
-> @@ -2,7 +2,8 @@ libfuse_sources = ['fuse.c', 'fuse_i.h', 'fuse_loop.c', 'fuse_loop_mt.c',
->                     'fuse_lowlevel.c', 'fuse_misc.h', 'fuse_opt.c',
->                     'fuse_signals.c', 'buffer.c', 'cuse_lowlevel.c',
->                     'helper.c', 'modules/subdir.c', 'mount_util.c',
-> -                   'fuse_log.c', 'compat.c', 'util.c', 'util.h' ]
-> +                   'fuse_log.c', 'compat.c', 'util.c', 'util.h',
-> +                   'fuse_daemonize.c' ]
->  
->  if host_machine.system().startswith('linux')
->     libfuse_sources += [ 'mount.c' ]
-> diff --git a/test/test_want_conversion.c b/test/test_want_conversion.c
-> index db731edbfe1be8230ae16b422f798603b4a3bb82..48e6dd2dc6084425a0462bba000563c6083160be 100644
-> --- a/test/test_want_conversion.c
-> +++ b/test/test_want_conversion.c
-> @@ -8,6 +8,7 @@
->  #include <inttypes.h>
->  #include <stdbool.h>
->  #include <err.h>
-> +#include <errno.h>
->  
->  static void print_conn_info(const char *prefix, struct fuse_conn_info *conn)
->  {
 > 
-> -- 
-> 2.43.0
 > 
+> Thanks,
+> Bernd
 > 
