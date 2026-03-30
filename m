@@ -1,180 +1,362 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 286A03A63F8
-	for <linux-fsdevel@vger.kernel.org>; Mon, 30 Mar 2026 21:45:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4C303A5E83
+	for <linux-fsdevel@vger.kernel.org>; Mon, 30 Mar 2026 21:47:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774907127; cv=none; b=IBlHyeaXR1t4BR6S0hzYtAbBiH9Y/8tefofJdliFI00o/v0byM1goFjSvWLHLY/O3CudN9mn9Ze5a2SmygG7ONIZRL1RStkjfRvXHMEek9R5IZVw0XsEPmBwuyxaCISYJ0KfE6WDipWuN1XgTxtKcJICfjdAwGhubh2wPr73FmM=
+	t=1774907265; cv=none; b=IkCKUxiDsakcBhKrTOZt/CHibBTgOYFmKwEG25SJtCfCweRKf6j/iZ1eDoWfWYt8PhO0J6X/FTdFu5aiNzVUUOwx1Pe8LrnD91rI6+FGO3fy6SwzTnPMl6CyQqxthmmJIIP5OWcdYrehmzexigjpG016Vznh7HtLrKEQffqScXk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774907127; c=relaxed/simple;
-	bh=u5CMhJnDSjk9w+7QYWtL0MZbrITE4DBVIwmC6Nf6O8w=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=oFhwsZhYIka2UG62E1ualqOzSM+MQ5yHgOHV5uDp++aMN85Akb0FNGJVHg/2j+uB2LQdQJYT2ZlnbTHaVgYFFYecN+yBVAm3W6t0wUlePRnOJXrjFdbOSY8Z7Bg0Y8ONASkmOE0rzFNUxoiepHKOkTTQBb/SNX82rJI5ePDyO9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PSUwZfmH; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=RVWZAwdz; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1774907265; c=relaxed/simple;
+	bh=VtpZTbNUreFYTm7KrEyMVyaOj0zSrfKFgAPOEkfI36A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AXnTgMYKoliCBoZZZNqqNdsHYSaDdIm9TH8W0qeXGyfP3h6zW0JqujFPiS2+UzWZ8CpMnqcyRFHUIkjpVori5iJKbNeIJSaN+ZGkgl2/2ueQXXctu8e1QIRhBkm1izWu4Q7dVKwff5GFktLPvv1pswwadzIMNKvHbmEnqTdYQGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rlkFlzOi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PSUwZfmH";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="RVWZAwdz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1774907124;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4RGzN+VbSyaJFwChFUr/Hnqf6cRBio09qiiLj25Xf/o=;
-	b=PSUwZfmH3C8NRre6fbDvLS27WGpQBw/j0vpkNm05wKbXXjIwDibFWZkQNrR43N+NFELArN
-	08iqYqsPJ1yys1b0MimNfX7TIyR1RJ34tuxpd+s1awsB1gqF9KZK3qgabVLG3BZb2tP3BR
-	XLZVYjjBXd31emehvwNy18Zn5JgrZ2o=
-Received: from mail-yx1-f71.google.com (mail-yx1-f71.google.com
- [74.125.224.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-686-0x85ANMrN9a5TxWXA2qKQQ-1; Mon, 30 Mar 2026 17:45:20 -0400
-X-MC-Unique: 0x85ANMrN9a5TxWXA2qKQQ-1
-X-Mimecast-MFC-AGG-ID: 0x85ANMrN9a5TxWXA2qKQQ_1774907119
-Received: by mail-yx1-f71.google.com with SMTP id 956f58d0204a3-649f0d26e5eso11857804d50.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 30 Mar 2026 14:45:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1774907119; x=1775511919; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4RGzN+VbSyaJFwChFUr/Hnqf6cRBio09qiiLj25Xf/o=;
-        b=RVWZAwdz4iiCebmpErENRKeOA77dxpQoENrS3oSa9KXW0nntC+W85Ql1wOjN0C50aG
-         ZgqTkb7X4AcD9NpPtoOxFt789Ckgk9GLDweu8kV0LSlt7t/mjjrm6BWn7zRlaj+aowZT
-         J08ltDWqUKCltFIs8XkBbABERFM5bok2HTG/FHuYD4h8Q8ArG5g+vrwoggiPWYLsaRXO
-         703RHEaR4kn+gyu3IGTvv+fqxi5pk+8hc2aN6ZfHABOgtiN1iuhstLh/8RlO14m4fVtr
-         HjXg4NkKUNUzNEZtjSi61i03IrOWP+PWCvd5mjdZJRJBzTHhXwA6gIzgEzIkL/QW/iqP
-         lscw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774907119; x=1775511919;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4RGzN+VbSyaJFwChFUr/Hnqf6cRBio09qiiLj25Xf/o=;
-        b=My+Gs8fnJiRWY8RDCP4T+gzVZ54iOq85npmkAj03wp8qm+JQYxn6zwEOiiFGQZTyjP
-         f3v6pHWeunaABSp1fbGChVH5r25bromf1CdlxhktTYNe+GbZIFCRi52rpK0nrmASJXLz
-         gcQVnEKj8le0xZi3oQRtn4n8QUwDjkAPgTsIJQFs76FC3x2O6haZ56cP8pvrHh0uFILu
-         +mfOpvGNaZgdJ+m6drgN5Ak60IhTj2U+Aium/q+wL2eNezwLoJeyxR66dVpOqctROPMe
-         +4EgR58vw8UxX5/CvRdaR0JGIxDQaBEwOYE7O390tJwWNWhF6bQXUq1iHk2vre5V7jf2
-         JD/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVpARejZylLa/gNDVXVS4qxk9Bjr436oUY+Dg604tm/fJGCGcSYwMjx9PF4YKngwS2hNZqaZcf2BI5Zxcx/@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz5LSK1m5Xd7e36Ut7UXpXCFi7R6GLGttOum74xcMl2ABXykTgX
-	WlRpIZPSllVnUUxgCa76k4BlIMh8Lx7yTBIfNlTruczHb5exY/MCW1KtBaGzT5J2Zt/haIkRlta
-	ATfmX0utfJnXfSxUFnqVSBzRH0fPFTJsQFXpGCc5a5tx8cvrRMflbn0rZF4Qi44GZhPs=
-X-Gm-Gg: ATEYQzwjnq7Db/KQOK0yf8K/H77g33MLNHV3U6ZyNrCNu04sGRYlZuMdxw15cTXdhpk
-	VKOEGhZHG31DyhrsLK0mn33l7rweI+3MSE1oEitfHKRv4zgGkatMr6LM5WQskjLXkZrl52OE5yu
-	pRQwL3BiqxMUjMwZu+m3447yMNTHZGKQd0NAUZIvLPi8hPJDJmVeSMxxVM55OE+6xj9iaJvPUue
-	tgZIJocL8vpwTR40DU2gqBu54erw08RecP0pl5AhELwTYhJ0REQHwRtXHrdhcy1DuF/9X+zxh5q
-	0kqzpuyXeHZ0nd1lvO0RYIpqcEyjzTN1emEWkS3T/3ErWllW9x0chm8HqZKMXNJD8odL4Gzd1+Y
-	9HHvXoukA4sMO6+XCZTLPWOo3HGMQn1FGid0eVky0ARQpcj/WTAQW
-X-Received: by 2002:a05:690c:38b:b0:79b:ccb6:a837 with SMTP id 00721157ae682-79bddcbf65bmr139233677b3.5.1774907117855;
-        Mon, 30 Mar 2026 14:45:17 -0700 (PDT)
-X-Received: by 2002:a05:690c:38b:b0:79b:ccb6:a837 with SMTP id 00721157ae682-79bddcbf65bmr139233397b3.5.1774907117373;
-        Mon, 30 Mar 2026 14:45:17 -0700 (PDT)
-Received: from li-4c4c4544-0032-4210-804c-c3c04f423534.ibm.com ([2600:1700:6476:1430::29])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-650093816fesm4570921d50.21.2026.03.30.14.45.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Mar 2026 14:45:16 -0700 (PDT)
-Message-ID: <e5c4f20159d3661984888add9c6da684623af3ad.camel@redhat.com>
-Subject: Re: [PATCH v5] hfs: update sanity check of the root record
-From: Viacheslav Dubeyko <vdubeyko@redhat.com>
-To: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>, Andrew Morton	
- <akpm@linux-foundation.org>, Linus Torvalds
- <torvalds@linux-foundation.org>,  Jan Kara <jack@suse.cz>, Leo Stone
- <leocstone@gmail.com>, Christian Brauner <brauner@kernel.org>,  Viacheslav
- Dubeyko	 <slava@dubeyko.com>, John Paul Adrian Glaubitz
- <glaubitz@physik.fu-berlin.de>,  George Anthony Vernon	
- <contact@gvernon.com>, Yangtao Li <frank.li@vivo.com>, linux-fsdevel	
- <linux-fsdevel@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
-Date: Mon, 30 Mar 2026 14:45:15 -0700
-In-Reply-To: <21e7ebfd-d35d-4682-b553-6996cc8c3a8e@I-love.SAKURA.ne.jp>
-References: <21e7ebfd-d35d-4682-b553-6996cc8c3a8e@I-love.SAKURA.ne.jp>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43app2) 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rlkFlzOi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77001C4CEF7;
+	Mon, 30 Mar 2026 21:47:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774907265;
+	bh=VtpZTbNUreFYTm7KrEyMVyaOj0zSrfKFgAPOEkfI36A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rlkFlzOinoXXtx7nO5DCYsZ4ynDVVFX55lg+JoG0oaVeGNZnED2fxVSbVlW9U7GdD
+	 PBKR5d22H+8b6TVEz/cj491ZYExeP4pOGl8lBHtMczcm8VX4eRkBIjeCKoPSkWUKJ3
+	 kqFVzE5RXCLDNmtllRDDFlbivyQ7LS9GH/VVSgKIaPYaIr2dzke9DGDk0tH81xGOVH
+	 TEZjMVp6KGXoly9h2suEPbJDUoa3hjMwO2z9RUXtHz2UVqeQBi0+gZz2GTND+XsWI5
+	 eFidL48PaArzKYV01tB1zS65RBLNekBtZ2JoEkL1RpMtXxuUEX9wFg6WjxOmoVJYFK
+	 6Wbj5pCNcDSbg==
+Date: Mon, 30 Mar 2026 14:47:44 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Bernd Schubert <bernd@bsbernd.com>
+Cc: Bernd Schubert <bschubert@ddn.com>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"miklos@szeredi.hu" <miklos@szeredi.hu>,
+	"neal@gompa.dev" <neal@gompa.dev>,
+	"joannelkoong@gmail.com" <joannelkoong@gmail.com>
+Subject: Re: [PATCH 04/17] mount_service: use the new mount api for the mount
+ service
+Message-ID: <20260330214744.GH6202@frogsfrogsfrogs>
+References: <177457463048.1008428.11432672970504238251.stgit@frogsfrogsfrogs>
+ <177457463189.1008428.16697718096512582220.stgit@frogsfrogsfrogs>
+ <2a4afa9c-050e-4867-9dac-e9e87f693f23@ddn.com>
+ <20260330211836.GE6202@frogsfrogsfrogs>
+ <cf45f305-e3f4-4309-bec9-55a658befb01@bsbernd.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cf45f305-e3f4-4309-bec9-55a658befb01@bsbernd.com>
 
-On Sat, 2026-03-28 at 16:12 +0900, Tetsuo Handa wrote:
-> syzbot is reporting that BUG() in hfs_write_inode() fires upon unmount
-> operation when the inode number of the record retrieved as a result of
-> hfs_cat_find_brec(HFS_ROOT_CNID) is not HFS_ROOT_CNID, for the inode
-> number is assigned using 32bits integer retrieved from relevant offset of
-> the file system image.
->=20
-> Since commit b905bafdea21 ("hfs: Sanity check the root record") checks on=
-ly
-> the record size and the record type, let's also check the inode number.
->=20
-> Since hfs_cat_find_brec() is called by only hfs_fill_super() with cnid =
-=3D=3D
-> HFS_ROOT_CNID, we could move hfs_bnode_read() and related validations to
-> inside hfs_cat_find_brec(). But such change is a matter of preference
-> while this 3+ years old bug is effectively the top crasher for syzbot.
-> Let me immediately stop wasting syzbot's computation resource.
->=20
-> Reported-by: syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3D97e301b4b82ae803d21b
-> Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-> ---
-> George Anthony Vernon is trying to fix this bug without my patch
-> ( https://lkml.kernel.org/r/20260311211309.27856-1-contact@gvernon.com ).
-> But it was proven that George's patch cannot fix this bug. Therefore,
-> I believe that we came to a conclusion that applying my patch is
-> the way to go. We can apply George's patch as a further improvement.
-> But unfortunately Viacheslav Dubeyko (the maintainer of HFS) is not
-> responding. Therefore, I'm sending this patch to more developers who
-> might accept this patch, instead of waiting for Viacheslav.
+On Mon, Mar 30, 2026 at 11:40:22PM +0200, Bernd Schubert wrote:
+> 
+> 
+> On 3/30/26 23:18, Darrick J. Wong wrote:
+> > On Mon, Mar 30, 2026 at 09:06:05PM +0000, Bernd Schubert wrote:
+> >> On 3/27/26 02:25, Darrick J. Wong wrote:
+> >>> From: Darrick J. Wong <djwong@kernel.org>
+> >>>
+> >>> Use the new fsopen/fsmount system calls to mount the filesystem so that
+> >>> we get somewhat better diagnostics if something gets screwed up.
+> >>>
+> >>> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
+> >>> ---
+> >>>  meson.build          |   15 +++
+> >>>  util/mount_service.c |  299 ++++++++++++++++++++++++++++++++++++++++++++++++++
+> >>>  2 files changed, 314 insertions(+)
+> >>>
+> >>>
+> >>> diff --git a/meson.build b/meson.build
+> >>> index d6ba8740effd5c..b0988548bf806a 100644
+> >>> --- a/meson.build
+> >>> +++ b/meson.build
+> >>> @@ -130,6 +130,21 @@ special_funcs = {
+> >>>  	int main(int argc, char *argv[]) {
+> >>>            return SD_LISTEN_FDS_START;
+> >>>  	}
+> >>> +    ''',
+> >>> +    'new_mount_api': '''
+> >>> +       #define _GNU_SOURCE
+> >>> +       #include <sys/mount.h>
+> >>> +       #include <linux/mount.h>
+> >>> +       #include <unistd.h>
+> >>> +       #include <fcntl.h>
+> >>> +
+> >>> +       int main(void) {
+> >>> +           int fsfd = fsopen("fuse", FSOPEN_CLOEXEC);
+> >>> +           int res = fsconfig(fsfd, FSCONFIG_SET_STRING, "source", "test", 0);
+> >>> +           int mntfd = fsmount(fsfd, FSMOUNT_CLOEXEC, 0);
+> >>> +           res = move_mount(mntfd, "", AT_FDCWD, "/mnt", MOVE_MOUNT_F_EMPTY_PATH);
+> >>> +           return 0;
+> >>> +       }
+> >>>      '''
+> >>>  }
+> >>>  
+> >>> diff --git a/util/mount_service.c b/util/mount_service.c
+> >>> index ae078e537dc560..4a2c1111b66b91 100644
+> >>> --- a/util/mount_service.c
+> >>> +++ b/util/mount_service.c
+> >>> @@ -65,6 +65,9 @@ struct mount_service {
+> >>>  
+> >>>  	/* O_PATH fd for mount point */
+> >>>  	int mountfd;
+> >>> +
+> >>> +	/* fd for fsopen */
+> >>> +	int fsopenfd;
+> >>>  };
+> >>>  
+> >>>  /* Filter out the subtype of the filesystem (e.g. fuse.Y -> Y) */
+> >>> @@ -87,6 +90,7 @@ static int mount_service_init(struct mount_service *mo, int argc, char *argv[])
+> >>>  	mo->argvfd = -1;
+> >>>  	mo->fusedevfd = -1;
+> >>>  	mo->mountfd = -1;
+> >>> +	mo->fsopenfd = -1;
+> >>>  
+> >>>  	for (i = 0; i < argc; i++) {
+> >>>  		if (!strcmp(argv[i], "-t") && i + 1 < argc) {
+> >>> @@ -690,9 +694,50 @@ static int mount_service_handle_fsopen_cmd(struct mount_service *mo,
+> >>>  		return mount_service_send_reply(mo, error);
+> >>>  	}
+> >>>  
+> >>> +#ifdef HAVE_NEW_MOUNT_API
+> >>> +	/* If this fails we fall back on mount() */
+> >>> +	mo->fsopenfd = fsopen(oc->value, FSOPEN_CLOEXEC);
+> >>> +#endif
+> >>> +
+> >>>  	return mount_service_send_reply(mo, 0);
+> >>>  }
+> >>>  
+> >>> +#ifdef HAVE_NEW_MOUNT_API
+> >>> +/* callers must preserve errno */
+> >>> +static void emit_fsconfig_messages(const struct mount_service *mo)
+> >>> +{
+> >>> +	uint8_t buf[BUFSIZ];
+> >>> +	ssize_t sz;
+> >>> +
+> >>> +	while ((sz = read(mo->fsopenfd, buf, sizeof(buf) - 1)) != -1) {
+> >>> +		if (sz <= 0)
+> >>> +			continue;
+> >>> +		if (buf[sz - 1] == '\n')
+> >>> +			buf[--sz] = '\0';
+> >>> +		else
+> >>> +			buf[sz] = '\0';
+> >>> +
+> >>> +		if (!*buf)
+> >>> +			continue;
+> >>> +
+> >>> +		switch (buf[0]) {
+> >>> +		case 'e':
+> >>> +			fprintf(stderr, "Error: %s\n", buf + 2);
+> >>> +			break;
+> >>> +		case 'w':
+> >>> +			fprintf(stderr, "Warning: %s\n", buf + 2);
+> >>> +			break;
+> >>> +		case 'i':
+> >>> +			fprintf(stderr, "Info: %s\n", buf + 2);
+> >>> +			break;
+> >>> +		default:
+> >>> +			fprintf(stderr, " %s\n", buf);
+> >>> +			break;
+> >>> +		}
+> >>> +	}
+> >>> +}
+> >>> +#endif
+> >>
+> >> How about unifying that with my series and then use log_fsconfig_kmsg()?
+> >> We can also do it independently, but should not forget to use a common
+> >> function later on. That applies to all these functions for the new mount
+> >> API. Part of the headache I have with my series is that fusermount.c
+> >> duplicates quite some code.
+> >> For me it looks a bit like we can unify most of util/mount_service.c and
+> >> lib/mount_fsmount.c.
+> > 
+> > <nod> The mount option string parsing (i.e. all that MS_ -> MOUNT_ATTR
+> > translation) and error reporting parts look trivially shareable.
+> > fuse_kern_fsmount isn't so easy to share since the fuse server sends
+> > over all the relevant pieces in separate commands.
+> > 
+> >>> +
+> >>>  static int mount_service_handle_source_cmd(struct mount_service *mo,
+> >>>  					   const struct fuse_service_packet *p)
+> >>>  {
+> >>> @@ -714,6 +759,21 @@ static int mount_service_handle_source_cmd(struct mount_service *mo,
+> >>>  		return mount_service_send_reply(mo, error);
+> >>>  	}
+> >>>  
+> >>> +#ifdef HAVE_NEW_MOUNT_API
+> >>> +	if (mo->fsopenfd >= 0) {
+> >>> +		int ret = fsconfig(mo->fsopenfd, FSCONFIG_SET_STRING, "source",
+> >>> +			       oc->value, 0);
+> >>> +		if (ret) {
+> >>> +			int error = errno;
+> >>> +
+> >>> +			fprintf(stderr, "%s: fsconfig source: %s\n",
+> >>> +				mo->msgtag, strerror(error));
+> >>> +			emit_fsconfig_messages(mo);
+> >>> +			return mount_service_send_reply(mo, error);
+> >>> +		}
+> >>> +	}
+> >>> +#endif
+> >>> +
+> >>>  	return mount_service_send_reply(mo, 0);
+> >>>  }
+> >>>  
+> >>> @@ -722,6 +782,8 @@ static int mount_service_handle_mntopts_cmd(struct mount_service *mo,
+> >>>  {
+> >>>  	struct fuse_service_string_command *oc =
+> >>>  			container_of(p, struct fuse_service_string_command, p);
+> >>> +	char *tokstr = oc->value;
+> >>> +	char *tok, *savetok;
+> >>>  
+> >>>  	if (mo->mntopts) {
+> >>>  		fprintf(stderr, "%s: mount options respecified!\n",
+> >>> @@ -738,6 +800,45 @@ static int mount_service_handle_mntopts_cmd(struct mount_service *mo,
+> >>>  		return mount_service_send_reply(mo, error);
+> >>>  	}
+> >>>  
+> >>> +	/* strtok_r mutates tokstr aka oc->value */
+> >>> +	while ((tok = strtok_r(tokstr, ",", &savetok)) != NULL) {
+> >>> +		char *equals = strchr(tok, '=');
+> >>> +		char oldchar = 0;
+> >>> +
+> >>> +		if (equals) {
+> >>> +			oldchar = *equals;
+> >>> +			*equals = 0;
+> >>> +		}
+> >>> +
+> >>> +#ifdef HAVE_NEW_MOUNT_API
+> >>> +		if (mo->fsopenfd >= 0) {
+> >>> +			int ret;
+> >>> +
+> >>> +			if (equals)
+> >>> +				ret = fsconfig(mo->fsopenfd,
+> >>> +					       FSCONFIG_SET_STRING, tok,
+> >>> +					       equals + 1, 0);
+> >>> +			else
+> >>> +				ret = fsconfig(mo->fsopenfd,
+> >>> +					       FSCONFIG_SET_FLAG, tok,
+> >>> +					       NULL, 0);
+> >>> +			if (ret) {
+> >>> +				int error = errno;
+> >>> +
+> >>> +				fprintf(stderr, "%s: set mount option: %s\n",
+> >>> +					mo->msgtag, strerror(error));
+> >>> +				emit_fsconfig_messages(mo);
+> >>> +				return mount_service_send_reply(mo, error);
+> >>> +			}
+> >>> +		}
+> >>> +#endif
+> >>> +
+> >>> +		if (equals)
+> >>> +			*equals = oldchar;
+> >>> +
+> >>> +		tokstr = NULL;
+> >>> +	}
+> >>> +
+> >>>  	return mount_service_send_reply(mo, 0);
+> >>>  }
+> >>>  
+> >>> @@ -875,6 +976,196 @@ static int mount_service_regular_mount(struct mount_service *mo,
+> >>>  	return mount_service_send_reply(mo, 0);
+> >>>  }
+> >>>  
+> >>> +#ifdef HAVE_NEW_MOUNT_API
+> >>> +struct ms_to_mount_map {
+> >>> +	unsigned long ms_flag;
+> >>> +	unsigned int mount_attr_flag;
+> >>> +};
+> >>> +
+> >>> +static const struct ms_to_mount_map attrs[] = {
+> >>> +	{ MS_RDONLY,		MOUNT_ATTR_RDONLY },
+> >>> +	{ MS_NOSUID,		MOUNT_ATTR_NOSUID },
+> >>> +	{ MS_NODEV,		MOUNT_ATTR_NODEV },
+> >>> +	{ MS_NOEXEC,		MOUNT_ATTR_NOEXEC },
+> >>> +	{ MS_RELATIME,		MOUNT_ATTR_RELATIME },
+> >>> +	{ MS_NOATIME,		MOUNT_ATTR_NOATIME },
+> >>> +	{ MS_STRICTATIME,	MOUNT_ATTR_STRICTATIME },
+> >>> +	{ MS_NODIRATIME,	MOUNT_ATTR_NODIRATIME },
+> >>> +#ifdef MOUNT_ATTR_NOSYMFOLLOW
+> >>> +	{ MS_NOSYMFOLLOW,	MOUNT_ATTR_NOSYMFOLLOW },
+> >>> +#endif
+> >>> +	{ 0, 0 },
+> >>> +};
+> >>> +
+> >>> +static void get_mount_attr_flags(const struct fuse_service_mount_command *oc,
+> >>> +				 unsigned int *attr_flags,
+> >>> +				 unsigned long *leftover_ms_flags)
+> >>> +{
+> >>> +	const struct ms_to_mount_map *i;
+> >>> +	unsigned int ms_flags = ntohl(oc->ms_flags);
+> >>> +	unsigned int mount_attr_flags = 0;
+> >>> +
+> >>> +	for (i = attrs; i->ms_flag != 0; i++) {
+> >>> +		if (ms_flags & i->ms_flag)
+> >>> +			mount_attr_flags |= i->mount_attr_flag;
+> >>> +		ms_flags &= ~i->ms_flag;
+> >>> +	}
+> >>> +
+> >>> +	*leftover_ms_flags = ms_flags;
+> >>> +	*attr_flags = mount_attr_flags;
+> >>> +}
+> >>> +
+> >>> +struct ms_to_str_map {
+> >>> +	unsigned long ms_flag;
+> >>> +	const char *string;
+> >>> +};
+> >>> +
+> >>> +static const struct ms_to_str_map strflags[] = {
+> >>> +	{ MS_SYNCHRONOUS,	"sync" },
+> >>> +	{ MS_DIRSYNC,		"dirsync" },
+> >>> +	{ MS_LAZYTIME,		"lazytime" },
+> >>> +	{ 0, 0 },
+> >>> +};
+> >>> +
+> >>> +static int set_ms_flags(struct mount_service *mo, unsigned long ms_flags)
+> >>> +{
+> >>> +	const struct ms_to_str_map *i;
+> >>> +	int ret;
+> >>> +
+> >>> +	for (i = strflags; i->ms_flag != 0; i++) {
+> >>> +		if (!(ms_flags & i->ms_flag))
+> >>> +			continue;
+> >>> +
+> >>> +		ret = fsconfig(mo->fsopenfd, FSCONFIG_SET_FLAG, i->string,
+> >>> +			       NULL, 0);
+> >>> +		if (ret) {
+> >>> +			int error = errno;
+> >>> +
+> >>> +			fprintf(stderr, "%s: set %s option: %s\n",
+> >>> +				mo->msgtag, i->string, strerror(error));
+> >>> +			emit_fsconfig_messages(mo);
+> >>> +
+> >>> +			errno = error;
+> >>> +			return -1;
+> >>> +		}
+> >>> +		ms_flags &= ~i->ms_flag;
+> >>> +	}
+> >>> +
+> >>> +	/*
+> >>> +	 * We can't translate all the supplied MS_ flags into MOUNT_ATTR_ flags
+> >>> +	 * or string flags!  Return a magic code so the caller will fall back
+> >>> +	 * to regular mount(2).
+> >>> +	 */
+> >>> +	return ms_flags ? -2 : 0;
+> >>> +}
+> >>
+> >> Let's please not forget later on to use the new define.
+> > 
+> > Er... which new define?  HAVE_NEW_MOUNT_API?  I think we're still inside
+> > the #ifdef for that at this point.
+> > 
+> > <confused>
+> 
+> 
+> Sorry, I meant FUSE_MOUNT_FALLBACK_NEEDED.
 
-It's completely not correct. I am reviewing patches in time when I have eno=
-ugh
-free time for it.=20
+Fixed.
 
->=20
->  fs/hfs/super.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/fs/hfs/super.c b/fs/hfs/super.c
-> index a4f2a2bfa6d3..2e52acf282b0 100644
-> --- a/fs/hfs/super.c
-> +++ b/fs/hfs/super.c
-> @@ -361,7 +361,7 @@ static int hfs_fill_super(struct super_block *sb, str=
-uct fs_context *fc)
->  			goto bail_hfs_find;
->  		}
->  		hfs_bnode_read(fd.bnode, &rec, fd.entryoffset, fd.entrylength);
-> -		if (rec.type !=3D HFS_CDR_DIR)
-> +		if (rec.type !=3D HFS_CDR_DIR || rec.dir.DirID !=3D cpu_to_be32(HFS_RO=
-OT_CNID))
-
-I've already reviewed this patch. And I am not agree with this suggestion.
-
-We prepare the key with HFSPLUS_ROOT_CNID [1]:
-
-err =3D hfsplus_cat_build_key(sb, fd.search_key, HFSPLUS_ROOT_CNID, &str);
-
-The hfs_brec_read() executes the search of the record [2]:
-
-	res =3D hfs_brec_find(fd);
-	if (res)
-		return res;
-
-The hfs_brec_find() should found the record for requested key. And if the f=
-ound
-thread record contains not correct CNID, then we can check the found thread
-record and return error as the result of the search.
-
-Thanks,
-Slava.
-
-[1] https://elixir.bootlin.com/linux/v7.0-rc6/source/fs/hfsplus/super.c#L57=
-1
-[2] https://elixir.bootlin.com/linux/v7.0-rc6/source/fs/hfs/bfind.c#L174
-
-
+--D
