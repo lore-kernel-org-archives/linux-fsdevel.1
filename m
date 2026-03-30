@@ -1,830 +1,477 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BB153DE45D
-	for <linux-fsdevel@vger.kernel.org>; Mon, 30 Mar 2026 18:41:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 648503DEACB
+	for <linux-fsdevel@vger.kernel.org>; Mon, 30 Mar 2026 18:44:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774896108; cv=none; b=lv+hP7y+sPErF/vwUBM9PIKd6/wfwhvjk6pwiJ0gClPElywlkfKMnrMThH/Xt02DXPyW9jWhYrnN3SlebuYfbh7QPOjMgyZzsuBYWlZUbX8lpqLJVu0gZ0l1N51aQKqWfnegYBpeaVbFdWTyJHdwX74w+0Cvfo5ynnRVtR3BL7Y=
+	t=1774896259; cv=none; b=kxoHwuVLS8La2HM0TobaWc+BWT1wqGBF1t42nEQVASFsGCMPV7j9L0LeoFyBoj3/soylfU4vQvwG8xqZdrlKuhhzx9NiA2DnZ45tP9ITmaSlQZUODCoyUCj8nmgcdW5TRXu3p3/GpEZ/6TD6N/lXZ7ZNncCF43nGEupHqm/zLTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774896108; c=relaxed/simple;
-	bh=EN9at9x9V8S0y5kJtqHIZBO3YU97E2buKJXoq230DeU=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Ie40ay0eUcWfjEEQTh7soGDIdukWAt7XQAnf46YuQaRP26ofzm1gjamPdfOgpGWpmlZO0iXzAoqVXIfxt9XfGv3ywPtUWF8gKSgkZj4eksUuKh9ET6wBblBM8KCYceNrwNXzxexKZ3KPSugnKmHse3Y9tHv+acH+hDF5241cIoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=f3U3eBy+; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=dDxiDkHY; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1774896259; c=relaxed/simple;
+	bh=Bcn8o8JyG8j+ie93Idt4xFNtYn48e78AfVvJg2pdpC0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GGnekPHK5y94korni1xbaKsNVMl98oLlz6hT65pd8hKWR4sowEVRFmAnf2JSpVTPWYed0IR8X0u87Y5F+z1tTQ8x6w2uzaGkJm3jMR+359FUZAQnXfz7p11FhWbgxetFKjgmsNa6eaOkLxOIMfdCsiYDQ0lDbCZXp7NZ3sQQgw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aK9Pd1PX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="f3U3eBy+";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="dDxiDkHY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1774896105;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EPRiVGwE2OQlw3QeeOucAVQSdHHXv2a9/FppSCEf6K8=;
-	b=f3U3eBy+RqysuX+LTS0jjiNmR8afQyO1WBL2A0tZ4vITnGODCOwWfd0x1Un5dCzpuOSjYs
-	86pJimjdUeC89fNzC1FKPZCi8lYrumM0JgjvOyx+bw2EOOKLJnvdIyRcicz5foGpodO0JX
-	yr+R6gxxkMS17yEu6SgViVDxSgLtiqI=
-Received: from mail-dy1-f198.google.com (mail-dy1-f198.google.com
- [74.125.82.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-696-eTej2F7uNrO-oYNYVVer9Q-1; Mon, 30 Mar 2026 14:41:44 -0400
-X-MC-Unique: eTej2F7uNrO-oYNYVVer9Q-1
-X-Mimecast-MFC-AGG-ID: eTej2F7uNrO-oYNYVVer9Q_1774896103
-Received: by mail-dy1-f198.google.com with SMTP id 5a478bee46e88-2c1631e6189so21447198eec.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 30 Mar 2026 11:41:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1774896103; x=1775500903; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=EPRiVGwE2OQlw3QeeOucAVQSdHHXv2a9/FppSCEf6K8=;
-        b=dDxiDkHYzbxw4FuQe37DCaloWcZDfagTm/g4aVjhbuRGFqzuw41Wb9VkHnCJDutiBU
-         4f9DCMQlIcR/TrvkMvvjOXT4GZZnKa0TxpDledrpWRnXVQ8hQcGNfZhvOfbpzrMEKKg9
-         I4czuYUktXIZJYLgUJY0xxhyZURhHL8JWLMn/FKxNy7xg6G+tju/dvCup0/F8P5RnG8t
-         luC+hwJwrqH1W07kqvnPcA7On++O/IBWaX5b5AY9nGjzjok8XbUOYMVZuSdKicMGGmXo
-         T8XITqSRjxZMrwh6baRQuF43pxCwt1lrflwez6c9XWjiM6KQBsSnvwvSuio703F2o3ZY
-         k6lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774896103; x=1775500903;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EPRiVGwE2OQlw3QeeOucAVQSdHHXv2a9/FppSCEf6K8=;
-        b=N40ZJh90b0lI9+sP+ozlzpF1zTFDyzussT1GsxPZfk3VlsfzCXX3DEhtgDT+wsKgTN
-         JmD/cDkDR1siGX8WdSJlSmYx0YLYXwhQZZRBdBmZIs7OUF2vajMyqzsnq7nxXeDD6RPU
-         MEcS527wJR42L8IGZydo7mcWk7kzbDz9otnLekSHmHrPHgcF25g5BeRH7yncLAmMyOa4
-         SwT6sCcWJvE9KlRLfNGId5alR/3C9cxQpHm7PuPreY2DCX+XxYSJ+0Dkw9tUxHM7B+Xr
-         wK6HeuYf82rRQtcTAMxrN/6PEOBunwgZEGpZfCi8igEnDZ9zhosKDR+feMww8/eOu+eT
-         losQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWhMeq/q2ZuOUBtB4cPXSuVU7tJg0O5N16HZ/bHUcTa7GTCTo4D86fErF7q2OC6T+1IsQCvG4ArbwDmG0CF@vger.kernel.org
-X-Gm-Message-State: AOJu0YyTTuoj1SHYRQ8ERHWoo0ggbYXXNVFUrkm0+odLCrfufbQ31krh
-	SF59/qK+PGviAliEApMJHrO1+OXO7zf2DyRlc3/NA8hD8OYSOKjv6hkfhAWEHlzkLYE8MhfQK2M
-	j5Z/2rrLNsvNY5BA5K2UoBTcsvziMAFM6zkh9u7Cw38laF+65HBUH6kGYLaVitqwBtHs=
-X-Gm-Gg: ATEYQzwBwB26M2jbKeRgdEPGZ/Y3aKFG7VqzY8ZNM0J1INSLDOFRyDJ4Zdw7pXPJF5v
-	UMngMB/UcNYHPIK9SxBLe5fwdSWbblzk6P0JQRcS3idMuUMtyiIg2s+JilbH9aY9n7cRP5QGrWF
-	ZiyMntRSEWEcnsJM/5dzYk5o74+fU6SHy7NnFzlJCyegHbg28qemBPDBOLMwqI7SdrvzcbNUOet
-	H7z8RvgSTnGY6NAuuUFmq2hX2TXUQFR67JmPumtnAFKnz6gBKnhTWyPg97HLfP9C5/wdb1437zf
-	f5IqX3z3v2/K4WShpEBQ/7hvR5ecGdsJ/ZSGwYsYzc9hS4cVq46gq8JNsakS4wXEoXP/Cvuu7Mi
-	ntCrXmQ5hCaKa36Y0uISWe0LrO2uKb9XerNETbLqVyidURasrguN8
-X-Received: by 2002:a05:7301:1298:b0:2c7:11f2:d081 with SMTP id 5a478bee46e88-2c711f31321mr1652509eec.14.1774896102588;
-        Mon, 30 Mar 2026 11:41:42 -0700 (PDT)
-X-Received: by 2002:a05:7301:1298:b0:2c7:11f2:d081 with SMTP id 5a478bee46e88-2c711f31321mr1652481eec.14.1774896101815;
-        Mon, 30 Mar 2026 11:41:41 -0700 (PDT)
-Received: from li-4c4c4544-0032-4210-804c-c3c04f423534.ibm.com ([2600:1700:6476:1430::29])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c3c6e9c088sm7596970eec.21.2026.03.30.11.41.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Mar 2026 11:41:41 -0700 (PDT)
-Message-ID: <7930c8018436cdc672756db9faf6783d8183591c.camel@redhat.com>
-Subject: Re: [PATCH 05/10] ceph: implement reconnect-based manual reset
- worker
-From: Viacheslav Dubeyko <vdubeyko@redhat.com>
-To: Alex Markuze <amarkuze@redhat.com>, ceph-devel@vger.kernel.org
-Cc: idryomov@gmail.com, linux-fsdevel@vger.kernel.org
-Date: Mon, 30 Mar 2026 11:41:40 -0700
-In-Reply-To: <20260327143045.1393612-6-amarkuze@redhat.com>
-References: <20260327143045.1393612-1-amarkuze@redhat.com>
-	 <20260327143045.1393612-6-amarkuze@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43app2) 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aK9Pd1PX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9F65C4CEF7;
+	Mon, 30 Mar 2026 18:44:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774896259;
+	bh=Bcn8o8JyG8j+ie93Idt4xFNtYn48e78AfVvJg2pdpC0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=aK9Pd1PXP7tBqkGB08eQQe0VDD1uymGVfn3uVi8TYiYr/AY4DP+eDAVghLQk/8Gxs
+	 rUlEU7XYCAhfpzsK/eAyoL3LUa1vd0qkeR0mnB3Z8vwmO6fKxPktQDV8BXT51nPBhY
+	 BvX0YC/HhRYf4HlF0Gkhf/yRs51jbKZs/WJLiAT7tdgPJOH77rXu51BAZ6DrdBt0dK
+	 F9UsHVQISWQLmWsnPdzu5JddGte6r1ZZd8hqgFLxN7mmNiC+slJDmvnDxfWk61/x7y
+	 aApv31PNE7KL19oQ2rn5917gOuRqzkrl9rrcids4K6pJi/qcNcgSdxZn8NSo6JU6tf
+	 zf+DTdx+gWsbQ==
+Date: Mon, 30 Mar 2026 11:44:18 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Bernd Schubert <bernd@bsbernd.com>
+Cc: linux-fsdevel@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
+	Joanne Koong <joannelkoong@gmail.com>, Kevin Chen <kchen@ddn.com>,
+	Bernd Schubert <bschubert@ddn.com>
+Subject: Re: [PATCH v2 14/25] fuse mount: Support synchronous FUSE_INIT
+ (privileged daemon)
+Message-ID: <20260330184418.GX6202@frogsfrogsfrogs>
+References: <20260326-fuse-init-before-mount-v2-0-b1ca8fcbf60f@bsbernd.com>
+ <20260326-fuse-init-before-mount-v2-14-b1ca8fcbf60f@bsbernd.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260326-fuse-init-before-mount-v2-14-b1ca8fcbf60f@bsbernd.com>
 
-On Fri, 2026-03-27 at 14:30 +0000, Alex Markuze wrote:
-> Add the reconnect-based reset worker that snapshots eligible sessions,
-> tracks reconnect completion, and wires reset-driven reconnect handling
-> through the session state machine. This keeps the initial manual reset
-> path functional before the later patches switch recovery over to direct
-> session teardown.
->=20
-> Signed-off-by: Alex Markuze <amarkuze@redhat.com>
+On Thu, Mar 26, 2026 at 10:34:47PM +0100, Bernd Schubert wrote:
+> From: Bernd Schubert <bschubert@ddn.com>
+> 
+> Add synchronous FUSE_INIT processing during mount() to
+> enable early daemonization with proper error reporting
+> to the parent process.
+> 
+> A new mount thread is needed that handles FUSE_INIT and
+> possible other requests at mount time (like getxattr for selinux).
+> The kernel sends FUSE_INIT during the mount() syscall. Without a thread
+> to process it, mount() blocks forever.
+> 
+> Mount thread lifetime:
+> Created before mount() syscall in fuse_start_sync_init_worker()
+> Processes requests until se->mount_finished is set (after mount() returns)
+> Joined after successful mount in fuse_wait_sync_init_completion()
+> Cancelled if mount fails (direct → fusermount3 fallback)
+> Key changes:
+> 
+> Add init_thread, init_error, mount_finished to struct fuse_session
+> Use FUSE_DEV_IOC_SYNC_INIT ioctl for kernel support
+> Fall back to async FUSE_INIT if unsupported
+> Auto-enabled when fuse_daemonize_active() or via
+> fuse_session_want_sync_init()
+> Allows parent to report mount/init failures instead of
+> exiting immediately after fork.
+> 
+> Note: For now synchronous FUSE_INIT is only supported for privileged
+> mounts.
+> 
+> Signed-off-by: Bernd Schubert <bschubert@ddn.com>
 > ---
->  fs/ceph/mds_client.c | 534 +++++++++++++++++++++++++++++++------------
->  1 file changed, 394 insertions(+), 140 deletions(-)
->=20
-> diff --git a/fs/ceph/mds_client.c b/fs/ceph/mds_client.c
-> index 4b5adc38f7b7..5a2a9e473058 100644
-> --- a/fs/ceph/mds_client.c
-> +++ b/fs/ceph/mds_client.c
-> @@ -12,6 +12,7 @@
->  #include <linux/bits.h>
->  #include <linux/ktime.h>
->  #include <linux/bitmap.h>
-> +#include <linux/workqueue.h>
->  #include <linux/mnt_idmapping.h>
-> =20
->  #include "super.h"
-> @@ -61,6 +62,7 @@ struct ceph_reconnect_state {
->  	struct ceph_pagelist *pagelist;
->  	unsigned msg_version;
->  	bool allow_multi;
-> +	bool from_reset;
->  };
-> =20
->  static void __wake_requests(struct ceph_mds_client *mdsc,
-> @@ -68,6 +70,8 @@ static void __wake_requests(struct ceph_mds_client *mds=
-c,
->  static void ceph_cap_release_work(struct work_struct *work);
->  static void ceph_cap_reclaim_work(struct work_struct *work);
->  static void ceph_mdsc_reset_workfn(struct work_struct *work);
-> +static void ceph_mdsc_reconnect_session_done(struct ceph_mds_client *mds=
-c,
-> +					     struct ceph_mds_session *session);
-> =20
->  static const struct ceph_connection_operations mds_con_ops;
-> =20
-> @@ -3743,133 +3747,6 @@ static void kick_requests(struct ceph_mds_client =
-*mdsc, int mds)
->  	}
->  }
-> =20
-> -/*
-> - * Wait for an active reset to complete.
-> - * Returns 0 if reset completed successfully or no reset was active.
-> - * Returns -ETIMEDOUT if we timed out waiting.
-> - * Returns -ERESTARTSYS if interrupted by signal.
-> - */
-> -int ceph_mdsc_wait_for_reset(struct ceph_mds_client *mdsc)
-> -{
-> -	struct ceph_client_reset_state *st =3D &mdsc->reset_state;
-> -	struct ceph_client *cl =3D mdsc->fsc->client;
-> -	long timeout =3D CEPH_CLIENT_RESET_WAIT_TIMEOUT_SEC * HZ;
-> -	int blocked_count;
-> -	int ret;
-> -
-> -	if (!READ_ONCE(st->in_progress))
-> -		return 0;
-> -
-> -	blocked_count =3D atomic_inc_return(&st->blocked_requests);
-> -	doutc(cl, "request blocked during reset, %d total blocked\n",
-> -	      blocked_count);
-> -	trace_ceph_client_reset_blocked(mdsc, blocked_count);
-> -
-> -	ret =3D wait_event_interruptible_timeout(st->blocked_wq,
-> -					       !READ_ONCE(st->in_progress),
-> -					       timeout);
-> -
-> -	atomic_dec(&st->blocked_requests);
-> -
-> -	if (ret =3D=3D 0) {
-> -		pr_warn_client(cl, "timed out waiting for reset to complete\n");
-> -		trace_ceph_client_reset_unblocked(mdsc, -ETIMEDOUT);
-> -		return -ETIMEDOUT;
-> -	}
-> -	if (ret < 0) {
-> -		trace_ceph_client_reset_unblocked(mdsc, ret);
-> -		return ret;
-> -	}
-> -
-> -	spin_lock(&st->lock);
-> -	ret =3D st->last_errno;
-> -	spin_unlock(&st->lock);
-> -	trace_ceph_client_reset_unblocked(mdsc, ret);
-> -	return ret;
-> -}
-> -
-> -static void ceph_mdsc_reset_complete(struct ceph_mds_client *mdsc, int r=
-et)
-> -{
-> -	struct ceph_client_reset_state *st =3D &mdsc->reset_state;
-> -
-> -	spin_lock(&st->lock);
-> -	st->last_finish =3D jiffies;
-> -	st->last_errno =3D ret;
-> -	st->in_progress =3D false;
-> -	if (ret)
-> -		st->failure_count++;
-> -	else
-> -		st->success_count++;
-> -	spin_unlock(&st->lock);
-> -
-> -	wake_up_all(&st->blocked_wq);
-> -	trace_ceph_client_reset_complete(mdsc, ret);
-> -}
-> -
-> -static void ceph_mdsc_reset_workfn(struct work_struct *work)
-> -{
-> -	struct ceph_mds_client *mdsc =3D
-> -		container_of(work, struct ceph_mds_client, reset_work);
-> -	struct ceph_client_reset_state *st =3D &mdsc->reset_state;
-> -	bool inject_error;
-> -	int ret =3D 0;
-> -
-> -	spin_lock(&st->lock);
-> -	inject_error =3D st->inject_error;
-> -	if (inject_error)
-> -		st->inject_error =3D false;
-> -	spin_unlock(&st->lock);
-> -
-> -	if (inject_error)
-> -		ret =3D -EIO;
-> -
-> -	ceph_mdsc_reset_complete(mdsc, ret);
-> -}
-> -
-> -int ceph_mdsc_schedule_reset(struct ceph_mds_client *mdsc,
-> -			     const char *reason)
-> -{
-> -	struct ceph_client_reset_state *st =3D &mdsc->reset_state;
-> -	struct ceph_fs_client *fsc =3D mdsc->fsc;
-> -	const char *msg =3D (reason && reason[0]) ? reason : "manual";
-> -	int mount_state;
-> -
-> -	mount_state =3D READ_ONCE(fsc->mount_state);
-> -	if (mount_state !=3D CEPH_MOUNT_MOUNTED) {
-> -		pr_warn_client(fsc->client,
-> -			       "reset rejected: mount_state=3D%d (not mounted)\n",
-> -			       mount_state);
-> -		return -EINVAL;
-> -	}
-> -
-> -	spin_lock(&st->lock);
-> -	if (st->in_progress) {
-> -		spin_unlock(&st->lock);
-> -		return -EBUSY;
-> -	}
-> -
-> -	st->in_progress =3D true;
-> -	st->active_reset_gen++;
-> -	st->last_start =3D jiffies;
-> -	st->last_errno =3D 0;
-> -	st->trigger_count++;
-> -	strscpy(st->last_reason, msg, sizeof(st->last_reason));
-> -	spin_unlock(&st->lock);
-> -
-> -	if (WARN_ON_ONCE(!queue_work(system_unbound_wq, &mdsc->reset_work))) {
-> -		spin_lock(&st->lock);
-> -		st->in_progress =3D false;
-> -		st->last_errno =3D -EALREADY;
-> -		st->failure_count++;
-> -		spin_unlock(&st->lock);
-> -		wake_up_all(&st->blocked_wq);
-> -		return -EALREADY;
-> -	}
-> -
-> -	trace_ceph_client_reset_schedule(mdsc, msg);
-> -	return 0;
-> -}
-> -
->  int ceph_mdsc_submit_request(struct ceph_mds_client *mdsc, struct inode =
-*dir,
->  			      struct ceph_mds_request *req)
->  {
-> @@ -4524,9 +4401,11 @@ static void handle_session(struct ceph_mds_session=
- *session,
-> =20
->  	switch (op) {
->  	case CEPH_SESSION_OPEN:
-> -		if (session->s_state =3D=3D CEPH_MDS_SESSION_RECONNECTING)
-> +		if (session->s_state =3D=3D CEPH_MDS_SESSION_RECONNECTING) {
->  			pr_info_client(cl, "mds%d reconnect success\n",
->  				       session->s_mds);
-> +			ceph_mdsc_reconnect_session_done(mdsc, session);
-> +		}
-> =20
->  		session->s_features =3D features;
->  		if (session->s_state =3D=3D CEPH_MDS_SESSION_OPEN) {
-> @@ -4559,9 +4438,11 @@ static void handle_session(struct ceph_mds_session=
- *session,
->  		break;
-> =20
->  	case CEPH_SESSION_CLOSE:
-> -		if (session->s_state =3D=3D CEPH_MDS_SESSION_RECONNECTING)
-> +		if (session->s_state =3D=3D CEPH_MDS_SESSION_RECONNECTING) {
->  			pr_info_client(cl, "mds%d reconnect denied\n",
->  				       session->s_mds);
-> +			ceph_mdsc_reconnect_session_done(mdsc, session);
-> +		}
->  		session->s_state =3D CEPH_MDS_SESSION_CLOSED;
->  		cleanup_session_requests(mdsc, session);
->  		remove_session_caps(session);
-> @@ -4600,7 +4481,13 @@ static void handle_session(struct ceph_mds_session=
- *session,
->  		break;
-> =20
->  	case CEPH_SESSION_REJECT:
-> -		WARN_ON(session->s_state !=3D CEPH_MDS_SESSION_OPENING);
-> +		WARN_ON(session->s_state !=3D CEPH_MDS_SESSION_OPENING &&
-> +			session->s_state !=3D CEPH_MDS_SESSION_RECONNECTING);
-> +		if (session->s_state =3D=3D CEPH_MDS_SESSION_RECONNECTING) {
-> +			pr_info_client(cl, "mds%d reconnect rejected\n",
-> +				       session->s_mds);
-> +			ceph_mdsc_reconnect_session_done(mdsc, session);
-> +		}
->  		pr_info_client(cl, "mds%d rejected session\n",
->  			       session->s_mds);
->  		session->s_state =3D CEPH_MDS_SESSION_REJECTED;
-> @@ -4862,6 +4749,17 @@ static int reconnect_caps_cb(struct inode *inode, =
-int mds, void *arg)
->  	cap->mseq =3D 0;       /* and migrate_seq */
->  	cap->cap_gen =3D atomic_read(&cap->session->s_cap_gen);
-> =20
-> +	/*
-> +	 * Don't set CEPH_I_ERROR_FILELOCK here - instead, we attempt to
-> +	 * reclaim locks by sending them in the reconnect message.
-> +	 * The MDS will do best-effort reclaim. If locks can't be reclaimed
-> +	 * (e.g., another client grabbed a conflicting lock), future lock
-> +	 * operations will fail and the error flag will be set then.
-> +	 *
-> +	 * Note: i_filelock_ref > 0 means we have locks to reclaim.
-> +	 * The lock info will be encoded below if flock_len is non-zero.
-> +	 */
+>  include/fuse_daemonize.h |   7 ++
+>  include/fuse_lowlevel.h  |  12 +++
+>  lib/fuse_daemonize.c     |   6 ++
+>  lib/fuse_i.h             |  15 ++++
+>  lib/fuse_lowlevel.c      | 190 ++++++++++++++++++++++++++++++++++++++++++++++-
+>  lib/mount.c              |   5 +-
+>  6 files changed, 230 insertions(+), 5 deletions(-)
+> 
+> diff --git a/include/fuse_daemonize.h b/include/fuse_daemonize.h
+> index c35dddd668b399535c53b44ab06c65fc0b3ddefa..6215e42c635ba5956cb23ba0832dfc291ab8dede 100644
+> --- a/include/fuse_daemonize.h
+> +++ b/include/fuse_daemonize.h
+> @@ -66,6 +66,13 @@ bool fuse_daemonize_is_active(void);
+>   */
+>  void fuse_daemonize_set_mounted(void);
+>  
+> +/**
+> + * Check if daemonization is used.
+> + *
+> + * @return true if used, false otherwise
+> + */
+> +bool fuse_daemonize_is_used(void);
+
+These new fuse_daemonize_* function names are confusing --
+if fuse_daemonize_is_used() then I should be calling everything *but*
+fuse_daemonize().
+
+I wonder if a better name would be fuse_daemonize_early_* for the new
+functions?
+
 > +
->  	/* These are lost when the session goes away */
->  	if (S_ISDIR(inode->i_mode)) {
->  		if (cap->issued & CEPH_CAP_DIR_CREATE) {
-> @@ -4877,8 +4775,22 @@ static int reconnect_caps_cb(struct inode *inode, =
-int mds, void *arg)
->  		rec.v2.issued =3D cpu_to_le32(cap->issued);
->  		rec.v2.snaprealm =3D cpu_to_le64(ci->i_snap_realm->ino);
->  		rec.v2.pathbase =3D cpu_to_le64(path_info.vino.ino);
-> -		rec.v2.flock_len =3D (__force __le32)
-> -			((ci->i_ceph_flags & CEPH_I_ERROR_FILELOCK) ? 0 : 1);
-> +		if (recon_state->from_reset) {
-> +			/*
-> +			 * Reset-initiated reconnect: always try to reclaim
-> +			 * locks. The MDS does best-effort; failures are
-> +			 * handled on future lock operations.
-> +			 */
-> +			rec.v2.flock_len =3D cpu_to_le32(1);
+>  #ifdef __cplusplus
+>  }
+>  #endif
+> diff --git a/include/fuse_lowlevel.h b/include/fuse_lowlevel.h
+> index ee0bd8d71d95e4d57ebb4873dca0f2b36e22a649..d8626f85bdaf497534cd2835a589e30f1f4e2466 100644
+> --- a/include/fuse_lowlevel.h
+> +++ b/include/fuse_lowlevel.h
+> @@ -2429,6 +2429,18 @@ void fuse_session_process_buf(struct fuse_session *se,
+>   */
+>  int fuse_session_receive_buf(struct fuse_session *se, struct fuse_buf *buf);
+>  
+> +/**
+> + * Request synchronous FUSE_INIT, i.e. FUSE_INIT is handled by the
+> + * kernel before mount is returned.
+> + *
+> + * As FUSE_INIT also starts io-uring ring threads, fork() must not be
+> + * called after this if io-uring is enabled. Also see
+> + * fuse_session_daemonize_start().
+> + *
+> + * This must be called before fuse_session_mount() to have any effect.
+> + */
+> +void fuse_session_want_sync_init(struct fuse_session *se);
+> +
+>  /**
+>   * Check if the request is submitted through fuse-io-uring
+>   */
+> diff --git a/lib/fuse_daemonize.c b/lib/fuse_daemonize.c
+> index 865acad7db56dbe5ed8a1bee52e7353627e89b75..97cfad7be879beacf69b020b7af78d512a224fd5 100644
+> --- a/lib/fuse_daemonize.c
+> +++ b/lib/fuse_daemonize.c
+> @@ -9,6 +9,7 @@
+>  #define _GNU_SOURCE
+>  
+>  #include "fuse_daemonize.h"
+> +#include "fuse_i.h"
+>  
+>  #include <fcntl.h>
+>  #include <poll.h>
+> @@ -290,3 +291,8 @@ void fuse_daemonize_set_mounted(void)
+>  {
+>  	daemonize.mounted = true;
+>  }
+> +
+> +bool fuse_daemonize_is_used(void)
+> +{
+> +	return daemonize.active;
+> +}
+> diff --git a/lib/fuse_i.h b/lib/fuse_i.h
+> index 6d63c9fd2149eb4ae3b0e0170640a4ce2eed4705..164401e226eb727192a49e1cc7b38a75f031643b 100644
+> --- a/lib/fuse_i.h
+> +++ b/lib/fuse_i.h
+> @@ -112,6 +112,9 @@ struct fuse_session {
+>  
+>  	/* synchronous FUSE_INIT support */
+>  	bool want_sync_init;
+> +	pthread_t init_thread;
+> +	int init_error;
+> +	int init_wakeup_fd;
+>  
+>  	/* io_uring */
+>  	struct fuse_session_uring uring;
+> @@ -221,7 +224,11 @@ void fuse_chan_put(struct fuse_chan *ch);
+>  /* Mount-related functions */
+>  void fuse_mount_version(void);
+>  void fuse_kern_unmount(const char *mountpoint, int fd);
+> +int fuse_kern_mount_get_base_mnt_opts(struct mount_opts *mo, char **mnt_optsp);
+>  int fuse_kern_mount(const char *mountpoint, struct mount_opts *mo);
+> +int fuse_kern_mount_prepare(const char *mountpoint, struct mount_opts *mo);
+> +int fuse_kern_do_mount(const char *mountpoint, struct mount_opts *mo,
+> +		       const char *mnt_opts);
+>  
+>  int fuse_send_reply_iov_nofree(fuse_req_t req, int error, struct iovec *iov,
+>  			       int count);
+> @@ -255,6 +262,14 @@ int fuse_session_loop_mt_312(struct fuse_session *se, struct fuse_loop_config *c
+>   */
+>  int fuse_loop_cfg_verify(struct fuse_loop_config *config);
+>  
+> +/**
+> + * Check if daemonization is set.
+> + *
+> + * @return true if set, false otherwise
+> + */
+> +bool fuse_daemonize_set(void);
+> +
+> +
+>  
+>  /*
+>   * This can be changed dynamically on recent kernels through the
+> diff --git a/lib/fuse_lowlevel.c b/lib/fuse_lowlevel.c
+> index a7be40cbb012361ad664a9ced3d38042ba52c681..0dd10e0ed53508e4716703f2f82aa35ad853b247 100644
+> --- a/lib/fuse_lowlevel.c
+> +++ b/lib/fuse_lowlevel.c
+> @@ -4230,6 +4230,7 @@ fuse_session_new_versioned(struct fuse_args *args,
+>  		goto out1;
+>  	}
+>  	se->fd = -1;
+> +	se->init_wakeup_fd = -1;
+>  	se->conn.max_write = FUSE_DEFAULT_MAX_PAGES_LIMIT * getpagesize();
+>  	se->bufsize = se->conn.max_write + FUSE_BUFFER_HEADER_SIZE;
+>  	se->conn.max_readahead = UINT_MAX;
+> @@ -4402,6 +4403,170 @@ int fuse_session_custom_io_30(struct fuse_session *se,
+>  }
+>  
+>  #if defined(HAVE_NEW_MOUNT_API)
+> +
+> +/* Worker thread for synchronous FUSE_INIT */
+> +static void *session_sync_init_worker(void *data)
+> +{
+> +	struct fuse_session *se = (struct fuse_session *)data;
+> +	struct fuse_buf fbuf = {
+> +		.mem = NULL,
+> +	};
+> +	struct pollfd pfds[2];
+> +	int res;
+> +
+> +	pfds[0].fd = se->fd;
+> +	pfds[0].events = POLLIN;
+> +	pfds[0].revents = 0;
+> +	pfds[1].fd = se->init_wakeup_fd;
+> +	pfds[1].events = POLLIN;
+> +	pfds[1].revents = 0;
+> +
+> +	/*
+> +	 * Process requests until mount completes. With SELinux there may be
+> +	 * additional requests (like getattr) after FUSE_INIT before mount
+> +	 * returns.
+> +	 */
+> +	while (true) {
+> +		res = poll(pfds, 2, -1);
+> +		if (res == -1) {
+> +			if (errno == EINTR)
+> +				continue;
+> +			se->init_error = -errno;
+> +			break;
+> +		}
+> +
+> +		if (pfds[1].revents & POLLIN)
+> +			break;
+> +
+> +		if (pfds[0].revents & POLLIN) {
+> +			res = fuse_session_receive_buf_internal(se, &fbuf, NULL);
+> +			if (res == -EINTR)
+> +				continue;
+> +			if (res <= 0) {
+> +				se->init_error = res < 0 ? res : -EINVAL;
+> +				break;
+> +			}
+> +
+> +			fuse_session_process_buf_internal(se, &fbuf, NULL);
+> +		}
+> +	}
+> +
+> +	fuse_buf_free(&fbuf);
+> +	return NULL;
+> +}
+> +
+> +/* Enable synchronous FUSE_INIT and start worker thread */
+> +static int session_start_sync_init(struct fuse_session *se, int fd)
+> +{
+> +	int err, res;
+> +
+> +	if (!se->want_sync_init &&
+> +		(se->uring.enable && !fuse_daemonize_is_used())) {
+> +		if (se->debug)
+> +			fuse_log(FUSE_LOG_DEBUG,
+> +					"fuse: sync init not enabled\n");
+> +		return 0;
+> +	}
+> +
+> +	/* Try to enable synchronous FUSE_INIT */
+> +	res = ioctl(fd, FUSE_DEV_IOC_SYNC_INIT);
+> +	if (res) {
+> +		err = -errno;
+> +		if (err != ENOTTY) {
+> +			fuse_log(
+> +				FUSE_LOG_ERR,
+> +				"fuse: failed to enable sync init: %s\n",
+> +				strerror(errno));
 > +		} else {
 > +			/*
-> +			 * Normal reconnect: skip lock reclaim if locks
-> +			 * were already known to be in error state.
+> +			 * ENOTTY means kernel doesn't support sync init,not an
+> +			 * error
 > +			 */
-> +			rec.v2.flock_len =3D cpu_to_le32(
-> +				test_bit(CEPH_I_ERROR_FILELOCK_BIT,
-> +					 &ci->i_ceph_flags) ? 0 : 1);
+> +			if (se->debug)
+> +				fuse_log(
+> +					FUSE_LOG_DEBUG,
+> +					"fuse: kernel doesn't support sync init\n");
+> +			err = 0;
 > +		}
->  	} else {
->  		struct timespec64 ts;
-> =20
-> @@ -5075,8 +4987,9 @@ static int encode_snap_realms(struct ceph_mds_clien=
-t *mdsc,
->   *
->   * This is a relatively heavyweight operation, but it's rare.
->   */
-> -static void send_mds_reconnect(struct ceph_mds_client *mdsc,
-> -			       struct ceph_mds_session *session)
-> +static int send_mds_reconnect(struct ceph_mds_client *mdsc,
-> +			      struct ceph_mds_session *session,
-> +			      bool from_reset)
->  {
->  	struct ceph_client *cl =3D mdsc->fsc->client;
->  	struct ceph_msg *reply;
-> @@ -5084,6 +4997,7 @@ static void send_mds_reconnect(struct ceph_mds_clie=
-nt *mdsc,
->  	int err =3D -ENOMEM;
->  	struct ceph_reconnect_state recon_state =3D {
->  		.session =3D session,
-> +		.from_reset =3D from_reset,
->  	};
->  	LIST_HEAD(dispose);
-> =20
-> @@ -5100,6 +5014,30 @@ static void send_mds_reconnect(struct ceph_mds_cli=
-ent *mdsc,
->  	xa_destroy(&session->s_delegated_inos);
-> =20
->  	mutex_lock(&session->s_mutex);
-> +	if (session->s_state =3D=3D CEPH_MDS_SESSION_CLOSED ||
-> +	    session->s_state =3D=3D CEPH_MDS_SESSION_REJECTED) {
-> +		pr_info_client(cl, "mds%d skipping reconnect, session %s\n",
-> +			       mds,
-> +			       ceph_session_state_name(session->s_state));
-> +		mutex_unlock(&session->s_mutex);
-> +		ceph_msg_put(reply);
-> +		err =3D -ESTALE;
-> +		goto fail_nomsg;
+> +		return err;
 > +	}
 > +
-> +	mutex_lock(&mdsc->mutex);
-> +	if (mds >=3D mdsc->max_sessions || mdsc->sessions[mds] !=3D session) {
-> +		mutex_unlock(&mdsc->mutex);
-> +		pr_info_client(cl,
-> +			       "mds%d skipping reconnect, session unregistered\n",
-> +			       mds);
-> +		mutex_unlock(&session->s_mutex);
-> +		ceph_msg_put(reply);
-> +		err =3D -ENOENT;
-> +		goto fail_nomsg;
-> +	}
-> +	mutex_unlock(&mdsc->mutex);
+> +	if (se->debug)
+> +		fuse_log(FUSE_LOG_DEBUG,
+> +				"fuse: synchronous FUSE_INIT enabled\n");
 > +
->  	session->s_state =3D CEPH_MDS_SESSION_RECONNECTING;
->  	session->s_seq =3D 0;
-> =20
-> @@ -5229,7 +5167,7 @@ static void send_mds_reconnect(struct ceph_mds_clie=
-nt *mdsc,
-> =20
->  	up_read(&mdsc->snap_rwsem);
->  	ceph_pagelist_release(recon_state.pagelist);
-> -	return;
+> +	se->init_error = 0;
+> +
+> +	se->init_wakeup_fd = eventfd(0, EFD_CLOEXEC);
+> +	if (se->init_wakeup_fd == -1) {
+> +		fuse_log(
+> +			FUSE_LOG_ERR,
+> +			"fuse: failed to create eventfd for init worker: %s\n",
+> +			strerror(errno));
+> +		return -EIO;
+> +	}
+> +
+> +	err = pthread_create(&se->init_thread, NULL,
+> +				session_sync_init_worker, se);
+> +	if (err != 0) {
+> +		fuse_log(
+> +			FUSE_LOG_ERR,
+> +			"fuse: failed to create init worker thread: %s\n",
+> +			strerror(err));
+> +		close(se->init_wakeup_fd);
+> +		se->init_wakeup_fd = -1;
+> +		return -EIO;
+> +	}
+> +
 > +	return 0;
-> =20
->  fail:
->  	ceph_msg_put(reply);
-> @@ -5240,7 +5178,301 @@ static void send_mds_reconnect(struct ceph_mds_cl=
-ient *mdsc,
->  fail_nopagelist:
->  	pr_err_client(cl, "error %d preparing reconnect for mds%d\n",
->  		      err, mds);
-> -	return;
-> +	return err;
 > +}
 > +
-> +/*
-> + * Called when a session completes reconnection (success or failure).
-> + * Only counts toward reset completion if this session's reconnect was
-> + * initiated by the currently active reset generation.  Late completions
-> + * from a prior (timed-out) reset are silently ignored.
-> + *
-> + * Caller must hold session->s_mutex to serialize s_reset_gen updates.
-> + */
-> +static void ceph_mdsc_reconnect_session_done(struct ceph_mds_client *mds=
-c,
-> +					     struct ceph_mds_session *session)
+> +/* Wait for synchronous FUSE_INIT to complete */
+> +static int session_wait_sync_init_completion(struct fuse_session *se)
 > +{
-> +	struct ceph_client_reset_state *st =3D &mdsc->reset_state;
-> +	u64 active_gen;
+> +	void *retval;
+> +	int err;
+> +	uint64_t val = 1;
 > +
-> +	lockdep_assert_held(&session->s_mutex);
-> +
-> +	if (!session->s_reset_gen)
-> +		return;
-> +
-> +	spin_lock(&st->lock);
-> +	active_gen =3D st->active_reset_gen;
-> +	spin_unlock(&st->lock);
-> +
-> +	if (session->s_reset_gen !=3D active_gen) {
-> +		session->s_reset_gen =3D 0;
-> +		return;
-> +	}
-> +
-> +	session->s_reset_gen =3D 0;
-> +
-> +	if (atomic_dec_and_test(&st->pending_reconnects))
-> +		complete(&st->reconnect_done);
-
-What if somehow st->pending_reconnects never reach zero by incorrect
-increment/decrement logic?
-
-> +}
-> +
-> +/*
-> + * Wait for a reset to complete if one is in progress.
-> + * Returns 0 if reset completed successfully or wasn't in progress.
-> + * Returns -ETIMEDOUT if we timed out waiting.
-> + * Returns -ERESTARTSYS if interrupted by signal.
-> + */
-> +int ceph_mdsc_wait_for_reset(struct ceph_mds_client *mdsc)
-> +{
-> +	struct ceph_client_reset_state *st =3D &mdsc->reset_state;
-> +	struct ceph_client *cl =3D mdsc->fsc->client;
-> +	long timeout =3D CEPH_CLIENT_RESET_WAIT_TIMEOUT_SEC * HZ;
-> +	int blocked_count;
-> +	int ret;
-> +
-> +	if (!READ_ONCE(st->in_progress))
+> +	if (se->init_wakeup_fd == -1)
 > +		return 0;
 > +
-> +	blocked_count =3D atomic_inc_return(&st->blocked_requests);
-> +	doutc(cl, "request blocked during reset, %d total blocked\n",
-> +	      blocked_count);
-> +	trace_ceph_client_reset_blocked(mdsc, blocked_count);
+> +	if (se->init_wakeup_fd != -1) {
+> +		ssize_t res = write(se->init_wakeup_fd, &val, sizeof(val));
 > +
-> +	ret =3D wait_event_interruptible_timeout(st->blocked_wq,
-> +					       !READ_ONCE(st->in_progress),
-> +					       timeout);
-> +
-> +	atomic_dec(&st->blocked_requests);
-> +
-> +	if (ret =3D=3D 0) {
-> +		pr_warn_client(cl, "timed out waiting for reset to complete\n");
-> +		trace_ceph_client_reset_unblocked(mdsc, -ETIMEDOUT);
-> +		return -ETIMEDOUT;
-> +	}
-> +	if (ret < 0) {
-> +		trace_ceph_client_reset_unblocked(mdsc, ret);
-> +		return ret;  /* -ERESTARTSYS */
-> +	}
-> +
-> +	/*
-> +	 * Propagate the reset result to all blocked callers.  If the
-> +	 * reset failed, sessions may be in an inconsistent state, so
-> +	 * failing requests forces the operator to investigate rather
-> +	 * than silently proceeding with potentially stale state.
-> +	 */
-> +	spin_lock(&st->lock);
-> +	ret =3D st->last_errno;
-> +	spin_unlock(&st->lock);
-> +
-> +	trace_ceph_client_reset_unblocked(mdsc, ret);
-> +	return ret;
-> +}
-> +
-> +static void ceph_mdsc_reset_complete(struct ceph_mds_client *mdsc, int r=
-et)
-> +{
-> +	struct ceph_client_reset_state *st =3D &mdsc->reset_state;
-> +
-> +	spin_lock(&st->lock);
-> +	st->last_finish =3D jiffies;
-> +	st->last_errno =3D ret;
-> +	st->in_progress =3D false;
-> +	if (ret)
-> +		st->failure_count++;
-> +	else
-> +		st->success_count++;
-> +	spin_unlock(&st->lock);
-> +
-> +	/* Wake up all requests that were blocked waiting for reset */
-> +	wake_up_all(&st->blocked_wq);
-> +
-> +	trace_ceph_client_reset_complete(mdsc, ret);
-> +}
-> +
-> +static void ceph_mdsc_reset_workfn(struct work_struct *work)
-> +{
-> +	struct ceph_mds_client *mdsc =3D
-> +		container_of(work, struct ceph_mds_client, reset_work);
-> +	struct ceph_client_reset_state *st =3D &mdsc->reset_state;
-> +	struct ceph_client *cl =3D mdsc->fsc->client;
-> +	struct ceph_mds_session **sessions =3D NULL;
-> +	char reason[CEPH_CLIENT_RESET_REASON_LEN];
-> +	int max_sessions, i, n =3D 0;
-> +	bool inject_error;
-> +	u64 reset_gen;
-> +	int ret =3D 0;
-> +
-> +	spin_lock(&st->lock);
-> +	strscpy(reason, st->last_reason, sizeof(reason));
-
-It still looks like memory copy operation to me.
-
-> +	inject_error =3D st->inject_error;
-> +	if (inject_error)
-> +		st->inject_error =3D false;
-> +	reset_gen =3D st->active_reset_gen;
-> +	spin_unlock(&st->lock);
-> +
-> +	if (inject_error) {
-> +		ret =3D -EIO;
-> +		goto out_complete;
-> +	}
-> +
-> +	mutex_lock(&mdsc->mutex);
-> +	max_sessions =3D mdsc->max_sessions;
-> +	if (max_sessions <=3D 0) {
-> +		mutex_unlock(&mdsc->mutex);
-> +		goto out_complete;
-> +	}
-> +
-> +	sessions =3D kcalloc(max_sessions, sizeof(*sessions), GFP_NOFS);
-> +	if (!sessions) {
-> +		mutex_unlock(&mdsc->mutex);
-> +		ret =3D -ENOMEM;
-> +		pr_err_client(cl,
-> +			      "manual session reset failed to allocate session array\n");
-> +		ceph_mdsc_reset_complete(mdsc, ret);
-> +		return;
-> +	}
-> +
-> +	for (i =3D 0; i < max_sessions; i++) {
-> +		struct ceph_mds_session *session =3D mdsc->sessions[i];
-> +
-> +		if (!session)
-> +			continue;
-> +
-> +		/*
-> +		 * Read session state without s_mutex to avoid nesting
-> +		 * mdsc->mutex -> s_mutex, which would invert the
-> +		 * s_mutex -> mdsc->mutex order used by
-> +		 * cleanup_session_requests().  s_state is an int
-> +		 * so loads are atomic; send_mds_reconnect() will
-> +		 * reject sessions that transitioned to CLOSED or
-> +		 * REJECTED under s_mutex before proceeding.
-> +		 */
-> +		switch (READ_ONCE(session->s_state)) {
-> +		case CEPH_MDS_SESSION_OPEN:
-> +		case CEPH_MDS_SESSION_HUNG:
-> +		case CEPH_MDS_SESSION_OPENING:
-> +		case CEPH_MDS_SESSION_CLOSING:
-> +			sessions[n++] =3D ceph_get_mds_session(session);
-
-Why n but not i here? It looks like potential really not trivial bug.
-
-> +			break;
-> +		case CEPH_MDS_SESSION_RECONNECTING:
-> +			pr_info_client(cl,
-> +				       "mds%d already reconnecting, skipping\n",
-> +				       session->s_mds);
-> +			break;
-> +		default:
-> +			pr_info_client(cl,
-> +				       "mds%d in state %s, skipping reconnect\n",
-> +				       session->s_mds,
-> +				       ceph_session_state_name(session->s_state));
-> +			break;
+> +		if (res != sizeof(val)) {
+> +			fuse_log(FUSE_LOG_ERR,
+> +				 "fuse: failed to signal init worker: %s\n",
+> +				 strerror(errno));
 > +		}
 > +	}
-> +	mutex_unlock(&mdsc->mutex);
 > +
-> +	pr_info_client(cl,
-> +		       "manual session reset executing (sessions=3D%d, reason=3D\"%s\"=
-)\n",
-> +		       n, reason);
-> +
-> +	if (n =3D=3D 0) {
-> +		kfree(sessions);
-> +		goto out_complete;
+> +	err = pthread_join(se->init_thread, &retval);
+> +	if (err != 0) {
+> +		fuse_log(FUSE_LOG_ERR, "fuse: failed to join init worker thread: %s\n",
+> +			 strerror(err));
+> +		return -1;
 > +	}
 > +
-> +	/* Initialize completion tracking */
-> +	reinit_completion(&st->reconnect_done);
-> +	atomic_set(&st->pending_reconnects, n);
-> +
-> +	for (i =3D 0; i < n; i++) {
-> +		int err;
-> +
-> +		mutex_lock(&sessions[i]->s_mutex);
-> +		sessions[i]->s_reset_gen =3D reset_gen;
-> +		mutex_unlock(&sessions[i]->s_mutex);
-> +
-> +		err =3D send_mds_reconnect(mdsc, sessions[i], true);
-> +		if (err) {
-> +			bool skipped =3D (err =3D=3D -ESTALE || err =3D=3D -ENOENT);
-> +
-> +			mutex_lock(&sessions[i]->s_mutex);
-> +			sessions[i]->s_reset_gen =3D 0;
-> +			mutex_unlock(&sessions[i]->s_mutex);
-> +
-> +			if (skipped) {
-> +				pr_info_client(cl,
-> +					       "mds%d reconnect skipped during reset: %d\n",
-> +					       sessions[i]->s_mds, err);
-> +			} else {
-> +				pr_err_client(cl,
-> +					      "mds%d reconnect failed: %d\n",
-> +					      sessions[i]->s_mds, err);
-> +				if (!ret)
-> +					ret =3D err;
-> +			}
-> +			if (atomic_dec_and_test(&st->pending_reconnects))
-> +				complete(&st->reconnect_done);
-> +		}
-> +		ceph_put_mds_session(sessions[i]);
+> +	if (se->init_wakeup_fd != -1) {
+> +		close(se->init_wakeup_fd);
+> +		se->init_wakeup_fd = -1;
 > +	}
 > +
-> +	kfree(sessions);
-> +
-> +	/* Wait for all sessions to complete reconnection */
-> +	if (!wait_for_completion_timeout(&st->reconnect_done,
-> +					 CEPH_CLIENT_RESET_TIMEOUT_SEC * HZ)) {
-> +		pr_warn_client(cl,
-> +			       "reset timed out waiting for %d sessions\n",
-> +			       atomic_read(&st->pending_reconnects));
-> +		if (!ret)
-> +			ret =3D -ETIMEDOUT;
+> +	if (se->init_error != 0) {
+> +		fuse_log(FUSE_LOG_ERR, "fuse: init worker failed: %s\n",
+> +			 strerror(-se->init_error));
+> +		return -1;
 > +	}
 > +
-> +out_complete:
-> +	ceph_mdsc_reset_complete(mdsc, ret);
-> +}
-> +
-> +int ceph_mdsc_schedule_reset(struct ceph_mds_client *mdsc,
-> +			     const char *reason)
-> +{
-> +	struct ceph_client_reset_state *st =3D &mdsc->reset_state;
-> +	struct ceph_fs_client *fsc =3D mdsc->fsc;
-> +	const char *msg =3D (reason && reason[0]) ? reason : "manual";
-> +	int mount_state;
-> +
-> +	mount_state =3D READ_ONCE(fsc->mount_state);
-> +	if (mount_state !=3D CEPH_MOUNT_MOUNTED) {
-> +		pr_warn_client(fsc->client,
-> +			       "reset rejected: mount_state=3D%d (not mounted)\n",
-> +			       mount_state);
-> +		return -EINVAL;
+> +	if (fuse_session_exited(se)) {
+> +		fuse_log(FUSE_LOG_ERR, "FUSE_INIT failed: session exited\n");
+> +		return -1;
 > +	}
 > +
-> +	spin_lock(&st->lock);
-> +	if (st->in_progress) {
-> +		spin_unlock(&st->lock);
-> +		return -EBUSY;
-> +	}
-> +
-> +	st->in_progress =3D true;
-> +	st->active_reset_gen++;
-> +	st->last_start =3D jiffies;
-> +	st->last_errno =3D 0;
-> +	st->trigger_count++;
-> +	strscpy(st->last_reason, msg, sizeof(st->last_reason));
-
-Ditto.
-
-Thanks,
-Slava.
-
-> +	spin_unlock(&st->lock);
-> +
-> +	if (WARN_ON_ONCE(!queue_work(system_unbound_wq, &mdsc->reset_work))) {
-> +		spin_lock(&st->lock);
-> +		st->in_progress =3D false;
-> +		st->last_errno =3D -EALREADY;
-> +		st->failure_count++;
-> +		spin_unlock(&st->lock);
-> +		wake_up_all(&st->blocked_wq);
-> +		return -EALREADY;
-> +	}
-> +
-> +	pr_info_client(mdsc->fsc->client,
-> +		       "manual session reset scheduled (reason=3D\"%s\")\n",
-> +		       msg);
-> +	trace_ceph_client_reset_schedule(mdsc, msg);
 > +	return 0;
->  }
-> =20
-> =20
-> @@ -5321,9 +5553,15 @@ static void check_new_map(struct ceph_mds_client *=
-mdsc,
->  		 */
->  		if (s->s_state =3D=3D CEPH_MDS_SESSION_RESTARTING &&
->  		    newstate >=3D CEPH_MDS_STATE_RECONNECT) {
-> +			int rc;
+> +}
 > +
->  			mutex_unlock(&mdsc->mutex);
->  			clear_bit(i, targets);
-> -			send_mds_reconnect(mdsc, s);
-> +			rc =3D send_mds_reconnect(mdsc, s, false);
-> +			if (rc)
-> +				pr_err_client(cl,
-> +					      "mds%d reconnect failed: %d\n",
-> +					      i, rc);
->  			mutex_lock(&mdsc->mutex);
->  		}
-> =20
-> @@ -5387,7 +5625,11 @@ static void check_new_map(struct ceph_mds_client *=
-mdsc,
->  		}
->  		doutc(cl, "send reconnect to export target mds.%d\n", i);
->  		mutex_unlock(&mdsc->mutex);
-> -		send_mds_reconnect(mdsc, s);
-> +		err =3D send_mds_reconnect(mdsc, s, false);
-> +		if (err)
-> +			pr_err_client(cl,
-> +				      "mds%d export target reconnect failed: %d\n",
-> +				      i, err);
->  		ceph_put_mds_session(s);
->  		mutex_lock(&mdsc->mutex);
+>  static int fuse_session_mount_new_api(struct fuse_session *se,
+>  				      const char *mountpoint)
+>  {
+> @@ -4426,6 +4591,15 @@ static int fuse_session_mount_new_api(struct fuse_session *se,
+>  		goto err;
 >  	}
-> @@ -6314,6 +6556,11 @@ void ceph_mdsc_destroy(struct ceph_fs_client *fsc)
->  	/* flush out any connection work with references to us */
->  	ceph_msgr_flush();
-> =20
+>  
 > +	/*
-> +	 * Mark reset as failed and wake any blocked waiters before
-> +	 * cancelling, so unmount doesn't stall on blocked_wq timeout
-> +	 * if cancel_work_sync() prevents the work from running.
+> +	 * Enable synchronous FUSE_INIT and start worker thread, sync init
+> +	 * failure is not an error
 > +	 */
->  	spin_lock(&mdsc->reset_state.lock);
->  	if (mdsc->reset_state.in_progress) {
->  		mdsc->reset_state.in_progress =3D false;
-> @@ -6498,8 +6745,13 @@ static void mds_peer_reset(struct ceph_connection =
-*con)
->  	pr_warn_client(mdsc->fsc->client, "mds%d closed our session\n",
->  		       s->s_mds);
->  	if (READ_ONCE(mdsc->fsc->mount_state) !=3D CEPH_MOUNT_FENCE_IO &&
-> -	    ceph_mdsmap_get_state(mdsc->mdsmap, s->s_mds) >=3D CEPH_MDS_STATE_R=
-ECONNECT)
-> -		send_mds_reconnect(mdsc, s);
-> +	    ceph_mdsmap_get_state(mdsc->mdsmap, s->s_mds) >=3D CEPH_MDS_STATE_R=
-ECONNECT) {
-> +		int rc =3D send_mds_reconnect(mdsc, s, false);
-> +		if (rc)
-> +			pr_err_client(mdsc->fsc->client,
-> +				      "mds%d reconnect failed: %d\n",
-> +				      s->s_mds, rc);
-> +	}
->  }
-> =20
->  static void mds_dispatch(struct ceph_connection *con, struct ceph_msg *m=
-sg)
-> @@ -6511,6 +6763,8 @@ static void mds_dispatch(struct ceph_connection *co=
-n, struct ceph_msg *msg)
-> =20
->  	mutex_lock(&mdsc->mutex);
->  	if (__verify_registered_session(mdsc, s) < 0) {
-> +		pr_info_client(cl, "dropping tid %llu from unregistered session %d\n",
-> +			       msg->hdr.tid, s->s_mds);
->  		mutex_unlock(&mdsc->mutex);
->  		goto out;
+> +	se->fd = fd;
+> +	err = session_start_sync_init(se, fd);
+> +	if (err)
+> +		goto err;
+> +
+>  	snprintf(fd_opt, sizeof(fd_opt), "fd=%i", fd);
+>  	if (fuse_opt_add_opt(&mnt_opts_with_fd, mnt_opts) == -1 ||
+>  	    fuse_opt_add_opt(&mnt_opts_with_fd, fd_opt) == -1) {
+> @@ -4435,13 +4609,16 @@ static int fuse_session_mount_new_api(struct fuse_session *se,
+>  
+>  	err = fuse_kern_fsmount_mo(mountpoint, se->mo, mnt_opts_with_fd);
+>  err:
+> -	if (err) {
+> +	if (err < 0) {
+>  		if (fd >= 0)
+>  			close(fd);
+>  		fd = -1;
+>  		se->fd = -1;
+>  		se->error = -errno;
 >  	}
+> +	/* Wait for synchronous FUSE_INIT to complete */
+> +	if (session_wait_sync_init_completion(se) < 0)
+> +		fuse_log(FUSE_LOG_ERR, "fuse: sync init completion failed\n");
 
+Should fuse_session_mount_new_api return a nonzero value if waiting
+doesn't work?
+
+>  
+>  	free(mnt_opts);
+>  	free(mnt_opts_with_fd);
+> @@ -4451,8 +4628,8 @@ err:
+>  static int fuse_session_mount_new_api(struct fuse_session *se,
+>  				      const char *mountpoint)
+>  {
+> -	(void)se;
+> -	(void)mountpoint;
+> +	(void) se;
+> +	(void) mountpoint;
+
+Unrelated change?
+
+--D
+
+>  
+>  	return -1;
+>  }
+> @@ -4826,3 +5003,10 @@ void fuse_session_stop_teardown_watchdog(void *data)
+>  	pthread_join(tt->thread_id, NULL);
+>  	fuse_tt_destruct(tt);
+>  }
+> +
+> +void fuse_session_want_sync_init(struct fuse_session *se)
+> +{
+> +	if (se == NULL)
+> +		return;
+> +	se->want_sync_init = true;
+> +}
+> diff --git a/lib/mount.c b/lib/mount.c
+> index e8c65363d36a56f483f82434f642e785da4d0341..f19817e2675713e988bb91fc658c52b36468462b 100644
+> --- a/lib/mount.c
+> +++ b/lib/mount.c
+> @@ -30,6 +30,7 @@
+>  #include <sys/socket.h>
+>  #include <sys/un.h>
+>  #include <sys/wait.h>
+> +#include <sys/ioctl.h>
+>  
+>  #include "fuse_mount_compat.h"
+>  
+> @@ -522,8 +523,8 @@ int fuse_kern_fsmount_mo(const char *mnt, struct mount_opts *mo,
+>   * Returns: 0 on success, -1 on failure,
+>   *          FUSE_MOUNT_FALLBACK_NEEDED if fusermount should be used
+>   */
+> -static int fuse_kern_do_mount(const char *mnt, struct mount_opts *mo,
+> -				  const char *mnt_opts)
+> +int fuse_kern_do_mount(const char *mnt, struct mount_opts *mo,
+> +		       const char *mnt_opts)
+>  {
+>  	char *source = NULL;
+>  	char *type = NULL;
+> 
+> -- 
+> 2.43.0
+> 
+> 
