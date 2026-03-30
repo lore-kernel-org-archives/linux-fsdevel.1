@@ -1,149 +1,91 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FCAF3AE190
-	for <linux-fsdevel@vger.kernel.org>; Mon, 30 Mar 2026 08:49:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72E603B3898;
+	Mon, 30 Mar 2026 09:00:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774860573; cv=none; b=D84kocV9zJTdNhwGH44/90FmDADub5mgU1bNzLFS3sJSUJJx0zFDTQmGIlj0JQCTknTyNVshnPZm4rInslp/14P7PuqNQj4DOh9hpRi2Kce5UhY4fCYjC6yHw7KIyfKw+4gjeDs6UR01WP3S7/JCZKseBRAr4On/IYusYOv+tSE=
+	t=1774861248; cv=none; b=es/t8zhjVGlE4SPBodY/rgIBnPSJZgeT2qXqbEG74R+HfN4rVVUNZLzQAG9K4a8Xj5wnXBJmoDGMOw3BNRHKrOtivpGwYqhjrUSbOxifj7SJwjxnYgsIZoC4bYeIUxxhYWTyeFyecbRD7+/l6tCDaGlW7C6/MH2CwJ29/BF/HSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774860573; c=relaxed/simple;
-	bh=l2n3Ez94ZoHEl0LRA0//bLKqwb+OqvyrGfLUwZyMgyM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cgzTitqRn8DkmCW0jQ981mXzr4cVaDf84fQo7BHq5e6b2wUYi84LL84mZr7aeZDBbRx3mruNv8qOE1h+wjWZAZgkWioHOvIBZJYnKTbpGuruJvfbWwC1TPVWKqxSJeLOf7eJb+ONgZiACSaa36pZ3Yxa7yxMyCbgFAh0pUwMFaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=EPlitZ48; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=T6TqwY02; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=rkFJVdxb; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=jLnyqyom; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1774861248; c=relaxed/simple;
+	bh=kryiSL0c5gWoP5Xn33RlQGuB1fDy2r29C8AZwGGNizM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GMmMq3bqTtmK1jmbVL+FDFpZYD4SJWE+ZBHLq/jqvQ0Uf5NtxhKMCYw+lPwr09pXzIoD5tFWwNvxFpSBGQLewvOh2mPjj6TWG6LIb0kA6lpG0D7Hwidm+cl+O9JisKVSLGebcZN4kYticFyp4I2krGhikjHrcvJ6oM3KDujHlRo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WyVV6yho; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="EPlitZ48";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="T6TqwY02";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="rkFJVdxb";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="jLnyqyom"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id F145D5BE85;
-	Mon, 30 Mar 2026 08:49:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1774860571; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MpP7sO3dKpkjqec/jHvEEd0xRgfjbLjJF+9mXjhTPuc=;
-	b=EPlitZ48BJhhEnwXh2fRSxBf67yuv0Cax8eMEsTeth/9NbFJa3zklREohsHHzwAv3Vclki
-	/Q2FS+w56EYP/11tBs2RUGgbpyTdet7VMqSif3/ouA594hxvbBAuKx9QCnmR+dfKl1/yKt
-	AG5Ee8D4b4vpsC2/O+cW0I4TyK2n5sI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1774860571;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MpP7sO3dKpkjqec/jHvEEd0xRgfjbLjJF+9mXjhTPuc=;
-	b=T6TqwY029/6qvX1AEBkEJNaVa3L9OktQe7rFZT35hIUtqLxlyredhcZ37TrRvRojhpY+yz
-	rVe3mhKZ4mccTeAw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1774860570; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MpP7sO3dKpkjqec/jHvEEd0xRgfjbLjJF+9mXjhTPuc=;
-	b=rkFJVdxbotQs2c+fLaf0vpkpVP2n15NfN2+MmP+vqCcf0qvioxucvGeppY7hu7tbt8dWdN
-	y6eEDid0u+Ps0azdQwOlxQBtmxxV0AS7ss/rz4iK26fSl73wdeaqitmYPHQv0yR+oryCS+
-	6CTlRyNRsBfcSwQxtSwmZsUvefYioco=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1774860570;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MpP7sO3dKpkjqec/jHvEEd0xRgfjbLjJF+9mXjhTPuc=;
-	b=jLnyqyomooFPERZpHzAw+7lFen58Jn1g3m2RUP8IyaQKJE7bao1nI4VrMGanZFgTAt8tcu
-	xfhHC+e4qWc6KQCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EA8484A0A2;
-	Mon, 30 Mar 2026 08:49:30 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id itA4ORo5ymkIdwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 30 Mar 2026 08:49:30 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id C5F30A0AE1; Mon, 30 Mar 2026 10:49:26 +0200 (CEST)
-Date: Mon, 30 Mar 2026 10:49:26 +0200
-From: Jan Kara <jack@suse.cz>
-To: Mateusz Guzik <mjguzik@gmail.com>
-Cc: brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] fs: write a better comment in step_into() concerning
- .mnt assignment
-Message-ID: <6su6xeledpjkxamao2x3prscoblljn4xahxnztlbpbveb77nee@4lp4sahqxbqp>
-References: <20260328175841.3390950-1-mjguzik@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WyVV6yho"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29BC8C4CEF7;
+	Mon, 30 Mar 2026 09:00:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774861247;
+	bh=kryiSL0c5gWoP5Xn33RlQGuB1fDy2r29C8AZwGGNizM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=WyVV6yhoGLHl2DGlMtLNk2PLvv1LoFNZHT4upzyLknoqI3XroAjHB9I1ha+vU4mPX
+	 jqLByu7cdkfcSBvwjAbgeSA7t1FnsQjdZlrHnf9SNnPEyV8aXCVfzuhI/9ayog85j2
+	 ZCfecMUhBhB9NayIQbTF+29vTra1H0L8yHpOy9Fwzj1WruGul10WlXsrznGUH8EUO4
+	 yAVoSQA1pK/w43OyYruiDlv+uPCsaxYtmh6p3C7asR9EeKI1wjuzkpsIcL4izJJluW
+	 H7vlwohlhoQLLz7U0ZJ9f5WNsHXklzmi3Z/jx+6T/BWbr7v0B1OnwuC2GYBfZcweMT
+	 Fa1JpYbf/eG2w==
+Message-ID: <b1c93301-c12a-46a6-ba92-53e8f9a28022@kernel.org>
+Date: Mon, 30 Mar 2026 11:00:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260328175841.3390950-1-mjguzik@gmail.com>
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_COUNT_THREE(0.00)[3];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:email]
-X-Spam-Flag: NO
-X-Spam-Score: -3.80
-X-Spam-Level: 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/9] mm: move free_reserved_area() to mm/memblock.c
+To: Mike Rapoport <rppt@kernel.org>, Andrew Morton <akpm@linux-foundation.org>
+Cc: Alexander Potapenko <glider@google.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Andreas Larsson <andreas@gaisler.com>, Ard Biesheuvel <ardb@kernel.org>,
+ Borislav Petkov <bp@alien8.de>, Brendan Jackman <jackmanb@google.com>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Christian Brauner <brauner@kernel.org>, "David S. Miller"
+ <davem@davemloft.net>, Dave Hansen <dave.hansen@linux.intel.com>,
+ David Hildenbrand <david@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Ingo Molnar <mingo@redhat.com>, Jan Kara <jack@suse.cz>,
+ Johannes Weiner <hannes@cmpxchg.org>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>, Marco Elver <elver@google.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>, Michael Ellerman
+ <mpe@ellerman.id.au>, Michal Hocko <mhocko@suse.com>,
+ Nicholas Piggin <npiggin@gmail.com>, "H. Peter Anvin" <hpa@zytor.com>,
+ Rob Herring <robh@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Saravana Kannan <saravanak@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Thomas Gleixner <tglx@kernel.org>,
+ Will Deacon <will@kernel.org>, Zi Yan <ziy@nvidia.com>,
+ devicetree@vger.kernel.org, iommu@lists.linux.dev,
+ kasan-dev@googlegroups.com, linux-arm-kernel@lists.infradead.org,
+ linux-efi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-trace-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ sparclinux@vger.kernel.org, x86@kernel.org
+References: <20260323074836.3653702-1-rppt@kernel.org>
+ <20260323074836.3653702-5-rppt@kernel.org>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Content-Language: en-US
+In-Reply-To: <20260323074836.3653702-5-rppt@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat 28-03-26 18:58:40, Mateusz Guzik wrote:
-> Signed-off-by: Mateusz Guzik <mjguzik@gmail.com>
-
-Nice. Feel free to add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
-> ---
->  fs/namei.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On 3/23/26 08:48, Mike Rapoport wrote:
+> From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
 > 
-> diff --git a/fs/namei.c b/fs/namei.c
-> index 2113958c3b7a..c7fac83c9a85 100644
-> --- a/fs/namei.c
-> +++ b/fs/namei.c
-> @@ -2140,7 +2140,7 @@ static __always_inline const char *step_into(struct nameidata *nd, int flags,
->  		if (unlikely(!inode))
->  			return ERR_PTR(-ENOENT);
->  		nd->path.dentry = dentry;
-> -		/* nd->path.mnt is retained on purpose */
-> +		/* nd->path.mnt remains unchanged as no mount point was crossed */
->  		nd->inode = inode;
->  		nd->seq = nd->next_seq;
->  		return NULL;
-> -- 
-> 2.48.1
+> free_reserved_area() is related to memblock as it frees reserved memory
+> back to the buddy allocator, similar to what memblock_free_late() does.
 > 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> Move free_reserved_area() to mm/memblock.c to prepare for further
+> consolidation of the functions that free reserved memory.
+> 
+> No functional changes.
+> 
+> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+
+Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+
