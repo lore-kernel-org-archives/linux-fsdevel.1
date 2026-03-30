@@ -1,305 +1,237 @@
-Received: from outbound-ip191b.ess.barracuda.com (outbound-ip191b.ess.barracuda.com [209.222.82.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A335D28507E
-	for <linux-fsdevel@vger.kernel.org>; Mon, 30 Mar 2026 21:06:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=209.222.82.124
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774904797; cv=fail; b=O5vki3c6rQzqWjCgfNPXsYg8HXPIJ2ilSctKBrCoD1U30D9m1Wbi/ccQzdcoEHcHseBCOxfvbc4Nq8hisWHzviKVE5MDUytyjgqSS8oUw9ecQUSP9WD7c0IOE7AT8187NcQJqymjZr723IVj0ggJ4C0dgrx5u8iIecJLECaK8IE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774904797; c=relaxed/simple;
-	bh=vaGxFoSRn7vpC4iCp+JHQO9b1HDB098s3OTqO2h5lBY=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=Gb/maWA7fPzUISAct24UpqezyxT9Zr7CtvhWWiv5FmCtFCsZPMxQbsxuhjuoiGv8ggFz5GgKjIxugQ1uodNJMIh9/KZcvyIsBSyJGpGf2ExFFeX73HCpNYd8Yr9Rof8GyOYD8nFG+A47nzEUKPb3PyqoFZhDYFsEzjUqzM9Ae+Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ddn.com; spf=pass smtp.mailfrom=ddn.com; dkim=pass (1024-bit key) header.d=ddn.com header.i=@ddn.com header.b=JuCblVZG; arc=fail smtp.client-ip=209.222.82.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ddn.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ddn.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F26D33A0B2E
+	for <linux-fsdevel@vger.kernel.org>; Mon, 30 Mar 2026 21:09:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774904959; cv=none; b=mVgsj5+hYXjVnyV5dlACsdpC9rU1IEYrJAXdfVjugaULATOl8cbBQSqSciplELhONQnDa1qvHMyIa2pnSV/NAGNUEw4g5Tb+69Z/wcEfhP+bmuTwMipEKejSxYy747a29CMayazjgCy/0P6ZmbHKODixQ6gCmLXh0m3/yDXHCH0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774904959; c=relaxed/simple;
+	bh=IYuFInESGgXDi7ZRAoqIjFykK/MklCWWh9My8v3r2So=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PcPXOjvJxzYNNgLVSuoR/h8JyqN+5pl0eIPhO5Bud0VN5VLcrNJdNwtJqzkhPKTYChFfNS2jLij35dDT/AcBGyryYAp6I73BTDnM0Vg1iXG74I+k4E6u6UrtDjFBEYN9+z9xGvz5876Jmc33Jwb+J7iS7Wz+YAHQOU96aX1q/SM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aKqLlVOW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ddn.com header.i=@ddn.com header.b="JuCblVZG"
-Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11023120.outbound.protection.outlook.com [40.107.201.120]) by mx-outbound18-53.us-east-2b.ess.aws.cudaops.com (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO); Mon, 30 Mar 2026 21:06:09 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ryqGEkSIMp+2/U3dWkYn2oajf4gioUE+I59v6SAt3+JLpMVu2hnvwKhsbhLX+pstaC82f3JFLqKeuPnekDiTI7pARmpvyL35IN/3Y/6mgJ+jFMG5G+vmcSdT0uBipCk9BBWROzkN19+fl+MtgmtLqpn1FffmC8jKFYUxyveInlyZxX6etPDrgxUdQX3u7QKEbVEOVOBSjUODXrni5y3X+NTHWrFsVVkqCTvhxrZO2SWl3UGRv2nGiPt6cLrSU2wqW9UeAQJXdSdQr+sO39R1mu4jhNzqNiFlokUZn57dljYsOtK/Uu6iNB6q/DLHcW+1JFnITBKF2NeJ9iu48WB7AA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vaGxFoSRn7vpC4iCp+JHQO9b1HDB098s3OTqO2h5lBY=;
- b=FCHAfCNQBxUx78Sj6F7o0dTW6CfXLyaghxJyfH9gStn8AShCR1kJg1DtuFfRUWuyTxjiWPQXOuPZUlMtTKm7eq4WrFjV3wTRXbQi+TV6MVpMZjlbtOxwmqeJlIkwWup+dahIMdRbukWejlSRBcIjmyCUdfVX9CkN4VGhyLQLQ1UooSHdsw/n08Gh3bD54/IpDVDOs47Hru4vkhCN1jH3WwCKjNPmK/U0gUy019BRSvTJoJakQCckJPcDn/hr/g2u4zBxBCDhE6AgD1IkMWCuANL2s5L4KRekUXcWl7dRBGnoewqmRYfv8T0z7YWY9rvO/dJzbB4nM9AOAUsfx4phrA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=ddn.com; dmarc=pass action=none header.from=ddn.com; dkim=pass
- header.d=ddn.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ddn.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vaGxFoSRn7vpC4iCp+JHQO9b1HDB098s3OTqO2h5lBY=;
- b=JuCblVZGrMBJJH/z6xpDykledKrVjaNhLrDZGHpRuI/ZNn4QO4O3NczZEuGwVlz4oToRQ+lmJh+lkUxFUY5earxdWLVa93zQoDSDqAINou2bxrv2MKq4LNtON3eT2iTTaWnOTXLOCDd7xMuEYGaCTKV+Wf2lXC4ZXoe3U/yUqQ0=
-Received: from MN2PR19MB3872.namprd19.prod.outlook.com (2603:10b6:208:1e8::8)
- by CH2PR19MB4055.namprd19.prod.outlook.com (2603:10b6:610:91::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.28; Mon, 30 Mar
- 2026 21:06:06 +0000
-Received: from MN2PR19MB3872.namprd19.prod.outlook.com
- ([fe80::5787:9b5e:45ce:396b]) by MN2PR19MB3872.namprd19.prod.outlook.com
- ([fe80::5787:9b5e:45ce:396b%6]) with mapi id 15.20.9745.024; Mon, 30 Mar 2026
- 21:06:06 +0000
-From: Bernd Schubert <bschubert@ddn.com>
-To: "Darrick J. Wong" <djwong@kernel.org>
-CC: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"bernd@bsbernd.com" <bernd@bsbernd.com>, "miklos@szeredi.hu"
-	<miklos@szeredi.hu>, "neal@gompa.dev" <neal@gompa.dev>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aKqLlVOW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F565C4CEF7;
+	Mon, 30 Mar 2026 21:09:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774904958;
+	bh=IYuFInESGgXDi7ZRAoqIjFykK/MklCWWh9My8v3r2So=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=aKqLlVOW4tCgvyoOMvtLgMMs49KMiJKaDvBzCqnbd/eLUFD/LMniHeCI9hvadsIq2
+	 rOmGTcUVKHpVseYb56xCem4mWDHUvmcmbZ3Kopp3YqN0ctANgjJKjuXPyRXkdBi+BU
+	 GlVcXHLrgrd/sgLHQlzCzOhIa51Ugmb6s0tk6FdX31IF/Hb6vaTDF8UFB4xuyXFyFd
+	 ijIA5plnYOE8eNxtb7T6VjAlrDoC1AkA6VO7BEADkuCAeONq9QqKiExLJVSaHG/0B1
+	 gs8Mo19I9w1A1KqJbIrTMdtWzwxoX1aCTNOhAdmKNK2TAKZj7l2tH2hO3ioF40SxUP
+	 xl3Ok6Wwpctbg==
+Date: Mon, 30 Mar 2026 14:09:16 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Bernd Schubert <bschubert@ddn.com>
+Cc: Bernd Schubert <bernd@bsbernd.com>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"miklos@szeredi.hu" <miklos@szeredi.hu>,
+	"neal@gompa.dev" <neal@gompa.dev>,
 	"joannelkoong@gmail.com" <joannelkoong@gmail.com>
-Subject: Re: [PATCH 04/17] mount_service: use the new mount api for the mount
- service
-Thread-Topic: [PATCH 04/17] mount_service: use the new mount api for the mount
- service
-Thread-Index: AQHcvYipvwTQp+RXz0mnq29l/57Vq7XHlvmA
-Date: Mon, 30 Mar 2026 21:06:05 +0000
-Message-ID: <2a4afa9c-050e-4867-9dac-e9e87f693f23@ddn.com>
+Subject: Re: [PATCH 03/17] mount_service: create high level fuse helpers
+Message-ID: <20260330210916.GD6202@frogsfrogsfrogs>
 References: <177457463048.1008428.11432672970504238251.stgit@frogsfrogsfrogs>
- <177457463189.1008428.16697718096512582220.stgit@frogsfrogsfrogs>
-In-Reply-To: <177457463189.1008428.16697718096512582220.stgit@frogsfrogsfrogs>
-Accept-Language: en-GB, en-US
-Content-Language: en-GB
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Mozilla Thunderbird
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=ddn.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MN2PR19MB3872:EE_|CH2PR19MB4055:EE_
-x-ms-office365-filtering-correlation-id: 9ca92d0e-4491-4277-396c-08de8ea02898
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|376014|10070799003|19092799006|366016|18002099003|22082099003|56012099003|38070700021;
-x-microsoft-antispam-message-info:
- pVN8yrNPdfZO4QYgpd7pbETrpEALZPfoqkSFeLPepaHfMMCXJ02VheQDHLDWCq8lz0TJm9NlJymBl9XOdWu60L+lEjzlANkUCZYDw1vry/UqxhePWDCPG7k2Op+ejt6XuP7RH67f+eSiUJ6AWXpDitqGcBSfzchAs3STiA62EsX6ftjAN/3lLLYrZ8vTfjNoTFOgv84lketi5Nd2NkSiGW2aXipvYO528J7e5uw7X5gNTj8qiuxWaHKSbgzH/7FgJ+l8tTmXe2bmGttBlwZEIOBhZCMZRNnmEvg8ENSJqaZfzA9gQpkaJAPdduY5/mS6qcsxfaZ6/3cs+kbsDlRk3VMoZDIxEeZac4LHeO+nsnb1FPu7OqpOWbYGJHHwSJedEQr47thP001fCVejvN+rFgwkkNvmq55IwGHgOg5V9q8CFSeUb9cFtwvj2dhyOIcMnytaIiQHrzTAjTXR5tF66Uzdg74Svgbt9IhjlfAwMKS9sry+sOQ5rJMCwndonDKJSlzlEAgvbJSUZiWhu0Ztero5XSK+XGHRT/5IP4OXs9Gd+Krng5KWHSDYZ5Pc99vLfWsoG4cpwi2EccyB+5AS0sImsRwiNA/OQkWc/lKCPwBw4nyjP/4oh/wLSoWCZPUFz7O0OUp7RP1zzfCwgybsvCijGRrZ2Rg6azyq9hbzTrD+r/p898Oq19ThqFTE/E54bzNseX76AK9JajUAhNB3tfD4WKLP36ECls74s6013Yseluyc8mMfMWDey8AaFdCZg7YKLIIu8u6Rpesouid99sncHNsRxRnNDIPqkREshxQ=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR19MB3872.namprd19.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(10070799003)(19092799006)(366016)(18002099003)(22082099003)(56012099003)(38070700021);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?d1h1ZTZUODJNaGhQTmgxOHFMVk9DTHI0UFU1b3dzdE1WSkpWaWIxeXlxOGxN?=
- =?utf-8?B?UzhnNXpBZnBsNDE1bzc2RThtNTZGclFtNFZwelUwUUJ0cjZQNmJ3OS9vd3NY?=
- =?utf-8?B?UFlkN3RKd2w4RlRFenBjendrRFY0b2NldGRzb0RKWWdtMThSempXYjhRYWV5?=
- =?utf-8?B?eUJSTkpJVWhQQmw1UlNFN0kybTBjWVByMlhNS0o1aDZraGR5SXJnVUowbW00?=
- =?utf-8?B?bFd2YW9GVzRSU1dSTEVNRG50dk5sSkZ5aHFJdURlYmlOTGlmT1A1UWlla3Jy?=
- =?utf-8?B?RFI4ZitHRWJpN3NsWjNFSHBhNWNZL052K3NZTFRXNWI5ZEwyNEN3TUp2d3F5?=
- =?utf-8?B?WGFNeEVxMUc0bUp0cWRybE5ZOFI4SnVZNzI0YTV4bml3THJ2d2R6aXhuUS9H?=
- =?utf-8?B?bTNqWm5nVndkR0pEbU1kYVJZRnhQMDRvNjVpUE4wTzUwcE1lM1lrRFhsWjVq?=
- =?utf-8?B?cXhnazhkcldOejQ4TWlxRVFrbmhQQmVOQ3RBZ3p2Z1Qybi90ZU45Q2NJQ3pL?=
- =?utf-8?B?SzI0ZXV6OFZ4RWhtMFMrMVBwTjRmQWExNzVwOTk1QlRzRUJKTnBqVnB3UklE?=
- =?utf-8?B?QmNUR3BGN2hHaDRUUHgzeVJaUWtJLzRpSEg4cEFuVlE1RGdEWGRQTlZUKzUw?=
- =?utf-8?B?N0VmZktKZEpCcFZGUStxZ01JQ1FxTXJtRStFZ0UwUUxBMWUwNU1GRlBTRFdX?=
- =?utf-8?B?NHM4V3JJeWgxbUE3NkRSNWxWbXc0SDlzYXFSbWR6WlJxTi95bHFCMzU5a2g3?=
- =?utf-8?B?UDAwbHh2QU9YK1VyY1gxTmZBbmczRFpNMnNCMFhyR2ZSdmorNVFtN0FrK0Yz?=
- =?utf-8?B?dmRRRThtcjRIUngwMmVsUDM3Zk93dzBEYWJHRXlMU2s3eHBvZnhQTS9lSVo3?=
- =?utf-8?B?YS9kS1Z6U2pTeEdlbnRpNDJLWWtiM0JydVZSd1JsZjNqVjVZRzZiTkdrejRO?=
- =?utf-8?B?UUJ1MWswYXVDNnY1TjJYTWtDRlg2N0VmV2dMWWpQRjRETTlXeWFHTW5za2N3?=
- =?utf-8?B?WGZaQUgyL25wekVuVjVZa1VJYmVxY1NQSzhPRG1tUE9mY2lUZXdrdTBTcHdh?=
- =?utf-8?B?Z1NqUkx3cEJ3YUhHYzhmZ0RGYnRDOEpqdWprTU5VekxKc2pqZFA0T0N2d2tV?=
- =?utf-8?B?dWdMZmFzUzlPY3J5d3R1YWgrS25ldGYydnd3YWlrV0M2QjI1V1M2a1MxOGl2?=
- =?utf-8?B?a0txMERDTWs3d1FmRTRDQ09MRUw3KzdNaFhOYVBEM2FpL25laXMzOGR6eC9F?=
- =?utf-8?B?ODJpWUFzek9CMWVsV2N0dHdRMnIyU1ROQVZwQlVXQXNEdjFHY0t2VDRCYkhE?=
- =?utf-8?B?VTBSNkdHUS9sR2p1a2YwTmI1UVdDcmF2aUNsb1Z6R1cvYkg2emF0Y25NT2V2?=
- =?utf-8?B?dlU0UDBXckpocHpGREpQaURWSjZLZ3hGc1JTRStIN3J2aURGNnUxQXRkUXBJ?=
- =?utf-8?B?eEluVjdSVlNscjF6OCswSm9LOUV4SkR2VGp5R29YZ0xEZERWaUJLNlplb2V1?=
- =?utf-8?B?OHl3UkdWNmVEYUtLN1cydzBqdUNPc3d2eGM4bnB5d1RkTUZwMElpTjZqS3ZN?=
- =?utf-8?B?bWxTV2dYV3ZCN0ljLzNYQmZhMXRjaFh1dW8rYURNMWkvU2o4bTNwUWJTL29u?=
- =?utf-8?B?ajZ6elN3a29lUG5YU1d3L1Fhc0JkNzQ1TUdWR1o5ZkxyeG1reUE4Z2VJVkZE?=
- =?utf-8?B?S3FQUGdjK09QZlprN2hnNGNsUHltbjgzQVJnOFVTU0JMSkRVWExUUDA2aHlR?=
- =?utf-8?B?SHNvVkE4eVhZdVNKenRTL3QwUTBwWG5ya0Nzemk3ZXk0STBWSG41elRMaU1z?=
- =?utf-8?B?WE53VGljYm9JTEowREZWNmFEQkhkWjkyUDRmUEtDTW5Wbm9uZVFXZlVvc0tZ?=
- =?utf-8?B?WGZzYmhJZVIzSUVsc0ZwRkZUb0JPc3g1WXkwbWpobUFOKzlSYnkrL3F4UWJj?=
- =?utf-8?B?dWhMcFdyZm1GWEZZR2ZNTmJNYkZWbU1FaFdpanBsdkh2MFZRdXRvOU1OUnZW?=
- =?utf-8?B?Q00xL1B3TzZGQ1hkeHFyV3ozMC9IMFBHRUxMV3RQV29vRU9FQmN3eDcyVGRp?=
- =?utf-8?B?NmdUaUNFdjRNTE1Ib0JCSkNtd2Vqdi93TXk4cXBPT2wrekd4VGVxY2ZQOTRQ?=
- =?utf-8?B?MlN2NVRUQU10NllzTlVQNmVpK0ZLMisrS0trR3l4a1RMRzFYb1dsdS9lWTB5?=
- =?utf-8?B?b1RveFVleERtK2kvaW44QnRjR08yNkxkT3hEbHNsM25YejdMbDNqdDVvOFhD?=
- =?utf-8?B?S1EyTWdLMWJqNWRDYzMyT1RsU2ZBd2hhNEJjUXdVSXlFWnlEaEM5RHpSdDRl?=
- =?utf-8?B?cVBma1AyKzFPeU5rRktRQ0lHbnV5NTJCSHRkMytGZkdGNVprRFp0YzRuNGoz?=
- =?utf-8?Q?xaBpkSlhsy4/H1vlJS3m1AeIB+Q46MahCQubI?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <A9CC1032340B7F4F93C0DADB3D85C6F6@namprd19.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ <177457463171.1008428.692188550544402497.stgit@frogsfrogsfrogs>
+ <d7e830f2-fb3f-4782-a6bc-9b850ebdcc36@bsbernd.com>
+ <20260330203007.GJ6254@frogsfrogsfrogs>
+ <095a92b6-889d-4207-8aa5-7b76098a3937@ddn.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked:
-	MMd0fuXyZAIZhQHyWC94vPTYuBH38ATLK0Z/jkHGrUuK1JIDvOh9Di+t3jcMdaKziyHL6Y2sEEliTYd4bamoZX09fKKUtxfLMk46Yh3MdcqOYd2pY8HnmyjgL20cbMpU6qn3Qf61r5WPPkH6w50g4RBQG0jRpnbfz+Gq+CmR4gGmhmAouqqbMjOEIHv3m5VILfGjl469whxxSMP4H8H3Dg9LOQBPAOvspY/KVSR6f6nfQELnFABOyeYsI2a4TrnbNEpiprP3Pl5TmEJYnWwwJbEjJwdRWsMNIPlQkmiFaWe7l0Op/nXMgpr/OLn3wpQ4DfdxLJvIhu2PLQJGjA0iXw==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	739yYdE4ousyxyMvkXQ/FnY8yGEeQGKq+jUitrrpjqWgExrgBgp5908T5/mMgQwMh9uGp1zjjwK8bg2omzUQjeNjbKNa1fE+SGBGlKkgEysgDAH+6FVKAqok5VhnZUnr0bCI+dKuuYwMybPpRObUO2KesfYRFG/ER8k1cu50+ffJceY8zvdqvkdCU3rggFNM8iXh9trawGyQOmg9j5uWSalv1XW/I7tiRqDwtpC7bbfQM/zLKY1Sw2E4hOvTGdC+ZZ1Rikc0mznwPSSm1MCgsL630XNLWln/odOM1s4BtyLLJegd7+tXnhUgeaUhwYZvqB4G5Lc6blUkahbs8ox8ityBK3ppvxKgQm1B7GBCpwKJQDW2xwJPJkRjol8pn6/vbjssiRrjiCXo2eg/ygBUUQ/03hGMQkXV4hE5ArG9GlY1lDVr/Gqkyb4yYVet5WQdsM2og5pU31ieZvO2ZETpxYOkQbuq1tc+H9Kwx9MsQ/tweazROCuvYQ9ruBlEwzTaMouCztYIKofquCovbetzFd8icN2hZ5TpbUS1o3apNeqZyDmVtprF3+7tmhGAzqX7rHIRrkdzv6K4qAYMC1Qex31oZzl3fiDw0GIAi1F4LBD88X8y0kxv6YguwBUh2rif467Y0vCcquj0c0S+j9WP+Q==
-X-OriginatorOrg: ddn.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR19MB3872.namprd19.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9ca92d0e-4491-4277-396c-08de8ea02898
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Mar 2026 21:06:05.9882
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 753b6e26-6fd3-43e6-8248-3f1735d59bb4
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: xRVJJJ8/x9BOATD8IOJCISTEYrz1EVaYNfBz4ih6b5L/xbyfWwStW4AAWg39DG9X4dQPkP6dlfGPZD4EoXD/Nw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR19MB4055
-X-BESS-ID: 1774904769-104661-9036-11986-1
-X-BESS-VER: 2019.1_20260324.1831
-X-BESS-Apparent-Source-IP: 40.107.201.120
-X-BESS-Parts: H4sIAAAAAAACA4uuVkqtKFGyUioBkjpK+cVKVhYGFkZAVgZQ0MLcyNjUwsLExM
-	AsLc3Y0Nw8xdLU1DLJyNjELDnNIC1VqTYWAJVIsrBBAAAA
-X-BESS-Outbound-Spam-Score: 0.00
-X-BESS-Outbound-Spam-Report: Code version 3.2, rules version 3.2.2.272187 [from 
-	cloudscan16-248.us-east-2b.ess.aws.cudaops.com]
-	Rule breakdown below
-	 pts rule name              description
-	---- ---------------------- --------------------------------
-	0.00 BSF_BESS_OUTBOUND      META: BESS Outbound 
-X-BESS-Outbound-Spam-Status: SCORE=0.00 using account:ESS124931 scores of KILL_LEVEL=7.0 tests=BSF_BESS_OUTBOUND
-X-BESS-BRTS-Status:1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <095a92b6-889d-4207-8aa5-7b76098a3937@ddn.com>
 
-T24gMy8yNy8yNiAwMjoyNSwgRGFycmljayBKLiBXb25nIHdyb3RlOg0KPiBGcm9tOiBEYXJyaWNr
-IEouIFdvbmcgPGRqd29uZ0BrZXJuZWwub3JnPg0KPiANCj4gVXNlIHRoZSBuZXcgZnNvcGVuL2Zz
-bW91bnQgc3lzdGVtIGNhbGxzIHRvIG1vdW50IHRoZSBmaWxlc3lzdGVtIHNvIHRoYXQNCj4gd2Ug
-Z2V0IHNvbWV3aGF0IGJldHRlciBkaWFnbm9zdGljcyBpZiBzb21ldGhpbmcgZ2V0cyBzY3Jld2Vk
-IHVwLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogIkRhcnJpY2sgSi4gV29uZyIgPGRqd29uZ0BrZXJu
-ZWwub3JnPg0KPiAtLS0NCj4gIG1lc29uLmJ1aWxkICAgICAgICAgIHwgICAxNSArKysNCj4gIHV0
-aWwvbW91bnRfc2VydmljZS5jIHwgIDI5OSArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKysrKw0KPiAgMiBmaWxlcyBjaGFuZ2VkLCAzMTQgaW5zZXJ0aW9ucygr
-KQ0KPiANCj4gDQo+IGRpZmYgLS1naXQgYS9tZXNvbi5idWlsZCBiL21lc29uLmJ1aWxkDQo+IGlu
-ZGV4IGQ2YmE4NzQwZWZmZDVjLi5iMDk4ODU0OGJmODA2YSAxMDA2NDQNCj4gLS0tIGEvbWVzb24u
-YnVpbGQNCj4gKysrIGIvbWVzb24uYnVpbGQNCj4gQEAgLTEzMCw2ICsxMzAsMjEgQEAgc3BlY2lh
-bF9mdW5jcyA9IHsNCj4gIAlpbnQgbWFpbihpbnQgYXJnYywgY2hhciAqYXJndltdKSB7DQo+ICAg
-ICAgICAgICAgcmV0dXJuIFNEX0xJU1RFTl9GRFNfU1RBUlQ7DQo+ICAJfQ0KPiArICAgICcnJywN
-Cj4gKyAgICAnbmV3X21vdW50X2FwaSc6ICcnJw0KPiArICAgICAgICNkZWZpbmUgX0dOVV9TT1VS
-Q0UNCj4gKyAgICAgICAjaW5jbHVkZSA8c3lzL21vdW50Lmg+DQo+ICsgICAgICAgI2luY2x1ZGUg
-PGxpbnV4L21vdW50Lmg+DQo+ICsgICAgICAgI2luY2x1ZGUgPHVuaXN0ZC5oPg0KPiArICAgICAg
-ICNpbmNsdWRlIDxmY250bC5oPg0KPiArDQo+ICsgICAgICAgaW50IG1haW4odm9pZCkgew0KPiAr
-ICAgICAgICAgICBpbnQgZnNmZCA9IGZzb3BlbigiZnVzZSIsIEZTT1BFTl9DTE9FWEVDKTsNCj4g
-KyAgICAgICAgICAgaW50IHJlcyA9IGZzY29uZmlnKGZzZmQsIEZTQ09ORklHX1NFVF9TVFJJTkcs
-ICJzb3VyY2UiLCAidGVzdCIsIDApOw0KPiArICAgICAgICAgICBpbnQgbW50ZmQgPSBmc21vdW50
-KGZzZmQsIEZTTU9VTlRfQ0xPRVhFQywgMCk7DQo+ICsgICAgICAgICAgIHJlcyA9IG1vdmVfbW91
-bnQobW50ZmQsICIiLCBBVF9GRENXRCwgIi9tbnQiLCBNT1ZFX01PVU5UX0ZfRU1QVFlfUEFUSCk7
-DQo+ICsgICAgICAgICAgIHJldHVybiAwOw0KPiArICAgICAgIH0NCj4gICAgICAnJycNCj4gIH0N
-Cj4gIA0KPiBkaWZmIC0tZ2l0IGEvdXRpbC9tb3VudF9zZXJ2aWNlLmMgYi91dGlsL21vdW50X3Nl
-cnZpY2UuYw0KPiBpbmRleCBhZTA3OGU1MzdkYzU2MC4uNGEyYzExMTFiNjZiOTEgMTAwNjQ0DQo+
-IC0tLSBhL3V0aWwvbW91bnRfc2VydmljZS5jDQo+ICsrKyBiL3V0aWwvbW91bnRfc2VydmljZS5j
-DQo+IEBAIC02NSw2ICs2NSw5IEBAIHN0cnVjdCBtb3VudF9zZXJ2aWNlIHsNCj4gIA0KPiAgCS8q
-IE9fUEFUSCBmZCBmb3IgbW91bnQgcG9pbnQgKi8NCj4gIAlpbnQgbW91bnRmZDsNCj4gKw0KPiAr
-CS8qIGZkIGZvciBmc29wZW4gKi8NCj4gKwlpbnQgZnNvcGVuZmQ7DQo+ICB9Ow0KPiAgDQo+ICAv
-KiBGaWx0ZXIgb3V0IHRoZSBzdWJ0eXBlIG9mIHRoZSBmaWxlc3lzdGVtIChlLmcuIGZ1c2UuWSAt
-PiBZKSAqLw0KPiBAQCAtODcsNiArOTAsNyBAQCBzdGF0aWMgaW50IG1vdW50X3NlcnZpY2VfaW5p
-dChzdHJ1Y3QgbW91bnRfc2VydmljZSAqbW8sIGludCBhcmdjLCBjaGFyICphcmd2W10pDQo+ICAJ
-bW8tPmFyZ3ZmZCA9IC0xOw0KPiAgCW1vLT5mdXNlZGV2ZmQgPSAtMTsNCj4gIAltby0+bW91bnRm
-ZCA9IC0xOw0KPiArCW1vLT5mc29wZW5mZCA9IC0xOw0KPiAgDQo+ICAJZm9yIChpID0gMDsgaSA8
-IGFyZ2M7IGkrKykgew0KPiAgCQlpZiAoIXN0cmNtcChhcmd2W2ldLCAiLXQiKSAmJiBpICsgMSA8
-IGFyZ2MpIHsNCj4gQEAgLTY5MCw5ICs2OTQsNTAgQEAgc3RhdGljIGludCBtb3VudF9zZXJ2aWNl
-X2hhbmRsZV9mc29wZW5fY21kKHN0cnVjdCBtb3VudF9zZXJ2aWNlICptbywNCj4gIAkJcmV0dXJu
-IG1vdW50X3NlcnZpY2Vfc2VuZF9yZXBseShtbywgZXJyb3IpOw0KPiAgCX0NCj4gIA0KPiArI2lm
-ZGVmIEhBVkVfTkVXX01PVU5UX0FQSQ0KPiArCS8qIElmIHRoaXMgZmFpbHMgd2UgZmFsbCBiYWNr
-IG9uIG1vdW50KCkgKi8NCj4gKwltby0+ZnNvcGVuZmQgPSBmc29wZW4ob2MtPnZhbHVlLCBGU09Q
-RU5fQ0xPRVhFQyk7DQo+ICsjZW5kaWYNCj4gKw0KPiAgCXJldHVybiBtb3VudF9zZXJ2aWNlX3Nl
-bmRfcmVwbHkobW8sIDApOw0KPiAgfQ0KPiAgDQo+ICsjaWZkZWYgSEFWRV9ORVdfTU9VTlRfQVBJ
-DQo+ICsvKiBjYWxsZXJzIG11c3QgcHJlc2VydmUgZXJybm8gKi8NCj4gK3N0YXRpYyB2b2lkIGVt
-aXRfZnNjb25maWdfbWVzc2FnZXMoY29uc3Qgc3RydWN0IG1vdW50X3NlcnZpY2UgKm1vKQ0KPiAr
-ew0KPiArCXVpbnQ4X3QgYnVmW0JVRlNJWl07DQo+ICsJc3NpemVfdCBzejsNCj4gKw0KPiArCXdo
-aWxlICgoc3ogPSByZWFkKG1vLT5mc29wZW5mZCwgYnVmLCBzaXplb2YoYnVmKSAtIDEpKSAhPSAt
-MSkgew0KPiArCQlpZiAoc3ogPD0gMCkNCj4gKwkJCWNvbnRpbnVlOw0KPiArCQlpZiAoYnVmW3N6
-IC0gMV0gPT0gJ1xuJykNCj4gKwkJCWJ1ZlstLXN6XSA9ICdcMCc7DQo+ICsJCWVsc2UNCj4gKwkJ
-CWJ1Zltzel0gPSAnXDAnOw0KPiArDQo+ICsJCWlmICghKmJ1ZikNCj4gKwkJCWNvbnRpbnVlOw0K
-PiArDQo+ICsJCXN3aXRjaCAoYnVmWzBdKSB7DQo+ICsJCWNhc2UgJ2UnOg0KPiArCQkJZnByaW50
-ZihzdGRlcnIsICJFcnJvcjogJXNcbiIsIGJ1ZiArIDIpOw0KPiArCQkJYnJlYWs7DQo+ICsJCWNh
-c2UgJ3cnOg0KPiArCQkJZnByaW50ZihzdGRlcnIsICJXYXJuaW5nOiAlc1xuIiwgYnVmICsgMik7
-DQo+ICsJCQlicmVhazsNCj4gKwkJY2FzZSAnaSc6DQo+ICsJCQlmcHJpbnRmKHN0ZGVyciwgIklu
-Zm86ICVzXG4iLCBidWYgKyAyKTsNCj4gKwkJCWJyZWFrOw0KPiArCQlkZWZhdWx0Og0KPiArCQkJ
-ZnByaW50ZihzdGRlcnIsICIgJXNcbiIsIGJ1Zik7DQo+ICsJCQlicmVhazsNCj4gKwkJfQ0KPiAr
-CX0NCj4gK30NCj4gKyNlbmRpZg0KDQpIb3cgYWJvdXQgdW5pZnlpbmcgdGhhdCB3aXRoIG15IHNl
-cmllcyBhbmQgdGhlbiB1c2UgbG9nX2ZzY29uZmlnX2ttc2coKT8NCldlIGNhbiBhbHNvIGRvIGl0
-IGluZGVwZW5kZW50bHksIGJ1dCBzaG91bGQgbm90IGZvcmdldCB0byB1c2UgYSBjb21tb24NCmZ1
-bmN0aW9uIGxhdGVyIG9uLiBUaGF0IGFwcGxpZXMgdG8gYWxsIHRoZXNlIGZ1bmN0aW9ucyBmb3Ig
-dGhlIG5ldyBtb3VudA0KQVBJLiBQYXJ0IG9mIHRoZSBoZWFkYWNoZSBJIGhhdmUgd2l0aCBteSBz
-ZXJpZXMgaXMgdGhhdCBmdXNlcm1vdW50LmMNCmR1cGxpY2F0ZXMgcXVpdGUgc29tZSBjb2RlLg0K
-Rm9yIG1lIGl0IGxvb2tzIGEgYml0IGxpa2Ugd2UgY2FuIHVuaWZ5IG1vc3Qgb2YgdXRpbC9tb3Vu
-dF9zZXJ2aWNlLmMgYW5kDQpsaWIvbW91bnRfZnNtb3VudC5jLg0KDQo+ICsNCj4gIHN0YXRpYyBp
-bnQgbW91bnRfc2VydmljZV9oYW5kbGVfc291cmNlX2NtZChzdHJ1Y3QgbW91bnRfc2VydmljZSAq
-bW8sDQo+ICAJCQkJCSAgIGNvbnN0IHN0cnVjdCBmdXNlX3NlcnZpY2VfcGFja2V0ICpwKQ0KPiAg
-ew0KPiBAQCAtNzE0LDYgKzc1OSwyMSBAQCBzdGF0aWMgaW50IG1vdW50X3NlcnZpY2VfaGFuZGxl
-X3NvdXJjZV9jbWQoc3RydWN0IG1vdW50X3NlcnZpY2UgKm1vLA0KPiAgCQlyZXR1cm4gbW91bnRf
-c2VydmljZV9zZW5kX3JlcGx5KG1vLCBlcnJvcik7DQo+ICAJfQ0KPiAgDQo+ICsjaWZkZWYgSEFW
-RV9ORVdfTU9VTlRfQVBJDQo+ICsJaWYgKG1vLT5mc29wZW5mZCA+PSAwKSB7DQo+ICsJCWludCBy
-ZXQgPSBmc2NvbmZpZyhtby0+ZnNvcGVuZmQsIEZTQ09ORklHX1NFVF9TVFJJTkcsICJzb3VyY2Ui
-LA0KPiArCQkJICAgICAgIG9jLT52YWx1ZSwgMCk7DQo+ICsJCWlmIChyZXQpIHsNCj4gKwkJCWlu
-dCBlcnJvciA9IGVycm5vOw0KPiArDQo+ICsJCQlmcHJpbnRmKHN0ZGVyciwgIiVzOiBmc2NvbmZp
-ZyBzb3VyY2U6ICVzXG4iLA0KPiArCQkJCW1vLT5tc2d0YWcsIHN0cmVycm9yKGVycm9yKSk7DQo+
-ICsJCQllbWl0X2ZzY29uZmlnX21lc3NhZ2VzKG1vKTsNCj4gKwkJCXJldHVybiBtb3VudF9zZXJ2
-aWNlX3NlbmRfcmVwbHkobW8sIGVycm9yKTsNCj4gKwkJfQ0KPiArCX0NCj4gKyNlbmRpZg0KPiAr
-DQo+ICAJcmV0dXJuIG1vdW50X3NlcnZpY2Vfc2VuZF9yZXBseShtbywgMCk7DQo+ICB9DQo+ICAN
-Cj4gQEAgLTcyMiw2ICs3ODIsOCBAQCBzdGF0aWMgaW50IG1vdW50X3NlcnZpY2VfaGFuZGxlX21u
-dG9wdHNfY21kKHN0cnVjdCBtb3VudF9zZXJ2aWNlICptbywNCj4gIHsNCj4gIAlzdHJ1Y3QgZnVz
-ZV9zZXJ2aWNlX3N0cmluZ19jb21tYW5kICpvYyA9DQo+ICAJCQljb250YWluZXJfb2YocCwgc3Ry
-dWN0IGZ1c2Vfc2VydmljZV9zdHJpbmdfY29tbWFuZCwgcCk7DQo+ICsJY2hhciAqdG9rc3RyID0g
-b2MtPnZhbHVlOw0KPiArCWNoYXIgKnRvaywgKnNhdmV0b2s7DQo+ICANCj4gIAlpZiAobW8tPm1u
-dG9wdHMpIHsNCj4gIAkJZnByaW50ZihzdGRlcnIsICIlczogbW91bnQgb3B0aW9ucyByZXNwZWNp
-ZmllZCFcbiIsDQo+IEBAIC03MzgsNiArODAwLDQ1IEBAIHN0YXRpYyBpbnQgbW91bnRfc2Vydmlj
-ZV9oYW5kbGVfbW50b3B0c19jbWQoc3RydWN0IG1vdW50X3NlcnZpY2UgKm1vLA0KPiAgCQlyZXR1
-cm4gbW91bnRfc2VydmljZV9zZW5kX3JlcGx5KG1vLCBlcnJvcik7DQo+ICAJfQ0KPiAgDQo+ICsJ
-Lyogc3RydG9rX3IgbXV0YXRlcyB0b2tzdHIgYWthIG9jLT52YWx1ZSAqLw0KPiArCXdoaWxlICgo
-dG9rID0gc3RydG9rX3IodG9rc3RyLCAiLCIsICZzYXZldG9rKSkgIT0gTlVMTCkgew0KPiArCQlj
-aGFyICplcXVhbHMgPSBzdHJjaHIodG9rLCAnPScpOw0KPiArCQljaGFyIG9sZGNoYXIgPSAwOw0K
-PiArDQo+ICsJCWlmIChlcXVhbHMpIHsNCj4gKwkJCW9sZGNoYXIgPSAqZXF1YWxzOw0KPiArCQkJ
-KmVxdWFscyA9IDA7DQo+ICsJCX0NCj4gKw0KPiArI2lmZGVmIEhBVkVfTkVXX01PVU5UX0FQSQ0K
-PiArCQlpZiAobW8tPmZzb3BlbmZkID49IDApIHsNCj4gKwkJCWludCByZXQ7DQo+ICsNCj4gKwkJ
-CWlmIChlcXVhbHMpDQo+ICsJCQkJcmV0ID0gZnNjb25maWcobW8tPmZzb3BlbmZkLA0KPiArCQkJ
-CQkgICAgICAgRlNDT05GSUdfU0VUX1NUUklORywgdG9rLA0KPiArCQkJCQkgICAgICAgZXF1YWxz
-ICsgMSwgMCk7DQo+ICsJCQllbHNlDQo+ICsJCQkJcmV0ID0gZnNjb25maWcobW8tPmZzb3BlbmZk
-LA0KPiArCQkJCQkgICAgICAgRlNDT05GSUdfU0VUX0ZMQUcsIHRvaywNCj4gKwkJCQkJICAgICAg
-IE5VTEwsIDApOw0KPiArCQkJaWYgKHJldCkgew0KPiArCQkJCWludCBlcnJvciA9IGVycm5vOw0K
-PiArDQo+ICsJCQkJZnByaW50ZihzdGRlcnIsICIlczogc2V0IG1vdW50IG9wdGlvbjogJXNcbiIs
-DQo+ICsJCQkJCW1vLT5tc2d0YWcsIHN0cmVycm9yKGVycm9yKSk7DQo+ICsJCQkJZW1pdF9mc2Nv
-bmZpZ19tZXNzYWdlcyhtbyk7DQo+ICsJCQkJcmV0dXJuIG1vdW50X3NlcnZpY2Vfc2VuZF9yZXBs
-eShtbywgZXJyb3IpOw0KPiArCQkJfQ0KPiArCQl9DQo+ICsjZW5kaWYNCj4gKw0KPiArCQlpZiAo
-ZXF1YWxzKQ0KPiArCQkJKmVxdWFscyA9IG9sZGNoYXI7DQo+ICsNCj4gKwkJdG9rc3RyID0gTlVM
-TDsNCj4gKwl9DQo+ICsNCj4gIAlyZXR1cm4gbW91bnRfc2VydmljZV9zZW5kX3JlcGx5KG1vLCAw
-KTsNCj4gIH0NCj4gIA0KPiBAQCAtODc1LDYgKzk3NiwxOTYgQEAgc3RhdGljIGludCBtb3VudF9z
-ZXJ2aWNlX3JlZ3VsYXJfbW91bnQoc3RydWN0IG1vdW50X3NlcnZpY2UgKm1vLA0KPiAgCXJldHVy
-biBtb3VudF9zZXJ2aWNlX3NlbmRfcmVwbHkobW8sIDApOw0KPiAgfQ0KPiAgDQo+ICsjaWZkZWYg
-SEFWRV9ORVdfTU9VTlRfQVBJDQo+ICtzdHJ1Y3QgbXNfdG9fbW91bnRfbWFwIHsNCj4gKwl1bnNp
-Z25lZCBsb25nIG1zX2ZsYWc7DQo+ICsJdW5zaWduZWQgaW50IG1vdW50X2F0dHJfZmxhZzsNCj4g
-K307DQo+ICsNCj4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgbXNfdG9fbW91bnRfbWFwIGF0dHJzW10g
-PSB7DQo+ICsJeyBNU19SRE9OTFksCQlNT1VOVF9BVFRSX1JET05MWSB9LA0KPiArCXsgTVNfTk9T
-VUlELAkJTU9VTlRfQVRUUl9OT1NVSUQgfSwNCj4gKwl7IE1TX05PREVWLAkJTU9VTlRfQVRUUl9O
-T0RFViB9LA0KPiArCXsgTVNfTk9FWEVDLAkJTU9VTlRfQVRUUl9OT0VYRUMgfSwNCj4gKwl7IE1T
-X1JFTEFUSU1FLAkJTU9VTlRfQVRUUl9SRUxBVElNRSB9LA0KPiArCXsgTVNfTk9BVElNRSwJCU1P
-VU5UX0FUVFJfTk9BVElNRSB9LA0KPiArCXsgTVNfU1RSSUNUQVRJTUUsCU1PVU5UX0FUVFJfU1RS
-SUNUQVRJTUUgfSwNCj4gKwl7IE1TX05PRElSQVRJTUUsCU1PVU5UX0FUVFJfTk9ESVJBVElNRSB9
-LA0KPiArI2lmZGVmIE1PVU5UX0FUVFJfTk9TWU1GT0xMT1cNCj4gKwl7IE1TX05PU1lNRk9MTE9X
-LAlNT1VOVF9BVFRSX05PU1lNRk9MTE9XIH0sDQo+ICsjZW5kaWYNCj4gKwl7IDAsIDAgfSwNCj4g
-K307DQo+ICsNCj4gK3N0YXRpYyB2b2lkIGdldF9tb3VudF9hdHRyX2ZsYWdzKGNvbnN0IHN0cnVj
-dCBmdXNlX3NlcnZpY2VfbW91bnRfY29tbWFuZCAqb2MsDQo+ICsJCQkJIHVuc2lnbmVkIGludCAq
-YXR0cl9mbGFncywNCj4gKwkJCQkgdW5zaWduZWQgbG9uZyAqbGVmdG92ZXJfbXNfZmxhZ3MpDQo+
-ICt7DQo+ICsJY29uc3Qgc3RydWN0IG1zX3RvX21vdW50X21hcCAqaTsNCj4gKwl1bnNpZ25lZCBp
-bnQgbXNfZmxhZ3MgPSBudG9obChvYy0+bXNfZmxhZ3MpOw0KPiArCXVuc2lnbmVkIGludCBtb3Vu
-dF9hdHRyX2ZsYWdzID0gMDsNCj4gKw0KPiArCWZvciAoaSA9IGF0dHJzOyBpLT5tc19mbGFnICE9
-IDA7IGkrKykgew0KPiArCQlpZiAobXNfZmxhZ3MgJiBpLT5tc19mbGFnKQ0KPiArCQkJbW91bnRf
-YXR0cl9mbGFncyB8PSBpLT5tb3VudF9hdHRyX2ZsYWc7DQo+ICsJCW1zX2ZsYWdzICY9IH5pLT5t
-c19mbGFnOw0KPiArCX0NCj4gKw0KPiArCSpsZWZ0b3Zlcl9tc19mbGFncyA9IG1zX2ZsYWdzOw0K
-PiArCSphdHRyX2ZsYWdzID0gbW91bnRfYXR0cl9mbGFnczsNCj4gK30NCj4gKw0KPiArc3RydWN0
-IG1zX3RvX3N0cl9tYXAgew0KPiArCXVuc2lnbmVkIGxvbmcgbXNfZmxhZzsNCj4gKwljb25zdCBj
-aGFyICpzdHJpbmc7DQo+ICt9Ow0KPiArDQo+ICtzdGF0aWMgY29uc3Qgc3RydWN0IG1zX3RvX3N0
-cl9tYXAgc3RyZmxhZ3NbXSA9IHsNCj4gKwl7IE1TX1NZTkNIUk9OT1VTLAkic3luYyIgfSwNCj4g
-Kwl7IE1TX0RJUlNZTkMsCQkiZGlyc3luYyIgfSwNCj4gKwl7IE1TX0xBWllUSU1FLAkJImxhenl0
-aW1lIiB9LA0KPiArCXsgMCwgMCB9LA0KPiArfTsNCj4gKw0KPiArc3RhdGljIGludCBzZXRfbXNf
-ZmxhZ3Moc3RydWN0IG1vdW50X3NlcnZpY2UgKm1vLCB1bnNpZ25lZCBsb25nIG1zX2ZsYWdzKQ0K
-PiArew0KPiArCWNvbnN0IHN0cnVjdCBtc190b19zdHJfbWFwICppOw0KPiArCWludCByZXQ7DQo+
-ICsNCj4gKwlmb3IgKGkgPSBzdHJmbGFnczsgaS0+bXNfZmxhZyAhPSAwOyBpKyspIHsNCj4gKwkJ
-aWYgKCEobXNfZmxhZ3MgJiBpLT5tc19mbGFnKSkNCj4gKwkJCWNvbnRpbnVlOw0KPiArDQo+ICsJ
-CXJldCA9IGZzY29uZmlnKG1vLT5mc29wZW5mZCwgRlNDT05GSUdfU0VUX0ZMQUcsIGktPnN0cmlu
-ZywNCj4gKwkJCSAgICAgICBOVUxMLCAwKTsNCj4gKwkJaWYgKHJldCkgew0KPiArCQkJaW50IGVy
-cm9yID0gZXJybm87DQo+ICsNCj4gKwkJCWZwcmludGYoc3RkZXJyLCAiJXM6IHNldCAlcyBvcHRp
-b246ICVzXG4iLA0KPiArCQkJCW1vLT5tc2d0YWcsIGktPnN0cmluZywgc3RyZXJyb3IoZXJyb3Ip
-KTsNCj4gKwkJCWVtaXRfZnNjb25maWdfbWVzc2FnZXMobW8pOw0KPiArDQo+ICsJCQllcnJubyA9
-IGVycm9yOw0KPiArCQkJcmV0dXJuIC0xOw0KPiArCQl9DQo+ICsJCW1zX2ZsYWdzICY9IH5pLT5t
-c19mbGFnOw0KPiArCX0NCj4gKw0KPiArCS8qDQo+ICsJICogV2UgY2FuJ3QgdHJhbnNsYXRlIGFs
-bCB0aGUgc3VwcGxpZWQgTVNfIGZsYWdzIGludG8gTU9VTlRfQVRUUl8gZmxhZ3MNCj4gKwkgKiBv
-ciBzdHJpbmcgZmxhZ3MhICBSZXR1cm4gYSBtYWdpYyBjb2RlIHNvIHRoZSBjYWxsZXIgd2lsbCBm
-YWxsIGJhY2sNCj4gKwkgKiB0byByZWd1bGFyIG1vdW50KDIpLg0KPiArCSAqLw0KPiArCXJldHVy
-biBtc19mbGFncyA/IC0yIDogMDsNCj4gK30NCg0KTGV0J3MgcGxlYXNlIG5vdCBmb3JnZXQgbGF0
-ZXIgb24gdG8gdXNlIHRoZSBuZXcgZGVmaW5lLg0KDQoNClRoYW5rcywNCkJlcm5kDQo=
+On Mon, Mar 30, 2026 at 08:51:01PM +0000, Bernd Schubert wrote:
+> On 3/30/26 22:30, Darrick J. Wong wrote:
+> > On Mon, Mar 30, 2026 at 09:37:18PM +0200, Bernd Schubert wrote:
+> >> Hi Darrick,
+> >>
+> >> On 3/27/26 02:25, Darrick J. Wong wrote:
+> >>> From: Darrick J. Wong <djwong@kernel.org>
+> >>>
+> >>> Create a fuse_main wrapper for fuse services.
+> >>>
+> >>> Signed-off-by: Darrick J. Wong <djwong@kernel.org>
+> >>> ---
+> >>>  include/fuse.h         |   33 ++++++++++++++++++++++++++++
+> >>>  lib/fuse_versionscript |    1 +
+> >>>  lib/helper.c           |   57 +++++++++++++++++++++++++++++++++++++++++-------
+> >>>  3 files changed, 83 insertions(+), 8 deletions(-)
+> >>>
+> >>>
+> >>> diff --git a/include/fuse.h b/include/fuse.h
+> >>> index 595cac07f2be36..c7dae040857aca 100644
+> >>> --- a/include/fuse.h
+> >>> +++ b/include/fuse.h
+> >>> @@ -1008,6 +1008,39 @@ static inline int fuse_main_fn(int argc, char *argv[],
+> >>>  #define fuse_main(argc, argv, op, user_data) \
+> >>>  	fuse_main_fn(argc, argv, op, user_data)
+> >>>  
+> >>> +#if FUSE_MAKE_VERSION(3, 19) <= FUSE_USE_VERSION
+> >>> +struct fuse_service;
+> >>> +int fuse_service_main_real_versioned(struct fuse_service *service,
+> >>> +				     int argc, char *argv[],
+> >>> +				     const struct fuse_operations *op,
+> >>> +				     size_t op_size,
+> >>> +				     struct libfuse_version *version,
+> >>> +				     void *user_data);
+> >>> +
+> >>> +/**
+> >>> + * Same as fuse_service_main_fn, but takes its information from the mount
+> >>> + * service context.
+> >>> + */
+> >>> +static inline int fuse_service_main_fn(struct fuse_service *service,
+> >>> +				       int argc, char *argv[],
+> >>> +				       const struct fuse_operations *op,
+> >>> +				       void *user_data)
+> >>> +{
+> >>> +	struct libfuse_version version = {
+> >>> +		.major  = FUSE_MAJOR_VERSION,
+> >>> +		.minor  = FUSE_MINOR_VERSION,
+> >>> +		.hotfix = FUSE_HOTFIX_VERSION,
+> >>> +		.padding = 0
+> >>> +	};
+> >>> +
+> >>> +	return fuse_service_main_real_versioned(service, argc, argv, op,
+> >>> +						sizeof(*(op)), &version,
+> >>> +						user_data);
+> >>> +}
+> >>> +#define fuse_service_main(s, argc, argv, op, user_data) \
+> >>> +	fuse_service_main_fn(s, argc, argv, op, user_data)
+> >>> +#endif /* FUSE_USE_VERSION >= FUSE_MAKE_VERSION(3, 19) */
+> >>
+> >> sorry, this is not exactly what I meant. Could you take a look here? I
+> > 
+> > OH, you want the program to pass in both the version of libfuse that the
+> > program was built against (struct libfuse_version) and the version of
+> > libfuse that the program asked for (FUSE_USE_VERSION).  Not just header
+> > guards.
+> 
+> I don't think we need the header guards, I think these are more for the
+> case the API changes. With just additions there cannot break anything?
+> 
+> > 
+> >> just pushed the unfinished patch I made in December. It got complicated
+> >> in the high level API and I didn't have time to finish it yet.
+> > 
+> > Yes, that does make sense for setting defaults based on the version of
+> > the libfuse API that the fuse server expects.
+> > 
+> >> https://github.com/libfuse/libfuse/pull/1382/changes/24836ded18e9736eb4691600600ff1d7cf581e29
+> >>
+> >> Basically I would like to add the API version to the functions, in order
+> >> to set defaults flags. The topic came up about FUSE_CAP_AUTO_INVAL_DATA,
+> >> because it can cause data corruption, but there is also a risk to cause
+> >> regressions. So would be good to set that based on the API version
+> >> (assuming people read the rather new doc/ChangeLog-API.rst).
+> >>
+> >> Anyway your function should basically be
+> >>
+> >> int fuse_service_main_real_versioned(struct fuse_service *service,
+> >> 				     int argc, char *argv[],
+> >> 				     const struct fuse_operations *op,
+> >> 				     size_t op_size,
+> >>                                      unsigned int user_apiabi_version,
+> >> 				     struct libfuse_version *version,
+> >> 				     void *user_data);
+> >>
+> >>
+> >> I.e. adding in 'user_apiabi_version'. Although while looking into this
+> >> again, maybe we should mis-use 'padding' and rename it 'api version. It
+> >> would definitely simplify things.
+> >>
+> >>
+> >> While you look into all these things, what is your opinion? ;)
+> > 
+> > I like the idea of encoding the FUSE_USE_VERSION as the padding value.
+> > I wonder if there's a danger of a client setting the fields manually:
+> > 
+> > 	struct libfuse_version version;
+> > 
+> > 	version.major = FUSE_MAJOR_VERSION;
+> > 	version.minor = FUSE_MINOR_VERSION;
+> > 	version.hotfix = FUSE_HOTFIX_VERSION;
+> > 
+> > 	fuse_main_real_versioned(..., &version...);
+> > 
+> > such that version.padding is now set to stack garbage?  The wrapper
+> > functions in fuse.h use struct initialization so the .padding value will
+> > be zero, but fuse_session_new_versioned doesn't appear to require zero,
+> > which makes such a change a bit risky.
+> > 
+> > Debian codesearch seems to think there aren't any direct callers of
+> > fuse_session_new_versioned or fuse_main_real_versioned outside of fuse,
+> > so this might not be a big risk.
+> > 
+> > If the risk is acceptable, it would reduce the amount of code changes to
+> > add the FUSE_USE_VERSION number and force programs to #define it before
+> > #include'ing fuse.h.
+> > 
+> > The existing functions that take a struct libfuse_version could just
+> > ignore values like 0 or values that arent't in the range 30-39 or
+> > 310-319.  That might be enough to avoid complaints.
+> 
+> Hmm yeah, there a bit risk people people who access these functions with
+> dlopen. My personal opinion is that one should not directly access
+> libfuse functions, but write a wrapper lib, correctly define the API
+> version in that lib and then dlopen the wrapper lib.
+> I need to think about it again, thanks for pointing that out!
+
+libfuse could restrict itself to failing only 1-29 and 40-309, and
+warning on otherwise crazy versions:
+
+#define FUSE_MAKE_VERSION_OLD(maj, min)  ((maj) * 10 + (min))
+
+static inline bool validate_version(const struct libfuse_version *version,
+				    size_t op_size)
+{
+	if (version == NULL) {
+		fuse_log(FUSE_LOG_ERR, "fuse: warning: version not passed to fuse_session_new()\n");
+		return false;
+	}
+
+	/* padding got turned into fuse api level, so zero is still accepted */
+	if (version->padding == 0)
+		return true;
+
+	/* 3.0 -> 3.9 had one format for FUSE_MAKE_VERSION */
+	if (version->padding >= FUSE_MAKE_VERSION_OLD(3, 0) &&
+	    version->padding <= FUSE_MAKE_VERSION_OLD(3, 9))
+		return true;
+
+	/* 3.10+ has a different format for FUSE_MAKE_VERSION */
+	if (version->padding >= FUSE_MAKE_VERSION(FUSE_MAJOR_VERSION, 0)) {
+		/*
+		 * Warn about too-new versions if we aren't going to print the
+		 * op_size warning below.
+		 */
+		if (version->padding > FUSE_VERSION &&
+		    sizeof(struct fuse_lowlevel_ops) >= op_size)
+			fuse_log(FUSE_LOG_ERR,
+				 "fuse: warning: library too old, some operations may not work\n");
+
+		return true;
+	}
+
+	fuse_log(FUSE_LOG_ERR, "fuse: warning: version %u not recognized\n",
+		 version->padding);
+	return false;
+}
+
+A good question is, what format will FUSE_MAKE_VERSION have with 4.x?. :)
+
+--D
+
+> 
+> Cheers,
+> Bernd
