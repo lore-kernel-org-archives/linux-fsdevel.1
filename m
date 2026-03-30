@@ -1,33 +1,78 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout-b4-smtp.messagingengine.com (fout-b4-smtp.messagingengine.com [202.12.124.147])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15F5233FE12;
-	Mon, 30 Mar 2026 15:21:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E76F633B95A
+	for <linux-fsdevel@vger.kernel.org>; Mon, 30 Mar 2026 15:26:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774884069; cv=none; b=I0St4dApwMUPOwWxT3y9tRonHmIRXfn/YbAKbG3cpmFcIoMmRQrZqgfXPtIEjrB26xQ4Ml54QDnJitHNfa2qvK5+t2trfgC2pG1yAx1oKvDwlw4aGpiGfdLwldr7drx8Bl840Y9Y4raJptLREdQs+Qt0tx11V3wJgHiI/o6WqYk=
+	t=1774884380; cv=none; b=gMB7rsv/7I7QnUR96IGaRNlQAe7uX0nRfnt6K2BvUhebRPbmwcu35sOtnkxDhibuUqQHaMPHaxC+mmw8z1ca0Tnl0fppxHBgc1ynkGG7Qzysfn1zsYNT41iw/ae/ntlQR3sBuxrKnOFal9tjakCJ3BNA7Jv8XprYCDWCCdgx7ew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774884069; c=relaxed/simple;
-	bh=8Mr8LmbAQHXIw91kkQv6DoQKiLML90z4qt/OEn+Vo/Q=;
+	s=arc-20240116; t=1774884380; c=relaxed/simple;
+	bh=K3CUr1D8i05/guis6NZ95esInScr91gBZj0y+cudQNQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=i9u09ccTWEt+n0yCEcPLBaEZFwMWjKDfAZlqqgQvFz0xBYp4HqxsnjuCEY0IKho9A4V8IjbUJZ0Xb7kk8FyZGveAGlJmY06NUZS1wjeJReNfUn7OSjieJ3LF4UCZtxw9Km+k/hvtsnOdQLDADe/hPyQose53p9BYhlW22rsDHOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hDSIuCfk; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=j0fcJ4JucOVpz0tYxv6cXXePwihh69/fPdRnGxfycx0bv7dsmv2od37RdSw4pbn/zuVw9B4tMZYhlPVeKXRnufN0e7hc2YbyuyDwOg3Y6xu0nCKer1erqX7ncoOSJ/mTObaPSvzvwZw6xuW0b7AapVpPBv3BP3kPMID0E/bW/ug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=pworcmFT; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=MlgJqhqn; arc=none smtp.client-ip=202.12.124.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hDSIuCfk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0173C2BCB5;
-	Mon, 30 Mar 2026 15:21:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774884068;
-	bh=8Mr8LmbAQHXIw91kkQv6DoQKiLML90z4qt/OEn+Vo/Q=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=hDSIuCfkSqhjKhIj/dIr+M6EyMKTrX82OkMVJd7LReC5gL+tGgHmHlwQTNovr6VRO
-	 2HwJ9MoliLxoCjUXSfvX/91kp+lLD0bDAWT3m9HosmJNQgVALQSbbjR9WoPexRhJ1Z
-	 7+MAJFO4OH2aHy1msrMz80VqCiOLqhYcbx+1MaX+GWeskzcUL1kYFpInDf6wV5MvSk
-	 Eep/NXo6778WW7/AoV5viV/tthbWxGrcfYFjo6aodh2Dh/oXmQlqjCCPKjKbuwif4d
-	 dEyog/eUXkwJh/t1G3n92bLCZtAmtxBZytaKzDvwiItqQkP9aQeT0BfrzpAYOZtjWu
-	 7QbiMW/OAqrIA==
-Message-ID: <1ef9ed2a-ee3e-4b3e-9fa6-58875f96fb1d@kernel.org>
-Date: Mon, 30 Mar 2026 17:21:02 +0200
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="pworcmFT";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="MlgJqhqn"
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfout.stl.internal (Postfix) with ESMTP id 1FBE61D001A1;
+	Mon, 30 Mar 2026 11:26:18 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-06.internal (MEProxy); Mon, 30 Mar 2026 11:26:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1774884377;
+	 x=1774970777; bh=S/t5P6rBo4yUmKwhXvkvSziaNKbONrT6rjf00x8Hq8Q=; b=
+	pworcmFTMDaiZ74gnlEtf/rdLkqzPyMRGEurK57NTslcCPakO4DleFWzLPJ2vLjt
+	pQAoMMyLHDFJJhMZizds9F8EjGZH+yHJ5A76L9aoCG0/4kqSXWiJBIJ5Qy/8tUbc
+	hbMcvx1sw+2AiONBvFPlkvIunkyHVv/J4EiLYAse9t5q6uOP0eANJjh+zrokpgrl
+	/AdBdAwcGimnkMLTKraqDnsXLqfj7nkDcYrn1/4M+8QtWdAesi7H7PuYqZAGF+LK
+	CR0AVAPTX7Ahv9kCv49dCB4NHGbjZhe6wx5cpXKV7pHVFNouzeskEJJm2RI+ZpX5
+	n6w7gniJ6nZ5OL+FJwl9HA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1774884377; x=
+	1774970777; bh=S/t5P6rBo4yUmKwhXvkvSziaNKbONrT6rjf00x8Hq8Q=; b=M
+	lgJqhqnEQtoj/sz0mWsX+HUvHMtha9xJLFnFT15Wr1mwAxdH7e/71MQGqBEmlDfh
+	aO70M2+PoAXg+Q/bId29uoDgmYBt36hnaU+MYn9BJU0tkZJ/HIX/2t4YhYW0G0XS
+	thO2lj+fYwDk1Ty5bWJbD3t957Bt2DFwhFnNuFsZGm6lULGCq8YUhRMNr9bEALh6
+	H1R0JSGZ/4AxpsRf+iRNLmO9cvjO4T+Yf3IUa8waF77wxseLS/oVSuz4ebtNiAxV
+	BdvX40eZjsVoIVVcsYY3XcLXQX+6NF+DAL6C9WXv13u6XpbjEcDWUcfKFVbJxffb
+	6oKz/1DdxSMOWVfGr2KzQ==
+X-ME-Sender: <xms:GZbKaS4-und3S9DX8g_IBKVVKcynQ1lxBYZjHtZlMpnh7TLVxCBRtw>
+    <xme:GZbKaSy0vp-4KEXjSOfNAAGbI6usHpQXMG3zIaA5R3nJNHC2ZnfywGWwPpJc7O3UV
+    V0NizqYRHm33RJDHpad6qaUBH9Lx0l6sQNRHWjpohdhcvpNmvRX>
+X-ME-Received: <xmr:GZbKaZzRtD0z_rLOiGpwtZ88WOfW1nTzw48Pn_-ZChXkv7x9V9JrWUPhsjPlvDke6NB24NdMdRJSv8uMr4FOYM31RAp0sVOgBsdyxuMZaNVZdGbr1Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeffeelfeegucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
+    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
+    htthgvrhhnpeehhfejueejleehtdehteefvdfgtdelffeuudejhfehgedufedvhfehueev
+    udeugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeehpdhmohguvgep
+    shhmthhpohhuthdprhgtphhtthhopegujhifohhngheskhgvrhhnvghlrdhorhhgpdhrtg
+    hpthhtoheplhhinhhugidqfhhsuggvvhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdp
+    rhgtphhtthhopehmihhklhhoshesshiivghrvgguihdrhhhupdhrtghpthhtohepjhhorg
+    hnnhgvlhhkohhonhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtohepkhgthhgvnhesuggu
+    nhdrtghomh
+X-ME-Proxy: <xmx:GZbKaayRwMMVbtg7aBUzertVU9zjgD57jOTcopi7Nzh4ovFXzBcLRA>
+    <xmx:GZbKaTZLhANmnU75AWEub8pa9ljsT1YsbjkLRqrriKjupujnioBvKQ>
+    <xmx:GZbKabXjqojM6_ZeQVdGHxdufgMssMgNqGzVwQJLmwIKmN09Rp8ozA>
+    <xmx:GZbKaRjabPCObvMACrcFaz8oCZe8tVqwE7prokQai-CaQHNF5ZerKQ>
+    <xmx:GZbKaXhjS6p9qUvnnR0W7kiUMgXq0FHtacMZDZUJcakGhK3KpaqmOAHn>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 30 Mar 2026 11:26:16 -0400 (EDT)
+Message-ID: <75b57936-be43-4240-878d-2fa988494bc5@bsbernd.com>
+Date: Mon, 30 Mar 2026 17:26:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,88 +80,98 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 03/15] userfaultfd: introduce mfill_get_pmd() helper.
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Andrea Arcangeli <aarcange@redhat.com>,
- Axel Rasmussen <axelrasmussen@google.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>, Hugh Dickins
- <hughd@google.com>, James Houghton <jthoughton@google.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
- Nikita Kalyazin <kalyazin@amazon.com>, Oscar Salvador <osalvador@suse.de>,
- Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>,
- Sean Christopherson <seanjc@google.com>, Shuah Khan <shuah@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@suse.cz>,
- kvm@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-mm@kvack.org
-References: <20260306171815.3160826-1-rppt@kernel.org>
- <20260306171815.3160826-4-rppt@kernel.org>
- <ac39f02d-ed00-4b8d-8156-1e999f5b0af3@kernel.org>
- <ab_C2enJ5DTIH5aH@kernel.org>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <ab_C2enJ5DTIH5aH@kernel.org>
+Subject: Re: [PATCH v2 18/25] fusermout: Remove the large read check
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
+ Joanne Koong <joannelkoong@gmail.com>, Kevin Chen <kchen@ddn.com>
+References: <20260326-fuse-init-before-mount-v2-0-b1ca8fcbf60f@bsbernd.com>
+ <20260326-fuse-init-before-mount-v2-18-b1ca8fcbf60f@bsbernd.com>
+ <20260327033213.GN6202@frogsfrogsfrogs>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: en-US, de-DE, fr
+In-Reply-To: <20260327033213.GN6202@frogsfrogsfrogs>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
+
+
+On 3/27/26 04:32, Darrick J. Wong wrote:
+> On Thu, Mar 26, 2026 at 10:34:51PM +0100, Bernd Schubert wrote:
+>> <quote Darrick>
+>> Nobody's running 2.4 kernels
+>> anymore, right?
+>> </quote>
 >>
->> mfill_prepare_pte_table() or alternatively mfill_alloc_pte_table() /
->> mfill_alloc_dst_pte_table()
+>> Suggested-by: "Darrick J. Wong" <djwong@kernel.org>
+>> Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
+>> ---
+>>  util/fusermount.c | 37 +------------------------------------
+>>  1 file changed, 1 insertion(+), 36 deletions(-)
+>>
+>> diff --git a/util/fusermount.c b/util/fusermount.c
+>> index 8d7598998788f72ea05c2a065a88cb5efd61df35..254f24a98abf935846cfed754693cc1958c8d2ff 100644
+>> --- a/util/fusermount.c
+>> +++ b/util/fusermount.c
+>> @@ -915,33 +915,6 @@ static void free_mount_params(struct mount_params *mp)
+>>  	free(mp->mnt_opts);
+>>  }
+>>  
+>> -/*
+>> - * Check if option is deprecated large_read.
+>> - *
+>> - * Returns true if the option should be skipped (large_read on kernel > 2.4),
+>> - * false otherwise (all other options or large_read on old kernels).
+>> - */
+>> -static bool check_large_read(const char *opt, unsigned int len)
+>> -{
+>> -	struct utsname utsname;
+>> -	unsigned int kmaj, kmin;
+>> -	int res;
+>> -
+>> -	if (!opt_eq(opt, len, "large_read"))
+>> -		return false;
+>> -
+>> -	res = uname(&utsname);
+>> -	if (res == 0 &&
+>> -	    sscanf(utsname.release, "%u.%u", &kmaj, &kmin) == 2 &&
+>> -	    (kmaj > 2 || (kmaj == 2 && kmin > 4))) {
+>> -		fprintf(stderr,
+>> -			"%s: note: 'large_read' mount option is deprecated for %i.%i kernels\n",
+>> -			progname, kmaj, kmin);
+>> -		return true;
+>> -	}
+>> -	return false;
+>> -}
+>> -
+>>  /*
+>>   * Check if user has permission to use allow_other or allow_root options.
+>>   *
+>> @@ -1041,19 +1014,11 @@ static int prepare_mount(const char *opts, struct mount_params *mp)
+>>  			   !begins_with(s, "rootmode=") &&
+>>  			   !begins_with(s, "user_id=") &&
+>>  			   !begins_with(s, "group_id=")) {
+>> -			bool skip;
+>>  
+>>  			if (check_allow_permission(s, len) == -1)
+>>  				goto err;
+>>  
+>> -			skip = check_large_read(s, len);
+>> -
+>> -			/*
+>> -			 * Skip deprecated large_read to avoid passing it to
+>> -			 * kernel which would reject it as unknown option.
+>> -			 */
+>> -			if (!skip)
+>> -				process_generic_option(s, len, &mp->flags, &d);
+>> +			process_generic_option(s, len, &mp->flags, &d);
 > 
-> As it actually allocates the pte table once in 512 times, I'd prefer
-> mfill_establish_pmd().
+> Er... we should still ignore large_read, right?  It's been defunct since
+> 2.4, but there could be some script/fstab/whatever that still contains
+> the mount option.
 
-Replying only now (spotted v3 in my inbox)m sounds good to me.
+Dunno, I'm more tempted to remove it and to filter it out if someone
+ever complains. 2.4 was a long time ago.
 
--- 
-Cheers,
 
-David
+Thanks,
+Bernd
