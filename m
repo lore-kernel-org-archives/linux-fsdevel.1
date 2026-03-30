@@ -1,363 +1,404 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-b4-smtp.messagingengine.com (fhigh-b4-smtp.messagingengine.com [202.12.124.155])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C1023A16A4
-	for <linux-fsdevel@vger.kernel.org>; Mon, 30 Mar 2026 21:37:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDB4B3A452C
+	for <linux-fsdevel@vger.kernel.org>; Mon, 30 Mar 2026 21:40:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774906642; cv=none; b=HPOO/Ck6xSeIsILEw76WC4UxDSRQrAkIzJscBSCvba55TejCEcUyZwm8uFb18yvWi/F0CLgHxhmfd3u7tI47b1my0YLjNGkuh9nmnvAPBwi29HM7R0IfE/8fOgwyM/pLBGiliSw8M7WhYWnSgoXkR9Du6ZA/qtYX7yCwwpcooSw=
+	t=1774906827; cv=none; b=oZupGqQ9BE0MjxjEIgvy8t3Qe9UuTuroLMKv2ISPn7Kym0WfeW4MBVRmls00JbqogvWl4PpTYLr46PHcQoAZB2qVKVRp2ZOFnWtwTneVFP4yy3BvavuFaQ9/nOhxkvXqqw9kP3ZeXfPP+INX8T8XMdyTTVdEOWvf6Lg5szEQ2+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774906642; c=relaxed/simple;
-	bh=4BRCrdXkFyC8UygvBG14XWTmXDX7YhKzkladihcjmMU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Msra1JfguupICBY+nYTsCIUG0LfwmX/5Nm9nFUKaickf0HYv1UcBzFyXgzsELzk2nklLac7RI9SaGk7pjphe3e81LejHIkCFtTVUbgFrxKBYjJqfHBD5GXWoCB6YGQzHBMj4GGl+FeZPpwQtNGJ1HLaUBqBbGOCliHY5a2kqFQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vGxJMx/3; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774906827; c=relaxed/simple;
+	bh=ZZYG/W98B8tSaDqVnmcioWaM8b8PzX2H7tF7J1tEs48=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HsUU/E4qnqsrJvhdmpl4QMyyh3eaTlyLvTHKrDCqKksoFnFfO9E6IQBTudonrv62Wymydhlw+ukVN9POcWLuQqLsYNbblKNqeS4Og2Dk//y6UKiSXNGIrx2C3RZA16YXfLVz3TjMRXMsduhFFwgo1A1Ccfgrbkvp8cprcQcbOJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=P53IthCQ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=b+07ho3x; arc=none smtp.client-ip=202.12.124.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vGxJMx/3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31AAFC4CEF7;
-	Mon, 30 Mar 2026 21:37:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774906642;
-	bh=4BRCrdXkFyC8UygvBG14XWTmXDX7YhKzkladihcjmMU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vGxJMx/3l/Nw4/p7+3C15AFNt+1Q268WWA1gQuK8dVYY3uyLS+wdHRbAh/NFRKnNz
-	 Fuc5g8fxEZvakC+/ltXlM70vpv/mUls+rOLBueZoAqn2K31BLkG58rP02u1ZQVkShW
-	 tXr7ctht8GTOo0HuWhx5NmB7+d+d6hLXr5aWCcuP7IKxEJTsXgPZFpv4/wFCpI4/mS
-	 TkxhcAeT2zQaaHmhQH2zN5JwanklTbp8dagwXFX7ip3hplsHf+Wuk0PwXw/DbLAlea
-	 jkJBiUCoaHRD7aiImDTrWvMzIi/0v4fcMdnH79PCeUsn99Pya2sLXXJGaikZjCBNiA
-	 c/U6I/MwM3Xzw==
-Date: Mon, 30 Mar 2026 14:37:21 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Bernd Schubert <bschubert@ddn.com>
-Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"bernd@bsbernd.com" <bernd@bsbernd.com>,
-	"miklos@szeredi.hu" <miklos@szeredi.hu>,
-	"neal@gompa.dev" <neal@gompa.dev>,
-	"joannelkoong@gmail.com" <joannelkoong@gmail.com>
-Subject: Re: [PATCH 02/17] mount_service: add systemd/inetd socket service
- mounting helper
-Message-ID: <20260330213721.GG6202@frogsfrogsfrogs>
-References: <177457463048.1008428.11432672970504238251.stgit@frogsfrogsfrogs>
- <177457463153.1008428.10871096687728734372.stgit@frogsfrogsfrogs>
- <508e2a84-fe5e-4254-b4ce-ff6b400f5dc3@ddn.com>
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="P53IthCQ";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="b+07ho3x"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id F22A97A012D;
+	Mon, 30 Mar 2026 17:40:23 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Mon, 30 Mar 2026 17:40:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1774906823;
+	 x=1774993223; bh=ZGXiPUJXZwIztb3D153NTp31vAvG+KQ5DFXiJbJ/K0o=; b=
+	P53IthCQU5EUllQEh49x/8XMj+p8EO/ha9PC80CCrWVIkyZuRCni6Ec5zlVTuleh
+	Ca5TViskrjv4DEu0gpOH2awPGaScFzfEd5p6m23qZhegGV9fijGPQxKDjl8Hpza4
+	wBFsWjf6mDtY7C0o/3FRfQCSFvbETcDXUkB7FxoFPldXI+F1VeDNQBxJM7v8VyF0
+	KBCaDKM40uaoYMyQ4tRAEjb/E9vwSio0TWAsYBzoMClaj+6ER+zJZHbi2OWkWn+A
+	zQa6tYJX9jTonSCPU09GP7Nu7Ub8XkKggJlEa34LS9REmNAbCkILSruv0+eZ4mWI
+	LLWp7xfZCKjPuiC7xMspzg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1774906823; x=
+	1774993223; bh=ZGXiPUJXZwIztb3D153NTp31vAvG+KQ5DFXiJbJ/K0o=; b=b
+	+07ho3xdZDEjneOW8kbpz7OMuruJoca3OJ6zfKo+h+PgheBAHx3gREszFjTVN0PD
+	tjmO61KAlk2/Jdcs3iaVfm7GBG5OFnzcQgjmq7VIgNfNx1rhXBQmBHtpVhujdMKK
+	jzF3b0jqnhMRVZlqBiXGxmLltayhcw+AYP5WHKJzPx12L81N/9E05VHOwEb/nEMv
+	SWZG7aNiOuIsOPZwSYytH8CTD2pXElo8piiTJDX1zq1iAt5q2ShZLdy5b+LPs6TG
+	I/fAU35hXdAb0HEeKRyJfZElmFOwedj1j7Z7v6jUGqdulUgJ2sWrmASguEJDu5sM
+	BUu3VgmRoBYn6WoysRXmw==
+X-ME-Sender: <xms:x-3KafgDRpHTgx0N2VWbou3wLiJAalEq5iil7BeKzqU6tUo-epPdLA>
+    <xme:x-3KafvBcXIwjb_0PCXTwBqrNb1BGAxT8f4sN5M4R7CrOlqB3T_xBjS6XN7oq1ncd
+    pEGuF9CIK4xyhi6b8DS5sQTPKD8tE2zfXf3g8qPfUfo4oqwE0Im>
+X-ME-Received: <xmr:x-3KaY503rQuIVM8-jlpjiWqpU3GxGswm_lDjkNB8Qaa_dfACzEdqynXyJgOpuZi36ioLdxCfT6NaqTLLPjzLc8VV0W8ue0_yZLslK93WjFyJsBSnw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefgedttdelucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
+    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
+    htthgvrhhnpeehhfejueejleehtdehteefvdfgtdelffeuudejhfehgedufedvhfehueev
+    udeugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeeipdhmohguvgep
+    shhmthhpohhuthdprhgtphhtthhopegujhifohhngheskhgvrhhnvghlrdhorhhgpdhrtg
+    hpthhtohepsghstghhuhgsvghrthesuggunhdrtghomhdprhgtphhtthhopehlihhnuhig
+    qdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhhikh
+    hlohhssehsiigvrhgvughirdhhuhdprhgtphhtthhopehnvggrlhesghhomhhprgdruggv
+    vhdprhgtphhtthhopehjohgrnhhnvghlkhhoohhnghesghhmrghilhdrtghomh
+X-ME-Proxy: <xmx:x-3KaTOkRFplndvp_XqEeZMlT4KKBN3gbhBJ2xiNmbRY3NW7ZkHtdA>
+    <xmx:x-3KaeuKORpzpkkGRUQxR-P-PKNsv1gtqc9E5pnutL5Q-xHuzIYXiw>
+    <xmx:x-3KaeZmI0eNxV02CJa_qZX0gCZoWaWL3TdHewnabGFbOB0Au6Z-8w>
+    <xmx:x-3KaYzqlXYLvZd9zTPUdI-AlmbHjMBLliOyLcfIIQ-wCj7c75spXA>
+    <xmx:x-3KaU6t-3fKhYODYPHpITkUDs1hOwHIwSh_vJ6otM_wskqAzA_3P5RH>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 30 Mar 2026 17:40:22 -0400 (EDT)
+Message-ID: <cf45f305-e3f4-4309-bec9-55a658befb01@bsbernd.com>
+Date: Mon, 30 Mar 2026 23:40:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <508e2a84-fe5e-4254-b4ce-ff6b400f5dc3@ddn.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 04/17] mount_service: use the new mount api for the mount
+ service
+To: "Darrick J. Wong" <djwong@kernel.org>, Bernd Schubert <bschubert@ddn.com>
+Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "miklos@szeredi.hu" <miklos@szeredi.hu>, "neal@gompa.dev" <neal@gompa.dev>,
+ "joannelkoong@gmail.com" <joannelkoong@gmail.com>
+References: <177457463048.1008428.11432672970504238251.stgit@frogsfrogsfrogs>
+ <177457463189.1008428.16697718096512582220.stgit@frogsfrogsfrogs>
+ <2a4afa9c-050e-4867-9dac-e9e87f693f23@ddn.com>
+ <20260330211836.GE6202@frogsfrogsfrogs>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: en-US, de-DE, fr
+In-Reply-To: <20260330211836.GE6202@frogsfrogsfrogs>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Mar 30, 2026 at 08:44:21PM +0000, Bernd Schubert wrote:
-> On 3/27/26 02:25, Darrick J. Wong wrote:
-> > From: Darrick J. Wong <djwong@kernel.org>
-> > 
-> > Create a mount helper program that can start a fuse server that runs as
-> > a socket-based systemd service, and a new libfuse module to wrap all the
-> > details of communicating between the mount helper and the containerized
-> > fuse server.
-> > 
-> > This enables untrusted ext4 mounts via systemd service containers, which
-> > avoids the problem of malicious filesystems compromising the integrity
-> > of the running kernel through memory corruption.
-> > 
-> > Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-> > ---
-> >  include/fuse_service.h                      |  215 +++++
-> >  include/fuse_service_priv.h                 |  127 +++
-> >  lib/mount_common_i.h                        |    3 
-> >  util/mount_service.h                        |   32 +
-> >  .github/workflows/abicheck.yml              |    2 
-> >  .github/workflows/abicheck_prev_release.yml |    2 
-> >  .github/workflows/pr-ci.yml                 |    2 
-> >  doc/fuservicemount3.8                       |   24 +
-> >  doc/meson.build                             |    3 
-> >  include/meson.build                         |    4 
-> >  lib/fuse_service.c                          |  989 +++++++++++++++++++++++++
-> >  lib/fuse_service_stub.c                     |   96 ++
-> >  lib/fuse_versionscript                      |   16 
-> >  lib/helper.c                                |   53 +
-> >  lib/meson.build                             |   16 
-> >  lib/mount.c                                 |   12 
-> >  meson.build                                 |   29 +
-> >  meson_options.txt                           |    6 
-> >  util/fuservicemount.c                       |   18 
-> >  util/meson.build                            |    9 
-> >  util/mount_service.c                        | 1088 +++++++++++++++++++++++++++
-> >  21 files changed, 2741 insertions(+), 5 deletions(-)
-> >  create mode 100644 include/fuse_service.h
-> >  create mode 100644 include/fuse_service_priv.h
-> >  create mode 100644 util/mount_service.h
-> >  create mode 100644 doc/fuservicemount3.8
-> >  create mode 100644 lib/fuse_service.c
-> >  create mode 100644 lib/fuse_service_stub.c
-> >  create mode 100644 util/fuservicemount.c
-> >  create mode 100644 util/mount_service.c
-> > 
-> > 
-> > diff --git a/include/fuse_service.h b/include/fuse_service.h
-> > new file mode 100644
-> > index 00000000000000..f0a4e63b2f11a7
-> > --- /dev/null
-> > +++ b/include/fuse_service.h
-> > @@ -0,0 +1,215 @@
-> > +/*
-> > + * FUSE: Filesystem in Userspace
-> > + * Copyright (C) 2025-2026 Oracle.
-> > + * Author: Darrick J. Wong <djwong@kernel.org>
-> > + *
-> > + * This program can be distributed under the terms of the GNU LGPLv2.
-> > + * See the file LGPL2.txt.
-> > + */
-> > +#ifndef FUSE_SERVICE_H_
-> > +#define FUSE_SERVICE_H_
-> > +
-> > +#ifdef __cplusplus
-> > +extern "C" {
-> > +#endif
-> > +
-> > +#if FUSE_MAKE_VERSION(3, 19) <= FUSE_USE_VERSION
-> > +
-> > +struct fuse_service;
-> > +
-> > +/**
-> > + * Accept a socket created by mount.service for information exchange.
-> > + *
-> > + * @param sfp pointer to pointer to a service context.  The pointer will always
-> > + *            be initialized by this function; use fuse_service_accepted to
-> > + *            find out if the fuse server is actually running as a service.
-> > + * @return 0 on success, or negative errno on failure
-> > + */
-> > +int fuse_service_accept(struct fuse_service **sfp);
-> > +
-> > +/**
-> > + * Has the fuse server accepted a service context?
-> > + *
-> > + * @param sf service context
-> > + * @return true if it has, false if not
-> > + */
-> > +static inline bool fuse_service_accepted(struct fuse_service *sf)
-> > +{
-> > +	return sf != NULL;
-> > +}
-> > +
-> > +/**
-> > + * Will the mount service helper accept the allow_other option?
-> > + *
-> > + * @param sf service context
-> > + * @return true if it has, false if not
-> > + */
-> > +bool fuse_service_can_allow_other(struct fuse_service *sf);
-> > +
-> > +/**
-> > + * Release all resources associated with the service context.
-> > + *
-> > + * @param sfp service context
-> > + */
-> > +void fuse_service_release(struct fuse_service *sf);
-> > +
-> > +/**
-> > + * Destroy a service context and release all resources
-> > + *
-> > + * @param sfp pointer to pointer to a service context
-> > + */
-> > +void fuse_service_destroy(struct fuse_service **sfp);
-> > +
-> > +/**
-> > + * Append the command line arguments from the mount service helper to an
-> > + * existing fuse_args structure.  The fuse_args should have been initialized
-> > + * with the argc and argv passed to main().
-> > + *
-> > + * @param sfp service context
-> > + * @param args arguments to modify (input+output)
-> > + * @return 0 on success, or negative errno on failure
-> > + */
-> > +int fuse_service_append_args(struct fuse_service *sf, struct fuse_args *args);
-> > +
-> > +/**
-> > + * Generate the effective fuse server command line from the args structure.
-> > + * The args structure should be the outcome from fuse_service_append_args.
-> > + * The resulting string is suitable for setproctitle and must be freed by the
-> > + * callre.
-> > + *
-> > + * @param argc argument count passed to main()
-> > + * @param argv argument vector passed to main()
-> > + * @param args fuse args structure
-> > + * @return effective command line string, or NULL
-> > + */
-> > +char *fuse_service_cmdline(int argc, char *argv[], struct fuse_args *args);
-> > +
-> > +struct fuse_cmdline_opts;
-> > +
-> > +/**
-> > + * Utility function to parse common options for simple file systems
-> > + * using the low-level API. A help text that describes the available
-> > + * options can be printed with `fuse_cmdline_help`. A single
-> > + * non-option argument is treated as the mountpoint. Multiple
-> > + * non-option arguments will result in an error.
-> > + *
-> > + * If neither -o subtype= or -o fsname= options are given, a new
-> > + * subtype option will be added and set to the basename of the program
-> > + * (the fsname will remain unset, and then defaults to "fuse").
-> > + *
-> > + * Known options will be removed from *args*, unknown options will
-> > + * remain. The mountpoint will not be checked here; that is the job of
-> > + * mount.service.
-> > + *
-> > + * @param args argument vector (input+output)
-> > + * @param opts output argument for parsed options
-> > + * @return 0 on success, -1 on failure
-> > + */
-> > +int fuse_service_parse_cmdline_opts(struct fuse_args *args,
-> > +				    struct fuse_cmdline_opts *opts);
-> > +
-> > +/**
-> > + * Ask the mount.service helper to open a file on behalf of the fuse server.
-> > + *
-> > + * @param sf service context
-> > + * @param path the path to file
-> > + * @param open_flags O_ flags
-> > + * @param create_mode mode with which to create the file
-> > + * @param request_flags set of FUSE_SERVICE_REQUEST_* flags
-> > + * @return 0 on success, or negative errno on failure
-> > + */
-> > +int fuse_service_request_file(struct fuse_service *sf, const char *path,
-> > +			      int open_flags, mode_t create_mode,
-> > +			      unsigned int request_flags);
-> > +
-> > +/**
-> > + * Ask the mount.service helper to open a block device on behalf of the fuse
-> > + * server.
-> > + *
-> > + * @param sf service context
-> > + * @param path the path to file
-> > + * @param open_flags O_ flags
-> > + * @param create_mode mode with which to create the file
-> > + * @param request_flags set of FUSE_SERVICE_REQUEST_* flags
-> > + * @param block_size set the block device block size to this value
-> > + * @return 0 on success, or negative errno on failure
-> > + */
-> > +int fuse_service_request_blockdev(struct fuse_service *sf, const char *path,
-> > +				  int open_flags, mode_t create_mode,
-> > +				  unsigned int request_flags,
-> > +				  unsigned int block_size);
-> > +
-> > +/**
-> > + * Receive a file previously requested.
-> > + *
-> > + * @param sf service context
-> > + * @param path to file
-> > + * @fdp pointer to file descriptor, which will be set a non-negative file
-> > + *      descriptor value on success, or negative errno on failure
-> > + * @return 0 on success, or negative errno on socket communication failure
-> > + */
-> > +int fuse_service_receive_file(struct fuse_service *sf,
-> > +			      const char *path, int *fdp);
-> > +
-> > +/**
-> > + * Prevent the mount.service server from sending us any more open files.
-> > + *
-> > + * @param sf service context
-> > + * @return 0 on success, or negative errno on failure
-> > + */
-> > +int fuse_service_finish_file_requests(struct fuse_service *sf);
-> > +
-> > +/**
-> > + * Require that the filesystem mount point have the expected file format
-> > + * (S_IFDIR/S_IFREG).  Can be overridden when calling
-> > + * fuse_service_session_mount.
-> > + *
-> > + * @param sf service context
-> > + * @param expected_fmt expected mode (S_IFDIR/S_IFREG) for mount point, or 0
-> > + *                     to skip checks
-> > + */
-> > +void fuse_service_expect_mount_mode(struct fuse_service *sf,
-> > +				    mode_t expected_fmt);
-> > +
-> > +/**
-> > + * Bind a FUSE file system to the fuse session inside a fuse service process,
-> > + * then ask the mount.service helper to mount the filesystem for us.  The fuse
-> > + * client will begin sending requests to the fuse server immediately after
-> > + * this.
-> > + *
-> > + * @param sf service context
-> > + * @param se fuse session
-> > + * @param expected_fmt expected mode (S_IFDIR/S_IFREG) for mount point, or 0
-> > + *                     to skip checks
-> > + * @param opts command line options
-> > + * @return 0 on success, or negative errno on failure
-> > + */
-> > +int fuse_service_session_mount(struct fuse_service *sf, struct fuse_session *se,
-> > +			       mode_t expected_fmt,
-> > +			       struct fuse_cmdline_opts *opts);
-> > +
-> > +/**
-> > + * Bid farewell to the mount.service helper.  It is still necessary to call
-> > + * fuse_service_destroy after this.
-> > + *
-> > + * @param sf service context
-> > + * @param exitcode fuse server process exit status
-> > + * @return 0 on success, or negative errno on failure
-> > + */
-> > +int fuse_service_send_goodbye(struct fuse_service *sf, int exitcode);
-> > +
-> > +/**
-> > + * Exit routine for a fuse server running as a systemd service.
-> > + *
-> > + * @param ret 0 for success, nonzero for service failure.
-> > + * @return a value to be passed to exit() or returned from main
-> > + */
-> > +int fuse_service_exit(int ret);
-> > +
-> > +#endif /* FUSE_USE_VERSION >= FUSE_MAKE_VERSION(3, 19) */
-> > +
-> > +#ifdef __cplusplus
-> > +}
-> > +#endif
-> > +
-> > +#endif /* FUSE_SERVICE_H_ */
-> > diff --git a/include/fuse_service_priv.h b/include/fuse_service_priv.h
-> > new file mode 100644
-> > index 00000000000000..d1fdd6221b5268
-> > --- /dev/null
-> > +++ b/include/fuse_service_priv.h
-> > @@ -0,0 +1,127 @@
-> > +/*
-> > + * FUSE: Filesystem in Userspace
-> > + * Copyright (C) 2025-2026 Oracle.
-> > + * Author: Darrick J. Wong <djwong@kernel.org>
-> > + *
-> > + * This program can be distributed under the terms of the GNU LGPLv2.
-> > + * See the file LGPL2.txt.
-> > + */
-> > +#ifndef FUSE_SERVICE_PRIV_H_
-> > +#define FUSE_SERVICE_PRIV_H_
-> > +
-> > +/* All numeric fields are network order (big-endian) when going across the socket */
-> > +
-> > +struct fuse_service_memfd_arg {
-> > +	uint32_t pos;
-> > +	uint32_t len;
-> > +};
-> > +
-> > +struct fuse_service_memfd_argv {
-> > +	uint32_t magic;
-> > +	uint32_t argc;
-> > +};
-> > +
-> > +#define FUSE_SERVICE_ARGS_MAGIC		0x41524753	/* ARGS */
-> > +
-> > +/* mount.service sends a hello to the server and it replies */
-> > +#define FUSE_SERVICE_HELLO_CMD		0x53414654	/* SAFT */
+
+
+On 3/30/26 23:18, Darrick J. Wong wrote:
+> On Mon, Mar 30, 2026 at 09:06:05PM +0000, Bernd Schubert wrote:
+>> On 3/27/26 02:25, Darrick J. Wong wrote:
+>>> From: Darrick J. Wong <djwong@kernel.org>
+>>>
+>>> Use the new fsopen/fsmount system calls to mount the filesystem so that
+>>> we get somewhat better diagnostics if something gets screwed up.
+>>>
+>>> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
+>>> ---
+>>>  meson.build          |   15 +++
+>>>  util/mount_service.c |  299 ++++++++++++++++++++++++++++++++++++++++++++++++++
+>>>  2 files changed, 314 insertions(+)
+>>>
+>>>
+>>> diff --git a/meson.build b/meson.build
+>>> index d6ba8740effd5c..b0988548bf806a 100644
+>>> --- a/meson.build
+>>> +++ b/meson.build
+>>> @@ -130,6 +130,21 @@ special_funcs = {
+>>>  	int main(int argc, char *argv[]) {
+>>>            return SD_LISTEN_FDS_START;
+>>>  	}
+>>> +    ''',
+>>> +    'new_mount_api': '''
+>>> +       #define _GNU_SOURCE
+>>> +       #include <sys/mount.h>
+>>> +       #include <linux/mount.h>
+>>> +       #include <unistd.h>
+>>> +       #include <fcntl.h>
+>>> +
+>>> +       int main(void) {
+>>> +           int fsfd = fsopen("fuse", FSOPEN_CLOEXEC);
+>>> +           int res = fsconfig(fsfd, FSCONFIG_SET_STRING, "source", "test", 0);
+>>> +           int mntfd = fsmount(fsfd, FSMOUNT_CLOEXEC, 0);
+>>> +           res = move_mount(mntfd, "", AT_FDCWD, "/mnt", MOVE_MOUNT_F_EMPTY_PATH);
+>>> +           return 0;
+>>> +       }
+>>>      '''
+>>>  }
+>>>  
+>>> diff --git a/util/mount_service.c b/util/mount_service.c
+>>> index ae078e537dc560..4a2c1111b66b91 100644
+>>> --- a/util/mount_service.c
+>>> +++ b/util/mount_service.c
+>>> @@ -65,6 +65,9 @@ struct mount_service {
+>>>  
+>>>  	/* O_PATH fd for mount point */
+>>>  	int mountfd;
+>>> +
+>>> +	/* fd for fsopen */
+>>> +	int fsopenfd;
+>>>  };
+>>>  
+>>>  /* Filter out the subtype of the filesystem (e.g. fuse.Y -> Y) */
+>>> @@ -87,6 +90,7 @@ static int mount_service_init(struct mount_service *mo, int argc, char *argv[])
+>>>  	mo->argvfd = -1;
+>>>  	mo->fusedevfd = -1;
+>>>  	mo->mountfd = -1;
+>>> +	mo->fsopenfd = -1;
+>>>  
+>>>  	for (i = 0; i < argc; i++) {
+>>>  		if (!strcmp(argv[i], "-t") && i + 1 < argc) {
+>>> @@ -690,9 +694,50 @@ static int mount_service_handle_fsopen_cmd(struct mount_service *mo,
+>>>  		return mount_service_send_reply(mo, error);
+>>>  	}
+>>>  
+>>> +#ifdef HAVE_NEW_MOUNT_API
+>>> +	/* If this fails we fall back on mount() */
+>>> +	mo->fsopenfd = fsopen(oc->value, FSOPEN_CLOEXEC);
+>>> +#endif
+>>> +
+>>>  	return mount_service_send_reply(mo, 0);
+>>>  }
+>>>  
+>>> +#ifdef HAVE_NEW_MOUNT_API
+>>> +/* callers must preserve errno */
+>>> +static void emit_fsconfig_messages(const struct mount_service *mo)
+>>> +{
+>>> +	uint8_t buf[BUFSIZ];
+>>> +	ssize_t sz;
+>>> +
+>>> +	while ((sz = read(mo->fsopenfd, buf, sizeof(buf) - 1)) != -1) {
+>>> +		if (sz <= 0)
+>>> +			continue;
+>>> +		if (buf[sz - 1] == '\n')
+>>> +			buf[--sz] = '\0';
+>>> +		else
+>>> +			buf[sz] = '\0';
+>>> +
+>>> +		if (!*buf)
+>>> +			continue;
+>>> +
+>>> +		switch (buf[0]) {
+>>> +		case 'e':
+>>> +			fprintf(stderr, "Error: %s\n", buf + 2);
+>>> +			break;
+>>> +		case 'w':
+>>> +			fprintf(stderr, "Warning: %s\n", buf + 2);
+>>> +			break;
+>>> +		case 'i':
+>>> +			fprintf(stderr, "Info: %s\n", buf + 2);
+>>> +			break;
+>>> +		default:
+>>> +			fprintf(stderr, " %s\n", buf);
+>>> +			break;
+>>> +		}
+>>> +	}
+>>> +}
+>>> +#endif
+>>
+>> How about unifying that with my series and then use log_fsconfig_kmsg()?
+>> We can also do it independently, but should not forget to use a common
+>> function later on. That applies to all these functions for the new mount
+>> API. Part of the headache I have with my series is that fusermount.c
+>> duplicates quite some code.
+>> For me it looks a bit like we can unify most of util/mount_service.c and
+>> lib/mount_fsmount.c.
 > 
-> What "SAFT" stand for? (The German meaning of the word is "juice" ;) ).
-
-"SAFeTy", compressed.
-
---D
-
+> <nod> The mount option string parsing (i.e. all that MS_ -> MOUNT_ATTR
+> translation) and error reporting parts look trivially shareable.
+> fuse_kern_fsmount isn't so easy to share since the fuse server sends
+> over all the relevant pieces in separate commands.
 > 
-> Thanks,
-> Bernd
+>>> +
+>>>  static int mount_service_handle_source_cmd(struct mount_service *mo,
+>>>  					   const struct fuse_service_packet *p)
+>>>  {
+>>> @@ -714,6 +759,21 @@ static int mount_service_handle_source_cmd(struct mount_service *mo,
+>>>  		return mount_service_send_reply(mo, error);
+>>>  	}
+>>>  
+>>> +#ifdef HAVE_NEW_MOUNT_API
+>>> +	if (mo->fsopenfd >= 0) {
+>>> +		int ret = fsconfig(mo->fsopenfd, FSCONFIG_SET_STRING, "source",
+>>> +			       oc->value, 0);
+>>> +		if (ret) {
+>>> +			int error = errno;
+>>> +
+>>> +			fprintf(stderr, "%s: fsconfig source: %s\n",
+>>> +				mo->msgtag, strerror(error));
+>>> +			emit_fsconfig_messages(mo);
+>>> +			return mount_service_send_reply(mo, error);
+>>> +		}
+>>> +	}
+>>> +#endif
+>>> +
+>>>  	return mount_service_send_reply(mo, 0);
+>>>  }
+>>>  
+>>> @@ -722,6 +782,8 @@ static int mount_service_handle_mntopts_cmd(struct mount_service *mo,
+>>>  {
+>>>  	struct fuse_service_string_command *oc =
+>>>  			container_of(p, struct fuse_service_string_command, p);
+>>> +	char *tokstr = oc->value;
+>>> +	char *tok, *savetok;
+>>>  
+>>>  	if (mo->mntopts) {
+>>>  		fprintf(stderr, "%s: mount options respecified!\n",
+>>> @@ -738,6 +800,45 @@ static int mount_service_handle_mntopts_cmd(struct mount_service *mo,
+>>>  		return mount_service_send_reply(mo, error);
+>>>  	}
+>>>  
+>>> +	/* strtok_r mutates tokstr aka oc->value */
+>>> +	while ((tok = strtok_r(tokstr, ",", &savetok)) != NULL) {
+>>> +		char *equals = strchr(tok, '=');
+>>> +		char oldchar = 0;
+>>> +
+>>> +		if (equals) {
+>>> +			oldchar = *equals;
+>>> +			*equals = 0;
+>>> +		}
+>>> +
+>>> +#ifdef HAVE_NEW_MOUNT_API
+>>> +		if (mo->fsopenfd >= 0) {
+>>> +			int ret;
+>>> +
+>>> +			if (equals)
+>>> +				ret = fsconfig(mo->fsopenfd,
+>>> +					       FSCONFIG_SET_STRING, tok,
+>>> +					       equals + 1, 0);
+>>> +			else
+>>> +				ret = fsconfig(mo->fsopenfd,
+>>> +					       FSCONFIG_SET_FLAG, tok,
+>>> +					       NULL, 0);
+>>> +			if (ret) {
+>>> +				int error = errno;
+>>> +
+>>> +				fprintf(stderr, "%s: set mount option: %s\n",
+>>> +					mo->msgtag, strerror(error));
+>>> +				emit_fsconfig_messages(mo);
+>>> +				return mount_service_send_reply(mo, error);
+>>> +			}
+>>> +		}
+>>> +#endif
+>>> +
+>>> +		if (equals)
+>>> +			*equals = oldchar;
+>>> +
+>>> +		tokstr = NULL;
+>>> +	}
+>>> +
+>>>  	return mount_service_send_reply(mo, 0);
+>>>  }
+>>>  
+>>> @@ -875,6 +976,196 @@ static int mount_service_regular_mount(struct mount_service *mo,
+>>>  	return mount_service_send_reply(mo, 0);
+>>>  }
+>>>  
+>>> +#ifdef HAVE_NEW_MOUNT_API
+>>> +struct ms_to_mount_map {
+>>> +	unsigned long ms_flag;
+>>> +	unsigned int mount_attr_flag;
+>>> +};
+>>> +
+>>> +static const struct ms_to_mount_map attrs[] = {
+>>> +	{ MS_RDONLY,		MOUNT_ATTR_RDONLY },
+>>> +	{ MS_NOSUID,		MOUNT_ATTR_NOSUID },
+>>> +	{ MS_NODEV,		MOUNT_ATTR_NODEV },
+>>> +	{ MS_NOEXEC,		MOUNT_ATTR_NOEXEC },
+>>> +	{ MS_RELATIME,		MOUNT_ATTR_RELATIME },
+>>> +	{ MS_NOATIME,		MOUNT_ATTR_NOATIME },
+>>> +	{ MS_STRICTATIME,	MOUNT_ATTR_STRICTATIME },
+>>> +	{ MS_NODIRATIME,	MOUNT_ATTR_NODIRATIME },
+>>> +#ifdef MOUNT_ATTR_NOSYMFOLLOW
+>>> +	{ MS_NOSYMFOLLOW,	MOUNT_ATTR_NOSYMFOLLOW },
+>>> +#endif
+>>> +	{ 0, 0 },
+>>> +};
+>>> +
+>>> +static void get_mount_attr_flags(const struct fuse_service_mount_command *oc,
+>>> +				 unsigned int *attr_flags,
+>>> +				 unsigned long *leftover_ms_flags)
+>>> +{
+>>> +	const struct ms_to_mount_map *i;
+>>> +	unsigned int ms_flags = ntohl(oc->ms_flags);
+>>> +	unsigned int mount_attr_flags = 0;
+>>> +
+>>> +	for (i = attrs; i->ms_flag != 0; i++) {
+>>> +		if (ms_flags & i->ms_flag)
+>>> +			mount_attr_flags |= i->mount_attr_flag;
+>>> +		ms_flags &= ~i->ms_flag;
+>>> +	}
+>>> +
+>>> +	*leftover_ms_flags = ms_flags;
+>>> +	*attr_flags = mount_attr_flags;
+>>> +}
+>>> +
+>>> +struct ms_to_str_map {
+>>> +	unsigned long ms_flag;
+>>> +	const char *string;
+>>> +};
+>>> +
+>>> +static const struct ms_to_str_map strflags[] = {
+>>> +	{ MS_SYNCHRONOUS,	"sync" },
+>>> +	{ MS_DIRSYNC,		"dirsync" },
+>>> +	{ MS_LAZYTIME,		"lazytime" },
+>>> +	{ 0, 0 },
+>>> +};
+>>> +
+>>> +static int set_ms_flags(struct mount_service *mo, unsigned long ms_flags)
+>>> +{
+>>> +	const struct ms_to_str_map *i;
+>>> +	int ret;
+>>> +
+>>> +	for (i = strflags; i->ms_flag != 0; i++) {
+>>> +		if (!(ms_flags & i->ms_flag))
+>>> +			continue;
+>>> +
+>>> +		ret = fsconfig(mo->fsopenfd, FSCONFIG_SET_FLAG, i->string,
+>>> +			       NULL, 0);
+>>> +		if (ret) {
+>>> +			int error = errno;
+>>> +
+>>> +			fprintf(stderr, "%s: set %s option: %s\n",
+>>> +				mo->msgtag, i->string, strerror(error));
+>>> +			emit_fsconfig_messages(mo);
+>>> +
+>>> +			errno = error;
+>>> +			return -1;
+>>> +		}
+>>> +		ms_flags &= ~i->ms_flag;
+>>> +	}
+>>> +
+>>> +	/*
+>>> +	 * We can't translate all the supplied MS_ flags into MOUNT_ATTR_ flags
+>>> +	 * or string flags!  Return a magic code so the caller will fall back
+>>> +	 * to regular mount(2).
+>>> +	 */
+>>> +	return ms_flags ? -2 : 0;
+>>> +}
+>>
+>> Let's please not forget later on to use the new define.
+> 
+> Er... which new define?  HAVE_NEW_MOUNT_API?  I think we're still inside
+> the #ifdef for that at this point.
+> 
+> <confused>
+
+
+Sorry, I meant FUSE_MOUNT_FALLBACK_NEEDED.
+
+
+
