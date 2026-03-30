@@ -1,362 +1,224 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4C303A5E83
-	for <linux-fsdevel@vger.kernel.org>; Mon, 30 Mar 2026 21:47:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774907265; cv=none; b=IkCKUxiDsakcBhKrTOZt/CHibBTgOYFmKwEG25SJtCfCweRKf6j/iZ1eDoWfWYt8PhO0J6X/FTdFu5aiNzVUUOwx1Pe8LrnD91rI6+FGO3fy6SwzTnPMl6CyQqxthmmJIIP5OWcdYrehmzexigjpG016Vznh7HtLrKEQffqScXk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774907265; c=relaxed/simple;
-	bh=VtpZTbNUreFYTm7KrEyMVyaOj0zSrfKFgAPOEkfI36A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AXnTgMYKoliCBoZZZNqqNdsHYSaDdIm9TH8W0qeXGyfP3h6zW0JqujFPiS2+UzWZ8CpMnqcyRFHUIkjpVori5iJKbNeIJSaN+ZGkgl2/2ueQXXctu8e1QIRhBkm1izWu4Q7dVKwff5GFktLPvv1pswwadzIMNKvHbmEnqTdYQGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rlkFlzOi; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 499403BB48
+	for <linux-fsdevel@vger.kernel.org>; Mon, 30 Mar 2026 23:20:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774912806; cv=pass; b=OsklVE1L/0LlAYqcnDfVINBQXwIGJ39/9KD1pcyTTn+vM/6jPh4kG5xxMkXukt/nll5ZzPQweQADCthHA5swU81BIXCQuIwKWWrHpkQAEhlYf6qvTyWRaOai6Q8QyZor7CcFW5uB5l7RtwiCdm80yYmdyeI1jjniWjrX5uKnM/o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774912806; c=relaxed/simple;
+	bh=WbOv22VRnLbpqp5AlrIBLVScP0nbTr5MT0k4b22JuB8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eHf8/Ll6mQUVvbWNxALjSOfDe9V4Cw8tnnIDreRNp4y7CLkhcuKG+9RYDcYMDPViQUY7b3w81BsqPrsfHXSAvKhFgSPK1rmOHUgweO7rjTDZvE4IuHToWcSYzNt2S3DoM53is/O/fBpu5ZKUHXgWMvJlrNwrdvBDbeMs4o3Nd7c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DK7KCiQP; arc=pass smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rlkFlzOi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77001C4CEF7;
-	Mon, 30 Mar 2026 21:47:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774907265;
-	bh=VtpZTbNUreFYTm7KrEyMVyaOj0zSrfKFgAPOEkfI36A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rlkFlzOinoXXtx7nO5DCYsZ4ynDVVFX55lg+JoG0oaVeGNZnED2fxVSbVlW9U7GdD
-	 PBKR5d22H+8b6TVEz/cj491ZYExeP4pOGl8lBHtMczcm8VX4eRkBIjeCKoPSkWUKJ3
-	 kqFVzE5RXCLDNmtllRDDFlbivyQ7LS9GH/VVSgKIaPYaIr2dzke9DGDk0tH81xGOVH
-	 TEZjMVp6KGXoly9h2suEPbJDUoa3hjMwO2z9RUXtHz2UVqeQBi0+gZz2GTND+XsWI5
-	 eFidL48PaArzKYV01tB1zS65RBLNekBtZ2JoEkL1RpMtXxuUEX9wFg6WjxOmoVJYFK
-	 6Wbj5pCNcDSbg==
-Date: Mon, 30 Mar 2026 14:47:44 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: Bernd Schubert <bschubert@ddn.com>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"miklos@szeredi.hu" <miklos@szeredi.hu>,
-	"neal@gompa.dev" <neal@gompa.dev>,
-	"joannelkoong@gmail.com" <joannelkoong@gmail.com>
-Subject: Re: [PATCH 04/17] mount_service: use the new mount api for the mount
- service
-Message-ID: <20260330214744.GH6202@frogsfrogsfrogs>
-References: <177457463048.1008428.11432672970504238251.stgit@frogsfrogsfrogs>
- <177457463189.1008428.16697718096512582220.stgit@frogsfrogsfrogs>
- <2a4afa9c-050e-4867-9dac-e9e87f693f23@ddn.com>
- <20260330211836.GE6202@frogsfrogsfrogs>
- <cf45f305-e3f4-4309-bec9-55a658befb01@bsbernd.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DK7KCiQP"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-43b95e5b3afso2881011f8f.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 30 Mar 2026 16:20:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774912804; cv=none;
+        d=google.com; s=arc-20240605;
+        b=YFdSkzhOeDXUI+Mat5o9Qs6ttdSLWxO1vl9OmSZsn7lAA7xHGhKthBXhGYSP2+mATp
+         alXSuOX1PTcdVIRde4HgCZ7FaFKcdi8wb3YDhdWTDY2FENVLDbA6tGrUdpolCaj8TfAN
+         LLqRhfvUESmRoRNeCCIyMREtjscKl+M1CRjT0lfGbGp8w9c1Nx5mD3sVVdLCdHaOMFqv
+         sf5Py8lIVybva2VTDSdFOMiGTOhjmZQoDYLMnkQ83x616bNi8yD4IkeUKsrd5g110knn
+         oCxgTbdblmR2+goxxpfaKl564gHGjj54olcTQ5DxtvtmyDwwEEOuNZG3zHrsXNJDI8L+
+         +RNg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=7nVm/haVDLplgMTbOsS8tMMdmmzBvf/nT8hehniaBnU=;
+        fh=ZiAyBwQHtRi31w6i3drkg749oalgcKl/sweg+n8cS+w=;
+        b=MnU3rWqFb014+VjsuiX+ZQIYFRGhyQM+MF+8d5gW2aXZsn7AQ89e9R0x2kQ2M9dqjp
+         ebCYyGCtBhmcFRdArBa+h+uTmPi77VLTHNa0+TuVB9gMI4lbMSeEg8h5ijtqTmC/cl65
+         sxkxZbEd4p9GWdRShxNfSwnd4clKpvSkF3AQkkyP+wMG1b7p8CSUaKmGA1eQcAgpwKWG
+         6rk0Y7k81qWYUHGF0VDXy9A7/zXkzI82lqsco32VNZ1uZjMs7l6nTUYgnxvy68vVog+I
+         wgX4D3BhiyI8E9u07IcO3DWLQ0L/1t+x0qQM0rWg14CXTcxFZsS21OG52vmaC9MlAlzq
+         pYaw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774912804; x=1775517604; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7nVm/haVDLplgMTbOsS8tMMdmmzBvf/nT8hehniaBnU=;
+        b=DK7KCiQPPp9BoiLNI5maVl71iJ4aSbUJOgaQy/KDkafeKYAeLye6sgFHpPFI2s8vus
+         f/IBMLN55KTdRbNDEhs5Xb+xolf1lI2ILyi5aO3oXjpcTutoicrXggBp+ND5li+fYepw
+         0GHHBl+Je2RvoRsm+tqT0FJe+K3vN/GDNNa1OO1YhBkmo7y2mMPIBCtUkoFJ7lr0a+qT
+         dV4IUAHIu+lxWGWou8hfP/bBJKxkV+lCOyf+zsjpaLof4UbCBHTWFvkW/st6PgMfSgc7
+         3NVTQnMWo6wNrvzhrOVzXFRaipAIxG5Yrirg1hKFkxCZBij/QW/M0+9+fvUUpnT5SB+u
+         JYag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774912804; x=1775517604;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=7nVm/haVDLplgMTbOsS8tMMdmmzBvf/nT8hehniaBnU=;
+        b=mEqTXE5ANwqwxh6Kjxv0goGf9+0o83scp9mm9W9RklejgKsP+J1OM53Xgo+QiudpwZ
+         DQCmhNCygs9YNTsu1xpkfAiT2yYZ3veDriwnkNAiXH1fZ5JqkIgbPGDw1wZozDPidBSr
+         N/QruEQ4gdJeQlDRqKTc1IUGlatlRKJY0aewICL7sLxJaWAI1vJpVfRug+NlrloaJmYG
+         bAOeSHDSjID6NjJW7/NGuhvcpdwAuT+SHfcX5bANmKbjeYMQC68+JXvImiCvWjhSyfrn
+         JvKxtOPz8tO04gyVFwWntI1VR+vkGvD9QVlE9xkVFJ1OjwDpJN5cjK5SQ6ZuhrxBWNGB
+         CXwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXqiadQQfJYC7L9Krz2Gkjh+piBl33uxzsCvkdR2sWl3xrZMUiGC/+S6+2oqtQ8QgIbpAfAFldedBvRwtI6@vger.kernel.org
+X-Gm-Message-State: AOJu0YxQF1dPq/ZqqDsYZY+J++uGBhkmLmpP0J3Qo1jaEAvbHteApQX0
+	7DRKgipsBvrzux2rkbTL3soiDsXD7Vz+41CSfW+JaurB6FxcTF4rMWPGGgnFDsd1iXfhC/83y/3
+	+7DVNIUSEJUvz9vFtkZcGJkqD2U+52p71Px9O
+X-Gm-Gg: ATEYQzwE7R4aLzuM8c5DPzTYyJ2ldfw8n85evokbQJ05IKDRRbVArw1W/+MvIQ2N0od
+	F5vu0T/Zi1Ht2b+v7iNUslb6mZ3fXVRwZdYAxP+gGNfUUpF3XeQW8mwhRDjt35d6YTRJ5u189JF
+	uBkEJtvtRZpG46LKpmUUCpB6DYg7/XaQXCE0wD6wY2YsQ36ojN24G5SAio9F3zMVqxAgANEUCDy
+	ynbki2PIEoe488ELeRJ1tDxcGIRRcBaG+xu1QhcoHPFVpsFAS77Cid9gSUCLAOF+UQhnrIxZS7b
+	zFrk6Q==
+X-Received: by 2002:a5d:5888:0:b0:43d:184:8a92 with SMTP id
+ ffacd0b85a97d-43d01848d3fmr7741072f8f.6.1774912803402; Mon, 30 Mar 2026
+ 16:20:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cf45f305-e3f4-4309-bec9-55a658befb01@bsbernd.com>
+References: <20260324224532.3733468-1-joannelkoong@gmail.com>
+ <20260324224532.3733468-8-joannelkoong@gmail.com> <6b066b75-e77e-4b4a-8280-199d547c2e94@bsbernd.com>
+In-Reply-To: <6b066b75-e77e-4b4a-8280-199d547c2e94@bsbernd.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Mon, 30 Mar 2026 16:19:52 -0700
+X-Gm-Features: AQROBzAvnr4EC6m_HBfOJaUk6Rh25_1LvkSRCI04gfJwjvEOaL_LAyNXR9zTU9w
+Message-ID: <CAJnrk1aTOzsQgh4DfT=6h+n7=OZx0xfHGbV_H5VcvZZF0bp6Bw@mail.gmail.com>
+Subject: Re: [PATCH v1 7/9] fuse: add io-uring kernel-managed buffer ring
+To: Bernd Schubert <bernd@bsbernd.com>
+Cc: axboe@kernel.dk, miklos@szeredi.hu, bschubert@ddn.com, 
+	linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 30, 2026 at 11:40:22PM +0200, Bernd Schubert wrote:
-> 
-> 
-> On 3/30/26 23:18, Darrick J. Wong wrote:
-> > On Mon, Mar 30, 2026 at 09:06:05PM +0000, Bernd Schubert wrote:
-> >> On 3/27/26 02:25, Darrick J. Wong wrote:
-> >>> From: Darrick J. Wong <djwong@kernel.org>
-> >>>
-> >>> Use the new fsopen/fsmount system calls to mount the filesystem so that
-> >>> we get somewhat better diagnostics if something gets screwed up.
-> >>>
-> >>> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-> >>> ---
-> >>>  meson.build          |   15 +++
-> >>>  util/mount_service.c |  299 ++++++++++++++++++++++++++++++++++++++++++++++++++
-> >>>  2 files changed, 314 insertions(+)
-> >>>
-> >>>
-> >>> diff --git a/meson.build b/meson.build
-> >>> index d6ba8740effd5c..b0988548bf806a 100644
-> >>> --- a/meson.build
-> >>> +++ b/meson.build
-> >>> @@ -130,6 +130,21 @@ special_funcs = {
-> >>>  	int main(int argc, char *argv[]) {
-> >>>            return SD_LISTEN_FDS_START;
-> >>>  	}
-> >>> +    ''',
-> >>> +    'new_mount_api': '''
-> >>> +       #define _GNU_SOURCE
-> >>> +       #include <sys/mount.h>
-> >>> +       #include <linux/mount.h>
-> >>> +       #include <unistd.h>
-> >>> +       #include <fcntl.h>
-> >>> +
-> >>> +       int main(void) {
-> >>> +           int fsfd = fsopen("fuse", FSOPEN_CLOEXEC);
-> >>> +           int res = fsconfig(fsfd, FSCONFIG_SET_STRING, "source", "test", 0);
-> >>> +           int mntfd = fsmount(fsfd, FSMOUNT_CLOEXEC, 0);
-> >>> +           res = move_mount(mntfd, "", AT_FDCWD, "/mnt", MOVE_MOUNT_F_EMPTY_PATH);
-> >>> +           return 0;
-> >>> +       }
-> >>>      '''
-> >>>  }
-> >>>  
-> >>> diff --git a/util/mount_service.c b/util/mount_service.c
-> >>> index ae078e537dc560..4a2c1111b66b91 100644
-> >>> --- a/util/mount_service.c
-> >>> +++ b/util/mount_service.c
-> >>> @@ -65,6 +65,9 @@ struct mount_service {
-> >>>  
-> >>>  	/* O_PATH fd for mount point */
-> >>>  	int mountfd;
-> >>> +
-> >>> +	/* fd for fsopen */
-> >>> +	int fsopenfd;
-> >>>  };
-> >>>  
-> >>>  /* Filter out the subtype of the filesystem (e.g. fuse.Y -> Y) */
-> >>> @@ -87,6 +90,7 @@ static int mount_service_init(struct mount_service *mo, int argc, char *argv[])
-> >>>  	mo->argvfd = -1;
-> >>>  	mo->fusedevfd = -1;
-> >>>  	mo->mountfd = -1;
-> >>> +	mo->fsopenfd = -1;
-> >>>  
-> >>>  	for (i = 0; i < argc; i++) {
-> >>>  		if (!strcmp(argv[i], "-t") && i + 1 < argc) {
-> >>> @@ -690,9 +694,50 @@ static int mount_service_handle_fsopen_cmd(struct mount_service *mo,
-> >>>  		return mount_service_send_reply(mo, error);
-> >>>  	}
-> >>>  
-> >>> +#ifdef HAVE_NEW_MOUNT_API
-> >>> +	/* If this fails we fall back on mount() */
-> >>> +	mo->fsopenfd = fsopen(oc->value, FSOPEN_CLOEXEC);
-> >>> +#endif
-> >>> +
-> >>>  	return mount_service_send_reply(mo, 0);
-> >>>  }
-> >>>  
-> >>> +#ifdef HAVE_NEW_MOUNT_API
-> >>> +/* callers must preserve errno */
-> >>> +static void emit_fsconfig_messages(const struct mount_service *mo)
-> >>> +{
-> >>> +	uint8_t buf[BUFSIZ];
-> >>> +	ssize_t sz;
-> >>> +
-> >>> +	while ((sz = read(mo->fsopenfd, buf, sizeof(buf) - 1)) != -1) {
-> >>> +		if (sz <= 0)
-> >>> +			continue;
-> >>> +		if (buf[sz - 1] == '\n')
-> >>> +			buf[--sz] = '\0';
-> >>> +		else
-> >>> +			buf[sz] = '\0';
-> >>> +
-> >>> +		if (!*buf)
-> >>> +			continue;
-> >>> +
-> >>> +		switch (buf[0]) {
-> >>> +		case 'e':
-> >>> +			fprintf(stderr, "Error: %s\n", buf + 2);
-> >>> +			break;
-> >>> +		case 'w':
-> >>> +			fprintf(stderr, "Warning: %s\n", buf + 2);
-> >>> +			break;
-> >>> +		case 'i':
-> >>> +			fprintf(stderr, "Info: %s\n", buf + 2);
-> >>> +			break;
-> >>> +		default:
-> >>> +			fprintf(stderr, " %s\n", buf);
-> >>> +			break;
-> >>> +		}
-> >>> +	}
-> >>> +}
-> >>> +#endif
-> >>
-> >> How about unifying that with my series and then use log_fsconfig_kmsg()?
-> >> We can also do it independently, but should not forget to use a common
-> >> function later on. That applies to all these functions for the new mount
-> >> API. Part of the headache I have with my series is that fusermount.c
-> >> duplicates quite some code.
-> >> For me it looks a bit like we can unify most of util/mount_service.c and
-> >> lib/mount_fsmount.c.
-> > 
-> > <nod> The mount option string parsing (i.e. all that MS_ -> MOUNT_ATTR
-> > translation) and error reporting parts look trivially shareable.
-> > fuse_kern_fsmount isn't so easy to share since the fuse server sends
-> > over all the relevant pieces in separate commands.
-> > 
-> >>> +
-> >>>  static int mount_service_handle_source_cmd(struct mount_service *mo,
-> >>>  					   const struct fuse_service_packet *p)
-> >>>  {
-> >>> @@ -714,6 +759,21 @@ static int mount_service_handle_source_cmd(struct mount_service *mo,
-> >>>  		return mount_service_send_reply(mo, error);
-> >>>  	}
-> >>>  
-> >>> +#ifdef HAVE_NEW_MOUNT_API
-> >>> +	if (mo->fsopenfd >= 0) {
-> >>> +		int ret = fsconfig(mo->fsopenfd, FSCONFIG_SET_STRING, "source",
-> >>> +			       oc->value, 0);
-> >>> +		if (ret) {
-> >>> +			int error = errno;
-> >>> +
-> >>> +			fprintf(stderr, "%s: fsconfig source: %s\n",
-> >>> +				mo->msgtag, strerror(error));
-> >>> +			emit_fsconfig_messages(mo);
-> >>> +			return mount_service_send_reply(mo, error);
-> >>> +		}
-> >>> +	}
-> >>> +#endif
-> >>> +
-> >>>  	return mount_service_send_reply(mo, 0);
-> >>>  }
-> >>>  
-> >>> @@ -722,6 +782,8 @@ static int mount_service_handle_mntopts_cmd(struct mount_service *mo,
-> >>>  {
-> >>>  	struct fuse_service_string_command *oc =
-> >>>  			container_of(p, struct fuse_service_string_command, p);
-> >>> +	char *tokstr = oc->value;
-> >>> +	char *tok, *savetok;
-> >>>  
-> >>>  	if (mo->mntopts) {
-> >>>  		fprintf(stderr, "%s: mount options respecified!\n",
-> >>> @@ -738,6 +800,45 @@ static int mount_service_handle_mntopts_cmd(struct mount_service *mo,
-> >>>  		return mount_service_send_reply(mo, error);
-> >>>  	}
-> >>>  
-> >>> +	/* strtok_r mutates tokstr aka oc->value */
-> >>> +	while ((tok = strtok_r(tokstr, ",", &savetok)) != NULL) {
-> >>> +		char *equals = strchr(tok, '=');
-> >>> +		char oldchar = 0;
-> >>> +
-> >>> +		if (equals) {
-> >>> +			oldchar = *equals;
-> >>> +			*equals = 0;
-> >>> +		}
-> >>> +
-> >>> +#ifdef HAVE_NEW_MOUNT_API
-> >>> +		if (mo->fsopenfd >= 0) {
-> >>> +			int ret;
-> >>> +
-> >>> +			if (equals)
-> >>> +				ret = fsconfig(mo->fsopenfd,
-> >>> +					       FSCONFIG_SET_STRING, tok,
-> >>> +					       equals + 1, 0);
-> >>> +			else
-> >>> +				ret = fsconfig(mo->fsopenfd,
-> >>> +					       FSCONFIG_SET_FLAG, tok,
-> >>> +					       NULL, 0);
-> >>> +			if (ret) {
-> >>> +				int error = errno;
-> >>> +
-> >>> +				fprintf(stderr, "%s: set mount option: %s\n",
-> >>> +					mo->msgtag, strerror(error));
-> >>> +				emit_fsconfig_messages(mo);
-> >>> +				return mount_service_send_reply(mo, error);
-> >>> +			}
-> >>> +		}
-> >>> +#endif
-> >>> +
-> >>> +		if (equals)
-> >>> +			*equals = oldchar;
-> >>> +
-> >>> +		tokstr = NULL;
-> >>> +	}
-> >>> +
-> >>>  	return mount_service_send_reply(mo, 0);
-> >>>  }
-> >>>  
-> >>> @@ -875,6 +976,196 @@ static int mount_service_regular_mount(struct mount_service *mo,
-> >>>  	return mount_service_send_reply(mo, 0);
-> >>>  }
-> >>>  
-> >>> +#ifdef HAVE_NEW_MOUNT_API
-> >>> +struct ms_to_mount_map {
-> >>> +	unsigned long ms_flag;
-> >>> +	unsigned int mount_attr_flag;
-> >>> +};
-> >>> +
-> >>> +static const struct ms_to_mount_map attrs[] = {
-> >>> +	{ MS_RDONLY,		MOUNT_ATTR_RDONLY },
-> >>> +	{ MS_NOSUID,		MOUNT_ATTR_NOSUID },
-> >>> +	{ MS_NODEV,		MOUNT_ATTR_NODEV },
-> >>> +	{ MS_NOEXEC,		MOUNT_ATTR_NOEXEC },
-> >>> +	{ MS_RELATIME,		MOUNT_ATTR_RELATIME },
-> >>> +	{ MS_NOATIME,		MOUNT_ATTR_NOATIME },
-> >>> +	{ MS_STRICTATIME,	MOUNT_ATTR_STRICTATIME },
-> >>> +	{ MS_NODIRATIME,	MOUNT_ATTR_NODIRATIME },
-> >>> +#ifdef MOUNT_ATTR_NOSYMFOLLOW
-> >>> +	{ MS_NOSYMFOLLOW,	MOUNT_ATTR_NOSYMFOLLOW },
-> >>> +#endif
-> >>> +	{ 0, 0 },
-> >>> +};
-> >>> +
-> >>> +static void get_mount_attr_flags(const struct fuse_service_mount_command *oc,
-> >>> +				 unsigned int *attr_flags,
-> >>> +				 unsigned long *leftover_ms_flags)
-> >>> +{
-> >>> +	const struct ms_to_mount_map *i;
-> >>> +	unsigned int ms_flags = ntohl(oc->ms_flags);
-> >>> +	unsigned int mount_attr_flags = 0;
-> >>> +
-> >>> +	for (i = attrs; i->ms_flag != 0; i++) {
-> >>> +		if (ms_flags & i->ms_flag)
-> >>> +			mount_attr_flags |= i->mount_attr_flag;
-> >>> +		ms_flags &= ~i->ms_flag;
-> >>> +	}
-> >>> +
-> >>> +	*leftover_ms_flags = ms_flags;
-> >>> +	*attr_flags = mount_attr_flags;
-> >>> +}
-> >>> +
-> >>> +struct ms_to_str_map {
-> >>> +	unsigned long ms_flag;
-> >>> +	const char *string;
-> >>> +};
-> >>> +
-> >>> +static const struct ms_to_str_map strflags[] = {
-> >>> +	{ MS_SYNCHRONOUS,	"sync" },
-> >>> +	{ MS_DIRSYNC,		"dirsync" },
-> >>> +	{ MS_LAZYTIME,		"lazytime" },
-> >>> +	{ 0, 0 },
-> >>> +};
-> >>> +
-> >>> +static int set_ms_flags(struct mount_service *mo, unsigned long ms_flags)
-> >>> +{
-> >>> +	const struct ms_to_str_map *i;
-> >>> +	int ret;
-> >>> +
-> >>> +	for (i = strflags; i->ms_flag != 0; i++) {
-> >>> +		if (!(ms_flags & i->ms_flag))
-> >>> +			continue;
-> >>> +
-> >>> +		ret = fsconfig(mo->fsopenfd, FSCONFIG_SET_FLAG, i->string,
-> >>> +			       NULL, 0);
-> >>> +		if (ret) {
-> >>> +			int error = errno;
-> >>> +
-> >>> +			fprintf(stderr, "%s: set %s option: %s\n",
-> >>> +				mo->msgtag, i->string, strerror(error));
-> >>> +			emit_fsconfig_messages(mo);
-> >>> +
-> >>> +			errno = error;
-> >>> +			return -1;
-> >>> +		}
-> >>> +		ms_flags &= ~i->ms_flag;
-> >>> +	}
-> >>> +
-> >>> +	/*
-> >>> +	 * We can't translate all the supplied MS_ flags into MOUNT_ATTR_ flags
-> >>> +	 * or string flags!  Return a magic code so the caller will fall back
-> >>> +	 * to regular mount(2).
-> >>> +	 */
-> >>> +	return ms_flags ? -2 : 0;
-> >>> +}
-> >>
-> >> Let's please not forget later on to use the new define.
-> > 
-> > Er... which new define?  HAVE_NEW_MOUNT_API?  I think we're still inside
-> > the #ifdef for that at this point.
-> > 
-> > <confused>
-> 
-> 
-> Sorry, I meant FUSE_MOUNT_FALLBACK_NEEDED.
+On Mon, Mar 30, 2026 at 2:28=E2=80=AFPM Bernd Schubert <bernd@bsbernd.com> =
+wrote:
+>
+> On 3/24/26 23:45, Joanne Koong wrote:
+> > Add io-uring kernel-managed buffer ring capability for fuse servers
+> > communicating through the io-uring interface.
+> >
+> > This has two benefits:
+> > a) eliminates the overhead of pinning/unpinning user pages and
+> > translating virtual addresses for every server-kernel interaction
+> >
+> > b) reduces the amount of memory needed for the buffers per queue.
+> > Incremental buffer consumption, when added, will allow non-overlapping
+> > regions of a buffer to be used simultaneously across multiple requests.
+> >
+> > Buffer ring usage is set on a per-queue basis. In order to use this, th=
+e
+> > server needs to have preregistered a kernel-managed buffer ring and a
+> > memory region big enough to hold the headers. This should be done befor=
+e
+> > queue creation is initiated. The kernel-managed buffer ring will be
+> > pinned for the lifetime of the io-ring.
+> >
+> > Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+> > ---
+> >  fs/fuse/dev_uring.c       | 384 +++++++++++++++++++++++++++++++-------
+> >  fs/fuse/dev_uring_i.h     |  46 ++++-
+> >  include/uapi/linux/fuse.h |  19 +-
+> >  3 files changed, 376 insertions(+), 73 deletions(-)
+> >
+> > diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
+> > index 81cd20e0d50b..cd45b6a8e6c6 100644
+> > --- a/fs/fuse/dev_uring.c
+> > +++ b/fs/fuse/dev_uring.c
+> > @@ -10,6 +10,7 @@
+> >  #include "fuse_trace.h"
+> >
+> >  #include <linux/fs.h>
+> > +#include <linux/io_uring.h>
+> >  #include <linux/io_uring/cmd.h>
+> >
+> >  static bool __read_mostly enable_uring;
+> > @@ -19,6 +20,7 @@ MODULE_PARM_DESC(enable_uring,
+> >
+> > -static struct fuse_ring_queue *fuse_uring_create_queue(struct fuse_rin=
+g *ring,
+> > -                                                    int qid)
+> > +static void *fuse_uring_get_buf_ring_headers(struct io_uring_cmd *cmd,
+> > +                                          u64 headers_offset,
+> > +                                          unsigned int queue_depth,
+> > +                                          unsigned int issue_flags)
+> > +{
+> > +     void *mem_reg_addr;
+> > +     u64 mem_reg_size, headers_size;
+> > +     unsigned nr_pages;
+> > +
+> > +     /* find the headers in the registered memory region */
+> > +     mem_reg_addr =3D io_uring_registered_mem_region_get(cmd, &nr_page=
+s,
+> > +                                                       issue_flags);
+> > +
+> > +     /* server does not have a registered memory region set up */
+> > +     if (!mem_reg_addr)
+> > +             return NULL;
+> > +
+> > +     mem_reg_size =3D (u64)nr_pages * PAGE_SIZE;
+> > +     if (headers_offset > mem_reg_size)
+> > +             return NULL;
+> > +
+> > +     /* verify headers fit within memory region bounds */
+> > +     headers_size =3D (u64)queue_depth * sizeof(struct fuse_uring_req_=
+header);
+> > +     if (mem_reg_size - headers_offset < headers_size)
+> > +             return NULL;
+>
+>
+> Could you add to the commit message how the buffer layout is? I think
+> this deserves some explanation.
 
-Fixed.
+I will add a visual diagram for this. The headers buffer is laid out
+contiguously in memory. On the server side the server is able to map
+from ent id to where in the headers buffer the data for that ent
+resides by calculating ent_id * sizeof(struct fuse_uring_req_header).
+I'll also add a diagram for the buffer ring as well. I am going to be
+sending out a v2 that has some updates. The bulk of the fuse logic is
+pretty much the same but the buffer rings and memory accounting
+infrastructure will be moved to fuse instead of going through the
+io-uring uapi.
 
---D
+>
+> The appraoch kinds of reminds me to my initial patches where I
+> configured the ring with an additional ioctl. Until Miklos asked to make
+> it dynamic and to avoid the ioctls (and config SQEs as well). Basically
+> here every FUSE_IO_URING_CMD_REGISTER gets the the queue depth? Wouldn't
+
+I don't think an additional ioctl or config setup cmd op is needed
+because this can go through the registration flow we currently have
+without a problem. Every registration sqe will pass the queue_depth in
+the fuse_uring_cmd_req data. There is logic to ensure that all ents
+for a given queue set the same queue depth. For the code logic, only
+the first registration sqe needs to set queue depth, but I think it
+makes the interface simpler to just have all the registration sqes
+pass in the queue depth, since in the dev_uring code we also account
+for edge cases where the same queue gets registered concurrently on
+multiple threads. I don't think a separate setup cmd op is necessary
+here.
+
+> make sense to have a setup SQE per queue then? Or one global
+> CREATE_RINGS config sqe? With the reduced queue series things would be
+> definitely easier if we would know the number of queues that are
+> supposed to get created (right now the it has to re-calculate the the
+> static mapping for every queue).
+
+Do you have a link to the reduced queue series version you're
+referencing? I'm not sure without looking at that code whether that
+could use the current registration flow in the same way or whether
+that needs a new config sqe.
+
+Thanks,
+Joanne
+>
+>
+> Thanks,
+> Bernd
+>
+>
+> > +
