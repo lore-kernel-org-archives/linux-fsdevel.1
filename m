@@ -1,62 +1,64 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 262B83C9452
-	for <linux-fsdevel@vger.kernel.org>; Mon, 30 Mar 2026 12:26:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B66A53CBE6B
+	for <linux-fsdevel@vger.kernel.org>; Mon, 30 Mar 2026 12:26:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774873573; cv=none; b=ln4oLL1gFFExiziA9sk5GWBnmi+VjkiV1efT/xrTTDh+wh2mLRHjbLmzPRU/kXTzLW1hXIVTscdr59KsaGKr+4N+EmOeqPS+FGLqdQ0glAzqKs9ZEGJZ9sftZzf47luZvQw3PuDrK8/bGY6FPrbMnTVB6u5qr2TlOE7fPIJlme4=
+	t=1774873575; cv=none; b=uP3NRU1Hcrd7BCzdalVuuuZ2HhkVBq8bPk0RFr+2Q5K2WvOzHbBR1QqPm5FXFFrEAE5NLRpjPvsWThOry/Y8ZvJ532W6lsKB20rfYvVI8tPcDwgW/NuyvoajMEFJ+qCAqVHRc0ILf7fgV1ZgocnId+OILOLCo6EAonz9qhkaXok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774873573; c=relaxed/simple;
-	bh=iXZRS7tiXpDFQsNbOnWsu8ZHvevn+YRlxfwIYQTCMUU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SHfe95UsTFNRFhmCJNHZ4Q3gcDMnWFOPu+ZInBelLyeUISmtqYnTm+6FwQERqd5mTNFkutvUdss3560F3/iviVuJLlcuRukCiPM5Qr4cnmpNdNtTN5ayOZISX1uqpONs5MNloefczSBNqDJyl/NVfgN+GA7pvCDCbLuG6XcgFkU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rueg9ULm; arc=none smtp.client-ip=209.85.128.48
+	s=arc-20240116; t=1774873575; c=relaxed/simple;
+	bh=COKwH1VH8BuYCRynamMlTkaMzJ4AGwGGF/sBUjJNvDg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=dZIi+POb/ikXkL0LiYgHMky27Nx1pD58/t2MqqdlDBnbFj/Icje+V3BrOAMP3Sc04CLByQ2SQ8tz5DI+sYxHvTVQZBgwTsST1KJkYM/ppUEi3zbH+UBiS/CheGYwCi4uVm0ULIXaMWrLmajpCck4PwpBWA0YAEtpajDs85FzKhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HSRcTdML; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rueg9ULm"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-482f454be5bso51292995e9.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 30 Mar 2026 05:26:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HSRcTdML"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-486fb112c09so43176505e9.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 30 Mar 2026 05:26:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774873569; x=1775478369; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zkFTfIqiJxetZvwdSO3/FnYRN42npo/iAp2MLQjkxsk=;
-        b=rueg9ULmhmAVfDu8zLUXCcBro9ROm/q/IiQqZGKvDH+zCBQ8fEHoVuQUvGq/Wp6Ayj
-         KwfBR5jE/PWOBs8rtEIQxvcPIk4cXps32lqbbu6cdEZ0XMvPJ2uLoWsmauhNdN4mklqr
-         dyVV7aAHYwwXtCJtgrOtmS6eak6dJBTZtFZyyhUDCUd+WH77DnMBP73cIDzWRGAtm2Oj
-         D+rCv795BA8XvG1XxpdDQR6M4stF4QG7K+5hRPKNQj8hC+ohugH+jbP/DE6NNmWwSMHR
-         2aiv0z3UoV8FTIcsE8ITnZkmcvvQXi+VVr/mY/S8m5qnN1GUbgvcmYfZtnUqk3LOHD7u
-         w0DA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774873569; x=1775478369;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1774873572; x=1775478372; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zkFTfIqiJxetZvwdSO3/FnYRN42npo/iAp2MLQjkxsk=;
-        b=jyAVJIRqEhYPHI3O8w5S/DNgAz6Ts68AoagUIo6ucf+bMfFbZqHPOw6UMQEf2lX1HO
-         M5vkL3W7WUXGutifEMzXfA2GP/uIwktvc6BnIO/S11BXuyBggW/o1ADO+G5aiAYKwP3r
-         7zHlfNXcCVTaf3EHal9x+sNkX7I1ZRoz4fWaDlrgiBj1/Vwio/XdBUdZReBeIA9L3xaT
-         oxxaWTrc+qUnJuXDEmJGNBbyqQjRgz9X7ZrfjIHX8oFoIy2n3pyEYDZnosA2ry5UvyoZ
-         JN3vbi/AgTe/lELNStE0cuIWPb1j/Z4PZprfDka4R2XdCZjg3XJ0lUMCUc+xONOd7AGb
-         uMXg==
-X-Forwarded-Encrypted: i=1; AJvYcCU18NlcM412cxvDDgtVIVGbvndISbpbZsUeFkWVlnXHRDxO0J+jDZ1lymiDNGlga/WKUmtMA10g/RyVhUhI@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxb905/pyjVNFkvaJA6a5k9LcWZskqwlaolDmG5wM0Vy0BuWNEz
-	0lYf2Xj9JOC9U0gQ3zHU4ToDsoYvP95r4NFDVwgwJB3HCUCFO51mTpCl
-X-Gm-Gg: ATEYQzxxJRX5UUJc5JowQL04jea8erXM4yqjlmMIKNc35/VFkxxWtLNyMEYZtCf9moP
-	j0eJtLI/Eus0QB5oQyO/e0dB9K7v40Z3/m0LobeZH0Ccv3dbP4JJhIj3pjC2T2BAn5LwrX3m5rw
-	AhJ5W0JvTS52mFODJbVzmybET8np5TDbkfr84QH82YWGJKfMv5LapHI8rt1o/8e2EZoI32htKpZ
-	lsYlIEBnbXgNpE26BA9nUTGsPGQOzbYW7pzyI0AcZQLqN+oM+QG9NGKF/USznwWgJwgdmd3BA1J
-	AQLZwWHH2X9mr0EiRiqBX6ARkhFLIGeW3tY1yqUttBAlT7h2nu7UxuWeg/ajR4el3EELia+v+3I
-	EkIYqlfPbHZmk6WikyOV3zSEMNnvxNrDgD4FAy/4tMBnhoFsFcsUb6xnU9YJL+I610Ljab3dJtR
-	NaIs4uMoB5L8bod/XThaKTpm8f1cfHUJQgzV2HMDFbrWlSdyAvTNSKP5GsVoSftPf/vm0cDgMdz
-	Q==
-X-Received: by 2002:a05:600c:4e0b:b0:485:fbd2:f72 with SMTP id 5b1f17b1804b1-487290a9254mr182445395e9.1.1774873569098;
-        Mon, 30 Mar 2026 05:26:09 -0700 (PDT)
+        bh=jBIfgeXR6ZzaVZZprJJKEW+34xpz6VJfBbaNi9NqWK8=;
+        b=HSRcTdMLvmqF/ibNsUK6wJquEZjZLD8VZwhzYzeY5MDFT6UQjz6l30yjqkzumdTKnJ
+         ANONMBfO5pTRTVsmXZa4Z3k2gSKX77XW4daTICfYLi0uznuEATOsEkNvHmC1HkYSiWii
+         7/aLUGmuYpxLaMXhMqjZ6jqeAQFiFapsTynbZfc3VNfr/FCd6J3r4H+Zl2cvaHsQDXXj
+         R8jA/zaCyZHyhWm3cDBclSazdOgMf+HEnHcPR00LwhjWP4rUm6SnFO/QhxfquZz9jA/O
+         RJfhDcWzfwdRvSK0lygWRsLApP9KvYDNIh6R3VYkNpIHSwok5q0wXlfVdR5jns7SXoQI
+         mggA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774873572; x=1775478372;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=jBIfgeXR6ZzaVZZprJJKEW+34xpz6VJfBbaNi9NqWK8=;
+        b=KUnbhdKyffOVYHlMm47oubazJ6cUxZl8y17p24CVu+f9SEOb1bJbvxekb1eou5BDBb
+         IKhorNMhi6dlhvVGeKLMUP891BQma9i5zfUUnofUdIrB/Yt67PSubXWoRbFwWUlp50cx
+         yGv2abLIm4eEQ5Y28oY8A7DVyW0Mv/1D+eWX6jeHypkAa3jUFfS/Cxmyf156xuxSpfcF
+         BFw3LraOjIy939CzY+Rl/j2AoRgq6aDEzVQnRJjSDxwsFlq7eIFSm1JIri+q1nFgbjbE
+         JD9kZdx+7nPevIpmdlysAeBTyIkzwtSywzdQ9hlJSFq6hZYY7JBp4QCWvpBAUHuLpop6
+         17iw==
+X-Forwarded-Encrypted: i=1; AJvYcCX1+4Lrm7I6Cs6Mm2IR6gAs7fNYagO38zPgq/oGGqc43K5mFSg00Q10Iv9/YpihEMSonCohFBBtycsZaBc7@vger.kernel.org
+X-Gm-Message-State: AOJu0YzeUbYaGsYouzxelpvjIJROo8amtmTkWzOnxyc+x2/JOBmaVfR1
+	lhBiAMPUEXxKszA8cCkSO6r3ZSlZyQvsChX5nN1AuzcUmKQsX0PzGbiXDhU8Cg==
+X-Gm-Gg: ATEYQzzxg1GCetafhTCfNP20DmGV6LR+pF88XFbuHAFZ9qIThmN+O/iLc3JpAKY+sk5
+	O5hXK0xAV5rSK6QvjQZ9LZvWrs4AITd5VK8bP8x9lIZCRVb89uG7kigOxWNjmhtPDFYtGv31UTT
+	pNnouhJ8N8HDGd7DRF6T7L35Y3/3MyHRJXJeG2eh605m3y4ASVunhc9U4SNP4rlCpRqOO6QDrYi
+	Jnaqu5B9vjUEJLhRkgQUcKn9MBWFu7xTol4wmkTej5uN/Ndqyw0Xt7Kp4Qy2o6Zl5f9uY2RfD/K
+	JlqglIeN40qc2X7foblmFCFULsolpSuOaFRqit7HOpVhZLoHTmPETmRVw/09lydgk+fxz9+e0NY
+	HaBWj/plY5IKDlRRyFzQup38XuHhQKDMWQ/xAiWmlRRe7bF+c4YrwfAssUljNDTOwzlmx+gHY33
+	TlApfwSvFD0utR0Zq/2LTykt148Pnhc2bxH3XsbRnZWW/6/kLd2k6o5wXbrSTvmqwkLij92DwTc
+	g==
+X-Received: by 2002:a05:600c:3e88:b0:487:243f:dc3e with SMTP id 5b1f17b1804b1-48727ee98a2mr194363335e9.6.1774873571860;
+        Mon, 30 Mar 2026 05:26:11 -0700 (PDT)
 Received: from f.. (cst-prg-89-171.cust.vodafone.cz. [46.135.89.171])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48725da0333sm113541525e9.2.2026.03.30.05.26.07
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48725da0333sm113541525e9.2.2026.03.30.05.26.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Mar 2026 05:26:08 -0700 (PDT)
+        Mon, 30 Mar 2026 05:26:11 -0700 (PDT)
 From: Mateusz Guzik <mjguzik@gmail.com>
 To: brauner@kernel.org
 Cc: viro@zeniv.linux.org.uk,
@@ -64,10 +66,12 @@ Cc: viro@zeniv.linux.org.uk,
 	linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	Mateusz Guzik <mjguzik@gmail.com>
-Subject: [PATCH v4 0/4] assorted ->i_count changes + extension of lockless handling
-Date: Mon, 30 Mar 2026 14:25:58 +0200
-Message-ID: <20260330122602.3659417-1-mjguzik@gmail.com>
+Subject: [PATCH v4 2/4] fs: relocate and tidy up ihold()
+Date: Mon, 30 Mar 2026 14:26:00 +0200
+Message-ID: <20260330122602.3659417-3-mjguzik@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260330122602.3659417-1-mjguzik@gmail.com>
+References: <20260330122602.3659417-1-mjguzik@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -76,60 +80,57 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The stock kernel support partial lockless in handling in that iput() can
-decrement any value > 1. Any ref acquire however requires the spinlock.
+The placement was illogical, move it next to igrab().
 
-With this patchset ref acquires when the value was already at least 1
-also become lockless. That is, only transitions 0->1 and 1->0 take the
-lock.
+Take this opportunity to add docs and an assert on the refcount. While
+its modification remains gated with a WARN_ON, the new assert will also
+dump the inode state which might aid debugging.
 
-I verified when nfs calls into the hash taking the lock is typically
-avoided. Similarly, btrfs likes to igrab() and avoids the lock.
-However, I have to fully admit I did not perform any benchmarks. While
-cleaning stuff up I noticed lockless operation is almost readily
-available so I went for it.
+No functional changes.
 
-Clean-up wise, the icount_read_once() stuff lines up with inode_state_read_once().
-The prefix is different but I opted to not change it due to igrab(), ihold() et al.
+Signed-off-by: Mateusz Guzik <mjguzik@gmail.com>
+---
+ fs/inode.c | 20 +++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
 
-There is a future-proofing change in iput_final(). I am not going to
-strongly insist on it, but at the very least the problem it sorts out
-needs to be noted in a comment.
-
-v4:
-- squash icount_read patches
-- use icount_read_once in the new ihold assert, reported by syzbot
-- squash lockless ref acquire patches, rewrite new comments
-
-v3:
-- tidy up ihold
-- add lockless handling to the hash
-
-Mateusz Guzik (4):
-  fs: add icount_read_once() and stop open-coding ->i_count loads
-  fs: relocate and tidy up ihold()
-  fs: handle potential filesystems which use I_DONTCACHE and drop the
-    lock in ->drop_inode
-  fs: allow lockless ->i_count bumps as long as it does not transition
-    0->1
-
- arch/powerpc/platforms/cell/spufs/file.c |   2 +-
- fs/btrfs/inode.c                         |   2 +-
- fs/ceph/mds_client.c                     |   2 +-
- fs/dcache.c                              |   4 +
- fs/ext4/ialloc.c                         |   4 +-
- fs/hpfs/inode.c                          |   2 +-
- fs/inode.c                               | 122 ++++++++++++++++++-----
- fs/nfs/inode.c                           |   4 +-
- fs/smb/client/inode.c                    |   2 +-
- fs/ubifs/super.c                         |   2 +-
- fs/xfs/xfs_inode.c                       |   2 +-
- fs/xfs/xfs_trace.h                       |   2 +-
- include/linux/fs.h                       |  13 +++
- include/trace/events/filelock.h          |   2 +-
- security/landlock/fs.c                   |   2 +-
- 15 files changed, 130 insertions(+), 37 deletions(-)
-
+diff --git a/fs/inode.c b/fs/inode.c
+index 1f5a383ccf27..e397a4b56671 100644
+--- a/fs/inode.c
++++ b/fs/inode.c
+@@ -522,15 +522,6 @@ static void init_once(void *foo)
+ 	inode_init_once(inode);
+ }
+ 
+-/*
+- * get additional reference to inode; caller must already hold one.
+- */
+-void ihold(struct inode *inode)
+-{
+-	WARN_ON(atomic_inc_return(&inode->i_count) < 2);
+-}
+-EXPORT_SYMBOL(ihold);
+-
+ struct wait_queue_head *inode_bit_waitqueue(struct wait_bit_queue_entry *wqe,
+ 					    struct inode *inode, u32 bit)
+ {
+@@ -1578,6 +1569,17 @@ ino_t iunique(struct super_block *sb, ino_t max_reserved)
+ }
+ EXPORT_SYMBOL(iunique);
+ 
++/**
++ * ihold - get a reference on the inode, provided you already have one
++ * @inode:	inode to operate on
++ */
++void ihold(struct inode *inode)
++{
++	VFS_BUG_ON_INODE(icount_read_once(inode) < 1, inode);
++	WARN_ON(atomic_inc_return(&inode->i_count) < 2);
++}
++EXPORT_SYMBOL(ihold);
++
+ struct inode *igrab(struct inode *inode)
+ {
+ 	spin_lock(&inode->i_lock);
 -- 
 2.48.1
 
