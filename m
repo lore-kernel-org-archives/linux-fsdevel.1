@@ -1,454 +1,190 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010006.outbound.protection.outlook.com [52.101.85.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F40D3DEFE8
-	for <linux-fsdevel@vger.kernel.org>; Mon, 30 Mar 2026 18:48:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774896530; cv=none; b=qA8CYPHRaHt56sEEtNL/YRNbp2mfZ0j6I9sYH7ZrUieNlXW5ko7Nj125YmwQtolCfch8/YpQGEFyDWytp5Kelf+TzWqg+2BmgQkzJOIKWEubxLkYQAwnYDFj8BpYOjeSim+3A0gSb71DIJdLl6I1+S4LjVhKvVLhbps6ml0HIx4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774896530; c=relaxed/simple;
-	bh=huGjHsXcICWTGv+lr90IPusTUY/l3UGPnHaHzE+ggbk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R64WDIQVoTWTBCYGDHKooohcpH/h6kKztZlWrw6O2FoCWafnogsQqaSI0wNTTvg7jKWQoYn5qSS+77gj7FIYxQ1L0OcPKQ7ECybUpAtd/t9/Pz4BLozMr1XWM6VnhKAYNZyYze9ERnzUqjRpyFbC3xzR4XxAyzXps3r1wxOK5Gs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aNl3Kn1X; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A788A3DF01A;
+	Mon, 30 Mar 2026 18:49:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.6
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774896559; cv=fail; b=ZuSla3Egb8NYGX8QjdviMlpsE6vByGVcx3T/KeAafPnZ2Sz8RLA3T01yBjVzzfGQpQUYiN6yzPnmlIA5NCK+zQwwbrbKL3y8Y1wVjf7WY06SmWAvkpvxjGdebnFAkDY9vjG9zRdEtpD6lx6dwWwZHXGtLmlLLLQHXSLVwazpsy8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774896559; c=relaxed/simple;
+	bh=CyRVQib6iVJr6l2tOB9xtkZU4jgU5H/JfWbpQ4n+E8s=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=HITcLRFClP435NAH1Uw9GAyH44mE1mITf6cXHzGxNAhxJafidfDxtczLZVkF7CBjCHZwVYKciF3SZVf58FcR4G1jRbuzmN04ZM9/ck/D0CW9X1lImipnAiGObMrc64PwltbQZvZbMPJgZo4nvbwGPfAeHIPC06N8xDbQfMi4LTI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=15jBjLqh; arc=fail smtp.client-ip=52.101.85.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aNl3Kn1X"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F084C4CEF7;
-	Mon, 30 Mar 2026 18:48:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774896529;
-	bh=huGjHsXcICWTGv+lr90IPusTUY/l3UGPnHaHzE+ggbk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aNl3Kn1XkyUsJIMFMAHV8NdXzqfuh4Tc366DY1KcFX6ZA1+L9dtyTHc40qDE5t9JV
-	 Z5sr7hXQ0N7MKBUPePV8oRWF4bQiHItg3+eRpGeF4Sv8ZXAPixL4dAnmgqQpL2SzJU
-	 VkiwdTz8VneR8VmSvFNDpg7QLunTHH0G7LkyWRcRd78IQV0033ex6CutlMZ6TKf/9A
-	 ioq10GixGv9vPZ0VkLT5t72mBFzvBjvtXyeHJD5jz+6KKIXrmCFg+euxNoveSkDB/F
-	 xDJmK7ke1VknzC97Ze4GArw6C0bVFde7ngemkcHbnmLJMK+GJnUXqaB1hi0rM6VCtf
-	 HhfnjNj9e7poQ==
-Date: Mon, 30 Mar 2026 11:48:48 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: linux-fsdevel@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
-	Joanne Koong <joannelkoong@gmail.com>, Kevin Chen <kchen@ddn.com>,
-	Bernd Schubert <bschubert@ddn.com>
-Subject: Re: [PATCH v2 17/25] Split the fusermount do_mount function
-Message-ID: <20260330184848.GZ6202@frogsfrogsfrogs>
-References: <20260326-fuse-init-before-mount-v2-0-b1ca8fcbf60f@bsbernd.com>
- <20260326-fuse-init-before-mount-v2-17-b1ca8fcbf60f@bsbernd.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="15jBjLqh"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Zbd7S+MsHwwOgPbaZrCQcOsTHHFtFbsjINIaNQta2GJeGfa3mYa+3EX/Q7WgSyHplTUgiSPTGRD710VlwQjIrYN44rKCYI7ae0hE/olKlyBCmiECnBWSenhrEtzP7gRq05NhiM0GKPwn8VRT2Db0Nxz1dA8LRXTzV+VW3pqoJuoo3mb4jL81YJuvid0LedaxKOjXmsJ4Ul8g8j09s9uIjKvLetn3ErxFouBUPbv5mVs3bnymk3gAdKaBAARBJwnJ/3qSUgBbRG0EYnAWO54uZZGJVTuICOuxxN37i+oiEoMSzgGCk13kTMrpmJEhAoyo63XaVVq8Ylghd8CwUi3Rkw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yr8iUdGDSOoDT+6epoSEm4TL8kfRlrCjVhBjF4pcMOM=;
+ b=kD8LKWKc4DN8RBJub1qVulWGJJlDqmmGe93+frPHvzo66tQt6m4MGJ+nfVfXoWEAm6NzF47f7OYY37tSjPSb6HoGtd7IUGoI+reRts6pOUJxY6CgVMyocTYIvL9nY4mOSUNzGAogazMISvRAn1YBP1BS1IvdNW+dwD1e8ykCGOR26rLuJ6IzZidEoLu0uTON1XnsThtPQZIG9Dhu/hEw98V0QBPlmhjV9R+32TMM00QA/p0kC3cu//BMHqZvO86aL+MjgMl7kYefIilotFzYESTuz8jw9CF3VJujWttasPj/87IcFYCJ1gxuba9fCL2DqQlqFwB/5bokBN4x6kKg2w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yr8iUdGDSOoDT+6epoSEm4TL8kfRlrCjVhBjF4pcMOM=;
+ b=15jBjLqhlSGnmanWd6rhZp0pGf8F0559KuosE0TKiL9HhYy18yYJruBSmnn+uTUmHFkMMpcFcyRhjsQ5gbP1t928Wby5SQhR9ua/LEH95oOqNlEw2agrOXp9OOZLgl7R8nfoELx6fAmNC2BFKKHUetUCbm4XlFzt4EHXrWvGSI4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by IA0PR12MB9046.namprd12.prod.outlook.com (2603:10b6:208:405::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.15; Mon, 30 Mar
+ 2026 18:49:11 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9769.014; Mon, 30 Mar 2026
+ 18:49:11 +0000
+Message-ID: <94d15393-687d-44a5-94c0-0f6248e58bc8@amd.com>
+Date: Mon, 30 Mar 2026 20:49:07 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH] fdinfo: Option for public fdinfo
+To: Christian Brauner <brauner@kernel.org>
+Cc: David Francis <David.Francis@amd.com>, linux-kernel@vger.kernel.org,
+ Alexander.Deucher@amd.com, linux-fsdevel@vger.kernel.org
+References: <20260316183828.3354343-1-David.Francis@amd.com>
+ <20260323-neugierig-meerschwein-31b6daaa1db9@brauner>
+ <10ac8ef6-56b4-4a0f-b970-18b3ce012ceb@amd.com>
+ <20260324-mitmachen-wirst-65daea421642@brauner>
+ <b8e8ea43-4c1c-41da-99a8-267010e1b9de@amd.com>
+ <20260326-enten-hauen-36402c54073b@brauner>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20260326-enten-hauen-36402c54073b@brauner>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MN0PR04CA0007.namprd04.prod.outlook.com
+ (2603:10b6:208:52d::12) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260326-fuse-init-before-mount-v2-17-b1ca8fcbf60f@bsbernd.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|IA0PR12MB9046:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6316bdf8-103e-4166-4cdf-08de8e8d07f5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|1800799024|22082099003|18002099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	EDtKn12hBqI0GsLBvjL3dl0QHNF3wV3FkGISFCvuCTL54qtwO3oneHUYFR7O/7J5JRloooD4rntF5bl6oZdK/8y50c4zmBbpXutKAUwB4TnrnG2zZ4fnW4FL4zGcvraTKPSIZnxe0VdN40EbUbA3/1gjwE1hKr1CGOWgLniYqDpEjSFDaTWCUNLXjlGXWB2YucxCH0ZyiGbNXlKxW7/TSJ61l2ggjphWJt6KjYNAJSx9sFptCeDsItoc85r/Ks20NdITL1g3QFzpeAQ5r8Cev7VnJ9dxZBVfzTbPFZ9R4SdN4zMfvRkIWDn+gJKdcqZTkzlVgRqVoya4TJMLr+vxFy+Lsvvo8I7G9/X4rxIRmEqBcCKMjlc8tqubh1AYFuxW8ulm9SxO0tkz7tq2pWnYJ2boGkt38BnhazfIsD+QqVg/YSipDF4RiSq4JSVBI2pa9ljSdmyoDd4ovVnSs+Yqxv1RkPrr3F312j7bPUPClxT8QgFE2Hl8g/AzHzZXMOJncM2q+beEgC7qUpbEiLVjkujKzRtpNvn/v9sBWpzarGu24qIqIvM6JrjZ9fI5+N3paQtMpXKnRkF+YREgyz9C5FeRw6CsihBT8+2aORH9xkxB0EWUIO6qlodZBl9CwDi3WS/JR/8GmzOY7DwFnE/qD2BswNfZRLARqSIPCCkYor7nbXOmASjeF5HSG93Ya58syKEfcTQ6DbobUo0+hCRDMPs5EGepxcKv7nI224UvNOk=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?UTBLcm9YMExLUUNsNUxxQlpMaDFqQjdDbmkrUVo4bWh4UUhqckZlemlCS0x2?=
+ =?utf-8?B?bEtCR2hYcUlVN0tzNWcyQ202dCthbWI1ME9pWC91Yy9tbHdvSUNWWVRHTzlN?=
+ =?utf-8?B?YlVuVWxoVFdXZ3ZGZ3NUSFhCWjNZRVJvWmFtQUh0SC9zQ2NuUnY2TkVKc2xZ?=
+ =?utf-8?B?ajJmR0QzbU5kWk1HVkFmNVVhVi9LSS83ZzdyYXpaQXI2Y0dKRWRYNFppNG4y?=
+ =?utf-8?B?bkppd1YvZ3BFMy8vRmdlN3MxdTAweFl6MmwrL2Y0N1FpK3crcnJXaXFGeUFm?=
+ =?utf-8?B?NDVCaC9wUXJCUDg2UTAvM3ZESnRwc2Y5ME9EV1BWM2JRczg4dDlrRUM1c2FE?=
+ =?utf-8?B?QmFhYkxzZGptVk0yZGV1bzBvbWZzYlgyY2xuT09iYnRtaUhYRExQWll3OXRM?=
+ =?utf-8?B?bUo4MnpGbWxIaU84czB2NGRMQXdTK2hJK3h1VGZPWmMxRXF4QUxYeUswTUlt?=
+ =?utf-8?B?RzhNNThFMHJWRzRQb1Bzamhvcm5PcmJVMWVOd3MvVlR3ODlKSmc0WVVoTjg5?=
+ =?utf-8?B?LzFLdS9ramNiSE5xelgrYzU5czh5UDVoU09lVnp5ZC9CTkNtME1Bd0hEYXR6?=
+ =?utf-8?B?a05VUGtieThaYkVEdTNtak5LVmNjSUlYa1k4QkVjTXVKU3dzMWs0RzJkUmFj?=
+ =?utf-8?B?dnYzbnVRN1UvNGo4aDRwSGVTM2NLRnZKMkt4aGZ2YjJuY1p3cURTbVRYc2JL?=
+ =?utf-8?B?TmZsZGIwZTEzV1JZZG9uMkpBR1lGYTFNQWk2YnB6SmY3SEUwWXBGVlJlYnVZ?=
+ =?utf-8?B?dTJXNjd4cG1kMTR2Tnp2TG5vOXhnMmF0M0xtMWlYRXV2NGd2U0k3KzFQUzlJ?=
+ =?utf-8?B?d2VFd2R5aUpsSkpBVW1pK0dPMDN6N3lYZTA2dlQ2MnRjR3FZWndHYk5GWTVJ?=
+ =?utf-8?B?OE83R2RGN3pFS3psYW1yZWlHU201L05SVHpSTEtEc0hIQW5JNFRmQ2xQUXp3?=
+ =?utf-8?B?TzlXb0ZwNkwrUUhkK21IQkRFRlZudVFnYXlTVEI2alZKMFlURE5zUG1RRjkr?=
+ =?utf-8?B?aStQdzdXc1JQVERWZFJlZVVKc2Z1OGgwSWpTU0hWbTdwNDV6WmdjUWRKZVFV?=
+ =?utf-8?B?Q3A4blN5OXlPbzhNOWI0cGVnZXp5M1lMeHpBcElQK0RvSkR4K0hvYmVldVVR?=
+ =?utf-8?B?Vno0MHZTSzArR2xUTjhZcCtZaFQrditIZ0lJVFF0WXZTeGQ1M01yM1g0NGE0?=
+ =?utf-8?B?R2VFeGdhQkpiQ1AvYnJmL25PMXB3UFF6emdBeXhjNkZTckI4RURVQTl1ZUx0?=
+ =?utf-8?B?NkZSSDRRRkl0UHJqNXRTNGpkREJlUm1IUXAxT2FNeElRdi9KVFdKY1RXWGgv?=
+ =?utf-8?B?NmRkZ2VwRHE4YzAyVENYbmFtRngzQ0w5UUE1dER4MDNCOS9XZGtONjRKT3du?=
+ =?utf-8?B?VnlGcU5KWFptY1FPMWVZbExMQk5UdXhVQzRFejIvek9uclNnakllbGozQ1Bn?=
+ =?utf-8?B?bm5qRzRYVktsNVR6MExTMkZ2UUNZWm4xcUxTUFNNRUpIRHI5TWZ1eWdrbVVI?=
+ =?utf-8?B?Y0NZYzdYSTBUQS9CdHoyS1d3V0tTejNiajRnWE1USWE1RFNEWTA2b09FVGlq?=
+ =?utf-8?B?cFhZT2pKZlhiMHVWakR1VXljakpibWdQdGIxbEpGS3ZKRDRyQ1FSU2tRVjNJ?=
+ =?utf-8?B?Mzd6bU8wMW1xNnowUkw4eW1QNm52bUI4OXRobC9YN1dYN3huT3p1RzNObElC?=
+ =?utf-8?B?dzVQeDFsVlRuTTRheTEvNjVLanN0V0FEQzlrbmllelk5VzJnQ1lqclBEUkVs?=
+ =?utf-8?B?K29nK1pic2M5a0ppb1hORERheFZCR1djMjczRDVteVRYVmZrV3k0KzlKR3lL?=
+ =?utf-8?B?T0NSdVR6RjN2SjhMb3A5YjNRbWVLTis5S0dEWktVOVJqN08rVmI3MTFLUlI2?=
+ =?utf-8?B?RlkyLzJNa05BditDcXp0RnNTUks0SVBnRVd3Q0pLcXAzSmRZNnd3UDRUbTVr?=
+ =?utf-8?B?MEVkY0NiRzYrU3dXOUxMSExtUmVzcGdPUk5wM2VzWTYyK2txUGZJcjN5TU9T?=
+ =?utf-8?B?c29zeXUzNnFFY3VXQ0twUWdWL0x6MGdEU0hSR2tsWFJEaEJFKzdyZnpKTXl3?=
+ =?utf-8?B?VzNlR3E0NDRrRFgzVzVlZDFyQ1h4THFpTVJiZHROZXlPOTMzbkpKU1hHaElX?=
+ =?utf-8?B?UTVMbFNleGJLamJsMWNoN1djVEQ4ZVZrait3YlNHWXo4NUhOWDUzN2xRQ0Rp?=
+ =?utf-8?B?SEkzV2M5eU9ZdVVxQk9TWFJPUktEUU56RmhEaThDMmN4dXhTZm1ESnk2Vm9k?=
+ =?utf-8?B?NzVITytEL2djcFEvZ2o5WStWd3JDVkFvZTBYL05lSGU5Yk15bjZoa2oyeHFk?=
+ =?utf-8?Q?vFV7TolVhV2cf5WTO0?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6316bdf8-103e-4166-4cdf-08de8e8d07f5
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2026 18:49:11.2017
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: AH87HY/Jff3Q281lyrZKSdDdVas8KHMDteh7rd7Vr7dWFOyDyHT9etv6K6A7rf/C
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB9046
 
-On Thu, Mar 26, 2026 at 10:34:50PM +0100, Bernd Schubert wrote:
-> From: Bernd Schubert <bschubert@ddn.com>
+On 3/26/26 15:42, Christian Brauner wrote:
+> On Tue, Mar 24, 2026 at 10:30:26AM +0100, Christian König wrote:
+>> On 3/24/26 09:53, Christian Brauner wrote:
+>>> On Mon, Mar 23, 2026 at 02:16:59PM +0100, Christian König wrote:
+>>>> On 3/23/26 13:13, Christian Brauner wrote:
+>>>>> On Mon, Mar 16, 2026 at 02:38:28PM -0400, David Francis wrote:
+>>>>>> We want some GPU information to be publicly available to all
+>>>>>> processes for basic system-wide profiling (think GPU versions
+>>>>>> of top).
+>>>>>>
+>>>>>> This information is available in fdinfo and not easily exposed
+>>>>>> by other interfaces.
+>>>>>>
+>>>>>> Add fd_op flag FOP_PUBLIC_FDINFO, which, if set, makes the fdinfo
+>>>>>> for that file available to read for processes without ptrace
+>>>>>> permissions.
+>>>>>>
+>>>>>> Note that this makes public how many files each process has open,
+>>>>>> and what their fds are.
+>>>>>>
+>>>>>> Signed-off-by: David Francis <David.Francis@amd.com>
+>>>>>> ---
+>>>>>
+>>>>> Eew, please let's not. Add an ioctl if you need to be able to retrieve
+>>>>> that info.
+>>>>
+>>>> Yeah the problem is an IOCTL is even worse from the security pov.
+>>>>
+>>>> This is for an tool which doesn't have access to the file descriptor which provides that information.
+>>>>
+>>>> So using pidfd_getfd() or similar to get the FD and then call an IOCTL on it would be a security violation.
+>>>>
+>>>> The real question is how should we make this information public available in the system?
+>>>
+>>> Don't you have a way to make this info available in sysfs? Just like
+>>> networking exposes info about network devices in there that may come and
+>>> go?
+>>
+>> Yeah that was already tried as well and Greg summarized it as "sometimes you don't know how horrible something is until you tried it".
+>>
+>> So the memory accounting parts for DMA-buf files in sysfs were deprecated and removed again just a few weeks ago. And that was basically just a subset of what David tries to do here.
+>>
+>> The requirement is that you want to be able to access the stats for accelerators/GPUs drivers similar to how tools like "top" or "htop" work. E.g. everybody can access /proc/*/stat as well, it's just that some security related information are left out.
+>>
+>> As far as I can see we have only a couple of different options to fulfill that requirement and lowering the security for fdinfo like David's patch here suggests still looks like the most defensive one to me.
 > 
-> We will need new API and old API and need to pass the options to
-> two different functions - factor out the option parsing.
-> 
-> Signed-off-by: Bernd Schubert <bschubert@ddn.com>
+> It's not acceptable to make /proc/<pid>/fdinfo accessible just to carve
+> out an exception for you. You can look at implementing something like
+> taskstats based on netlink transpart if you want to.
 
-I like this splitting a loooong function into smaller pieces that are
-easier to understand.
+What exactly do you mean with that? As far as I can see we can't expose per file descriptor information through netlink.
 
-Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
+What's actually the problem exposing things through fdinfo? As far as I can see it shouldn't be much of a problem exposing the directory for everybody and letting each file decide what the security checks should be.
 
---D
-
-> ---
->  util/fusermount.c | 298 +++++++++++++++++++++++++++++++++++++-----------------
->  1 file changed, 205 insertions(+), 93 deletions(-)
-> 
-> diff --git a/util/fusermount.c b/util/fusermount.c
-> index f66c4e8e0e809351384ec10cf50ba4d3d3a831b0..8d7598998788f72ea05c2a065a88cb5efd61df35 100644
-> --- a/util/fusermount.c
-> +++ b/util/fusermount.c
-> @@ -883,30 +883,132 @@ static int mount_notrunc(const char *source, const char *target,
->  	return mount(source, target, filesystemtype, mountflags, data);
->  }
->  
-> +struct mount_params {
-> +	/* Input parameters */
-> +	int fd;                  /* /dev/fuse file descriptor */
-> +	mode_t rootmode;         /* Root mode from stat */
-> +	const char *dev;         /* Device path (/dev/fuse) */
->  
-> -static int do_mount(const char *mnt, const char **typep, mode_t rootmode,
-> -		    int fd, const char *opts, const char *dev, char **sourcep,
-> -		    char **mnt_optsp)
-> +	/* Parsed mount options */
-> +	unsigned long flags;     /* Mount flags (MS_NOSUID, etc.) */
-> +	char *optbuf;           /* Kernel mount options buffer */
-> +	char *fsname;           /* Filesystem name from options */
-> +	char *subtype;          /* Subtype from options */
-> +	int blkdev;             /* Block device flag */
-> +
-> +	/* Generated mount parameters */
-> +	char *source;           /* Mount source string */
-> +	char *type;             /* Filesystem type string */
-> +	char *mnt_opts;         /* Mount table options */
-> +
-> +	/* Pointer for optbuf manipulation */
-> +	char *optbuf_end;       /* Points to end of optbuf for sprintf */
-> +};
-> +
-> +static void free_mount_params(struct mount_params *mp)
-> +{
-> +	free(mp->optbuf);
-> +	free(mp->fsname);
-> +	free(mp->subtype);
-> +	free(mp->source);
-> +	free(mp->type);
-> +	free(mp->mnt_opts);
-> +}
-> +
-> +/*
-> + * Check if option is deprecated large_read.
-> + *
-> + * Returns true if the option should be skipped (large_read on kernel > 2.4),
-> + * false otherwise (all other options or large_read on old kernels).
-> + */
-> +static bool check_large_read(const char *opt, unsigned int len)
-> +{
-> +	struct utsname utsname;
-> +	unsigned int kmaj, kmin;
-> +	int res;
-> +
-> +	if (!opt_eq(opt, len, "large_read"))
-> +		return false;
-> +
-> +	res = uname(&utsname);
-> +	if (res == 0 &&
-> +	    sscanf(utsname.release, "%u.%u", &kmaj, &kmin) == 2 &&
-> +	    (kmaj > 2 || (kmaj == 2 && kmin > 4))) {
-> +		fprintf(stderr,
-> +			"%s: note: 'large_read' mount option is deprecated for %i.%i kernels\n",
-> +			progname, kmaj, kmin);
-> +		return true;
-> +	}
-> +	return false;
-> +}
-> +
-> +/*
-> + * Check if user has permission to use allow_other or allow_root options.
-> + *
-> + * Returns -1 if permission denied, 0 if allowed or option is not
-> + * allow_other/allow_root.
-> + */
-> +static int check_allow_permission(const char *opt, unsigned int len)
-> +{
-> +	if (getuid() != 0 && !user_allow_other &&
-> +	    (opt_eq(opt, len, "allow_other") || opt_eq(opt, len, "allow_root"))) {
-> +		fprintf(stderr, "%s: option %.*s only allowed if 'user_allow_other' is set in %s\n",
-> +			progname, len, opt, FUSE_CONF);
-> +		return -1;
-> +	}
-> +	return 0;
-> +}
-> +
-> +/*
-> + * Process generic mount option.
-> + *
-> + * Handles mount flags (ro, rw, suid, etc.), kernel options
-> + * (default_permissions, allow_other, max_read, blksize), or exits on
-> + * unknown options.
-> + */
-> +static int process_generic_option(const char *opt, unsigned int len,
-> +				   unsigned long *flags, char **dest)
-> +{
-> +	int on;
-> +	int flag;
-> +
-> +	if (find_mount_flag(opt, len, &on, &flag)) {
-> +		if (on)
-> +			*flags |= flag;
-> +		else
-> +			*flags &= ~flag;
-> +		return 0;
-> +	}
-> +
-> +	if (opt_eq(opt, len, "default_permissions") ||
-> +	    opt_eq(opt, len, "allow_other") ||
-> +	    begins_with(opt, "max_read=") ||
-> +	    begins_with(opt, "blksize=")) {
-> +		memcpy(*dest, opt, len);
-> +		*dest += len;
-> +		**dest = ',';
-> +		(*dest)++;
-> +		return 0;
-> +	}
-> +
-> +	fprintf(stderr, "%s: unknown option '%.*s'\n", progname, len, opt);
-> +	exit(1);
-> +}
-> +
-> +static int prepare_mount(const char *opts, struct mount_params *mp)
->  {
->  	int res;
-> -	int flags = MS_NOSUID | MS_NODEV;
-> -	char *optbuf;
-> -	char *mnt_opts = NULL;
->  	const char *s;
->  	char *d;
-> -	char *fsname = NULL;
-> -	char *subtype = NULL;
-> -	char *source = NULL;
-> -	char *type = NULL;
-> -	int blkdev = 0;
->  
-> -	optbuf = (char *) malloc(strlen(opts) + 128);
-> -	if (!optbuf) {
-> +	mp->flags = MS_NOSUID | MS_NODEV;
-> +	mp->optbuf = (char *) malloc(strlen(opts) + 128);
-> +	if (!mp->optbuf) {
->  		fprintf(stderr, "%s: failed to allocate memory\n", progname);
->  		return -1;
->  	}
->  
-> -	for (s = opts, d = optbuf; *s;) {
-> +	for (s = opts, d = mp->optbuf; *s;) {
->  		unsigned len;
->  		const char *fsname_str = "fsname=";
->  		const char *subtype_str = "subtype=";
-> @@ -919,10 +1021,10 @@ static int do_mount(const char *mnt, const char **typep, mode_t rootmode,
->  				break;
->  		}
->  		if (begins_with(s, fsname_str)) {
-> -			if (!get_string_opt(s, len, fsname_str, &fsname))
-> +			if (!get_string_opt(s, len, fsname_str, &mp->fsname))
->  				goto err;
->  		} else if (begins_with(s, subtype_str)) {
-> -			if (!get_string_opt(s, len, subtype_str, &subtype))
-> +			if (!get_string_opt(s, len, subtype_str, &mp->subtype))
->  				goto err;
->  		} else if (opt_eq(s, len, "blkdev")) {
->  			if (getuid() != 0) {
-> @@ -931,7 +1033,7 @@ static int do_mount(const char *mnt, const char **typep, mode_t rootmode,
->  					progname);
->  				goto err;
->  			}
-> -			blkdev = 1;
-> +			mp->blkdev = 1;
->  		} else if (opt_eq(s, len, "auto_unmount")) {
->  			auto_unmount = 1;
->  		} else if (!opt_eq(s, len, "nonempty") &&
-> @@ -939,122 +1041,132 @@ static int do_mount(const char *mnt, const char **typep, mode_t rootmode,
->  			   !begins_with(s, "rootmode=") &&
->  			   !begins_with(s, "user_id=") &&
->  			   !begins_with(s, "group_id=")) {
-> -			int on;
-> -			int flag;
-> -			int skip_option = 0;
-> -			if (opt_eq(s, len, "large_read")) {
-> -				struct utsname utsname;
-> -				unsigned kmaj, kmin;
-> -				res = uname(&utsname);
-> -				if (res == 0 &&
-> -				    sscanf(utsname.release, "%u.%u",
-> -					   &kmaj, &kmin) == 2 &&
-> -				    (kmaj > 2 || (kmaj == 2 && kmin > 4))) {
-> -					fprintf(stderr, "%s: note: 'large_read' mount option is deprecated for %i.%i kernels\n", progname, kmaj, kmin);
-> -					skip_option = 1;
-> -				}
-> -			}
-> -			if (getuid() != 0 && !user_allow_other &&
-> -			    (opt_eq(s, len, "allow_other") ||
-> -			     opt_eq(s, len, "allow_root"))) {
-> -				fprintf(stderr, "%s: option %.*s only allowed if 'user_allow_other' is set in %s\n", progname, len, s, FUSE_CONF);
-> +			bool skip;
-> +
-> +			if (check_allow_permission(s, len) == -1)
->  				goto err;
-> -			}
-> -			if (!skip_option) {
-> -				if (find_mount_flag(s, len, &on, &flag)) {
-> -					if (on)
-> -						flags |= flag;
-> -					else
-> -						flags  &= ~flag;
-> -				} else if (opt_eq(s, len, "default_permissions") ||
-> -					   opt_eq(s, len, "allow_other") ||
-> -					   begins_with(s, "max_read=") ||
-> -					   begins_with(s, "blksize=")) {
-> -					memcpy(d, s, len);
-> -					d += len;
-> -					*d++ = ',';
-> -				} else {
-> -					fprintf(stderr, "%s: unknown option '%.*s'\n", progname, len, s);
-> -					exit(1);
-> -				}
-> -			}
-> +
-> +			skip = check_large_read(s, len);
-> +
-> +			/*
-> +			 * Skip deprecated large_read to avoid passing it to
-> +			 * kernel which would reject it as unknown option.
-> +			 */
-> +			if (!skip)
-> +				process_generic_option(s, len, &mp->flags, &d);
->  		}
->  		s += len;
->  		if (*s)
->  			s++;
->  	}
->  	*d = '\0';
-> -	res = get_mnt_opts(flags, optbuf, &mnt_opts);
-> +	res = get_mnt_opts(mp->flags, mp->optbuf, &mp->mnt_opts);
->  	if (res == -1)
->  		goto err;
->  
-> +	mp->optbuf_end = d;
-> +
->  	sprintf(d, "fd=%i,rootmode=%o,user_id=%u,group_id=%u",
-> -		fd, rootmode, getuid(), getgid());
-> +		mp->fd, mp->rootmode, getuid(), getgid());
->  
-> -	source = malloc((fsname ? strlen(fsname) : 0) +
-> -			(subtype ? strlen(subtype) : 0) + strlen(dev) + 32);
-> +	mp->source = malloc((mp->fsname ? strlen(mp->fsname) : 0) +
-> +			(mp->subtype ? strlen(mp->subtype) : 0) + strlen(mp->dev) + 32);
->  
-> -	type = malloc((subtype ? strlen(subtype) : 0) + 32);
-> -	if (!type || !source) {
-> +	mp->type = malloc((mp->subtype ? strlen(mp->subtype) : 0) + 32);
-> +	if (!mp->type || !mp->source) {
->  		fprintf(stderr, "%s: failed to allocate memory\n", progname);
->  		goto err;
->  	}
->  
-> -	if (subtype)
-> -		sprintf(type, "%s.%s", blkdev ? "fuseblk" : "fuse", subtype);
-> +	if (mp->subtype)
-> +		sprintf(mp->type, "%s.%s", mp->blkdev ? "fuseblk" : "fuse", mp->subtype);
->  	else
-> -		strcpy(type, blkdev ? "fuseblk" : "fuse");
-> +		strcpy(mp->type, mp->blkdev ? "fuseblk" : "fuse");
->  
-> -	if (fsname)
-> -		strcpy(source, fsname);
-> +	if (mp->fsname)
-> +		strcpy(mp->source, mp->fsname);
->  	else
-> -		strcpy(source, subtype ? subtype : dev);
-> +		strcpy(mp->source, mp->subtype ? mp->subtype : mp->dev);
->  
-> -	res = mount_notrunc(source, mnt, type, flags, optbuf);
-> -	if (res == -1 && errno == ENODEV && subtype) {
-> +	return 0;
-> +
-> +err:
-> +	free_mount_params(mp);
-> +	return -1;
-> +}
-> +
-> +/*
-> + * Perform the actual mount operation using prepared parameters.
-> + *
-> + * Returns 0 on success, -1 on failure.
-> + */
-> +static int perform_mount(const char *mnt, struct mount_params *mp)
-> +{
-> +	int res;
-> +
-> +	res = mount_notrunc(mp->source, mnt, mp->type, mp->flags, mp->optbuf);
-> +	if (res == -1 && errno == ENODEV && mp->subtype) {
->  		/* Probably missing subtype support */
-> -		strcpy(type, blkdev ? "fuseblk" : "fuse");
-> -		if (fsname) {
-> -			if (!blkdev)
-> -				sprintf(source, "%s#%s", subtype, fsname);
-> +		strcpy(mp->type, mp->blkdev ? "fuseblk" : "fuse");
-> +		if (mp->fsname) {
-> +			if (!mp->blkdev)
-> +				sprintf(mp->source, "%s#%s", mp->subtype, mp->fsname);
->  		} else {
-> -			strcpy(source, type);
-> +			strcpy(mp->source, mp->type);
->  		}
->  
-> -		res = mount_notrunc(source, mnt, type, flags, optbuf);
-> +		res = mount_notrunc(mp->source, mnt, mp->type, mp->flags, mp->optbuf);
->  	}
->  	if (res == -1 && errno == EINVAL) {
->  		/* It could be an old version not supporting group_id */
-> -		sprintf(d, "fd=%i,rootmode=%o,user_id=%u",
-> -			fd, rootmode, getuid());
-> -		res = mount_notrunc(source, mnt, type, flags, optbuf);
-> +		sprintf(mp->optbuf_end, "fd=%i,rootmode=%o,user_id=%u",
-> +			mp->fd, mp->rootmode, getuid());
-> +		res = mount_notrunc(mp->source, mnt, mp->type, mp->flags, mp->optbuf);
->  	}
->  	if (res == -1) {
->  		int errno_save = errno;
-> -		if (blkdev && errno == ENODEV && !fuse_mnt_check_fuseblk())
-> +		if (mp->blkdev && errno == ENODEV && !fuse_mnt_check_fuseblk())
->  			fprintf(stderr, "%s: 'fuseblk' support missing\n",
->  				progname);
->  		else
->  			fprintf(stderr, "%s: mount failed: %s\n", progname,
->  				strerror(errno_save));
-> -		goto err;
-> +		return -1;
->  	}
-> -	*sourcep = source;
-> -	*typep = type;
-> -	*mnt_optsp = mnt_opts;
-> -	free(fsname);
-> -	free(optbuf);
->  
->  	return 0;
-> +}
->  
-> -err:
-> -	free(fsname);
-> -	free(subtype);
-> -	free(source);
-> -	free(type);
-> -	free(mnt_opts);
-> -	free(optbuf);
-> -	return -1;
-> +static int do_mount(const char *mnt, const char **typep, mode_t rootmode,
-> +		    int fd, const char *opts, const char *dev, char **sourcep,
-> +		    char **mnt_optsp)
-> +{
-> +	struct mount_params mp = { .fd = fd }; /* implicit zero of other params */
-> +	int res;
-> +
-> +	mp.rootmode = rootmode;
-> +	mp.dev = dev;
-> +
-> +	res = prepare_mount(opts, &mp);
-> +	if (res == -1)
-> +		return -1;
-> +
-> +	res = perform_mount(mnt, &mp);
-> +	if (res == -1) {
-> +		free_mount_params(&mp);
-> +		return -1;
-> +	}
-> +
-> +	*sourcep = mp.source;
-> +	*typep = mp.type;
-> +	*mnt_optsp = mp.mnt_opts;
-> +
-> +	/* Free only the intermediate allocations, not the returned ones */
-> +	free(mp.fsname);
-> +	free(mp.subtype);
-> +	free(mp.optbuf);
-> +
-> +	return 0;
->  }
->  
->  static int check_perm(const char **mntp, struct stat *stbuf, int *mountpoint_fd)
-> 
-> -- 
-> 2.43.0
-> 
-> 
+Regards,
+Christian.
