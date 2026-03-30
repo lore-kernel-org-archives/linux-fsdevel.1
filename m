@@ -1,112 +1,311 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ADD6399345
-	for <linux-fsdevel@vger.kernel.org>; Mon, 30 Mar 2026 20:04:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 315B9396B73
+	for <linux-fsdevel@vger.kernel.org>; Mon, 30 Mar 2026 20:30:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774901079; cv=none; b=Bt9bopQuXbYRmc0vBbXRdqLkhwpqwBN5ubnCjS75yWs4yKYr59nOj4Yus0FsvBaqzYKb/NrQML7uMMi4QfGcT5S1RALUOv70IC/EWi1eJriMHDw7ydup0N+2ZYcIDY5VOYTOK/DCweX2koEOh15oL6pCLJX4FmhXW28dE3eZaN0=
+	t=1774902608; cv=none; b=rFq+hNnIPZrAYUCLduxZ1Js5vZRuULVIv50o0YTRifz+QW/WoE1YlhF/CAy+kbD47JaIA/iiAqiL2JOs1wRuokZqfRmg0qwhhNyN+mpS61A9bk+kOHatqPEQIhV3ceWMtIJxibA8vv+EkuGUR6uevYAiXroxw2sSHu/0XXTRuNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774901079; c=relaxed/simple;
-	bh=1X1yQpwKHXFHDTwoogHV/wsFWF8CFNxD4Jdw11uzolI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FUXAExvVYk0iF3ALg0q6RJP3QmIWN2+p0IhFJDAVfltjbghUAKQPrxsDE+AkdEiF1tv9kQLqs6sMbqPRFVQ6eH+MSbqWfx3mcaCXdqzCZIdRFzt0rPVTxK6gp+khjrqI0tiTrsw9OYMngeP2TBonFIcQluXEG453Laylo7yA/eE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IDfKIL10; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774902608; c=relaxed/simple;
+	bh=O40cr2ETSE5nQ9U5AR60paoYTtqQq/lnoBOio5+TF7E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iVfqFrXlrZz7X29duG6s7GLtlW9jIHizLGNRaRjKQ6oT6NsoSRKE8XQdz5e9PDS/dP9HtxHBG5GFD0aNGmmBOZ6UVjNLtvYo/bedpyT2KlPEjvN5Tb2rvq8oWTGp5kNPftRlIBqvb5PIiK3b/S3cmHgKGYJHKCLF6otrnHEChAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fw5hzaTu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IDfKIL10"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23B66C2BCB5
-	for <linux-fsdevel@vger.kernel.org>; Mon, 30 Mar 2026 20:04:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fw5hzaTu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CA5CC4CEF7;
+	Mon, 30 Mar 2026 20:30:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774901079;
-	bh=1X1yQpwKHXFHDTwoogHV/wsFWF8CFNxD4Jdw11uzolI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=IDfKIL10p1+7rBp/suyM4lQdQ9SgBcvMG7bQmtXVp1lqia4FLJ2nYQGmv4H6yOLPZ
-	 fLnLW7At8v1FFAJqxDlsdrfOmUhgn52Taok0gZ8ZMlpqmxQAlkZ4VWEMa5HQiMHDfn
-	 ro4PxhFWpmhbYWxD5w4Ys9mYFEwoXPQNebe5IjMdLbZyFXBUwJrktLCEIXnXb0vsth
-	 0IvnJm7848RbA4U96ZBX1BX143qXHezDsBmu7s0pREUSC3LOB/vQ2XtKAdScrrSdIm
-	 BTh7FKkOXYhPbP3L9teazTjzxQUoB6hOzDoEzqARuwy8G/LY6f+nbwa+1llwnbfory
-	 X4sJlQr6yxwLw==
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-8a032383008so29052356d6.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 30 Mar 2026 13:04:39 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVuDLfJL+HS1OaVd4R+VYMCrMWLDmRLJ+D3GOsAOf5D9BOkXft2sv8mVr+w9qk12igeznXFF012aYdmkjty@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx10MGIJWKYbAaAareuPrvbwd+b8TRicn9gl3NFZXsZzS3pMTcG
-	qSQYujBMOO+M4KgwHqD8p++Pb9f6H769EZFnzJfG5PubiXLwMRdhaNe9DxpCA11VxwvgCzPfSyB
-	tck4Q9puuCP1hwstLPpc+vBWkZb6CB5U=
-X-Received: by 2002:a05:6214:2128:b0:89a:10d8:f9ca with SMTP id
- 6a1803df08f44-89ce8dd0b9emr214870836d6.26.1774901078259; Mon, 30 Mar 2026
- 13:04:38 -0700 (PDT)
+	s=k20201202; t=1774902608;
+	bh=O40cr2ETSE5nQ9U5AR60paoYTtqQq/lnoBOio5+TF7E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fw5hzaTu71aP2J8u34Gp6L11nyLBR6H0mXXt/RatGx34PpBEKQnFtiXLSXwqnDA2r
+	 29hoqinqlmfZvSRZWbs3k+rHvj2dBAGqTQa9TlZZPTtW+Cw5xGeWuQzfsB7LPu6dOR
+	 Z8dwgqQvFTUP00CkSUkUl6oscAO9AfH9PVYHsrQ6CSKQCsNIEYam+sCFk5ky6Fz6ZH
+	 z2uPrw8QbXYS0a0KIsoWvU3X43ILXLrhqI+4cmB524/6gWBWd95LBnt9aX+5MGatQk
+	 KrAaUkNV9Oyriyk3x5w1jmZcC3tA1r5dL3D5feQkZYaBr8m7JCVEEK8pWDv/gdN6xi
+	 JRhkdcxsp3ang==
+Date: Mon, 30 Mar 2026 13:30:07 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Bernd Schubert <bernd@bsbernd.com>
+Cc: bschubert@ddn.com, linux-fsdevel@vger.kernel.org, miklos@szeredi.hu,
+	neal@gompa.dev, joannelkoong@gmail.com
+Subject: Re: [PATCH 03/17] mount_service: create high level fuse helpers
+Message-ID: <20260330203007.GJ6254@frogsfrogsfrogs>
+References: <177457463048.1008428.11432672970504238251.stgit@frogsfrogsfrogs>
+ <177457463171.1008428.692188550544402497.stgit@frogsfrogsfrogs>
+ <d7e830f2-fb3f-4782-a6bc-9b850ebdcc36@bsbernd.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260318184400.3502908-1-song@kernel.org> <20260318184400.3502908-7-song@kernel.org>
- <b720f521-e930-4f35-9505-1bfdf9e2818c@I-love.SAKURA.ne.jp>
- <4DF5C4A8-7C92-4F76-9B34-2262089E7289@meta.com> <33abcf34-13e2-4a37-83f3-78bb27ecbc11@I-love.SAKURA.ne.jp>
- <F0A0D13E-8208-49A4-9AC6-89AC4BF3F4FB@meta.com> <20260323-klappen-atemschutz-7a0af8c6b087@brauner>
- <714a614b-cfb4-4b20-af8c-df3cc56dfb92@I-love.SAKURA.ne.jp>
- <CAAeYb7k+TWArOKyOomkLZ8fwqUPjha9iORpJaj4nMyN=o4ZRQg@mail.gmail.com>
- <6609e11e-90aa-4021-974e-e9937688dd49@I-love.SAKURA.ne.jp>
- <CAPhsuW4G7vo-JZqenZ-sFHw9z02wZUJa1-+9U81U--vQhnfG_Q@mail.gmail.com>
- <6c298238-8d87-4c41-84a7-e0373d466a15@I-love.SAKURA.ne.jp>
- <CAPhsuW4E_BrF0ap5yg_6TbRAna=2Ajk2nuoT6WGwkS5cyyYB3w@mail.gmail.com> <4f5d1b1f-ecb2-421a-8a46-36c7a12d48de@I-love.SAKURA.ne.jp>
-In-Reply-To: <4f5d1b1f-ecb2-421a-8a46-36c7a12d48de@I-love.SAKURA.ne.jp>
-From: Song Liu <song@kernel.org>
-Date: Mon, 30 Mar 2026 13:04:25 -0700
-X-Gmail-Original-Message-ID: <CAPhsuW6FewkhGoNCqJ9p5V4sGmJTC8pJM2BUv8Ekxcft93nuyQ@mail.gmail.com>
-X-Gm-Features: AQROBzC66Kh9nC3Ny7eCdzD0vCLOETw0qurKeL6o2A35S67y_YeSqFGNhcnT1NY
-Message-ID: <CAPhsuW6FewkhGoNCqJ9p5V4sGmJTC8pJM2BUv8Ekxcft93nuyQ@mail.gmail.com>
-Subject: Re: [PATCH 6/7] tomoyo: Convert from sb_mount to granular mount hooks
-To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Cc: Song Liu <songliubraving@meta.com>, Christian Brauner <brauner@kernel.org>, 
-	"viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>, "paul@paul-moore.com" <paul@paul-moore.com>, 
-	"jmorris@namei.org" <jmorris@namei.org>, "serge@hallyn.com" <serge@hallyn.com>, "jack@suse.cz" <jack@suse.cz>, 
-	"john.johansen@canonical.com" <john.johansen@canonical.com>, 
-	"stephen.smalley.work@gmail.com" <stephen.smalley.work@gmail.com>, 
-	"omosnace@redhat.com" <omosnace@redhat.com>, "mic@digikod.net" <mic@digikod.net>, 
-	"gnoack@google.com" <gnoack@google.com>, "takedakn@nttdata.co.jp" <takedakn@nttdata.co.jp>, 
-	"herton@canonical.com" <herton@canonical.com>, Kernel Team <kernel-team@meta.com>, 
-	"selinux@vger.kernel.org" <selinux@vger.kernel.org>, 
-	"apparmor@lists.ubuntu.com" <apparmor@lists.ubuntu.com>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	"linux-security-module@vger.kernel.org" <linux-security-module@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d7e830f2-fb3f-4782-a6bc-9b850ebdcc36@bsbernd.com>
 
-Hi Tetsuo,
+On Mon, Mar 30, 2026 at 09:37:18PM +0200, Bernd Schubert wrote:
+> Hi Darrick,
+> 
+> On 3/27/26 02:25, Darrick J. Wong wrote:
+> > From: Darrick J. Wong <djwong@kernel.org>
+> > 
+> > Create a fuse_main wrapper for fuse services.
+> > 
+> > Signed-off-by: Darrick J. Wong <djwong@kernel.org>
+> > ---
+> >  include/fuse.h         |   33 ++++++++++++++++++++++++++++
+> >  lib/fuse_versionscript |    1 +
+> >  lib/helper.c           |   57 +++++++++++++++++++++++++++++++++++++++++-------
+> >  3 files changed, 83 insertions(+), 8 deletions(-)
+> > 
+> > 
+> > diff --git a/include/fuse.h b/include/fuse.h
+> > index 595cac07f2be36..c7dae040857aca 100644
+> > --- a/include/fuse.h
+> > +++ b/include/fuse.h
+> > @@ -1008,6 +1008,39 @@ static inline int fuse_main_fn(int argc, char *argv[],
+> >  #define fuse_main(argc, argv, op, user_data) \
+> >  	fuse_main_fn(argc, argv, op, user_data)
+> >  
+> > +#if FUSE_MAKE_VERSION(3, 19) <= FUSE_USE_VERSION
+> > +struct fuse_service;
+> > +int fuse_service_main_real_versioned(struct fuse_service *service,
+> > +				     int argc, char *argv[],
+> > +				     const struct fuse_operations *op,
+> > +				     size_t op_size,
+> > +				     struct libfuse_version *version,
+> > +				     void *user_data);
+> > +
+> > +/**
+> > + * Same as fuse_service_main_fn, but takes its information from the mount
+> > + * service context.
+> > + */
+> > +static inline int fuse_service_main_fn(struct fuse_service *service,
+> > +				       int argc, char *argv[],
+> > +				       const struct fuse_operations *op,
+> > +				       void *user_data)
+> > +{
+> > +	struct libfuse_version version = {
+> > +		.major  = FUSE_MAJOR_VERSION,
+> > +		.minor  = FUSE_MINOR_VERSION,
+> > +		.hotfix = FUSE_HOTFIX_VERSION,
+> > +		.padding = 0
+> > +	};
+> > +
+> > +	return fuse_service_main_real_versioned(service, argc, argv, op,
+> > +						sizeof(*(op)), &version,
+> > +						user_data);
+> > +}
+> > +#define fuse_service_main(s, argc, argv, op, user_data) \
+> > +	fuse_service_main_fn(s, argc, argv, op, user_data)
+> > +#endif /* FUSE_USE_VERSION >= FUSE_MAKE_VERSION(3, 19) */
+> 
+> sorry, this is not exactly what I meant. Could you take a look here? I
 
-On Tue, Mar 24, 2026 at 6:02=E2=80=AFPM Tetsuo Handa
-<penguin-kernel@i-love.sakura.ne.jp> wrote:
-[...]
-> >
-> > If I understand Christian correctly, the main challenge here is that
-> > FS_REQUIRES_DEV doesn't imply fc->source is the path of a device.
->
-> Correct. FS_REQUIRES_DEV no longer implies that fc->source is a pathname.
->
-> > Changing this assumption is a major change between VFS and many
-> > filesystems.
->
-> Wrong. I'm not trying to change this assumption. I'm trying to move LSM h=
-ook
-> to a location after fc->source was interpreted by individual filesystem.
+OH, you want the program to pass in both the version of libfuse that the
+program was built against (struct libfuse_version) and the version of
+libfuse that the program asked for (FUSE_USE_VERSION).  Not just header
+guards.
 
-After spending some more time on this, I think we should not add
-fc->source_path. This is because in many cases, dev_name for a new mount
-is not a dev, or a path. For example, I can create a btrfs raid0 volume on =
-two
-devices, and use either of them as dev_name to mount the volume. It is not
-accurate to put the path of either device in fc->source_path.
+> just pushed the unfinished patch I made in December. It got complicated
+> in the high level API and I didn't have time to finish it yet.
 
-OTOH, if a LSM really wants to monitor the devices used by this mount,
-security_sb_kern_mount() is a better hook to use. This will require the
-LSM understands s_fs_info for specific file systems, which is not easy but
-necessary.
+Yes, that does make sense for setting defaults based on the version of
+the libfuse API that the fuse server expects.
 
-For now, I think it makes sense to keep security_mount_new() in this set
-as-is, and let LSMs like tomoyo and apparmor call kern_path when
-necessary.
+> https://github.com/libfuse/libfuse/pull/1382/changes/24836ded18e9736eb4691600600ff1d7cf581e29
+> 
+> Basically I would like to add the API version to the functions, in order
+> to set defaults flags. The topic came up about FUSE_CAP_AUTO_INVAL_DATA,
+> because it can cause data corruption, but there is also a risk to cause
+> regressions. So would be good to set that based on the API version
+> (assuming people read the rather new doc/ChangeLog-API.rst).
+> 
+> Anyway your function should basically be
+> 
+> int fuse_service_main_real_versioned(struct fuse_service *service,
+> 				     int argc, char *argv[],
+> 				     const struct fuse_operations *op,
+> 				     size_t op_size,
+>                                      unsigned int user_apiabi_version,
+> 				     struct libfuse_version *version,
+> 				     void *user_data);
+> 
+> 
+> I.e. adding in 'user_apiabi_version'. Although while looking into this
+> again, maybe we should mis-use 'padding' and rename it 'api version. It
+> would definitely simplify things.
+> 
+> 
+> While you look into all these things, what is your opinion? ;)
 
-Thanks,
-Song
+I like the idea of encoding the FUSE_USE_VERSION as the padding value.
+I wonder if there's a danger of a client setting the fields manually:
+
+	struct libfuse_version version;
+
+	version.major = FUSE_MAJOR_VERSION;
+	version.minor = FUSE_MINOR_VERSION;
+	version.hotfix = FUSE_HOTFIX_VERSION;
+
+	fuse_main_real_versioned(..., &version...);
+
+such that version.padding is now set to stack garbage?  The wrapper
+functions in fuse.h use struct initialization so the .padding value will
+be zero, but fuse_session_new_versioned doesn't appear to require zero,
+which makes such a change a bit risky.
+
+Debian codesearch seems to think there aren't any direct callers of
+fuse_session_new_versioned or fuse_main_real_versioned outside of fuse,
+so this might not be a big risk.
+
+If the risk is acceptable, it would reduce the amount of code changes to
+add the FUSE_USE_VERSION number and force programs to #define it before
+#include'ing fuse.h.
+
+The existing functions that take a struct libfuse_version could just
+ignore values like 0 or values that arent't in the range 30-39 or
+310-319.  That might be enough to avoid complaints.
+
+--D
+
+> 
+> Thanks,
+> Bernd
+> 
+> > +
+> >  /* ----------------------------------------------------------- *
+> >   * More detailed API					       *
+> >   * ----------------------------------------------------------- */
+> > diff --git a/lib/fuse_versionscript b/lib/fuse_versionscript
+> > index 1fc73f417f90a0..43f8bf11b64548 100644
+> > --- a/lib/fuse_versionscript
+> > +++ b/lib/fuse_versionscript
+> > @@ -236,6 +236,7 @@ FUSE_3.19 {
+> >  		fuse_service_exit;
+> >  		fuse_service_expect_mount_mode;
+> >  		fuse_service_finish_file_requests;
+> > +		fuse_service_main_real_versioned;
+> >  		fuse_service_parse_cmdline_opts;
+> >  		fuse_service_receive_file;
+> >  		fuse_service_release;
+> > diff --git a/lib/helper.c b/lib/helper.c
+> > index 533526273207d5..3509f1aa0c8f79 100644
+> > --- a/lib/helper.c
+> > +++ b/lib/helper.c
+> > @@ -15,6 +15,7 @@
+> >  #include "fuse_misc.h"
+> >  #include "fuse_opt.h"
+> >  #include "fuse_lowlevel.h"
+> > +#include "fuse_service.h"
+> >  #include "mount_util.h"
+> >  
+> >  #include <stdio.h>
+> > @@ -357,7 +358,8 @@ int fuse_daemonize(int foreground)
+> >  	return 0;
+> >  }
+> >  
+> > -int fuse_main_real_versioned(int argc, char *argv[],
+> > +int fuse_service_main_real_versioned(struct fuse_service *service,
+> > +			     int argc, char *argv[],
+> >  			     const struct fuse_operations *op, size_t op_size,
+> >  			     struct libfuse_version *version, void *user_data)
+> >  {
+> > @@ -367,8 +369,15 @@ int fuse_main_real_versioned(int argc, char *argv[],
+> >  	int res;
+> >  	struct fuse_loop_config *loop_config = NULL;
+> >  
+> > -	if (fuse_parse_cmdline(&args, &opts) != 0)
+> > -		return 1;
+> > +	if (service) {
+> > +		if (fuse_service_parse_cmdline_opts(&args, &opts) != 0) {
+> > +			res = 1;
+> > +			goto out0;
+> > +		}
+> > +	} else {
+> > +		if (fuse_parse_cmdline(&args, &opts) != 0)
+> > +			return 1;
+> > +	}
+> >  
+> >  	if (opts.show_version) {
+> >  		printf("FUSE library version %s\n", PACKAGE_VERSION);
+> > @@ -405,9 +414,17 @@ int fuse_main_real_versioned(int argc, char *argv[],
+> >  		goto out1;
+> >  	}
+> >  
+> > -	if (fuse_mount(fuse,opts.mountpoint) != 0) {
+> > -		res = 4;
+> > -		goto out2;
+> > +	if (service) {
+> > +		if (fuse_service_session_mount(service, fuse_get_session(fuse),
+> > +					       0, &opts) != 0) {
+> > +			res = 4;
+> > +			goto out2;
+> > +		}
+> > +	} else {
+> > +		if (fuse_mount(fuse, opts.mountpoint) != 0) {
+> > +			res = 4;
+> > +			goto out2;
+> > +		}
+> >  	}
+> >  
+> >  	if (fuse_daemonize(opts.foreground) != 0) {
+> > @@ -421,9 +438,14 @@ int fuse_main_real_versioned(int argc, char *argv[],
+> >  		goto out3;
+> >  	}
+> >  
+> > -	if (opts.singlethread)
+> > +	if (opts.singlethread) {
+> > +		if (service) {
+> > +			fuse_service_send_goodbye(service, 0);
+> > +			fuse_service_release(service);
+> > +		}
+> > +
+> >  		res = fuse_loop(fuse);
+> > -	else {
+> > +	} else {
+> >  		loop_config = fuse_loop_cfg_create();
+> >  		if (loop_config == NULL) {
+> >  			res = 7;
+> > @@ -434,6 +456,12 @@ int fuse_main_real_versioned(int argc, char *argv[],
+> >  
+> >  		fuse_loop_cfg_set_idle_threads(loop_config, opts.max_idle_threads);
+> >  		fuse_loop_cfg_set_max_threads(loop_config, opts.max_threads);
+> > +
+> > +		if (service) {
+> > +			fuse_service_send_goodbye(service, 0);
+> > +			fuse_service_release(service);
+> > +		}
+> > +
+> >  		res = fuse_loop_mt(fuse, loop_config);
+> >  	}
+> >  	if (res)
+> > @@ -448,9 +476,22 @@ int fuse_main_real_versioned(int argc, char *argv[],
+> >  	fuse_loop_cfg_destroy(loop_config);
+> >  	free(opts.mountpoint);
+> >  	fuse_opt_free_args(&args);
+> > +out0:
+> > +	if (service) {
+> > +		fuse_service_send_goodbye(service, res);
+> > +		fuse_service_release(service);
+> > +	}
+> >  	return res;
+> >  }
+> >  
+> > +int fuse_main_real_versioned(int argc, char *argv[],
+> > +			     const struct fuse_operations *op, size_t op_size,
+> > +			     struct libfuse_version *version, void *user_data)
+> > +{
+> > +	return fuse_service_main_real_versioned(NULL, argc, argv, op, op_size,
+> > +						version, user_data);
+> > +}
+> > +
+> >  /* Not symboled, as not part of the official API */
+> >  int fuse_main_real_30(int argc, char *argv[], const struct fuse_operations *op,
+> >  		      size_t op_size, void *user_data);
+> > 
+> > 
+> 
