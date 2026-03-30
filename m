@@ -1,174 +1,147 @@
-Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com [209.85.210.70])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E77339E164
-	for <linux-fsdevel@vger.kernel.org>; Mon, 30 Mar 2026 07:38:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F1953A8733
+	for <linux-fsdevel@vger.kernel.org>; Mon, 30 Mar 2026 07:59:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774856325; cv=none; b=QGbwuyDYi5jEGZZRhcifXhDUSAr46gdDT1UVKfrWo1sgli1YQATBDR/kL4+pfJcWR4QL4yiMO+9pYWHNdTqO9IPIxulXXMG9M/mvOtbgLYTkGk0e8FxdkiNFUIxzN6LTtWsVV8+O7W14VJYjYEmYh3TbEmdoENzO3X+YTNd6yOw=
+	t=1774857600; cv=none; b=Z4cDHoavpWEvVKny+2HZvu+W0mubsbpswUMeHxE3SFEnB7jYaquDoTZfxyaRXfQ2FSXeMTpo+tHMeGVEYlTfHWuygfXKCOjKvbQAY+dHvveuGhSF8Mf/oZYi/Z1QMnjN44Z63b37ziDL/w9lU3QA6kF/CorH8koFlZA8eYeHe6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774856325; c=relaxed/simple;
-	bh=8xPGidKuobFRgo0T8ZiGsUHNwAPnLSdYUnn8bI2M0xk=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=Ix2fH8el5VFCeiRTVEyA0wPu6tdjfA8vKKzyb1kPTCk5vmnVKbbCeH260nb/PzDGVMCk0JTyRGhdo4xHi9Q0/1tvAKq970AnOrxOxX0b/X3d17aXg0WaeAUfNJkiShFOb/eqkU4S9ioN4uTR3of2AJxX2yKvFSnKgwkurL/78Ek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-ot1-f70.google.com with SMTP id 46e09a7af769-7d7c848c866so5978836a34.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 30 Mar 2026 00:38:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774856323; x=1775461123;
-        h=cc:to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tufTVOM2hw5/bqKvRKn02jpDxlwycu6VJ4SyIlq03ds=;
-        b=qeJoR5+7vLvleJkwKVAYQOzPa2/bGqknyJ2YaLrsUwwH/x/cNCsZsKjdrrmGw4/IAI
-         l5ZPi8kM57DZxsfwzsTjMb8ZK/CVmqL2alpT4cXlYl2m9WcXi8EMb8wksjqB1YGV04TG
-         36+Fq/Hh94Y3OdCVjTeQZVQ+xpY2MS0NrkR12HWAbSNHNIFuu1FnqekQDMg1OzwyT2KZ
-         USMU1jQNmm3mLMXSYdPGMwAn4+ez4rRYUjX/NgyW3IBa01QS3wWVUXlJBBZfkwY+g5h9
-         QxVq0ueZhLgPPMqsrpA3/jLRKnq0MFR5GjcMh4v+hgUdJNWJrbhnJE4cJha6DZvyLdrh
-         QkxQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUvwzDf88Qz8giMUHJ5GzBstpBRpCPp0ebUP/hiVJld6UhKP832fZrvLMJqdj4Jtzi2soMUCbbGZusiK1ey@vger.kernel.org
-X-Gm-Message-State: AOJu0YzaqNSpqo1xES/acqEUICJ3StpZK9kdrF152Xtd9Nj5qfhKC7yf
-	0e3ZUsonD8HJWwNLMpdvlboiRmGbCiyiOG9fJGfgxkt3zSx4rm/C8tlk9etfQiy3Mh/oT3F8TYe
-	UeqCbxLvu3BIVpB8HLHOEFgg2ldtRudZgrNIRBc1d/nA4fzei0h0/du9zgYk=
+	s=arc-20240116; t=1774857600; c=relaxed/simple;
+	bh=On+5TNT/a2qCCsGWnRoKiqe9wAlWY5lMDN2hymFFVTo=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=iHDOXmglMYd6mIfU4iq4FdrrbBN/FiGJUZ7OmaRi7XQVYbbL8ztLCDJ3OmH6nXMHJiU5arSrsjnCFxsKOAJ539K+9+MH5ntaw0OaJ1iuCR9YfcWxPc0kU8iJX1ybhCIwFfKHy2zugeyni0SzJz+IzfoPwvIS5fY2fUR5Msh7FH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DVqKR34e; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=e9hB2+q/; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DVqKR34e; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=e9hB2+q/; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DVqKR34e";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="e9hB2+q/";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DVqKR34e";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="e9hB2+q/"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2E7794D521;
+	Mon, 30 Mar 2026 07:59:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1774857597; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=2MuVzNnvc+lp/lx6vvEM5pbvKJ4+UfTZF7WaWKGgmSM=;
+	b=DVqKR34e8x2HMvRSmpDKiH0ZzxxffumGGsv2mKN541UTA4zA4g/NZEg/qp06jdj+SWjR7R
+	O7sTl2vDlkRwluT3mDhi6n4uO1w0QZ5cLKYeMXZHaMG+x3DLe2H3uQ4UUorzvlKeUilJlI
+	8MzHB4AU2JJuuT5mwWzcISuYc+jv4jc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1774857597;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=2MuVzNnvc+lp/lx6vvEM5pbvKJ4+UfTZF7WaWKGgmSM=;
+	b=e9hB2+q/S4daTKHe+ReZb7hycDHcyMs7qr8TcGiUlj0XXmUWrewMVB3ND9yiRJxaQPWyl9
+	WM7I1yMFoYNWaZBA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=DVqKR34e;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="e9hB2+q/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1774857597; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=2MuVzNnvc+lp/lx6vvEM5pbvKJ4+UfTZF7WaWKGgmSM=;
+	b=DVqKR34e8x2HMvRSmpDKiH0ZzxxffumGGsv2mKN541UTA4zA4g/NZEg/qp06jdj+SWjR7R
+	O7sTl2vDlkRwluT3mDhi6n4uO1w0QZ5cLKYeMXZHaMG+x3DLe2H3uQ4UUorzvlKeUilJlI
+	8MzHB4AU2JJuuT5mwWzcISuYc+jv4jc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1774857597;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=2MuVzNnvc+lp/lx6vvEM5pbvKJ4+UfTZF7WaWKGgmSM=;
+	b=e9hB2+q/S4daTKHe+ReZb7hycDHcyMs7qr8TcGiUlj0XXmUWrewMVB3ND9yiRJxaQPWyl9
+	WM7I1yMFoYNWaZBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0C53A4A0A2;
+	Mon, 30 Mar 2026 07:59:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id t/SEAX0tymkGQAAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 30 Mar 2026 07:59:57 +0000
+Message-ID: <e06deabf-44ad-4f3f-b817-78506c5e3203@suse.de>
+Date: Mon, 30 Mar 2026 09:59:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:1f08:b0:67e:20e3:46fd with SMTP id
- 006d021491bc7-67e20e34743mr5280205eaf.51.1774856323095; Mon, 30 Mar 2026
- 00:38:43 -0700 (PDT)
-Date: Mon, 30 Mar 2026 00:38:43 -0700
-In-Reply-To: <20260329172002.3557801-1-mjguzik@gmail.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <69ca2883.a70a0220.97f31.014d.GAE@google.com>
-Subject: [syzbot ci] Re: assorted ->i_count changes + extension of lockless handling
-From: syzbot ci <syzbot+cia3194410d3bc290d@syzkaller.appspotmail.com>
-To: brauner@kernel.org, jack@suse.cz, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, mjguzik@gmail.com, viro@zeniv.linux.org.uk
-Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: lsf-pc <lsf-pc@lists.linux-foundation.org>, linux-cxl@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org
+From: Hannes Reinecke <hare@suse.de>
+Subject: [LSF/MM/BPF TOPIC] Strategies for memory deallocation/movement for
+ Dynamic Capacity Pooling
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -4.51
+X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 2E7794D521
 
-syzbot ci has tested the following series
+Hi all,
 
-[v3] assorted ->i_count changes + extension of lockless handling
-https://lore.kernel.org/all/20260329172002.3557801-1-mjguzik@gmail.com
-* [PATCH v3 1/7] fs: add icount_read_once()
-* [PATCH v3 2/7] Use icount_read() and icount_read_once() as appropriate.
-* [PATCH v3 3/7] fs: enforce locking in icount_read(), add some commentary
-* [PATCH v3 4/7] fs: relocate and tidy up ihold()
-* [PATCH v3 5/7] fs: handle hypothetical filesystems which use I_DONTCACHE and drop the lock in ->drop_inode
-* [PATCH v3 6/7] fs: locklessly bump refs in igrab as long as it does not transition 0->1
-* [PATCH v3 7/7] fs: locklessly bump refs in the inode hash when possible
+during discussion with our partners regarding implementing dynamic 
+capacity devices (DCD) on CXL the question has been brought up if
+we can somehow 'steer' which memory page to move.
+The problem is that for dynamic capacity devices we have a certain
+freedom which memory page to move/deallocate, so ideally there would
+be a strategy which pages to move/deallocate.
+Should it be per application/cgroup?
+Does it make sense to move individual pages from one application/cgroup
+or would it be better to move all pages from the application/cgroup?
+Should we implement something (eg via madvise()) to allow applicaitons
+to influence the policy?
+If so, what would that be?
 
-and found the following issue:
-WARNING in bdev_file_open_by_dev
+So quite some things to discuss; however, not sure if this isn't too
+much of an arcane topic which should rather be directed at places like
+LPC. But I'll let the PC decide.
 
-Full report is available here:
-https://ci.syzbot.org/series/ed1deb86-adfc-43a1-bec0-01d8189f1e9f
+Cheers,
 
-***
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
-WARNING in bdev_file_open_by_dev
-
-tree:      linux-next
-URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/next/linux-next
-base:      3b058d1aeeeff27a7289529c4944291613b364e9
-arch:      amd64
-compiler:  Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
-config:    https://ci.syzbot.org/builds/84ba2ea1-23ea-425b-8339-8acab8f7ad4b/config
-
-9p: Installing v9fs 9p2000 file system support
-NILFS version 2 loaded
-befs: version: 0.9.3
-ocfs2: Registered cluster interface o2cb
-ocfs2: Registered cluster interface user
-OCFS2 User DLM kernel interface loaded
-gfs2: GFS2 installed
-ceph: loaded (mds proto 32)
-cryptd: max_cpu_qlen set to 1000
-NET: Registered PF_ALG protocol family
-async_tx: api initialized (async)
-Key type asymmetric registered
-Asymmetric key parser 'x509' registered
-Asymmetric key parser 'pkcs8' registered
-Key type pkcs7_test registered
-Block layer SCSI generic (bsg) driver version 0.4 loaded (major 239)
-io scheduler mq-deadline registered
-io scheduler kyber registered
-io scheduler bfq registered
-xor: measuring software checksum speed
-   prefetch64-sse  :  6910 MB/sec
-   sse             :  6480 MB/sec
-xor: using function: prefetch64-sse (6910 MB/sec)
-input: Power Button as /devices/platform/LNXPWRBN:00/input/input0
-ACPI: button: Power Button [PWRF]
-ioatdma: Intel(R) QuickData Technology Driver 5.00
-ACPI: \_SB_.GSIG: Enabled at IRQ 22
-N_HDLC line discipline registered with maxframe=4096
-Serial: 8250/16550 driver, 4 ports, IRQ sharing enabled
-00:03: ttyS0 at I/O 0x3f8 (irq = 4, base_baud = 115200) is a 16550A
-Non-volatile memory driver v1.3
-Linux agpgart interface v0.103
-usbcore: registered new interface driver xillyusb
-ACPI: bus type drm_connector registered
-[drm] Initialized vgem 1.0.0 for vgem on minor 0
-[drm] Initialized vkms 1.0.0 for vkms on minor 1
-Console: switching to colour frame buffer device 128x48
-faux_driver vkms: [drm] fb0: vkmsdrmfb frame buffer device
-usbcore: registered new interface driver udl
-bochs-drm 0000:00:01.0: vgaarb: deactivate vga console
-[drm] Found bochs VGA, ID 0xb0c5.
-[drm] Framebuffer size 16384 kB @ 0xfd000000, mmio @ 0xfebf0000.
-[drm] Initialized bochs-drm 1.0.0 for 0000:00:01.0 on minor 2
-fbcon: bochs-drmdrmfb (fb1) is primary device
-fbcon: Remapping primary device, fb1, to tty 1-63
-bochs-drm 0000:00:01.0: [drm] fb1: bochs-drmdrmfb frame buffer device
-usbcore: registered new interface driver gm12u320
-usbcore: registered new interface driver gud
-------------[ cut here ]------------
-debug_locks && !(lock_is_held(&(&inode->i_lock)->dep_map) != 0)
-WARNING: ./include/linux/fs.h:2242 at ihold+0x102/0x170, CPU#1: swapper/0/1
-Modules linked in:
-CPU: 1 UID: 0 PID: 1 Comm: swapper/0 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-RIP: 0010:ihold+0x102/0x170
-Code: b7 7c ff 83 fb 02 7c 11 e8 2b b3 7c ff 5b 41 5e 41 5f 5d e9 c0 e0 6b 09 cc e8 1a b3 7c ff 90 0f 0b 90 eb e9 e8 0f b3 7c ff 90 <0f> 0b 90 e9 6d ff ff ff 48 c7 c1 e0 bd 12 90 80 e1 07 80 c1 03 38
-RSP: 0000:ffffc90000067680 EFLAGS: 00010293
-RAX: ffffffff82496f71 RBX: ffff888167cb06a0 RCX: ffff888102a957c0
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-RBP: 0000000000000000 R08: ffff888167cb08a7 R09: 1ffff1102cf96114
-R10: dffffc0000000000 R11: ffffed102cf96115 R12: ffff888167cb0000
-R13: ffff888169632e00 R14: 0000000000000000 R15: dffffc0000000000
-FS:  0000000000000000(0000) GS:ffff8882a943f000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000000000000000 CR3: 000000000e54a000 CR4: 00000000000006f0
-Call Trace:
- <TASK>
- bdev_file_open_by_dev+0x1aa/0x240
- disk_scan_partitions+0x1c1/0x2c0
- add_disk_fwnode+0x321/0x480
- brd_alloc+0x5b9/0x7c0
- brd_init+0xc1/0x120
- do_one_initcall+0x250/0x870
- do_initcall_level+0x104/0x190
- do_initcalls+0x59/0xa0
- kernel_init_freeable+0x2a6/0x3e0
- kernel_init+0x1d/0x1d0
- ret_from_fork+0x514/0xb70
- ret_from_fork_asm+0x1a/0x30
- </TASK>
-
-
-***
-
-If these findings have caused you to resend the series or submit a
-separate fix, please add the following tag to your commit message:
-  Tested-by: syzbot@syzkaller.appspotmail.com
-
----
-This report is generated by a bot. It may contain errors.
-syzbot ci engineers can be reached at syzkaller@googlegroups.com.
