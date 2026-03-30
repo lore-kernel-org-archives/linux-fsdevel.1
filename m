@@ -1,70 +1,321 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25C82369985;
-	Mon, 30 Mar 2026 17:03:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44E733DD518
+	for <linux-fsdevel@vger.kernel.org>; Mon, 30 Mar 2026 17:44:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774890188; cv=none; b=c2YrBOn1pybgt4PNsJ1NmUESqGxOj9DGEqI9h7jzY+3QJf41rJexaKM494GGLBnc4d2fv6qzTWgQHln0oErUssG1NNJ+eD2/ZPJBlxwm3DSmdM5A5g6ZXJtHx1vfrvCkrsmGyRS5l2nHi1YqNzPIjJyku7o9Jc6/YJ9InWyHDNI=
+	t=1774892664; cv=none; b=SIytCVANWmU9zm8DyCp47snnxn/LgbdD5JkSPNanv/Mc/BB9JqsboKoZXFONVmE3qxtHSR36GlrEw2ji9DGODI0Plt0wXe3HAuBm1OtQs8/vp8NAQ1MmRYa3kBEptR00caYbTvCJ0d2WNZhJbVupVPojNerfKB8jgzQ3LLYkb5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774890188; c=relaxed/simple;
-	bh=Q7xKbRz0+gaT57ra7L4y2lOaXhY8zaftbWtQ5kC93Hk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ksUMoNl8mSdyGmx7gxOJusNeHjthogJO+mhLb2l0/KMjs/i79gUQA6ZIktJ0sdK9vN3BiXGtxKwAvYDFBTQqoYFjP/xEFXSsgF/wnfoRgL64Yqzi4qRFsC30iv+D0B7lKLT6wV2DwiLBQRUfDXnqbhs1ArlsjMlKpkkcexKiV+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=s7RgPMFz; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1774892664; c=relaxed/simple;
+	bh=6c8LiVDZmZfwjkw1bIdFCJVv3kG4O5DWBteSv6eAjZ0=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=mkkJkz35T4GD9VpkAbXjupW3BEigkm8maPa23aavTAKGcqoirPc3hoZBd7CpmJzUw2ICqq+B8x1uxWHZRTauxYSXDx12vdsDdamNjIQagrCvZxPjmzCyV9+wPNWIdnFtkhKuz1U1mu/trR3Xbv3G2gGT8+YXrhUhjOevj/lRO5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SEv2anuU; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=nGcl02KL; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="s7RgPMFz"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6FA56411C2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1774890186; bh=LUDSAEbcy/Ks3bczFDg2JV+IiP4oX1z6FtakAazPjjE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=s7RgPMFzsMteaUxvq2/tdctIIjHDoDXSvKIHlBlPcucfO9Z/AjtemnOgHQX93xe3E
-	 ybkqYDdnSsPtroHXVAspux3aRPev39g6zfaRpZrl0tiXbTLOQVjfXitGNWQGBScSIU
-	 dOObZJXEo8jePthjJI7nZYMjyDTwkugTMKq60n6yuTEZnAi5Ak8QN3zQfs9FHeEjM1
-	 b0ZukJ849iiQE+dMPKxTgrR12Al2lDgmOu3PLw5mBu+ljyiPLvUmqju/z4qYdSDwsB
-	 FevZRJTazVWvAsciXg5WW6+qbdybuFCiDgVK7w3qubbxEqZRFkKU1IMrhTjpPJ0IOR
-	 QxP+8/SrW03+Q==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 6FA56411C2;
-	Mon, 30 Mar 2026 17:03:06 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Zenghui Yu <zenghui.yu@linux.dev>, linux-doc@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: skhan@linuxfoundation.org, "Zenghui Yu (Huawei)" <zenghui.yu@linux.dev>
-Subject: Re: [PATCH] docs: proc: remove description of prof_cpu_mask
-In-Reply-To: <20260311070940.94838-1-zenghui.yu@linux.dev>
-References: <20260311070940.94838-1-zenghui.yu@linux.dev>
-Date: Mon, 30 Mar 2026 11:03:04 -0600
-Message-ID: <87ikadmerb.fsf@trenco.lwn.net>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SEv2anuU";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="nGcl02KL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1774892662;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wpkaZQtteamykgvTVRt0q7cxvF2H6rsfMzPLTEUsazM=;
+	b=SEv2anuUh7gEgOmki7NEy3HEfaAquLzYSOPU27EYnlyPfMh2WGDoXKuulNhaPa25Kxpv9+
+	54v6x3m7VWILJz94cF2HfRj72sQhg8Y1RNgNMygDd7ISw41SQn60xwcC76dioGDDj9gojE
+	/ZAqF9cJFVtCVa3UX/MWD/L5eA90iR8=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-572-9o6rYLCfMtqh-gAbJdjipw-1; Mon, 30 Mar 2026 13:44:20 -0400
+X-MC-Unique: 9o6rYLCfMtqh-gAbJdjipw-1
+X-Mimecast-MFC-AGG-ID: 9o6rYLCfMtqh-gAbJdjipw_1774892660
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-50b4031b86dso152151871cf.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 30 Mar 2026 10:44:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1774892660; x=1775497460; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=wpkaZQtteamykgvTVRt0q7cxvF2H6rsfMzPLTEUsazM=;
+        b=nGcl02KLOIsyHIDcxOQqk0qVkNZ/ixvkKNJm73RLLXrbJ/YraDbxTGTuH/hSX5yOX+
+         x+E5K3KY6bqo/G98R22JXXHOkLszA7VtyEsxGsXBRnzf04MReJLLbyYrgdWG/eL+CRCk
+         HbDO/eWa5JQwJOgf6Imy8HYMlBET6PHZtqR33MH0izLvHGuyIdNW8GWNy31SEF8WU1W/
+         6Qi17OnQJoOn2yXw9v3qFwm5FmQ1vXaJ4xoFRko92siP1ZVRMrTmuDrmpvlhuIrPTW1G
+         THEUFL3FnAp6LGXCVG3V4GiJJhjDZa2Nq6/X2Y6aAZae/1SYLsulJaSS3/PnsdnxISJr
+         NZRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774892660; x=1775497460;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wpkaZQtteamykgvTVRt0q7cxvF2H6rsfMzPLTEUsazM=;
+        b=tO4Nz1B4+PG+z9L2zmalXHvM/7yK7dwYv19T61J4akTz9+owIDV0WPYwyKXcpdTkII
+         d6f/Zw9CKbDE/46wS6+NfkUOI4uMRQnhE/NzpkkgorIbsB4DrRzqO1hjBdOo9hh0qgim
+         OtjKcfGCvVWcBAwVU/gwO71YG/ZhO/8V/77qGflgD+Pv19Yc2PEFJKI9Ju/KC+FjEdNi
+         uxAhezMA7mpgabZ4OjJC6T9puZwrf6HwO1Inj9er9PWUz9P3/RrhokYSILZj8c/OQTSC
+         L4LCn/a/f5COq5Sfhx2LoUntbps1cgEJY/VOMioe5X9IfUmEqP5XRkGqo39NRGWsPT9Y
+         jmKA==
+X-Forwarded-Encrypted: i=1; AJvYcCWuTsUIYX4rNJML2TwsMbeOjQDC8PVnb8j5av2XN3Y+SO2tVxiqlaAxQgaWpNG8JMP7jt3Yvih7XiNZ/IYc@vger.kernel.org
+X-Gm-Message-State: AOJu0YxYg2SjFfMR5wAiXPT9/2C0zVh1cTCX++7b+n98GZS4jmdiwZFj
+	QUq/1/6ELznFY/bDLPOp3Z7p5d/i+OcG8/VvkCM14TgwcuJ467qjNM/78pmby2zKm+hZTVF6qSP
+	Ovdh7i80NKVn30Ut8h2t0eTic9TKyN7WmG4JRahhPH9GeKjCa9NdUKQpsJys8s+qed9g=
+X-Gm-Gg: ATEYQzxQmR/A06ToRTQNug1rsbZuLMq/dEhKL8sgFASTzMgil1/j6aSou0NVnB6ZT2S
+	qeTBUML+fIqIaEHJfhaKZfZIy90uOpecxpwiW0hMJpbLOyjHZ6YttDG/9z15lTVprgY46OwAKvr
+	QETIYNylGy+CS3OavypXN1wyT73mDl6wLSsVBaNaCqZEq0tjlp3IUkA5BsyziwD1yfp6P7wfL70
+	5lyDlPjeVVEuqwVqm9iHdpJtmej4VVu0wF5EpBHokJEiOOQyKx0E/Ydh1t59A8N0dGQoTnVMTwp
+	BvGVz8uxmdE+0jYsoMroh2tNUxXcMo9vGhSj39eM8ihUz13DoMLr7eBa3NFNenFhJA6VG4Tl/IU
+	dW6+M+UiqqYgPTQtNP0pL9+kHSihaNlfBc6wsBGSperW7zzcgpyhN
+X-Received: by 2002:a05:690c:3489:b0:79b:f4e1:a5b8 with SMTP id 00721157ae682-79bf4e1a918mr133518777b3.8.1774892660134;
+        Mon, 30 Mar 2026 10:44:20 -0700 (PDT)
+X-Received: by 2002:a05:690c:3489:b0:79b:f4e1:a5b8 with SMTP id 00721157ae682-79bf4e1a918mr133518337b3.8.1774892659541;
+        Mon, 30 Mar 2026 10:44:19 -0700 (PDT)
+Received: from li-4c4c4544-0032-4210-804c-c3c04f423534.ibm.com ([2600:1700:6476:1430::29])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-79cb7135d8asm38373587b3.4.2026.03.30.10.44.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Mar 2026 10:44:19 -0700 (PDT)
+Message-ID: <64b7f622aa5f4839b9e1c4cd935223a6b2ec04c9.camel@redhat.com>
+Subject: Re: [PATCH 03/10] ceph: add client reset state and request gating
+From: Viacheslav Dubeyko <vdubeyko@redhat.com>
+To: Alex Markuze <amarkuze@redhat.com>, ceph-devel@vger.kernel.org
+Cc: idryomov@gmail.com, linux-fsdevel@vger.kernel.org
+Date: Mon, 30 Mar 2026 10:44:17 -0700
+In-Reply-To: <20260327143045.1393612-4-amarkuze@redhat.com>
+References: <20260327143045.1393612-1-amarkuze@redhat.com>
+	 <20260327143045.1393612-4-amarkuze@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43app2) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
 
-Zenghui Yu <zenghui.yu@linux.dev> writes:
-
-> From: "Zenghui Yu (Huawei)" <zenghui.yu@linux.dev>
->
-> Commit 2e5449f4f21a ("profiling: Remove create_prof_cpu_mask().") said that
-> no one would create /proc/irq/prof_cpu_mask since commit 1f44a225777e
-> ("s390: convert interrupt handling to use generic hardirq", 2013). Remove
-> the outdated description.
->
-> While at it, fix another minor typo (s/DMS/DMA/).
->
-> Signed-off-by: Zenghui Yu (Huawei) <zenghui.yu@linux.dev>
+On Fri, 2026-03-27 at 14:30 +0000, Alex Markuze wrote:
+> Add the client-side reset state tracking and the wait path used to block
+> new metadata requests and new lock acquisitions while a reset is in
+> progress. This wires the reset state into client init and shutdown so
+> blocked callers are released cleanly when the mount is torn down.
+>=20
+> Signed-off-by: Alex Markuze <amarkuze@redhat.com>
 > ---
->  Documentation/filesystems/proc.rst | 12 ++++--------
->  1 file changed, 4 insertions(+), 8 deletions(-)
+>  fs/ceph/locks.c      | 14 ++++++++
+>  fs/ceph/mds_client.c | 79 ++++++++++++++++++++++++++++++++++++++++++++
+>  fs/ceph/mds_client.h | 28 ++++++++++++++++
+>  3 files changed, 121 insertions(+)
+>=20
+> diff --git a/fs/ceph/locks.c b/fs/ceph/locks.c
+> index 2f21574dfb99..e6f0c565e9d6 100644
+> --- a/fs/ceph/locks.c
+> +++ b/fs/ceph/locks.c
+> @@ -281,6 +281,13 @@ int ceph_lock(struct file *file, int cmd, struct fil=
+e_lock *fl)
+>  		return err;
+>  	}
+> =20
+> +	/* Wait for reset to complete before acquiring new locks */
+> +	if (op =3D=3D CEPH_MDS_OP_SETFILELOCK && !lock_is_unlock(fl)) {
+> +		err =3D ceph_mdsc_wait_for_reset(mdsc);
 
-Applied, thanks.
+Maybe, I am missing something. But I don't see where mdsc variable has been
+declared and initialized in ceph_lock(). Is it my misunderstanding?
 
-jon
+> +		if (err)
+> +			return err;
+> +	}
+> +
+>  	if (lock_is_read(fl))
+>  		lock_cmd =3D CEPH_LOCK_SHARED;
+>  	else if (lock_is_write(fl))
+> @@ -340,6 +347,13 @@ int ceph_flock(struct file *file, int cmd, struct fi=
+le_lock *fl)
+>  		return err;
+>  	}
+> =20
+> +	/* Wait for reset to complete before acquiring new locks */
+> +	if (!lock_is_unlock(fl)) {
+> +		err =3D ceph_mdsc_wait_for_reset(mdsc);
+
+Ditto. The same misunderstanding here.
+
+Thanks,
+Slava.
+
+> +		if (err)
+> +			return err;
+> +	}
+> +
+>  	if (IS_SETLKW(cmd))
+>  		wait =3D 1;
+> =20
+> diff --git a/fs/ceph/mds_client.c b/fs/ceph/mds_client.c
+> index d70c0b669b75..0dd9a529850a 100644
+> --- a/fs/ceph/mds_client.c
+> +++ b/fs/ceph/mds_client.c
+> @@ -3742,12 +3742,69 @@ static void kick_requests(struct ceph_mds_client =
+*mdsc, int mds)
+>  	}
+>  }
+> =20
+> +/*
+> + * Wait for an active reset to complete.
+> + * Returns 0 if reset completed successfully or no reset was active.
+> + * Returns -ETIMEDOUT if we timed out waiting.
+> + * Returns -ERESTARTSYS if interrupted by signal.
+> + */
+> +int ceph_mdsc_wait_for_reset(struct ceph_mds_client *mdsc)
+> +{
+> +	struct ceph_client_reset_state *st =3D &mdsc->reset_state;
+> +	struct ceph_client *cl =3D mdsc->fsc->client;
+> +	long timeout =3D CEPH_CLIENT_RESET_WAIT_TIMEOUT_SEC * HZ;
+> +	int blocked_count;
+> +	int ret;
+> +
+> +	if (READ_ONCE(st->phase) =3D=3D CEPH_CLIENT_RESET_IDLE)
+> +		return 0;
+> +
+> +	blocked_count =3D atomic_inc_return(&st->blocked_requests);
+> +	doutc(cl, "request blocked during reset, %d total blocked\n",
+> +	      blocked_count);
+> +
+> +	ret =3D wait_event_interruptible_timeout(st->blocked_wq,
+> +					       READ_ONCE(st->phase) =3D=3D
+> +					       CEPH_CLIENT_RESET_IDLE,
+> +					       timeout);
+> +
+> +	atomic_dec(&st->blocked_requests);
+> +
+> +	if (ret =3D=3D 0) {
+> +		pr_warn_client(cl, "timed out waiting for reset to complete\n");
+> +		return -ETIMEDOUT;
+> +	}
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	spin_lock(&st->lock);
+> +	ret =3D st->last_errno;
+> +	spin_unlock(&st->lock);
+> +	return ret;
+> +}
+> +
+>  int ceph_mdsc_submit_request(struct ceph_mds_client *mdsc, struct inode =
+*dir,
+>  			      struct ceph_mds_request *req)
+>  {
+>  	struct ceph_client *cl =3D mdsc->fsc->client;
+>  	int err =3D 0;
+> =20
+> +	/*
+> +	 * If a reset is in progress, wait for it to complete.
+> +	 *
+> +	 * This is best-effort: a request can pass this check just
+> +	 * before the phase leaves IDLE and proceed concurrently with
+> +	 * reset. That is acceptable because such requests will either
+> +	 * complete normally or fail and be retried by the caller, and
+> +	 * adding lock serialization here would penalize every request
+> +	 * for a rare manual operation.
+> +	 */
+> +	err =3D ceph_mdsc_wait_for_reset(mdsc);
+> +	if (err) {
+> +		doutc(cl, "wait_for_reset failed: %d\n", err);
+> +		return err;
+> +	}
+> +
+>  	/* take CAP_PIN refs for r_inode, r_parent, r_old_dentry */
+>  	if (req->r_inode)
+>  		ceph_get_cap_refs(ceph_inode(req->r_inode), CEPH_CAP_PIN);
+> @@ -5628,6 +5685,19 @@ int ceph_mdsc_init(struct ceph_fs_client *fsc)
+>  	INIT_LIST_HEAD(&mdsc->dentry_leases);
+>  	INIT_LIST_HEAD(&mdsc->dentry_dir_leases);
+> =20
+> +	spin_lock_init(&mdsc->reset_state.lock);
+> +	mdsc->reset_state.trigger_count =3D 0;
+> +	mdsc->reset_state.success_count =3D 0;
+> +	mdsc->reset_state.failure_count =3D 0;
+> +	mdsc->reset_state.last_start =3D 0;
+> +	mdsc->reset_state.last_finish =3D 0;
+> +	mdsc->reset_state.last_errno =3D 0;
+> +	mdsc->reset_state.phase =3D CEPH_CLIENT_RESET_IDLE;
+> +	mdsc->reset_state.inject_error =3D false;
+> +	mdsc->reset_state.last_reason[0] =3D '\0';
+> +	init_waitqueue_head(&mdsc->reset_state.blocked_wq);
+> +	atomic_set(&mdsc->reset_state.blocked_requests, 0);
+> +
+>  	ceph_caps_init(mdsc);
+>  	ceph_adjust_caps_max_min(mdsc, fsc->mount_options);
+> =20
+> @@ -6153,6 +6223,15 @@ void ceph_mdsc_destroy(struct ceph_fs_client *fsc)
+>  	/* flush out any connection work with references to us */
+>  	ceph_msgr_flush();
+> =20
+> +	spin_lock(&mdsc->reset_state.lock);
+> +	if (mdsc->reset_state.phase !=3D CEPH_CLIENT_RESET_IDLE) {
+> +		mdsc->reset_state.phase =3D CEPH_CLIENT_RESET_IDLE;
+> +		mdsc->reset_state.last_errno =3D -ESHUTDOWN;
+> +		mdsc->reset_state.failure_count++;
+> +	}
+> +	spin_unlock(&mdsc->reset_state.lock);
+> +	wake_up_all(&mdsc->reset_state.blocked_wq);
+> +
+>  	ceph_mdsc_stop(mdsc);
+> =20
+>  	ceph_metric_destroy(&mdsc->metric);
+> diff --git a/fs/ceph/mds_client.h b/fs/ceph/mds_client.h
+> index e91a199d56fd..5cc22c109cfe 100644
+> --- a/fs/ceph/mds_client.h
+> +++ b/fs/ceph/mds_client.h
+> @@ -74,6 +74,32 @@ struct ceph_fs_client;
+>  struct ceph_cap;
+> =20
+>  #define MDS_AUTH_UID_ANY -1
+> +#define CEPH_CLIENT_RESET_REASON_LEN	64
+> +#define CEPH_CLIENT_RESET_WAIT_TIMEOUT_SEC 120
+> +
+> +enum ceph_client_reset_phase {
+> +	CEPH_CLIENT_RESET_IDLE =3D 0,
+> +	CEPH_CLIENT_RESET_QUIESCING,
+> +	CEPH_CLIENT_RESET_DRAINING,
+> +	CEPH_CLIENT_RESET_TEARDOWN,
+> +};
+> +
+> +struct ceph_client_reset_state {
+> +	spinlock_t lock;
+> +	u64 trigger_count;
+> +	u64 success_count;
+> +	u64 failure_count;
+> +	unsigned long last_start;
+> +	unsigned long last_finish;
+> +	int last_errno;
+> +	enum ceph_client_reset_phase phase;
+> +	bool inject_error;
+> +	char last_reason[CEPH_CLIENT_RESET_REASON_LEN];
+> +
+> +	/* Request blocking during reset */
+> +	wait_queue_head_t blocked_wq;
+> +	atomic_t blocked_requests;
+> +};
+> =20
+>  struct ceph_mds_cap_match {
+>  	s64 uid;  /* default to MDS_AUTH_UID_ANY */
+> @@ -536,6 +562,7 @@ struct ceph_mds_client {
+>  	struct list_head  dentry_dir_leases; /* lru list */
+> =20
+>  	struct ceph_client_metric metric;
+> +	struct ceph_client_reset_state reset_state;
+> =20
+>  	spinlock_t		snapid_map_lock;
+>  	struct rb_root		snapid_map_tree;
+> @@ -563,6 +590,7 @@ extern const char *ceph_session_state_name(int s);
+>  extern struct ceph_mds_session *
+>  ceph_get_mds_session(struct ceph_mds_session *s);
+>  extern void ceph_put_mds_session(struct ceph_mds_session *s);
+> +int ceph_mdsc_wait_for_reset(struct ceph_mds_client *mdsc);
+> =20
+>  extern int ceph_mdsc_init(struct ceph_fs_client *fsc);
+>  extern void ceph_mdsc_close_sessions(struct ceph_mds_client *mdsc);
+
