@@ -1,318 +1,163 @@
-Received: from fout-b1-smtp.messagingengine.com (fout-b1-smtp.messagingengine.com [202.12.124.144])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8881B39A06E
-	for <linux-fsdevel@vger.kernel.org>; Mon, 30 Mar 2026 19:37:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14DEA346766;
+	Mon, 30 Mar 2026 19:54:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774899445; cv=none; b=a/656uyOGlqF8CYksnVMZWjCGZQ3NfEei1q/EAMVR0G8Nmn4I6weliRiukjw5YTisPXJB2TO9AOA6yvy839DCyRF+567CLbEkFmBJqBuUmRVQL3GwPk6d/pWe95G5mi+J+voGXOCOxioOD+gtpSGp/6zbO4p9pEaSuIVptRUzCk=
+	t=1774900465; cv=none; b=gJEqLAwb0VI//+7PSA9O7XL270ZQEk3WnswsAhzalSoQqlgQYJ7mg2nnAD8vxvqclUH43XQF/3m+9XALXF5H9N7aMZmqerJhpYrwXflNhyPoodTNCx1BEk8v7zPgNwjgVGv0ybuDL/R1fPMGLrNuvi85SDraalTDm1B/bxgXOrY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774899445; c=relaxed/simple;
-	bh=LT7LQcJ9H/bQtYv+V9glhEzM1l/X/jAKiYSjhcp9xzI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p9s7H9cZ+LFIz9E/c8G36NK4VQE0NqAY1Qcu/44JqV9KJJ91h8Fz5in/X4Qj+iTctP3m+R3PR/L3RhUm2h8jmqykNKbrBGKgmeh5GyVZH58PFT2ZsDRXpWLwRf4uu5WCe3IyWIxB+9Vti9QoyoutpLHY9D0FldUUbn+jkiZbyOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=FBG6HVPZ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=2eOFHRU5; arc=none smtp.client-ip=202.12.124.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	s=arc-20240116; t=1774900465; c=relaxed/simple;
+	bh=PVggmHFroeTCysyxMzuB1gpR33ZPKG+IwSLIbZBkreE=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=NtdJmi9cLT+qJ4CGTTp6h98mokn3Etkn6vCsq9VRc8zypEkJp4iBhPMEtGlmLB/g1cxkE+1rwW7MDJK8R0XDiMKjGFG23kZEuKd5ZuC3pcNN0RQ0qls6ViZMatFv/bB5nCskOdcDdOik0iqP5vqB59+8J0xp8agzBZVEJeJF98Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=mmH6caD6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="FBG6HVPZ";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="2eOFHRU5"
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfout.stl.internal (Postfix) with ESMTP id 2F99A1D00173;
-	Mon, 30 Mar 2026 15:37:22 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-03.internal (MEProxy); Mon, 30 Mar 2026 15:37:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1774899441;
-	 x=1774985841; bh=/QEH/A6iinzyNjxNtuBb5LcnmwmPnmDsc3m0gLVJars=; b=
-	FBG6HVPZG5cNU7PUV46ZFogHRck8nCsHEMVH1SsNrDT0uI6dmcXbwKX7zaBcbHI3
-	RTt3y58fQnQZOA8DVxGTvuAs5gmhV5JR58UhWqJPM1+SW183kPrDS5mLQg3BUCkc
-	+T7866bLYM4rjhPkwKXMWprJH6y0jr4ZPGY264IV9cP5ixuFsQyBm97PWfA6J4n+
-	yULXVi4ly0OKGQsiobW2WoSs2haDXIISSwnQiTQFNwWAQJNaiRmjbXQBlido8ELR
-	ZNVtSIzacaREUWXSGNLZ2jS29xkH6Ym0qf0G+A+zzM5kWjiCTAv9zQYJb0el/zPj
-	kAA4YyRBaV1dxly+vujxag==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1774899441; x=
-	1774985841; bh=/QEH/A6iinzyNjxNtuBb5LcnmwmPnmDsc3m0gLVJars=; b=2
-	eOFHRU5B918NzF72kfcnErWgoMlGK6OL74/hKSYA0Mq+cxP15N8E18Zbh2x58tJ3
-	V5ubeY0eJdVj71gjQb/nFIuILIZWEXgKqTGDCQ/Eh3yOygBhZbYWngpkFr8AJLb1
-	ppcXP+hDLZ5MRiVcHAW0uJ2/ggRoGTOJapkwhnTh1lMpa1/KjdkYNJek1TpbYRXq
-	m3wx/gNQtQRMfH7PcWjP43lAow1dY7N6y3JCzSU2oE9I7y36fZpRnPOA7S1R1xr2
-	0qMUQMsEva7sRLYuCRgPwlTsxog4/4qXVOz+Oo3WvBzU07aUiuTkz2Cdiosd79pp
-	PzJishtgfsAJHE+3DJXqQ==
-X-ME-Sender: <xms:8dDKae4eIALMg_vDxILy_5lNpVHI5PhzKyDX3Hkf4AlULLvcvTrXJg>
-    <xme:8dDKablAUKIGsxJi5avs_l2-86S2fs-7HHzctzZ8kY7yk1_Tg5lxzWDN-aWV4UFoS
-    -2DPFy-giwIWvGGqZBJvDBgPwsibCmCQA7KcMyCUFUZuffJFjk>
-X-ME-Received: <xmr:8dDKaXQfoZdl8vi6eCnq2mg-cf7htMV4TTI8Vph8Xrw-_o4-jcYYVaesRsCQ0TH6HK92yRF5f06Na-FvUjPxVswSGSCnTR8Mz5DVJnvlhKu_KcSfVg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeffeelkeegucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
-    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
-    htthgvrhhnpeeugfevvdeggeeutdelgffgiefgffejheffkedtieduffehledvfeevgeej
-    hedtjeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivg
-    eptdenucfrrghrrghmpehmrghilhhfrhhomhepsggvrhhnugessghssggvrhhnugdrtgho
-    mhdpnhgspghrtghpthhtohepiedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepug
-    hjfihonhhgsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegsshgthhhusggvrhhtsegu
-    ughnrdgtohhmpdhrtghpthhtoheplhhinhhugidqfhhsuggvvhgvlhesvhhgvghrrdhkvg
-    hrnhgvlhdrohhrghdprhgtphhtthhopehmihhklhhoshesshiivghrvgguihdrhhhupdhr
-    tghpthhtohepnhgvrghlsehgohhmphgrrdguvghvpdhrtghpthhtohepjhhorghnnhgvlh
-    hkohhonhhgsehgmhgrihhlrdgtohhm
-X-ME-Proxy: <xmx:8dDKaSEMusyPeyp4567u69KODD_MsakBVXqDg4umY_iLttDwr-xHwA>
-    <xmx:8dDKaUGf_oTpwmVE1ytD6bprwR7QI0X9DdkxjeQQoUiRIwTDaz_fSw>
-    <xmx:8dDKaYRTmiAE9XbG7DrIen-YJL2V3mwhQjh97k9gKDf7H5HSCR6E0A>
-    <xmx:8dDKadKddgyWWCGj2gNTHDxhKEYU_D5LnwBZKLpcHPmdEsv_UX-aRw>
-    <xmx:8dDKaeQ2EXMy0bDSop1Hq_uC6p27LTAHvcW4fCss493dnbH4Odtz94Ok>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 30 Mar 2026 15:37:20 -0400 (EDT)
-Message-ID: <d7e830f2-fb3f-4782-a6bc-9b850ebdcc36@bsbernd.com>
-Date: Mon, 30 Mar 2026 21:37:18 +0200
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="mmH6caD6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19772C4CEF7;
+	Mon, 30 Mar 2026 19:54:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1774900464;
+	bh=PVggmHFroeTCysyxMzuB1gpR33ZPKG+IwSLIbZBkreE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=mmH6caD6cf5ZzhC0rQz1KMrVf2wx+yEwqntoWzM87S8JUIu+KlW5rT2ui/qXnKvz5
+	 GGCdaqeYY+TcWZ7rJNCO7bjpaNo8naiq2FqdOn63pssh5xZlFSNEP0PUjY8dVIZd9b
+	 ZInP9Szdi2A1JQQXjXLO2fJ1oCYmTHfcC/voVBJQ=
+Date: Mon, 30 Mar 2026 12:54:23 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Andrea Arcangeli <aarcange@redhat.com>, Andrei Vagin
+ <avagin@google.com>, Axel Rasmussen <axelrasmussen@google.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, David Hildenbrand <david@kernel.org>,
+ Harry Yoo <harry.yoo@oracle.com>, Hugh Dickins <hughd@google.com>, James
+ Houghton <jthoughton@google.com>, "Liam R. Howlett"
+ <Liam.Howlett@oracle.com>, "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Michal Hocko
+ <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>, Nikita Kalyazin
+ <kalyazin@amazon.com>, Oscar Salvador <osalvador@suse.de>, Paolo Bonzini
+ <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>, Sean Christopherson
+ <seanjc@google.com>, Shuah Khan <shuah@kernel.org>, Suren Baghdasaryan
+ <surenb@google.com>, Vlastimil Babka <vbabka@suse.cz>, kvm@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v3 00/15] mm, kvm: allow uffd support in guest_memfd
+Message-Id: <20260330125423.90bc3c6b0e9164d19e8a3995@linux-foundation.org>
+In-Reply-To: <20260330101116.1117699-1-rppt@kernel.org>
+References: <20260330101116.1117699-1-rppt@kernel.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/17] mount_service: create high level fuse helpers
-To: "Darrick J. Wong" <djwong@kernel.org>, bschubert@ddn.com
-Cc: linux-fsdevel@vger.kernel.org, miklos@szeredi.hu, neal@gompa.dev,
- joannelkoong@gmail.com
-References: <177457463048.1008428.11432672970504238251.stgit@frogsfrogsfrogs>
- <177457463171.1008428.692188550544402497.stgit@frogsfrogsfrogs>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: en-US, de-DE, fr
-In-Reply-To: <177457463171.1008428.692188550544402497.stgit@frogsfrogsfrogs>
-Content-Type: text/plain; charset=UTF-8
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Hi Darrick,
+On Mon, 30 Mar 2026 13:11:01 +0300 Mike Rapoport <rppt@kernel.org> wrote:
 
-On 3/27/26 02:25, Darrick J. Wong wrote:
-> From: Darrick J. Wong <djwong@kernel.org>
-> 
-> Create a fuse_main wrapper for fuse services.
-> 
-> Signed-off-by: Darrick J. Wong <djwong@kernel.org>
-> ---
->  include/fuse.h         |   33 ++++++++++++++++++++++++++++
->  lib/fuse_versionscript |    1 +
->  lib/helper.c           |   57 +++++++++++++++++++++++++++++++++++++++++-------
->  3 files changed, 83 insertions(+), 8 deletions(-)
-> 
-> 
-> diff --git a/include/fuse.h b/include/fuse.h
-> index 595cac07f2be36..c7dae040857aca 100644
-> --- a/include/fuse.h
-> +++ b/include/fuse.h
-> @@ -1008,6 +1008,39 @@ static inline int fuse_main_fn(int argc, char *argv[],
->  #define fuse_main(argc, argv, op, user_data) \
->  	fuse_main_fn(argc, argv, op, user_data)
->  
-> +#if FUSE_MAKE_VERSION(3, 19) <= FUSE_USE_VERSION
-> +struct fuse_service;
-> +int fuse_service_main_real_versioned(struct fuse_service *service,
-> +				     int argc, char *argv[],
-> +				     const struct fuse_operations *op,
-> +				     size_t op_size,
-> +				     struct libfuse_version *version,
-> +				     void *user_data);
-> +
-> +/**
-> + * Same as fuse_service_main_fn, but takes its information from the mount
-> + * service context.
-> + */
-> +static inline int fuse_service_main_fn(struct fuse_service *service,
-> +				       int argc, char *argv[],
-> +				       const struct fuse_operations *op,
-> +				       void *user_data)
-> +{
-> +	struct libfuse_version version = {
-> +		.major  = FUSE_MAJOR_VERSION,
-> +		.minor  = FUSE_MINOR_VERSION,
-> +		.hotfix = FUSE_HOTFIX_VERSION,
-> +		.padding = 0
-> +	};
-> +
-> +	return fuse_service_main_real_versioned(service, argc, argv, op,
-> +						sizeof(*(op)), &version,
-> +						user_data);
-> +}
-> +#define fuse_service_main(s, argc, argv, op, user_data) \
-> +	fuse_service_main_fn(s, argc, argv, op, user_data)
-> +#endif /* FUSE_USE_VERSION >= FUSE_MAKE_VERSION(3, 19) */
+> These patches enable support for userfaultfd in guest_memfd.
 
-sorry, this is not exactly what I meant. Could you take a look here? I
-just pushed the unfinished patch I made in December. It got complicated
-in the high level API and I didn't have time to finish it yet.
+Thanks, I've updated mm.git's mm-unstable branch to this version.  I
+added a little note-to-self to keep tabs on willy's [07/15] comment.
 
-https://github.com/libfuse/libfuse/pull/1382/changes/24836ded18e9736eb4691600600ff1d7cf581e29
+The series seems to be converging nicely.  Several of the patches
+aren't showing R-b/A-b at this time.
 
-Basically I would like to add the API version to the functions, in order
-to set defaults flags. The topic came up about FUSE_CAP_AUTO_INVAL_DATA,
-because it can cause data corruption, but there is also a risk to cause
-regressions. So would be good to set that based on the API version
-(assuming people read the rather new doc/ChangeLog-API.rst).
+I've moved this series even further down-queue, so it's definitely in
+the second-week-of-merge-window batch.  So I'll be looking to move it
+into mm-stable around Monday of that week (Apr 27?).  Four weeks for
+testing, review and little touchups.
 
-Anyway your function should basically be
+> v3 changes:
+> * add fixes from Harry and Andrei
+> * fix handling of WP-only mode for WP_ASYNC contexts in vma_can_userfault()
+> * address David's comments about mfill_get_pmd() and rename it to
+>   mfill_establish_pmd()
+> * add VM_WARN()s for unsupported operations (James)
+> * update comments using James' suggestions
 
-int fuse_service_main_real_versioned(struct fuse_service *service,
-				     int argc, char *argv[],
-				     const struct fuse_operations *op,
-				     size_t op_size,
-                                     unsigned int user_apiabi_version,
-				     struct libfuse_version *version,
-				     void *user_data);
+Here's how v3 altered mm.git:
 
 
-I.e. adding in 'user_apiabi_version'. Although while looking into this
-again, maybe we should mis-use 'padding' and rename it 'api version. It
-would definitely simplify things.
+ include/linux/userfaultfd_k.h |    6 +++---
+ mm/memory.c                   |    2 +-
+ mm/userfaultfd.c              |   12 ++++++++----
+ 3 files changed, 12 insertions(+), 8 deletions(-)
 
-
-While you look into all these things, what is your opinion? ;)
-
-
-Thanks,
-Bernd
-
-> +
->  /* ----------------------------------------------------------- *
->   * More detailed API					       *
->   * ----------------------------------------------------------- */
-> diff --git a/lib/fuse_versionscript b/lib/fuse_versionscript
-> index 1fc73f417f90a0..43f8bf11b64548 100644
-> --- a/lib/fuse_versionscript
-> +++ b/lib/fuse_versionscript
-> @@ -236,6 +236,7 @@ FUSE_3.19 {
->  		fuse_service_exit;
->  		fuse_service_expect_mount_mode;
->  		fuse_service_finish_file_requests;
-> +		fuse_service_main_real_versioned;
->  		fuse_service_parse_cmdline_opts;
->  		fuse_service_receive_file;
->  		fuse_service_release;
-> diff --git a/lib/helper.c b/lib/helper.c
-> index 533526273207d5..3509f1aa0c8f79 100644
-> --- a/lib/helper.c
-> +++ b/lib/helper.c
-> @@ -15,6 +15,7 @@
->  #include "fuse_misc.h"
->  #include "fuse_opt.h"
->  #include "fuse_lowlevel.h"
-> +#include "fuse_service.h"
->  #include "mount_util.h"
->  
->  #include <stdio.h>
-> @@ -357,7 +358,8 @@ int fuse_daemonize(int foreground)
->  	return 0;
->  }
->  
-> -int fuse_main_real_versioned(int argc, char *argv[],
-> +int fuse_service_main_real_versioned(struct fuse_service *service,
-> +			     int argc, char *argv[],
->  			     const struct fuse_operations *op, size_t op_size,
->  			     struct libfuse_version *version, void *user_data)
->  {
-> @@ -367,8 +369,15 @@ int fuse_main_real_versioned(int argc, char *argv[],
->  	int res;
->  	struct fuse_loop_config *loop_config = NULL;
->  
-> -	if (fuse_parse_cmdline(&args, &opts) != 0)
-> -		return 1;
-> +	if (service) {
-> +		if (fuse_service_parse_cmdline_opts(&args, &opts) != 0) {
-> +			res = 1;
-> +			goto out0;
-> +		}
-> +	} else {
-> +		if (fuse_parse_cmdline(&args, &opts) != 0)
-> +			return 1;
-> +	}
->  
->  	if (opts.show_version) {
->  		printf("FUSE library version %s\n", PACKAGE_VERSION);
-> @@ -405,9 +414,17 @@ int fuse_main_real_versioned(int argc, char *argv[],
->  		goto out1;
->  	}
->  
-> -	if (fuse_mount(fuse,opts.mountpoint) != 0) {
-> -		res = 4;
-> -		goto out2;
-> +	if (service) {
-> +		if (fuse_service_session_mount(service, fuse_get_session(fuse),
-> +					       0, &opts) != 0) {
-> +			res = 4;
-> +			goto out2;
-> +		}
-> +	} else {
-> +		if (fuse_mount(fuse, opts.mountpoint) != 0) {
-> +			res = 4;
-> +			goto out2;
-> +		}
->  	}
->  
->  	if (fuse_daemonize(opts.foreground) != 0) {
-> @@ -421,9 +438,14 @@ int fuse_main_real_versioned(int argc, char *argv[],
->  		goto out3;
->  	}
->  
-> -	if (opts.singlethread)
-> +	if (opts.singlethread) {
-> +		if (service) {
-> +			fuse_service_send_goodbye(service, 0);
-> +			fuse_service_release(service);
-> +		}
-> +
->  		res = fuse_loop(fuse);
-> -	else {
-> +	} else {
->  		loop_config = fuse_loop_cfg_create();
->  		if (loop_config == NULL) {
->  			res = 7;
-> @@ -434,6 +456,12 @@ int fuse_main_real_versioned(int argc, char *argv[],
->  
->  		fuse_loop_cfg_set_idle_threads(loop_config, opts.max_idle_threads);
->  		fuse_loop_cfg_set_max_threads(loop_config, opts.max_threads);
-> +
-> +		if (service) {
-> +			fuse_service_send_goodbye(service, 0);
-> +			fuse_service_release(service);
-> +		}
-> +
->  		res = fuse_loop_mt(fuse, loop_config);
->  	}
->  	if (res)
-> @@ -448,9 +476,22 @@ int fuse_main_real_versioned(int argc, char *argv[],
->  	fuse_loop_cfg_destroy(loop_config);
->  	free(opts.mountpoint);
->  	fuse_opt_free_args(&args);
-> +out0:
-> +	if (service) {
-> +		fuse_service_send_goodbye(service, res);
-> +		fuse_service_release(service);
-> +	}
->  	return res;
->  }
->  
-> +int fuse_main_real_versioned(int argc, char *argv[],
-> +			     const struct fuse_operations *op, size_t op_size,
-> +			     struct libfuse_version *version, void *user_data)
-> +{
-> +	return fuse_service_main_real_versioned(NULL, argc, argv, op, op_size,
-> +						version, user_data);
-> +}
-> +
->  /* Not symboled, as not part of the official API */
->  int fuse_main_real_30(int argc, char *argv[], const struct fuse_operations *op,
->  		      size_t op_size, void *user_data);
-> 
-> 
+--- a/include/linux/userfaultfd_k.h~b
++++ a/include/linux/userfaultfd_k.h
+@@ -96,14 +96,14 @@ struct vm_uffd_ops {
+ 	struct folio *(*get_folio_noalloc)(struct inode *inode, pgoff_t pgoff);
+ 	/*
+ 	 * Called during resolution of UFFDIO_COPY request.
+-	 * Should allocate and return a folio or NULL if allocation
+-	 * fails.
++	 * Should allocate and return a folio or NULL if allocation fails.
+ 	 */
+ 	struct folio *(*alloc_folio)(struct vm_area_struct *vma,
+ 				     unsigned long addr);
+ 	/*
+ 	 * Called during resolution of UFFDIO_COPY request.
+-	 * Should lock the folio and add it to VMA's page cache.
++	 * Should only be called with a folio returned by alloc_folio() above.
++	 * The folio will be set to locked.
+ 	 * Returns 0 on success, error code on failure.
+ 	 */
+ 	int (*filemap_add)(struct folio *folio, struct vm_area_struct *vma,
+--- a/mm/memory.c~b
++++ a/mm/memory.c
+@@ -5493,7 +5493,7 @@ static vm_fault_t __do_fault(struct vm_f
+ 	}
+ 
+ 	/*
+-	 * If this is an userfaultfd trap, process it in advance before
++	 * If this is a userfault trap, process it in advance before
+ 	 * triggering the genuine fault handler.
+ 	 */
+ 	ret = __do_userfault(vmf);
+--- a/mm/userfaultfd.c~b
++++ a/mm/userfaultfd.c
+@@ -502,7 +502,7 @@ static int __mfill_atomic_pte(struct mfi
+ 	} else if (uffd_flags_mode_is(flags, MFILL_ATOMIC_ZEROPAGE)) {
+ 		clear_user_highpage(&folio->page, state->dst_addr);
+ 	} else {
+-		VM_WARN_ONCE(1, "unknown UFFDIO operation");
++		VM_WARN_ONCE(1, "Unknown UFFDIO operation, flags: %x", flags);
+ 	}
+ 
+ 	/*
+@@ -612,8 +612,10 @@ static int mfill_atomic_pte_continue(str
+ 	struct page *page;
+ 	int ret;
+ 
+-	if (!ops)
++	if (!ops) {
++		VM_WARN_ONCE(1, "UFFDIO_CONTINUE for unsupported VMA");
+ 		return -EOPNOTSUPP;
++	}
+ 
+ 	folio = ops->get_folio_noalloc(inode, pgoff);
+ 	/* Our caller expects us to return -EFAULT if we failed to find folio */
+@@ -864,6 +866,7 @@ static __always_inline ssize_t mfill_ato
+ 	if (uffd_flags_mode_is(flags, MFILL_ATOMIC_ZEROPAGE))
+ 		return mfill_atomic_pte_zeropage(state);
+ 
++	VM_WARN_ONCE(1, "Unknown UFFDIO operation, flags: %x", flags);
+ 	return -EOPNOTSUPP;
+ }
+ 
+@@ -2044,8 +2047,9 @@ bool vma_can_userfault(struct vm_area_st
+ 		return false;
+ 
+ 	/*
+-	 * File backed memory with PTE level mappigns must implement
+-	 * ops->get_folio_noalloc()
++	 * File backed VMAs (except HugeTLB) must implement
++	 * ops->get_folio_noalloc() because it's required by __do_userfault()
++	 * in page fault handling.
+ 	 */
+ 	if (!vma_is_anonymous(vma) && !is_vm_hugetlb_page(vma) &&
+ 	    !ops->get_folio_noalloc)
+_
 
