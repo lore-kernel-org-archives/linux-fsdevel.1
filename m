@@ -1,148 +1,155 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55F133B2FE8
-	for <linux-fsdevel@vger.kernel.org>; Mon, 30 Mar 2026 10:10:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 176C53B960C;
+	Mon, 30 Mar 2026 10:11:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774865431; cv=none; b=h23jbQti7ElHLqeJA63FyulFpCyueclDS/MSmrYLLW1hkLYcSbs8EoFFFH0zSBeDxlepVkujNAKX9Q6RJoDwXGhGPXJGxxYVdNNFnEQdu8DdXbo+Y80qehvk9HrcwjuJCfzankWjYP97A1C90QZGTs2XNuOAIFxCSia5p7IDQdA=
+	t=1774865487; cv=none; b=qr81VcCVj/Lnpwwn8EBvIawCnkDMIaLfa/34AlwaJ2AEPpi9KyCYOGzFXywZjBCD22VekhQii1urgQirpEAcKqmC58SzHYQMdsHJ6i/amuVV4V27oBz+tWw2GsMqQEpoddLH6kUMaWBwKUA8LVbUBo8RGG6vuk/84/VGT7oosQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774865431; c=relaxed/simple;
-	bh=68Be/Kp4UaNAkfdH7LcHkioxTlr5rnpwO92KGW2bPHk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f+m+ecUHMjRX2w7Aqoic3GjDW5KyQRu8iQJHgaLfq85mKuQ9I9d5WufUtbhRJl91u/kAOBu8RLcJXvV2EIlrjQokYNtxTx42Nj5V4sDbtPZUbuTTbbiCEUQoby+EX/rJwAmr3TjKbfDM7+KULGnQCwOUxWOx8DOMB9kEiWQXxV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TfqXpm1L; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=AWhSiihM; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1774865487; c=relaxed/simple;
+	bh=GgKA5DKfE0J6C86Pd58sBvtyWfrHRhL+cDnuFJprFXI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=d7IN18xg93rrpr9g1uiDtmI7utWDtVKzSfyQcJ943/PnajGlKtRr0TaSvHa9fR0W1X6ohCYUq1jeUwFXXL9Qxty70DdumzOaBLXWRFNl36V/PYf6UQHYniUeEGqnqXAU9gBZ4MZzOeU5JL3O8Pj3xAyXbW7mD6OovTyBdjKuRUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oz3RaLZ4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TfqXpm1L";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="AWhSiihM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1774865429;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HpuA7dRNbkH8Q1aS+IRAmWnuwSwaRl+82FW2DyUbGL8=;
-	b=TfqXpm1LWK2mhNiLJXybN1g93KgBGCQHz+G0stEbKULOmLM6XG58TUFe448uzUAT9GcJgT
-	VoJnhrqW5YPn3bdwwGssj3luWetyE167Veo78/Mc0EViiNxHoasqisMP/COKGnctZaK74J
-	y3mRxjX2Y9YIdn9TqHUeOrY5K5f1g2o=
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-599-cJFEm3TQP3GYUpgMHKMAcw-1; Mon, 30 Mar 2026 06:10:28 -0400
-X-MC-Unique: cJFEm3TQP3GYUpgMHKMAcw-1
-X-Mimecast-MFC-AGG-ID: cJFEm3TQP3GYUpgMHKMAcw_1774865427
-Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2b0c30b51bfso115703025ad.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 30 Mar 2026 03:10:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1774865427; x=1775470227; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=HpuA7dRNbkH8Q1aS+IRAmWnuwSwaRl+82FW2DyUbGL8=;
-        b=AWhSiihM5ryuKREc9m21s5+Atf1m/waYLP70CxkmzzMr+B7ZAgtZOP2T9piSIduLXf
-         uocCOJMyfxst/7cQfp+VAUmvx/R8bD3yUmth4gGDgZh5oXYY3aF79y5awM8NVPVqHymN
-         znUVclsHVJRl1g3UqSpm0RRh0s2+g02XrIMQjgmr1zqIu9zf2dXSoF9xLNmA10zOZ7BD
-         2aezMq6BuXBwBxcZGjpQzDdVbNJ4mrulW0Dx1ucnf6h2XN7r5noVRy8pGJeqY3TLHuMp
-         67MqbVCg/gyJghWWxYbd8gN7V4HVO00RU55ZN0SrZxZ50ABs9ePuLbFwCLGAWnLrEeYT
-         4ndA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774865427; x=1775470227;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HpuA7dRNbkH8Q1aS+IRAmWnuwSwaRl+82FW2DyUbGL8=;
-        b=HapuFak9DZpn8kMl08gbHLRUq5GDWDhem/FHlbjlKhJCeq7BIV+huZFgjHUahgMjVH
-         VT6+Gm2Adyte8onnqipC8BQyalPLM88G+wTH1aUBZyd6dUNgTQo1b5GJDvZzO1YtDYgK
-         5eak/tzzCkpG8wFZ2ah+8l93z9N+hLINCer1TqYiHH2Ix2qbH6czopgpNc92b4Bdi9FW
-         Ut1UtYF/ZS+OJBLCCJaLcK8mBilOpX6H+dbLIHyRJU49JRmxTnYN0wUESKX/BX8MyaaU
-         qQhD109/9WSwmBuWX2MSfu9iO4G+I1Qa0bwJaSXHY2VYuhFIXX84dFunklw/rAlhHZXu
-         uazg==
-X-Forwarded-Encrypted: i=1; AJvYcCUscUqVPXvFdQNZ/rmXLfIr7MRODuco91fHfrorseZH6k/MxPn/FZ5g+XTlrnJbyXQT3aB/DGdIls4sLTX+@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWytbwg8fp0khT5ZUzx89wzv1to1K200Fj3XNR63X+MU0BVDu6
-	UnmMYbBWlNBJ+CJsDSU9Hnd18maVGEmPQWHZrKpc7XjsaHd77E9kPd+qxqxjBXHtFM0dF1MFpRn
-	zbzV7/k/DQmd521YJgYS8dZqIbJNoEmy7vVBtsVuMet8Un38f87cpfIAs2UYTEiW5Frw=
-X-Gm-Gg: ATEYQzxoNY/hhE9imWdCfL01JWqwtfqu5x5jFVUObZvTF2KAKhg+Mr0mjGsbnW70Wbd
-	IUnJBWCS9ZudW+UUybEKIzsdVoE0a+TZLUmApWDt9fFwmoB5ThrxhP50Okk2BGipUi/BmZMWhBb
-	ySu3XXQ2juaYNJhkZCXHYYJm+/20GFNYPZUEZjsYiaTR6Nr8p4c8VDQV/Ah0GgvJ5efu/ImyLJ3
-	WJ97xF+eb92wyyeZxkpszzvUzksEL+p1Mp6icNnUuazDeOwBN/2PNiIIT3RPPF+/IXL/qfm3n6/
-	wxhKq1umOPM91UTijmdCN5vLObMB2/20l9m9wYpQ06efTbPhqlxpjmEUHbsxV6HuQ+eWcjvRL/L
-	9kvJxtPXQOE33X50oMw==
-X-Received: by 2002:a17:902:e852:b0:2b2:4029:d781 with SMTP id d9443c01a7336-2b24029dc37mr93217715ad.20.1774865427054;
-        Mon, 30 Mar 2026 03:10:27 -0700 (PDT)
-X-Received: by 2002:a17:902:e852:b0:2b2:4029:d781 with SMTP id d9443c01a7336-2b24029dc37mr93217465ad.20.1774865426569;
-        Mon, 30 Mar 2026 03:10:26 -0700 (PDT)
-Received: from redhat.com ([209.132.188.88])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b24277e8d3sm74371865ad.55.2026.03.30.03.10.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Mar 2026 03:10:25 -0700 (PDT)
-Date: Mon, 30 Mar 2026 18:10:23 +0800
-From: Li Wang <liwang@redhat.com>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: akpm@linux-foundation.org, rppt@kernel.org, ljs@kernel.org,
-	Liam.Howlett@oracle.com, vbabka@kernel.org, surenb@google.com,
-	mhocko@suse.com, shuah@kernel.org, aubaker@redhat.com,
-	linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v3] selftests/mm: skip hugetlb_dio tests when DIO
- alignment is incompatible
-Message-ID: <acpMD8tRCJhgXHeg@redhat.com>
-References: <20260330053915.75442-1-liwang@redhat.com>
- <a5b7add7-0507-40c0-a324-81f243ffa261@kernel.org>
- <acok3JY66OcV0Qab@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oz3RaLZ4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A05F4C2BCB1;
+	Mon, 30 Mar 2026 10:11:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774865486;
+	bh=GgKA5DKfE0J6C86Pd58sBvtyWfrHRhL+cDnuFJprFXI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=oz3RaLZ4XqTIWA/YrlmEslKtMgjjzZUSf4/xnt5q9aPl5HExKWwVBg3skiD1JgDEc
+	 CF3Rpp229qlD1QYeyZo3hcEN6wHUVlMny1H+HiOqHCuZIj2lfzkQW4kCE8suuUFC9m
+	 +1lDQDpxmPbKzCEZw8l1FsNCAYq+fKRbyjBxu/NMgDFBYTMWx38HfNXla2kPCp4KcC
+	 5sz3bn1qyjvp6w+/V7eKKJ1KCz+rrUybjpPdUM2kzPIAWQ9rVfx1uoI84wjSJ0mxFm
+	 5FKaKj7HppkUc0triJODgpx/rn6uKvJgtF6w9bU+g9qiD1BkO8LoPN8fZxV8Vjob02
+	 SUlzlK9XoqDnA==
+From: Mike Rapoport <rppt@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Andrea Arcangeli <aarcange@redhat.com>,
+	Andrei Vagin <avagin@google.com>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	David Hildenbrand <david@kernel.org>,
+	Harry Yoo <harry.yoo@oracle.com>,
+	Hugh Dickins <hughd@google.com>,
+	James Houghton <jthoughton@google.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Muchun Song <muchun.song@linux.dev>,
+	Nikita Kalyazin <kalyazin@amazon.com>,
+	Oscar Salvador <osalvador@suse.de>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Peter Xu <peterx@redhat.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	kvm@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [PATCH v3 00/15] mm, kvm: allow uffd support in guest_memfd
+Date: Mon, 30 Mar 2026 13:11:01 +0300
+Message-ID: <20260330101116.1117699-1-rppt@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <acok3JY66OcV0Qab@redhat.com>
+Content-Transfer-Encoding: 8bit
 
-> > Why can't we simply open the file once and pass the fd to run_dio_using_hugetlb()?
-> > 
-> > fd = open("/tmp", O_TMPFILE | O_RDWR | O_DIRECT, 0664);
-> > if (fd < 0)
-> > 	ksft_exit_skip("Unable to allocate file: %s\n", strerror(errno));
-> > dio_align = get_dio_alignment(fd);
-> > if (dio_align <= 0)
-> > 	ksft_exit_skip("Unable to obtain DIO alignment: %s\n", strerror(errno));
-> 
-> Yes, apparently this is a good suggestion. Thanks!
+From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
 
-And, to make the test elegant, I'm going to add check_dio_alignment() dedicated
-to alignment checking. Then we don't need to pass too many args.
+Hi,
 
-Tell me your thoughts if you don't like this:
+These patches enable support for userfaultfd in guest_memfd.
 
-  static int get_dio_alignment(int fd)
-  {...}
-  
-  static bool check_dio_alignment(unsigned int start_off, unsigned int end_off)
-  {...}
-  
-  static void run_test(int fd, unsigned int start_off, unsigned int end_off)
-  {
-      if (!check_dio_alignment(start_off, end_off))
-          return;
-  
-      run_dio_using_hugetlb(fd, start_off, end_off);
-  }
-  
-  int main(void)
-  {
-      ... 
-      fd = open("/tmp", O_TMPFILE | O_RDWR | O_DIRECT, 0664);
-      if (fd < 0)
-          ksft_exit_skip("Unable to allocate file: %s\n", strerror(errno));
-  
-      if (get_dio_alignment(fd) < 0)
-          ...
-  
-      run_test(fd, 0, (pagesize * 3));
-  }
+As the ground work I refactored userfaultfd handling of PTE-based memory types
+(anonymous and shmem) and converted them to use vm_uffd_ops for allocating a
+folio or getting an existing folio from the page cache. shmem also implements
+callbacks that add a folio to the page cache after the data passed in
+UFFDIO_COPY was copied and remove the folio from the page cache if page table
+update fails.
 
--- 
-Regards,
-Li Wang
+In order for guest_memfd to notify userspace about page faults, there are new
+VM_FAULT_UFFD_MINOR and VM_FAULT_UFFD_MISSING that a ->fault() handler can
+return to inform the page fault handler that it needs to call
+handle_userfault() to complete the fault.
 
+Nikita helped to plumb these new goodies into guest_memfd and provided basic
+tests to verify that guest_memfd works with userfaultfd.
+The handling of UFFDIO_MISSING in guest_memfd requires ability to remove a
+folio from page cache, the best way I could find was exporting
+filemap_remove_folio() to KVM.
+
+I deliberately left hugetlb out, at least for the most part.
+hugetlb handles acquisition of VMA and more importantly establishing of parent
+page table entry differently than PTE-based memory types. This is a different
+abstraction level than what vm_uffd_ops provides and people objected to
+exposing such low level APIs as a part of VMA operations.
+
+Also, to enable uffd in guest_memfd refactoring of hugetlb is not needed and I
+prefer to delay it until the dust settles after the changes in this set.
+
+v3 changes:
+* add fixes from Harry and Andrei
+* fix handling of WP-only mode for WP_ASYNC contexts in vma_can_userfault()
+* address David's comments about mfill_get_pmd() and rename it to
+  mfill_establish_pmd()
+* add VM_WARN()s for unsupported operations (James)
+* update comments using James' suggestions
+
+v2: https://lore.kernel.org/all/20260306171815.3160826-1-rppt@kernel.org
+* instead of returning uffd-specific values from ->fault() handlers add
+  __do_userfault() helper to resolve user faults in __do_fault()
+* address comments from Peter
+* rebased on v7.0-c1
+
+RFC: https://lore.kernel.org/all/20260127192936.1250096-1-rppt@kernel.org
+
+Mike Rapoport (Microsoft) (11):
+  userfaultfd: introduce mfill_copy_folio_locked() helper
+  userfaultfd: introduce struct mfill_state
+  userfaultfd: introduce mfill_establish_pmd() helper
+  userfaultfd: introduce mfill_get_vma() and mfill_put_vma()
+  userfaultfd: retry copying with locks dropped in
+    mfill_atomic_pte_copy()
+  userfaultfd: move vma_can_userfault out of line
+  userfaultfd: introduce vm_uffd_ops
+  shmem, userfaultfd: use a VMA callback to handle UFFDIO_CONTINUE
+  userfaultfd: introduce vm_uffd_ops->alloc_folio()
+  shmem, userfaultfd: implement shmem uffd operations using vm_uffd_ops
+  userfaultfd: mfill_atomic(): remove retry logic
+
+Nikita Kalyazin (3):
+  KVM: guest_memfd: implement userfaultfd operations
+  KVM: selftests: test userfaultfd minor for guest_memfd
+  KVM: selftests: test userfaultfd missing for guest_memfd
+
+Peter Xu (1):
+  mm: generalize handling of userfaults in __do_fault()
+
+ include/linux/mm.h                            |   5 +
+ include/linux/shmem_fs.h                      |  14 -
+ include/linux/userfaultfd_k.h                 |  73 +-
+ mm/filemap.c                                  |   1 +
+ mm/hugetlb.c                                  |  15 +
+ mm/memory.c                                   |  43 ++
+ mm/shmem.c                                    | 188 ++---
+ mm/userfaultfd.c                              | 694 ++++++++++--------
+ .../testing/selftests/kvm/guest_memfd_test.c  | 191 +++++
+ virt/kvm/guest_memfd.c                        |  84 ++-
+ 10 files changed, 860 insertions(+), 448 deletions(-)
+
+
+base-commit: c369299895a591d96745d6492d4888259b004a9e
+--
+2.53.0
