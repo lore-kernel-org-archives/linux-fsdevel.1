@@ -1,113 +1,151 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CDC4363C77
-	for <linux-fsdevel@vger.kernel.org>; Mon, 30 Mar 2026 15:43:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774885410; cv=pass; b=t3AanxJLWJ6T51fXMLIKFO+tXQDXaICM538HacaAw1CFlmiRDaSu7GXYen/cDM37JHmFQr9JiYn3LTmdMbiSUkME/ARcLPU2VVGH4xSDlu744Qhh15ONNHhs41X08KylW/hbxUonwxjg6qjIaOhFyM3hin+X43KcnjF3KFyGAow=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774885410; c=relaxed/simple;
-	bh=t0esJnrDuRx8CALG5EiUG9NulCzrC+rzyK9Xog7c1xc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KdAL6s7iPy5Vbk9Uxpmgd38nujOuD5rYajCwqov+i5sNbf3sHsE+FeycHbbdi4HuG98yAVa9E7fX3ESfnk5kjDj3PRWoenSHLgvniUj7w6CWPUBAQtv+i1O+zQrNttbOC3w2R2TSUQRxmffsACIHzZvuIjuvgemaN1pzGse00LU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hS9bohJ+; arc=pass smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67790346A0C;
+	Mon, 30 Mar 2026 16:04:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774886681; cv=none; b=Peezow10//N5ukJs75NErSfw2vfUXUfJA5pT9JnQjxZDmJnEQ5R8njBmmEyyg7SgNsyyU3+UFJONaewjtaHMJ6Io7wZHdj20qgmMsYYRo+PsA/y4BUO/B5g2eHYB8uuAb2X73er5ss+KZ0lDY/7YPPGMoChMTDXSpwOgMVPaELs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774886681; c=relaxed/simple;
+	bh=yVFBi+DzchKAKYmrxoYixWw07bl3TILTJazdOgkwmgg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ETVLSLo1e+kTOZBWrOn48rgBEWAjEpToc14GrmRZeCYdkRBsrXvprpn7ZrxYIahHtwmUND6uOelgeBrrau7pqq7F4XOjKC70Ov2FG33ZnfZvqEAcx9UTDe+ETcT6nvjNr9AX8ECybq+/M3siB7oH3knIxD5wLxK6kCKTY9DTX64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Eci1rery; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hS9bohJ+"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-43cfd1f9fd1so822144f8f.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 30 Mar 2026 08:43:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774885408; cv=none;
-        d=google.com; s=arc-20240605;
-        b=fw5S8L2dWmKKGeQ55ar4PkLM52V+vEcY0R3htDPtHj2fyQ/NQTQPQEh9kkWCYr14R1
-         PoGEUdxAlN/jXCHpEjxeXWWgYXDV3jsuEece+047jbjpVkS7ZQ2/IFWD2hxBCTNQllcr
-         99Gf6OnIFfVXNWyYCzzeUtqVply9xY5YyB2Izlrp/g0xMjFHQoJ7RaSVHkztJxQlFfv6
-         hZc02LABNqjZ00r1X3NRxgFeqBQKHDBQ6kg3/cDFtp9yawULS+T/6nNAOmttsvNOUd5B
-         sINiZ7NdOON9sJ2NYtCPOk6vvVZf6T7S+VGVnf2nvaFIggbqnsPaYwfXy5jyNpfA/1gS
-         WOXQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=t0esJnrDuRx8CALG5EiUG9NulCzrC+rzyK9Xog7c1xc=;
-        fh=KN/IEjQyChEi0eRt6bt8rV9HnrPH0bJoFzQXdJCnhM8=;
-        b=dCDMBeb6pMcZoJGQxBTVCplmqLQSG/PTkF1yuNYeBOUKmJtJqJvxEOhriQ81OcG0Ai
-         OP1gnmB5HE5CnvWBO27h+wDBTosTMEA82K88Hyg0N83b/VuV9IpUg9wC2o+NCirBxZiR
-         iDmcgQI4cwbh6zZAe2T5DHmPyK4Ss2gzUxINGdAEwwPLGn2RSTJMI5572++Yml/fZq6h
-         AOkv8uijmKgGHIQInZPPNlqsj9GMv0o4E7ctmxv1j8ecB44hZ1xqS49nYetCZ2ui8YrH
-         9tJ+mRbKDQroK4DZn5q7mD3mZxcNZdjkFhglQmRR9I11W4aTAxiB3LxNrPfDOUgD9XWU
-         GkZg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774885408; x=1775490208; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=t0esJnrDuRx8CALG5EiUG9NulCzrC+rzyK9Xog7c1xc=;
-        b=hS9bohJ+qKpZbSnF4/yedm32BCzgOgPglkEDhZT67xpAnbXa/5yQCFdKMkYcd/vYr3
-         HEK78w0ek/2WzUHbBk4CW+ntf94D//EjxHy/KoWzKdCxPhE0sHC5r1yjTjEQrah1Kk+M
-         oaagl/c2ubmg/MEd7e/l+gY31olq/wi3HN5GbWTS6CHdSc5nnAbUJmC9sTU4KDyZuGU5
-         WX2CGlADnyjQ34r3ya7rqPEexj1CignSDvxlaKOtuxAeOC1EUS+/NnZTFHGcabUeQ4DU
-         IgqQ9/3YgSd3mlfiGdt1DxT6sFDXtUN4iW4jpKDT++q6aipQs/xWM2kunW4FcYdUHPzy
-         Tc8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774885408; x=1775490208;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=t0esJnrDuRx8CALG5EiUG9NulCzrC+rzyK9Xog7c1xc=;
-        b=QojR2tsAItSnY9VLCiSzCq7i0djgAIGuU22R2EgfDs4UEwEAARCsipVo+/bSXSzw8M
-         mATonWyzY5yUxi6SOXZLLqs99R2a9lLiWubBl05SFEBqta8XgAeh/flXmBgamXaM6253
-         uRYNfPRklJzd3t3bfgCpmKuS4XSKZcg5Ei6ObWuvGxeums+tc9rLknWY9pn6O0ZSaOjj
-         OsBrrMHbueZ97LzR+O5sXJ8fsnXuBTBb7wqTOn5pM27SuGY/qwo27e+wkkHTbsmw2DSg
-         HAfRLz+nokSw9oAZllWWvdagbBgPjRIdcmAf1mOtwde+EG0ENeb51iRUGOR8+U0odf46
-         XvQA==
-X-Forwarded-Encrypted: i=1; AJvYcCVmUpqtCnfPcRW9QW13mCuysdg3Qzutb1296oS6iHNRVBvmo8wRVgegeQkgyjeCxXnQNhYkdsITscvfZMgk@vger.kernel.org
-X-Gm-Message-State: AOJu0YwgUXhAniJOdX2bs5RV8FbXoI7imeSvDEnHpw5Im6c9udcTfqRW
-	mFf7ku0J+BXE7Ni3ifNaSvSPbfcmHdfkuz7eawAo5wrtO9+s+hmI2IBi02Y/AgW2FEfa1j1xBHx
-	1iLhtG4iK3SABFcJc7jzX5Fe/AY4pKH8=
-X-Gm-Gg: ATEYQzw3S50Q1T2O30+CmmHnhh7BDBjCDuT2exsBJWdlxbshpZo/2bXTO3cQ3G3A6p4
-	Ms8Xc4nyKZi0w2fpFA5s5TxWluHhZyAAKFkpET4ZvOGl0b5p+M+sxU9BZnbgBo3MV0zpszoNcDK
-	jmA8whq4A7UqRj+rGu4AlZyrKS6LKh/eyDPCxrINs1yJXReETdsjEUY+S06Al2sD1WssJy3+0j8
-	E0EwNeXKZbdw0mAbquZEnX/duDRH3PfkKCI20msvpydQkLTASeKD1CTVHZFFjJpz2EY9rxcj7H7
-	CSgzznM+yHybyhfT
-X-Received: by 2002:a5d:5f96:0:b0:439:ca9b:1f61 with SMTP id
- ffacd0b85a97d-43b9e9e8366mr21373296f8f.17.1774885407741; Mon, 30 Mar 2026
- 08:43:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Eci1rery"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45ACDC4CEF7;
+	Mon, 30 Mar 2026 16:04:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774886681;
+	bh=yVFBi+DzchKAKYmrxoYixWw07bl3TILTJazdOgkwmgg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Eci1reryhkv/wF0IWVdaHrsIirTSrKi1kGkvmX3U5ej3t7bQ0E7B27EzujKt04YaX
+	 xzUuuOOVMFUHGGQjc1+Li1glGvnscKa2Yrpq9ORK+ivqTLfBQSe3k0VVIWfBQ2N7Pz
+	 gRPcFLEpMrOaiRl3Rj2PaAClas6nAHopYgrkUmy6MV9eJ86vuuep2vDUQhEBCxGou1
+	 SUAejxFPu1etRUQklyByUROFUOF9y8wa2E63Qd5O0AltLK4PTBNyc07EHCG8SZbr2j
+	 6wJqX3sHRu6ixN3StjynXhX12KP58k3/YcseFTBLdydSApjnxB3zJAMMfJqSLK7xT6
+	 ZYfK/sWNO9Nig==
+Date: Mon, 30 Mar 2026 09:04:40 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Ravi Singh <ravising@redhat.com>
+Cc: linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	adilger@dilger.ca, jack@suse.com, cem@kernel.org, hch@infradead.org
+Subject: Re: [PATCH v3] xfs: return default quota limits for IDs without a
+ dquot
+Message-ID: <20260330160440.GQ6202@frogsfrogsfrogs>
+References: <20260317065947.306954-1-ravising@redhat.com>
+ <20260330061414.1190802-1-ravising@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260324224532.3733468-9-joannelkoong@gmail.com> <202603281401.HP3uX5G1-lkp@intel.com>
-In-Reply-To: <202603281401.HP3uX5G1-lkp@intel.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Mon, 30 Mar 2026 08:43:16 -0700
-X-Gm-Features: AQROBzBlRnEc1XLiqyDMwQ1GSgp5676iHS2GTSkOtDm3v-siK_erACaW3pkAlq4
-Message-ID: <CAJnrk1Z=yMy3FSt7wvCDgGCr-NQD4M=na2sAGsRM=KoTH2Nazw@mail.gmail.com>
-Subject: Re: [PATCH v1 8/9] fuse: add zero-copy over io-uring
-To: kernel test robot <lkp@intel.com>
-Cc: axboe@kernel.dk, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	miklos@szeredi.hu, bschubert@ddn.com, linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260330061414.1190802-1-ravising@redhat.com>
 
-On Sat, Mar 28, 2026 at 6:54=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi Joanne,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on mszeredi-fuse/for-next]
-> [also build test ERROR on linus/master v7.0-rc5 next-20260327]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
+On Mon, Mar 30, 2026 at 02:14:14PM +0800, Ravi Singh wrote:
+> When an ID has no dquot on disk, Q_XGETQUOTA returns -ENOENT even
+> though default quota limits are configured and enforced against that
+> ID.  This means unprivileged users who have never used any resources
+> cannot see the limits that apply to them.
+> 
+> When xfs_qm_dqget() returns -ENOENT for a non-zero ID, return a
+> zero-usage response with the default limits filled in from
+> m_quotainfo rather than propagating the error.  This is consistent
+> with the enforcement behavior in xfs_qm_adjust_dqlimits(), which
+> pushes the same default limits into a dquot when it is first
+> allocated.
+> 
+> Reviewed-by: Jan Kara <jack@suse.cz>
+> Signed-off-by: Ravi Singh <ravising@redhat.com>
 
-As noted in the cover letter, this series has a dependency on two
-prior patchsets submitted to the io-uring tree. This series is for the
-io-uring tree, not the fuse tree.
+I think it's an improvement that you can now see the (default) limits
+for an otherwise unused qid.
 
-Thanks,
-Joanne
+Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
+
+--D
+
+> ---
+>  v3:
+>   - Return -ENOENT when no default limits are configured
+>     instead of returning a zero-filled response (Darrick)
+> 
+>  v2:
+>   - Moved fix from VFS (fs/quota/quota.c) to XFS
+>     (fs/xfs/xfs_qm_syscalls.c) per review feedback
+>   - Return default limits on ENOENT instead of granting
+>     unprivileged access to ID 0's dquot
+> 
+>  fs/xfs/xfs_qm_syscalls.c | 43 +++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 42 insertions(+), 1 deletion(-)
+> 
+> diff --git a/fs/xfs/xfs_qm_syscalls.c b/fs/xfs/xfs_qm_syscalls.c
+> index d50b7318c..21a784986 100644
+> --- a/fs/xfs/xfs_qm_syscalls.c
+> +++ b/fs/xfs/xfs_qm_syscalls.c
+> @@ -391,6 +391,38 @@ xfs_qm_scall_setqlim(
+>  	return error;
+>  }
+>  
+> +/*
+> + * Fill out the default quota limits for an ID that has no dquot on disk.
+> + * Returns 0 if default limits are configured
+> + * and were filled in, -ENOENT otherwise.
+> + */
+> +static int
+> +xfs_qm_scall_getquota_fill_defaults(
+> +	struct xfs_mount	*mp,
+> +	xfs_dqtype_t		type,
+> +	struct qc_dqblk		*dst)
+> +{
+> +	struct xfs_def_quota	*defq;
+> +
+> +	defq = xfs_get_defquota(mp->m_quotainfo, type);
+> +
+> +	if (!defq->blk.soft && !defq->blk.hard &&
+> +	    !defq->ino.soft && !defq->ino.hard &&
+> +	    !defq->rtb.soft && !defq->rtb.hard) {
+> +		return -ENOENT;
+> +	}
+> +
+> +	memset(dst, 0, sizeof(*dst));
+> +	dst->d_spc_softlimit = XFS_FSB_TO_B(mp, defq->blk.soft);
+> +	dst->d_spc_hardlimit = XFS_FSB_TO_B(mp, defq->blk.hard);
+> +	dst->d_ino_softlimit = defq->ino.soft;
+> +	dst->d_ino_hardlimit = defq->ino.hard;
+> +	dst->d_rt_spc_softlimit = XFS_FSB_TO_B(mp, defq->rtb.soft);
+> +	dst->d_rt_spc_hardlimit = XFS_FSB_TO_B(mp, defq->rtb.hard);
+> +
+> +	return 0;
+> +}
+> +
+>  /* Fill out the quota context. */
+>  static void
+>  xfs_qm_scall_getquota_fill_qc(
+> @@ -451,8 +483,17 @@ xfs_qm_scall_getquota(
+>  	 * set doalloc. If it doesn't exist, we'll get ENOENT back.
+>  	 */
+>  	error = xfs_qm_dqget(mp, id, type, false, &dqp);
+> -	if (error)
+> +	if (error) {
+> +		/*
+> +		 * If there is no dquot on disk and default limits are
+> +		 * configured, return them with zero usage so that
+> +		 * unprivileged users can see what limits apply to them.
+> +		 */
+> +		if (error == -ENOENT && id != 0 &&
+> +		    !xfs_qm_scall_getquota_fill_defaults(mp, type, dst))
+> +			return 0;
+>  		return error;
+> +	}
+>  
+>  	/*
+>  	 * If everything's NULL, this dquot doesn't quite exist as far as
+> -- 
+> 2.49.0
+> 
+> 
