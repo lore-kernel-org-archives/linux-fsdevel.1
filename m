@@ -1,87 +1,63 @@
-Received: from fout-b6-smtp.messagingengine.com (fout-b6-smtp.messagingengine.com [202.12.124.149])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA8B238759A
-	for <linux-fsdevel@vger.kernel.org>; Mon, 30 Mar 2026 05:29:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FF03381AE5
+	for <linux-fsdevel@vger.kernel.org>; Mon, 30 Mar 2026 05:39:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774848549; cv=none; b=lLnBY6ShpUw5Dx5nzYT0Woh+ynOfDGhbAC7dodMpT31VJaaCDsus4Wuk1YjjtE5UZrC1nkzcxELk3h1sbrgEvut+pponUQOVM9sWBU2vpIV5WICIihh3LDz6zOC33R5LqFAwLqP4nqqFzMJ/Q1tOcpXhg89I+fC/J/SrTIYM2Js=
+	t=1774849175; cv=none; b=d59/sbOL7rQ/zn6oCohGpfaycRWqDxtTHrXLE0AeyO1JKMA7Ps2nHyZn1qz9Ubl6BKkUNshocElFWjbxODFF6oHTItjdA/JN7Y8mc7jaXUIEgTCfRUqYgphPY4Go+lLjWPIYTu/mN7uf9IbsleEkNsgxXnn0DSB3+wOFLffGoKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774848549; c=relaxed/simple;
-	bh=jS1HFtJbJrA30tp8VeRsYP74tHQtVumThjO3qWiYE2I=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qEpAy1SWr4YI2e5CJEjdQM1A1GJW4USY52VTLRJOZzrOf2kSgjWLkG2XfteFW4yxYD6sx6LT/VpiGRwDRudLpEvFXNjuvxL6EvLHzeWBDvIrAY5reuRW4nY9Dc98+FIlcdIjRyxl7cWKm1Y6R0NfEEfXlmdEvhXFYwMJHs8YTjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=m/2KVbqK; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=x150tJTN; arc=none smtp.client-ip=202.12.124.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	s=arc-20240116; t=1774849175; c=relaxed/simple;
+	bh=bMvndX1iyWMEKILVmOBlP2R8h1g5Nshc1RneWssyiLM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZUHlPG7/ZkfhrnvuQ+ontt35dqaCGUh2CsRpWGL7Jnwvm2myebIXSjgb+CBRCndABCY9/cNEx0dX1vd1PsVEajz1fioIFuY/3wcTxerQw6khhpb0IcGZ06lxRZoZJjQLBVU8qtA51J8R1nugDPbsfCLpig4xn+eKoUuif9wos+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JEWSBfJh; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="m/2KVbqK";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="x150tJTN"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfout.stl.internal (Postfix) with ESMTP id 3E46E1D0024F;
-	Mon, 30 Mar 2026 01:29:07 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Mon, 30 Mar 2026 01:29:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:reply-to:subject:subject:to:to; s=fm1; t=1774848547;
-	 x=1774934947; bh=Ty1jQAccVhA93uFonrylXcgoqCLxd1UtFcakunW35HM=; b=
-	m/2KVbqK/2LI7nUNSmFP6fwo3mVME7JB1OGJDSAIDQgzCFSx/GD3Pu+DlTfSiqhL
-	nk4KRrMRlhgSvA8atJ5cZoFIRZuV4vgHpHiK2AeLwZ6s+VYPbnPzEgLZbFAW4yRK
-	pT7qN9awngT7kDsPIPKrQlEFisxI+NAPPF8NcEKt2mb4ftrNBzXI5q592YMYA9ld
-	vxKEcJcTIE4MsRHMkyCcAC57r6p9rKcWJ9GCEUHyKDRbMTrEyQNHEwaXJkgo86DJ
-	ZcqTBMn8yZPw19YTFlsxb4iBPgJijjXHHueu2MOI9Dmoj3Py+qX3FgC0CKkhd2+y
-	oCuxBKbZ48DBs24kwbo1Xw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm1; t=1774848547; x=1774934947; bh=T
-	y1jQAccVhA93uFonrylXcgoqCLxd1UtFcakunW35HM=; b=x150tJTNZw3PvcX+k
-	7KWunhFQdYIckc5A58N0NWfjYZuzicHbtQyWb2QlVbN4Avavd2resoiv4eoo4eAy
-	QBgrf4C1u/d4aZcJtajGPYaZVh4EFlgNJdR1xn1Y0pSQJ3YpeF/dPaIuZCukhkWZ
-	527CPbVAgdbxZUFlg0YKysvHNVg6ug/DtxsL+55JzbaZJ7haGKK0k5BwENhmy8dY
-	K6GtOqvGb9WV8Gd6XnfWxP/8nrWEQnb/e4JbZPK8H7n64tLv1I1iakP1QeSjoNSi
-	TnQOKN3hHILRKIGay6TsLU/RCFmEHaC/KkHk0z/vTb64wP4N+MA127vuV/9GAKxb
-	hyhAw==
-X-ME-Sender: <xms:IgrKacG7JUxnhOvzUO-Hq5sHwa5wB0CGRfJ5cFcsHY04c1mbsQqMwA>
-    <xme:IgrKaQylQhUaPw8V5SOXaBD61asQZJbd92e-cCayehy1guD37PjkUDBZETVZiTiGj
-    tcRaanabXqFkwK9918nfeoPBfaFhDWrvPxf6cbeX65kC3lJv8c>
-X-ME-Received: <xmr:IgrKaZohpARaI5ut2ZQ-j9BvlVunNbeyWIVDhYA1MuO6MFLAVDpnRLiGaFvGo-ltmptHzLAKSgIZL4bMytOSPbgfMqSseXI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeffeekudefucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhephffvvefufffkofgjfhhrggfgsedtkeertdertddtnecuhfhrohhmpefpvghilheu
-    rhhofihnuceonhgvihhlsgesohifnhhmrghilhdrnhgvtheqnecuggftrfgrthhtvghrnh
-    epveevkeffudeuvefhieeghffgudektdelkeejiedtjedugfeukedvkeffvdefvddunecu
-    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhgvihhlsg
-    esohifnhhmrghilhdrnhgvthdpnhgspghrtghpthhtohepgedpmhhouggvpehsmhhtphho
-    uhhtpdhrtghpthhtohepvhhirhhoseiivghnihhvrdhlihhnuhigrdhorhhgrdhukhdprh
-    gtphhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-    pdhrtghpthhtohepjhgrtghksehsuhhsvgdrtgiipdhrtghpthhtohepsghrrghunhgvrh
-    eskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:IwrKaSiRNxHr_vAw63NncHTkHvko_FLCOIa_tiEU-OptLsxDEHH7Tg>
-    <xmx:IwrKaehQBWWJF36biOD8finglI8nU7DaOIJ6GJnixi8eugzHNPY5KQ>
-    <xmx:IwrKaQgNdRWqDD8KHdf-JzMuRPvZMVJLmxGJjloBZ0YP8taablhZcg>
-    <xmx:IwrKaWJ5AXXGKOQlcovIGU0iYi77FoW4QxucUlQgySUy0-9qDvmOiQ>
-    <xmx:IwrKaa0I-zc6fh-kWzje6fe5mOg_JLSP1mpkDluycwRiBj5xyVOJxuS2>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 30 Mar 2026 01:29:05 -0400 (EDT)
-From: NeilBrown <neilb@ownmail.net>
-To: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>
-Cc: linux-fsdevel@vger.kernel.org
-Subject: [PATCH 4/4] VFS: use global wait-queue table for d_alloc_parallel()
-Date: Mon, 30 Mar 2026 09:46:39 +1100
-Message-ID: <20260329225603.2177730-5-neilb@ownmail.net>
-X-Mailer: git-send-email 2.50.0.107.gf914562f5916.dirty
-In-Reply-To: <20260329225603.2177730-1-neilb@ownmail.net>
-References: <20260329225603.2177730-1-neilb@ownmail.net>
-Reply-To: NeilBrown <neil@brown.name>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JEWSBfJh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1774849172;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=g8MpXSBjxcDbsCgL0NjDYzsay2G5UIPAPIPiGXT17zc=;
+	b=JEWSBfJhcdnCtuQnOy6IFDuxcTo4GQWnzCm5V+wWDYNfM9GJmNwMprCDaT+jxgo21W1Ukc
+	79ngnnNeiycliWxXHxMdLmfwXPS/AzRBlLx2RCi0BJMf/B7WaN4/Ukb/UqiQWwXdqqSUgG
+	jMNAjYFKq7kNG5cyhXis6iIqYqtKn+E=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-605-JrK4ZgNOO2yHfjrVqeG6yw-1; Mon,
+ 30 Mar 2026 01:39:28 -0400
+X-MC-Unique: JrK4ZgNOO2yHfjrVqeG6yw-1
+X-Mimecast-MFC-AGG-ID: JrK4ZgNOO2yHfjrVqeG6yw_1774849166
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4FAF71956094;
+	Mon, 30 Mar 2026 05:39:26 +0000 (UTC)
+Received: from fedora-laptop-x1.redhat.com (unknown [10.72.112.53])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 58F9B18001FE;
+	Mon, 30 Mar 2026 05:39:19 +0000 (UTC)
+From: Li Wang <liwang@redhat.com>
+To: akpm@linux-foundation.org,
+	rppt@kernel.org,
+	david@kernel.org,
+	ljs@kernel.org,
+	Liam.Howlett@oracle.com,
+	vbabka@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	shuah@kernel.org
+Cc: aubaker@redhat.com,
+	linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: [PATCH v3] selftests/mm: skip hugetlb_dio tests when DIO alignment is incompatible
+Date: Mon, 30 Mar 2026 13:39:15 +0800
+Message-ID: <20260330053915.75442-1-liwang@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -89,440 +65,177 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-From: NeilBrown <neil@brown.name>
+hugetlb_dio test uses sub-page offsets (pagesize / 2) to verify that
+hugepages used as DIO user buffers are correctly unpinned at completion.
 
-d_alloc_parallel() currently requires a wait_queue_head to be passed in.
-This must have a life time which extends until the lookup is completed.
+However, on filesystems with a logical block size larger than half the
+page size (e.g., 4K-sector block devices), these unaligned DIO writes
+are rejected with -EINVAL, causing the test to fail unexpectedly.
 
-Future patches will make more use of d_alloc_parallel() and use it in
-contexts where having an on-stack wait_queue_head is not convenient.
-For exaple lookup_one_qstr_excl() can only use d_alloc_parallel() if it
-accepts a wait_queue_head pass in by the caller.
+Add get_dio_alignment() to query the filesystem's required DIO alignment
+via statx(STATX_DIOALIGN) and pass it to run_dio_using_hugetlb(). Skip
+individual test cases whose writesize/buf-offset is not a multiple of the
+alignment, so that aligned cases are still tested.
 
-The interface would be easier to use if this need were removed.  Rather
-than passing a wait_queue_head into lookup_one_qstr_excl() we can let
-d_alloc_parallel() manage the wait_queue_head entirely itself.
+=== Reproduce Steps ===
 
-This patch replaces the on-stack wqs with a global array of wqs which
-are used as needed.  A wq is NOT assigned when a dentry is first
-created but only when a second thread attempts to use the same name and
-so is forced to wait.  At this moment a wq is chosen using a hash of the
-dentry pointer and that wq is assigned to ->d_wait.  The ->d_lock is
-then dropped and the task waits.
+  # dd if=/dev/zero of=/tmp/test.img bs=1M count=512
+  # losetup --sector-size 4096 /dev/loop0 /tmp/test.img
+  # mkfs.xfs /dev/loop0
+  # mkdir -p /mnt/dio_test
+  # mount /dev/loop0 /mnt/dio_test
 
-When the dentry is finally moved out of "in_lookup" a wake up is only
-sent if ->d_wait is not NULL.  This is more direct than checking if the
-wait queue is active and avoids a memory barrier in a common case.
+  // Modify test to open /mnt/dio_test and rebuild it:
+  -       fd = open("/tmp", O_TMPFILE | O_RDWR | O_DIRECT, 0664);
+  +       fd = open("/mnt/dio_test", O_TMPFILE | O_RDWR | O_DIRECT, 0664);
 
-The wake up passes the dentry that the wake up is for as the "key" and
-the waiter will only wake processes waiting on the same key.  This means
-that when these global waitqueues are shared (which is inevitable
-though unlikely to be frequent), a task will not be woken prematurely.
+  # getconf PAGESIZE
+  4096
 
-Signed-off-by: NeilBrown <neil@brown.name>
+  # echo 100 >/proc/sys/vm/nr_hugepages
+
+  # ./hugetlb_dio
+  TAP version 13
+  1..4
+  # No. Free pages before allocation : 100
+  # No. Free pages after munmap : 100
+  ok 1 free huge pages from 0-12288
+  Bail out! Error writing to file
+  : Invalid argument (22)
+  # Planned tests != run tests (4 != 1)
+  # Totals: pass:1 fail:0 xfail:0 xpass:0 skip:0 error:0
+
+Signed-off-by: Li Wang <liwang@redhat.com>
 ---
- Documentation/filesystems/porting.rst |  6 +++
- fs/afs/dir_silly.c                    |  4 +-
- fs/dcache.c                           | 78 ++++++++++++++++++++++-----
- fs/fuse/readdir.c                     |  3 +-
- fs/namei.c                            |  6 +--
- fs/nfs/dir.c                          |  6 +--
- fs/nfs/unlink.c                       |  3 +-
- fs/proc/base.c                        |  3 +-
- fs/proc/proc_sysctl.c                 |  3 +-
- fs/smb/client/readdir.c               |  3 +-
- include/linux/dcache.h                |  3 +-
- include/linux/nfs_xdr.h               |  1 -
- 12 files changed, 81 insertions(+), 38 deletions(-)
 
-diff --git a/Documentation/filesystems/porting.rst b/Documentation/filesystems/porting.rst
-index 560b473e02d0..6a507c508ccf 100644
---- a/Documentation/filesystems/porting.rst
-+++ b/Documentation/filesystems/porting.rst
-@@ -1375,3 +1375,9 @@ similar.
- lock_rename(), lock_rename_child(), unlock_rename() are no
- longer available.  Use start_renaming() or similar.
+Notes:
+    v3:
+    	- Adopt statx raw syscall to build on older glibc.
+    	- add buf offset alignment check as well
+    v2:
+    	- Pass dio_align as a parameter to run_dio_using_hugetlb()
+    	  instead of generally page_size/2 alignment check.
+    	- Add O_DIRECT flag back to the first open().
+    	- Add stx_dio_offset_align zero check.
+
+ tools/testing/selftests/mm/hugetlb_dio.c | 62 +++++++++++++++++-------
+ 1 file changed, 45 insertions(+), 17 deletions(-)
+
+diff --git a/tools/testing/selftests/mm/hugetlb_dio.c b/tools/testing/selftests/mm/hugetlb_dio.c
+index 9ac62eb4c97d..b125092fc6c1 100644
+--- a/tools/testing/selftests/mm/hugetlb_dio.c
++++ b/tools/testing/selftests/mm/hugetlb_dio.c
+@@ -17,10 +17,41 @@
+ #include <unistd.h>
+ #include <string.h>
+ #include <sys/mman.h>
++#include <sys/syscall.h>
+ #include "vm_util.h"
+ #include "kselftest.h"
  
-+---
+-void run_dio_using_hugetlb(unsigned int start_off, unsigned int end_off)
++#define HP_DIO_TMPDIR "/tmp"
 +
-+**mandatory**
++#ifndef STATX_DIOALIGN
++#define STATX_DIOALIGN		0x00002000U
++#endif
 +
-+d_alloc_parallel() no longer requires a waitqueue_head.  It uses one
-+from an internal table when needed.
-diff --git a/fs/afs/dir_silly.c b/fs/afs/dir_silly.c
-index a748fd133faf..982bb6ec15f0 100644
---- a/fs/afs/dir_silly.c
-+++ b/fs/afs/dir_silly.c
-@@ -248,13 +248,11 @@ int afs_silly_iput(struct dentry *dentry, struct inode *inode)
- 	struct dentry *alias;
- 	int ret;
++unsigned int get_dio_alignment(void)
++{
++	int fd, ret;
++	struct statx stx;
++	unsigned int dio_align = 1;
++
++	fd = open(HP_DIO_TMPDIR, O_TMPFILE | O_RDWR | O_DIRECT, 0664);
++	if (fd < 0)
++		ksft_exit_skip("Unable to allocate file: %s\n", strerror(errno));
++
++	ret = syscall(__NR_statx, fd, "", AT_EMPTY_PATH, STATX_DIOALIGN, &stx);
++	if (ret < 0) {
++		ksft_perror("statx() failed");
++	} else if ((stx.stx_mask & STATX_DIOALIGN) &&
++			stx.stx_dio_offset_align) {
++		dio_align = stx.stx_dio_offset_align;
++	}
++
++	close(fd);
++
++	return dio_align;
++}
++
++void run_dio_using_hugetlb(unsigned int start_off, unsigned int end_off,
++			unsigned int dio_align)
+ {
+ 	int fd;
+ 	char *buffer =  NULL;
+@@ -33,6 +64,12 @@ void run_dio_using_hugetlb(unsigned int start_off, unsigned int end_off)
+ 	const int mmap_prot  = PROT_READ | PROT_WRITE;
  
--	DECLARE_WAIT_QUEUE_HEAD_ONSTACK(wq);
+ 	writesize = end_off - start_off;
++	if (start_off % dio_align != 0 || writesize % dio_align != 0) {
++		ksft_test_result_skip("DIO alignment (%u) incompatible with "
++				"buf offset %u and writesize %zu\n",
++				dio_align, start_off, writesize);
++		return;
++	}
+ 
+ 	/* Get the default huge page size */
+ 	h_pagesize = default_huge_page_size();
+@@ -40,7 +77,7 @@ void run_dio_using_hugetlb(unsigned int start_off, unsigned int end_off)
+ 		ksft_exit_fail_msg("Unable to determine huge page size\n");
+ 
+ 	/* Open the file to DIO */
+-	fd = open("/tmp", O_TMPFILE | O_RDWR | O_DIRECT, 0664);
++	fd = open(HP_DIO_TMPDIR, O_TMPFILE | O_RDWR | O_DIRECT, 0664);
+ 	if (fd < 0)
+ 		ksft_exit_fail_perror("Error opening file\n");
+ 
+@@ -89,37 +126,28 @@ void run_dio_using_hugetlb(unsigned int start_off, unsigned int end_off)
+ 
+ int main(void)
+ {
+-	size_t pagesize = 0;
+-	int fd;
++	size_t pagesize = psize();
++	unsigned int dio_align = get_dio_alignment();
+ 
+ 	ksft_print_header();
+ 
+-	/* Open the file to DIO */
+-	fd = open("/tmp", O_TMPFILE | O_RDWR | O_DIRECT, 0664);
+-	if (fd < 0)
+-		ksft_exit_skip("Unable to allocate file: %s\n", strerror(errno));
+-	close(fd);
 -
- 	_enter("%p{%pd},%llx", dentry, dentry, vnode->fid.vnode);
+ 	/* Check if huge pages are free */
+ 	if (!get_free_hugepages())
+ 		ksft_exit_skip("No free hugepage, exiting\n");
  
- 	down_read(&dvnode->rmdir_lock);
+ 	ksft_set_plan(4);
  
--	alias = d_alloc_parallel(dentry->d_parent, &dentry->d_name, &wq);
-+	alias = d_alloc_parallel(dentry->d_parent, &dentry->d_name);
- 	if (IS_ERR(alias)) {
- 		up_read(&dvnode->rmdir_lock);
- 		return 0;
-diff --git a/fs/dcache.c b/fs/dcache.c
-index 3bd4e15320af..ef0d3172bc77 100644
---- a/fs/dcache.c
-+++ b/fs/dcache.c
-@@ -2201,8 +2201,7 @@ struct dentry *d_add_ci(struct dentry *dentry, struct inode *inode,
- 		return found;
- 	}
- 	if (d_in_lookup(dentry)) {
--		found = d_alloc_parallel(dentry->d_parent, name,
--					dentry->d_wait);
-+		found = d_alloc_parallel(dentry->d_parent, name);
- 		if (IS_ERR(found) || !d_in_lookup(found)) {
- 			iput(inode);
- 			return found;
-@@ -2212,7 +2211,7 @@ struct dentry *d_add_ci(struct dentry *dentry, struct inode *inode,
- 		if (!found) {
- 			iput(inode);
- 			return ERR_PTR(-ENOMEM);
--		} 
-+		}
- 	}
- 	res = d_splice_alias(inode, found);
- 	if (res) {
-@@ -2578,6 +2577,46 @@ void d_rehash(struct dentry * entry)
+-	/* Get base page size */
+-	pagesize  = psize();
+-
+ 	/* start and end is aligned to pagesize */
+-	run_dio_using_hugetlb(0, (pagesize * 3));
++	run_dio_using_hugetlb(0, (pagesize * 3), dio_align);
+ 
+ 	/* start is aligned but end is not aligned */
+-	run_dio_using_hugetlb(0, (pagesize * 3) - (pagesize / 2));
++	run_dio_using_hugetlb(0, (pagesize * 3) - (pagesize / 2), dio_align);
+ 
+ 	/* start is unaligned and end is aligned */
+-	run_dio_using_hugetlb(pagesize / 2, (pagesize * 3));
++	run_dio_using_hugetlb(pagesize / 2, (pagesize * 3), dio_align);
+ 
+ 	/* both start and end are unaligned */
+-	run_dio_using_hugetlb(pagesize / 2, (pagesize * 3) + (pagesize / 2));
++	run_dio_using_hugetlb(pagesize / 2, (pagesize * 3) + (pagesize / 2), dio_align);
+ 
+ 	ksft_finished();
  }
- EXPORT_SYMBOL(d_rehash);
- 
-+#define PAR_LOOKUP_WQ_BITS	8
-+#define PAR_LOOKUP_WQS (1 << PAR_LOOKUP_WQ_BITS)
-+static wait_queue_head_t par_wait_table[PAR_LOOKUP_WQS] __cacheline_aligned;
-+
-+static int __init par_wait_init(void)
-+{
-+	int i;
-+
-+	for (i = 0; i < PAR_LOOKUP_WQS; i++)
-+		init_waitqueue_head(&par_wait_table[i]);
-+	return 0;
-+}
-+fs_initcall(par_wait_init);
-+
-+struct par_wait_key {
-+	struct dentry *de;
-+	struct wait_queue_entry wqe;
-+};
-+
-+static int d_wait_wake_fn(struct wait_queue_entry *wq_entry,
-+			  unsigned mode, int sync, void *key)
-+{
-+	struct par_wait_key *pwk = container_of(wq_entry,
-+						 struct par_wait_key, wqe);
-+	if (pwk->de == key)
-+		return default_wake_function(wq_entry, mode, sync, key);
-+	return 0;
-+}
-+
-+static inline void d_wake_waiters(struct wait_queue_head *d_wait,
-+				  struct dentry *dentry)
-+{
-+	/* ->d_wait is only set if some thread is actually waiting.
-+	 * If we find it is NULL - the common case - then there was no
-+	 * contention and there are no waiters to be woken.
-+	 */
-+	if (d_wait)
-+		__wake_up(d_wait, TASK_NORMAL, 0, dentry);
-+}
-+
- static inline unsigned start_dir_add(struct inode *dir)
- {
- 	preempt_disable_nested();
-@@ -2590,31 +2629,42 @@ static inline unsigned start_dir_add(struct inode *dir)
- }
- 
- static inline void end_dir_add(struct inode *dir, unsigned int n,
--			       wait_queue_head_t *d_wait)
-+			       wait_queue_head_t *d_wait, struct dentry *de)
- {
- 	smp_store_release(&dir->i_dir_seq, n + 2);
- 	preempt_enable_nested();
--	if (wq_has_sleeper(d_wait))
--		wake_up_all(d_wait);
-+	d_wake_waiters(d_wait, de);
- }
- 
- static void d_wait_lookup(struct dentry *dentry)
- {
- 	if (d_in_lookup(dentry)) {
--		DECLARE_WAITQUEUE(wait, current);
--		add_wait_queue(dentry->d_wait, &wait);
-+		struct par_wait_key wk = {
-+			.de = dentry,
-+			.wqe = {
-+				.private = current,
-+				.func = d_wait_wake_fn,
-+			},
-+		};
-+		struct wait_queue_head *wq;
-+
-+		if (!dentry->d_wait)
-+			dentry->d_wait = &par_wait_table[hash_ptr(dentry,
-+								  PAR_LOOKUP_WQ_BITS)];
-+		wq = dentry->d_wait;
-+		add_wait_queue(wq, &wk.wqe);
- 		do {
- 			set_current_state(TASK_UNINTERRUPTIBLE);
- 			spin_unlock(&dentry->d_lock);
- 			schedule();
- 			spin_lock(&dentry->d_lock);
- 		} while (d_in_lookup(dentry));
-+		remove_wait_queue(wq, &wk.wqe);
- 	}
- }
- 
- struct dentry *d_alloc_parallel(struct dentry *parent,
--				const struct qstr *name,
--				wait_queue_head_t *wq)
-+				const struct qstr *name)
- {
- 	unsigned int hash = name->hash;
- 	struct hlist_bl_head *b = in_lookup_hash(parent, hash);
-@@ -2627,6 +2677,7 @@ struct dentry *d_alloc_parallel(struct dentry *parent,
- 		return ERR_PTR(-ENOMEM);
- 
- 	new->d_flags |= DCACHE_PAR_LOOKUP;
-+	new->d_wait = NULL;
- 	spin_lock(&parent->d_lock);
- 	new->d_parent = dget_dlock(parent);
- 	hlist_add_head(&new->d_sib, &parent->d_children);
-@@ -2717,7 +2768,6 @@ struct dentry *d_alloc_parallel(struct dentry *parent,
- 		return dentry;
- 	}
- 	rcu_read_unlock();
--	new->d_wait = wq;
- 	hlist_bl_add_head(&new->d_u.d_in_lookup_hash, b);
- 	hlist_bl_unlock(b);
- 	return new;
-@@ -2755,7 +2805,7 @@ static wait_queue_head_t *__d_lookup_unhash(struct dentry *dentry)
- void __d_lookup_unhash_wake(struct dentry *dentry)
- {
- 	spin_lock(&dentry->d_lock);
--	wake_up_all(__d_lookup_unhash(dentry));
-+	d_wake_waiters(__d_lookup_unhash(dentry), dentry);
- 	spin_unlock(&dentry->d_lock);
- }
- EXPORT_SYMBOL(__d_lookup_unhash_wake);
-@@ -2782,7 +2832,7 @@ static inline void __d_add(struct dentry *dentry, struct inode *inode,
- 	if (inode)
- 		__d_instantiate(dentry, inode);
- 	if (dir)
--		end_dir_add(dir, n, d_wait);
-+		end_dir_add(dir, n, d_wait, dentry);
- 	spin_unlock(&dentry->d_lock);
- 	if (inode)
- 		spin_unlock(&inode->i_lock);
-@@ -2966,7 +3016,7 @@ static void __d_move(struct dentry *dentry, struct dentry *target,
- 	write_seqcount_end(&dentry->d_seq);
- 
- 	if (dir)
--		end_dir_add(dir, n, d_wait);
-+		end_dir_add(dir, n, d_wait, target);
- 
- 	if (dentry->d_parent != old_parent)
- 		spin_unlock(&dentry->d_parent->d_lock);
-diff --git a/fs/fuse/readdir.c b/fs/fuse/readdir.c
-index c2aae2eef086..f588252891af 100644
---- a/fs/fuse/readdir.c
-+++ b/fs/fuse/readdir.c
-@@ -160,7 +160,6 @@ static int fuse_direntplus_link(struct file *file,
- 	struct inode *dir = d_inode(parent);
- 	struct fuse_conn *fc;
- 	struct inode *inode;
--	DECLARE_WAIT_QUEUE_HEAD_ONSTACK(wq);
- 	int epoch;
- 
- 	if (!o->nodeid) {
-@@ -197,7 +196,7 @@ static int fuse_direntplus_link(struct file *file,
- 	dentry = d_lookup(parent, &name);
- 	if (!dentry) {
- retry:
--		dentry = d_alloc_parallel(parent, &name, &wq);
-+		dentry = d_alloc_parallel(parent, &name);
- 		if (IS_ERR(dentry))
- 			return PTR_ERR(dentry);
- 	}
-diff --git a/fs/namei.c b/fs/namei.c
-index 6ffb8367b1cf..d31c3db7eb5e 100644
---- a/fs/namei.c
-+++ b/fs/namei.c
-@@ -1891,13 +1891,12 @@ static struct dentry *__lookup_slow(const struct qstr *name,
- {
- 	struct dentry *dentry, *old;
- 	struct inode *inode = dir->d_inode;
--	DECLARE_WAIT_QUEUE_HEAD_ONSTACK(wq);
- 
- 	/* Don't go there if it's already dead */
- 	if (unlikely(IS_DEADDIR(inode)))
- 		return ERR_PTR(-ENOENT);
- again:
--	dentry = d_alloc_parallel(dir, name, &wq);
-+	dentry = d_alloc_parallel(dir, name);
- 	if (IS_ERR(dentry))
- 		return dentry;
- 	if (unlikely(!d_in_lookup(dentry))) {
-@@ -4408,7 +4407,6 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
- 	struct dentry *dentry;
- 	int error, create_error = 0;
- 	umode_t mode = op->mode;
--	DECLARE_WAIT_QUEUE_HEAD_ONSTACK(wq);
- 
- 	if (unlikely(IS_DEADDIR(dir_inode)))
- 		return ERR_PTR(-ENOENT);
-@@ -4417,7 +4415,7 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
- 	dentry = d_lookup(dir, &nd->last);
- 	for (;;) {
- 		if (!dentry) {
--			dentry = d_alloc_parallel(dir, &nd->last, &wq);
-+			dentry = d_alloc_parallel(dir, &nd->last);
- 			if (IS_ERR(dentry))
- 				return dentry;
- 		}
-diff --git a/fs/nfs/dir.c b/fs/nfs/dir.c
-index 2402f57c8e7d..52e7656195ec 100644
---- a/fs/nfs/dir.c
-+++ b/fs/nfs/dir.c
-@@ -727,7 +727,6 @@ void nfs_prime_dcache(struct dentry *parent, struct nfs_entry *entry,
- 		unsigned long dir_verifier)
- {
- 	struct qstr filename = QSTR_INIT(entry->name, entry->len);
--	DECLARE_WAIT_QUEUE_HEAD_ONSTACK(wq);
- 	struct dentry *dentry;
- 	struct dentry *alias;
- 	struct inode *inode;
-@@ -756,7 +755,7 @@ void nfs_prime_dcache(struct dentry *parent, struct nfs_entry *entry,
- 	dentry = d_lookup(parent, &filename);
- again:
- 	if (!dentry) {
--		dentry = d_alloc_parallel(parent, &filename, &wq);
-+		dentry = d_alloc_parallel(parent, &filename);
- 		if (IS_ERR(dentry))
- 			return;
- 	}
-@@ -2107,7 +2106,6 @@ int nfs_atomic_open(struct inode *dir, struct dentry *dentry,
- 		    struct file *file, unsigned open_flags,
- 		    umode_t mode)
- {
--	DECLARE_WAIT_QUEUE_HEAD_ONSTACK(wq);
- 	struct nfs_open_context *ctx;
- 	struct dentry *res;
- 	struct iattr attr = { .ia_valid = ATTR_OPEN };
-@@ -2163,7 +2161,7 @@ int nfs_atomic_open(struct inode *dir, struct dentry *dentry,
- 		d_drop(dentry);
- 		switched = true;
- 		dentry = d_alloc_parallel(dentry->d_parent,
--					  &dentry->d_name, &wq);
-+					  &dentry->d_name);
- 		if (IS_ERR(dentry))
- 			return PTR_ERR(dentry);
- 		if (unlikely(!d_in_lookup(dentry)))
-diff --git a/fs/nfs/unlink.c b/fs/nfs/unlink.c
-index df3ca4669df6..43ea897943c0 100644
---- a/fs/nfs/unlink.c
-+++ b/fs/nfs/unlink.c
-@@ -124,7 +124,7 @@ static int nfs_call_unlink(struct dentry *dentry, struct inode *inode, struct nf
- 	struct dentry *alias;
- 
- 	down_read_non_owner(&NFS_I(dir)->rmdir_sem);
--	alias = d_alloc_parallel(dentry->d_parent, &data->args.name, &data->wq);
-+	alias = d_alloc_parallel(dentry->d_parent, &data->args.name);
- 	if (IS_ERR(alias)) {
- 		up_read_non_owner(&NFS_I(dir)->rmdir_sem);
- 		return 0;
-@@ -185,7 +185,6 @@ nfs_async_unlink(struct dentry *dentry, const struct qstr *name)
- 
- 	data->cred = get_current_cred();
- 	data->res.dir_attr = &data->dir_attr;
--	init_waitqueue_head(&data->wq);
- 
- 	status = -EBUSY;
- 	spin_lock(&dentry->d_lock);
-diff --git a/fs/proc/base.c b/fs/proc/base.c
-index 4eec684baca9..070c0d58b2da 100644
---- a/fs/proc/base.c
-+++ b/fs/proc/base.c
-@@ -2129,8 +2129,7 @@ bool proc_fill_cache(struct file *file, struct dir_context *ctx,
- 
- 	child = try_lookup_noperm(&qname, dir);
- 	if (!child) {
--		DECLARE_WAIT_QUEUE_HEAD_ONSTACK(wq);
--		child = d_alloc_parallel(dir, &qname, &wq);
-+		child = d_alloc_parallel(dir, &qname);
- 		if (IS_ERR(child))
- 			goto end_instantiate;
- 		if (d_in_lookup(child)) {
-diff --git a/fs/proc/proc_sysctl.c b/fs/proc/proc_sysctl.c
-index 49ab74e0bfde..04a382178c65 100644
---- a/fs/proc/proc_sysctl.c
-+++ b/fs/proc/proc_sysctl.c
-@@ -692,8 +692,7 @@ static bool proc_sys_fill_cache(struct file *file,
- 
- 	child = d_lookup(dir, &qname);
- 	if (!child) {
--		DECLARE_WAIT_QUEUE_HEAD_ONSTACK(wq);
--		child = d_alloc_parallel(dir, &qname, &wq);
-+		child = d_alloc_parallel(dir, &qname);
- 		if (IS_ERR(child))
- 			return false;
- 		if (d_in_lookup(child)) {
-diff --git a/fs/smb/client/readdir.c b/fs/smb/client/readdir.c
-index 8615a8747b7f..47f5d620b750 100644
---- a/fs/smb/client/readdir.c
-+++ b/fs/smb/client/readdir.c
-@@ -73,7 +73,6 @@ cifs_prime_dcache(struct dentry *parent, struct qstr *name,
- 	struct cifs_sb_info *cifs_sb = CIFS_SB(sb);
- 	bool posix = cifs_sb_master_tcon(cifs_sb)->posix_extensions;
- 	bool reparse_need_reval = false;
--	DECLARE_WAIT_QUEUE_HEAD_ONSTACK(wq);
- 	int rc;
- 
- 	cifs_dbg(FYI, "%s: for %s\n", __func__, name->name);
-@@ -105,7 +104,7 @@ cifs_prime_dcache(struct dentry *parent, struct qstr *name,
- 		    (fattr->cf_flags & CIFS_FATTR_NEED_REVAL))
- 			return;
- 
--		dentry = d_alloc_parallel(parent, name, &wq);
-+		dentry = d_alloc_parallel(parent, name);
- 	}
- 	if (IS_ERR(dentry))
- 		return;
-diff --git a/include/linux/dcache.h b/include/linux/dcache.h
-index 898c60d21c92..c6440c626a0f 100644
---- a/include/linux/dcache.h
-+++ b/include/linux/dcache.h
-@@ -244,8 +244,7 @@ extern void d_delete(struct dentry *);
- /* allocate/de-allocate */
- extern struct dentry * d_alloc(struct dentry *, const struct qstr *);
- extern struct dentry * d_alloc_anon(struct super_block *);
--extern struct dentry * d_alloc_parallel(struct dentry *, const struct qstr *,
--					wait_queue_head_t *);
-+extern struct dentry * d_alloc_parallel(struct dentry *, const struct qstr *);
- extern struct dentry * d_splice_alias(struct inode *, struct dentry *);
- /* weird procfs mess; *NOT* exported */
- extern struct dentry * d_splice_alias_ops(struct inode *, struct dentry *,
-diff --git a/include/linux/nfs_xdr.h b/include/linux/nfs_xdr.h
-index ff1f12aa73d2..1acc2479cb38 100644
---- a/include/linux/nfs_xdr.h
-+++ b/include/linux/nfs_xdr.h
-@@ -1740,7 +1740,6 @@ struct nfs_unlinkdata {
- 	struct nfs_removeargs args;
- 	struct nfs_removeres res;
- 	struct dentry *dentry;
--	wait_queue_head_t wq;
- 	const struct cred *cred;
- 	struct nfs_fattr dir_attr;
- 	long timeout;
 -- 
-2.50.0.107.gf914562f5916.dirty
+2.53.0
 
