@@ -1,67 +1,68 @@
-Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com [209.85.210.65])
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A2273E9592
-	for <linux-fsdevel@vger.kernel.org>; Tue, 31 Mar 2026 13:44:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6952C2472AA
+	for <linux-fsdevel@vger.kernel.org>; Tue, 31 Mar 2026 13:44:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774964644; cv=none; b=XKO4LCEidtCRYq+eCoVW/JHJD18KfWPmygDM7Tw7KrLHOlrbeh/k0W7Q+0uKdccrCQirXX4IzVfYiqxFbCgMlC2LUVR/Ee4R1wDxBMNbvLb2Xbjs+jyMYTmCA+XC2JSU+oBcjqChpSkaqxwkqRoXGxZzj22mE0VpuQDTucEAxqo=
+	t=1774964649; cv=none; b=ZDWly+fBguqbuuRVXSaDp5pgb7RR1/J4XBFPAREXmAh/WTGz6dcSXoZHm+ms4yNYql3+gHQzNyn9K5ndfXt8Gu3D5u/kJnJGtA/uYX6deTWPXSU6aBNCU8l/ayxvfu8uHZG1+KipigCYOXBDy+wfuxJBsjobdP7ASnhw2uBH6yE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774964644; c=relaxed/simple;
-	bh=C/blpW9mkcp1Sm/ES0cZwHxL+COPvcIEw6kZngLfqx4=;
+	s=arc-20240116; t=1774964649; c=relaxed/simple;
+	bh=2K20XJ/gwG1IJLQsa/W5M4bLVpssMeZ6ebI1hXmyhUg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=crVDi1a/Tzgpgtd6qxdYPxIvO1MMmSOeJtjtWzoh+IsocIlI3D9hSWdN+N2rOkk72GASUE63o8hD5ysMz2VbzDaHrCOFvWyBwKjvUDyn5TxU5BWC+gwB9Yvb9ZVpZONQrqImF6NdJd5v0luypZ0ERUZUPNgnTyzVnubjMNoYBVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com; spf=pass smtp.mailfrom=amutable.com; dkim=pass (2048-bit key) header.d=amutable-com.20230601.gappssmtp.com header.i=@amutable-com.20230601.gappssmtp.com header.b=JPycP/Sy; arc=none smtp.client-ip=209.85.210.65
+	 In-Reply-To:To:Cc; b=kooI04oOnTDRmn4kqSM0QzZtzhPtx5ARc2D2kmuuMHItrMMRUR6bGlSrPip/6C5iMp+wYiuKWkldEPW7tu5kSNMkTeaC7AzkR90CLnLXHg1zV9KcmHxs5/0af5wYvC9XusF+FpX/P3f5D2bKT+hLeClGkmSj0fJe/GDScfnSjAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com; spf=pass smtp.mailfrom=amutable.com; dkim=pass (2048-bit key) header.d=amutable-com.20230601.gappssmtp.com header.i=@amutable-com.20230601.gappssmtp.com header.b=bPH5FtEf; arc=none smtp.client-ip=209.85.160.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amutable.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amutable-com.20230601.gappssmtp.com header.i=@amutable-com.20230601.gappssmtp.com header.b="JPycP/Sy"
-Received: by mail-ot1-f65.google.com with SMTP id 46e09a7af769-7d7d4ebccf7so4833127a34.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 31 Mar 2026 06:44:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=amutable-com.20230601.gappssmtp.com header.i=@amutable-com.20230601.gappssmtp.com header.b="bPH5FtEf"
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-4094b31a037so4072189fac.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 31 Mar 2026 06:44:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amutable-com.20230601.gappssmtp.com; s=20230601; t=1774964639; x=1775569439; darn=vger.kernel.org;
+        d=amutable-com.20230601.gappssmtp.com; s=20230601; t=1774964643; x=1775569443; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=6D8X781T+RNnC32u5GL3wA0wuV/pMcGCJFnR7jmmuRI=;
-        b=JPycP/SygYIkkzodBKPQQ3hovsTx/HakK7cwGVPBNkFZbIdpFbqL6jwIdGIstIemFZ
-         gImPPNZXhjnET2XHeRgelxakXh9SaFQ3AXI3T7y7PQOvqQqOMGep+ILMX38rJn2gSTop
-         MrBw9McHZUrR9Nh+obrQt9Sm2TWPKlEkcxKg/grarKZh2qNNSHrE5EUNa/VsBgrovSUC
-         yXp5Sx0O6nKh0d+jCh+d+QG+du+DScKQOeuGPQNhBAfmju5B8h+jBAGwx9H/33lb8ubn
-         KMHZ+iY0ONINsPDl2oVfSIkbj68olwl37LOCHHNEO1ZcJYFWBkRg0A46/FVi0Vf9GpBk
-         VzQg==
+        bh=gQ99ZO5QOycXZmDuvJz1p/CKA7WICxsOG1IqStLAtuk=;
+        b=bPH5FtEfxBdStchc5SgtDHg1M3QrgYv5RZVm6nFMr+dc7dwWKsNiw3yLdL/C/tMjJq
+         xf+BkdUcFcTHQQPHdew07/gs+AaJALL+SZsLE+Ody7CUI3Luc8YePLkGZg20/wYL0gsq
+         8Ed7fXSLDhb1P1sh8BajnR6LYNWEQgCfFpB20VgT4aT1We738S7X8c3Fw+XLDHWSNXVY
+         24uzgMpXj7p2K4FtJd8vzwwQeBaDB0Son/dIjahjii6ZyDIe86STeUHzOfwsgeiI/oxh
+         ECQEgZ72ACtoOlvm1XGmmB6h2LjMw5lYmgElOShFYKc5BCeI9YiPv3NMWCcmqy0Tc+VC
+         i3JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774964639; x=1775569439;
+        d=1e100.net; s=20251104; t=1774964643; x=1775569443;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=6D8X781T+RNnC32u5GL3wA0wuV/pMcGCJFnR7jmmuRI=;
-        b=Mja5f94wJ7QBaQ9mnQRFJzCmZycSg3uQwEAdIYSDaZ6A6Rp9drVTUkq3CgjEocts4X
-         j6ybzy2WQkBCFpEldWd8IROb2JpxAGIInIQ1AdNVU8Hv6Ghc1/uE1aiQNqvfoUbA13Xr
-         WpGksqk+MbfRiA78M4udzX+QmHcNF0W/Ec0pSK5kBCdDUoy+PUW8FiG9pCTKvcfz3JMb
-         fsK/B+0xzF9XU9xtAiwRSwi86S9cSJ1OyNguGGC7weJKOP1G7pjF2/s0tifZOp7Db945
-         /xP/XwrbUgS7cvqdavtT0za5HOxqwTiHeodL7sITOeg36JAwNNEtVXXYv20sZ9f0N1jQ
-         3J1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVzp4jZXkHaHjUHTz3RhQq/sAPVVzvzvevkwbslMYjICZntY8ddsDKdK0hjXA4zvaIQBFzpLrVvOOxjmNpD@vger.kernel.org
-X-Gm-Message-State: AOJu0YyoVwCzavBzO28r+h/DXcPMsHE8PAWfRtlAQJdyhj/AQNuF521u
-	FQjigIxhjwdkQhhqD1IN0wkNm4UG29rkZW0o/eHjddhNA1vTwCOXV35OWYnq3tcrbk9/
-X-Gm-Gg: ATEYQzyxhCpbRm8ZtyNfSngwfZUoehSLh01Lhni56seSG1gIpyjaQgZi80IxyF9rIYt
-	CJvs+y9avBWbCf8pwezPrT+xy0Rl8hDseGpMVLmMt21oGeV2Y90i4LtDB7laCbKYARcEyHZ+dHP
-	6J1wVlcBm/Iy2ciaUxfmCojO0cBQfnK9iGyQ5ECvDWXLmocKYduSpRNcdlU7l2nVD/80DQDPS2v
-	Uzriyqt/6nxGyfJTiT3EGqrIneexHcf55pqRCirhqpgMtagUzGNLdyuI0USEHmqNwwqRH7w/9ms
-	ERYyWr59Qaf+McrmlUyuFnYMpN4m9lwPzeD6/A048p+j+fRAuilGwPvBcmOmNuPTFEOs5ksIYx1
-	ig4E4r8sAUn6YTyf7mvpliwfQDpncoVRJaD88Ue9/cjrgRVmXpDFuZ/z9Nn7DJdordzJNwCmD/k
-	iCmHGP7unSaYMNCkxRXxrwDqDDTG7N8UFM13QawGnu68Fu1b/zLZVlQ90UAKZcFgnhJCduV6gwR
-	QfaVcnEk1uJOBmZNi/0w+ez
-X-Received: by 2002:a05:6820:2212:b0:67b:ab68:b5e2 with SMTP id 006d021491bc7-67e1863b1b2mr9465431eaf.18.1774964639205;
-        Tue, 31 Mar 2026 06:43:59 -0700 (PDT)
+        bh=gQ99ZO5QOycXZmDuvJz1p/CKA7WICxsOG1IqStLAtuk=;
+        b=a05pO3jPfgY14sZrSHyaRdMvhDzQ9ORBx2WZxCbEEl11QFEULgEP8LQxDyjeYRgVSf
+         lC9V+tqnXcRlpjissH91nUoxPspuvg4OH9Pgn0PmXzNlkh8zZgq1QmlaSGRVbP6sb8gS
+         i8GjpLEMgWjOzV61JH24iY1nWVsRM1krgWGxaPIGnMV12UOs7jMkHy4lVfBglh4VtCon
+         35chQQD3MROGwX4lCyHEHOy+9N2cotNl4aXgQ1C7IHxe8m8WXIJfur5H6MI3NATJ7lDS
+         iMJUmYvlVujJPVqH/rwalFIDYcdWNn5smLVbRwWQyFW43jTFL13Nkl0F/s0BkEFLF5Mt
+         o/dQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVGfORGuXZhQ0vUnZKXm7FctJa0iJwHx/aAYV56M07ZaYZNn0j06IZQ8HYU9mZjqI2tHSPra7oifxOyFNrK@vger.kernel.org
+X-Gm-Message-State: AOJu0YwhdPGm1PQUQ29sopI82pMmLDNesCU1+c7l/o2kmA0F2llXASMd
+	30/PO080WsH97v1gGvTngNIJ4UnJCuOSw5BLjxFMncHsWgRLDaozE+NdyNkBcYucYGZo
+X-Gm-Gg: ATEYQzz6og4WTQvAPZFdnMi0IO1rGUSLrloAXTe3JVP1QeEozXAAwwFPsMYcKrJ/qCE
+	dom+kCVaNC35J7b0gTV4td1cCs9amDvMz78N1nsmb/oUJDpMU6qigXnRVv/Z9tmT1FAadD90mcr
+	CT4tvkOJZfWOya1txHt3fyjpMQFw3bb+mVvHMkKgOOD4YH04EofbKudPKFbeZ2P0YxW8F4PPde4
+	5wyFo9NqCAGBTed6Jl5DHLfpSF+YCRFmuz27vkvCw1hZKrgszOyUabFptfB6IiYFTKLuB+JC8Um
+	r9hg4mzJiXuQWIzN49dbXvCD1w5q9oyzFo3gFFdBNOzILjOc7Ri9f1vMPnX0j4Av/H03zsnkihr
+	GQW5gxCS9EF1hzuMF4s5Li+7VVCID1p4ErGgBsliWhSBY89WkVl2jMD8ggSEA9JWTgHD1+5eeEg
+	NGnDTobU2nsPTzTLYCiDbu6ebB3QxZXOo6nRvX+8U5qIBx2k9dQh2uHnoP/xNJRavi5tID1OOx+
+	ZNibsv/qJX8sncYfL+5rAEV
+X-Received: by 2002:a05:6870:a552:b0:409:6227:d313 with SMTP id 586e51a60fabf-41cec31a53amr8250852fac.35.1774964643278;
+        Tue, 31 Mar 2026 06:44:03 -0700 (PDT)
 Received: from thesius.dot.cyphar.com (2403-5809-a2fc-2-a90-9fd7-aedd-d405.ip6.aussiebb.net. [2403:5809:a2fc:2:a90:9fd7:aedd:d405])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-41d04d95bcasm7470456fac.17.2026.03.31.06.43.55
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-41d04d95bcasm7470456fac.17.2026.03.31.06.43.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Mar 2026 06:43:58 -0700 (PDT)
+        Tue, 31 Mar 2026 06:44:02 -0700 (PDT)
 From: Aleksa Sarai <aleksa@amutable.com>
-Date: Wed, 01 Apr 2026 00:43:31 +1100
-Subject: [PATCH 1/3] selftests: openat2: move helpers to header
+Date: Wed, 01 Apr 2026 00:43:32 +1100
+Subject: [PATCH 2/3] selftests: openat2: switch from custom ARRAY_LEN to
+ ARRAY_SIZE
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -70,7 +71,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260401-openat2-selftests-kunit-v1-1-5819ac6cadf5@amutable.com>
+Message-Id: <20260401-openat2-selftests-kunit-v1-2-5819ac6cadf5@amutable.com>
 References: <20260401-openat2-selftests-kunit-v1-0-5819ac6cadf5@amutable.com>
 In-Reply-To: <20260401-openat2-selftests-kunit-v1-0-5819ac6cadf5@amutable.com>
 To: Shuah Khan <shuah@kernel.org>
@@ -78,319 +79,88 @@ Cc: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
  Aleksa Sarai <aleksa@amutable.com>, Aleksa Sarai <cyphar@cyphar.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8040; i=aleksa@amutable.com;
- h=from:subject:message-id; bh=C/blpW9mkcp1Sm/ES0cZwHxL+COPvcIEw6kZngLfqx4=;
- b=owGbwMvMwCWmMf3Xpe0vXfIZT6slMWSePj9dVi1TgenQtMdf7J9/j2Pyd1o542XCigOhkW8fF
- RQs9vFl65jIwiDGxWAppsiyzc8zdNP8xVeSP61kg5nDygQyRFqkgYGBgYGFgS83Ma/USMdIz1Tb
- UM/QSMdIx4iBi1MApvrWM4a/whvc9i/6qBUjeN+s+0/NqgeOcz5snHyir8D9yePkY5F3zRj+Jxx
- 99/DEPSebDYZcW/cteq6l/epTZM7x4Ldfu6teB5/hZQMA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2991; i=aleksa@amutable.com;
+ h=from:subject:message-id; bh=2K20XJ/gwG1IJLQsa/W5M4bLVpssMeZ6ebI1hXmyhUg=;
+ b=owGbwMvMwCWmMf3Xpe0vXfIZT6slMWSePj/9pJz3xo8KtwRPHP3m562hZjbxueKp8tCTqwu+q
+ C95VuMzq2MiC4MYF4OlmCLLNj/P0E3zF19J/rSSDWYOKxPIEGmRBgYGBgYWBr7cxLxSIx0jPVNt
+ Qz1DIx0jHSMGLk4BmOqPuxgZvkT9lO+9tiVabPK0qKIqk0wZF7V/jrmuXKc3yn1qKJe8xMhwrJ7
+ Z0OkSD8vD8kOH/0lItEZo/k4ziWt25Tvo/uLImWd8AA==
 X-Developer-Key: i=aleksa@amutable.com; a=openpgp;
  fpr=C9C370B246B09F6DBCFC744C34401015D1D2D386
 
-This is a bit ugly, but in the next patch we will move to using
-kselftest_harness.h -- which doesn't play well with being included in
-multiple compilation units due to duplicate function definitions.
-
-Not including kselftest_harness.h would let us avoid this patch, but the
-helpers will need include kselftest_harness.h in order to switch to
-TH_LOG.
+For whatever reason, the original version of the tests used a custom
+version of ARRAY_SIZE, but ARRAY_SIZE works just as well.
 
 Signed-off-by: Aleksa Sarai <aleksa@amutable.com>
 ---
- tools/testing/selftests/openat2/Makefile  |   2 -
- tools/testing/selftests/openat2/helpers.c | 109 --------------------------
- tools/testing/selftests/openat2/helpers.h | 125 +++++++++++++++++++++++++-----
- 3 files changed, 107 insertions(+), 129 deletions(-)
+ tools/testing/selftests/openat2/helpers.h      |  1 -
+ tools/testing/selftests/openat2/openat2_test.c | 12 ++++++------
+ tools/testing/selftests/openat2/resolve_test.c |  4 ++--
+ 3 files changed, 8 insertions(+), 9 deletions(-)
 
-diff --git a/tools/testing/selftests/openat2/Makefile b/tools/testing/selftests/openat2/Makefile
-index 185dc76ebb5f..3100b4d8d1b2 100644
---- a/tools/testing/selftests/openat2/Makefile
-+++ b/tools/testing/selftests/openat2/Makefile
-@@ -14,5 +14,3 @@ endif
- LOCAL_HDRS += helpers.h
- 
- include ../lib.mk
--
--$(TEST_GEN_PROGS): helpers.c
-diff --git a/tools/testing/selftests/openat2/helpers.c b/tools/testing/selftests/openat2/helpers.c
-deleted file mode 100644
-index 5074681ffdc9..000000000000
---- a/tools/testing/selftests/openat2/helpers.c
-+++ /dev/null
-@@ -1,109 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-or-later
--/*
-- * Author: Aleksa Sarai <cyphar@cyphar.com>
-- * Copyright (C) 2018-2019 SUSE LLC.
-- */
--
--#define _GNU_SOURCE
--#include <errno.h>
--#include <fcntl.h>
--#include <stdbool.h>
--#include <string.h>
--#include <syscall.h>
--#include <limits.h>
--
--#include "helpers.h"
--
--bool needs_openat2(const struct open_how *how)
--{
--	return how->resolve != 0;
--}
--
--int raw_openat2(int dfd, const char *path, void *how, size_t size)
--{
--	int ret = syscall(__NR_openat2, dfd, path, how, size);
--	return ret >= 0 ? ret : -errno;
--}
--
--int sys_openat2(int dfd, const char *path, struct open_how *how)
--{
--	return raw_openat2(dfd, path, how, sizeof(*how));
--}
--
--int sys_openat(int dfd, const char *path, struct open_how *how)
--{
--	int ret = openat(dfd, path, how->flags, how->mode);
--	return ret >= 0 ? ret : -errno;
--}
--
--int sys_renameat2(int olddirfd, const char *oldpath,
--		  int newdirfd, const char *newpath, unsigned int flags)
--{
--	int ret = syscall(__NR_renameat2, olddirfd, oldpath,
--					  newdirfd, newpath, flags);
--	return ret >= 0 ? ret : -errno;
--}
--
--int touchat(int dfd, const char *path)
--{
--	int fd = openat(dfd, path, O_CREAT, 0700);
--	if (fd >= 0)
--		close(fd);
--	return fd;
--}
--
--char *fdreadlink(int fd)
--{
--	char *target, *tmp;
--
--	E_asprintf(&tmp, "/proc/self/fd/%d", fd);
--
--	target = malloc(PATH_MAX);
--	if (!target)
--		ksft_exit_fail_msg("fdreadlink: malloc failed\n");
--	memset(target, 0, PATH_MAX);
--
--	E_readlink(tmp, target, PATH_MAX);
--	free(tmp);
--	return target;
--}
--
--bool fdequal(int fd, int dfd, const char *path)
--{
--	char *fdpath, *dfdpath, *other;
--	bool cmp;
--
--	fdpath = fdreadlink(fd);
--	dfdpath = fdreadlink(dfd);
--
--	if (!path)
--		E_asprintf(&other, "%s", dfdpath);
--	else if (*path == '/')
--		E_asprintf(&other, "%s", path);
--	else
--		E_asprintf(&other, "%s/%s", dfdpath, path);
--
--	cmp = !strcmp(fdpath, other);
--
--	free(fdpath);
--	free(dfdpath);
--	free(other);
--	return cmp;
--}
--
--bool openat2_supported = false;
--
--void __attribute__((constructor)) init(void)
--{
--	struct open_how how = {};
--	int fd;
--
--	BUILD_BUG_ON(sizeof(struct open_how) != OPEN_HOW_SIZE_VER0);
--
--	/* Check openat2(2) support. */
--	fd = sys_openat2(AT_FDCWD, ".", &how);
--	openat2_supported = (fd >= 0);
--
--	if (fd >= 0)
--		close(fd);
--}
 diff --git a/tools/testing/selftests/openat2/helpers.h b/tools/testing/selftests/openat2/helpers.h
-index 510e60602511..975de513af86 100644
+index 975de513af86..f56c0c6e3ad1 100644
 --- a/tools/testing/selftests/openat2/helpers.h
 +++ b/tools/testing/selftests/openat2/helpers.h
-@@ -2,6 +2,7 @@
- /*
-  * Author: Aleksa Sarai <cyphar@cyphar.com>
-  * Copyright (C) 2018-2019 SUSE LLC.
-+ * Copyright (C) 2026 Amutable GmbH
-  */
- 
- #ifndef __RESOLVEAT_H__
-@@ -11,19 +12,14 @@
- #include <stdint.h>
- #include <stdbool.h>
- #include <errno.h>
-+#include <limits.h>
- #include <linux/types.h>
-+#include <linux/unistd.h>
+@@ -17,7 +17,6 @@
+ #include <linux/unistd.h>
  #include "kselftest.h"
  
- #define ARRAY_LEN(X) (sizeof (X) / sizeof (*(X)))
+-#define ARRAY_LEN(X) (sizeof (X) / sizeof (*(X)))
  #define BUILD_BUG_ON(e) ((void)(sizeof(struct { int:(-!!(e)); })))
  
--#ifndef SYS_openat2
--#ifndef __NR_openat2
--#define __NR_openat2 437
--#endif /* __NR_openat2 */
--#define SYS_openat2 __NR_openat2
--#endif /* SYS_openat2 */
--
  /*
-  * Arguments for how openat2(2) should open the target path. If @resolve is
-  * zero, then openat2(2) operates very similarly to openat(2).
-@@ -45,8 +41,6 @@ struct open_how {
- #define OPEN_HOW_SIZE_VER0	24 /* sizeof first published struct */
- #define OPEN_HOW_SIZE_LATEST	OPEN_HOW_SIZE_VER0
+diff --git a/tools/testing/selftests/openat2/openat2_test.c b/tools/testing/selftests/openat2/openat2_test.c
+index 0e161ef9e9e4..c6c26652ac1b 100644
+--- a/tools/testing/selftests/openat2/openat2_test.c
++++ b/tools/testing/selftests/openat2/openat2_test.c
+@@ -83,14 +83,14 @@ void test_openat2_struct(void)
+ 		  .size = sizeof(struct open_how_ext), .err = -E2BIG },
+ 	};
  
--bool needs_openat2(const struct open_how *how);
--
- #ifndef RESOLVE_IN_ROOT
- /* how->resolve flags for openat2(2). */
- #define RESOLVE_NO_XDEV		0x01 /* Block mount-point crossings
-@@ -93,16 +87,111 @@ bool needs_openat2(const struct open_how *how);
- 					   __FILE__, __LINE__, #expr, ##__VA_ARGS__); \
- 	} while (0)
+-	BUILD_BUG_ON(ARRAY_LEN(misalignments) != NUM_OPENAT2_STRUCT_VARIATIONS);
+-	BUILD_BUG_ON(ARRAY_LEN(tests) != NUM_OPENAT2_STRUCT_TESTS);
++	BUILD_BUG_ON(ARRAY_SIZE(misalignments) != NUM_OPENAT2_STRUCT_VARIATIONS);
++	BUILD_BUG_ON(ARRAY_SIZE(tests) != NUM_OPENAT2_STRUCT_TESTS);
  
--int raw_openat2(int dfd, const char *path, void *how, size_t size);
--int sys_openat2(int dfd, const char *path, struct open_how *how);
--int sys_openat(int dfd, const char *path, struct open_how *how);
--int sys_renameat2(int olddirfd, const char *oldpath,
--		  int newdirfd, const char *newpath, unsigned int flags);
-+__maybe_unused
-+static bool needs_openat2(const struct open_how *how)
-+{
-+	return how->resolve != 0;
-+}
-+
-+__maybe_unused
-+static int raw_openat2(int dfd, const char *path, void *how, size_t size)
-+{
-+	int ret = syscall(__NR_openat2, dfd, path, how, size);
-+
-+	return ret >= 0 ? ret : -errno;
-+}
-+
-+__maybe_unused
-+static int sys_openat2(int dfd, const char *path, struct open_how *how)
-+{
-+	return raw_openat2(dfd, path, how, sizeof(*how));
-+}
-+
-+__maybe_unused
-+static int sys_openat(int dfd, const char *path, struct open_how *how)
-+{
-+	int ret = openat(dfd, path, how->flags, how->mode);
-+
-+	return ret >= 0 ? ret : -errno;
-+}
-+
-+__maybe_unused
-+static int sys_renameat2(int olddirfd, const char *oldpath,
-+			 int newdirfd, const char *newpath, unsigned int flags)
-+{
-+	int ret = syscall(__NR_renameat2, olddirfd, oldpath,
-+					  newdirfd, newpath, flags);
-+
-+	return ret >= 0 ? ret : -errno;
-+}
-+
-+__maybe_unused
-+static int touchat(int dfd, const char *path)
-+{
-+	int fd = openat(dfd, path, O_CREAT, 0700);
-+
-+	if (fd >= 0)
-+		close(fd);
-+	return fd;
-+}
-+
-+__maybe_unused
-+static char *fdreadlink(int fd)
-+{
-+	char *target, *tmp;
-+
-+	E_asprintf(&tmp, "/proc/self/fd/%d", fd);
-+
-+	target = malloc(PATH_MAX);
-+	if (!target)
-+		ksft_exit_fail_msg("fdreadlink: malloc failed\n");
-+	memset(target, 0, PATH_MAX);
-+
-+	E_readlink(tmp, target, PATH_MAX);
-+	free(tmp);
-+	return target;
-+}
-+
-+__maybe_unused
-+static bool fdequal(int fd, int dfd, const char *path)
-+{
-+	char *fdpath, *dfdpath, *other;
-+	bool cmp;
-+
-+	fdpath = fdreadlink(fd);
-+	dfdpath = fdreadlink(dfd);
-+
-+	if (!path)
-+		E_asprintf(&other, "%s", dfdpath);
-+	else if (*path == '/')
-+		E_asprintf(&other, "%s", path);
-+	else
-+		E_asprintf(&other, "%s/%s", dfdpath, path);
-+
-+	cmp = !strcmp(fdpath, other);
-+
-+	free(fdpath);
-+	free(dfdpath);
-+	free(other);
-+	return cmp;
-+}
-+
-+static bool openat2_supported = false;
-+
-+__attribute__((constructor))
-+static void __detect_openat2_supported(void)
-+{
-+	struct open_how how = {};
-+	int fd;
-+
-+	BUILD_BUG_ON(sizeof(struct open_how) != OPEN_HOW_SIZE_VER0);
+-	for (int i = 0; i < ARRAY_LEN(tests); i++) {
++	for (int i = 0; i < ARRAY_SIZE(tests); i++) {
+ 		struct struct_test *test = &tests[i];
+ 		struct open_how_ext how_ext = test->arg;
  
--int touchat(int dfd, const char *path);
--char *fdreadlink(int fd);
--bool fdequal(int fd, int dfd, const char *path);
-+	/* Check openat2(2) support. */
-+	fd = sys_openat2(AT_FDCWD, ".", &how);
-+	openat2_supported = (fd >= 0);
+-		for (int j = 0; j < ARRAY_LEN(misalignments); j++) {
++		for (int j = 0; j < ARRAY_SIZE(misalignments); j++) {
+ 			int fd, misalign = misalignments[j];
+ 			char *fdpath = NULL;
+ 			bool failed;
+@@ -241,9 +241,9 @@ void test_openat2_flags(void)
+ 		  .how.resolve = 0, .err = -EINVAL },
+ 	};
  
--extern bool openat2_supported;
-+	if (fd >= 0)
-+		close(fd);
-+}
+-	BUILD_BUG_ON(ARRAY_LEN(tests) != NUM_OPENAT2_FLAG_TESTS);
++	BUILD_BUG_ON(ARRAY_SIZE(tests) != NUM_OPENAT2_FLAG_TESTS);
  
- #endif /* __RESOLVEAT_H__ */
+-	for (int i = 0; i < ARRAY_LEN(tests); i++) {
++	for (int i = 0; i < ARRAY_SIZE(tests); i++) {
+ 		int fd, fdflags = -1;
+ 		char *path, *fdpath = NULL;
+ 		bool failed = false;
+diff --git a/tools/testing/selftests/openat2/resolve_test.c b/tools/testing/selftests/openat2/resolve_test.c
+index a76ef15ceb90..f7acb4300641 100644
+--- a/tools/testing/selftests/openat2/resolve_test.c
++++ b/tools/testing/selftests/openat2/resolve_test.c
+@@ -436,9 +436,9 @@ void test_openat2_opath_tests(void)
+ 		  .out.err = -ELOOP,		.pass = false },
+ 	};
+ 
+-	BUILD_BUG_ON(ARRAY_LEN(tests) != NUM_OPENAT2_OPATH_TESTS);
++	BUILD_BUG_ON(ARRAY_SIZE(tests) != NUM_OPENAT2_OPATH_TESTS);
+ 
+-	for (int i = 0; i < ARRAY_LEN(tests); i++) {
++	for (int i = 0; i < ARRAY_SIZE(tests); i++) {
+ 		int dfd, fd;
+ 		char *fdpath = NULL;
+ 		bool failed;
 
 -- 
 2.53.0
