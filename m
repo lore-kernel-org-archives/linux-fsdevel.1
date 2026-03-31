@@ -1,45 +1,73 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEAF5413241;
-	Tue, 31 Mar 2026 15:38:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88FB7363C47
+	for <linux-fsdevel@vger.kernel.org>; Tue, 31 Mar 2026 16:09:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774971499; cv=none; b=GfIa4LLJUkOLIgVK7M+4p5HUviNAtyXeGmBfBkY+DR4BCBtu3ss4P5l4yJ+ggW811vQAE34SdeN8FNGUGsOHXA4JIlLAUxwIsgKb/hi5SATTjFkXxHE02Y++MmZypv6zO1j8IyKW7wY25TMd9Qu1G17My6mD02AKu/plUg3coqY=
+	t=1774973346; cv=none; b=Dt0rSYqu8c+ZqanSrsYjYRWVxto0SpuXWv5WvfSWdjMg8F2JhVz2ijnwFBfDFJhXtHl+O64rnomVTPPitGJZFfShfombtDEuu/uavOuCGOUnQ6rRtBiscTrQB6wuD57Qr0YdNK4ETBrYStcgji30gcPffRee0TXznbH2Y5O3l4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774971499; c=relaxed/simple;
-	bh=GCjU8VmWOqWFk6waIurChh7kQ5JfLaTwWrsh9aTcfhs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=V1SrVSw84GGe+0qGMGeM8E7i7etMUcliWrDTCWhHukUbqUTd4+O2Fm2UBpW1C6oALr25nB0A0FMvG3E/lCCXpf+gOMkglx8S0i/VRKhlbh4jzATs5dyrI7oHPBGTE71I5X8lk0xqatR/LMoyRZeEWASLlhpGsyDDq73i/W5L38w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=yPML2qwe; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1774973346; c=relaxed/simple;
+	bh=8NiHJoWnyGoLZ8HlXI8Q5nWgT65wTTBn8F+eVynsvFQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ryqSy3eHySPkUCgOubobZ25SIjgxpCGDjrTGRXGF0pKXpwhgnXRDuh3rrfisStUfZmgAK7gjjTkDiQml3Z9jbPjfi6mcDUIq0kvPm9VagBMFdS0lqKxvoY0yHnHEbQv7/Abhcmm19/z0R+Wgf+FdRT6sdJV783+1XJ6t1FmCdhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iwE+ZFkd; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="yPML2qwe"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=k5hzf+2WitMD3bLb9qaTKiy+YgjAMvvStEbHAfO+bq8=; b=yPML2qwefEXMYopAOfq0Lfx3lo
-	KVcs+66aB0C1abtYjBsUcOQEnEwd9jBNN7Vk76AYn2eKbh9QTDQ86kZJaCmlErXDz+m8R+o8Eq2O8
-	uBhgqhgKPT4b81dQm6EpW+axWhwbHfaoit4tKeqri19TfrmnUWaOCpI+e23rDbAIiBzJkgr84DHSN
-	EaRqkq8I+Z7vjJ88qTJMMSGGgovjkyV/qYS4UXPihMruiEb12jxjhE2K3ub66AFnOQY7jrSpcEMX5
-	r8L3HRHJtAQkCkX3hJlFlxElN4eKCX5wfY+IJIWa+BdqTOXJ/b8Dg+EZYZF5K+KJmN/Av4xTc/C2X
-	ZDJdoY0w==;
-Received: from [2a02:1210:321a:af00:3fa:89ae:5c22:a910] (helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w7bAU-0000000DCAr-0xiN;
-	Tue, 31 Mar 2026 15:38:14 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Tyler Hicks <code@tyhicks.com>
-Cc: ecryptfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH 7/7] ecryptfs: call notify_change from truncate_upper
-Date: Tue, 31 Mar 2026 17:37:28 +0200
-Message-ID: <20260331153752.4049454-8-hch@lst.de>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260331153752.4049454-1-hch@lst.de>
-References: <20260331153752.4049454-1-hch@lst.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iwE+ZFkd"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-43cff5dafc3so1972816f8f.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 31 Mar 2026 09:09:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774973344; x=1775578144; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=z6nIkg+M4Ho56ulVSYXGONPVGSrDDqFsxVsA34jDwtk=;
+        b=iwE+ZFkdOR4VYxDL8E50EcZJNNvyiV9mcApXuaOc5IeWOkPiZr3BL5oqsSHqEoinS+
+         9rsFThrKKJs0KMgdVadxT+6IGhcaq8b2Z/YSUgtMId2vodDhLtqc3jAlsKGALCaV9XFk
+         ifZOHeOriMVIcs/pUK57zSmLDl3CBKcteS06Y6VT3zhEuD6gNZ+hDmVeQJ5zWbVDrIhs
+         HgPRVlM3QHTHQHC/7kKyQLnebvn6hTFiUjhctHHzOHVRTdn9whOso5ovs8Ybj85zHZSY
+         jKeS1w3NBb0kPIWR7U6fQK1Yqj4n5pmTWOUZSnj4SJpRbrUqRzTZ6XAkZYhTXdYP5o/q
+         RDHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774973344; x=1775578144;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=z6nIkg+M4Ho56ulVSYXGONPVGSrDDqFsxVsA34jDwtk=;
+        b=Uqpnfs0lrfIVVBNZxMLGS8S+DDlD/vK5wzjVizjSRFL47QGtonyrGHaDVImDfImbCJ
+         TeZo29StUtmb0lIxE1kvnHQlco3oMH4o9gd6xIWxZK/z+eFxJIkQSZP8OG9gitJ0aLvc
+         NxuJGq121F588lsam8pd55yUoL8WMLz87Omneu3un4Cc4QMYO0sjeKnS28YUKTrTlD0R
+         UZ7p56PxH5x2RWdZGHcizjMk+kRfKHGqMWgLWT+OEwRRgvj4OoNcYe424r5Fp2xgGAug
+         Oq5qFyWdVLaXMc7PZDV1Pz1VcwEH7zChBDk0yxKA0GrZCtIGi/KxcZMFvWvowxRK8kxW
+         YmUA==
+X-Forwarded-Encrypted: i=1; AJvYcCUGJiOiLS8E/OFaVQJ7DPhjOB20F9GiZzznE1OOeJgfwx/vL8Yyn3rkkraSmVgPX+34L16sUfqT7b9xA9U/@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz8UbMfYE9ybpGwRbYh5LzJ7NGHhlV/DSF/XOgFDvTUU7hVL/74
+	F2W3uDwjSy2Gtz9Lr+JfHUgX8PbQwSeU/Lx/7sl1XFw49FkQj4GE0Ay+oA/Gng==
+X-Gm-Gg: ATEYQzw3dw/e4TVhuorOlfs8Ktvu1piGbFuU+q9HfY4qJmawhAUmxJjFD/sO/lUYHIy
+	6fvMwsU0P8yHs8B+BrBeqB6cahxbdYgYm1h562BHsR9rLe+NSrTO5qWbdubBM+jS4sKiq/CM0mA
+	KiqwEUInlgkcR/6UYef+Ziyve314GSMBgjMMQTezBB1sg5hUMhNS1lz/0uYRjpT3OxN4oX/ccDv
+	zXIqF8WG+kkT99T/H9M78aPd3tjFEu7v99SuY+4GSbmzq76jbdrdpXh88FoWzhHi4x5/rHCwF6/
+	wvUiwmaYKWaBIqvlDw+2kX7PPZG7ivAf989tVpKuXyNe7/Uh0Cm7kDIYLNR9qHNZWr+hUeWzfgI
+	ardGJiGKY2TtXylm7HsFKxleMXIaC060CRK2Pr9+IiuuVHD3r8+JzQf3sJbz60olKZvlEhq83Gl
+	Q0sGTGNGICPOiqGexo+jhLXTbHHFuw3rT8x9U7Ug9mgtBr528UJc17fNV89yi0q9DO3pxpPcLpH
+	w==
+X-Received: by 2002:a05:6000:1a89:b0:43c:fbde:3101 with SMTP id ffacd0b85a97d-43d150e0f1cmr394102f8f.41.1774973343541;
+        Tue, 31 Mar 2026 09:09:03 -0700 (PDT)
+Received: from f.. (cst-prg-89-171.cust.vodafone.cz. [46.135.89.171])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf21e3602sm28792632f8f.4.2026.03.31.09.09.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 Mar 2026 09:09:02 -0700 (PDT)
+From: Mateusz Guzik <mjguzik@gmail.com>
+To: brauner@kernel.org
+Cc: viro@zeniv.linux.org.uk,
+	jack@suse.cz,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	Mateusz Guzik <mjguzik@gmail.com>
+Subject: [PATCH v5 0/4] assorted ->i_count changes + extension of lockless handling
+Date: Tue, 31 Mar 2026 18:08:47 +0200
+Message-ID: <20260331160851.3854954-1-mjguzik@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -47,154 +75,65 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Keep all the truncation logic in one place by also moving the call to
-notify_change into truncate_upper.  Rename the resulting function to
-__ecryptfs_truncate as it deals with both the lower and upper inodes.
+The stock kernel support partial lockless in handling in that iput() can
+decrement any value > 1. Any ref acquire however requires the spinlock.
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- fs/ecryptfs/inode.c | 61 +++++++++++++++++++++------------------------
- 1 file changed, 28 insertions(+), 33 deletions(-)
+With this patchset ref acquires when the value was already at least 1
+also become lockless. That is, only transitions 0->1 and 1->0 take the
+lock.
 
-diff --git a/fs/ecryptfs/inode.c b/fs/ecryptfs/inode.c
-index c87ee3c6ecba..256beed0e47d 100644
---- a/fs/ecryptfs/inode.c
-+++ b/fs/ecryptfs/inode.c
-@@ -707,7 +707,7 @@ upper_size_to_lower_size(struct ecryptfs_crypt_stat *crypt_stat,
- }
- 
- /**
-- * truncate_upper
-+ * __ecryptfs_truncate
-  * @dentry: The ecryptfs layer dentry
-  * @lower_ia: Address of the lower inode's attributes
-  *
-@@ -721,9 +721,10 @@ upper_size_to_lower_size(struct ecryptfs_crypt_stat *crypt_stat,
-  *
-  * Returns zero on success; non-zero otherwise
-  */
--static int truncate_upper(struct dentry *dentry, struct iattr *lower_ia)
-+static int __ecryptfs_truncate(struct dentry *dentry, struct iattr *lower_ia)
- {
- 	struct inode *inode = d_inode(dentry);
-+	struct dentry *lower_dentry = ecryptfs_dentry_to_lower(dentry);
- 	struct ecryptfs_crypt_stat *crypt_stat;
- 	loff_t i_size = i_size_read(inode);
- 	loff_t lower_size_before_truncate;
-@@ -731,10 +732,8 @@ static int truncate_upper(struct dentry *dentry, struct iattr *lower_ia)
- 	size_t num_zeros;
- 	int rc;
- 
--	if (unlikely(lower_ia->ia_size == i_size)) {
--		lower_ia->ia_valid &= ~ATTR_SIZE;
-+	if (unlikely(lower_ia->ia_size == i_size))
- 		return 0;
--	}
- 
- 	crypt_stat = &ecryptfs_inode_to_private(inode)->crypt_stat;
- 	lower_size_before_truncate =
-@@ -767,13 +766,12 @@ static int truncate_upper(struct dentry *dentry, struct iattr *lower_ia)
- 		 * new and of the file.
- 		 */
- 		rc = ecryptfs_write(inode, zero, lower_ia->ia_size - 1, 1);
--		lower_ia->ia_valid &= ~ATTR_SIZE;
- 		goto out;
- 	}
- 
- 	if (!(crypt_stat->flags & ECRYPTFS_ENCRYPTED)) {
- 		truncate_setsize(inode, lower_ia->ia_size);
--		goto out;
-+		goto set_size;
- 	}
- 
- 	/*
-@@ -803,10 +801,14 @@ static int truncate_upper(struct dentry *dentry, struct iattr *lower_ia)
- 	 * We are reducing the size of the ecryptfs file, and need to know if we
- 	 * need to reduce the size of the lower file.
- 	 */
--	if (lower_size_after_truncate < lower_size_before_truncate)
--		lower_ia->ia_size = lower_size_after_truncate;
--	else
--		lower_ia->ia_valid &= ~ATTR_SIZE;
-+	if (lower_size_after_truncate >= lower_size_before_truncate)
-+		goto out;
-+
-+	lower_ia->ia_size = lower_size_after_truncate;
-+set_size:
-+	inode_lock(d_inode(lower_dentry));
-+	rc = notify_change(&nop_mnt_idmap, lower_dentry, lower_ia, NULL);
-+	inode_unlock(d_inode(lower_dentry));
- out:
- 	ecryptfs_put_lower_file(inode);
- 	return rc;
-@@ -828,18 +830,8 @@ int ecryptfs_truncate(struct dentry *dentry, loff_t new_length)
- 		.ia_valid	= ATTR_SIZE,
- 		.ia_size	= new_length,
- 	};
--	int rc;
--
--	rc = truncate_upper(dentry, &lower_ia);
--	if (!rc && lower_ia.ia_valid & ATTR_SIZE) {
--		struct dentry *lower_dentry = ecryptfs_dentry_to_lower(dentry);
- 
--		inode_lock(d_inode(lower_dentry));
--		rc = notify_change(&nop_mnt_idmap, lower_dentry,
--				   &lower_ia, NULL);
--		inode_unlock(d_inode(lower_dentry));
--	}
--	return rc;
-+	return __ecryptfs_truncate(dentry, &lower_ia);
- }
- 
- static int
-@@ -867,7 +859,6 @@ static int ecryptfs_setattr(struct mnt_idmap *idmap,
- 			    struct dentry *dentry, struct iattr *ia)
- {
- 	struct inode *inode = d_inode(dentry);
--	struct dentry *lower_dentry = ecryptfs_dentry_to_lower(dentry);
- 	struct inode *lower_inode = ecryptfs_inode_to_lower(inode);
- 	struct iattr lower_ia;
- 	struct ecryptfs_crypt_stat *crypt_stat;
-@@ -918,13 +909,6 @@ static int ecryptfs_setattr(struct mnt_idmap *idmap,
- 		goto out;
- 
- 	memcpy(&lower_ia, ia, sizeof(lower_ia));
--	if (ia->ia_valid & ATTR_FILE)
--		lower_ia.ia_file = ecryptfs_file_to_lower(ia->ia_file);
--	if (ia->ia_valid & ATTR_SIZE) {
--		rc = truncate_upper(dentry, &lower_ia);
--		if (rc < 0)
--			goto out;
--	}
- 
- 	/*
- 	 * mode change is for clearing setuid/setgid bits. Allow lower fs
-@@ -933,9 +917,20 @@ static int ecryptfs_setattr(struct mnt_idmap *idmap,
- 	if (lower_ia.ia_valid & (ATTR_KILL_SUID | ATTR_KILL_SGID))
- 		lower_ia.ia_valid &= ~ATTR_MODE;
- 
--	inode_lock(d_inode(lower_dentry));
--	rc = notify_change(&nop_mnt_idmap, lower_dentry, &lower_ia, NULL);
--	inode_unlock(d_inode(lower_dentry));
-+	if (ia->ia_valid & ATTR_SIZE) {
-+		if (ia->ia_valid & ATTR_FILE)
-+			lower_ia.ia_file = ecryptfs_file_to_lower(ia->ia_file);
-+		rc = __ecryptfs_truncate(dentry, &lower_ia);
-+		if (rc < 0)
-+			goto out;
-+	} else {
-+		struct dentry *lower_dentry = ecryptfs_dentry_to_lower(dentry);
-+
-+		inode_lock(d_inode(lower_dentry));
-+		rc = notify_change(&nop_mnt_idmap, lower_dentry, &lower_ia,
-+			NULL);
-+		inode_unlock(d_inode(lower_dentry));
-+	}
- out:
- 	fsstack_copy_attr_all(inode, lower_inode);
- 	return rc;
+I verified when nfs calls into the hash taking the lock is typically
+avoided. Similarly, btrfs likes to igrab() and avoids the lock.
+However, I have to fully admit I did not perform any benchmarks. While
+cleaning stuff up I noticed lockless operation is almost readily
+available so I went for it.
+
+Clean-up wise, the icount_read_once() stuff lines up with inode_state_read_once().
+The prefix is different but I opted to not change it due to igrab(), ihold() et al.
+
+There is a future-proofing change in iput_final(). I am not going to
+strongly insist on it, but at the very least the problem it sorts out
+needs to be noted in a comment.
+
+v5:
+- reword some commentary
+- add unlikely to the new icount check in iput_final()
+
+v4:
+- squash icount_read patches
+- use icount_read_once in the new ihold assert, reported by syzbot
+- squash lockless ref acquire patches, rewrite new comments
+
+v3:
+- tidy up ihold
+- add lockless handling to the hash
+
+Mateusz Guzik (4):
+  fs: add icount_read_once() and stop open-coding ->i_count loads
+  fs: relocate and tidy up ihold()
+  fs: handle potential filesystems which use I_DONTCACHE and drop the
+    lock in ->drop_inode
+  fs: allow lockless ->i_count bumps as long as it does not transition
+    0->1
+
+ arch/powerpc/platforms/cell/spufs/file.c |   2 +-
+ fs/btrfs/inode.c                         |   2 +-
+ fs/ceph/mds_client.c                     |   2 +-
+ fs/dcache.c                              |   4 +
+ fs/ext4/ialloc.c                         |   4 +-
+ fs/hpfs/inode.c                          |   2 +-
+ fs/inode.c                               | 122 ++++++++++++++++++-----
+ fs/nfs/inode.c                           |   4 +-
+ fs/smb/client/inode.c                    |   2 +-
+ fs/ubifs/super.c                         |   2 +-
+ fs/xfs/xfs_inode.c                       |   2 +-
+ fs/xfs/xfs_trace.h                       |   2 +-
+ include/linux/fs.h                       |  13 +++
+ include/trace/events/filelock.h          |   2 +-
+ security/landlock/fs.c                   |   2 +-
+ 15 files changed, 130 insertions(+), 37 deletions(-)
+
 -- 
-2.47.3
+2.48.1
 
