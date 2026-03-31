@@ -1,147 +1,148 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB1513A4F2F;
-	Tue, 31 Mar 2026 10:39:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F13903A4F2F;
+	Tue, 31 Mar 2026 10:40:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.171.160.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774953597; cv=none; b=NiA5PvoDnuXp9SZ5CTedsb7U7QuwqMFh/R5xSL5NsC2n5wGt0o6bth5WJzxfa2EYNE4AqmHi7USqCTBi+BpHo/XwXEi59EmmzCpcVPzuiRu02fFNLlqoUNM6wOUrn3pVUZI6OnacYhVkCtcRksjCx3ea55bS/k4C1yirloyUwJg=
+	t=1774953614; cv=none; b=Kd053Mtwu3wi+MueAktbCh3fk3or/zeMUFmi/TtQOPFs1nEcsxORY2h1HnJjdrF/FRKIKojQ+wucQzpHWU1negkW9zpiKkEEq0byeuWT/leBMEJSQIryOwFeNvhizLdoxn+hqa+RoDlrfpfTplfoGt/JAJyr7xP+IPUocy+Ogtc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774953597; c=relaxed/simple;
-	bh=i5WStOZl6vAyzIT7A4hzQwI+IQ620Hpq4xCv5ziUciA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DCF4ZZ5r0ostmZFezYli/l6RmrFpKq16fEWwoa70lHyB+IpjDm6keGFq6Sc/pnHvQuWnZCkeQUUeAp/MajylIDfMdmWCiyqnuWAkRSIz4i8Aoh+yIrAovjhIGYzZYKgZBhf9ydI4I+RidCE8lodWhX/pvUtThQclSz/07hpVAnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uraYR/Dy; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774953614; c=relaxed/simple;
+	bh=9Nx9On3/A9yUpOPmBiwI3EzprmI9bCiG/OLT9iVkg94=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=SdCHvKJNKGOlcKElxDfljBlw4ch8EyNVf8RdLV0ZugzBJn5LCgebo03d5IXL1R8j2j6/i6RqDnn116UhvHIqUAWIJDcgYhWV7gy0ojjjQGo2GKFdc04Cgt5FhBvcmTdy73XIGEGaq6UZ+H5frkfgzH7kE3kBBzkwwmuYXZ63Bdc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp; spf=pass smtp.mailfrom=parknet.co.jp; dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=RGXImBG9; dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=IkV85c1b; arc=none smtp.client-ip=210.171.160.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uraYR/Dy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC62FC19423;
-	Tue, 31 Mar 2026 10:39:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774953597;
-	bh=i5WStOZl6vAyzIT7A4hzQwI+IQ620Hpq4xCv5ziUciA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uraYR/Dybjpku/vFsoxC1uobPoK1Nlz5vvBV9H8hkrz+o/n51AMgUhrRFxc8jlVl+
-	 l+2C8+5GZnJpDD7x9U4OBAmeUEgBxfZUSgj448cf1MZ+CDVy6KVj6qWhzBHfV2FzPl
-	 ThrUjcSJexGTGs5IlneVUnZ+SFLe8odiM7SZMibe1c5GfAlbgWf9wtbz1QSQsPICAb
-	 /HLk2EiDJkgxHExJ0OimngXPkLAj1U9pLPnl9/hW1INwOpMuPKs5n8JQFvjbJcePNK
-	 1lajFD4mWj32eRzb3uYgRa5ehqH0asu1wC8emIli+fyV4WCXqPKMq5Ieq8hh/lPWHs
-	 aS6eDquQLz4Pw==
-Date: Tue, 31 Mar 2026 12:39:50 +0200
-From: Carlos Maiolino <cem@kernel.org>
-To: Ravi Singh <ravising@redhat.com>
-Cc: linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	adilger@dilger.ca, jack@suse.com, djwong@kernel.org, hch@infradead.org
-Subject: Re: [PATCH v3] xfs: return default quota limits for IDs without a
- dquot
-Message-ID: <acukaX9CqWpcP3d1@nidhogg.toxiclabs.cc>
-References: <20260317065947.306954-1-ravising@redhat.com>
- <20260330061414.1190802-1-ravising@redhat.com>
+	dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="RGXImBG9";
+	dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="IkV85c1b"
+Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
+	by mail.parknet.co.jp (Postfix) with ESMTPSA id 779F226F7689;
+	Tue, 31 Mar 2026 19:40:02 +0900 (JST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
+	s=20250114; t=1774953602;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=o61ziz1K7RE+vfkx01/BqKbiM2DvTc1gWIWpdSZJsrk=;
+	b=RGXImBG9OkkmJqMaygJ7AQDGsKzIQl9abCecZ1Urgp/oZ2yiBvcZeoE7CFuE+/kvV+iN6D
+	U4swsphXGmlc5MObWhkYovizM+FxkoO6U2EEfzujW5BqBtiQ0r/J752mOChnK4gJbLR1dD
+	1VUSlKrbZJpn48cr/6Z/ap3ks+R41GUVNedpzkFQCJe04B0BLknTNOOiimUB7JUPB+SQ/N
+	4X6OBt/0Ut5bSz7MyVLy+TgrTD28bKJcZgC7ik/AyOmHECVjUd9Vv439R9htdHSYnn55Lv
+	bCx5WQtQ/S9RUkvZ1CIEdGRCrYI8pxGW0DbfMNG8k94uebjKG5i/Rptypu+OKw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
+	s=20250114-ed25519; t=1774953602;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=o61ziz1K7RE+vfkx01/BqKbiM2DvTc1gWIWpdSZJsrk=;
+	b=IkV85c1bt9eSNB1ACUrhM1X1oZJQ7QVVMbbvnBOLSwK7ls9q0Ga6u2jMZrt3U7fvRHGRKO
+	E6TPZwycQpL0rOBA==
+Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
+	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id 04458E00CC9;
+	Tue, 31 Mar 2026 19:40:02 +0900 (JST)
+Received: by devron.myhome.or.jp (Postfix, from userid 1000)
+	id EABA92200056; Tue, 31 Mar 2026 19:40:01 +0900 (JST)
+From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+To: Jan Kara <jack@suse.cz>
+Cc: linux-fsdevel@vger.kernel.org,  linux-block@vger.kernel.org,  Christian
+ Brauner <brauner@kernel.org>,  Al Viro <viro@zeniv.linux.org.uk>,
+  linux-ext4@vger.kernel.org,  Ted Tso <tytso@mit.edu>,  "Tigran A.
+ Aivazian" <aivazian.tigran@gmail.com>,  David Sterba <dsterba@suse.com>,
+  Muchun Song <muchun.song@linux.dev>,  Oscar Salvador <osalvador@suse.de>,
+  David Hildenbrand <david@kernel.org>,  linux-mm@kvack.org,
+  linux-aio@kvack.org,  Benjamin LaHaise <bcrl@kvack.org>
+Subject: Re: [PATCH 15/42] fat: Sync and invalidate metadata buffers from
+ fat_evict_inode()
+In-Reply-To: <mjraa5thsnzchejoomqgiahwajx4cs5ryqnmn7zsi3fylzhrrr@5ip65jcrlknn>
+References: <20260326082428.31660-1-jack@suse.cz>
+	<20260326095354.16340-57-jack@suse.cz>
+	<87ldfazqo2.fsf@mail.parknet.co.jp>
+	<3oh5cbnm6dwz6rikc6laably5nvu4c4wtxjqzuu3wymzhpqrtw@skopu327hd7a>
+	<87jyutwo6o.fsf@mail.parknet.co.jp>
+	<mjraa5thsnzchejoomqgiahwajx4cs5ryqnmn7zsi3fylzhrrr@5ip65jcrlknn>
+Date: Tue, 31 Mar 2026 19:40:01 +0900
+Message-ID: <87wlyss2ny.fsf@mail.parknet.co.jp>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260330061414.1190802-1-ravising@redhat.com>
+Content-Type: text/plain
 
-On Mon, Mar 30, 2026 at 02:14:14PM +0800, Ravi Singh wrote:
-> When an ID has no dquot on disk, Q_XGETQUOTA returns -ENOENT even
-> though default quota limits are configured and enforced against that
-> ID.  This means unprivileged users who have never used any resources
-> cannot see the limits that apply to them.
-> 
-> When xfs_qm_dqget() returns -ENOENT for a non-zero ID, return a
-> zero-usage response with the default limits filled in from
-> m_quotainfo rather than propagating the error.  This is consistent
-> with the enforcement behavior in xfs_qm_adjust_dqlimits(), which
-> pushes the same default limits into a dquot when it is first
-> allocated.
-> 
-> Reviewed-by: Jan Kara <jack@suse.cz>
-> Signed-off-by: Ravi Singh <ravising@redhat.com>
+Jan Kara <jack@suse.cz> writes:
 
-Looks good,
+>> >> Hm, why do we have to add this here? For FAT, if buffers are still
+>> >> dirty, buffers will be flushed via bdev flush?
+>> >
+>> > The reason why I've put sync_mapping_buffers() here is the following
+>> > sequence:
+>> >   fd = open("file")
+>> >   write(fd)
+>> >   close(fd)
+>> >     - now data gets written out, dentry & inode can get evicted from memory
+>> >   fd = open("file")
+>> >   fsync(fd)
+>> >     - this should flush all dirty metadata associated with "file" but if we
+>> >       didn't call sync_mapping_buffers() during inode eviction we wouldn't
+>> >       have a way to do that.
+>> >
+>> > So in general I think sync_mapping_buffers() call is indeed needed.
+>> 
+>> Hm, it looks like not new issue, isn't it? Why we have changed now in
+>> this series?
+>
+> It isn't a new issue. But so far inode_lru_isolate() was checking whether
+> the metadata buffers list has any dirty buffers and if yes, it skipped the
+> inode. So inodes with dirty buffers in this list could reach .evict method
+> only for deleted inodes or during unmount and either case makes above
+> problem impossible to happen. This is however a layering violation (generic
+> inode handling code shouldn't care about details of buffer heads) and as a
+> result it makes it difficult to abstract the metadata buffer handling this
+> series is doing. And all this for a handful of filesystems which,
+> honestly, aren't used in performace critical settings.
 
-Reviewed-by: Carlos Maiolino <cmaiolino@redhat.com>
+I see, I could understand why you wanted to change though. However, (in
+my thought, this change has disadvantage by below reason) changing this
+behavior because of layering violation is not good way, IMO.
 
-> ---
->  v3:
->   - Return -ENOENT when no default limits are configured
->     instead of returning a zero-filled response (Darrick)
-> 
->  v2:
->   - Moved fix from VFS (fs/quota/quota.c) to XFS
->     (fs/xfs/xfs_qm_syscalls.c) per review feedback
->   - Return default limits on ENOENT instead of granting
->     unprivileged access to ID 0's dquot
-> 
->  fs/xfs/xfs_qm_syscalls.c | 43 +++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 42 insertions(+), 1 deletion(-)
-> 
-> diff --git a/fs/xfs/xfs_qm_syscalls.c b/fs/xfs/xfs_qm_syscalls.c
-> index d50b7318c..21a784986 100644
-> --- a/fs/xfs/xfs_qm_syscalls.c
-> +++ b/fs/xfs/xfs_qm_syscalls.c
-> @@ -391,6 +391,38 @@ xfs_qm_scall_setqlim(
->  	return error;
->  }
->  
-> +/*
-> + * Fill out the default quota limits for an ID that has no dquot on disk.
-> + * Returns 0 if default limits are configured
-> + * and were filled in, -ENOENT otherwise.
-> + */
-> +static int
-> +xfs_qm_scall_getquota_fill_defaults(
-> +	struct xfs_mount	*mp,
-> +	xfs_dqtype_t		type,
-> +	struct qc_dqblk		*dst)
-> +{
-> +	struct xfs_def_quota	*defq;
-> +
-> +	defq = xfs_get_defquota(mp->m_quotainfo, type);
-> +
-> +	if (!defq->blk.soft && !defq->blk.hard &&
-> +	    !defq->ino.soft && !defq->ino.hard &&
-> +	    !defq->rtb.soft && !defq->rtb.hard) {
-> +		return -ENOENT;
-> +	}
-> +
-> +	memset(dst, 0, sizeof(*dst));
-> +	dst->d_spc_softlimit = XFS_FSB_TO_B(mp, defq->blk.soft);
-> +	dst->d_spc_hardlimit = XFS_FSB_TO_B(mp, defq->blk.hard);
-> +	dst->d_ino_softlimit = defq->ino.soft;
-> +	dst->d_ino_hardlimit = defq->ino.hard;
-> +	dst->d_rt_spc_softlimit = XFS_FSB_TO_B(mp, defq->rtb.soft);
-> +	dst->d_rt_spc_hardlimit = XFS_FSB_TO_B(mp, defq->rtb.hard);
-> +
-> +	return 0;
-> +}
-> +
->  /* Fill out the quota context. */
->  static void
->  xfs_qm_scall_getquota_fill_qc(
-> @@ -451,8 +483,17 @@ xfs_qm_scall_getquota(
->  	 * set doalloc. If it doesn't exist, we'll get ENOENT back.
->  	 */
->  	error = xfs_qm_dqget(mp, id, type, false, &dqp);
-> -	if (error)
-> +	if (error) {
-> +		/*
-> +		 * If there is no dquot on disk and default limits are
-> +		 * configured, return them with zero usage so that
-> +		 * unprivileged users can see what limits apply to them.
-> +		 */
-> +		if (error == -ENOENT && id != 0 &&
-> +		    !xfs_qm_scall_getquota_fill_defaults(mp, type, dst))
-> +			return 0;
->  		return error;
-> +	}
->  
->  	/*
->  	 * If everything's NULL, this dquot doesn't quite exist as far as
-> -- 
-> 2.49.0
-> 
+>> It is including trade off write amplification vs reliability (i.e. may
+>> not call fsync()), for example. So I think we should not add it easily.
+>
+> I expect in practice you'll hardly be able to observe the difference as
+> inodes usually get quite a while to be reclaimed at which point the dirty
+> buffers would be already flushed by background writeback. I don't see how
+> this change would lead specifically to "write amplification" - that would
+> mean frequent redirtying of the same metadata buffer of an inode
+> interleaved with frequent reclaims of the inode and I don't see how that
+> would happen in a realistic setting.
+>
+> If someone comes with a realistic workload which would suffer significant
+> regression from this change, then of course we should address it. I have
+> plans for adding an interface for filesystems to expose the information
+> that inode has some pending dirty metadata and a way to flush them from
+> flush worker because that is a common need a lot of filesystems has and
+> doing the flushing from .evict isn't always doable due to locking
+> constraints.
+
+I think it would happen with normal operation, for example, copy many
+files more than total memory. I think this would be much common than
+write=>close=>open=>fsync in your example.  Anyway, with it, reclaimed
+inode metadata will be flushed forcibly and frequently (yeah, may not be
+significant though. but I can't see the benefit for users from this
+change.), and lost to chance combining multiple time of dirty while copy
+many files.
+
+> I'm still thinking about details but this has to be a properly
+> abstracted interface all filesystems can use and not a special hack for a
+> handful of old filesystems.
+
+Sounds great. How about we delay this behavior change until this
+interface?
+
+Thanks.
+-- 
+OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
