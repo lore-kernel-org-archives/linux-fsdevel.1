@@ -1,186 +1,149 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E5C344B66B;
-	Tue, 31 Mar 2026 21:07:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 485534534B4
+	for <linux-fsdevel@vger.kernel.org>; Tue, 31 Mar 2026 21:21:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774991232; cv=none; b=SSwp0w4Gqha6Iv3zaup0wfs+PUnCwL3f3prgMuPmqHQzKTKYY60jVIhidGEFtmtSMzzTEe6GyWb25ZzBMKVJCsnhnseyPb/yTgdnoCysvMGaiBkKexqbnA0vkYvQl6DWpWayvBzXJ3kuvBwQe/4Jsds1LgG2OiDRxYLQhU9PYDs=
+	t=1774992078; cv=none; b=Uc/ZSpxeB91TIdNAUYsqqi2JhTVxVI/Ud0xFfRztlVToS+n7R8g9IVdxEYSPXMu0TgTop+1eYwMHA0+E1rpZbqoMo8fVbCpXkGokAm/R6jc4GhgMvx5uC4mFX3oInwrnkuZizNJGJmrqSrGbik6b1dgiodFKm1fLYY1PH1B5rvQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774991232; c=relaxed/simple;
-	bh=UsJ5e/RhuVuFtvHeikldmw2lMh7vPiDAng13HfDxIw0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=nKO6VmPt2JD8OqZYlSscxmZMcmEmTTb5yacU3gLNV2BIbAJQVPGEU4+E5E+zRCMoZ1YOZ5PjMy70HLQRFx5DOrHIwwpa+Qgxknii6w0n7/5cpBMQyEnwR1o11JA8f7+YukRtL518yODU6RHNL8Kpeu3Jq6JXF5s/PH5EKSE4kkY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pJjpjf3p; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774992078; c=relaxed/simple;
+	bh=5GMRx+RGj0GfKQqYkNUz0E+HE02JDPPg5CEANTUb7ek=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZnQ6CXjcI8uSX0FVUYDaaC86pWQEMRxRZXdGPNfvE/6MPVcQOU8pCpySNsQGdXBtz9aHSu0McW/yyos6zDFpgZaMyCZwFyut+CJavwsx3XH3RhmapdDleZq7J2vClQn1eXFjAn5/D9vtRYrt8xbOkrTwXovNUEUcQbUm7Sl8GDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=EhtxzyQz; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=aFjM2dkE; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=EhtxzyQz; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=aFjM2dkE; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pJjpjf3p"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AB54C19423;
-	Tue, 31 Mar 2026 21:07:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774991232;
-	bh=UsJ5e/RhuVuFtvHeikldmw2lMh7vPiDAng13HfDxIw0=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=pJjpjf3pBs7AY4jZvoI26yABo0xpnYSIndXvxqq76jWSDZNgEj2z88SImUA1n5Mis
-	 rpqNuquS29oay42CoguNoG2KkLpTznOnLsQhy1+cke/mquPSTEggbjXK72vzkVrgDG
-	 F4yuhkHN7N/2IkOv47KqdpZNBNVXFNKx8DqkGtUfDDH9M7peRULivg+1Q3XHsHa9Ug
-	 bsrG2wTUklNHYUBKXa+DGWb5O+VW7Hij//crW0AjESQUDk2ck7domvxNx1BkNH/YEn
-	 Wn4mFAcDkKbMSTHjDJZkXgTMi/jwsHqskkq6R1+ln+Uxdcg65/Ar3oWEm8BrpmjP0Q
-	 5fswio4LJcGnA==
-From: Chuck Lever <cel@kernel.org>
-Date: Tue, 31 Mar 2026 17:07:01 -0400
-Subject: [PATCH v7 7/7] NFSD: Close cached file handles when revoking
- export state
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="EhtxzyQz";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="aFjM2dkE";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="EhtxzyQz";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="aFjM2dkE"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7BCC44D26E;
+	Tue, 31 Mar 2026 21:21:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1774992069; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FnzfKx5Upeq/sF2uvwEe4YZyvV2k+Y/3mRbeHnU7NJU=;
+	b=EhtxzyQzbVQ14mggnEpjSxkIC2WylB1t6EbM7WDwcNztbysjdELWGO/mJnRRVyA0IXR9pp
+	ZbwH9tojogXEWuyafJ4/5dkLBR5Uk8kd1djdo+sHCEHl51M5lBhLMAH4gGjkJA+t1pJDHg
+	w6Xn6gvc81/83T9L1OLH38064QGDa3w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1774992069;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FnzfKx5Upeq/sF2uvwEe4YZyvV2k+Y/3mRbeHnU7NJU=;
+	b=aFjM2dkETsCQMCG8uA5usKaTPAe1nobM/5cMrIzcNefEP4NbOqrBNX/IJhrgm6SJ4NojnT
+	RERPzGMe+zFLu6AQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1774992069; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FnzfKx5Upeq/sF2uvwEe4YZyvV2k+Y/3mRbeHnU7NJU=;
+	b=EhtxzyQzbVQ14mggnEpjSxkIC2WylB1t6EbM7WDwcNztbysjdELWGO/mJnRRVyA0IXR9pp
+	ZbwH9tojogXEWuyafJ4/5dkLBR5Uk8kd1djdo+sHCEHl51M5lBhLMAH4gGjkJA+t1pJDHg
+	w6Xn6gvc81/83T9L1OLH38064QGDa3w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1774992069;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FnzfKx5Upeq/sF2uvwEe4YZyvV2k+Y/3mRbeHnU7NJU=;
+	b=aFjM2dkETsCQMCG8uA5usKaTPAe1nobM/5cMrIzcNefEP4NbOqrBNX/IJhrgm6SJ4NojnT
+	RERPzGMe+zFLu6AQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 72F954A0A2;
+	Tue, 31 Mar 2026 21:21:09 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id IWUKHMU6zGn8PwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 31 Mar 2026 21:21:09 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 3213FA0AFD; Tue, 31 Mar 2026 23:21:09 +0200 (CEST)
+Date: Tue, 31 Mar 2026 23:21:09 +0200
+From: Jan Kara <jack@suse.cz>
+To: Jori Koolstra <jkoolstra@xs4all.nl>
+Cc: gregkh@linuxfoundation.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, NeilBrown <neil@brown.name>, 
+	Amir Goldstein <amir73il@gmail.com>, Jeff Layton <jlayton@kernel.org>, 
+	Namjae Jeon <linkinjeon@kernel.org>, Mateusz Guzik <mjguzik@gmail.com>, 
+	"open list:FILESYSTEMS (VFS and infrastructure)" <linux-fsdevel@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] vfs: replace ints with enum component_type for LAST_XXX
+Message-ID: <2pzoyiq5xcuj5bix37ikli24k22l5cgcz5zygyxheoxro5pgh3@jwri2dpuhuyu>
+References: <20260331173726.3517440-1-jkoolstra@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260331-umount-kills-nfsv4-state-v7-7-d8d2eee93f53@oracle.com>
-References: <20260331-umount-kills-nfsv4-state-v7-0-d8d2eee93f53@oracle.com>
-In-Reply-To: <20260331-umount-kills-nfsv4-state-v7-0-d8d2eee93f53@oracle.com>
-To: NeilBrown <neil@brown.name>, Jeff Layton <jlayton@kernel.org>, 
- Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, 
- Tom Talpey <tom@talpey.com>
-Cc: linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- Chuck Lever <chuck.lever@oracle.com>
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4360;
- i=chuck.lever@oracle.com; h=from:subject:message-id;
- bh=YtL1hMNF50B7TzqcOei4fxTM/rP0tuBogvyqIxf0LKg=;
- b=owEBbQKS/ZANAwAKATNqszNvZn+XAcsmYgBpzDd5PWOBuMeXQB0hohtvG4EsPYi9/oy5RjA+a
- rLl4ZnKag6JAjMEAAEKAB0WIQQosuWwEobfJDzyPv4zarMzb2Z/lwUCacw3eQAKCRAzarMzb2Z/
- l8zgEAC7U49XnIxM9cTaM3o7JGXp11BJX8WRcTPW4GtEEbkIDPGHLqQjzdhBwocnCwQr64Kl0wt
- IqxiyLHWctNlIVSmqTOOd6dznJOFbROLVjK2CMbW6g3dVAyw5M+Llm4EbzxwZgGKahTY22fK414
- qxFruiEjbB9SyWSk90xsIsyHsH/o+TZ3hhkgIE1AHdCO9RuP/i9O7iWwcQCwdmt2I+kc2Iut2GM
- u1WXHw5VrEXApcwLMQGMqZmn2dnCUvCy+Jvs+YLqtFmu9nJgvcVjBAAHusacgYZyioWBqoP5Bfm
- SuR70GO3/cH7mTSxPbkMM14ZDsXsE9kwgy9UC8J3JTGlBuAHfI5nkO7wy5dcs5aGw48dTOtKi4B
- Koro9sIZ/76eDH/7kb0WVoJNOKVcf5JKXGRDFyaLmO5DjB3aqsGtHptOHdGFTRRUHohLMz05MxX
- Z7ZuMYNIMO9j6fvo6Ni7l3uG3+ACIPy1GyXKawWH5ySztqqBV19Z1fZ8iudIKrKO4RAQEhkfLtY
- SUcP9zHbfJ0LVD+ldbt2jODzIiNGKt7w0FB3bvLQ1utXMkervdbW5g5tZabbuG/J9WSLmOl7a0S
- TLOOrPS+NVDu5GoHrrpjBiV5xexvy/U6cFChnMOICT4YX/m4/c57PpH24QcmTpT/W3NCuVlTmMt
- JkUGlgSy3bQZPRg==
-X-Developer-Key: i=chuck.lever@oracle.com; a=openpgp;
- fpr=28B2E5B01286DF243CF23EFE336AB3336F667F97
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260331173726.3517440-1-jkoolstra@xs4all.nl>
+X-Spam-Score: -3.80
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FREEMAIL_TO(0.00)[xs4all.nl];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,xs4all.nl];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[linuxfoundation.org,zeniv.linux.org.uk,kernel.org,suse.cz,brown.name,gmail.com,vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
 
-From: Chuck Lever <chuck.lever@oracle.com>
+On Tue 31-03-26 19:37:22, Jori Koolstra wrote:
+> Several functions in namei.c take an "int *type" parameter, such as
+> filename_parentat(). To know what values this can take you have to find
+> the anonymous struct that defines the LAST_XXX values. I would argue
+> that the readability of the code is improved by making this an explicit
+> type. Also, when we have this "enum component_type" is does not really
+> make sense anymore to talk about LAST_XXX, but we should just use XXX,
+> as there is nothing specific about the component type showing up at the
+> end of a path.
+> 
+> Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
 
-When NFSD_CMD_UNLOCK_EXPORT revokes NFSv4 state for an export path,
-GC-managed nfsd_file entries for files under that path may remain
-in the file cache.  These cached handles hold the underlying
-filesystem busy, preventing a subsequent unmount.
+Looks fine to me besides one whitespace damage. Feel free to add:
 
-Add nfsd_file_close_export(), which walks the nfsd_file hash table
-and closes GC-eligible entries whose underlying file resides on the
-same filesystem and is a descendant of the export path.  Because
-nfsd_file entries do not carry an export reference, the ancestry
-check uses is_subdir() on the file's dentry.  False positives --
-closing a cached handle that did not originate from the target
-export -- are harmless; the handle is simply reopened on the next
-access.
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-The handler calls nfsd_file_close_export() before revoking NFSv4
-state, mirroring the order used by NFSD_CMD_UNLOCK_FILESYSTEM
-(which cancels copies and releases NLM locks before revoking
-state).  Both calls run under nfsd_mutex.
+> @@ -3009,12 +3010,13 @@ struct dentry *kern_path_parent(const char *name, struct path *path)
+>  	CLASS(filename_kernel, filename)(name);
+>  	struct dentry *d;
+>  	struct qstr last;
+> -	int type, error;
+> +        enum component_type type;
 
-Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
-Reviewed-by: Jeff Layton <jlayton@kernel.org>
----
- fs/nfsd/filecache.c | 46 ++++++++++++++++++++++++++++++++++++++++++++++
- fs/nfsd/filecache.h |  1 +
- fs/nfsd/nfsctl.c    |  5 +++--
- 3 files changed, 50 insertions(+), 2 deletions(-)
+Damaged whitespace here...
 
-diff --git a/fs/nfsd/filecache.c b/fs/nfsd/filecache.c
-index 1e2b38ed1d35..24511c3208db 100644
---- a/fs/nfsd/filecache.c
-+++ b/fs/nfsd/filecache.c
-@@ -724,6 +724,52 @@ nfsd_file_close_inode_sync(struct inode *inode)
- 	nfsd_file_dispose_list(&dispose);
- }
- 
-+/**
-+ * nfsd_file_close_export - close cached file handles for an export
-+ * @net: net namespace in which to operate
-+ * @path: export path whose cached files should be closed
-+ *
-+ * Close out GC-managed nfsd_file entries whose underlying file is on
-+ * the same filesystem as, and a descendant of, @path.  nfsd_file
-+ * entries do not carry an export reference, so the check uses the
-+ * file's dentry ancestry.  False positives (closing a cached handle
-+ * that did not originate from the target export) are harmless -- the
-+ * handle is simply reopened on the next access.
-+ *
-+ * Called from the NFSD_CMD_UNLOCK_EXPORT handler before revoking
-+ * NFSv4 state, to ensure that cached file handles do not hold the
-+ * filesystem busy.
-+ */
-+void nfsd_file_close_export(struct net *net, const struct path *path)
-+{
-+	struct rhashtable_iter iter;
-+	struct nfsd_file *nf;
-+	LIST_HEAD(dispose);
-+
-+	rhltable_walk_enter(&nfsd_file_rhltable, &iter);
-+	do {
-+		rhashtable_walk_start(&iter);
-+
-+		nf = rhashtable_walk_next(&iter);
-+		while (!IS_ERR_OR_NULL(nf)) {
-+			if (nf->nf_net == net &&
-+			    test_bit(NFSD_FILE_GC, &nf->nf_flags) &&
-+			    nf->nf_file &&
-+			    file_inode(nf->nf_file)->i_sb ==
-+					path->dentry->d_sb &&
-+			    is_subdir(nf->nf_file->f_path.dentry,
-+				      path->dentry))
-+				nfsd_file_cond_queue(nf, &dispose);
-+			nf = rhashtable_walk_next(&iter);
-+		}
-+
-+		rhashtable_walk_stop(&iter);
-+	} while (nf == ERR_PTR(-EAGAIN));
-+	rhashtable_walk_exit(&iter);
-+
-+	nfsd_file_dispose_list(&dispose);
-+}
-+
- static int
- nfsd_file_lease_notifier_call(struct notifier_block *nb, unsigned long arg,
- 			    void *data)
-diff --git a/fs/nfsd/filecache.h b/fs/nfsd/filecache.h
-index b383dbc5b921..683b6437cacc 100644
---- a/fs/nfsd/filecache.h
-+++ b/fs/nfsd/filecache.h
-@@ -70,6 +70,7 @@ struct net *nfsd_file_put_local(struct nfsd_file __rcu **nf);
- struct nfsd_file *nfsd_file_get(struct nfsd_file *nf);
- struct file *nfsd_file_file(struct nfsd_file *nf);
- void nfsd_file_close_inode_sync(struct inode *inode);
-+void nfsd_file_close_export(struct net *net, const struct path *path);
- void nfsd_file_net_dispose(struct nfsd_net *nn);
- bool nfsd_file_is_cached(struct inode *inode);
- __be32 nfsd_file_acquire_gc(struct svc_rqst *rqstp, struct svc_fh *fhp,
-diff --git a/fs/nfsd/nfsctl.c b/fs/nfsd/nfsctl.c
-index 0bbcd5bae340..8aef18a0c0f2 100644
---- a/fs/nfsd/nfsctl.c
-+++ b/fs/nfsd/nfsctl.c
-@@ -2313,9 +2313,10 @@ int nfsd_nl_unlock_export_doit(struct sk_buff *skb, struct genl_info *info)
- 		return error;
- 
- 	mutex_lock(&nfsd_mutex);
--	if (nn->nfsd_serv)
-+	if (nn->nfsd_serv) {
-+		nfsd_file_close_export(net, &path);
- 		nfsd4_revoke_export_states(nn, &path);
--	else
-+	} else
- 		error = -EINVAL;
- 	mutex_unlock(&nfsd_mutex);
- 
-
+								Honza
 -- 
-2.53.0
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
