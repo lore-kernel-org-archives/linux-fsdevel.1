@@ -1,351 +1,350 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.167])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C636443CED8
-	for <linux-fsdevel@vger.kernel.org>; Tue, 31 Mar 2026 17:34:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.133.124
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774978495; cv=pass; b=X7wRkdOvHseaIBmJkE/NuwpBsfrO84iN61nPohH2BO52KzD5Wo4dD7TBl2ilJJO6wVEvmhxl010zDNmwe4kTRtUfNpldBdMSmAW4kxbNLyQX+N9LPnOaLwkRLe9s8sCqkViIzuCMgYETUhrhwHewUZ2iDcGGmXiU3p+XyBw6pwU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774978495; c=relaxed/simple;
-	bh=JIgU5m8Pgc/Ag+ZnFaad7xYTJ+AsMSYhCypn35MXP/Q=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bqVDgmJScw8cwC97DlfzrBnrR/+acB7y6qgqUWYCHe9UEiOEWsesKci7alAtNDiu5cp5dGD+JxOAkC7YeMLZJ4qoY/jvB+aFqCeWUEOS7gk9cgZ2hLsiIs6YXfWEbSvNsYCUlIlqsPMDn0Uz7FD3El7c8eo5pOrlrLWOqMXpbIE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Qt2EhDAH; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=WpTxy7Hh; arc=pass smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B86B43D51A
+	for <linux-fsdevel@vger.kernel.org>; Tue, 31 Mar 2026 17:37:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.167
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774978655; cv=none; b=pJYLKAuHXZWHs9Yy+e9LUN2ujTCusPSRfqFn9d45Q4n0imPCNuzUXn9i4bGfLBCTyo+et0Ft60dYcD9q6Hxn9gkZYxqbPd71qFJNlny+R5lp3j4WIkEF4kuWvdxZLBSANRlyU/tKfmI4ZLT4H2aS+9YE9vbIrBPDX196r0GDO/M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774978655; c=relaxed/simple;
+	bh=UlWP6sYcWaF2aurRQYpuyIGOlldcF8ngCfZMNWAc2mI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WKHLhNZUYKzatnrJOudsUTN9BX69csjaJ6OondyTuLTXjq94HWHbGUZP0ZGcV0OwIJ2gO+/VQnhZ5BkjIg7p14M/yDYcrR7i4WKwM5pOwau8bLvV1sgsYd0yc7H7zSzoysNZAgOVfxiasuX10xvPlIk6Bg/LsmpVkm+yk+Uv/dI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=t3UBVye0; arc=none smtp.client-ip=195.121.94.167
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Qt2EhDAH";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="WpTxy7Hh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1774978492;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=amFo78u7ePqDECsHI2iRzAUPrcVFsZNh98z+uRwFyY8=;
-	b=Qt2EhDAHzQhs4Xyy+Ds9MI9ODYmcIf1twyuw4n0k4jOnScv4s513aevGWuhms0GDPR+uIA
-	Gw+TA0o6TB+EpEzu7mOkeHSuZnCul94MfqxXSiI9FKDg2wgsGmS38h6KJh4uzoBmiEkeoX
-	mAJ0+dbQFTungYp911jhyA9tNjVmQLk=
-Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com
- [209.85.217.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-412-_-aQtTkAPpiLBBfddTQedg-1; Tue, 31 Mar 2026 13:34:50 -0400
-X-MC-Unique: _-aQtTkAPpiLBBfddTQedg-1
-X-Mimecast-MFC-AGG-ID: _-aQtTkAPpiLBBfddTQedg_1774978490
-Received: by mail-vs1-f71.google.com with SMTP id ada2fe7eead31-5ffa1faa59dso2967219137.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 31 Mar 2026 10:34:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774978490; cv=none;
-        d=google.com; s=arc-20240605;
-        b=eCt5taxKvxt0AuvIS8Tu+eHCYubtCeTKwAPijpAuoek4zsgGi548vzYChC0KJdQsp0
-         em0W2Y9zr8QTu21hAJkNJtXHvH2XOt3W/J74ZQkggbSyHQnvTViqi1vkn7Q9D99Ghs9B
-         UPVCz0na9P/oldtUkWLE6p8nOJBD9T4mrJIsI/Uqf4YPswBtqXtgmsbfJZUO+MYfG5B7
-         eCqwWsgTg1sLDG60n3E1SRP+HuMV6vqLtVqMrPLPl4rn1DTBcIktFAQ2g6kS/wCHeDpb
-         qvllVUWbiRBXIr8rfADBVwxBJ7jkkKKKBFlcwtsyJX+FTYzCQwaszMTP5tVq8VM7NI3W
-         S+/g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=amFo78u7ePqDECsHI2iRzAUPrcVFsZNh98z+uRwFyY8=;
-        fh=ham0Y+xFI1mBCKEWI+P/Xo8I25iLdqGL5CCHImeXfvA=;
-        b=X5oCadD/ZHOc6uZG2+j9CDszkLLkmtC8wnT759/tUrglF8Dkk5eCUw2E1wHyA+YKYQ
-         OJIZ9VoyL+aG+p1HZz3DGCJBpOkTDxOuHBQioGMOLbqoN0xdeZ1uDyMUvL5waM7HtHla
-         b9k5NPTKzMs39X0uv8H6bsTtyK2yePILsDlDLKwbN7M4DFwrP0Hg3BtRqhmPGwB/evKz
-         2H1MSeJuijktu8YK1ziAaY9teLUREzIHBww0ttPqUtx1j9FQSNx4v4O8S1chxQYAix3U
-         0Bx4LGIgHOKB0/JqIXNu3mztcgR3uShnEtfTDILKUQfEBOSNGnTdYd3xE0/inTW9bQGv
-         EvdA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="t3UBVye0"
+X-KPN-MessageId: 47c9b9f3-2d28-11f1-969c-005056abbe64
+Received: from smtp.kpnmail.nl (unknown [10.31.155.39])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 47c9b9f3-2d28-11f1-969c-005056abbe64;
+	Tue, 31 Mar 2026 19:37:25 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1774978490; x=1775583290; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=amFo78u7ePqDECsHI2iRzAUPrcVFsZNh98z+uRwFyY8=;
-        b=WpTxy7Hhz04UmtNSGLLO0QkYVHGTWItO7WClBJAqpKFuyWh24UGjQzK8A24rpXveiI
-         D7AwkRapFB0VglQZwaaSvtJR5zktbuUxRIGVF0s0LNabhDgBwXts03ChKSInVIXagUOu
-         x8H2nK0rtxk6/YylLaroFsvac8h3a3Ri7r8uKPTcpgKY7AniNsjZqq4KvmyOB3njgM+T
-         SPC87wRd3BPs1pzAJ8cmbbfkkJH7bX9wcEBTdOCT32OmjcW8yUXL/ezeU0s4naKGzUUo
-         G0HEcDSYtcYY8ow42tnX1q3JMEg4Jy8+Vh1QpNQ39AtXKk7Ugqq76EoZe4aYMuHq443Y
-         hfuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774978490; x=1775583290;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=amFo78u7ePqDECsHI2iRzAUPrcVFsZNh98z+uRwFyY8=;
-        b=jLIisVJh/f4Z3CMIYVWuwyiUqeGawHxjYEn0wNIS1OhkTe/8CHTpdMWJBzbCI3/SUi
-         xw88OTBKN9JPCJeA47QZ1xmV15OdVLTdaWdBXgz+yypDfaH+DRbsFjgp4cAOE8dqDDRA
-         2qDtEkMKsjuekWHErHuEIQRY4SOSeQWTkdaXr01InUS1JwQMkQAE+m/RNkDC4Oc16xYl
-         wH7H47FhJ7IGzdi9BPy3nB16cRgWH6M1rz4+EYmQYBYzVEBeo4OAPTyp39as/kOdohZY
-         LQvUkd63slKIniYU7F/twKJHcrsVWbthbmeA4/TuDnVMRgh+NsKTY3wUy4NuQtFsDBoR
-         5hjA==
-X-Forwarded-Encrypted: i=1; AJvYcCWLbUOFxJ6eI+qzwM448BqDimLaH5YUQWJzP1A1pgUHOOVYvhYeL/FSsliIBm8TW+/c9LAZ4zV9OclAB+c9@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx93M9Yu4Qp0HVd55QVDv/tkF6V3F/9l0cFVZV3TXZK5OgwoYXC
-	VBCJl4Hkl8UaFgiRCjfPBMGBRzKG22pDLmDNaDTxgQP4bu5XyfTQ7XssD7ImjN99CSjs+/eBG9D
-	FaPWzS0HVNOW0wBX7GEnMUl/tfkP8pMCx+WYnqVy+nwIfpvX5SRQXlB63lTYPifztP1qPa69USF
-	g/4zGExupjx6QiZhDQEaGSxVrmbYsNMPJ2tk74QO37Xietw+dhlg==
-X-Gm-Gg: ATEYQzx9VfbE3nVEKbupzeeFmwcyagRz7sCp64Lu9jN366Z5iwzZ1hbLRUguXy/rFBp
-	aAN5ZkRonS0F5r1ZZZR/M6pPpdm1pGPq071PdZ3YsykmVuQf4C1jAlIO0Wb366NSTSf5xVN+Hoe
-	UMzuxkp7JYHKX5FtfyHyc98s/SGP0zQkpRDyPZ+BPTuwx6qvYw0/GzcIn7N1uOV7n6NmsC/uzNt
-	QeVTQ==
-X-Received: by 2002:a05:6102:4492:b0:5ff:fe0f:67a4 with SMTP id ada2fe7eead31-60567e9403bmr73953137.14.1774978490062;
-        Tue, 31 Mar 2026 10:34:50 -0700 (PDT)
-X-Received: by 2002:a05:6102:4492:b0:5ff:fe0f:67a4 with SMTP id
- ada2fe7eead31-60567e9403bmr73938137.14.1774978489496; Tue, 31 Mar 2026
- 10:34:49 -0700 (PDT)
+	d=xs4all.nl; s=xs4all01;
+	h=mime-version:message-id:date:subject:to:from;
+	bh=2YlyIdMRNoNd4J0kW1xvb6hL4F7KOX/JA5sN5ydhYuI=;
+	b=t3UBVye0v0jwibNsIMAGm0Fc2LMoiJjiTp9e3sAKED/2BLRhifB+1zxWmXHS+VQCvkhSDRbtQu3xG
+	 PXQnle/dijGfBZMo7pmuUBA0lBMtddbTNpvDz5yrlVT2zoDlAM0jbdvyJT0kPPjptSc+cpieI+nEiv
+	 S7yuXjVMCl0mVZ1qzRCbDtqvSm/IwuJn8AkPkXPRG7VdKZJFIZguYh0LdkmuEbKSow02i4BkqPeAzC
+	 roy+pfQB9g+xry6KWx9DypnpIGvq/R9rP77MaN69qLPKFziFJABk0VOYv/lxKHLvS+qjCsByXKEWpC
+	 kdmn0jJyQztTP3qc12BfzEj662nYezQ==
+X-KPN-MID: 33|t5zuWKj6Lz23LxhdxkkGhi2F7ST9rxGjajF7V8l1h88rHMju4DzdjuXrCOhHZeU
+ QKzVBHLWS8MTZO91lVb7SeeJlze63BETWbpDc3e2Xs38=
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|nfL480qF5bvgH6tlTp8JjNWOEUncXMfYFcdJ/JXPkxLWRwwwQLAEMcfvc/AxVmD
+ O3NYpnSFZEvcVAyw5iA8srg==
+Received: from daedalus.home (unknown [178.227.25.158])
+	by smtp.xs4all.nl (Halon) with ESMTPSA
+	id 44b1ea90-2d28-11f1-8011-005056ab7447;
+	Tue, 31 Mar 2026 19:37:24 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: gregkh@linuxfoundation.org,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>
+Cc: Jori Koolstra <jkoolstra@xs4all.nl>,
+	NeilBrown <neil@brown.name>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Jeff Layton <jlayton@kernel.org>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Mateusz Guzik <mjguzik@gmail.com>,
+	linux-fsdevel@vger.kernel.org (open list:FILESYSTEMS (VFS and infrastructure)),
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] vfs: replace ints with enum component_type for LAST_XXX
+Date: Tue, 31 Mar 2026 19:37:22 +0200
+Message-ID: <20260331173726.3517440-1-jkoolstra@xs4all.nl>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260327143045.1393612-1-amarkuze@redhat.com> <20260327143045.1393612-4-amarkuze@redhat.com>
- <64b7f622aa5f4839b9e1c4cd935223a6b2ec04c9.camel@redhat.com>
-In-Reply-To: <64b7f622aa5f4839b9e1c4cd935223a6b2ec04c9.camel@redhat.com>
-From: Alex Markuze <amarkuze@redhat.com>
-Date: Tue, 31 Mar 2026 20:34:37 +0300
-X-Gm-Features: AQROBzDyIdiOUkK6g4_aSM690ieESu3qNnfek28aKn3aVQp0nABWKrYoGQmntxs
-Message-ID: <CAO8a2SjjdFU7ys=PhxnAjtQXGfhCVJPuVfU2Y1VEAC8mpP81ug@mail.gmail.com>
-Subject: Re: [PATCH 03/10] ceph: add client reset state and request gating
-To: Viacheslav Dubeyko <vdubeyko@redhat.com>
-Cc: ceph-devel@vger.kernel.org, idryomov@gmail.com, 
-	linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-I'll cleanup some of the dead code the patchset and send v2.
+Several functions in namei.c take an "int *type" parameter, such as
+filename_parentat(). To know what values this can take you have to find
+the anonymous struct that defines the LAST_XXX values. I would argue
+that the readability of the code is improved by making this an explicit
+type. Also, when we have this "enum component_type" is does not really
+make sense anymore to talk about LAST_XXX, but we should just use XXX,
+as there is nothing specific about the component type showing up at the
+end of a path.
 
-On Mon, Mar 30, 2026 at 8:44=E2=80=AFPM Viacheslav Dubeyko <vdubeyko@redhat=
-.com> wrote:
->
-> On Fri, 2026-03-27 at 14:30 +0000, Alex Markuze wrote:
-> > Add the client-side reset state tracking and the wait path used to bloc=
-k
-> > new metadata requests and new lock acquisitions while a reset is in
-> > progress. This wires the reset state into client init and shutdown so
-> > blocked callers are released cleanly when the mount is torn down.
-> >
-> > Signed-off-by: Alex Markuze <amarkuze@redhat.com>
-> > ---
-> >  fs/ceph/locks.c      | 14 ++++++++
-> >  fs/ceph/mds_client.c | 79 ++++++++++++++++++++++++++++++++++++++++++++
-> >  fs/ceph/mds_client.h | 28 ++++++++++++++++
-> >  3 files changed, 121 insertions(+)
-> >
-> > diff --git a/fs/ceph/locks.c b/fs/ceph/locks.c
-> > index 2f21574dfb99..e6f0c565e9d6 100644
-> > --- a/fs/ceph/locks.c
-> > +++ b/fs/ceph/locks.c
-> > @@ -281,6 +281,13 @@ int ceph_lock(struct file *file, int cmd, struct f=
-ile_lock *fl)
-> >               return err;
-> >       }
-> >
-> > +     /* Wait for reset to complete before acquiring new locks */
-> > +     if (op =3D=3D CEPH_MDS_OP_SETFILELOCK && !lock_is_unlock(fl)) {
-> > +             err =3D ceph_mdsc_wait_for_reset(mdsc);
->
-> Maybe, I am missing something. But I don't see where mdsc variable has be=
-en
-> declared and initialized in ceph_lock(). Is it my misunderstanding?
->
-> > +             if (err)
-> > +                     return err;
-> > +     }
-> > +
-> >       if (lock_is_read(fl))
-> >               lock_cmd =3D CEPH_LOCK_SHARED;
-> >       else if (lock_is_write(fl))
-> > @@ -340,6 +347,13 @@ int ceph_flock(struct file *file, int cmd, struct =
-file_lock *fl)
-> >               return err;
-> >       }
-> >
-> > +     /* Wait for reset to complete before acquiring new locks */
-> > +     if (!lock_is_unlock(fl)) {
-> > +             err =3D ceph_mdsc_wait_for_reset(mdsc);
->
-> Ditto. The same misunderstanding here.
->
-> Thanks,
-> Slava.
->
-> > +             if (err)
-> > +                     return err;
-> > +     }
-> > +
-> >       if (IS_SETLKW(cmd))
-> >               wait =3D 1;
-> >
-> > diff --git a/fs/ceph/mds_client.c b/fs/ceph/mds_client.c
-> > index d70c0b669b75..0dd9a529850a 100644
-> > --- a/fs/ceph/mds_client.c
-> > +++ b/fs/ceph/mds_client.c
-> > @@ -3742,12 +3742,69 @@ static void kick_requests(struct ceph_mds_clien=
-t *mdsc, int mds)
-> >       }
-> >  }
-> >
-> > +/*
-> > + * Wait for an active reset to complete.
-> > + * Returns 0 if reset completed successfully or no reset was active.
-> > + * Returns -ETIMEDOUT if we timed out waiting.
-> > + * Returns -ERESTARTSYS if interrupted by signal.
-> > + */
-> > +int ceph_mdsc_wait_for_reset(struct ceph_mds_client *mdsc)
-> > +{
-> > +     struct ceph_client_reset_state *st =3D &mdsc->reset_state;
-> > +     struct ceph_client *cl =3D mdsc->fsc->client;
-> > +     long timeout =3D CEPH_CLIENT_RESET_WAIT_TIMEOUT_SEC * HZ;
-> > +     int blocked_count;
-> > +     int ret;
-> > +
-> > +     if (READ_ONCE(st->phase) =3D=3D CEPH_CLIENT_RESET_IDLE)
-> > +             return 0;
-> > +
-> > +     blocked_count =3D atomic_inc_return(&st->blocked_requests);
-> > +     doutc(cl, "request blocked during reset, %d total blocked\n",
-> > +           blocked_count);
-> > +
-> > +     ret =3D wait_event_interruptible_timeout(st->blocked_wq,
-> > +                                            READ_ONCE(st->phase) =3D=
-=3D
-> > +                                            CEPH_CLIENT_RESET_IDLE,
-> > +                                            timeout);
-> > +
-> > +     atomic_dec(&st->blocked_requests);
-> > +
-> > +     if (ret =3D=3D 0) {
-> > +             pr_warn_client(cl, "timed out waiting for reset to comple=
-te\n");
-> > +             return -ETIMEDOUT;
-> > +     }
-> > +     if (ret < 0)
-> > +             return ret;
-> > +
-> > +     spin_lock(&st->lock);
-> > +     ret =3D st->last_errno;
-> > +     spin_unlock(&st->lock);
-> > +     return ret;
-> > +}
-> > +
-> >  int ceph_mdsc_submit_request(struct ceph_mds_client *mdsc, struct inod=
-e *dir,
-> >                             struct ceph_mds_request *req)
-> >  {
-> >       struct ceph_client *cl =3D mdsc->fsc->client;
-> >       int err =3D 0;
-> >
-> > +     /*
-> > +      * If a reset is in progress, wait for it to complete.
-> > +      *
-> > +      * This is best-effort: a request can pass this check just
-> > +      * before the phase leaves IDLE and proceed concurrently with
-> > +      * reset. That is acceptable because such requests will either
-> > +      * complete normally or fail and be retried by the caller, and
-> > +      * adding lock serialization here would penalize every request
-> > +      * for a rare manual operation.
-> > +      */
-> > +     err =3D ceph_mdsc_wait_for_reset(mdsc);
-> > +     if (err) {
-> > +             doutc(cl, "wait_for_reset failed: %d\n", err);
-> > +             return err;
-> > +     }
-> > +
-> >       /* take CAP_PIN refs for r_inode, r_parent, r_old_dentry */
-> >       if (req->r_inode)
-> >               ceph_get_cap_refs(ceph_inode(req->r_inode), CEPH_CAP_PIN)=
-;
-> > @@ -5628,6 +5685,19 @@ int ceph_mdsc_init(struct ceph_fs_client *fsc)
-> >       INIT_LIST_HEAD(&mdsc->dentry_leases);
-> >       INIT_LIST_HEAD(&mdsc->dentry_dir_leases);
-> >
-> > +     spin_lock_init(&mdsc->reset_state.lock);
-> > +     mdsc->reset_state.trigger_count =3D 0;
-> > +     mdsc->reset_state.success_count =3D 0;
-> > +     mdsc->reset_state.failure_count =3D 0;
-> > +     mdsc->reset_state.last_start =3D 0;
-> > +     mdsc->reset_state.last_finish =3D 0;
-> > +     mdsc->reset_state.last_errno =3D 0;
-> > +     mdsc->reset_state.phase =3D CEPH_CLIENT_RESET_IDLE;
-> > +     mdsc->reset_state.inject_error =3D false;
-> > +     mdsc->reset_state.last_reason[0] =3D '\0';
-> > +     init_waitqueue_head(&mdsc->reset_state.blocked_wq);
-> > +     atomic_set(&mdsc->reset_state.blocked_requests, 0);
-> > +
-> >       ceph_caps_init(mdsc);
-> >       ceph_adjust_caps_max_min(mdsc, fsc->mount_options);
-> >
-> > @@ -6153,6 +6223,15 @@ void ceph_mdsc_destroy(struct ceph_fs_client *fs=
-c)
-> >       /* flush out any connection work with references to us */
-> >       ceph_msgr_flush();
-> >
-> > +     spin_lock(&mdsc->reset_state.lock);
-> > +     if (mdsc->reset_state.phase !=3D CEPH_CLIENT_RESET_IDLE) {
-> > +             mdsc->reset_state.phase =3D CEPH_CLIENT_RESET_IDLE;
-> > +             mdsc->reset_state.last_errno =3D -ESHUTDOWN;
-> > +             mdsc->reset_state.failure_count++;
-> > +     }
-> > +     spin_unlock(&mdsc->reset_state.lock);
-> > +     wake_up_all(&mdsc->reset_state.blocked_wq);
-> > +
-> >       ceph_mdsc_stop(mdsc);
-> >
-> >       ceph_metric_destroy(&mdsc->metric);
-> > diff --git a/fs/ceph/mds_client.h b/fs/ceph/mds_client.h
-> > index e91a199d56fd..5cc22c109cfe 100644
-> > --- a/fs/ceph/mds_client.h
-> > +++ b/fs/ceph/mds_client.h
-> > @@ -74,6 +74,32 @@ struct ceph_fs_client;
-> >  struct ceph_cap;
-> >
-> >  #define MDS_AUTH_UID_ANY -1
-> > +#define CEPH_CLIENT_RESET_REASON_LEN 64
-> > +#define CEPH_CLIENT_RESET_WAIT_TIMEOUT_SEC 120
-> > +
-> > +enum ceph_client_reset_phase {
-> > +     CEPH_CLIENT_RESET_IDLE =3D 0,
-> > +     CEPH_CLIENT_RESET_QUIESCING,
-> > +     CEPH_CLIENT_RESET_DRAINING,
-> > +     CEPH_CLIENT_RESET_TEARDOWN,
-> > +};
-> > +
-> > +struct ceph_client_reset_state {
-> > +     spinlock_t lock;
-> > +     u64 trigger_count;
-> > +     u64 success_count;
-> > +     u64 failure_count;
-> > +     unsigned long last_start;
-> > +     unsigned long last_finish;
-> > +     int last_errno;
-> > +     enum ceph_client_reset_phase phase;
-> > +     bool inject_error;
-> > +     char last_reason[CEPH_CLIENT_RESET_REASON_LEN];
-> > +
-> > +     /* Request blocking during reset */
-> > +     wait_queue_head_t blocked_wq;
-> > +     atomic_t blocked_requests;
-> > +};
-> >
-> >  struct ceph_mds_cap_match {
-> >       s64 uid;  /* default to MDS_AUTH_UID_ANY */
-> > @@ -536,6 +562,7 @@ struct ceph_mds_client {
-> >       struct list_head  dentry_dir_leases; /* lru list */
-> >
-> >       struct ceph_client_metric metric;
-> > +     struct ceph_client_reset_state reset_state;
-> >
-> >       spinlock_t              snapid_map_lock;
-> >       struct rb_root          snapid_map_tree;
-> > @@ -563,6 +590,7 @@ extern const char *ceph_session_state_name(int s);
-> >  extern struct ceph_mds_session *
-> >  ceph_get_mds_session(struct ceph_mds_session *s);
-> >  extern void ceph_put_mds_session(struct ceph_mds_session *s);
-> > +int ceph_mdsc_wait_for_reset(struct ceph_mds_client *mdsc);
-> >
-> >  extern int ceph_mdsc_init(struct ceph_fs_client *fsc);
-> >  extern void ceph_mdsc_close_sessions(struct ceph_mds_client *mdsc);
->
+Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
+---
+ fs/namei.c            | 75 ++++++++++++++++++++++---------------------
+ include/linux/namei.h |  4 +--
+ 2 files changed, 41 insertions(+), 38 deletions(-)
+
+diff --git a/fs/namei.c b/fs/namei.c
+index 9e5500dad14f..1eb9db055292 100644
+--- a/fs/namei.c
++++ b/fs/namei.c
+@@ -721,15 +721,15 @@ EXPORT_SYMBOL(path_put);
+ 
+ #define EMBEDDED_LEVELS 2
+ struct nameidata {
+-	struct path	path;
+-	struct qstr	last;
+-	struct path	root;
+-	struct inode	*inode; /* path.dentry.d_inode */
+-	unsigned int	flags, state;
+-	unsigned	seq, next_seq, m_seq, r_seq;
+-	int		last_type;
+-	unsigned	depth;
+-	int		total_link_count;
++	struct path		path;
++	struct qstr		last;
++	struct path		root;
++	struct inode		*inode; /* path.dentry.d_inode */
++	unsigned int		flags, state;
++	unsigned		seq, next_seq, m_seq, r_seq;
++	enum component_type	last_type;
++	unsigned		depth;
++	int			total_link_count;
+ 	struct saved {
+ 		struct path link;
+ 		struct delayed_call done;
+@@ -2221,9 +2221,9 @@ static struct dentry *follow_dotdot(struct nameidata *nd)
+ 	return dget(nd->path.dentry);
+ }
+ 
+-static const char *handle_dots(struct nameidata *nd, int type)
++static const char *handle_dots(struct nameidata *nd, enum component_type type)
+ {
+-	if (type == LAST_DOTDOT) {
++	if (type == DOTDOT) {
+ 		const char *error = NULL;
+ 		struct dentry *parent;
+ 
+@@ -2267,7 +2267,7 @@ static __always_inline const char *walk_component(struct nameidata *nd, int flag
+ 	 * to be able to know about the current root directory and
+ 	 * parent relationships.
+ 	 */
+-	if (unlikely(nd->last_type != LAST_NORM)) {
++	if (unlikely(nd->last_type != NORMAL)) {
+ 		if (unlikely(nd->depth) && !(flags & WALK_MORE))
+ 			put_link(nd);
+ 		return handle_dots(nd, nd->last_type);
+@@ -2577,7 +2577,7 @@ static int link_path_walk(const char *name, struct nameidata *nd)
+ 	int depth = 0; // depth <= nd->depth
+ 	int err;
+ 
+-	nd->last_type = LAST_ROOT;
++	nd->last_type = ROOT;
+ 	nd->flags |= LOOKUP_PARENT;
+ 	if (IS_ERR(name))
+ 		return PTR_ERR(name);
+@@ -2607,16 +2607,16 @@ static int link_path_walk(const char *name, struct nameidata *nd)
+ 
+ 		switch(lastword) {
+ 		case LAST_WORD_IS_DOTDOT:
+-			nd->last_type = LAST_DOTDOT;
++			nd->last_type = DOTDOT;
+ 			nd->state |= ND_JUMPED;
+ 			break;
+ 
+ 		case LAST_WORD_IS_DOT:
+-			nd->last_type = LAST_DOT;
++			nd->last_type = DOT;
+ 			break;
+ 
+ 		default:
+-			nd->last_type = LAST_NORM;
++			nd->last_type = NORMAL;
+ 			nd->state &= ~ND_JUMPED;
+ 
+ 			struct dentry *parent = nd->path.dentry;
+@@ -2780,7 +2780,7 @@ static const char *path_init(struct nameidata *nd, unsigned flags)
+ 
+ static inline const char *lookup_last(struct nameidata *nd)
+ {
+-	if (nd->last_type == LAST_NORM && nd->last.name[nd->last.len])
++	if (nd->last_type == NORMAL && nd->last.name[nd->last.len])
+ 		nd->flags |= LOOKUP_FOLLOW | LOOKUP_DIRECTORY;
+ 
+ 	return walk_component(nd, WALK_TRAILING);
+@@ -2869,7 +2869,7 @@ static int path_parentat(struct nameidata *nd, unsigned flags,
+ /* Note: this does not consume "name" */
+ static int __filename_parentat(int dfd, struct filename *name,
+ 			       unsigned int flags, struct path *parent,
+-			       struct qstr *last, int *type,
++			       struct qstr *last, enum component_type *type,
+ 			       const struct path *root)
+ {
+ 	int retval;
+@@ -2894,7 +2894,7 @@ static int __filename_parentat(int dfd, struct filename *name,
+ 
+ static int filename_parentat(int dfd, struct filename *name,
+ 			     unsigned int flags, struct path *parent,
+-			     struct qstr *last, int *type)
++			     struct qstr *last, enum component_type *type)
+ {
+ 	return __filename_parentat(dfd, name, flags, parent, last, type, NULL);
+ }
+@@ -2963,12 +2963,13 @@ static struct dentry *__start_removing_path(int dfd, struct filename *name,
+ 	struct path parent_path __free(path_put) = {};
+ 	struct dentry *d;
+ 	struct qstr last;
+-	int type, error;
++	enum component_type type;
++	int error;
+ 
+ 	error = filename_parentat(dfd, name, 0, &parent_path, &last, &type);
+ 	if (error)
+ 		return ERR_PTR(error);
+-	if (unlikely(type != LAST_NORM))
++	if (unlikely(type != NORMAL))
+ 		return ERR_PTR(-EINVAL);
+ 	/* don't fail immediately if it's r/o, at least try to report other errors */
+ 	error = mnt_want_write(parent_path.mnt);
+@@ -3009,12 +3010,13 @@ struct dentry *kern_path_parent(const char *name, struct path *path)
+ 	CLASS(filename_kernel, filename)(name);
+ 	struct dentry *d;
+ 	struct qstr last;
+-	int type, error;
++        enum component_type type;
++	int error;
+ 
+ 	error = filename_parentat(AT_FDCWD, filename, 0, &parent_path, &last, &type);
+ 	if (error)
+ 		return ERR_PTR(error);
+-	if (unlikely(type != LAST_NORM))
++	if (unlikely(type != NORMAL))
+ 		return ERR_PTR(-EINVAL);
+ 
+ 	d = lookup_noperm_unlocked(&last, parent_path.dentry);
+@@ -3057,7 +3059,7 @@ EXPORT_SYMBOL(kern_path);
+  * @root: pointer to struct path of the base directory
+  */
+ int vfs_path_parent_lookup(struct filename *filename, unsigned int flags,
+-			   struct path *parent, struct qstr *last, int *type,
++			   struct path *parent, struct qstr *last, enum component_type *type,
+ 			   const struct path *root)
+ {
+ 	return  __filename_parentat(AT_FDCWD, filename, flags, parent, last,
+@@ -4550,7 +4552,7 @@ static const char *open_last_lookups(struct nameidata *nd,
+ 
+ 	nd->flags |= op->intent;
+ 
+-	if (nd->last_type != LAST_NORM) {
++	if (nd->last_type != NORMAL) {
+ 		if (nd->depth)
+ 			put_link(nd);
+ 		return handle_dots(nd, nd->last_type);
+@@ -4903,7 +4905,7 @@ static struct dentry *filename_create(int dfd, struct filename *name,
+ 	bool want_dir = lookup_flags & LOOKUP_DIRECTORY;
+ 	unsigned int reval_flag = lookup_flags & LOOKUP_REVAL;
+ 	unsigned int create_flags = LOOKUP_CREATE | LOOKUP_EXCL;
+-	int type;
++	enum component_type type;
+ 	int error;
+ 
+ 	error = filename_parentat(dfd, name, reval_flag, path, &last, &type);
+@@ -4914,7 +4916,7 @@ static struct dentry *filename_create(int dfd, struct filename *name,
+ 	 * Yucky last component or no last component at all?
+ 	 * (foo/., foo/.., /////)
+ 	 */
+-	if (unlikely(type != LAST_NORM))
++	if (unlikely(type != NORMAL))
+ 		goto out;
+ 
+ 	/* don't fail immediately if it's r/o, at least try to report other errors */
+@@ -5365,7 +5367,7 @@ int filename_rmdir(int dfd, struct filename *name)
+ 	struct dentry *dentry;
+ 	struct path path;
+ 	struct qstr last;
+-	int type;
++	enum component_type type;
+ 	unsigned int lookup_flags = 0;
+ 	struct delegated_inode delegated_inode = { };
+ retry:
+@@ -5374,15 +5376,16 @@ int filename_rmdir(int dfd, struct filename *name)
+ 		return error;
+ 
+ 	switch (type) {
+-	case LAST_DOTDOT:
++	case DOTDOT:
+ 		error = -ENOTEMPTY;
+ 		goto exit2;
+-	case LAST_DOT:
++	case DOT:
+ 		error = -EINVAL;
+ 		goto exit2;
+-	case LAST_ROOT:
++	case ROOT:
+ 		error = -EBUSY;
+ 		goto exit2;
++	case NORMAL: ; // OK
+ 	}
+ 
+ 	error = mnt_want_write(path.mnt);
+@@ -5507,7 +5510,7 @@ int filename_unlinkat(int dfd, struct filename *name)
+ 	struct dentry *dentry;
+ 	struct path path;
+ 	struct qstr last;
+-	int type;
++	enum component_type type;
+ 	struct inode *inode;
+ 	struct delegated_inode delegated_inode = { };
+ 	unsigned int lookup_flags = 0;
+@@ -5517,7 +5520,7 @@ int filename_unlinkat(int dfd, struct filename *name)
+ 		return error;
+ 
+ 	error = -EISDIR;
+-	if (type != LAST_NORM)
++	if (type != NORMAL)
+ 		goto exit_path_put;
+ 
+ 	error = mnt_want_write(path.mnt);
+@@ -6074,7 +6077,7 @@ int filename_renameat2(int olddfd, struct filename *from,
+ 	struct renamedata rd;
+ 	struct path old_path, new_path;
+ 	struct qstr old_last, new_last;
+-	int old_type, new_type;
++	enum component_type old_type, new_type;
+ 	struct delegated_inode delegated_inode = { };
+ 	unsigned int lookup_flags = 0;
+ 	bool should_retry = false;
+@@ -6103,12 +6106,12 @@ int filename_renameat2(int olddfd, struct filename *from,
+ 		goto exit2;
+ 
+ 	error = -EBUSY;
+-	if (old_type != LAST_NORM)
++	if (old_type != NORMAL)
+ 		goto exit2;
+ 
+ 	if (flags & RENAME_NOREPLACE)
+ 		error = -EEXIST;
+-	if (new_type != LAST_NORM)
++	if (new_type != NORMAL)
+ 		goto exit2;
+ 
+ 	error = mnt_want_write(old_path.mnt);
+diff --git a/include/linux/namei.h b/include/linux/namei.h
+index 58600cf234bc..e79ff97063e9 100644
+--- a/include/linux/namei.h
++++ b/include/linux/namei.h
+@@ -16,7 +16,7 @@ enum { MAX_NESTED_LINKS = 8 };
+ /*
+  * Type of the last component on LOOKUP_PARENT
+  */
+-enum {LAST_NORM, LAST_ROOT, LAST_DOT, LAST_DOTDOT};
++enum component_type {NORMAL, ROOT, DOT, DOTDOT};
+ 
+ /* pathwalk mode */
+ #define LOOKUP_FOLLOW		BIT(0)	/* follow links at the end */
+@@ -70,7 +70,7 @@ static inline void end_removing_path(const struct path *path , struct dentry *de
+ 	end_creating_path(path, dentry);
+ }
+ int vfs_path_parent_lookup(struct filename *filename, unsigned int flags,
+-			   struct path *parent, struct qstr *last, int *type,
++			   struct path *parent, struct qstr *last, enum component_type *type,
+ 			   const struct path *root);
+ int vfs_path_lookup(struct dentry *, struct vfsmount *, const char *,
+ 		    unsigned int, struct path *);
+-- 
+2.53.0
 
