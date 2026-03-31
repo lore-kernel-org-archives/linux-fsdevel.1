@@ -1,62 +1,99 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from out30-112.freemail.mail.aliyun.com (out30-112.freemail.mail.aliyun.com [115.124.30.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 356CA3E3DA7;
-	Tue, 31 Mar 2026 15:10:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5017E3F9F46;
+	Tue, 31 Mar 2026 15:11:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.112
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774969861; cv=none; b=Q24GfUM8vgO+wO8L5XqYS2mSPvp7XXUQKt14KqMnsnRvDe6qzVVODql40jGQQ4FvgiJuFom9Sq+OHroTOK2H8r31E2uPBWE55jAZ1bDmE5W4xu5B0u4cdsRGU24NOJ0/O9DiaJSnm6s0COaA/uDzBx6QB4fJVJRSbJRVtuLxqYc=
+	t=1774969920; cv=none; b=FNwbotKrTnG7m1qEycI/MClaWQiflayIbxI9vj6QmH6kIxUcNfQU0Z0G8i/u4wqVbBEY70c3kPBwySYaR/5tTEDR9lQjLf277zC0XXcmy6MslEJNfVYIMbg9/Pc3LGmIgJgSy2Jg6sSPtG4Kgz2uwATQChGiIZUfRE8EY2DnpNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774969861; c=relaxed/simple;
-	bh=PQk7auhe2XPRZb6j3X1id1bcHKC4AzaRE0LBUjrAuqg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VW2OupElx/9MFBIKHk/mNNGEWSOcYh3RdDnqEHSh3PVkyUQiDZ4C0CeM+H36G3FPTrTwYf1NuchvaIfRZGIQmLjuEZqbpChKKmbwxFtFpdH4JbNJWhJ8ynCPR5c1bADtptW6ShEG8B80PS7l1Ya7ZNbGfPmG2+/LxpUGK7jG17Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=zG2o8T4I; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1774969920; c=relaxed/simple;
+	bh=IsPIkDdoyxK/+wJSeEqBy4WPXr5xHukzBDsnvj7+aNY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HV7pRaA7knbUWJYvqMbuBO51HOLEZiGlBARgoQOJBnTu9EWfawjDCoYuwBXYvVHKnQVHjXJje7/dA1A1oOlkwAj29EViar8f+45N3RF4IGHNjySSPfNcMlxw/Hi49AbvZ0+RDjHTLdUctz6eDi7CDZnT/QaKfjh6V5T73R2uLHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=vPuKvNCd; arc=none smtp.client-ip=115.124.30.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="zG2o8T4I"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=PQk7auhe2XPRZb6j3X1id1bcHKC4AzaRE0LBUjrAuqg=; b=zG2o8T4IiyAzpg3DMOvrZXnBFK
-	o8n80BbfGSrfyygkutxsDa7BrEvis+qquQSQqwY0NYAby0fDbGaUcy5Ko62V5VV3ou9NC0aDfbOJN
-	uccRRmQ5r06NaBgXEsi7ZAsH5ORkFUjWneyJqKkW9M5rhpmMRnyr1Dyug8yB0r2iEfqssrwNyfTra
-	bKI7XYu2WLVkCm4zG7WITyWCQf6BRqLBM/6WA8FsZYEmzMboqkbKWYmA3NdbjAdV9k4dSd3NZmNGU
-	MvNdHSDDqEi8/ffZM9thH7f/evVocIaugD8nOpWC/J1S82mAHrBwHXkirfm9Y9lxfqQ5YwD/Zl7NK
-	z+JimOAQ==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w7ak6-0000000D9Od-1cwO;
-	Tue, 31 Mar 2026 15:10:58 +0000
-Date: Tue, 31 Mar 2026 08:10:58 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Deepanshu Kartikey <kartikey406@gmail.com>
-Cc: viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	syzbot+d31a3b77e5cba96b9f69@syzkaller.appspotmail.com,
-	axboe@kernel.dk
-Subject: Re: [PATCH] splice: prevent deadlock when splicing a file to itself
-Message-ID: <acvkAuq4_cWmegC7@infradead.org>
-References: <20260320130615.1109449-1-kartikey406@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="vPuKvNCd"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1774969913; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=i+nrivhWD5NTb/vZqEvDP+XAAng2CVzM0c4MjNWMQis=;
+	b=vPuKvNCdw63YUpeGaZ80L33WzYPimoGqpYycAPSuXxcisMoyzou4LdqxrSM3KAFtHWr9ZFR6M4wF0hu4d6LkmfzglQ8mgKeknD1T+AST9MHlRfV0IWjUX1NAhE9I0SjoSHPN+SBIJkWn2a0/Xdv/AGVUeNfORNws/G3Mck7GIpQ=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R121e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam011083073210;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=17;SR=0;TI=SMTPD_---0X04lGDE_1774969910;
+Received: from 30.41.54.139(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X04lGDE_1774969910 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Tue, 31 Mar 2026 23:11:51 +0800
+Message-ID: <eb46cf29-2ac5-4586-a76d-c6a9d7b6619f@linux.alibaba.com>
+Date: Tue, 31 Mar 2026 23:11:49 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260320130615.1109449-1-kartikey406@gmail.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH] vfs: limit directory child dentry retention
+To: Mateusz Guzik <mjguzik@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>, Ian Kent <raven@themaw.net>,
+ Al Viro <viro@zeniv.linux.org.uk>, Miklos Szeredi <miklos@szeredi.hu>,
+ Eric Sandeen <sandeen@sandeen.net>, Frank Sorenson <fsorenso@redhat.com>,
+ Jay Shin <jaeshin@redhat.com>, Linus Torvalds
+ <torvalds@linux-foundation.org>, Yafang Shao <laoar.shao@gmail.com>,
+ Jan Kara <jack@suse.cz>, Waiman Long <longman@redhat.com>,
+ Matthew Wilcox <willy@infradead.org>, Wangkai <wangkai86@huawei.com>,
+ Colin Walters <walters@verbum.org>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20260331012925.74840-1-raven@themaw.net>
+ <20260331012925.74840-2-raven@themaw.net>
+ <20260331-engste-raushalten-f66cd264ce77@brauner>
+ <4184b060-2923-4722-9899-c85238b8e3eb@linux.alibaba.com>
+ <6qfk57jj64a2t2mwjsldtvne6ooctpnfhpwisexctlntqa5mpq@s2lumil5gddf>
+From: Gao Xiang <hsiangkao@linux.alibaba.com>
+In-Reply-To: <6qfk57jj64a2t2mwjsldtvne6ooctpnfhpwisexctlntqa5mpq@s2lumil5gddf>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Mar 20, 2026 at 06:36:15PM +0530, Deepanshu Kartikey wrote:
-> Fix this by checking if the input and output files share the
-> same inode before proceeding, returning -EINVAL if they do.
-> This mirrors the existing check in do_splice() for the
-> pipe-to-pipe case where ipipe == opipe.
+Hi,
 
-While restricting splice to be between difference inodes sounds like a
-nice simplification, I'm not sure we can add it 20 years after the
-syscall was added.
+On 2026/3/31 22:59, Mateusz Guzik wrote:
+> On Tue, Mar 31, 2026 at 05:54:01PM +0800, Gao Xiang wrote:
+>> JFYI, another issue we once observed on user workloads is that
+>>
+>> `d_lockref.count` can exceed `int` on very very large
+>> directories in reality (also combined with cached
+>> negative dentries).
+>>
+>> It can be a real overflow, this commit can help but it
+>> doesn't strictly resolve this, anyway.
+> 
+> 
+> Another way to contribute to the problem is to mass open the same file,
+> which results in one ref per fd.
+> 
+> Or to put it differently, sooner or later the dentry refcount will have
+> to switch to 64 bits on 64 bit systems.
 
+Yes, but my own basic question on this is that do we
+really need 64-bit refcount for each dentry?
+
+  - do we need to cache so many child dentries at the
+    same time? some real use case?
+
+  - do we need to cache so many negative dentries for
+    a single directory?
+
+  - do we need to really care mass open the same file?
+
+or just find a way to error out blindly when the
+refcount is nearly overflowed? together with this
+retain_dentry() change to make cached dentries
+in the low watermark.
+
+just my .2 cents since currently I don't work on
+vfs stuffs.
+
+Thanks,
+Gao Xiang
