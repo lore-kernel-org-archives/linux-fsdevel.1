@@ -1,217 +1,151 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 079943E9F8B
-	for <linux-fsdevel@vger.kernel.org>; Tue, 31 Mar 2026 08:49:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774946993; cv=none; b=JSEwm8tm83y8z7J96AxI38Uq6dBO+tWruLAIboo96IxjCMuL1tJJ9t5UbBCr8vgVB5MPSf1bhhdJrQPz+3YJxK/rLIOq0Ik6RNfYf/XxorcMlQxmhiD5yHmW/p9j5tG23dDsozVvVbmgVdT/IqZAYb5LT0+pOLiCEy3FrClBmuE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774946993; c=relaxed/simple;
-	bh=V9J85+pJ3oOy9SYkts0FUJxXf0MZgzzbWINHsVKPSGw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BE1nlNOlgx89uHKrlhHJ/SOCPRH3Ghng28jnoTVu5cMHH2wLr+qZMP2soMvkCRUfAixjZZ3HMJdXCOV4HwoYK/dxGCf3IkrogBbg/6ESN35T6D2IA/iQSBS4+EqMy/PkzIL2S6UPhNK7aEVKkgBWj9dps++p4Hb8S171eYypZPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=wlUIduQE; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=uYkD+Mm0; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=wlUIduQE; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=uYkD+Mm0; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58E203DE454
+	for <linux-fsdevel@vger.kernel.org>; Tue, 31 Mar 2026 08:51:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774947073; cv=pass; b=iX2WIWI19nT5/SfG585rlXnNFnVoKrxKNg1sbP7N2+Z3Cn9+mpMgPnnY4NNF8b2ESl5uLlzQ+1sHelXu+jI2ypzDuaKMM7C0E8MX3GcM+sKFAwe++8vlbf9o8JgScba1JVcnyT5YYqMIaG6RiWmAviVK3WLDnfqPImOjz9erjRw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774947073; c=relaxed/simple;
+	bh=u7n+kDZSvbQfr1YSkE31HarWEYjFEM6wH52Gsy+c8+o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TRkbLJBwZSRwGknVOeJZSQpSVeWFSGUZqLx7lyof5d513JZPCtL1repe2ysDQAOMd9QvLGLHPsQweuLpks1l5eTFGo8/CTNod1DqcvDy50h+x9G+LGV45znYL9G/7ztD8Cx2OZuirKsCMDRXOGWjwHlHiVlgntxTLv7gQgbzjlY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X0MCEhaS; arc=pass smtp.client-ip=74.125.224.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="wlUIduQE";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="uYkD+Mm0";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="wlUIduQE";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="uYkD+Mm0"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3D0A25BEAB;
-	Tue, 31 Mar 2026 08:49:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1774946990; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GX2f6WWTPTGNYYJhT5VH960zt7uAc7KeEfJwdv7Twi0=;
-	b=wlUIduQEDXoPt3aXNwJT5NDX/0+zCJDMy++1/ggArpX5NSBk6wBRUfCtlKVES1z3gvKpB6
-	WbQHqg44UpEafP6tJlw2QDKkYIqIPlRYyfXjtqI7qotDgtmoFLFJOXX855/EvAkb4hWoZV
-	gBgpQAi8CJ3jxWaSmtfERLt/hmK4dCw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1774946990;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GX2f6WWTPTGNYYJhT5VH960zt7uAc7KeEfJwdv7Twi0=;
-	b=uYkD+Mm0jxgXujM6nk/nyMorbFZ0MFisnVyt5DaDnXGFCdJI/+EzU758M3a5C6YSwDTz/u
-	qJ1NUaQb1+x8MKAA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=wlUIduQE;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=uYkD+Mm0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1774946990; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GX2f6WWTPTGNYYJhT5VH960zt7uAc7KeEfJwdv7Twi0=;
-	b=wlUIduQEDXoPt3aXNwJT5NDX/0+zCJDMy++1/ggArpX5NSBk6wBRUfCtlKVES1z3gvKpB6
-	WbQHqg44UpEafP6tJlw2QDKkYIqIPlRYyfXjtqI7qotDgtmoFLFJOXX855/EvAkb4hWoZV
-	gBgpQAi8CJ3jxWaSmtfERLt/hmK4dCw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1774946990;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GX2f6WWTPTGNYYJhT5VH960zt7uAc7KeEfJwdv7Twi0=;
-	b=uYkD+Mm0jxgXujM6nk/nyMorbFZ0MFisnVyt5DaDnXGFCdJI/+EzU758M3a5C6YSwDTz/u
-	qJ1NUaQb1+x8MKAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2FE254A0A2;
-	Tue, 31 Mar 2026 08:49:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 3uejC66Ky2ntMAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 31 Mar 2026 08:49:50 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id DB159A0AFD; Tue, 31 Mar 2026 10:49:41 +0200 (CEST)
-Date: Tue, 31 Mar 2026 10:49:41 +0200
-From: Jan Kara <jack@suse.cz>
-To: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	linux-block@vger.kernel.org, Christian Brauner <brauner@kernel.org>, 
-	Al Viro <viro@zeniv.linux.org.uk>, linux-ext4@vger.kernel.org, Ted Tso <tytso@mit.edu>, 
-	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>, David Sterba <dsterba@suse.com>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	David Hildenbrand <david@kernel.org>, linux-mm@kvack.org, linux-aio@kvack.org, 
-	Benjamin LaHaise <bcrl@kvack.org>
-Subject: Re: [PATCH 15/42] fat: Sync and invalidate metadata buffers from
- fat_evict_inode()
-Message-ID: <mjraa5thsnzchejoomqgiahwajx4cs5ryqnmn7zsi3fylzhrrr@5ip65jcrlknn>
-References: <20260326082428.31660-1-jack@suse.cz>
- <20260326095354.16340-57-jack@suse.cz>
- <87ldfazqo2.fsf@mail.parknet.co.jp>
- <3oh5cbnm6dwz6rikc6laably5nvu4c4wtxjqzuu3wymzhpqrtw@skopu327hd7a>
- <87jyutwo6o.fsf@mail.parknet.co.jp>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X0MCEhaS"
+Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-65003f40a22so6640158d50.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 31 Mar 2026 01:51:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774947071; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ezmxsIcMrrKPyh0URhATfq6X9c7U7v+s0L2hlikspricUj1poVlSEX6tVlM6oQgb01
+         D0dpUVcwTtyKRisYjRuoHzuCEFRKQjdzKkDYN4o+yXclkYa2Jo5mw51y9dJMDsjdiE8k
+         uAuUb+/9Eh5UIaJVw6gVvbFpPAXI6B4nQcNiR481/Xt9Iixs1g9HzMdwuhMtv3S5Xv7P
+         reN6Dmihl97VyHmwMY/P2CdGnKphU2mvLyJrDHmW4YxYJ4bKyTmsycs3nne4GblmFUmf
+         YUnuVQ8a1TQABw7XINT+Xu6vtx4SH+eG2QxOL8ma4QZtl7JpxEFII3JsryQreGUA2/mL
+         yS0A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=dveVYD9Ar6UnkY03J8ytlK65B4YnjUcwPdoJl8qxUxA=;
+        fh=uDhMQV53kLv+JBXUO9y9pjzgim8u91X+LJPVwO3vbEU=;
+        b=S6YPYuLLCcang0cy4yDGq322RWCa84QrkLYjPo7hJg3/lTmdVIpja6xeGg2pMMf1WA
+         7mC7RkwpwPF+V4GnEC+ag8c/Ssozz3KyAcDSj5pmAqQo5Gdd+ek2EUbNwUziPwyANI8U
+         ZpXJgoOF9sx4s7URDWeCPfjY/eddsChusoDSuW4pSlQwYd1ZHtXUZo8gkeDi+T9GmxtQ
+         sfU09kbJfyl06EyjvqBv3Jk4NvX2WtgRDyZI5r83PsAc4XLiDi3x6ZlG7MINiaosEzy4
+         NmetBcABM+nWwJmH5Pki8J/bJtGqfnoqXeDuKnZdyjCD8bE9TYqe78gTKVjUB9JOPlXN
+         IMwg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774947071; x=1775551871; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dveVYD9Ar6UnkY03J8ytlK65B4YnjUcwPdoJl8qxUxA=;
+        b=X0MCEhaSwc4mwZj32ob0JCqvdkZA8xftj0XpdGoRy41JKJPTrT41hoVapv9UfvipYb
+         YgO1lgQlYVkpdVWmKNwg/Kjxh+O+Vu/7Kk2CyQMKE6usI7YUwvkkrkLrortjSQNN0faB
+         c66Y7BCY5kdNN/ruRvVQ0FZGKebHoS81KMEN2yTHDOHWtL8+acT28SOaBbjAqtbVRsm8
+         OqvxX2G11373LBe18OzdyfVbZse+BprTjBXVygRn23HI1z+nqgxhC2zH38h8UyI923WE
+         d10c2Q4phcZbsljotOExS31A8Vk8XmbIIWWo8sQqRXT9ozXKmz6fWl99yal6kh9wqASr
+         jExA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774947071; x=1775551871;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=dveVYD9Ar6UnkY03J8ytlK65B4YnjUcwPdoJl8qxUxA=;
+        b=mJtwcjjWW9lP+V+BxOiO9eIg+L8PhH3pA4OsKXyXgBXRAid7Z9Ol/tmCdeQbj6U6f6
+         IwR5lMezamY7qvR/B8E4oR8Mhrm4su2MxFT4Db5yMHhQ1wlAT4plhs5fNYXBDCnXCVoT
+         OAJbhAZIFEMGT6IM/UwjKCiSOR2KRyv3rOgixmzBPx/tfAfvZ7BlNVqo8D5Ye8lJveZd
+         GJgC2XDopmIWtlZsNZ9sZ8D+vM7qQLnpN5uplOXvy/yXcd16Rr9GKn2EPBvsosCgklf8
+         S1Y5vpmrMFgv9hu749n4CRVWugGbv5VS4L1ZrW4YaDGYPgxjOQsBYDav6aCyI+nsimEt
+         f1NA==
+X-Gm-Message-State: AOJu0YweOh9Q1qCOFGlZ44LVq96cFmNfFQ2ouwybu4jHXblJUa9gSXuN
+	1SE9Aak6+2JD3CZQPjgfEjgeWBFIgb5tWcagTqFQA/HJuFC9hktjXV8p35ALc8T82XYDjW2t4Kt
+	asZIsWQMVG22JX89llHWEIk93uf9yEM8=
+X-Gm-Gg: ATEYQzzpTi+Q2mXXkwalmtfkXYU/nPTv5wI5++c/Jx8Hq4mn7mZbj4g30r1Evp/4Nn9
+	vpVT/J7NORb/Y75hujrk4ZGvctdLzOwj/GSSIyNJB+ACw/IowezKfROUaE3P2pqKXu54uCyQ2Nl
+	jrDOuxtMeRKcExe/UC2lUG5e+JIWCBTz+YZDIG0QtYssjUQ2XN+zjjuTFJ8/qdE/onVgcTDZbJR
+	kaSJGuZH60crK4fpP7yfa5uFkGk3spdccZ+LyZV57K6rw4uFZw+VR8O9PlUQzT7P6GFDFoWOaAy
+	XgZeUQ4ryoLlBIMeJno9Jld1B1G1V7ES6zzouJd9w4Q2bxp3MwNRMLgxJKq4csIfAGkaIv2448u
+	gCRF6huo=
+X-Received: by 2002:a05:690c:dc6:b0:79a:8e1f:2611 with SMTP id
+ 00721157ae682-79bde0f98b7mr152960927b3.53.1774947071434; Tue, 31 Mar 2026
+ 01:51:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87jyutwo6o.fsf@mail.parknet.co.jp>
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-2.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	RCVD_TLS_LAST(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_CC(0.00)[suse.cz,vger.kernel.org,kernel.org,zeniv.linux.org.uk,mit.edu,gmail.com,suse.com,linux.dev,suse.de,kvack.org];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:dkim,suse.cz:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Queue-Id: 3D0A25BEAB
-X-Spam-Flag: NO
-X-Spam-Score: -2.51
-X-Spam-Level: 
+References: <20260320130615.1109449-1-kartikey406@gmail.com>
+In-Reply-To: <20260320130615.1109449-1-kartikey406@gmail.com>
+From: Deepanshu Kartikey <kartikey406@gmail.com>
+Date: Tue, 31 Mar 2026 14:21:00 +0530
+X-Gm-Features: AQROBzDeJChHZRm3QfcNZXQaLFscGZYbGU68_lC5tXxlQDnRkRR6BNtzKQWWs-4
+Message-ID: <CADhLXY7LnKAdJR_fb5YOa+oG=ebSH6X1n8tCT1YJzpbiwvPTcA@mail.gmail.com>
+Subject: Re: [PATCH] splice: prevent deadlock when splicing a file to itself
+To: viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	syzbot+d31a3b77e5cba96b9f69@syzkaller.appspotmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon 30-03-26 20:29:19, OGAWA Hirofumi wrote:
-> Jan Kara <jack@suse.cz> writes:
-> > On Sun 29-03-26 22:55:09, OGAWA Hirofumi wrote:
-> >> Jan Kara <jack@suse.cz> writes:
-> >> > There are only very few filesystems using generic metadata buffer head
-> >> > tracking and everybody is paying the overhead. When we remove this
-> >> > tracking for inode reclaim code .evict will start to see inodes with
-> >> > metadata buffers attached so write them out and prune them.
-> >> >
-> >> > Signed-off-by: Jan Kara <jack@suse.cz>
-> >> > ---
-> >> >  fs/fat/inode.c | 4 +++-
-> >> >  1 file changed, 3 insertions(+), 1 deletion(-)
-> >> >
-> >> > diff --git a/fs/fat/inode.c b/fs/fat/inode.c
-> >> > index 3cc5fb01afa1..ce88602b0d57 100644
-> >> > --- a/fs/fat/inode.c
-> >> > +++ b/fs/fat/inode.c
-> >> > @@ -657,8 +657,10 @@ static void fat_evict_inode(struct inode *inode)
-> >> >  	if (!inode->i_nlink) {
-> >> >  		inode->i_size = 0;
-> >> >  		fat_truncate_blocks(inode, 0);
-> >> > -	} else
-> >> > +	} else {
-> >> > +		sync_mapping_buffers(inode->i_mapping);
-> >> 
-> >> Hm, why do we have to add this here? For FAT, if buffers are still
-> >> dirty, buffers will be flushed via bdev flush?
-> >
-> > The reason why I've put sync_mapping_buffers() here is the following
-> > sequence:
-> >   fd = open("file")
-> >   write(fd)
-> >   close(fd)
-> >     - now data gets written out, dentry & inode can get evicted from memory
-> >   fd = open("file")
-> >   fsync(fd)
-> >     - this should flush all dirty metadata associated with "file" but if we
-> >       didn't call sync_mapping_buffers() during inode eviction we wouldn't
-> >       have a way to do that.
-> >
-> > So in general I think sync_mapping_buffers() call is indeed needed.
-> 
-> Hm, it looks like not new issue, isn't it? Why we have changed now in
-> this series?
+On Fri, Mar 20, 2026 at 6:36=E2=80=AFPM Deepanshu Kartikey
+<kartikey406@gmail.com> wrote:
+>
+>
+> When do_splice_direct_actor() is called with the same inode
+> for both input and output files (either via the same fd or a
+> dup'd fd), it causes a hung task in blkdev_write_iter().
+>
+> The deadlock occurs because sendfile() calls do_splice_direct()
+> which tries to acquire inode_lock_shared() for reading, while
+> the write side already holds the same inode lock, causing the
+> task to block indefinitely in rwsem_down_read_slowpath().
+>
+> Fix this by checking if the input and output files share the
+> same inode before proceeding, returning -EINVAL if they do.
+> This mirrors the existing check in do_splice() for the
+> pipe-to-pipe case where ipipe =3D=3D opipe.
+>
+> Reported-by: syzbot+d31a3b77e5cba96b9f69@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=3Dd31a3b77e5cba96b9f69
+> Tested-by: syzbot+d31a3b77e5cba96b9f69@syzkaller.appspotmail.com
+> Signed-off-by: Deepanshu Kartikey <Kartikey406@gmail.com>
+> ---
+>  fs/splice.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/fs/splice.c b/fs/splice.c
+> index 9d8f63e2fd1a..c0ad1859de34 100644
+> --- a/fs/splice.c
+> +++ b/fs/splice.c
+> @@ -1199,6 +1199,9 @@ static ssize_t do_splice_direct_actor(struct file *=
+in, loff_t *ppos,
+>         if (unlikely(out->f_flags & O_APPEND))
+>                 return -EINVAL;
+>
+> +       /* Prevent deadlock when splicing a file to itself */
+> +       if (file_inode(in) =3D=3D file_inode(out))
+> +               return -EINVAL;
+>         ret =3D splice_direct_to_actor(in, &sd, actor);
+>         if (ret > 0)
+>                 *ppos =3D sd.pos;
+> --
+> 2.43.0
+>
 
-It isn't a new issue. But so far inode_lru_isolate() was checking whether
-the metadata buffers list has any dirty buffers and if yes, it skipped the
-inode. So inodes with dirty buffers in this list could reach .evict method
-only for deleted inodes or during unmount and either case makes above
-problem impossible to happen. This is however a layering violation (generic
-inode handling code shouldn't care about details of buffer heads) and as a
-result it makes it difficult to abstract the metadata buffer handling this
-series is doing. And all this for a handful of filesystems which,
-honestly, aren't used in performace critical settings.
+Hi Brauner, viro and Jack
 
-> It is including trade off write amplification vs reliability (i.e. may
-> not call fsync()), for example. So I think we should not add it easily.
+Gentle ping on this patch . I have submitted this patch on 20 march
+2026. This patch has been tested in sysbot.
 
-I expect in practice you'll hardly be able to observe the difference as
-inodes usually get quite a while to be reclaimed at which point the dirty
-buffers would be already flushed by background writeback. I don't see how
-this change would lead specifically to "write amplification" - that would
-mean frequent redirtying of the same metadata buffer of an inode
-interleaved with frequent reclaims of the inode and I don't see how that
-would happen in a realistic setting.
+Please let me know if anything else required.
 
-If someone comes with a realistic workload which would suffer significant
-regression from this change, then of course we should address it. I have
-plans for adding an interface for filesystems to expose the information
-that inode has some pending dirty metadata and a way to flush them from
-flush worker because that is a common need a lot of filesystems has and
-doing the flushing from .evict isn't always doable due to locking
-constraints. I'm still thinking about details but this has to be a properly
-abstracted interface all filesystems can use and not a special hack for a
-handful of old filesystems.
+Thanks
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Deepanshu
