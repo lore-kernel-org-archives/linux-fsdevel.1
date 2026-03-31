@@ -1,157 +1,154 @@
-Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BB093A4F5D;
-	Tue, 31 Mar 2026 19:14:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774984459; cv=none; b=vFtaTat5jHZpACTqfTDWxLtKejWo9nN9Apru91nFvlydsYuFIoXZCctUYiBCan2ftZihcNIj4TNnhVi3pasqOEAgX/JWvOb+BLJEGPRKSa9y/Nm8Rx4HDe1AdwIVdxl9obq6N5gRug2KDQKuSxFEsCNZoZRlirZGz+j+9A+m4UA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774984459; c=relaxed/simple;
-	bh=6UfukQtBmWKYp02VBb+8KF+mHtOfziVMOpzDUst/kuY=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=V9nRJOf3vTVJFmso333jmlyzMd0TR/WK9QxnUKJBqbNErxgHWOP6YuDeGtCJPDXlqkgpIkiMLxf5GUDSj6bFCPaJC11uEb+53P5wpdQLo+wI1z4+I3osuww/B7mIgWTxjulTW+pUXGvVOVcw7JuH1xjgYkZp/jN999vDuhwcPU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=GbCrd7S/; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=UXUZA9Om; arc=none smtp.client-ip=103.168.172.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43AC03EE1DD
+	for <linux-fsdevel@vger.kernel.org>; Tue, 31 Mar 2026 19:44:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.217.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774986241; cv=pass; b=ZuppVlV6y8kiSsSoV74/OIbo2NFQ8XKGa9QzmKX1XhLKb8Ze4IXRUaHaj+JwAIcRzYNmQfaiEWtsN08Ybj/Ds52dGQ4m9XlDrg7IDdE3P5QbaiHPVGmjcw81k5jke+3jQQ2596eNjYYXsUwB7qUEpTot2LPMgIha1s8vGPE7h+o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774986241; c=relaxed/simple;
+	bh=YUELv8ViZKtga1atWoviIuY3T3Zh0ws8oWzMmh87XV0=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=h2qLF4HDZXvDmC37bm5unjWL8HcLagTxARwRIcHdNImjMApsOD7PzJmzBaa2C0YgJn1Vd8R2UTXHjRtxKUv0h4kEK1vhR0e6exdEyxTfOia0Zq8lWimGdNgRlZZKqwZRpHWcMNa2zfKCdq9z6YqT7VmxFk1pzpqOnHu8R5uyCAg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jfzkFVgb; arc=pass smtp.client-ip=209.85.217.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="GbCrd7S/";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="UXUZA9Om"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 800E51400050;
-	Tue, 31 Mar 2026 15:14:16 -0400 (EDT)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-04.internal (MEProxy); Tue, 31 Mar 2026 15:14:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1774984456;
-	 x=1775070856; bh=2qDuSoZzFYhBvW0zARX8aWcBYydHA20yyvvWr3QXkMg=; b=
-	GbCrd7S/Hz7kuAczlaApsolK/1cCYgSFtN3DKf5x8jls+WqX1vgAMLjQsChwgJ2c
-	ReIc3wjun+nOwci6NBX7pL/43IcVUQAIfijbzf/P3UKePZl3u5oMV2G90Z4GKEIa
-	AYcux/qD4OGLbBww2FkDZEs8+6QxCFKVeEyqfk2GDletx4XlV/+Smp/wQubOdNcJ
-	PIb7/IpCg1510CapjvpLz/Vj/2LjQ3pLOp8BWsCOup1hicZnCoPK7u7m32guXZh5
-	gmM12hVg7Po83jJlA5bUur1sxfzl7GLof/RZORBs3ttHu2g9IwxP8uGzwWirmz9X
-	4bCD461wMP3DwOni3oeOvw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1774984456; x=
-	1775070856; bh=2qDuSoZzFYhBvW0zARX8aWcBYydHA20yyvvWr3QXkMg=; b=U
-	XUZA9OmLKQwHTrupNOy1AOBmSGJPjq6d4bTs6eDLJOPbhynRy58J7oo8os41/EtN
-	hkfmDLgoFpkBVOyMeVxjhSNBvbcJ2MY2+yw22JQ+iZy/uKCvnHtzYGI53/ZBtI1x
-	CAbw89NOFat996CHOzhaRZUCDqGshBBZ14xw3JZEr6PmcsGqu9lPCf0URmtbYxbs
-	gETAA2hkQMWG58BvJliCqBpSkcPJvqCP1Yf+C40g4LAw85brtJ8NmKFAMHoJVMPY
-	ux6UZ4E8m4CB3JXnECgHYFO04vaD1DgYJ4EWi4eyDipi21wZ71RR9f5DwyPEjkVj
-	zt8Te35C8WZlIVRwzugIA==
-X-ME-Sender: <xms:Bh3Macrfgd-X-NLeHlo1iaUf1K0mo8uxsNHckkhlhluT95DtperVbA>
-    <xme:Bh3MadeYIi-pUfmy4VY8xjiN5B_4JFTltAzCj80PkYeChy3nqOipoyJ6k5L40HWTA
-    518izZ1nxP0Vdh-JNvRQGrOa8dfr1pGuvCWkiJlUUVwKEQ8R5DUqmQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddutdduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceurghi
-    lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
-    epofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrnhguuceu
-    vghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvghrnh
-    epjefhudekueettedtffetvefhjeegteekhfehueeliefhhfegveehffehhedvjeffnecu
-    ffhomhgrihhnpehgihhthhhusgdrtghomhdplhifnhdrnhgvthenucevlhhushhtvghruf
-    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggv
-    pdhnsggprhgtphhtthhopeefvddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepsg
-    hpsegrlhhivghnkedruggvpdhrtghpthhtoheptgihphhhrghrsegthihphhgrrhdrtgho
-    mhdprhgtphhtthhopehmrghthhhivghurdguvghsnhhohigvrhhssegvfhhfihgtihhosh
-    drtghomhdprhgtphhtthhopegrlhgvgidrrghrihhnghesghhmrghilhdrtghomhdprhgt
-    phhtthhopehpvghtvghriiesihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopegsrh
-    gruhhnvghrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehjlhgrhihtohhnsehkvghr
-    nhgvlhdrohhrghdprhgtphhtthhopehjohhlshgrsehkvghrnhgvlhdrohhrghdprhgtph
-    htthhopehluhhtoheskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:Bh3MaR-M2RqFepVSC2_SnxCbkIyTGO5lbGJocl0F1oiBSBqD2wnXmg>
-    <xmx:Bh3MaQFriY_pALQxMNfea6Av6q_Fo2x1zh3wj8Gwm7_h2Va7NjlMkw>
-    <xmx:Bh3Maan2arLgExdBizqPD2xsQV-7y-SaatYOjxegUIYX_b8E4GnwUQ>
-    <xmx:Bh3MafeWklBtKOIJWYwmtjPWTdfuBgsAzcWGvu7mV3N0Et7wO2slcA>
-    <xmx:CB3MaUX2w-QSEjNNZC5v7N-hvAUFEGiBpjHwY5yqrmM9UCL984NfRG5f>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id C3FFE700065; Tue, 31 Mar 2026 15:14:14 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jfzkFVgb"
+Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-60328e74569so3979659137.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 31 Mar 2026 12:44:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774986239; cv=none;
+        d=google.com; s=arc-20240605;
+        b=M/1mcbzV9LONQ9PM61n9LJbusboxEuy8VulKmb3ld0xq3Z8dTFzhTFZP6exGL8IGvo
+         O8effYbh9Y4dnCSkNc6g5A6vcSC1bL0hriAd62AOc/YDQZyZZkRbosDMgHi6P/6l6bje
+         TvvKUwCs9rTYfNVV8FY6o0ZqMedgDqBQgwyVssTAqAe4AfqGUpZ2PRaKJQnqEkcEASU5
+         3o56uAakONZ8m3Wuc20ZuyyDrDp0jiWBNBARaejGpmuwIbqMWUVOeu827BoJtLpjIKrB
+         Bsy3oqIbMoiuxiLoUP8RWVfMa15NZpN2qWjxBv9tQxiBhyK4SeUEsb5V3Ll+uquSTskj
+         /R1w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=nr14MB9jKoo/1LC8ydE0zzpt55tHEenOreaGRoyDC6E=;
+        fh=+PqK1gP19aGdeoii+r7wqLHTdS9srSLjf23mqP0gD9Y=;
+        b=RfW/TMdIiovqd4EWbR75EQU7uk5g5zRnF95kJZND/Q2x6H0bCoBVPEyvpFBoq17Tn8
+         L/Xhjdx91c4WZBZHiNU6WWeI9phiar33oDPdlKwPJfjAJTZ/VtyuXhyQ1RhwCFhtvQPV
+         N9wxXXE4On0Fw5vNRVoawEi7mLQSn0Dej7gcLhVHMvkkZUNK29ENOb1DvmameVCLPKcP
+         7MfBdcjeJKnbPnyl7a5EjddFY0gg1F1rhgphgmGLoFC1Pgs/LVm1hSYK5JByD3jnX7s2
+         4pvxpY/MZiYPq9+tWUazQ/h8kpK43t0iqYLkCJfDthAdQiqCowR5MonqB21CQKhvXt6R
+         1k+A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774986239; x=1775591039; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=nr14MB9jKoo/1LC8ydE0zzpt55tHEenOreaGRoyDC6E=;
+        b=jfzkFVgbdNLCp7ByrRW1Y8i8k44ehitvdaiK8EZmvbcRzwzpnu12qrLIu30uB5xIuK
+         4FZAZnUD0jdHntae/PWVE0sq2ow9pHoRTQrhEzfwHGVqStqprxLbZ8h+8JZHJPqMuGY9
+         qSmdymNKMaBr5HCvqgGV56P3A36ubjCjt6iFmvZzN87p+u6HNu8AJnoB1AhrY9H1epv6
+         5aCbHasJaJ2kDDHkcyrsq+qh1uAKLREn0ucBLh1iCAy0c+uxZrZaxp8WbZmBq+MrxFKE
+         90snprzbbot4k96pyYqkz6XekGUnIAS2gRZkf3kZiShQZco0XWswAX6TksuGABK6OTHg
+         vS/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774986239; x=1775591039;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nr14MB9jKoo/1LC8ydE0zzpt55tHEenOreaGRoyDC6E=;
+        b=TjNeuR56P9xSPPDjUt+LnsFVe8oqUz8S0xfMuaqyVIL7oh5WeMU6b8sJ/dJ9CqlvJE
+         vK3+DPb+s4CDLZ1MYoQV5utn9R8y02FrOK79I0cO4Adz2ycv1pwWlli2msLPwz6llNd3
+         UOlCnlNHe60Hjc0hftIjPaKOmcvu3j5PIhjf4apvttuMwNPr0756YQyjJXa9Md7zkItj
+         VF53Irj0fPQCXt89WrkT3/n4R2Rktg12gTIqh/0UznX+/lC6O0jPJX0Jtkxgkuyizf9E
+         fo9zSTdq40b1m54KbExt70jQY1xfQLumEQbWLpjtSr5ABh64Irx99pMKDUj4UFEdfHUC
+         qPZA==
+X-Gm-Message-State: AOJu0YwjQgjPvH4o5HZYd3ZZ7L9H/NAEJcKGarzOZFppeME9xYLqIzwE
+	kbywaYUnJt6Kw9pF+317BOYBkvv0AJm/XQG6YN+ChFvre+cWxPctzczZY1mltyAJNKgzN8Pi8Ol
+	FB9SpDZZ90w6aTaedjTZFPh7SzgFyxMQ=
+X-Gm-Gg: ATEYQzzrkRzy9Gh9vjf7YXy4Ih131cT9O8dCiz9mwvwc+fHxILy5PHaHFRvH/Ji2Gs6
+	Jh2Aki6DN7is1K23XRu01yExl/3vh5idrxPmhUFNbwpxsftKmZ/GuPsQqjXCpLYBjEOFXpPeO2Y
+	K81Ane9IOyKZ14pKz00BOYobwrc2EzRiMcKc0jyExad7DrTEFMIbRbJ/ALKj2RZ+vb0UyknElA3
+	15IZWawICzfLJ8TuM+I9/z5t7Y2VkLMSfhyCnDgrc55wIkNsZ1jzhuzHfSUb0CHsZPCXB/W/TQS
+	njB9n5MJrg4YqSeZ
+X-Received: by 2002:a05:6102:3e17:b0:5fd:ff75:f437 with SMTP id
+ ada2fe7eead31-6056826cfbcmr252787137.33.1774986239232; Tue, 31 Mar 2026
+ 12:43:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: ALL_5dcvP_Dc
-Date: Tue, 31 Mar 2026 21:13:34 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Jori Koolstra" <jkoolstra@xs4all.nl>,
- "Andy Lutomirski" <luto@kernel.org>, "Thomas Gleixner" <tglx@kernel.org>,
- "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
- "Dave Hansen" <dave.hansen@linux.intel.com>, x86@kernel.org,
- "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Christian Brauner" <brauner@kernel.org>, "Jeff Layton" <jlayton@kernel.org>,
- "Chuck Lever" <chuck.lever@oracle.com>, shuah <shuah@kernel.org>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "H. Peter Anvin" <hpa@zytor.com>, "Jan Kara" <jack@suse.cz>,
- "Alexander Aring" <alex.aring@gmail.com>
-Cc: "Peter Zijlstra" <peterz@infradead.org>,
- "Oleg Nesterov" <oleg@redhat.com>,
- "Andrey Albershteyn" <aalbersh@redhat.com>, "Jiri Olsa" <jolsa@kernel.org>,
- "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>,
- =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
- "Namhyung Kim" <namhyung@kernel.org>,
- "Arnaldo Carvalho de Melo" <acme@redhat.com>,
- "Aleksa Sarai" <cyphar@cyphar.com>, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- Linux-Arch <linux-arch@vger.kernel.org>, linux-kselftest@vger.kernel.org,
- cmirabil@redhat.com, "Masami Hiramatsu" <mhiramat@kernel.org>
-Message-Id: <c2ea52f2-b232-404b-9ec6-75d8efae6bea@app.fastmail.com>
-In-Reply-To: <20260331172011.3512876-2-jkoolstra@xs4all.nl>
-References: <20260331172011.3512876-1-jkoolstra@xs4all.nl>
- <20260331172011.3512876-2-jkoolstra@xs4all.nl>
-Subject: Re: [RFC PATCH 1/2] vfs: syscalls: add mkdirat_fd()
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+From: =?UTF-8?B?0JTQsNC90LjQuNC7INCR0YPQu9Cz0LDRgNGM?= <bulgardaniil18@gmail.com>
+Date: Tue, 31 Mar 2026 21:43:48 +0200
+X-Gm-Features: AQROBzCDnwbcWvG5-YkXWZSpaTNbTMDVAAeJ-kLYJYVEfEGgOu7qkjZZKAO126E
+Message-ID: <CAMPU55iWEB0h1u8V0VcRGRxP14n+_GGE7BMXGtTZA1Tr+nyLFg@mail.gmail.com>
+Subject: fs/ufs: refactor ufs_set_de_type in util.h to use a table lookup
+To: linux-kernel@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Mar 31, 2026, at 19:19, Jori Koolstra wrote:
-> Currently there is no way to race-freely create and open a directory.
-> For regular files we have open(O_CREAT) for creating a new file inode,
-> and returning a pinning fd to it. The lack of such functionality for
-> directories means that when populating a directory tree there's always
-> a race involved: the inodes first need to be created, and then opened
-> to adjust their permissions/ownership/labels/timestamps/acls/xattrs/...,
-> but in the time window between the creation and the opening they might
-> be replaced by something else.
->
-> Addressing this race without proper APIs is possible (by immediately
-> fstat()ing what was opened, to verify that it has the right inode type),
-> but difficult to get right. Hence, mkdirat_fd() that creates a directory
-> and returns an O_DIRECTORY fd is useful.
->
-> This feature idea (and description) is taken from the UAPI group:
-> https://github.com/uapi-group/kernel-features?tab=readme-ov-file#race-free-creation-and-opening-of-non-file-inodes
->
-> Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
+fs/ufs: refactor ufs_set_de_type in util.h to use a table lookup
 
-I checked that the calling conventions are fine, i.e. this will work
-as expected across all architectures. I assume you are also aware
-that the non-RFC patch will need to add the syscall number to all
-.tbl files.
+Replace the switch-case logic with a more efficient table lookup for
+converting mode bits to directory entry types.
+This addresses an explicit TODO in the code.
+The change reduces code complexity and slightly decreases the
+compiled size of the function by replacing
+branching logic with a constant 16-byte array.
 
-The hardest problem here does seem to be the naming of the
-new syscall, and I'm sorry to not be able to offer any solution
-either, just two observations:
+Signed-off-by: Daniil Bulgar <bulgardaniil18@gmail.com>
+---
+ fs/ufs/util.h | 39 +++++++++++----------------------------
+ 1 file changed, 11 insertions(+), 28 deletions(-)
 
-- mkdirat/mkdirat_fd sounds similar to the existing
-  quotactl/quotactl_fd pair, but quotactl_fd() takes a file
-  descriptor argument rather than returning it, which makes
-  this addition quite confusing.
+diff --git a/fs/ufs/util.h b/fs/ufs/util.h
+index 391bb4f11..8966c3ab5 100644
+--- a/fs/ufs/util.h
++++ b/fs/ufs/util.h
+@@ -152,34 +152,17 @@ ufs_set_de_type(struct super_block *sb, struct
+ufs_dir_entry *de, int mode)
+     if ((UFS_SB(sb)->s_flags & UFS_DE_MASK) != UFS_DE_44BSD)
+         return;
 
-- the nicest interface IMO would have been a variation of
-  openat(dfd, filename, O_CREAT | O_DIRECTORY, mode)
-  but that is a minefield of incompatible implementations[1],
-  so we can't do that without changing the behavior for
-  existing callers that currently run into an error.
+-    /*
+-    * TODO turn this into a table lookup
+-    */
+-    switch (mode & S_IFMT) {
+-    case S_IFSOCK:
+-        de->d_u.d_44.d_type = DT_SOCK;
+-        break;
+-    case S_IFLNK:
+-        de->d_u.d_44.d_type = DT_LNK;
+-        break;
+-    case S_IFREG:
+-        de->d_u.d_44.d_type = DT_REG;
+-        break;
+-    case S_IFBLK:
+-        de->d_u.d_44.d_type = DT_BLK;
+-        break;
+-    case S_IFDIR:
+-        de->d_u.d_44.d_type = DT_DIR;
+-        break;
+-    case S_IFCHR:
+-        de->d_u.d_44.d_type = DT_CHR;
+-        break;
+-    case S_IFIFO:
+-        de->d_u.d_44.d_type = DT_FIFO;
+-        break;
+-    default:
+-        de->d_u.d_44.d_type = DT_UNKNOWN;
+-    }
++    static const unsigned char type_table[16] = {
++        [S_IFSOCK >> 12]    = DT_SOCK,
++        [S_IFLNK >> 12]        = DT_LNK,
++        [S_IFREG >> 12]        = DT_REG,
++        [S_IFBLK >> 12]        = DT_BLK,
++        [S_IFDIR >> 12]        = DT_DIR,
++        [S_IFCHR >> 12]        = DT_CHR,
++        [S_IFIFO >> 12]        = DT_FIFO,
++    };
++
++    de->d_u.d_44.d_type = type_table[(mode & S_IFMT) >> 12];
+ }
 
-       Arnd
-
-[1] https://lwn.net/Articles/926782/
+ static inline u32
+-- 
+2.53.0
