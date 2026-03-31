@@ -1,47 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01D6B30FF20;
-	Tue, 31 Mar 2026 17:10:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70B31345736
+	for <linux-fsdevel@vger.kernel.org>; Tue, 31 Mar 2026 17:20:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774977020; cv=none; b=Jv2+mn9PfLBgEsgQPAeTfUnbG4mGaXAEyCb7YgepomkPgL8mg5Ji8Zbg03GIe2RnF9JuaTscb2hPnaeZP2GT6jrfJ/QcYEtjAeBG0G9IjnYLMxQiPw3UjlkNeliz593tCKO3P0C8k9Rq1L3E19S/IxZgEdo+2ISzeA+MeJ0e+1A=
+	t=1774977620; cv=none; b=cl7Zlniou/rL9o0hR9xdD9ks+C/aJQYhuKkScpF/aft2PUyGQr4OJOI580v1mxRmKY+b2vj8xLl27N08sR7ZHUdcA3NrfIZ3SMxop7pf1i2l66zPMvp/LOBXMZK31gNQRvPuhUXIVIjsuXF952GyLfPdgtBeopRMzTSdtOiQdOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774977020; c=relaxed/simple;
-	bh=0O7pbVwcKP6zzxAn3nAxvdvlnhR1hbnc9pRjVpoFrKg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=M59HuFkL8JJ53NcNKfq5Ato4ktXC5bBU7skdPdgHmr4RYglqppB7yttIBqgjZ4BmzJABxZEde5OKesRSW8mtrPKrxyh39WRKHcUyj8B1QnV4afqsdFhaP6MA5vEgtjBBSTAEm8PgpIHq360a7WaivkiJam+U5KNJ06Q/6dRTFiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=OJkkXCGu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774977620; c=relaxed/simple;
+	bh=9a07OI6G1FdXoYEj20uLFgzwaAk/WzZPhJzya892ozs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=I9VtcGbBT0HQu5jxot02XKYdQT2GP+xWQrgw05+oOUnaCkBbM9cTsYazGcyaojJq/qb5IQ4LxVqy0xouHflx2EzE5mmCAB2q0y7OaZvqBcM4AUILk9pX8eH6QYRge1vv38Mar6x6YMuJgocC92w9d+EGJYmwTA6+rf8PdL0TRLs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=tqB1VxkX; arc=none smtp.client-ip=195.121.94.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="OJkkXCGu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87B27C2BCB1;
-	Tue, 31 Mar 2026 17:10:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1774977019;
-	bh=0O7pbVwcKP6zzxAn3nAxvdvlnhR1hbnc9pRjVpoFrKg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=OJkkXCGuYXwWU9+ews6h1BF7pgGCBCu9dNBTOf1W/MSjlzUbaAbJEHjBtLjQtTyap
-	 bh3AIqgx3x454fjP82U3ysLDaHEc9aBic3DG3xSF3JuK9mxbaZda22GA9il09op9Ql
-	 mGrQXAkR13w+gte4DIR2H8NF9ygobcQqfqojj2lU=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: stable@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	patches@lists.linux.dev,
-	Paulo Alcantara <pc@manguebit.org>,
-	David Howells <dhowells@redhat.com>,
-	netfs@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="tqB1VxkX"
+X-KPN-MessageId: de11ed37-2d25-11f1-afda-005056994fde
+Received: from smtp.kpnmail.nl (unknown [10.31.155.7])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id de11ed37-2d25-11f1-afda-005056994fde;
+	Tue, 31 Mar 2026 19:20:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=mime-version:message-id:date:subject:to:from;
+	bh=SIY1aVd3TcIR+nTkIuM5SR5/9+HgkFFEgimZ8yE4G08=;
+	b=tqB1VxkXY04rr1gw4sen7pOZ+4espDd5si4hmDvbDs3rI2V5zC6l9XiPEiOj85Ml7m46NJFPIFgbN
+	 PyC2DkHepNrlNZcf3dGv7IEj57keOh4w1I6sbxia37z7GfDHnwUSsxaS3N6GVpCyJZrEvlx2ojG/LE
+	 I4zc1CGQU+Mr6+56eBMgjL181Lx5CfFabpzOjokHsBf1Q5rWE9QAg5UrVpbdKYIJyUArZNOI3uWr6W
+	 CPYl7/yw0/fX9WXCaOEIhAYDBHTxVomB/OQi8BqPoEB5vVRseePONCGJQzRX98prtxkMLEjF5vbzT3
+	 utSsfnQlE0eF+o8CxfP1auwtZyPndrQ==
+X-KPN-MID: 33|XhdlY57GqcJB9oU2yafxIvsJwRD0xG8SHogByN+EIthGLyczyWBdQ2S/dNClDRD
+ cG/2KpUPLW1cZ4+fpJaskse1e5/a7GSk9YTLm0WWcpyI=
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|Bvc7FnJEwJFayum3+kDCzfBY/LJYd9rL59Eha9ifk0Jbk0xbsrPs+Z10Nufunsa
+ 7payj/KUH2JoFtYqtlu00/Q==
+Received: from daedalus.home (unknown [178.227.25.158])
+	by smtp.xs4all.nl (Halon) with ESMTPSA
+	id daba308f-2d25-11f1-86d5-005056998788;
+	Tue, 31 Mar 2026 19:20:08 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Andy Lutomirski <luto@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
 	Christian Brauner <brauner@kernel.org>,
-	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.18 305/309] netfs: Fix the handling of stream->front by removing it
-Date: Tue, 31 Mar 2026 18:23:28 +0200
-Message-ID: <20260331161804.790300354@linuxfoundation.org>
+	Jeff Layton <jlayton@kernel.org>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Shuah Khan <shuah@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "H . Peter Anvin" <hpa@zytor.com>,
+	Jan Kara <jack@suse.cz>,
+	Alexander Aring <alex.aring@gmail.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Andrey Albershteyn <aalbersh@redhat.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Arnaldo Carvalho de Melo <acme@redhat.com>,
+	Aleksa Sarai <cyphar@cyphar.com>,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	cmirabil@redhat.com,
+	Jori Koolstra <jkoolstra@xs4all.nl>
+Subject: [RFC PATCH 0/2] vfs: mkdirat_fd() syscall
+Date: Tue, 31 Mar 2026 19:19:57 +0200
+Message-ID: <20260331172011.3512876-1-jkoolstra@xs4all.nl>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260331161753.468533260@linuxfoundation.org>
-References: <20260331161753.468533260@linuxfoundation.org>
-User-Agent: quilt/0.69
-X-stable: review
-X-Patchwork-Hint: ignore
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -50,200 +83,42 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-6.18-stable review patch.  If anyone has any objections, please let me know.
+This series implements the mkdirat_fd() syscall that was suggested over
+at the UAPI group kernel feature page [1] with some tests.
 
-------------------
+Obviously, if we want this we should also implement mknodeat_fd() and
+symlinkat_fd(), but their implementation can be done quite similar I
+believe.
 
-From: David Howells <dhowells@redhat.com>
+I have added an unigned int flags like [2] suggests and an example flag
+that we may want to remove (it right now mainly serves an internal
+purpose). But it marks where I would want to place the definitions.
 
-[ Upstream commit 0e764b9d46071668969410ec5429be0e2f38c6d3 ]
+This has been compiled and tested on x86 only. [2] is a bit confusing
+here and there, so I hope I have added the proper syscall definitions
+everywhere where they needs to be added.
 
-The netfs_io_stream::front member is meant to point to the subrequest
-currently being collected on a stream, but it isn't actually used this way
-by direct write (which mostly ignores it).  However, there's a tracepoint
-which looks at it.  Further, stream->front is actually redundant with
-stream->subrequests.next.
+[1]: https://github.com/uapi-group/kernel-features?tab=readme-ov-file#race-free-creation-and-opening-of-non-file-inodes
+[2]: https://www.kernel.org/doc/html/latest/process/adding-syscalls.html
 
-Fix the potential problem in the direct code by just removing the member
-and using stream->subrequests.next instead, thereby also simplifying the
-code.
+Jori Koolstra (2):
+  vfs: syscalls: add mkdirat_fd()
+  selftest: add tests for mkdirat_fd()
 
-Fixes: a0b4c7a49137 ("netfs: Fix unbuffered/DIO writes to dispatch subrequests in strict sequence")
-Reported-by: Paulo Alcantara <pc@manguebit.org>
-Signed-off-by: David Howells <dhowells@redhat.com>
-Link: https://patch.msgid.link/4158599.1774426817@warthog.procyon.org.uk
-Reviewed-by: Paulo Alcantara (Red Hat) <pc@manguebit.org>
-cc: netfs@lists.linux.dev
-cc: linux-fsdevel@vger.kernel.org
-Signed-off-by: Christian Brauner <brauner@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- fs/netfs/buffered_read.c     | 3 +--
- fs/netfs/direct_read.c       | 3 +--
- fs/netfs/direct_write.c      | 1 -
- fs/netfs/read_collect.c      | 4 ++--
- fs/netfs/read_single.c       | 1 -
- fs/netfs/write_collect.c     | 4 ++--
- fs/netfs/write_issue.c       | 3 +--
- include/linux/netfs.h        | 1 -
- include/trace/events/netfs.h | 8 ++++----
- 9 files changed, 11 insertions(+), 17 deletions(-)
+ arch/x86/entry/syscalls/syscall_64.tbl        |   1 +
+ fs/internal.h                                 |   1 +
+ fs/namei.c                                    |  26 +++-
+ include/linux/fcntl.h                         |   2 +
+ include/linux/syscalls.h                      |   2 +
+ include/uapi/asm-generic/fcntl.h              |   3 +
+ include/uapi/asm-generic/unistd.h             |   5 +-
+ scripts/syscall.tbl                           |   1 +
+ tools/include/uapi/asm-generic/unistd.h       |   5 +-
+ tools/testing/selftests/filesystems/Makefile  |   4 +-
+ .../selftests/filesystems/mkdirat_fd_test.c   | 139 ++++++++++++++++++
+ 11 files changed, 183 insertions(+), 6 deletions(-)
+ create mode 100644 tools/testing/selftests/filesystems/mkdirat_fd_test.c
 
-diff --git a/fs/netfs/buffered_read.c b/fs/netfs/buffered_read.c
-index 37ab6f28b5ad0..88361e8c70961 100644
---- a/fs/netfs/buffered_read.c
-+++ b/fs/netfs/buffered_read.c
-@@ -171,9 +171,8 @@ static void netfs_queue_read(struct netfs_io_request *rreq,
- 	spin_lock(&rreq->lock);
- 	list_add_tail(&subreq->rreq_link, &stream->subrequests);
- 	if (list_is_first(&subreq->rreq_link, &stream->subrequests)) {
--		stream->front = subreq;
- 		if (!stream->active) {
--			stream->collected_to = stream->front->start;
-+			stream->collected_to = subreq->start;
- 			/* Store list pointers before active flag */
- 			smp_store_release(&stream->active, true);
- 		}
-diff --git a/fs/netfs/direct_read.c b/fs/netfs/direct_read.c
-index a498ee8d66745..f72e6da88cca7 100644
---- a/fs/netfs/direct_read.c
-+++ b/fs/netfs/direct_read.c
-@@ -71,9 +71,8 @@ static int netfs_dispatch_unbuffered_reads(struct netfs_io_request *rreq)
- 		spin_lock(&rreq->lock);
- 		list_add_tail(&subreq->rreq_link, &stream->subrequests);
- 		if (list_is_first(&subreq->rreq_link, &stream->subrequests)) {
--			stream->front = subreq;
- 			if (!stream->active) {
--				stream->collected_to = stream->front->start;
-+				stream->collected_to = subreq->start;
- 				/* Store list pointers before active flag */
- 				smp_store_release(&stream->active, true);
- 			}
-diff --git a/fs/netfs/direct_write.c b/fs/netfs/direct_write.c
-index 4d9760e36c119..f9ab69de3e298 100644
---- a/fs/netfs/direct_write.c
-+++ b/fs/netfs/direct_write.c
-@@ -111,7 +111,6 @@ static int netfs_unbuffered_write(struct netfs_io_request *wreq)
- 			netfs_prepare_write(wreq, stream, wreq->start + wreq->transferred);
- 			subreq = stream->construct;
- 			stream->construct = NULL;
--			stream->front = NULL;
- 		}
- 
- 		/* Check if (re-)preparation failed. */
-diff --git a/fs/netfs/read_collect.c b/fs/netfs/read_collect.c
-index 137f0e28a44c5..e5f6665b3341e 100644
---- a/fs/netfs/read_collect.c
-+++ b/fs/netfs/read_collect.c
-@@ -205,7 +205,8 @@ static void netfs_collect_read_results(struct netfs_io_request *rreq)
- 	 * in progress.  The issuer thread may be adding stuff to the tail
- 	 * whilst we're doing this.
- 	 */
--	front = READ_ONCE(stream->front);
-+	front = list_first_entry_or_null(&stream->subrequests,
-+					 struct netfs_io_subrequest, rreq_link);
- 	while (front) {
- 		size_t transferred;
- 
-@@ -301,7 +302,6 @@ static void netfs_collect_read_results(struct netfs_io_request *rreq)
- 		list_del_init(&front->rreq_link);
- 		front = list_first_entry_or_null(&stream->subrequests,
- 						 struct netfs_io_subrequest, rreq_link);
--		stream->front = front;
- 		spin_unlock(&rreq->lock);
- 		netfs_put_subrequest(remove,
- 				     notes & ABANDON_SREQ ?
-diff --git a/fs/netfs/read_single.c b/fs/netfs/read_single.c
-index 5c0dc4efc7922..9d48ced80d1fa 100644
---- a/fs/netfs/read_single.c
-+++ b/fs/netfs/read_single.c
-@@ -107,7 +107,6 @@ static int netfs_single_dispatch_read(struct netfs_io_request *rreq)
- 	spin_lock(&rreq->lock);
- 	list_add_tail(&subreq->rreq_link, &stream->subrequests);
- 	trace_netfs_sreq(subreq, netfs_sreq_trace_added);
--	stream->front = subreq;
- 	/* Store list pointers before active flag */
- 	smp_store_release(&stream->active, true);
- 	spin_unlock(&rreq->lock);
-diff --git a/fs/netfs/write_collect.c b/fs/netfs/write_collect.c
-index 83eb3dc1adf8a..b194447f4b111 100644
---- a/fs/netfs/write_collect.c
-+++ b/fs/netfs/write_collect.c
-@@ -228,7 +228,8 @@ static void netfs_collect_write_results(struct netfs_io_request *wreq)
- 		if (!smp_load_acquire(&stream->active))
- 			continue;
- 
--		front = stream->front;
-+		front = list_first_entry_or_null(&stream->subrequests,
-+						 struct netfs_io_subrequest, rreq_link);
- 		while (front) {
- 			trace_netfs_collect_sreq(wreq, front);
- 			//_debug("sreq [%x] %llx %zx/%zx",
-@@ -279,7 +280,6 @@ static void netfs_collect_write_results(struct netfs_io_request *wreq)
- 			list_del_init(&front->rreq_link);
- 			front = list_first_entry_or_null(&stream->subrequests,
- 							 struct netfs_io_subrequest, rreq_link);
--			stream->front = front;
- 			spin_unlock(&wreq->lock);
- 			netfs_put_subrequest(remove,
- 					     notes & SAW_FAILURE ?
-diff --git a/fs/netfs/write_issue.c b/fs/netfs/write_issue.c
-index 437268f656409..2db688f941251 100644
---- a/fs/netfs/write_issue.c
-+++ b/fs/netfs/write_issue.c
-@@ -206,9 +206,8 @@ void netfs_prepare_write(struct netfs_io_request *wreq,
- 	spin_lock(&wreq->lock);
- 	list_add_tail(&subreq->rreq_link, &stream->subrequests);
- 	if (list_is_first(&subreq->rreq_link, &stream->subrequests)) {
--		stream->front = subreq;
- 		if (!stream->active) {
--			stream->collected_to = stream->front->start;
-+			stream->collected_to = subreq->start;
- 			/* Write list pointers before active flag */
- 			smp_store_release(&stream->active, true);
- 		}
-diff --git a/include/linux/netfs.h b/include/linux/netfs.h
-index 72ee7d210a744..ba17ac5bf356a 100644
---- a/include/linux/netfs.h
-+++ b/include/linux/netfs.h
-@@ -140,7 +140,6 @@ struct netfs_io_stream {
- 	void (*issue_write)(struct netfs_io_subrequest *subreq);
- 	/* Collection tracking */
- 	struct list_head	subrequests;	/* Contributory I/O operations */
--	struct netfs_io_subrequest *front;	/* Op being collected */
- 	unsigned long long	collected_to;	/* Position we've collected results to */
- 	size_t			transferred;	/* The amount transferred from this stream */
- 	unsigned short		error;		/* Aggregate error for the stream */
-diff --git a/include/trace/events/netfs.h b/include/trace/events/netfs.h
-index 2d366be46a1c3..cbe28211106c5 100644
---- a/include/trace/events/netfs.h
-+++ b/include/trace/events/netfs.h
-@@ -740,19 +740,19 @@ TRACE_EVENT(netfs_collect_stream,
- 		    __field(unsigned int,	wreq)
- 		    __field(unsigned char,	stream)
- 		    __field(unsigned long long,	collected_to)
--		    __field(unsigned long long,	front)
-+		    __field(unsigned long long,	issued_to)
- 			     ),
- 
- 	    TP_fast_assign(
- 		    __entry->wreq	= wreq->debug_id;
- 		    __entry->stream	= stream->stream_nr;
- 		    __entry->collected_to = stream->collected_to;
--		    __entry->front	= stream->front ? stream->front->start : UINT_MAX;
-+		    __entry->issued_to	= atomic64_read(&wreq->issued_to);
- 			   ),
- 
--	    TP_printk("R=%08x[%x:] cto=%llx frn=%llx",
-+	    TP_printk("R=%08x[%x:] cto=%llx ito=%llx",
- 		      __entry->wreq, __entry->stream,
--		      __entry->collected_to, __entry->front)
-+		      __entry->collected_to, __entry->issued_to)
- 	    );
- 
- TRACE_EVENT(netfs_folioq,
 -- 
 2.53.0
-
-
 
