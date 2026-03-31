@@ -1,122 +1,96 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 375393B4E8A
-	for <linux-fsdevel@vger.kernel.org>; Tue, 31 Mar 2026 11:37:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774957048; cv=pass; b=SnFEGiPYl3fqnIUPSrjZKrBgXDFF9KgU6OntlFnTsT2F4ECs/jZbkT+g9zAjJh4ZC6DD3GpQFDM+ybEPPooYxupggUsknqeBor23dTZjNe4aQF13JrQLqrUYtHCPgPKxI7bAPntjJQtPyF15Q55DmpUJ1hpc2/iMVcqzZCUxo7Y=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774957048; c=relaxed/simple;
-	bh=pVSuzw/E7fveoiaa+h3iaBbysNiWwOpb+fg+OQxk6WA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MIIzWZVSnmsjp8jqnI9430dR+V83vtBPHuhIzh0B3Ct66GYmsnUcrph81xKyJZ/2d7Alo7aA28rRfkdX0yUPbaRHrJZ0x8+2SDF6jhfP7EVG1G90m8w9P18HzI/Z8qXUnCUfj/gqvBKrdyjY/RU+JVMoorbx7nXDAo7CGG18Rrc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=p73LZUcz; arc=pass smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F5413A9D85;
+	Tue, 31 Mar 2026 11:42:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774957333; cv=none; b=aQfpF3Zz721gIFHtmF+Ga+3fKfIXSAeNrAwJzBXARyoCUmHZagmdXw+rYDzjU+79pzRWxs0X89xxi7NCgeY3MvuGD8RKMR7lnzLSxcn5GzTfJBViW9CL5ld7ZlKOl6UYlqOAM3BFzercUHFkJD4KDgie1e/wCZjhr2OPtLZ9nBE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774957333; c=relaxed/simple;
+	bh=v9/AUUMGVf9+nhrOWCMNuXE2J/EJf4Yx/A5I91wqayM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dQzJLD46vgpBBo0ACSjAH10pfNsdf3ZzN2h5KJlD1It7rXjZuSZRBpgw9Ny2udJukvx9GDcy2FWuCegmIegs0g/OkkUZGSoJT3YWklJAHAMoAHgWRj7fl6A/ODAP+MkjnDmWixxlHqafOgcOrISpA3FNQFtzofov72ET0xsUtG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Eklxj6nk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="p73LZUcz"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-66a851e62c6so5793354a12.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 31 Mar 2026 04:37:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774957045; cv=none;
-        d=google.com; s=arc-20240605;
-        b=RZ8pfM48lbvSMQAeIXNWlq7tKx3FIEFQ2hQpDfkATw98+hi9PuwD2Z6ihobTVsUSIN
-         ll8yL4PWT8PUrDSNnsGvEoexzTPne8hwE9t8wV6gKx3AoCYxemmXVOw+LGTJnm3HKBS8
-         iRRuGjrffi/nytyxPtuYh3o/361PQsXhXI03YB8uqv0RlsXkLxFCDbjYG7t1qakcIWes
-         p6nLT2IhvM3thQBsS8htspk9X7tCWIboV2KGAMUgt1n6V2uN5nhzxEjbpKSXlk1MgeQ8
-         5lDJna+RMHdiVtkaftT3BeJRpFRc7NKIsUQPaWaGeH7vXIZTrs0l+D1BJwiG7wJ/alsZ
-         RQSA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=WxbBVSsNBgjfTq5tWvk/OiO1Ug9ualT5PG5lP8YG6Eg=;
-        fh=cTczWqjg9xKnv2M7bv2zNsAhCJ3uIOpoKHvWpDiQmZU=;
-        b=aw5x0QGaMW5PsId7AadjzRlOS35046fjbHL4diTl15WFC/GAZWGUJqxqB7vxhLba88
-         qyZYh9leAwFvJtqD9GcB7FQrlV0DLAp+acLZQ7PUi7ZXsw532WM1CiDWe4U2eSfnmjb2
-         QuoiAwvKlu2Yv/5MKBF2NM7UY/biBfexincYfAuF7J4rqGYIpqdH3k4fVWXgM2AD8LJ/
-         ch/Wm3kQUk3j9jTmDqdLa+LDTOb9fdGrY/TErI+fx9VYRdvCiOSMXsFS46m3MKc7sZ1i
-         myRHqzpz6FOL1jZl7fznGlUsQgWTnWmkZHzYKjEmIJjZkGqgx0qQQqYfr95reFNNqkM+
-         dS5g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774957045; x=1775561845; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WxbBVSsNBgjfTq5tWvk/OiO1Ug9ualT5PG5lP8YG6Eg=;
-        b=p73LZUczxF0ZyKhVEp4SLOXsC/viqDu+qZtFV2w1bIR7nassXg20hk+R/DhVe+/J85
-         8zRghG30Fxp86OixucYJlVR4StMbCs68qQYVtY6ADU17DNN7DQoEGMJsJ75sFnIm+Cvb
-         iO4TBQ7DNqtx62BbAbpbfOYS7r4GyurTtPNut0JbCHv7gjr1+vhRxiqoOAZaZPZsrzy7
-         PkaZ6HuAXnKNzVe43fdjhaxWXhqoAX9sqhlXE5qIezDP8+bm27mQ4AMQLThZSRmIcIR3
-         8mhBvR2hrDiAR3NwDxg+uwSGK91utAmBVy1gpJW1DNAoGiQM/mIG0DJHKKvQT0l1dwYF
-         jO3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774957045; x=1775561845;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=WxbBVSsNBgjfTq5tWvk/OiO1Ug9ualT5PG5lP8YG6Eg=;
-        b=GBSeBecslDq8OythMvkTasdLuK9HbJzHaR/tSwIYtSkD/mcneubTGvZos3fvjupM9E
-         PhGwNoQkf72ONUucaWyalu6jtYncjE9asqdJBsxLjcCNRLsUIzFAw5U7Eu16s0Hj27g6
-         M3zC6KG8Z38vvv06PRQZtsLd737R7ryrB8d3dgd5uZrdZqyS48vOU6uIp8dwig/gQt3D
-         Z0f701mLpmM7utfGr7xZawRq0mxlPlcUanEfnpXa00MycWDm2pW2Ux7PBv1KwAfkRWQe
-         yvdn9KpRvI6laydA+i6IQv9C44PZjY/miUmKyFcMTVxt1v4mAbThTXuZn/YkTmfLOGPi
-         fvDg==
-X-Forwarded-Encrypted: i=1; AJvYcCVBfblzySeNBJN8vaQP8l9rY24qIJNmSmKPYo1NICF+ntqW1OHAiqCScyjC3yqHiY0ssBSkeDIiU4mh9hkx@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw5wRkArHstqwFerXiwUt423wyWQH1Kk0bOQt4eXM6bhuDeDLDb
-	BciJJexf86AhFMioAoIPeT/hHBVgyNqi/JEC3E7dG2ETMTBBJmK1y5a24/2R3C5DGdYOT94cZET
-	iT3X06g3Z0nZpY0KJfyNjpviuj22M07I=
-X-Gm-Gg: ATEYQzwNb7ZyaQVaokWENx5Yun1R8lsHAF6EtujjBXnQ784batDnBd6P1Xfm9PuNlig
-	5AkWELHZmqUUKaBBihf2kKcB4Aj9TxduNCR42sx4tRP3Z5g+X+9isbuPq4N5GzbxEcRZwkgUr67
-	iToiIdqhG1Mt3vm4oUraeNeGfg1AxqdlxgCQgN0MxfgRiMQpsB5W/ePAYyX9+aGK1bwxrwpf80X
-	Fkvj4riqtt97H+fcPsvfoLLahPHB2CnAO8FkZGQTYFv/y8ege6Y8qudE4I24RFIYrDDIg0G0kxI
-	4Jf36Efquzi2gOQGJ2eK/yPUD9cWKw6ORm/OGhg=
-X-Received: by 2002:a05:6402:4617:b0:66a:6c0b:9398 with SMTP id
- 4fb4d7f45d1cf-66b28a55473mr7658426a12.15.1774957045213; Tue, 31 Mar 2026
- 04:37:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Eklxj6nk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A17AC19423;
+	Tue, 31 Mar 2026 11:42:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774957332;
+	bh=v9/AUUMGVf9+nhrOWCMNuXE2J/EJf4Yx/A5I91wqayM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Eklxj6nkgag9phGSwi3AtluNOuSXDrudDeC/1PoarzkDyR4p3o0WsR5+F14ZRDl5g
+	 K2Nl5yCy0RGOJ0DRUiYL4OX7lS9rHaVpZcs/Y14YToXTDAfwhtXM5q/OBBwVM6+9rC
+	 a5PY+jeY6+oE9/UgIx8ASEbSIyVGTC4HR0AcfqfaLCYhekdoktZLfYZ2+11xgMDX/l
+	 Wejb1KLzSWw22xCDrro+pnvMhSvIuDD7yHMaAR6HJWWaIHeb/lR56OmzTWLRk1p3mj
+	 zt/MN2oV2Jzvs8jCoFDoR2DNo66mXetay7g3pMu7BgyOJjl9SFicy9OxWrV0FhxgiZ
+	 d+DZbWhjK1q1A==
+Date: Tue, 31 Mar 2026 14:42:01 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Andrea Arcangeli <aarcange@redhat.com>,
+	Andrei Vagin <avagin@google.com>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	David Hildenbrand <david@kernel.org>,
+	Harry Yoo <harry.yoo@oracle.com>, Hugh Dickins <hughd@google.com>,
+	James Houghton <jthoughton@google.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
+	Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
+	Nikita Kalyazin <kalyazin@amazon.com>,
+	Oscar Salvador <osalvador@suse.de>,
+	Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@suse.cz>, kvm@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v3 07/15] userfaultfd: introduce vm_uffd_ops
+Message-ID: <acuzCX1GHZRLSu_x@kernel.org>
+References: <20260330101116.1117699-1-rppt@kernel.org>
+ <20260330101116.1117699-8-rppt@kernel.org>
+ <acqrtd7E6UxrX6Ji@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260329172002.3557801-1-mjguzik@gmail.com> <20260329172002.3557801-6-mjguzik@gmail.com>
- <20260331-ellbogen-wegrand-e98370e446e3@brauner>
-In-Reply-To: <20260331-ellbogen-wegrand-e98370e446e3@brauner>
-From: Mateusz Guzik <mjguzik@gmail.com>
-Date: Tue, 31 Mar 2026 13:37:13 +0200
-X-Gm-Features: AQROBzD1rewFspOAOxCMLrC5I9Wb5YKo1eptDjjZIF6becf7BimcBQ5TkhbBm6w
-Message-ID: <CAGudoHHZiBsMKs4c5TEfxyFJGSYk9fDU=ZjoGy+_Xo69xR9u8w@mail.gmail.com>
-Subject: Re: [PATCH v3 5/7] fs: handle hypothetical filesystems which use
- I_DONTCACHE and drop the lock in ->drop_inode
-To: Christian Brauner <brauner@kernel.org>
-Cc: viro@zeniv.linux.org.uk, jack@suse.cz, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <acqrtd7E6UxrX6Ji@casper.infradead.org>
 
-On Tue, Mar 31, 2026 at 1:23=E2=80=AFPM Christian Brauner <brauner@kernel.o=
-rg> wrote:
->
-> On Sun, Mar 29, 2026 at 07:20:00PM +0200, Mateusz Guzik wrote:
-> > diff --git a/fs/inode.c b/fs/inode.c
-> > index 0050eca6d83f..a417abc64822 100644
-> > --- a/fs/inode.c
-> > +++ b/fs/inode.c
-> > @@ -1935,20 +1935,29 @@ static void iput_final(struct inode *inode)
-> >       else
-> >               drop =3D inode_generic_drop(inode);
-> >
-> > -     if (!drop &&
-> > -         !(inode_state_read(inode) & I_DONTCACHE) &&
-> > -         (sb->s_flags & SB_ACTIVE)) {
-> > +     /*
-> > +      * XXXCRAP: there are ->drop_inode hooks playing nasty games rele=
-asing the
->
-> Let's make that a "Note:" and remove that "XXXCRAP", please. The "nasty
-> games" is plenty meta commentary.
->
+On Mon, Mar 30, 2026 at 05:58:29PM +0100, Matthew Wilcox wrote:
+> On Mon, Mar 30, 2026 at 01:11:08PM +0300, Mike Rapoport wrote:
+> > First, there is no fundamental reason to limit userfaultfd support only to
+> > the core memory types and userfaults can be handled similarly to regular
+> > page faults provided a VMA owner implements appropriate callbacks.
+> > 
+> > Second, historically various code paths were conditioned on
+> > vma_is_anonymous(), vma_is_shmem() and is_vm_hugetlb_page() and some of
+> > these conditions can be expressed as operations implemented by a
+> > particular memory type.
+> > 
+> > Introduce vm_uffd_ops extension to vm_operations_struct that will delegate
+> > memory type specific operations to a VMA owner.
+> 
+> But the VMA owner already gets control of the page fault.  We don't need
+> the vm_uffd_ops to be accessible from the vm_operations_struct.  The
+> page faullt handler can pass a vm_uffd_ops into the uffd functions that
+> it calls.
 
-"FIXME"? Given that v4 is already out, perhaps you can do the honors? :)
+Not sure I follow you here. The ops are not required by the page fault
+handler, they are needed for uffd ioctl handling, e.g
+
+	userfaultfd_ioctl(UFFDIO_COPY) ->
+		mfill_atomic_copy() ->
+			vma = find_vma();
+			/* do VMA specific stuff */
+
+-- 
+Sincerely yours,
+Mike.
