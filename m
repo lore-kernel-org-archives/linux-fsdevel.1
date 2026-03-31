@@ -1,63 +1,157 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 375B623FC41
-	for <linux-fsdevel@vger.kernel.org>; Tue, 31 Mar 2026 18:31:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BB093A4F5D;
+	Tue, 31 Mar 2026 19:14:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774981897; cv=none; b=Gx8VdqRa4cfj/gvzh7/x+476/6hMmQg1lzb1ExyQDCFTZDZJJGfD17+V8p1JhXiFDGiB0V7KXjxy6DMSWk5Rrvpch1FT5Fxy08XKkDJ85AXnkxi2WaZcsJwZMSS1mwdP6VsKxlHS9m9PKwlNvdko42iuXH5GyuszzoFx9CBVGok=
+	t=1774984459; cv=none; b=vFtaTat5jHZpACTqfTDWxLtKejWo9nN9Apru91nFvlydsYuFIoXZCctUYiBCan2ftZihcNIj4TNnhVi3pasqOEAgX/JWvOb+BLJEGPRKSa9y/Nm8Rx4HDe1AdwIVdxl9obq6N5gRug2KDQKuSxFEsCNZoZRlirZGz+j+9A+m4UA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774981897; c=relaxed/simple;
-	bh=BgoHp3fynExe+2b185+0sIyNhy3hoJfNpQ1eVqQcS5s=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=Dou1Hi3scUHFuQcxMtKkqD63Xz8Rp1//de48lhNrtcmt+fXKwyGjpxtPJlg+OoBZduDZ23g7unw6CzLW6BljzBua+zUCJSiZ07bXptM1Jz6mkY3WWZqVR3tkW2boq4fZAydfc/Rt2cHBipqvBc84OwgRWXFefZUno0YkB9ce4BE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nrr+OZBb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774984459; c=relaxed/simple;
+	bh=6UfukQtBmWKYp02VBb+8KF+mHtOfziVMOpzDUst/kuY=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=V9nRJOf3vTVJFmso333jmlyzMd0TR/WK9QxnUKJBqbNErxgHWOP6YuDeGtCJPDXlqkgpIkiMLxf5GUDSj6bFCPaJC11uEb+53P5wpdQLo+wI1z4+I3osuww/B7mIgWTxjulTW+pUXGvVOVcw7JuH1xjgYkZp/jN999vDuhwcPU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=GbCrd7S/; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=UXUZA9Om; arc=none smtp.client-ip=103.168.172.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nrr+OZBb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB6CBC19423;
-	Tue, 31 Mar 2026 18:31:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774981896;
-	bh=BgoHp3fynExe+2b185+0sIyNhy3hoJfNpQ1eVqQcS5s=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=Nrr+OZBb6rXdzIY7YxYMY+WCwMvdZtHGHYDiADwbOaDaZwIVd0H9MLIyC/vE8u4S+
-	 +e4rE5TaCqY57KB3YPKn79Kfh6IOdmdo+gRSnohkiuVUHNAQldswipZSau5BXdw7nE
-	 b/7ulj8g8Tzaj0o8ajzQAdSS+g0nzDpQ73PY3mtslWZSbpXlCUjEweBDdIp8Kp26tQ
-	 gLnwAfb3clmaFgts/rJm9K8xwK/T4j0UBuwNAlKOMjOGLjEEcn+MKsd+PqsneAeMkK
-	 RJmqwkwmJ5zqufrA4EHzI13KjAcJPz2wlN1cXkI0ZeCKSypYOgR0pIRXgmSNq8Eaue
-	 heujC3Sb4/zHA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 7CFC03808203;
-	Tue, 31 Mar 2026 18:31:21 +0000 (UTC)
-Subject: Re: [GIT PULL] udf fix for 7.0-rc7
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <462tylahq3txzns6guwf6huabgovydarvwhjxiumhiswmccodm@xagpzm2gozdq>
-References: <462tylahq3txzns6guwf6huabgovydarvwhjxiumhiswmccodm@xagpzm2gozdq>
-X-PR-Tracked-List-Id: <linux-fsdevel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <462tylahq3txzns6guwf6huabgovydarvwhjxiumhiswmccodm@xagpzm2gozdq>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git fs_for_v7.0-rc7
-X-PR-Tracked-Commit-Id: 102e57d56f81fa5c5ed78f576101d1bf1b3e6fe2
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: dbf00d8d23b43a7a1d717e704c50651731d01d71
-Message-Id: <177498188007.2857103.16938627228688543826.pr-tracker-bot@kernel.org>
-Date: Tue, 31 Mar 2026 18:31:20 +0000
-To: Jan Kara <jack@suse.cz>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, linux-fsdevel@vger.kernel.org
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="GbCrd7S/";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="UXUZA9Om"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 800E51400050;
+	Tue, 31 Mar 2026 15:14:16 -0400 (EDT)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-04.internal (MEProxy); Tue, 31 Mar 2026 15:14:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1774984456;
+	 x=1775070856; bh=2qDuSoZzFYhBvW0zARX8aWcBYydHA20yyvvWr3QXkMg=; b=
+	GbCrd7S/Hz7kuAczlaApsolK/1cCYgSFtN3DKf5x8jls+WqX1vgAMLjQsChwgJ2c
+	ReIc3wjun+nOwci6NBX7pL/43IcVUQAIfijbzf/P3UKePZl3u5oMV2G90Z4GKEIa
+	AYcux/qD4OGLbBww2FkDZEs8+6QxCFKVeEyqfk2GDletx4XlV/+Smp/wQubOdNcJ
+	PIb7/IpCg1510CapjvpLz/Vj/2LjQ3pLOp8BWsCOup1hicZnCoPK7u7m32guXZh5
+	gmM12hVg7Po83jJlA5bUur1sxfzl7GLof/RZORBs3ttHu2g9IwxP8uGzwWirmz9X
+	4bCD461wMP3DwOni3oeOvw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1774984456; x=
+	1775070856; bh=2qDuSoZzFYhBvW0zARX8aWcBYydHA20yyvvWr3QXkMg=; b=U
+	XUZA9OmLKQwHTrupNOy1AOBmSGJPjq6d4bTs6eDLJOPbhynRy58J7oo8os41/EtN
+	hkfmDLgoFpkBVOyMeVxjhSNBvbcJ2MY2+yw22JQ+iZy/uKCvnHtzYGI53/ZBtI1x
+	CAbw89NOFat996CHOzhaRZUCDqGshBBZ14xw3JZEr6PmcsGqu9lPCf0URmtbYxbs
+	gETAA2hkQMWG58BvJliCqBpSkcPJvqCP1Yf+C40g4LAw85brtJ8NmKFAMHoJVMPY
+	ux6UZ4E8m4CB3JXnECgHYFO04vaD1DgYJ4EWi4eyDipi21wZ71RR9f5DwyPEjkVj
+	zt8Te35C8WZlIVRwzugIA==
+X-ME-Sender: <xms:Bh3Macrfgd-X-NLeHlo1iaUf1K0mo8uxsNHckkhlhluT95DtperVbA>
+    <xme:Bh3MadeYIi-pUfmy4VY8xjiN5B_4JFTltAzCj80PkYeChy3nqOipoyJ6k5L40HWTA
+    518izZ1nxP0Vdh-JNvRQGrOa8dfr1pGuvCWkiJlUUVwKEQ8R5DUqmQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddutdduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceurghi
+    lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
+    epofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrnhguuceu
+    vghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvghrnh
+    epjefhudekueettedtffetvefhjeegteekhfehueeliefhhfegveehffehhedvjeffnecu
+    ffhomhgrihhnpehgihhthhhusgdrtghomhdplhifnhdrnhgvthenucevlhhushhtvghruf
+    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggv
+    pdhnsggprhgtphhtthhopeefvddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepsg
+    hpsegrlhhivghnkedruggvpdhrtghpthhtoheptgihphhhrghrsegthihphhgrrhdrtgho
+    mhdprhgtphhtthhopehmrghthhhivghurdguvghsnhhohigvrhhssegvfhhfihgtihhosh
+    drtghomhdprhgtphhtthhopegrlhgvgidrrghrihhnghesghhmrghilhdrtghomhdprhgt
+    phhtthhopehpvghtvghriiesihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopegsrh
+    gruhhnvghrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehjlhgrhihtohhnsehkvghr
+    nhgvlhdrohhrghdprhgtphhtthhopehjohhlshgrsehkvghrnhgvlhdrohhrghdprhgtph
+    htthhopehluhhtoheskhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:Bh3MaR-M2RqFepVSC2_SnxCbkIyTGO5lbGJocl0F1oiBSBqD2wnXmg>
+    <xmx:Bh3MaQFriY_pALQxMNfea6Av6q_Fo2x1zh3wj8Gwm7_h2Va7NjlMkw>
+    <xmx:Bh3Maan2arLgExdBizqPD2xsQV-7y-SaatYOjxegUIYX_b8E4GnwUQ>
+    <xmx:Bh3MafeWklBtKOIJWYwmtjPWTdfuBgsAzcWGvu7mV3N0Et7wO2slcA>
+    <xmx:CB3MaUX2w-QSEjNNZC5v7N-hvAUFEGiBpjHwY5yqrmM9UCL984NfRG5f>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id C3FFE700065; Tue, 31 Mar 2026 15:14:14 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+X-ThreadId: ALL_5dcvP_Dc
+Date: Tue, 31 Mar 2026 21:13:34 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Jori Koolstra" <jkoolstra@xs4all.nl>,
+ "Andy Lutomirski" <luto@kernel.org>, "Thomas Gleixner" <tglx@kernel.org>,
+ "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
+ "Dave Hansen" <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>, "Jeff Layton" <jlayton@kernel.org>,
+ "Chuck Lever" <chuck.lever@oracle.com>, shuah <shuah@kernel.org>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, "Jan Kara" <jack@suse.cz>,
+ "Alexander Aring" <alex.aring@gmail.com>
+Cc: "Peter Zijlstra" <peterz@infradead.org>,
+ "Oleg Nesterov" <oleg@redhat.com>,
+ "Andrey Albershteyn" <aalbersh@redhat.com>, "Jiri Olsa" <jolsa@kernel.org>,
+ "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>,
+ =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+ "Namhyung Kim" <namhyung@kernel.org>,
+ "Arnaldo Carvalho de Melo" <acme@redhat.com>,
+ "Aleksa Sarai" <cyphar@cyphar.com>, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ Linux-Arch <linux-arch@vger.kernel.org>, linux-kselftest@vger.kernel.org,
+ cmirabil@redhat.com, "Masami Hiramatsu" <mhiramat@kernel.org>
+Message-Id: <c2ea52f2-b232-404b-9ec6-75d8efae6bea@app.fastmail.com>
+In-Reply-To: <20260331172011.3512876-2-jkoolstra@xs4all.nl>
+References: <20260331172011.3512876-1-jkoolstra@xs4all.nl>
+ <20260331172011.3512876-2-jkoolstra@xs4all.nl>
+Subject: Re: [RFC PATCH 1/2] vfs: syscalls: add mkdirat_fd()
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-The pull request you sent on Tue, 31 Mar 2026 13:49:54 +0200:
+On Tue, Mar 31, 2026, at 19:19, Jori Koolstra wrote:
+> Currently there is no way to race-freely create and open a directory.
+> For regular files we have open(O_CREAT) for creating a new file inode,
+> and returning a pinning fd to it. The lack of such functionality for
+> directories means that when populating a directory tree there's always
+> a race involved: the inodes first need to be created, and then opened
+> to adjust their permissions/ownership/labels/timestamps/acls/xattrs/...,
+> but in the time window between the creation and the opening they might
+> be replaced by something else.
+>
+> Addressing this race without proper APIs is possible (by immediately
+> fstat()ing what was opened, to verify that it has the right inode type),
+> but difficult to get right. Hence, mkdirat_fd() that creates a directory
+> and returns an O_DIRECTORY fd is useful.
+>
+> This feature idea (and description) is taken from the UAPI group:
+> https://github.com/uapi-group/kernel-features?tab=readme-ov-file#race-free-creation-and-opening-of-non-file-inodes
+>
+> Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git fs_for_v7.0-rc7
+I checked that the calling conventions are fine, i.e. this will work
+as expected across all architectures. I assume you are also aware
+that the non-RFC patch will need to add the syscall number to all
+.tbl files.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/dbf00d8d23b43a7a1d717e704c50651731d01d71
+The hardest problem here does seem to be the naming of the
+new syscall, and I'm sorry to not be able to offer any solution
+either, just two observations:
 
-Thank you!
+- mkdirat/mkdirat_fd sounds similar to the existing
+  quotactl/quotactl_fd pair, but quotactl_fd() takes a file
+  descriptor argument rather than returning it, which makes
+  this addition quite confusing.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+- the nicest interface IMO would have been a variation of
+  openat(dfd, filename, O_CREAT | O_DIRECTORY, mode)
+  but that is a minefield of incompatible implementations[1],
+  so we can't do that without changing the behavior for
+  existing callers that currently run into an error.
+
+       Arnd
+
+[1] https://lwn.net/Articles/926782/
