@@ -1,32 +1,67 @@
-Received: from out30-112.freemail.mail.aliyun.com (out30-112.freemail.mail.aliyun.com [115.124.30.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5017E3F9F46;
-	Tue, 31 Mar 2026 15:11:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.112
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 046D236DA00
+	for <linux-fsdevel@vger.kernel.org>; Tue, 31 Mar 2026 15:15:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774969920; cv=none; b=FNwbotKrTnG7m1qEycI/MClaWQiflayIbxI9vj6QmH6kIxUcNfQU0Z0G8i/u4wqVbBEY70c3kPBwySYaR/5tTEDR9lQjLf277zC0XXcmy6MslEJNfVYIMbg9/Pc3LGmIgJgSy2Jg6sSPtG4Kgz2uwATQChGiIZUfRE8EY2DnpNw=
+	t=1774970111; cv=none; b=HzhYY6Lb9innjqtQBH2dNbtzTu1Nm9f2uDTsf7Rdv5R5kLtBTbWCrxNS0nD8gNHhU7+1/Q9G+YqPVlQmcF2IQ/2ErgeCOcD9krgr3ADcdvUhWZt2cO0ZwKjDOXOGut7QXBvt0u0+Hxlvch8C8VfpAgQFNaVd094OeO6Io/RNfiE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774969920; c=relaxed/simple;
-	bh=IsPIkDdoyxK/+wJSeEqBy4WPXr5xHukzBDsnvj7+aNY=;
+	s=arc-20240116; t=1774970111; c=relaxed/simple;
+	bh=0yXvBWHq43dtfBdz6S9QOEeNHyCE5HNgmXpZE9F+wfI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HV7pRaA7knbUWJYvqMbuBO51HOLEZiGlBARgoQOJBnTu9EWfawjDCoYuwBXYvVHKnQVHjXJje7/dA1A1oOlkwAj29EViar8f+45N3RF4IGHNjySSPfNcMlxw/Hi49AbvZ0+RDjHTLdUctz6eDi7CDZnT/QaKfjh6V5T73R2uLHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=vPuKvNCd; arc=none smtp.client-ip=115.124.30.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	 In-Reply-To:Content-Type; b=N3+abuKvezxcv9Wm3O0mo8RMaq8ZH0amuxBi5FXRIQFaLXWBNVIpr3Wgs/by9eXLHXQXvrpG3mHfjH7cWO0r41jLrVXLhtdOi881glxZRjFSkHNj05L9v+8LFt3R7GTZsg+WAE9Rv8t/dlXfHGvLZk/J3QKtsqFn7GzQXAgOzlE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=ePWJyPKI; arc=none smtp.client-ip=209.85.210.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="vPuKvNCd"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1774969913; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=i+nrivhWD5NTb/vZqEvDP+XAAng2CVzM0c4MjNWMQis=;
-	b=vPuKvNCdw63YUpeGaZ80L33WzYPimoGqpYycAPSuXxcisMoyzou4LdqxrSM3KAFtHWr9ZFR6M4wF0hu4d6LkmfzglQ8mgKeknD1T+AST9MHlRfV0IWjUX1NAhE9I0SjoSHPN+SBIJkWn2a0/Xdv/AGVUeNfORNws/G3Mck7GIpQ=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R121e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam011083073210;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=17;SR=0;TI=SMTPD_---0X04lGDE_1774969910;
-Received: from 30.41.54.139(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X04lGDE_1774969910 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Tue, 31 Mar 2026 23:11:51 +0800
-Message-ID: <eb46cf29-2ac5-4586-a76d-c6a9d7b6619f@linux.alibaba.com>
-Date: Tue, 31 Mar 2026 23:11:49 +0800
+	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="ePWJyPKI"
+Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-7d7653db148so3145213a34.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 31 Mar 2026 08:15:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1774970109; x=1775574909; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1PruSnKTPY/OhI7fw68fclrLaOE6FaNrTFnXsBVLrYM=;
+        b=ePWJyPKI57qE+Jw3kpqjcvLhwfCWxMrm+YBweCfgFN8IG2zVOd718/7EwlDYqkkvxy
+         tbIO3mEAWjr/I/VLDCeIbKCtRIDsTC5ncjEm1lJoXGyHEaJPyVypkkL9lV8exaZMB5C/
+         K8csw/4fAmcFkfA3qeMoLujCTeFXe2IZsfCoIB0yZjrW+q4bKeoVpazKsjmU5u5nZfQc
+         GyuotXHGhHIp70eCD+8ybgwsXxl+xogJdDskyChS5vXgcZ1MUdQWJc+hOWS9xcd7HSTb
+         RjKZNc/BrgeBOnHHEAcxebGVudeh9zR2Zu2FByqWwrT/CWU4jpWtLHzEcA9/y8+zYeuC
+         FNSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774970109; x=1775574909;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1PruSnKTPY/OhI7fw68fclrLaOE6FaNrTFnXsBVLrYM=;
+        b=SSLDDSSrst7FcwSgia1rhHEx6mVkWWjvaDFLgP4HbhDDlMd0b/Cxk8JBhIyfrROx4f
+         UaT5rO64M9z5lK2RXMzZA595rI1Bk3mWX536c2HNUrafIM1bZ+fHm+BLQffrsWvwRZQT
+         2p3zVCSCbajPWrhQXltv5yv7ncuhwVhOmuIyeO/UT4Ferqw+VfQxVMkHlBQ/exCZuBcs
+         98Wy+Dmcot6pj3Z/sLRGCrNwgA1EvZq0rKUYp8e49I0hTimX24YAL1nRObfRQmaJ01sT
+         TKYiP1mH/51siYs8wwXqb2ouw1YIdcekLyvvr5gDfwhZYxjUPZ73AwAC53Ibiao4Sews
+         o5jA==
+X-Forwarded-Encrypted: i=1; AJvYcCUnTO7L2jOTRGaKUY3LnHGDJF/2w+HhNWpmjZ6ssSbiifQV7d6nwstZdDMyncpVGEcsG8h5x9sFQB04nJDj@vger.kernel.org
+X-Gm-Message-State: AOJu0YwRWwH4QHhilcW3/9RqhbufJilpNaSdCjLO+v83A+/TOStlzfrb
+	aNN9WtL8OdIa3Xb3JgeQU+SVBXv/QCtnyMOjng+Ee4XIYjt7t+4DOxWfMnBmqDMMJkQ=
+X-Gm-Gg: ATEYQzwjWU3LAjq90QGHsNHLASEbMy4TbnPL8RafnqhnaojQZ+COd2HRHUlyLffusCG
+	CUREELJId64Sgzugxpoq4OXTWjtmv/3qocTgNSlWCeDdVsHQR22ekZ5rZra+7cTraB1gU4RdK1o
+	QHnXYnGkjct3f+kjOuaCuV8IgQVpdT21Udcak9q/v3c2FjmniPAAS7sIzweAgiuae1BeLVamElh
+	eZ6fbN+0jhfw5EdgSgQfkEH+x4FJ7t1HPN+DT8q70Cbs6a5gte1qXpndeTuBZO9XB7B3N8n8q7D
+	0tnL9hfyqPIUY3UbAK2aXUShC8J8+3KAXo6MrQ/MZL6m8IDpA3qxv0r6BmBStzBV9dQMH789+Of
+	kIVxKCbdRqcSnmJeDaO7VcEm3+gYmP0ZzmOKWTuSjnGSTqvUfCbIsUn85Bb7L0GV4AqSl7IHlon
+	RxO0UmzipjES1IUL/DdynXGWr5XUwDUx/YgZREn1wV0SYgc+VjR/vrYt80LG+VjrN7Y7GCTWqxF
+	tBucTRPGQ==
+X-Received: by 2002:a05:6830:2a8b:b0:7d7:ef4a:5ba3 with SMTP id 46e09a7af769-7db9924e0b2mr8769a34.11.1774970108851;
+        Tue, 31 Mar 2026 08:15:08 -0700 (PDT)
+Received: from [192.168.1.150] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7da3356d8c5sm2767632a34.14.2026.03.31.08.15.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 31 Mar 2026 08:15:08 -0700 (PDT)
+Message-ID: <fa551c4c-7e9b-47b4-9011-92adc880ed1a@kernel.dk>
+Date: Tue, 31 Mar 2026 09:15:07 -0600
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -34,66 +69,36 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] vfs: limit directory child dentry retention
-To: Mateusz Guzik <mjguzik@gmail.com>
-Cc: Christian Brauner <brauner@kernel.org>, Ian Kent <raven@themaw.net>,
- Al Viro <viro@zeniv.linux.org.uk>, Miklos Szeredi <miklos@szeredi.hu>,
- Eric Sandeen <sandeen@sandeen.net>, Frank Sorenson <fsorenso@redhat.com>,
- Jay Shin <jaeshin@redhat.com>, Linus Torvalds
- <torvalds@linux-foundation.org>, Yafang Shao <laoar.shao@gmail.com>,
- Jan Kara <jack@suse.cz>, Waiman Long <longman@redhat.com>,
- Matthew Wilcox <willy@infradead.org>, Wangkai <wangkai86@huawei.com>,
- Colin Walters <walters@verbum.org>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20260331012925.74840-1-raven@themaw.net>
- <20260331012925.74840-2-raven@themaw.net>
- <20260331-engste-raushalten-f66cd264ce77@brauner>
- <4184b060-2923-4722-9899-c85238b8e3eb@linux.alibaba.com>
- <6qfk57jj64a2t2mwjsldtvne6ooctpnfhpwisexctlntqa5mpq@s2lumil5gddf>
-From: Gao Xiang <hsiangkao@linux.alibaba.com>
-In-Reply-To: <6qfk57jj64a2t2mwjsldtvne6ooctpnfhpwisexctlntqa5mpq@s2lumil5gddf>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH] splice: prevent deadlock when splicing a file to itself
+To: Christoph Hellwig <hch@infradead.org>,
+ Deepanshu Kartikey <kartikey406@gmail.com>
+Cc: viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ syzbot+d31a3b77e5cba96b9f69@syzkaller.appspotmail.com
+References: <20260320130615.1109449-1-kartikey406@gmail.com>
+ <acvkAuq4_cWmegC7@infradead.org>
+Content-Language: en-US
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <acvkAuq4_cWmegC7@infradead.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi,
-
-On 2026/3/31 22:59, Mateusz Guzik wrote:
-> On Tue, Mar 31, 2026 at 05:54:01PM +0800, Gao Xiang wrote:
->> JFYI, another issue we once observed on user workloads is that
->>
->> `d_lockref.count` can exceed `int` on very very large
->> directories in reality (also combined with cached
->> negative dentries).
->>
->> It can be a real overflow, this commit can help but it
->> doesn't strictly resolve this, anyway.
+On 3/31/26 9:10 AM, Christoph Hellwig wrote:
+> On Fri, Mar 20, 2026 at 06:36:15PM +0530, Deepanshu Kartikey wrote:
+>> Fix this by checking if the input and output files share the
+>> same inode before proceeding, returning -EINVAL if they do.
+>> This mirrors the existing check in do_splice() for the
+>> pipe-to-pipe case where ipipe == opipe.
 > 
-> 
-> Another way to contribute to the problem is to mass open the same file,
-> which results in one ref per fd.
-> 
-> Or to put it differently, sooner or later the dentry refcount will have
-> to switch to 64 bits on 64 bit systems.
+> While restricting splice to be between difference inodes sounds like a
+> nice simplification, I'm not sure we can add it 20 years after the
+> syscall was added.
 
-Yes, but my own basic question on this is that do we
-really need 64-bit refcount for each dentry?
+Well if we could break splice all over with:
 
-  - do we need to cache so many child dentries at the
-    same time? some real use case?
+36e2c7421f02 ("fs: don't allow splice read/write without explicit ops")
 
-  - do we need to cache so many negative dentries for
-    a single directory?
+then surely this one would be OK too?
 
-  - do we need to really care mass open the same file?
-
-or just find a way to error out blindly when the
-refcount is nearly overflowed? together with this
-retain_dentry() change to make cached dentries
-in the low watermark.
-
-just my .2 cents since currently I don't work on
-vfs stuffs.
-
-Thanks,
-Gao Xiang
+-- 
+Jens Axboe
