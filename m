@@ -1,31 +1,31 @@
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF0C740DFCA
-	for <linux-fsdevel@vger.kernel.org>; Tue, 31 Mar 2026 05:46:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 387D529ACDD
+	for <linux-fsdevel@vger.kernel.org>; Tue, 31 Mar 2026 05:49:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774935991; cv=none; b=ijqNxPqP5yeb6omWSQBIqq2P8ynpDZwhUpxENSt1NJaD07svu6uTirZ0dsjAHcG24EDT5Z4JmkUavGNAE3TovLuxpR+tQHJCu+Sd8zjAMBOm80EDVQcWaK+uWPFVv/0WAei45D7QGKGHfxW6+/r9Dn/OkBWHmpR03B0hfFv/p70=
+	t=1774936148; cv=none; b=q+/RwkcroNb5d1X4a/12rZ9oWhICtPVIjgZt0+9edFiuQ6Zb8zYzb/7f7/IjT4Cjzc22le/Dzxt0KReXt/lZ77Iq7SxoPWzdk1U865cn32zFBzFJJoSTGZs4+s07TinC0STqAg34RupxkxWxCz/6wiJN8mRP7oyPoo5z9KG4cMo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774935991; c=relaxed/simple;
-	bh=SMQ8Sxi3RYNkbeYMjt5U2Q0++YFu1+Y5xYQoQ7Q1W+w=;
+	s=arc-20240116; t=1774936148; c=relaxed/simple;
+	bh=ukag4235Gu1zYmeXxwL/ORBYT/L43X9QZMEmXrcKaLo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=azxyjXOoN1Ie6RThsm4S0yXhMRGUOTl3Ccb06HCPWIM/KsUusl4aTgPlx805Vd7Z6Dt3A0f5q8BExe9Qh2dYDNGmn59KcJ1x20PsF6a6MWjFON+b6OdxCe2HlJOBT3xD7t/K+qoW5xNQgfvCzu9eFslad82JXbNxn8mWT16CCgs=
+	 Content-Type:Content-Disposition:In-Reply-To; b=HcvVSGhxLrg9ETFJA0r0RTWpgc5mqz5Y/D6YedvT7O7pT7E8KpKOwCxbIe/VNl88UDrYJa8FRnF7if4B8K2feqV6VTP6pVmIGmpSH0tcoHhzOxgDgBeZp7/VHnxPJmIFTGRVdWQex5zW03qfDDXzmrkbJF9yA+NjcyEYnFH/OVI=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 3D7DD68B05; Tue, 31 Mar 2026 07:46:16 +0200 (CEST)
-Date: Tue, 31 Mar 2026 07:46:16 +0200
+	id 3B50568B05; Tue, 31 Mar 2026 07:49:00 +0200 (CEST)
+Date: Tue, 31 Mar 2026 07:48:59 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Namjae Jeon <linkinjeon@kernel.org>
 Cc: Christoph Hellwig <hch@lst.de>, sj1557.seo@samsung.com,
 	yuezhang.mo@sony.com, linux-fsdevel@vger.kernel.org,
 	anmuxixixi@gmail.com, dxdt@dev.snart.me, chizhiling@kylinos.cn,
-	chizhiling@163.com
-Subject: Re: [PATCH 3/5] exfat: add iomap buffered I/O support
-Message-ID: <20260331054616.GA31506@lst.de>
-References: <20260326115045.9525-1-linkinjeon@kernel.org> <20260326115045.9525-4-linkinjeon@kernel.org> <20260330063821.GC5897@lst.de> <CAKYAXd9pZx1g=53wtCh0xTVYgQCLNz1sEL-2-fHbkSHQ=qTiTg@mail.gmail.com>
+	chizhiling@163.com, "Darrick J. Wong" <djwong@kernel.org>
+Subject: Re: [PATCH 1/5] exfat: add iomap support
+Message-ID: <20260331054859.GB31506@lst.de>
+References: <20260326115045.9525-1-linkinjeon@kernel.org> <20260326115045.9525-2-linkinjeon@kernel.org> <20260330063059.GA5897@lst.de> <CAKYAXd_uzuyfz6BBNPxDDiN9GRSoqOWPe__kKx=UbZNxVG70QQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -34,18 +34,28 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAKYAXd9pZx1g=53wtCh0xTVYgQCLNz1sEL-2-fHbkSHQ=qTiTg@mail.gmail.com>
+In-Reply-To: <CAKYAXd_uzuyfz6BBNPxDDiN9GRSoqOWPe__kKx=UbZNxVG70QQ@mail.gmail.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Tue, Mar 31, 2026 at 02:22:57PM +0900, Namjae Jeon wrote:
-> There is a deadlock issue when using iomap_dio_rw(). In
-> exfat_write_iter(), the inode lock is held while calling iomap_dio_rw.
-> generic_write_sync()->__generic_file_fsync() in iomap_dio_complete()
-> can be triggered, which attempts to acquire the inode lock again.
+On Tue, Mar 31, 2026 at 02:26:55PM +0900, Namjae Jeon wrote:
+> > Can you explain the logic here?  Shouldn't the iomap buffered I/O
+> > code do all the needed zeroing for you based on the map type?  If not
+> > how could we enhance the core iomap code so that we don't need this
+> > in the file system, which feels like a bit of break of abstraction
+> > barriers?
+> The reason we have exfat_iomap_put_folio() is because of exFAT's
+> VDL(->valid_size). When we map a range beyond ->valid_size, if we set
+> the map type to IOMAP_UNWRITTEN, iomap_zero_range() does not perform
+> zeroing.
+> However, if we set it to IOMAP_MAPPED, then iomap_zero_range() treats
+> the area beyond ->valid_size as valid data and could expose
+> uninitialized garbage data from disk. So it explicitly zero out the
+> portion beyond ->valid_size in exfat_iomap_put_folio().
+> I agree that it would be better if core iomap could handle this case by itself.
+> I'll check whether we can improve the core iomap layer to avoid
+> filesystem-specific put_folio handling for ->valid_size.
 
-Can you document this?  Note that Jan has looked into __generic_file_fsync
-and decided i_rwsem isn't needed there.  So maybe as a first step just
-switch exfat to generic_buffers_fsync_noflush, which doesn't need this
-(or way if/when Jan's series gets merged) and keep using a generic
-version?  If not document in the commit log why this is changed.
+I suspect just adding a new IOMAP_ type for this should be fine, as
+the above description sounds coherent enough to add it to documentation.
+I just can't really think of a good name.
 
