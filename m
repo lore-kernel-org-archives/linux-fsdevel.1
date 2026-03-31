@@ -1,183 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp3-g21.free.fr (smtp3-g21.free.fr [212.27.42.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 778E53CD8AB;
-	Tue, 31 Mar 2026 20:06:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B58AF3590A9;
+	Tue, 31 Mar 2026 20:25:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.27.42.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774987615; cv=none; b=nmR21ewLYmIsRs/BUfblyIsMf4tnhI6Z5LobKb8C5+oxnLGBdOxIYR8+l2bSs3WXixpzzpBzogJ+iwC1LP0wTlX45GK0axKAamFmZqomjFzss80Pu+IEuq4Ld3vRjawmepxTOO4Mz5/lnOtHtZUGEuLpE46k44J4hLwJN1HTHFo=
+	t=1774988755; cv=none; b=kfyg6PBAAP7SG8wPfOqJkfE8kRUnR5A8YsuXvCAtcw9fNGgbK6wvx12WoiYy9zED/yfDsfMW7pTr0nadFvnDAKCGfuNw8lkKNxMYA44n6mlkHx4+jCakgaL/dlPdhrd9ta7v9W8n51DkLm+i2YqesqfWzORdDREsA84xlKZR53c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774987615; c=relaxed/simple;
-	bh=yNE9XdENUCLCR9P7QFfz5ND6IL4GtO6e4I36adWzh7w=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=H+dn3A6mP6iGcu2LFamBkXD9Zp/poTxSUfVQ7SL//nUQ5cucN0YNINbMD9YMhWaKeMudUUphs4sbutq+yjlNW73BJeyWutLF0E0c41QnD7siSGGEGsrxgH4WSOt4cBzjhR8szcvpBOdalYWXLgwaPlMo3wHaD6vs8WDzTrYO6YU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qcYHqGAL; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qcYHqGAL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BB49C2BC9E;
-	Tue, 31 Mar 2026 20:06:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774987614;
-	bh=yNE9XdENUCLCR9P7QFfz5ND6IL4GtO6e4I36adWzh7w=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=qcYHqGALhsV5YxMDOCEHl/6wBdKs+9EvzIcfCSwc0ht5Mh3syn6BQcNM5U/RMucjp
-	 2oGMR5SgSSQkPmWdnZ5k/un6zPKb6ia0A+uF2CQq+64OxqM443XFt4GR1yftK8QOa8
-	 xB2YNeGUi/HjvSWYhddZTlm9jugmhFC+B6cGtuHIlyZFxNA6fWd3unyH9W/gqMHmjQ
-	 X1zv1/JxHPllWQgKgEE6xqd/eN4dVbaMYnTxvCQ4edTcvrC5CdGwokQklMICBiU0M/
-	 Gs0h8PG9itkyhZX92E6wCa0SyzzpxARx+YITerFFQtW+HrCjZQZM3v4OkH7Z89KAKv
-	 R2lOWYkryMrxg==
-From: Chuck Lever <cel@kernel.org>
-Date: Tue, 31 Mar 2026 16:06:12 -0400
-Subject: [PATCH v6 5/5] NFSD: Track svc_export in nfs4_stid
+	s=arc-20240116; t=1774988755; c=relaxed/simple;
+	bh=sJT8kMf7d4IPQrWuI+jNDGT9jVMf5s6JT+I5ZqnAs5I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ndy8E7bDVlZyx7SAWv7+UJD0wxJNdLV7aPv0rIFlzOuW71d7YAyio01AGqGo+NxljNrxNkQ+yn/1muSFl/gerKqto+oWK0Zz2LchS2rPPi2hFJ3Fyrb9txRpEQ2+Xesug93QD5EF9kSdD+u5cjPQaCMYtfGkCllw08H/Gpjejy4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=droneaud.fr; spf=pass smtp.mailfrom=droneaud.fr; arc=none smtp.client-ip=212.27.42.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=droneaud.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=droneaud.fr
+Received: from [IPV6:2a01:e0a:263:a640:d1:87bf:b1a6:8517] (unknown [IPv6:2a01:e0a:263:a640:d1:87bf:b1a6:8517])
+	(Authenticated sender: ydroneaud@free.fr)
+	by smtp3-g21.free.fr (Postfix) with ESMTPSA id 92A1E13F8AD;
+	Tue, 31 Mar 2026 22:25:05 +0200 (CEST)
+Message-ID: <df5a6fec-ca67-4196-9e7b-cd129c79578e@droneaud.fr>
+Date: Tue, 31 Mar 2026 22:25:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260331-umount-kills-nfsv4-state-v6-5-18250f95f22a@oracle.com>
-References: <20260331-umount-kills-nfsv4-state-v6-0-18250f95f22a@oracle.com>
-In-Reply-To: <20260331-umount-kills-nfsv4-state-v6-0-18250f95f22a@oracle.com>
-To: NeilBrown <neil@brown.name>, Jeff Layton <jlayton@kernel.org>, 
- Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, 
- Tom Talpey <tom@talpey.com>
-Cc: linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- Chuck Lever <chuck.lever@oracle.com>
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3715;
- i=chuck.lever@oracle.com; h=from:subject:message-id;
- bh=fRzEgtFzah7t1T2HFOw9L+p0YXQZx32YLDhr48ktNOk=;
- b=owEBbQKS/ZANAwAKATNqszNvZn+XAcsmYgBpzClaaygcFdUYoHuc6jyIzsM0kHN9swXwn/9OQ
- 4aDJIyGNCiJAjMEAAEKAB0WIQQosuWwEobfJDzyPv4zarMzb2Z/lwUCacwpWgAKCRAzarMzb2Z/
- l2R5D/4nDImC9b6aec/fxn/YcNyiS9qYqQeNokJRvgOkqCiepmBYw0E78BEs/0sEDpJA7A+jark
- YblOzl3WT2jBeKxWoQEicq5Xp1beMzn91DoB0/QSafC3vwqY1SX0peh4IKV63F8l3pEdfDmo2Tk
- PY6YlYeddmNRQP6FtEvHLAvZpoX0XJcESrYKBvran+wqWMg+sTDXOpp8P0zpmzee0TWe4AwhNKJ
- o586PRNYH1Ncond208lOAifK2TvELeUAJtX2dROdhtD5ChaPhCNm3lxQ50cN/Sgjg/56t1GW1ap
- S2xeHgxSjq/tfuGX0Xp18Uv1zQQndKhZJULUe6S0kyYWIKlXhikQuxuiEZbSaqjj/DVe48150PY
- yV0en4JGKR8xTufWQ9zBSN09z9+QzUhrVk8llgw/DfDvlHeJpVMLUBnkXVOn3iVrbv20ZUWkaRV
- ADJ5HB60IVgGi2c2SJ+g34M3/QdyaCoWqWnWxYTS29iN7vQHFBxGKHAxLPNVFSTUA5Is23YnMHA
- N3fvatXIlHpCg3vqsQV6ArZdtKJQgBkuB7O60rhjDsHQRGdXDTP8feD1ewd2wdzehhPcaw3TXOo
- JueCP6cyuzf1X/Gpsd1W1ZOijZJLQMxJE/GX6xpX12gbNPNr+FoTDpQu0uDg/q+SLdop+evQ6zy
- KIdkCnjBUEmyjSA==
-X-Developer-Key: i=chuck.lever@oracle.com; a=openpgp;
- fpr=28B2E5B01286DF243CF23EFE336AB3336F667F97
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 1/2] vfs: syscalls: add mkdirat_fd()
+To: Jori Koolstra <jkoolstra@xs4all.nl>, Andy Lutomirski <luto@kernel.org>,
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jeff Layton <jlayton@kernel.org>,
+ Chuck Lever <chuck.lever@oracle.com>, Arnd Bergmann <arnd@arndb.de>,
+ Shuah Khan <shuah@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>,
+ Alexander Aring <alex.aring@gmail.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, Oleg Nesterov <oleg@redhat.com>,
+ Andrey Albershteyn <aalbersh@redhat.com>, Jiri Olsa <jolsa@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+ Namhyung Kim <namhyung@kernel.org>,
+ Arnaldo Carvalho de Melo <acme@redhat.com>, Aleksa Sarai
+ <cyphar@cyphar.com>, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ cmirabil@redhat.com, "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+References: <20260331172011.3512876-1-jkoolstra@xs4all.nl>
+ <20260331172011.3512876-2-jkoolstra@xs4all.nl>
+Content-Language: fr-FR, en-US, en-GB
+From: Yann Droneaud <yann@droneaud.fr>
+In-Reply-To: <20260331172011.3512876-2-jkoolstra@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-From: Chuck Lever <chuck.lever@oracle.com>
+Hi,
 
-Add an sc_export field to struct nfs4_stid so that each stateid
-records the export under which it was acquired.  The export
-reference is taken via exp_get() at stateid creation and released
-via exp_put() in nfs4_put_stid().
+Le 31/03/2026 à 19:19, Jori Koolstra a écrit :
+> Currently there is no way to race-freely create and open a directory.
+> For regular files we have open(O_CREAT) for creating a new file inode,
+> and returning a pinning fd to it. The lack of such functionality for
+> directories means that when populating a directory tree there's always
+> a race involved: the inodes first need to be created, and then opened
+> to adjust their permissions/ownership/labels/timestamps/acls/xattrs/...,
+> but in the time window between the creation and the opening they might
+> be replaced by something else.
+>
+> Addressing this race without proper APIs is possible (by immediately
+> fstat()ing what was opened, to verify that it has the right inode type),
+> but difficult to get right. Hence, mkdirat_fd() that creates a directory
+> and returns an O_DIRECTORY fd is useful.
+>
+> This feature idea (and description) is taken from the UAPI group:
+> https://github.com/uapi-group/kernel-features?tab=readme-ov-file#race-free-creation-and-opening-of-non-file-inodes
+>
+> Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
+> ---
+>   arch/x86/entry/syscalls/syscall_64.tbl |  1 +
+>   fs/internal.h                          |  1 +
+>   fs/namei.c                             | 26 ++++++++++++++++++++++++--
+>   include/linux/fcntl.h                  |  2 ++
+>   include/linux/syscalls.h               |  2 ++
+>   include/uapi/asm-generic/fcntl.h       |  3 +++
+>   include/uapi/asm-generic/unistd.h      |  5 ++++-
+>   scripts/syscall.tbl                    |  1 +
+>   8 files changed, 38 insertions(+), 3 deletions(-)
 
-Open stateids record the export from current_fh->fh_export.
-Lock stateids and delegations inherit the export from their
-parent open stateid. Layout stateids inherit from their
-parent stateid. Directory delegations record the export from
-cstate->current_fh.
+> diff --git a/include/linux/fcntl.h b/include/linux/fcntl.h
+> index a332e79b3207..d2f0fdb82847 100644
+> --- a/include/linux/fcntl.h
+> +++ b/include/linux/fcntl.h
+> @@ -25,6 +25,8 @@
+>   #define force_o_largefile() (!IS_ENABLED(CONFIG_ARCH_32BIT_OFF_T))
+>   #endif
+>   
+> +#define VALID_MKDIRAT_FD_FLAGS	(MKDIRAT_FD_NEED_FD)
+> +
 
-A subsequent commit uses sc_export to scope state revocation to a
-specific export, avoiding the need to walk inode dentry aliases at
-revocation time.
+I don't see support for O_CLOEXEC-ish flag, is the file descriptor in 
+close-on-exec mode by default ? If yes, it should be mentioned.
 
-Reviewed-by: Jeff Layton <jlayton@kernel.org>
-Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
----
- fs/nfsd/nfs4layouts.c |  2 ++
- fs/nfsd/nfs4state.c   | 16 +++++++++++++++-
- fs/nfsd/state.h       |  1 +
- 3 files changed, 18 insertions(+), 1 deletion(-)
 
-diff --git a/fs/nfsd/nfs4layouts.c b/fs/nfsd/nfs4layouts.c
-index 69e41105efdd..83d8fda53efd 100644
---- a/fs/nfsd/nfs4layouts.c
-+++ b/fs/nfsd/nfs4layouts.c
-@@ -247,6 +247,8 @@ nfsd4_alloc_layout_stateid(struct nfsd4_compound_state *cstate,
- 
- 	get_nfs4_file(fp);
- 	stp->sc_file = fp;
-+	if (parent->sc_export)
-+		stp->sc_export = exp_get(parent->sc_export);
- 
- 	ls = layoutstateid(stp);
- 	INIT_LIST_HEAD(&ls->ls_perclnt);
-diff --git a/fs/nfsd/nfs4state.c b/fs/nfsd/nfs4state.c
-index 518dc74862ad..f8d7656f6dad 100644
---- a/fs/nfsd/nfs4state.c
-+++ b/fs/nfsd/nfs4state.c
-@@ -1168,6 +1168,7 @@ alloc_init_deleg(struct nfs4_client *clp, struct nfs4_file *fp,
- void
- nfs4_put_stid(struct nfs4_stid *s)
- {
-+	struct svc_export *exp = s->sc_export;
- 	struct nfs4_file *fp = s->sc_file;
- 	struct nfs4_client *clp = s->sc_client;
- 
-@@ -1183,6 +1184,8 @@ nfs4_put_stid(struct nfs4_stid *s)
- 	nfs4_free_cpntf_statelist(clp->net, s);
- 	spin_unlock(&clp->cl_lock);
- 	s->sc_free(s);
-+	if (exp)
-+		exp_put(exp);
- 	if (fp)
- 		put_nfs4_file(fp);
- }
-@@ -6173,6 +6176,8 @@ nfs4_set_delegation(struct nfsd4_open *open, struct nfs4_ol_stateid *stp,
- 	dp = alloc_init_deleg(clp, fp, odstate, dl_type);
- 	if (!dp)
- 		goto out_delegees;
-+	if (stp->st_stid.sc_export)
-+		dp->dl_stid.sc_export = exp_get(stp->st_stid.sc_export);
- 
- 	fl = nfs4_alloc_init_lease(dp);
- 	if (!fl)
-@@ -6507,8 +6512,11 @@ nfsd4_process_open2(struct svc_rqst *rqstp, struct svc_fh *current_fh, struct nf
- 			goto out;
- 		}
- 
--		if (!open->op_stp)
-+		if (!open->op_stp) {
- 			new_stp = true;
-+			stp->st_stid.sc_export =
-+				exp_get(current_fh->fh_export);
-+		}
- 	}
- 
- 	/*
-@@ -8204,6 +8212,9 @@ init_lock_stateid(struct nfs4_ol_stateid *stp, struct nfs4_lockowner *lo,
- 	stp->st_stateowner = nfs4_get_stateowner(&lo->lo_owner);
- 	get_nfs4_file(fp);
- 	stp->st_stid.sc_file = fp;
-+	if (open_stp->st_stid.sc_export)
-+		stp->st_stid.sc_export =
-+			exp_get(open_stp->st_stid.sc_export);
- 	stp->st_access_bmap = 0;
- 	stp->st_deny_bmap = open_stp->st_deny_bmap;
- 	stp->st_openstp = open_stp;
-@@ -9530,6 +9541,9 @@ nfsd_get_dir_deleg(struct nfsd4_compound_state *cstate,
- 	dp = alloc_init_deleg(clp, fp, NULL, NFS4_OPEN_DELEGATE_READ);
- 	if (!dp)
- 		goto out_delegees;
-+	if (cstate->current_fh.fh_export)
-+		dp->dl_stid.sc_export =
-+			exp_get(cstate->current_fh.fh_export);
- 
- 	fl = nfs4_alloc_init_lease(dp);
- 	if (!fl)
-diff --git a/fs/nfsd/state.h b/fs/nfsd/state.h
-index 953675eba5c3..7d7e99eeffa5 100644
---- a/fs/nfsd/state.h
-+++ b/fs/nfsd/state.h
-@@ -145,6 +145,7 @@ struct nfs4_stid {
- 	spinlock_t		sc_lock;
- 	struct nfs4_client	*sc_client;
- 	struct nfs4_file	*sc_file;
-+	struct svc_export	*sc_export;
- 	void			(*sc_free)(struct nfs4_stid *);
- };
- 
+> diff --git a/include/uapi/asm-generic/fcntl.h b/include/uapi/asm-generic/fcntl.h
+> index 613475285643..621458bf1fbf 100644
+> --- a/include/uapi/asm-generic/fcntl.h
+> +++ b/include/uapi/asm-generic/fcntl.h
+> @@ -95,6 +95,9 @@
+>   #define O_NDELAY	O_NONBLOCK
+>   #endif
+>   
+> +/* Flags for mkdirat_fd */
+> +#define MKDIRAT_FD_NEED_FD	0x01
+> +
 
--- 
-2.53.0
+
+Regards.
+
 
