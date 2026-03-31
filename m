@@ -1,128 +1,146 @@
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com [209.85.161.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17CEF36B046
-	for <linux-fsdevel@vger.kernel.org>; Tue, 31 Mar 2026 15:24:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0BA0407104
+	for <linux-fsdevel@vger.kernel.org>; Tue, 31 Mar 2026 15:27:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774970673; cv=none; b=Rzxzt3fAj9sne1Hb52LX/64iM3AGK5Idueb87C1YpgeoH3Man8pK/FQSprpmelkk2mFyhxPfy+yqA8VxK51At8TYJV+0HlTnIJUQoBQ05/xg+rROz57EWNr274DVndsJWiwWzRRu1REYu7Xq5+uPs0AnIYnLp771sj8RShAHojY=
+	t=1774970877; cv=none; b=Zp4lxloHRwu0Adji0q0aB+B3N15x78onQK6rLXsZv3Xb2PAFnf6wUYR3rPA4tODlLhi55WSRese/vQti9F5MyYzeR/HExupSBA3rnJb7YjgvKZweSVA13GfgnWWrxXEUxpHaM/KNEm0N8FKxCXCzC4zcyuwUXnV+wWdTvFmt2tc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774970673; c=relaxed/simple;
-	bh=ldSTm4EWaCOx+pwbIQI8ZcZgJB7UuIot9wRDbRrsEVU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=c5QztHriEHnWW+RbHk1dgWyiU0RVrr+fTDXpM9tarG9a8kWmGjpGwpqvWuNysaOn1xuLGZlGzM81XA869kTbcgG5Z2slCiXsTtwj/tn0vw4aEmvI1P7q0i1G6QH2TmUQdXWM/KFBMoLqunb1x4iEo9yrf901Nwb0XqyyymLEufw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=QMY1/BbE; arc=none smtp.client-ip=209.85.210.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="QMY1/BbE"
-Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-7d7e565c877so2838277a34.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 31 Mar 2026 08:24:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1774970671; x=1775575471; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NKPrNSDcQjGjdl2sN+7+/jouhXcRgam12FF4jGlIj3Q=;
-        b=QMY1/BbEPjWKzbJNoRxdHsYowhSNI6nfD4sqrYj+YUt2JRoxnth/LHjpUbY8iBc0mh
-         Cq9VdsWK8hrDST7u3zNtMpVCNevvGuUwmzh/WazI/m+6WsBC+/7JXPw4Cn2XW+RRkCD+
-         3I+CJYwr1lMpqcCqq+0DjQ0IdcPDeL4bMJILdcBmqWjDuN/p7qnPUnNWzIXP2o6kVE/x
-         h9E5LBkCIHREFzZFuniZUT4HQQvQxV4jNqcDGkjMHwgYkjHtmVF4JWnJyjdDupCz/FNM
-         scQCmN2/LJQF59Y+P37kC0a6/BA8g6XeDcAWmxbFNuG4nNnFNlPM1t5VVnut78ofFwQR
-         mpuw==
+	s=arc-20240116; t=1774970877; c=relaxed/simple;
+	bh=ZeV/HTpCnlpuMTI6n7oNBTLP3emgGYWZl2w3UzH6p0Q=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=KwiyvKK27NXvbWhk9vahZxP7CJ4Chl81cYkoYZ1nSk2T74NR+JEOaWq2jedhkg62HnritcJv2bKnnMTssWLb16kG1I7MLgmXIhDFW7/VI8SwKutk7Gg+4Si7Z1fePdhOtBKa6s/xFwJz+RnW2+sBUdeZkGRjHO18EXnbp0gOmLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f69.google.com with SMTP id 006d021491bc7-67e1381ac1dso21192520eaf.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 31 Mar 2026 08:27:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774970671; x=1775575471;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NKPrNSDcQjGjdl2sN+7+/jouhXcRgam12FF4jGlIj3Q=;
-        b=pFsFpPx+oiHYYiFZfc8WyF6KfB8fg2vKBdFgzcUkZ8OAKpw/zM4YkmVVv3NfJchF2q
-         OzJR/nDxDZB2lKFN5HswudZHdxmqcoPIzhPBYjnR4sIzoAgVmt/vwnCFEHyfaWKR2swm
-         9OPQPQptM5lMDP9Vsg1adK2aHKWpcxCwGcDPJmBU+dTEx5F4EpN0erKK0T9cqFuHZL0z
-         8ZfySYnQWX/sOaiB3tuDgth+VNILpEEoqIffZmONOlCtNObg6cxAzlKLPlnS/fqsgbVL
-         d7Uv7BXSUhYuJoyCnX58mpQnybnUBx3vlfx9kEmWDM+l8E6tflgmqYDBW03cB8zmIEVd
-         R96g==
-X-Forwarded-Encrypted: i=1; AJvYcCWS3A6sxMrqPPv2Ll9+IvIVuB623zuzbvnT7l8NE/QWlSUyg8sr3DOCIPQdYy37ko9HGaQvCAajbXSLg3VK@vger.kernel.org
-X-Gm-Message-State: AOJu0YwQlmZmYQ3Ff1cpp8P1J9jhjo7C4IKVZ6YRzYUBjkY9FhCTpyPF
-	1CYDlNnf7gtA/ZwiZ1MwtWS1i1o582iPYDx+C370/GSR1J8xuOJbP6QkflIgshYjdjs=
-X-Gm-Gg: ATEYQzwsTtz5lHMpLyfpSynpsFHbKz0XGiuZmogve1TK/5I1f9aIVd5VHenI+M7JvjP
-	NpV94jYeF4ragdPtgPwZ9Smi9vv7lkFxOKGab4/vTmhy7ut/xr0/GFzfO/djAIJdwzgPIKsFyKE
-	fCJPptDfO89Y835ktqcxTGnPgEc1f92D0l3u+T0g2ElJ3VZeiIQsXPO1VqhS983dRBLytTbJnVp
-	XynkU4YCQB12aBsGXQ6u3381btyQ/3EuQJwbodIB7TYOvT1OsZnUdaaRChP4rqKW76prULbDFdS
-	DuLMfF9qdY8d2tzicNyp+M6G2XCwWA0xJMCAO4csE7mbEwioGmF1vgRLQpj84ZGNVO+a1cF2n6O
-	2dx/Jm1bGbMs1JxglQh3BSAx/JYIt+IZPmQOXGpLSN7qXPQC9yt61s7ldAcSs5rYmZ3yp9LLAtU
-	5MuBGLlYsG0QQqn7sRS9dR+zl2nZv6W7crdgZzs2bLfnQNnyh1pVQ3qpjVmv3QiAiXihNVM7BYh
-	Uj8Y2XaVeuBAu5cuWGF
-X-Received: by 2002:a05:6820:c85:b0:67e:3bed:5b7c with SMTP id 006d021491bc7-67e3bed5cbemr2787017eaf.38.1774970671007;
-        Tue, 31 Mar 2026 08:24:31 -0700 (PDT)
-Received: from [192.168.1.150] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-67e2302f591sm6995602eaf.1.2026.03.31.08.24.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 31 Mar 2026 08:24:30 -0700 (PDT)
-Message-ID: <26d2e8f0-8b82-4192-9edb-e31f3975bb82@kernel.dk>
-Date: Tue, 31 Mar 2026 09:24:29 -0600
+        d=1e100.net; s=20251104; t=1774970875; x=1775575675;
+        h=cc:to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Qug8kI7bJnvWGV6+b5kYjq7l7uNaiQDPNBvw893TZUE=;
+        b=nuRynkqy1nT2P0IO7dnGlh3jJE0/A18Tlt2lYqwgbslR1ULKZiYt1Z9nj7INx73jF3
+         3QTx8r5v1tCLinldgRCaJLyqEyAv05E0m6qI2oTp83Dkm43M9ceHe/oBl0bA56FZRpmY
+         WmD5rJT6BTOojIqp79u9f7qrV/B3nTdBEtKw45dgr7kQz1FZlz4YOJn0efaqDsyVXzm+
+         oJ3RbaMRt8zUUfCyZcyWbaIR1hPcAGa+eDi+W+DjgG8ODwy/wgHY1G7MhO45uHjs5JjH
+         c7NHMbx3c65Zr5icYTC4juaVphvDZbtHTmGdtNoiisJqkuyIZAtIGaTQm59b726HkfSt
+         i2VA==
+X-Forwarded-Encrypted: i=1; AJvYcCXT8JzAkARtyxpd0R19Xd64/dcJujtb3P58vFijUHCk/3T1XVsYIdTyynBpIeJ//2KNMYm4t0+56Ez2MMw/@vger.kernel.org
+X-Gm-Message-State: AOJu0YyDgLOh11025XCtdFCHMR0J/3LdH0D60e/a1C8f96rmuoDZHtwp
+	3Y142cQrMRdNXhVh3wbr1e7x14GEVErziEMqYhfg7l1ysUD0EcXGFp0P60TVOgnycfllPRrGawE
+	vuIfyBgOYy7Ub6ngfRckae1TSgi/XZiUfjRhBfQmw3uQeC7wS3IrrCGRrDaY=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] splice: prevent deadlock when splicing a file to itself
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Deepanshu Kartikey <kartikey406@gmail.com>, viro@zeniv.linux.org.uk,
- brauner@kernel.org, jack@suse.cz, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- syzbot+d31a3b77e5cba96b9f69@syzkaller.appspotmail.com
-References: <20260320130615.1109449-1-kartikey406@gmail.com>
- <acvkAuq4_cWmegC7@infradead.org>
- <fa551c4c-7e9b-47b4-9011-92adc880ed1a@kernel.dk>
- <acvmXDBm1xOak_Uq@infradead.org>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <acvmXDBm1xOak_Uq@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Received: by 2002:a05:6820:821:b0:67e:2c7f:9f13 with SMTP id
+ 006d021491bc7-67e2c7fa105mr6151264eaf.49.1774970874862; Tue, 31 Mar 2026
+ 08:27:54 -0700 (PDT)
+Date: Tue, 31 Mar 2026 08:27:54 -0700
+In-Reply-To: <20260331091113.20882-1-chizhiling@163.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <69cbe7fa.a70a0220.97f31.02a0.GAE@google.com>
+Subject: [syzbot ci] Re: exfat: unify FAT chain walking helpers
+From: syzbot ci <syzbot+cibb1b309487cd428b@syzkaller.appspotmail.com>
+To: chizhiling@163.com, chizhiling@kylinos.cn, linkinjeon@kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	sj1557.seo@samsung.com, yuezhang.mo@sony.com
+Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On 3/31/26 9:21 AM, Christoph Hellwig wrote:
-> On Tue, Mar 31, 2026 at 09:15:07AM -0600, Jens Axboe wrote:
->> On 3/31/26 9:10 AM, Christoph Hellwig wrote:
->>> On Fri, Mar 20, 2026 at 06:36:15PM +0530, Deepanshu Kartikey wrote:
->>>> Fix this by checking if the input and output files share the
->>>> same inode before proceeding, returning -EINVAL if they do.
->>>> This mirrors the existing check in do_splice() for the
->>>> pipe-to-pipe case where ipipe == opipe.
->>>
->>> While restricting splice to be between difference inodes sounds like a
->>> nice simplification, I'm not sure we can add it 20 years after the
->>> syscall was added.
->>
->> Well if we could break splice all over with:
->>
->> 36e2c7421f02 ("fs: don't allow splice read/write without explicit ops")
-> 
-> Well, that had an easy way out by converting instances people actually
-> used to the iter ops.  Which we ended up doing for a few.
+syzbot ci has tested the following series
 
-Sure, and it was the right thing to do, but you still end up with a
-broken kernel for that user. Until it gets reported, fixed, and bubbles
-back to a kernel that they can use.
+[v1] exfat: unify FAT chain walking helpers
+https://lore.kernel.org/all/20260331091113.20882-1-chizhiling@163.com
+* [PATCH v1 1/6] exfat: fix incorrect directory checksum after rename to shorter name
+* [PATCH v1 2/6] exfat: introduce exfat_fat_walk helper
+* [PATCH v1 3/6] exfat: use exfat_fat_walk helper to simplify fat entry walking
+* [PATCH v1 4/6] exfat: remove NULL cache pointer case in exfat_ent_get
+* [PATCH v1 5/6] exfat: introduce exfat_chain_advance helper
+* [PATCH v1 6/6] exfat: use exfat_chain_advance helper
 
-IOW, no different than this one.
+and found the following issue:
+WARNING in exfat_find_empty_entry
 
->> then surely this one would be OK too?
-> 
-> While this has no way out.  Not that I would complain if it worked,
-> but splicing into the same file doesn't seem like a too outlandish
-> idea.  OTOH it probably already didn't work for file systems that
-> take i_rwsem in the read path like XFS or these days the block
-> device node.
+Full report is available here:
+https://ci.syzbot.org/series/d9d5a999-e11a-43e1-ac76-9c718e136f25
 
-There is a way out, it's reverting it. I'd be surprised if this didn't
-trigger issues already, like the flagged one.
+***
 
-Thing is, I don't really see an alternative fix to this...
+WARNING in exfat_find_empty_entry
 
--- 
-Jens Axboe
+tree:      linux-next
+URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/next/linux-next
+base:      d1d75eaf01abceb3d5cb50253375b5f254b6be54
+arch:      amd64
+compiler:  Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
+config:    https://ci.syzbot.org/builds/177ab8e9-7eef-44cc-8b1d-6e8e2b44adaf/config
+C repro:   https://ci.syzbot.org/findings/9b0e35b9-b5be-440e-9461-2f19c03cb16a/c_repro
+syz repro: https://ci.syzbot.org/findings/9b0e35b9-b5be-440e-9461-2f19c03cb16a/syz_repro
+
+exFAT-fs (loop0): start_clu is invalid cluster(0xffffffff)
+exFAT-fs (loop0): valid_size(150994954) is greater than size(10)
+------------[ cut here ]------------
+chain->dir != EXFAT_EOF_CLUSTER
+WARNING: fs/exfat/exfat_fs.h:575 at exfat_chain_advance fs/exfat/exfat_fs.h:575 [inline], CPU#0: syz.0.17/5981
+WARNING: fs/exfat/exfat_fs.h:575 at exfat_search_empty_slot fs/exfat/namei.c:249 [inline], CPU#0: syz.0.17/5981
+WARNING: fs/exfat/exfat_fs.h:575 at exfat_find_empty_entry+0x754/0x13b0 fs/exfat/namei.c:318, CPU#0: syz.0.17/5981
+Modules linked in:
+CPU: 0 UID: 0 PID: 5981 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+RIP: 0010:exfat_chain_advance fs/exfat/exfat_fs.h:575 [inline]
+RIP: 0010:exfat_search_empty_slot fs/exfat/namei.c:249 [inline]
+RIP: 0010:exfat_find_empty_entry+0x754/0x13b0 fs/exfat/namei.c:318
+Code: 00 bf ff ff ff ff 44 89 e6 e8 18 56 1f ff 41 83 fc ff 75 10 e8 cd 51 1f ff 45 29 ee 0f 8d ad fe ff ff eb 12 e8 bd 51 1f ff 90 <0f> 0b 90 45 29 ee 0f 8d 99 fe ff ff e8 ab 51 1f ff 41 01 df 48 8b
+RSP: 0018:ffffc9000499f340 EFLAGS: 00010293
+RAX: ffffffff82a639c3 RBX: 0000000000000020 RCX: ffff88816d588000
+RDX: 0000000000000000 RSI: 000000000000000b RDI: 00000000ffffffff
+RBP: ffffc9000499f570 R08: ffff888119e14a5b R09: 1ffff110233c294b
+R10: dffffc0000000000 R11: ffffed10233c294c R12: 000000000000000b
+R13: 0000000000000080 R14: 0000000000000000 R15: 0000000000000060
+FS:  000055557e214500(0000) GS:ffff88818de66000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000200000006200 CR3: 00000001bcf7c000 CR4: 00000000000006f0
+Call Trace:
+ <TASK>
+ exfat_rename_file fs/exfat/namei.c:1025 [inline]
+ __exfat_rename fs/exfat/namei.c:1177 [inline]
+ exfat_rename+0xb49/0x1f90 fs/exfat/namei.c:1251
+ vfs_rename+0xa96/0xeb0 fs/namei.c:6026
+ filename_renameat2+0x539/0x9c0 fs/namei.c:6144
+ __do_sys_rename fs/namei.c:6188 [inline]
+ __se_sys_rename+0x55/0x2c0 fs/namei.c:6184
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x14d/0xf80 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f66f1b9c819
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffcad04e2e8 EFLAGS: 00000246 ORIG_RAX: 0000000000000052
+RAX: ffffffffffffffda RBX: 00007f66f1e15fa0 RCX: 00007f66f1b9c819
+RDX: 0000000000000000 RSI: 0000200000000400 RDI: 0000200000006200
+RBP: 00007f66f1c32c91 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f66f1e15fac R14: 00007f66f1e15fa0 R15: 00007f66f1e15fa0
+ </TASK>
+
+
+***
+
+If these findings have caused you to resend the series or submit a
+separate fix, please add the following tag to your commit message:
+  Tested-by: syzbot@syzkaller.appspotmail.com
+
+---
+This report is generated by a bot. It may contain errors.
+syzbot ci engineers can be reached at syzkaller@googlegroups.com.
+
+To test a patch for this bug, please reply with `#syz test`
+(should be on a separate line).
+
+The patch should be attached to the email.
+Note: arguments like custom git repos and branches are not supported.
