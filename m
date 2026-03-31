@@ -1,63 +1,41 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B364382399;
-	Tue, 31 Mar 2026 10:13:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB1513A4F2F;
+	Tue, 31 Mar 2026 10:39:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774951985; cv=none; b=X4Klz/3OpT2WLY22eQeOnrCEieohTTujnlfoys82tqwtTOZ49fS8cX9KXGNsYoBYWrJFdO1v65pqeN+eC6vdDUckWEgsx43J4bV+F2EkN3vwCx2MX141oAY7SOS15nRa1/MVMnwIXqOl4uXFTFnRNNa61uENBedYXbhv0zchtHk=
+	t=1774953597; cv=none; b=NiA5PvoDnuXp9SZ5CTedsb7U7QuwqMFh/R5xSL5NsC2n5wGt0o6bth5WJzxfa2EYNE4AqmHi7USqCTBi+BpHo/XwXEi59EmmzCpcVPzuiRu02fFNLlqoUNM6wOUrn3pVUZI6OnacYhVkCtcRksjCx3ea55bS/k4C1yirloyUwJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774951985; c=relaxed/simple;
-	bh=KfGHa1bv+FyKM0v084rlpSNAxXZaqrsVpJSPsiTc0lI=;
+	s=arc-20240116; t=1774953597; c=relaxed/simple;
+	bh=i5WStOZl6vAyzIT7A4hzQwI+IQ620Hpq4xCv5ziUciA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WpEPuJLuU6/ahIH8rkT61tD2LCnfZz0lfIi31P4tfZpRilJxE6OEjGuTYW3lFueNvnsWZ216KiGmvQFZRJvD2wFcYGe/EyHOrd//qnWYr9x4Ksh82B9gpQSxr20FaFYwURmPkznLBPg3JHVeydIqG0j6Zm3Gvhl0Y79JkaBUI94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YFOMd4c+; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=DCF4ZZ5r0ostmZFezYli/l6RmrFpKq16fEWwoa70lHyB+IpjDm6keGFq6Sc/pnHvQuWnZCkeQUUeAp/MajylIDfMdmWCiyqnuWAkRSIz4i8Aoh+yIrAovjhIGYzZYKgZBhf9ydI4I+RidCE8lodWhX/pvUtThQclSz/07hpVAnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uraYR/Dy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YFOMd4c+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774951984; x=1806487984;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KfGHa1bv+FyKM0v084rlpSNAxXZaqrsVpJSPsiTc0lI=;
-  b=YFOMd4c+EoFPXZMwYSLUEbYB0X88aZQcc6vENw4mblMsMkqJBPymP0fT
-   PWJkOqrsYoqhwPnLZseIUqQD0aoRPyPo38AnUqbmap02XOYpSSfBmP1l4
-   va8uSOLWmXFDsqMnc2gKfyc3Ut4krcCHK/n/SJSTsAzUfyquGPmECrJy3
-   X+s0iTULiBlXGzcUpLscHBf5sRAXruGxE1CO76FW/ISXzkHnRNpJ6iM/N
-   EQ0UyZhhGdT8d10O1WMej8w9tyM043x47ejFM5AujDx1/ksth5V2gSGa8
-   A4E7Mn4elP3JZGkil4S8f3olmqEHmDzZ3+/YRC9uAkN2LlNwwjRuHbCm2
-   g==;
-X-CSE-ConnectionGUID: xoy8M0OCR4ue2esTen2NFw==
-X-CSE-MsgGUID: eq3ptRVITGq8UIdzGXMKdw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11744"; a="75843516"
-X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
-   d="scan'208";a="75843516"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 03:13:03 -0700
-X-CSE-ConnectionGUID: mcFxOcQXRIaWHF5WfVD/bw==
-X-CSE-MsgGUID: GOHk04g/SzSxiwrLQBVwPw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
-   d="scan'208";a="249525901"
-Received: from rvuia-mobl.ger.corp.intel.com (HELO localhost) ([10.245.245.209])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 03:12:59 -0700
-Date: Tue, 31 Mar 2026 13:12:57 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: David Disseldorp <ddiss@suse.de>
-Cc: Petr Mladek <pmladek@suse.com>, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH v5 2/6] initramfs_test: test header fields with 0x hex
- prefix
-Message-ID: <acueKdFBUQXYxQrY@ashevche-desk.local>
-References: <20260331070519.5974-1-ddiss@suse.de>
- <20260331070519.5974-3-ddiss@suse.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uraYR/Dy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC62FC19423;
+	Tue, 31 Mar 2026 10:39:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774953597;
+	bh=i5WStOZl6vAyzIT7A4hzQwI+IQ620Hpq4xCv5ziUciA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uraYR/Dybjpku/vFsoxC1uobPoK1Nlz5vvBV9H8hkrz+o/n51AMgUhrRFxc8jlVl+
+	 l+2C8+5GZnJpDD7x9U4OBAmeUEgBxfZUSgj448cf1MZ+CDVy6KVj6qWhzBHfV2FzPl
+	 ThrUjcSJexGTGs5IlneVUnZ+SFLe8odiM7SZMibe1c5GfAlbgWf9wtbz1QSQsPICAb
+	 /HLk2EiDJkgxHExJ0OimngXPkLAj1U9pLPnl9/hW1INwOpMuPKs5n8JQFvjbJcePNK
+	 1lajFD4mWj32eRzb3uYgRa5ehqH0asu1wC8emIli+fyV4WCXqPKMq5Ieq8hh/lPWHs
+	 aS6eDquQLz4Pw==
+Date: Tue, 31 Mar 2026 12:39:50 +0200
+From: Carlos Maiolino <cem@kernel.org>
+To: Ravi Singh <ravising@redhat.com>
+Cc: linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	adilger@dilger.ca, jack@suse.com, djwong@kernel.org, hch@infradead.org
+Subject: Re: [PATCH v3] xfs: return default quota limits for IDs without a
+ dquot
+Message-ID: <acukaX9CqWpcP3d1@nidhogg.toxiclabs.cc>
+References: <20260317065947.306954-1-ravising@redhat.com>
+ <20260330061414.1190802-1-ravising@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -66,40 +44,104 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260331070519.5974-3-ddiss@suse.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20260330061414.1190802-1-ravising@redhat.com>
 
-On Tue, Mar 31, 2026 at 05:57:32PM +1100, David Disseldorp wrote:
-> cpio header fields are 8-byte hex strings, but one "interesting"
-> side-effect of our historic simple_str[n]toul() use means that a "0x"
-> (or "0X") prefixed header field will be successfully processed when
-> coupled alongside a 6-byte hex remainder string.
+On Mon, Mar 30, 2026 at 02:14:14PM +0800, Ravi Singh wrote:
+> When an ID has no dquot on disk, Q_XGETQUOTA returns -ENOENT even
+> though default quota limits are configured and enforced against that
+> ID.  This means unprivileged users who have never used any resources
+> cannot see the limits that apply to them.
 > 
-> "0x" prefix support is contrary to the initramfs specification at
-> Documentation/driver-api/early-userspace/buffer-format.rst which states:
+> When xfs_qm_dqget() returns -ENOENT for a non-zero ID, return a
+> zero-usage response with the default limits filled in from
+> m_quotainfo rather than propagating the error.  This is consistent
+> with the enforcement behavior in xfs_qm_adjust_dqlimits(), which
+> pushes the same default limits into a dquot when it is first
+> allocated.
 > 
->   The structure of the cpio_header is as follows (all fields contain
->   hexadecimal ASCII numbers fully padded with '0' on the left to the
->   full width of the field, for example, the integer 4780 is represented
->   by the ASCII string "000012ac"):
+> Reviewed-by: Jan Kara <jack@suse.cz>
+> Signed-off-by: Ravi Singh <ravising@redhat.com>
+
+Looks good,
+
+Reviewed-by: Carlos Maiolino <cmaiolino@redhat.com>
+
+> ---
+>  v3:
+>   - Return -ENOENT when no default limits are configured
+>     instead of returning a zero-filled response (Darrick)
 > 
-> Test for this corner case by injecting "0x" prefixes into the uid, gid
-> and namesize cpio header fields. Confirm that init_stat() returns
-> matching uid and gid values.
+>  v2:
+>   - Moved fix from VFS (fs/quota/quota.c) to XFS
+>     (fs/xfs/xfs_qm_syscalls.c) per review feedback
+>   - Return default limits on ENOENT instead of granting
+>     unprivileged access to ID 0's dquot
 > 
-> This test can be modified in future to expect unpack_to_rootfs() failure
-> when header validation is changed to properly follow the specification.
+>  fs/xfs/xfs_qm_syscalls.c | 43 +++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 42 insertions(+), 1 deletion(-)
 > 
-> Add some missing struct kstat initializations to account for possible
-> init_stat() failures.
-
-Right, thanks.
-
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+> diff --git a/fs/xfs/xfs_qm_syscalls.c b/fs/xfs/xfs_qm_syscalls.c
+> index d50b7318c..21a784986 100644
+> --- a/fs/xfs/xfs_qm_syscalls.c
+> +++ b/fs/xfs/xfs_qm_syscalls.c
+> @@ -391,6 +391,38 @@ xfs_qm_scall_setqlim(
+>  	return error;
+>  }
+>  
+> +/*
+> + * Fill out the default quota limits for an ID that has no dquot on disk.
+> + * Returns 0 if default limits are configured
+> + * and were filled in, -ENOENT otherwise.
+> + */
+> +static int
+> +xfs_qm_scall_getquota_fill_defaults(
+> +	struct xfs_mount	*mp,
+> +	xfs_dqtype_t		type,
+> +	struct qc_dqblk		*dst)
+> +{
+> +	struct xfs_def_quota	*defq;
+> +
+> +	defq = xfs_get_defquota(mp->m_quotainfo, type);
+> +
+> +	if (!defq->blk.soft && !defq->blk.hard &&
+> +	    !defq->ino.soft && !defq->ino.hard &&
+> +	    !defq->rtb.soft && !defq->rtb.hard) {
+> +		return -ENOENT;
+> +	}
+> +
+> +	memset(dst, 0, sizeof(*dst));
+> +	dst->d_spc_softlimit = XFS_FSB_TO_B(mp, defq->blk.soft);
+> +	dst->d_spc_hardlimit = XFS_FSB_TO_B(mp, defq->blk.hard);
+> +	dst->d_ino_softlimit = defq->ino.soft;
+> +	dst->d_ino_hardlimit = defq->ino.hard;
+> +	dst->d_rt_spc_softlimit = XFS_FSB_TO_B(mp, defq->rtb.soft);
+> +	dst->d_rt_spc_hardlimit = XFS_FSB_TO_B(mp, defq->rtb.hard);
+> +
+> +	return 0;
+> +}
+> +
+>  /* Fill out the quota context. */
+>  static void
+>  xfs_qm_scall_getquota_fill_qc(
+> @@ -451,8 +483,17 @@ xfs_qm_scall_getquota(
+>  	 * set doalloc. If it doesn't exist, we'll get ENOENT back.
+>  	 */
+>  	error = xfs_qm_dqget(mp, id, type, false, &dqp);
+> -	if (error)
+> +	if (error) {
+> +		/*
+> +		 * If there is no dquot on disk and default limits are
+> +		 * configured, return them with zero usage so that
+> +		 * unprivileged users can see what limits apply to them.
+> +		 */
+> +		if (error == -ENOENT && id != 0 &&
+> +		    !xfs_qm_scall_getquota_fill_defaults(mp, type, dst))
+> +			return 0;
+>  		return error;
+> +	}
+>  
+>  	/*
+>  	 * If everything's NULL, this dquot doesn't quite exist as far as
+> -- 
+> 2.49.0
+> 
