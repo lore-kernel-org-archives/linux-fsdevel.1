@@ -1,59 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F5413A9D85;
-	Tue, 31 Mar 2026 11:42:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1919A3822B5
+	for <linux-fsdevel@vger.kernel.org>; Tue, 31 Mar 2026 11:50:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774957333; cv=none; b=aQfpF3Zz721gIFHtmF+Ga+3fKfIXSAeNrAwJzBXARyoCUmHZagmdXw+rYDzjU+79pzRWxs0X89xxi7NCgeY3MvuGD8RKMR7lnzLSxcn5GzTfJBViW9CL5ld7ZlKOl6UYlqOAM3BFzercUHFkJD4KDgie1e/wCZjhr2OPtLZ9nBE=
+	t=1774957806; cv=none; b=qFyHrL+dLEZNf5qM33oo+ltQECgahtTORoD/fWyfk+xjhTp1U9LNeyi66jLjyE6befI9774KRv7utInFPTf5vfH+Rnq/yHXmpS6JpeXvB9rgi/bFvEkx7xtJhCSEQoV3ZPxeBvjiyKrCs/jKHEFdtb1BWqM4zgev0Wrgso/sFrM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774957333; c=relaxed/simple;
-	bh=v9/AUUMGVf9+nhrOWCMNuXE2J/EJf4Yx/A5I91wqayM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dQzJLD46vgpBBo0ACSjAH10pfNsdf3ZzN2h5KJlD1It7rXjZuSZRBpgw9Ny2udJukvx9GDcy2FWuCegmIegs0g/OkkUZGSoJT3YWklJAHAMoAHgWRj7fl6A/ODAP+MkjnDmWixxlHqafOgcOrISpA3FNQFtzofov72ET0xsUtG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Eklxj6nk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774957806; c=relaxed/simple;
+	bh=bbTxkKoHw2sSLdH217P4BRAhIbJRWgyPu8eAyKhy6aE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ov52q9ybglDZUacV+Ureg+pyh+m1Ht07MnX0rPBAeFeCojGpgdMzRgs/nF4fjtFk8Nm7O3neOPHYoAU9LyZ23w1GgT0U6ANoBLnqEfudAXR0maxF8segdmMvHUKVcoS2vDjd2ypndSgp3yG0yCpgwJLeoA8YN9Bc8pYs7O0JAhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=XqCfcbVn; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=nN0PX46Y; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=XqCfcbVn; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=nN0PX46Y; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Eklxj6nk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A17AC19423;
-	Tue, 31 Mar 2026 11:42:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774957332;
-	bh=v9/AUUMGVf9+nhrOWCMNuXE2J/EJf4Yx/A5I91wqayM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Eklxj6nkgag9phGSwi3AtluNOuSXDrudDeC/1PoarzkDyR4p3o0WsR5+F14ZRDl5g
-	 K2Nl5yCy0RGOJ0DRUiYL4OX7lS9rHaVpZcs/Y14YToXTDAfwhtXM5q/OBBwVM6+9rC
-	 a5PY+jeY6+oE9/UgIx8ASEbSIyVGTC4HR0AcfqfaLCYhekdoktZLfYZ2+11xgMDX/l
-	 Wejb1KLzSWw22xCDrro+pnvMhSvIuDD7yHMaAR6HJWWaIHeb/lR56OmzTWLRk1p3mj
-	 zt/MN2oV2Jzvs8jCoFDoR2DNo66mXetay7g3pMu7BgyOJjl9SFicy9OxWrV0FhxgiZ
-	 d+DZbWhjK1q1A==
-Date: Tue, 31 Mar 2026 14:42:01 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Andrea Arcangeli <aarcange@redhat.com>,
-	Andrei Vagin <avagin@google.com>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	David Hildenbrand <david@kernel.org>,
-	Harry Yoo <harry.yoo@oracle.com>, Hugh Dickins <hughd@google.com>,
-	James Houghton <jthoughton@google.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
-	Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
-	Nikita Kalyazin <kalyazin@amazon.com>,
-	Oscar Salvador <osalvador@suse.de>,
-	Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@suse.cz>, kvm@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v3 07/15] userfaultfd: introduce vm_uffd_ops
-Message-ID: <acuzCX1GHZRLSu_x@kernel.org>
-References: <20260330101116.1117699-1-rppt@kernel.org>
- <20260330101116.1117699-8-rppt@kernel.org>
- <acqrtd7E6UxrX6Ji@casper.infradead.org>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="XqCfcbVn";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="nN0PX46Y";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="XqCfcbVn";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="nN0PX46Y"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 1CB1F4D202;
+	Tue, 31 Mar 2026 11:50:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1774957803; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=HlF2jOi5S4ViMJ9UYWxd/VHrRGA5yA26jDOX9r/G2B8=;
+	b=XqCfcbVnwPbHcqdhoIO+szKpA/Mw/FXPbxoqBjIci9JIV6p836hF6vEzKt7/BtjomvOTLA
+	BQW0sJhpQA1VO8GNMnkFhk19gqmP0qgiwOKFaO5tNz+N/0BdRX/QqdzRCEL5Lgmnuh/laa
+	3L9bo95QhLa+Xm6oq0bx6MTGndQq2nA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1774957803;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=HlF2jOi5S4ViMJ9UYWxd/VHrRGA5yA26jDOX9r/G2B8=;
+	b=nN0PX46YYBtTfAcM/DwApsw7OLRW56DeJ/1ttBdr4EdqcRjScY7rdkrbPLv3bsaWAthpxG
+	8o1YlAdbBQHywvDA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=XqCfcbVn;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=nN0PX46Y
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1774957803; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=HlF2jOi5S4ViMJ9UYWxd/VHrRGA5yA26jDOX9r/G2B8=;
+	b=XqCfcbVnwPbHcqdhoIO+szKpA/Mw/FXPbxoqBjIci9JIV6p836hF6vEzKt7/BtjomvOTLA
+	BQW0sJhpQA1VO8GNMnkFhk19gqmP0qgiwOKFaO5tNz+N/0BdRX/QqdzRCEL5Lgmnuh/laa
+	3L9bo95QhLa+Xm6oq0bx6MTGndQq2nA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1774957803;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=HlF2jOi5S4ViMJ9UYWxd/VHrRGA5yA26jDOX9r/G2B8=;
+	b=nN0PX46YYBtTfAcM/DwApsw7OLRW56DeJ/1ttBdr4EdqcRjScY7rdkrbPLv3bsaWAthpxG
+	8o1YlAdbBQHywvDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 129664A0A2;
+	Tue, 31 Mar 2026 11:50:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id LreCBOu0y2nVbwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 31 Mar 2026 11:50:03 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id B2500A0AFD; Tue, 31 Mar 2026 13:49:54 +0200 (CEST)
+Date: Tue, 31 Mar 2026 13:49:54 +0200
+From: Jan Kara <jack@suse.cz>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linux-fsdevel@vger.kernel.org
+Subject: [GIT PULL] udf fix for 7.0-rc7
+Message-ID: <462tylahq3txzns6guwf6huabgovydarvwhjxiumhiswmccodm@xagpzm2gozdq>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -62,35 +82,66 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <acqrtd7E6UxrX6Ji@casper.infradead.org>
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCPT_COUNT_TWO(0.00)[2];
+	RCVD_COUNT_THREE(0.00)[3];
+	FROM_HAS_DN(0.00)[];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:email]
+X-Rspamd-Queue-Id: 1CB1F4D202
+X-Spam-Flag: NO
+X-Spam-Score: -4.01
+X-Spam-Level: 
 
-On Mon, Mar 30, 2026 at 05:58:29PM +0100, Matthew Wilcox wrote:
-> On Mon, Mar 30, 2026 at 01:11:08PM +0300, Mike Rapoport wrote:
-> > First, there is no fundamental reason to limit userfaultfd support only to
-> > the core memory types and userfaults can be handled similarly to regular
-> > page faults provided a VMA owner implements appropriate callbacks.
-> > 
-> > Second, historically various code paths were conditioned on
-> > vma_is_anonymous(), vma_is_shmem() and is_vm_hugetlb_page() and some of
-> > these conditions can be expressed as operations implemented by a
-> > particular memory type.
-> > 
-> > Introduce vm_uffd_ops extension to vm_operations_struct that will delegate
-> > memory type specific operations to a VMA owner.
-> 
-> But the VMA owner already gets control of the page fault.  We don't need
-> the vm_uffd_ops to be accessible from the vm_operations_struct.  The
-> page faullt handler can pass a vm_uffd_ops into the uffd functions that
-> it calls.
+  Hello Linus,
 
-Not sure I follow you here. The ops are not required by the page fault
-handler, they are needed for uffd ioctl handling, e.g
+  could you please pull from
 
-	userfaultfd_ioctl(UFFDIO_COPY) ->
-		mfill_atomic_copy() ->
-			vma = find_vma();
-			/* do VMA specific stuff */
+git://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git fs_for_v7.0-rc7
 
+to get a fix of a race in UDF that can lead to memory corruption.
+
+Top of the tree is 102e57d56f81. The full shortlog is:
+
+Jan Kara (2):
+      mpage: Provide variant of mpage_writepages() with own optional folio handler
+      udf: Fix race between file type conversion and writeback
+
+The diffstat is
+
+ fs/mpage.c            | 30 ++++++++++++++++++++++++------
+ fs/udf/inode.c        | 33 +++++++++++++++------------------
+ include/linux/mpage.h | 11 +++++++++--
+ 3 files changed, 48 insertions(+), 26 deletions(-)
+
+Regarding your observation about uptick in fixes, what I can see in fs area
+is that more people seem to be running syzbot & using AI to analyze the
+reports (and come up with patches which are more often useless than not but
+still good enough to show where the problem is).
+
+							Thanks
+								Honza
 -- 
-Sincerely yours,
-Mike.
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
