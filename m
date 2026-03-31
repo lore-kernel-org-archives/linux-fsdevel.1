@@ -1,88 +1,105 @@
-Received: from out30-131.freemail.mail.aliyun.com (out30-131.freemail.mail.aliyun.com [115.124.30.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EF753D890A;
-	Tue, 31 Mar 2026 09:54:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B364382399;
+	Tue, 31 Mar 2026 10:13:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774950855; cv=none; b=dcpxO5o/40FYZqzxbr/52mQjNMFNEBF5FimmlOjgJXNCYH6IHF1SIGMUKDC7A4VC20qlMBa590pzmqjgKVIlxd+Waz5k/KdI50508V2x6MCs9hGJ4QDAt5ytUTqP5CFswJeEX1weCG8h3XF8uQc/Lm4OpU2IEugGDphh+KtedI8=
+	t=1774951985; cv=none; b=X4Klz/3OpT2WLY22eQeOnrCEieohTTujnlfoys82tqwtTOZ49fS8cX9KXGNsYoBYWrJFdO1v65pqeN+eC6vdDUckWEgsx43J4bV+F2EkN3vwCx2MX141oAY7SOS15nRa1/MVMnwIXqOl4uXFTFnRNNa61uENBedYXbhv0zchtHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774950855; c=relaxed/simple;
-	bh=f9ns15r1xwk5sR4slcu1NEUGIOE3AUuwDHqrtji267E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NYS+mvlsyOVIQsPzdsujoY39Z/kfVIZmUBjlx7HMzBRhGqtE+6/odMX70b/B5ASmApsPpDBVNojHRTmT3J4tWZRTdCmV7wWefwwaglwjIHMEZuXnBzlsOxfOIlPsgZIq+6nOrXgZfXSCtoHTkxz4mHapQL1Qn6pRsr1wo7yBx7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=pdq2aUo3; arc=none smtp.client-ip=115.124.30.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1774951985; c=relaxed/simple;
+	bh=KfGHa1bv+FyKM0v084rlpSNAxXZaqrsVpJSPsiTc0lI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WpEPuJLuU6/ahIH8rkT61tD2LCnfZz0lfIi31P4tfZpRilJxE6OEjGuTYW3lFueNvnsWZ216KiGmvQFZRJvD2wFcYGe/EyHOrd//qnWYr9x4Ksh82B9gpQSxr20FaFYwURmPkznLBPg3JHVeydIqG0j6Zm3Gvhl0Y79JkaBUI94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YFOMd4c+; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="pdq2aUo3"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1774950845; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=+1CK2WU7wxeMjp+cmJBinVyHFl9o+1lEgcOBYJ1X+2o=;
-	b=pdq2aUo3ZimDYqx5WlA9wbc28tpv17qY92U8H+U7I2yheCWThb4bFBavOe/7IUVlYNt+0vCEsgpzQoBqu5Q6lpqtAjgHjTft7al/9zTjr66yk5GLYQxtUcFGV5Qtwd6vT4bF/CV8Mt8upiN0ZWvgQyV6/9HgnT8a4iQ5eLpxeXg=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R191e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam011083073210;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=16;SR=0;TI=SMTPD_---0X04749J_1774950843;
-Received: from 30.221.131.145(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X04749J_1774950843 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Tue, 31 Mar 2026 17:54:04 +0800
-Message-ID: <4184b060-2923-4722-9899-c85238b8e3eb@linux.alibaba.com>
-Date: Tue, 31 Mar 2026 17:54:01 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YFOMd4c+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774951984; x=1806487984;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KfGHa1bv+FyKM0v084rlpSNAxXZaqrsVpJSPsiTc0lI=;
+  b=YFOMd4c+EoFPXZMwYSLUEbYB0X88aZQcc6vENw4mblMsMkqJBPymP0fT
+   PWJkOqrsYoqhwPnLZseIUqQD0aoRPyPo38AnUqbmap02XOYpSSfBmP1l4
+   va8uSOLWmXFDsqMnc2gKfyc3Ut4krcCHK/n/SJSTsAzUfyquGPmECrJy3
+   X+s0iTULiBlXGzcUpLscHBf5sRAXruGxE1CO76FW/ISXzkHnRNpJ6iM/N
+   EQ0UyZhhGdT8d10O1WMej8w9tyM043x47ejFM5AujDx1/ksth5V2gSGa8
+   A4E7Mn4elP3JZGkil4S8f3olmqEHmDzZ3+/YRC9uAkN2LlNwwjRuHbCm2
+   g==;
+X-CSE-ConnectionGUID: xoy8M0OCR4ue2esTen2NFw==
+X-CSE-MsgGUID: eq3ptRVITGq8UIdzGXMKdw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11744"; a="75843516"
+X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
+   d="scan'208";a="75843516"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 03:13:03 -0700
+X-CSE-ConnectionGUID: mcFxOcQXRIaWHF5WfVD/bw==
+X-CSE-MsgGUID: GOHk04g/SzSxiwrLQBVwPw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
+   d="scan'208";a="249525901"
+Received: from rvuia-mobl.ger.corp.intel.com (HELO localhost) ([10.245.245.209])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 03:12:59 -0700
+Date: Tue, 31 Mar 2026 13:12:57 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: David Disseldorp <ddiss@suse.de>
+Cc: Petr Mladek <pmladek@suse.com>, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH v5 2/6] initramfs_test: test header fields with 0x hex
+ prefix
+Message-ID: <acueKdFBUQXYxQrY@ashevche-desk.local>
+References: <20260331070519.5974-1-ddiss@suse.de>
+ <20260331070519.5974-3-ddiss@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] vfs: limit directory child dentry retention
-To: Christian Brauner <brauner@kernel.org>, Ian Kent <raven@themaw.net>
-Cc: Al Viro <viro@zeniv.linux.org.uk>, Miklos Szeredi <miklos@szeredi.hu>,
- Eric Sandeen <sandeen@sandeen.net>, Frank Sorenson <fsorenso@redhat.com>,
- Jay Shin <jaeshin@redhat.com>, Linus Torvalds
- <torvalds@linux-foundation.org>, Yafang Shao <laoar.shao@gmail.com>,
- Jan Kara <jack@suse.cz>, Waiman Long <longman@redhat.com>,
- Matthew Wilcox <willy@infradead.org>, Wangkai <wangkai86@huawei.com>,
- Colin Walters <walters@verbum.org>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20260331012925.74840-1-raven@themaw.net>
- <20260331012925.74840-2-raven@themaw.net>
- <20260331-engste-raushalten-f66cd264ce77@brauner>
-From: Gao Xiang <hsiangkao@linux.alibaba.com>
-In-Reply-To: <20260331-engste-raushalten-f66cd264ce77@brauner>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260331070519.5974-3-ddiss@suse.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Hi,
-
-On 2026/3/31 17:39, Christian Brauner wrote:
-> On Tue, Mar 31, 2026 at 09:29:09AM +0800, Ian Kent wrote:
->> If there's a very large number of children present in a directory dentry
->> then the benifit from retaining stale child dentries for re-use can
->> become ineffective. Even hashed lookup can become ineffective as hash
->> chains grow, time taken to umount a file system can increase a lot, as
->> well as child dentry traversals resulting in lock held too long log
->> messages.
+On Tue, Mar 31, 2026 at 05:57:32PM +1100, David Disseldorp wrote:
+> cpio header fields are 8-byte hex strings, but one "interesting"
+> side-effect of our historic simple_str[n]toul() use means that a "0x"
+> (or "0X") prefixed header field will be successfully processed when
+> coupled alongside a 6-byte hex remainder string.
 > 
-> Fwiw, there's also e6957c99dca5 ("vfs: Add a sysctl for automated deletion of dentry")
+> "0x" prefix support is contrary to the initramfs specification at
+> Documentation/driver-api/early-userspace/buffer-format.rst which states:
 > 
-> This patch introduces the concept conditionally, where the associated
-> dentry is deleted only when the user explicitly opts for it during file
-> removal. A new sysctl fs.automated_deletion_of_dentry is added for this
-> purpose. Its default value is set to 0.
+>   The structure of the cpio_header is as follows (all fields contain
+>   hexadecimal ASCII numbers fully padded with '0' on the left to the
+>   full width of the field, for example, the integer 4780 is represented
+>   by the ASCII string "000012ac"):
 > 
-> I have no massive objections to your approach. It feels a bit hacky tbh
-> as it seems to degrade performance for new workloads in favor old
-> workloads. The LRU should sort this out though.
+> Test for this corner case by injecting "0x" prefixes into the uid, gid
+> and namesize cpio header fields. Confirm that init_stat() returns
+> matching uid and gid values.
+> 
+> This test can be modified in future to expect unpack_to_rootfs() failure
+> when header validation is changed to properly follow the specification.
+> 
+> Add some missing struct kstat initializations to account for possible
+> init_stat() failures.
 
-JFYI, another issue we once observed on user workloads is that
+Right, thanks.
 
-`d_lockref.count` can exceed `int` on very very large
-directories in reality (also combined with cached
-negative dentries).
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-It can be a real overflow, this commit can help but it
-doesn't strictly resolve this, anyway.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Thanks,
-Gao Xiang
+
