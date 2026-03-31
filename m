@@ -1,88 +1,82 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BF3D3AEF33
-	for <linux-fsdevel@vger.kernel.org>; Tue, 31 Mar 2026 06:44:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41EFC3B6363
+	for <linux-fsdevel@vger.kernel.org>; Tue, 31 Mar 2026 06:58:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774939479; cv=none; b=dE1uMM7zvtmHPFXwI7HDL3smhcPPw4UgTlTQWnLCji0Kvi9cp3zKqZxhp3Wyhw7V4oETv9pQnCh1qZ1VUNIpWXvPUTq3W6jDRCaf19pQ7nyvqxmNRIOsajiHv0Q6gHHyhN1FiBsqva8KLPMQklt2OJ6fi3hN6ZM9Fh1OX0IJ4qE=
+	t=1774940294; cv=none; b=lI6VY4YZXrXIGlsM3Tv+vxMtR2yR0QY5O+OXwW5yWr15M1b5mnZsgbUlbb96tHvBqS+pRA41lDTpROUTAI8Xy1KX6uJ/2dm3YBHYAE1/drpf/CPt+o93OrMLFjG6gaAnod/qW2h0hZ/zL9Zg43/4D5CWwTwpdipnfk9DqbuV8YE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774939479; c=relaxed/simple;
-	bh=zBBx1RuANqq0oV0jiwUB3uvadpOdqtS/qQo0i+7QFmQ=;
+	s=arc-20240116; t=1774940294; c=relaxed/simple;
+	bh=++/qmZXTMQ68hraBTB1ddHNUtBYya21+wyElV2k699g=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fAUfnfP5oEQQS/jaFmYVa9pSPIfp06fO7QOHU9cqJhYLOZcHbxBjtlskZXdXZVZD7JvttQ1ndmU0kd4SASwBTeFQyPzIMzrdJEfbzw/TW4gLcInYALWoB94hCsooCmJlltC8UeZOvqkF3FQ/RY0PhV7Bh848jFLwMCqpITzWP0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c131yqMx; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=L7T0o7zO2TDFVnhZi09kKy7SNeinRzYIX8oHYoewDZ3Pqfdv+5KkWClMO+mzm1VTFdQNrWeBY+x65TgsMjYLwwR9KHScMTxTbhp/PijFwnuqmnwXLuHpKy54P57WVURPTMSQOIvYzTFyED9/pEiO9DOlIipFg7SoyaqCQvs1ilU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FXrM/g26; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c131yqMx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18750C2BCB2
-	for <linux-fsdevel@vger.kernel.org>; Tue, 31 Mar 2026 06:44:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FXrM/g26"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C190EC19423
+	for <linux-fsdevel@vger.kernel.org>; Tue, 31 Mar 2026 06:58:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774939479;
-	bh=zBBx1RuANqq0oV0jiwUB3uvadpOdqtS/qQo0i+7QFmQ=;
+	s=k20201202; t=1774940293;
+	bh=++/qmZXTMQ68hraBTB1ddHNUtBYya21+wyElV2k699g=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=c131yqMx0Ksrk1Gj2kmF4BmlTYeQXKrxlG9anMASw8wnLuPTLfPtuF9NXjfpW1/st
-	 mQ08VpdoASuYkgWnsIleoZu3U0dJ1+z+aRkfQmbrQWNdMcqamjCxkIJtnCiun6B1+h
-	 pnvfae+GMzQGAelL2i1C8/oG45Nn7EtutHVOuXVgoH7Kmcum4pYNkX89pqYEYUYzxC
-	 LH8Hm59oavMU5WwbeoNreBzUSEgkMAU7+L89RB/n8tPmjoo7yHTujiY2Ry5Dzg3Muz
-	 rvoIZwhjI7ZjD1Msb09AHcmERuffhn7JEzmBSYtkxEtkUxhSgQy4qOySzFUxxCz2oO
-	 xozbB7dS8+J6g==
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6634bb959a2so6334525a12.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 30 Mar 2026 23:44:39 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXSBVuBbA5WOm/aPqSmn8e1bwsrM4c/cwvd0IDsRIWmi9eoGAaskiGK+PRAXoB8eIDKCAyJyjCdR9WQhrRu@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzy9u88xE9ZLQksAsGieoeMmMQOWTHXWR8idccKEZn7vPZ/mfBM
-	Qlif5LZt3vSXWZ71VXD4KzFbm3NSwlqDLN3wlx/vQa28jGVdxExhpmEuGfssCOv3+6bqj0jygZg
-	QjHpKOL/QnqQ6lr1NhdqPS5q8VBGDUuM=
-X-Received: by 2002:a05:6402:50d1:b0:66b:d453:8a98 with SMTP id
- 4fb4d7f45d1cf-66bd4538d52mr4127921a12.12.1774939477587; Mon, 30 Mar 2026
- 23:44:37 -0700 (PDT)
+	b=FXrM/g26/3Pwi7cpaFMDiF2SxboLJIp2+hZymwyVPBh8Q4ZhOuanzAZMOCq9iyIxW
+	 79kVnayQL02PPfMkzfYW0lVutG5ktpDmb2IYI4487pGAU4EJopU3gC/Ls3qxe2FHWT
+	 sTlFqgY9BPfk7xfDbYVPDVE0htDWs4o38XJ/q/8zaOI8Le+xRNs9dZpYEd+zyCLnMD
+	 cDkz+0CEheS97mCqcaCslNGiPbouVyJRbzqlQGeEx5viqGryQWF3eKbe5MkQ7E0osw
+	 A31iH4vsUmTUVOLXR8Qiq793E+YINzAXYVc3+nyOo/EUOdYzZRVs82oAb0yWUXVtl6
+	 EszSmjLbT+sQQ==
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-66c5b2e41c1so140479a12.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 30 Mar 2026 23:58:13 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWCChDBW4cy4Eb971LQbeBOvpGOX32SYI8E4y7SAbfwC/u3NAgdhC0mILE1bVTi/P13gJC86rEYLH3BPsbm@vger.kernel.org
+X-Gm-Message-State: AOJu0YwbqWmiKyyH19MkyGvoYl0HieVmsmcLgmfZy9fOMCiY9++02Jce
+	fVEY4LBzi3AQ+LQESc4lZmM8BG6emuvvhu4s6YBxICeJQBkwInFYLvJWw0B2SsgJXqqy0+SwaCs
+	HX1RpDmUYPQd+ecoyuTtujw9uJuk9yZ8=
+X-Received: by 2002:a05:6402:454b:b0:66b:eb33:6660 with SMTP id
+ 4fb4d7f45d1cf-66beb3369dbmr2789482a12.14.1774940292447; Mon, 30 Mar 2026
+ 23:58:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260326115045.9525-1-linkinjeon@kernel.org> <20260326115045.9525-2-linkinjeon@kernel.org>
- <20260330063059.GA5897@lst.de> <CAKYAXd_uzuyfz6BBNPxDDiN9GRSoqOWPe__kKx=UbZNxVG70QQ@mail.gmail.com>
- <20260331054859.GB31506@lst.de>
-In-Reply-To: <20260331054859.GB31506@lst.de>
+References: <20260326115045.9525-1-linkinjeon@kernel.org> <20260326115045.9525-4-linkinjeon@kernel.org>
+ <20260330063821.GC5897@lst.de> <CAKYAXd9pZx1g=53wtCh0xTVYgQCLNz1sEL-2-fHbkSHQ=qTiTg@mail.gmail.com>
+ <20260331054616.GA31506@lst.de> <CAKYAXd-2=AM4vdwB6wzycDAXQd5CJEqUU0GPjRvskqZYFXS2eA@mail.gmail.com>
+ <20260331063755.GB2061@lst.de>
+In-Reply-To: <20260331063755.GB2061@lst.de>
 From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Tue, 31 Mar 2026 15:44:25 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd-vKjh8yr24nBAg0GkPGzXUqAEnrpSfR-SBmhR9Zptb5Q@mail.gmail.com>
-X-Gm-Features: AQROBzClT_iictzryZHGB8tQvj16b4Gdz5CxI5kEW8b2kT-K9cJMImBiZGkGILI
-Message-ID: <CAKYAXd-vKjh8yr24nBAg0GkPGzXUqAEnrpSfR-SBmhR9Zptb5Q@mail.gmail.com>
-Subject: Re: [PATCH 1/5] exfat: add iomap support
+Date: Tue, 31 Mar 2026 15:58:00 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd9QnpwUAnh0HMVuV0RCvO9a59t6HOdubk+uGkDoe8N46A@mail.gmail.com>
+X-Gm-Features: AQROBzBFjnHws2xL6Ukmku2BNRe33t3tcCvIy0Opp8HTv4FtahFAxWv6lazwFp4
+Message-ID: <CAKYAXd9QnpwUAnh0HMVuV0RCvO9a59t6HOdubk+uGkDoe8N46A@mail.gmail.com>
+Subject: Re: [PATCH 3/5] exfat: add iomap buffered I/O support
 To: Christoph Hellwig <hch@lst.de>
 Cc: sj1557.seo@samsung.com, yuezhang.mo@sony.com, 
 	linux-fsdevel@vger.kernel.org, anmuxixixi@gmail.com, dxdt@dev.snart.me, 
-	chizhiling@kylinos.cn, chizhiling@163.com, 
-	"Darrick J. Wong" <djwong@kernel.org>
+	chizhiling@kylinos.cn, chizhiling@163.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 31, 2026 at 2:49=E2=80=AFPM Christoph Hellwig <hch@lst.de> wrot=
+On Tue, Mar 31, 2026 at 3:38=E2=80=AFPM Christoph Hellwig <hch@lst.de> wrot=
 e:
 >
-> On Tue, Mar 31, 2026 at 02:26:55PM +0900, Namjae Jeon wrote:
-> > > Can you explain the logic here?  Shouldn't the iomap buffered I/O
-> > > code do all the needed zeroing for you based on the map type?  If not
-> > > how could we enhance the core iomap code so that we don't need this
-> > > in the file system, which feels like a bit of break of abstraction
-> > > barriers?
-> > The reason we have exfat_iomap_put_folio() is because of exFAT's
-> > VDL(->valid_size). When we map a range beyond ->valid_size, if we set
-> > the map type to IOMAP_UNWRITTEN, iomap_zero_range() does not perform
-> > zeroing.
-> > However, if we set it to IOMAP_MAPPED, then iomap_zero_range() treats
-> > the area beyond ->valid_size as valid data and could expose
-> > uninitialized garbage data from disk. So it explicitly zero out the
-> > portion beyond ->valid_size in exfat_iomap_put_folio().
-> > I agree that it would be better if core iomap could handle this case by=
- itself.
-> > I'll check whether we can improve the core iomap layer to avoid
-> > filesystem-specific put_folio handling for ->valid_size.
+> On Tue, Mar 31, 2026 at 03:36:35PM +0900, Namjae Jeon wrote:
+> > Since Jan's series renames __generic_file_fsync() to
+> > simple_fsync_noflush(), switching to generic_buffers_fsync_noflush()
+> > now would cause a conflict with his patchset. I think that we can wait
+> > for Jan=E2=80=99s series to be merged first. So I will drop the
+> > exfat_file_fsync changes in the exfat iomap patchset.
 >
-> I suspect just adding a new IOMAP_ type for this should be fine, as
-> the above description sounds coherent enough to add it to documentation.
-> I just can't really think of a good name.
-Let me check it:)
-Thanks for the feedback.
+> Or just open code it in exfat for now and switch beack to the generic
+> one once that becomes suitable again.  But we're pretty late for the
+> 7.1 merge window anyway, so maybe not rushing this might be a better
+> idea.
+There are still several things I need to check and improve, including
+possible changes to the core iomap layer.
+So I agree that It looks difficult to get this series merged in the
+7.1 window. But I'll submit v2 patch-set so it can receive further
+review.
+Thanks!
+>
