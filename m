@@ -1,270 +1,454 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4A8B345CA3
-	for <linux-fsdevel@vger.kernel.org>; Tue, 31 Mar 2026 17:21:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1653E316195;
+	Tue, 31 Mar 2026 17:24:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774977690; cv=none; b=Ncb0UYEAVQLcQSDzyqFjMsCq2SgPepboZFdSV2QSb5m7zGsjPGzyRF5EUv5HjoJuRgHeTTST/Q0DxxW9u8m5lrUdwZQvSsyN90WLor/K1MvyLfXJk4bjwOgKwJsR3nS9+Lk5vnVw6kjrdhHOo5sGs+bEkeItco4n9dgQZxZ0868=
+	t=1774977867; cv=none; b=EnL87xDxlLoMVzvY1QZZn61sMkXEezARmlngCPuIJUqA2nt2X2Y7/HHlaVle1AMLaurcVjZzfJkmlCOX1wQzyl6EqB1zw52XS1OIALDxfpwVsPkolq9+RyVZGvUFCzi9wFKJw6Sa78Ozqbb13jftUPTdhgKWlY+q1+j/lXPezuI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774977690; c=relaxed/simple;
-	bh=yWQgdgRhZbv2l7+Ro7qNBtP2xSE0vb5n5/JP2mfl/+I=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VQmumkSUoVoZpXqbmMf0Mn3FTONAyzvKdQ/4thhdoukEbFASSPwxBCDPC4Wj48kTyGG2JQZM4vgFcUnY+hwI0uM+xR0nmdGVRCsDG462Ga25ElJ12pesa0vJ+cKJ+ad7ebTAZYA5NjCLEFnwVyjxYkLTbYNU263VgpHtW4PN77U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=oylyme5g; arc=none smtp.client-ip=195.121.94.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1774977867; c=relaxed/simple;
+	bh=od98BF/BWv7PmWPX2b2wStsnZy5eTLqe1oQ9E2UQnb4=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=HRONTgy89iGODdYJ8dAXtAfNuSMex5Ir9bvlr7lMvvVBj/Gj28YPUgSKXgNXysgN4R1YoLNGe0nfriJbUqyWKSuH9otiU08uowFozdHDfibiHPvTQWJAZIWKhMLMrP7c0LQElyn1kt5iuKzzrpaCI4Vy6IZ7SGhyko5dQl+zNT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KqK0Df0/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="oylyme5g"
-X-KPN-MessageId: e41bc105-2d25-11f1-bea5-005056992ed3
-Received: from smtp.kpnmail.nl (unknown [10.31.155.7])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id e41bc105-2d25-11f1-bea5-005056992ed3;
-	Tue, 31 Mar 2026 19:20:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=mime-version:message-id:date:subject:to:from;
-	bh=R8axV3zrGCR8LJlu0OosxCPVJsIb2s3wxLdTHN9HNfs=;
-	b=oylyme5gUdOycP1i4/B3srC+vbVwh/GgRfJ5is0ImO70jvMbB9EmnAHUalR5tDlHBuVGaTRwBoGYF
-	 IfMjtyhvIiSDU/6305uGLevty4qBBnCyPup6MEN28pGKFSoWgYDkqWr9eZBceWN5O3UXsxyKYi+B3Q
-	 IM0yCpJk36Yp3AeS7ePQnMpJy9EQv7U4LTQgKqau4feqLgP/ILmi/l33fZ/TEgXPaUBajy42mPw5Fk
-	 YINjhjnosgm5yvM4pItsURKfeiwaIgZebvYtI2wqx6paXPkePXhzt3kHJm4FaTW4ZcUGPT1FDE5amS
-	 +yY66969218gVp+2eruq7fjvfV40NKg==
-X-KPN-MID: 33|E+oMIFqNqCiE4l2kkzmIREhn0jNvfbd5HtdsBoKJlJtYl6UMqHxfksVtxQu3h4a
- S1l/vKYh5kODQ0fVPu6NrAqTCqTdBWcGeVQFguoybViY=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|oK00dgZQze3kacwmaEU7YrVnVXYLTTTiqkBii5XgtPLNjONTvUlor+wDZ5NSIjp
- HloufzgZAlY5Cchja9QZN0g==
-Received: from daedalus.home (unknown [178.227.25.158])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id e3a32562-2d25-11f1-86d5-005056998788;
-	Tue, 31 Mar 2026 19:20:18 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Shuah Khan <shuah@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Jan Kara <jack@suse.cz>,
-	Alexander Aring <alex.aring@gmail.com>
-Cc: Peter Zijlstra <peterz@infradead.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Andrey Albershteyn <aalbersh@redhat.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Arnaldo Carvalho de Melo <acme@redhat.com>,
-	Aleksa Sarai <cyphar@cyphar.com>,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	cmirabil@redhat.com,
-	Jori Koolstra <jkoolstra@xs4all.nl>,
-	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-Subject: [RFC PATCH 1/2] vfs: syscalls: add mkdirat_fd()
-Date: Tue, 31 Mar 2026 19:19:58 +0200
-Message-ID: <20260331172011.3512876-2-jkoolstra@xs4all.nl>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260331172011.3512876-1-jkoolstra@xs4all.nl>
-References: <20260331172011.3512876-1-jkoolstra@xs4all.nl>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KqK0Df0/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B167EC19424;
+	Tue, 31 Mar 2026 17:24:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774977866;
+	bh=od98BF/BWv7PmWPX2b2wStsnZy5eTLqe1oQ9E2UQnb4=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=KqK0Df0/rajdsjIohnjL1ksp4JfvZmNODUz9Y2h3sFNgrRsWmIk/fczw+8UY8Jpoq
+	 fHxmWfSCu96cQ6jOHaChlzKpif7J455iAxIGnko4oZPzHPZiCDhXqseSTig1FQavwk
+	 Ng8hF+neVHvyC7cl5cXqoia7xrAbmAb6msVgA3eLi9xHLtWIIjeKaQP74aVfvWesmo
+	 LuKzwBSUYfBzjv4t9Nn61KJSk3ntQXP3k4D4QJNV7Kyog7esF43xMnKVfc0Y1GDiV5
+	 388GsJ8r81kXn+frquxNW5r7kScwm2/PWNILJk6pq+IOy32FT/54G4MmNdoP3Oym7r
+	 fyVM3//leGKLA==
+Message-ID: <a916e82550e128c22c0e559b16f68b8cd56c8b05.camel@kernel.org>
+Subject: Re: [PATCH 2/4] exportfs: split out the ops for layout-based block
+ device access
+From: Jeff Layton <jlayton@kernel.org>
+To: Christoph Hellwig <hch@lst.de>, Chuck Lever <chuck.lever@oracle.com>, 
+ Amir Goldstein <amir73il@gmail.com>
+Cc: NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, 
+ Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
+ linux-nfs@vger.kernel.org, 	linux-fsdevel@vger.kernel.org
+Date: Tue, 31 Mar 2026 13:24:23 -0400
+In-Reply-To: <20260331153406.4049290-3-hch@lst.de>
+References: <20260331153406.4049290-1-hch@lst.de>
+	 <20260331153406.4049290-3-hch@lst.de>
+Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
+ keydata=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
+ QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Currently there is no way to race-freely create and open a directory.
-For regular files we have open(O_CREAT) for creating a new file inode,
-and returning a pinning fd to it. The lack of such functionality for
-directories means that when populating a directory tree there's always
-a race involved: the inodes first need to be created, and then opened
-to adjust their permissions/ownership/labels/timestamps/acls/xattrs/...,
-but in the time window between the creation and the opening they might
-be replaced by something else.
+On Tue, 2026-03-31 at 17:33 +0200, Christoph Hellwig wrote:
+> The support to grant layouts for direct block device access works
+> at a very different layer than the rest of exports.  Split the methods
+> for it into a separate struct, and move that into a separate header
+> to better split things out.  The pointer to the new operation vector
+> is kept in export_operations to avoid bloating the super_block.
+>=20
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  MAINTAINERS                    |  2 +-
+>  fs/nfsd/blocklayout.c          | 14 ++++++------
+>  fs/nfsd/nfs4layouts.c          |  9 ++++----
+>  fs/xfs/xfs_export.c            |  4 +---
+>  fs/xfs/xfs_pnfs.c              | 12 ++++++++---
+>  fs/xfs/xfs_pnfs.h              | 11 +++++-----
+>  include/linux/exportfs.h       | 25 +++++++---------------
+>  include/linux/exportfs_block.h | 39 ++++++++++++++++++++++++++++++++++
+>  8 files changed, 74 insertions(+), 42 deletions(-)
+>  create mode 100644 include/linux/exportfs_block.h
+>=20
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index c3fe46d7c4bc..b531b87a007e 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -9856,7 +9856,7 @@ S:	Supported
+>  F:	Documentation/filesystems/nfs/exporting.rst
+>  F:	fs/exportfs/
+>  F:	fs/fhandle.c
+> -F:	include/linux/exportfs.h
+> +F:	include/linux/exportfs*.h
+> =20
+>  FILESYSTEMS [IDMAPPED MOUNTS]
+>  M:	Christian Brauner <brauner@kernel.org>
+> diff --git a/fs/nfsd/blocklayout.c b/fs/nfsd/blocklayout.c
+> index 5ee5735b39bb..3cc3b47361e2 100644
+> --- a/fs/nfsd/blocklayout.c
+> +++ b/fs/nfsd/blocklayout.c
+> @@ -2,7 +2,7 @@
+>  /*
+>   * Copyright (c) 2014-2016 Christoph Hellwig.
+>   */
+> -#include <linux/exportfs.h>
+> +#include <linux/exportfs_block.h>
+>  #include <linux/iomap.h>
+>  #include <linux/slab.h>
+>  #include <linux/pr.h>
+> @@ -32,8 +32,8 @@ nfsd4_block_map_extent(struct inode *inode, const struc=
+t svc_fh *fhp,
+>  	u32 device_generation =3D 0;
+>  	int error;
+> =20
+> -	error =3D sb->s_export_op->map_blocks(inode, offset, length, &iomap,
+> -			iomode !=3D IOMODE_READ, &device_generation);
+> +	error =3D sb->s_export_op->block_ops->map_blocks(inode, offset, length,
+> +			&iomap, iomode !=3D IOMODE_READ, &device_generation);
+>  	if (error) {
+>  		if (error =3D=3D -ENXIO)
+>  			return nfserr_layoutunavailable;
+> @@ -199,8 +199,8 @@ nfsd4_block_commit_blocks(struct inode *inode, struct=
+ nfsd4_layoutcommit *lcp,
+>  		iattr.ia_size =3D lcp->lc_newsize;
+>  	}
+> =20
+> -	error =3D inode->i_sb->s_export_op->commit_blocks(inode, iomaps,
+> -			nr_iomaps, &iattr);
+> +	error =3D inode->i_sb->s_export_op->block_ops->commit_blocks(inode,
+> +			iomaps, nr_iomaps, &iattr);
+>  	kfree(iomaps);
+>  	return nfserrno(error);
+>  }
+> @@ -223,8 +223,8 @@ nfsd4_block_get_device_info_simple(struct super_block=
+ *sb,
+> =20
+>  	b->type =3D PNFS_BLOCK_VOLUME_SIMPLE;
+>  	b->simple.sig_len =3D PNFS_BLOCK_UUID_LEN;
+> -	return sb->s_export_op->get_uuid(sb, b->simple.sig, &b->simple.sig_len,
+> -			&b->simple.offset);
+> +	return sb->s_export_op->block_ops->get_uuid(sb, b->simple.sig,
+> +			&b->simple.sig_len, &b->simple.offset);
+>  }
+> =20
+>  static __be32
+> diff --git a/fs/nfsd/nfs4layouts.c b/fs/nfsd/nfs4layouts.c
+> index ad7af8cfcf1f..c53eb67969eb 100644
+> --- a/fs/nfsd/nfs4layouts.c
+> +++ b/fs/nfsd/nfs4layouts.c
+> @@ -3,6 +3,7 @@
+>   * Copyright (c) 2014 Christoph Hellwig.
+>   */
+>  #include <linux/blkdev.h>
+> +#include <linux/exportfs_block.h>
+>  #include <linux/kmod.h>
+>  #include <linux/file.h>
+>  #include <linux/jhash.h>
+> @@ -127,6 +128,7 @@ void nfsd4_setup_layout_type(struct svc_export *exp)
+>  {
+>  #if defined(CONFIG_NFSD_BLOCKLAYOUT) || defined(CONFIG_NFSD_SCSILAYOUT)
+>  	struct super_block *sb =3D exp->ex_path.mnt->mnt_sb;
+> +	struct exportfs_block_ops *bops =3D sb->s_export_op->block_ops;
+>  #endif
+> =20
+>  	if (!(exp->ex_flags & NFSEXP_PNFS))
+> @@ -136,14 +138,11 @@ void nfsd4_setup_layout_type(struct svc_export *exp=
+)
+>  	exp->ex_layout_types |=3D 1 << LAYOUT_FLEX_FILES;
+>  #endif
+>  #ifdef CONFIG_NFSD_BLOCKLAYOUT
+> -	if (sb->s_export_op->get_uuid &&
+> -	    sb->s_export_op->map_blocks &&
+> -	    sb->s_export_op->commit_blocks)
+> +	if (bops && bops->get_uuid && bops->map_blocks && bops->commit_blocks)
+>  		exp->ex_layout_types |=3D 1 << LAYOUT_BLOCK_VOLUME;
+>  #endif
+>  #ifdef CONFIG_NFSD_SCSILAYOUT
+> -	if (sb->s_export_op->map_blocks &&
+> -	    sb->s_export_op->commit_blocks &&
+> +	if (bops && bops->map_blocks && bops->commit_blocks &&
+>  	    sb->s_bdev &&
+>  	    sb->s_bdev->bd_disk->fops->pr_ops &&
+>  	    sb->s_bdev->bd_disk->fops->get_unique_id)
+> diff --git a/fs/xfs/xfs_export.c b/fs/xfs/xfs_export.c
+> index e3e3c3c89840..9b2ad3786b19 100644
+> --- a/fs/xfs/xfs_export.c
+> +++ b/fs/xfs/xfs_export.c
+> @@ -244,8 +244,6 @@ const struct export_operations xfs_export_operations =
+=3D {
+>  	.get_parent		=3D xfs_fs_get_parent,
+>  	.commit_metadata	=3D xfs_fs_nfs_commit_metadata,
+>  #ifdef CONFIG_EXPORTFS_BLOCK_OPS
+> -	.get_uuid		=3D xfs_fs_get_uuid,
+> -	.map_blocks		=3D xfs_fs_map_blocks,
+> -	.commit_blocks		=3D xfs_fs_commit_blocks,
+> +	.block_ops		=3D &xfs_export_block_ops,
+>  #endif
+>  };
+> diff --git a/fs/xfs/xfs_pnfs.c b/fs/xfs/xfs_pnfs.c
+> index 221e55887a2a..a52978f6fb76 100644
+> --- a/fs/xfs/xfs_pnfs.c
+> +++ b/fs/xfs/xfs_pnfs.c
+> @@ -49,7 +49,7 @@ xfs_break_leased_layouts(
+>   * Get a unique ID including its location so that the client can identif=
+y
+>   * the exported device.
+>   */
+> -int
+> +static int
+>  xfs_fs_get_uuid(
+>  	struct super_block	*sb,
+>  	u8			*buf,
+> @@ -104,7 +104,7 @@ xfs_fs_map_update_inode(
+>  /*
+>   * Get a layout for the pNFS client.
+>   */
+> -int
+> +static int
+>  xfs_fs_map_blocks(
+>  	struct inode		*inode,
+>  	loff_t			offset,
+> @@ -252,7 +252,7 @@ xfs_pnfs_validate_isize(
+>   * to manually flush the cache here similar to what the fsync code path =
+does
+>   * for datasyncs on files that have no dirty metadata.
+>   */
+> -int
+> +static int
+>  xfs_fs_commit_blocks(
+>  	struct inode		*inode,
+>  	struct iomap		*maps,
+> @@ -332,3 +332,9 @@ xfs_fs_commit_blocks(
+>  	xfs_iunlock(ip, XFS_IOLOCK_EXCL);
+>  	return error;
+>  }
+> +
+> +struct exportfs_block_ops xfs_export_block_ops =3D {
+> +	.get_uuid		=3D xfs_fs_get_uuid,
+> +	.map_blocks		=3D xfs_fs_map_blocks,
+> +	.commit_blocks		=3D xfs_fs_commit_blocks,
+> +};
+> diff --git a/fs/xfs/xfs_pnfs.h b/fs/xfs/xfs_pnfs.h
+> index 940c6c2ad88c..9c289e98f2a6 100644
+> --- a/fs/xfs/xfs_pnfs.h
+> +++ b/fs/xfs/xfs_pnfs.h
+> @@ -2,13 +2,9 @@
+>  #ifndef _XFS_PNFS_H
+>  #define _XFS_PNFS_H 1
+> =20
+> -#ifdef CONFIG_EXPORTFS_BLOCK_OPS
+> -int xfs_fs_get_uuid(struct super_block *sb, u8 *buf, u32 *len, u64 *offs=
+et);
+> -int xfs_fs_map_blocks(struct inode *inode, loff_t offset, u64 length,
+> -		struct iomap *iomap, bool write, u32 *device_generation);
+> -int xfs_fs_commit_blocks(struct inode *inode, struct iomap *maps, int nr=
+_maps,
+> -		struct iattr *iattr);
+> +#include <linux/exportfs_block.h>
+> =20
+> +#ifdef CONFIG_EXPORTFS_BLOCK_OPS
+>  int xfs_break_leased_layouts(struct inode *inode, uint *iolock,
+>  		bool *did_unlock);
+>  #else
+> @@ -18,4 +14,7 @@ xfs_break_leased_layouts(struct inode *inode, uint *iol=
+ock, bool *did_unlock)
+>  	return 0;
+>  }
+>  #endif /* CONFIG_EXPORTFS_BLOCK_OPS */
+> +
+> +extern struct exportfs_block_ops xfs_export_block_ops;
+> +
+>  #endif /* _XFS_PNFS_H */
+> diff --git a/include/linux/exportfs.h b/include/linux/exportfs.h
+> index 8bcdba28b406..f07ce833fba3 100644
+> --- a/include/linux/exportfs.h
+> +++ b/include/linux/exportfs.h
+> @@ -6,9 +6,8 @@
+>  #include <linux/path.h>
+> =20
+>  struct dentry;
+> -struct iattr;
+> +struct exportfs_block_ops;
+>  struct inode;
+> -struct iomap;
+>  struct super_block;
+>  struct vfsmount;
+> =20
+> @@ -260,19 +259,13 @@ struct handle_to_path_ctx {
+>   * @commit_metadata:
+>   *    @commit_metadata should commit metadata changes to stable storage.
+>   *
+> - * @get_uuid:
+> - *    Get a filesystem unique signature exposed to clients.
+> - *
+> - * @map_blocks:
+> - *    Map and, if necessary, allocate blocks for a layout.
+> - *
+> - * @commit_blocks:
+> - *    Commit blocks in a layout once the client is done with them.
+> - *
+>   * @flags:
+>   *    Allows the filesystem to communicate to nfsd that it may want to d=
+o things
+>   *    differently when dealing with it.
+>   *
+> + * @block_ops:
+> + *    Operations for layout grants to block on the underlying device.
+> + *
+>   * Locking rules:
+>   *    get_parent is called with child->d_inode->i_rwsem down
+>   *    get_name is not (which is possibly inconsistent)
+> @@ -290,12 +283,6 @@ struct export_operations {
+>  	struct dentry * (*get_parent)(struct dentry *child);
+>  	int (*commit_metadata)(struct inode *inode);
+> =20
+> -	int (*get_uuid)(struct super_block *sb, u8 *buf, u32 *len, u64 *offset)=
+;
+> -	int (*map_blocks)(struct inode *inode, loff_t offset,
+> -			  u64 len, struct iomap *iomap,
+> -			  bool write, u32 *device_generation);
+> -	int (*commit_blocks)(struct inode *inode, struct iomap *iomaps,
+> -			     int nr_iomaps, struct iattr *iattr);
+>  	int (*permission)(struct handle_to_path_ctx *ctx, unsigned int oflags);
+>  	struct file * (*open)(const struct path *path, unsigned int oflags);
+>  #define	EXPORT_OP_NOWCC			(0x1) /* don't collect v3 wcc data */
+> @@ -308,6 +295,10 @@ struct export_operations {
+>  #define EXPORT_OP_FLUSH_ON_CLOSE	(0x20) /* fs flushes file data on close=
+ */
+>  #define EXPORT_OP_NOLOCKS		(0x40) /* no file locking support */
+>  	unsigned long	flags;
+> +
+> +#ifdef CONFIG_EXPORTFS_BLOCK_OPS
+> +	struct exportfs_block_ops *block_ops;
+> +#endif
+>  };
+> =20
+>  /**
+> diff --git a/include/linux/exportfs_block.h b/include/linux/exportfs_bloc=
+k.h
+> new file mode 100644
+> index 000000000000..1f52fea8e4dc
+> --- /dev/null
+> +++ b/include/linux/exportfs_block.h
+> @@ -0,0 +1,39 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (c) 2014-2026 Christoph Hellwig.
+> + *
+> + * Support for exportfs-based layout grants for direct block device acce=
+ss.
+> + */
+> +#ifndef LINUX_EXPORTFS_BLOCK_H
+> +#define LINUX_EXPORTFS_BLOCK_H 1
+> +
+> +#include <linux/types.h>
+> +
+> +struct iattr;
+> +struct inode;
+> +struct iomap;
+> +struct super_block;
+> +
+> +struct exportfs_block_ops {
+> +	/*
+> +	 * Get the in-band device unique signature exposed to clients.
+> +	 */
+> +	int (*get_uuid)(struct super_block *sb, u8 *buf, u32 *len, u64 *offset)=
+;
+> +
+> +	/*
+> +	 * Map blocks for direct block access.
+> +	 * If @write is %true, also allocate the blocks for the range if needed=
+.
+> +	 */
+> +	int (*map_blocks)(struct inode *inode, loff_t offset, u64 len,
+> +			struct iomap *iomap, bool write,
+> +			u32 *device_generation);
+> +
+> +	/*
+> +	 * Commit blocks previously handed out by ->map_blocks and written to b=
+y
+> +	 * the client.
+> +	 */
+> +	int (*commit_blocks)(struct inode *inode, struct iomap *iomaps,
+> +			int nr_iomaps, struct iattr *iattr);
+> +};
+> +
+> +#endif /* LINUX_EXPORTFS_BLOCK_H */
 
-Addressing this race without proper APIs is possible (by immediately
-fstat()ing what was opened, to verify that it has the right inode type),
-but difficult to get right. Hence, mkdirat_fd() that creates a directory
-and returns an O_DIRECTORY fd is useful.
+Meh, ok. Almost doesn't seem worthwhile, but I guess the result is a
+bit cleaner layering-wise.
 
-This feature idea (and description) is taken from the UAPI group:
-https://github.com/uapi-group/kernel-features?tab=readme-ov-file#race-free-creation-and-opening-of-non-file-inodes
-
-Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
----
- arch/x86/entry/syscalls/syscall_64.tbl |  1 +
- fs/internal.h                          |  1 +
- fs/namei.c                             | 26 ++++++++++++++++++++++++--
- include/linux/fcntl.h                  |  2 ++
- include/linux/syscalls.h               |  2 ++
- include/uapi/asm-generic/fcntl.h       |  3 +++
- include/uapi/asm-generic/unistd.h      |  5 ++++-
- scripts/syscall.tbl                    |  1 +
- 8 files changed, 38 insertions(+), 3 deletions(-)
-
-diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
-index 524155d655da..dda920c26941 100644
---- a/arch/x86/entry/syscalls/syscall_64.tbl
-+++ b/arch/x86/entry/syscalls/syscall_64.tbl
-@@ -396,6 +396,7 @@
- 469	common	file_setattr		sys_file_setattr
- 470	common	listns			sys_listns
- 471	common	rseq_slice_yield	sys_rseq_slice_yield
-+472	common	mkdirat_fd		sys_mkdirat_fd
- 
- #
- # Due to a historical design error, certain syscalls are numbered differently
-diff --git a/fs/internal.h b/fs/internal.h
-index cbc384a1aa09..2885a3e4ebdd 100644
---- a/fs/internal.h
-+++ b/fs/internal.h
-@@ -58,6 +58,7 @@ int filename_unlinkat(int dfd, struct filename *name);
- int may_linkat(struct mnt_idmap *idmap, const struct path *link);
- int filename_renameat2(int olddfd, struct filename *oldname, int newdfd,
- 		 struct filename *newname, unsigned int flags);
-+int filename_mkdirat_fd(int dfd, struct filename *name, umode_t mode, unsigned int flags);
- int filename_mkdirat(int dfd, struct filename *name, umode_t mode);
- int filename_mknodat(int dfd, struct filename *name, umode_t mode, unsigned int dev);
- int filename_symlinkat(struct filename *from, int newdfd, struct filename *to);
-diff --git a/fs/namei.c b/fs/namei.c
-index 1eb9db055292..93252937983e 100644
---- a/fs/namei.c
-+++ b/fs/namei.c
-@@ -5256,6 +5256,11 @@ struct dentry *vfs_mkdir(struct mnt_idmap *idmap, struct inode *dir,
- EXPORT_SYMBOL(vfs_mkdir);
- 
- int filename_mkdirat(int dfd, struct filename *name, umode_t mode)
-+{
-+	return filename_mkdirat_fd(dfd, name, mode, 0);
-+}
-+
-+int filename_mkdirat_fd(int dfd, struct filename *name, umode_t mode, unsigned int flags)
- {
- 	struct dentry *dentry;
- 	struct path path;
-@@ -5263,7 +5268,7 @@ int filename_mkdirat(int dfd, struct filename *name, umode_t mode)
- 	unsigned int lookup_flags = LOOKUP_DIRECTORY;
- 	struct delegated_inode delegated_inode = { };
- 
--retry:
-+start:
- 	dentry = filename_create(dfd, name, &path, lookup_flags);
- 	if (IS_ERR(dentry))
- 		return PTR_ERR(dentry);
-@@ -5276,7 +5281,6 @@ int filename_mkdirat(int dfd, struct filename *name, umode_t mode)
- 		if (IS_ERR(dentry))
- 			error = PTR_ERR(dentry);
- 	}
--	end_creating_path(&path, dentry);
- 	if (is_delegated(&delegated_inode)) {
- 		error = break_deleg_wait(&delegated_inode);
- 		if (!error)
-@@ -5286,7 +5290,25 @@ int filename_mkdirat(int dfd, struct filename *name, umode_t mode)
- 		lookup_flags |= LOOKUP_REVAL;
- 		goto retry;
- 	}
-+
-+	if (!error && (flags & MKDIRAT_FD_NEED_FD)) {
-+		struct path new_path = { .mnt = path.mnt, .dentry = dentry };
-+		error = FD_ADD(0, dentry_open(&new_path, O_DIRECTORY, current_cred()));
-+	}
-+	end_creating_path(&path, dentry);
- 	return error;
-+retry:
-+	end_creating_path(&path, dentry);
-+	goto start;
-+}
-+
-+SYSCALL_DEFINE4(mkdirat_fd, int, dfd, const char __user *, pathname, umode_t, mode,
-+		unsigned int, flags)
-+{
-+	CLASS(filename, name)(pathname);
-+	if (flags & ~VALID_MKDIRAT_FD_FLAGS)
-+		return -EINVAL;
-+	return filename_mkdirat_fd(dfd, name, mode, flags | MKDIRAT_FD_NEED_FD);
- }
- 
- SYSCALL_DEFINE3(mkdirat, int, dfd, const char __user *, pathname, umode_t, mode)
-diff --git a/include/linux/fcntl.h b/include/linux/fcntl.h
-index a332e79b3207..d2f0fdb82847 100644
---- a/include/linux/fcntl.h
-+++ b/include/linux/fcntl.h
-@@ -25,6 +25,8 @@
- #define force_o_largefile() (!IS_ENABLED(CONFIG_ARCH_32BIT_OFF_T))
- #endif
- 
-+#define VALID_MKDIRAT_FD_FLAGS	(MKDIRAT_FD_NEED_FD)
-+
- #if BITS_PER_LONG == 32
- #define IS_GETLK32(cmd)		((cmd) == F_GETLK)
- #define IS_SETLK32(cmd)		((cmd) == F_SETLK)
-diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
-index 02bd6ddb6278..52e7f09d5525 100644
---- a/include/linux/syscalls.h
-+++ b/include/linux/syscalls.h
-@@ -999,6 +999,8 @@ asmlinkage long sys_lsm_get_self_attr(unsigned int attr, struct lsm_ctx __user *
- asmlinkage long sys_lsm_set_self_attr(unsigned int attr, struct lsm_ctx __user *ctx,
- 				      u32 size, u32 flags);
- asmlinkage long sys_lsm_list_modules(u64 __user *ids, u32 __user *size, u32 flags);
-+asmlinkage long sys_mkdirat_fd(int dfd, const char __user *pathname, umode_t mode,
-+				     unsigned int flags)
- 
- /*
-  * Architecture-specific system calls
-diff --git a/include/uapi/asm-generic/fcntl.h b/include/uapi/asm-generic/fcntl.h
-index 613475285643..621458bf1fbf 100644
---- a/include/uapi/asm-generic/fcntl.h
-+++ b/include/uapi/asm-generic/fcntl.h
-@@ -95,6 +95,9 @@
- #define O_NDELAY	O_NONBLOCK
- #endif
- 
-+/* Flags for mkdirat_fd */
-+#define MKDIRAT_FD_NEED_FD	0x01
-+
- #define F_DUPFD		0	/* dup */
- #define F_GETFD		1	/* get close_on_exec */
- #define F_SETFD		2	/* set/clear close_on_exec */
-diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
-index a627acc8fb5f..5bae1029f5d9 100644
---- a/include/uapi/asm-generic/unistd.h
-+++ b/include/uapi/asm-generic/unistd.h
-@@ -863,8 +863,11 @@ __SYSCALL(__NR_listns, sys_listns)
- #define __NR_rseq_slice_yield 471
- __SYSCALL(__NR_rseq_slice_yield, sys_rseq_slice_yield)
- 
-+#define __NR_mkdirat_fd 472
-+__SYSCALL(__NR_mkdirat_fd, sys_mkdirat_fd)
-+
- #undef __NR_syscalls
--#define __NR_syscalls 472
-+#define __NR_syscalls 473
- 
- /*
-  * 32 bit systems traditionally used different
-diff --git a/scripts/syscall.tbl b/scripts/syscall.tbl
-index 7a42b32b6577..db3bd97d4a1a 100644
---- a/scripts/syscall.tbl
-+++ b/scripts/syscall.tbl
-@@ -412,3 +412,4 @@
- 469	common	file_setattr			sys_file_setattr
- 470	common	listns				sys_listns
- 471	common	rseq_slice_yield		sys_rseq_slice_yield
-+472	common	mkdirat_fd			sys_mkdirat_fd
--- 
-2.53.0
-
+Reviewed-by: Jeff Layton <jlayton@kernel.org>
