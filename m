@@ -1,106 +1,98 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 379D33DEAE6
-	for <linux-fsdevel@vger.kernel.org>; Tue, 31 Mar 2026 15:07:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86BA43E3DA7;
+	Tue, 31 Mar 2026 15:10:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774969631; cv=none; b=doyfgVPUOvr0oGfca4vzRx5Zk2ijGVcYoic/r/swZG6YRtHaVdkovnuE+KOcwPFM975Pu7VnRL8u1gsBPSJ4s95v1WxEKLNNW8c2+2XumVp4OD1qcT8Am0ce/Usvnn8N8Vz6LYIS+H1ahYwRUse3PHqlSxP0oMKxRuxsmtcOong=
+	t=1774969848; cv=none; b=dUwjLruvfwiQWr80fFfAvi1PkO+F6W0J7vRmIydB4PK84ApNI4e0WrG169Zv4Hh+P6Gm5e5O7EtD8kbg99g2W6RQzuPFN/7x0MM4sQggotHETdGbhkSib/SY+eZ538ZUYlpWEtJx68XGwZIx5aGWMKH6yFTtEdCQkvvDJrKu6r0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774969631; c=relaxed/simple;
-	bh=sIq+HA1bMYdqH2Erp3qSFPRM2QQJsMwhWFNyPrpPIs8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IdeKQtOvgm8Yzd/Uo920jG7h6k/KQUKBWdpQReXXJNRxLm6yFW8J1+QCRGrOYwp1uKMjMLPnAAiGoGTcPqbbAP5682Ax117f6Ec3uh8xdzq6QqH4JsKCAzNmCKTKxHvmnmQcSPzj0eUtzGVo1tjI5P0THxdkmo8cZG+9qjvMbf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PubqxeHm; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774969848; c=relaxed/simple;
+	bh=E41XlfhVFOeVRcSNGVLW5pCNWoAqqMLGKUlas2wiqg8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qoU6Ch5BfYZeMJbT5u2ikrixMXyaTudV3sVmWPNNodlyxRX2RWBpl6+1xP/Hqh4/K0EzOIGXIHrMM35N8PwiD3NTcpKFuO3lRNJs4dqHi+6wau4YOUB1swRjlGc1a98FjYtsDnBbdGLgge2GrvGuVDrqpFMnIyLlxg7O44Zle2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=fail (0-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=oRvu81Lu reason="key not found in DNS"; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PubqxeHm"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-43b9144790dso3209916f8f.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 31 Mar 2026 08:07:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774969628; x=1775574428; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QP1+m9jjLQoVTaKevZQc6+yN+9p/W/azRVm4avbLCr4=;
-        b=PubqxeHm3vMgGIoLSR3va5Y2X3G6N+VIJWE369wABM6hdb7iNOL5EBTnSAHEae4di4
-         OU77f+FKF4KGuHj8UJvlor6tX4pKwVi1HRMoCxy7Wgu8BzP48q7OF5DcJoNGoWQoygjj
-         HIH72Yp7ROOqJjDk7z9JpJTD0A9J+VlwOcXh1HHnWv9wqm2fC8BjZzR4sRSDLlGPexBB
-         wC/61LLF9wqLWGjrbAg0j5VnzdFM3xQjRqT5hPuCAe9vR4IIsk4jFkCP85nQiWghBFr0
-         c65aNwx6EXqluKKDAIvHqVtznVZYpFiWngwSWdKGsBdaQ6S/BrFxNgrYJY3spgcXWega
-         VqLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774969628; x=1775574428;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QP1+m9jjLQoVTaKevZQc6+yN+9p/W/azRVm4avbLCr4=;
-        b=gBE2bpJ1ppuLanJUq3XmBAuuDipc3cJVP2kVQfmPFqEYGsvUBZGCiLUekwW9PXbKvE
-         aGOk9RCRLCQuzXoDyK6C9mqBwzcFB78AF1Xaf3HuRQqi4QiBGLliI+uZzK5x0sr9d9FX
-         wfODVCNFGTGA5dSgpvSxbR4smQJtQtUT6XM4ekvGz3loIMN06MBr0ulv4lcY/GxRhhoR
-         8Dra7KDGWwwSl7dn5FR1jTh8Xrcz2wH3mna3UzIEVcKSPEw9j1jC3aSX6RXy27C63XxQ
-         3Sx3+W+YqSvqPcPMz8AXZBThQgPpJVYY4zNDKOCe2f5y0nMebso9mjYJzAgnJuRBDlwj
-         KzDA==
-X-Forwarded-Encrypted: i=1; AJvYcCXem8Z8Ke4uFqzI9g5UP32uQ74MW4IGghy8Rv+BZ8lktibne9FYdk2tjgwD6SL8caQDN65tcW2GEMQUkBGB@vger.kernel.org
-X-Gm-Message-State: AOJu0YxbFzn3ejq48h+x1Z8CrRZxIcaBir5LbpqP8hsSY2qT0BlsHcTd
-	+fuYvnQp9MIuzTFtzBT5gb1VB1xzAPPTxpuqgIGo3QYGvrGKjM0lGIh9
-X-Gm-Gg: ATEYQzw0XK6ZuQPJSR+5/Mon/raNmhanjPTp4XVw4kkQarOBdqtFZAO8TlbdIYbYEk1
-	e6okc/m+5wMkau+ThAzmQKTfzC4AKNEnWunrz//ZAnJMt8I8r8ORXG5R7JIwIUZo0qHGnWVL9Ji
-	DCYuyzHmjmnhR/LaMY2FCyMHae896M7jNNXoSwvD2H92CM2cccu074N1SAzSH5461RLu87n3GgP
-	SB1lKm2QByaz36T9npJmT4lNMSDzyu2OmUq8HS7OLmijcBlL1uyRxBjpztmcC9c7mGyBML5Bkd1
-	jG6QGOIyLCCoKgujwN1W1MwGXZj33pMVWFA+DcYYRI4IyLjm6HQtwQMT8Pr9CQL+JT3n8KeivnF
-	vPjR4F5aWnzy/n3/Inr4uOLHc6fyrHW3AAiHqsLpAoITI0wfZjr6uWKZpWOsuxcRbW/2Fb6XRHD
-	fJJFZLtoFLdx/pOOoTVxzh1ixlLWvOlzNwOOUyaxYGj0/92sQUck+gdxkSGNO97JNIiTPFBcwbG
-	A==
-X-Received: by 2002:a05:6000:184d:b0:43b:4469:d106 with SMTP id ffacd0b85a97d-43b9e9fa20fmr28599844f8f.40.1774969628281;
-        Tue, 31 Mar 2026 08:07:08 -0700 (PDT)
-Received: from f.. (cst-prg-89-171.cust.vodafone.cz. [46.135.89.171])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf21e9e24sm26882128f8f.10.2026.03.31.08.07.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Mar 2026 08:07:07 -0700 (PDT)
-From: Mateusz Guzik <mjguzik@gmail.com>
-To: brauner@kernel.org
-Cc: viro@zeniv.linux.org.uk,
-	jack@suse.cz,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	Mateusz Guzik <mjguzik@gmail.com>
-Subject: [PATCH] fs: add back TODO concerning printed info to dump_inode() and expand it
-Date: Tue, 31 Mar 2026 17:07:01 +0200
-Message-ID: <20260331150701.3844815-1-mjguzik@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="oRvu81Lu"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4flWlB2mLrz9v7Y;
+	Tue, 31 Mar 2026 17:10:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
+	t=1774969830;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=E41XlfhVFOeVRcSNGVLW5pCNWoAqqMLGKUlas2wiqg8=;
+	b=oRvu81LuMS3XfrHmJKnwx3YKiDLc9OBsU5ONI3o+3hTYZdHsn8wvt/IZgGjlmcsvg0loQA
+	H1tHkyR327Q96RQADXDkLAiByWQsu4DBzH1+ca+IvVP2IerwpqucDU3Jy5fLr9Yd+i3Zhc
+	pNAMqknxKEMGWhdiylbIpq9//eL2Vdcji5P82IlDoB820+fARq0VVsRhTCJgu5Sb63L8qU
+	ZR3nh1h4wsox2sLNrbxi0xhWlUzjTrQyALmNueD/FDpBnOYWObVt3BoJRte/DGn7o9mnGO
+	Kb2dAdjbHgzPpxHL9dGuwaDw9Jh+iXbIkrga1z/wbdvbcno5BBAs1bX4aRpEPA==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=none;
+	spf=pass (outgoing_mbo_mout: domain of cyphar@cyphar.com designates 2001:67c:2050:b231:465::1 as permitted sender) smtp.mailfrom=cyphar@cyphar.com
+Date: Wed, 1 Apr 2026 02:10:16 +1100
+From: Aleksa Sarai <cyphar@cyphar.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Aleksa Sarai <aleksa@amutable.com>, Shuah Khan <shuah@kernel.org>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH 0/3] selftests: openat2: migrate to kselftests harness
+Message-ID: <2026-03-31-somber-private-crew-movie-exaY9q@cyphar.com>
+References: <20260401-openat2-selftests-kunit-v1-0-5819ac6cadf5@amutable.com>
+ <20260331-irrgarten-decken-b589936aed85@brauner>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="olcskqu5kr2f4yyg"
+Content-Disposition: inline
+In-Reply-To: <20260331-irrgarten-decken-b589936aed85@brauner>
+X-Rspamd-Queue-Id: 4flWlB2mLrz9v7Y
 
-I failed to notice the change which added get_kernel_nofault() usage
-removed it. It very much is still applicable.
 
-Signed-off-by: Mateusz Guzik <mjguzik@gmail.com>
----
- fs/inode.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+--olcskqu5kr2f4yyg
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 0/3] selftests: openat2: migrate to kselftests harness
+MIME-Version: 1.0
 
-diff --git a/fs/inode.c b/fs/inode.c
-index 5e5cddd76a9d..912831645f38 100644
---- a/fs/inode.c
-+++ b/fs/inode.c
-@@ -3100,6 +3100,12 @@ EXPORT_SYMBOL(mode_strip_sgid);
-  *
-  * If inode is an invalid pointer, we don't want to crash accessing it,
-  * so probe everything depending on it carefully with get_kernel_nofault().
-+ *
-+ * TODO:
-+ * - add more fields
-+ * - pretty print flags instead of merely showing numerical values
-+ * - consider extending inode ops with a ->dump_inode func so that filesystems
-+ *   can print additional information
-  */
- void dump_inode(struct inode *inode, const char *reason)
- {
--- 
-2.48.1
+On 2026-03-31, Christian Brauner <brauner@kernel.org> wrote:
+> On Wed, Apr 01, 2026 at 12:43:30AM +1100, Aleksa Sarai wrote:
+> > These tests were written in the early days of selftests' TAP support,
+> > the more modern kselftest harness is much easier to follow and maintain.
+> > The actual contents of the tests are unchanged by this change.
+> >=20
+> > Signed-off-by: Aleksa Sarai <aleksa@amutable.com>
+> > ---
+>=20
+> Looks all good to me. Do you want to maybe migrate the tests to the
+> filesystems/ subfolder as well?
 
+Good point, I'll move it over in v2.
+
+--=20
+Aleksa Sarai
+https://www.cyphar.com/
+
+--olcskqu5kr2f4yyg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCacvj2BsUgAAAAAAEAA5t
+YW51MiwyLjUrMS4xMiwyLDIACgkQKJf60rfpRG8dQQEAmdUQr8b2gfRzRkPbHjAh
+42g+nEzUl1RDNN0OFzh8SEYA/3cFgt22a/WmxvJFXv2lS0/6zWvHCiEx6jWukZ4P
+WWYB
+=KP7I
+-----END PGP SIGNATURE-----
+
+--olcskqu5kr2f4yyg--
