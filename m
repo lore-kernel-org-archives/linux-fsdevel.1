@@ -1,142 +1,170 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CD2738A709;
-	Tue, 31 Mar 2026 20:44:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AED9D3F787B;
+	Tue, 31 Mar 2026 21:07:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774989871; cv=none; b=pUNSbjwY9zUN/TpZ3n+fDvzMeDhXN/7eocoL7sxyaDdsx3g52mBRilV6l+5efeiY2NhBiHMYev/XPnnqVhupsSTOvwQeFaMSV4OwOxchuK/Y1FOLh0KFznT3E8XRv59PylCRbU8Slv71+FilQLSf6Pdpi1shreUtuHN1JUwBoVU=
+	t=1774991226; cv=none; b=lmGURCJAUaRwQhzno6/EynsF+gQjMuIa+6MPQp0JGSQZVDwEy2paGf9JEVlbOIkmKPtcA3A6pNxZVEukPmRIIcBzi/9fu5UVRAv1dDupdOSW0jmU8/HZPw9o8qs4Gf3MwjzqgCEMsJjH84bR6PJ0M1ZspqOvrn6TxbKaoBd253w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774989871; c=relaxed/simple;
-	bh=y983+/rjkzf6M53UM1IDDXq0eYkSrQwapz5bFCkeWJU=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=cKHjMwpXU87p0HFD3P6PNK6zdSbJqFM63CS4b03HocGkcsoaM2q3lg4/UnLyW2fWLAnW+oPduS5sbfZJYPB+WQ1unbuz54hItGlgxk+6LWmjijrnADrzphqt0NxIKGV2ejOvDjVE3LsuEvRJwCOrFcZHAeoXKoKpabxSiQAbWpM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=iEciUOTL; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	s=arc-20240116; t=1774991226; c=relaxed/simple;
+	bh=WzeX34AxfhhRORXcfsPGaKpCHhgigrPVQpuMx6xrHPM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Bmc6yytapb4agHvhFw6HyDd6CYb9hbWXKnlneoN3wSncXAOsTL+G04ujHOQQGMWzNBwAoCj5jruoG5NlmOZq9H+R75q2FOEgXOOqTTx1TaE7H+BN87nLAKvYEIBe6GNL98aEpRjETAdz6oMBKbh1aXH1SDIbsfi84Br5xzh8ji4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sShxAI5y; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="iEciUOTL"
-Received: from ehlo.thunderbird.net (c-76-133-66-138.hsd1.ca.comcast.net [76.133.66.138])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 62VKh4FL755405
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Tue, 31 Mar 2026 13:43:05 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 62VKh4FL755405
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2026032601; t=1774989786;
-	bh=V0/g33lgizl2oNCDPM0m5RDMcESYn9Y1acfjoIK2Gh0=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=iEciUOTL4ETUqQQo6wr5ofRzrfEOfRyTMLcRqbW8kB7ua8qvmOLjTwd+MnFLUMMAj
-	 9Yj2BKa3F1A6M+1e/cPaQQmSZqFwWLAMJ6g1QPg453Wzu/dYiF7ZymiJLu2c+enFQ4
-	 1ByItX+dqt/V8rOF9S1y4fYF8Phwon9UVj2NvQsWA04KYdp97aWjdGNxPQYZMxZuZw
-	 WlKQzHIDXIw0an/WBiuaFXtxsLscM7vTrlvDFN8V14b/474JJUB8Wp9VgiK4GUmNIE
-	 an3dyDvlC3yhcqy3oC5rHfpCrX6HmhjdPoVEhyaeYpzVLuqLlSWCW7LG4EGaZFp87i
-	 qJdtolklv5Wgg==
-Date: Tue, 31 Mar 2026 13:42:57 -0700
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: Yann Droneaud <yann@droneaud.fr>, Jori Koolstra <jkoolstra@xs4all.nl>,
-        Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>,
-        Jeff Layton <jlayton@kernel.org>, Chuck Lever <chuck.lever@oracle.com>,
-        Arnd Bergmann <arnd@arndb.de>, Shuah Khan <shuah@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jan Kara <jack@suse.cz>, Alexander Aring <alex.aring@gmail.com>
-CC: Peter Zijlstra <peterz@infradead.org>, Oleg Nesterov <oleg@redhat.com>,
-        Andrey Albershteyn <aalbersh@redhat.com>, Jiri Olsa <jolsa@kernel.org>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        =?ISO-8859-1?Q?Thomas_Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Arnaldo Carvalho de Melo <acme@redhat.com>,
-        Aleksa Sarai <cyphar@cyphar.com>, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        cmirabil@redhat.com, "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-Subject: Re: [RFC PATCH 1/2] vfs: syscalls: add mkdirat_fd()
-User-Agent: K-9 Mail for Android
-In-Reply-To: <df5a6fec-ca67-4196-9e7b-cd129c79578e@droneaud.fr>
-References: <20260331172011.3512876-1-jkoolstra@xs4all.nl> <20260331172011.3512876-2-jkoolstra@xs4all.nl> <df5a6fec-ca67-4196-9e7b-cd129c79578e@droneaud.fr>
-Message-ID: <6BF21DE6-F88D-4E59-91BE-568C67ABAE89@zytor.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sShxAI5y"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 060D2C19423;
+	Tue, 31 Mar 2026 21:07:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774991226;
+	bh=WzeX34AxfhhRORXcfsPGaKpCHhgigrPVQpuMx6xrHPM=;
+	h=From:Subject:Date:To:Cc:From;
+	b=sShxAI5yzj0DQxJ4tBo8I2dRbN4pmPsNwKzbubljNQzO234Lb7p6cWyKyPVB3bjQb
+	 Quxk3X3GApj3AgI7YlIGHoxUwXzEq7XyRHy7gnpZTO37GZHMgz2+EF0sZHrKe02fc3
+	 Ie1gjYACAuvcJNA9sU5ceyOuWYIFEUoHc+1X/pfWGNpvxFnwgoVR9d7piy/vU5k+Yy
+	 E784gWzfvqq25mVuksTncTEBtL4sgvUjUImH7tofy/XmelMCZfChEzpYr/ryZDN51A
+	 j47rwbMDUrQovkUY0KKF6+Sp/NLdE/JfxOMC3VTmuUUQVcUoQKKEs+5kGIbpKP36dH
+	 yzfM5MAhWhnkA==
+From: Chuck Lever <cel@kernel.org>
+Subject: [PATCH v7 0/7] Automatic NFSv4 state revocation on filesystem
+ unmount
+Date: Tue, 31 Mar 2026 17:06:54 -0400
+Message-Id: <20260331-umount-kills-nfsv4-state-v7-0-d8d2eee93f53@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAG43zGkC/43OwU7EIBAG4FfZcBaFKbTsnnwP4wHo0KJdMEAbz
+ abvLqyXNSYbb/NPZr78F5IxeczkdLiQhJvPPoYahocDsbMOE1I/1kyAQc86ruh6jmso9N0vS6b
+ B5U3QXHRByjsFXDlwAhmp7x8Jnf+80i+vPzmv5g1taV67MDojNUkHO7dVTH7y4amaIy2Yiw9Tu
+ 5p9LjF9XRtuomn/KFMHRmWv9SiENkcFzzFpu+CjjWfS2mzyRoL+jiSrNIJFNnDTyYH9kfobqeN
+ 3pL5KXIFk7igdgP4l7fv+DQAgHBqNAQAA
+X-Change-ID: 20260318-umount-kills-nfsv4-state-138218f2f4e0
+To: NeilBrown <neil@brown.name>, Jeff Layton <jlayton@kernel.org>, 
+ Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, 
+ Tom Talpey <tom@talpey.com>
+Cc: linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ Chuck Lever <chuck.lever@oracle.com>
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3949;
+ i=chuck.lever@oracle.com; h=from:subject:message-id;
+ bh=WzeX34AxfhhRORXcfsPGaKpCHhgigrPVQpuMx6xrHPM=;
+ b=owEBbQKS/ZANAwAKATNqszNvZn+XAcsmYgBpzDdxl8nYpa+L74xEpJZFIH7z6FdKkeSAbtBET
+ 0MUPO5SGJqJAjMEAAEKAB0WIQQosuWwEobfJDzyPv4zarMzb2Z/lwUCacw3cQAKCRAzarMzb2Z/
+ lzmHEAC9hc5D+A11k9WBpJLePYfBgqwDzhk0Fg6zLBIQjw6hkQE6Qo9rR4HGwrte2BhMYnF8bEl
+ vPmoAeSWTHLeET6hPeiLDCpNcQBFa52KPzdJzBzPYUUn/OTKcyix9g8xlOQ/HHNtQc6oQgwRQbM
+ CRdCU1AKIr2P/Eu+297hAZHQBbz58hS+YLSAJ0Y7i4DH8AM0N3EJ07rfNMOTrKN0GsPaIDZ47WM
+ tF7C5/MqWV8Ojf7xDHef9Ha11FJ3fji9i4bpPt5zSD0UBVffROMZdxcf+SUJKRR/E/OZ/44VBrS
+ hPCASoJV2ytTG0dXaHgTLolAPPjpEsIy/SDIvvtpwrRiq/BBwElsxcdb8l5AQU+jBUBv8m2+uiq
+ kx54+tm6vPnwaJe8IrO2gIJtbOko/AdVW+ci0ml51ED/YuA6YHp1HoHiliJTyUEwjMExQ1Z1dfp
+ rEQfrfaM2oIRqMPrJnzIZpdHn1RWPKdPZUm1Ypl62Gq6+1KXSydLJDj9BSsZco8r0ikwKdi3PmY
+ ZDslWwkyxGu4uGY0d8ZO/tx6wm2UhjwtUSMtj2R+lhkeMPd/xtJKRAnTpwelWjcMNSlEWgueHNJ
+ by7XfGq+LyoZrlzlDdZTc0vqny/6Y5Q7INzh9VKug5JVkwYaOBsFCFKK1drBtCZ0g/hszf+pdfr
+ V7xLYqpnShkwdBA==
+X-Developer-Key: i=chuck.lever@oracle.com; a=openpgp;
+ fpr=28B2E5B01286DF243CF23EFE336AB3336F667F97
 
-On March 31, 2026 1:25:03 PM PDT, Yann Droneaud <yann@droneaud=2Efr> wrote:
->Hi,
->
->Le 31/03/2026 =C3=A0 19:19, Jori Koolstra a =C3=A9crit=C2=A0:
->> Currently there is no way to race-freely create and open a directory=2E
->> For regular files we have open(O_CREAT) for creating a new file inode,
->> and returning a pinning fd to it=2E The lack of such functionality for
->> directories means that when populating a directory tree there's always
->> a race involved: the inodes first need to be created, and then opened
->> to adjust their permissions/ownership/labels/timestamps/acls/xattrs/=2E=
-=2E=2E,
->> but in the time window between the creation and the opening they might
->> be replaced by something else=2E
->>=20
->> Addressing this race without proper APIs is possible (by immediately
->> fstat()ing what was opened, to verify that it has the right inode type)=
-,
->> but difficult to get right=2E Hence, mkdirat_fd() that creates a direct=
-ory
->> and returns an O_DIRECTORY fd is useful=2E
->>=20
->> This feature idea (and description) is taken from the UAPI group:
->> https://github=2Ecom/uapi-group/kernel-features?tab=3Dreadme-ov-file#ra=
-ce-free-creation-and-opening-of-non-file-inodes
->>=20
->> Signed-off-by: Jori Koolstra <jkoolstra@xs4all=2Enl>
->> ---
->>   arch/x86/entry/syscalls/syscall_64=2Etbl |  1 +
->>   fs/internal=2Eh                          |  1 +
->>   fs/namei=2Ec                             | 26 +++++++++++++++++++++++=
-+--
->>   include/linux/fcntl=2Eh                  |  2 ++
->>   include/linux/syscalls=2Eh               |  2 ++
->>   include/uapi/asm-generic/fcntl=2Eh       |  3 +++
->>   include/uapi/asm-generic/unistd=2Eh      |  5 ++++-
->>   scripts/syscall=2Etbl                    |  1 +
->>   8 files changed, 38 insertions(+), 3 deletions(-)
->
->> diff --git a/include/linux/fcntl=2Eh b/include/linux/fcntl=2Eh
->> index a332e79b3207=2E=2Ed2f0fdb82847 100644
->> --- a/include/linux/fcntl=2Eh
->> +++ b/include/linux/fcntl=2Eh
->> @@ -25,6 +25,8 @@
->>   #define force_o_largefile() (!IS_ENABLED(CONFIG_ARCH_32BIT_OFF_T))
->>   #endif
->>   +#define VALID_MKDIRAT_FD_FLAGS	(MKDIRAT_FD_NEED_FD)
->> +
->
->I don't see support for O_CLOEXEC-ish flag, is the file descriptor in clo=
-se-on-exec mode by default ? If yes, it should be mentioned=2E
->
->
->> diff --git a/include/uapi/asm-generic/fcntl=2Eh b/include/uapi/asm-gene=
-ric/fcntl=2Eh
->> index 613475285643=2E=2E621458bf1fbf 100644
->> --- a/include/uapi/asm-generic/fcntl=2Eh
->> +++ b/include/uapi/asm-generic/fcntl=2Eh
->> @@ -95,6 +95,9 @@
->>   #define O_NDELAY	O_NONBLOCK
->>   #endif
->>   +/* Flags for mkdirat_fd */
->> +#define MKDIRAT_FD_NEED_FD	0x01
->> +
->
->
->Regards=2E
->
->
+When an NFS server exports a filesystem and clients hold NFSv4
+state (opens, locks, delegations), unmounting the underlying
+filesystem fails with EBUSY. The /proc/fs/nfsd/unlock_ip and
+/proc/fs/nfsd/unlock_fs procfs interfaces handle this, but have
+no netlink equivalents, and unlock_fs operates at whole-superblock
+granularity.
 
-And even if it is, POSIX already has O_CLOFORK and we should expect that t=
-hat will be needed, too=2E
+This series adds three new NFSD netlink commands, each with its own
+attribute set:
+
+ - NFSD_CMD_UNLOCK_IP releases NLM locks held by a client IP
+   address. Netlink equivalent of write_unlock_ip.
+
+ - NFSD_CMD_UNLOCK_FILESYSTEM revokes all NFS state on a
+   superblock. Netlink equivalent of write_unlock_fs.
+
+ - NFSD_CMD_UNLOCK_EXPORT revokes NFSv4 state acquired through
+   exports of a specific path, regardless of client.
+
+UNLOCK_FILESYSTEM and UNLOCK_EXPORT serve different intents.
+UNLOCK_FILESYSTEM means "unmounting /data, release everything
+on this superblock." UNLOCK_EXPORT means "no clients remain for
+/data/projectA, release only the state acquired through exports
+of that path." Userspace (exportfs -u) sends UNLOCK_EXPORT after
+removing the last client for a given path, enabling the underlying
+filesystem to be unmounted.
+
+The path-only design for UNLOCK_EXPORT avoids the auth_domain
+naming complexity (use_ipaddr vs hostname-based domains) by not
+requiring the caller to identify a specific client. Since this
+mechanism is to be used to enable umount, this seemed like a
+reasonable compromise.
+
+---
+Changes since v6:
+- Send the complete series (v5 was missing patches 6 and 7)
+
+Changes since v5:
+- Rename state_lock => nn->deleg_lock
+
+Changes since v4:
+- 1/9 has been queued in nfsd-testing
+- Split single NFSD_CMD_UNLOCK into three separate commands
+- UNLOCK_EXPORT takes path only, no client attribute to avoid
+  auth_domain naming complexity with use_ipaddr
+
+Changes since v3:
+- All VFS changes replaced with new netlink "unlock" operation
+
+Changes since v2:
+- Replace fs_pin with an SRCU umount notifier chain in VFS
+- Merge the pending COPY cancellation patch
+- Replace xa_cmpxchg() with xa_insert()
+- Use cancel_work_sync() instead of flush_workqueue()
+- Remove rcu_barrier()
+- Correct misleading claims in kdoc comments and commit messages
+
+Changes since v1:
+- Explain why drop_client() is being renamed
+- Finish implementing revocation on umount
+- Rename pin_insert_group
+- Clarified log output and code comments
+- Hold nfsd_mutex while closing nfsd_files
+
+---
+Changes in v7:
+- EDITME: describe what is new in this series revision.
+- EDITME: use bulletpoints and terse descriptions.
+- Link to v6: https://patch.msgid.link/20260331-umount-kills-nfsv4-state-v6-0-18250f95f22a@oracle.com
+
+---
+Chuck Lever (7):
+      NFSD: Extract revoke_one_stid() utility function
+      NFSD: Add NFSD_CMD_UNLOCK_IP netlink command
+      NFSD: Add NFSD_CMD_UNLOCK_FILESYSTEM netlink command
+      NFSD: Replace idr_for_each_entry_ul in find_one_sb_stid()
+      NFSD: Track svc_export in nfs4_stid
+      NFSD: Add NFSD_CMD_UNLOCK_EXPORT netlink command
+      NFSD: Close cached file handles when revoking export state
+
+ Documentation/netlink/specs/nfsd.yaml |  61 +++++++++
+ fs/nfsd/filecache.c                   |  46 +++++++
+ fs/nfsd/filecache.h                   |   1 +
+ fs/nfsd/netlink.c                     |  36 ++++++
+ fs/nfsd/netlink.h                     |   3 +
+ fs/nfsd/nfs4layouts.c                 |   2 +
+ fs/nfsd/nfs4state.c                   | 227 +++++++++++++++++++++++-----------
+ fs/nfsd/nfsctl.c                      | 126 ++++++++++++++++++-
+ fs/nfsd/state.h                       |   6 +
+ fs/nfsd/trace.h                       |  32 ++++-
+ include/uapi/linux/nfsd_netlink.h     |  24 ++++
+ 11 files changed, 485 insertions(+), 79 deletions(-)
+---
+base-commit: da43140ef30ecaffbfe04902d2513f5aac48ec4a
+change-id: 20260318-umount-kills-nfsv4-state-138218f2f4e0
+
+Best regards,
+--  
+Chuck Lever
+
