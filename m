@@ -1,76 +1,79 @@
 Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EF1A363C60;
-	Tue, 31 Mar 2026 01:30:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 685CB361DA2;
+	Tue, 31 Mar 2026 01:30:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774920619; cv=none; b=dIyF75Oq6W9id72bCikBelVxZhVEGukLLKv62CWeo7H3+dVgFpmVRGtZEBx3hbOzFV0adIKvnhEfv2BtA/7vdZetM02O5JEct+aFkivl+fFBuhvCIWdd242Xij4+ZTNwRjKEgyLDs4vcCT6ABWvWz7PrtiQhjH5PNo3fnj4ENnY=
+	t=1774920631; cv=none; b=a+Zu+GTUlvIV6qkdyUBMLD3M9n4lhva14BCSaU9yi9QjFY+Ky83whjGG/iltAS8odxF876VMWrt35oKd3CDWE+hA6zZeRjGM1rkDlMC4BIvQ3f/Ko0qat9lVUDHTvovLN7mSaXYtX6lvyH/6OdNkBZiYqDgWMmQ2XLMmKDkHJVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774920619; c=relaxed/simple;
-	bh=h3aE6ySObvrIqFwofipofH6NcC0JbLvSOD/6/eqfqUs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=akC8JwkjF7uMsrIJ5D6TzpNz99+nnYztyBogGE8+yQKkVKID5ehRGRs/meH28h9b2H8lUscjIwFpYkisSvchu4DhV5Z52Y6h/OatLJ8WBYP6uz3+o1V8sYypcNTo0ye0kbMlKg22uWi/yO99+nea0uMn/pBHNISj2hbj9sf0TrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=themaw.net; spf=pass smtp.mailfrom=themaw.net; dkim=pass (2048-bit key) header.d=themaw.net header.i=@themaw.net header.b=j0zhJ/r9; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=EH29gXkc; arc=none smtp.client-ip=103.168.172.146
+	s=arc-20240116; t=1774920631; c=relaxed/simple;
+	bh=QwXtXOf7jYOyNON3k4INnHhmNa4DnKTs3UmlR0WNN4Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ahGvYeLbM2YbGXO1bpPcJy1IEzKF1AQ9iXnaNHi/HBUPn5PhOoVTzbkDa6c/v8nYmKeC/vyiGNgd0HnGGkIL8qaXI/EfqNrTP6/d7WqFEg4dR1s+TD6cDcq1h2eTrSM196A17412lsnhhcxJyqOLooC7EtJvRoRLsSc5nWofq28=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=themaw.net; spf=pass smtp.mailfrom=themaw.net; dkim=pass (2048-bit key) header.d=themaw.net header.i=@themaw.net header.b=TOuTZPMv; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=I3MRLV1B; arc=none smtp.client-ip=103.168.172.146
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=themaw.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=themaw.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=themaw.net header.i=@themaw.net header.b="j0zhJ/r9";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="EH29gXkc"
+	dkim=pass (2048-bit key) header.d=themaw.net header.i=@themaw.net header.b="TOuTZPMv";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="I3MRLV1B"
 Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfout.phl.internal (Postfix) with ESMTP id ECFF0EC0214;
-	Mon, 30 Mar 2026 21:30:15 -0400 (EDT)
+	by mailfout.phl.internal (Postfix) with ESMTP id 92F57EC00EB;
+	Mon, 30 Mar 2026 21:30:29 -0400 (EDT)
 Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-02.internal (MEProxy); Mon, 30 Mar 2026 21:30:15 -0400
+  by phl-compute-02.internal (MEProxy); Mon, 30 Mar 2026 21:30:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=cc
 	:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to; s=fm3; t=1774920615; x=1775007015; bh=yam9x1q3LQ29OaLOD7A31
-	V/OO8egxGl89PwT3/pVXBw=; b=j0zhJ/r9ek7k5AHJssNo2X9Xvez/bLVSzxkFg
-	DtWxhXstFjTOdXFoMqlbyD4jLZVTOZcbPOc5JweXGTSFjRWelp1GNCzKKgZhxOc2
-	s3c1A2YntZgBmseIzu5hP/nkHSe2bafqrg0wLdQgjD2C0WRw1fSg5f7g0uvBPm7P
-	CnPy7gP+c7d3nUz3viMYd8AufPbE4E2t+krm0trugpFgBtVOZb9Rg4DXgRXyiolt
-	ZQOEegoGmEwc2ZJsWXrccQJL3cLXL8asJ1Z0WJbvwYhe6urvQXhKZs3jHRzp+/IB
-	OHVAyf99vOxchMfl3zn9IoSsDoFhq2ZDMWBT+F12b+7X5FU9Q==
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm3; t=1774920629; x=
+	1775007029; bh=6KDde5DhWzz5okBA1igZHYy01UUgchyUxpv5kg2XGDQ=; b=T
+	OuTZPMv9TawKueM4aUqUxM1o1MWUT65xCvdz0fNaNVaF+8W9l1uweIJEpy63x5em
+	hq6b4vGxlBtoRmONT3LOTVAzf1r8bgkH4Ohc6SoqKx2sjAqmCC0bfYHuwIb06Ct0
+	0CIyVFE1Jtz0t+/DeSbgETDQuttjQq/l2iq7eJgQcj3ZX3Fw3LPcusZo1mzN0x3G
+	CW1zScCslQ0faZRQDI/XED7KuKMQslTjQj7gzdj0yhA/4nwElWjf9PtXsHnBTdU7
+	+L9+EIOruCQahgtSVKdyz+8/yXvY3MaPhliyx4UZKzNpWbbQw4VcMW4gsjYg8504
+	a8KKDjn4HzH4xUWezjYsw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1774920615; x=1775007015; bh=yam9x1q3LQ29OaLOD7A31V/OO8egxGl89Pw
-	T3/pVXBw=; b=EH29gXkc+6ad1tCljraYN9yNlykFzbaukCW01d9EC9WctsVu/Ax
-	GbA65zueJ0EN0RfBUPWoU3dG+zotacPJQeSnDq2OFOXBjGYbMdyV/V02Kw7T8giu
-	GPrsfDXsYwubmTSp+vGfN4n2fsQz2lLQnSGoti3Swmp2GrpwoDc5Cpx5qG4d+SNu
-	+utt9PS+ucBg64VFu8En9Ed5YXjBfaTSQ7ocaAyg0gVCV2+9szAyZ8BfzWkL5VJy
-	cE2JT07okFwarZvn0CWKy8W8fhC/CZ0OPO/7Yz4+a6JR0B8SXQlri1xYWwaUBZEB
-	lIhqonNZYWSGRpjMxC8WvYea+Z8TmrP2N5Q==
-X-ME-Sender: <xms:piPLaSQx1ZX_rFJH5zYeffKBcc_qGyBHg-j4Sf52ohFr6VVpqb8XEw>
-    <xme:piPLaWSCorod6Uk-Vgt9Ws1aBWJGPtbyW6Ls2FvWfx5Q-aqHI-9H6TGAF8GZZCbYi
-    tdy6ILeoT8cPutF6eiebU9DSqTKcZbn4wqRlOcGPLqMqhhP>
-X-ME-Received: <xmr:piPLaWp4g9pubxzrv8WGA5nB17nYi4IGSmmeAdq-hYM7ZuKDTJnkyPtR2OgG5qapcF-730YsqyrZAMpLFgQJYrtVDL8mkTPX1wSa6BqIHN6ZTdN_56j-xlL3Kg>
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
+	:x-me-sender:x-sasl-enc; s=fm1; t=1774920629; x=1775007029; bh=6
+	KDde5DhWzz5okBA1igZHYy01UUgchyUxpv5kg2XGDQ=; b=I3MRLV1BGz88iBDPu
+	5APTMnh1a62avHvjDy3z0mVUZXCfqiUmBRM4NccZiAoLYeNYOWHSNeubDy1GaPgZ
+	q2vnAAG8U3o/fBM3sM5sxQRw7VKmRkZGg1bAIUd86nmHJrTYfIH48hWa/T4l6wva
+	K4PeFSCdLQNK/3UdpJtGFEwWQpGOKHUFzOMXp69ZCF2b9ZGUa33KTZEGeRmtoXFf
+	f0EvcgQaKA6prVtut+5F6+fTJWD+DhZKxluVtPtUscP/WuWYokOwCT3g/glw8k4R
+	1SnwcXBrwAQmFCTfZbJ3yKBy6/pKT1JiEz1fRw7sZ2Ds0buNfyfm+n7OGojFNk20
+	lGZ/w==
+X-ME-Sender: <xms:tSPLafWlLLAJnHdCL1FpOR1GL67DvK7pYJ3ELPWIAhyBsqE76INDhg>
+    <xme:tSPLaWEFf3PkbiLgwXGwM48ssslHWXXFySBloBxEpw98Mrn-mLJ2gGoGuEEV2at5k
+    AKPwo9uYU3KZnJCItEarMTGHbIF6A3ROX1t1XehZcBSe8yp>
+X-ME-Received: <xmr:tSPLaSOMUtWyZy3Gzd7bCyJiiO4RvtpiCnqtXAUcGQBCP6Ipn6giP6R5YrkltJfDlcTMR5mhNkJVBlJR70hQcYaZGZLEImEUqCAbFz7ElMrR9SXjICKOERMDpA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefgedtheegucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepkfgrnhcumfgvnhht
-    uceorhgrvhgvnhesthhhvghmrgifrdhnvghtqeenucggtffrrghtthgvrhhnpedutdfhve
-    ehuefhjefgffegieduhefhtdejkefhvdekteeihfehtddtgffgheduleenucevlhhushht
-    vghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehrrghvvghnsehthhgvmh
-    grfidrnhgvthdpnhgspghrtghpthhtohepudeipdhmohguvgepshhmthhpohhuthdprhgt
-    phhtthhopegsrhgruhhnvghrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehvihhroh
-    esiigvnhhivhdrlhhinhhugidrohhrghdruhhkpdhrtghpthhtoheprhgrvhgvnhesthhh
-    vghmrgifrdhnvghtpdhrtghpthhtohepmhhikhhlohhssehsiigvrhgvughirdhhuhdprh
-    gtphhtthhopehsrghnuggvvghnsehsrghnuggvvghnrdhnvghtpdhrtghpthhtohepfhhs
-    ohhrvghnshhosehrvgguhhgrthdrtghomhdprhgtphhtthhopehjrggvshhhihhnsehrvg
-    guhhgrthdrtghomhdprhgtphhtthhopehtohhrvhgrlhgusheslhhinhhugidqfhhouhhn
-    uggrthhiohhnrdhorhhgpdhrtghpthhtoheplhgrohgrrhdrshhhrghosehgmhgrihhlrd
-    gtohhm
-X-ME-Proxy: <xmx:piPLaeDMR-fFppwwwJKASuCGXl0Bly7CNmz1tH_hWpqTtPWYOcwJIQ>
-    <xmx:piPLaTu5IupXYALeLPFOxe89EIyBX04XNlZ-2e43y2T29o9t_afxpg>
-    <xmx:piPLaVZe0AuTm851Cs0G1KTooWtA8v3UJskjc7-oZixGfTp4ViBMrg>
-    <xmx:piPLaXF0bqYWJh90zgmMcYbnJISzrtEdW5xwS-7St1IBxZ9jq3LghA>
-    <xmx:pyPLaQLBUTs7QyKRrTH38tnhq4Vpvswi7LW9n0x-do1VI93wV5HA8Nbz>
+    gurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepkfgrnhcumfgv
+    nhhtuceorhgrvhgvnhesthhhvghmrgifrdhnvghtqeenucggtffrrghtthgvrhhnpedule
+    egueffgfehudeufedtffeiudfghfejgeehvdffgefgjeetvdfffeeihfdvveenucevlhhu
+    shhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehrrghvvghnsehthh
+    gvmhgrfidrnhgvthdpnhgspghrtghpthhtohepudeipdhmohguvgepshhmthhpohhuthdp
+    rhgtphhtthhopegsrhgruhhnvghrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehvih
+    hrohesiigvnhhivhdrlhhinhhugidrohhrghdruhhkpdhrtghpthhtoheprhgrvhgvnhes
+    thhhvghmrgifrdhnvghtpdhrtghpthhtohepmhhikhhlohhssehsiigvrhgvughirdhhuh
+    dprhgtphhtthhopehsrghnuggvvghnsehsrghnuggvvghnrdhnvghtpdhrtghpthhtohep
+    fhhsohhrvghnshhosehrvgguhhgrthdrtghomhdprhgtphhtthhopehjrggvshhhihhnse
+    hrvgguhhgrthdrtghomhdprhgtphhtthhopehtohhrvhgrlhgusheslhhinhhugidqfhho
+    uhhnuggrthhiohhnrdhorhhgpdhrtghpthhtoheplhgrohgrrhdrshhhrghosehgmhgrih
+    hlrdgtohhm
+X-ME-Proxy: <xmx:tSPLaaVot1mw1resbW0q2zffxTs-UGRQ7WViJ8T5bBQccGiUq4OsYg>
+    <xmx:tSPLaRwKN1lkukb8sHD9qfW6FCD42pdh_1A2153EKbEPJnMf4GW1dw>
+    <xmx:tSPLaSP0jEWoAPzXFQJKW-xh6TzOGJi8awjXNEM8R6V4eJeoinWdNw>
+    <xmx:tSPLabpqTIkYK2hP4-lMtUzEgAcYQHDIf8dSmfeUu1RpuSaTOD_lkg>
+    <xmx:tSPLaY2m-1_o1ZRqUi-bWMSgftVXEMSBHd9LrDE-Hw8wzG8wYQjCVDfm>
 Feedback-ID: i31e841b0:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 30 Mar 2026 21:30:08 -0400 (EDT)
+ 30 Mar 2026 21:30:23 -0400 (EDT)
 From: Ian Kent <raven@themaw.net>
 To: Christian Brauner <brauner@kernel.org>,
 	Al Viro <viro@zeniv.linux.org.uk>
@@ -88,10 +91,12 @@ Cc: Ian Kent <raven@themaw.net>,
 	Colin Walters <walters@verbum.org>,
 	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
 	Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: [RFC PATCH] Limit directory child dentry retention
-Date: Tue, 31 Mar 2026 09:29:08 +0800
-Message-ID: <20260331012925.74840-1-raven@themaw.net>
+Subject: [RFC PATCH] vfs: limit directory child dentry retention
+Date: Tue, 31 Mar 2026 09:29:09 +0800
+Message-ID: <20260331012925.74840-2-raven@themaw.net>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260331012925.74840-1-raven@themaw.net>
+References: <20260331012925.74840-1-raven@themaw.net>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -100,49 +105,99 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi all,
+If there's a very large number of children present in a directory dentry
+then the benifit from retaining stale child dentries for re-use can
+become ineffective. Even hashed lookup can become ineffective as hash
+chains grow, time taken to umount a file system can increase a lot, as
+well as child dentry traversals resulting in lock held too long log
+messages.
 
-Please forgive the long description but this seems to be a long standing
-problem so I'd like to offer a suggestion for improvenment (but probably
-not a complete solution).
+But when a directory dentry has a very large number of children the
+parent dentry reference count is dominated by the contribution of its
+children. So it makes sense to not retain dentries if the parent
+reference count is large.
 
-I have seen a problem where, in one case, a directory has around 12M
-children with about 80% of them negative. Then an fsnotify function is
-called that needs to traverse the entire list of directory children
-while holding the inode i_lock with obvious consequences.
+Setting some large high water mark (eg. 500000) over which dentries
+are discarded instead of retained on final dput() would help a lot
+by preventing dentry caching contributing to the problem.
 
-Some time ago commit 681ce8623567 ("vfs: Delete the associated dentry
-when deleting a file") was merged to try and solve excessive accumulation
-of negative dentries. It was later Reverted in Commit 4a4be1ad3a6e due to
-performance regressions. In addition commit 172e422ffea2 ("fsnotify: clear
-PARENT_WATCHED flags lazily" was suggested as a fix but one of the reports
-we have triggeres the problem via fsnotify_add_mark_locked() which still
-traverses the entire child list after commit 172e422ffea2 is applied.
-
-Having worked though the above commits (and the revert) it occured to me
-that a similarly simple approach would be to only limit directory dentry
-retention when some highwater level was reached. A kind of keep a bunch
-of negative dentries to try not to interfere with the dcache but discard
-them on last dput if there are so many child dentries that the benifit
-of caching them would likely be negated. TBH I don't know what that
-highwater value should be so that's one thing to be worked out.
-
-I don't have a reproducer but I presume the people I've included on the
-cc list may have some tests. TBH I don't see how Commit 681ce8623567
-caused a regression since that should have required a re-create (probably
-many) for the same file to cause it. Nevertheless the patch here is yet
-another a very simple approach to helping with the stale directory dentry
-accumulation problem we see all too often.
-
-Thoughts and comments please.
-
-Ian Kent (1):
-  vfs: limit directory child dentry retention
-
+Signed-off-by: Ian Kent <raven@themaw.net>
+---
  Documentation/admin-guide/sysctl/fs.rst |  7 +++++++
  fs/dcache.c                             | 28 +++++++++++++++++++++++++
  2 files changed, 35 insertions(+)
 
+diff --git a/Documentation/admin-guide/sysctl/fs.rst b/Documentation/admin-guide/sysctl/fs.rst
+index 9b7f65c3efd8..7649254f2d0d 100644
+--- a/Documentation/admin-guide/sysctl/fs.rst
++++ b/Documentation/admin-guide/sysctl/fs.rst
+@@ -75,6 +75,13 @@ negative dentries which do not map to any files. Instead,
+ they help speeding up rejection of non-existing files provided
+ by the users.
+ 
++dir-stale-max
++-------------
++
++Used to limit the number of stale child dentries retained in a
++directory before the benifit of caching the dentry is negated by
++the cost of traversing hash buckets during lookups or enumerating
++the directory children. Initially set to 500000.
+ 
+ file-max & file-nr
+ ------------------
+diff --git a/fs/dcache.c b/fs/dcache.c
+index 7ba1801d8132..298b4c3b1493 100644
+--- a/fs/dcache.c
++++ b/fs/dcache.c
+@@ -86,6 +86,14 @@ __cacheline_aligned_in_smp DEFINE_SEQLOCK(rename_lock);
+ 
+ EXPORT_SYMBOL(rename_lock);
+ 
++static long dsm_zero = 0;
++static long dsm_max = ULONG_MAX/2;
++
++/* Highwater mark for number of stale entries in a directory (loosely
++ * measured by parent dentry reference count).
++ */
++static unsigned long dir_stale_max __read_mostly = 500000;
++
+ static struct kmem_cache *__dentry_cache __ro_after_init;
+ #define dentry_cache runtime_const_ptr(__dentry_cache)
+ 
+@@ -216,6 +224,15 @@ static const struct ctl_table fs_dcache_sysctls[] = {
+ 		.extra1		= SYSCTL_ZERO,
+ 		.extra2		= SYSCTL_ONE,
+ 	},
++	{
++		.procname	= "dir-stale-max",
++		.data		= &dir_stale_max,
++		.maxlen		= sizeof(dir_stale_max),
++		.mode		= 0644,
++		.proc_handler	= proc_doulongvec_minmax,
++		.extra1		= &dsm_zero,
++		.extra2		= &dsm_max,
++	},
+ };
+ 
+ static const struct ctl_table vm_dcache_sysctls[] = {
+@@ -768,6 +785,17 @@ static inline bool retain_dentry(struct dentry *dentry, bool locked)
+ 	if (unlikely(d_flags & DCACHE_DONTCACHE))
+ 		return false;
+ 
++	if (dir_stale_max) {
++		unsigned long p_count;
++
++		// If the parent reference count is higher than some large value
++		// its dominated by the contribution of its children so there's
++		// no benefit caching the dentry over re-allocating it.
++		p_count = READ_ONCE(dentry->d_parent->d_lockref.count);
++		if (unlikely(p_count > dir_stale_max))
++			return false;
++	}
++
+ 	// At this point it looks like we ought to keep it.  We also might
+ 	// need to do something - put it on LRU if it wasn't there already
+ 	// and mark it referenced if it was on LRU, but not marked yet.
 -- 
 2.53.0
 
