@@ -1,40 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8806A3EC2E7;
-	Tue, 31 Mar 2026 09:33:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A1943BE17C;
+	Tue, 31 Mar 2026 09:39:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774949629; cv=none; b=K9HhjsK9quTknhKNlVwiK+8503+80hTxEqV8awxQ+7HLSrUoLFazZLUkvCnxJxXiY2zEOfJbuYe+BTdiJDegwbWJjD0KeMExm/JDTyT0XzcpQGegGRT8XTenlHyuB4Ow/TEp3eGyWVT+SQdqiNOeFDZyVxKy7f61FTO1Nj90vZA=
+	t=1774949958; cv=none; b=u9T5Tp5Pan1OxQ6O9SJuMxTm28Xgvo6ED2fuqWCAjiVMU0kDcSMGnWtxEHjwOyGhDk0Og7ius6XCIgJ+OVzUP5QxUU7ywsTgg4y5XaIX4XEWhCn6eFr4jYs0z7lHJH98+6zyOUGdu+N+Lr/1xrEyKgLeM3yi5QHkzBUwsxglza4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774949629; c=relaxed/simple;
-	bh=MdJ9ChSNl9qkWCRUekDGGT5ohssAShwNiTeODdZBFc4=;
+	s=arc-20240116; t=1774949958; c=relaxed/simple;
+	bh=ayeSPJmHZOcHrPB9/5+wkpjNjYwSLOFhYj4hNTaneQ0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rBV3usezuyNxBACBYnRiFCchTnMeVStltQMA6/cHm1ic7qwiy76z0a4GqIPyAYJDL2i5lRDJi/dOUWnFFSkHq8RfaSl9ikvk306IRk+C0rVuW7WXE09T414fwN3cQgT3W4GwZPuftQTCt/NoIzR8WdG+dEZOgPi0aC6WAm2wpe8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oUgSSYHh; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=GS3oiSunaSb/TUu+5M2OA6aqtgqoeDzDrn/MyKLuLxhLmULL13VxqtNeQu2u5bag3XNJOio+NVcIiL06R9b8Qjr9zRFC8jQ2zhe1GnHO9UN8R01bed9fYgk+N9ygjiJS6j+3FkhrkPVGcD8qml/rNFcAPJlFTRwEEe97noz86Mc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=et5IUoL5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oUgSSYHh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63DC2C19423;
-	Tue, 31 Mar 2026 09:33:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="et5IUoL5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DAC8C19423;
+	Tue, 31 Mar 2026 09:39:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774949629;
-	bh=MdJ9ChSNl9qkWCRUekDGGT5ohssAShwNiTeODdZBFc4=;
+	s=k20201202; t=1774949958;
+	bh=ayeSPJmHZOcHrPB9/5+wkpjNjYwSLOFhYj4hNTaneQ0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oUgSSYHhlm+LABd6P/XjiP4jA46FEn0NWjPNgR6RX7agkJBeih2vWKLUmn2EFSQ97
-	 XTlUXRpmZcWXrCajoRK8zb56pRgCPao6SEkz/WlieyoXMWVwkKdC0NsbuThHofITs+
-	 psbQl8lWzMbdxu69CANJFL14EATiLVpSMQG+++JnSDFYm3MlaaFOw4BeEb38VrMwD1
-	 O3vtWhwMDq6a158xDkSfDnOYV+Bz6+DjT0IuOmEq7RK+KIQ+so7cOBAsKUUgnaoYgX
-	 XmBbVl5tCb/Fzi13qV2SxgqsAsA8kPU8wSn+JJe/fshH5Cy/UBIsp5Xa+7t7/KfQxw
-	 gAkgv6JxHk6uQ==
-Date: Tue, 31 Mar 2026 11:33:44 +0200
+	b=et5IUoL55TA/a+xqkoIA5L3R8x4kQ1s+Sh/3kWSyZDzz6DpWEep87yfQtx70fM5jX
+	 twNYMS5E5BHK73ZCyUyOBvL1Nj5q3t6+Q6o6uLCBA/4+ykHJeNBT6L3I5i+snW+I9J
+	 gBX5z6O0a36zonJe+VQt46pgLFId+8SKBObdMsYl9lrlac9o11pntRBbi2F/EJsR0I
+	 NswVycfFX8PZrl4EfiGY4WUH6SBeRd4/FrNxav/Sv5ivxV0Y3f3IoswEpaEr56EoU9
+	 fu46SJ3KjvOOVtK8o5kMGFTJUSSgnDP/b/T3GTl1CyepveTf0Wc5bmNdYCICP6RvQp
+	 odHm2xJus4UqQ==
+Date: Tue, 31 Mar 2026 11:39:12 +0200
 From: Christian Brauner <brauner@kernel.org>
-To: Deepanshu Kartikey <kartikey406@gmail.com>, 
-	Jens Axboe <axboe@kernel.dk>
-Cc: viro@zeniv.linux.org.uk, jack@suse.cz, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, syzbot+d31a3b77e5cba96b9f69@syzkaller.appspotmail.com
-Subject: Re: [PATCH] splice: prevent deadlock when splicing a file to itself
-Message-ID: <20260331-hornissen-beklagen-f63db82fdcc1@brauner>
-References: <20260320130615.1109449-1-kartikey406@gmail.com>
+To: Ian Kent <raven@themaw.net>
+Cc: Al Viro <viro@zeniv.linux.org.uk>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Eric Sandeen <sandeen@sandeen.net>, Frank Sorenson <fsorenso@redhat.com>, 
+	Jay Shin <jaeshin@redhat.com>, Linus Torvalds <torvalds@linux-foundation.org>, 
+	Yafang Shao <laoar.shao@gmail.com>, Jan Kara <jack@suse.cz>, Waiman Long <longman@redhat.com>, 
+	Matthew Wilcox <willy@infradead.org>, Wangkai <wangkai86@huawei.com>, 
+	Colin Walters <walters@verbum.org>, linux-fsdevel <linux-fsdevel@vger.kernel.org>, 
+	Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC PATCH] vfs: limit directory child dentry retention
+Message-ID: <20260331-engste-raushalten-f66cd264ce77@brauner>
+References: <20260331012925.74840-1-raven@themaw.net>
+ <20260331012925.74840-2-raven@themaw.net>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -43,49 +48,113 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260320130615.1109449-1-kartikey406@gmail.com>
+In-Reply-To: <20260331012925.74840-2-raven@themaw.net>
 
-On Fri, Mar 20, 2026 at 06:36:15PM +0530, Deepanshu Kartikey wrote:
+On Tue, Mar 31, 2026 at 09:29:09AM +0800, Ian Kent wrote:
+> If there's a very large number of children present in a directory dentry
+> then the benifit from retaining stale child dentries for re-use can
+> become ineffective. Even hashed lookup can become ineffective as hash
+> chains grow, time taken to umount a file system can increase a lot, as
+> well as child dentry traversals resulting in lock held too long log
+> messages.
+
+Fwiw, there's also e6957c99dca5 ("vfs: Add a sysctl for automated deletion of dentry")
+
+This patch introduces the concept conditionally, where the associated
+dentry is deleted only when the user explicitly opts for it during file
+removal. A new sysctl fs.automated_deletion_of_dentry is added for this
+purpose. Its default value is set to 0.
+
+I have no massive objections to your approach. It feels a bit hacky tbh
+as it seems to degrade performance for new workloads in favor old
+workloads. The LRU should sort this out though.
+
+> But when a directory dentry has a very large number of children the
+> parent dentry reference count is dominated by the contribution of its
+> children. So it makes sense to not retain dentries if the parent
+> reference count is large.
 > 
-> When do_splice_direct_actor() is called with the same inode
-> for both input and output files (either via the same fd or a
-> dup'd fd), it causes a hung task in blkdev_write_iter().
+> Setting some large high water mark (eg. 500000) over which dentries
+> are discarded instead of retained on final dput() would help a lot
+> by preventing dentry caching contributing to the problem.
 > 
-> The deadlock occurs because sendfile() calls do_splice_direct()
-> which tries to acquire inode_lock_shared() for reading, while
-> the write side already holds the same inode lock, causing the
-> task to block indefinitely in rwsem_down_read_slowpath().
-> 
-> Fix this by checking if the input and output files share the
-> same inode before proceeding, returning -EINVAL if they do.
-> This mirrors the existing check in do_splice() for the
-> pipe-to-pipe case where ipipe == opipe.
-> 
-> Reported-by: syzbot+d31a3b77e5cba96b9f69@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=d31a3b77e5cba96b9f69
-> Tested-by: syzbot+d31a3b77e5cba96b9f69@syzkaller.appspotmail.com
-> Signed-off-by: Deepanshu Kartikey <Kartikey406@gmail.com>
+> Signed-off-by: Ian Kent <raven@themaw.net>
 > ---
-
-@Jens?
-
->  fs/splice.c | 3 +++
->  1 file changed, 3 insertions(+)
+>  Documentation/admin-guide/sysctl/fs.rst |  7 +++++++
+>  fs/dcache.c                             | 28 +++++++++++++++++++++++++
+>  2 files changed, 35 insertions(+)
 > 
-> diff --git a/fs/splice.c b/fs/splice.c
-> index 9d8f63e2fd1a..c0ad1859de34 100644
-> --- a/fs/splice.c
-> +++ b/fs/splice.c
-> @@ -1199,6 +1199,9 @@ static ssize_t do_splice_direct_actor(struct file *in, loff_t *ppos,
->  	if (unlikely(out->f_flags & O_APPEND))
->  		return -EINVAL;
+> diff --git a/Documentation/admin-guide/sysctl/fs.rst b/Documentation/admin-guide/sysctl/fs.rst
+> index 9b7f65c3efd8..7649254f2d0d 100644
+> --- a/Documentation/admin-guide/sysctl/fs.rst
+> +++ b/Documentation/admin-guide/sysctl/fs.rst
+> @@ -75,6 +75,13 @@ negative dentries which do not map to any files. Instead,
+>  they help speeding up rejection of non-existing files provided
+>  by the users.
 >  
-> +	/* Prevent deadlock when splicing a file to itself */
-> +	if (file_inode(in) == file_inode(out))
-> +		return -EINVAL;
->  	ret = splice_direct_to_actor(in, &sd, actor);
->  	if (ret > 0)
->  		*ppos = sd.pos;
+> +dir-stale-max
+> +-------------
+> +
+> +Used to limit the number of stale child dentries retained in a
+> +directory before the benifit of caching the dentry is negated by
+> +the cost of traversing hash buckets during lookups or enumerating
+> +the directory children. Initially set to 500000.
+>  
+>  file-max & file-nr
+>  ------------------
+> diff --git a/fs/dcache.c b/fs/dcache.c
+> index 7ba1801d8132..298b4c3b1493 100644
+> --- a/fs/dcache.c
+> +++ b/fs/dcache.c
+> @@ -86,6 +86,14 @@ __cacheline_aligned_in_smp DEFINE_SEQLOCK(rename_lock);
+>  
+>  EXPORT_SYMBOL(rename_lock);
+>  
+> +static long dsm_zero = 0;
+> +static long dsm_max = ULONG_MAX/2;
+> +
+> +/* Highwater mark for number of stale entries in a directory (loosely
+> + * measured by parent dentry reference count).
+> + */
+> +static unsigned long dir_stale_max __read_mostly = 500000;
+> +
+>  static struct kmem_cache *__dentry_cache __ro_after_init;
+>  #define dentry_cache runtime_const_ptr(__dentry_cache)
+>  
+> @@ -216,6 +224,15 @@ static const struct ctl_table fs_dcache_sysctls[] = {
+>  		.extra1		= SYSCTL_ZERO,
+>  		.extra2		= SYSCTL_ONE,
+>  	},
+> +	{
+> +		.procname	= "dir-stale-max",
+> +		.data		= &dir_stale_max,
+> +		.maxlen		= sizeof(dir_stale_max),
+> +		.mode		= 0644,
+> +		.proc_handler	= proc_doulongvec_minmax,
+> +		.extra1		= &dsm_zero,
+> +		.extra2		= &dsm_max,
+> +	},
+>  };
+>  
+>  static const struct ctl_table vm_dcache_sysctls[] = {
+> @@ -768,6 +785,17 @@ static inline bool retain_dentry(struct dentry *dentry, bool locked)
+>  	if (unlikely(d_flags & DCACHE_DONTCACHE))
+>  		return false;
+>  
+> +	if (dir_stale_max) {
+> +		unsigned long p_count;
+> +
+> +		// If the parent reference count is higher than some large value
+> +		// its dominated by the contribution of its children so there's
+> +		// no benefit caching the dentry over re-allocating it.
+> +		p_count = READ_ONCE(dentry->d_parent->d_lockref.count);
+> +		if (unlikely(p_count > dir_stale_max))
+> +			return false;
+> +	}
+> +
+>  	// At this point it looks like we ought to keep it.  We also might
+>  	// need to do something - put it on LRU if it wasn't there already
+>  	// and mark it referenced if it was on LRU, but not marked yet.
 > -- 
-> 2.43.0
+> 2.53.0
 > 
