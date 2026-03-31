@@ -1,162 +1,131 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30A243B6379
-	for <linux-fsdevel@vger.kernel.org>; Tue, 31 Mar 2026 07:06:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6B583CE4B3;
+	Tue, 31 Mar 2026 07:50:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774940777; cv=none; b=Trqtes7sHNvdvht3TqLbm4kEnoSZETaksACR/9CQ2baCS2ZxuJY6/VipPvfQqCstVAbes/s5Xpe0YR9BOOVqw11M1AM/BGxglAAHGxLvALl8l1tu66yW53X1JlYSHQoYf0yK7oMki5o7atgyFRd1KILIOGvNYUqT9EWBwYZaDYQ=
+	t=1774943454; cv=none; b=C2yygD57j3RQzk9MN8rn1FcQsROZVgHb0OGA4DP3G0VHucqHElx+BCqDtXr99IWdpFYECM8/SMdEn1qXF2L4iRRvJm/IHlkAVStFp4orl1Cv92ZOfmV39VGQg1DnJoq17sMvOmvPE1w0xtCo5GX1rNU1oLqXm15vwNIaowqksUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774940777; c=relaxed/simple;
-	bh=NtdlBhQV2VlxX2h7MdXsFGBQD9aeOUTYJysty5gVNJ4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=D8UpedTWApm40EGqK0jyMeZTnjXwDlIQayDtwNjCFkEbf0GssCy951gyTYt2xTAJ6zbvFWdcQnVx0qnys0sa5zDXb6NLYDbIx53uWHZCmbVyXy6yOMa6WSc1wy37VGhvEjUCGuurtERP+Zh+DwUUoEJWKUVdEqufTXM/ffwENEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=AqtJWMZg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=tY6A6sTF; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=AqtJWMZg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=tY6A6sTF; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1774943454; c=relaxed/simple;
+	bh=QmBrY5BKVbXz9CXTgV6unLVzlvXFNRWXO9R3+/R7gS0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LasJe4qmdOaPSUPZmvFZL757LM+s0tJCkdCh9vEV0efvpHTUvS1UxUkA4dGKcikd246bb8OVMVQtsMdayJb1Ubq481yDq7CvcgVhDfBYP+iqwz0Bo7CkafVP387OOnFEi7MEZBFNUQ/hh9wf/6im7Yi0C+kcOvwGOZOa5NoeApw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=otLloVur; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="AqtJWMZg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tY6A6sTF";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="AqtJWMZg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tY6A6sTF"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 67FA35BEA1;
-	Tue, 31 Mar 2026 07:06:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1774940774; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mEicmogugLQP8Anuvmh2pN9+lvV3u9p8yS4Cd/a0rew=;
-	b=AqtJWMZg7+Pb0YUcBN8kqA1oFNrK/3TpfltakkUCRr+N2fDp12jWM0y7t5W3CABS6f50JH
-	eyqbJMW7BmaA5t7cp/OkSqcDwH9Ib43WQi/bfLtNF/UcqCOw7HybSZz1x+O9ZPZ7o4LZHM
-	PLhpecl1/p7Z1n0qJRW61RcL/MON+Ew=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1774940774;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mEicmogugLQP8Anuvmh2pN9+lvV3u9p8yS4Cd/a0rew=;
-	b=tY6A6sTF/Qu7fhbW0+sOY8thP+TiaRnXF8ayLD1ssCzLfg93hlaZcjsGCQFdGlWZznSRLS
-	/2YS0oBKVcJHgUCw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1774940774; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mEicmogugLQP8Anuvmh2pN9+lvV3u9p8yS4Cd/a0rew=;
-	b=AqtJWMZg7+Pb0YUcBN8kqA1oFNrK/3TpfltakkUCRr+N2fDp12jWM0y7t5W3CABS6f50JH
-	eyqbJMW7BmaA5t7cp/OkSqcDwH9Ib43WQi/bfLtNF/UcqCOw7HybSZz1x+O9ZPZ7o4LZHM
-	PLhpecl1/p7Z1n0qJRW61RcL/MON+Ew=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1774940774;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mEicmogugLQP8Anuvmh2pN9+lvV3u9p8yS4Cd/a0rew=;
-	b=tY6A6sTF/Qu7fhbW0+sOY8thP+TiaRnXF8ayLD1ssCzLfg93hlaZcjsGCQFdGlWZznSRLS
-	/2YS0oBKVcJHgUCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6F68F4A0A2;
-	Tue, 31 Mar 2026 07:06:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id uI1VCmJyy2mEQAAAD6G6ig
-	(envelope-from <ddiss@suse.de>); Tue, 31 Mar 2026 07:06:10 +0000
-From: David Disseldorp <ddiss@suse.de>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	David Disseldorp <ddiss@suse.de>,
-	Petr Mladek <pmladek@suse.com>,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Cc: Al Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH v5 6/6] kstrtox: Drop extern keyword in the simple_strtox() declarations
-Date: Tue, 31 Mar 2026 17:57:36 +1100
-Message-ID: <20260331070519.5974-7-ddiss@suse.de>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260331070519.5974-1-ddiss@suse.de>
-References: <20260331070519.5974-1-ddiss@suse.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="otLloVur"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26696C19423;
+	Tue, 31 Mar 2026 07:50:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774943454;
+	bh=QmBrY5BKVbXz9CXTgV6unLVzlvXFNRWXO9R3+/R7gS0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=otLloVurIebAAh64mVkWyy1Yx4OPNvjHY6Wavo2/t4scZtIey5FAsclGVAReyXELv
+	 acxPd9t/ZfkfPv+8RIRukk+mhkmlBvA+a2FBtpVBpcMXMdKf9jax1Ic5HrqbXCTaup
+	 L75gDcEL/qZJCWDPtiE0uv2tcJ6ipRACww0DE+70ADtXMBfVxH1qiK2c2+ILM1nif2
+	 c6tAhrmqudLZPc4H8kWeC1d15Fd6KPnMbP8ucuuzdJcntZ/ZyBTViRoOtw++xYFqIP
+	 mZ8dgFOzD3fLbeFA3spBT4TBU6/1zqW4GUaEm90ycw/3i2nT+5rj39NOfszj0isSvg
+	 0qPx21ePK4h+w==
+Date: Tue, 31 Mar 2026 16:50:52 +0900
+From: "Harry Yoo (Oracle)" <harry@kernel.org>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Andrea Arcangeli <aarcange@redhat.com>,
+	Andrei Vagin <avagin@google.com>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	David Hildenbrand <david@kernel.org>,
+	Hugh Dickins <hughd@google.com>,
+	James Houghton <jthoughton@google.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
+	Nikita Kalyazin <kalyazin@amazon.com>,
+	Oscar Salvador <osalvador@suse.de>,
+	Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@suse.cz>, kvm@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v3 03/15] userfaultfd: introduce mfill_establish_pmd()
+ helper
+Message-ID: <act83N6QP8kgcrZn@hyeyoo>
+References: <20260330101116.1117699-1-rppt@kernel.org>
+ <20260330101116.1117699-4-rppt@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-6.80 / 50.00];
-	REPLY(-4.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo,intel.com:email];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	R_RATELIMIT(0.00)[to_ip_from(RLg9cg5ahbkfmeaz1ygcd5onax)];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Flag: NO
-X-Spam-Score: -6.80
-X-Spam-Level: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260330101116.1117699-4-rppt@kernel.org>
 
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+On Mon, Mar 30, 2026 at 01:11:04PM +0300, Mike Rapoport wrote:
+> From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+> 
+> There is a lengthy code chunk in mfill_atomic() that establishes the PMD
+> for UFFDIO operations.  This code may be called twice: first time when the
+> copy is performed with VMA/mm locks held and the other time after the copy
+> is retried with locks dropped.
+> 
+> Move the code that establishes a PMD into a helper function so it can be
+> reused later during refactoring of mfill_atomic_pte_copy().
+> 
+> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> ---
 
-There is legacy 'extern' keyword for the exported simple_strtox()
-function which are the artefact that can be removed. So drop it.
+Looks good to me,
+Acked-by: Harry Yoo (Oracle) <harry@kernel.org>
 
-While at it, tweak the declaration to provide parameter names.
+>  mm/userfaultfd.c | 102 ++++++++++++++++++++++++-----------------------
+>  1 file changed, 52 insertions(+), 50 deletions(-)
+> 
+> diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
+> index fa9622ec7279..291e5cfed431 100644
+> --- a/mm/userfaultfd.c
+> +++ b/mm/userfaultfd.c
+> +static int mfill_establish_pmd(struct mfill_state *state)
+> +{
+> +	struct mm_struct *dst_mm = state->ctx->mm;
+> +	pmd_t *dst_pmd, dst_pmdval;
+> +
+> +	dst_pmd = mm_alloc_pmd(dst_mm, state->dst_addr);
+> +	if (unlikely(!dst_pmd))
+> +		return -ENOMEM;
+> +
+> +	dst_pmdval = pmdp_get_lockless(dst_pmd);
+> +	if (unlikely(pmd_none(dst_pmdval)) &&
+> +	    unlikely(__pte_alloc(dst_mm, dst_pmd)))
+> +		return -ENOMEM;
+> +
+> +	dst_pmdval = pmdp_get_lockless(dst_pmd);
+> +	/*
+> +	 * If the dst_pmd is THP don't override it and just be strict.
+> +	 * (This includes the case where the PMD used to be THP and
+> +	 * changed back to none after __pte_alloc().)
+> +	 */
+> +	if (unlikely(!pmd_present(dst_pmdval) || pmd_leaf(dst_pmdval)))
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Reviewed-by: David Disseldorp <ddiss@suse.de>
-Reviewed-by: Petr Mladek <pmladek@suse.com>
----
- include/linux/kstrtox.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Just noting:						 ^ this was
+						 pmd_trans_huge() but
+						 now it is pmd_leaf().
 
-diff --git a/include/linux/kstrtox.h b/include/linux/kstrtox.h
-index 7fcf29a4e0de4..6c92828667704 100644
---- a/include/linux/kstrtox.h
-+++ b/include/linux/kstrtox.h
-@@ -142,9 +142,9 @@ static inline int __must_check kstrtos32_from_user(const char __user *s, size_t
-  * Keep in mind above caveat.
-  */
- 
--extern unsigned long simple_strtoul(const char *,char **,unsigned int);
--extern long simple_strtol(const char *,char **,unsigned int);
--extern unsigned long long simple_strtoull(const char *,char **,unsigned int);
--extern long long simple_strtoll(const char *,char **,unsigned int);
-+unsigned long simple_strtoul(const char *cp, char **endp, unsigned int base);
-+long simple_strtol(const char *cp, char **endp, unsigned int base);
-+unsigned long long simple_strtoull(const char *cp, char **endp, unsigned int base);
-+long long simple_strtoll(const char *cp, char **endp, unsigned int base);
- 
- #endif	/* _LINUX_KSTRTOX_H */
+but since the present bit is separately checked and hugetlb vma is handled
+in a different path I don't expect functional change.
+
+> +		return -EEXIST;
+> +	if (unlikely(pmd_bad(dst_pmdval)))
+> +		return -EFAULT;
+> +
+> +	state->pmd = dst_pmd;
+> +	return 0;
+> +}
+
 -- 
-2.51.0
-
+Cheers,
+Harry / Hyeonggon
