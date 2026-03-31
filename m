@@ -1,662 +1,1367 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx1.manguebit.org (mx1.manguebit.org [143.255.12.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35E182F5A34
-	for <linux-fsdevel@vger.kernel.org>; Tue, 31 Mar 2026 00:54:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 320C740DFB9;
+	Tue, 31 Mar 2026 01:08:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=143.255.12.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774918466; cv=none; b=WWjIOlei+GqEtZgkd9FSsfB99JKMfQP2tLl2ZH3ZvB91k3CZGTpQrg6I/xMfxWCpyO6nZs+Jd+Tapq3OqbLZkdLTjaehvMnWDJ7jTayfIZrMGxyl3YbCx66ocTG/0qSdBf4pMuOxZVOGS9qEJbYxLpt3SiCq5tNEWd/L9m4WD3Q=
+	t=1774919329; cv=none; b=cN+rd645OYJpHr2DAZYZ2hP1X1/px0TlzTMHRJNktL2pxAV+Aru1tJg9amFcH0WZ+9mg8y6bkbeTEQMbEVQJLiohfNdCDuZD1hQAqa7YFvm4jTLl7DFFqCYbnq7W8tQQ21drNHTxz8ZIVGpDjM3hlFsZAMUdQfDNz73BGTcQoow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774918466; c=relaxed/simple;
-	bh=VlZDjGKWm3koDKb4jX4BnPt5loqtdEhqtRLEoGbreno=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XIrVcW7+WQoqBJYEbObZZigZWPB0jPVeWE/s1omYsgvAt6gIBRSHSyrsdUrVa5wMCOcsFk03cJYivFefSOA+iXU60L+WRrWUwTch5v5YfPFCm1JQsmZnUQruRWQJ+3DmSoeNsL5Vv2aDcrwa871A32c7/073irU9vPutDzK0g8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Lc17gZMx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774919329; c=relaxed/simple;
+	bh=1+rliyUDsoLF2Y7E6JRPapneCTxo+HzPePpwuqmD/CE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KYMmgQocJEBHRtw3vCKgCbxKfvjfIWH19r5Wp3mqPJ0rVQAZocw2jb+2mG2iLsbvaie3zw8RdEycrd1hTlRd+ktNztBisd4irxpoeoSQbdvQ5PvkpRzGW5GeGgJ5YRakdXFDJjsctbrdcJO6dz1txYJLq0DWAtXI1MRYpeLaz48=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manguebit.org; spf=pass smtp.mailfrom=manguebit.org; dkim=pass (2048-bit key) header.d=manguebit.org header.i=@manguebit.org header.b=lE/G1Asl; arc=none smtp.client-ip=143.255.12.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manguebit.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manguebit.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Lc17gZMx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEA92C4CEF7;
-	Tue, 31 Mar 2026 00:54:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774918465;
-	bh=VlZDjGKWm3koDKb4jX4BnPt5loqtdEhqtRLEoGbreno=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Lc17gZMxfX6IAMWa4iHJvG1DDArAG0d1fv4vSlNJ+IGwmwHHMpWjiHY6gO3xrF6nw
-	 QHimhj97qU+AU+UVizUGdkIHSBaX/x9xWAZBaiwI/XlM+XZWXyxL9Kma39RE7IVZzq
-	 HpaSS+eeJRPGmd46THSVZ/nO4iDliGbUTybPMfqYOsxovxBBimAmsPEJZpG49y0Rxk
-	 vDdS3gTirwbV/ZDc/TXkjVtqZSt6hlll1n7oY+IlIe1+tKbMvLcosIDOMf8XGyP7JH
-	 U4FTuv+aTPcpUb1UZ/g+BnGwk1T9pgXF9PQDqWC7kxNef5GkgS5hwZmFcjGlNV+wxh
-	 EfhvVC/fetaUA==
-Date: Mon, 30 Mar 2026 17:54:25 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: linux-fsdevel@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
-	Joanne Koong <joannelkoong@gmail.com>, Kevin Chen <kchen@ddn.com>,
-	Bernd Schubert <bschubert@ddn.com>
-Subject: Re: [PATCH v2 22/25] Add support for sync-init of unprivileged
- daemons
-Message-ID: <20260331005425.GI6202@frogsfrogsfrogs>
-References: <20260326-fuse-init-before-mount-v2-0-b1ca8fcbf60f@bsbernd.com>
- <20260326-fuse-init-before-mount-v2-22-b1ca8fcbf60f@bsbernd.com>
+	dkim=pass (2048-bit key) header.d=manguebit.org header.i=@manguebit.org header.b="lE/G1Asl"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=manguebit.org; s=dkim; h=Content-Transfer-Encoding:MIME-Version:Message-ID:
+	Date:Subject:Cc:To:From:Sender:Content-Type:Reply-To:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=6t0am4ulTFKjcvXWFOBnNOkHwLBIpUEmxwdYhRPBL9w=; b=lE/G1Aslvc8VwrJc8DcoyFijNx
+	+zOR/EMNWgzJWw/GA1c5y9my8umhzKuROA7EF2R3KLTNPqVekA3YxIrjbZcydIS/Vf3eKGWx6KkXg
+	yuM7xC+sii7gh2IJKOwJLRv/kSUhqdvTfpzBgprI7kMrM9l/baCMiKFo8pLFjmFzaPFH/8QeAbi8A
+	lF68YnpmTldB1+xxp6sEe6RH+Bi5H3ijRT0xO5L3nNwgobwNRWh/P0eN2hcGSlyJo7/sVEecyeX/B
+	rgjYbo2X4n5OUMZY2P0BTFcOywAj7tNTtoVlRJhY4BbkN1b5oX3v8SNl2/usl0cYLJUC3hO4f5/vM
+	qbQEYnFA==;
+Received: from pc by mx1.manguebit.org with local (Exim 4.99.1)
+	id 1w7Nau-00000001vQ1-3RZS;
+	Mon, 30 Mar 2026 22:08:36 -0300
+From: Paulo Alcantara <pc@manguebit.org>
+To: smfrench@gmail.com
+Cc: "Paulo Alcantara (Red Hat)" <pc@manguebit.org>,
+	David Howells <dhowells@redhat.com>,
+	linux-fsdevel@vger.kernel.org,
+	linux-cifs@vger.kernel.org
+Subject: [PATCH] smb: client: add support for O_TMPFILE
+Date: Mon, 30 Mar 2026 22:08:36 -0300
+Message-ID: <20260331010836.1397616-1-pc@manguebit.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260326-fuse-init-before-mount-v2-22-b1ca8fcbf60f@bsbernd.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Mar 26, 2026 at 10:34:55PM +0100, Bernd Schubert wrote:
-> From: Bernd Schubert <bschubert@ddn.com>
-> 
-> This makes use of the bidirectional fusermount. Added is
-> doc/README.mount, which explains the new bidirectional
-> communication with fusermount.
-> 
-> Signed-off-by: Bernd Schubert <bschubert@ddn.com>
-> ---
->  example/passthrough_hp.cc |   5 +-
->  include/fuse_daemonize.h  |  16 ++++--
->  include/fuse_lowlevel.h   |   8 +++
->  lib/fuse_daemonize.c      |  14 ++++--
->  lib/fuse_i.h              |   1 +
->  lib/fuse_lowlevel.c       | 121 ++++++++++++++++++++++++++++++++++++--------
->  lib/mount.c               | 126 +++++++++++++++++++++++++++++++++++++++++++++-
->  lib/mount_i_linux.h       |   7 +++
->  util/fusermount.c         |   2 -
->  9 files changed, 266 insertions(+), 34 deletions(-)
-> 
-> diff --git a/example/passthrough_hp.cc b/example/passthrough_hp.cc
-> index bad435077697e8832cf5a5195c17f2f873f2dfe6..cca865973ab5e8e9c1faa0fa28eb292a172a4812 100644
-> --- a/example/passthrough_hp.cc
-> +++ b/example/passthrough_hp.cc
-> @@ -245,7 +245,7 @@ static void sfs_init(void *userdata, fuse_conn_info *conn)
->  	/* Try a large IO by default */
->  	conn->max_write = 4 * 1024 * 1024;
->  
-> -	/* Signal successful init to parent */
-> +	/* required here for async init */
->  	fuse_daemonize_success();
->  }
->  
-> @@ -1661,6 +1661,9 @@ int main(int argc, char *argv[])
->  	if (teardown_watchog == NULL)
->  		goto err_out4;
->  
-> +	/* required here for sync init */
-> +	fuse_daemonize_success();
-> +
->  	if (options.count("single"))
->  		ret = fuse_session_loop(se);
->  	else
-> diff --git a/include/fuse_daemonize.h b/include/fuse_daemonize.h
-> index 6215e42c635ba5956cb23ba0832dfc291ab8dede..6d3c4a6134f408d0f0a08b87495bde65d491286d 100644
-> --- a/include/fuse_daemonize.h
-> +++ b/include/fuse_daemonize.h
-> @@ -42,6 +42,16 @@ int fuse_daemonize_start(unsigned int flags);
->  
->  /**
->   * Signal daemonization success to parent and cleanup.
-> + *
-> + * Note: For synchronous FUSE_INIT, this must be called after
-> + *       fuse_session_mount() and before the first call to
-> + *       fuse_session_loop*(). For asynchronous FUSE_INIT, this should
-> + *       be called in the file system ->init() callback.
-> + *
-> + *       In order to simplify application code, this should be called from
-> + *       the file system ->init() callback *and* after fuse_session_mount.
-> + *       Libfuse knows internally if this is a sync or async FUSE_INIT
-> + *       and will only signal the parent if the mount was completed.
->   */
->  void fuse_daemonize_success(void);
+Implement O_TMPFILE support for SMB2+ in the CIFS client.
 
-I wonder, could libfuse itself call fuse_daemonize_success from do_init
-after the ->init function returns if !se->is_sync_init; or from the
-end of fuse_session_mount otherwise?  In other words, hide this
-particular detail from the fuse server?
+Signed-off-by: Paulo Alcantara (Red Hat) <pc@manguebit.org>
+Cc: David Howells <dhowells@redhat.com>
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-cifs@vger.kernel.org
+---
+ fs/smb/client/cached_dir.c |   3 +
+ fs/smb/client/cifsfs.c     |   4 +
+ fs/smb/client/cifsfs.h     |  19 ++
+ fs/smb/client/cifsglob.h   |  23 ++-
+ fs/smb/client/cifsproto.h  |   3 +-
+ fs/smb/client/cifssmb.c    |   3 +
+ fs/smb/client/dir.c        | 279 +++++++++++++++++++++----
+ fs/smb/client/file.c       |  29 ++-
+ fs/smb/client/inode.c      |   3 +-
+ fs/smb/client/link.c       |  18 +-
+ fs/smb/client/smb2inode.c  | 404 ++++++++++++++-----------------------
+ 11 files changed, 480 insertions(+), 308 deletions(-)
 
-Or are there things that a fuse server might want to do prior to calling
-fuse_daemonize_success/fail?
+diff --git a/fs/smb/client/cached_dir.c b/fs/smb/client/cached_dir.c
+index 04bb95091f49..fee16d50e996 100644
+--- a/fs/smb/client/cached_dir.c
++++ b/fs/smb/client/cached_dir.c
+@@ -477,6 +477,9 @@ void drop_cached_dir_by_name(const unsigned int xid, struct cifs_tcon *tcon,
+ 	struct cached_fid *cfid = NULL;
+ 	int rc;
+ 
++	if (!name)
++		return;
++
+ 	rc = open_cached_dir(xid, tcon, name, cifs_sb, true, &cfid);
+ 	if (rc) {
+ 		cifs_dbg(FYI, "no cached dir found for rmdir(%s)\n", name);
+diff --git a/fs/smb/client/cifsfs.c b/fs/smb/client/cifsfs.c
+index 32d0305a1239..f4bed8d4a072 100644
+--- a/fs/smb/client/cifsfs.c
++++ b/fs/smb/client/cifsfs.c
+@@ -124,6 +124,9 @@ MODULE_PARM_DESC(dir_cache_timeout, "Number of seconds to cache directory conten
+ /* Module-wide total cached dirents (in bytes) across all tcons */
+ atomic64_t cifs_dircache_bytes_used = ATOMIC64_INIT(0);
+ 
++atomic_t cifs_sillycounter;
++atomic_t cifs_tmpcounter;
++
+ /*
+  * Write-only module parameter to drop all cached directory entries across
+  * all CIFS mounts. Echo a non-zero value to trigger.
+@@ -1199,6 +1202,7 @@ MODULE_ALIAS("smb3");
+ const struct inode_operations cifs_dir_inode_ops = {
+ 	.create = cifs_create,
+ 	.atomic_open = cifs_atomic_open,
++	.tmpfile = cifs_tmpfile,
+ 	.lookup = cifs_lookup,
+ 	.getattr = cifs_getattr,
+ 	.unlink = cifs_unlink,
+diff --git a/fs/smb/client/cifsfs.h b/fs/smb/client/cifsfs.h
+index e320d39b01f5..d82ab7ce1064 100644
+--- a/fs/smb/client/cifsfs.h
++++ b/fs/smb/client/cifsfs.h
+@@ -13,6 +13,9 @@
+ 
+ #define ROOT_I 2
+ 
++extern atomic_t cifs_sillycounter;
++extern atomic_t cifs_tmpcounter;
++
+ /*
+  * ino_t is 32-bits on 32-bit arch. We have to squash the 64-bit value down
+  * so that it will fit. We use hash_64 to convert the value to 31 bits, and
+@@ -53,6 +56,8 @@ int cifs_create(struct mnt_idmap *idmap, struct inode *inode,
+ 		struct dentry *direntry, umode_t mode, bool excl);
+ int cifs_atomic_open(struct inode *inode, struct dentry *direntry,
+ 		     struct file *file, unsigned int oflags, umode_t mode);
++int cifs_tmpfile(struct mnt_idmap *idmap, struct inode *dir,
++		 struct file *file, umode_t mode);
+ struct dentry *cifs_lookup(struct inode *parent_dir_inode,
+ 			   struct dentry *direntry, unsigned int flags);
+ int cifs_unlink(struct inode *dir, struct dentry *dentry);
+@@ -142,6 +147,20 @@ struct smb3_fs_context;
+ struct dentry *cifs_smb3_do_mount(struct file_system_type *fs_type, int flags,
+ 				  struct smb3_fs_context *old_ctx);
+ 
++char *cifs_silly_filename(struct dentry *dentry);
++char *cifs_tmpfile_name(struct dentry *dentry);
++
++#define CIFS_TMPFILE_PREFIX		"%c.smb%04X__"
++#define CIFS_TMPFILE_PREFIX_LEN	sizeof(".smb1234__")
++
++#define CIFS_SILLY_FILENAME_SUFFIX	"silly"
++#define CIFS_SILLY_FILENAME_SIZE \
++	(CIFS_TMPFILE_PREFIX_LEN + sizeof(CIFS_SILLY_FILENAME_SUFFIX))
++
++#define CIFS_TMP_FILENAME_SUFFIX	"tmp"
++#define CIFS_TMP_FILENAME_SIZE \
++	(CIFS_TMPFILE_PREFIX_LEN + sizeof(CIFS_TMP_FILENAME_SUFFIX))
++
+ #ifdef CONFIG_CIFS_NFSD_EXPORT
+ extern const struct export_operations cifs_export_ops;
+ #endif /* CONFIG_CIFS_NFSD_EXPORT */
+diff --git a/fs/smb/client/cifsglob.h b/fs/smb/client/cifsglob.h
+index 709e96e07791..2a6af454095c 100644
+--- a/fs/smb/client/cifsglob.h
++++ b/fs/smb/client/cifsglob.h
+@@ -1534,9 +1534,16 @@ int cifs_file_set_size(const unsigned int xid, struct dentry *dentry,
+ #define CIFS_CACHE_RW_FLG	(CIFS_CACHE_READ_FLG | CIFS_CACHE_WRITE_FLG)
+ #define CIFS_CACHE_RHW_FLG	(CIFS_CACHE_RW_FLG | CIFS_CACHE_HANDLE_FLG)
+ 
+-/*
+- * One of these for each file inode
+- */
++enum cifs_inode_flags {
++	CIFS_INODE_PENDING_OPLOCK_BREAK = 0,	/* oplock break in progress */
++	CIFS_INODE_PENDING_WRITERS,		/* Writes in progress */
++	CIFS_INODE_FLAG_UNUSED,			/* Unused flag */
++	CIFS_INO_DELETE_PENDING,		/* delete pending on server */
++	CIFS_INO_INVALID_MAPPING,		/* pagecache is invalid */
++	CIFS_INO_LOCK,				/* lock bit for synchronization */
++	CIFS_INO_CLOSE_ON_LOCK,			/* Not to defer the close when lock is set */
++	CIFS_INO_TMPFILE,			/* for O_TMPFILE inodes */
++};
+ 
+ struct cifsInodeInfo {
+ 	struct netfs_inode netfs; /* Netfslib context and vfs inode */
+@@ -1554,13 +1561,6 @@ struct cifsInodeInfo {
+ 	__u32 cifsAttrs; /* e.g. DOS archive bit, sparse, compressed, system */
+ 	unsigned int oplock;		/* oplock/lease level we have */
+ 	__u16 epoch;		/* used to track lease state changes */
+-#define CIFS_INODE_PENDING_OPLOCK_BREAK   (0) /* oplock break in progress */
+-#define CIFS_INODE_PENDING_WRITERS	  (1) /* Writes in progress */
+-#define CIFS_INODE_FLAG_UNUSED		  (2) /* Unused flag */
+-#define CIFS_INO_DELETE_PENDING		  (3) /* delete pending on server */
+-#define CIFS_INO_INVALID_MAPPING	  (4) /* pagecache is invalid */
+-#define CIFS_INO_LOCK			  (5) /* lock bit for synchronization */
+-#define CIFS_INO_CLOSE_ON_LOCK            (7) /* Not to defer the close when lock is set */
+ 	unsigned long flags;
+ 	spinlock_t writers_lock;
+ 	unsigned int writers;		/* Number of writers on this inode */
+@@ -2259,6 +2259,7 @@ struct smb2_compound_vars {
+ 	struct kvec qi_iov;
+ 	struct kvec io_iov[SMB2_IOCTL_IOV_SIZE];
+ 	struct kvec si_iov[SMB2_SET_INFO_IOV_SIZE];
++	struct kvec hl_iov[SMB2_SET_INFO_IOV_SIZE];
+ 	struct kvec unlink_iov[SMB2_SET_INFO_IOV_SIZE];
+ 	struct kvec rename_iov[SMB2_SET_INFO_IOV_SIZE];
+ 	struct kvec close_iov;
+@@ -2383,6 +2384,8 @@ static inline int cifs_open_create_options(unsigned int oflags, int opts)
+ 		opts |= CREATE_WRITE_THROUGH;
+ 	if (oflags & O_DIRECT)
+ 		opts |= CREATE_NO_BUFFER;
++	if (oflags & O_TMPFILE)
++		opts |= CREATE_DELETE_ON_CLOSE;
+ 	return opts;
+ }
+ 
+diff --git a/fs/smb/client/cifsproto.h b/fs/smb/client/cifsproto.h
+index 884bfa1cf0b4..c24c50d732e6 100644
+--- a/fs/smb/client/cifsproto.h
++++ b/fs/smb/client/cifsproto.h
+@@ -141,7 +141,8 @@ struct cifsFileInfo *find_writable_file(struct cifsInodeInfo *cifs_inode,
+ int __cifs_get_writable_file(struct cifsInodeInfo *cifs_inode,
+ 			     unsigned int find_flags, unsigned int open_flags,
+ 			     struct cifsFileInfo **ret_file);
+-int cifs_get_writable_path(struct cifs_tcon *tcon, const char *name, int flags,
++int cifs_get_writable_path(struct cifs_tcon *tcon, const char *name,
++			   struct inode *inode, int flags,
+ 			   struct cifsFileInfo **ret_file);
+ struct cifsFileInfo *__find_readable_file(struct cifsInodeInfo *cifs_inode,
+ 					  unsigned int find_flags,
+diff --git a/fs/smb/client/cifssmb.c b/fs/smb/client/cifssmb.c
+index 3990a9012264..0bffb6b9dce8 100644
+--- a/fs/smb/client/cifssmb.c
++++ b/fs/smb/client/cifssmb.c
+@@ -2715,6 +2715,9 @@ CIFSUnixCreateHardLink(const unsigned int xid, struct cifs_tcon *tcon,
+ 
+ 	cifs_dbg(FYI, "In Create Hard link Unix style\n");
+ createHardLinkRetry:
++	if (!fromName)
++		return -EBADF;
++
+ 	rc = smb_init(SMB_COM_TRANSACTION2, 15, tcon, (void **) &pSMB,
+ 		      (void **) &pSMBr);
+ 	if (rc < 0)
+diff --git a/fs/smb/client/dir.c b/fs/smb/client/dir.c
+index 6d2378eeb7f6..c107c25d0709 100644
+--- a/fs/smb/client/dir.c
++++ b/fs/smb/client/dir.c
+@@ -175,17 +175,17 @@ check_name(struct dentry *direntry, struct cifs_tcon *tcon)
+ 
+ /* Inode operations in similar order to how they appear in Linux file fs.h */
+ 
+-static int cifs_do_create(struct inode *inode, struct dentry *direntry, unsigned int xid,
+-			  struct tcon_link *tlink, unsigned int oflags, umode_t mode, __u32 *oplock,
+-			  struct cifs_fid *fid, struct cifs_open_info_data *buf)
++static int __cifs_do_create(struct file *file, struct inode *inode,
++			    struct dentry *direntry, const char *full_path,
++			    unsigned int xid, struct tcon_link *tlink,
++			    unsigned int oflags, umode_t mode, __u32 *oplock,
++			    struct cifs_fid *fid, struct cifs_open_info_data *buf)
+ {
+ 	int rc = -ENOENT;
+ 	int create_options = CREATE_NOT_DIR;
+ 	int desired_access;
+ 	struct cifs_sb_info *cifs_sb = CIFS_SB(inode);
+ 	struct cifs_tcon *tcon = tlink_tcon(tlink);
+-	const char *full_path;
+-	void *page = alloc_dentry_path();
+ 	struct inode *newinode = NULL;
+ 	unsigned int sbflags = cifs_sb_flags(cifs_sb);
+ 	int disposition;
+@@ -199,11 +199,6 @@ static int cifs_do_create(struct inode *inode, struct dentry *direntry, unsigned
+ 	if (tcon->ses->server->oplocks)
+ 		*oplock = REQ_OPLOCK;
+ 
+-	full_path = build_path_from_dentry(direntry, page);
+-	if (IS_ERR(full_path)) {
+-		rc = PTR_ERR(full_path);
+-		goto out;
+-	}
+ 
+ 	/* If we're caching, we need to be able to fill in around partial writes. */
+ 	if (cifs_fscache_enabled(inode) && (oflags & O_ACCMODE) == O_WRONLY)
+@@ -225,8 +220,7 @@ static int cifs_do_create(struct inode *inode, struct dentry *direntry, unsigned
+ 			if (S_ISDIR(newinode->i_mode)) {
+ 				CIFSSMBClose(xid, tcon, fid->netfid);
+ 				iput(newinode);
+-				rc = -EISDIR;
+-				goto out;
++				return -EISDIR;
+ 			}
+ 
+ 			if (!S_ISREG(newinode->i_mode)) {
+@@ -269,7 +263,7 @@ static int cifs_do_create(struct inode *inode, struct dentry *direntry, unsigned
+ 			break;
+ 
+ 		default:
+-			goto out;
++			return rc;
+ 		}
+ 		/*
+ 		 * fallthrough to retry, using older open call, this is case
+@@ -287,26 +281,30 @@ static int cifs_do_create(struct inode *inode, struct dentry *direntry, unsigned
+ 		desired_access |= GENERIC_WRITE;
+ 	if (rdwr_for_fscache == 1)
+ 		desired_access |= GENERIC_READ;
++	if (oflags & O_TMPFILE)
++		desired_access |= DELETE;
+ 
+ 	disposition = FILE_OVERWRITE_IF;
+-	if ((oflags & (O_CREAT | O_EXCL)) == (O_CREAT | O_EXCL))
++	if (oflags & O_CREAT) {
++		if (oflags & O_EXCL)
++			disposition = FILE_CREATE;
++		else if (oflags & O_TRUNC)
++			disposition = FILE_OVERWRITE_IF;
++		else
++			disposition = FILE_OPEN_IF;
++	} else if (oflags & O_TMPFILE) {
+ 		disposition = FILE_CREATE;
+-	else if ((oflags & (O_CREAT | O_TRUNC)) == (O_CREAT | O_TRUNC))
+-		disposition = FILE_OVERWRITE_IF;
+-	else if ((oflags & O_CREAT) == O_CREAT)
+-		disposition = FILE_OPEN_IF;
+-	else
++	} else {
+ 		cifs_dbg(FYI, "Create flag not set in create function\n");
++	}
+ 
+ 	/*
+ 	 * BB add processing to set equivalent of mode - e.g. via CreateX with
+ 	 * ACLs
+ 	 */
+ 
+-	if (!server->ops->open) {
+-		rc = -ENOSYS;
+-		goto out;
+-	}
++	if (!server->ops->open)
++		return -EOPNOTSUPP;
+ 
+ 	create_options |= cifs_open_create_options(oflags, create_options);
+ 	/*
+@@ -358,7 +356,7 @@ static int cifs_do_create(struct inode *inode, struct dentry *direntry, unsigned
+ 			rdwr_for_fscache = 2;
+ 			goto retry_open;
+ 		}
+-		goto out;
++		return rc;
+ 	}
+ 	if (rdwr_for_fscache == 2)
+ 		cifs_invalidate_cache(inode, FSCACHE_INVAL_DIO_WRITE);
+@@ -436,17 +434,19 @@ static int cifs_do_create(struct inode *inode, struct dentry *direntry, unsigned
+ 		goto out_err;
+ 	}
+ 
+-	if (newinode)
+-		if (S_ISDIR(newinode->i_mode)) {
+-			rc = -EISDIR;
+-			goto out_err;
+-		}
++	if (newinode && S_ISDIR(newinode->i_mode)) {
++		rc = -EISDIR;
++		goto out_err;
++	}
+ 
+ 	d_drop(direntry);
+-	d_add(direntry, newinode);
+-
+-out:
+-	free_dentry_path(page);
++	inode_set_mtime_to_ts(inode, inode_set_ctime_current(inode));
++	if (oflags & O_TMPFILE) {
++		set_nlink(newinode, 1);
++		d_tmpfile(file, newinode);
++	} else {
++		d_add(direntry, newinode);
++	}
+ 	return rc;
+ 
+ out_err:
+@@ -454,7 +454,49 @@ static int cifs_do_create(struct inode *inode, struct dentry *direntry, unsigned
+ 		server->ops->close(xid, tcon, fid);
+ 	if (newinode)
+ 		iput(newinode);
+-	goto out;
++	return rc;
++}
++
++static int create_tmpfile(struct inode *inode, struct file *file,
++			  unsigned int xid, struct tcon_link *tlink,
++			  umode_t mode, __u32 *oplock, struct cifs_fid *fid)
++{
++	struct dentry *dentry = file->f_path.dentry;
++	char *path __free(kfree) = NULL;
++	int rc;
++
++	path = cifs_tmpfile_name(dentry);
++	if (IS_ERR(path)) {
++		rc =  PTR_ERR(path);
++		path = NULL;
++		return rc;
++	}
++
++	return __cifs_do_create(file, inode, dentry, path, xid, tlink,
++				file->f_flags, mode, oplock, fid, NULL);
++}
++
++static int create_file(struct inode *inode, struct dentry *direntry,
++		       unsigned int xid, struct tcon_link *tlink,
++		       unsigned int oflags, umode_t mode,
++		       __u32 *oplock, struct cifs_fid *fid,
++		       struct cifs_open_info_data *buf)
++{
++	void *page = alloc_dentry_path();
++	const char *path;
++	int rc;
++
++	path = build_path_from_dentry(direntry, page);
++	if (IS_ERR(path)) {
++		rc =  PTR_ERR(path);
++		goto out_free_path;
++	}
++
++	rc = __cifs_do_create(NULL, inode, direntry, path, xid,
++			      tlink, oflags, mode, oplock, fid, buf);
++out_free_path:
++	free_dentry_path(page);
++	return rc;
+ }
+ 
+ int
+@@ -523,8 +565,8 @@ cifs_atomic_open(struct inode *inode, struct dentry *direntry,
+ 
+ 	cifs_add_pending_open(&fid, tlink, &open);
+ 
+-	rc = cifs_do_create(inode, direntry, xid, tlink, oflags, mode,
+-			    &oplock, &fid, &buf);
++	rc = create_file(inode, direntry, xid, tlink,
++			 oflags, mode, &oplock, &fid, &buf);
+ 	if (rc) {
+ 		cifs_del_pending_open(&open);
+ 		goto out;
+@@ -608,7 +650,8 @@ int cifs_create(struct mnt_idmap *idmap, struct inode *inode,
+ 	if (server->ops->new_lease_key)
+ 		server->ops->new_lease_key(&fid);
+ 
+-	rc = cifs_do_create(inode, direntry, xid, tlink, oflags, mode, &oplock, &fid, &buf);
++	rc = create_file(inode, direntry, xid, tlink,
++			 oflags, mode, &oplock, &fid, &buf);
+ 	if (!rc && server->ops->close)
+ 		server->ops->close(xid, tcon, &fid);
+ 
+@@ -959,6 +1002,168 @@ static int cifs_ci_compare(const struct dentry *dentry,
+ 	return 0;
+ }
+ 
++static int set_hidden_attr(const unsigned int xid,
++			   struct TCP_Server_Info *server,
++			   struct file *file)
++{
++	struct cifsInodeInfo *cinode = CIFS_I(file_inode(file));
++	FILE_BASIC_INFO fi = {
++		.Attributes = cpu_to_le32(cinode->cifsAttrs |
++					  ATTR_HIDDEN),
++	};
++
++	return server->ops->set_file_info(file_inode(file), NULL, &fi, xid);
++}
++
++int cifs_tmpfile(struct mnt_idmap *idmap, struct inode *dir,
++		 struct file *file, umode_t mode)
++{
++	struct dentry *dentry = file->f_path.dentry;
++	struct cifs_sb_info *cifs_sb = CIFS_SB(dir);
++	struct TCP_Server_Info *server;
++	struct cifs_pending_open open;
++	struct cifsFileInfo *cfile;
++	struct cifs_fid fid = {};
++	struct tcon_link *tlink;
++	struct cifs_tcon *tcon;
++	unsigned int sbflags;
++	unsigned int xid;
++	__u32 oplock;
++	int rc;
++
++	if (unlikely(cifs_forced_shutdown(cifs_sb)))
++		return smb_EIO(smb_eio_trace_forced_shutdown);
++
++	tlink = cifs_sb_tlink(cifs_sb);
++	if (IS_ERR(tlink))
++		return PTR_ERR(tlink);
++	tcon = tlink_tcon(tlink);
++	server = tcon->ses->server;
++
++	xid = get_xid();
++
++	if (server->vals->protocol_id < SMB20_PROT_ID) {
++		cifs_dbg(VFS | ONCE, "O_TMPFILE is supported only in SMB2+\n");
++		rc = -EOPNOTSUPP;
++		goto out;
++	}
++
++	if (server->ops->new_lease_key)
++		server->ops->new_lease_key(&fid);
++	cifs_add_pending_open(&fid, tlink, &open);
++
++	rc = create_tmpfile(dir, file, xid, tlink, mode, &oplock, &fid);
++	if (rc) {
++		cifs_del_pending_open(&open);
++		goto out;
++	}
++
++	rc = finish_open(file, dentry, generic_file_open);
++	if (rc)
++		goto err_open;
++
++	sbflags = cifs_sb_flags(cifs_sb);
++	if ((file->f_flags & O_DIRECT) && (sbflags & CIFS_MOUNT_STRICT_IO)) {
++		if (sbflags & CIFS_MOUNT_NO_BRL)
++			file->f_op = &cifs_file_direct_nobrl_ops;
++		else
++			file->f_op = &cifs_file_direct_ops;
++	}
++
++	cfile = cifs_new_fileinfo(&fid, file, tlink, oplock, NULL);
++	if (!cfile) {
++		rc = -ENOMEM;
++		goto err_open;
++	}
++
++	rc = set_hidden_attr(xid, server, file);
++	if (rc)
++		goto err_close;
++
++	fscache_use_cookie(cifs_inode_cookie(file_inode(file)),
++			   file->f_mode & FMODE_WRITE);
++out:
++	cifs_put_tlink(tlink);
++	free_xid(xid);
++	return rc;
++err_open:
++	cifs_del_pending_open(&open);
++err_close:
++	if (server->ops->close)
++		server->ops->close(xid, tcon, &fid);
++	goto out;
++}
++
++static char *tmp_fullpath(struct dentry *dentry,
++			  const unsigned char *name, size_t namesize)
++{
++	char *page = alloc_dentry_path();
++	const char *path;
++	char *npath;
++	size_t len;
++
++	path = build_path_from_dentry(dentry->d_parent, page);
++	if (IS_ERR(path)) {
++		npath = ERR_CAST(path);
++		goto out;
++	}
++
++	len = strlen(path) + namesize;
++	npath = kmalloc(len, GFP_KERNEL);
++	if (npath)
++		scnprintf(npath, len, "%s%s", path, name);
++	else
++		npath = ERR_PTR(-ENOMEM);
++out:
++	free_dentry_path(page);
++	return npath;
++}
++
++char *cifs_silly_filename(struct dentry *dentry)
++{
++	struct cifs_sb_info *cifs_sb = CIFS_SB(dentry);
++	unsigned char name[CIFS_SILLY_FILENAME_SIZE];
++	size_t namesize = sizeof(name);
++	struct dentry *sdentry = NULL;
++
++	do {
++		dput(sdentry);
++		scnprintf(name, namesize,
++			  CIFS_TMPFILE_PREFIX "%s",
++			  CIFS_DIR_SEP(cifs_sb),
++			  atomic_inc_return(&cifs_sillycounter) & 0xffff,
++			  CIFS_SILLY_FILENAME_SUFFIX);
++		sdentry = lookup_noperm(&QSTR(name + 1), dentry->d_parent);
++		if (IS_ERR(sdentry))
++			return ERR_PTR(-EBUSY);
++	} while (!d_is_negative(sdentry));
++	dput(sdentry);
++	return tmp_fullpath(dentry, name, namesize);
++}
++
++char *cifs_tmpfile_name(struct dentry *dentry)
++{
++	struct cifs_sb_info *cifs_sb = CIFS_SB(dentry);
++	unsigned char name[CIFS_TMP_FILENAME_SIZE];
++	size_t namesize = sizeof(name);
++	struct dentry *sdentry = NULL;
++
++	do {
++		dput(sdentry);
++		scnprintf(name, namesize,
++			  CIFS_TMPFILE_PREFIX "%s",
++			  CIFS_DIR_SEP(cifs_sb),
++			  atomic_inc_return(&cifs_tmpcounter) & 0xffff,
++			  CIFS_TMP_FILENAME_SUFFIX);
++		sdentry = lookup_noperm_unlocked(&QSTR(name + 1),
++						 dentry->d_parent);
++		if (IS_ERR(sdentry))
++			return ERR_PTR(-EBUSY);
++	} while (!d_is_negative(sdentry));
++	dput(sdentry);
++	return tmp_fullpath(dentry, name, namesize);
++}
++
+ const struct dentry_operations cifs_ci_dentry_ops = {
+ 	.d_revalidate = cifs_d_revalidate,
+ 	.d_hash = cifs_ci_hash,
+diff --git a/fs/smb/client/file.c b/fs/smb/client/file.c
+index a69e05f86d7e..0d1fda84a89e 100644
+--- a/fs/smb/client/file.c
++++ b/fs/smb/client/file.c
+@@ -696,6 +696,7 @@ struct cifsFileInfo *cifs_new_fileinfo(struct cifs_fid *fid, struct file *file,
+ 	cfile->f_flags = file->f_flags;
+ 	cfile->invalidHandle = false;
+ 	cfile->deferred_close_scheduled = false;
++	cfile->status_file_deleted = file->f_flags & O_TMPFILE;
+ 	cfile->tlink = cifs_get_tlink(tlink);
+ 	INIT_WORK(&cfile->oplock_break, cifs_oplock_break);
+ 	INIT_WORK(&cfile->put, cifsFileInfo_put_work);
+@@ -715,6 +716,8 @@ struct cifsFileInfo *cifs_new_fileinfo(struct cifs_fid *fid, struct file *file,
+ 
+ 	cifs_down_write(&cinode->lock_sem);
+ 	list_add(&fdlocks->llist, &cinode->llist);
++	if (file->f_flags & O_TMPFILE)
++		set_bit(CIFS_INO_TMPFILE, &cinode->flags);
+ 	up_write(&cinode->lock_sem);
+ 
+ 	spin_lock(&tcon->open_file_lock);
+@@ -2605,6 +2608,15 @@ int __cifs_get_writable_file(struct cifsInodeInfo *cifs_inode,
+ 		fsuid_only = false;
+ 
+ 	spin_lock(&cifs_inode->open_file_lock);
++	if (test_bit(CIFS_INO_TMPFILE, &cifs_inode->flags)) {
++		*ret_file = list_first_entry_or_null(&cifs_inode->openFileList,
++						     struct cifsFileInfo,
++						     flist);
++		if (*ret_file)
++			cifsFileInfo_get(*ret_file);
++		spin_unlock(&cifs_inode->open_file_lock);
++		return *ret_file ? 0 : -EBADF;
++	}
+ refind_writable:
+ 	if (refind > MAX_REOPEN_ATT) {
+ 		spin_unlock(&cifs_inode->open_file_lock);
+@@ -2683,16 +2695,23 @@ find_writable_file(struct cifsInodeInfo *cifs_inode, int flags)
+ 	return cfile;
+ }
+ 
+-int
+-cifs_get_writable_path(struct cifs_tcon *tcon, const char *name,
+-		       int flags,
+-		       struct cifsFileInfo **ret_file)
++int cifs_get_writable_path(struct cifs_tcon *tcon, const char *name,
++			   struct inode *inode, int flags,
++			   struct cifsFileInfo **ret_file)
+ {
++
+ 	struct cifsFileInfo *cfile;
+-	void *page = alloc_dentry_path();
++	void *page;
+ 
+ 	*ret_file = NULL;
+ 
++	if (!name) {
++		if (WARN_ON_ONCE(!inode))
++			return -EBADF;
++		return cifs_get_writable_file(CIFS_I(inode), flags, ret_file);
++	}
++
++	page = alloc_dentry_path();
+ 	spin_lock(&tcon->open_file_lock);
+ 	list_for_each_entry(cfile, &tcon->openFileList, tlist) {
+ 		struct cifsInodeInfo *cinode;
+diff --git a/fs/smb/client/inode.c b/fs/smb/client/inode.c
+index 888f9e35f14b..24040909d184 100644
+--- a/fs/smb/client/inode.c
++++ b/fs/smb/client/inode.c
+@@ -2690,7 +2690,8 @@ cifs_dentry_needs_reval(struct dentry *dentry)
+ 	struct cifs_tcon *tcon = cifs_sb_master_tcon(cifs_sb);
+ 	struct cached_fid *cfid = NULL;
+ 
+-	if (test_bit(CIFS_INO_DELETE_PENDING, &cifs_i->flags))
++	if (test_bit(CIFS_INO_DELETE_PENDING, &cifs_i->flags) ||
++	    test_bit(CIFS_INO_TMPFILE, &cifs_i->flags))
+ 		return false;
+ 	if (cifs_i->time == 0)
+ 		return true;
+diff --git a/fs/smb/client/link.c b/fs/smb/client/link.c
+index 434e8fe74080..50daf6bb0551 100644
+--- a/fs/smb/client/link.c
++++ b/fs/smb/client/link.c
+@@ -444,7 +444,7 @@ cifs_hardlink(struct dentry *old_file, struct inode *inode,
+ 	int rc = -EACCES;
+ 	unsigned int xid;
+ 	const char *from_name, *to_name;
+-	void *page1, *page2;
++	void *page1 = NULL, *page2 = NULL;
+ 	struct cifs_sb_info *cifs_sb = CIFS_SB(inode->i_sb);
+ 	struct tcon_link *tlink;
+ 	struct cifs_tcon *tcon;
+@@ -460,14 +460,25 @@ cifs_hardlink(struct dentry *old_file, struct inode *inode,
+ 	tcon = tlink_tcon(tlink);
+ 
+ 	xid = get_xid();
++
++	if (d_really_is_positive(old_file)) {
++		cifsInode = CIFS_I(d_inode(old_file));
++		guard(spinlock)(&cifsInode->open_file_lock);
++		if (test_bit(CIFS_INO_TMPFILE, &cifsInode->flags)) {
++			from_name = NULL;
++			goto tmpfile;
++		}
++	}
++
+ 	page1 = alloc_dentry_path();
+-	page2 = alloc_dentry_path();
+-
+ 	from_name = build_path_from_dentry(old_file, page1);
+ 	if (IS_ERR(from_name)) {
+ 		rc = PTR_ERR(from_name);
+ 		goto cifs_hl_exit;
+ 	}
++
++tmpfile:
++	page2 = alloc_dentry_path();
+ 	to_name = build_path_from_dentry(direntry, page2);
+ 	if (IS_ERR(to_name)) {
+ 		rc = PTR_ERR(to_name);
+@@ -503,6 +514,7 @@ cifs_hardlink(struct dentry *old_file, struct inode *inode,
+ 	if (d_really_is_positive(old_file)) {
+ 		cifsInode = CIFS_I(d_inode(old_file));
+ 		if (rc == 0) {
++			clear_bit(CIFS_INO_TMPFILE, &cifsInode->flags);
+ 			spin_lock(&d_inode(old_file)->i_lock);
+ 			inc_nlink(d_inode(old_file));
+ 			spin_unlock(&d_inode(old_file)->i_lock);
+diff --git a/fs/smb/client/smb2inode.c b/fs/smb/client/smb2inode.c
+index 364bdcff9c9d..44d660a9c67e 100644
+--- a/fs/smb/client/smb2inode.c
++++ b/fs/smb/client/smb2inode.c
+@@ -164,6 +164,27 @@ static int check_wsl_eas(struct kvec *rsp_iov)
+ 	return 0;
+ }
+ 
++/*
++ * If @cfile is NULL, then need to account for extra open and close requests in
++ * the compound chain.
++ */
++static void set_next_compound(struct cifs_tcon *tcon,
++			      struct cifsFileInfo *cfile,
++			      int i, int num_cmds,
++			      struct smb_rqst *rqst, int *num_rqst)
++{
++	int k = !cfile ? 1 : 0;
++
++	if (i + 1 < num_cmds + k)
++		smb2_set_next_command(tcon, &rqst[*num_rqst]);
++	if (i + k > 0)
++		smb2_set_related(&rqst[*num_rqst]);
++	(*num_rqst)++;
++}
++
++#define COMP_PID(cfile) ((cfile) ? (cfile)->fid.persistent_fid : COMPOUND_FID)
++#define COMP_VID(cfile) ((cfile) ? (cfile)->fid.volatile_fid : COMPOUND_FID)
++
+ /*
+  * note: If cfile is passed, the reference to it is dropped here.
+  * So make sure that you do not reuse cfile after return from this func.
+@@ -226,6 +247,10 @@ static int smb2_compound_op(const unsigned int xid, struct cifs_tcon *tcon,
+ 	/* We already have a handle so we can skip the open */
+ 	if (cfile)
+ 		goto after_open;
++	if (WARN_ON_ONCE(!full_path)) {
++		rc = -EINVAL;
++		goto finished;
++	}
+ 
+ 	/* Open */
+ 	utf16_path = cifs_convert_path_to_utf16(full_path, cifs_sb);
+@@ -284,32 +309,16 @@ static int smb2_compound_op(const unsigned int xid, struct cifs_tcon *tcon,
+ 			rqst[num_rqst].rq_iov = &vars->qi_iov;
+ 			rqst[num_rqst].rq_nvec = 1;
+ 
+-			if (cfile) {
+-				rc = SMB2_query_info_init(tcon, server,
+-							  &rqst[num_rqst],
+-							  cfile->fid.persistent_fid,
+-							  cfile->fid.volatile_fid,
+-							  FILE_ALL_INFORMATION,
+-							  SMB2_O_INFO_FILE, 0,
+-							  sizeof(struct smb2_file_all_info) +
+-							  PATH_MAX * 2, 0, NULL);
+-			} else {
+-				rc = SMB2_query_info_init(tcon, server,
+-							  &rqst[num_rqst],
+-							  COMPOUND_FID,
+-							  COMPOUND_FID,
+-							  FILE_ALL_INFORMATION,
+-							  SMB2_O_INFO_FILE, 0,
+-							  sizeof(struct smb2_file_all_info) +
+-							  PATH_MAX * 2, 0, NULL);
+-			}
+-			if (!rc && (!cfile || num_rqst > 1)) {
+-				smb2_set_next_command(tcon, &rqst[num_rqst]);
+-				smb2_set_related(&rqst[num_rqst]);
+-			} else if (rc) {
++			rc = SMB2_query_info_init(tcon, server,
++						  &rqst[num_rqst],
++						  COMP_PID(cfile), COMP_VID(cfile),
++						  FILE_ALL_INFORMATION,
++						  SMB2_O_INFO_FILE, 0,
++						  sizeof(struct smb2_file_all_info) +
++						  PATH_MAX * 2, 0, NULL);
++			if (rc)
+ 				goto finished;
+-			}
+-			num_rqst++;
++			set_next_compound(tcon, cfile, i, num_cmds, rqst, &num_rqst);
+ 			trace_smb3_query_info_compound_enter(xid, tcon->tid,
+ 							     ses->Suid, full_path);
+ 			break;
+@@ -317,35 +326,18 @@ static int smb2_compound_op(const unsigned int xid, struct cifs_tcon *tcon,
+ 			rqst[num_rqst].rq_iov = &vars->qi_iov;
+ 			rqst[num_rqst].rq_nvec = 1;
+ 
+-			if (cfile) {
+-				/* TBD: fix following to allow for longer SIDs */
+-				rc = SMB2_query_info_init(tcon, server,
+-							  &rqst[num_rqst],
+-							  cfile->fid.persistent_fid,
+-							  cfile->fid.volatile_fid,
+-							  SMB_FIND_FILE_POSIX_INFO,
+-							  SMB2_O_INFO_FILE, 0,
+-							  sizeof(struct smb311_posix_qinfo) +
+-							  (PATH_MAX * 2) +
+-							  (sizeof(struct smb_sid) * 2), 0, NULL);
+-			} else {
+-				rc = SMB2_query_info_init(tcon, server,
+-							  &rqst[num_rqst],
+-							  COMPOUND_FID,
+-							  COMPOUND_FID,
+-							  SMB_FIND_FILE_POSIX_INFO,
+-							  SMB2_O_INFO_FILE, 0,
+-							  sizeof(struct smb311_posix_qinfo) +
+-							  (PATH_MAX * 2) +
+-							  (sizeof(struct smb_sid) * 2), 0, NULL);
+-			}
+-			if (!rc && (!cfile || num_rqst > 1)) {
+-				smb2_set_next_command(tcon, &rqst[num_rqst]);
+-				smb2_set_related(&rqst[num_rqst]);
+-			} else if (rc) {
++			/* TBD: fix following to allow for longer SIDs */
++			rc = SMB2_query_info_init(tcon, server,
++						  &rqst[num_rqst],
++						  COMP_PID(cfile), COMP_VID(cfile),
++						  SMB_FIND_FILE_POSIX_INFO,
++						  SMB2_O_INFO_FILE, 0,
++						  sizeof(struct smb311_posix_qinfo) +
++						  (PATH_MAX * 2) +
++						  (sizeof(struct smb_sid) * 2), 0, NULL);
++			if (rc)
+ 				goto finished;
+-			}
+-			num_rqst++;
++			set_next_compound(tcon, cfile, i, num_cmds, rqst, &num_rqst);
+ 			trace_smb3_posix_query_info_compound_enter(xid, tcon->tid,
+ 								   ses->Suid, full_path);
+ 			break;
+@@ -363,32 +355,15 @@ static int smb2_compound_op(const unsigned int xid, struct cifs_tcon *tcon,
+ 			size[0] = 1; /* sizeof __u8 See MS-FSCC section 2.4.11 */
+ 			data[0] = &delete_pending[0];
+ 
+-			if (cfile) {
+-				rc = SMB2_set_info_init(tcon, server,
+-							&rqst[num_rqst],
+-							cfile->fid.persistent_fid,
+-							cfile->fid.volatile_fid,
+-							current->tgid,
+-							FILE_DISPOSITION_INFORMATION,
+-							SMB2_O_INFO_FILE, 0,
+-							data, size);
+-			} else {
+-				rc = SMB2_set_info_init(tcon, server,
+-							&rqst[num_rqst],
+-							COMPOUND_FID,
+-							COMPOUND_FID,
+-							current->tgid,
+-							FILE_DISPOSITION_INFORMATION,
+-							SMB2_O_INFO_FILE, 0,
+-							data, size);
+-			}
+-			if (!rc && (!cfile || num_rqst > 1)) {
+-				smb2_set_next_command(tcon, &rqst[num_rqst]);
+-				smb2_set_related(&rqst[num_rqst]);
+-			} else if (rc) {
++			rc = SMB2_set_info_init(tcon, server,
++						&rqst[num_rqst],
++						COMP_PID(cfile), COMP_VID(cfile),
++						current->tgid, FILE_DISPOSITION_INFORMATION,
++						SMB2_O_INFO_FILE, 0,
++						data, size);
++			if (rc)
+ 				goto finished;
+-			}
+-			num_rqst++;
++			set_next_compound(tcon, cfile, i, num_cmds, rqst, &num_rqst);
+ 			trace_smb3_unlink_enter(xid, tcon->tid, ses->Suid, full_path);
+ 			break;
+ 		case SMB2_OP_SET_EOF:
+@@ -398,32 +373,15 @@ static int smb2_compound_op(const unsigned int xid, struct cifs_tcon *tcon,
+ 			size[0] = in_iov[i].iov_len;
+ 			data[0] = in_iov[i].iov_base;
+ 
+-			if (cfile) {
+-				rc = SMB2_set_info_init(tcon, server,
+-							&rqst[num_rqst],
+-							cfile->fid.persistent_fid,
+-							cfile->fid.volatile_fid,
+-							current->tgid,
+-							FILE_END_OF_FILE_INFORMATION,
+-							SMB2_O_INFO_FILE, 0,
+-							data, size);
+-			} else {
+-				rc = SMB2_set_info_init(tcon, server,
+-							&rqst[num_rqst],
+-							COMPOUND_FID,
+-							COMPOUND_FID,
+-							current->tgid,
+-							FILE_END_OF_FILE_INFORMATION,
+-							SMB2_O_INFO_FILE, 0,
+-							data, size);
+-			}
+-			if (!rc && (!cfile || num_rqst > 1)) {
+-				smb2_set_next_command(tcon, &rqst[num_rqst]);
+-				smb2_set_related(&rqst[num_rqst]);
+-			} else if (rc) {
++			rc = SMB2_set_info_init(tcon, server,
++						&rqst[num_rqst],
++						COMP_PID(cfile), COMP_VID(cfile),
++						current->tgid, FILE_END_OF_FILE_INFORMATION,
++						SMB2_O_INFO_FILE, 0,
++						data, size);
++			if (rc)
+ 				goto finished;
+-			}
+-			num_rqst++;
++			set_next_compound(tcon, cfile, i, num_cmds, rqst, &num_rqst);
+ 			trace_smb3_set_eof_enter(xid, tcon->tid, ses->Suid, full_path);
+ 			break;
+ 		case SMB2_OP_SET_INFO:
+@@ -433,28 +391,14 @@ static int smb2_compound_op(const unsigned int xid, struct cifs_tcon *tcon,
+ 			size[0] = in_iov[i].iov_len;
+ 			data[0] = in_iov[i].iov_base;
+ 
+-			if (cfile) {
+-				rc = SMB2_set_info_init(tcon, server,
+-							&rqst[num_rqst],
+-							cfile->fid.persistent_fid,
+-							cfile->fid.volatile_fid, current->tgid,
+-							FILE_BASIC_INFORMATION,
+-							SMB2_O_INFO_FILE, 0, data, size);
+-			} else {
+-				rc = SMB2_set_info_init(tcon, server,
+-							&rqst[num_rqst],
+-							COMPOUND_FID,
+-							COMPOUND_FID, current->tgid,
+-							FILE_BASIC_INFORMATION,
+-							SMB2_O_INFO_FILE, 0, data, size);
+-			}
+-			if (!rc && (!cfile || num_rqst > 1)) {
+-				smb2_set_next_command(tcon, &rqst[num_rqst]);
+-				smb2_set_related(&rqst[num_rqst]);
+-			} else if (rc) {
++			rc = SMB2_set_info_init(tcon, server,
++						&rqst[num_rqst],
++						COMP_PID(cfile), COMP_VID(cfile),
++						current->tgid, FILE_BASIC_INFORMATION,
++						SMB2_O_INFO_FILE, 0, data, size);
++			if (rc)
+ 				goto finished;
+-			}
+-			num_rqst++;
++			set_next_compound(tcon, cfile, i, num_cmds, rqst, &num_rqst);
+ 			trace_smb3_set_info_compound_enter(xid, tcon->tid,
+ 							   ses->Suid, full_path);
+ 			break;
+@@ -474,31 +418,19 @@ static int smb2_compound_op(const unsigned int xid, struct cifs_tcon *tcon,
+ 			size[1] = len + 2 /* null */;
+ 			data[1] = in_iov[i].iov_base;
+ 
+-			if (cfile) {
+-				rc = SMB2_set_info_init(tcon, server,
+-							&rqst[num_rqst],
+-							cfile->fid.persistent_fid,
+-							cfile->fid.volatile_fid,
+-							current->tgid, FILE_RENAME_INFORMATION,
+-							SMB2_O_INFO_FILE, 0, data, size);
+-			} else {
+-				rc = SMB2_set_info_init(tcon, server,
+-							&rqst[num_rqst],
+-							COMPOUND_FID, COMPOUND_FID,
+-							current->tgid, FILE_RENAME_INFORMATION,
+-							SMB2_O_INFO_FILE, 0, data, size);
+-			}
+-			if (!rc && (!cfile || num_rqst > 1)) {
+-				smb2_set_next_command(tcon, &rqst[num_rqst]);
+-				smb2_set_related(&rqst[num_rqst]);
+-			} else if (rc) {
++			rc = SMB2_set_info_init(tcon, server,
++						&rqst[num_rqst],
++						COMP_PID(cfile), COMP_VID(cfile),
++						current->tgid, FILE_RENAME_INFORMATION,
++						SMB2_O_INFO_FILE, 0, data, size);
++
++			if (rc)
+ 				goto finished;
+-			}
+-			num_rqst++;
++			set_next_compound(tcon, cfile, i, num_cmds, rqst, &num_rqst);
+ 			trace_smb3_rename_enter(xid, tcon->tid, ses->Suid, full_path);
+ 			break;
+ 		case SMB2_OP_HARDLINK:
+-			rqst[num_rqst].rq_iov = &vars->si_iov[0];
++			rqst[num_rqst].rq_iov = vars->hl_iov;
+ 			rqst[num_rqst].rq_nvec = 2;
+ 
+ 			len = in_iov[i].iov_len;
+@@ -514,41 +446,27 @@ static int smb2_compound_op(const unsigned int xid, struct cifs_tcon *tcon,
+ 			data[1] = in_iov[i].iov_base;
+ 
+ 			rc = SMB2_set_info_init(tcon, server,
+-						&rqst[num_rqst], COMPOUND_FID,
+-						COMPOUND_FID, current->tgid,
+-						FILE_LINK_INFORMATION,
++						&rqst[num_rqst],
++						COMP_PID(cfile), COMP_VID(cfile),
++						current->tgid, FILE_LINK_INFORMATION,
+ 						SMB2_O_INFO_FILE, 0, data, size);
+ 			if (rc)
+ 				goto finished;
+-			smb2_set_next_command(tcon, &rqst[num_rqst]);
+-			smb2_set_related(&rqst[num_rqst++]);
++			set_next_compound(tcon, cfile, i, num_cmds, rqst, &num_rqst);
+ 			trace_smb3_hardlink_enter(xid, tcon->tid, ses->Suid, full_path);
+ 			break;
+ 		case SMB2_OP_SET_REPARSE:
+ 			rqst[num_rqst].rq_iov = vars->io_iov;
+ 			rqst[num_rqst].rq_nvec = ARRAY_SIZE(vars->io_iov);
+ 
+-			if (cfile) {
+-				rc = SMB2_ioctl_init(tcon, server, &rqst[num_rqst],
+-						     cfile->fid.persistent_fid,
+-						     cfile->fid.volatile_fid,
+-						     FSCTL_SET_REPARSE_POINT,
+-						     in_iov[i].iov_base,
+-						     in_iov[i].iov_len, 0);
+-			} else {
+-				rc = SMB2_ioctl_init(tcon, server, &rqst[num_rqst],
+-						     COMPOUND_FID, COMPOUND_FID,
+-						     FSCTL_SET_REPARSE_POINT,
+-						     in_iov[i].iov_base,
+-						     in_iov[i].iov_len, 0);
+-			}
+-			if (!rc && (!cfile || num_rqst > 1)) {
+-				smb2_set_next_command(tcon, &rqst[num_rqst]);
+-				smb2_set_related(&rqst[num_rqst]);
+-			} else if (rc) {
++			rc = SMB2_ioctl_init(tcon, server, &rqst[num_rqst],
++					     COMP_PID(cfile), COMP_VID(cfile),
++					     FSCTL_SET_REPARSE_POINT,
++					     in_iov[i].iov_base,
++					     in_iov[i].iov_len, 0);
++			if (rc)
+ 				goto finished;
+-			}
+-			num_rqst++;
++			set_next_compound(tcon, cfile, i, num_cmds, rqst, &num_rqst);
+ 			trace_smb3_set_reparse_compound_enter(xid, tcon->tid,
+ 							      ses->Suid, full_path);
+ 			break;
+@@ -556,25 +474,13 @@ static int smb2_compound_op(const unsigned int xid, struct cifs_tcon *tcon,
+ 			rqst[num_rqst].rq_iov = vars->io_iov;
+ 			rqst[num_rqst].rq_nvec = ARRAY_SIZE(vars->io_iov);
+ 
+-			if (cfile) {
+-				rc = SMB2_ioctl_init(tcon, server, &rqst[num_rqst],
+-						     cfile->fid.persistent_fid,
+-						     cfile->fid.volatile_fid,
+-						     FSCTL_GET_REPARSE_POINT,
+-						     NULL, 0, CIFSMaxBufSize);
+-			} else {
+-				rc = SMB2_ioctl_init(tcon, server, &rqst[num_rqst],
+-						     COMPOUND_FID, COMPOUND_FID,
+-						     FSCTL_GET_REPARSE_POINT,
+-						     NULL, 0, CIFSMaxBufSize);
+-			}
+-			if (!rc && (!cfile || num_rqst > 1)) {
+-				smb2_set_next_command(tcon, &rqst[num_rqst]);
+-				smb2_set_related(&rqst[num_rqst]);
+-			} else if (rc) {
++			rc = SMB2_ioctl_init(tcon, server, &rqst[num_rqst],
++					     COMP_PID(cfile), COMP_VID(cfile),
++					     FSCTL_GET_REPARSE_POINT,
++					     NULL, 0, CIFSMaxBufSize);
++			if (rc)
+ 				goto finished;
+-			}
+-			num_rqst++;
++			set_next_compound(tcon, cfile, i, num_cmds, rqst, &num_rqst);
+ 			trace_smb3_get_reparse_compound_enter(xid, tcon->tid,
+ 							      ses->Suid, full_path);
+ 			break;
+@@ -582,34 +488,17 @@ static int smb2_compound_op(const unsigned int xid, struct cifs_tcon *tcon,
+ 			rqst[num_rqst].rq_iov = &vars->ea_iov;
+ 			rqst[num_rqst].rq_nvec = 1;
+ 
+-			if (cfile) {
+-				rc = SMB2_query_info_init(tcon, server,
+-							  &rqst[num_rqst],
+-							  cfile->fid.persistent_fid,
+-							  cfile->fid.volatile_fid,
+-							  FILE_FULL_EA_INFORMATION,
+-							  SMB2_O_INFO_FILE, 0,
+-							  SMB2_WSL_MAX_QUERY_EA_RESP_SIZE,
+-							  sizeof(wsl_query_eas),
+-							  (void *)wsl_query_eas);
+-			} else {
+-				rc = SMB2_query_info_init(tcon, server,
+-							  &rqst[num_rqst],
+-							  COMPOUND_FID,
+-							  COMPOUND_FID,
+-							  FILE_FULL_EA_INFORMATION,
+-							  SMB2_O_INFO_FILE, 0,
+-							  SMB2_WSL_MAX_QUERY_EA_RESP_SIZE,
+-							  sizeof(wsl_query_eas),
+-							  (void *)wsl_query_eas);
+-			}
+-			if (!rc && (!cfile || num_rqst > 1)) {
+-				smb2_set_next_command(tcon, &rqst[num_rqst]);
+-				smb2_set_related(&rqst[num_rqst]);
+-			} else if (rc) {
++			rc = SMB2_query_info_init(tcon, server,
++						  &rqst[num_rqst],
++						  COMP_PID(cfile), COMP_VID(cfile),
++						  FILE_FULL_EA_INFORMATION,
++						  SMB2_O_INFO_FILE, 0,
++						  SMB2_WSL_MAX_QUERY_EA_RESP_SIZE,
++						  sizeof(wsl_query_eas),
++						  (void *)wsl_query_eas);
++			if (rc)
+ 				goto finished;
+-			}
+-			num_rqst++;
++			set_next_compound(tcon, cfile, i, num_cmds, rqst, &num_rqst);
+ 			trace_smb3_query_wsl_ea_compound_enter(xid, tcon->tid,
+ 							       ses->Suid, full_path);
+ 			break;
+@@ -1156,7 +1045,7 @@ smb2_mkdir_setinfo(struct inode *inode, const char *name,
+ 	cifs_i = CIFS_I(inode);
+ 	dosattrs = cifs_i->cifsAttrs | ATTR_READONLY;
+ 	data.Attributes = cpu_to_le32(dosattrs);
+-	cifs_get_writable_path(tcon, name, FIND_ANY, &cfile);
++	cifs_get_writable_path(tcon, name, inode, FIND_ANY, &cfile);
+ 	oparms = CIFS_OPARMS(cifs_sb, tcon, name, FILE_WRITE_ATTRIBUTES,
+ 			     FILE_CREATE, CREATE_NOT_FILE, ACL_NO_MODE);
+ 	tmprc = smb2_compound_op(xid, tcon, cifs_sb, name,
+@@ -1332,17 +1221,20 @@ int smb2_rename_path(const unsigned int xid,
+ 		     const char *from_name, const char *to_name,
+ 		     struct cifs_sb_info *cifs_sb)
+ {
++	struct inode *inode = source_dentry ? d_inode(source_dentry) : NULL;
+ 	struct cifsFileInfo *cfile;
+ 	__u32 co = file_create_options(source_dentry);
+ 
+ 	drop_cached_dir_by_name(xid, tcon, from_name, cifs_sb);
+-	cifs_get_writable_path(tcon, from_name, FIND_WITH_DELETE, &cfile);
++	cifs_get_writable_path(tcon, from_name, inode,
++			       FIND_WITH_DELETE, &cfile);
+ 
+ 	int rc = smb2_set_path_attr(xid, tcon, from_name, to_name, cifs_sb,
+ 				  co, DELETE, SMB2_OP_RENAME, cfile, source_dentry);
+ 	if (rc == -EINVAL) {
+ 		cifs_dbg(FYI, "invalid lease key, resending request without lease");
+-		cifs_get_writable_path(tcon, from_name, FIND_WITH_DELETE, &cfile);
++		cifs_get_writable_path(tcon, from_name, inode,
++				       FIND_WITH_DELETE, &cfile);
+ 		rc = smb2_set_path_attr(xid, tcon, from_name, to_name, cifs_sb,
+ 				  co, DELETE, SMB2_OP_RENAME, cfile, NULL);
+ 	}
+@@ -1355,11 +1247,32 @@ int smb2_create_hardlink(const unsigned int xid,
+ 			 const char *from_name, const char *to_name,
+ 			 struct cifs_sb_info *cifs_sb)
+ {
++	struct inode *inode = source_dentry ? d_inode(source_dentry) : NULL;
+ 	__u32 co = file_create_options(source_dentry);
++	struct cifsFileInfo *cfile;
+ 
++	if (inode && !from_name) {
++		struct cifsInodeInfo *cinode = CIFS_I(inode);
++		FILE_BASIC_INFO fi;
++		__u32 attrs;
++
++		scoped_guard(spinlock, &cinode->open_file_lock) {
++			if (!test_bit(CIFS_INO_TMPFILE, &CIFS_I(inode)->flags))
++				goto no_tmpfile;
++			attrs = cinode->cifsAttrs;
++		}
++		fi = (FILE_BASIC_INFO) {
++			.Attributes = cpu_to_le32(attrs & ~ATTR_HIDDEN),
++		};
++		smb2_set_file_info(inode, NULL, &fi, xid);
++	}
++
++no_tmpfile:
++	cifs_get_writable_path(tcon, from_name, inode,
++			       FIND_WITH_DELETE, &cfile);
+ 	return smb2_set_path_attr(xid, tcon, from_name, to_name,
+ 				  cifs_sb, co, FILE_READ_ATTRIBUTES,
+-				  SMB2_OP_HARDLINK, NULL, NULL);
++				  SMB2_OP_HARDLINK, cfile, NULL);
+ }
+ 
+ int
+@@ -1368,15 +1281,16 @@ smb2_set_path_size(const unsigned int xid, struct cifs_tcon *tcon,
+ 		   struct cifs_sb_info *cifs_sb, bool set_alloc,
+ 		   struct dentry *dentry)
+ {
+-	struct cifs_open_parms oparms;
+-	struct cifsFileInfo *cfile;
+-	struct kvec in_iov;
++	struct inode *inode = dentry ? d_inode(dentry) : NULL;
+ 	__le64 eof = cpu_to_le64(size);
++	struct cifs_open_parms oparms;
++	struct cifsFileInfo *cfile;
++	struct kvec in_iov;
+ 	int rc;
+ 
+ 	in_iov.iov_base = &eof;
+ 	in_iov.iov_len = sizeof(eof);
+-	cifs_get_writable_path(tcon, full_path, FIND_ANY, &cfile);
++	cifs_get_writable_path(tcon, full_path, inode, FIND_ANY, &cfile);
+ 
+ 	oparms = CIFS_OPARMS(cifs_sb, tcon, full_path, FILE_WRITE_DATA,
+ 			     FILE_OPEN, 0, ACL_NO_MODE);
+@@ -1386,7 +1300,8 @@ smb2_set_path_size(const unsigned int xid, struct cifs_tcon *tcon,
+ 			      cfile, NULL, NULL, dentry);
+ 	if (rc == -EINVAL) {
+ 		cifs_dbg(FYI, "invalid lease key, resending request without lease");
+-		cifs_get_writable_path(tcon, full_path, FIND_ANY, &cfile);
++		cifs_get_writable_path(tcon, full_path,
++				       inode, FIND_ANY, &cfile);
+ 		rc = smb2_compound_op(xid, tcon, cifs_sb,
+ 				      full_path, &oparms, &in_iov,
+ 				      &(int){SMB2_OP_SET_EOF}, 1,
+@@ -1416,7 +1331,8 @@ smb2_set_file_info(struct inode *inode, const char *full_path,
+ 	    (buf->LastWriteTime == 0) && (buf->ChangeTime == 0)) {
+ 		if (buf->Attributes == 0)
+ 			goto out; /* would be a no op, no sense sending this */
+-		cifs_get_writable_path(tcon, full_path, FIND_ANY, &cfile);
++		cifs_get_writable_path(tcon, full_path,
++				       inode, FIND_ANY, &cfile);
+ 	}
+ 
+ 	oparms = CIFS_OPARMS(cifs_sb, tcon, full_path, FILE_WRITE_ATTRIBUTES,
+@@ -1475,7 +1391,7 @@ struct inode *smb2_create_reparse_inode(struct cifs_open_info_data *data,
+ 
+ 	if (tcon->posix_extensions) {
+ 		cmds[1] = SMB2_OP_POSIX_QUERY_INFO;
+-		cifs_get_writable_path(tcon, full_path, FIND_ANY, &cfile);
++		cifs_get_writable_path(tcon, full_path, NULL, FIND_ANY, &cfile);
+ 		rc = smb2_compound_op(xid, tcon, cifs_sb, full_path, &oparms,
+ 				      in_iov, cmds, 2, cfile, out_iov, out_buftype, NULL);
+ 		if (!rc) {
+@@ -1484,7 +1400,7 @@ struct inode *smb2_create_reparse_inode(struct cifs_open_info_data *data,
+ 		}
+ 	} else {
+ 		cmds[1] = SMB2_OP_QUERY_INFO;
+-		cifs_get_writable_path(tcon, full_path, FIND_ANY, &cfile);
++		cifs_get_writable_path(tcon, full_path, NULL, FIND_ANY, &cfile);
+ 		rc = smb2_compound_op(xid, tcon, cifs_sb, full_path, &oparms,
+ 				      in_iov, cmds, 2, cfile, out_iov, out_buftype, NULL);
+ 		if (!rc) {
+@@ -1566,8 +1482,8 @@ int smb2_rename_pending_delete(const char *full_path,
+ 			       struct dentry *dentry,
+ 			       const unsigned int xid)
+ {
+-	struct cifs_sb_info *cifs_sb = CIFS_SB(d_inode(dentry)->i_sb);
+ 	struct cifsInodeInfo *cinode = CIFS_I(d_inode(dentry));
++	struct cifs_sb_info *cifs_sb = CIFS_SB(dentry);
+ 	__le16 *utf16_path __free(kfree) = NULL;
+ 	__u32 co = file_create_options(dentry);
+ 	int cmds[] = {
+@@ -1579,14 +1495,10 @@ int smb2_rename_pending_delete(const char *full_path,
+ 	char *to_name __free(kfree) = NULL;
+ 	__u32 attrs = cinode->cifsAttrs;
+ 	struct cifs_open_parms oparms;
+-	static atomic_t sillycounter;
+ 	struct cifsFileInfo *cfile;
+ 	struct tcon_link *tlink;
+ 	struct cifs_tcon *tcon;
+ 	struct kvec iov[2];
+-	const char *ppath;
+-	void *page;
+-	size_t len;
+ 	int rc;
+ 
+ 	tlink = cifs_sb_tlink(cifs_sb);
+@@ -1594,25 +1506,14 @@ int smb2_rename_pending_delete(const char *full_path,
+ 		return PTR_ERR(tlink);
+ 	tcon = tlink_tcon(tlink);
+ 
+-	page = alloc_dentry_path();
+-
+-	ppath = build_path_from_dentry(dentry->d_parent, page);
+-	if (IS_ERR(ppath)) {
+-		rc = PTR_ERR(ppath);
++	to_name = cifs_silly_filename(dentry);
++	if (IS_ERR(to_name)) {
++		rc = PTR_ERR(to_name);
++		to_name = NULL;
+ 		goto out;
+ 	}
+ 
+-	len = strlen(ppath) + strlen("/.__smb1234") + 1;
+-	to_name = kmalloc(len, GFP_KERNEL);
+-	if (!to_name) {
+-		rc = -ENOMEM;
+-		goto out;
+-	}
+-
+-	scnprintf(to_name, len, "%s%c.__smb%04X", ppath, CIFS_DIR_SEP(cifs_sb),
+-		  atomic_inc_return(&sillycounter) & 0xffff);
+-
+-	utf16_path = utf16_smb2_path(cifs_sb, to_name, len);
++	utf16_path = utf16_smb2_path(cifs_sb, to_name, strlen(to_name));
+ 	if (!utf16_path) {
+ 		rc = -ENOMEM;
+ 		goto out;
+@@ -1635,12 +1536,14 @@ int smb2_rename_pending_delete(const char *full_path,
+ 	iov[1].iov_base = utf16_path;
+ 	iov[1].iov_len = sizeof(*utf16_path) * UniStrlen((wchar_t *)utf16_path);
+ 
+-	cifs_get_writable_path(tcon, full_path, FIND_WITH_DELETE, &cfile);
++	cifs_get_writable_path(tcon, full_path, d_inode(dentry),
++			       FIND_WITH_DELETE, &cfile);
+ 	rc = smb2_compound_op(xid, tcon, cifs_sb, full_path, &oparms, iov,
+ 			      cmds, num_cmds, cfile, NULL, NULL, dentry);
+ 	if (rc == -EINVAL) {
+ 		cifs_dbg(FYI, "invalid lease key, resending request without lease\n");
+-		cifs_get_writable_path(tcon, full_path, FIND_WITH_DELETE, &cfile);
++		cifs_get_writable_path(tcon, full_path, d_inode(dentry),
++				       FIND_WITH_DELETE, &cfile);
+ 		rc = smb2_compound_op(xid, tcon, cifs_sb, full_path, &oparms, iov,
+ 				      cmds, num_cmds, cfile, NULL, NULL, NULL);
+ 	}
+@@ -1653,6 +1556,5 @@ int smb2_rename_pending_delete(const char *full_path,
+ 	}
+ out:
+ 	cifs_put_tlink(tlink);
+-	free_dentry_path(page);
+ 	return rc;
+ }
+-- 
+2.53.0
 
-> @@ -60,12 +70,12 @@ void fuse_daemonize_fail(int err);
->  bool fuse_daemonize_is_active(void);
->  
->  /**
-> - * Set mounted flag.
-> - *
-> - * Called from fuse_session_mount().
-> + * Set mounted flag. Called from fuse_session_mount().
->   */
->  void fuse_daemonize_set_mounted(void);
->  
-> +void fuse_daemonize_set_got_init(void);
-> +
->  /**
->   * Check if daemonization is used.
->   *
-> diff --git a/include/fuse_lowlevel.h b/include/fuse_lowlevel.h
-> index d85929e291a77de8caad7d6b3d9ac5b092ce0e62..ba7c4b3ac788f19f30fbf120fe8f6ae5851b425e 100644
-> --- a/include/fuse_lowlevel.h
-> +++ b/include/fuse_lowlevel.h
-> @@ -2441,6 +2441,14 @@ int fuse_session_receive_buf(struct fuse_session *se, struct fuse_buf *buf);
->   */
->  void fuse_session_want_sync_init(struct fuse_session *se);
->  
-> +/**
-> + * Check if the connection / session is using synchronous FUSE_INIT
-> + *
-> + * @param conn the connection
-> + * @return true if using synchronous FUSE_INIT, false otherwise
-> + */
-> +bool fuse_conn_is_sync_init(struct fuse_conn_info *conn);
-> +
->  /**
->   * Enable debug output
->   *
-> diff --git a/lib/fuse_daemonize.c b/lib/fuse_daemonize.c
-> index 97cfad7be879beacf69b020b7af78d512a224fd5..d4a34da15114fc0742394e72510946b63a98a252 100644
-> --- a/lib/fuse_daemonize.c
-> +++ b/lib/fuse_daemonize.c
-> @@ -40,7 +40,8 @@ struct fuse_daemonize {
->  	bool watcher_started;
->  	_Atomic bool active;
->  	_Atomic bool daemonized;
-> -	_Atomic bool mounted;
-> +	_Atomic bool mounted;  /* fuse_session_mount() completed */
-> +	_Atomic bool got_init; /* got FUSE_INIT */
->  };
->  
->  /* Global daemonization object pointer */
-> @@ -238,9 +239,9 @@ static void fuse_daemonize_signal(int status)
->  	struct fuse_daemonize *dm = &daemonize;
->  	int rc;
->  
-> -	/* Warn because there might be races */
-> -	if (status == FUSE_DAEMONIZE_SUCCESS && !dm->mounted)
-> -		fprintf(stderr, "fuse daemonize success without being mounted\n");
-> +	/* The file system is not mounted yet - don't signal parent */
-> +	if (status == FUSE_DAEMONIZE_SUCCESS && (!dm->mounted || !dm->got_init))
-> +		return;
->  
->  	dm->active = false;
->  
-> @@ -292,6 +293,11 @@ void fuse_daemonize_set_mounted(void)
->  	daemonize.mounted = true;
->  }
->  
-> +void fuse_daemonize_set_got_init(void)
-> +{
-> +	daemonize.got_init = true;
-> +}
-> +
->  bool fuse_daemonize_is_used(void)
->  {
->  	return daemonize.active;
-> diff --git a/lib/fuse_i.h b/lib/fuse_i.h
-> index 164401e226eb727192a49e1cc7b38a75f031643b..20e9c275cbffade69d3fd440d1b48b371135bd84 100644
-> --- a/lib/fuse_i.h
-> +++ b/lib/fuse_i.h
-> @@ -75,6 +75,7 @@ struct fuse_timeout_thread;
->  struct fuse_session {
->  	_Atomic(char *)mountpoint;
->  	int fd;
-> +	_Atomic bool is_sync_init;
->  	struct fuse_custom_io *io;
->  	struct mount_opts *mo;
->  	int debug;
-> diff --git a/lib/fuse_lowlevel.c b/lib/fuse_lowlevel.c
-> index 4445e134a7ff5be508306f74db9d9c56e3582070..c4bb227b51a5226543adf7f037fb2c4604a5f978 100644
-> --- a/lib/fuse_lowlevel.c
-> +++ b/lib/fuse_lowlevel.c
-> @@ -41,6 +41,7 @@
->  #include <assert.h>
->  #include <sys/file.h>
->  #include <sys/ioctl.h>
-> +#include <sys/wait.h>
->  #include <stdalign.h>
->  #include <poll.h>
->  
-> @@ -3024,6 +3025,7 @@ _do_init(fuse_req_t req, const fuse_ino_t nodeid, const void *op_in,
->  	 * over the thread scheduling.
->  	 */
->  	se->got_init = 1;
-> +	fuse_daemonize_set_got_init();
->  	send_reply_ok(req, &outarg, outargsize);
->  	if (enable_io_uring)
->  		fuse_uring_wake_ring_threads(se);
-> @@ -4456,7 +4458,8 @@ static void *session_sync_init_worker(void *data)
->  }
->  
->  /* Enable synchronous FUSE_INIT and start worker thread */
-> -static int session_start_sync_init(struct fuse_session *se, int fd)
-> +static int session_start_sync_init(struct fuse_session *se, int fd,
-> +				   bool *fall_back)
->  {
->  	int err, res;
->  
-> @@ -4491,6 +4494,12 @@ static int session_start_sync_init(struct fuse_session *se, int fd)
->  		return err;
->  	}
->  
-> +	/*
-> +	 * If we get here, we know that sync init is enabled and fall back
-> +	 * to the old mount API is not allowed
-> +	 */
-> +	*fall_back = false;
-> +
->  	if (se->debug)
->  		fuse_log(FUSE_LOG_DEBUG,
->  				"fuse: synchronous FUSE_INIT enabled\n");
-> @@ -4553,6 +4562,8 @@ static int session_wait_sync_init_completion(struct fuse_session *se)
->  		se->init_wakeup_fd = -1;
->  	}
->  
-> +	se->init_thread = 0;
-> +
->  	if (se->init_error != 0) {
->  		fuse_log(FUSE_LOG_ERR, "fuse: init worker failed: %s\n",
->  			 strerror(-se->init_error));
-> @@ -4567,10 +4578,19 @@ static int session_wait_sync_init_completion(struct fuse_session *se)
->  	return 0;
->  }
->  
-> +/*
-> + * Mount using the new Linux mount API (fsopen/fsconfig/fsmount/move_mount)
-> + * Sync-init is only supported with the new API, as the mount might hang
-> + * in case of daemon crash during FUSE_INIT. That also means once the sync init
-> + * ioctl succeed fallback is not allowed anymore.
-> + * Returns: fd on success, -1 on failure
-> + */
->  static int fuse_session_mount_new_api(struct fuse_session *se,
-> -				      const char *mountpoint)
-> +				      const char *mountpoint, bool *fall_back)
->  {
->  	int fd = -1;
-> +	int sock_fd = -1;
-> +	pid_t fusermount_pid = -1;
->  	int res, err;
->  	char *mnt_opts = NULL;
->  	char *mnt_opts_with_fd = NULL;
-> @@ -4587,34 +4607,85 @@ static int fuse_session_mount_new_api(struct fuse_session *se,
->  	fd = fuse_kern_mount_prepare(mountpoint, se->mo);
->  	if (fd == -1) {
->  		fuse_log(FUSE_LOG_ERR, "Mount preparation failed.\n");
-> -		err = -EIO;
->  		goto err;
->  	}
->  
-> -	/*
-> -	 * Enable synchronous FUSE_INIT and start worker thread, sync init
-> -	 * failure is not an error
-> -	 */
-> +	*fall_back = true;
->  	se->fd = fd;
-> -	err = session_start_sync_init(se, fd);
-> +	err = session_start_sync_init(se, fd, fall_back);
->  	if (err)
->  		goto err;
->  
->  	snprintf(fd_opt, sizeof(fd_opt), "fd=%i", fd);
-> +	err = -ENOMEM;
->  	if (fuse_opt_add_opt(&mnt_opts_with_fd, mnt_opts) == -1 ||
->  	    fuse_opt_add_opt(&mnt_opts_with_fd, fd_opt) == -1) {
-> -		err = -ENOMEM;
->  		goto err;
->  	}
->  
-> +	/* Try to mount directly */
->  	err = fuse_kern_fsmount_mo(mountpoint, se->mo, mnt_opts_with_fd);
-> +
-> +	/* If mount failed with EPERM, fall back to fusermount3 with sync-init */
-> +	if (err < 0 && errno == EPERM) {
-> +		if (se->debug)
-> +			fuse_log(FUSE_LOG_DEBUG,
-> +				 "fuse: privileged mount failed with EPERM, falling back to fusermount3\n");
-> +
-> +		/* Terminate worker thread with wrong fd */
-> +		if (session_wait_sync_init_completion(se) < 0)
-> +			fuse_log(FUSE_LOG_ERR, "fuse: sync init completion failed\n");
-> +
-> +		/* Close the privileged fd */
-> +		close(fd);
-> +		fd = -1;
-> +		se->fd = -1;
-> +		*fall_back = true; /* reset */
-> +
-> +		/* Call fusermount3 with --sync-init */
-> +		err = -ENOTSUP;
-> +		fd = mount_fusermount_obtain_fd(mountpoint, se->mo, mnt_opts,
-> +						&sock_fd, &fusermount_pid);
-> +		if (fd < 0) {
-> +			fuse_log(
-> +				FUSE_LOG_ERR,
-> +				"fuse: fusermount3 sync-init failed\n");
-> +			goto err;
-> +		}
-> +
-> +		/* Start worker thread with correct fd from fusermount3 */
-> +		se->fd = fd;
-> +		err = session_start_sync_init(se, fd, fall_back);
-> +		if (err)
-> +			fuse_log(FUSE_LOG_ERR,
-> +				"fuse: failed to start sync init worker\n");
-> +
-> +		/* Send proceed signal and wait for mount result */
-> +		err = fuse_fusermount_proceed_mnt(sock_fd);
-> +		if (err < 0) {
-> +			err = -EIO;
-> +			goto err_with_sock;
-> +		}
-> +	} else if (err < 0) {
-> +		/* Mount failed with non-EPERM error, bail out */
-> +		goto err;
-> +	}
-
-I wonder if you could reduce the indent levels with
-
-	if (err == 0 || (err < 0 && errno == EPERM))
-		goto err;
-
-	/* all the fallback code */
-
-It's really a pity that C makes us do all this boilerplate.  Though it's
-also a little funny to have a library that prints error messages.
-
-Eh, that's a stylistic preference.  The logic looks correct. :)
-
-> +
-> +err_with_sock:
-> +	if (sock_fd >= 0) {
-> +		close(sock_fd);
-> +		/* Reap fusermount3 child process to prevent zombie */
-> +		if (fusermount_pid > 0)
-> +			waitpid(fusermount_pid, NULL, 0);
-> +	}
->  err:
->  	if (err < 0) {
-> +		/* Close fd first to unblock worker thread */
->  		if (fd >= 0)
->  			close(fd);
->  		fd = -1;
->  		se->fd = -1;
-> -		se->error = -errno;
-> +		se->error = err;
->  	}
->  	/* Wait for synchronous FUSE_INIT to complete */
->  	if (session_wait_sync_init_completion(se) < 0)
-> @@ -4626,10 +4697,11 @@ err:
->  }
->  #else
->  static int fuse_session_mount_new_api(struct fuse_session *se,
-> -				      const char *mountpoint)
-> +				      const char *mountpoint, bool *fall_back)
->  {
->  	(void) se;
->  	(void) mountpoint;
-> +	(void) fall_back;
->  
->  	return -1;
->  }
-> @@ -4639,6 +4711,7 @@ int fuse_session_mount(struct fuse_session *se, const char *_mountpoint)
->  {
->  	int fd;
->  	char *mountpoint;
-> +	bool fall_back;
->  
->  	if (_mountpoint == NULL) {
->  		fuse_log(FUSE_LOG_ERR, "Invalid null-ptr mountpoint!\n");
-> @@ -4682,21 +4755,18 @@ int fuse_session_mount(struct fuse_session *se, const char *_mountpoint)
->  		return 0;
->  	}
->  
-> -	/* new linux mount api */
-> -	fd = fuse_session_mount_new_api(se, mountpoint);
-> -	if (fd >= 0)
-> -		goto out;
-> +	/* new linux mount api (and sync init) */
-> +	fd = fuse_session_mount_new_api(se, mountpoint, &fall_back);
->  
->  	/* fall back to old API */
-> -	se->error = 0; /* reset error of new api */
-> -	fd = fuse_kern_mount(mountpoint, se->mo);
-> -	if (fd < 0)
-> -		goto error_out;
-> +	if (fall_back && fd < 0) {
-> +		se->error = 0; /* reset error of new api */
-> +		fd = fuse_kern_mount(mountpoint, se->mo);
-> +		if (fd < 0)
-> +			goto error_out;
-> +	}
->  
-> -out:
->  	se->fd = fd;
-> -
-> -	/* Save mountpoint */
->  	se->mountpoint = mountpoint;
->  
->  	fuse_daemonize_set_mounted();
-> @@ -5015,3 +5085,10 @@ void fuse_session_set_debug(struct fuse_session *se)
->  {
->  	se->debug = 1;
->  }
-> +
-> +bool fuse_conn_is_sync_init(struct fuse_conn_info *conn)
-> +{
-> +	struct fuse_session *se = container_of(conn, struct fuse_session, conn);
-> +
-> +	return se->is_sync_init;
-> +}
-> diff --git a/lib/mount.c b/lib/mount.c
-> index 408e9d36896048fc167e264c95b6f6e31d86679f..f0d12525310a9ad239c0f447af60bd49b105a091 100644
-> --- a/lib/mount.c
-> +++ b/lib/mount.c
-> @@ -37,6 +37,7 @@
->  #define FUSERMOUNT_PROG		"fusermount3"
->  #define FUSE_COMMFD_ENV		"_FUSE_COMMFD"
->  #define FUSE_COMMFD2_ENV	"_FUSE_COMMFD2"
-> +#define ARG_FD_ENTRY_SIZE	30
->  
->  	enum { KEY_KERN_FLAG,
->  	       KEY_KERN_OPT,
-> @@ -306,7 +307,7 @@ static int setup_auto_unmount(const char *mountpoint, int quiet)
->  		return -1;
->  	}
->  
-> -	char arg_fd_entry[30];
-> +	char arg_fd_entry[ARG_FD_ENTRY_SIZE];
->  	snprintf(arg_fd_entry, sizeof(arg_fd_entry), "%i", fds[0]);
->  	setenv(FUSE_COMMFD_ENV, arg_fd_entry, 1);
->  	/*
-> @@ -379,7 +380,7 @@ static int fuse_mount_fusermount(const char *mountpoint, struct mount_opts *mo,
->  		return -1;
->  	}
->  
-> -	char arg_fd_entry[30];
-> +	char arg_fd_entry[ARG_FD_ENTRY_SIZE];
->  	snprintf(arg_fd_entry, sizeof(arg_fd_entry), "%i", fds[0]);
->  	setenv(FUSE_COMMFD_ENV, arg_fd_entry, 1);
->  	/*
-> @@ -439,6 +440,127 @@ static int fuse_mount_fusermount(const char *mountpoint, struct mount_opts *mo,
->  	return fd;
->  }
->  
-> +/*
-> + * Mount using fusermount3 with --sync-init flag for bidirectional fd exchange
-> + * Used by new mount API when privileged mount fails with EPERM
-> + *
-> + * Returns: fd on success, -1 on failure
-
-What fd is in the return value?  The /dev/fuse that fusermount opened,
-right?
-
-> + * On success, *sock_fd_out contains the socket fd for signaling fusermount3
-> + */
-> +int mount_fusermount_obtain_fd(const char *mountpoint, struct mount_opts *mo,
-> +			       const char *opts, int *sock_fd_out,
-> +			       pid_t *pid_out)
-> +{
-> +	int fds[2];
-> +	pid_t pid;
-> +	int res;
-> +	char arg_fd_entry[ARG_FD_ENTRY_SIZE];
-> +	posix_spawn_file_actions_t action;
-> +	int fd, status;
-> +
-> +	(void)mo;
-> +
-> +	if (!mountpoint) {
-> +		fuse_log(FUSE_LOG_ERR, "fuse: missing mountpoint parameter\n");
-> +		return -1;
-> +	}
-> +
-> +	res = socketpair(PF_UNIX, SOCK_STREAM, 0, fds);
-> +	if (res == -1) {
-> +		fuse_log(FUSE_LOG_ERR, "Running %s: socketpair() failed: %s\n",
-> +			 FUSERMOUNT_PROG, strerror(errno));
-> +		return -1;
-> +	}
-> +
-> +	snprintf(arg_fd_entry, sizeof(arg_fd_entry), "%i", fds[0]);
-> +	setenv(FUSE_COMMFD_ENV, arg_fd_entry, 1);
-> +	snprintf(arg_fd_entry, sizeof(arg_fd_entry), "%i", fds[1]);
-> +	setenv(FUSE_COMMFD2_ENV, arg_fd_entry, 1);
-> +
-> +	char const *const argv[] = {
-> +		FUSERMOUNT_PROG,
-> +		"--sync-init",
-> +		"-o", opts ? opts : "",
-> +		"--",
-> +		mountpoint,
-> +		NULL,
-> +	};
-> +
-> +	posix_spawn_file_actions_init(&action);
-> +	posix_spawn_file_actions_addclose(&action, fds[1]);
-> +	status = fusermount_posix_spawn(&action, argv, &pid);
-> +	posix_spawn_file_actions_destroy(&action);
-
-Huh.  Would have been nice to have known about posix_spawn when I was
-writing xfs_healer.
-
-> +
-> +	if (status != 0) {
-> +		close(fds[0]);
-> +		close(fds[1]);
-> +		return -1;
-> +	}
-> +
-> +	close(fds[0]);
-> +
-> +	fd = receive_fd(fds[1]);
-> +	if (fd < 0) {
-> +		close(fds[1]);
-> +		waitpid(pid, NULL, 0);
-> +		return -1;
-> +	}
-> +
-> +	fcntl(fd, F_SETFD, FD_CLOEXEC);
-> +
-> +	/* Return socket fd for later signaling */
-> +	*sock_fd_out = fds[1];
-> +	*pid_out = pid;
-> +
-> +	return fd;
-> +}
-> +
-> +/*
-> + * Send proceed signal to fusermount3 and wait for mount result
-> + * Returns: 0 on success, -1 on failure
-> + */
-> +int fuse_fusermount_proceed_mnt(int sock_fd)
-> +{
-> +	char buf = '\0';
-> +	ssize_t res;
-> +
-> +	/* Send proceed signal */
-> +	do {
-> +		res = send(sock_fd, &buf, 1, 0);
-> +	} while (res == -1 && errno == EINTR);
-
-Hrmm, I probably need to wrap the sendmsg/recvmsg calls in my own
-patches to do this loop, don't I?
-
---D
-
-> +
-> +	if (res != 1) {
-> +		fuse_log(FUSE_LOG_ERR, "fuse: failed to send proceed signal: %s\n",
-> +			 strerror(errno));
-> +		return -1;
-> +	}
-> +
-> +	/* Wait for mount result from fusermount3 (4-byte error code) */
-> +	int32_t status;
-> +
-> +	do {
-> +		res = recv(sock_fd, &status, sizeof(status), 0);
-> +	} while (res == -1 && errno == EINTR);
-> +
-> +	if (res != sizeof(status)) {
-> +		if (res == 0)
-> +			fuse_log(FUSE_LOG_ERR, "fuse: fusermount3 closed connection\n");
-> +		else
-> +			fuse_log(FUSE_LOG_ERR, "fuse: failed to receive mount status: %s\n",
-> +				 strerror(errno));
-> +		return -1;
-> +	}
-> +
-> +	if (status != 0) {
-> +		if (status != -EPERM)
-> +			fuse_log(FUSE_LOG_ERR, "fuse: fusermount3 mount failed: %s\n",
-> +				 strerror(-status));
-> +		return -1;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  #ifndef O_CLOEXEC
->  #define O_CLOEXEC 0
->  #endif
-> diff --git a/lib/mount_i_linux.h b/lib/mount_i_linux.h
-> index 597b380076fccc1d38fd4d0b9108fc92a1adfa62..ae98296a334a2aa39c4f3e5c3e4e3c136ae38cd3 100644
-> --- a/lib/mount_i_linux.h
-> +++ b/lib/mount_i_linux.h
-> @@ -43,4 +43,11 @@ int fuse_kern_fsmount_mo(const char *mnt, struct mount_opts *mo,
->  
->  char *fuse_mnt_build_source(const struct mount_opts *mo);
->  char *fuse_mnt_build_type(const struct mount_opts *mo);
-> +int mount_fusermount_obtain_fd(const char *mountpoint,
-> +					   struct mount_opts *mo,
-> +					   const char *opts, int *sock_fd_out,
-> +					   pid_t *pid_out);
-> +
-> +int fuse_fusermount_proceed_mnt(int sock_fd);
-> +
->  #endif /* FUSE_MOUNT_I_LINUX_H_ */
-> diff --git a/util/fusermount.c b/util/fusermount.c
-> index 31bf959024ae0cd2a4e50974589bfab30a100b0a..bf442416c83d6da3f80eca5c9814df29f61bec56 100644
-> --- a/util/fusermount.c
-> +++ b/util/fusermount.c
-> @@ -1323,7 +1323,6 @@ struct mount_context {
->  	char *source;
->  	char *mnt_opts;
->  	char *x_opts;
-> -	const char *type;
->  };
->  
->  /*
-> @@ -1447,7 +1446,6 @@ static int mount_fuse_finish_fsmount(const char *mnt, const char *opts,
->  
->  	/* Store results in context */
->  	ctx->source = mp.source;
-> -	ctx->type = mp.type;
->  	ctx->mnt_opts = final_mnt_opts;
->  	*type = mp.type;
->  
-> 
-> -- 
-> 2.43.0
-> 
-> 
