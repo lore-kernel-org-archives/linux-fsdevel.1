@@ -1,119 +1,190 @@
-Received: from smtp-8fac.mail.infomaniak.ch (smtp-8fac.mail.infomaniak.ch [83.166.143.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6773F217F33
-	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Apr 2026 18:48:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.166.143.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BBA247CC6C
+	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Apr 2026 18:50:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775069313; cv=none; b=KdDRXk4aNHx8C7Xzw5Qi8pduuf+sH1GcmOaAN4P8b3JEpLT1aZY+ns9lygYkdEL88fsqZggfl0DPIuoCoAETNcBSIavKxZCeRt3Pbi6xUvwSl0pzGL5cjIc/vKEcqG+mPhxYufTiuamOzeLRhmHkWZoHrnX9Hg69QcbXDk3JZZo=
+	t=1775069412; cv=none; b=hpbD+QpVqCedmM33Tv/IyrkeLmLUrK341rhwpL3Pvj+pf7FYMyzAPDT6dj3Fr9W30RIZKXUGBQRcwHAZ05n3W8sSy4bfy7h5HOaVfONbirMKQtOs13/8xU65loCnJY47CCK7efTtnFkhtymb4Ok42iI/5Qj02mqsBFF5V+5BGfs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775069313; c=relaxed/simple;
-	bh=70xkO9fukGzOt75CMLoBHnbVLdCYyPPkfIOhVCUNkag=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WT4NHCs8Hm55TgwjYi3nml/bM5iOdytr6mgVN98TFsKj0ZbnzA+k4gW//foImB2FobPcMGyQPyYfeCUD4SlghEyI+CmIX+v8+cIa6Ku868C8MWKL5thzwd0UTwKZ3yUzYYXrVDJZ6nasUmEhUWVZt/m0Vh5HoGrnByNJZka/9uk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=X3HfVWrN; arc=none smtp.client-ip=83.166.143.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
+	s=arc-20240116; t=1775069412; c=relaxed/simple;
+	bh=1GnI4YZW3N2JC1IinpFjDEYdd9ykHsrCmlasNHYbQ98=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kgVyjDDLCrLEOppJykgStbJsfpUVFRh6t6TpgJfV9DJq/zIa/EbT6rm82NP3t60zLnyqfpcydY2CW16ksuBgODg+8yw4W7w+iqspfCXHRV+Jdp/Si+wJWVIU5KN9ejovXACHHv0J9SbnI67ciOcopFdD+S+mcpAAPVPvrPP0tVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T9K4tCpz; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="X3HfVWrN"
-Received: from smtp-3-0001.mail.infomaniak.ch (smtp-3-0001.mail.infomaniak.ch [10.4.36.108])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4fmDXD2hXQz9fr;
-	Wed,  1 Apr 2026 20:48:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
-	s=20191114; t=1775069308;
-	bh=fEjnc3/92nMQeQxa3qfHMIDqyr0yZRh+moDnFMUUcZ0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=X3HfVWrNFhj4+Ni7/mf3pqJlVZF2OFVW3pKZ8dwk8/cKeEEEwhfeoMp6UAHr1TPk8
-	 XYPcqCuAb32mlNSGNhQR+7OOGgOcy9Mz4umbicFk42S/rvju5zPNmSfUUG7hVEJ/yD
-	 iwhbAygqqgjEH+ObwcSDPkb4LNqtuhmUZgNwZe7w=
-Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4fmDXC23RQzsH9;
-	Wed,  1 Apr 2026 20:48:27 +0200 (CEST)
-Date: Wed, 1 Apr 2026 20:48:23 +0200
-From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-To: Christian Brauner <brauner@kernel.org>
-Cc: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, 
-	Paul Moore <paul@paul-moore.com>, "Serge E . Hallyn" <serge@hallyn.com>, 
-	Justin Suess <utilityemal77@gmail.com>, Lennart Poettering <lennart@poettering.net>, 
-	Mikhail Ivanov <ivanov.mikhail1@huawei-partners.com>, Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>, 
-	Shervin Oloumi <enlightened@google.com>, Tingmao Wang <m@maowtm.org>, kernel-team@cloudflare.com, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-security-module@vger.kernel.org
-Subject: Re: [RFC PATCH v1 02/11] security: Add LSM_AUDIT_DATA_NS for
- namespace audit records
-Message-ID: <20260401.AhPieg6heeth@digikod.net>
-References: <20260312100444.2609563-1-mic@digikod.net>
- <20260312100444.2609563-3-mic@digikod.net>
- <20260325-fachgebiet-parzelle-8ae15e6f305f@brauner>
- <20260401.XohYeim7tah8@digikod.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T9K4tCpz"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-82c70e4654eso41177b3a.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 01 Apr 2026 11:50:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775069411; x=1775674211; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ICaAFpbMGQboIAi9OiYLR3EBM6U+PTOXmuN9mYNMh0M=;
+        b=T9K4tCpzpvLdXjBOYFklVSRkqAMWbDA4ryLrylLhtTahjHO7dguuJswPxscAFsLgit
+         1d+xy3vOso4isSpU8WEmfs1rW7vyyHQBX95ozKEsn2TIRX/3l17itopS3t86s8iyyTse
+         30lbii+I/PtrdyScDzYsAlDjFCPleZfK0CSYaVuh/JMyjXN9K63vGjxcCmmJeO0Ms6kV
+         c5lDW4oCDVA3PCyJ3hexNh2KWb6NfjDpz/JWSBrghkuLxSNZdmQuOUwBkYM1oSRUyp8c
+         LFWp8xlBPdrNjDOM4Trhx2WpLKWNpyj1xqJxHVKF3JUeGywoPMbvL1FIC0qAjEXMbJq5
+         e3tQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775069411; x=1775674211;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ICaAFpbMGQboIAi9OiYLR3EBM6U+PTOXmuN9mYNMh0M=;
+        b=G8Q+6PTHYFKJoHPjFoa7bRhNyLjiBAED0oYlOvlA7IYKo6Zd9I+MEpjl8npV5QZJgT
+         JiK++pWH1ypIUXfL2CWSdPe1Fh90D/sjXSREKQd7g138sTYzWlfn910+RQC54Y8yKTmu
+         oKmkfKTbOnE5SH4fISDVys7JWw6NPyWsSNJzHd/vQ48qihI4LddNBAeIET9nKqkkHhIl
+         a/10SBd/1Qw9Z6JUW7eTAM5lXIbf55chWm4zl7uX9etcaZNnZymPXH461r+d4YsGTffU
+         fsF+S/tTG0suOVOCglK0Nkpdey2j5X8QzxoS7PdCdNFDNHPTpoGpJDLwhUneZDUMY3qg
+         IFuA==
+X-Forwarded-Encrypted: i=1; AJvYcCV3T1XAPA1+ctwyg9sHjZ+m032BXUDHEcvf/DulgUfEwX+COB+U3kMsuN4nvFVS2CGa037tgwFah/f0r7dO@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxh9XN08soCo69oKF1uZd2vqiH5k4jfWscWwy1prIIFktaWzIBf
+	dS5DLu5Xtg3NfKkQKiJev11qY41m3OfWb/OeIU3w2WN+iHcim66kjnyB
+X-Gm-Gg: ATEYQzwLY/Bw7grj1EiOmnBIfmEOuU3SjJN38JqJ+gFQZT92B5NriRPH2hoQA0xdhyb
+	/tLYaYYilWiVRQ/TxDANfMjAaqRin4ih9ZTTDoc510KPWYyVgp2hTBOMTMs2DpbRTEKoA7yYMpL
+	0vxB4w5KQ+URsf1ppmtWeC/7q0XfMnEIvxjPn92z48g18xgCDB8fp2dcDlgyKnUtf9PYtHW2E/k
+	BbVfxP71sXmsOcb2TbZHFgwWoT4I68moKMAbPpJTAHwRAYQeBIbrHoCCxeJEfOMpN0Zj3vcTLNC
+	WxHcYOrGCdqYmap671n5bfKLAkPxz+DxuenfidZVanyJooYqeDnyw5ZVwMsukoWd2DhDDcuFWFx
+	hhmdkkDqw3iAqVHViGjK8BMFfdDg1kIO8CkzaBdfMjtM5xwDMGL+2YzQD+6WHxYsOXM1dNCfv4Y
+	b6oPnaNpSOjsWVZEV/Vw==
+X-Received: by 2002:a05:6a00:600a:b0:82c:2480:4e3d with SMTP id d2e1a72fcca58-82cfb85d64amr604949b3a.9.1775069410480;
+        Wed, 01 Apr 2026 11:50:10 -0700 (PDT)
+Received: from localhost ([2a03:2880:ff:54::])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82cf9c72967sm628158b3a.49.2026.04.01.11.50.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Apr 2026 11:50:10 -0700 (PDT)
+From: Joanne Koong <joannelkoong@gmail.com>
+To: miklos@szeredi.hu
+Cc: bernd@bsbernd.com,
+	linux-fsdevel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH v1] fuse: fix io-uring background queue stall on request completion
+Date: Wed,  1 Apr 2026 11:49:15 -0700
+Message-ID: <20260401184915.747714-1-joannelkoong@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260401.XohYeim7tah8@digikod.net>
-X-Infomaniak-Routing: alpha
 
-On Wed, Apr 01, 2026 at 06:38:34PM +0200, Mickaël Salaün wrote:
-> On Wed, Mar 25, 2026 at 01:32:42PM +0100, Christian Brauner wrote:
-> > On Thu, Mar 12, 2026 at 11:04:35AM +0100, Mickaël Salaün wrote:
-> > > Add a new LSM audit data type LSM_AUDIT_DATA_NS that logs namespace
-> > > information in audit records.  Two fields are provided, matching the
-> > > field names of struct ns_common:
-> > > 
-> > > - ns_type: the CLONE_NEW* flag identifying the namespace type, logged in
-> > >   hexadecimal.
-> > > 
-> > > - inum: the proc inode number identifying a specific namespace instance.
-> > >   Namespace inode numbers are allocated by proc_alloc_inum() via
-> > >   ida_alloc_max() bounded to UINT_MAX, so the value always fits in 32
-> > >   bits.
-> > > 
-> > > A new audit data type is needed because no existing LSM_AUDIT_DATA_*
-> > > type carries namespace information.  The closest alternatives (e.g.
-> > > LSM_AUDIT_DATA_TASK or LSM_AUDIT_DATA_NONE with custom strings) would
-> > > either lose the namespace type or require ad-hoc formatting that
-> > > bypasses the structured audit data union.
-> > > 
-> > > Cc: Christian Brauner <brauner@kernel.org>
-> > > Cc: Günther Noack <gnoack@google.com>
-> > > Cc: Paul Moore <paul@paul-moore.com>
-> > > Signed-off-by: Mickaël Salaün <mic@digikod.net>
-> > > ---
-> > >  include/linux/lsm_audit.h | 5 +++++
-> > >  security/lsm_audit.c      | 4 ++++
-> > >  2 files changed, 9 insertions(+)
-> > > 
-> > > diff --git a/include/linux/lsm_audit.h b/include/linux/lsm_audit.h
-> > > index 382c56a97bba..6e20a56b8c22 100644
-> > > --- a/include/linux/lsm_audit.h
-> > > +++ b/include/linux/lsm_audit.h
-> > > @@ -78,6 +78,7 @@ struct common_audit_data {
-> > >  #define LSM_AUDIT_DATA_NOTIFICATION 16
-> > >  #define LSM_AUDIT_DATA_ANONINODE	17
-> > >  #define LSM_AUDIT_DATA_NLMSGTYPE	18
-> > > +#define LSM_AUDIT_DATA_NS		19
-> > >  	union 	{
-> > >  		struct path path;
-> > >  		struct dentry *dentry;
-> > > @@ -100,6 +101,10 @@ struct common_audit_data {
-> > >  		int reason;
-> > >  		const char *anonclass;
-> > >  		u16 nlmsg_type;
-> > > +		struct {
-> > > +			u32 ns_type;
-> > > +			unsigned int inum;
-> > 
-> > fwiw, you might want to start the 64-bit namespace id as well.
-> > But either way:
-> 
-> Right now these numbers are generated by ida_alloc_max(), which return
-> an int.  Is there an ongoing patch series for this change?
+When a background request completes via the io_uring path, the
+background queue gets flushed to dispatch pending background requests,
+but this is done before the connection-level background counters
+(fc->num_background, fc->active_background) are properly accounted,
+which can leave pending background requests stuck in the per-queue
+background queue.
 
-OK, we should not use the inode's number (32-bit) but the namespace ID
-(64-bit) which is readable with the NS_GET_ID IOCTL on the namespace
-FDs.  I'll use that with ns_id instead of inum.  I'll also update the
-Landlock code and tests accordingly.
+The connection-level counters are decremented in fuse_request_end(), but
+flush_bg_queue() flushes the /dev/fuse path queue (fc->bg_queue), not
+the io_uring per-queue bg one, which means pending uring background
+requests on the queue are never dispatched.
+
+Fix this by accounting the connection-level background counters first
+before flushing the queue's background queue. Since
+fuse_request_bg_finish() clears FR_BACKGROUND, fuse_request_end() will
+skip the background cleanup branch entirely, which avoids any
+double-decrements; it will call the wake_up(&req->waitq) branch but this
+is effectively a no-op as background requests have no waiters on
+req->waitq.
+
+Fixes: 857b0263f30e ("fuse: Allow to queue bg requests through io-uring")
+Cc: stable@vger.kernel.org
+Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+---
+ fs/fuse/dev.c        | 41 ++++++++++++++++++++++++-----------------
+ fs/fuse/dev_uring.c  |  1 +
+ fs/fuse/fuse_dev_i.h |  1 +
+ 3 files changed, 26 insertions(+), 17 deletions(-)
+
+diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+index b212565a78cf..35cdfc162ba5 100644
+--- a/fs/fuse/dev.c
++++ b/fs/fuse/dev.c
+@@ -447,6 +447,29 @@ static void flush_bg_queue(struct fuse_conn *fc)
+ 	}
+ }
+ 
++void fuse_request_bg_finish(struct fuse_conn *fc, struct fuse_req *req)
++{
++	lockdep_assert_held(&fc->bg_lock);
++
++	clear_bit(FR_BACKGROUND, &req->flags);
++	if (fc->num_background == fc->max_background) {
++		fc->blocked = 0;
++		wake_up(&fc->blocked_waitq);
++	} else if (!fc->blocked) {
++		/*
++		 * Wake up next waiter, if any.  It's okay to use
++		 * waitqueue_active(), as we've already synced up
++		 * fc->blocked with waiters with the wake_up() call
++		 * above.
++		 */
++		if (waitqueue_active(&fc->blocked_waitq))
++			wake_up(&fc->blocked_waitq);
++	}
++
++	fc->num_background--;
++	fc->active_background--;
++}
++
+ /*
+  * This function is called when a request is finished.  Either a reply
+  * has arrived or it was aborted (and not yet sent) or some error
+@@ -479,23 +502,7 @@ void fuse_request_end(struct fuse_req *req)
+ 	WARN_ON(test_bit(FR_SENT, &req->flags));
+ 	if (test_bit(FR_BACKGROUND, &req->flags)) {
+ 		spin_lock(&fc->bg_lock);
+-		clear_bit(FR_BACKGROUND, &req->flags);
+-		if (fc->num_background == fc->max_background) {
+-			fc->blocked = 0;
+-			wake_up(&fc->blocked_waitq);
+-		} else if (!fc->blocked) {
+-			/*
+-			 * Wake up next waiter, if any.  It's okay to use
+-			 * waitqueue_active(), as we've already synced up
+-			 * fc->blocked with waiters with the wake_up() call
+-			 * above.
+-			 */
+-			if (waitqueue_active(&fc->blocked_waitq))
+-				wake_up(&fc->blocked_waitq);
+-		}
+-
+-		fc->num_background--;
+-		fc->active_background--;
++		fuse_request_bg_finish(fc, req);
+ 		flush_bg_queue(fc);
+ 		spin_unlock(&fc->bg_lock);
+ 	} else {
+diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
+index 7b9822e8837b..ae916733f18a 100644
+--- a/fs/fuse/dev_uring.c
++++ b/fs/fuse/dev_uring.c
+@@ -90,6 +90,7 @@ static void fuse_uring_req_end(struct fuse_ring_ent *ent, struct fuse_req *req,
+ 	if (test_bit(FR_BACKGROUND, &req->flags)) {
+ 		queue->active_background--;
+ 		spin_lock(&fc->bg_lock);
++		fuse_request_bg_finish(fc, req);
+ 		fuse_uring_flush_bg(queue);
+ 		spin_unlock(&fc->bg_lock);
+ 	}
+diff --git a/fs/fuse/fuse_dev_i.h b/fs/fuse/fuse_dev_i.h
+index 134bf44aff0d..7da505af6d35 100644
+--- a/fs/fuse/fuse_dev_i.h
++++ b/fs/fuse/fuse_dev_i.h
+@@ -59,6 +59,7 @@ unsigned int fuse_req_hash(u64 unique);
+ struct fuse_req *fuse_request_find(struct fuse_pqueue *fpq, u64 unique);
+ 
+ void fuse_dev_end_requests(struct list_head *head);
++void fuse_request_bg_finish(struct fuse_conn *fc, struct fuse_req *req);
+ 
+ void fuse_copy_init(struct fuse_copy_state *cs, bool write,
+ 			   struct iov_iter *iter);
+-- 
+2.52.0
+
