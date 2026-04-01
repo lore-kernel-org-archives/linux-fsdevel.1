@@ -1,329 +1,204 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012066.outbound.protection.outlook.com [40.93.195.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3775A43E9C3;
-	Wed,  1 Apr 2026 13:51:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775051486; cv=none; b=ZEktdzLfAktMBoIZxzQwLvoa9Q6sKNS7qRBcI6C1t11H1TWsgI8Y/0MD4g/g+SfpD5YB13RCbEnUiv7zoZ71CEe45HFDohNX2z9MaJ1C7w1P7aoWxFX1ZfZ0LcyBXveVQ2baVC8i+aElyYlnLA6AZciqcf0ch87/yDVwYa8H+LU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775051486; c=relaxed/simple;
-	bh=X/d2PosDUAExXPqBsoUWknNlPUawSE6HRdJbSf18SYQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bE3Ilq11H55K21aaLiixPk5EZLiiwzwzFZNgQSTlNd/2j9dfjdN0kEO/O9gbcCqTPFQA1USCOMt1uuD/eloD0aMBgsGf/+q/cMlBqOGqZb7YgBpMt/Qe4XsXSiSGEpWM0qxMSrYJgkPxYnjBlBHsHU6m3z18mu9zaQhgW4f9Syc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eSwT57dE; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D34F53CCFD8;
+	Wed,  1 Apr 2026 13:53:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.66
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775051624; cv=fail; b=plSvnd121RcMF5tcEi9wiSOQEueBpdpVSrxRXZ8xLE7VQJRLlPunTORvyFk/nTV/VYiExS/4NNq4VA4Thw/itNKk34153pJcWVUp7/Y5pkZNf93khJLJDaA/psw4QyJtIAmI8ZgqALVlSPXUS69yTbksG7FU9pfZPdbkJbkFioE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775051624; c=relaxed/simple;
+	bh=s4jj+ETLd5ZbjrEMOG8ZqTkuROeoMSrxmNLxxM5VMVQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=bZFHKNLygqtXCxzZhW5Mhm3CIOR3ZBxATKlPe/1TFkpGzbxsSCNxzo/blJxS97F2VBKbyAW+nh7xdzOaDRFv3iof5+7l+esJqs7Ct8tbErtWfYCzvVNX8vpzPrlN47dHW2tzyFdiSROCnUhHmqKC0pbEmG51hbV5LIu7vZm6MFM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=VzZemszy; arc=fail smtp.client-ip=40.93.195.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eSwT57dE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B69F0C4CEF7;
-	Wed,  1 Apr 2026 13:51:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775051485;
-	bh=X/d2PosDUAExXPqBsoUWknNlPUawSE6HRdJbSf18SYQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eSwT57dEWwdKmTY0q7yCGcONE1OSYzMDDVsy/Ik0eHr/fWk+osJtIOdobrn/H2850
-	 MbxBLzSPKyU01p+6vXtG2vNJi2MeYC1qn596aYDTCDKrgbbue3JQP2KA+22lyg0Vjw
-	 lJ5w3wBzHk3iC7OA/BdMWAlbqPpo9Wv6dvRueKDYIakzg6IxYgrbnNqdnELJw4rNia
-	 wX/HcuvYHq481bimDiU1KNGMQOh+kAtvjLd8kBGoM3kT2mRTDw1D46ibZtUZYSgw+U
-	 PJjQeFuOmQDZjO3+SaU/VfGvT8wZk5VbW3+kKx0eyq8TkbzRN6sU3aa5JBBZl6mDyt
-	 5mFBixBXkGu8A==
-Date: Wed, 1 Apr 2026 06:51:25 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [PATCH] vfs: require verified birth date for file creation
-Message-ID: <20260401135125.GK6202@frogsfrogsfrogs>
-References: <20260401-i-hope-someone-believes-this-is-real-04f24e03944e@brauner>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="VzZemszy"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Grc7PQl8KhgaHqhJTyojQZrq7GiHlu8N4iCANpTz8nEvV2/k1/Ax09f4civrK4B3MmkaZqQhVUfzFZ17n+megiTowDPpYl6VXCEQd3jzFk9lu5DZHiefT6j40D8egVNkal5kBb2eEdL5y5PQGyKM/h7EhNIW6iqAyB0ktacAJz6diC5yVbJLB7Qp2veiMqNCCWtrhs45Sww1iMQPzi/ZN8t5RGuEEO9EL3Vo1SDtjbXoe4t7B3gNwtnCVabpgd9gWmiSRWCF8UmVLGHAGzoTNdmLZzfs/yzqylsN8Wtc+9u+z3r++PhxxOQvRtFfqpqbSyHtAA9pUj9+17rfquvLiQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Hyqzfmqw+dAicH+66h4KudrRgu5Fv7ulLTjFAcD0J60=;
+ b=cqfLz6wh1sSWFcWyPuculQCWfHK/NNrUEtozaYYz7wLQw/XOM7YS4iqL/m52akkj2ttI/xTnigSROiOnzcfFiyrkFuEHQV5NH8dnfflh0xt74SwE4d1idtG0oRfK8YeUqTnQ0Pp+0Z+UmMXyXb6KSHtNC+KhO/kW26WNBkT1uT6rljbuXFQLnFeshJspp8Pp+EYkOstwNbuaND2pTf9+MAWdpfVW65Tu8z+4kxJ6ImiuRWxlBrgzhvq5UkliEBLY34owHZmKB2cff4ga9W29ka88Evgzak7Xk1xrVSPrJCZd1EG85zMprPbvH4vThuOwE1BDssbPK8rI3bYGzXH+uQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Hyqzfmqw+dAicH+66h4KudrRgu5Fv7ulLTjFAcD0J60=;
+ b=VzZemszyPZwbaO/HEBSp8liwv46M+VRWZHZKhbGb3HXmZyiySMEy0RfJzGIdhPhy17mC6LUjFi02JDgkWyTSYNYUaVjT4ZuiZcboEDB0KFbod6K92wvl3akNkkL7yeVSxvweGd+pitp5RO6P6byybP+B4W+FWa4gQxOtePNJNu/ZjWqTOB7p9WZ3NM00bCEDMCEGVINUaG06CiPf6vZT0ziTjfb1KJI1XZFOtcX/BpWx42rYKXbkvWvRkqcUGpEXU7IW9ukKR1GPuHFf6rQPlhiqx+Afc047rxGzKdPyH+Dvhw95rYZwmMwnpqgizmKe/14gvVMuZEKniQeitKJ6zg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
+ DS7PR12MB6335.namprd12.prod.outlook.com (2603:10b6:8:94::11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9769.15; Wed, 1 Apr 2026 13:53:35 +0000
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::f01d:73d2:2dda:c7b2]) by DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::f01d:73d2:2dda:c7b2%4]) with mapi id 15.20.9769.014; Wed, 1 Apr 2026
+ 13:53:34 +0000
+From: Zi Yan <ziy@nvidia.com>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Ackerley Tng <ackerleytng@google.com>, willy@infradead.org,
+ akpm@linux-foundation.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, michael.roth@amd.com, dev.jain@arm.com,
+ vannapurve@google.com
+Subject: Re: [RFC PATCH v3 0/2] Fix storing in XArray check_split tests
+Date: Wed, 01 Apr 2026 09:53:30 -0400
+X-Mailer: MailMate (2.0r6290)
+Message-ID: <79ED6AAE-96A0-4934-9A24-BB12F3D45F90@nvidia.com>
+In-Reply-To: <e1431688-17ba-4881-9536-b598383ed2d8@kernel.org>
+References: <cover.1771831836.git.ackerleytng@google.com>
+ <6ada27e1-8f85-4b85-8c25-bc9207b2624d@kernel.org>
+ <87FD20AF-55B6-4129-9AED-E2E854593883@nvidia.com>
+ <e1431688-17ba-4881-9536-b598383ed2d8@kernel.org>
+Content-Type: text/plain
+X-ClientProxiedBy: BL1PR13CA0188.namprd13.prod.outlook.com
+ (2603:10b6:208:2be::13) To DS7PR12MB9473.namprd12.prod.outlook.com
+ (2603:10b6:8:252::5)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260401-i-hope-someone-believes-this-is-real-04f24e03944e@brauner>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|DS7PR12MB6335:EE_
+X-MS-Office365-Filtering-Correlation-Id: ebe70b95-987d-480c-40a2-08de8ff6112a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|1800799024|7416014|366016|18002099003|22082099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	3jcfkrUM6/iukJtz+e15kMhUx/uln+rl5j/z8ewuu68XAdpeHXbFWVIgKGYe7jqoxZ1HvhUNXUYEZQfNmagxUkrEiCppgJfsDzjcOFCA313apR/LFP0WHdeHoD4gAwLKRmxq9mpljLfYA6q5kPPjFD5I8QHpiT5S9K6BoWpeEOWmBwdtYBc9MLaDkziDMGFMAL2yquiDHt1EiJ+wrNxBAh400wp2vUBpFZSnSZ11/PW911UX8NjaNl5pFx2dxoXEadNRfJOti5p3ZK+2qt6uMkm7CMX2OJSapBHRJk5za8XMvcPFjstePC0/tgyxSJkE8P/04bGqgIrYa7Fqc/WXbtwgU+M9TNIqalGH2Rt9JJlK/ovTej0zTbX2kLcolcVhQ/Yz2pl/bbVbpAgk6RyelBi4wuyr7OEm/qjXl440/+vqjG9+cVkVVA3GAs2qiMbDouBG2vKHtyX+TudvjR/jk7JcLTQx6ngutoGYC/gujdSAbTuxHihGnJum8O6r6G3SX6Zb6ii7utixr+xjojAU0FDizx4g9GAYk0xuVPdoezmqWXqOtk2BZPpwWuZ1AVZ1IBf3yG0KXvk6593tyTg7AE/akn8Mtu+D7yCS9jBDP6sEv1+97TLso8Rrb3oL3q9VmlOU3aCSLUH4uHjF3RlXYnMa8PhS1YVdaHzbdsya2AikrHPCkG+lO4PCjwnCOkwDSmdH62ZMoZrTMU6EnYHVZRR6Z6LY2W5oWdPb2zUND5o=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(366016)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?KlDLKxKMfqm5yYyYdJnLOQKctLw9pDvYecNY2LiJ1fsZDl8Et2iM/0fyYHX8?=
+ =?us-ascii?Q?O/DIzIZZxDbiHASROg489+9xHEl76hELS3n/qNqd77G57UM2al4fWeaumh01?=
+ =?us-ascii?Q?CiSDeE1hLIsRiL4F/5ti/I4ABGcOyJmjQYDBv8nn1wvgUDTCUWR9YXNap5mF?=
+ =?us-ascii?Q?hB0ifNK/MiO8zLpKeB7r8TSI0LxIOg4r7/hkqVOqkdNaS2zzVCJ7lyCDvTmt?=
+ =?us-ascii?Q?2PS7GH+pgpJEoQfRuklU3CmZIKoq+LaPKhz2blm0hiNBaKqB5qawgFsYxzsK?=
+ =?us-ascii?Q?dLpD6p0gVL5LP8wbSk36t95lm5yfl/5IUoq0X8DpA9ZMiG/020AtnB6J0qB4?=
+ =?us-ascii?Q?sltWjcnu5ANJvonPOqTjYMeihv8+e3vR7BpwkZdYv0TNXKHeC167BqY6drsU?=
+ =?us-ascii?Q?KsMnhqy1dWZJp2e9HMeKRXU4w6iKQRP8Q0HUZOVVJiQfhS12TgDDOKIfVSDU?=
+ =?us-ascii?Q?Z3Bu/aBu5IQMqXcWIfCIGSnDq20IGNEWflH4QrLwrnQKNfCgONHKODvFLmuz?=
+ =?us-ascii?Q?JGzb2KazrE783lEOKcZDGg/VRdNxk8MItPbPstCvWh16luXLUCfcfHrNbGug?=
+ =?us-ascii?Q?b7OOKW8/Qu4qVdwgyXhCAdd8cWzj9E/7xWWwfF3MdXyZTyBKIA6dtHq5A+KH?=
+ =?us-ascii?Q?UZ2QZ1niW6o44ufi3tUHlU3Ep1w53Xp7tjkrW6BINqR3fk1XLTAyJACWRyA9?=
+ =?us-ascii?Q?39VseC5WNogHDAVD4wQvTmN/s4FSM+kDAmupILNyXy+VWPWBpzgUPThY+Ano?=
+ =?us-ascii?Q?oDq0ETtmdR6Q8u+A0Xn4LZ3HUmllZqiQIRGT9t7JywKQtxwX0upPdOcO5+uH?=
+ =?us-ascii?Q?tk/DWkWNTb3lJdVaiPurI+UYkObiNghKncohN2SrxZdq4I0NeuZWjtWWnaWd?=
+ =?us-ascii?Q?LXFFFbePVuxBzihY26hIPeWAJq+Ugcess31svqiJt168khUrURW+OsAbs0Fm?=
+ =?us-ascii?Q?pTQNdWANS7Trz7BH7t3w6Yr1CR/zOnlcUMl9jTAAJ2sci3Vf+a19DjbHOQnQ?=
+ =?us-ascii?Q?9cBWJuXZ0tfulMECp6fy6V7o7pw2wEjZbDwSTWOSEIt9MkLJ/+PkFrgRmruG?=
+ =?us-ascii?Q?bwD/HdSQ0qyiHqaetcflyr3SeoRbqBUCd5COtPSHWACx9Ikypzcjlncu/2ne?=
+ =?us-ascii?Q?vH2yCLZtHYbJwZPQT5QINYLJPRTSHu9zNXes6aLfjC+Fx9lPnJkJLa8WPsPU?=
+ =?us-ascii?Q?/IP0byqCGs6G6phbKSnl9bNIXds/VBYJfDHqAh3lJxdzMaIfABvft1uUJPWr?=
+ =?us-ascii?Q?k2dDdszgT0SW3gHLVHWsZTUTjb9QByevFUdvjU2c3j3N93ImlaeVGchbHpl3?=
+ =?us-ascii?Q?hA3pCGBW/bYJXJEZ7lvNOZt8IitDyrtYGlwfO+FOiM/Vr3U2hN3m0l1Oht9G?=
+ =?us-ascii?Q?tqipxBQyo5J7bVt3ANoD+q2dmIy44slsoxWTe/jOusC1FmDridvWdC/F0IiC?=
+ =?us-ascii?Q?Gf4lp6QwzqsZv4ChPWltZPsxWgEO0jaeAWUAzNy1V2qFWcf06gx318d54nWL?=
+ =?us-ascii?Q?n5AcK3ciBe0D+H6lgqDthT9GDbpNS+GvaW1wDkVpfAvKTMKs8NiWs8/IoM3y?=
+ =?us-ascii?Q?a4lHpnC4519Q4K8ior1NE0Fl38cYFUTSrnpaM2zVe8EgQOd7uZlGUDcwqEij?=
+ =?us-ascii?Q?N2zMhapLzR7t1+LU2ILLB7+ugKRYO0w1aP6byFwKJkqZTgnpPsfqg+n2YYV9?=
+ =?us-ascii?Q?D1jWyrLPjprkm5EjCyTaLsg8YGJZ5HjXR589+QiXDL2rnddI?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ebe70b95-987d-480c-40a2-08de8ff6112a
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2026 13:53:34.7026
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FBCWoGJm2+sAlCB2AJRJlAFJ1GU/xGqtZ1UvZuFapARENOzFUnpgOphPwPPKUzrJ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6335
 
-On Wed, Apr 01, 2026 at 02:43:21PM +0200, Christian Brauner wrote:
-> New regulation mandates that all digital content
-> creation operations must be performed by verified adults. As file
-> creation is the most fundamental content creation primitive in any
-> operating system, the kernel must enforce age verification at the VFS
-> layer.
-> 
-> This patch introduces CONFIG_VFS_AGE_VERIFICATION which, when enabled,
-> requires every process to register a valid birth date via
-> prctl(PR_SET_BIRTHDATE) before being permitted to create files. The
-> birth date is stored in struct task_struct and inherited across fork().
+On 1 Apr 2026, at 3:32, David Hildenbrand (Arm) wrote:
 
-I assume that starting a new session with setsid() won't clear it
-either, then.  Do you think it would be useful to introduce a new
-"btime" cgroup controller so that these decisions could be propagated to
-entire groups of processes?
+> On 3/16/26 17:49, Zi Yan wrote:
+>> On 16 Mar 2026, at 12:23, David Hildenbrand (Arm) wrote:
+>>
+>>> On 2/23/26 08:34, Ackerley Tng wrote:
+>>>> Hi,
+>>>>
+>>>> I hit an assertion while making some modifications to
+>>>> lib/test_xarray.c [1] and I believe this is the fix.
+>>>>
+>>>> In check_split, the tests split the XArray node and then store values
+>>>> after the split to verify that splitting worked. While storing and
+>>>> retrieval works as expected, the node's metadata, specifically
+>>>> node->nr_values, is not updated correctly.
+>>>>
+>>>> This led to the assertion being hit in [1], since the storing process
+>>>> did not increment node->nr_values sufficiently, while the erasing
+>>>> process assumed the fully-incremented node->nr_values state.
+>>>>
+>>>> Would like to check my understanding on these:
+>>>>
+>>>> 1. In the multi-index xarray world, is node->nr_values definitely the
+>>>>    total number of values *and siblings* in the node?
+>>>>
+>>>> 2. IIUC xas_store() has significantly different behavior when entry is
+>>>>    NULL vs non-NULL: when entry is NULL, xas_store() does not make
+>>>>    assumptions on the number of siblings and erases all the way till
+>>>>    the next non-sibling entry. This sounds fair to me, but it's also
+>>>>    kind of surprising that it is differently handled when entry is
+>>>>    non-NULL, where xas_store() respects xas->xa_sibs.
+>>>>
+>>>> 3. If xas_store() is dependent on its caller to set up xas correctly
+>>>>    (also sounds fair), then there are places where xas_store() is
+>>>>    used, like replace_page_cache_folio() or
+>>>>    migrate_huge_page_move_mapping(), where xas is set up assuming 0
+>>>>    order pages. Are those buggy?
+>>>
+>>> Zi, do you have any familiarity with that code and could help?
+>>
+>> Not much. But I used lib/test_xarray.c to did a test:
+>>
+>> 1. initialize an xarray with order 6 and set entry to 0,
+>>
+>> 2. add a new xas like XA_STATE(xas0, xa, 0);
+>> 3. xas_store(&xas0, xa_mk_value(32));
+>>
+>> 4. add a new xas like XA_STATE(xas0, xa, 16);
+>> 5. xas_store(&xas0, xa_mk_value(48));
+>>
+>> The outcome is that xas_store() does not change xarray structure,
+>> namely the orders are preserved. No issue is present.
+>>
+>> After 2 and 3, the xarray is still order 6, but its 0-63 entries (all order-6)
+>> are changed from 0 to 32.
+>> After 4 and 5, the xarray is still order 6, but its 0-63 entries
+>> are changed from 32 to 48.
+>>
+>> I will need to dig into the code more to explain how xas_store() works.
+>
+> Zi,
+>
+> we discussed this topic with Willy in the THP cabal call. I did not get
+> all the details, do you remember our conclusion?
 
-> File creation will fail with the new ETOOYOUNG error code if:
->   (a) no birth date has been registered, or
->   (b) the registered birth date indicates the user is under 18 years
->       of age.
+The conclusion is that if user wants to erase (or xas_store(NULL)) an index
+that is in the middle of a multi-index entry, they need to split that
+multi-index first then do the erase (or xas_store(NULL)). Because it is
+documented in xa_erase() (or xas_store(NULL)) that it erases all indices
+of a multi-index entry[1] and requiring xa_erase() (or xas_store(NULL))
+to split a multi-index entry and erase the specified index only is
+too much due to potential memory allocations during multi-index
+entry split process.
 
-This is more properly implemented as an LSM since we /are/ implementing
-security policy here.  While we're on the topic of LSMs, do you think it
-would be useful to have a LSM to filter write() calls to mounted block
-devices?  Though that might be easier to do via blk_holder_ops.
 
-> A new errno, ETOOYOUNG (134), has been added. Userspace is expected to
-> handle this error by displaying a calming message and suggesting the
-> user ask a parent or guardian to create the file on their behalf.
-> 
-> The birth date is deliberately NOT cleared across execve() to avoid
-> the obvious loophole of spawning a new shell to bypass verification.
-> Some may argue this violates the principle of least privilege. Those
-> people are probably too young to create files anyway.
-> 
-> Note: setting a birth date that makes the caller appear older than 150
-> years is rejected with EINVAL, as the kernel does not support vampires
-> or other immortal entities at this time. Patches to add undead process
-> support are welcome but will require a separate Kconfig option.
+[1] https://elixir.bootlin.com/linux/v6.19.10/source/lib/xarray.c#L1640
+>
+> (I can try getting access to the recording)
 
-That's pretty ageist, don't you think?  I might not be 200 years old yet
-but after the events of yesterday I certainly feel as though I am.
 
-> Tested-by: Someone's nephew/niece (confirmed they cannot create files)
-> Signed-off-by: Christian Brauner <brauner@kernel.org>
-> ---
->  fs/Kconfig                        |  17 ++++++++
->  fs/namei.c                        |  45 +++++++++++++++++++++
->  include/linux/sched.h             |   8 ++++
->  include/uapi/asm-generic/errno.h  |   2 +
->  include/uapi/linux/prctl.h        |   4 ++
->  kernel/sys.c                      |  42 ++++++++++++++++++++
->  6 files changed, 118 insertions(+)
-> 
-> diff --git a/fs/Kconfig b/fs/Kconfig
-> index 1c2036..424242 100644
-> --- a/fs/Kconfig
-> +++ b/fs/Kconfig
-> @@ -42,6 +42,23 @@ source "fs/crypto/Kconfig"
->  source "fs/verity/Kconfig"
->  source "fs/notify/Kconfig"
-> 
-> +config VFS_AGE_VERIFICATION
-> +	bool "Require birth date verification for file creation"
-> +	default y
-> +	help
-> +	  When enabled, every process must register a valid birth date via
-> +	  prctl(PR_SET_BIRTHDATE, day, month, year) before being allowed to
-> +	  create files. Processes that have not registered a birth date or
-> +	  whose registered birth date indicates they are under 18 years of
-> +	  age will receive -ETOOYOUNG on any file creation attempt.
-> +
-> +	  If unsure, say Y. Failure to comply may result in stern letters
-> +	  from lawyers. You don't want that. Trust us. Say Y.
-> +
->  source "fs/quota/Kconfig"
-> 
->  source "fs/autofs/Kconfig"
-> diff --git a/include/uapi/asm-generic/errno.h b/include/uapi/asm-generic/errno.h
-> index 1..2 100644
-> --- a/include/uapi/asm-generic/errno.h
-> +++ b/include/uapi/asm-generic/errno.h
-> @@ -20,4 +20,6 @@
-> 
->  #define EHWPOISON	133	/* Memory page has hardware error */
-> 
-> +#define ETOOYOUNG	134	/* Process too young to create content */
-> +
->  #endif
-> diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
-> index 3..4 100644
-> --- a/include/uapi/linux/prctl.h
-> +++ b/include/uapi/linux/prctl.h
-> @@ -328,4 +328,8 @@
-> 
->  #define PR_LOCK_INDIR_BR_LP_STATUS      82
-> 
-> +/* age verification for file creation */
-> +#define PR_SET_BIRTHDATE		83
-> +#define PR_GET_BIRTHDATE		84
-> +
->  #endif /* _LINUX_PRCTL_H */
-> diff --git a/include/linux/sched.h b/include/linux/sched.h
-> index 5..6 100644
-> --- a/include/linux/sched.h
-> +++ b/include/linux/sched.h
-> @@ -1215,6 +1215,14 @@ struct task_struct {
->  #endif
->  	struct seccomp			seccomp;
->  	struct syscall_user_dispatch	syscall_dispatch;
-> +
-> +#ifdef CONFIG_VFS_AGE_VERIFICATION
-> +	/* compliance - birth date for age verification */
-> +	u8				birthdate_day;
-> +	u8				birthdate_month;
-> +	u16				birthdate_year;
-
-You could perhaps express this as a s32 birthdate measuring days since
-the Unix epoch, which would enlarge the range to handle lanthanites.
-
-> +	bool				birthdate_verified;
-
-Legally required now, so there's no need to waste memory on a bool. :/
-
-> +#endif
-> 
->  	/* Thread group tracking: */
->  	u64				parent_exec_id;
-> diff --git a/kernel/sys.c b/kernel/sys.c
-> index 7..8 100644
-> --- a/kernel/sys.c
-> +++ b/kernel/sys.c
-> @@ -2345,6 +2345,48 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
->  		break;
-> +
-> +#ifdef CONFIG_VFS_AGE_VERIFICATION
-> +	case PR_SET_BIRTHDATE:
-> +	{
-> +		u8 day = (u8)arg2;
-> +		u8 month = (u8)arg3;
-> +		u16 year = (u16)arg4;
-
-The uapi really ought to be a pointer to a struct timespec.
-
-> +		struct tm now;
-> +		int age;
-> +
-> +		/* Basic date validation */
-> +		if (month < 1 || month > 12)
-> +			return -EINVAL;
-> +		if (day < 1 || day > 31)
-> +			return -EINVAL;
-> +		if (year < 1900)
-> +			return -EINVAL;
-
-No, don't open-code date handling, use a library that's already been
-debugged.  Why do you allow 2/31/1904?
-
-> +
-> +		time64_to_tm(ktime_get_real_seconds(), 0, &now);
-> +
-> +		/* The kernel does not support vampires or immortal entities */
-> +		if ((now.tm_year + 1900) - year > 150)
-> +			return -EINVAL;
-> +
-> +		/* No time travelers either */
-> +		if (year > (now.tm_year + 1900))
-
-Pretty sure there's some addition overflow possibilities here.
-check_add_overflow?
-
-> +			return -EINVAL;
-> +
-> +		me->birthdate_day = day;
-> +		me->birthdate_month = month;
-> +		me->birthdate_year = year;
-> +		me->birthdate_verified = true;
-> +
-> +		age = (now.tm_year + 1900) - year;
-> +		if (now.tm_mon + 1 < month ||
-> +		    (now.tm_mon + 1 == month && now.tm_mday < day))
-> +			age--;
-> +
-> +		if (age < 18)
-> +			pr_info_ratelimited("Process %d (comm: %s) registered as minor (age %d). "
-> +				"File creation will be denied. Please ask a "
-> +				"parent or guardian for assistance.\n",
-> +				task_pid_nr(me), me->comm, age);
-> +		break;
-> +	}
-> +	case PR_GET_BIRTHDATE:
-> +		if (!me->birthdate_verified)
-> +			return -EINVAL;
-> +		if (put_user(me->birthdate_day, (u8 __user *)arg2) ||
-> +		    put_user(me->birthdate_month, (u8 __user *)arg3) ||
-> +		    put_user(me->birthdate_year, (u16 __user *)arg4))
-> +			return -EFAULT;
-> +		break;
-> +#endif /* CONFIG_VFS_AGE_VERIFICATION */
-> +
->  	default:
->  		error = -EINVAL;
->  		break;
-> diff --git a/fs/namei.c b/fs/namei.c
-> index 9..10 100644
-> --- a/fs/namei.c
-> +++ b/fs/namei.c
-> @@ -4148,6 +4148,45 @@ static int vfs_mknodat(struct mnt_idmap *idmap, struct dentry *dentry,
->  		       umode_t mode, dev_t dev);
-> 
-> +#ifdef CONFIG_VFS_AGE_VERIFICATION
-> +/**
-> + * check_age_verification - verify the calling process has registered a valid
-> + *                          birth date and is old enough to create files.
-> + *
-> + * Returns 0 if the caller is verified as an adult (>= 18 years old).
-> + * Returns -ETOOYOUNG if the caller is a minor or has not registered a
-> + * birth date.
-> + *
-> + * This function exists because the fundamental UNIX
-> + * principle of "everything is a file" was insufficiently regulated.
-> + */
-> +static int check_age_verification(void)
-> +{
-> +	struct task_struct *tsk = current;
-> +	struct tm now;
-> +	int age;
-> +
-> +	if (!tsk->birthdate_verified) {
-> +		pr_warn_ratelimited(
-> +			"Process %d (comm: %s) attempted to create a file "
-> +			"without age verification. Set birth date via "
-> +			"prctl(PR_SET_BIRTHDATE, day, month, year).\n",
-> +			task_pid_nr(tsk), tsk->comm);
-> +		return -ETOOYOUNG;
-> +	}
-> +
-> +	time64_to_tm(ktime_get_real_seconds(), 0, &now);
-> +
-> +	age = (now.tm_year + 1900) - tsk->birthdate_year;
-> +	if (now.tm_mon + 1 < tsk->birthdate_month ||
-> +	    (now.tm_mon + 1 == tsk->birthdate_month &&
-> +	     now.tm_mday < tsk->birthdate_day))
-> +		age--;
-> +
-> +	if (age < 18) {
-> +		pr_warn_ratelimited(
-> +			"Process %d (comm: %s) is only %d years old. "
-> +			"Must be 18 or older to create files. "
-> +			"Ask a parent or guardian for help.\n",
-> +			task_pid_nr(tsk), tsk->comm, age);
-> +		return -ETOOYOUNG;
-
-Yeah, this really looks like material for an LSM.
-
---D
-
-> +	}
-> +
-> +	return 0;
-> +}
-> +#endif /* CONFIG_VFS_AGE_VERIFICATION */
-> +
->  /**
->   * vfs_create - create new file
->   * @idmap:	idmap of the mount the inode was found from
-> @@ -4170,6 +4209,12 @@ int vfs_create(struct mnt_idmap *idmap, struct dentry *dentry, umode_t mode,
->  	if (error)
->  		return error;
-> 
-> +#ifdef CONFIG_VFS_AGE_VERIFICATION
-> +	error = check_age_verification();
-> +	if (error)
-> +		return error;
-> +#endif
-> +
->  	if (!dir->i_op->create)
->  		return -EACCES;	/* shouldn't it be ENOSYS? */
-> 
-> --
-> 2.49.0
-> 
+Best Regards,
+Yan, Zi
