@@ -1,221 +1,112 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86EFE3F54A0
-	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Apr 2026 10:36:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DDF23F2111
+	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Apr 2026 10:37:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775039821; cv=none; b=tpAaYaw5u9BNhSqgeZhDqdbplnJ3CF4+G26dPEEGGIBOqfceR0OaL8di1xKFXPSQylbeZPrdYeuVhHigydCEn8zDocBUJTTed7jSnMo+gViTDw0y7BHlaEsYMmRtAyQ/bNiJxNRL4KbE/IrD5bQS2JjZ6wieDB86OTZ1pAPcI94=
+	t=1775039869; cv=none; b=uui5Ew4uzjAcHre0Jg89j7EFThp57GBFRgbRd6EKmuUD4qwV8h/3BmrGTpPW64IP0S0hZqv//LAJjesMoPJKv42b4zluoxROeLUfFCkCIYGN5YnHDSdfHEDg5J6BB+s7YoBra4lHCoD/5oKYW8h/+lhi3yFja2sBWtX0hauCKw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775039821; c=relaxed/simple;
-	bh=959ut+ZbtQZ1c5mNdpBJimrwvMck7MW7XOErMDFt1yQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gqYCOypPVMIKvaC7KxWR3ZhIhMqyAIa+y8FRYXcuQXLHxzcNMKSlsbM4dqbaYFQQN6SZ8qbGhfhz2J0f3nLtJjfviEOyO4xGs+j50oczNunO6yy80/hXEtd1+xM5W1pp+v5Beo+m0LI8nalj+3YFOqhMeF+43TjXD7Sq7c68iTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=F/mE2xUZ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=/UccDmD8; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=POf5okF1; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=aUqErqgt; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1775039869; c=relaxed/simple;
+	bh=gzSqeVm80YzKd2mafY2lnnpCMlNDisunLuiscryc1v8=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=TM7U0A6KPRYqtdraSZTM69bY7kljpPbTkX0FMcUoFDzJ5ntZqfXvEh3AgkjuOdifiPC1QrRFm9WstT+Op16pXRi/mMUI0lUCMBH69iubB2R9SEKyacTrX3PDzO+/EmyEYEignmkBkKULv8xqXiiWrIUr/nYE6U2PStT+PNzMQjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=aUw8aL3m; arc=none smtp.client-ip=195.121.94.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="F/mE2xUZ";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="/UccDmD8";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="POf5okF1";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="aUqErqgt"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id CA5074D250;
-	Wed,  1 Apr 2026 10:36:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1775039817; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZI/NH6MnG5cMCHh3hQuSK0Fc/OsQ6oNTdNxeEnpKjI4=;
-	b=F/mE2xUZAQea/XHXfCcYqP6U7yh+XRiWyxOcB9QX6W4Kts1Ugd/6N+n7a4sE4o/z/WYfoM
-	gKQKxEhA20xLQGogKp7G0QriBpXoOJ0csPcZFlCIKBvMsT90WRVGIUQwNj9KIxdRrGZYk1
-	03z7EoEBaUazm6teNPyJLhq8rY/XXGQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1775039817;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZI/NH6MnG5cMCHh3hQuSK0Fc/OsQ6oNTdNxeEnpKjI4=;
-	b=/UccDmD8wkmfjZGhyYrnjMEADda/bmrssSeVDp+PQMafWCf8szzau/h/vuv/xF3o3NbLYL
-	g0k9WAaMPlBmrGAA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=POf5okF1;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=aUqErqgt
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1775039816; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZI/NH6MnG5cMCHh3hQuSK0Fc/OsQ6oNTdNxeEnpKjI4=;
-	b=POf5okF1V17iFfbrnw9u5ARfRncGmDuCZNDLesvOSBGlNQgqsI0RLcDW9TtbApPabNXM4J
-	PyOIEK2snE+VD2xx0r6ae2kQrZUO1+8hDBilzn/BD4T3cBxZoByDYXtmsGzLmieJmMAHN1
-	hpFnDV+GTzJFvXDO4nxPl/uuh7lOrn8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1775039816;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZI/NH6MnG5cMCHh3hQuSK0Fc/OsQ6oNTdNxeEnpKjI4=;
-	b=aUqErqgtW6YullBWTiJ6nJ2+Z1UFG7qI038hpzIdUk69peJy1Byw1XuuFY3RNLd0bagbxC
-	/Eb68QI3sM5ZoWAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BEE614A0B0;
-	Wed,  1 Apr 2026 10:36:56 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id dBKVLkj1zGkNEAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 01 Apr 2026 10:36:56 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 7F9D5A0AFD; Wed,  1 Apr 2026 12:36:52 +0200 (CEST)
-Date: Wed, 1 Apr 2026 12:36:52 +0200
-From: Jan Kara <jack@suse.cz>
-To: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	linux-block@vger.kernel.org, Christian Brauner <brauner@kernel.org>, 
-	Al Viro <viro@zeniv.linux.org.uk>, linux-ext4@vger.kernel.org, Ted Tso <tytso@mit.edu>, 
-	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>, David Sterba <dsterba@suse.com>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	David Hildenbrand <david@kernel.org>, linux-mm@kvack.org, linux-aio@kvack.org, 
-	Benjamin LaHaise <bcrl@kvack.org>
-Subject: Re: [PATCH 15/42] fat: Sync and invalidate metadata buffers from
- fat_evict_inode()
-Message-ID: <dvo2jvc6upmzrgqxx3n6er3e2gvujheongtzkihzmllwxqiyuq@h3qrrnwxlwo4>
-References: <20260326082428.31660-1-jack@suse.cz>
- <20260326095354.16340-57-jack@suse.cz>
- <87ldfazqo2.fsf@mail.parknet.co.jp>
- <3oh5cbnm6dwz6rikc6laably5nvu4c4wtxjqzuu3wymzhpqrtw@skopu327hd7a>
- <87jyutwo6o.fsf@mail.parknet.co.jp>
- <mjraa5thsnzchejoomqgiahwajx4cs5ryqnmn7zsi3fylzhrrr@5ip65jcrlknn>
- <87wlyss2ny.fsf@mail.parknet.co.jp>
- <gkwyh4z45xglmq7jmam4yfvkecivipr23trzjkbyfolm6pdzre@d5huocjf55ew>
- <87tstvc90b.fsf@mail.parknet.co.jp>
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="aUw8aL3m"
+X-KPN-MessageId: d0809321-2db6-11f1-bea6-005056992ed3
+Received: from mta.kpnmail.nl (unknown [10.31.161.189])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id d0809321-2db6-11f1-bea6-005056992ed3;
+	Wed, 01 Apr 2026 12:37:43 +0200 (CEST)
+Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
+	by mta.kpnmail.nl (Halon) with ESMTP
+	id d07a3198-2db6-11f1-b5d0-0050569981f5;
+	Wed, 01 Apr 2026 12:37:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:subject:message-id:to:from:date;
+	bh=DSdCJ/cn6ejLZPHQtq82/l7IQ7UXCt4ejQjI9DF4XB8=;
+	b=aUw8aL3m3ewWa6jPPPybw7d/Q3rDHAIZkuRbeTN3JpOJlKlDPwm/v5vZ1CGBRkR7pLfRMh03Riq9z
+	 q8EZCn97kiRaRTJs3OVb7BDoHTCLui76a3JY48JN3kmnV+z2I/gXWi6UxUJFYYg8JTx67svLCvvbf9
+	 J2BaIZdxIpB9r6O9etyoq50++D3ONCSBqGqBUFsZ9Xy6ZCYNNN1g47lSwbBCXrmusUfOQHrkv6R013
+	 9Vj1Zqvao86qsUVKs5onZntoq68dS+GT8ltO6twcayAHSQ2izxsThbU2pJbtvyUUHjnWfby51gFHkU
+	 n3w//2ykAQL+mb1ZjkI44iZhmiPzVXw==
+X-KPN-MID: 33|S3V5FPlNRkh8vhY7yarLhl4DuIGalRV68vbhIqsnstB2/gJnGgtdfFGF/UuWK+r
+ 2L1VqJrU/6KtZXXMYOi21nwd+BYKeU25MgVpxEfO/r8k=
+X-CMASSUN: 33|f1KrT0mendhAIWL8AxHMdZqPBRS1k74qGZbutO+rn0YkSRFfELEPTglL9adFtWN
+ Er4YJhitCEy/dignlHaxc1Q==
+X-KPN-VerifiedSender: Yes
+Received: from cpxoxapps-mh04 (cpxoxapps-mh04.personalcloud.so.kpn.org [10.128.135.210])
+	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
+	id d074e9e5-2db6-11f1-b8d7-005056995d6c;
+	Wed, 01 Apr 2026 12:37:42 +0200 (CEST)
+Date: Wed, 1 Apr 2026 12:37:42 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: gregkh@linuxfoundation.org, Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	NeilBrown <neil@brown.name>, Jeff Layton <jlayton@kernel.org>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Mateusz Guzik <mjguzik@gmail.com>,
+	"open list:FILESYSTEMS (VFS and infrastructure)"
+ <linux-fsdevel@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+Message-ID: <842453183.787323.1775039862978@kpc.webmail.kpnmail.nl>
+In-Reply-To: <CAOQ4uxj_sH3Owh2_UEHXGY81B3yoZzLF0DWZm9OPCPOiLrzL9A@mail.gmail.com>
+References: <20260331173726.3517440-1-jkoolstra@xs4all.nl>
+ <CAOQ4uxj_sH3Owh2_UEHXGY81B3yoZzLF0DWZm9OPCPOiLrzL9A@mail.gmail.com>
+Subject: Re: [PATCH] vfs: replace ints with enum component_type for LAST_XXX
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87tstvc90b.fsf@mail.parknet.co.jp>
-X-Spamd-Result: default: False [-2.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_CC(0.00)[suse.cz,vger.kernel.org,kernel.org,zeniv.linux.org.uk,mit.edu,gmail.com,suse.com,linux.dev,suse.de,kvack.org];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:email,suse.com:email]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -2.51
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: CA5074D250
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
 
-On Wed 01-04-26 18:41:56, OGAWA Hirofumi wrote:
-> Jan Kara <jack@suse.cz> writes:
+
+> Op 01-04-2026 10:29 CEST schreef Amir Goldstein <amir73il@gmail.com>:
 > 
-> >> I think it would happen with normal operation, for example, copy many
-> >> files more than total memory. I think this would be much common than
-> >> write=>close=>open=>fsync in your example.
+> > diff --git a/include/linux/namei.h b/include/linux/namei.h
+> > index 58600cf234bc..e79ff97063e9 100644
+> > --- a/include/linux/namei.h
+> > +++ b/include/linux/namei.h
+> > @@ -16,7 +16,7 @@ enum { MAX_NESTED_LINKS = 8 };
+> >  /*
+> >   * Type of the last component on LOOKUP_PARENT
+> >   */
+> > -enum {LAST_NORM, LAST_ROOT, LAST_DOT, LAST_DOTDOT};
+> > +enum component_type {NORMAL, ROOT, DOT, DOTDOT};
 > >
-> > When you copy a lot of files which are large in total, I agree the flushing
-> > can be triggered. But I don't think it will trigger any excessive IO
-> > because the metadata blocks being flushed aren't redirtied after the inode
-> > is evicted. So blocks may be written out earlier but I don't think they
-> > will be written out more times. For FAT for example you track only
-> > directory blocks in these lists so when directory inode will be getting
-> > evicted, you may see earlier writeout of dirty directory blocks but that's
-> > all.
 > 
-> Hm, metadata block is shared by several inodes. So earlier flush
-> makes fewer chance to combining multiple dirties.
+> Nah, I don't think it is a good idea to poluate the global namespace
+> with constant as generic as NORMAL, ROOT
+
+Fair enough. I thought also maybe we can keep this purely internal to namei.c,
+but it turns out there is one user that I missed in fs/smb/server/vfs.c, so that
+one has to be converted still as well.
+
 > 
-> For example,
->   create dir-A
->   reclaimed and flushed dir-A
->   add new entries to dir-A
->   lost chance to combining re-dirty of dir-A
-
-Yes, but for this to be possible you would have to:
-1) stop using dir-A between dir create & file creates
-2) create enough memory pressure to cycle the dentry of dir-A through the
-LRU and reclaim it
-3) continue memory pressure to cycle the inode for dir-A through the LRU
-and reclaim it
-
-So the amount of work that already has to happen to trigger flushing of
-a single block is so large that IMHO that flush will be lost in the noise.
- 
-> >> Anyway, with it, reclaimed
-> >> inode metadata will be flushed forcibly and frequently (yeah, may not be
-> >> significant though. but I can't see the benefit for users from this
-> >> change.), and lost to chance combining multiple time of dirty while copy
-> >> many files.
-> >
-> > The benefit for users is 24 bytes saved for the majority of inodes that are
-> > there in the system - all the virtual inodes on sysfs / proc filesystem,
-> > all tmpfs inodes, all XFS inodes, all ext4 inodes when using journal (once I
-> > optimize ext4 code a bit), etc. So actually quite a bit of kernel memory
-> > saved in common configurations.
-> >
-> > Another win is that with metadata buffer head tracking now separated, I can
-> > modify that code (which will require growing the tracking structure) to
-> > properly track buffer head containing the inode and flush it on fsync(2).
-> > Currently there's a race that if flush worker writes out inode before
-> > fsync(2), then fsync(2) does not writeout the buffer containing the inode
-> > at all and thus data is not really persistent. This is actually my initial
-> > motivation for this refactoring since growing inode for everybody to fix
-> > data consistency issues of FAT/ext2/udf isn't popular these days...
+> At the very least this needs a namespace prefix such as
+> NDT_ (nameidata type)
 > 
-> Agree, it is good.  I'm only saying about the flushing earlier. To
-> implement it, is the flush earlier really necessary?
 
-Yes, to separate metadata buffer head tracking into a separate structure we
-must remove the handling of buffer head list from generic inode reclaim (as
-the filesystem has no way to provide the separate tracking structure there).
-Of course we could add a filesystem hook to inode reclaim to allow for
-handling of metadata bhs but:
+Maybe I would prefer COMPONENT_XXX.
 
-a) I'd rather do that in a way that is usable also for other issues
-filesystems have with inode reclaim as I mentioned in this thread before
+> But then I don't think it is worth the churn to rename LAST_ to NDT_
+> so I would drop the constants name change altogether.
+> 
 
-b) I don't think it's warranted for FAT etc. at this point as I don't think
-the possible overhead of metadata bh flushing on inode reclaim will be a
-problem in practice.
+I mean if we are going to use a separate type for this might as well clean up
+the semantics a bit. But I would be fine with keeping LAST_XXX as well.
 
-But of course we can reevaluate if my gut feeling is wrong and someone
-comes with a workload which significantly regresses due to these changes.
+> Thanks,
+> Amir.
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Thanks,
+Jori.
