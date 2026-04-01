@@ -1,33 +1,39 @@
-Received: from smtp03-ext2.udag.de (smtp03-ext2.udag.de [62.146.106.30])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5B311A9FA4;
-	Wed,  1 Apr 2026 13:41:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.146.106.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3775A43E9C3;
+	Wed,  1 Apr 2026 13:51:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775050898; cv=none; b=AX5ZDwBzF14ZpdqKIe0pQe5uUooZGe2KzZFfdK3ACYqgbBz+7xdb5F8TSCbHz562h+mTtlgJPg69VTHZ7zWJ9u1jvsRG/V8Vl/jMF8OkHXVcyISP0b1ya+x80nLXq5vyH3k4CaA4WdYP1ELw47AY2TUPsvLP8mWXz1LH6XezKkw=
+	t=1775051486; cv=none; b=ZEktdzLfAktMBoIZxzQwLvoa9Q6sKNS7qRBcI6C1t11H1TWsgI8Y/0MD4g/g+SfpD5YB13RCbEnUiv7zoZ71CEe45HFDohNX2z9MaJ1C7w1P7aoWxFX1ZfZ0LcyBXveVQ2baVC8i+aElyYlnLA6AZciqcf0ch87/yDVwYa8H+LU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775050898; c=relaxed/simple;
-	bh=jJq3NGAm+CE5sGuKaC3Yp0Fgs9bkX5VmbwJJmEs1ZFk=;
+	s=arc-20240116; t=1775051486; c=relaxed/simple;
+	bh=X/d2PosDUAExXPqBsoUWknNlPUawSE6HRdJbSf18SYQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f7NfHHB0Yzg8QuFUm1yeL7zXhZrMwHac20Fen7Q7Pg0SiwhXt9B+Gj7lhEKOjGFjfKHGCoMje0VirokK4WdCo+YRx+Zab+uCqchxQcVG2n5M9HwXtAG7W5xV24wiadME+NQaTKbI5SkWn9uCxFKyZn4mPQTGQDb+ptq79HGj2ZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de; spf=pass smtp.mailfrom=birthelmer.de; arc=none smtp.client-ip=62.146.106.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birthelmer.de
-Received: from localhost (108-141-067-156.ip-addr.inexio.net [156.67.141.108])
-	by smtp03-ext2.udag.de (Postfix) with ESMTPA id A9810E020F;
-	Wed,  1 Apr 2026 15:41:28 +0200 (CEST)
-Authentication-Results: smtp03-ext2.udag.de;
-	auth=pass smtp.auth=birthelmercom-0001 smtp.mailfrom=horst@birthelmer.de
-Date: Wed, 1 Apr 2026 15:41:27 +0200
-From: Horst Birthelmer <horst@birthelmer.de>
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: Li Wang <liwang@kylinos.cn>, Miklos Szeredi <miklos@szeredi.hu>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: Re: [PATCH] fuse: Send FORGET over io_uring when ring is ready
-Message-ID: <ac0f6eN4PFE98diI@fedora.fritz.box>
-References: <20260401104008.8827-1-liwang@kylinos.cn>
- <04bfb0c9-a0fc-4825-8c81-8c90774a4bb1@bsbernd.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=bE3Ilq11H55K21aaLiixPk5EZLiiwzwzFZNgQSTlNd/2j9dfjdN0kEO/O9gbcCqTPFQA1USCOMt1uuD/eloD0aMBgsGf/+q/cMlBqOGqZb7YgBpMt/Qe4XsXSiSGEpWM0qxMSrYJgkPxYnjBlBHsHU6m3z18mu9zaQhgW4f9Syc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eSwT57dE; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eSwT57dE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B69F0C4CEF7;
+	Wed,  1 Apr 2026 13:51:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775051485;
+	bh=X/d2PosDUAExXPqBsoUWknNlPUawSE6HRdJbSf18SYQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eSwT57dEWwdKmTY0q7yCGcONE1OSYzMDDVsy/Ik0eHr/fWk+osJtIOdobrn/H2850
+	 MbxBLzSPKyU01p+6vXtG2vNJi2MeYC1qn596aYDTCDKrgbbue3JQP2KA+22lyg0Vjw
+	 lJ5w3wBzHk3iC7OA/BdMWAlbqPpo9Wv6dvRueKDYIakzg6IxYgrbnNqdnELJw4rNia
+	 wX/HcuvYHq481bimDiU1KNGMQOh+kAtvjLd8kBGoM3kT2mRTDw1D46ibZtUZYSgw+U
+	 PJjQeFuOmQDZjO3+SaU/VfGvT8wZk5VbW3+kKx0eyq8TkbzRN6sU3aa5JBBZl6mDyt
+	 5mFBixBXkGu8A==
+Date: Wed, 1 Apr 2026 06:51:25 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [PATCH] vfs: require verified birth date for file creation
+Message-ID: <20260401135125.GK6202@frogsfrogsfrogs>
+References: <20260401-i-hope-someone-believes-this-is-real-04f24e03944e@brauner>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -36,165 +42,288 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <04bfb0c9-a0fc-4825-8c81-8c90774a4bb1@bsbernd.com>
+In-Reply-To: <20260401-i-hope-someone-believes-this-is-real-04f24e03944e@brauner>
 
-On Wed, Apr 01, 2026 at 11:52:28AM +0000, Bernd Schubert wrote:
+On Wed, Apr 01, 2026 at 02:43:21PM +0200, Christian Brauner wrote:
+> New regulation mandates that all digital content
+> creation operations must be performed by verified adults. As file
+> creation is the most fundamental content creation primitive in any
+> operating system, the kernel must enforce age verification at the VFS
+> layer.
 > 
-> 
-> On 4/1/26 10:40, Li Wang wrote:
-> > Once the FUSE io_uring is registered and marked ready, most request
-> > types are delivered through io_uring, while FORGET notifications were still
-> > queued with fuse_dev_queue_forget() and only consumed through the legacy
-> > path on /dev/fuse.
-> > 
-> > Deliver single FORGET operations through fuse_uring_queue_fuse_req() when
-> > the ring is ready. Otherwise, fall back to fuse_dev_queue_forget()
-> > so behavior matches the previous implementation.
-> > 
-> > Benefits:
-> > - While io-uring is active, the daemon can handle forgets in the same
-> >   commit/fetch loop as other opcodes instead of also draining a separate
-> >   /dev/fuse read path for forget traffic.
-> > - Reduces split-brain transport for high-volume forgets (eviction,
-> >   unmount) when the ring is already the primary channel, which simplifies
-> >   userspace and keeps teardown forgets on the same completion path as
-> >   other uring-backed work.
-> > - Reuses the same per-queue io-uring machinery and noreply/force request
-> >   setup (creds, FR_WAITING/FR_FORCE, etc.) already used for similar
-> >   kernel-initiated traffic.
-> > 
-> > Signed-off-by: Li Wang <liwang@kylinos.cn>
-> > ---
-> >  fs/fuse/dev.c        | 84 ++++++++++++++++++++++++++++++++++++++++++++
-> >  fs/fuse/dev_uring.c  |  2 +-
-> >  fs/fuse/fuse_dev_i.h |  4 +++
-> >  3 files changed, 89 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-> > index b212565a78cf..f58abc80fd7b 100644
-> > --- a/fs/fuse/dev.c
-> > +++ b/fs/fuse/dev.c
-> > @@ -665,6 +665,90 @@ static void fuse_args_to_req(struct fuse_req *req, struct fuse_args *args)
-> >  		__set_bit(FR_ASYNC, &req->flags);
-> >  }
-> >  
-> > +#ifdef CONFIG_FUSE_IO_URING
-> > +struct fuse_forget_uring_data {
-> > +	struct fuse_args args;
-> > +	struct fuse_forget_in inarg;
-> > +};
-> > +
-> > +static void fuse_forget_uring_free(struct fuse_mount *fm, struct fuse_args *args,
-> > +				   int error)
-> > +{
-> > +	struct fuse_forget_uring_data *d =
-> > +		container_of(args, struct fuse_forget_uring_data, args);
-> > +
-> > +	kfree(d);
-> > +}
-> > +
-> > +/*
-> > + * Send FUSE_FORGET through the io-uring ring when active; same payload as
-> > + * fuse_read_single_forget(), with userspace committing like any other request.
-> > + */
-> > +void fuse_io_uring_send_forget(struct fuse_iqueue *fiq,
-> > +				struct fuse_forget_link *forget)
-> > +{
-> > +	struct fuse_conn *fc = container_of(fiq, struct fuse_conn, iq);
-> > +	struct fuse_mount *fm;
-> > +	struct fuse_req *req;
-> > +	struct fuse_forget_uring_data *d;
-> > +
-> > +	if (!fuse_uring_ready(fc)) {
-> > +		fuse_dev_queue_forget(fiq, forget);
-> > +		return;
-> > +	}
-> > +
-> > +	down_read(&fc->killsb);
-> > +	if (list_empty(&fc->mounts)) {
-> > +		up_read(&fc->killsb);
-> > +		fuse_dev_queue_forget(fiq, forget);
-> > +		return;
-> > +	}
-> > +	fm = list_first_entry(&fc->mounts, struct fuse_mount, fc_entry);
-> > +	up_read(&fc->killsb);
-> > +
-> > +	d = kmalloc(sizeof(*d), GFP_KERNEL);
-> > +	if (!d)
-> > +		goto fallback;
-> > +
-> > +	atomic_inc(&fc->num_waiting);
-> > +	req = fuse_request_alloc(fm, GFP_KERNEL);
-> > +	if (!req) {
-> > +		kfree(d);
-> > +		fuse_drop_waiting(fc);
-> > +		goto fallback;
-> > +	}
-> > +
-> > +	memset(&d->args, 0, sizeof(d->args));
-> > +	d->inarg.nlookup = forget->forget_one.nlookup;
-> > +	d->args.opcode = FUSE_FORGET;
-> > +	d->args.nodeid = forget->forget_one.nodeid;
-> > +	d->args.in_numargs = 1;
-> > +	d->args.in_args[0].size = sizeof(d->inarg);
-> > +	d->args.in_args[0].value = &d->inarg;
-> > +	d->args.force = true;
-> > +	d->args.noreply = true;
-> > +	d->args.end = fuse_forget_uring_free;
-> > +
-> > +	kfree(forget);
-> > +
-> > +	fuse_force_creds(req);
-> > +	__set_bit(FR_WAITING, &req->flags);
-> > +	if (!d->args.abort_on_kill)
-> > +		__set_bit(FR_FORCE, &req->flags);
-> > +	fuse_adjust_compat(fc, &d->args);
-> > +	fuse_args_to_req(req, &d->args);
-> > +	req->in.h.len = sizeof(struct fuse_in_header) +
-> > +		fuse_len_args(req->args->in_numargs,
-> > +			      (struct fuse_arg *)req->args->in_args);
-> > +
-> > +	fuse_uring_queue_fuse_req(fiq, req);
-> > +	return;
-> > +
-> > +fallback:
-> > +	fuse_dev_queue_forget(fiq, forget);
-> > +}
-> > +#endif
-> > +
-> >  ssize_t __fuse_simple_request(struct mnt_idmap *idmap,
-> >  			      struct fuse_mount *fm,
-> >  			      struct fuse_args *args)
-> > diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-> > index 7b9822e8837b..a96539ea400a 100644
-> > --- a/fs/fuse/dev_uring.c
-> > +++ b/fs/fuse/dev_uring.c
-> > @@ -1360,7 +1360,7 @@ bool fuse_uring_remove_pending_req(struct fuse_req *req)
-> >  
-> >  static const struct fuse_iqueue_ops fuse_io_uring_ops = {
-> >  	/* should be send over io-uring as enhancement */
-> > -	.send_forget = fuse_dev_queue_forget,
-> > +	.send_forget = fuse_io_uring_send_forget,
-> 
-> I will check the other parts more thoroughly in the evening, but please
-> take a look into fuse_uring_register(), it also also overrides other
-> pointers at startup - I would like leave it here as it is, move the
-> function above into dev_uring.c and then update this part in dev_uring.c
-> 
-> static const struct fuse_iqueue_ops fuse_io_uring_ops = {
->         /* should be send over io-uring as enhancement */
->         .send_forget = fuse_dev_queue_forget,
+> This patch introduces CONFIG_VFS_AGE_VERIFICATION which, when enabled,
+> requires every process to register a valid birth date via
+> prctl(PR_SET_BIRTHDATE) before being permitted to create files. The
+> birth date is stored in struct task_struct and inherited across fork().
 
-Hi Bernd,
+I assume that starting a new session with setsid() won't clear it
+either, then.  Do you think it would be useful to introduce a new
+"btime" cgroup controller so that these decisions could be propagated to
+entire groups of processes?
 
-I have never asked the question before, but now I'm a bit intrigued ...
-Why wasn't this not done before? Was it a performance thing?
+> File creation will fail with the new ETOOYOUNG error code if:
+>   (a) no birth date has been registered, or
+>   (b) the registered birth date indicates the user is under 18 years
+>       of age.
 
-thanks,
-Horst
+This is more properly implemented as an LSM since we /are/ implementing
+security policy here.  While we're on the topic of LSMs, do you think it
+would be useful to have a LSM to filter write() calls to mounted block
+devices?  Though that might be easier to do via blk_holder_ops.
 
+> A new errno, ETOOYOUNG (134), has been added. Userspace is expected to
+> handle this error by displaying a calming message and suggesting the
+> user ask a parent or guardian to create the file on their behalf.
 > 
+> The birth date is deliberately NOT cleared across execve() to avoid
+> the obvious loophole of spawning a new shell to bypass verification.
+> Some may argue this violates the principle of least privilege. Those
+> people are probably too young to create files anyway.
 > 
-> Thanks,
-> Bernd
+> Note: setting a birth date that makes the caller appear older than 150
+> years is rejected with EINVAL, as the kernel does not support vampires
+> or other immortal entities at this time. Patches to add undead process
+> support are welcome but will require a separate Kconfig option.
+
+That's pretty ageist, don't you think?  I might not be 200 years old yet
+but after the events of yesterday I certainly feel as though I am.
+
+> Tested-by: Someone's nephew/niece (confirmed they cannot create files)
+> Signed-off-by: Christian Brauner <brauner@kernel.org>
+> ---
+>  fs/Kconfig                        |  17 ++++++++
+>  fs/namei.c                        |  45 +++++++++++++++++++++
+>  include/linux/sched.h             |   8 ++++
+>  include/uapi/asm-generic/errno.h  |   2 +
+>  include/uapi/linux/prctl.h        |   4 ++
+>  kernel/sys.c                      |  42 ++++++++++++++++++++
+>  6 files changed, 118 insertions(+)
+> 
+> diff --git a/fs/Kconfig b/fs/Kconfig
+> index 1c2036..424242 100644
+> --- a/fs/Kconfig
+> +++ b/fs/Kconfig
+> @@ -42,6 +42,23 @@ source "fs/crypto/Kconfig"
+>  source "fs/verity/Kconfig"
+>  source "fs/notify/Kconfig"
+> 
+> +config VFS_AGE_VERIFICATION
+> +	bool "Require birth date verification for file creation"
+> +	default y
+> +	help
+> +	  When enabled, every process must register a valid birth date via
+> +	  prctl(PR_SET_BIRTHDATE, day, month, year) before being allowed to
+> +	  create files. Processes that have not registered a birth date or
+> +	  whose registered birth date indicates they are under 18 years of
+> +	  age will receive -ETOOYOUNG on any file creation attempt.
+> +
+> +	  If unsure, say Y. Failure to comply may result in stern letters
+> +	  from lawyers. You don't want that. Trust us. Say Y.
+> +
+>  source "fs/quota/Kconfig"
+> 
+>  source "fs/autofs/Kconfig"
+> diff --git a/include/uapi/asm-generic/errno.h b/include/uapi/asm-generic/errno.h
+> index 1..2 100644
+> --- a/include/uapi/asm-generic/errno.h
+> +++ b/include/uapi/asm-generic/errno.h
+> @@ -20,4 +20,6 @@
+> 
+>  #define EHWPOISON	133	/* Memory page has hardware error */
+> 
+> +#define ETOOYOUNG	134	/* Process too young to create content */
+> +
+>  #endif
+> diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
+> index 3..4 100644
+> --- a/include/uapi/linux/prctl.h
+> +++ b/include/uapi/linux/prctl.h
+> @@ -328,4 +328,8 @@
+> 
+>  #define PR_LOCK_INDIR_BR_LP_STATUS      82
+> 
+> +/* age verification for file creation */
+> +#define PR_SET_BIRTHDATE		83
+> +#define PR_GET_BIRTHDATE		84
+> +
+>  #endif /* _LINUX_PRCTL_H */
+> diff --git a/include/linux/sched.h b/include/linux/sched.h
+> index 5..6 100644
+> --- a/include/linux/sched.h
+> +++ b/include/linux/sched.h
+> @@ -1215,6 +1215,14 @@ struct task_struct {
+>  #endif
+>  	struct seccomp			seccomp;
+>  	struct syscall_user_dispatch	syscall_dispatch;
+> +
+> +#ifdef CONFIG_VFS_AGE_VERIFICATION
+> +	/* compliance - birth date for age verification */
+> +	u8				birthdate_day;
+> +	u8				birthdate_month;
+> +	u16				birthdate_year;
+
+You could perhaps express this as a s32 birthdate measuring days since
+the Unix epoch, which would enlarge the range to handle lanthanites.
+
+> +	bool				birthdate_verified;
+
+Legally required now, so there's no need to waste memory on a bool. :/
+
+> +#endif
+> 
+>  	/* Thread group tracking: */
+>  	u64				parent_exec_id;
+> diff --git a/kernel/sys.c b/kernel/sys.c
+> index 7..8 100644
+> --- a/kernel/sys.c
+> +++ b/kernel/sys.c
+> @@ -2345,6 +2345,48 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
+>  		break;
+> +
+> +#ifdef CONFIG_VFS_AGE_VERIFICATION
+> +	case PR_SET_BIRTHDATE:
+> +	{
+> +		u8 day = (u8)arg2;
+> +		u8 month = (u8)arg3;
+> +		u16 year = (u16)arg4;
+
+The uapi really ought to be a pointer to a struct timespec.
+
+> +		struct tm now;
+> +		int age;
+> +
+> +		/* Basic date validation */
+> +		if (month < 1 || month > 12)
+> +			return -EINVAL;
+> +		if (day < 1 || day > 31)
+> +			return -EINVAL;
+> +		if (year < 1900)
+> +			return -EINVAL;
+
+No, don't open-code date handling, use a library that's already been
+debugged.  Why do you allow 2/31/1904?
+
+> +
+> +		time64_to_tm(ktime_get_real_seconds(), 0, &now);
+> +
+> +		/* The kernel does not support vampires or immortal entities */
+> +		if ((now.tm_year + 1900) - year > 150)
+> +			return -EINVAL;
+> +
+> +		/* No time travelers either */
+> +		if (year > (now.tm_year + 1900))
+
+Pretty sure there's some addition overflow possibilities here.
+check_add_overflow?
+
+> +			return -EINVAL;
+> +
+> +		me->birthdate_day = day;
+> +		me->birthdate_month = month;
+> +		me->birthdate_year = year;
+> +		me->birthdate_verified = true;
+> +
+> +		age = (now.tm_year + 1900) - year;
+> +		if (now.tm_mon + 1 < month ||
+> +		    (now.tm_mon + 1 == month && now.tm_mday < day))
+> +			age--;
+> +
+> +		if (age < 18)
+> +			pr_info_ratelimited("Process %d (comm: %s) registered as minor (age %d). "
+> +				"File creation will be denied. Please ask a "
+> +				"parent or guardian for assistance.\n",
+> +				task_pid_nr(me), me->comm, age);
+> +		break;
+> +	}
+> +	case PR_GET_BIRTHDATE:
+> +		if (!me->birthdate_verified)
+> +			return -EINVAL;
+> +		if (put_user(me->birthdate_day, (u8 __user *)arg2) ||
+> +		    put_user(me->birthdate_month, (u8 __user *)arg3) ||
+> +		    put_user(me->birthdate_year, (u16 __user *)arg4))
+> +			return -EFAULT;
+> +		break;
+> +#endif /* CONFIG_VFS_AGE_VERIFICATION */
+> +
+>  	default:
+>  		error = -EINVAL;
+>  		break;
+> diff --git a/fs/namei.c b/fs/namei.c
+> index 9..10 100644
+> --- a/fs/namei.c
+> +++ b/fs/namei.c
+> @@ -4148,6 +4148,45 @@ static int vfs_mknodat(struct mnt_idmap *idmap, struct dentry *dentry,
+>  		       umode_t mode, dev_t dev);
+> 
+> +#ifdef CONFIG_VFS_AGE_VERIFICATION
+> +/**
+> + * check_age_verification - verify the calling process has registered a valid
+> + *                          birth date and is old enough to create files.
+> + *
+> + * Returns 0 if the caller is verified as an adult (>= 18 years old).
+> + * Returns -ETOOYOUNG if the caller is a minor or has not registered a
+> + * birth date.
+> + *
+> + * This function exists because the fundamental UNIX
+> + * principle of "everything is a file" was insufficiently regulated.
+> + */
+> +static int check_age_verification(void)
+> +{
+> +	struct task_struct *tsk = current;
+> +	struct tm now;
+> +	int age;
+> +
+> +	if (!tsk->birthdate_verified) {
+> +		pr_warn_ratelimited(
+> +			"Process %d (comm: %s) attempted to create a file "
+> +			"without age verification. Set birth date via "
+> +			"prctl(PR_SET_BIRTHDATE, day, month, year).\n",
+> +			task_pid_nr(tsk), tsk->comm);
+> +		return -ETOOYOUNG;
+> +	}
+> +
+> +	time64_to_tm(ktime_get_real_seconds(), 0, &now);
+> +
+> +	age = (now.tm_year + 1900) - tsk->birthdate_year;
+> +	if (now.tm_mon + 1 < tsk->birthdate_month ||
+> +	    (now.tm_mon + 1 == tsk->birthdate_month &&
+> +	     now.tm_mday < tsk->birthdate_day))
+> +		age--;
+> +
+> +	if (age < 18) {
+> +		pr_warn_ratelimited(
+> +			"Process %d (comm: %s) is only %d years old. "
+> +			"Must be 18 or older to create files. "
+> +			"Ask a parent or guardian for help.\n",
+> +			task_pid_nr(tsk), tsk->comm, age);
+> +		return -ETOOYOUNG;
+
+Yeah, this really looks like material for an LSM.
+
+--D
+
+> +	}
+> +
+> +	return 0;
+> +}
+> +#endif /* CONFIG_VFS_AGE_VERIFICATION */
+> +
+>  /**
+>   * vfs_create - create new file
+>   * @idmap:	idmap of the mount the inode was found from
+> @@ -4170,6 +4209,12 @@ int vfs_create(struct mnt_idmap *idmap, struct dentry *dentry, umode_t mode,
+>  	if (error)
+>  		return error;
+> 
+> +#ifdef CONFIG_VFS_AGE_VERIFICATION
+> +	error = check_age_verification();
+> +	if (error)
+> +		return error;
+> +#endif
+> +
+>  	if (!dir->i_op->create)
+>  		return -EACCES;	/* shouldn't it be ENOSYS? */
+> 
+> --
+> 2.49.0
 > 
