@@ -1,123 +1,291 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4273B40629F
-	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Apr 2026 12:41:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B8543806B8;
+	Wed,  1 Apr 2026 12:43:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775047318; cv=none; b=OAsmwF0Q+OMYRf8GFp5esYcT/k3izDgliafTmYo915Go5y5kuOBLidcZjkTKSx95m/htZ760nV5Wh318ymVlUAnpGUTulL649o4QkF0Cx47C5lkFEkt32oQiAeUL7cvk1Kh3lVVp+kdYTrh0tA5CqZdfrcSQ3WjyNsbxWcQlcso=
+	t=1775047434; cv=none; b=NVUztbsCeDAxyzqEO/ekPQBlD8ljDBNQ/cf8s0qFeFDeCCQl5q2f0Cnt0mymGjHW1gRc0OZlRkW+KTczhC0i5wEAbs0LPuQPu8sDrfWsPFGbcXRgLZ2hkTK3XA0Wc6AGBH0RGm7df2jE2uBo8thLY0hcV3XK9fQwlmlO1cSlSNo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775047318; c=relaxed/simple;
-	bh=MpR6umjLXlsx1l4+rTIMsZp9WQomlXim0atjNxaIbsw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jl3cwBJ6n5GEiZBnpcyav0rLCTjRRiFfYnILhjRqqqUwknYw5UvfrpgZirH3+FuwxJdOr6xE1nR+vitPkspzp9NRE13oK6wFNwFFMcDke0zXe5iqtHFY63MW+Hy11UGG6PS55UvZDO0ua1/FdOWVajSMUpRktnvejLVgfmIzUa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=K9sXkrqL; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1775047434; c=relaxed/simple;
+	bh=YTafpp9aQiVxn3x/jn/2IGfUCEaISkfN1iPjJa/mH7c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=StLBr63CuvX3RMIpyfjxaG3Z1oJJpRTMJ8fYTujsZT+S1He4+rCHNtqg9rPxTag4IP7HuyuE9IECXPPmPzMWGptnIZFAFsPnR30F6+ikYNDnaH/8p8LCjjaLNGzb0fApkXoKCQJ7s4Q3F0PWTkzaEkbikWyl9RE4ogw7IfqVARA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vipl/XmG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="K9sXkrqL"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-48700b1ba53so63180195e9.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 01 Apr 2026 05:41:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1775047315; x=1775652115; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qnp1PqeJnbYqpsndWX81th/SOoJTeEAmLev2qjXfUek=;
-        b=K9sXkrqLlabpj1N+hURGYcdtjl5EMbmqGCJrEIslGxm54t6mg3DfJDYhaQrpBcdtee
-         RPRDwX+vW3TamUjMyKu+PBF/fF21ZslppMA+y58xqlcnWj3PRMCWx6OXcGHlfNmCDjS2
-         zi7+iXyBqIFf4vbDlkA4h0yu0rSnaC7eG0zZ2CPcuaCaYPzh4vaAvQs22G6SWBUvZakx
-         FgYVfiBNvekw8d90Ge28xn2zDlgxvcN8tu4MGp8mSugrYnSxzdEiF8adIAlA7DBmV58d
-         LMGOLMDHZRBuGNUPWZ5vkARgIXTy89Xj1R9DxpyhMJk0ucku7aJOa/7xvciHgrMUYkW0
-         577w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775047315; x=1775652115;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qnp1PqeJnbYqpsndWX81th/SOoJTeEAmLev2qjXfUek=;
-        b=LyIHYHs/HIdoDTFVTqN3b8tsnYWeSm5BxcZ3DtVhgbWPN3iFRWNjBtxx9wTsgPTzGk
-         wRsMrcJFq/nRaJ/xyosMZ3M7lYyap06glE7BxLoQXzHuxtK7P+D55rM1Ovzu7tWggtHJ
-         6OWPHfTy2yt6QEhDIr9jhtLISSlb8yrzdEfYBMdzbatlza12k12OS4u9cHLdHRqiJK7D
-         +fIjObiKp6Y5+/JM/1M3sQsOnQjRprWE/ySVCtY4hgLbwb1sCx+s+iKUCGz+sOcmhEvx
-         VmpzVPB3mGEfF/zCfJmfXecZ3nzSbe6dKd1SpnFxECtkPopHkD+m+nMA5XHByuZXdLiR
-         ZHbA==
-X-Forwarded-Encrypted: i=1; AJvYcCWKL+t1/sd2peF/sLzbtvBuQwupMmWCspgHGmjzyaOKWkFt8MpOoXWa4mOYDHDPhJ8vK2hEaYHLj/Sr3G0L@vger.kernel.org
-X-Gm-Message-State: AOJu0YwJ69Bns2plA6sE7AE+Qp16PnCDz0QhcmQzudu/VZHc+AYx8mbM
-	pxVizI7EUMTteeyh1+M0BTM4pDORdtT0JVF2iZDYfm3h03XkeZIcKgSluMIaAJKWJbY=
-X-Gm-Gg: ATEYQzzfHhLtTqSq5g6F0yCpa5IYJ89lSqsd5u1+v6qdiRG1X5etBUrbHAm5ZsH4rzq
-	kJaPiX9ZYcwyFMzYNVTUbHx1NuZgYBPlMvHyaJb7DrA7scdKGv0PpXlZgMX22Nxzwtqm94de0wG
-	rB7mA6po05tvAgiZRellFxa7q4jfOcSRAxd8s1sEpUxJhqllXGhBANUo8hSVyifW5xeZ+gas0R3
-	zxcXGVJUCkBzxKZIydMEIbn2ylby/lvWZTUuKbhYU0+z8ODYdXAX58PiNRc9Xui2dCekWJHUqgE
-	seShDWjEZRU33DD+GHlSfJ0sB1pUPCxFMAmo8N3+lh74h774WwnguAzBMPgUDGtlgJWUk5OqdOu
-	jpj67xKmX5WpLaU8ZWxP5iklnTYMmLzXUY2RmDdV6gUpS6Q1YTM23lLzmvaoldZ4rjE9TikZ5SR
-	/P2s+q9+FMyZEef0VxULY64y1J6Q==
-X-Received: by 2002:a05:600c:1f11:b0:486:fd3a:fd22 with SMTP id 5b1f17b1804b1-48883568b21mr50693235e9.4.1775047315442;
-        Wed, 01 Apr 2026 05:41:55 -0700 (PDT)
-Received: from pathway.suse.cz ([176.114.240.130])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4887c8f546csm40799305e9.34.2026.04.01.05.41.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Apr 2026 05:41:54 -0700 (PDT)
-Date: Wed, 1 Apr 2026 14:41:52 +0200
-From: Petr Mladek <pmladek@suse.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: David Disseldorp <ddiss@suse.de>, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH v4 4/6] initramfs: Refactor to use hex2bin() instead of
- custom approach
-Message-ID: <ac0SkJFu-cAUfAGk@pathway.suse.cz>
-References: <20260329105307.2876-1-ddiss@suse.de>
- <20260329105307.2876-5-ddiss@suse.de>
- <acpHYPiOy-S3PUNT@ashevche-desk.local>
- <acpIhBT22b2H4rfr@ashevche-desk.local>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vipl/XmG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B9FCC116C6;
+	Wed,  1 Apr 2026 12:43:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775047433;
+	bh=YTafpp9aQiVxn3x/jn/2IGfUCEaISkfN1iPjJa/mH7c=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Vipl/XmGWS9LJNsgnGTL2acnml0qlK40fhQlIXvqYSIz5eywRSMx9vqeDgvOrvmQQ
+	 XeqQK5GxT9k6EP2/dCAuW4Nju8XxkiUae810lc8kHOZCFibvk+H6Fkgmag4BtkvAvE
+	 Rlj7ONqYKE/V91LgFa6g6HtzQHtQr7uWYOp7l+0rsMenVlzVQXEC2nrO2ne0aW15xt
+	 wNQA13D41c+peZ3BroiYoh9t7z2IepAxh/yIeVC5tDtAz20Rm7YZbWtm3L62OyJU5Q
+	 DOEiPIIGXYgqb/OWV2HNFy5ZqD45nBNQY+hIhwql3dqNOyaJfGE7OBLoYkTVA+LSyR
+	 QFrxQqJ/fAJeA==
+From: Christian Brauner <brauner@kernel.org>
+To: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Christian Brauner <brauner@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>
+Subject: [PATCH] vfs: require verified birth date for file creation
+Date: Wed,  1 Apr 2026 14:43:21 +0200
+Message-ID: <20260401-i-hope-someone-believes-this-is-real-04f24e03944e@brauner>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <acpIhBT22b2H4rfr@ashevche-desk.local>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8012; i=brauner@kernel.org; h=from:subject:message-id; bh=YTafpp9aQiVxn3x/jn/2IGfUCEaISkfN1iPjJa/mH7c=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSeFXpVsbVrU33FDvFvlxxu3Ze6Oz1sb7Tz1BTVa/6Pt 53ezH/8dkcpC4MYF4OsmCKLQ7tJuNxynorNRpkaMHNYmUCGMHBxCsBEdrsxMpzIS9zSoKZcwn2J LSGvRjIoW/k2b/PnArs1ryWyhPafiWD4Z3O5L9f7xjbWy2xm+ft+ftRs8HjBx1cs9T8qXTOyUuQ tCwA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-On Mon 2026-03-30 12:55:16, Andy Shevchenko wrote:
-> On Mon, Mar 30, 2026 at 12:50:30PM +0300, Andy Shevchenko wrote:
-> > On Sun, Mar 29, 2026 at 09:30:26PM +1100, David Disseldorp wrote:
-> 
-> ...
-> 
-> > >  /*
-> > >   * bogus newc header with "0x" prefixes on the uid, gid and namesize values.
-> > > - * parse_header()/simple_str[n]toul() accept this.
-> > > + * parse_header()/simple_str[n]toul() accepted this, contrary to the initramfs
-> > > + * specification. hex2bin() now fails.
-> > >   */
-> > >  #define CPIO_HDR_OX_INJECT \
-> > >  	"%s%08x%08x0x%06x0X%06x%08x%08x%08x%08x%08x%08x%08x0x%06x%08x%s"
-> > 
-> > I think this change should be in patch 1.
-> 
-> Hmm... Re-reading it, seems the both needs to be updated.
-> 
-> For the patch 1:
-> 
->  * Bogus newc header with "0x" prefixes on the uid, gid, and namesize values.
->  * parse_header()/simple_str[n]toul() accept this, contrary to the initramfs
->  * specification.
-> 
-> For the patch 4:
-> 
->  * Bogus newc header with "0x" prefixes on the uid, gid, and namesize values.
->  * parse_header()/simple_str[n]toul() accepted this, contrary to the initramfs
->  * specification. hex2bin() now fails.
+New regulation mandates that all digital content
+creation operations must be performed by verified adults. As file
+creation is the most fundamental content creation primitive in any
+operating system, the kernel must enforce age verification at the VFS
+layer.
 
-This looks better to me.
+This patch introduces CONFIG_VFS_AGE_VERIFICATION which, when enabled,
+requires every process to register a valid birth date via
+prctl(PR_SET_BIRTHDATE) before being permitted to create files. The
+birth date is stored in struct task_struct and inherited across fork().
 
-The rest of the patchset looks good to me as well.
+File creation will fail with the new ETOOYOUNG error code if:
+  (a) no birth date has been registered, or
+  (b) the registered birth date indicates the user is under 18 years
+      of age.
 
-Best Regards,
-Petr
+A new errno, ETOOYOUNG (134), has been added. Userspace is expected to
+handle this error by displaying a calming message and suggesting the
+user ask a parent or guardian to create the file on their behalf.
+
+The birth date is deliberately NOT cleared across execve() to avoid
+the obvious loophole of spawning a new shell to bypass verification.
+Some may argue this violates the principle of least privilege. Those
+people are probably too young to create files anyway.
+
+Note: setting a birth date that makes the caller appear older than 150
+years is rejected with EINVAL, as the kernel does not support vampires
+or other immortal entities at this time. Patches to add undead process
+support are welcome but will require a separate Kconfig option.
+
+Tested-by: Someone's nephew/niece (confirmed they cannot create files)
+Signed-off-by: Christian Brauner <brauner@kernel.org>
+---
+ fs/Kconfig                        |  17 ++++++++
+ fs/namei.c                        |  45 +++++++++++++++++++++
+ include/linux/sched.h             |   8 ++++
+ include/uapi/asm-generic/errno.h  |   2 +
+ include/uapi/linux/prctl.h        |   4 ++
+ kernel/sys.c                      |  42 ++++++++++++++++++++
+ 6 files changed, 118 insertions(+)
+
+diff --git a/fs/Kconfig b/fs/Kconfig
+index 1c2036..424242 100644
+--- a/fs/Kconfig
++++ b/fs/Kconfig
+@@ -42,6 +42,23 @@ source "fs/crypto/Kconfig"
+ source "fs/verity/Kconfig"
+ source "fs/notify/Kconfig"
+
++config VFS_AGE_VERIFICATION
++	bool "Require birth date verification for file creation"
++	default y
++	help
++	  When enabled, every process must register a valid birth date via
++	  prctl(PR_SET_BIRTHDATE, day, month, year) before being allowed to
++	  create files. Processes that have not registered a birth date or
++	  whose registered birth date indicates they are under 18 years of
++	  age will receive -ETOOYOUNG on any file creation attempt.
++
++	  If unsure, say Y. Failure to comply may result in stern letters
++	  from lawyers. You don't want that. Trust us. Say Y.
++
+ source "fs/quota/Kconfig"
+
+ source "fs/autofs/Kconfig"
+diff --git a/include/uapi/asm-generic/errno.h b/include/uapi/asm-generic/errno.h
+index 1..2 100644
+--- a/include/uapi/asm-generic/errno.h
++++ b/include/uapi/asm-generic/errno.h
+@@ -20,4 +20,6 @@
+
+ #define EHWPOISON	133	/* Memory page has hardware error */
+
++#define ETOOYOUNG	134	/* Process too young to create content */
++
+ #endif
+diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
+index 3..4 100644
+--- a/include/uapi/linux/prctl.h
++++ b/include/uapi/linux/prctl.h
+@@ -328,4 +328,8 @@
+
+ #define PR_LOCK_INDIR_BR_LP_STATUS      82
+
++/* age verification for file creation */
++#define PR_SET_BIRTHDATE		83
++#define PR_GET_BIRTHDATE		84
++
+ #endif /* _LINUX_PRCTL_H */
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index 5..6 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -1215,6 +1215,14 @@ struct task_struct {
+ #endif
+ 	struct seccomp			seccomp;
+ 	struct syscall_user_dispatch	syscall_dispatch;
++
++#ifdef CONFIG_VFS_AGE_VERIFICATION
++	/* compliance - birth date for age verification */
++	u8				birthdate_day;
++	u8				birthdate_month;
++	u16				birthdate_year;
++	bool				birthdate_verified;
++#endif
+
+ 	/* Thread group tracking: */
+ 	u64				parent_exec_id;
+diff --git a/kernel/sys.c b/kernel/sys.c
+index 7..8 100644
+--- a/kernel/sys.c
++++ b/kernel/sys.c
+@@ -2345,6 +2345,48 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
+ 		break;
++
++#ifdef CONFIG_VFS_AGE_VERIFICATION
++	case PR_SET_BIRTHDATE:
++	{
++		u8 day = (u8)arg2;
++		u8 month = (u8)arg3;
++		u16 year = (u16)arg4;
++		struct tm now;
++		int age;
++
++		/* Basic date validation */
++		if (month < 1 || month > 12)
++			return -EINVAL;
++		if (day < 1 || day > 31)
++			return -EINVAL;
++		if (year < 1900)
++			return -EINVAL;
++
++		time64_to_tm(ktime_get_real_seconds(), 0, &now);
++
++		/* The kernel does not support vampires or immortal entities */
++		if ((now.tm_year + 1900) - year > 150)
++			return -EINVAL;
++
++		/* No time travelers either */
++		if (year > (now.tm_year + 1900))
++			return -EINVAL;
++
++		me->birthdate_day = day;
++		me->birthdate_month = month;
++		me->birthdate_year = year;
++		me->birthdate_verified = true;
++
++		age = (now.tm_year + 1900) - year;
++		if (now.tm_mon + 1 < month ||
++		    (now.tm_mon + 1 == month && now.tm_mday < day))
++			age--;
++
++		if (age < 18)
++			pr_info_ratelimited("Process %d (comm: %s) registered as minor (age %d). "
++				"File creation will be denied. Please ask a "
++				"parent or guardian for assistance.\n",
++				task_pid_nr(me), me->comm, age);
++		break;
++	}
++	case PR_GET_BIRTHDATE:
++		if (!me->birthdate_verified)
++			return -EINVAL;
++		if (put_user(me->birthdate_day, (u8 __user *)arg2) ||
++		    put_user(me->birthdate_month, (u8 __user *)arg3) ||
++		    put_user(me->birthdate_year, (u16 __user *)arg4))
++			return -EFAULT;
++		break;
++#endif /* CONFIG_VFS_AGE_VERIFICATION */
++
+ 	default:
+ 		error = -EINVAL;
+ 		break;
+diff --git a/fs/namei.c b/fs/namei.c
+index 9..10 100644
+--- a/fs/namei.c
++++ b/fs/namei.c
+@@ -4148,6 +4148,45 @@ static int vfs_mknodat(struct mnt_idmap *idmap, struct dentry *dentry,
+ 		       umode_t mode, dev_t dev);
+
++#ifdef CONFIG_VFS_AGE_VERIFICATION
++/**
++ * check_age_verification - verify the calling process has registered a valid
++ *                          birth date and is old enough to create files.
++ *
++ * Returns 0 if the caller is verified as an adult (>= 18 years old).
++ * Returns -ETOOYOUNG if the caller is a minor or has not registered a
++ * birth date.
++ *
++ * This function exists because the fundamental UNIX
++ * principle of "everything is a file" was insufficiently regulated.
++ */
++static int check_age_verification(void)
++{
++	struct task_struct *tsk = current;
++	struct tm now;
++	int age;
++
++	if (!tsk->birthdate_verified) {
++		pr_warn_ratelimited(
++			"Process %d (comm: %s) attempted to create a file "
++			"without age verification. Set birth date via "
++			"prctl(PR_SET_BIRTHDATE, day, month, year).\n",
++			task_pid_nr(tsk), tsk->comm);
++		return -ETOOYOUNG;
++	}
++
++	time64_to_tm(ktime_get_real_seconds(), 0, &now);
++
++	age = (now.tm_year + 1900) - tsk->birthdate_year;
++	if (now.tm_mon + 1 < tsk->birthdate_month ||
++	    (now.tm_mon + 1 == tsk->birthdate_month &&
++	     now.tm_mday < tsk->birthdate_day))
++		age--;
++
++	if (age < 18) {
++		pr_warn_ratelimited(
++			"Process %d (comm: %s) is only %d years old. "
++			"Must be 18 or older to create files. "
++			"Ask a parent or guardian for help.\n",
++			task_pid_nr(tsk), tsk->comm, age);
++		return -ETOOYOUNG;
++	}
++
++	return 0;
++}
++#endif /* CONFIG_VFS_AGE_VERIFICATION */
++
+ /**
+  * vfs_create - create new file
+  * @idmap:	idmap of the mount the inode was found from
+@@ -4170,6 +4209,12 @@ int vfs_create(struct mnt_idmap *idmap, struct dentry *dentry, umode_t mode,
+ 	if (error)
+ 		return error;
+
++#ifdef CONFIG_VFS_AGE_VERIFICATION
++	error = check_age_verification();
++	if (error)
++		return error;
++#endif
++
+ 	if (!dir->i_op->create)
+ 		return -EACCES;	/* shouldn't it be ENOSYS? */
+
+--
+2.49.0
