@@ -1,105 +1,200 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp03-ext2.udag.de (smtp03-ext2.udag.de [62.146.106.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C026642882D
-	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Apr 2026 13:39:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5B311A9FA4;
+	Wed,  1 Apr 2026 13:41:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.146.106.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775050791; cv=none; b=Dsmuca/P5BPRKzzywGZNBdAu5b4cauDQ3ZJaYujltH6EJxMycQW8H6sDXJguWMbjVD+R1Isyz4+KdBhD8Zn1KpYZAth9O7/LqS4HhY+y89gKnw+FPSv1wTfyVbxsx+innZ0WjFob7aiwzXbvM1j2tJUpBHVrw4BGUiRRMF9g0+k=
+	t=1775050898; cv=none; b=AX5ZDwBzF14ZpdqKIe0pQe5uUooZGe2KzZFfdK3ACYqgbBz+7xdb5F8TSCbHz562h+mTtlgJPg69VTHZ7zWJ9u1jvsRG/V8Vl/jMF8OkHXVcyISP0b1ya+x80nLXq5vyH3k4CaA4WdYP1ELw47AY2TUPsvLP8mWXz1LH6XezKkw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775050791; c=relaxed/simple;
-	bh=CJDnYngsSZ5n1tU6NcHxkHmdD2lwVssaMMVh5DWEL/Q=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=I0MwgUwejOlbctaBT0jDHJcC5K12lybAmG1H+ocY3Y0s1q+Fhc3up9QIF1+7cH7v4ZQ7WSXG7PJYZPS6RNOv6lrr5XQWRHYSg7MMa2Hp5z5wggxe4t5lrzXnO6ZIFZMJG0O8nliDZy3WDD3IK7YXWNptueAS314SHLAwCUKDUVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ucJL/NR8; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ucJL/NR8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FEEDC4AF0B;
-	Wed,  1 Apr 2026 13:39:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775050791;
-	bh=CJDnYngsSZ5n1tU6NcHxkHmdD2lwVssaMMVh5DWEL/Q=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=ucJL/NR8LBHZVJG5lc+0BrAOF6csWetbWJNz1FuglYeQShFD4DbMar1DWU0VSSyuE
-	 j5zAVH50Bl2X6WTupEpIltdigzi6zpS82ZJ0Le38rCA3DtPbLGMHWbFo3LYkNcwVx4
-	 r42SfLLc4Zzp4pMPxxW0pXmOtcnxMeXDaIONLB9IbkwmJ63tdc9A9YSyc+E/qCnF2D
-	 NrznmTtkb5R7kRChVQt1kk86aSmBRY9u0RXawug25Z/eBX3Uu39GY8FodGilJOBQbZ
-	 gRX3+ZxRsYD1ER3bCgsT7Qp+lQPSuYLLVTWgDz75tCCkQwlUWNvkmP3uz0sYs3fkQA
-	 p8/37hAcwOqig==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 2E536F40068;
-	Wed,  1 Apr 2026 09:39:50 -0400 (EDT)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Wed, 01 Apr 2026 09:39:50 -0400
-X-ME-Sender: <xms:JiDNaWO7YGsZYgVmiGUsnwCLNaCW1r2FXSC-B-Tmn9IuKdbF_79a-w>
-    <xme:JiDNafyOXRVaY6aQO8GlQ5m81SncsKIm3yOCQ8PeGtOluwtQiQ0wOcb1L0W_pWy3M
-    2-B_xFxb-3NJW5cbOcimi3lhvTylOOgHO5RTnfflyMMV0PQWAcH2bax>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdefvdeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceurghi
-    lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
-    epofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedfvehhuhgtkhcu
-    nfgvvhgvrhdfuceotggvlheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrhhnpe
-    fhffekffeftdfgheeiveekudeuhfdvjedvfedvueduvdegleekgeetgfduhfefleenucev
-    lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegthhhutghklh
-    gvvhgvrhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudeifeegleelleeh
-    ledqfedvleekgeegvdefqdgtvghlpeepkhgvrhhnvghlrdhorhhgsehfrghsthhmrghilh
-    drtghomhdpnhgspghrtghpthhtohepuddtpdhmohguvgepshhmthhpohhuthdprhgtphht
-    thhopehnvghilhessghrohifnhdrnhgrmhgvpdhrtghpthhtoheprghmihhrjeefihhlse
-    hgmhgrihhlrdgtohhmpdhrtghpthhtohepjhhlrgihthhonheskhgvrhhnvghlrdhorhhg
-    pdhrtghpthhtohephhgthheslhhsthdruggvpdhrtghpthhtohepuggrihdrnhhgohesoh
-    hrrggtlhgvrdgtohhmpdhrtghpthhtoheptghhuhgtkhdrlhgvvhgvrhesohhrrggtlhgv
-    rdgtohhmpdhrtghpthhtohepohhkohhrnhhivghvsehrvgguhhgrthdrtghomhdprhgtph
-    htthhopehtohhmsehtrghlphgvhidrtghomhdprhgtphhtthhopehlihhnuhigqdhfshgu
-    vghvvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:JiDNafaDBA7_kepu7M5ypjgPHN-m4EqdnlqEzsMIflNcPWWk4THK-Q>
-    <xmx:JiDNaUarRdo8siXR_-RyMfOSeWrEJA3jrivrd6mPJD7NQEEsV9A_CQ>
-    <xmx:JiDNacw507NZKhPDL-u9heN49OwqgqTROJt55Spy_26GcvxPXVwTpA>
-    <xmx:JiDNaYf0XkkYLBS1EVsCAnvUk8VHLVhpg4WLA6dVvuuDqv-UhwtkdA>
-    <xmx:JiDNaZ4pDpV5zTlnN6uRW7iQKHjkhQAMsaAoJdPxt9E66dz_FKevNBBH>
-Feedback-ID: ifa6e4810:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 0D436780075; Wed,  1 Apr 2026 09:39:50 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1775050898; c=relaxed/simple;
+	bh=jJq3NGAm+CE5sGuKaC3Yp0Fgs9bkX5VmbwJJmEs1ZFk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=f7NfHHB0Yzg8QuFUm1yeL7zXhZrMwHac20Fen7Q7Pg0SiwhXt9B+Gj7lhEKOjGFjfKHGCoMje0VirokK4WdCo+YRx+Zab+uCqchxQcVG2n5M9HwXtAG7W5xV24wiadME+NQaTKbI5SkWn9uCxFKyZn4mPQTGQDb+ptq79HGj2ZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de; spf=pass smtp.mailfrom=birthelmer.de; arc=none smtp.client-ip=62.146.106.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birthelmer.de
+Received: from localhost (108-141-067-156.ip-addr.inexio.net [156.67.141.108])
+	by smtp03-ext2.udag.de (Postfix) with ESMTPA id A9810E020F;
+	Wed,  1 Apr 2026 15:41:28 +0200 (CEST)
+Authentication-Results: smtp03-ext2.udag.de;
+	auth=pass smtp.auth=birthelmercom-0001 smtp.mailfrom=horst@birthelmer.de
+Date: Wed, 1 Apr 2026 15:41:27 +0200
+From: Horst Birthelmer <horst@birthelmer.de>
+To: Bernd Schubert <bernd@bsbernd.com>
+Cc: Li Wang <liwang@kylinos.cn>, Miklos Szeredi <miklos@szeredi.hu>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: Re: [PATCH] fuse: Send FORGET over io_uring when ring is ready
+Message-ID: <ac0f6eN4PFE98diI@fedora.fritz.box>
+References: <20260401104008.8827-1-liwang@kylinos.cn>
+ <04bfb0c9-a0fc-4825-8c81-8c90774a4bb1@bsbernd.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AoFadv7LPD5F
-Date: Wed, 01 Apr 2026 09:39:29 -0400
-From: "Chuck Lever" <cel@kernel.org>
-To: "Christoph Hellwig" <hch@lst.de>
-Cc: NeilBrown <neil@brown.name>, "Olga Kornievskaia" <okorniev@redhat.com>,
- "Dai Ngo" <Dai.Ngo@oracle.com>, "Tom Talpey" <tom@talpey.com>,
- linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- "Chuck Lever" <chuck.lever@oracle.com>, "Jeff Layton" <jlayton@kernel.org>,
- "Amir Goldstein" <amir73il@gmail.com>
-Message-Id: <e17dc8e1-1150-450b-b4d4-4ed5470d7511@app.fastmail.com>
-In-Reply-To: <20260401061904.GB24293@lst.de>
-References: <20260331153406.4049290-1-hch@lst.de>
- <df21ae49-c763-43d6-bdb2-c492f349a6cb@app.fastmail.com>
- <20260401061904.GB24293@lst.de>
-Subject: Re: cleanup block-style layouts exports
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <04bfb0c9-a0fc-4825-8c81-8c90774a4bb1@bsbernd.com>
 
+On Wed, Apr 01, 2026 at 11:52:28AM +0000, Bernd Schubert wrote:
+> 
+> 
+> On 4/1/26 10:40, Li Wang wrote:
+> > Once the FUSE io_uring is registered and marked ready, most request
+> > types are delivered through io_uring, while FORGET notifications were still
+> > queued with fuse_dev_queue_forget() and only consumed through the legacy
+> > path on /dev/fuse.
+> > 
+> > Deliver single FORGET operations through fuse_uring_queue_fuse_req() when
+> > the ring is ready. Otherwise, fall back to fuse_dev_queue_forget()
+> > so behavior matches the previous implementation.
+> > 
+> > Benefits:
+> > - While io-uring is active, the daemon can handle forgets in the same
+> >   commit/fetch loop as other opcodes instead of also draining a separate
+> >   /dev/fuse read path for forget traffic.
+> > - Reduces split-brain transport for high-volume forgets (eviction,
+> >   unmount) when the ring is already the primary channel, which simplifies
+> >   userspace and keeps teardown forgets on the same completion path as
+> >   other uring-backed work.
+> > - Reuses the same per-queue io-uring machinery and noreply/force request
+> >   setup (creds, FR_WAITING/FR_FORCE, etc.) already used for similar
+> >   kernel-initiated traffic.
+> > 
+> > Signed-off-by: Li Wang <liwang@kylinos.cn>
+> > ---
+> >  fs/fuse/dev.c        | 84 ++++++++++++++++++++++++++++++++++++++++++++
+> >  fs/fuse/dev_uring.c  |  2 +-
+> >  fs/fuse/fuse_dev_i.h |  4 +++
+> >  3 files changed, 89 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+> > index b212565a78cf..f58abc80fd7b 100644
+> > --- a/fs/fuse/dev.c
+> > +++ b/fs/fuse/dev.c
+> > @@ -665,6 +665,90 @@ static void fuse_args_to_req(struct fuse_req *req, struct fuse_args *args)
+> >  		__set_bit(FR_ASYNC, &req->flags);
+> >  }
+> >  
+> > +#ifdef CONFIG_FUSE_IO_URING
+> > +struct fuse_forget_uring_data {
+> > +	struct fuse_args args;
+> > +	struct fuse_forget_in inarg;
+> > +};
+> > +
+> > +static void fuse_forget_uring_free(struct fuse_mount *fm, struct fuse_args *args,
+> > +				   int error)
+> > +{
+> > +	struct fuse_forget_uring_data *d =
+> > +		container_of(args, struct fuse_forget_uring_data, args);
+> > +
+> > +	kfree(d);
+> > +}
+> > +
+> > +/*
+> > + * Send FUSE_FORGET through the io-uring ring when active; same payload as
+> > + * fuse_read_single_forget(), with userspace committing like any other request.
+> > + */
+> > +void fuse_io_uring_send_forget(struct fuse_iqueue *fiq,
+> > +				struct fuse_forget_link *forget)
+> > +{
+> > +	struct fuse_conn *fc = container_of(fiq, struct fuse_conn, iq);
+> > +	struct fuse_mount *fm;
+> > +	struct fuse_req *req;
+> > +	struct fuse_forget_uring_data *d;
+> > +
+> > +	if (!fuse_uring_ready(fc)) {
+> > +		fuse_dev_queue_forget(fiq, forget);
+> > +		return;
+> > +	}
+> > +
+> > +	down_read(&fc->killsb);
+> > +	if (list_empty(&fc->mounts)) {
+> > +		up_read(&fc->killsb);
+> > +		fuse_dev_queue_forget(fiq, forget);
+> > +		return;
+> > +	}
+> > +	fm = list_first_entry(&fc->mounts, struct fuse_mount, fc_entry);
+> > +	up_read(&fc->killsb);
+> > +
+> > +	d = kmalloc(sizeof(*d), GFP_KERNEL);
+> > +	if (!d)
+> > +		goto fallback;
+> > +
+> > +	atomic_inc(&fc->num_waiting);
+> > +	req = fuse_request_alloc(fm, GFP_KERNEL);
+> > +	if (!req) {
+> > +		kfree(d);
+> > +		fuse_drop_waiting(fc);
+> > +		goto fallback;
+> > +	}
+> > +
+> > +	memset(&d->args, 0, sizeof(d->args));
+> > +	d->inarg.nlookup = forget->forget_one.nlookup;
+> > +	d->args.opcode = FUSE_FORGET;
+> > +	d->args.nodeid = forget->forget_one.nodeid;
+> > +	d->args.in_numargs = 1;
+> > +	d->args.in_args[0].size = sizeof(d->inarg);
+> > +	d->args.in_args[0].value = &d->inarg;
+> > +	d->args.force = true;
+> > +	d->args.noreply = true;
+> > +	d->args.end = fuse_forget_uring_free;
+> > +
+> > +	kfree(forget);
+> > +
+> > +	fuse_force_creds(req);
+> > +	__set_bit(FR_WAITING, &req->flags);
+> > +	if (!d->args.abort_on_kill)
+> > +		__set_bit(FR_FORCE, &req->flags);
+> > +	fuse_adjust_compat(fc, &d->args);
+> > +	fuse_args_to_req(req, &d->args);
+> > +	req->in.h.len = sizeof(struct fuse_in_header) +
+> > +		fuse_len_args(req->args->in_numargs,
+> > +			      (struct fuse_arg *)req->args->in_args);
+> > +
+> > +	fuse_uring_queue_fuse_req(fiq, req);
+> > +	return;
+> > +
+> > +fallback:
+> > +	fuse_dev_queue_forget(fiq, forget);
+> > +}
+> > +#endif
+> > +
+> >  ssize_t __fuse_simple_request(struct mnt_idmap *idmap,
+> >  			      struct fuse_mount *fm,
+> >  			      struct fuse_args *args)
+> > diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
+> > index 7b9822e8837b..a96539ea400a 100644
+> > --- a/fs/fuse/dev_uring.c
+> > +++ b/fs/fuse/dev_uring.c
+> > @@ -1360,7 +1360,7 @@ bool fuse_uring_remove_pending_req(struct fuse_req *req)
+> >  
+> >  static const struct fuse_iqueue_ops fuse_io_uring_ops = {
+> >  	/* should be send over io-uring as enhancement */
+> > -	.send_forget = fuse_dev_queue_forget,
+> > +	.send_forget = fuse_io_uring_send_forget,
+> 
+> I will check the other parts more thoroughly in the evening, but please
+> take a look into fuse_uring_register(), it also also overrides other
+> pointers at startup - I would like leave it here as it is, move the
+> function above into dev_uring.c and then update this part in dev_uring.c
+> 
+> static const struct fuse_iqueue_ops fuse_io_uring_ops = {
+>         /* should be send over io-uring as enhancement */
+>         .send_forget = fuse_dev_queue_forget,
 
-On Wed, Apr 1, 2026, at 2:19 AM, Christoph Hellwig wrote:
-> On Tue, Mar 31, 2026 at 01:33:11PM -0400, Chuck Lever wrote:
->> 
->> How do you see this getting merged? Do you want all of these
->> patches to go through the NFS tree? Or do you want this to
->> go through VFS?
->
-> I don't really care.  But I traditionally see exportfs as a nfsd domain,
-> even despite the added other uses of it.
+Hi Bernd,
 
-Right, and I'm happy to take this series because it appears directly
-related to pNFS. But recent exportfs changes have gone through one
-of Christian's trees. Plus this is a cross-subsystem change.
+I have never asked the question before, but now I'm a bit intrigued ...
+Why wasn't this not done before? Was it a performance thing?
 
-(I'm not pushing back, I'd just like an above-board decision)
+thanks,
+Horst
 
--- 
-Chuck Lever
+> 
+> 
+> Thanks,
+> Bernd
+> 
