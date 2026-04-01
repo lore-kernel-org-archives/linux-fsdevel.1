@@ -1,250 +1,94 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05FF9472760;
-	Wed,  1 Apr 2026 14:41:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E592A332635;
+	Wed,  1 Apr 2026 14:53:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775054487; cv=none; b=kTibMb7DN/ekLKQG9f9DgeIraim9qtcYSyBKlEIMYL8/jQIkzbzXZenmHGhtLYm3jDb5qYhAzDRtCzmXlbkj5umsfsNQIBYw6Iddpx0hvZUGwtGRnnnF+uWDPiEX1Gbmk430qZilwdf8a/sNZhncW08RWi+2QJYlTXCDGke0bEM=
+	t=1775055239; cv=none; b=G7q1/79XwXxSA1olmvR+1wXtAQc3LxzaYJuxgQWHhebh1gOTTDCPeWKh3GrQuEz7tYAJkaZ/fYjaPaHMOzw0iB2wt+QQDATq7iYFezTq6WJhtqrnCKX7bISvsOKGFVXdOsQVLMHFf5LGgDoTKCP3unyYOaJDrPrz7c/KiIgBH58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775054487; c=relaxed/simple;
-	bh=3PvW3/DdGYazzAtN3FmITxeXGrmv//CP9oTJkFDSG68=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hg6VvMR94UyBKA1dTRzsQyd3B4TFMCUgk0nsc4moqOgw54mCsi5OpBb2Il97mDUm3FRmYjAkE9cOqzi8LamDi0xYIo8m0n2wZmLRqkm5YLr8QncBTjknuoT3743u7lhsvveTmbOHM6kJbJLGwNpWFEcOqLUztX4LKvxwvJ+ElQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=IkvevFpQ; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1775055239; c=relaxed/simple;
+	bh=rFGY5ev9Y7kYDBfSHZFU8byopPvN3quU/Jr4BYZzu8g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lgITzR5poDNYr2ZruvW78YtHpNZij6smXro3CYdJCavJZnh2M1uWj8Y+Sg1fIoeCDtEM2UO2G4k2xJw/DJxXT8r24UtEb6Tr8h8OiV65ytPcijHPfTGk+eNvAjxhWW8tHlodrZKHVCQ/tLwqxN4Q+sdlu/WYYZCJzDkQZGmlk4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JZa+fA6P; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="IkvevFpQ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=CmPsgFnmfG3ErZo+clK2geXrAbMFOoPy8utupBe+P8A=; b=IkvevFpQcDquh4VAFXgFQ2iEsh
-	wN08hJ8XzUKjgWCVClpnZmhYnw9JPyclw2CWqSLtQq9gvMakcEltw4cBISoqCXu5Pxy4etnCCXfmw
-	EIji68EzbuGpQ/MTkoaTDoiNnUTM1kYdVoT+x5SHjIRih1zN5911MtVMGO4kxw9ch2fQWWHU+bI6U
-	lxpjVAU4c1/N3YhVUmgv4dAMqZdtldZV+8I2xvtse23nCtU2WlgZHjGtC/1yYYzUci6I97ujbGEEf
-	ehQ+WlAlqHpBvVI+9ih3idn0KKu4xr1lDi3ogf4DGPqefvt1BtTvEQO9EWmwE5hZjnXa8M2p/E9tt
-	dt4oCEUg==;
-Received: from [2a02:1210:321a:af00:3fa:89ae:5c22:a910] (helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w7wl0-0000000FWJ0-2cKy;
-	Wed, 01 Apr 2026 14:41:23 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Chuck Lever <chuck.lever@oracle.com>,
-	Jeff Layton <jlayton@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>
-Cc: NeilBrown <neil@brown.name>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>,
-	Tom Talpey <tom@talpey.com>,
-	linux-nfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH 4/4] exportfs,nfsd: rework checking for layout-based block device access support
-Date: Wed,  1 Apr 2026 16:40:25 +0200
-Message-ID: <20260401144059.160746-5-hch@lst.de>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260401144059.160746-1-hch@lst.de>
-References: <20260401144059.160746-1-hch@lst.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JZa+fA6P"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F140C4CEF7;
+	Wed,  1 Apr 2026 14:53:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775055238;
+	bh=rFGY5ev9Y7kYDBfSHZFU8byopPvN3quU/Jr4BYZzu8g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JZa+fA6PKYVV0qjX+7MGsijZREV1+8Cw3pfkbInZDs5kFqcLMnP+RtCTstbrwzk18
+	 sZCmLUFl6Jmd6it8307l5kdUYAWPJNyzvWcLPrEuR8fhgAaMzrwx72Qf4DDZRMcyCj
+	 u52swkCc6TNon3cCLr6KnkRvqzp+lcKPbsLo3j6TcOoOnlIdRSEzFR9f95KGiX7d2D
+	 wDSAxiMRnbttyAwlf+xwBDpnsXlJ2gsXno+1X7rKok/2cm6+JsnCH6L2sWB/4hyiuT
+	 EPgAlh/K/pIPHY+wW31HQHfpBSuRMkIUyeG8BD4UhyZt84a+YcLxS95qnUFAePNRUG
+	 nClyVxDdQ4hNg==
+Date: Wed, 1 Apr 2026 07:53:57 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Matthew Wilcox <willy@infradead.org>, WANG Rui <r@hev.cc>,
+	ziy@nvidia.com, ljs@kernel.org, Liam.Howlett@oracle.com,
+	akpm@linux-foundation.org, baohua@kernel.org,
+	baolin.wang@linux.alibaba.com, brauner@kernel.org, clm@fb.com,
+	dev.jain@arm.com, dsterba@suse.com, jack@suse.cz,
+	lance.yang@linux.dev, linux-btrfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+	mhocko@suse.com, npache@redhat.com, rppt@kernel.org,
+	ryan.roberts@arm.com, shuah@kernel.org, songliubraving@fb.com,
+	surenb@google.com, vbabka@kernel.org, viro@zeniv.linux.org.uk
+Subject: Re: [PATCH v1 05/10] mm/huge_memory: remove READ_ONLY_THP_FOR_FS
+ from file_thp_enabled()
+Message-ID: <20260401145357.GL6202@frogsfrogsfrogs>
+References: <DDFEC0C1-3ECF-41CC-9630-A4A742F2B842@nvidia.com>
+ <20260330160942.173324-1-r@hev.cc>
+ <acqinu8H5jo3Zw7b@casper.infradead.org>
+ <b6596c2c-94de-43f4-b30c-c9361d55e3b8@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b6596c2c-94de-43f4-b30c-c9361d55e3b8@kernel.org>
 
-Currently NFSD hard codes checking support for block-style layouts.
-Lift the checks into a file system-helper and provide a exportfs-level
-helper to implement the typical checks.
+On Wed, Apr 01, 2026 at 04:38:21PM +0200, David Hildenbrand (Arm) wrote:
+> On 3/30/26 18:19, Matthew Wilcox wrote:
+> > On Tue, Mar 31, 2026 at 12:09:42AM +0800, WANG Rui wrote:
+> >> Given the diversity of filesystems in use, each one requires dedicated
+> >> engineering effort to implement and validate large folio support, and
+> >> that assumes both sufficient resources and prioritization on the
+> >> filesystem side. Even after support lands, coverage across different
+> >> base page sizes and configurations may take additional time to mature.
+> >>
+> >> What I am really concerned about is the transition period: if filesystem
+> >> support is not yet broadly ready, while we have already removed the
+> >> fallback path, we may end up in a situation where PMD-sized mappings
+> >> become effectively unavailable on many systems for some time.
+> >>
+> >> This is not about the long-term direction, but about the timing and
+> >> practical readiness.
+> > 
+> > If we leave this fallback in place, we'll never get filesystems to move
+> > forward.  It's time to rip off this bandaid; they've got eight months
+> > before the next stable kernel.
+> 
+> I guess if we don't force them to work on it I guess this will never
+> happen. They shouldn't be holding our THP hacks we want to remove hostage.
 
-This prepares for supporting block layout export of multiple devices
-per file system.
++1.  There are too many filesystems for the ever shrinking number of
+filesystem maintainers so the work won't get done without leverage.
+Leverage, as in "hey why did my fault counts go up?"
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Jeff Layton <jlayton@kernel.org>
----
- fs/nfsd/export.c               |  3 +-
- fs/nfsd/nfs4layouts.c          | 26 +++++------------
- fs/xfs/xfs_pnfs.c              | 13 +++++++++
- include/linux/exportfs_block.h | 52 +++++++++++++++++++++++++++++++++-
- 4 files changed, 73 insertions(+), 21 deletions(-)
+--D
 
-diff --git a/fs/nfsd/export.c b/fs/nfsd/export.c
-index 8e8a76a44ff0..e20298f9212f 100644
---- a/fs/nfsd/export.c
-+++ b/fs/nfsd/export.c
-@@ -735,7 +735,8 @@ static int svc_export_parse(struct cache_detail *cd, char *mesg, int mlen)
- 			goto out4;
- 		err = 0;
- 
--		nfsd4_setup_layout_type(&exp);
-+		if (exp.ex_flags & NFSEXP_PNFS)
-+			nfsd4_setup_layout_type(&exp);
- 	}
- 
- 	expp = svc_export_lookup(&exp);
-diff --git a/fs/nfsd/nfs4layouts.c b/fs/nfsd/nfs4layouts.c
-index 6c1ff21b83a2..0b51eabbafde 100644
---- a/fs/nfsd/nfs4layouts.c
-+++ b/fs/nfsd/nfs4layouts.c
-@@ -2,7 +2,6 @@
- /*
-  * Copyright (c) 2014 Christoph Hellwig.
-  */
--#include <linux/blkdev.h>
- #include <linux/exportfs_block.h>
- #include <linux/kmod.h>
- #include <linux/file.h>
-@@ -126,28 +125,17 @@ nfsd4_set_deviceid(struct nfsd4_deviceid *id, const struct svc_fh *fhp,
- 
- void nfsd4_setup_layout_type(struct svc_export *exp)
- {
--#if defined(CONFIG_NFSD_BLOCKLAYOUT) || defined(CONFIG_NFSD_SCSILAYOUT)
- 	struct super_block *sb = exp->ex_path.mnt->mnt_sb;
--	const struct exportfs_block_ops *bops = sb->s_export_op->block_ops;
--#endif
--
--	if (!(exp->ex_flags & NFSEXP_PNFS))
--		return;
-+	expfs_block_layouts_t block_supported = exportfs_layouts_supported(sb);
- 
--#ifdef CONFIG_NFSD_FLEXFILELAYOUT
--	exp->ex_layout_types |= 1 << LAYOUT_FLEX_FILES;
--#endif
--#ifdef CONFIG_NFSD_BLOCKLAYOUT
--	if (bops && bops->get_uuid && bops->map_blocks && bops->commit_blocks)
-+	if (IS_ENABLED(CONFIG_NFSD_FLEXFILELAYOUT))
-+		exp->ex_layout_types |= 1 << LAYOUT_FLEX_FILES;
-+	if (IS_ENABLED(CONFIG_NFSD_BLOCKLAYOUT) &&
-+	    (block_supported & EXPFS_BLOCK_IN_BAND_ID))
- 		exp->ex_layout_types |= 1 << LAYOUT_BLOCK_VOLUME;
--#endif
--#ifdef CONFIG_NFSD_SCSILAYOUT
--	if (bops && bops->map_blocks && bops->commit_blocks &&
--	    sb->s_bdev &&
--	    sb->s_bdev->bd_disk->fops->pr_ops &&
--	    sb->s_bdev->bd_disk->fops->get_unique_id)
-+	if (IS_ENABLED(CONFIG_NFSD_SCSILAYOUT) &&
-+	    (block_supported & EXPFS_BLOCK_OUT_OF_BAND_ID))
- 		exp->ex_layout_types |= 1 << LAYOUT_SCSI;
--#endif
- }
- 
- void nfsd4_close_layout(struct nfs4_layout_stateid *ls)
-diff --git a/fs/xfs/xfs_pnfs.c b/fs/xfs/xfs_pnfs.c
-index 7d689bb2efd9..266a07601e8d 100644
---- a/fs/xfs/xfs_pnfs.c
-+++ b/fs/xfs/xfs_pnfs.c
-@@ -13,6 +13,7 @@
- #include "xfs_bmap.h"
- #include "xfs_iomap.h"
- #include "xfs_pnfs.h"
-+#include <linux/exportfs_block.h>
- 
- /*
-  * Ensure that we do not have any outstanding pNFS layouts that can be used by
-@@ -45,6 +46,17 @@ xfs_break_leased_layouts(
- 	return error;
- }
- 
-+static expfs_block_layouts_t
-+xfs_fs_layouts_supported(
-+	struct super_block	*sb)
-+{
-+	expfs_block_layouts_t	supported = EXPFS_BLOCK_IN_BAND_ID;
-+
-+	if (exportfs_bdev_supports_out_of_band_id(sb->s_bdev))
-+		supported |= EXPFS_BLOCK_OUT_OF_BAND_ID;
-+	return supported;
-+}
-+
- /*
-  * Get a unique ID including its location so that the client can identify
-  * the exported device.
-@@ -335,6 +347,7 @@ xfs_fs_commit_blocks(
- }
- 
- const struct exportfs_block_ops xfs_export_block_ops = {
-+	.layouts_supported	= xfs_fs_layouts_supported,
- 	.get_uuid		= xfs_fs_get_uuid,
- 	.map_blocks		= xfs_fs_map_blocks,
- 	.commit_blocks		= xfs_fs_commit_blocks,
-diff --git a/include/linux/exportfs_block.h b/include/linux/exportfs_block.h
-index d1dec4689b14..de519b7b599b 100644
---- a/include/linux/exportfs_block.h
-+++ b/include/linux/exportfs_block.h
-@@ -7,13 +7,35 @@
- #ifndef LINUX_EXPORTFS_BLOCK_H
- #define LINUX_EXPORTFS_BLOCK_H 1
- 
--#include <linux/types.h>
-+#include <linux/blkdev.h>
-+#include <linux/exportfs.h>
-+#include <linux/fs.h>
- 
- struct inode;
- struct iomap;
- struct super_block;
- 
-+/*
-+ * There are the two types of block-style layout support:
-+ *  - In-band implies a device identified by a unique cookie inside the actual
-+ *    device address space checked by the ->get_uuid method as used by the pNFS
-+ *    block layout.  This is a bit dangerous and deprecated.
-+ *  - Out of band implies identification by out of band unique identifiers
-+ *    specified by the storage protocol, which is much safer and used by the
-+ *    pNFS SCSI/NVMe layouts.
-+ */
-+typedef unsigned int __bitwise expfs_block_layouts_t;
-+#define EXPFS_BLOCK_FLAG(__bit) \
-+	((__force expfs_block_layouts_t)(1u << __bit))
-+#define EXPFS_BLOCK_IN_BAND_ID		EXPFS_BLOCK_FLAG(0)
-+#define EXPFS_BLOCK_OUT_OF_BAND_ID	EXPFS_BLOCK_FLAG(1)
-+
- struct exportfs_block_ops {
-+	/*
-+	 * Returns the EXPFS_BLOCK_* bitmap of supported layout types.
-+	 */
-+	expfs_block_layouts_t (*layouts_supported)(struct super_block *sb);
-+
- 	/*
- 	 * Get the in-band device unique signature exposed to clients.
- 	 */
-@@ -35,4 +57,32 @@ struct exportfs_block_ops {
- 			int nr_iomaps, loff_t new_size);
- };
- 
-+static inline bool
-+exportfs_bdev_supports_out_of_band_id(struct block_device *bdev)
-+{
-+	return bdev->bd_disk->fops->pr_ops &&
-+		bdev->bd_disk->fops->get_unique_id;
-+}
-+
-+#ifdef CONFIG_EXPORTFS_BLOCK_OPS
-+static inline expfs_block_layouts_t
-+exportfs_layouts_supported(struct super_block *sb)
-+{
-+	const struct exportfs_block_ops *bops = sb->s_export_op->block_ops;
-+
-+	if (!bops ||
-+	    !bops->layouts_supported ||
-+	    WARN_ON_ONCE(!bops->map_blocks) ||
-+	    WARN_ON_ONCE(!bops->commit_blocks))
-+		return 0;
-+	return bops->layouts_supported(sb);
-+}
-+#else
-+static inline expfs_block_layouts_t
-+exportfs_layouts_supported(struct super_block *sb)
-+{
-+	return 0;
-+}
-+#endif /* CONFIG_EXPORTFS_BLOCK_OPS */
-+
- #endif /* LINUX_EXPORTFS_BLOCK_H */
--- 
-2.47.3
-
+> -- 
+> Cheers,
+> 
+> David
+> 
