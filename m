@@ -1,240 +1,210 @@
-Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38BBA3FA5FF;
-	Wed,  1 Apr 2026 11:52:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.153
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BAC72F25F5;
+	Wed,  1 Apr 2026 12:15:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775044353; cv=none; b=VZl689HLmPp+nAP0ct85JtI/9Y8XFR4ylfwMmi5Bd2WA4kpRb+2nc1p/DI1pj6Zv6qmNgiiMAngE37hxow4d+oC7LA0E65vpOWFEbLq3dlZQv8CVFE30FPayY8x4SqIMjXBV+90QunYfb9/0ufcnxxownLajCXt6Zf2ux0vdzus=
+	t=1775045757; cv=none; b=Dxa3nQ6OMMEDoXFxeUk6n72YgMS+GRyAFPPxne7c20VRXpEW8dd3lpxPziYwENmdpi6JWUAMAuMLX6ulPmf0/Mevua7l9C23hQm55d6eUsJAixJ+7euWWzSnD4tUsVYL7kvR3oSBpBY6AI7ITVqiTguDcjqfgUblmxja/T1oPs8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775044353; c=relaxed/simple;
-	bh=WslNl4OiretUN9G2ceRIvTEpw6vvGoNs3kl6ksKQ9WA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bsV1/pV1DKnZr4hg/J0L+E5/MaTt1UD+F92dzc3BXiSN2I8wDUu9UoW+WcjtgXUT3OfEo2aCisYsKZD1SypqIi6A3jNA6jSqnMLG+6nWRibS7edBtGxDXO0ppF3NFPE4z79IyvH7c5SzhLwRW8HCIYzXnO9IjyXzfFvzbSOyI0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=cc9690gJ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=RoDrPPin; arc=none smtp.client-ip=202.12.124.153
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	s=arc-20240116; t=1775045757; c=relaxed/simple;
+	bh=YNL+ocXXshUAIo5niCxPbv1t3SHEDYoryDkMTNWbp10=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kVyV0ajFq4oQ34YtxrlektQspr5KCDVLt53IWEOzq1yIeVIBXt4CU+I2asOyko1ObJujbT09lw6NzrDKrg8arySenGx0hbBdpg4moYHMtMS3Uy/rGaEoyIjbBOKuV0lX/V5NvLAY3udxfVvqh9ZmMDylXIb6B6TRKEqyPGNLkgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=XkWH7QcF; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="cc9690gJ";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="RoDrPPin"
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 608E07A025A;
-	Wed,  1 Apr 2026 07:52:30 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-03.internal (MEProxy); Wed, 01 Apr 2026 07:52:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1775044350;
-	 x=1775130750; bh=4eE6qChNxRd9aouHV3pr0aKXK5Kc8VfngYYUq9OsxXs=; b=
-	cc9690gJxVDh5gH1h/WKxVHKqKhw4oYuuy9AZAqSOvtXaO3aFHQjJwv4vn1m9jgW
-	3T8FYmKInwYUCN2q3ZJmJ6ZLcIeH5+XpS0k2tOFemMQgILkzkr5FGVmOLYpjYgBP
-	uwg3BVLrigpKC9W0f96SvqLe2TNThvWG8BKZWv/lcGUPieqBWQQuxLfVzrLZAh0D
-	cgu8EGNjceDv4sAPJloWi2LXWmJ99UXf/lVejskfqxthC0U69dNq+/SwDTeIi5Nh
-	KjeYPMZ4xWPI5zRTqoycYee5Ghto/7XaGC/x5Xl71iWsRY2BkPo7yGzxAur0xXke
-	tk2tHcKe2XjyGyxuV+mAGg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1775044350; x=
-	1775130750; bh=4eE6qChNxRd9aouHV3pr0aKXK5Kc8VfngYYUq9OsxXs=; b=R
-	oDrPPinH64nfttbFc+aY+scJg/hGlvIihI8ZkA599FriCD38MrL3YK6bv5DXnudI
-	wqAujoF+/omfbhswudoeOGMPK0HxYkgzau+DRR5OZlm0EisBV3Pm0lHGPIUZn6Vz
-	hGzAzoiosXKPIDiWGXJfTXjsUlq3kUziFgVrSD7Ojzfq+weYWGw6926MRfaFZCJP
-	60OMXcfyfjnqCjR2WTsJwNHPZJVEsjiQCBy+26y4N8OBbojTaHhNKN1DG5H8hxgH
-	D8feAKMEOGJxbAB9Nso38vEZDkD7fTqNKJ1srFFGVPzVoGtC50hrhxlWnvNnd0Aq
-	vjWRB1qdDPR5yPCyjq4Ag==
-X-ME-Sender: <xms:_QbNaY_RBArmVDPAUm9Fg7DZ2jf3Ihny8RMS7Pxp0Rz7LipJhPwWgQ>
-    <xme:_QbNaejBR6MFs096GJikCBUO7PVjrW2_Bp4cC9CDA8Mhqo0kq9vMZ6SOSJvrwIkjS
-    H-_uiYHdAR2g4t67Lbpt02ArWf6BFIDZJVXcsSCLmAwetMZGshU>
-X-ME-Received: <xmr:_QbNaYc15ZwrEz42RHKk7oug9oYPjMvBI5wol5dIl0ubYzAe02lUxHs65ICFC7BWmGT54kPQc_5PHj_MKomAdleou3Pnz6LdFuSjq0YOtI9dNH97NQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeftdegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceurghi
-    lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
-    epkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhguucfu
-    tghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrghtth
-    gvrhhnpeehhfejueejleehtdehteefvdfgtdelffeuudejhfehgedufedvhfehueevudeu
-    geenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegsvg
-    hrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeegpdhmohguvgepshhm
-    thhpohhuthdprhgtphhtthhopehlihifrghngheskhihlhhinhhoshdrtghnpdhrtghpth
-    htohepmhhikhhlohhssehsiigvrhgvughirdhhuhdprhgtphhtthhopehlihhnuhigqdhf
-    shguvghvvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugi
-    dqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:_QbNaVpiuXTQcnuDbacc8T6GsysLRqeXLIuTDXILFnwDA94H8O361Q>
-    <xmx:_QbNadDPLoCSjenkLWiRjD9xpDt5GodXjOk6Bg3LUu_rC7HlpAAj1Q>
-    <xmx:_QbNaSZCkLGzF7A3qVguwVhYUikVyECE7Z7RNxN-LzajPz8j0UXVtQ>
-    <xmx:_QbNaQ7h9MdepIdYo8iQCCfPvI6fuISdtymEDSSW47YO-J8c4VENgQ>
-    <xmx:_gbNaYfgWMOTDzPgwtXnRDZhl1bqMMpGIWlz3_kVNkhHnBuDTUTgkFYs>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 1 Apr 2026 07:52:28 -0400 (EDT)
-Message-ID: <04bfb0c9-a0fc-4825-8c81-8c90774a4bb1@bsbernd.com>
-Date: Wed, 1 Apr 2026 11:52:28 +0000
+	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="XkWH7QcF"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4fm3q90T4Wz9v57;
+	Wed,  1 Apr 2026 14:15:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
+	t=1775045749;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YNL+ocXXshUAIo5niCxPbv1t3SHEDYoryDkMTNWbp10=;
+	b=XkWH7QcFYTt9Qf9j59nFAFDjAeGdGd9PjhajJ99h4F0V7VGGGqZJSZSjcI4EcZzGdAK+1X
+	6B/RuTkhLEIzC8RI8cGpkr4/h+OkQ1rt0OHGHJkGpwHSIAkGDFieHOD7MzceyA2BCekYhc
+	g6S5OTgsbfYb1EBhrHIctMEVq6zyRF5eA0T42zY95g4saru+mLIa/AODvXraZc4tu0vUkR
+	Br8MHNqd5ZDVsvEbg2Yt+mqG6rGgT1ApWu93Zq+hR14j8TGu6Zz+nt5MMF7EkOg8CyB14K
+	J/XbhJB4vMqPaaURe/JIzaAFWldhYcPyn6k6TOWhh4IRWjyrrCMosvJtrYOEOA==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=none;
+	spf=pass (outgoing_mbo_mout: domain of cyphar@cyphar.com designates 2001:67c:2050:b231:465::102 as permitted sender) smtp.mailfrom=cyphar@cyphar.com
+Date: Wed, 1 Apr 2026 23:15:18 +1100
+From: Aleksa Sarai <cyphar@cyphar.com>
+To: Jori Koolstra <jkoolstra@xs4all.nl>
+Cc: Jeff Layton <jlayton@kernel.org>, Chuck Lever <chuck.lever@oracle.com>, 
+	Alexander Aring <alex.aring@gmail.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Shuah Khan <shuah@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Mike Rapoport <rppt@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
+	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	Ethan Tidmore <ethantidmore06@gmail.com>, NeilBrown <neil@brown.name>, Oleg Nesterov <oleg@redhat.com>, 
+	Penglei Jiang <superman.xpt@gmail.com>, Kees Cook <kees@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@kernel.org>, 
+	Amir Goldstein <amir73il@gmail.com>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Mateusz Guzik <mjguzik@gmail.com>, Wei Yang <richard.weiyang@gmail.com>, 
+	Bala-Vignesh-Reddy <reddybalavignesh9979@gmail.com>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	Andy Lutomirski <luto@kernel.org>, linux-kselftest@vger.kernel.org
+Subject: Re: [RFC PATCH v2 2/3] vfs: transitive upgrade restrictions for fds
+Message-ID: <2026-04-01-golden-sporty-skeptic-buns-V3CXZL@cyphar.com>
+References: <20260326182033.1809567-1-jkoolstra@xs4all.nl>
+ <20260326182033.1809567-3-jkoolstra@xs4all.nl>
+ <2026-03-27-tweed-frozen-omen-inventory-YVLIh6@cyphar.com>
+ <239317779.402843.1774821289835@kpc.webmail.kpnmail.nl>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fuse: Send FORGET over io_uring when ring is ready
-To: Li Wang <liwang@kylinos.cn>, Miklos Szeredi <miklos@szeredi.hu>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260401104008.8827-1-liwang@kylinos.cn>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: en-US
-In-Reply-To: <20260401104008.8827-1-liwang@kylinos.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="3tusure2o7tuxqco"
+Content-Disposition: inline
+In-Reply-To: <239317779.402843.1774821289835@kpc.webmail.kpnmail.nl>
+X-Rspamd-Queue-Id: 4fm3q90T4Wz9v57
 
 
+--3tusure2o7tuxqco
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [RFC PATCH v2 2/3] vfs: transitive upgrade restrictions for fds
+MIME-Version: 1.0
 
-On 4/1/26 10:40, Li Wang wrote:
-> Once the FUSE io_uring is registered and marked ready, most request
-> types are delivered through io_uring, while FORGET notifications were still
-> queued with fuse_dev_queue_forget() and only consumed through the legacy
-> path on /dev/fuse.
-> 
-> Deliver single FORGET operations through fuse_uring_queue_fuse_req() when
-> the ring is ready. Otherwise, fall back to fuse_dev_queue_forget()
-> so behavior matches the previous implementation.
-> 
-> Benefits:
-> - While io-uring is active, the daemon can handle forgets in the same
->   commit/fetch loop as other opcodes instead of also draining a separate
->   /dev/fuse read path for forget traffic.
-> - Reduces split-brain transport for high-volume forgets (eviction,
->   unmount) when the ring is already the primary channel, which simplifies
->   userspace and keeps teardown forgets on the same completion path as
->   other uring-backed work.
-> - Reuses the same per-queue io-uring machinery and noreply/force request
->   setup (creds, FR_WAITING/FR_FORCE, etc.) already used for similar
->   kernel-initiated traffic.
-> 
-> Signed-off-by: Li Wang <liwang@kylinos.cn>
-> ---
->  fs/fuse/dev.c        | 84 ++++++++++++++++++++++++++++++++++++++++++++
->  fs/fuse/dev_uring.c  |  2 +-
->  fs/fuse/fuse_dev_i.h |  4 +++
->  3 files changed, 89 insertions(+), 1 deletion(-)
-> 
-> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-> index b212565a78cf..f58abc80fd7b 100644
-> --- a/fs/fuse/dev.c
-> +++ b/fs/fuse/dev.c
-> @@ -665,6 +665,90 @@ static void fuse_args_to_req(struct fuse_req *req, struct fuse_args *args)
->  		__set_bit(FR_ASYNC, &req->flags);
->  }
->  
-> +#ifdef CONFIG_FUSE_IO_URING
-> +struct fuse_forget_uring_data {
-> +	struct fuse_args args;
-> +	struct fuse_forget_in inarg;
-> +};
-> +
-> +static void fuse_forget_uring_free(struct fuse_mount *fm, struct fuse_args *args,
-> +				   int error)
-> +{
-> +	struct fuse_forget_uring_data *d =
-> +		container_of(args, struct fuse_forget_uring_data, args);
-> +
-> +	kfree(d);
-> +}
-> +
-> +/*
-> + * Send FUSE_FORGET through the io-uring ring when active; same payload as
-> + * fuse_read_single_forget(), with userspace committing like any other request.
-> + */
-> +void fuse_io_uring_send_forget(struct fuse_iqueue *fiq,
-> +				struct fuse_forget_link *forget)
-> +{
-> +	struct fuse_conn *fc = container_of(fiq, struct fuse_conn, iq);
-> +	struct fuse_mount *fm;
-> +	struct fuse_req *req;
-> +	struct fuse_forget_uring_data *d;
-> +
-> +	if (!fuse_uring_ready(fc)) {
-> +		fuse_dev_queue_forget(fiq, forget);
-> +		return;
-> +	}
-> +
-> +	down_read(&fc->killsb);
-> +	if (list_empty(&fc->mounts)) {
-> +		up_read(&fc->killsb);
-> +		fuse_dev_queue_forget(fiq, forget);
-> +		return;
-> +	}
-> +	fm = list_first_entry(&fc->mounts, struct fuse_mount, fc_entry);
-> +	up_read(&fc->killsb);
-> +
-> +	d = kmalloc(sizeof(*d), GFP_KERNEL);
-> +	if (!d)
-> +		goto fallback;
-> +
-> +	atomic_inc(&fc->num_waiting);
-> +	req = fuse_request_alloc(fm, GFP_KERNEL);
-> +	if (!req) {
-> +		kfree(d);
-> +		fuse_drop_waiting(fc);
-> +		goto fallback;
-> +	}
-> +
-> +	memset(&d->args, 0, sizeof(d->args));
-> +	d->inarg.nlookup = forget->forget_one.nlookup;
-> +	d->args.opcode = FUSE_FORGET;
-> +	d->args.nodeid = forget->forget_one.nodeid;
-> +	d->args.in_numargs = 1;
-> +	d->args.in_args[0].size = sizeof(d->inarg);
-> +	d->args.in_args[0].value = &d->inarg;
-> +	d->args.force = true;
-> +	d->args.noreply = true;
-> +	d->args.end = fuse_forget_uring_free;
-> +
-> +	kfree(forget);
-> +
-> +	fuse_force_creds(req);
-> +	__set_bit(FR_WAITING, &req->flags);
-> +	if (!d->args.abort_on_kill)
-> +		__set_bit(FR_FORCE, &req->flags);
-> +	fuse_adjust_compat(fc, &d->args);
-> +	fuse_args_to_req(req, &d->args);
-> +	req->in.h.len = sizeof(struct fuse_in_header) +
-> +		fuse_len_args(req->args->in_numargs,
-> +			      (struct fuse_arg *)req->args->in_args);
-> +
-> +	fuse_uring_queue_fuse_req(fiq, req);
-> +	return;
-> +
-> +fallback:
-> +	fuse_dev_queue_forget(fiq, forget);
-> +}
-> +#endif
-> +
->  ssize_t __fuse_simple_request(struct mnt_idmap *idmap,
->  			      struct fuse_mount *fm,
->  			      struct fuse_args *args)
-> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-> index 7b9822e8837b..a96539ea400a 100644
-> --- a/fs/fuse/dev_uring.c
-> +++ b/fs/fuse/dev_uring.c
-> @@ -1360,7 +1360,7 @@ bool fuse_uring_remove_pending_req(struct fuse_req *req)
->  
->  static const struct fuse_iqueue_ops fuse_io_uring_ops = {
->  	/* should be send over io-uring as enhancement */
-> -	.send_forget = fuse_dev_queue_forget,
-> +	.send_forget = fuse_io_uring_send_forget,
+On 2026-03-29, Jori Koolstra <jkoolstra@xs4all.nl> wrote:
+> > Unfortunately there is a pretty big issue with doing it this way (which
+> > I mentioned in one of the changelogs back then[2]): There are lots of
+> > VFS operations that imply operations on a file (through a magic-link)
+> > that are not blocked. truncate(2) and mount(MS_BIND)/open_tree(2) are
+> > the most problematic examples, but this applies to basically any syscall
+> > that takes a path argument. If you don't block those then re-opening
+> > restrictions are functionally useless.
+>=20
+> Ah yes. If I am correct, it would block all the fXXX syscalls from doing
+> harm (at least w.r.t. read/write operations) because they use the fmode f=
+or
+> rights checking on the fd, and this cannot be changed without going throu=
+gh
+> an open() variant.
+>=20
+> Hence the issue is the case when we pass a magic path to e.g. truncate()
+> as it does no upgrade restriction check right now on the struct file. So
+> we hade to do this for every relevant syscall. And the question is... whe=
+re.
 
-I will check the other parts more thoroughly in the evening, but please
-take a look into fuse_uring_register(), it also also overrides other
-pointers at startup - I would like leave it here as it is, move the
-function above into dev_uring.c and then update this part in dev_uring.c
+They would also be bypassed by AT_EMPTY_PATH, so you don't even need
+magic-links to cause the issue. This is why I considered doing it with
+"struct path" and doing the blocking in *_permission() -- all of the
+standard vfs operations already have .
 
-static const struct fuse_iqueue_ops fuse_io_uring_ops = {
-        /* should be send over io-uring as enhancement */
-        .send_forget = fuse_dev_queue_forget,
+> > It also would be really nice if you could block more than just trailing
+> > component operations -- having a directory file descriptor that blocks
+> > lookups could be quite handy for a bunch of reasons.
+>=20
+> Yes, so (at the very least) we also want RESTRICT_LOOKUP for directory fd=
+s.
 
+Well, definitely not initially. You also don't really need to call it
+RESTRICT_LOOKUP, blocking exec would be the "unixy" thing to do (and it
+would be nice to have that to block fexecveat(2) too, but that is a
+_VERY_ deep rabbithole).
 
-Thanks,
-Bernd
+> > I think the only workable solution to block all of these issue entirely
+> > and in a comprehensive way is to have something akin to capsicum
+> > capabilities[3] tied to file descriptors and have all of the VFS
+> > operations check them (though I think that the way this was attempted in
+> > the past[4] was far from ideal).
+> >=20
+>=20
+> I went through Drysdale's implementation a bit. He links the capability c=
+heck
+> to the translation of an fd to a struct file. I agree this is a bit invas=
+ive
+> (as he writes himself), and perhaps we can do better. Is this what you me=
+an
+> by "far from ideal"?
+
+There were quite a few other issues with it, but that is one of them.
+
+> > I have tried my hand at a few lighter-weight prototypes over the years
+> > (mainly trying to add the necessary checks to every generic_permission()
+> > call, and adding some more generic_permission() calls as well...). My
+> > last prototype was adding the restriction information to "struct path"
+> > but that would bloat too many structures to be merge-able. I was
+> > planning on looking at this again later this year, but if you can come
+> > up with a nice way of getting a minimal version of capsicum working,
+> > that'd be amazing. :D
+>=20
+> I would really like to try; it is a very nice problem for me to tackle;
+> you need to gain experience somehow :)
+
+Sorry, I probably should've couched my reply with a bit more caution --
+I really appreciate the enthusiasm, but this is quite a hairy topic for
+quite a number of reasons. It will involve touching everything
+fd-related in the kernel, it touches on an already-rejected patchset,
+and is a topic that can get very heated easily. I would not rate the
+chance of getting something merged very highly, and I think there are
+more fruitful things for you to tackle and get your hands dirty.
+
+Honestly, I think most people will be more than happy with just getting
+the O_EMPTYPATH part merged -- looking back, I really should've just
+done that back in 2019. :/
+
+> I wonder how checking all this in generic_permission() would work. The
+> access to the fd that the procfs magic link provides is essentially an
+> issue of path traversal, and in generic_permission() you just have the
+> inode in question. Ah but of course, you can use the mode bits of the
+> magic link to encode the information, as you suggest. What downside did
+> you encounter using this idea?
+
+It wasn't based on the magic-link mode, I added a capability set to
+"struct path" and then went and adjusted all generic_permission()s to
+take the new capability mask. For stuff that did file_permission() or
+path_permission(), no code change was needed.
+
+Unfortunately this ran into quite a few hairy issues that made it
+basically unmergeable (bloating "struct path" is very bad as it is
+embedded everywhere, the whole model is kind of questionable because it
+makes "struct path" have state about the lookup that produced it, some
+VFS APIs deal with inodes or dentries directly and thus would need more
+tree-wide fixes, and most importantly it just felt really ugly).
+
+The open_tree(2) / mount(MS_BIND) issue is particularly problematic --
+ideally you would want to block a RW bind-mount for a read-only file,
+but there isn't really an obvious mechanism for passing down those kinds
+of restrictions. Actually, fsconfig() arguments like "upperdir" to
+overlayfs (or even "source") are likely even worse -- now you need
+per-filesystem-option handling.
+
+I don't think these issues are insurmountable, it's just that the
+problem is much harder than it looks at first glance and I would humbly
+suggest that working on reviving a very dead patchset is not the best
+use of your time. Container runtimes really *really* want this, which is
+the main reason I keep coming back to it (and we ended up with it in the
+UAPI group proposal page) but I think it's a very niche thing that has a
+big risk of being a lot of wasted effort.
+
+--=20
+Aleksa Sarai
+https://www.cyphar.com/
+
+--3tusure2o7tuxqco
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCac0MVhsUgAAAAAAEAA5t
+YW51MiwyLjUrMS4xMiwyLDIACgkQKJf60rfpRG/VOAEAog7YvkUTCpKlJkrQ+FJd
+ITNPzE8g0xQwiihZz48JhscA/2a5boZz1I98vR2v4I5a1TEw5HrRrAxuwqf4H/1B
+7rgP
+=s1NS
+-----END PGP SIGNATURE-----
+
+--3tusure2o7tuxqco--
