@@ -1,152 +1,221 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 797BB3EF0A5
-	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Apr 2026 10:25:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86EFE3F54A0
+	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Apr 2026 10:36:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775039107; cv=none; b=kCIUap8gtkLC/kFQWFTrEltG31TEvjd7j40EBsKkdapQm/kBDkD1y2p/2AgTFX3HgP+Y1FuMxegGYaMHyNoTzYxzdSt+C7OvjhDatBcw/oZ1nbyELE3mke50N8jxzO0fzukd9OXxOMQWH0us2Fxr9+dFUQR9EwYRk+xKx03klA0=
+	t=1775039821; cv=none; b=tpAaYaw5u9BNhSqgeZhDqdbplnJ3CF4+G26dPEEGGIBOqfceR0OaL8di1xKFXPSQylbeZPrdYeuVhHigydCEn8zDocBUJTTed7jSnMo+gViTDw0y7BHlaEsYMmRtAyQ/bNiJxNRL4KbE/IrD5bQS2JjZ6wieDB86OTZ1pAPcI94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775039107; c=relaxed/simple;
-	bh=1PhhPy9OLPG43IIKwPHI4OsPfzGw6hCb/+7/nAJAntE=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=Ev8iAs7XZT6raHRTawb+wztB8OELTYBqPlp4lSLBwCCOP7KplAQMVv2dqjV1QSQJugSVzQuqPpAb8+UQJGanlR9MYofhkCjHLcWxZOecOMG0YwIgav6KpEVCIm8eHdpKEsY/MfPavwFyFQCUxwuGWeprF64L0xzDClDoerxoyLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=a6qO4MHZ; arc=none smtp.client-ip=195.121.94.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1775039821; c=relaxed/simple;
+	bh=959ut+ZbtQZ1c5mNdpBJimrwvMck7MW7XOErMDFt1yQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gqYCOypPVMIKvaC7KxWR3ZhIhMqyAIa+y8FRYXcuQXLHxzcNMKSlsbM4dqbaYFQQN6SZ8qbGhfhz2J0f3nLtJjfviEOyO4xGs+j50oczNunO6yy80/hXEtd1+xM5W1pp+v5Beo+m0LI8nalj+3YFOqhMeF+43TjXD7Sq7c68iTk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=F/mE2xUZ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=/UccDmD8; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=POf5okF1; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=aUqErqgt; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="a6qO4MHZ"
-X-KPN-MessageId: 0ac64d60-2db5-11f1-89dd-00505699b430
-Received: from mta.kpnmail.nl (unknown [10.31.161.188])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 0ac64d60-2db5-11f1-89dd-00505699b430;
-	Wed, 01 Apr 2026 12:25:01 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.189])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 0ac5850b-2db5-11f1-80ef-00505699693e;
-	Wed, 01 Apr 2026 12:25:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=jV5KSXw2jHvn4aoi8mrtNBU5BcgGNh7rEhT8JECQk5Y=;
-	b=a6qO4MHZkOD9egL4G0r7uP1lFQGRCZSA8oNzqns0eLyxX4flP0Gk2j4gOiHLs/tmBv2Kd7RFerLNl
-	 OhpiSG8Zc9qzXwJTeIuYvgDt053SmxFAFns6Ct3tpJN5T+VW1QsOlTfvL8sNCdpHsLe3mzh/8ZqrO1
-	 lHhOYzxKVyS4V4kjrXtOTzmMzS9YMOs0lUQ6O+V75DUVfTZZ9rR86M7J4pv5h+fEsumrw5fRuGYIrt
-	 ap2IU0UFrM6Zb6lvVDMXmTB2MgTDHWEIXmpEAJGxBDWyzvh31tjKM/RiIlKhwo5ij2FjMWVNq+pMFR
-	 pk7MmhCaSBRpCGje3kz6i913vdRsH2Q==
-X-KPN-MID: 33|Oj+5U07RzBEqkZFJugoE73tcngd7Ls5CXUvAE+Base6KZ8QmFg3KEK76LAtUktp
- srIIgs565J+N/0RTUuHavv003kWuwYnA4RDIflmQ+eLs=
-X-CMASSUN: 33|ieEVXN0BevOIstyf4njgr5TcqU1ao57nkzMi1KMpYMKT4zZGGyaQonHcVkH4Vjy
- txWvmVkBP+O1XB2ISP5/Q4w==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh04 (cpxoxapps-mh04.personalcloud.so.kpn.org [10.128.135.210])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 0ab8990e-2db5-11f1-94b1-00505699eff2;
-	Wed, 01 Apr 2026 12:25:01 +0200 (CEST)
-Date: Wed, 1 Apr 2026 12:25:01 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Mateusz Guzik <mjguzik@gmail.com>
-Cc: Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Chuck Lever <chuck.lever@oracle.com>, Arnd Bergmann <arnd@arndb.de>,
-	Shuah Khan <shuah@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"H. Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>,
-	Alexander Aring <alex.aring@gmail.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Andrey Albershteyn <aalbersh@redhat.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	=?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Arnaldo Carvalho de Melo <acme@redhat.com>,
-	Aleksa Sarai <cyphar@cyphar.com>, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	cmirabil@redhat.com,
-	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-Message-ID: <1632825771.784338.1775039101736@kpc.webmail.kpnmail.nl>
-In-Reply-To: <pbobkjhtuli53o3z34ajyxztaosmztwlygxfxhhjq5ajt47inc@ngtoge3ucdm5>
-References: <20260331172011.3512876-1-jkoolstra@xs4all.nl>
- <20260331172011.3512876-2-jkoolstra@xs4all.nl>
- <pbobkjhtuli53o3z34ajyxztaosmztwlygxfxhhjq5ajt47inc@ngtoge3ucdm5>
-Subject: Re: [RFC PATCH 1/2] vfs: syscalls: add mkdirat_fd()
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="F/mE2xUZ";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="/UccDmD8";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="POf5okF1";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="aUqErqgt"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id CA5074D250;
+	Wed,  1 Apr 2026 10:36:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1775039817; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZI/NH6MnG5cMCHh3hQuSK0Fc/OsQ6oNTdNxeEnpKjI4=;
+	b=F/mE2xUZAQea/XHXfCcYqP6U7yh+XRiWyxOcB9QX6W4Kts1Ugd/6N+n7a4sE4o/z/WYfoM
+	gKQKxEhA20xLQGogKp7G0QriBpXoOJ0csPcZFlCIKBvMsT90WRVGIUQwNj9KIxdRrGZYk1
+	03z7EoEBaUazm6teNPyJLhq8rY/XXGQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1775039817;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZI/NH6MnG5cMCHh3hQuSK0Fc/OsQ6oNTdNxeEnpKjI4=;
+	b=/UccDmD8wkmfjZGhyYrnjMEADda/bmrssSeVDp+PQMafWCf8szzau/h/vuv/xF3o3NbLYL
+	g0k9WAaMPlBmrGAA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=POf5okF1;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=aUqErqgt
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1775039816; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZI/NH6MnG5cMCHh3hQuSK0Fc/OsQ6oNTdNxeEnpKjI4=;
+	b=POf5okF1V17iFfbrnw9u5ARfRncGmDuCZNDLesvOSBGlNQgqsI0RLcDW9TtbApPabNXM4J
+	PyOIEK2snE+VD2xx0r6ae2kQrZUO1+8hDBilzn/BD4T3cBxZoByDYXtmsGzLmieJmMAHN1
+	hpFnDV+GTzJFvXDO4nxPl/uuh7lOrn8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1775039816;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZI/NH6MnG5cMCHh3hQuSK0Fc/OsQ6oNTdNxeEnpKjI4=;
+	b=aUqErqgtW6YullBWTiJ6nJ2+Z1UFG7qI038hpzIdUk69peJy1Byw1XuuFY3RNLd0bagbxC
+	/Eb68QI3sM5ZoWAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BEE614A0B0;
+	Wed,  1 Apr 2026 10:36:56 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id dBKVLkj1zGkNEAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 01 Apr 2026 10:36:56 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 7F9D5A0AFD; Wed,  1 Apr 2026 12:36:52 +0200 (CEST)
+Date: Wed, 1 Apr 2026 12:36:52 +0200
+From: Jan Kara <jack@suse.cz>
+To: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	linux-block@vger.kernel.org, Christian Brauner <brauner@kernel.org>, 
+	Al Viro <viro@zeniv.linux.org.uk>, linux-ext4@vger.kernel.org, Ted Tso <tytso@mit.edu>, 
+	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>, David Sterba <dsterba@suse.com>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	David Hildenbrand <david@kernel.org>, linux-mm@kvack.org, linux-aio@kvack.org, 
+	Benjamin LaHaise <bcrl@kvack.org>
+Subject: Re: [PATCH 15/42] fat: Sync and invalidate metadata buffers from
+ fat_evict_inode()
+Message-ID: <dvo2jvc6upmzrgqxx3n6er3e2gvujheongtzkihzmllwxqiyuq@h3qrrnwxlwo4>
+References: <20260326082428.31660-1-jack@suse.cz>
+ <20260326095354.16340-57-jack@suse.cz>
+ <87ldfazqo2.fsf@mail.parknet.co.jp>
+ <3oh5cbnm6dwz6rikc6laably5nvu4c4wtxjqzuu3wymzhpqrtw@skopu327hd7a>
+ <87jyutwo6o.fsf@mail.parknet.co.jp>
+ <mjraa5thsnzchejoomqgiahwajx4cs5ryqnmn7zsi3fylzhrrr@5ip65jcrlknn>
+ <87wlyss2ny.fsf@mail.parknet.co.jp>
+ <gkwyh4z45xglmq7jmam4yfvkecivipr23trzjkbyfolm6pdzre@d5huocjf55ew>
+ <87tstvc90b.fsf@mail.parknet.co.jp>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87tstvc90b.fsf@mail.parknet.co.jp>
+X-Spamd-Result: default: False [-2.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_CC(0.00)[suse.cz,vger.kernel.org,kernel.org,zeniv.linux.org.uk,mit.edu,gmail.com,suse.com,linux.dev,suse.de,kvack.org];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:email,suse.com:email]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -2.51
+X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: CA5074D250
 
-
-> Op 01-04-2026 06:19 CEST schreef Mateusz Guzik <mjguzik@gmail.com>:
+On Wed 01-04-26 18:41:56, OGAWA Hirofumi wrote:
+> Jan Kara <jack@suse.cz> writes:
 > 
->  
-> On Tue, Mar 31, 2026 at 07:19:58PM +0200, Jori Koolstra wrote:
-> > @@ -5286,7 +5290,25 @@ int filename_mkdirat(int dfd, struct filename *name, umode_t mode)
-> >  		lookup_flags |= LOOKUP_REVAL;
-> >  		goto retry;
-> >  	}
-> > +
-> > +	if (!error && (flags & MKDIRAT_FD_NEED_FD)) {
-> > +		struct path new_path = { .mnt = path.mnt, .dentry = dentry };
-> > +		error = FD_ADD(0, dentry_open(&new_path, O_DIRECTORY, current_cred()));
-> > +	}
-> > +	end_creating_path(&path, dentry);
-> >  	return error;
+> >> I think it would happen with normal operation, for example, copy many
+> >> files more than total memory. I think this would be much common than
+> >> write=>close=>open=>fsync in your example.
+> >
+> > When you copy a lot of files which are large in total, I agree the flushing
+> > can be triggered. But I don't think it will trigger any excessive IO
+> > because the metadata blocks being flushed aren't redirtied after the inode
+> > is evicted. So blocks may be written out earlier but I don't think they
+> > will be written out more times. For FAT for example you track only
+> > directory blocks in these lists so when directory inode will be getting
+> > evicted, you may see earlier writeout of dirty directory blocks but that's
+> > all.
 > 
+> Hm, metadata block is shared by several inodes. So earlier flush
+> makes fewer chance to combining multiple dirties.
 > 
-> You can't do it like this. Should it turn out no fd can be allocated,
-> the entire thing is going to error out while keeping the newly created
-> directory behind. You need to allocate the fd first, then do the hard
-> work, and only then fd_install and or free the fd. The FD_ADD machinery
-> can probably still be used provided proper wrapping of the real new
-> mkdir.
+> For example,
+>   create dir-A
+>   reclaimed and flushed dir-A
+>   add new entries to dir-A
+>   lost chance to combining re-dirty of dir-A
 
-But isn't this exactly what happens in open(O_CREAT) too? Eventually we
-call
-		error = dir_inode->i_op->create(idmap, dir_inode, dentry,
-						mode, open_flag & O_EXCL);
+Yes, but for this to be possible you would have to:
+1) stop using dir-A between dir create & file creates
+2) create enough memory pressure to cycle the dentry of dir-A through the
+LRU and reclaim it
+3) continue memory pressure to cycle the inode for dir-A through the LRU
+and reclaim it
 
-and only then do we assign and install the fd. AFAIK there is no cleanup
-happening there either if the FD_ADD step fails. You will just have a
-regular file and no descriptor. But I would have to test this to be sure.
-
+So the amount of work that already has to happen to trigger flushing of
+a single block is so large that IMHO that flush will be lost in the noise.
+ 
+> >> Anyway, with it, reclaimed
+> >> inode metadata will be flushed forcibly and frequently (yeah, may not be
+> >> significant though. but I can't see the benefit for users from this
+> >> change.), and lost to chance combining multiple time of dirty while copy
+> >> many files.
+> >
+> > The benefit for users is 24 bytes saved for the majority of inodes that are
+> > there in the system - all the virtual inodes on sysfs / proc filesystem,
+> > all tmpfs inodes, all XFS inodes, all ext4 inodes when using journal (once I
+> > optimize ext4 code a bit), etc. So actually quite a bit of kernel memory
+> > saved in common configurations.
+> >
+> > Another win is that with metadata buffer head tracking now separated, I can
+> > modify that code (which will require growing the tracking structure) to
+> > properly track buffer head containing the inode and flush it on fsync(2).
+> > Currently there's a race that if flush worker writes out inode before
+> > fsync(2), then fsync(2) does not writeout the buffer containing the inode
+> > at all and thus data is not really persistent. This is actually my initial
+> > motivation for this refactoring since growing inode for everybody to fix
+> > data consistency issues of FAT/ext2/udf isn't popular these days...
 > 
-> On top of that similarly to what other people mentioned the new syscall
-> will definitely want to support O_CLOEXEC and probably other flags down
-> the line.
-> 
+> Agree, it is good.  I'm only saying about the flushing earlier. To
+> implement it, is the flush earlier really necessary?
 
-I agree, and perhaps O_PATH too. Maybe just all open flags relevant to
-directories?
+Yes, to separate metadata buffer head tracking into a separate structure we
+must remove the handling of buffer head list from generic inode reclaim (as
+the filesystem has no way to provide the separate tracking structure there).
+Of course we could add a filesystem hook to inode reclaim to allow for
+handling of metadata bhs but:
 
-> Trying to handle this in open() is a no-go. openat2 is rather
-> problematic.
+a) I'd rather do that in a way that is usable also for other issues
+filesystems have with inode reclaim as I mentioned in this thread before
 
-I don't think that is necessarily true. It turned out O_CREAT | O_DIRECTORY
-was bugged for a very long time. Christian Brauner fixed it eventually, and
-that combination now returns EINVAL. But I think there is nothing really
-stopping us from implementing that combination in the expected way, apart
-from whatever reasons there were for not allowing this in the first place,
-which I don't know about (maybe mixing semantics?)
+b) I don't think it's warranted for FAT etc. at this point as I don't think
+the possible overhead of metadata bh flushing on inode reclaim will be a
+problem in practice.
 
-> 
-> I tend to agree mkdirat_fd is not a good name for the syscall either,
-> but I don't have a suggestion I'm happy with. I think least bad name
-> would follow the existing stuff and be mkdirat2 or similar.
-> 
-> The routine would have to start with validating the passed O_ flags, for
-> now only allowing O_CLOEXEC and EINVAL-ing otherwise.
+But of course we can reevaluate if my gut feeling is wrong and someone
+comes with a workload which significantly regresses due to these changes.
 
-Thanks,
-Jori
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
