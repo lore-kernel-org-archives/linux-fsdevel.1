@@ -1,155 +1,56 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C0FC2DA765
-	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Apr 2026 14:09:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 652ED40824B;
+	Wed,  1 Apr 2026 14:25:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775052568; cv=none; b=GfBUuf77pK8zIe3PAGHQ8oB1zD9DDAuGvuJ2f91W7N3ni5SK7JuDxByzUJSqN6K+Hxh1Xw8NqA4QyjJ11ZHMlnUn/wqrR49NEvqgRQryhJvmBnczBSwfxf7G92blmCweLLkFstYohw09oQieppLC2ggkwP5nRAcYYkgUlf17KYE=
+	t=1775053519; cv=none; b=GLQaFRMvG1ht0Xc7x4eLTpHCmRaI2RF3d5yLWpfWFky3LpzUeXT1tNiKPxnnNgyONTM2GqaDx87SZ/dFl5nCmnyisHkRFEpDZxEqH3kjKQsacfgWWG9heXt/b2tyouSVAgP0yQoCj3o0A4wiw0d2v320l6n/c0fx+7TMfoEyJdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775052568; c=relaxed/simple;
-	bh=FkHhl5SAKIEruahir/S4Yn91EO6ZVJU7/+9TaXQ8gB0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=r9okPoW5NBGNkrHK4ehfmouVA92FVrxOj56YFwS4vkCM2K2eM1qWouXaShHruhfZgm0HP0RIrmNY8XIdDF2mACKVJ14XOpdrd/WgprTxpwIuknKn4gf2bxhT6Seaf7W/3ZqbOo9E7J/0AioI+plI1W1ULoBFkPcd/uieDEvXDiE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YH9UZTjy; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YH9UZTjy"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4852c9b4158so57016325e9.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 01 Apr 2026 07:09:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775052566; x=1775657366; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=O7S8G0jPQziP2icNG+Xq9AlGcKIFYSGaYnHCga7XZDY=;
-        b=YH9UZTjy3/pdQ79lXxzABHUThvXHPlEoBkr2uM26hOMLonb0pB4TOTJFXYkqTdqUL1
-         uAmYbJwr/TTHkIl4EGRqqZAFR86rl5d5WB8ao+h9PbLUHExLUo7WsR46VV//tkeQP04m
-         De+Vaaz54awqHQj/7hixZSVaZACSjjJgwmLvTA45KKDMZmulYc+fN+5tiyTDQn8PNx3E
-         KJoOk9Oeai6SM71kEMALniwZJUd5nZ7VUhv/m03Y1YYOJgOrvsic1hAN+Jaz7ipNlw3x
-         O8J7QFCxHEBvhLzdGqOqtvmmwhJ3d3IRLanmIwT1v09/tTvzatB+tB6yAKELkUQm4l3f
-         NbEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775052566; x=1775657366;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=O7S8G0jPQziP2icNG+Xq9AlGcKIFYSGaYnHCga7XZDY=;
-        b=cvm83CysvxdBkMdHqkrjn907x7nwYgjyKmkXeEFeNnnyRkJMg5MKPJHlvwq4nUVehZ
-         rHWnpI2Vt8kkvuUwmMOXJOS8Tk7HGbVFyPDO58Zybp/ZnBee0ZQf/xjVm8yT0spIhhHx
-         mxl5eQzJz/mE8ahPei94FVp2MABqetlvvL8flybnEKZVF8LfrmZuKyEpNCrHPUFAXP/E
-         Ti4rLk+YkH0hb1rhuUnRJQdgaWPJGR+vyL4oYASsnUKAG2336NZoRwEVo8H6xpRXOrgX
-         M/AH2r2LJRkuk8Ir54PF0mIk7vrjMV3Lp/p6b995FtDaUDP0Zo4sFg9Y1Me0cYv2d3zI
-         bn6w==
-X-Forwarded-Encrypted: i=1; AJvYcCXyuq9vVV5NQpjQ0sg09ToqCZijzTFmYaX/gx9lRGSmDYKaAs1Z0msTSAubLPDEqrSiIkyI49Hm5dE5zyy3@vger.kernel.org
-X-Gm-Message-State: AOJu0YwIollaPYTJuIfyYgVyk3xdwX9kZZrW/AcSooqt9DwAp8OUIXlf
-	B/lZCDpdDX1T6Q2MCxK9EnXRUaGSWVFR+8tooirU5HdoXkb9EMBvEf4y
-X-Gm-Gg: ATEYQzx8t0fM7Q+ZTTCVcRwQWNpjVazIyo5v5m9OthMoJrQlnrJe0lfwEFuU5BKo5FL
-	ocDF5P7WYlIFjcdLKrI1BtGhR8bp9WyzhB6gfjEqn9Wl09xPPtouRHje4CJmrwfgY0raemBGalP
-	JhUYhof464fFB+C1GbsaMb+yKwPryQGvM9SL90h6h09GNKo1s3SVcNbaLZPRgCwe5e2RNmHkDIE
-	THZdfTDXed6vYC0/NglA6CFsA8Pt2FihHlcc2e8CM0B+rXuCZytaOfFvI7X/Vv9ogBAQU1vCGvN
-	axA675pOpv5GO7XqVLGlVsRYT9KWNDwZr9eSV6JKtKj9CG3jlxg8kc6Y194zKVKS/7LY+/eQRPQ
-	5bwHnxhKW0mZ7CAOVk/cfpWjLh8c4qN+UmTOi5ym+LIGmHiWrDSTLXyoWBc96CT96i1kIZBvs3I
-	cZvwKgrh+Ulvk/mGNUnakr3eFayzjBX3eqN5FlIfRp7cHpwKVE2amcANlCV0rQ
-X-Received: by 2002:a05:600c:3e1b:b0:485:ae14:8173 with SMTP id 5b1f17b1804b1-4888355e47fmr62749425e9.1.1775052565221;
-        Wed, 01 Apr 2026 07:09:25 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4887c8b12aesm40093505e9.22.2026.04.01.07.09.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Apr 2026 07:09:24 -0700 (PDT)
-Date: Wed, 1 Apr 2026 15:09:22 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: "Arnd Bergmann" <arnd@arndb.de>
-Cc: "Jori Koolstra" <jkoolstra@xs4all.nl>, "Andy Lutomirski"
- <luto@kernel.org>, "Thomas Gleixner" <tglx@kernel.org>, "Ingo Molnar"
- <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>, "Dave Hansen"
- <dave.hansen@linux.intel.com>, x86@kernel.org, "Alexander Viro"
- <viro@zeniv.linux.org.uk>, "Christian Brauner" <brauner@kernel.org>, "Jeff
- Layton" <jlayton@kernel.org>, "Chuck Lever" <chuck.lever@oracle.com>, shuah
- <shuah@kernel.org>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "H.
- Peter Anvin" <hpa@zytor.com>, "Jan Kara" <jack@suse.cz>, "Alexander Aring"
- <alex.aring@gmail.com>, "Peter Zijlstra" <peterz@infradead.org>, "Oleg
- Nesterov" <oleg@redhat.com>, "Andrey Albershteyn" <aalbersh@redhat.com>,
- "Jiri Olsa" <jolsa@kernel.org>, "Mathieu Desnoyers"
- <mathieu.desnoyers@efficios.com>, Thomas =?UTF-8?B?V2Vpw59zY2h1aA==?=
- <thomas.weissschuh@linutronix.de>, "Namhyung Kim" <namhyung@kernel.org>,
- "Arnaldo Carvalho de Melo" <acme@redhat.com>, "Aleksa Sarai"
- <cyphar@cyphar.com>, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, Linux-Arch
- <linux-arch@vger.kernel.org>, linux-kselftest@vger.kernel.org,
- cmirabil@redhat.com, "Masami Hiramatsu" <mhiramat@kernel.org>
-Subject: Re: [RFC PATCH 1/2] vfs: syscalls: add mkdirat_fd()
-Message-ID: <20260401150922.0990d935@pumpkin>
-In-Reply-To: <c2ea52f2-b232-404b-9ec6-75d8efae6bea@app.fastmail.com>
-References: <20260331172011.3512876-1-jkoolstra@xs4all.nl>
-	<20260331172011.3512876-2-jkoolstra@xs4all.nl>
-	<c2ea52f2-b232-404b-9ec6-75d8efae6bea@app.fastmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	s=arc-20240116; t=1775053519; c=relaxed/simple;
+	bh=hibNW0OK1+43pYDv4VAtwhTWQ8LT4HOtBtLLO2bP8Po=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U/+9WzFGP4cF1XcAiCuDB4E0qi6WsWda6I18bwTfyaiB1UeLqkOAnNAxbFvZlNs8dVnpum6BpJJ24do8/tKdl3i6oj6mIlsL45dgbT3BdvcbzThs3Mvd8yemxY/VzL5p+GlTkXPf//19jO63zkjIqdlsle6D395TU05eRMdFEXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id C881068C4E; Wed,  1 Apr 2026 16:25:14 +0200 (CEST)
+Date: Wed, 1 Apr 2026 16:25:14 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Chuck Lever <chuck.lever@oracle.com>,
+	Amir Goldstein <amir73il@gmail.com>, NeilBrown <neil@brown.name>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
+	linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 1/4] nfsd/blocklayout: always ignore loca_time_modify
+Message-ID: <20260401142514.GA22685@lst.de>
+References: <20260331153406.4049290-1-hch@lst.de> <20260331153406.4049290-2-hch@lst.de> <47bf9653ce304f973cef6248e10a7dba4d958140.camel@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <47bf9653ce304f973cef6248e10a7dba4d958140.camel@kernel.org>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Tue, 31 Mar 2026 21:13:34 +0200
-"Arnd Bergmann" <arnd@arndb.de> wrote:
+On Tue, Mar 31, 2026 at 01:09:28PM -0400, Jeff Layton wrote:
+> >  	iattr.ia_valid |= ATTR_ATIME | ATTR_CTIME | ATTR_MTIME;
+> > -	iattr.ia_atime = iattr.ia_ctime = iattr.ia_mtime = lcp->lc_mtime;
+> > +	iattr.ia_atime = iattr.ia_ctime = iattr.ia_mtime = current_time(inode);
+> 
+> Technically, these fields are completely ignored by notify_change,
+> unless their counterpart ATTR_?TIME_SET flag is set, so you could just
+> leave them unset.
 
-> On Tue, Mar 31, 2026, at 19:19, Jori Koolstra wrote:
-> > Currently there is no way to race-freely create and open a directory.
-> > For regular files we have open(O_CREAT) for creating a new file inode,
-> > and returning a pinning fd to it. The lack of such functionality for
-> > directories means that when populating a directory tree there's always
-> > a race involved: the inodes first need to be created, and then opened
-> > to adjust their permissions/ownership/labels/timestamps/acls/xattrs/...,
-> > but in the time window between the creation and the opening they might
-> > be replaced by something else.
-> >
-> > Addressing this race without proper APIs is possible (by immediately
-> > fstat()ing what was opened, to verify that it has the right inode type),
-> > but difficult to get right. Hence, mkdirat_fd() that creates a directory
-> > and returns an O_DIRECTORY fd is useful.
-> >
-> > This feature idea (and description) is taken from the UAPI group:
-> > https://github.com/uapi-group/kernel-features?tab=readme-ov-file#race-free-creation-and-opening-of-non-file-inodes
-> >
-> > Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>  
-> 
-> I checked that the calling conventions are fine, i.e. this will work
-> as expected across all architectures. I assume you are also aware
-> that the non-RFC patch will need to add the syscall number to all
-> .tbl files.
-> 
-> The hardest problem here does seem to be the naming of the
-> new syscall, and I'm sorry to not be able to offer any solution
-> either, just two observations:
-> 
-> - mkdirat/mkdirat_fd sounds similar to the existing
->   quotactl/quotactl_fd pair, but quotactl_fd() takes a file
->   descriptor argument rather than returning it, which makes
->   this addition quite confusing.
-> 
-> - the nicest interface IMO would have been a variation of
->   openat(dfd, filename, O_CREAT | O_DIRECTORY, mode)
->   but that is a minefield of incompatible implementations[1],
->   so we can't do that without changing the behavior for
->   existing callers that currently run into an error.
+We're not actually going through notify_change here, so for now we'll
+need this assignment for non-mgtime file systems.
 
-Just require O_TMPFILE to be set as well :-)
-You know you'll never regret it one Apr-1 is over.
-
-Can something be done with the flags to openat2().
-That might save allocating an extra system call.
-
-	David
-
-
-> 
->        Arnd
-> 
-> [1] https://lwn.net/Articles/926782/
-> 
+Btw, shouldn't we move the actual time sampling from notify_change into
+->setattr for non-mgtime file systems to avoid the extra sampling in
+notify_change for the mgtime fast path?
 
