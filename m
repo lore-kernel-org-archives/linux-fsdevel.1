@@ -1,264 +1,83 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.167])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56C8635BDAA
-	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Apr 2026 17:43:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.167
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F9E8315D53;
+	Wed,  1 Apr 2026 17:44:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775065390; cv=none; b=MvJHURH1AASUIfvBm3jyS0ooXuvtNnGkmmyLNkXmiOq2VmAeJ78VdSpUiko7JBIJ/i1X/PEdUtgLWDxq/3XNXfa7eYKkoqVfdhO7EZUGGCPnAHIZszVNamc/6k1+FAH1p4qlzDD9kp/y5La/xW5wqbWA3cIY8K6/luB7pBfby6k=
+	t=1775065491; cv=none; b=bDV+EVTTbD2qGqS/tthw4s1B0g1yzIUGtSuq/LgRVhVBNSsLTPqPbPMkv+Hv/ec2vyvtDEOO+XtZmus/VaspG22q5B6jA42CCxj19rGXKmGt9k8aGUV29+Tb9mYvGeRT5fXKennYRfVagCeS3BzZ+qk3I1aRPNSImJjpiGcY/rY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775065390; c=relaxed/simple;
-	bh=0ovmGX+k53TALqc7hdk5MH6wzH7QwfyqYv8foZPBUmk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ncfMR5M9gtcYqVRK62P+FavMwIYavHKVLDF1eP/I3AINNVyPsmw5BQtJgI0gnzz+Vk4MUy+/P0rMgXux3Lf2XW3zzZ4oEpTs6/zAxXfVaL2LNTZo6TKIYJtHi5pDKIMoMhf3BgSmnQ0QM+ynvTk0OSBpMtBLClbWglvuQiG/f88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=KtmwwJZP; arc=none smtp.client-ip=195.121.94.167
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1775065491; c=relaxed/simple;
+	bh=Vpvl1hwrUz4+8zrhaW+q8G2QFNcvqrZBxlmzw5hbjeY=;
+	h=Date:From:To:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=KJTp+KDig6Z18sD3bTrJs0gmttHt3Vt45l0wyBJJY755h6wm8UMGgxOQ94A18uTydMOqOJDsuk97TaM8klJBavnYQMUMH+YwzN/vEbkRPUjUCNrxasx6MJisramZVgFc2B0swysBWUprlR/rywF3bp2e4Cle/b9DY9fKX+WWcLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=aJ3GOnzd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="KtmwwJZP"
-X-KPN-MessageId: 3ab2477f-2df2-11f1-969c-005056abbe64
-Received: from smtp.kpnmail.nl (unknown [10.31.155.37])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 3ab2477f-2df2-11f1-969c-005056abbe64;
-	Wed, 01 Apr 2026 19:43:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=mime-version:message-id:date:subject:to:from;
-	bh=aIgMXO1nYZEvchqQnA8WvV6en+uopyGZ80Wqy48vRF8=;
-	b=KtmwwJZPVqedmo2XyQPL6Tlu1tGKRXMc3qPu1ZKN4r0DBBeuJiK7qhrkjQr0xdXVD36IAUJYVdSGq
-	 0EgrNVWZwH8+FlZbAM0MNHb8QDRctEsniidAs3OrReIEmVOhmyYYq2Or2ArbwcD58tmfd5IPq7zH4M
-	 StU8m/yCFmXOXAXoUuZe9Q67Ynw6ES9h1A2R5whRpSIFFwvIHEi73Q1ECG/E6UzEnFEh86jwgf9s3p
-	 ON43wpUzZht5dPumNNhwR2JI3scpmocQiwg2Do0x+PnUc/D7lrHymkeLSrPnPheHDTxsAVNdtwRiQS
-	 eQTtrLK1T9cwmR1AxxjZPOusttqai2w==
-X-KPN-MID: 33|yvLE8dsE6EV8/cTCziX/cWMS+j3Um1jSLCeAhChZuzon8acsf7qFvLZ7I1ba4cC
- FqW7+KBnl/P3n7R6RAz8jSYcXc5cJ4ojm4n8LWuCqhzc=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|hLP8He2XqolwjK+0JJ4RhcOEpAT9ER1METPCi0SFBVph9NDu03fWiX2Hu6KinBG
- 3L2HlKjeBPxoW1H7hlnL1hQ==
-Received: from daedalus.home (unknown [178.227.141.37])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id 37899aba-2df2-11f1-bdad-005056ab1411;
-	Wed, 01 Apr 2026 19:43:01 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Steve French <smfrench@gmail.com>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Tom Talpey <tom@talpey.com>
-Cc: Jori Koolstra <jkoolstra@xs4all.nl>,
-	NeilBrown <neil@brown.name>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Jeff Layton <jlayton@kernel.org>,
-	Mateusz Guzik <mjguzik@gmail.com>,
-	linux-fsdevel@vger.kernel.org (open list:FILESYSTEMS (VFS and infrastructure)),
-	linux-kernel@vger.kernel.org (open list),
-	linux-cifs@vger.kernel.org (open list:KERNEL SMB3 SERVER (KSMBD))
-Subject: [PATCH v2] vfs: replace ints with enum component_type for LAST_XXX
-Date: Wed,  1 Apr 2026 19:43:03 +0200
-Message-ID: <20260401174307.3887296-1-jkoolstra@xs4all.nl>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="aJ3GOnzd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52224C4CEF7;
+	Wed,  1 Apr 2026 17:44:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1775065491;
+	bh=Vpvl1hwrUz4+8zrhaW+q8G2QFNcvqrZBxlmzw5hbjeY=;
+	h=Date:From:To:Subject:In-Reply-To:References:From;
+	b=aJ3GOnzdtftQFcgGw9LludNc+Xqz3IGUEX7Lf0U40Zix6m0fF/Xpu42F6o8fJHoyp
+	 Z9ML6t9FO5UsakhjGV1dEw0su9MpAtZYy3RJaD7lm9L3QNFbQtuHnMtuRmdpkSMYAs
+	 ycDV8UG4IaEXWb0L1dUtni6LsVe1CLO4csZLl2Kc=
+Date: Wed, 1 Apr 2026 10:44:49 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Mike Rapoport <rppt@kernel.org>, "Harry Yoo (Oracle)"
+ <harry@kernel.org>, Andrea Arcangeli <aarcange@redhat.com>, Andrei Vagin
+ <avagin@google.com>, Axel Rasmussen <axelrasmussen@google.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, David Hildenbrand <david@kernel.org>, Hugh
+ Dickins <hughd@google.com>, James Houghton <jthoughton@google.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, "Lorenzo Stoakes (Oracle)"
+ <ljs@kernel.org>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Michal
+ Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>, Nikita
+ Kalyazin <kalyazin@amazon.com>, Oscar Salvador <osalvador@suse.de>, Paolo
+ Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>, Sean
+ Christopherson <seanjc@google.com>, Shuah Khan <shuah@kernel.org>, Suren
+ Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@suse.cz>,
+ kvm@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-mm@kvack.org
+Subject: Re: [PATCH v3 02/15] userfaultfd: introduce struct mfill_state
+Message-Id: <20260401104449.42123600e33e08b5ebad10a5@linux-foundation.org>
+In-Reply-To: <20260401103717.b236b271a2856d536a48663b@linux-foundation.org>
+References: <20260330101116.1117699-1-rppt@kernel.org>
+	<20260330101116.1117699-3-rppt@kernel.org>
+	<actxscYZGFiyvUcs@hyeyoo>
+	<acva_NKf7T5rbIC8@kernel.org>
+	<acvnEd3-s6XI26vb@hyeyoo>
+	<aczK4-vrULRiTvyh@kernel.org>
+	<20260401103717.b236b271a2856d536a48663b@linux-foundation.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Several functions in namei.c take an "int *type" parameter, such as
-filename_parentat(). To know what values this can take you have to find
-the anonymous struct that defines the LAST_XXX values. I would argue
-that the readability of the code is improved by making this an explicit
-type.
+On Wed, 1 Apr 2026 10:37:17 -0700 Andrew Morton <akpm@linux-foundation.org> wrote:
 
-Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
+> On Wed, 1 Apr 2026 10:36:03 +0300 Mike Rapoport <rppt@kernel.org> wrote:
+> 
+> > Here's a fixup (it causes a conflict in patch 4 though).
+> > Andrew, I can send v4 if you prefer.
+> 
+> Looks pretty simple.  "userfaultfd: introduce mfill_get_vma() and
+> mfill_put_vma()" now leaves things like this:
 
----
+err, actually, it gets messy.
 
-v2: move back to LAST_XXX and change int to component_type in
-fs/smb/server/vfs.c.
+Can we please have a v4?  I think there are a few other things pending?
 
----
- fs/namei.c            | 41 ++++++++++++++++++++++-------------------
- fs/smb/server/vfs.c   |  5 +++--
- include/linux/namei.h |  4 ++--
- 3 files changed, 27 insertions(+), 23 deletions(-)
+I've noted
+https://lkml.kernel.org/r/acqrtd7E6UxrX6Ji@casper.infradead.org and
+https://lkml.kernel.org/r/202603311743.uZYPu1Gn-lkp@intel.com
 
-diff --git a/fs/namei.c b/fs/namei.c
-index 9e5500dad14f..a880454a6415 100644
---- a/fs/namei.c
-+++ b/fs/namei.c
-@@ -721,15 +721,15 @@ EXPORT_SYMBOL(path_put);
- 
- #define EMBEDDED_LEVELS 2
- struct nameidata {
--	struct path	path;
--	struct qstr	last;
--	struct path	root;
--	struct inode	*inode; /* path.dentry.d_inode */
--	unsigned int	flags, state;
--	unsigned	seq, next_seq, m_seq, r_seq;
--	int		last_type;
--	unsigned	depth;
--	int		total_link_count;
-+	struct path		path;
-+	struct qstr		last;
-+	struct path		root;
-+	struct inode		*inode; /* path.dentry.d_inode */
-+	unsigned int		flags, state;
-+	unsigned		seq, next_seq, m_seq, r_seq;
-+	enum component_type	last_type;
-+	unsigned		depth;
-+	int			total_link_count;
- 	struct saved {
- 		struct path link;
- 		struct delayed_call done;
-@@ -2221,7 +2221,7 @@ static struct dentry *follow_dotdot(struct nameidata *nd)
- 	return dget(nd->path.dentry);
- }
- 
--static const char *handle_dots(struct nameidata *nd, int type)
-+static const char *handle_dots(struct nameidata *nd, enum component_type type)
- {
- 	if (type == LAST_DOTDOT) {
- 		const char *error = NULL;
-@@ -2869,7 +2869,7 @@ static int path_parentat(struct nameidata *nd, unsigned flags,
- /* Note: this does not consume "name" */
- static int __filename_parentat(int dfd, struct filename *name,
- 			       unsigned int flags, struct path *parent,
--			       struct qstr *last, int *type,
-+			       struct qstr *last, enum component_type *type,
- 			       const struct path *root)
- {
- 	int retval;
-@@ -2894,7 +2894,7 @@ static int __filename_parentat(int dfd, struct filename *name,
- 
- static int filename_parentat(int dfd, struct filename *name,
- 			     unsigned int flags, struct path *parent,
--			     struct qstr *last, int *type)
-+			     struct qstr *last, enum component_type *type)
- {
- 	return __filename_parentat(dfd, name, flags, parent, last, type, NULL);
- }
-@@ -2963,7 +2963,8 @@ static struct dentry *__start_removing_path(int dfd, struct filename *name,
- 	struct path parent_path __free(path_put) = {};
- 	struct dentry *d;
- 	struct qstr last;
--	int type, error;
-+	enum component_type type;
-+	int error;
- 
- 	error = filename_parentat(dfd, name, 0, &parent_path, &last, &type);
- 	if (error)
-@@ -3009,7 +3010,8 @@ struct dentry *kern_path_parent(const char *name, struct path *path)
- 	CLASS(filename_kernel, filename)(name);
- 	struct dentry *d;
- 	struct qstr last;
--	int type, error;
-+	enum component_type type;
-+	int error;
- 
- 	error = filename_parentat(AT_FDCWD, filename, 0, &parent_path, &last, &type);
- 	if (error)
-@@ -3057,7 +3059,7 @@ EXPORT_SYMBOL(kern_path);
-  * @root: pointer to struct path of the base directory
-  */
- int vfs_path_parent_lookup(struct filename *filename, unsigned int flags,
--			   struct path *parent, struct qstr *last, int *type,
-+			   struct path *parent, struct qstr *last, enum component_type *type,
- 			   const struct path *root)
- {
- 	return  __filename_parentat(AT_FDCWD, filename, flags, parent, last,
-@@ -4903,7 +4905,7 @@ static struct dentry *filename_create(int dfd, struct filename *name,
- 	bool want_dir = lookup_flags & LOOKUP_DIRECTORY;
- 	unsigned int reval_flag = lookup_flags & LOOKUP_REVAL;
- 	unsigned int create_flags = LOOKUP_CREATE | LOOKUP_EXCL;
--	int type;
-+	enum component_type type;
- 	int error;
- 
- 	error = filename_parentat(dfd, name, reval_flag, path, &last, &type);
-@@ -5365,7 +5367,7 @@ int filename_rmdir(int dfd, struct filename *name)
- 	struct dentry *dentry;
- 	struct path path;
- 	struct qstr last;
--	int type;
-+	enum component_type type;
- 	unsigned int lookup_flags = 0;
- 	struct delegated_inode delegated_inode = { };
- retry:
-@@ -5383,6 +5385,7 @@ int filename_rmdir(int dfd, struct filename *name)
- 	case LAST_ROOT:
- 		error = -EBUSY;
- 		goto exit2;
-+	case LAST_NORM: ; // OK
- 	}
- 
- 	error = mnt_want_write(path.mnt);
-@@ -5507,7 +5510,7 @@ int filename_unlinkat(int dfd, struct filename *name)
- 	struct dentry *dentry;
- 	struct path path;
- 	struct qstr last;
--	int type;
-+	enum component_type type;
- 	struct inode *inode;
- 	struct delegated_inode delegated_inode = { };
- 	unsigned int lookup_flags = 0;
-@@ -6074,7 +6077,7 @@ int filename_renameat2(int olddfd, struct filename *from,
- 	struct renamedata rd;
- 	struct path old_path, new_path;
- 	struct qstr old_last, new_last;
--	int old_type, new_type;
-+	enum component_type old_type, new_type;
- 	struct delegated_inode delegated_inode = { };
- 	unsigned int lookup_flags = 0;
- 	bool should_retry = false;
-diff --git a/fs/smb/server/vfs.c b/fs/smb/server/vfs.c
-index d08973b288e5..b12d481f5ba9 100644
---- a/fs/smb/server/vfs.c
-+++ b/fs/smb/server/vfs.c
-@@ -56,7 +56,8 @@ static int ksmbd_vfs_path_lookup(struct ksmbd_share_config *share_conf,
- {
- 	struct qstr last;
- 	const struct path *root_share_path = &share_conf->vfs_path;
--	int err, type;
-+	int err;
-+	enum component_type type;
- 	struct dentry *d;
- 
- 	if (pathname[0] == '\0') {
-@@ -668,7 +669,7 @@ int ksmbd_vfs_rename(struct ksmbd_work *work, const struct path *old_path,
- 	struct renamedata rd;
- 	struct ksmbd_share_config *share_conf = work->tcon->share_conf;
- 	struct ksmbd_file *parent_fp;
--	int new_type;
-+	enum component_type new_type;
- 	int err, lookup_flags = LOOKUP_NO_SYMLINKS;
- 
- 	if (ksmbd_override_fsids(work))
-diff --git a/include/linux/namei.h b/include/linux/namei.h
-index 58600cf234bc..fa3ae87762b7 100644
---- a/include/linux/namei.h
-+++ b/include/linux/namei.h
-@@ -16,7 +16,7 @@ enum { MAX_NESTED_LINKS = 8 };
- /*
-  * Type of the last component on LOOKUP_PARENT
-  */
--enum {LAST_NORM, LAST_ROOT, LAST_DOT, LAST_DOTDOT};
-+enum component_type {LAST_NORM, LAST_ROOT, LAST_DOT, LAST_DOTDOT};
- 
- /* pathwalk mode */
- #define LOOKUP_FOLLOW		BIT(0)	/* follow links at the end */
-@@ -70,7 +70,7 @@ static inline void end_removing_path(const struct path *path , struct dentry *de
- 	end_creating_path(path, dentry);
- }
- int vfs_path_parent_lookup(struct filename *filename, unsigned int flags,
--			   struct path *parent, struct qstr *last, int *type,
-+			   struct path *parent, struct qstr *last, enum component_type *type,
- 			   const struct path *root);
- int vfs_path_lookup(struct dentry *, struct vfsmount *, const char *,
- 		    unsigned int, struct path *);
--- 
-2.53.0
+Alternatively, I can leave the current series in mm-unstable as-is and
+we can add a fixup at end-of-series.  Not ideal, but it's OK.
 
