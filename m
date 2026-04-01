@@ -1,174 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C07023A984;
-	Wed,  1 Apr 2026 19:15:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775070933; cv=none; b=Mkzd+xy5suX+q+LlzJCMB2cJqmSYPTpeSLdR4hsiai/FydS7dI8HDWsh1t23ovsp2wsPJ9ecQuX+zVO/pYY6snxsPSzZHuKzcPLom8GTzlrNFRYnEC1XsjMLrBYbU97aFbly+49+YcvvZe0zJxPPNXHY1i3GOdqisCh6nY45MQc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775070933; c=relaxed/simple;
-	bh=1Dfy8STCS29Dd/L8IzAykKpCipm+hEQa8viNiYyzGfU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=a8TE2JburPXRHVA06lo0RGadbtK5yLDvhiQkKhp7R8vb+9QNMh9ziAHGA27e042C5REaPgDCo1zLmUoTWqOITTMaKk4NO6sX2HBfJl1nVpH/TlZrqrfM78zajDHIjXyrAOEY+m38VxJ8NsPoD3fHfEJS3FBbp0E1w7gmpCL2C0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lzjqgOm+; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 800DC175A6E
+	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Apr 2026 19:25:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775071509; cv=pass; b=jP7C7Fi7InCI3eyNmHjqfCr9Xauaarukiv7NcdYQUafMnnMApxS6LA+HDGpFsAfM4n0lSrRmGivE4p8qy3iLrAeRj2u2QhEgr09frkvYaxnCCOsBJQyc3ZOFxxifEUzRPXGzwtXt44rL+OQ07h1n81AFefEdz8AA35iZ5VLxsWw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775071509; c=relaxed/simple;
+	bh=E13s9ySbYGK+vB8GX2N0piibVYX27uVfmrQEHfUUl+c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=abY6rG19N59lD9Hp1+EL+YnGaPKi6t/VdRCBCeovVqwlWskdJaZ1CijJZcKyzfJSSDK6OukYBHrtuT7nRgt56OJhfQ5/jiNk9MqaCdrm9zMI2VQD1sUuy7owUoTIcFpxp0wdaR4n3dJMmWJ9AsJAel87tpnXmktCs8TPfPNf7SI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z00+8Lq5; arc=pass smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lzjqgOm+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD10AC4CEF7;
-	Wed,  1 Apr 2026 19:15:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775070933;
-	bh=1Dfy8STCS29Dd/L8IzAykKpCipm+hEQa8viNiYyzGfU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=lzjqgOm+wFCzIALJBVhPXdFb/bNnvF5NnNteJFDvPa5LDOk2vBC0AmwqvDuBIROnJ
-	 UroG3YHrw2asdYXECNtFGj38U5CqTjXdTjDrnleArISDl1om4LGTKYSpGfuzP3b1OL
-	 SnXo7byHAudebm6kZyhIN2UJuzDNoyzSr2+OWTXvKQnv+/bfLEEeNnY79duBu9CAXS
-	 y/hT1dupJK6YHXvSf2tOLCJAqf48L2OhF/Kh6GLG6JpbeA231aLBvCjw+DYI0VC9kR
-	 aRbB4G1PdoLXTI41OoyjMF4O2MWtSUU4ceYsWS9EdeJYYu6AKEIJRdjdZRooNuMXMb
-	 4SEYQ1KwNLBAw==
-Message-ID: <f7e1bdbf-cb88-42f0-ac48-1a273bda2455@kernel.org>
-Date: Wed, 1 Apr 2026 21:15:24 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z00+8Lq5"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-b79f8f7ea43so12621666b.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 01 Apr 2026 12:25:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775071507; cv=none;
+        d=google.com; s=arc-20240605;
+        b=TQIL3KQx9ErgQu7xffCOYq47fkIJN13grE4LEFXmZ73vGVG9O93wUJuZOt88ni9byu
+         HOlWT8NYtF4acMItaJPDgwxYxyQccfF9qLq1Iz3axnmoZjlTMb0TXsV6BThlmcERxZQY
+         HhPkGV2q/1s+S5aMeo28euAFAjuVQi9Az5Du0xZnirXMK1cRwFnlIl56qApm2ZKDTtGH
+         eVVhKmo33YZvB5haoceD0FrL1tnyNI4o/hmFPA3QcuXh8+S8wUphHHapq5SBH8kF6YZA
+         LoNbqCiLilKg/jPLi/7xr05ZiQtK2ptLgOldWxJwQ1UHl/1DIQ9Hrr6Umxm5/NO+QqEf
+         CxqA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=E13s9ySbYGK+vB8GX2N0piibVYX27uVfmrQEHfUUl+c=;
+        fh=lzC+ELO0PVQw8U0UEPCf6er1wNPD29SAvMhu/1Gh998=;
+        b=cz/n503uo0LCPFAHUO6xtrzD8uj9ZBxToOLm8WsNyeDrxO0+cvgPKr71daegXJKO/P
+         YpM+9u0VIyka4GkMLmDc193aFPfboR0eqb5ZbLOeR//SICkrB0fbSAAjeDuh/rRZCM10
+         H4PHA0liRxXf/UTppQ8OtB+uH+1OICwGjLI41pMXpzbtQqt0PiQ+D/VNkdBGkaa9ulDy
+         zcjznuLaJ7yJtcva+7GgAdtgH7DoWVE6BlaVehcVaXiJFOAnzaTSIXMfkjlHPgUEzvB3
+         1T/GHXX6FoGPQoZd0kqDq1QUd1J+5UXV9RHVTEZgE6ro6whBruj/GpYJAYTBnYAlPqwF
+         AkxA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775071507; x=1775676307; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=E13s9ySbYGK+vB8GX2N0piibVYX27uVfmrQEHfUUl+c=;
+        b=Z00+8Lq5bOXTlXY7A1SO9+XPztrcv0FLu6lDapp4vVFdki8balrNzxZv3RKctqJXy6
+         wwfDsMLVFejR1mJZ2S/RSRxeyT59uGXPF5ZVxnnnb+ugYVQckbW66JnxrYwtrIlW531c
+         raJqNTDvJdSWkUqVjg4mJLPAaNdaU4IJa4A6l+f7Tacqd2iqEmVMoXd4wiW2S1xx5NZq
+         khuvCnQbNPKhLBlxIssJ9Jc2jeCnLmz9MeNaM7j7q6CdEBUUo9CGIzX71Xj6FbV/Ju/W
+         qjx2Y3IWaufJ2b1/1584I4Nf1chS52ckRYnUs2uE5Ev0DNR2WWPmQwbmav0zBUSckAfg
+         o5UQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775071507; x=1775676307;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=E13s9ySbYGK+vB8GX2N0piibVYX27uVfmrQEHfUUl+c=;
+        b=JjtQ7F0IDUH0g1DAVWtJXke4/oaM0yTzzBHYLXmXtdd/TNju5uB1PK8uOXNl4wQBWx
+         1/0Rsm7HASBoUIYdwX9ahjfITY4BcXq09d4LkuDrLTfZjjwW1WV006hxDGHCHju9YpNV
+         0XrSsSOhZIOrU5JYtOf0sVAgnbKLaQDQRelJ5tNB9i1lUeLcKiCSPB0JDVBkm7pKvWwd
+         QJa10k3ybDswHgjNM+af8wMafYKZ+v2JPmHgwt3Su1SylnHGODdy7xAhWcCQeuyb6fkb
+         0NWAxQa8AnaaLN/DCiMrdNlozCm0TJVdNjzqOPyR1zG1CirWHFw4cLJ21cpwk9CYgUBy
+         Bg/w==
+X-Forwarded-Encrypted: i=1; AJvYcCUsr5NOLWs94MJykEFdys0iQyvCWylfJQALOqMBWLuHHfAlJP2YDD0ZFWvHGyKFFpabjtcKOWRxlRddFVwA@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+68Z/wS2tktjw8sST+G4owOSZ9VzNbWcvVYCpIdsL/bosHgqG
+	WS+fVDh1SN1uDAYC1cxmhwZLcFR7G9RjMYNYvn3eYiqV/bs03OpwMVX8JvGSMBcH/+Wb+ie73GH
+	86SILj0vVaJYJ7OsdPU9PWZepwMO7qog=
+X-Gm-Gg: ATEYQzxUiSplw6tEN3MsjBl9r9i4KzTj0xQQ/iV0qb5YqYR7mQle16hddjyyaqqZS0z
+	MTIGMsPAZ/dvU4j2bocODzPa9ZswnokzWXL8mD4fS2AYHLvz2+xNvg3LK5NSVBbXHRYg/Z/5LiK
+	LzXjeleQn5SQUAU2ZD+bt5YjzeN98jhLf9Ceesmyd7CmYwfb7u3qvrPKnoSLxr8s4wc3M0VTZcZ
+	9QaBSkp5Woobj9lQ2ijiQOvkGEJv61obB6Z3gaSBwbjMglwxLIfBpcTr8vr+Hq0zXzfqO8QeoZg
+	DdWYvud/HSLJjtU2tqa8vnY+dXINMYxkf7xHYjs=
+X-Received: by 2002:a17:906:f185:b0:b97:4e42:23ef with SMTP id
+ a640c23a62f3a-b9c138f8b82mr197503066b.16.1775071506521; Wed, 01 Apr 2026
+ 12:25:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 03/10] mm: fs: remove filemap_nr_thps*() functions and
- their users
-To: Zi Yan <ziy@nvidia.com>
-Cc: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Song Liu <songliubraving@fb.com>, Chris Mason <clm@fb.com>,
- David Sterba <dsterba@suse.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Andrew Morton <akpm@linux-foundation.org>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Shuah Khan <shuah@kernel.org>, linux-btrfs@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-References: <20260327014255.2058916-1-ziy@nvidia.com>
- <20260327014255.2058916-4-ziy@nvidia.com>
- <aaea8ce1-eac6-49d6-8c85-7361977b9a9f@lucifer.local>
- <b098fce7-be16-479e-b9a4-36f0ad71d242@kernel.org>
- <53cf6157-58b1-4539-a276-2486e8796c57@lucifer.local>
- <25899F67-955D-44DC-935E-D7F234BD335A@nvidia.com>
- <cd36fe49-56b6-4ec6-8dc7-9c793f939bb5@kernel.org>
- <EF04F17A-89ED-40EB-BA91-7A82713E28F8@nvidia.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <EF04F17A-89ED-40EB-BA91-7A82713E28F8@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20260401131226.4011156-1-mjguzik@gmail.com> <mxbttfswskgpmgakwz5cja4u3gzroonkqcqf4yggybtfolp5hd@qt7762avy5qf>
+In-Reply-To: <mxbttfswskgpmgakwz5cja4u3gzroonkqcqf4yggybtfolp5hd@qt7762avy5qf>
+From: Mateusz Guzik <mjguzik@gmail.com>
+Date: Wed, 1 Apr 2026 21:24:54 +0200
+X-Gm-Features: AQROBzDmvawUl-FnIaJ5z_jO7D_jhr8iGXhzOvIqVvQPx8Arl9uNEtrOD8qoF80
+Message-ID: <CAGudoHEN+NMizX3yF8bDsm6+y0-jyFb5-fFogHWs3=F4MaHOPA@mail.gmail.com>
+Subject: Re: [PATCH] execve: block Emacs binaries
+To: Pedro Falcato <pfalcato@suse.de>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 4/1/26 17:32, Zi Yan wrote:
-> On 1 Apr 2026, at 10:35, David Hildenbrand (Arm) wrote:
-> 
->> On 3/27/26 16:05, Zi Yan wrote:
->>>
->>>
->>> But I added
->>>
->>> +	if (!is_shmem && inode_is_open_for_write(mapping->host))
->>> +		result = SCAN_FAIL;
->>>
->>> That keeps the original bail out, right?
->>
->> Independent of that, are we sure that the possible race we allow is ok?
-> 
-> Let me think.
-> 
-> do_dentry_open() -> file_get_write_access() -> get_write_access() bumps
-> inode->i_writecount atomically and it turns inode_is_open_for_write()
-> to true. Then, do_dentry_open() also truncates all pages
-> if filemap_nr_thps() is not zero. This pairs with khugepaged’s first
-> filemap_nr_thps_inc() then inode_is_open_for_write() to prevent opening
-> a fd with write when there is a read-only THP.
-> 
-> After removing READ_ONLY_THP_FOR_FS, khugepaged only creates read-only THPs
-> on FSes with large folio support (to be precise THP support). If a fd
-> is opened for write before inode_is_open_for_write() check, khugepaged
-> will stop. It is fine. But if a fd is opened for write after
-> inode_is_open_for_write() check, khugepaged will try to collapse a read-only
-> THP and the fd can be written at the same time.
+On Wed, Apr 1, 2026 at 8:37=E2=80=AFPM Pedro Falcato <pfalcato@suse.de> wro=
+te:
+> Can you block vim too? We only use ed(1) and GNU nano in this house.
+>
 
-Exactly, that's the race I mean.
+I heard nano is a company-issued editor at Suse.
 
-> 
-> I notice that fd write requires locking the to-be-written folio first
-> (I see it from f_ops->write_iter() -> write_begin_get_folio() and assume
-> f_ops->write() has the same locking requirement) and khugepaged has already
-> locked the to-be-collapsed folio before inode_is_open_for_write(). So if the
-> fd is opened for write after inode_is_open_for_write() check, its write
-> will wait for khugepaged collapse and see a new THP. Since the FS
-> supports THP, writing to the new THP should be fine.
-> 
-> Let me know if my analysis above makes sense. If yes, I will add it
-> to the commit message and add a succinct comment about it before
-> inode_is_open_for_write().
-
-khugepaged code is the only code that replaces folios in the pagecache
-by other folios. So my main concern is if that is problematic on
-concurrent write access.
-
-You argue that the folio lock is sufficient. That's certainly true for
-individual folios, but I am more concerned about the replacement part.
-
-I don't have anything concrete, primarily just pointing out that this is
-a change that might unlock some code paths that could not have been
-triggered before.
-
--- 
-Cheers,
-
-David
+If I wanted to mess with Red Hat I would block mcedit.
