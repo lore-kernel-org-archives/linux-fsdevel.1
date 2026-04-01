@@ -1,118 +1,118 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD06335E95C
-	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Apr 2026 20:18:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775074741; cv=pass; b=Y1QlCB9HOqtVbtBFe30sqqN/ty+8khryHq2zlUfgoaGzFSM0RJUE8JHO0qluAJcpeOdGSg7Tm2CNBfIBNwZJjcwfSmODJFoKu0RhDO+ECwmisG/TuIxWvN7fezP2g0xlUK66fQMJeISn0R79PZjmNPCiCeA6hyIBa/9dTneNCvQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775074741; c=relaxed/simple;
-	bh=0RWkmcKGQKzkbQVJKxZLDVKzUq2IyT5qTXvlhkPcTtk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=H/2AfofUV8/j5xfOYeG31UU52Ag5mw1RjIQRZnpTBJcM2Vf/eTA4xxUPxcxbQAWPxPMrsMGfV6NL5fTz2eaK+QY6dPBUFEndv752HRW1Kls0LphysA+B2ak62NZSVAmm1yq3n6Hq16w/jZwcfJG1a33ISqtpok+0zLVh9WL+el8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YQQiYbjG; arc=pass smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 757E34086A;
+	Wed,  1 Apr 2026 20:31:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775075492; cv=none; b=pcFbY/2f4n3gmDEgapRqW+2t3Ec37+Ul5qphh25kravNLAVr3gzLIIW4iB8pZjbgplQOuxaFsb1mL1GcQn4OlHBPb9wWumb/vrb5k5pEf2klFdzsaO41xSDB4dDomCo/Jg5UX2K3S+ihlrqkfX2RDmG5OIhRl9L9x4g9aTFZ8Tk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775075492; c=relaxed/simple;
+	bh=1gyzumXUdHHUSBY2A1GlVnSPNB8k3coGKrGX5+Ep8EY=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=JoS/xKwhgNLeClxnMzyasXOWx1+nL0oLiOMyYE2OWS1UTwuOz4Tl9KkdWyv5tTzmDFunTl6WAuw8sY2Tnz6Vvxp/V0E/AFT+kXKgNcoXUlnb1NQUpqJDTGSXI10DModc2mJsRi8MgHLEBVg720bhyjET2WxBRQW4E84JXNDWMVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JoykezTB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YQQiYbjG"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b9358dd7f79so25468066b.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 01 Apr 2026 13:18:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775074737; cv=none;
-        d=google.com; s=arc-20240605;
-        b=G+DTsJPLnRqb2nukcEfVSccggRHaeh3bkJbcqk/FdnM7WVQ6EKOL2q3ZSmhAE4ouBx
-         R/iITPT01aMQgmzx1aNoJ9fdoCcfmsEHy+gqngX6HgAWHnkOSqccuWpVJxcE/BUxCV9R
-         QR2tkDfrTU9VY3SUBivq9WpWo8UwCzFHzgh02rvdy0gcCda8hDeotMGJym6SSqlH4lfO
-         5HDAUmxDc9A/hp9iNMVvubuiuFbllAiJUrVLqHL/nC2wwQLUXnYfQyKvBEoL8W4Q0lt6
-         Yv6zBWgZDjOQ1rJD7LKBCTbz0xVAGW5/vmf0K1Vw4I72lmovJUfYC0gRyxa9T/8PZ8TI
-         9VZw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=0RWkmcKGQKzkbQVJKxZLDVKzUq2IyT5qTXvlhkPcTtk=;
-        fh=JhIqiyzeJBn+p6tm8R40QF1A8awkaqV73QNkKmO9NL8=;
-        b=JuzjWiTj9SXlCSGeVUw5VoMjQIqdSaY9SyCIBZAvXBdpKSD+9RKc6eab6EHvqDsrXQ
-         /coCEFMqbk3OjT9o+e1nxPOLDhMxtIS5Ugxk7ITi5NeCAt8HWT6jMCo92rYAv51N64Mo
-         83rqgnuZL7qua2ZYcuRfViRmHXvMfp5di5U/liW+Y88HCbXetg8icTnTT+cOiAL2734C
-         80nvIi2ecyFsY8AaPPXdWLCrXEUSExaZf6oZcn/lnKegbQGSxfRqJ9SEH8f+InpeqWVk
-         sCYvsPbdixAWRHHznLpcsyWsRYh/g3WGVh8/ulC+x270tZoGmTpM5OJteiuHtHJfbMIB
-         116g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775074737; x=1775679537; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0RWkmcKGQKzkbQVJKxZLDVKzUq2IyT5qTXvlhkPcTtk=;
-        b=YQQiYbjGgCTJ1tmEgrvY6nWZKkqZ7YPArEY5G9LWBvHz9+N9HNNdfc8IvbkEA0dS8T
-         FmIkh8PW98wm9WBBNlIzV6EHYhOeHWnuBXO915tjdljtj2cHXyPFasr4O9U0/BtW06Gh
-         P1A108GxAYXw0T2ROCroJI1zYuYlMPwZgYxEGyrOZbR0txpwZtCGwSiRmDa+IwcjSEhr
-         M58HMLBshJ2gYO8DD2MaSRrUVtMKL2hFtYtVZ3gWVc5iNCMSQ6Ni6/1xfLkMxwpLga9T
-         bnhVAAxt/R4jPCBUq2IPlFweTZcTOa/hB0cYtkY3uH3Og5Ud10XI4divgeccIfB7xb5R
-         Fxpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775074737; x=1775679537;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=0RWkmcKGQKzkbQVJKxZLDVKzUq2IyT5qTXvlhkPcTtk=;
-        b=WYFZOOX7nk7s1MhuBJZYohu0nt0M1wZkztym3AGFXHyA3DH4R6A+0K4MKX7I9TTMnS
-         UOXjtWPNnKmcr1bPlFXzht8KTzS9lHuepn23LMdjztxIWnnc5gRI0IhlUnjH9bTzUMRz
-         LvcDWIWbcwvQg6M2FEPJf42loy7H0g0KpGAw0GE13hhRt62dab1udyr5uWfF2VphtBXG
-         dNRbgenrY5EgNbE35Y8c/ptCYxknJIP7lJn+ggI3jOM2w494PEm7D1ad2nAcGLGOzCBR
-         1T0puOrYB51PQPb71WoDmpgrMT9RXk+8/BsfVjOgoWokkHOp7AJ9LwmDHMc7m7nd7dZS
-         o6CA==
-X-Forwarded-Encrypted: i=1; AJvYcCURbX3U74i8DDp0z9RmzWAplUpSFkKrmbWDYn2Z1soZ7ZyRlhw13wFXTFvIzkUbxd7Mj5oyS5ZhfNsueQSn@vger.kernel.org
-X-Gm-Message-State: AOJu0YyTdR9aW4yhgazc00ETTKJ48Q2qzsMqiIdGTL5Ko04YGZ6FjMNm
-	ToJTbd8uk4h4YoGwYkxH34WPYW7kds5AuVTv4k1eQQLuPXqYmcRPsr+pvNJNA8tYAcKIaUGMXDR
-	jgOIalmSH+K711co+2mMYmCyRKKxL5Ec=
-X-Gm-Gg: ATEYQzwTNGZghgqTgk2izT2PjGOicJ3Y1MUKzf1QsJA4HwdEKNC0fJHd5/yR5o4Bp2r
-	Af/z7xEgbRMcyAomYcT4wywD+fjsz7WwaN8hjZ0xukQtgljxQod+USb4geXtOfxKVmVPRTX5ayt
-	swVJXjfmFGAGBCUuR1pfJ6e5dMHW7AJhpnFvQVtmnqNicbA/CnxgdWzObB9NurLJMDbOMf1s1l2
-	QW6FlBTS7IZ+ZRqR4eIF1UM47hD71l9Z+An0JpeH95L9qRmg/heUOBj5XiugawhoTV4vzL30R+f
-	YzgNi/zJCcmdZGW9blmPCizeMFg/j2XL1vooHQo=
-X-Received: by 2002:a17:907:a70b:b0:b98:13b6:38a1 with SMTP id
- a640c23a62f3a-b9c13aead54mr277517466b.28.1775074736896; Wed, 01 Apr 2026
- 13:18:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JoykezTB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5C9CC4AF09;
+	Wed,  1 Apr 2026 20:31:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775075492;
+	bh=1gyzumXUdHHUSBY2A1GlVnSPNB8k3coGKrGX5+Ep8EY=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=JoykezTBKx9PxJEaFidQ8xplDJxV8zvbuzpCX3H8wdLpQE16qdv+xvnH4bhusCDGS
+	 s3qdD0zrbxBKCS0iQ24MdXIC24Sv41RldbCubNnhAwoxm6+IqALe34IRPS7tPJzcY4
+	 87FekSNiM7GTYja2nd/6NDB6LES/nGdjrR0LodQ99KxbPUggpjhbTG49qsKcW76HD4
+	 m0W4LeTy8CEp4lSe9418GE6WsQBmvITbcOSRy4xAN+OMpMLdC4GqlPzzIDgT69yfZV
+	 ut3nlpY3Ry2WIpobqLmdpYGa62JVqdfRiIdiuUzz4RhHO9+YURusUwhT8gc+9kOdCC
+	 JEKSTr2+0I5sg==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id A7060F4006E;
+	Wed,  1 Apr 2026 16:31:30 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Wed, 01 Apr 2026 16:31:30 -0400
+X-ME-Sender: <xms:ooDNadKaTbLiW6GvDd5GSD8ia_vcBmEEZs5Ooa__EtMNCdoyPLJayA>
+    <xme:ooDNaT9rSlU0ExFUbTVjea0userordYH5FrqwV1n8U-1oifO8mWzhjnW7Mw9Pua6S
+    bvYsZZqr59ZvW08b7TrQx8D2HPQOOOv41d_qkrOfRswfh1WgsaBW8jk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdegtdelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceurghi
+    lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
+    epofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedfvehhuhgtkhcu
+    nfgvvhgvrhdfuceotggvlheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrhhnpe
+    fhffekffeftdfgheeiveekudeuhfdvjedvfedvueduvdegleekgeetgfduhfefleenucev
+    lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegthhhutghklh
+    gvvhgvrhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudeifeegleelleeh
+    ledqfedvleekgeegvdefqdgtvghlpeepkhgvrhhnvghlrdhorhhgsehfrghsthhmrghilh
+    drtghomhdpnhgspghrtghpthhtohepuddupdhmohguvgepshhmthhpohhuthdprhgtphht
+    thhopehnvghilhessghrohifnhdrnhgrmhgvpdhrtghpthhtoheprghmihhrjeefihhlse
+    hgmhgrihhlrdgtohhmpdhrtghpthhtohepsghrrghunhgvrheskhgvrhhnvghlrdhorhhg
+    pdhrtghpthhtohepjhhlrgihthhonheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohephh
+    gthheslhhsthdruggvpdhrtghpthhtohepuggrihdrnhhgohesohhrrggtlhgvrdgtohhm
+    pdhrtghpthhtoheptghhuhgtkhdrlhgvvhgvrhesohhrrggtlhgvrdgtohhmpdhrtghpth
+    htohepohhkohhrnhhivghvsehrvgguhhgrthdrtghomhdprhgtphhtthhopehtohhmseht
+    rghlphgvhidrtghomh
+X-ME-Proxy: <xmx:ooDNaeuBF7lZetNQArlmeO1sHh-AQidmal5WE9fOncXgbD7rebrwMg>
+    <xmx:ooDNafVFRHNB4TESQsumlHL3edfNwQZpcw-eSCYhXMV3wk3qO4ngKg>
+    <xmx:ooDNaWwCky6tSf92zJPm3TxY1ABM03oNrPtYDfM4JE1-XBZl8N_zyA>
+    <xmx:ooDNaeF6honZlkS8Yqzaft3_6YOUAMmSK829IGBHljX-0quwzNNCzA>
+    <xmx:ooDNaTuxZY6p9zsNonxJ7vSaHgOi4zl_Ll4iNWMOkxvrRGHsMZoIGQw->
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 62FCD780076; Wed,  1 Apr 2026 16:31:30 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260331150701.3844815-1-mjguzik@gmail.com> <4natbslv5enjgukekzr5cewvdzgw2drh3yas64tdcn7wnqjfak@bvmjc7xarrdm>
-In-Reply-To: <4natbslv5enjgukekzr5cewvdzgw2drh3yas64tdcn7wnqjfak@bvmjc7xarrdm>
-From: Mateusz Guzik <mjguzik@gmail.com>
-Date: Wed, 1 Apr 2026 22:18:44 +0200
-X-Gm-Features: AQROBzDAN6uAR8bC62xl2vuMc3rZnB6z582br8vce8VOOrprBU_rhUtcTiDY_7U
-Message-ID: <CAGudoHFeRnN1yc5kBkJVFcLdq1oZ9eJA3rdqciUQm2z+RUJ5VQ@mail.gmail.com>
-Subject: Re: [PATCH] fs: add back TODO concerning printed info to dump_inode()
- and expand it
-To: Jan Kara <jack@suse.cz>
-Cc: brauner@kernel.org, viro@zeniv.linux.org.uk, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-ThreadId: AwBntrSeBB7R
+Date: Wed, 01 Apr 2026 16:31:10 -0400
+From: "Chuck Lever" <cel@kernel.org>
+To: "Christian Brauner" <brauner@kernel.org>
+Cc: NeilBrown <neil@brown.name>, "Olga Kornievskaia" <okorniev@redhat.com>,
+ "Dai Ngo" <Dai.Ngo@oracle.com>, "Tom Talpey" <tom@talpey.com>,
+ linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ "Christoph Hellwig" <hch@lst.de>, "Chuck Lever" <chuck.lever@oracle.com>,
+ "Jeff Layton" <jlayton@kernel.org>, "Amir Goldstein" <amir73il@gmail.com>
+Message-Id: <8bef4d4e-1c0d-451d-8854-ed0cba27ee1f@app.fastmail.com>
+In-Reply-To: <20260401144059.160746-1-hch@lst.de>
+References: <20260401144059.160746-1-hch@lst.de>
+Subject: Re: cleanup block-style layouts exports v2
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Wed, Apr 1, 2026 at 11:27=E2=80=AFAM Jan Kara <jack@suse.cz> wrote:
->
-> On Tue 31-03-26 17:07:01, Mateusz Guzik wrote:
-> > I failed to notice the change which added get_kernel_nofault() usage
-> > removed it. It very much is still applicable.
-> >
-> > Signed-off-by: Mateusz Guzik <mjguzik@gmail.com>
->
-> I'm not strictly opposed but at the same time I'm not sure about the valu=
-e
-> of such TODO comments. Maybe better track it in some kernel-newbies proje=
-ct
-> or something like that? I know there are lists of beginner's kernel tasks
-> out there.
->
 
-This is just few lines towards the end of the file, I don't think it
-should bother anyone.
 
-I can't be bothered to add this elsewhere and I'm not going to argue
-one way or the other. if this patch gets dropped, so be it.
+On Wed, Apr 1, 2026, at 10:40 AM, Christoph Hellwig wrote:
+> Hi all,
+>
+> this series cleanups the exportfs support for block-style layouts that
+> provide direct block device access.  This is preparation for supporting
+> exportfs of more than a single device per file system.
+>
+> Changes since v1:
+>  - consity struct exportfs_block_ops
+>  - fix spelling
+>
+> Changes since the multi-device export series:
+>  - check for NULL bops in nfsd4_setup_layout_type
+>  - clearly document why we are ignoring loca_time_modify
+>
+> Diffstat:
+>  MAINTAINERS                    |    2 
+>  fs/nfsd/blocklayout.c          |   37 +++++++----------
+>  fs/nfsd/export.c               |    3 -
+>  fs/nfsd/nfs4layouts.c          |   29 +++----------
+>  fs/xfs/xfs_export.c            |    4 -
+>  fs/xfs/xfs_pnfs.c              |   44 ++++++++++++++------
+>  fs/xfs/xfs_pnfs.h              |   11 ++---
+>  include/linux/exportfs.h       |   25 +++--------
+>  include/linux/exportfs_block.h |   88 +++++++++++++++++++++++++++++++++++++++++
+>  9 files changed, 162 insertions(+), 81 deletions(-)
+
+Christian, are you OK if I take this series through the NFSD tree?
+
+
+-- 
+Chuck Lever
