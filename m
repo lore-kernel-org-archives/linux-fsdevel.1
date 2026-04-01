@@ -1,163 +1,102 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEE013B9D95
-	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Apr 2026 09:44:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A091438B7B3;
+	Wed,  1 Apr 2026 09:49:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775036683; cv=none; b=Xc6p3HL/pDSyPItsDqESHa93YmtBkUDIod1PS3Gt0YCx9Bmj9xGi4dkm9S9m7/IZULRNLv5rNTMcwnotS/A9St6spyC3HSFfi8vsU69WVBNLGgjN0C8Cg4/VjipQaTdS8GCAIkbq4WSqQg2uDSwgs1Qb/KK6B86/zz5xptN0vrM=
+	t=1775036985; cv=none; b=bfVXoWhnn9HjB8m+oAORR5+grGUB1LXsiUZIzGtHMGx5XxYpVPt6CUq6pqTSOtJlT5k5h0hYqVZ7wSUIz0Z8jfO2vX5+RLKm0RvQBTmDzVaxzdxw7f7Usnm6vcrFIBnPBGywvYJC7XcZxwfIo6F1V4P6+pchr7iNN+Id2Yvk+zw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775036683; c=relaxed/simple;
-	bh=FoWgwIPII31w9IloJ01wrIjQh4siWeW3ph18YCi9JGg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YgW0s+/uMbkUpOfRma4CkpvJM9kE4wBMdC3p29qhmngrpPGA5CWtwEfb245ouFfXJvm7jd0QWrXYDWczUxkP8BKqZQ5NSg5mVRJN79U507rYWTTWuNgF64ohRhiOvv+/sev8jc2wNVcu3K3ZQnfpyO6zJqZtnkfKjFpUiUj/gXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=mzlfg+53; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=pGu61XIF; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Gknx2IGg; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=hVhZh1rP; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1775036985; c=relaxed/simple;
+	bh=aBtywUf+IokxXLs053OA/rCm1d8CyIrZ45lz2vsrSJo=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=hdCU0kGtrCLZ6szIomukufNNPYZcUGM0jXcQZwS3uUtFS0Ad0JazsXka3o+NJK9nAQS26Lj0JITeYHlmhwNxnmabDws6snJICcnCB8aj1eh9s1JP/4p3Pd3K1PpfEpPz7saxGii2kRPir9sG3yayfcp5E+/oN6agfuhIhpr95o0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=lZdbowJd; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="mzlfg+53";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="pGu61XIF";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Gknx2IGg";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="hVhZh1rP"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 0AA054D2CA;
-	Wed,  1 Apr 2026 09:44:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1775036680; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rZvktBZcpJDhL07WKyupr1O/mQs6dyCJ+xGrltnKO60=;
-	b=mzlfg+53zJ+6CU0l+KzBTOFAAIA2n8yVD19k2u+/tlgpfK9/KoEkUQWJHs54Wj+Ge4dtuL
-	oE4ta+cCIpvXlxvtlWzFOjAYC2e6HalHAokVsaQFCSeiwVxmD3/EcsKAxV37t6JozvCZot
-	88yziSiDPlNZMdUdpEmrav1l1iDXtbk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1775036680;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rZvktBZcpJDhL07WKyupr1O/mQs6dyCJ+xGrltnKO60=;
-	b=pGu61XIFhzy7d6C0FtwZCC5T6p8l2SCCNvbLD2OblwCp9nHddY9JWHCXP0OK2vXAWVd5LA
-	R1++6YJi2rXdcuCw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=Gknx2IGg;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=hVhZh1rP
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1775036679; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rZvktBZcpJDhL07WKyupr1O/mQs6dyCJ+xGrltnKO60=;
-	b=Gknx2IGgBCgC9M/i4cykkUhPrlLdIent4K7Gn7h9dhzAZLF2wvYFqOnFAQWSw11qrUaVWz
-	SBzdO9D4zDZ3/cj6BfGNFdluS4vjotCpooKmR9mmLbgluTtpYJygHYfjOnmd1fgZ4yBhER
-	2RG2I8lB7/k1oiutp/Y0zUybvh7pzG0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1775036679;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rZvktBZcpJDhL07WKyupr1O/mQs6dyCJ+xGrltnKO60=;
-	b=hVhZh1rPS6dE2FDgo2OhXFUX7e1eT7yrFlhBFDuzRxVmEM4rnUTad+1Sr43KgSrbQUwxr6
-	TP8YHxzRg3/ML+CA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E8CE54A0B0;
-	Wed,  1 Apr 2026 09:44:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id B1efOAbpzGleVwAAD6G6ig
-	(envelope-from <chrubis@suse.cz>); Wed, 01 Apr 2026 09:44:38 +0000
-Date: Wed, 1 Apr 2026 11:44:42 +0200
-From: Cyril Hrubis <chrubis@suse.cz>
-To: Mateusz Guzik <mjguzik@gmail.com>
-Cc: Jori Koolstra <jkoolstra@xs4all.nl>, Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Chuck Lever <chuck.lever@oracle.com>, Arnd Bergmann <arnd@arndb.de>,
-	Shuah Khan <shuah@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"H. Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>,
-	Alexander Aring <alex.aring@gmail.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Andrey Albershteyn <aalbersh@redhat.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Arnaldo Carvalho de Melo <acme@redhat.com>,
-	Aleksa Sarai <cyphar@cyphar.com>, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	cmirabil@redhat.com,
-	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-Subject: Re: [RFC PATCH 1/2] vfs: syscalls: add mkdirat_fd()
-Message-ID: <aczpCi_6lm7GQCNY@yuki.lan>
-References: <20260331172011.3512876-1-jkoolstra@xs4all.nl>
- <20260331172011.3512876-2-jkoolstra@xs4all.nl>
- <pbobkjhtuli53o3z34ajyxztaosmztwlygxfxhhjq5ajt47inc@ngtoge3ucdm5>
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="lZdbowJd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1775036976;
+	bh=aBtywUf+IokxXLs053OA/rCm1d8CyIrZ45lz2vsrSJo=;
+	h=From:Date:Subject:To:Cc:From;
+	b=lZdbowJdkUTjqWDTz7isDwRtGiYQRIy4DNlOz/rcgK9FqnG3fMHzqnBav9y++Xsty
+	 uPcf9rZonbgN7DcYOncf2L7g3rebCPg6xjDa9GBYq8edCsi4RkNUkfpAXVFpSRXkp7
+	 MTnTaz2SOH0WQnUmgO6a6uMDxEcrn+xBMwRUkXow=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Date: Wed, 01 Apr 2026 11:49:34 +0200
+Subject: [PATCH] fs: uapi: add a public linux/statfs.h header
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <pbobkjhtuli53o3z34ajyxztaosmztwlygxfxhhjq5ajt47inc@ngtoge3ucdm5>
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,xs4all.nl];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_TWELVE(0.00)[34];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_CC(0.00)[xs4all.nl,kernel.org,redhat.com,alien8.de,linux.intel.com,zeniv.linux.org.uk,oracle.com,arndb.de,linuxfoundation.org,zytor.com,suse.cz,gmail.com,infradead.org,efficios.com,linutronix.de,cyphar.com,vger.kernel.org];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	TAGGED_RCPT(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLm9gkzykbo3gasup6o9qgcqqe)];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Queue-Id: 0AA054D2CA
-X-Spam-Flag: NO
-X-Spam-Score: -3.01
-X-Spam-Level: 
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260401-uapi-statfs-v1-1-fcd335bd4285@weissschuh.net>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDEwND3dLEgkzd4pLEkrRiXUsTE0NzUyOTFNMUEyWgjoKi1LTMCrBp0bE
+ QfnFpUlZqcgnICKXaWgC4yYYybwAAAA==
+X-Change-ID: 20260401-uapi-statfs-94417524d5d4
+To: Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>, Arnd Bergmann <arnd@kernel.org>, 
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.15.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1775036975; l=1347;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=aBtywUf+IokxXLs053OA/rCm1d8CyIrZ45lz2vsrSJo=;
+ b=t/ggQ56mFSVG1rh+XQIi8dtjLyGVusrcLcT9N0xaV/C07dV/1BUK9ByUt9/kYSYOUbel3qZWv
+ 63HPYNx/7HLDMOIjBzAh9drdbdPfwMFJM1Az1CMepWYEs3o/W88Z1i9
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-Hi!
-> I tend to agree mkdirat_fd is not a good name for the syscall either,
-> but I don't have a suggestion I'm happy with. I think least bad name
-> would follow the existing stuff and be mkdirat2 or similar.
+Currently the statfs UAPI definitions are only available from the
+asm/ namespace, which is not meant to be used directly by applications.
 
-Why not mkdirat_open() as it does combine these two syscalls into one?
+Add a public UAPI header and adapt the internal linux/statfs.h to it.
 
--- 
-Cyril Hrubis
-chrubis@suse.cz
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+ include/linux/statfs.h      | 3 ++-
+ include/uapi/linux/statfs.h | 7 +++++++
+ 2 files changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/include/linux/statfs.h b/include/linux/statfs.h
+index 02c862686ea3..ee858f85299e 100644
+--- a/include/linux/statfs.h
++++ b/include/linux/statfs.h
+@@ -2,8 +2,9 @@
+ #ifndef _LINUX_STATFS_H
+ #define _LINUX_STATFS_H
+ 
++#include <uapi/linux/statfs.h>
++
+ #include <linux/types.h>
+-#include <asm/statfs.h>
+ #include <asm/byteorder.h>
+ 
+ struct kstatfs {
+diff --git a/include/uapi/linux/statfs.h b/include/uapi/linux/statfs.h
+new file mode 100644
+index 000000000000..7ebf2eae7dab
+--- /dev/null
++++ b/include/uapi/linux/statfs.h
+@@ -0,0 +1,7 @@
++/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
++#ifndef _UAPI_LINUX_STATFS_H
++#define _UAPI_LINUX_STATFS_H
++
++#include <asm/statfs.h>
++
++#endif /* _UAPI_LINUX_STATFS_H */
+
+---
+base-commit: dbf00d8d23b43a7a1d717e704c50651731d01d71
+change-id: 20260401-uapi-statfs-94417524d5d4
+
+Best regards,
+--  
+Thomas Weißschuh <linux@weissschuh.net>
+
