@@ -1,29 +1,29 @@
 Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0E3436897B;
-	Wed,  1 Apr 2026 07:12:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1E803783CA;
+	Wed,  1 Apr 2026 07:12:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775027550; cv=none; b=o1psUD7KN9xDWChVspNzyLJZidE2P1S98pUVqtUSD4o+2kMuRzDvbMhy01PbHHhO+eDACoYzG7UKAivPBOkeNa/6ABjutOgFIOL/LkDK50Xu7enKVz2oWMys90r7uIhgnvkQZxYgDs3uSUUmzHjk17nbtE8UhUTbzYIon19zXD0=
+	t=1775027553; cv=none; b=FpU+NOjFa2EmeaUYogM73teYkKG/iqr/esEZGmpCxKU1eVf4podlJAIBVRMYDTb9gCRsgUO6YLgF4Ik3k0SnA21zuNhKAWgCIXgBpOMNYIORnVX1Mchlc+m2a0n4adFOUmkHIglrlgt2hl6PFhPEIghKFMSBCSwDLWgdOtDPXS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775027550; c=relaxed/simple;
-	bh=6NPbxzP+60lU2cyx5Y9tpVIwa87KJGwCEt9OLXBVYRA=;
+	s=arc-20240116; t=1775027553; c=relaxed/simple;
+	bh=Hzi7QI0MjFR+00hDT1WJfqj2/XOv4/m9Z99ISdI3jp0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DMC+tiJkBavsH0K/V+o8+VUdOaW3V3HyO133CxZ47xOOOvW+/YpnaDKrW/oHLeqbKBydyb9jcUtLU74EA+cjP25yJb/UsU7AhhCetC/U0/2Tww3Xx/l5KRx9HcGhyKtT5MisK49uxSFYb7/2qJZohiiiIwes2FrgaPa1YsR0a48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=CjumoghS; arc=none smtp.client-ip=117.135.210.2
+	 MIME-Version; b=D0TeUaUd+fGND6YJn1lx3Mx0lW7r/SGPRQtDSV9YUvjCVrswXB+7y3SdmVUkS9A4TA6gruoiqJdvp/vmjhBhMaIbVlK6ZjHFJZ2Cx1Wl/pCSuhfffVPH0tXJ19Em9mvFbnh6jvxyiKhYhRHgvP6dSf074F1E5WpD/eAXOBN7vEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=ACv8gSvs; arc=none smtp.client-ip=117.135.210.2
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="CjumoghS"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="ACv8gSvs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=gr
-	hLE04HdrhwK72nGwd5gy4sLrCuu7fBKaFItQ4mwrc=; b=CjumoghSOwz0FVkoZZ
-	rWVzExXkE678IF4hObcGn1RZJFjK5B4ji0aefafPj6j/VETYZ6EUBJBb8HfocMaS
-	n/gF8zCLDayoWzxTLrewNEV/dVWI1o3ZTDNCg271sAOmYvKbVC/OYFJTWlQYOsPx
-	T4KDM6WJ/LQ1/m40OMfnyS/0U=
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=n6
+	bPhhXb8I2/V20ZXRI8m7mImL5UZIwvzwNnhJkmkM8=; b=ACv8gSvsOBot1r+iaE
+	4/sIzoHEfPjvcrsWYffgejYB/s6x2y7cWYIZXY9nTHFiw7RfFjaIQznhJakvo27B
+	mLFNq0RB/f2+AR1dFeOSr+Mqonxzbfh22A4s3gqH654K+avPBJ1vLZzvP3fabs/F
+	y5D746wpHiQS2nYv71lwv+MEE=
 Received: from czl-ubuntu-pc.. (unknown [])
-	by gzga-smtp-mtada-g1-4 (Coremail) with SMTP id _____wD3v9ZFxcxpADvDCg--.24371S5;
+	by gzga-smtp-mtada-g1-4 (Coremail) with SMTP id _____wD3v9ZFxcxpADvDCg--.24371S6;
 	Wed, 01 Apr 2026 15:12:08 +0800 (CST)
 From: Chi Zhiling <chizhiling@163.com>
 To: Namjae Jeon <linkinjeon@kernel.org>,
@@ -32,9 +32,9 @@ To: Namjae Jeon <linkinjeon@kernel.org>,
 Cc: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Chi Zhiling <chizhiling@kylinos.cn>
-Subject: [PATCH v2 3/6] exfat: use exfat_fat_walk helper to simplify fat entry walking
-Date: Wed,  1 Apr 2026 15:11:35 +0800
-Message-ID: <20260401071138.114836-4-chizhiling@163.com>
+Subject: [PATCH v2 4/6] exfat: remove NULL cache pointer case in exfat_ent_get
+Date: Wed,  1 Apr 2026 15:11:36 +0800
+Message-ID: <20260401071138.114836-5-chizhiling@163.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260401071138.114836-1-chizhiling@163.com>
 References: <20260401071138.114836-1-chizhiling@163.com>
@@ -45,110 +45,95 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD3v9ZFxcxpADvDCg--.24371S5
-X-Coremail-Antispam: 1Uf129KBjvJXoWxCr1xKF15JFWDGF4xCF1DGFg_yoW5AFWUpr
-	43Ga93tryrXa1DGF4rta1ku3WS9w4kKFW8GrWxGw18tF90yr10ka4DtryxJ34kG3y09F45
-	tr15Kr1UurnxGFDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jl9a9UUUUU=
-X-CM-SenderInfo: hfkl6xxlol0wi6rwjhhfrp/xtbC+AgRrmnMxUgGIwAA3C
+X-CM-TRANSID:_____wD3v9ZFxcxpADvDCg--.24371S6
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Ww4kCw43tw17trWrKr47twb_yoW8KFWDpr
+	ZIka97tr4Ut3ZF93ZFyrs3Z3WfC397JFykGa1rCF93Ar1UtFn5XFyxtFyFyF48Ca97uFWY
+	vF4UKF15C3srWaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j2ZXOUUUUU=
+X-CM-SenderInfo: hfkl6xxlol0wi6rwjhhfrp/xtbC2wgRrmnMxUg0igAA36
 
 From: Chi Zhiling <chizhiling@kylinos.cn>
 
-Replace the custom exfat_walk_fat_chain() function and open-coded
-FAT chain walking logic with the exfat_fat_walk() helper across
-exfat_find_location, __exfat_get_dentry_set, and exfat_map_cluster.
+Since exfat_get_next_cluster has been updated, no callers pass a NULL
+pointer to exfat_ent_get, so remove the handling logic for this case.
 
 Signed-off-by: Chi Zhiling <chizhiling@kylinos.cn>
 ---
- fs/exfat/dir.c   | 39 +++------------------------------------
- fs/exfat/inode.c | 11 ++---------
- 2 files changed, 5 insertions(+), 45 deletions(-)
+ fs/exfat/fatent.c | 23 +++++++++--------------
+ 1 file changed, 9 insertions(+), 14 deletions(-)
 
-diff --git a/fs/exfat/dir.c b/fs/exfat/dir.c
-index 7619410d668e..cfc6f16a5fb2 100644
---- a/fs/exfat/dir.c
-+++ b/fs/exfat/dir.c
-@@ -562,38 +562,6 @@ int exfat_put_dentry_set(struct exfat_entry_set_cache *es, int sync)
- 	return err;
+diff --git a/fs/exfat/fatent.c b/fs/exfat/fatent.c
+index f2e5d5dde393..dce0955e689a 100644
+--- a/fs/exfat/fatent.c
++++ b/fs/exfat/fatent.c
+@@ -44,11 +44,11 @@ static int exfat_end_bh(struct super_block *sb, struct buffer_head *bh)
  }
  
--static int exfat_walk_fat_chain(struct super_block *sb,
--		struct exfat_chain *p_dir, unsigned int byte_offset,
--		unsigned int *clu)
--{
--	struct exfat_sb_info *sbi = EXFAT_SB(sb);
--	unsigned int clu_offset;
--	unsigned int cur_clu;
--
--	clu_offset = EXFAT_B_TO_CLU(byte_offset, sbi);
--	cur_clu = p_dir->dir;
--
--	if (p_dir->flags == ALLOC_NO_FAT_CHAIN) {
--		cur_clu += clu_offset;
--	} else {
--		while (clu_offset > 0) {
--			if (exfat_get_next_cluster(sb, &cur_clu))
--				return -EIO;
--			if (cur_clu == EXFAT_EOF_CLUSTER) {
--				exfat_fs_error(sb,
--					"invalid dentry access beyond EOF (clu : %u, eidx : %d)",
--					p_dir->dir,
--					EXFAT_B_TO_DEN(byte_offset));
--				return -EIO;
--			}
--			clu_offset--;
--		}
--	}
--
--	*clu = cur_clu;
--	return 0;
--}
--
- static int exfat_find_location(struct super_block *sb, struct exfat_chain *p_dir,
- 			       int entry, sector_t *sector, int *offset)
+ static int __exfat_ent_get(struct super_block *sb, unsigned int loc,
+-		unsigned int *content, struct buffer_head **last)
++		unsigned int *content, struct buffer_head **cache)
  {
-@@ -603,7 +571,8 @@ static int exfat_find_location(struct super_block *sb, struct exfat_chain *p_dir
+ 	unsigned int off;
+ 	sector_t sec;
+-	struct buffer_head *bh = last ? *last : NULL;
++	struct buffer_head *bh = *cache;
  
- 	off = EXFAT_DEN_TO_B(entry);
- 
--	ret = exfat_walk_fat_chain(sb, p_dir, off, &clu);
-+	clu = p_dir->dir;
-+	ret = exfat_fat_walk(sb, &clu, EXFAT_B_TO_CLU(off, sbi), p_dir->flags);
- 	if (ret)
- 		return ret;
- 
-@@ -792,9 +761,7 @@ static int __exfat_get_dentry_set(struct exfat_entry_set_cache *es,
- 		if (exfat_is_last_sector_in_cluster(sbi, sec)) {
- 			unsigned int clu = exfat_sector_to_cluster(sbi, sec);
- 
--			if (p_dir->flags == ALLOC_NO_FAT_CHAIN)
--				clu++;
--			else if (exfat_get_next_cluster(sb, &clu))
-+			if (exfat_fat_walk(sb, &clu, 1, p_dir->flags))
- 				goto put_es;
- 			sec = exfat_cluster_to_sector(sbi, clu);
- 		} else {
-diff --git a/fs/exfat/inode.c b/fs/exfat/inode.c
-index beb9ea7cca9f..817d9a135bb6 100644
---- a/fs/exfat/inode.c
-+++ b/fs/exfat/inode.c
-@@ -225,15 +225,8 @@ static int exfat_map_cluster(struct inode *inode, unsigned int clu_offset,
- 		 * *clu = (the first cluster of the allocated chain) =>
- 		 * (the last cluster of ...)
- 		 */
--		if (ei->flags == ALLOC_NO_FAT_CHAIN) {
--			*clu += num_to_be_allocated - 1;
--		} else {
--			while (num_to_be_allocated > 1) {
--				if (exfat_get_next_cluster(sb, clu))
--					return -EIO;
--				num_to_be_allocated--;
--			}
--		}
-+		if (exfat_fat_walk(sb, clu, num_to_be_allocated - 1, ei->flags))
-+			return -EIO;
- 		*count = 1;
+ 	sec = FAT_ENT_OFFSET_SECTOR(sb, loc);
+ 	off = FAT_ENT_OFFSET_BYTE_IN_SECTOR(sb, loc);
+@@ -56,8 +56,7 @@ static int __exfat_ent_get(struct super_block *sb, unsigned int loc,
+ 	if (!bh || bh->b_blocknr != sec || !buffer_uptodate(bh)) {
+ 		brelse(bh);
+ 		bh = sb_bread(sb, sec);
+-		if (last)
+-			*last = bh;
++		*cache = bh;
+ 		if (unlikely(!bh))
+ 			return -EIO;
  	}
+@@ -68,8 +67,6 @@ static int __exfat_ent_get(struct super_block *sb, unsigned int loc,
+ 	if (*content > EXFAT_BAD_CLUSTER)
+ 		*content = EXFAT_EOF_CLUSTER;
+ 
+-	if (!last)
+-		brelse(bh);
+ 	return 0;
+ }
+ 
+@@ -111,7 +108,7 @@ int exfat_ent_set(struct super_block *sb, unsigned int loc,
+  * Caller must release the buffer_head if no error return.
+  */
+ int exfat_ent_get(struct super_block *sb, unsigned int loc,
+-		unsigned int *content, struct buffer_head **last)
++		unsigned int *content, struct buffer_head **cache)
+ {
+ 	struct exfat_sb_info *sbi = EXFAT_SB(sb);
+ 
+@@ -122,7 +119,7 @@ int exfat_ent_get(struct super_block *sb, unsigned int loc,
+ 		goto err;
+ 	}
+ 
+-	if (unlikely(__exfat_ent_get(sb, loc, content, last))) {
++	if (unlikely(__exfat_ent_get(sb, loc, content, cache))) {
+ 		exfat_fs_error_ratelimit(sb,
+ 			"failed to access to FAT (entry 0x%08x)",
+ 			loc);
+@@ -151,13 +148,11 @@ int exfat_ent_get(struct super_block *sb, unsigned int loc,
+ 	}
+ 
+ 	return 0;
+-err:
+-	if (last) {
+-		brelse(*last);
+ 
+-		/* Avoid double release */
+-		*last = NULL;
+-	}
++err:
++	/* Avoid double release */
++	brelse(*cache);
++	*cache = NULL;
+ 	return -EIO;
+ }
  
 -- 
 2.43.0
