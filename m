@@ -1,97 +1,149 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EF8F3F789D
-	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Apr 2026 12:49:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31B373F789D;
+	Wed,  1 Apr 2026 12:50:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.171.160.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775047754; cv=none; b=IoEOzjOttWlTju6nR32/HDAmABftJaxib1YcZ6PNxSVp3rBcc/elg+jKEXBVBQVFIA/D/RhvURpFrCoNy/V9lZzpW6/cNDVd23idn4/Oqpx0fwSJe9NkNRuAvdoCixkGKN+mPJnulIKuR/tkSOoEwPIvvaWQwB5TaMjidTcRpxs=
+	t=1775047853; cv=none; b=JRyxgez7TNwtXEzDMTsrBlA1qHEMWaidnGEWbM8ak+M62t+6vLn/5xhyzb3uKGthFBv6jGTW7vVs5l6P31sKeC3bbHKLUXaJJxFHLo9fXLLomit9ZcCkqfc3Ue+MLPtOaalM2D4FP3VkbE7traeGlpGGdfjoAhI8pGloot4Xfj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775047754; c=relaxed/simple;
-	bh=g4W1QNR0kByB1wI23Vjqn5zE8qHPaAnykdO8CweSTn4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LZ/WLc+F+qGNIbKePHC4xpzSkQs0mzTddPj3nYvIlT4wjwSEsrXnmrnjMW1IX8MwmRP0bqZOH5VgfcSLi5c0dvlYt7FxS0DuhVrVPxm+bra8lBcn6Oiwme59RmRmpXfon67HQSB7bt7KyrekOjGxCrE7P/5D/4ZPJA0aC/Unokg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=cqOrM/UE; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1775047853; c=relaxed/simple;
+	bh=BsLij+Inir+eVqCujpIoZfmvsH+pSeSH1zmE+upHFa8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=hjOsBQOgfvBrXmNKSyj8XdBJTmVrhbFFlz4kbMKtqi1e/AJWS7eYfBlAdOZHEqio6wFwAzKQXOTYlAD0GEdLe/sD6NMnxul6ZkEaorJGLMbG00eSahl4RO/QF++EPzDh5/Tp5H/i8wRAEnR0kOg0/axbstAKEuUAZDwRDkinXEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp; spf=pass smtp.mailfrom=parknet.co.jp; dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=dqJQ7ruY; dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=KdnBEHm+; arc=none smtp.client-ip=210.171.160.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="cqOrM/UE"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-48557c8ad47so54124715e9.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 01 Apr 2026 05:49:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1775047751; x=1775652551; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=PQeXG5Jf7QCeK4iNRYwUn1f2BbV6yJLctk9rsoco+pY=;
-        b=cqOrM/UES3adJ6lNaCJjOKR2AAWQaKhgZSKuQSZtLT57DRGBiwy7JPK+Ki5d7s0qBK
-         cF1L841hi3W73tHjKXBROOKbAQQB49HbLIqu4AKmr87XHTbWqkBEBM+9UqqbSbnY/ym4
-         Px9FZv8Ax30R+XaWzve09kGiMkE3I8XuKFjatUItLEzCRHSlNGlD1Ip13GbVwawdm5eG
-         k8aQQq3bzAvgGPs9nVug2+XHAjpVPj21GznRGhgZt2PaS5qvaklxSrrIMC6k7Wma9PuV
-         5XoKipBdLsjbK3syCOQIdkjml6UOF9qua5pjkI2xduPW5LV81mPNH6I+HbLkVkTBAk3o
-         35pQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775047751; x=1775652551;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PQeXG5Jf7QCeK4iNRYwUn1f2BbV6yJLctk9rsoco+pY=;
-        b=ruTblM61IWuctmEK6BVz4EmNtJznqUoIz+Y/QFPUD8k56eI3kHDaRFvxrtmQzaulpw
-         t6nKa5oohr7dvS1eS2t5xEgTbBgs8cLEqI6qzMEzrjTF1+8N1FbH9wbDUxwbDd1jchKo
-         J6kfJCVzV5fJ8WZ2TAuRGmM38dj5RZvXT1hfHzjEhSsplmEKOuAT1YCigYY+hWazmWFz
-         b3ONJS1HTIYV7VXrcjw3bNm5JWP+TS4XwBMMgKpH6/2nVt4kNKlJVcwkCxUdWIR1uh1F
-         XVBtpA20usGLqPFV8ai+ZiEEmI8Sfv6LKsf5yB/roTkKkkkYSzXbrclBtVASf7IuhiJ0
-         R7xA==
-X-Forwarded-Encrypted: i=1; AJvYcCVEXeNdX0O94JiXW+lpsKFYlqgMkRPQepANj+FkfoIVzNIz/BJ8E0J/v4O+bc0u/VQL7v1aA6X89oseGcpC@vger.kernel.org
-X-Gm-Message-State: AOJu0YwJV30JLgApGj0R8maKaLxyeSXH5NyT42fMAEW/+6fXJXWC9QEI
-	KYGnHK4bXIN//Wuh3MmlxxiEVXx5OGjrPRcJX2BQHzRXQG/JhnH7/H1HhZRTIZwkjdE=
-X-Gm-Gg: ATEYQzxKTWPDXrg0LwqqBowb+t0uQzZRDHo2arg4JrHBh5FHcYI11MmedN4Trm0Mm0l
-	fU75xnV9e6ZBEI6KFFyOOpWa8T6L6DoanT1egEKJNuaF85XU+OUOfo/gohmMveJNCh5ZplaBWFb
-	52J+B/NohVUTp7pPc5RMBWpx5GeYcHyhDzhpYQKHuusFOwTDojCv5fy4UfRWdQXD0bzWxYt6/cN
-	ozV7l/5DZQiCmTmhwAnqsu8v32j0M1FvlBmDIq04o/ATfSTCjv7pMDWv/yRprOSu07fv505b9YA
-	Smvn+aG69LHtk0eIFltW65cIcT7N4s6qVibxKqtSydtyzlENvaKSo/zqrtDxvfd5R15f1+/L/yv
-	GOqtwuZkO2OJIchlOJ8Zo9+4GJsNsJEv2OHW4O7ZfPyqTtZoOsoOEA2d7gE8IzoSCiIyBPw99TA
-	2e4fYsmF76Rg8rkVbnUf4XGaQhIg==
-X-Received: by 2002:a05:600c:4f12:b0:485:9a50:3369 with SMTP id 5b1f17b1804b1-488835a1820mr56116055e9.29.1775047751545;
-        Wed, 01 Apr 2026 05:49:11 -0700 (PDT)
-Received: from pathway.suse.cz ([176.114.240.130])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4887e72da6csm228378315e9.0.2026.04.01.05.49.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Apr 2026 05:49:11 -0700 (PDT)
-Date: Wed, 1 Apr 2026 14:49:09 +0200
-From: Petr Mladek <pmladek@suse.com>
-To: David Disseldorp <ddiss@suse.de>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH v5 3/6] initramfs: Sort headers alphabetically
-Message-ID: <ac0URUCyOxN61oED@pathway.suse.cz>
-References: <20260331070519.5974-1-ddiss@suse.de>
- <20260331070519.5974-4-ddiss@suse.de>
+	dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="dqJQ7ruY";
+	dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="KdnBEHm+"
+Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
+	by mail.parknet.co.jp (Postfix) with ESMTPSA id 24E7B26F7689;
+	Wed,  1 Apr 2026 21:50:43 +0900 (JST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
+	s=20250114; t=1775047843;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RPBKhpUGjbLqOjWvgyGXvIWOd2G5DG6+OKURw8r5aLw=;
+	b=dqJQ7ruYdeTaqITPpRQwovMgoXJZ//3rBhfHEUSXZntxLfEOaeiYcGiQUlShaVrh+6Y/C1
+	cXCtW+2x8iNBS+HhYDZf5uwKex/VghtmyYQIpNi3pnmPBCS/dHVsShuFLVen+q71uOPSHp
+	BbuzlxZwTnPUo0xyp67UBqN++fojFVt+xCWgW3n4TYAx+ZFpJlmGZKSo4YAaWC5ln8nz/9
+	dqoaw+wJ6rRfwxZbc1XkdN61C8TX5HXOH2vrM2FEutEOJuT9fNG+bM3dw2w8k5N42NXZ6p
+	4dYp6/2f9q7dBNZOuR0Q/14mHKwaQiLCreBNi7hj8e1ukp4S4UU9Tu7tJ77pTA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
+	s=20250114-ed25519; t=1775047843;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RPBKhpUGjbLqOjWvgyGXvIWOd2G5DG6+OKURw8r5aLw=;
+	b=KdnBEHm+ZL35BY6ZddX41t3UtdD8vFGWCtWTzqWFFxQfI/Z1PMRw16SdSTOVgUcbO7Yi/b
+	nuCfjQXN3PMGuiAA==
+Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
+	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id A77B4E004BB;
+	Wed, 01 Apr 2026 21:50:42 +0900 (JST)
+Received: by devron.myhome.or.jp (Postfix, from userid 1000)
+	id 93D6622001D9; Wed, 01 Apr 2026 21:50:42 +0900 (JST)
+From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+To: Jan Kara <jack@suse.cz>
+Cc: linux-fsdevel@vger.kernel.org,  linux-block@vger.kernel.org,  Christian
+ Brauner <brauner@kernel.org>,  Al Viro <viro@zeniv.linux.org.uk>,
+  linux-ext4@vger.kernel.org,  Ted Tso <tytso@mit.edu>,  "Tigran A.
+ Aivazian" <aivazian.tigran@gmail.com>,  David Sterba <dsterba@suse.com>,
+  Muchun Song <muchun.song@linux.dev>,  Oscar Salvador <osalvador@suse.de>,
+  David Hildenbrand <david@kernel.org>,  linux-mm@kvack.org,
+  linux-aio@kvack.org,  Benjamin LaHaise <bcrl@kvack.org>
+Subject: Re: [PATCH 15/42] fat: Sync and invalidate metadata buffers from
+ fat_evict_inode()
+In-Reply-To: <dvo2jvc6upmzrgqxx3n6er3e2gvujheongtzkihzmllwxqiyuq@h3qrrnwxlwo4>
+References: <20260326082428.31660-1-jack@suse.cz>
+	<20260326095354.16340-57-jack@suse.cz>
+	<87ldfazqo2.fsf@mail.parknet.co.jp>
+	<3oh5cbnm6dwz6rikc6laably5nvu4c4wtxjqzuu3wymzhpqrtw@skopu327hd7a>
+	<87jyutwo6o.fsf@mail.parknet.co.jp>
+	<mjraa5thsnzchejoomqgiahwajx4cs5ryqnmn7zsi3fylzhrrr@5ip65jcrlknn>
+	<87wlyss2ny.fsf@mail.parknet.co.jp>
+	<gkwyh4z45xglmq7jmam4yfvkecivipr23trzjkbyfolm6pdzre@d5huocjf55ew>
+	<87tstvc90b.fsf@mail.parknet.co.jp>
+	<dvo2jvc6upmzrgqxx3n6er3e2gvujheongtzkihzmllwxqiyuq@h3qrrnwxlwo4>
+Date: Wed, 01 Apr 2026 21:50:42 +0900
+Message-ID: <87pl4ideu5.fsf@mail.parknet.co.jp>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260331070519.5974-4-ddiss@suse.de>
+Content-Type: text/plain
 
-On Tue 2026-03-31 17:57:33, David Disseldorp wrote:
-> From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> 
-> Sorting headers alphabetically helps locating duplicates, and makes it
-> easier to figure out where to insert new headers.
-> 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Reviewed-by: David Disseldorp <ddiss@suse.de>
+Jan Kara <jack@suse.cz> writes:
 
-Reviewed-by: Petr Mladek <pmladek@suse.com>
+>> Hm, metadata block is shared by several inodes. So earlier flush
+>> makes fewer chance to combining multiple dirties.
+>> 
+>> For example,
+>>   create dir-A
+>>   reclaimed and flushed dir-A
+>>   add new entries to dir-A
+>>   lost chance to combining re-dirty of dir-A
+>
+> Yes, but for this to be possible you would have to:
+> 1) stop using dir-A between dir create & file creates
+> 2) create enough memory pressure to cycle the dentry of dir-A through the
+> LRU and reclaim it
+> 3) continue memory pressure to cycle the inode for dir-A through the LRU
+> and reclaim it
+>
+> So the amount of work that already has to happen to trigger flushing of
+> a single block is so large that IMHO that flush will be lost in the noise.
+>  
+>> >> Anyway, with it, reclaimed
+>> >> inode metadata will be flushed forcibly and frequently (yeah, may not be
+>> >> significant though. but I can't see the benefit for users from this
+>> >> change.), and lost to chance combining multiple time of dirty while copy
+>> >> many files.
+>> >
+>> > The benefit for users is 24 bytes saved for the majority of inodes that are
+>> > there in the system - all the virtual inodes on sysfs / proc filesystem,
+>> > all tmpfs inodes, all XFS inodes, all ext4 inodes when using journal (once I
+>> > optimize ext4 code a bit), etc. So actually quite a bit of kernel memory
+>> > saved in common configurations.
+>> >
+>> > Another win is that with metadata buffer head tracking now separated, I can
+>> > modify that code (which will require growing the tracking structure) to
+>> > properly track buffer head containing the inode and flush it on fsync(2).
+>> > Currently there's a race that if flush worker writes out inode before
+>> > fsync(2), then fsync(2) does not writeout the buffer containing the inode
+>> > at all and thus data is not really persistent. This is actually my initial
+>> > motivation for this refactoring since growing inode for everybody to fix
+>> > data consistency issues of FAT/ext2/udf isn't popular these days...
+>> 
+>> Agree, it is good.  I'm only saying about the flushing earlier. To
+>> implement it, is the flush earlier really necessary?
+>
+> Yes, to separate metadata buffer head tracking into a separate structure we
+> must remove the handling of buffer head list from generic inode reclaim (as
+> the filesystem has no way to provide the separate tracking structure there).
+> Of course we could add a filesystem hook to inode reclaim to allow for
+> handling of metadata bhs but:
+>
+> a) I'd rather do that in a way that is usable also for other issues
+> filesystems have with inode reclaim as I mentioned in this thread before
+>
+> b) I don't think it's warranted for FAT etc. at this point as I don't think
+> the possible overhead of metadata bh flushing on inode reclaim will be a
+> problem in practice.
+>
+> But of course we can reevaluate if my gut feeling is wrong and someone
+> comes with a workload which significantly regresses due to these changes.
 
-Best Regards,
-Petr
+OK.  I'm still thinking we should go the way to reduce the amplification
+for performance and storage lifetime if possible, not increasing.
+
+However discussion looks like enough for us, and looks like we just
+voted to different priority.
+
+Thanks.
+-- 
+OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
