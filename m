@@ -1,62 +1,91 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 197E827442;
-	Wed,  1 Apr 2026 07:36:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E40F386C17
+	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Apr 2026 08:08:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775028975; cv=none; b=tpOZvfEhxmzMol7HXRnp/S5CGXW/8XcHkYnGJh9tTCzttKNZtHCOz2LfX+DzKYGt3Nevi8rw1HkT9E5m4xpj4D2tUYR1fzRsVRbGOGQF0CiV8Ix79YzNes/FWbT1LzzE4aYWMFbmoz4CDu9F2Z0Y/jl77YvQ/fIHhXMTCmexpk0=
+	t=1775030939; cv=none; b=RT1xZUgT2DBCOWCY8582q85xQKJgPlkWSuIgRbdKInR69npYAqqIom1ev4r9hxzdqxjA4jUt1rh/x/4PgNhvxIc5irqMCSMbT1iIZZwUhTywRseJtIPQT6+wa6csLdWc6zJ2ykW/NG8I+wsg2FLTqHF4dLhizPCjLQ6XkiC2nSk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775028975; c=relaxed/simple;
-	bh=5rTB7ibb4EJd260wLqdjnMqvReSP2z55srJA8vs8o5A=;
+	s=arc-20240116; t=1775030939; c=relaxed/simple;
+	bh=jQg/ujmwWL1ROkcFHzJyIMJSjUEShh4HyGUAAz4sDGU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kuEt21VIF7AHnGnmdHhrxlJszG0WmJidT+sAEeGxtg5MCLhcwF5y/u+VFJkKrZyJK7MbL9HyenJssjPk1hmbZXVq0hucGbcIHlNpVK3noZtAy6DM9t181X4L92MDIQlEKig4dL6hyAFZZK9VB9Nr3rgMh0r2bJr23IW/kcxl9t4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k4CtlpsL; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=WurvkPGmUcIevrXhmPUNVDglvv9aaNGXbsP42ixf/QCHXx93gyjamXlBI76LKZ7KxykcBHADAKVYZcg2XfjYBSENC7TefmGExzn/jbrA3L6joCvNi0SzjcSZsPGyqXEnY2bccFRISUnoYzPvKqrCOP31/By67N+6i0/tEgJCgNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=WNnPqN9A; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=sT+QRxRl; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=WNnPqN9A; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=sT+QRxRl; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k4CtlpsL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 380D7C4CEF7;
-	Wed,  1 Apr 2026 07:36:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775028975;
-	bh=5rTB7ibb4EJd260wLqdjnMqvReSP2z55srJA8vs8o5A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=k4CtlpsL26Rsw+EZZiTev651DLF0iUWb89sMoje+UpM9F2+9JyFQZV7uiePHV1H+n
-	 /i2ukQTEDcgSXP4NUwDuAFdXGGwo/Skow9y1ktYu/p7/E3VMhv2M4hEufIewFANfj8
-	 p/BLMWEdSs+wgnXhSzjJHNiUJoU+H+Ex153JmRFl3GB3ug+v36/cIap6jkeDHIb3Q+
-	 JRUnqk4t12bzXNjWSMzpk1U40HVspfd5ZbNgLe5tm1fZfUSyJLrweLyQKM44XGSoKI
-	 DaMJMVfeLeLKAMo2esv8n7fnhIzaVPkwV2qo94yC5nfESljP26VOXlECeRxjDtAXLF
-	 kONBLyKbWn1wA==
-Date: Wed, 1 Apr 2026 10:36:03 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: "Harry Yoo (Oracle)" <harry@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Andrea Arcangeli <aarcange@redhat.com>,
-	Andrei Vagin <avagin@google.com>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	David Hildenbrand <david@kernel.org>,
-	Hugh Dickins <hughd@google.com>,
-	James Houghton <jthoughton@google.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
-	Nikita Kalyazin <kalyazin@amazon.com>,
-	Oscar Salvador <osalvador@suse.de>,
-	Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@suse.cz>, kvm@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v3 02/15] userfaultfd: introduce struct mfill_state
-Message-ID: <aczK4-vrULRiTvyh@kernel.org>
-References: <20260330101116.1117699-1-rppt@kernel.org>
- <20260330101116.1117699-3-rppt@kernel.org>
- <actxscYZGFiyvUcs@hyeyoo>
- <acva_NKf7T5rbIC8@kernel.org>
- <acvnEd3-s6XI26vb@hyeyoo>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="WNnPqN9A";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="sT+QRxRl";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="WNnPqN9A";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="sT+QRxRl"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8FC635BCDD;
+	Wed,  1 Apr 2026 08:08:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1775030936; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YHPxm2V7oayOKi2lF5PKNxwPWXYDw9mRVVi8XJgRkI4=;
+	b=WNnPqN9AWOEuVnI7+EeGNwTz+nIcH5c4zoYU9KAHr2+RwTxwd3txmf4flH50LWIRxkN1ZE
+	R+kZY7oH1mGmeydITbNlgNWcJhlh+zSMdCKHnABtVDaMHP6cOSKbbFA9elwlIKvpQb//42
+	xkYGLb1MUFmI9OkkVCpQ672CLjEEavA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1775030936;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YHPxm2V7oayOKi2lF5PKNxwPWXYDw9mRVVi8XJgRkI4=;
+	b=sT+QRxRlitMND7I0+noBCf1fc5BhEvvu6nphdBwwXelDQT0AW1b6gPogegM/C+/PQ4Ib5q
+	1hbkCa+BYApZfvBQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=WNnPqN9A;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=sT+QRxRl
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1775030936; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YHPxm2V7oayOKi2lF5PKNxwPWXYDw9mRVVi8XJgRkI4=;
+	b=WNnPqN9AWOEuVnI7+EeGNwTz+nIcH5c4zoYU9KAHr2+RwTxwd3txmf4flH50LWIRxkN1ZE
+	R+kZY7oH1mGmeydITbNlgNWcJhlh+zSMdCKHnABtVDaMHP6cOSKbbFA9elwlIKvpQb//42
+	xkYGLb1MUFmI9OkkVCpQ672CLjEEavA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1775030936;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YHPxm2V7oayOKi2lF5PKNxwPWXYDw9mRVVi8XJgRkI4=;
+	b=sT+QRxRlitMND7I0+noBCf1fc5BhEvvu6nphdBwwXelDQT0AW1b6gPogegM/C+/PQ4Ib5q
+	1hbkCa+BYApZfvBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8541A4A0B0;
+	Wed,  1 Apr 2026 08:08:56 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id EsqAIJjSzGlJcQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 01 Apr 2026 08:08:56 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 36769A0AFD; Wed,  1 Apr 2026 10:08:56 +0200 (CEST)
+Date: Wed, 1 Apr 2026 10:08:56 +0200
+From: Jan Kara <jack@suse.cz>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Christoph Hellwig <hch@infradead.org>, 
+	Deepanshu Kartikey <kartikey406@gmail.com>, viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	syzbot+d31a3b77e5cba96b9f69@syzkaller.appspotmail.com
+Subject: Re: [PATCH] splice: prevent deadlock when splicing a file to itself
+Message-ID: <e3gspf7vh2h7r5llbc7qman7tmqiyr3pd4nrzpu3cyuqtlolxy@2kobbzkgjr4d>
+References: <20260320130615.1109449-1-kartikey406@gmail.com>
+ <acvkAuq4_cWmegC7@infradead.org>
+ <fa551c4c-7e9b-47b4-9011-92adc880ed1a@kernel.dk>
+ <acvmXDBm1xOak_Uq@infradead.org>
+ <26d2e8f0-8b82-4192-9edb-e31f3975bb82@kernel.dk>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -65,80 +94,101 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <acvnEd3-s6XI26vb@hyeyoo>
+In-Reply-To: <26d2e8f0-8b82-4192-9edb-e31f3975bb82@kernel.dk>
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-2.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[infradead.org,gmail.com,zeniv.linux.org.uk,kernel.org,suse.cz,vger.kernel.org,syzkaller.appspotmail.com];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[d31a3b77e5cba96b9f69];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Queue-Id: 8FC635BCDD
+X-Spam-Flag: NO
+X-Spam-Score: -2.51
+X-Spam-Level: 
 
-On Wed, Apr 01, 2026 at 12:24:01AM +0900, Harry Yoo (Oracle) wrote:
-> On Tue, Mar 31, 2026 at 05:32:28PM +0300, Mike Rapoport wrote:
-> |         /*
-> |          * Make sure the vma is not shared, that the dst range is
-> |          * both valid and fully within a single existing vma.
-> |          */
-> |         dst_vma = uffd_mfill_lock(dst_mm, dst_start, len);
+On Tue 31-03-26 09:24:29, Jens Axboe wrote:
+> On 3/31/26 9:21 AM, Christoph Hellwig wrote:
+> > On Tue, Mar 31, 2026 at 09:15:07AM -0600, Jens Axboe wrote:
+> >> On 3/31/26 9:10 AM, Christoph Hellwig wrote:
+> >>> On Fri, Mar 20, 2026 at 06:36:15PM +0530, Deepanshu Kartikey wrote:
+> >>>> Fix this by checking if the input and output files share the
+> >>>> same inode before proceeding, returning -EINVAL if they do.
+> >>>> This mirrors the existing check in do_splice() for the
+> >>>> pipe-to-pipe case where ipipe == opipe.
+> >>>
+> >>> While restricting splice to be between difference inodes sounds like a
+> >>> nice simplification, I'm not sure we can add it 20 years after the
+> >>> syscall was added.
+> >>
+> >> Well if we could break splice all over with:
+> >>
+> >> 36e2c7421f02 ("fs: don't allow splice read/write without explicit ops")
+> > 
+> > Well, that had an easy way out by converting instances people actually
+> > used to the iter ops.  Which we ended up doing for a few.
 > 
-> It acquires the vma lock (or mmap_lock) here, but doesn't set state.vma.
+> Sure, and it was the right thing to do, but you still end up with a
+> broken kernel for that user. Until it gets reported, fixed, and bubbles
+> back to a kernel that they can use.
 > 
-> |         if (IS_ERR(dst_vma)) {
-> |                 err = PTR_ERR(dst_vma);
-> |                 goto out;
-> |         }
+> IOW, no different than this one.
+> 
+> >> then surely this one would be OK too?
+> > 
+> > While this has no way out.  Not that I would complain if it worked,
+> > but splicing into the same file doesn't seem like a too outlandish
+> > idea.  OTOH it probably already didn't work for file systems that
+> > take i_rwsem in the read path like XFS or these days the block
+> > device node.
+> 
+> There is a way out, it's reverting it. I'd be surprised if this didn't
+> trigger issues already, like the flagged one.
+> 
+> Thing is, I don't really see an alternative fix to this...
 
-...
+Hum, I'm probably missing something but I just don't see how the proposed
+deadlock is supposed to happen. Block devices use filemap_splice_read() as
+their .splice_read method. That does not acquire inode lock anywhere
+AFAICT. Even if it did, it just reads a chunk of file into the pipe
+(internal in-kernel splice pipe) and then we use .splice_write
+(iter_file_splice_write() in bdev case) to write the content from the pipe
+into the file. So I don't see how the locks between the read and write part
+of the pipe would get intertwined...
 
-> |         if (!vma_is_anonymous(dst_vma) && !vma_is_shmem(dst_vma))
-> |                 goto out_unlock;
-> |         if (!vma_is_shmem(dst_vma) &&
-> |             uffd_flags_mode_is(flags, MFILL_ATOMIC_CONTINUE))
-> |                 goto out_unlock;
-> |
-> |         state.vma = dst_vma;
-> 
-> It is set here. So if anything before this jumps to `out_unlock`
-> label due to a sanity check,
-> 
-> [...]
-> 
-> |         while (state.src_addr < src_start + len) {                              
-> |                 VM_WARN_ON_ONCE(state.dst_addr >= dst_start + len);             
-> |                                                                                 
-> |                 pmd_t dst_pmdval;         
-> | [...]
-> | 
-> | out_unlock:
-> |         up_read(&ctx->map_changing_lock);
-> |         uffd_mfill_unlock(state.vma);
-> 
-> the `vma` parameter will be NULL?
-> 
-> If I'm not missing something this is introduced in patch 2 and
-> fixed in patch 4.
+Also if I check the console log from the syzbot reproducer (and hung task
+dump) there's no sign we'd be already holding inode lock - and it would be
+lockdep loudly complaining that we're trying to reacquire the same lock,
+not hung task detector, if we really did acquire that lock twice. So I just
+don't think the patch or the changelog makes sense.
 
-You are right.
-Here's a fixup (it causes a conflict in patch 4 though).
-Andrew, I can send v4 if you prefer.
-
-diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
-index fa9622ec7279..c4074b6f4aca 100644
---- a/mm/userfaultfd.c
-+++ b/mm/userfaultfd.c
-@@ -764,6 +764,7 @@ static __always_inline ssize_t mfill_atomic(struct userfaultfd_ctx *ctx,
- 		err = PTR_ERR(dst_vma);
- 		goto out;
- 	}
-+	state.vma = dst_vma;
- 
- 	/*
- 	 * If memory mappings are changing because of non-cooperative
-@@ -804,8 +805,6 @@ static __always_inline ssize_t mfill_atomic(struct userfaultfd_ctx *ctx,
- 	    uffd_flags_mode_is(flags, MFILL_ATOMIC_CONTINUE))
- 		goto out_unlock;
- 
--	state.vma = dst_vma;
--
- 	while (state.src_addr < src_start + len) {
- 		VM_WARN_ON_ONCE(state.dst_addr >= dst_start + len);
- 
- 
-
+								Honza
 -- 
-Sincerely yours,
-Mike.
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
