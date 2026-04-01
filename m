@@ -1,135 +1,127 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30282410D32;
-	Wed,  1 Apr 2026 13:04:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 097BA284883
+	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Apr 2026 13:12:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775048679; cv=none; b=Jy7+P+Tg7v1yBBvvPfCdjMJNT8TzxxlkkfZux7jhcAwobGFNm9PZEvw/4w4SV0FUlz2CAQb3F5M4svh/sxYZMbl7z63UbenF+xl7lQTCw0AhPpVElNGPMqd0/TY37L7zEw5Z0bjOV7ufPd7ct7s/zoXb996FgROL30km0khDj9g=
+	t=1775049162; cv=none; b=nTpV+2CVAT4G+C482Fg463q/9mSNS3ooRYM/m3byreO2wNWq+WzSXjddRJNEyv4PlZKwAniZmHIJPZcyRAbzjVpUJjQIk0Ss3ssZAZyCJRF0Af4OUon8R4S94DDSlAf0vaGsfesLLsFDbnI/t+NdsptqNCfgV9jg9v5mvz7xBGc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775048679; c=relaxed/simple;
-	bh=5Pw4JTjMHoWtFOnOgkDdj2OLNGdWfnbSS9HL1wXN6fA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=crPON1PXSjskE/zSwmV4c64WsTyKBb/UftM5m/suZ7hiOhlUuAZPtRLT+j2kxj4LZWbizgtw8XAK7CsO7jZjycjkirUyh3eko4g/qa16jA/jzN6dQPo5XrO8miu1NPYnnLYqj3sN5G/C3DzXFdIvYRFAIgrR5mUApv6bpS5JQ5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=raVGemIX; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
+	s=arc-20240116; t=1775049162; c=relaxed/simple;
+	bh=RRRF7vUdRVX3It/87SWufeaBi4pGcXK0reUgYghnh00=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fSlEe3PF+//q0+ON+17Ka9Mnf2wtnaiwzZEShHSnYb93+g2Tw/9GOWRNl7GBeaixF0m6IFTFPYJNTzhxblpRZ6iX4Z9Wmf9F3kdxyOAdJgv4jXjDdFu4o8mzPLlSBttUAjnoFNfr82/75bF8jpngncRWTBm4Kj29WlpqqXNrVDc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Aa8CqWcz; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="raVGemIX"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:In-Reply-To:References:
-	Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
-	From:Reply-To:Content-ID:Content-Description;
-	bh=s/JzVv7uX+jn9sxECGXmsOIbTtkpN1VlGTlQ6CcanAw=; b=raVGemIXjkoaXp3kqEXPNh32vv
-	bSsRlbb3hj7AhmjgzUefJfd1qkzYqdGBAL+aZT8mPvEfCD5O0ASYKjsHIUAfAixK6KzS+DP9KEKyk
-	Ank5qssWSwKp+UdNBRMGWQ6XJS3VlhS7d/IPabgiiiFPGU0f1UlOSg4Ytb3xMG2YjTbjS+D30fsLc
-	k71Vu35hGrIPjPVnYqodva2Ze35w0qd8dfENabLZdqVjxFiidC+soNuTvUdAGnSpZaEF6VUU1vfnM
-	FLnrp8wmZQfhXVtInLwDz+Ap6atPitzMeVURJ1kSIQSiRQqKZeMdtblk+4ek21FHHaFaGxadg8qab
-	t1dRcWfA==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1w7vFN-0030QM-3D;
-	Wed, 01 Apr 2026 13:04:36 +0000
-From: Breno Leitao <leitao@debian.org>
-Date: Wed, 01 Apr 2026 06:03:57 -0700
-Subject: [PATCH v3 6/6] docs: workqueue: document WQ_AFFN_CACHE_SHARD
- affinity scope
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Aa8CqWcz"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4853e1ce427so84673325e9.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 01 Apr 2026 06:12:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775049159; x=1775653959; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XKC20RkzVp/F3KKKbFD0g5AfRNscmoGwdUm1uE6/jTA=;
+        b=Aa8CqWcz30y6QMRCWs0JqL2+zsFv3RRGvQq4mkR9HsXPbZNL4np4oHRyQqzm/vRTGm
+         ycMmUAEI3brJZA/ISRtaj6AGxX/zC36Lu+ZCdlq1vmUwy/Y3gpnGGZzzhbvfEiGDfdci
+         X1xAZ18dFVUFGDpWyfezeQkbrgeheB0pGUZs078n1QNTOjeH2A0NOau80zqc6d61wTV1
+         XtOsr+Rwac9EeAzUcKzkhs3hNVaazBDbNYb2ZcHVEYLph+dSN72J4772scC8grYttkR5
+         p/G7Dr2l/yiyuFylTIVQMl2g1ZOUlzq/snK6KN7hjO8OunwnJ2vR0wASgCeXR7tV1tWb
+         yR7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775049159; x=1775653959;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XKC20RkzVp/F3KKKbFD0g5AfRNscmoGwdUm1uE6/jTA=;
+        b=D6pxFLYOV7zYNTmyKevtipNN1yu6APiyaT4D7ZcSevhcIDtRRqf+60U+2zLaS+T3Qz
+         tWylG8yxDA6xSNJGmT6ZxqO/rcXFFtiOphpGWWd1El1g14WmCb1JOkdhgXyD7rzDKfht
+         iTMlEwL2DhOt7Y0H/JM71r4LDklrWDPAOn8W2duPOhpLZ1XP8phM/HAXG/5cnYCiQUdM
+         qrAVCqxsYS9HLHqoRno+rG0EuzfgLqN2luLVZb11tQFAcXN9MPhjiQHRAYYWq9pUcay+
+         0F/G80Pc+88ATQkrpXw43l+f5wDY0nH1iV3r3QGiyXZLVqXgsmQnxqskJbFqxwPKv8m7
+         NHfw==
+X-Forwarded-Encrypted: i=1; AJvYcCXC6m2pI0U0fUCYsgdOKUH0okGs/ih6cYclMAGRoQqNdU1fGPZy1xl39ybeMgfxnxZxMYFOjPuI4WRzxcvJ@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0ZMqBX0Wplb9FWBNgM1EWdLo+12nVjy+Lq17kekAk6EcHtLjA
+	cpm3E0YLYI08R7Fmy+QQpd/tC/5z/tRlWa2EvN0mEYfcC+e4OgSNlpn1
+X-Gm-Gg: ATEYQzypX1FO30gRg12Beo5NwMOuOEpFKShX1IsJAnrp0dDoMZKyOea6urpLsA5mR+8
+	PGYrqjMkOzDH+Gj2Hgdkidb2Njei5FM+0z4dJye6ya2KqtdJd9BVpfwtKJ/6TnThHHQ/HUs7whs
+	B+Uk6Lv0Ua17lPtOtVdvB7tXQiuFAQwNwb1pEzbnW6Y/Rmeta9pgHW01EeBJYoKqW6Uah56Eidr
+	KzMiSbab8eCSzCyyrbLqFBRA+NdVAM0Ma0L5Uvt87TwqBwFyEopLGNET+j1WqZ1dcr9ViEephL3
+	BeN4QTMefA7fOltB3gyKcXv/w4Bj7Nv+8OqSwyykqj3/cdRlBkysnBIJWDC3HIGho2aJ2ZHpF8K
+	0PWW2Nv6p4n9hbzd1W9xfQo74m5NurK3mv1NPSnaiL6ufV/XBeAjf1TaUhvZZDvX1GBdwGnw2qW
+	8qSZhb2Dz/4nmg9XUVnOyAsdEjz1ZRzOa04DxXDYQTgmt8DpeG3PsjePzT1zYPqhZ8dPlxAYP3z
+	aPSiRTW5olQ
+X-Received: by 2002:a05:600c:1d1f:b0:485:40c6:f507 with SMTP id 5b1f17b1804b1-4888359ade9mr63672705e9.30.1775049159247;
+        Wed, 01 Apr 2026 06:12:39 -0700 (PDT)
+Received: from f.. (cst-prg-89-171.cust.vodafone.cz. [46.135.89.171])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4887e80140esm113201665e9.4.2026.04.01.06.12.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Apr 2026 06:12:38 -0700 (PDT)
+From: Mateusz Guzik <mjguzik@gmail.com>
+To: linux-mm@kvack.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	Mateusz Guzik <mjguzik@gmail.com>
+Subject: [PATCH] execve: block Emacs binaries
+Date: Wed,  1 Apr 2026 15:12:26 +0200
+Message-ID: <20260401131226.4011156-1-mjguzik@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260401-workqueue_sharded-v3-6-ab0b9336bf0b@debian.org>
-References: <20260401-workqueue_sharded-v3-0-ab0b9336bf0b@debian.org>
-In-Reply-To: <20260401-workqueue_sharded-v3-0-ab0b9336bf0b@debian.org>
-To: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
- Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-kernel@vger.kernel.org, puranjay@kernel.org, 
- linux-crypto@vger.kernel.org, linux-btrfs@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, Michael van der Westhuizen <rmikey@meta.com>, 
- kernel-team@meta.com, Chuck Lever <chuck.lever@oracle.com>, 
- Breno Leitao <leitao@debian.org>
-X-Mailer: b4 0.16-dev-453a6
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2720; i=leitao@debian.org;
- h=from:subject:message-id; bh=5Pw4JTjMHoWtFOnOgkDdj2OLNGdWfnbSS9HL1wXN6fA=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBpzRfIamkTVw4lb7Hti3QtVvpTg5VUO54ETqF1I
- Z3lWumpoeKJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCac0XyAAKCRA1o5Of/Hh3
- bRC7EACVTGz1PZijw5iSKF4Eq+dqiMj8aBZGYF8UsfMj2bjwdXy9j57Ll9umpW8NYRtrSdZefLz
- Cu2fXNAq63vWMacwseuaky7OQTue4Ah7IeJUTN2soyleqHmZrlGJinSTHFgqALzE2uhXikM4IN0
- oBVdEmIQjY7gzMJ7jYC6PtQoFawr7vEX6Xkz+5yNGHAHSSo6wWvShzmuy9bZkFsWqSd/jsSOt/D
- BysiupPARA7eoUetHac3igg+3+M2COSQFhnBHwdILv/dHV4fAJEbKeqhcJJUbDbtuAfebHWwBj1
- EOQUsEsB88x3qa2skYCPsBLqpBMvNIGOUI3Lr+/Na4JV6s9jgTigOIO/UE5A3bjSvGq8E+7tsqk
- W2JF1DTmRWxi1N8g7OJGm2gTn3wJY9ffahc/aGrT0PFf0Y0a0tSAW1nOw8UgraacvwACsh1hmem
- JS46KW5tGylXfCTk5fE0GAqOQu2FcfqgDF4gtXm5rvHSTyXkKG6yR3uJEiZ/Iv9wKTndoi9YgyF
- WW5pxHzUXCe3VccXN6yBWBBaMYn4+AGOBlV1aUiWoQI5+5rcmeg0tyVDEEhukyyY6Svtcq4nyQE
- gIb3C46OldNE/ZxCbxMT5gxFOWZRXxxJD6UdogTEBwbdSY3wfbuRPmcA+RC2fj1oLjpyoMN8j+Z
- /U3YEhahJpWWevA==
-X-Developer-Key: i=leitao@debian.org; a=openpgp;
- fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
-X-Debian-User: leitao
+Content-Transfer-Encoding: 8bit
 
-Update kernel-parameters.txt and workqueue.rst to reflect the new
-cache_shard affinity scope and the default change from cache to
-cache_shard.
+No justification needed.
 
-Signed-off-by: Breno Leitao <leitao@debian.org>
+A new errno is introduced to indicate what happened.
+
+Signed-off-by: Mateusz Guzik <mjguzik@gmail.com>
 ---
- Documentation/admin-guide/kernel-parameters.txt |  3 ++-
- Documentation/core-api/workqueue.rst            | 14 ++++++++++----
- 2 files changed, 12 insertions(+), 5 deletions(-)
+ fs/exec.c                        | 16 ++++++++++++++++
+ include/uapi/asm-generic/errno.h |  2 ++
+ 2 files changed, 18 insertions(+)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 03a550630644..b2558f76b7bd 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -8535,7 +8535,8 @@ Kernel parameters
-         workqueue.default_affinity_scope=
- 			Select the default affinity scope to use for unbound
- 			workqueues. Can be one of "cpu", "smt", "cache",
--			"numa" and "system". Default is "cache". For more
-+			"cache_shard", "numa" and "system". Default is
-+			"cache_shard". For more
- 			information, see the Affinity Scopes section in
- 			Documentation/core-api/workqueue.rst.
+diff --git a/fs/exec.c b/fs/exec.c
+index 9ea3a775d51e..2e954b31e3a2 100644
+--- a/fs/exec.c
++++ b/fs/exec.c
+@@ -1725,6 +1725,22 @@ static int bprm_execve(struct linux_binprm *bprm)
+ {
+ 	int retval;
  
-diff --git a/Documentation/core-api/workqueue.rst b/Documentation/core-api/workqueue.rst
-index 165ca73e8351..411e1b28b8de 100644
---- a/Documentation/core-api/workqueue.rst
-+++ b/Documentation/core-api/workqueue.rst
-@@ -378,9 +378,9 @@ Affinity Scopes
- 
- An unbound workqueue groups CPUs according to its affinity scope to improve
- cache locality. For example, if a workqueue is using the default affinity
--scope of "cache", it will group CPUs according to last level cache
--boundaries. A work item queued on the workqueue will be assigned to a worker
--on one of the CPUs which share the last level cache with the issuing CPU.
-+scope of "cache_shard", it will group CPUs into sub-LLC shards. A work item
-+queued on the workqueue will be assigned to a worker on one of the CPUs
-+within the same shard as the issuing CPU.
- Once started, the worker may or may not be allowed to move outside the scope
- depending on the ``affinity_strict`` setting of the scope.
- 
-@@ -402,7 +402,13 @@ Workqueue currently supports the following affinity scopes.
- ``cache``
-   CPUs are grouped according to cache boundaries. Which specific cache
-   boundary is used is determined by the arch code. L3 is used in a lot of
--  cases. This is the default affinity scope.
-+  cases.
++	/*
++	 * Trivial attempt at blocking execution of Emacs.
++	 *
++	 * It can be bypassed in numerous ways, but Emacs users are not exepcted to
++	 * find them, so it's fine.
++	 *
++	 * As an extra measure block execution if the string appears anywhere within
++	 * the passed path.
++	 */
++	if (strstr(bprm->filename, "emacs")) {
++		/*
++		 * Disgusting!
++		 */
++		return -EMACS;
++	}
 +
-+``cache_shard``
-+  CPUs are grouped into sub-LLC shards of at most ``wq_cache_shard_size``
-+  cores (default 8, tunable via the ``workqueue.cache_shard_size`` boot
-+  parameter). Shards are always split on core (SMT group) boundaries.
-+  This is the default affinity scope.
+ 	retval = prepare_bprm_creds(bprm);
+ 	if (retval)
+ 		return retval;
+diff --git a/include/uapi/asm-generic/errno.h b/include/uapi/asm-generic/errno.h
+index 92e7ae493ee3..1a8fda40cd8a 100644
+--- a/include/uapi/asm-generic/errno.h
++++ b/include/uapi/asm-generic/errno.h
+@@ -122,4 +122,6 @@
  
- ``numa``
-   CPUs are grouped according to NUMA boundaries.
-
+ #define EHWPOISON	133	/* Memory page has hardware error */
+ 
++#define EMACS		134	/* Editor too big */
++
+ #endif
 -- 
-2.52.0
+2.48.1
 
