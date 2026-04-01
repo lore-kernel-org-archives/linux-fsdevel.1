@@ -1,127 +1,97 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com [209.85.161.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 097BA284883
-	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Apr 2026 13:12:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF7AE199FAB
+	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Apr 2026 13:15:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775049162; cv=none; b=nTpV+2CVAT4G+C482Fg463q/9mSNS3ooRYM/m3byreO2wNWq+WzSXjddRJNEyv4PlZKwAniZmHIJPZcyRAbzjVpUJjQIk0Ss3ssZAZyCJRF0Af4OUon8R4S94DDSlAf0vaGsfesLLsFDbnI/t+NdsptqNCfgV9jg9v5mvz7xBGc=
+	t=1775049326; cv=none; b=kzPB7nWYdutaI1oCrpyPfbRhveq+cFUEteQlm24jOmTcCknFRBEM8hVPthv1/Zb/07DPUmnMbOvk25y5yvg0P4/Zl1XAawQr2THsANLWXrr66Wf0e6x0NiThnDTZNvdUvNUwt6w/T9Gmh/7PZKExeO6Dk+DW7xRsN3QfL93D/J0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775049162; c=relaxed/simple;
-	bh=RRRF7vUdRVX3It/87SWufeaBi4pGcXK0reUgYghnh00=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fSlEe3PF+//q0+ON+17Ka9Mnf2wtnaiwzZEShHSnYb93+g2Tw/9GOWRNl7GBeaixF0m6IFTFPYJNTzhxblpRZ6iX4Z9Wmf9F3kdxyOAdJgv4jXjDdFu4o8mzPLlSBttUAjnoFNfr82/75bF8jpngncRWTBm4Kj29WlpqqXNrVDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Aa8CqWcz; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Aa8CqWcz"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4853e1ce427so84673325e9.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 01 Apr 2026 06:12:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775049159; x=1775653959; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XKC20RkzVp/F3KKKbFD0g5AfRNscmoGwdUm1uE6/jTA=;
-        b=Aa8CqWcz30y6QMRCWs0JqL2+zsFv3RRGvQq4mkR9HsXPbZNL4np4oHRyQqzm/vRTGm
-         ycMmUAEI3brJZA/ISRtaj6AGxX/zC36Lu+ZCdlq1vmUwy/Y3gpnGGZzzhbvfEiGDfdci
-         X1xAZ18dFVUFGDpWyfezeQkbrgeheB0pGUZs078n1QNTOjeH2A0NOau80zqc6d61wTV1
-         XtOsr+Rwac9EeAzUcKzkhs3hNVaazBDbNYb2ZcHVEYLph+dSN72J4772scC8grYttkR5
-         p/G7Dr2l/yiyuFylTIVQMl2g1ZOUlzq/snK6KN7hjO8OunwnJ2vR0wASgCeXR7tV1tWb
-         yR7g==
+	s=arc-20240116; t=1775049326; c=relaxed/simple;
+	bh=MtQvWYwYn9sm6PZqBtA8i1LaZIAtf/qj44QaxNvvX1A=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=Hypq7H+DOescm2t27qvMgqXkEjiPUH/X3Nz9IZEnTtJQiWP+R3baTQ+i0z0BkFuMff/FpV+e+bDpsSWqwjEYqi1oD5NDzApCimLzXdqPw8iSLKqkZrOXbTfGuX4Xl4HywpTp07criNR5jcaQq9EZ/UEmAd6Fx9GCiJ8WIDeFUaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f69.google.com with SMTP id 006d021491bc7-66308f16ea1so20769559eaf.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 01 Apr 2026 06:15:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775049159; x=1775653959;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XKC20RkzVp/F3KKKbFD0g5AfRNscmoGwdUm1uE6/jTA=;
-        b=D6pxFLYOV7zYNTmyKevtipNN1yu6APiyaT4D7ZcSevhcIDtRRqf+60U+2zLaS+T3Qz
-         tWylG8yxDA6xSNJGmT6ZxqO/rcXFFtiOphpGWWd1El1g14WmCb1JOkdhgXyD7rzDKfht
-         iTMlEwL2DhOt7Y0H/JM71r4LDklrWDPAOn8W2duPOhpLZ1XP8phM/HAXG/5cnYCiQUdM
-         qrAVCqxsYS9HLHqoRno+rG0EuzfgLqN2luLVZb11tQFAcXN9MPhjiQHRAYYWq9pUcay+
-         0F/G80Pc+88ATQkrpXw43l+f5wDY0nH1iV3r3QGiyXZLVqXgsmQnxqskJbFqxwPKv8m7
-         NHfw==
-X-Forwarded-Encrypted: i=1; AJvYcCXC6m2pI0U0fUCYsgdOKUH0okGs/ih6cYclMAGRoQqNdU1fGPZy1xl39ybeMgfxnxZxMYFOjPuI4WRzxcvJ@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx0ZMqBX0Wplb9FWBNgM1EWdLo+12nVjy+Lq17kekAk6EcHtLjA
-	cpm3E0YLYI08R7Fmy+QQpd/tC/5z/tRlWa2EvN0mEYfcC+e4OgSNlpn1
-X-Gm-Gg: ATEYQzypX1FO30gRg12Beo5NwMOuOEpFKShX1IsJAnrp0dDoMZKyOea6urpLsA5mR+8
-	PGYrqjMkOzDH+Gj2Hgdkidb2Njei5FM+0z4dJye6ya2KqtdJd9BVpfwtKJ/6TnThHHQ/HUs7whs
-	B+Uk6Lv0Ua17lPtOtVdvB7tXQiuFAQwNwb1pEzbnW6Y/Rmeta9pgHW01EeBJYoKqW6Uah56Eidr
-	KzMiSbab8eCSzCyyrbLqFBRA+NdVAM0Ma0L5Uvt87TwqBwFyEopLGNET+j1WqZ1dcr9ViEephL3
-	BeN4QTMefA7fOltB3gyKcXv/w4Bj7Nv+8OqSwyykqj3/cdRlBkysnBIJWDC3HIGho2aJ2ZHpF8K
-	0PWW2Nv6p4n9hbzd1W9xfQo74m5NurK3mv1NPSnaiL6ufV/XBeAjf1TaUhvZZDvX1GBdwGnw2qW
-	8qSZhb2Dz/4nmg9XUVnOyAsdEjz1ZRzOa04DxXDYQTgmt8DpeG3PsjePzT1zYPqhZ8dPlxAYP3z
-	aPSiRTW5olQ
-X-Received: by 2002:a05:600c:1d1f:b0:485:40c6:f507 with SMTP id 5b1f17b1804b1-4888359ade9mr63672705e9.30.1775049159247;
-        Wed, 01 Apr 2026 06:12:39 -0700 (PDT)
-Received: from f.. (cst-prg-89-171.cust.vodafone.cz. [46.135.89.171])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4887e80140esm113201665e9.4.2026.04.01.06.12.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Apr 2026 06:12:38 -0700 (PDT)
-From: Mateusz Guzik <mjguzik@gmail.com>
-To: linux-mm@kvack.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	Mateusz Guzik <mjguzik@gmail.com>
-Subject: [PATCH] execve: block Emacs binaries
-Date: Wed,  1 Apr 2026 15:12:26 +0200
-Message-ID: <20260401131226.4011156-1-mjguzik@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20251104; t=1775049324; x=1775654124;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZkrVCw3CPcQgQfNfYpa4bOcFVFSNfNyoqju1LGa33vI=;
+        b=WliKK1vcYvsYWNxbhwrk9sr0wxmH488MBll6jJDavy9E8JJxWcBcch60tQ2k/AiO0t
+         lOmWlRYgZ0A9FDHJIhTRmwkRe/S/6UlHta5T4AogS8G/XghpIk9547EyURmLA+I0uwr2
+         9i5u8ZMBp+lwn+DSMjZXCTVD67cIew4AWcWTzsJdvA45rzAZAsBrVcHgpQS7eEQK5Tzs
+         0pNdeQBPiWEIJIBhS5HNycokFdPPSfcXEXzmZeCFLTSAZQdD0Je8DEpkALRawjf0hcWI
+         YR2qo83mCs9P5hdNNRCmaAyq2x5fmhmRweLv6EOfYBndn7AuLUvJJ5pRzNsD9UoM2soo
+         0+dw==
+X-Forwarded-Encrypted: i=1; AJvYcCUg5o/JCkMi1XdICYfujNvI2tlOBaav+QsUqBtqpqMRctluXj91yuvfs42BgcEHIYQyoigQNYcu+fNEDBEP@vger.kernel.org
+X-Gm-Message-State: AOJu0YwB2rXHx2g9DKcXCLAk3c+dR6GbdKA2MpZF3khYHB7PJUFU5xTQ
+	RpJAoPyzkzAb7V1527AlKVC1Nuu61CR63e7mcziWUYanWFKKuMsV6aCKdwTe6UMIvSyiU9ZEOEa
+	8pcmJEggvCroyXI1mB3afl/xBziP1OsFIhznjZuvY8XZlaJMKXkZ+iuWoDq0=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6820:781a:b0:680:57b4:9056 with SMTP id
+ 006d021491bc7-68057b4aa04mr199841eaf.68.1775049323989; Wed, 01 Apr 2026
+ 06:15:23 -0700 (PDT)
+Date: Wed, 01 Apr 2026 06:15:23 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <69cd1a6b.050a0220.70c3a.0000.GAE@google.com>
+Subject: [syzbot] Monthly hfs report (Apr 2026)
+From: syzbot <syzbot+list1f6337b608152165f54d@syzkaller.appspotmail.com>
+To: frank.li@vivo.com, glaubitz@physik.fu-berlin.de, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	slava@dubeyko.com, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-No justification needed.
+Hello hfs maintainers/developers,
 
-A new errno is introduced to indicate what happened.
+This is a 31-day syzbot report for the hfs subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/hfs
 
-Signed-off-by: Mateusz Guzik <mjguzik@gmail.com>
+During the period, 0 new issues were detected and 0 were fixed.
+In total, 22 issues are still open and 35 have already been fixed.
+
+Some of the still happening issues:
+
+Ref  Crashes Repro Title
+<1>  15471   Yes   possible deadlock in hfsplus_get_block
+                   https://syzkaller.appspot.com/bug?extid=b7ef7c0c8d8098686ae2
+<2>  9391    Yes   WARNING in hfs_bnode_create
+                   https://syzkaller.appspot.com/bug?extid=a19ca73b21fe8bc69101
+<3>  7349    Yes   possible deadlock in hfs_find_init (2)
+                   https://syzkaller.appspot.com/bug?extid=e390d66dda462b51fde1
+<4>  4856    Yes   possible deadlock in hfs_extend_file (3)
+                   https://syzkaller.appspot.com/bug?extid=2a62f58f1a4951a549bb
+<5>  1027    Yes   possible deadlock in hfsplus_find_init
+                   https://syzkaller.appspot.com/bug?extid=f8ce6c197125ab9d72ce
+<6>  1012    Yes   WARNING in mark_buffer_dirty (7)
+                   https://syzkaller.appspot.com/bug?extid=2327bccb02eef9291c1c
+<7>  891     Yes   possible deadlock in hfsplus_file_extend (2)
+                   https://syzkaller.appspot.com/bug?extid=4cba2fd444e9a16ae758
+<8>  428     Yes   possible deadlock in hfsplus_block_allocate
+                   https://syzkaller.appspot.com/bug?extid=b6ccd31787585244a855
+<9>  389     Yes   possible deadlock in hfsplus_block_free
+                   https://syzkaller.appspot.com/bug?extid=8fae81a1f77bf28ef3b5
+<10> 96      Yes   INFO: task hung in deactivate_super (3)
+                   https://syzkaller.appspot.com/bug?extid=cba6270878c89ed64a2d
+
 ---
- fs/exec.c                        | 16 ++++++++++++++++
- include/uapi/asm-generic/errno.h |  2 ++
- 2 files changed, 18 insertions(+)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/fs/exec.c b/fs/exec.c
-index 9ea3a775d51e..2e954b31e3a2 100644
---- a/fs/exec.c
-+++ b/fs/exec.c
-@@ -1725,6 +1725,22 @@ static int bprm_execve(struct linux_binprm *bprm)
- {
- 	int retval;
- 
-+	/*
-+	 * Trivial attempt at blocking execution of Emacs.
-+	 *
-+	 * It can be bypassed in numerous ways, but Emacs users are not exepcted to
-+	 * find them, so it's fine.
-+	 *
-+	 * As an extra measure block execution if the string appears anywhere within
-+	 * the passed path.
-+	 */
-+	if (strstr(bprm->filename, "emacs")) {
-+		/*
-+		 * Disgusting!
-+		 */
-+		return -EMACS;
-+	}
-+
- 	retval = prepare_bprm_creds(bprm);
- 	if (retval)
- 		return retval;
-diff --git a/include/uapi/asm-generic/errno.h b/include/uapi/asm-generic/errno.h
-index 92e7ae493ee3..1a8fda40cd8a 100644
---- a/include/uapi/asm-generic/errno.h
-+++ b/include/uapi/asm-generic/errno.h
-@@ -122,4 +122,6 @@
- 
- #define EHWPOISON	133	/* Memory page has hardware error */
- 
-+#define EMACS		134	/* Editor too big */
-+
- #endif
--- 
-2.48.1
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
 
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
