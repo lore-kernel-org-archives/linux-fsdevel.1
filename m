@@ -1,167 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com [209.85.214.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58E5E3090E8;
-	Tue, 31 Mar 2026 23:36:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C763441C71
+	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Apr 2026 00:28:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775000166; cv=none; b=m5/PqSWmySi4uEYfkaXDDdm/mSMyG7UjKuqTWXqS2pJpLoJWc+zoEELpNHmjZ7+5aA+Je1KluQ4uqP6o2JXmnFmSHT1L2T0h6cVWW1VpWqYNlpZ//44wWc/aW+MqiT6ZvAEswFaEuQwVrG2+3F0DVpsrUbXDBYiBKLRsIQ+Cvho=
+	t=1775003306; cv=none; b=swF4StXZLGAPH0yOjn3E31DTe3+76j5yIOxwhCIJpQPK2LRZZlHCfDxC+4Tk7ZCcGs+WYYhJs8bAYt5QFOkVQ7IcW/Q8V5p8xZcq9+2Irz939To4/5dVahPaAAIDQ7QknaA+do3DsQXqmPTElBkR9U15KjLDoXzWoGm++ql+5Dk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775000166; c=relaxed/simple;
-	bh=4Vz30RKNLIzqXDG7pq5QA290tQq9TizJ9InK1yco/uA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lfqA0di5XYlXTQHis1Wua8jkPpD1X1p9QKXNiwKxuwqMLCarD6F3LlrHusySjMRiv9bpcRVXNSi2b4NTjmLTvk+YV/bW4BbFBQAyaxnBEFNewaO6/PCwKpYUjM7V4rr5kkvv2tlUgnbcTU4w38P6X8JedQ9e/aRyRmNUZgVb4Q0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O9dgTx3/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775003306; c=relaxed/simple;
+	bh=Wl9nT3Slu0gQkDLZ2qg4Yy+5qnZ3izUvhAj0Tp1r6So=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Y/r3xXCpjIwvHdIiOI8Wl2uCLinryKzTPD2ijXWHRsKrB7+iS0PpwqMAT8iDSlRdXseCQGz88/2zIdw9txT92Ta1WKf5uXHt5W0A7Kg2pXXYl9wOc8mRv5e8XunoKyVTxm8jLACWlFH+c4fv7LV1WAmOl8Oqpfdjjhs+YR723O8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com; spf=pass smtp.mailfrom=amutable.com; dkim=pass (2048-bit key) header.d=amutable-com.20230601.gappssmtp.com header.i=@amutable-com.20230601.gappssmtp.com header.b=c3lRmXQw; arc=none smtp.client-ip=209.85.214.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amutable.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O9dgTx3/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC047C19423;
-	Tue, 31 Mar 2026 23:36:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775000166;
-	bh=4Vz30RKNLIzqXDG7pq5QA290tQq9TizJ9InK1yco/uA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=O9dgTx3/YTk4EZfXYiy47DlMfi1i5hE1tl6fX/zYaaznOfIgfK676dXTcAyPuKDa+
-	 cuu2nZ9dDNHTrRD2w0if1Tiad7exj2CeNztLs9LhFw5ZGrleCh0zFmA9beCgiuFoDz
-	 tFczHH1SRx4sGNr9Z1H+B/61Nc0cj/v5L+7tMyRxxa8sej5n4LqtcynCUxefzfBJVR
-	 kdq8UycgfEvcmBHnVx33MD2S3T2AR/khpGZaoCKwvfyktsAAswMsUmw1SY6vIPkjUf
-	 CfSgz2d5dln5bx/TZRKdz9Yv09OVmzhzMKUb1pxATYt3KNVQrwGhfqQBXClEVbH6Zf
-	 c4Tizxc8eUISw==
-Date: Tue, 31 Mar 2026 16:36:05 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Andrey Albershteyn <aalbersh@kernel.org>
-Cc: linux-xfs@vger.kernel.org, fsverity@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, ebiggers@kernel.org, hch@lst.de,
-	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-	linux-btrfs@vger.kernel.org
-Subject: Re: [PATCH v6 16/22] xfs: remove unwritten extents after
- preallocations in fsverity metadata
-Message-ID: <20260331233605.GJ6223@frogsfrogsfrogs>
-References: <20260331212827.2631020-1-aalbersh@kernel.org>
- <20260331212827.2631020-17-aalbersh@kernel.org>
+	dkim=pass (2048-bit key) header.d=amutable-com.20230601.gappssmtp.com header.i=@amutable-com.20230601.gappssmtp.com header.b="c3lRmXQw"
+Received: by mail-pl1-f194.google.com with SMTP id d9443c01a7336-2b0ba3bfe16so2656375ad.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 31 Mar 2026 17:28:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amutable-com.20230601.gappssmtp.com; s=20230601; t=1775003304; x=1775608104; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xPpyfxqvRvwQENUgIjXbp0AKupBdomDsmgEJ79biurs=;
+        b=c3lRmXQwowsp5C3+U3taIdpzj1o+D5RYzWUXN7frq5C/4pbdv4n1k3nOTpx8/xkN98
+         nfEPxeNuKI8D1RfivBTD2VqbPuF9PSeN4RUc7dOEVtAKWmCoY/Bv1LpJmuKPXf9JaNUf
+         ZXb+ByTcQLsHX9Dsl0eq7ZEaG3WbbTwtisxBPFdiWOxkgck1v5rSieHASjZWk/kd/XgH
+         3wLjjb1TEKlo/lrBZygCzNJimj69ByEb+aNLgP9IuKVqOwHbAa0VK/nyTi40GSMblc63
+         PS4ZfC9P8pyEiyV1EntcYy3vGsUpsSzJ2pVmbdkv2gB6xwU+yiDbAcf2drnBsioYGmYq
+         K0GQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775003304; x=1775608104;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xPpyfxqvRvwQENUgIjXbp0AKupBdomDsmgEJ79biurs=;
+        b=NXzIdmdr5hvdnFEOUxn/nR/zJxJJn3fQmuQvc9wCvYm20uGgGd43DO0yZYT8epysXY
+         IQUeDjizBcwUWH1CZxpyKBrAhnUr1Os73ICU/5Qz/S/OUTHDC29cWF10hZs8AaL5k87F
+         ysKaTVirop/n+3tH917v7xMIuHThAMHN97mmN1dWY9aNbV2ZqaI8cFVojaGzXNIiGD1t
+         RODt9Q7R/46lboM5M6hyv1QlTMmu8eDhgGdFvDn+6huIb4IJvyDu6CI7Rovvk/0SLMVQ
+         kQlIFJhIo7YKsk6QyaNVeCLK8elMM7sLZnVEGdyj/0vtyLAM/NphxT0zbO8WCJx045HD
+         sF8A==
+X-Forwarded-Encrypted: i=1; AJvYcCWAWH3NMNNWJOfJpiO/WtHLG99UAtLn/O2EqNPe8Qz+ZdI1wFpLNZu++oMnX6SNG+EKlVbZe0SREG9kd26n@vger.kernel.org
+X-Gm-Message-State: AOJu0YyU/rhB537ttNU6sQYO9R3c2+uL/YDn6A7puxMFOuVFTpAK1W9/
+	qBX9Ed2klIjQopfkmVF0wljNSobjcDgkAJrNDaCqbzMpZqfzHJCPCBocHQqMVH8K7xBR
+X-Gm-Gg: ATEYQzySNGdGafxUX7NXAumdP5a+voGNEvqog2eYRPP2OKwP0/Sa8unGKjPqkSk0CLV
+	oLAjVXWoseTdwNrPTn4e8rU1zluqEhsgp7NwCfGRyA9I0Fvl1sQI/CB271fF5q8zyG3qgzCfjNT
+	TxXQB3GkLShEDao032hDovDW61Dhufb/MHkdBSA2k9JrJ5k4PxMb81ctPRyHfOkK/t4somPTpBL
+	9dnLsv86JvWTphwlJeGgkz+zNVab2WJ72YB3b2Kqd9SPSEwqHrsofCIg3G79V8A6sTS3Z/YdXiA
+	AKPfGIoFeLl9xQ4p/4MB6mpxsdvVSvGi1CY7vYM/S1KXP3/4UXvdYtiTfQnL/06zRnpOuf4pNFY
+	poi3lROfQExrvJkeoOxSv9kQpDjxd1lTqA6xcwZNzivvxPhEkyqp/blj24pxQKpmVRsqKwIxOSm
+	Z+8UtASBlsulyd3t/JJYscsAY700lgmhQBeHR7PDwuAhYwVXNk/SNnhNiPLmSMWV9LzS+RnQhTW
+	0u01oLO4+HEIW6LVkCV1VwwFA==
+X-Received: by 2002:a17:902:e947:b0:2b0:be79:e521 with SMTP id d9443c01a7336-2b25efa95bamr46558825ad.26.1775003304156;
+        Tue, 31 Mar 2026 17:28:24 -0700 (PDT)
+Received: from thesius.dot.cyphar.com (2403-5809-a2fc-2-a90-9fd7-aedd-d405.ip6.aussiebb.net. [2403:5809:a2fc:2:a90:9fd7:aedd:d405])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b24264264fsm157057825ad.2.2026.03.31.17.28.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 Mar 2026 17:28:23 -0700 (PDT)
+From: Aleksa Sarai <aleksa@amutable.com>
+Subject: [PATCH v2 0/4] selftests: openat2: migrate to kselftest harness
+Date: Wed, 01 Apr 2026 11:28:01 +1100
+Message-Id: <20260401-openat2-selftests-kunit-v2-0-ad153a07da0c@amutable.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260331212827.2631020-17-aalbersh@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJFmzGkC/3WNwQ6CMBAFf4X07Jq2CIgn/8NwqGUrG6ElbSEa0
+ n+34tnjTPLmbSygJwzsUmzM40qBnM0gDwXTg7IPBOozM8llzUvRgJvRqigh4GgihhjguViKULd
+ lq4wsEWXD8nr2aOi1l29d5oFCdP69H63ia3/NExd/m6sADtVZtErXWvWmuqppieo+4lG7iXUpp
+ Q8AcjDEwQAAAA==
+X-Change-ID: 20260317-openat2-selftests-kunit-6939af23ee27
+To: Shuah Khan <shuah@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ Aleksa Sarai <cyphar@cyphar.com>, Aleksa Sarai <aleksa@amutable.com>
+X-Mailer: b4 0.15.1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1559; i=aleksa@amutable.com;
+ h=from:subject:message-id; bh=Wl9nT3Slu0gQkDLZ2qg4Yy+5qnZ3izUvhAj0Tp1r6So=;
+ b=owGbwMvMwCWmMf3Xpe0vXfIZT6slMWSeSVscKSFd4d/nMUn75/fVk87onTC3blpWJMW3ot/AP
+ DrLU9qvYyILgxgXg6WYIss2P8/QTfMXX0n+tJINZg4rE8gQaZEGBgYGBhYGvtzEvFIjHSM9U21D
+ PUMjHSMdIwYuTgGY6m93GRm+Z148efecwTmuwjIm/46IJqtr4npCVwquTpQUTZ8VHrSY4Z/VqcM
+ Hnvz4K7iSaUMt12zh2XH/C71jwrYFiEpcW8J4sYYBAA==
+X-Developer-Key: i=aleksa@amutable.com; a=openpgp;
+ fpr=C9C370B246B09F6DBCFC744C34401015D1D2D386
 
-On Tue, Mar 31, 2026 at 11:28:17PM +0200, Andrey Albershteyn wrote:
-> XFS preallocates spaces during writes. In normal I/O this space, if
-> unused, is removed by truncate. For files with fsverity XFS does not use
-> truncate as fsverity metadata is stored past EOF.
-> 
-> After we're done with writing fsverity metadata iterate over extents in
-> that region and remove any unwritten ones. These would be left overs in
-> the holes in the merkle tree and past fsverity descriptor.
-> 
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-> Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
+These tests were written in the early days of selftests' TAP support,
+the more modern kselftest harness is much easier to follow and maintain.
+The actual contents of the tests are unchanged by this change.
 
-/me is ok with this
-Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
+Signed-off-by: Aleksa Sarai <aleksa@amutable.com>
+---
+Changes in v2:
+- move openat2 tests to selftests/filesystems [Christian]
+- v1: <https://lore.kernel.org/r/20260401-openat2-selftests-kunit-v1-0-5819ac6cadf5@amutable.com>
 
---D
+---
+Aleksa Sarai (4):
+      selftests: move openat2 tests to selftests/filesystems/
+      selftests: openat2: move helpers to header
+      selftests: openat2: switch from custom ARRAY_LEN to ARRAY_SIZE
+      selftests: openat2: migrate to kselftest harness
 
-> ---
->  fs/xfs/xfs_fsverity.c | 67 +++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 67 insertions(+)
-> 
-> diff --git a/fs/xfs/xfs_fsverity.c b/fs/xfs/xfs_fsverity.c
-> index 5a6a48fcf843..b193009a1bdb 100644
-> --- a/fs/xfs/xfs_fsverity.c
-> +++ b/fs/xfs/xfs_fsverity.c
-> @@ -21,6 +21,8 @@
->  #include "xfs_iomap.h"
->  #include "xfs_error.h"
->  #include "xfs_health.h"
-> +#include "xfs_bmap.h"
-> +#include "xfs_bmap_util.h"
->  #include <linux/fsverity.h>
->  #include <linux/iomap.h>
->  #include <linux/pagemap.h>
-> @@ -173,6 +175,63 @@ xfs_fsverity_delete_metadata(
->  	return error;
->  }
->  
-> +static int
-> +xfs_fsverity_cancel_unwritten(
-> +	struct xfs_inode	*ip,
-> +	xfs_fileoff_t		start,
-> +	xfs_fileoff_t		end)
-> +{
-> +	struct xfs_mount	*mp = ip->i_mount;
-> +	struct xfs_trans	*tp;
-> +	xfs_fileoff_t		offset_fsb = XFS_B_TO_FSB(mp, start);
-> +	xfs_fileoff_t		end_fsb = XFS_B_TO_FSB(mp, end);
-> +	struct xfs_bmbt_irec	imap;
-> +	int			nimaps;
-> +	int			error = 0;
-> +	int			done;
-> +
-> +
-> +	while (offset_fsb < end_fsb) {
-> +		nimaps = 1;
-> +
-> +		error = xfs_trans_alloc(mp, &M_RES(mp)->tr_write, 0, 0,
-> +				0, &tp);
-> +		if (error)
-> +			return error;
-> +
-> +		xfs_ilock(ip, XFS_ILOCK_EXCL);
-> +		error = xfs_bmapi_read(ip, offset_fsb, end_fsb - offset_fsb,
-> +				&imap, &nimaps, 0);
-> +		if (error)
-> +			goto out_cancel;
-> +
-> +		if (nimaps == 0)
-> +			goto out_cancel;
-> +
-> +		if (imap.br_state == XFS_EXT_UNWRITTEN) {
-> +			xfs_trans_ijoin(tp, ip, 0);
-> +
-> +			error = xfs_bunmapi(tp, ip, imap.br_startoff,
-> +					imap.br_blockcount, 0, 1, &done);
-> +			if (error)
-> +				goto out_cancel;
-> +
-> +			error = xfs_trans_commit(tp);
-> +		} else {
-> +			xfs_trans_cancel(tp);
-> +		}
-> +		xfs_iunlock(ip, XFS_ILOCK_EXCL);
-> +
-> +		offset_fsb = imap.br_startoff + imap.br_blockcount;
-> +	}
-> +
-> +	return error;
-> +out_cancel:
-> +	xfs_trans_cancel(tp);
-> +	xfs_iunlock(ip, XFS_ILOCK_EXCL);
-> +	return error;
-> +}
-> +
->  
->  /*
->   * Prepare to enable fsverity by clearing old metadata.
-> @@ -248,6 +307,14 @@ xfs_fsverity_end_enable(
->  	if (error)
->  		goto out;
->  
-> +	/*
-> +	 * Remove unwritten extents left by COW preallocations and write
-> +	 * preallocation in the merkle tree holes and past descriptor
-> +	 */
-> +	error = xfs_fsverity_cancel_unwritten(ip, range_start, LLONG_MAX);
-> +	if (error)
-> +		goto out;
-> +
->  	/*
->  	 * Proactively drop any delayed allocations in COW fork, the fsverity
->  	 * files are read-only
-> -- 
-> 2.51.2
-> 
-> 
+ .../selftests/{ => filesystems}/openat2/.gitignore |   0
+ .../selftests/{ => filesystems}/openat2/Makefile   |   5 +-
+ .../selftests/filesystems/openat2/helpers.h        | 168 ++++++++++
+ .../{ => filesystems}/openat2/openat2_test.c       | 223 ++++++-------
+ .../filesystems/openat2/rename_attack_test.c       | 159 +++++++++
+ .../{ => filesystems}/openat2/resolve_test.c       | 368 ++++++++++++---------
+ tools/testing/selftests/openat2/helpers.c          | 109 ------
+ tools/testing/selftests/openat2/helpers.h          | 108 ------
+ .../testing/selftests/openat2/rename_attack_test.c | 160 ---------
+ 9 files changed, 631 insertions(+), 669 deletions(-)
+---
+base-commit: 84f524dca4b8bc9e9aca8ea1dbbd2aa3a239d998
+change-id: 20260317-openat2-selftests-kunit-6939af23ee27
+
+
+Kind regards,
+-- 
+Aleksa Sarai
+https://www.cyphar.com/
+
