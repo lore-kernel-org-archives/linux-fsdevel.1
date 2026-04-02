@@ -1,71 +1,71 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0570E3F1655
-	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Apr 2026 16:30:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C15C33F2108
+	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Apr 2026 16:30:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775147403; cv=none; b=u/iPtOYmB/ACtqmaXHDjqqfgLUqrQSLKk7VzRENhC8IdnxrNO8hMiCwAhfsYJX3XnCO0VxM2Pv2z7LSNzCCB6n0ovzz+yEZO9sxy16nMx+PrBQ1Fqwww8ML5SJpAIZMNnrcecKVvRpNt4TtBivPK3vlFrpz3/C8/OWp4186C3ac=
+	t=1775147404; cv=none; b=CB4TJqpHkBxTaa8EG5fQnSeLNZxNp0cLhAFx7c6jmRVPabmTDSmZJEzZ9kh+WlxMxXVw7g5CHJiGYL9YzeZlhEedU0l/a4gMFVk9zcuburoMAI1B+aukj2i+HcjTFjqkhP5HrQjFcLO0BTTEdC3aheytJOEflQ/kvgn+KMofwRI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775147403; c=relaxed/simple;
-	bh=3/9sA5otBFOvkT2BQEuzVWIkirqctIJ9aNh6tllpEqw=;
+	s=arc-20240116; t=1775147404; c=relaxed/simple;
+	bh=SpLiDnbAd0UnCcYWrPWDMahDpvJk133JrZ2RsCRj3uU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TJ6TBqvwfBKQhDmyDcGBtrkaFANJWJ3vyOVD6/1Z1zwc8hsSB+sTXxFy0HIs2efydYwo1lLlL1Ol1HpWnmiFnJq6ZHpQEmxnisoUYmDMarb1snwl7fF4DZ/y8UOhiSpA5PK3hslymIoHHUynSQwwP1jqfCSbbXyQp/h7FLTWVPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RJwzXqpx; arc=none smtp.client-ip=209.85.210.173
+	 MIME-Version; b=tD+yuBMS5W2EzLKdjslZ9HmcaI1Qg7EFnDMCHAKNyWSNZUr6XE4S0k3hxxgIApEfC6pufuUhCgCfsvd1CCIUXZ/eC8OOGmOGXWvFrT7KfmiUvjKOl66vT2t8jiZEv9vzJx2H3xWqLaa0bnIHCKGNJOtmKaN9YXCNgeAKcF3JacM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pjo0MvMT; arc=none smtp.client-ip=209.85.210.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RJwzXqpx"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-827270d50d4so974717b3a.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 02 Apr 2026 09:30:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pjo0MvMT"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-82c68339cf0so1384894b3a.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 02 Apr 2026 09:30:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775147401; x=1775752201; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1775147403; x=1775752203; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=swRraCZpomYR5gso+HpNrRZp9FUpzVW6Jdt2/gxlwCo=;
-        b=RJwzXqpx6uS2PVCo5jRXfTf/k9DBxyIXm030i5Kd5s77wl3wp+t/dEziO5gNMeu9kL
-         fEt52UHJQ3SZtWJ0jW88Q2HBqiYCom1qxk4Oay5/gxf6SSpt4mfFLleXt6N/WHmdttjm
-         7+qv+0qFjwMDksImceSkw4LGsUPxyKSl0rgRiED0nB8axgqmlVFEuvwIbFUkOyoAd0Fa
-         q8yvk3leNZ12Y9CN4Cq9IXK6guud/IM+1sW4zhc/9bgUZkROuz7FKMioI0UKaFKjYMyk
-         YGTJsSXKGS37i5eOU3AxDAxexYRvA8XOc/AAm4/hVb65EH5zXqGw7oAXt/B5stl3lJCy
-         NNNA==
+        bh=vV+E8ILz/KFLO2ZZOB1e8mT2z2bGVYiI9vPMjVDtvWU=;
+        b=Pjo0MvMTZlS2jIQJH8DxCE8QznlDA7KVojIpxt2bXpDrPXDy+1+SFo1UmDicScrLYM
+         zMwONHxsn17zt73vSiYKr9SZMHnBlaZrjTae0SP8mWOi/eF25HH51VffEqxtHS/QL95p
+         DybWfkXYkSaiE0EE3txNhb3TeusLR/hWXijvt2Zx/lHLLslT4bDP8T1cRNQKaCfTISjo
+         daBynVFGuEXPrTUfoHMfq26EU2kWajJF5Ow8pU+TIGp4SnZNINI3CLpns7xzb/DX+nGL
+         Or96jrtJXeLdrPJFgVjKXMsACAeR/gFIQ1HJ761OBzSy2uMkbxWy2G2yH83WqUWK3zKs
+         wb1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775147401; x=1775752201;
+        d=1e100.net; s=20251104; t=1775147403; x=1775752203;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=swRraCZpomYR5gso+HpNrRZp9FUpzVW6Jdt2/gxlwCo=;
-        b=CANBOwPhsS7mzjLstFsFhq9WF9XPIgKhCDBqM9+vuli2ZssUis1iRQfMDAVGreERKh
-         Vf3c9yD7rrXIX6vmf8mkL+G7Xh/wzQHiOowGlzorMPrCahJhm/xvfLrULUOcQ8EaGrri
-         UE5SFw9DGq616Oorf9l6VtFCO4B8lyZKtIDGmiU8m6fadyLNyBOlFaILLo1fh0UVR+aQ
-         wf1d8WO69WaEt/+dMSHDLXXDnnlSG8M3f6QSnjUk6DVeJlscNpPpn8HjYj8g0R/0QTiu
-         0zfIo8cYa54T+YJo8i17Z+zuvjJ9VhXWtLubO1GzeRgJt9bnqM8Tez6KEnW3K7dsZYyr
-         kZxQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXZ67net1yCe5dON+uc2TEDdRbpvMA/jzYYtninaufnu7XOiyCcQ1koZqIuPHqBFL10hDKLIr0/4rgHmgK9@vger.kernel.org
-X-Gm-Message-State: AOJu0YyxJoEfLL1XQfiW2kIWUl4vElOAfwSrhO2bWlViMH2Y8CeLsIcz
-	R7h3nMWOEejDPI0mFR+3tvksbQby7rbZBhmGEnfbpL6P0bmeejPzUqnCKr4Zvg==
-X-Gm-Gg: ATEYQzzV6hMrUBLjgdBT7Gxh1TOFmJxST2IQ1XaVv9oodNtvmOpi17lko+jKvD8kLLd
-	U8xmz2WNJ7vPY5Qf+UmENciKvNe8n0OlpTvzXctXy37oi4vYsLzj38qoZHsxxDUegCTEtQoPNre
-	YxvF67ZxT55jkrklgF79X/UD5D7SF1HJHiwl2GUQfrL3f4uxJb4jW9TYg63JawKtc8YVB5llLMU
-	BloKZ9QmP8VHr1o97ZoCfrza7QvnRRF+RQxVhs73pX1XEVe94n3lJFek6FgICsNRQ3tMASA+aWH
-	dyi8sQfjvtPV7wOmwn2+Xfxlaq+q9wOFqkFXKHRDlp0C1zItN/cVFP2krmlv1saA5Ym5Zn1TdrS
-	8hxhOr0K96Z1lL1i8m+DaAZL4wcNCPW04BcxfwxhrJSKCmvnv690vQJRsAfCgTfKsOoDwUIxoZp
-	DZju/tUpa2hm3ghSXHng==
-X-Received: by 2002:a05:6a00:2e94:b0:82c:7383:3745 with SMTP id d2e1a72fcca58-82ce88e5eb7mr8614633b3a.19.1775147401352;
-        Thu, 02 Apr 2026 09:30:01 -0700 (PDT)
-Received: from localhost ([2a03:2880:ff:55::])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82cf9c9cbdfsm4531080b3a.53.2026.04.02.09.30.00
+        bh=vV+E8ILz/KFLO2ZZOB1e8mT2z2bGVYiI9vPMjVDtvWU=;
+        b=MYO5pQp3b/frqWalLD/YWp+KC2jOKmJJcKPLOvnNlwnCvOCoP2q2RTmMlOFJ5oKwUM
+         32QY7H5fRfVdX7v/7P+MAA+tqpU7LROfRXQ9Qm+jBGBMh+SisyPYvz5ZPcKTc6wS5xO6
+         58rx3+oBSnEIg9kkJA9YNaRJmRX+PcicVWLCC7F5HttMBvBDPr17Bd4xFSCznMOMDNoN
+         LnUpxmVmEmA/MpiY+zqbprjjzNIC9DNszOiCQg6qgyNRWfqOGnxAQgH1njk+lPg5KiXu
+         oRP7Ihi7skXbcLAc8eZ1jZQjMEaEwhiEO2uPmI+0oZprwxuhmvsGAzYcXXMidV96GC1S
+         xpQg==
+X-Forwarded-Encrypted: i=1; AJvYcCXnuzaRU9p7188ByDZrFes4EVeLW23DaRL6/Cp2uO6REHoExB+Y1hGOLDx9AWb1Vzo1LjWD3rv8HXzXSCgK@vger.kernel.org
+X-Gm-Message-State: AOJu0YxMMxwdOvVP782dTyKYrzmsMfMdB4X156KZRhP/yPfCtZ2pI6M1
+	+qwDEECOUJcwOI+r1dJXTn+DQvWav8cAvMGUwwOns/eucquiR38RV+VK
+X-Gm-Gg: ATEYQzxOK5ewvCcjKTNl2QgYRQwMOz7N7COMbyktxnOFKHY2w4dAEVmi2WQp/pfF7Zt
+	MV8vPT1SVD6DJmJq3hxyfbfOItR6NZjpiUKyLfR3YLt75qbowwwGZOZb+QPL/8SHrTYorlLqlB6
+	cbgyd1+WD+Tts/D/FDGXEKMFqsFfaw0pCsDybwT5jKJsuVCjrth3ohcDhiv4g3Io+eEO94z5Mbf
+	FFOkb7BAXILKZrC4Yrk0S58vZL1GOy5Gf6nemxLh10SBf6EssyKvRUxuNjWMtfEhj0KBK2oqdLa
+	8656rTaP0Y53U8lE7zTHo9JZw92jzzfnXXEW0GAc/FP7DAtgyzJDznQDZ8DxnVJrTI7hUBsBY9i
+	p3mU171ltT23+N75wcRVHItiVHLbjtep0SGBO5i9mG/1FHX321hOzupTDhd8tkZ8+VyYdPZtcR5
+	yBl0isBMiUc+iWonyWgA==
+X-Received: by 2002:a05:6a00:c8b:b0:827:32dd:59c5 with SMTP id d2e1a72fcca58-82d0038878bmr3466846b3a.28.1775147403118;
+        Thu, 02 Apr 2026 09:30:03 -0700 (PDT)
+Received: from localhost ([2a03:2880:ff:44::])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82cf9b2694csm3517639b3a.2.2026.04.02.09.30.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Apr 2026 09:30:00 -0700 (PDT)
+        Thu, 02 Apr 2026 09:30:02 -0700 (PDT)
 From: Joanne Koong <joannelkoong@gmail.com>
 To: miklos@szeredi.hu
 Cc: bernd@bsbernd.com,
 	axboe@kernel.dk,
 	linux-fsdevel@vger.kernel.org
-Subject: [PATCH v2 07/14] fuse: use named constants for io-uring iovec indices
-Date: Thu,  2 Apr 2026 09:28:33 -0700
-Message-ID: <20260402162840.2989717-8-joannelkoong@gmail.com>
+Subject: [PATCH v2 08/14] fuse: move fuse_uring_abort() from header to dev_uring.c
+Date: Thu,  2 Apr 2026 09:28:34 -0700
+Message-ID: <20260402162840.2989717-9-joannelkoong@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260402162840.2989717-1-joannelkoong@gmail.com>
 References: <20260402162840.2989717-1-joannelkoong@gmail.com>
@@ -77,84 +77,95 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace magic indices 0 and 1 for the iovec array with named constants
-FUSE_URING_IOV_HEADERS and FUSE_URING_IOV_PAYLOAD. This makes the usages
-self-documenting and prepares for buffer ring support which will also
-reference these iovec slots by index.
+Move fuse_uring_abort() out of the inline header definition and into
+dev_uring.c. This function calls several internal helpers (abort
+requests, stop queues) that are all defined in dev_uring.c so inlining
+it in the header unnecessarily exposes implementation details.
+
+This will make the subsequent commit that adds pinning capabilties for
+fuse buffers cleaner.
 
 Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
 ---
- fs/fuse/dev_uring.c | 24 +++++++++++++-----------
- 1 file changed, 13 insertions(+), 11 deletions(-)
+ fs/fuse/dev_uring.c   | 17 +++++++++++++++--
+ fs/fuse/dev_uring_i.h | 16 +---------------
+ 2 files changed, 16 insertions(+), 17 deletions(-)
 
 diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-index 045394a7ae41..a85acd9c2b71 100644
+index a85acd9c2b71..cce8994241b7 100644
 --- a/fs/fuse/dev_uring.c
 +++ b/fs/fuse/dev_uring.c
-@@ -18,7 +18,8 @@ MODULE_PARM_DESC(enable_uring,
- 		 "Enable userspace communication through io-uring");
- 
- #define FUSE_URING_IOV_SEGS 2 /* header and payload */
--
-+#define FUSE_URING_IOV_HEADERS 0
-+#define FUSE_URING_IOV_PAYLOAD 1
- 
- bool fuse_uring_enabled(void)
- {
-@@ -1063,8 +1064,8 @@ static void fuse_uring_do_register(struct fuse_ring_ent *ent,
+@@ -129,7 +129,7 @@ static void fuse_uring_abort_end_queue_requests(struct fuse_ring_queue *queue)
+ 	fuse_dev_end_requests(&req_list);
  }
  
- /*
-- * sqe->addr is a ptr to an iovec array, iov[0] has the headers, iov[1]
-- * the payload
-+ * sqe->addr is a ptr to an iovec array, iov[FUSE_URING_IOV_HEADERS] has the
-+ * headers, iov[FUSE_URING_IOV_PAYLOAD] the payload
-  */
- static int fuse_uring_get_iovec_from_sqe(const struct io_uring_sqe *sqe,
- 					 struct iovec iov[FUSE_URING_IOV_SEGS])
-@@ -1094,8 +1095,8 @@ fuse_uring_create_ring_ent(struct io_uring_cmd *cmd,
+-void fuse_uring_abort_end_requests(struct fuse_ring *ring)
++static void fuse_uring_abort_end_requests(struct fuse_ring *ring)
  {
- 	struct fuse_ring *ring = queue->ring;
- 	struct fuse_ring_ent *ent;
--	size_t payload_size;
- 	struct iovec iov[FUSE_URING_IOV_SEGS];
-+	struct iovec *headers, *payload;
- 	int err;
+ 	int qid;
+ 	struct fuse_ring_queue *queue;
+@@ -477,7 +477,7 @@ static void fuse_uring_async_stop_queues(struct work_struct *work)
+ /*
+  * Stop the ring queues
+  */
+-void fuse_uring_stop_queues(struct fuse_ring *ring)
++static void fuse_uring_stop_queues(struct fuse_ring *ring)
+ {
+ 	int qid;
  
- 	err = fuse_uring_get_iovec_from_sqe(cmd->sqe, iov);
-@@ -1106,15 +1107,16 @@ fuse_uring_create_ring_ent(struct io_uring_cmd *cmd,
+@@ -501,6 +501,19 @@ void fuse_uring_stop_queues(struct fuse_ring *ring)
  	}
+ }
  
- 	err = -EINVAL;
--	if (iov[0].iov_len < sizeof(struct fuse_uring_req_header)) {
--		pr_info_ratelimited("Invalid header len %zu\n", iov[0].iov_len);
-+	headers = &iov[FUSE_URING_IOV_HEADERS];
-+	if (headers->iov_len < sizeof(struct fuse_uring_req_header)) {
-+		pr_info_ratelimited("Invalid header len %zu\n", headers->iov_len);
- 		return ERR_PTR(err);
- 	}
++void fuse_uring_abort(struct fuse_conn *fc)
++{
++	struct fuse_ring *ring = fc->ring;
++
++	if (ring == NULL)
++		return;
++
++	if (atomic_read(&ring->queue_refs) > 0) {
++		fuse_uring_abort_end_requests(ring);
++		fuse_uring_stop_queues(ring);
++	}
++}
++
+ /*
+  * Handle IO_URING_F_CANCEL, typically should come on daemon termination.
+  *
+diff --git a/fs/fuse/dev_uring_i.h b/fs/fuse/dev_uring_i.h
+index 51a563922ce1..349418db3374 100644
+--- a/fs/fuse/dev_uring_i.h
++++ b/fs/fuse/dev_uring_i.h
+@@ -137,27 +137,13 @@ struct fuse_ring {
  
--	payload_size = iov[1].iov_len;
--	if (payload_size < ring->max_payload_sz) {
-+	payload = &iov[FUSE_URING_IOV_PAYLOAD];
-+	if (payload->iov_len < ring->max_payload_sz) {
- 		pr_info_ratelimited("Invalid req payload len %zu\n",
--				    payload_size);
-+				    payload->iov_len);
- 		return ERR_PTR(err);
- 	}
+ bool fuse_uring_enabled(void);
+ void fuse_uring_destruct(struct fuse_conn *fc);
+-void fuse_uring_stop_queues(struct fuse_ring *ring);
+-void fuse_uring_abort_end_requests(struct fuse_ring *ring);
++void fuse_uring_abort(struct fuse_conn *fc);
+ int fuse_uring_cmd(struct io_uring_cmd *cmd, unsigned int issue_flags);
+ void fuse_uring_queue_fuse_req(struct fuse_iqueue *fiq, struct fuse_req *req);
+ bool fuse_uring_queue_bq_req(struct fuse_req *req);
+ bool fuse_uring_remove_pending_req(struct fuse_req *req);
+ bool fuse_uring_request_expired(struct fuse_conn *fc);
  
-@@ -1126,8 +1128,8 @@ fuse_uring_create_ring_ent(struct io_uring_cmd *cmd,
- 	INIT_LIST_HEAD(&ent->list);
- 
- 	ent->queue = queue;
--	ent->headers = iov[0].iov_base;
--	ent->payload = iov[1].iov_base;
-+	ent->headers = headers->iov_base;
-+	ent->payload = payload->iov_base;
- 
- 	atomic_inc(&ring->queue_refs);
- 	return ent;
+-static inline void fuse_uring_abort(struct fuse_conn *fc)
+-{
+-	struct fuse_ring *ring = fc->ring;
+-
+-	if (ring == NULL)
+-		return;
+-
+-	if (atomic_read(&ring->queue_refs) > 0) {
+-		fuse_uring_abort_end_requests(ring);
+-		fuse_uring_stop_queues(ring);
+-	}
+-}
+-
+ static inline void fuse_uring_wait_stopped_queues(struct fuse_conn *fc)
+ {
+ 	struct fuse_ring *ring = fc->ring;
 -- 
 2.52.0
 
