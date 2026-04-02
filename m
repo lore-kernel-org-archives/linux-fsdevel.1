@@ -1,107 +1,116 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06F511DC198
-	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Apr 2026 22:41:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A7A3317145
+	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Apr 2026 22:49:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775169669; cv=none; b=uOeLLmhXswfIdsreIjyiqO0SdzeavUTIhotPOGT9CJXvP74U/9gEMc6CoBvMaBLznKCJ5zIHPpdcz3nVB7MnNAucYFsVaV8dm6jjd+2qzDA2qkeZW9qos+c45/9b482C/ejd9r0TFnmb2HJ5JxZlm0jboopp1erTY4BFnRju+Sg=
+	t=1775170199; cv=none; b=ZhreAk7cTo9IDt/tOQCWg+jVN8AWhvAloKkuGE9Wsc7U9sCH4lWUPeVVxyPRn6/SRyCcNsmbYu2lNd+g4y0VhLeg9RasDJB3tS44KISV+m3hkdEekLDhWYMWvHI2mbO7M90MyzOxTQCvdlnKOv3BPJQT+e3OjpgvIDZULhBsXaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775169669; c=relaxed/simple;
-	bh=R3LCEkcKCbd1fD2E3wUt1eGEB2RdyG5tiVXEogeFsqo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rc8l5tOTzkCsAPnIqozx8lxG3UiNJlkRX9MsZeEKOCx5S3TI2rvqiXcncLPTMGf+KA08/wzCHnbnSLsdSVR08Rjd31h6gWbWtAisevceQlDOK+M+MD8dWIb9ctsLPmbrC2WAg6JMKLffoV2Gm6/SmX87sXeE2Wu2gxLFUEvGPvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=mrRD+d8J; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	s=arc-20240116; t=1775170199; c=relaxed/simple;
+	bh=XuNesgERHlpbvWXy/MVJjNo/tL+ggtFDNxd3sxEoX1U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ksc1cfknirK8QYjKhrmCS+yZHb3D6POSJe3TptY6ZksO3HshB4csBYyVGmXzWIyOTu6z6qM6Q0k/vWXyIKpA9mVsysu0o1CT8qv2bnYwJFrXwQvD4rKp5j99REDb1gicgM6n7W1PLYRH1RHJNYhP7DJMTjX5NetXTEMld2L1GQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=Vtnz5iMQ; arc=none smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="mrRD+d8J"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=CbJcPnKPtiDDw/x0BnSWWMJa/1eCn/ehNyJL1zgfzV4=; b=mrRD+d8JiwaKoyK2LZvXAwgwDW
-	L35HFOV8G0UuumFdGlNGkRzp33thy9WE6mz/UKnOD4XWegr52/hpgqTZMvxfjgYctnIDN13np/U1y
-	lNKVQ9AJmzO5dNvc0ALGjKkgDfH4hUbkL1xpCPgKi6Siy88/tT+D9gWtNDIUDKGVHLtN0fQY2TcmY
-	rHVbwiw+aBwWzPgSVajIGnfoss3OhZIFhXx7CB5dzmgv5HYLT0sPBE2tzHJbJk7XMPd5Xhl89X5N2
-	LTK5zWlzi/pDFfHLrelNP4L+eM3DM7Mf0f6E1kQmJXDH0pZe+x8KSwfHmdo3uvPlM2cFYKUc2XKV8
-	ktUG/nxw==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1w8QmF-00000007cBl-2ZQW;
-	Thu, 02 Apr 2026 22:44:39 +0000
-Date: Thu, 2 Apr 2026 23:44:39 +0100
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>, Nikolay Borisov <nik.borisov@suse.com>,
-	Max Kellermann <max.kellermann@ionos.com>,
-	Eric Sandeen <sandeen@redhat.com>,
-	Paulo Alcantara <pc@manguebit.org>
-Subject: Re: [RFC PATCH v2 4/4] get rid of busy-waiting in
- shrink_dcache_tree()
-Message-ID: <20260402224439.GI3836593@ZenIV>
-References: <20260122202025.GG3183987@ZenIV>
- <20260402180850.3729310-1-viro@zeniv.linux.org.uk>
- <20260402180850.3729310-5-viro@zeniv.linux.org.uk>
- <CAHk-=wjR66-0qL08k9p10Lt9vuvmddFT5WvfnG+xXf4Xv3-VhA@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="Vtnz5iMQ"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-b79f8f7ea43so236154166b.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 02 Apr 2026 15:49:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1775170196; x=1775774996; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=EW18SWElEn7H9Ljxw0Z1u7lS63IStFd21SXIbo/xZHE=;
+        b=Vtnz5iMQjS5P3GoVyAFX3q6pwKNulgrkeyA9tQZ+IOTy9FW45IRkEXe9NIieCrTGqu
+         WvtjB0v4f77S0DCSf6ZFzmD3ps0uzD4gJQCl+KrEUF9WEmBC/B5QftF1v0XIcCAwkgx0
+         LZ4koRkpr8StD2VwuXiYVuvK1RenWEXX7fc9Q=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775170196; x=1775774996;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EW18SWElEn7H9Ljxw0Z1u7lS63IStFd21SXIbo/xZHE=;
+        b=duTWf38EC/klgRGBUvYQ3VazFClvEAHUmoJEbwtUrZI2FzbozGz1C4VERMXiIQt3tK
+         ++ZnrZzSU8ahZYwmsrtD7FOu81BgfDXM1qArY2xz8SuDXR/gXxDbkzGZYG47VYs57VH0
+         ctVTIVZZ6syJXnZ1keaW9txUMVTiCMPlrpeNOjwoPM3zMfVIDpTGuHOmbXEgbYegaaif
+         kQSgisLAoa6+Jf8bFDurF6+/TuzsyeMwtN+ZoPSvT4EgbJVTIjQ5S8SqZejn2c8GN8s9
+         2E3NHypMEB1L10uiWdqj/f8X/RlQww5JpBQ/cZzlSqOz1VPFCxR0Zw48XeALGp1ct4Qw
+         Virg==
+X-Gm-Message-State: AOJu0YwgaiYpkc/xSbFbDfxH4m4PH+vqRiSYH5o+umjAhjo5L4qrwC/8
+	A0XAVZSKozMDsgm1KRu5DMcqxdFFbQ9jZcZeatuga65m1UeoUH0HTGzQX23kg9xqguLRWIpR5T6
+	8nuyBPj8=
+X-Gm-Gg: AeBDiesxORQ4NmeArUdpGqOxwDG3z3jvUO9hLZFOBr48qsKayfO18lBEciWMER6V8ot
+	a8gYVzsS4zREJCQd1E5OhOSTg7VdMzVwr9alWjnTPqkaLkBmeoouNoRpFk2zjvgdTptaXKEGoaK
+	E8UsaRltFEhhTC6vwil9mrdDiKy3SFT+IMMTdCshkeByRftTWCzaj2IICBVEzAns5eO9Hu9rYVx
+	NszZfOMw/58oc7LhFQcLHm7I44V+HuYu/ZSq6g8eaLP8+qcYDMLpQsFs9tzg1KkDfK7NOv4LXWQ
+	t2GERaEkfh9El2+8yYBJPouso9djqB/YDJGT6z6p/c6ZPMy8MeuV6szsJKqmg16b82zC2tj0hvZ
+	SISQGzVlKrJnxuQ/L1+SZekJ1BpmvvqNVr+vYT6taaTr94QJeBTNeyPzrkOUJry14qOZ2t4jiji
+	zlnF+cefVIBU6JgAQqjyKs7b+IN3AHMyI7MKIkmHdRyKGPrln1UgMEPHnPbqL9aUwuY5uIDE24
+X-Received: by 2002:a17:907:e158:b0:b98:70fe:cd95 with SMTP id a640c23a62f3a-b9c67b8cd54mr19017266b.53.1775170196162;
+        Thu, 02 Apr 2026 15:49:56 -0700 (PDT)
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com. [209.85.208.41])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9c3c97219dsm140837566b.5.2026.04.02.15.49.55
+        for <linux-fsdevel@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 02 Apr 2026 15:49:55 -0700 (PDT)
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-66ad907833dso2508647a12.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 02 Apr 2026 15:49:55 -0700 (PDT)
+X-Received: by 2002:a05:6402:234b:b0:66b:eb1d:b22a with SMTP id
+ 4fb4d7f45d1cf-66e3f833ac0mr432693a12.26.1775170195066; Thu, 02 Apr 2026
+ 15:49:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wjR66-0qL08k9p10Lt9vuvmddFT5WvfnG+xXf4Xv3-VhA@mail.gmail.com>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+References: <20260122202025.GG3183987@ZenIV> <20260402180850.3729310-1-viro@zeniv.linux.org.uk>
+ <20260402180850.3729310-5-viro@zeniv.linux.org.uk> <CAHk-=wjR66-0qL08k9p10Lt9vuvmddFT5WvfnG+xXf4Xv3-VhA@mail.gmail.com>
+ <20260402224439.GI3836593@ZenIV>
+In-Reply-To: <20260402224439.GI3836593@ZenIV>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Thu, 2 Apr 2026 15:49:39 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wg7O-p8L7384myYTus6NH5aYdoS=y=+iALL_8DLT3=ZLw@mail.gmail.com>
+X-Gm-Features: AQROBzAddltRr5adsQkdLBdRuWJZ5M06k2xEGjULx5vtAgZrrwfk_0NUybD_zDY
+Message-ID: <CAHk-=wg7O-p8L7384myYTus6NH5aYdoS=y=+iALL_8DLT3=ZLw@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 4/4] get rid of busy-waiting in shrink_dcache_tree()
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>, 
+	Jan Kara <jack@suse.cz>, Nikolay Borisov <nik.borisov@suse.com>, 
+	Max Kellermann <max.kellermann@ionos.com>, Eric Sandeen <sandeen@redhat.com>, 
+	Paulo Alcantara <pc@manguebit.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Apr 02, 2026 at 12:52:28PM -0700, Linus Torvalds wrote:
-> There's also a 'hlist_del_init(&dentry->d_alias);' in nfs/getroot.c,
-> and that one stays as such.
-> 
-> I thnk that's just because it can't actually be a real alias list at
-> that point, and all that case does is to remove its own inode from the
-> initial list to make it always be empty. And so it doesn't have any of
-> this 'negative live under lookup' case. But I'd like to have some
-> commentary about *this* particular one, because this is the subtle
-> one.
-> 
-> In particular, I have paged out the history from the last iteration of
-> this all, and the reason why you changed hlist_del_init() to that
-> 'likely(!hlist_unhashed...' escapes me.
-> 
-> I'm sure I could look it up and remind myself, but honestly, I'd
-> rather have it just all explained in the code.
+On Thu, 2 Apr 2026 at 15:41, Al Viro <viro@zeniv.linux.org.uk> wrote:
+>
+> No deep reasons, really - it can stay hlist_del_init() too; the only
+> reason why I went for __hlist_del_init() (and got immediately reminded
+> that the sucker needs hlist_unhashed() checked first) was that ->d_alias
+> ceases to exist at that point, so there's no real reason to zero it.
 
-No deep reasons, really - it can stay hlist_del_init() too; the only
-reason why I went for __hlist_del_init() (and got immediately reminded
-that the sucker needs hlist_unhashed() checked first) was that ->d_alias
-ceases to exist at that point, so there's no real reason to zero it.
-OTOH, these two stores (to ->next and ->pprev) are not going to cost much,
-especially since one of them combines with zeroing ->waiters immediately
-afterwards...  We'd just read both words, and they'd better be in the
-same cacheline, so the extra store should be pretty much free...
+Ok, so that's what I thought it was, but then the whole "now you're
+checking whether it was hashed" confused me.
 
-Let's go with hlist_del_init() there, possibly with a comment that "init"
-part is not really needed, but use of __hlist_del() is clumsier and it
-wouldn't really win us anything.
+> Let's go with hlist_del_init() there, possibly with a comment that "init"
+> part is not really needed, but use of __hlist_del() is clumsier and it
+> wouldn't really win us anything.
 
-Re nfs_superblock_set_dummy_root(): it's really ugly wart and I'm not
-sure we still need it these days; it _is_ safe, even though it violates
-all kind of rules for dentry state.  It's also a headache on every code
-audit in the area ;-/  I suspect that we could get rid of the entire
-dummy root thing and if sb->s_root is still NULL after d_obtain_root() in
-nfs_get_root(), have root removed from sb->s_roots and stored in ->s_root.
-Once upon a time we used to oops if shrink_dcache_for_umount() found
-!IS_ROOT(sb->s_root) (i.e. if root got spliced on top of one of the
-secondary trees at some point), but that's no longer true - not since
-42c326082d8a "switch shrink_dcache_for_umount() to use of d_walk()".
-Never got around to checking if anything in NFS might get unhappy with
-such situation; VFS ought to be OK with it.
+Agreed. A comment about how the "state" of that union changes from
+being a hlist to being that waiter, at that point is all that is
+needed, but I'd prefer the "hlist_del_init()".
 
-That's definitely a separate story, though; as far as this series is
-concerned, dummy root is out of scope - it's still positive, even
-though it's removed from alias list.  Which is yet another reason
-why these weirdly spelled sanity checks were wrong - we never hit any
-of those for the dummy root, but they would wrongly treat it as negative
-if we ever did...
+In fact, the __hlist_del() *without* the init part would work fine for
+me with the comment.
+
+But it was really the added
+
+        if (likely(!hlist_unhashed(&dentry->d_alias)))
+
+that made me go "why is _that_ needed?"
+
+Afaik, it's a perfectly find hlist entry at that point, and no need to
+add the hlist_unhashed() check. No?
+
+                Linus
