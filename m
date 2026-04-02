@@ -1,105 +1,218 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C6B7361DAC;
-	Thu,  2 Apr 2026 04:36:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47B0A366060;
+	Thu,  2 Apr 2026 04:42:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775104600; cv=none; b=RZY5caQKXbls5sCEouQL7O3A2fTVrtAme+jNy9Gr3+tMELFMylXgu2lU0uM1e+PV7lI/R/xvvSc2zZDbHy6oVNknKx++ZAoi1XDFxnV01BPwKheieiVjhbtyc0zVKSsc0ztPVRvyfMkH7ApQQ5F6NOx1k/EiHsW5cCHz++FkFWg=
+	t=1775104958; cv=none; b=mnLs4aWBf6iOK7W4i6wBW9ej7d3FmqI5bph6FmEyeKmf2mVz8CeTJ+yLQCzTF2LqLi/8ClIXMxFlJhOyfDIVucLggw0CrBETgEmtjcDncqFILJQ5vHAGICqhceV0nr88xY5ZxBj0HlR/x4u+s9CVVfa7rk4cK7vbpukG/hMGaH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775104600; c=relaxed/simple;
-	bh=BO7fsz3RgyTfGt+qlAE8Bxk0+VWTbQ00x2Lk1ONZHt8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qkxg80MzsT1VDmoI8Fs4iUIXrgzyLTaw/c57VwTmRboBHkMye0Pwcc4jqUBn6+IZAlx6iwZjihNfDmyM1QvhEwkpsmLtk07Xah61LHQUluWOgAby0GMFlcYpV0Vr05kce7xnqRhFc9v9PqRHA/fT13HpChI7r++EjFCFRKEb8Tw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gqcNtByW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775104958; c=relaxed/simple;
+	bh=XIVO2rDhF7vl2myZmgFd67wiPZXQ7C/T7hTBVST245I=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=qqxidG+4BXu2XvZDrPu/kW1j/CZm8ACOXyr5JdH7OUkRyfSYdPMypDCNxROD0IQJgWAQwbnfCyTuOjFSlci0gtMvtf2JGmcxmHT7WGEFzs246daPgWWyUjEaRvRw8Rv6L9brHJ83YchcHAagrpNHjeczxoZvGInxYL9CG7psk5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=vWXGzyn1; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=IurlPxyt; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gqcNtByW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C2B2C19423;
-	Thu,  2 Apr 2026 04:36:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775104600;
-	bh=BO7fsz3RgyTfGt+qlAE8Bxk0+VWTbQ00x2Lk1ONZHt8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gqcNtByWtkQTQsw0jAe6rL7YrwTF43tjIQnYEYJvhKocqUKTazKj+U0NtDDdgSVj9
-	 PPPOcN5qR+/3PV9PS2bXWxShnlL9s+povpRCGvGMgKf0M/y4oEu/T0A0ObQecQnxEq
-	 CZyLKctaCMPGy28ehZM4mruaAZtp5GRovrtzKuxrhTUnlWesSR5XUImiu47/SWZjly
-	 96XCdyUiuPbdcEbb9+pM8b65GfTbFbm35BF1+2y/Ri8zF8ySeA2N1DrXbXmUTqAS7W
-	 TSUPWUxcmY0cyJ+vZ3wuww5/gQi4I9fp3HUPq9XQDhd2/8gvVrhM6XBj6Ds76F+U/v
-	 5o7jwiTOXS71Q==
-Date: Thu, 2 Apr 2026 07:36:27 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: "Harry Yoo (Oracle)" <harry@kernel.org>,
-	Andrea Arcangeli <aarcange@redhat.com>,
-	Andrei Vagin <avagin@google.com>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	David Hildenbrand <david@kernel.org>,
-	Hugh Dickins <hughd@google.com>,
-	James Houghton <jthoughton@google.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
-	Nikita Kalyazin <kalyazin@amazon.com>,
-	Oscar Salvador <osalvador@suse.de>,
-	Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@suse.cz>, kvm@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v3 02/15] userfaultfd: introduce struct mfill_state
-Message-ID: <ac3yS0F7clWYDptU@kernel.org>
-References: <20260330101116.1117699-1-rppt@kernel.org>
- <20260330101116.1117699-3-rppt@kernel.org>
- <actxscYZGFiyvUcs@hyeyoo>
- <acva_NKf7T5rbIC8@kernel.org>
- <acvnEd3-s6XI26vb@hyeyoo>
- <aczK4-vrULRiTvyh@kernel.org>
- <20260401103717.b236b271a2856d536a48663b@linux-foundation.org>
- <20260401104449.42123600e33e08b5ebad10a5@linux-foundation.org>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="vWXGzyn1";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="IurlPxyt"
+From: Nam Cao <namcao@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1775104955;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MJvxgmla7GJ40kGY75h8wil3XQl50FCUl05/E1jznUo=;
+	b=vWXGzyn1Ah4NVW1Mlx6bVWLSBj6AYX9pCd9DrDOplQTmbGujEMKDfVdk9UuQSy4q/EB+8j
+	JbSoHM0OO3CXsGn4pqDs8ysla/YeDW81rKvL9oMlDSU/wJwEwNXBwVEXmKQxttdHCCtWHo
+	7bMByldcwMuRdSwyAqbIbVhr09Nh5iOZuF3dTgEvAYv8muo0576uG3wW0ftYbyCT+1GWyq
+	gsQhjmiz6dYjOVC7gzheLv3qXVvheTKJr8qE9ktdT2m9XlyVi9m5J2OKt1IAYR7+G81PSc
+	Ccn6ATCGsbpr6A2imtJGqLjtn/4UiXtw+q2mleqWmx/aU5fGJJjqJADChxr5xg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1775104955;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MJvxgmla7GJ40kGY75h8wil3XQl50FCUl05/E1jznUo=;
+	b=IurlPxyt1Bfb+kV3Q+c8hoyBvdrj8JLeMIg7p9Kgwjh781UgDqCuCKKy/ODbWXkRUht4Vn
+	3iR/ddfJc1aykxAQ==
+To: "Ionut Nechita (Wind River)" <ionut.nechita@windriver.com>,
+ jan.kiszka@siemens.com
+Cc: crwood@redhat.com, florian.bezdeka@siemens.com,
+ ionut.nechita@windriver.com, brauner@kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-rt-users@vger.kernel.org,
+ stable@vger.kernel.org, linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+ frederic@kernel.org, vschneid@redhat.com, gregkh@linuxfoundation.org,
+ chris.friesen@windriver.com, viorel-catalin.rapiteanu@windriver.com,
+ iulian.mocanu@windriver.com
+Subject: Re: [REGRESSION] osnoise: "eventpoll: Replace rwlock with spinlock"
+ causes ~50us noise spikes on isolated PREEMPT_RT cores
+In-Reply-To: <20260401165841.532687-1-ionut.nechita@windriver.com>
+References: <22ffc044-4cc7-468c-b11d-9b838c92e82b@siemens.com>
+ <20260401165841.532687-1-ionut.nechita@windriver.com>
+Date: Thu, 02 Apr 2026 06:42:32 +0200
+Message-ID: <878qb6x9af.fsf@yellow.woof>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260401104449.42123600e33e08b5ebad10a5@linux-foundation.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 01, 2026 at 10:44:49AM -0700, Andrew Morton wrote:
-> On Wed, 1 Apr 2026 10:37:17 -0700 Andrew Morton <akpm@linux-foundation.org> wrote:
-> 
-> > On Wed, 1 Apr 2026 10:36:03 +0300 Mike Rapoport <rppt@kernel.org> wrote:
-> > 
-> > > Here's a fixup (it causes a conflict in patch 4 though).
-> > > Andrew, I can send v4 if you prefer.
-> > 
-> > Looks pretty simple.  "userfaultfd: introduce mfill_get_vma() and
-> > mfill_put_vma()" now leaves things like this:
-> 
-> err, actually, it gets messy.
-> 
-> Can we please have a v4?  I think there are a few other things pending?
+"Ionut Nechita (Wind River)" <ionut.nechita@windriver.com> writes:
+> Crystal, Jan, Florian, thanks for the detailed feedback. I've redone
+> all testing addressing each point raised. All tests below use HT
+> disabled (sibling cores offlined), as Jan requested.
+>
+> Setup:
+>   - Hardware: Intel Xeon Gold 6338N (Ice Lake, single socket,
+>     32 cores, HT disabled via sibling cores offlined)
+>   - Boot: nohz_full=3D1-16 isolcpus=3Dnohz,domain,managed_irq,1-16
+>     rcu_nocbs=3D1-31 kthread_cpus=3D0 irqaffinity=3D17-31
+>     iommu=3Dpt nmi_watchdog=3D0 intel_pstate=3Dnone skew_tick=3D1
+>   - eosnoise run with: ./osnoise -c 1-15
+>   - Duration: 120s per test
+>
+> Tested kernels (all vanilla, built from upstream sources):
+>   - 6.18.20-vanilla      (non-RT, PREEMPT_DYNAMIC)
+>   - 6.18.20-vanilla      (PREEMPT_RT, with and without rwlock revert)
+>   - 7.0.0-rc6-next-20260331 (PREEMPT_RT, with and without rwlock revert)
+>
+> I tested 6 configurations to isolate the exact failure mode:
+>
+>   #  Kernel          Config   Tool            Revert  Result
+>   -- --------------- -------- --------------- ------- ----------------
+>   1  6.18.20         non-RT   eosnoise        no      clean (100%)
+>   2  6.18.20         RT       eosnoise        no      D state (hung)
+>   3  6.18.20         RT       eosnoise        yes     clean (100%)
+>   4  6.18.20         RT       kernel osnoise  no      clean (99.999%)
+>   5  7.0-rc6-next    RT       eosnoise        no      93% avail, 57us
+>   6  7.0-rc6-next    RT       eosnoise        yes     clean (99.99%)
 
-Sent.
- 
-> I've noted
-> https://lkml.kernel.org/r/202603311743.uZYPu1Gn-lkp@intel.com
+Thanks for the detailed analysis.
 
-Alice fixed this on the Rust side and the fix is queued to char-misc-linus:
+> Key findings:
+>
+> 1. On 6.18.20-rt with spinlock, eosnoise hangs permanently in D state.
+>
+>    The process blocks in do_epoll_ctl() during perf_buffer__new() setup
+>    (libbpf's perf_event_open + epoll_ctl loop). strace shows progressive
+>    degradation as fds are added to the epoll instance:
+>
+>      CPU  0-13:  epoll_ctl  ~8 us     (normal)
+>      CPU 14:     epoll_ctl  16 ms     (2000x slower)
+>      CPU 15:     epoll_ctl  80 ms     (10000x slower)
+>      CPU 16:     epoll_ctl  80 ms
+>      CPU 17:     epoll_ctl  20 ms
+>      CPU 18:     epoll_ctl  -- hung, never returns --
+>
+>    Kernel stack of the hung process (3+ minutes in D state):
+>
+>      [<0>] do_epoll_ctl+0xa57/0xf20
+>      [<0>] __x64_sys_epoll_ctl+0x5d/0xa0
+>      [<0>] do_syscall_64+0x7c/0xe30
+>      [<0>] entry_SYSCALL_64_after_hwframe+0x76/0x7e
+>
+> 2. On 7.0-rc6-next-rt with spinlock, eosnoise runs but with severe
+>    noise. The difference from 6.18 is likely additional fixes in
+>    linux-next that prevent the complete deadlock but not the contention.
+>
+> 3. Kernel osnoise tracer (test #4) shows zero noise on the same
+>    6.18.20-rt+spinlock kernel where eosnoise hangs. This confirms the
+>    issue is specifically in the epoll rt_mutex path, not in osnoise
+>    measurement methodology.
+>
+>    Kernel osnoise output (6.18.20-rt, spinlock, no revert):
+>      99.999% availability, 1-4 ns max noise, RES=3D6 total in 120s
+>
+> 4. Non-RT kernel (test #1) with the same spinlock change shows zero
+>    noise. This confirms the issue is the spinlock-to-rt_mutex conversion
+>    on PREEMPT_RT, not the spinlock change itself.
+>
+> IRQ deltas on isolated CPU1 (120s):
+>
+>                     6.18.20-rt   6.18.20-rt   6.18.20      6.18.20-rt
+>                     spinlock     rwlock(rev)  non-RT       kernel osnoise
+>   RES (IPI):        (D state)    3            1            6
+>   LOC (timer):      (D state)    3,325        1,185        245
+>   IWI (irq work):   (D state)    565,988      1,433        121
+>
+>                     7.0-rc6-rt   7.0-rc6-rt
+>                     spinlock     rwlock(rev)
+>   RES (IPI):        330,000+     2
+>   LOC (timer):      120,585      120,585
+>   IWI (irq work):   585,785      585,785
+>
+> The mechanism, refined:
+>
+> Crystal was right that this is specific to the BPF perf_event_output +
+> epoll pattern, not any arbitrary epoll user. I verified this: a plain
+> perf_event_open + epoll_ctl program without BPF does not trigger the
+> issue.
+>
+> What triggers it is libbpf's perf_buffer__new(), which creates one
+> PERF_COUNT_SW_BPF_OUTPUT perf_event per CPU, mmaps the ring buffer,
+> and adds all fds to a single epoll instance. When BPF programs are
+> attached to high-frequency tracepoints (irq_handler_entry/exit,
+> softirq_entry/exit, sched_switch), every interrupt on every CPU calls
+> bpf_perf_event_output() which invokes ep_poll_callback() under
+> ep->lock.
+>
+> On PREEMPT_RT, ep->lock is an rt_mutex. With 15+ CPUs generating
+> callbacks simultaneously into the same epoll instance, the rt_mutex
+> PI mechanism creates unbounded contention.  On 6.18 this results in
+> a permanent D state hang. On 7.0 it results in ~330,000 reschedule
+> IPIs hitting isolated cores over 120 seconds (~2,750/s per core).
+>
+> With rwlock, ep_poll_callback() uses read_lock which allows concurrent
+> readers without cross-CPU contention =E2=80=94 the callbacks execute in
+> parallel without generating IPIs.
 
-https://lore.kernel.org/all/CAH5fLgg63SYHQ34yqy7o2cA5f2Gh0aNTwTeQkzbWb+kV4Rr3Qw@mail.gmail.com
+These IPIs do not exist without eosnoise running. eosnoise introduces
+these noises into the system. For a noise tracer tool, it is certainly
+eosnoise's responsibility to make sure it does not measure noises
+originating from itself.
 
-> https://lkml.kernel.org/r/acqrtd7E6UxrX6Ji@casper.infradead.org
+> This pattern (BPF tracepoint programs + perf ring buffer + epoll) is
+> the standard architecture used by BCC tools (opensnoop, execsnoop,
+> biolatency, tcpconnect, etc.), bpftrace, and any libbpf-based
+> observability tool. A permanent D state hang when running such tools
+> on PREEMPT_RT is a significant regression.
 
-We've been through this since Peter's first posting and I think there's a
-consensus about necessity of vm_uffd_ops and the argument was about what
-exact API they should have.
- 
--- 
-Sincerely yours,
-Mike.
+7.0-rc6-next is still using spin lock but has no hang problem. Likely
+you are hitting a different problem here which appears when spin lock is
+used, which has been fixed somewhere between 6.18.20 and 7.0-rc6-next.
+
+If you still have the energy for it, a git bisect between 6.18.20 and
+7.0-rc6-next will tell us which commit made the hang issue disappear.
+
+> I'm not proposing a specific fix -- the previous suggestions
+> (raw_spinlock trylock, lockless path) were rightly rejected. But the
+> regression exists and needs to be addressed. The ep->lock contention
+> under high-frequency BPF callbacks on PREEMPT_RT is a new problem
+> that the rwlock->spinlock conversion introduced.
+>
+> Separate question: could eosnoise itself be improved to avoid this
+> contention? For example, using one epoll instance per CPU instead of
+> a single shared one, or using BPF ring buffer (BPF_MAP_TYPE_RINGBUF)
+> instead of the per-cpu perf buffer which requires epoll. If the
+> consensus is that the kernel side is working as intended and the tool
+> should adapt, I'd like to understand what the recommended pattern is
+> for BPF observability tools on PREEMPT_RT.
+
+I am not familiar with eosnoise, I can't tell you. I tried compiling
+eosnoise but that failed. I managed to fix the compile failure, then I
+got run-time failure.
+
+It depends on what eosnoise is using epoll for. If it is just waiting
+for PERF_COUNT_SW_BPF_OUTPUT to happen, perhaps we can change to some
+sort of polling implementation (e.g. wake up every 100ms to check for
+data).
+
+Best regards,
+Nam
