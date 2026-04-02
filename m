@@ -1,200 +1,172 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDBC232F740
-	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Apr 2026 09:12:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.183
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775121173; cv=none; b=Qe1b9wYOVPeCOQNlBaMF27KovYsilIAcaWdIUNJyeZ5Hw/MJzwYn8ClOGAFF0o5KEIiduJNDDulrLvtUDPFttl0S57GpwrR0rSdUum2GMU6mg6KZk+t9KF0P4aLUVoSw54pNWAqBbOEB7QIye0AN84Z6Mf2t63W937s8fnNqiXI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775121173; c=relaxed/simple;
-	bh=sEherq6mpoZoc7L3YQ8XNUEWLw9suS70+AlIhcU0vQ8=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=RyMlL44kIFiNj9pfyuPkzOGvtZE1fAu7rQuhQ7qxiUgHw2NgEa0OD69L3Y3V+lwlgPRAot7tedICpVkEJVd36TjgOJX1Bq+dRcnP+whFdtxTQ5L35ehnlN4WADrc0IT+WbWAXrYTsSq67ikYYXr1IZpa6vnFIvvC8s3XSXEn+Vc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=tB2qsyyT; arc=none smtp.client-ip=195.121.94.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C3FD3AF668
+	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Apr 2026 09:49:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.133.124
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775123381; cv=pass; b=iue8WfA4zUONuIoO6F2tGHn84TgQPQ34QKWbI4jyXoGO9DXmsjwYruGTou8oGJW4SWPxSJoXvJV0MbEFxRlZ2reoYWLyWBtqm7rt+iGyZEuYn1veeR1EE38CEXDh64sYlnLvh6pF8g1NgaShKdq3eVx0g3hzsXp3L4XmVdxvaIY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775123381; c=relaxed/simple;
+	bh=z5FpIBQQ03mUsmNHF2ialIHYPEm8eRXWyZLlR0AYPFg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nFFfW2uQg6fHk8bU4qXwmZmPqdK409bfDktFrPm7uvkLU0H1+WGMwWJM22nNH0EyFYKuhTWXl9k8cIYF/BizBkIM2gXnW35i9L5IN4ZFX3Dv5z3PVE3bOoFCLeYvJv0WorEDvIVkzTJFQz7VMU+UlF8Rf7YcWBHPazrnkwwdids=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LWpDCS1V; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=UOBaqdFG; arc=pass smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="tB2qsyyT"
-X-KPN-MessageId: 1de1f0af-2e74-11f1-bea8-005056992ed3
-Received: from mta.kpnmail.nl (unknown [10.31.161.189])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 1de1f0af-2e74-11f1-bea8-005056992ed3;
-	Thu, 02 Apr 2026 11:12:47 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 1e0be50b-2e74-11f1-b5d0-0050569981f5;
-	Thu, 02 Apr 2026 11:12:48 +0200 (CEST)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LWpDCS1V";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="UOBaqdFG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1775123375;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=z5FpIBQQ03mUsmNHF2ialIHYPEm8eRXWyZLlR0AYPFg=;
+	b=LWpDCS1VjflzmgDG/PxwXOMQq+9TmI6g72ySxcoGjYJx86B22ZGpBNNOGyczK0CLBpFoh4
+	Z+boYVlLSfcLF2qNjIQDZH6tN3GhXS47XzQRCSPvdY9SQIbBadL5ecNnIqA5E3IremL6A8
+	MDNxBAG1/5rJDanUEPB46P3Pd5oNAHU=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-636-TMfWuO8KMxixNFfiGwsPEg-1; Thu, 02 Apr 2026 05:49:34 -0400
+X-MC-Unique: TMfWuO8KMxixNFfiGwsPEg-1
+X-Mimecast-MFC-AGG-ID: TMfWuO8KMxixNFfiGwsPEg_1775123373
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-b9c029c06bcso52280566b.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 02 Apr 2026 02:49:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775123373; cv=none;
+        d=google.com; s=arc-20240605;
+        b=EI8f8ejvc9TmPL4NpRELpqS10xgJQjLceSLiaNxBk25padGdPfcPmgt1tnaTDdRwyT
+         orgHqZtXu/IY5NbFhHM31IYGLwtRy3ewmOsbyYE6HEQevPOKZBArdZqLpEiW2bMZPigB
+         eezTeZWDMQZY9Ito4fq7FDzXtLGMBc0I08+sj1ul7+CZQ6K+Jq00mteDVB8eYmH55NrP
+         JrbYKTGN3qA4WWCB5hNQN/5suCC14bVSRMGAafmhiGECQir87qWnOlDDXu/fSrk0oG9d
+         5rjWh417ymd2wDF6c7iOOHrUGuPPH3TztjwdDvrs7G4pNTgXBbpUWGU4gNNNCG6Ox5F6
+         IxrQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=z5FpIBQQ03mUsmNHF2ialIHYPEm8eRXWyZLlR0AYPFg=;
+        fh=57KD7oHWIfPv1j4pCa7B0QGPhzb+r3sHgnSBHr7QQGY=;
+        b=CsX4/ZkwyCPkgOvINfgGUfLf5DsnDgpMNozZizPGEw2673w+Iv0uDTmDz2nKDzggsz
+         4lFA8UpuI5zSNEXLOfTlRpJlk2IpY1BOtQu/WWoWG0jiWXSQlo9vsyMzfX7SedTw9qml
+         RnZe0m/BFDi1bSUi4ZhLtxPpydMWj4x7sQN7vKAgfV31ma/CTBHUaWk2thhZCFSvXTXz
+         bzaW2pSrny/j/NrVhI3rLxUnLE08mcmerPa+EF1WdDciL9Efrp487uL6YhMhYFYTIguH
+         Qx/y9XAHcrGfyPusQRbsfpZ7yXIhcefp2RLh9LDci0ZzxVvqH8G1INStd5ZYohstMXE6
+         tdXw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=YhpNgmP0kyOBY7UtwKYc84SximQyn1kpmW6JvS5K8wc=;
-	b=tB2qsyyTYUrZqa/2kDAjA7sID1pamk57hYbeWv42ht799P58cOxDuj9APBgl/z9EtcIaSnZ1TfqAw
-	 Xx9Fx0U1hhw8wrROyHEeome3yEBQB3W0ASAVQIL83z8rhhfm2Kfr1NODIzbvqIqxdICbiF82IwV/Fi
-	 MM7oC5FysqNxfVvikm1UsLWVU8ClBWA/WEdUJVkTLEpj80PQYZ4e9I5SWohkQYk1f73jxuw8k59PtE
-	 rE2GxA1bfuZ6C9oJ8IDmKqDpkOEcKQa8JFl13WRG36r/MnzC5im/XvdqIij1l6w71k0oAobxsmduGt
-	 jwP6Tn8SSucjKidGu2U0n/TOLFhBF/Q==
-X-KPN-MID: 33|YaZqOUkfv5lEBLIoUEwY7FtowS5+SAP1Z7Oazmx8glMnm1V0O4J0jU/ob5meAxZ
- zTsCisAFrCSmPh0Arknr9Jc9Bqpm6B1NEzE14BFO0waQ=
-X-CMASSUN: 33|W6dXBSlPa9VgGlFR26h8LJAMFYxvKMyez48k8C+GPoCcmS/P/TvrtuTimCM+k+c
- GrqOzRUe+jvQ5FwjVCdry1g==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh07 (cpxoxapps-mh07.personalcloud.so.kpn.org [10.128.135.213])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 1e05d7ff-2e74-11f1-b8d7-005056995d6c;
-	Thu, 02 Apr 2026 11:12:48 +0200 (CEST)
-Date: Thu, 2 Apr 2026 11:12:47 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: kernel test robot <lkp@intel.com>, gregkh@linuxfoundation.org,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	NeilBrown <neil@brown.name>, Amir Goldstein <amir73il@gmail.com>,
-	Jeff Layton <jlayton@kernel.org>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Mateusz Guzik <mjguzik@gmail.com>,
-	"open list:FILESYSTEMS (VFS and infrastructure)"
- <linux-fsdevel@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
-Message-ID: <1499602884.918603.1775121167994@kpc.webmail.kpnmail.nl>
-In-Reply-To: <202604020519.RLV5cfGp-lkp@intel.com>
-References: <20260331173726.3517440-1-jkoolstra@xs4all.nl>
- <202604020519.RLV5cfGp-lkp@intel.com>
-Subject: Re: [PATCH] vfs: replace ints with enum component_type for LAST_XXX
+        d=redhat.com; s=google; t=1775123373; x=1775728173; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=z5FpIBQQ03mUsmNHF2ialIHYPEm8eRXWyZLlR0AYPFg=;
+        b=UOBaqdFGTixDkdR6S35LVJjoFbXZ5cM2ZGgDD2OKMOrb5dXOS99tH6hYnIB9FMO31j
+         W3m4oqmXQVWZkuTX4oU5da+LG4bfp8WKh5eHuorBEOw8HPAKoN8YjguP2zEJs3Qy53Aa
+         UHu6VA9+QkhuwqHdjW2qw0MTzGH4gBJX0z9TwXqAvhKZXNcU9G46DspqjGbdJYTwGqCe
+         4aa0i/yIVs8EH5wAphwGc8TUHyce31EXOiCY9e5s1uuRmzpC/wHS0dJ8KIYvWi7E8E4W
+         O5SxzTTb1PbFk7/YYfhnWTaEDCrrKlnaIOmuCVM8YBgEWRe0Vw1t92KGJb+aQZEJKkce
+         MYBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775123373; x=1775728173;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=z5FpIBQQ03mUsmNHF2ialIHYPEm8eRXWyZLlR0AYPFg=;
+        b=jmnPH/fnerxppVHEqchyYGV+N76ns+TuY7L48E/s9ch/W3KtZfx634P0bXRzMcWlt5
+         5HOaOQCXPiOKpOM2Ch7btoS1Q9fhp6f3Ojdl1eGkbtvxn1cv80+oiByb8Lmxrw2Iue3H
+         FqvuBwIHvkX+fFtecV7NlFNHc/9jql6Tkp0AcVIA5NaLHsQlj0n9Gk6naSAYJE0dhQzo
+         CI3dWwsXoIomLxxf4D29t3nU1FhZzlekXQ5C4pMjX58FltOB7JPeKf/GGywDoy50Cxpa
+         5oo7z6BL6dqPPF84FM0pd9Mbe4QCf7JHtwz5YliIRq8DMfm9eC9jLV4w+HMMlkj+j11V
+         LCnw==
+X-Forwarded-Encrypted: i=1; AJvYcCUbHTNlEHRAGCyoCSC4kwcB6/ctzE/MedxtgcLOaY8BF6jGRzSURj6ND8LxnuHSp+xu2P4CNjb27wmkF9vD@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy0Pfjmihhp6rt0/nIg6EGGUFgEzLb8ss9LmKS7C+ziwa02ibc0
+	1lmVbKV0c3T8nLXjo02Z00IOgUtT4Ws0Jjoh+QzGy/EQ+OyBxRAhWNHpyVPqJ68frHvvezzqNna
+	t27+XhlJ2zonymzoWfgrtGh4UIu7nHKDVawuBc1qg9z3eDmyZL6FX6JkiF9ouzgHV5vzwAX2bju
+	WcbVCnZsBoSAhR4KqASQe/sdbehfN9K9mwztH5ML5eog==
+X-Gm-Gg: ATEYQzx/iJmX+/aRnm1ZB9fx1D8yeCuCVpf7nuc2+OphBXgW7G/end6Elw8DSYYrYgE
+	CDyaxgVj3qZc0aVsOhYFP9R6V1v2AJOktUQauBGScTT42MsLA5TVAVStzcTMjRimSBz2FHE2szS
+	9PjtQNKL5lVuYZjrWciSXaONTe1OWCpUrW97awKq6eplK+kPoLqnaRYx1kukPRdas/Uwqc6V5Fl
+	pv2EA==
+X-Received: by 2002:a17:906:6207:b0:b98:2d0d:fc00 with SMTP id a640c23a62f3a-b9c13b0b08emr475388066b.24.1775123372884;
+        Thu, 02 Apr 2026 02:49:32 -0700 (PDT)
+X-Received: by 2002:a17:906:6207:b0:b98:2d0d:fc00 with SMTP id
+ a640c23a62f3a-b9c13b0b08emr475385466b.24.1775123372331; Thu, 02 Apr 2026
+ 02:49:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+References: <22ffc044-4cc7-468c-b11d-9b838c92e82b@siemens.com> <20260401165841.532687-1-ionut.nechita@windriver.com>
+In-Reply-To: <20260401165841.532687-1-ionut.nechita@windriver.com>
+From: Tomas Glozar <tglozar@redhat.com>
+Date: Thu, 2 Apr 2026 11:49:20 +0200
+X-Gm-Features: AQROBzBJw-tLhM-lD_x8-woUH2LWxJHrMMtqB3L4YgOqRmMqBGl5_Aj9bKxBLJU
+Message-ID: <CAP4=nvQehXtd2AEFzuRzcqfXOmU6U3LH9M-nQTvNkdCtAV8YTA@mail.gmail.com>
+Subject: Re: [REGRESSION] osnoise: "eventpoll: Replace rwlock with spinlock"
+ causes ~50us noise spikes on isolated PREEMPT_RT cores
+To: "Ionut Nechita (Wind River)" <ionut.nechita@windriver.com>
+Cc: jan.kiszka@siemens.com, crwood@redhat.com, florian.bezdeka@siemens.com, 
+	namcao@linutronix.de, brauner@kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-rt-users@vger.kernel.org, stable@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, bpf@vger.kernel.org, frederic@kernel.org, 
+	vschneid@redhat.com, gregkh@linuxfoundation.org, chris.friesen@windriver.com, 
+	viorel-catalin.rapiteanu@windriver.com, iulian.mocanu@windriver.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+st 1. 4. 2026 v 19:08 odes=C3=ADlatel Ionut Nechita (Wind River)
+<ionut.nechita@windriver.com> napsal:
+>
+> Separate question: could eosnoise itself be improved to avoid this
+> contention? For example, using one epoll instance per CPU instead of
+> a single shared one, or using BPF ring buffer (BPF_MAP_TYPE_RINGBUF)
+> instead of the per-cpu perf buffer which requires epoll.
+
+Neither BPF ring buffers nor perf event buffers strictly require you
+to use epoll. Just as a BPF ring buffer can be read using libbpf's
+ring_buffer__consume() [1] without polling, perf_buffer__consume() [2]
+can be used the same way for the perf event ringbuffer; neither of the
+functions block. If you need to poll, BPF ring buffer also uses
+epoll_wait() [3] so that won't make a difference (or is there another
+way to poll it?)
+
+[1] https://docs.ebpf.io/ebpf-library/libbpf/userspace/ring_buffer__consume=
+/
+[2] https://docs.ebpf.io/ebpf-library/libbpf/userspace/perf_buffer__consume=
+/
+[3] https://github.com/libbpf/libbpf/blob/master/src/ringbuf.c#L341
+
+That being said, BPF ring buffer is not per-CPU and should allow
+collecting data from all CPUs into one buffer.
+
+> If the consensus is that the kernel side is working as intended and the t=
+ool
+> should adapt, I'd like to understand what the recommended pattern is
+> for BPF observability tools on PREEMPT_RT.
+
+The ideal solution is to aggregate data in BPF directly, not in
+userspace, and collect them at the end of the measurement, when
+possible. This is what rtla-timerlat does for collecting samples [4]
+where it was implemented to prevent the collecting user space thread
+from being overloaded with too many samples on systems with a large
+number of CPU; polling on ring buffer is used to signal end of tracing
+on latency threshold only, no issues have been reported with that. To
+collect data about system noise, timerlat collects the events in an
+ftrace ring buffer, and then analyzes the tail of the buffer (i.e.
+what is relevant to the spike, not all data throughout the entire
+measurement) in user space [5]. The same could be replicated in
+eosnoise, i.e. collecting the data into a ringbuffer and only reading
+the tail in userspace, if that suffices for your use case.
+
+[4] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tre=
+e/tools/tracing/rtla/src/timerlat.bpf.c
+[5] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
+/tools/tracing/rtla/src/timerlat_aa.c
 
 
-> Op 02-04-2026 08:25 CEST schreef kernel test robot <lkp@intel.com>:
-> 
->  
-> Hi Jori,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on brauner-vfs/vfs.all]
-> [also build test ERROR on linus/master viro-vfs/for-next v7.0-rc6 next-20260331]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Jori-Koolstra/vfs-replace-ints-with-enum-component_type-for-LAST_XXX/20260401-024525
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-> patch link:    https://lore.kernel.org/r/20260331173726.3517440-1-jkoolstra%40xs4all.nl
-> patch subject: [PATCH] vfs: replace ints with enum component_type for LAST_XXX
-> config: hexagon-allmodconfig
-> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-> reproduce (this is a W=1 build):
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202604020519.RLV5cfGp-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> fs/smb/server/vfs.c:71:23: error: incompatible pointer types passing 'int *' to parameter of type 'enum component_type *' [-Werror,-Wincompatible-pointer-types]
->       71 |                                      path, &last, &type,
->          |                                                   ^~~~~
->    include/linux/namei.h:70:68: note: passing argument to parameter 'type' here
->       70 |                            struct path *parent, struct qstr *last, enum component_type *type,
->          |                                                                                         ^
-> >> fs/smb/server/vfs.c:76:23: error: use of undeclared identifier 'LAST_NORM'
->       76 |         if (unlikely(type != LAST_NORM)) {
->          |                              ^
->    fs/smb/server/vfs.c:681:32: error: incompatible pointer types passing 'int *' to parameter of type 'enum component_type *' [-Werror,-Wincompatible-pointer-types]
->      681 |                                      &new_path, &new_last, &new_type,
->          |                                                            ^~~~~~~~~
->    include/linux/namei.h:70:68: note: passing argument to parameter 'type' here
->       70 |                            struct path *parent, struct qstr *last, enum component_type *type,
->          |                                                                                         ^
->    3 errors generated.
-> 
-> 
-> vim +71 fs/smb/server/vfs.c
-> 
-> f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon 2021-03-16   52  
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   53  static int ksmbd_vfs_path_lookup(struct ksmbd_share_config *share_conf,
-> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   54  				 char *pathname, unsigned int flags,
-> 1ead2213dd7d14 fs/smb/server/vfs.c NeilBrown   2025-11-13   55  				 struct path *path, bool for_remove)
-> f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon 2021-03-16   56  {
-> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   57  	struct qstr last;
-> 94cb22d109d517 fs/smb/server/vfs.c Al Viro     2025-07-06   58  	const struct path *root_share_path = &share_conf->vfs_path;
-> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   59  	int err, type;
-> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   60  	struct dentry *d;
-> f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon 2021-03-16   61  
-> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   62  	if (pathname[0] == '\0') {
-> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   63  		pathname = share_conf->path;
-> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   64  		root_share_path = NULL;
-> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   65  	} else {
-> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   66  		flags |= LOOKUP_BENEATH;
-> ff1d57272552e4 fs/cifsd/vfs.c      Namjae Jeon 2021-04-13   67  	}
-> f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon 2021-03-16   68  
-> 39537a335a6189 fs/smb/server/vfs.c Al Viro     2025-12-14   69  	CLASS(filename_kernel, filename)(pathname);
-> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   70  	err = vfs_path_parent_lookup(filename, flags,
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24  @71  				     path, &last, &type,
-> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   72  				     root_share_path);
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   73  	if (err)
-> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   74  		return err;
-> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   75  
-> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21  @76  	if (unlikely(type != LAST_NORM)) {
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   77  		path_put(path);
-> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   78  		return -ENOENT;
-> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   79  	}
-> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   80  
-> 1ead2213dd7d14 fs/smb/server/vfs.c NeilBrown   2025-11-13   81  	if (for_remove) {
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   82  		err = mnt_want_write(path->mnt);
-> 864fb5d3716303 fs/smb/server/vfs.c Namjae Jeon 2023-11-20   83  		if (err) {
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   84  			path_put(path);
-> 864fb5d3716303 fs/smb/server/vfs.c Namjae Jeon 2023-11-20   85  			return -ENOENT;
-> 864fb5d3716303 fs/smb/server/vfs.c Namjae Jeon 2023-11-20   86  		}
-> 864fb5d3716303 fs/smb/server/vfs.c Namjae Jeon 2023-11-20   87  
-> 1ead2213dd7d14 fs/smb/server/vfs.c NeilBrown   2025-11-13   88  		d = start_removing_noperm(path->dentry, &last);
-> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   89  
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   90  		if (!IS_ERR(d)) {
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   91  			dput(path->dentry);
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   92  			path->dentry = d;
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   93  			return 0;
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   94  		}
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   95  		mnt_drop_write(path->mnt);
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   96  		path_put(path);
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   97  		return -ENOENT;
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   98  	}
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   99  
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24  100  	d = lookup_noperm_unlocked(&last, path->dentry);
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24  101  	if (!IS_ERR(d) && d_is_negative(d)) {
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24  102  		dput(d);
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24  103  		d = ERR_PTR(-ENOENT);
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24  104  	}
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24  105  	if (IS_ERR(d)) {
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24  106  		path_put(path);
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24  107  		return -ENOENT;
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24  108  	}
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24  109  	dput(path->dentry);
-> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21  110  	path->dentry = d;
-> 2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon 2023-07-17  111  
-> 2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon 2023-07-17  112  	if (test_share_config_flag(share_conf, KSMBD_SHARE_FLAG_CROSSMNT)) {
-> 2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon 2023-07-17  113  		err = follow_down(path, 0);
-> 2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon 2023-07-17  114  		if (err < 0) {
-> 2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon 2023-07-17  115  			path_put(path);
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24  116  			return -ENOENT;
-> 2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon 2023-07-17  117  		}
-> 2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon 2023-07-17  118  	}
-> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21  119  	return 0;
-> f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon 2021-03-16  120  }
-> f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon 2021-03-16  121  
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+Tomas
 
-These should have been resolved in the v2 patch already. I missed the reference in
-fs/smb/sever/vfs.c initially. My LSP config was off, probably should've just rg'ed
-it in the first place...
