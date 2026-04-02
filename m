@@ -1,34 +1,34 @@
 Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEDF235CB6E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E457B336897
 	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Apr 2026 18:05:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775153121; cv=none; b=sV5Y0oF8Q7Zm39l6tCVchg7tFk1i3aB8EZqjV3Sgty5kbvMs6/CLlbhE+VneNFGDgF24XeVysMsMj0jZ19m+gQk0culRgyvSKQaNEOyh3Lcsj5O+0ZvfzO+QDdPyrdkXy4XTaFa+bw7l5TP5ImcJ00StJYIiR6U0ontnAyFogJ4=
+	t=1775153121; cv=none; b=qAnAmfpp+wF3az71geajt+VklqWuhKNJ3Er446iFRt9oQiz4EO8zVM+UfWzL5lE7UphrYMFdu1eaM3WBf/zqnWeChCjtU59h8s23ahkSCu8F1igYkd3u9KDcbooMOfw8BmwjPOw7EujISXhlszdQJGd3cuh286mzJ8j461pbT4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1775153121; c=relaxed/simple;
-	bh=93Ql44OFxdZ2pQxYH042uiOVEEXNxVRfKjWAzVR2xn8=;
+	bh=XlpGoDCbm/Y9UliYoFT9PzvOIEcxYXBR32Wm5i5+wu4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XbpWiB+FNWtJYvPUYodUqYkcdQc1+RschCQbgp4lnAU9x0dbaAboEBSs0nArFzNgQJ9pRgCOXnoEm2OqeycqxgPN8198JnDAbjUmlnYxLwmxCmgAOBbGx1ulfeWbt9G/wilJPYSS8Lt4RFHYOMnlrzn8d2FZ+3vi5O5gn800bFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=bXSPhnX3; arc=none smtp.client-ip=62.89.141.173
+	 MIME-Version; b=CFneDKSmdvLLtO00iC3W2xvPiLgS2avBf6Ibs4Lf0rREhin2N6Q6TE5ylwTOAf+ZC0xdTTkMe1qeHGXd2F0JacChODTW8T5wcDACHH92ruFOoAkLLaJl6b1DKExFPDLv5Tqa9YPFEYyvcGszlVmTibxcZaa8y9Z3r2i4k2SPGYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=E0PHMgEG; arc=none smtp.client-ip=62.89.141.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="bXSPhnX3"
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="E0PHMgEG"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=linux.org.uk; s=zeniv-20220401; h=Sender:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=Y0i1aFClDuDWd3IV+j4nUsXqvpWCZH0jbno8MJIJ6S4=; b=bXSPhnX3Gv2Ah7m51o4D4bRk+D
-	W/K3Lxo63v1BaebQbXW3CBh9Rxos+iBLYjQV22NA/QVd6TEiPHJiMjovci8g28/5fsCjmQ5yKF8Vu
-	+y3J9TVOXs8eUkN7b2bg0qCTNHxv/rrQsamuGZ6cE1ZYWj3h/+jQFFrvP5cEKYzeQgLMh4QLrZcQt
-	sgGAD62OWbe6tVs7EKeUUHdHSrIhukzDQMJrGVu0DWOukYb+x071dBNvKFuyrHOJmJKhhoVIlOh5H
-	Mpado7CRZ88naAiUPj/VU5N0X7LknEvVki1wO5eOVkDKh4dLAdawzlC93rbg9PnpKS+0H/R+rUag8
-	XHHGW9Uw==;
+	bh=0zwfpgHcn8ACltj81MuRofq/lj5BksMeVFzyOK6DGLY=; b=E0PHMgEGJHVR0QEDCGBMAqnm26
+	SVi6qCj1JM+JFhpy2NoOM2yupXGaN7uPOXfcEmb3NOZirhXSQeYGkhOjQkAoBs44ThSlSUJtqw/es
+	NHhqcWjLqcK59ZkMBeWb039usMpA4umQ03R9ewa/FW7h5sIwwC3kV8RWAnzKNNg1G1JfaHVyofhlz
+	t0fXEZidxOs4Hl9mS7qjo8pZqN3gOhnXD2fAajW+Uy5JYBl+3qGOj1hRz5dxemlctE8dHnIFHL6Ah
+	SpGk8Y6CMa3bgMnZVzhM5OJNyz1mP3o/mItSLrQjHl/636y9hP4PUdfjRhAVS4UPINFGa0morUF+O
+	+klCUayA==;
 Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1w8MTM-0000000FeJw-1iNx;
-	Thu, 02 Apr 2026 18:08:52 +0000
+	id 1w8MTL-0000000FeHq-3bm9;
+	Thu, 02 Apr 2026 18:08:51 +0000
 From: Al Viro <viro@zeniv.linux.org.uk>
 To: Linus Torvalds <torvalds@linux-foundation.org>
 Cc: linux-fsdevel@vger.kernel.org,
@@ -38,9 +38,9 @@ Cc: linux-fsdevel@vger.kernel.org,
 	Max Kellermann <max.kellermann@ionos.com>,
 	Eric Sandeen <sandeen@redhat.com>,
 	Paulo Alcantara <pc@manguebit.org>
-Subject: [RFC PATCH v2 4/4] get rid of busy-waiting in shrink_dcache_tree()
-Date: Thu,  2 Apr 2026 19:08:49 +0100
-Message-ID: <20260402180850.3729310-5-viro@zeniv.linux.org.uk>
+Subject: [RFC PATCH v2 2/4] struct dentry: make ->d_u anonymous
+Date: Thu,  2 Apr 2026 19:08:47 +0100
+Message-ID: <20260402180850.3729310-3-viro@zeniv.linux.org.uk>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260402180850.3729310-1-viro@zeniv.linux.org.uk>
 References: <20260122202025.GG3183987@ZenIV>
@@ -54,237 +54,293 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Al Viro <viro@ftp.linux.org.uk>
 
-If shrink_dcache_parent() runs into a potential victim that is already
-dying, it must wait for that dentry to go away.  To avoid busy-waiting
-we need some object to wait on and a way for dentry_unlist() to see that
-we need to be notified.
+Making ->d_rcu and (then) ->d_child overlapping dates back to
+2006; anon unions support had been added to gcc only in 4.6
+(2011) and the minimal gcc version hadn't been bumped to that
+until 4.19 (2018).
 
-The obvious place for the object to wait on would be inside struct
-select_data we have on our stack frame.  We will store a pointer to
-select_data in victim dentry; if there's more than one thread wanting to
-wait for the same dentry to finish dying, we'll have their select_data
-linked into a list, with reference in dentry pointing to the head of
-that list.
-
-* add struct completion and a pointer to the next select_data into
-struct select_data; that will be what we wait on and the list linkage.
-
-* add a new member (->waiters, opaque pointer to struct select_data)
-to struct dentry.  It is defined for negative live dentries that are
-not in-lookup ones and it will remain NULL for almost all of them.
-
-It does not conflict with ->d_rcu (defined for killed dentries), ->d_alias
-(defined for positive dentries, all live) or ->d_in_lookup_hash (defined
-for in-lookup dentries, all live negative).  That allows to colocate
-all four members.
-
-* make sure that all places where dentry enters the state where ->waiters
-is defined (live, negative, not-in-lookup) initialize ->waiters to NULL.
-
-* if select_collect2() runs into a dentry that is already dying, have
-its caller insert its select_data into the head of list that hangs off
-dentry->waiters and wait for completion.
-
-* if dentry_unlist() sees non-NULL ->waiters, have it carefully walk
-through the select_data on that list, calling complete() for each.
+These days there's no reason not to keep that union named.
 
 Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
 ---
- fs/dcache.c            | 90 ++++++++++++++++++++++++++++++++++--------
- include/linux/dcache.h | 18 +++++++--
- 2 files changed, 89 insertions(+), 19 deletions(-)
+ fs/ceph/mds_client.c   |  2 +-
+ fs/dcache.c            | 48 +++++++++++++++++++++---------------------
+ fs/inode.c             |  2 +-
+ fs/nfs/dir.c           |  2 +-
+ fs/nfs/getroot.c       |  2 +-
+ include/linux/dcache.h |  4 ++--
+ 6 files changed, 30 insertions(+), 30 deletions(-)
 
+diff --git a/fs/ceph/mds_client.c b/fs/ceph/mds_client.c
+index f839109fb66f..a5eb99c3c36b 100644
+--- a/fs/ceph/mds_client.c
++++ b/fs/ceph/mds_client.c
+@@ -4608,7 +4608,7 @@ static struct dentry* d_find_primary(struct inode *inode)
+ 		goto out_unlock;
+ 
+ 	if (S_ISDIR(inode->i_mode)) {
+-		alias = hlist_entry(inode->i_dentry.first, struct dentry, d_u.d_alias);
++		alias = hlist_entry(inode->i_dentry.first, struct dentry, d_alias);
+ 		if (!IS_ROOT(alias))
+ 			dn = dget(alias);
+ 		goto out_unlock;
 diff --git a/fs/dcache.c b/fs/dcache.c
-index 616a445ec720..09a80f7f3d05 100644
+index e069b6ec4ec0..4378eb8a00bb 100644
 --- a/fs/dcache.c
 +++ b/fs/dcache.c
-@@ -455,7 +455,9 @@ static void dentry_unlink_inode(struct dentry * dentry)
+@@ -40,7 +40,7 @@
+ /*
+  * Usage:
+  * dcache->d_inode->i_lock protects:
+- *   - i_dentry, d_u.d_alias, d_inode of aliases
++ *   - i_dentry, d_alias, d_inode of aliases
+  * dcache_hash_bucket lock protects:
+  *   - the dcache hash table
+  * s_roots bl list spinlock protects:
+@@ -55,7 +55,7 @@
+  *   - d_unhashed()
+  *   - d_parent and d_chilren
+  *   - childrens' d_sib and d_parent
+- *   - d_u.d_alias, d_inode
++ *   - d_alias, d_inode
+  *
+  * Ordering:
+  * dentry->d_inode->i_lock
+@@ -341,14 +341,14 @@ static inline struct external_name *external_name(struct dentry *dentry)
+ 
+ static void __d_free(struct rcu_head *head)
+ {
+-	struct dentry *dentry = container_of(head, struct dentry, d_u.d_rcu);
++	struct dentry *dentry = container_of(head, struct dentry, d_rcu);
+ 
+ 	kmem_cache_free(dentry_cache, dentry); 
+ }
+ 
+ static void __d_free_external(struct rcu_head *head)
+ {
+-	struct dentry *dentry = container_of(head, struct dentry, d_u.d_rcu);
++	struct dentry *dentry = container_of(head, struct dentry, d_rcu);
+ 	kfree(external_name(dentry));
+ 	kmem_cache_free(dentry_cache, dentry);
+ }
+@@ -428,19 +428,19 @@ static inline void __d_clear_type_and_inode(struct dentry *dentry)
+ 
+ static void dentry_free(struct dentry *dentry)
+ {
+-	WARN_ON(!hlist_unhashed(&dentry->d_u.d_alias));
++	WARN_ON(!hlist_unhashed(&dentry->d_alias));
+ 	if (unlikely(dname_external(dentry))) {
+ 		struct external_name *p = external_name(dentry);
+ 		if (likely(atomic_dec_and_test(&p->count))) {
+-			call_rcu(&dentry->d_u.d_rcu, __d_free_external);
++			call_rcu(&dentry->d_rcu, __d_free_external);
+ 			return;
+ 		}
+ 	}
+ 	/* if dentry was never visible to RCU, immediate free is OK */
+ 	if (dentry->d_flags & DCACHE_NORCU)
+-		__d_free(&dentry->d_u.d_rcu);
++		__d_free(&dentry->d_rcu);
+ 	else
+-		call_rcu(&dentry->d_u.d_rcu, __d_free);
++		call_rcu(&dentry->d_rcu, __d_free);
+ }
+ 
+ /*
+@@ -455,7 +455,7 @@ static void dentry_unlink_inode(struct dentry * dentry)
  
  	raw_write_seqcount_begin(&dentry->d_seq);
  	__d_clear_type_and_inode(dentry);
--	hlist_del_init(&dentry->d_alias);
-+	if (likely(!hlist_unhashed(&dentry->d_alias)))
-+		__hlist_del(&dentry->d_alias);
-+	dentry->waiters = NULL;
+-	hlist_del_init(&dentry->d_u.d_alias);
++	hlist_del_init(&dentry->d_alias);
  	raw_write_seqcount_end(&dentry->d_seq);
  	spin_unlock(&dentry->d_lock);
  	spin_unlock(&inode->i_lock);
-@@ -605,6 +607,52 @@ void d_drop(struct dentry *dentry)
+@@ -1010,7 +1010,7 @@ static struct dentry * __d_find_any_alias(struct inode *inode)
+ 
+ 	if (hlist_empty(&inode->i_dentry))
+ 		return NULL;
+-	alias = hlist_entry(inode->i_dentry.first, struct dentry, d_u.d_alias);
++	alias = hlist_entry(inode->i_dentry.first, struct dentry, d_alias);
+ 	lockref_get(&alias->d_lockref);
+ 	return alias;
  }
- EXPORT_SYMBOL(d_drop);
- 
-+struct select_data {
-+	struct dentry *start;
-+	union {
-+		long found;
-+		struct {
-+			struct dentry *victim;
-+			struct select_data *next;
-+			struct completion completion;
-+		};
-+	};
-+	struct list_head dispose;
-+};
-+
-+/*
-+ *  shrink_dcache_parent() needs to be notified when dentry in process of
-+ *  being evicted finally gets unlisted.  Such dentries are
-+ *	already with negative ->d_count
-+ *	already negative
-+ *	already not in in-lookup hash
-+ *	reachable only via ->d_sib.
-+ *
-+ *  Use ->waiters for a single-linked list of struct select_data of
-+ *  waiters.
-+ */
-+static inline void d_add_waiter(struct dentry *dentry, struct select_data *p)
-+{
-+	struct select_data *v = dentry->waiters;
-+	init_completion(&p->completion);
-+	p->next = v;
-+	dentry->waiters = p;
-+}
-+
-+static inline void d_complete_waiters(struct dentry *dentry)
-+{
-+	struct select_data *v = dentry->waiters;
-+	if (unlikely(v)) {
-+		/* some shrink_dcache_tree() instances are waiting */
-+		dentry->waiters = NULL;
-+		while (v) {
-+			struct completion *r = &v->completion;
-+			v = v->next;
-+			complete(r);
-+		}
-+	}
-+}
-+
- static inline void dentry_unlist(struct dentry *dentry)
- {
- 	struct dentry *next;
-@@ -613,6 +661,7 @@ static inline void dentry_unlist(struct dentry *dentry)
- 	 * attached to the dentry tree
- 	 */
- 	dentry->d_flags |= DCACHE_DENTRY_KILLED;
-+	d_complete_waiters(dentry);
- 	if (unlikely(hlist_unhashed(&dentry->d_sib)))
- 		return;
- 	__hlist_del(&dentry->d_sib);
-@@ -1509,15 +1558,6 @@ int d_set_mounted(struct dentry *dentry)
-  * constraints.
-  */
- 
--struct select_data {
--	struct dentry *start;
--	union {
--		long found;
--		struct dentry *victim;
--	};
--	struct list_head dispose;
--};
--
- static enum d_walk_ret select_collect(void *_data, struct dentry *dentry)
- {
- 	struct select_data *data = _data;
-@@ -1569,6 +1609,10 @@ static enum d_walk_ret select_collect2(void *_data, struct dentry *dentry)
- 			return D_WALK_QUIT;
+@@ -1093,9 +1093,9 @@ struct dentry *d_find_alias_rcu(struct inode *inode)
+ 	// used without having I_FREEING set, which means no aliases left
+ 	if (likely(!(inode_state_read(inode) & I_FREEING) && !hlist_empty(l))) {
+ 		if (S_ISDIR(inode->i_mode)) {
+-			de = hlist_entry(l->first, struct dentry, d_u.d_alias);
++			de = hlist_entry(l->first, struct dentry, d_alias);
+ 		} else {
+-			hlist_for_each_entry(de, l, d_u.d_alias)
++			hlist_for_each_entry(de, l, d_alias)
+ 				if (!d_unhashed(de))
+ 					break;
  		}
- 		to_shrink_list(dentry, &data->dispose);
-+	} else if (dentry->d_lockref.count < 0) {
-+		rcu_read_lock();
-+		data->victim = dentry;
-+		return D_WALK_QUIT;
- 	}
- 	/*
- 	 * We can return to the caller if we have found some (this
-@@ -1608,12 +1652,26 @@ static void shrink_dcache_tree(struct dentry *parent, bool for_umount)
- 		data.victim = NULL;
- 		d_walk(parent, &data, select_collect2);
- 		if (data.victim) {
--			spin_lock(&data.victim->d_lock);
--			if (!lock_for_kill(data.victim)) {
--				spin_unlock(&data.victim->d_lock);
-+			struct dentry *v = data.victim;
-+
-+			spin_lock(&v->d_lock);
-+			if (v->d_lockref.count < 0 &&
-+			    !(v->d_flags & DCACHE_DENTRY_KILLED)) {
-+				// It's busy dying; have it notify us once
-+				// it becomes invisible to d_walk().
-+				d_add_waiter(v, &data);
-+				spin_unlock(&v->d_lock);
-+				rcu_read_unlock();
-+				if (!list_empty(&data.dispose))
-+					shrink_dentry_list(&data.dispose);
-+				wait_for_completion(&data.completion);
-+				continue;
-+			}
-+			if (!lock_for_kill(v)) {
-+				spin_unlock(&v->d_lock);
- 				rcu_read_unlock();
- 			} else {
--				shrink_kill(data.victim);
-+				shrink_kill(v);
- 			}
- 		}
- 		if (!list_empty(&data.dispose))
-@@ -1787,7 +1845,7 @@ static struct dentry *__d_alloc(struct super_block *sb, const struct qstr *name)
+@@ -1787,7 +1787,7 @@ static struct dentry *__d_alloc(struct super_block *sb, const struct qstr *name)
  	INIT_HLIST_BL_NODE(&dentry->d_hash);
  	INIT_LIST_HEAD(&dentry->d_lru);
  	INIT_HLIST_HEAD(&dentry->d_children);
--	INIT_HLIST_NODE(&dentry->d_alias);
-+	dentry->waiters = NULL;
+-	INIT_HLIST_NODE(&dentry->d_u.d_alias);
++	INIT_HLIST_NODE(&dentry->d_alias);
  	INIT_HLIST_NODE(&dentry->d_sib);
  
  	if (dentry->d_op && dentry->d_op->d_init) {
-@@ -2729,7 +2787,7 @@ static wait_queue_head_t *__d_lookup_unhash(struct dentry *dentry)
+@@ -1980,7 +1980,7 @@ static void __d_instantiate(struct dentry *dentry, struct inode *inode)
+ 	if ((dentry->d_flags &
+ 	     (DCACHE_LRU_LIST|DCACHE_SHRINK_LIST)) == DCACHE_LRU_LIST)
+ 		this_cpu_dec(nr_dentry_negative);
+-	hlist_add_head(&dentry->d_u.d_alias, &inode->i_dentry);
++	hlist_add_head(&dentry->d_alias, &inode->i_dentry);
+ 	raw_write_seqcount_begin(&dentry->d_seq);
+ 	__d_set_inode_and_type(dentry, inode, add_flags);
+ 	raw_write_seqcount_end(&dentry->d_seq);
+@@ -2004,7 +2004,7 @@ static void __d_instantiate(struct dentry *dentry, struct inode *inode)
+  
+ void d_instantiate(struct dentry *entry, struct inode * inode)
+ {
+-	BUG_ON(!hlist_unhashed(&entry->d_u.d_alias));
++	BUG_ON(!hlist_unhashed(&entry->d_alias));
+ 	if (inode) {
+ 		security_d_instantiate(entry, inode);
+ 		spin_lock(&inode->i_lock);
+@@ -2024,7 +2024,7 @@ EXPORT_SYMBOL(d_instantiate);
+  */
+ void d_instantiate_new(struct dentry *entry, struct inode *inode)
+ {
+-	BUG_ON(!hlist_unhashed(&entry->d_u.d_alias));
++	BUG_ON(!hlist_unhashed(&entry->d_alias));
+ 	BUG_ON(!inode);
+ 	lockdep_annotate_inode_mutex_key(inode);
+ 	security_d_instantiate(entry, inode);
+@@ -2087,7 +2087,7 @@ static struct dentry *__d_obtain_alias(struct inode *inode, bool disconnected)
+ 
+ 		spin_lock(&new->d_lock);
+ 		__d_set_inode_and_type(new, inode, add_flags);
+-		hlist_add_head(&new->d_u.d_alias, &inode->i_dentry);
++		hlist_add_head(&new->d_alias, &inode->i_dentry);
+ 		if (!disconnected) {
+ 			hlist_bl_lock(&sb->s_roots);
+ 			hlist_bl_add_head(&new->d_hash, &sb->s_roots);
+@@ -2658,7 +2658,7 @@ struct dentry *d_alloc_parallel(struct dentry *parent,
+ 	 * we unlock the chain.  All fields are stable in everything
+ 	 * we encounter.
+ 	 */
+-	hlist_bl_for_each_entry(dentry, node, b, d_u.d_in_lookup_hash) {
++	hlist_bl_for_each_entry(dentry, node, b, d_in_lookup_hash) {
+ 		if (dentry->d_name.hash != hash)
+ 			continue;
+ 		if (dentry->d_parent != parent)
+@@ -2700,7 +2700,7 @@ struct dentry *d_alloc_parallel(struct dentry *parent,
+ 	}
+ 	rcu_read_unlock();
+ 	new->d_wait = wq;
+-	hlist_bl_add_head(&new->d_u.d_in_lookup_hash, b);
++	hlist_bl_add_head(&new->d_in_lookup_hash, b);
+ 	hlist_bl_unlock(b);
+ 	return new;
+ mismatch:
+@@ -2725,11 +2725,11 @@ static wait_queue_head_t *__d_lookup_unhash(struct dentry *dentry)
+ 	b = in_lookup_hash(dentry->d_parent, dentry->d_name.hash);
+ 	hlist_bl_lock(b);
+ 	dentry->d_flags &= ~DCACHE_PAR_LOOKUP;
+-	__hlist_bl_del(&dentry->d_u.d_in_lookup_hash);
++	__hlist_bl_del(&dentry->d_in_lookup_hash);
  	d_wait = dentry->d_wait;
  	dentry->d_wait = NULL;
  	hlist_bl_unlock(b);
--	INIT_HLIST_NODE(&dentry->d_alias);
-+	dentry->waiters = NULL;
+-	INIT_HLIST_NODE(&dentry->d_u.d_alias);
++	INIT_HLIST_NODE(&dentry->d_alias);
  	INIT_LIST_HEAD(&dentry->d_lru);
  	return d_wait;
  }
+@@ -2760,7 +2760,7 @@ static inline void __d_add(struct dentry *dentry, struct inode *inode,
+ 		d_set_d_op(dentry, ops);
+ 	if (inode) {
+ 		unsigned add_flags = d_flags_for_inode(inode);
+-		hlist_add_head(&dentry->d_u.d_alias, &inode->i_dentry);
++		hlist_add_head(&dentry->d_alias, &inode->i_dentry);
+ 		raw_write_seqcount_begin(&dentry->d_seq);
+ 		__d_set_inode_and_type(dentry, inode, add_flags);
+ 		raw_write_seqcount_end(&dentry->d_seq);
+@@ -2795,7 +2795,7 @@ EXPORT_SYMBOL(d_add);
+ 
+ struct dentry *d_make_persistent(struct dentry *dentry, struct inode *inode)
+ {
+-	WARN_ON(!hlist_unhashed(&dentry->d_u.d_alias));
++	WARN_ON(!hlist_unhashed(&dentry->d_alias));
+ 	WARN_ON(!inode);
+ 	security_d_instantiate(dentry, inode);
+ 	spin_lock(&inode->i_lock);
+@@ -3185,7 +3185,7 @@ void d_mark_tmpfile(struct file *file, struct inode *inode)
+ 	struct dentry *dentry = file->f_path.dentry;
+ 
+ 	BUG_ON(dname_external(dentry) ||
+-		!hlist_unhashed(&dentry->d_u.d_alias) ||
++		!hlist_unhashed(&dentry->d_alias) ||
+ 		!d_unlinked(dentry));
+ 	spin_lock(&dentry->d_parent->d_lock);
+ 	spin_lock_nested(&dentry->d_lock, DENTRY_D_LOCK_NESTED);
+diff --git a/fs/inode.c b/fs/inode.c
+index cc12b68e021b..9e1ab333d382 100644
+--- a/fs/inode.c
++++ b/fs/inode.c
+@@ -754,7 +754,7 @@ void dump_mapping(const struct address_space *mapping)
+ 		return;
+ 	}
+ 
+-	dentry_ptr = container_of(dentry_first, struct dentry, d_u.d_alias);
++	dentry_ptr = container_of(dentry_first, struct dentry, d_alias);
+ 	if (get_kernel_nofault(dentry, dentry_ptr) ||
+ 	    !dentry.d_parent || !dentry.d_name.name) {
+ 		pr_warn("aops:%ps ino:%lx invalid dentry:%px\n",
+diff --git a/fs/nfs/dir.c b/fs/nfs/dir.c
+index 5a0bd8113e3a..f2f1b036f2f1 100644
+--- a/fs/nfs/dir.c
++++ b/fs/nfs/dir.c
+@@ -1490,7 +1490,7 @@ static void nfs_clear_verifier_directory(struct inode *dir)
+ 	if (hlist_empty(&dir->i_dentry))
+ 		return;
+ 	this_parent =
+-		hlist_entry(dir->i_dentry.first, struct dentry, d_u.d_alias);
++		hlist_entry(dir->i_dentry.first, struct dentry, d_alias);
+ 
+ 	spin_lock(&this_parent->d_lock);
+ 	nfs_unset_verifier_delegated(&this_parent->d_time);
+diff --git a/fs/nfs/getroot.c b/fs/nfs/getroot.c
+index f13d25d95b85..eef0736beb67 100644
+--- a/fs/nfs/getroot.c
++++ b/fs/nfs/getroot.c
+@@ -54,7 +54,7 @@ static int nfs_superblock_set_dummy_root(struct super_block *sb, struct inode *i
+ 		 */
+ 		spin_lock(&d_inode(sb->s_root)->i_lock);
+ 		spin_lock(&sb->s_root->d_lock);
+-		hlist_del_init(&sb->s_root->d_u.d_alias);
++		hlist_del_init(&sb->s_root->d_alias);
+ 		spin_unlock(&sb->s_root->d_lock);
+ 		spin_unlock(&d_inode(sb->s_root)->i_lock);
+ 	}
 diff --git a/include/linux/dcache.h b/include/linux/dcache.h
-index f939d2ed10a3..07dac37eb75c 100644
+index 7f1dbc7121d7..f939d2ed10a3 100644
 --- a/include/linux/dcache.h
 +++ b/include/linux/dcache.h
-@@ -88,6 +88,7 @@ union shortname_store {
- 
- #define d_lock	d_lockref.lock
- #define d_iname d_shortname.string
-+struct select_data;
- 
- struct dentry {
- 	/* RCU lookup touched fields */
-@@ -122,12 +123,23 @@ struct dentry {
- 	struct hlist_node d_sib;	/* child of parent list */
- 	struct hlist_head d_children;	/* our children */
- 	/*
--	 * d_alias and d_rcu can share memory
-+	 * the following members can share memory - their uses are
-+	 * mutually exclusive.
- 	 */
- 	union {
--		struct hlist_node d_alias;	/* inode alias list */
--		struct hlist_bl_node d_in_lookup_hash;	/* only for in-lookup ones */
-+		/* positives: inode alias list */
-+		struct hlist_node d_alias;
-+		/* in-lookup ones (all negative, live): hash chain */
-+		struct hlist_bl_node d_in_lookup_hash;
-+		/* killed ones: (already negative) used to schedule freeing */
+@@ -128,7 +128,7 @@ struct dentry {
+ 		struct hlist_node d_alias;	/* inode alias list */
+ 		struct hlist_bl_node d_in_lookup_hash;	/* only for in-lookup ones */
  	 	struct rcu_head d_rcu;
-+		/*
-+		 * live non-in-lookup negatives: used if shrink_dcache_parent()
-+		 * races with eviction by another thread and needs to wait for
-+		 * this dentry to get killed .  Remains NULL for almost all
-+		 * negative dentries.
-+		 */
-+		struct select_data *waiters;
- 	};
+-	} d_u;
++	};
  };
  
+ /*
+@@ -617,6 +617,6 @@ void d_make_discardable(struct dentry *dentry);
+ 
+ /* inode->i_lock must be held over that */
+ #define for_each_alias(dentry, inode) \
+-	hlist_for_each_entry(dentry, &(inode)->i_dentry, d_u.d_alias)
++	hlist_for_each_entry(dentry, &(inode)->i_dentry, d_alias)
+ 
+ #endif	/* __LINUX_DCACHE_H */
 -- 
 2.47.3
 
