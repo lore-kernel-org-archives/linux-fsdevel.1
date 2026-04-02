@@ -1,157 +1,158 @@
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 877FF213E7A;
-	Thu,  2 Apr 2026 02:52:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDEC935E92D;
+	Thu,  2 Apr 2026 04:12:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775098367; cv=none; b=TtIDZSHo6oI6+UL9/VJT1XHwAf06kYYuSsZ6SKP6X0H9oMOT7PlXiIVCpeT91ojawMFnSlRVMK4Ac6FjjsOEheshlwuMMjJKpwX+9T1i9CSdSzzE1tj+NC9JAMS72EE1Q7FZVrRMFroxrvbuk5RAalHgIzpL8xde4Ftp91RlIwM=
+	t=1775103126; cv=none; b=OJNvZgSrKJ3PHOTw52Iu+Vh+GzdlyzMV0UdP7Ct6dLGmYJOGj6UAxEQqDUo1o4ToAxm90aczYqmVZ3Qj1vUmz7pJVjvplBWKx0qAg0/hJuK/+4rzKTyp0LKqhQYc+2eG5g17GarpD5dXj6dRVtF2o/XqYlJBY01LzJEpuikIGa8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775098367; c=relaxed/simple;
-	bh=0s3Ltdb3st4RBI8X7GzRMeGijr+TMGvhGRqHHFtYADY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rDhxgyKv5bIwp9XZlOABIRwZBcfdjccmnFJ3NbWTUBVi5QjPqU0daKosz2qsnlv+w5Eo5IOMw95y/0CQkfPwL4YsAM3VBWGvCc2unWNMHFhBYgOxgl6nl39xwI1OWJLd0SxaMNBBcno5gXpRCRTl2u/cpJ4VrLmbYTTysoQCP08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=e87DXpVA; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
+	s=arc-20240116; t=1775103126; c=relaxed/simple;
+	bh=YdxT9Os1hSGPmZw1lQ6CLN+t2WtiDCHbfZPu8SvWeQE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HArmd6GjaX9amTH3yIEZxnUJqqoIaWEftj19wjM0s0aUYwmPSLuS6jwV+ECD2vI8aGT0M80oZ3oFs45vgmpl04vlnTNv5q2k6FfqQJ895WWbpebznTl7Zzxt6z+LiY9E3+kHxbkEGySE9fB+NVarPND9fZMFlLXIQIfEBCriczg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pKKUf4pb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="e87DXpVA"
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4fmRGw2qrYz9vVy;
-	Thu,  2 Apr 2026 04:52:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
-	t=1775098360;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PI01UIN30SAwEOjcWCs+qKe0QnW9aOaFpOr0QZg4IbQ=;
-	b=e87DXpVA8fumafTy2ZJ4E9FwM6UVRu2C4sFnzIlhrIaWfjkqBUFxVQ552e3H+1apr2Hh1b
-	1+GeY8BaAQToBwK8+aFRYuzXIB0NzFFynuHuG5rfKhwy0xwciIRkKFKHtcM/ATFdVFsXGi
-	e/D+thWbkBZ5YSejLIiWl3CJyb+fWEHKZhYk/iANTu/LoLDaWqdJd6EVfuqNon87UrvPHI
-	HAZVaCgUkhqoDbwqOB+yDsuRvpThDpZX+IJY/sHnNWCcWHOgKcI0+nFN8Sd/rlZ0qsfprc
-	gAbrBmrW9Vputu5fQOImbhR1zEadhHNAkicDb5XW/DvHVbdgwI4yv441hSyM4A==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=none;
-	spf=pass (outgoing_mbo_mout: domain of cyphar@cyphar.com designates 2001:67c:2050:b231:465::102 as permitted sender) smtp.mailfrom=cyphar@cyphar.com
-Date: Thu, 2 Apr 2026 13:52:15 +1100
-From: Aleksa Sarai <cyphar@cyphar.com>
-To: Mateusz Guzik <mjguzik@gmail.com>
-Cc: Jori Koolstra <jkoolstra@xs4all.nl>, Andy Lutomirski <luto@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
-	Chuck Lever <chuck.lever@oracle.com>, Arnd Bergmann <arnd@arndb.de>, Shuah Khan <shuah@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "H. Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, 
-	Alexander Aring <alex.aring@gmail.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Oleg Nesterov <oleg@redhat.com>, Andrey Albershteyn <aalbersh@redhat.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, Namhyung Kim <namhyung@kernel.org>, 
-	Arnaldo Carvalho de Melo <acme@redhat.com>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-api@vger.kernel.org, linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	cmirabil@redhat.com, "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-Subject: Re: [RFC PATCH 1/2] vfs: syscalls: add mkdirat_fd()
-Message-ID: <2026-04-02-aged-convex-snowbird-foxes-Ym20JZ@cyphar.com>
-References: <20260331172011.3512876-1-jkoolstra@xs4all.nl>
- <20260331172011.3512876-2-jkoolstra@xs4all.nl>
- <pbobkjhtuli53o3z34ajyxztaosmztwlygxfxhhjq5ajt47inc@ngtoge3ucdm5>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pKKUf4pb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 092F6C19423;
+	Thu,  2 Apr 2026 04:11:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775103126;
+	bh=YdxT9Os1hSGPmZw1lQ6CLN+t2WtiDCHbfZPu8SvWeQE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=pKKUf4pbTEdGa00km9nLhdXKDDyJ1GVwXsRXfO8pRSh8eybncdhP7eo0EZ/127FMi
+	 cy5KaxCS6/LgeFl9S4PzmWt9v5lLwwZA04l+DCqOSrUjn4IzVt6Y8h3fd9aB653PRn
+	 dxbrdEgvgfXRoK7quOVCuCTXSlC1N0eYzfSDGRJZ2LL4xuswYT+2mJylXarNQSUthO
+	 ODpK6qi84Au/3YWwX6Obs6dnjC0v1fGTECSqcljzY4IwZWRyAHSoCt2iAxoZ4Ys2Ig
+	 /2pNBiAC4x+a+K/zpycRgg8P2tSKQ2TIkX60sAlg/yA5xUjV50/Y4M6Tnk0tt6uB0q
+	 8838NCi68y7lg==
+From: Mike Rapoport <rppt@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Andrea Arcangeli <aarcange@redhat.com>,
+	Andrei Vagin <avagin@google.com>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	David Hildenbrand <david@kernel.org>,
+	Harry Yoo <harry.yoo@oracle.com>,
+	Hugh Dickins <hughd@google.com>,
+	James Houghton <jthoughton@google.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Muchun Song <muchun.song@linux.dev>,
+	Nikita Kalyazin <kalyazin@amazon.com>,
+	Oscar Salvador <osalvador@suse.de>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Peter Xu <peterx@redhat.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	kvm@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [PATCH v4 00/15] mm, kvm: allow uffd support in guest_memfd
+Date: Thu,  2 Apr 2026 07:11:41 +0300
+Message-ID: <20260402041156.1377214-1-rppt@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="o3fvuy4phjbklnx7"
-Content-Disposition: inline
-In-Reply-To: <pbobkjhtuli53o3z34ajyxztaosmztwlygxfxhhjq5ajt47inc@ngtoge3ucdm5>
-X-Rspamd-Queue-Id: 4fmRGw2qrYz9vVy
+Content-Transfer-Encoding: 8bit
+
+From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+
+Hi,
+
+These patches enable support for userfaultfd in guest_memfd.
+
+As the ground work I refactored userfaultfd handling of PTE-based memory types
+(anonymous and shmem) and converted them to use vm_uffd_ops for allocating a
+folio or getting an existing folio from the page cache. shmem also implements
+callbacks that add a folio to the page cache after the data passed in
+UFFDIO_COPY was copied and remove the folio from the page cache if page table
+update fails.
+
+In order for guest_memfd to notify userspace about page faults, there are new
+VM_FAULT_UFFD_MINOR and VM_FAULT_UFFD_MISSING that a ->fault() handler can
+return to inform the page fault handler that it needs to call
+handle_userfault() to complete the fault.
+
+Nikita helped to plumb these new goodies into guest_memfd and provided basic
+tests to verify that guest_memfd works with userfaultfd.
+The handling of UFFDIO_MISSING in guest_memfd requires ability to remove a
+folio from page cache, the best way I could find was exporting
+filemap_remove_folio() to KVM.
+
+I deliberately left hugetlb out, at least for the most part.
+hugetlb handles acquisition of VMA and more importantly establishing of parent
+page table entry differently than PTE-based memory types. This is a different
+abstraction level than what vm_uffd_ops provides and people objected to
+exposing such low level APIs as a part of VMA operations.
+
+Also, to enable uffd in guest_memfd refactoring of hugetlb is not needed and I
+prefer to delay it until the dust settles after the changes in this set.
+
+v4 changes:
+* fix lock leak not only in patch 4, but also in patch 2, thanks Harry
+
+v3: https://lore.kernel.org/all/20260330101116.1117699-1-rppt@kernel.org
+* add fixes from Harry and Andrei
+* fix handling of WP-only mode for WP_ASYNC contexts in vma_can_userfault()
+* address David's comments about mfill_get_pmd() and rename it to
+  mfill_establish_pmd()
+* add VM_WARN()s for unsupported operations (James)
+* update comments using James' suggestions
+
+v2: https://lore.kernel.org/all/20260306171815.3160826-1-rppt@kernel.org
+* instead of returning uffd-specific values from ->fault() handlers add
+  __do_userfault() helper to resolve user faults in __do_fault()
+* address comments from Peter
+* rebased on v7.0-c1
+
+RFC: https://lore.kernel.org/all/20260127192936.1250096-1-rppt@kernel.org
+
+Mike Rapoport (Microsoft) (11):
+  userfaultfd: introduce mfill_copy_folio_locked() helper
+  userfaultfd: introduce struct mfill_state
+  userfaultfd: introduce mfill_establish_pmd() helper
+  userfaultfd: introduce mfill_get_vma() and mfill_put_vma()
+  userfaultfd: retry copying with locks dropped in
+    mfill_atomic_pte_copy()
+  userfaultfd: move vma_can_userfault out of line
+  userfaultfd: introduce vm_uffd_ops
+  shmem, userfaultfd: use a VMA callback to handle UFFDIO_CONTINUE
+  userfaultfd: introduce vm_uffd_ops->alloc_folio()
+  shmem, userfaultfd: implement shmem uffd operations using vm_uffd_ops
+  userfaultfd: mfill_atomic(): remove retry logic
+
+Nikita Kalyazin (3):
+  KVM: guest_memfd: implement userfaultfd operations
+  KVM: selftests: test userfaultfd minor for guest_memfd
+  KVM: selftests: test userfaultfd missing for guest_memfd
+
+Peter Xu (1):
+  mm: generalize handling of userfaults in __do_fault()
+
+ include/linux/mm.h                            |   5 +
+ include/linux/shmem_fs.h                      |  14 -
+ include/linux/userfaultfd_k.h                 |  73 +-
+ mm/filemap.c                                  |   1 +
+ mm/hugetlb.c                                  |  15 +
+ mm/memory.c                                   |  43 ++
+ mm/shmem.c                                    | 188 ++---
+ mm/userfaultfd.c                              | 694 ++++++++++--------
+ .../testing/selftests/kvm/guest_memfd_test.c  | 191 +++++
+ virt/kvm/guest_memfd.c                        |  84 ++-
+ 10 files changed, 860 insertions(+), 448 deletions(-)
 
 
---o3fvuy4phjbklnx7
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [RFC PATCH 1/2] vfs: syscalls: add mkdirat_fd()
-MIME-Version: 1.0
-
-On 2026-04-01, Mateusz Guzik <mjguzik@gmail.com> wrote:
-> On Tue, Mar 31, 2026 at 07:19:58PM +0200, Jori Koolstra wrote:
-> > @@ -5286,7 +5290,25 @@ int filename_mkdirat(int dfd, struct filename *n=
-ame, umode_t mode)
-> >  		lookup_flags |=3D LOOKUP_REVAL;
-> >  		goto retry;
-> >  	}
-> > +
-> > +	if (!error && (flags & MKDIRAT_FD_NEED_FD)) {
-> > +		struct path new_path =3D { .mnt =3D path.mnt, .dentry =3D dentry };
-> > +		error =3D FD_ADD(0, dentry_open(&new_path, O_DIRECTORY, current_cred=
-()));
-> > +	}
-> > +	end_creating_path(&path, dentry);
-> >  	return error;
->=20
->=20
-> You can't do it like this. Should it turn out no fd can be allocated,
-> the entire thing is going to error out while keeping the newly created
-> directory behind. You need to allocate the fd first, then do the hard
-> work, and only then fd_install and or free the fd. The FD_ADD machinery
-> can probably still be used provided proper wrapping of the real new
-> mkdir.
->=20
-> It should be perfectly feasible to de facto wrap existing mkdir
-> functionality by this syscall.
->=20
-> On top of that similarly to what other people mentioned the new syscall
-> will definitely want to support O_CLOEXEC and probably other flags down
-> the line.
->=20
-> Trying to handle this in open() is a no-go. openat2 is rather
-> problematic.
-
-I'm interested in what makes you say that. It would be very nice to be able
-to do mkdir + RESOLVE_IN_ROOT and get an fd back all in one syscall. :D
-
-To be fair, build_open_how() will need some more magic to keep openat()
-working, and that won't be particularly pretty. If we went with
-O_CREAT|O_DIRECTORY we would need to be quite careful to make sure
-O_TMPFILE continues to work for both openat() and openat2()...
-
-> I tend to agree mkdirat_fd is not a good name for the syscall either,
-> but I don't have a suggestion I'm happy with. I think least bad name
-> would follow the existing stuff and be mkdirat2 or similar.
->=20
-> The routine would have to start with validating the passed O_ flags, for
-> now only allowing O_CLOEXEC and EINVAL-ing otherwise.
-
-Please do not use O_* flags! O_CLOEXEC takes up 3 flag bits on different
-architectures which makes adding new flags a nightmare.
-
-I think this should take AT_* flags and (like most newer syscalls)
-O_CLOEXEC should be automatically set. Userspace can unset it with
-fnctl(F_SETFD) in the relatively rare case where they don't want
-O_CLOEXEC. Alternatively, we could just bite the bullet and make
-AT_NO_CLOEXEC a thing...
-
-But yes, new syscalls *absolutely* need to take some kind of flag
-argument. I'd hoped we finally learned our lesson on that one...
-
---=20
-Aleksa Sarai
-https://www.cyphar.com/
-
---o3fvuy4phjbklnx7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCac3Z3xsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMiwyLDIACgkQKJf60rfpRG8N0gD/WJsvCCKORuiEQhk4zFP7
-tBYNwHeV6BT/7bD+Jb52nxkA+wSQXbre6aJO6Pc2aZ8UZ63KKnV5jrW7ZCjzd1rW
-q5wG
-=Sn0T
------END PGP SIGNATURE-----
-
---o3fvuy4phjbklnx7--
+base-commit: c369299895a591d96745d6492d4888259b004a9e
+--
+2.53.0
