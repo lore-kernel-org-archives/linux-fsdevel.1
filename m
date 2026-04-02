@@ -1,66 +1,81 @@
-Received: from mx1.manguebit.org (mx1.manguebit.org [143.255.12.172])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A9C738B130
-	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Apr 2026 20:29:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=143.255.12.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 711BB3845AA;
+	Thu,  2 Apr 2026 21:09:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775161746; cv=none; b=fBA4/1M0vaBtw9CIqejjOi1JE7H7+IDtDz7JotVWqva+KufjUOUABlA4QY9T+Us+nqJXjHA3LH4PjDoebfTBh+DkeWsrO7KyxDNq1bH2bd0ei2Pui4HjjAh8iJbZGqKLzQPAAxHgQitgnBr96kPzsBakvv5eSu0kgnXKTCCIxFE=
+	t=1775164146; cv=none; b=nxxLQoKLKSkPnVWK4msIL7p4PI6cGpSA8V8Wy4tMKvLKe+5nPGWX72UZa8B2Y1X5Jx3tvRTjQUEo7xl1elrl24gwkza1n0c9XtaMj7wvpMbhD3qvViRakL2618HoSlFDY9UqMbkNjjGzfR5oL3jSPZfGfT7XKSO8pJGk6z8l4cI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775161746; c=relaxed/simple;
-	bh=n21xbarEtv3xFoTtZmFJHvkfIq+N09yio4++Ry5iuns=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Date:
-	 MIME-Version:Content-Type; b=VT5hL9p+EOqxBNSeNRHeL8M4jUd/5At3kotpw7d+hLJQUF3NsxrJCJGeaNnRrtDFdcbqh3Xm0NKVJPOW42LFVSBAAfvDfm/CsQCdNinWUUPRmqThVgT5NVBQY1FgwqY2RLiYJYcgFW+uB28opPzR8t93q8uzVvXW2dujMcg8l+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manguebit.org; spf=pass smtp.mailfrom=manguebit.org; dkim=pass (2048-bit key) header.d=manguebit.org header.i=@manguebit.org header.b=u4er7Z/v; arc=none smtp.client-ip=143.255.12.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manguebit.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manguebit.org
+	s=arc-20240116; t=1775164146; c=relaxed/simple;
+	bh=lwCy29waT3Q53bSxnN45ExMQq8i7y/2BLFZG2iNAgkA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pU8gZ3OXAufqe9kEkRrg2PjnmW2h3GofuFtrUetaD7b2KZp5tu8wvpQAkUO7IlfftnVibvs/cvmeQ08Emt8UVUqNYQvbViHh2JFU1RdTcLKK5lihbpJ0tBytXQf2JkPOTNOYqPx3jTQJCYm78QzVosks/pwYPjJKiqiEKewA4lI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LeV0+wbp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=manguebit.org header.i=@manguebit.org header.b="u4er7Z/v"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=manguebit.org; s=dkim; h=Content-Type:MIME-Version:Date:References:
-	In-Reply-To:Subject:Cc:To:From:Message-ID:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=cPH0EDEF16Fi1mHtk+FOI6oqIVuh2A3MWANBqUKbK8k=; b=u4er7Z/vft7Dc+dPqbugMB7ice
-	loceXxKxyF4c01QEb3dD8/szbm5uZiu7+40xGTkoz8xvWD9zEyXn9cikgtZe7+qRkwC3V8iP4OrSe
-	gMQUQzl5DwrGZSRUtbgzfMKNYef1K688QZekALLNhGCL2pPRJeSPxkA9ufdqEJ+jIuMyDTRvdIblZ
-	pRQ+fkSj5A9sMb6Q8Ezoh/6f9YNS1cL4FvPBs6j89dUkJrWx2HAJArsIs9xww3rmT0Qc+lOizN+yh
-	HJls4qqxZvXXK1N4ggkzSmMnG7pz8/RLxdqvcnYqdOBqhqZwQSeZK9NECKbyo2Or2ZaZ4xu6YDr2H
-	w6KkP60w==;
-Received: from pc by mx1.manguebit.org with local (Exim 4.99.1)
-	id 1w8Oex-000000027Hw-0rly;
-	Thu, 02 Apr 2026 17:28:59 -0300
-Message-ID: <48017c1409ddff65ab776a8ff3d25df7@manguebit.org>
-From: Paulo Alcantara <pc@manguebit.org>
-To: Al Viro <viro@zeniv.linux.org.uk>, Linus Torvalds
- <torvalds@linux-foundation.org>
-Cc: linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
- Jan Kara <jack@suse.cz>, Nikolay Borisov <nik.borisov@suse.com>, Max
- Kellermann <max.kellermann@ionos.com>, Eric Sandeen <sandeen@redhat.com>
-Subject: Re: [RFC PATCH v2 0/4] getting rid of busy-wait in
- shrink_dcache_parent()
-In-Reply-To: <20260402180850.3729310-1-viro@zeniv.linux.org.uk>
-References: <20260122202025.GG3183987@ZenIV>
- <20260402180850.3729310-1-viro@zeniv.linux.org.uk>
-Date: Thu, 02 Apr 2026 17:28:58 -0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LeV0+wbp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30316C116C6;
+	Thu,  2 Apr 2026 21:09:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775164146;
+	bh=lwCy29waT3Q53bSxnN45ExMQq8i7y/2BLFZG2iNAgkA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=LeV0+wbpsHpERkEYiLeYkcJZBYe0gjD1IOivBwF/+VHcN3BDCB0DQaVSRDsyBxvu/
+	 yMMrSA7VmWNB1cQoWTeiskkP9NUpeCItzgvv1xNlYwSviNeq3tNmbf2VvjdzARZ9o9
+	 jq/yrihp9DTIZTt2UMUWuNd3h2O8JWx84M5jy1k+VL6QFBWLLLwAZzLYi2BdIpxTbi
+	 5kDRXkbtnUBazHk87rH0nvdzEzMpRpOlzRnUtLSXptQW4Z09SR8jvkEjBJ7y3ECP60
+	 iCQzQqRH9C6HFzJXx9dOb1wWmOE4o6RSrGjxF4Q1UJBuzkRMa1AbcTobP2pkLoqb7P
+	 xWTYWqbiX/idg==
+From: Chuck Lever <cel@kernel.org>
+To: Jeff Layton <jlayton@kernel.org>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Christoph Hellwig <hch@lst.de>
+Cc: Chuck Lever <chuck.lever@oracle.com>,
+	NeilBrown <neil@brown.name>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <Dai.Ngo@oracle.com>,
+	Tom Talpey <tom@talpey.com>,
+	linux-nfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: cleanup block-style layouts exports v2
+Date: Thu,  2 Apr 2026 17:09:01 -0400
+Message-ID: <177516411715.3059543.10370852558871615557.b4-ty@b4>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260401144059.160746-1-hch@lst.de>
+References: <20260401144059.160746-1-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Al Viro <viro@zeniv.linux.org.uk> writes:
+From: Chuck Lever <chuck.lever@oracle.com>
 
-> Note: in -next CIFS has grown a local copy of d_mark_tmpfile(), which would need
->  the same modification of sanity checks the original gets in #3/4 here.  I wonder
-> if that cifs_d_mark_tmpfile() should be turned into to d_mark_tmpfile_name() and
-> lifted into fs/dcache.c...  Anyway, that's a separate story...
+On Wed, 01 Apr 2026 16:40:21 +0200, Christoph Hellwig wrote:
+> this series cleanups the exportfs support for block-style layouts that
+> provide direct block device access.  This is preparation for supporting
+> exportfs of more than a single device per file system.
+> 
+> Changes since v1:
+>  - consity struct exportfs_block_ops
+>  - fix spelling
+> 
+> [...]
 
-Yeah, I would love to have a helper like that and don't mess up with any
-->d_name outside fs/dcache.c.  That's why I'd suggested it in [1].
+Applied to nfsd-testing, thanks!
 
-I'll send a separate patch adding it as soon as I'm done with testing
-O_TMPFILE support in CIFS.
+[1/4] nfsd/blocklayout: always ignore loca_time_modify
+      commit: ff6bb92c2f41eac178f9886d15a62cb7f8acf111
+[2/4] exportfs: split out the ops for layout-based block device access
+      commit: 86cc64ab3045f7130c2d2d7c458646038282938a
+[3/4] exportfs: don't pass struct iattr to ->commit_blocks
+      commit: 949378be2cd289d749ef9a826ea6cf376bca973e
+[4/4] exportfs,nfsd: rework checking for layout-based block device access support
+      commit: e0259785dffcb12f6850450344ab0f99b6283d60
 
-[1] https://lore.kernel.org/r/20260401011153.1757515-1-pc@manguebit.org
+--
+Chuck Lever
+
