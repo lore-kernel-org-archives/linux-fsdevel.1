@@ -1,218 +1,157 @@
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB76619EED3;
-	Thu,  2 Apr 2026 01:21:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 877FF213E7A;
+	Thu,  2 Apr 2026 02:52:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775092892; cv=none; b=EELp1Yl2Ae4HXGcWKtsHiuEiSoxE9XEJFGOQX/EdZoTAfAU1ITLQ07MPlMQuYSK2Bs9VkIFjCpQWP5dBDIsSx/+xe8xmA5tyxb9oBhESMNWh8Adu4q91cF6hl45Dbs+iDfL5RGwpXkNeCrdfoFcAvpkgEFaN6eguLy7Ggu5duts=
+	t=1775098367; cv=none; b=TtIDZSHo6oI6+UL9/VJT1XHwAf06kYYuSsZ6SKP6X0H9oMOT7PlXiIVCpeT91ojawMFnSlRVMK4Ac6FjjsOEheshlwuMMjJKpwX+9T1i9CSdSzzE1tj+NC9JAMS72EE1Q7FZVrRMFroxrvbuk5RAalHgIzpL8xde4Ftp91RlIwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775092892; c=relaxed/simple;
-	bh=gimED5txO2mrx00rMuLVAsr0CRzfADlkvL9r8gTZEmU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cUx/r3Xd22ne7fjyYj5Fbzz0GrEsXHasYKdWKEu/MhjKYlzhUf380kHZAN3bXYz8CL6erR1xBAuV3A/ZRHfPagFMCNylld5HFseis4JauERxxg29Zqxtp/PrSMgFZgCZB2EIC6+3QKpyL6C78TTXj6KcnmDzJioeb8tINRevNJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.170])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4fmPDY0v2szKHMNZ;
-	Thu,  2 Apr 2026 09:20:29 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.112])
-	by mail.maildlp.com (Postfix) with ESMTP id 965134056E;
-	Thu,  2 Apr 2026 09:21:19 +0800 (CST)
-Received: from [10.174.178.253] (unknown [10.174.178.253])
-	by APP1 (Coremail) with SMTP id cCh0CgC3BteMxM1pgtVBDA--.47465S3;
-	Thu, 02 Apr 2026 09:21:19 +0800 (CST)
-Message-ID: <f2011040-b0ff-407b-acaf-5aa96034fbd6@huaweicloud.com>
-Date: Thu, 2 Apr 2026 09:21:16 +0800
+	s=arc-20240116; t=1775098367; c=relaxed/simple;
+	bh=0s3Ltdb3st4RBI8X7GzRMeGijr+TMGvhGRqHHFtYADY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rDhxgyKv5bIwp9XZlOABIRwZBcfdjccmnFJ3NbWTUBVi5QjPqU0daKosz2qsnlv+w5Eo5IOMw95y/0CQkfPwL4YsAM3VBWGvCc2unWNMHFhBYgOxgl6nl39xwI1OWJLd0SxaMNBBcno5gXpRCRTl2u/cpJ4VrLmbYTTysoQCP08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=e87DXpVA; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="e87DXpVA"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4fmRGw2qrYz9vVy;
+	Thu,  2 Apr 2026 04:52:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
+	t=1775098360;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PI01UIN30SAwEOjcWCs+qKe0QnW9aOaFpOr0QZg4IbQ=;
+	b=e87DXpVA8fumafTy2ZJ4E9FwM6UVRu2C4sFnzIlhrIaWfjkqBUFxVQ552e3H+1apr2Hh1b
+	1+GeY8BaAQToBwK8+aFRYuzXIB0NzFFynuHuG5rfKhwy0xwciIRkKFKHtcM/ATFdVFsXGi
+	e/D+thWbkBZ5YSejLIiWl3CJyb+fWEHKZhYk/iANTu/LoLDaWqdJd6EVfuqNon87UrvPHI
+	HAZVaCgUkhqoDbwqOB+yDsuRvpThDpZX+IJY/sHnNWCcWHOgKcI0+nFN8Sd/rlZ0qsfprc
+	gAbrBmrW9Vputu5fQOImbhR1zEadhHNAkicDb5XW/DvHVbdgwI4yv441hSyM4A==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=none;
+	spf=pass (outgoing_mbo_mout: domain of cyphar@cyphar.com designates 2001:67c:2050:b231:465::102 as permitted sender) smtp.mailfrom=cyphar@cyphar.com
+Date: Thu, 2 Apr 2026 13:52:15 +1100
+From: Aleksa Sarai <cyphar@cyphar.com>
+To: Mateusz Guzik <mjguzik@gmail.com>
+Cc: Jori Koolstra <jkoolstra@xs4all.nl>, Andy Lutomirski <luto@kernel.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
+	Chuck Lever <chuck.lever@oracle.com>, Arnd Bergmann <arnd@arndb.de>, Shuah Khan <shuah@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "H. Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, 
+	Alexander Aring <alex.aring@gmail.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Oleg Nesterov <oleg@redhat.com>, Andrey Albershteyn <aalbersh@redhat.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, Namhyung Kim <namhyung@kernel.org>, 
+	Arnaldo Carvalho de Melo <acme@redhat.com>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-api@vger.kernel.org, linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	cmirabil@redhat.com, "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+Subject: Re: [RFC PATCH 1/2] vfs: syscalls: add mkdirat_fd()
+Message-ID: <2026-04-02-aged-convex-snowbird-foxes-Ym20JZ@cyphar.com>
+References: <20260331172011.3512876-1-jkoolstra@xs4all.nl>
+ <20260331172011.3512876-2-jkoolstra@xs4all.nl>
+ <pbobkjhtuli53o3z34ajyxztaosmztwlygxfxhhjq5ajt47inc@ngtoge3ucdm5>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 09/13] ext4: ensure zeroed partial blocks are persisted
- in SYNC mode
-To: Jan Kara <jack@suse.cz>
-Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca,
- ojaswin@linux.ibm.com, ritesh.list@gmail.com, libaokun@linux.alibaba.com,
- yi.zhang@huawei.com, yizhang089@gmail.com, yangerkun@huawei.com,
- yukuai@fnnas.com
-References: <20260327102939.1095257-1-yi.zhang@huaweicloud.com>
- <20260327102939.1095257-10-yi.zhang@huaweicloud.com>
- <42toomq4fa64kbice5yl4spjsw4em2qcq7kvkkas6254iij3u2@r6ekulbdog3i>
-Content-Language: en-US
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-In-Reply-To: <42toomq4fa64kbice5yl4spjsw4em2qcq7kvkkas6254iij3u2@r6ekulbdog3i>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:cCh0CgC3BteMxM1pgtVBDA--.47465S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxtFW7CF4rJr1xWF1ruw4UJwb_yoW7CryUp3
-	srJFy3GF43Wa48ur4IgF1UZr4Fvwn3KF48Wry3Gr1UZa9Fvw1xKFyUKr1F9F1j9r47Cw10
-	vF4jy342gw13CFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvjb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I
-	0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AF
-	wI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
-	xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43
-	MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
-	0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWU
-	JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUF1
-	v3UUUUU
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="o3fvuy4phjbklnx7"
+Content-Disposition: inline
+In-Reply-To: <pbobkjhtuli53o3z34ajyxztaosmztwlygxfxhhjq5ajt47inc@ngtoge3ucdm5>
+X-Rspamd-Queue-Id: 4fmRGw2qrYz9vVy
 
-On 4/2/2026 1:06 AM, Jan Kara wrote:
-> On Fri 27-03-26 18:29:35, Zhang Yi wrote:
->> From: Zhang Yi <yi.zhang@huawei.com>
->>
->> In ext4_zero_range() and ext4_punch_hole(), when operating in SYNC mode
->> and zeroing a partial block, only data=journal modes guarantee that the
->> zeroed data is synchronously persisted after the operation completes.
->> For data=ordered/writeback mode and non-journal modes, this guarantee is
->> missing.
->>
->> Introduce a partial_zero parameter to explicitly trigger writeback for
->> all scenarios where a partial block is zeroed, ensuring the zeroed data
->> is durably persisted.
->>
->> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
->> ---
->>  fs/ext4/ext4.h    |  2 +-
->>  fs/ext4/extents.c |  9 ++++++++-
->>  fs/ext4/inode.c   | 19 ++++++++++++++-----
->>  3 files changed, 23 insertions(+), 7 deletions(-)
->>
->> diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
->> index 859ae05339ad..bfe86479a83c 100644
->> --- a/fs/ext4/ext4.h
->> +++ b/fs/ext4/ext4.h
->> @@ -3101,7 +3101,7 @@ extern int ext4_meta_trans_blocks(struct inode *inode, int lblocks,
->>  				  int pextents);
->>  extern int ext4_block_zero_eof(struct inode *inode, loff_t from, loff_t end);
->>  extern int ext4_zero_partial_blocks(struct inode *inode, loff_t lstart,
->> -				    loff_t length);
->> +				    loff_t length, bool *did_zero);
->>  extern vm_fault_t ext4_page_mkwrite(struct vm_fault *vmf);
->>  extern qsize_t *ext4_get_reserved_space(struct inode *inode);
->>  extern int ext4_get_projid(struct inode *inode, kprojid_t *projid);
->> diff --git a/fs/ext4/extents.c b/fs/ext4/extents.c
->> index 002b1ec8cee2..16386f499138 100644
->> --- a/fs/ext4/extents.c
->> +++ b/fs/ext4/extents.c
->> @@ -4673,6 +4673,7 @@ static long ext4_zero_range(struct file *file, loff_t offset,
->>  	loff_t align_start, align_end, new_size = 0;
->>  	loff_t end = offset + len;
->>  	unsigned int blocksize = i_blocksize(inode);
->> +	bool partial_zeroed = false;
->>  	int ret, flags;
->>  
->>  	trace_ext4_zero_range(inode, offset, len, mode);
->> @@ -4728,9 +4729,15 @@ static long ext4_zero_range(struct file *file, loff_t offset,
->>  		return ret;
->>  
->>  	/* Zero out partial block at the edges of the range */
->> -	ret = ext4_zero_partial_blocks(inode, offset, len);
->> +	ret = ext4_zero_partial_blocks(inode, offset, len, &partial_zeroed);
->>  	if (ret)
->>  		return ret;
->> +	if (((file->f_flags & O_SYNC) || IS_SYNC(inode)) && partial_zeroed) {
->> +		ret = filemap_write_and_wait_range(inode->i_mapping, offset,
->> +						   end - 1);
->> +		if (ret)
->> +			return ret;
->> +	}
-> 
-> Shouldn't we handle this somewhat below, where we do:
-> 
->         if (file->f_flags & O_SYNC)
->                 ext4_handle_sync(handle);
-> 
-> It would be logical to keep these together... Similarly for
-> ext4_punch_hole() below. An yes, the check when calling ext4_handle_sync()
-> should be extended with an IS_SYNC() check, which is a preexisting bug.
-> 
-> 								Honza
 
-Yeah, right, I've done this in the next patch. Thank you for your review!
+--o3fvuy4phjbklnx7
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [RFC PATCH 1/2] vfs: syscalls: add mkdirat_fd()
+MIME-Version: 1.0
 
-Cheers,
-Yi.
+On 2026-04-01, Mateusz Guzik <mjguzik@gmail.com> wrote:
+> On Tue, Mar 31, 2026 at 07:19:58PM +0200, Jori Koolstra wrote:
+> > @@ -5286,7 +5290,25 @@ int filename_mkdirat(int dfd, struct filename *n=
+ame, umode_t mode)
+> >  		lookup_flags |=3D LOOKUP_REVAL;
+> >  		goto retry;
+> >  	}
+> > +
+> > +	if (!error && (flags & MKDIRAT_FD_NEED_FD)) {
+> > +		struct path new_path =3D { .mnt =3D path.mnt, .dentry =3D dentry };
+> > +		error =3D FD_ADD(0, dentry_open(&new_path, O_DIRECTORY, current_cred=
+()));
+> > +	}
+> > +	end_creating_path(&path, dentry);
+> >  	return error;
+>=20
+>=20
+> You can't do it like this. Should it turn out no fd can be allocated,
+> the entire thing is going to error out while keeping the newly created
+> directory behind. You need to allocate the fd first, then do the hard
+> work, and only then fd_install and or free the fd. The FD_ADD machinery
+> can probably still be used provided proper wrapping of the real new
+> mkdir.
+>=20
+> It should be perfectly feasible to de facto wrap existing mkdir
+> functionality by this syscall.
+>=20
+> On top of that similarly to what other people mentioned the new syscall
+> will definitely want to support O_CLOEXEC and probably other flags down
+> the line.
+>=20
+> Trying to handle this in open() is a no-go. openat2 is rather
+> problematic.
 
-> 
->>  
->>  	handle = ext4_journal_start(inode, EXT4_HT_MISC, 1);
->>  	if (IS_ERR(handle)) {
->> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
->> index 8aa4369e3150..b934ad86a96d 100644
->> --- a/fs/ext4/inode.c
->> +++ b/fs/ext4/inode.c
->> @@ -4227,7 +4227,8 @@ int ext4_block_zero_eof(struct inode *inode, loff_t from, loff_t end)
->>  	return 0;
->>  }
->>  
->> -int ext4_zero_partial_blocks(struct inode *inode, loff_t lstart, loff_t length)
->> +int ext4_zero_partial_blocks(struct inode *inode, loff_t lstart, loff_t length,
->> +			     bool *did_zero)
->>  {
->>  	struct super_block *sb = inode->i_sb;
->>  	unsigned partial_start, partial_end;
->> @@ -4244,20 +4245,21 @@ int ext4_zero_partial_blocks(struct inode *inode, loff_t lstart, loff_t length)
->>  	/* Handle partial zero within the single block */
->>  	if (start == end &&
->>  	    (partial_start || (partial_end != sb->s_blocksize - 1))) {
->> -		err = ext4_block_zero_range(inode, lstart, length, NULL, NULL);
->> +		err = ext4_block_zero_range(inode, lstart, length, did_zero,
->> +					    NULL);
->>  		return err;
->>  	}
->>  	/* Handle partial zero out on the start of the range */
->>  	if (partial_start) {
->>  		err = ext4_block_zero_range(inode, lstart, sb->s_blocksize,
->> -					    NULL, NULL);
->> +					    did_zero, NULL);
->>  		if (err)
->>  			return err;
->>  	}
->>  	/* Handle partial zero out on the end of the range */
->>  	if (partial_end != sb->s_blocksize - 1)
->>  		err = ext4_block_zero_range(inode, byte_end - partial_end,
->> -					    partial_end + 1, NULL, NULL);
->> +					    partial_end + 1, did_zero, NULL);
->>  	return err;
->>  }
->>  
->> @@ -4406,6 +4408,7 @@ int ext4_punch_hole(struct file *file, loff_t offset, loff_t length)
->>  	loff_t end = offset + length;
->>  	handle_t *handle;
->>  	unsigned int credits;
->> +	bool partial_zeroed = false;
->>  	int ret;
->>  
->>  	trace_ext4_punch_hole(inode, offset, length, 0);
->> @@ -4441,9 +4444,15 @@ int ext4_punch_hole(struct file *file, loff_t offset, loff_t length)
->>  	if (ret)
->>  		return ret;
->>  
->> -	ret = ext4_zero_partial_blocks(inode, offset, length);
->> +	ret = ext4_zero_partial_blocks(inode, offset, length, &partial_zeroed);
->>  	if (ret)
->>  		return ret;
->> +	if (((file->f_flags & O_SYNC) || IS_SYNC(inode)) && partial_zeroed) {
->> +		ret = filemap_write_and_wait_range(inode->i_mapping, offset,
->> +						   end - 1);
->> +		if (ret)
->> +			return ret;
->> +	}
->>  
->>  	if (ext4_test_inode_flag(inode, EXT4_INODE_EXTENTS))
->>  		credits = ext4_chunk_trans_extent(inode, 0);
->> -- 
->> 2.52.0
->>
+I'm interested in what makes you say that. It would be very nice to be able
+to do mkdir + RESOLVE_IN_ROOT and get an fd back all in one syscall. :D
 
+To be fair, build_open_how() will need some more magic to keep openat()
+working, and that won't be particularly pretty. If we went with
+O_CREAT|O_DIRECTORY we would need to be quite careful to make sure
+O_TMPFILE continues to work for both openat() and openat2()...
+
+> I tend to agree mkdirat_fd is not a good name for the syscall either,
+> but I don't have a suggestion I'm happy with. I think least bad name
+> would follow the existing stuff and be mkdirat2 or similar.
+>=20
+> The routine would have to start with validating the passed O_ flags, for
+> now only allowing O_CLOEXEC and EINVAL-ing otherwise.
+
+Please do not use O_* flags! O_CLOEXEC takes up 3 flag bits on different
+architectures which makes adding new flags a nightmare.
+
+I think this should take AT_* flags and (like most newer syscalls)
+O_CLOEXEC should be automatically set. Userspace can unset it with
+fnctl(F_SETFD) in the relatively rare case where they don't want
+O_CLOEXEC. Alternatively, we could just bite the bullet and make
+AT_NO_CLOEXEC a thing...
+
+But yes, new syscalls *absolutely* need to take some kind of flag
+argument. I'd hoped we finally learned our lesson on that one...
+
+--=20
+Aleksa Sarai
+https://www.cyphar.com/
+
+--o3fvuy4phjbklnx7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCac3Z3xsUgAAAAAAEAA5t
+YW51MiwyLjUrMS4xMiwyLDIACgkQKJf60rfpRG8N0gD/WJsvCCKORuiEQhk4zFP7
+tBYNwHeV6BT/7bD+Jb52nxkA+wSQXbre6aJO6Pc2aZ8UZ63KKnV5jrW7ZCjzd1rW
+q5wG
+=Sn0T
+-----END PGP SIGNATURE-----
+
+--o3fvuy4phjbklnx7--
