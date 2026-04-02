@@ -1,50 +1,73 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E44A1314B73
-	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Apr 2026 18:05:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B5C6379EEC
+	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Apr 2026 18:13:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775153122; cv=none; b=Vc/gg3MgQ2Jp5IVHZemurfBymGyWcNFLu6Urc9zOaUbQP1tmJ4yKIeJKN2YeOo5eO9cz5HMUbqETOkFbyurd9L9RHaOPU3BhWlF9caE1x0ihmOgr/ohU4UyPWCZ58L/fTr/fuX4p8AfitzbPLrZiYeBM1hsO9lCRhYBGXljgjCc=
+	t=1775153630; cv=none; b=QXL2qiEryYllUnQYQkzTZw4drIjHhG+sISAxxtmCCgYQnsgZi8wlP+SKDR7kZ4qx/Pewt4ZWHBmMiIqO/Ln3JR6SLLfe8edbQeEgozU6gUW22U3fU6up48q/kCxxj4zrn3xCogaWLMqGh6eJL/yksmu0j9GzOz1PhTpcUI/nsBs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775153122; c=relaxed/simple;
-	bh=reWI42kapTZVbWxZO+kD9/iaMGIukLq5/Hgyuqr1irQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hPgOjH3YY5aqoTSwakq2wgFc56i2Z+R1BBkQwJHQMTkNr8A7j+aCecuVPWrbA1UK6eoUGeRA2BUS6v9C3tDSRq8n/dhNp3nNjltLV37JZHvB00m2FF8y+bScZ/krGn9qzTuzN7sJ6WR202UW2L3il2Xp2pbxavJKKlLFFMZyijY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=wcxysaKR; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	s=arc-20240116; t=1775153630; c=relaxed/simple;
+	bh=F12+dYfOaumTSRou3rBcZXfX9/5ZKGM+mcC6hc3istQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fFHhJxdebrpDoQ9Cu/f4fi3sS9bKjXeEn4cXhXhYX5TQBac7nP5uRW9k9NGd1bcrWMjwSUmesqn5HsjZkjfOWUu7ojEUSQ2zIv/0YmDCVkU2LgrfUA9pL7n9IyZ/IX9QBH9vyATVD9/tMu2f851n1IODzEF6Y+4ulrL9unsbBW0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=h9oje+Xn; arc=none smtp.client-ip=91.218.175.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="wcxysaKR"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=d6FP3wdvD3UYSPhTmATseelQ5dy6KfqvBFWyUif865w=; b=wcxysaKRqk49P/75T3smRMjswp
-	oPPY2Kx/AIK5shUrx8F6K4poLtSdJ5V9vlxwuL4+0QRr2sADe5m+/RI3ZbvoWTrGvYFk8kp/xYWXC
-	9r+cOu9ajYSAkxNNFbj4iN57h276SlsvsKKR1nPYg+dgdlVaZjf6S3yAisrFUtevjfRFFYJkGdMAA
-	rcBIlJTGca0qryCrkhmtEDeMmi0N33qw6EAqATRkwyddHzzeub4pcZv8rqXcoZBa/iVgW5WRtzKUq
-	SbTzBVHHLcEOcsPyp6Na0V2LB1kDVEStetu/ARNsxbp8FenISJ3Z3PbRCz99MakOHoC9ZB1fM87pm
-	uC+nob4A==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1w8MTL-0000000FeG9-1x6p;
-	Thu, 02 Apr 2026 18:08:51 +0000
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-fsdevel@vger.kernel.org,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Nikolay Borisov <nik.borisov@suse.com>,
-	Max Kellermann <max.kellermann@ionos.com>,
-	Eric Sandeen <sandeen@redhat.com>,
-	Paulo Alcantara <pc@manguebit.org>
-Subject: [RFC PATCH v2 1/4] for_each_alias(): helper macro for iterating through dentries of given inode
-Date: Thu,  2 Apr 2026 19:08:46 +0100
-Message-ID: <20260402180850.3729310-2-viro@zeniv.linux.org.uk>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260402180850.3729310-1-viro@zeniv.linux.org.uk>
-References: <20260122202025.GG3183987@ZenIV>
- <20260402180850.3729310-1-viro@zeniv.linux.org.uk>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="h9oje+Xn"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1775153614;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=IhJBBcdykzyEQ1MtZgTszHZJ1RBYhR6UrojdtXO9EDU=;
+	b=h9oje+XnElrr8IWvpnms2viVimbvCZmBVbF1wYz3j02sfNujtlzP15uyPJxwbzTY/Iuznw
+	pezN7VYQFRrED3Q/5G3iaYFas+yEg18hDeo5b/Wgsi7tTzpZcp1HSpywnk8L+EOwa0UsrP
+	fh/PH3i+HT+zacWSqCMJoTucsnxDs7Y=
+From: Usama Arif <usama.arif@linux.dev>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	david@kernel.org,
+	willy@infradead.org,
+	ryan.roberts@arm.com,
+	linux-mm@kvack.org
+Cc: r@hev.cc,
+	jack@suse.cz,
+	ajd@linux.ibm.com,
+	apopple@nvidia.com,
+	baohua@kernel.org,
+	baolin.wang@linux.alibaba.com,
+	brauner@kernel.org,
+	catalin.marinas@arm.com,
+	dev.jain@arm.com,
+	kees@kernel.org,
+	kevin.brodsky@arm.com,
+	lance.yang@linux.dev,
+	Liam.Howlett@oracle.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	mhocko@suse.com,
+	npache@redhat.com,
+	pasha.tatashin@soleen.com,
+	rmclure@linux.ibm.com,
+	rppt@kernel.org,
+	surenb@google.com,
+	vbabka@kernel.org,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	wilts.infradead.org,
+	linux-fsdevel@vger.kernel.l@kernel.org,
+	ziy@nvidia.com,
+	hannes@cmpxchg.org,
+	kas@kernel.org,
+	shakeel.butt@linux.dev,
+	leitao@debian.org,
+	kernel-team@meta.com,
+	Usama Arif <usama.arif@linux.dev>
+Subject: [PATCH v3 0/4] mm: improve large folio readahead and alignment for exec memory
+Date: Thu,  2 Apr 2026 11:08:21 -0700
+Message-ID: <20260402181326.3107102-1-usama.arif@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -52,197 +75,140 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Sender: Al Viro <viro@ftp.linux.org.uk>
+X-Migadu-Flow: FLOW_OUT
 
-Most of the places using d_alias are loops iterating through all aliases for
-given inode; introduce a helper macro (for_each_alias(dentry, inode))
-and convert open-coded instances of such loop to it.
+v2 -> v3: https://lore.kernel.org/all/20260320140315.979307-1-usama.arif@linux.dev/
+- Take into account READ_ONLY_THP_FOR_FS for elf alignment by aligning
+  to HPAGE_PMD_SIZE limited to 2M (Rui)
+- Reviewed-by tags for patch 1 from Kiryl and Jan
+- Remove preferred_exec_order() (Jan)
+- Change ra->order to HPAGE_PMD_ORDER if vma_pages(vma) >= HPAGE_PMD_NR
+  otherwise use exec_folio_order() with gfp &= ~__GFP_RECLAIM for
+  do_sync_mmap_readahead().
+- Change exec_folio_order() to return 2M (cont-pte size) for 64K base
+  page size for arm64.
+- remove bprm->file NULL check (Matthew)
+- Change filp to file (Matthew)
+- Improve checking of p_vaddr and p_vaddr (Rui and Matthew)
 
-They are easier to read that way and it reduces the noise on the next steps.
 
-You _must_ hold inode->i_lock over that thing.
+v1 -> v2: https://lore.kernel.org/all/20260310145406.3073394-1-usama.arif@linux.dev/
+- disable mmap_miss logic for VM_EXEC (Jan Kara)
+- Align in elf only when segment VA and file offset are already aligned (Rui)
+- preferred_exec_order() for VM_EXEC sync mmap_readahead which takes into
+  account zone high watermarks (as an approximation of memory pressure)
+  (David, or atleast my approach to what David suggested in [1] :))
+- Extend max alignment to mapping_max_folio_size() instead of
+  exec_folio_order()
 
-Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
----
- Documentation/filesystems/porting.rst | 10 ++++++++++
- fs/affs/amigaffs.c                    |  2 +-
- fs/ceph/mds_client.c                  |  2 +-
- fs/dcache.c                           |  6 +++---
- fs/exportfs/expfs.c                   |  2 +-
- fs/nfs/dir.c                          |  2 +-
- fs/notify/fsnotify.c                  |  2 +-
- fs/ocfs2/dcache.c                     |  2 +-
- fs/overlayfs/dir.c                    |  2 +-
- fs/smb/client/inode.c                 |  2 +-
- include/linux/dcache.h                |  4 ++++
- 11 files changed, 25 insertions(+), 11 deletions(-)
+Motiviation
+===========
+exec_folio_order() was introduced [2] to request readahead at an
+arch-preferred folio order for executable memory, enabling hardware PTE
+coalescing (e.g. arm64 contpte) and PMD mappings on the fault path.
 
-diff --git a/Documentation/filesystems/porting.rst b/Documentation/filesystems/porting.rst
-index 52ff1d19405b..9a9babd9ec48 100644
---- a/Documentation/filesystems/porting.rst
-+++ b/Documentation/filesystems/porting.rst
-@@ -1361,3 +1361,13 @@ to match what strlen() would return if it was ran on the string.
+However, several things prevent this from working optimally:
+
+1. The mmap_miss heuristic in do_sync_mmap_readahead() silently disables
+   exec readahead after 100 page faults. The mmap_miss counter tracks
+   whether readahead is useful for mmap'd file access:
+
+   - Incremented by 1 in do_sync_mmap_readahead() on every page cache
+     miss (page needed IO).
+
+   - Decremented by N in filemap_map_pages() for N pages successfully
+     mapped via fault-around (pages found in cache without faulting,
+     evidence that readahead was useful). Only non-workingset pages
+     count and recently evicted and re-read pages don't count as hits.
+
+   - Decremented by 1 in do_async_mmap_readahead() when a PG_readahead
+     marker page is found (indicates sequential consumption of readahead
+     pages).
+
+   When mmap_miss exceeds MMAP_LOTSAMISS (100), all readahead is
+   disabled. On arm64 with 64K pages, both decrement paths are inactive:
+
+   - filemap_map_pages() is never called because fault_around_pages
+     (65536 >> PAGE_SHIFT = 1) disables should_fault_around(), which
+     requires fault_around_pages > 1. With only 1 page in the
+     fault-around window, there is nothing "around" to map.
+
+   - do_async_mmap_readahead() never fires for exec mappings because
+     exec readahead sets async_size = 0, so no PG_readahead markers
+     are placed.
+
+   With no decrements, mmap_miss monotonically increases past
+   MMAP_LOTSAMISS after 100 faults, disabling exec readahead
+   for the remainder of the mapping. Patch 1 fixes this by excluding
+   VM_EXEC VMAs from the mmap_miss logic, similar to how VM_SEQ_READ
+   is already excluded.
+
+2. exec_folio_order() is an arch-specific hook that returns a static
+   order (ilog2(SZ_64K >> PAGE_SHIFT)), which is suboptimal for non-4K
+   page sizes. Patch 2 updates the arm64 exec_folio_order() to return
+   2M on 64K page configurations (for contpte coalescing, where the
+   previous SZ_64K value collapsed to order 0) and uses a tiered
+   allocation strategy in do_sync_mmap_readahead(): if the VMA is large
+   enough for a full PMD, request HPAGE_PMD_ORDER so the folio can be
+   PMD-mapped; otherwise fall back to exec_folio_order() for hardware
+   PTE coalescing. The allocation uses ~__GFP_RECLAIM so it is
+   opportunistic, falling back to smaller folios without stalling on
+   reclaim or compaction.
+
+3. Even with correct folio order and readahead, hardware PTE coalescing
+   (e.g. contpte) and PMD mapping require the virtual address to be
+   aligned to the folio size. The readahead path aligns file offsets and
+   the buddy allocator aligns physical memory, but the virtual address
+   depends on the VMA start. For PIE binaries, ASLR randomizes the load
+   address at PAGE_SIZE granularity, so on arm64 with 64K pages only
+   1/32 of load addresses are 2M-aligned. When misaligned, contpte
+   cannot be used for any folio in the VMA.
+
+   Patch 3 fixes this for the main binary by extending maximum_alignment()
+   in the ELF loader with a folio_alignment() helper that tries two
+   tiers matching the readahead strategy: first HPAGE_PMD_SIZE for PMD
+   mapping, then exec_folio_order() as a fallback for hardware TLB
+   coalescing. The alignment is capped to the segment size to avoid
+   reducing ASLR entropy for small binaries.
+
+   Patch 4 fixes this for shared libraries by adding an
+   exec_folio_order() alignment fallback in
+   thp_get_unmapped_area_vmflags(). The existing PMD_SIZE alignment
+   (512M on arm64 64K pages) is too large for typical shared libraries,
+   so this smaller fallback succeeds where PMD fails.
+
+I created a benchmark that mmaps a large executable file and calls
+RET-stub functions at PAGE_SIZE offsets across it. "Cold" measures
+fault + readahead cost. "Random" first faults in all pages with a
+sequential sweep (not measured), then measures time for calling random
+offsets, isolating iTLB miss cost for scattered execution.
+
+The benchmark results on Neoverse V2 (Grace), arm64 with 64K base pages,
+512MB executable file on ext4, averaged over 3 runs:
+
+  Phase      | Baseline     | Patched      | Improvement
+  -----------|--------------|--------------|------------------
+  Cold fault | 83.4 ms      | 41.3 ms      | 50% faster
+  Random     | 76.0 ms      | 58.3 ms      | 23% faster
+
+[1] https://lore.kernel.org/all/d72d5ca3-4b92-470e-9f89-9f39a3975f1e@kernel.org/
+[2] https://lore.kernel.org/all/20250430145920.3748738-6-ryan.roberts@arm.com/
  
- However, if the string is freely accessible for the duration of inode's
- lifetime, consider using inode_set_cached_link() instead.
-+
-+---
-+
-+**recommended**
-+
-+If you really need to iterate through dentries for given inode, use
-+for_each_alias(dentry, inode) instead of hlist_for_each_entry; better
-+yet, see if any of the exported primitives could be used instead of
-+the entire loop.  You still need to hold ->i_lock of the inode over
-+either form of manual loop.
-diff --git a/fs/affs/amigaffs.c b/fs/affs/amigaffs.c
-index fd669daa4e7b..91966b1f41f6 100644
---- a/fs/affs/amigaffs.c
-+++ b/fs/affs/amigaffs.c
-@@ -126,7 +126,7 @@ affs_fix_dcache(struct inode *inode, u32 entry_ino)
- {
- 	struct dentry *dentry;
- 	spin_lock(&inode->i_lock);
--	hlist_for_each_entry(dentry, &inode->i_dentry, d_u.d_alias) {
-+	for_each_alias(dentry, inode) {
- 		if (entry_ino == (u32)(long)dentry->d_fsdata) {
- 			dentry->d_fsdata = (void *)inode->i_ino;
- 			break;
-diff --git a/fs/ceph/mds_client.c b/fs/ceph/mds_client.c
-index b1746273f186..f839109fb66f 100644
---- a/fs/ceph/mds_client.c
-+++ b/fs/ceph/mds_client.c
-@@ -4614,7 +4614,7 @@ static struct dentry* d_find_primary(struct inode *inode)
- 		goto out_unlock;
- 	}
- 
--	hlist_for_each_entry(alias, &inode->i_dentry, d_u.d_alias) {
-+	for_each_alias(alias, inode) {
- 		spin_lock(&alias->d_lock);
- 		if (!d_unhashed(alias) &&
- 		    (ceph_dentry(alias)->flags & CEPH_DENTRY_PRIMARY_LINK)) {
-diff --git a/fs/dcache.c b/fs/dcache.c
-index 7ba1801d8132..e069b6ec4ec0 100644
---- a/fs/dcache.c
-+++ b/fs/dcache.c
-@@ -790,7 +790,7 @@ void d_mark_dontcache(struct inode *inode)
- 	struct dentry *de;
- 
- 	spin_lock(&inode->i_lock);
--	hlist_for_each_entry(de, &inode->i_dentry, d_u.d_alias) {
-+	for_each_alias(de, inode) {
- 		spin_lock(&de->d_lock);
- 		de->d_flags |= DCACHE_DONTCACHE;
- 		spin_unlock(&de->d_lock);
-@@ -1040,7 +1040,7 @@ static struct dentry *__d_find_alias(struct inode *inode)
- 	if (S_ISDIR(inode->i_mode))
- 		return __d_find_any_alias(inode);
- 
--	hlist_for_each_entry(alias, &inode->i_dentry, d_u.d_alias) {
-+	for_each_alias(alias, inode) {
- 		spin_lock(&alias->d_lock);
-  		if (!d_unhashed(alias)) {
- 			dget_dlock(alias);
-@@ -1133,7 +1133,7 @@ void d_prune_aliases(struct inode *inode)
- 	struct dentry *dentry;
- 
- 	spin_lock(&inode->i_lock);
--	hlist_for_each_entry(dentry, &inode->i_dentry, d_u.d_alias)
-+	for_each_alias(dentry, inode)
- 		d_dispose_if_unused(dentry, &dispose);
- 	spin_unlock(&inode->i_lock);
- 	shrink_dentry_list(&dispose);
-diff --git a/fs/exportfs/expfs.c b/fs/exportfs/expfs.c
-index 6c9be60a3e48..f67b3ce672fc 100644
---- a/fs/exportfs/expfs.c
-+++ b/fs/exportfs/expfs.c
-@@ -52,7 +52,7 @@ find_acceptable_alias(struct dentry *result,
- 
- 	inode = result->d_inode;
- 	spin_lock(&inode->i_lock);
--	hlist_for_each_entry(dentry, &inode->i_dentry, d_u.d_alias) {
-+	for_each_alias(dentry, inode) {
- 		dget(dentry);
- 		spin_unlock(&inode->i_lock);
- 		if (toput)
-diff --git a/fs/nfs/dir.c b/fs/nfs/dir.c
-index 2402f57c8e7d..5a0bd8113e3a 100644
---- a/fs/nfs/dir.c
-+++ b/fs/nfs/dir.c
-@@ -1471,7 +1471,7 @@ static void nfs_clear_verifier_file(struct inode *inode)
- 	struct dentry *alias;
- 	struct inode *dir;
- 
--	hlist_for_each_entry(alias, &inode->i_dentry, d_u.d_alias) {
-+	for_each_alias(alias, inode) {
- 		spin_lock(&alias->d_lock);
- 		dir = d_inode_rcu(alias->d_parent);
- 		if (!dir ||
-diff --git a/fs/notify/fsnotify.c b/fs/notify/fsnotify.c
-index 9995de1710e5..b7198c4744e3 100644
---- a/fs/notify/fsnotify.c
-+++ b/fs/notify/fsnotify.c
-@@ -76,7 +76,7 @@ void fsnotify_set_children_dentry_flags(struct inode *inode)
- 	spin_lock(&inode->i_lock);
- 	/* run all of the dentries associated with this inode.  Since this is a
- 	 * directory, there damn well better only be one item on this list */
--	hlist_for_each_entry(alias, &inode->i_dentry, d_u.d_alias) {
-+	for_each_alias(alias, inode) {
- 		struct dentry *child;
- 
- 		/* run all of the children of the original inode and fix their
-diff --git a/fs/ocfs2/dcache.c b/fs/ocfs2/dcache.c
-index c4ba968e778b..e06774fd89d8 100644
---- a/fs/ocfs2/dcache.c
-+++ b/fs/ocfs2/dcache.c
-@@ -145,7 +145,7 @@ struct dentry *ocfs2_find_local_alias(struct inode *inode,
- 	struct dentry *dentry;
- 
- 	spin_lock(&inode->i_lock);
--	hlist_for_each_entry(dentry, &inode->i_dentry, d_u.d_alias) {
-+	for_each_alias(dentry, inode) {
- 		spin_lock(&dentry->d_lock);
- 		if (ocfs2_match_dentry(dentry, parent_blkno, skip_unhashed)) {
- 			trace_ocfs2_find_local_alias(dentry->d_name.len,
-diff --git a/fs/overlayfs/dir.c b/fs/overlayfs/dir.c
-index ff3dbd1ca61f..f8dfa534b566 100644
---- a/fs/overlayfs/dir.c
-+++ b/fs/overlayfs/dir.c
-@@ -904,7 +904,7 @@ static void ovl_drop_nlink(struct dentry *dentry)
- 
- 	/* Try to find another, hashed alias */
- 	spin_lock(&inode->i_lock);
--	hlist_for_each_entry(alias, &inode->i_dentry, d_u.d_alias) {
-+	for_each_alias(alias, inode) {
- 		if (alias != dentry && !d_unhashed(alias))
- 			break;
- 	}
-diff --git a/fs/smb/client/inode.c b/fs/smb/client/inode.c
-index 888f9e35f14b..e2b4ad9bd0bd 100644
---- a/fs/smb/client/inode.c
-+++ b/fs/smb/client/inode.c
-@@ -1595,7 +1595,7 @@ inode_has_hashed_dentries(struct inode *inode)
- 	struct dentry *dentry;
- 
- 	spin_lock(&inode->i_lock);
--	hlist_for_each_entry(dentry, &inode->i_dentry, d_u.d_alias) {
-+	for_each_alias(dentry, inode) {
- 		if (!d_unhashed(dentry) || IS_ROOT(dentry)) {
- 			spin_unlock(&inode->i_lock);
- 			return true;
-diff --git a/include/linux/dcache.h b/include/linux/dcache.h
-index 898c60d21c92..7f1dbc7121d7 100644
---- a/include/linux/dcache.h
-+++ b/include/linux/dcache.h
-@@ -615,4 +615,8 @@ void set_default_d_op(struct super_block *, const struct dentry_operations *);
- struct dentry *d_make_persistent(struct dentry *, struct inode *);
- void d_make_discardable(struct dentry *dentry);
- 
-+/* inode->i_lock must be held over that */
-+#define for_each_alias(dentry, inode) \
-+	hlist_for_each_entry(dentry, &(inode)->i_dentry, d_u.d_alias)
-+
- #endif	/* __LINUX_DCACHE_H */
+Usama Arif (4):
+  mm: bypass mmap_miss heuristic for VM_EXEC readahead
+  mm: use tiered folio allocation for VM_EXEC readahead
+  elf: align ET_DYN base for PTE coalescing and PMD mapping
+  mm: align file-backed mmap to exec folio order in
+    thp_get_unmapped_area
+
+ arch/arm64/include/asm/pgtable.h | 16 ++++++----
+ fs/binfmt_elf.c                  | 50 ++++++++++++++++++++++++++++++++
+ mm/filemap.c                     | 42 +++++++++++++++++++--------
+ mm/huge_memory.c                 | 13 +++++++++
+ mm/internal.h                    |  3 +-
+ mm/readahead.c                   |  7 ++---
+ 6 files changed, 109 insertions(+), 22 deletions(-)
+
 -- 
-2.47.3
+2.52.0
 
