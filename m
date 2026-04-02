@@ -1,70 +1,75 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B9AB3346A8
-	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Apr 2026 16:29:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75C433EF0B3
+	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Apr 2026 16:29:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775147390; cv=none; b=Q+iwVjh7h1zwuHqSOPmJ5qXhKIqd+fdfN61Qh1zFVGZVDZsUrWTcsx5lRF6nJ1QRKAsLbYkg6/91kgAVdfzrFbXlXE4jxRVaDuUZUmYez0gvTp/6/tGYhXSCNvHc951oDwe6fo4jPNcQOJX1Yhk73L0GNM+yPDPBblSuWZA6O8A=
+	t=1775147392; cv=none; b=BlB4fU9WYIx6GgpXFSrF3LYAqC6ZV6Juud1/hTBnghvAUC6ezy2DZtApBrjPKdwSxTn63u+bMh9FDBocfSdCA1JVMB3fu86jYcIgrRIpiNVtIvBBNQyxUZT9EFGYQHj4ksHGos4nO6Uw5Al2D6KzsDWbQm9UYx/PFUBgLBXPtEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775147390; c=relaxed/simple;
-	bh=cQPPqbLS7/BvTDhlA3upFoNt/pZHAgatL7GrY+xsgNI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Lg7ekcsSvqXt6lVILLd2Hnj1JXXYVvuMxV9EMr6WTzi8KSZC3t99q/M9PbN122rB/ig+EEB0S55IBtbv4y+Ahu4gVTqKQZSFb6ZE80Dht8/Az4AmWNYUpuXeU8e9FMhaW1IbH2NqV5X6J7FaKFsz7IWXcJSNUKppx7Pbv784SqY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KMvywSlx; arc=none smtp.client-ip=209.85.216.47
+	s=arc-20240116; t=1775147392; c=relaxed/simple;
+	bh=bNojUduJx4mT8xAk13oYH5xzgiN1uT94k0vj14LLLfc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=OPaikQSftkaLCxEGmg7w332bPO2/z8xj0gHiPA6Nmgicij4AvmFLPcWPs5Znwdf7sudCNt+hDK+bNSUWB/k1xAGrVFlQtM/7lGhzIXK9VDNJyPYoAmapM7sywJMx111pPCe6/8a9xKqNX1Q5nWg/T0SR7w/4bJXiQGzJ7iVz6KY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UxyEeeB8; arc=none smtp.client-ip=209.85.214.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KMvywSlx"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-35d971fb6f1so931371a91.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 02 Apr 2026 09:29:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UxyEeeB8"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2b258576d8cso7117415ad.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 02 Apr 2026 09:29:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775147389; x=1775752189; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DP706g7bborjcczloSD7fj6sNou9Unhxbf5dHkzzA/8=;
-        b=KMvywSlxeWNkYf+zMnVdXldWHyM4UeCARZ4sgiFCvotddUXpA3Ki80KGd4VNg5QDlB
-         ghVYxLfyXgqPw6AhDq0jR3FKxWpqgDZc0ImRzDI8ODnITraOutArjiCywMq0uaTi9IJ5
-         nco/hNEoitum5QX2H2eXlzxjRYnrEJ89bcQUDaEYPOLJ+URsLBFnoCT1KFEXNORUMRU9
-         YRdyCvtSDEi39F7y9Jeo+J9pyRFxIuzYyiWJ1SgW+TGc1iaqrO/V2qEtC7RM4Lom9Mh4
-         9KxvbdhyW5BwoayLtY+2MyQu7fVanb83/IaYteZPvSrpNEeazElKVFDZ9ttCbtvm8HLr
-         hN0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775147389; x=1775752189;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1775147391; x=1775752191; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DP706g7bborjcczloSD7fj6sNou9Unhxbf5dHkzzA/8=;
-        b=QlnIqidROvF3VWAVC35p4SBReC2C9mSmltRXtPBIrS3kbs/UC/el0cvRX0dtuGfi7h
-         i7Lxy2OZvUvpwAYNI4eqh2NbW0EsxtFe2ej7DpDh/M86+uZE75NZFDM4nCM3gR1iUShT
-         VzSeId1RAWVw264/F7d2t7CcfrWCiGG+k82EmlQy59NDV5H9xjQrdkeK8IvmaClu9yuo
-         klWeh679gzNybCJ06W/N1UbOv7aCwxiKim2LtVqYaInUnF+RpjT9OaN5R0qEmRDKT8NO
-         5c7vsicBuO2g4QRfPJwU7bFxng8M2Np28YvmSC2RG17E+wOc/i4d7lMBBJdMoKuM61O+
-         jejg==
-X-Forwarded-Encrypted: i=1; AJvYcCVqO0tbpk34l/hLUgMyGygYHlkhbbPwvaNRM5ocqtQkAa657l3Spts9BTMHf0MF2BglR34gNLHbDYEEGOad@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzu3+CXDQWN1P3DRk7VoY/FtuOSR/E+z3hDj1q7Jr3BySokqKP/
-	JoRfp0x0MAzlqEOkQ4a9uCe1FfrRsZyXGQjGyys+pBg+Eu55zhUh/Vl/
-X-Gm-Gg: AeBDieszeg6FXSPRq997PUmeLXX5EfQhxliVKArHugJWvZj5N7l5yyocUt3vAMDe/Bn
-	e2WfCIWSYH5N7XFt1MmQolYtaDYcusMW/JQ9fk/sDIsYSx9qCd+3RppVZ1nFJlgbvTm3Ogsz6lu
-	1p1yBuOUKJBjNAWa0UY7v7GYzhdQlAW1zubvxJXlPXw+RKd92q8rkGG2CZvZbL1G4tkk6/83GtW
-	scnO9gWsTbVk4yLEXIl/sPxzWfd8AqymIRTlJ/xSJcRSMOTJcYz79r2zYy4hqI7DPxwJzyMzHId
-	nrju3qeG8xp6qRVxXac/+zT7TNlO7EMzZVzpsC8YEYADTkByWg3pDrE6jqefOxdYqXQame4gk9T
-	4rYD4hgX4YaixSxJ0WR1dg96UEIW0h1u2Nijk3E/6O2MdlXJ8Rnn88hACqcC4PY5lGhzTM4Fc5O
-	wo1DGgUO6C+y1RC0ueww==
-X-Received: by 2002:a17:90b:37cf:b0:35c:936:d4cc with SMTP id 98e67ed59e1d1-35dc6f5fe64mr7458193a91.14.1775147388892;
-        Thu, 02 Apr 2026 09:29:48 -0700 (PDT)
-Received: from localhost ([2a03:2880:ff:5a::])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35dd367bfb1sm3351805a91.10.2026.04.02.09.29.48
+        bh=/tsp7R1CEM/G1ahxgdRVjeVwJWWxyvPo9ssp/26mb8g=;
+        b=UxyEeeB8FKwXGWlZUU98A4snRequGrzhtIVugex4QG6kTDYXI9jTXK4ZaBZ11UGvWT
+         kbOE/onqVBWApL0idKDTbPJL/A45abhVqrn8cOmJwJiFGIrNpDh096AUYvZbjPLlzSCK
+         /49rIP93NA6cOias9BUP5MnSTNaltZlCsKqsm+QXEtzG6ubeO8i7/ji66wJ9BjwQSrRJ
+         FZVqV3dpj8katcezP0a7l0XIvodrQJSZFOXj2VZzjE7dRTd6SBqrMpa/0+6MGOtubtI2
+         NGJijxtkcTRtSyf6t7D4tFz+pZIv2kxGMnSJMOP6/73DBdazuKzWMvVPtlUWU2OTlCSb
+         dMpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775147391; x=1775752191;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=/tsp7R1CEM/G1ahxgdRVjeVwJWWxyvPo9ssp/26mb8g=;
+        b=eEaPDeQ+mg1W06p0QwEcPZ3PtMOuBU8bU79lkGhmiymDAUYMMJ1QnHuKIkZae5K2NF
+         QyotcJ52hkUlS/rpJQWlgUCHS9HCJ5mua/gsmaJU8hiJklyTqHBWd1u9txDtIWNoT26I
+         y/FMfq3cS9otJ0ghFT1z9RtpHwyePK8Io2wioSiQRo9fXUbEkmfXTfq2kTv6a61asOA6
+         UjbCaddeokNfAI85dttmY0xFSBWua9+iifIlxJ6R0fWOOFUdTq2s5ruSNYoGQKVbqI4Q
+         yAFmTNy5lxa8Jld/LNuTDSPzANKBMLOqKxpxW/7l8i5oDwEz60wePFgT+NfR4Qr5ysX0
+         lTXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVbnJRAJRHrFlgL3rVlwLH+D7IosyQNcxPaWJX+Kp3B4U11rRgk8WVwW4qDOslxg0cQouDVjNIZVIux1S45@vger.kernel.org
+X-Gm-Message-State: AOJu0YyCPUiagZOjJ30SsBeuQftbl+zXwLharZO9wSg6fisICOEPy3UJ
+	mSDCFNN7mZUXZl5MDDMKZBg7EMMcE561Dd8P8RMVFoZr962DQFpplwn7
+X-Gm-Gg: AeBDieso7HcPBaP+g2Ed38eFaw9mcQbiSQid0gIWYmiFSU/zGQiPK2oOCqTNEwOHb+Z
+	H5X/+WZP/EJArV67Vjc7OeM81bgLSsFE4Tq/YO6rCjLZFVps7JhZ6Xj80t6WGnDaneaPk8nOuhZ
+	r7CsIe5p1+J0iVrgW7JelQS4Se4uNkJ/v9fl+2gZkdRZOt32bT69eQuw5sAGXsEC60o5crOSbRz
+	+YWWKKY1fTLDmoneyhU9Lt4zAEnJB3BQmQ5JMwqeIEIK+ub5/neUQWBedjE4963xdeFYnbHAV3A
+	9WgKtiMchwJ6rxIxWGKwnypxUale0M6COWgIjEiZWL3/Rer2YDGd3hlVsnvHa90HKgZaxCWfgkl
+	/LJNIVHKgUX9LbOaMTAJwOH+yzPv8pWtDBFLw8V1I+nRd1f7IHkxj4xFvjFUI8Z118Yuxp117HU
+	XZlfkug0lHQotYXeDggg==
+X-Received: by 2002:a17:903:4b48:b0:2b2:4eec:980b with SMTP id d9443c01a7336-2b269a9cb00mr93927465ad.7.1775147390769;
+        Thu, 02 Apr 2026 09:29:50 -0700 (PDT)
+Received: from localhost ([2a03:2880:ff:73::])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b27497af47sm51094655ad.42.2026.04.02.09.29.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Apr 2026 09:29:48 -0700 (PDT)
+        Thu, 02 Apr 2026 09:29:50 -0700 (PDT)
 From: Joanne Koong <joannelkoong@gmail.com>
 To: miklos@szeredi.hu
 Cc: bernd@bsbernd.com,
 	axboe@kernel.dk,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH v2 00/14] fuse: add io-uring buffer rings and zero-copy
-Date: Thu,  2 Apr 2026 09:28:26 -0700
-Message-ID: <20260402162840.2989717-1-joannelkoong@gmail.com>
+	linux-fsdevel@vger.kernel.org,
+	Bernd Schubert <bschubert@ddn.com>
+Subject: [PATCH v2 01/14] fuse: separate next request fetching from sending logic
+Date: Thu,  2 Apr 2026 09:28:27 -0700
+Message-ID: <20260402162840.2989717-2-joannelkoong@gmail.com>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260402162840.2989717-1-joannelkoong@gmail.com>
+References: <20260402162840.2989717-1-joannelkoong@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -73,128 +78,154 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series adds buffer ring and zero-copy capabilities to fuse over io-uring.
+Simplify the logic for fetching + sending off the next request.
 
-Using buffer rings has advantages over the non-buffer-ring (iovec) path:
-- Reduced memory usage: in the iovec path, each entry has its own
-  dedicated payload buffer, requiring N buffers for N entries where each
-  buffer must be large enough to accommodate the maximum possible
-  payload size. With buffer rings, payload buffers are pooled and
-  selected on demand. Entries only hold a buffer while actively
-  processing a request with payload data. When incremental buffer
-  consumption is added, this will allow non-overlapping regions of a
-  single buffer to be used simultaneously across multiple requests,
-  further reducing memory requirements.
-- Foundation for pinned buffers: the buffer ring headers and payloads
-  are now each passed in as a contiguous memory allocation, which allows
-  fuse to easily pin and vmap the entire region in one operation during
-  queue setup. This will eliminate the per-request overhead of having to
-  pin/unpin user pages and translate virtual addresses and is a
-  prerequisite for future optimizations like performing data copies
-  outside of the server's task context.
+This gets rid of fuse_uring_send_next_to_ring() which contained
+duplicated logic from fuse_uring_send(). This decouples request fetching
+from the send operation, which makes the control flow clearer and
+reduces unnecessary parameter passing.
 
-This series adds the capability to pin the underlying header and payload
-buffers by setting init flags at registration time, depending on the user's
-mlock limit.
+Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+Reviewed-by: Bernd Schubert <bschubert@ddn.com>
+---
+ fs/fuse/dev_uring.c | 78 ++++++++++++++++-----------------------------
+ 1 file changed, 28 insertions(+), 50 deletions(-)
 
-Zero-copy (only for privileged servers) is also opt-in by setting an init flag
-at registration time. Zero-copy eliminates the memory copies between kernel and
-userspace for read/write/payload-heavy operations by allowing the server to
-directly operate on the client's underlying pages.
-
-This series has a dependency on io-uring registered bvec buffers changes
-in [1].
-
-The throughput improvements from pinned buffers and zero-copy depends on how
-much of the server's per-request latency is spent on data copying vs backing
-I/O. When backing I/O dominates, the saved memcpy is a negligible fraction of
-overall latency. Please also note that for the server to read/write
-into the zero-copied pages, the read/write must go through io-uring
-as an IORING_OP_READ_FIXED / IORING_OP_WRITE_FIXED operation. If the
-server's backing I/O is instantaneous (eg served from cache), the
-overhead of the additional io_uring operation may negate the savings
-from eliminating the memcpy.
-
-In benchmarks using passthrough_hp on a high-performance NVMe-backed
-system, pinned headers and pinned payload buffers showed around a 10%
-throughput improvement for direct randreads (~2150 MiB/s to ~2400
-MiB/s), a 4% improvement for direct sequential reads (~2510 MiB/s to
-~2620 MiB/s), a 8% improvement for buffered randreads (~2100 MiB/s to
-~2280 MiB/s), and a 6% improvement for buffered sequential reads (~2500
-MiB/s to ~2670 MiB/s).
-
-Zero-copy showed around a 35% throughput improvement for direct
-randreads (~2150 MiB/s to ~2900 MiB/s), a 15% improvement for direct
-sequential reads (~2510 MiB/s to ~2900 MiB/s), a 15% improvement for
-buffered randreads (~2100 MiB/s to ~2470 MiB/s), and a 10% improvement
-for buffered sequential reads (~2500 MiB/s to ~2750 MiB/s). I didn't see
-enough of a clear improvement for writes due to write latency being I/O
-dominated.
-
-The benchmarks were run using:
-  fio --name=test_run --ioengine=sync --rw=rand{read,write} --bs=1M
-  --size=1G --numjobs=2 --ramp_time=30 --group_reporting=1
-
-To run the benchmark, please also add this patch [2].
-
-The libfuse changes can be found in [3]. To test the server, run:
-sudo ~/libfuse/build/example/passthrough_hp ~/src ~/mounts/tmp
---nopassthrough -o io_uring_zero_copy -o io_uring_q_depth=8
-Once this series is merged, the libfuse changes will be tidied up and
-submitted upstream.
-
-Further optimizations for incremental buffer consumption, request
-dispatching in current task context, and backing buffer integration with
-IORING_OP_READ/IORING_OP_WRITE operations will be submitted as part of a
-separate series.
-
-Thanks,
-Joanne 
-
-[1] https://lore.kernel.org/io-uring/20260402160929.2749744-1-joannelkoong@gmail.com/T/#t
-[2] https://lore.kernel.org/linux-fsdevel/20260326215127.3857682-2-joannelkoong@gmail.com/
-[3] https://github.com/joannekoong/libfuse/commits/zero_copy_v2/
-
-Changelog
----------
-v1: https://lore.kernel.org/linux-fsdevel/20260324224532.3733468-1-joannelkoong@gmail.com/
-v1 -> v2:
-* Drop kernel managed buffers from io-uring infrastructure and instead move
-  logic into fuse. To later use buffers with io-uring requests natively will
-  require fuse to place the backing buffer as a fixed buffer in a sparse slot
-  for the server, but that will be added as an optimization in a separate
-  series. This makes the io-uring code cleaner and accomodates for more flexible
-  fuse user configurations (eg mlock limits) and easier setup (me)
-* Run more benchmarks and get more numbers (me)
-* Add visual diagrams and more documentatoin to commit messages and
-  documentation patch (Bernd)
-
-Joanne Koong (14):
-  fuse: separate next request fetching from sending logic
-  fuse: refactor io-uring header copying to ring
-  fuse: refactor io-uring header copying from ring
-  fuse: use enum types for header copying
-  fuse: refactor setting up copy state for payload copying
-  fuse: support buffer copying for kernel addresses
-  fuse: use named constants for io-uring iovec indices
-  fuse: move fuse_uring_abort() from header to dev_uring.c
-  fuse: rearrange io-uring iovec and ent allocation logic
-  fuse: add io-uring buffer rings
-  fuse: add pinned headers capability for io-uring buffer rings
-  fuse: add pinned payload buffers capability for io-uring buffer rings
-  fuse: add zero-copy over io-uring
-  docs: fuse: add io-uring bufring and zero-copy documentation
-
- .../filesystems/fuse/fuse-io-uring.rst        |  189 +++
- fs/fuse/dev.c                                 |   30 +-
- fs/fuse/dev_uring.c                           | 1042 ++++++++++++++---
- fs/fuse/dev_uring_i.h                         |   86 +-
- fs/fuse/fuse_dev_i.h                          |    8 +-
- include/uapi/linux/fuse.h                     |   36 +-
- 6 files changed, 1194 insertions(+), 197 deletions(-)
-
-
-base-commit: 619fa72e875483dabf7683001496cc0ca4480aa6
+diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
+index 3a38b61aac26..54436d3fda4d 100644
+--- a/fs/fuse/dev_uring.c
++++ b/fs/fuse/dev_uring.c
+@@ -714,34 +714,6 @@ static int fuse_uring_prepare_send(struct fuse_ring_ent *ent,
+ 	return err;
+ }
+ 
+-/*
+- * Write data to the ring buffer and send the request to userspace,
+- * userspace will read it
+- * This is comparable with classical read(/dev/fuse)
+- */
+-static int fuse_uring_send_next_to_ring(struct fuse_ring_ent *ent,
+-					struct fuse_req *req,
+-					unsigned int issue_flags)
+-{
+-	struct fuse_ring_queue *queue = ent->queue;
+-	int err;
+-	struct io_uring_cmd *cmd;
+-
+-	err = fuse_uring_prepare_send(ent, req);
+-	if (err)
+-		return err;
+-
+-	spin_lock(&queue->lock);
+-	cmd = ent->cmd;
+-	ent->cmd = NULL;
+-	ent->state = FRRS_USERSPACE;
+-	list_move_tail(&ent->list, &queue->ent_in_userspace);
+-	spin_unlock(&queue->lock);
+-
+-	io_uring_cmd_done(cmd, 0, issue_flags);
+-	return 0;
+-}
+-
+ /*
+  * Make a ring entry available for fuse_req assignment
+  */
+@@ -838,11 +810,13 @@ static void fuse_uring_commit(struct fuse_ring_ent *ent, struct fuse_req *req,
+ }
+ 
+ /*
+- * Get the next fuse req and send it
++ * Get the next fuse req.
++ *
++ * Returns true if the next fuse request has been assigned to the ent.
++ * Else, there is no next fuse request and this returns false.
+  */
+-static void fuse_uring_next_fuse_req(struct fuse_ring_ent *ent,
+-				     struct fuse_ring_queue *queue,
+-				     unsigned int issue_flags)
++static bool fuse_uring_get_next_fuse_req(struct fuse_ring_ent *ent,
++					 struct fuse_ring_queue *queue)
+ {
+ 	int err;
+ 	struct fuse_req *req;
+@@ -854,10 +828,12 @@ static void fuse_uring_next_fuse_req(struct fuse_ring_ent *ent,
+ 	spin_unlock(&queue->lock);
+ 
+ 	if (req) {
+-		err = fuse_uring_send_next_to_ring(ent, req, issue_flags);
++		err = fuse_uring_prepare_send(ent, req);
+ 		if (err)
+ 			goto retry;
+ 	}
++
++	return req != NULL;
+ }
+ 
+ static int fuse_ring_ent_set_commit(struct fuse_ring_ent *ent)
+@@ -875,6 +851,20 @@ static int fuse_ring_ent_set_commit(struct fuse_ring_ent *ent)
+ 	return 0;
+ }
+ 
++static void fuse_uring_send(struct fuse_ring_ent *ent, struct io_uring_cmd *cmd,
++			    ssize_t ret, unsigned int issue_flags)
++{
++	struct fuse_ring_queue *queue = ent->queue;
++
++	spin_lock(&queue->lock);
++	ent->state = FRRS_USERSPACE;
++	list_move_tail(&ent->list, &queue->ent_in_userspace);
++	ent->cmd = NULL;
++	spin_unlock(&queue->lock);
++
++	io_uring_cmd_done(cmd, ret, issue_flags);
++}
++
+ /* FUSE_URING_CMD_COMMIT_AND_FETCH handler */
+ static int fuse_uring_commit_fetch(struct io_uring_cmd *cmd, int issue_flags,
+ 				   struct fuse_conn *fc)
+@@ -947,7 +937,8 @@ static int fuse_uring_commit_fetch(struct io_uring_cmd *cmd, int issue_flags,
+ 	 * and fetching is done in one step vs legacy fuse, which has separated
+ 	 * read (fetch request) and write (commit result).
+ 	 */
+-	fuse_uring_next_fuse_req(ent, queue, issue_flags);
++	if (fuse_uring_get_next_fuse_req(ent, queue))
++		fuse_uring_send(ent, cmd, 0, issue_flags);
+ 	return 0;
+ }
+ 
+@@ -1196,20 +1187,6 @@ int fuse_uring_cmd(struct io_uring_cmd *cmd, unsigned int issue_flags)
+ 	return -EIOCBQUEUED;
+ }
+ 
+-static void fuse_uring_send(struct fuse_ring_ent *ent, struct io_uring_cmd *cmd,
+-			    ssize_t ret, unsigned int issue_flags)
+-{
+-	struct fuse_ring_queue *queue = ent->queue;
+-
+-	spin_lock(&queue->lock);
+-	ent->state = FRRS_USERSPACE;
+-	list_move_tail(&ent->list, &queue->ent_in_userspace);
+-	ent->cmd = NULL;
+-	spin_unlock(&queue->lock);
+-
+-	io_uring_cmd_done(cmd, ret, issue_flags);
+-}
+-
+ /*
+  * This prepares and sends the ring request in fuse-uring task context.
+  * User buffers are not mapped yet - the application does not have permission
+@@ -1226,8 +1203,9 @@ static void fuse_uring_send_in_task(struct io_tw_req tw_req, io_tw_token_t tw)
+ 	if (!tw.cancel) {
+ 		err = fuse_uring_prepare_send(ent, ent->fuse_req);
+ 		if (err) {
+-			fuse_uring_next_fuse_req(ent, queue, issue_flags);
+-			return;
++			if (!fuse_uring_get_next_fuse_req(ent, queue))
++				return;
++			err = 0;
+ 		}
+ 	} else {
+ 		err = -ECANCELED;
 -- 
 2.52.0
 
