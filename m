@@ -1,77 +1,70 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D80A83BFE40
-	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Apr 2026 11:07:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D7B03C0636
+	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Apr 2026 11:07:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775128029; cv=none; b=j6AG2iL2aIljcYWxKC0VMX5c1DR2zsHn83KiFVLOpGndOu1T2PQ1KgXUHb1CBeQdanQHqvLauGjLrJV+kr+LiMyPiOBICgFhlVqO+AsHl8yW/DBj3VnrE+yZG5pC9bD7eBATlxztUtKyIbkCmn7AqXJYk/ow0BgLOauBZ/8avl4=
+	t=1775128052; cv=none; b=K2eSM582MTuBJUQftPNMfB3yZ1JvecqmF9N7tA0GVNCqQ/y1TiLpP27MF24Yy8R89jKDTSpU0uQwfgi6JMPKCBcsyPJvYHeSwHxFNlxd8CP39j8FwQD/gYBlhKxZ54vNJmPnGv3AIJ7kTuXFhB9SCZIa1Sz76HgMOCiZ3tmAHz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775128029; c=relaxed/simple;
-	bh=Bvqo9k+uWe79hD+EUzdQrkh/Lqm87qTJgqtYKXT+ZqI=;
-	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version:Content-Type; b=npC2nsQweYWrc6ZBEnNx4SiHjLlpVWDdG909F3uk7MxStt027CDT/PVQ+/cISHPLU2gqTcxHlZOMci5Iz4DDyjhjQOyghtvQJbrnIBUaDuJw/rC83RI7g9M7P2oiqtdD4Vnwyq4GdO4LKgFXv0wnzjkEaa/rVAbd0xnzMn9rdkI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iiyazaFx; arc=none smtp.client-ip=209.85.210.173
+	s=arc-20240116; t=1775128052; c=relaxed/simple;
+	bh=bhBJbkY3Nk05hmcy8a58k0kfXc5yFmpj4WfNFtpZoLo=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version:Content-Type; b=rFNWegujYkXDtirYrUz65MqVUL8YbbAVHJ0OTHnLVh3HUbaDeXQo4+cuXIs5d7IgSUVVkZQbH/QpYoh0xvG3sdPvjo4lGpxMHxRdr8O5ca7rpFKXDCnGNGFohmwOZPB49d36ofvhZkky6EvvOgJBq9fNKZBWBMSSJ0/I5SS8ioQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xx+Se9TD; arc=none smtp.client-ip=209.85.215.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iiyazaFx"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-82cebbdbdccso359528b3a.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 02 Apr 2026 04:07:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xx+Se9TD"
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-c757a9251faso261995a12.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 02 Apr 2026 04:07:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775128025; x=1775732825; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1775128048; x=1775732848; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:date:subject:cc:to:from
          :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=FqVUaOxIIQGdvZuHr4y8df1rC/Cd4m3EejmoyV3YomM=;
-        b=iiyazaFxpKSBDXhh14DdZVTWTb9m1BsvngjygqGk/lehXOR0wXltSz3VnbGzHFRSnV
-         YKO7WqSBZbO7ofiSGAZ5tePUlroyBsUhscn+RJZrfG0aLrsbEEi5uRoBss6g7OxlmJTL
-         PxxrEpjvr3WZnj9acSQlA7jvoV5GeGpHgCdWofpLuxMj2wLn8VW146TU3Zfi8l0uLZug
-         SgB/IbqV53BDN9M7aRW9YqezB3EFqZzO5gxS6OFbMZsgLWulGp2ISuLVO7gWud0zfxhd
-         ytzBd5Zf2sMkIW9Zx1STKBe0t0PS42aCO+BA5w0PKWGVxGQVO4bWJxcnU2bs6NSwJgBE
-         6kyw==
+        bh=Tgw9kFyJ4DuvMCa0cxEPCltwLx3hIHnbJ//wu8pLwa0=;
+        b=Xx+Se9TDIYrz0/XjXlVi+67LJLIcxT4St8U/IR98AE0KMP0KlnDUmYaFSZ2/lUj5ym
+         5CquxlyysrcG8KXiW+cmAPW4nvOaHsKDuTz/ZOrv+oFKuN0CGzYSRzfIv4Icrzn5Qf8v
+         X60Q13JFY5aRXSZFtaUcajhqe5GiltuvJ4Kx2K4JvjrmEY/fnvYluZrJy7eJJv1cXzaC
+         HBLL1OMHUtv+WG7zTYcu3bDuk59JWD4rOTpzjZAzTd580HLKQixipdxkZlDYgJ5mFX+d
+         LbyFQ/paIkp9z23a6vrZtn7R80k7h3lkS0fkNnQluvmzGdJXow1a0KCdMTHH/wTAEP60
+         rm3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775128025; x=1775732825;
+        d=1e100.net; s=20251104; t=1775128048; x=1775732848;
         h=content-transfer-encoding:mime-version:date:subject:cc:to:from
          :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FqVUaOxIIQGdvZuHr4y8df1rC/Cd4m3EejmoyV3YomM=;
-        b=s4lpbXOeJ4zwTbEYuDeat/Rwg1Oyl/kL4ZtjAWnSxbU53BQGn3CQMsK6rbbKP4w4Yc
-         XknsO1Rc6XnNEGD1T7omfapIYuoHr+bXCb5xpF72YQwCU0bouXsShYlClfj6a020DoW0
-         qTxlx6QxeSIsfl38+qaqjGqscwxq1ukyhnDrQ58ZLkjgt8DnoVhwYIqVMAa+nftT4UR+
-         Mg8P8RW0aZs9hgkjGxnOT+Sx3wqC75E50xwD7X65YeM5eNTtJzoXvGqQS4X3sNJR+x5I
-         6+jQRb3aupEwgHK4RpbO5JO+Lah8rZmZeJQwnp56eJtqJR/y0Lqs530RbuQuLp4MzUP0
-         GDgQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU1OBD3UfAY7kUhHuItdN2ZvFru1cXg99Mvip8hyApQyFnwud6yqdyKF3Ahzu1PboFN++mZ+/i0ar3ucZ4R@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywyi2IksJ+innL8gVxqT3i/QK/02EcKBJB1vIsJEYoHc0QbnKzs
-	hoe9aCj48p4Ga3sc28lM6fb5waBHyl9QxCQhBgzqCIST+3AnnOartD+R
-X-Gm-Gg: ATEYQzzwkeu9ZZZEUCJciqx2oN6PuRiy8O/QS4HdkcFNKncyWRJ/Y0UMBqietjGcWuG
-	3IS3N7KUpxGppmgQqjInL+N4SY005cDGY9rs6U9wz1gBUM7F8r6MnrA8BbCaf6mupPRBOXtH55p
-	5xqJkBDfcW6Aq7htzO6QViy4Gbzbw9zZG1xmDqSEkyv1bq23FLMSasFXjEckDPA1c2Ej6237ul3
-	46She0vwU/Z1WBfDhAiB08P2HIGztGFZqgcHmXIvlizi80F+ZNU3KCaVIPa/YzxXm5Qupn9cM22
-	HaPCLaqSbRlQMYehIbpDNUsVCPzjufuPiPEd7Ruag1J+5uymUIr1yZNNzrnC0mCNR11zrSpEYkn
-	2MJa7NcNTQX8J52G0LaPR4DjPkMFwlayVwcCga5Jpm80RfUm3wo+/AMg1PIfftumqQoDmPnK8Ma
-	D4DeMXYnyGdED5kJqTN+4=
-X-Received: by 2002:a05:6a00:2d02:b0:82c:9c4e:66ca with SMTP id d2e1a72fcca58-82d00209118mr2082347b3a.2.1775128024851;
-        Thu, 02 Apr 2026 04:07:04 -0700 (PDT)
+        bh=Tgw9kFyJ4DuvMCa0cxEPCltwLx3hIHnbJ//wu8pLwa0=;
+        b=PuLkQgGHA0gfBGKc3aIZQ0XkFRXyi2RZddXWKeanU9emp5lj5F7Xp/IxOuiiEutZoA
+         H3sfb252gx8vF0GHL8rUEG/dIApgjkoh4b2B8ayHKl0iIWL1WjA6MYMd8CNMr9rtkEMe
+         iBOwc1ljT2ASnxDRVK5DRWFmzc1xO0H2kukjXGkJo9kEa7N62zy6KMrm3nfUffPqfe2A
+         9p6C5We208bI6/TK8vilK3WJeEOdp9CAiVFb07/3SsE+hHppCwlcRdqNUP2HUBQ4qWpG
+         AJX05MHyybMwnNPuQIj7MW3tE78+ncLcQi0mJWBNiiBJs5g+YC0yLL70qJmJan3LZudQ
+         2mVQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXw28vsqJe/8wCOJYXDBHqTDbXiqHx/dee0+o3t4QsrbKB6T9w44E7szhJKztxfbjOFCSQXyKG7Xq0AVoJt@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxyp95LGark6lzNDFNVIyrIATIbLveQFJoeIY+000UXvcperwto
+	oXhqppfVoIa1rHnp1lDvEcBKosHmQN2sQCGqUmB7S7QKpa5d/f/5ZzyUuNP9daTSylF/iQ==
+X-Gm-Gg: AeBDiesR3s4noZg2BJCJBzHWowmzBQoKXxW2/QH2lecAjNux90BtxJeSvh6Rc2PRq6F
+	+hZ7cSR74pTaEQfWw5ld1KsK5Gkz40KicJyDD1V4mj2XSS9FYj+CMaTUraFjx7wvrmfeUDz6q6p
+	LT9Slbylh4NmJQWKv8jfeWVhrQxB+nbuoxvxhrTb0qKS9sCzyIJemgDO5ymjNKFPk8MWWHPe0fw
+	CdFhsJ5Jo/PHynDgt2yrZMRKFL4eCXEUE9IKHpYlOpvUqehUNJyuWmKkSjuoDdA7NsUMss4jSsH
+	7aotTLtBHVl3jOCLpteaqesUB9wxluz/E8x/jhSMTwf8g4nHGIA2Pqzf95RH3BaWG3EdnJ//j+f
+	PXm80A062Pb2pbnu6+9l9j9GS/Q4SwdSXPYwWT7BY2/HVkj0l6/Y4Q2s/evdtTMlF41zTizk1aA
+	+cYn5cKQWnMSVbWY/fnh8=
+X-Received: by 2002:a17:903:1c9:b0:2b2:539b:d2a0 with SMTP id d9443c01a7336-2b269cfe5d5mr72595485ad.45.1775128047658;
+        Thu, 02 Apr 2026 04:07:27 -0700 (PDT)
 Received: from localhost ([137.132.22.254])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82cf9c68273sm3716913b3a.41.2026.04.02.04.07.04
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b2747a7115sm24492965ad.36.2026.04.02.04.07.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Apr 2026 04:07:04 -0700 (PDT)
-Message-ID: <69ce4dd8.050a0220.11816b.80c8@mx.google.com>
+        Thu, 02 Apr 2026 04:07:27 -0700 (PDT)
+Message-ID: <69ce4def.170a0220.9e8ab.803e@mx.google.com>
 From: ven0mfuzzer <ven0mkernelfuzzer@gmail.com>
-To: Ronnie Sahlberg <ronniesahlberg@gmail.com>,
-        Tom Talpey <tom@talpey.com>,
-        Paulo Alcantara <pc@manguebit.org>,
-        Steve French <sfrench@samba.org>,
-        David Howells <dhowells@redhat.com>,
-        Bharath SM <bharathsm@microsoft.com>,
-        Shyam Prasad N <sprasad@microsoft.com>
-Cc: linux-cifs@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        samba-technical@lists.samba.org,
-        netfs@lists.linux.dev,
+To: Christian Brauner <brauner@kernel.org>,
+        Jan Kara <jack@suse.cz>,
+        Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: linux-kernel@vger.kernel.org,
         linux-fsdevel@vger.kernel.org
-Subject: [BUG] Linux Kernel CIFS Client Circular Locking: wb_lock vs lock_sem
-Date: Thu, 02 Apr 2026 19:07:02 +0800
+Subject: [BUG] BeeGFS 7.4.4 Use-After-Free in FhgfsInode_referenceHandle via Message Type Corruption (S→C)
+Date: Thu, 02 Apr 2026 19:07:25 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -82,248 +75,170 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Mailer: KernelStackFuzz send_email.sh
 
-Linux Kernel CIFS Client Circular Locking: wb_lock vs lock_sem
+BeeGFS 7.4.4 Use-After-Free in FhgfsInode_referenceHandle via Message Type Corruption (S→C)
 
   1. Vulnerability Title
 
-Linux Kernel CIFS Client wb_lock / lock_sem Circular Locking Deadlock During Writeback
+BeeGFS 7.4.4 Client Kernel Module Use-After-Free in FhgfsInode_referenceHandle via MITM Message Type Corruption
 
   2. High-Level Overview
 
-A circular locking dependency exists in the Linux kernel CIFS client between `&ctx->wb_lock` (netfs writeback lock) and `&cifsi->lock_sem` (CIFS inode lock semaphore). When a `close()` operation triggers writeback and calls `cifs_reopen_file()` while holding `wb_lock`, it attempts to acquire `lock_sem`. Simultaneously, a concurrent `write()` path holds `lock_sem` and attempts to acquire `wb_lock` via `netfs_begin_writethrough()`. This AB-BA lock ordering conflict produces a potential deadlock. The deadlock is triggered by MITM-induced connection disruption during active writeback, causing the CIFS client to call `cifs_reopen_file()` in the writeback path where it should not need to reconnect.
+This report describes a critical use-after-free vulnerability in the BeeGFS 7.4.4 client kernel module. A MITM attacker corrupts the `msgType` field (2 bytes) in a BeeGFS reply header, changing the expected response type (e.g., LookupIntentResp type 2060) to an invalid value (e.g., 0). The client detects the type mismatch, disconnects from the meta server, and triggers cleanup of file handles and associated state. However, the `beegfs_Flusher` kernel thread still holds a reference to a file handle via `FhgfsInode_referenceHandle`. When the Flusher thread attempts to acquire the mutex on the already-freed handle object, KASAN detects a slab-use-after-free.
 
-This vulnerability was discovered using ven0mfuzzer, our custom-designed MITM-based network filesystem fuzzer developed by our team. Following the common syzkaller practice, we submit the kernel crash trace as the primary reproduction artifact.
+This is a high-severity vulnerability. A single 2-byte corruption in the network triggers a complex chain: type mismatch → disconnect → cleanup race → use-after-free. This class of vulnerability is potentially leading to kernel memory corruption or denial of service.
+
+This vulnerability was discovered using ven0mfuzzer, our custom-designed MITM-based network filesystem fuzzer developed by our team.
+
+  Attack Model
+
+The attack direction is Server → Client (S→C) via MITM:
+
+An attacker with network access between a BeeGFS client and its meta server intercepts BeeGFS TCP traffic and corrupts the 2-byte `msgType` field at offset 16 in the 40-byte BeeGFS NetMessage header. The client kernel module processes the corrupted response, triggers a disconnect, and enters a race condition between cleanup and the Flusher thread, resulting in a use-after-free.
 
   3. Affected Product and Version Information
 
-Product: Linux Kernel (upstream mainline)
-Affected Component: `fs/smb/client/file.c` — `cifs_reopen_file()` (acquires `lock_sem`)
+Product: BeeGFS 7.4.4 (client kernel module, compiled from DKMS source)
+Affected Component: `client_module/source/common/storage/FhgfsInode.c` — `FhgfsInode_referenceHandle()`
 Supporting Components:
-- `fs/netfs/writeback.c` — `netfs_writepages()` (acquires `wb_lock`)
-- `fs/netfs/write_issue.c` — `netfs_begin_writethrough()` (acquires `wb_lock`)
-- `fs/smb/client/file.c` — `cifs_strict_writev()`, `cifs_get_writable_file()`
+- `client_module/source/common/net/message/NetMessageFactory.c` — message type dispatch
+- `client_module/source/common/net/MessagingTk.c` — disconnect logic on type mismatch
+- `client_module/source/os/Flusher.c` — beegfs_Flusher kernel thread
+Server Components: BeeGFS 7.4.4 official packages (beegfs-mgmtd, beegfs-meta, beegfs-storage)
 
   Tested Versions (confirmed vulnerable)
-- Linux kernel 6.19.0 (mainline, commit `44331bd6a610`, gcc 11.4.0, built 2026-02-13)
-- Linux kernel 6.12.74 (LTS, used in Google kernelCTF COS target)
-
-  Affected Version Range
-All kernels with netfs-based CIFS writeback (approximately 6.8 through 6.19) are believed affected.
+- BeeGFS 7.4.4 client DKMS module on Linux kernel 6.19.0 (commit `44331bd6a610`, gcc 11.4.0)
+- Kernel built with KASAN enabled
 
   Affected Distributions and Products
 
  |  Vendor / Product  |  Notes  | 
  | --- | --- | 
- |  Red Hat Enterprise Linux (RHEL 9.x)  |  Ships kernels >= 5.14 with backported netfs/CIFS  | 
- |  Ubuntu (22.04 LTS, 24.04 LTS)  |  HWE kernels 6.x include vulnerable code  | 
- |  SUSE Linux Enterprise Server (SLES 15 SP5+)  |  Kernel 6.x based  | 
- |  Debian (Bookworm, Trixie)  |  Kernels 6.1+  | 
- |  Fedora (39+)  |  Kernels 6.5+  | 
- |  Amazon Linux 2023  |  Kernel 6.1 LTS based  | 
- |  Google ChromeOS / COS  |  kernelCTF target, confirmed vulnerable on 6.12.74  | 
+ |  HPC clusters using BeeGFS  |  Primary user base; BeeGFS is widely deployed in research and enterprise HPC storage  | 
+ |  Any Linux distribution with BeeGFS 7.4.4 DKMS  |  BeeGFS is a third-party kernel module (not in mainline Linux). Affects any distro where BeeGFS 7.4.4 DKMS module is installed.  | 
+ |  ThinkParQ official packages  |  Official BeeGFS packages from thinkparq.com  | 
 
   4. Root Cause Analysis
 
   4.a. Detailed Description
 
-The deadlock arises from two conflicting lock acquisition orders:
+The BeeGFS client uses a request-response RPC mechanism over TCP. Each response includes a 40-byte NetMessage header containing a `msgType` field (2 bytes at offset 16) that identifies the response type. The client validates that the received `msgType` matches the expected response type.
 
-Path 1 (close → writeback → reopen):
-`close()` → `cifs_flush()` → `netfs_writepages()` [acquires wb_lock] → `cifs_begin_writeback()` → `cifs_get_writable_file()` → `cifs_reopen_file()` [tries lock_sem] — blocked if another thread holds `lock_sem`.
+When a MITM attacker corrupts `msgType` to an invalid value:
 
-Path 2 (write → writethrough):
-`write()` → `cifs_strict_writev()` [acquires lock_sem implicitly] → `netfs_perform_write()` → `netfs_begin_writethrough()` [tries wb_lock] — blocked if Path 1 holds `wb_lock`.
+1. Type mismatch detection: The client's `__MessagingTk_requestResponseWithRRArgsComm()` receives a response with an unexpected `msgType`. It logs: `"Received invalid response type: 0; expected: 2060"`.
 
-When MITM-corrupted SMB2 responses cause connection disruption, `cifs_reopen_file()` is called in the writeback path (which already holds `wb_lock`). This creates the circular dependency.
+2. Disconnect: The client disconnects from the meta server: `"Disconnecting: beegfs-meta vm-b [ID: 1] (10.0.0.2:8005)"`.
+
+3. Cleanup: The disconnect triggers cleanup of file handles and associated inode state. File handle objects are freed.
+
+4. Race with Flusher thread: The `beegfs_Flusher` kernel thread runs periodically to flush dirty pages. It holds references to file handles via `FhgfsInode_referenceHandle()`. After the disconnect cleanup frees the handle objects, the Flusher thread attempts to acquire the mutex on the freed handle → use-after-free.
+
+The root cause is a missing synchronization between the disconnect cleanup path and the Flusher thread. The cleanup frees handle objects without ensuring that the Flusher has released its references.
 
   4.b. Code Flow
 
 ---
-  CPU0 (dd/855, close path)           CPU1 (write path)
-  ----                                ----
-  close() → cifs_flush()
-    → netfs_writepages()
-      lock(&ctx->wb_lock)             cifs_strict_writev()
-                                        lock(&cifsi->lock_sem)
-    → cifs_begin_writeback()
-      → cifs_get_writable_file()        → netfs_perform_write()
-        → cifs_reopen_file()              → netfs_begin_writethrough()
-          rlock(&cifsi->lock_sem)           lock(&ctx->wb_lock)
-          ^^^ BLOCKED                       ^^^ BLOCKED
-                     DEADLOCK 
+[Thread 1: RPC response handling]
+  __MessagingTk_requestResponseWithRRArgsComm()
+    ← receives response with corrupted msgType (0 instead of 2060)
+    → logs "Received invalid response type: 0; expected: 2060"
+    → initiates disconnect from beegfs-meta
+    → cleanup: frees file handle objects (including mutex embedded in handle)
+
+[Thread 2: beegfs_Flusher kernel thread]  (concurrent)
+  __Thread_runStatic+0x3f/0xb0 [beegfs]
+    FhgfsInode_referenceHandle+0x1c3/0x13b0 [beegfs]
+      __mutex_lock+0x1ad3/0x2330
+        ← attempts to lock mutex in FREED handle object
+        → KASAN: slab-use-after-free!
 ---
+
+MITM mutation detail:
+- Target: `msgType` field at offset 16 in the 40-byte BeeGFS NetMessage header
+- Corruption: 2-byte change (e.g., type 2060 → 0)
+- Impact chain: type mismatch → disconnect → cleanup → Flusher thread UAF
 
   4.c. Crash Trace
 
 This vulnerability was discovered by ven0mfuzzer. The following kernel trace is submitted following syzkaller's common practice of providing the raw crash trace as the primary reproduction evidence:
 
 ---
-[  599.752057] 
-[  599.752318] ======================================================
-[  599.752885] WARNING: possible circular locking dependency detected
-[  599.753401] 6.19.0-g44331bd6a610-dirty #5 Not tainted
-[  599.753757] ------------------------------------------------------
-[  599.754139] dd/855 is trying to acquire lock:
-[  599.754424] ffff888112e5f790 (&cifsi->lock_sem){++++}-{4:4}, at: cifs_reopen_file+0x14aa/0x1e00
-[  599.755109] 
-[  599.755109] but task is already holding lock:
-[  599.755500] ffff888112e5f6c0 (&ctx->wb_lock){+.+.}-{4:4}, at: netfs_writepages+0xba/0xb20
-[  599.756130] 
-[  599.756130] which lock already depends on the new lock.
-[  599.756130] 
-[  599.756633] 
-[  599.756633] the existing dependency chain (in reverse order) is:
-[  599.757090] 
-[  599.757090] -> #1 (&ctx->wb_lock){+.+.}-{4:4}:
-[  599.757496]        lock_acquire+0x150/0x2c0
-[  599.757807]        __mutex_lock+0x19f/0x2330
-[  599.758128]        netfs_begin_writethrough+0x64/0x340
-[  599.758478]        netfs_perform_write+0x13a1/0x2150
-[  599.758833]        netfs_buffered_write_iter_locked+0x1d0/0x240
-[  599.759220]        cifs_strict_writev+0x996/0xe20
-[  599.759545]        vfs_write+0x6bc/0x1200
-[  599.759835]        ksys_write+0x12a/0x250
-[  599.760107]        do_syscall_64+0x111/0x690
-[  599.760419]        entry_SYSCALL_64_after_hwframe+0x77/0x7f
-[  599.760776] 
-[  599.760776] -> #0 (&cifsi->lock_sem){++++}-{4:4}:
-[  599.761114]        check_prev_add+0xeb/0xd00
-[  599.761348]        __lock_acquire+0x1641/0x2260
-[  599.761593]        lock_acquire+0x150/0x2c0
-[  599.761819]        down_read+0x9b/0x450
-[  599.762033]        cifs_reopen_file+0x14aa/0x1e00
-[  599.762287]        cifs_get_writable_file+0x57a/0xa30
-[  599.762562]        cifs_begin_writeback+0x49/0xf0
-[  599.762818]        netfs_writepages+0x4eb/0xb20
-[  599.763070]        do_writepages+0x26a/0x5c0
-[  599.763319]        filemap_writeback+0x1fc/0x290
-[  599.763575]        filemap_write_and_wait_range+0xa6/0x130
-[  599.763874]        cifs_flush+0xb8/0x2d0
-[  599.764094]        filp_flush+0x128/0x1d0
-[  599.764324]        __x64_sys_close+0x7f/0x120
-[  599.764569]        do_syscall_64+0x111/0x690
-[  599.764804]        entry_SYSCALL_64_after_hwframe+0x77/0x7f
-[  599.765092] 
-[  599.765092] other info that might help us debug this:
-[  599.765092] 
-[  599.765477]  Possible unsafe locking scenario:
-[  599.765477] 
-[  599.765767]        CPU0                    CPU1
-[  599.766007]        ----                    ----
-[  599.766234]   lock(&ctx->wb_lock);
-[  599.766426]                                lock(&cifsi->lock_sem);
-[  599.766741]                                lock(&ctx->wb_lock);
-[  599.767046]   rlock(&cifsi->lock_sem);
-[  599.767251] 
-[  599.767251]   DEADLOCK 
-[  599.767251] 
-[  599.767541] 1 lock held by dd/855:
-[  599.767724]  #0: ffff888112e5f6c0 (&ctx->wb_lock){+.+.}-{4:4}, at: netfs_writepages+0xba/0xb20
-[  599.768201] 
-[  599.768201] stack backtrace:
-[  599.768451] CPU: 0 UID: 0 PID: 855 Comm: dd Not tainted 6.19.0-g44331bd6a610-dirty #5 PREEMPT(lazy) 
-[  599.768475] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.14.0-0-g155821a1990b-prebuilt.qemu.org 04/01/2014
-[  599.768494] Call Trace:
-[  599.768509]  <TASK>
-[  599.768518]  dump_stack_lvl+0xc6/0x120
-[  599.768545]  print_circular_bug+0x2d1/0x400
-[  599.768569]  check_noncircular+0x146/0x160
-[  599.768594]  check_prev_add+0xeb/0xd00
-[  599.768617]  __lock_acquire+0x1641/0x2260
-[  599.768647]  lock_acquire+0x150/0x2c0
-[  599.768669]  ? cifs_reopen_file+0x14aa/0x1e00
-[  599.768694]  ? __pfx___might_resched+0x10/0x10
-[  599.768722]  ? dentry_path_raw+0xcd/0x120
-[  599.768756]  down_read+0x9b/0x450
-[  599.768780]  ? cifs_reopen_file+0x14aa/0x1e00
-[  599.768803]  ? __pfx_down_read+0x10/0x10
-[  599.768826]  ? srso_alias_return_thunk+0x5/0xfbef5
-[  599.768852]  ? __build_path_from_dentry_optional_prefix+0x423/0x620
-[  599.768880]  cifs_reopen_file+0x14aa/0x1e00
-[  599.768908]  ? __pfx_smb2_get_lease_key+0x10/0x10
-[  599.768941]  ? __pfx_cifs_reopen_file+0x10/0x10
-[  599.768969]  ? cifs_get_writable_file+0x570/0xa30
-[  599.768996]  ? srso_alias_return_thunk+0x5/0xfbef5
-[  599.769020]  ? lock_release+0xc7/0x270
-[  599.769044]  cifs_get_writable_file+0x57a/0xa30
-[  599.769072]  ? iov_iter_folio_queue+0x31/0x1f0
-[  599.769117]  cifs_begin_writeback+0x49/0xf0
-[  599.769145]  netfs_writepages+0x4eb/0xb20
-[  599.769175]  ? __pfx_netfs_writepages+0x10/0x10
-[  599.769204]  ? srso_alias_return_thunk+0x5/0xfbef5
-[  599.769228]  ? kasan_save_stack+0x42/0x60
-[  599.769263]  ? kasan_save_stack+0x33/0x60
-[  599.769290]  ? kasan_record_aux_stack+0xa7/0xc0
-[  599.769314]  ? __call_rcu_common.constprop.0+0x71/0xb00
-[  599.769345]  ? __fput+0x68d/0xb70
-[  599.769371]  ? fput_close_sync+0x118/0x240
-[  599.769399]  ? __x64_sys_close+0x8b/0x120
-[  599.769429]  ? __pfx_netfs_writepages+0x10/0x10
-[  599.769459]  do_writepages+0x26a/0x5c0
-[  599.769486]  ? __pfx_do_writepages+0x10/0x10
-[  599.769512]  filemap_writeback+0x1fc/0x290
-[  599.769541]  ? __pfx_filemap_writeback+0x10/0x10
-[  599.769582]  ? srso_alias_return_thunk+0x5/0xfbef5
-[  599.769607]  ? srso_alias_return_thunk+0x5/0xfbef5
-[  599.769630]  ? lock_is_held_type+0x8f/0x100
-[  599.769651]  ? srso_alias_return_thunk+0x5/0xfbef5
-[  599.769677]  filemap_write_and_wait_range+0xa6/0x130
-[  599.769713]  cifs_flush+0xb8/0x2d0
-[  599.769740]  ? __pfx_cifs_flush+0x10/0x10
-[  599.769767]  filp_flush+0x128/0x1d0
-[  599.769789]  __x64_sys_close+0x7f/0x120
-[  599.769819]  do_syscall_64+0x111/0x690
-[  599.769845]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-[  599.769866] RIP: 0033:0x7f2a653e59e0
-[  599.769882] Code: 0d 00 00 00 eb b2 e8 0f f8 01 00 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 80 3d 01 2c 0e 00 00 74 17 b8 03 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 48 c3 0f 1f 80 00 00 00 00 48 83 ec 18 89 7c
-[  599.769902] RSP: 002b:00007fff1b0d2738 EFLAGS: 00000202 ORIG_RAX: 0000000000000003
-[  599.769922] RAX: ffffffffffffffda RBX: 0000000000000001 RCX: 00007f2a653e59e0
-[  599.769935] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000001
-[  599.769947] RBP: 00007f2a652ea6c0 R08: 001c504f75800000 R09: 00007f2a654d4000
-[  599.769961] R10: 00007f2a653064f0 R11: 0000000000000202 R12: 0000000000000000
-[  599.769974] R13: 0000000000000000 R14: 0000000000000008 R15: 0000000000000008
-[  599.769993]  </TASK>
-[  599.855370] CIFS: VFS: \\10.0.0.2 SMB response too long (134217728 bytes)
-[  600.866435] CIFS: VFS: generate_smb3signingkey: dumping generated AES session keys
-[  600.867038] CIFS: VFS: Session Id    01 00 00 00 00 00 00 00
-[  600.867488] CIFS: VFS: Cipher type   1
-[  600.867783] CIFS: VFS: Session Key   60 f3 79 68 76 95 29 2f dd 55 e3 70 3c dc 60 b9
-[  600.868472] CIFS: VFS: Signing Key   9f cb c1 31 b8 79 0e ae a2 ac 10 0c e1 8b f9 fe
-[  600.869030] CIFS: VFS: ServerIn Key  65 cf ab 4d ce ba 97 26 88 6e f8 42 2e 8a 06 e9
-[  600.869605] CIFS: VFS: ServerOut Key a0 30 bd 69 e2 e7 ef 34 6a a1 ae a3 95 f7 dd 8f
-[  600.897704] dd (850) used greatest stack depth: 20312 bytes left
-[  601.137178] CIFS: VFS: \\10.0.0.2 RFC 1002 unknown response type 0x5
-[  601.141560] CIFS: VFS: \\10.0.0.2\IPC$ reconnect tcon failed rc = -11
-[  601.151852] CIFS: VFS: generate_smb3signingkey: dumping generated AES session keys
-[  601.152430] CIFS: VFS: Session Id    01 00 00 00 00 00 00 00
-[  601.152802] CIFS: VFS: Cipher type   1
-[  601.153054] CIFS: VFS: Session Key   b7 e4 09 8f f5 15 be c6 26 eb 47 b4 eb 81 ba 54
-[  601.153645] CIFS: VFS: Signing Key   3d cb ba 59 5d 85 1d 38 4f 68 e3 a0 36 f9 9d 7c
-[  601.154133] CIFS: VFS: ServerIn Key  af 0f b2 27 b8 df ff ca 23 48 fe 21 73 ca ab e1
-[  601.154628] CIFS: VFS: ServerOut Key 3a bc c1 4b 06 ee ce 01 e0 a3 05 db d7 30 d5 91
-[  601.254390] cat (865) used greatest stack depth: 20144 bytes left
+BUG: KASAN: slab-use-after-free in __mutex_lock+0x1ad3/0x2330
+Read of size 4 at addr ffff888003ddb874 by task beegfs_Flusher/789
 
+Call Trace:
+ <TASK>
+ __mutex_lock+0x1ad3/0x2330
+ FhgfsInode_referenceHandle+0x1c3/0x13b0 [beegfs]
+ __Thread_runStatic+0x3f/0xb0 [beegfs]
+ </TASK>
+
+Preceding kernel log messages:
+  beegfs: Messaging (RPC): Received invalid response type: 0; expected: 2060.
+    Disconnecting: beegfs-meta vm-b [ID: 1] (10.0.0.2:8005)
+  beegfs: Remoting (write file): Error storage targetID: 1
 ---
+
+Key observations:
+- Access type: Read of size 4 — reading the mutex state field from a freed slab object
+- Freed object address: `ffff888003ddb874`
+- Accessing task: `beegfs_Flusher/789` — the BeeGFS background flusher thread
+- Trigger: A single 2-byte corruption in `msgType` field triggers the entire chain
+- Reproduced: 2 times during Phase 1 (structural mutation) fuzzing
 
   4.d. Suggested Fix
 
-Drop `wb_lock` before calling `cifs_reopen_file()` in the writeback path, or restructure `cifs_begin_writeback()` so that file reopening does not occur while `wb_lock` is held. Alternatively, the `cifs_get_writable_file()` function should use `down_read_trylock()` on `lock_sem` when called from the writeback path and return an error if the lock cannot be acquired, allowing the caller to retry later.
+Add proper synchronization between the disconnect cleanup path and the Flusher thread:
+
+Option 1: Reference counting on file handle objects — prevent cleanup from freeing handles while the Flusher still holds references:
+
+---
+/ In disconnect cleanup: /
+void __cleanup_file_handles(FhgfsInode* inode) {
+    / Wait for Flusher to release all references before freeing /
+    wait_event_timeout(handle->release_wait,
+        atomic_read(&handle->refcount) == 0,
+        msecs_to_jiffies(5000));
+    / Now safe to free /
+    kfree(handle);
+}
+---
+
+Option 2: Mark handles as invalid before freeing, and check validity in the Flusher:
+
+---
+/ In FhgfsInode_referenceHandle: /
+if (handle->invalidated) {
+    / Handle was freed by disconnect — skip /
+    return NULL;
+}
+---
 
   5. Discovery Method and Reproduction
 
   5.a. Discovery
 
-This vulnerability was discovered using ven0mfuzzer, a custom-designed MITM-based network filesystem fuzzer developed by our team. The fuzzer operates by positioning an AF_PACKET/TCP transparent proxy between a Linux kernel filesystem client (VM-A) and its server (VM-B), then mutating network protocol messages in-flight.
+This vulnerability was discovered using ven0mfuzzer, a custom-designed MITM-based network filesystem fuzzer developed by our team. The fuzzer operates by positioning an AF_PACKET/TCP transparent proxy between a Linux kernel filesystem client (VM-A) and its server (VM-B), then mutating network protocol messages in-flight. We designed ven0mfuzzer specifically for this class of network filesystem vulnerabilities.
 
-Following the common syzkaller practice, we submit the kernel crash trace as the primary reproduction artifact. The trace above was captured with LOCKDEP enabled on kernel 6.19.0.
+The bug was found during Phase 1 (structural mutation), where the fuzzer targets message header fields including the `msgType` field.
+
+Following the common syzkaller practice, we submit the kernel crash trace as the primary reproduction artifact.
 
   5.b. Reproduction Setup
 
 ---
-VM-A (CIFS client) ──SMB2──► Host:44446 (MITM proxy) ──TCP──► Host:44445 ──hostfwd──► VM-B:445 (ksmbd)
+VM-A (BeeGFS client) ──BeeGFS──► Host (MITM proxy) ──TCP──► VM-B (BeeGFS servers)
 ---
 
-Trigger condition: Concurrent `close()` (triggering writeback flush) and `write()` operations on the same CIFS-mounted file while the MITM proxy corrupts SMB2 responses to force a reconnection in the writeback path.
+Trigger condition: MITM corrupts the `msgType` field (2 bytes at offset 16 in the BeeGFS NetMessage header) in a reply from the meta server to the client. The corrupted type must differ from the expected type to trigger the disconnect-cleanup-UAF chain.
+
+Reproduction steps:
+1. Build kernel 6.19.0 (commit `44331bd6a610`) with KASAN enabled
+2. Install BeeGFS 7.4.4 client DKMS module
+3. Start BeeGFS servers on VM-B
+4. Start MITM proxy on host, configured to corrupt `msgType` field in BeeGFS response headers
+5. Mount BeeGFS filesystem in VM-A through the MITM proxy
+6. Execute filesystem operations that involve the Flusher thread (e.g., write data to files, then wait for background flush)
 
 ---
 Reported-by: ven0mfuzzer <ven0mkernelfuzzer@gmail.com>
