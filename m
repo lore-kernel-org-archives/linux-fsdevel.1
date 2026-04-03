@@ -1,30 +1,30 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2A7132C937;
-	Fri,  3 Apr 2026 08:06:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1825311C32;
+	Fri,  3 Apr 2026 08:06:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775203621; cv=none; b=R2sclsErh5+TJ3ERl4Ukoh/OqS+nXDchL6flx6+RU/3gcT38ueli9dkyglYQZxk5jkWjsPcE7m6Td9Z9TkOPsPdHudvckpp6lD6y+hguWhG7o2YB2o6ggNPM4tEAvlXOe6sH8D7+46AdO4rRHkrOwUbwMnuyGyxX6fewjklrsRA=
+	t=1775203622; cv=none; b=JsanMDZbEDJHVOzIMrm+VXlWHt/88TqB0+YTeMeSI0A4H9YNVirZn1agoFbgPIrtF2+ssbPI7hfEVx2M+uKaOEokq1sJp31wOsspSl84VFQYXShiuTsQbrumGJtx4wZS5FPzxuGJoVC/axhCZvfT0UWuFQYXcub55d1Z52Tvm2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775203621; c=relaxed/simple;
-	bh=jqT45xLKQTInKV1ClycTE9qO/pcNFb7Vg9bW3BhvA+4=;
+	s=arc-20240116; t=1775203622; c=relaxed/simple;
+	bh=oeZOKBE1VUbPdhRxvr7y7onYWsDHmOHJYC/N/JXksYo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tIQgVEqpXL3hY5+ZfojLtpqoHtFLzKqrKbb4t7LmMWSeBDwYCsen+iQb3jKm2PYg1hurdLUDPm/WC6dYZdF/RHme/CdfSumzMgVzuk+zkDhp42DDZzWsW9Jp3uXnNFLHZKGhakxrJ10G7Np0CIs/eUWCjoEIYSF/k+kaO45uWP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=Bh/EmoeM; arc=none smtp.client-ip=117.135.210.2
+	 MIME-Version; b=iq+IaLUjgpZnxA5yMVDRVYoLXNiewFtX1VBnHI/Pe+23ahz4We/Wqhwldyztx2lNrfqRfzIMzyafnkp6klqFVPdz7tYmHsv5FT4nlOCepcqKi9Uvsl5fNVT6WKhll133kVGmjNdKqDtn1856At8fGTz+aracUDWO9TLGaz8Dknc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=jas2XIpT; arc=none smtp.client-ip=220.197.31.5
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="Bh/EmoeM"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="jas2XIpT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=Se
-	KkiVMXCoTVIiiAV5FG1qskkS7mt5L1Inv6oD9cdrw=; b=Bh/EmoeMPr6I8M8OMD
-	h/QyJ3klJ5GNRMuE82H6peGpu8njLfDTzeJkagV2qrwbrLFC3aiA4R5a5F5ATun2
-	gqr3XxPvwCFM7Edp5j4cP7Cl8rZQKLoe3mdTnB+rn9N6kQjaW2LOR0UXxImHsakS
-	jvShLFOgHnPeM9744wpEsUzGU=
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=ow
+	mM8/gIcl1tt6ElQgY8wj/vutoa/bCpaIzHu7o+Pmo=; b=jas2XIpTI+HC0LjdlW
+	lvcQIRBQEY1c1pEe1zzxPbAyyLvrbgdDd+rdH6WAsrnvorHKKx+igoRGJWmg3ODS
+	k5rpZWXRuoKGuea0WZnQUbPHeLv0d9Wi7uADkba8hKZiOaeK1tj16WnHO+by+3vN
+	NzEiCI11thzY0xzO/VHQB13so=
 Received: from czl-ubuntu-pc.. (unknown [])
-	by gzga-smtp-mtada-g0-1 (Coremail) with SMTP id _____wDHW13+dM9pkhS7Cw--.58982S5;
-	Fri, 03 Apr 2026 16:06:26 +0800 (CST)
+	by gzga-smtp-mtada-g0-1 (Coremail) with SMTP id _____wDHW13+dM9pkhS7Cw--.58982S8;
+	Fri, 03 Apr 2026 16:06:27 +0800 (CST)
 From: Chi Zhiling <chizhiling@163.com>
 To: Namjae Jeon <linkinjeon@kernel.org>,
 	Sungjong Seo <sj1557.seo@samsung.com>,
@@ -32,9 +32,9 @@ To: Namjae Jeon <linkinjeon@kernel.org>,
 Cc: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Chi Zhiling <chizhiling@kylinos.cn>
-Subject: [PATCH v3 3/6] exfat: use exfat_cluster_walk helper
-Date: Fri,  3 Apr 2026 16:05:35 +0800
-Message-ID: <20260403080538.361663-4-chizhiling@163.com>
+Subject: [PATCH v3 6/6] exfat: use exfat_chain_advance helper
+Date: Fri,  3 Apr 2026 16:05:38 +0800
+Message-ID: <20260403080538.361663-7-chizhiling@163.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260403080538.361663-1-chizhiling@163.com>
 References: <20260403080538.361663-1-chizhiling@163.com>
@@ -45,123 +45,192 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wDHW13+dM9pkhS7Cw--.58982S5
-X-Coremail-Antispam: 1Uf129KBjvJXoWxCr1xtry8GrW8tFW3Aw45trb_yoW5uw1fpr
-	43Ka93tryrXayDWr4rtF4kZ3WS9ws7KFWkGrWxWw1xtF90vr10ka4Dtryxt34kG3y09FW5
-	tF15Kr1Uu3ZxWF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jT6wAUUUUU=
-X-CM-SenderInfo: hfkl6xxlol0wi6rwjhhfrp/xtbC2wKrSWnPdQL4sgAA3g
+X-CM-TRANSID:_____wDHW13+dM9pkhS7Cw--.58982S8
+X-Coremail-Antispam: 1Uf129KBjvJXoWxCry8CrWrZw47XFWUGr4xtFb_yoW7Jr17pF
+	47Ga93JFyDJayqk3W8t3ZFva4Y9ws3GFyUXFn7uw1F9rZFyr1rC3s7CryIqF95C395Zw12
+	qw1Utr1jgFsxWFUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07URHqxUUUUU=
+X-CM-SenderInfo: hfkl6xxlol0wi6rwjhhfrp/xtbC+AOrSWnPdQO4YgAA3T
 
 From: Chi Zhiling <chizhiling@kylinos.cn>
 
-Replace the custom exfat_walk_fat_chain() function and open-coded
-FAT chain walking logic with the exfat_cluster_walk() helper across
-exfat_find_location, __exfat_get_dentry_set, and exfat_map_cluster.
+Replace open-coded cluster chain walking logic with exfat_chain_advance()
+across exfat_readdir, exfat_find_dir_entry, exfat_count_dir_entries,
+exfat_search_empty_slot and exfat_check_dir_empty.
 
-Suggested-by: Sungjong Seo <sj1557.seo@samsung.com>
 Signed-off-by: Chi Zhiling <chizhiling@kylinos.cn>
 ---
- fs/exfat/dir.c   | 47 +++++++++++------------------------------------
- fs/exfat/inode.c | 11 ++---------
- 2 files changed, 13 insertions(+), 45 deletions(-)
+ fs/exfat/dir.c   | 71 ++++++++++++------------------------------------
+ fs/exfat/namei.c | 28 +++++--------------
+ 2 files changed, 25 insertions(+), 74 deletions(-)
 
 diff --git a/fs/exfat/dir.c b/fs/exfat/dir.c
-index 7619410d668e..ca5827046a1f 100644
+index ca5827046a1f..ac008ccaa97d 100644
 --- a/fs/exfat/dir.c
 +++ b/fs/exfat/dir.c
-@@ -562,38 +562,6 @@ int exfat_put_dentry_set(struct exfat_entry_set_cache *es, int sync)
- 	return err;
- }
+@@ -93,25 +93,19 @@ static int exfat_readdir(struct inode *inode, loff_t *cpos, struct exfat_dir_ent
+ 	clu_offset = EXFAT_DEN_TO_CLU(dentry, sbi);
+ 	exfat_chain_dup(&clu, &dir);
  
--static int exfat_walk_fat_chain(struct super_block *sb,
--		struct exfat_chain *p_dir, unsigned int byte_offset,
--		unsigned int *clu)
--{
--	struct exfat_sb_info *sbi = EXFAT_SB(sb);
--	unsigned int clu_offset;
--	unsigned int cur_clu;
--
--	clu_offset = EXFAT_B_TO_CLU(byte_offset, sbi);
--	cur_clu = p_dir->dir;
--
--	if (p_dir->flags == ALLOC_NO_FAT_CHAIN) {
--		cur_clu += clu_offset;
+-	if (clu.flags == ALLOC_NO_FAT_CHAIN) {
+-		clu.dir += clu_offset;
+-		clu.size -= clu_offset;
 -	} else {
--		while (clu_offset > 0) {
--			if (exfat_get_next_cluster(sb, &cur_clu))
++	if (clu.flags == ALLOC_FAT_CHAIN) {
+ 		/* hint_information */
+ 		if (clu_offset > 0 && ei->hint_bmap.off != EXFAT_EOF_CLUSTER &&
+ 		    ei->hint_bmap.off > 0 && clu_offset >= ei->hint_bmap.off) {
+ 			clu_offset -= ei->hint_bmap.off;
+ 			clu.dir = ei->hint_bmap.clu;
+-		}
+-
+-		while (clu_offset > 0 && clu.dir != EXFAT_EOF_CLUSTER) {
+-			if (exfat_get_next_cluster(sb, &(clu.dir)))
 -				return -EIO;
--			if (cur_clu == EXFAT_EOF_CLUSTER) {
--				exfat_fs_error(sb,
--					"invalid dentry access beyond EOF (clu : %u, eidx : %d)",
--					p_dir->dir,
--					EXFAT_B_TO_DEN(byte_offset));
--				return -EIO;
--			}
+-
 -			clu_offset--;
--		}
--	}
--
--	*clu = cur_clu;
--	return 0;
--}
--
- static int exfat_find_location(struct super_block *sb, struct exfat_chain *p_dir,
- 			       int entry, sector_t *sector, int *offset)
- {
-@@ -603,10 +571,19 @@ static int exfat_find_location(struct super_block *sb, struct exfat_chain *p_dir
- 
- 	off = EXFAT_DEN_TO_B(entry);
- 
--	ret = exfat_walk_fat_chain(sb, p_dir, off, &clu);
-+	clu = p_dir->dir;
-+	ret = exfat_cluster_walk(sb, &clu, EXFAT_B_TO_CLU(off, sbi), p_dir->flags);
- 	if (ret)
- 		return ret;
- 
-+	if (clu == EXFAT_EOF_CLUSTER) {
-+		exfat_fs_error(sb,
-+			"unexpected early break in cluster chain (clu : %u, len : %d)",
-+			p_dir->dir,
-+			EXFAT_B_TO_CLU(off, sbi));
-+		return -EIO;
-+	}
-+
- 	if (!exfat_test_bitmap(sb, clu)) {
- 		exfat_err(sb, "failed to test cluster bit(%u)", clu);
- 		return -EIO;
-@@ -792,9 +769,7 @@ static int __exfat_get_dentry_set(struct exfat_entry_set_cache *es,
- 		if (exfat_is_last_sector_in_cluster(sbi, sec)) {
- 			unsigned int clu = exfat_sector_to_cluster(sbi, sec);
- 
--			if (p_dir->flags == ALLOC_NO_FAT_CHAIN)
--				clu++;
--			else if (exfat_get_next_cluster(sb, &clu))
-+			if (exfat_cluster_walk(sb, &clu, 1, p_dir->flags))
- 				goto put_es;
- 			sec = exfat_cluster_to_sector(sbi, clu);
- 		} else {
-diff --git a/fs/exfat/inode.c b/fs/exfat/inode.c
-index beb9ea7cca9f..cde2eb0f31ad 100644
---- a/fs/exfat/inode.c
-+++ b/fs/exfat/inode.c
-@@ -225,15 +225,8 @@ static int exfat_map_cluster(struct inode *inode, unsigned int clu_offset,
- 		 * *clu = (the first cluster of the allocated chain) =>
- 		 * (the last cluster of ...)
- 		 */
--		if (ei->flags == ALLOC_NO_FAT_CHAIN) {
--			*clu += num_to_be_allocated - 1;
--		} else {
--			while (num_to_be_allocated > 1) {
--				if (exfat_get_next_cluster(sb, clu))
--					return -EIO;
--				num_to_be_allocated--;
--			}
--		}
-+		if (exfat_cluster_walk(sb, clu, num_to_be_allocated - 1, ei->flags))
-+			return -EIO;
- 		*count = 1;
++			clu.size -= ei->hint_bmap.off;
+ 		}
  	}
  
++	if (exfat_chain_advance(sb, &clu, clu_offset))
++		return -EIO;
++
+ 	while (clu.dir != EXFAT_EOF_CLUSTER && dentry < max_dentries) {
+ 		i = dentry & (dentries_per_clu - 1);
+ 
+@@ -160,15 +154,8 @@ static int exfat_readdir(struct inode *inode, loff_t *cpos, struct exfat_dir_ent
+ 			return 0;
+ 		}
+ 
+-		if (clu.flags == ALLOC_NO_FAT_CHAIN) {
+-			if (--clu.size > 0)
+-				clu.dir++;
+-			else
+-				clu.dir = EXFAT_EOF_CLUSTER;
+-		} else {
+-			if (exfat_get_next_cluster(sb, &(clu.dir)))
+-				return -EIO;
+-		}
++		if (exfat_chain_advance(sb, &clu, 1))
++			return -EIO;
+ 	}
+ 
+ out:
+@@ -1085,19 +1072,12 @@ int exfat_find_dir_entry(struct super_block *sb, struct exfat_inode_info *ei,
+ 			step = DIRENT_STEP_FILE;
+ 		}
+ 
+-		if (clu.flags == ALLOC_NO_FAT_CHAIN) {
+-			if (--clu.size > 0)
+-				clu.dir++;
+-			else
+-				clu.dir = EXFAT_EOF_CLUSTER;
+-		} else {
+-			if (exfat_get_next_cluster(sb, &clu.dir))
+-				return -EIO;
++		if (exfat_chain_advance(sb, &clu, 1))
++			return -EIO;
+ 
+-			/* break if the cluster chain includes a loop */
+-			if (unlikely(++clu_count > EXFAT_DATA_CLUSTER_COUNT(sbi)))
+-				goto not_found;
+-		}
++		/* break if the cluster chain includes a loop */
++		if (unlikely(++clu_count > EXFAT_DATA_CLUSTER_COUNT(sbi)))
++			goto not_found;
+ 	}
+ 
+ not_found:
+@@ -1132,14 +1112,7 @@ int exfat_find_dir_entry(struct super_block *sb, struct exfat_inode_info *ei,
+ 	if (!((dentry + 1) & (dentries_per_clu - 1))) {
+ 		int ret = 0;
+ 
+-		if (clu.flags == ALLOC_NO_FAT_CHAIN) {
+-			if (--clu.size > 0)
+-				clu.dir++;
+-			else
+-				clu.dir = EXFAT_EOF_CLUSTER;
+-		} else {
+-			ret = exfat_get_next_cluster(sb, &clu.dir);
+-		}
++		ret = exfat_chain_advance(sb, &clu, 1);
+ 
+ 		if (ret || clu.dir == EXFAT_EOF_CLUSTER) {
+ 			/* just initialized hint_stat */
+@@ -1184,20 +1157,12 @@ int exfat_count_dir_entries(struct super_block *sb, struct exfat_chain *p_dir)
+ 			count++;
+ 		}
+ 
+-		if (clu.flags == ALLOC_NO_FAT_CHAIN) {
+-			if (--clu.size > 0)
+-				clu.dir++;
+-			else
+-				clu.dir = EXFAT_EOF_CLUSTER;
+-		} else {
+-			if (exfat_get_next_cluster(sb, &(clu.dir)))
+-				return -EIO;
+-
+-			if (unlikely(++clu_count > sbi->used_clusters)) {
+-				exfat_fs_error(sb, "FAT or bitmap is corrupted");
+-				return -EIO;
+-			}
++		if (exfat_chain_advance(sb, &clu, 1))
++			return -EIO;
+ 
++		if (unlikely(++clu_count > sbi->used_clusters)) {
++			exfat_fs_error(sb, "FAT or bitmap is corrupted");
++			return -EIO;
+ 		}
+ 	}
+ 
+diff --git a/fs/exfat/namei.c b/fs/exfat/namei.c
+index d0ea1ff81c09..2c5636634b4a 100644
+--- a/fs/exfat/namei.c
++++ b/fs/exfat/namei.c
+@@ -246,15 +246,8 @@ static int exfat_search_empty_slot(struct super_block *sb,
+ 		i += ret;
+ 
+ 		while (i >= dentries_per_clu) {
+-			if (clu.flags == ALLOC_NO_FAT_CHAIN) {
+-				if (--clu.size > 0)
+-					clu.dir++;
+-				else
+-					clu.dir = EXFAT_EOF_CLUSTER;
+-			} else {
+-				if (exfat_get_next_cluster(sb, &clu.dir))
+-					return -EIO;
+-			}
++			if (exfat_chain_advance(sb, &clu, 1))
++				return -EIO;
+ 
+ 			i -= dentries_per_clu;
+ 		}
+@@ -925,19 +918,12 @@ static int exfat_check_dir_empty(struct super_block *sb,
+ 			return -ENOTEMPTY;
+ 		}
+ 
+-		if (clu.flags == ALLOC_NO_FAT_CHAIN) {
+-			if (--clu.size > 0)
+-				clu.dir++;
+-			else
+-				clu.dir = EXFAT_EOF_CLUSTER;
+-		} else {
+-			if (exfat_get_next_cluster(sb, &(clu.dir)))
+-				return -EIO;
++		if (exfat_chain_advance(sb, &clu, 1))
++			return -EIO;
+ 
+-			/* break if the cluster chain includes a loop */
+-			if (unlikely(++clu_count > EXFAT_DATA_CLUSTER_COUNT(sbi)))
+-				break;
+-		}
++		/* break if the cluster chain includes a loop */
++		if (unlikely(++clu_count > EXFAT_DATA_CLUSTER_COUNT(sbi)))
++			break;
+ 	}
+ 
+ 	return 0;
 -- 
 2.43.0
 
