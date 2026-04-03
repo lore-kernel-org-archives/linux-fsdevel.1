@@ -1,105 +1,131 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
+Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3094D32D0CF;
-	Fri,  3 Apr 2026 08:07:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4881B386427
+	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Apr 2026 08:48:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775203631; cv=none; b=kD6FlpxuUHSY76b2Jkn2643Ul+sgpHjJw9XJ+ogBaN6SEQyaDcYxTL450/sZ6oN7NWAdC1s1ayrRICre2ILI1oYwGCseelmhU6/NaDV58LOtJcA833Mgmy6ibVWwXFzcBbyI4zzqFDxsvtMwc9sttC3SxE1mZICMGk8IVP13IQs=
+	t=1775206088; cv=none; b=GT2ymu/2bzqxCEPtwFkkXr84/wvVWagd8SsOoQKWx3rPmHFsoI9pX7O2uUFnquXgSihYXSUTj4ZU1wULVwAnPz+ROQJklyHRDUxm9FMsIIH4EW/gwL046amlzhaskxPFcw7ZnjkOpqocVrq0QccYLQ0OJnT91O88QlXu9DU7EPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775203631; c=relaxed/simple;
-	bh=tkbRZQimK5gE+e9gmKDANAnzEdWXdVJmz4K7IwG1n0Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=k+3beQ1/N3ICJIELZx1NRf2FI2wZqQ1RauNWjAyggk2I4paH5I0H/Dz2YtesvTC0esTiw6NiShYAypiSSgzB/xCSyBWtwYBf0lRoKNPuLUXDIrE6BOy+rWVrUUKvhVO4OCnHAawtaIx9Ve0lOEq4dkjLNRIkieGhfPFxWLAuM+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=cLfft+xv; arc=none smtp.client-ip=117.135.210.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1775206088; c=relaxed/simple;
+	bh=zU/t5KipFIQbsAF3m0SISO2xS6NUB5j16fX32drG91Y=;
+	h=From:To:Cc:In-Reply-To:Subject:Date:Message-ID:MIME-Version:
+	 Content-Type:References; b=YC/J8uRlopUERKHM+ZcyOexajvkU7frC5BYMN+ntpXkK0ihU/pACb3SSOmKbClNHnf+9dRZZuJR4UCLfkozcYsbudJu5s240u06vO47iFM7Ev6lRn/meM7c7E4LZxA/my03FW2paKCSnPAmZcc4J4iVoapvyAiNWnob805ICjZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=Op/dJeiE; arc=none smtp.client-ip=203.254.224.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="cLfft+xv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=Xy
-	fsN/JWMj7HEIjC10PHq0KzFD0yep39q536Og73j8g=; b=cLfft+xvQc8MURzIpR
-	P3nV0i94pP/3O+DgwlaLT1WhqiT3RSCAcW3uouRmgJxUoRHaNWRPUxIyflcdUE/H
-	eTxZAHfbWdWHjmmppvqLNhUmX2hbkAvU5t44fSay1xcgKyU7+xRQq/lKzxId8CdQ
-	+aowyFepWd2DY9/nk72jaj+6A=
-Received: from czl-ubuntu-pc.. (unknown [])
-	by gzga-smtp-mtada-g0-1 (Coremail) with SMTP id _____wDHW13+dM9pkhS7Cw--.58982S7;
-	Fri, 03 Apr 2026 16:06:27 +0800 (CST)
-From: Chi Zhiling <chizhiling@163.com>
-To: Namjae Jeon <linkinjeon@kernel.org>,
-	Sungjong Seo <sj1557.seo@samsung.com>,
-	Yuezhang Mo <yuezhang.mo@sony.com>
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Chi Zhiling <chizhiling@kylinos.cn>,
-	syzbot@syzkaller.appspotmail.com,
-	Yuezhang Mo <Yuezhang.Mo@sony.com>
-Subject: [PATCH v3 5/6] exfat: introduce exfat_chain_advance helper
-Date: Fri,  3 Apr 2026 16:05:37 +0800
-Message-ID: <20260403080538.361663-6-chizhiling@163.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="Op/dJeiE"
+Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20260403084803epoutp04814db5015a60ff98a05a2016ec6195f6~izIcaggDL0087200872epoutp043
+	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Apr 2026 08:48:03 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20260403084803epoutp04814db5015a60ff98a05a2016ec6195f6~izIcaggDL0087200872epoutp043
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1775206083;
+	bh=hLWX87A32xwXRwZ3/1uIiPb7RxKgSeVT/Xov7YP57I4=;
+	h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
+	b=Op/dJeiEik+97xfNv51iToB9Zbhc2z1YlME6PudnVjVVhXHs9/vehUtYmy4Rz76J+
+	 iJxaaK9QYRw06Fn76l3UgKZ0VqSo9USXxRs1JlKQ/S98sTlB+C+j6iqz6vr0HRzK+8
+	 FaigXMG4b9WpHExNNR0YEKouSbtUNE9SuT5fBYd8=
+Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
+	epcas1p1.samsung.com (KnoxPortal) with ESMTPS id
+	20260403084803epcas1p1979c6f19f9a8118595f375e37a647099~izIcIShdX2366923669epcas1p1G;
+	Fri,  3 Apr 2026 08:48:03 +0000 (GMT)
+Received: from epcpadp2new (unknown [182.195.40.142]) by
+	epsnrtp02.localdomain (Postfix) with ESMTP id 4fnC6W3CwXz2SSKX; Fri,  3 Apr
+	2026 08:48:03 +0000 (GMT)
+Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
+	epcas1p3.samsung.com (KnoxPortal) with ESMTPA id
+	20260403083841epcas1p37e1d9119f679976d4a965faa33fc7f8e~izAQSjX1_0342003420epcas1p3q;
+	Fri,  3 Apr 2026 08:38:41 +0000 (GMT)
+Received: from W11PB11713 (unknown [10.91.160.69]) by epsmtip1.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20260403083840epsmtip1396997d24b7e1797661d25ca2afc09e5~izAQPEgTI1195811958epsmtip1w;
+	Fri,  3 Apr 2026 08:38:40 +0000 (GMT)
+From: "Sungjong Seo" <sj1557.seo@samsung.com>
+To: "'Chi Zhiling'" <chizhiling@163.com>, "'Namjae Jeon'"
+	<linkinjeon@kernel.org>, "'Yuezhang Mo'" <yuezhang.mo@sony.com>
+Cc: <linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "'Chi
+ Zhiling'" <chizhiling@kylinos.cn>, <cpgs@samsung.com>,
+	<sj1557.seo@samsung.com>
 In-Reply-To: <20260403080538.361663-1-chizhiling@163.com>
-References: <20260403080538.361663-1-chizhiling@163.com>
+Subject: RE: [PATCH v3 0/6] exfat: unify FAT chain walking helpers
+Date: Fri, 3 Apr 2026 17:38:40 +0900
+Message-ID: <1368594774.61775206083439.JavaMail.epsvc@epcpadp2new>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wDHW13+dM9pkhS7Cw--.58982S7
-X-Coremail-Antispam: 1Uf129KBjvJXoW7WryxXw18uF4xGFW3GFy8Xwb_yoW8Xr4DpF
-	47Ga15J3yjqa4xu3WfJr43Xa4Y9wn7GFWkJrWxZw1Yyrn0qryvkF93Kry29Fyrt3y0k3W2
-	v3WYgr1j9wsxGFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UKXd8UUUUU=
-X-CM-SenderInfo: hfkl6xxlol0wi6rwjhhfrp/xtbC9wOrSWnPdQOwQgAA30
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQJYPEif2iJoO64af6gWLEDtNAYxEQKy9/iMtMB5VyA=
+Content-Language: ko
+X-CMS-MailID: 20260403083841epcas1p37e1d9119f679976d4a965faa33fc7f8e
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 101P
+X-CPGSPASS: Y
+X-Hop-Count: 3
+X-CMS-RootMailID: 20260403080638epcas1p34e96a9d3f74f963d1085f67399f51da2
+References: <CGME20260403080638epcas1p34e96a9d3f74f963d1085f67399f51da2@epcas1p3.samsung.com>
+	<20260403080538.361663-1-chizhiling@163.com>
 
-From: Chi Zhiling <chizhiling@kylinos.cn>
+> This series introduces and uses two new helpers to simplify FAT chain
+> walking logic across the exfat driver:
+> 
+> 1. exfat_fat_walk - walks FAT chain by a given step, handling both
+>    ALLOC_NO_FAT_CHAIN and ALLOC_FAT_CHAIN modes
+> 
+> 2. exfat_chain_advance - walks an exfat_chain structure by a given step,
+>    updating both ->dir and ->size fields atomically with proper boundary
+>    checking
+> 
+> These helpers replace open-coded cluster walking logic in dir.c, namei.c
+> and inode.c, improving code readability and ensuring consistent error
+> handling for corrupted FAT chains.
+> 
+> Also includes a fix for incorrect directory checksum when renaming a file
+> to a shorter name.
+> 
+> ---
+> 
+> Changes in v3:
+> - rework exfat_chain_advance
+> - add error handling in exfat_find_location
+> - misc tweaks
 
-Introduce exfat_chain_advance() to walk a exfat_chain structure by a
-given step, updating both ->dir and ->size fields atomically. This
-helper handles both ALLOC_NO_FAT_CHAIN and ALLOC_FAT_CHAIN modes with
-proper boundary checking.
+The patch-set looks good to me:
+Reviewed-by: Sungjong Seo <sj1557.seo@samsung.com>
 
-Tested-by: syzbot@syzkaller.appspotmail.com
-Suggested-by: Yuezhang Mo <Yuezhang.Mo@sony.com>
-Signed-off-by: Chi Zhiling <chizhiling@kylinos.cn>
----
- fs/exfat/exfat_fs.h | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+Thanks.
+> 
+> v1:https://lore.kernel.org/linux-fsdevel/20260331091113.20882-1-
+> chizhiling@163.com/
+> v2:https://lore.kernel.org/linux-fsdevel/20260401071138.114836-1-
+> chizhiling@163.com/
+> 
+> 
+> Chi Zhiling (6):
+>   exfat: fix incorrect directory checksum after rename to shorter name
+>   exfat: introduce exfat_cluster_walk helper
+>   exfat: use exfat_cluster_walk helper
+>   exfat: remove NULL cache pointer case in exfat_ent_get
+>   exfat: introduce exfat_chain_advance helper
+>   exfat: use exfat_chain_advance helper
+> 
+>  fs/exfat/dir.c      | 119 +++++++++++---------------------------------
+>  fs/exfat/exfat_fs.h |  44 +++++++++++++++-
+>  fs/exfat/fatent.c   |  23 ++++-----
+>  fs/exfat/inode.c    |  11 +---
+>  fs/exfat/namei.c    |  28 +++--------
+>  5 files changed, 91 insertions(+), 134 deletions(-)
+> 
+> 
+> base-commit: 4129a3a2751cba8511cee5d13145223662a8e019
+> --
+> 2.43.0
 
-diff --git a/fs/exfat/exfat_fs.h b/fs/exfat/exfat_fs.h
-index 7f9d0cfa252b..89ef5368277f 100644
---- a/fs/exfat/exfat_fs.h
-+++ b/fs/exfat/exfat_fs.h
-@@ -552,6 +552,27 @@ int exfat_read_volume_label(struct super_block *sb,
- int exfat_write_volume_label(struct super_block *sb,
- 			     struct exfat_uni_name *label);
- 
-+static inline int exfat_chain_advance(struct super_block *sb,
-+		struct exfat_chain *chain, unsigned int step)
-+{
-+	unsigned int clu = chain->dir;
-+
-+	if (unlikely(chain->size < step))
-+		return -EIO;
-+
-+	if (exfat_cluster_walk(sb, &clu, step, chain->flags))
-+		return -EIO;
-+
-+	chain->size -= step;
-+
-+	if (chain->size == 0 && chain->flags == ALLOC_NO_FAT_CHAIN)
-+		chain->dir = EXFAT_EOF_CLUSTER;
-+	else
-+		chain->dir = clu;
-+
-+	return 0;
-+}
-+
- /* inode.c */
- extern const struct inode_operations exfat_file_inode_operations;
- void exfat_sync_inode(struct inode *inode);
--- 
-2.43.0
+
 
