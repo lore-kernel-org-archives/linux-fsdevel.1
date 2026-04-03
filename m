@@ -1,136 +1,210 @@
-Received: from pdx-out-013.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-013.esa.us-west-2.outbound.mail-perimeter.amazon.com [34.218.115.239])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5110C3D669F;
-	Fri,  3 Apr 2026 19:36:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.218.115.239
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F3D83C4559
+	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Apr 2026 19:50:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775244982; cv=none; b=Tx1zABw9UeuGLWLejPvR4s3pp2sxu04HYfuEmk0TVJVwOC+Whpwh/X3I/hK5n7+CZLRYhKiZWg1xhJqlUxRyZCDmjg3ZEhYiIcHh+OG5ogqx+vjtfylnXu5jpZKgf3cxUZEcYqfyyQ/P6jRMlwCd9j+6MFOYkc337QPmoCBs1TE=
+	t=1775245836; cv=none; b=dQ6FejiEnTI5rsVuk6flY6ZPmqc92EH8GpJqp8Vz2XDjfwNZc4kInZ7kV1FK1heyjnlL7uKKiAft/4ztpPdR3nVhgZTOcgc0yuCeCrcParMByEB1xnb3L5Urtmmeg+brHhillDvg/9UNeJ0k14DnkLjMe0dql9WiRKs3cCoB9uk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775244982; c=relaxed/simple;
-	bh=ycG1vAoajTYWTQidO+jgNfLzn8hwwFmi4Xb0pSLdzKA=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CMPMgK6UYfCz1/htTfiIKrqg6ZrbR8k8u2jnjyZmY3zbvq/hGZ1MNY+bQWMe4pOmGL0gsf9GrtuupBHIwionbFWI9ZULdUdfZwELsBw2ZJiRPMLdouTkHUVLwaUN4Y1p8+RfYT2JSoy5aCpw7nDqOJeBx+P7OGQDCpg2UXk2Sfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.it; spf=pass smtp.mailfrom=amazon.it; dkim=pass (2048-bit key) header.d=amazon.it header.i=@amazon.it header.b=c2Ae9m58; arc=none smtp.client-ip=34.218.115.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.it
+	s=arc-20240116; t=1775245836; c=relaxed/simple;
+	bh=AN30mHDzNXJWM5zKx0aado22O86W+ia9ybrhyOme6R8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TK3M1C34g/hGFYciB4+sz2DVobxkIuF66NfTYxPxsWx70EnQDMAHI2RiQD3mxHNipPXv+Ilf2OVZShVfcNn/dr76D60LIbZJ0yOT1DA4kvgMkkne1+YCaKikmAcGcb4eVTMCTenwKlzBAMka8SoDYaTtQfWD3wIslBPRsRAeRsk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=cOeCg6jU; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.it header.i=@amazon.it header.b="c2Ae9m58"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.it; i=@amazon.it; q=dns/txt; s=amazoncorp2;
-  t=1775244981; x=1806780981;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=EyFJJlejxGzTWLtg5fvYIh3yb3XlIEjqtxfx4waTmGo=;
-  b=c2Ae9m589rlrdT4TE9NYUecvxjQ3SxuI7EDiK395LO8dVjRWPXg6ibO3
-   SjV2oe4CYCwRsd/qwGio/bP/t/AIsSTgzNh/GhiFKLiJCL0lbWBwHFIaA
-   5E9wn+Fq8/BW8ATclG93fBvG8FAXFTLbJwlyu3f4yZCY5/0y6UgWRLk7T
-   H23DzGTohamRc6+zFghiAtnbV8XuiFGc1vNvr9z8BQUHzEw3XCQpl7pL5
-   xN8PV5kLfn4kCgX2cW9cr5tGnSE3mvuBrjkprzBxwbvx1U/XnoHDmMEzI
-   JLKMb9IFcTMw6XEMpHkRDJfa9SEjpXsKpc49J52UKhiJPl4/mi938w3gl
-   w==;
-X-CSE-ConnectionGUID: sFefx9B8RsmiP8qCy2pInA==
-X-CSE-MsgGUID: 5HIbpn5wRSadE6H9a9+3oQ==
-X-IronPort-AV: E=Sophos;i="6.23,158,1770595200"; 
-   d="scan'208";a="16311994"
-Received: from ip-10-5-0-115.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.0.115])
-  by internal-pdx-out-013.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2026 19:36:18 +0000
-Received: from EX19MTAUWA002.ant.amazon.com [205.251.233.178:3519]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.38.240:2525] with esmtp (Farcaster)
- id 96d4a6f2-3ad3-4cad-8eeb-a12490913bd4; Fri, 3 Apr 2026 19:36:17 +0000 (UTC)
-X-Farcaster-Flow-ID: 96d4a6f2-3ad3-4cad-8eeb-a12490913bd4
-Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWA002.ant.amazon.com (10.250.64.202) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
- Fri, 3 Apr 2026 19:36:13 +0000
-Received: from dev-dsk-dipiets-2b-fa1865ee.us-west-2.amazon.com
- (172.22.139.101) by EX19D001UWA001.ant.amazon.com (10.13.138.214) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37; Fri, 3 Apr 2026
- 19:36:13 +0000
-From: Salvatore Dipietro <dipiets@amazon.it>
-To: <linux-kernel@vger.kernel.org>
-CC: <dipiets@amazon.it>, <alisaidi@amazon.com>, <blakgeof@amazon.com>,
-	<abuehaze@amazon.de>, <dipietro.salvatore@gmail.com>, <willy@infradead.org>,
-	<stable@vger.kernel.org>, Christian Brauner <brauner@kernel.org>, "Darrick J.
- Wong" <djwong@kernel.org>, <linux-xfs@vger.kernel.org>,
-	<linux-fsdevel@vger.kernel.org>
-Subject: [PATCH 1/1] iomap: avoid compaction for costly folio order allocation
-Date: Fri, 3 Apr 2026 19:35:34 +0000
-Message-ID: <20260403193535.9970-2-dipiets@amazon.it>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260403193535.9970-1-dipiets@amazon.it>
-References: <20260403193535.9970-1-dipiets@amazon.it>
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="cOeCg6jU"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=1TkBgV22nKm0CALEBVUz4w1fgFVQ+izGjR6IZ+xTjuc=; b=cOeCg6jUOzrzDJD/BnCLorJmGO
+	xJeXE3EExl6d/FbGUP/njRi010hxFwQUecTpTFrN+5G3WtAx3Yqp+gfk7M8L/ItRHeNZon5wMKOKM
+	4zDPwM62ajoFP9enY7f1OW4sZuVZ7GoXyMWih+WinASYqiWslxiCDrTiiINTZWFFy2nTC2CqxS8hd
+	r9VjL0MlldCQDOOcDz+haJlzg1uImb9p0q7zWgYv4C9/qezxWttRZQFhaXLUCXkHXDWJ/gKOfAQxd
+	PKIBBnRZMjbXpsPxnXwAGJK+LE8qC8cPWXF45Wp45OCY0BRXD3ancM17yeatN17JOl31hyWUDVh1n
+	sufxIDuw==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1w8kam-00000009cFv-0VtB;
+	Fri, 03 Apr 2026 19:54:08 +0000
+Date: Fri, 3 Apr 2026 20:54:08 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Sungjong Seo <sj1557.seo@samsung.com>
+Cc: 'Namjae Jeon' <linkinjeon@kernel.org>, linux-fsdevel@vger.kernel.org,
+	sjdev.seo@gmail.com
+Subject: Re: [RFC] weird stuff in exfat_lookup()
+Message-ID: <20260403195408.GM3836593@ZenIV>
+References: <20250227224826.GG2023217@ZenIV>
+ <CAKYAXd_-v601SX44WZ970LyZjsCH3L3HFjJXxZH960r1PXo+Bw@mail.gmail.com>
+ <CGME20250228160332epcas1p2b177def4195cedc4c122a5f09bb29d2a@epcas1p2.samsung.com>
+ <394ca686-a45a-e71c-bc45-33794463b5fc@samsung.com>
+ <29a2901db9414$fcacee50$f606caf0$@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ClientProxiedBy: EX19D039UWA004.ant.amazon.com (10.13.139.68) To
- EX19D001UWA001.ant.amazon.com (10.13.138.214)
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <29a2901db9414$fcacee50$f606caf0$@samsung.com>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-Commit 5d8edfb900d5 ("iomap: Copy larger chunks from userspace")
-introduced high-order folio allocations in the buffered write
-path. When memory is fragmented, each failed allocation triggers
-compaction and drain_all_pages() via __alloc_pages_slowpath(),
-causing a 0.75x throughput drop on pgbench (simple-update) with 
-1024 clients on a 96-vCPU arm64 system.
+[with apologies for very late reply]
 
-Strip __GFP_DIRECT_RECLAIM from folio allocations in
-iomap_get_folio() when the order exceeds PAGE_ALLOC_COSTLY_ORDER,
-making them purely opportunistic.
+On Thu, Mar 13, 2025 at 09:39:39PM +0900, Sungjong Seo wrote:
+> - thread1: while(1) { mkdir(A) and rmdir(A) }
+> - thread2: while(1) { stat(A) }
+> 
+> This is due to the characteristics of exfat allowing negative dentry and
+> considering CI in d_revalidate. As mentioned in the comment,
+> unhashed-positive dentry can exist in a situation where mkdir
+> and stat are competing, and it can be dropped, but exfat_lookup has
+> been implemented to reuse(rehash) this dentry.
 
-Fixes: 5d8edfb900d5 ("iomap: Copy larger chunks from userspace")
-Cc: stable@vger.kernel.org
-Signed-off-by: Salvatore Dipietro <dipiets@amazon.it>
+That's an interesting scenario, but I still don't see why would we bother.
+
+Note that in your example we don't need to even look for aliases - it's
+a directory inode, so d_splice_alias() would do the right thing, no matter
+what.  And for non-directories you
+	* already have d_move(alias, dentry) there, which would do the right
+thing as well and
+	* won't get an unhashed alias from d_find_alias() to start with.
+
+Frankly, I would skip the entire "look for aliases" thing in case of
+directory inodes - just let d_splice_alias() handle it.  That has
+another fun benefit - exfat_d_anon_disconn() check becomes completely
+pointless.  By the time we call it we have already verified that
+alias->d_parent == dentry->d_parent, so the only way to get
+exfat_d_anon_disconn(alias) to be true is to have IS_ROOT(alias),
+i.e. alias->d_parent == alias and thus alias == dentry->d_parent
+and at the very least the inode is a directory one.  We obvously
+want to have it fail with -ELOOP in such case and d_splice_alias()
+does just that, so if we bypass the entire "look for an alias"
+thing for directories, the check becomes identical to
+	if (alias && alias->d_parent == dentry->d_parent)
+since the last term in the current variant (!exfat_d_anon_disconn(...))
+can be dropped, along with the helper itself.
+
+Does anybody have a problem with patch below?
+
+[PATCH] simplify exfat_lookup()
+
+1) d_splice_alias() handles ERR_PTR() for inode just fine
+2) no need to even look for existing aliases in case of directory inodes;
+just punt to d_splice_alias(), it'll do the right thing
+3) no need to bother with 'd_unhashed(alias)' case - d_find_alias()
+would've returned that only in case of a directory, and d_splice_alias()
+will handle that just fine on its own.
+4) exfat_d_anon_disconn() is entirely pointless now - we only get to
+evaluating it in case dentry->d_parent == alias->d_parent and
+alias being a non-directory.  But in that case IS_ROOT(alias) can't
+possibly be true - that would've reqiured alias == alias->d_parent,
+i.e alias == dentry->d_parent and dentry->d_parent is guaranteed to
+be a directory.  So exfat_d_anon_disconn() would always return false
+when it's called, which makes && !exfat_d_anon_disconn(alias)
+a no-op.
+    
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
 ---
- fs/iomap/buffered-io.c | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
-
-diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-index 92a831cf4bf1..cb843d54b4d9 100644
---- a/fs/iomap/buffered-io.c
-+++ b/fs/iomap/buffered-io.c
-@@ -715,6 +715,7 @@ EXPORT_SYMBOL_GPL(iomap_is_partially_uptodate);
- struct folio *iomap_get_folio(struct iomap_iter *iter, loff_t pos, size_t len)
- {
- 	fgf_t fgp = FGP_WRITEBEGIN | FGP_NOFS;
-+	gfp_t gfp;
- 
- 	if (iter->flags & IOMAP_NOWAIT)
- 		fgp |= FGP_NOWAIT;
-@@ -722,8 +723,20 @@ struct folio *iomap_get_folio(struct iomap_iter *iter, loff_t pos, size_t len)
- 		fgp |= FGP_DONTCACHE;
- 	fgp |= fgf_set_order(len);
- 
-+	gfp = mapping_gfp_mask(iter->inode->i_mapping);
-+
-+	/*
-+	 * If the folio order hint exceeds PAGE_ALLOC_COSTLY_ORDER,
-+	 * strip __GFP_DIRECT_RECLAIM to make the allocation purely
-+	 * opportunistic.  This avoids compaction + drain_all_pages()
-+	 * in __alloc_pages_slowpath() that devastate throughput
-+	 * on large systems during buffered writes.
-+	 */
-+	if (FGF_GET_ORDER(fgp) > PAGE_ALLOC_COSTLY_ORDER)
-+		gfp &= ~__GFP_DIRECT_RECLAIM;
-+
- 	return __filemap_get_folio(iter->inode->i_mapping, pos >> PAGE_SHIFT,
--			fgp, mapping_gfp_mask(iter->inode->i_mapping));
-+			fgp, gfp);
+diff --git a/fs/exfat/namei.c b/fs/exfat/namei.c
+index 670116ae9ec8..8fac39f2bcb3 100644
+--- a/fs/exfat/namei.c
++++ b/fs/exfat/namei.c
+@@ -711,71 +711,44 @@ static int exfat_find(struct inode *dir, const struct qstr *qname,
+ 	return 0;
  }
- EXPORT_SYMBOL_GPL(iomap_get_folio);
  
--- 
-2.50.1 (Apple Git-155)
-
-
-
-
-AMAZON DEVELOPMENT CENTER ITALY SRL, viale Monte Grappa 3/5, 20124 Milano, Italia, Registro delle Imprese di Milano Monza Brianza Lodi REA n. 2504859, Capitale Sociale: 10.000 EUR i.v., Cod. Fisc. e P.IVA 10100050961, Societa con Socio Unico
-
-
-
+-static int exfat_d_anon_disconn(struct dentry *dentry)
+-{
+-	return IS_ROOT(dentry) && (dentry->d_flags & DCACHE_DISCONNECTED);
+-}
+-
+ static struct dentry *exfat_lookup(struct inode *dir, struct dentry *dentry,
+ 		unsigned int flags)
+ {
+ 	struct super_block *sb = dir->i_sb;
+-	struct inode *inode;
++	struct inode *inode = NULL;
+ 	struct dentry *alias;
+ 	struct exfat_dir_entry info;
+ 	int err;
+ 	loff_t i_pos;
+-	mode_t i_mode;
+ 
+ 	mutex_lock(&EXFAT_SB(sb)->s_lock);
+ 	err = exfat_find(dir, &dentry->d_name, &info);
+ 	if (err) {
+-		if (err == -ENOENT) {
+-			inode = NULL;
+-			goto out;
+-		}
+-		goto unlock;
++		if (unlikely(err != -ENOENT))
++			inode = ERR_PTR(err);
++		goto out;
+ 	}
+ 
+ 	i_pos = exfat_make_i_pos(&info);
+ 	inode = exfat_build_inode(sb, &info, i_pos);
+-	err = PTR_ERR_OR_ZERO(inode);
+-	if (err)
+-		goto unlock;
++	if (IS_ERR(inode) || S_ISDIR(inode->i_mode))
++		goto out;
+ 
+-	i_mode = inode->i_mode;
+ 	alias = d_find_alias(inode);
+ 
+ 	/*
+ 	 * Checking "alias->d_parent == dentry->d_parent" to make sure
+ 	 * FS is not corrupted (especially double linked dir).
+ 	 */
+-	if (alias && alias->d_parent == dentry->d_parent &&
+-			!exfat_d_anon_disconn(alias)) {
+-
++	if (alias && alias->d_parent == dentry->d_parent) {
+ 		/*
+-		 * Unhashed alias is able to exist because of revalidate()
+-		 * called by lookup_fast. You can easily make this status
+-		 * by calling create and lookup concurrently
+-		 * In such case, we reuse an alias instead of new dentry
++		 * This inode has non anonymous-DCACHE_DISCONNECTED
++		 * dentry. This means, the user did ->lookup() by an
++		 * another name (longname vs 8.3 alias of it) in past.
++		 *
++		 * Switch to new one for reason of locality if possible.
+ 		 */
+-		if (d_unhashed(alias)) {
+-			WARN_ON(alias->d_name.hash_len !=
+-				dentry->d_name.hash_len);
+-			exfat_info(sb, "rehashed a dentry(%p) in read lookup",
+-				   alias);
+-			d_drop(dentry);
+-			d_rehash(alias);
+-		} else if (!S_ISDIR(i_mode)) {
+-			/*
+-			 * This inode has non anonymous-DCACHE_DISCONNECTED
+-			 * dentry. This means, the user did ->lookup() by an
+-			 * another name (longname vs 8.3 alias of it) in past.
+-			 *
+-			 * Switch to new one for reason of locality if possible.
+-			 */
+-			d_move(alias, dentry);
+-		}
++		d_move(alias, dentry);
+ 		iput(inode);
+ 		mutex_unlock(&EXFAT_SB(sb)->s_lock);
+ 		return alias;
+@@ -787,9 +760,6 @@ static struct dentry *exfat_lookup(struct inode *dir, struct dentry *dentry,
+ 		exfat_d_version_set(dentry, inode_query_iversion(dir));
+ 
+ 	return d_splice_alias(inode, dentry);
+-unlock:
+-	mutex_unlock(&EXFAT_SB(sb)->s_lock);
+-	return ERR_PTR(err);
+ }
+ 
+ /* remove an entry, BUT don't truncate */
