@@ -1,197 +1,115 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D35613CD8C7
-	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Apr 2026 17:18:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775236709; cv=none; b=CvrdjWsmlMhQQ8RpgSDQ4XdH8gE2tC+lgMzrK0/LMja93Sj2bHThrDR5XybvfiWsgg63h5A2Bq8ldNJYNvmy8/Z+INwEvP8Hb8Z5dcXd4C0qRvN//v0O9rHvEwjU2fTfuHmJFmGwgplYEc2NvUJa2Cgg7mYX+9lCPoS9OydUkpc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775236709; c=relaxed/simple;
-	bh=Cvq5tuLj5ZY1DMhHPFEu+lE7/fw/C+ofjPzqyp3q+wU=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=WZjjGLH3HrGg4EEly2efl0sQw+PuLetNvXoBpLYipV9xDlYi+wpnTI9UltQKfce3DR8dxmpA9X5JvBhqLiJlY/tU7MoIoeiST8CtiSe9BydHWKF/bhM1Lhub3c/VLKi3sKWdv1l5BmueK0H9uQPYXSgKq4tmAbU+PAvmjQrk7Cc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fNGGs2Ul; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=TtGG9Fuc; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 077922DAFDF
+	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Apr 2026 18:13:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775239995; cv=pass; b=P248T9ahzc3ElfCWNjdp43MbYkzwuvvxFWd3COYVipeETKIZR5pkaTLfJNxLvJoTMnU39MmoESvzUU8yBdHv9+sHUPquqmhwDsl+UuwANj2oAkuByHGVy3OYCyN/i484Sdw4ABzt15RQ3hZN6mJdyPiKYkTogjF+IT0bNWQtgRM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775239995; c=relaxed/simple;
+	bh=ElB7ZuZLzGIcWqd5VRRtQQIBNNObowpCHWvdAYEp0Ls=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RmhbCYMjfzMNLYN3IVvXv4vZsYxz1YWNejf1QdMjlXplS23E6mIQ8HO69XcyP2ao4qF3RDdHS5cEp6oVtT1OYoQfkv3BFKfZkkN0puEtrFoudcDb/anJKnbERw/cX/p1O3vCawT7IbtsAiki2/XefE6SBNK7AX1NRXi0W6XFjy4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ionos.com; spf=pass smtp.mailfrom=ionos.com; dkim=pass (2048-bit key) header.d=ionos.com header.i=@ionos.com header.b=GVvl531T; arc=pass smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ionos.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ionos.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fNGGs2Ul";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="TtGG9Fuc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1775236707;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QTtM7wHX05jakm5x7iALH4OzPfU5pZiWtOLbV28TT+g=;
-	b=fNGGs2UlN5izdB9OhYDKL3ltSU7qV+ANEljaxcJ0f1FBJg12J1Qxd3PbV1BuF/yKfPWOS2
-	O1d2BHaRB0ytPJUurBRHzaaOchd7gI65+1YQazfMZD12Rpv0EH5ZBahzDGZIE9MR5I++VN
-	U60miAeQ8HoGNKO4gJwPFikOQwY3CCo=
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
- [209.85.167.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-133-oFaVz-LQOG6qmozlm0YcpA-1; Fri, 03 Apr 2026 13:18:26 -0400
-X-MC-Unique: oFaVz-LQOG6qmozlm0YcpA-1
-X-Mimecast-MFC-AGG-ID: oFaVz-LQOG6qmozlm0YcpA_1775236705
-Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-463a1cee56aso3745893b6e.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 03 Apr 2026 10:18:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ionos.com header.i=@ionos.com header.b="GVvl531T"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b9c04152730so322326366b.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 03 Apr 2026 11:13:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775239992; cv=none;
+        d=google.com; s=arc-20240605;
+        b=GmWe32dmov4d7wsDaAHaSK8V9e1y06yyjr5kfUoRjEVeqTKeYaLKAAK6imUzIE1aBZ
+         PEHiIh24XvdEavz0aEdlo429W7CauWhPgQT4g3FFB5lV6Pj1SsBwic13cwrFrGrvx7tW
+         ELQRZDl40qy0uxvGXFvJbcoqPoPgpb4xPxXskGadzd0ZZVdIInvIQLLV6XXNpqhX0xZG
+         08z2gAjr83wdI22GYYpSzMmx7/tNW7YqYB7lgON3oH1WXS7QH4ZgIxPmS90rLcGASjOL
+         YhPtisNfmfxDUs+2vsmCRonZq32gPzypG59mjQOt9bXSDtJ8SJcTe+wWtSMoKQOtYFZs
+         vhYg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ElB7ZuZLzGIcWqd5VRRtQQIBNNObowpCHWvdAYEp0Ls=;
+        fh=CUOg14A40vuC/KZ/b0B7W+7XPuSwYc+ZjcGqeXIiZyM=;
+        b=GvnQ28l0hX7QL16AL6AfNr8FN42GkPfQXV/2OCkv2fIEywJhiTNom9Q0I8J4tcrRNY
+         9qZS+32ihJDro0+3e3d/Qwey5MvN9MSFOsJKYMRxh5NCV3ghVao+M9olsbbgI3KjW39y
+         qaE6y3z569x7Z7hO5JgqDBu+Z97THv/vDeqT/ZTpG68s+EiMb+q7TjFgBepNDCgTDgPq
+         RYQanciceG/Z9D7YMlrMZKdw+PiZnqsBgdMRZsYntGNsyx5AfYOiviX5yir+26IP8oAW
+         llEyaFCUi+XcmL8cv6i/l+lUu4t/KjD7nEObrkVg6WhxVjvucTUQZN9VBoXhy/EIYL2k
+         Wr9A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1775236705; x=1775841505; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=QTtM7wHX05jakm5x7iALH4OzPfU5pZiWtOLbV28TT+g=;
-        b=TtGG9Fucx42gRq8YjpM3ui2Nst/fsorIKywH60Rh4WbYVx96mVVhI/HT4BZD+3wZdn
-         IB6AHTkwQUePPRMnemvnTRKs9jIfqMOm6HMnx7DXoAMXCfgBEWvb+RpDZ0uWIq8mLONC
-         ZkuP2VmOFbzEc54BTqb4sxvcovtYLpPdm1OWQsfEmRo2YCMAmhKh8IWsLUXypYE1J+KM
-         SoEm304HAzVibXjVzd9dQjCfhR/3Qmse0JY5KGT8x26wOOgbdvvLum2hQp+ZsbIVCZQj
-         K/Nw8FKvPMNA4oTwsY09s5LNAiBi9zq0zQGcBzBwKdH0S0YpujaXqif6YaOBlB3SLqUM
-         R8mQ==
+        d=ionos.com; s=google; t=1775239992; x=1775844792; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ElB7ZuZLzGIcWqd5VRRtQQIBNNObowpCHWvdAYEp0Ls=;
+        b=GVvl531TxMUOKpb0vNb+9XWD54gbzLa8iMX9bcfWNLMvhKREOiQUmVoaGUy7VTkiSq
+         U5qsESEgWGha73syRHIBhBjUjm0fcmyEyviElh5OB0Id2v/2NW8I+2iA5jrmoQv4jkdx
+         LNH9xl/kOIQAoOzOmZgTzeX285myu8rzd36mJd2DX/LJPt5Z40Q1HgEap3nrqwQIWwkH
+         PEQ7sgKqb+Kz5TKrykDt1pQ4E5s//1gwc7pPA6FaJWnsFmBGFAey+saFHCJwzFFMhTfQ
+         kc+qHL4vjYfW/5PXA0yL3EPSHJB3EFUFcwXQ/N3dM9xwevJCTZ5dZZKIU7yJOtYo1nfu
+         VuJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775236705; x=1775841505;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QTtM7wHX05jakm5x7iALH4OzPfU5pZiWtOLbV28TT+g=;
-        b=SuWnhNPWL9uoCBnKjcguOf8ngiiuk4jP2cTrwQXW4ihsofAq+YFXdw1yGTg/zOo1i/
-         1di7ixo+1UpU4eJbRG4qgfGNN1r+7BF6944CgPOD25LBPm4iBflKhBGxEAxokPdY2FS1
-         exfInUweXd+1z4GZ7mReUJ5LluuZwzkMMb+kvD+XlqIgQ0APh//7sKscBK0p50SD8vhA
-         1TPoecXvE7oo5h/eSr8p5PrzVCT4RjAb8NwDXWvDSSqovsCf6Vl/pCAG2vXJaPrhufOK
-         TPwxHLBv3CBB3Go9/WzCPlTf4qYPHa76Gz3wHQFxhmD8CdCCAlHshF61TAHAHSxQemqo
-         gcrg==
-X-Forwarded-Encrypted: i=1; AJvYcCXN6ytcOTstTtIFG6mov0NQY8q4YfEb63LsmlfjzyVLixHkx3+PYoWQ58SGdUMsdyzelpNGWXzGuFM5VWem@vger.kernel.org
-X-Gm-Message-State: AOJu0YwNzP1Taq6L0qDW4esbhkIsyD4Ex7h72s8sqyQ2nq74agUDOetb
-	glIKMagSqm5w0AePlPj0Ia0ixxgbHyoGy49SfUqoxRHNbvsAAsA9L/FZ1llnOSXVVDUAKDsyF+Y
-	m+zxBV1jO7jiNOg7vv58dcz5T8WqdjQRYHkmjFzw178tU/4S6+mxKvY2s6+LiUWo6c6k=
-X-Gm-Gg: ATEYQzzzPjX3Ye9xJ0XWiptzpdZRpQqEcKdq2dqATh6SdJHvAc31OBNrSTlcZpkxmX2
-	hpXxAnAztbaxIx6jMvTTKsU+CDRsJV1BO19PrELDy770m4zOblPb0ynjXoJw5SS0HZSCsNWVZpq
-	DZ2+zD/WzMxyqPLB28AA6s5ie3nyHyh2XH5rVt/wIuIVVFuQp1qyjhYvjs9J0xBmFCglN37+b4V
-	VcgsLUQjH2mDTreezHy79fCJp4GKCKeMi79I7dugxdel72pkaRU5a1qlgAGweiEgbS6A8zYvpZZ
-	rlZNBxP1oNdavtuyIdFXI+2+QoDteL8FYBOfIwwh/nDo4FIq0KNI00D8Xf9qsbOqnu3a7PeUbcp
-	jS9dIgK7jXUmwFwHl5f5DsJt5UV/Kb08gtqilEe6b8XPNU0yibx2/
-X-Received: by 2002:a05:6808:6503:b0:467:46e7:e6dd with SMTP id 5614622812f47-46ef5fed372mr1930296b6e.16.1775236705049;
-        Fri, 03 Apr 2026 10:18:25 -0700 (PDT)
-X-Received: by 2002:a05:6808:6503:b0:467:46e7:e6dd with SMTP id 5614622812f47-46ef5fed372mr1930282b6e.16.1775236704582;
-        Fri, 03 Apr 2026 10:18:24 -0700 (PDT)
-Received: from li-4c4c4544-0032-4210-804c-c3c04f423534.ibm.com ([2600:1700:6476:1430::29])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-46f0f4e16a9sm1611319b6e.4.2026.04.03.10.18.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Apr 2026 10:18:23 -0700 (PDT)
-Message-ID: <ff8929f3cc1ceb1fef43f292c9c5926a25d8336a.camel@redhat.com>
-Subject: Re: [PATCH] ceph: do not fill fscache for RWF_DONTCACHE writeback
-From: Viacheslav Dubeyko <vdubeyko@redhat.com>
-To: Max Kellermann <max.kellermann@ionos.com>
-Cc: idryomov@gmail.com, amarkuze@redhat.com, ceph-devel@vger.kernel.org, 
-	dhowells@redhat.com, pc@manguebit.org, netfs@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Fri, 03 Apr 2026 10:18:21 -0700
-In-Reply-To: <CAKPOu+9FvR-ZdhcQc-+KzVMgobCkrJpzEsJis2ekuz0zwC_qZQ@mail.gmail.com>
-References: <20260401205613.2095623-1-max.kellermann@ionos.com>
-	 <dc807d60a59d18dca7a14256285b1cfdeb13d907.camel@redhat.com>
-	 <CAKPOu+9FvR-ZdhcQc-+KzVMgobCkrJpzEsJis2ekuz0zwC_qZQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43app2) 
+        d=1e100.net; s=20251104; t=1775239992; x=1775844792;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ElB7ZuZLzGIcWqd5VRRtQQIBNNObowpCHWvdAYEp0Ls=;
+        b=owz6xNVr1Az/q5WaMYJns8gToL8mGfgCv6Zm/Fx8zGNjlz19k1KcwUO47KroDEtI4h
+         qXz5Sb+ZuRho5bSBAv1WpnzGb2OCr3gbCywfBfOLsQRNHNB/D7b3DHd3e2yRDBHzE0cb
+         rDwFBpUr/gRedD3zuHggIMCzJvGb1aeb6aAfKXcfY8/afhxDtkilZtVxRgXM/BsFf5ag
+         p2Gntyl+FwJrsVMMVgCHFPBgKIXmYzCATVXlg5jiiLZ5gAHfECTIBP2j9QHjyaFQF9DB
+         gOBqiUEAmyl/peQC+GwSuKhcvCvK8cZ2ChkuWeYnMkWaxjXH5pmjYfnQxUZ5QRoJFnT+
+         11aQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW3HQkwQgqsFXQcbVnYG3aN23haOg2qOOoT1DGr32r32a+BmTBQpnHjGIj6978ewcMCfJ4EwAdKVaR6m37f@vger.kernel.org
+X-Gm-Message-State: AOJu0YxZCLyNV2SGFjm5pgmF6sk73NsjyFh0r9uH9Hn9Niv6j6gn7l1N
+	Wt6TrJfltY2/WQq8js6rousxFXPvNQ0kSDS+fDDjAgKfds3Mw1mtEyMTYBtqhN3n8mEHMkKwm4w
+	fUvUKq2sz8fVE37GwLRI9o4Xo2Ng1DuGPdpdrHWoopw==
+X-Gm-Gg: AeBDieusRY3t08dqhI+Wbf80h1fJ+ix4Frtp382xmE928f/vKmtNofjEjnd8VkkbteY
+	jJrF35lP4jVkagIfNwfKnpAsKc0mDg+KniPu9GuI4xD5xgYEmqhjNqArdy1ewDa/Qs1duvhO0jz
+	lbEP5NyindBsbvGJBr3WHOJrUv45Z0R7JwGs83jEqpJLMhk3ogqojJ9ySEqptscrEDz/y6f1H5g
+	xYkx0jthLcjZQvlFifvddM/Ls0IGr/PjMYTy3o3NmuDrXHRfIOOdk5Q2HH8kXEw24JgHKwZToMS
+	gYiIJlqdKh1NfM4svs0rRduxKdWlkms1i9C0
+X-Received: by 2002:a17:907:c002:b0:b97:f22f:43c3 with SMTP id
+ a640c23a62f3a-b9c67951924mr190315866b.31.1775239992468; Fri, 03 Apr 2026
+ 11:13:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20260401205613.2095623-1-max.kellermann@ionos.com>
+ <dc807d60a59d18dca7a14256285b1cfdeb13d907.camel@redhat.com>
+ <CAKPOu+9FvR-ZdhcQc-+KzVMgobCkrJpzEsJis2ekuz0zwC_qZQ@mail.gmail.com> <ff8929f3cc1ceb1fef43f292c9c5926a25d8336a.camel@redhat.com>
+In-Reply-To: <ff8929f3cc1ceb1fef43f292c9c5926a25d8336a.camel@redhat.com>
+From: Max Kellermann <max.kellermann@ionos.com>
+Date: Fri, 3 Apr 2026 20:13:01 +0200
+X-Gm-Features: AQROBzCml0wejgS8KWhp_lEvInrGoAcd3uhJWZZ3HEky3MQRfu_mu4yL7bGyHI4
+Message-ID: <CAKPOu+_ghf7cw8zT2K-hyKhdWiFaQss2jFQ-JsUUPBU0MmSFfQ@mail.gmail.com>
+Subject: Re: [PATCH] ceph: do not fill fscache for RWF_DONTCACHE writeback
+To: Viacheslav Dubeyko <vdubeyko@redhat.com>
+Cc: idryomov@gmail.com, amarkuze@redhat.com, ceph-devel@vger.kernel.org, 
+	dhowells@redhat.com, pc@manguebit.org, netfs@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2026-04-03 at 08:52 +0200, Max Kellermann wrote:
-> On Thu, Apr 2, 2026 at 9:44=E2=80=AFPM Viacheslav Dubeyko <vdubeyko@redha=
-t.com> wrote:
-> > The Ceph write_begin path calls netfs_write_begin() but does not pass
-> > IOCB_DONTCACHE through to trigger __folio_set_dropbehind. So,
-> > folio_test_dropbehind() would never be true on the Ceph write path righ=
-t now.
-> > Does it make sense?
->=20
-> Yes, see:
->=20
-> > > ---
-> > > Note: this is an additional feature on top of my Ceph-DONTCACHE patch=
-,
-> > > see https://lore.kernel.org/ceph-devel/20260401053109.1861724-1-max.k=
-ellermann@ionos.com/
->=20
-> The code in this patch is not reachable until my RWF_DONTCACHE patch
-> is merged as well.
->=20
-> > Are you sure that caching should be always true? All other calls checks=
- that
-> > ceph_is_cache_enabled():
-> >=20
-> > bool caching =3D ceph_is_cache_enabled(inode);
->=20
-> This function is only called if caching is enabled.
+On Fri, Apr 3, 2026 at 7:18=E2=80=AFPM Viacheslav Dubeyko <vdubeyko@redhat.=
+com> wrote:
+> Why the offset is not good enough?
 
-I think that such interface will be more clean and safe:
+Because the "offset" variable tracks the whole write, including the
+folios that are supposed to be omitted from the fscache.
 
-static inline void ceph_flush_fscache_write(struct inode *inode, u64 off, u=
-64
-*len, bool caching)
+--=20
+Max Kellermann
+Principal Architect
+Hosting Technology
 
->=20
-> >=20
-> > > +     *len =3D 0;
-> > > +}
-> >=20
-> >=20
-> > The ceph_folio_is_cacheable() and ceph_flush_fscache_write() are out of
-> > CONFIG_CEPH_FSCACHE. It doesn't look right.
->=20
-> All of the old code is out of CONFIG_CEPH_FSCACHE, too. Does the old
-> code look right?
-
-As far as I can see, all fscache code is under CONFIG_CEPH_FSCACHE compilat=
-ion
-option. If we have some issues with old code, then it makes sense to fix it=
-. But
-this code is fscache related and it should be under CONFIG_CEPH_FSCACHE
-protection, from my point of view. Moreover, other fscache related code is =
-under
-CONFIG_CEPH_FSCACHE protection pretty above the code of these functions.
-
->=20
-> > > @@ -1412,11 +1427,14 @@ int ceph_submit_write(struct address_space *m=
-apping,
-> > >       bool caching =3D ceph_is_cache_enabled(inode);
-> > >       u64 offset;
-> > >       u64 len;
-> > > +     u64 cache_offset, cache_len;
-> >=20
-> > Why do you need to introduce the cache_offset and cache_len? We already=
- have
-> > offset and len.
->=20
-> These keep track of the region that should be submitted to fscache.
-> Folios without "dropbehind" need to be excluded from that.
->=20
-> > >  new_request:
-> > >       offset =3D ceph_fscrypt_page_offset(ceph_wbc->pages[0]);
-> > >       len =3D ceph_wbc->wsize;
-> > > +     cache_offset =3D 0;
-> >=20
-> > Is it correct initialization? Frankly speaking, I don't quite follow wh=
-y we need
-> > such initialization.
->=20
-> Technically, cache_offset does not need to be initialized as long as
-> cache_len is zero because then its value is never used. Would you feel
-> more comfortable if I remove the unnecessary initializer? I wasn't
-> sure which approach would raise fewer eyebrows.
-
-I am simply trying to follow why we need in cache_offset. We are using the
-offset currently:
-
-/* Kick off an fscache write with what we have so far. */
-ceph_fscache_write_to_cache(inode, offset, len, caching);
-
-
-Why the offset is not good enough?
-
-Thanks,
-Slava.
-
+cm4all | Im Mediapark 6a | 50670 K=C3=B6ln | Germany
+General information about the company can be found here:
+https://www.cm4all.com/impressum
+A member of the IONOS Group
