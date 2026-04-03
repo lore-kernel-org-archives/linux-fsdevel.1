@@ -1,153 +1,161 @@
-Received: from mail-10630.protonmail.ch (mail-10630.protonmail.ch [79.135.106.30])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ED023451BA
-	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Apr 2026 20:20:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.30
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775247607; cv=none; b=Gsy+fYJnhep7oczY21WJz4TETWLULi5EljxP7b++NgMdBDes4XxbUNw5m/ZhDpj+JKvU+Jzf+u5q8XM1OVs4UMN5JZhKdRG+rpZ5Ci/cOPCZ+z27MfpOKwopEyXGdfKuCg1ojEZBCL3N8lN7Kvj/kBiIQtbOdvU3vncqH0DY1+M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775247607; c=relaxed/simple;
-	bh=7z9ieu8CqvpWqm7mnRX42+lzsZPDr8vHpl0iV5Rh7Ws=;
-	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Ok7rV4sIp4+U5kgs2074PA2fNd3A9cXmvONwJV1/CPhSPZ9kZsIRt5k3GLI6/gEz9ijOShnBJ6Jymm6sgLd2Zwr7tat8nSYK38Bn3DWEOwJNLW4XjiE6SKKw3bgZELTC8ySNx7xQnyH80GT8zbqU7AEw9hXEBFHYCvDn2GRYjaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.ch; spf=pass smtp.mailfrom=protonmail.ch; dkim=pass (2048-bit key) header.d=protonmail.ch header.i=@protonmail.ch header.b=kDA1L6sf; arc=none smtp.client-ip=79.135.106.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.ch
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 566A03D6CB7
+	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Apr 2026 21:14:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.182
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775250886; cv=pass; b=LXpioHpsSo8r/ObuR/zBIxsna8c1woU30vLlXJtQos3h5DTBEvgVxTZHYntJxEWMKVeDg6CGbO3znJzOCainyxECZeAIpmKw4+pRIofBZfGCDuqyvH7ebrmSQpVSDSkNDhzkQrb2H92FEMGDlQS2igaHKqlwOp7Rvfkh49LzhmM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775250886; c=relaxed/simple;
+	bh=iNQ9qdRSCL3uUh77rSWYNovDUs8lKN7UfJ+q0K1jN/M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fXUK0ZSjGknNdaPu/+SvaDzznHuyjBWtL68LPiWmhLvSne6OOlVDunLr6t1+JW++xd6fm2RaGKQq7Rz1Wfze8LFFYnRy0FCb41vHzCkFOrBg1XNKw3mSgZon6KGrXhS6yvfLempvMnzyCMjCWVdmp/M8IzTnrPOE9IQ1dgAxQ8w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=Ie+RQjJA; arc=pass smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.ch header.i=@protonmail.ch header.b="kDA1L6sf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.ch;
-	s=protonmail3; t=1775247602; x=1775506802;
-	bh=gCV8hox9Kl/Oofwo8QZCV3yKtlljVX7l3r99VEuQNvc=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=kDA1L6sfdJLv/+76HBJ3cZsCx5U9n5+aBUnUWTo9BvHiwCYkz7YUz6k1II96snuqB
-	 hIq9DjIO5zu26iZphNizgJnyvOkNEBtio6OYkbADsWEAUTZFh1ZNj/izG2r9EWZrX8
-	 PBE3Ms+E7AJMYH7G+cR3Y1AU41Mc+tkSkoAg/CuyYzEboJ8KQS9b2bLBN5QLlNbMbo
-	 83xzYI840MqJO8QsE1iHDBQNIymHWPc5Xn3i5LCfWjlXue5h/BtQF08yWObPXAugoU
-	 iOmEK75RBpXlYXBP8hhU9Ck6CLL/VEfuNAPsVzFqQfax/DSge8nvTzSSrmMUwmz3mt
-	 VZhbCiUNpeRSQ==
-Date: Fri, 03 Apr 2026 20:19:56 +0000
-To: ojeda@kernel.org
-From: Christian Benton <t1bur0n.kernel.org@protonmail.ch>
-Cc: rust-for-linux@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, aliceryhl@google.com, lossin@kernel.org, Christian Benton <t1bur0n.kernel.org@protonmail.ch>
-Subject: [PATCH] rust: fs: file: add FMODE constants and stream_open for LocalFile
-Message-ID: <20260403201941.37501-1-t1bur0n.kernel.org@protonmail.ch>
-Feedback-ID: 190658113:user:proton
-X-Pm-Message-ID: 432bb77e413b4ae1fba06a0c4e2c8bf5d23dd79c
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="Ie+RQjJA"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2ad617d5b80so11973055ad.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 03 Apr 2026 14:14:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775250882; cv=none;
+        d=google.com; s=arc-20240605;
+        b=RK9WpRc+yQG+m9gV9o/3adxyXqJUegCqzPK/UPBlvS0k8jaY1YDeIbzs5YV05/qcF3
+         nUzGmNvLKqlvQ+xhkYysRDqx6c7x39zuubcDG8PZSCuwp8Lxuhj79t+scgTiZLyAFTrR
+         A+qycSPZQ7TX2I3J2v1ydPtCWonEtV6bVW0CuRywf8YDOIWCnGmYCNXfs1aW3zEj2k/G
+         mHlihgJoqawvi4gBQuwaC1H7/uOAw6gq1nuEHA/dkQ3xwhxL3mrMvj1G3lZChje4eBNF
+         LzIJ8CYJzGv4+6d5jqI/R1omDzjo66J2YeAuDLOiHjecV31/Q3z8oruYqGsm4yx/fKZq
+         J0Eg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ZQ7m/t07ozBolMzvyENjzR1B2LhiH3tODVUDturdZZw=;
+        fh=S3A5cfIFZ/lvQEl5J46rysLwT/nlCUYWs44aaC1sp60=;
+        b=V4AiG4jqoWHNlL9GVHw80fnta5r9OnRckoHWJ8zfNpMPP0avcsNCwsIhVlqhWc6wKI
+         dqyQxFIhlT7kXj7XXuo/EcE2fzvFDiIQ5TtCJ+LA9mH0MlYaSAwLJpRe889m3jyeUrVq
+         2jG3RKB9aLyhIXNnb9AwiffVl/mJ9BXIK9LcS+IZXiYkixKHT/vNwBu3ABz29oR9VqTS
+         mhem00Az7fEK1NE+hgg8UT9bbLqKfjGTpUkr8qFUdGsva3/xji4xhSuxOYtBNtBQvOh7
+         rAqSrWY3qI9Hxgz8LjIWpXldX6bNkuF4Iy3ubTld+fXpCe0g3/mss/AKiRZGMitEw7kQ
+         xFaQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1775250882; x=1775855682; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZQ7m/t07ozBolMzvyENjzR1B2LhiH3tODVUDturdZZw=;
+        b=Ie+RQjJAjFlwLmuajd1+bQFaYVKDGeETiNfVlqMIuyVr+Arbdhb582dBjLK1c8gUvz
+         O7uOwOG2Cw8nmaHA4crKYPsQeFFt1DZfnmQ0vwRALKMdKAbfFqoj5zL3pkKOST/w9yf6
+         0amZgjxpk4U21DzkcEx4K3iJ3dylBGnObQEqbb+gdlw9I0DjU/gYNG5wOmWfPz2S7tSn
+         MXghGHq0GXeZsos9sS6A0Q4DNZYmfQvOgePBu2W4K9Bek+r2hA4PQqYUxRag/j+b5Cno
+         k9dx5WSBP+5AzU49wkTMU1itGd7DEnC6/pxwDRHQoVuLkjvMZGk+VJJnmHLzYuz+PXJE
+         H0ww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775250882; x=1775855682;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ZQ7m/t07ozBolMzvyENjzR1B2LhiH3tODVUDturdZZw=;
+        b=pqSqJu4jY6iFov2yjESUHqdCorc76RPeFDQGOwc4EuGKOuoEfhgmaZ5IeP4DeqPEMU
+         +qJ6yff73r2rw8urHBTPcQaVCxgjRdpR8FZA6rSS97nmDwX+P0IL1pHXlpwJ524K19MV
+         YVTXlE6kp44L7iXUFaLJWucnIAgw4KEWMxJZsXpd4voqcmnWvYP05NTyVEmts3nYK11Y
+         DcCug5XfyMejUT4G1ZhHq9yJkbQg885uLduU1FZP7qsU5nt1knyNn+tOq+oxfzpDzeQ0
+         ubjaMc7HdE8pBECYF/hsokTdJm/20OmEbH7Iowo2tNQOyHBV91aFXpWTdEAZzgQzeyXA
+         3ByA==
+X-Forwarded-Encrypted: i=1; AJvYcCWgyDlpVcva5cfsx/SLTcKCYJmXUvpEnCX9qxLolQGxwjmBYX0zwT+bUtIDyULtbxZIzZi8oArXT83+00Az@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyge4n8X4BnfqfxQ908M+NH9yeJjDt/9zxPREaX6fAjJyymaQ3P
+	tEDdBhUS73NyAxXEYWKdCFtoE8uF3gMH9oWOVdwA09HTx1hqrMfPpL1fN4R1C9CHWusJFgkdPit
+	e8TSV0bRJOfQ0sjWWHYNzssUkYWeyphHhYTISQzVl
+X-Gm-Gg: AeBDiesjYCNzyMe1vgmjI7SOF/jaL3xQI8tm0gySdgurRanXmfuEggh3opZiXD0wWXb
+	m0NGNj3RTStjpsEwb8fjKiybIREGrDQI/pjmKmzV/Vr9HQ3xvyrTOenTyUhTYsLcln3RM4voTA+
+	VRqBTxpBMNQo3741rqnwexNYSbZiqz4arsOn9GYQ/uCwNFMKhCNgzKw3rfbQNGBIh2w4aWBgFAG
+	VQARM978RIaQv7qHm4FCukP52Q+fWPd22pybweKY/Xl5xF4s6D6YuZNAR1roZb1hR74nGf+qYUn
+	eYQMWAE=
+X-Received: by 2002:a17:903:2ed0:b0:2b2:5091:1c26 with SMTP id
+ d9443c01a7336-2b2816d8626mr47571725ad.22.1775250882586; Fri, 03 Apr 2026
+ 14:14:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20260403030848.731867-5-paul@paul-moore.com> <20260403030848.731867-7-paul@paul-moore.com>
+ <CAOQ4uxgd1wo9U32L_sQLfswY93LRp4yPzkJvKtj=wDKi8h13gg@mail.gmail.com>
+In-Reply-To: <CAOQ4uxgd1wo9U32L_sQLfswY93LRp4yPzkJvKtj=wDKi8h13gg@mail.gmail.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Fri, 3 Apr 2026 17:14:30 -0400
+X-Gm-Features: AQROBzBl5cCyhzn_4rsiKSOgf99yuNguIB3BwaumzWCCJnTdkerDXkp2yfIst38
+Message-ID: <CAHC9VhTyFJottNM-Reg8dGbU4T_gAG63oOQjwrOY0x=2sCLR4A@mail.gmail.com>
+Subject: Re: [PATCH v4 2/3] lsm: add backing_file LSM hooks
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-unionfs@vger.kernel.org, 
+	linux-erofs@lists.ozlabs.org, Gao Xiang <xiang@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-The C function stream_open() has no Rust equivalent, requiring Rust
-drivers to manipulate f_mode directly through unsafe bindings. This adds
-the necessary FMODE constants to the bindings and implements stream_open()
-natively on LocalFile, giving Rust character device drivers a safe way to
-mark a file as a stream.
+On Fri, Apr 3, 2026 at 2:12=E2=80=AFAM Amir Goldstein <amir73il@gmail.com> =
+wrote:
+> On Fri, Apr 3, 2026 at 5:09=E2=80=AFAM Paul Moore <paul@paul-moore.com> w=
+rote:
+> >
+> > Stacked filesystems such as overlayfs do not currently provide the
+> > necessary mechanisms for LSMs to properly enforce access controls on th=
+e
+> > mmap() and mprotect() operations.  In order to resolve this gap, a LSM
+> > security blob is being added to the backing_file struct and the followi=
+ng
+> > new LSM hooks are being created:
+> >
+> >  security_backing_file_alloc()
+> >  security_backing_file_free()
+> >  security_mmap_backing_file()
+> >
+> > The first two hooks are to manage the lifecycle of the LSM security blo=
+b
+> > in the backing_file struct, while the third provides a new mmap() acces=
+s
+> > control point for the underlying backing file.  It is also expected tha=
+t
+> > LSMs will likely want to update their security_file_mprotect() callback
+> > to address issues with their mprotect() controls, but that does not
+> > require a change to the security_file_mprotect() LSM hook.
+> >
+> > There are a three other small changes to support these new LSM hooks:
+> > * Pass the user file associated with a backing file down to
+> > alloc_empty_backing_file() so it can be included in the
+> > security_backing_file_alloc() hook.
+> > * Add getter and setter functions for the backing_file struct LSM blob
+> > as the backing_file struct remains private to fs/file_table.c.
+> > * Constify the file struct field in the LSM common_audit_data struct to
+> > better support LSMs that need to pass a const file struct pointer into
+> > the common LSM audit code.
+> >
+> > Thanks to Arnd Bergmann for identifying the missing EXPORT_SYMBOL_GPL()
+> > and supplying a fixup.
+> >
+> > Cc: stable@vger.kernel.org
+> > Cc: linux-fsdevel@vger.kernel.org
+> > Cc: linux-unionfs@vger.kernel.org
+> > Cc: linux-erofs@lists.ozlabs.org
+> > Signed-off-by: Paul Moore <paul@paul-moore.com>
+>
+> That looks nicer.
+>
+> Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+>
+> Thanks,
+> Amir.
 
-Add the FMODE_STREAM, FMODE_LSEEK, FMODE_PREAD, FMODE_PWRITE and
-FMODE_ATOMIC_POS constants to the bindings. These constants were not
-previously accessible to Rust code because bindgen cannot handle the
-__force cast used in their C macro definitions. They are exposed here
-using the RUST_CONST_HELPER pattern already established in
-bindings_helper.h.
+Thanks for refreshing your review.  Since we are at the end of -rc6,
+it probably doesn't make much sense to put this in lsm/stable-7.0; I'm
+going to merge this into lsm/dev which should give us at least one
+week in linux-next before the v7.1 merge window opens.  If others want
+to add their ACKs/Reviewed-by during that time, I'll update the
+branch.
 
-stream_open() should be called from the open() handler of a character
-device that produces data as a stream rather than supporting random
-access. It clears the seek-related file mode flags and sets FMODE_STREAM,
-telling the VFS layer not to validate seek positions on read_iter and
-write_iter calls. This mirrors the behavior of stream_open() in
-fs/open.c, which does not use the inode parameter and only manipulates
-f_mode on the file struct.
-
-The method is placed on LocalFile rather than File because stream_open()
-must be called during open(), before the file descriptor is installed
-into the process fd table. LocalFile is !Send, which statically
-guarantees that no other thread can concurrently access f_mode at the
-point this method is called, making the unsafe f_mode manipulation sound.
-
-Signed-off-by: Christian Benton <t1bur0n.kernel.org@protonmail.ch>
----
- rust/bindings/bindings_helper.h |  5 +++++
- rust/kernel/fs/file.rs          | 30 ++++++++++++++++++++++++++++++
- 2 files changed, 35 insertions(+)
-
-diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helpe=
-r.h
-index 083cc44aa..21421296c 100644
---- a/rust/bindings/bindings_helper.h
-+++ b/rust/bindings/bindings_helper.h
-@@ -113,6 +113,11 @@ const gfp_t RUST_CONST_HELPER___GFP_ZERO =3D __GFP_ZER=
-O;
- const gfp_t RUST_CONST_HELPER___GFP_HIGHMEM =3D ___GFP_HIGHMEM;
- const gfp_t RUST_CONST_HELPER___GFP_NOWARN =3D ___GFP_NOWARN;
- const blk_features_t RUST_CONST_HELPER_BLK_FEAT_ROTATIONAL =3D BLK_FEAT_RO=
-TATIONAL;
-+const fmode_t RUST_CONST_HELPER_FMODE_ATOMIC_POS =3D FMODE_ATOMIC_POS;
-+const fmode_t RUST_CONST_HELPER_FMODE_LSEEK =3D FMODE_LSEEK;
-+const fmode_t RUST_CONST_HELPER_FMODE_PREAD =3D FMODE_PREAD;
-+const fmode_t RUST_CONST_HELPER_FMODE_PWRITE =3D FMODE_PWRITE;
-+const fmode_t RUST_CONST_HELPER_FMODE_STREAM =3D FMODE_STREAM;
- const fop_flags_t RUST_CONST_HELPER_FOP_UNSIGNED_OFFSET =3D FOP_UNSIGNED_O=
-FFSET;
-=20
- const xa_mark_t RUST_CONST_HELPER_XA_PRESENT =3D XA_PRESENT;
-diff --git a/rust/kernel/fs/file.rs b/rust/kernel/fs/file.rs
-index 23ee689bd..a22200c56 100644
---- a/rust/kernel/fs/file.rs
-+++ b/rust/kernel/fs/file.rs
-@@ -342,6 +342,36 @@ pub fn flags(&self) -> u32 {
-         // FIXME(read_once): Replace with `read_once` when available on th=
-e Rust side.
-         unsafe { core::ptr::addr_of!((*self.as_ptr()).f_flags).read_volati=
-le() }
-     }
-+
-+    /// Marks this file as a stream, disabling seek position validation.
-+    ///
-+    /// This should be called from the `open` handler of a character devic=
-e that
-+    /// produces data as a stream rather than supporting random access. It=
- clears
-+    /// the seek-related file mode flags and sets `FMODE_STREAM`, which te=
-lls the
-+    /// VFS layer not to validate seek positions on `read_iter` and `write=
-_iter`
-+    /// calls.
-+    ///
-+    /// Must only be called during `open()`, before the file descriptor is
-+    /// installed into the process fd table and becomes accessible to othe=
-r
-+    /// threads.
-+    pub fn stream_open(&self) {
-+        // SAFETY: The file pointer is valid for the duration of this call
-+        // because `LocalFile` can only exist while the underlying `struct=
- file`
-+        // is alive. Since `LocalFile` is not `Send`, this method can only=
- be
-+        // called before the file is shared across threads, which means no=
- other
-+        // thread can be concurrently modifying `f_mode`. The pointer is
-+        // guaranteed non-null by the type invariants of `LocalFile`.
-+        unsafe {
-+            let file =3D self.as_ptr();
-+            (*file).f_mode &=3D !(
-+                bindings::FMODE_LSEEK
-+                    | bindings::FMODE_PREAD
-+                    | bindings::FMODE_PWRITE
-+                    | bindings::FMODE_ATOMIC_POS
-+            );
-+            (*file).f_mode |=3D bindings::FMODE_STREAM;
-+        }
-+    }
- }
-=20
- impl File {
 --=20
-2.53.0
-
-
+paul-moore.com
