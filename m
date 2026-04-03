@@ -1,115 +1,143 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 077922DAFDF
-	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Apr 2026 18:13:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1276E20E334
+	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Apr 2026 19:01:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.49
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775239995; cv=pass; b=P248T9ahzc3ElfCWNjdp43MbYkzwuvvxFWd3COYVipeETKIZR5pkaTLfJNxLvJoTMnU39MmoESvzUU8yBdHv9+sHUPquqmhwDsl+UuwANj2oAkuByHGVy3OYCyN/i484Sdw4ABzt15RQ3hZN6mJdyPiKYkTogjF+IT0bNWQtgRM=
+	t=1775242864; cv=pass; b=CjblMVNwdK+mG8ehkHFtkRFlzkv9KrrTjrD80SQ0RGnDCuwkLZ8g+krT27oL27YQOgjVnIeVQuw8espb/QZHA4F2OBvuoPOZ0GCfqohdTNQkywDtCQVIEtMd8QIyI8oN5/JEWrK9m8pG3P2LJ5jG4CfCL095xwGzvDQ0dEfyQFo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775239995; c=relaxed/simple;
-	bh=ElB7ZuZLzGIcWqd5VRRtQQIBNNObowpCHWvdAYEp0Ls=;
+	s=arc-20240116; t=1775242864; c=relaxed/simple;
+	bh=BcQp0WcNZ0PCDcShN13d1pqEe9vllKLQaSeRD6IaKDM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RmhbCYMjfzMNLYN3IVvXv4vZsYxz1YWNejf1QdMjlXplS23E6mIQ8HO69XcyP2ao4qF3RDdHS5cEp6oVtT1OYoQfkv3BFKfZkkN0puEtrFoudcDb/anJKnbERw/cX/p1O3vCawT7IbtsAiki2/XefE6SBNK7AX1NRXi0W6XFjy4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ionos.com; spf=pass smtp.mailfrom=ionos.com; dkim=pass (2048-bit key) header.d=ionos.com header.i=@ionos.com header.b=GVvl531T; arc=pass smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ionos.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ionos.com
+	 To:Cc:Content-Type; b=SRcwccJasUx3uAI5fjTTs4tUGJNBDMl3oq9h4IIY3sDY9i6GWFMLMu9f/p1qNmeyB233gPlNbGMZJEtfVQrFsFAVp4YoCpeeNFLgdOwG7z+jmtFh0+amEi4XiOuMHYDLODwGwxGYXJ/9IO0Ut2TvOJ4MnLj6fRGKpgNRtLl1mdY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gVSNHGEF; arc=pass smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ionos.com header.i=@ionos.com header.b="GVvl531T"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b9c04152730so322326366b.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 03 Apr 2026 11:13:13 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775239992; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gVSNHGEF"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4853e1ce427so28190525e9.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 03 Apr 2026 12:01:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775242861; cv=none;
         d=google.com; s=arc-20240605;
-        b=GmWe32dmov4d7wsDaAHaSK8V9e1y06yyjr5kfUoRjEVeqTKeYaLKAAK6imUzIE1aBZ
-         PEHiIh24XvdEavz0aEdlo429W7CauWhPgQT4g3FFB5lV6Pj1SsBwic13cwrFrGrvx7tW
-         ELQRZDl40qy0uxvGXFvJbcoqPoPgpb4xPxXskGadzd0ZZVdIInvIQLLV6XXNpqhX0xZG
-         08z2gAjr83wdI22GYYpSzMmx7/tNW7YqYB7lgON3oH1WXS7QH4ZgIxPmS90rLcGASjOL
-         YhPtisNfmfxDUs+2vsmCRonZq32gPzypG59mjQOt9bXSDtJ8SJcTe+wWtSMoKQOtYFZs
-         vhYg==
+        b=kKNIKdHdWPpMSH2GQDQC59eJ20+U6oWqsrzgxV75xI7j5U1YUwh5qmB/HmOa/mm6g/
+         2ozH4tJN2gVEfo+eYwUavYPu+Vd/oduvxHPE2TxxkMPvX/Q8dPrPUmjuRXNq0vhAvJpN
+         0id8z5v1YV5OXFj42RMvVb7RPGQ7O4D0s1tJRzvC7kFZF0s2TytcX3fjWis1xRWaDLZP
+         /rBB0XcaXAKhVl0fAQv5ELtXrv2c8CZPtNXxv0b/Vjbm5a8761YFEa0ow2siClebwr21
+         /QaiNzqca4eHRSjk0Jaj//45Y8+3TE0cGvJyXudiq2eXhXugoSByqOlJWR+xhEiviBfl
+         eIgA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=ElB7ZuZLzGIcWqd5VRRtQQIBNNObowpCHWvdAYEp0Ls=;
-        fh=CUOg14A40vuC/KZ/b0B7W+7XPuSwYc+ZjcGqeXIiZyM=;
-        b=GvnQ28l0hX7QL16AL6AfNr8FN42GkPfQXV/2OCkv2fIEywJhiTNom9Q0I8J4tcrRNY
-         9qZS+32ihJDro0+3e3d/Qwey5MvN9MSFOsJKYMRxh5NCV3ghVao+M9olsbbgI3KjW39y
-         qaE6y3z569x7Z7hO5JgqDBu+Z97THv/vDeqT/ZTpG68s+EiMb+q7TjFgBepNDCgTDgPq
-         RYQanciceG/Z9D7YMlrMZKdw+PiZnqsBgdMRZsYntGNsyx5AfYOiviX5yir+26IP8oAW
-         llEyaFCUi+XcmL8cv6i/l+lUu4t/KjD7nEObrkVg6WhxVjvucTUQZN9VBoXhy/EIYL2k
-         Wr9A==;
+        bh=BcQp0WcNZ0PCDcShN13d1pqEe9vllKLQaSeRD6IaKDM=;
+        fh=+3I28REhUXhzx+sQzMTbP8nld+MbAwjVDaI3Cyj5Fn0=;
+        b=OdbzFbiR2y98yrmQSiqUZt0XdSC7saJee71p2FVu7FIIvqldr5kJsIMoVgHtCLGzjP
+         TvYqBsA9PAnAsjDizZNT9P3N6e/l3Sscyka3Yu7ERW3e8Fs8XNlaB7J13hQcHgPjeqK9
+         qMysw2K+UJOzhyu7nsvA2nBbtupoE06jnsIkvMRcQk1am3g6qSxjdrDBKe0DznZN/6ml
+         5E/5nVB05Z8ZPcVOTTaH+tY7w4bgOQw1UM7YA3Y5agnlT9OJeioFB6443kzGjqYwR4pQ
+         arPDgwGb32AeVBv1bAYTL+QTQOC0hudy/PnqxxMYGuek4csV3Oc/GZa1LfTBE/OYs7zV
+         2rww==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ionos.com; s=google; t=1775239992; x=1775844792; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1775242861; x=1775847661; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ElB7ZuZLzGIcWqd5VRRtQQIBNNObowpCHWvdAYEp0Ls=;
-        b=GVvl531TxMUOKpb0vNb+9XWD54gbzLa8iMX9bcfWNLMvhKREOiQUmVoaGUy7VTkiSq
-         U5qsESEgWGha73syRHIBhBjUjm0fcmyEyviElh5OB0Id2v/2NW8I+2iA5jrmoQv4jkdx
-         LNH9xl/kOIQAoOzOmZgTzeX285myu8rzd36mJd2DX/LJPt5Z40Q1HgEap3nrqwQIWwkH
-         PEQ7sgKqb+Kz5TKrykDt1pQ4E5s//1gwc7pPA6FaJWnsFmBGFAey+saFHCJwzFFMhTfQ
-         kc+qHL4vjYfW/5PXA0yL3EPSHJB3EFUFcwXQ/N3dM9xwevJCTZ5dZZKIU7yJOtYo1nfu
-         VuJQ==
+        bh=BcQp0WcNZ0PCDcShN13d1pqEe9vllKLQaSeRD6IaKDM=;
+        b=gVSNHGEFpDFHudMtHzYVZXWXfXjQRFDa0xsxGFp7im5242tlXl7mXRfEsGiWIGTtTr
+         JM/rAFD/qyeCWkDFx+/3ZrmdqkublW1AMH/YAQFzwrJigG8MQKBHH/6vTG3Bl0GEPUVN
+         71+5RD15wWF3sFGjFU3zgU0y8q9J3cUSRRNTigkgBSzYb7VgB0clfYyG2ZB53Y9qG+KD
+         siohVv2aic4t7NnU/9Iw6DovLCgy7VCezI9bo0VOeAE13phx369+Hum1is3SXdK50aPa
+         Dt/t2SvR4RR6D6HyVfCNOccS/KVH/op2csnDA63qpTaS57nse0qngfK7ouSzcHDgTuPz
+         bdmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775239992; x=1775844792;
+        d=1e100.net; s=20251104; t=1775242861; x=1775847661;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=ElB7ZuZLzGIcWqd5VRRtQQIBNNObowpCHWvdAYEp0Ls=;
-        b=owz6xNVr1Az/q5WaMYJns8gToL8mGfgCv6Zm/Fx8zGNjlz19k1KcwUO47KroDEtI4h
-         qXz5Sb+ZuRho5bSBAv1WpnzGb2OCr3gbCywfBfOLsQRNHNB/D7b3DHd3e2yRDBHzE0cb
-         rDwFBpUr/gRedD3zuHggIMCzJvGb1aeb6aAfKXcfY8/afhxDtkilZtVxRgXM/BsFf5ag
-         p2Gntyl+FwJrsVMMVgCHFPBgKIXmYzCATVXlg5jiiLZ5gAHfECTIBP2j9QHjyaFQF9DB
-         gOBqiUEAmyl/peQC+GwSuKhcvCvK8cZ2ChkuWeYnMkWaxjXH5pmjYfnQxUZ5QRoJFnT+
-         11aQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW3HQkwQgqsFXQcbVnYG3aN23haOg2qOOoT1DGr32r32a+BmTBQpnHjGIj6978ewcMCfJ4EwAdKVaR6m37f@vger.kernel.org
-X-Gm-Message-State: AOJu0YxZCLyNV2SGFjm5pgmF6sk73NsjyFh0r9uH9Hn9Niv6j6gn7l1N
-	Wt6TrJfltY2/WQq8js6rousxFXPvNQ0kSDS+fDDjAgKfds3Mw1mtEyMTYBtqhN3n8mEHMkKwm4w
-	fUvUKq2sz8fVE37GwLRI9o4Xo2Ng1DuGPdpdrHWoopw==
-X-Gm-Gg: AeBDieusRY3t08dqhI+Wbf80h1fJ+ix4Frtp382xmE928f/vKmtNofjEjnd8VkkbteY
-	jJrF35lP4jVkagIfNwfKnpAsKc0mDg+KniPu9GuI4xD5xgYEmqhjNqArdy1ewDa/Qs1duvhO0jz
-	lbEP5NyindBsbvGJBr3WHOJrUv45Z0R7JwGs83jEqpJLMhk3ogqojJ9ySEqptscrEDz/y6f1H5g
-	xYkx0jthLcjZQvlFifvddM/Ls0IGr/PjMYTy3o3NmuDrXHRfIOOdk5Q2HH8kXEw24JgHKwZToMS
-	gYiIJlqdKh1NfM4svs0rRduxKdWlkms1i9C0
-X-Received: by 2002:a17:907:c002:b0:b97:f22f:43c3 with SMTP id
- a640c23a62f3a-b9c67951924mr190315866b.31.1775239992468; Fri, 03 Apr 2026
- 11:13:12 -0700 (PDT)
+        bh=BcQp0WcNZ0PCDcShN13d1pqEe9vllKLQaSeRD6IaKDM=;
+        b=ZFN1zabSV6228NYZjtc+RbgbUyhBr/DJiDX3rw/BPR4H4pfoqGdeP64U6YCDfwvnEX
+         Vx5dOAkffDzLYDj/vKrwOmlTiUpYPR5G+CYgRqosrveHBCtQMuireeuNCYoiVRY1Bwq8
+         r9ZT0ZFK4vgSJrkjuSR+02aaDoVNFHjryZssVAqCURh5rY7hxciUDtVbBELRUb9taJPS
+         b0O0oaMvHQVvb/MKkEfW6SvwRb9WjBONpfAuVzKd5kABfFQ4z8DxQZO2cCnrlIaZ1ZGD
+         WBoOimc6gI3xBUkYv2hMDcbdznIAFDYjt7t5Chru9lXp9/Elj2qt3XYWZKTGYV/1y4gV
+         Jt1g==
+X-Forwarded-Encrypted: i=1; AJvYcCV2Um0M4fGiGHH1SefDQ3E3DHkberkcgQvSSeUQgon3N2XQvOTx06nXz3+lpMZbTiaBE/TDoNJJGEnm8LWp@vger.kernel.org
+X-Gm-Message-State: AOJu0YzA/xKRFFzZadZ4AD0Cz3wFohyyAjeZkFaaF234Pg2bwrOwenZf
+	nP/AWLBp/YiXmbdIprWpJI8Yw+QLVLbjygVFA/cT8pehsDj4HefjG1QwyL8/5SrWJedFcVYAb8X
+	AHpci1ssk2cGgtkevOK1ayGPa5MTmnjc=
+X-Gm-Gg: ATEYQzx64qFAymwjcfmSgjlT9As0Nu7FRnVmQZU8iwp91aa3aTg96G7xz4h7H7NFSGX
+	XEtMeJ4w46vj5EdwIYZwGm/IEaqicwXTedoioIe5KCwAC3Si8uOc/eVdBYdmopRwMzVUPgpOW1l
+	/Ge6KgpSMkYbF0h0wnrug0ErAvmWl8dEAkW7cCHfqRoGJAD64EbJxCx+Eqe2SsWPEuS8tgr6I3f
+	OjjKNIwu7xaJYZBHdJzDvZHYgupyfwyUMNOnGe5J4VDyDp/dUYs/trHKo5qnz7GSEL//gAuHEU3
+	oPABPVjefC2CNl3H
+X-Received: by 2002:a05:600c:638e:b0:47e:e48b:506d with SMTP id
+ 5b1f17b1804b1-488997b21f4mr64333835e9.16.1775242861201; Fri, 03 Apr 2026
+ 12:01:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260401205613.2095623-1-max.kellermann@ionos.com>
- <dc807d60a59d18dca7a14256285b1cfdeb13d907.camel@redhat.com>
- <CAKPOu+9FvR-ZdhcQc-+KzVMgobCkrJpzEsJis2ekuz0zwC_qZQ@mail.gmail.com> <ff8929f3cc1ceb1fef43f292c9c5926a25d8336a.camel@redhat.com>
-In-Reply-To: <ff8929f3cc1ceb1fef43f292c9c5926a25d8336a.camel@redhat.com>
-From: Max Kellermann <max.kellermann@ionos.com>
-Date: Fri, 3 Apr 2026 20:13:01 +0200
-X-Gm-Features: AQROBzCml0wejgS8KWhp_lEvInrGoAcd3uhJWZZ3HEky3MQRfu_mu4yL7bGyHI4
-Message-ID: <CAKPOu+_ghf7cw8zT2K-hyKhdWiFaQss2jFQ-JsUUPBU0MmSFfQ@mail.gmail.com>
-Subject: Re: [PATCH] ceph: do not fill fscache for RWF_DONTCACHE writeback
-To: Viacheslav Dubeyko <vdubeyko@redhat.com>
-Cc: idryomov@gmail.com, amarkuze@redhat.com, ceph-devel@vger.kernel.org, 
-	dhowells@redhat.com, pc@manguebit.org, netfs@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260403035752.20206-1-liwang@kylinos.cn>
+In-Reply-To: <20260403035752.20206-1-liwang@kylinos.cn>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Fri, 3 Apr 2026 12:00:48 -0700
+X-Gm-Features: AQROBzAhMEZUqaVgUeuxANXR729kYCmPNNLZTU4JVW8UuGEhkPttrC-3jiBed5o
+Message-ID: <CAJnrk1b2w5gstgDq9x9ssp+03k0xSexoBH8YyWbb82QXS2rk1g@mail.gmail.com>
+Subject: Re: [PATCH v2] fuse: Send FORGET over io_uring when ring is ready
+To: Li Wang <liwang@kylinos.cn>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Bernd Schubert <bernd@bsbernd.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 3, 2026 at 7:18=E2=80=AFPM Viacheslav Dubeyko <vdubeyko@redhat.=
-com> wrote:
-> Why the offset is not good enough?
+On Thu, Apr 2, 2026 at 8:58=E2=80=AFPM Li Wang <liwang@kylinos.cn> wrote:
+>
 
-Because the "offset" variable tracks the whole write, including the
-folios that are supposed to be omitted from the fscache.
+Hi Li,
 
---=20
-Max Kellermann
-Principal Architect
-Hosting Technology
+Thanks for your work on this.
 
-cm4all | Im Mediapark 6a | 50670 K=C3=B6ln | Germany
-General information about the company can be found here:
-https://www.cm4all.com/impressum
-A member of the IONOS Group
+> Once the FUSE io_uring is registered and marked ready, most request
+> types are delivered through io_uring, while FORGET notifications were sti=
+ll
+> queued with fuse_dev_queue_forget() and only consumed through the legacy
+> path on /dev/fuse.
+>
+> Deliver single FORGET operations through fuse_uring_queue_fuse_req() when
+> the ring is ready. Otherwise, fall back to the legacy forget list path so
+> behavior matches the previous implementation.
+
+I don't think routing forgets through fuse_uring_queue_fuse_req()
+alone is sufficient. Forgets are one-way and the server does not reply
+to them, which is a problem for fuse over io-uring because the server
+must submit a completion sqe to reuse the ring entry for future
+requests. To support forget requests, I think you will also have to
+add
+
+a) on the libfuse side, submit completion sqes for forget requests
+b) on the kernel side, keep forget requests on the processing queue
+instead of ending them immediately so that when the kernel gets the
+completion sqe for the forget request, it can find the corresponding
+entry for it and recycle the entry back to the available queue so it
+can be used for future requests
+c) gate this behind a feature or config flag to resolve any
+incompatibilities between older versions of libfuse and newer versions
+of the kernel
+
+For c) I think it's cleaner to pass this as a flag during registration
+time, but it'd be imo preferable if there was just one generic flag
+for requests that had no-op reply expectations, so I think it'd be
+ideal if the code for sending interrupts over io-uring was also
+included in this series so they could land together and be gated on
+the same flag.
+
+Forgets are also prioritized over regular pending requests for
+dispatching to the server, so this priority should ideally be
+preserved in the fuse io-uring path as well.
+
+Thanks,
+Joanne
