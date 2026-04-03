@@ -1,178 +1,170 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx08-001d1705.pphosted.com (mx08-001d1705.pphosted.com [185.183.30.70])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D54A63947BD
-	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Apr 2026 09:46:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAFCE3451B2;
+	Fri,  3 Apr 2026 10:08:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=185.183.30.70
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775209618; cv=pass; b=aLcy9PjYdMAVmV7S+UmVew0k82sDdhPbq6zJG9mk90A9gXIhz/ZUz0rN0VD+ZJaLNmB7BPsa4s8lQxC/7joRawPbXbf0TDRwA2rFcdRQQ0ic5gup6VR5cETWMLHbJNNBCP3bcZtGXjSZ7XljJR8n7oYnTggxoSXUAbfoaLFQFuo=
+	t=1775210925; cv=fail; b=DtB8VckPuBmvEnWdemNtx9CDroRo1sIRTYzqW03jrhLMZ20tIx3hn3fuNNyKMuJbFpm7XptkaBj5moXqyliHHUXRfdiorrcLNKnKuYorA2GlCo0sBV4Gx/R2UMaqSEWaZRlIe1qkOj+VQuuZu3EtsMBzbUkw1SKMBrAjvt3eQUE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775209618; c=relaxed/simple;
-	bh=FUOw5QmAJq0ii8wMmJRsu6EuuCK/CA7uZXPEgxwrJ5Y=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GcQnbgXfVBVw275cs6vEv6IRxi4q6R7wUJct31Wq9whOreIW/uJ1islrNHd3vt6SsSWNURf9KPtfbmTLuj3tjGoe0iXGHxK/uVTa64ji07KiQhJOD45WOFnurCJSh0gUrwEM4MEsA8I2bwxTxQKXk5GNAX+WVG5b6i35z3OZ7QU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jotschi.de; spf=none smtp.mailfrom=jotschi.de; dkim=pass (2048-bit key) header.d=jotschi-de.20251104.gappssmtp.com header.i=@jotschi-de.20251104.gappssmtp.com header.b=YW/7MeCo; arc=pass smtp.client-ip=209.85.216.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jotschi.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=jotschi.de
+	s=arc-20240116; t=1775210925; c=relaxed/simple;
+	bh=z8kLbH1cZrdnZHPnAmEc8mZDJDoh62192MBl9rrxOqs=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=kDZKYtWZysme7zmfjgT1Ep6S87wFqgBD9TjNosgYIY78oqw1sbb0NU6Cou8MXZ/F/fL0BiL119Dsz7xQHI1s9aZTNn+PGVXwFIrV2OZ0HHOxvx972iegxWtWTwqftVNeSZUAS7eQJiOq8hKp2WMFlaov97pqBVoPqmKSbGUXZVQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=pass smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=TdJo7Wko; arc=fail smtp.client-ip=185.183.30.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sony.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jotschi-de.20251104.gappssmtp.com header.i=@jotschi-de.20251104.gappssmtp.com header.b="YW/7MeCo"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-356337f058aso951730a91.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 03 Apr 2026 02:46:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775209615; cv=none;
-        d=google.com; s=arc-20240605;
-        b=CvKze4PwLqDCJZ4h7vhiHOW23+stkWBYD2f/oaDUW9yGM0FptvlJOXgphm14vuyMtl
-         05AZRUydAcOeNfNbKdkCgcurwq9VKYuoEFQxau5AErnb00F8KOgtM3Ap03VkqxRpWq+T
-         sIIl7tjIdnJmIdjyaWTIVDiOE4x4Qnqo+QnPt/3uFYXAYgv22frn1MbsI6ntFw4UX2O0
-         br4G0FXizaBH+mmsCG+e1CtwbxoAlYWOYDyaFLifBZPd3zJ/b/5h+aQc4LygMQSov8XD
-         aYb0+DAbC0xDis3qwcOCu3OszrLNsCDUAIcYmQC8TOwiN7S3J1DFs73m0fxKKaCshnBh
-         S7Tg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=FUOw5QmAJq0ii8wMmJRsu6EuuCK/CA7uZXPEgxwrJ5Y=;
-        fh=7PG5wfX+6yXe9e6/WadRwmDmQq1n6wstNi4z3pu4Ga8=;
-        b=AA56J+wvARiZ9QJAMPDmH2T9gI3hhBXJxqDXFDwFmyXIYHGuwg8INNoMZ4PvYdEDln
-         M7BV1ncU5ew4fskGqKBFcjQoVMoUpFZYapUU5BuIs3nU3EyptYsWgW5Injsx6VLPZ9kF
-         29eRl10CfV3veFwQ245ikiR+mAndXa9V+ACuZ1qxCvebQzTTnD2gqZ8HOmU1f9sBPLf3
-         4xDfJeB//+Mmu+1qKrAJb0UptGFONsvl798FgpPcSt55AT7IbPIrOdhz94J89Iq80iJ7
-         Y//aepfD3RdLuii2CfCOurIKh/GbFBNeLF5RjUfg2W9wxvXq+4Foii/Q9VZA9PWvboef
-         B7Kg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jotschi-de.20251104.gappssmtp.com; s=20251104; t=1775209615; x=1775814415; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=FUOw5QmAJq0ii8wMmJRsu6EuuCK/CA7uZXPEgxwrJ5Y=;
-        b=YW/7MeCoC5LU53sqlylyBPX5BxLYMKcwmeXZ8EqE3LUvT9OrgqSBRz0eJED0f4E9uK
-         A0+L8D3APOXJirSFO2EGSAnhV14nkER4iUItwcHjpGQWoIYZIq005qmfhPoD350t6ANB
-         1bm97LNIzmjXEPPtlV+rK+MQ2IAOxDM35rSJwjaLJmrIWXCJWsQzFs4kVDzfsZ4WGadB
-         U8CKQoV8pz5MOrXj0FhKsBeRZz/wb6WXeAEnpFFnJe4Uveu1tVkHrJPWAH+FU7h6XcFM
-         Gj4kj+krbuqP5mJvupF2QAvebBw9cZvY5+3fY2uFw7v95SX3Iac3H+zmbkNDzUScBbKh
-         BRaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775209615; x=1775814415;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FUOw5QmAJq0ii8wMmJRsu6EuuCK/CA7uZXPEgxwrJ5Y=;
-        b=tPg4Wown0Sw+2SD6f1LS5xZPO3uqRT2YxvMUqwQ+Qt3Fl9tPjfrD3LmLxNUbTe4vru
-         oZW2+EdOTiaTgM3jlKwwh2ny8C6EfgEFHrbjjSYY718mTFaHZMMHhdyYRxWEgK9awkZ+
-         Yp7L9WwMKKC4B3X0k0qUYZRTrVzrXgU6eYhS3kmj/uzeNP7hdAqLw8ibuL40YacnpI5C
-         yrdO3l06ofpEj7260aa/1Cjy1UQfhFKFs2Wf/eN0Y3ZEkv4Qw1I1ttq+he3oYJoq0ph2
-         79YYaYtv3lSqScCpncUCIRKcUFUaKzsa+PTRJhzdUWrvKAqVai+W4GyVylhQhzC/Wywb
-         OlpQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXUAcjVcJKlBt49dp0AfW0NEYGsX0fwtoBe0RQkjeOpOxvxin/iF2pMznDzRkgzXekOJjascdNAcS/gg5NV@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy2dtQhPcRWI9++2JVO1c/pyvF5RKZMRQbzpRbhi+jR6otfrZsF
-	shl0g/9kFMHbLB6WnF9SylXXp5jBSXZP235JfMbPy9EVvP8fecySpUYPJSJ/+7Ui3QWLZbHpijc
-	wuXbfolA4uySzc9U+wCJeR3l0bhnxHFv7UtuxF8AL
-X-Gm-Gg: AeBDiesFVy09gGJ98KsA62cFSD9NB7SXtS/JFchgAdkL9e7ZO1KUGLMFXcX42/lqGn/
-	Bsal042KS7xrtBNAyoNlglriMPDEEBZxB+6g6NcZ0xAvw6llcdhalKBO4yw9YkCXHN7wFlG0MYn
-	S1Pr3smf0yEaEMAvHY75kxLZzsy2Woez9CJdBhaKbC9cqROZjIZgmGlBReMefwfAtVoYiFbAcZw
-	4F/DiVdUyN6Ap8zjlcGqqSUZWCrCP4SXDxP1+Zdx8r+NTyvJ+7XgUMhflQapcdvyYufS/PG/l7y
-	Qp+oZTPMXzOQZkoC
-X-Received: by 2002:a17:90b:3f08:b0:35d:997c:8eb8 with SMTP id
- 98e67ed59e1d1-35de697d01bmr1991531a91.24.1775209614954; Fri, 03 Apr 2026
- 02:46:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="TdJo7Wko"
+Received: from pps.filterd (m0209318.ppops.net [127.0.0.1])
+	by mx08-001d1705.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 633A0N20069768;
+	Fri, 3 Apr 2026 10:08:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sony.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=p1; bh=z8kLbH1
+	cZrdnZHPnAmEc8mZDJDoh62192MBl9rrxOqs=; b=TdJo7WkoMVOJwnQW1xaAw07
+	6XCpulSEtpEcONYMW3YXZtC70Aw25X/U403FzJdAeqKHC0LMFz1ajyIKtO4fev5H
+	q11KEgM6KxSrf0ooThK9klPk0SWlt3UJhHh8BYEJRXNGZKKrGDIJIi26kwfm5a+w
+	16iygzjNyn1X9+wQoRBMxumBRq+ha5JzUIs0R8fvYPbTKswZU4L94lplCh/c0+Uc
+	PIjys1jpED4qdgVQTW5PIHbeI3y6p/F/G/1Zkt9hAiC0tq4DY68mjTbKt0Ifn5YT
+	xPMjYa/FnDBZaA4PBsHw7g2+Nmx22TBqvJxZdSc0SozR5L7Z0fDWF8V85drrRVg=
+	=
+Received: from typpr03cu001.outbound.protection.outlook.com (mail-japaneastazon11012046.outbound.protection.outlook.com [52.101.126.46])
+	by mx08-001d1705.pphosted.com (PPS) with ESMTPS id 4d65j1ff1t-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
+	Fri, 03 Apr 2026 10:08:07 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bzIokU4Tf+98ZqlHeVZl/JIkRG+2P/TMmDmWhHJrxrtKQVyeswA4I5qh6/TxJL+ixzikSsUtJrMPXU4fHTw/SYJ84S9GrHH2fLpfeh0ftUfrs5wtohEBsXpEDkuBJ7CaFCxz9KlRf+EUf/3iyCNTa4MKhA75ciNq3aug4d0B3XIxdnq8/vkHu/Q7VXqDaDS1tr4BzTdux5CxV9iA0I9T2T5NO4R6/4vgsJjus4xPiRSKuCgaKbOjanS+4CT7xebOk+TOEHLpdcNGjQbt8kQIKvJWl1oPRO/3xOeMza4GNd49cj2nRydcT78t2CvfDSTVqFrKfQxxwMeSTcK17o6p/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=z8kLbH1cZrdnZHPnAmEc8mZDJDoh62192MBl9rrxOqs=;
+ b=QaSeBqHDgCMhbsKk6IxyHdKBNWJUcP2OqCZcu6OeW53V6JxhGauj4rtRNj7qRZfjWTIpwBxBzniuU34o1PLxFJO4o2Iq7fWsBI+muobZ+7wZFi4pyQ+5Tguyvcf/CubtMp13z8zNCTUg5BYSiPwVc4R3jF8PhBiDBg2dqaBRaXh+6u1HH00Yw7WckrcuqmBw3VgbF/oMXfeWsZVpuSVf35O4wUJFp3nHOXJNzPNH/qj9oPwsljphae3asaNjPpP/RA3G9wE2o2NZ78fuW03OmttcFq6/1o8TiWgoFTptb7DsFvyelJAeyTwTyfqtil1JmaZAXGc9Othc2RYe2fEsDw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=sony.com; dmarc=pass action=none header.from=sony.com;
+ dkim=pass header.d=sony.com; arc=none
+Received: from PUZPR04MB6316.apcprd04.prod.outlook.com (2603:1096:301:fc::7)
+ by TYZPR04MB7205.apcprd04.prod.outlook.com (2603:1096:400:45a::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.18; Fri, 3 Apr
+ 2026 10:08:00 +0000
+Received: from PUZPR04MB6316.apcprd04.prod.outlook.com
+ ([fe80::a631:6b1a:332c:831c]) by PUZPR04MB6316.apcprd04.prod.outlook.com
+ ([fe80::a631:6b1a:332c:831c%4]) with mapi id 15.20.9769.016; Fri, 3 Apr 2026
+ 10:07:59 +0000
+From: "Yuezhang.Mo@sony.com" <Yuezhang.Mo@sony.com>
+To: Chi Zhiling <chizhiling@163.com>, Namjae Jeon <linkinjeon@kernel.org>,
+        Sungjong Seo <sj1557.seo@samsung.com>
+CC: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Chi Zhiling
+	<chizhiling@kylinos.cn>
+Subject: Re: [PATCH v3 0/6] exfat: unify FAT chain walking helpers
+Thread-Topic: [PATCH v3 0/6] exfat: unify FAT chain walking helpers
+Thread-Index: AQHcw0DUgj3/mUiWoESoEexAFYm/t7XNGtG2
+Date: Fri, 3 Apr 2026 10:07:59 +0000
+Message-ID:
+ <PUZPR04MB6316CB848747D5E1520D3FFD815EA@PUZPR04MB6316.apcprd04.prod.outlook.com>
+References: <20260403080538.361663-1-chizhiling@163.com>
+In-Reply-To: <20260403080538.361663-1-chizhiling@163.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PUZPR04MB6316:EE_|TYZPR04MB7205:EE_
+x-ms-office365-filtering-correlation-id: fd7695c5-d530-4232-a62d-08de9168e29f
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|376014|10070799003|366016|1800799024|38070700021|18002099003|22082099003|56012099003;
+x-microsoft-antispam-message-info:
+ 7x34r3gT/ejSE+SH1ugEO5/B+v0wE5oSKmwDwBcT2fbBoV4bmFBYWJNarCNBW+nT0+PKjciroRZ128PpH1G0oY/PFP12+tFFo3+60U6dgnaaSiCv336xpiKvA//19Ql4UcogyarZQ/xY7XoFRWaXVpFNMw4fBFaZZG4Z3CaJiFkQZ8trmdR94QMvoovp0Hkc76exhwFWqbkEKDCCjKnLbrvnRDRYOMBST2IEIw/23p93wwzoxQMC4cc7h5W7xxzad+yxchb5HZvbGTsy+RYcFoPlQbHED7cdbssM1k2oxSONxpfSZT9+q86IakCnM4cPTl35TvHy+b6qfi4GlFDVK6mcrO333HtLz53B90bTiDqShfzABCOGM43kNB8Fd02kFhw01SFNoTkxJP9TKxZ2KjgDNyaWqFCneU2OpWMJYgnXi7QoQM/k/FWu5gIYPJ2shU+wS19eIx2cXQT8RVn6Y9xHhS2RAHWc6Ge/5dEYIx+Fr4xp8I67aPSmM4yKKxx8L9S+JJbDP6BrEXpFrq9NMNvCt+gyUvkpHFntCesGQwjDHkWowKQwRTB02qLYic30iBk75vp338SVDHqHqH8b8rsptqeftzyqprOZfW9Er2/MgXn0PmaM0QY/cR3VCiVCONCxiKBK78FAT8s3kXuNN1QVkYGs3CmY74RraEHHnPpqnxbQnLpheO+3HEtEekxrxbnkmkGFVZ+cJJsunRSAwjLwCGRbBEIgdOEBfFVx5A0/zBCYtIARMqZFG1oPuxqNZz1DerEObDsFSizI7MVDcnPfrCqKd30TvColyXChEig=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PUZPR04MB6316.apcprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(10070799003)(366016)(1800799024)(38070700021)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?Vd10sKoUTvZELo3H2BDo9/hHdzIpnSWXYqAG3FOGM6b+aIuFIx1lRXxtes?=
+ =?iso-8859-1?Q?nXRDtmfUD+BPTEL5wuZKeyhE9AXpm/jvGbIDsz6xyvadjU6XTl3i5qzOn5?=
+ =?iso-8859-1?Q?mPhjQsAf1tCZ5d6lTVhPrUPchMld6jrB3UPqS5pa2KQhI8b0WpnssxB0P5?=
+ =?iso-8859-1?Q?wIu2Nsi/EVa2STw1lWgq+ZH9pTMosgDITH3IY6OcG26h5eQECHXxQarbWe?=
+ =?iso-8859-1?Q?Sw3n172jNlMWKHNSK2JyZwniv9687i3u8otf5T11cYaFW7P20TDx3WJ6ve?=
+ =?iso-8859-1?Q?W1U+ogH4ToDF1eeQI/DjGiyNT3XbKcDvuxZAyhArNlBeGoJr14X92m4vD5?=
+ =?iso-8859-1?Q?d2QNrqs1SV7GGTmpc7hvWVzSpj7VIPdNvlOzaC0R30RL6FwP9FdYtaMW6P?=
+ =?iso-8859-1?Q?RxdJvvFAmxRFaHhlW4Bx/9IeJPvMthwcvcvoE3EXyuMJppl0qUeQoxrNPF?=
+ =?iso-8859-1?Q?WvZm3+KLnGpTyIaKweznocLmz9SuHA0mm3RX6GPaITdFU9l5wI+BA4rPmk?=
+ =?iso-8859-1?Q?4zgmE5uhC9okDEkEq4uaWacAfoeT2z6UK/wFSdeddAptlUvbXiizrEv4Pm?=
+ =?iso-8859-1?Q?Tw0IG3bGnJqd8/eI6HuKpjep7V96QCXnvSHLbUzCQ0aQXRt+WpnY1KoWOn?=
+ =?iso-8859-1?Q?dUzTjyi7GzOFTXMhJAkWJl97deFKxWVYRv4FFmUgNs0/e/8km8BFZTc0Wk?=
+ =?iso-8859-1?Q?xzLvJn/rek5gKnDt6FWVxus+EOU4f/FllVbAj15DAgWheGJjXx+U5OxexT?=
+ =?iso-8859-1?Q?Tq8LBtvsYUJsOKDOI8rAaKl+iThd8KwqA2mV15fdFBTui9D+gzUqiksJuJ?=
+ =?iso-8859-1?Q?Acm84RwEBGc7fKCiURWUzMpNWdKBFsRUbjC84R7mrOW1ku11RWdlScaIaI?=
+ =?iso-8859-1?Q?FMdVniQ02DLNyDOCDSTwOCayurlfeh9Dxf7XmSfT/uP6RgubYqnDUjnTLG?=
+ =?iso-8859-1?Q?soQ6snIf3RAgpdPHYc2HuTGB6k3oyKSXmX+IFNRmz+f7l65E8ZEN5fyB3S?=
+ =?iso-8859-1?Q?7PXdEjPdUp51z5FhxaH6fdMDHavD28oxwsAiwjDIPsoCKmxCN5vc83d3+V?=
+ =?iso-8859-1?Q?eRu2Tpb7VOf95v3yOx9rfqY++KCU6RAa2ix/wQmIQQE362uLdcEvRKeHD9?=
+ =?iso-8859-1?Q?K3Tlhsxp98nNsiF4w2COwE3Tm5Oyal3cYRaoe6DtGmEgV0QetvpZeTm0uU?=
+ =?iso-8859-1?Q?y98uMjaY0ZNcp8q6lYgwcP6TwccloDTddmvNbR3EbudrLrEVg6zY/7fr9M?=
+ =?iso-8859-1?Q?8JrF6cYz5POOAHf0Bl/W/28pXew8osE/qzhfhrrWqDpVBMsZXJsklZsB+Y?=
+ =?iso-8859-1?Q?//MFLuo2wJXWLe8Fx7k63+5RVOwvDYq/Cf3yCrHmEq8rZkjp8az1iDHxZx?=
+ =?iso-8859-1?Q?dfnJZ0I2Udb7NXx6wHZkLJTMV3UrWc6PFvniKN5zbOMre6l/eF4nXmWKAX?=
+ =?iso-8859-1?Q?RruaoPH6GBm3KjOTqr+JsnSqtKhvu3cGDweMvGksH8gSFGYcnk459zdQCZ?=
+ =?iso-8859-1?Q?p8MdQW8k4wPs5XvbxbIvS+ozuo5UKifJvhcQEJXdTpqtg8+XBqUsN2RC+l?=
+ =?iso-8859-1?Q?+Xi4pO6/y7UV5BJLyLEzGleUXmZeu5gCkCw6yk+jeX0nEqOMe3XqKzvd4Y?=
+ =?iso-8859-1?Q?aCm5spT23krhcfJdwXAvl3FSk8wbbzadkv61JC4/xNsbNtCmpc35pW1tho?=
+ =?iso-8859-1?Q?5N+ugW2RuICIE0yE0DBYw2tQKlBSFQeLWkpoBhQsOrWNkPFnmu5hrfaIgQ?=
+ =?iso-8859-1?Q?aGULvYHqjDwXqSYaSW+WvVh7o1hs9HjDjKnL2w6otkbVGSxIZaO885VXiY?=
+ =?iso-8859-1?Q?uAC79ikzyDJt+tH6lNXJddvYi8sLt2A=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <32Xtx4IaYj8nhPIXtt0gPimTRQy4RNjzmsqI1vQB1YBpRes0TEgu6zVzWbBEcn2U6ZxB14BD9vakmezNyhdXDt3CVGO8WYGxHSZZ1qtQVy8=@spawn.link>
- <8f5bb04853073dc620b5a6ebc116942a9b0a2b5c.camel@kernel.org> <e5-exnk0NS5Bsw0Ir_wplkePzOzCUPSsez9oqF7OVAAq3DASvNJ62B9EuQbvIqHitDgxtVnu74QYDYVEQ8rCCU74p4YupWxaKZNN34EPKUY=@spawn.link>
-In-Reply-To: <e5-exnk0NS5Bsw0Ir_wplkePzOzCUPSsez9oqF7OVAAq3DASvNJ62B9EuQbvIqHitDgxtVnu74QYDYVEQ8rCCU74p4YupWxaKZNN34EPKUY=@spawn.link>
-From: =?UTF-8?Q?Johannes_Sch=C3=BCth?= <j.schueth@jotschi.de>
-Date: Fri, 3 Apr 2026 11:46:43 +0200
-X-Gm-Features: AQROBzCj3jnypGq0B4RJQclKy6naKB4OfdMyHseNUoPC566jlmaEdgZmMgYanjY
-Message-ID: <CA+zj3DLdxpqcoiyi7j+WKZ4nJOA6RfX4LRRoizGaJnNAruPY6w@mail.gmail.com>
-Subject: Re: NFSv4 + FUSE xattr user namespace regression/change?
-To: Antonio SJ Musumeci <trapexit@spawn.link>
-Cc: Trond Myklebust <trondmy@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	"gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>, Miklos Szeredi <miklos@szeredi.hu>
-Content-Type: multipart/mixed; boundary="000000000000807cdb064e8b3273"
+X-Exchange-RoutingPolicyChecked:
+	t7Fg0SVG6kXOlmdaY4nIvab6WQl6+FKD0dtxqzsGwXmK93DKwxfxTKJvbWZ6J9miAqKX53611QzeHCtULBO71cYgv4u/SQnT/M2Wdf7stKGHXpP7mrdPnSkt1M8rgs60yr7Syx1skih32Jbwlir94OjWkFX3eF6QnIdQpXUMQ1AIRFLhMQFFdtlzfNhrzZxxdyJdj5/MNqYqz74aa83fJL503lW4eMwu1tF0JV7ShwtefQId/HOJ6VWvl5a2cnCwDEzPBrLDIQj7HKMkrP5OkwnsHEE3xnhmZPviA5RTC4eiRyC66O1Et2mv25UWzMymElD2yot4m7690CTxvJVY+Q==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	p7J0KouJfMDOZMlB/986tiRP0d5xixeF5a1S/CN9JC+SjiE0QkqBOMQ8NVp4hZ5Wn6xZyY7lSqI8PDsJqQpUHDynnG408MkdQpBF4kuO9HLpqqKHwMqLQn3rFH4G+EVfnjGU9+Jqr/pC2i8rvM1K8wFgD83zvGnDbjhRAS6nOxGikeiv0M7haqkSkwK1/2Yw3OH9L7FxMCBK/eQeZbhYIDZ0MFgD2rS3hY2HN3h32YnrfJuJW0T5VGC3K44KoWBnnsuh2zwG1if3M2JHZMSr/3LJf+J6787aqoJGcoHQNu7vvdie4vRs0IjIRw9h4Nc2akDHYHAfRXKvQwzWpsWQJ1/Na2jyBAxInmPnB1JAxNQyPXPba85DCb2jp73sUEfy0UhkodMiZi7nO5qCta0DW9mvqy2AU/lkzh90GT5v/xyOicHM/Rvjb3axAnaOTUZHDTBA0KZY/LlEuqnmUDSDXEPLiUfdqCvRX5oXuk1fRkhdAGBoj545As1W1cxmzwZyXS33G+1F2sGpK8NKAOmyJBbfT0Xo6Dm8u5Q5Uv6bOZ+HEuc6NxnT5TOmgGq9v9FArSaIRrDwnLQjgA4KQc9ulSW9HFvotEl1P5PAgSAU/lORH393edQsKkbYm9C43ryq
+X-OriginatorOrg: sony.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PUZPR04MB6316.apcprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fd7695c5-d530-4232-a62d-08de9168e29f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Apr 2026 10:07:59.7816
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 66c65d8a-9158-4521-a2d8-664963db48e4
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: LzIpLgGmF1F6isj9ymTjUiFW8rs6W7tBJPZO5Auc+PA5aP/3XyMJl1iCGrSShFhKlFxhihbi28KPQM5UZeSwRw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR04MB7205
+X-Proofpoint-ORIG-GUID: tDC6EC2Gkb05MoFIEJhWfxLDa1GYDMpS
+X-Authority-Analysis: v=2.4 cv=eLEeTXp1 c=1 sm=1 tr=0 ts=69cf9187 cx=c_pps
+ a=pIYr9hYmT/mvZOnNJbaFUg==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
+ a=A5OVakUREuEA:10 a=7j0FZ4iXMVMA:10 a=xR56lInIT_wA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=KAb5x4SsHD3PzxGk7EmX:22 a=XGr2FpfLDd2dUKU_94WB:22
+ a=z6gsHLkEAAAA:8 a=azEX5703NOKUl-qZ2UIA:9 a=wPNLvfGTeEIA:10 a=hjbc2OpvlusA:10
+X-Proofpoint-GUID: tDC6EC2Gkb05MoFIEJhWfxLDa1GYDMpS
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDAzMDA4OSBTYWx0ZWRfX8A3BitN19tIA
+ 3OvTXln7VWNXipi0AE8Q57kTYbCqYtR1/6mcnXSlkK01wuKBcmwjaIELY3MtJ05ZZjkrJMJHjYu
+ /1WGZyrUMmnPcjzG563R3NpdH+S6zPPx8p4vxb1ydNKmSWvnJQqK0El7xa9GFLrJZyC2IjVrUgD
+ DYR4n+sB0mUmK8snLU1qowX4Ih6n/pNU/LFHEkexDtLm/5TvlizPh+SsbRyUHmk+XAo9JNmZSpG
+ 3zfa19w4X7PsA7nwFZFofYRJwxkh6XzbRRCtlIn62pT+lt4MoEVf1Ya6NoqDyxRC720UbPo00p3
+ jpuv9yaazAhLW3I71sQnH842fHOi0zirkBaJy9TAzDSrCC8n3pqqZBH089gZfkMqazrMm060bg+
+ pLeeuhf0IM15B1xyiNtc+bJEE6tyi580gJSlE/UbXQgw10xShwUpWIRwyzK9F7pcZgafXKJUAgp
+ nlt02wmHni89NU42WxA==
+X-Sony-Outbound-GUID: tDC6EC2Gkb05MoFIEJhWfxLDa1GYDMpS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-03_03,2026-04-03_01,2025-10-01_01
 
---000000000000807cdb064e8b3273
-Content-Type: text/plain; charset="UTF-8"
-
->
-> The user (cc'ed) said they have tested numerous recent releases including 6.18.5 (on both client and server.)
->
->
->
-> On Wednesday, January 14th, 2026 at 1:27 PM, Trond Myklebust <trondmy@kernel.org> wrote:
->
-> >
-> >
-> > On Wed, 2026-01-14 at 19:18 +0000, Antonio SJ Musumeci wrote:
-> >
-> > > You don't often get email from trapexit@spawn.link.
-> > > Learn why this is important
-> > >
-> > > Forgive me but I've not had the chance to investigate this in detail
-> > > but according to a user of mine[0] after a commit[1] between 6.15.10
-> > > and 6.15.11 user namespaced xattr requests now return EOPNOSUPP when
-> > > the FUSE filesystem is exported via NFS. It was replicated with other
-> > > FUSE filesystems.
-> > >
-> > > Was this intentional? If "yes", what would be the proper way to
-> > > support this?
-> > >
-> > > -Antonio
-> > >
-> > > [0] https://github.com/trapexit/mergerfs/issues/1607
-> > > [1]
-> > > https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/comm
-> > > it/?id=a8ffee4abd8ec9d7a64d394e0306ae64ba139fd2
-> >
-> >
-> > You should upgrade to a newer stable kernel.
-> >
-> > This issue has already been reported and fixed by commit 31f1a960ad1a
-> > ("NFSv4: Don't clear capabilities that won't be reset").
-> >
-> >
-> > --
-> > Trond Myklebust
-> > Linux NFS client maintainer, Hammerspace
-> > trondmy@kernel.org, trond.myklebust@hammerspace.com
-
-I have an update to share on this issue. I used Claude Opus 4.6 to
-analyze the issue. It proposed a patch which I tested on kernel
-v6.19.11 - Using this patch I was able to resolve the NFS / xattr /
-fuse issue for me. I'm not at all familiar with the kernel code base
-and advise to take the information in this mail with caution.
-According to AI did the initial patch from Miklos not work because
-xattr_resolve_name() modifies the prefix and thus the check in
-xattr_supports_user_prefix fails. The patch modifies the check so it
-passes. I'm not in the position to verify the change or judge it in
-any way. But maybe it gives details on why xattr via fuse via NFS is
-currently not working.
-I uploaded a summary AI explanation [0] which contains more details.
-
-Johannes
-
-[0] https://gist.github.com/Jotschi/3aed062a47d14e0fc96f6c730f70f6f6
-
---000000000000807cdb064e8b3273
-Content-Type: text/x-patch; charset="US-ASCII"; name="nfs_xattr_fuse.patch"
-Content-Disposition: attachment; filename="nfs_xattr_fuse.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_mniplabl0>
-X-Attachment-Id: f_mniplabl0
-
-ZGlmZiAtLWdpdCBhL2ZzL3hhdHRyLmMgYi9mcy94YXR0ci5jCmluZGV4IDMyZDQ0NWZiNjBhYS4u
-ZjA5OTFlNDY1OTc0IDEwMDY0NAotLS0gYS9mcy94YXR0ci5jCisrKyBiL2ZzL3hhdHRyLmMKQEAg
-LTE3MSw5ICsxNzEsMTYgQEAgeGF0dHJfc3VwcG9ydHNfdXNlcl9wcmVmaXgoc3RydWN0IGlub2Rl
-ICppbm9kZSkKICAgICAgICB9CiAKICAgICAgICBmb3JfZWFjaF94YXR0cl9oYW5kbGVyKGhhbmRs
-ZXJzLCBoYW5kbGVyKSB7Ci0gICAgICAgICAgICAgICBpZiAoIXN0cm5jbXAoeGF0dHJfcHJlZml4
-KGhhbmRsZXIpLCBYQVRUUl9VU0VSX1BSRUZJWCwKKyAgICAgICAgICAgICAgIGNvbnN0IGNoYXIg
-KnByZWZpeCA9IHhhdHRyX3ByZWZpeChoYW5kbGVyKTsKKworICAgICAgICAgICAgICAgaWYgKCFz
-dHJuY21wKHByZWZpeCwgWEFUVFJfVVNFUl9QUkVGSVgsCiAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgWEFUVFJfVVNFUl9QUkVGSVhfTEVOKSkKICAgICAgICAgICAgICAgICAgICAgICAgcmV0
-dXJuIDA7CisgICAgICAgICAgICAgICAvKiBBIGNhdGNoLWFsbCBoYW5kbGVyIHdpdGggYW4gZW1w
-dHkgcHJlZml4IGhhbmRsZXMgYWxsCisgICAgICAgICAgICAgICAgKiBuYW1lc3BhY2VzIGluY2x1
-ZGluZyAidXNlci4qIi4KKyAgICAgICAgICAgICAgICAqLworICAgICAgICAgICAgICAgaWYgKCEq
-cHJlZml4KQorICAgICAgICAgICAgICAgICByZXR1cm4gMDsKICAgICAgICB9
---000000000000807cdb064e8b3273--
+> Changes in v3:=0A=
+> - rework exfat_chain_advance=0A=
+> - add error handling in exfat_find_location=0A=
+> - misc tweaks=0A=
+=0A=
+Looks good to me.=0A=
+Reviewed-by: Yuezhang Mo <Yuezhang.Mo@sony.com>=0A=
