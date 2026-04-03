@@ -1,74 +1,73 @@
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C2CC285C8B
-	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Apr 2026 23:06:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D417F346A0A
+	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Apr 2026 23:06:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775257584; cv=none; b=TnUL07hCJMXK09M7TQ480M2Qp2VBnSFyDWQikqclbSWtEqz7vUc0OmyaZ63IC2TldJ+biVymA3H530jGuGNjJZrxIYJaxb18rXj0yd9vU3feR0vwqPdTQ1b4DOUFFyEmbLPOgQZ6i5f8r5WJzR/fD5PKiLu69K9a/spOU19//b4=
+	t=1775257585; cv=none; b=gGMkuRXxbvSuctPqyp3w4JmUUbe1RwMNRj0LNVtR6Uswc34l5f3H3KaeUGw16tEaTNdooze4TTvJXWDONxK5UDUCdHxApG9TmPYnw/s4yVDFETcLuWaXQSUg8hwL/OBmVhqqLow3hIEh2WYDS64jE6EeLqsg597/QdcyfBR/yq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775257584; c=relaxed/simple;
-	bh=gT6zffJfAmm6oMkyvmNAyeAClRgSSqWpUSI2XGZ0aPQ=;
+	s=arc-20240116; t=1775257585; c=relaxed/simple;
+	bh=9DHhytlmFZPbA5rA/nWX/whX5kivJ7E9zpxZbHMXH64=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NlM/8nll4mfIoT5OXRZwLHexebF/XRqFpArZBj92M8zPsgNCZaCdWxhl33wmzLiaqEfuWVaRT3kRqhT1gFZdw9ql6PjaTnDjmAF/bZRY4KuSPwXIMNnFlRUYdk4vcjXxX+dZtGiddMN00Mne1yGfQfFAwj7iIUM0QVXyD6+u8d8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=aEuf8Hpi; arc=none smtp.client-ip=209.85.210.44
+	 MIME-Version; b=e9nfmer9wTYEo72/wmOLFXMJsunofEK628HsJkcu9X4/jTGx7Tn34prfurBA9rrx7h0wt7Zwl92opWNql4LqNIH8lpItEiDw7tcM2e7YsL2C1WlhLLjXHr9fv9ke8GxpjWtsnoxdlwKYfXk4yq7ogj9CQxQraVpJxvIymL9Q0nA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=vzTqH9CQ; arc=none smtp.client-ip=209.85.210.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="aEuf8Hpi"
-Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-7d7eb85fb81so2354893a34.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 03 Apr 2026 16:06:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="vzTqH9CQ"
+Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-7d4be94eeacso2218172a34.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 03 Apr 2026 16:06:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1775257581; x=1775862381; darn=vger.kernel.org;
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1775257583; x=1775862383; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=EqCwiuD4CFjZlLKj2xUGoYjSaS5hdmQwkWJOZDtlbRQ=;
-        b=aEuf8Hpi7AYZwrJgvDEQWvAYNEvBnWu2hXUun9pIxP9QAr4Zj8JONRmhUjk0B1unIN
-         sH10PE1rNxMYA6f9O9dd3H1WEmpFFoCor0G7TlwZgLTSQ9xRbVqJhQhQXBpet16m+i/c
-         MzfRpnmScnPU/Z1SfHcXNYCd9+VMqptmaVCoTlYgjHNI3M6wN1K41n+p1BTHbZsm/Y0w
-         8vlv0M0/9JunaaEPr7sMtTEgGBhPip6+kyVLzPIXDue2ADlyv3LoGZ8nXj/dUmxJyOyx
-         crIThP7jOiN1g7JZXYPpaksuhu/kIeiqEmYF/qsygYmqQxMHosg5mbtGeId1YOhzqcNL
-         N+JQ==
+        bh=B9PPh0maDXLsC7m+WkQICUb8JhfAda218dDBMCng+Ps=;
+        b=vzTqH9CQbRGmbzwC+qp972Lpwc3UbGbB3dZ9eRmV10+tX44PGKT24guRWLB0ziLuNt
+         zvZy2fJBAeqOvAGcuZC2AZ9XkKGhcZEH6UC5C8keVlkkw0tjTl9Gs0lUNMd8N79LfBrf
+         h8tITQsX7QZ2zhjZeio+P9xYvvhD2FkaAnRgskunzD7TmbdtIgQWkT50XeIRjWgQe709
+         aVNpPXOFhaOgTYlbV6a2E7zbtzhrKW8aaCnkzAbbGfp56TCafpPFgKEnaDCq+cn3MqjL
+         yQ6sMPM7OOUP3CjNr7KFPwys9um9YgA2pBMfkVBTcOjD5Gdp7fZPQqmnf5UOKxnib2NR
+         OBtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775257581; x=1775862381;
+        d=1e100.net; s=20251104; t=1775257583; x=1775862383;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=EqCwiuD4CFjZlLKj2xUGoYjSaS5hdmQwkWJOZDtlbRQ=;
-        b=TijAVvkMdp/E6ssXFv5+tjIQJ3qSCulhaXwIJVxT5QIk4AfTy6E2DipPstnb8m1rY2
-         8TmUYrrW7iSiIOseanlIyX7BoT7nYORRJAqJ3abutNCmuYnqToATDsGMaj6Ho7QA6++5
-         +BEvN8rAgKzadcN//UQFO96zJe8A3ONV0/6gKmG0GMHT78EeoW1fB4FcKsUXrKN9+X98
-         Jl3EYdzV+8KLwpQi88ATV/CnbkY8PrxoOsnV0Ahj8rpoEQTCn8hGfI+rm53PojiicBbr
-         eFNwK0gKiqTnMhlNexSfknmzHKWrngi7nLJ8mCGtwJI3BuqsfThztJ2DvMO1m3Flq/fb
-         sLpQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVcuoDVD4w+qTadiheiaqUudk6flhHnOmU/b8CHjX+KvcvpW6MBh+RoMIApvXIp2YEpFOgAmUjgdptIunw9@vger.kernel.org
-X-Gm-Message-State: AOJu0YwFYFkfzf9hnnHT2stSCZRw362lNnJDADzgEJ3R5tL5g3eJCWM+
-	/Jxq7Pyde0LS9hs90/mZVMFlnH69j1SQGqWgWqyNHlZJ4BO9RDkV3X5Mi4vfgiV19glG9pUisq3
-	/aIz+4w0=
-X-Gm-Gg: ATEYQzw/c278Jf1vFZHx43T/K5C4un9eVE45Bxp0JFX+MOJ1EJJSmOSdZ7GBNTA/a6v
-	Z42dFG1ISgJcylS+50BF+3D7XspV1KH1mQ0GaHynIw2GxQrzthBcbcq4nL0tukpudXnpBgsN/LJ
-	WFUeluA7xJdJoMLH0YlqULdpRZgmq/txj7J15UeH4Yh4LaDNQSSsZbI8GmhBl/5PUqn3xiFZzTr
-	gteB6++gNzhhmuYLmZf+wWaM/ABqx2VEoWgsi3mPcypKCu+43QzWQnIkTXgOM5ka+gHhAgw9KaK
-	RD9lOoAYyRMa7E9UUiDhFV1QfuyDP28IPxakcu35GSVv5YjkzGOI7sOaQrMMX7mdPxPub8FkxeX
-	TEpWBXfQaLNK/SAhFLfRU0XZTpipsjEm5zx205LQDQq+kd6EzqDVvOQQfLUusfILQzTQpvI+Tw2
-	iKnwvLWpzF51bmgayDtglp579P3e1T6DRC6kFqofgEaTWsXC3UgIHX+L4H801dfXqTBhkPhsGCN
-	5CA6NeLnrRmCmv9vJubvMRh
-X-Received: by 2002:a05:6830:3698:b0:7d9:f50f:96a7 with SMTP id 46e09a7af769-7dbb7576376mr2993069a34.26.1775257581363;
-        Fri, 03 Apr 2026 16:06:21 -0700 (PDT)
+        bh=B9PPh0maDXLsC7m+WkQICUb8JhfAda218dDBMCng+Ps=;
+        b=Ia2QdhZ1DNm84IGb9iezeD9LoK/bWdNxMWuq78ZLh+gCgrF3TyzSoaJWYN+XQKz6kP
+         x9GECIgCMhZB1erd+xakdw6FPIZSDjFCbdauIIcDzssTV+SRm/czQvOR/95GLMg9TKF9
+         UfrcBqfFGSOmUtNs9tCEroYsH0gzZcH6zRPJMARkPi2cdfakKPhGaNDlmKAD5Z+g5Sid
+         hcfkdmN+5xf7ReUYM7eceJ+2640XtJAkMw5RxzY7UV0WusAiOBi+E1Dea4enh/OIRErw
+         R1F60ymIqgToG+WlxeOweppjoKel91NTw1MKrsEYOxUSxOZDUEQTE46VdLqSUYyvLm9O
+         bf6g==
+X-Forwarded-Encrypted: i=1; AJvYcCVFq92cJHO2yr96hcLOGXRUgb17aVpduNI0D3SPA1NIuDWdCd+fohJC3iatoZodEmmrn6aNPo5XVPfwPl0k@vger.kernel.org
+X-Gm-Message-State: AOJu0YyrXP+DpW71Lo3h5Gsrzjz0q06A4W8tbmZjHex3efVNzOBk4Sj9
+	3xJghSEJbP+sVQ25x+IS5sAyYpdYehqchQo6i0x8Omzm7afVdtmL5z3e7iRNIL3rElQ=
+X-Gm-Gg: ATEYQzxWOGDqfltsTw2PV4Ix3bQ3ckQ9kl1DJQlzJarpWGR0FX39eCy/zX0R/ERtdno
+	qqM8xMn6+CHJKfFNvx8SY1gHOg5spWpEhbHM/3sfI6oDUyhwNm5ir+pCggdU31wUz75xl5XNQJ1
+	DOA8pZvhbAKHSzZAP+3WAo6eM3XzmH2FJm2VRlqO0MYKgrbQDH1ldqXAXAYYVb8FzcqlzQ0D4ii
+	GI+7A3glZ8ge8I2iZNaZfirtx4ybqcPROVYI0fcD9AQ6grIQV9BxMDvnpM/0SWdLX77GUIamxmD
+	EVp6/Wc2sKRzTjMwMWbPBaKyNLGD1aHeTjKy2oXkONUUWrFgvTLlXRV4f2eLAiwYQ8C98qCyY1g
+	xc2h71pRlMcVr+/a++14bXE8Pt/InV1LnGUbz4rvfqKEVDIIuN2E3HKbH6Hg5SjsahcyL939pAv
+	EagwbrNgdSk/B51AO6vbIG25PPPsDB5AplBqEq50jTMwQ5iODn7OR9OmFsuel1yHxBmopiXcf88
+	cVnHBpdpziqqSaMJSKJ93PT
+X-Received: by 2002:a05:6830:67e3:b0:7db:a832:b329 with SMTP id 46e09a7af769-7dbb74e94aamr2758246a34.21.1775257582649;
+        Fri, 03 Apr 2026 16:06:22 -0700 (PDT)
 Received: from pop-os.attlocal.net ([2600:1700:6476:1430:92cd:838f:83ea:d7f2])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7dba7183dfesm5523210a34.9.2026.04.03.16.06.20
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7dba7183dfesm5523210a34.9.2026.04.03.16.06.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Apr 2026 16:06:20 -0700 (PDT)
+        Fri, 03 Apr 2026 16:06:22 -0700 (PDT)
 From: Viacheslav Dubeyko <slava@dubeyko.com>
 To: glaubitz@physik.fu-berlin.de,
 	linux-fsdevel@vger.kernel.org,
 	frank.li@vivo.com
 Cc: Slava.Dubeyko@ibm.com,
 	Viacheslav Dubeyko <slava@dubeyko.com>
-Subject: [PATCH 4/5] hfsplus: rework logic of map nodes creation in xattr b-tree
-Date: Fri,  3 Apr 2026 16:05:55 -0700
-Message-ID: <20260403230556.614171-5-slava@dubeyko.com>
+Subject: [PATCH 5/5] hfsplus: fix generic/642 failure
+Date: Fri,  3 Apr 2026 16:05:56 -0700
+Message-ID: <20260403230556.614171-6-slava@dubeyko.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260403230556.614171-1-slava@dubeyko.com>
 References: <20260403230556.614171-1-slava@dubeyko.com>
@@ -80,231 +79,194 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In hfsplus_init_header_node() when node_count > 63488
-(header bitmap capacity), the code calculates map_nodes,
-subtracts them from free_nodes, and marks their positions
-used in the bitmap. However, it doesn't write the actual
-map node structure (type, record offsets, bitmap) for
-those physical positions, only node 0 is written.
+The xfstests' test-case generic/642 finishes with
+corrupted HFS+ volume:
 
-This patch reworks hfsplus_create_attributes_file()
-logic by introducing a specialized method of
-hfsplus_init_map_node() and writing the allocated
-map b-tree's nodes by means of
-hfsplus_write_attributes_file_node() method.
+sudo ./check generic/642
+[sudo] password for slavad:
+FSTYP -- hfsplus
+PLATFORM -- Linux/x86_64 hfsplus-testing-0001 7.0.0-rc1+ #26 SMP PREEMPT_DYNAMIC Mon Mar 23 17:24:32 PDT 2026
+MKFS_OPTIONS -- /dev/loop51
+MOUNT_OPTIONS -- /dev/loop51 /mnt/scratch
 
+generic/642 6s ... _check_generic_filesystem: filesystem on /dev/loop51 is inconsistent
+(see xfstests-dev/results//generic/642.full for details)
+
+Ran: generic/642
+Failures: generic/642
+Failed 1 of 1 tests
+
+sudo fsck.hfs -d /dev/loop51
+** /dev/loop51
+Using cacheBlockSize=32K cacheTotalBlock=1024 cacheSize=32768K.
+Executing fsck_hfs (version 540.1-Linux).
+** Checking non-journaled HFS Plus Volume.
+The volume name is untitled
+** Checking extents overflow file.
+** Checking catalog file.
+** Checking multi-linked files.
+** Checking catalog hierarchy.
+** Checking extended attributes file.
+invalid free nodes - calculated 1637 header 1260
+Invalid B-tree header
+Invalid map node
+(8, 0)
+** Checking volume bitmap.
+** Checking volume information.
+Verify Status: VIStat = 0x0000, ABTStat = 0xc000 EBTStat = 0x0000
+CBTStat = 0x0000 CatStat = 0x00000000
+** Repairing volume.
+** Rechecking volume.
+** Checking non-journaled HFS Plus Volume.
+The volume name is untitled
+** Checking extents overflow file.
+** Checking catalog file.
+** Checking multi-linked files.
+** Checking catalog hierarchy.
+** Checking extended attributes file.
+** Checking volume bitmap.
+** Checking volume information.
+** The volume untitled was repaired successfully.
+
+The fsck tool detected that Extended Attributes b-tree is corrupted.
+Namely, the free nodes number is incorrect and map node
+bitmap has inconsistent state. Analysis has shown that during
+b-tree closing there are still some lost b-tree's nodes in
+the hash out of b-tree structure. But this orphaned b-tree nodes
+are still accounted as used in map node bitmap:
+
+tree_cnid 8, nidx 0, node_count 1408, free_nodes 1403
+tree_cnid 8, nidx 1, node_count 1408, free_nodes 1403
+tree_cnid 8, nidx 3, node_count 1408, free_nodes 1403
+tree_cnid 8, nidx 54, node_count 1408, free_nodes 1403
+tree_cnid 8, nidx 67, node_count 1408, free_nodes 1403
+tree_cnid 8, nidx 0, prev 0, next 0, parent 0, num_recs 3, type 0x1, height 0
+tree_cnid 8, nidx 1, prev 0, next 0, parent 3, num_recs 1, type 0xff, height 1
+tree_cnid 8, nidx 3, prev 0, next 0, parent 0, num_recs 1, type 0x0, height 2
+tree_cnid 8, nidx 54, prev 29, next 46, parent 3, num_recs 0, type 0xff, height 1
+tree_cnid 8, nidx 67, prev 8, next 14, parent 3, num_recs 0, type 0xff, height 1
+
+This issue happens in hfs_bnode_split() logic during detection
+the possibility of moving half ot the records out of the node.
+The hfs_bnode_split() contains a loop that implements
+a roughly 50/50 split of the B-tree node's records by scanning
+the offset table to find where the data crosses the node's midpoint.
+If this logic detects the incapability of spliting the node, then
+it simply calls hfs_bnode_put() for newly created node. However,
+node is not set as HFS_BNODE_DELETED and real deletion of node
+doesn't happen. As a result, the empty node becomes orphaned but
+it is still accounted as used. Finally, fsck tool detects this
+inconsistency of HFS+ volume.
+
+This patch adds call of hfs_bnode_unlink() before hfs_bnode_put()
+for the case if new node cannot be used for spliting the existing
+node.
+
+sudo ./check generic/642
+FSTYP         -- hfsplus
+PLATFORM      -- Linux/x86_64 hfsplus-testing-0001 7.0.0-rc1+ #26 SMP PREEMPT_DYNAMIC Fri Apr  3 12:39:13 PDT 2026
+MKFS_OPTIONS  -- /dev/loop51
+MOUNT_OPTIONS -- /dev/loop51 /mnt/scratch
+
+generic/642 40s ...  39s
+Ran: generic/642
+Passed all 1 tests
+
+Closes: https://github.com/hfs-linux-kernel/hfs-linux-kernel/issues/242
 Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
 cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
 cc: Yangtao Li <frank.li@vivo.com>
 cc: linux-fsdevel@vger.kernel.org
 ---
- fs/hfsplus/xattr.c         | 127 ++++++++++++++++++++++++++++++-------
- include/linux/hfs_common.h |   2 +
- 2 files changed, 106 insertions(+), 23 deletions(-)
+ fs/hfsplus/brec.c | 32 ++++++++++++++++++++------------
+ 1 file changed, 20 insertions(+), 12 deletions(-)
 
-diff --git a/fs/hfsplus/xattr.c b/fs/hfsplus/xattr.c
-index 89e2e7e46e96..75cb74466738 100644
---- a/fs/hfsplus/xattr.c
-+++ b/fs/hfsplus/xattr.c
-@@ -50,7 +50,7 @@ static bool is_known_namespace(const char *name)
- 	return true;
- }
- 
--static void hfsplus_init_header_node(struct inode *attr_file,
-+static u32 hfsplus_init_header_node(struct inode *attr_file,
- 					u32 clump_size,
- 					char *buf, u16 node_size)
- {
-@@ -59,6 +59,7 @@ static void hfsplus_init_header_node(struct inode *attr_file,
- 	u16 offset;
- 	__be16 *rec_offsets;
- 	u32 hdr_node_map_rec_bits;
-+	u32 map_nodes = 0;
- 	char *bmp;
- 	u32 used_nodes;
- 	u32 used_bmp_bytes;
-@@ -93,7 +94,6 @@ static void hfsplus_init_header_node(struct inode *attr_file,
- 	hdr_node_map_rec_bits = 8 * (node_size - offset - (4 * sizeof(u16)));
- 	if (be32_to_cpu(head->node_count) > hdr_node_map_rec_bits) {
- 		u32 map_node_bits;
--		u32 map_nodes;
- 
- 		desc->next = cpu_to_be32(be32_to_cpu(head->leaf_tail) + 1);
- 		map_node_bits = 8 * (node_size - sizeof(struct hfs_bnode_desc) -
-@@ -116,21 +116,100 @@ static void hfsplus_init_header_node(struct inode *attr_file,
- 	*bmp = ~(0xFF >> used_nodes);
- 	offset += hdr_node_map_rec_bits / 8;
- 	*--rec_offsets = cpu_to_be16(offset);
-+
-+	return map_nodes;
-+}
-+
-+/*
-+ * Initialize a map node buffer. Map nodes have a single bitmap record.
-+ */
-+static void hfsplus_init_map_node(u8 *buf, u16 node_size, u32 next_node)
-+{
-+	struct hfs_bnode_desc *desc;
-+	__be16 *rec_offsets;
+diff --git a/fs/hfsplus/brec.c b/fs/hfsplus/brec.c
+index 6796c1a80e99..e3df89284079 100644
+--- a/fs/hfsplus/brec.c
++++ b/fs/hfsplus/brec.c
+@@ -239,6 +239,9 @@ static struct hfs_bnode *hfs_bnode_split(struct hfs_find_data *fd)
+ 	struct hfs_bnode_desc node_desc;
+ 	int num_recs, new_rec_off, new_off, old_rec_off;
+ 	int data_start, data_end, size;
++	size_t rec_off_tbl_size;
++	size_t node_desc_size = sizeof(struct hfs_bnode_desc);
 +	size_t rec_size = sizeof(__be16);
-+	u16 offset;
-+
-+	memset(buf, 0, node_size);
-+
-+	desc = (struct hfs_bnode_desc *)buf;
-+	desc->type = HFS_NODE_MAP;
-+	desc->num_recs = cpu_to_be16(1);
-+	desc->next = cpu_to_be32(next_node);
-+
-+	/*
-+	 * A map node consists of the node descriptor and a single
-+	 * map record. The map record is a continuation of the map
-+	 * record contained in the header node. The size of the map
-+	 * record is the size of the node, minus the size of
-+	 * the node descriptor (14 bytes), minus the size of two offsets
-+	 * (4 bytes), minus two bytes of free space. That is, the size of
-+	 * the map record is the size of the node minus 20 bytes;
-+	 * this keeps the length of the map record an even multiple of 4 bytes.
-+	 * The start of the map record is not aligned to a 4-byte boundary:
-+	 * it starts immediately after the node descriptor
-+	 * (at an offset of 14 bytes).
-+	 *
-+	 * Two record offsets stored at the end of the node:
-+	 *   record[1] = start of record 0 -> sizeof(hfs_bnode_desc)
-+	 *   record[2] = start of free space
-+	 */
-+	rec_offsets = (__be16 *)(buf + node_size);
-+
-+	/* record #1 */
-+	offset = sizeof(struct hfs_bnode_desc);
-+	*--rec_offsets = cpu_to_be16(offset);
-+
-+	/* record #2 */
-+	offset = node_size;
-+	offset -= (u16)HFSPLUS_BTREE_MAP_NODE_RECS_COUNT * rec_size;
-+	offset -= HFSPLUS_BTREE_MAP_NODE_RESERVED_BYTES;
-+	*--rec_offsets = cpu_to_be16(offset);
-+}
-+
-+static inline
-+int hfsplus_write_attributes_file_node(struct inode *attr_file, char *buf,
-+					u16 node_size, int *index)
-+{
-+	struct address_space *mapping;
-+	struct page *page;
-+	void *kaddr;
-+	u32 written = 0;
-+
-+	mapping = attr_file->i_mapping;
-+
-+	for (; written < node_size; (*index)++, written += PAGE_SIZE) {
-+		page = read_mapping_page(mapping, *index, NULL);
-+		if (IS_ERR(page))
-+			return PTR_ERR(page);
-+
-+		kaddr = kmap_local_page(page);
-+		memcpy(kaddr, buf + written,
-+			min_t(size_t, PAGE_SIZE, node_size - written));
-+		kunmap_local(kaddr);
-+
-+		set_page_dirty(page);
-+		put_page(page);
-+	}
-+
-+	return 0;
- }
  
- static int hfsplus_create_attributes_file(struct super_block *sb)
- {
--	int err = 0;
- 	struct hfsplus_sb_info *sbi = HFSPLUS_SB(sb);
- 	struct inode *attr_file;
- 	struct hfsplus_inode_info *hip;
-+	struct hfs_bnode_desc *desc;
- 	u32 clump_size;
- 	u16 node_size = HFSPLUS_ATTR_TREE_NODE_SIZE;
-+	u32 next_node;
-+	u32 map_node_idx;
-+	u32 map_nodes;
- 	char *buf;
--	int index, written;
--	struct address_space *mapping;
--	struct page *page;
-+	int index;
- 	int old_state = HFSPLUS_EMPTY_ATTR_TREE;
-+	int err = 0;
- 
- 	hfs_dbg("ino %d\n", HFSPLUS_ATTR_CNID);
- 
-@@ -195,7 +274,7 @@ static int hfsplus_create_attributes_file(struct super_block *sb)
+ 	tree = fd->tree;
+ 	node = fd->bnode;
+@@ -265,18 +268,22 @@ static struct hfs_bnode *hfs_bnode_split(struct hfs_find_data *fd)
+ 		return next_node;
  	}
  
- 	while (hip->alloc_blocks < hip->clump_blocks) {
--		err = hfsplus_file_extend(attr_file, false);
-+		err = hfsplus_file_extend(attr_file, true);
- 		if (unlikely(err)) {
- 			pr_err("failed to extend attributes file\n");
- 			goto end_attr_file_creation;
-@@ -212,28 +291,30 @@ static int hfsplus_create_attributes_file(struct super_block *sb)
- 		goto end_attr_file_creation;
- 	}
- 
--	hfsplus_init_header_node(attr_file, clump_size, buf, node_size);
-+	map_nodes = hfsplus_init_header_node(attr_file, clump_size, buf, node_size);
- 
--	mapping = attr_file->i_mapping;
-+	desc = (struct hfs_bnode_desc *)buf;
-+	next_node = be32_to_cpu(desc->next);
- 
- 	index = 0;
--	written = 0;
--	for (; written < node_size; index++, written += PAGE_SIZE) {
--		void *kaddr;
- 
--		page = read_mapping_page(mapping, index, NULL);
--		if (IS_ERR(page)) {
--			err = PTR_ERR(page);
--			goto failed_header_node_init;
--		}
-+	err = hfsplus_write_attributes_file_node(attr_file, buf,
-+						 node_size, &index);
-+	if (unlikely(err))
-+		goto failed_header_node_init;
- 
--		kaddr = kmap_atomic(page);
--		memcpy(kaddr, buf + written,
--			min_t(size_t, PAGE_SIZE, node_size - written));
--		kunmap_atomic(kaddr);
-+	for (map_node_idx = 0; map_node_idx < map_nodes; map_node_idx++) {
-+		if (next_node >= map_nodes)
-+			next_node = 0;
- 
--		set_page_dirty(page);
--		put_page(page);
-+		hfsplus_init_map_node(buf, node_size, next_node);
+-	size = tree->node_size / 2 - node->num_recs * 2 - 14;
+-	old_rec_off = tree->node_size - 4;
++	rec_off_tbl_size = node->num_recs * rec_size;
++	size = tree->node_size / 2;
++	size -= node_desc_size;
++	size -= rec_off_tbl_size;
++	old_rec_off = tree->node_size - (2 * rec_size);
 +
-+		err = hfsplus_write_attributes_file_node(attr_file, buf,
-+							 node_size, &index);
-+		if (unlikely(err))
-+			goto failed_header_node_init;
-+
-+		next_node++;
+ 	num_recs = 1;
+ 	for (;;) {
+ 		data_start = hfs_bnode_read_u16(node, old_rec_off);
+ 		if (data_start > size)
+ 			break;
+-		old_rec_off -= 2;
++		old_rec_off -= rec_size;
+ 		if (++num_recs < node->num_recs)
+ 			continue;
+-		/* panic? */
+ 		hfs_bnode_put(node);
++		hfs_bnode_unlink(new_node);
+ 		hfs_bnode_put(new_node);
+ 		if (next_node)
+ 			hfs_bnode_put(next_node);
+@@ -287,7 +294,7 @@ static struct hfs_bnode *hfs_bnode_split(struct hfs_find_data *fd)
+ 		/* new record is in the lower half,
+ 		 * so leave some more space there
+ 		 */
+-		old_rec_off += 2;
++		old_rec_off += rec_size;
+ 		num_recs--;
+ 		data_start = hfs_bnode_read_u16(node, old_rec_off);
+ 	} else {
+@@ -295,27 +302,28 @@ static struct hfs_bnode *hfs_bnode_split(struct hfs_find_data *fd)
+ 		hfs_bnode_get(new_node);
+ 		fd->bnode = new_node;
+ 		fd->record -= num_recs;
+-		fd->keyoffset -= data_start - 14;
+-		fd->entryoffset -= data_start - 14;
++		fd->keyoffset -= data_start - node_desc_size;
++		fd->entryoffset -= data_start - node_desc_size;
  	}
+ 	new_node->num_recs = node->num_recs - num_recs;
+ 	node->num_recs = num_recs;
  
- 	hfsplus_mark_inode_dirty(HFSPLUS_ATTR_TREE_I(sb), HFSPLUS_I_ATTR_DIRTY);
-diff --git a/include/linux/hfs_common.h b/include/linux/hfs_common.h
-index 9e71b9a03b60..07dfc39630ab 100644
---- a/include/linux/hfs_common.h
-+++ b/include/linux/hfs_common.h
-@@ -518,6 +518,8 @@ struct hfs_btree_header_rec {
- #define HFSPLUS_BTREE_HDR_MAP_REC_INDEX		2	/* Map (bitmap) record in Header node */
- #define HFSPLUS_BTREE_MAP_NODE_REC_INDEX	0	/* Map record in Map Node */
- #define HFSPLUS_BTREE_HDR_USER_BYTES		128
-+#define HFSPLUS_BTREE_MAP_NODE_RECS_COUNT	2
-+#define HFSPLUS_BTREE_MAP_NODE_RESERVED_BYTES	2
+-	new_rec_off = tree->node_size - 2;
+-	new_off = 14;
++	new_rec_off = tree->node_size - rec_size;
++	new_off = node_desc_size;
+ 	size = data_start - new_off;
+ 	num_recs = new_node->num_recs;
+ 	data_end = data_start;
+ 	while (num_recs) {
+ 		hfs_bnode_write_u16(new_node, new_rec_off, new_off);
+-		old_rec_off -= 2;
+-		new_rec_off -= 2;
++		old_rec_off -= rec_size;
++		new_rec_off -= rec_size;
+ 		data_end = hfs_bnode_read_u16(node, old_rec_off);
+ 		new_off = data_end - size;
+ 		num_recs--;
+ 	}
+ 	hfs_bnode_write_u16(new_node, new_rec_off, new_off);
+-	hfs_bnode_copy(new_node, 14, node, data_start, data_end - data_start);
++	hfs_bnode_copy(new_node, node_desc_size,
++			node, data_start, data_end - data_start);
  
- /* btree key type */
- #define HFSPLUS_KEY_CASEFOLDING		0xCF	/* case-insensitive */
+ 	/* update new bnode header */
+ 	node_desc.next = cpu_to_be32(new_node->next);
 -- 
 2.43.0
 
