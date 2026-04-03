@@ -1,32 +1,37 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+Received: from embla.dev.snart.me (embla.dev.snart.me [54.252.183.203])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AFB01624C0;
-	Fri,  3 Apr 2026 02:47:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B5A0283FE5
+	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Apr 2026 03:01:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.252.183.203
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775184476; cv=none; b=Qwk/6u+JuAwluTD4RuzWvmQkVPgsob7EF4J+Va6e3h73cNtk7oov6xeCJk1Gf87mo/z+fwlNd/a/wlJEKFwWmSYngbyzaOLyDX/edS5lGjoh4PBhwnlZdWXtxDRsf1NhFpiGeftaMDsKYUwVI7mEiHWpvZfrObDy2Ue25BDWuWo=
+	t=1775185267; cv=none; b=VlA5FJgG7gXZr3UuAvNMm5JRMHu5Z4puTEyJ7tGAChI136JbDWAQdvWfZj1tgaD2SHULsMqdH4e5PESrS4+yD1NBQKJ4Jy+ingNoC6ft6vhINTYdV/tdKVUPi7HRH1543OuU5EFeIN8a6hIgFAIuJSe5Wj1nDxG32jh2vLm5d6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775184476; c=relaxed/simple;
-	bh=vBBCIBUGLfQ5y38wcwa8Rk29LP34DrFqfsOqy280atM=;
+	s=arc-20240116; t=1775185267; c=relaxed/simple;
+	bh=X98tnEe3wxemZAXCC7XmYyfva93Moq/XlEfvNWPjQ3k=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=l00D5jOsX8NNnFI8his4SNYT8KZ3NORhi6g1lj7EaRjkrx7e81C79SUGY+Qi2QPtp6tx9vYE8rVk7ttU9+7+K4tx1Qk5Nj9+qdg9+mi5BD/9iXOLDbUbnz5LwunONGSF7gwx6vSZ4wSBNwr0qPTfH6QQeljNbLbRxCpvAddMRG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=RgusBZ3I; arc=none smtp.client-ip=117.135.210.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	 In-Reply-To:Content-Type; b=bLNvI/1497YY5uuQ9NwqgS1QMH5QlZF9ParYqh7acJxCjB/5osY+fpb/8qvHYbElI+ta2pnAqQj3yKI8g3ten9MMWKlrqJKSg4C4yHAJWD2eUcfAHBANzu2v3+PgczmWqmOCHVweuMu9uRJGGbtwYzewqP5mgVhHMr1fSHjF5f8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me; spf=pass smtp.mailfrom=dev.snart.me; dkim=pass (1024-bit key) header.d=dev.snart.me header.i=@dev.snart.me header.b=HtB70j5t; arc=none smtp.client-ip=54.252.183.203
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dev.snart.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="RgusBZ3I"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Message-ID:Date:MIME-Version:Subject:To:From:
-	Content-Type; bh=pLOhs/rDl3qfckZVQyhbXk3zCtVltJwT+WXCgYkFAO4=;
-	b=RgusBZ3IidRRT3b8j7AxrwD3f/eEbs9UrKZmUKwN7IFnwQRAG3Px27eqf+pfCj
-	jWadPxmPTBh+3zU0kQ/YePOBADmwUMR8mHYfS/rVpJX5z3DzNH3vIxSl+HmG/dhH
-	unUNlEbx3vnAIU3abCLow+jLAwKbBK5n5Hj+KY18HR9Pk=
-Received: from [10.42.0.216] (unknown [])
-	by gzsmtp4 (Coremail) with SMTP id PygvCgA3n6wkKs9pbfKmUg--.78S2;
-	Fri, 03 Apr 2026 10:47:03 +0800 (CST)
-Message-ID: <0f46e0c6-82de-4aee-9d01-e417eb619bff@163.com>
-Date: Fri, 3 Apr 2026 10:47:00 +0800
+	dkim=pass (1024-bit key) header.d=dev.snart.me header.i=@dev.snart.me header.b="HtB70j5t"
+Received: from embla.dev.snart.me (localhost [IPv6:::1])
+	by embla.dev.snart.me (Postfix) with ESMTP id D39B21CBC3;
+	Fri,  3 Apr 2026 02:55:49 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 embla.dev.snart.me D39B21CBC3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=dev.snart.me; s=00;
+	t=1775184950; bh=X98tnEe3wxemZAXCC7XmYyfva93Moq/XlEfvNWPjQ3k=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=HtB70j5tx1wdbBjnH53tSYux+Z/nUVE0d1zlE/OUhkyHjETsZgpOUyJrAI5qJjk8r
+	 TNbtBqh0TLPvITj0bZeRBnGrdh7VoVlkMUjPz6oFQ19wQZjiTf4cWlT5g+fA4ClGOV
+	 Z7bRir0K+FOyULJAjb1SJ0ONBk9WUwIWfOBSsAbs=
+Received: from [192.168.1.18] ([182.226.25.243])
+	by embla.dev.snart.me with ESMTPSA
+	id WO4SITUsz2kpHg0A8KYfjw
+	(envelope-from <dxdt@dev.snart.me>); Fri, 03 Apr 2026 02:55:49 +0000
+Message-ID: <9e82ba4e-506e-4f00-ad06-67c0d541cace@dev.snart.me>
+Date: Fri, 3 Apr 2026 11:55:45 +0900
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -34,99 +39,68 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/6] exfat: introduce exfat_chain_advance helper
-To: "Yuezhang.Mo@sony.com" <Yuezhang.Mo@sony.com>,
- Namjae Jeon <linkinjeon@kernel.org>, Sungjong Seo <sj1557.seo@samsung.com>
-Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Chi Zhiling <chizhiling@kylinos.cn>,
- "syzbot@syzkaller.appspotmail.com" <syzbot@syzkaller.appspotmail.com>
-References: <20260401071138.114836-1-chizhiling@163.com>
- <20260401071138.114836-6-chizhiling@163.com>
- <PUZPR04MB6316F93B0D34197D68F302CF815EA@PUZPR04MB6316.apcprd04.prod.outlook.com>
-From: Chi Zhiling <chizhiling@163.com>
-In-Reply-To: <PUZPR04MB6316F93B0D34197D68F302CF815EA@PUZPR04MB6316.apcprd04.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:PygvCgA3n6wkKs9pbfKmUg--.78S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7AF17uw15KrWrAw17tFy7Jrb_yoW8Zr4xpF
-	48Ga15J3y7Xa4xu3WxtF45XFyY9r4IgFW8GrWxAwn0yrn0qr1kCF95K3429Fyrt3yjkw12
-	vF4Yqr1Y9rsxKFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRLmR8UUUUU=
-X-CM-SenderInfo: hfkl6xxlol0wi6rwjhhfrp/xtbC+Afhf2nPKieDmwAA3S
+Subject: Re: [PATCH v1 1/1] exfat: add limited FALLOC_FL_ZERO_RANGE support
+To: Namjae Jeon <linkinjeon@kernel.org>
+Cc: Sungjong Seo <sj1557.seo@samsung.com>, Yuezhang Mo
+ <yuezhang.mo@sony.com>, linux-fsdevel@vger.kernel.org
+References: <20260322125944.48541-1-dxdt@dev.snart.me>
+ <20260322125944.48541-2-dxdt@dev.snart.me>
+ <CAKYAXd_0TeNuruJznXjs+MT8cW2zwOiuNGwztF=A7t8ZgKiKQA@mail.gmail.com>
+From: David Timber <dxdt@dev.snart.me>
+Content-Language: en-US, ko
+Autocrypt: addr=dxdt@dev.snart.me; keydata=
+ xjMEYmJg1hYJKwYBBAHaRw8BAQdAf5E+ri1XLtjqYbZdHOyc8oS+1/XJ5bSlbx5WHXmVBZzN
+ IERhdmlkIFRpbWJlciA8ZHhkdEBkZXYuc25hcnQubWU+wpQEExYKADwWIQQn/Jn96EMUaIoF
+ X+T/ldyyrZpWaAUCYmJg1gIbAwULCQgHAgMiAgEGFQoJCAsCBBYCAwECHgcCF4AACgkQ/5Xc
+ sq2aVmjJZwD8COjPlUwccrlRvbNQ6f87DWchtYO0o8W2DNRM3RLps0EA/jEhIbRV6AsyC8jr
+ 30Ut3aJ3/mO/6G4sLj7OvkEEBH0MzjgEYmJg1hIKKwYBBAGXVQEFAQEHQFpgtIgaByv9lIEY
+ EmpavMO0pYjtu7TMJynwdnGYkN9LAwEIB8J4BBgWCgAgFiEEJ/yZ/ehDFGiKBV/k/5Xcsq2a
+ VmgFAmJiYNYCGwwACgkQ/5Xcsq2aVmhFCwEA0kM9VyYB4bLCM7+SuXUUH+5Ec99Nj4RXxFad
+ Key9GuwA/2BZK6bNyrLSfEk2JDRoskqf7OIL0wa6JOD5SrBnMe8E
+In-Reply-To: <CAKYAXd_0TeNuruJznXjs+MT8cW2zwOiuNGwztF=A7t8ZgKiKQA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 4/3/26 10:34 AM, Yuezhang.Mo@sony.com wrote:
->> From: Chi Zhiling <chizhiling@kylinos.cn>
->>
->> Introduce exfat_chain_advance() to walk a exfat_chain structure by a
->> given step, updating both ->dir and ->size fields atomically. This
->> helper handles both ALLOC_NO_FAT_CHAIN and ALLOC_FAT_CHAIN modes with
->> proper boundary checking.
->>
->> Signed-off-by: Chi Zhiling <chizhiling@kylinos.cn>
->> Tested-by: syzbot@syzkaller.appspotmail.com
->>
->> ---
->> fs/exfat/exfat_fs.h | 17 +++++++++++++++++
->>   1 file changed, 17 insertions(+)
->>
->> diff --git a/fs/exfat/exfat_fs.h b/fs/exfat/exfat_fs.h
->> index 530459ab9acc..1035d20ba563 100644
->> --- a/fs/exfat/exfat_fs.h
->> +++ b/fs/exfat/exfat_fs.h
->> @@ -552,6 +552,23 @@ int exfat_read_volume_label(struct super_block *sb,
->> int exfat_write_volume_label(struct super_block *sb,
->>                               struct exfat_uni_name *label);
->>
->> +static inline int exfat_chain_advance(struct super_block *sb,
->> +               struct exfat_chain *chain, unsigned int step)
->> +{
->> +       if (chain->size >= step)
->> +               chain->size -= step;
-> 
-> It would be better to not change *chain if return an error.
+On 4/1/26 16:12, Namjae Jeon wrote:
+> Why is this limited FALLOC_FL_ZERO_RANGE support actually needed in
+> applications?
+> What are the practical use cases or benefits for applications?
+Please see the original cover letter at
+https://lore.kernel.org/linux-fsdevel/20260319043553.301185-1-dxdt@dev.snart.me/
 
-Okay,
+To answer the question: zeroing out entire file leaving the cluster
+chain intact to avoid I/O and flash wear
 
-v3:
+>>         /* No support for dir */
+>>         if (!S_ISREG(inode->i_mode))
+>> -               return -EOPNOTSUPP;
+>> +               return mode & FALLOC_FL_ZERO_RANGE ? -EINVAL : -EOPNOTSUPP;
+> Why should we return -EINVAL specifically when FALLOC_FL_ZERO_RANGE is used ?
+The reason why a different errno SHOULD be returned could be found in
+fallocate(2):
 
-static inline int exfat_chain_advance(struct super_block *sb,
-                 struct exfat_chain *chain, unsigned int step)
-{
-         if (chain->size < step)
-                 return -EIO;
+    EINVAL mode is FALLOC_FL_COLLAPSE_RANGE, *FALLOC_FL_ZERO_RANGE*, or
+FALLOC_FL_INSERT_RANGE, but the file referred to by fd is not a regular
+file.
 
-         chain->size -= step;
+Again, (circling back to the xfstests EFBIG issue at hand) this is more
+of correctness in behaviour.
 
-         if (exfat_fat_walk(sb, &chain->dir, step, chain->flags))
-                 return -EIO;
+> There are already the checks for non-regular files in vfs_fallocate().
+Yes and no. I understand the check might seem meaningless in exFAT
+because the types of files it support are just directories and regular
+files. It might seem as a leftover from the vfat codebase, but only the
+cases of ENODEV, ESPIPE and EISDIR are covered in vfs_fallocate().
+fallocate() on "exotic" files like unix socket is
+implementation-defined. Such edge cases could slip through, so the check
+is not enirely meaningless.
 
-         if (chain->size == 0 && chain->flags == ALLOC_NO_FAT_CHAIN)
-                 chain->dir = EXFAT_EOF_CLUSTER;
+As per the EINVAL, the case is not covered in vfs_fallocate() so it has
+to be returned by the fs that supports FALLOC_FL_ZERO_RANGE.
 
-         return 0;
-}
+I'd like to add that relying on the checks in the abstraction layer is
+not a good practice especially when implementing a non-UNIX filesystem
+like exFAT and NTFS. The POSIX spec will evolve over time and things
+will get added to the spec(SEEK_HOLE being the prime example).
 
-
-Thanks,
-> 
->> +       else
->> +               return -EIO;
->> +
->> +       if (exfat_fat_walk(sb, &chain->dir, step, chain->flags))
->> +               return -EIO;
->> +
->> +       if (chain->size == 0 && chain->flags == ALLOC_NO_FAT_CHAIN)
->> +               chain->dir = EXFAT_EOF_CLUSTER;
->> +
->> +       return 0;
->> +}
->> +
->>   /* inode.c */
->>   extern const struct inode_operations exfat_file_inode_operations;
->>   void exfat_sync_inode(struct inode *inode);
->> --
->> 2.43.0
-> 
-> 
-
+Davo
