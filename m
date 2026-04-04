@@ -1,100 +1,115 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A7AA287246
-	for <linux-fsdevel@vger.kernel.org>; Sat,  4 Apr 2026 01:43:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 789EC1BD9C9;
+	Sat,  4 Apr 2026 01:49:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775267038; cv=none; b=F/ExxEBfcikBVrgOVcXgYt9dUi1SKrDrrp0mjf2tWEim/uh692o9fI/2uDk8OL62N88+DL26CoHmYPzkLNOmJxHH1bRIj0SSo3CfJCw+EzQW51l3ji8Ux3Z0tlfM7ZDyVyoDvyc0xrEUYFYtWtXWEy+LZpmEAQORSi9SdkscdLk=
+	t=1775267361; cv=none; b=dVC4rj6KP4fCiqD8Q/zyBdMb4S9MHlFAxbRCm9cI0HcEBfhFutfmfGReNUPjtrNfd0bA+HCjU5TmYUrCvWIuJPLkJ0Li+KldNHcMPmNCckLU3Tbo7sQntlakg5me6ctI1Y+LVdzEMCDhMFVRXPdHYOXP6RztE6WbOFjUFxCu/sk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775267038; c=relaxed/simple;
-	bh=o+mXn+mO3TOBOhs6Vj4ImptTHtx9x7UXnCndYtnzSCE=;
-	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References; b=mHciysPF8Os9ARDNja8B1kJJPNsy6sEWnbXqKrsAxPRyUf+a/F+sUYHGPEf+pNiFlICWL1npPyO+xAIALFJjcOeUw06sItBM47BtncC4L/n2WZpIAbZGh7y3bqbxM3Y7dS98wI6UpETCyDedGTglE8DY6NHg8SqnfMslNkOYI8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nXr3C9g2; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1775267361; c=relaxed/simple;
+	bh=Y++27/2VWS18zK/e3/mypmTiqAM7O8WT2iISA9ZrNJc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dqVCXUxBa1Mx4yGOkmAyX/Un+qw6nakzGi5ACPKiJjPQ4ZNbTG93VvqV/QMLsu50Nu0zhXagTExp2wdIOQZHm5rGORVtVxntpbOOUDZZ/F3RzrXcbchN5AmCONUklXeu/k0AE4EMmIvXRjRHX2Hhi6oVoWTdTtMSgdVTl8qDHtw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=PzceOE12; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nXr3C9g2"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2ad9516a653so11335125ad.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 03 Apr 2026 18:43:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775267037; x=1775871837; darn=vger.kernel.org;
-        h=references:message-id:date:in-reply-to:subject:cc:to:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=mSmUlQx+7wcM8hvk6KgWAN6mYWx05Ua8pH5lZ6mYZjw=;
-        b=nXr3C9g2rOFq3lOWtfJXdm1R3NpHTu0T5mbjoqhvOlZ9h18+ISrPrL4zOUB/n+NNrB
-         SHEf23xnLEPX/yTwckXO60RlK5cx6bJLu4CLZpJ6GRhUnAxc/ARpRIN/ziZy4zLNrCEq
-         PCptii73YhlofADub/f6Z7mOeowVBjS+LTCtxtGz3wN+g06GowochDaJUc8f5zh5mQOG
-         fjydkerhn2of1EDtc9N2L+ThYnMV4qQxlC7UvyjzTDE7lwNh5Xis44qUOW9+i/MyDdRm
-         IV+BXh6LNwwnHlFIGbXi8u0atoU76iTmq8pLH/Vd/9uhYE51qLVGibdJ41EWk3AlGhKv
-         dFKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775267037; x=1775871837;
-        h=references:message-id:date:in-reply-to:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mSmUlQx+7wcM8hvk6KgWAN6mYWx05Ua8pH5lZ6mYZjw=;
-        b=pYy7OxuxJ6mU3m5Wna3ZjXVcJ+dx1s7KSBF77wo8YYRIhlW+flidJwcoZg4deqnD9T
-         o9V3CFQBl+8r0bm1HujlxpGXCYCfdw9mZr4KL0IUkJWYUdHzdFHBNdUPodN4uStcZq8t
-         3lA2U+hZ39pxSMcVB+Bw39ZiI+L450VwqfViWyNS1GLEDVhT10Au3YkNP/Xde9gxiPSA
-         qFUZmiuZw+PyrsQB0PGJepm1Xps1zOi+XqlMfc9ruGrJ3C3icLScr2Fx+FdHj5jsN9iM
-         iVP7qIgjH/TQeYY2qZUiyPgdRvt71h69WJZdTjjEQuyXiToDGGV8XRtbagKm4bF3OKbY
-         0qOA==
-X-Forwarded-Encrypted: i=1; AJvYcCUpDj7sdRUnOJrPNTvwECMV1uY6VDetmcj9WUv50oNKcYwhTDT2CqrkGciK2mvPRGJTcMkvgNpLhyAnD0dc@vger.kernel.org
-X-Gm-Message-State: AOJu0YxKAfmDpIQ9attqzPsq9mAccDTZAtstfpeUKO9GIyYFIDQ+jRQ6
-	+9OSk2vfUAx+NF7nJ9yvG5yY7Ej/uJ9MlJ+UWUm43gFgh09kzFIsvium
-X-Gm-Gg: AeBDiet9K6paUyYU3YlXcG7YIXVE8AKU8xixIVVDLOpQUNiY8WJR69Z1cIlNXDPUJ3m
-	40cz7R03zrO6/+WSWUxXu0c00RafzBKimnKdLRus9QbmreussiaG4okAXABOBEyr82o776GLTMR
-	Yt4oVJ18iqnSDDO3ahMNbnwj2oAgRQI8F0y27ksKuJb/qJvogl7+OIBQeUqolaJ2vYYn0KfoeFM
-	PHkmDvG7p1+F/2CXjGsZ6ZRc+1zybhnthWBuyvf/ODXdOa5qjiCkEgT/B8O16XOPYY0P356Omt0
-	njFgkm+B7fHy1x3u5Q8tSgPJtPCWB54r2lp5JXxbp3JRG+hg7dVXkdvRMABvXqdZqRFairYoobV
-	vkPwGd0Y4cjT3770Q6Ev8dLKGkOVbCFV+nOL5db+iDVft+dwULJuTQ/FD6vr9bEh7lR817hTK78
-	WKM+X+105aXS2IidKfA4NHkmnU5tr9aVF7
-X-Received: by 2002:a17:903:1ae3:b0:2b0:afad:7aad with SMTP id d9443c01a7336-2b2818016c3mr52841215ad.45.1775267036795;
-        Fri, 03 Apr 2026 18:43:56 -0700 (PDT)
-Received: from pve-server ([49.205.216.49])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b2749cbca2sm65157255ad.73.2026.04.03.18.43.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Apr 2026 18:43:56 -0700 (PDT)
-From: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
-To: Salvatore Dipietro <dipiets@amazon.it>, linux-kernel@vger.kernel.org
-Cc: dipiets@amazon.it, alisaidi@amazon.com, blakgeof@amazon.com, abuehaze@amazon.de, dipietro.salvatore@gmail.com, willy@infradead.org, stable@vger.kernel.org, Christian Brauner <brauner@kernel.org>, "Darrick J.
- Wong" <djwong@kernel.org>, linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH 1/1] iomap: avoid compaction for costly folio order allocation
-In-Reply-To: <20260403193535.9970-2-dipiets@amazon.it>
-Date: Sat, 04 Apr 2026 06:43:06 +0530
-Message-ID: <bjfzmst9.ritesh.list@gmail.com>
-References: <20260403193535.9970-1-dipiets@amazon.it> <20260403193535.9970-2-dipiets@amazon.it>
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="PzceOE12"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=WNLPCgVOcaF2AvCNysp126Yc/bcEBd8fX+o+MaJeDEI=; b=PzceOE12txnC4P86a1x3CWKeGc
+	iWy65t6YGPKBY4MmCHOwwYPDyoud6ylAib/0F0lnJSIto3mLTYc5uwlrQf8H662IvFWb4n8nFfHCY
+	qh8cdTvdn2lQsIlTSk5m2xReyCnkHClJIxbvVANt97m7xUNBFlIBxeLkjsAzFlrQdWcXxd2od2yGz
+	GjkZYxu+v1QWK5GcVu6EO2fnYlca/Blj1D3y0cE5ugUHBXnLplyWHhV+x/peaagxobmRrCaLJSo8X
+	atqFCC9vZsuijdh3VRamNkxchsmIPapGnw/QBA8r7Hk6jKl67qL2xVJMlco68V6igXMcDCdkXi98/
+	m8wqxSew==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1w8qBx-0000000A7sN-3ept;
+	Sat, 04 Apr 2026 01:52:54 +0000
+Date: Sat, 4 Apr 2026 02:52:53 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Paulo Alcantara <pc@manguebit.org>
+Cc: brauner@kernel.org, smfrench@gmail.com,
+	David Howells <dhowells@redhat.com>, linux-fsdevel@vger.kernel.org,
+	linux-cifs@vger.kernel.org
+Subject: Re: [RFC PATCH] smb: client: add support for O_TMPFILE
+Message-ID: <20260404015253.GP3836593@ZenIV>
+References: <20260401011153.1757515-1-pc@manguebit.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260401011153.1757515-1-pc@manguebit.org>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
+On Tue, Mar 31, 2026 at 10:11:53PM -0300, Paulo Alcantara wrote:
 
-Let's cc: linux-mm too.
+>  	d_drop(direntry);
+> -	d_add(direntry, newinode);
+> -
+> +	inode_set_mtime_to_ts(inode, inode_set_ctime_current(inode));
+> +	if (oflags & O_TMPFILE) {
+> +		set_nlink(newinode, 0);
+> +		mark_inode_dirty(newinode);
+> +		d_instantiate(direntry, newinode);
+> +	} else {
+> +		d_add(direntry, newinode);
+> +	}
 
-Salvatore Dipietro <dipiets@amazon.it> writes:
+What d_unhashed(dentry) is going to be when we arrive to that thing
+with O_TMPFILE?
 
-> Commit 5d8edfb900d5 ("iomap: Copy larger chunks from userspace")
-> introduced high-order folio allocations in the buffered write
-> path. When memory is fragmented, each failed allocation triggers
+> +static void cifs_d_mark_tmpfile(struct file *file,
+> +				const unsigned char *name,
+> +				size_t namelen)
+> +{
+> +	struct dentry *dentry = file->f_path.dentry;
+> +
+> +	BUG_ON(dentry->d_name.name != dentry->d_shortname.string ||
+> +	       !hlist_unhashed(&dentry->d_u.d_alias) ||
+> +	       !d_unlinked(dentry) ||
+> +	       namelen > DNAME_INLINE_LEN - 1);
+> +	spin_lock(&dentry->d_parent->d_lock);
+> +	spin_lock_nested(&dentry->d_lock, DENTRY_D_LOCK_NESTED);
+> +	dentry->__d_name.len = sprintf(dentry->d_shortname.string, "%.*s",
+> +				       (int)namelen, name);
 
-Isn't it the right thing to do i.e. run compaction, when memory is
-fragmented? 
+That's one hell of an odd way to spell that...  What's wrong with using union
+shortname_store for an argument?  Just memchr() for '\0' to verify it's there
+and use the result to calculate the length and plain assignment to d_shortname
+for copying...
 
-> compaction and drain_all_pages() via __alloc_pages_slowpath(),
-> causing a 0.75x throughput drop on pgbench (simple-update) with 
-> 1024 clients on a 96-vCPU arm64 system.
->
+And in any case, that !hlist_unhashed(....) in there is d_really_is_positive().
 
-I think removing the __GFP_DIRECT_RECLAIM flag unconditionally at the
-caller may cause -ENOMEM. Note that it is the __filemap_get_folio()
-which retries with smaller order allocations, so instead of changing the
-callers, shouldn't this be fixed in __filemap_get_folio() instead?
+> +static int set_tmpfile_name(struct file *file)
+> +{
+> +	struct dentry *dentry = file->f_path.dentry;
+> +	unsigned char name[CIFS_TMPNAME_LEN + 1];
+> +	struct dentry *sdentry = NULL;
+> +
+> +	do {
+> +		dput(sdentry);
+> +		scnprintf(name, sizeof(name),
+> +			  CIFS_TMPNAME_PREFIX "%0*x",
+> +			  CIFS_TMPNAME_COUNTER_LEN,
+> +			  atomic_inc_return(&cifs_tmpcounter));
+> +		sdentry = lookup_noperm_unlocked(&QSTR(name), dentry->d_parent);
+> +		if (IS_ERR(sdentry))
+> +			return -EBUSY;
+> +	} while (!d_is_negative(sdentry));
+> +	dput(sdentry);
 
-Maybe in there too, we should keep the reclaim flag (if passed by
-caller) at least for <= PAGE_ALLOC_COSTLY_ORDER + 1
+That looks racy.  Checking it doesn't exist at the moment is fine, but what if
+it's created right after that lookup?  You are not holding any locks, so even
+the same-client race (with plain create()) is possible...
 
-Thoughts?
-
--ritesh
+> +	cifs_d_mark_tmpfile(file, name, sizeof(name) - 1);
+> +	return 0;
+> +}
