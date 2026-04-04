@@ -1,34 +1,34 @@
 Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 068A23A451D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 064E53A4519
 	for <linux-fsdevel@vger.kernel.org>; Sat,  4 Apr 2026 08:04:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775289858; cv=none; b=hvzkfUHN3AK2cqK6rYgCOeHZkblttgIwrErPCddA4gvLJQGqlagdJ7umJ5pxxACWpi1ukbER4aXl0szjSi9VZdSF+wXGJ2wennVx8tNFzqfZ+ybvvCKz66339v62dKRXxDFyVeIEHFaHIiUudXt+GTVq7LbkrUEKrw8nn4GXy4M=
+	t=1775289858; cv=none; b=KkjS3A/fy+i0CnMAnRpwIChB5Tnx8JRGgepFmVQ1PGCKfROD67iBkrp88j6xuhxYHhcs1Wd4dnJbWXpZqSjdIs2jiXn6r0lGDkYTEDLnqVRIed1BsKQHTk4iAk/GDtOXMfNLVLzwUogU5BR7782ATWwU/9TyIW2+wBo7sRwvjKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1775289858; c=relaxed/simple;
-	bh=OCVaEMVAFpi1Ie6BdFkttp468KxX8IGtv5PKrpW2hSQ=;
+	bh=J3S+6A/8SqFBWNxW4Ee+tOQqCr33YHE2qYHUlXmeXOE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XiOVd9fDWUa1KNnWjwHqvLGy9+N12vtfyyP/CCHKrYLGgkqNVbp39lGJeeV6+uaU6VcpEz6ktIo7R/Cgig00tbV1ArrtXociGUKxt6h538dj5XZ2GaZOejY99mB+xYXQ8BENl3vYAMcaerDiSc8Z/9G18nzJa/cIONzHiSR8XH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=e4JLLk4D; arc=none smtp.client-ip=62.89.141.173
+	 MIME-Version; b=b1P2qLJUUygmJVwggAvJkMY63q8r/VK1fMDASEqlFhnK2QH9Pb2X6akIB4Ox8vKljQepEIVqpLfvzCmKHjf1WL2iBvxZwyu7HimGlkSE01yR2nl+DV+k4iiNYw4yJ215uSVWdIk6T/RMoR34jxJg+MwQWnAeVhh5X8kolZkoXM4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=iCwUp0pP; arc=none smtp.client-ip=62.89.141.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="e4JLLk4D"
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="iCwUp0pP"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=linux.org.uk; s=zeniv-20220401; h=Sender:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=Kq8Z9X364aQZP1ci/KpQeDHr/f6GnnOW0D3llR4V0jk=; b=e4JLLk4DxdSDn8/OCpRfN5rda4
-	cj5LiWWdOXoq51+CfX4ncPtw+U6CIEzWaS3T2WFcpEbGI2mX2I62aDbPvppPUoCGEGCaRl2LxVt3/
-	jiXjUGMZbiK/fhkIoSNw8RZTorHP/DHWP9+1DTNE1aKseKD6ZiOXj9LQlCPV4g+31rbzV6f4SAJXf
-	22JQMc8hggjCm5sae5+syIiptC5eEnkvPoyw3hvOsC2++Y0iDqlr6tA8x+A45PKPag2Q/2JvHcXA6
-	tElcmhgtke5Eb6FxecbUnM7PT3jCdPa6KXz0MCWF6nLzxQccgoaEmxTYar/URjuZkrsbyFoaHybDc
-	K6sUSVTA==;
+	bh=LhtThGqGvz//7KicfHtJ4v7MhWcgdUgSivlrLu87w+k=; b=iCwUp0pP4KTkTJ4XO7BzdoE+f2
+	/9/mefu54ZGnnABYxeXLH6hHyE/TyBqAi1CdikMKVb1fxokMvAgDMidLlDksPNEJsSDY5P/2yWsBI
+	j4k6bHa6AxSIiJCkUvQAE5E62utU5ORElEW0/iFqgqrVYrPceP3V3WmKSqHTjG52k4ZXVSdeF31kM
+	EJ7OSNBGz0HE1UG1jkACydr0VbbED86OviZ//G8zOO/jEtJ0q0IRiLm+F2LnQg0V2n+UqGIO2eVcC
+	+7nPkDNqNv2CKVZD8SbnLA97i77c7jtpJ3u334Swp1XcYaNLRG3rTgzl3rlpnAgHObfSlMc9mVwT2
+	a//tzuAw==;
 Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1w8w2p-0000000AbO3-2Ojo;
-	Sat, 04 Apr 2026 08:07:51 +0000
+	id 1w8w2q-0000000AbOD-0ysh;
+	Sat, 04 Apr 2026 08:07:52 +0000
 From: Al Viro <viro@zeniv.linux.org.uk>
 To: Linus Torvalds <torvalds@linux-foundation.org>
 Cc: linux-fsdevel@vger.kernel.org,
@@ -38,12 +38,13 @@ Cc: linux-fsdevel@vger.kernel.org,
 	Max Kellermann <max.kellermann@ionos.com>,
 	Eric Sandeen <sandeen@redhat.com>,
 	Paulo Alcantara <pc@manguebit.org>
-Subject: [RFC PATCH v3 0/4] getting rid of busy-wait in shrink_dcache_parent()
-Date: Sat,  4 Apr 2026 09:07:47 +0100
-Message-ID: <20260404080751.2526990-1-viro@zeniv.linux.org.uk>
+Subject: [RFC PATCH v3 4/4] get rid of busy-waiting in shrink_dcache_tree()
+Date: Sat,  4 Apr 2026 09:07:51 +0100
+Message-ID: <20260404080751.2526990-5-viro@zeniv.linux.org.uk>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260122202025.GG3183987@ZenIV>
+In-Reply-To: <20260404080751.2526990-1-viro@zeniv.linux.org.uk>
 References: <20260122202025.GG3183987@ZenIV>
+ <20260404080751.2526990-1-viro@zeniv.linux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -52,72 +53,6 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Al Viro <viro@ftp.linux.org.uk>
-
-Changes since v2:
-	* separate select_data from the completion list elements - add a separate
-struct completion_list (private to fs/dcache.c at the moment, but it's completely
-independent from struct dentry and can be lifted e.g. into linux/completion.h
-if there are other potential users).
-
-Branch (currently -rc6-based) lives in
-git://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git #work.dcache-busy-wait
-individual patches in followups.  Please, review.
-
-Shortlog:
-Al Viro (4):
-  for_each_alias(): helper macro for iterating through dentries of given inode
-  struct dentry: make ->d_u anonymous
-  dcache.c: more idiomatic "positives are not allowed" sanity checks
-  get rid of busy-waiting in shrink_dcache_tree()
-
-Diffstat:
- Documentation/filesystems/porting.rst |  10 ++
- fs/affs/amigaffs.c                    |   2 +-
- fs/ceph/mds_client.c                  |   4 +-
- fs/dcache.c                           | 129 +++++++++++++++++++-------
- fs/exportfs/expfs.c                   |   2 +-
- fs/inode.c                            |   2 +-
- fs/nfs/dir.c                          |   4 +-
- fs/nfs/getroot.c                      |   2 +-
- fs/notify/fsnotify.c                  |   2 +-
- fs/ocfs2/dcache.c                     |   2 +-
- fs/overlayfs/dir.c                    |   2 +-
- fs/smb/client/inode.c                 |   2 +-
- include/linux/dcache.h                |  24 ++++-
- 13 files changed, 140 insertions(+), 47 deletions(-)
-
-Series overview
-
-First a couple of cleanups to reduce the amount of noise:
-
-1) for_each_alias(): helper macro for iterating through dentries of given inode
-
-Most of the places using d_alias are loops iterating through all aliases for
-given inode; introduce a helper macro (for_each_alias(dentry, inode))
-and convert open-coded instances of such loop to it.
-
-They are easier to read that way and it reduces the noise on the next steps.
-
-2) struct dentry: make ->d_u anonymous
-
-Making ->d_rcu and (then) ->d_child overlapping dates back to 2006; anon unions
-support had been added to gcc only in 4.6 (2011) and the minimal gcc version hadn't
-been bumped to that until 4.19 (2018).
-These days there's no reason not to keep that union named.
-
-Next we get rid of the aforementioned pathologies:
-
-3) dcache.c: more idiomatic "positives are not allowed" sanity checks
-
-Several functions have BUG_ON/WARN_ON sanity checks that want to verify
-that dentry is not positive and instead of looking at ->d_inode (as we
-do in all other places that check that) they look at ->d_alias.
-Just use the normal helpers instead - that way we no longer even look
-at ->d_alias for negative dentries
-
-Now that everything is ready for adding a new member and killing busy-wait:
-
-4) get rid of busy-waiting in shrink_dcache_tree()
 
 If shrink_dcache_tree() runs into a potential victim that is already
 dying, it must wait for that dentry to go away.  To avoid busy-waiting
@@ -158,5 +93,185 @@ For now struct completion_list is local to fs/dcache.c; it's obviously
 dentry-agnostic, and it can be trivially lifted into linux/completion.h
 if somebody finds a reason to do so...
 
---
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+---
+ fs/dcache.c            | 79 ++++++++++++++++++++++++++++++++++++++----
+ include/linux/dcache.h | 18 ++++++++--
+ 2 files changed, 88 insertions(+), 9 deletions(-)
+
+diff --git a/fs/dcache.c b/fs/dcache.c
+index 616a445ec720..0c8faeee02e2 100644
+--- a/fs/dcache.c
++++ b/fs/dcache.c
+@@ -456,6 +456,15 @@ static void dentry_unlink_inode(struct dentry * dentry)
+ 	raw_write_seqcount_begin(&dentry->d_seq);
+ 	__d_clear_type_and_inode(dentry);
+ 	hlist_del_init(&dentry->d_alias);
++	/*
++	 * dentry becomes negative, so the space occupied by ->d_alias
++	 * belongs to ->waiters now; we could use __hlist_del() instead
++	 * of hlist_del_init(), if not for the stunt pulled by nfs
++	 * dummy root dentries - positive dentry *not* included into
++	 * the alias list of its inode.  Open-coding hlist_del_init()
++	 * and removing zeroing would be too clumsy...
++	 */
++	dentry->waiters = NULL;
+ 	raw_write_seqcount_end(&dentry->d_seq);
+ 	spin_unlock(&dentry->d_lock);
+ 	spin_unlock(&inode->i_lock);
+@@ -605,6 +614,44 @@ void d_drop(struct dentry *dentry)
+ }
+ EXPORT_SYMBOL(d_drop);
+ 
++struct completion_list {
++	struct completion_list *next;
++	struct completion completion;
++};
++
++/*
++ *  shrink_dcache_tree() needs to be notified when dentry in process of
++ *  being evicted finally gets unlisted.  Such dentries are
++ *	already with negative ->d_count
++ *	already negative
++ *	already not in in-lookup hash
++ *	reachable only via ->d_sib.
++ *
++ *  Use ->waiters for a single-linked list of struct completion_list of
++ *  waiters.
++ */
++static inline void d_add_waiter(struct dentry *dentry, struct completion_list *p)
++{
++	struct completion_list *v = dentry->waiters;
++	init_completion(&p->completion);
++	p->next = v;
++	dentry->waiters = p;
++}
++
++static inline void d_complete_waiters(struct dentry *dentry)
++{
++	struct completion_list *v = dentry->waiters;
++	if (unlikely(v)) {
++		/* some shrink_dcache_tree() instances are waiting */
++		dentry->waiters = NULL;
++		while (v) {
++			struct completion *r = &v->completion;
++			v = v->next;
++			complete(r);
++		}
++	}
++}
++
+ static inline void dentry_unlist(struct dentry *dentry)
+ {
+ 	struct dentry *next;
+@@ -613,6 +660,7 @@ static inline void dentry_unlist(struct dentry *dentry)
+ 	 * attached to the dentry tree
+ 	 */
+ 	dentry->d_flags |= DCACHE_DENTRY_KILLED;
++	d_complete_waiters(dentry);
+ 	if (unlikely(hlist_unhashed(&dentry->d_sib)))
+ 		return;
+ 	__hlist_del(&dentry->d_sib);
+@@ -1569,6 +1617,10 @@ static enum d_walk_ret select_collect2(void *_data, struct dentry *dentry)
+ 			return D_WALK_QUIT;
+ 		}
+ 		to_shrink_list(dentry, &data->dispose);
++	} else if (dentry->d_lockref.count < 0) {
++		rcu_read_lock();
++		data->victim = dentry;
++		return D_WALK_QUIT;
+ 	}
+ 	/*
+ 	 * We can return to the caller if we have found some (this
+@@ -1608,12 +1660,27 @@ static void shrink_dcache_tree(struct dentry *parent, bool for_umount)
+ 		data.victim = NULL;
+ 		d_walk(parent, &data, select_collect2);
+ 		if (data.victim) {
+-			spin_lock(&data.victim->d_lock);
+-			if (!lock_for_kill(data.victim)) {
+-				spin_unlock(&data.victim->d_lock);
++			struct dentry *v = data.victim;
++
++			spin_lock(&v->d_lock);
++			if (v->d_lockref.count < 0 &&
++			    !(v->d_flags & DCACHE_DENTRY_KILLED)) {
++				struct completion_list wait;
++				// It's busy dying; have it notify us once
++				// it becomes invisible to d_walk().
++				d_add_waiter(v, &wait);
++				spin_unlock(&v->d_lock);
++				rcu_read_unlock();
++				if (!list_empty(&data.dispose))
++					shrink_dentry_list(&data.dispose);
++				wait_for_completion(&wait.completion);
++				continue;
++			}
++			if (!lock_for_kill(v)) {
++				spin_unlock(&v->d_lock);
+ 				rcu_read_unlock();
+ 			} else {
+-				shrink_kill(data.victim);
++				shrink_kill(v);
+ 			}
+ 		}
+ 		if (!list_empty(&data.dispose))
+@@ -1787,7 +1854,7 @@ static struct dentry *__d_alloc(struct super_block *sb, const struct qstr *name)
+ 	INIT_HLIST_BL_NODE(&dentry->d_hash);
+ 	INIT_LIST_HEAD(&dentry->d_lru);
+ 	INIT_HLIST_HEAD(&dentry->d_children);
+-	INIT_HLIST_NODE(&dentry->d_alias);
++	dentry->waiters = NULL;
+ 	INIT_HLIST_NODE(&dentry->d_sib);
+ 
+ 	if (dentry->d_op && dentry->d_op->d_init) {
+@@ -2729,7 +2796,7 @@ static wait_queue_head_t *__d_lookup_unhash(struct dentry *dentry)
+ 	d_wait = dentry->d_wait;
+ 	dentry->d_wait = NULL;
+ 	hlist_bl_unlock(b);
+-	INIT_HLIST_NODE(&dentry->d_alias);
++	dentry->waiters = NULL;
+ 	INIT_LIST_HEAD(&dentry->d_lru);
+ 	return d_wait;
+ }
+diff --git a/include/linux/dcache.h b/include/linux/dcache.h
+index f939d2ed10a3..19098253f2dd 100644
+--- a/include/linux/dcache.h
++++ b/include/linux/dcache.h
+@@ -88,6 +88,7 @@ union shortname_store {
+ 
+ #define d_lock	d_lockref.lock
+ #define d_iname d_shortname.string
++struct completion_list;
+ 
+ struct dentry {
+ 	/* RCU lookup touched fields */
+@@ -122,12 +123,23 @@ struct dentry {
+ 	struct hlist_node d_sib;	/* child of parent list */
+ 	struct hlist_head d_children;	/* our children */
+ 	/*
+-	 * d_alias and d_rcu can share memory
++	 * the following members can share memory - their uses are
++	 * mutually exclusive.
+ 	 */
+ 	union {
+-		struct hlist_node d_alias;	/* inode alias list */
+-		struct hlist_bl_node d_in_lookup_hash;	/* only for in-lookup ones */
++		/* positives: inode alias list */
++		struct hlist_node d_alias;
++		/* in-lookup ones (all negative, live): hash chain */
++		struct hlist_bl_node d_in_lookup_hash;
++		/* killed ones: (already negative) used to schedule freeing */
+ 	 	struct rcu_head d_rcu;
++		/*
++		 * live non-in-lookup negatives: used if shrink_dcache_tree()
++		 * races with eviction by another thread and needs to wait for
++		 * this dentry to get killed .  Remains NULL for almost all
++		 * negative dentries.
++		 */
++		struct completion_list *waiters;
+ 	};
+ };
+ 
+-- 
 2.47.3
+
