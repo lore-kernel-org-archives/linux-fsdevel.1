@@ -1,47 +1,38 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CDFB332EDE;
-	Sat,  4 Apr 2026 04:15:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 503B933BBBD;
+	Sat,  4 Apr 2026 06:23:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775276116; cv=none; b=rkII2J4r7V1FZrtv/qH1GnMhiJ65dYHWloc77RKgKZqqjd7hVAAxLO3yn8Z+pJf9QVQAzFu48ZQzPL0oFnxw9YnXt3z8RQW9GHf2NOZ3n+88PGUZLZqBr7ikWNpzfH7pVan83UO5zfoG757O2TNa7Bz9DV2xMRS1x5qOWywhvhw=
+	t=1775283783; cv=none; b=iDiKWradpRIiP3wFmU9Ezm3O+NfOuvgPljk15+bFN0NKQqUKTVuKHzmMlzxranz0//EeNhVtaQXsiSTq94HRq6VSiXQ9clgA/0NIAubU4jcbnhRI9Skvz2oUf2f2/+Qe8982zk78YeHAvNBFOUxUePTMpCsW7jgq10ZECd1SgxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775276116; c=relaxed/simple;
-	bh=L3BqPG7Rkb+GwjjVV/0ER1SVM/id0u09GjDsQYVrZxI=;
+	s=arc-20240116; t=1775283783; c=relaxed/simple;
+	bh=iNnj5HZg++VmJ8JOVVzYwT6qH37ngG4hSW37NpcwluU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HGPLhZ5pUU6bgldPajHoG8L+KY8SuibyGTAyorzz8eISK6mgNQ5Ch8LKrFZ4qapQbOPXx3cxehrKQieoZZ9tn0aTygBljlOev6hgrNsiNUBFgwdrDtzFPexVsqoD6CbPTIwy11HlJUxd/owfVcbFPvwIeOybZEOvg8Q6uUH8C0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=kv6MfH97; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=MhCdUDgvExE76L+jTkU+WyzB+ft01oiEYJ7eYwuRkkCJaLobV9e13sKpz2UpXNFV4RMe49P7AhJiZE3nPGDWZTOBKdyRic7x2Aj/Ut/ynVUZREOg8ptQbZI8mhl7E2nUZlwFOMdDhpOhT3EjmkoZEvp7B0OmGwRDhe6l8f5hL4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=MCavQK+E; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="kv6MfH97"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=prgjruknzedrN/FySTUns/2cxrd1Ek5UwRzTS2GVwtQ=; b=kv6MfH97kDKvbWs8u/DfmlPLjB
-	5VO90TEEKgWCAeJJxC9SIn1GUrL/irrN3MiSJPxvH11ki6Gl4DulTzSMKHfC7PsuL8Wjl7goHueEV
-	sPCgxGOvoZFxpMbC1AbqJwQ6y0P4YjChWmmGbbXXCFKBx3UfqsuRboj6Dx1OeXjjeSvbMibkQbGli
-	cTyM035nMVVDAk4pq/XHZAQGxPmh6Q1oFikGKjEF2JZ36/fUzqMvWJF7Ib2j+fb9+fpCPdFTn7+R+
-	qZQSwsX5UgYG/q5pkUtH5iu2ijNCIT6xhDm186revhAwa5YMGW2ccgsRTj4FmC58HMqUZj8GgMyHY
-	YI1lbzHg==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w8sPd-0000000FSmQ-0Veb;
-	Sat, 04 Apr 2026 04:15:09 +0000
-Date: Sat, 4 Apr 2026 05:15:08 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Salvatore Dipietro <dipiets@amazon.it>
-Cc: linux-kernel@vger.kernel.org, alisaidi@amazon.com, blakgeof@amazon.com,
-	abuehaze@amazon.de, dipietro.salvatore@gmail.com,
-	stable@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
-	"Darrick J. Wong" <djwong@kernel.org>, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH 1/1] iomap: avoid compaction for costly folio order
- allocation
-Message-ID: <adCQTF1PQnlbNMO8@casper.infradead.org>
-References: <20260403193535.9970-1-dipiets@amazon.it>
- <20260403193535.9970-2-dipiets@amazon.it>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="MCavQK+E"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67991C19423;
+	Sat,  4 Apr 2026 06:23:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1775283782;
+	bh=iNnj5HZg++VmJ8JOVVzYwT6qH37ngG4hSW37NpcwluU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MCavQK+E7ntcMvzed7iOIiYphf12rgO2yG/mhea3c0ksZu6SOirNPtZG/rnVVLNvR
+	 6ybmv2PFH9ep+c8SJG1IzJ8TVL36F4cUeCw2Oc75T3+Y2mtSb1YEso5JVY6T/AHlgD
+	 BeanM1h0P4y4PZ6ABuhxoxVb1Dms3JoP833Jktho=
+Date: Sat, 4 Apr 2026 08:23:00 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Tomasz Kramkowski <tomasz@kramkow.ski>
+Cc: stable@vger.kernel.org, Alva Lan <alvalan9@foxmail.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] xattr: restore file descriptor checks
+Message-ID: <2026040419-volumes-femur-731d@gregkh>
+References: <20260403230636.344097-1-tomasz@kramkow.ski>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -50,41 +41,31 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260403193535.9970-2-dipiets@amazon.it>
+In-Reply-To: <20260403230636.344097-1-tomasz@kramkow.ski>
 
-On Fri, Apr 03, 2026 at 07:35:34PM +0000, Salvatore Dipietro wrote:
-> Commit 5d8edfb900d5 ("iomap: Copy larger chunks from userspace")
-> introduced high-order folio allocations in the buffered write
-> path. When memory is fragmented, each failed allocation triggers
-> compaction and drain_all_pages() via __alloc_pages_slowpath(),
-> causing a 0.75x throughput drop on pgbench (simple-update) with 
-> 1024 clients on a 96-vCPU arm64 system.
+On Sat, Apr 04, 2026 at 12:06:36AM +0100, Tomasz Kramkowski wrote:
+> This patch restores the checks incorrectly removed by commit
+> 5a1e865e5106 ("xattr: switch to CLASS(fd)").
 > 
-> Strip __GFP_DIRECT_RECLAIM from folio allocations in
-> iomap_get_folio() when the order exceeds PAGE_ALLOC_COSTLY_ORDER,
-> making them purely opportunistic.
+> That commit was an attempt backport an upstream commit which had
+> modified but did not remove the checks to see if the passed file
+> descriptor referred to an open file. This seems to have resulted in the
+> backport removing the checks.
+> 
+> This leads to a kernel panic when calling `fgetxattr`, `flistxattr`,
+> `fremovexattr`, and `fsetxattr` with a file descriptor which does not
+> refer to an open file.
+> 
+> Tested in qemu.
+> 
+> Signed-off-by: Tomasz Kramkowski <tomasz@kramkow.ski>
 
-If you look at __filemap_get_folio_mpol(), that's kind of being tried
-already:
+Ah crap, I should have caught that in the original backport, sorry about
+that.
 
-                        if (order > min_order)
-                                alloc_gfp |= __GFP_NORETRY | __GFP_NOWARN;
+Should we just revert the original and wait for a "fixed" version to
+show up instead?
 
- * %__GFP_NORETRY: The VM implementation will try only very lightweight
- * memory direct reclaim to get some memory under memory pressure (thus
- * it can sleep). It will avoid disruptive actions like OOM killer. The
- * caller must handle the failure which is quite likely to happen under
- * heavy memory pressure. The flag is suitable when failure can easily be
- * handled at small cost, such as reduced throughput.
+thanks,
 
-which, from the description, seemed like the right approach.  So either
-the description or the implementation should be updated, I suppose?
-
-Now, what happens if you change those two lines to:
-
-			if (order > min_order) {
-				alloc_gfp &= ~__GFP_DIRECT_RECLAIM;
-				alloc_gfp |= __GFP_NOWARN;
-			}
-
-Do you recover the performance?
+greg k-h
