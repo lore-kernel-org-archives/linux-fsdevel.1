@@ -1,263 +1,90 @@
-Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from erebus.slow.network (erebus.slow.network [109.74.205.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C16E43502A3
-	for <linux-fsdevel@vger.kernel.org>; Sat,  4 Apr 2026 09:20:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09CF136492E;
+	Sat,  4 Apr 2026 10:27:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.74.205.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775294403; cv=none; b=tTuoJ3fNZNs4v0xEQJotxSBvPv4zqqr2ji7o9j45biC1rCADxytzXNvogPvEIsgnXWFhgpvIvwZ9CEUYkWks7/DpZ7lzEd2aI7k1iyMZGGTZJt0eFy9zb7r6YaKQsGpuy8ctiFloKwCSt1FuPZgbrldtHP1u5eD+DtahMbFya80=
+	t=1775298458; cv=none; b=jL6G66tgwSHoNmnwt9GZhMhI908OyVGQYeOKJiAUUSke1zxLEWaPjlcsXYWW/B+VDp01l1DVLQzFU0ztTe/cff2kjSUKBJ4v9Jz6/qfm8FaiKT/d3HheoB+N3fzOKX7chZXAuFCJPBIKeR3jSo2iCMPwv8GwGQBXb9SzI9EmoaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775294403; c=relaxed/simple;
-	bh=EIv7lYr1T7f/GDt0S/Td9JK5NwxiDBxh3MS7M5EUIdo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=o5i79gbMYcQ8AoGRiXxB0XtqdvHMCvjGOSZVnCLUgdD1jWcTbD6lTpG5tnfI8aoBgk3M9szpLWKgKzIprB2wQCi43vzOKHq/1NhjGC93l+FdWLKhWEGwYLtKdDBDMkZtf28Q6X2ndAolRR32TYXCd0+uxajUMCNk8OVyvRzAf5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Elm1KLkS; arc=none smtp.client-ip=74.125.82.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1775298458; c=relaxed/simple;
+	bh=fncsnxVbZmAIhowtb8z1XKYlG7bmJ0vxpq4XM/cCIJ8=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=tTa3mLbTO07FT9/2G0W4J2JYxQosq0xe26T6xXBozRfwtcwzoHNmoWI3ZRlasQRCHYpFRMHsIbRdY5eKOEjTHFPzL+z/9CmEBwerc+GEGSpq/6L/yhwm+BvHG71VxTwVNa0cp6k6YVV+jG+Iz7v3m+qZy0vuOOdd+EgyJ4lWflA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kramkow.ski; spf=pass smtp.mailfrom=kramkow.ski; dkim=pass (2048-bit key) header.d=kramkow.ski header.i=@kramkow.ski header.b=kZ3uzqLl; arc=none smtp.client-ip=109.74.205.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kramkow.ski
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kramkow.ski
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Elm1KLkS"
-Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-2c15849aa2cso2953023eec.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 04 Apr 2026 02:20:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775294401; x=1775899201; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=m4D9KIHfQ19G+ih5n0VIDlQHW6gYQM9spmrNFkW8GpA=;
-        b=Elm1KLkSxBChhGjXkYEzfmsjYyDAR+6DwGIVs98jb6IKFddd7aW1ULpxysF0dVdzB6
-         ssk5N/00z3oT2H9foE43/7V4/tyrEakEO1UJ6tZ5qNILoOkti1NZzm+Czz8E6XpXDa9+
-         +hAuYNqW28v6qMJ2LOPQ6JMRE4vfjTYJwR8EEGH/UHedyPAzBvSSAwLjzZGe35UO/QUh
-         dAHr8mfe/SkAZlQFcdyKN6RB/41Qrw0VQJ0bIrWnbGVXe/5Ju2nkTvomPTfqUIT82XxN
-         O4kCri2UHzuUkyL49gQdyGmx6yMZvl7w/euUP0HLLwchL3cmB4JSoJElo65AqFH3fnyq
-         XRzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775294401; x=1775899201;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=m4D9KIHfQ19G+ih5n0VIDlQHW6gYQM9spmrNFkW8GpA=;
-        b=j5FE4zGJ9wtVL0Pl/g90dG9lryW/xAQqOGTPyHtdndfSkbphQO5O/UILZYxXqo10W6
-         AupcsquW3I86IIrjJ+sXKshL0tgzS6miq9VCu+iBiSTiPdBiASOIALkyUkpU5SxfAb9+
-         dKqusEJjymRRS1fSGl1YusNJh8H5Wmw2DuXX2bpwhNG8a6xb6M+TH0qMBQuPL/NWA9x3
-         OibLXavpWlzuyfE1eRjqkWcaj8xTTdlD8Wr5SNpAySpePllRHQscoE8YL10i7hU8JcE5
-         CONl1/6h+ZeEOtdWXgjeUt8NH78yyAM8qrrNc0d8SCIk5fMwsYrGljJlHzdvCfirXDc6
-         qvXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU3DOscIaxDmg6b/zESMrL+udSZr6Jo36/S5HRWZm5Mz0AQ3AmJfH2vEBC7Piw75COp14HvIRB3PphqHd4p@vger.kernel.org
-X-Gm-Message-State: AOJu0YxnRRyr/2doCun7cipLr4MnFnmcZOxq9I35KEwLaR74O/Kd+m8I
-	v1mHx9lT7MQ/pxe93elOMspIhcU3MvzSyvu2jZNVIKtdi822bnc24ELz
-X-Gm-Gg: AeBDievMizD5+II5zmdETx3eNSQKxM/PCD18RNopmfWk+0kEiSpjdETqoUbvL5OkVJx
-	ok/3WxRcpsWVOTHkMQ90DJdZLtPfhyET6Mf4PRjjBnat+PK1bIqVImo1KLhWanS/oCjLo0m1eFo
-	OhdxXyvJXm8WAFmnPLOiueXg8AeoxeA1OYQUzZ0Gi1spu6rP2M5pg1GEUTSXLjJ4JVZnAIaaRmm
-	oBWqQyGbKi7RjrK9jU8ECZdJZ7MQ2vEFeiFmZ6GmAIt5UI/+gEEx/vObjKG4Ju37uAwmKVPGccC
-	8yRkyk69cyonCS6whWxmcLAl1NjLMn7WQeAJfehYauf5QCI7tdJBEFBuQ75GS4SH1OYq0pxfRHx
-	xnJhRrPOJz8/rMHs7K3K0rmtU0ppR0vpP6BEfdq9BjmGpjpnGErlV4I1JEFCbZYyg6TiwCJJVXE
-	FUcWncXBWuJZOMmJDHD12UZtY=
-X-Received: by 2002:a05:7300:a287:b0:2c1:74ad:2cd7 with SMTP id 5a478bee46e88-2cbfbf760c4mr2791873eec.27.1775294400761;
-        Sat, 04 Apr 2026 02:20:00 -0700 (PDT)
-Received: from localhost.localdomain ([2607:f130:0:11a::31])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ca78df3b84sm7176920eec.5.2026.04.04.02.19.55
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 04 Apr 2026 02:20:00 -0700 (PDT)
-From: wang lian <lianux.mm@gmail.com>
-To: 21cnbao@gmail.com
-Cc: akpm@linux-foundation.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	loongarch@lists.linux.dev,
-	surenb@google.com,
-	willy@infradead.org,
-	wang lian <lianux.mm@gmail.com>,
-	Wang Lian <wanglian@kylinos.cn>,
-	Kunwu Chan <chentao@kylinos.cn>,
-	Kunwu Chan <kunwu.chan@gmail.com>
-Subject: Re: [RFC PATCH 0/2] mm: continue using per-VMA lock when retrying page faults after I/O
-Date: Sat,  4 Apr 2026 17:19:32 +0800
-Message-ID: <20260404091936.51961-1-lianux.mm@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <CAGsJ_4wnwAet4svDrxT4sTdp24sweAU-2VyYn3iNPOoaKdXxPw@mail.gmail.com>
-References: <CAGsJ_4wnwAet4svDrxT4sTdp24sweAU-2VyYn3iNPOoaKdXxPw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kramkow.ski header.i=@kramkow.ski header.b="kZ3uzqLl"
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; s=20220506; bh=fncsnxVbZmA
+	Ihowtb8z1XKYlG7bmJ0vxpq4XM/cCIJ8=; h=in-reply-to:references:to:from:
+	subject:cc:date; d=kramkow.ski; b=kZ3uzqLlMcoQ37v1J6JJ9uQ90kKvtG9oAJnb
+	G52dTXp3/wXHHuQj1jYjxwp+FajddPSqpexWBuSWMIh7iG8mnJrmCuUC+mxmWrHG4IeJyU
+	gLAKAu2NOGpocnaNNj2esIslqep5xqqU9HD9MrVZ0ZLLXmNdRIR5hVqNobxxjOE+hbchUA
+	UFIbH35bc2arAOjxaZupWpn9ApSAgeL6N3sXkEgJ0NwK+NP7Z+8bcMaeElUJGeM6pCuleH
+	oyCHwqmoDGKK5u3UvuCeEX9ifnS4aLQBFsI0iW93jmaCZx01uS6UYXivbrhIV0JjuTGNMT
+	Zz/8Qvt9QooOroWyUw23KpX7+Q==
+Received: from localhost (flit-04-b2-v4wan-169180-cust382.vm32.cable.virginm.net [81.96.161.127])
+	by erebus.slow.network (OpenSMTPD) with ESMTPSA id 4124dfb7 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Sat, 4 Apr 2026 10:27:29 +0000 (UTC)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=y
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 04 Apr 2026 11:27:28 +0100
+Message-Id: <DHKAS08JUNOZ.12AB204VQ9MXH@kramkow.ski>
+Cc: <stable@vger.kernel.org>, "Alva Lan" <alvalan9@foxmail.com>, "Alexander
+ Viro" <viro@zeniv.linux.org.uk>, "Christian Brauner" <brauner@kernel.org>,
+ <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH] xattr: restore file descriptor checks
+From: "Tomasz Kramkowski" <tomasz@kramkow.ski>
+To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+X-Mailer: aerc
+References: <20260403230636.344097-1-tomasz@kramkow.ski>
+ <2026040419-volumes-femur-731d@gregkh>
+In-Reply-To: <2026040419-volumes-femur-731d@gregkh>
 
-Hi Barry,
+On Sat Apr 4, 2026 at 7:23 AM BST, Greg Kroah-Hartman wrote:
+> On Sat, Apr 04, 2026 at 12:06:36AM +0100, Tomasz Kramkowski wrote:
+>> This patch restores the checks incorrectly removed by commit
+>> 5a1e865e5106 ("xattr: switch to CLASS(fd)").
+>>=20
+>> That commit was an attempt backport an upstream commit which had
+>> modified but did not remove the checks to see if the passed file
+>> descriptor referred to an open file. This seems to have resulted in the
+>> backport removing the checks.
+>>=20
+>> This leads to a kernel panic when calling `fgetxattr`, `flistxattr`,
+>> `fremovexattr`, and `fsetxattr` with a file descriptor which does not
+>> refer to an open file.
+>>=20
+>> Tested in qemu.
+>>=20
+>> Signed-off-by: Tomasz Kramkowski <tomasz@kramkow.ski>
+>
+> Ah crap, I should have caught that in the original backport, sorry about
+> that.
+>
+> Should we just revert the original and wait for a "fixed" version to
+> show up instead?
 
-> If either you or Matthew have a reproducer for this issue, I’d be
-> happy to try it out.
+I thought about it too. I'm not too familar with working on stable and
+the stable-kernel-rules doc doesn't seem to cover this scenario. Sounds
+like a cleaner approach overall though.
 
-Kunwu and I evaluated this series ("mm: continue using per-VMA lock when
-retrying page faults after I/O") under a stress scenario specifically
-designed to expose the retry behavior in filemap_fault(). This models
-the exact situation described by Matthew Wilcox [1], where retries after
-I/O fail to make forward progress under memory pressure.
+I'll revert, verify it doesn't break something else, and send it over
+shortly.
 
-The scenario targets the critical window between I/O completion and
-mmap_lock reacquisition. This workload deliberately includes frequent
-mmap/munmap operations to simulate a highly contended mmap_lock
-environment alongside severe memory pressure (1GB memcg limit). Under
-this pressure, folios instantiated by the I/O can be aggressively
-reclaimed before the delayed task can re-acquire the lock and install
-the PTE, forcing retries to repeat the entire work.
+> thanks,
+>
+> greg k-h
 
-To make this behavior reproducible, we constructed a stress setup that
-intentionally extends this interval:
-* 256-core x86 system
-* 1GB memory cgroup
-* 500 threads continuously faulting on a 16MB file
+Thanks,
 
-The core reproducer and the execution command are provided below:
+--=20
+Tomasz Kramkowski
 
-#define _GNU_SOURCE 
-#include <errno.h> 
-#include <fcntl.h> 
-#include <pthread.h> 
-#include <stdatomic.h> 
-#include <stdint.h> 
-#include <stdio.h> 
-#include <stdlib.h> 
-#include <string.h> 
-#include <sys/mman.h> 
-#include <unistd.h> 
-#include <time.h> 
-
-#define THREADS 500 
-#define FILE_SIZE (16 * 1024 * 1024) /* 16MB */ 
-
-static _Atomic int g_stop = 0; 
-#define RUN_SECONDS 600 
-
-struct worker_arg { 
-        long id; 
-        uint64_t *counts; 
-}; 
-
-void *worker(void *arg) 
-{ 
-        struct worker_arg *wa = (struct worker_arg *)arg; 
-        long id = wa->id; 
-        char path[64]; 
-        uint64_t local_rounds = 0; 
-
-        snprintf(path, sizeof(path), "./test_file_%d_%ld.dat", 
-                 getpid(), id); 
-        int fd = open(path, O_RDWR | O_CREAT | O_TRUNC, 0666); 
-        if (fd < 0) return NULL; 
-        if (ftruncate(fd, FILE_SIZE) < 0) { 
-                close(fd); return NULL; 
-        } 
-
-        while (!atomic_load_explicit(&g_stop, memory_order_relaxed)) { 
-                char *f_map = mmap(NULL, FILE_SIZE, PROT_READ, 
-                                   MAP_SHARED, fd, 0); 
-                if (f_map != MAP_FAILED) { 
-                        /* Pure page cache thrashing */ 
-                        for (int i = 0; i < FILE_SIZE; i += 4096) { 
-                                volatile unsigned char c = 
-                                        (unsigned char)f_map[i]; 
-                                (void)c; 
-                        } 
-                        munmap(f_map, FILE_SIZE); 
-                        local_rounds++; 
-                } 
-        } 
-        wa->counts[id] = local_rounds; 
-        close(fd); 
-        unlink(path); 
-        return NULL; 
-} 
-
-int main(void) 
-{ 
-        printf("Pure File Thrashing Started. PID: %d\n", getpid()); 
-        pthread_t t[THREADS]; 
-        uint64_t local_counts[THREADS]; 
-        memset(local_counts, 0, sizeof(local_counts)); 
-        struct worker_arg args[THREADS]; 
-
-        for (long i = 0; i < THREADS; i++) { 
-                args[i].id = i; 
-                args[i].counts = local_counts; 
-                pthread_create(&t[i], NULL, worker, &args[i]); 
-        } 
-
-        sleep(RUN_SECONDS); 
-        atomic_store_explicit(&g_stop, 1, memory_order_relaxed); 
-
-        for (int i = 0; i < THREADS; i++) pthread_join(t[i], NULL); 
-
-        uint64_t total = 0; 
-        for (int i = 0; i < THREADS; i++) total += local_counts[i]; 
-
-        printf("Total rounds     : %llu\n", (unsigned long long)total); 
-        printf("Throughput       : %.2f rounds/sec\n", 
-               (double)total / RUN_SECONDS); 
-        return 0; 
-}
-
-Command line used for the test:
-systemd-run --scope -p MemoryHigh=1G -p MemoryMax=1.2G -p MemorySwapMax=0 \
---unit=mmap-thrash-$$ ./mmap_lock & \
-TEST_PID=$!
-
-We also added temporary counters in page fault retries [2]:
-- RETRY_IO_MISS   : folio not present after I/O completion
-- RETRY_MMAP_DROP : retry fallback due to waiting for I/O
-
-We report representative runs from our 600-second test iterations 
-(kernel v7.0-rc3):
-
-| Case                | Total Rounds | Throughput | Miss/Drop(%) | RETRY_MMAP_DROP | RETRY_IO_MISS |
-| ------------------- | ------------ | ---------- | ------------ | --------------- | ------------- |
-| Baseline (Run 1)    | 22,711       | 37.85 /s   | 45.04        | 970,078         | 436,956       |
-| Baseline (Run 2)    | 23,530       | 39.22 /s   | 44.96        | 972,043         | 437,077       |
-| With Series (Run A) | 54,428       | 90.71 /s   | 1.69         | 1,204,124       | 20,398        |
-| With Series (Run B) | 35,949       | 59.91 /s   | 0.03         | 327,023         | 99            |
-
-
-Notes:
-1. Throughput Improvement: During the 600-second testing window, overall 
-   workload throughput can more than double (e.g., Run A jumped from ~38 
-   to 90.71 rounds/sec).
-2. Elimination of Race Condition: Without the patch, ~45% of retries 
-   were invalid because newly fetched folios were evicted during the 
-   mmap_lock reacquisition delay. With the per-VMA retry path, the 
-   invalidation ratio plummeted to near zero (0.03% - 1.69%).
-3. Counter Scaling and Variance: In Run A, because the I/O wait 
-   bottleneck is eliminated, the threads advance much faster. Thus, the 
-   absolute number of mmap_lock drops naturally scales up with the 
-   increased throughput. In Run B, the primary bottleneck shifts to the 
-   mmap write-lock contention (lock convoying), causing throughput and 
-   total drops to fluctuate. Crucially, the Miss/Drop ratio remains near 
-   zero regardless of this variance.
-
-Without this series, almost half of the retries fail to observe
-completed I/O results, causing severe CPU and I/O waste. With the
-finer-grained VMA lock, the faulting threads bypass the heavily
-contended mmap_lock entirely during retries, completing the fault
-almost instantly.
-
-This scenario perfectly aligns with the exact concern raised, and these
-results show that the patch not only successfully eliminates the retry
-inefficiency but also tangibly boosts macro-level system throughput.
-
-[1] https://lore.kernel.org/linux-mm/aSip2mWX13sqPW_l@casper.infradead.org/
-[2] https://github.com/lianux-mm/ioretry_test/
-
-Tested-by: Wang Lian <wanglian@kylinos.cn>
-Tested-by: Kunwu Chan <chentao@kylinos.cn>
-Reviewed-by: Wang Lian <lianux.mm@gmail.com>
-Reviewed-by: Kunwu Chan <kunwu.chan@gmail.com>
-
---
-Best Regards,
-wang lian
