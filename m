@@ -1,47 +1,55 @@
 Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33C732512C8;
-	Sat,  4 Apr 2026 18:29:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 048CD1E5B68
+	for <linux-fsdevel@vger.kernel.org>; Sat,  4 Apr 2026 18:51:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775327353; cv=none; b=HMBbKVq6nXrMbdqaIueK66UClvHfZmyHWjgwlGoJD3MR/c4b3rIMNJNQyh/+oPFdPSNqGgi7LTiKl1cRml8gU4oAogAKrCcskAmZX+lds6WevM5WrJxe+qq1+NhsxKs4rRQt3ze5/HcahtsGMgoCq26B8GDx/h8LqTEhHlD0fs4=
+	t=1775328667; cv=none; b=KEPCFfflkQtTr7z/D93qZZ0WfgU9461n/4Z8R/1pTA6yq9pW3EZv5/vU+/uTW0EG44a1bSDEARmi5mZUzP6M+dJ0q6+ItV8zUcye/o4D8eVnoqvrpLBpQqksQ28Uqws5vZEsQQDw4hQokeNI8gBV/qxzhehisWNmQJDNSYVC45U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775327353; c=relaxed/simple;
-	bh=nL1L7o+lv3KBLOUnskn8apIM+PiqO7lhuZh5ljkMjqg=;
+	s=arc-20240116; t=1775328667; c=relaxed/simple;
+	bh=RIMQ7gt9VXUY6NUxSyBR9ERADwzpsONdKm65yqZ4A9o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SPZhMejGExW/mgJeTX7eCuq7S9UN+GtHQQUuSGP536T4eqvPPK8RxCI4oKkW4wCZ84smf6Cisrv2h8BS4WOrrS/4rKDEg1aJ5AIREm8X5LSQIR/h6CD8n94x2wVqwnLN8QZRcj4ugrBlS7FDNNoi6uW7nmfYk88GVQoxT0pdPrs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=hNkDZfNE; arc=none smtp.client-ip=62.89.141.173
+	 Content-Type:Content-Disposition:In-Reply-To; b=VzpFO1uTt+yeUhUoh/z0uE3pk8NqXrPOxqhVL5Om61c+94dh0UgYVKNxFqW/+UKX6GyJIKLM75VrYEdfMud/wpNqBicqf4Sz2y5mc5xpaSHn2nBH7HuhV9zIVkVv+L1MRCs4UPmQih77A7iQ9S/7cvTXrBBtA6tCvt9KCsscDhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=VvRKTYxz; arc=none smtp.client-ip=62.89.141.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="hNkDZfNE"
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="VvRKTYxz"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=rrTHR7dNnaez2Bbwh4FimXhFORdbtkfPUjsahhkg/8s=; b=hNkDZfNEtm92gnsyOSfdlc/lpg
-	P+vYPCDL6+0Z98oqOI2UD3ZPgicqWqYKVQuAn61sDrT7R0IM+3pG+lBQjC1VxJSOridwZGtiR10DC
-	leYYZYl1MKij1c2OuWo4qTE1gVITijDdlUfqijnL5amfV8Cyerx0pdZ+70etVPT7A4eFsiZAny5aU
-	ggnd4IcvPEVim6EGhwpR0C3G1ICJd+8xOeOliV6osuc2sprNMVEV3hJHoXIljjd+PmipZNkQRMx4p
-	TratFN6vAUT84od2SvVjFhIqM5NBFtOTULR02Bk2+Itja+dozYrvZYh3DpujaND0JyBttPEcC9J4x
-	YVH+IMxw==;
+	bh=M5ADKraXeWtqSNwmcZA4bc9v/d6rgy9VCArWOFBQMIk=; b=VvRKTYxzm++2DgkjtOfnWfdqJH
+	GUFWr4FZrNdHS9AjXPQGF/fGyBvKtvKmEg+KNgaDkPYsLeagexZ9glCFSThh6NCY0zIrPTnqKmbod
+	WnRgXD9hE9R+/OL7gSnshPTxmMCSsxNDbN6o5a0VglykuBw2JozgP/LOvd0fYBffv9FzvcorGrq5w
+	oUIwoTOq94zSzfp6OlzZ4pydGHW4YljKmBgGID99snWifX+ty54LV56grG58Vo0ed9yQUHRz/hSbl
+	1mSX8zR8KvhqQ8Nuh67eGyLWFuZ17TxCZQIWoOd/TufHrjzB77Ya/U25EtBJDGRQveCl4hHmHeS3G
+	LCpHwC0A==;
 Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1w95nb-0000000BkjH-443x;
-	Sat, 04 Apr 2026 18:32:48 +0000
-Date: Sat, 4 Apr 2026 19:32:47 +0100
+	id 1w968p-0000000BlNA-0AnH;
+	Sat, 04 Apr 2026 18:54:43 +0000
+Date: Sat, 4 Apr 2026 19:54:42 +0100
 From: Al Viro <viro@zeniv.linux.org.uk>
-To: Trond Myklebust <trondmy@hammerspace.com>
-Cc: "anna@kernel.org" <anna@kernel.org>,
-	"hch@infradead.org" <hch@infradead.org>,
-	"linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] NFS: Fix directory delegation verifier checks
-Message-ID: <20260404183247.GA2798238@ZenIV>
-References: <20251219201344.380279-1-anna@kernel.org>
- <aUnHnlnDtwMJGP3u@infradead.org>
- <aUnq_d93Wo9e-oUD@infradead.org>
- <53d40f4781783f9b79196bb30975b788be8bb969.camel@hammerspace.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>, Nikolay Borisov <nik.borisov@suse.com>,
+	Max Kellermann <max.kellermann@ionos.com>,
+	Eric Sandeen <sandeen@redhat.com>,
+	Paulo Alcantara <pc@manguebit.org>
+Subject: Re: [RFC PATCH v2 4/4] get rid of busy-waiting in
+ shrink_dcache_tree()
+Message-ID: <20260404185442.GR3836593@ZenIV>
+References: <20260402180850.3729310-1-viro@zeniv.linux.org.uk>
+ <20260402180850.3729310-5-viro@zeniv.linux.org.uk>
+ <CAHk-=wjR66-0qL08k9p10Lt9vuvmddFT5WvfnG+xXf4Xv3-VhA@mail.gmail.com>
+ <20260402224439.GI3836593@ZenIV>
+ <CAHk-=wg7O-p8L7384myYTus6NH5aYdoS=y=+iALL_8DLT3=ZLw@mail.gmail.com>
+ <20260402231643.GJ3836593@ZenIV>
+ <CAHk-=wg5HkyPCFsfXS6u2xe5h=dV5WT9zaeqt-fRQyE+OxKGYA@mail.gmail.com>
+ <20260403021522.GK3836593@ZenIV>
+ <20260404000200.GO3836593@ZenIV>
+ <CAHk-=wj+4igg2oOydcfZ=yqAd8MW_wT4db7SFtPFOsS31rnh8A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -50,35 +58,81 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <53d40f4781783f9b79196bb30975b788be8bb969.camel@hammerspace.com>
+In-Reply-To: <CAHk-=wj+4igg2oOydcfZ=yqAd8MW_wT4db7SFtPFOsS31rnh8A@mail.gmail.com>
 Sender: Al Viro <viro@ftp.linux.org.uk>
 
-[cc to fsdevel added]
+On Fri, Apr 03, 2026 at 05:04:26PM -0700, Linus Torvalds wrote:
+> On Fri, 3 Apr 2026 at 16:58, Al Viro <viro@zeniv.linux.org.uk> wrote:
+> >
+> > FWIW, I wonder if we would be better off with something like
+> >
+> > struct completion_list {
+> >         struct completion completion;
+> >         struct completion_list *next;
+> > };
+> >
+> > embedded into select_data, with dentry->waiters being a pointer
+> > to that.  It's just that dragging struct select_data into that,
+> > even as an opaque pointer, tastes wrong ;-/
+> >
+> > Preferences?
+> 
+> I have no strong preferences in this area.
+> 
+> The opaque pointer is fine by me, because it's type-safe without
+> exposing internal implementation or having people being able to much
+> around with the fields.
+> 
+> But if you prefer a completion list, i don't see that being a problem
+> either. So entirely up to you.
 
-On Wed, Dec 31, 2025 at 09:52:35PM +0000, Trond Myklebust wrote:
+BTW, how much would you hate something like
 
-> +static void nfs_clear_verifier_directory(struct inode *dir)
-> +{
-> +	struct dentry *this_parent;
-> +	struct dentry *dentry;
-> +	struct inode *inode;
-> +
-> +	if (hlist_empty(&dir->i_dentry))
-> +		return;
-> +	this_parent =
-> +		hlist_entry(dir->i_dentry.first, struct dentry, d_u.d_alias);
-> +
-> +	spin_lock(&this_parent->d_lock);
-> +	nfs_unset_verifier_delegated(&this_parent->d_time);
-> +	dentry = d_first_child(this_parent);
-> +	hlist_for_each_entry_from(dentry, d_sib) {
-> +		if (unlikely(dentry->d_flags & DCACHE_DENTRY_CURSOR))
-> +			continue;
-> +		inode = d_inode_rcu(dentry);
-> +		if (inode &&
-> +		    NFS_PROTO(inode)->have_delegation(inode, FMODE_READ, 0))
-> +			continue;
+/*
+ * Check if dentry is already dying and if it is arrange to be notified
+ * once it's gone.
+ *
+ * caller must hold rcu_read_lock and dentry->d_lock
+ */
+static bool d_deathwatch(struct dentry *dentry, struct completion_list *node)
+{
+	if (dentry->d_lockref.count >= 0)
+		return false;		// it's not dying yet
 
-What's to stop the inode from being freed right under you?  You are *not*
-guaranteed to be holding rcu_read_lock(), unless I'm missing something
-in the call chain, so... what's going on here?
+	init_completion(&node->completion);
+	if (unlikely(dentry->d_flags & DCACHE_DENTRY_KILLED)) {
+		// it's already gone
+		complete(&node->completion);
+		return true;
+	}
+	node->next = dentry->waiters;
+	dentry->waiters = node;
+	return true;
+}
+
+with
+		if (data.victim) {
+			struct dentry *v = data.victim;
+			struct completion_list wait;
+
+			spin_lock(&v->d_lock);
+			if (d_deathwatch(v, &wait)) {
+				// Another thread got around to killing it.
+				// if there's something else to evict, do so
+				// then wait for the victim to be gone
+				spin_unlock(&v->d_lock);
+				rcu_read_unlock();
+				if (!list_empty(&data.dispose))
+					shrink_dentry_list(&data.dispose);
+				wait_for_completion(&wait.completion);
+				continue;
+			}
+			if (!lock_for_kill(v)) {
+				spin_unlock(&v->d_lock);
+				rcu_read_unlock();
+			} else {
+				shrink_kill(v);
+			}
+		}
+
+in shrink_dentry_tree()?
