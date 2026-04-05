@@ -1,42 +1,45 @@
 Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00F532798F8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 080103101B2
 	for <linux-fsdevel@vger.kernel.org>; Sun,  5 Apr 2026 02:11:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775355103; cv=none; b=l0RNu/oX8MiW/BQL/WfaQNk8o+gMM1DMvR20W71csOWyipHT6hxhn/xilBHkOfjUgPQc6siJQJduK4hUeCvyBxF/PfRqUcV4xGoCuhY/vBCgB1YsFwp2nmlJd4Q5gzITpF3PHzAL0YaJ5RvjxYmRb2l7MMFJVXiP9g8Wk6eqZrw=
+	t=1775355103; cv=none; b=IXrBuTCpaeInVsWPhpw9rClS2slSBpvCb6zY7QsSDxI+4R4XeHk2FnITKQM6EHkXDdLGDr9rbu8CCAEhx3CnkI5Q+/rmAlAHYLTY3ocx9MLtmTekURJAF+9zGW1VxzMxWtkoRbeKUFZpvCJEWP4QTjO+r5RUEBxiZQkThefwQaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1775355103; c=relaxed/simple;
-	bh=zusbk0+1onyGzkWDWyTAhOSfGdl3HyGQN9IIYXakQCI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hujqzq7e6ZTiVl+N/oc1xX/Qtd8JDeAcvbFWtyVD1YqrNsQdi2otjM/F8UPjmaGqqut10ErfI4pk6PinPrOav4zqdE8XrQATBe050QMTmS/jM4OLWttb/Qu7yTYVPZ637rTaog20hps6ERUhKL0Y7LSqkoKuhihPe/L7lhwTr6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=Npey0ZUL; arc=none smtp.client-ip=62.89.141.173
+	bh=ibthNlC76wrpl54fnY7tuKKKujl1ing3jCYAtOo3c8A=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=sctMzYQ25OsML6aY2VvZO13n2nOKn20vme50jDTAsiTpn8f8nkzroHujyqw2kk1pKAmG8QFQflRMvo8k3ubogHmIvFgvlXhzf1qOWDHIPoqqmkSC/rcfpEUShi29Q3eKW5AGVIykuMFcd68Pey5LUXGiFHNVmbu7PrwLm3qcHKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=EWvDiQcn; arc=none smtp.client-ip=62.89.141.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="Npey0ZUL"
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="EWvDiQcn"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=linux.org.uk; s=zeniv-20220401; h=Sender:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=nXaOa8eWIXq5CgHkGsSwUfyd1y6wE+spJxlq5iV/i4g=; b=Npey0ZULSRzHlHcGi/A2EdUjhb
-	UFQyzWOnGAw8I5dhNNUo1uLDAgoJEZc6fcteMQeiQhWsWa+3V1oNu75er2Cx6xitTYXujjuIeiINI
-	4a0IUUosEqkueCE6CHWxUXr1lUHV4mN2fj5fgBcv2mRtK713Ro1pUwELXN7tb5f5Ycud5btZPRVVs
-	0gXbpgMXpVt2a//ocPDHAyTdzoQsLR3c5E8NU1rX7aX2uqBLz/PUcEyjLfclnYcm7JgoF0kzaHYki
-	QIzBsYW60QuUD/p7qm4S6m3bQegLgJGRqoxDnD/1ttS+KYSi5EGwmaltGbywvc2xCjJca+TbB1m6F
-	EiJZqF/Q==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description;
+	bh=BsQETwp2AwlUZ0rAA+NLSbAPRuixOrdcziYvQwbbx5s=; b=EWvDiQcnN3qwUSS1XqCZOxWvHq
+	YoLyIy1J8ko5XQR7lXjz8kmogPjYzHRjojc4yvPQynaBVGFFdwOJw2QFO3FdvKQsrrcBkGl3Q6Zls
+	SdbF204Pn9nUg5kO1ozstIxgZdRsuvKXvi56wnDEjinMvhplLvz1VkRCSaoRJ/Lwk8Ajf+FqCtcay
+	pVead5XAFrdSm7RWDfv62uKZi+oPGpd+Sqx1EdNmSarmoFJiD2dhSLe3JCib5ANCCHAgiN3eCXZqL
+	L0h3DbluXMQvooq8Ds1myZzrTU/QbYYfcVD2SqrTtBQJragCnumGyKDykxySbyoNVfrJEL9ZfCXlS
+	16cAuljg==;
 Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1w9D19-0000000C1gP-3dws;
-	Sun, 05 Apr 2026 02:15:15 +0000
+	id 1w9D1A-0000000C1gZ-0yAX;
+	Sun, 05 Apr 2026 02:15:16 +0000
 From: Al Viro <viro@zeniv.linux.org.uk>
 To: linux-fsdevel@vger.kernel.org
 Cc: Christian Brauner <brauner@kernel.org>,
 	Jan Kara <jack@suse.cz>,
 	Jan Harkes <jaharkes@cs.cmu.edu>
-Subject: [PATCH 0/3] coda dcache-related cleanups and fixes
-Date: Sun,  5 Apr 2026 03:15:12 +0100
-Message-ID: <20260405021515.2866402-1-viro@zeniv.linux.org.uk>
+Subject: [PATCH 3/3] coda_flag_children(): fix a UAF
+Date: Sun,  5 Apr 2026 03:15:15 +0100
+Message-ID: <20260405021515.2866402-4-viro@zeniv.linux.org.uk>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260405021515.2866402-1-viro@zeniv.linux.org.uk>
+References: <20260405021515.2866402-1-viro@zeniv.linux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -46,36 +49,37 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Al Viro <viro@ftp.linux.org.uk>
 
-1) prior to 2002 coda_revalidate_inode() used make_bad_inode() on
-failures; is_bad_inode() checks used to make sense back then.  For
-the last 23.5 years they had been dead code; let's take them out...
+if de goes negative right under us, there's nothing to prevent inode
+getting freed just as we call coda_flag_inode().  We are not holding
+->d_lock, so it's not impossible.  Not going to be reproducible on
+bare hardware unless it's a realtime config, but it could happen on KVM.
 
-2) coda ->d_delete() appears to have been hit by somebody overhardened
-back in 2021.  Useful tip: if we've just checked d_really_is_negative()
-and it had returned false, dentry->d_inode is *NOT* going to be NULL.
+Trivial to fix - just hold rcu_read_lock() over that loop.
 
-3) coda_flag_children() is holding ->d_lock on parent while iterating
-through the list of its children; that's fine, but that does not protect
-->d_inode of individual children.  Hold rcu_read_lock() over the entire
-loop to prevent UAF there...
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+---
+ fs/coda/cache.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-No preferences regarding the tree these would go through; at the moment
-it's in
-git://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git #work.coda
-but if coda folks prefer to route those through another tree, just say
-so.
-
-Individual patches in followups.  Please, review.
-
-Al Viro (3):
-  coda: is_bad_inode() is always false there
-  sanitize coda_dentry_delete()
-  coda_flag_children(): fix a UAF
-
- fs/coda/cache.c |  2 ++
- fs/coda/dir.c   | 15 +++------------
- 2 files changed, 5 insertions(+), 12 deletions(-)
-
+diff --git a/fs/coda/cache.c b/fs/coda/cache.c
+index 970f0022ec52..245131296300 100644
+--- a/fs/coda/cache.c
++++ b/fs/coda/cache.c
+@@ -93,12 +93,14 @@ static void coda_flag_children(struct dentry *parent, int flag)
+ 	struct dentry *de;
+ 
+ 	spin_lock(&parent->d_lock);
++	rcu_read_lock();
+ 	hlist_for_each_entry(de, &parent->d_children, d_sib) {
+ 		struct inode *inode = d_inode_rcu(de);
+ 		/* don't know what to do with negative dentries */
+ 		if (inode)
+ 			coda_flag_inode(inode, flag);
+ 	}
++	rcu_read_unlock();
+ 	spin_unlock(&parent->d_lock);
+ }
+ 
 -- 
 2.47.3
 
