@@ -1,50 +1,55 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B048F2877CF;
-	Sat,  4 Apr 2026 20:46:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41D0813FEE
+	for <linux-fsdevel@vger.kernel.org>; Sun,  5 Apr 2026 00:00:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775335615; cv=none; b=N94Tg3Gyx00Srse6dIpRvRyizpK2fUQmOL8Nt7Ibc1GuWgXPNfB40vjKEEtbc6pdghPtPMGMlx6oJcmeOxXf0sCh8lqTsABmA+0DM3+d484t3uR1AO9KUhCffae/V1Afbf+8gaHTNHpZvPtW18N2za94eFRlcKADv8I4heMmgeM=
+	t=1775347237; cv=none; b=p4+/3zTtogYc6eTSE3r6Qt7WeHmM+w3xJ+es8WOCwonR5PHkCe/NRsdchIPBSKc6OcY0pajBoCQSutdFjKmlogBEE4jB4vfDUxKg7a08KAn/v52h60jLiMKaTa1H7u/zzwOHHG6N1pEQi1epTWNL6DBD7Dj1foy6X2fiBCEQZG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775335615; c=relaxed/simple;
-	bh=mSTmkv4UXnOl0EgRCt2f8anxnf8qJMHtmD/Nirm1Cbs=;
+	s=arc-20240116; t=1775347237; c=relaxed/simple;
+	bh=poEbs3G2+TJSnDBGvd9CbZoHwhqRa/MH6nv9SJX9oEE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RBIDGrXNQRudRACnJ61YLvu4T2WuJrbUsKbZAhN4qVZA2unxuWLKaRW+RwGxE6O3CzeHwhElaRs+94bWeaaIXqDg15uNYaEs1lQ1ZhPqnd4CAlSBCQHwbPyDMO5DsRPLIy4iBNzkt1r8+Pj1/2VJ6G+/2Q0ZjfPYbJAufMgOpos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=YQ4CNywE; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=srN4YJDJJJTFT78359L3t7AqcRVsgNKtoOoxN9HQFt/x2+upu/PTNuP9/4VKW0Gf4EJHEOUbhTAvndbXvG4mPvQDEAWeXY+c5rZULUevhyRGaCaxZRjzUpEQn+JtiwpX6LfSTmIN3tdP//Y7j6wzW2XgsyNkN7XAj3w3FyQjURg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=aWMdbYij; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="YQ4CNywE"
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="aWMdbYij"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=hsCkEyNl1lnp1czfTsQmmel5+1299ohDP+2LAG1kJTw=; b=YQ4CNywEPe47yEr9rMZ/tGxSAf
-	vBBrL5CLil1pMIQhxdubKnoQUdmUnLbS5NoUbezngMT/EaxGSGpOfBO7DCsgFWwVgDdrZcIYUbaqA
-	FLqTDwGStPdCw3tiTutzFqbKKGUEpbPfuyBd3Xn7PVermVrMcgfEiXjddNQIY6xj+lq1CSIv89DaX
-	GIiyGil5Lyvz3VmGEHgtbC1DuNsJJqTqLn5Tw0DPBl19vd6PZz0JiYoHj5RqCsiJaWWs1rbFBIXrO
-	9FepSaecvQo5S1O5foXjHHOb9zOmfxt3EnvuGjNt8PYPl0xHNAo37D/HB2pS5kr4w2RkaXzwjV5E/
-	AOyB2mtg==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w97tJ-0000000GNZd-3hHD;
-	Sat, 04 Apr 2026 20:46:49 +0000
-Date: Sat, 4 Apr 2026 21:46:49 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Ritesh Harjani <ritesh.list@gmail.com>
-Cc: Salvatore Dipietro <dipiets@amazon.it>, linux-kernel@vger.kernel.org,
-	alisaidi@amazon.com, blakgeof@amazon.com, abuehaze@amazon.de,
-	dipietro.salvatore@gmail.com, stable@vger.kernel.org,
-	Christian Brauner <brauner@kernel.org>,
-	"Darrick J. Wong" <djwong@kernel.org>, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH 1/1] iomap: avoid compaction for costly folio order
- allocation
-Message-ID: <adF4uWa0pikq9Vea@casper.infradead.org>
-References: <20260403193535.9970-1-dipiets@amazon.it>
- <20260403193535.9970-2-dipiets@amazon.it>
- <adCQTF1PQnlbNMO8@casper.infradead.org>
- <5x66n04a.ritesh.list@gmail.com>
+	bh=m6Ht6N2szmmMbyQ4G6MDqTQ9GJJ5p/W1+LroQPNRwr4=; b=aWMdbYijSpAVBE0/FVD58ZLPUG
+	iANANydkLuEmmbcj/fUvCNj+r0TCx5rYf1ygM4NiPX+5nogtxsC5UA9qQQZyl59b5Zq4nQatcKrY/
+	GviKIs8rapbIqGpiZx2hG5XCzrgTqjbeWdBh4cdVQq30KJb3N1VlzqafJSY2tJBR+Iek8dbrwDRLP
+	z35jUfQ+pfz/GDsyxlICHny9YlOOsgIBCOby56/wBFYRTYEEyaAwp36OIYw970zxsoV3YF36cNcYa
+	A9uvOzVCHg3G2PxQZupIsEf3Q26SBGtcfjl4mUSN7jgtoSgaf7nl2Z0Hud8RPcWx5rF+AycrLstd9
+	awrImKsw==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1w9AyK-0000000Bwj3-03K7;
+	Sun, 05 Apr 2026 00:04:12 +0000
+Date: Sun, 5 Apr 2026 01:04:11 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>, Nikolay Borisov <nik.borisov@suse.com>,
+	Max Kellermann <max.kellermann@ionos.com>,
+	Eric Sandeen <sandeen@redhat.com>,
+	Paulo Alcantara <pc@manguebit.org>
+Subject: Re: [RFC PATCH v2 4/4] get rid of busy-waiting in
+ shrink_dcache_tree()
+Message-ID: <20260405000411.GT3836593@ZenIV>
+References: <CAHk-=wjR66-0qL08k9p10Lt9vuvmddFT5WvfnG+xXf4Xv3-VhA@mail.gmail.com>
+ <20260402224439.GI3836593@ZenIV>
+ <CAHk-=wg7O-p8L7384myYTus6NH5aYdoS=y=+iALL_8DLT3=ZLw@mail.gmail.com>
+ <20260402231643.GJ3836593@ZenIV>
+ <CAHk-=wg5HkyPCFsfXS6u2xe5h=dV5WT9zaeqt-fRQyE+OxKGYA@mail.gmail.com>
+ <20260403021522.GK3836593@ZenIV>
+ <20260404000200.GO3836593@ZenIV>
+ <CAHk-=wj+4igg2oOydcfZ=yqAd8MW_wT4db7SFtPFOsS31rnh8A@mail.gmail.com>
+ <20260404185442.GR3836593@ZenIV>
+ <CAHk-=wjfwM9FKpa37uvH0c1Bv_VBcuU0jMRAci7Oue=mw5ZXaw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -53,61 +58,72 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5x66n04a.ritesh.list@gmail.com>
+In-Reply-To: <CAHk-=wjfwM9FKpa37uvH0c1Bv_VBcuU0jMRAci7Oue=mw5ZXaw@mail.gmail.com>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-On Sat, Apr 04, 2026 at 10:17:33PM +0530, Ritesh Harjani wrote:
-> Matthew Wilcox <willy@infradead.org> writes:
-> 
-> > On Fri, Apr 03, 2026 at 07:35:34PM +0000, Salvatore Dipietro wrote:
-> >> Commit 5d8edfb900d5 ("iomap: Copy larger chunks from userspace")
-> >> introduced high-order folio allocations in the buffered write
-> >> path. When memory is fragmented, each failed allocation triggers
-> >> compaction and drain_all_pages() via __alloc_pages_slowpath(),
-> >> causing a 0.75x throughput drop on pgbench (simple-update) with 
-> >> 1024 clients on a 96-vCPU arm64 system.
-> >> 
-> >> Strip __GFP_DIRECT_RECLAIM from folio allocations in
-> >> iomap_get_folio() when the order exceeds PAGE_ALLOC_COSTLY_ORDER,
-> >> making them purely opportunistic.
-> >
-> > If you look at __filemap_get_folio_mpol(), that's kind of being tried
-> > already:
-> >
-> >                         if (order > min_order)
-> >                                 alloc_gfp |= __GFP_NORETRY | __GFP_NOWARN;
-> >
-> >  * %__GFP_NORETRY: The VM implementation will try only very lightweight
-> >  * memory direct reclaim to get some memory under memory pressure (thus
-> >  * it can sleep). It will avoid disruptive actions like OOM killer. The
-> >  * caller must handle the failure which is quite likely to happen under
-> >  * heavy memory pressure. The flag is suitable when failure can easily be
-> >  * handled at small cost, such as reduced throughput.
-> >
-> > which, from the description, seemed like the right approach.  So either
-> > the description or the implementation should be updated, I suppose?
-> >
-> > Now, what happens if you change those two lines to:
-> >
-> > 			if (order > min_order) {
-> > 				alloc_gfp &= ~__GFP_DIRECT_RECLAIM;
-> > 				alloc_gfp |= __GFP_NOWARN;
-> > 			}
-> 
-> Hi Matthew,
-> 
-> Shouldn't we try this instead? This would still allows us to keep
-> __GFP_NORETRY and hence light weight direct reclaim/compaction for
-> atleast the non-costly order allocations, right?
-> 
->  			if (order > min_order) {
-> 				alloc_gfp |= __GFP_NOWARN;
-> 				if (order > PAGE_ALLOC_COSTLY_ORDER)
-> 					alloc_gfp &= ~__GFP_DIRECT_RECLAIM;
-> 				else
-> 					alloc_gfp |= __GFP_NORETRY;
-> 			}
+On Sat, Apr 04, 2026 at 12:04:42PM -0700, Linus Torvalds wrote:
 
-Uhh ... maybe?  I'd want someone more familiar with the page allocator
-than I am to say whether that's the right approach.  If it is, that
-seems too complex, and maybe we need a better approach to the page
-allocator flags.
+> > static bool d_deathwatch(struct dentry *dentry, struct completion_list *node)
+> 
+> This looks odd to me. Particularly the "complete it myself" case where
+> you return true. and then shrink the dentry list because you *think*
+> you'll be waiting even if you don't.
+
+Not really - we shrink the list before each rescan anyway.
+
+We have collected some dentries into data.dispose and perhaps we'd stopped at
+finding a victim already in somebody else's shrink list or already dying.
+
+1) no such victim found => shrink data.dispose, rescan
+2) victim found and successfully stolen from whatever shrink list it was on =>
+evict the victim, shrink data.dispose, rescan
+3) victim was busy dying => shrink data.dispose, wait until it finishes dying,
+rescan
+4) victim has managed to die while we'd been returning from d_walk() =>
+shrink data.dispose, rescan
+
+In (3) we could do wait_for_completion() before shrinking data.dispose; that
+would merge the tails of all 4 cases.  However, that would add pointless waits -
+basically, that's the scenario when another thread is sitting inside iput()
+and we would be better off evicting whatever else we'd collected.
+
+So (3) gets shrinking first, then wait, then go for the next iteration.
+Sure, we can have (4) as a separate case is the same 3-way switch, but
+what would it do?
+		spin_unlock(&v->d_lock);
+		rcu_read_unlock();
+		break;	// proceeding to shrink_dentry_list() between the
+			// end of if (data.victim) and the end of loop body
+And right next to it we'd have
+		spin_unlock(&v->d_lock);
+		rcu_read_unlock();
+		shrink data.dispose
+		wait_for_completion(&wait.complete);
+		continue;
+for case (3), which differs only in having shrink_dentry_list() right there
+and followed by wait_for_completion().  Put another way,
+(4) is equivalent to
+		spin_unlock(&v->d_lock);
+		rcu_read_unlock();
+		shrink data.dispose
+		continue;
+
+> IOW, if you go down this case, wouldn't it make more sense to have
+> d_deathwatch() return a ternary value,  and have a switch case in the
+> caller, and just enumerate the different cases?
+
+See above.
+
+> But I don't know. That's really more of a "that looks like an odd
+> pattern" to me than any kind of objection.
+
+FWIW, the thing that had me flipping back and forth between the variants
+of calling conventions until I went "I've been staring at that for too
+long to trust my taste" and asked that question was not the difference
+in location of shrinking - it was self-called complete().
+
+Hell knows; I'll probably leave it as-is for now and return to that
+next week - it doesn't affect correctness, after all, and I'd rather
+have that thing in -next in the current form seeing that it fixes
+a real bug and further modifications would be local to fs/dcache.c
+anyway.
