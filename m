@@ -1,145 +1,157 @@
-Received: from erebus.slow.network (erebus.slow.network [109.74.205.187])
+Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAF53326D65;
-	Sun,  5 Apr 2026 11:46:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.74.205.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EC002D4816;
+	Sun,  5 Apr 2026 17:05:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775389567; cv=none; b=QBuH/MJVtrg34TFhW9yyREAvsS10cLa0M5YpcvY+HQW1O1RJFj7n7/AE2OYjhvp+Kv94aa5A48AG3Qo1QZXXGg3hgRH3cqq1tJG0fSE5xZacA7DBNhiqGqzgd7Xb6BpeppVZoN6xde3ozP3TUcLMvHG1Fjg3QnAbOyqFdRSV/E4=
+	t=1775408740; cv=none; b=Va4nQajlxdSQVTA7rCYv76Wukw63LERgSltbzFcbiaGqSR8HO+Nf65FNhM17pZLXyglmKHDB3PeTvHGJcHt0G3+/uYHu0glGaKg28r9lwBIABC8mCTg9Q8qzSkrfue/cqPrFBWFzwATRinkCsxCOTJw3cqrxoKHcJBgbralBFws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775389567; c=relaxed/simple;
-	bh=EbiHYeDwemDRMIXMMn52TDVPdSdhxmHxQ7JV7c6bDPo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lP8xtymzwrs3Xse7OCQaeOdD66G0Fk8rzj0ldZyf2IkJn6JNELpUvxGZBxyJXfNPA7Iallc/Tn0zcvhAuKC2hddj0+jmhI980HgblBv4/b3o44peqGi5JbBZG2ywV5tsfGlcQmZVG1RPL9LliKbk0AYKFqX8uWUzzFifgwC/fgA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kramkow.ski; spf=pass smtp.mailfrom=kramkow.ski; dkim=pass (2048-bit key) header.d=kramkow.ski header.i=@kramkow.ski header.b=fNOqmVgg; arc=none smtp.client-ip=109.74.205.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kramkow.ski
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kramkow.ski
+	s=arc-20240116; t=1775408740; c=relaxed/simple;
+	bh=KUTDRpKXu1qzyR66Tdf+Xqwj7Eo+bHgf3KoNcyZVwSs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MMjeGr5hYGRVdej2WsLFgngpbJ9P469uQLsW3wj7iQllVwPXLLAC6GkJbhTx7cAfpoKMfbs5d60xQ2N7vUpHWZtebyeBtdosO5XE16alqmpmrv+KXizhu++ciiyLNgZ8w7sRkbOrabtbgVuV70Yao6kIvyrzFWzTzshMRVLkgWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=pobox.com; spf=pass smtp.mailfrom=pobox.com; dkim=pass (2048-bit key) header.d=pobox.com header.i=@pobox.com header.b=rW0Ze3Dc; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=pysYr8aA; arc=none smtp.client-ip=103.168.172.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=pobox.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pobox.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kramkow.ski header.i=@kramkow.ski header.b="fNOqmVgg"
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; s=20220506; bh=EbiHYeDwemD
-	RMIXMMn52TDVPdSdhxmHxQ7JV7c6bDPo=; h=references:in-reply-to:date:
-	subject:cc:to:from; d=kramkow.ski; b=fNOqmVgg0ml1sQywzL28Bim6jnUxMz/Go
-	LmTnp+oJTbAaxbwqYLbyIBgm6tFc2dPluFteKN5bbR57Je47tagoptZ1wFe4LkxlU3t/Sv
-	IaF+kC0tLG09ILw933KQIKZfrPX1ymbVnjdIZW8/llc+9ZRtq8Rw2giwRiPGrmkjLPkRYY
-	eoaHMS1oUYCgUKhbEStnOUzlydyL14S+5NPjm/JYK0Tvg5t2yvrYEKd5U20RIyo6KW0dPG
-	glMtKvt1psaaIQkT391e8X0JIc3rTKW7Cwx7FokN8AmmEeebfC9sJrtsvdvllv5kBbAqvC
-	Pw5TmHqsnT4zIfS9JLUHpFkI7K9yw==
-Received: from localhost (flit-04-b2-v4wan-169180-cust382.vm32.cable.virginm.net [81.96.161.127])
-	by erebus.slow.network (OpenSMTPD) with ESMTPSA id 6f07a027 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Sun, 5 Apr 2026 11:46:00 +0000 (UTC)
-From: Tomasz Kramkowski <tomasz@kramkow.ski>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	stable@vger.kernel.org
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel@vger.kernel.org,
-	Tomasz Kramkowski <tomasz@kramkow.ski>
-Subject: [PATCH 6.6.y v2 2/2] xattr: switch to CLASS(fd)
-Date: Sun,  5 Apr 2026 12:45:05 +0100
-Message-ID: <20260405114505.568530-3-tomasz@kramkow.ski>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260405114505.568530-1-tomasz@kramkow.ski>
-References: <20260405114505.568530-1-tomasz@kramkow.ski>
+	dkim=pass (2048-bit key) header.d=pobox.com header.i=@pobox.com header.b="rW0Ze3Dc";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="pysYr8aA"
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfout.phl.internal (Postfix) with ESMTP id 29E16EC0022;
+	Sun,  5 Apr 2026 13:05:38 -0400 (EDT)
+Received: from phl-frontend-02 ([10.202.2.161])
+  by phl-compute-06.internal (MEProxy); Sun, 05 Apr 2026 13:05:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pobox.com; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1775408738;
+	 x=1775495138; bh=DkFv7NiVxZ75fED9VjTy1smI+uxt/AWq4k6gjOkay3U=; b=
+	rW0Ze3DcfD0fTuS+Ur0VoNgxXUcYOJiBqShGSjqzBoTPdss1MNp2u5sIyJLQSL4U
+	i0FotyKK6IYjRA9r6ar6pCwmzTfyextI4GIDF5Nie2pL4DGXvSJTY4Ssz7xRqoLK
+	TiAsgquRsxUMIBN9VwFh+lPqx7sJbmlJTrDUvABpIMhxpGWs2zH/veCjBYdnJYWe
+	9BGAdJe31ZozzEmN5+kGdFQ39phJVB6WU7GrlxrgbFm/ZaxVMpQWnGCcNWUyKXUl
+	KxcEkcZTQoho7AlpWW7Zz6GqvdAPlU8K/Cj9CcL22zGdQayc5karBVJ6ChzJ9qLY
+	R38tF9JoekvgndIGY9sShQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1775408738; x=
+	1775495138; bh=DkFv7NiVxZ75fED9VjTy1smI+uxt/AWq4k6gjOkay3U=; b=p
+	ysYr8aAaMjAccDOqoISy0KokqN+zvxNUT9bXuh7UDGOflmuMck3Y3+3H52mJbxPv
+	EIapXVk4rmDGUC/TcUgqpQyLLd1aYY6wgUT/c7cAIgo6S74md3qht9Npq2Q8xACR
+	a9JUeyZGbeMmjzxtL2ei46Ckl9rKE13b2mhW8k9BlDJf5yctoJaqQX3bqWLBELXz
+	OA7FwbwNvYzrB4cHMNKcczfhymJMSm0hbAk/kawx/jJVkmKyyfe/5FFMdTzkL49U
+	5Si2q761EYoISrXaKfS2WlLTjMsQBYwdNO+cLJGKLsAk7OFZzaK1V8JONGMDrjlw
+	FVFeMkMPaWl/542VqewPQ==
+X-ME-Sender: <xms:YZbSadfqhWWzsJqiJ4OiArd6qHotzMAHBN9buY3ndSfp8GZHqlk9bQ>
+    <xme:YZbSadcrBHpPafCM9wsQ5mgJ1cy6EWyHIYX0ZROwTqbbF3NR5FR3eCAewwAU3STfn
+    rZBNb6zjkgpBNs8uVtvS9k_2NUOMG1tv9dmYX0mTkqZBW7BM16FLYE>
+X-ME-Received: <xmr:YZbSaYywoXogAL_CR2Vjv3wMduzrPjr8WAZi6TfKbS7dC-DWLd5O4Y2zOx_MY-5HM7Pv52aCgPfyzDOfuzBsJ9coKQs11inJ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduheefvdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefkffggfgfuvfevfhfhjggtgfesthejredttddvjeenucfhrhhomhepfdeurghrrhih
+    ucfmrdcupfgrthhhrghnfdcuoegsrghrrhihnhesphhosghogidrtghomheqnecuggftrf
+    grthhtvghrnhepheejvddufeehheeglefffedtueegvddvhfduueffheeviefgveeihfel
+    hfeluedtnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpghhithhhuhgsrdgtohhmpd
+    igrdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhho
+    mhepsggrrhhrhihnsehpohgsohigrdgtohhmpdhnsggprhgtphhtthhopeeipdhmohguvg
+    epshhmthhpohhuthdprhgtphhtthhopehtohhmrghsiieskhhrrghmkhhofidrshhkihdp
+    rhgtphhtthhopehgrhgvghhkhheslhhinhhugihfohhunhgurghtihhonhdrohhrghdprh
+    gtphhtthhopehsthgrsghlvgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthho
+    pehvihhrohesiigvnhhivhdrlhhinhhugidrohhrghdruhhkpdhrtghpthhtohepsghrrg
+    hunhgvrheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqfhhsuggvvhgv
+    lhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:YZbSac9hNTMy04tZM2ed7_OP7lY-jZcy9pG-0gCvXCf8s914K6qKaQ>
+    <xmx:YZbSaYhzI7iAimSKgTD9VcluTqs-hPCb_H9BsZ325nQAZV8Vh3qIZg>
+    <xmx:YZbSabHAkQSsvSt_oQjzYpS_avzztCHo3HXSa2-iP4KmJlnx9M7zOw>
+    <xmx:YZbSaf9sNHrq6zbxV0c_34WtOGrt8L-3HlTowJ2Qzss9VCDHjy0Leg>
+    <xmx:YpbSaZcfb56S96tGzKgdWUu7zLGuuTuHM58YpWc4pghCxZdCJLpflpTv>
+Feedback-ID: i6289494f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 5 Apr 2026 13:05:36 -0400 (EDT)
+Message-ID: <7ab3b184-8d9f-465d-b678-4def48cc2a9f@pobox.com>
+Date: Sun, 5 Apr 2026 10:05:35 -0700
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6.6.y v2 0/2] Fix `fremovexattr` missing `fdput`
+To: Tomasz Kramkowski <tomasz@kramkow.ski>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stable@vger.kernel.org
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
+References: <20260405114505.568530-1-tomasz@kramkow.ski>
+Content-Language: en-US
+From: "Barry K. Nathan" <barryn@pobox.com>
+In-Reply-To: <20260405114505.568530-1-tomasz@kramkow.ski>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Al Viro <viro@zeniv.linux.org.uk>
+On 4/5/26 04:45, Tomasz Kramkowski wrote:
+> As discussed, a v2 which includes the revert from the previous version
+> [0] and a new attempt at backporiting the upstream change which doesn't
+> cause the regression introduced in the first attempt[1].
+> 
+> In total, this fixes the missing `fdput` in the `fremovexattr`
+> `copy_from_user` error path that the backport was intended for.
+> 
+> I tested both the error case and the happy case in qemu.
+> 
+> [0]: https://lore.kernel.org/stable/20260404112219.389495-1-tomasz@kramkow.ski/
+> [1]: https://lore.kernel.org/stable/tencent_72B5370E2D4C4AC319ED4F0DCB479CA4B406@qq.com/
+> 
+> Al Viro (1):
+>    xattr: switch to CLASS(fd)
+> 
+> Tomasz Kramkowski (1):
+>    Revert "xattr: switch to CLASS(fd)"
+> 
+>   fs/xattr.c | 10 +++++++++-
+>   1 file changed, 9 insertions(+), 1 deletion(-)
+> 
 
-[ Upstream commit a71874379ec8c6e788a61d71b3ad014a8d9a5c08 ]
+I tested the following two (groups of) proof-of-concept exploits
+against 6.6.130, 6.6.132, and 6.6.132 + this patch series:
 
-Reviewed-by: Christian Brauner <brauner@kernel.org>
-Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
-Link: https://lore.kernel.org/all/20241002012230.4174585-1-viro@zeniv.linux.org.uk/
-[ Neither `fd_file` nor `fd_empty` are available in 6.6.y, so the
-  changes to the check are dropped. Kept the minor formatting change. ]
-Signed-off-by: Tomasz Kramkowski <tomasz@kramkow.ski>
----
- fs/xattr.c | 27 ++++++++++-----------------
- 1 file changed, 10 insertions(+), 17 deletions(-)
 
-diff --git a/fs/xattr.c b/fs/xattr.c
-index 7574d24b982e..20a038b06d12 100644
---- a/fs/xattr.c
-+++ b/fs/xattr.c
-@@ -698,9 +698,9 @@ SYSCALL_DEFINE5(fsetxattr, int, fd, const char __user *, name,
- 	int error;
- 
- 	CLASS(fd, f)(fd);
-+
- 	if (!f.file)
- 		return -EBADF;
--
- 	audit_file(f.file);
- 	error = setxattr_copy(name, &ctx);
- 	if (error)
-@@ -810,16 +810,13 @@ SYSCALL_DEFINE4(lgetxattr, const char __user *, pathname,
- SYSCALL_DEFINE4(fgetxattr, int, fd, const char __user *, name,
- 		void __user *, value, size_t, size)
- {
--	struct fd f = fdget(fd);
--	ssize_t error = -EBADF;
-+	CLASS(fd, f)(fd);
- 
- 	if (!f.file)
--		return error;
-+		return -EBADF;
- 	audit_file(f.file);
--	error = getxattr(file_mnt_idmap(f.file), f.file->f_path.dentry,
-+	return getxattr(file_mnt_idmap(f.file), f.file->f_path.dentry,
- 			 name, value, size);
--	fdput(f);
--	return error;
- }
- 
- /*
-@@ -886,15 +883,12 @@ SYSCALL_DEFINE3(llistxattr, const char __user *, pathname, char __user *, list,
- 
- SYSCALL_DEFINE3(flistxattr, int, fd, char __user *, list, size_t, size)
- {
--	struct fd f = fdget(fd);
--	ssize_t error = -EBADF;
-+	CLASS(fd, f)(fd);
- 
- 	if (!f.file)
--		return error;
-+		return -EBADF;
- 	audit_file(f.file);
--	error = listxattr(f.file->f_path.dentry, list, size);
--	fdput(f);
--	return error;
-+	return  listxattr(f.file->f_path.dentry, list, size);
- }
- 
- /*
-@@ -951,12 +945,12 @@ SYSCALL_DEFINE2(lremovexattr, const char __user *, pathname,
- 
- SYSCALL_DEFINE2(fremovexattr, int, fd, const char __user *, name)
- {
--	struct fd f = fdget(fd);
-+	CLASS(fd, f)(fd);
- 	char kname[XATTR_NAME_MAX + 1];
--	int error = -EBADF;
-+	int error;
- 
- 	if (!f.file)
--		return error;
-+		return -EBADF;
- 	audit_file(f.file);
- 
- 	error = strncpy_from_user(kname, name, sizeof(kname));
-@@ -971,7 +965,6 @@ SYSCALL_DEFINE2(fremovexattr, int, fd, const char __user *, name)
- 				    f.file->f_path.dentry, kname);
- 		mnt_drop_write_file(f.file);
- 	}
--	fdput(f);
- 	return error;
- }
- 
+1. "CVE-2024-14027 - SlopSploit" proof-of-concept exploit for the bug
+fixed by the original mainline commit. This only works on i386 kernels,
+so I tested with i386 kernels on amd64 hardware.
+
+https://github.com/lcfr-eth/CVE-2024-14027_slop
+
+(I used exploit.c. For me, the exploit never reached its intended goal
+of allowing a normal user to read /etc/shadow, but as far as I can tell
+it still causes a parade of oopses on vulnerable i386 kernels but no
+oopses on invulnerable i386 kernels. So it's still a good test of whether
+this patch series works.)
+
+
+2. Brad Spengler's proof-of-concept exploits for the 6.6.132 regression,
+posted on Twitter (I tested on i386 and amd64 kernels, on amd64 hardware):
+
+https://x.com/spendergrsec/status/2040049852793450561
+
+(Note that one of these has a missing parameter, but it's easy enough
+to fix.)
+
+
+Test results:
+6.6.130: #1 causes oopses (but not #2)
+6.6.132: #2 causes oopses (but not #1)
+6.6.132 + this patch series: Neither #1 nor #2 cause oopses
+
+So, at least in my testing, this patch series successfully fixes both
+the old and new bugs (both CVE-2024-14027 and the 6.6.132 regression).
+
+Tested-by: Barry K. Nathan <barryn@pobox.com>
+
 -- 
-2.51.0
-
+-Barry K. Nathan  <barryn@pobox.com>
