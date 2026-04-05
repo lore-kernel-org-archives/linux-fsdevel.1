@@ -1,129 +1,89 @@
-Received: from mail.hallyn.com (mail.hallyn.com [178.63.66.53])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA5332222CB;
-	Sun,  5 Apr 2026 00:20:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.63.66.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07F1D2F5498
+	for <linux-fsdevel@vger.kernel.org>; Sun,  5 Apr 2026 02:11:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775348434; cv=none; b=pfRT4UvA/ZUS6W15CiHEOwAscFIA5tIb+7cbcZXXhzaOjc00prwfHyEKolb+PjlLrFKvsoE9qymZ2FQ0sXwutwupVfkkLhHOcFGJooQq1BVih3rhDFzRAYLVIRNa1WYHoCsUVOF5uTEOJXwEON7ro7acnBafXvlLawtApbyMOwA=
+	t=1775355102; cv=none; b=VFpqJc2sULGem5VgSiHbhshRvwvMdadLeZGZUDjCsqd4JRbid5ykoXAQdrfkDaOQhtSlLLjANFWvBxjrhaRdxMJMBm35YJ69nzg+doz3ny2r9VK+rACzq6nm7NkFRKEJLRP5EPuRsx5F2rJqhPGJjXsada3ZeCPeG497/ejSCoo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775348434; c=relaxed/simple;
-	bh=1M98P8mdYJW4I2V6XU2SgcYoy/bp2xwGEJ5KRJ50rsQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ge10lI9CxS5Ajcab/Mfo7VIFN/IwyNT8wFNNmsQXRNFh1aCcfjbpOrl6Id4ZjclZNhTX0ir712kqs+lcgvOwn0dHg3a+IYcrbeowl1UGjR8vHhzZ57DXDmw3QiBKakangQKzuf6k7uH4L1r3yzp+Id4h8XjtV+jZWNrKvXhTWCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hallyn.com; spf=pass smtp.mailfrom=mail.hallyn.com; dkim=pass (2048-bit key) header.d=hallyn.com header.i=@hallyn.com header.b=JWx5eE7y; arc=none smtp.client-ip=178.63.66.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hallyn.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.hallyn.com
+	s=arc-20240116; t=1775355102; c=relaxed/simple;
+	bh=Rmg6rx5xI61j/8Yx7IPvAZc8QlXw/DnkZBfn0arLrK4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=AoV7yId7i9PAqoNvdiQWtCs5Pl/TOThC3lenG8uj/W4MwRvSeP6Ym+qDWRidDeSu058dfi5ezQ5ayDreWLXLMCx3GZUdf+cFvkn1TOfWF0k2g1GuzBRDIisNiYlAU7A34fAwWLeut6O2JnNKIk39+3wXCDAhMcLJd5Nz+SiEkN8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=HImUstYf; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hallyn.com header.i=@hallyn.com header.b="JWx5eE7y"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=hallyn.com; s=mail;
-	t=1775348090; bh=1M98P8mdYJW4I2V6XU2SgcYoy/bp2xwGEJ5KRJ50rsQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JWx5eE7yenS6sq7NkiQgi/5cVTmFPcjtbwdP8cYDq84gGQMG87c06OW5bwzuclVkY
-	 Zrj923lqzDEua8afDEVqUOTXc61xJLO9lNEzNdJWXwYZs/hDH4Ukw9Kr4BAClHanNe
-	 zmKgAeWh69GKn9nHaGZhmUSftu7fTt+KCEmdHE2OfP/AoyQ8a4O/XASJBfsbg7gYtN
-	 S1m/B2m9kYdAhIMKBYBJ6qlc+Z/BI6oFGAhWMAmwHiG0s22z3CPHdBM2cU1njqYigz
-	 nqTwd6YB9yK5EWu/i38RdaSNsjAj1mtL+56BWUtqbc9pT3J3NW5LUw5rYKfxHq7A8Q
-	 MXE4YFdPUNcew==
-Received: by mail.hallyn.com (Postfix, from userid 1001)
-	id D198A48B; Sat,  4 Apr 2026 19:14:50 -0500 (CDT)
-Date: Sat, 4 Apr 2026 19:14:50 -0500
-From: "Serge E. Hallyn" <serge@hallyn.com>
-To: Paul Moore <paul@paul-moore.com>
-Cc: linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-unionfs@vger.kernel.org,
-	linux-erofs@lists.ozlabs.org, Amir Goldstein <amir73il@gmail.com>,
-	Gao Xiang <xiang@kernel.org>,
-	Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH v4 1/3] fs: prepare for adding LSM blob to backing_file
-Message-ID: <adGpei4WQ3Btvvrl@mail.hallyn.com>
-References: <20260403030848.731867-5-paul@paul-moore.com>
- <20260403030848.731867-6-paul@paul-moore.com>
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="HImUstYf"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description;
+	bh=xra5DuOYe4XmkntuHoNftboKFeTW8xht8zzwfnotSto=; b=HImUstYfdcx1RC3GMZzSX6UO+t
+	mcvMBC7MqfWv0TZUdRMxeO6g+KEqteA2QihLUu6t8W7qU9qJwQZrcTNAEQnFFb5kFuC+U9WuLtTu1
+	nUx2Zu7hu0YQTQL7NdETBkQj4EvSA4KLvCz9whSzxfuE0719kfd8qrBOrEmLIV0nCM8xoOJ0MYzP8
+	hIm1tu3rfutMBOktoMlrYuuHMHaP4GZQY3COwUEx1XJmjd85Zs5pkTKR2k1khy9qAl5wwzvpIoTp4
+	Fxa+7+1LicssTfZThgD4mBQV12hMjYPho72p3ppSsdcnKqkP/L9TOoL33ZvjWYeMyHkJD/U+dfRTY
+	3wZ1MIvw==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1w9D1A-0000000C1gX-0Tpu;
+	Sun, 05 Apr 2026 02:15:16 +0000
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: linux-fsdevel@vger.kernel.org
+Cc: Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Jan Harkes <jaharkes@cs.cmu.edu>
+Subject: [PATCH 2/3] sanitize coda_dentry_delete()
+Date: Sun,  5 Apr 2026 03:15:14 +0100
+Message-ID: <20260405021515.2866402-3-viro@zeniv.linux.org.uk>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260405021515.2866402-1-viro@zeniv.linux.org.uk>
+References: <20260405021515.2866402-1-viro@zeniv.linux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260403030848.731867-6-paul@paul-moore.com>
+Content-Transfer-Encoding: 8bit
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-On Thu, Apr 02, 2026 at 11:08:33PM -0400, Paul Moore wrote:
-> From: Amir Goldstein <amir73il@gmail.com>
-> 
-> In preparation to adding LSM blob to backing_file struct, factor out
-> helpers init_backing_file() and backing_file_free().
-> 
-> Cc: stable@vger.kernel.org
-> Cc: linux-fsdevel@vger.kernel.org
-> Cc: linux-unionfs@vger.kernel.org
-> Cc: linux-erofs@lists.ozlabs.org
-> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
-> [PM: use the term "LSM blob", fix comment style to match file]
-> Signed-off-by: Paul Moore <paul@paul-moore.com>
+d_really_is_negative(dentry) is a check for d_inode(dentry) being NULL;
+rechecking that is pointless (and no, it can't race - the caller is holding
+->d_lock, so ->d_inode is stable)
 
-Reviewed-by: Serge Hallyn <serge@hallyn.com>
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+---
+ fs/coda/dir.c | 12 +++---------
+ 1 file changed, 3 insertions(+), 9 deletions(-)
 
-> ---
->  fs/file_table.c | 22 ++++++++++++++++++++--
->  1 file changed, 20 insertions(+), 2 deletions(-)
-> 
-> diff --git a/fs/file_table.c b/fs/file_table.c
-> index aaa5faaace1e..3b3792903185 100644
-> --- a/fs/file_table.c
-> +++ b/fs/file_table.c
-> @@ -66,6 +66,12 @@ void backing_file_set_user_path(struct file *f, const struct path *path)
->  }
->  EXPORT_SYMBOL_GPL(backing_file_set_user_path);
->  
-> +static inline void backing_file_free(struct backing_file *ff)
-> +{
-> +	path_put(&ff->user_path);
-> +	kmem_cache_free(bfilp_cachep, ff);
-> +}
-> +
->  static inline void file_free(struct file *f)
->  {
->  	security_file_free(f);
-> @@ -73,8 +79,7 @@ static inline void file_free(struct file *f)
->  		percpu_counter_dec(&nr_files);
->  	put_cred(f->f_cred);
->  	if (unlikely(f->f_mode & FMODE_BACKING)) {
-> -		path_put(backing_file_user_path(f));
-> -		kmem_cache_free(bfilp_cachep, backing_file(f));
-> +		backing_file_free(backing_file(f));
->  	} else {
->  		kmem_cache_free(filp_cachep, f);
->  	}
-> @@ -283,6 +288,12 @@ struct file *alloc_empty_file_noaccount(int flags, const struct cred *cred)
->  	return f;
->  }
->  
-> +static int init_backing_file(struct backing_file *ff)
-> +{
-> +	memset(&ff->user_path, 0, sizeof(ff->user_path));
-> +	return 0;
-> +}
-> +
->  /*
->   * Variant of alloc_empty_file() that allocates a backing_file container
->   * and doesn't check and modify nr_files.
-> @@ -305,7 +316,14 @@ struct file *alloc_empty_backing_file(int flags, const struct cred *cred)
->  		return ERR_PTR(error);
->  	}
->  
-> +	/* The f_mode flags must be set before fput(). */
->  	ff->file.f_mode |= FMODE_BACKING | FMODE_NOACCOUNT;
-> +	error = init_backing_file(ff);
-> +	if (unlikely(error)) {
-> +		fput(&ff->file);
-> +		return ERR_PTR(error);
-> +	}
-> +
->  	return &ff->file;
->  }
->  EXPORT_SYMBOL_GPL(alloc_empty_backing_file);
-> -- 
-> 2.53.0
-> 
+diff --git a/fs/coda/dir.c b/fs/coda/dir.c
+index 799c3d3ea12c..2a5048bab635 100644
+--- a/fs/coda/dir.c
++++ b/fs/coda/dir.c
+@@ -479,18 +479,12 @@ static int coda_dentry_revalidate(struct inode *dir, const struct qstr *name,
+  */
+ static int coda_dentry_delete(const struct dentry * dentry)
+ {
+-	struct inode *inode;
+-	struct coda_inode_info *cii;
+-
+-	if (d_really_is_negative(dentry)) 
+-		return 0;
++	struct inode *inode = d_inode(dentry);
+ 
+-	inode = d_inode(dentry);
+ 	if (!inode)
+-		return 1;
++		return 0;
+ 
+-	cii = ITOC(inode);
+-	if (cii->c_flags & C_PURGE)
++	if (ITOC(inode)->c_flags & C_PURGE)
+ 		return 1;
+ 
+ 	return 0;
+-- 
+2.47.3
+
