@@ -1,55 +1,44 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+Received: from mail.hallyn.com (mail.hallyn.com [178.63.66.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41D0813FEE
-	for <linux-fsdevel@vger.kernel.org>; Sun,  5 Apr 2026 00:00:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA5332222CB;
+	Sun,  5 Apr 2026 00:20:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.63.66.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775347237; cv=none; b=p4+/3zTtogYc6eTSE3r6Qt7WeHmM+w3xJ+es8WOCwonR5PHkCe/NRsdchIPBSKc6OcY0pajBoCQSutdFjKmlogBEE4jB4vfDUxKg7a08KAn/v52h60jLiMKaTa1H7u/zzwOHHG6N1pEQi1epTWNL6DBD7Dj1foy6X2fiBCEQZG8=
+	t=1775348434; cv=none; b=pfRT4UvA/ZUS6W15CiHEOwAscFIA5tIb+7cbcZXXhzaOjc00prwfHyEKolb+PjlLrFKvsoE9qymZ2FQ0sXwutwupVfkkLhHOcFGJooQq1BVih3rhDFzRAYLVIRNa1WYHoCsUVOF5uTEOJXwEON7ro7acnBafXvlLawtApbyMOwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775347237; c=relaxed/simple;
-	bh=poEbs3G2+TJSnDBGvd9CbZoHwhqRa/MH6nv9SJX9oEE=;
+	s=arc-20240116; t=1775348434; c=relaxed/simple;
+	bh=1M98P8mdYJW4I2V6XU2SgcYoy/bp2xwGEJ5KRJ50rsQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=srN4YJDJJJTFT78359L3t7AqcRVsgNKtoOoxN9HQFt/x2+upu/PTNuP9/4VKW0Gf4EJHEOUbhTAvndbXvG4mPvQDEAWeXY+c5rZULUevhyRGaCaxZRjzUpEQn+JtiwpX6LfSTmIN3tdP//Y7j6wzW2XgsyNkN7XAj3w3FyQjURg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=aWMdbYij; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ge10lI9CxS5Ajcab/Mfo7VIFN/IwyNT8wFNNmsQXRNFh1aCcfjbpOrl6Id4ZjclZNhTX0ir712kqs+lcgvOwn0dHg3a+IYcrbeowl1UGjR8vHhzZ57DXDmw3QiBKakangQKzuf6k7uH4L1r3yzp+Id4h8XjtV+jZWNrKvXhTWCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hallyn.com; spf=pass smtp.mailfrom=mail.hallyn.com; dkim=pass (2048-bit key) header.d=hallyn.com header.i=@hallyn.com header.b=JWx5eE7y; arc=none smtp.client-ip=178.63.66.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hallyn.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.hallyn.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="aWMdbYij"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=m6Ht6N2szmmMbyQ4G6MDqTQ9GJJ5p/W1+LroQPNRwr4=; b=aWMdbYijSpAVBE0/FVD58ZLPUG
-	iANANydkLuEmmbcj/fUvCNj+r0TCx5rYf1ygM4NiPX+5nogtxsC5UA9qQQZyl59b5Zq4nQatcKrY/
-	GviKIs8rapbIqGpiZx2hG5XCzrgTqjbeWdBh4cdVQq30KJb3N1VlzqafJSY2tJBR+Iek8dbrwDRLP
-	z35jUfQ+pfz/GDsyxlICHny9YlOOsgIBCOby56/wBFYRTYEEyaAwp36OIYw970zxsoV3YF36cNcYa
-	A9uvOzVCHg3G2PxQZupIsEf3Q26SBGtcfjl4mUSN7jgtoSgaf7nl2Z0Hud8RPcWx5rF+AycrLstd9
-	awrImKsw==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1w9AyK-0000000Bwj3-03K7;
-	Sun, 05 Apr 2026 00:04:12 +0000
-Date: Sun, 5 Apr 2026 01:04:11 +0100
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>, Nikolay Borisov <nik.borisov@suse.com>,
-	Max Kellermann <max.kellermann@ionos.com>,
-	Eric Sandeen <sandeen@redhat.com>,
-	Paulo Alcantara <pc@manguebit.org>
-Subject: Re: [RFC PATCH v2 4/4] get rid of busy-waiting in
- shrink_dcache_tree()
-Message-ID: <20260405000411.GT3836593@ZenIV>
-References: <CAHk-=wjR66-0qL08k9p10Lt9vuvmddFT5WvfnG+xXf4Xv3-VhA@mail.gmail.com>
- <20260402224439.GI3836593@ZenIV>
- <CAHk-=wg7O-p8L7384myYTus6NH5aYdoS=y=+iALL_8DLT3=ZLw@mail.gmail.com>
- <20260402231643.GJ3836593@ZenIV>
- <CAHk-=wg5HkyPCFsfXS6u2xe5h=dV5WT9zaeqt-fRQyE+OxKGYA@mail.gmail.com>
- <20260403021522.GK3836593@ZenIV>
- <20260404000200.GO3836593@ZenIV>
- <CAHk-=wj+4igg2oOydcfZ=yqAd8MW_wT4db7SFtPFOsS31rnh8A@mail.gmail.com>
- <20260404185442.GR3836593@ZenIV>
- <CAHk-=wjfwM9FKpa37uvH0c1Bv_VBcuU0jMRAci7Oue=mw5ZXaw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=hallyn.com header.i=@hallyn.com header.b="JWx5eE7y"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=hallyn.com; s=mail;
+	t=1775348090; bh=1M98P8mdYJW4I2V6XU2SgcYoy/bp2xwGEJ5KRJ50rsQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JWx5eE7yenS6sq7NkiQgi/5cVTmFPcjtbwdP8cYDq84gGQMG87c06OW5bwzuclVkY
+	 Zrj923lqzDEua8afDEVqUOTXc61xJLO9lNEzNdJWXwYZs/hDH4Ukw9Kr4BAClHanNe
+	 zmKgAeWh69GKn9nHaGZhmUSftu7fTt+KCEmdHE2OfP/AoyQ8a4O/XASJBfsbg7gYtN
+	 S1m/B2m9kYdAhIMKBYBJ6qlc+Z/BI6oFGAhWMAmwHiG0s22z3CPHdBM2cU1njqYigz
+	 nqTwd6YB9yK5EWu/i38RdaSNsjAj1mtL+56BWUtqbc9pT3J3NW5LUw5rYKfxHq7A8Q
+	 MXE4YFdPUNcew==
+Received: by mail.hallyn.com (Postfix, from userid 1001)
+	id D198A48B; Sat,  4 Apr 2026 19:14:50 -0500 (CDT)
+Date: Sat, 4 Apr 2026 19:14:50 -0500
+From: "Serge E. Hallyn" <serge@hallyn.com>
+To: Paul Moore <paul@paul-moore.com>
+Cc: linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-unionfs@vger.kernel.org,
+	linux-erofs@lists.ozlabs.org, Amir Goldstein <amir73il@gmail.com>,
+	Gao Xiang <xiang@kernel.org>,
+	Christian Brauner <brauner@kernel.org>
+Subject: Re: [PATCH v4 1/3] fs: prepare for adding LSM blob to backing_file
+Message-ID: <adGpei4WQ3Btvvrl@mail.hallyn.com>
+References: <20260403030848.731867-5-paul@paul-moore.com>
+ <20260403030848.731867-6-paul@paul-moore.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -58,72 +47,83 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHk-=wjfwM9FKpa37uvH0c1Bv_VBcuU0jMRAci7Oue=mw5ZXaw@mail.gmail.com>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+In-Reply-To: <20260403030848.731867-6-paul@paul-moore.com>
 
-On Sat, Apr 04, 2026 at 12:04:42PM -0700, Linus Torvalds wrote:
-
-> > static bool d_deathwatch(struct dentry *dentry, struct completion_list *node)
+On Thu, Apr 02, 2026 at 11:08:33PM -0400, Paul Moore wrote:
+> From: Amir Goldstein <amir73il@gmail.com>
 > 
-> This looks odd to me. Particularly the "complete it myself" case where
-> you return true. and then shrink the dentry list because you *think*
-> you'll be waiting even if you don't.
+> In preparation to adding LSM blob to backing_file struct, factor out
+> helpers init_backing_file() and backing_file_free().
+> 
+> Cc: stable@vger.kernel.org
+> Cc: linux-fsdevel@vger.kernel.org
+> Cc: linux-unionfs@vger.kernel.org
+> Cc: linux-erofs@lists.ozlabs.org
+> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+> [PM: use the term "LSM blob", fix comment style to match file]
+> Signed-off-by: Paul Moore <paul@paul-moore.com>
 
-Not really - we shrink the list before each rescan anyway.
+Reviewed-by: Serge Hallyn <serge@hallyn.com>
 
-We have collected some dentries into data.dispose and perhaps we'd stopped at
-finding a victim already in somebody else's shrink list or already dying.
-
-1) no such victim found => shrink data.dispose, rescan
-2) victim found and successfully stolen from whatever shrink list it was on =>
-evict the victim, shrink data.dispose, rescan
-3) victim was busy dying => shrink data.dispose, wait until it finishes dying,
-rescan
-4) victim has managed to die while we'd been returning from d_walk() =>
-shrink data.dispose, rescan
-
-In (3) we could do wait_for_completion() before shrinking data.dispose; that
-would merge the tails of all 4 cases.  However, that would add pointless waits -
-basically, that's the scenario when another thread is sitting inside iput()
-and we would be better off evicting whatever else we'd collected.
-
-So (3) gets shrinking first, then wait, then go for the next iteration.
-Sure, we can have (4) as a separate case is the same 3-way switch, but
-what would it do?
-		spin_unlock(&v->d_lock);
-		rcu_read_unlock();
-		break;	// proceeding to shrink_dentry_list() between the
-			// end of if (data.victim) and the end of loop body
-And right next to it we'd have
-		spin_unlock(&v->d_lock);
-		rcu_read_unlock();
-		shrink data.dispose
-		wait_for_completion(&wait.complete);
-		continue;
-for case (3), which differs only in having shrink_dentry_list() right there
-and followed by wait_for_completion().  Put another way,
-(4) is equivalent to
-		spin_unlock(&v->d_lock);
-		rcu_read_unlock();
-		shrink data.dispose
-		continue;
-
-> IOW, if you go down this case, wouldn't it make more sense to have
-> d_deathwatch() return a ternary value,  and have a switch case in the
-> caller, and just enumerate the different cases?
-
-See above.
-
-> But I don't know. That's really more of a "that looks like an odd
-> pattern" to me than any kind of objection.
-
-FWIW, the thing that had me flipping back and forth between the variants
-of calling conventions until I went "I've been staring at that for too
-long to trust my taste" and asked that question was not the difference
-in location of shrinking - it was self-called complete().
-
-Hell knows; I'll probably leave it as-is for now and return to that
-next week - it doesn't affect correctness, after all, and I'd rather
-have that thing in -next in the current form seeing that it fixes
-a real bug and further modifications would be local to fs/dcache.c
-anyway.
+> ---
+>  fs/file_table.c | 22 ++++++++++++++++++++--
+>  1 file changed, 20 insertions(+), 2 deletions(-)
+> 
+> diff --git a/fs/file_table.c b/fs/file_table.c
+> index aaa5faaace1e..3b3792903185 100644
+> --- a/fs/file_table.c
+> +++ b/fs/file_table.c
+> @@ -66,6 +66,12 @@ void backing_file_set_user_path(struct file *f, const struct path *path)
+>  }
+>  EXPORT_SYMBOL_GPL(backing_file_set_user_path);
+>  
+> +static inline void backing_file_free(struct backing_file *ff)
+> +{
+> +	path_put(&ff->user_path);
+> +	kmem_cache_free(bfilp_cachep, ff);
+> +}
+> +
+>  static inline void file_free(struct file *f)
+>  {
+>  	security_file_free(f);
+> @@ -73,8 +79,7 @@ static inline void file_free(struct file *f)
+>  		percpu_counter_dec(&nr_files);
+>  	put_cred(f->f_cred);
+>  	if (unlikely(f->f_mode & FMODE_BACKING)) {
+> -		path_put(backing_file_user_path(f));
+> -		kmem_cache_free(bfilp_cachep, backing_file(f));
+> +		backing_file_free(backing_file(f));
+>  	} else {
+>  		kmem_cache_free(filp_cachep, f);
+>  	}
+> @@ -283,6 +288,12 @@ struct file *alloc_empty_file_noaccount(int flags, const struct cred *cred)
+>  	return f;
+>  }
+>  
+> +static int init_backing_file(struct backing_file *ff)
+> +{
+> +	memset(&ff->user_path, 0, sizeof(ff->user_path));
+> +	return 0;
+> +}
+> +
+>  /*
+>   * Variant of alloc_empty_file() that allocates a backing_file container
+>   * and doesn't check and modify nr_files.
+> @@ -305,7 +316,14 @@ struct file *alloc_empty_backing_file(int flags, const struct cred *cred)
+>  		return ERR_PTR(error);
+>  	}
+>  
+> +	/* The f_mode flags must be set before fput(). */
+>  	ff->file.f_mode |= FMODE_BACKING | FMODE_NOACCOUNT;
+> +	error = init_backing_file(ff);
+> +	if (unlikely(error)) {
+> +		fput(&ff->file);
+> +		return ERR_PTR(error);
+> +	}
+> +
+>  	return &ff->file;
+>  }
+>  EXPORT_SYMBOL_GPL(alloc_empty_backing_file);
+> -- 
+> 2.53.0
+> 
