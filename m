@@ -1,265 +1,633 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AF22386C31
-	for <linux-fsdevel@vger.kernel.org>; Mon,  6 Apr 2026 16:18:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.133.124
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775492299; cv=pass; b=YydRYQkJyHZs/knpDTsUe3F6dmJJlsDd4VYoWUA6uADr9rGI9sujk3w19JW3yivke3XDj6epEX0xUplaMVu1uGpzrlIIFy4FjNN14+O17Qwcj/Ud1VxnEbLxPk6pUTjjLA0qXEQRWHhXY/lUkFwmWmfBoIaYkDl31F07YsbEDKk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775492299; c=relaxed/simple;
-	bh=Sx2PROwTq3F7LwsAWn5/F82tCZkIr3+uQglxsvyYeyU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=R9LtXycj+wG16i9mGcBK5MKU6MDMRtZopZepLYWtGRSr2bZ/h6uyqu5fKUTvdExD+3I7n+Rjh9Kx7r9OCrcxZVOXrqRmkbvtCb+xCUYj+ixaIQh1Te8S94+FdTwv1rpEexzeByr2GIyOlZGgK2QIdhho9tmHIePal6f6TpuD+Hs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=RlLkC7yg; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=m0CsCown; arc=pass smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3649238B146
+	for <linux-fsdevel@vger.kernel.org>; Mon,  6 Apr 2026 16:30:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775493053; cv=none; b=OMC4zBH317Uvr9AINRSjeSLsGLruYHIBmSO8vkbkVFemN0FZQiwCMlTG/XfGc/t/0yGKjkJ8ttoF8Y4CZMg8Lj0VHbvvedzKT9nAT2To0v+jBAo+Wpg60XRQAyl+3DXQypegiTvOXPhObrJQzPXvEzVLHJcAyQpBDQFYw06VEqQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775493053; c=relaxed/simple;
+	bh=cz6c88cVbGgzSXQf7Hr2AUO1i84R6kMrVfg4g3XrRF4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RN4akZ0nYoFkL8Xxm3q03/eSzfH/FpkNDxLH1dg3m4nEKUYuE4tuzvp0Ms491jyao9DmnaVDhKHRIPjJRog25r26Vjf/OUwLdgRiuqRr/urs5aQhRW/gSWRw/BoS85xjOMA9YKV9L2TQcogV1edjdh1HdqbV08cGDVGT8jKBqJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GGesjmXe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="RlLkC7yg";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="m0CsCown"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1775492296;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6y77XvnI+Mo2VOk5fqGJ7LyYJ/iXdioOpfeqZJmaEik=;
-	b=RlLkC7yg4IBd7ns0ST/m+OmUaBgr6RrzcA8EYdQnEM0n+PZcNsSgiMF1vUmN4nUo1eesbA
-	A07CviY2y30c7CZJw0PztQYFjfbOytVeqUA7cSG+Fq6zv/fGaFq2P5ZKwhvJ/FkxolIALG
-	uAHqFCD4Wsnp9hM33qIWmOr1/w2rh2g=
-Received: from mail-yx1-f71.google.com (mail-yx1-f71.google.com
- [74.125.224.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-6-Qfia0--INVC8umxWBc9s0A-1; Mon, 06 Apr 2026 12:18:15 -0400
-X-MC-Unique: Qfia0--INVC8umxWBc9s0A-1
-X-Mimecast-MFC-AGG-ID: Qfia0--INVC8umxWBc9s0A_1775492294
-Received: by mail-yx1-f71.google.com with SMTP id 956f58d0204a3-65079af211aso97080d50.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 06 Apr 2026 09:18:15 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775492294; cv=none;
-        d=google.com; s=arc-20240605;
-        b=UWvDTlHuw8oVyMxLshh1tP7xL0c4/5tavdd68K+ilIjCiQvGj5Ew1m8xx140ZWdM3k
-         SUVi+sbtLmu4z/t6YH0RUqec106q7XhSvGwjkwlQgvLlvDR/1NyTCnvOp13TIFHo4N6w
-         9iKwTd3KPGUCIWbaqhhHc1lBIUi+hLmRTnEnwhoITqbLZKz53gApUU3bBSoV14bPiHuo
-         7ukWLS7zhVHCd1P9Aisc6QjVIkpZbbO8m1pdzEqNfDRlb0xtk2jS1SSXsOmW1T361KJd
-         1xszKtTRKIuGUV1O5LZg/xlyfuc8T37WC+hZO/URlXPzHAxg58kqFjWWHF3uWRDf7q11
-         NDEA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=6y77XvnI+Mo2VOk5fqGJ7LyYJ/iXdioOpfeqZJmaEik=;
-        fh=WIG5R3gPZ003ksXO7UWZk4LXS+ws6ol+kjYsG4ipI2w=;
-        b=Ck3oe2kHnsoQ5Vrn4VLBmgFN5z28Erljj+ma/xT4a4tiL86+54R01nzSTtH11bSyig
-         GoKvbnLHH7qJ2WlNeVI5QKZfDlQpIpw0IadW8AMRnua+QatX9MN3sDKV7uabsyPk/qaN
-         S859MZKG2DFZoJ4/LwQmJNgvnjdM/WxLHsojO2krayxsRUqqDJ+7giP2S2jtNjDcw7zP
-         D4tOhCwVUfHPv9ef3seWJh2/zLGoSOwHKv4rSl7v2s8citBzchyxAy33lXZ1r2wXN3nk
-         rns1jt58/RJchC5BtdwUpiiNfmsBmO596IsOLTigHc8BDIVQI+xGDyuxYDwmnYY5PAiO
-         U8ng==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1775492294; x=1776097094; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6y77XvnI+Mo2VOk5fqGJ7LyYJ/iXdioOpfeqZJmaEik=;
-        b=m0CsCownH60XUKHXy5xxIjn1/Dmiq6QRWQ1Uw7wo9+06jplbmFMAPxMSJ71Rrw57wW
-         27SD8QUL9gdLl7OjqvMMCVLff+dm27CxsJ1W8+uPYMgIiwrZEiUx3+IIn8KRuAnrnkbS
-         zXm0bfCQNEUDUFTtx3bPwCLCYe2Q6hcfFyVK0lxGqzkoVuITF+4dyzKbpiFvKjYuPSe9
-         YRlZsfxPeXyOJEIZbWtfblkO6iO3utO/36kN3AYojjhgI4zKMzIw2vBkPpto3JO71o0S
-         KaWxrxa+8XDzeg2TGAgeafZM2HQ1BGyWH4PTKY/DBMnq6m7STq27GncYVzf9IVY0GvFc
-         nNrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775492294; x=1776097094;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=6y77XvnI+Mo2VOk5fqGJ7LyYJ/iXdioOpfeqZJmaEik=;
-        b=hMF+3d0w0oH5k74T8Dc3PAnJ9R/0Mzn4GTwFR8d2pi1iSMcKAYuXwKLRvMQ7vtBYT6
-         /7yErIHwfyfkbpvAWX4Lynri6caJe82Q7FTWyepRrt4KeRG7zlOomk97+Ezsyn31f4qE
-         Eyx7avgNKKY8eSgtJaqPc7OOmTjEre7S7EEmJRJ07C3nX96xj+UnkrsUonWkS/j/kxZL
-         quoHCAJaPqGrVEUtx+zWDkl0hSwgNQEkJoRvy63Ia77Rs4wEm7L9giPc73UFRYSdo86Q
-         UgDDHcnRtBBtqXcNKrKM1/M7UvDz22DkfRD4iYk0ahliSKsTIRTV1bPoGbmi+Z5iujWY
-         rrAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWk57wTfoRwmKrxJH/LKnKncok+g+zjkgd7C+pZO/BXLV49qpI9gNC/6M2gj9+fPY3POP9hi07dDF0abd2l@vger.kernel.org
-X-Gm-Message-State: AOJu0YxbAXPxG923B5NFB6ZbpSJTXuOoMknJG/zSAOJbA4vxvOI4hAU9
-	W2dwjWe3ipBZ3xg4ijifcSkJ2DzCZ1+J/xUxYnRpO3GBErkOKCc11b+/t0JvKQa1XJ/4Up1R1sD
-	iim328Xs7IgVSFWs8nf7JSdtJzbPheJi555/MIafZ5a7SJw5EJLP5hvL+vWHhlTme0gQT0Vjg/V
-	Ouu4sHLdRYOozwqamSKyzIczdQq9Tr4j7UvIGuh1U9rw==
-X-Gm-Gg: AeBDiesvVoVzRSdvYqIFv+LxHiBUKBJOXPz4lHBlKH2i+O/TwevIFePJ4Fb09WN37rO
-	ZSxBohYJGUJXxBeymdTEBTu3rPjOctxeA+tqSb3bA9yxMmyqp6mPwlFIQdCrfY80TkLEomQ23i/
-	SmbchAsSlwplj58IjQL/9/tyoUZYHRm4ZiC+9d1VdCOnAEjVm3pdDxdejGb40XZW3HOqo+13jZW
-	TJB7PyI
-X-Received: by 2002:a53:d9d1:0:b0:64e:a3c4:aabe with SMTP id 956f58d0204a3-6504873ee85mr9904454d50.26.1775492294233;
-        Mon, 06 Apr 2026 09:18:14 -0700 (PDT)
-X-Received: by 2002:a53:d9d1:0:b0:64e:a3c4:aabe with SMTP id
- 956f58d0204a3-6504873ee85mr9904421d50.26.1775492293619; Mon, 06 Apr 2026
- 09:18:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GGesjmXe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE1F9C4CEF7;
+	Mon,  6 Apr 2026 16:30:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775493052;
+	bh=cz6c88cVbGgzSXQf7Hr2AUO1i84R6kMrVfg4g3XrRF4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=GGesjmXee/UbaoNJJldToQxA6YQmM0c81Xj8PkQ+/di50xu+KMpHen458osK5Zj3I
+	 DGneUzCurMmoQA/7SC66lwojz38njUxQ+FBclgtEdrWrx+N2g71Hq/b5GHG7XbLR/0
+	 W08nup5RCVBkCYXI4qQ1ICi4JwKqvv94Wb9+GEmTukx4kVNffZLVkYRrQFkwnEFP1B
+	 2NyMu+NUWo4Ai8058vyxp1vWcn36gwWfBYuKWO1h/DG+tI7djA6/DX84W1+FkzAQC0
+	 Yb/vjqugwUrdH8zZzb8oKQuwbuO8Hq6A4U87FCKqPry+ZPSq+RIqs5709IIhEbpHLn
+	 1zGs+sR1bIlNg==
+From: hubcap@kernel.org
+To: torvalds@linux-foundation.org
+Cc: Mike Marshall <hubcap@omnibond.com>,
+	linux-fsdevel@vger.kernel.org
+Subject: [RFC PATCH]    bufmap: manage as folios.
+Date: Mon,  6 Apr 2026 12:30:45 -0400
+Message-ID: <20260406163047.1240941-1-hubcap@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260327014255.2058916-1-ziy@nvidia.com> <CAA1CXcCmue7iX3O9RLo7wR5EqASvJGCLraw1+iQMZ98BiMJwrA@mail.gmail.com>
- <737AA503-E522-4F01-B78E-AB6C6B2E89B0@nvidia.com>
-In-Reply-To: <737AA503-E522-4F01-B78E-AB6C6B2E89B0@nvidia.com>
-From: Nico Pache <npache@redhat.com>
-Date: Mon, 6 Apr 2026 10:17:57 -0600
-X-Gm-Features: AQROBzCfrg9zP5e6CbYyk2TsG4-q8UqeZvpk1DLrJKBq311IS7ZVoH1gcE7n3p0
-Message-ID: <CAA1CXcC-vggwd-Z3h_PAfSk8U0ZvoQH-FpwhD=9XZHUnEGkcTg@mail.gmail.com>
-Subject: Re: [PATCH v1 00/10] Remove READ_ONLY_THP_FOR_FS Kconfig
-To: Zi Yan <ziy@nvidia.com>
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>, David Hildenbrand <david@kernel.org>, 
-	Song Liu <songliubraving@fb.com>, Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Shuah Khan <shuah@kernel.org>, linux-btrfs@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sun, Apr 5, 2026 at 7:59=E2=80=AFPM Zi Yan <ziy@nvidia.com> wrote:
->
-> On 5 Apr 2026, at 13:38, Nico Pache wrote:
->
-> > On Thu, Mar 26, 2026 at 7:43=E2=80=AFPM Zi Yan <ziy@nvidia.com> wrote:
-> >>
-> >> Hi all,
-> >>
-> >> This patchset removes READ_ONLY_THP_FOR_FS Kconfig and enables creatin=
-g
-> >> read-only THPs for FSes with large folio support (the supported orders
-> >> need to include PMD_ORDER) by default.
-> >
-> > Hi Zi,
-> >
-> > Thank you for tackling this :) Ill try to review the next version as
-> > I'm a little behind on this thread.
->
-> Sure. Thanks.
->
-> >
-> > Should we guard collapsing READ_ONLY_THPs with a sysctl? My fear is
-> > workloads that convert READ_ONLY THPs into writable pages (assuming
-> > this is common/possible; my understanding of FS is rather low),
-> > leading to storms of thp splitting. Do you think this is a real
-> > concern? I guess this is also true of read-only-->writable fs-THPS
-> > even without khugepaged, correct?
->
-> Why would a read-only THP need to be split when it becomes writable?
-> After this patchset, a read-only THP can only be created on a FS that
-> supports large folios (to be precise PMD THP). That means any write
-> to that read-only THP would just change it to a writable THP.
+From: Mike Marshall <hubcap@omnibond.com>
 
-Ah, okay. I was misremembering some stuff.
+    Orangefs userspace allocates 40 megabytes on an address that's page
+    aligned.
 
-The concern I spotted earlier when investigating read-only THPs for
-khugepaged was this:
+    With this folio modification the allocation is aligned on a multiple of
+    2 megabytes:
+    posix_memalign(&ptr, 2097152, 41943040);
 
-For frequent yet short-lived writes on read-only pages (e.g., package
-updates, log updates)
-Wouldn't we get destructive cycles of cache invalidations and refault storm=
-s?
-Imagine such pages are shared (library, execs, etc) across many processes.
+    Then userspace tries to enable Huge Pages for the range:
+    madvise(ptr, 41943040, MADV_HUGEPAGE);
 
-When these files are marked for writing we must invalidate all of
-their mappings, destroying their Page Tables and PageCache. Now all
-processes must refault these mappings.
+    Userspace provides the address of the 40 megabyte allocation to
+    the Orangefs kernel module with an ioctl.
 
-Once the write is complete, they are eligible for read-only promotion again=
-.
+    The kernel module initializes the memory as a "bufmap" with ten
+    4 megabyte "slots".
 
-The part I didn't understand (thanks Claude) is that this truncation
-path in do_dentry_open is only taken for mappings/Filesystems that do
-not support large folios, as only those filesystems track
-mapping->nr_thps. Furthermore, with FS that natively support large
-folios, khugepaged does not need to re-collapse these pages, as even
-if this was the case they would be refaulted as THPs.
+    Traditionally, the slots are manipulated a page at a time.
 
-TLDR: My concern is not a real concern.
+    This folio/bufmap modification manages the slots as folios, with
+    two 2 megabyte folios per slot and data can be read into
+    and out of each slot a folio at a time.
 
-Cheers,
--- Nico
+    This modification works fine with orangefs userspace lacking
+    the THP focused posix_memalign and madvise settings listed above,
+    each slot can end up being made of page sized folios. It also works
+    if there are some, but less than 20, hugepages available. A message
+    is printed in the kernel ring buffer (dmesg) at userspace start
+    time that describes the folio/page ratio. As an example, I started
+    orangefs and saw "Grouped 2575 folios from 10240 pages" in the ring
+    buffer.
 
->
-> Let me know if I miss anything.
->
-> >
-> > Cheers,
-> > -- Nico
-> >
-> >>
-> >> The changes are:
-> >> 1. collapse_file() from mm/khugepaged.c, instead of checking
-> >>    CONFIG_READ_ONLY_THP_FOR_FS, makes sure the mapping_max_folio_order=
-()
-> >>    of struct address_space of the file is at least PMD_ORDER.
-> >> 2. file_thp_enabled() also checks mapping_max_folio_order() instead.
-> >> 3. truncate_inode_partial_folio() calls folio_split() directly instead
-> >>    of the removed try_folio_split_to_order(), since large folios can
-> >>    only show up on a FS with large folio support.
-> >> 4. nr_thps is removed from struct address_space, since it is no longer
-> >>    needed to drop all read-only THPs from a FS without large folio
-> >>    support when the fd becomes writable. Its related filemap_nr_thps*(=
-)
-> >>    are removed too.
-> >> 5. folio_check_splittable() no longer checks READ_ONLY_THP_FOR_FS.
-> >> 6. Updated comments in various places.
-> >>
-> >> Changelog
-> >> =3D=3D=3D
-> >> From RFC[1]:
-> >> 1. instead of removing READ_ONLY_THP_FOR_FS function entirely, turn it
-> >>    on by default for all FSes with large folio support and the support=
-ed
-> >>    orders includes PMD_ORDER.
-> >>
-> >> Suggestions and comments are welcome.
-> >>
-> >> Link: https://lore.kernel.org/all/20260323190644.1714379-1-ziy@nvidia.=
-com/ [1]
-> >>
-> >> Zi Yan (10):
-> >>   mm: remove READ_ONLY_THP_FOR_FS Kconfig option
-> >>   mm/khugepaged: remove READ_ONLY_THP_FOR_FS check
-> >>   mm: fs: remove filemap_nr_thps*() functions and their users
-> >>   fs: remove nr_thps from struct address_space
-> >>   mm/huge_memory: remove READ_ONLY_THP_FOR_FS from file_thp_enabled()
-> >>   mm/huge_memory: remove folio split check for READ_ONLY_THP_FOR_FS
-> >>   mm/truncate: use folio_split() in truncate_inode_partial_folio()
-> >>   fs/btrfs: remove a comment referring to READ_ONLY_THP_FOR_FS
-> >>   selftests/mm: remove READ_ONLY_THP_FOR_FS in khugepaged
-> >>   selftests/mm: remove READ_ONLY_THP_FOR_FS from comments in
-> >>     guard-regions
-> >>
-> >>  fs/btrfs/defrag.c                          |  3 --
-> >>  fs/inode.c                                 |  3 --
-> >>  fs/open.c                                  | 27 ----------------
-> >>  include/linux/fs.h                         |  5 ---
-> >>  include/linux/huge_mm.h                    | 25 ++-------------
-> >>  include/linux/pagemap.h                    | 29 -----------------
-> >>  mm/Kconfig                                 | 11 -------
-> >>  mm/filemap.c                               |  1 -
-> >>  mm/huge_memory.c                           | 29 ++---------------
-> >>  mm/khugepaged.c                            | 36 +++++----------------=
+    To get the optimum ratio, 20/10240, I use these settings before
+    I start the orangefs userspace:
+
+      echo always > /sys/kernel/mm/transparent_hugepage/enabled
+      echo always > /sys/kernel/mm/transparent_hugepage/defrag
+      echo 30 > /proc/sys/vm/nr_hugepages
+
+    https://docs.kernel.org/admin-guide/mm/hugetlbpage.html discusses
+    hugepages and manipulating the /proc/sys/vm settings.
+
+    Comparing the performance between the page/bufmap and the folio/bufmap
+    is a mixed bag.
+
+      - The folio/bufmap version is about 8% faster at running through the
+        xfstest suite on my VMs.
+
+       - It is easy to construct an fio test that brings the page/bufmap
+         version to its knees on my dinky VM test system, with all bufmap
+         slots used and I/O timeouts cascading.
+
+       - Some smaller tests I did with fio that didn't overwhelm the
+         page/bufmap version showed no performance gain with the
+         folio/bufmap version on my VM.
+
+    I suspect this change will improve performance only in some use-cases.
+    I think it will be a gain when there are many concurrent IOs that
+    mostly fill the bufmap. I'm working up a gcloud test for that.
+
+    Signed-off-by: Mike Marshall <hubcap@omnibond.com>
+---
+ fs/orangefs/orangefs-bufmap.c | 395 ++++++++++++++++++++++++++++++----
+ 1 file changed, 352 insertions(+), 43 deletions(-)
+
+diff --git a/fs/orangefs/orangefs-bufmap.c b/fs/orangefs/orangefs-bufmap.c
+index 5dd2708cce94..6d6f9f5df8aa 100644
+--- a/fs/orangefs/orangefs-bufmap.c
++++ b/fs/orangefs/orangefs-bufmap.c
+@@ -139,9 +139,15 @@ static int get(struct slot_map *m)
+ /* used to describe mapped buffers */
+ struct orangefs_bufmap_desc {
+ 	void __user *uaddr;		/* user space address pointer */
+-	struct page **page_array;	/* array of mapped pages */
+-	int array_count;		/* size of above arrays */
+-	struct list_head list_link;
++	struct folio **folio_array;
++	/*
++	 * folio_offsets could be needed when userspace sets custom
++	 * sizes in user_desc, or when folios aren't all backed by
++	 * 2MB THPs.
++	 */
++	size_t *folio_offsets;
++	int folio_count;
++	bool is_two_2mib_chunks;
+ };
+ 
+ static struct orangefs_bufmap {
+@@ -150,8 +156,10 @@ static struct orangefs_bufmap {
+ 	int desc_count;
+ 	int total_size;
+ 	int page_count;
++	int folio_count;
+ 
+ 	struct page **page_array;
++	struct folio **folio_array;
+ 	struct orangefs_bufmap_desc *desc_array;
+ 
+ 	/* array to track usage of buffer descriptors */
+@@ -174,6 +182,17 @@ orangefs_bufmap_unmap(struct orangefs_bufmap *bufmap)
+ static void
+ orangefs_bufmap_free(struct orangefs_bufmap *bufmap)
+ {
++	int i;
++
++	if (!bufmap)
++		return;
++
++	for (i = 0; i < bufmap->desc_count; i++) {
++		kfree(bufmap->desc_array[i].folio_array);
++		kfree(bufmap->desc_array[i].folio_offsets);
++		bufmap->desc_array[i].folio_array = NULL;
++		bufmap->desc_array[i].folio_offsets = NULL;
++	}
+ 	kfree(bufmap->page_array);
+ 	kfree(bufmap->desc_array);
+ 	bitmap_free(bufmap->buffer_index_array);
+@@ -213,8 +232,10 @@ orangefs_bufmap_alloc(struct ORANGEFS_dev_map_desc *user_desc)
+ 	bufmap->desc_count = user_desc->count;
+ 	bufmap->desc_size = user_desc->size;
+ 	bufmap->desc_shift = ilog2(bufmap->desc_size);
++	bufmap->page_count = bufmap->total_size / PAGE_SIZE;
+ 
+-	bufmap->buffer_index_array = bitmap_zalloc(bufmap->desc_count, GFP_KERNEL);
++	bufmap->buffer_index_array =
++		bitmap_zalloc(bufmap->desc_count, GFP_KERNEL);
+ 	if (!bufmap->buffer_index_array)
+ 		goto out_free_bufmap;
+ 
+@@ -223,16 +244,21 @@ orangefs_bufmap_alloc(struct ORANGEFS_dev_map_desc *user_desc)
+ 	if (!bufmap->desc_array)
+ 		goto out_free_index_array;
+ 
+-	bufmap->page_count = bufmap->total_size / PAGE_SIZE;
 -
-> >>  mm/truncate.c                              |  8 ++---
-> >>  tools/testing/selftests/mm/guard-regions.c |  9 +++---
-> >>  tools/testing/selftests/mm/khugepaged.c    |  4 +--
-> >>  13 files changed, 23 insertions(+), 167 deletions(-)
-> >>
-> >> --
-> >> 2.43.0
-> >>
->
->
-> --
-> Best Regards,
-> Yan, Zi
->
+ 	/* allocate storage to track our page mappings */
+ 	bufmap->page_array =
+ 		kzalloc_objs(struct page *, bufmap->page_count);
+ 	if (!bufmap->page_array)
+ 		goto out_free_desc_array;
+ 
++	/* allocate folio array. */
++	bufmap->folio_array = kzalloc_objs(struct folio *, bufmap->page_count);
++	if (!bufmap->folio_array)
++		goto out_free_page_array;
++
+ 	return bufmap;
+ 
++out_free_page_array:
++	kfree(bufmap->page_array);
+ out_free_desc_array:
+ 	kfree(bufmap->desc_array);
+ out_free_index_array:
+@@ -243,16 +269,64 @@ orangefs_bufmap_alloc(struct ORANGEFS_dev_map_desc *user_desc)
+ 	return NULL;
+ }
+ 
+-static int
+-orangefs_bufmap_map(struct orangefs_bufmap *bufmap,
+-		struct ORANGEFS_dev_map_desc *user_desc)
++static int orangefs_bufmap_group_folios(struct orangefs_bufmap *bufmap)
++{
++	int i = 0;
++	int f = 0;
++	int k;
++	int num_pages;
++	struct page *page;
++	struct folio *folio;
++
++	while (i < bufmap->page_count) {
++		page = bufmap->page_array[i];
++		folio = page_folio(page);
++		num_pages = folio_nr_pages(folio);
++		gossip_debug(GOSSIP_BUFMAP_DEBUG,
++			"%s: i:%d: num_pages:%d: \n", __func__, i, num_pages);
++
++		for (k = 1; k < num_pages; k++) {
++			if (bufmap->page_array[i + k] != folio_page(folio, k)) {
++				gossip_err("%s: bad match,  i:%d: k:%d:\n",
++					__func__, i, k);
++				return -EINVAL;
++			}
++		}
++
++		bufmap->folio_array[f++] = folio;
++		i += num_pages;
++	}
++
++	bufmap->folio_count = f;
++	pr_info("%s: Grouped %d folios from %d pages.\n",
++		__func__,
++		bufmap->folio_count,
++		bufmap->page_count);
++	return 0;
++}
++
++static int orangefs_bufmap_map(struct orangefs_bufmap *bufmap,
++				struct ORANGEFS_dev_map_desc *user_desc)
+ {
+ 	int pages_per_desc = bufmap->desc_size / PAGE_SIZE;
+-	int offset = 0, ret, i;
++	int ret;
++	int i;
++	int j;
++	int current_folio;
++	int desc_pages_needed;
++	int desc_folio_count;
++	int remaining_pages;
++	int need_avail_min;
++	int pages_assigned_to_this_desc;
++	size_t current_offset;
++	size_t adjust_offset;
++	struct folio *folio;
+ 
+ 	/* map the pages */
+ 	ret = pin_user_pages_fast((unsigned long)user_desc->ptr,
+-			     bufmap->page_count, FOLL_WRITE, bufmap->page_array);
++		bufmap->page_count,
++		FOLL_WRITE,
++		bufmap->page_array);
+ 
+ 	if (ret < 0)
+ 		return ret;
+@@ -260,7 +334,6 @@ orangefs_bufmap_map(struct orangefs_bufmap *bufmap,
+ 	if (ret != bufmap->page_count) {
+ 		gossip_err("orangefs error: asked for %d pages, only got %d.\n",
+ 				bufmap->page_count, ret);
+-
+ 		for (i = 0; i < ret; i++)
+ 			unpin_user_page(bufmap->page_array[i]);
+ 		return -ENOMEM;
+@@ -275,16 +348,117 @@ orangefs_bufmap_map(struct orangefs_bufmap *bufmap,
+ 	for (i = 0; i < bufmap->page_count; i++)
+ 		flush_dcache_page(bufmap->page_array[i]);
+ 
+-	/* build a list of available descriptors */
+-	for (offset = 0, i = 0; i < bufmap->desc_count; i++) {
+-		bufmap->desc_array[i].page_array = &bufmap->page_array[offset];
+-		bufmap->desc_array[i].array_count = pages_per_desc;
++	/*
++	 * Group pages into folios.
++	 */
++	ret = orangefs_bufmap_group_folios(bufmap);
++	if (ret)
++		goto unpin;
++
++	pr_info("%s: desc_size=%d bytes (%d pages per desc), total folios=%d\n",
++			__func__, bufmap->desc_size, pages_per_desc,
++			bufmap->folio_count);
++
++	current_folio = 0;
++	remaining_pages = 0;
++	current_offset = 0;
++	for (i = 0; i < bufmap->desc_count; i++) {
++		desc_pages_needed = pages_per_desc;
++		desc_folio_count = 0;
++		pages_assigned_to_this_desc = 0;
++		bufmap->desc_array[i].is_two_2mib_chunks = false;
++
++		/*
++		 * We hope there was enough memory that each desc is
++		 * covered by two THPs/folios, if not we want to keep on
++		 * working even if there's only one page per folio.
++		 */
++		bufmap->desc_array[i].folio_array =
++			kzalloc_objs(struct folio *, pages_per_desc);
++		if (!bufmap->desc_array[i].folio_array) {
++			ret = -ENOMEM;
++			goto unpin;
++		}
++
++		bufmap->desc_array[i].folio_offsets =
++			kzalloc_objs(size_t, pages_per_desc);
++		if (!bufmap->desc_array[i].folio_offsets) {
++			ret = -ENOMEM;
++			kfree(bufmap->desc_array[i].folio_array);
++			goto unpin;
++		}
++
+ 		bufmap->desc_array[i].uaddr =
+-		    (user_desc->ptr + (i * pages_per_desc * PAGE_SIZE));
+-		offset += pages_per_desc;
++			user_desc->ptr + (size_t)i * bufmap->desc_size;
++
++		/*
++		 * Accumulate folios until desc is full.
++		 */
++		while (desc_pages_needed > 0) {
++			if (remaining_pages == 0) {
++				/* shouldn't happen. */
++				if (current_folio >= bufmap->folio_count) {
++					ret = -EINVAL;
++					goto unpin;
++				}
++				folio = bufmap->folio_array[current_folio++];
++				remaining_pages = folio_nr_pages(folio);
++				current_offset = 0;
++			} else {
++				folio = bufmap->folio_array[current_folio - 1];
++			}
++
++			need_avail_min =
++				min(desc_pages_needed, remaining_pages);
++			adjust_offset = need_avail_min * PAGE_SIZE;
++
++			bufmap->desc_array[i].folio_array[desc_folio_count] =
++				folio;
++			bufmap->desc_array[i].folio_offsets[desc_folio_count] =
++				current_offset;
++			desc_folio_count++;
++			pages_assigned_to_this_desc += need_avail_min;
++			desc_pages_needed -= need_avail_min;
++			remaining_pages -= need_avail_min;
++			current_offset += adjust_offset;
++		}
++
++		/* Detect optimal case: two 2MiB folios per 4MiB slot. */
++		if (desc_folio_count == 2 &&
++		  folio_nr_pages(bufmap->desc_array[i].folio_array[0]) == 512 &&
++		  folio_nr_pages(bufmap->desc_array[i].folio_array[1]) == 512) {
++			bufmap->desc_array[i].is_two_2mib_chunks = true;
++			gossip_debug(GOSSIP_BUFMAP_DEBUG, "%s: descriptor :%d: "
++				"optimal folio/page ratio.\n", __func__, i);
++		}
++
++		bufmap->desc_array[i].folio_count = desc_folio_count;
++		gossip_debug(GOSSIP_BUFMAP_DEBUG,
++			" descriptor %d: folio_count=%d, "
++			"pages_assigned=%d (should be %d)\n",
++			i, desc_folio_count, pages_assigned_to_this_desc,
++			pages_per_desc);
+ 	}
+ 
+ 	return 0;
++unpin:
++	/*
++	 * rollback any allocations we got so far...
++	 * Memory pressure, like in generic/340, led me
++	 * to write the rollback this way.
++	 */
++	for (j = 0; j <= i; j++) {
++		if (bufmap->desc_array[j].folio_array) {
++			kfree(bufmap->desc_array[j].folio_array);
++			bufmap->desc_array[j].folio_array = NULL;
++		}
++		if (bufmap->desc_array[j].folio_offsets) {
++			kfree(bufmap->desc_array[j].folio_offsets);
++			bufmap->desc_array[j].folio_offsets = NULL;
++		}
++	}
++	unpin_user_pages(bufmap->page_array, bufmap->page_count);
++	return ret;
+ }
+ 
+ /*
+@@ -292,6 +466,8 @@ orangefs_bufmap_map(struct orangefs_bufmap *bufmap,
+  *
+  * initializes the mapped buffer interface
+  *
++ * user_desc is the parameters provided by userspace for the bufmap.
++ *
+  * returns 0 on success, -errno on failure
+  */
+ int orangefs_bufmap_initialize(struct ORANGEFS_dev_map_desc *user_desc)
+@@ -300,8 +476,8 @@ int orangefs_bufmap_initialize(struct ORANGEFS_dev_map_desc *user_desc)
+ 	int ret = -EINVAL;
+ 
+ 	gossip_debug(GOSSIP_BUFMAP_DEBUG,
+-		     "orangefs_bufmap_initialize: called (ptr ("
+-		     "%p) sz (%d) cnt(%d).\n",
++		     "%s: called (ptr (" "%p) sz (%d) cnt(%d).\n",
++		     __func__,
+ 		     user_desc->ptr,
+ 		     user_desc->size,
+ 		     user_desc->count);
+@@ -371,7 +547,7 @@ int orangefs_bufmap_initialize(struct ORANGEFS_dev_map_desc *user_desc)
+ 	spin_unlock(&orangefs_bufmap_lock);
+ 
+ 	gossip_debug(GOSSIP_BUFMAP_DEBUG,
+-		     "orangefs_bufmap_initialize: exiting normally\n");
++		     "%s: exiting normally\n", __func__);
+ 	return 0;
+ 
+ out_unmap_bufmap:
+@@ -471,22 +647,88 @@ int orangefs_bufmap_copy_from_iovec(struct iov_iter *iter,
+ 				size_t size)
+ {
+ 	struct orangefs_bufmap_desc *to;
+-	int i;
++	size_t remaining = size;
++	int folio_index = 0;
++	struct folio *folio;
++	size_t folio_offset;
++	size_t folio_avail;
++	size_t copy_amount;
++	size_t copied;
++	void *kaddr;
++	size_t half;
++	size_t first;
++	size_t second;
++
++	to = &__orangefs_bufmap->desc_array[buffer_index];
++
++	/* shouldn't happen... */
++	if (size > 4194304) pr_info("%s: size:%ld\n", __func__, size);
+ 
+ 	gossip_debug(GOSSIP_BUFMAP_DEBUG,
+-		     "%s: buffer_index:%d: size:%zu:\n",
+-		     __func__, buffer_index, size);
++		"%s: buffer_index:%d size:%zu folio_count:%d\n",
++		__func__,
++		buffer_index,
++		size,
++		to->folio_count);
++
++	/* Fast path: exactly two 2 MiB folios */
++	if (to->is_two_2mib_chunks && size <= 4194304) {
++		gossip_debug(GOSSIP_BUFMAP_DEBUG,
++			"%s: fastpath hit.\n", __func__);
++		half = 2097152;		/* 2 MiB */
++		first = min(size, half);
++		second = (size > half) ? size - half : 0;
++
++		/* First 2 MiB chunk */
++		kaddr = kmap_local_folio(to->folio_array[0], 0);
++		copied = copy_from_iter(kaddr, first, iter);
++		kunmap_local(kaddr);
++		if (copied != first)
++			return -EFAULT;
+ 
+-	to = &__orangefs_bufmap->desc_array[buffer_index];
+-	for (i = 0; size; i++) {
+-		struct page *page = to->page_array[i];
+-		size_t n = size;
+-		if (n > PAGE_SIZE)
+-			n = PAGE_SIZE;
+-		if (copy_page_from_iter(page, 0, n, iter) != n)
++		if (second == 0)
++			return 0;
++
++		/* Second 2 MiB chunk */
++		kaddr = kmap_local_folio(to->folio_array[1], 0);
++		copied = copy_from_iter(kaddr, second, iter);
++		kunmap_local(kaddr);
++		if (copied != second)
+ 			return -EFAULT;
+-		size -= n;
++
++		return 0;
+ 	}
++
++	while (remaining > 0) {
++
++		if (unlikely(folio_index >= to->folio_count ||
++			to->folio_array[folio_index] == NULL)) {
++				gossip_err("%s: "
++				   "folio_index:%d: >= folio_count:%d: "
++		                   "(size %zu, buffer %d)\n",
++					__func__,
++					folio_index,
++					to->folio_count,
++					size,
++					buffer_index);
++				return -EFAULT;
++		}
++
++		folio = to->folio_array[folio_index];
++		folio_offset = to->folio_offsets[folio_index];
++		folio_avail = folio_nr_pages(folio) * PAGE_SIZE - folio_offset;
++		copy_amount = min(remaining, folio_avail);
++		kaddr = kmap_local_folio(folio, folio_offset);
++		copied = copy_from_iter(kaddr, copy_amount, iter);
++		kunmap_local(kaddr);
++
++		if (copied != copy_amount)
++			return -EFAULT;
++
++		remaining -= copied;
++		folio_index++;
++	}
++
+ 	return 0;
+ }
+ 
+@@ -499,23 +741,90 @@ int orangefs_bufmap_copy_to_iovec(struct iov_iter *iter,
+ 				    size_t size)
+ {
+ 	struct orangefs_bufmap_desc *from;
+-	int i;
++	size_t remaining = size;
++	int folio_index = 0;
++	struct folio *folio;
++	size_t folio_offset;
++	size_t folio_avail;
++	size_t copy_amount;
++	size_t copied;
++	void *kaddr;
++	size_t half;
++	size_t first;
++	size_t second;
+ 
+ 	from = &__orangefs_bufmap->desc_array[buffer_index];
++
++	/* shouldn't happen... */
++	if (size > 4194304) pr_info("%s: size:%ld\n", __func__, size);
++
+ 	gossip_debug(GOSSIP_BUFMAP_DEBUG,
+-		     "%s: buffer_index:%d: size:%zu:\n",
+-		     __func__, buffer_index, size);
++		"%s: buffer_index:%d size:%zu folio_count:%d\n",
++		__func__,
++		buffer_index,
++		size,
++		from->folio_count);
++
++	/* Fast path: exactly two 2 MiB folios */
++	if (from->is_two_2mib_chunks && size <= 4194304) {
++		gossip_debug(GOSSIP_BUFMAP_DEBUG,
++			"%s: fastpath hit.\n", __func__);
++		half = 2097152;		/* 2 MiB */
++		first = min(size, half);
++		second = (size > half) ? size - half : 0;
++		void *kaddr;
++		size_t copied;
++
++		/* First 2 MiB chunk */
++		kaddr = kmap_local_folio(from->folio_array[0], 0);
++		copied = copy_to_iter(kaddr, first, iter);
++		kunmap_local(kaddr);
++		if (copied != first)
++			return -EFAULT;
++
++		if (second == 0)
++			return 0;
++
++		/* Second 2 MiB chunk */
++		kaddr = kmap_local_folio(from->folio_array[1], 0);
++		copied = copy_to_iter(kaddr, second, iter);
++		kunmap_local(kaddr);
++		if (copied != second)
++			return -EFAULT;
+ 
++		return 0;
++	}
++
++	while (remaining > 0) {
++
++		if (unlikely(folio_index >= from->folio_count ||
++			from->folio_array[folio_index] == NULL)) {
++				gossip_err("%s: "
++				   "folio_index:%d: >= folio_count:%d: "
++		                   "(size %zu, buffer %d)\n",
++					__func__,
++					folio_index,
++					from->folio_count,
++					size,
++					buffer_index);
++				return -EFAULT;
++		}
+ 
+-	for (i = 0; size; i++) {
+-		struct page *page = from->page_array[i];
+-		size_t n = size;
+-		if (n > PAGE_SIZE)
+-			n = PAGE_SIZE;
+-		n = copy_page_to_iter(page, 0, n, iter);
+-		if (!n)
++		folio = from->folio_array[folio_index];
++		folio_offset = from->folio_offsets[folio_index];
++		folio_avail = folio_nr_pages(folio) * PAGE_SIZE - folio_offset;
++		copy_amount = min(remaining, folio_avail);
++
++		kaddr = kmap_local_folio(folio, folio_offset);
++		copied = copy_to_iter(kaddr, copy_amount, iter);
++		kunmap_local(kaddr);
++
++		if (copied != copy_amount)
+ 			return -EFAULT;
+-		size -= n;
++
++		remaining -= copied;
++		folio_index++;
+ 	}
++
+ 	return 0;
+ }
+-- 
+2.53.0
 
