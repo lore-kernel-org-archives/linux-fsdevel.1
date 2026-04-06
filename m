@@ -1,128 +1,113 @@
-Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EAA82E1EFC
-	for <linux-fsdevel@vger.kernel.org>; Mon,  6 Apr 2026 05:47:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A39EB2E1EFC;
+	Mon,  6 Apr 2026 05:49:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775454450; cv=none; b=EUk2MqQwPj3BUrEf2kFT2tQS2RRt60IJWnlWVS2W355A0vkS5VKo91l9xfqg0SRko8V0Q53SndVtv8k76t2WPDF2OcaGC4DYF9vkAW85N+3jSk4asi/5C5p8sl8pLmUdaC/qZcagRwTCqAeoNMC40Ft6M3jbnExvnrtMIGvnU3c=
+	t=1775454568; cv=none; b=VMB3tlLUYEuKmI5VaurVQt6VI96OM2B1CcFFNTNr38s+FGrA+689c702m55DovouzQHN6x5NK4syd43BE+8HIoMo58rDAGTnpXTRGgppwqPUHCb/iu2yxLbzfarT55m++XXkhY5JJ77JACiNKy1w3sV3mkmPGXC6mmi2x0KM43w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775454450; c=relaxed/simple;
-	bh=27lCfOGLG6r3/SozM5zIvPldVzzQy3bWKDp5fCqCllQ=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=EgArSe0meTYxYofZ+uk3CYdybH+u9L83Cz1LJFgpfiacYwDCGcjM8Z9fLSwbRGUF4WbnOYnSjG39ETyBwyP0ccQ4UwOFJB0dxbKW8oXJcudCwz2CeXeegppc5gus/VfiVhZRMg7ddwmbg3sBcGt9OKZaqFQZPQCdopb89SduoAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=AoBcYi3T; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=LJEgYCvj; arc=none smtp.client-ip=103.168.172.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	s=arc-20240116; t=1775454568; c=relaxed/simple;
+	bh=KM+X2KZEqBDA/K5dp30dFrpiPmLj69S+fufNYc2cU2A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=j9T9cchlaGCJoKTOorpkwJsHQy3TdlEXJmsk12cMZ49jf1NYD3t2LFA1bsrAYRCXDu56ZJ8z8JqCwXzE2gPnciyh/ES9mhaVkpM7duyTCZPAiw9BnrhvQjiqXXD6C2SruJ/MaGkOIJ2kmLliO10bvPgLvGJ89tVWt0kS9Iw/Uns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=aMkntTdZ; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="AoBcYi3T";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="LJEgYCvj"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfout.phl.internal (Postfix) with ESMTP id 8A718EC01CE;
-	Mon,  6 Apr 2026 01:47:27 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-02.internal (MEProxy); Mon, 06 Apr 2026 01:47:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm2; t=
-	1775454447; x=1775540847; bh=uOohBy4aJKe9V4FzNGfvpwn2PgOUtJ82lYY
-	0AhvpAZI=; b=AoBcYi3TtFQOlNaZEIkb7utUE3B8cZ29gtn2Oq2yb34g/+dZqjT
-	1vaYzRU5u2AMGcZ9jChO9Sy7zDlB7+pqUasG/FS5xlGWfEjfFF/97UmgQ6bqOzpu
-	2KST4MPLbhzimS6BGISZXoJ2Fh5NXEVTqC8lXESis/9xwOZD14hznovxK3lbstTj
-	eonjPospep4fpZyKeM5yy86s0QIG50qN6nQQTlO6jW+3ykwOvl+c8OMSjTymMKg5
-	uWdmuhHJ1fuGCRdc1SIolY5aKNO3EMxv98dnD3TWe1rqGuGn2/fTs62fX/gdpScz
-	Oxq3T6fAo8eMNLboxw2xBEHH3SvUNmVsR/g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1775454447; x=
-	1775540847; bh=uOohBy4aJKe9V4FzNGfvpwn2PgOUtJ82lYY0AhvpAZI=; b=L
-	JEgYCvjwmpwwxdwIL8dgAXUHSLuaacHsD+wJhQaROt3JOsY8yv3WyQ2wi8Z1B82t
-	vMA2ZUTX42SG4q5pLcxfrwJm3BSvhBcoj8jSJ7qml/0WQ4j2pvykFnUH66WnCL4w
-	/e3U48wBb9KPRDZbVjBgVpIxehINTweTiOJZ7Bih2UUEyvzTEtJJzylqMOhUXtGo
-	cqIpEXZXAhtdnFfeHIzXTmrFgOO/h/NxbzAKrK0uuN8HtSYKfOkzE+yH8sUYDV3r
-	ySbzLMIzXLmiP05PdSFUhgPFJQkOxPVBBhgJgY0BBQLEPELcA175p7OG9Cm2PZ20
-	1Pt8cKdevPhShL8P2NLKQ==
-X-ME-Sender: <xms:70jTaW2j66QF02o5Vnw1kiDAiNNUbuNBPi-EEMKHtapaVnpGzmBTzw>
-    <xme:70jTadZuPLnqUuK6U7iMVyMMz47i0PDSVqy3n9FKOdWezSC0qmONBZdy5c0__fqzI
-    gMHlMk1uTA94ouoJcCoW4zK4rhtIhonffEn4PU_kd2xrPQ6>
-X-ME-Received: <xmr:70jTaeAnLMcEa58xRjDMqJv-8SuXqw5YvqwKP-KKr-i5rHHjkBva5BYJnLRmW452ug>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduieekkecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpegtgfgghffvvefujghffffkrhesthejredttddtjeenucfhrhhomheppfgvihhluehr
-    ohifnhcuoehnvghilhgssehofihnmhgrihhlrdhnvghtqeenucggtffrrghtthgvrhhnpe
-    duteefhfduveehvdefueefvdffkeevkefgtdefgffgkeehjeeghfetiefhgffgleenucev
-    lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnvghilhgsse
-    hofihnmhgrihhlrdhnvghtpdhnsggprhgtphhtthhopedvpdhmohguvgepshhmthhpohhu
-    thdprhgtphhtthhopehvihhrohesiigvnhhivhdrlhhinhhugidrohhrghdruhhkpdhrtg
-    hpthhtoheplhhinhhugidqfhhsuggvvhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:70jTaf8x8i0a0gi7CygWSIOi60ZyS7-4SepKSPhJMDlAu2mkXaCyaw>
-    <xmx:70jTae9rnJYpKvkYh8SIK0rioQohsowzIos6hunyufHv_MEo228Qwg>
-    <xmx:70jTaWcysVSZnSRAJBMb_87XhA3dLxFbfZsVG_evjS0WkZmSAb9fqA>
-    <xmx:70jTaXF7EHbDDk-dIR2n3VSN5MzXIwZGDRkKcokU9-wOdu30L47Qjw>
-    <xmx:70jTaSaqhi-CgNYY8GqUNT90OMHMxf0pV_mi0P8H6MAaK2PkFI7TGEBR>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 6 Apr 2026 01:47:26 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="aMkntTdZ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=6WWXWZMI41Am3IOMc7V4QgXpbUSV0Yys/y4z2vFj0+U=; b=aMkntTdZNJnKIOOxVJAW0Dcitj
+	5A3rbsHMazHEWugGsyUSoquIwVRWzA+1t4rpE1kiP7C2zi0C+12p3Mg0321M3Gspnxbie8PkrchOf
+	YL5gPP30MTxuVja7u8F2A3zQNDCJDMLkZz1MqPrSy930AE6sMtFBo2oRZBRQKzBX+L9M0EpToOCa1
+	ociP97dZmUvsZXgZh46Wp+XTT7xCh8Pz6PTJlnZ5owTujnFESE/ni8q27LKuU2dkmlRfwygAqwyC4
+	dRFU/zZ0EZ7mtyjztdyfi3muuDiWGVwAAmr3M+AxcQ1zgRt7fIoDGatFJqeUKLRu3nuYUm3KRJKx6
+	E8ikz8MA==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1w9cpw-00000004p6U-2Mgw;
+	Mon, 06 Apr 2026 05:49:24 +0000
+Date: Sun, 5 Apr 2026 22:49:24 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Christoph Hellwig <hch@infradead.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Mike Snitzer <snitzer@kernel.org>,
+	Chuck Lever <chuck.lever@oracle.com>, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: Re: [PATCH 2/4] mm: add atomic flush guard for IOCB_DONTCACHE
+ writeback
+Message-ID: <adNJZBXeJomWmhdf@infradead.org>
+References: <20260401-dontcache-v1-0-1f5746fab47a@kernel.org>
+ <20260401-dontcache-v1-2-1f5746fab47a@kernel.org>
+ <ac3-SU7BElHJVCEL@infradead.org>
+ <629f21c6591903512eb2f3f3c4d6b14a9ac7b91a.camel@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Al Viro" <viro@zeniv.linux.org.uk>
-Cc: linux-fsdevel@vger.kernel.org
-Subject: Re: fs/dcache.c: bogus comment re LIST_POISON2 around __d_drop()
-In-reply-to: <20260406040530.GX3836593@ZenIV>
-References: <20260405190402.GV3836593@ZenIV>
-  <177544136061.1474915.4475662411738222301@noble.neil.brown.name>
-  <20260406040530.GX3836593@ZenIV>
-Date: Mon, 06 Apr 2026 15:47:24 +1000
-Message-id: <177545444424.1474915.12012620249205784749@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <629f21c6591903512eb2f3f3c4d6b14a9ac7b91a.camel@kernel.org>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Mon, 06 Apr 2026, Al Viro wrote:
-> On Mon, Apr 06, 2026 at 12:09:20PM +1000, NeilBrown wrote:
+On Thu, Apr 02, 2026 at 08:49:45AM -0400, Jeff Layton wrote:
+> > Have you considered stopping to do in-caller writeback for
+> > IOCB_DONTCACHE vs just leaving it to the writeback daeon?
+> > 
+> > Either by totally disabling the writeback and just leaving the
+> > dropbehind bit, or by queuing up wb_writeback_work instances for
+> > the ranges, or by just increasing the pressure for the writeback
+> > daemon.  Note that with all schemes including the one in this patch
+> > we might eventually run into writeback scalability limits, which
+> > will require multiple writeback workers.
 > 
-> > It might be help to add *why* it doesn't.  Presumably this is an
-> > optimisation for when the dentry will soon be added into a different
-> > list.  There is no point setting pprev when it will soon be set to
-> > something else while the lock is still held.
-> > Do we know that the compiler won't work out this optimisation itself?
+> I did test a "dropbehind" mode that just set the dropbehind bit without
+> doing the flush at the end of the write. It was better than stock
+> dontcache but the tail latencies were still pretty bad.
 > 
-> Er...  Neil, it was your patch in the first place ;-)  I realize that this
-> was over 8 years ago; for context see 61647823aa92.  The short version of
-> the story: we want to avoid a window during d_move() when d_unhashed()
-> (actually, d_unlinked()) called without ->d_lock would give false
-> positives.
-> 
+> I think having each writer do some writeback submission work makes a
+> lot of sense. It helps keep the dirty pages below the dirty thresholds
+> and doesn't seem to tax each writing task _too_ much. The trick is
+> avoiding lock contention while doing it.
 
-Right ... I clearly could have documented that better.
+Well, an any time you hit a shared resources from multiple threads you
+create that lock contention.   Which is why in file system and writeback
+land we've moved away from random user processes hitting both data and
+metadata (e.g. XFS AIL) writeback as it leads to these scalability
+issues.  At some point we might run out of steam in a single thread,
+although so far that's mostly been because it does stupid things
+(e.g. writeback on file systems doing complex allocator stuff).
 
-diff --git a/fs/dcache.c b/fs/dcache.c
-index 7ba1801d8132..76726325fb28 100644
---- a/fs/dcache.c
-+++ b/fs/dcache.c
-@@ -595,7 +595,8 @@ EXPORT_SYMBOL(__d_drop);
-  * __d_drop requires dentry->d_lock
-  *
-  * ___d_drop doesn't mark dentry as "unhashed"
-- * (dentry->d_hash.pprev will be LIST_POISON2, not NULL).
-+ * (dentry->d_hash.pprev is unchanged) so a racing d_unlinked()
-+ * won't see a dentry undergoing d_move() as being unhashed.
-  */
- void d_drop(struct dentry *dentry)
- {
+> I think what would be ideal would be to have some (lockless) mechanism
+> to say "there is enough data touched by the range just written to kick
+> off a write that's a suitable size for the backing store". Each writer
+> could check that and then kick off writeback for an approprite range.
 
+And that is called the writeback thread.  So what we should do there
+is to make sure we queue up writeback on it for each dontcache write.
+Initially queuing up a wb_writeback_work for each range might be first
+approximation, although we should probably find a way to just increase
+a threshold if going down that road.
 
-??
+> I think this even could be beneficial in the normal buffered write
+> codepath too.
 
-Thanks,
-NeilBrown
+Yes, we've had lots of observation that the current 30s timeout is
+actively harmful.  Especially on SSDs, but even on HDD just keeping
+the active might make sense.
+
