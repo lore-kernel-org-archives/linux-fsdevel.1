@@ -1,44 +1,42 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE1E61A9F82;
-	Mon,  6 Apr 2026 03:23:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80AE8C2FF
+	for <linux-fsdevel@vger.kernel.org>; Mon,  6 Apr 2026 04:01:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775445805; cv=none; b=O/uzqk26MTs+51dUXHATsQUyF9JOTifla66+2Rp6UFcOguiMwnhmhl7rzC/PEWnqJCQTz/hJAvcP6h/Aa3qs0u2dSqVNlzR6BlvdRKo15TMc+CD4Xa3lUPh8RP6BrNNQizcdW/an6RBttgYMVihX3GMubmTOIS58t7q+rUOVDiU=
+	t=1775448113; cv=none; b=b/mQrbSab0hN6uvX0ZZ68npTBU24wdDByIcrcYTB1nTF9rNB0OLb/1s+T5PYfOsDf1qXXyJ8nzG0Eo49mkKlZ7FqiL3L/SoVU0mgrZQAnrGWf7KcdVtb9U7av6S+teJre6gDQukeJ9L6qEcPE5VZ2kIRlLApnxFlmI1IF75RGSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775445805; c=relaxed/simple;
-	bh=lfpB8W9eRgk5AGGJA9+bX9XD4zEiWuJmxAULDW/Vxd4=;
+	s=arc-20240116; t=1775448113; c=relaxed/simple;
+	bh=k/b7d6yh0ZU3ll/Ke/6+wOCmCTU5582BW95QwPVIm+0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d8hlGvCfqBPuavamlsKfnbNb7psUDsCjJD33RoGH5C6TO7V6AMSxMST8CLkPvvqjWNfi9XfU7LWY/ajEPfwgyb2AxLpvOXpAOBj0I5CcqKPyQpwlCQ9sYrFB+V1c+pcY9LHGfYfQnQhgKh0uJMrR035Et74SyXk6B3TzFIvwxDI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=JZSNg5iT; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=sdbGhvOwnbnGvPRGmsPMDQNNXX/rvKEbYsrNxbq/UKbvV+XWg3AA3wekm1KY2JTHpKHPvTDHgSXMMkTBsCf6M2xLiYUneqfkYoDh5fEglp1G/EAi3iJ/8cmz4vAAAbL07kKAjlvDpAur7tkKG/VOpw2M1vzwDqCgzgsPk8PAGjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=iUpWgyO6; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="JZSNg5iT"
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="iUpWgyO6"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=vCSph1mZhlXtBaThNHBA6xnqnwg4ekiSnwqbANoAqpk=; b=JZSNg5iTHnAzfjToJ/3tKS/EWj
-	H/Y3GKQHfHsA/o1vES+ZCY8jwGYn8r4jhOszX+CMvxjjAAhLvZJe0yeui0xYIzbhB+KzCEWbE4Lmr
-	xW/AgGfMTAY5GCTeRuJWHt0yPAWZ2h6wCIIqozqNGa4DcIdgz2szMrFppR9W31anSANet2ja3Vx0b
-	Xqo8WddsjfbmZqY8jlfUHjVxFN8TTecpTJS5kniQIAeNVW8kP3XgANkV0EX/NQ8adnLzVQQ2PZ6Ml
-	QnEJlWkQdLxbvdytgXRhZQYPBxCdFb7QS9JTIUY68TEmdHb/NA6Vprz19U83JXiRnE0nNaA6jyFCq
-	gBFkw7qQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w9aYZ-00000000kkx-2b5R;
-	Mon, 06 Apr 2026 03:23:19 +0000
-Date: Mon, 6 Apr 2026 04:23:19 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Paulo Alcantara <pc@manguebit.org>
-Cc: viro@zeniv.linux.org.uk, smfrench@gmail.com,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	David Howells <dhowells@redhat.com>, linux-fsdevel@vger.kernel.org,
-	linux-cifs@vger.kernel.org
-Subject: Re: [PATCH 1/2] vfs: introduce d_mark_tmpfile_name()
-Message-ID: <adMnJ_FJ13NJ23Mv@casper.infradead.org>
-References: <20260405211819.1251369-1-pc@manguebit.org>
+	bh=hGl1XMWP7m9LCblVCLU09T28GTA5LM4hDdRwGsg9y6Y=; b=iUpWgyO6sRpXjb73idu7hIS72p
+	9XdUzZacTUgSrP3DrA2UCPhGmejWKqV9dqZe5PAMCmIZNFv1ULVxUgKOSDX88opkHCVyuQu49H/KQ
+	KjJxmCaHBNYwJz3mGHDJPgM1UCBYRWCu19mhlzzTne3bdAZdb3yswFQw7ZcFCtcfmaPqOXGxTJQCF
+	T0RAjOmqJvbCzf0XDH3ZKYdMwcmzdX2C8ILflbbfEjoNL9lq+z4Y7U3gD4L5JIRePHGBbDHS7+vf6
+	GDefEoJgmNdWQU0WH7gY8+Ile4nt+WFiZ16iKYhY33hVd1yoKWqBF8Cur7sX6a6IOTVeTKJDm4XuG
+	rluOAbFg==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1w9bDO-0000000DtKY-2HV8;
+	Mon, 06 Apr 2026 04:05:30 +0000
+Date: Mon, 6 Apr 2026 05:05:30 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: NeilBrown <neil@brown.name>
+Cc: linux-fsdevel@vger.kernel.org
+Subject: Re: fs/dcache.c: bogus comment re LIST_POISON2 around __d_drop()
+Message-ID: <20260406040530.GX3836593@ZenIV>
+References: <20260405190402.GV3836593@ZenIV>
+ <177544136061.1474915.4475662411738222301@noble.neil.brown.name>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -47,24 +45,19 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260405211819.1251369-1-pc@manguebit.org>
+In-Reply-To: <177544136061.1474915.4475662411738222301@noble.neil.brown.name>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-On Sun, Apr 05, 2026 at 06:18:18PM -0300, Paulo Alcantara wrote:
-> +void d_mark_tmpfile_name(struct file *file, const struct qstr *name)
-> +{
-> +	struct dentry *dentry = file->f_path.dentry;
-> +	char *dname = dentry->d_shortname.string;
-> +
-> +	BUG_ON(dname_external(dentry) ||
-> +	       d_really_is_positive(dentry) ||
-> +	       !d_unlinked(dentry) ||
-> +	       name->len > DNAME_INLINE_LEN - 1);
+On Mon, Apr 06, 2026 at 12:09:20PM +1000, NeilBrown wrote:
 
-We tend to prefer each of these to be written out separately.  ie:
+> It might be help to add *why* it doesn't.  Presumably this is an
+> optimisation for when the dentry will soon be added into a different
+> list.  There is no point setting pprev when it will soon be set to
+> something else while the lock is still held.
+> Do we know that the compiler won't work out this optimisation itself?
 
-	BUG_ON(dname_external(dentry));
-	BUG_ON(d_really_is_positive(dentry));
-...
-
-That way if one triggers, we know which condition is violated.
-
+Er...  Neil, it was your patch in the first place ;-)  I realize that this
+was over 8 years ago; for context see 61647823aa92.  The short version of
+the story: we want to avoid a window during d_move() when d_unhashed()
+(actually, d_unlinked()) called without ->d_lock would give false
+positives.
