@@ -1,214 +1,98 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AD9A3B4EB4;
-	Tue,  7 Apr 2026 14:03:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9A8925A2B5;
+	Tue,  7 Apr 2026 14:33:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775570640; cv=none; b=vEan/2JACsUbmYEFf4XxOk4HbEe78F+unu7YFYKx70S/GhN3yxUlfRfizYZTOY4MQ/b0c+NeFfEpLh65srdP4Ukc6rRrrUiOeE9ho1dBQZWvlFMn+v8HSCx2tBizL7tPyAxTlPbu2rGHU+xg0ZB3SRfkNU9Oi7ia+RvpWJxjkxU=
+	t=1775572386; cv=none; b=YZkrq5aNYHFyI9Xru1fkvSdQ1hVWPtIzcBs4IyYxnf5lLLdxNUHhtdE1wk8pFddcGNNpRxiMi3FUSa2vWqBDAWu5W7ik83sRMo0La2qz9P75VrzJ1tjWpBRzDbzoq4zziwpZ0ln0wNyU1EnqR467h+pxV1lmwSWBXxUoqSG0ZRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775570640; c=relaxed/simple;
-	bh=ViAmKCyybh+RYGuCPaOuSuILhoybosPGtaakl+xsXP4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CQqbfDja/cyXYlsWWXkxwy7k75RE2Q7KQ0+aihan5XdL9/chR+f9te0I4MMXeuKbez0bwdd5Pg+e892FdepRwKZW5axwWJf8+f7m8Uo09InwxrlR2TIPfDtxdDHYRwbd8wFEUsuLEZV6Ibj11Q7sKNhSSSBeLCe7ENQFUIYIfPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=lFD0TvJS; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1775572386; c=relaxed/simple;
+	bh=WJCSs57FyEtx1BbwUP76PgD4nrF7tpFgSLQ+QREMq7M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z228DXKS6/WP4Z34AjNinfBQRDRHPeMnpyVdRS2cewq8d4aKCutZ09abxowoTB+EC9zpCvtRzEbUQnYA3XY/xG+mxaKnEfYZlQRfhYLBxQSdj/upRcPO2JW58sTHlFDQ4Yuf9OBNvbBKxZ4c65TBS5ETQ4FmBk4ZvhukVjIps8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GOE5Rr4q; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="lFD0TvJS"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=+jXvXk9lUceBxq3dkL2FWae2GJ6kNOQonom+yldlPYM=; b=lFD0TvJShr3fANLbXOSRLFedv5
-	yuPRsAvcRV6jWDhwwZoXdAfDPJN/fQxqpu5+aUaUIYUretB2yQhHaJSFfUv8hVAFwzsOZ5zXPl9mp
-	wt72YWsk3tp+BB4i3U9UeURfatwvZ/TpZkgoSSsNyWUhkBo0Sn43jdrwJKtwFnDdfIaU0hGlNeuXF
-	7vWaaCp6nO7Pr7VIHS5y3ouEQyUToLkPT7hNuH/qFMDPHGs+wcFoAj2gWWyerTS82E89+4DTrmC6H
-	xI6Q6XPe16W2XQKwlAr5DF9GNODtuUSoGnabe+WVYWYIRJcOcE4itQJl9ZCELsYEsgvQVfV9a/SiG
-	EMMGpnsw==;
-Received: from 2a02-8389-2341-5b80-d601-7564-c2e0-491c.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:d601:7564:c2e0:491c] helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wA725-00000006Yof-3TkF;
-	Tue, 07 Apr 2026 14:03:58 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Tyler Hicks <code@tyhicks.com>
-Cc: ecryptfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH 7/7] ecryptfs: call notify_change from truncate_upper
-Date: Tue,  7 Apr 2026 16:02:43 +0200
-Message-ID: <20260407140329.633186-8-hch@lst.de>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260407140329.633186-1-hch@lst.de>
-References: <20260407140329.633186-1-hch@lst.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GOE5Rr4q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4675DC116C6;
+	Tue,  7 Apr 2026 14:33:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775572386;
+	bh=WJCSs57FyEtx1BbwUP76PgD4nrF7tpFgSLQ+QREMq7M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GOE5Rr4qgmLYU2OH4Qi47OtekLjs+ja1Duqn/llCdgWOet+tpqceQ/ScTNFQT81uq
+	 p+tCsjAb/YkYh4ONw8FYpMf5VZE9ff3ECyxpUHXUwzfvEvKqvUGk8X+O/+gH5DuMlP
+	 6z0lZfunwTkL0qJ3/YYMeCxMlltNiapBGZG0ZSCz9yFLFuJmKQfr7HhFJagDekaW5S
+	 MRKXMmOp5lGba67NTRMOX4/oV6NHBgYZl4rKau4kKBq94ePVbTQJ8peCjE9dJ82k6h
+	 wClQA1L/NANAfFyuMgMTiyxy785U6AuedrPKMIfR6tVaf+NFmq9KxpNrLKyO0GI5uM
+	 KHe56FJUFh4Pg==
+Date: Tue, 7 Apr 2026 15:33:00 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: Kevin Brodsky <kevin.brodsky@arm.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Yury Khrustalev <yury.khrustalev@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	David Hildenbrand <david@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH] docs: proc: document ProtectionKey in smaps
+Message-ID: <adUVjtFC5HZgnqWU@lucifer>
+References: <20260407125133.564182-1-kevin.brodsky@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260407125133.564182-1-kevin.brodsky@arm.com>
 
-Keep all the truncation logic in one place by also moving the call to
-notify_change into truncate_upper.  Rename the resulting function to
-__ecryptfs_truncate as it deals with both the lower and upper inodes.
+On Tue, Apr 07, 2026 at 01:51:33PM +0100, Kevin Brodsky wrote:
+> The ProtectionKey entry was added in v4.9; back then it was
+> x86-specific, but it now lives in generic code and applies to all
+> architectures supporting pkeys (currently x86, power, arm64).
+>
+> Time to document it: add a paragraph to proc.rst about the
+> ProtectionKey entry.
+>
+> Reported-by: Yury Khrustalev <yury.khrustalev@arm.com>
+> Signed-off-by: Kevin Brodsky <kevin.brodsky@arm.com>
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- fs/ecryptfs/inode.c | 74 ++++++++++++++++++++-------------------------
- 1 file changed, 33 insertions(+), 41 deletions(-)
+LGTM, So:
 
-diff --git a/fs/ecryptfs/inode.c b/fs/ecryptfs/inode.c
-index a7c6171db85b..58ec6229da4c 100644
---- a/fs/ecryptfs/inode.c
-+++ b/fs/ecryptfs/inode.c
-@@ -707,25 +707,23 @@ upper_size_to_lower_size(struct ecryptfs_crypt_stat *crypt_stat,
- }
- 
- /**
-- * truncate_upper
-+ * __ecryptfs_truncate - change size of an ecryptfs file.
-  * @dentry: The ecryptfs layer dentry
-  * @new_size: New upper file size.
-  * @lower_ia: Address of the lower inode's attributes
-  *
-- * Function to handle truncations modifying the size of the file. Note
-- * that the file sizes are interpolated. When expanding, we are simply
-- * writing strings of 0's out. When truncating, we truncate the upper
-- * inode and update the lower_ia according to the page index
-- * interpolations. If ATTR_SIZE is set in lower_ia->ia_valid upon return,
-- * the caller must use lower_ia in a call to notify_change() to perform
-- * the truncation of the lower inode.
-+ * Function to handle truncations modifying the size of the file. Note that the
-+ * lower file sizes are interpolated.  When expanding, we are simply writing
-+ * strings of 0's out.  When truncating, we truncate the upper inode and update
-+ * the lower_ia according to the page index interpolations.
-  *
-- * Returns zero on success; non-zero otherwise
-+ * Returns zero on success; non-zero otherwise.
-  */
--static int truncate_upper(struct dentry *dentry, loff_t new_size,
-+static int __ecryptfs_truncate(struct dentry *dentry, loff_t new_size,
- 		struct iattr *lower_ia)
- {
- 	struct inode *inode = d_inode(dentry);
-+	struct dentry *lower_dentry = ecryptfs_dentry_to_lower(dentry);
- 	struct ecryptfs_crypt_stat *crypt_stat;
- 	loff_t i_size = i_size_read(inode);
- 	loff_t lower_size_before_truncate;
-@@ -733,10 +731,8 @@ static int truncate_upper(struct dentry *dentry, loff_t new_size,
- 	size_t num_zeros;
- 	int rc;
- 
--	if (unlikely(new_size == i_size)) {
--		lower_ia->ia_valid &= ~ATTR_SIZE;
-+	if (unlikely(new_size == i_size))
- 		return 0;
--	}
- 
- 	crypt_stat = &ecryptfs_inode_to_private(inode)->crypt_stat;
- 	lower_size_before_truncate =
-@@ -769,14 +765,13 @@ static int truncate_upper(struct dentry *dentry, loff_t new_size,
- 		 * new end of the file.
- 		 */
- 		rc = ecryptfs_write(inode, zero, new_size - 1, 1);
--		lower_ia->ia_valid &= ~ATTR_SIZE;
- 		goto out;
- 	}
- 
- 	if (!(crypt_stat->flags & ECRYPTFS_ENCRYPTED)) {
- 		truncate_setsize(inode, new_size);
- 		lower_ia->ia_size = new_size;
--		goto out;
-+		goto set_size;
- 	}
- 
- 	/*
-@@ -806,10 +801,14 @@ static int truncate_upper(struct dentry *dentry, loff_t new_size,
- 	 * We are reducing the size of the ecryptfs file, and need to know if we
- 	 * need to reduce the size of the lower file.
- 	 */
--	if (lower_size_after_truncate < lower_size_before_truncate)
--		lower_ia->ia_size = lower_size_after_truncate;
--	else
--		lower_ia->ia_valid &= ~ATTR_SIZE;
-+	if (lower_size_after_truncate >= lower_size_before_truncate)
-+		goto out;
-+
-+	lower_ia->ia_size = lower_size_after_truncate;
-+set_size:
-+	inode_lock(d_inode(lower_dentry));
-+	rc = notify_change(&nop_mnt_idmap, lower_dentry, lower_ia, NULL);
-+	inode_unlock(d_inode(lower_dentry));
- out:
- 	ecryptfs_put_lower_file(inode);
- 	return rc;
-@@ -830,18 +829,8 @@ int ecryptfs_truncate(struct dentry *dentry, loff_t new_length)
- 	struct iattr lower_ia = {
- 		.ia_valid	= ATTR_SIZE,
- 	};
--	int rc;
--
--	rc = truncate_upper(dentry, new_length, &lower_ia);
--	if (!rc && lower_ia.ia_valid & ATTR_SIZE) {
--		struct dentry *lower_dentry = ecryptfs_dentry_to_lower(dentry);
- 
--		inode_lock(d_inode(lower_dentry));
--		rc = notify_change(&nop_mnt_idmap, lower_dentry,
--				   &lower_ia, NULL);
--		inode_unlock(d_inode(lower_dentry));
--	}
--	return rc;
-+	return __ecryptfs_truncate(dentry, new_length, &lower_ia);
- }
- 
- static int
-@@ -869,7 +858,6 @@ static int ecryptfs_setattr(struct mnt_idmap *idmap,
- 			    struct dentry *dentry, struct iattr *ia)
- {
- 	struct inode *inode = d_inode(dentry);
--	struct dentry *lower_dentry = ecryptfs_dentry_to_lower(dentry);
- 	struct inode *lower_inode = ecryptfs_inode_to_lower(inode);
- 	struct iattr lower_ia;
- 	struct ecryptfs_crypt_stat *crypt_stat;
-@@ -920,13 +908,6 @@ static int ecryptfs_setattr(struct mnt_idmap *idmap,
- 		goto out;
- 
- 	memcpy(&lower_ia, ia, sizeof(lower_ia));
--	if (ia->ia_valid & ATTR_FILE)
--		lower_ia.ia_file = ecryptfs_file_to_lower(ia->ia_file);
--	if (ia->ia_valid & ATTR_SIZE) {
--		rc = truncate_upper(dentry, ia->ia_size, &lower_ia);
--		if (rc < 0)
--			goto out;
--	}
- 
- 	/*
- 	 * mode change is for clearing setuid/setgid bits. Allow lower fs
-@@ -935,9 +916,20 @@ static int ecryptfs_setattr(struct mnt_idmap *idmap,
- 	if (lower_ia.ia_valid & (ATTR_KILL_SUID | ATTR_KILL_SGID))
- 		lower_ia.ia_valid &= ~ATTR_MODE;
- 
--	inode_lock(d_inode(lower_dentry));
--	rc = notify_change(&nop_mnt_idmap, lower_dentry, &lower_ia, NULL);
--	inode_unlock(d_inode(lower_dentry));
-+	if (ia->ia_valid & ATTR_SIZE) {
-+		if (ia->ia_valid & ATTR_FILE)
-+			lower_ia.ia_file = ecryptfs_file_to_lower(ia->ia_file);
-+		rc = __ecryptfs_truncate(dentry, ia->ia_size, &lower_ia);
-+		if (rc < 0)
-+			goto out;
-+	} else {
-+		struct dentry *lower_dentry = ecryptfs_dentry_to_lower(dentry);
-+
-+		inode_lock(d_inode(lower_dentry));
-+		rc = notify_change(&nop_mnt_idmap, lower_dentry, &lower_ia,
-+			NULL);
-+		inode_unlock(d_inode(lower_dentry));
-+	}
- out:
- 	fsstack_copy_attr_all(inode, lower_inode);
- 	return rc;
--- 
-2.47.3
+Reviewed-by: Lorenzo Stoakes <ljs@kernel.org>
 
+> ---
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Shuah Khan <skhan@linuxfoundation.org>
+> Cc: Dave Hansen <dave.hansen@linux.intel.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Lorenzo Stoakes <ljs@kernel.org>
+> Cc: Vlastimil Babka <vbabka@kernel.org>
+> Cc: David Hildenbrand <david@kernel.org>
+> Cc: Mark Rutland <mark.rutland@arm.com>
+> Cc: linux-fsdevel@vger.kernel.org
+> Cc: linux-mm@kvack.org
+> ---
+>  Documentation/filesystems/proc.rst | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+> index b0c0d1b45b99..d673cad7dbe4 100644
+> --- a/Documentation/filesystems/proc.rst
+> +++ b/Documentation/filesystems/proc.rst
+> @@ -549,6 +549,10 @@ does not take into account swapped out page of underlying shmem objects.
+>  naturally aligned THP pages of any currently enabled size. 1 if true, 0
+>  otherwise.
+>
+> +If both the kernel and the system support protection keys (pkeys),
+> +"ProtectionKey" indicates the memory protection key associated with the
+> +virtual memory area.
+> +
+>  "VmFlags" field deserves a separate description. This member represents the
+>  kernel flags associated with the particular virtual memory area in two letter
+>  encoded manner. The codes are the following:
+> --
+> 2.51.2
+>
