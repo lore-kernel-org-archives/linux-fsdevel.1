@@ -1,188 +1,187 @@
-Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
+Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72AA7344D9D
-	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Apr 2026 17:38:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.179
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775583493; cv=none; b=RI81mo+7qgHnU0ZYC5BM+unnzByUDsPjKicq0Nnhn5DATMmfGmhycTyy2sQ//RahK3vRAjbvUAmosxrzC4d8WRhgf84R9l2GvomJdDWeD+1KKxooONQnAjE0+f23JlB/iO95rKbNd3ZNoSxbpXRSqdgVY3W+VyUXriemNxfLK/o=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775583493; c=relaxed/simple;
-	bh=tvdUOATrbfQbm/otRmotSEVug48Q7PpH/fmsCZHFm/c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LtE+iu5MrVsO0FYb8FH/VquxGy7TFUC3k0ahu0ehA7jTLPTBkTtyBkyAe4RbvViOdz+HWpExZHF3j6zWgg3pYScwT7H91NqolMYk/SF/YIBOGHOJy6dAt7NWxgjvBd/np8VK0IpVYIdbEkGWetpNOTz5HPyOMfXAVu/8AYszlgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wbinvd.org; spf=pass smtp.mailfrom=wbinvd.org; dkim=pass (2048-bit key) header.d=wbinvd.org header.i=@wbinvd.org header.b=W0VTYY3f; arc=none smtp.client-ip=74.125.82.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wbinvd.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wbinvd.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5090317165
+	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Apr 2026 17:44:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775583848; cv=pass; b=eL+mpPBa4iPG0W+LHIItHORw8gmcmrE/IdqqdkVU0CWhw/BpkUWk2M8S/1dGTNzO5PLrI6fNhMuXhbsp8wlv4oZqprmsJ2Vg47JC//TyxNgU3yWct/DWPyxObAuTAE8pz6yZ02fBDuQf07hj49gIGGBwnQcr3BhOUlWW1plqFH0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775583848; c=relaxed/simple;
+	bh=K0c8fgDTTgJh5aOspZdc9QpK9m+q2mvYovxm3KBy3/g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eXO3E3jMieNUniZxk2MEE8SI27xoMkn41ly+EW69JI3VQ77pyKrn0azzjMO6ILeq9bXY0i35PjSEs/X8z33i73Q7Jb2sM9ZSq/1H+VeBZt56ViGW1KRa4pPv6abWomE6tgYQNucd5KWpDeK0LnsVj2NwSVwNfTYoUHviLcwaUDA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HH7M+vfI; arc=pass smtp.client-ip=74.125.224.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wbinvd.org header.i=@wbinvd.org header.b="W0VTYY3f"
-Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-2c156c4a9efso6901062eec.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 07 Apr 2026 10:38:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HH7M+vfI"
+Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-6500eae6d2fso5374446d50.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 07 Apr 2026 10:44:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775583841; cv=none;
+        d=google.com; s=arc-20240605;
+        b=MsxF4sK3V/lkOa17jTpwYHnsGSIF1ZPe3p8dcmSqqx+R5ovyjtuJfrL5Xpj0dJiiAm
+         C4xlcD1uJlqr7T7RGqw0UW1YQuKvj/8K7AILVGS7PgpDBgMCuKNSPwo31oEKcMDkMZRM
+         nNAegAd9plpVpJaR+sIjcvJl5kty5COw+SXOyx9wqTZCXcgNsWVpnpb/sqoWkLZYCFXF
+         wltsGyqtyWi04s1P7I3srzctc7hNcVqOqPu0SY3Gu1DxDhaGWICTOnsdcRwHfhKuYuCa
+         6f+Eb66QaNeK10+NXvYH9xU3TR56jMKjogJZjqLxAd/YwxBGNPARTEWq4m275mVDIyqG
+         difQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=x6iHHA26xfTQ6LQw11xLRWPayag2FtmyU87VP6OdH6s=;
+        fh=NsrZmTZVGp5gkxQxe+t8K2A39ndGTXVe8SEpzApAKiU=;
+        b=Ztj80Jsv+WgP5ATZxr1zj3MdKnU42RUUtBJEf4e/13KCBtNtKx0GRzlW0mSLHdNI43
+         LmK4CGQJtJqA1oxzthhXSaWR7W+d6ATHk2FyzyGFlfkCSCn+/APRlpdZunmLkpHB8NUT
+         epR8U/Z9tpyiNgJLAqhY/+ZhORfT3ycOJZhP48v0lqiUFvWZpL8eP1bXgx0mkAZyFjyY
+         M0gLGNBTUJ+04uNlBFoo+LX04NzS0O2EMOxrMBAoojdI0KFGI7gvHiK9w7sg4/0a5Nc9
+         hQTpHqC5vAgb5sv8bFoFjGOUhnFbqDyPwVuAk4YAj4EoRb016o76A3zfoqJS+z5Yeh64
+         aWqg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=wbinvd.org; s=wbinvd; t=1775583490; x=1776188290; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hqUr7UMuRskj68PpjSrDblmslOlX4kFlkF++X6DCkjE=;
-        b=W0VTYY3ft7bUlo7blCkv7uvh2n+fbI1geytaWAqleOxemFlBdqAOBh2yH73beInRyr
-         p0fueHUxvNR4a3YdozjFgRWwPRgNPsMUAbuSKfCsSK9pG29BKZGAyiGOgLiPGijgs4BY
-         Fa3s+Qodwcnci/Q8bNt4481CyvK18QpJciMvhWQmf7tDtyi/TxTW7kO7XsgaeVrkhkNi
-         8R65EmNicM5ZjtPYsgwuRexusJGwlwQLEugTdKSNQHs6NSdkDcOV4zR4W8K5Ln+3SAIa
-         yysFTD1Bmh09jwfz4RSqo11OVqw8mOsvdwU+QxFHnLmNVazJF/1XCs3WVb7AiFW8/PQu
-         YIbg==
+        d=gmail.com; s=20251104; t=1775583841; x=1776188641; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=x6iHHA26xfTQ6LQw11xLRWPayag2FtmyU87VP6OdH6s=;
+        b=HH7M+vfIPvHd4Y/dWGbDkbnTpd8lYnVY0NNRuTiITuvEAHcrJoGnzXzOdGJ27rUOTS
+         +qgJVg6b5AUUVB5QtGMd1C7gTbONoKUQEk3ldw4QijP/DQCkIkXp6EO1/mo4lgV9OuSX
+         5JxPBcQ6J0EyFU12A2YZmaFhYElsKoWmhhm0yj8FqtvuHvObgECCDPz5EDLuPv78qw8G
+         sKjzJNj+rLdbrOvJMsrw6h+QV33x/XSZkiXpKwICWp4LPg9JfGPUqccQXwrIxDwRTg5a
+         prD/FjkUMREGAu/cj1vUAD4sroI7iw/v5znboJViHYUrdyEiBGzgNHAyMMlQVU31YyvO
+         9BVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775583490; x=1776188290;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hqUr7UMuRskj68PpjSrDblmslOlX4kFlkF++X6DCkjE=;
-        b=N/lAQt5yTrRw/OXWunHwtWKC0X0ZKdaoiqn55gmYo7hVZGVxGC2brcMYa9jBlaipag
-         TSvOsAg5ifXR0crgwvtHwwZIZuywkdgYj46Ae5rxr9otciCfBhS5u/5JQSnT7FiIJBtP
-         xu8g4xNbjBhf+ipYuj9JjHtI5y5bMsyKVnhF9fl8RyHiiVJDg/0fjwNhNa5JwF+VmtHo
-         c/PIEkFH8EbYJi8OOkrEorHY2K/bEJHqqfgPxQ4X7WFxxN7a2hSYNkWlka5iY+1oVmR5
-         nENZ3JxKTjLpiVeeaMZNRJ4o5+l/9CzAMvRKq01yGTeQyrXUJ/blYqcx/yuDHzqhXV7s
-         8I2g==
-X-Forwarded-Encrypted: i=1; AJvYcCWVeGY/rY3hNAhpqamqtmkP6Ilwxk4TPdvy5M0u5QEUjNTRp4wPijqn1/aVncBonoIu5dDM5jdEBN9aiuK9@vger.kernel.org
-X-Gm-Message-State: AOJu0YxVMSLifVpdShQXIEejrsrtt4L+ZWMFJdF/pA2LWnVMiS6Uu1Q5
-	NyFKKVXfCczTtMiSiv3DNZJ1DZCAuDbh/B67K1MDPcwOWIj49EY/WMBguCo9ulW2pQU=
-X-Gm-Gg: AeBDiesiiXyWdqcD3mU3Jdc+0I6+QzbTnoU8h+MXkckTa9Ocjua/yrHNJ+S3657Mp1C
-	sz8iyc9IpC2WT7OWa9sjMeq8x5LTuAbqBZRJp989feR+zN7QdWl4ycotcdpGpe70jpbZyt8efRt
-	Kxlj7wt481Q3xq2uhMEGFJAYsLpmbeLUGt5UH/QdakUu0rlznr9FYu7aNpjhf4b7RV7TEPUaMAv
-	lVF6gCPegy4KNROQYQXEH3cPLGq8aAq0Zgp5nx3T+yO9XZu6jjhw7ZXSaLEKZ2gagdmKVkfUvay
-	t3NxRdg6AMJjQQWOPQ9O4veSVSI2n4yOjA0GlaZqrQ+EEdEm0JBLgyoCA2iSP8G3dtfjnApfkR6
-	7sGbw+2baeKjqhmNWQDv9QbmgbUCrzcVqazvq2Qt2Iu1dVHAS/mQ4tDvzGsllX9E2H3ljEmHu9q
-	fc7eZIHRS5g+ejiwcoDamLAK6WhQ==
-X-Received: by 2002:a05:7301:1010:b0:2ba:a2fb:403f with SMTP id 5a478bee46e88-2cbfb995d49mr8269797eec.21.1775583490260;
-        Tue, 07 Apr 2026 10:38:10 -0700 (PDT)
-Received: from mozart.vkv.me ([2001:5a8:468b:d015:412a:9f09:7acb:b69f])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2cba5df5c24sm15761050eec.27.2026.04.07.10.38.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Apr 2026 10:38:09 -0700 (PDT)
-Date: Tue, 7 Apr 2026 10:38:06 -0700
-From: Calvin Owens <calvin@wbinvd.org>
-To: Thomas Gleixner <tglx@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Ingo Molnar <mingo@kernel.org>, John Stultz <jstultz@google.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, Sebastian Reichel <sre@kernel.org>,
-	linux-pm@vger.kernel.org, Pablo Neira Ayuso <pablo@netfilter.org>,
-	Florian Westphal <fw@strlen.de>, Phil Sutter <phil@nwl.cc>,
-	netfilter-devel@vger.kernel.org, coreteam@netfilter.org
-Subject: Re: [patch 00/12] hrtimers: Prevent hrtimer interrupt starvation
-Message-ID: <adVA_uv1srA_bsKj@mozart.vkv.me>
-References: <20260407083219.478203185@kernel.org>
+        d=1e100.net; s=20251104; t=1775583841; x=1776188641;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=x6iHHA26xfTQ6LQw11xLRWPayag2FtmyU87VP6OdH6s=;
+        b=QZyztXfv+xZyv+XxTD9yq4u5+82YHGo2G8DzounyPtrzD83cM9I4imTfgRQAA3VTrR
+         sq7J0sJvzioErnlBjstM4fHAggih8uSWgsXybTSfqbajXFD/zy3SwEnb0aAl8WlaZpdI
+         vei56FSMmipbT4Z+tGMdrJ+HjVZvmvucyZfSpPJ+7aN8b+fJWJPfvsGVuyCtOzDZdc3R
+         bx7t2PjIZC0DHBW0zSp1D7cuJfEz0a5DgfjaKDcpRD2S+Uukns4APNxx3w6pT7krc/A0
+         txzDw/vbzwvWhe6AaTRO0MFBNqO185EdIfyT99AmC2tuxwLYzSzOBPYIYk5yt9E6Qajp
+         Sbuw==
+X-Forwarded-Encrypted: i=1; AJvYcCX6dOu8XRfxLPTiNlxlw8iM8biGf6zMR4+aOOkYWMp4gDSTrhs3nbvma3iLJeL3khtX9goyZ84IAXqS0sDc@vger.kernel.org
+X-Gm-Message-State: AOJu0YyX7YDg0GaiDNYeFifYFNsd7i+IXgXd2eC3DG61RJip/yZm4VM/
+	rDB6X9xTRJqI2X2rWqv1vSaQOBDw4IcUzjW6EaGzPce9iNbpz8sT80MYmg35MlACkaSZavD9eAy
+	1zXYRqIC799KBUT5ySj2cO1QY0TEcMJg=
+X-Gm-Gg: AeBDieu4c4LelbwCPzJ+RXJzgOBvr3f1f93OKTXBGkhxX7VfgTNXK0DCV6mphYbs2et
+	RTuoemVjQIFc5zcLaitiAhfClP8SJGEBEfUmDjk0PbzrzP+EVDCYUWefcjMllpi0pDpQXZQuHh0
+	JfNBYAFIym6gCvMUfWb/bk8NqksAvdg3pqYB7oHaAe0FngIBkMBHV1k4M9lTvwixzB8ic68YonC
+	mYqDCMgKXyZhMCZK2XeHPBeEuQzyWLDjKh5ErnrQnK25KZ7Aki7fLkqnU6zpdCVVzjPWVYOm3cS
+	oRdUSioIL4nMtmaZ
+X-Received: by 2002:a53:e8cc:0:b0:650:95e:2fc with SMTP id 956f58d0204a3-6504880fbb1mr13323007d50.40.1775583841177;
+ Tue, 07 Apr 2026 10:44:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260407083219.478203185@kernel.org>
+References: <20260225112439.27276-1-luis@igalia.com> <20260225112439.27276-7-luis@igalia.com>
+In-Reply-To: <20260225112439.27276-7-luis@igalia.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Tue, 7 Apr 2026 10:43:47 -0700
+X-Gm-Features: AQROBzCj8WgteA4mdqDjQbIdRRTycn6e_gfWc8DjZJ1tVjTzwLTj7TaxcvCoDdg
+Message-ID: <CAJnrk1Yxpy0+tx2yb7CxVVwF9gqNRz_pHH5NUpBHOg55NNooJA@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 6/8] fuse: implementation of lookup_handle+statx
+ compound operation
+To: Luis Henriques <luis@igalia.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>, 
+	Bernd Schubert <bschubert@ddn.com>, Bernd Schubert <bernd@bsbernd.com>, 
+	"Darrick J. Wong" <djwong@kernel.org>, Horst Birthelmer <hbirthelmer@ddn.com>, Kevin Chen <kchen@ddn.com>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Matt Harvey <mharvey@jumptrading.com>, kernel-dev@igalia.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tuesday 04/07 at 10:54 +0200, Thomas Gleixner wrote:
-> Calvin reported an odd NMI watchdog lockup which claims that the CPU locked
-> up in user space:
-> 
->   https://lore.kernel.org/lkml/acMe-QZUel-bBYUh@mozart.vkv.me/
-> 
-> He provided a reproducer, which sets up a timerfd based timer and then
-> rearms it in a loop with an absolute expiry time of 1ns.
+On Wed, Feb 25, 2026 at 3:25=E2=80=AFAM Luis Henriques <luis@igalia.com> wr=
+ote:
+>
+> The implementation of lookup_handle+statx compound operation extends the
+> lookup operation so that a file handle is be passed into the kernel.  It
+> also needs to include an extra inarg, so that the parent directory file
+> handle can be sent to user-space.  This extra inarg is added as an extens=
+ion
+> header to the request.
+>
+> By having a separate statx including in a compound operation allows the
+> attr to be dropped from the lookup_handle request, simplifying the
+> traditional FUSE lookup operation.
+>
+> Signed-off-by: Luis Henriques <luis@igalia.com>
+> ---
+>  fs/fuse/dir.c             | 294 +++++++++++++++++++++++++++++++++++---
+>  fs/fuse/fuse_i.h          |  23 ++-
+>  fs/fuse/inode.c           |  48 +++++--
+>  fs/fuse/readdir.c         |   2 +-
+>  include/uapi/linux/fuse.h |  23 ++-
+>  5 files changed, 355 insertions(+), 35 deletions(-)
+>
+> diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
+> index 113583c4efb6..89e6176abe25 100644
+> --- a/include/uapi/linux/fuse.h
+> +++ b/include/uapi/linux/fuse.h
+>
+>  enum fuse_opcode {
+> @@ -671,6 +676,8 @@ enum fuse_opcode {
+>          */
+>         FUSE_COMPOUND           =3D 54,
+>
+> +       FUSE_LOOKUP_HANDLE      =3D 55,
+> +
+>         /* CUSE specific operations */
+>         CUSE_INIT               =3D 4096,
+>
+> @@ -707,6 +714,20 @@ struct fuse_entry_out {
+>         struct fuse_attr attr;
+>  };
+>
+> +struct fuse_entry2_out {
+> +       uint64_t        nodeid;
+> +       uint64_t        generation;
+> +       uint64_t        entry_valid;
+> +       uint32_t        entry_valid_nsec;
+> +       uint32_t        flags;
+> +       uint64_t        spare;
+> +};
 
-The original AMD machines survive the reproducer with this series.
+Hi Luis,
 
-Tested-by: Calvin Owens <calvin@wbinvd.org>
+Could you explain why we need a new struct fuse_entry2_out instead of
+reusing struct fuse_entry_out? From what i see, the only differences
+between them are that fuse_entry2_out drops attr_valid,
+attr_valid_nsec, and struct fuse_attr. Is this done so that it saves
+the ~100 bytes per lookup? Would it be cleaner from an abi perspective
+to just reuse fuse_entry_out and ignore the attr fields if they're not
+necessary? The reason I'm asking is because I'm looking at how you're
+doing the lookup request reply to see if the fuse passthrough stuff
+for metadata/directory operations can be combined with it. But I'm not
+fully understanding why fuse_entry2_out is needed here.
 
-I'm happy to test subsets of it and stable backports too, if that's
-helpful, just let me know.
+I'm also a bit confused by why the compound with statx is needed here,
+could you explain this part? I see the call to fuse_statx_to_attr()
+after do_lookup_handle_statx(),  but fuse_statx_to_attr() converts the
+statx reply right back to a struct fuse_attr for inode setup, so if
+FUSE_LOOKUP_HANDLE returned struct fuse_entry_out instead of struct
+fuse_entry2_out, doesn't this solve the problem of needing to compound
+it with a statx or getattr request? I also noticed that the statx part
+uses FUSE_ROOT_ID as a workaround for the node id because the actual
+nodeid isn't known yet, this seems like another sign that the
+attributes stuff should just be part of the lookup response itself
+rather than a separate operation?
 
 Thanks,
-Calvin
+Joanne
 
-> As the expiry time is in the past, the timer ends up as the first expiring
-> timer in the per CPU hrtimer base and the clockevent device is programmed
-> with the minimum delta value. If the machine is fast enough, this ends up
-> in a endless loop of programming the delta value to the minimum value
-> defined by the clock event device, before the timer interrupt can fire,
-> which starves the interrupt and consequently triggers the lockup detector
-> because the hrtimer callback of the lockup mechanism is never invoked.
-> 
-> The first patch in the series changes the clockevent set next event
-> mechanism to prevent reprogramming of the clockevent device when the
-> minimum delta value was programmed unless the new delta is larger than
-> that. It's a less convoluted variant of the patch which was posted in the
-> above linked thread and was confirmed to prevent the starvation problem.
-> 
-> But that's only to be considered the last resort because it results in an
-> insane amount of avoidable hrtimer interrupts.
-> 
-> The problem of user controlled timers is that the input value is only
-> sanity checked vs. validity of the provided timespec and clamped to be in
-> the maximum allowable range. But for performance reasons for in kernel
-> usage there is no check whether a to be armed timer might have been expired
-> already at enqueue time.
-> 
-> The rest of the series addresses this by providing a separate interface to
-> arm user controlled timers. This works the same way as the existing
-> hrtimer_start_range_ns(), but in case that the timer ends up as the first
-> timer in the clock base after enqueue it provides additional checks:
-> 
->       - Whether the timer becomes the first expiring timer in the CPU base.
-> 
->       	If not the timer is considered to expire in the future as there is
-> 	already an earlier event programmed.
-> 
->       - Whether the timer has expired already by comparing the expiry value
->         against current time.
-> 
-> 	If it is expired, the timer is removed from the clock base and the
-> 	function returns false, so that the caller can handle it. That's
-> 	required because the function cannot invoke the callback as that
-> 	might need to acquire a lock which is held by the caller.
-> 
-> This function is then used for the user controlled timer arming interfaces
-> mainly by converting hrtimer sleeper over to it. That affects a few in
-> kernel users too, but the overhead is minimal in that case and it spares a
-> tedious whack the mole game all over the tree.
-> 
-> The other usage sites in posixtimers, alarmtimers and timerfd are converted
-> as well, which should cover the vast majority of user space controllable
-> timers as far as my investigation goes.
-> 
-> The series applies against Linux tree and is also available from git:
-> 
->     git://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git hrtimer-exp-v1
-> 
-> There needs to be some discussion about the scope of backporting. The first
-> patch preventing the stall is obviously a backport candidate. The remaining
-> series can be obviously argued about, but in my opinion it should be
-> backported as well as it prevents stupid or malicious user space from
-> generating tons of pointless timer interrupts.
-> 
-> Thanks,
-> 
-> 	tglx
-> ---
->  drivers/power/supply/charger-manager.c |   12 +-
->  fs/timerfd.c                           |  115 +++++++++++++++-----------
->  include/linux/alarmtimer.h             |    9 +-
->  include/linux/clockchips.h             |    2 
->  include/linux/hrtimer.h                |   20 +++-
->  include/trace/events/timer.h           |   13 +++
->  kernel/time/alarmtimer.c               |   70 +++++++---------
->  kernel/time/clockevents.c              |   23 +++--
->  kernel/time/hrtimer.c                  |  142 +++++++++++++++++++++++++++++----
->  kernel/time/posix-cpu-timers.c         |   18 ++--
->  kernel/time/posix-timers.c             |   35 +++++---
->  kernel/time/posix-timers.h             |    4 
->  kernel/time/tick-common.c              |    1 
->  kernel/time/tick-sched.c               |    1 
->  net/netfilter/xt_IDLETIMER.c           |   24 ++++-
->  15 files changed, 341 insertions(+), 148 deletions(-)
-> 
-> 
+> +
+> +struct fuse_file_handle {
+> +       uint16_t        size;
+> +       uint8_t         handle[];
+> +};
+> +
+>  struct fuse_forget_in {
+>         uint64_t        nlookup;
+>  };
