@@ -1,81 +1,76 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DD9A1714AA
-	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Apr 2026 06:43:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCBB138F643
+	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Apr 2026 06:59:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775544232; cv=none; b=bfkCvhQ3qTvzP1iOPslSbswvu0YFLT4x2TV7feIqOZ97NKSzrAenytQBw1xv6vEF8+RlmD1Jg1w+eyGD7+90Ss8d0f1DGc6nnNGMMJ9XnrL6w1m0rD7B6eiLVtXVqo1atXoitxqwvwvocZEFUJ0MSQTKpWVaaiWpR1YfnFtaEyI=
+	t=1775545169; cv=none; b=cRZWog/MSsOYCsqG3d1/S6SY2XI8UCd5kuzO22+IXo5xR3Bn8B+tEvS+pY5TNfQKvibip0PjTnLiJeI2Mglet2dRnfauGcom61KGHnE89dFopa4No7FSXd6LBK4N5QQvf90Pni/E0lbEbHP5zGbVM9rg6RPXbo11O5ZSE3zhrDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775544232; c=relaxed/simple;
-	bh=aFb1INi/NUNadwFavlaxDB5+UNJh/ScJxVg4b+I3juQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=H7AN+V6MFkoicFl7Ob71CZMHqDOIPontMdOv/0cv73nML0RRjIV/fXTBPQY1pa/vKd+dEFmqDlHcpcZm/f+wytUfr2MB7FVh1O4C0UNCML2dK+BErGaDBGLJ7xWXA4tIyr2C41u/+lBgbfbBqAblqnunufwAFGKT7qUeQ6sNlkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T4aHZLc5; arc=none smtp.client-ip=209.85.128.44
+	s=arc-20240116; t=1775545169; c=relaxed/simple;
+	bh=bBcpBqNdkL3GPcxQ06QpROEKI8JaHAFAoMDpbmSmwlE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lQmIWO0OUkPbKt63ejI+Wq8tHN/F9FGmVbzgXhebCMdIO0oDhsd6u/XVXzntvCpHvRFcWqLFJHyckXdgW8lsToKZQIuRAV2rYyAHrbaE1/OE0ge/ecaYxt9+5T4djgi8yepltxI+2qdhpMSTB0j/s9XGH7KuFpaf08HQJDqtTV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IZkpfKIE; arc=none smtp.client-ip=209.85.221.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T4aHZLc5"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-488a4bc360bso13321105e9.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 06 Apr 2026 23:43:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IZkpfKIE"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-43cf73bbfbdso2784301f8f.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 06 Apr 2026 23:59:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775544230; x=1776149030; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7ZGa67ZFGELe5bUP+eZlyvbCuIknlSmdEyMWxXen444=;
-        b=T4aHZLc5Gh1yzq1Hm4a3SF7o1PTKXtDWEvb8vJYIlGQXPH4BOyGTuJug873oM+t7Fk
-         3ICFGg0Mk/B3gcmQNL1w/S7tTn6qLOKKboahDXsdqPJi04DZCFxXom0Gx3t9+VXpqJbw
-         8/AOlfaJWK2IZgOfUanrhEqcKDRZTIPftq8zOpYeOsvquoxEJxKA/lAu2B8gvv0NADzu
-         axa7Szxee4ymfYS52X+ldWW/4nLgP8AGXNsJtK4ummqVXYIc84rN7ZuVhyGfgIrIcf2l
-         wCR6Q0pBPdplK8sDx5juu3x3Xh29ngL8xfsm5WkxE1oh1Ms2VzIe7362RSA8zKv6aDpH
-         n/Dw==
+        d=gmail.com; s=20251104; t=1775545164; x=1776149964; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rQDoymknzN02+yzB9HgAmTahnsrc7TSfCPMON3BQVeA=;
+        b=IZkpfKIEtJhLvAD19wHxxUlqKY5LMt7jZxk6vb94toRlEBLRX6UPxJqSUj2McNJbRB
+         2IURtxwOl97DNV8GemW7STl7IVvMXrY8DY21BDLm/XfQLYpP0aN3oUxZoWiZ4404Buou
+         y/fKuXlu0p6sc9ERWFy88Y8rXLYyJy1CLJZ3Dm2noRLp/bFzYdRExE4B3lcuNs/5DCzK
+         wOfn3c2dD2zaBkiPTcuQrcw9FQUxNjtCXHf7Wl6bjXaUVfXEPlf5uAtQTy82qVzRSQ1q
+         IhRZ1K1bKqx3jD4s86ViMr1rwji29y8YXJ+Mx0GNohyFthE3vrXOQC84t9CO73Z2TvX7
+         kMaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775544230; x=1776149030;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=7ZGa67ZFGELe5bUP+eZlyvbCuIknlSmdEyMWxXen444=;
-        b=qFFnatlX6IkeThOsuN5QImqIque/CTn9DsSu/3JM1LKmKS9S61V6zz6chWKYBbrFtL
-         hYwINX/Uk8Eagp1gknoyO4/AjSseSvaSxRwgvNkagDlMqvR5Ey7oO9a7XXm/4pDQ8zXM
-         BLSYBGS0OUCQph1eOk4+BbmIweR7RT2qjCyavDmlywYkG7aquBgu8q+vuLIq7iMw5qSF
-         eTgp3FLsEpVz/wfG+pmIAFeJ1qzG0Qntn1tTc2hNuX+riih1yBv0V8Jx3M5OV6VSp8SQ
-         25pJu8b+01PIx+LMGxkEQs7OdRa9LqHr8zDIXSR6XlKBSL4o2xp8G9OK/CfM8GpVmxm0
-         NzxA==
-X-Forwarded-Encrypted: i=1; AJvYcCWg3TIpk3skYqQ2uDeJBtRzessLq28ndMq1Urg6bMCM/MKJXd1xcvQIiO+diwSucj3JBb/4i0Ea9PiNBciC@vger.kernel.org
-X-Gm-Message-State: AOJu0YwFHCOH7c0K4lBdLtZjqEYwWRJMTFen/Ckbgvlhh75VX/m0xm9s
-	IKm9PuVEockr5c2ze0VSsoY6qctBKGWzj7kh2g/VVXvWvAb+ex3zDPsj
-X-Gm-Gg: AeBDieuN5r0hIyafMy1fz6tljHuXlHUqM5qoZKJEAVYOemo2VGOuegxPmz7eN9ndzXZ
-	L9jDhKFeghqhAcLCu/tzI7C6ezpiQVYQQAUG64kXO20eBAPt0UO7TapTvuBMbGjWRZwOZvATd1m
-	Kq9PpRMzBCtaBYzvMF9aQutALMk3ICiCpB+GT2aIlNB81EZNv9wh1U+qmESOt+LphKtjzYKvv+W
-	MQZ5nBGkrQqOQsAHXoHuEKBFNslmceGjPA+0SApNKubjdCGKD3cGwrYJEn9PS5+sfSwl14G0loq
-	TgtpsYmzVbJtEnUo5S33IeVt3wPsW+C345EcUgDQPlsUojy0WfLL3IaSFJqf+YkfNg7OBOBxAdr
-	0Mc7GDkbES58+hnJDp6EngY7ElywznFxmlHno5bgBOTNJ8MngEhhE24X6PjzC25+NRitxVjzx6D
-	kLfWuR3RZodtKWugqsGzY=
-X-Received: by 2002:a05:600c:4512:b0:488:9324:3ab8 with SMTP id 5b1f17b1804b1-4889977604emr216797945e9.18.1775544229793;
-        Mon, 06 Apr 2026 23:43:49 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1775545164; x=1776149964;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rQDoymknzN02+yzB9HgAmTahnsrc7TSfCPMON3BQVeA=;
+        b=qN7wl5dDCMeZDhikFOam61C3oX1qOD0ZEQQ49yaYMxfB+RM8tMbSZe+kWNczTfqWBZ
+         Cu4nRw1MCzgp/mEoabFb6GV9J3Aj5V+KAClB8eyz2dbkjqnvjZFlpbBMYHnjZLk/vB69
+         2ihHX/qaavg8EYfJjoxRFFxOKhPCy1Y6ncu1wW9rx2S88QOg25MnUDG6w+icaKxlK9wo
+         pv4Rm5rBA01eCJdJqF23cQel6pumajV9ASTKNAQoZNdUEWflDBy143pkhYW+b6SzuQsl
+         cmeS30pPqpDvv9xS051SW4l/tQgIB8zZNfy3BRq+qEmnev8g3EwCsIwfcHE5Cx77GV+Y
+         WBow==
+X-Forwarded-Encrypted: i=1; AJvYcCUxb9n7SgPhNzNb7md1m2GKklW0dJkzLXus7ZgLNKytE8wPhsfWT0hQn9EOwKr+4izapk0BRfDmDPIuHde/@vger.kernel.org
+X-Gm-Message-State: AOJu0YwtJue2WC2oW+v+3W/ArOH6M96AfGlJcgicW6iyBqTKXPpIJW73
+	ppfp4YJcjZBMbmb6DnaTEWUfLOerfDIfgBcptMoU8NqYsJtmwYKXA+2Y
+X-Gm-Gg: AeBDiet7ZKnz2bXh/O9AfKBiZkuXErPhiGQM+AdVAtvud33/mLPupirakbP8FRfqco/
+	CsU9CwUVdOIZe8A14FXQkz/KXri++HCoEhISvejIaPy1N+/SAHxHCa7YpaU908xRlBpccyNzhes
+	JN2Meh/p699UxTT1IqRB58lkWK+NerbTS9p7SdBrmwHp8Lc7031hFggAf9TLm8s5OYXey/PDtNb
+	sCU0klq226CBhskVwmER9acDJX0AYTS6DQIPuShFKVl7swz3dxnASrZn7guDzMA/VTxKxXzx/pH
+	kaeLuFZDXm8DGACnibDfCKKdz1sRAKFy/ekS0aBVwod9DYEW0AJNnJ5CPx6ife7KcNQnaaxSAxq
+	DlJhEj1GhHYW2eZXQgJkZ/6Uiq76Q01xGsh8zge8GRMpRPqrb0YxaAAeUKJkH03z+RVf4tiwgdj
+	bQp6Fqtv8FN/DvydnywBxcNdQbr49SVw==
+X-Received: by 2002:a05:6000:208a:b0:43c:f81f:3e6f with SMTP id ffacd0b85a97d-43d2927f3f3mr19248494f8f.8.1775545164387;
+        Mon, 06 Apr 2026 23:59:24 -0700 (PDT)
 Received: from localhost ([212.73.77.104])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-488be58c982sm10502235e9.31.2026.04.06.23.43.48
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-43d1e4f5294sm44326818f8f.35.2026.04.06.23.59.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Apr 2026 23:43:49 -0700 (PDT)
+        Mon, 06 Apr 2026 23:59:23 -0700 (PDT)
 From: Askar Safin <safinaskar@gmail.com>
-To: viro@zeniv.linux.org.uk
-Cc: brauner@kernel.org,
-	ddiss@suse.de,
-	initramfs@vger.kernel.org,
-	jack@suse.cz,
-	kernel-janitors@vger.kernel.org,
+To: linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	patches@lists.linux.dev,
-	rdunlap@infradead.org,
-	safinaskar@gmail.com
-Subject: Re: [PATCH] vfs: init/main.c: change comment: opening /dev/console may fail
-Date: Tue,  7 Apr 2026 09:43:09 +0300
-Message-ID: <20260407064309.3223598-1-safinaskar@gmail.com>
+	Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>
+Cc: patches@lists.linux.dev,
+	kernel-janitors@vger.kernel.org,
+	Randy Dunlap <rdunlap@infradead.org>,
+	initramfs@vger.kernel.org,
+	David Disseldorp <ddiss@suse.de>
+Subject: [PATCH v2] vfs: init/main.c: change comment and pr_err: opening /dev/console may fail
+Date: Tue,  7 Apr 2026 06:59:19 +0000
+Message-ID: <20260407065919.3246787-1-safinaskar@gmail.com>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260406095452.GY3836593@ZenIV>
-References: <20260406095452.GY3836593@ZenIV>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -84,12 +79,49 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Al Viro <viro@zeniv.linux.org.uk>:
-> ITYM "so if you supply your own internal initramfs, make sure /dev/console is there"
+This patch is for VFS.
 
-I want to write browser extension for expanding your acronyms like "ITYM".
+Today comment on console_on_rootfs says that opening /dev/console never
+fails. This is false. The opening may fail if /dev/console is not
+present in internal initramfs. So let's update the comment and pr_err.
 
-Okay, I will fix in the next version.
+I tried to fix the problem itself in [1], but the patchset was rejected,
+so I will fix the comment and pr_err instead. :)
 
+v1: https://lore.kernel.org/all/20260406090815.1495095-1-safinaskar@gmail.com/
+
+v1 -> v2 changes: changed text and also moved it to pr_err (inspired by Al Viro)
+
+Link: https://lore.kernel.org/all/20260219210312.3468980-1-safinaskar@gmail.com/ # [1]
+Signed-off-by: Askar Safin <safinaskar@gmail.com>
+---
+ init/main.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/init/main.c b/init/main.c
+index 1cb395dd9..daf115d08 100644
+--- a/init/main.c
++++ b/init/main.c
+@@ -1645,13 +1645,15 @@ static int __ref kernel_init(void *unused)
+ 	      "See Linux Documentation/admin-guide/init.rst for guidance.");
+ }
+ 
+-/* Open /dev/console, for stdin/stdout/stderr, this should never fail */
++/* Open /dev/console, for stdin/stdout/stderr */
+ void __init console_on_rootfs(void)
+ {
+ 	struct file *file = filp_open("/dev/console", O_RDWR, 0);
+ 
+ 	if (IS_ERR(file)) {
+-		pr_err("Warning: unable to open an initial console.\n");
++		pr_err("Warning: unable to open an initial console. "
++		       "You likely supplied your own internal initramfs, "
++		       "make sure /dev/console is there.\n");
+ 		return;
+ 	}
+ 	init_dup(file);
+
+base-commit: bfe62a454542cfad3379f6ef5680b125f41e20f4 (mainline)
 -- 
-Askar Safin
+2.47.3
+
