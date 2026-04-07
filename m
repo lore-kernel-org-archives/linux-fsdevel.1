@@ -1,82 +1,78 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E84B37996C
-	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Apr 2026 20:30:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48671313E30;
+	Tue,  7 Apr 2026 20:58:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775593802; cv=none; b=NCd6v+/tm53GXKF4U3VzvCfsGDZbuG/O2ZfGh9bdJFkiqRG0+hRG3IjFA8IPyuPvc5oMQrqDTNYYw2TrW2C0vINlnAfJ2rNfvqXq6dIGvx3t3A7blZLisffje9wk0krVVEjnKsVjsmikXxZK4xogHYKawZpKkbNwDupVEe0/j0Q=
+	t=1775595500; cv=none; b=XE9gDT6iLPYV2x4HQI/oyNcv/UsKulvOg0eFKdW4OXaitPl6TaY8cZv8Vy1/aJQJDo6qLSIwUatrAsTDV/rJneqoCU1h0HkQgLoKzheiZUnXqNvQXnmsXYN6yZwT3IJ5vOZB1Hk3CG9SgsyzOfWjlU3/c313r1s/gpbED/SPqUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775593802; c=relaxed/simple;
-	bh=hPKqGxcFX75924Oi70jSImyLWNDCapoJOhnnkng56wg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rhg5tM6Byxh7v0qR2a4q2TDWGwBxgmPPSnNsO8NQtkHgjZ99LSHy2BB80TrUMGtQeid/8j1vc1DJJmqgHBaMnlZyJdectBHd/dGLz64y7XFKyn8QoIAQWhX825/jkWsxV3qeh327LSb59ovceEVrEN58Er1A0Ql774iEHgTb4/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=LwoiRB71; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	s=arc-20240116; t=1775595500; c=relaxed/simple;
+	bh=azI9MIFpXRuzEZQXX/hxvHrFrp7m5B/1P6YlrzqI9C8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=oxFdynfL5BW1sHkoQd2VvehIQTCMh84XDbchxnDBU8yT3QX248MJ62BgqeJkKmVMwbT1OHEU9AdhxIgETBOQyGs4J3RYCj1k/nTsXWldtR6hXJzJYzKtjcUW22RfhGkiLwM0LVPZpS80Vnu0XPIfGlQUmDcVc5OnbOocnhqieMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L+nE9I02; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="LwoiRB71"
-Received: from macsyma.thunk.org (pool-173-48-119-176.bstnma.fios.verizon.net [173.48.119.176])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 637KTjPa020185
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 7 Apr 2026 16:29:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1775593788; bh=tOzNx4PeSh81K816hqFT4Aizuwn4JpHSilEiRsWKx7Y=;
-	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-	b=LwoiRB71bvhhY4BRbBYrwdaUK0K2cChzTTFZSuFL6klq3d93UDAKEYAC4FotqYwOq
-	 ZIcNMCtk21bVSzT/D7exGjuI2hXJ77VR3hcXs6BdWkA8XOsgS9qeyqaUhye8PjdLQa
-	 /W8XIwBp1Bls9f2mKw5KiDT4OKNIdLJT1C+vnObcGbabpPkx4DIc0Pz0+01LZp6d8j
-	 akLYoB/IDuRQbgG9bywyCEXO7wQpREABAItw4fseSBJJ5YJ0uzyVguZQ5zEn9Y10kf
-	 3JeKXKuk+dd0SoXGTZqaRpuAuw91Q9JG5GdTukEtYF0eO1mRAzNQxcNn9JYejmN6mI
-	 UDCnaigOgSIJw==
-Received: by macsyma.thunk.org (Postfix, from userid 15806)
-	id 2385D622C635; Tue,  7 Apr 2026 16:28:45 -0400 (EDT)
-Date: Tue, 7 Apr 2026 16:28:45 -0400
-From: "Theodore Tso" <tytso@mit.edu>
-To: Jan Kara <jack@suse.cz>
-Cc: Ye Bin <yebin@huaweicloud.com>, adilger.kernel@dilger.ca,
-        linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 0/3] show orphan file inode detail info
-Message-ID: <20260407202845.GA38246@macsyma-wired.lan>
-References: <20260403082507.1882703-1-yebin@huaweicloud.com>
- <n4sccudy5avcgnkdhc27rzofzoprxqtwhfrlmsh3yyrj6vbc6d@mmu73gmtawkq>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L+nE9I02"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49A9BC116C6;
+	Tue,  7 Apr 2026 20:58:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775595500;
+	bh=azI9MIFpXRuzEZQXX/hxvHrFrp7m5B/1P6YlrzqI9C8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=L+nE9I02IxZxS4Ni9MXq6/89TVLA0jMQWLRuUe9unn2BRSZARrFeatLTGesgC0lhh
+	 FyMJhUN/9Ih6oXz6cotXiaP60n5KI+Rzfy9u7l33aqx04PY9E3mpCm3+fv8oz2x1Qm
+	 Sqixfln6WsMpm8aCtPVG8dLllQ+qHYRHdnqNInWq037b/dl2ymRLL4j8K8z6L6Feag
+	 VAvKt7nxHoocnqxTq/k2WfyprCh+TMt+G0DjeERJhF/q1FuEnP9qT4fWNIM+KCUO0V
+	 0VgkNma4b7imM4xCsRi0Z2v1V3JyNiWidmrQ87Dth1WTKuEy/mPjRqWnkzAOwtoYfy
+	 si3zib4l86Ovg==
+From: Thomas Gleixner <tglx@kernel.org>
+To: Calvin Owens <calvin@wbinvd.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, Peter Zijlstra
+ <peterz@infradead.org>, Anna-Maria Behnsen <anna-maria@linutronix.de>,
+ Frederic Weisbecker <frederic@kernel.org>, Ingo Molnar <mingo@kernel.org>,
+ John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner
+ <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ linux-fsdevel@vger.kernel.org, Sebastian Reichel <sre@kernel.org>,
+ linux-pm@vger.kernel.org, Pablo Neira Ayuso <pablo@netfilter.org>, Florian
+ Westphal <fw@strlen.de>, Phil Sutter <phil@nwl.cc>,
+ netfilter-devel@vger.kernel.org, coreteam@netfilter.org
+Subject: Re: [patch 00/12] hrtimers: Prevent hrtimer interrupt starvation
+In-Reply-To: <adVOdTnyIbKz2F91@mozart.vkv.me>
+References: <20260407083219.478203185@kernel.org>
+ <adVA_uv1srA_bsKj@mozart.vkv.me> <87ika24phf.ffs@tglx>
+ <adVOdTnyIbKz2F91@mozart.vkv.me>
+Date: Tue, 07 Apr 2026 22:58:16 +0200
+Message-ID: <87fr564hef.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <n4sccudy5avcgnkdhc27rzofzoprxqtwhfrlmsh3yyrj6vbc6d@mmu73gmtawkq>
+Content-Type: text/plain
 
-On Tue, Apr 07, 2026 at 12:29:23PM +0200, Jan Kara wrote:
-> I agree listing orphan inodes for a superblock is useful and the usefulness
-> could actually go beyond ext4. I imagine the very same problem is there for
-> XFS or btrfs so perhaps we could think for a while whether we can provide
-> an interface that wouldn't be ext4 specific? Perhaps an ioctl
-> (GET_ORPHAN_FILES) that would return an fd and reading from that fd would
-> return entries for orphan inodes?
+On Tue, Apr 07 2026 at 11:35, Calvin Owens wrote:
+> On Tuesday 04/07 at 20:03 +0200, Thomas Gleixner wrote:
+>> On Tue, Apr 07 2026 at 10:38, Calvin Owens wrote:
+>> > On Tuesday 04/07 at 10:54 +0200, Thomas Gleixner wrote:
+>> >> He provided a reproducer, which sets up a timerfd based timer and then
+>> >> rearms it in a loop with an absolute expiry time of 1ns.
+>> >
+>> > The original AMD machines survive the reproducer with this series.
+>> >
+>> > Tested-by: Calvin Owens <calvin@wbinvd.org>
+>> >
+>> > I'm happy to test subsets of it and stable backports too, if that's
+>> > helpful, just let me know.
+>> 
+>> We'll only backport the first patch, so confirming that it still
+>> prevents the issue would be nice. The rest is slated for upstream only.
+>
+> Confirmed, [1/12] alone passes.
 
-I'm really not a fan of ioctl's returning a fd, but that does seem to
-be a thing these days, for better or for worse, and I agree that
-having a portable solution that works across multiple file systems
-would be a good thing.
+Thanks a lot for all your help. Very appreciated.
 
-> Also regarding information reported about orphan inodes - won't it be better
-> interface to just return a list of file handles? Userspace can then do
-> whatever it needs with them - open, statx, calling ioctl, etc - so we
-> thwart feature creep with people asking us to add more information to the
-> interface. This also offloads a lot of security questions about the
-> interface to appropriate syscalls. So overall it looks like a win to me.
+       tglx
 
-The problem with using a file handle is that the only way to get the
-pathname is to open the file handle, and then call readlink on
-/proc/self/fd/NN.  And inodes on the orphan inode list have been
-unlinked, so we don't want to allow people to be able to open them.  I
-suppose we could allow this via O_PATH, but I'm not sure that this is
-guaranteed to work across all filesystems' file handles?
-
-	      	   	      		   - Ted
