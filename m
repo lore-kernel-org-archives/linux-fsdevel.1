@@ -1,1416 +1,394 @@
-Received: from mx1.manguebit.org (mx1.manguebit.org [143.255.12.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66B75372EF0;
-	Tue,  7 Apr 2026 19:58:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=143.255.12.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F67F24BBEB
+	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Apr 2026 20:02:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775591898; cv=none; b=YSCCziArtWT6qNiD2qm8BFfp6XwF0YAqkl6MXxms1MJKzAD9HqK1Ln2+DAPHUy5UyaQSCj9jyjqHDrKw9ZHi+CV5kwjsk+jg4MNjIYy/+H7MO2InSRqEJknl0a2XMETvixt5uf4okyveY92W9SlcS1hwcYr2CzYWoJVW55CiXk8=
+	t=1775592127; cv=none; b=HUeXlf/2G6F9ZJkPAAMUiSns/aVSchRQk5NsfW1VsncNajCI2NOLkMwdQ8wbrKD3FhyBY+H8otQ95tY753leju5pR2fgD85HRE+YN6QtffWdU/uLgB+J9yhUfpGWSQlynpFi26Rnp/1aTM2cDifoLCB+LLsxkVYtiEJwa3HYNaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775591898; c=relaxed/simple;
-	bh=FizXOSEqjmAWOwEANCTElM3AuVE1DtiNbQ0yLT74FkE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UowabQjZelVTVLACN/dVaQMVEnLFTt8fVw2xEtEyQ7zkGqo4MkGbYteRKjwM5HyqsM3GKA8+PaDL8W4XBVgtKJhEplH79+fcpmTTuCawcNleUA9F4JtrijEI9afJFpb5JjMFOOmi8PHZi+uHnlqVz56o9HhwuBaGCI981g0vwpU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manguebit.org; spf=pass smtp.mailfrom=manguebit.org; dkim=pass (2048-bit key) header.d=manguebit.org header.i=@manguebit.org header.b=cG5RWHPL; arc=none smtp.client-ip=143.255.12.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manguebit.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manguebit.org
+	s=arc-20240116; t=1775592127; c=relaxed/simple;
+	bh=7hgu82KO5zryDXP6KdyasB/gKOd0hK7TCSZP6UOrPs8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=XQEoBNnaA68tHRAM33SGEc1+ROpQCx/JYiuunMkCPnTVuvVRRqolQ1GIqeY4JH1BbCjKoNs9IT/9626oOlXWjZTfEy5goykK4bHHrNZs9AZtEanclsI3+UqWCkhFjwAi9cabSMS810jhep04SrCSbM727uNHCG3PBF8RBHvk+zE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dmXYgaVw; arc=none smtp.client-ip=74.125.224.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=manguebit.org header.i=@manguebit.org header.b="cG5RWHPL"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=manguebit.org; s=dkim; h=Content-Transfer-Encoding:MIME-Version:References:
-	In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Content-Type:Reply-To:
-	Content-ID:Content-Description;
-	bh=9eZN4csDmok/p+i32Hrz/nO359KHdZ9eF7XFjc0+Wr4=; b=cG5RWHPLVzEW+44TFDKnHhntaA
-	sKpevBPwsTbnfYBmszhhk1T7r6U2rWjWyxFK2nq/IxZGTyr3S7hyQpKQR2TFmijNy8XudGrtr1Z60
-	PlACFQTHc9OBi+hc4XqVSHlAQXKL5yfXmZZpMsEhcOhE/bm1pdVzQn7JO+SXhtCQqBSBG5Ndh7o2h
-	Sj2/DdAb8pFoeM662qsVvL5KTlEpK35+0zSt4MApEmVrykN6mlgM6TzMM0viT7JK+GfBcRmJpIhcJ
-	z53uutuFLMUZheW17gmytAk7OFqNjVy2z/TS9eEP7MBXy4dWesnIX+Eb3S7SO7KqFXRdfCdFnVaec
-	eAL78W2A==;
-Received: from pc by mx1.manguebit.org with local (Exim 4.99.1)
-	id 1wACYt-00000002NG6-0Pms;
-	Tue, 07 Apr 2026 16:58:11 -0300
-From: Paulo Alcantara <pc@manguebit.org>
-To: viro@zeniv.linux.org.uk,
-	smfrench@gmail.com
-Cc: "Paulo Alcantara (Red Hat)" <pc@manguebit.org>,
-	David Howells <dhowells@redhat.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dmXYgaVw"
+Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-64edf260b49so467440d50.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 07 Apr 2026 13:02:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775592124; x=1776196924; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=r/zBMe9I/TWwTaI5LuU2LeZokWJa3kBbGwEbZonwIRg=;
+        b=dmXYgaVwQSaV9XRdJxz76N5U6JA77FzJyip7FsPJpQe5D26q3xFPhG+rayKkzsREPV
+         o3uZvSpsepaoN9JXKUxSPfDL+ndAT4fz1LxJPGvu9Oo7Ho8AtRxLYEeQDn/PufNydeG9
+         9c/SBdrg1yAV8CoAYgtuEEnfmm+z2T4i9mEZvV+73mBrco/7XfBqEaeZVjV2DahdSMCY
+         uYxSYOmbSdD92Pzd4xNvBcs/xeNFYSjPTo3A7wdLswWuiTB/NgKnz3yoLD9wwXM2AZkc
+         ljc/Q7rNx5DTaECq54WiJdIgAGGhcatqb2cNgAde5njqt5V9B+d1G/6XaVdyMXNYiJ5b
+         4meg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775592124; x=1776196924;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=r/zBMe9I/TWwTaI5LuU2LeZokWJa3kBbGwEbZonwIRg=;
+        b=VBSQJvfJO5mHUCpZxDOBmrF2Mb6NrgCnUE79Q0ZEcycgb4OVs5lz234uue+0IGYlpz
+         QygnRrpLMqf63rOHH510+2fsHt0sGJc4fqBJD9Ejpg2N/pC/NeNbgqlYdkYW8Q7a7rW0
+         wETTEUWVifDkQaDz+LqVbdJeethm2o39LN/Ox+R4H9AfnriRRQ7h6ceE8rD+3oRboupN
+         pd/SFzuwbDyZn0fjz/ApsBsmFjlCQF0FVeAi5JI4JmtZjjBK0ZAB1GvlpNF+6DYYWxJS
+         eqvGud/zZ+PzT5mW+DyMF4aohD3puW3wmiM7VjIRyLNvS4ifsr1oYIOKzyddgtTVT6BH
+         q5cA==
+X-Forwarded-Encrypted: i=1; AJvYcCXLhhtz2/DRSadyPQvmAwV8xU93jl/NSkElTENlKGNKa2JMNEY5vDMaovjsb9feMQAKaZGToLjEc30LRwd1@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+MnR6OPAkSmB6c7s/jvFvwM23CM3AzH5J+fiynyEPWmOgv+Av
+	xe2anRNldao4Ov9b3NIlDOaWLKyv9aCQpP9+BiWJ9fvvit+j2HB17XqI
+X-Gm-Gg: AeBDietkeC1lsC5sviF9p007ePYL2KMFEfE4QJhVnw32Py3x/qdFU0AYFb3lby28aGy
+	ChKthoi7ZEB6W0AxvAJsP9idogRwBAOI8Nf4IVIgZ2Yql4p6VuHN4RSbwN2rRmcNVK9wDWpZXOp
+	PIT1l/3Eud2zgLt1ZV7uVThfrhB9O3lYnpqecRCmynoDqRENtBQwgx2Pn924HvCvQGVu42/5RKy
+	vslTtgAGXZayAR6fnQcGsC8FoxH+L+R25jaNWa6qO1rGzE4BEz0Ihr4YAwcvXA0esNEpLFPs/EL
+	tSleOnLkEmzV9kYCmAkCUHz8yIICaJyV2ifG5A1ED+sockJ/SufX2/kCjg+4XY2BCRkKVwQTfKV
+	OwOykPvjLHuz6L9SaNe/TWV61H//Q4gU1fNOG5PTANoqGTkf9FUcJM/WhoCuYocafhhbq3qgLag
+	ybioBA6Ckdz+LM+811WSzmzzXuxfz8HNdsaQ+f2Goy9U8qdi9GA2WfaYs9qV/zO0iPpbSR5RiK
+X-Received: by 2002:a05:690e:4007:b0:650:327f:4ff0 with SMTP id 956f58d0204a3-6503d771009mr15211185d50.12.1775592124001;
+        Tue, 07 Apr 2026 13:02:04 -0700 (PDT)
+Received: from zenbox.prizrak.me ([2600:1700:18fb:6011:92f8:8594:e84e:1d9a])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6503a828f3csm8354078d50.3.2026.04.07.13.02.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Apr 2026 13:02:03 -0700 (PDT)
+From: Justin Suess <utilityemal77@gmail.com>
+To: ast@kernel.org,
+	daniel@iogearbox.net,
+	andrii@kernel.org,
+	kpsingh@kernel.org,
+	paul@paul-moore.com,
+	mic@digikod.net,
+	viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	kees@kernel.org
+Cc: gnoack@google.com,
+	jack@suse.cz,
+	jmorris@namei.org,
+	serge@hallyn.com,
+	song@kernel.org,
+	yonghong.song@linux.dev,
+	martin.lau@linux.dev,
+	m@maowtm.org,
+	eddyz87@gmail.com,
+	john.fastabend@gmail.com,
+	sdf@fomichev.me,
+	skhan@linuxfoundation.org,
+	bpf@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
-	linux-cifs@vger.kernel.org
-Subject: [PATCH v2 2/2] smb: client: add support for O_TMPFILE
-Date: Tue,  7 Apr 2026 16:58:10 -0300
-Message-ID: <20260407195810.993862-2-pc@manguebit.org>
+	Justin Suess <utilityemal77@gmail.com>
+Subject: [RFC PATCH 00/20] BPF interface for applying Landlock rulesets
+Date: Tue,  7 Apr 2026 16:01:22 -0400
+Message-ID: <20260407200157.3874806-1-utilityemal77@gmail.com>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260407195810.993862-1-pc@manguebit.org>
-References: <20260407195810.993862-1-pc@manguebit.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Implement O_TMPFILE support for SMB2+ in the CIFS client.
+Hello,
 
-Signed-off-by: Paulo Alcantara (Red Hat) <pc@manguebit.org>
-Cc: David Howells <dhowells@redhat.com>
-Cc: Al Viro <viro@zeniv.linux.org.uk>
-Cc: linux-fsdevel@vger.kernel.org
-Cc: linux-cifs@vger.kernel.org
----
-v1 -> v2:
-  * handling of CIFS_INO_TMPFILE bit can be done locklessly, so no
-    spinlock required.
-  * added a very simple documentation on expected dentry states to
-    cifs_atomic_open(), cifs_create and cifs_tmpfile().
+This series lets sleepable BPF LSM programs apply an existing,
+userspace-created Landlock ruleset to a program during exec.
 
- fs/smb/client/cifsfs.c    |   4 +
- fs/smb/client/cifsfs.h    |  19 ++
- fs/smb/client/cifsglob.h  |  23 ++-
- fs/smb/client/cifsproto.h |   3 +-
- fs/smb/client/dir.c       | 313 ++++++++++++++++++++++++-----
- fs/smb/client/file.c      |  53 +++--
- fs/smb/client/inode.c     |   3 +-
- fs/smb/client/link.c      |   1 +
- fs/smb/client/smb2inode.c | 400 ++++++++++++++------------------------
- 9 files changed, 492 insertions(+), 327 deletions(-)
+The goal is not to move Landlock policy definition into BPF, nor to create a
+second policy engine.  Instead, BPF is used only to select when an already
+valid Landlock ruleset should be applied, based on runtime exec context.
 
-diff --git a/fs/smb/client/cifsfs.c b/fs/smb/client/cifsfs.c
-index 32d0305a1239..f4bed8d4a072 100644
---- a/fs/smb/client/cifsfs.c
-+++ b/fs/smb/client/cifsfs.c
-@@ -124,6 +124,9 @@ MODULE_PARM_DESC(dir_cache_timeout, "Number of seconds to cache directory conten
- /* Module-wide total cached dirents (in bytes) across all tcons */
- atomic64_t cifs_dircache_bytes_used = ATOMIC64_INIT(0);
- 
-+atomic_t cifs_sillycounter;
-+atomic_t cifs_tmpcounter;
-+
- /*
-  * Write-only module parameter to drop all cached directory entries across
-  * all CIFS mounts. Echo a non-zero value to trigger.
-@@ -1199,6 +1202,7 @@ MODULE_ALIAS("smb3");
- const struct inode_operations cifs_dir_inode_ops = {
- 	.create = cifs_create,
- 	.atomic_open = cifs_atomic_open,
-+	.tmpfile = cifs_tmpfile,
- 	.lookup = cifs_lookup,
- 	.getattr = cifs_getattr,
- 	.unlink = cifs_unlink,
-diff --git a/fs/smb/client/cifsfs.h b/fs/smb/client/cifsfs.h
-index e320d39b01f5..64c7a4c6ac83 100644
---- a/fs/smb/client/cifsfs.h
-+++ b/fs/smb/client/cifsfs.h
-@@ -13,6 +13,9 @@
- 
- #define ROOT_I 2
- 
-+extern atomic_t cifs_sillycounter;
-+extern atomic_t cifs_tmpcounter;
-+
- /*
-  * ino_t is 32-bits on 32-bit arch. We have to squash the 64-bit value down
-  * so that it will fit. We use hash_64 to convert the value to 31 bits, and
-@@ -53,6 +56,8 @@ int cifs_create(struct mnt_idmap *idmap, struct inode *inode,
- 		struct dentry *direntry, umode_t mode, bool excl);
- int cifs_atomic_open(struct inode *inode, struct dentry *direntry,
- 		     struct file *file, unsigned int oflags, umode_t mode);
-+int cifs_tmpfile(struct mnt_idmap *idmap, struct inode *dir,
-+		 struct file *file, umode_t mode);
- struct dentry *cifs_lookup(struct inode *parent_dir_inode,
- 			   struct dentry *direntry, unsigned int flags);
- int cifs_unlink(struct inode *dir, struct dentry *dentry);
-@@ -142,6 +147,20 @@ struct smb3_fs_context;
- struct dentry *cifs_smb3_do_mount(struct file_system_type *fs_type, int flags,
- 				  struct smb3_fs_context *old_ctx);
- 
-+char *cifs_silly_fullpath(struct dentry *dentry);
-+
-+#define CIFS_TMPNAME_PREFIX        ".__smbfile_tmp"
-+#define CIFS_TMPNAME_PREFIX_LEN    ((int)sizeof(CIFS_TMPNAME_PREFIX) - 1)
-+#define CIFS_TMPNAME_COUNTER_LEN   ((int)sizeof(cifs_tmpcounter) * 2)
-+#define CIFS_TMPNAME_LEN \
-+	(CIFS_TMPNAME_PREFIX_LEN + CIFS_TMPNAME_COUNTER_LEN)
-+
-+#define CIFS_SILLYNAME_PREFIX	    ".__smbfile_silly"
-+#define CIFS_SILLYNAME_PREFIX_LEN  ((int)sizeof(CIFS_SILLYNAME_PREFIX) - 1)
-+#define CIFS_SILLYNAME_COUNTER_LEN ((int)sizeof(cifs_sillycounter) * 2)
-+#define CIFS_SILLYNAME_LEN \
-+	(CIFS_SILLYNAME_PREFIX_LEN + CIFS_SILLYNAME_COUNTER_LEN)
-+
- #ifdef CONFIG_CIFS_NFSD_EXPORT
- extern const struct export_operations cifs_export_ops;
- #endif /* CONFIG_CIFS_NFSD_EXPORT */
-diff --git a/fs/smb/client/cifsglob.h b/fs/smb/client/cifsglob.h
-index 709e96e07791..ccfde157d3be 100644
---- a/fs/smb/client/cifsglob.h
-+++ b/fs/smb/client/cifsglob.h
-@@ -1534,9 +1534,16 @@ int cifs_file_set_size(const unsigned int xid, struct dentry *dentry,
- #define CIFS_CACHE_RW_FLG	(CIFS_CACHE_READ_FLG | CIFS_CACHE_WRITE_FLG)
- #define CIFS_CACHE_RHW_FLG	(CIFS_CACHE_RW_FLG | CIFS_CACHE_HANDLE_FLG)
- 
--/*
-- * One of these for each file inode
-- */
-+enum cifs_inode_flags {
-+	CIFS_INODE_PENDING_OPLOCK_BREAK,	/* oplock break in progress */
-+	CIFS_INODE_PENDING_WRITERS,		/* Writes in progress */
-+	CIFS_INODE_FLAG_UNUSED,			/* Unused flag */
-+	CIFS_INO_DELETE_PENDING,		/* delete pending on server */
-+	CIFS_INO_INVALID_MAPPING,		/* pagecache is invalid */
-+	CIFS_INO_LOCK,				/* lock bit for synchronization */
-+	CIFS_INO_TMPFILE,			/* for O_TMPFILE inodes */
-+	CIFS_INO_CLOSE_ON_LOCK,			/* Not to defer the close when lock is set */
-+};
- 
- struct cifsInodeInfo {
- 	struct netfs_inode netfs; /* Netfslib context and vfs inode */
-@@ -1554,13 +1561,6 @@ struct cifsInodeInfo {
- 	__u32 cifsAttrs; /* e.g. DOS archive bit, sparse, compressed, system */
- 	unsigned int oplock;		/* oplock/lease level we have */
- 	__u16 epoch;		/* used to track lease state changes */
--#define CIFS_INODE_PENDING_OPLOCK_BREAK   (0) /* oplock break in progress */
--#define CIFS_INODE_PENDING_WRITERS	  (1) /* Writes in progress */
--#define CIFS_INODE_FLAG_UNUSED		  (2) /* Unused flag */
--#define CIFS_INO_DELETE_PENDING		  (3) /* delete pending on server */
--#define CIFS_INO_INVALID_MAPPING	  (4) /* pagecache is invalid */
--#define CIFS_INO_LOCK			  (5) /* lock bit for synchronization */
--#define CIFS_INO_CLOSE_ON_LOCK            (7) /* Not to defer the close when lock is set */
- 	unsigned long flags;
- 	spinlock_t writers_lock;
- 	unsigned int writers;		/* Number of writers on this inode */
-@@ -2259,6 +2259,7 @@ struct smb2_compound_vars {
- 	struct kvec qi_iov;
- 	struct kvec io_iov[SMB2_IOCTL_IOV_SIZE];
- 	struct kvec si_iov[SMB2_SET_INFO_IOV_SIZE];
-+	struct kvec hl_iov[SMB2_SET_INFO_IOV_SIZE];
- 	struct kvec unlink_iov[SMB2_SET_INFO_IOV_SIZE];
- 	struct kvec rename_iov[SMB2_SET_INFO_IOV_SIZE];
- 	struct kvec close_iov;
-@@ -2383,6 +2384,8 @@ static inline int cifs_open_create_options(unsigned int oflags, int opts)
- 		opts |= CREATE_WRITE_THROUGH;
- 	if (oflags & O_DIRECT)
- 		opts |= CREATE_NO_BUFFER;
-+	if (oflags & O_TMPFILE)
-+		opts |= CREATE_DELETE_ON_CLOSE;
- 	return opts;
- }
- 
-diff --git a/fs/smb/client/cifsproto.h b/fs/smb/client/cifsproto.h
-index 884bfa1cf0b4..c24c50d732e6 100644
---- a/fs/smb/client/cifsproto.h
-+++ b/fs/smb/client/cifsproto.h
-@@ -141,7 +141,8 @@ struct cifsFileInfo *find_writable_file(struct cifsInodeInfo *cifs_inode,
- int __cifs_get_writable_file(struct cifsInodeInfo *cifs_inode,
- 			     unsigned int find_flags, unsigned int open_flags,
- 			     struct cifsFileInfo **ret_file);
--int cifs_get_writable_path(struct cifs_tcon *tcon, const char *name, int flags,
-+int cifs_get_writable_path(struct cifs_tcon *tcon, const char *name,
-+			   struct inode *inode, int flags,
- 			   struct cifsFileInfo **ret_file);
- struct cifsFileInfo *__find_readable_file(struct cifsInodeInfo *cifs_inode,
- 					  unsigned int find_flags,
-diff --git a/fs/smb/client/dir.c b/fs/smb/client/dir.c
-index 6d2378eeb7f6..67f9f956c211 100644
---- a/fs/smb/client/dir.c
-+++ b/fs/smb/client/dir.c
-@@ -172,20 +172,44 @@ check_name(struct dentry *direntry, struct cifs_tcon *tcon)
- 	return 0;
- }
- 
-+static char *alloc_parent_path(struct dentry *dentry, size_t namelen)
-+{
-+	struct cifs_sb_info *cifs_sb = CIFS_SB(dentry);
-+	void *page = alloc_dentry_path();
-+	const char *path;
-+	size_t size;
-+	char *npath;
-+
-+	path = build_path_from_dentry(dentry->d_parent, page);
-+	if (IS_ERR(path)) {
-+		npath = ERR_CAST(path);
-+		goto out;
-+	}
-+
-+	size = strlen(path) + namelen + 2;
-+	npath = kmalloc(size, GFP_KERNEL);
-+	if (!npath)
-+		npath = ERR_PTR(-ENOMEM);
-+	else
-+		scnprintf(npath, size, "%s%c", path, CIFS_DIR_SEP(cifs_sb));
-+out:
-+	free_dentry_path(page);
-+	return npath;
-+}
- 
- /* Inode operations in similar order to how they appear in Linux file fs.h */
--
--static int cifs_do_create(struct inode *inode, struct dentry *direntry, unsigned int xid,
--			  struct tcon_link *tlink, unsigned int oflags, umode_t mode, __u32 *oplock,
--			  struct cifs_fid *fid, struct cifs_open_info_data *buf)
-+static int __cifs_do_create(struct inode *dir, struct dentry *direntry,
-+			    const char *full_path, unsigned int xid,
-+			    struct tcon_link *tlink, unsigned int oflags,
-+			    umode_t mode, __u32 *oplock, struct cifs_fid *fid,
-+			    struct cifs_open_info_data *buf,
-+			    struct inode **inode)
- {
- 	int rc = -ENOENT;
- 	int create_options = CREATE_NOT_DIR;
- 	int desired_access;
--	struct cifs_sb_info *cifs_sb = CIFS_SB(inode);
-+	struct cifs_sb_info *cifs_sb = CIFS_SB(dir);
- 	struct cifs_tcon *tcon = tlink_tcon(tlink);
--	const char *full_path;
--	void *page = alloc_dentry_path();
- 	struct inode *newinode = NULL;
- 	unsigned int sbflags = cifs_sb_flags(cifs_sb);
- 	int disposition;
-@@ -199,21 +223,15 @@ static int cifs_do_create(struct inode *inode, struct dentry *direntry, unsigned
- 	if (tcon->ses->server->oplocks)
- 		*oplock = REQ_OPLOCK;
- 
--	full_path = build_path_from_dentry(direntry, page);
--	if (IS_ERR(full_path)) {
--		rc = PTR_ERR(full_path);
--		goto out;
--	}
--
- 	/* If we're caching, we need to be able to fill in around partial writes. */
--	if (cifs_fscache_enabled(inode) && (oflags & O_ACCMODE) == O_WRONLY)
-+	if (cifs_fscache_enabled(dir) && (oflags & O_ACCMODE) == O_WRONLY)
- 		rdwr_for_fscache = 1;
- 
- #ifdef CONFIG_CIFS_ALLOW_INSECURE_LEGACY
- 	if (tcon->unix_ext && cap_unix(tcon->ses) && !tcon->broken_posix_open &&
- 	    (CIFS_UNIX_POSIX_PATH_OPS_CAP &
- 			le64_to_cpu(tcon->fsUnixInfo.Capability))) {
--		rc = cifs_posix_open(full_path, &newinode, inode->i_sb, mode,
-+		rc = cifs_posix_open(full_path, &newinode, dir->i_sb, mode,
- 				     oflags, oplock, &fid->netfid, xid);
- 		switch (rc) {
- 		case 0:
-@@ -225,8 +243,7 @@ static int cifs_do_create(struct inode *inode, struct dentry *direntry, unsigned
- 			if (S_ISDIR(newinode->i_mode)) {
- 				CIFSSMBClose(xid, tcon, fid->netfid);
- 				iput(newinode);
--				rc = -EISDIR;
--				goto out;
-+				return -EISDIR;
- 			}
- 
- 			if (!S_ISREG(newinode->i_mode)) {
-@@ -269,7 +286,7 @@ static int cifs_do_create(struct inode *inode, struct dentry *direntry, unsigned
- 			break;
- 
- 		default:
--			goto out;
-+			return rc;
- 		}
- 		/*
- 		 * fallthrough to retry, using older open call, this is case
-@@ -287,26 +304,30 @@ static int cifs_do_create(struct inode *inode, struct dentry *direntry, unsigned
- 		desired_access |= GENERIC_WRITE;
- 	if (rdwr_for_fscache == 1)
- 		desired_access |= GENERIC_READ;
-+	if (oflags & O_TMPFILE)
-+		desired_access |= DELETE;
- 
- 	disposition = FILE_OVERWRITE_IF;
--	if ((oflags & (O_CREAT | O_EXCL)) == (O_CREAT | O_EXCL))
-+	if (oflags & O_CREAT) {
-+		if (oflags & O_EXCL)
-+			disposition = FILE_CREATE;
-+		else if (oflags & O_TRUNC)
-+			disposition = FILE_OVERWRITE_IF;
-+		else
-+			disposition = FILE_OPEN_IF;
-+	} else if (oflags & O_TMPFILE) {
- 		disposition = FILE_CREATE;
--	else if ((oflags & (O_CREAT | O_TRUNC)) == (O_CREAT | O_TRUNC))
--		disposition = FILE_OVERWRITE_IF;
--	else if ((oflags & O_CREAT) == O_CREAT)
--		disposition = FILE_OPEN_IF;
--	else
-+	} else {
- 		cifs_dbg(FYI, "Create flag not set in create function\n");
-+	}
- 
- 	/*
- 	 * BB add processing to set equivalent of mode - e.g. via CreateX with
- 	 * ACLs
- 	 */
- 
--	if (!server->ops->open) {
--		rc = -ENOSYS;
--		goto out;
--	}
-+	if (!server->ops->open)
-+		return -EOPNOTSUPP;
- 
- 	create_options |= cifs_open_create_options(oflags, create_options);
- 	/*
-@@ -358,10 +379,10 @@ static int cifs_do_create(struct inode *inode, struct dentry *direntry, unsigned
- 			rdwr_for_fscache = 2;
- 			goto retry_open;
- 		}
--		goto out;
-+		return rc;
- 	}
- 	if (rdwr_for_fscache == 2)
--		cifs_invalidate_cache(inode, FSCACHE_INVAL_DIO_WRITE);
-+		cifs_invalidate_cache(dir, FSCACHE_INVAL_DIO_WRITE);
- 
- #ifdef CONFIG_CIFS_ALLOW_INSECURE_LEGACY
- 	/*
-@@ -379,8 +400,8 @@ static int cifs_do_create(struct inode *inode, struct dentry *direntry, unsigned
- 
- 		if (sbflags & CIFS_MOUNT_SET_UID) {
- 			args.uid = current_fsuid();
--			if (inode->i_mode & S_ISGID)
--				args.gid = inode->i_gid;
-+			if (dir->i_mode & S_ISGID)
-+				args.gid = dir->i_gid;
- 			else
- 				args.gid = current_fsgid();
- 		} else {
-@@ -402,14 +423,14 @@ static int cifs_do_create(struct inode *inode, struct dentry *direntry, unsigned
- cifs_create_get_file_info:
- 	/* server might mask mode so we have to query for it */
- 	if (tcon->unix_ext)
--		rc = cifs_get_inode_info_unix(&newinode, full_path, inode->i_sb,
-+		rc = cifs_get_inode_info_unix(&newinode, full_path, dir->i_sb,
- 					      xid);
- 	else {
- #else
- 	{
- #endif /* CONFIG_CIFS_ALLOW_INSECURE_LEGACY */
- 		/* TODO: Add support for calling POSIX query info here, but passing in fid */
--		rc = cifs_get_inode_info(&newinode, full_path, buf, inode->i_sb, xid, fid);
-+		rc = cifs_get_inode_info(&newinode, full_path, buf, dir->i_sb, xid, fid);
- 		if (newinode) {
- 			if (server->ops->set_lease_key)
- 				server->ops->set_lease_key(newinode, fid);
-@@ -418,8 +439,8 @@ static int cifs_do_create(struct inode *inode, struct dentry *direntry, unsigned
- 					newinode->i_mode = mode;
- 				if (sbflags & CIFS_MOUNT_SET_UID) {
- 					newinode->i_uid = current_fsuid();
--					if (inode->i_mode & S_ISGID)
--						newinode->i_gid = inode->i_gid;
-+					if (dir->i_mode & S_ISGID)
-+						newinode->i_gid = dir->i_gid;
- 					else
- 						newinode->i_gid = current_fsgid();
- 				}
-@@ -436,17 +457,13 @@ static int cifs_do_create(struct inode *inode, struct dentry *direntry, unsigned
- 		goto out_err;
- 	}
- 
--	if (newinode)
--		if (S_ISDIR(newinode->i_mode)) {
--			rc = -EISDIR;
--			goto out_err;
--		}
-+	if (newinode && S_ISDIR(newinode->i_mode)) {
-+		rc = -EISDIR;
-+		goto out_err;
-+	}
- 
- 	d_drop(direntry);
--	d_add(direntry, newinode);
--
--out:
--	free_dentry_path(page);
-+	*inode = newinode;
- 	return rc;
- 
- out_err:
-@@ -454,9 +471,41 @@ static int cifs_do_create(struct inode *inode, struct dentry *direntry, unsigned
- 		server->ops->close(xid, tcon, fid);
- 	if (newinode)
- 		iput(newinode);
--	goto out;
-+	return rc;
- }
- 
-+static int cifs_do_create(struct inode *dir, struct dentry *direntry,
-+			  unsigned int xid, struct tcon_link *tlink,
-+			  unsigned int oflags, umode_t mode,
-+			  __u32 *oplock, struct cifs_fid *fid,
-+			  struct cifs_open_info_data *buf)
-+{
-+	void *page = alloc_dentry_path();
-+	const char *full_path;
-+	struct inode *inode;
-+	int rc;
-+
-+	full_path = build_path_from_dentry(direntry, page);
-+	if (IS_ERR(full_path)) {
-+		rc = PTR_ERR(full_path);
-+	} else {
-+		rc = __cifs_do_create(dir, direntry, full_path, xid,
-+				      tlink, oflags, mode, oplock,
-+				      fid, buf, &inode);
-+		if (!rc)
-+			d_add(direntry, inode);
-+	}
-+	free_dentry_path(page);
-+	return rc;
-+}
-+
-+
-+/*
-+ * Look up, create and open a CIFS file.
-+ *
-+ * The initial dentry state is in-lookup or hashed-negative.  On success, dentry
-+ * will become hashed-positive by calling d_drop() & d_add(), respectively.
-+ */
- int
- cifs_atomic_open(struct inode *inode, struct dentry *direntry,
- 		 struct file *file, unsigned int oflags, umode_t mode)
-@@ -569,6 +618,12 @@ cifs_atomic_open(struct inode *inode, struct dentry *direntry,
- 	return rc;
- }
- 
-+/*
-+ * Create a CIFS file.
-+ *
-+ * The initial dentry state is hashed-negative.  On success, dentry will become
-+ * hashed-positive by calling d_drop() & d_add(), respectively.
-+ */
- int cifs_create(struct mnt_idmap *idmap, struct inode *inode,
- 		struct dentry *direntry, umode_t mode, bool excl)
- {
-@@ -959,6 +1014,172 @@ static int cifs_ci_compare(const struct dentry *dentry,
- 	return 0;
- }
- 
-+static int set_hidden_attr(const unsigned int xid,
-+			   struct TCP_Server_Info *server,
-+			   struct file *file)
-+{
-+	struct dentry *dentry = file->f_path.dentry;
-+	struct cifsInodeInfo *cinode = CIFS_I(d_inode(dentry));
-+	FILE_BASIC_INFO fi = {
-+		.Attributes = cpu_to_le32(cinode->cifsAttrs |
-+					  ATTR_HIDDEN),
-+	};
-+	void *page = alloc_dentry_path();
-+	const char *full_path;
-+	int rc;
-+
-+	full_path = build_path_from_dentry(dentry, page);
-+	if (IS_ERR(full_path))
-+		rc = PTR_ERR(full_path);
-+	else
-+		rc =  server->ops->set_file_info(d_inode(dentry),
-+						 full_path, &fi, xid);
-+	free_dentry_path(page);
-+	return rc;
-+}
-+
-+/*
-+ * Create a hidden temporary CIFS file with delete-on-close bit set.
-+ *
-+ * The initial dentry state is unhashed-negative.  On success, dentry will
-+ * become unhashed-positive by calling d_drop() & d_instantiate(), respectively.
-+ */
-+int cifs_tmpfile(struct mnt_idmap *idmap, struct inode *dir,
-+		 struct file *file, umode_t mode)
-+{
-+	struct dentry *dentry = file->f_path.dentry;
-+	struct cifs_sb_info *cifs_sb = CIFS_SB(dir);
-+	size_t size = CIFS_TMPNAME_LEN + 1;
-+	int retries = 0, max_retries = 16;
-+	struct TCP_Server_Info *server;
-+	struct cifs_pending_open open;
-+	struct cifsFileInfo *cfile;
-+	struct cifs_fid fid = {};
-+	struct tcon_link *tlink;
-+	struct cifs_tcon *tcon;
-+	unsigned int sbflags;
-+	struct inode *inode;
-+	char *path, *name;
-+	unsigned int xid;
-+	__u32 oplock;
-+	int rc;
-+
-+	if (unlikely(cifs_forced_shutdown(cifs_sb)))
-+		return smb_EIO(smb_eio_trace_forced_shutdown);
-+
-+	tlink = cifs_sb_tlink(cifs_sb);
-+	if (IS_ERR(tlink))
-+		return PTR_ERR(tlink);
-+	tcon = tlink_tcon(tlink);
-+	server = tcon->ses->server;
-+
-+	xid = get_xid();
-+
-+	if (server->vals->protocol_id < SMB20_PROT_ID) {
-+		cifs_dbg(VFS | ONCE, "O_TMPFILE is supported only in SMB2+\n");
-+		rc = -EOPNOTSUPP;
-+		goto out;
-+	}
-+
-+	if (server->ops->new_lease_key)
-+		server->ops->new_lease_key(&fid);
-+	cifs_add_pending_open(&fid, tlink, &open);
-+
-+	path = alloc_parent_path(dentry, size - 1);
-+	if (IS_ERR(path)) {
-+		cifs_del_pending_open(&open);
-+		rc = PTR_ERR(path);
-+		goto out;
-+	}
-+
-+	name = path + strlen(path);
-+	do {
-+		scnprintf(name, size,
-+			  CIFS_TMPNAME_PREFIX "%0*x",
-+			  CIFS_TMPNAME_COUNTER_LEN,
-+			  atomic_inc_return(&cifs_tmpcounter));
-+		rc = __cifs_do_create(dir, dentry, path, xid, tlink,
-+				      file->f_flags, mode, &oplock,
-+				      &fid, NULL, &inode);
-+		if (!rc) {
-+			set_nlink(inode, 0);
-+			mark_inode_dirty(inode);
-+			d_mark_tmpfile_name(file, &QSTR_LEN(name, size - 1));
-+			d_instantiate(dentry, inode);
-+			break;
-+		}
-+	} while (unlikely(rc == -EEXIST) && ++retries < max_retries);
-+
-+	kfree(path);
-+	if (rc) {
-+		cifs_del_pending_open(&open);
-+		goto out;
-+	}
-+
-+	rc = finish_open(file, dentry, generic_file_open);
-+	if (rc)
-+		goto err_open;
-+
-+	sbflags = cifs_sb_flags(cifs_sb);
-+	if ((file->f_flags & O_DIRECT) && (sbflags & CIFS_MOUNT_STRICT_IO)) {
-+		if (sbflags & CIFS_MOUNT_NO_BRL)
-+			file->f_op = &cifs_file_direct_nobrl_ops;
-+		else
-+			file->f_op = &cifs_file_direct_ops;
-+	}
-+
-+	cfile = cifs_new_fileinfo(&fid, file, tlink, oplock, NULL);
-+	if (!cfile) {
-+		rc = -ENOMEM;
-+		goto err_open;
-+	}
-+
-+	rc = set_hidden_attr(xid, server, file);
-+	if (rc)
-+		goto out;
-+
-+	fscache_use_cookie(cifs_inode_cookie(file_inode(file)),
-+			   file->f_mode & FMODE_WRITE);
-+out:
-+	cifs_put_tlink(tlink);
-+	free_xid(xid);
-+	return rc;
-+err_open:
-+	cifs_del_pending_open(&open);
-+	if (server->ops->close)
-+		server->ops->close(xid, tcon, &fid);
-+	goto out;
-+}
-+
-+char *cifs_silly_fullpath(struct dentry *dentry)
-+{
-+	unsigned char name[CIFS_SILLYNAME_LEN + 1];
-+	int retries = 0, max_retries = 16;
-+	size_t namesize = sizeof(name);
-+	struct dentry *sdentry = NULL;
-+	char *path;
-+
-+	do {
-+		dput(sdentry);
-+		scnprintf(name, namesize,
-+			  CIFS_SILLYNAME_PREFIX "%0*x",
-+			  CIFS_SILLYNAME_COUNTER_LEN,
-+			  atomic_inc_return(&cifs_sillycounter));
-+		sdentry = lookup_noperm(&QSTR(name), dentry->d_parent);
-+		if (IS_ERR(sdentry))
-+			return ERR_CAST(sdentry);
-+		if (d_is_negative(sdentry)) {
-+			dput(sdentry);
-+			path = alloc_parent_path(dentry, CIFS_SILLYNAME_LEN);
-+			if (!IS_ERR(path))
-+				strcat(path, name);
-+			return path;
-+		}
-+	} while (++retries < max_retries);
-+	dput(sdentry);
-+	return ERR_PTR(-EBUSY);
-+}
-+
- const struct dentry_operations cifs_ci_dentry_ops = {
- 	.d_revalidate = cifs_d_revalidate,
- 	.d_hash = cifs_ci_hash,
-diff --git a/fs/smb/client/file.c b/fs/smb/client/file.c
-index a69e05f86d7e..5d5b49468aff 100644
---- a/fs/smb/client/file.c
-+++ b/fs/smb/client/file.c
-@@ -406,22 +406,29 @@ cifs_mark_open_files_invalid(struct cifs_tcon *tcon)
- 	 */
- }
- 
--static inline int cifs_convert_flags(unsigned int flags, int rdwr_for_fscache)
-+static inline int cifs_convert_flags(unsigned int oflags, int rdwr_for_fscache)
- {
--	if ((flags & O_ACCMODE) == O_RDONLY)
--		return GENERIC_READ;
--	else if ((flags & O_ACCMODE) == O_WRONLY)
--		return rdwr_for_fscache == 1 ? (GENERIC_READ | GENERIC_WRITE) : GENERIC_WRITE;
--	else if ((flags & O_ACCMODE) == O_RDWR) {
-+	int flags = 0;
-+
-+	if (oflags & O_TMPFILE)
-+		flags |= DELETE;
-+
-+	if ((oflags & O_ACCMODE) == O_RDONLY)
-+		return flags | GENERIC_READ;
-+	if ((oflags & O_ACCMODE) == O_WRONLY) {
-+		return flags | (rdwr_for_fscache == 1 ?
-+				(GENERIC_READ | GENERIC_WRITE) : GENERIC_WRITE);
-+	}
-+	if ((oflags & O_ACCMODE) == O_RDWR) {
- 		/* GENERIC_ALL is too much permission to request
- 		   can cause unnecessary access denied on create */
- 		/* return GENERIC_ALL; */
--		return (GENERIC_READ | GENERIC_WRITE);
-+		return flags | GENERIC_READ | GENERIC_WRITE;
- 	}
- 
--	return (READ_CONTROL | FILE_WRITE_ATTRIBUTES | FILE_READ_ATTRIBUTES |
--		FILE_WRITE_EA | FILE_APPEND_DATA | FILE_WRITE_DATA |
--		FILE_READ_DATA);
-+	return flags | READ_CONTROL | FILE_WRITE_ATTRIBUTES |
-+		FILE_READ_ATTRIBUTES | FILE_WRITE_EA | FILE_APPEND_DATA |
-+		FILE_WRITE_DATA | FILE_READ_DATA;
- }
- 
- #ifdef CONFIG_CIFS_ALLOW_INSECURE_LEGACY
-@@ -696,6 +703,7 @@ struct cifsFileInfo *cifs_new_fileinfo(struct cifs_fid *fid, struct file *file,
- 	cfile->f_flags = file->f_flags;
- 	cfile->invalidHandle = false;
- 	cfile->deferred_close_scheduled = false;
-+	cfile->status_file_deleted = file->f_flags & O_TMPFILE;
- 	cfile->tlink = cifs_get_tlink(tlink);
- 	INIT_WORK(&cfile->oplock_break, cifs_oplock_break);
- 	INIT_WORK(&cfile->put, cifsFileInfo_put_work);
-@@ -727,6 +735,8 @@ struct cifsFileInfo *cifs_new_fileinfo(struct cifs_fid *fid, struct file *file,
- 
- 	/* if readable file instance put first in list*/
- 	spin_lock(&cinode->open_file_lock);
-+	if (file->f_flags & O_TMPFILE)
-+		set_bit(CIFS_INO_TMPFILE, &cinode->flags);
- 	fid->purge_cache = false;
- 	server->ops->set_fid(cfile, fid, oplock);
- 
-@@ -2578,13 +2588,12 @@ int __cifs_get_writable_file(struct cifsInodeInfo *cifs_inode,
- 			     struct cifsFileInfo **ret_file)
- {
- 	struct cifsFileInfo *open_file, *inv_file = NULL;
-+	bool fsuid_only, with_delete;
- 	struct cifs_sb_info *cifs_sb;
- 	bool any_available = false;
--	int rc = -EBADF;
- 	unsigned int refind = 0;
--	bool fsuid_only = find_flags & FIND_FSUID_ONLY;
--	bool with_delete = find_flags & FIND_WITH_DELETE;
- 	*ret_file = NULL;
-+	int rc = -EBADF;
- 
- 	/*
- 	 * Having a null inode here (because mapping->host was set to zero by
-@@ -2598,8 +2607,13 @@ int __cifs_get_writable_file(struct cifsInodeInfo *cifs_inode,
- 		return rc;
- 	}
- 
-+	if (test_bit(CIFS_INO_TMPFILE, &cifs_inode->flags))
-+		find_flags = FIND_ANY;
-+
- 	cifs_sb = CIFS_SB(cifs_inode);
- 
-+	with_delete = find_flags & FIND_WITH_DELETE;
-+	fsuid_only = find_flags & FIND_FSUID_ONLY;
- 	/* only filter by fsuid on multiuser mounts */
- 	if (!(cifs_sb_flags(cifs_sb) & CIFS_MOUNT_MULTIUSER))
- 		fsuid_only = false;
-@@ -2683,16 +2697,19 @@ find_writable_file(struct cifsInodeInfo *cifs_inode, int flags)
- 	return cfile;
- }
- 
--int
--cifs_get_writable_path(struct cifs_tcon *tcon, const char *name,
--		       int flags,
--		       struct cifsFileInfo **ret_file)
-+int cifs_get_writable_path(struct cifs_tcon *tcon, const char *name,
-+			   struct inode *inode, int flags,
-+			   struct cifsFileInfo **ret_file)
- {
- 	struct cifsFileInfo *cfile;
--	void *page = alloc_dentry_path();
-+	void *page;
- 
- 	*ret_file = NULL;
- 
-+	if (inode)
-+		return cifs_get_writable_file(CIFS_I(inode), flags, ret_file);
-+
-+	page = alloc_dentry_path();
- 	spin_lock(&tcon->open_file_lock);
- 	list_for_each_entry(cfile, &tcon->openFileList, tlist) {
- 		struct cifsInodeInfo *cinode;
-diff --git a/fs/smb/client/inode.c b/fs/smb/client/inode.c
-index 888f9e35f14b..24040909d184 100644
---- a/fs/smb/client/inode.c
-+++ b/fs/smb/client/inode.c
-@@ -2690,7 +2690,8 @@ cifs_dentry_needs_reval(struct dentry *dentry)
- 	struct cifs_tcon *tcon = cifs_sb_master_tcon(cifs_sb);
- 	struct cached_fid *cfid = NULL;
- 
--	if (test_bit(CIFS_INO_DELETE_PENDING, &cifs_i->flags))
-+	if (test_bit(CIFS_INO_DELETE_PENDING, &cifs_i->flags) ||
-+	    test_bit(CIFS_INO_TMPFILE, &cifs_i->flags))
- 		return false;
- 	if (cifs_i->time == 0)
- 		return true;
-diff --git a/fs/smb/client/link.c b/fs/smb/client/link.c
-index 434e8fe74080..dd127917a340 100644
---- a/fs/smb/client/link.c
-+++ b/fs/smb/client/link.c
-@@ -503,6 +503,7 @@ cifs_hardlink(struct dentry *old_file, struct inode *inode,
- 	if (d_really_is_positive(old_file)) {
- 		cifsInode = CIFS_I(d_inode(old_file));
- 		if (rc == 0) {
-+			clear_bit(CIFS_INO_TMPFILE, &cifsInode->flags);
- 			spin_lock(&d_inode(old_file)->i_lock);
- 			inc_nlink(d_inode(old_file));
- 			spin_unlock(&d_inode(old_file)->i_lock);
-diff --git a/fs/smb/client/smb2inode.c b/fs/smb/client/smb2inode.c
-index 364bdcff9c9d..5b056d67fcef 100644
---- a/fs/smb/client/smb2inode.c
-+++ b/fs/smb/client/smb2inode.c
-@@ -164,6 +164,27 @@ static int check_wsl_eas(struct kvec *rsp_iov)
- 	return 0;
- }
- 
-+/*
-+ * If @cfile is NULL, then need to account for trailing CLOSE request in the
-+ * compound chain.
-+ */
-+static void set_next_compound(struct cifs_tcon *tcon,
-+			      struct cifsFileInfo *cfile,
-+			      int i, int num_cmds,
-+			      struct smb_rqst *rqst, int *num_rqst)
-+{
-+	int k = !cfile ? 1 : 0;
-+
-+	if (i + 1 < num_cmds + k)
-+		smb2_set_next_command(tcon, &rqst[*num_rqst]);
-+	if (i + k > 0)
-+		smb2_set_related(&rqst[*num_rqst]);
-+	(*num_rqst)++;
-+}
-+
-+#define COMP_PID(cfile) ((cfile) ? (cfile)->fid.persistent_fid : COMPOUND_FID)
-+#define COMP_VID(cfile) ((cfile) ? (cfile)->fid.volatile_fid : COMPOUND_FID)
-+
- /*
-  * note: If cfile is passed, the reference to it is dropped here.
-  * So make sure that you do not reuse cfile after return from this func.
-@@ -284,32 +305,16 @@ static int smb2_compound_op(const unsigned int xid, struct cifs_tcon *tcon,
- 			rqst[num_rqst].rq_iov = &vars->qi_iov;
- 			rqst[num_rqst].rq_nvec = 1;
- 
--			if (cfile) {
--				rc = SMB2_query_info_init(tcon, server,
--							  &rqst[num_rqst],
--							  cfile->fid.persistent_fid,
--							  cfile->fid.volatile_fid,
--							  FILE_ALL_INFORMATION,
--							  SMB2_O_INFO_FILE, 0,
--							  sizeof(struct smb2_file_all_info) +
--							  PATH_MAX * 2, 0, NULL);
--			} else {
--				rc = SMB2_query_info_init(tcon, server,
--							  &rqst[num_rqst],
--							  COMPOUND_FID,
--							  COMPOUND_FID,
--							  FILE_ALL_INFORMATION,
--							  SMB2_O_INFO_FILE, 0,
--							  sizeof(struct smb2_file_all_info) +
--							  PATH_MAX * 2, 0, NULL);
--			}
--			if (!rc && (!cfile || num_rqst > 1)) {
--				smb2_set_next_command(tcon, &rqst[num_rqst]);
--				smb2_set_related(&rqst[num_rqst]);
--			} else if (rc) {
-+			rc = SMB2_query_info_init(tcon, server,
-+						  &rqst[num_rqst],
-+						  COMP_PID(cfile), COMP_VID(cfile),
-+						  FILE_ALL_INFORMATION,
-+						  SMB2_O_INFO_FILE, 0,
-+						  sizeof(struct smb2_file_all_info) +
-+						  PATH_MAX * 2, 0, NULL);
-+			if (rc)
- 				goto finished;
--			}
--			num_rqst++;
-+			set_next_compound(tcon, cfile, i, num_cmds, rqst, &num_rqst);
- 			trace_smb3_query_info_compound_enter(xid, tcon->tid,
- 							     ses->Suid, full_path);
- 			break;
-@@ -317,35 +322,18 @@ static int smb2_compound_op(const unsigned int xid, struct cifs_tcon *tcon,
- 			rqst[num_rqst].rq_iov = &vars->qi_iov;
- 			rqst[num_rqst].rq_nvec = 1;
- 
--			if (cfile) {
--				/* TBD: fix following to allow for longer SIDs */
--				rc = SMB2_query_info_init(tcon, server,
--							  &rqst[num_rqst],
--							  cfile->fid.persistent_fid,
--							  cfile->fid.volatile_fid,
--							  SMB_FIND_FILE_POSIX_INFO,
--							  SMB2_O_INFO_FILE, 0,
--							  sizeof(struct smb311_posix_qinfo) +
--							  (PATH_MAX * 2) +
--							  (sizeof(struct smb_sid) * 2), 0, NULL);
--			} else {
--				rc = SMB2_query_info_init(tcon, server,
--							  &rqst[num_rqst],
--							  COMPOUND_FID,
--							  COMPOUND_FID,
--							  SMB_FIND_FILE_POSIX_INFO,
--							  SMB2_O_INFO_FILE, 0,
--							  sizeof(struct smb311_posix_qinfo) +
--							  (PATH_MAX * 2) +
--							  (sizeof(struct smb_sid) * 2), 0, NULL);
--			}
--			if (!rc && (!cfile || num_rqst > 1)) {
--				smb2_set_next_command(tcon, &rqst[num_rqst]);
--				smb2_set_related(&rqst[num_rqst]);
--			} else if (rc) {
-+			/* TBD: fix following to allow for longer SIDs */
-+			rc = SMB2_query_info_init(tcon, server,
-+						  &rqst[num_rqst],
-+						  COMP_PID(cfile), COMP_VID(cfile),
-+						  SMB_FIND_FILE_POSIX_INFO,
-+						  SMB2_O_INFO_FILE, 0,
-+						  sizeof(struct smb311_posix_qinfo) +
-+						  (PATH_MAX * 2) +
-+						  (sizeof(struct smb_sid) * 2), 0, NULL);
-+			if (rc)
- 				goto finished;
--			}
--			num_rqst++;
-+			set_next_compound(tcon, cfile, i, num_cmds, rqst, &num_rqst);
- 			trace_smb3_posix_query_info_compound_enter(xid, tcon->tid,
- 								   ses->Suid, full_path);
- 			break;
-@@ -363,32 +351,15 @@ static int smb2_compound_op(const unsigned int xid, struct cifs_tcon *tcon,
- 			size[0] = 1; /* sizeof __u8 See MS-FSCC section 2.4.11 */
- 			data[0] = &delete_pending[0];
- 
--			if (cfile) {
--				rc = SMB2_set_info_init(tcon, server,
--							&rqst[num_rqst],
--							cfile->fid.persistent_fid,
--							cfile->fid.volatile_fid,
--							current->tgid,
--							FILE_DISPOSITION_INFORMATION,
--							SMB2_O_INFO_FILE, 0,
--							data, size);
--			} else {
--				rc = SMB2_set_info_init(tcon, server,
--							&rqst[num_rqst],
--							COMPOUND_FID,
--							COMPOUND_FID,
--							current->tgid,
--							FILE_DISPOSITION_INFORMATION,
--							SMB2_O_INFO_FILE, 0,
--							data, size);
--			}
--			if (!rc && (!cfile || num_rqst > 1)) {
--				smb2_set_next_command(tcon, &rqst[num_rqst]);
--				smb2_set_related(&rqst[num_rqst]);
--			} else if (rc) {
-+			rc = SMB2_set_info_init(tcon, server,
-+						&rqst[num_rqst],
-+						COMP_PID(cfile), COMP_VID(cfile),
-+						current->tgid, FILE_DISPOSITION_INFORMATION,
-+						SMB2_O_INFO_FILE, 0,
-+						data, size);
-+			if (rc)
- 				goto finished;
--			}
--			num_rqst++;
-+			set_next_compound(tcon, cfile, i, num_cmds, rqst, &num_rqst);
- 			trace_smb3_unlink_enter(xid, tcon->tid, ses->Suid, full_path);
- 			break;
- 		case SMB2_OP_SET_EOF:
-@@ -398,32 +369,15 @@ static int smb2_compound_op(const unsigned int xid, struct cifs_tcon *tcon,
- 			size[0] = in_iov[i].iov_len;
- 			data[0] = in_iov[i].iov_base;
- 
--			if (cfile) {
--				rc = SMB2_set_info_init(tcon, server,
--							&rqst[num_rqst],
--							cfile->fid.persistent_fid,
--							cfile->fid.volatile_fid,
--							current->tgid,
--							FILE_END_OF_FILE_INFORMATION,
--							SMB2_O_INFO_FILE, 0,
--							data, size);
--			} else {
--				rc = SMB2_set_info_init(tcon, server,
--							&rqst[num_rqst],
--							COMPOUND_FID,
--							COMPOUND_FID,
--							current->tgid,
--							FILE_END_OF_FILE_INFORMATION,
--							SMB2_O_INFO_FILE, 0,
--							data, size);
--			}
--			if (!rc && (!cfile || num_rqst > 1)) {
--				smb2_set_next_command(tcon, &rqst[num_rqst]);
--				smb2_set_related(&rqst[num_rqst]);
--			} else if (rc) {
-+			rc = SMB2_set_info_init(tcon, server,
-+						&rqst[num_rqst],
-+						COMP_PID(cfile), COMP_VID(cfile),
-+						current->tgid, FILE_END_OF_FILE_INFORMATION,
-+						SMB2_O_INFO_FILE, 0,
-+						data, size);
-+			if (rc)
- 				goto finished;
--			}
--			num_rqst++;
-+			set_next_compound(tcon, cfile, i, num_cmds, rqst, &num_rqst);
- 			trace_smb3_set_eof_enter(xid, tcon->tid, ses->Suid, full_path);
- 			break;
- 		case SMB2_OP_SET_INFO:
-@@ -433,28 +387,14 @@ static int smb2_compound_op(const unsigned int xid, struct cifs_tcon *tcon,
- 			size[0] = in_iov[i].iov_len;
- 			data[0] = in_iov[i].iov_base;
- 
--			if (cfile) {
--				rc = SMB2_set_info_init(tcon, server,
--							&rqst[num_rqst],
--							cfile->fid.persistent_fid,
--							cfile->fid.volatile_fid, current->tgid,
--							FILE_BASIC_INFORMATION,
--							SMB2_O_INFO_FILE, 0, data, size);
--			} else {
--				rc = SMB2_set_info_init(tcon, server,
--							&rqst[num_rqst],
--							COMPOUND_FID,
--							COMPOUND_FID, current->tgid,
--							FILE_BASIC_INFORMATION,
--							SMB2_O_INFO_FILE, 0, data, size);
--			}
--			if (!rc && (!cfile || num_rqst > 1)) {
--				smb2_set_next_command(tcon, &rqst[num_rqst]);
--				smb2_set_related(&rqst[num_rqst]);
--			} else if (rc) {
-+			rc = SMB2_set_info_init(tcon, server,
-+						&rqst[num_rqst],
-+						COMP_PID(cfile), COMP_VID(cfile),
-+						current->tgid, FILE_BASIC_INFORMATION,
-+						SMB2_O_INFO_FILE, 0, data, size);
-+			if (rc)
- 				goto finished;
--			}
--			num_rqst++;
-+			set_next_compound(tcon, cfile, i, num_cmds, rqst, &num_rqst);
- 			trace_smb3_set_info_compound_enter(xid, tcon->tid,
- 							   ses->Suid, full_path);
- 			break;
-@@ -474,31 +414,19 @@ static int smb2_compound_op(const unsigned int xid, struct cifs_tcon *tcon,
- 			size[1] = len + 2 /* null */;
- 			data[1] = in_iov[i].iov_base;
- 
--			if (cfile) {
--				rc = SMB2_set_info_init(tcon, server,
--							&rqst[num_rqst],
--							cfile->fid.persistent_fid,
--							cfile->fid.volatile_fid,
--							current->tgid, FILE_RENAME_INFORMATION,
--							SMB2_O_INFO_FILE, 0, data, size);
--			} else {
--				rc = SMB2_set_info_init(tcon, server,
--							&rqst[num_rqst],
--							COMPOUND_FID, COMPOUND_FID,
--							current->tgid, FILE_RENAME_INFORMATION,
--							SMB2_O_INFO_FILE, 0, data, size);
--			}
--			if (!rc && (!cfile || num_rqst > 1)) {
--				smb2_set_next_command(tcon, &rqst[num_rqst]);
--				smb2_set_related(&rqst[num_rqst]);
--			} else if (rc) {
-+			rc = SMB2_set_info_init(tcon, server,
-+						&rqst[num_rqst],
-+						COMP_PID(cfile), COMP_VID(cfile),
-+						current->tgid, FILE_RENAME_INFORMATION,
-+						SMB2_O_INFO_FILE, 0, data, size);
-+
-+			if (rc)
- 				goto finished;
--			}
--			num_rqst++;
-+			set_next_compound(tcon, cfile, i, num_cmds, rqst, &num_rqst);
- 			trace_smb3_rename_enter(xid, tcon->tid, ses->Suid, full_path);
- 			break;
- 		case SMB2_OP_HARDLINK:
--			rqst[num_rqst].rq_iov = &vars->si_iov[0];
-+			rqst[num_rqst].rq_iov = vars->hl_iov;
- 			rqst[num_rqst].rq_nvec = 2;
- 
- 			len = in_iov[i].iov_len;
-@@ -514,41 +442,27 @@ static int smb2_compound_op(const unsigned int xid, struct cifs_tcon *tcon,
- 			data[1] = in_iov[i].iov_base;
- 
- 			rc = SMB2_set_info_init(tcon, server,
--						&rqst[num_rqst], COMPOUND_FID,
--						COMPOUND_FID, current->tgid,
--						FILE_LINK_INFORMATION,
-+						&rqst[num_rqst],
-+						COMP_PID(cfile), COMP_VID(cfile),
-+						current->tgid, FILE_LINK_INFORMATION,
- 						SMB2_O_INFO_FILE, 0, data, size);
- 			if (rc)
- 				goto finished;
--			smb2_set_next_command(tcon, &rqst[num_rqst]);
--			smb2_set_related(&rqst[num_rqst++]);
-+			set_next_compound(tcon, cfile, i, num_cmds, rqst, &num_rqst);
- 			trace_smb3_hardlink_enter(xid, tcon->tid, ses->Suid, full_path);
- 			break;
- 		case SMB2_OP_SET_REPARSE:
- 			rqst[num_rqst].rq_iov = vars->io_iov;
- 			rqst[num_rqst].rq_nvec = ARRAY_SIZE(vars->io_iov);
- 
--			if (cfile) {
--				rc = SMB2_ioctl_init(tcon, server, &rqst[num_rqst],
--						     cfile->fid.persistent_fid,
--						     cfile->fid.volatile_fid,
--						     FSCTL_SET_REPARSE_POINT,
--						     in_iov[i].iov_base,
--						     in_iov[i].iov_len, 0);
--			} else {
--				rc = SMB2_ioctl_init(tcon, server, &rqst[num_rqst],
--						     COMPOUND_FID, COMPOUND_FID,
--						     FSCTL_SET_REPARSE_POINT,
--						     in_iov[i].iov_base,
--						     in_iov[i].iov_len, 0);
--			}
--			if (!rc && (!cfile || num_rqst > 1)) {
--				smb2_set_next_command(tcon, &rqst[num_rqst]);
--				smb2_set_related(&rqst[num_rqst]);
--			} else if (rc) {
-+			rc = SMB2_ioctl_init(tcon, server, &rqst[num_rqst],
-+					     COMP_PID(cfile), COMP_VID(cfile),
-+					     FSCTL_SET_REPARSE_POINT,
-+					     in_iov[i].iov_base,
-+					     in_iov[i].iov_len, 0);
-+			if (rc)
- 				goto finished;
--			}
--			num_rqst++;
-+			set_next_compound(tcon, cfile, i, num_cmds, rqst, &num_rqst);
- 			trace_smb3_set_reparse_compound_enter(xid, tcon->tid,
- 							      ses->Suid, full_path);
- 			break;
-@@ -556,25 +470,13 @@ static int smb2_compound_op(const unsigned int xid, struct cifs_tcon *tcon,
- 			rqst[num_rqst].rq_iov = vars->io_iov;
- 			rqst[num_rqst].rq_nvec = ARRAY_SIZE(vars->io_iov);
- 
--			if (cfile) {
--				rc = SMB2_ioctl_init(tcon, server, &rqst[num_rqst],
--						     cfile->fid.persistent_fid,
--						     cfile->fid.volatile_fid,
--						     FSCTL_GET_REPARSE_POINT,
--						     NULL, 0, CIFSMaxBufSize);
--			} else {
--				rc = SMB2_ioctl_init(tcon, server, &rqst[num_rqst],
--						     COMPOUND_FID, COMPOUND_FID,
--						     FSCTL_GET_REPARSE_POINT,
--						     NULL, 0, CIFSMaxBufSize);
--			}
--			if (!rc && (!cfile || num_rqst > 1)) {
--				smb2_set_next_command(tcon, &rqst[num_rqst]);
--				smb2_set_related(&rqst[num_rqst]);
--			} else if (rc) {
-+			rc = SMB2_ioctl_init(tcon, server, &rqst[num_rqst],
-+					     COMP_PID(cfile), COMP_VID(cfile),
-+					     FSCTL_GET_REPARSE_POINT,
-+					     NULL, 0, CIFSMaxBufSize);
-+			if (rc)
- 				goto finished;
--			}
--			num_rqst++;
-+			set_next_compound(tcon, cfile, i, num_cmds, rqst, &num_rqst);
- 			trace_smb3_get_reparse_compound_enter(xid, tcon->tid,
- 							      ses->Suid, full_path);
- 			break;
-@@ -582,34 +484,17 @@ static int smb2_compound_op(const unsigned int xid, struct cifs_tcon *tcon,
- 			rqst[num_rqst].rq_iov = &vars->ea_iov;
- 			rqst[num_rqst].rq_nvec = 1;
- 
--			if (cfile) {
--				rc = SMB2_query_info_init(tcon, server,
--							  &rqst[num_rqst],
--							  cfile->fid.persistent_fid,
--							  cfile->fid.volatile_fid,
--							  FILE_FULL_EA_INFORMATION,
--							  SMB2_O_INFO_FILE, 0,
--							  SMB2_WSL_MAX_QUERY_EA_RESP_SIZE,
--							  sizeof(wsl_query_eas),
--							  (void *)wsl_query_eas);
--			} else {
--				rc = SMB2_query_info_init(tcon, server,
--							  &rqst[num_rqst],
--							  COMPOUND_FID,
--							  COMPOUND_FID,
--							  FILE_FULL_EA_INFORMATION,
--							  SMB2_O_INFO_FILE, 0,
--							  SMB2_WSL_MAX_QUERY_EA_RESP_SIZE,
--							  sizeof(wsl_query_eas),
--							  (void *)wsl_query_eas);
--			}
--			if (!rc && (!cfile || num_rqst > 1)) {
--				smb2_set_next_command(tcon, &rqst[num_rqst]);
--				smb2_set_related(&rqst[num_rqst]);
--			} else if (rc) {
-+			rc = SMB2_query_info_init(tcon, server,
-+						  &rqst[num_rqst],
-+						  COMP_PID(cfile), COMP_VID(cfile),
-+						  FILE_FULL_EA_INFORMATION,
-+						  SMB2_O_INFO_FILE, 0,
-+						  SMB2_WSL_MAX_QUERY_EA_RESP_SIZE,
-+						  sizeof(wsl_query_eas),
-+						  (void *)wsl_query_eas);
-+			if (rc)
- 				goto finished;
--			}
--			num_rqst++;
-+			set_next_compound(tcon, cfile, i, num_cmds, rqst, &num_rqst);
- 			trace_smb3_query_wsl_ea_compound_enter(xid, tcon->tid,
- 							       ses->Suid, full_path);
- 			break;
-@@ -1156,7 +1041,7 @@ smb2_mkdir_setinfo(struct inode *inode, const char *name,
- 	cifs_i = CIFS_I(inode);
- 	dosattrs = cifs_i->cifsAttrs | ATTR_READONLY;
- 	data.Attributes = cpu_to_le32(dosattrs);
--	cifs_get_writable_path(tcon, name, FIND_ANY, &cfile);
-+	cifs_get_writable_path(tcon, name, inode, FIND_ANY, &cfile);
- 	oparms = CIFS_OPARMS(cifs_sb, tcon, name, FILE_WRITE_ATTRIBUTES,
- 			     FILE_CREATE, CREATE_NOT_FILE, ACL_NO_MODE);
- 	tmprc = smb2_compound_op(xid, tcon, cifs_sb, name,
-@@ -1332,17 +1217,20 @@ int smb2_rename_path(const unsigned int xid,
- 		     const char *from_name, const char *to_name,
- 		     struct cifs_sb_info *cifs_sb)
- {
-+	struct inode *inode = source_dentry ? d_inode(source_dentry) : NULL;
- 	struct cifsFileInfo *cfile;
- 	__u32 co = file_create_options(source_dentry);
- 
- 	drop_cached_dir_by_name(xid, tcon, from_name, cifs_sb);
--	cifs_get_writable_path(tcon, from_name, FIND_WITH_DELETE, &cfile);
-+	cifs_get_writable_path(tcon, from_name, inode,
-+			       FIND_WITH_DELETE, &cfile);
- 
- 	int rc = smb2_set_path_attr(xid, tcon, from_name, to_name, cifs_sb,
- 				  co, DELETE, SMB2_OP_RENAME, cfile, source_dentry);
- 	if (rc == -EINVAL) {
- 		cifs_dbg(FYI, "invalid lease key, resending request without lease");
--		cifs_get_writable_path(tcon, from_name, FIND_WITH_DELETE, &cfile);
-+		cifs_get_writable_path(tcon, from_name, inode,
-+				       FIND_WITH_DELETE, &cfile);
- 		rc = smb2_set_path_attr(xid, tcon, from_name, to_name, cifs_sb,
- 				  co, DELETE, SMB2_OP_RENAME, cfile, NULL);
- 	}
-@@ -1355,11 +1243,32 @@ int smb2_create_hardlink(const unsigned int xid,
- 			 const char *from_name, const char *to_name,
- 			 struct cifs_sb_info *cifs_sb)
- {
-+	struct inode *inode = source_dentry ? d_inode(source_dentry) : NULL;
- 	__u32 co = file_create_options(source_dentry);
-+	struct cifsFileInfo *cfile;
- 
-+	if (inode) {
-+		struct cifsInodeInfo *cinode = CIFS_I(inode);
-+		FILE_BASIC_INFO fi;
-+		__le32 attrs;
-+		int rc;
-+
-+		if (!test_bit(CIFS_INO_TMPFILE, &CIFS_I(inode)->flags))
-+			goto out;
-+
-+		attrs = cpu_to_le32(cinode->cifsAttrs & ~ATTR_HIDDEN);
-+		fi = (FILE_BASIC_INFO){ .Attributes = attrs, };
-+		rc = smb2_set_file_info(inode, from_name, &fi, xid);
-+		if (rc)
-+			return rc;
-+	}
-+
-+out:
-+	cifs_get_writable_path(tcon, from_name, inode,
-+			       FIND_WITH_DELETE, &cfile);
- 	return smb2_set_path_attr(xid, tcon, from_name, to_name,
- 				  cifs_sb, co, FILE_READ_ATTRIBUTES,
--				  SMB2_OP_HARDLINK, NULL, NULL);
-+				  SMB2_OP_HARDLINK, cfile, NULL);
- }
- 
- int
-@@ -1368,15 +1277,16 @@ smb2_set_path_size(const unsigned int xid, struct cifs_tcon *tcon,
- 		   struct cifs_sb_info *cifs_sb, bool set_alloc,
- 		   struct dentry *dentry)
- {
--	struct cifs_open_parms oparms;
--	struct cifsFileInfo *cfile;
--	struct kvec in_iov;
-+	struct inode *inode = dentry ? d_inode(dentry) : NULL;
- 	__le64 eof = cpu_to_le64(size);
-+	struct cifs_open_parms oparms;
-+	struct cifsFileInfo *cfile;
-+	struct kvec in_iov;
- 	int rc;
- 
- 	in_iov.iov_base = &eof;
- 	in_iov.iov_len = sizeof(eof);
--	cifs_get_writable_path(tcon, full_path, FIND_ANY, &cfile);
-+	cifs_get_writable_path(tcon, full_path, inode, FIND_ANY, &cfile);
- 
- 	oparms = CIFS_OPARMS(cifs_sb, tcon, full_path, FILE_WRITE_DATA,
- 			     FILE_OPEN, 0, ACL_NO_MODE);
-@@ -1386,7 +1296,8 @@ smb2_set_path_size(const unsigned int xid, struct cifs_tcon *tcon,
- 			      cfile, NULL, NULL, dentry);
- 	if (rc == -EINVAL) {
- 		cifs_dbg(FYI, "invalid lease key, resending request without lease");
--		cifs_get_writable_path(tcon, full_path, FIND_ANY, &cfile);
-+		cifs_get_writable_path(tcon, full_path,
-+				       inode, FIND_ANY, &cfile);
- 		rc = smb2_compound_op(xid, tcon, cifs_sb,
- 				      full_path, &oparms, &in_iov,
- 				      &(int){SMB2_OP_SET_EOF}, 1,
-@@ -1416,7 +1327,8 @@ smb2_set_file_info(struct inode *inode, const char *full_path,
- 	    (buf->LastWriteTime == 0) && (buf->ChangeTime == 0)) {
- 		if (buf->Attributes == 0)
- 			goto out; /* would be a no op, no sense sending this */
--		cifs_get_writable_path(tcon, full_path, FIND_ANY, &cfile);
-+		cifs_get_writable_path(tcon, full_path,
-+				       inode, FIND_ANY, &cfile);
- 	}
- 
- 	oparms = CIFS_OPARMS(cifs_sb, tcon, full_path, FILE_WRITE_ATTRIBUTES,
-@@ -1475,7 +1387,7 @@ struct inode *smb2_create_reparse_inode(struct cifs_open_info_data *data,
- 
- 	if (tcon->posix_extensions) {
- 		cmds[1] = SMB2_OP_POSIX_QUERY_INFO;
--		cifs_get_writable_path(tcon, full_path, FIND_ANY, &cfile);
-+		cifs_get_writable_path(tcon, full_path, NULL, FIND_ANY, &cfile);
- 		rc = smb2_compound_op(xid, tcon, cifs_sb, full_path, &oparms,
- 				      in_iov, cmds, 2, cfile, out_iov, out_buftype, NULL);
- 		if (!rc) {
-@@ -1484,7 +1396,7 @@ struct inode *smb2_create_reparse_inode(struct cifs_open_info_data *data,
- 		}
- 	} else {
- 		cmds[1] = SMB2_OP_QUERY_INFO;
--		cifs_get_writable_path(tcon, full_path, FIND_ANY, &cfile);
-+		cifs_get_writable_path(tcon, full_path, NULL, FIND_ANY, &cfile);
- 		rc = smb2_compound_op(xid, tcon, cifs_sb, full_path, &oparms,
- 				      in_iov, cmds, 2, cfile, out_iov, out_buftype, NULL);
- 		if (!rc) {
-@@ -1566,8 +1478,8 @@ int smb2_rename_pending_delete(const char *full_path,
- 			       struct dentry *dentry,
- 			       const unsigned int xid)
- {
--	struct cifs_sb_info *cifs_sb = CIFS_SB(d_inode(dentry)->i_sb);
- 	struct cifsInodeInfo *cinode = CIFS_I(d_inode(dentry));
-+	struct cifs_sb_info *cifs_sb = CIFS_SB(dentry);
- 	__le16 *utf16_path __free(kfree) = NULL;
- 	__u32 co = file_create_options(dentry);
- 	int cmds[] = {
-@@ -1579,14 +1491,10 @@ int smb2_rename_pending_delete(const char *full_path,
- 	char *to_name __free(kfree) = NULL;
- 	__u32 attrs = cinode->cifsAttrs;
- 	struct cifs_open_parms oparms;
--	static atomic_t sillycounter;
- 	struct cifsFileInfo *cfile;
- 	struct tcon_link *tlink;
- 	struct cifs_tcon *tcon;
- 	struct kvec iov[2];
--	const char *ppath;
--	void *page;
--	size_t len;
- 	int rc;
- 
- 	tlink = cifs_sb_tlink(cifs_sb);
-@@ -1594,25 +1502,14 @@ int smb2_rename_pending_delete(const char *full_path,
- 		return PTR_ERR(tlink);
- 	tcon = tlink_tcon(tlink);
- 
--	page = alloc_dentry_path();
--
--	ppath = build_path_from_dentry(dentry->d_parent, page);
--	if (IS_ERR(ppath)) {
--		rc = PTR_ERR(ppath);
-+	to_name = cifs_silly_fullpath(dentry);
-+	if (IS_ERR(to_name)) {
-+		rc = PTR_ERR(to_name);
-+		to_name = NULL;
- 		goto out;
- 	}
- 
--	len = strlen(ppath) + strlen("/.__smb1234") + 1;
--	to_name = kmalloc(len, GFP_KERNEL);
--	if (!to_name) {
--		rc = -ENOMEM;
--		goto out;
--	}
--
--	scnprintf(to_name, len, "%s%c.__smb%04X", ppath, CIFS_DIR_SEP(cifs_sb),
--		  atomic_inc_return(&sillycounter) & 0xffff);
--
--	utf16_path = utf16_smb2_path(cifs_sb, to_name, len);
-+	utf16_path = utf16_smb2_path(cifs_sb, to_name, strlen(to_name));
- 	if (!utf16_path) {
- 		rc = -ENOMEM;
- 		goto out;
-@@ -1635,12 +1532,14 @@ int smb2_rename_pending_delete(const char *full_path,
- 	iov[1].iov_base = utf16_path;
- 	iov[1].iov_len = sizeof(*utf16_path) * UniStrlen((wchar_t *)utf16_path);
- 
--	cifs_get_writable_path(tcon, full_path, FIND_WITH_DELETE, &cfile);
-+	cifs_get_writable_path(tcon, full_path, d_inode(dentry),
-+			       FIND_WITH_DELETE, &cfile);
- 	rc = smb2_compound_op(xid, tcon, cifs_sb, full_path, &oparms, iov,
- 			      cmds, num_cmds, cfile, NULL, NULL, dentry);
- 	if (rc == -EINVAL) {
- 		cifs_dbg(FYI, "invalid lease key, resending request without lease\n");
--		cifs_get_writable_path(tcon, full_path, FIND_WITH_DELETE, &cfile);
-+		cifs_get_writable_path(tcon, full_path, d_inode(dentry),
-+				       FIND_WITH_DELETE, &cfile);
- 		rc = smb2_compound_op(xid, tcon, cifs_sb, full_path, &oparms, iov,
- 				      cmds, num_cmds, cfile, NULL, NULL, NULL);
- 	}
-@@ -1653,6 +1552,5 @@ int smb2_rename_pending_delete(const char *full_path,
- 	}
- out:
- 	cifs_put_tlink(tlink);
--	free_dentry_path(page);
- 	return rc;
- }
+Background
+===
+
+Landlock is primarily a syscall-driven, unprivileged-first LSM.  That model
+works well when the application being sandboxed can create and enforce its own
+rulesets, or when a trusted launcher can impose restrictions directly before
+running a trusted target.
+
+That becomes harder when the target program is not under first-party control,
+for example:
+
+1. third-party binaries,
+2. unmodified container images,
+3. programs reached through shells, wrappers, or service managers, and
+4. user-supplied or otherwise untrusted code.
+
+In these cases, an external supervisor may want to apply a Landlock ruleset to
+the final executed program, while leaving unrelated parents or helper
+processes alone.
+
+Why external sandboxing is awkward today
+===
+
+There are two recurring problems.
+
+First, userspace cannot reliably predict every file a target may need across
+different systems, packaging layouts, and runtime conditions.  Shared
+libraries, configuration files, interpreters, and helper binaries often depend
+on details that are only known at runtime.
+
+Second, Landlock inheritance is intentionally one-way.  Once a task is
+restricted, descendants inherit that domain and may only become more
+restricted.  This is exactly what Landlock should do, but it makes external
+sandboxing awkward when the program of interest is buried inside a larger exec
+chain.  Applying restrictions too early can affect unrelated intermediates;
+applying them too late misses the target entirely.
+
+This series addresses that target-selection problem.
+
+Overview
+===
+
+This series adds a small BPF-to-Landlock bridge:
+
+1. userspace creates a normal Landlock ruleset through the existing ABI;
+2. userspace inserts that ruleset FD into a new
+	BPF_MAP_TYPE_LANDLOCK_RULESET map;
+3. a sleepable BPF LSM program attached to an exec-time hook looks up the
+	ruleset; and
+4. the program calls a kfunc to apply that ruleset to the new program's
+	credentials before exec completes.
+
+The important point is that BPF does not create, inspect, or mutate Landlock
+policy here.  It only decides whether to apply a ruleset that was already
+created and validated through Landlock's existing userspace API.
+
+Interface
+===
+
+The series adds:
+
+1. bpf_landlock_restrict_binprm(), which applies a referenced ruleset to
+	struct linux_binprm credentials;
+2. bpf_landlock_put_ruleset(), which releases a referenced ruleset; and
+3. BPF_MAP_TYPE_LANDLOCK_RULESET, a specialized map type for holding
+	references to Landlock rulesets originating from userspace file
+	descriptors.
+4. A new field in the linux_binprm struct to enable application of
+   task_set_no_new_privs once execution is beyond the point of no return.
+
+The kfuncs are restricted to sleepable BPF LSM programs attached to
+bprm_creds_for_exec and bprm_creds_from_file, which are the points where the
+new program's credentials may still be updated safely.
+
+This series also adds LANDLOCK_RESTRICT_SELF_NO_NEW_PRIVS.  On the BPF path,
+this is staged through the exec context and committed only after exec reaches
+point-of-no-return.  This avoids side effects on failed executions while
+ensuring that the resulting task cannot gain more privileges through later exec
+transitions. This is done through the set_nnp_on_point_of_no_return field.
+
+This has a little subtlety: LANDLOCK_RESTRICT_SELF_NO_NEW_PRIVS in the BPF
+path will not stop the current execution from escalating at all; only subsequent
+ones. This is intentional to allow landlock policies to be applied through a
+setuid transition for instance, without affecting the current escalation.
+
+Semantics
+===
+
+This proposal is intended to preserve Landlock semantics as much as practical
+for an exec-time BPF attachment model:
+
+1. only pre-existing Landlock rulesets may be applied;
+2. BPF cannot construct, inspect, or modify rulesets;
+3. enforcement still happens before the new program begins execution;
+4. normal Landlock inheritance, layering, and future composition remain
+	unchanged; and
+5. this does not bypass Landlock's privilege checks for applying Landlock
+    rulesets.
+
+In other words, BPF acts as an external selector for when to apply Landlock,
+not as a replacement for Landlock's enforcement engine.
+
+All behavior, future access rights, and previous access rights are designed
+to automatically be supported from either BPF or existing syscall contexts.
+
+The main semantic difference is LANDLOCK_RESTRICT_SELF_NO_NEW_PRIVS on the BPF
+path: it guarantees that the resulting task is pinned with no_new_privs before
+it can perform later exec transitions, but it does not retroactively suppress
+privilege gain for the current exec transition itself.
+
+The other exception to semantics is the LANDLOCK_RESTRICT_SELF_TSYNC flag.
+(see Points of Feedback section)
+
+Patch layout
+===
+
+Patches 1-5 prepare the Landlock side by moving shared ruleset logic out of
+syscalls.c, adding a no_new_privs flag for non-syscall callers, exposing
+linux_binprm->set_nnp_on_point_of_no_return as an interface to set no_new_privs
+on the point of no return, and making deferred ruleset destruction RCU-safe.
+
+Patches 6-10 add the BPF-facing pieces: the Landlock kfuncs, the new map type,
+syscall handling for that map, and verifier support.
+
+Patches 11-15 add selftests and the small bpftool update needed for the new
+map type.
+
+Patches 16-20 add docs and bump the ABI version and update MAINTAINERS.
+
+Feedback is especially welcome on the overall interface shape, the choice of
+hooks, and the map semantics.
+
+Testing
+===
+
+This patch series has two portions of tests.
+
+One lives in the traditional Landlock selftests, for the new
+LANDLOCK_RESTRICT_SELF_NO_NEW_PRIVS flag.
+
+The other suite lives under the BPF selftests, and this tests the Landlock
+kfuncs and the new BPF_MAP_TYPE_LANDLOCK_RULESET.
+
+This patch series was run through BPF CI, the results of which are here. [1]
+
+All mentioned tests are passing, as well as the BPF CI.
+
+[1] : https://github.com/kernel-patches/bpf/pull/11562
+
+Points of Feedback
+===
+
+First, the new set_nnp_on_point_of_no_return field in struct linux_binprm.
+This field was needed to request that task_set_no_new_privs be set during an
+execution, but only after the execution has proceeded beyond the point of no
+return. I couldn't find a way to express this semantic without adding a new
+bitfield to struct linux_binprm and a conditional in fs/exec.c. Please see
+patch 2.
+
+Feedback on the BPF testing harness, which was generated with AI assistance as
+disclosed in the commit footer, is welcomed. I have only limited familiarity
+with BPF testing practices. These tests were made with strong human supervision.
+See patches 14 and 15.
+
+Feedback on the NO_NEW_PRIVS situation is also welcomed. Because task_set_no_new_privs()
+would otherwise leak state on failed executions or AT_EXECVE_CHECK, this series
+stages no_new_privs through the exec context and only commits it after
+point-of-no-return. This preserves failure behavior while still ensuring that
+the resulting task cannot elevate further through later exec transitions.
+When called from bprm_creds_from_file, this does not retroactively change the
+privilege outcome of the current exec transition itself.
+
+See patch 2 and 3.
+
+Next, the RCU in the landlock_ruleset. Existing BPF maps use RCU to make sure maps
+holding references stay valid. I altered the landlock ruleset to use rcu_work
+to make sure that the rcu is synchronized before putting on a ruleset, and
+acquire the rcu in the arraymap implementation. See patches 5-10.
+
+Next, the semantics of the map. What operations should be supported from BPF
+and userspace and what data types should they return? I consider the struct
+bpf_landlock_ruleset to be opaque. Userspace can add items to the map via the
+fd, delete items by their index, and BPF can delete and lookup items by their
+index. Items cannot be updated, only swapped.
+
+Finally, the handling of the LANDLOCK_RESTRICT_SELF_TSYNC flag. This flag has
+no meaning in a pre-execution context, as the credentials during the designated
+LSM hooks (bprm_creds_for_exec/creds_from_file) still represent the pre-execution
+task. Therefore, this flag is invalidated and attempting to use it with
+bpf_landlock_restrict_binprm will return -EINVAL. Otherwise, the flag would
+result in applying the landlock ruleset to the wrong target in addition to the
+intended one. (see patch 2). This behavior is validated with selftests.
+
+Existing works / Credits
+===
+
+Mickaël Salaün created patchsets adding BPF tracepoints for landlock in [2] [3].
+
+Mickaël also gave feedback on this feature and the idea in this GitHub thread. [4]
+
+Günther Noack initially received and provided initial feedback on this idea as
+an early prototype.
+
+Liz Rice, author of "Learning eBPF: Programming the Linux Kernel for Enhanced
+Observability, Networking, and Security" provided background and inspired me to
+experiment with BPF and the BPF LSM. [5]
+
+[2] : https://lore.kernel.org/all/20250523165741.693976-1-mic@digikod.net/
+[3] : https://lore.kernel.org/linux-security-module/20260406143717.1815792-1-mic@digikod.net/
+[4] : https://github.com/landlock-lsm/linux/issues/56
+[5] : https://wellesleybooks.com/book/9781098135126
+
+Kind Regards,
+Justin Suess
+
+Justin Suess (20):
+  landlock: Move operations from syscall into ruleset code
+  execve: Add set_nnp_on_point_of_no_return
+  landlock: Implement LANDLOCK_RESTRICT_SELF_NO_NEW_PRIVS
+  selftests/landlock: Cover LANDLOCK_RESTRICT_SELF_NO_NEW_PRIVS
+  landlock: Make ruleset deferred free RCU safe
+  bpf: lsm: Add Landlock kfuncs
+  bpf: arraymap: Implement Landlock ruleset map
+  bpf: Add Landlock ruleset map type
+  bpf: syscall: Handle Landlock ruleset maps
+  bpf: verifier: Add Landlock ruleset map support
+  selftests/bpf: Add Landlock kfunc declarations
+  selftests/landlock: Rename gettid wrapper for BPF reuse
+  selftests/bpf: Enable Landlock in selftests kernel.
+  selftests/bpf: Add Landlock kfunc test program
+  selftests/bpf: Add Landlock kfunc test runner
+  landlock: Bump ABI version
+  tools: bpftool: Add documentation for landlock_ruleset
+  landlock: Document LANDLOCK_RESTRICT_SELF_NO_NEW_PRIVS
+  bpf: Document BPF_MAP_TYPE_LANDLOCK_RULESET
+  MAINTAINERS: update entry for the Landlock subsystem
+
+ Documentation/bpf/map_landlock_ruleset.rst    | 181 +++++
+ Documentation/userspace-api/landlock.rst      |  22 +-
+ MAINTAINERS                                   |   4 +
+ fs/exec.c                                     |   8 +
+ include/linux/binfmts.h                       |   7 +-
+ include/linux/bpf_lsm.h                       |  15 +
+ include/linux/bpf_types.h                     |   1 +
+ include/linux/landlock.h                      |  92 +++
+ include/uapi/linux/bpf.h                      |   1 +
+ include/uapi/linux/landlock.h                 |  14 +
+ kernel/bpf/arraymap.c                         |  67 ++
+ kernel/bpf/bpf_lsm.c                          | 145 ++++
+ kernel/bpf/syscall.c                          |   4 +-
+ kernel/bpf/verifier.c                         |  15 +-
+ samples/landlock/sandboxer.c                  |   7 +-
+ security/landlock/limits.h                    |   2 +-
+ security/landlock/ruleset.c                   | 198 ++++-
+ security/landlock/ruleset.h                   |  25 +-
+ security/landlock/syscalls.c                  | 158 +---
+ .../bpf/bpftool/Documentation/bpftool-map.rst |   2 +-
+ tools/bpf/bpftool/map.c                       |   2 +-
+ tools/include/uapi/linux/bpf.h                |   1 +
+ tools/lib/bpf/libbpf.c                        |   1 +
+ tools/lib/bpf/libbpf_probes.c                 |   6 +
+ tools/testing/selftests/bpf/bpf_kfuncs.h      |  20 +
+ tools/testing/selftests/bpf/config            |   5 +
+ tools/testing/selftests/bpf/config.x86_64     |   1 -
+ .../bpf/prog_tests/landlock_kfuncs.c          | 733 ++++++++++++++++++
+ .../selftests/bpf/progs/landlock_kfuncs.c     |  92 +++
+ tools/testing/selftests/landlock/base_test.c  |  10 +-
+ tools/testing/selftests/landlock/common.h     |  28 +-
+ tools/testing/selftests/landlock/fs_test.c    | 103 +--
+ tools/testing/selftests/landlock/net_test.c   |  55 +-
+ .../testing/selftests/landlock/ptrace_test.c  |  14 +-
+ .../landlock/scoped_abstract_unix_test.c      |  51 +-
+ .../selftests/landlock/scoped_base_variants.h |  23 +
+ .../selftests/landlock/scoped_common.h        |   5 +-
+ .../selftests/landlock/scoped_signal_test.c   |  30 +-
+ tools/testing/selftests/landlock/wrappers.h   |   2 +-
+ 39 files changed, 1877 insertions(+), 273 deletions(-)
+ create mode 100644 Documentation/bpf/map_landlock_ruleset.rst
+ create mode 100644 include/linux/landlock.h
+ create mode 100644 tools/testing/selftests/bpf/prog_tests/landlock_kfuncs.c
+ create mode 100644 tools/testing/selftests/bpf/progs/landlock_kfuncs.c
+
+
+base-commit: 8c6a27e02bc55ab110d1828610048b19f903aaec
 -- 
 2.53.0
 
