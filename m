@@ -1,145 +1,117 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx1.manguebit.org (mx1.manguebit.org [143.255.12.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14E4324677F
-	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Apr 2026 19:20:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775589620; cv=pass; b=kTd9jPLMpWxgTapTsSlaoD9/9M+tH7dtWXbHtNemdAekgx49/plV9JwAVsmYRxH6V1EP9it3jWX/bYuRMPovw6w/6ltEAr/JYfp9FWYI1dcMBijc5vNf/7XHsS/t5gKtLhExN/7rTvzxLDHXEjBRV/PPiI7iJULK76/sYqjtgkk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775589620; c=relaxed/simple;
-	bh=i6c6Uhklk6n23W8x1AxzLaFh13KM9OwbxJ2yYTpwf54=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=frpL8aoP3Sp0uM7x0the83Nfx2Z3ULomVtbE6GI/m1TfZ14+XX4Y1hLRjeZa1qTN9HSQDeamtYPI2iRDJtW7x/kC3Jd1dvwSCwGgV9D2SZaKVi4TJcbQyRafFvrv7MXxfpzU0+8UBNuhQSYyYzdT9Agi5U25DobfRgVWFOSDvAA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eyZUiWWI; arc=pass smtp.client-ip=209.85.216.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66BEB372EF5;
+	Tue,  7 Apr 2026 19:58:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=143.255.12.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775591896; cv=none; b=IclHF85BOTxf6wctrGDqPGnllFuTh4VnczDvBiav0xDkeoQZV0ag3Stx6oMd2HPsmSCFGMvpk/mWIFtJjf5uODc5gTMRcol7v+fhPpd6B7zNhaHvdm3ZxuUMI7XFarG1WoEU92L+z1qUjNaROwZYbeAIGO3P2dgD+yeFlhZz2tA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775591896; c=relaxed/simple;
+	bh=ai1woy9AcZ6Mn5Q1SDLBbU1R46+AaUhq+y/ltspMVFM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aaHXic2q5b+4rLK4o6i4hTqmTQt6NDMPd1l5p9G5dNbsl5PfTo3j/uehXAFC6dmUJX/RdVzDuQYek0Q7iTw92WvMBr28uj5mYx8IeEWvyTYk0dgSMU7wg2r14ZRWvfgVywIblb3ljLEtf6PvdpvnJtbYXKGdZSbfApys+fS1+rc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manguebit.org; spf=pass smtp.mailfrom=manguebit.org; dkim=pass (2048-bit key) header.d=manguebit.org header.i=@manguebit.org header.b=T5iFyj70; arc=none smtp.client-ip=143.255.12.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manguebit.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manguebit.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eyZUiWWI"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-35da9c0c007so5141877a91.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 07 Apr 2026 12:20:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775589618; cv=none;
-        d=google.com; s=arc-20240605;
-        b=RUM1y/Y33qnjxbEdhE5nIxug8+lc9rlj30yZixThnNivvhjeYxP2ZHPpuKe6Gp0McK
-         P8O49bGG94K+KynhzhL3zv8AhXO/xeg0XeGzoGyzHRrk9Ah3Fcundoqkj7Jx5f5YoLxc
-         8TrrkQsJNmPou84/gS7eDPTN2gRj0REeVjCnmevEP5yp4fGTAcLYWtXMdzV0cOeTAXkU
-         dt6eET8pEuTkuU8s+Ogiiz7/iBvWb6wJHCrnB2tsbc8qXMB/NgkUjWnsPT3aGA6+Ht47
-         5P60cD9FT0gJ+4beaxmweWy743g5EWu7CoiCxbWmDDF9Vv51EbPa6yDU32TKtJOFUuz3
-         Frzw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=LvCMx9MBtYrViWX1Qz0ZJHbJw9R+8QQ6ywXBNqXTjw0=;
-        fh=2nprXNvAeenvj6gVu48g5jycxJLGOEXeJfEE/D74kms=;
-        b=k511pNqmdd2eSqlNQeNo3k+kbQskHcsW7mWWW0KUrIetTmapDHJJRosh2kVnz5nIeu
-         XfbQBL3xcMxd3u2AITBlAXfR3dtu6rnEddjBpJhSgb/3lgCR9vvDx4JLACa+1MaX5h/l
-         WQKAx1m+80f4BOrNOdB+r0Qo5TabMc02mCoDELRb2qqEtZMWhmPmNagQXbKItTlPChFi
-         f+b9wfzSYYwNUjdXBOQVj6UCPKhwgaEwRnozrgPGPqHz1yTOR/Nh3Hu77yGMqyKf0b9C
-         GHxumoLKfQyCVjpfFS9f6GPvXCZIjn+/Uf9U/57zZxOWNFi4apGQaiCMKSTFl0TguoTL
-         uipg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775589618; x=1776194418; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LvCMx9MBtYrViWX1Qz0ZJHbJw9R+8QQ6ywXBNqXTjw0=;
-        b=eyZUiWWILQVMtoM7LN+je344gEOI2bb+oTPGGw49fR/pLvre5XwIY3Y0OQq9XQlglO
-         v7pGURmjkXPNSZujNTn/TSK1p3EfZ/5/ErzUyGBS8vgxDCfTWo2s7mBUKa7HRTzS4mZD
-         mSGaa+mqRr4mLpoltEgg53+qacArS0qWR0T6VJl1GsbYJRLQal2fit2uyn2S6BBWurER
-         dl7wceAy/RmA6U3CKIUbd+We8HdJbAsRml8wBQpatHpRcpBJwpwMU2h4gY9rF5Tpo8My
-         FeXEc/FKtXPEp+Sp+foOWr+lrurKCZtmaOIbqepRdcZN2SZ9n0VdOOPEOdLrT9IB7QBy
-         WkFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775589618; x=1776194418;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=LvCMx9MBtYrViWX1Qz0ZJHbJw9R+8QQ6ywXBNqXTjw0=;
-        b=q5TdwEyfsBc4EEGdNlSgrHjtWr/wgnaJBnpR4dj86qlc9iGipJsZuOgpNVBgUhuLdr
-         x1yMYZ3ZU3FdWB/Gca4yAFkKhbjcchyYGq3XBNTvyV0RDHTNaEsedaGeCJaMS7TVVVLn
-         Fqu69iiXD0h54Z8uS/suGGOK+ea4zaNOZfCLmvtoZAXKvHERm+/tDoGLgDpYbobN0wv4
-         I9/Jh98bpLBZ8GA/zq0gStRAAptfBGMP8v9dHb1nUoL2LB4icksddyWBcuJnLhjih7Y4
-         Ai7EE+yFObqsmAOPSB0lQp32jRZqmHz8w8CuHy8z6CEBL6JJfNrFyBzyjBo9J3+B6mkl
-         CJJg==
-X-Forwarded-Encrypted: i=1; AJvYcCXxhRzHuf04FU6cJjfYi94hMFp7gQszgHeBnbI3p8n8aqMZaAwbH7d5zAVkunIA0/LC59IVpC9MuIaC5RFy@vger.kernel.org
-X-Gm-Message-State: AOJu0YyMPYKk1dI0D92Agz9I239+HNKCDllrlK657yw0mPokq0EiBkTc
-	QxgSZoTDlDh1+PzfLt9jqNpf8z4OQfGKUSmk3pnBewW+pOmkH9U7Vlhd5IsnrR2XvtBoXieAGSH
-	vnLTRVTm7rn1JJogaCji8yrKw0sbUCqQ=
-X-Gm-Gg: AeBDiesaQMPNPIXCRw+D6eG9BURvirKqu4KjmEaZJMgdgFd/N2w4ZkFjJvo/X/YB6ZN
-	D7nAS3bBvnKMoWQaoo8DN1WAi3DVNJRt27qRnE0NYWWICdQX4Wa1geGwguxAXglJ9wvKhx/XF3Q
-	f0kqNfjcIb/i06gew1IpPF0Mr9Ff+hRu6U/XE4eMeJA3Ka4UMFVInjLeFEk49mnWtTV7wUAfqI0
-	7G3XlOgBfc1IfunkAZZ/pLP/3fPKn7/HgfJQLbYhcPguFM6rTUrYoMb3eG13cViE8+mO+3c5LgV
-	kEkVYvA=
-X-Received: by 2002:a17:90b:3d4d:b0:35b:aca5:db39 with SMTP id
- 98e67ed59e1d1-35de67ee6bemr17005316a91.9.1775589618190; Tue, 07 Apr 2026
- 12:20:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=manguebit.org header.i=@manguebit.org header.b="T5iFyj70"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=manguebit.org; s=dkim; h=Content-Transfer-Encoding:MIME-Version:Message-ID:
+	Date:Subject:Cc:To:From:Sender:Content-Type:Reply-To:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=4Y8VJQhGsF/Hd1EvGb/OXRJwwnmkJ5iC1sxZAxQl2tY=; b=T5iFyj70TYpQP+beUlq4RpQBXn
+	GVcWtlNx/T7SymP1mMAJRaImnqW6K8DoGprmDhRIcALrfCbSp9gCiD7tPvnsPYYKTnvoJgYUw0um7
+	2bFpl9l7PToicnkm0DiFNaxD89QACOUlAPkUX9tJq0dGNg3IpGAwoEcZnBjjkMhPWkLJrtJCv+rQv
+	COdoBdw85WOQdjC8TxsfdEa5h30MgQtUEzurDSxDiaD5MPVzNvpGH2cE+5JmoupM8UR+QJ107K4sl
+	cSVgi4DAQm1JcjqS/gRfBYHfibBnEgEMOXe5csFw4VuMu9zZc2SAQZ+KZInai9+x/oshFTDOHUdr3
+	Ukj0BIGg==;
+Received: from pc by mx1.manguebit.org with local (Exim 4.99.1)
+	id 1wACYs-00000002NG1-3s0W;
+	Tue, 07 Apr 2026 16:58:10 -0300
+From: Paulo Alcantara <pc@manguebit.org>
+To: viro@zeniv.linux.org.uk,
+	smfrench@gmail.com
+Cc: "Paulo Alcantara (Red Hat)" <pc@manguebit.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	David Howells <dhowells@redhat.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	linux-fsdevel@vger.kernel.org,
+	linux-cifs@vger.kernel.org
+Subject: [PATCH v2 1/2] vfs: introduce d_mark_tmpfile_name()
+Date: Tue,  7 Apr 2026 16:58:09 -0300
+Message-ID: <20260407195810.993862-1-pc@manguebit.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260403030848.731867-5-paul@paul-moore.com> <20260403030848.731867-8-paul@paul-moore.com>
- <CAEjxPJ4nqeuPhve3Fe-tFuNW9R5grnWwfYJv7q2cRu+UPQ5c4A@mail.gmail.com> <CAHC9VhQnA38-9wDeVmOMxAFPHnd9y6x5LXtD3cSquGiL_MDDpA@mail.gmail.com>
-In-Reply-To: <CAHC9VhQnA38-9wDeVmOMxAFPHnd9y6x5LXtD3cSquGiL_MDDpA@mail.gmail.com>
-From: Stephen Smalley <stephen.smalley.work@gmail.com>
-Date: Tue, 7 Apr 2026 15:20:06 -0400
-X-Gm-Features: AQROBzC7o3Va4ubfSL9DMqzx-1hfP9_BswdLqwBtMsXc3haoHViWO4Xh57-I6OU
-Message-ID: <CAEjxPJ62=0v9QYJ6s0DrwRp4WZna8f9wnuM_DUUNrcz2dd_kog@mail.gmail.com>
-Subject: Re: [PATCH v4 3/3] selinux: fix overlayfs mmap() and mprotect()
- access checks
-To: Paul Moore <paul@paul-moore.com>
-Cc: Ondrej Mosnacek <omosnace@redhat.com>, linux-security-module@vger.kernel.org, 
-	selinux@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-unionfs@vger.kernel.org, linux-erofs@lists.ozlabs.org, 
-	Amir Goldstein <amir73il@gmail.com>, Gao Xiang <xiang@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 7, 2026 at 10:35=E2=80=AFAM Paul Moore <paul@paul-moore.com> wr=
-ote:
->
-> On Tue, Apr 7, 2026 at 8:14=E2=80=AFAM Stephen Smalley
-> <stephen.smalley.work@gmail.com> wrote:
-> > On Thu, Apr 2, 2026 at 11:09=E2=80=AFPM Paul Moore <paul@paul-moore.com=
-> wrote:
-> > >
-> > > The existing SELinux security model for overlayfs is to allow access =
-if
-> > > the current task is able to access the top level file (the "user" fil=
-e)
-> > > and the mounter's credentials are sufficient to access the lower
-> > > level file (the "backing" file).  Unfortunately, the current code doe=
-s
-> > > not properly enforce these access controls for both mmap() and mprote=
-ct()
-> > > operations on overlayfs filesystems.
-> > >
-> > > This patch makes use of the newly created security_mmap_backing_file(=
-)
-> > > LSM hook to provide the missing backing file enforcement for mmap()
-> > > operations, and leverages the backing file API and new LSM blob to
-> > > provide the necessary information to properly enforce the mprotect()
-> > > access controls.
-> > >
-> > > Cc: stable@vger.kernel.org
-> > > Signed-off-by: Paul Moore <paul@paul-moore.com>
-> >
-> > Do you have tests for these changes showing the before and after (i.e.
-> > failing without your patches, passing with them)? I tried running an
-> > earlier set from Ondrej but they failed.
->
-> A few months ago I sent you and Ondrej some feedback on those early
-> tests from Ondrej, but yes, I also had problems with Ondrej's tests.
-> I've been using a hacked up combination of the existing tests, some of
-> Ondrej's additions, and an additional debug/test patch to ensure the
-> labeling is correct.  It's far from ideal, but I didn't invest time in
-> test development as I assumed Ondrej would continue his efforts there
-> (unfortunately it doesn't appear that he has?), and I wanted to focus
-> on getting a solution as soon as possible for obvious reasons.
+CIFS requires O_TMPFILE dentries to have names of newly created
+delete-on-close files in the server so it can build full pathnames
+from the root of the share when performing operations on them.
 
-Ok, I'm happy to look at even unpolished tests - just want something I
-can use to exercise the before and after states.
+Suggested-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Paulo Alcantara (Red Hat) <pc@manguebit.org>
+Cc: Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>
+Cc: David Howells <dhowells@redhat.com>
+Cc: Matthew Wilcox <willy@infradead.org>
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-cifs@vger.kernel.org
+---
+v1 -> v2:
+  * fix BUG_ON() usage (willy)
+
+ fs/dcache.c            | 19 +++++++++++++++++++
+ include/linux/dcache.h |  1 +
+ 2 files changed, 20 insertions(+)
+
+diff --git a/fs/dcache.c b/fs/dcache.c
+index 7ba1801d8132..fcd5a40cce94 100644
+--- a/fs/dcache.c
++++ b/fs/dcache.c
+@@ -3196,6 +3196,25 @@ void d_mark_tmpfile(struct file *file, struct inode *inode)
+ }
+ EXPORT_SYMBOL(d_mark_tmpfile);
+ 
++void d_mark_tmpfile_name(struct file *file, const struct qstr *name)
++{
++	struct dentry *dentry = file->f_path.dentry;
++	char *dname = dentry->d_shortname.string;
++
++	BUG_ON(dname_external(dentry));
++	BUG_ON(d_really_is_positive(dentry));
++	BUG_ON(!d_unlinked(dentry));
++	BUG_ON(name->len > DNAME_INLINE_LEN - 1);
++	spin_lock(&dentry->d_parent->d_lock);
++	spin_lock_nested(&dentry->d_lock, DENTRY_D_LOCK_NESTED);
++	dentry->__d_name.len = name->len;
++	memcpy(dname, name->name, name->len);
++	dname[name->len] = '\0';
++	spin_unlock(&dentry->d_lock);
++	spin_unlock(&dentry->d_parent->d_lock);
++}
++EXPORT_SYMBOL(d_mark_tmpfile_name);
++
+ void d_tmpfile(struct file *file, struct inode *inode)
+ {
+ 	struct dentry *dentry = file->f_path.dentry;
+diff --git a/include/linux/dcache.h b/include/linux/dcache.h
+index 898c60d21c92..f60819dcfebd 100644
+--- a/include/linux/dcache.h
++++ b/include/linux/dcache.h
+@@ -264,6 +264,7 @@ extern void d_invalidate(struct dentry *);
+ extern struct dentry * d_make_root(struct inode *);
+ 
+ extern void d_mark_tmpfile(struct file *, struct inode *);
++void d_mark_tmpfile_name(struct file *file, const struct qstr *name);
+ extern void d_tmpfile(struct file *, struct inode *);
+ 
+ extern struct dentry *d_find_alias(struct inode *);
+-- 
+2.53.0
+
