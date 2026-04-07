@@ -1,133 +1,117 @@
-Received: from mail-yx1-f45.google.com (mail-yx1-f45.google.com [74.125.224.45])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20FA438BF94
-	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Apr 2026 20:02:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775592179; cv=none; b=pb5f/mQrZFCiFq18lGbEdNjMNre7waJ55Vc1V1hYBGpMFtkFlr2xB6cBRxZ8Lo05NQn/FqGUzrg8oahyln0/vabacspT/qZ+hBPhvdF43JxsZ6KrKos4tUlVL/sC5PtOe5ZweA89KtGf/3+owSp0m0wFQjrqzu6Qw+RKAfCvKPk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775592179; c=relaxed/simple;
-	bh=CQEDiS2TgsP2GNu6TF8JkrnFYM0eCP/VH66tqdE1J8A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Skuk9lII+CMqxXZSgUYWk6xsO+A7//vt+v5+a5yTsHMgF8b5eEe7N3/7CIxZ+wOmcFl0q1DUCYCTYsfcv3k7OH2YTOmVC/CwYe/W1TcJkO5z/ytwyRVr2AnUszOQwzXk0RwhI9+x3+lSXQU5ylUPUKpLrSCKx5GaAfhBgNl9e0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lm/oF6qO; arc=none smtp.client-ip=74.125.224.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CD6435CB60
+	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Apr 2026 20:19:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775593196; cv=pass; b=rUB2uRkTT3LSxRfZeQNKm2ETKa5wo7dX6T9ki2zfV6z/nPTPVuhue7fxMlb7XfUJsPH6kqf2KXKxFfkMZ5wfv830AtFj96G0SuVjSinzI9ATZmf/9gANQWJSD4jGxXoxZpGwfUx1muWHV+Siklw3XnoKJm/3FEZSjkGVkq9fEa8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775593196; c=relaxed/simple;
+	bh=cIcwh02YeJrScNHPq9X6XdHj5CJSHTdteY/DkuKKTzM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AuCwcT4cwjgxMLDzpjDvRsAE33FfUKo1m2Bxu09qMM1V5KjtIuXCa8JibdhjT5GzTWDNZAa7YptlALL3j9AWloWwzwDZiacj2DwKOITWHbBbHMa0Lpeb1AfvKPBPhhlAE2GMt0QHasz3w2i9Ao5yQc1c8PLSAGnUc02+e0QsVMQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=CJzTthZs; arc=pass smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lm/oF6qO"
-Received: by mail-yx1-f45.google.com with SMTP id 956f58d0204a3-64e87a81639so5306865d50.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 07 Apr 2026 13:02:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="CJzTthZs"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-65c4152313fso7153904a12.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 07 Apr 2026 13:19:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775593192; cv=none;
+        d=google.com; s=arc-20240605;
+        b=YruEWyUKKdGA9ysoGV9qNqcUPhdiuW7Vdb+p79xpDHGNEYa6LLcnubIw1QtJwXQvXO
+         piqQeorAfXRD3YHs0cqLyqrV03IUyqzSqCjzg99NzU7xArfPKQgWl+bPWRonT2gzmwNP
+         tHqc8TPbdFiJmOI8hKOzSwGTGQdMb2SlAkDDWalUzWlEOA+ox3qZpTkX4p0VJV6OQmJE
+         tMOGfKdZXuADaWAA+AdM2RodcxZsESxMEMtilkbw7Ivi7WWYEjWSoFX30swbG3NoH2DI
+         sPugu5xqfd6pKT3QS9Jkd4fI2LdM1jS+Zld4KQJ+cT5o5OUf/XHrpQoNkSEsS/hWmU3y
+         SiUA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=5F/h7KugE6fbvjgPOHVFnVDYl0H2cgQ8aKqNXa/3w5M=;
+        fh=r/7Ft+lb+0m6rxSPaQrK+Ehu5TPwWjvHbKL+zl5Gp5U=;
+        b=Aln+aHTuwkxzv05oAhyLFnUY8ftawMCTRntBLnLdoYMhFb0HO2PcVob/2HCbM8cWEb
+         wqaYPQngjp35IJOA2OldKxuhUC77bqnsQnmi7Pet+NOJJxfU/nKaAthGHeKrUbhGShzo
+         KXsWUYOj6hN9Z034xeW7kpLU0hXDVHxcemacZfLMbBOkra9EcOoNKy+yUtl0PlBMuO3G
+         iPJJu4vrSNWQ9lDgNd2sfYGKXkbaoP7Edesw2E9rD+o969CLXTq0pUldja46TxLHNZM/
+         FLHNIvbPn4Xto4kKdymP3QioPn3MfAgbqoCdQI7lQjsdWJECLQFhRYUfOH7DMobSiujQ
+         CPBw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775592177; x=1776196977; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=google.com; s=20251104; t=1775593192; x=1776197992; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LyM2suN7bPTp8NTdaz9bJElLdCWwHCAj6iPO64WmYnE=;
-        b=lm/oF6qOeSt/15txSjsWr2gkJjUBKhdnHWOqVt/srE2EK/JVMQ27Y9GGzBoQ0qn8Ck
-         MlGIgXprHTTUYJlDQf8V/yteTUnOFuXs/Pz9DDBeJYKgw3lyeI0KBkcVqynFUpu+cIj4
-         +a4LXik4KkHSC+FrXnR0/Wzm968DEYqXrsZzG0YIO3Mgk7kjpXdxTMkJOW5VThzP5pOX
-         ww1ELGearTZAOgR+xP5Of7ZMDHpez/ai66oFTgeTxWE8Ag3akHrp0+Rfq05deA9PyJKf
-         nXbPAenQlLFjQQheFYqahD6Eqq9roDFWqzGyob0Nrs0OV9xyb/HcB1aalpOSyMkgeT0e
-         ZNiA==
+        bh=5F/h7KugE6fbvjgPOHVFnVDYl0H2cgQ8aKqNXa/3w5M=;
+        b=CJzTthZsicvaYDSAqkcV9esA41ipyUSssZax+j3EkI1EusdOVdTk9qmMP3ZzxAbQuP
+         arOlA2tVispXM08ee3P5K0LEmZ6LQJYeGm1H07kM9LjI3G7z3U6hPr9qJHiOaZGP0SsR
+         voGK5gPMRC30sJqeTD3NbBmDebq4g+riI5vNQrtAXXDwjeb4h8Kb48AB12zNQWRlDVtY
+         d8XfTBe20778fIJlFgsjRsiKCfCXKrEbEjY7REIHFBfzwP06DnJa531yrNZXd0hjzI/X
+         KC9h/NRDvcU8OrhRRpsFc5jKWCTfO1jCYTUSRwFfkPBafMGBHwZF+71iF/u2uJVvFffp
+         rTuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775592177; x=1776196977;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1775593192; x=1776197992;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=LyM2suN7bPTp8NTdaz9bJElLdCWwHCAj6iPO64WmYnE=;
-        b=pr7LTXsencdDYnwR0WGKPcBGj805W0UGoxc9fp/LoSa0oF7qoN4eA1ztNe+exVCV51
-         R3aH1YSx7wEpflitCULrdaUQpbJO1WHbD6swbLoMaPwcjQUFCP7VCoCDe000KJ36cUPs
-         rDiFTBdtZvGE2t6mibnBPajUNt85Pw9H8jUa5LrW1TIAwcuU/sTq6IBCoGA1RSs7hZw5
-         vrWFTLgLPklgItcytj4FlHtDPfQ/dmkXOCJOTGPK473OzhtfgBWpr8nfcWKWBBc+rfh8
-         H5k4FlwUybynfuiIZWPdjzrC4outHkmmwaaq2M0PcfGoIiweO591WwmB0EnQaeB6h3+D
-         Z87w==
-X-Forwarded-Encrypted: i=1; AJvYcCX2FFtntta+fUBwpn119Rn5MdxaBH6HVTyERnLriD7IpB4SFDEdeQ9W0odiNa+nJMTX+GwfVkzUldQJpm5i@vger.kernel.org
-X-Gm-Message-State: AOJu0YzsBAATJWTVDDZWJx1z9+VmsI+maoqDZv8VAw2RBcHrKFtb1wg5
-	m3gzGtvxRIJ22YU3XsG70rUT4d6PHtHsuekcu1kBwIGRpra/M4tTEscj
-X-Gm-Gg: AeBDiet4FTJoWNmAbzXUfoR8D5boxyeGxJ7Qk+frIyOAXnhp7mIKv0CcAWkoA5fusB6
-	ZekbPROfysQKEi0VdKF7VBrDa5Bymw+qAlCIB2ElMShIMQeUGgQ/pYSYB2UW3Iq6fQFm1TGDu6q
-	UdNBVJZTeAiFZzV7peaJBhomf+vC1SL/7o/AlsMaBGE4s0FdV5cLe17VPMGcl3San1uZSSMP8HX
-	FHOMI6LXcC180KGDc/ADs478cjLJwEsADOVq/dlLONUVwhoZg7NZFre3Rf9BlAmNFGkPNQKz6lu
-	dxrFb/ciNjAsgOf22Kvs9OsnmKtmsC7FNMVTa9HO1w4VIrfxeIDqZPsbhzGlUd5M6tj1LvEchtb
-	e8YYPA+m5iS3hXzycAZnouVNoN0RXQ12aN2inClZTBjRpGGovmkTy7vl25IejUwEY1zLJfuC/j0
-	W51Vv/Ec9lhYYFMwADu4tozd7pJo4gVmamHjpXZR5PVVTAVY10jqBx3W+EfiTqNCMDuf9b3BdQ
-X-Received: by 2002:a05:690e:bc9:b0:650:7846:f326 with SMTP id 956f58d0204a3-6507846f3bamr5830968d50.51.1775592177087;
-        Tue, 07 Apr 2026 13:02:57 -0700 (PDT)
-Received: from zenbox.prizrak.me ([2600:1700:18fb:6011:92f8:8594:e84e:1d9a])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6503a828f3csm8354078d50.3.2026.04.07.13.02.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Apr 2026 13:02:56 -0700 (PDT)
-From: Justin Suess <utilityemal77@gmail.com>
-To: ast@kernel.org,
-	daniel@iogearbox.net,
-	andrii@kernel.org,
-	kpsingh@kernel.org,
-	paul@paul-moore.com,
-	mic@digikod.net,
-	viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	kees@kernel.org
-Cc: gnoack@google.com,
-	jack@suse.cz,
-	jmorris@namei.org,
-	serge@hallyn.com,
-	song@kernel.org,
-	yonghong.song@linux.dev,
-	martin.lau@linux.dev,
-	m@maowtm.org,
-	eddyz87@gmail.com,
-	john.fastabend@gmail.com,
-	sdf@fomichev.me,
-	skhan@linuxfoundation.org,
-	bpf@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	Justin Suess <utilityemal77@gmail.com>
-Subject: [RFC PATCH 20/20] MAINTAINERS: update entry for the Landlock subsystem
-Date: Tue,  7 Apr 2026 16:01:42 -0400
-Message-ID: <20260407200157.3874806-21-utilityemal77@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260407200157.3874806-1-utilityemal77@gmail.com>
-References: <20260407200157.3874806-1-utilityemal77@gmail.com>
+        bh=5F/h7KugE6fbvjgPOHVFnVDYl0H2cgQ8aKqNXa/3w5M=;
+        b=sf4uJJthQ4U3xluhRORdMEabU6HwKG7Kkg4ZjQEE0q8oYaklncgFCgHaxKYzH0PUiF
+         ELiVI1/+zm7pj8Rkco0JmgpsvbHqkw+eTc8z6CVSXU7LaBRNg8GioXaVk7SvyzrXUEhw
+         ceQtT6aM2YPPSShfyAY9kDzEA7j3qZsiEEMI5Q3cY6DesLBwIZ15RDNC5qJVVt8ZoKb/
+         JHO+h7QQiGpDqTP1dAwS2b0wcrHrZCGgbA0aBotG5M73VKH9i2sy0HLlKcm3fEcdFyvo
+         ykU6HYfNpHP/5AcF4Mzo7f844Y3JRt5bg7jDOR8Uo8foDrJplxEyM/5FurWvn8yrpwN4
+         mWBw==
+X-Forwarded-Encrypted: i=1; AJvYcCWupCDsjq6Ynp/j1oxGub/joPkL0t2wTVipR2kpx8YzBLWSL2OlI3hRvB8vvYzUz8Am9RGDjBVsKrmVLYdt@vger.kernel.org
+X-Gm-Message-State: AOJu0YynhTXfZfJn/z3202G9xu8k2xBU4q+CnvNrF2E6WORGzvqkm6/h
+	ayLdkddc86OhsXQuOKbILUQWGH1OAlJeuzzvAyERZCVO3P3n9HWH2220b7YjcK9l7TygncazrQr
+	J2idsrEZIwWK6d/4hJbah0Ekwnd64ei9YeMvcJ6M=
+X-Gm-Gg: AeBDievme1itk+b2zm6L1UpLylKrBX3NjMtp+6nGgzxIorJBkri/FOJPRJY5MAjTQX6
+	0GoT+4sBVS/ktBQdPW1FZYJ9uScSRKrcszgjNYpmgiTY1kBL1ncM8qMgfsNIo6EBFc8qel11dRI
+	msVFQZ5MT2JsLosJFxt7fZZLQxK8Negdtoc9pzx2WAoUWYddhX5UY7nhOousAw7nF+z9lZzeXOZ
+	rHMLxBxLME7QePGjaaAvoE1I34U/F/7BTSQkQM2Bm7PZwWfKxKT6vAa1eGF2VAbuhFz0IAf8z1h
+	TFo1dBY1z+Z2ZzBV1ilF/L0rBDI8WvuI6JkU
+X-Received: by 2002:a17:907:3e99:b0:b97:7d03:68c1 with SMTP id
+ a640c23a62f3a-b9c67957b45mr816891966b.30.1775593192032; Tue, 07 Apr 2026
+ 13:19:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260407083219.478203185@kernel.org> <20260407083248.035227538@kernel.org>
+In-Reply-To: <20260407083248.035227538@kernel.org>
+From: John Stultz <jstultz@google.com>
+Date: Tue, 7 Apr 2026 13:19:39 -0700
+X-Gm-Features: AQROBzB5Kk-9wmWuv1ZegtmjY7I9xuAgB8C2jMw495vm72Eo-cG6s6UJbujlAjQ
+Message-ID: <CANDhNCp9TRWAF1EHQAcFHLv3eRusVycTrNDk=UFpzg0oTBjQyQ@mail.gmail.com>
+Subject: Re: [patch 08/12] alarmtimer: Convert posix timer functions to alarmtimer_start()
+To: Thomas Gleixner <tglx@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
+	Calvin Owens <calvin@wbinvd.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Anna-Maria Behnsen <anna-maria@linutronix.de>, Frederic Weisbecker <frederic@kernel.org>, 
+	Ingo Molnar <mingo@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	Sebastian Reichel <sre@kernel.org>, linux-pm@vger.kernel.org, 
+	Pablo Neira Ayuso <pablo@netfilter.org>, Florian Westphal <fw@strlen.de>, Phil Sutter <phil@nwl.cc>, 
+	netfilter-devel@vger.kernel.org, coreteam@netfilter.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Update the maintainers file to reflect the new selftest files,
-cross-subsystem, documentation, and kernel-internal Landlock headers.
+On Tue, Apr 7, 2026 at 1:54=E2=80=AFAM Thomas Gleixner <tglx@kernel.org> wr=
+ote:
+>
+> Use the new alarmtimer_start() for arming and rearming posix interval
+> timers and for clock_nanosleep() so that already expired timers do not go
+> through the full timer interrupt cycle.
+>
+> Signed-off-by: Thomas Gleixner <tglx@kernel.org>
+> Cc: John Stultz <jstultz@google.com>
+> Cc: Stephen Boyd <sboyd@kernel.org>
+> ---
+>  kernel/time/alarmtimer.c |   20 +++++++++++++-------
+>  1 file changed, 13 insertions(+), 7 deletions(-)
 
-Signed-off-by: Justin Suess <utilityemal77@gmail.com>
----
- MAINTAINERS | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c3fe46d7c4bc..e9ad2ed1237a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14386,12 +14386,16 @@ S:	Supported
- W:	https://landlock.io
- T:	git https://git.kernel.org/pub/scm/linux/kernel/git/mic/linux.git
- F:	Documentation/admin-guide/LSM/landlock.rst
-+F:	Documentation/bpf/map_landlock_ruleset.rst
- F:	Documentation/security/landlock.rst
- F:	Documentation/userspace-api/landlock.rst
- F:	fs/ioctl.c
-+F:	include/linux/landlock.h
- F:	include/uapi/linux/landlock.h
- F:	samples/landlock/
- F:	security/landlock/
-+F:	tools/testing/selftests/bpf/prog_tests/landlock_kfuncs.c
-+F:	tools/testing/selftests/bpf/progs/landlock_kfuncs.c
- F:	tools/testing/selftests/landlock/
- K:	landlock
- K:	LANDLOCK
--- 
-2.53.0
-
+Acked-by: John Stultz <jstultz@google.com>
