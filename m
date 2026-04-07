@@ -1,177 +1,168 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E93F36F43A;
-	Tue,  7 Apr 2026 15:23:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-oo1-f79.google.com (mail-oo1-f79.google.com [209.85.161.79])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABCEB3BE147
+	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Apr 2026 15:30:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.79
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775575424; cv=none; b=I+9qwHnwGOQtnY+qPE2Cv3qC4k3z5AmCDMpmV8W4NBYuZzBLFDm08qMncg1EpV8c5kEfMDkc8gjkQWu3qFxn2uQoY6KbXSWHSzduUVn6GwcW4ne82cK+BGTsgZYBa4Zwi2/mBs8EeSxJpLOLC/1qtsQPWC+TZKY69ZrzC43rgHI=
+	t=1775575846; cv=none; b=Q/VRUKr89KDP8EWQIlnvwVEKEDiVVaSWVFuPH7mMdQ9FJY3SbCrDOo/phJ5pohX4dHkIMcdkazdPQ2gt7dfxMK0G2BJXOdkfJchmPNOuYAr235Kozl5a34zG69eSTH3qZPRR8Omvk2o46thrRR8U5gs3UMDG8OBJYq3uICJG1cU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775575424; c=relaxed/simple;
-	bh=S0KhfM4isL6DUfK/OM+IpENXf/XOYoUfgu5TX4otGBs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pERR4CBKHpsHlnCBeIBPEcPxMdrkX74rBwkoJgq4dHr3OqkwpRT3XZSgCZr1nC19Hnd5Bnx0PfKNxdBSuoBxHcmAr5QLdAx2Xez/OkbFa2cDt4KQ2eqYBbB6mtPkYdhZ04s+GMP7zSzWG5oXbBHJLunHPaN8su1ekD0PfZoSQOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=aefdV1zd; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="aefdV1zd"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C09181BB2;
-	Tue,  7 Apr 2026 08:23:29 -0700 (PDT)
-Received: from J2N7QTR9R3 (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A3BC63F7D8;
-	Tue,  7 Apr 2026 08:23:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1775575415; bh=S0KhfM4isL6DUfK/OM+IpENXf/XOYoUfgu5TX4otGBs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aefdV1zd4eTc7MvgGtSzxJ6u6nyn6CMFJ8DD0XRkLGfrY33iY2FOoNFww6iazNtBn
-	 wAhikLlDca2j5pDfe4SJfzH1oEwvG3WfHMJS7FKe4QHJTXCAI4y0AQpcswcWdV1YHG
-	 NydN8l/eOnj3UHguIO+FYOOEcR/l3ipZzrQCTm5g=
-Date: Tue, 7 Apr 2026 16:23:26 +0100
-From: Mark Rutland <mark.rutland@arm.com>
-To: Andrei Vagin <avagin@google.com>
-Cc: Will Deacon <will@kernel.org>, Kees Cook <kees@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Cyrill Gorcunov <gorcunov@gmail.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Alexander Mikhalitsyn <alexander@mihalicyn.com>,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org, criu@lists.linux.dev,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Chen Ridong <chenridong@huawei.com>,
-	Christian Brauner <brauner@kernel.org>,
-	David Hildenbrand <david@kernel.org>,
-	Eric Biederman <ebiederm@xmission.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Michal Koutny <mkoutny@suse.com>,
-	Alexander Mikhalitsyn <aleksandr.mikhalitsyn@futurfusion.io>,
-	Linux API <linux-api@vger.kernel.org>
-Subject: Re: [PATCH 1/4] exec: inherit HWCAPs from the parent process
-Message-ID: <adUhbk0sKT0ucWhJ@J2N7QTR9R3>
-References: <20260323175340.3361311-1-avagin@google.com>
- <20260323175340.3361311-2-avagin@google.com>
- <acGEonF9I6sPA42B@J2N7QTR9R3.cambridge.arm.com>
- <acJnOB-rlyt-3jU4@willie-the-truck>
- <CAEWA0a7iR8YHooqXJfhersV6YhAXGMZDUhib3QQH5XGn=KNowA@mail.gmail.com>
- <acarA3sGKY4Acozw@J2N7QTR9R3.cambridge.arm.com>
- <CAEWA0a7AZiuy1F+0LDxtEtJpdu=zA-RKhPb1wcDMpy2tSMFO5g@mail.gmail.com>
+	s=arc-20240116; t=1775575846; c=relaxed/simple;
+	bh=sKpR4Y9doamF2RcA2DBuhBTQEfi2QpsVVkizlHY+1Gw=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=c0/HPVBWaG7G+iQqzTggrJ5x3e/17cunRuDR38RidAcMYdnuKXFUu5wRFP66TrOJ4BDHOS9O8PN2H9c7R+isViJPilzJb8paoWIM+XhmWtd+1VBwMzH0RCBtwX4e2523pKBTIfwcjp32b+6Ijk+OmFKFHSlOCZeLNu9ydT1sDiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f79.google.com with SMTP id 006d021491bc7-688b73cc616so485229eaf.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 07 Apr 2026 08:30:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775575830; x=1776180630;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TswUbMuxq7iLyPcrUrsO6SCuKSe2pAPcXo3/Ux/2lJ0=;
+        b=lezaS9CjejRDE1yr1FTW8hF840J2ywkHs4qs+eQ501uH9RDbyVnnj79ZxuA4V0Hksp
+         VmtkwnaTj8N400uTyJnsC/2s8R000xnykqMRGiARoFHL/ioTRai2jQi3eaaf1JtdgQLk
+         IBxvfAuTdYXt52RPgqZ0WR9ZRsFNIKAkVUKS26qs95gLCUq+rXhCsgCZDMxlxhL2FKc5
+         rluUtLfBDcs1X8J+i6B0Ruef4GYWdvA7oT7icJgkSsDzrn/OSAxoROht3cfFq612SGg6
+         T+GXm6Ct5xFbJLpRDC0sUDPrLu5eD649RP+ayMhUNl5RjS86kicDP0K4QcyL0EF8+a3X
+         aAmw==
+X-Gm-Message-State: AOJu0YwIn7toR+BmtAJ6z8fAsYausV3ITalwJjXRK7EC7cSc+ec4oEmC
+	5WX3x9I4BW4rrZWUzkroBvYL0GBPTTaUg7NNXqo5cXMRx1EZhGqzzg8LlaAQ+vBx/Fj9p6xB+/G
+	AZ//Fx9cRY9XOqFxTipmnJ+rL/9Wik0wlFWQtRTPziewQPwZyceUs0b8zB/w9mw==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAEWA0a7AZiuy1F+0LDxtEtJpdu=zA-RKhPb1wcDMpy2tSMFO5g@mail.gmail.com>
+X-Received: by 2002:a05:6820:c86:b0:688:c97d:bfa9 with SMTP id
+ 006d021491bc7-688c98d044cmr460071eaf.8.1775575830657; Tue, 07 Apr 2026
+ 08:30:30 -0700 (PDT)
+Date: Tue, 07 Apr 2026 08:30:30 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <69d52316.050a0220.28fc4.0000.GAE@google.com>
+Subject: [syzbot] [fuse?] linux-next test error: general protection fault in fuse_dev_alloc_install
+From: syzbot <syzbot+9b639ce94c265f1daf1f@syzkaller.appspotmail.com>
+To: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-next@vger.kernel.org, miklos@szeredi.hu, sfr@canb.auug.org.au, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Mar 27, 2026 at 05:21:26PM -0700, Andrei Vagin wrote:
-> Hi Mark,
-> 
-> I understand all these points and they are valid. However, as I
-> mentioned, we are not trying to introduce a mechanism that will strictly
-> enforce feature sets for every container. While we would like to have
-> that functionality, as you and will mentioned, it would require
-> substantially more complexity to address, and maintainers would unlikely
-> to pick up that complexity. 
+Hello,
 
-The crux of my complaint here is that unless you do that (to some
-degree), this is not going to work reliably, even with the constraints
-you outline.
+syzbot found the following issue on:
 
-Further, I disagree with your proposed solution of pushing more
-constraints onto userspace (to also consider HWCAPs as overriding other
-mechainsms, etc).
+HEAD commit:    f3e6330d7fe4 Add linux-next specific files for 20260407
+git tree:       linux-next
+console output: https://syzkaller.appspot.com/x/log.txt?x=12f15302580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=aaf410acb26eb1e9
+dashboard link: https://syzkaller.appspot.com/bug?extid=9b639ce94c265f1daf1f
+compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
 
-I think that as-is, the approach is flawed.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/49440d846e49/disk-f3e6330d.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/9eb3e67d6b50/vmlinux-f3e6330d.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/162aa16f318d/bzImage-f3e6330d.xz
 
-> Even masking ID registers on a per-container basis would introduce
-> extra complexity that could make architecture maintainers unhappy.
-> There were a few attempts to introduce container CPUID masking on
-> x86_64 in the past.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+9b639ce94c265f1daf1f@syzkaller.appspotmail.com
 
-> In CRIU, we are not aiming to handle every possible workload. Our goal
-> is to target workloads where developers are ready to cooperate and
-> willing to make adjustments to be C/R compatible. The goal here is to
-> provide developers with clear instructions on what they can do to ensure
-> their applications are C/R compatible. When I say "workloads", I mean
-> this in a broad sense. A container might pack a set of tools with
-> different runtimes (Go, Java, libc-based). All these runtimes should
-> detect only allowed features.
+Oops: general protection fault, probably for non-canonical address 0xdffffc0000000046: 0000 [#1] SMP KASAN PTI
+KASAN: null-ptr-deref in range [0x0000000000000230-0x0000000000000237]
+CPU: 0 UID: 0 PID: 6098 Comm: syz.0.243 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 03/18/2026
+RIP: 0010:fuse_dev_install fs/fuse/dev.c:493 [inline]
+RIP: 0010:fuse_dev_alloc_install+0x39/0x80 fs/fuse/dev.c:508
+Code: e8 bc f8 ff ff 48 89 c3 48 85 c0 74 47 e8 7f 57 7f fe 49 8d be 30 02 00 00 48 89 f8 48 c1 e8 03 48 b9 00 00 00 00 00 fc ff df <80> 3c 08 00 74 05 e8 6c 94 e9 fe 49 8b 96 30 02 00 00 49 c7 86 30
+RSP: 0018:ffffc90004977710 EFLAGS: 00010202
+RAX: 0000000000000046 RBX: ffff88802a4e8700 RCX: dffffc0000000000
+RDX: 0000000000000000 RSI: ffffffff8e3178fe RDI: 0000000000000230
+RBP: ffff888022375790 R08: ffffffff9074f1f7 R09: 1ffffffff20e9e3e
+R10: dffffc0000000000 R11: fffffbfff20e9e3f R12: ffff888028058840
+R13: ffff888028058810 R14: 0000000000000000 R15: ffff888028058800
+FS:  0000555594717500(0000) GS:ffff888124dd9000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fcdea32ba40 CR3: 0000000030fc2000 CR4: 00000000003526f0
+Call Trace:
+ <TASK>
+ cuse_channel_open+0x107/0x7c0 fs/fuse/cuse.c:524
+ misc_open+0x2d5/0x350 drivers/char/misc.c:163
+ chrdev_open+0x4cd/0x5e0 fs/char_dev.c:411
+ do_dentry_open+0x785/0x14e0 fs/open.c:947
+ vfs_open+0x3b/0x340 fs/open.c:1079
+ do_open fs/namei.c:4699 [inline]
+ path_openat+0x2e08/0x3860 fs/namei.c:4858
+ do_file_open+0x23e/0x4a0 fs/namei.c:4887
+ do_sys_openat2+0x113/0x200 fs/open.c:1364
+ do_sys_open fs/open.c:1370 [inline]
+ __do_sys_openat fs/open.c:1386 [inline]
+ __se_sys_openat fs/open.c:1381 [inline]
+ __x64_sys_openat+0x138/0x170 fs/open.c:1381
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x15f/0xf80 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fcdea39c819
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffc7d8d7b88 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
+RAX: ffffffffffffffda RBX: 00007fcdea615fa0 RCX: 00007fcdea39c819
+RDX: 0000000000000002 RSI: 0000200000000040 RDI: ffffffffffffff9c
+RBP: 00007fcdea432c91 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007fcdea615fac R14: 00007fcdea615fa0 R15: 00007fcdea615fa0
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:fuse_dev_install fs/fuse/dev.c:493 [inline]
+RIP: 0010:fuse_dev_alloc_install+0x39/0x80 fs/fuse/dev.c:508
+Code: e8 bc f8 ff ff 48 89 c3 48 85 c0 74 47 e8 7f 57 7f fe 49 8d be 30 02 00 00 48 89 f8 48 c1 e8 03 48 b9 00 00 00 00 00 fc ff df <80> 3c 08 00 74 05 e8 6c 94 e9 fe 49 8b 96 30 02 00 00 49 c7 86 30
+RSP: 0018:ffffc90004977710 EFLAGS: 00010202
+RAX: 0000000000000046 RBX: ffff88802a4e8700 RCX: dffffc0000000000
+RDX: 0000000000000000 RSI: ffffffff8e3178fe RDI: 0000000000000230
+RBP: ffff888022375790 R08: ffffffff9074f1f7 R09: 1ffffffff20e9e3e
+R10: dffffc0000000000 R11: fffffbfff20e9e3f R12: ffff888028058840
+R13: ffff888028058810 R14: 0000000000000000 R15: ffff888028058800
+FS:  0000555594717500(0000) GS:ffff888124dd9000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000056547c6ac660 CR3: 0000000030fc2000 CR4: 00000000003526f0
+----------------
+Code disassembly (best guess):
+   0:	e8 bc f8 ff ff       	call   0xfffff8c1
+   5:	48 89 c3             	mov    %rax,%rbx
+   8:	48 85 c0             	test   %rax,%rax
+   b:	74 47                	je     0x54
+   d:	e8 7f 57 7f fe       	call   0xfe7f5791
+  12:	49 8d be 30 02 00 00 	lea    0x230(%r14),%rdi
+  19:	48 89 f8             	mov    %rdi,%rax
+  1c:	48 c1 e8 03          	shr    $0x3,%rax
+  20:	48 b9 00 00 00 00 00 	movabs $0xdffffc0000000000,%rcx
+  27:	fc ff df
+* 2a:	80 3c 08 00          	cmpb   $0x0,(%rax,%rcx,1) <-- trapping instruction
+  2e:	74 05                	je     0x35
+  30:	e8 6c 94 e9 fe       	call   0xfee994a1
+  35:	49 8b 96 30 02 00 00 	mov    0x230(%r14),%rdx
+  3c:	49                   	rex.WB
+  3d:	c7                   	.byte 0xc7
+  3e:	86 30                	xchg   %dh,(%rax)
 
-I do not think that arbitrary applications (and libraries!) should have
-to pick up additional constraints that are unnecessary without CRIU,
-especially where that goes against deliberate design decisions (e.g.
-features in arm64's HINT instruction space, which are designed to be
-usable in fast paths WITHOUT needing explicit checks of things like
-HWCAPs). Note that those typically *do* have kernel controls.
 
-I think there's a much larger problem space than you anticipate, and
-adding an incomplete solution now is just going to introduce a
-maintenance burden.
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-> Returning to the subject of this patchset: this series extends the role
-> of hwcaps. With this change, we would establish that hwcaps is the
-> "source of truth" for which features an application can safely use. Any
-> other features available on the current CPU would not be guaranteed to
-> remain available after migration to another machine.
-> 
-> After this discussion, I found that the current version missed one major
-> thing: there should be a signal indicating that hwcaps must be used for
-> feature detection. Since we will need to integrate this interface into
-> libc, Go, and other runtimes, they definitely should not rely just on
-> hwcaps by default, especially in the early stages. This can be solved
-> via the prctl command.  Libraries like libc would call
-> prctl(PR_USER_HWCAP_ENABLED). If this returns true, the runtime knows
-> that only the features explicitly listed in hwcaps should be used.
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-I do not think we should be pushing that shape of constraint onto
-userspace.
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
-> You are right, the controlled feature set will be limited to features
-> the kernel knows about. And yes, we would need to report CPU features in
-> hwcaps even if the kernel isn't directly involved in handling them.
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
 
-To be clear, that is not what I am arguing.
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
 
-As I mentioned before, the way this works on arm64 is that the kernel
-only exposes what it is aware of, even in the ID regs accessible to
-userspace. We usually *can* hide features, and do that for cases of
-mismatched big.LITTLE, virtual machines, etc.
-
-> Honestly, I am not certain if this is the "right" interface for that,
-> and I would be happy to consider other ideas. I understand that these
-> hwcaps will not work right out of the box, but we need a way to solve
-> this problem. Having a centralized API for CPU/kernel feature detection
-> seems like the right direction.
-
-I think that for better or worse the approach you are tkaing here simply
-does not solve enough of the problem to actually be worthwhile.
-
-> As for signal frame size and extended states like SVE/SME, we aware
-> about this problem.  However, it is partly mitigated by the fact that if
-> an application does not use some features, those states are not placed
-> in the signal frame.
-
-That is not true. The kernel can and will create signal frames for
-architectural state that a task might never have touched.
-
-Generally arm64 creates signal frames for features when the feature
-*exists*, regardless of whether the task has actively manipulated the
-relevant state. For example, on systems with SVE a trivial SVE signal
-frame gets created even if a task only uses the FPSIMD registers, and on
-systms with SME a TPIDR2 signal frame gets created even if the task has
-never read/written TPIDR2.
-
-When restoring, an unrecognised signal frame is treated as invalid, and
-we can require that certain signal frames are present.
-
-> In the future, when we construct/reload a signal frame, we could look
-> at a process feature set for a process and generate a frame according
-> to those features...
-
-When you say 'we' here, are you talking about within the kernel, or
-within the userspace C/R mechanism?
-
-Mark.
+If you want to undo deduplication, reply with:
+#syz undup
