@@ -1,156 +1,137 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE3003947B5;
-	Tue,  7 Apr 2026 07:28:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F37253921DC
+	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Apr 2026 08:15:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775546939; cv=none; b=RfL8ggLvDWgw6NaLVzrCFpm5IAsmle6F5N/3JF3yeOv4ExpDJoP27A1d8/LBjBZ5aEhQ3ldIk0SUGl3xR/mAduUcVl5Vyfb9OdSxIf3d6zJgItoD1pJVr9Pl8oATNIYG+YUIyPtsHtuNYRZ5j/F+MvOSOpek0BSWDUQOCNXjJtA=
+	t=1775549748; cv=none; b=Q/UfD3JrYUHio8Ow6KlTaVjqOyiAqMnvkr54Q4lsHAbgpS5Of05iguNBgTy0gy950Vuciy/2dQBJSxJ4NRXFH4/FoxjcJIpYXmqSRr5f/rlYckYdBt8MOyx+5KJhltAmruggdc7mPk2niOgGi2/wQ6Yih2lUhkDvDmZi4Fk1IVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775546939; c=relaxed/simple;
-	bh=/jv/C01Vtyakr2bK5siV/tuQgn2hwB/xvnPsS9Zb8ok=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E2gPCtud96B3zQV7sNkw7zksUqws+z/v04NoCAJ0yMStD74lSQgWjRFmty8EbFXzQjsNmE3j08n7q1vQkDniVAkKa+BSG55fuZrwKwxHhEXDPxABwvPZzJh8EyeEz+zIPADDvIDzo1hprkdb1Yrtt94xlmkkuZwZgmc64i0qPBY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jvAqihuG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775549748; c=relaxed/simple;
+	bh=eFnrmkaYsDaEg7ewvUnJl+9i8q96Ga8QEXuMYTx4bxs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CBd4dHzuLBOTLGOZA2J/53c1A7uh9ladY22Xyx4pLsBh7Ix3wV6b6No4w5eyV03jwp2tUrhDQqv5I3iUZfZLRGuqAYsiNlLX8otfjH5pZ+RFjAwVFzc2fUUEIh3uIvtHWIK3RLKcPSD1vTUiOe/ZWJIbnRK8xP49cN6nNgV3i+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S5ci73Us; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jvAqihuG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09929C2BC9E;
-	Tue,  7 Apr 2026 07:28:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775546939;
-	bh=/jv/C01Vtyakr2bK5siV/tuQgn2hwB/xvnPsS9Zb8ok=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jvAqihuGBfnbimm7xAZaduLse6GUOq0qz1Ghv/5wAF3jOlKPPUApk+dQgXx5JP+mX
-	 1YbeaOKCSsUZUyknUOHZc9RF8yGIdOv3F4qYjFQf9gMosKeJoJDmkkpf7W12mSvHBy
-	 8yPBfMLX8gNyGSI1z/R1xVimB4sIbTDnv5dV8Q09y7mlD18NIvfnmHa+zyhlfVgsum
-	 ScflhdfI80cQmVG+7NvhRoPipXernlJ3ab2Np1aYXBZHE3MyBwMWTCvsTnYR+0HGaR
-	 JY0ODh4OAoLZdqfQHZB6FQVmk6qi8FfCkweW2nEPzJppXsdYc3Eh2q+Z2EapGwv0pC
-	 DBfstneVc3Gkg==
-Date: Tue, 7 Apr 2026 09:28:52 +0200
-From: Joel Granados <joel.granados@kernel.org>
-To: Kees Cook <kees@kernel.org>
-Cc: Kees Cook <kees@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v5 0/2] sysctl: add CTLTBL_ENTRY_XXX() macros for
- ctl_table initialization
-Message-ID: <x5stdwwsfp2h22zyexn5ycbxnkyc4ioxscninxsa6q7lf6djqr@jkuppwwqubkp>
-References: <cover.1774463505.git.wen.yang@linux.dev>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S5ci73Us"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5a337552604so3586499e87.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 07 Apr 2026 01:15:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775549745; x=1776154545; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=z0L5DxdHGgTgLV0g1fo3M5qT56sdXFA3p4Xf95pp+uI=;
+        b=S5ci73Us6ENNKECtKs9y3pIcJnjIFkOWmwLQY92zqpotJhDIQy5uAXxFmZlxR4EWvl
+         9RMw+y6jgkYg9vjgAgvqKPRT08vy73P2X8YitWHWTcPFblPJR58SgSaw8eoQ8RrcQeAe
+         xHE9u7jgPah2rxKN63R3Ve6Lwq5MP/C20YI5PdphRmg4ca3KjTbWVg06Zc9vpBfHWLUS
+         flZnMRL3QP+SlJE936kxh0FFaJm3s0vmUk/qyiQn6UrG9F4IgRfBVkkfdMexO+u10qfx
+         HUsdXI3fYG67UAfFwoS9bNgBHEml88bwRFCEcDaqvtV1DkE6dkXFNN8IDeFkv0922j1t
+         NY7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775549745; x=1776154545;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=z0L5DxdHGgTgLV0g1fo3M5qT56sdXFA3p4Xf95pp+uI=;
+        b=o8skj2AxMBkg9zqdqVqDHCfI8jJDQG/5FzFRs7/AHqXmVvseQtvc4w0ZQX250GnrSu
+         agBfnSKT8NZlw3ukjIBzZPPCzOB4l0qZdlD08RNoE4dGqTzpfpGkTrDB9n8VkLnrFIXq
+         AXylui6/p7rsn2vKIVNg4tUX26zQ96EDILHxy9pT1Zl+oTIcEAScSVTE81FiXByDsq2w
+         yIvwZkous32zqxedeaW4YEkDuXqKXeIl+Ba8njv9HhPpR/hWSqxu7YZq8RDxa6NQOaLj
+         Y/5J5/2bmq7KW5op0doQyFqVHe0YcyUTS8XUaIPTvRrADOGlP/D6F6cb2GQEzbncDhs8
+         a1Ww==
+X-Forwarded-Encrypted: i=1; AJvYcCVeQfOaPwsyoityOfHvUxUi+wVJmMd5cMg7216hQCKkxRQ/5JKvt3dsKjBDmr8AB6v1E4cIQmRTbOLgJU4r@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz+yOPf8ghSusuix6yGJ6tkfzAZx01d9aO5C2ZdF5OW+13aIJN/
+	7X/Fg5liLjkT2PEUE/z/g1n5unVzXGkFKAh6N2wGmB/MDsejYz7IGCvK
+X-Gm-Gg: AeBDieuA2kbMpTv0q6vON0GmkTiVZFxCcnjFCH0NT+e4SD6YEsgizGwStcfW+h8vKqa
+	NhqigHNXA4N+6XNEg9PXWmXQrb8gbt7CzVukffQU9/oCkJAXP7sDQpAk3QTCfzltTxieO85cdaS
+	XVCV955yGf/LMTWrbTRmcU8saehc00ayVN1Y+zHIGpvMveawgmSjCvNe3FrfIRybmjRDPxai/Dm
+	m/fA6iZoB1tRc3Y7c/hfmZg4YP6MUiHtpzSjMQ9IVQxhGu48NM6/3cyrkIztSi2zAo5CQMJTCpt
+	6IZm/l4CShPo+zAOa/QYDzipHQ7CVMQ2yMrOSzkw0ShEhBq6+GulBx3fwW+1td8Yb0vD63TajI9
+	c709EuTlq8JpPjlAQP9gKIqQA3D9M4wQSwT2CMVDgKSCMUnC334zIMFD1QQ8rqB5poj/tljAf0s
+	wxXh0SaNqQbFad+AGY7DC/
+X-Received: by 2002:a05:6512:3d92:b0:5a2:bb45:7f21 with SMTP id 2adb3069b0e04-5a33757c21fmr5925103e87.28.1775549744839;
+        Tue, 07 Apr 2026 01:15:44 -0700 (PDT)
+Received: from agp-laptop.. ([5.180.139.246])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a2c6cd3698sm3937616e87.77.2026.04.07.01.15.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Apr 2026 01:15:44 -0700 (PDT)
+From: "Denis M. Karpov" <komlomal@gmail.com>
+To: rppt@kernel.org,
+	akpm@linux-foundation.org,
+	Liam.Howlett@oracle.com,
+	ljs@kernel.org
+Cc: vbabka@kernel.org,
+	jannh@google.com,
+	peterx@redhat.com,
+	pfalcato@suse.de,
+	brauner@kernel.org,
+	viro@zeniv.linux.org.uk,
+	jack@suse.cz,
+	linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	"Denis M . Karpov" <komlomal@gmail.com>
+Subject: [RFC PATCH] userfaultfd: allow registration of ranges below mmap_min_addr
+Date: Tue,  7 Apr 2026 11:14:42 +0300
+Message-ID: <20260407081442.6256-1-komlomal@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="aa47zolqu2fdk72e"
-Content-Disposition: inline
-In-Reply-To: <cover.1774463505.git.wen.yang@linux.dev>
+Content-Transfer-Encoding: 8bit
 
+The current implementation of validate_range() in fs/userfaultfd.c
+performs a hard check against mmap_min_addr without considering
+capabilities, but the mmap() syscall uses security_mmap_addr()
+which allows privileged processes (with CAP_SYS_RAWIO) to map below
+mmap_min_addr. Furthermore, security_mmap_addr()->cap_mmap_addr() uses
+dac_mmap_min_addr variable which can be changed with
+/proc/sys/vm/mmap_min_addr.
 
---aa47zolqu2fdk72e
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Because userfaultfd uses a different check, UFFDIO_REGISTER may fail
+with -EINVAL for valid memory areas that were successfully mapped
+below mmap_min_addr even with appropriate capabilities.
 
-Hey Kees
+This prevents apps like binary compilers from using UFFD for valid memory
+regions mapped by application.
 
-I have been trying to avoid having to do a treewide change everytime
-that the sysctl ctl_table struct are changed, it creates unnecessary
-churn and requires a "review" when there is really no need for it.
+Replace the rigid mmap_min_addr check with security_mmap_addr() to align
+userfaultfd with the standard kernel memory mapping security policy.
 
-This series tries to move the definitions of the struct elements into a
-macro within sysctl. I was wondering if you see any red flags that
-should be address before this moves forward.
+Signed-off-by: Denis M. Karpov <komlomal@gmail.com>
 
-Best
+---
+Initial RFC following the discussion on the [BUG] thread.
+Link: https://lore.kernel.org/all/CADtiZd0tWysx5HMCUnOXfSHB7PXAuXg1Mh4eY_hUmH29S=sejg@mail.gmail.com/
+---
+ fs/userfaultfd.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-On Thu, Mar 26, 2026 at 02:39:14AM +0800, wen.yang@linux.dev wrote:
-> From: Wen Yang <wen.yang@linux.dev>
->=20
-> Historically, changes to how struct ctl_table entries are initialized
-> (e.g. removing the child field, const-qualifying ctl_table) required
-> touching hundreds of files across all subsystems.  Such series require
-> the attention of many maintainers, sometimes need to be pulled into
-> mainline in a special way, and create lots of unnecessary churn.  With
-> CTLTBL_ENTRY_XXX(), future structural changes to struct ctl_table need
-> only update the macro definitions.
->=20
-> Conversion of existing call sites will proceed incrementally from
-> kernel/sysctl.c outward, rather than as a treewide sweep.
->=20
-> This series:
->  1. Introduces the CTLTBL_ENTRY_XXX() macros in include/linux/sysctl.h,
->     using _Generic() for automatic proc_handler selection, auto
->     address-of, auto maxlen via sizeof(), and compile-time validation.
->     Supported types: int, unsigned int, long, unsigned long, bool, u8.
->  2. Converts kernel/sysctl-test.c as a demonstration, adding a
->     parameterized KUnit test covering all macro variants (V, VM, VMR,
->     VN, VNM, VNMH) across int, u8, bool, and char[] types.
->=20
-> Based on discussion and suggestions from:
-> [1] https://sysctl-dev-rtd.readthedocs.io/en/latest/notes/ctltable_entry_=
-macro.html
-> [2] https://lore.kernel.org/all/psot4oeauxi3yyj2w4ajm3tfgtcsvao4rhv5sgd5s=
-6ymmjgojk@p3vrj3qluban/
->=20
-> ---
-> Changes in v5:
->   - Extend __CTL_AUTO_HANDLER to support bool and u8
->   - Replace individual test functions with a single parameterized KUnit
->     test (KUNIT_CASE_PARAM) covering all variants and types
->   - Use struct ctl_table as the expected-value container in the param
->     struct, eliminating custom expected_* fields
->=20
-> Changes in v4:
->   - Fix Wpointer-type-mismatch warnings detected by lkp:
->     https://lore.kernel.org/oe-kbuild-all/202603050724.SZxrEyyu-lkp@intel=
-=2Ecom/
->=20
-> Changes in v3:
->   - Replace the unique macro with "capital letter approach"
->   - Reduce the name further
->   https://lore.kernel.org/all/rn4rsazh7kxf5byq65vw2phyqgzvwm3scczu3l5h2r4=
-aqit2r6@znlpb24z2zuo/
->=20
-> Changes in v2:
->   - Add lvalue check, handler type check, etc.
->   https://lore.kernel.org/all/xptwb3uwbzposd4xf7khj52ifv4tchcjdgllhv7aabi=
-6d7wgef@2msurl564v53/
->=20
->=20
-> Wen Yang (2):
->   sysctl: introduce CTLTBL_ENTRY_XXX() helper macros
->   sysctl: convert kernel/sysctl-test.c to use CTLTBL_ENTRY_XXX()
->=20
->  include/linux/sysctl.h | 307 +++++++++++++++++++++++++++++++++++++++++
->  kernel/sysctl-test.c   | 237 ++++++++++++++++++-------------
->  kernel/sysctl.c        |   2 +
->  3 files changed, 447 insertions(+), 99 deletions(-)
->=20
-> --=20
-> 2.25.1
->=20
+diff --git a/fs/userfaultfd.c b/fs/userfaultfd.c
+index bdc84e521..dbfe5b2a0 100644
+--- a/fs/userfaultfd.c
++++ b/fs/userfaultfd.c
+@@ -1238,15 +1238,13 @@ static __always_inline int validate_unaligned_range(
+ 		return -EINVAL;
+ 	if (!len)
+ 		return -EINVAL;
+-	if (start < mmap_min_addr)
+-		return -EINVAL;
+ 	if (start >= task_size)
+ 		return -EINVAL;
+ 	if (len > task_size - start)
+ 		return -EINVAL;
+ 	if (start + len <= start)
+ 		return -EINVAL;
+-	return 0;
++	return security_mmap_addr(start);
+ }
+ 
+ static __always_inline int validate_range(struct mm_struct *mm,
+-- 
+2.47.3
 
---=20
-
-Joel Granados
-
---aa47zolqu2fdk72e
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmnUsi0ACgkQupfNUreW
-QU+5/QwAj842I5ZtLWf65FEk5vyOCsakqB6XjTibHyjI1T++L8c258tvuj8uIIIQ
-hoy8LMbmOHWHrXmjI85VaTSxG8NtUAHyWhgNI+SdDF38CK8xc6dbwqA9bCP9AgRw
-5cYL8jh4fntBEnn1KHjhnK0eD/7Ftv4YBkAT6b3ff1JwhQgB0x7Ee97iIOZ4p/pK
-jS43kXwcywege71Tlq6MIoM3w3Pd+xwpmFaUjU+R7TGSRmOApU8NeUy3fL92/l+a
-ZAvJ8acyUB9XQB0vuPC99L4CZ14GgjDYuddvkFVKC3pl3ngzocHSQlwg/WVYr0sB
-ByizRNeCNtQ2uoOG2kQU1tLNVgmlsRH+Fte8TcmmnnhKnjWjLzo2ZBSIA24GuaqM
-VDlMRizafnm+zUgQSEerA7UkUMLAUr/fxgRh9TDz+B3IXpfdnuqgUAdsA6ejchb0
-VfW9XiIjLJ/Y3PzRW/saAal1uifJkJYJxZ+rWiQm3SYaL2oagUhni28HSEayP5VJ
-1Kc99Plx
-=kRIi
------END PGP SIGNATURE-----
-
---aa47zolqu2fdk72e--
