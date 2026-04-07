@@ -1,299 +1,129 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mx1.manguebit.org (mx1.manguebit.org [143.255.12.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 784371A6827
-	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Apr 2026 00:50:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 153833BB4A;
+	Tue,  7 Apr 2026 01:29:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=143.255.12.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775523046; cv=none; b=Y5VrCX1vj+N8PjznlC+vqL7Eyrew6Weg8XE3qSl/XyVb2otlYKWYOOeUta7WnDf0dxmREx/YLwPENx3UVMLdM6G6khihSMrOtpxdiFZPDBrR1Tg0UGQtIfODTIsDgfjUgWZ/dgKv+Ic2Cbbjjp86e2H6Iwku64ZFYSv3ASQtDNc=
+	t=1775525344; cv=none; b=I9B4PYeKFGsk3qiW1DIGd5zz55/g1tYof3dgv+OPMJLA3OCPNTb+UuIPv34yH+aRbnjb/1amZNmh8SUKKQO+6NVeRPDluyZMaqO9tXtA55isTWby+V5WtHH793MZ4qnI15sbESYJLZDVRJpQLVxn2MSnWJb1vHforfPoogzRqik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775523046; c=relaxed/simple;
-	bh=TC6ed81rxr+W3Wdj5geKklBu2oV4/PnRv130qp4MZNA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uubCCaD95oj94EzpvIQXQFZXSpPtwTHvm9Fxss1O8vhmf2N/N2gK4aRRy9mfFN+JqH8WtfZXzpwPkNcDOhmcOTI/afrYpqz3NIjjHvoqGM1vwrxvl1Qh43yp82WHUHO5IXmqNpK36E9gBtrywepp0N+tNvM0n7GzOLYvOfhHegg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=rmTSh2x0; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1775525344; c=relaxed/simple;
+	bh=PJADlUUSScJKCqISfIsyeZj2JISYiOXRr8KGMtZl1EM=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Date:
+	 MIME-Version:Content-Type; b=Fh6D95EZt1aRfOfNhOl/ZrDSoaFqvN5ZOAV1P6cqfS9d9oZ4Yjha7hjwD+6a/1d5mfTyZ2wIGL2yuTKI2sTrsFMMfuzfeY4bUQrMXdy/cOu1wfga28EpeaCx1pfdX45dFd4VV5M6iaS9QcsMxO3AHPVAfw1JbffnP/HudRGGCwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manguebit.org; spf=pass smtp.mailfrom=manguebit.org; dkim=pass (2048-bit key) header.d=manguebit.org header.i=@manguebit.org header.b=gTIxVZYK; arc=none smtp.client-ip=143.255.12.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manguebit.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manguebit.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rmTSh2x0"
+	dkim=pass (2048-bit key) header.d=manguebit.org header.i=@manguebit.org header.b="gTIxVZYK"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=6vpMZcC4V9gMMs0Z8Kd+L/b5U2bgEnIUjS2nqo7YQJM=; b=rmTSh2x0+p5xL7r0SQu3Jn+kna
-	jij45IXsXUgS3W6p17/19gUraz4qxUpWuK98tqDB+1tH/wymdr9c1mNOK9hRQ0C/b1Hejcin6eOui
-	CKj8AYKS6lQAjw+WaiQiikTE+JA6vpeH84xR8b5bWgrxNduGxenteWLno7PThshIEapGlRMMwJdGu
-	auX1F11DPsLZicJqBZcMInYW0D4hY7K+Y3Y3OrwUjtOz7FgvPfx4wO+dgAyPRw95LaD/UYm6gnMtU
-	8wJ6RUr3B6YpbqSJXtpIBF4OfdRG3ma6jXZuIx3PbOysekxf8sJ7LgyNyC27OXs2C6HYcsEVEc14N
-	UfX0kkoQ==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w9ueP-00000005ff8-27J5;
-	Tue, 07 Apr 2026 00:50:41 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Miklos Szeredi <miklos@szeredi.hu>
-Subject: [PATCH 2/3 v2] fuse: fuse_dev_i.h: clean up kernel-doc warnings
-Date: Mon,  6 Apr 2026 17:50:39 -0700
-Message-ID: <20260407005040.1929492-2-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260407005040.1929492-1-rdunlap@infradead.org>
-References: <20260407005040.1929492-1-rdunlap@infradead.org>
+	d=manguebit.org; s=dkim; h=Content-Type:MIME-Version:Date:References:
+	In-Reply-To:Subject:Cc:To:From:Message-ID:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=zktdSMhvzPfUniVbe07tyTHZi+jzlYeoZbXQLYVU6vU=; b=gTIxVZYKmDqU1mId1RhZH73Sez
+	jW9OjAOV4SiMpUNFXke56XVP3gyx1npa5bHQwK2lZwWCQ47arp55Fx+hTVpbJKC+1xfsvy/zHQPER
+	ezLAASQfVtvxUMCsQS6rNC1QZheS+KRRlW55pPtkhc53zm3yVmiZWVzbbZ+kawABpbJ6ytPU2IYJT
+	haA8NOyB0VogFt6AaPt40O4pDnMNqJBKGDFZduP6HQt4iEt2wkukSjy/3jHHJQFGbf5/usb4rOneI
+	sSHO/YzYhgV9bkfoPsoDd0k2c6sjX7amZCD3Xob+jCxkWJwRPple2VzKcqDfPxcvZcjAOjk42gKRq
+	DVI8ahoQ==;
+Received: from pc by mx1.manguebit.org with local (Exim 4.99.1)
+	id 1w9vFL-00000002K2g-2j5j;
+	Mon, 06 Apr 2026 22:28:51 -0300
+Message-ID: <98c9845554e2e6a79965d68ba8ae722b@manguebit.org>
+From: Paulo Alcantara <pc@manguebit.org>
+To: NeilBrown <neil@brown.name>, Al Viro <viro@zeniv.linux.org.uk>
+Cc: smfrench@gmail.com, David Howells <dhowells@redhat.com>,
+ linux-fsdevel@vger.kernel.org, linux-cifs@vger.kernel.org
+Subject: Re: [PATCH 2/2] smb: client: add support for O_TMPFILE
+In-Reply-To: <177543319568.1474915.17445767081272255066@noble.neil.brown.name>
+References: <20260405211819.1251369-1-pc@manguebit.org>
+ <20260405211819.1251369-2-pc@manguebit.org>
+ <20260405233222.GW3836593@ZenIV>
+ <177543319568.1474915.17445767081272255066@noble.neil.brown.name>
+Date: Mon, 06 Apr 2026 22:28:51 -0300
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Change some "/**" to "/*" since they are not kernel-doc comments:
+NeilBrown <neilb@ownmail.net> writes:
 
-Warning: fs/fuse/fuse_dev_i.h:25 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
- * Request flags
-Warning: fs/fuse/fuse_dev_i.h:58 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
- * A request to the client
-Warning: fs/fuse/fuse_dev_i.h:117 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
- * Input queue callbacks
-Warning: fs/fuse/fuse_dev_i.h:289 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
- * Fuse device instance
-and more like this.
+> On Mon, 06 Apr 2026, Al Viro wrote:
+>> On Sun, Apr 05, 2026 at 06:18:19PM -0300, Paulo Alcantara wrote:
+>> 
+>> > @@ -436,17 +457,13 @@ static int cifs_do_create(struct inode *inode, struct dentry *direntry, unsigned
+>> >  		goto out_err;
+>> >  	}
+>> >  
+>> > -	if (newinode)
+>> > -		if (S_ISDIR(newinode->i_mode)) {
+>> > -			rc = -EISDIR;
+>> > -			goto out_err;
+>> > -		}
+>> > +	if (newinode && S_ISDIR(newinode->i_mode)) {
+>> > +		rc = -EISDIR;
+>> > +		goto out_err;
+>> > +	}
+>> >  
+>> >  	d_drop(direntry);
+>> > -	d_add(direntry, newinode);
+>> 
+>> > +		rc = __cifs_do_create(dir, direntry, full_path, xid,
+>> > +				      tlink, oflags, mode, oplock,
+>> > +				      fid, buf, &inode);
+>> > +		if (!rc)
+>> > +			d_add(direntry, inode);
+>> 
+>> 
+>> > +		rc = __cifs_do_create(dir, dentry, path, xid, tlink,
+>> > +				      file->f_flags, mode, &oplock,
+>> > +				      &fid, NULL, &inode);
+>> > +		if (!rc) {
+>> > +			set_nlink(inode, 0);
+>> > +			mark_inode_dirty(inode);
+>> > +			d_mark_tmpfile_name(file, &QSTR_LEN(name, size - 1));
+>> > +			d_instantiate(dentry, inode);
+>> 
+>> I really don't like this "not sure what the state is, d_drop() to
+>> get it unhashed" pattern, _especially_ when d_drop() and d_add() or
+>> d_instantiate() get separated.
+>> 
+>> Note, BTW, this d_add() call site is one of the two in the entire kernel
+>> that are neither d_splice_alias() in disguise nor pass NULL as inode.
+>> The other one is nfs_link(), where we also have this kind of "d_drop()
+>> first, then use d_add()" pattern.
+>> 
+>> Folks, what state can dentry be in cifs_do_create()?  I'd rather see
+>> that sorted out, not obfuscated even more.
+>
+> cifs_do_create() gets call from cifs_atomic_open() which is
+> ->atomic_open(), so dentry can be in-lookup or negative-hashed.
+>
+> If is also called from cifs_create() (->create()) and as cifs_lookup()
+> never skips the lookup due to intent (like NFS does) the dentry will
+> always be hashed negative.
 
-Convert enum fuse_req_flag to kernel-doc format.
-Convert struct fuse_req, struct fuse_iqueue_ops, and struct fuse_dev
-to kernel-doc format.
+Thanks Neil for the details!
 
-These warnings remain:
-Warning: fs/fuse/fuse_dev_i.h:115 struct member 'ring_entry' not described in 'fuse_req'
-Warning: fs/fuse/fuse_dev_i.h:115 struct member 'ring_queue' not described in 'fuse_req'
+IIUC, this is what we currently have
 
-Binary build output is the same before and after these changes.
+* cifs_atomic_open()
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
----
-v2: new patch for this series
+  init state: in-lookup or hashed-negative
+  [d_drop() + d_add()]
+  end state: hashed-positive
 
-Cc: Miklos Szeredi <miklos@szeredi.hu>
+* cifs_tmpfile()
 
- fs/fuse/fuse_dev_i.h |   93 ++++++++++++++++++++++-------------------
- 1 file changed, 50 insertions(+), 43 deletions(-)
+  init state: unhashed-negative
+  [d_drop() + d_instantiate()]
+  end state: unhashed-positive
 
---- linux-next-20260406.orig/fs/fuse/fuse_dev_i.h
-+++ linux-next-20260406/fs/fuse/fuse_dev_i.h
-@@ -23,21 +23,21 @@ struct fuse_pqueue;
- struct fuse_iqueue;
- 
- /**
-- * Request flags
-+ * enum fuse_req_flag - Request flags
-  *
-- * FR_ISREPLY:		set if the request has reply
-- * FR_FORCE:		force sending of the request even if interrupted
-- * FR_BACKGROUND:	request is sent in the background
-- * FR_WAITING:		request is counted as "waiting"
-- * FR_ABORTED:		the request was aborted
-- * FR_INTERRUPTED:	the request has been interrupted
-- * FR_LOCKED:		data is being copied to/from the request
-- * FR_PENDING:		request is not yet in userspace
-- * FR_SENT:		request is in userspace, waiting for an answer
-- * FR_FINISHED:		request is finished
-- * FR_PRIVATE:		request is on private list
-- * FR_ASYNC:		request is asynchronous
-- * FR_URING:		request is handled through fuse-io-uring
-+ * @FR_ISREPLY:		set if the request has reply
-+ * @FR_FORCE:		force sending of the request even if interrupted
-+ * @FR_BACKGROUND:	request is sent in the background
-+ * @FR_WAITING:		request is counted as "waiting"
-+ * @FR_ABORTED:		the request was aborted
-+ * @FR_INTERRUPTED:	the request has been interrupted
-+ * @FR_LOCKED:		data is being copied to/from the request
-+ * @FR_PENDING:		request is not yet in userspace
-+ * @FR_SENT:		request is in userspace, waiting for an answer
-+ * @FR_FINISHED:	request is finished
-+ * @FR_PRIVATE:		request is on private list
-+ * @FR_ASYNC:		request is asynchronous
-+ * @FR_URING:		request is handled through fuse-io-uring
-  */
- enum fuse_req_flag {
- 	FR_ISREPLY,
-@@ -56,55 +56,62 @@ enum fuse_req_flag {
- };
- 
- /**
-- * A request to the client
-+ * struct fuse_req - A request to the client
-  *
-  * .waitq.lock protects the following fields:
-  *   - FR_ABORTED
-  *   - FR_LOCKED (may also be modified under fpq->lock, tested under both)
-  */
- struct fuse_req {
--	/** This can be on either pending processing or io lists in
--	    fuse_conn */
-+	/**
-+	 * @list: This can be on either pending processing or io lists in
-+	 * fuse_conn
-+	 */
- 	struct list_head list;
- 
--	/** Entry on the interrupts list  */
-+	/** @intr_entry: Entry on the interrupts list  */
- 	struct list_head intr_entry;
- 
--	/* Input/output arguments */
-+	/** @args: Input/output arguments */
- 	struct fuse_args *args;
- 
--	/** refcount */
-+	/** @count: refcount */
- 	refcount_t count;
- 
--	/* Request flags, updated with test/set/clear_bit() */
-+	/** @flags: Request flags, updated with test/set/clear_bit() */
- 	unsigned long flags;
- 
--	/* The request input header */
-+	/** @in: The request input header */
- 	struct {
-+		/** @in.h: The request input header */
- 		struct fuse_in_header h;
- 	} in;
- 
--	/* The request output header */
-+	/** @out: The request output header */
- 	struct {
-+		/** @out.h: The request output header */
- 		struct fuse_out_header h;
- 	} out;
- 
--	/** Used to wake up the task waiting for completion of request*/
-+	/** @waitq: Used to wake up the task waiting for completion of request */
- 	wait_queue_head_t waitq;
- 
- #if IS_ENABLED(CONFIG_VIRTIO_FS)
--	/** virtio-fs's physically contiguous buffer for in and out args */
-+	/**
-+	 * @argbuf: virtio-fs's physically contiguous buffer for in and out
-+	 * args
-+	 */
- 	void *argbuf;
- #endif
- 
--	/** fuse_chan this request belongs to */
-+	/** @chan: fuse_chan this request belongs to */
- 	struct fuse_chan *chan;
- 
- #ifdef CONFIG_FUSE_IO_URING
- 	void *ring_entry;
- 	void *ring_queue;
- #endif
--	/** When (in jiffies) the request was created */
-+	/** @create_time: When (in jiffies) the request was created */
- 	unsigned long create_time;
- };
- 
-@@ -115,7 +122,7 @@ struct fuse_forget_link {
- };
- 
- /**
-- * Input queue callbacks
-+ * struct fuse_iqueue_ops - Input queue callbacks
-  *
-  * Input queue signalling is device-specific.  For example, the /dev/fuse file
-  * uses fiq->waitq and fasync to wake processes that are waiting on queue
-@@ -124,22 +131,22 @@ struct fuse_forget_link {
-  */
- struct fuse_iqueue_ops {
- 	/**
--	 * Send one forget
-+	 * @send_forget: Send one forget
- 	 */
- 	void (*send_forget)(struct fuse_iqueue *fiq, struct fuse_forget_link *link);
- 
- 	/**
--	 * Send interrupt for request
-+	 * @send_interrupt: Send interrupt for request
- 	 */
- 	void (*send_interrupt)(struct fuse_iqueue *fiq, struct fuse_req *req);
- 
- 	/**
--	 * Send one request
-+	 * @send_req: Send one request
- 	 */
- 	void (*send_req)(struct fuse_iqueue *fiq, struct fuse_req *req);
- 
- 	/**
--	 * Clean up when fuse_iqueue is destroyed
-+	 * @release: Clean up when fuse_iqueue is destroyed
- 	 */
- 	void (*release)(struct fuse_iqueue *fiq);
- };
-@@ -287,22 +294,22 @@ struct fuse_pqueue {
- };
- 
- /**
-- * Fuse device instance
-+ * struct fuse_dev - Fuse device instance
-  */
- struct fuse_dev {
--	/** Reference count of this object */
-+	/** @ref: Reference count of this object */
- 	refcount_t ref;
- 
--	/** Issue FUSE_INIT synchronously */
-+	/** @sync_init: Issue FUSE_INIT synchronously */
- 	bool sync_init;
- 
--	/** Fuse channel for this device */
-+	/** @chan: Fuse channel for this device */
- 	struct fuse_chan *chan;
- 
--	/** Processing queue */
-+	/** @pq: Processing queue */
- 	struct fuse_pqueue pq;
- 
--	/** list entry on fch->devices */
-+	/** @entry: list entry on fch->devices */
- 	struct list_head entry;
- };
- 
-@@ -367,7 +374,7 @@ void fuse_dev_end_requests(struct list_h
- 
- void fuse_copy_init(struct fuse_copy_state *cs, bool write,
- 			   struct iov_iter *iter);
--/**
-+/*
-  * Return the number of bytes in an arguments list
-  */
- unsigned int fuse_len_args(unsigned int numargs, struct fuse_arg *args);
-@@ -384,12 +391,12 @@ bool fuse_remove_pending_req(struct fuse
- 
- bool fuse_request_expired(struct fuse_chan *fch, struct list_head *list);
- 
--/**
-+/*
-  * Assign a unique id to a fuse request
-  */
- void fuse_request_assign_unique(struct fuse_iqueue *fiq, struct fuse_req *req);
- 
--/**
-+/*
-  * Get the next unique ID for a request
-  */
- u64 fuse_get_unique(struct fuse_iqueue *fiq);
-@@ -399,12 +406,12 @@ struct fuse_dev *fuse_dev_alloc(void);
- 
- int fuse_dev_release(struct inode *inode, struct file *file);
- 
--/**
-+/*
-  * Initialize the fuse processing queue
-  */
- void fuse_pqueue_init(struct fuse_pqueue *fpq);
- 
--/**
-+/*
-  * End a finished request
-  */
- void fuse_request_end(struct fuse_req *req);
+* cifs_create()
+
+  init state: hashed-negative
+  [d_drop() + d_add()]
+  end state: hashed-positive
