@@ -1,170 +1,118 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A56438AC86
-	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Apr 2026 10:29:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BA273A5445;
+	Tue,  7 Apr 2026 10:30:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775557775; cv=none; b=syAzACfWb2af9WI3mfveUXOJ1nR4f1w1tgqryBJ6FE9VmMLyldFjxtFidf9hmn3dG3YVPlsZts42CmoTm0AJsJJuxmeY63v4z/7Wss4OxQqrrSBKR77rKa30xMgGrF36eMmU7ubNBwUaTWPYb8GUySGIGBpjsV3vqafrl/6zzoY=
+	t=1775557841; cv=none; b=ZJNgk7z+sQ9b1ipRUoQUgWrhSXURPDkpa2WoGpThjXISYS1vVBEd4lrGOt4BrCLCCegveYAuaWapZJOUsWkyCauy+CMuJ2EZ8SvG5NYVaHQJwPT4Mn0qDVsqfTvXVdKBEW/1Ww3DrR6Ycyr9XAjjSeMSefflo7UHAw9L6t8z4ow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775557775; c=relaxed/simple;
-	bh=7D9hKiql2l9Xe7SCXvJve+5YiX8ZVh86qv8U6I9Rack=;
+	s=arc-20240116; t=1775557841; c=relaxed/simple;
+	bh=BIDG5xcH5vxDaXOY1Ef7WnWaaVIi4qGuiWvB7j/7b7o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SRxuywIIN1cykGSgbAWOXvyY3lTAB3Si6h/2tWhSXUAP4PcZOUvKb4bz9cW7P9iUR2uQ7aBP1D+hYOR2MbPOUshxQcUvnQd7U+t/vW2au/owE91OKSbFobocwGiT2DOrhd+oaOALc2frCDjboRFvtUbWpD3TFwZg80K1Rz1j8r0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=AkkBmK9N; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=RFuJl61n; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=AkkBmK9N; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=RFuJl61n; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=NKeFO0fhKZ7vw0ErfQsdjlS6c7xgwvMNWAeG14zSZSb0QiYLflNNh0T8e4pCOpVwBM0Ipu4qeVrPTzUcaqyejJrvbRZRb1fJmstOfgWlMsdEALO22EFlmse/559745rPbc6cbBH3Cv5yb9exZrksGrVU5KHvPMYWzTeEQzhIyCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s/yZZVfz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="AkkBmK9N";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="RFuJl61n";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="AkkBmK9N";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="RFuJl61n"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id ACC935BD3D;
-	Tue,  7 Apr 2026 10:29:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1775557771; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=g1+Ci/akFMdO0jko6/Y2u7OnVMbV6gzyEmJjEE1R3HI=;
-	b=AkkBmK9NqQjLzi63Z2mnAn3JGiqmFA/So2LUvszGIIwCCjVObil0nyNq6V+N6YK0H5ZjE5
-	GHXhC8f0Uew7Sru98+0tOMBkMQfjo/8+tVdmrxw5LReLK/EoK0tNA53cdtdZ9sqbKERJ0k
-	O7suWjGBlYsbWPh3TYdd+stzp02xjrw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1775557771;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=g1+Ci/akFMdO0jko6/Y2u7OnVMbV6gzyEmJjEE1R3HI=;
-	b=RFuJl61nGltbpAVDqNXLOXXHeS5l0zcCGMyczsZV+jUiKnlHMAgviy9Z3RajqIp9iXXKIN
-	E7D7kmChM/sZe4Bw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1775557771; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=g1+Ci/akFMdO0jko6/Y2u7OnVMbV6gzyEmJjEE1R3HI=;
-	b=AkkBmK9NqQjLzi63Z2mnAn3JGiqmFA/So2LUvszGIIwCCjVObil0nyNq6V+N6YK0H5ZjE5
-	GHXhC8f0Uew7Sru98+0tOMBkMQfjo/8+tVdmrxw5LReLK/EoK0tNA53cdtdZ9sqbKERJ0k
-	O7suWjGBlYsbWPh3TYdd+stzp02xjrw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1775557771;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=g1+Ci/akFMdO0jko6/Y2u7OnVMbV6gzyEmJjEE1R3HI=;
-	b=RFuJl61nGltbpAVDqNXLOXXHeS5l0zcCGMyczsZV+jUiKnlHMAgviy9Z3RajqIp9iXXKIN
-	E7D7kmChM/sZe4Bw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A308F4A0B1;
-	Tue,  7 Apr 2026 10:29:31 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id kIXFJ4vc1GlMGgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 07 Apr 2026 10:29:31 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 55898A0A81; Tue,  7 Apr 2026 12:29:23 +0200 (CEST)
-Date: Tue, 7 Apr 2026 12:29:23 +0200
-From: Jan Kara <jack@suse.cz>
-To: Ye Bin <yebin@huaweicloud.com>
-Cc: tytso@mit.edu, adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org, 
-	jack@suse.cz, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 0/3] show orphan file inode detail info
-Message-ID: <n4sccudy5avcgnkdhc27rzofzoprxqtwhfrlmsh3yyrj6vbc6d@mmu73gmtawkq>
-References: <20260403082507.1882703-1-yebin@huaweicloud.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s/yZZVfz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B56D5C2BCB0;
+	Tue,  7 Apr 2026 10:30:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775557841;
+	bh=BIDG5xcH5vxDaXOY1Ef7WnWaaVIi4qGuiWvB7j/7b7o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=s/yZZVfz5po+Eokn4QAHZYc0jXZ3w2HcDAvA3X5ogZyHKrFBJwVvBpNZRoD0CClFK
+	 FSidBPPE0+qCQsbXtpLSGeILui7HdhF1ZtzVcV+yypbsXNIPK5vuJKGUP+k03xCp6q
+	 cK6Cz7IV5l5IPmfWZjDLqSyzC/K+ANoeTz3UmYS6dT12i5rGMne+X+L3sZx1Vb3uqG
+	 d8wP7NG26IfzzU++n3JeVXfmsjQXvPkucdaci3k1l1H2uG1EkPlOWbdyM6zZ8zqp15
+	 Vt5quIHc16tfCSIlPrFI5kfAdtTR8/a8UMZ+H19KJs42PQ1U4YKB+mGz2C+Ix6B2mD
+	 JAhdMIDmOWTbw==
+Date: Tue, 7 Apr 2026 12:30:37 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: David Francis <David.Francis@amd.com>, linux-kernel@vger.kernel.org, 
+	Alexander.Deucher@amd.com, linux-fsdevel@vger.kernel.org
+Subject: Re: [RFC PATCH] fdinfo: Option for public fdinfo
+Message-ID: <20260407-allzu-glasdach-4437bdfba7c6@brauner>
+References: <20260316183828.3354343-1-David.Francis@amd.com>
+ <20260323-neugierig-meerschwein-31b6daaa1db9@brauner>
+ <10ac8ef6-56b4-4a0f-b970-18b3ce012ceb@amd.com>
+ <20260324-mitmachen-wirst-65daea421642@brauner>
+ <b8e8ea43-4c1c-41da-99a8-267010e1b9de@amd.com>
+ <20260326-enten-hauen-36402c54073b@brauner>
+ <94d15393-687d-44a5-94c0-0f6248e58bc8@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260403082507.1882703-1-yebin@huaweicloud.com>
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -3.80
-X-Spam-Level: 
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <94d15393-687d-44a5-94c0-0f6248e58bc8@amd.com>
 
-Hi!
-
-On Fri 03-04-26 16:25:04, Ye Bin wrote:
-> From: Ye Bin <yebin10@huawei.com>
+On Mon, Mar 30, 2026 at 08:49:07PM +0200, Christian König wrote:
+> On 3/26/26 15:42, Christian Brauner wrote:
+> > On Tue, Mar 24, 2026 at 10:30:26AM +0100, Christian König wrote:
+> >> On 3/24/26 09:53, Christian Brauner wrote:
+> >>> On Mon, Mar 23, 2026 at 02:16:59PM +0100, Christian König wrote:
+> >>>> On 3/23/26 13:13, Christian Brauner wrote:
+> >>>>> On Mon, Mar 16, 2026 at 02:38:28PM -0400, David Francis wrote:
+> >>>>>> We want some GPU information to be publicly available to all
+> >>>>>> processes for basic system-wide profiling (think GPU versions
+> >>>>>> of top).
+> >>>>>>
+> >>>>>> This information is available in fdinfo and not easily exposed
+> >>>>>> by other interfaces.
+> >>>>>>
+> >>>>>> Add fd_op flag FOP_PUBLIC_FDINFO, which, if set, makes the fdinfo
+> >>>>>> for that file available to read for processes without ptrace
+> >>>>>> permissions.
+> >>>>>>
+> >>>>>> Note that this makes public how many files each process has open,
+> >>>>>> and what their fds are.
+> >>>>>>
+> >>>>>> Signed-off-by: David Francis <David.Francis@amd.com>
+> >>>>>> ---
+> >>>>>
+> >>>>> Eew, please let's not. Add an ioctl if you need to be able to retrieve
+> >>>>> that info.
+> >>>>
+> >>>> Yeah the problem is an IOCTL is even worse from the security pov.
+> >>>>
+> >>>> This is for an tool which doesn't have access to the file descriptor which provides that information.
+> >>>>
+> >>>> So using pidfd_getfd() or similar to get the FD and then call an IOCTL on it would be a security violation.
+> >>>>
+> >>>> The real question is how should we make this information public available in the system?
+> >>>
+> >>> Don't you have a way to make this info available in sysfs? Just like
+> >>> networking exposes info about network devices in there that may come and
+> >>> go?
+> >>
+> >> Yeah that was already tried as well and Greg summarized it as "sometimes you don't know how horrible something is until you tried it".
+> >>
+> >> So the memory accounting parts for DMA-buf files in sysfs were deprecated and removed again just a few weeks ago. And that was basically just a subset of what David tries to do here.
+> >>
+> >> The requirement is that you want to be able to access the stats for accelerators/GPUs drivers similar to how tools like "top" or "htop" work. E.g. everybody can access /proc/*/stat as well, it's just that some security related information are left out.
+> >>
+> >> As far as I can see we have only a couple of different options to fulfill that requirement and lowering the security for fdinfo like David's patch here suggests still looks like the most defensive one to me.
+> > 
+> > It's not acceptable to make /proc/<pid>/fdinfo accessible just to carve
+> > out an exception for you. You can look at implementing something like
+> > taskstats based on netlink transpart if you want to.
 > 
-> In actual production environments, the issue of inconsistency between
-> df and du is frequently encountered. In many cases, the cause of the
-> problem can be identified through the use of lsof. However, when
-> overlayfs is combined with project quota configuration, the issue becomes
-> more complex and troublesome to diagnose. First, to determine the project
-> ID, one needs to obtain orphaned nodes using `fsck.ext4 -fn /dev/xx`, and
-> then retrieve file information through `debugfs`. However, the file names
-> cannot always be obtained, and it is often unclear which files they are.
-> To identify which files these are, one would need to use crash for online
-> debugging or use kprobe to gather information incrementally. However, some
-> customers in production environments do not agree to upload any tools, and
-> online debugging might impact the business. There are also scenarios where
-> files are opened in kernel mode, which do not generate file descriptors(fds),
-> making it impossible to identify which files were deleted but still have
-> references through lsof. This patchset adds a procfs interface to query
-> information about orphaned nodes, which can assist in the analysis and
-> localization of such issues.
-
-I agree listing orphan inodes for a superblock is useful and the usefulness
-could actually go beyond ext4. I imagine the very same problem is there for
-XFS or btrfs so perhaps we could think for a while whether we can provide
-an interface that wouldn't be ext4 specific? Perhaps an ioctl
-(GET_ORPHAN_FILES) that would return an fd and reading from that fd would
-return entries for orphan inodes?
-
-Also regarding information reported about orphan inodes - won't it be better
-interface to just return a list of file handles? Userspace can then do
-whatever it needs with them - open, statx, calling ioctl, etc - so we
-thwart feature creep with people asking us to add more information to the
-interface. This also offloads a lot of security questions about the
-interface to appropriate syscalls. So overall it looks like a win to me.
-
-								Honza
-
+> What exactly do you mean with that? As far as I can see we can't expose per file descriptor information through netlink.
 > 
-> Ye Bin (3):
->   ext4: register 'orphan_list' procfs
->   ext4: show inode orphan list detail information
->   ext4: show orphan file inode detail info
-> 
->  fs/ext4/ext4.h   |   1 +
->  fs/ext4/orphan.c | 227 +++++++++++++++++++++++++++++++++++++++++++++++
->  fs/ext4/sysfs.c  |   2 +
->  3 files changed, 230 insertions(+)
-> 
-> -- 
-> 2.34.1
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> What's actually the problem exposing things through fdinfo? As far as
+> I can see it shouldn't be much of a problem exposing the directory for
+> everybody and letting each file decide what the security checks should
+> be.
+
+To me it looks like this: you want to force a uapi change on all of
+userspace without any clear idea what will or will not break for a
+single-consumer for a very special use-case. This will need strong
+arguments why we need to alter ancient procfs behavior. And note that
+ownership of all of these directories can change under you because of
+dumpability settings. Why should a random user be able to list fds of
+pid 1 suddenly.
