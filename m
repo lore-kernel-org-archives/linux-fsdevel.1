@@ -1,183 +1,177 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87DE13624AA;
-	Tue,  7 Apr 2026 15:17:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E93F36F43A;
+	Tue,  7 Apr 2026 15:23:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775575036; cv=none; b=SsHL33ImaNkCjN5eABKjuhpw4Iow69Z4FxfONY6143ETsK6bCOV9G6ZWqYZXHKEhQdS3tLBo4OzZBv1WV/11SCrzXia1HoFST9U6MSJ3xI+HziVg6kS5/WxK4v4/bFPXevCxGuYDiYYLK3/jMZwZ62ptOyBDJDU9B4Ba6xgaArc=
+	t=1775575424; cv=none; b=I+9qwHnwGOQtnY+qPE2Cv3qC4k3z5AmCDMpmV8W4NBYuZzBLFDm08qMncg1EpV8c5kEfMDkc8gjkQWu3qFxn2uQoY6KbXSWHSzduUVn6GwcW4ne82cK+BGTsgZYBa4Zwi2/mBs8EeSxJpLOLC/1qtsQPWC+TZKY69ZrzC43rgHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775575036; c=relaxed/simple;
-	bh=fs4VZ2EY//mQx/p8Z2S5c9nBZLOU+YLylsBN7JyjZZA=;
+	s=arc-20240116; t=1775575424; c=relaxed/simple;
+	bh=S0KhfM4isL6DUfK/OM+IpENXf/XOYoUfgu5TX4otGBs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WvhZPyH2SoZxxegbBZ8ScI0R2hTzKB0l7OyMompajUzrj2Jnyt0WEHn7Utez1J2lj/mswq62U8VXKPQP/kVC6d7doThQPrxl3d9WzlH3kwGbBAdkoagg1tZU4TqiEbt8368UYWJJe8WDZyrv3jOXqDg2aMIX5WvrufwbLjSj1kA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jgsmt5li; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=pERR4CBKHpsHlnCBeIBPEcPxMdrkX74rBwkoJgq4dHr3OqkwpRT3XZSgCZr1nC19Hnd5Bnx0PfKNxdBSuoBxHcmAr5QLdAx2Xez/OkbFa2cDt4KQ2eqYBbB6mtPkYdhZ04s+GMP7zSzWG5oXbBHJLunHPaN8su1ekD0PfZoSQOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=aefdV1zd; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jgsmt5li"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10202C116C6;
-	Tue,  7 Apr 2026 15:17:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775575034;
-	bh=fs4VZ2EY//mQx/p8Z2S5c9nBZLOU+YLylsBN7JyjZZA=;
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="aefdV1zd"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C09181BB2;
+	Tue,  7 Apr 2026 08:23:29 -0700 (PDT)
+Received: from J2N7QTR9R3 (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A3BC63F7D8;
+	Tue,  7 Apr 2026 08:23:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1775575415; bh=S0KhfM4isL6DUfK/OM+IpENXf/XOYoUfgu5TX4otGBs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jgsmt5lia/FU62K2mMQ0ojqx6T5Laf7BhTYb4Cv4uUiZCqVmiFOPA8L7gpb+40UbD
-	 IT9ajiG2LTblQJanFF8nUX0w6NF4eSvcu6Buh1F+W00toL9IIz4u2pVU3H2b2URQ49
-	 g4RTPhBRnPTL9+qXti0OhRCTblV9X/YHE7126S5PzQ3sQJCsmPHpTTU0X6qkoN+cPS
-	 QNDCoVqHzs24knRuGZ+f0k7fAS9o1GvnEA2xHmwqcUjdXfAkdN99ekYGB4U1gkzKKi
-	 mqS1E7nlPrCHGPvbDs6tJC8y4a9pzD5Gk+XmmvbygmhciQ0oRJbl9OgHNCQyr68Fsg
-	 Cmm+0pOywIZqQ==
-Date: Tue, 7 Apr 2026 08:17:13 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Sean Smith <defendthedisabled@gmail.com>
-Cc: tytso@mit.edu, linux-fsdevel@vger.kernel.org,
-	linux-ext4@vger.kernel.org, linux-btrfs@vger.kernel.org,
-	dsterba@suse.com, david@fromorbit.com, brauner@kernel.org,
-	osandov@osandov.com, hirofumi@mail.parknet.co.jp,
-	linkinjeon@kernel.org
-Subject: Re: [RFC PATCH v1 0/6] provenance_time (ptime): a new settable
- timestamp for cross-filesystem provenance
-Message-ID: <20260407151713.GM6202@frogsfrogsfrogs>
-References: <20260405225442.GA1763@macsyma-wired.lan>
- <20260407000558.417-1-DefendTheDisabled@gmail.com>
- <20260407014129.GC6192@frogsfrogsfrogs>
- <e5be4e66-5fb0-41d3-807f-d26f78949c3d@gmail.com>
+	b=aefdV1zd4eTc7MvgGtSzxJ6u6nyn6CMFJ8DD0XRkLGfrY33iY2FOoNFww6iazNtBn
+	 wAhikLlDca2j5pDfe4SJfzH1oEwvG3WfHMJS7FKe4QHJTXCAI4y0AQpcswcWdV1YHG
+	 NydN8l/eOnj3UHguIO+FYOOEcR/l3ipZzrQCTm5g=
+Date: Tue, 7 Apr 2026 16:23:26 +0100
+From: Mark Rutland <mark.rutland@arm.com>
+To: Andrei Vagin <avagin@google.com>
+Cc: Will Deacon <will@kernel.org>, Kees Cook <kees@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Cyrill Gorcunov <gorcunov@gmail.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Alexander Mikhalitsyn <alexander@mihalicyn.com>,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, criu@lists.linux.dev,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Chen Ridong <chenridong@huawei.com>,
+	Christian Brauner <brauner@kernel.org>,
+	David Hildenbrand <david@kernel.org>,
+	Eric Biederman <ebiederm@xmission.com>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Michal Koutny <mkoutny@suse.com>,
+	Alexander Mikhalitsyn <aleksandr.mikhalitsyn@futurfusion.io>,
+	Linux API <linux-api@vger.kernel.org>
+Subject: Re: [PATCH 1/4] exec: inherit HWCAPs from the parent process
+Message-ID: <adUhbk0sKT0ucWhJ@J2N7QTR9R3>
+References: <20260323175340.3361311-1-avagin@google.com>
+ <20260323175340.3361311-2-avagin@google.com>
+ <acGEonF9I6sPA42B@J2N7QTR9R3.cambridge.arm.com>
+ <acJnOB-rlyt-3jU4@willie-the-truck>
+ <CAEWA0a7iR8YHooqXJfhersV6YhAXGMZDUhib3QQH5XGn=KNowA@mail.gmail.com>
+ <acarA3sGKY4Acozw@J2N7QTR9R3.cambridge.arm.com>
+ <CAEWA0a7AZiuy1F+0LDxtEtJpdu=zA-RKhPb1wcDMpy2tSMFO5g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <e5be4e66-5fb0-41d3-807f-d26f78949c3d@gmail.com>
+In-Reply-To: <CAEWA0a7AZiuy1F+0LDxtEtJpdu=zA-RKhPb1wcDMpy2tSMFO5g@mail.gmail.com>
 
-On Tue, Apr 07, 2026 at 01:06:09AM -0500, Sean Smith wrote:
+On Fri, Mar 27, 2026 at 05:21:26PM -0700, Andrei Vagin wrote:
+> Hi Mark,
 > 
-> [written with AI assistance]
-> 
-> On 4/6/2026 20:42, Darrick J. Wong wrote:
-> 
-> > "Standard"... I was about to write a sardonic reply here, but then I
-> > remembred that Linux finally *does* have a standard means to transfer
-> > some of those newer file attributes: file_getattr/file_setattr.
-> >
-> > (Go Andrey!)
-> >
-> > So, I guess all you really need to do is extend struct file_attr and now
-> > userspace has a fairly convenient means to propagate the provenance
-> > time. 🙂
-> 
-> Thank you for pointing to file_getattr/file_setattr — this
-> is a significantly better API path than our utimensat
-> extension. The size-versioned struct file_attr eliminates
-> the glibc times[2] limitation entirely, which was one of
-> the main upstream concerns with the current approach.
-> 
-> We will investigate extending struct file_attr with ptime
-> fields for v2. The on-disk storage across all 5 filesystems
-> and the rename-over preservation are API-independent and
-> would remain unchanged. The change is re-plumbing the
-> userspace write path from utimensat to file_setattr.
-> 
-> Two design questions:
-> 
-> Would you recommend fa_ptime_sec (__u64) + fa_ptime_nsec
-> (__u32) matching the statx timespec pattern, or a different
-> representation?
+> I understand all these points and they are valid. However, as I
+> mentioned, we are not trying to introduce a mechanism that will strictly
+> enforce feature sets for every container. While we would like to have
+> that functionality, as you and will mentioned, it would require
+> substantially more complexity to address, and maintainers would unlikely
+> to pick up that complexity. 
 
-That uses less space in the struct, so yes.
+The crux of my complaint here is that unless you do that (to some
+degree), this is not going to work reliably, even with the constraints
+you outline.
 
-> Pali Rohar has announced plans for mask fields in file_attr.
-> Should we coordinate with his mask work so ptime can be
-> selectively set without read-modify-write?
+Further, I disagree with your proposed solution of pushing more
+constraints onto userspace (to also consider HWCAPs as overriding other
+mechainsms, etc).
 
-fa_xflags already provides that coverage for the other fields in struct
-file_attr, e.g. a getattr caller can ignore fa_extsize if
-FS_XFLAG_EXTSIZE isn't set; and setattr will (iirc) reject nonzero
-fa_extsize if FS_XFLAG_EXTSIZE isn't set.
+I think that as-is, the approach is flawed.
 
-Pali Rohar's work would make it possible to discover which fa_xflags
-fields are settable or clearable for a given file.
+> Even masking ID registers on a per-container basis would introduce
+> extra complexity that could make architecture maintainers unhappy.
+> There were a few attempts to introduce container CPUID masking on
+> x86_64 in the past.
 
-> > So does the provenance time cover just the file's contents, or the other
-> > attributes and xattrs?
-> 
-> Content only. ptime records when the file's data first came
-> into existence. Metadata changes (permissions, owner,
-> xattrs) update ctime but leave ptime unchanged. This
-> matches the semantics of Windows Date Created and macOS
-> creation time.
-> 
-> > The reason I ask is, does the ptime get copied over for an FICLONE,
-> > which maps all of one file's data blocks into another?
-> 
-> It should, conceptually — the content's provenance doesn't
-> change when you clone it. Currently FICLONE shares data
-> extents but does not copy inode metadata (timestamps,
-> permissions), so ptime would not be automatically
-> preserved. The calling tool (e.g., cp --reflink) handles
-> timestamp copying separately via the write path.
-> 
-> The question is whether FICLONE should be enhanced to copy
-> ptime from source to destination at the kernel level —
-> similar to how rename-over preserves ptime. There is an
-> argument for it: if the kernel handles provenance during
-> clone, tools don't need to know. But FICLONE doesn't
-> currently copy mtime either, so adding ptime alone would
-> be inconsistent. Worth discussing.
+> In CRIU, we are not aiming to handle every possible workload. Our goal
+> is to target workloads where developers are ready to cooperate and
+> willing to make adjustments to be C/R compatible. The goal here is to
+> provide developers with clear instructions on what they can do to ensure
+> their applications are C/R compatible. When I say "workloads", I mean
+> this in a broad sense. A container might pack a set of tools with
+> different runtimes (Go, Java, libc-based). All these runtimes should
+> detect only allowed features.
 
-FICLONE is currently treated like a write, which means that mtime is
-updated on the destination file.  For filesystems supporting ptime you'd
-probably want the kernel to copy the ptime from src to dest after the
-remapping completes.
+I do not think that arbitrary applications (and libraries!) should have
+to pick up additional constraints that are unnecessary without CRIU,
+especially where that goes against deliberate design decisions (e.g.
+features in arm64's HINT instruction space, which are designed to be
+usable in fast paths WITHOUT needing explicit checks of things like
+HWCAPs). Note that those typically *do* have kernel controls.
 
-(Same for exchange-range)
+I think there's a much larger problem space than you anticipate, and
+adding an incomplete solution now is just going to introduce a
+maintenance burden.
 
-> Btrfs subvolume snapshots are a different case — they do
-> preserve ptime because the inodes are COW copies of the
-> originals.
+> Returning to the subject of this patchset: this series extends the role
+> of hwcaps. With this change, we would establish that hwcaps is the
+> "source of truth" for which features an application can safely use. Any
+> other features available on the current CPU would not be guaranteed to
+> remain available after migration to another machine.
 > 
-> > And by extension, would it also need to be exchanged if you told
-> > XFS_IOC_EXCHANGE_RANGE to exchange all contents between two files?
-> 
-> Yes — if the content moves, the provenance should move
-> with it. If files A and B exchange data extents, their
-> ptimes should swap. ptime follows the content, not the
-> inode identity.
-> 
-> > (I know, I know, you said XFS was TBDHBD ;))
-> 
-> Worth considering for a future XFS implementation — and
-> the file_attr route you suggested would give XFS a clean
-> integration path for ptime alongside FICLONE and
-> EXCHANGE_RANGE.
-> 
-> > Last question: Is the provenance time only useful if the file is
-> > immutable?  Either directly via chattr +i, or by enabling fsverity?
-> 
-> No — ptime is useful regardless of mutability. It records
-> when the document was born, the same way Windows Date
-> Created works. Editing a document updates mtime but not
-> the creation date. Both are independently valuable:
-> 
->   ptime: "This file was first created March 15, 2019"
->   mtime: "It was last modified today"
->   btime: "This inode was created when I copied it here"
-> 
-> Immutable files (chattr +i, fsverity) are a special case
-> where ptime has extra forensic strength — the content
-> provably hasn't changed since the provenance date. But for
-> the primary use case — preserving creation dates across
-> cross-platform migrations — mutability doesn't diminish
-> ptime's value. A document's creation date remains meaningful
-> regardless of subsequent edits.
+> After this discussion, I found that the current version missed one major
+> thing: there should be a signal indicating that hwcaps must be used for
+> feature detection. Since we will need to integrate this interface into
+> libc, Go, and other runtimes, they definitely should not rely just on
+> hwcaps by default, especially in the early stages. This can be solved
+> via the prctl command.  Libraries like libc would call
+> prctl(PR_USER_HWCAP_ENABLED). If this returns true, the runtime knows
+> that only the features explicitly listed in hwcaps should be used.
 
-Got it.
+I do not think we should be pushing that shape of constraint onto
+userspace.
 
---D
+> You are right, the controlled feature set will be limited to features
+> the kernel knows about. And yes, we would need to report CPU features in
+> hwcaps even if the kernel isn't directly involved in handling them.
 
-> Sean
-> 
-> 
-> 
+To be clear, that is not what I am arguing.
+
+As I mentioned before, the way this works on arm64 is that the kernel
+only exposes what it is aware of, even in the ID regs accessible to
+userspace. We usually *can* hide features, and do that for cases of
+mismatched big.LITTLE, virtual machines, etc.
+
+> Honestly, I am not certain if this is the "right" interface for that,
+> and I would be happy to consider other ideas. I understand that these
+> hwcaps will not work right out of the box, but we need a way to solve
+> this problem. Having a centralized API for CPU/kernel feature detection
+> seems like the right direction.
+
+I think that for better or worse the approach you are tkaing here simply
+does not solve enough of the problem to actually be worthwhile.
+
+> As for signal frame size and extended states like SVE/SME, we aware
+> about this problem.  However, it is partly mitigated by the fact that if
+> an application does not use some features, those states are not placed
+> in the signal frame.
+
+That is not true. The kernel can and will create signal frames for
+architectural state that a task might never have touched.
+
+Generally arm64 creates signal frames for features when the feature
+*exists*, regardless of whether the task has actively manipulated the
+relevant state. For example, on systems with SVE a trivial SVE signal
+frame gets created even if a task only uses the FPSIMD registers, and on
+systms with SME a TPIDR2 signal frame gets created even if the task has
+never read/written TPIDR2.
+
+When restoring, an unrecognised signal frame is treated as invalid, and
+we can require that certain signal frames are present.
+
+> In the future, when we construct/reload a signal frame, we could look
+> at a process feature set for a process and generate a frame according
+> to those features...
+
+When you say 'we' here, are you talking about within the kernel, or
+within the userspace C/R mechanism?
+
+Mark.
