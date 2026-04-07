@@ -1,124 +1,82 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9DF8363C61
-	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Apr 2026 20:23:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775593400; cv=pass; b=MthcvYu0pY25U1BnChc7MhKkgLiWo4ZHJKB/Fm7hBat2WDvkEaEnXmx1Dpg+1WQXx6Z4OfpGpPWlDjJUPhQBmmcOdT56sE9pkm55jCIRZ1aue7HwZ4Hal6FixXQRKf2G1y9LCfuO5cprrk64P026VBMPZckTndEdKdA+G+K615w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775593400; c=relaxed/simple;
-	bh=/vo8Ho9uK7QNdoBdsxzXkL/VUAV5uKB8HFsyFKhwoOw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Fb8d0NhUVWl15A0yIuv+6Y2raKk4tOmocPkAZrK6+EaM075sQMm1nvO8SPsafOg9oVX7RW5w2cWCeBJKWYIgBHh0HjzZHzUbmjJyuqDYzce2GoPj2tp5WWaFNjIq6693be8Vc2SqkC3edQ9WVP7i4WOl7P9+oNJnnVY6GQr7DWI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=C9ShAHrh; arc=pass smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E84B37996C
+	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Apr 2026 20:30:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775593802; cv=none; b=NCd6v+/tm53GXKF4U3VzvCfsGDZbuG/O2ZfGh9bdJFkiqRG0+hRG3IjFA8IPyuPvc5oMQrqDTNYYw2TrW2C0vINlnAfJ2rNfvqXq6dIGvx3t3A7blZLisffje9wk0krVVEjnKsVjsmikXxZK4xogHYKawZpKkbNwDupVEe0/j0Q=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775593802; c=relaxed/simple;
+	bh=hPKqGxcFX75924Oi70jSImyLWNDCapoJOhnnkng56wg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rhg5tM6Byxh7v0qR2a4q2TDWGwBxgmPPSnNsO8NQtkHgjZ99LSHy2BB80TrUMGtQeid/8j1vc1DJJmqgHBaMnlZyJdectBHd/dGLz64y7XFKyn8QoIAQWhX825/jkWsxV3qeh327LSb59ovceEVrEN58Er1A0Ql774iEHgTb4/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=LwoiRB71; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="C9ShAHrh"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-b886fc047d5so831115766b.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 07 Apr 2026 13:23:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775593397; cv=none;
-        d=google.com; s=arc-20240605;
-        b=WTCR4E2MaYwGTeqGx3ATlcm3Np0N5eNns/Phxx0NN9vieeCh2DQlbFncMVueObCfrR
-         MaBkEzODwOD4hnM04VTX/3c0Nx9dmk6nE/sB/VGuBjeBVxsq4m00NaCb57otFWhQ6FEv
-         1lAqgUrToAt9E2wcbIzGf9DG+lTMNraNwdWO4uMUgPAVv6uTigSfr3Jo0X6/dEoJk4Bx
-         Zkj31mw8M48/3ynB6C3ObYwlbXNNV6bq9LO5OJwBgjBZdgdemP/EbaY+gCpqNUT/DjUD
-         wtsVknLIUPKVkn+5mw3v857iBR4Yb6Vl6lEmc9ZwQd5q8SPqytlCS06e56v3ui/Gj5qV
-         jpBg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ZCx8twqJvR9nn7bLFe0MWiBT1PMklf9crqW/etIEYlw=;
-        fh=aEf7Nn+X8kUT7EtMS4lqm+/B5AunZHTH6hiSOYAxAhw=;
-        b=BsnS+WBafwEIabHHYr5gLpKZYlFMdVkPE0MT2jdsVCPa5lunGQnND5PGpsPwqrsb3m
-         2AKkgtB76+ALtVrdj2/+FQ7Ecz2lJ1RAH/oJJnymma7NH3PxpkjSGkdrJXC6nM1fLfWv
-         pDJDBq6VqIcmJOe0AV50SzHKl4QECoMg5DtsKiQIqmOA+nHixqwfbDDzAIcXDZue4Wvh
-         98r41AuEw0nrg0QdHD7uTZqCXTcA1HUNKb/Jr8SBLTkMQbi/qCOxEHf+Xg4ZWBe4cpb7
-         vKUIqmea+CHD9tRpnp/QA1lgDrJB89iRkeppgdwdhswdEE4T14RQsM4gvW9BOyLuDOSS
-         349g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1775593397; x=1776198197; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZCx8twqJvR9nn7bLFe0MWiBT1PMklf9crqW/etIEYlw=;
-        b=C9ShAHrhqE76X97cIBZf5dHkbyR9lBkcPtM+Vqw/Bvk1yZN3HIKf1hCEQr3YmNY1N7
-         Zx02UaezcXaHGuceYyemshxBMYz0Q/bbb1pB0Ex/qlRtQLLnRiNAUskOnqDjFEGTLDQ4
-         okgc8+lIi1gAObQ0N7NcDC44RicH5dBkpoZNBfyWaKZ1eiVD6Fe9YLnXQyG3dbxfesl3
-         T/tCW5VB3BF50RiBp3tqT7OqZgdo4+quvZPicECm0I7YroE9ExG/CcU5hrRb6xkuICaX
-         S1g06lzf1PSG1V3vxwuibGeD0kj5OFskWhQHFaNph4P+Q0n7ZLmU1xvD8dIApmw5wMaQ
-         TpEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775593397; x=1776198197;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ZCx8twqJvR9nn7bLFe0MWiBT1PMklf9crqW/etIEYlw=;
-        b=I9MKNGsJJb+vEoOVM3dCCSl1PT9SPicfTVfAAXrto80Vz1nAbQ/2Nla2qtH7pYK5af
-         r48jxddDweEiFolyHEHbklE+erUbSFkYUVlYpzr7EwJjuBupB9vqaegzykcwNp3SmeGg
-         uVoq3+odYHW9At0olyd35d6IaQuSpW5AaycV7Cnvow5nVEF9HzDpp6zGutWXxuT7SVXm
-         62hQuzHQqg93Cnln2JIzI8rui6FQYj5HuWOT+sosjVSYafg4UwUy3TgkEmsjyI1sAMX9
-         phhwkxd4NwY2hQGAWN/TVHyMzDC16lRrj9eaYt97QtWHsrmUxfLXzuJHPTLGDw20mdtN
-         U09g==
-X-Forwarded-Encrypted: i=1; AJvYcCUzNMgSC7VdCnYm3j1hHQ/FR/i9c40amdd26zT0FSjVZ12zVOvK0JrYynKKjsidJnIHPcq6DlhneEILC1Ne@vger.kernel.org
-X-Gm-Message-State: AOJu0YzSBqaO53Nmvd5cCcn/i5UA1gRdAn7iCJfE2FRQLIKFFKF+AP+U
-	EADeRo4gY5n9N77zbWXpen0++SI9UiKj4Oh68CfkXyMho7BzaugfkI06/Srd74YUANkWUCimhSn
-	n/LUlRcPP6iOgjX2ryTwptBhAifA56xadyAYNHlo=
-X-Gm-Gg: AeBDiethOiA9QaNHmzW4UjPuhjc18XGkxJyaH2PSv4AkryDfK7HME6pKSOiCdJGoOQ5
-	qTCUfQOUmw48bJMxPMjhhlwNGBgQSN8wClSp3iW1cO17+l4fElaSvIM+lWlCshJAkAQ6EmS53Cl
-	JCAyaUWFzLvVzJZBOe5wANAvswZmhwhifK4g3ErDA6SD+VUCA/3zEKMVsX23hWP2RsnOVsH5uyx
-	iq0e9r8mksITI8Dd84xTDre5gBFOkVvfsxLwLv+pSAMmnsWRADqX5mouQIrWQwHT55KteJsrr7U
-	kxCHaXkC9KZBdnhIUa6Xv9dgtcETSJ2M/JdM
-X-Received: by 2002:a17:907:8703:b0:b98:4c58:f499 with SMTP id
- a640c23a62f3a-b9c67957ff5mr691793266b.28.1775593396835; Tue, 07 Apr 2026
- 13:23:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="LwoiRB71"
+Received: from macsyma.thunk.org (pool-173-48-119-176.bstnma.fios.verizon.net [173.48.119.176])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 637KTjPa020185
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 7 Apr 2026 16:29:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1775593788; bh=tOzNx4PeSh81K816hqFT4Aizuwn4JpHSilEiRsWKx7Y=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=LwoiRB71bvhhY4BRbBYrwdaUK0K2cChzTTFZSuFL6klq3d93UDAKEYAC4FotqYwOq
+	 ZIcNMCtk21bVSzT/D7exGjuI2hXJ77VR3hcXs6BdWkA8XOsgS9qeyqaUhye8PjdLQa
+	 /W8XIwBp1Bls9f2mKw5KiDT4OKNIdLJT1C+vnObcGbabpPkx4DIc0Pz0+01LZp6d8j
+	 akLYoB/IDuRQbgG9bywyCEXO7wQpREABAItw4fseSBJJ5YJ0uzyVguZQ5zEn9Y10kf
+	 3JeKXKuk+dd0SoXGTZqaRpuAuw91Q9JG5GdTukEtYF0eO1mRAzNQxcNn9JYejmN6mI
+	 UDCnaigOgSIJw==
+Received: by macsyma.thunk.org (Postfix, from userid 15806)
+	id 2385D622C635; Tue,  7 Apr 2026 16:28:45 -0400 (EDT)
+Date: Tue, 7 Apr 2026 16:28:45 -0400
+From: "Theodore Tso" <tytso@mit.edu>
+To: Jan Kara <jack@suse.cz>
+Cc: Ye Bin <yebin@huaweicloud.com>, adilger.kernel@dilger.ca,
+        linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 0/3] show orphan file inode detail info
+Message-ID: <20260407202845.GA38246@macsyma-wired.lan>
+References: <20260403082507.1882703-1-yebin@huaweicloud.com>
+ <n4sccudy5avcgnkdhc27rzofzoprxqtwhfrlmsh3yyrj6vbc6d@mmu73gmtawkq>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260407083219.478203185@kernel.org> <20260407083247.965539525@kernel.org>
-In-Reply-To: <20260407083247.965539525@kernel.org>
-From: John Stultz <jstultz@google.com>
-Date: Tue, 7 Apr 2026 13:23:04 -0700
-X-Gm-Features: AQROBzB82cXuNdt0Ng1iSzJ-7D2GJGPn4Rejnm3RvPTfCJRZuUw3Y0MamQBLYuk
-Message-ID: <CANDhNCo9QZKoEwX0r8JeP_8YTSvKg5ENTSw5Zjj9Po-FywBftQ@mail.gmail.com>
-Subject: Re: [patch 07/12] alarmtimer: Provide alarmtimer_start()
-To: Thomas Gleixner <tglx@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
-	Calvin Owens <calvin@wbinvd.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Anna-Maria Behnsen <anna-maria@linutronix.de>, Frederic Weisbecker <frederic@kernel.org>, 
-	Ingo Molnar <mingo@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	Sebastian Reichel <sre@kernel.org>, linux-pm@vger.kernel.org, 
-	Pablo Neira Ayuso <pablo@netfilter.org>, Florian Westphal <fw@strlen.de>, Phil Sutter <phil@nwl.cc>, 
-	netfilter-devel@vger.kernel.org, coreteam@netfilter.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <n4sccudy5avcgnkdhc27rzofzoprxqtwhfrlmsh3yyrj6vbc6d@mmu73gmtawkq>
 
-On Tue, Apr 7, 2026 at 1:54=E2=80=AFAM Thomas Gleixner <tglx@kernel.org> wr=
-ote:
->
-> Alarm timers utilize hrtimers for normal operation and only switch to the
-> RTC on suspend. In order to catch already expired timers early and withou=
-t
-> going through a timer interrupt cycle, provide a new start function which
-> internally uses hrtimer_start_range_ns_user().
->
-> If hrtimer_start_range_ns_user() detects an already expired timer, it doe=
-s
-> not queue it. In that case remove the timer from the alarm base as well.
->
-> Return the status queued or not back to the caller to handle the early
-> expiry.
->
-> Signed-off-by: Thomas Gleixner <tglx@kernel.org>
-> Cc: John Stultz <jstultz@google.com>
-> Cc: Stephen Boyd <sboyd@kernel.org>
+On Tue, Apr 07, 2026 at 12:29:23PM +0200, Jan Kara wrote:
+> I agree listing orphan inodes for a superblock is useful and the usefulness
+> could actually go beyond ext4. I imagine the very same problem is there for
+> XFS or btrfs so perhaps we could think for a while whether we can provide
+> an interface that wouldn't be ext4 specific? Perhaps an ioctl
+> (GET_ORPHAN_FILES) that would return an fd and reading from that fd would
+> return entries for orphan inodes?
 
-Acked-by: John Stultz <jstultz@google.com>   (also with Peter's
-suggested name change)
+I'm really not a fan of ioctl's returning a fd, but that does seem to
+be a thing these days, for better or for worse, and I agree that
+having a portable solution that works across multiple file systems
+would be a good thing.
+
+> Also regarding information reported about orphan inodes - won't it be better
+> interface to just return a list of file handles? Userspace can then do
+> whatever it needs with them - open, statx, calling ioctl, etc - so we
+> thwart feature creep with people asking us to add more information to the
+> interface. This also offloads a lot of security questions about the
+> interface to appropriate syscalls. So overall it looks like a win to me.
+
+The problem with using a file handle is that the only way to get the
+pathname is to open the file handle, and then call readlink on
+/proc/self/fd/NN.  And inodes on the orphan inode list have been
+unlinked, so we don't want to allow people to be able to open them.  I
+suppose we could allow this via O_PATH, but I'm not sure that this is
+guaranteed to work across all filesystems' file handles?
+
+	      	   	      		   - Ted
