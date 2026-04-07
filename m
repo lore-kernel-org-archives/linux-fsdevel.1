@@ -1,60 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AEDF377017;
-	Tue,  7 Apr 2026 03:58:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD0FA376473;
+	Tue,  7 Apr 2026 03:58:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775534326; cv=none; b=O8KoamZn6L+KBkSUJ7LyKbTelUZm6XH10ucXX1VgFTKvQ9uyIoHaUs1RM16plD2x9lsLgvVOXjbh80PFfvuDxfh2n9IA8nafDl0IljLcVCkaoLB0ruRM57RKZ5RmivoSiIbfdMHTptOCT0wDdkxZzs3M+t2vmm3IJ1g2fN6wYd0=
+	t=1775534328; cv=none; b=HkG6m4u17ysJTX/kGrr7EGLb+gaAGSeDnFU0ZSCiOT5x81yQvzhguzH5jVxn0z5VjSs1sP6t1qRKeWjHo8saoCRKDsa9ZXwrvHkmKLd52qjbqOBikGtHKFinTvUZbfRxn922ELzKabWBqbE/ud5irmoEOjRbt2sKK+pbs9HTbxg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775534326; c=relaxed/simple;
-	bh=PhLz4EawfqMG2HCkLS4Mk1S4X4ao3m4Ud6DBoFfSSZQ=;
+	s=arc-20240116; t=1775534328; c=relaxed/simple;
+	bh=y2iFZ0SurY4MbFcFrBOqLW6QkldmAsQ1WYr8ez5K3kk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fRULLtxM+8aq/TlFMuiwdYDsKeo+MyQxgGCrhIMVyPrtTCXBWxfxJnBwYJqDu3xdemwqDm7ubEH2e8gp6J8009fhis2uqCLgwEC5s4afWpTk3GyMJ83vHrUnD6+3HF+wGjTO8qacsufqvPVLOK7NJ24GM+6QC1bkKxY1+efHLxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GRJLC/GZ; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=iVph2LCOWyrjjipFdj/N/qqMCtsM2RJibbD5MVxBoGsi0i5I/VQ1o9W+IJT4rJ0YYMbkYdtYEYvObWewqlZO7gkEj+qBDkSFm5rnzWaj89g/vBxK0QLlRtI2ZSH7y3zm7h9Y1eNOfQ3AmH6l97srxTsu2KK8eWe7INyOehbAPSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mWFo5ET/; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GRJLC/GZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mWFo5ET/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775534322; x=1807070322;
+  t=1775534327; x=1807070327;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=PhLz4EawfqMG2HCkLS4Mk1S4X4ao3m4Ud6DBoFfSSZQ=;
-  b=GRJLC/GZ++1uW6dJfK8Jp8aqXk5a5bVeBmPFqZQt7+tpPcc9VVXasbyh
-   yLLwlw0L0Jqcf4QRUqxAEAbIIRZvy0d/4/oGfk53XYZRLF6r7vzPR8jLh
-   usRneAAHxqofNOkiY6UtFgBsNL5etzaB4qeX8hLFP/tAQR+CEcj/FFnMu
-   rTjgDy/97pAwuBW2nBP1p8usBO7VGGaBZr17yDyS6Q8mWJgS/TP3RWBp+
-   jC2jAQKrHk024GU04jbnlCHWU4hfNzgXTmW9DJDQL8DJd4IQTHRsEcGIn
-   UM81pqkSV4ZTFYREbLnQSQ39VXBGF3DEf5lNKA4e2gHFRr/seTtwkm6/v
-   A==;
-X-CSE-ConnectionGUID: Ddz0Mkj0R/6bVPOY1Fjflg==
-X-CSE-MsgGUID: e8vajh9/R0i2ZCYuzmSwxA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="76369568"
+  bh=y2iFZ0SurY4MbFcFrBOqLW6QkldmAsQ1WYr8ez5K3kk=;
+  b=mWFo5ET/s/ptGAVUjF45bSkevMjnZKC3PXsFGZH8Kyi8KWatLHHLkrbM
+   RKBTUKPM85DrhYhtLM1AGIw0Ru8dI42PemCUKoHigOZLYuXgyRK5DMUbu
+   6hS5/Fx4h3imZ1/BAzSfnlovEEiGFSVNO7He8mZ9qHl8GtFR1M32SyPf+
+   t/X33AytWyQo64s1hLsBqcNICNj4zRVdU4zuNOAlmF+Ika8l4penDCFEA
+   Z9rvwY+2VB0A8NGeCwOwBlfyeLSFG2GpXOOjD3lZPRLYNJ6bEwlZBKX3N
+   8elmF8RYmhksvJrwGRXH1rw38aXIihlr0/Xk5lB5IyBLauzoxNeHkxebA
+   Q==;
+X-CSE-ConnectionGUID: 0Rw38cH7TmO1edzw5wau7w==
+X-CSE-MsgGUID: j9l38C6PSs+a8CRy09Er3w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="76369572"
 X-IronPort-AV: E=Sophos;i="6.23,164,1770624000"; 
-   d="scan'208";a="76369568"
+   d="scan'208";a="76369572"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
   by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2026 20:58:38 -0700
-X-CSE-ConnectionGUID: ohz4hObdSmWTxzmWqAuitw==
-X-CSE-MsgGUID: oF+O2C2XSHiEGYkkJdZiOA==
+X-CSE-ConnectionGUID: nXJVoX5VQbGOjHUypIU9AQ==
+X-CSE-MsgGUID: PUojt7YMSTC4zBjeIQuxrw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,164,1770624000"; 
-   d="scan'208";a="232091284"
+   d="scan'208";a="232091286"
 Received: from lkp-server01.sh.intel.com (HELO d00eb8a6782a) ([10.239.97.150])
   by orviesa003.jf.intel.com with ESMTP; 06 Apr 2026 20:58:36 -0700
 Received: from kbuild by d00eb8a6782a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w9xaD-00000000061-0GzJ;
+	id 1w9xaD-00000000063-0MRf;
 	Tue, 07 Apr 2026 03:58:33 +0000
-Date: Tue, 7 Apr 2026 11:57:54 +0800
+Date: Tue, 7 Apr 2026 11:58:03 +0800
 From: kernel test robot <lkp@intel.com>
 To: Li Wang <liwang@kylinos.cn>, Miklos Szeredi <miklos@szeredi.hu>
-Cc: oe-kbuild-all@lists.linux.dev, Bernd Schubert <bernd@bsbernd.com>,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Li Wang <liwang@kylinos.cn>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Bernd Schubert <bernd@bsbernd.com>, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Li Wang <liwang@kylinos.cn>
 Subject: Re: [PATCH] fuse: Send FORGET over io_uring when ring is ready
-Message-ID: <202604050807.AgGX2Wf1-lkp@intel.com>
+Message-ID: <202604051156.TIsmWOyA-lkp@intel.com>
 References: <20260401104008.8827-1-liwang@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -81,21 +81,21 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Li-Wang/fuse-Send-FORGET-
 base:   v7.0-rc6
 patch link:    https://lore.kernel.org/r/20260401104008.8827-1-liwang%40kylinos.cn
 patch subject: [PATCH] fuse: Send FORGET over io_uring when ring is ready
-config: sparc-randconfig-002-20260405 (https://download.01.org/0day-ci/archive/20260405/202604050807.AgGX2Wf1-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260405/202604050807.AgGX2Wf1-lkp@intel.com/reproduce)
+config: sparc64-randconfig-001-20260405 (https://download.01.org/0day-ci/archive/20260405/202604051156.TIsmWOyA-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project c80443cd37b2e2788cba67ffa180a6331e5f0791)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260405/202604051156.TIsmWOyA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604050807.AgGX2Wf1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604051156.TIsmWOyA-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/fuse/dev.c: In function 'fuse_io_uring_send_forget':
->> fs/fuse/dev.c:731:21: error: 'struct fuse_args' has no member named 'abort_on_kill'
+>> fs/fuse/dev.c:731:15: error: no member named 'abort_on_kill' in 'struct fuse_args'
      731 |         if (!d->args.abort_on_kill)
-         |                     ^
+         |              ~~~~~~~ ^
+   1 error generated.
 
 
 vim +731 fs/fuse/dev.c
