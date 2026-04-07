@@ -1,143 +1,225 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B64BA3AA4F9
-	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Apr 2026 12:29:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775564997; cv=pass; b=YU9gUaFUtEkZF3c/obrntaUY/NWvhpoT7L87MMkpExaELUlRxDhvC475l5DfCFAkpR5wGY26NT8oTGQrPfJF1q3juEalkfoIFJcYytt0j5sNFWr1MJGkpsj0usIhoOwOMoNo3EU1DgF6d61bSBUtbxqTn0GQ2J8KQAP/dAZYReQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775564997; c=relaxed/simple;
-	bh=UdeWs6w4pyYppJdWEkOzIWQs+GkhXkGMndfV9cAFA9w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ElcpWjhcgFo36S7IAKnvdK9i5PpDuPCPbVAluPgelX+7ZTChGhPC3gjrLgfgo8EdUChmzWMR6L2Pkd91M4O2lWjdreB9K0SlhftrxePoztSkEpvdDlJvJoTvi+M81KclzhC49/hiS+kW08lD1D7CgLxLZhNTgzDBrbojBk6OA1A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jgy6i9t7; arc=pass smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E18BA25F98A;
+	Tue,  7 Apr 2026 12:41:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.156
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775565684; cv=none; b=tmu7l1OaxhCQFV9jfzEpiyoQck6JsN7OReRjWzjUoigO9up2MPOnzUkL+m8yE70uCbVH0WM+oXakV2LR9YvMM6+p1Lrj4hHGXr7RsHkQ3DOyhJg9m1LAOxxj8pKRzqj0bmc90TCgkrzi5UuUwvy+pXASOdpmjU9DW0HijGvy+FI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775565684; c=relaxed/simple;
+	bh=2f4DFJcav/jCD//uCDk3U991sm8tkfQP7NLtzeGT0+8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bVAGmm0CHHH8Jtpu2H5CeM8R4w0cbWmeYvpyxRAOTU765hObXpmtjo2IPTeQ1BWq4HvC00Sq7mMkGNDKXbnesbhCXKidLKRTuf621YD8qGrfFD+9Jwdz90nsdVEnAfkbKHU7Y2fGaPZ4SZWELsst6x9pzFtmF7vaCIU20bVd0uE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=themaw.net; spf=pass smtp.mailfrom=themaw.net; dkim=pass (2048-bit key) header.d=themaw.net header.i=@themaw.net header.b=lk6rubv6; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=u5rukjmB; arc=none smtp.client-ip=202.12.124.156
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=themaw.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=themaw.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jgy6i9t7"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-66bb4d4fcb4so2326544a12.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 07 Apr 2026 05:29:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775564994; cv=none;
-        d=google.com; s=arc-20240605;
-        b=UwF8jLtCEESR94jgXzgdW4kFGILrkzZh6SCq3Aj29AHPGpLnEV8AW1foXfxHEnmWaT
-         YLN44Xu/21LjERa5XyjD5sOLtd7bIxOc+C2hMxRJ+UkPPvoYvi+CmnxfvinoujVZ0mbQ
-         vmY5+0gi5arSUFrJwYNUROrtTOnw1qTpJuOpY9sWiLsd6BwPb19d8qL4Lm+Aj4TV2bx2
-         ycN1sx5U4Ol242tyQlN+lRPEbHzP2RO/+cF/FMf+bnSGw8ivtDkR4/i4j0K65FhPohZ+
-         EvRtuXW3zhiCC0brNMMJeUgIUCmGA8TIrtruAW/4iidtDxwQIBV8a5uVAStGVSR6XYNI
-         ibIQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=UdeWs6w4pyYppJdWEkOzIWQs+GkhXkGMndfV9cAFA9w=;
-        fh=U5ORRUikbD51UkCivGpmLRfiiUAdrv4DbFFkNWNg/Kg=;
-        b=Qqvphr2UQccSWsRXvwPQUzGn1RFJC7lHrvpksWo7xm7Sm+ekLzrJ501OsKxPLA7Lzw
-         owQ0eVu99NwQkS6OlRHgtNGIwAjwzTrBpPcu06xPsujxkC/YoRkoYx9YwJyIadmMtWGu
-         SaGbvJVWifNG6AlF5LnnjmnIXfAxi2qjaSkDHNoUQkaI6KBoocyzv1c61VGaMyUIKzLi
-         NkcShhdbEOnz5rTKGyJ1w5p47aIPSfKatKfzu6KtekEOB7NxlqGJHjXCVwIojeTNLHu+
-         lYscpSNQK9pJvgTFYg3AxCQ5KyUu7/mMkt+k5rQkgOyzeaTfSH8qAYm/kPsJQCxic9Cm
-         a/UQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775564994; x=1776169794; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UdeWs6w4pyYppJdWEkOzIWQs+GkhXkGMndfV9cAFA9w=;
-        b=Jgy6i9t7IGxhtGkc5hKhpdvYM5XZPfxhJJ+Un5MIRq3K8pAKcJid2S2s51OBgFzMTB
-         DGLBBNTOj5bLXjx3iUBk25k0I2Fy5K6yHYxCFoDZ87WgGmQKO69Nd0x3DgIpRmxJxSoG
-         xIfHYgdpOI0KJto+9CRzvXN5viVuzQ3bNuRGt+IxbtRdTMZCi/TXvYbNJJy3r694Ps0n
-         iITUL91pBXYl3Futr8akHSxqmh3mB2vubbKhU8RlirO9GPCVLccETlv7srdypwvI8c0n
-         PBiuE4BVurXNR3FtrmtBcs0XdtzgykReQ9J7lBaWb/KxLfl4nDv2KmrTR5hSwnXc/sHu
-         Qzaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775564994; x=1776169794;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=UdeWs6w4pyYppJdWEkOzIWQs+GkhXkGMndfV9cAFA9w=;
-        b=dZFsIwaWJWgaAY8uGGIeWuQbyp8hQSpgS5E1kfebCMksZjCzc8nEPU0BjvAuJ7z5pj
-         QGQ8UtTGJe1Ft6umNW/iBPIXohvQLeuxoid7dpXiltjzd/h1YVQu3Clgh21sYS8oJdi/
-         WNOIG3HZXusLCMP6spx1C8YrAbKdONnNhrDoD8KZiJ2TAltC2MqkocOE9rHq1LYjsBxf
-         Nd+E1TCt7K5tZVnMpj9XT4qEmhrrHhoErNKBPdvHUCA5lCZrlWzr8aWVuorSdz97jiFs
-         QO1FUPZrmjcX5lmUV41kyBQ3eeZuL++NnGTCJQ6pT9FxJiRCONu/P/YZD+ud2TdjLd3H
-         7t1g==
-X-Gm-Message-State: AOJu0YxcHlMcSxcbPk7XGPfL4a7roTeSUjp1mSUtYRnfN0sCto2PvYKm
-	EC/w3lHV4vxj7tOas3pC+JyGaIJ2DK2I2c7bMCO45z+v8EvxlqOTnsKCIyZXdm9fC9XX+cWyE7P
-	R3AMdzyysFHD92xwQMgoLUv2IC/vLFfg=
-X-Gm-Gg: AeBDievpe9nB2GMqeMNLIbb/M/MTs5L2lmjQcfzMuMCCK3uQl4E1qu/p1tHawavFNTV
-	16x90yLwVCdFPthoJRRcxNjo+kIeHBx1ElQ0xUulT6mxXzHX6UpucwXhnPZErMcYldQCNhf102m
-	yTFiSFXcB7ZWb2wxBXQ5Fa+nyy+jnpmlctvw3OijJXjHDOXYpWf7YtmEJlZD9t6JpEcJ80VTTG4
-	TSybEGKbkBIKZRA23DwZM/nzQx6ENoFA1XJ4e7QBOCj0vNjruA8jZOKaMLMzKtnjpDajhcB4ZBl
-	ZV/dwjuqtB505iQIZkPykuK7jBVS5Px1FowKq4pPEA==
-X-Received: by 2002:a05:6402:5256:b0:66b:aa56:ee5b with SMTP id
- 4fb4d7f45d1cf-66e3f85414amr8020225a12.28.1775564993925; Tue, 07 Apr 2026
- 05:29:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=themaw.net header.i=@themaw.net header.b="lk6rubv6";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="u5rukjmB"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 0FA8C7A00DE;
+	Tue,  7 Apr 2026 08:41:18 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Tue, 07 Apr 2026 08:41:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1775565678;
+	 x=1775652078; bh=2f4DFJcav/jCD//uCDk3U991sm8tkfQP7NLtzeGT0+8=; b=
+	lk6rubv6CIa5lUqhaViAKqlFuA1FC0ZyMLCirtu1AMlcQAwCA9KgTPvHU1/jP0ri
+	LwcKOSc3CFrFbO2ruKzzSuSC9KPdsk20kFZOigB2Vq86eGH7FIpLBkRHRXace1oD
+	lLp2keJYhnYV48QjQGj7rC7X/0QOIX+qdLAAoy+mmmBN3sKp4U7wLMsL0ClT0TH4
+	p181rsMvBLwLy0/mk35vZwwrJKbW6Umlr1PdAbLn41d3ltj4C+iUOojSd/8LH8MD
+	70eBKololxLZPfXeznkNr0VTS2pYw3OXKGCyqKhNZD1Fz06mqkElxmjoI/Iuq/T3
+	TWqXk932eNPd3pFULHnFcw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1775565678; x=
+	1775652078; bh=2f4DFJcav/jCD//uCDk3U991sm8tkfQP7NLtzeGT0+8=; b=u
+	5rukjmBHOV1BTJsGxgz+TzmwGoKEnNI6wWGIzZQJrVHf8SHSWzPFfcbrebRwrDU4
+	/PqgwVkICNcybj4cwiWU1X7h4PzPRtmBclkboYPCdpOvfLOTK8N9RKvIHcyttaE0
+	qK+/oI6dbNoz2VWmN4AANbx8g0PTS3M2c6z09uPK+HoTwGL+gS7bYtHnGOJGWhcX
+	YspKhDENo+urBuGYSwisI0n7IZGQCh7WdA5m6gYqwno6gde1r0yr0vEoBa0ru60G
+	IKYPyrFnyDlZwJaVoSu60g4kQ2SDEO446CSRFNlatOuwBuscIBDCCfo271cJpGYr
+	NrLCdG6yCkhUggFsv+Znw==
+X-ME-Sender: <xms:bfvUafw_YJqNR2vsOoFCfrAhz9lizgY-M8P69AZ_9LvstIBnvdD6Vg>
+    <xme:bfvUaXsZcuyNuMYSZTbdGQrUBjF4kaKJO3qnAvPreHQb86ChI6J7FI9yBC4aBNNxM
+    Mc0oxuRdQLmAhROEj_1EaEPWK-RHdRGPfE9Upl7us7AexYV>
+X-ME-Received: <xmr:bfvUaZHLwLc9hYndsZTihnKKOCs8SDFu_zCW5IbReuV4IN2EnbvwS9SpLx-f--931NPBWByCPt_TM-oZu3jfo0lqopS8bdiPkWuD6cEAVXwhm3T8G3zbnzs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddvtdeijecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeenucfhrhhomhepkfgrnhcumfgv
+    nhhtuceorhgrvhgvnhesthhhvghmrgifrdhnvghtqeenucggtffrrghtthgvrhhnpedtud
+    fghedtudfgfefgtdejgedutddtveefheetvdefueefgffggfdvieelteffgeenucevlhhu
+    shhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehrrghvvghnsehthh
+    gvmhgrfidrnhgvthdpnhgspghrtghpthhtohepudehpdhmohguvgepshhmthhpohhuthdp
+    rhgtphhtthhopegsrhgruhhnvghrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehvih
+    hrohesiigvnhhivhdrlhhinhhugidrohhrghdruhhkpdhrtghpthhtohepmhhikhhlohhs
+    sehsiigvrhgvughirdhhuhdprhgtphhtthhopehsrghnuggvvghnsehsrghnuggvvghnrd
+    hnvghtpdhrtghpthhtohepfhhsohhrvghnshhosehrvgguhhgrthdrtghomhdprhgtphht
+    thhopehjrggvshhhihhnsehrvgguhhgrthdrtghomhdprhgtphhtthhopehtohhrvhgrlh
+    gusheslhhinhhugidqfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtoheplhgrohgr
+    rhdrshhhrghosehgmhgrihhlrdgtohhmpdhrtghpthhtohepjhgrtghksehsuhhsvgdrtg
+    ii
+X-ME-Proxy: <xmx:bfvUaV7CODJ-IYnRpYNv2IJ2TwK6AGmI0s5Cl62nq4M7jnZlgpnsrg>
+    <xmx:bfvUaaxAHi69blrPAXcC59P9hKXVooW_iujumbLWRIcPn1zH47wcjA>
+    <xmx:bfvUab1wP0v2YT9-DdGp52zBpg3WVDw_5EPKNbWdpGVTVZ6_Paa7ug>
+    <xmx:bfvUaV5W2vGcHD2ihMrJsHnBPLalsRzDy_IPhCPzobKEkZVUyl2z0w>
+    <xmx:bvvUaVGO4kEbDMOYEDhlBZBLThEJyrmgr9tSn-TdtFhLcH0YHURvse5U>
+Feedback-ID: i31e841b0:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 7 Apr 2026 08:41:11 -0400 (EDT)
+Message-ID: <06760176-fb65-4fd8-b127-28b25d449b1f@themaw.net>
+Date: Tue, 7 Apr 2026 20:41:08 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260326-fuse-init-before-mount-v2-0-b1ca8fcbf60f@bsbernd.com>
- <adTyw4UJ04qOggCQ@amir-ThinkPad-T480> <c4ffec34-fad0-40d9-bff1-06c3cd202351@bsbernd.com>
-In-Reply-To: <c4ffec34-fad0-40d9-bff1-06c3cd202351@bsbernd.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Tue, 7 Apr 2026 14:29:41 +0200
-X-Gm-Features: AQROBzAG8nPjs3GCcMJNR6LuKfolDGuS14Aqzb3Ls7E1CM8SB9lkUU_mYR4hnCM
-Message-ID: <CAOQ4uxhBC7eTkaB6Ws1DqewzxkGdEfcCyJ8EZszn+YeHwG0-wQ@mail.gmail.com>
-Subject: Re: fuse-devel list on kernel.org
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: linux-fsdevel@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>, 
-	Joanne Koong <joannelkoong@gmail.com>, "Darrick J. Wong" <djwong@kernel.org>, Kevin Chen <kchen@ddn.com>, 
-	Bernd Schubert <bschubert@ddn.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH] vfs: limit directory child dentry retention
+To: Christian Brauner <brauner@kernel.org>
+Cc: Al Viro <viro@zeniv.linux.org.uk>, Miklos Szeredi <miklos@szeredi.hu>,
+ Eric Sandeen <sandeen@sandeen.net>, Frank Sorenson <fsorenso@redhat.com>,
+ Jay Shin <jaeshin@redhat.com>, Linus Torvalds
+ <torvalds@linux-foundation.org>, Yafang Shao <laoar.shao@gmail.com>,
+ Jan Kara <jack@suse.cz>, Waiman Long <longman@redhat.com>,
+ Matthew Wilcox <willy@infradead.org>, Wangkai <wangkai86@huawei.com>,
+ Colin Walters <walters@verbum.org>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20260331012925.74840-1-raven@themaw.net>
+ <20260331012925.74840-2-raven@themaw.net>
+ <20260331-engste-raushalten-f66cd264ce77@brauner>
+ <d8e591a1-d105-408f-b794-48573e1aa2fd@themaw.net>
+ <20260407-frieden-girlanden-7b761912b2b1@brauner>
+Content-Language: en-AU
+From: Ian Kent <raven@themaw.net>
+Autocrypt: addr=raven@themaw.net;
+ keydata= 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
+In-Reply-To: <20260407-frieden-girlanden-7b761912b2b1@brauner>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 7, 2026 at 2:25=E2=80=AFPM Bernd Schubert <bernd@bsbernd.com> w=
-rote:
->
->
->
-> On 4/7/26 14:04, Amir Goldstein wrote:
-> > On Thu, Mar 26, 2026 at 10:34:33PM +0100, Bernd Schubert wrote:
-> >> I'm taking Darricks example here and posting API changing libfuse
-> >> changes to linux-fsdevel. We should consider to create a fuse
-> >> specific list if that is too much. The existing
-> >> fuse-devel@lists.sourceforge.net is rather hopeless due to lack
-> >> of spam filtering.
-> >>
-> >
-> > Let's do this already!
-> >
-> > https://korg.docs.kernel.org/lore-archives.html
-> >
-> > Do you want me to send the email to kernel.org?
-> >
-> > I suggest that we ask for fuse-deve@lists.linux.dev
+On 7/4/26 18:35, Christian Brauner wrote:
+> On Wed, Apr 01, 2026 at 10:10:55AM +0800, Ian Kent wrote:
+>> On 31/3/26 17:39, Christian Brauner wrote:
+>>> On Tue, Mar 31, 2026 at 09:29:09AM +0800, Ian Kent wrote:
+>>>> If there's a very large number of children present in a directory dentry
+>>>> then the benifit from retaining stale child dentries for re-use can
+>>>> become ineffective. Even hashed lookup can become ineffective as hash
+>>>> chains grow, time taken to umount a file system can increase a lot, as
+>>>> well as child dentry traversals resulting in lock held too long log
+>>>> messages.
+>>> Fwiw, there's also e6957c99dca5 ("vfs: Add a sysctl for automated deletion of dentry")
+>> I'm pretty sure I saw that earlier on but had forgotten about it when I
+>>
+>> reviewed the bug this time around. It is essentially 681ce8623567 ("vfs:
+>>
+>> Delete the associated dentry when deleting a file") with opt-in of course.
+>>
+>>
+>>> This patch introduces the concept conditionally, where the associated
+>>> dentry is deleted only when the user explicitly opts for it during file
+>>> removal. A new sysctl fs.automated_deletion_of_dentry is added for this
+>>> purpose. Its default value is set to 0.
+>> I meant to update Documentation/admin-guide/sysctl/fs.rst to also say that
+>>
+>> setting dir-stale-max to 0 disables it. I also get the impression you might
+>>
+>> feel better about this if the default was 0 as well.
+>>
+>>
+>> The thing that I don't much like with the d_delete() approach is that it
+>>
+>> fails to cater for files that have been closed and are otherwise unused
+>>
+>> who's dentries make there way to the LRU eventually resulting in the bad
+>>
+>> behaviour being discussed.
+>>
+>>
+>>> I have no massive objections to your approach. It feels a bit hacky tbh
+>>> as it seems to degrade performance for new workloads in favor old
+>>> workloads. The LRU should sort this out though.
+>> My aim was to improve performance so I'm a bit puzzled by the comment.
+>>
+>>
+>> The problem is the sheer number of dentry objects and the consequences
+>>
+>> of that. Hash table chains growing will affect performance, umounting
+>>
+>> the mount will take ages, and there are cases of child dentry traversals
+>>
+>> in the VFS. Once you get a large number of stale dentries that necessarily
+>>
+>> need to stay linked into the structures to get the benefit of caching your
+>>
+>> exposed to this problem.
+>>
+>>
+>> The LRU mechanism is so far unable to cope with this.
+> I meant when when you start limiting the number of negative dentries and
+> start to not accumulate more that some workload was relying on this. It
+> was just a theoretical musing. That initial "delete on unlink" thing led
+> to regressions for a bunch of workloads when we did it unconditionally
+> initially.
 
-Just don't copy paste my fuse-deve typo in the request ;)
+Yes, I did take that on board.
 
-> > and then we can migrated the old sourceforge archives
->
-> I'm all for a new fuse mailing list.
->
-> >
-> > As far as I can understand getting the archives from sourceforge
-> > required the admin password:
-> >
-> > https://sourceforge.net/p/forge/documentation/Mailing%20List%20Archives=
-/
-> >
-> > Mikos,
-> >
-> > Will you be able to handle the archive migration?
->
-> Have that password from Nikolaus.
->
+It's trivial to initially disable it with a doc update describng this.
 
-Excellent, so will you be sending that email to helpdesk@kernel.org?
 
-Thanks,
-Amir.
+But this only works (gets accepted) if people think it's worth while and
+
+I'm not sure my proposed case is convincing enough.
+
+
+Ian
+
