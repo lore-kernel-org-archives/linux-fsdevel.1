@@ -1,177 +1,114 @@
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAFC31A08AF;
-	Tue,  7 Apr 2026 21:42:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 035082C0307
+	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Apr 2026 22:05:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775598180; cv=none; b=bNNbHdvsNbR3hU6LwbJaVHf7mYorW3KaH5zvkPEUHeO+JMe55lZUSPP74czKNUHmtBtboV/2wKhKp6sZ2tE55JkAFOxVaAG3e8lHGLigDmr8dgK1hTnFRKLSrEWhyavOS2ZkuXYFmMhzhQpFIXRzJtKcJ3Ecyitck0u02JwMskw=
+	t=1775599521; cv=none; b=FPGZ7SDu9dEewhouU042pFn/5255wVJfaIxN5g7IKxtRdlCAXUhgFIcaJlhqBVlbCJ0n6oU3anLXFf1lWS1ESsoxVNJlm4TMQy2FdQXmKwdqiaY65sgkFIvru7lp/M9PQWHFbw9IHjxaYSU3FJ1avS6gZURiI5Cvz6Z3dPG4v+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775598180; c=relaxed/simple;
-	bh=sHx4OYVxnWzM+8EKgDC9Loyq12VSE5QiDtgvNuiSLi0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ViypfKt2J+4NQ+9VHEFpiEpnt+ixMflebKKYgCHbTqqSssxuk9PRpuK7HLuRWhkjf7Ny6IYygHZzdXbyOFGJM/ps/eogcMbLW1ErfF3PotorBGUy1uaP9eFY+qeKD23HAUf5JbbaR3mIQRaUKpSm8OIPrkcHA+dYP+rM12IUMCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=RWHt57fF; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	s=arc-20240116; t=1775599521; c=relaxed/simple;
+	bh=PduxhuYscMfZoZGLmxiLCztvS+oLGHn00Q3DD+xBxrs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eyylDbnCWMLVykGl1mptBpucaVxWBakgUdv2YtEdZT9KrIWTsAwhOMUI7Xj+zZlDy+LKB2J6RYmsZi/Klk2ZX4NJ1IjjPL/RZXExewkrwiIOW4Fm6hw0oNP5VwvbfeyonXrq41TdlzDu5sdHBO0wuqnukuUpuiteLX3kEiuFnjY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.cmu.edu; spf=unknown smtp.mailfrom=andrew.cmu.edu; dkim=pass (2048-bit key) header.d=cs.cmu.edu header.i=@cs.cmu.edu header.b=J+7/3y6O; arc=none smtp.client-ip=209.85.222.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.cmu.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=tempfail smtp.mailfrom=andrew.cmu.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="RWHt57fF"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
-	Date:References:In-Reply-To:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=rZsS1twO57Ns/rtxDU1upMBwpsVW+eBDZf4yN8kfPIo=; b=RWHt57fFwoiQq8nqecJzRw9z4i
-	OVTP+oy76lE7wly3ZVMBob14psfCIxGIPiQLej4COBv0b95TcnHHQ459o4lJLdDuGjwCvzoFhVHnT
-	ZeE1kATAPHNTM/fUN1jGCp7DvFng05j41qQ1yrnNE2kuEkA6392b2eYo9EaYnBCCUSgl7Z19sHukR
-	guX3r2zeG6d3J68qjSJj8XXoIBgDqiTordktXJQNCFqTgbZpnha2ozg/y9Ed2bhxJSezD91msddtw
-	P2lG0Z+Xw/By1TBfy0PnRWmPyxj90OszgnM9gFqJaOXJ9jhoF9Kyr4ytDmKYeixZtTPmcd76/kAW3
-	aQ5UrW2A==;
-Received: from bl16-24-98.dsl.telepac.pt ([188.81.24.98] helo=localhost)
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1wADqG-00DBst-Bs; Tue, 07 Apr 2026 23:20:12 +0200
-From: Luis Henriques <luis@igalia.com>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>,  Amir Goldstein
- <amir73il@gmail.com>,  Bernd Schubert <bschubert@ddn.com>,  Bernd Schubert
- <bernd@bsbernd.com>,  "Darrick J. Wong" <djwong@kernel.org>,  Horst
- Birthelmer <hbirthelmer@ddn.com>,  Kevin Chen <kchen@ddn.com>,
-  linux-fsdevel@vger.kernel.org,  linux-kernel@vger.kernel.org,  Matt
- Harvey <mharvey@jumptrading.com>,  kernel-dev@igalia.com
-Subject: Re: [RFC PATCH v3 6/8] fuse: implementation of lookup_handle+statx
- compound operation
-In-Reply-To: <CAJnrk1Yxpy0+tx2yb7CxVVwF9gqNRz_pHH5NUpBHOg55NNooJA@mail.gmail.com>
-	(Joanne Koong's message of "Tue, 7 Apr 2026 10:43:47 -0700")
-References: <20260225112439.27276-1-luis@igalia.com>
-	<20260225112439.27276-7-luis@igalia.com>
-	<CAJnrk1Yxpy0+tx2yb7CxVVwF9gqNRz_pHH5NUpBHOg55NNooJA@mail.gmail.com>
-Date: Tue, 07 Apr 2026 22:20:11 +0100
-Message-ID: <87v7e24gdw.fsf@igalia.com>
+	dkim=pass (2048-bit key) header.d=cs.cmu.edu header.i=@cs.cmu.edu header.b="J+7/3y6O"
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-8cfd44fa075so703382185a.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 07 Apr 2026 15:05:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cs.cmu.edu; s=google-2021; t=1775599506; x=1776204306; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VI+XxUh08LntUUnQET4Q65KhQLEFrlWDIGp/StKsGLQ=;
+        b=J+7/3y6O4erKj9XINe8crW7QV0sBK9K9rPXMBZh8qqfoLe9hFnLtRMhABRLxbDqWwp
+         X5Iq3pJDqens1FpliHRxztohA/+UW+rOR9dMcPGQYqSbfFXe5kAVPye8DRXrr6ulhw4m
+         /8O5DLkCIHozPFAn/8hse/DMZMkx51LOPPJhfnvoh5JZVQyQbcRZ+RmQ+SZKvW5+Bdyh
+         M+GNKoc8uT2BAva3M+RKSbpPc5Pxw6vjjpW9XAakYAMOWtv2wJmb9Tgq6K/8iVU50iml
+         ZmPWpIftRiEzkbYfrKx23enySc/+m0FzcD81w60AAxjW7O9j0W5Qd8E9AESGQVQsKFne
+         uDXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775599506; x=1776204306;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VI+XxUh08LntUUnQET4Q65KhQLEFrlWDIGp/StKsGLQ=;
+        b=NKpfLBx0y5BaZk9bGYdwC/6tJXLoh8lMeUMyFv4IzsGkQmbgu8tT4O57nX1IIJbOKn
+         6W2HWCKl/v+AKyISfWALh0rQWycoCryynJxuF0IAMHgk7oDKU9ETrA48E+UOpgjWVtF/
+         dr2yXQR0lcvymTyyIzlwLO1azB+FBC2CiOnTCG2+k5zuG4k4xWnlvS9CCj7GhtEFiRsS
+         gfvA4TZKj+0e9DtpGyK+nuOxwwzlOfg39B2od29+TcutElP2SjZ9IPks6ha7o9GExuUd
+         7ylcPaCpKD44HlOjjtXkpYebArNM+ttxWavbowjlOXBQw+W+lp5lwZRS0JexEh6ag+hO
+         JU8A==
+X-Gm-Message-State: AOJu0YwABIpu0ArrsBE79myyTJmkzepvhqEWX1tLJBO8MfyXx78htJsJ
+	ZUJ3G0TnBQ2uJQ6xlx3UZ010DSwaO7czXMlV39YPlUB0I1sfTaA3czXyJyYhtP6U/uNdXi3IP6J
+	II84=
+X-Gm-Gg: AeBDiesBUjCIoRqwk0ql35kcIOhiCirajfnOmaDDSo+TiiyQarWBbSjgg+dnFWfUoSD
+	gT0hbM2D/n5LoveC1r6QbEcvau+pzw2MTowd4z5ChcOXv9z1gxRmgDTYzuiUysDJ9dK5mOqFSxb
+	jMzGsAdKZuEKiJxWKZxBjoaNdVIj+TnI8bQFIp1fPPG8l12EeHr4QSen9+B0yy6Gx6R1bbrgSvJ
+	vS28yduae84YENoYnnLgj/r+TLMJpDHt7hcYV3lM/Mn15XQGTHTw1x2jKkLre+qB9WIYFK1dBPY
+	om8WfRnMx9LFaB8frVJeQRspfJuV4d3QDdM0jAjbsYioHLIRRecVeAg7mESh1+aEozsv+R+DV7W
+	89XaOk0QN1Z+Sk+QfZMzhIiHuGIG6l7SrgoeeGB28tiX0XcdKnEluvPbz+ENH/H0eJzgfVdegcF
+	pzwdORPr+XNdbpVSJM+a6/aCA2IyKNm4RyvUrW+FG4Pnc=
+X-Received: by 2002:a05:620a:21cd:b0:8d6:838a:c98c with SMTP id af79cd13be357-8d6838acfffmr1440965685a.34.1775599505844;
+        Tue, 07 Apr 2026 15:05:05 -0700 (PDT)
+Received: from cs.cmu.edu (tempest.elijah.cs.cmu.edu. [128.2.210.10])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8d2a8067c73sm1332500685a.24.2026.04.07.15.05.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Apr 2026 15:05:05 -0700 (PDT)
+Date: Tue, 7 Apr 2026 18:05:03 -0400
+From: Jan Harkes <jaharkes@cs.cmu.edu>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>
+Subject: Re: [PATCH 0/3] coda dcache-related cleanups and fixes
+Message-ID: <20260407220427.326lgx22n4jgsy6b@cs.cmu.edu>
+Mail-Followup-To: Al Viro <viro@zeniv.linux.org.uk>,
+	linux-fsdevel@vger.kernel.org,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
+References: <20260405021515.2866402-1-viro@zeniv.linux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260405021515.2866402-1-viro@zeniv.linux.org.uk>
 
-Hi Joanne,
+Thank you so much for looking at this.
 
-On Tue, Apr 07 2026, Joanne Koong wrote:
+On Sun, Apr 05, 2026 at 03:15:12AM +0100, Al Viro wrote:
+> 1) prior to 2002 coda_revalidate_inode() used make_bad_inode() on
+> failures; is_bad_inode() checks used to make sense back then.  For
+> the last 23.5 years they had been dead code; let's take them out...
 
-> On Wed, Feb 25, 2026 at 3:25=E2=80=AFAM Luis Henriques <luis@igalia.com> =
-wrote:
->>
->> The implementation of lookup_handle+statx compound operation extends the
->> lookup operation so that a file handle is be passed into the kernel.  It
->> also needs to include an extra inarg, so that the parent directory file
->> handle can be sent to user-space.  This extra inarg is added as an exten=
-sion
->> header to the request.
->>
->> By having a separate statx including in a compound operation allows the
->> attr to be dropped from the lookup_handle request, simplifying the
->> traditional FUSE lookup operation.
->>
->> Signed-off-by: Luis Henriques <luis@igalia.com>
->> ---
->>  fs/fuse/dir.c             | 294 +++++++++++++++++++++++++++++++++++---
->>  fs/fuse/fuse_i.h          |  23 ++-
->>  fs/fuse/inode.c           |  48 +++++--
->>  fs/fuse/readdir.c         |   2 +-
->>  include/uapi/linux/fuse.h |  23 ++-
->>  5 files changed, 355 insertions(+), 35 deletions(-)
->>
->> diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
->> index 113583c4efb6..89e6176abe25 100644
->> --- a/include/uapi/linux/fuse.h
->> +++ b/include/uapi/linux/fuse.h
->>
->>  enum fuse_opcode {
->> @@ -671,6 +676,8 @@ enum fuse_opcode {
->>          */
->>         FUSE_COMPOUND           =3D 54,
->>
->> +       FUSE_LOOKUP_HANDLE      =3D 55,
->> +
->>         /* CUSE specific operations */
->>         CUSE_INIT               =3D 4096,
->>
->> @@ -707,6 +714,20 @@ struct fuse_entry_out {
->>         struct fuse_attr attr;
->>  };
->>
->> +struct fuse_entry2_out {
->> +       uint64_t        nodeid;
->> +       uint64_t        generation;
->> +       uint64_t        entry_valid;
->> +       uint32_t        entry_valid_nsec;
->> +       uint32_t        flags;
->> +       uint64_t        spare;
->> +};
+Ah, yeah, didn't realize that, "if it works don't fix it" is not much
+use when the code we call has been dead for that long.
+
+> 2) coda ->d_delete() appears to have been hit by somebody overhardened
+> back in 2021.  Useful tip: if we've just checked d_really_is_negative()
+> and it had returned false, dentry->d_inode is *NOT* going to be NULL.
 >
-> Hi Luis,
->
-> Could you explain why we need a new struct fuse_entry2_out instead of
-> reusing struct fuse_entry_out? From what i see, the only differences
-> between them are that fuse_entry2_out drops attr_valid,
-> attr_valid_nsec, and struct fuse_attr. Is this done so that it saves
-> the ~100 bytes per lookup? Would it be cleaner from an abi perspective
-> to just reuse fuse_entry_out and ignore the attr fields if they're not
-> necessary? The reason I'm asking is because I'm looking at how you're
-> doing the lookup request reply to see if the fuse passthrough stuff
-> for metadata/directory operations can be combined with it. But I'm not
-> fully understanding why fuse_entry2_out is needed here.
->
-> I'm also a bit confused by why the compound with statx is needed here,
-> could you explain this part? I see the call to fuse_statx_to_attr()
-> after do_lookup_handle_statx(),  but fuse_statx_to_attr() converts the
-> statx reply right back to a struct fuse_attr for inode setup, so if
-> FUSE_LOOKUP_HANDLE returned struct fuse_entry_out instead of struct
-> fuse_entry2_out, doesn't this solve the problem of needing to compound
-> it with a statx or getattr request? I also noticed that the statx part
-> uses FUSE_ROOT_ID as a workaround for the node id because the actual
-> nodeid isn't known yet, this seems like another sign that the
-> attributes stuff should just be part of the lookup response itself
-> rather than a separate operation?
+> 3) coda_flag_children() is holding ->d_lock on parent while iterating
+> through the list of its children; that's fine, but that does not protect
+> ->d_inode of individual children.  Hold rcu_read_lock() over the entire
+> loop to prevent UAF there...
+> 
+> No preferences regarding the tree these would go through; at the moment
+> it's in
+> git://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git #work.coda
+> but if coda folks prefer to route those through another tree, just say
+> so.
 
-First of all, thanks a lot for looking into this patchset.  Much
-appreciated!
+Your vfs tree is perfectly fine by me.  Again, thanks for doing this.
 
-The main reason for swapping the usage of attr by statx is that statx
-includes some attributes that attr does not (e.g. btime).  And since I was
-adding a new FUSE operation, it would be a good time for using statx
-instead.  (Moreover, as new attributes may be added to statx in the
-future, the benefits of using statx could eventually be even greater.)
+All the changes look good to me.  I'll give them a spin and I will let
+you know if anything goes bad, but if you don't hear from me assume
+things worked.
 
-This was suggested by Miklos here[0], before converting the whole thing to
-use compound commands.  So, I was going to use fuse_statx in the _out args
-for lookup_handle.  However, because the interface was getting a bit
-complex with extra args (and ext headers!), Miklos ended up suggesting[1]
-to remove attr completely from the lookup_handle operation, and use
-compounds instead to have the full functionality.
+Jan
 
-Obviously, I may have misunderstood (or mis-implemented) the suggestions
-that were done.  And hopefully the provided links to the discussion that
-originated this approach will help.
-
-Regarding the usage of FUSE_ROOT_ID as a workaround for the node id, I
-believe this is a more generic problem which will occur in other compound
-commands as well.  If we want to create a new file system object and
-perform some operation with it within the same compound, a similar
-workaround will be required (or some sort of flag in the compound command
-to signal this dependency).
-
-I hope this helped to clarify a bit your questions.
-
-[0] https://lore.kernel.org/all/CAJfpegsoeUH42ZSg_MSEYukbgXOM_83YT8z_sksMj8=
-4xPPCMGQ@mail.gmail.com
-[1] https://lore.kernel.org/all/CAJfpegst6oha7-M+8v9cYpk7MR-9k_PZofJ3uzG39D=
-nVoVXMkA@mail.gmail.com
-
-Cheers,
---=20
-Lu=C3=ADs
