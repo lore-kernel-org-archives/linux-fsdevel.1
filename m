@@ -1,74 +1,64 @@
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 035082C0307
-	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Apr 2026 22:05:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A63DB38A703;
+	Tue,  7 Apr 2026 23:00:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775599521; cv=none; b=FPGZ7SDu9dEewhouU042pFn/5255wVJfaIxN5g7IKxtRdlCAXUhgFIcaJlhqBVlbCJ0n6oU3anLXFf1lWS1ESsoxVNJlm4TMQy2FdQXmKwdqiaY65sgkFIvru7lp/M9PQWHFbw9IHjxaYSU3FJ1avS6gZURiI5Cvz6Z3dPG4v+0=
+	t=1775602845; cv=none; b=VSa9a/eFrUDoEyw1hAU/J/Q4Ker1U+waGp5OPguzZrSwNBKCV/eobTFBCtc9MGj79/zDdXplo9Sxf/vSp50QB/AtvlKki0ZZzwwNXSZAsz+Hj0RRcD+/+QzcNnKElMd9dqyuHa2/UzHRfidC4/nu8v2bg3zlBvXIEWSWpzn4jtI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775599521; c=relaxed/simple;
-	bh=PduxhuYscMfZoZGLmxiLCztvS+oLGHn00Q3DD+xBxrs=;
+	s=arc-20240116; t=1775602845; c=relaxed/simple;
+	bh=Sy+BRlelaZG9WDkntYDY0tGb4c5RFFjT9XQH/dTL29Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eyylDbnCWMLVykGl1mptBpucaVxWBakgUdv2YtEdZT9KrIWTsAwhOMUI7Xj+zZlDy+LKB2J6RYmsZi/Klk2ZX4NJ1IjjPL/RZXExewkrwiIOW4Fm6hw0oNP5VwvbfeyonXrq41TdlzDu5sdHBO0wuqnukuUpuiteLX3kEiuFnjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.cmu.edu; spf=unknown smtp.mailfrom=andrew.cmu.edu; dkim=pass (2048-bit key) header.d=cs.cmu.edu header.i=@cs.cmu.edu header.b=J+7/3y6O; arc=none smtp.client-ip=209.85.222.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.cmu.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=tempfail smtp.mailfrom=andrew.cmu.edu
+	 Content-Type:Content-Disposition:In-Reply-To; b=CudZ7clGfB4fpJaWZlRo/IOqWkpzlX0Y3dYX2wPGmzcgWcBvycjaxF+2fNE/XsynDQxga8NAY/b9s1/AzEMJ4V8ebhjrRLT/8VKJ0kvAdJ1JQSV8MeOZAHpAHOSoJp/Kmter5tWB6Gnn0v0K2FDzJ5Fe7ATQ2rPhEn2CFCYSXfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S9aE7Jri; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cs.cmu.edu header.i=@cs.cmu.edu header.b="J+7/3y6O"
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-8cfd44fa075so703382185a.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 07 Apr 2026 15:05:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cs.cmu.edu; s=google-2021; t=1775599506; x=1776204306; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VI+XxUh08LntUUnQET4Q65KhQLEFrlWDIGp/StKsGLQ=;
-        b=J+7/3y6O4erKj9XINe8crW7QV0sBK9K9rPXMBZh8qqfoLe9hFnLtRMhABRLxbDqWwp
-         X5Iq3pJDqens1FpliHRxztohA/+UW+rOR9dMcPGQYqSbfFXe5kAVPye8DRXrr6ulhw4m
-         /8O5DLkCIHozPFAn/8hse/DMZMkx51LOPPJhfnvoh5JZVQyQbcRZ+RmQ+SZKvW5+Bdyh
-         M+GNKoc8uT2BAva3M+RKSbpPc5Pxw6vjjpW9XAakYAMOWtv2wJmb9Tgq6K/8iVU50iml
-         ZmPWpIftRiEzkbYfrKx23enySc/+m0FzcD81w60AAxjW7O9j0W5Qd8E9AESGQVQsKFne
-         uDXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775599506; x=1776204306;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VI+XxUh08LntUUnQET4Q65KhQLEFrlWDIGp/StKsGLQ=;
-        b=NKpfLBx0y5BaZk9bGYdwC/6tJXLoh8lMeUMyFv4IzsGkQmbgu8tT4O57nX1IIJbOKn
-         6W2HWCKl/v+AKyISfWALh0rQWycoCryynJxuF0IAMHgk7oDKU9ETrA48E+UOpgjWVtF/
-         dr2yXQR0lcvymTyyIzlwLO1azB+FBC2CiOnTCG2+k5zuG4k4xWnlvS9CCj7GhtEFiRsS
-         gfvA4TZKj+0e9DtpGyK+nuOxwwzlOfg39B2od29+TcutElP2SjZ9IPks6ha7o9GExuUd
-         7ylcPaCpKD44HlOjjtXkpYebArNM+ttxWavbowjlOXBQw+W+lp5lwZRS0JexEh6ag+hO
-         JU8A==
-X-Gm-Message-State: AOJu0YwABIpu0ArrsBE79myyTJmkzepvhqEWX1tLJBO8MfyXx78htJsJ
-	ZUJ3G0TnBQ2uJQ6xlx3UZ010DSwaO7czXMlV39YPlUB0I1sfTaA3czXyJyYhtP6U/uNdXi3IP6J
-	II84=
-X-Gm-Gg: AeBDiesBUjCIoRqwk0ql35kcIOhiCirajfnOmaDDSo+TiiyQarWBbSjgg+dnFWfUoSD
-	gT0hbM2D/n5LoveC1r6QbEcvau+pzw2MTowd4z5ChcOXv9z1gxRmgDTYzuiUysDJ9dK5mOqFSxb
-	jMzGsAdKZuEKiJxWKZxBjoaNdVIj+TnI8bQFIp1fPPG8l12EeHr4QSen9+B0yy6Gx6R1bbrgSvJ
-	vS28yduae84YENoYnnLgj/r+TLMJpDHt7hcYV3lM/Mn15XQGTHTw1x2jKkLre+qB9WIYFK1dBPY
-	om8WfRnMx9LFaB8frVJeQRspfJuV4d3QDdM0jAjbsYioHLIRRecVeAg7mESh1+aEozsv+R+DV7W
-	89XaOk0QN1Z+Sk+QfZMzhIiHuGIG6l7SrgoeeGB28tiX0XcdKnEluvPbz+ENH/H0eJzgfVdegcF
-	pzwdORPr+XNdbpVSJM+a6/aCA2IyKNm4RyvUrW+FG4Pnc=
-X-Received: by 2002:a05:620a:21cd:b0:8d6:838a:c98c with SMTP id af79cd13be357-8d6838acfffmr1440965685a.34.1775599505844;
-        Tue, 07 Apr 2026 15:05:05 -0700 (PDT)
-Received: from cs.cmu.edu (tempest.elijah.cs.cmu.edu. [128.2.210.10])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8d2a8067c73sm1332500685a.24.2026.04.07.15.05.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Apr 2026 15:05:05 -0700 (PDT)
-Date: Tue, 7 Apr 2026 18:05:03 -0400
-From: Jan Harkes <jaharkes@cs.cmu.edu>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>
-Subject: Re: [PATCH 0/3] coda dcache-related cleanups and fixes
-Message-ID: <20260407220427.326lgx22n4jgsy6b@cs.cmu.edu>
-Mail-Followup-To: Al Viro <viro@zeniv.linux.org.uk>,
-	linux-fsdevel@vger.kernel.org,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-References: <20260405021515.2866402-1-viro@zeniv.linux.org.uk>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S9aE7Jri"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1775602844; x=1807138844;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Sy+BRlelaZG9WDkntYDY0tGb4c5RFFjT9XQH/dTL29Y=;
+  b=S9aE7Jri5xeH/pTVf7SDh7JB7etjE0xjwWKSQcsMa2TY9GxbmdIX5aUF
+   O66JnDwvtQTg9+KaixQSbj0DFyUaN6jlE5OV7OiT8mGfPmm3ewC2qIaEx
+   2VFKax63KV4X8Nt6dp+BZG5M3Snk3pTzZQDs5EA3wJopbGiuzDa0RSzc0
+   KFOC8P3nj1wUgtm0D+FPuvS2tlD9yFeD+5LnUNVpSxUeS7BhmKeLwnLHk
+   1mE2EJxrC96Vdg5odhbZR4kpJ2NJSia1vp2SBzy2vh9x8h7tY44g7xY0H
+   caMskLX2L5S1EoRJ7cDRvwKtxNVjDVcvDpUftTmfCOv0zHNpJKUH3KoSy
+   g==;
+X-CSE-ConnectionGUID: wcC93vPjTT66S/0bsYfgRw==
+X-CSE-MsgGUID: vj+zWIRsRh6vn/ykLMHwIA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11752"; a="80172439"
+X-IronPort-AV: E=Sophos;i="6.23,166,1770624000"; 
+   d="scan'208";a="80172439"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 16:00:44 -0700
+X-CSE-ConnectionGUID: amAf8Z1ET6+Wd9Sj3IGtug==
+X-CSE-MsgGUID: 6+CcoNjQSliMz+efVPcfFQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,166,1770624000"; 
+   d="scan'208";a="258725579"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa002.jf.intel.com with ESMTP; 07 Apr 2026 16:00:40 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wAFPS-00000000ALt-0ZP8;
+	Tue, 07 Apr 2026 23:00:38 +0000
+Date: Wed, 8 Apr 2026 01:00:16 +0200
+From: kernel test robot <lkp@intel.com>
+To: Christian Benton <t1bur0n.kernel.org@protonmail.ch>, ojeda@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, viro@zeniv.linux.org.uk,
+	brauner@kernel.org, rust-for-linux@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	aliceryhl@google.com, lossin@kernel.org,
+	Christian Benton <t1bur0n.kernel.org@protonmail.ch>
+Subject: Re: [PATCH] rust: seq_file: add puts, putc, write, and hex_dump
+ methods
+Message-ID: <202604080005.U3yjfXzs-lkp@intel.com>
+References: <20260403233900.24640-1-t1bur0n.kernel.org@protonmail.ch>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -77,38 +67,110 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260405021515.2866402-1-viro@zeniv.linux.org.uk>
+In-Reply-To: <20260403233900.24640-1-t1bur0n.kernel.org@protonmail.ch>
 
-Thank you so much for looking at this.
+Hi Christian,
 
-On Sun, Apr 05, 2026 at 03:15:12AM +0100, Al Viro wrote:
-> 1) prior to 2002 coda_revalidate_inode() used make_bad_inode() on
-> failures; is_bad_inode() checks used to make sense back then.  For
-> the last 23.5 years they had been dead code; let's take them out...
+kernel test robot noticed the following build errors:
 
-Ah, yeah, didn't realize that, "if it works don't fix it" is not much
-use when the code we call has been dead for that long.
+[auto build test ERROR on brauner-vfs/vfs.all]
+[also build test ERROR on rust/rust-next linus/master v7.0-rc7 next-20260407]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> 2) coda ->d_delete() appears to have been hit by somebody overhardened
-> back in 2021.  Useful tip: if we've just checked d_really_is_negative()
-> and it had returned false, dentry->d_inode is *NOT* going to be NULL.
->
-> 3) coda_flag_children() is holding ->d_lock on parent while iterating
-> through the list of its children; that's fine, but that does not protect
-> ->d_inode of individual children.  Hold rcu_read_lock() over the entire
-> loop to prevent UAF there...
-> 
-> No preferences regarding the tree these would go through; at the moment
-> it's in
-> git://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git #work.coda
-> but if coda folks prefer to route those through another tree, just say
-> so.
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Benton/rust-seq_file-add-puts-putc-write-and-hex_dump-methods/20260407-211720
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20260403233900.24640-1-t1bur0n.kernel.org%40protonmail.ch
+patch subject: [PATCH] rust: seq_file: add puts, putc, write, and hex_dump methods
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260408/202604080005.U3yjfXzs-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260408/202604080005.U3yjfXzs-lkp@intel.com/reproduce)
 
-Your vfs tree is perfectly fine by me.  Again, thanks for doing this.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604080005.U3yjfXzs-lkp@intel.com/
 
-All the changes look good to me.  I'll give them a spin and I will let
-you know if anything goes bad, but if you don't hear from me assume
-things worked.
+All error/warnings (new ones prefixed by >>):
 
-Jan
+   PATH=/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   INFO PATH=/opt/cross/rustc-1.88.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS=\ -fno-crash-diagnostics\ -Wno-error=return-type\ -Wreturn-type\ -funsigned-char\ -Wundef\ -falign-functions=64 W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck 
+   make: Entering directory '/kbuild/src/consumer'
+   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+>> Diff in rust/kernel/seq_file.rs:4:
+    //!
+    //! C header: [`include/linux/seq_file.h`](srctree/include/linux/seq_file.h)
+    
+   -use crate::{bindings, ffi, fmt, str::CStr, str::CStrExt as _, types::NotThreadSafe, types::Opaque};
+   +use crate::{
+   +    bindings, ffi, fmt, str::CStr, str::CStrExt as _, types::NotThreadSafe, types::Opaque,
+   +};
+    
+    /// A utility for generating the contents of a seq file.
+    #[repr(transparent)]
+>> Diff in rust/kernel/seq_file.rs:4:
+    //!
+    //! C header: [`include/linux/seq_file.h`](srctree/include/linux/seq_file.h)
+    
+   -use crate::{bindings, ffi, fmt, str::CStr, str::CStrExt as _, types::NotThreadSafe, types::Opaque};
+   +use crate::{
+   +    bindings, ffi, fmt, str::CStr, str::CStrExt as _, types::NotThreadSafe, types::Opaque,
+   +};
+    
+    /// A utility for generating the contents of a seq file.
+    #[repr(transparent)]
+   make[2]: *** [Makefile:1916: rustfmt] Error 123
+   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[2]: Target 'rustfmtcheck' not remade because of errors.
+   make[1]: Target 'rustfmtcheck' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'rustfmtcheck' not remade because of errors.
+   make: Leaving directory '/kbuild/src/consumer'
+--
+>> warning: methods called `as_*` usually take `self` by reference or `self` by mutable reference
+   --> rust/kernel/seq_file.rs:27:17
+   |
+   27 |     fn as_c_int(self) -> ffi::c_int {
+   |                 ^^^^
+   |
+   = help: consider choosing a less ambiguous name
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#wrong_self_convention
+   = note: `-W clippy::wrong-self-convention` implied by `-W clippy::all`
+   = help: to override `-W clippy::all` add `#[allow(clippy::wrong_self_convention)]`
+--
+>> warning: casts from `u8` to `i32` can be expressed infallibly using `From`
+   --> rust/kernel/seq_file.rs:119:17
+   |
+   119 |                 rowsize as ffi::c_int,
+   |                 ^^^^^^^^^^^^^^^^^^^^^
+   |
+   = help: an `as` cast can become silently lossy if the types change in the future
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cast_lossless
+   = note: requested on the command line with `-W clippy::cast-lossless`
+   help: use `ffi::c_int::from` instead
+   |
+   119 -                 rowsize as ffi::c_int,
+   119 +                 ffi::c_int::from(rowsize),
+   |
+--
+>> warning: casts from `u8` to `i32` can be expressed infallibly using `From`
+   --> rust/kernel/seq_file.rs:120:17
+   |
+   120 |                 groupsize as ffi::c_int,
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = help: an `as` cast can become silently lossy if the types change in the future
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cast_lossless
+   help: use `ffi::c_int::from` instead
+   |
+   120 -                 groupsize as ffi::c_int,
+   120 +                 ffi::c_int::from(groupsize),
+   |
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
