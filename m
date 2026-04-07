@@ -1,162 +1,109 @@
-Received: from fout-b4-smtp.messagingengine.com (fout-b4-smtp.messagingengine.com [202.12.124.147])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0B4C33F370
-	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Apr 2026 18:05:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C83D6271471
+	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Apr 2026 18:35:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775585142; cv=none; b=uJdFbmRN96gKeEd+XZRdU1TKXQzISVlrPRs5N+FiwbshjUYfICnbI/ZWjwGuUfTWOz+hib/OGHx6if9jA/bU9yaSwzgIXK3y1ZqJ1/vjabkkIEK0o61Loz/ITpMtJef/mZOfmphgDwmGA6yl5DpRHKYicJMViFNGnjvZesZUFV8=
+	t=1775586938; cv=none; b=TZjLxMQvTIEv797yLHFJsomWvhRPE+dBzrB7qrhwmt1ASzFbjYsMCbEIyQuf6zGNMrXLhc+leN7grBgUwwZ35IQAU/tLxoV44ri0LEdR9wWo585XzEygqzdYLMLrYwr1REuV5fn7PeJBMuF191mDT3Ccmp4vbswKgTqrJNTxEXU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775585142; c=relaxed/simple;
-	bh=6stKIcINqn3M8Gg5I1ZOzhFKk4wPoBM7zGZ4krEWOBs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hYkDYtNLVdz2EQUiAqUyPkwsgWbVRGMYtoIHjA6l/9AbCJGpdtXqIU+G0ZiEsJCSIOswlEAjxWxQkM4gxnxIlDvep0caKFYDQpolYitW/tg/R9vop6W69j1TcolZsp+PaeQFLS22i4c9oclBbD+P4wfxPH6fJUodGNk6ZVAoGMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=dsCborjf; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=NKCmwLMy; arc=none smtp.client-ip=202.12.124.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	s=arc-20240116; t=1775586938; c=relaxed/simple;
+	bh=RcSfW7BVL553lKbTf3prH24yb+XiZUw0mmz0Q+5e4Os=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PRvsWgLF5grILOmrkzrdZhRa14zVdhW6vVu5iQN7ZuzaZ9B8+DRSbqOlG4ZHERcJk8bb2qD9qrEo7p+bp08wI8U3giPTJb5jTceZkr6cf3STKmBktP3CcYIL1AL/BzZD+E10enJcMzsj8c2Q8+8p30EhFWthz/OfHa04r8rOQkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wbinvd.org; spf=pass smtp.mailfrom=wbinvd.org; dkim=pass (2048-bit key) header.d=wbinvd.org header.i=@wbinvd.org header.b=SumApEDL; arc=none smtp.client-ip=74.125.82.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wbinvd.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wbinvd.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="dsCborjf";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="NKCmwLMy"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfout.stl.internal (Postfix) with ESMTP id A793D1D00179;
-	Tue,  7 Apr 2026 14:05:39 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Tue, 07 Apr 2026 14:05:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1775585139;
-	 x=1775671539; bh=blqHuqVu9Sr0bYx1oXLc1i2AkOxHF2v/RBfSn+QPtzI=; b=
-	dsCborjfOEJHZWWxbNrEovl+n5d3mTRl9jEFPAgPaB3uQSM48bQFGHpdwfq3adRv
-	QhsLwjjtU9U46k3Cqv7I5baDNZl0NlvF1sHWq+6T3LWj9SEsjsJrxiahcUat0RYs
-	kfewAWXG/Fc0li4eplHIIOMhHQBqFBW2p5lNZ4caWBGna3rc8c4Zuw7XP8huByxS
-	N2/oVz63MY7IHbyAZqhW+CbzjJ3nG/3gWgsF3iH5xRIlHtwAb0P5QA2noOxg5vSh
-	jeGy65r3og9ZbQ4C+YAc/x5bn74AY5teIQjsgRTGr4ZV1etDLf14sJjBgYcWd26t
-	OtQVEmQCIsKqlhrzEnQJFA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1775585139; x=
-	1775671539; bh=blqHuqVu9Sr0bYx1oXLc1i2AkOxHF2v/RBfSn+QPtzI=; b=N
-	KCmwLMyR2im2u5uxcW1IUUCFfqm/cKDLakt8PTZJaliEmuAGYTiiO84uyt1HYCwp
-	fqkWaMRQBUwHkYLQ1UQShjnUIEzFyfdECJP0xhHYcp3KdFtKAlgwjcm33Q3vt6Jc
-	LHG0tvs01oDiq7bBRrHwTo8Hr3tdCJGnjONi4AYXqAFJIX0yQG9SMy6iMAKKidJn
-	Lr6jqH4Sg5cUx0Off6P8rMG/0kJoM/1x0qqbUpc/UMBrxIR7mcE3THHxVbnRMv0R
-	IjjJOCV1OBFvA+XeYS8owXB7oxKdKeZpQClv1fRWTWMzB2E+ynM9fdqi6cpyc4AV
-	KykzM5XtYd/Dmmkq82yOQ==
-X-ME-Sender: <xms:c0fVacf4eMCxPSQoJeRk8ybpxqxUVkJWsVsUR-08tnvrWXwmr0YsXw>
-    <xme:c0fVabySvHdId08dPWdNjlcYT0vnbTtTIcu1TFv_W1ZRhJehH0fFG5ygjXZhdfo1y
-    D76HEdTkG5ExE3f4-iMHmNi2ZRg9P12QBonjm_zsDxoRW367k_bWQ>
-X-ME-Received: <xmr:c0fVaT_QHkN89pD5EsdvZP3i-clTre5enuV0JDIFgjV3t7f0uH77EOOrdxy9czOiW4Ne2wQe10yhe4MLYej7Ql1FrPCBJHY87VzaXBFjszfPMWfTtg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddvudefvdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenogfuuh
-    hsphgvtghtffhomhgrihhnucdlgeelmdenucfjughrpefkffggfgfuvfevfhfhjggtgfes
-    thekredttddvjeenucfhrhhomhepuegvrhhnugcuufgthhhusggvrhhtuceosggvrhhnug
-    essghssggvrhhnugdrtghomheqnecuggftrfgrthhtvghrnheptdehueevvdeihfffjeeu
-    gfekfedugfeiuddvffdttdevtedtjeetfeehheefudelnecuffhomhgrihhnpehkvghrnh
-    gvlhdrohhrghdpshhouhhrtggvfhhorhhgvgdrnhgvthenucevlhhushhtvghrufhiiigv
-    pedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegsvghrnhgusegsshgsvghrnhgurdgtoh
-    hmpdhnsggprhgtphhtthhopeejpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegr
-    mhhirhejfehilhesghhmrghilhdrtghomhdprhgtphhtthhopehlihhnuhigqdhfshguvg
-    hvvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhhikhhlohhssehs
-    iigvrhgvughirdhhuhdprhgtphhtthhopehjohgrnhhnvghlkhhoohhnghesghhmrghilh
-    drtghomhdprhgtphhtthhopegujhifohhngheskhgvrhhnvghlrdhorhhgpdhrtghpthht
-    ohepkhgthhgvnhesuggunhdrtghomhdprhgtphhtthhopegsshgthhhusggvrhhtseguug
-    hnrdgtohhm
-X-ME-Proxy: <xmx:c0fVaTgZACfwp2mVt_sOdo8Ns8WeIZYgIp-5xXURnZ4g35G6UFVHwg>
-    <xmx:c0fVaaFsoNOUqFhdIL-MkW0Z6ljbdwTBrweughU9fV0QGXGn1iaa0w>
-    <xmx:c0fVaS9CLXOC3BlA7hhbe3ekGociXQmSBZdS_NT4EMCy_p0JfeKM0w>
-    <xmx:c0fVaRxjeAfSdLK9DY-WStQpBL94vret92rAe970ArPUF2v_fl20cA>
-    <xmx:c0fVaZOM9BWDuzoxQvIW7cO56tAHjpjfHMlZoqClPYnONhOhQ5NBvpLh>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 7 Apr 2026 14:05:38 -0400 (EDT)
-Message-ID: <5d7295b0-bd7e-41e7-b176-3d19b240413c@bsbernd.com>
-Date: Tue, 7 Apr 2026 20:05:36 +0200
+	dkim=pass (2048-bit key) header.d=wbinvd.org header.i=@wbinvd.org header.b="SumApEDL"
+Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-2c156c4a9efso7019395eec.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 07 Apr 2026 11:35:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=wbinvd.org; s=wbinvd; t=1775586937; x=1776191737; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=eessS45c4d7a04OGsZRQetM2uu75g94y42hxsune8NQ=;
+        b=SumApEDLqjM5oO+lZBfylVEo/xrFEJRxBukM94PfdKAw3xlu4lsPjIkko7r5vHQ2gq
+         dovPz98PvB+1bC6E9oHpc9l6H1GcHxqmk8/QrZv6jf6QUPEV1qHRjd7yRNqCY+9vTifY
+         m79Zleht9Sk2r5nAZLXxzyGtlqs7ENmw6PCVHYO5uQQSBH4iA+SsEfGaPlGN/urIXwv9
+         U5A8bPU3oC13bX8ILhr8Rkk2+/FXYIVEtQU96FSr2tBLB5T3TO12pOxLdR0OLqvVyMeR
+         DBkF+JNvrapyfUyPToSBdI2VyPlHq3YdQ+rhH3DGy+S2BSvPVwxyIPEyMzDCUu0Q0jDd
+         6tOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775586937; x=1776191737;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=eessS45c4d7a04OGsZRQetM2uu75g94y42hxsune8NQ=;
+        b=q2hMkJzyhOdIKGUw2rIkKm9xWe6w402r8AyJmwThuvLUChnjaPkF+ESprEXiIADFdP
+         cHlkYf17NY0dQAAQuxOA94Zgwqgqz05d+EnKtRqrG+Tow/X6CQxp1ERmm0cyiR1XKlOu
+         ggrbtOMMjayBeg+NS2dpr2w6JaLzGcaQXqCWlKcDSbm9apoXLRASbgfNHEPKmjZk844J
+         nChJSecxpYR7deJz+rWo/nodEbYFDx+9w0RrlZcPvHXz8iyB0GeKg6DLqObsu2fzp8W3
+         bT7Op9pDlHkmsWB1o3tMtycIoS844+nO6IJaK7H8rEp5Bjh4oIBM+OGb8FfKMO5OmXim
+         /VFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXTs3CruKkxtoKr33eqd4CCFws4u0AEHFKBvT8XjDyeuh2FJGrG/wYAYcBE3TAZSh0xv8/UGecRLa7Jqxzy@vger.kernel.org
+X-Gm-Message-State: AOJu0YzXW3+1xuc2YQ+NJw1dSe3hURoCW1Vp3uldc7hj2u0ZM/BouVGv
+	77OP27hANqbnanCPxeW16Cm8F7kfxzNpky6B9y7zfMAa3SKon5++cPB0k42vltF8D14=
+X-Gm-Gg: AeBDiesmA+VuMtFBe/LjtEi4bd07hKNkeyf2QZzPxXpmzc/pZoi/XugNGlmohun/AZi
+	O1gpnkAI2CPFtIUUqcXddR+N3q1MBuEQJ8jOT+Kil6BjD0mZRVyppIlsH2QInrmlHqs50rZfMJN
+	8xq9jDRLthmxvG2VBy4jDL/vwhEY1UELiY3gkw3bQsO5EaryVadkuuNdxzS9FCWqUy5Wm9ROwGd
+	XPTx8KO91+DFptHUQ0a6wI97+qo6IDr8n0IrzPes3yJefKXE5GYXZt13z3MxxuhObWwLE4KA4Fp
+	5EojznMK9SYZp5CXGfzj5s6TlHbdRw809Zki0ypxtTz9lh15WHOQS52mjgRQyXObphMCkEKSus4
+	4d4pIVwwCuirDrjaeU+y5BW7sLXZc1uezUzsXdJyg1jh0Ld8/aum9Wy7VIyFpCvYFYUjdLT1LeH
+	8Vi88mXreEO1jGhIElS6+AG53JTg==
+X-Received: by 2002:a05:7300:bc97:b0:2c3:b172:83c2 with SMTP id 5a478bee46e88-2cbfb995295mr8671700eec.20.1775586936793;
+        Tue, 07 Apr 2026 11:35:36 -0700 (PDT)
+Received: from mozart.vkv.me ([2001:5a8:468b:d015:412a:9f09:7acb:b69f])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2cba5df5c24sm15982022eec.27.2026.04.07.11.35.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Apr 2026 11:35:36 -0700 (PDT)
+Date: Tue, 7 Apr 2026 11:35:33 -0700
+From: Calvin Owens <calvin@wbinvd.org>
+To: Thomas Gleixner <tglx@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Ingo Molnar <mingo@kernel.org>, John Stultz <jstultz@google.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org, Sebastian Reichel <sre@kernel.org>,
+	linux-pm@vger.kernel.org, Pablo Neira Ayuso <pablo@netfilter.org>,
+	Florian Westphal <fw@strlen.de>, Phil Sutter <phil@nwl.cc>,
+	netfilter-devel@vger.kernel.org, coreteam@netfilter.org
+Subject: Re: [patch 00/12] hrtimers: Prevent hrtimer interrupt starvation
+Message-ID: <adVOdTnyIbKz2F91@mozart.vkv.me>
+References: <20260407083219.478203185@kernel.org>
+ <adVA_uv1srA_bsKj@mozart.vkv.me>
+ <87ika24phf.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: fuse-devel list on kernel.org
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
- Joanne Koong <joannelkoong@gmail.com>, "Darrick J. Wong"
- <djwong@kernel.org>, Kevin Chen <kchen@ddn.com>,
- Bernd Schubert <bschubert@ddn.com>
-References: <20260326-fuse-init-before-mount-v2-0-b1ca8fcbf60f@bsbernd.com>
- <adTyw4UJ04qOggCQ@amir-ThinkPad-T480>
- <c4ffec34-fad0-40d9-bff1-06c3cd202351@bsbernd.com>
- <CAOQ4uxhBC7eTkaB6Ws1DqewzxkGdEfcCyJ8EZszn+YeHwG0-wQ@mail.gmail.com>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: en-US
-In-Reply-To: <CAOQ4uxhBC7eTkaB6Ws1DqewzxkGdEfcCyJ8EZszn+YeHwG0-wQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <87ika24phf.ffs@tglx>
 
-
-
-On 4/7/26 14:29, Amir Goldstein wrote:
-> On Tue, Apr 7, 2026 at 2:25 PM Bernd Schubert <bernd@bsbernd.com> wrote:
->>
->>
->>
->> On 4/7/26 14:04, Amir Goldstein wrote:
->>> On Thu, Mar 26, 2026 at 10:34:33PM +0100, Bernd Schubert wrote:
->>>> I'm taking Darricks example here and posting API changing libfuse
->>>> changes to linux-fsdevel. We should consider to create a fuse
->>>> specific list if that is too much. The existing
->>>> fuse-devel@lists.sourceforge.net is rather hopeless due to lack
->>>> of spam filtering.
->>>>
->>>
->>> Let's do this already!
->>>
->>> https://korg.docs.kernel.org/lore-archives.html
->>>
->>> Do you want me to send the email to kernel.org?
->>>
->>> I suggest that we ask for fuse-deve@lists.linux.dev
+On Tuesday 04/07 at 20:03 +0200, Thomas Gleixner wrote:
+> On Tue, Apr 07 2026 at 10:38, Calvin Owens wrote:
+> > On Tuesday 04/07 at 10:54 +0200, Thomas Gleixner wrote:
+> >> He provided a reproducer, which sets up a timerfd based timer and then
+> >> rearms it in a loop with an absolute expiry time of 1ns.
+> >
+> > The original AMD machines survive the reproducer with this series.
+> >
+> > Tested-by: Calvin Owens <calvin@wbinvd.org>
+> >
+> > I'm happy to test subsets of it and stable backports too, if that's
+> > helpful, just let me know.
 > 
-> Just don't copy paste my fuse-deve typo in the request ;)
-> 
->>> and then we can migrated the old sourceforge archives
->>
->> I'm all for a new fuse mailing list.
->>
->>>
->>> As far as I can understand getting the archives from sourceforge
->>> required the admin password:
->>>
->>> https://sourceforge.net/p/forge/documentation/Mailing%20List%20Archives/
->>>
->>> Mikos,
->>>
->>> Will you be able to handle the archive migration?
->>
->> Have that password from Nikolaus.
->>
-> 
-> Excellent, so will you be sending that email to helpdesk@kernel.org?
+> We'll only backport the first patch, so confirming that it still
+> prevents the issue would be nice. The rest is slated for upstream only.
 
-I can login here as admin:
-https://lists.sourceforge.net/lists/admin/fuse-devel with the admin
-password.
-
-Here https://lists.sourceforge.net/mbox/fuse-devel which is supposed to
-create the mbox file it asks for "user" and password. Assuming the
-password is the same, what is the "user"? Also tried my user sourceforge
-credentials, does not work either.
-
-Can we defer this a bit? Too many things to do and I think for now
-reviewing Joannes Patches and finishing sync-init and Darricks mail has
-a higher priority than fighting with sourceforge mbox.
-
+Confirmed, [1/12] alone passes.
 
 Thanks,
-Bernd
+Calvin
