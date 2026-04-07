@@ -1,116 +1,225 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 080CF1A0BE0
-	for <linux-fsdevel@vger.kernel.org>; Mon,  6 Apr 2026 21:45:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775511922; cv=pass; b=ZZTBNjL/DWqEAvnZm+lwd2PckuNMXCpkKQrlQ/vX9dQvTGBdiGufw/94HdGTwJyMf7pb+roSqUkBQC75qR93T5OeorVEULVkgRQz9QHjDxlBM3os9RGYAoS4NK2253uARNzxx8yfzvRZe6RVspCSWTsLdDfdgIDFkk0tR1oLVhc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775511922; c=relaxed/simple;
-	bh=40ijEJm4ac8kK8z0F+SbCs5yGl0NBVs6OVYTI813+Lk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mEmsqY1El80eeapIu/zYlpFWaRBCotWGaFOHnK+kz0MpIq04RTZoTwPTO59de5BSPRsnwd09SwUuCbOgJY/IhZJlzCWWZyHOyhp2Uf3/I7dJ7emJAthSoJV/NJHOLwD1yhkm3lINO2dpx9BJzWHQ7bxJ2J4uzOaREMgjp2elm8A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mp+J6ro2; arc=pass smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E55710F2
+	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Apr 2026 00:06:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775520378; cv=none; b=qTU4SmhKpT1CPKh6pEpgaXKzBmESMYZi53X6AC2H+tjFms5U3bvx0VtwlYTzTVAsSDF4yU0qhclhCIk4qMOiZtlYhbvu520P+/LhShMFhLgt1ll1vZvuXCWyFVLZBGp2LB7Mw/bW10JfCPwYOS/cIdy23L8SndcxAvakNKEqF8Q=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775520378; c=relaxed/simple;
+	bh=pbj+2DNzQ488rZE5wsUUXkMbr4pEgJwxXa4D6G2pHgM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=sL9u+KK8Ds0q2H5N9DuRJ4bD44+NDNzeJl2wqXvouOehoQValsR7N4IlpMBj6eHTgVshRMWkMFlWM9Cf9QlosTVyfnWsxPRU7hWKGNzYJ8xfslz4Tj6v2Snw6SJyV0YaN8zvYKoV9ouc25NmLXT/bwh6USZYmjgxmgBBBMxGAi0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KB/XCZPE; arc=none smtp.client-ip=209.85.167.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mp+J6ro2"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-66e8cc747d8so3011553a12.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 06 Apr 2026 14:45:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775511919; cv=none;
-        d=google.com; s=arc-20240605;
-        b=iS1aTv4cn+R6/HpC0/L09dIwOFjGAWGZtias1K+omnOVWuqHR1K6bt8WO2L7nsfiTi
-         yOTL56V4/nuXSDA1cfB6sTqQ8DEzdK1kyUGtQ2YkORK3RN2X/2aYYm0CPis2F7RJHK3+
-         TiFzydXXq3TpqFkL159cGjCh5VL1oFoAgIYqsAUKiUJ7SLVquL/if9Zvv5/4B+GSz8q8
-         pjxqpWB/3IjwXR5VnBFG8940SEP4KB1l/6Gz3mD3pYr2721898nO99NRow3qtTMXkQRe
-         I0mjSgbmXItHJlNQZGN/q6qGnBV94dOqqv7Od0RaZn1qPhqrKLsgBIvuplrx+EK91o3M
-         DqXw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=40ijEJm4ac8kK8z0F+SbCs5yGl0NBVs6OVYTI813+Lk=;
-        fh=IknLau85xGV/adNo9oZJGDYKNdDG+WfBtqpFA/r1ebw=;
-        b=WXmuRbCe5YjxS4f9/b2dxsXzpMyIwKxD+QLzwoUsDIWXTt5Seajsey6fOcm1ao8vZD
-         VDnRSzcJcJNHJF0rGdZXyTkALZdHUCx946ZXeiplxDo3OGNeiiZM6HvIgLkCpWD3stD9
-         b2cSrJSpMBR8p1kDSzzh86w6Q5BufKPDnmZL+sgNtOodNFj4yAvHQg7omaL39Any1r++
-         cvSR/VXUWVcbOj3BrEefEvsw/ZqUgIReHYzFi7FzMPL74sQlqexJrnLINWxPwglonQZz
-         MEJNVeSr4K2V2MpGC0v3kJKCy9X1f+J+QoWNwf5xYsY36505bQupqJUIO5Uo5WD+6q7c
-         n0+w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KB/XCZPE"
+Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-471618e202bso371987b6e.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 06 Apr 2026 17:06:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775511919; x=1776116719; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1775520376; x=1776125176; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=40ijEJm4ac8kK8z0F+SbCs5yGl0NBVs6OVYTI813+Lk=;
-        b=Mp+J6ro2MAwkhbQ9UDTSc/ulFWNiC6UelTP9aesZ4I0jnRVkHDNxXrPTEEq+nBnu5/
-         za/NcxjL6OUyLPn4EoJ3JKn3F+xQvujms2N6m8trpbZQJRk2jRXh3+aXn1OqyxQN0GB5
-         cBgrEm0DFH0c9Kgxl8BKpUtapQUtJFVQ4V/ZD2R/Yzqy5VGrbUnt4uAf8e9SWQ4wC3ty
-         IHKeY15vNriBwrncWK4FB1kY0iQdJZuDdDbgnDlB6G4nzODrHJMNocc6/hZ2VYdGbWKJ
-         gdUWJbZfIBejUquuSLc7QnkZ6UZS6QfqdhRJ99QMJ65dOKgNX8E/oD0PpmjzcWehVsc+
-         epiQ==
+        bh=55V4D/ehX3CNaBAUBfcX9JoEKWKh4l8j4IryuEySytc=;
+        b=KB/XCZPE3MOdR6pmJxcdQlE+4YCBgTCdbsftnVu9zq2jMbL06HZoXO5d2zf/RadOud
+         Wp2aTFTSxLLZr+yzxdBGWmT+F8en2aJLyKmGQO+mTvYpg635bGxvhfJjG65IMmAEQW3I
+         OW55q6tRj39cyiEtdzxt8W/4DJVbJfEzj3dSQUbnuk0a2Mawx+NPdWNBO1s0Hyy9YPxK
+         rrOQ6FAqfWVtkDWQdQUS/BMbvv04znBn0pZQdnE5MHq8+J4J7c0B4DTQeOmSeHxsyeZj
+         uFc3MMMOac64nbLkcHhJc9FzYCempMiIqvD7R8PMGIpFVpsXPWLr7BEqZKG1QORjlRar
+         vPIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775511919; x=1776116719;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1775520376; x=1776125176;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=40ijEJm4ac8kK8z0F+SbCs5yGl0NBVs6OVYTI813+Lk=;
-        b=a8Vhhg8GWzqRGDjsjtq3hBsX50Bt/fBGVXX0DuDt4waZbrPCTrpTACxuWbtvwr7Nmc
-         XzryfUSA+6FYN5xMVopxWPVi8sPNo7cr7F/0ePZf/UVnqO9TWAh6AzMrbLPsgLeAPanE
-         coSQmcxkweE4QrCyqh8eQGd/bykzzbe+Cuqw5NPJGrYIj+/9CmHOexCt+anzvPAONuMu
-         j2GGtIP4U3+1xNwr2I3V2sy+EEYmOt7L1fJ2LKdQ/GYh0mrOcpHskJEb4Nym848erD+I
-         KBPIQIVfA9mNCAt82Osmf9z0XtIZX4veQSMwJnrip79IC3nSWBaqxnG38dZBWK4maDGp
-         jn/A==
-X-Forwarded-Encrypted: i=1; AJvYcCUjJYba4s7ADuNjQAeMfi26kZcpDhlYH+egbNp12nbQdNYljRtTZqWtO77jvNyN/pwTSRmFaeQSqA45YBNA@vger.kernel.org
-X-Gm-Message-State: AOJu0YxHQNuk0vuphTzSZhzdamm9axD/hEXQAq+omFuiNt8glIIWWeyX
-	eCXN+XMBDVS6G/GGSESpQG27A4YYNL9MgP4aCKZmhY8ocCh7a7AHwyaSKh0GpF7hoU7rzXnuBbY
-	Y6jusRWnhwOkUTtlSLlcLqmEr6Z+aIl4=
-X-Gm-Gg: AeBDiesr7O24gFKj2AkKmsVB0zSbSOsh2WzMe/rp6Z0umS8r9BzECGW7RzJgq9O+ho8
-	pCNcfo7JXO7wRNI+IVvH0ygfYcTQtezb/8RtWbMksoF6R/9xGq9ODxuZXXsW5x2YQZ4B/qUqz1Z
-	8xN28yNRvIpCYKPxd06bQrgEgtZ421MIwaB82P9cTd5UeRi2wPXXhn2dThnBrPxwS/my91Cftdi
-	q0f9a9VgL1u/oEYtSzXPvlibKptcdbhhNXfL7KZ3Kyg9pGQSD83jX0lu1lo8JNYg7NWhI3BvLu9
-	CnIBQxfnJ1FdhxCI9YffTkmZFYbIQNdoW1Vc4po=
-X-Received: by 2002:a05:6402:1473:b0:66e:44c:dd3f with SMTP id
- 4fb4d7f45d1cf-66e3f3c8909mr6217791a12.2.1775511919127; Mon, 06 Apr 2026
- 14:45:19 -0700 (PDT)
+        bh=55V4D/ehX3CNaBAUBfcX9JoEKWKh4l8j4IryuEySytc=;
+        b=a+75nWFi1ZM0wrffjLAteV7Z6kQBRKFCkXxIeKaQsnqWmp4T6IPQ6iDmwL7gF6d/9O
+         cH30TzIWNINE10YH7amMEdm63tnqyzkMJqEEwdLAYc83uYR7mEDSalMwnEJLOCsSZYyl
+         jcEQT2s8x5Khz3IXWkciD614dO+0YB6snxxwgBsImxNN4ViY5RfVXcrAsttUzQ6sNLBK
+         LGvwX7pOI+umhzvhJoVloGQwLPyZn83cGEF8pUwl3+RVNsPvPUJ39bhD1M4WN5cNqN7k
+         JcGA7hgh2vyqXwYbhhm6CrAVKNHVNVcwwqKsokBRG2DBSfB9D73YzsszNmDSiW2trlfx
+         Bd5A==
+X-Forwarded-Encrypted: i=1; AJvYcCXedokFQdNcDbYQog7nwSPuFkvTN075wiegLwldq7lUTeWNhUPGSFsj89d+2llElvGhV3um5kw+me1EDq3r@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy8vW7EbXIzCeWdSHy+1qghVr/NiCyk1EEWXxZ0rMoXRLIatwEE
+	YC1+EjYBG2h7VdzwN+6ERMjoD9alrG3tDWGyWgKuatMd3YizZqIEdTjH
+X-Gm-Gg: AeBDieu9kQzwmw0Ck5f7QepanTWQ8rVQdZCGRonVgA5ypkOB2xbH5hHuSNDifBbbMin
+	Tx3sRDAuh1d4FU+fyKW5FTznrUqo7oFZIWUUJnYGwQsGYo2rScRyUyhCC7Xd3WqtoR1IdAmrnn2
+	pbHSbFTnaEhG9Rmxjrian6/1bhXhmRLBUxly5OSPSx6U5O6JqLwBEz5N7namO4/C7MHxFPhDQaN
+	aI4zkBbc2MYoYfbvK8R3lG5XXO3yZ0gPKhsVJmiU8PSX5ud0iR/icB/I8zyn57LeQT9NX1nBuwu
+	RqXC2oiZPQRcaBsVno+P6TPmiysyL3e7/SfyTBf8gdMj+fpkhibuaxm9+mYSzokaFLNNPARWt5+
+	mBpZsJIUXCsIvbIDYUurt+MVcqTS45MqGIjjxzv9tBl7nM5YH/A3kMWUnTc/8ONTqLSfEt7iEGl
+	Tqb2DQrZPKoDqMWsuHvrkQB0AHn49tLwn+5bSy8Vc9jTaMDmY7tysPPQkNiOKwsclMV7newW3o2
+	4CyZ9YykiY3nPk=
+X-Received: by 2002:a05:6808:4489:b0:467:cda:f15d with SMTP id 5614622812f47-46ef730616emr7590414b6e.26.1775520375967;
+        Mon, 06 Apr 2026 17:06:15 -0700 (PDT)
+Received: from localhost.localdomain (c-73-5-99-191.hsd1.la.comcast.net. [73.5.99.191])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-46f46160155sm6450094b6e.17.2026.04.06.17.06.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Apr 2026 17:06:14 -0700 (PDT)
+From: Sean Smith <defendthedisabled@gmail.com>
+X-Google-Original-From: Sean Smith <DefendTheDisabled@gmail.com>
+To: tytso@mit.edu
+Cc: defendthedisabled@gmail.com,
+	linux-fsdevel@vger.kernel.org,
+	linux-ext4@vger.kernel.org,
+	linux-btrfs@vger.kernel.org,
+	dsterba@suse.com,
+	david@fromorbit.com,
+	brauner@kernel.org,
+	osandov@osandov.com,
+	almaz@kernel.org,
+	hirofumi@mail.parknet.co.jp,
+	linkinjeon@kernel.org
+Subject: Re: [RFC PATCH v1 0/6] provenance_time (ptime): a new settable timestamp for cross-filesystem provenance
+Date: Mon,  6 Apr 2026 19:05:55 -0500
+Message-ID: <20260407000558.417-1-DefendTheDisabled@gmail.com>
+X-Mailer: git-send-email 2.51.0.windows.1
+In-Reply-To: <20260405225442.GA1763@macsyma-wired.lan>
+References: <20260405225442.GA1763@macsyma-wired.lan>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260328173728.3388070-1-mjguzik@gmail.com> <20260406211650.GD3836593@ZenIV>
-In-Reply-To: <20260406211650.GD3836593@ZenIV>
-From: Mateusz Guzik <mjguzik@gmail.com>
-Date: Mon, 6 Apr 2026 23:45:07 +0200
-X-Gm-Features: AQROBzAOYc6qRMmA_2VrJ8xvvgX19fY0MQP-hUyhn5HJw8ih4HIk7HyWZxqsOM8
-Message-ID: <CAGudoHHpvBMiJNdW3rJHMPgJt9qBDz5Q3GhObL9xdRwZfTnjyQ@mail.gmail.com>
-Subject: Re: [PATCH] fs: hide file and bfile caches behind runtime const machinery
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: brauner@kernel.org, jack@suse.cz, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, Apr 6, 2026 at 11:13=E2=80=AFPM Al Viro <viro@zeniv.linux.org.uk> w=
-rote:
->
-> On Sat, Mar 28, 2026 at 06:37:28PM +0100, Mateusz Guzik wrote:
->
-> > -static struct kmem_cache *filp_cachep __ro_after_init;
-> > -static struct kmem_cache *bfilp_cachep __ro_after_init;
-> > +static struct kmem_cache *__filp_cache __ro_after_init;
-> > +#define filp_cache runtime_const_ptr(__filp_cache)
-> > +static struct kmem_cache *__bfilp_cache __ro_after_init;
-> > +#define bfilp_cache runtime_const_ptr(__bfilp_cache)
->
-> IMO the entire runtime_const_ptr thing for caches is wrong;
-> statically allocated kmem_cache series got stalled, but I'm
-> bringing it back next cycle and this stuff is going to get
-> reverted as part of that.
+[written with AI assistance]
 
-I'm not going to spend time arguing about this. Given the
-aforementioned direction I'm going to refrain from patching up more
-caches though.
+On Sun, Apr 05, 2026 at 06:54:42PM -0400, Theodore Tso wrote:
+
+Thanks for the substantive engagement — it helps clarify where
+the proposal needs to justify itself.
+
+> On Sun, Apr 05, 2026 at 02:49:56PM -0500, Sean Smith wrote:
+> > 
+> >   1. Application atomic saves destroy xattrs. Programs that save
+> >      via write-to-temp + rename() replace the inode, permanently
+> >      destroying all extended attributes. Only the VFS sees both
+> >      inodes during rename -- no userspace mechanism can intercept
+> >      this and copy metadata across.
+> 
+> The VFS could potentially copy the xattr on a rename, no?
+
+It could, but even scoping to user.* means adding conditional
+xattr-copy logic into every filesystem's rename handler — with
+dynamic allocation and xattr tree lookups on a hot path. ptime
+avoids this: one inline inode field, clear semantics, same VFS
+patterns as atime/mtime/btime.
+
+> >   2. Every tool in the copy chain must explicitly opt in to xattr
+> >      preservation. cp requires --preserve=xattr, rsync requires -X,
+> >      tar requires --xattrs. Each missing flag causes silent data
+> >      loss. Transparent preservation through arbitrary tool flows
+> >      is not achievable in userspace.
+> 
+> But this is true for your proposed ptime as well.  You have to change
+> every single tool to copy over the ptime.  Worse, you have to change
+> the format of tar in a non-standard on-disk format change to support
+> this new ptime timestamp.  And rsync will require a non-standard
+> protocol change to support the new timestamp.
+
+You are right that copy tools require patches. If ptime only
+improved the copy-tool situation, I would agree it does not
+justify new kernel surface over xattrs.
+
+The structural difference is in the default adoption path.
+xattr preservation is permanently per-invocation opt-in: each
+tool call needs the correct flag, and the default is to drop
+them. A kernel timestamp exposed through statx/utimensat
+follows the same API pattern as mtime — standard libraries
+and tools naturally evolve to preserve all standard timestamps
+by default. ptime has a path to default-preservation that
+xattrs structurally cannot reach.
+
+On the formats: the tar patch uses a vendor-prefixed PAX
+header (SCHILY.ptime), backward-compatible — old readers
+ignore it cleanly. The rsync patch plugs into the existing
+--crtimes machinery that already supports macOS and Cygwin.
+
+> > Atomic saves are the default behavior of mainstream applications
+> > (LibreOffice, Vim, Kate, etc.).
+> 
+> You will also have to change mainstream applications to copy ptime
+> from the original file to the file.new before the atomic rename.
+> Using ptime doesn't change this.  So you will need to make this
+> non-standard, Linux-specific change to all of these mainstream
+> applications.
+
+This is where the cover letter was not clear enough, and it
+is the core reason ptime must be a kernel timestamp.
+
+The patches implement rename-over preservation in all 5
+filesystem rename handlers. When rename(source, target)
+replaces an existing file, and the source has ptime=0 (the
+default for any newly-created temp file) while the target
+has ptime != 0, the filesystem copies the target's ptime to
+the source before destroying the target's inode. This runs
+inside the rename transaction, atomic with the rename itself.
+
+Most GUI applications — LibreOffice, Kate, Qt and GNOME
+apps — save via write-to-temp + rename-over-original. For
+these, ptime survives automatically with no application
+changes:
+
+  1. App writes to temp file              (ptime = 0)
+  2. rename(temp, document.odt)
+  3. Kernel: source ptime=0, target!=0 -> copies ptime
+  4. ptime preserved. No app change.
+
+This is not universal: editors that use rename-away +
+create-new (Vim with default backupcopy=no, Emacs) do not
+trigger rename-over, and the spec documents this as a known
+limitation. But the write-to-temp + rename-over pattern is
+the dominant GUI save path, and the kernel handles it
+transparently — something no xattr mechanism can provide
+without application cooperation.
+
+> Is it worth it?  It's a huge amount of cost being spread across a very
+> large part of the open source ecosystem just this fairly narrow use
+> case.  Personally, I'm not convinced it's worth the effort.
+
+I think the use case is broader than I conveyed. Any workflow
+that copies files from NTFS, APFS, or HFS+ onto native Linux
+filesystems loses user-visible creation time unless carried
+out-of-band. This affects personal migrations, enterprise
+backups, dual-boot users, and professional workflows in
+photography, legal, scientific data, and media production.
+Windows, macOS, and SMB have supported a settable creation
+timestamp for decades — Linux is the outlier.
+
+Users already expend significant resources working around
+this gap — metadata manifests, scripts to stamp creation
+dates into filenames or xattrs, side-channel databases —
+or simply accept the data loss. The cost is already being
+paid, continuously and redundantly across the ecosystem.
+One upstream investment in ptime converts that distributed
+ongoing cost into a bounded effort.
+
+ptime is separate from btime by design: it preserves btime's
+value as immutable forensic metadata while providing a
+settable timestamp that travels with file content across
+filesystem boundaries.
+
+On ecosystem cost: the kernel surface is ~240 lines across
+28 files. For context, I am a disabled Medicaid recipient
+who came to this from a disability rights litigation
+workflow — I need file provenance preserved across an
+NTFS-to-Btrfs migration for legal work. The complete
+implementation — kernel patches across 5 filesystems,
+tool patches, and xfstests — was produced in a few days using 
+agentic development tools, which suggests the adoption cost may 
+be meaningfully lower than traditional estimates as these 
+tools become available across the ecosystem.
+
+I understand a new timestamp is permanent API surface and
+the bar should be high. My claim is that rename-over
+preservation — automatic ptime survival through application
+saves, without application changes — makes this materially
+different from an xattr workaround, and justifies that cost.
+
+Sean
