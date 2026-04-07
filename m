@@ -1,211 +1,188 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDE6A386C39;
-	Tue,  7 Apr 2026 16:25:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72AA7344D9D
+	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Apr 2026 17:38:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775579106; cv=none; b=cuXsfjbU9i+oc2GVqYds+4zGY39CbRZNuPk4Cu2qGMxpvQMuCOX0VW/1lRWHlSNN664MeYwkPyljs3J8baTz05eCmFwFJaiQ5pMkCS3EH8+zQ30a78CQGcpqnnIN/CkM+HH2y9CUGwMo3HvfYMCjy+Nfg6QgfO7ISu0PR5Jfp18=
+	t=1775583493; cv=none; b=RI81mo+7qgHnU0ZYC5BM+unnzByUDsPjKicq0Nnhn5DATMmfGmhycTyy2sQ//RahK3vRAjbvUAmosxrzC4d8WRhgf84R9l2GvomJdDWeD+1KKxooONQnAjE0+f23JlB/iO95rKbNd3ZNoSxbpXRSqdgVY3W+VyUXriemNxfLK/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775579106; c=relaxed/simple;
-	bh=5yiclueQorkzNZxwE7GMZVWdW1LhmZ+XzswZlhzZvVc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KtGPyAGeIB40P5XcZspTRQQalMkal9DjKwC5Ywjd/gS2veMib9vsup2agrKL9Dybg/dZB0mt43xXU4CwMQQU1rzgtdO9AIUqhiLi0as2tLAwTxxEA9aSeenqB5sXJHJk9I0hDlIwfsHHvAMoF3qOVyvs9yyzNgfDHjI+ldztQQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=deller@gmx.de header.b=qWwMTIB1; arc=none smtp.client-ip=212.227.15.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+	s=arc-20240116; t=1775583493; c=relaxed/simple;
+	bh=tvdUOATrbfQbm/otRmotSEVug48Q7PpH/fmsCZHFm/c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LtE+iu5MrVsO0FYb8FH/VquxGy7TFUC3k0ahu0ehA7jTLPTBkTtyBkyAe4RbvViOdz+HWpExZHF3j6zWgg3pYScwT7H91NqolMYk/SF/YIBOGHOJy6dAt7NWxgjvBd/np8VK0IpVYIdbEkGWetpNOTz5HPyOMfXAVu/8AYszlgg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wbinvd.org; spf=pass smtp.mailfrom=wbinvd.org; dkim=pass (2048-bit key) header.d=wbinvd.org header.i=@wbinvd.org header.b=W0VTYY3f; arc=none smtp.client-ip=74.125.82.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wbinvd.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wbinvd.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=deller@gmx.de header.b="qWwMTIB1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1775579099; x=1776183899; i=deller@gmx.de;
-	bh=EDTKaCSdO0fJHi7XKzZ9Vrk6p0AK43Yq7VPMk6LlF1I=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=qWwMTIB1h0tV4vRdXoYUy3XTwSZ+1VSM3mdIwklZrLpJVBq+dWq3iAKVqNsknu3A
-	 +MOwauMCvDqCmg8qpP35wsJ5E8jumjzqqQKvPKnh7OtFkIRdxqfW9zCxEo2rmH9Xk
-	 PFOFZUkt+VfY4J96IfvWtAzBAYNjNnvFB2jHK003SA4WAEDu2XIQQRdiBwpP+U483
-	 iWmwjnT5zswVWRQ4k5wHoTGfSODneTH9Whk8vkZZlNA9fOm4iePzlJp0vLuEMzsEQ
-	 AU5GlYI2Q8UvQSlsQKSwqDXQNLgR1BjMxkHY52/K0Z+jZhsYSnz9IN3EdjRYEk8RN
-	 IMh3Ls2UbQCjHn/uLA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from client.hidden.invalid by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1N8ob6-1vNNnx0kwo-017h42; Tue, 07
- Apr 2026 18:24:59 +0200
-Message-ID: <516c01e1-40e1-4bd0-9854-8e0969c3175d@gmx.de>
-Date: Tue, 7 Apr 2026 18:24:58 +0200
+	dkim=pass (2048-bit key) header.d=wbinvd.org header.i=@wbinvd.org header.b="W0VTYY3f"
+Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-2c156c4a9efso6901062eec.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 07 Apr 2026 10:38:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=wbinvd.org; s=wbinvd; t=1775583490; x=1776188290; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hqUr7UMuRskj68PpjSrDblmslOlX4kFlkF++X6DCkjE=;
+        b=W0VTYY3ft7bUlo7blCkv7uvh2n+fbI1geytaWAqleOxemFlBdqAOBh2yH73beInRyr
+         p0fueHUxvNR4a3YdozjFgRWwPRgNPsMUAbuSKfCsSK9pG29BKZGAyiGOgLiPGijgs4BY
+         Fa3s+Qodwcnci/Q8bNt4481CyvK18QpJciMvhWQmf7tDtyi/TxTW7kO7XsgaeVrkhkNi
+         8R65EmNicM5ZjtPYsgwuRexusJGwlwQLEugTdKSNQHs6NSdkDcOV4zR4W8K5Ln+3SAIa
+         yysFTD1Bmh09jwfz4RSqo11OVqw8mOsvdwU+QxFHnLmNVazJF/1XCs3WVb7AiFW8/PQu
+         YIbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775583490; x=1776188290;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hqUr7UMuRskj68PpjSrDblmslOlX4kFlkF++X6DCkjE=;
+        b=N/lAQt5yTrRw/OXWunHwtWKC0X0ZKdaoiqn55gmYo7hVZGVxGC2brcMYa9jBlaipag
+         TSvOsAg5ifXR0crgwvtHwwZIZuywkdgYj46Ae5rxr9otciCfBhS5u/5JQSnT7FiIJBtP
+         xu8g4xNbjBhf+ipYuj9JjHtI5y5bMsyKVnhF9fl8RyHiiVJDg/0fjwNhNa5JwF+VmtHo
+         c/PIEkFH8EbYJi8OOkrEorHY2K/bEJHqqfgPxQ4X7WFxxN7a2hSYNkWlka5iY+1oVmR5
+         nENZ3JxKTjLpiVeeaMZNRJ4o5+l/9CzAMvRKq01yGTeQyrXUJ/blYqcx/yuDHzqhXV7s
+         8I2g==
+X-Forwarded-Encrypted: i=1; AJvYcCWVeGY/rY3hNAhpqamqtmkP6Ilwxk4TPdvy5M0u5QEUjNTRp4wPijqn1/aVncBonoIu5dDM5jdEBN9aiuK9@vger.kernel.org
+X-Gm-Message-State: AOJu0YxVMSLifVpdShQXIEejrsrtt4L+ZWMFJdF/pA2LWnVMiS6Uu1Q5
+	NyFKKVXfCczTtMiSiv3DNZJ1DZCAuDbh/B67K1MDPcwOWIj49EY/WMBguCo9ulW2pQU=
+X-Gm-Gg: AeBDiesiiXyWdqcD3mU3Jdc+0I6+QzbTnoU8h+MXkckTa9Ocjua/yrHNJ+S3657Mp1C
+	sz8iyc9IpC2WT7OWa9sjMeq8x5LTuAbqBZRJp989feR+zN7QdWl4ycotcdpGpe70jpbZyt8efRt
+	Kxlj7wt481Q3xq2uhMEGFJAYsLpmbeLUGt5UH/QdakUu0rlznr9FYu7aNpjhf4b7RV7TEPUaMAv
+	lVF6gCPegy4KNROQYQXEH3cPLGq8aAq0Zgp5nx3T+yO9XZu6jjhw7ZXSaLEKZ2gagdmKVkfUvay
+	t3NxRdg6AMJjQQWOPQ9O4veSVSI2n4yOjA0GlaZqrQ+EEdEm0JBLgyoCA2iSP8G3dtfjnApfkR6
+	7sGbw+2baeKjqhmNWQDv9QbmgbUCrzcVqazvq2Qt2Iu1dVHAS/mQ4tDvzGsllX9E2H3ljEmHu9q
+	fc7eZIHRS5g+ejiwcoDamLAK6WhQ==
+X-Received: by 2002:a05:7301:1010:b0:2ba:a2fb:403f with SMTP id 5a478bee46e88-2cbfb995d49mr8269797eec.21.1775583490260;
+        Tue, 07 Apr 2026 10:38:10 -0700 (PDT)
+Received: from mozart.vkv.me ([2001:5a8:468b:d015:412a:9f09:7acb:b69f])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2cba5df5c24sm15761050eec.27.2026.04.07.10.38.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Apr 2026 10:38:09 -0700 (PDT)
+Date: Tue, 7 Apr 2026 10:38:06 -0700
+From: Calvin Owens <calvin@wbinvd.org>
+To: Thomas Gleixner <tglx@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Ingo Molnar <mingo@kernel.org>, John Stultz <jstultz@google.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org, Sebastian Reichel <sre@kernel.org>,
+	linux-pm@vger.kernel.org, Pablo Neira Ayuso <pablo@netfilter.org>,
+	Florian Westphal <fw@strlen.de>, Phil Sutter <phil@nwl.cc>,
+	netfilter-devel@vger.kernel.org, coreteam@netfilter.org
+Subject: Re: [patch 00/12] hrtimers: Prevent hrtimer interrupt starvation
+Message-ID: <adVA_uv1srA_bsKj@mozart.vkv.me>
+References: <20260407083219.478203185@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC] [PATCH] Fix warning at fs/dcache.c:430 dentry_free
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Helge Deller <deller@kernel.org>, linux-parisc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-References: <adQO8B0rkR2ftusI@p100> <20260406200733.GZ3836593@ZenIV>
- <20260406202829.GA3836593@ZenIV>
- <0e4a8cef-2a64-4392-a5ba-f9f57de48f8c@gmx.de>
- <20260406211010.GC3836593@ZenIV>
-Content-Language: en-US
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- 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
-In-Reply-To: <20260406211010.GC3836593@ZenIV>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:xwSLoILqOCPQaIZlo3Eo3WlA/aXuHouNPYdXPl+iP8p3ETPMfJ6
- zyeg+uuvFp32FQH4OpW0lNrvVRv4aNPlDr2P6ytAVaWLT2i0+Vzt2RxkuUB1kGokj/cPgy9
- NpmNCCtwsYUE//VvhsdBYE5Uf5r4fLByizwby5FqbQuXBOWi0uFJbap3ukj2LRPLK4xTojp
- V2J6y9Kjw6xrnyCqMivdw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:UXwYP8vCkmI=;o+mg86sj3wC8HG/Igl6ACOh/Uqg
- ykcdiPlk04YWayN0GtGma+jlBMzSJcN8UrwfDUg3MEGa7VbM5+Fv99rKW1D/NbaxENpMt6aHT
- cSkmp7cNdI8XmpMnpFrYy51NpNkxQBbZpyH/2IfZbIn0LeUhErDMNYUiUASOoIj5XJoxA0a/k
- HBlxVGq7x1hAcjePe8S/j1ZUJJ91ZbiaJ0qXEKQKgpPaLPcFASreeqTBUvu7LCkYXz6dEA2ja
- rH8M5Ru9nRCYlHncXizDHxVTr6N9uLX3IRJTAHPDYWRQjWqCTsexczmuzl9+gODwJ/tCycxZx
- C2Z10ZPGqQVbLH//nItDlrZML5RVFAy99W5aLLCbUy+n3EkXJHUUuf3id3QLYdDWxciwIhK2n
- D68f5ribahkX942bS68FCGuJ2ugUPEs43C5MmLFx9ErjcSo7Igq/hhNGweHMSsHKGjtmZWS2M
- ugdZ5P8LKKg288DEv4f+0QtMN94PqAkQeFboUArmbxCdg8HwZ2TMgQ2agu9V9RrUqn7B8DuIf
- cFNfCNQ+mPd7LYna+lGiK+2GCXwmNghArPdCx8m2PbROuhNJjcFJov49QIcbzuPgQ16BDpUkU
- FaU3f5EpARoujncKhw7oOx1I7P5Dt1XoXPXntB8tUqo2/wLwEkklwkoDhMX+JcuNUIO0TXPeY
- nmSkSQqwwdup0Um97ktXYJAr5wDkgfOLVfHw3C1WLeQRljWOfLqgbIAij6xzOuRmRP1umJZhJ
- ySxhJ4tLJOV3lIBzA8uhBfJDQTfW70ZLbGdw2QgRq5vDxyrjOO2jhAskjLaO3GI9SoYq+rBzl
- HZYsZCoG4B0VVmVrZDnHyIZE8sNx8fBrMoFycdEvD0cW4jAgMy6NHIrQMqKHof0ZhOxorKKHX
- hKuEDRmlle8QiVdG642QsjE/I8WOU05PvLbk5oQ6c3fuFcN+8EbXym4T/D6peknRMRCfJTVAB
- 3fTq3qS1c6/T2V7BPDFSM9TS8K5HZSt80z63AcLHUIMNwl8LJ26LU5gcKPW4F096jGiocvDhf
- SIynm50BBOKKE2MMdDX/rr8tJtKwrMyLRkE3opxCehvq72zHV3VQ0lKbsp84vcN0J1xrEQKBy
- QBsuPMeY9gB5ho8RCi7a4GfAMeGUhp8IEBmxp1J4p1T+GbkJos3hCmXdHKqgqHwJDAzoPDWo4
- AFh7T4pcJvtdLU1wjXBn/VzqreY3f1789F704hx6jYYW4b2U9WCIXSMCDxfXUaoCdmcOi+X0h
- m+AoIXqF/8PypOj5rorhPMgUR0SVH0+1eqKVwAx78Welf1+lvuarAwKb62+zlXKBO/ar2olmm
- hUe4EPZr4iQVDHqNOjxv0bHEYgVvRN6MGgePnC7XDf/n/i6gMM49ZhwMTHyv/EXgoD5lT05Vw
- kXz+WMdyfyyRm7KZG+qPhhsgFqNlte5ofW1GhmM4RXqkOjL0/zdnQZu8/OwVdV7i0JTBA9U+w
- tPRTQjmGTkfs1565eNsZQMi1OG7lvm7Rb0SN60AEhEJScmMxjsV/pTTvRkNwXmVoCr7HuBzyt
- aOWSBLryud3Kd42yBuSqsiGBZIdOqNlt2V+gVCxVHIKwNrynnhwe3vYGJ+O/8hDrvgSjBO2rg
- b99pcduYPe4l4oshgnxDCK++zogO4Bq6c08OvJqcxh3Qa7pQ08+DoqMXjUJ3CtUtiKEA9Vx5r
- c0WcUC0jqPpsYUhJquHuZjoMbXNd2KqBNqvEFVMOLg1jIPBKs/WUcLlXVfix18m0QMn1pI6IM
- CaN4wbzMpGEaYLcyx5HQmsLjxr96fCAJcpA2aFyIyw7Y2DtNu8tfX1jDI6m61WEORBnaRzh/6
- 9j6wLpAqqJBea+wdscaRRQFLW/zlDvOy4JnQ7mPKEb1vZHcmE1KZr6ah5ofuE0XbFd3nThLOy
- xxK/+qmhjgonu3Umcn0DGBiAHTbSdAYHloXvugRpmqhQN5wXIWAfbASOgisKIM94xjFqtIy96
- ROz35N1ja8PNX1vHZ3mEiN0UO0IPpeNTSV6IlB5yHOvgi4hpdVNnU/aF7bLoMEkCG1WkpxngZ
- vgkQt25DgJDLJwLvoTVGqo/POfJuiU19sb1v56WqykInPlDNIDJn+7YCWU1B3NCpvMvrqhID0
- zaNeb40F14PKqYtU5gzkLyqTq9+Yxg5p3oVkAgW+rY8ikGAgmoVpSvUv948KQr2cxTRRvgXtz
- ANZ7+zsHt0+7naiu9oFcKXW+/io5Y9INznO6JCoBU24p+zvc/pad44lCP8wJssUj75h9HMuEg
- QCeD7vB3rfbOy8iq80DNd9fNcWKFDqGce5Eq7AJLQCO1Wce3ZKqFibA7QjqbvhquLm53Yo92e
- XyDBhvWnql84CRMr1nc5pAxTfFTYtJkm+pn5s9ohSHtqArnfZ8Siepa4d7gljQAUT5OoTog5M
- ytEvRp3Q+J8UVKwVCHbzHbJUda9O/FFY4xW2xrgd8hLoTcGCXwfpik5nXPnc2urH9HW0sC2J4
- JQMeNuyGvtYH9yKgeNBrSk6QMgoRw/rHtwLnYDSTwiGCwwsBTPE6MlVpPYI7D/6nUXAfQVz7x
- ZUCMKlyY5wMqJ0RVSK5xIDwpkVCTgr+iYapLpxB3AAN+JjBJnZ1cNBElfdO86xhQ6lzlQ9gOh
- XdDo3pEeJeXfN9AanutgB84ptgtmk9TLw4W/tAasOrHhAC9sPqFNRZwJmTZXQ3+3M0opgbraX
- lqqy04Ah6oTY4IY2yrHolmODIBVplMt1O6VNp6goLc+CG1OfFkResn2Kerd6OYfDbU8ylvQtd
- OUMzKF6Dd4G6X9EdX2O8p/4QE2X+CDNblsi0267lTlOSc4oif/6oot6KXvn1EUQCmx4HafkUU
- SKF3LTgFe6uEM4xbmkSr800XmL+OH6K7VCbwn9qNX8qQeew3CtLFFOFcxPTg2LFUn3qOiD/He
- A2bJSo7GUNBb7Npef1lFyNm/b1w7Of4jiKaRqKMR/cf98rWy454pKR6RyOL9Q7wuyHy0N4guW
- ocIjj+SEil1AvlEuRRYeCFu5rMjw45QkRJIlqYG7Topg/rLsMb9PaaLGLhawIfY53qbllkf7c
- kPsgK5yyc+NFPETbHTXcfT328DC8pEG0rsZs7qZqcenOT3seT7TM9cJtjrupxS3NmZM4rNW0l
- H8rJ9U527zzHX3zxkczBSjYPobmMK1SfU0BMnN4mVQZbU11k0eR22Fgm1KXx9y2MOQPsP4Xti
- AjzGYlq9NkTCLcO0TklahkpzkI581S371QljDFhZ6tDEWyKfqfJZuSQd7q2z6MOJdIF9UDLbO
- EunIENGcFEgbK4unZP3t7TuOu9V9hc6fAqeEnr8CvI9NOPYixtgwZ3eSa0wyCQJ3EXOZ7Q9Fs
- Xq8P5Vzkut6lrYRHRqST2AjTzcAffdlDDrRxWsKu+Vra5dJ0xRTPeo122V3nlfHcDZumnADAD
- rQoWBGRpdzDWcKvZPY+dFa3x1mz48EWISkDl5fXxDGTx3f1t087zWFe4O53dabW1atDOkabX/
- 8OstLHK9snpaEEqG6pAPKVXJl+zVjU08MCrcWixib+ItYse+ewDxMXgrhRaWEG6Vt7rgxTVbW
- jdgZMxOjqaOMBYXzGfWkRKQ9P4CXxibrAkmQlhfks50K0wEmsbWadBXbVhKopQVor6DGQnq2z
- VntpukqM87PGm6P4E9tUm1P73PDjnXmkteN285OF4n7/L9p+655pAX+Y+20o565CH2jgU1AG7
- 4ijkwBRRyY21KawGxtH7y8iyrnh1M0gAxwPLcmCo7g6aeeZePXf5eCWJPYs2tkaBde5fMOp9e
- mtpKJ5d4USvdz0sm8fM+LpocliJlv7jkDcNeuY7fSgz8yVycI8ZcBzcIWIbtYUbJgbEb3m4au
- zM4MRp/+IvZ13V7VvJf6WlyzQ8+qjkWQO/KlAaS0FHGUix6TPSHimm0S6fjDpp/M4FcAyp3kj
- iAm+9Y3vMxWNOUCuGnDw87NjNoUYbFoE9+T0sB++goQC6dT8URwfC/CyEiEcWVL6BzY6XF1M2
- hXz3RHye0ze7JiSwcIAwb1vMdVEmHQx0foOvjqrNBgZtNeEOVOXzAQ0D+YXEFr+y/HZ0vaVO+
- 3QPPwNS+FPvTRXTswvVQvGzopiiwYzYJrHLgOEnXbBYKr4dV1ZYGgdScnQkDw4EErD30Ls2h0
- ovHDwsuVf6ISrlp6CGnPqQLVhtPrdZ8I6cC3lK+LB/F2JQLqY4TJHcvloJ6ksfPrzJbhO+Ss0
- dponc+kIa3L8tYm6BpqbW4cOUOduLOdCpR+XwENC4KL1LsH9KnPIvhzz3pV9dtncyb/z3DH4g
- YyQlWV2gzW3XIQlt3/Wy74QK5OLGoN9HIko2dXMkL8rhXsgsgU1BzGegCzaJVolW/rycoEU0a
- 6vIkOQbPu1O4CJ5sMdSkHlNFJ0LOcSp2xGcj9ftU1KbZj82jq76QYjjujCntdXr7SOPxw1G0w
- pbzPROeXw1Pmnx9/ocyVGlj/Bsuv3+7onH/7blSWrK0jHzqbEiC3iC2JSAbjTwuRYWe8I5Als
- 5MJBfLS+ciJQdFOWwFx8ao/6Iv1khD4uJhLYJZO5b59KcPuqDNV29+z/GimVpLptsGvSKKgDQ
- cR20P8mXQr+DEYU+wbAnW9W8a5/FUj4ZkKqo2zcbs5/1vvZg7nD9sxPF3DkqeNHWerbsJAsHu
- P3ZGAeB9JrEpCJpF1rOkUHCuY5m6uT3MM/NslspuB4guJKYl8iZbKRii9GAlrY3qxf/po6/cu
- K5+o1Z33ptxjvC95YMJws1LgpKVJpeuyv8LSKgCkjaFpcwvLNGY8qqW6W3H6Ehq5N3LNfPLyn
- D0ZrlsTH95uMkA4a1Ztpi/geC17qB2ujrx8LXyiuBrh0bUVPa35HbtYTqs5BsC1vDF1M1VNF6
- yn6+Loi9NXLTCsUiIFIprUggpFfCJ6nKW5JngfjC2eyYC5n9ey14jAnOiSVKzlM5JZhp0lj2h
- tAg5KiBxCR11NJPIhSQcFGiWizUf8XuT9civ/wfyLrR39vWlOCa0cT5S9zXZWM/sw8Qg2JhCL
- JsvKRx94jMr+VCJD3NY3vW3v1gIIJm+GoRHLyXKC0H9Ek6Qp2NVdCc6M64RG5xcyPJthZmlAw
- I8ewlhJWtAeWqImz9UK8UhyniPRsp/S8jS4Qn/E8SQO+9rUiIAKfcz0KtnLFn5xxP04I3TlBe
- yavwm5Lw4qJjoM6xRuaPfMevJOCtmDxQ4lilGu58uy9UF7lOsAV97/XnS+q/ygU2qLs6ZYk5Z
- hqTGElZg/IWh1LfShVF0dJzp+Dr211cirAf/19Wz5or2LbLwsvthV8/7RZF4OheHwuinvc0qi
- LUKFk3QLxZ/p7FpubX0JiL9QsOjEtAomcGUoZxUsyGk72Eu4Hb1YObpAUoG7YBSsPeedpJx1J
- ijoumfS93Qa
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260407083219.478203185@kernel.org>
 
-On 4/6/26 23:10, Al Viro wrote:
-> On Mon, Apr 06, 2026 at 10:43:57PM +0200, Helge Deller wrote:
->=20
->>> BTW, could you reproduce it on viro/vfs.git #work.dcache-busy-wait?  I=
-t's possible
->>> that changes in there might accidentally fix that, and if they did it =
-would narrow
->>> the things down a lot.
->>
->> Ok, will try.
->> Please note that building kernel/ installing / running dpkg build takes=
- hours & days,
->> so it may take quite some time until I come back here....
->=20
-> Which kernel(s) had that been reproduced on, BTW?
+On Tuesday 04/07 at 10:54 +0200, Thomas Gleixner wrote:
+> Calvin reported an odd NMI watchdog lockup which claims that the CPU locked
+> up in user space:
+> 
+>   https://lore.kernel.org/lkml/acMe-QZUel-bBYUh@mozart.vkv.me/
+> 
+> He provided a reproducer, which sets up a timerfd based timer and then
+> rearms it in a loop with an absolute expiry time of 1ns.
 
-This happened with all Debian kernels from (at least, maybe earlier) 6.16 =
-up to 6.19.
- =20
-> Incidentally, can that be reproduced on any of qemu-based setups?  And d=
-o you need
-> to build the kernel natively?  Debian kernels can be cross-built, after =
-all...
-I know, and I do in some cases.
-Nevertheless, everthing takes often longer than expected... :-(
+The original AMD machines survive the reproducer with this series.
 
-Helge
+Tested-by: Calvin Owens <calvin@wbinvd.org>
+
+I'm happy to test subsets of it and stable backports too, if that's
+helpful, just let me know.
+
+Thanks,
+Calvin
+
+> As the expiry time is in the past, the timer ends up as the first expiring
+> timer in the per CPU hrtimer base and the clockevent device is programmed
+> with the minimum delta value. If the machine is fast enough, this ends up
+> in a endless loop of programming the delta value to the minimum value
+> defined by the clock event device, before the timer interrupt can fire,
+> which starves the interrupt and consequently triggers the lockup detector
+> because the hrtimer callback of the lockup mechanism is never invoked.
+> 
+> The first patch in the series changes the clockevent set next event
+> mechanism to prevent reprogramming of the clockevent device when the
+> minimum delta value was programmed unless the new delta is larger than
+> that. It's a less convoluted variant of the patch which was posted in the
+> above linked thread and was confirmed to prevent the starvation problem.
+> 
+> But that's only to be considered the last resort because it results in an
+> insane amount of avoidable hrtimer interrupts.
+> 
+> The problem of user controlled timers is that the input value is only
+> sanity checked vs. validity of the provided timespec and clamped to be in
+> the maximum allowable range. But for performance reasons for in kernel
+> usage there is no check whether a to be armed timer might have been expired
+> already at enqueue time.
+> 
+> The rest of the series addresses this by providing a separate interface to
+> arm user controlled timers. This works the same way as the existing
+> hrtimer_start_range_ns(), but in case that the timer ends up as the first
+> timer in the clock base after enqueue it provides additional checks:
+> 
+>       - Whether the timer becomes the first expiring timer in the CPU base.
+> 
+>       	If not the timer is considered to expire in the future as there is
+> 	already an earlier event programmed.
+> 
+>       - Whether the timer has expired already by comparing the expiry value
+>         against current time.
+> 
+> 	If it is expired, the timer is removed from the clock base and the
+> 	function returns false, so that the caller can handle it. That's
+> 	required because the function cannot invoke the callback as that
+> 	might need to acquire a lock which is held by the caller.
+> 
+> This function is then used for the user controlled timer arming interfaces
+> mainly by converting hrtimer sleeper over to it. That affects a few in
+> kernel users too, but the overhead is minimal in that case and it spares a
+> tedious whack the mole game all over the tree.
+> 
+> The other usage sites in posixtimers, alarmtimers and timerfd are converted
+> as well, which should cover the vast majority of user space controllable
+> timers as far as my investigation goes.
+> 
+> The series applies against Linux tree and is also available from git:
+> 
+>     git://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git hrtimer-exp-v1
+> 
+> There needs to be some discussion about the scope of backporting. The first
+> patch preventing the stall is obviously a backport candidate. The remaining
+> series can be obviously argued about, but in my opinion it should be
+> backported as well as it prevents stupid or malicious user space from
+> generating tons of pointless timer interrupts.
+> 
+> Thanks,
+> 
+> 	tglx
+> ---
+>  drivers/power/supply/charger-manager.c |   12 +-
+>  fs/timerfd.c                           |  115 +++++++++++++++-----------
+>  include/linux/alarmtimer.h             |    9 +-
+>  include/linux/clockchips.h             |    2 
+>  include/linux/hrtimer.h                |   20 +++-
+>  include/trace/events/timer.h           |   13 +++
+>  kernel/time/alarmtimer.c               |   70 +++++++---------
+>  kernel/time/clockevents.c              |   23 +++--
+>  kernel/time/hrtimer.c                  |  142 +++++++++++++++++++++++++++++----
+>  kernel/time/posix-cpu-timers.c         |   18 ++--
+>  kernel/time/posix-timers.c             |   35 +++++---
+>  kernel/time/posix-timers.h             |    4 
+>  kernel/time/tick-common.c              |    1 
+>  kernel/time/tick-sched.c               |    1 
+>  net/netfilter/xt_IDLETIMER.c           |   24 ++++-
+>  15 files changed, 341 insertions(+), 148 deletions(-)
+> 
+> 
