@@ -1,225 +1,76 @@
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E55710F2
-	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Apr 2026 00:06:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78388165F16
+	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Apr 2026 00:50:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775520378; cv=none; b=qTU4SmhKpT1CPKh6pEpgaXKzBmESMYZi53X6AC2H+tjFms5U3bvx0VtwlYTzTVAsSDF4yU0qhclhCIk4qMOiZtlYhbvu520P+/LhShMFhLgt1ll1vZvuXCWyFVLZBGp2LB7Mw/bW10JfCPwYOS/cIdy23L8SndcxAvakNKEqF8Q=
+	t=1775523045; cv=none; b=K3shhqqRmSvfeS9u84pFKs8ZVEqQT1fyArybFnDshpdIFLaMS63y2rEa3gHQjaqIk8f6y2ODw5wtxORM/nzL2MYGpcaVO7AqPJSyvIiZls/DAx1QfHuABHorwChPQl/sDSY1IHrX+ZnpH++EfmXoagaS+MP3StiUW7FxFV+yCGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775520378; c=relaxed/simple;
-	bh=pbj+2DNzQ488rZE5wsUUXkMbr4pEgJwxXa4D6G2pHgM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sL9u+KK8Ds0q2H5N9DuRJ4bD44+NDNzeJl2wqXvouOehoQValsR7N4IlpMBj6eHTgVshRMWkMFlWM9Cf9QlosTVyfnWsxPRU7hWKGNzYJ8xfslz4Tj6v2Snw6SJyV0YaN8zvYKoV9ouc25NmLXT/bwh6USZYmjgxmgBBBMxGAi0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KB/XCZPE; arc=none smtp.client-ip=209.85.167.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1775523045; c=relaxed/simple;
+	bh=GqmnXc20Q+HviynpM0TYllhE9324tV/AV0Ch1gye6To=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DXT8zX3mDAGyC8lI4eAzxs8Uv24J9S1/yq7Yjl9YBKJS+Bvs/Fh0MY8OhW9Ya2j+gRDoz9jL1fPMRcE16v44f8B7IzJGZiE7/RjEy2viox32hHxBP7wQ96Y9AAIVBNoghfmBhjrHrswhlewjvkDeRMyyzfTFBVBy4gnsqVSSObI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=rk5hTRed; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KB/XCZPE"
-Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-471618e202bso371987b6e.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 06 Apr 2026 17:06:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775520376; x=1776125176; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=55V4D/ehX3CNaBAUBfcX9JoEKWKh4l8j4IryuEySytc=;
-        b=KB/XCZPE3MOdR6pmJxcdQlE+4YCBgTCdbsftnVu9zq2jMbL06HZoXO5d2zf/RadOud
-         Wp2aTFTSxLLZr+yzxdBGWmT+F8en2aJLyKmGQO+mTvYpg635bGxvhfJjG65IMmAEQW3I
-         OW55q6tRj39cyiEtdzxt8W/4DJVbJfEzj3dSQUbnuk0a2Mawx+NPdWNBO1s0Hyy9YPxK
-         rrOQ6FAqfWVtkDWQdQUS/BMbvv04znBn0pZQdnE5MHq8+J4J7c0B4DTQeOmSeHxsyeZj
-         uFc3MMMOac64nbLkcHhJc9FzYCempMiIqvD7R8PMGIpFVpsXPWLr7BEqZKG1QORjlRar
-         vPIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775520376; x=1776125176;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=55V4D/ehX3CNaBAUBfcX9JoEKWKh4l8j4IryuEySytc=;
-        b=a+75nWFi1ZM0wrffjLAteV7Z6kQBRKFCkXxIeKaQsnqWmp4T6IPQ6iDmwL7gF6d/9O
-         cH30TzIWNINE10YH7amMEdm63tnqyzkMJqEEwdLAYc83uYR7mEDSalMwnEJLOCsSZYyl
-         jcEQT2s8x5Khz3IXWkciD614dO+0YB6snxxwgBsImxNN4ViY5RfVXcrAsttUzQ6sNLBK
-         LGvwX7pOI+umhzvhJoVloGQwLPyZn83cGEF8pUwl3+RVNsPvPUJ39bhD1M4WN5cNqN7k
-         JcGA7hgh2vyqXwYbhhm6CrAVKNHVNVcwwqKsokBRG2DBSfB9D73YzsszNmDSiW2trlfx
-         Bd5A==
-X-Forwarded-Encrypted: i=1; AJvYcCXedokFQdNcDbYQog7nwSPuFkvTN075wiegLwldq7lUTeWNhUPGSFsj89d+2llElvGhV3um5kw+me1EDq3r@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy8vW7EbXIzCeWdSHy+1qghVr/NiCyk1EEWXxZ0rMoXRLIatwEE
-	YC1+EjYBG2h7VdzwN+6ERMjoD9alrG3tDWGyWgKuatMd3YizZqIEdTjH
-X-Gm-Gg: AeBDieu9kQzwmw0Ck5f7QepanTWQ8rVQdZCGRonVgA5ypkOB2xbH5hHuSNDifBbbMin
-	Tx3sRDAuh1d4FU+fyKW5FTznrUqo7oFZIWUUJnYGwQsGYo2rScRyUyhCC7Xd3WqtoR1IdAmrnn2
-	pbHSbFTnaEhG9Rmxjrian6/1bhXhmRLBUxly5OSPSx6U5O6JqLwBEz5N7namO4/C7MHxFPhDQaN
-	aI4zkBbc2MYoYfbvK8R3lG5XXO3yZ0gPKhsVJmiU8PSX5ud0iR/icB/I8zyn57LeQT9NX1nBuwu
-	RqXC2oiZPQRcaBsVno+P6TPmiysyL3e7/SfyTBf8gdMj+fpkhibuaxm9+mYSzokaFLNNPARWt5+
-	mBpZsJIUXCsIvbIDYUurt+MVcqTS45MqGIjjxzv9tBl7nM5YH/A3kMWUnTc/8ONTqLSfEt7iEGl
-	Tqb2DQrZPKoDqMWsuHvrkQB0AHn49tLwn+5bSy8Vc9jTaMDmY7tysPPQkNiOKwsclMV7newW3o2
-	4CyZ9YykiY3nPk=
-X-Received: by 2002:a05:6808:4489:b0:467:cda:f15d with SMTP id 5614622812f47-46ef730616emr7590414b6e.26.1775520375967;
-        Mon, 06 Apr 2026 17:06:15 -0700 (PDT)
-Received: from localhost.localdomain (c-73-5-99-191.hsd1.la.comcast.net. [73.5.99.191])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-46f46160155sm6450094b6e.17.2026.04.06.17.06.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Apr 2026 17:06:14 -0700 (PDT)
-From: Sean Smith <defendthedisabled@gmail.com>
-X-Google-Original-From: Sean Smith <DefendTheDisabled@gmail.com>
-To: tytso@mit.edu
-Cc: defendthedisabled@gmail.com,
-	linux-fsdevel@vger.kernel.org,
-	linux-ext4@vger.kernel.org,
-	linux-btrfs@vger.kernel.org,
-	dsterba@suse.com,
-	david@fromorbit.com,
-	brauner@kernel.org,
-	osandov@osandov.com,
-	almaz@kernel.org,
-	hirofumi@mail.parknet.co.jp,
-	linkinjeon@kernel.org
-Subject: Re: [RFC PATCH v1 0/6] provenance_time (ptime): a new settable timestamp for cross-filesystem provenance
-Date: Mon,  6 Apr 2026 19:05:55 -0500
-Message-ID: <20260407000558.417-1-DefendTheDisabled@gmail.com>
-X-Mailer: git-send-email 2.51.0.windows.1
-In-Reply-To: <20260405225442.GA1763@macsyma-wired.lan>
-References: <20260405225442.GA1763@macsyma-wired.lan>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rk5hTRed"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=++UoC5lCT4BjFTx7h6nLJrZsMRmg1dnaNt+ijKfMWzg=; b=rk5hTRedHABiW6JPWUEezhG/Ij
+	Neu8NqK25ajRaFX7w71ZbjfDZMAwOQ3xi2FBAt13pMigECOsIV8doMwerGopASYzzNK+0bGj8L+MD
+	lS3dJGfGNzbAfGNBpApbXiVhP7Wx2mjFNXw1E2aQFuwORWLbps9A3h9Y4+8HLowxYUQjqfLf4kLs+
+	UbLC6IaRA85sNvvUJ7RdWrE7e5QLFCUVrxrMfHKlIj+5I+k+hQlFHWY4S8szjVmBAKQDU/n4Nyzap
+	97cRleHPGylUgIjm08Lvr/LflxTtn5zIiz20XuHNCu2YrrziV5qXaCcs1KnChb6fYzznjE8RvKAGu
+	j1QsIWBg==;
+Received: from [50.53.43.113] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1w9ueP-00000005ff8-1P2f;
+	Tue, 07 Apr 2026 00:50:41 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-fsdevel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Miklos Szeredi <miklos@szeredi.hu>
+Subject: [PATCH 1/3 v2] fuse: {io-uring} drop kernel-doc notation for a comment
+Date: Mon,  6 Apr 2026 17:50:38 -0700
+Message-ID: <20260407005040.1929492-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-[written with AI assistance]
+Use regular C comment syntax for a non-kernel-doc comment to avoid
+a kernel-doc warning:
 
-On Sun, Apr 05, 2026 at 06:54:42PM -0400, Theodore Tso wrote:
+Warning: fs/fuse/dev_uring_i.h:104 This comment starts with '/**', but
+ isn't a kernel-doc comment.
+ * Describes if uring is for communication and holds alls the data needed
 
-Thanks for the substantive engagement — it helps clarify where
-the proposal needs to justify itself.
+Binary build output is the same before and after this change.
 
-> On Sun, Apr 05, 2026 at 02:49:56PM -0500, Sean Smith wrote:
-> > 
-> >   1. Application atomic saves destroy xattrs. Programs that save
-> >      via write-to-temp + rename() replace the inode, permanently
-> >      destroying all extended attributes. Only the VFS sees both
-> >      inodes during rename -- no userspace mechanism can intercept
-> >      this and copy metadata across.
-> 
-> The VFS could potentially copy the xattr on a rename, no?
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+---
+v2: rebase and resend
 
-It could, but even scoping to user.* means adding conditional
-xattr-copy logic into every filesystem's rename handler — with
-dynamic allocation and xattr tree lookups on a hot path. ptime
-avoids this: one inline inode field, clear semantics, same VFS
-patterns as atime/mtime/btime.
+Cc: Miklos Szeredi <miklos@szeredi.hu>
 
-> >   2. Every tool in the copy chain must explicitly opt in to xattr
-> >      preservation. cp requires --preserve=xattr, rsync requires -X,
-> >      tar requires --xattrs. Each missing flag causes silent data
-> >      loss. Transparent preservation through arbitrary tool flows
-> >      is not achievable in userspace.
-> 
-> But this is true for your proposed ptime as well.  You have to change
-> every single tool to copy over the ptime.  Worse, you have to change
-> the format of tar in a non-standard on-disk format change to support
-> this new ptime timestamp.  And rsync will require a non-standard
-> protocol change to support the new timestamp.
+ fs/fuse/dev_uring_i.h |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-You are right that copy tools require patches. If ptime only
-improved the copy-tool situation, I would agree it does not
-justify new kernel surface over xattrs.
-
-The structural difference is in the default adoption path.
-xattr preservation is permanently per-invocation opt-in: each
-tool call needs the correct flag, and the default is to drop
-them. A kernel timestamp exposed through statx/utimensat
-follows the same API pattern as mtime — standard libraries
-and tools naturally evolve to preserve all standard timestamps
-by default. ptime has a path to default-preservation that
-xattrs structurally cannot reach.
-
-On the formats: the tar patch uses a vendor-prefixed PAX
-header (SCHILY.ptime), backward-compatible — old readers
-ignore it cleanly. The rsync patch plugs into the existing
---crtimes machinery that already supports macOS and Cygwin.
-
-> > Atomic saves are the default behavior of mainstream applications
-> > (LibreOffice, Vim, Kate, etc.).
-> 
-> You will also have to change mainstream applications to copy ptime
-> from the original file to the file.new before the atomic rename.
-> Using ptime doesn't change this.  So you will need to make this
-> non-standard, Linux-specific change to all of these mainstream
-> applications.
-
-This is where the cover letter was not clear enough, and it
-is the core reason ptime must be a kernel timestamp.
-
-The patches implement rename-over preservation in all 5
-filesystem rename handlers. When rename(source, target)
-replaces an existing file, and the source has ptime=0 (the
-default for any newly-created temp file) while the target
-has ptime != 0, the filesystem copies the target's ptime to
-the source before destroying the target's inode. This runs
-inside the rename transaction, atomic with the rename itself.
-
-Most GUI applications — LibreOffice, Kate, Qt and GNOME
-apps — save via write-to-temp + rename-over-original. For
-these, ptime survives automatically with no application
-changes:
-
-  1. App writes to temp file              (ptime = 0)
-  2. rename(temp, document.odt)
-  3. Kernel: source ptime=0, target!=0 -> copies ptime
-  4. ptime preserved. No app change.
-
-This is not universal: editors that use rename-away +
-create-new (Vim with default backupcopy=no, Emacs) do not
-trigger rename-over, and the spec documents this as a known
-limitation. But the write-to-temp + rename-over pattern is
-the dominant GUI save path, and the kernel handles it
-transparently — something no xattr mechanism can provide
-without application cooperation.
-
-> Is it worth it?  It's a huge amount of cost being spread across a very
-> large part of the open source ecosystem just this fairly narrow use
-> case.  Personally, I'm not convinced it's worth the effort.
-
-I think the use case is broader than I conveyed. Any workflow
-that copies files from NTFS, APFS, or HFS+ onto native Linux
-filesystems loses user-visible creation time unless carried
-out-of-band. This affects personal migrations, enterprise
-backups, dual-boot users, and professional workflows in
-photography, legal, scientific data, and media production.
-Windows, macOS, and SMB have supported a settable creation
-timestamp for decades — Linux is the outlier.
-
-Users already expend significant resources working around
-this gap — metadata manifests, scripts to stamp creation
-dates into filenames or xattrs, side-channel databases —
-or simply accept the data loss. The cost is already being
-paid, continuously and redundantly across the ecosystem.
-One upstream investment in ptime converts that distributed
-ongoing cost into a bounded effort.
-
-ptime is separate from btime by design: it preserves btime's
-value as immutable forensic metadata while providing a
-settable timestamp that travels with file content across
-filesystem boundaries.
-
-On ecosystem cost: the kernel surface is ~240 lines across
-28 files. For context, I am a disabled Medicaid recipient
-who came to this from a disability rights litigation
-workflow — I need file provenance preserved across an
-NTFS-to-Btrfs migration for legal work. The complete
-implementation — kernel patches across 5 filesystems,
-tool patches, and xfstests — was produced in a few days using 
-agentic development tools, which suggests the adoption cost may 
-be meaningfully lower than traditional estimates as these 
-tools become available across the ecosystem.
-
-I understand a new timestamp is permanent API surface and
-the bar should be high. My claim is that rename-over
-preservation — automatic ptime survival through application
-saves, without application changes — makes this materially
-different from an xattr workaround, and justifies that cost.
-
-Sean
+--- linux-next-20260406.orig/fs/fuse/dev_uring_i.h
++++ linux-next-20260406/fs/fuse/dev_uring_i.h
+@@ -101,7 +101,7 @@ struct fuse_ring_queue {
+ 	bool stopped;
+ };
+ 
+-/**
++/*
+  * Describes if uring is for communication and holds alls the data needed
+  * for uring communication
+  */
