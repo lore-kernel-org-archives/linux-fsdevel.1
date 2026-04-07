@@ -1,80 +1,68 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C41B41A9FB0;
-	Tue,  7 Apr 2026 14:43:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E01EE481B1;
+	Tue,  7 Apr 2026 14:50:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775572996; cv=none; b=k3RNVqHlODmTWBuQLxpAD4oMSiHadDqFlvR+ENGVNhRfmYRCrOgC3hTjcrpqXa1rOnKQ8W9RmgDedu5G+VIkkieLMP7C+vWLKz8nYWl2YW49hIxfsMy2RP8zZLds9o06ATTl0445/RaB05FbnkNojNJKeHMCU5lNYdDBNwXdF8c=
+	t=1775573430; cv=none; b=MsVuHGraq9mVKY08Tj4hiYyimZhckc5IibH4EgjQugssGdcpeaPbDmeUK5jS7VTqAbYASYtDi7wQQv/RagxzwssqBgo1N4vEe0ii/YVFh5xVk4eaJt8d1OAiVV07fsz8eT6Bi0jhSjdLt7B0Qv3oGHR+MHK4dxVCd9p2r9rsL08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775572996; c=relaxed/simple;
-	bh=x0V8HDMD/+ttteoDJUS2U88l+YhpYc2Fl6aWUWMCqok=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=QTr7FUADV7sZqWfL/0/TcCvRtFxqNwmdl/yUHgjuytKLAiGC1gUCsbxGjMfjgdz7gMVsiN5dJt5FHOmL9My4beE4fKr5s2PN2tiO1TEIiCc26JC056b24GhtvltCmGusCrzn1bQJS9BWBGyyoMXH/q7vUTm8eyGIbCsYhLsekkc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cgEZXQhl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775573430; c=relaxed/simple;
+	bh=A43lvWXmlXMWwApJYQuqVaytgCVACY0fWYvys4mnAA0=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UDzh1+YpTdmsm9Si0HDDQLwtRlrg9V2yakyRl/Baagw8W2kwJgPAXW8ySMSy68OmzjfJHMSfcpkw+yrWS1mitcjy4UQl/li3UX1Ad2mQhw2vS3TND378pjZmEjLdbpR3lMmVTlzYn+NxjMFhWh4QtlzIn3CXiWlpy3LcLV0PJ1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Rsi5Rh1/; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cgEZXQhl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B59A2C116C6;
-	Tue,  7 Apr 2026 14:43:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775572996;
-	bh=x0V8HDMD/+ttteoDJUS2U88l+YhpYc2Fl6aWUWMCqok=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=cgEZXQhlUkaZWRnOU01DIi6XvkoZTXLmpvxfJEv5ObbEvAfkis42+82Rx1GtRblUH
-	 52I4eR2pw8DzuAAkIsYojEYtExUnKEiGccUTWBmxBxYmx5sqLp+cJ2PDbRkeEiS3T6
-	 h4D+yrB994XCj2OtlWoL/u+lW34T1uYoLC4ipDC/aOFbRTdmT6OTKpHiaqtecX/fLD
-	 uF7FZ6g3UIyXQNi234QAAH6tSrtqxYPWzedwnfBsa48ORmOB4Xr1Fd+nbELRak58w3
-	 WPpsp5a4TKpGpL5TEumDy+EKbQY1vkazGFN11WFGsPMsMYQ/mCjCmN4MHAd8uUZind
-	 RLvFPmrHC9v9g==
-From: Thomas Gleixner <tglx@kernel.org>
-To: LKML <linux-kernel@vger.kernel.org>
-Cc: Calvin Owens <calvin@wbinvd.org>, Peter Zijlstra <peterz@infradead.org>,
- Anna-Maria Behnsen <anna-maria@linutronix.de>, Frederic Weisbecker
- <frederic@kernel.org>, Ingo Molnar <mingo@kernel.org>, John Stultz
- <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan
- Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, Sebastian Reichel
- <sre@kernel.org>, linux-pm@vger.kernel.org, Pablo Neira Ayuso
- <pablo@netfilter.org>, Florian Westphal <fw@strlen.de>, Phil Sutter
- <phil@nwl.cc>, netfilter-devel@vger.kernel.org, coreteam@netfilter.org
-Subject: Re: [patch 00/12] hrtimers: Prevent hrtimer interrupt starvation
-In-Reply-To: <20260407083219.478203185@kernel.org>
-References: <20260407083219.478203185@kernel.org>
-Date: Tue, 07 Apr 2026 16:43:12 +0200
-Message-ID: <87wlyi4yrj.ffs@tglx>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Rsi5Rh1/"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:To:From:Date:Sender:Reply-To:Cc:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=tv1CjszI0+RbxNAqIfOQH37mmDbsaX4SbJ+Z4c8Li7g=; b=Rsi5Rh1/PwEOR4Z1gnfuYj3vln
+	a+ZyLLc5TE1bWm6sRbDkdDj1P7FleomU/L6hBLptY6Irbzj8pvrKYFJi2vjAthzEuyE3Ta1mFa0Z4
+	gsP2p38kRmWv67TDvPcXlkh+E7QXBv03zX5zeHgBrbMPVgWOSlh/i0q39hlEqD9TLJqhSaMdKL1tB
+	dfU6z7u27tnVcDzfsFkTpRRpV1IOpIEseGmhYhzIoSPUkVHSLhvNMgXeCOWcetiCKtNdiOM6iEfJb
+	wN18dND4kEUMr/Ufu6iA76/Z8GGG2n+jp1DO7hFfB8ERFI5JUprWwc7gyu5NXd1jw5YsDIIO9aMyN
+	AU9Qsy6Q==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1wA7l5-00000006eRF-25pU;
+	Tue, 07 Apr 2026 14:50:27 +0000
+Date: Tue, 7 Apr 2026 07:50:27 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Tyler Hicks <code@tyhicks.com>, ecryptfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: cleanup truncate handling in ecryptfs v2
+Message-ID: <adUZs-oTFj5t1Lnh@infradead.org>
+References: <20260407140329.633186-1-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260407140329.633186-1-hch@lst.de>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Tue, Apr 07 2026 at 10:54, Thomas Gleixner wrote:
-> There needs to be some discussion about the scope of backporting. The first
-> patch preventing the stall is obviously a backport candidate. The remaining
-> series can be obviously argued about, but in my opinion it should be
-> backported as well as it prevents stupid or malicious user space from
-> generating tons of pointless timer interrupts.
+On Tue, Apr 07, 2026 at 04:02:36PM +0200, Christoph Hellwig wrote:
+> Hi Tyler,
+> 
+> this series cleans up the truncate handling in ecryptfs.  I did
+> it as preparation for some changes into size changing truncate
+> VFS interfaces I'm looking into in the moment.  The changes have
+> passed the regression test suite in the userspace ecryptfs
+> repository and against the ecryptfs next branch.
 
-Peter and me just discussed it over IRC. With the clockevents prevention
-in place, the effect of stupid/malicious code is pretty much affecting
-only the user space task itself. As the timer is forced to expire once
-the clockevent device has been force armed, it won't have other side
-effects as device interrupts or IPIs are not blocked out and in the
-worst case marginally delayed by the high frequency timer interrupt.
+So right after I posted this I came up with an idea how to better
+pass arguments to the low-level truncate helper as the size + lower_ia
+kept irking me.  The branch here:
 
-Once the task is scheduled out that subsides as there is nothing which
-re-arms the timer anymore.
+https://git.infradead.org/?p=users/hch/misc.git;a=shortlog;h=refs/heads/ecryptfs-truncate
 
-So we should be fine with backporting the clockevents fix and leave the
-other parts of the series for upstream only. I still need to investigate
-how all of that affects the pending changes vs. TSC deadline timer (and
-similar devices) which are not going to reach that modified clockevents
-code anymore.
-
-Thanks,
-
-        tglx
-
+simply only passed the upper ia, which feels a lot cleaner.  It passes
+the ecryptfs test suite, but otherwise is hot off the press.  If you
+like the new version I'll send it out tomorrow.
 
