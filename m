@@ -1,63 +1,63 @@
-Received: from mail-yx1-f43.google.com (mail-yx1-f43.google.com [74.125.224.43])
+Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com [74.125.224.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AABEE386550
-	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Apr 2026 20:02:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97196387347
+	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Apr 2026 20:02:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775592172; cv=none; b=Z10DiDQMoV93OxcLlvYT3g7S/ooe4gTC0Exuxx5v7bgup2t0bemfS+3J7MCLRDudjHttQVppv4tZvOGrKZaDUU1vIYvZ43uD7gbKLQUotknv0kteJBLSLVmVHOiI4eM1ewy2dST/CO3A/xxGpOWOcw4/90cy3bFDNVYTBnPGNoI=
+	t=1775592175; cv=none; b=C6jnPGVAEzDdhyONWqLMOXlg4lsaFv7CqVJKggw5Un/jPdmN2MmG1n6NwH8h6tsWmZGWQj/QJmtPg3rOcuWb8g06xR+UgzG/Frig9SXr1lm/IrRNSACu0kS+4iVuKgYwaJ37WcIrSM5CgJbCx/LTWUDVA7iz23whkLKrFDNX0kg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775592172; c=relaxed/simple;
-	bh=XHuhaYzURLOJm9gSsZkdpKJOAK5ycNWjARx3XgxPE/8=;
+	s=arc-20240116; t=1775592175; c=relaxed/simple;
+	bh=vi5FjNFei0DMVU6UndsLw5X+Sug4/lpzBigVH5ACDgI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MHLhth4k120PsuCClccSjA1j3FxsuvyWIrz+wYVq9xQcxyyx7+IiWtorLebnpq15+pfG/4olSSBG+6gQx1QfXTH9Bz7gOEJa7MpUgpX3CG1Bn9BVTBiUeCfEJFzuKtueZMLyKw6X9KC987D9a76mpYSUduxrbvgEzEkgRAIMxuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rmaOt22z; arc=none smtp.client-ip=74.125.224.43
+	 MIME-Version; b=g0AdJPRj8qulzUGRNAZsBz5WOnNh4T/yvAYnMSAAnbE1mS+P24fbfOEMYOMBSRIEM1C0WNIml7QV32Tr+KLyPqQ9QK3/Yoo8LP+zR7wP8ULKMNYu7grm6kF7jKsQEk+b1ySJLy13SkRTZbv4Q5/6EHZrrSoAeBaasMKGDTuZyHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FQD5IOG2; arc=none smtp.client-ip=74.125.224.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rmaOt22z"
-Received: by mail-yx1-f43.google.com with SMTP id 956f58d0204a3-65006c99d38so5987582d50.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 07 Apr 2026 13:02:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FQD5IOG2"
+Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-650789b22e3so1728159d50.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 07 Apr 2026 13:02:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775592170; x=1776196970; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1775592173; x=1776196973; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mN3rsYPwNB7hPZYQqrXuOahpMQZ8TstAANGpzM3WXKE=;
-        b=rmaOt22zeE9CbIilAHym9/X5Te8R/qxYL6w7nQlOQkmvBjRLN0w5xZ8iFCSdtD/n/x
-         nNKdupK/g1PGuxTXvzJQM29vchPaIsn9b4Cc0G8tovyTKj9kG+tPEMI87kPNbTRk1roa
-         JJ2lttoUpU3lsQjverDyNwwxfYG57nWK5YrbKeHeZ9SQTTWPimzXsrDP8dzfeKGgx5Vq
-         me1nZeH6u3OAsT4fL1XIvHbxnvsbKpl6MZkcS7BYqQQyrE8u/PPOS8CUUSIztPmv1xCT
-         OU9/T+hLbO5OopzhEyZpC5CZGjr+Q5RnTvkLpYuKnXiuX6/1nniNnePSvZoJ5guo578k
-         4lGQ==
+        bh=67+cKnsUxsC8cUauaFfSWyXKAlrlKdFCay5MrA604yk=;
+        b=FQD5IOG2tWX0D59HiO4K9pEDlYxhmVP4MpXfrNIQSwpTgJpi90+YdCCZixnUArZKcU
+         L3wnhMNmFMRXeP+eMdZIimpxKcqGN7Za6dzqbYagzhJLsxNkkzN8Sq0qzpXA093l6Rmz
+         5H5A6p1AgkNRnUMO0K1NhxEJl8LsFvmbILHHXH3LKTSJEl/jXjM+LS3cep+M+xtsDPzZ
+         gfJEMffOVL0QVhSHcChaNnTKEF3SiDtCMugA2zOz6LxGvRRFIaFSE+C0+HMFfWWbX2K0
+         e/B5aZeSOFOOREdPWldZSjSrSr5ICMbWE3KKG2qmR++ITiu/mZCA5hKiaYc2dzL3x32l
+         QAkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775592170; x=1776196970;
+        d=1e100.net; s=20251104; t=1775592173; x=1776196973;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=mN3rsYPwNB7hPZYQqrXuOahpMQZ8TstAANGpzM3WXKE=;
-        b=lQ19wWtJZlPlNTLGmmE1CydcJyY50IYwQ8wmwIyCsFoEhuNQ1BJzFHC3gi198osrJs
-         /ILLtnJdCG/heRCFO7ZZzllqN04bGa+z/wGV5ufWs5z5OKinMLzExVo/O4io+wjmR6Jl
-         0u/iyC+FTM/lvWnjYAUf/pbHUa7u7uTUEVyrfEexmPS4HIdm+jeVxEVK+hd1mz2v1PYF
-         VTtq793Y0eKYzWvxjLMg3dgvqaDD7yWdunWHGFWgzg3d9I1gJlrNJmZZZxtTDX6OM9t7
-         jPVBoIVc9u4zU4pLghJHS9OLxuLStx9L0Un6DqGDLEEUGCr3EYsEyWUeAovv6aTIujrN
-         stJg==
-X-Forwarded-Encrypted: i=1; AJvYcCUcqAirLy7IlC2pej6KkT8/O+WjAjMEK9ui+WF3hNW3RUFsas+5gV5FQpCSUXTZasZ5ccvK4hTJNQ7b8HtN@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywt33dRmiGu41tsBYfcTjcguN7fNKcjcED0KwCFTTtmKUVlJri6
-	vXU4kAw+oI+ez66K0TF7o6/zs4cex7r2irMfOWxkIBIQa3Wb8K003rN5
-X-Gm-Gg: AeBDievR1T0gUr4pQQraHkHZmHGvkO03B4TSYkCSB6GNEExrFowuQtq4hmb3icYr91I
-	GRrBiurQUaevYfvtwDdgXob2Zg7ZLyxnR6JVT21yqR7xAVWRoVxDhMRf5cf/JOvQyzFy1Ft5P2J
-	AtvQI9anOgU9mgMFa5KSaKcXbwYALoPxQWD6VyAK9Ngt/k8d9jXJjN1MFtxe9WzjPpO0fxPRlan
-	B3wIE4pclvd4ji46aAsyKcElorwFjyjwOaWxexZeM5IkK0f/oogyPapeuE+ppM0yXVCO8jYuqx+
-	XD9SaAKo/uW3neNgkinmS8O9H14UyLT5OWRJ+6+ewcCMyuHmnVP510xB81ejiM+60xeu95owjth
-	wT00nlgc1LwMBBzTNEc1aQSORYaj/BPKa8kFh31OtVRaU0occNRpWQsL43ITDLse35kepZ5CUQN
-	onez/fN0qNO/0UZcqZB0G5v86PwB8Zpymc3VOrM6cjSdZHsBx4g0uA1Dp8ywmAHJAuImHS/yaN
-X-Received: by 2002:a05:690e:1409:b0:650:8923:5640 with SMTP id 956f58d0204a3-65089235e7amr877472d50.64.1775592169697;
-        Tue, 07 Apr 2026 13:02:49 -0700 (PDT)
+        bh=67+cKnsUxsC8cUauaFfSWyXKAlrlKdFCay5MrA604yk=;
+        b=NJZejBN4oe/BrIc89B4zJDNWa2L/dWslYhYm0Kbnc8Br6FLsP28KXrwLUIaCRMS6y6
+         c6hwqTDdobfceKEQBT3JCvdXQDHMsKuob38buZ4N98um7nyBNNWEtDFxGBRNIol4YxIE
+         SdIwFmYcnOprKGgM9F19fBWBRs6qiPjJtp0qZ+8cQU5qvafb+D72PSQcdWJDeB1FdK9l
+         bQXfoCPhrg8lCmnb/z/9hfO2yeh3snOPbJYsH7++QHJBOgSDqQ1VFLafsyw+ixrpoyF5
+         3i2qcBtnu4kMdHBlr4LG3pM5yjLM46/nKi3XgS5bpwsiWzjlVgFr7lMilzbHMs743tP0
+         ZjjA==
+X-Forwarded-Encrypted: i=1; AJvYcCXzTXzmM7J3qCImrPsnrTDi99/HKQuFPwrPCVM0BJe5R7a57tFSeRSEj31jQIjnYsNBgr+RVRXw6RSeYfn2@vger.kernel.org
+X-Gm-Message-State: AOJu0YwnK09eiyq6kWyDcaFT+Meovy+NBabG9Gwl9a7AjnglyKK7Ul4T
+	Q8D/obPm7bEKnzltvwM/zDMcaxlD2cxhKpWWObpiD/zZu6L5Ctn7UY5Q
+X-Gm-Gg: AeBDieunTddcWsZxUPkaUaJ5HQ0l6P/7h0lChwA3Ehw1cJHvOEszmBBQR1b9djrdcNb
+	h6Hy68CkozMh4+AsaFJUjc0QUAoGd7Cq3dYCHyVktKgXlZu/JYL7cFb4lQUtYmBtWz2ihsWXY+l
+	TGMizCZBE2ZPVQNI1tjjcCbo/NqmEokquWnXBhCZ8qe+emWM8VNhXF0nBghjLtmj27jmRHhZNE8
+	92PQ54gIjvc4lBXq2Qlcfr06sMpJ/3+/+h/8/rrLB47RwJWxlE24wQk6jnCAml/tsAoShk2cpN7
+	rJk2M+1p5w64HK9cS3LTxOVVm/G+xVlf1iENb9Aajy1unjR5fnH49f866EqMhYby0fXq/+NcW7T
+	a5y1zLv/I+tKQr6zp1uFCSzH1tGyQEkiGPSeP3TBUQYY3SqFAgT0EVUx+9t1VAc7HWy7OQSjPU7
+	pvbPkGITahPApsmhgKUFs5xT0wyVy5O8dBWfqNcXMGwyq504rNjtf69oDCopUfI7YPYhMknbjd
+X-Received: by 2002:a05:690e:11ca:b0:650:891d:e1a6 with SMTP id 956f58d0204a3-650891de307mr938379d50.51.1775592172595;
+        Tue, 07 Apr 2026 13:02:52 -0700 (PDT)
 Received: from zenbox.prizrak.me ([2600:1700:18fb:6011:92f8:8594:e84e:1d9a])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6503a828f3csm8354078d50.3.2026.04.07.13.02.49
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6503a828f3csm8354078d50.3.2026.04.07.13.02.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Apr 2026 13:02:49 -0700 (PDT)
+        Tue, 07 Apr 2026 13:02:52 -0700 (PDT)
 From: Justin Suess <utilityemal77@gmail.com>
 To: ast@kernel.org,
 	daniel@iogearbox.net,
@@ -85,9 +85,9 @@ Cc: gnoack@google.com,
 	linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	Justin Suess <utilityemal77@gmail.com>
-Subject: [RFC PATCH 17/20] tools: bpftool: Add documentation for landlock_ruleset
-Date: Tue,  7 Apr 2026 16:01:39 -0400
-Message-ID: <20260407200157.3874806-18-utilityemal77@gmail.com>
+Subject: [RFC PATCH 18/20] landlock: Document LANDLOCK_RESTRICT_SELF_NO_NEW_PRIVS
+Date: Tue,  7 Apr 2026 16:01:40 -0400
+Message-ID: <20260407200157.3874806-19-utilityemal77@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260407200157.3874806-1-utilityemal77@gmail.com>
 References: <20260407200157.3874806-1-utilityemal77@gmail.com>
@@ -99,40 +99,64 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add BPF_MAP_TYPE_LANDLOCK_RULESET to bpftool listing.
+Document the new LANDLOCK_RESTRICT_SELF_NO_NEW_PRIVS flag, and explain
+how its designed primarily for BPF-side use cases for Landlock.
 
 Signed-off-by: Justin Suess <utilityemal77@gmail.com>
 ---
- tools/bpf/bpftool/Documentation/bpftool-map.rst | 2 +-
- tools/bpf/bpftool/map.c                         | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ Documentation/userspace-api/landlock.rst | 22 ++++++++++++++++++++--
+ 1 file changed, 20 insertions(+), 2 deletions(-)
 
-diff --git a/tools/bpf/bpftool/Documentation/bpftool-map.rst b/tools/bpf/bpftool/Documentation/bpftool-map.rst
-index 1af3305ea2b2..48bf6ee36fa4 100644
---- a/tools/bpf/bpftool/Documentation/bpftool-map.rst
-+++ b/tools/bpf/bpftool/Documentation/bpftool-map.rst
-@@ -56,7 +56,7 @@ MAP COMMANDS
- |     | **cgroup_storage** | **reuseport_sockarray** | **percpu_cgroup_storage**
- |     | **queue** | **stack** | **sk_storage** | **struct_ops** | **ringbuf** | **inode_storage**
- |     | **task_storage** | **bloom_filter** | **user_ringbuf** | **cgrp_storage** | **arena**
--|     | **insn_array** }
-+|     | **landlock_ruleset** | **insn_array** }
+diff --git a/Documentation/userspace-api/landlock.rst b/Documentation/userspace-api/landlock.rst
+index fd8b78c31f2f..82c88d75ef21 100644
+--- a/Documentation/userspace-api/landlock.rst
++++ b/Documentation/userspace-api/landlock.rst
+@@ -204,7 +204,8 @@ similar backwards compatibility check is needed for the restrict flags
  
- DESCRIPTION
- ===========
-diff --git a/tools/bpf/bpftool/map.c b/tools/bpf/bpftool/map.c
-index 7ebf7dbcfba4..0fe391a3ce73 100644
---- a/tools/bpf/bpftool/map.c
-+++ b/tools/bpf/bpftool/map.c
-@@ -1478,7 +1478,7 @@ static int do_help(int argc, char **argv)
- 		"                 cgroup_storage | reuseport_sockarray | percpu_cgroup_storage |\n"
- 		"                 queue | stack | sk_storage | struct_ops | ringbuf | inode_storage |\n"
- 		"                 task_storage | bloom_filter | user_ringbuf | cgrp_storage | arena |\n"
--		"                 insn_array }\n"
-+		"                 insn_array | landlock_ruleset }\n"
- 		"       " HELP_SPEC_OPTIONS " |\n"
- 		"                    {-f|--bpffs} | {-n|--nomount} }\n"
- 		"",
+     __u32 restrict_flags =
+         LANDLOCK_RESTRICT_SELF_LOG_NEW_EXEC_ON |
+-        LANDLOCK_RESTRICT_SELF_TSYNC;
++        LANDLOCK_RESTRICT_SELF_TSYNC |
++        LANDLOCK_RESTRICT_SELF_NO_NEW_PRIVS;
+     switch (abi) {
+     case 1 ... 6:
+         /* Removes logging flags for ABI < 7 */
+@@ -223,10 +224,18 @@ similar backwards compatibility check is needed for the restrict flags
+          * children (and not for all threads, including parents and siblings).
+          */
+         restrict_flags &= ~LANDLOCK_RESTRICT_SELF_TSYNC;
++        __attribute__((fallthrough));
++    case 8:
++    case 9:
++        /* Removes no_new_privs convenience flag for ABI < 10 */
++        restrict_flags &= ~LANDLOCK_RESTRICT_SELF_NO_NEW_PRIVS;
+     }
+ 
+ The next step is to restrict the current thread from gaining more privileges
+-(e.g. through a SUID binary).  We now have a ruleset with the first rule
++(e.g. through a SUID binary).  When supported, this can be folded into
++``landlock_restrict_self()`` with ``LANDLOCK_RESTRICT_SELF_NO_NEW_PRIVS``;
++otherwise, user space must still call :manpage:`prctl(2)` explicitly.  We now
++have a ruleset with the first rule
+ allowing read and execute access to ``/usr`` while denying all other handled
+ accesses for the filesystem, and a second rule allowing HTTPS connections.
+ 
+@@ -716,6 +725,15 @@ Starting with the Landlock ABI version 9, it is possible to restrict
+ connections to pathname UNIX domain sockets (:manpage:`unix(7)`) using
+ the new ``LANDLOCK_ACCESS_FS_RESOLVE_UNIX`` right.
+ 
++No New Privs flag (ABI < 10)
++----------------------------------------
++
++Starting with the Landlock ABI version 10, it is possible to request
++``no_new_privs`` as part of ``landlock_restrict_self()`` by passing the
++``LANDLOCK_RESTRICT_SELF_NO_NEW_PRIVS`` flag.  This lets user space request
++the prerequisite from the Landlock API itself, which is especially useful when
++the restriction is applied from an external context such as BPF.
++
+ .. _kernel_support:
+ 
+ Kernel support
 -- 
 2.53.0
 
