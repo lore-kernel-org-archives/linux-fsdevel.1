@@ -1,176 +1,259 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A63DB38A703;
-	Tue,  7 Apr 2026 23:00:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775602845; cv=none; b=VSa9a/eFrUDoEyw1hAU/J/Q4Ker1U+waGp5OPguzZrSwNBKCV/eobTFBCtc9MGj79/zDdXplo9Sxf/vSp50QB/AtvlKki0ZZzwwNXSZAsz+Hj0RRcD+/+QzcNnKElMd9dqyuHa2/UzHRfidC4/nu8v2bg3zlBvXIEWSWpzn4jtI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775602845; c=relaxed/simple;
-	bh=Sy+BRlelaZG9WDkntYDY0tGb4c5RFFjT9XQH/dTL29Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CudZ7clGfB4fpJaWZlRo/IOqWkpzlX0Y3dYX2wPGmzcgWcBvycjaxF+2fNE/XsynDQxga8NAY/b9s1/AzEMJ4V8ebhjrRLT/8VKJ0kvAdJ1JQSV8MeOZAHpAHOSoJp/Kmter5tWB6Gnn0v0K2FDzJ5Fe7ATQ2rPhEn2CFCYSXfU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S9aE7Jri; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AE1C38BF83
+	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Apr 2026 23:06:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775603189; cv=pass; b=lOnC16rKLl2MXxIQqpGKO3DJcsZswMVEVx8bjVw84miyRRvxlTGiPU3m3mdA9zhbz8CaIP2m5f41yijYeu3egknQcRkdxFnTx83Ddr09owwLpjmHo6yRUp5339XhJu79yer4D0oAoN7pVNr4RkgBabN2fEkguG3e0gFMU58qjtU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775603189; c=relaxed/simple;
+	bh=LB0ZVsQWwLLR2xBI5oMPFQJHkC+ZQzNVMBgxmiStnPc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=e6Z5vqJq/LXDzei0AQ344W/X1TUUXuRxWSzZoUrpKGHEG2JwlnqCiV1pQ4FYXEpGzZIeylgpnYtz4NHyuhxG6h2PPLuFE+7y+LGhCaZgbxv1vCmWKbO9v9dcUn3lUAL2DLLTwb4Wmmz6ZGHtGK+YVM/FHyPk28uwyIbVn7bjjbQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FDneMbhE; arc=pass smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S9aE7Jri"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775602844; x=1807138844;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Sy+BRlelaZG9WDkntYDY0tGb4c5RFFjT9XQH/dTL29Y=;
-  b=S9aE7Jri5xeH/pTVf7SDh7JB7etjE0xjwWKSQcsMa2TY9GxbmdIX5aUF
-   O66JnDwvtQTg9+KaixQSbj0DFyUaN6jlE5OV7OiT8mGfPmm3ewC2qIaEx
-   2VFKax63KV4X8Nt6dp+BZG5M3Snk3pTzZQDs5EA3wJopbGiuzDa0RSzc0
-   KFOC8P3nj1wUgtm0D+FPuvS2tlD9yFeD+5LnUNVpSxUeS7BhmKeLwnLHk
-   1mE2EJxrC96Vdg5odhbZR4kpJ2NJSia1vp2SBzy2vh9x8h7tY44g7xY0H
-   caMskLX2L5S1EoRJ7cDRvwKtxNVjDVcvDpUftTmfCOv0zHNpJKUH3KoSy
-   g==;
-X-CSE-ConnectionGUID: wcC93vPjTT66S/0bsYfgRw==
-X-CSE-MsgGUID: vj+zWIRsRh6vn/ykLMHwIA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11752"; a="80172439"
-X-IronPort-AV: E=Sophos;i="6.23,166,1770624000"; 
-   d="scan'208";a="80172439"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 16:00:44 -0700
-X-CSE-ConnectionGUID: amAf8Z1ET6+Wd9Sj3IGtug==
-X-CSE-MsgGUID: 6+CcoNjQSliMz+efVPcfFQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,166,1770624000"; 
-   d="scan'208";a="258725579"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 07 Apr 2026 16:00:40 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wAFPS-00000000ALt-0ZP8;
-	Tue, 07 Apr 2026 23:00:38 +0000
-Date: Wed, 8 Apr 2026 01:00:16 +0200
-From: kernel test robot <lkp@intel.com>
-To: Christian Benton <t1bur0n.kernel.org@protonmail.ch>, ojeda@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, viro@zeniv.linux.org.uk,
-	brauner@kernel.org, rust-for-linux@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	aliceryhl@google.com, lossin@kernel.org,
-	Christian Benton <t1bur0n.kernel.org@protonmail.ch>
-Subject: Re: [PATCH] rust: seq_file: add puts, putc, write, and hex_dump
- methods
-Message-ID: <202604080005.U3yjfXzs-lkp@intel.com>
-References: <20260403233900.24640-1-t1bur0n.kernel.org@protonmail.ch>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FDneMbhE"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-488a88aeec9so42181665e9.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 07 Apr 2026 16:06:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775603186; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Z8uuwPBIArGUY4ua94gdvEcnr81W4mlGGaVOUV6sdPr4W888gz1RK9VF5LUsSmtP6K
+         aCP9YRGNFWGo6OVVt1jv8TkZn5sVffF6CkmLSYtq3m0vxI+Q7VgrQADB2s0/ugMpVT/0
+         FWFEnG6X244Tui0fNfvSehJK9LnFGf/38vfCKKy1RlLuoB70YCq5NyJNUcdz2e6opK1Y
+         d80mauVtCOFkvOaXOzsaBvWovXavasUZv7sfE2y/jDwV1FBkL4qqi3l2HjrTeLmqv1IC
+         cmmyScw8pwiuIhd9bKYGxUU1gfxpI/yUz+6fnRaEc6Ejo9tlLkf+TqQUhy1SBdI4H+MW
+         ldWw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=IbPXh8zE8gg3iL1ly+5nytHF9PDzZRYXMhQbpPxA8Vk=;
+        fh=wXLsQ4h/myZizvh2+NjBMHThXzHtuyMdmcg8bNy4NPQ=;
+        b=iDJe+mrATq3dOASdVAp6jzi20BV8GjUrj9oNPAsDlf16JDawZIUZysTYJnGvYTcD6m
+         0GupuKXONxrdDe2SNU2vn5lX19wtQgvPjjC4topp1IIPCCZsADjHtGaESRFBc+F+VmIb
+         vDb2Y3h0ImPZNEeiZ6Vkj4TYKLGtdMKbUWJkDxrYgpl8fL08Bf0yQrD/2GIQEELrgc34
+         i2pP926ckHzIvnqQWbZWmNdegFmOO9WawIaZtwPJYJp3MT2KqR9PjglHyAbi+sitPquh
+         5FmdhHrFxVitQy21EOP96QLHzUiFgMAH6xgXm/+O4DJsOBQHTWTO+DCER3C5cBmPu7bI
+         H3UQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775603186; x=1776207986; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IbPXh8zE8gg3iL1ly+5nytHF9PDzZRYXMhQbpPxA8Vk=;
+        b=FDneMbhE3522/7d5InAiJK+9TD5ew4/9VmpqIS/FmetODsvVniDYp4WiBSMIrqaDXM
+         HFS6pq+vIusE3DyJbZ/46zNY9I3P+pasanYqNmh/tz8hOmEvQz4EuYzqjQ37Xy2asHIA
+         aq7HrpiX94yiIbNJFy+Redzg1EC2vdkiaIUweTdSlWQ6YpnaRWu5E3deAtXdsNPKnPze
+         WnDwYPo2nCcqtnVXzME0ePgSFX0+BPsTm3mccxYfLTDhnOSBDsxQMo6RnugBAT3R0dTJ
+         FjA0HqGv1pYBGe8QO1+bmD9S+rTJrPstXcpPFpFEyI5TLQnmD8M0e7tvQmVCoSAyLAcI
+         5kfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775603186; x=1776207986;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=IbPXh8zE8gg3iL1ly+5nytHF9PDzZRYXMhQbpPxA8Vk=;
+        b=EDcMQifnIBiZOgkhroopytYC6sFNSkEracI7A6G5g0oOLLu31UhGvRXguoJ1oZ7Yvh
+         H2tt5if2rePRart7cHCOWinbASZx/f6IpcaU9pYn6PsTpTcqckJCFIL4QIxSyEaIiFpi
+         gK5+UBBmwucwDSftFC+r+VO+GUxHu2Ef7GccyrESedvlizhr4Ldnu4STcEh2iZ1Fmryd
+         PPhQNgyuNwnOB4E5bgwCMIwAV//xJz6hOrYCJH98h9W+w6gN6uLU6SgDBFHt5T48kNJM
+         wN5x96lVtm8BGm7F2TSq0aq9MotqDV6Exa99H2mhOAwsC+gBziN0E3AqZ84oaonFHeYt
+         wNNA==
+X-Forwarded-Encrypted: i=1; AJvYcCUo0vC2V0G2O20q8XTcR34393BElVJl9XU62mqQX1DMZWtRX/H21tbQRsQh/ZyH4KEpTF+JyXQhdUweL6c6@vger.kernel.org
+X-Gm-Message-State: AOJu0YxLvyDm7B1zP0w58JfMYElVgu79XfjC5E8rgswDN7e86iFtP0Am
+	qqRJJjejoA+pARaoekWJC/p7EjGAXmqQc0hzVDUapqu7evXTgL+YCVhP9+47QOSYeUD0wJuHr5c
+	i12aN/pTF3Y1nTlFAKZcequEBaKntSGs=
+X-Gm-Gg: AeBDievE8/t5vWHpSfwKv4/Lm+O/JtVg4LpCfYRdGgfqrys2LVKPCMUOTutFtSPgASj
+	umr0TBOIRuqlwLntsQcLsvg2+NV1mMIqje6W1njdOgs08enB9if6AHC5gIAVHL3mk1Zefrku+LS
+	lhVnKPCZSAdkrHG8tlJg6vVXC9su7vJGpQhQST2mcsRc0Ma1gkS4JrzUae2Z/7a4NaWRTlI23Dh
+	pCs4vHDAnLlkUceZXySb81KlRbskVvtFXcdV3CP4cIMNZlP/6QH46Zv9zU6y1y7yLO67GlQuKub
+	K5GdIQ==
+X-Received: by 2002:a05:600c:5251:b0:488:c257:a73b with SMTP id
+ 5b1f17b1804b1-488c257a952mr39549825e9.9.1775603185445; Tue, 07 Apr 2026
+ 16:06:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260403233900.24640-1-t1bur0n.kernel.org@protonmail.ch>
+References: <20260225112439.27276-1-luis@igalia.com> <20260225112439.27276-7-luis@igalia.com>
+ <CAJnrk1Yxpy0+tx2yb7CxVVwF9gqNRz_pHH5NUpBHOg55NNooJA@mail.gmail.com> <87v7e24gdw.fsf@igalia.com>
+In-Reply-To: <87v7e24gdw.fsf@igalia.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Tue, 7 Apr 2026 16:06:13 -0700
+X-Gm-Features: AQROBzDH6OrGSbCEgdGrgJWOn8d1SQj2Wulic8fz7ffautXqq8VYtBGf_JFXn60
+Message-ID: <CAJnrk1aG_N-FVJfNpoU6iLcA6XHsUvWe74E0Pkth-hev9zgmHg@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 6/8] fuse: implementation of lookup_handle+statx
+ compound operation
+To: Luis Henriques <luis@igalia.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>, 
+	Bernd Schubert <bschubert@ddn.com>, Bernd Schubert <bernd@bsbernd.com>, 
+	"Darrick J. Wong" <djwong@kernel.org>, Horst Birthelmer <hbirthelmer@ddn.com>, Kevin Chen <kchen@ddn.com>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Matt Harvey <mharvey@jumptrading.com>, kernel-dev@igalia.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Christian,
+On Tue, Apr 7, 2026 at 2:20=E2=80=AFPM Luis Henriques <luis@igalia.com> wro=
+te:
+>
+> Hi Joanne,
+>
+> On Tue, Apr 07 2026, Joanne Koong wrote:
+>
+> > On Wed, Feb 25, 2026 at 3:25=E2=80=AFAM Luis Henriques <luis@igalia.com=
+> wrote:
+> >>
+> >> The implementation of lookup_handle+statx compound operation extends t=
+he
+> >> lookup operation so that a file handle is be passed into the kernel.  =
+It
+> >> also needs to include an extra inarg, so that the parent directory fil=
+e
+> >> handle can be sent to user-space.  This extra inarg is added as an ext=
+ension
+> >> header to the request.
+> >>
+> >> By having a separate statx including in a compound operation allows th=
+e
+> >> attr to be dropped from the lookup_handle request, simplifying the
+> >> traditional FUSE lookup operation.
+> >>
+> >> Signed-off-by: Luis Henriques <luis@igalia.com>
+> >> ---
+> >>  fs/fuse/dir.c             | 294 +++++++++++++++++++++++++++++++++++--=
+-
+> >>  fs/fuse/fuse_i.h          |  23 ++-
+> >>  fs/fuse/inode.c           |  48 +++++--
+> >>  fs/fuse/readdir.c         |   2 +-
+> >>  include/uapi/linux/fuse.h |  23 ++-
+> >>  5 files changed, 355 insertions(+), 35 deletions(-)
+> >>
+> >> diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
+> >> index 113583c4efb6..89e6176abe25 100644
+> >> --- a/include/uapi/linux/fuse.h
+> >> +++ b/include/uapi/linux/fuse.h
+> >>
+> >>  enum fuse_opcode {
+> >> @@ -671,6 +676,8 @@ enum fuse_opcode {
+> >>          */
+> >>         FUSE_COMPOUND           =3D 54,
+> >>
+> >> +       FUSE_LOOKUP_HANDLE      =3D 55,
+> >> +
+> >>         /* CUSE specific operations */
+> >>         CUSE_INIT               =3D 4096,
+> >>
+> >> @@ -707,6 +714,20 @@ struct fuse_entry_out {
+> >>         struct fuse_attr attr;
+> >>  };
+> >>
+> >> +struct fuse_entry2_out {
+> >> +       uint64_t        nodeid;
+> >> +       uint64_t        generation;
+> >> +       uint64_t        entry_valid;
+> >> +       uint32_t        entry_valid_nsec;
+> >> +       uint32_t        flags;
+> >> +       uint64_t        spare;
+> >> +};
+> >
+> > Hi Luis,
+> >
+> > Could you explain why we need a new struct fuse_entry2_out instead of
+> > reusing struct fuse_entry_out? From what i see, the only differences
+> > between them are that fuse_entry2_out drops attr_valid,
+> > attr_valid_nsec, and struct fuse_attr. Is this done so that it saves
+> > the ~100 bytes per lookup? Would it be cleaner from an abi perspective
+> > to just reuse fuse_entry_out and ignore the attr fields if they're not
+> > necessary? The reason I'm asking is because I'm looking at how you're
+> > doing the lookup request reply to see if the fuse passthrough stuff
+> > for metadata/directory operations can be combined with it. But I'm not
+> > fully understanding why fuse_entry2_out is needed here.
+> >
+> > I'm also a bit confused by why the compound with statx is needed here,
+> > could you explain this part? I see the call to fuse_statx_to_attr()
+> > after do_lookup_handle_statx(),  but fuse_statx_to_attr() converts the
+> > statx reply right back to a struct fuse_attr for inode setup, so if
+> > FUSE_LOOKUP_HANDLE returned struct fuse_entry_out instead of struct
+> > fuse_entry2_out, doesn't this solve the problem of needing to compound
+> > it with a statx or getattr request? I also noticed that the statx part
+> > uses FUSE_ROOT_ID as a workaround for the node id because the actual
+> > nodeid isn't known yet, this seems like another sign that the
+> > attributes stuff should just be part of the lookup response itself
+> > rather than a separate operation?
+>
+> First of all, thanks a lot for looking into this patchset.  Much
+> appreciated!
+>
+> The main reason for swapping the usage of attr by statx is that statx
+> includes some attributes that attr does not (e.g. btime).  And since I wa=
+s
+> adding a new FUSE operation, it would be a good time for using statx
+> instead.  (Moreover, as new attributes may be added to statx in the
+> future, the benefits of using statx could eventually be even greater.)
+>
+> This was suggested by Miklos here[0], before converting the whole thing t=
+o
+> use compound commands.  So, I was going to use fuse_statx in the _out arg=
+s
+> for lookup_handle.  However, because the interface was getting a bit
+> complex with extra args (and ext headers!), Miklos ended up suggesting[1]
+> to remove attr completely from the lookup_handle operation, and use
+> compounds instead to have the full functionality.
 
-kernel test robot noticed the following build errors:
+Thank you for the context and links, Luis!
 
-[auto build test ERROR on brauner-vfs/vfs.all]
-[also build test ERROR on rust/rust-next linus/master v7.0-rc7 next-20260407]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Using fuse_statx over fuse_getattr makes sense to me for the new
+FUSE_LOOKUP_HANDLE op but the part I am confused about is why it needs
+to be compounded. If we are adding a new struct (struct
+fuse_entry2_out) to the abi, why is it not simpler to just make the
+new struct something like:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Benton/rust-seq_file-add-puts-putc-write-and-hex_dump-methods/20260407-211720
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20260403233900.24640-1-t1bur0n.kernel.org%40protonmail.ch
-patch subject: [PATCH] rust: seq_file: add puts, putc, write, and hex_dump methods
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260408/202604080005.U3yjfXzs-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260408/202604080005.U3yjfXzs-lkp@intel.com/reproduce)
+  struct fuse_entry_handle_out {
+      uint64_t    nodeid;
+      uint64_t    generation;
+      uint64_t    entry_valid;
+      uint64_t    attr_valid;
+      uint32_t    entry_valid_nsec;
+      uint32_t    attr_valid_nsec;
+      struct fuse_statx stat;
+  };
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604080005.U3yjfXzs-lkp@intel.com/
+and avoid the compound stuff altogether? Is it because that would make
+the struct fuse_entry_handle_out too big to be stack-allocated and
+would thus have to be heap allocated? But if I'm recalling correctly,
+the compound requests path requires heap allocations as well. Although
+at that point if we're gonna have to do the heap allocation, then we
+might as well just also embed the struct fuse_file_handle inside
+struct fuse_entry_handle_out?
 
-All error/warnings (new ones prefixed by >>):
+Thanks,
+Joanne
 
-   PATH=/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   INFO PATH=/opt/cross/rustc-1.88.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS=\ -fno-crash-diagnostics\ -Wno-error=return-type\ -Wreturn-type\ -funsigned-char\ -Wundef\ -falign-functions=64 W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck 
-   make: Entering directory '/kbuild/src/consumer'
-   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
->> Diff in rust/kernel/seq_file.rs:4:
-    //!
-    //! C header: [`include/linux/seq_file.h`](srctree/include/linux/seq_file.h)
-    
-   -use crate::{bindings, ffi, fmt, str::CStr, str::CStrExt as _, types::NotThreadSafe, types::Opaque};
-   +use crate::{
-   +    bindings, ffi, fmt, str::CStr, str::CStrExt as _, types::NotThreadSafe, types::Opaque,
-   +};
-    
-    /// A utility for generating the contents of a seq file.
-    #[repr(transparent)]
->> Diff in rust/kernel/seq_file.rs:4:
-    //!
-    //! C header: [`include/linux/seq_file.h`](srctree/include/linux/seq_file.h)
-    
-   -use crate::{bindings, ffi, fmt, str::CStr, str::CStrExt as _, types::NotThreadSafe, types::Opaque};
-   +use crate::{
-   +    bindings, ffi, fmt, str::CStr, str::CStrExt as _, types::NotThreadSafe, types::Opaque,
-   +};
-    
-    /// A utility for generating the contents of a seq file.
-    #[repr(transparent)]
-   make[2]: *** [Makefile:1916: rustfmt] Error 123
-   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[2]: Target 'rustfmtcheck' not remade because of errors.
-   make[1]: Target 'rustfmtcheck' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'rustfmtcheck' not remade because of errors.
-   make: Leaving directory '/kbuild/src/consumer'
---
->> warning: methods called `as_*` usually take `self` by reference or `self` by mutable reference
-   --> rust/kernel/seq_file.rs:27:17
-   |
-   27 |     fn as_c_int(self) -> ffi::c_int {
-   |                 ^^^^
-   |
-   = help: consider choosing a less ambiguous name
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#wrong_self_convention
-   = note: `-W clippy::wrong-self-convention` implied by `-W clippy::all`
-   = help: to override `-W clippy::all` add `#[allow(clippy::wrong_self_convention)]`
---
->> warning: casts from `u8` to `i32` can be expressed infallibly using `From`
-   --> rust/kernel/seq_file.rs:119:17
-   |
-   119 |                 rowsize as ffi::c_int,
-   |                 ^^^^^^^^^^^^^^^^^^^^^
-   |
-   = help: an `as` cast can become silently lossy if the types change in the future
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cast_lossless
-   = note: requested on the command line with `-W clippy::cast-lossless`
-   help: use `ffi::c_int::from` instead
-   |
-   119 -                 rowsize as ffi::c_int,
-   119 +                 ffi::c_int::from(rowsize),
-   |
---
->> warning: casts from `u8` to `i32` can be expressed infallibly using `From`
-   --> rust/kernel/seq_file.rs:120:17
-   |
-   120 |                 groupsize as ffi::c_int,
-   |                 ^^^^^^^^^^^^^^^^^^^^^^^
-   |
-   = help: an `as` cast can become silently lossy if the types change in the future
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cast_lossless
-   help: use `ffi::c_int::from` instead
-   |
-   120 -                 groupsize as ffi::c_int,
-   120 +                 ffi::c_int::from(groupsize),
-   |
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+> Obviously, I may have misunderstood (or mis-implemented) the suggestions
+> that were done.  And hopefully the provided links to the discussion that
+> originated this approach will help.
+>
+> Regarding the usage of FUSE_ROOT_ID as a workaround for the node id, I
+> believe this is a more generic problem which will occur in other compound
+> commands as well.  If we want to create a new file system object and
+> perform some operation with it within the same compound, a similar
+> workaround will be required (or some sort of flag in the compound command
+> to signal this dependency).
+>
+> I hope this helped to clarify a bit your questions.
+>
+> [0] https://lore.kernel.org/all/CAJfpegsoeUH42ZSg_MSEYukbgXOM_83YT8z_sksM=
+j84xPPCMGQ@mail.gmail.com
+> [1] https://lore.kernel.org/all/CAJfpegst6oha7-M+8v9cYpk7MR-9k_PZofJ3uzG3=
+9DnVoVXMkA@mail.gmail.com
+>
+> Cheers,
+> --
+> Lu=C3=ADs
