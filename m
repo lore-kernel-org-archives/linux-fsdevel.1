@@ -1,232 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 394A61A9FB0;
-	Tue,  7 Apr 2026 14:37:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 146B425A2B5;
+	Tue,  7 Apr 2026 14:42:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775572665; cv=none; b=BsfE/JGKoZkIj4VqTEW80s3Ett+GET9FltJMdL2S3CVoAZWqyQIhrdnmY8MdnEdFOyU/FiKgZQi0hiWg0WtQYKh540taJQv7fc3Erm4T/71Lczp+lsspL6hyRqwEak1h3zKt+opaEWp1a8uhnVORGzHXOxicfrNoRRdqebdmXf8=
+	t=1775572957; cv=none; b=QS+5q+ewqA0R3LtzweDPN97US5XMFrPVWQXzOQN4a2caf5Ww0eKSJ5aOeoHQAXV1dRad+12qnc/jWqduqeYIgu3BZkX+FR3fHOdvp7dSzR2Mjoa5CtoWvaOkHTmStPObGmrIBe67CSNjNFfhiAogILIUEXzZSwNrcHgW5eBmNQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775572665; c=relaxed/simple;
-	bh=qcwFe61yYk9/XUZijcBTHdiaZcYiATYoWR8d6pB509M=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CA8aSSqmGnJNdrI0btkEyfkHp66UBBi9S6Rz5ckU3KDFCRoVKiUJnAqv3gqShWxZHor/7TEixGQZ5EkfXl8Fo6pWYJfuEM2MWbubzDiMQw07gWMfh/NongO44uPjUBqKKueJH21HKM5dOpLox47M2phPTEpTRPl5M10cJNgWhFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m1aYYWfg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775572957; c=relaxed/simple;
+	bh=ZKeT3EG9f0w3T6fK4Zy6iKjyI/8l3jfApv9fdEeLazk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=evhc2KoMZHZOS1sHjQOEXgIQRGItB2ZzAmJ8A5HBO1beV7ZGydS1rPMrv7ViuevsXnYYNf3AqHw5xcwfVmiDkw9J5PDXBg0wvwQvqfbThUMGt4QweFG4AsMnJzbAxI5+JaN+SRMZOENW/9PyQIqFmeM9klUlarGkrGJDdqlxU60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hzXIyjkg; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m1aYYWfg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 305A1C116C6;
-	Tue,  7 Apr 2026 14:37:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775572664;
-	bh=qcwFe61yYk9/XUZijcBTHdiaZcYiATYoWR8d6pB509M=;
-	h=Date:From:To:Subject:References:In-Reply-To:From;
-	b=m1aYYWfgF/eFXk/afD3YzfALOhQ9KLQpxC0RKhl7tRHY/yF84K3UnhNOR5oOTe5Yh
-	 qFs+epdHRiQl7rM/NOKXBYYn1VL3y160pZBKFiOACcODp2GPE8WlvnfABMkwDXtz1r
-	 v7iuEMvECHtA2msunmgR6rFtkxeCMxRlNKAGT/PgnzyhHUIO3Rh0VmY0D6hLc5NC1Y
-	 QEhIABtmIND7sPL52Tr2RHJc5MiWyvnsd6RD1hQD7pMZLCz9IsN+/fY7ZaAM8cRSQF
-	 8EIXaztizpEiFdcMpfGZ/s+ORHlAk27DWD2/5eRDPtbIqBf7ynQkCRwHaKJrmEQaU5
-	 WRCNMuzjePmWw==
-Date: Tue, 7 Apr 2026 15:37:36 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Anand Moon <linux.amoon@gmail.com>, David Howells <dhowells@redhat.com>, 
-	David Woodhouse <dwmw2@infradead.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Kees Cook <kees@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, Douglas Anderson <dianders@chromium.org>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Randy Dunlap <rdunlap@infradead.org>, 
-	Masahiro Yamada <masahiroy@kernel.org>, "open list:CERTIFICATE HANDLING" <keyrings@vger.kernel.org>, 
-	open list <linux-kernel@vger.kernel.org>, 
-	"open list:FILESYSTEMS (VFS and infrastructure)" <linux-fsdevel@vger.kernel.org>, "open list:MEMORY MANAGEMENT - CORE" <linux-mm@kvack.org>
-Subject: Re: [PATCH v1] treewide: Fix indentation and whitespace in Kconfig
- files
-Message-ID: <adUWbw60LyIMaDKg@lucifer>
-References: <20260407053945.14116-1-linux.amoon@gmail.com>
- <2w7il2oprhkus5eyuxj3alzlsstp4yv23gazmxfmofzikqllrh@uwsx5nbj2hwv>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hzXIyjkg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1775572956; x=1807108956;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=ZKeT3EG9f0w3T6fK4Zy6iKjyI/8l3jfApv9fdEeLazk=;
+  b=hzXIyjkg+2RYhkSiwKa7XJgUMqYWfXdKN5Az8/mw1RmT9CYuW7N9usTE
+   inoB0y+OMwRvx2mhP7PU3JCHenBaTL2eO7Bj5WzcSc152UHmYfo3CW65X
+   V53iq9gI7/65xrrc1uP/gVfg5/AqRygbnom4ypRB0RogdG6c9YtLHv54B
+   PMi+NURPd14eNjeWCgD+NoUcI9zv9U/wsibKs23WjWNVzIQvFAFiLbu2c
+   RJdvOXICIo/e5nWiTLPrk+ULUBhE1NUSXiBwyAVXmNcgzrg1PQCXuSYs/
+   cy+3rrEvmxHv6S5da1anLRE/SmFuq9Bak9/96z0GbDIl5yxMH9fjz6Kye
+   g==;
+X-CSE-ConnectionGUID: URvI26oaTUa9aRQGrnHjWg==
+X-CSE-MsgGUID: NXCvDNfQSPGv9rjaNl5WYw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11752"; a="75577464"
+X-IronPort-AV: E=Sophos;i="6.23,165,1770624000"; 
+   d="scan'208";a="75577464"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 07:42:35 -0700
+X-CSE-ConnectionGUID: X9UQn79SSZu5MuDyveNRdA==
+X-CSE-MsgGUID: PyT17ImUSAak2sMkKm4OdA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,165,1770624000"; 
+   d="scan'208";a="228119455"
+Received: from gabaabhi-mobl2.amr.corp.intel.com (HELO [10.125.108.118]) ([10.125.108.118])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 07:42:35 -0700
+Message-ID: <98880cc2-09be-4bd8-b8f4-f0f0845f939e@intel.com>
+Date: Tue, 7 Apr 2026 07:42:45 -0700
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2w7il2oprhkus5eyuxj3alzlsstp4yv23gazmxfmofzikqllrh@uwsx5nbj2hwv>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: proc: document ProtectionKey in smaps
+To: Kevin Brodsky <kevin.brodsky@arm.com>, linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, Yury Khrustalev <yury.khrustalev@arm.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Vlastimil Babka <vbabka@kernel.org>, David Hildenbrand <david@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org
+References: <20260407125133.564182-1-kevin.brodsky@arm.com>
+From: Dave Hansen <dave.hansen@intel.com>
+Content-Language: en-US
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+In-Reply-To: <20260407125133.564182-1-kevin.brodsky@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Apr 07, 2026 at 09:58:56AM -0400, Liam R. Howlett wrote:
-> * Anand Moon <linux.amoon@gmail.com> [260407 01:40]:
-> > Clean up inconsistent indentation (mixing tabs and spaces) and remove
-> > extraneous whitespace in several Kconfig files across the tree.
-> > This is a purely cosmetic change to improve readability.
-> >
-> > Adjust indentation from spaces to tab (+optional two spaces) as in
-> > coding style with command like:
-> >
-> > $ sed -e 's/^        /\t/' -i */Kconfig
-> >
-> > Signed-off-by: Anand Moon <linux.amoon@gmail.com>
->
-> For the mm section,
->
-> Reviewed-by: Liam R. Howlett <Liam.Howlett@oracle.com>
+On 4/7/26 05:51, Kevin Brodsky wrote:
+> +If both the kernel and the system support protection keys (pkeys),
+> +"ProtectionKey" indicates the memory protection key associated with the
+> +virtual memory area.
 
-Looks correct to me for mm also, so:
+I think you're trying to get across the point here that the kernel needs
+to know about protection keys, have it enabled, and be running on a CPU
+with pkey support.
 
-Reviewed-by: Lorenzo Stoakes <ljs@kernel.org>
+To me "system" is a bit ambiguous here but _can_ refer to the whole
+hardware/software system as a whole. To avoid redundancy, I'd say either:
 
-Cheers, Lorenzo
+	If both the kernel and the processor support protection keys...
 
->
-> > ---
-> >  certs/Kconfig | 16 ++++++++--------
-> >  fs/Kconfig    |  6 +++---
-> >  init/Kconfig  | 24 ++++++++++++------------
-> >  lib/Kconfig   |  2 +-
-> >  mm/Kconfig    |  4 ++--
-> >  5 files changed, 26 insertions(+), 26 deletions(-)
-> >
-> > diff --git a/certs/Kconfig b/certs/Kconfig
-> > index 8e39a80c7abe5..9d2bf7fb5b9e4 100644
-> > --- a/certs/Kconfig
-> > +++ b/certs/Kconfig
-> > @@ -6,14 +6,14 @@ config MODULE_SIG_KEY
-> >  	default "certs/signing_key.pem"
-> >  	depends on MODULE_SIG || (IMA_APPRAISE_MODSIG && MODULES)
-> >  	help
-> > -         Provide the file name of a private key/certificate in PEM format,
-> > -         or a PKCS#11 URI according to RFC7512. The file should contain, or
-> > -         the URI should identify, both the certificate and its corresponding
-> > -         private key.
-> > -
-> > -         If this option is unchanged from its default "certs/signing_key.pem",
-> > -         then the kernel will automatically generate the private key and
-> > -         certificate as described in Documentation/admin-guide/module-signing.rst
-> > +	 Provide the file name of a private key/certificate in PEM format,
-> > +	 or a PKCS#11 URI according to RFC7512. The file should contain, or
-> > +	 the URI should identify, both the certificate and its corresponding
-> > +	 private key.
-> > +
-> > +	 If this option is unchanged from its default "certs/signing_key.pem",
-> > +	 then the kernel will automatically generate the private key and
-> > +	 certificate as described in Documentation/admin-guide/module-signing.rst
-> >
-> >  choice
-> >  	prompt "Type of module signing key to be generated"
-> > diff --git a/fs/Kconfig b/fs/Kconfig
-> > index 0bfdaecaa8775..74110311968aa 100644
-> > --- a/fs/Kconfig
-> > +++ b/fs/Kconfig
-> > @@ -78,7 +78,7 @@ config FS_DAX
-> >  	  --map=mem:
-> >  	  https://docs.pmem.io/ndctl-user-guide/ndctl-man-pages/ndctl-create-namespace
-> >
-> > -          For ndctl to work CONFIG_DEV_DAX needs to be enabled as well. For most
-> > +	  For ndctl to work CONFIG_DEV_DAX needs to be enabled as well. For most
-> >  	  file systems DAX support needs to be manually enabled globally or
-> >  	  per-inode using a mount option as well.  See the file documentation in
-> >  	  Documentation/filesystems/dax.rst for details.
-> > @@ -116,8 +116,8 @@ config FILE_LOCKING
-> >  	default y
-> >  	help
-> >  	  This option enables standard file locking support, required
-> > -          for filesystems like NFS and for the flock() system
-> > -          call. Disabling this option saves about 11k.
-> > +	  for filesystems like NFS and for the flock() system
-> > +	  call. Disabling this option saves about 11k.
-> >
-> >  source "fs/crypto/Kconfig"
-> >
-> > diff --git a/init/Kconfig b/init/Kconfig
-> > index 7484cd703bc1a..6fea1453c2941 100644
-> > --- a/init/Kconfig
-> > +++ b/init/Kconfig
-> > @@ -1036,14 +1036,14 @@ config PAGE_COUNTER
-> >  	bool
-> >
-> >  config CGROUP_FAVOR_DYNMODS
-> > -        bool "Favor dynamic modification latency reduction by default"
-> > -        help
-> > -          This option enables the "favordynmods" mount option by default
-> > -          which reduces the latencies of dynamic cgroup modifications such
-> > -          as task migrations and controller on/offs at the cost of making
-> > -          hot path operations such as forks and exits more expensive.
-> > +	bool "Favor dynamic modification latency reduction by default"
-> > +	help
-> > +	  This option enables the "favordynmods" mount option by default
-> > +	  which reduces the latencies of dynamic cgroup modifications such
-> > +	  as task migrations and controller on/offs at the cost of making
-> > +	  hot path operations such as forks and exits more expensive.
-> >
-> > -          Say N if unsure.
-> > +	  Say N if unsure.
-> >
-> >  config MEMCG
-> >  	bool "Memory controller"
-> > @@ -1125,7 +1125,7 @@ config GROUP_SCHED_WEIGHT
-> >  	def_bool n
-> >
-> >  config GROUP_SCHED_BANDWIDTH
-> > -        def_bool n
-> > +	def_bool n
-> >
-> >  config FAIR_GROUP_SCHED
-> >  	bool "Group scheduling for SCHED_OTHER"
-> > @@ -1625,10 +1625,10 @@ config LD_ORPHAN_WARN
-> >  	depends on $(ld-option,--orphan-handling=error)
-> >
-> >  config LD_ORPHAN_WARN_LEVEL
-> > -        string
-> > -        depends on LD_ORPHAN_WARN
-> > -        default "error" if WERROR
-> > -        default "warn"
-> > +	string
-> > +	depends on LD_ORPHAN_WARN
-> > +	default "error" if WERROR
-> > +	default "warn"
-> >
-> >  config SYSCTL
-> >  	bool
-> > diff --git a/lib/Kconfig b/lib/Kconfig
-> > index 0f2fb96106476..4b0026954a370 100644
-> > --- a/lib/Kconfig
-> > +++ b/lib/Kconfig
-> > @@ -589,7 +589,7 @@ config OBJAGG
-> >  config LWQ_TEST
-> >  	bool "Boot-time test for lwq queuing"
-> >  	help
-> > -          Run boot-time test of light-weight queuing.
-> > +	  Run boot-time test of light-weight queuing.
-> >
-> >  endmenu
-> >
-> > diff --git a/mm/Kconfig b/mm/Kconfig
-> > index ebd8ea353687e..10a4ce4247fa1 100644
-> > --- a/mm/Kconfig
-> > +++ b/mm/Kconfig
-> > @@ -1304,7 +1304,7 @@ config ARCH_HAS_PTE_SPECIAL
-> >  	bool
-> >
-> >  config MAPPING_DIRTY_HELPERS
-> > -        bool
-> > +	bool
-> >
-> >  config KMAP_LOCAL
-> >  	bool
-> > @@ -1435,7 +1435,7 @@ config ARCH_HAS_USER_SHADOW_STACK
-> >  	bool
-> >  	help
-> >  	  The architecture has hardware support for userspace shadow call
-> > -          stacks (eg, x86 CET, arm64 GCS or RISC-V Zicfiss).
-> > +	  stacks (eg, x86 CET, arm64 GCS or RISC-V Zicfiss).
-> >
-> >  config HAVE_ARCH_TLB_REMOVE_TABLE
-> >  	def_bool n
-> >
-> > base-commit: bfe62a454542cfad3379f6ef5680b125f41e20f4
-> > --
-> > 2.50.1
-> >
+or
+
+	If the system supports protection keys...
+
+But I'm ok with what you have in any case. Folks will understand what
+you're saying:
+
+Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
