@@ -1,96 +1,182 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp-190e.mail.infomaniak.ch (smtp-190e.mail.infomaniak.ch [185.125.25.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD7013B6352;
-	Tue,  7 Apr 2026 13:00:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6BD03B636B
+	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Apr 2026 13:00:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.25.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775566819; cv=none; b=EIjW70/bY4cp7gxDHAkaf7U4rj1SUOKhQg1RNXHvAv4xtapgEdHM1ys8B3aRgYq6Cm1ebwBSnZJEa1e3LUWq0Q2fA7Mmz1kp/4SpHaqFtEvMdt1yo8ztyaHUuAA5sPinBUrjrFaM/HOZ5cPBjEYbttXBuib3crEXXEksamazJno=
+	t=1775566838; cv=none; b=gTYU19E9fBc3FLDob1NVDpwwAjvxANNh7sgzcKYE4V26YSxGITXpLr61ljQmzl0ZqOAtOY+/V17727pTLQGn1DoM0n7qEJPV5X4C5ewwOm5wmvO9czWKSBK4ySnDekf02sL1b3hZcfc378qEHhU8H3IG2g2RVHbmfR7o0S1CdSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775566819; c=relaxed/simple;
-	bh=9g/6ivrb0RmDwR1PLMYmA4o5ry8IP2rIJPVEZipn8ms=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lrB0V1nQi4cWZcVpFqp5HIJPVXVlZf7akjQuOtIweJFn3u4RChoivtC6Axh52lt34OpNxl0JVgt+ComGj+D9nqsFyfZs9tqsUatVRbM7VlyHC0/HUZEap0FMTH841oDBJ5P7pp8p9jJNU/loVSsouGtWx2uiCQDrcUuIvUSwemw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ALLPTejs; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775566838; c=relaxed/simple;
+	bh=n69LQER+gpzAtUXozptn9ySUKii4kDCxgzw5XwT4DRY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FXi4bMOQOQF7oIUvkfB+AuP6PhV/nb4AY+gETvlFCTrDguohXzZT8ewEyEkib32ERs01w/jUVJHHJwATWuL+ndDuVjyCd1/bqzBXaJfi09q/ncl6EVHJvQ9BuxjUuq19oioa5pr17d0MRY4MCOf9PrIa+5D7jcYpWy2EuWK+RcA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=X1HQ/Mft; arc=none smtp.client-ip=185.125.25.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ALLPTejs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2F93C116C6;
-	Tue,  7 Apr 2026 13:00:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775566819;
-	bh=9g/6ivrb0RmDwR1PLMYmA4o5ry8IP2rIJPVEZipn8ms=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ALLPTejsosvRriKbnB0ft7zoKwKMrNmPb9R7yn9v4aqH6tALqAm59I/a0idyPZzZY
-	 p0r3OE8wsv2cwLzpJkH6MkDcj8ubu4/Lor5PmhZpS7SWeQg/QesdCpek6WJcKOMWaB
-	 wIWFQDp6vXIuNYzDDQ3atwxN/DLZ7LrMg0J/MKeXDrGH5CHQmk8SMXZEE3rZ74zNhs
-	 oWalmvV5KEDqe893ikKqLdd0Y/VT1TuoKEuAJzm4GJYT5qOPUMgLNxwDbTlCV7feHu
-	 LPWJMWFXqGKgAzDGdFze7n1MHuyTNh20mLKMK9NYA+F8MuNK5AAkNlBwh270IvLq7q
-	 h+SP5S92+rFpw==
-Message-ID: <ba56af16-c326-4abe-b1e5-3eb5015e14d7@kernel.org>
-Date: Tue, 7 Apr 2026 15:00:15 +0200
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="X1HQ/Mft"
+Received: from smtp-3-0000.mail.infomaniak.ch (smtp-3-0000.mail.infomaniak.ch [10.4.36.107])
+	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4fqmX06NxFzNjv;
+	Tue,  7 Apr 2026 15:00:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
+	s=20191114; t=1775566832;
+	bh=8ZxPSXWDIoiuY5G2zijl5txUNOYBhI92nA1iVSSfllo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=X1HQ/MftNpwfQzzWsM/qUT8sNrr4dRSGYIVauVfY8Vb+O3i8VT1Fwkj0ZXmxUdkrC
+	 athEYlil+TY5HuCphBRyRBIDpL2ZMOqX/q6dRPOGEq+PAKbJ0t7+28kjOpAjAy9KE0
+	 +yAfw9LOy6zjg4ulROelMcOBQtX2yPlLAYjU86sQ=
+Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4fqmWz5bgFzCQy;
+	Tue,  7 Apr 2026 15:00:31 +0200 (CEST)
+Date: Tue, 7 Apr 2026 15:00:27 +0200
+From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Christian Brauner <brauner@kernel.org>, 
+	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, Jann Horn <jannh@google.com>, Jeff Xu <jeffxu@google.com>, 
+	Justin Suess <utilityemal77@gmail.com>, Kees Cook <kees@kernel.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Matthieu Buffet <matthieu@buffet.re>, Mikhail Ivanov <ivanov.mikhail1@huawei-partners.com>, 
+	Tingmao Wang <m@maowtm.org>, kernel-team@cloudflare.com, linux-fsdevel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 12/17] landlock: Add tracepoints for ptrace and scope
+ denials
+Message-ID: <20260407.Aesoo2sairai@digikod.net>
+References: <20260406143717.1815792-1-mic@digikod.net>
+ <20260406143717.1815792-13-mic@digikod.net>
+ <20260406110123.4072a765@gandalf.local.home>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: proc: document ProtectionKey in smaps
-Content-Language: en-US
-To: Kevin Brodsky <kevin.brodsky@arm.com>, linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Yury Khrustalev <yury.khrustalev@arm.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>,
- David Hildenbrand <david@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-References: <20260407125133.564182-1-kevin.brodsky@arm.com>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-In-Reply-To: <20260407125133.564182-1-kevin.brodsky@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260406110123.4072a765@gandalf.local.home>
+X-Infomaniak-Routing: alpha
 
-On 4/7/26 14:51, Kevin Brodsky wrote:
-> The ProtectionKey entry was added in v4.9; back then it was
-> x86-specific, but it now lives in generic code and applies to all
-> architectures supporting pkeys (currently x86, power, arm64).
+On Mon, Apr 06, 2026 at 11:01:23AM -0400, Steven Rostedt wrote:
+> On Mon,  6 Apr 2026 16:37:10 +0200
+> Mickaël Salaün <mic@digikod.net> wrote:
 > 
-> Time to document it: add a paragraph to proc.rst about the
-> ProtectionKey entry.
+> > ---
+> >  include/trace/events/landlock.h | 135 ++++++++++++++++++++++++++++++++
+> >  security/landlock/log.c         |  20 +++++
+> >  2 files changed, 155 insertions(+)
+> > 
+> > diff --git a/include/trace/events/landlock.h b/include/trace/events/landlock.h
+> > index 1afab091efba..9f96c9897f44 100644
+> > --- a/include/trace/events/landlock.h
+> > +++ b/include/trace/events/landlock.h
+> > @@ -11,6 +11,7 @@
+> >  #define _TRACE_LANDLOCK_H
+> >  
+> >  #include <linux/tracepoint.h>
+> > +#include <net/af_unix.h>
+> >  
+> >  struct dentry;
+> >  struct landlock_domain;
+> > @@ -19,6 +20,7 @@ struct landlock_rule;
+> >  struct landlock_ruleset;
+> >  struct path;
+> >  struct sock;
+> > +struct task_struct;
+> >  
+> >  /**
+> >   * DOC: Landlock trace events
+> > @@ -433,6 +435,139 @@ TRACE_EVENT(
+> >  		__entry->log_new_exec, __entry->blockers, __entry->sport,
+> >  		__entry->dport));
+> >  
+> > +/**
+> > + * landlock_deny_ptrace - ptrace access denied
+> > + * @hierarchy: Hierarchy node that blocked the access (never NULL)
+> > + * @same_exec: Whether the current task is the same executable that called
+> > + *             landlock_restrict_self() for the denying hierarchy node
+> > + * @tracee: Target task (never NULL); eBPF can read pid, comm, cred,
+> > + *          namespaces, and cgroup via BTF
+> > + */
+> > +TRACE_EVENT(
+> > +	landlock_deny_ptrace,
+> > +
+> > +	TP_PROTO(const struct landlock_hierarchy *hierarchy, bool same_exec,
+> > +		 const struct task_struct *tracee),
+> > +
+> > +	TP_ARGS(hierarchy, same_exec, tracee),
+> > +
+> > +	TP_STRUCT__entry(
+> > +		__field(__u64, domain_id) __field(bool, same_exec)
+> > +			__field(u32, log_same_exec) __field(u32, log_new_exec)
+> > +				__field(pid_t, tracee_pid)
+> > +					__string(tracee_comm, tracee->comm)),
 > 
-> Reported-by: Yury Khrustalev <yury.khrustalev@arm.com>
-> Signed-off-by: Kevin Brodsky <kevin.brodsky@arm.com>
-
-Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
-
-> ---
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Shuah Khan <skhan@linuxfoundation.org>
-> Cc: Dave Hansen <dave.hansen@linux.intel.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Lorenzo Stoakes <ljs@kernel.org>
-> Cc: Vlastimil Babka <vbabka@kernel.org>
-> Cc: David Hildenbrand <david@kernel.org>
-> Cc: Mark Rutland <mark.rutland@arm.com>
-> Cc: linux-fsdevel@vger.kernel.org
-> Cc: linux-mm@kvack.org
-> ---
->  Documentation/filesystems/proc.rst | 4 ++++
->  1 file changed, 4 insertions(+)
+> Event formats are different than normal macro formatting. Please use the
+> event formatting. The above is a defined structure that is being created
+> for use. Keep it looking like a structure:
 > 
-> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-> index b0c0d1b45b99..d673cad7dbe4 100644
-> --- a/Documentation/filesystems/proc.rst
-> +++ b/Documentation/filesystems/proc.rst
-> @@ -549,6 +549,10 @@ does not take into account swapped out page of underlying shmem objects.
->  naturally aligned THP pages of any currently enabled size. 1 if true, 0
->  otherwise.
->  
-> +If both the kernel and the system support protection keys (pkeys),
-> +"ProtectionKey" indicates the memory protection key associated with the
-> +virtual memory area.
-> +
->  "VmFlags" field deserves a separate description. This member represents the
->  kernel flags associated with the particular virtual memory area in two letter
->  encoded manner. The codes are the following:
+> 	TP_STRUCT__entry(
+> 		__field(	__u64,		domain_id)
+> 		__field(	bool,		same_exec)
+> 		__field(	u32,		log_same_exec)
+> 		__field(	u32,		log_new_exec)
+> 		__field(	pid_t,		tracee_pid)
+> 		__string(	tracee_comm,	tracee->comm)
+> 	),
 
+I was using clang-format, but it doesn't make sense here, I'll fix it.
+
+> 
+> See how the above resembles:
+> 
+> struct entry {
+> 	__u64		domain_id;
+> 	bool		same_exec;
+> 	u32		log_same_exec;
+> 	u32		log_new_exec;
+> 	pid_t		tracee_pid;
+> 	string		tracee_comm;
+> };
+> 
+> Because that's pretty much what the trace event TP_STRUCT__entry() is going
+> to do with it. (The string will obviously be something else).
+> 
+> This way it's also easy to spot wholes in the structure that is written
+> into the ring buffer. The "same_exec" being a bool followed by two u32
+> types, is going to cause a hole. Move it to between tracee_pid and
+> tracee_comm.
+
+Actually, the log_* field should be bool too.  Anyway, is it a concern
+that the ring buffer leaks (previous event) kernel memory or is the
+concern mostly about avoiding wasted space and making easy to spot holes
+even if it's OK?
+
+> 
+> Please fix the other events too.
+
+Sure. Thanks!
+
+> 
+> -- Steve
+> 
+> 
+> > +
+> > +	TP_fast_assign(__entry->domain_id = hierarchy->id;
+> > +		       __entry->same_exec = same_exec;
+> > +		       __entry->log_same_exec = hierarchy->log_same_exec;
+> > +		       __entry->log_new_exec = hierarchy->log_new_exec;
+> > +		       __entry->tracee_pid =
+> > +			       task_tgid_nr((struct task_struct *)tracee);
+> > +		       __assign_str(tracee_comm);),
+> > +
+> > +	TP_printk(
+> > +		"domain=%llx same_exec=%d log_same_exec=%u log_new_exec=%u tracee_pid=%d comm=%s",
+> > +		__entry->domain_id, __entry->same_exec, __entry->log_same_exec,
+> > +		__entry->log_new_exec, __entry->tracee_pid,
+> > +		__print_untrusted_str(tracee_comm)));
+
+Are you OK with this new helper?
+
+> > +
+> >
+> 
