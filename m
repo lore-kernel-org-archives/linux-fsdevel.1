@@ -1,235 +1,228 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A102B39EF36
-	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Apr 2026 10:18:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30B603B5304;
+	Wed,  8 Apr 2026 10:22:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775643491; cv=none; b=MGJNcvJ1zaxRFwopsP7QEAyDpizelmJLS7BJpAvlXssP/dghZQZdDm9hgJMbUqMPLGZcUa53l+ZaPetqojXksSjgjh00MoXH5z3peHkDMSpGlUzUsPValUtlDAzI3EdY0SEcmdYBfSleEPvfBxujH2wVaYUR7qsOJX2LAWnXOu4=
+	t=1775643764; cv=none; b=RQ6iiqpuDYGYQ8PJLUqVzfLIz/mYj7f3ZtS9aPUi9xl2DTepWKP9dm1zP+qm+ilJ9uhr+a9vMnlkkiYXlyUQsG2al06JCOxYmhqj56ObUVbaRoRvCFcIU1CEM5wXYIr9u0wcJt9T3cSMV4LzmDkAPVxOzZEk3zKT/81H3w4f67Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775643491; c=relaxed/simple;
-	bh=l8BPnUOANCT6RPwO0bdTuwHO/qNtAG7af8F59VKML6E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X/D/+b4NKIAAsaNB7Ot+fLW73H7WbBKFaV7Aq84KYJz10QTcDejgV/uHTf/DLOQIUC0Y++2nfTpj0FhPsJP0D2kYqwSv/Ul+ERdo94b83zFFLviKoJLzg7SHEq9vFS5wjudMRYg1ZOIsHLb9lN6sQMlMqQW12M8op87ShphRmV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=WyEOP7Nz; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=rPi9Ulp8; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=WyEOP7Nz; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=rPi9Ulp8; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1775643764; c=relaxed/simple;
+	bh=QIEpJji1TfJqLOzPMAYDArLk96P5CTzdoQe2gwiuv9o=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=aP9YXVYl22PNszBSUjlnxLcbQVyrME+EquQFhOcnD+pqG7XlKFalsQps3pQV0CzV0j+1SuwV6SlEGLnwx5x9+hfsJGaiGcB30L9In8Bq+JCMljZcuEKkz6K6yixC2RNepRu9SoPajTSL+869DYu8wxjvS1QEcYGtyeSk4PKdIq4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=ETJ+h7XM; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="WyEOP7Nz";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="rPi9Ulp8";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="WyEOP7Nz";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="rPi9Ulp8"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 6FFEB5BDAE;
-	Wed,  8 Apr 2026 10:18:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1775643486; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cR8jLrw5rPi3Lcfoioo9FvWpU3IA0ni2nbDWar/q74A=;
-	b=WyEOP7NzeRf5E3+6l7TwmOxY8aj3uXx+kOwDRmw52F4GXs04IneaLQoMaEZBDMpgE0gJkR
-	wUHr579UitYxGD7rckE49PQqd2iDoF/wlCDtsybCwC7DMNEXVS6DELoteh5mQ41wQDGNZN
-	UCjVK9ZTPhT/R0w8BZsvWyI+QDTP6q4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1775643486;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cR8jLrw5rPi3Lcfoioo9FvWpU3IA0ni2nbDWar/q74A=;
-	b=rPi9Ulp8AeRmzO/VLtA3uKcIVY/nXkYb799C9Nt0c8REB3Kx60quNGMapblArgB0A9Rl7M
-	RbEOcHv6d61C45CQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=WyEOP7Nz;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=rPi9Ulp8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1775643486; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cR8jLrw5rPi3Lcfoioo9FvWpU3IA0ni2nbDWar/q74A=;
-	b=WyEOP7NzeRf5E3+6l7TwmOxY8aj3uXx+kOwDRmw52F4GXs04IneaLQoMaEZBDMpgE0gJkR
-	wUHr579UitYxGD7rckE49PQqd2iDoF/wlCDtsybCwC7DMNEXVS6DELoteh5mQ41wQDGNZN
-	UCjVK9ZTPhT/R0w8BZsvWyI+QDTP6q4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1775643486;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cR8jLrw5rPi3Lcfoioo9FvWpU3IA0ni2nbDWar/q74A=;
-	b=rPi9Ulp8AeRmzO/VLtA3uKcIVY/nXkYb799C9Nt0c8REB3Kx60quNGMapblArgB0A9Rl7M
-	RbEOcHv6d61C45CQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5FA9B4A0B3;
-	Wed,  8 Apr 2026 10:18:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ixFWF14r1mkcZQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 08 Apr 2026 10:18:06 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 0E257A0A7E; Wed,  8 Apr 2026 12:17:58 +0200 (CEST)
-Date: Wed, 8 Apr 2026 12:17:58 +0200
-From: Jan Kara <jack@suse.cz>
-To: Ian Kent <raven@themaw.net>
-Cc: Christian Brauner <brauner@kernel.org>, 
-	Al Viro <viro@zeniv.linux.org.uk>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Eric Sandeen <sandeen@sandeen.net>, Frank Sorenson <fsorenso@redhat.com>, 
-	Jay Shin <jaeshin@redhat.com>, Linus Torvalds <torvalds@linux-foundation.org>, 
-	Yafang Shao <laoar.shao@gmail.com>, Jan Kara <jack@suse.cz>, Waiman Long <longman@redhat.com>, 
-	Matthew Wilcox <willy@infradead.org>, Wangkai <wangkai86@huawei.com>, 
-	Colin Walters <walters@verbum.org>, linux-fsdevel <linux-fsdevel@vger.kernel.org>, 
-	Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC PATCH] vfs: limit directory child dentry retention
-Message-ID: <g72jlphxouvfml5ewxrvbo4u6drhue3pnsawoywhnvitnga3sd@rvi4wfep2az5>
-References: <20260331012925.74840-1-raven@themaw.net>
- <20260331012925.74840-2-raven@themaw.net>
- <20260331-engste-raushalten-f66cd264ce77@brauner>
- <d8e591a1-d105-408f-b794-48573e1aa2fd@themaw.net>
- <20260407-frieden-girlanden-7b761912b2b1@brauner>
- <06760176-fb65-4fd8-b127-28b25d449b1f@themaw.net>
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="ETJ+h7XM"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+	Date:References:In-Reply-To:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=/K1cqBbmO2BrGXIkUCu69EK/41F59QC1xA5tpQ3GBQA=; b=ETJ+h7XMoyYJ7vohBep1EAfWzc
+	ohE27euenn/SMZ5nFXRrOSK35QGHUA1o6XGIHUzHxVqNu/mXZGBKGEqhERDVfOWtd65/pRVNPiPj0
+	rh7fRRfIbDmIUwjmFKBpG9wANUUM966RNvwgEEUaNAi6e2eLizZuLjd3pXoOsg4ushFnYfKml/T3b
+	NKBDom8+z5oW/t6UIh3kl6dXSm3DC14ROsjIpcJzU/rLmmlixGFEAdUY7Y595OFeUvJgeBdIrasit
+	cDNssihy3pN7gIyZfldMqCDAdehq3y3N/tGe7BXGRAdGrpy4hRSpnrPXwtC1t8NW0bSrl9gAgwC3F
+	g083Xfdw==;
+Received: from bl15-209-88.dsl.telepac.pt ([188.80.209.88] helo=localhost)
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1wAQ3C-00DQNG-8u; Wed, 08 Apr 2026 12:22:22 +0200
+From: Luis Henriques <luis@igalia.com>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>,  Amir Goldstein
+ <amir73il@gmail.com>,  Bernd Schubert <bschubert@ddn.com>,  Bernd Schubert
+ <bernd@bsbernd.com>,  "Darrick J. Wong" <djwong@kernel.org>,  Horst
+ Birthelmer <hbirthelmer@ddn.com>,  Kevin Chen <kchen@ddn.com>,
+  linux-fsdevel@vger.kernel.org,  linux-kernel@vger.kernel.org,  Matt
+ Harvey <mharvey@jumptrading.com>,  kernel-dev@igalia.com
+Subject: Re: [RFC PATCH v3 6/8] fuse: implementation of lookup_handle+statx
+ compound operation
+In-Reply-To: <CAJnrk1b9CkQ0i6FdFvxcKbhS7K4TG5yQKbnEXV=Hc+ry593KoQ@mail.gmail.com>
+	(Joanne Koong's message of "Tue, 7 Apr 2026 16:24:50 -0700")
+References: <20260225112439.27276-1-luis@igalia.com>
+	<20260225112439.27276-7-luis@igalia.com>
+	<CAJnrk1Yxpy0+tx2yb7CxVVwF9gqNRz_pHH5NUpBHOg55NNooJA@mail.gmail.com>
+	<87v7e24gdw.fsf@igalia.com>
+	<CAJnrk1aG_N-FVJfNpoU6iLcA6XHsUvWe74E0Pkth-hev9zgmHg@mail.gmail.com>
+	<CAJnrk1b9CkQ0i6FdFvxcKbhS7K4TG5yQKbnEXV=Hc+ry593KoQ@mail.gmail.com>
+Date: Wed, 08 Apr 2026 11:22:22 +0100
+Message-ID: <87bjftlpk1.fsf@igalia.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <06760176-fb65-4fd8-b127-28b25d449b1f@themaw.net>
-X-Spamd-Result: default: False [-2.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	TO_DN_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,zeniv.linux.org.uk,szeredi.hu,sandeen.net,redhat.com,linux-foundation.org,gmail.com,suse.cz,infradead.org,huawei.com,verbum.org,vger.kernel.org];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -2.51
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 6FFEB5BDAE
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue 07-04-26 20:41:08, Ian Kent wrote:
-> On 7/4/26 18:35, Christian Brauner wrote:
-> > On Wed, Apr 01, 2026 at 10:10:55AM +0800, Ian Kent wrote:
-> > > On 31/3/26 17:39, Christian Brauner wrote:
-> > > > On Tue, Mar 31, 2026 at 09:29:09AM +0800, Ian Kent wrote:
-> > > > > If there's a very large number of children present in a directory dentry
-> > > > > then the benifit from retaining stale child dentries for re-use can
-> > > > > become ineffective. Even hashed lookup can become ineffective as hash
-> > > > > chains grow, time taken to umount a file system can increase a lot, as
-> > > > > well as child dentry traversals resulting in lock held too long log
-> > > > > messages.
-> > > > Fwiw, there's also e6957c99dca5 ("vfs: Add a sysctl for automated deletion of dentry")
-> > > I'm pretty sure I saw that earlier on but had forgotten about it when I
-> > > 
-> > > reviewed the bug this time around. It is essentially 681ce8623567 ("vfs:
-> > > 
-> > > Delete the associated dentry when deleting a file") with opt-in of course.
-> > > 
-> > > 
-> > > > This patch introduces the concept conditionally, where the associated
-> > > > dentry is deleted only when the user explicitly opts for it during file
-> > > > removal. A new sysctl fs.automated_deletion_of_dentry is added for this
-> > > > purpose. Its default value is set to 0.
-> > > I meant to update Documentation/admin-guide/sysctl/fs.rst to also say that
-> > > 
-> > > setting dir-stale-max to 0 disables it. I also get the impression you might
-> > > 
-> > > feel better about this if the default was 0 as well.
-> > > 
-> > > 
-> > > The thing that I don't much like with the d_delete() approach is that it
-> > > 
-> > > fails to cater for files that have been closed and are otherwise unused
-> > > 
-> > > who's dentries make there way to the LRU eventually resulting in the bad
-> > > 
-> > > behaviour being discussed.
-> > > 
-> > > 
-> > > > I have no massive objections to your approach. It feels a bit hacky tbh
-> > > > as it seems to degrade performance for new workloads in favor old
-> > > > workloads. The LRU should sort this out though.
-> > > My aim was to improve performance so I'm a bit puzzled by the comment.
-> > > 
-> > > 
-> > > The problem is the sheer number of dentry objects and the consequences
-> > > 
-> > > of that. Hash table chains growing will affect performance, umounting
-> > > 
-> > > the mount will take ages, and there are cases of child dentry traversals
-> > > 
-> > > in the VFS. Once you get a large number of stale dentries that necessarily
-> > > 
-> > > need to stay linked into the structures to get the benefit of caching your
-> > > 
-> > > exposed to this problem.
-> > > 
-> > > 
-> > > The LRU mechanism is so far unable to cope with this.
-> > I meant when when you start limiting the number of negative dentries and
-> > start to not accumulate more that some workload was relying on this. It
-> > was just a theoretical musing. That initial "delete on unlink" thing led
-> > to regressions for a bunch of workloads when we did it unconditionally
-> > initially.
-> 
-> Yes, I did take that on board.
-> 
-> It's trivial to initially disable it with a doc update describng this.
-> 
-> But this only works (gets accepted) if people think it's worth while and
-> 
-> I'm not sure my proposed case is convincing enough.
+On Tue, Apr 07 2026, Joanne Koong wrote:
 
-I think we definitely need to find a way to manage negative dentries (and
-possibly all dentries) better. It is coming up several times each year that
-people have issues with negative dentries accumulating too much and they
-hit issues in various places.
+> On Tue, Apr 7, 2026 at 4:06=E2=80=AFPM Joanne Koong <joannelkoong@gmail.c=
+om> wrote:
+>>
+>> On Tue, Apr 7, 2026 at 2:20=E2=80=AFPM Luis Henriques <luis@igalia.com> =
+wrote:
+>> >
+>> > Hi Joanne,
+>> >
+>> > On Tue, Apr 07 2026, Joanne Koong wrote:
+>> >
+>> > > On Wed, Feb 25, 2026 at 3:25=E2=80=AFAM Luis Henriques <luis@igalia.=
+com> wrote:
+>> > >>
+>> > >> The implementation of lookup_handle+statx compound operation extend=
+s the
+>> > >> lookup operation so that a file handle is be passed into the kernel=
+.  It
+>> > >> also needs to include an extra inarg, so that the parent directory =
+file
+>> > >> handle can be sent to user-space.  This extra inarg is added as an =
+extension
+>> > >> header to the request.
+>> > >>
+>> > >> By having a separate statx including in a compound operation allows=
+ the
+>> > >> attr to be dropped from the lookup_handle request, simplifying the
+>> > >> traditional FUSE lookup operation.
+>> > >>
+>> > >> Signed-off-by: Luis Henriques <luis@igalia.com>
+>> > >> ---
+>> > >>  fs/fuse/dir.c             | 294 ++++++++++++++++++++++++++++++++++=
++---
+>> > >>  fs/fuse/fuse_i.h          |  23 ++-
+>> > >>  fs/fuse/inode.c           |  48 +++++--
+>> > >>  fs/fuse/readdir.c         |   2 +-
+>> > >>  include/uapi/linux/fuse.h |  23 ++-
+>> > >>  5 files changed, 355 insertions(+), 35 deletions(-)
+>> > >>
+>> > >> diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
+>> > >> index 113583c4efb6..89e6176abe25 100644
+>> > >> --- a/include/uapi/linux/fuse.h
+>> > >> +++ b/include/uapi/linux/fuse.h
+>> > >>
+>> > >>  enum fuse_opcode {
+>> > >> @@ -671,6 +676,8 @@ enum fuse_opcode {
+>> > >>          */
+>> > >>         FUSE_COMPOUND           =3D 54,
+>> > >>
+>> > >> +       FUSE_LOOKUP_HANDLE      =3D 55,
+>> > >> +
+>> > >>         /* CUSE specific operations */
+>> > >>         CUSE_INIT               =3D 4096,
+>> > >>
+>> > >> @@ -707,6 +714,20 @@ struct fuse_entry_out {
+>> > >>         struct fuse_attr attr;
+>> > >>  };
+>> > >>
+>> > >> +struct fuse_entry2_out {
+>> > >> +       uint64_t        nodeid;
+>> > >> +       uint64_t        generation;
+>> > >> +       uint64_t        entry_valid;
+>> > >> +       uint32_t        entry_valid_nsec;
+>> > >> +       uint32_t        flags;
+>> > >> +       uint64_t        spare;
+>> > >> +};
+>> > >
+>> > > Hi Luis,
+>> > >
+>> > > Could you explain why we need a new struct fuse_entry2_out instead of
+>> > > reusing struct fuse_entry_out? From what i see, the only differences
+>> > > between them are that fuse_entry2_out drops attr_valid,
+>> > > attr_valid_nsec, and struct fuse_attr. Is this done so that it saves
+>> > > the ~100 bytes per lookup? Would it be cleaner from an abi perspecti=
+ve
+>> > > to just reuse fuse_entry_out and ignore the attr fields if they're n=
+ot
+>> > > necessary? The reason I'm asking is because I'm looking at how you're
+>> > > doing the lookup request reply to see if the fuse passthrough stuff
+>> > > for metadata/directory operations can be combined with it. But I'm n=
+ot
+>> > > fully understanding why fuse_entry2_out is needed here.
+>> > >
+>> > > I'm also a bit confused by why the compound with statx is needed her=
+e,
+>> > > could you explain this part? I see the call to fuse_statx_to_attr()
+>> > > after do_lookup_handle_statx(),  but fuse_statx_to_attr() converts t=
+he
+>> > > statx reply right back to a struct fuse_attr for inode setup, so if
+>> > > FUSE_LOOKUP_HANDLE returned struct fuse_entry_out instead of struct
+>> > > fuse_entry2_out, doesn't this solve the problem of needing to compou=
+nd
+>> > > it with a statx or getattr request? I also noticed that the statx pa=
+rt
+>> > > uses FUSE_ROOT_ID as a workaround for the node id because the actual
+>> > > nodeid isn't known yet, this seems like another sign that the
+>> > > attributes stuff should just be part of the lookup response itself
+>> > > rather than a separate operation?
+>> >
+>> > First of all, thanks a lot for looking into this patchset.  Much
+>> > appreciated!
+>> >
+>> > The main reason for swapping the usage of attr by statx is that statx
+>> > includes some attributes that attr does not (e.g. btime).  And since I=
+ was
+>> > adding a new FUSE operation, it would be a good time for using statx
+>> > instead.  (Moreover, as new attributes may be added to statx in the
+>> > future, the benefits of using statx could eventually be even greater.)
+>> >
+>> > This was suggested by Miklos here[0], before converting the whole thin=
+g to
+>> > use compound commands.  So, I was going to use fuse_statx in the _out =
+args
+>> > for lookup_handle.  However, because the interface was getting a bit
+>> > complex with extra args (and ext headers!), Miklos ended up suggesting=
+[1]
+>> > to remove attr completely from the lookup_handle operation, and use
+>> > compounds instead to have the full functionality.
+>>
+>> Thank you for the context and links, Luis!
+>>
+>> Using fuse_statx over fuse_getattr makes sense to me for the new
+>> FUSE_LOOKUP_HANDLE op but the part I am confused about is why it needs
+>> to be compounded. If we are adding a new struct (struct
+>> fuse_entry2_out) to the abi, why is it not simpler to just make the
+>> new struct something like:
+>>
+>>   struct fuse_entry_handle_out {
+>
+> Thinking more about how passthrough will use this... I'm thinking
+> something like this would be ideal (though please correct me if I'm
+> completely off track here, Amir):
+>
+>   struct fuse_entry_handle_out {
+>       uint64_t    nodeid;
+>       uint64_t    generation;
+>       uint64_t    entry_valid;
+>       uint64_t    attr_valid;
+>       uint32_t    entry_valid_nsec;
+>       uint32_t    attr_valid_nsec;
+>       int32_t     backing_id;
+>       uint32_t    flags;
+>       struct fuse_statx statx;
+>   };
+>
+> where if the inode is not passed through, the kernel uses the stax
+> field for the attributes but if the inode is passed through and the
+> server sets a bitmask specifying that attributes should be derived
+> from the backing file, then the statx field will be ignored by the
+> server and kernel).
 
-I don't particularly like your solution because it effectively stops
-caching new dentries for the parent and old ones stay while, as Christian
-suggested, we'd prefer to prune older dentries first. Also usually the
-problem is with negative dentries while you approach treats negative and
-positive dentries in the same way which could be a problem for some cases.
-But with this second objection I'm less sure so take that mostly as a
-preference :).
+If we end up deciding to revert back to not using compound commands I'll
+have to take a closer look into this, as it's not clear what the above
+means.  For example, when you say:
 
-The problem is how to efficiently prune older children dentries without
-slowing down fast paths or growing struct dentry...
+  "... if the inode is not passed through"
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+does this "inode" refer to the backing_id?  I guess this is some index to
+backing ids being used by FUSE, not exactly an inode, but I'm not very
+familiar with the code.
+
+Cheers,
+--=20
+Lu=C3=ADs
