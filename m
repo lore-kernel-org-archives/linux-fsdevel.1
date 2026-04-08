@@ -1,124 +1,217 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 335F6175A5;
-	Wed,  8 Apr 2026 13:55:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46FA91A4F3C
+	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Apr 2026 13:55:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775656507; cv=none; b=S2AeLpEvGa0nNlpnc/FwtlTCxfGnHAdLEp7omuS6gFuMnB1SsX3pp7YdG8rNSY0/Wcd/BEroZKGk2uGEmxW6sLhztxi4jY1TjSrcCrxkOn+NEciJ6RQm90/5vDo8CkQvpA4TIW9Z1deVJgAJ84B8R2mGPPLoSe76nXghJ+Ezdbg=
+	t=1775656525; cv=none; b=DRlW1aAPd6geIyKGzl7UU7v+vxkHx7J7R2rNURrqY57++mg7045gp2ABCRCE/2U81TzylU5kQ2E6JMKvH/cwzjYbpkLLxtz5oHjELfwNc7pdnwp7hvO9IFVaWcvcRAMIzTYHPp/Og1OFfLydP4WCZAa/xo2Osy4AvsxP7/lxDX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775656507; c=relaxed/simple;
-	bh=9V0aEgsGhkLU/YHXT2F9l9I/XcSpUtYjb0B6llutNFo=;
+	s=arc-20240116; t=1775656525; c=relaxed/simple;
+	bh=7AQQn9FBOnHh/h22ouj+OJcI6gBdsnXRDykbLd5UAaU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y46Fjrxw5AZ9Hdnr03LyFJwEuDAdhhgw/ETjs+BA5q27soWXNqO/Nh7PWj0vC3n1d1c7VTlY3dPaNKBvzkAXETpqq6zOzzt2SHaeUkl1UFLzqLuFA1QncV1YG1kCFjH8LvRKf2v371jG9Bq10Ho3oF6w/hqNpeQ5buvBcuu2wxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=g/7igT7Y; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=bXbgFQGF; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=pnZjC5u+PHgbzoXh8vymybri2CWakf5+7ulN3St6delrgQVFJpblkihETCfkUTzTTkAyXegAap1IfLaVhGhpUXjReSqBUC8B7DadHZ370HOCgONL6HmMIWddQZqNP8J47YxMsIzDTr5siHvaRmA9UA9H/jZFbU/3tMtrWdq61Xo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=jFmCEKN6; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=iQcGEGzV; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=jFmCEKN6; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=iQcGEGzV; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="g/7igT7Y";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="bXbgFQGF"
-Date: Wed, 8 Apr 2026 15:55:02 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1775656503;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="jFmCEKN6";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="iQcGEGzV";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="jFmCEKN6";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="iQcGEGzV"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id ABF8D5BCD7;
+	Wed,  8 Apr 2026 13:55:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1775656522; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=I/7IhEnruGQc+1CW/jI+NpDLfCCCOrjwQ3Z++94aDzE=;
-	b=g/7igT7YVTjK17e006TVC9a2gKMuvkRBxfOLbKucZK/ors+kGDdqRhg/OqIAPoq5L2zYiR
-	NHS9iN2kPybQQCMzb0hTPTlJ3hMU1aWfJnzlmiv0KNZqY4Wwi26yUcu/VEQmZb3LrFtLeJ
-	v9Hj8r5rg9mxwgzJi9+isM2ogGz4hxoBiRV1S6JCNrSj/EZ9vO2oq9kkJwhikSW2SV/nRF
-	yNWHpa5z8hiS3Hk82KmrT84xlKxjjdnZZkn0SPpkbAL0sSSDZqoPQ1o2o0e5Bm/LDTrW9/
-	URrBKH+giHCjz0pRM4cLUth3lWFPudMBl7mwDYZfzksl5HySlYmwbAWqBhZ6QQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1775656503;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
+	bh=Rx4ZIvi8G+HrNa2mMQOovPJxPFEEZfX+EX33BeJKF+I=;
+	b=jFmCEKN6kBlQKbqUcn/9U981uGLCtjxdYgi9Fjj/br/HSy6c8wivFcjGSMy0SM1ND4ct/H
+	PwgU3CV4aRUTLkqoFlesjbrTGmMqlUi7Ka8ieqfYfCWNE/eSE0FAZ7y6czZBoaSk21MAGC
+	Uenqg0CdCkdVyQgSs7d5sVcQyHFgQjw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1775656522;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=I/7IhEnruGQc+1CW/jI+NpDLfCCCOrjwQ3Z++94aDzE=;
-	b=bXbgFQGFM845UyMTzIaKnx+U/0W1qwvKf9VT1aZH2aehpEPkr35D05t97plT1GQ4P43LR/
-	E8qif45B75rf6LAQ==
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-To: Thomas Gleixner <tglx@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, Calvin Owens <calvin@wbinvd.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Anna-Maria Behnsen <anna-maria@linutronix.de>, 
-	Frederic Weisbecker <frederic@kernel.org>, Ingo Molnar <mingo@kernel.org>, John Stultz <jstultz@google.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	Sebastian Reichel <sre@kernel.org>, linux-pm@vger.kernel.org, 
-	Pablo Neira Ayuso <pablo@netfilter.org>, Florian Westphal <fw@strlen.de>, Phil Sutter <phil@nwl.cc>, 
-	netfilter-devel@vger.kernel.org, coreteam@netfilter.org
-Subject: Re: [patch 01/12] clockevents: Prevent timer interrupt starvation
-Message-ID: <20260408155353-42aeefa4-db66-48aa-ab07-0538a8cfdbf0@linutronix.de>
-References: <20260407083219.478203185@kernel.org>
- <20260407083247.562657657@kernel.org>
- <20260408143313-ac6c3b82-70e6-4ce3-b33a-20f5e6ba160b@linutronix.de>
+	bh=Rx4ZIvi8G+HrNa2mMQOovPJxPFEEZfX+EX33BeJKF+I=;
+	b=iQcGEGzV83/8zGbA3mgpFnISkHUq969DK6gv0Knji2BcKY4i5jWuXmMwH3LQ1a6+4m2rYw
+	ChJ8VmlT+rPK41AA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1775656522; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Rx4ZIvi8G+HrNa2mMQOovPJxPFEEZfX+EX33BeJKF+I=;
+	b=jFmCEKN6kBlQKbqUcn/9U981uGLCtjxdYgi9Fjj/br/HSy6c8wivFcjGSMy0SM1ND4ct/H
+	PwgU3CV4aRUTLkqoFlesjbrTGmMqlUi7Ka8ieqfYfCWNE/eSE0FAZ7y6czZBoaSk21MAGC
+	Uenqg0CdCkdVyQgSs7d5sVcQyHFgQjw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1775656522;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Rx4ZIvi8G+HrNa2mMQOovPJxPFEEZfX+EX33BeJKF+I=;
+	b=iQcGEGzV83/8zGbA3mgpFnISkHUq969DK6gv0Knji2BcKY4i5jWuXmMwH3LQ1a6+4m2rYw
+	ChJ8VmlT+rPK41AA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 943DE4A0B3;
+	Wed,  8 Apr 2026 13:55:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id vuonJEpe1mmqQAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 08 Apr 2026 13:55:22 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 607CFA0A7E; Wed,  8 Apr 2026 15:55:22 +0200 (CEST)
+Date: Wed, 8 Apr 2026 15:55:22 +0200
+From: Jan Kara <jack@suse.cz>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Chuck Lever <chuck.lever@oracle.com>, 
+	Alexander Aring <alex.aring@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, 
+	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
+	Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
+	Amir Goldstein <amir73il@gmail.com>, Calum Mackay <calum.mackay@oracle.com>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-nfs@vger.kernel.org
+Subject: Re: [PATCH 00/24] vfs/nfsd: add support for CB_NOTIFY callbacks in
+ directory delegations
+Message-ID: <psab2fhw3fappbbfqudg75jvogu2nnvki46b73rqag2wz5b5y5@t3ijifuzdl72>
+References: <20260407-dir-deleg-v1-0-aaf68c478abd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260408143313-ac6c3b82-70e6-4ce3-b33a-20f5e6ba160b@linutronix.de>
+In-Reply-To: <20260407-dir-deleg-v1-0-aaf68c478abd@kernel.org>
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[24];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,oracle.com,gmail.com,goodmis.org,efficios.com,lwn.net,linuxfoundation.org,brown.name,redhat.com,talpey.com,vger.kernel.org];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -2.30
+X-Spam-Level: 
 
-On Wed, Apr 08, 2026 at 02:41:20PM +0200, Thomas Weißschuh wrote:
-> Hi Thomas,
+On Tue 07-04-26 09:21:13, Jeff Layton wrote:
+> This patchset builds on the directory delegation work we did a few
+> months ago, to add support for CB_NOTIFY callbacks for some events. In
+> particular, creates, unlinks and renames. The server also sends updated
+> directory attributes in the notifications. With this support, the client
+> can register interest in a directory and get notifications about changes
+> within it without losing its lease.
 > 
-> On Tue, Apr 07, 2026 at 10:54:17AM +0200, Thomas Gleixner wrote:
-> > From: Thomas Gleixner <tglx@kernel.org>
-> > 
-> > Calvin reported an odd NMI watchdog lockup which claims that the CPU locked
-> > up in user space. He provided a reproducer, which sets up a timerfd based
-> > timer and then rearms it in a loop with an absolute expiry time of 1ns.
-> > 
-> > As the expiry time is in the past, the timer ends up as the first expiring
-> > timer in the per CPU hrtimer base and the clockevent device is programmed
-> > with the minimum delta value. If the machine is fast enough, this ends up
-> > in a endless loop of programming the delta value to the minimum value
-> > defined by the clock event device, before the timer interrupt can fire,
-> > which starves the interrupt and consequently triggers the lockup detector
-> > because the hrtimer callback of the lockup mechanism is never invoked.
-> > 
-> > As a first step to prevent this, avoid reprogramming the clock event device
-> > when:
-> >      - a forced minimum delta event is pending
-> >      - the new expiry delta is less then or equal to the minimum delta
+> The series starts with patches to allow the vfs to ignore certain types
+> of events on directories. nfsd can then request these sorts of
+> delegations on directories, and then set up inotify watches on the
+> directory to trigger sending CB_NOTIFY events.
 > 
-> with this patch now in the tip tree my QEMU/virtme-ng based machine
-> fails to boot. The startup seems to freeze in:
-> start_kernel() -> rest_init() -> schedule_preempt_disabled() -> schedule()
+> This has mainly been tested with pynfs, with some new testcases that
+> I'll be posting soon. They seem to work fine with those tests, but I
+> don't think we'll want to merge these until we have a complete
+> client-side implementation to test against.
 > 
-> CONFIG_GENERIC_CLOCKEVENTS=y
-> CONFIG_GENERIC_CLOCKEVENTS_BROADCAST=y
-> CONFIG_GENERIC_CLOCKEVENTS_BROADCAST_IDLE=y
-> CONFIG_GENERIC_CLOCKEVENTS_MIN_ADJUST=y
-> CONFIG_HZ=1000
-> 
-> CPU: i5-1135G7
-> clock event device: lapic-deadline
-> 
-> The clockevent device is still reprogrammed each millisecond,
-> presumably for the tick.
-> 
-> (...)
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
 
-This fixes the issue for me:
+The fsnotify changes and generic file locking changes look OK to me. I
+don't feel confident enough with NFSD stuff to really review that :)
 
---- a/kernel/time/clockevents.c
-+++ b/kernel/time/clockevents.c
-@@ -369,7 +369,7 @@ int clockevents_program_event(struct clock_event_device *dev, ktime_t expires, b
-        if (dev->next_event_forced)
-                return 0;
- 
--       if (dev->set_next_event(dev->min_delta_ticks, dev)) {
-+       if (dev->set_next_event(dev->min_delta_ns, dev)) {
-                if (!force || clockevents_program_min_delta(dev))
-                        return -ETIME;
-        }
+								Honza
 
-
-Thomas
+> ---
+> Jeff Layton (24):
+>       filelock: add support for ignoring deleg breaks for dir change events
+>       filelock: add a tracepoint to start of break_lease()
+>       filelock: add an inode_lease_ignore_mask helper
+>       nfsd: add protocol support for CB_NOTIFY
+>       nfs_common: add new NOTIFY4_* flags proposed in RFC8881bis
+>       nfsd: allow nfsd to get a dir lease with an ignore mask
+>       vfs: add fsnotify_modify_mark_mask()
+>       nfsd: update the fsnotify mark when setting or removing a dir delegation
+>       nfsd: make nfsd4_callback_ops->prepare operation bool return
+>       nfsd: add callback encoding and decoding linkages for CB_NOTIFY
+>       nfsd: use RCU to protect fi_deleg_file
+>       nfsd: add data structures for handling CB_NOTIFY
+>       nfsd: add notification handlers for dir events
+>       nfsd: add tracepoint to dir_event handler
+>       nfsd: apply the notify mask to the delegation when requested
+>       nfsd: add helper to marshal a fattr4 from completed args
+>       nfsd: allow nfsd4_encode_fattr4_change() to work with no export
+>       nfsd: send basic file attributes in CB_NOTIFY
+>       nfsd: allow encoding a filehandle into fattr4 without a svc_fh
+>       nfsd: add a fi_connectable flag to struct nfs4_file
+>       nfsd: add the filehandle to returned attributes in CB_NOTIFY
+>       nfsd: properly track requested child attributes
+>       nfsd: track requested dir attributes
+>       nfsd: add support to CB_NOTIFY for dir attribute changes
+> 
+>  Documentation/sunrpc/xdr/nfs4_1.x    | 264 ++++++++++++++-
+>  fs/attr.c                            |   2 +-
+>  fs/locks.c                           |  89 +++++-
+>  fs/namei.c                           |  31 +-
+>  fs/nfsd/filecache.c                  |  57 +++-
+>  fs/nfsd/nfs4callback.c               |  60 +++-
+>  fs/nfsd/nfs4layouts.c                |   5 +-
+>  fs/nfsd/nfs4proc.c                   |  15 +
+>  fs/nfsd/nfs4state.c                  | 524 ++++++++++++++++++++++++++----
+>  fs/nfsd/nfs4xdr.c                    | 300 ++++++++++++++---
+>  fs/nfsd/nfs4xdr_gen.c                | 601 ++++++++++++++++++++++++++++++++++-
+>  fs/nfsd/nfs4xdr_gen.h                |  20 +-
+>  fs/nfsd/state.h                      |  70 +++-
+>  fs/nfsd/trace.h                      |  21 ++
+>  fs/nfsd/xdr4.h                       |   5 +
+>  fs/nfsd/xdr4cb.h                     |  12 +
+>  fs/notify/mark.c                     |  29 ++
+>  fs/posix_acl.c                       |   4 +-
+>  fs/xattr.c                           |   4 +-
+>  include/linux/filelock.h             |  54 +++-
+>  include/linux/fsnotify_backend.h     |   1 +
+>  include/linux/nfs4.h                 | 127 --------
+>  include/linux/sunrpc/xdrgen/nfs4_1.h | 291 ++++++++++++++++-
+>  include/trace/events/filelock.h      |  38 ++-
+>  include/uapi/linux/nfs4.h            |   2 -
+>  25 files changed, 2321 insertions(+), 305 deletions(-)
+> ---
+> base-commit: bd5b9fd5e3d55bc412cec4bebe5a11da2151de4a
+> change-id: 20260325-dir-deleg-339066dd1017
+> 
+> Best regards,
+> -- 
+> Jeff Layton <jlayton@kernel.org>
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
