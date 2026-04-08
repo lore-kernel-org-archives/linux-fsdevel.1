@@ -1,80 +1,80 @@
-Received: from mail-yx1-f48.google.com (mail-yx1-f48.google.com [74.125.224.48])
+Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A50A379EC8
-	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Apr 2026 15:05:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CB313D3323
+	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Apr 2026 15:16:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.41
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775660754; cv=pass; b=FLTVhTWW2DA/6ept5ec71odZMClBD13cA9CMPm78m04VzSZBfjsBa9DhJ48C+rVC9Tsv567ZQ5qJAZwNKiyDVA26O/6M5NpJ6XyKy9yyyBoEIE2WteRyJZREESzwM5omEWOHJM8Q/FCyRG4CEUXQCwQKVSUQ3DxUrYbdwn++KB4=
+	t=1775661364; cv=pass; b=SdKRjK180zq95RGBpYMfhWKpYXFbIHPehUy7f98Ky8oY19Idmd0CCEl9ehuPdzjlfL+FWrcKHUb1xMQv8+Qr4SCfNVLWRdPU2r+uVH4JbleinO5FvSHUI6j8NksaFadsFdhQYRPT/z2mAoLf7Lzn/h4QL7Xk0SwBUbQGT1bKGUA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775660754; c=relaxed/simple;
-	bh=KfgXCoXu7LYjaoSM1rI5qw3z/wD+juINVYkpqhFMxh0=;
+	s=arc-20240116; t=1775661364; c=relaxed/simple;
+	bh=ZuRKzrguWn7dV9KfPUpCM7mSZ8PITjb2tzRvSjD/A48=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=C9TAno9a3wn84oS25IZf5CX9xmfhJ0cKLXS1Yu3MRNZhvDEyBO8vxtHRmatZ+hvTc3DWWNme862w8N/hVf6Q8ixuuoGV/dElzedzAa+o9ccffXvQnlQvVcylIY7WNcWhr1zzHXeG+DT9Txi6M8bAhJshR3SoiEtt9iY2K2TTl9o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=evCyAtoJ; arc=pass smtp.client-ip=74.125.224.48
+	 To:Cc:Content-Type; b=mJFpidz/MrbJl1D9QHaC6A1Txj7ie4N+dn6v1q3zZ/lqMyELdN2HaFJSYhi9IgoP6+Gg5gVX8Lq1OaW+uUIXcaFBLnflGIVZno+DFe2Gzs92ps20vf5Rb1Smt8JknSMzl11tcjGsVGuLomvpQ2L6DeocF2BW97nqZ9n9uY8NWK0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gR5e5ami; arc=pass smtp.client-ip=74.125.224.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="evCyAtoJ"
-Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-64edf260b49so1865989d50.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 08 Apr 2026 08:05:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775660751; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gR5e5ami"
+Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-6501d242e3fso6238622d50.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 08 Apr 2026 08:16:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775661361; cv=none;
         d=google.com; s=arc-20240605;
-        b=QYT1wL5jRs9qtF7RifNoKk33QgHuqFbj1pHMurLRfbD+mlCG6XQibCax2TiS2qhN4v
-         dfNVfMK5qfqSTMikvFtH80dJSu66q3kTD+jQJnGdT5zq1jvwwgC647WWPiEDzMUEn5NE
-         vQejuiXtpwrFi8SWW2AL11IVqjneiEzpF1OEJ5PZnLKNHXL7RMIxbTsx6WrPVjPSaLsm
-         vybh0PgwX7kJ2WuHEZ7AsNGWmPi1YjGIY58N0L/m1/bU66iivChIkXVqtQRrWlqnTsp8
-         2fCzAUuau+KlGmNkuBsNgk72YrWvAM9hVPTysiOKNDcm2lLBYOk4cMqcHG1vV+1AZeUb
-         YknA==
+        b=PvpL6qNkeqkx6iQR8Iw2stj4mbVqbzj03l6mIfe1l9bc46W3gSechhL7dIcR50KP4S
+         OCmpdy5PuMWqrKG/zdxw+kYb2snP4ZGfLoJaGUBxX/QSPSEgXud0zyDNRam5xs6i6h5u
+         5mzztdTRiaBuGLuKL16O/ZGC88gxer3QGpKpP5T1U7Akw6ggsFZtOJYHtee0+5zPXq+n
+         j5m35nODk6uvxmZ6vMmyKM1KfUY3Th9q0B5+YQc3bGTO76sc0z4HyhOEgn/9HbfFWVsl
+         W5PHWBxFHfpygm3WrMRO8sURe73//XYtSKwOXyUwrHXiNjWCsZ9GnwTvtq7V4Al02iWw
+         TRGQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=20sLh35Xu7yfEKfQNapddrXBpNTNHBJhbfkBeFrwmog=;
-        fh=oJlpGMjHbp6z/4utAs9NCJWff0YHw/umNB323jHJAV8=;
-        b=RwAv2p7y0Kl/TB8fyjFEJ0HeIx7+TQRjl7zg4U4KATNygiGALFUeEgVRE4gEbkkl8Q
-         5DVMNsP8v3omj7/706hRIOipKeB8GLIa/O9A1HzxIx2k203KZvKx+DqckKELhfoiwMB7
-         egBfU6sSGyYm8Wibqf0Ko/PqEToy1/KNr95pREM12maYm9HYqe6ky2L3Eu6ulGs4cXlI
-         p4wg1o4W7VhIqpdT2xg9xuvYBXH+TjWYDgBsJpjJaxy2oxjLmy7z8CSeqj26wvXgkage
-         psvW5N+2UkzuigfpHDov3CmLZvZsdDNaa1sYiwTC5dqNGTkjIpLPR2RmIaAEK5F49jI1
-         RBkw==;
+        bh=ZmBpxsIXrR6m8nxFVg/92m35n/8on58zcXpihyOr3JI=;
+        fh=U0jxzUfp9Jt+Gz8j1mz0ZPnXQKvrrFrIA5Dy87h0cUs=;
+        b=ZpVMiVhTwMd+SL1Lx897p/0mEHiZR0Bu9C/mJnc1SgmCqlw2tO9g3qQ6UVQzKHi9da
+         EmIDnCgVJGAQy2hFsCbA7oj3k3jfXR3aXU1dXCiLXxoxLaUAgxmPzrqSxaSJ+3IgKP6e
+         rbmpPTX5s3avUnCMmIYMKCrtJhVjHZNj/6+hC3uX0zs6MMn7s4d/6I2NTku+lDnCe/qr
+         sdb8+vnmz1l3+na3ox+EtiejqtOWXiinr7xBzDP00Gh8M9oB7HppNUsEi23xtLsVrveK
+         vylJWDowsCz10ApijtFeocNyjE3cyRj/ZaSnDtMPz0Ivanis8rmf5wftuR2Mu+DmOEKo
+         oKrw==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775660751; x=1776265551; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1775661361; x=1776266161; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=20sLh35Xu7yfEKfQNapddrXBpNTNHBJhbfkBeFrwmog=;
-        b=evCyAtoJR7voVBf7FxT93euVcJrsxgtMFdJLAm61ddgXQHNEZq17t4zs+uYJ5+gCSm
-         0A+44s163H7CSa1X543S/ipcZwoT2x4H5yg1lymBOjY+Xqf7D2d9pD8s+vDWQCNl0oPl
-         8jxduYhV6WMzmnWrtu/OLbEnBwGHcTNrV2AkNQvgfMK8KlK616VmnYEoippzP7i/d8L4
-         /Fdcm8h5BzizLRFewjnkWK3zQqu38ZHScXVzy1blR9GeHz2U5N7K9L2Kxya/p3Z0rT0M
-         0UFpbAUxELkQGUkByCAtaltgRfkGOlLvTR1fwjbcqfL2uj0AGzS8AeNfIobJCnnKOTLH
-         Ppkg==
+        bh=ZmBpxsIXrR6m8nxFVg/92m35n/8on58zcXpihyOr3JI=;
+        b=gR5e5amicIf0ZtbgqJTwYJhoTOEr7ScKo1XybQcdXiLZURfLC7Axk7c27Dud28+R6N
+         lddE3pPck1RxOkItJZbiswiqtwdotP0U3CxmmBgfrJ8gzrnjtr/mslUO2ioJYHJ3pvg+
+         vRp8uyw4hVE80tVN39sUdi1mU0YPectrij2o9nfrBTwjAKqNV7p8ad8btwI26Kij7R99
+         y8crkss0UVqofm4xJa90DRdVgvl3TfVkEYie3MWIs82KjJs571k0LIuPi36g+KVJgf3R
+         jGcUp1zirZ0N0GH2pWbEtsl+6+MDMY2mJCkd8CvlgVccNbfyr+l7WMIcJP4uz6qoFqZf
+         fSRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775660751; x=1776265551;
+        d=1e100.net; s=20251104; t=1775661361; x=1776266161;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=20sLh35Xu7yfEKfQNapddrXBpNTNHBJhbfkBeFrwmog=;
-        b=KCHWmL1oCgTM3dNVONZ2jaGBHER+tIsg2QkJ2X8H2lVWu9C9eJrplFH4COdSKMNzKc
-         qAzvKEWTRa2PkwIMIzJvC+ZmQ2EVaKhbyfYgA6D2/WY0qYxdMsgn6bJ69HUHjA0KEhQV
-         oYp++kUQwXmVhgWmaTCnehgrwcqhmBrVBauH5q5DoLXIuffU3WiJlAca+om7i15opc7U
-         lVDrSRF8DjLaaBJ5CakmQOc08zQ50zyOXpvfON4gumVRvMSmqnzVEfWB7lip2kQnC8iO
-         TP4hZQM4p90bblzvRT+QicLFUKvkrstbEDxEzhGpE0OJO/p5M36o2NFvlIXZAervFya0
-         TSrA==
-X-Forwarded-Encrypted: i=1; AJvYcCUR5ntUhi/Zg3b2Msce62YT4Et6Ijkd3TpPWCLjkApka6lpQc80ozQ+I4HAK9puFJlHVWuw7UZGHx3UoQAt@vger.kernel.org
-X-Gm-Message-State: AOJu0YxPZ1ZSbEOyzhTO43br1Lj9sZ7AyvRMWexFc+zQL7rcKBcdcEjG
-	gtUN5nuX+c2s4s+NONzPAGlxowJAJdonIo2swHT+cB+MogLxZ/ePUxgcQ4XjFeP1ogLdcovR+Vs
-	ibeviL9IMONlInWH1sZfNZcff9WMltFg=
-X-Gm-Gg: AeBDieuMSQxPzvV9zOmwS12Emn/ESc8ZZ9c84mhLfZgYx71oJB4k6fLCvkbZxieel9T
-	7Imze5BkLekODCgkF9YuXMgfHhvc/aGoVOBYtciBKycDMLgtFuMRREIOwDs2LMsrEhvN7+4UD3l
-	fWJxxz3QQHmrwgMyfbbT9Zcvq8T/4pfv6BqZFbYEZgJDKkXidytDZCy9ZRDngc2Uos27BLX7s3R
-	D+NKT2EV4grOh8kegvTaGCHAUAhiZ1Iz4Q41gPLAIKBEcISQwNq3g3p9bgUvBh41N2jSGCy1pc1
-	HJjjpw==
-X-Received: by 2002:a05:690e:d07:b0:650:7b78:2bf6 with SMTP id
- 956f58d0204a3-6507b782cc8mr5943656d50.21.1775660751341; Wed, 08 Apr 2026
- 08:05:51 -0700 (PDT)
+        bh=ZmBpxsIXrR6m8nxFVg/92m35n/8on58zcXpihyOr3JI=;
+        b=aHZABpLlWi8/bydKHV/g3sUpx4N7IpAQOObQphFFVSN8m1cJ4TO9c4jx9JcZV3DSlZ
+         1GKZW9sQlBbIiQVRtgAo7ZrhsTPVs6Fv/bhDZm1oHgEl1qwFU9N1sHqhz4aibc01wZgf
+         nSKSRV+wYOLbbBcWG/wNfu1fUrQsqCLdCtpOkK7wR/YwmeHoqIpCpGpr08LBzR0pL829
+         rb7qrthiPQYRsZ7ioews3yYGuiVLD3sjrK9Cj2H0GQwcvxmBIXsp3gUH4gJ7I4k7RePW
+         y3d+FpDKHR9osYpUDiwXWZOzWPox/z2kCJOo9+mQA8383ty4Jn/W3uRSSn00fqKxYsLI
+         wHnw==
+X-Forwarded-Encrypted: i=1; AJvYcCXX/9Nx9X1xzaYgmRs6pMQSX+XiVX4Y4g/67XSKRBKzvUU4KIlkFbdIcYLiayHZ5cIPI2IA4NitbqdWjuNA@vger.kernel.org
+X-Gm-Message-State: AOJu0YzVxe0hCa0yDKnZqxyB7ithxdVXXP+2ZUEKe2AM3T78jFWIZsBA
+	6kY+M82i+fGgMKJ1QHIV89QcySmsTu1/XCKN+e1quAsIIUaplwHxhPfZGaJxsxq6VtRi8tV2YHd
+	9dCq9Lyzw57/jDy0TAfw8B1DnQkilVVo=
+X-Gm-Gg: AeBDieu2TMe4oUrhb/IwZb7M6vvNDOSUnM0G02yo5TeyHccjSzpeol/RCdJQXdVrmU0
+	36+h/4xfW9fwwmBhiBGUTZ+ysbvr24hwg7TUCL1jju52Vk6BZuKnxaOOBLFeN6uumcW1YejkYB0
+	3/ntfz85aQKbQTDzyYbBGUa2/5T2a8luWtG8El6G9Ezj68Hg0ei3enWnKZFUu2TcMVddQJ8zfVL
+	ke33QUYhLgvPF3ZiJHJYWB2CcIVPe3hm6HSjysEUUdUYlh7Ieml/kYojyRTpt/73IovmDFIjb0k
+	NyQcZw==
+X-Received: by 2002:a53:bc85:0:b0:650:12eb:16ce with SMTP id
+ 956f58d0204a3-65048852dc8mr14052535d50.52.1775661360801; Wed, 08 Apr 2026
+ 08:16:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -84,12 +84,12 @@ MIME-Version: 1.0
 References: <20260225112439.27276-1-luis@igalia.com> <20260225112439.27276-7-luis@igalia.com>
  <CAJnrk1Yxpy0+tx2yb7CxVVwF9gqNRz_pHH5NUpBHOg55NNooJA@mail.gmail.com>
  <87v7e24gdw.fsf@igalia.com> <CAJnrk1aG_N-FVJfNpoU6iLcA6XHsUvWe74E0Pkth-hev9zgmHg@mail.gmail.com>
- <87fr55lpu4.fsf@igalia.com>
-In-Reply-To: <87fr55lpu4.fsf@igalia.com>
+ <CAJnrk1b9CkQ0i6FdFvxcKbhS7K4TG5yQKbnEXV=Hc+ry593KoQ@mail.gmail.com> <87bjftlpk1.fsf@igalia.com>
+In-Reply-To: <87bjftlpk1.fsf@igalia.com>
 From: Joanne Koong <joannelkoong@gmail.com>
-Date: Wed, 8 Apr 2026 08:05:38 -0700
-X-Gm-Features: AQROBzC9pYCdC-FHJ1-0A1K4nRL1beSTVjfRcm0YGS9dqGkHSFKl9HBE5eCCUFw
-Message-ID: <CAJnrk1bHqHQ5b2_HYskiJ125BdDFGHqG0zusbuz+1a2vCz-FfA@mail.gmail.com>
+Date: Wed, 8 Apr 2026 08:15:47 -0700
+X-Gm-Features: AQROBzAKO7AivLdWPgq99N5zxxjpPU3_iu5dIOyJYKmluxheglV3BV4yH9pdjdc
+Message-ID: <CAJnrk1ZjkgGJczG7VzmCjw4OwV-KC7uALHbBygPpy0rYKY3dPg@mail.gmail.com>
 Subject: Re: [RFC PATCH v3 6/8] fuse: implementation of lookup_handle+statx
  compound operation
 To: Luis Henriques <luis@igalia.com>
@@ -101,135 +101,155 @@ Cc: Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 8, 2026 at 3:16=E2=80=AFAM Luis Henriques <luis@igalia.com> wro=
+On Wed, Apr 8, 2026 at 3:22=E2=80=AFAM Luis Henriques <luis@igalia.com> wro=
 te:
 >
 > On Tue, Apr 07 2026, Joanne Koong wrote:
 >
-> > On Tue, Apr 7, 2026 at 2:20=E2=80=AFPM Luis Henriques <luis@igalia.com>=
- wrote:
+> > On Tue, Apr 7, 2026 at 4:06=E2=80=AFPM Joanne Koong <joannelkoong@gmail=
+.com> wrote:
 > >>
-> >> Hi Joanne,
-> >>
-> >> On Tue, Apr 07 2026, Joanne Koong wrote:
-> >>
-> >> > On Wed, Feb 25, 2026 at 3:25=E2=80=AFAM Luis Henriques <luis@igalia.=
-com> wrote:
-> >> >>
-> >> >> The implementation of lookup_handle+statx compound operation extend=
-s the
-> >> >> lookup operation so that a file handle is be passed into the kernel=
-.  It
-> >> >> also needs to include an extra inarg, so that the parent directory =
-file
-> >> >> handle can be sent to user-space.  This extra inarg is added as an =
-extension
-> >> >> header to the request.
-> >> >>
-> >> >> By having a separate statx including in a compound operation allows=
- the
-> >> >> attr to be dropped from the lookup_handle request, simplifying the
-> >> >> traditional FUSE lookup operation.
-> >> >>
-> >> >> Signed-off-by: Luis Henriques <luis@igalia.com>
-> >> >> ---
-> >> >>  fs/fuse/dir.c             | 294 ++++++++++++++++++++++++++++++++++=
-+---
-> >> >>  fs/fuse/fuse_i.h          |  23 ++-
-> >> >>  fs/fuse/inode.c           |  48 +++++--
-> >> >>  fs/fuse/readdir.c         |   2 +-
-> >> >>  include/uapi/linux/fuse.h |  23 ++-
-> >> >>  5 files changed, 355 insertions(+), 35 deletions(-)
-> >> >>
-> >> >> diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
-> >> >> index 113583c4efb6..89e6176abe25 100644
-> >> >> --- a/include/uapi/linux/fuse.h
-> >> >> +++ b/include/uapi/linux/fuse.h
-> >> >>
-> >> >>  enum fuse_opcode {
-> >> >> @@ -671,6 +676,8 @@ enum fuse_opcode {
-> >> >>          */
-> >> >>         FUSE_COMPOUND           =3D 54,
-> >> >>
-> >> >> +       FUSE_LOOKUP_HANDLE      =3D 55,
-> >> >> +
-> >> >>         /* CUSE specific operations */
-> >> >>         CUSE_INIT               =3D 4096,
-> >> >>
-> >> >> @@ -707,6 +714,20 @@ struct fuse_entry_out {
-> >> >>         struct fuse_attr attr;
-> >> >>  };
-> >> >>
-> >> >> +struct fuse_entry2_out {
-> >> >> +       uint64_t        nodeid;
-> >> >> +       uint64_t        generation;
-> >> >> +       uint64_t        entry_valid;
-> >> >> +       uint32_t        entry_valid_nsec;
-> >> >> +       uint32_t        flags;
-> >> >> +       uint64_t        spare;
-> >> >> +};
+> >> On Tue, Apr 7, 2026 at 2:20=E2=80=AFPM Luis Henriques <luis@igalia.com=
+> wrote:
 > >> >
-> >> > Hi Luis,
+> >> > Hi Joanne,
 > >> >
-> >> > Could you explain why we need a new struct fuse_entry2_out instead o=
-f
-> >> > reusing struct fuse_entry_out? From what i see, the only differences
-> >> > between them are that fuse_entry2_out drops attr_valid,
-> >> > attr_valid_nsec, and struct fuse_attr. Is this done so that it saves
-> >> > the ~100 bytes per lookup? Would it be cleaner from an abi perspecti=
-ve
-> >> > to just reuse fuse_entry_out and ignore the attr fields if they're n=
-ot
-> >> > necessary? The reason I'm asking is because I'm looking at how you'r=
+> >> > On Tue, Apr 07 2026, Joanne Koong wrote:
+> >> >
+> >> > > On Wed, Feb 25, 2026 at 3:25=E2=80=AFAM Luis Henriques <luis@igali=
+a.com> wrote:
+> >> > >>
+> >> > >> The implementation of lookup_handle+statx compound operation exte=
+nds the
+> >> > >> lookup operation so that a file handle is be passed into the kern=
+el.  It
+> >> > >> also needs to include an extra inarg, so that the parent director=
+y file
+> >> > >> handle can be sent to user-space.  This extra inarg is added as a=
+n extension
+> >> > >> header to the request.
+> >> > >>
+> >> > >> By having a separate statx including in a compound operation allo=
+ws the
+> >> > >> attr to be dropped from the lookup_handle request, simplifying th=
 e
-> >> > doing the lookup request reply to see if the fuse passthrough stuff
-> >> > for metadata/directory operations can be combined with it. But I'm n=
-ot
-> >> > fully understanding why fuse_entry2_out is needed here.
+> >> > >> traditional FUSE lookup operation.
+> >> > >>
+> >> > >> Signed-off-by: Luis Henriques <luis@igalia.com>
+> >> > >> ---
+> >> > >>  fs/fuse/dir.c             | 294 ++++++++++++++++++++++++++++++++=
++++---
+> >> > >>  fs/fuse/fuse_i.h          |  23 ++-
+> >> > >>  fs/fuse/inode.c           |  48 +++++--
+> >> > >>  fs/fuse/readdir.c         |   2 +-
+> >> > >>  include/uapi/linux/fuse.h |  23 ++-
+> >> > >>  5 files changed, 355 insertions(+), 35 deletions(-)
+> >> > >>
+> >> > >> diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.=
+h
+> >> > >> index 113583c4efb6..89e6176abe25 100644
+> >> > >> --- a/include/uapi/linux/fuse.h
+> >> > >> +++ b/include/uapi/linux/fuse.h
+> >> > >>
+> >> > >>  enum fuse_opcode {
+> >> > >> @@ -671,6 +676,8 @@ enum fuse_opcode {
+> >> > >>          */
+> >> > >>         FUSE_COMPOUND           =3D 54,
+> >> > >>
+> >> > >> +       FUSE_LOOKUP_HANDLE      =3D 55,
+> >> > >> +
+> >> > >>         /* CUSE specific operations */
+> >> > >>         CUSE_INIT               =3D 4096,
+> >> > >>
+> >> > >> @@ -707,6 +714,20 @@ struct fuse_entry_out {
+> >> > >>         struct fuse_attr attr;
+> >> > >>  };
+> >> > >>
+> >> > >> +struct fuse_entry2_out {
+> >> > >> +       uint64_t        nodeid;
+> >> > >> +       uint64_t        generation;
+> >> > >> +       uint64_t        entry_valid;
+> >> > >> +       uint32_t        entry_valid_nsec;
+> >> > >> +       uint32_t        flags;
+> >> > >> +       uint64_t        spare;
+> >> > >> +};
+> >> > >
+> >> > > Hi Luis,
+> >> > >
+> >> > > Could you explain why we need a new struct fuse_entry2_out instead=
+ of
+> >> > > reusing struct fuse_entry_out? From what i see, the only differenc=
+es
+> >> > > between them are that fuse_entry2_out drops attr_valid,
+> >> > > attr_valid_nsec, and struct fuse_attr. Is this done so that it sav=
+es
+> >> > > the ~100 bytes per lookup? Would it be cleaner from an abi perspec=
+tive
+> >> > > to just reuse fuse_entry_out and ignore the attr fields if they're=
+ not
+> >> > > necessary? The reason I'm asking is because I'm looking at how you=
+'re
+> >> > > doing the lookup request reply to see if the fuse passthrough stuf=
+f
+> >> > > for metadata/directory operations can be combined with it. But I'm=
+ not
+> >> > > fully understanding why fuse_entry2_out is needed here.
+> >> > >
+> >> > > I'm also a bit confused by why the compound with statx is needed h=
+ere,
+> >> > > could you explain this part? I see the call to fuse_statx_to_attr(=
+)
+> >> > > after do_lookup_handle_statx(),  but fuse_statx_to_attr() converts=
+ the
+> >> > > statx reply right back to a struct fuse_attr for inode setup, so i=
+f
+> >> > > FUSE_LOOKUP_HANDLE returned struct fuse_entry_out instead of struc=
+t
+> >> > > fuse_entry2_out, doesn't this solve the problem of needing to comp=
+ound
+> >> > > it with a statx or getattr request? I also noticed that the statx =
+part
+> >> > > uses FUSE_ROOT_ID as a workaround for the node id because the actu=
+al
+> >> > > nodeid isn't known yet, this seems like another sign that the
+> >> > > attributes stuff should just be part of the lookup response itself
+> >> > > rather than a separate operation?
 > >> >
-> >> > I'm also a bit confused by why the compound with statx is needed her=
-e,
-> >> > could you explain this part? I see the call to fuse_statx_to_attr()
-> >> > after do_lookup_handle_statx(),  but fuse_statx_to_attr() converts t=
-he
-> >> > statx reply right back to a struct fuse_attr for inode setup, so if
-> >> > FUSE_LOOKUP_HANDLE returned struct fuse_entry_out instead of struct
-> >> > fuse_entry2_out, doesn't this solve the problem of needing to compou=
-nd
-> >> > it with a statx or getattr request? I also noticed that the statx pa=
-rt
-> >> > uses FUSE_ROOT_ID as a workaround for the node id because the actual
-> >> > nodeid isn't known yet, this seems like another sign that the
-> >> > attributes stuff should just be part of the lookup response itself
-> >> > rather than a separate operation?
+> >> > First of all, thanks a lot for looking into this patchset.  Much
+> >> > appreciated!
+> >> >
+> >> > The main reason for swapping the usage of attr by statx is that stat=
+x
+> >> > includes some attributes that attr does not (e.g. btime).  And since=
+ I was
+> >> > adding a new FUSE operation, it would be a good time for using statx
+> >> > instead.  (Moreover, as new attributes may be added to statx in the
+> >> > future, the benefits of using statx could eventually be even greater=
+.)
+> >> >
+> >> > This was suggested by Miklos here[0], before converting the whole th=
+ing to
+> >> > use compound commands.  So, I was going to use fuse_statx in the _ou=
+t args
+> >> > for lookup_handle.  However, because the interface was getting a bit
+> >> > complex with extra args (and ext headers!), Miklos ended up suggesti=
+ng[1]
+> >> > to remove attr completely from the lookup_handle operation, and use
+> >> > compounds instead to have the full functionality.
 > >>
-> >> First of all, thanks a lot for looking into this patchset.  Much
-> >> appreciated!
+> >> Thank you for the context and links, Luis!
 > >>
-> >> The main reason for swapping the usage of attr by statx is that statx
-> >> includes some attributes that attr does not (e.g. btime).  And since I=
- was
-> >> adding a new FUSE operation, it would be a good time for using statx
-> >> instead.  (Moreover, as new attributes may be added to statx in the
-> >> future, the benefits of using statx could eventually be even greater.)
+> >> Using fuse_statx over fuse_getattr makes sense to me for the new
+> >> FUSE_LOOKUP_HANDLE op but the part I am confused about is why it needs
+> >> to be compounded. If we are adding a new struct (struct
+> >> fuse_entry2_out) to the abi, why is it not simpler to just make the
+> >> new struct something like:
 > >>
-> >> This was suggested by Miklos here[0], before converting the whole thin=
-g to
-> >> use compound commands.  So, I was going to use fuse_statx in the _out =
-args
-> >> for lookup_handle.  However, because the interface was getting a bit
-> >> complex with extra args (and ext headers!), Miklos ended up suggesting=
-[1]
-> >> to remove attr completely from the lookup_handle operation, and use
-> >> compounds instead to have the full functionality.
+> >>   struct fuse_entry_handle_out {
 > >
-> > Thank you for the context and links, Luis!
-> >
-> > Using fuse_statx over fuse_getattr makes sense to me for the new
-> > FUSE_LOOKUP_HANDLE op but the part I am confused about is why it needs
-> > to be compounded. If we are adding a new struct (struct
-> > fuse_entry2_out) to the abi, why is it not simpler to just make the
-> > new struct something like:
+> > Thinking more about how passthrough will use this... I'm thinking
+> > something like this would be ideal (though please correct me if I'm
+> > completely off track here, Amir):
 > >
 > >   struct fuse_entry_handle_out {
 > >       uint64_t    nodeid;
@@ -238,86 +258,40 @@ args
 > >       uint64_t    attr_valid;
 > >       uint32_t    entry_valid_nsec;
 > >       uint32_t    attr_valid_nsec;
-> >       struct fuse_statx stat;
+> >       int32_t     backing_id;
+> >       uint32_t    flags;
+> >       struct fuse_statx statx;
 > >   };
 > >
-> > and avoid the compound stuff altogether? Is it because that would make
-> > the struct fuse_entry_handle_out too big to be stack-allocated and
-> > would thus have to be heap allocated? But if I'm recalling correctly,
-> > the compound requests path requires heap allocations as well. Although
-> > at that point if we're gonna have to do the heap allocation, then we
-> > might as well just also embed the struct fuse_file_handle inside
-> > struct fuse_entry_handle_out?
+> > where if the inode is not passed through, the kernel uses the stax
+> > field for the attributes but if the inode is passed through and the
+> > server sets a bitmask specifying that attributes should be derived
+> > from the backing file, then the statx field will be ignored by the
+> > server and kernel).
 >
-> I'm open to drop the usage of compounds for this, of course.  In fact,
-> during the v2 discussions I suggested here[0] the usage of a similar
-> struct fuse_entry_handle_out.  Using compound commands was a way to try t=
-o
-> simplify the interface.  But maybe at that point I was too quick at
-> jumping into the compound commands suggestion.  It may make sense to
-> reevaluate this decision if you think it simplifies things, specially for
-> passthrough.
+> If we end up deciding to revert back to not using compound commands I'll
+> have to take a closer look into this, as it's not clear what the above
+> means.  For example, when you say:
 >
-> [0] https://lore.kernel.org/all/87zf6nov6c.fsf@wotan.olymp
+>   "... if the inode is not passed through"
 >
-> And I agree that the stack allocation is unlikely to be a good argument a=
-s
-> I can see that using compound commands can make these stack allocations
-> even worse, as we need to allocate more structs for more operations.
->
-> Miklos, do you have a opinion on this?
->
-> Cheers,
+> does this "inode" refer to the backing_id?  I guess this is some index to
+> backing ids being used by FUSE, not exactly an inode, but I'm not very
+> familiar with the code.
 
-Thanks for your flexibiltiy with being willing to re-discuss this. In
-my perspective of it, I like in theory the composability / modularity
-of having dentry resolution/creation be an independent entity from
-attributes but I feel like in practice, these two things are tightly
-intercoupled. This might just be a lack of my VFS in-depth knowledge
-of it, but I don't really see any cases where we would want to
-resolve/create a dentry but not need to know or care about its
-attributes. From what I see in the fuse code, every operation/request
-that returns a struct fuse_entry_out directly uses the attributes
-immediately after through fuse_iget(..., &outarg->attr, ...) or
-fuse_change_attributes(..., &outarg.attr, ...). For passthrough it
-could work just as well with compound requests for forwarding the
-backing id. But imo going through compound requests adds complexity
-and overhead for no benefit but maybe there is something I am missing
-/ overlooking here?
+Ah sorry for the confusing wording. By "... if the inode is not passed
+through" what I meant is if the server chooses not to have passthrough
+enabled on that inode. If the server does wish for any operations on
+that inode to be passed through to a backing inode, it will supply the
+backing_id that corresponds to the backing inode (it gets the id from
+the FUSE_DEV_IOC_BACKING_OPEN ioctl registration call). If backing_id
+is not set (left as 0), then that inode will not have passthrough
+enabled on it.
 
 Thanks,
 Joanne
 
+>
+> Cheers,
 > --
 > Lu=C3=ADs
->
-> > Thanks,
-> > Joanne
-> >
-> >>
-> >> Obviously, I may have misunderstood (or mis-implemented) the suggestio=
-ns
-> >> that were done.  And hopefully the provided links to the discussion th=
-at
-> >> originated this approach will help.
-> >>
-> >> Regarding the usage of FUSE_ROOT_ID as a workaround for the node id, I
-> >> believe this is a more generic problem which will occur in other compo=
-und
-> >> commands as well.  If we want to create a new file system object and
-> >> perform some operation with it within the same compound, a similar
-> >> workaround will be required (or some sort of flag in the compound comm=
-and
-> >> to signal this dependency).
-> >>
-> >> I hope this helped to clarify a bit your questions.
-> >>
-> >> [0] https://lore.kernel.org/all/CAJfpegsoeUH42ZSg_MSEYukbgXOM_83YT8z_s=
-ksMj84xPPCMGQ@mail.gmail.com
-> >> [1] https://lore.kernel.org/all/CAJfpegst6oha7-M+8v9cYpk7MR-9k_PZofJ3u=
-zG39DnVoVXMkA@mail.gmail.com
-> >>
-> >> Cheers,
-> >> --
-> >> Lu=C3=ADs
->
