@@ -1,223 +1,79 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3102434DB59;
-	Wed,  8 Apr 2026 06:07:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E44D2441A6;
+	Wed,  8 Apr 2026 06:39:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775628470; cv=none; b=H5TG660jG0MgMkgGONlGt+0e3Yx6K4wa60XuogOpft0iFN2k1TS5fLDJ6ng2u21lI2kYW+luk24k/BhNXdnH0ZIH/zyFpSNwS7KPYoqWEDCnFAnjeUgi5r7uycHpukUKIfmFNT+R2E4TtMUpQ0AmO73cEN54sB+S35mLwyAfLX8=
+	t=1775630351; cv=none; b=FMkYsNtdg5M4KsBaBxcH6EezU9VB56npMYssNV9941+VKW07UWrJ87/a+HuO1WtrdGDxiPUyFTHUqE96ex00SLSgepprbWuOfWY4AZKllckMYYphhsquHaHt2eH4wI/J2ry2jR5CytZ5GDrcvtuRIQvWkQWU4pQzEx3Z4DGDCCc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775628470; c=relaxed/simple;
-	bh=/+cEc/sl6Jpt+AB662KlHBujY3ZE8kDW5e1ERvY6q1E=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=l6SkztHXu0Vb+vwNThm2k3TrUJz8U0WfG3/eEcS4KHynDA13OGulurD6R9h6fJT607bIkz3J13F/knLS3c/bFU7dGH1Hk9cxfjmv+rjVmFYB7VpvrlGI0cniHSwmvu5zN33HWarztPD+DUl00Tjc9MCA6a8SDlgo2f/y3ar2EA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=JnfTPfRQ; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1775630351; c=relaxed/simple;
+	bh=TuFPzZPLh7gl4lgbHWUOzSdZxb2SuVdzSbwhmvGnV+8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MRrXjqZUEb1SfEIYs03KTPEvanl4g27igrDhwtNlcpz+DKjVteNf9V3aHcJ+k9HlGS2LGkuRgkStqKZGYAeA7ioWcjGrE5S3NgqhYSn8ItUuBbkg9/F9XMgaA9FiCE2gpxmONcGqx2cgl0TLHB9Na6y6qpeHQ0lCaoZvYHM/t+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=CJk0qk7T; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="JnfTPfRQ"
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="CJk0qk7T"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=9/hv42li9JzxkRKRPCaopbGtGKz56+GoiKohgJ9W7UM=; b=JnfTPfRQd9a5TwLuAKksAvr/ZZ
-	57YT1PD+51OR7ksrR3t7tuI8ch7n+L+fCQDpzMot7FuDjFtEGsDHh6Iw767IlqvnmYBBwZwdhKZ3X
-	l3tydTpJTyRXZm9BqpdE9z7fM5ZoMPKFDU1rp2ZrBALTmO2e7oktMRFDy31yIvN8kfEo9SPbMsy6y
-	eNtj8CLq+gP8v4sQR4641LZ4zTBWKtqx/fsozDRM63ORj9nF+lS/bBP/jYSJaUiIIJ3Orq0ehC+/H
-	2Nl7ZgZ7wTBOJTOFnpaJIsve6iDtjz2ZbJkmOqTHZHCuAyppRkrKqGh9mHsm4E+CvTOylpti3FPik
-	x9Txb6fg==;
-Received: from [2001:4bb8:2d1:6f42:152:6810:a349:3502] (helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wAM4q-00000008JzS-10v2;
-	Wed, 08 Apr 2026 06:07:48 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Tyler Hicks <code@tyhicks.com>
-Cc: ecryptfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH 7/7] ecryptfs: keep the lower iattr contained in truncate_upper
-Date: Wed,  8 Apr 2026 08:06:42 +0200
-Message-ID: <20260408060719.714317-8-hch@lst.de>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260408060719.714317-1-hch@lst.de>
-References: <20260408060719.714317-1-hch@lst.de>
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=+MhzxVPKGLSawao6MgKplZ6P/pBuDnj3Ocp8nmtVtk4=; b=CJk0qk7Th9C9ovQJI9rPwUZjbF
+	uQv2mQ50atcwwYu6eAwHayVzKr1LrOfBJS7rfT4Ryoa8CxHtQMhiZTBoV9/f3N+R9Ry4SzYIGaawe
+	qtD9PHgUwTjddTGScVyxUf2wTP27GWzGDVqD/tvDoOD31XLlaEOVyC6mqsayO2s54FYv0xZtqdQVS
+	8cAXE0QgpPIEeUuRqfCEL8iVr+g7ddAgFeFitrbmOPuiIxXYv4iKGyNkAvYobxREu47CuR0qXOgw/
+	sqr6q+8so1pXv7um9oQnxz6ye6EQGgO+UPwWnF34oQ52MlEwIfbVdgODYfLpeTEaZ8JqhKR9hoJme
+	r4dkSZig==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wAMcl-0000000H4q5-2Vm2;
+	Wed, 08 Apr 2026 06:42:51 +0000
+Date: Wed, 8 Apr 2026 07:42:51 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] dcache: warn when a dentry is freed with a non-empty
+ ->d_lru
+Message-ID: <20260408064251.GE3836593@ZenIV>
+References: <20260406-dcache-warn-v1-1-c665efbc005f@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260406-dcache-warn-v1-1-c665efbc005f@kernel.org>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-Currently the two callers of truncate_upper handle passing information
-very differently.  ecryptfs_truncate passes a zeroed lower_ia and expects
-truncate_upper to fill it in from the upper ia created just for that,
-while ecryptfs_setattr passes a fully initialized lower_ia copied from
-the upper one.  Both of them then call notify_change on the lower_ia.
+On Mon, Apr 06, 2026 at 12:44:13PM -0400, Jeff Layton wrote:
+> We've had a number of panics that seem to occur on hosts with heavy
+> process churn. The symptoms are a panic when invalidating /proc entries
+> as a task is exiting:
+> 
+> queued_spin_lock_slowpath+0x153/0x270
+> shrink_dentry_list+0x11d/0x220
+> shrink_dcache_parent+0x68/0x110
+> d_invalidate+0x90/0x170
+> proc_invalidate_siblings_dcache+0xc8/0x140
+> release_task+0x41b/0x510
+> do_exit+0x3d8/0x9d0
+> do_group_exit+0x7d/0xa0
+> get_signal+0x2a9/0x6a0
+> arch_do_signal_or_restart+0x1a/0x1c0
+> syscall_exit_to_user_mode+0xe6/0x1c0
+> do_syscall_64+0x74/0x130
+> entry_SYSCALL_64_after_hwframe+0x4b/0x53
+> 
+> The problem appears to be a UAF. It's freeing a shrink list of
+> dentries, but one of the dentries on it has already been freed.
 
-Switch to only passing the upper ia, and derive the lower ia from it
-inside truncate_upper, and call notify_change inside the function itself.
-Because the old name is misleading now, rename the resulting function to
-__ecryptfs_truncate as it deals with both the lower and upper inodes.
+That, or dentry pointer passed to shrink_dcache_parent() is a
+complete garbage - e.g. due to struct pid having already been
+freed.  Might make sense to try and get a crash dump and poke
+around...
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- fs/ecryptfs/inode.c | 82 ++++++++++++++++++++-------------------------
- 1 file changed, 36 insertions(+), 46 deletions(-)
-
-diff --git a/fs/ecryptfs/inode.c b/fs/ecryptfs/inode.c
-index a06b84033ff3..546c1fe692c0 100644
---- a/fs/ecryptfs/inode.c
-+++ b/fs/ecryptfs/inode.c
-@@ -721,36 +721,33 @@ upper_size_to_lower_size(struct ecryptfs_crypt_stat *crypt_stat,
- }
- 
- /**
-- * truncate_upper
-+ * __ecryptfs_truncate
-  * @dentry: The ecryptfs layer dentry
-  * @ia: Address of the ecryptfs inode's attributes
-- * @lower_ia: Address of the lower inode's attributes
-  *
-- * Function to handle truncations modifying the size of the file. Note
-- * that the file sizes are interpolated. When expanding, we are simply
-- * writing strings of 0's out. When truncating, we truncate the upper
-- * inode and update the lower_ia according to the page index
-- * interpolations. If ATTR_SIZE is set in lower_ia->ia_valid upon return,
-- * the caller must use lower_ia in a call to notify_change() to perform
-- * the truncation of the lower inode.
-+ * Handle truncations modifying the size of the file.  Note that the file sizes
-+ * are interpolated.  When expanding, we are simply writing strings of 0's out.
-+ * When truncating, we truncate the upper inode and update the lower_ia
-+ * according to the page index interpolations.
-  *
-  * Returns zero on success; non-zero otherwise
-  */
--static int truncate_upper(struct dentry *dentry, struct iattr *ia,
--			  struct iattr *lower_ia)
-+static int __ecryptfs_truncate(struct dentry *dentry, const struct iattr *ia)
- {
-+	struct dentry *lower_dentry = ecryptfs_dentry_to_lower(dentry);
- 	struct inode *inode = d_inode(dentry);
- 	struct ecryptfs_crypt_stat *crypt_stat;
- 	loff_t i_size = i_size_read(inode);
- 	loff_t lower_size_before_truncate;
- 	loff_t lower_size_after_truncate;
-+	struct iattr lower_ia;
- 	size_t num_zeros;
- 	int rc;
- 
--	if (unlikely((ia->ia_size == i_size))) {
--		lower_ia->ia_valid &= ~ATTR_SIZE;
-+	ecryptfs_iattr_to_lower(&lower_ia, ia);
-+
-+	if (unlikely((ia->ia_size == i_size)))
- 		return 0;
--	}
- 
- 	crypt_stat = &ecryptfs_inode_to_private(inode)->crypt_stat;
- 	lower_size_before_truncate =
-@@ -783,15 +780,13 @@ static int truncate_upper(struct dentry *dentry, struct iattr *ia,
- 		 * new end of the file.
- 		 */
- 		rc = ecryptfs_write(inode, zero, ia->ia_size - 1, 1);
--		lower_ia->ia_valid &= ~ATTR_SIZE;
- 		goto out;
- 	}
- 
- 	if (!(crypt_stat->flags & ECRYPTFS_ENCRYPTED)) {
- 		truncate_setsize(inode, ia->ia_size);
--		lower_ia->ia_size = ia->ia_size;
--		lower_ia->ia_valid |= ATTR_SIZE;
--		goto out;
-+		lower_ia.ia_size = ia->ia_size;
-+		goto set_size;
- 	}
- 
- 	/*
-@@ -821,12 +816,15 @@ static int truncate_upper(struct dentry *dentry, struct iattr *ia,
- 	 * We are reducing the size of the ecryptfs file, and need to know if we
- 	 * need to reduce the size of the lower file.
- 	 */
--	if (lower_size_after_truncate < lower_size_before_truncate) {
--		lower_ia->ia_size = lower_size_after_truncate;
--		lower_ia->ia_valid |= ATTR_SIZE;
--	} else {
--		lower_ia->ia_valid &= ~ATTR_SIZE;
--	}
-+	if (lower_size_after_truncate >= lower_size_before_truncate)
-+		goto out;
-+
-+	lower_ia.ia_size = lower_size_after_truncate;
-+set_size:
-+	lower_ia.ia_valid |= ATTR_SIZE;
-+	inode_lock(d_inode(lower_dentry));
-+	rc = notify_change(&nop_mnt_idmap, lower_dentry, &lower_ia, NULL);
-+	inode_unlock(d_inode(lower_dentry));
- out:
- 	ecryptfs_put_lower_file(inode);
- 	return rc;
-@@ -844,20 +842,12 @@ static int truncate_upper(struct dentry *dentry, struct iattr *ia,
-  */
- int ecryptfs_truncate(struct dentry *dentry, loff_t new_length)
- {
--	struct iattr ia = { .ia_valid = ATTR_SIZE, .ia_size = new_length };
--	struct iattr lower_ia = { .ia_valid = 0 };
--	int rc;
--
--	rc = truncate_upper(dentry, &ia, &lower_ia);
--	if (!rc && lower_ia.ia_valid & ATTR_SIZE) {
--		struct dentry *lower_dentry = ecryptfs_dentry_to_lower(dentry);
-+	const struct iattr ia = {
-+		.ia_valid	= ATTR_SIZE,
-+		.ia_size	= new_length,
-+	};
- 
--		inode_lock(d_inode(lower_dentry));
--		rc = notify_change(&nop_mnt_idmap, lower_dentry,
--				   &lower_ia, NULL);
--		inode_unlock(d_inode(lower_dentry));
--	}
--	return rc;
-+	return __ecryptfs_truncate(dentry, &ia);
- }
- 
- static int
-@@ -887,7 +877,6 @@ static int ecryptfs_setattr(struct mnt_idmap *idmap,
- 	struct inode *inode = d_inode(dentry);
- 	struct dentry *lower_dentry = ecryptfs_dentry_to_lower(dentry);
- 	struct inode *lower_inode = ecryptfs_inode_to_lower(inode);
--	struct iattr lower_ia;
- 	struct ecryptfs_crypt_stat *crypt_stat;
- 	int rc;
- 
-@@ -935,17 +924,18 @@ static int ecryptfs_setattr(struct mnt_idmap *idmap,
- 	if (rc)
- 		goto out;
- 
--	ecryptfs_iattr_to_lower(&lower_ia, ia);
- 	if (ia->ia_valid & ATTR_SIZE) {
--		rc = truncate_upper(dentry, ia, &lower_ia);
--		if (rc < 0)
--			goto out;
--	}
-+		rc = __ecryptfs_truncate(dentry, ia);
-+	} else {
-+		struct iattr lower_ia;
- 
-+		ecryptfs_iattr_to_lower(&lower_ia, ia);
- 
--	inode_lock(d_inode(lower_dentry));
--	rc = notify_change(&nop_mnt_idmap, lower_dentry, &lower_ia, NULL);
--	inode_unlock(d_inode(lower_dentry));
-+		inode_lock(d_inode(lower_dentry));
-+		rc = notify_change(&nop_mnt_idmap, lower_dentry, &lower_ia,
-+				NULL);
-+		inode_unlock(d_inode(lower_dentry));
-+	}
- out:
- 	fsstack_copy_attr_all(inode, lower_inode);
- 	return rc;
--- 
-2.47.3
-
+Which kernels have you seen it on?
