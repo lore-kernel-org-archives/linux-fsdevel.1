@@ -1,225 +1,318 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A9D73537F1
-	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Apr 2026 17:01:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67ABA35CB6F
+	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Apr 2026 17:11:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775667715; cv=none; b=Zx81jr9d6mrg/LgmS17ReGsI0Tn5BL4//Eqps6xVE5upHpfld3/rVlQCCc6TNw+wn/7WIFCwi9y5RUxVREIMFfRL5yRxK1hlJsjCioABaN0IBjUlztGsrk+dOPnQ4OlzUNtaI0bSBS86K5N88QLAXozS6Da7Mz6GTumGyc8DT2U=
+	t=1775668301; cv=none; b=hzl/QgEpQ+WW7c6HG1XCeRYy+UuwDdmF75SJkrlx4ArrKsmGDAOlxH1svpPFf71Taz02ciyccQSzMud3LXg6qH7Un6cDneaNZ9Xt97ahwL1U3RyRIuBP0WQKObedTyWakLof4GQyvmKIuZ/OC+504vSqa8+KOWhaiInWSVPv4XE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775667715; c=relaxed/simple;
-	bh=h6BTwiBWIazkTEPClgqSAWJM1oVCLlO3AoXPOGhJwZU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kTMy6t+iT+uo+JH6yCd1JI+l0kiCtlnQ5IWOk4x7W48mdzCS4+ZKGHu3Mv1XRmHuON8MLbr171zXA08+LFg4nCsg6YeTeWyMFppZJexD/Frr1fct8CMfq2bbZCD6sRKNWcGcUDCjR7RyLGGjM2GHHZi2POV9367wrzaYounYks4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Dvr2P59S; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=WN68tshX; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Dvr2P59S; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=WN68tshX; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1775668301; c=relaxed/simple;
+	bh=skTHfg5nopiPlA39+yQldHS0YW2EP7eSiDJo+l9/xQY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pFvNVw6TzBTosfSsgbVcLw1fnOJZcHU869U8oS4qrhqaRSsIYoOL5EpRR/biVPTdPFFhy1tRyFlw9/QpwrPhMrTw134v2hocJfz061k2eV+DTiAAfM3xT1efZwVt+cUd1qJtW44srMTCFWoPkwckGmAJukazqJioAh06CNxJi6c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NfiL7iWA; arc=none smtp.client-ip=209.85.128.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Dvr2P59S";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="WN68tshX";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Dvr2P59S";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="WN68tshX"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B110F4EAB0;
-	Wed,  8 Apr 2026 17:01:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1775667705; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=J6XnQBQc+ka7sQjyBZa0Xxjm8wcETBhneh2nSiVj3Ok=;
-	b=Dvr2P59SgvLBjeejgg/t3yFgMab4f52JXlC1NJd4GAVGDqDWjRjQ/B6jVCDJr7W+1PQM4A
-	I1Smu+QJaLNDq/zgmfMtLFLuwFYVF3TXzvAanYheLKB5i8sDbiSPwSH8HD47k9PbbvF5jn
-	1P4PD5161PLjbvHZkwUvlIY83KgKqgU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1775667705;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=J6XnQBQc+ka7sQjyBZa0Xxjm8wcETBhneh2nSiVj3Ok=;
-	b=WN68tshXwSDs6uIdPmfmGVvxQn6Q0Akk1/FRYYlAODva27l9tmtTHn0bKC87aNxVWrnUdN
-	woHMrfPvw4FM8wAQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1775667705; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=J6XnQBQc+ka7sQjyBZa0Xxjm8wcETBhneh2nSiVj3Ok=;
-	b=Dvr2P59SgvLBjeejgg/t3yFgMab4f52JXlC1NJd4GAVGDqDWjRjQ/B6jVCDJr7W+1PQM4A
-	I1Smu+QJaLNDq/zgmfMtLFLuwFYVF3TXzvAanYheLKB5i8sDbiSPwSH8HD47k9PbbvF5jn
-	1P4PD5161PLjbvHZkwUvlIY83KgKqgU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1775667705;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=J6XnQBQc+ka7sQjyBZa0Xxjm8wcETBhneh2nSiVj3Ok=;
-	b=WN68tshXwSDs6uIdPmfmGVvxQn6Q0Akk1/FRYYlAODva27l9tmtTHn0bKC87aNxVWrnUdN
-	woHMrfPvw4FM8wAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A56EA4A0B3;
-	Wed,  8 Apr 2026 17:01:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id /wdgKPmJ1mmVfgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 08 Apr 2026 17:01:45 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 4597CA0A7E; Wed,  8 Apr 2026 19:01:37 +0200 (CEST)
-Date: Wed, 8 Apr 2026 19:01:37 +0200
-From: Jan Kara <jack@suse.cz>
-To: Mateusz Guzik <mjguzik@gmail.com>
-Cc: brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v5 4/4] fs: allow lockless ->i_count bumps as long as it
- does not transition 0->1
-Message-ID: <4fhhn57gzilze4bgkwinanbfovd3iez2s7ajujiob3kkpu6kcy@ic55f5utqogs>
-References: <20260331160851.3854954-1-mjguzik@gmail.com>
- <20260331160851.3854954-5-mjguzik@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NfiL7iWA"
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-7a2b6adbfa6so1581397b3.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 08 Apr 2026 10:11:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775668297; x=1776273097; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Q/8rwKhb/x/3zExFoHaPVXkH6YxE9ylkF1qlsN1QT9k=;
+        b=NfiL7iWABBYC684D4DiCzXjKdpSKu/4ng2g2wgycuNom0EORiSUL+2rHIZVINKkwu7
+         wBeG7VC9OCkN5glXS+8HWG/60PJdneGSF/NDCDwjMfrjPyER1vYS/RlPiu0ycYSp/TRc
+         Ak81q9i1oEgp1zduAPJVx7a0CRflUsR01sLMX3Ulc3Rz1L6kckmIVYbRvxsurBKNhgFZ
+         qXppVPv7aZkhxsD6Rp6KShC7Vmw0DLSQygD4vf8fo5jNa1xCn2FEJMDjAXk3yAvawEeA
+         T58rT4u+9egl0i/A5COlWS4YvSFSYOsf416sIuXfAWCmqffkzYlcaP9B4WzwKo/ijadY
+         2pVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775668297; x=1776273097;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Q/8rwKhb/x/3zExFoHaPVXkH6YxE9ylkF1qlsN1QT9k=;
+        b=XikCYseAhmI+Ps/SAKhg0iSdyNPIIr5I4oKVBFMTjiiUxme/qoM9hTMsRvDF/C7QBq
+         ofPzus74SeB4p246oFh/1W/EAod2uaD5tOpsqGvNPTc8yr55R9O6MZlpwoU1a6nh9E3w
+         sfvCVGKn99WAz5NGrnnlRVrohfOYrvMIUSpz9fQoKG1Bvs3gFAd0obG7O8yFsM1U6tv5
+         Qz9mPI43G314x0Nza3h9qd3P8G2hbE6FPu/FEeweXUF1Qr7Pctunbp66rDV4OxEcX2AA
+         hFSqIWXjrSX4H3vJZaiEZDh1P0huQ65rEnsYLED9D0GS45sgdrREaifujPN5QPH0tU85
+         L+8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVKZAt75T6moSKvVp2EjeRwdAnFnX1wY2Ah9tRK2idm8AbMM5sL0EDVXChf6/zYRJp3Tdb1q+oGV6UfWCQT@vger.kernel.org
+X-Gm-Message-State: AOJu0YxhBQJ7K4AhTtxYjjUB94lsRzEu1/rwjAbcq8vXa9Z3BWT13lcF
+	tbe7ZRbZvYKnkYLYrzD4D34me73Nc7kCQk783/yoqSRHu9sAk8Flowcz
+X-Gm-Gg: AeBDievpQAF8nAD5IatY0He0+v3f234DIWgSL4rMoTTDAmHNPdHUpegFIjST/V2NKxP
+	o6rkLcNLgLT/aYADvtVWeH1fTYjLZiuigboDPvObLJusJRF+AZOsegEmvLTp+5Cz+onSyhzZ+YJ
+	YNAb/9sdw4i8OpoKSz2C2ZmRtoooIenF4oQHg1kd8ZWfBFapP3rfeBlRFTOassDNsSKW3tcCD39
+	KRHFdEwbr6tI/eO8pwfyW1MgdHbkGNM38d6qW1uLA4ylEfnJCpB5eDPc99qvMlNTotbUA62fCtm
+	bMcxi8/IfRMqS1vhZFrY8wk+YjxnFDGywp3Dlr6xKz87B65liuSVdrM863NswzFREMgRmPtAxL6
+	B56Y/yhyWJwT03c9aMaU77plwHOZlwtmRfjVPNhyOfHq10FtCdCk0OtJo5c4PzPzRJ20XoSAodE
+	ukLrOV7deh3FhDpCfjgePP9udBdgO/ExSCV3w+A7so76T2zr8Kcse++RXOIdtDY5CAdm5Sig+t
+X-Received: by 2002:a05:690c:63c2:b0:79b:d1d9:daac with SMTP id 00721157ae682-7a4d8cad324mr216124687b3.38.1775668297224;
+        Wed, 08 Apr 2026 10:11:37 -0700 (PDT)
+Received: from zenbox.prizrak.me ([2600:1700:18fb:6011:4f39:118b:d212:714e])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7a36e22b926sm91175117b3.5.2026.04.08.10.11.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Apr 2026 10:11:36 -0700 (PDT)
+From: Justin Suess <utilityemal77@gmail.com>
+To: mic@digikod.net
+Cc: andrii@kernel.org,
+	ast@kernel.org,
+	bpf@vger.kernel.org,
+	brauner@kernel.org,
+	daniel@iogearbox.net,
+	eddyz87@gmail.com,
+	fred@cloudflare.com,
+	gnoack@google.com,
+	jack@suse.cz,
+	jmorris@namei.org,
+	john.fastabend@gmail.com,
+	kees@kernel.org,
+	kpsingh@kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	m@maowtm.org,
+	martin.lau@linux.dev,
+	paul@paul-moore.com,
+	Justin Suess <utilityemal77@gmail.com>
+Subject: Re: [RFC PATCH 00/20] BPF interface for applying Landlock rulesets
+Date: Wed,  8 Apr 2026 13:10:28 -0400
+Message-ID: <20260408171030.4083129-1-utilityemal77@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260408.ong9Eshe0omu@digikod.net>
+References: <20260408.ong9Eshe0omu@digikod.net>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260331160851.3854954-5-mjguzik@gmail.com>
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email]
-X-Spam-Flag: NO
-X-Spam-Score: -3.80
-X-Spam-Level: 
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue 31-03-26 18:08:51, Mateusz Guzik wrote:
-> With this change only 0->1 and 1->0 transitions need the lock.
-> 
-> I verified all places which look at the refcount either only care about
-> it staying 0 (and have the lock enforce it) or don't hold the inode lock
-> to begin with (making the above change irrelevant to their correcness or
-> lack thereof).
-> 
-> I also confirmed nfs and btrfs like to call into these a lot and now
-> avoid the lock in the common case, shaving off some atomics.
-> 
-> Signed-off-by: Mateusz Guzik <mjguzik@gmail.com>
 
-Nice!
+Add a flag LANDLOCK_RESTRICT_SELF_NO_NEW_PRIVS, which executes
+task_set_no_new_privs on the current credentials, but only if
+the process lacks the CAP_SYS_ADMIN capability.
 
-> diff --git a/fs/dcache.c b/fs/dcache.c
-> index 9ceab142896f..b63450ebb85c 100644
-> --- a/fs/dcache.c
-> +++ b/fs/dcache.c
-> @@ -2033,6 +2033,10 @@ void d_instantiate_new(struct dentry *entry, struct inode *inode)
->  	__d_instantiate(entry, inode);
->  	spin_unlock(&entry->d_lock);
->  	WARN_ON(!(inode_state_read(inode) & I_NEW));
-> +	/*
-> +	 * Paired with igrab_try_lockless()
-> +	 */
-> +	smp_wmb();
->  	inode_state_clear(inode, I_NEW | I_CREATING);
->  	inode_wake_up_bit(inode, __I_NEW);
->  	spin_unlock(&inode->i_lock);
+While this operation is redundant for code running from userspace
+(indeed callers may achieve the same logic by calling
+prctl w/ PR_SET_NO_NEW_PRIVS), this flag enables callers without access
+to the syscall abi (defined in subsequent patches) to restrict processes
+from gaining additional capabilities. This is important to ensure that
+consumers can meet the task_no_new_privs || CAP_SYS_ADMIN invariant
+enforced by Landlock without having syscall access.
 
-It's a bit sad you're reintroducing part of the barries you've removed in
-a27628f43634 ("fs: rework I_NEW handling to operate without fences") but I
-guess it's worth it.
+This is done by hooking bprm_committing_creds along with a
+landlock_cred_security flag to indicate that the next execution should
+task_set_no_new_privs if the process doesn't possess CAP_SYS_ADMIN. This
+is done to ensure that task_set_no_new_privs is being done past the
+point of no return.
 
-> +/*
-> + * igrab_try_lockless - special inode refcount acquire primitive for the inode hash
-> + * (don't use elsewhere!)
+Cc: Mickaël Salaün <mic@digikod.net>
+Signed-off-by: Justin Suess <utilityemal77@gmail.com>
+---
 
-Why is this special for inode hash? Because of I_NEW & I_CREATING checks?
-Then I'd call this function igrab_from_hash() or something like that and
-integrate there also all the i_state checking and waiting common between
-find_inode() and find_inode_fast().
+On Wed, Apr 08, 2026 at 02:00:00 -0000, Mickaël Salaün wrote:
+> > Points of Feedback
+> > ===
+> > 
+> > First, the new set_nnp_on_point_of_no_return field in struct linux_binprm.
+> > This field was needed to request that task_set_no_new_privs be set during an
+> > execution, but only after the execution has proceeded beyond the point of no
+> > return. I couldn't find a way to express this semantic without adding a new
+> > bitfield to struct linux_binprm and a conditional in fs/exec.c. Please see
+> > patch 2.
 
-Otherwise the patch looks good.
+> What about using security_bprm_committing_creds()?
 
-								Honza
+Good idea. Definitely cleaner.
 
-> + *
-> + * It provides lockless refcount acquire in the common case of no problematic
-> + * flags being set and the count being > 0.
-> + *
-> + * There are 4 state flags to worry about and the routine makes sure to not bump the
-> + * ref if any of them is present.
-> + *
-> + * I_NEW and I_CREATING can only legally get set *before* the inode becomes visible
-> + * during lookup. Thus if the flags are not spotted, they are guaranteed to not be
-> + * a factor. However, we need an acquire fence before returning the inode just
-> + * in case we raced against clearing the state to make sure our consumer picks up
-> + * any other changes made prior. atomic_add_unless provides a full fence, which
-> + * takes care of it.
-> + *
-> + * I_FREEING and I_WILL_FREE can only legally get set if ->i_count == 0 and it is
-> + * illegal to bump the ref if either is present. Consequently if atomic_add_unless
-> + * managed to replace a non-0 value with a bigger one, we have a guarantee neither
-> + * of these flags is set. Note this means explicitly checking of these flags below
-> + * is not necessary, it is only done because it does not cost anything on top of the
-> + * load which already needs to be done to handle the other flags.
-> + */
-> +static bool igrab_try_lockless(struct inode *inode)
-> +{
-> +	if (inode_state_read_once(inode) & (I_NEW | I_CREATING | I_FREEING | I_WILL_FREE))
-> +		return false;
-> +	/*
-> +	 * Paired with routines clearing I_NEW
-> +	 */
-> +	if (atomic_add_unless(&inode->i_count, 1, 0)) {
-> +		VFS_BUG_ON_INODE(inode_state_read_once(inode) & (I_FREEING | I_WILL_FREE), inode);
-> +		return true;
-> +	}
-> +	return false;
-> +}
-> +
->  /**
->   * ilookup5_nowait - search for an inode in the inode cache
->   * @sb:		super block of file system to search
-> diff --git a/include/linux/fs.h b/include/linux/fs.h
-> index 07363fce4406..119e0a3d2f42 100644
-> --- a/include/linux/fs.h
-> +++ b/include/linux/fs.h
-> @@ -2234,8 +2234,8 @@ static inline int icount_read_once(const struct inode *inode)
->  }
->  
->  /*
-> - * returns the refcount on the inode. The lock guarantees no new references
-> - * are added, but references can be dropped as long as the result is > 0.
-> + * returns the refcount on the inode. The lock guarantees no 0->1 or 1->0 transitions
-> + * of the count are going to take place, otherwise it changes arbitrarily.
->   */
->  static inline int icount_read(const struct inode *inode)
->  {
-> -- 
-> 2.48.1
-> 
+Something like this? Then dropping the "execve: Add set_nnp_on_point_of_no_return"
+commit.
+
+This adds a bitfield to the landlock_cred_security struct to indicate that the flag
+should be set on the next exec(s).
+
+ include/uapi/linux/landlock.h | 14 ++++++++++++++
+ security/landlock/cred.c      | 13 +++++++++++++
+ security/landlock/cred.h      |  7 +++++++
+ security/landlock/limits.h    |  2 +-
+ security/landlock/ruleset.c   | 15 ++++++++++++---
+ security/landlock/syscalls.c  |  5 +++++
+ 6 files changed, 52 insertions(+), 4 deletions(-)
+
+diff --git a/include/uapi/linux/landlock.h b/include/uapi/linux/landlock.h
+index f88fa1f68b77..edd9d9a7f60e 100644
+--- a/include/uapi/linux/landlock.h
++++ b/include/uapi/linux/landlock.h
+@@ -129,12 +129,26 @@ struct landlock_ruleset_attr {
+  *
+  *     If the calling thread is running with no_new_privs, this operation
+  *     enables no_new_privs on the sibling threads as well.
++ *
++ * %LANDLOCK_RESTRICT_SELF_NO_NEW_PRIVS
++ *    Sets no_new_privs on the calling thread before applying the Landlock domain.
++ *    This flag is useful for convenience as well as for applying a ruleset from
++ *    an outside context (e.g BPF). This flag only has an effect on when both
++ *    no_new_privs isn't already set and the caller doesn't possess CAP_SYS_ADMIN.
++ *
++ *    This flag has slightly different behavior when used from BPF. Instead of
++ *    setting no_new_privs on the current task, it sets a flag on the bprm so that
++ *    no_new_privs is set on the task at exec point-of-no-return. This guarantees
++ *    that the current execution is unaffected, and may escalate as usual until the
++ *    next exec, but the resulting task cannot gain more privileges through later
++ *    exec transitions.
+  */
+ /* clang-format off */
+ #define LANDLOCK_RESTRICT_SELF_LOG_SAME_EXEC_OFF		(1U << 0)
+ #define LANDLOCK_RESTRICT_SELF_LOG_NEW_EXEC_ON			(1U << 1)
+ #define LANDLOCK_RESTRICT_SELF_LOG_SUBDOMAINS_OFF		(1U << 2)
+ #define LANDLOCK_RESTRICT_SELF_TSYNC				(1U << 3)
++#define LANDLOCK_RESTRICT_SELF_NO_NEW_PRIVS			(1U << 4)
+ /* clang-format on */
+ 
+ /**
+diff --git a/security/landlock/cred.c b/security/landlock/cred.c
+index 0cb3edde4d18..bcc9b716916f 100644
+--- a/security/landlock/cred.c
++++ b/security/landlock/cred.c
+@@ -43,6 +43,18 @@ static void hook_cred_free(struct cred *const cred)
+ 		landlock_put_ruleset_deferred(dom);
+ }
+ 
++static void hook_bprm_committing_creds(const struct linux_binprm *bprm)
++{
++	struct landlock_cred_security *const llcred = landlock_cred(bprm->cred);
++
++	if (llcred->set_nnp_on_committing_creds &&
++	    !ns_capable_noaudit(current_user_ns(), CAP_SYS_ADMIN)) {
++		task_set_no_new_privs(current);
++		/* Don't need to set it again for subsequent execution. */
++		llcred->set_nnp_on_committing_creds = false;
++	}
++}
++
+ #ifdef CONFIG_AUDIT
+ 
+ static int hook_bprm_creds_for_exec(struct linux_binprm *const bprm)
+@@ -55,6 +67,7 @@ static int hook_bprm_creds_for_exec(struct linux_binprm *const bprm)
+ #endif /* CONFIG_AUDIT */
+ 
+ static struct security_hook_list landlock_hooks[] __ro_after_init = {
++	LSM_HOOK_INIT(bprm_committing_creds, hook_bprm_committing_creds),
+ 	LSM_HOOK_INIT(cred_prepare, hook_cred_prepare),
+ 	LSM_HOOK_INIT(cred_transfer, hook_cred_transfer),
+ 	LSM_HOOK_INIT(cred_free, hook_cred_free),
+diff --git a/security/landlock/cred.h b/security/landlock/cred.h
+index c10a06727eb1..7ec6dd12ebc3 100644
+--- a/security/landlock/cred.h
++++ b/security/landlock/cred.h
+@@ -49,6 +49,13 @@ struct landlock_cred_security {
+ 	 * not require a current domain.
+ 	 */
+ 	u8 log_subdomains_off : 1;
++	/**
++	 * @set_nnp_on_committing_creds: Set if the domain should set NO_NEW_PRIVS on the
++	 * execution past the point of no return in security_bprm_committing_creds().
++	 * This is not a hierarchy configuration because the nnp state is inherited by
++	 * exec and doesn't need further configuration.
++	 */
++	u8 set_nnp_on_committing_creds : 1;
+ #endif /* CONFIG_AUDIT */
+ } __packed;
+ 
+diff --git a/security/landlock/limits.h b/security/landlock/limits.h
+index eb584f47288d..d298086a4180 100644
+--- a/security/landlock/limits.h
++++ b/security/landlock/limits.h
+@@ -31,7 +31,7 @@
+ #define LANDLOCK_MASK_SCOPE		((LANDLOCK_LAST_SCOPE << 1) - 1)
+ #define LANDLOCK_NUM_SCOPE		__const_hweight64(LANDLOCK_MASK_SCOPE)
+ 
+-#define LANDLOCK_LAST_RESTRICT_SELF	LANDLOCK_RESTRICT_SELF_TSYNC
++#define LANDLOCK_LAST_RESTRICT_SELF	LANDLOCK_RESTRICT_SELF_NO_NEW_PRIVS
+ #define LANDLOCK_MASK_RESTRICT_SELF	((LANDLOCK_LAST_RESTRICT_SELF << 1) - 1)
+ 
+ /* clang-format on */
+diff --git a/security/landlock/ruleset.c b/security/landlock/ruleset.c
+index 1d6fa74f2a52..ad0bd5994ec5 100644
+--- a/security/landlock/ruleset.c
++++ b/security/landlock/ruleset.c
+@@ -121,11 +121,13 @@ int landlock_restrict_cred_precheck(const __u32 flags,
+ 
+ 	/*
+ 	 * Similar checks as for seccomp(2), except that an -EPERM may be
+-	 * returned.
++	 * returned, or no_new_privs may be set by the caller via
++	 * LANDLOCK_RESTRICT_SELF_NO_NEW_PRIVS.
+ 	 */
+ 	if (!task_no_new_privs(current) &&
+ 	    !ns_capable_noaudit(current_user_ns(), CAP_SYS_ADMIN)) {
+-		return -EPERM;
++		if (!(flags & LANDLOCK_RESTRICT_SELF_NO_NEW_PRIVS))
++			return -EPERM;
+ 	}
+ 
+ 	if (flags & ~LANDLOCK_MASK_RESTRICT_SELF)
+@@ -140,7 +142,7 @@ int landlock_restrict_cred(struct cred *const cred,
+ {
+ 	struct landlock_cred_security *new_llcred;
+ 	bool __maybe_unused log_same_exec, log_new_exec, log_subdomains,
+-		prev_log_subdomains;
++		prev_log_subdomains, set_nnp_on_committing_creds;
+ 
+ 	/*
+ 	 * It is allowed to set LANDLOCK_RESTRICT_SELF_LOG_SUBDOMAINS_OFF without
+@@ -157,6 +159,12 @@ int landlock_restrict_cred(struct cred *const cred,
+ 	log_new_exec = !!(flags & LANDLOCK_RESTRICT_SELF_LOG_NEW_EXEC_ON);
+ 	/* Translates "off" flag to boolean. */
+ 	log_subdomains = !(flags & LANDLOCK_RESTRICT_SELF_LOG_SUBDOMAINS_OFF);
++	/*
++	 * Translates "on" flag to boolean. This flag is not inherited by exec,
++	 * but the resulting nnp state is.
++	 */
++	set_nnp_on_committing_creds =
++		!!(flags & LANDLOCK_RESTRICT_SELF_NO_NEW_PRIVS);
+ 
+ 	new_llcred = landlock_cred(cred);
+ 
+@@ -165,6 +173,7 @@ int landlock_restrict_cred(struct cred *const cred,
+ 	new_llcred->log_subdomains_off = !prev_log_subdomains ||
+ 					 !log_subdomains;
+ #endif /* CONFIG_AUDIT */
++	new_llcred->set_nnp_on_committing_creds = set_nnp_on_committing_creds;
+ 
+ 	/*
+ 	 * The only case when a ruleset may not be set is if
+diff --git a/security/landlock/syscalls.c b/security/landlock/syscalls.c
+index c6c7be7698a2..f3520c764360 100644
+--- a/security/landlock/syscalls.c
++++ b/security/landlock/syscalls.c
+@@ -397,6 +397,7 @@ SYSCALL_DEFINE4(landlock_add_rule, const int, ruleset_fd,
+  *         - %LANDLOCK_RESTRICT_SELF_LOG_NEW_EXEC_ON
+  *         - %LANDLOCK_RESTRICT_SELF_LOG_SUBDOMAINS_OFF
+  *         - %LANDLOCK_RESTRICT_SELF_TSYNC
++ *         - %LANDLOCK_RESTRICT_SELF_NO_NEW_PRIVS
+  *
+  * This system call enforces a Landlock ruleset on the current thread.
+  * Enforcing a ruleset requires that the task has %CAP_SYS_ADMIN in its
+@@ -450,6 +451,10 @@ SYSCALL_DEFINE2(landlock_restrict_self, const int, ruleset_fd, const __u32,
+ 	if (!new_cred)
+ 		return -ENOMEM;
+ 
++	if (flags & LANDLOCK_RESTRICT_SELF_NO_NEW_PRIVS &&
++	    !ns_capable_noaudit(current_user_ns(), CAP_SYS_ADMIN))
++		task_set_no_new_privs(current);
++
+ 	err = landlock_restrict_cred(new_cred, ruleset, flags);
+ 	if (err) {
+ 		abort_creds(new_cred);
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.53.0
+
