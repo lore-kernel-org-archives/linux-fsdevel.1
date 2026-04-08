@@ -1,157 +1,141 @@
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 795E43D8917
-	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Apr 2026 18:11:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 796563A6B6B;
+	Wed,  8 Apr 2026 18:16:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775671919; cv=none; b=foDXq8i3AWR7Vi52o/1n+iLOX4I7gYMMqKtLBmBA6+rynJ6yI8hL/E5C+6bxRVn03qrsVn+sawNgWCpMmvqsT+DJswrOQZS3BCXosR5tBiSLOg0elasE602ZtDXND4FewHl9OwP7qg0oq0iN/i/puvUh5BKFW2nUTPBHCry+Wps=
+	t=1775672215; cv=none; b=tj/7hLdI0QRVXGaeWXv1zWkyMkm4BhWJTtyX7XhjoVHI7FkVcO3wsrngtit/M30P60yGLY429T4u9Zly/Js/oAdAE0R1gps5IeRwrZXJaysEMDiMRwdURto6neeswVNayXAk/0KOQGrPp7OCGZ01rcJH7Og63nKTP3e+nAhbl6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775671919; c=relaxed/simple;
-	bh=Zv0tNE5niA8DJZx9zdKIp+Usa6lQwTQeIL24T6SKXUw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZmFwWSamtZyll5f/x/fj1NC5Rea8dDQ2FHCecEg2hmEOjAp693R++hySOOe+2GhegXnvfgfqlUklGZDANW+FlZpO9Hxa8vyQhC2gu5cMoU9tVTvm3+klEXeHHjXl3dLAQTUghr98QK3FxDMPuDjQqwxYzH9c4zzfJxTbbaAijCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=Lm0fBuaU; arc=none smtp.client-ip=209.85.128.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	s=arc-20240116; t=1775672215; c=relaxed/simple;
+	bh=HKHxPoblaork2H0d6qRNs+Qxh9dmFv1KNw8j/ngGj2k=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=G2ZJ+0YmUc+a7AYtFq1a9YQPOsdBqAztjMvG9W2xWF15Y5/rzp1BpKy+V0XXfVIDQhGoveLt7nigoE6HoV6/Jc6CVPJ0XnZ5aTfcOgCZ9rGvU2FSsIpRjs4mnYsX22PY7AgTSNiJFF6Iy0HRy2nIl71w/cNZ2vBC5/zbWbZaWaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z6claCVn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="Lm0fBuaU"
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-7991db3dc98so399317b3.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 08 Apr 2026 11:11:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1775671917; x=1776276717; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=I5akrb9d7BApoz1cA1NMQjcGhi2drcsvjolQqKfTVzo=;
-        b=Lm0fBuaUO1aiMPyKjB1FsSlLYrG6wRBShbU8eLG60BIOt7q3jFnTnMImnYS0a4Fh8l
-         fC0HqXDvGHLgpdFKh2M+/IEV3JaVXAACIDJP10srncYy10D/qTdDrSGsACFrhUmX1vyA
-         +ZiZcwS0iT9CsrgUnfviyZfv3d7PBAfvwyNrN9v+1wi0prfF5flAVfph4hLpqCDu2Eqm
-         I+bUd+bacLw5xeW7MS/nzT6ZNK+FwV0hvThFp8hvaxi3dpEQJByUpCFJG+S4VujkXTYm
-         Po2uPcBosnK+NnM33z8IWDU+ocrzCrmgX6z1/IfjkeN4ZXrtUKgJtI5DNxp+VdqrBxiz
-         RNPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775671917; x=1776276717;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I5akrb9d7BApoz1cA1NMQjcGhi2drcsvjolQqKfTVzo=;
-        b=dOm5veBaWaCluSB2is1guJoshi/AChu7ntXJAMSSR/5sP+rYPlTzOkJaKfarfb8S1R
-         Il00Qo9BcZjm51Tnd5HVV9Mw8hJVHGaOeF7uTIjy8pwZWobkaf8GWuAKpY+6592tbGq9
-         m2m0+r/+qdJydQbFOubRLWwvACCoFWytqjq+7Iocn+0zmWSqpQFOfHQpLyP94+CHqB9x
-         po3npL3ohPAQGI1XB0rnUw7aFlRTqMoe/K1ib15jFiNpBv2I8hO9htajavmQWR2VRyyq
-         MPod0S/yuYZwWG14azTdM1Pl2IGo7DYAPL5xVM6OTaHzATznYWQuljg0NXl0cPyqX0CY
-         MuJw==
-X-Forwarded-Encrypted: i=1; AJvYcCWqr0mIVSCDDP2sQqhCFiIFdOxEQE4rqbHLD90ubm+6MCDMKf8qvjAyEfTT6YCtsJghV8Fnl8tGR+ZEKg6G@vger.kernel.org
-X-Gm-Message-State: AOJu0YyhikO/fyoJ0Aqp2SHkgu7R6Rsh3PTGd04QTOpCIQ0Fv8+8cLe8
-	lq0y1/sVTlSobpkyThCn5pLg3YUzdbCierZDj/FBjN0oJOVAgLek3g04v6YixqChITk=
-X-Gm-Gg: AeBDietz8Z/V/j37vwN8bIVuxXv766ZpIZvkTBo0ZQODUHRT+JdSksgG58aFhmtRmNz
-	4zpuob+FRbMZ8HvNE5Ty0CltNHmrVVqdKswvb5zD6GATU0VtXaljiwc+ji5zs1p8ShDRpBV6aXz
-	maA7hj+vahPKbRgr0qxDBgmKz1FeaTAL70Jlm1vGE3Mh0EIiao+Y92rLVnWQe0mun9e13gtthWu
-	LTrijSAYn0Vmr7LMl3JUR0jEw6y0k69/r77A+GDUm9j61FX9UltjUk0/IOY9eQtHXYFv/90Kag/
-	8JSFOtRMveaCseYeCJdoEuEwNSbzPHa1PIDETouu4TgtOqNwXU2BIPXCngpaadrPw7juHs1YWxG
-	uqbPYSfySHAVMEzPMyCEg5DblsMzteojvougxZnOsis6TVrxrjlCuP8zx9QO732eg4rSVxGp2Ns
-	mePKpejinQNJlM+zxA45CTY5D2TBFLmunW6+7NvdlQRXSSJIIKl60wJx9BWCjWZu1Io9eB2MVx3
-	Grtr0DfzeY+XROjydKtcZQaw+XK5hM=
-X-Received: by 2002:a05:690c:c50e:b0:79d:9d85:3622 with SMTP id 00721157ae682-7a4d2ff2044mr200468557b3.9.1775671917239;
-        Wed, 08 Apr 2026 11:11:57 -0700 (PDT)
-Received: from system76-pc.attlocal.net ([2600:1700:6476:1430:de59:1272:6c6c:a235])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7a370ef4af8sm91417037b3.41.2026.04.08.11.11.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Apr 2026 11:11:56 -0700 (PDT)
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: ceph-devel@vger.kernel.org
-Cc: idryomov@gmail.com,
-	linux-fsdevel@vger.kernel.org,
-	pdonnell@redhat.com,
-	amarkuze@redhat.com,
-	Slava.Dubeyko@ibm.com,
-	slava@dubeyko.com
-Subject: [PATCH] ceph: add ceph_has_realms_with_quotas() check into ceph_quota_update_statfs()
-Date: Wed,  8 Apr 2026 11:11:24 -0700
-Message-ID: <20260408181123.310291-2-slava@dubeyko.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z6claCVn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30089C4AF0B;
+	Wed,  8 Apr 2026 18:16:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775672215;
+	bh=HKHxPoblaork2H0d6qRNs+Qxh9dmFv1KNw8j/ngGj2k=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=Z6claCVn2+GV4oEh7gr5t70tTPxIwQOtPp9SSlSV3e37p9jsmChZ1T/KLPsoIb9kf
+	 ln8r1eG43cviPLBR3gtZv5Xna5/mv2hXrDsO4xqVkP2UfBXue1ORre3eobjMMNWa0r
+	 Pc/vNXDjPJ3iPd3AHwtD8QW9QF8+iEZ5a2QeMwNad2NmR1NzEy4XRaKZLWlxrPgH85
+	 pfCV7SFHNhjVNs2duoQCYYLIzvRKXXamDadyL0aEhRvQSruXZKXW9ozjgekCcxrcax
+	 7e5vSnNp8QgRWx8JJNsNkGrsvmaCxn2KCT+e4td/2MS0DHZlbS1bTKBdFZiX529y7q
+	 5uomwpT7g/CWg==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 036AEF4006C;
+	Wed,  8 Apr 2026 14:16:53 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Wed, 08 Apr 2026 14:16:53 -0400
+X-ME-Sender: <xms:lJvWaSvFhNZ43WDSF4xUIs6h7WSKhuTbM8ny4RZXenhN05SWE55zww>
+    <xme:lJvWaSRp34g1uyADOBSHkG683H72946qbjCgw08XMh_E942eiYKOwFFr73cJGcLzS
+    _ychiMARQA5cFpBaXc9AUgNy-tsOdFITn8Rpvv0lSPJ1udqMzygP8PH>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddvgedvjecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdevhhhutghk
+    ucfnvghvvghrfdcuoegtvghlsehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvghrnh
+    ephfffkefffedtgfehieevkeduuefhvdejvdefvdeuuddvgeelkeegtefgudfhfeelnecu
+    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheptghhuhgtkh
+    hlvghvvghrodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieefgeelleel
+    heelqdefvdelkeeggedvfedqtggvlheppehkvghrnhgvlhdrohhrghesfhgrshhtmhgrih
+    hlrdgtohhmpdhnsggprhgtphhtthhopedvgedpmhhouggvpehsmhhtphhouhhtpdhrtghp
+    thhtohepnhgvihhlsegsrhhofihnrdhnrghmvgdprhgtphhtthhopehmrghthhhivghurd
+    guvghsnhhohigvrhhssegvfhhfihgtihhoshdrtghomhdprhgtphhtthhopegrlhgvgidr
+    rghrihhnghesghhmrghilhdrtghomhdprhgtphhtthhopegrmhhirhejfehilhesghhmrg
+    hilhdrtghomhdprhgtphhtthhopehrohhsthgvughtsehgohhoughmihhsrdhorhhgpdhr
+    tghpthhtoheprghnnhgrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegsrhgruhhnvg
+    hrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehjlhgrhihtohhnsehkvghrnhgvlhdr
+    ohhrghdprhgtphhtthhopehmhhhirhgrmhgrtheskhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:lJvWadfwdEbgHY50jIRm349uKUZoi4dIykahtitCUgzU-qDa0jnh-A>
+    <xmx:lJvWac5QvBsdH_8b0EyXVCQ53CXGlvAU2LZ3Dvd5A7hJOw-v281LXQ>
+    <xmx:lJvWaZ8srh66Ha6yOnd5dPMBZe86eMzFqX6S6cRH6t_Z_s4hH5_cvQ>
+    <xmx:lJvWaWzPQupnYV0SPbhEsvYqUN5lmSqjdY0QzIFVlPNh9gdBGgEVig>
+    <xmx:lJvWaQG2yajAQ8V64yXwD0sO-FDVUo7XOMuAJq6b2G-JRpJ3Lc7Krz8K>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id C882B780070; Wed,  8 Apr 2026 14:16:52 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-ThreadId: A5DZmuaHBpig
+Date: Wed, 08 Apr 2026 14:16:32 -0400
+From: "Chuck Lever" <cel@kernel.org>
+To: "Jeff Layton" <jlayton@kernel.org>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
+ "Chuck Lever" <chuck.lever@oracle.com>,
+ "Alexander Aring" <alex.aring@gmail.com>,
+ "Steven Rostedt" <rostedt@goodmis.org>,
+ "Masami Hiramatsu" <mhiramat@kernel.org>,
+ "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>,
+ NeilBrown <neil@brown.name>, "Olga Kornievskaia" <okorniev@redhat.com>,
+ "Dai Ngo" <Dai.Ngo@oracle.com>, "Tom Talpey" <tom@talpey.com>,
+ "Trond Myklebust" <trondmy@kernel.org>, "Anna Schumaker" <anna@kernel.org>,
+ "Amir Goldstein" <amir73il@gmail.com>
+Cc: "Calum Mackay" <calum.mackay@oracle.com>, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-nfs@vger.kernel.org
+Message-Id: <bb4fc3da-765d-4284-9282-dd04d286f671@app.fastmail.com>
+In-Reply-To: <20260407-dir-deleg-v1-1-aaf68c478abd@kernel.org>
+References: <20260407-dir-deleg-v1-0-aaf68c478abd@kernel.org>
+ <20260407-dir-deleg-v1-1-aaf68c478abd@kernel.org>
+Subject: Re: [PATCH 01/24] filelock: add support for ignoring deleg breaks for dir
+ change events
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-From: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
 
-When MDS rejects a session, remove_session_caps() ->
-__ceph_remove_cap() -> ceph_change_snap_realm() clears
-i_snap_realm for every inode that loses its last cap.
-The realm is restored once caps are re-granted after
-reconnect. It is not a real error and thsi patch changes
-pr_err_ratelimited_client() on doutc().
+On Tue, Apr 7, 2026, at 9:21 AM, Jeff Layton wrote:
+> If a NFS client requests a directory delegation with a notification
+> bitmask covering directory change events, the server shouldn't recall
+> the delegation. Instead the client will be notified of the change after
+> the fact.
+>
+> Add support for ignoring lease breaks on directory changes. Add a new
+> flags parameter to try_break_deleg() and teach __break_lease how to
+> ignore certain types of delegation break events.
+>
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> ---
 
-Every quota methods ceph_quota_is_max_files_exceeded(),
-ceph_quota_is_max_bytes_exceeded(),
-ceph_quota_is_max_bytes_approaching() calls
-ceph_has_realms_with_quotas() check. This patch adds
-the missing ceph_has_realms_with_quotas() call into
-ceph_quota_update_statfs().
+> diff --git a/fs/locks.c b/fs/locks.c
+> index 8e44b1f6c15a..dafa0752fdce 100644
+> --- a/fs/locks.c
+> +++ b/fs/locks.c
 
-Signed-off-by: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
-cc: Alex Markuze <amarkuze@redhat.com>
-cc: Ilya Dryomov <idryomov@gmail.com>
-cc: Patrick Donnelly <pdonnell@redhat.com>
-cc: Ceph Development <ceph-devel@vger.kernel.org>
----
- fs/ceph/quota.c | 25 +++++++++++++++++++------
- 1 file changed, 19 insertions(+), 6 deletions(-)
+> @@ -1670,7 +1709,7 @@ int __break_lease(struct inode *inode, unsigned int flags)
+>  			locks_delete_lock_ctx(&fl->c, &dispose);
+>  	}
+> 
+> -	if (list_empty(&ctx->flc_lease))
+> +	if (!visible_leases_remaining(inode, flags))
+>  		goto out;
+> 
+>  	if (flags & LEASE_BREAK_NONBLOCK) {
 
-diff --git a/fs/ceph/quota.c b/fs/ceph/quota.c
-index 4dc9426643e8..0fa0e7c4b52f 100644
---- a/fs/ceph/quota.c
-+++ b/fs/ceph/quota.c
-@@ -231,9 +231,14 @@ static int get_quota_realm(struct ceph_mds_client *mdsc, struct inode *inode,
- 	if (realm)
- 		ceph_get_snap_realm(mdsc, realm);
- 	else
--		pr_err_ratelimited_client(cl,
--				"%p %llx.%llx null i_snap_realm\n",
--				inode, ceph_vinop(inode));
-+		/*
-+		 * i_snap_realm is NULL when all caps have been released, e.g.
-+		 * after an MDS session rejection.  This is a transient state;
-+		 * the realm will be restored once caps are re-granted.  Treat
-+		 * it as "no quota realm found" and return gracefully.
-+		 */
-+		doutc(cl, "%p %llx.%llx null i_snap_realm\n",
-+		      inode, ceph_vinop(inode));
- 	while (realm) {
- 		bool has_inode;
- 
-@@ -343,9 +348,14 @@ static bool check_quota_exceeded(struct inode *inode, enum quota_check_op op,
- 	if (realm)
- 		ceph_get_snap_realm(mdsc, realm);
- 	else
--		pr_err_ratelimited_client(cl,
--				"%p %llx.%llx null i_snap_realm\n",
--				inode, ceph_vinop(inode));
-+		/*
-+		 * i_snap_realm is NULL when all caps have been released, e.g.
-+		 * after an MDS session rejection.  This is a transient state;
-+		 * the realm will be restored once caps are re-granted.  Treat
-+		 * it as "quota not exceeded" and return gracefully.
-+		 */
-+		doutc(cl, "%p %llx.%llx null i_snap_realm\n",
-+		      inode, ceph_vinop(inode));
- 	while (realm) {
- 		bool has_inode;
- 
-@@ -496,6 +506,9 @@ bool ceph_quota_update_statfs(struct ceph_fs_client *fsc, struct kstatfs *buf)
- 	u64 total = 0, used, free;
- 	bool is_updated = false;
- 
-+	if (!ceph_has_realms_with_quotas(d_inode(fsc->sb->s_root)))
-+		return false;
-+
- 	down_read(&mdsc->snap_rwsem);
- 	get_quota_realm(mdsc, d_inode(fsc->sb->s_root), QUOTA_GET_MAX_BYTES,
- 			&realm, true);
+After breaking visible leases, the restart: label calls any_leases_conflict()
+which does not filter ignored dir-delegation leases. When only ignored leases
+remain, any_leases_conflict returns true, but visible_leases_remaining also
+returned true (triggering the wait). The code picks the first lease (possibly
+ignored), computes break_time = 1 jiffy, blocks, then loops.                                                     
+
+For example, suppose you have two directory delegations on a directory, one
+with FL_IGN_DIR_DELETE and one without. After the non-ignored one is broken
+and removed, the ignored one keeps any_leases_conflict returning true. The
+loop spins at 1-jiffy intervals until the ignored delegation is released.  
+
+Should the restart: block skip ignored leases?
+
+
 -- 
-2.53.0
-
+Chuck Lever
