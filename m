@@ -1,222 +1,124 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C36223D1712
-	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Apr 2026 13:53:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 335F6175A5;
+	Wed,  8 Apr 2026 13:55:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775656433; cv=none; b=Lkc+/WkZ2PHDjIfoZSTUyLAIQ4GI9tht7xDudqIldRjNR4Bbhr0cdalPvUw/rebyG/KstseCqM0y+W5h7H3AI7zVMOyJqYVWS3BAcy4Dz9ftAwnf0MJYZNFH7ZZ/qn0k032JfMYlBXumi87EiLyooW/O/34iJ5gXfdQz/osMFy0=
+	t=1775656507; cv=none; b=S2AeLpEvGa0nNlpnc/FwtlTCxfGnHAdLEp7omuS6gFuMnB1SsX3pp7YdG8rNSY0/Wcd/BEroZKGk2uGEmxW6sLhztxi4jY1TjSrcCrxkOn+NEciJ6RQm90/5vDo8CkQvpA4TIW9Z1deVJgAJ84B8R2mGPPLoSe76nXghJ+Ezdbg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775656433; c=relaxed/simple;
-	bh=rroQmESzhV8c9DWd5tZkVVfrrupA+slILBR9VDG7oaM=;
+	s=arc-20240116; t=1775656507; c=relaxed/simple;
+	bh=9V0aEgsGhkLU/YHXT2F9l9I/XcSpUtYjb0B6llutNFo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K2KEhH/2oNENFN/3p/NkySp4U9Ljb3CyEe6/KqSrimuT5O8Tfm7ZmqaColIZQO9xBi+kEiTqhmFlafh+4Q5eeYu8GcVtmmaVxOYXjWmzAvnTB+AxN0nMdabIwnC3DEmvYVBFS5MjV7AjHGTuko1aKOkA7+Xx/0Tc4Um3vvfiASE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=fZpqarNN; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=45S3zz8c; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=fZpqarNN; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=45S3zz8c; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y46Fjrxw5AZ9Hdnr03LyFJwEuDAdhhgw/ETjs+BA5q27soWXNqO/Nh7PWj0vC3n1d1c7VTlY3dPaNKBvzkAXETpqq6zOzzt2SHaeUkl1UFLzqLuFA1QncV1YG1kCFjH8LvRKf2v371jG9Bq10Ho3oF6w/hqNpeQ5buvBcuu2wxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=g/7igT7Y; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=bXbgFQGF; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="fZpqarNN";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="45S3zz8c";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="fZpqarNN";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="45S3zz8c"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 09B844E9F5;
-	Wed,  8 Apr 2026 13:53:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1775656429; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="g/7igT7Y";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="bXbgFQGF"
+Date: Wed, 8 Apr 2026 15:55:02 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1775656503;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=J8N6aXHtI40DfgX/faAcELwkLZiVOWJwDK9ISbaOf/Q=;
-	b=fZpqarNNGFv2EHZyBtHd+Wfngbz2xKdEBjOYvU6Oxqyf+Z8ux2gUYHsD+9X8ISeEfH0mSv
-	jPrIe0Y82Rr3wc+J+nbLI5K9njlRdRDvjz0wjPGCI8cd6jY8tpcZEMTzlDMCfa6hRnxQRx
-	kPElBJVOtfkEahWGVjAzj3r/QChlSvo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1775656429;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	bh=I/7IhEnruGQc+1CW/jI+NpDLfCCCOrjwQ3Z++94aDzE=;
+	b=g/7igT7YVTjK17e006TVC9a2gKMuvkRBxfOLbKucZK/ors+kGDdqRhg/OqIAPoq5L2zYiR
+	NHS9iN2kPybQQCMzb0hTPTlJ3hMU1aWfJnzlmiv0KNZqY4Wwi26yUcu/VEQmZb3LrFtLeJ
+	v9Hj8r5rg9mxwgzJi9+isM2ogGz4hxoBiRV1S6JCNrSj/EZ9vO2oq9kkJwhikSW2SV/nRF
+	yNWHpa5z8hiS3Hk82KmrT84xlKxjjdnZZkn0SPpkbAL0sSSDZqoPQ1o2o0e5Bm/LDTrW9/
+	URrBKH+giHCjz0pRM4cLUth3lWFPudMBl7mwDYZfzksl5HySlYmwbAWqBhZ6QQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1775656503;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=J8N6aXHtI40DfgX/faAcELwkLZiVOWJwDK9ISbaOf/Q=;
-	b=45S3zz8cToy6kS/Wppa9MPynSIOP7A693Bu0ZOI/9CT9U7VMf8GmyjXo750+JGsf2Mi2VH
-	ZV0nxIS5G4C7xuDw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=fZpqarNN;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=45S3zz8c
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1775656429; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=J8N6aXHtI40DfgX/faAcELwkLZiVOWJwDK9ISbaOf/Q=;
-	b=fZpqarNNGFv2EHZyBtHd+Wfngbz2xKdEBjOYvU6Oxqyf+Z8ux2gUYHsD+9X8ISeEfH0mSv
-	jPrIe0Y82Rr3wc+J+nbLI5K9njlRdRDvjz0wjPGCI8cd6jY8tpcZEMTzlDMCfa6hRnxQRx
-	kPElBJVOtfkEahWGVjAzj3r/QChlSvo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1775656429;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=J8N6aXHtI40DfgX/faAcELwkLZiVOWJwDK9ISbaOf/Q=;
-	b=45S3zz8cToy6kS/Wppa9MPynSIOP7A693Bu0ZOI/9CT9U7VMf8GmyjXo750+JGsf2Mi2VH
-	ZV0nxIS5G4C7xuDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F279A4A0B3;
-	Wed,  8 Apr 2026 13:53:48 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Q0AwO+xd1mk7PwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 08 Apr 2026 13:53:48 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id C0BF4A0A7E; Wed,  8 Apr 2026 15:53:48 +0200 (CEST)
-Date: Wed, 8 Apr 2026 15:53:48 +0200
-From: Jan Kara <jack@suse.cz>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Chuck Lever <chuck.lever@oracle.com>, 
-	Alexander Aring <alex.aring@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, 
-	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
-	Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
-	Amir Goldstein <amir73il@gmail.com>, Calum Mackay <calum.mackay@oracle.com>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-nfs@vger.kernel.org
-Subject: Re: [PATCH 08/24] nfsd: update the fsnotify mark when setting or
- removing a dir delegation
-Message-ID: <3bxtqnifeutht7dmyp4svv5k2npk5e53ggegx7lzmj73vsspkx@icmnt57p7rhk>
-References: <20260407-dir-deleg-v1-0-aaf68c478abd@kernel.org>
- <20260407-dir-deleg-v1-8-aaf68c478abd@kernel.org>
+	bh=I/7IhEnruGQc+1CW/jI+NpDLfCCCOrjwQ3Z++94aDzE=;
+	b=bXbgFQGFM845UyMTzIaKnx+U/0W1qwvKf9VT1aZH2aehpEPkr35D05t97plT1GQ4P43LR/
+	E8qif45B75rf6LAQ==
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+To: Thomas Gleixner <tglx@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, Calvin Owens <calvin@wbinvd.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Anna-Maria Behnsen <anna-maria@linutronix.de>, 
+	Frederic Weisbecker <frederic@kernel.org>, Ingo Molnar <mingo@kernel.org>, John Stultz <jstultz@google.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	Sebastian Reichel <sre@kernel.org>, linux-pm@vger.kernel.org, 
+	Pablo Neira Ayuso <pablo@netfilter.org>, Florian Westphal <fw@strlen.de>, Phil Sutter <phil@nwl.cc>, 
+	netfilter-devel@vger.kernel.org, coreteam@netfilter.org
+Subject: Re: [patch 01/12] clockevents: Prevent timer interrupt starvation
+Message-ID: <20260408155353-42aeefa4-db66-48aa-ab07-0538a8cfdbf0@linutronix.de>
+References: <20260407083219.478203185@kernel.org>
+ <20260407083247.562657657@kernel.org>
+ <20260408143313-ac6c3b82-70e6-4ce3-b33a-20f5e6ba160b@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260407-dir-deleg-v1-8-aaf68c478abd@kernel.org>
-X-Spamd-Result: default: False [-2.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_TWELVE(0.00)[24];
-	RCVD_TLS_LAST(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,oracle.com,gmail.com,goodmis.org,efficios.com,lwn.net,linuxfoundation.org,brown.name,redhat.com,talpey.com,vger.kernel.org];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.cz:dkim,suse.cz:email,suse.com:email]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -2.51
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 09B844E9F5
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260408143313-ac6c3b82-70e6-4ce3-b33a-20f5e6ba160b@linutronix.de>
 
-On Tue 07-04-26 09:21:21, Jeff Layton wrote:
-> Add a new helper function that will update the mask on the nfsd_file's
-> fsnotify_mark to be a union of all current directory delegations on an
-> inode. Call that when directory delegations are added or removed.
+On Wed, Apr 08, 2026 at 02:41:20PM +0200, Thomas Weißschuh wrote:
+> Hi Thomas,
 > 
-> Signed-off-by: Jeff Layton <jlayton@kernel.org>
-
-Looks good. Feel free to add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
-> ---
->  fs/nfsd/nfs4state.c | 33 +++++++++++++++++++++++++++++++++
->  1 file changed, 33 insertions(+)
+> On Tue, Apr 07, 2026 at 10:54:17AM +0200, Thomas Gleixner wrote:
+> > From: Thomas Gleixner <tglx@kernel.org>
+> > 
+> > Calvin reported an odd NMI watchdog lockup which claims that the CPU locked
+> > up in user space. He provided a reproducer, which sets up a timerfd based
+> > timer and then rearms it in a loop with an absolute expiry time of 1ns.
+> > 
+> > As the expiry time is in the past, the timer ends up as the first expiring
+> > timer in the per CPU hrtimer base and the clockevent device is programmed
+> > with the minimum delta value. If the machine is fast enough, this ends up
+> > in a endless loop of programming the delta value to the minimum value
+> > defined by the clock event device, before the timer interrupt can fire,
+> > which starves the interrupt and consequently triggers the lockup detector
+> > because the hrtimer callback of the lockup mechanism is never invoked.
+> > 
+> > As a first step to prevent this, avoid reprogramming the clock event device
+> > when:
+> >      - a forced minimum delta event is pending
+> >      - the new expiry delta is less then or equal to the minimum delta
 > 
-> diff --git a/fs/nfsd/nfs4state.c b/fs/nfsd/nfs4state.c
-> index c8fb84c38637..9a4cff08c67d 100644
-> --- a/fs/nfsd/nfs4state.c
-> +++ b/fs/nfsd/nfs4state.c
-> @@ -1258,6 +1258,37 @@ static void nfsd4_finalize_deleg_timestamps(struct nfs4_delegation *dp, struct f
->  	}
->  }
->  
-> +static void nfsd_fsnotify_recalc_mask(struct nfsd_file *nf)
-> +{
-> +	struct fsnotify_mark *mark = &nf->nf_mark->nfm_mark;
-> +	struct inode *inode = file_inode(nf->nf_file);
-> +	u32 lease_mask, set = 0, clear = 0;
-> +
-> +	/* This is only needed when adding or removing dir delegs */
-> +	if (!S_ISDIR(inode->i_mode))
-> +		return;
-> +
-> +	/* Set up notifications for any ignored delegation events */
-> +	lease_mask = inode_lease_ignore_mask(inode);
-> +
-> +	if (lease_mask & FL_IGN_DIR_CREATE)
-> +		set |= FS_CREATE;
-> +	else
-> +		clear |= FS_CREATE;
-> +
-> +	if (lease_mask & FL_IGN_DIR_DELETE)
-> +		set |= FS_DELETE;
-> +	else
-> +		clear |= FS_DELETE;
-> +
-> +	if (lease_mask & FL_IGN_DIR_RENAME)
-> +		set |= FS_RENAME;
-> +	else
-> +		clear |= FS_RENAME;
-> +
-> +	fsnotify_modify_mark_mask(mark, set, clear);
-> +}
-> +
->  static void nfs4_unlock_deleg_lease(struct nfs4_delegation *dp)
->  {
->  	struct nfs4_file *fp = dp->dl_stid.sc_file;
-> @@ -1266,6 +1297,7 @@ static void nfs4_unlock_deleg_lease(struct nfs4_delegation *dp)
->  	WARN_ON_ONCE(!fp->fi_delegees);
->  
->  	nfsd4_finalize_deleg_timestamps(dp, nf->nf_file);
-> +	nfsd_fsnotify_recalc_mask(nf);
->  	kernel_setlease(nf->nf_file, F_UNLCK, NULL, (void **)&dp);
->  	put_deleg_file(fp);
->  }
-> @@ -9652,6 +9684,7 @@ nfsd_get_dir_deleg(struct nfsd4_compound_state *cstate,
->  
->  	if (!status) {
->  		put_nfs4_file(fp);
-> +		nfsd_fsnotify_recalc_mask(nf);
->  		return dp;
->  	}
->  
+> with this patch now in the tip tree my QEMU/virtme-ng based machine
+> fails to boot. The startup seems to freeze in:
+> start_kernel() -> rest_init() -> schedule_preempt_disabled() -> schedule()
 > 
-> -- 
-> 2.53.0
+> CONFIG_GENERIC_CLOCKEVENTS=y
+> CONFIG_GENERIC_CLOCKEVENTS_BROADCAST=y
+> CONFIG_GENERIC_CLOCKEVENTS_BROADCAST_IDLE=y
+> CONFIG_GENERIC_CLOCKEVENTS_MIN_ADJUST=y
+> CONFIG_HZ=1000
 > 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> CPU: i5-1135G7
+> clock event device: lapic-deadline
+> 
+> The clockevent device is still reprogrammed each millisecond,
+> presumably for the tick.
+> 
+> (...)
+
+This fixes the issue for me:
+
+--- a/kernel/time/clockevents.c
++++ b/kernel/time/clockevents.c
+@@ -369,7 +369,7 @@ int clockevents_program_event(struct clock_event_device *dev, ktime_t expires, b
+        if (dev->next_event_forced)
+                return 0;
+ 
+-       if (dev->set_next_event(dev->min_delta_ticks, dev)) {
++       if (dev->set_next_event(dev->min_delta_ns, dev)) {
+                if (!force || clockevents_program_min_delta(dev))
+                        return -ETIME;
+        }
+
+
+Thomas
