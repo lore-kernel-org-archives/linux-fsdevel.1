@@ -1,123 +1,105 @@
-Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com [95.215.58.174])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15D87245005
-	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Apr 2026 12:37:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 967B517A309;
+	Wed,  8 Apr 2026 12:41:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775651834; cv=none; b=D7cdpPO1GBrjJVVgVe5YTUH9XhLQmGVUIYC8M+WSss3orKgvHuBwwbJYZ92ozD+bWg4dFHE1qDwRjtYRnuyEFr0LT1CxTzkubsa064k83Bf6dRC3lOG011EXg4xMPQawYaiio6Jxh9bWESe0/pmumEJ27lIppfFhTW2cLIyi9ho=
+	t=1775652083; cv=none; b=uURpJnWTdostMKvHT8cGbvlbvQoRjxKDfDjwWAZ9PSPrxDzkx3PomRTkmExD9u4jPg7VRsJR1kOvbiXlQ6tjXYO3oMDEtnVMJhoqyXecFMw6smt5W5TSbVdTpsZh9WQpYNICSuuaDZUhWdbrywsBpvCRHsFJEimvNetIvuSY43M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775651834; c=relaxed/simple;
-	bh=NLwi39iG6x+4DNei3a8leGjXiKw3I9Rzak2FVdeN0d8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hAq2llzu7PVe0InffxAOmUNJyi6WU40tiM1dQSQua4hliMDOIuhHTiMF8lH8e+cvsHlCIdMuYtWZukvw5O7t5/5BtY8xT7VSs00vQLEF3/nlViGOpHlYbcmYUn7XW5bqvN/7oj83zc+Ws8BzkZZkdeqfSPDLt6toVHh5AmDT+HQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=LojMvni9; arc=none smtp.client-ip=95.215.58.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1775652083; c=relaxed/simple;
+	bh=XXbT5wATVXm4JD/GqE3qctRgdVlK+QcWdXInoVA0dEw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=F6fTby33+P595p9QCzspHRj+/2c3j4fNCrXOYe30Alf5Y1GSAt6wEYmGZPPvxuFv6kSi/6p0Bu7kZRtayq6EJJzeFhY0WVbg+zVKmoQVYRDldeuHdkn+baZiQTcK8TTpNlgMlpViPCTW18wXoZJW7QzqHnMODm9dPlsllrR3c1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=1n91fiiJ; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=g7JLpCYf; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="LojMvni9"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1775651830;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="1n91fiiJ";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="g7JLpCYf"
+Date: Wed, 8 Apr 2026 14:41:18 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1775652080;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=w7ozxszcWAzUiiO7dnD+2XLganhUT/yvfmOrIFi0J4o=;
-	b=LojMvni9LRcUFivfS2//FW6d4oquvN57vihlfqSaUW5XqAUIYTV/zoRXKgzs+sk1dtwBY3
-	45254wkgwY7gkR/4eSAIZrf9nWHh+UlKN3vMXpTdOgS0uMkyQqYBaMlvMVPfi/FCBpSrnq
-	j6fbEfOSQU7/VVrzdgvjzRlJd3kGoWM=
-From: Usama Arif <usama.arif@linux.dev>
-To: "Denis M. Karpov" <komlomal@gmail.com>
-Cc: Usama Arif <usama.arif@linux.dev>,
-	rppt@kernel.org,
-	akpm@linux-foundation.org,
-	Liam.Howlett@oracle.com,
-	ljs@kernel.org,
-	vbabka@kernel.org,
-	jannh@google.com,
-	peterx@redhat.com,
-	pfalcato@suse.de,
-	brauner@kernel.org,
-	viro@zeniv.linux.org.uk,
-	jack@suse.cz,
-	linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH] userfaultfd: allow registration of ranges below mmap_min_addr
-Date: Wed,  8 Apr 2026 05:36:59 -0700
-Message-ID: <20260408123700.1596800-1-usama.arif@linux.dev>
-In-Reply-To: <20260407081442.6256-1-komlomal@gmail.com>
-References: 
+	bh=hjtFJLsP9NFWdv21cGYCI8ngeEXhsnmB0domogAqwu8=;
+	b=1n91fiiJpKrIK1G6+LKIjYUoFteRmu8RoRSCKHQyX+K8QWongS2ErrP6DsXsqtx+RuWdId
+	z2R4St5cbfTmc1U+OsVkDrucJJP796PanwJlVtgL7zBZqjZ0/7vgCL1fQMcsHCRVp8PNP7
+	QBUs7oxAPhlSqzlpamhaWnm7vo0X52YAWTF0Q0ggvAJLAu5F8uGZ4pQmtvp1mewnCpsOAS
+	QETiwcAXi70/a5puQXgYELHxFVTvmaE8GMuAw0sBqn7FkQ9Fa9vOdbFra4azb1SyBYwybf
+	SvDcTXxpDdtNiGVnoQpQ/xEAFYVqNzBzwfS40PsjA7HwufoveiqHzZ8RPrRm0Q==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1775652080;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hjtFJLsP9NFWdv21cGYCI8ngeEXhsnmB0domogAqwu8=;
+	b=g7JLpCYf2VmRPHNYq91fqb0Gi3QAksbyIzlI905BFuId/PaFxj9z7u1L8THQw7Y5ovLP5n
+	rvymZ7LueNwJiODA==
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+To: Thomas Gleixner <tglx@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, Calvin Owens <calvin@wbinvd.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Anna-Maria Behnsen <anna-maria@linutronix.de>, 
+	Frederic Weisbecker <frederic@kernel.org>, Ingo Molnar <mingo@kernel.org>, John Stultz <jstultz@google.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	Sebastian Reichel <sre@kernel.org>, linux-pm@vger.kernel.org, 
+	Pablo Neira Ayuso <pablo@netfilter.org>, Florian Westphal <fw@strlen.de>, Phil Sutter <phil@nwl.cc>, 
+	netfilter-devel@vger.kernel.org, coreteam@netfilter.org
+Subject: Re: [patch 01/12] clockevents: Prevent timer interrupt starvation
+Message-ID: <20260408143313-ac6c3b82-70e6-4ce3-b33a-20f5e6ba160b@linutronix.de>
+References: <20260407083219.478203185@kernel.org>
+ <20260407083247.562657657@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260407083247.562657657@kernel.org>
 
-On Tue,  7 Apr 2026 11:14:42 +0300 "Denis M. Karpov" <komlomal@gmail.com> wrote:
+Hi Thomas,
 
-> The current implementation of validate_range() in fs/userfaultfd.c
-> performs a hard check against mmap_min_addr without considering
-> capabilities, but the mmap() syscall uses security_mmap_addr()
-> which allows privileged processes (with CAP_SYS_RAWIO) to map below
-> mmap_min_addr. Furthermore, security_mmap_addr()->cap_mmap_addr() uses
-> dac_mmap_min_addr variable which can be changed with
-> /proc/sys/vm/mmap_min_addr.
+On Tue, Apr 07, 2026 at 10:54:17AM +0200, Thomas Gleixner wrote:
+> From: Thomas Gleixner <tglx@kernel.org>
 > 
-> Because userfaultfd uses a different check, UFFDIO_REGISTER may fail
-> with -EINVAL for valid memory areas that were successfully mapped
-> below mmap_min_addr even with appropriate capabilities.
+> Calvin reported an odd NMI watchdog lockup which claims that the CPU locked
+> up in user space. He provided a reproducer, which sets up a timerfd based
+> timer and then rearms it in a loop with an absolute expiry time of 1ns.
 > 
-> This prevents apps like binary compilers from using UFFD for valid memory
-> regions mapped by application.
+> As the expiry time is in the past, the timer ends up as the first expiring
+> timer in the per CPU hrtimer base and the clockevent device is programmed
+> with the minimum delta value. If the machine is fast enough, this ends up
+> in a endless loop of programming the delta value to the minimum value
+> defined by the clock event device, before the timer interrupt can fire,
+> which starves the interrupt and consequently triggers the lockup detector
+> because the hrtimer callback of the lockup mechanism is never invoked.
 > 
-> Replace the rigid mmap_min_addr check with security_mmap_addr() to align
-> userfaultfd with the standard kernel memory mapping security policy.
-> 
-> Signed-off-by: Denis M. Karpov <komlomal@gmail.com>
-> 
-> ---
-> Initial RFC following the discussion on the [BUG] thread.
-> Link: https://lore.kernel.org/all/CADtiZd0tWysx5HMCUnOXfSHB7PXAuXg1Mh4eY_hUmH29S=sejg@mail.gmail.com/
-> ---
->  fs/userfaultfd.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/fs/userfaultfd.c b/fs/userfaultfd.c
-> index bdc84e521..dbfe5b2a0 100644
-> --- a/fs/userfaultfd.c
-> +++ b/fs/userfaultfd.c
-> @@ -1238,15 +1238,13 @@ static __always_inline int validate_unaligned_range(
->  		return -EINVAL;
->  	if (!len)
->  		return -EINVAL;
-> -	if (start < mmap_min_addr)
-> -		return -EINVAL;
->  	if (start >= task_size)
->  		return -EINVAL;
->  	if (len > task_size - start)
->  		return -EINVAL;
->  	if (start + len <= start)
->  		return -EINVAL;
-> -	return 0;
-> +	return security_mmap_addr(start);
+> As a first step to prevent this, avoid reprogramming the clock event device
+> when:
+>      - a forced minimum delta event is pending
+>      - the new expiry delta is less then or equal to the minimum delta
 
-Is this introducing an ABI change?
+with this patch now in the tip tree my QEMU/virtme-ng based machine
+fails to boot. The startup seems to freeze in:
+start_kernel() -> rest_init() -> schedule_preempt_disabled() -> schedule()
 
-The old code returned -EINVAL when start was below mmap_min_addr.
-The new code calls security_mmap_addr() which returns -EPERM when
-the caller lacks CAP_SYS_RAWIO. Existing userspace callers checking
-specifically for -EINVAL would see different behavior start is
-below mmap_min_addr.
+CONFIG_GENERIC_CLOCKEVENTS=y
+CONFIG_GENERIC_CLOCKEVENTS_BROADCAST=y
+CONFIG_GENERIC_CLOCKEVENTS_BROADCAST_IDLE=y
+CONFIG_GENERIC_CLOCKEVENTS_MIN_ADJUST=y
+CONFIG_HZ=1000
 
->  }
->  
->  static __always_inline int validate_range(struct mm_struct *mm,
-> -- 
-> 2.47.3
-> 
-> 
+CPU: i5-1135G7
+clock event device: lapic-deadline
+
+The clockevent device is still reprogrammed each millisecond,
+presumably for the tick.
+
+(...)
+
+
+Thomas
