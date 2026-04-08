@@ -1,117 +1,140 @@
-Received: from fhigh-b4-smtp.messagingengine.com (fhigh-b4-smtp.messagingengine.com [202.12.124.155])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED76C3191A5;
-	Wed,  8 Apr 2026 01:10:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 980821D5174;
+	Wed,  8 Apr 2026 02:35:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775610634; cv=none; b=KWWJXY3eQPLgprkakZPr8uvzQO5cmn+bhmrBvi451/JfVGDMWnPmhGnwlcx/tHKyyW6E8V8Sh8EGF64S0u5nU3p8SiK8W8PYVrm6Hg9HZjsWWX7hlzfwWal+VxinWquAgFmcJ2XJR+AYF2tfjXqdyv5zLzUK0Wsg0JUdT+w8HmE=
+	t=1775615757; cv=none; b=lRF3J+KNCX5n/7UXhF8qqK8UB1tzfqrm5lRztJ2FWZX9iAPA8oN33ThZU2XZLG6vckqbTjydkON6pnV/mXHGuKa97qXcqVfVUkUEjeEb8DFqnbo+V0z9du5rf6j25VBBT7G3xKIwAWLSzGDZLMg5FJ5exaf8SGsp08IghhDdGx0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775610634; c=relaxed/simple;
-	bh=X/vMTQg9Mg7optEV0JTWExto9WjwKniw/bC23pvy7pg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XEZg3Lw9jWXpIljpN9a5Tw7fom59BoNGsEcaHJ/VTv+ix9bQh/RRMtRHnb76YwB1vinXnaR8E/P84eFvnBmVEgzQR6mHXUeECRLu7f9kltB1Fxq76m8P+659kEvORhj/nSEmg0wgESZZAG2P7fke/3LHzsAh271AH1iSMJ787/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tyhicks.com; spf=pass smtp.mailfrom=tyhicks.com; dkim=pass (2048-bit key) header.d=tyhicks.com header.i=@tyhicks.com header.b=flCTnGJR; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=OJMvNuQx; arc=none smtp.client-ip=202.12.124.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tyhicks.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tyhicks.com
+	s=arc-20240116; t=1775615757; c=relaxed/simple;
+	bh=x+v/WG2GftoMBlJMi6E/znxkqCjwUXYr5lqBIrrZgxA=;
+	h=Date:From:To:Cc:Message-ID:Subject:Mime-Version:Content-Type; b=jKTl2ha6XNSVPm6iGgFIDY73oofWqN4ujGdfTM8WN2k6a4OzIcTyzvwuWpuTpjZyTe0aPxnH0k91jhPU4kq2QoBpCcyyaZD6fYpNOFe4yrldAf5rJ4NDbPGoHiN3LdYlcGFJWOCmFjf8H5IwNMxqqYo+jDsRB5CHf5n+x2zgh7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MjzcvJNT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tyhicks.com header.i=@tyhicks.com header.b="flCTnGJR";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="OJMvNuQx"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 157F77A0260;
-	Tue,  7 Apr 2026 21:10:32 -0400 (EDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MjzcvJNT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07D6EC116C6;
+	Wed,  8 Apr 2026 02:35:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775615757;
+	bh=x+v/WG2GftoMBlJMi6E/znxkqCjwUXYr5lqBIrrZgxA=;
+	h=Date:From:To:Cc:Subject:From;
+	b=MjzcvJNTGtX2eAUAX4l1OvT7c6/mxer5VUVKy4XqYDi1n6OhdY6iUMOcMRJUvb8UC
+	 U0IFo0atnAaiNcnHd2ddDMoaQHr5PQN4dIXd7OXLMUzakIW/+qDIh3dx5vLXhL4gL6
+	 H0fKXUSM/W/2efB56PzSRWVPlQ6Tywx88U0h9iZKsq+Z8S0T4OEoPfk/TRRC9uOL0w
+	 1e20Xgb2x52zfuLTT/NCywruEWmGkc9aSkirDECimhPsB1LbesJqfUcznFTvMMVfVd
+	 7IzuP6ULCrjV8vRjd0nNunvYIAb4m/EnW3hVEGhyEvveCg1CDCX3UOgyuJ+PcNPy1W
+	 dZz+2CNDObw4g==
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 327E3F40069;
+	Tue,  7 Apr 2026 22:35:56 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Tue, 07 Apr 2026 21:10:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tyhicks.com; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1775610631; x=1775697031; bh=XwjmQG1Z6q
-	2YIpUddDTDKCwUA8dhQbQ+9xl0vnD4fmA=; b=flCTnGJRBjNc+p3V/SyD2ZUWkN
-	Fxnu6sGSMj3FsCVYCv5sA7kJcUni3xz7p0awTndmwZzy6qCf6Pyom5uSpldNj53l
-	NcJ65vOXz2ew6gfFhm2FryRqGLufCgufHpuWyXgIbcHjXY1b/MHoDjcjb0E1xxr7
-	iADVDHhg8BnbfRF9LiDcgxzZwKP4UjoIoOgx8n5TUWiK9cgpCDE4xG10j+FVn8/V
-	0kTWfOT6vgpw8iAY3peuLnUqH7JygpR/LgQ4E5kt5DHhQb3VPQWpllSuGIiSfwd8
-	VVVbP79F2Ews/H4fbLGtF5xOkvD9OLGsJ6BeCvVDGAs7Usd0NY1jF3+sRObg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1775610631; x=1775697031; bh=XwjmQG1Z6q2YIpUddDTDKCwUA8dhQbQ+9xl
-	0vnD4fmA=; b=OJMvNuQxQdgGd4hnFFnnSGozLGfWAzfLwTFVVSmE3fELI0AhiWb
-	FiCzbk8v8GNZqtXT7GQo6Wm1Vc/N4a08zY+gI4zUK26mWc5xRZXmsfDG7iV8x1A/
-	ngBrRUVLY2Vayj9G3ZiHDw0jHAd+FPIV3ziy6MxrDjIkyKwRz4hd4HVewXsXVn/E
-	ADa57Do4t6GH7onNwCqkMs5idVoml7yNVKW7Yd13unw7n6IneVi92kFTPgjJGbWy
-	tobDmqVQMFGmW/sffbTyopk1bxG4pKkaz6KfIAOPR7+b+n/y8rGnuadDEdzQ3YaB
-	EV9p/eN/pWZfC/1x99Psf5eYi1Bos3iFuGA==
-X-ME-Sender: <xms:B6vVaZZJm1Z6aEPhRDDiiw7a4e-MRvgpLawS6nOfOpkOq_0wCdXrqQ>
-    <xme:B6vVaYKcTTe-R8MxMeRZfaIpq9sJdG2AvjynEL7JLxlS9vSSuU4aiZ_95LCuojXbZ
-    9V5-QJYQCz7TXicwOqWJTzoqd2Atks-l2xjL3zn8vzyvzM5EKv0ym8>
-X-ME-Received: <xmr:B6vVafDq4bTM13Lm7JqvGhb4jOGaGr4JP2XQ9eEUf1OTYhMAFjXIuMg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddvvddulecutefuodetggdotefrod
+  by phl-compute-03.internal (MEProxy); Tue, 07 Apr 2026 22:35:56 -0400
+X-ME-Sender: <xms:DL_VaSAZZAV53uxjsRoP8ApXqKPTHg7KaBhB7ifUm8g8fwFadW9NrA>
+    <xme:DL_VaX_AR3Is1-h9xH8WUeuJcRC38pgF90y0A6m3yM7MpjDZARyngo-u9S3wPZIUJ
+    4o2uNUJ3XyzvWXOV7ZIRoTYYLs56H9p8vJ4Izg_7XLDsypywO4IZt-R>
+X-ME-Received: <xmr:DL_VaZEjfj4Ec1nGc6wYr8-0FSY_nr59Sbmj-g9KVnDM8g4QhUw4u2vAuTLe_YPrMBG6hOJEjQ11pfQsEQoj6sOtMtHkbSh7dLU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddvvdefkecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefvhihlvghrucfj
-    ihgtkhhsuceotghouggvsehthihhihgtkhhsrdgtohhmqeenucggtffrrghtthgvrhhnpe
-    etfeffjefgudekleduleeljeevtdfhvdefhfejhfehgffhtddvueellefhgfelheenucff
-    ohhmrghinhepihhnfhhrrgguvggrugdrohhrghenucevlhhushhtvghrufhiiigvpedtne
-    curfgrrhgrmhepmhgrihhlfhhrohhmpegtohguvgesthihhhhitghkshdrtghomhdpnhgs
-    pghrtghpthhtohepfedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohephhgthhesih
-    hnfhhrrgguvggrugdrohhrghdprhgtphhtthhopegvtghrhihpthhfshesvhhgvghrrdhk
-    vghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgvrh
-    drkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:B6vVaVopFr3CNV2LKVh0L3kJtxZqu7dIOR-MkAI0nkD5s3GYtvvSbw>
-    <xmx:B6vVaSiBYQQqYUNAEMl7KynMDms5yvXXadFIRxuIiozh0jaIzaSj-g>
-    <xmx:B6vVaaCunJsacfnd_Hs4Bmg_vrNMPjV2WZ_U0iPHo8MIDro8ZltrlA>
-    <xmx:B6vVafEnBDBp4B1brQsuZJlw4l9aHyNFx0pycMM-wtcofNZg4yLdLw>
-    <xmx:B6vVaRdYYLm4WKOw2UIALAP7F93vy1eLIcNNEycHKA5i-kVZPAt7jnQt>
-Feedback-ID: i78e14604:Fastmail
+    ihhlohhuthemuceftddtnecunecujfgurhepfffhvfevkffugggtgfesthejredttddtje
+    enucfhrhhomhepffgrnhcuhghilhhlihgrmhhsuceoughjsgifsehkvghrnhgvlhdrohhr
+    gheqnecuggftrfgrthhtvghrnheptdfhtefhheekffekueetkeeuteelieffteetieegje
+    evueevveefledugfefhfefnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhu
+    shhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegujhgsfidomhgvsh
+    hmthhprghuthhhphgvrhhsohhnrghlihhthidqudejjedvfedtgeehhedqfeeffeelgedt
+    geejqdgujhgsfieppehkvghrnhgvlhdrohhrghesfhgrshhtmhgrihhlrdgtohhmpdhnsg
+    gprhgtphhtthhopeegpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehlshhfqdhp
+    tgeslhhishhtshdrlhhinhhugidqfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtoh
+    eplhhinhhugidqtgiglhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehl
+    ihhnuhigqdhmmheskhhvrggtkhdrohhrghdprhgtphhtthhopehlihhnuhigqdhfshguvg
+    hvvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:DL_VaVNRgpJOjWjXP8hbzVv3ecxHhcj4jkmX_hhlkwFAzGQIjjZfkA>
+    <xmx:DL_VaTfFIwx3t5CasfjAMCpUsgvnb2MJXQ08a8_8Zi6o0Kvwehm6ZQ>
+    <xmx:DL_VaauMv1Ry1BCjazIFh2eT6bby-rGeKEz16WKt5x9_EdDmbhHhmw>
+    <xmx:DL_VaclDqlrxZWas45yv3xXH0aT9QZzYkg-JK7QuPGinkIOshHG8Jg>
+    <xmx:DL_VaUzMrWI9WaBAGB14TgJZjrS71Tos5c9nOdNlAxbfV_njFljK-y-o>
+Feedback-ID: i67ae4b3e:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 7 Apr 2026 21:10:30 -0400 (EDT)
-Date: Tue, 7 Apr 2026 20:10:29 -0500
-From: Tyler Hicks <code@tyhicks.com>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: ecryptfs@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: cleanup truncate handling in ecryptfs v2
-Message-ID: <adWrBVPMUj0otxi_@yaupon>
-References: <20260407140329.633186-1-hch@lst.de>
- <adUZs-oTFj5t1Lnh@infradead.org>
+ 7 Apr 2026 22:35:55 -0400 (EDT)
+Date: Tue, 07 Apr 2026 19:35:54 -0700
+From: Dan Williams <djbw@kernel.org>
+To: lsf-pc@lists.linux-foundation.org
+Cc: linux-cxl@vger.kernel.org, 
+ linux-mm@kvack.org, 
+ linux-fsdevel@vger.kernel.org
+Message-ID: <69d5bf0ab2210_2b3110036@djbw-dev.notmuch>
+Subject: [LSF/MM/BPF TOPIC] What's brewing in CXL?
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <adUZs-oTFj5t1Lnh@infradead.org>
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-On 2026-04-07 07:50:27, Christoph Hellwig wrote:
-> On Tue, Apr 07, 2026 at 04:02:36PM +0200, Christoph Hellwig wrote:
-> > Hi Tyler,
-> > 
-> > this series cleans up the truncate handling in ecryptfs.  I did
-> > it as preparation for some changes into size changing truncate
-> > VFS interfaces I'm looking into in the moment.  The changes have
-> > passed the regression test suite in the userspace ecryptfs
-> > repository and against the ecryptfs next branch.
-> 
-> So right after I posted this I came up with an idea how to better
-> pass arguments to the low-level truncate helper as the size + lower_ia
-> kept irking me.  The branch here:
-> 
-> https://git.infradead.org/?p=users/hch/misc.git;a=shortlog;h=refs/heads/ecryptfs-truncate
-> 
-> simply only passed the upper ia, which feels a lot cleaner.  It passes
-> the ecryptfs test suite, but otherwise is hot off the press.  If you
-> like the new version I'll send it out tomorrow.
-> 
+For the summit I offered to organize a discussion on what has been
+happening in CXL since Plumbers and a summary of the monthly CXL calls
+since. The session goal is present top challenges, address concerns /
+questions from the room, and perhaps introduce the CXL topics that have
+their own session later in the day.
 
-Yep, that's the right thing to do. Thanks for give it more thought.
+Please do comment, question, ack/nak, or add to the themes below to
+highlight interest and help focus on the few topics we can cover in the
+limited time.
 
-I only had time to do a diff between v1 and this branch. The code
-changes look good. One tiny typo in a code comment:
+* CXL vs MM:
 
-s/file systen/file system/
+  * Much of the angst of "CXL vs MM" has been harnessed by Gregory in
+    his Private Memory Nodes proposal [1]. The meta discussion for this
+    session would be questions like "how many former device-dax use cases
+    can be subsumed by a mechanism like this?". In general, the game here is
+    how to properly isolate memory that does not behave like locally
+    attached DRAM.
 
-Tyler
+  * The granularity of CXL hotplug vs memory_blocks vs various
+    distribution hotplug policies stimulated a proposal to support full
+    "region" hotplug [2].
+ 
+* CXL vs Platform Firmware (ACPI/EFI/BIOS):
+
+  * Attempts to use software interleaving to amortize the surprise of
+    "memory that does not behave like locally attached DRAM", introduce
+    firmware dependencies. The firmware descriptions of the performance need
+    to be complete and match a shared understanding of the requirements.
+    Surprise, sometimes this does not line up. [3].
+
+  * Firmware, in trying to be helpful to pre-CXL aware OSes, pre-map CXL
+    memory (whether public generic expansion or private belonging to an
+    accelerator) into the system address map. This causes problems for a
+    subsystem that wants to support hot remove and re-assignment of
+    host-bridge resources. Lack of a specified protocol and the resulting
+    problems it causes for accelerator reset and driver reload, need more
+    thought.
+ 
+* CXL vs PCI:
+
+  * While CXL capabilities are enumerated over PCI, to software it is an
+    additional optional protocol. The subsystem supports being built as a
+    module. This has led to a design for error handling that sees the PCI
+    core minimally involved to forward events over kfifo. This arrangement
+    is raising ongoing questions for uAPI like PCI reset and vfio_pci
+    that expect to be able to manage device with PCI core services alone
+    [4].
+
+* CXL vs Tooling / RAS:
+
+  * Error injection, tests, and usability have continued to improve. For
+    folks looking to deploy CXL in production what is cxl-cli missing?
+
+  * While CXL Error isolation has a hard time justifying its utility for
+    general purpose memory expansion, the accelerator use case at least
+    has a reasonable chance to construct a recoverable scenario.
+
+[1]: https://lore.kernel.org/linux-cxl/abwRu1FNqI3dVyqL@gourry-fedora-PF4VCD3F/
+[2]: https://lore.kernel.org/linux-cxl/20260321150404.3288786-6-gourry@gourry.net/
+[3]: http://lore.kernel.org/20260316051258.246-1-rakie.kim@sk.com
+[4]: http://lore.kernel.org/20260401143917.108413-1-mhonap@nvidia.com
+
+"CXL, making MM problems worse since 2021..." -- CXL subsystem tagline
