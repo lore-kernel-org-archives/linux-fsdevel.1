@@ -1,56 +1,52 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 967B517A309;
-	Wed,  8 Apr 2026 12:41:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B949E3CF05F
+	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Apr 2026 13:34:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775652083; cv=none; b=uURpJnWTdostMKvHT8cGbvlbvQoRjxKDfDjwWAZ9PSPrxDzkx3PomRTkmExD9u4jPg7VRsJR1kOvbiXlQ6tjXYO3oMDEtnVMJhoqyXecFMw6smt5W5TSbVdTpsZh9WQpYNICSuuaDZUhWdbrywsBpvCRHsFJEimvNetIvuSY43M=
+	t=1775655297; cv=none; b=E3lCuiYKztXNCwR3SOYqHTJgibg+8hXhFmXWIRq3MeLnSO9BEJMKG4BiRNbZopKxYKkWIdiGoaU51axPKhueRqNhEFCQFdM2ew8s0ua8Evjmzi7kjIe2Ddw1aguXnu7CZ0POwmPdmeG5cXHkIUrToBimM5mcMEbvwsr5mxp7/6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775652083; c=relaxed/simple;
-	bh=XXbT5wATVXm4JD/GqE3qctRgdVlK+QcWdXInoVA0dEw=;
+	s=arc-20240116; t=1775655297; c=relaxed/simple;
+	bh=9FqZTEv6cRlunSY6LUjBbULCRnJZTygZkqDpHHAEoTw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F6fTby33+P595p9QCzspHRj+/2c3j4fNCrXOYe30Alf5Y1GSAt6wEYmGZPPvxuFv6kSi/6p0Bu7kZRtayq6EJJzeFhY0WVbg+zVKmoQVYRDldeuHdkn+baZiQTcK8TTpNlgMlpViPCTW18wXoZJW7QzqHnMODm9dPlsllrR3c1s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=1n91fiiJ; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=g7JLpCYf; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=au0rFuv2JLAyPDgCytnYjfbK+VkIeKaOZqJYMoF7Wiw6w9QBqnzT3Edo+z+VbD2uQnkg/gRMOByhe8BCpxBdzqArv92S/9jG4wCDx0Tnnm4jKvKAU5loZN73q89JnwCnE7FMpjkTfj0Z5KAP/n/DqEjTeR0mkG0Dbu69FMaJAQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=oTJMFx5s; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="1n91fiiJ";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="g7JLpCYf"
-Date: Wed, 8 Apr 2026 14:41:18 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1775652080;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hjtFJLsP9NFWdv21cGYCI8ngeEXhsnmB0domogAqwu8=;
-	b=1n91fiiJpKrIK1G6+LKIjYUoFteRmu8RoRSCKHQyX+K8QWongS2ErrP6DsXsqtx+RuWdId
-	z2R4St5cbfTmc1U+OsVkDrucJJP796PanwJlVtgL7zBZqjZ0/7vgCL1fQMcsHCRVp8PNP7
-	QBUs7oxAPhlSqzlpamhaWnm7vo0X52YAWTF0Q0ggvAJLAu5F8uGZ4pQmtvp1mewnCpsOAS
-	QETiwcAXi70/a5puQXgYELHxFVTvmaE8GMuAw0sBqn7FkQ9Fa9vOdbFra4azb1SyBYwybf
-	SvDcTXxpDdtNiGVnoQpQ/xEAFYVqNzBzwfS40PsjA7HwufoveiqHzZ8RPrRm0Q==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1775652080;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hjtFJLsP9NFWdv21cGYCI8ngeEXhsnmB0domogAqwu8=;
-	b=g7JLpCYf2VmRPHNYq91fqb0Gi3QAksbyIzlI905BFuId/PaFxj9z7u1L8THQw7Y5ovLP5n
-	rvymZ7LueNwJiODA==
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-To: Thomas Gleixner <tglx@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, Calvin Owens <calvin@wbinvd.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Anna-Maria Behnsen <anna-maria@linutronix.de>, 
-	Frederic Weisbecker <frederic@kernel.org>, Ingo Molnar <mingo@kernel.org>, John Stultz <jstultz@google.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	Sebastian Reichel <sre@kernel.org>, linux-pm@vger.kernel.org, 
-	Pablo Neira Ayuso <pablo@netfilter.org>, Florian Westphal <fw@strlen.de>, Phil Sutter <phil@nwl.cc>, 
-	netfilter-devel@vger.kernel.org, coreteam@netfilter.org
-Subject: Re: [patch 01/12] clockevents: Prevent timer interrupt starvation
-Message-ID: <20260408143313-ac6c3b82-70e6-4ce3-b33a-20f5e6ba160b@linutronix.de>
-References: <20260407083219.478203185@kernel.org>
- <20260407083247.562657657@kernel.org>
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="oTJMFx5s"
+Received: from macsyma.thunk.org (pool-173-48-116-90.bstnma.fios.verizon.net [173.48.116.90])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 638DYO0v000915
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 8 Apr 2026 09:34:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1775655267; bh=kAKSOT8KUNZdHSOe3MjpGwiByod+BmerxcJbt5nx18w=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=oTJMFx5s1b0Rp3E0AQZej8+CIGNnfPMY12FD1SdnZZbKSADmF28tVYt6ZXnqGCVyP
+	 qLyqNwIfuZvw5MyoFMGfIbBDL4jXVo9uU5nk4/+gMlpI5ZSVbwlp1qwmAoujiiWbW7
+	 9KqtkuZhkdB0pifoV/tLOO/dkGMYPSBlP5bJHU45zzYxP6BSogyaZwYTBbxd716JBd
+	 rYzNkkRcFhQfDHaEGyymE8c5bbz/EX5RQHZu1vG31yLB/9AAH0I37I6iohknrZAg60
+	 Vzv/mkDecM58Es0nBTfG64rNRBD9xLYwrRWwEzzY8s0OzqQbU4ubBCOj1L1HXjGjIS
+	 2gDXelc9JoWIA==
+Received: by macsyma.thunk.org (Postfix, from userid 15806)
+	id 4D38262428C4; Wed,  8 Apr 2026 09:33:24 -0400 (EDT)
+Date: Wed, 8 Apr 2026 09:33:24 -0400
+From: "Theodore Tso" <tytso@mit.edu>
+To: Sean Smith <defendthedisabled@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+        linux-btrfs@vger.kernel.org, dsterba@suse.com, david@fromorbit.com,
+        brauner@kernel.org, osandov@osandov.com, almaz@kernel.org,
+        hirofumi@mail.parknet.co.jp, linkinjeon@kernel.org
+Subject: Re: [RFC PATCH v1 0/6] provenance_time (ptime): a new settable
+ timestamp for cross-filesystem provenance
+Message-ID: <20260408133324.GA18443@macsyma-wired.lan>
+References: <20260405225442.GA1763@macsyma-wired.lan>
+ <20260407000558.417-1-DefendTheDisabled@gmail.com>
+ <20260407233618.GB12536@macsyma-wired.lan>
+ <92e61267-eb24-4f94-b9a1-e009b5e00d65@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -59,47 +55,63 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260407083247.562657657@kernel.org>
+In-Reply-To: <92e61267-eb24-4f94-b9a1-e009b5e00d65@gmail.com>
 
-Hi Thomas,
+On Tue, Apr 07, 2026 at 09:54:17PM -0500, Sean Smith wrote:
+> Finding an alternative to using rename() to transfer ptime between
+> inodes during atomic saves seems beyond the scope of what I can address
+> as someone who relies upon AI agents to review and modify code....
+>
+> It also doesn't solve the immediate needs of increasing number of users
+> who are trying to ditch Windows for Linux. Windows 11 has pushed one too
+> many people too far, and they, like me, have had enough.
 
-On Tue, Apr 07, 2026 at 10:54:17AM +0200, Thomas Gleixner wrote:
-> From: Thomas Gleixner <tglx@kernel.org>
-> 
-> Calvin reported an odd NMI watchdog lockup which claims that the CPU locked
-> up in user space. He provided a reproducer, which sets up a timerfd based
-> timer and then rearms it in a loop with an absolute expiry time of 1ns.
-> 
-> As the expiry time is in the past, the timer ends up as the first expiring
-> timer in the per CPU hrtimer base and the clockevent device is programmed
-> with the minimum delta value. If the machine is fast enough, this ends up
-> in a endless loop of programming the delta value to the minimum value
-> defined by the clock event device, before the timer interrupt can fire,
-> which starves the interrupt and consequently triggers the lockup detector
-> because the hrtimer callback of the lockup mechanism is never invoked.
-> 
-> As a first step to prevent this, avoid reprogramming the clock event device
-> when:
->      - a forced minimum delta event is pending
->      - the new expiry delta is less then or equal to the minimum delta
+I understand that you have one goal which seems more important than
+anything else (to you).  But consider what might happen if you ask an
+AI, "How can we solve the paper clip shortage problem?", or "How do we
+carry out regime change in Iran?"  AI models which don't consider
+secord order effects (or used by people who have different priorities
+than others) can result in... suboptimal results.
 
-with this patch now in the tip tree my QEMU/virtme-ng based machine
-fails to boot. The startup seems to freeze in:
-start_kernel() -> rest_init() -> schedule_preempt_disabled() -> schedule()
+And this is why it's important why it's important to have humans in
+the loop instead of blindly trusting AI models.
 
-CONFIG_GENERIC_CLOCKEVENTS=y
-CONFIG_GENERIC_CLOCKEVENTS_BROADCAST=y
-CONFIG_GENERIC_CLOCKEVENTS_BROADCAST_IDLE=y
-CONFIG_GENERIC_CLOCKEVENTS_MIN_ADJUST=y
-CONFIG_HZ=1000
+I'd also suggest that you consider the value of patience.  Linux is 35
+years old as of this writing.  One of the reasons why Linux has stuck
+around this long is because we take the long view.  Sure, it might
+take longer to shift the ecosystem to use some new interface or new
+feature; but everyone will have to live with muddled interface
+semantics *forever*.
 
-CPU: i5-1135G7
-clock event device: lapic-deadline
+> The need for ptime is very real....
 
-The clockevent device is still reprogrammed each millisecond,
-presumably for the tick.
+It's important for *you*.  But the vast majority of Linux users are
+not Windows refugees.  (Ask your AI models to explain the significance
+of the phrase, "This is the year of the Linux Desktop".)  Even for
+Windows users, it is not all clear that Windows-style File Creation
+time is that important for those users.  MacOS doesn't have this
+Windows-style timestamp support, and it hasn't stopped many users from
+switching from Windows to MacOS.
 
-(...)
+> ... and the code in my patch gets the job done...
 
+But it doesn't.  Bastardizing the semantics of the rename interface
+doesn't completely solve the problem you've articulated.  In
+particular, all of the userspace programs which need to create new
+files --- tar file extraction, unzip, file copying, etc., still need
+to be changed.
 
-Thomas
+This will require changing userspace applications.  So why not use
+that approach to address your problem statement?
+
+> I can patch every application I use which is open-source, or I can patch
+> the kernel. Rational analysis requires that I patch the kernel.
+
+That's certainly your perogative, and that's the beauty of Open
+Source.  You're free to patch the software that you use on your
+system.
+
+Cheers,
+
+						- Ted
+
