@@ -1,104 +1,215 @@
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-10628.protonmail.ch (mail-10628.protonmail.ch [79.135.106.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32B7A394478
-	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Apr 2026 21:56:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77C5B36BCDA;
+	Wed,  8 Apr 2026 21:56:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775685375; cv=none; b=p3AUyywsoSkixoLMSXBK06QFHJflkZpq8/808rJq/OMFnRDd+0D94R8fH17gnLQtojGPYUsoLtMfyYgN0kfIWP6waJ+90ukTfkR38vr755S5S0HxkzuobH+yeWqsdIxiJ8BuLVecAZQudr2n5bop8ctkx+pbDjFZVqE0Mi4mSiw=
+	t=1775685377; cv=none; b=fy9iQCW6LrYxQKQb4ik4gOk0T0zoZ/4q+PzQB0qd2Ujy4IC3QeOQ4O9VPT2kMMKLmJoX/8t0Gx/UloN1WkOZkOA7DQnHtSLKCm0GKJV5Skiqp62dnl5alWKmbrNMPVrmh6+r4gRQEkNosclDQRZcNlwCvkTODEz+MRw9TMaQ9gM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775685375; c=relaxed/simple;
-	bh=m/RIsCZ6L9sAmGDRZI2YbyVGhDO+TzeVpIUyc9KH1Pw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UxwKncmAF7Yl55ZJFRfucOnl0SmvHn7+C6xR+O1nok0xjJ56YYiJqz3GXb1cRQt1KSKqzkyPFqdts9YksF1Yz8eo7HQ+TWFn6++fJgzveQg9FZKwU5suqOEOKWIDfLwff+cvn5hob61dQSagIVwlok98IBpGvFq6rUsyj7YCn0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=WbZlpVdA; arc=none smtp.client-ip=209.85.219.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1775685377; c=relaxed/simple;
+	bh=6hDRpod53Jd2kFovWttDWdYRa5oYg1i5i69+TgRD2lw=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rvq0ldR6s6hMZxoGNd+7TOVcAa1cpNp6UCVKa8F+msNOUlfNpdhzX2RqQ+ToBnCcdrNqh5skPDYJOpqEjvW8KTULqL8AVX/YJ41o37ztvAbv+ZtjCHDQzQ/VUq3Gvx2M5pCzHltqO2ojb9l/8mzQRdZ2Wnkqozjn4JQUD2Xh6tM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.ch; spf=pass smtp.mailfrom=protonmail.ch; dkim=pass (2048-bit key) header.d=protonmail.ch header.i=@protonmail.ch header.b=h5EMzqzm; arc=none smtp.client-ip=79.135.106.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="WbZlpVdA"
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-89f1e767f92so2279366d6.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 08 Apr 2026 14:56:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1775685373; x=1776290173; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qndnJttoApFXUO2POEtVDoUfAMGPbRgoP3C1nGgpeNw=;
-        b=WbZlpVdAVg4/a8k/okNew88UBd78k8vdw7AVRhZqFjKtpHP6glg9FH8DkicHFEBmmF
-         2nYUR1Q73PV4hpYYaPyu9h54xWwfDieHsPxL/R0T1L+6Em4TvpLU6kbf9T+9L3dAURQP
-         0eu7WL7hcsvgCIYmUefP/zQ/QokOisRWbeJkVWgICBCNaL8PsB2kFpDnTFcHCLXnUfr+
-         byqTf/u0Nl+G09hdRbyXNH3zB8q20LOqdLmMycWdyOBvWiFX2aMR8InXpkEI8Oiwbwc6
-         BiipGUfAJGI48xk24nwOgZBkAlREFXVtEqVCXBcrSohYiyzEW7Siqp3qZPTQUnT/mrae
-         hCyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775685373; x=1776290173;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qndnJttoApFXUO2POEtVDoUfAMGPbRgoP3C1nGgpeNw=;
-        b=r7JrZUvrIOWl4LXcRxCNOfahIDKVFohI9s8Np4jfRKznhhHUvl2ceU1magurRGg8Ve
-         T6Meer3AU1pQiPTIrulm7aiNACdBBYspSmHpGW9IQCHrbpIb6zRXDT4wURJKhpCr6jc6
-         7UKmSzwM2L2V2+dfJ761gVNlmqNHQqffdUf5gAQbP3VNpnNEVzXvdzfHTZYtchAPdpnB
-         Y5bbdsyxI6xaBBvDTv6+Y3JW5AzGrhHiOETOLMuLrBz9J4tXUMYP9z4MmNDfqPpkKMLM
-         PoQk84Q9B1EJIenN9YN0q6elW0ZUrpsP9J21S6Ao8A+5fpkyz1aIgoJx1ude4+TPFZ4w
-         CLtg==
-X-Forwarded-Encrypted: i=1; AJvYcCWMeKPipTqS8axC2ufU+nBvQ9fZynYe+pOLd9KL3Bs3ylUEhA4NF7JIjiMe23ICa8+JPVzukSc5tfcmNgDZ@vger.kernel.org
-X-Gm-Message-State: AOJu0YyB53Ob+c264tGOfTjq3R0YwlKpdSoYVh7maU9Ea3heLXsmKUKy
-	YhzZmtXjdNIgvHRnSna0F6KH4G10Ol/puLWWH3Q/Usf5mXRMYb8iPlQoZPrBDxR8FJoeP/PuFKh
-	0FMEw
-X-Gm-Gg: AeBDieu1Gj6VG86tcSwDKHjxnfqLPW3wwax6F0WJYxToOw92cMwbwqnQVeFf/d/ohfz
-	5yKJTwn2ckR8VTRrN8jFZi6PewwyhKs4mKyzpaT01rRMtOV4hwaJKQUh4Qfga3PVqBVMWpS8F/q
-	E9y0quRL3YN4sylDc2hxgc2vQ3zzNOjKsy4vpBAkRozQ/OemCAB0n4bLfwRfDBffDPI+YQv8PNa
-	K5hLkc91+aO4FI4KizTWtBFuj4EmNhTw/bYt0iBxlChZH8e3LwIZx6x/Hj6ljKd+b5PB+CdfKPU
-	gJQh2lP8X/2ZAivJyK28p4SoMDjPNd5b7laNvmmw242nbT0I94uwlRdsQGYtaw77V+xfT5G/4Bj
-	yb+sZaI8xWkTPC1rycjEjyfv8dg0iUJdGs3PMilRp4yG9xWezz117TaaexdQJcYkxXieaZvET4R
-	nLKGGAhR19/eeaJj9QmQhyeqP7jvpiaVRP4C7J6IqybQnYo6D4kiSAmvAfiijM3E+LteCOLLeKD
-	lrzlg5Xx9bF
-X-Received: by 2002:a05:620a:1a11:b0:8cf:d565:fca4 with SMTP id af79cd13be357-8d41b8df4ecmr3283687885a.3.1775685373060;
-        Wed, 08 Apr 2026 14:56:13 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-71-191-243-150.washdc.fios.verizon.net. [71.191.243.150])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8d2a5392d35sm1601280185a.10.2026.04.08.14.56.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Apr 2026 14:56:12 -0700 (PDT)
-Date: Wed, 8 Apr 2026 17:56:10 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Dan Williams <djbw@kernel.org>
-Cc: lsf-pc@lists.linux-foundation.org, linux-cxl@vger.kernel.org,
-	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [LSF/MM/BPF TOPIC] What's brewing in CXL?
-Message-ID: <adbO-tqwA_MJ1NHW@gourry-fedora-PF4VCD3F>
-References: <69d5bf0ab2210_2b3110036@djbw-dev.notmuch>
+	dkim=pass (2048-bit key) header.d=protonmail.ch header.i=@protonmail.ch header.b="h5EMzqzm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.ch;
+	s=protonmail3; t=1775685367; x=1775944567;
+	bh=eE7rO8vGXKlTxFRp9tVSgGlMcbnF2oLr5fZC0HBvncQ=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=h5EMzqzm+vHWSD7RcbyPuWpzfHOOkzy+VR3k7Rk44QEXxX4dNR5+r8pOc6yZ2g+8i
+	 Q/9WoFaq8gYqC/AN6cDzmY9pCPU1b6hW074GwSIYeO8/AGH+H6M1yKELl7nyioWX0a
+	 OawasFmSTBYH9wxftyQaoJ4kAZMjGypTUa5YLYarhND8PBos7z3As7ft2r8dY0Aa9v
+	 4fIcbyBP/d2W0XHjzvkyKLkLFMTlJbkvdy6kwabd25mEeHJ/F3PLSZyIxzjWJzgw2o
+	 V5ISbqCzqFX+Ti1PT523ogdudPMk5XWXIHj0VWzv0JksPP7YEtusK8y7crnR9rCXap
+	 wKNEEFat4jNRw==
+Date: Wed, 08 Apr 2026 21:56:03 +0000
+To: rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+From: Christian Benton <t1bur0n.kernel.org@protonmail.ch>
+Cc: aliceryhl@google.com, ojeda@kernel.org, boqun@kernel.org, gary@garyguo.net, bjorn3_gh@protonmail.com, lossin@kernel.org, a.hindborg@kernel.org, tmgross@umich.edu, dakr@kernel.org, viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, Christian Benton <t1bur0n.kernel.org@protonmail.ch>
+Subject: [PATCH v2 1/1] rust: seq_file: add puts, putc, write, and hex_dump methods
+Message-ID: <20260408215530.446994-2-t1bur0n.kernel.org@protonmail.ch>
+In-Reply-To: <20260408215530.446994-1-t1bur0n.kernel.org@protonmail.ch>
+References: <20260408215530.446994-1-t1bur0n.kernel.org@protonmail.ch>
+Feedback-ID: 190658113:user:proton
+X-Pm-Message-ID: eeb47319860faf4aff1c3093248d6234b24dc838
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <69d5bf0ab2210_2b3110036@djbw-dev.notmuch>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 07, 2026 at 07:35:54PM -0700, Dan Williams wrote:
-> For the summit I offered to organize a discussion on what has been
-> happening in CXL since Plumbers and a summary of the monthly CXL calls
-> since. The session goal is present top challenges, address concerns /
-> questions from the room, and perhaps introduce the CXL topics that have
-> their own session later in the day.
-> 
-> Please do comment, question, ack/nak, or add to the themes below to
-> highlight interest and help focus on the few topics we can cover in the
-> limited time.
-> 
-... snip ...
-> 
-> "CXL, making MM problems worse since 2021..." -- CXL subsystem tagline
+The SeqFile abstraction currently only exposes seq_printf via the
+seq_print! macro. This leaves several commonly used seq_file operations
+unavailable to Rust kernel code.
 
-Acked-By: Gregory Price <gourry@gourry.net>
+Add the following methods to SeqFile:
 
-;P
+- puts(): writes a C string using __seq_puts()
+- putc(): writes a single byte using seq_putc()
+- write(): writes raw bytes using seq_write()
+- hex_dump(): dumps binary data as formatted hex using seq_hex_dump()
 
-Obviously I have interest in this space, and the private nodes
-discussion is semi-orthogonal as I have been applying it to non-cxl use
-cases - but i do think the framing of it replacing some DAX patterns is
-a decent one.
+Also add HexDumpPrefix, a Rust enum wrapping the DUMP_PREFIX_NONE,
+DUMP_PREFIX_ADDRESS, and DUMP_PREFIX_OFFSET constants, replacing the
+raw integer interface with a type-safe alternative that makes invalid
+prefix values unrepresentable.
 
-~Gregory
+The motivation for this patch is to support Rust character device drivers
+that expose data as formatted output through the seq_file interface. The
+amdtelem out-of-tree driver is a concrete example =E2=80=94 it registers a =
+misc
+character device that exposes GPU telemetry data, where puts() and
+hex_dump() provide cleaner alternatives to repeated seq_print! calls for
+string labels and binary register dumps.
+
+v2: Fix build issues reported by kernel test robot
+  - Reformat use statement to satisfy rustfmt line length requirement
+  - Rename as_c_int() to to_c_int() to satisfy clippy wrong_self_convention
+  - Replace rowsize/groupsize as-casts with ffi::c_int::from() to satisfy
+    clippy cast_lossless lint
+
+Signed-off-by: Christian Benton <t1bur0n.kernel.org@protonmail.ch>
+---
+ rust/kernel/seq_file.rs | 87 ++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 86 insertions(+), 1 deletion(-)
+
+diff --git a/rust/kernel/seq_file.rs b/rust/kernel/seq_file.rs
+index 518265558d66..144bd6ef92d5 100644
+--- a/rust/kernel/seq_file.rs
++++ b/rust/kernel/seq_file.rs
+@@ -4,7 +4,9 @@
+ //!
+ //! C header: [`include/linux/seq_file.h`](srctree/include/linux/seq_file.=
+h)
+=20
+-use crate::{bindings, fmt, str::CStrExt as _, types::NotThreadSafe, types:=
+:Opaque};
++use crate::{
++    bindings, ffi, fmt, str::CStr, str::CStrExt as _, types::NotThreadSafe=
+, types::Opaque,
++};
+=20
+ /// A utility for generating the contents of a seq file.
+ #[repr(transparent)]
+@@ -13,6 +15,26 @@ pub struct SeqFile {
+     _not_send: NotThreadSafe,
+ }
+=20
++/// The prefix type for [`SeqFile::hex_dump`].
++pub enum HexDumpPrefix {
++    /// No prefix.
++    None,
++    /// Prefix with the memory address.
++    Address,
++    /// Prefix with the offset within the buffer.
++    Offset,
++}
++
++impl HexDumpPrefix {
++    fn to_c_int(self) -> ffi::c_int {
++        match self {
++            Self::None =3D> bindings::DUMP_PREFIX_NONE as ffi::c_int,
++            Self::Address =3D> bindings::DUMP_PREFIX_ADDRESS as ffi::c_int=
+,
++            Self::Offset =3D> bindings::DUMP_PREFIX_OFFSET as ffi::c_int,
++        }
++    }
++}
++
+ impl SeqFile {
+     /// Creates a new [`SeqFile`] from a raw pointer.
+     ///
+@@ -41,6 +63,69 @@ pub fn call_printf(&self, args: fmt::Arguments<'_>) {
+             );
+         }
+     }
++
++    /// Prints a C string to the seq file.
++    pub fn puts(&self, s: &CStr) {
++        // SAFETY: `self.inner.get()` is valid because `&self` guarantees =
+the
++        // `SeqFile` is alive and was properly initialized via `from_raw`.
++        // `s.as_char_ptr()` is valid because `CStr` is always a valid
++        // null-terminated C string.
++        unsafe { bindings::__seq_puts(self.inner.get(), s.as_char_ptr()) }
++    }
++
++    /// Prints a single char to the seq file.
++    pub fn putc(&self, c: u8) {
++        // SAFETY: `self.inner.get()` is valid because `&self`
++        // guarantees `SeqFile` is alive and was properly initialized via =
+`from_raw`
++        unsafe { bindings::seq_putc(self.inner.get(), c as ffi::c_char) }
++    }
++
++    /// Writes raw bytes to the seq file.
++    pub fn write(&self, data: &[u8]) {
++        // SAFETY: `self.inner.get()` is valid because `&self` guarantees =
+the
++        // `SeqFile` is alive and was properly initialized via `from_raw`.
++        // `data.as_ptr()` is valid and non-dangling because it comes from=
+ a
++        // `&[u8]`, which guarantees the memory is valid for `data.len()` =
+bytes
++        // and will not be modified during the call due to the shared refe=
+rence.
++        unsafe {
++            bindings::seq_write(
++                self.inner.get(),
++                data.as_ptr().cast::<ffi::c_void>(),
++                data.len(),
++            )
++        };
++    }
++
++    /// Prints a hex dump of `buf` to the seq file.
++    pub fn hex_dump(
++        &self,
++        prefix_str: &CStr,
++        prefix_type: HexDumpPrefix,
++        rowsize: u8,
++        groupsize: u8,
++        buf: &[u8],
++        ascii: bool,
++    ) {
++        // SAFETY: `self.inner.get()` is valid because `&self` guarantees =
+the
++        // `SeqFile` is alive and was properly initialized via `from_raw`.
++        // `prefix_str.as_char_ptr()` is valid because `CStr` is always a =
+valid
++        // null-terminated C string. `buf.as_ptr()` is valid and non-dangl=
+ing
++        // because it comes from a `&[u8]`, which guarantees the memory is=
+ valid
++        // for `buf.len()` bytes and will not be modified during the call =
+due to
++        // the shared reference.
++        unsafe {
++            bindings::seq_hex_dump(
++                self.inner.get(),
++                prefix_str.as_char_ptr(),
++                prefix_type.to_c_int(),
++                ffi::c_int::from(rowsize),
++                ffi::c_int::from(groupsize),
++                buf.as_ptr().cast::<ffi::c_void>(),
++                buf.len(),
++                ascii,
++            )
++        }
++    }
+ }
+=20
+ /// Write to a [`SeqFile`] with the ordinary Rust formatting syntax.
+--=20
+2.53.0
+
+
