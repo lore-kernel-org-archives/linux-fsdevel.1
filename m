@@ -1,175 +1,401 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp-bc08.mail.infomaniak.ch (smtp-bc08.mail.infomaniak.ch [45.157.188.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51F132F3C3E;
-	Wed,  8 Apr 2026 13:59:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ACCC3D1CAC
+	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Apr 2026 14:00:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.157.188.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775656797; cv=none; b=nkNG4LSM9HW7BWDzieU+VDuLH0wH7mUEl0Rg/FvGcABQa/PhPKkkfu/wFqGSBKh633K5QxHdgzRmJHk3FfkU8oscbWsyfL4+uzRWMk2+kB4Z0Vbm3EQlmDAqz04aeuDFKFIrczGuLQQzM0DZRokJKLYmHoeI8J8T/1POL+/H9kI=
+	t=1775656852; cv=none; b=fRGTW96o4PyOPz3uPU+ujh5mbGdlyG7p5MNNolapda0L6XrBjUTThUP0vHGqruSNAxn8d095m1RMEq2JykRNQ/07zpr4FMgjEc+Mhobxiy7Lq22HAOyaCp7VRk37WvmngbX0++A2FSF0/FI4fB1ICjY4S87CwCTC9YqDag9I1fE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775656797; c=relaxed/simple;
-	bh=HQrRzCEnvX9i3ELOdz4flq/uEGIY1Tq8IPmcL6bboNU=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=XClag5dQvN1wZoRjWS7ffh5qzNUSIKkJmOp/Wd1DrXM+DrMzf/kXd/MyuUQ3A5Kf1APEIj/YkmSjxMusxXMtClxxcIo4pDtVwgUt5qotzbni0HLRpMGq83cDT3E2VL79bVoIRM0q/WubAvwAHrU98/yKQbMckNZ/l6x/5wNs7EY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EuPWDVUS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775656852; c=relaxed/simple;
+	bh=CXmF6HELYR8l13B5gor19p3gXQCNXSpE7Yo48J6hyJ8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ftwejxX/JbbDkD8YzfFJjSwFa91GXOo5T0AW8jzwdQlnqSe6FrCUWSg1aIAs0ydwtzmj4VpQOeQr6OnUTkWa1ikGApEKyyQfF0NfbTBidOAB30Cq2BKJFkZDj0v0afMGLu0VSag6VRhDv+hMjm+xOCkJkbjThsky3j4+7U8FPEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=FOOLBbUz; arc=none smtp.client-ip=45.157.188.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EuPWDVUS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FCF4C19421;
-	Wed,  8 Apr 2026 13:59:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775656796;
-	bh=HQrRzCEnvX9i3ELOdz4flq/uEGIY1Tq8IPmcL6bboNU=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=EuPWDVUSHLbt6oaRtp53FXQK5i1Grvedc9aFe10HN1Gfeo5xbNKslCEE7rdTK0suc
-	 tHICOLaaKZ3dn+q8kAMt4K5uH9h+23mbsVzLiN3UH1LF991AeoJSRaLxnIZ0/tce/j
-	 VjAcxeUWNlRJ++97iUpDXQty81g6eUegu5YdUcu7HD9DgRVG/982TE5QfeKgOTU4oV
-	 wlD45AUiXoGaV/hXhIKkgvguO678mo0ypSD+3maj8CiVESQQ5OTnxIwuRghAnQm3iw
-	 i4pN0IL2FIo/Ei7aQ+AtkOi5Ke1AvLUqOWInQJ5a7v2bSUOL9co8w3JHS7iQirLP4Q
-	 hk+8c6BGTzBPA==
-Message-ID: <13e27030fce8df6fcc0e3a4a7c7b07a4943d0a0e.camel@kernel.org>
-Subject: Re: [PATCH v8 2/9] NFSD: Handle layout stid in
- nfsd4_drop_revoked_stid()
-From: Jeff Layton <jlayton@kernel.org>
-To: Chuck Lever <cel@kernel.org>, NeilBrown <neil@brown.name>, Olga
- Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom
- Talpey <tom@talpey.com>
-Cc: linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, Chuck Lever
-	 <chuck.lever@oracle.com>
-Date: Wed, 08 Apr 2026 09:59:54 -0400
-In-Reply-To: <20260408-umount-kills-nfsv4-state-v8-2-6e02a1d03d60@oracle.com>
-References: <20260408-umount-kills-nfsv4-state-v8-0-6e02a1d03d60@oracle.com>
-	 <20260408-umount-kills-nfsv4-state-v8-2-6e02a1d03d60@oracle.com>
-Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
- keydata=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
- QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="FOOLBbUz"
+Received: from smtp-3-0000.mail.infomaniak.ch (unknown [IPv6:2001:1600:4:17::246b])
+	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4frPpx6QMRz2kf;
+	Wed,  8 Apr 2026 16:00:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
+	s=20191114; t=1775656841;
+	bh=3j6c0WbpqkoroP/bemGZEZH1gBNDoOR23onaEKUiYfw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FOOLBbUzzhnUk9xI2oMxQrlGRgMzz+Rtq0vUxo6GIe6kaSPFJBbvyGDMAjAAStt4u
+	 1W8T7auAvH4s5aG1lQe+W3AAOZsdFWaze5x4lTYGl+L7rXzHx3KLF4OMEl+8BgzbMj
+	 3zHDaCd7qmpHH+b2XOGGLxFzx/trRp1CjSwkQDTg=
+Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4frPpv2QVBz7rp;
+	Wed,  8 Apr 2026 16:00:39 +0200 (CEST)
+Date: Wed, 8 Apr 2026 16:00:35 +0200
+From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+To: Justin Suess <utilityemal77@gmail.com>
+Cc: ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, 
+	kpsingh@kernel.org, paul@paul-moore.com, viro@zeniv.linux.org.uk, brauner@kernel.org, 
+	kees@kernel.org, gnoack@google.com, jack@suse.cz, jmorris@namei.org, 
+	serge@hallyn.com, song@kernel.org, yonghong.song@linux.dev, martin.lau@linux.dev, 
+	m@maowtm.org, eddyz87@gmail.com, john.fastabend@gmail.com, sdf@fomichev.me, 
+	skhan@linuxfoundation.org, bpf@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	Frederick Lawler <fred@cloudflare.com>
+Subject: Re: [RFC PATCH 00/20] BPF interface for applying Landlock rulesets
+Message-ID: <20260408.ong9Eshe0omu@digikod.net>
+References: <20260407200157.3874806-1-utilityemal77@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260407200157.3874806-1-utilityemal77@gmail.com>
+X-Infomaniak-Routing: alpha
 
-On Wed, 2026-04-08 at 08:29 -0400, Chuck Lever wrote:
-> From: Chuck Lever <chuck.lever@oracle.com>
->=20
-> nfsd4_drop_revoked_stid() has no SC_TYPE_LAYOUT case, so when a
-> client sends FREE_STATEID for an admin-revoked layout stid, the
-> default branch releases cl_lock and returns without unhashing or
-> releasing the stid.  The stid remains in the IDR and on the
-> per-client list until the client is destroyed.
->=20
-> Remove the layout stid from the per-client list and call
-> nfs4_put_stid() to drop the creation reference.  When the
-> refcount reaches zero, nfsd4_free_layout_stateid() handles the
-> remaining cleanup: cancelling the fence worker, removing from
-> the per-file list, and freeing the slab object.
->=20
-> Fixes: 1e33e1414bec ("nfsd: allow layout state to be admin-revoked.")
-> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
-> ---
->  fs/nfsd/nfs4state.c | 7 +++++++
->  1 file changed, 7 insertions(+)
->=20
-> diff --git a/fs/nfsd/nfs4state.c b/fs/nfsd/nfs4state.c
-> index c6cb67cf02ad..ae5e1a20197c 100644
-> --- a/fs/nfsd/nfs4state.c
-> +++ b/fs/nfsd/nfs4state.c
-> @@ -5070,6 +5070,7 @@ static void nfsd4_drop_revoked_stid(struct nfs4_sti=
-d *s)
->  {
->  	struct nfs4_client *cl =3D s->sc_client;
->  	LIST_HEAD(reaplist);
-> +	struct nfs4_layout_stateid *ls;
->  	struct nfs4_ol_stateid *stp;
->  	struct nfs4_delegation *dp;
->  	bool unhashed;
-> @@ -5095,6 +5096,12 @@ static void nfsd4_drop_revoked_stid(struct nfs4_st=
-id *s)
->  		spin_unlock(&cl->cl_lock);
->  		nfs4_put_stid(s);
->  		break;
-> +	case SC_TYPE_LAYOUT:
-> +		ls =3D layoutstateid(s);
-> +		list_del_init(&ls->ls_perclnt);
-> +		spin_unlock(&cl->cl_lock);
-> +		nfs4_put_stid(s);
-> +		break;
->  	default:
->  		spin_unlock(&cl->cl_lock);
->  	}
+Thanks for this RFC.
 
-Reviewed-by: Jeff Layton <jlayton@kernel.org>
+On Tue, Apr 07, 2026 at 04:01:22PM -0400, Justin Suess wrote:
+> Hello,
+> 
+> This series lets sleepable BPF LSM programs apply an existing,
+> userspace-created Landlock ruleset to a program during exec.
+> 
+> The goal is not to move Landlock policy definition into BPF, nor to create a
+> second policy engine.  Instead, BPF is used only to select when an already
+> valid Landlock ruleset should be applied, based on runtime exec context.
+> 
+> Background
+> ===
+> 
+> Landlock is primarily a syscall-driven, unprivileged-first LSM.  That model
+> works well when the application being sandboxed can create and enforce its own
+> rulesets, or when a trusted launcher can impose restrictions directly before
+> running a trusted target.
+> 
+> That becomes harder when the target program is not under first-party control,
+> for example:
+> 
+> 1. third-party binaries,
+> 2. unmodified container images,
+> 3. programs reached through shells, wrappers, or service managers, and
+> 4. user-supplied or otherwise untrusted code.
+> 
+> In these cases, an external supervisor may want to apply a Landlock ruleset to
+> the final executed program, while leaving unrelated parents or helper
+> processes alone.
+> 
+> Why external sandboxing is awkward today
+> ===
+> 
+> There are two recurring problems.
+> 
+> First, userspace cannot reliably predict every file a target may need across
+> different systems, packaging layouts, and runtime conditions.  Shared
+> libraries, configuration files, interpreters, and helper binaries often depend
+> on details that are only known at runtime.
+
+Agreed, it would make sense to leverage eBPF for this context
+identification rather than implementing a Landlock-specfic feature.
+
+> 
+> Second, Landlock inheritance is intentionally one-way.  Once a task is
+> restricted, descendants inherit that domain and may only become more
+> restricted.  This is exactly what Landlock should do, but it makes external
+> sandboxing awkward when the program of interest is buried inside a larger exec
+> chain.  Applying restrictions too early can affect unrelated intermediates;
+> applying them too late misses the target entirely.
+
+This makes sense too.
+
+> 
+> This series addresses that target-selection problem.
+> 
+> Overview
+> ===
+> 
+> This series adds a small BPF-to-Landlock bridge:
+> 
+> 1. userspace creates a normal Landlock ruleset through the existing ABI;
+> 2. userspace inserts that ruleset FD into a new
+> 	BPF_MAP_TYPE_LANDLOCK_RULESET map;
+> 3. a sleepable BPF LSM program attached to an exec-time hook looks up the
+> 	ruleset; and
+> 4. the program calls a kfunc to apply that ruleset to the new program's
+> 	credentials before exec completes.
+> 
+> The important point is that BPF does not create, inspect, or mutate Landlock
+> policy here.  It only decides whether to apply a ruleset that was already
+> created and validated through Landlock's existing userspace API.
+
+I like this approach.  It makes it possible for users enforce Landlock
+security policies on arbitrary new executions.  Sandboxing at this
+specific point is the best time because it ensures a consistency for the
+whole lifetime of the process, whereas applying new restriction in the
+middle of an execution would make the process unstable (if the request
+doesn't come from the process itself).
+
+> 
+> Interface
+> ===
+> 
+> The series adds:
+> 
+> 1. bpf_landlock_restrict_binprm(), which applies a referenced ruleset to
+> 	struct linux_binprm credentials;
+> 2. bpf_landlock_put_ruleset(), which releases a referenced ruleset; and
+> 3. BPF_MAP_TYPE_LANDLOCK_RULESET, a specialized map type for holding
+> 	references to Landlock rulesets originating from userspace file
+> 	descriptors.
+> 4. A new field in the linux_binprm struct to enable application of
+>    task_set_no_new_privs once execution is beyond the point of no return.
+
+This "beyond the point of no return" is indeed important, and it would
+be nice to also have this property for Landlock restriction i.e., only
+create a Landlock domain if we know that the execution will succeed (or
+if the caller will exit).  This is especially important for
+logging/tracing event consistency.
+
+> 
+> The kfuncs are restricted to sleepable BPF LSM programs attached to
+> bprm_creds_for_exec and bprm_creds_from_file, which are the points where the
+> new program's credentials may still be updated safely.
+> 
+> This series also adds LANDLOCK_RESTRICT_SELF_NO_NEW_PRIVS.  On the BPF path,
+> this is staged through the exec context and committed only after exec reaches
+> point-of-no-return.  This avoids side effects on failed executions while
+> ensuring that the resulting task cannot gain more privileges through later exec
+> transitions. This is done through the set_nnp_on_point_of_no_return field.
+> 
+> This has a little subtlety: LANDLOCK_RESTRICT_SELF_NO_NEW_PRIVS in the BPF
+> path will not stop the current execution from escalating at all; only subsequent
+> ones.
+
+This makes sense too, but it needs to be documented.
+
+> This is intentional to allow landlock policies to be applied through a
+
+s/landlock/Landlock/g in every text/comment/commit description please.
+
+> setuid transition for instance, without affecting the current escalation.
+> 
+> Semantics
+> ===
+> 
+> This proposal is intended to preserve Landlock semantics as much as practical
+> for an exec-time BPF attachment model:
+> 
+> 1. only pre-existing Landlock rulesets may be applied;
+> 2. BPF cannot construct, inspect, or modify rulesets;
+
+Inspection will be possible with tracepoints, but it is orthogonal to
+this series.
+
+> 3. enforcement still happens before the new program begins execution;
+> 4. normal Landlock inheritance, layering, and future composition remain
+> 	unchanged; and
+> 5. this does not bypass Landlock's privilege checks for applying Landlock
+>     rulesets.
+> 
+> In other words, BPF acts as an external selector for when to apply Landlock,
+> not as a replacement for Landlock's enforcement engine.
+> 
+> All behavior, future access rights, and previous access rights are designed
+> to automatically be supported from either BPF or existing syscall contexts.
+> 
+> The main semantic difference is LANDLOCK_RESTRICT_SELF_NO_NEW_PRIVS on the BPF
+> path: it guarantees that the resulting task is pinned with no_new_privs before
+> it can perform later exec transitions, but it does not retroactively suppress
+> privilege gain for the current exec transition itself.
+> 
+> The other exception to semantics is the LANDLOCK_RESTRICT_SELF_TSYNC flag.
+> (see Points of Feedback section)
+> 
+> Patch layout
+> ===
+> 
+> Patches 1-5 prepare the Landlock side by moving shared ruleset logic out of
+> syscalls.c, adding a no_new_privs flag for non-syscall callers, exposing
+> linux_binprm->set_nnp_on_point_of_no_return as an interface to set no_new_privs
+> on the point of no return, and making deferred ruleset destruction RCU-safe.
+> 
+> Patches 6-10 add the BPF-facing pieces: the Landlock kfuncs, the new map type,
+> syscall handling for that map, and verifier support.
+> 
+> Patches 11-15 add selftests and the small bpftool update needed for the new
+> map type.
+> 
+> Patches 16-20 add docs and bump the ABI version and update MAINTAINERS.
+> 
+> Feedback is especially welcome on the overall interface shape, the choice of
+> hooks, and the map semantics.
+
+I'll review each patch separately, but this approach is promising.
+
+I think it would be simpler to have a dedicated patch series for
+LANDLOCK_RESTRICT_SELF_NO_NEW_PRIVS, and then send another series
+specific to the eBPF side (kfunc, tests, doc...).  I'm not sure what is
+the best way to deal with dependencies across Landlock and BPF though.
+What is the policy for BPF next wrt other next branches?
+
+> 
+> Testing
+> ===
+> 
+> This patch series has two portions of tests.
+> 
+> One lives in the traditional Landlock selftests, for the new
+> LANDLOCK_RESTRICT_SELF_NO_NEW_PRIVS flag.
+> 
+> The other suite lives under the BPF selftests, and this tests the Landlock
+> kfuncs and the new BPF_MAP_TYPE_LANDLOCK_RULESET.
+> 
+> This patch series was run through BPF CI, the results of which are here. [1]
+> 
+> All mentioned tests are passing, as well as the BPF CI.
+> 
+> [1] : https://github.com/kernel-patches/bpf/pull/11562
+> 
+> Points of Feedback
+> ===
+> 
+> First, the new set_nnp_on_point_of_no_return field in struct linux_binprm.
+> This field was needed to request that task_set_no_new_privs be set during an
+> execution, but only after the execution has proceeded beyond the point of no
+> return. I couldn't find a way to express this semantic without adding a new
+> bitfield to struct linux_binprm and a conditional in fs/exec.c. Please see
+> patch 2.
+
+What about using security_bprm_committing_creds()?
+
+> 
+> Feedback on the BPF testing harness, which was generated with AI assistance as
+> disclosed in the commit footer, is welcomed. I have only limited familiarity
+> with BPF testing practices. These tests were made with strong human supervision.
+> See patches 14 and 15.
+> 
+> Feedback on the NO_NEW_PRIVS situation is also welcomed. Because task_set_no_new_privs()
+> would otherwise leak state on failed executions or AT_EXECVE_CHECK, this series
+> stages no_new_privs through the exec context and only commits it after
+> point-of-no-return. This preserves failure behavior while still ensuring that
+> the resulting task cannot elevate further through later exec transitions.
+> When called from bprm_creds_from_file, this does not retroactively change the
+> privilege outcome of the current exec transition itself.
+> 
+> See patch 2 and 3.
+> 
+> Next, the RCU in the landlock_ruleset. Existing BPF maps use RCU to make sure maps
+> holding references stay valid. I altered the landlock ruleset to use rcu_work
+> to make sure that the rcu is synchronized before putting on a ruleset, and
+> acquire the rcu in the arraymap implementation. See patches 5-10.
+> 
+> Next, the semantics of the map. What operations should be supported from BPF
+> and userspace and what data types should they return? I consider the struct
+> bpf_landlock_ruleset to be opaque. Userspace can add items to the map via the
+> fd, delete items by their index, and BPF can delete and lookup items by their
+> index. Items cannot be updated, only swapped.
+> 
+> Finally, the handling of the LANDLOCK_RESTRICT_SELF_TSYNC flag. This flag has
+> no meaning in a pre-execution context, as the credentials during the designated
+> LSM hooks (bprm_creds_for_exec/creds_from_file) still represent the pre-execution
+> task. Therefore, this flag is invalidated and attempting to use it with
+> bpf_landlock_restrict_binprm will return -EINVAL. Otherwise, the flag would
+> result in applying the landlock ruleset to the wrong target in addition to the
+> intended one. (see patch 2). This behavior is validated with selftests.
+> 
+> Existing works / Credits
+> ===
+> 
+> Mickaël Salaün created patchsets adding BPF tracepoints for landlock in [2] [3].
+> 
+> Mickaël also gave feedback on this feature and the idea in this GitHub thread. [4]
+> 
+> Günther Noack initially received and provided initial feedback on this idea as
+> an early prototype.
+> 
+> Liz Rice, author of "Learning eBPF: Programming the Linux Kernel for Enhanced
+> Observability, Networking, and Security" provided background and inspired me to
+> experiment with BPF and the BPF LSM. [5]
+> 
+> [2] : https://lore.kernel.org/all/20250523165741.693976-1-mic@digikod.net/
+> [3] : https://lore.kernel.org/linux-security-module/20260406143717.1815792-1-mic@digikod.net/
+> [4] : https://github.com/landlock-lsm/linux/issues/56
+> [5] : https://wellesleybooks.com/book/9781098135126
+> 
+> Kind Regards,
+> Justin Suess
+> 
+> Justin Suess (20):
+>   landlock: Move operations from syscall into ruleset code
+>   execve: Add set_nnp_on_point_of_no_return
+>   landlock: Implement LANDLOCK_RESTRICT_SELF_NO_NEW_PRIVS
+>   selftests/landlock: Cover LANDLOCK_RESTRICT_SELF_NO_NEW_PRIVS
+>   landlock: Make ruleset deferred free RCU safe
+>   bpf: lsm: Add Landlock kfuncs
+>   bpf: arraymap: Implement Landlock ruleset map
+>   bpf: Add Landlock ruleset map type
+>   bpf: syscall: Handle Landlock ruleset maps
+>   bpf: verifier: Add Landlock ruleset map support
+>   selftests/bpf: Add Landlock kfunc declarations
+>   selftests/landlock: Rename gettid wrapper for BPF reuse
+>   selftests/bpf: Enable Landlock in selftests kernel.
+>   selftests/bpf: Add Landlock kfunc test program
+>   selftests/bpf: Add Landlock kfunc test runner
+>   landlock: Bump ABI version
+>   tools: bpftool: Add documentation for landlock_ruleset
+>   landlock: Document LANDLOCK_RESTRICT_SELF_NO_NEW_PRIVS
+>   bpf: Document BPF_MAP_TYPE_LANDLOCK_RULESET
+>   MAINTAINERS: update entry for the Landlock subsystem
+> 
+>  Documentation/bpf/map_landlock_ruleset.rst    | 181 +++++
+>  Documentation/userspace-api/landlock.rst      |  22 +-
+>  MAINTAINERS                                   |   4 +
+>  fs/exec.c                                     |   8 +
+>  include/linux/binfmts.h                       |   7 +-
+>  include/linux/bpf_lsm.h                       |  15 +
+>  include/linux/bpf_types.h                     |   1 +
+>  include/linux/landlock.h                      |  92 +++
+>  include/uapi/linux/bpf.h                      |   1 +
+>  include/uapi/linux/landlock.h                 |  14 +
+>  kernel/bpf/arraymap.c                         |  67 ++
+>  kernel/bpf/bpf_lsm.c                          | 145 ++++
+>  kernel/bpf/syscall.c                          |   4 +-
+>  kernel/bpf/verifier.c                         |  15 +-
+>  samples/landlock/sandboxer.c                  |   7 +-
+>  security/landlock/limits.h                    |   2 +-
+>  security/landlock/ruleset.c                   | 198 ++++-
+>  security/landlock/ruleset.h                   |  25 +-
+>  security/landlock/syscalls.c                  | 158 +---
+>  .../bpf/bpftool/Documentation/bpftool-map.rst |   2 +-
+>  tools/bpf/bpftool/map.c                       |   2 +-
+>  tools/include/uapi/linux/bpf.h                |   1 +
+>  tools/lib/bpf/libbpf.c                        |   1 +
+>  tools/lib/bpf/libbpf_probes.c                 |   6 +
+>  tools/testing/selftests/bpf/bpf_kfuncs.h      |  20 +
+>  tools/testing/selftests/bpf/config            |   5 +
+>  tools/testing/selftests/bpf/config.x86_64     |   1 -
+>  .../bpf/prog_tests/landlock_kfuncs.c          | 733 ++++++++++++++++++
+>  .../selftests/bpf/progs/landlock_kfuncs.c     |  92 +++
+>  tools/testing/selftests/landlock/base_test.c  |  10 +-
+>  tools/testing/selftests/landlock/common.h     |  28 +-
+>  tools/testing/selftests/landlock/fs_test.c    | 103 +--
+>  tools/testing/selftests/landlock/net_test.c   |  55 +-
+>  .../testing/selftests/landlock/ptrace_test.c  |  14 +-
+>  .../landlock/scoped_abstract_unix_test.c      |  51 +-
+>  .../selftests/landlock/scoped_base_variants.h |  23 +
+>  .../selftests/landlock/scoped_common.h        |   5 +-
+>  .../selftests/landlock/scoped_signal_test.c   |  30 +-
+>  tools/testing/selftests/landlock/wrappers.h   |   2 +-
+>  39 files changed, 1877 insertions(+), 273 deletions(-)
+>  create mode 100644 Documentation/bpf/map_landlock_ruleset.rst
+>  create mode 100644 include/linux/landlock.h
+>  create mode 100644 tools/testing/selftests/bpf/prog_tests/landlock_kfuncs.c
+>  create mode 100644 tools/testing/selftests/bpf/progs/landlock_kfuncs.c
+> 
+> 
+> base-commit: 8c6a27e02bc55ab110d1828610048b19f903aaec
+> -- 
+> 2.53.0
+> 
+> 
