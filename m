@@ -1,46 +1,46 @@
-Received: from smtp-8fa9.mail.infomaniak.ch (smtp-8fa9.mail.infomaniak.ch [83.166.143.169])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90BDD3C5DA0
-	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Apr 2026 19:21:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.166.143.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89CA43446CA;
+	Wed,  8 Apr 2026 19:22:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775676090; cv=none; b=IjgFsqqtHIKkRwMBiYM/l79YZYP9g6Yq5bzGJv6BSyFPGKTnY3TSv8QocweRXSp6v1E+4MB4Oa2NA0mn1epN3Eg2jrYli5frWaM0etTENxMpWSVFaHeIekBsw7nZGYZYIJN7uINI3dzj+On5DUgJLX+vASAWw/m4fBjJ6ajnfTk=
+	t=1775676159; cv=none; b=StXjnyU/WXgA2YS6KTDhd+xGiQpdgnJPSy1zgZ+QTwoBFtBS/TH6GxfU4JEHqDUV93+YEZ82Ux62Wxqop1rDPzM4rIXFAUoPHx+CNU+HuJwwuCVtEca7ZTc341skgPzS9NDMYUHLt7ALev3kmpPxtt7pBMa9RCZ9mHTT2K6+3Rg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775676090; c=relaxed/simple;
-	bh=w/vChAtlWYNJS+fM3MqBkAXddxe84quORPtoobVD8Bg=;
+	s=arc-20240116; t=1775676159; c=relaxed/simple;
+	bh=yuLeBnryhDddh13mig2HurHDOIlJTGaePZc/aPlL3xY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=heNEmfaCjV2xG7J0ULkr+Au1cmfmh2QjuueD+OjsVi9K7KRqouRFWlcSVJzw1Q5wSzNZEzQXK83LBfvnU3E/UDSgIOGy7bMes1rQ0h/XNhiFw23S3oFlnMahsgcu6Ymr2UJ/6y3s5fQMWunvCSRpdBpkIEvjEkgH+YgLJX8dwFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=hH9ITMQf; arc=none smtp.client-ip=83.166.143.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=bscMrxtbCWOZ45RGVhHBGCT4z02KCWrNGvOzhWPXy1ZWsUUNRfwrYj9JQuW/YC3fQqNkD2uoGSJLzL4gsTdi0Zfcidmzrmw83GYWeu6ZKJRQ+Sr7B3+jU2G/8cGnyj5S9W0lVSjZQ+UWtBfITnNIqMFUiNoPnJvU0gcl6zwi83g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=EUyzWY7O; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="hH9ITMQf"
-Received: from smtp-4-0000.mail.infomaniak.ch (unknown [IPv6:2001:1600:7:10::a6b])
-	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4frXwt2Cmsz13BT;
-	Wed,  8 Apr 2026 21:21:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
-	s=20191114; t=1775676078;
-	bh=lqgJbO6VKY1s5BuLIOCqFqlJGru+qWSHakL+QAEcm6k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hH9ITMQfuNU8tov8EpppnqI3Nr4J/WBjxXU3lvalSA4MvJBCurY8jg4Q4+CAO+4V1
-	 Zc0asqtOkKf7mmlin7bvrkX//+F+b9DRyeCldNUkiNopDSG0EtUpYM5Yc1lZqr0afS
-	 qevN2L1tk5dh2Kv+K/bFAsAzyOJu4SPVXRqPLZO8=
-Received: from unknown by smtp-4-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4frXwr54JhzWF3;
-	Wed,  8 Apr 2026 21:21:16 +0200 (CEST)
-Date: Wed, 8 Apr 2026 21:21:11 +0200
-From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-To: Justin Suess <utilityemal77@gmail.com>
-Cc: andrii@kernel.org, ast@kernel.org, bpf@vger.kernel.org, 
-	brauner@kernel.org, daniel@iogearbox.net, eddyz87@gmail.com, fred@cloudflare.com, 
-	gnoack@google.com, jack@suse.cz, jmorris@namei.org, john.fastabend@gmail.com, 
-	kees@kernel.org, kpsingh@kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org, m@maowtm.org, 
-	martin.lau@linux.dev, paul@paul-moore.com
-Subject: Re: [RFC PATCH 00/20] BPF interface for applying Landlock rulesets
-Message-ID: <20260408.ainu5Chohnge@digikod.net>
-References: <20260408.ong9Eshe0omu@digikod.net>
- <20260408171030.4083129-1-utilityemal77@gmail.com>
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="EUyzWY7O"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description;
+	bh=tgyy/giDhZ3dG3k1KECvaIqz9UFJzvbwSaa+17Vx+to=; b=EUyzWY7OqT3PoGTznQLgdgSrnB
+	z52qBDj37CeUk9hNYDgo9sFlbqA3jlFoO1f5pHeCtfZrXFQUIoFMWdqrTiSYgw5r+WDE4j2MODvb3
+	4vjuqNPoQBV4H+mKyMEUl8FHEnVc19R7gCmkO8us1HDET+imBe5S3/gCRd3jQ3H7dIAuhqZU7POtp
+	XSfmj3g4eTzx0joaGMbHHOGWmlqN1lIHtRBpyElQ6/e8riq4aZJ5CWm4hppjbLYK1i83oCywyMz0I
+	VkddE3AjZRMMVT8ept5T5IVzjdQTzU6yppT1znn23rtBV9O+A8X8kl57U5arREbnqoHcCahTb/XdU
+	0v/wtIYQ==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wAYXc-00000000V3i-0ZQ4;
+	Wed, 08 Apr 2026 19:26:20 +0000
+Date: Wed, 8 Apr 2026 20:26:20 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	clm@meta.com, gustavold@meta.com
+Subject: Re: [PATCH] dcache: warn when a dentry is freed with a non-empty
+ ->d_lru
+Message-ID: <20260408192620.GI3836593@ZenIV>
+References: <20260406-dcache-warn-v1-1-c665efbc005f@kernel.org>
+ <20260408064251.GE3836593@ZenIV>
+ <f44d1047296ede580c69bdad8e527ac8294746ec.camel@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -50,242 +50,99 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260408171030.4083129-1-utilityemal77@gmail.com>
-X-Infomaniak-Routing: alpha
+In-Reply-To: <f44d1047296ede580c69bdad8e527ac8294746ec.camel@kernel.org>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-On Wed, Apr 08, 2026 at 01:10:28PM -0400, Justin Suess wrote:
-> 
-> Add a flag LANDLOCK_RESTRICT_SELF_NO_NEW_PRIVS, which executes
-> task_set_no_new_privs on the current credentials, but only if
-> the process lacks the CAP_SYS_ADMIN capability.
-> 
-> While this operation is redundant for code running from userspace
-> (indeed callers may achieve the same logic by calling
-> prctl w/ PR_SET_NO_NEW_PRIVS), this flag enables callers without access
-> to the syscall abi (defined in subsequent patches) to restrict processes
-> from gaining additional capabilities. This is important to ensure that
-> consumers can meet the task_no_new_privs || CAP_SYS_ADMIN invariant
-> enforced by Landlock without having syscall access.
-> 
-> This is done by hooking bprm_committing_creds along with a
-> landlock_cred_security flag to indicate that the next execution should
-> task_set_no_new_privs if the process doesn't possess CAP_SYS_ADMIN. This
-> is done to ensure that task_set_no_new_privs is being done past the
-> point of no return.
-> 
-> Cc: Mickaël Salaün <mic@digikod.net>
-> Signed-off-by: Justin Suess <utilityemal77@gmail.com>
-> ---
-> 
-> On Wed, Apr 08, 2026 at 02:00:00 -0000, Mickaël Salaün wrote:
-> > > Points of Feedback
-> > > ===
-> > > 
-> > > First, the new set_nnp_on_point_of_no_return field in struct linux_binprm.
-> > > This field was needed to request that task_set_no_new_privs be set during an
-> > > execution, but only after the execution has proceeded beyond the point of no
-> > > return. I couldn't find a way to express this semantic without adding a new
-> > > bitfield to struct linux_binprm and a conditional in fs/exec.c. Please see
-> > > patch 2.
-> 
-> > What about using security_bprm_committing_creds()?
-> 
-> Good idea. Definitely cleaner.
-> 
-> Something like this? Then dropping the "execve: Add set_nnp_on_point_of_no_return"
-> commit.
-> 
-> This adds a bitfield to the landlock_cred_security struct to indicate that the flag
-> should be set on the next exec(s).
-> 
->  include/uapi/linux/landlock.h | 14 ++++++++++++++
->  security/landlock/cred.c      | 13 +++++++++++++
->  security/landlock/cred.h      |  7 +++++++
->  security/landlock/limits.h    |  2 +-
->  security/landlock/ruleset.c   | 15 ++++++++++++---
->  security/landlock/syscalls.c  |  5 +++++
->  6 files changed, 52 insertions(+), 4 deletions(-)
-> 
-> diff --git a/include/uapi/linux/landlock.h b/include/uapi/linux/landlock.h
-> index f88fa1f68b77..edd9d9a7f60e 100644
-> --- a/include/uapi/linux/landlock.h
-> +++ b/include/uapi/linux/landlock.h
-> @@ -129,12 +129,26 @@ struct landlock_ruleset_attr {
->   *
->   *     If the calling thread is running with no_new_privs, this operation
->   *     enables no_new_privs on the sibling threads as well.
-> + *
-> + * %LANDLOCK_RESTRICT_SELF_NO_NEW_PRIVS
-> + *    Sets no_new_privs on the calling thread before applying the Landlock domain.
-> + *    This flag is useful for convenience as well as for applying a ruleset from
-> + *    an outside context (e.g BPF). This flag only has an effect on when both
-> + *    no_new_privs isn't already set and the caller doesn't possess CAP_SYS_ADMIN.
-> + *
-> + *    This flag has slightly different behavior when used from BPF. Instead of
-> + *    setting no_new_privs on the current task, it sets a flag on the bprm so that
-> + *    no_new_privs is set on the task at exec point-of-no-return. This guarantees
-> + *    that the current execution is unaffected, and may escalate as usual until the
-> + *    next exec, but the resulting task cannot gain more privileges through later
-> + *    exec transitions.
->   */
->  /* clang-format off */
->  #define LANDLOCK_RESTRICT_SELF_LOG_SAME_EXEC_OFF		(1U << 0)
->  #define LANDLOCK_RESTRICT_SELF_LOG_NEW_EXEC_ON			(1U << 1)
->  #define LANDLOCK_RESTRICT_SELF_LOG_SUBDOMAINS_OFF		(1U << 2)
->  #define LANDLOCK_RESTRICT_SELF_TSYNC				(1U << 3)
-> +#define LANDLOCK_RESTRICT_SELF_NO_NEW_PRIVS			(1U << 4)
->  /* clang-format on */
->  
->  /**
-> diff --git a/security/landlock/cred.c b/security/landlock/cred.c
-> index 0cb3edde4d18..bcc9b716916f 100644
-> --- a/security/landlock/cred.c
-> +++ b/security/landlock/cred.c
-> @@ -43,6 +43,18 @@ static void hook_cred_free(struct cred *const cred)
->  		landlock_put_ruleset_deferred(dom);
->  }
->  
-> +static void hook_bprm_committing_creds(const struct linux_binprm *bprm)
-> +{
-> +	struct landlock_cred_security *const llcred = landlock_cred(bprm->cred);
-> +
-> +	if (llcred->set_nnp_on_committing_creds &&
-> +	    !ns_capable_noaudit(current_user_ns(), CAP_SYS_ADMIN)) {
+On Wed, Apr 08, 2026 at 02:28:20PM -0400, Jeff Layton wrote:
 
-If asked by the caller, NNP must be set, whatever the capabilities of
-the task.
+> ...it turns out that Gustavo had been chasing this independently to me,
+> and had Claude do a bit more analysis. I included it below, but here's
+> a link that may be more readable. Any thoughts?
 
-> +		task_set_no_new_privs(current);
-> +		/* Don't need to set it again for subsequent execution. */
-> +		llcred->set_nnp_on_committing_creds = false;
-> +	}
+Other than rather uncharitable ones about the usefulness of the Turing Test,
+you mean?
 
-Thinking more about it, it would make more sense to add another flag to
-enforce restriction on the next exec.  This new cred bit would then be
-generic and enforce both NNP (if set) and the domain once we know the
-execution is ok.  That should also bring the required plumbing to
-create the domain at syscall (or kfunc) time and handle memory
-allocation issue there, but only enforce it at exec time with
-security_bprm_committing_creds() (without any possible error).
+> **In production** (narrow race window): The livelock occasionally
+> resolves through specific timing that allows a parent dentry to be
+> freed and its slab page reused.
 
-> +}
-> +
->  #ifdef CONFIG_AUDIT
->  
->  static int hook_bprm_creds_for_exec(struct linux_binprm *const bprm)
-> @@ -55,6 +67,7 @@ static int hook_bprm_creds_for_exec(struct linux_binprm *const bprm)
->  #endif /* CONFIG_AUDIT */
->  
->  static struct security_hook_list landlock_hooks[] __ro_after_init = {
-> +	LSM_HOOK_INIT(bprm_committing_creds, hook_bprm_committing_creds),
->  	LSM_HOOK_INIT(cred_prepare, hook_cred_prepare),
->  	LSM_HOOK_INIT(cred_transfer, hook_cred_transfer),
->  	LSM_HOOK_INIT(cred_free, hook_cred_free),
-> diff --git a/security/landlock/cred.h b/security/landlock/cred.h
-> index c10a06727eb1..7ec6dd12ebc3 100644
-> --- a/security/landlock/cred.h
-> +++ b/security/landlock/cred.h
-> @@ -49,6 +49,13 @@ struct landlock_cred_security {
->  	 * not require a current domain.
->  	 */
->  	u8 log_subdomains_off : 1;
-> +	/**
-> +	 * @set_nnp_on_committing_creds: Set if the domain should set NO_NEW_PRIVS on the
-> +	 * execution past the point of no return in security_bprm_committing_creds().
-> +	 * This is not a hierarchy configuration because the nnp state is inherited by
-> +	 * exec and doesn't need further configuration.
-> +	 */
-> +	u8 set_nnp_on_committing_creds : 1;
->  #endif /* CONFIG_AUDIT */
->  } __packed;
->  
-> diff --git a/security/landlock/limits.h b/security/landlock/limits.h
-> index eb584f47288d..d298086a4180 100644
-> --- a/security/landlock/limits.h
-> +++ b/security/landlock/limits.h
-> @@ -31,7 +31,7 @@
->  #define LANDLOCK_MASK_SCOPE		((LANDLOCK_LAST_SCOPE << 1) - 1)
->  #define LANDLOCK_NUM_SCOPE		__const_hweight64(LANDLOCK_MASK_SCOPE)
->  
-> -#define LANDLOCK_LAST_RESTRICT_SELF	LANDLOCK_RESTRICT_SELF_TSYNC
-> +#define LANDLOCK_LAST_RESTRICT_SELF	LANDLOCK_RESTRICT_SELF_NO_NEW_PRIVS
->  #define LANDLOCK_MASK_RESTRICT_SELF	((LANDLOCK_LAST_RESTRICT_SELF << 1) - 1)
->  
->  /* clang-format on */
-> diff --git a/security/landlock/ruleset.c b/security/landlock/ruleset.c
-> index 1d6fa74f2a52..ad0bd5994ec5 100644
-> --- a/security/landlock/ruleset.c
-> +++ b/security/landlock/ruleset.c
-> @@ -121,11 +121,13 @@ int landlock_restrict_cred_precheck(const __u32 flags,
->  
->  	/*
->  	 * Similar checks as for seccomp(2), except that an -EPERM may be
-> -	 * returned.
-> +	 * returned, or no_new_privs may be set by the caller via
-> +	 * LANDLOCK_RESTRICT_SELF_NO_NEW_PRIVS.
->  	 */
->  	if (!task_no_new_privs(current) &&
->  	    !ns_capable_noaudit(current_user_ns(), CAP_SYS_ADMIN)) {
-> -		return -EPERM;
-> +		if (!(flags & LANDLOCK_RESTRICT_SELF_NO_NEW_PRIVS))
-> +			return -EPERM;
->  	}
->  
->  	if (flags & ~LANDLOCK_MASK_RESTRICT_SELF)
-> @@ -140,7 +142,7 @@ int landlock_restrict_cred(struct cred *const cred,
->  {
->  	struct landlock_cred_security *new_llcred;
->  	bool __maybe_unused log_same_exec, log_new_exec, log_subdomains,
-> -		prev_log_subdomains;
-> +		prev_log_subdomains, set_nnp_on_committing_creds;
->  
->  	/*
->  	 * It is allowed to set LANDLOCK_RESTRICT_SELF_LOG_SUBDOMAINS_OFF without
-> @@ -157,6 +159,12 @@ int landlock_restrict_cred(struct cred *const cred,
->  	log_new_exec = !!(flags & LANDLOCK_RESTRICT_SELF_LOG_NEW_EXEC_ON);
->  	/* Translates "off" flag to boolean. */
->  	log_subdomains = !(flags & LANDLOCK_RESTRICT_SELF_LOG_SUBDOMAINS_OFF);
-> +	/*
-> +	 * Translates "on" flag to boolean. This flag is not inherited by exec,
-> +	 * but the resulting nnp state is.
-> +	 */
-> +	set_nnp_on_committing_creds =
-> +		!!(flags & LANDLOCK_RESTRICT_SELF_NO_NEW_PRIVS);
->  
->  	new_llcred = landlock_cred(cred);
->  
-> @@ -165,6 +173,7 @@ int landlock_restrict_cred(struct cred *const cred,
->  	new_llcred->log_subdomains_off = !prev_log_subdomains ||
->  					 !log_subdomains;
->  #endif /* CONFIG_AUDIT */
-> +	new_llcred->set_nnp_on_committing_creds = set_nnp_on_committing_creds;
->  
->  	/*
->  	 * The only case when a ruleset may not be set is if
-> diff --git a/security/landlock/syscalls.c b/security/landlock/syscalls.c
-> index c6c7be7698a2..f3520c764360 100644
-> --- a/security/landlock/syscalls.c
-> +++ b/security/landlock/syscalls.c
-> @@ -397,6 +397,7 @@ SYSCALL_DEFINE4(landlock_add_rule, const int, ruleset_fd,
->   *         - %LANDLOCK_RESTRICT_SELF_LOG_NEW_EXEC_ON
->   *         - %LANDLOCK_RESTRICT_SELF_LOG_SUBDOMAINS_OFF
->   *         - %LANDLOCK_RESTRICT_SELF_TSYNC
-> + *         - %LANDLOCK_RESTRICT_SELF_NO_NEW_PRIVS
->   *
->   * This system call enforces a Landlock ruleset on the current thread.
->   * Enforcing a ruleset requires that the task has %CAP_SYS_ADMIN in its
-> @@ -450,6 +451,10 @@ SYSCALL_DEFINE2(landlock_restrict_self, const int, ruleset_fd, const __u32,
->  	if (!new_cred)
->  		return -ENOMEM;
->  
-> +	if (flags & LANDLOCK_RESTRICT_SELF_NO_NEW_PRIVS &&
-> +	    !ns_capable_noaudit(current_user_ns(), CAP_SYS_ADMIN))
-> +		task_set_no_new_privs(current);
-> +
->  	err = landlock_restrict_cred(new_cred, ruleset, flags);
->  	if (err) {
->  		abort_creds(new_cred);
-> -- 
-> 2.53.0
+Livelock is real and known, all right, but do explain what does "resolves
+through specific timing that allows a parent dentry to be freed" mean.
+Especially since the reference to parent is *not* dropped until after
+having child detached from the tree and DCACHE_DENTRY_KILLED on it,
+with ->d_lock on child held over that.  So select_collect2() seeing
+the victim still locked and attached to the tree has to happen before
+the grace period for parent has a chance to begin.  And rcu_read_lock()
+grabbed there prevents that grace period from completing until we
+do the matching rcu_read_unlock() in shrink_dcache_parent().
+
+> In `select_collect()` (the `d_walk` callback used by
+> `shrink_dcache_parent`), two types of dentries are incorrectly counted
+						     really?
+> as "found":
+
+> 1. **Dead dentries** (`d_lockref.count < 0`): Another CPU called
+> `lockref_mark_dead()` in `__dentry_kill()` but hasn't yet called
+> `dentry_unlist()` to remove the dentry from the parent's children list.
+> With the debug delay, the dentry stays dead-but-visible for 5ms.
+
+Yes.  And?  That's the livelock, all right, and it needs fixing,
+but how does busy-wait here lead to UAF on anything?
+
+> 2. **`DCACHE_SHRINK_LIST` dentries**: Already isolated by another
+> shrinker path (e.g., the global LRU shrinker from `drop_caches`) to its
+> own dispose list. These are being processed by that other path but
+> slowly (5ms per proc dentry with the debug delay).
 > 
+> When `select_collect` counts these as `found++`,
+> `shrink_dcache_parent()` sees `data.found > 0` and loops again. But
+> these dentries can never be collected onto `data.dispose` (dead ones
+> have count < 0, shrink-list ones already have `DCACHE_SHRINK_LIST`
+> set), so the loop never makes progress → **infinite loop**.
+
+They have no business going into data.dispose; for fuck sake, dentries
+on somebody else's shrink list are explicitly fed to shrink_kill().
+
+> **Why this is correct:**
+
+It is not.
+
+> - **Dead dentries (`count < 0`)**: These are being killed by another
+> CPU's `__dentry_kill()`. That CPU will call `dentry_unlist()` to remove
+> them from the parent's children list. `shrink_dcache_parent()` doesn't
+> need to wait for them — they'll disappear from the tree on their own.
+
+... and since they keep their parents busy, we should not leave until
+they are gone.  For real fun, consider calls from shrink_dcache_for_umount() -
+and yes, it *is* possible for another thread's shrink list to contain
+dentries from filesystem being shut down.  Legitimately so.
+
+> - **`DCACHE_SHRINK_LIST` dentries**: These are already on another
+> shrinker's dispose list and will be processed by that path. Counting
+> them as "found" forces `shrink_dcache_parent()` to wait for the other
+> shrinker to finish, which can take arbitrarily long (especially with
+> filesystem callbacks or the debug delay).
+
+Ditto.
+
+> - **The `select_collect2` path** (used when `data.found > 0` but
+> `data.dispose` is empty) handles `DCACHE_SHRINK_LIST` dentries
+> separately by setting `data->victim` and processing them directly. With
+> this fix, `select_collect2` is only reached when there are genuinely
+> unprocessable dentries (count > 0, not dead, not on shrink list), not
+> when there are merely in-flight kills or concurrent shrinkers.
+
+Bollocks, due to above.
+
+> ### Relationship to the production UAF crash
 > 
+> The livelock is the **precursor** to the use-after-free crash seen in
+> production (P2260313060):
+
+... and it still offers zero explanation of the path from livelock to
+UAF.  It may or may not be real, but there's nothing in all that verbiage
+even suggesting what it might be.  And proposed analysis is flat-out
+wrong.
+
+As for the livelock, see viro/vfs.git #work.dcache-busy-wait (in -next
+as of today).
