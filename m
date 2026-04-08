@@ -1,37 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88DF735B632;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88D822BE7AB;
 	Wed,  8 Apr 2026 15:23:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775661822; cv=none; b=oRsQGmZCaBSmzMy4JEjk4jj93t1PPKMYVh4CBgRuCDrRAaX06KzzBtKCIPBF/+yJrzCCh32lk3vOvmMZR7AFoED/ud/jCC4CFMqrDyCkIii8LvHFF/f6mprKrmXVx7ZQbHQSolKv5oW4B9eA3Q1Das6cjTN2psRnKozW1kAsvRo=
+	t=1775661822; cv=none; b=PobzWEAy8+54HuBbGlLeptw4kLiBnqq49pm5L9tryLQI7EtXuI4fIwUYFLFdjQJVD2usm1nl1a5SKr/ws4k1uCHRWzLSaS74HS2bWKvaxKRAddX458IJFHKjfT0m2peWXiZ6t83Za+cVv72uoNe4Nd3iz2VheXGYxXootLdNfzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1775661822; c=relaxed/simple;
-	bh=RI6VZ6IzjOyhE67VI/e+612rJ5QwLMIiMfqJKNxbziw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=MdLi7+GEskqRHqsLF6LTbIIDnO2N/Lmq96oKGzfDCQlWu63kOp5oVKYgnSpqD4MleTZiY+ftQgKo8rUZ43AtNwLZote/3tJ/xXFKhXctEvD/l/KQzom8NeHiSrSpVMXIiaW3yH9XdWIIYWEx15SLe4ClpJFLV3/Fhl2zMJqUIeo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EbFWLpGU; arc=none smtp.client-ip=10.30.226.201
+	bh=V4JVgHXrmq3f0UU3dzG1XOpSin/Y60hcI8fTsfyXKhg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Nq06w5t/ad4vbqGl2nT2fgM7NSS9p+zT9MvMmqlWFfONKIkbrZGMM9fsfv/Em3O9gyItpewQvKfZgonMEtsowAZoabtjRC4b0MSXMnrifReFSFaqHYl3ixRtsvmMGQsIibDulo7Kh28o0nza3M6+D58a8V/J0WKFdaffkESw2Vc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LyhFM20a; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EbFWLpGU"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4AB3CC2BC9E;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LyhFM20a"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2D004C19421;
 	Wed,  8 Apr 2026 15:23:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1775661822;
-	bh=RI6VZ6IzjOyhE67VI/e+612rJ5QwLMIiMfqJKNxbziw=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=EbFWLpGUmmPosdWTc9b6EqkJtd80IAIJGzEeGEyTL0EBSS/Q0nxLY4EgV6A41NwvQ
-	 HfHF0Qqi0CSmINkwtiDW2PVKVo+nku8Ilv8K2TBDp5cOa0JuR4PC6mA8C/+phlS3Oe
-	 JAy0I8mUsuvWN6stJGB0mhvWrYWMB+8pukKp8dr9m/OdTV6fO4K1ykJwoqVf+MQO8X
-	 4qD+UJu3JcKhDQMjNlNCACiFC6HKU1WH06qjhR0nxOStjYSABKJjiCrLfhGxS5FP9V
-	 r3oyMg8nB9aeIN0ohmDcktxw47noDldsxXQCD9gXiBCd38n5NiK95IPJdcyH99ZFVt
-	 CAkp0+wImkg4Q==
+	bh=V4JVgHXrmq3f0UU3dzG1XOpSin/Y60hcI8fTsfyXKhg=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=LyhFM20abC4TnMcTwpfd+YbuccZ0GWiCzV4hamPLVrvIMvgf0+3MXbDvY02CiVz+J
+	 zkFoLTw60gPXjznI6Ex4dgJ3fRxCfwAtc7laC5e+khCqEiO+ljQ/5O61le+wE0y3cS
+	 OYz1Ip6fQ62BsNJNi5u+GHwF7gLG5f+jwZmXCM4Add+NxeEiRpTzdRZ15mos23KRiD
+	 lji9hf++hV9+rXtlHLEpbHbRivGepRnxuZjoemGJjLU6UNECq1mZpKx2u7XrVHGCq2
+	 5rtzrmH4EbD+lB8G9rGf2sAHBiZy3lo/VL9OvEQTHi4EzMhajDkxTnKFN5GNtTdHdg
+	 ASdkujjeHuIAg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34F1E10F9956;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 125AC10F9953;
 	Wed,  8 Apr 2026 15:23:42 +0000 (UTC)
 From: Alberto Ruiz via B4 Relay <devnull+aruiz.redhat.com@kernel.org>
-Date: Wed, 08 Apr 2026 17:23:41 +0200
-Subject: [PATCH 2/2] selftests: add CUSE device-node leak regression test
+Subject: [PATCH 0/2] fuse: fix CUSE device node leak and add regression
+ test
+Date: Wed, 08 Apr 2026 17:23:39 +0200
+Message-Id: <20260408-wip-cuse-leak-fix-v1-0-1c028d575e97@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -40,18 +41,19 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260408-wip-cuse-leak-fix-v1-2-1c028d575e97@redhat.com>
-References: <20260408-wip-cuse-leak-fix-v1-0-1c028d575e97@redhat.com>
-In-Reply-To: <20260408-wip-cuse-leak-fix-v1-0-1c028d575e97@redhat.com>
+X-B4-Tracking: v=1; b=H4sIAPty1mkC/x2MSwqAMBDFriKzdqCWotWriAvRpw6KlhY/ULy7x
+ WUCSaQALwjUZJE8Lgly7AmKPKNh6fcZLGNi0kqXyijLtzgezgDe0K88ycOwxtSmUuVoQalzHkn
+ /z7Z73w96cYWgYwAAAA==
+X-Change-ID: 20260408-wip-cuse-leak-fix-e84494706d8e
 To: Miklos Szeredi <miklos@szeredi.hu>, Shuah Khan <shuah@kernel.org>
 Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-kselftest@vger.kernel.org, Alberto Ruiz <aruiz@redhat.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1775661821; l=14239;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1775661821; l=1981;
  i=aruiz@redhat.com; s=20260408; h=from:subject:message-id;
- bh=0ZY4XDFugXC4mOyITsG5+8zs1aPifzJy5hp1+ahuT3k=;
- b=njiGMmLeYWD5RJ7m4cgaStLasPPgfuZ7aTDa76wPPTEXFv/sxUaHzLjW6McbGnqQnLG+w015b
- 1Zw32N3WRyTBlNPK+nxo9TxifyHIix9YCeK72mpTt05qnsmwfGS/yM5
+ bh=V4JVgHXrmq3f0UU3dzG1XOpSin/Y60hcI8fTsfyXKhg=;
+ b=OA0l/p3WuhK+V3jOEb/AZMhxCC2gZjORt7zafiyzg0S0boS4nqbL8plKeIXgG4PN7H8rBD4WP
+ e9RLRkfSuiHB7yJg8PVNVPupdrqZIia4U5cvC58VyKDWhWhnPKjd3zx
 X-Developer-Key: i=aruiz@redhat.com; a=ed25519;
  pk=ZJyUFl31NDNjeRWoQa/6I6bV5lb8axrDvpj9uGd+NvU=
 X-Endpoint-Received: by B4 Relay for aruiz@redhat.com/20260408 with
@@ -59,519 +61,47 @@ X-Endpoint-Received: by B4 Relay for aruiz@redhat.com/20260408 with
 X-Original-From: Alberto Ruiz <aruiz@redhat.com>
 Reply-To: aruiz@redhat.com
 
-From: Alberto Ruiz <aruiz@redhat.com>
+In cuse_process_init_reply(), if device_add() succeeds but cdev_alloc()
+or cdev_add() fails, the error path calls put_device() without first
+calling device_del().  This leaves a stale /dev node that permanently
+poisons the device name -- any subsequent attempt to create a CUSE
+device with the same name silently fails with ENODEV.
 
-Add a kselftest under filesystems/cuse that verifies the error path in
-cuse_process_init_reply() properly calls device_del() when cdev_alloc()
-fails after device_add() has succeeded.
+The fix is a 3-line change: redirect the cdev_alloc() failure to a new
+err_dev label that calls device_del() before falling through to
+err_unlock.
 
-The test has two subtests:
+Patch 2 adds a kselftest that reproduces the bug by forcing cdev_alloc()
+to fail after device_add() has succeeded, then verifying that no /dev
+node is leaked.  To trigger the failure deterministically, a
+CONFIG_FAULT_INJECTION-guarded module parameter (cuse_inject_cdev_failure)
+is added to cuse.c.  The test falls back to failslab with stack-trace
+filtering when the parameter is unavailable.
 
- 1. normal_cleanup: performs a complete CUSE_INIT handshake, verifies
-    the device node appears, closes the channel fd, and verifies the
-    node is removed.  Basic sanity check.
-
- 2. leak_regression: forces cdev_alloc() to fail and verifies the /dev
-    node does not leak.  Uses the cuse_inject_cdev_failure module
-    parameter (preferred) or failslab with stack-trace filtering
-    (fallback).
-
-A CONFIG_FAULT_INJECTION-guarded module parameter is added to
-fs/fuse/cuse.c to allow the test to deterministically force
-cdev_alloc() failure.  This is more reliable than failslab alone, which
-depends on the stack unwinder producing matching addresses (known to
-fail under UML).
+I'm on the fence about the fault injection parameter in patch 2 -- it's
+only a few lines and it's guarded behind CONFIG_FAULT_INJECTION, but I
+understand if it feels too intrusive for production code.  Happy to drop
+the kselftest or rework the injection approach if the maintainers prefer.
+The fix in patch 1 stands on its own regardless.
 
 Signed-off-by: Alberto Ruiz <aruiz@redhat.com>
 ---
- fs/fuse/cuse.c                                     |  13 +
+Alberto Ruiz (2):
+      fuse: fix device node leak in cuse_process_init_reply()
+      selftests: add CUSE device-node leak regression test
+
+ fs/fuse/cuse.c                                     |  17 +-
  tools/testing/selftests/Makefile                   |   1 +
  tools/testing/selftests/filesystems/cuse/Makefile  |   7 +
  tools/testing/selftests/filesystems/cuse/config    |   5 +
  .../selftests/filesystems/cuse/cuse_leak_test.c    | 406 +++++++++++++++++++++
- 5 files changed, 432 insertions(+)
+ 5 files changed, 435 insertions(+), 1 deletion(-)
+---
+base-commit: 631919fb12fe7b1f0453fe1035e62ce704bc3923
+change-id: 20260408-wip-cuse-leak-fix-e84494706d8e
 
-diff --git a/fs/fuse/cuse.c b/fs/fuse/cuse.c
-index df9d50a9c0fab269102ec0e4b2d459ca2a390c59..5212a2290581ad9ffbe4b9bdac3e6fbc6cf5484a 100644
---- a/fs/fuse/cuse.c
-+++ b/fs/fuse/cuse.c
-@@ -54,6 +54,13 @@
- #include "fuse_i.h"
- #include "fuse_dev_i.h"
- 
-+#ifdef CONFIG_FAULT_INJECTION
-+static bool cuse_inject_cdev_failure;
-+module_param(cuse_inject_cdev_failure, bool, 0644);
-+MODULE_PARM_DESC(cuse_inject_cdev_failure,
-+	"Force cdev_alloc() failure in CUSE init (test only)");
-+#endif
-+
- #define CUSE_CONNTBL_LEN	64
- 
- struct cuse_conn {
-@@ -390,6 +397,12 @@ static void cuse_process_init_reply(struct fuse_mount *fm,
- 	/* register cdev */
- 	rc = -ENOMEM;
- 	cdev = cdev_alloc();
-+#ifdef CONFIG_FAULT_INJECTION
-+	if (cuse_inject_cdev_failure && cdev) {
-+		kobject_put(&cdev->kobj);
-+		cdev = NULL;
-+	}
-+#endif
- 	if (!cdev)
- 		goto err_dev;
- 
-diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
-index 450f13ba4cca98836bc8a2fe18a2eb43ce14b2d5..a54c0d13abe9f57af275737b051dcb3b339e2975 100644
---- a/tools/testing/selftests/Makefile
-+++ b/tools/testing/selftests/Makefile
-@@ -32,6 +32,7 @@ TARGETS += exec
- TARGETS += fchmodat2
- TARGETS += filesystems
- TARGETS += filesystems/binderfs
-+TARGETS += filesystems/cuse
- TARGETS += filesystems/epoll
- TARGETS += filesystems/fat
- TARGETS += filesystems/overlayfs
-diff --git a/tools/testing/selftests/filesystems/cuse/Makefile b/tools/testing/selftests/filesystems/cuse/Makefile
-new file mode 100644
-index 0000000000000000000000000000000000000000..4f0823f6bf93e89043fe85c2224d324b8d144826
---- /dev/null
-+++ b/tools/testing/selftests/filesystems/cuse/Makefile
-@@ -0,0 +1,7 @@
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+
-+CFLAGS += -Wall -O2 -g $(KHDR_INCLUDES)
-+
-+TEST_GEN_PROGS := cuse_leak_test
-+
-+include ../../lib.mk
-diff --git a/tools/testing/selftests/filesystems/cuse/config b/tools/testing/selftests/filesystems/cuse/config
-new file mode 100644
-index 0000000000000000000000000000000000000000..25d8c7c27496efd2918f85ed0314cbf111574413
---- /dev/null
-+++ b/tools/testing/selftests/filesystems/cuse/config
-@@ -0,0 +1,5 @@
-+CONFIG_CUSE=m
-+CONFIG_FAULT_INJECTION=y
-+CONFIG_FAULT_INJECTION_DEBUG_FS=y
-+CONFIG_FAILSLAB=y
-+CONFIG_FAULT_INJECTION_STACKTRACE_FILTER=y
-diff --git a/tools/testing/selftests/filesystems/cuse/cuse_leak_test.c b/tools/testing/selftests/filesystems/cuse/cuse_leak_test.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..a2d195da5896cb868dd1e6a9195abf4dd75a2f97
---- /dev/null
-+++ b/tools/testing/selftests/filesystems/cuse/cuse_leak_test.c
-@@ -0,0 +1,406 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Regression test for CUSE device-node leak (missing device_del on
-+ * error path).
-+ *
-+ * When cdev_alloc() fails after device_add() succeeds inside
-+ * cuse_process_init_reply(), the error path must call device_del()
-+ * before put_device().  Otherwise the /dev/<name> entry leaks and
-+ * permanently poisons the device name.
-+ *
-+ * Test 1 (normal_cleanup):
-+ *   Completes a CUSE_INIT handshake, verifies the device appears,
-+ *   closes the channel fd, verifies the device is removed.
-+ *
-+ * Test 2 (leak_regression):
-+ *   Forces cdev_alloc() to fail via the cuse_inject_cdev_failure
-+ *   module parameter (preferred, requires CONFIG_FAULT_INJECTION in
-+ *   the CUSE build) or via failslab with stack-trace filtering
-+ *   (fallback).  Verifies the /dev node is NOT leaked after close.
-+ */
-+
-+#define _GNU_SOURCE
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <linux/fuse.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <unistd.h>
-+
-+#include "kselftest.h"
-+
-+#define CUSE_DEV		"/dev/cuse"
-+#define BUF_SIZE		(FUSE_MIN_READ_BUFFER + 4096)
-+
-+#define INJECT_PARAM		"/sys/module/cuse/parameters/cuse_inject_cdev_failure"
-+
-+#define FAILSLAB		"/sys/kernel/debug/failslab"
-+#define FAILSLAB_PROBABILITY	FAILSLAB "/probability"
-+#define FAILSLAB_TIMES		FAILSLAB "/times"
-+#define FAILSLAB_TASK_FILTER	FAILSLAB "/task-filter"
-+#define FAILSLAB_STACK_DEPTH	FAILSLAB "/stacktrace-depth"
-+#define FAILSLAB_REQUIRE_START	FAILSLAB "/require-start"
-+#define FAILSLAB_REQUIRE_END	FAILSLAB "/require-end"
-+#define MAKE_IT_FAIL		"/proc/self/make-it-fail"
-+
-+static int write_file(const char *path, const char *val)
-+{
-+	int fd, len;
-+	ssize_t n;
-+
-+	fd = open(path, O_WRONLY);
-+	if (fd < 0)
-+		return -1;
-+	len = strlen(val);
-+	n = write(fd, val, len);
-+	close(fd);
-+	return n == len ? 0 : -1;
-+}
-+
-+static int write_file_ul(const char *path, unsigned long val)
-+{
-+	char buf[32];
-+
-+	snprintf(buf, sizeof(buf), "%lu", val);
-+	return write_file(path, buf);
-+}
-+
-+static int read_file_int(const char *path)
-+{
-+	char buf[32];
-+	ssize_t n;
-+	int fd;
-+
-+	fd = open(path, O_RDONLY);
-+	if (fd < 0)
-+		return -1;
-+	n = read(fd, buf, sizeof(buf) - 1);
-+	close(fd);
-+	if (n <= 0)
-+		return -1;
-+	buf[n] = '\0';
-+	return atoi(buf);
-+}
-+
-+static unsigned long kallsym_lookup(const char *name)
-+{
-+	unsigned long addr = 0;
-+	char line[256];
-+	FILE *f;
-+
-+	f = fopen("/proc/kallsyms", "r");
-+	if (!f)
-+		return 0;
-+	while (fgets(line, sizeof(line), f)) {
-+		char sym[128];
-+		unsigned long a;
-+		char type;
-+
-+		if (sscanf(line, "%lx %c %127s", &a, &type, sym) == 3 &&
-+		    strcmp(sym, name) == 0) {
-+			addr = a;
-+			break;
-+		}
-+	}
-+	fclose(f);
-+	return addr;
-+}
-+
-+static void failslab_cleanup(void)
-+{
-+	write_file(MAKE_IT_FAIL, "0");
-+	write_file(FAILSLAB_PROBABILITY, "0");
-+	write_file(FAILSLAB_TIMES, "0");
-+	write_file(FAILSLAB_TASK_FILTER, "0");
-+	write_file(FAILSLAB_REQUIRE_START, "0");
-+	write_file(FAILSLAB_REQUIRE_END, "0");
-+}
-+
-+static int cuse_read_init(int fd, struct fuse_in_header *hdr_out)
-+{
-+	char buf[BUF_SIZE];
-+	struct fuse_in_header *hdr;
-+	ssize_t n;
-+
-+	n = read(fd, buf, sizeof(buf));
-+	if (n < (ssize_t)(sizeof(*hdr) + sizeof(struct cuse_init_in)))
-+		return -1;
-+	hdr = (struct fuse_in_header *)buf;
-+	if (hdr->opcode != CUSE_INIT)
-+		return -1;
-+	memcpy(hdr_out, hdr, sizeof(*hdr));
-+	return 0;
-+}
-+
-+static int cuse_send_init_reply(int fd, const struct fuse_in_header *hdr,
-+				const char *devname)
-+{
-+	char reply[sizeof(struct fuse_out_header) +
-+		   sizeof(struct cuse_init_out) + 64];
-+	struct fuse_out_header *out_hdr;
-+	struct cuse_init_out *init_out;
-+	size_t info_len, reply_len;
-+	char *info;
-+	ssize_t n;
-+
-+	memset(reply, 0, sizeof(reply));
-+	out_hdr = (struct fuse_out_header *)reply;
-+	init_out = (struct cuse_init_out *)(reply + sizeof(*out_hdr));
-+	info = reply + sizeof(*out_hdr) + sizeof(*init_out);
-+
-+	info_len = snprintf(info, 64, "DEVNAME=%s", devname) + 1;
-+	reply_len = sizeof(*out_hdr) + sizeof(*init_out) + info_len;
-+
-+	out_hdr->len = reply_len;
-+	out_hdr->unique = hdr->unique;
-+	init_out->major = FUSE_KERNEL_VERSION;
-+	init_out->minor = FUSE_KERNEL_MINOR_VERSION;
-+	init_out->flags = CUSE_UNRESTRICTED_IOCTL;
-+	init_out->max_read = BUF_SIZE;
-+	init_out->max_write = 4096;
-+
-+	n = write(fd, reply, reply_len);
-+	return n == (ssize_t)reply_len ? 0 : -1;
-+}
-+
-+static int dev_exists(const char *devname)
-+{
-+	char path[128];
-+
-+	snprintf(path, sizeof(path), "/dev/%s", devname);
-+	return access(path, F_OK) == 0;
-+}
-+
-+/*
-+ * Injection methods for forcing cdev_alloc() failure.
-+ *
-+ * METHOD_PARAM (preferred): cuse_inject_cdev_failure module parameter.
-+ *   Available when CUSE is built with CONFIG_FAULT_INJECTION.  Directly
-+ *   forces cdev_alloc() to "fail" inside cuse_process_init_reply().
-+ *   Works on all architectures including UML.
-+ *
-+ * METHOD_FAILSLAB (fallback): failslab with stack-trace filtering.
-+ *   Uses the kernel's generic slab fault injection to fail the kzalloc
-+ *   inside cdev_alloc().  Requires CONFIG_FAILSLAB and
-+ *   CONFIG_FAULT_INJECTION_STACKTRACE_FILTER.  Depends on the stack
-+ *   unwinder producing matching addresses (may not work under UML).
-+ */
-+enum inject_method {
-+	METHOD_NONE,
-+	METHOD_PARAM,
-+	METHOD_FAILSLAB,
-+};
-+
-+static enum inject_method inject_available(void)
-+{
-+	if (access(INJECT_PARAM, W_OK) == 0)
-+		return METHOD_PARAM;
-+
-+	if (access(FAILSLAB_REQUIRE_START, F_OK) == 0 &&
-+	    kallsym_lookup("cdev_alloc") != 0)
-+		return METHOD_FAILSLAB;
-+
-+	return METHOD_NONE;
-+}
-+
-+static int inject_arm(enum inject_method m)
-+{
-+	unsigned long addr;
-+
-+	switch (m) {
-+	case METHOD_PARAM:
-+		return write_file(INJECT_PARAM, "Y");
-+
-+	case METHOD_FAILSLAB:
-+		addr = kallsym_lookup("cdev_alloc");
-+		if (!addr)
-+			return -1;
-+		write_file(FAILSLAB_TASK_FILTER, "1");
-+		write_file(FAILSLAB_STACK_DEPTH, "16");
-+		write_file_ul(FAILSLAB_REQUIRE_START, addr);
-+		write_file_ul(FAILSLAB_REQUIRE_END, addr + 0x200);
-+		write_file(FAILSLAB_TIMES, "1");
-+		write_file(FAILSLAB_PROBABILITY, "100");
-+		write_file(MAKE_IT_FAIL, "1");
-+		return 0;
-+
-+	default:
-+		return -1;
-+	}
-+}
-+
-+static void inject_disarm(enum inject_method m)
-+{
-+	switch (m) {
-+	case METHOD_PARAM:
-+		write_file(INJECT_PARAM, "N");
-+		break;
-+	case METHOD_FAILSLAB:
-+		write_file(MAKE_IT_FAIL, "0");
-+		failslab_cleanup();
-+		break;
-+	default:
-+		break;
-+	}
-+}
-+
-+static int inject_fired(enum inject_method m)
-+{
-+	switch (m) {
-+	case METHOD_PARAM:
-+		return 1;
-+	case METHOD_FAILSLAB:
-+		return read_file_int(FAILSLAB_TIMES) <= 0;
-+	default:
-+		return 0;
-+	}
-+}
-+
-+static const char *inject_name(enum inject_method m)
-+{
-+	switch (m) {
-+	case METHOD_PARAM:	return "module parameter";
-+	case METHOD_FAILSLAB:	return "failslab";
-+	default:		return "none";
-+	}
-+}
-+
-+/*
-+ * Test 1: normal CUSE init and cleanup.
-+ *
-+ * Verify a successfully initialized CUSE device is properly removed
-+ * when the channel fd is closed (basic sanity).
-+ */
-+static void test_normal_cleanup(void)
-+{
-+	const char *name = "cuse_ksft_norm";
-+	struct fuse_in_header hdr;
-+	int fd;
-+
-+	fd = open(CUSE_DEV, O_RDWR | O_CLOEXEC);
-+	if (fd < 0) {
-+		ksft_test_result_skip("open %s: %s\n", CUSE_DEV,
-+				      strerror(errno));
-+		return;
-+	}
-+
-+	if (cuse_read_init(fd, &hdr)) {
-+		close(fd);
-+		ksft_test_result_fail("CUSE_INIT read failed\n");
-+		return;
-+	}
-+
-+	if (cuse_send_init_reply(fd, &hdr, name)) {
-+		close(fd);
-+		ksft_test_result_fail("CUSE_INIT reply write failed\n");
-+		return;
-+	}
-+
-+	usleep(100000);
-+	if (!dev_exists(name)) {
-+		close(fd);
-+		ksft_test_result_fail("/dev/%s not created after init\n", name);
-+		return;
-+	}
-+
-+	close(fd);
-+	usleep(100000);
-+
-+	if (dev_exists(name)) {
-+		ksft_test_result_fail("/dev/%s not removed after close\n",
-+				      name);
-+		return;
-+	}
-+
-+	ksft_test_result_pass("normal init and cleanup\n");
-+}
-+
-+/*
-+ * Test 2: regression test for device-node leak.
-+ *
-+ * Force cdev_alloc() to fail after device_add() has succeeded, then
-+ * verify the /dev node is properly cleaned up by device_del().
-+ */
-+static void test_leak_on_cdev_alloc_failure(void)
-+{
-+	const char *name = "cuse_ksft_leak";
-+	struct fuse_in_header hdr;
-+	enum inject_method m;
-+	int fd, fired;
-+
-+	if (dev_exists(name)) {
-+		ksft_test_result_skip("/dev/%s already exists (previous leak? reboot to clear)\n",
-+				      name);
-+		return;
-+	}
-+
-+	m = inject_available();
-+	if (m == METHOD_NONE) {
-+		ksft_test_result_skip(
-+			"no injection method available (need CONFIG_FAULT_INJECTION)\n");
-+		return;
-+	}
-+
-+	fd = open(CUSE_DEV, O_RDWR | O_CLOEXEC);
-+	if (fd < 0) {
-+		ksft_test_result_skip("open %s: %s\n", CUSE_DEV,
-+				      strerror(errno));
-+		return;
-+	}
-+
-+	if (cuse_read_init(fd, &hdr)) {
-+		close(fd);
-+		ksft_test_result_fail("CUSE_INIT read failed\n");
-+		return;
-+	}
-+
-+	if (inject_arm(m)) {
-+		close(fd);
-+		ksft_test_result_fail("failed to arm injection (%s)\n",
-+				      inject_name(m));
-+		return;
-+	}
-+
-+	cuse_send_init_reply(fd, &hdr, name);
-+
-+	fired = inject_fired(m);
-+	inject_disarm(m);
-+
-+	usleep(100000);
-+	close(fd);
-+	usleep(100000);
-+
-+	if (!fired) {
-+		ksft_test_result_skip("injection did not trigger (%s)\n",
-+				      inject_name(m));
-+		return;
-+	}
-+
-+	if (dev_exists(name)) {
-+		ksft_test_result_fail(
-+			"/dev/%s leaked: device_del() not called on cdev_alloc error path\n",
-+			name);
-+		return;
-+	}
-+
-+	ksft_test_result_pass("device node cleaned up after cdev_alloc failure (via %s)\n",
-+			      inject_name(m));
-+}
-+
-+int main(int argc, char **argv)
-+{
-+	ksft_print_header();
-+	ksft_set_plan(2);
-+
-+	if (geteuid() != 0)
-+		ksft_exit_skip("must be run as root\n");
-+
-+	if (access(CUSE_DEV, F_OK) != 0)
-+		ksft_exit_skip(CUSE_DEV " not available (try: modprobe cuse)\n");
-+
-+	test_normal_cleanup();
-+	test_leak_on_cdev_alloc_failure();
-+
-+	ksft_finished();
-+}
-
+Best regards,
 -- 
-2.52.0
+Alberto Ruiz <aruiz@redhat.com>
 
 
