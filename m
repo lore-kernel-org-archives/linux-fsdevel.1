@@ -1,89 +1,123 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A10AF33CEA8;
-	Wed,  8 Apr 2026 15:18:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88E8737C0F9;
+	Wed,  8 Apr 2026 15:23:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775661536; cv=none; b=YIDqanZrVvQ9lKC7T1+Fas+O/MvGd14zjpMkvCCX0e7LSje0UIY9zk6pPb6REhPuEjviKz+KX2m3ZET0m/pdbcK2P0Azujz+la2j3mqj0hR0s+JpyrnoNr7RNg9uxp19g60hUEltBLkL234oT9U6+tkxHga3jJHVAwivD0Abadk=
+	t=1775661822; cv=none; b=RnJnwYklt8dAF4RwvLe6cRce/DdavgEDlRQDJOwylXnlrIsxCpbxnCC769nOfp7pKcLx/GdfXZb563/LisYaG9Onj0wsiBks6rSav9XySft7M+xyqhZkYRcVe7o4oG2dnWMUS+FUFnnWRL0dNxoTQdbLSE8QrXY+zqxU5xFx4rg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775661536; c=relaxed/simple;
-	bh=K0smtATRRlPhzZC/f2FuIGBbZSELomfitHg/FX7/F+c=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=iEO/y9+6ejXZVaGCFO8haC0YEsA72V0c4lpaJJlMixkC2GaNgYG0N4sZ5wMzjKjUqqgX9gaZ8xGBeCvVEiu18ACdbDwM9LI0qYC6vpqUu/pp2MdvvSOw+zg9c0ERRt8/VitzKZfBugCoz6pN6kRiuK9r4J1v326pYY457tTYw4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VW/ctqfW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775661822; c=relaxed/simple;
+	bh=xy2wTzXh3oJ06N9hNsWTCm7gzKhOvMebokWJWOugQTM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=io3iXwYnw7+ICliNYlVq5tEp6G4f1ir+c7oKf68NsA5anWsZUaiWoXoqfqFWrS5E+DTOoxVsuy0iPyQMDVu+tuFKY4pQRgOaCdaM5TALOdQdY4OcEWscM8dFM9K0fVb0YRSfbSGpy9BbeLt0V32EYjWqDfnNiHu7IKrIZ2R3S40=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UTOXOO49; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VW/ctqfW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43AAAC19421;
-	Wed,  8 Apr 2026 15:18:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UTOXOO49"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 38B06C2BC87;
+	Wed,  8 Apr 2026 15:23:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775661536;
-	bh=K0smtATRRlPhzZC/f2FuIGBbZSELomfitHg/FX7/F+c=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=VW/ctqfWbUrk670cLw5GbIb5IloiAdZviNrvkFPmmqRL6p6+EHv5DTHowzQ3ovPHw
-	 aRyqchU1bT7LNV6SxiCzsNRrDzSIksRADxnKGdFnxZu5htqCFFWMc5u4QUutAHEU1e
-	 bbeMUvdRBC/OUqesuEbPWcgFzb7v3IPc6PFqJ5FWwDz5RC8ZiqmsiYY+EOitBJtd7e
-	 +CqsG0M1uIUi6yhv0paoxwNL2WB4EdiwtIPK93Jo3LVqSamcT+azpoKYqcMOBSsiMo
-	 dcSjPFgJA5WWka/2nOwZ8pzHBEmYJXn6Y5bhs6DwVHhWS5jUB27L4TVtnPgc+wdJD+
-	 nz239NiXc2oxw==
-From: Thomas Gleixner <tglx@kernel.org>
-To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-Cc: LKML <linux-kernel@vger.kernel.org>, Calvin Owens <calvin@wbinvd.org>,
- Peter Zijlstra <peterz@infradead.org>, Anna-Maria Behnsen
- <anna-maria@linutronix.de>, Frederic Weisbecker <frederic@kernel.org>,
- Ingo Molnar <mingo@kernel.org>, John Stultz <jstultz@google.com>, Stephen
- Boyd <sboyd@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- linux-fsdevel@vger.kernel.org, Sebastian Reichel <sre@kernel.org>,
- linux-pm@vger.kernel.org, Pablo Neira Ayuso <pablo@netfilter.org>, Florian
- Westphal <fw@strlen.de>, Phil Sutter <phil@nwl.cc>,
- netfilter-devel@vger.kernel.org, coreteam@netfilter.org
-Subject: Re: [patch 01/12] clockevents: Prevent timer interrupt starvation
-In-Reply-To: <20260408155353-42aeefa4-db66-48aa-ab07-0538a8cfdbf0@linutronix.de>
-References: <20260407083219.478203185@kernel.org>
- <20260407083247.562657657@kernel.org>
- <20260408143313-ac6c3b82-70e6-4ce3-b33a-20f5e6ba160b@linutronix.de>
- <20260408155353-42aeefa4-db66-48aa-ab07-0538a8cfdbf0@linutronix.de>
-Date: Wed, 08 Apr 2026 17:18:52 +0200
-Message-ID: <87zf3d32g3.ffs@tglx>
+	s=k20201202; t=1775661822;
+	bh=xy2wTzXh3oJ06N9hNsWTCm7gzKhOvMebokWJWOugQTM=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=UTOXOO49luheuly8E3TpkfDK9w3e3F95JIZ2I2R7besK2uRFjB+SPI4OPM7PgD+GI
+	 JYtG3dlYq5nsfiNa81jf8IUoydrdzZxvWduZlZZVXlCl0V6F3MzluMSoY46USUHwwZ
+	 ZkXU4CMzAYCXZJJUaZ4ZDkcYEVNCYjzUxl+kN3MIA9AoA4WElarHzac7S+n+5fLm8l
+	 SqPPCMI4scX3sQMqwubx8VxukKwhZ5bXqfGgPolZ/LQL8S/45DH2G4xxqEgodgxOGA
+	 g09HOurOd6TP2PGC6+29JoQ0EfJDDoCy+he7iVtOxXQaBKMA0831dt3NqSW39kx8K/
+	 99K+EA47dqikQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23B4210F994F;
+	Wed,  8 Apr 2026 15:23:42 +0000 (UTC)
+From: Alberto Ruiz via B4 Relay <devnull+aruiz.redhat.com@kernel.org>
+Date: Wed, 08 Apr 2026 17:23:40 +0200
+Subject: [PATCH 1/2] fuse: fix device node leak in
+ cuse_process_init_reply()
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260408-wip-cuse-leak-fix-v1-1-1c028d575e97@redhat.com>
+References: <20260408-wip-cuse-leak-fix-v1-0-1c028d575e97@redhat.com>
+In-Reply-To: <20260408-wip-cuse-leak-fix-v1-0-1c028d575e97@redhat.com>
+To: Miklos Szeredi <miklos@szeredi.hu>, Shuah Khan <shuah@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, Alberto Ruiz <aruiz@redhat.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1775661821; l=2016;
+ i=aruiz@redhat.com; s=20260408; h=from:subject:message-id;
+ bh=FFr25cv2qmdGgRJVSTfidJQebQx41SqD8R/u4bhxMxY=;
+ b=6xlTlB+2IVAzx1rejwjK5k5wUp0x1dIltBb9ymPiEaWSaoXWs9X/D8pXbOqQqnTCaJ+eQCKCV
+ C51YT2d1/04BUzCgSE2dOzMaZ2x4Hx1ZrByqauumjuSkgMK4rl8BeQO
+X-Developer-Key: i=aruiz@redhat.com; a=ed25519;
+ pk=ZJyUFl31NDNjeRWoQa/6I6bV5lb8axrDvpj9uGd+NvU=
+X-Endpoint-Received: by B4 Relay for aruiz@redhat.com/20260408 with
+ auth_id=727
+X-Original-From: Alberto Ruiz <aruiz@redhat.com>
+Reply-To: aruiz@redhat.com
 
-On Wed, Apr 08 2026 at 15:55, Thomas Wei=C3=9Fschuh wrote:
-> On Wed, Apr 08, 2026 at 02:41:20PM +0200, Thomas Wei=C3=9Fschuh wrote:
-> --- a/kernel/time/clockevents.c
-> +++ b/kernel/time/clockevents.c
-> @@ -369,7 +369,7 @@ int clockevents_program_event(struct clock_event_devi=
-ce *dev, ktime_t expires, b
->         if (dev->next_event_forced)
->                 return 0;
->=20=20
-> -       if (dev->set_next_event(dev->min_delta_ticks, dev)) {
-> +       if (dev->set_next_event(dev->min_delta_ns, dev)) {
+From: Alberto Ruiz <aruiz@redhat.com>
 
-That's wrong as the callback expects cycles (ticks) not nanoseconds.
+If device_add() succeeds during CUSE initialization but a subsequent
+step (cdev_alloc() or cdev_add()) fails, the error path calls
+put_device() without first calling device_del().  This leaks the
+devtmpfs entry created by device_add(), leaving a stale /dev/<name>
+node that persists until reboot.
 
-I've just pushed out an updated version to tip timers/urgent which
-addresses a potentially related issue. Delta patch below.
+Since the cuse_conn is never linked into cuse_conntbl on the failure
+path, cuse_channel_release() sees cc->dev == NULL and skips
+device_unregister(), so no other code path cleans up the node.
 
-Thanks,
+This has several consequences:
 
-        tglx
+ - The device name is permanently poisoned: any subsequent attempt to
+   create a CUSE device with the same name hits the stale sysfs entry,
+   device_add() fails, and the new device is aborted.
+
+ - The collision manifests as ENODEV returned to userspace with no
+   dmesg diagnostic, making it very difficult to debug.
+
+ - The failure is self-perpetuating: once a name is leaked, all future
+   attempts with that name fail identically.
+
+Fix this by introducing an err_dev label that calls device_del() to
+undo device_add() before falling through to err_unlock.  The existing
+err_unlock path from a device_add() failure correctly skips device_del()
+since the device was never added.
+
+Signed-off-by: Alberto Ruiz <aruiz@redhat.com>
 ---
---- a/kernel/time/clockevents.c
-+++ b/kernel/time/clockevents.c
-@@ -324,6 +324,8 @@ int clockevents_program_event(struct clo
- 		return dev->set_next_ktime(expires, dev);
-=20
- 	delta =3D ktime_to_ns(ktime_sub(expires, ktime_get()));
-+	if (delta <=3D 0 && !force)
-+		return -ETIME;
-=20
- 	if (delta > (int64_t)dev->min_delta_ns) {
- 		delta =3D min(delta, (int64_t) dev->max_delta_ns);
+ fs/fuse/cuse.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/fs/fuse/cuse.c b/fs/fuse/cuse.c
+index dfcb98a654d83bb34460a6e8c9e4b196dfdfdfbe..df9d50a9c0fab269102ec0e4b2d459ca2a390c59 100644
+--- a/fs/fuse/cuse.c
++++ b/fs/fuse/cuse.c
+@@ -391,7 +391,7 @@ static void cuse_process_init_reply(struct fuse_mount *fm,
+ 	rc = -ENOMEM;
+ 	cdev = cdev_alloc();
+ 	if (!cdev)
+-		goto err_unlock;
++		goto err_dev;
+ 
+ 	cdev->owner = THIS_MODULE;
+ 	cdev->ops = &cuse_frontend_fops;
+@@ -417,6 +417,8 @@ static void cuse_process_init_reply(struct fuse_mount *fm,
+ 
+ err_cdev:
+ 	cdev_del(cdev);
++err_dev:
++	device_del(dev);
+ err_unlock:
+ 	mutex_unlock(&cuse_lock);
+ 	put_device(dev);
+
+-- 
+2.52.0
+
+
