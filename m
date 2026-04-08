@@ -1,140 +1,152 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 980821D5174;
-	Wed,  8 Apr 2026 02:35:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2A163603FB
+	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Apr 2026 02:54:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775615757; cv=none; b=lRF3J+KNCX5n/7UXhF8qqK8UB1tzfqrm5lRztJ2FWZX9iAPA8oN33ThZU2XZLG6vckqbTjydkON6pnV/mXHGuKa97qXcqVfVUkUEjeEb8DFqnbo+V0z9du5rf6j25VBBT7G3xKIwAWLSzGDZLMg5FJ5exaf8SGsp08IghhDdGx0=
+	t=1775616863; cv=none; b=CLpd+llc+hyRpSpwWlQNgMyTTjbC6Scea+5+Ic9b3ISL3RT2C7xhWut4TTB64V/NHhLFIGsha0hpp9VekEOGXft+/r3TbGy1S6rZdRiTVYfBzB7z2pVs3rDz3g2sd89aSbmuFFFfH/XYD/woPIa/aVzPkBkptgRjG9OVsF5519w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775615757; c=relaxed/simple;
-	bh=x+v/WG2GftoMBlJMi6E/znxkqCjwUXYr5lqBIrrZgxA=;
-	h=Date:From:To:Cc:Message-ID:Subject:Mime-Version:Content-Type; b=jKTl2ha6XNSVPm6iGgFIDY73oofWqN4ujGdfTM8WN2k6a4OzIcTyzvwuWpuTpjZyTe0aPxnH0k91jhPU4kq2QoBpCcyyaZD6fYpNOFe4yrldAf5rJ4NDbPGoHiN3LdYlcGFJWOCmFjf8H5IwNMxqqYo+jDsRB5CHf5n+x2zgh7w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MjzcvJNT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775616863; c=relaxed/simple;
+	bh=/LsGG8fyDJdk0nB/2+CPab2G575SfdRCyYn3V+orZ2A=;
+	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=BJ7+ImTxqNzjOqoYOSPrkUNiumWZ2CzBUPsXyq/IS99nK6oTW66iQhNymjYFM6xpQ23l5MhAcBVgJ0bofYxZUNldjeiDLyutWetFIjQw16T2ytK3FPfrF2kgVlCrIn1LVgH5ou2WJwm9CX1RlTz1hIclbmevLIydu+vj3tM+9Wg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HDECuNUg; arc=none smtp.client-ip=209.85.160.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MjzcvJNT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07D6EC116C6;
-	Wed,  8 Apr 2026 02:35:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775615757;
-	bh=x+v/WG2GftoMBlJMi6E/znxkqCjwUXYr5lqBIrrZgxA=;
-	h=Date:From:To:Cc:Subject:From;
-	b=MjzcvJNTGtX2eAUAX4l1OvT7c6/mxer5VUVKy4XqYDi1n6OhdY6iUMOcMRJUvb8UC
-	 U0IFo0atnAaiNcnHd2ddDMoaQHr5PQN4dIXd7OXLMUzakIW/+qDIh3dx5vLXhL4gL6
-	 H0fKXUSM/W/2efB56PzSRWVPlQ6Tywx88U0h9iZKsq+Z8S0T4OEoPfk/TRRC9uOL0w
-	 1e20Xgb2x52zfuLTT/NCywruEWmGkc9aSkirDECimhPsB1LbesJqfUcznFTvMMVfVd
-	 7IzuP6ULCrjV8vRjd0nNunvYIAb4m/EnW3hVEGhyEvveCg1CDCX3UOgyuJ+PcNPy1W
-	 dZz+2CNDObw4g==
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 327E3F40069;
-	Tue,  7 Apr 2026 22:35:56 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-03.internal (MEProxy); Tue, 07 Apr 2026 22:35:56 -0400
-X-ME-Sender: <xms:DL_VaSAZZAV53uxjsRoP8ApXqKPTHg7KaBhB7ifUm8g8fwFadW9NrA>
-    <xme:DL_VaX_AR3Is1-h9xH8WUeuJcRC38pgF90y0A6m3yM7MpjDZARyngo-u9S3wPZIUJ
-    4o2uNUJ3XyzvWXOV7ZIRoTYYLs56H9p8vJ4Izg_7XLDsypywO4IZt-R>
-X-ME-Received: <xmr:DL_VaZEjfj4Ec1nGc6wYr8-0FSY_nr59Sbmj-g9KVnDM8g4QhUw4u2vAuTLe_YPrMBG6hOJEjQ11pfQsEQoj6sOtMtHkbSh7dLU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddvvdefkecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecunecujfgurhepfffhvfevkffugggtgfesthejredttddtje
-    enucfhrhhomhepffgrnhcuhghilhhlihgrmhhsuceoughjsgifsehkvghrnhgvlhdrohhr
-    gheqnecuggftrfgrthhtvghrnheptdfhtefhheekffekueetkeeuteelieffteetieegje
-    evueevveefledugfefhfefnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhu
-    shhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegujhgsfidomhgvsh
-    hmthhprghuthhhphgvrhhsohhnrghlihhthidqudejjedvfedtgeehhedqfeeffeelgedt
-    geejqdgujhgsfieppehkvghrnhgvlhdrohhrghesfhgrshhtmhgrihhlrdgtohhmpdhnsg
-    gprhgtphhtthhopeegpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehlshhfqdhp
-    tgeslhhishhtshdrlhhinhhugidqfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtoh
-    eplhhinhhugidqtgiglhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehl
-    ihhnuhigqdhmmheskhhvrggtkhdrohhrghdprhgtphhtthhopehlihhnuhigqdhfshguvg
-    hvvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:DL_VaVNRgpJOjWjXP8hbzVv3ecxHhcj4jkmX_hhlkwFAzGQIjjZfkA>
-    <xmx:DL_VaTfFIwx3t5CasfjAMCpUsgvnb2MJXQ08a8_8Zi6o0Kvwehm6ZQ>
-    <xmx:DL_VaauMv1Ry1BCjazIFh2eT6bby-rGeKEz16WKt5x9_EdDmbhHhmw>
-    <xmx:DL_VaclDqlrxZWas45yv3xXH0aT9QZzYkg-JK7QuPGinkIOshHG8Jg>
-    <xmx:DL_VaUzMrWI9WaBAGB14TgJZjrS71Tos5c9nOdNlAxbfV_njFljK-y-o>
-Feedback-ID: i67ae4b3e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 7 Apr 2026 22:35:55 -0400 (EDT)
-Date: Tue, 07 Apr 2026 19:35:54 -0700
-From: Dan Williams <djbw@kernel.org>
-To: lsf-pc@lists.linux-foundation.org
-Cc: linux-cxl@vger.kernel.org, 
- linux-mm@kvack.org, 
- linux-fsdevel@vger.kernel.org
-Message-ID: <69d5bf0ab2210_2b3110036@djbw-dev.notmuch>
-Subject: [LSF/MM/BPF TOPIC] What's brewing in CXL?
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HDECuNUg"
+Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-408778a8ec4so3495306fac.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 07 Apr 2026 19:54:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775616860; x=1776221660; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=JEL13xtDv41LlRYS3s5MQx8Hg/AYy31h+VDDos6Ewbs=;
+        b=HDECuNUgEY4GLVcPPwocvCWKrkA706UFEP75EXT9y6qQtAIK45KpNfxJS+VIm/rU6G
+         /ysUjupjsSDJATagvLPjZXg1kacz1dcmtIZAlpHQJR4D/sbY5YKAv1xATfEvHhW6/+gA
+         oyXvG5nue/VD5RbubONewrP+iFftZfEDCa0ZghtKjH9fFNsuMWHqVPFJMD+eLq51T1mE
+         Qicn5G0xhmJqMwB8qTdZGeZBndJb1813PLvsQC6foaoq5pX8rP3C9qUG/xySJfP/F+my
+         JQepLQn3YqFxAOV1auhCvfesnYcYIQhVYOLh84C2KyHJgeYYglCfrAek1WYFnMXI2xDE
+         8BTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775616860; x=1776221660;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JEL13xtDv41LlRYS3s5MQx8Hg/AYy31h+VDDos6Ewbs=;
+        b=NoTgE/O/7bhgqGo4eH/tZA2kxXuaN/dzM4Z21bwA/u+1yRBVqKGvTGxP3cPkCz6/av
+         G0FoiNlxsn/IUYNzd6M5vA/TGqqF7Fzm9eKkh3vUiAvpqwkPi6KQMvQLr08HDfHWJA+5
+         iONbTW6nc/si+O1+3MmJciFCUZw+mIra/sv8Hk3bQQ5T9+bTXfknJqK7Xsx2CQZUrpDA
+         oFwAIfYo5Xm3DKC7Cn+9DGEuR/Ig6yOYdYVEHKdsrkCGq2ql//qiSozs4jk17hWp9+zZ
+         bvcRDsVXM6Aw2kOMqEosm2b5BKKxMM8BBGa1+7tOPIaApT/4o4TC9w0EYJ6NgOo9T+q1
+         XEzw==
+X-Gm-Message-State: AOJu0YxlVbWZgvqBFZhmu7mPs5tymDt3pdW9Ne7XMEEvKJVPacuumDgv
+	nn3Y0+pb0nU9rIK1I9kdpZ5j2XyVsX+hMRSeVSKzz3XyJI4dkQr+TxPZujJRl0k2
+X-Gm-Gg: AeBDiet2Z5PY0ouOiEY8fY7/hTl63+5nxnT/ZFMiHiyjdQp52MwUwLmBDNpLNseUaEJ
+	G3FwJcoLVvzflkhJhD7A9wQCWsKkSAyp+00SCYIeuSMFvU7un6zt54VN8IE1xUPxY+iZLa06o2k
+	8kTQpvtQSKP6v4NPKkz4/f38WWtWTgb4vQiVAuxBfsM4vUQK8//FYXH5kR3X42sJSxSl/R8+SF4
+	2vNyiNY0bopCcUaq89LVxZZ3za6VA4wJwW1HS9kZ3nUDPCktdGg/JMUC6TN5DpY2n4bLrkx76jd
+	L3W+NsKZXN6bwaET7/dWyu+6Cnl6rYB9suxyMBfuhmag8t5/tq+WGtY2Sotm3xfKnsn79ycLhbg
+	0XkPDL9BeidwMClBuhYRPxn2zTx997vOmUJR1tJQ8CMUDFGstP+Xsauxo10PGamLYN93ki3nG5Q
+	bhpFMysLRqJFUhjdKX/t4kUxKAvJMaRe2d2z0JGCd7F6kyphrZChgabzw1Wzj29JPG4PgA45hKG
+	svNRPl/
+X-Received: by 2002:a05:6870:174f:b0:417:a84c:4d8c with SMTP id 586e51a60fabf-4230fd7c2e8mr12144349fac.15.1775616860346;
+        Tue, 07 Apr 2026 19:54:20 -0700 (PDT)
+Received: from [192.168.50.127] (c-73-5-99-191.hsd1.la.comcast.net. [73.5.99.191])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-42356d581c1sm6893598fac.4.2026.04.07.19.54.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Apr 2026 19:54:19 -0700 (PDT)
+From: Sean Smith <defendthedisabled@gmail.com>
+X-Google-Original-From: Sean Smith <DefendTheDisabled@gmail.com>
+Message-ID: <92e61267-eb24-4f94-b9a1-e009b5e00d65@gmail.com>
+Date: Tue, 7 Apr 2026 21:54:17 -0500
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v1 0/6] provenance_time (ptime): a new settable
+ timestamp for cross-filesystem provenance
+To: Theodore Tso <tytso@mit.edu>
+Cc: linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+ linux-btrfs@vger.kernel.org, dsterba@suse.com, david@fromorbit.com,
+ brauner@kernel.org, osandov@osandov.com, almaz@kernel.org,
+ hirofumi@mail.parknet.co.jp, linkinjeon@kernel.org
+References: <20260405225442.GA1763@macsyma-wired.lan>
+ <20260407000558.417-1-DefendTheDisabled@gmail.com>
+ <20260407233618.GB12536@macsyma-wired.lan>
+Content-Language: en-US
+In-Reply-To: <20260407233618.GB12536@macsyma-wired.lan>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-For the summit I offered to organize a discussion on what has been
-happening in CXL since Plumbers and a summary of the monthly CXL calls
-since. The session goal is present top challenges, address concerns /
-questions from the room, and perhaps introduce the CXL topics that have
-their own session later in the day.
 
-Please do comment, question, ack/nak, or add to the themes below to
-highlight interest and help focus on the few topics we can cover in the
-limited time.
 
-* CXL vs MM:
+On 4/7/2026 18:36, Theodore Tso wrote:
+> Yelch.   This is so *very* non-Unixy / non-POSIX / non-Linux.
+> 
+> I understand why it's convenient for your particular use case, but
+> rename(2) is fundamentally an operation which works on directory
+> entries.  We don't copy over extended attributes, or Posix ACL's, or
+> Unix permission mode bits, because (a) that would violate POSIX and
+> historical Unix behavior, and (b) because rename(2) is fundamentally a
+> directory entry operation.  This is despite the fact that it be more
+> convenient if we didn't have to copy over things like extended
+> attributes, ACL's, permission mode bits, etc.  So you want to make an
+> exception for ptime?   Yelch.  Just Yelch.
+> 
+> 						- Ted
 
-  * Much of the angst of "CXL vs MM" has been harnessed by Gregory in
-    his Private Memory Nodes proposal [1]. The meta discussion for this
-    session would be questions like "how many former device-dax use cases
-    can be subsumed by a mechanism like this?". In general, the game here is
-    how to properly isolate memory that does not behave like locally
-    attached DRAM.
+[written by Sean]
 
-  * The granularity of CXL hotplug vs memory_blocks vs various
-    distribution hotplug policies stimulated a proposal to support full
-    "region" hotplug [2].
- 
-* CXL vs Platform Firmware (ACPI/EFI/BIOS):
+Finding an alternative to using rename() to transfer ptime between
+inodes during atomic saves seems beyond the scope of what I can address
+as someone who relies upon AI agents to review and modify code. From
+what my agents have been able to explain to me, the options here are
+using rename() to transfer ptime via the kernel, or using renameat2 to
+require each application to manually preserve/transfer ptime. The latter
+is, well, the phrase herding cats might be an understatement of the
+difficulty involved.
 
-  * Attempts to use software interleaving to amortize the surprise of
-    "memory that does not behave like locally attached DRAM", introduce
-    firmware dependencies. The firmware descriptions of the performance need
-    to be complete and match a shared understanding of the requirements.
-    Surprise, sometimes this does not line up. [3].
+As an individual, I don't see how I could convince every major
+open-source and closed source application developer for Linux to code
+their application to preserve and transfer ptime. That seems like
+something only leadership in the community has any chance of doing, and
+even then, that would be a very slow-moving process.
 
-  * Firmware, in trying to be helpful to pre-CXL aware OSes, pre-map CXL
-    memory (whether public generic expansion or private belonging to an
-    accelerator) into the system address map. This causes problems for a
-    subsystem that wants to support hot remove and re-assignment of
-    host-bridge resources. Lack of a specified protocol and the resulting
-    problems it causes for accelerator reset and driver reload, need more
-    thought.
- 
-* CXL vs PCI:
+It also doesn't solve the immediate needs of increasing number of users
+who are trying to ditch Windows for Linux. Windows 11 has pushed one too
+many people too far, and they, like me, have had enough.
 
-  * While CXL capabilities are enumerated over PCI, to software it is an
-    additional optional protocol. The subsystem supports being built as a
-    module. This has led to a design for error handling that sees the PCI
-    core minimally involved to forward events over kfifo. This arrangement
-    is raising ongoing questions for uAPI like PCI reset and vfio_pci
-    that expect to be able to manage device with PCI core services alone
-    [4].
+Maybe senior developers can find an alternative to rename() that works.
+I can cross my fingers and hope. Discussing matters with my agents we
+couldn't find one. The need for ptime is very real, and the code in my
+patch gets the job done, but a solution that respects conventions
+requires a level of expertise I don't have. Perhaps in 4-8 months when
+my AI harness is more mature and smarter models are available we can
+solve this.
 
-* CXL vs Tooling / RAS:
+If the rename() code making atomic saves work prevents an upstream
+merge, I understand. It would be messy adding ptime to the kernel only
+to have it disappear anytime any unpatched application modified a file.
+Avoiding such failure modes is why it seemed necessary to take a kernel
+level approach.
 
-  * Error injection, tests, and usability have continued to improve. For
-    folks looking to deploy CXL in production what is cxl-cli missing?
+Additionally, the reason an xattr ptime isn't a viable solution is
+because applications do not reliably support xattr transfer. Thus it
+would not seem likely ptime would receive better support.
 
-  * While CXL Error isolation has a hard time justifying its utility for
-    general purpose memory expansion, the accelerator use case at least
-    has a reasonable chance to construct a recoverable scenario.
+I can patch every application I use which is open-source, or I can patch
+the kernel. Rational analysis requires that I patch the kernel.
 
-[1]: https://lore.kernel.org/linux-cxl/abwRu1FNqI3dVyqL@gourry-fedora-PF4VCD3F/
-[2]: https://lore.kernel.org/linux-cxl/20260321150404.3288786-6-gourry@gourry.net/
-[3]: http://lore.kernel.org/20260316051258.246-1-rakie.kim@sk.com
-[4]: http://lore.kernel.org/20260401143917.108413-1-mhonap@nvidia.com
+I'll continue using the rename-over approach in my own system, and
+maintaining a github repo so that others who need it can patch their own
+kernels. As the phrase goes, it's better than nothing. If there's a path
+that respects conventions, I'm genuinely interested in guidance.
 
-"CXL, making MM problems worse since 2021..." -- CXL subsystem tagline
+- Sean
+
