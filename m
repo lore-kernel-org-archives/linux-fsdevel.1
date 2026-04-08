@@ -1,186 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com [95.215.58.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5CF33CCFC2;
-	Wed,  8 Apr 2026 12:30:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15D87245005
+	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Apr 2026 12:37:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775651416; cv=none; b=RFDT4EFKdrcCEUlqUboFldtdocETOyfcGh+s4ovfsygUGwU/PlJFwDbjN6DDWkXcltBkgO0p6TpnQ+zPl6W+cRrU2YHQZun/TLysx+20UiJUHIPgvujeNlt2yUpiawnsedwnmStINEXETEnVzHXa703xW5gCF9WsFQWNTtn908s=
+	t=1775651834; cv=none; b=D7cdpPO1GBrjJVVgVe5YTUH9XhLQmGVUIYC8M+WSss3orKgvHuBwwbJYZ92ozD+bWg4dFHE1qDwRjtYRnuyEFr0LT1CxTzkubsa064k83Bf6dRC3lOG011EXg4xMPQawYaiio6Jxh9bWESe0/pmumEJ27lIppfFhTW2cLIyi9ho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775651416; c=relaxed/simple;
-	bh=QV16RRTroR60pYIPNpVr2u935zYJuhq0gQLQqu9lLvc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=B6AYVNMHS9xjadzgGeEnpLoXpOQhF0A5eA7vy2OHMEJmgDtNXysL0nVX4U2QK0XPrb0IjdhiTnMueu7Renqmk5QhX4T7Kp7JTN2d5X5tVgcNhWdEM71QZVi58VLmvYBVxEe2vCAesSKNoGZjxF9Xu96u72gdHXEo6sP6LEdUXD0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eFCe8N02; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775651834; c=relaxed/simple;
+	bh=NLwi39iG6x+4DNei3a8leGjXiKw3I9Rzak2FVdeN0d8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=hAq2llzu7PVe0InffxAOmUNJyi6WU40tiM1dQSQua4hliMDOIuhHTiMF8lH8e+cvsHlCIdMuYtWZukvw5O7t5/5BtY8xT7VSs00vQLEF3/nlViGOpHlYbcmYUn7XW5bqvN/7oj83zc+Ws8BzkZZkdeqfSPDLt6toVHh5AmDT+HQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=LojMvni9; arc=none smtp.client-ip=95.215.58.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eFCe8N02"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C09B5C2BCB2;
-	Wed,  8 Apr 2026 12:30:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775651416;
-	bh=QV16RRTroR60pYIPNpVr2u935zYJuhq0gQLQqu9lLvc=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=eFCe8N02TpDHW/ZbZosKV9/VS1vaAGRjLKIUnfwYE1sDE1fETmrsNFnhsS+fr5q0T
-	 g52RFNTgpKT5bjdTjIFkbkf6h8oNhf3ZjvGDR+HCV1qi6YFhkR3R6HNF4yUams2zjt
-	 e+uWFsxpBSonljJSFCvrzAula5AzSpdwtU4lz6ZqGOopXvV3g+dH/IGyORVmXzaeFB
-	 A1V8+zicAorVRb1Czb+wfSAYipeD9vJB691Mq2/1arUGeR4V2GXU1JGxzEZvA7BySb
-	 GTYgPzRfBbSoQjs8kAbTiV6xmF8f7aczOcx8qla9fKSrhRnaEEF2QgpGJYZbG7yj7e
-	 FTuQrjvjDXHAw==
-From: Chuck Lever <cel@kernel.org>
-Date: Wed, 08 Apr 2026 08:29:59 -0400
-Subject: [PATCH v8 9/9] NFSD: Close cached file handles when revoking
- export state
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="LojMvni9"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1775651830;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=w7ozxszcWAzUiiO7dnD+2XLganhUT/yvfmOrIFi0J4o=;
+	b=LojMvni9LRcUFivfS2//FW6d4oquvN57vihlfqSaUW5XqAUIYTV/zoRXKgzs+sk1dtwBY3
+	45254wkgwY7gkR/4eSAIZrf9nWHh+UlKN3vMXpTdOgS0uMkyQqYBaMlvMVPfi/FCBpSrnq
+	j6fbEfOSQU7/VVrzdgvjzRlJd3kGoWM=
+From: Usama Arif <usama.arif@linux.dev>
+To: "Denis M. Karpov" <komlomal@gmail.com>
+Cc: Usama Arif <usama.arif@linux.dev>,
+	rppt@kernel.org,
+	akpm@linux-foundation.org,
+	Liam.Howlett@oracle.com,
+	ljs@kernel.org,
+	vbabka@kernel.org,
+	jannh@google.com,
+	peterx@redhat.com,
+	pfalcato@suse.de,
+	brauner@kernel.org,
+	viro@zeniv.linux.org.uk,
+	jack@suse.cz,
+	linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH] userfaultfd: allow registration of ranges below mmap_min_addr
+Date: Wed,  8 Apr 2026 05:36:59 -0700
+Message-ID: <20260408123700.1596800-1-usama.arif@linux.dev>
+In-Reply-To: <20260407081442.6256-1-komlomal@gmail.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260408-umount-kills-nfsv4-state-v8-9-6e02a1d03d60@oracle.com>
-References: <20260408-umount-kills-nfsv4-state-v8-0-6e02a1d03d60@oracle.com>
-In-Reply-To: <20260408-umount-kills-nfsv4-state-v8-0-6e02a1d03d60@oracle.com>
-To: NeilBrown <neil@brown.name>, Jeff Layton <jlayton@kernel.org>, 
- Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, 
- Tom Talpey <tom@talpey.com>
-Cc: linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- Chuck Lever <chuck.lever@oracle.com>
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4360;
- i=chuck.lever@oracle.com; h=from:subject:message-id;
- bh=x0TdrtltMY1YuvVdaaPef/iF+vzHaDIQXyUSoJA5eh8=;
- b=owEBbQKS/ZANAwAKATNqszNvZn+XAcsmYgBp1kpPN5pIN2MdZrZD3w+J6eTPhZTLnULkE8DFE
- 1Fva2WQn6CJAjMEAAEKAB0WIQQosuWwEobfJDzyPv4zarMzb2Z/lwUCadZKTwAKCRAzarMzb2Z/
- l7K2D/420PgP+aqp5xuNQwNaw4LIxQQ36Chj9REItKq1ny4xTBvkUlWPCH01Kd5IRnFKWqLLbgF
- DTHUb4kPku85BPlW0kB/6xx/tNCyQUtz/dhnYi+hF3cl2c88EFfDwVmEeHy1isTOF7MjIJuxaZ3
- TuTf+SYyyNo0C/WSld4h6GYXWiaOOXiCMJp+FqcG7YNKnRPxO/5PuPvwb0M1uQeD39QAMqaqgKz
- /zVzjiO/IV+q0UMvdvEdg1P3FiRVqVsoU3lwL0AOtV8UaNcNONHSjfPUUXuIGffVAZhUNg1bdT1
- vuib9cJUeGvpVwHTaiyP4gUpQjCxCRqJOwzY58UsVKE6JoT1ALtgDGxNhxyBEY/mLkIbxo2dQK9
- LPxjn4uhb8y72SEb0cVqwKmVaV8otEYPFUbIBxsIF0jOb+S9jrEugZsUSQZowYxZuDRfdlu4DiS
- q73mnDKb3tNG8k37RflbQ/plPDwpRS+Ux2Ad7qyqZ72gMh6O0dUxu1EOwTssNsQfwnPSnjC21Cf
- 9SfWCyDTzauzvOcUKYnd5K8Jr0oBtvyj5SFrVJ/eRf5aSnZlkCDgpdofZO574+6TvktWsMdkACs
- vzUnbY4tDT3N8Yv8T7aKO3Wnz6DLZh3isvcgYOahHAbfuI7hnSsYbwN5fLcuomcHetyEXOVuWFC
- 6bA36tvc9r3AqJw==
-X-Developer-Key: i=chuck.lever@oracle.com; a=openpgp;
- fpr=28B2E5B01286DF243CF23EFE336AB3336F667F97
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-From: Chuck Lever <chuck.lever@oracle.com>
+On Tue,  7 Apr 2026 11:14:42 +0300 "Denis M. Karpov" <komlomal@gmail.com> wrote:
 
-When NFSD_CMD_UNLOCK_EXPORT revokes NFSv4 state for an export path,
-GC-managed nfsd_file entries for files under that path may remain
-in the file cache.  These cached handles hold the underlying
-filesystem busy, preventing a subsequent unmount.
+> The current implementation of validate_range() in fs/userfaultfd.c
+> performs a hard check against mmap_min_addr without considering
+> capabilities, but the mmap() syscall uses security_mmap_addr()
+> which allows privileged processes (with CAP_SYS_RAWIO) to map below
+> mmap_min_addr. Furthermore, security_mmap_addr()->cap_mmap_addr() uses
+> dac_mmap_min_addr variable which can be changed with
+> /proc/sys/vm/mmap_min_addr.
+> 
+> Because userfaultfd uses a different check, UFFDIO_REGISTER may fail
+> with -EINVAL for valid memory areas that were successfully mapped
+> below mmap_min_addr even with appropriate capabilities.
+> 
+> This prevents apps like binary compilers from using UFFD for valid memory
+> regions mapped by application.
+> 
+> Replace the rigid mmap_min_addr check with security_mmap_addr() to align
+> userfaultfd with the standard kernel memory mapping security policy.
+> 
+> Signed-off-by: Denis M. Karpov <komlomal@gmail.com>
+> 
+> ---
+> Initial RFC following the discussion on the [BUG] thread.
+> Link: https://lore.kernel.org/all/CADtiZd0tWysx5HMCUnOXfSHB7PXAuXg1Mh4eY_hUmH29S=sejg@mail.gmail.com/
+> ---
+>  fs/userfaultfd.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/fs/userfaultfd.c b/fs/userfaultfd.c
+> index bdc84e521..dbfe5b2a0 100644
+> --- a/fs/userfaultfd.c
+> +++ b/fs/userfaultfd.c
+> @@ -1238,15 +1238,13 @@ static __always_inline int validate_unaligned_range(
+>  		return -EINVAL;
+>  	if (!len)
+>  		return -EINVAL;
+> -	if (start < mmap_min_addr)
+> -		return -EINVAL;
+>  	if (start >= task_size)
+>  		return -EINVAL;
+>  	if (len > task_size - start)
+>  		return -EINVAL;
+>  	if (start + len <= start)
+>  		return -EINVAL;
+> -	return 0;
+> +	return security_mmap_addr(start);
 
-Add nfsd_file_close_export(), which walks the nfsd_file hash table
-and closes GC-eligible entries whose underlying file resides on the
-same filesystem and is a descendant of the export path.  Because
-nfsd_file entries do not carry an export reference, the ancestry
-check uses is_subdir() on the file's dentry.  False positives --
-closing a cached handle that did not originate from the target
-export -- are harmless; the handle is simply reopened on the next
-access.
+Is this introducing an ABI change?
 
-The handler calls nfsd_file_close_export() before revoking NFSv4
-state, mirroring the order used by NFSD_CMD_UNLOCK_FILESYSTEM
-(which cancels copies and releases NLM locks before revoking
-state).  Both calls run under nfsd_mutex.
+The old code returned -EINVAL when start was below mmap_min_addr.
+The new code calls security_mmap_addr() which returns -EPERM when
+the caller lacks CAP_SYS_RAWIO. Existing userspace callers checking
+specifically for -EINVAL would see different behavior start is
+below mmap_min_addr.
 
-Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
-Reviewed-by: Jeff Layton <jlayton@kernel.org>
----
- fs/nfsd/filecache.c | 46 ++++++++++++++++++++++++++++++++++++++++++++++
- fs/nfsd/filecache.h |  1 +
- fs/nfsd/nfsctl.c    |  5 +++--
- 3 files changed, 50 insertions(+), 2 deletions(-)
-
-diff --git a/fs/nfsd/filecache.c b/fs/nfsd/filecache.c
-index 1e2b38ed1d35..24511c3208db 100644
---- a/fs/nfsd/filecache.c
-+++ b/fs/nfsd/filecache.c
-@@ -724,6 +724,52 @@ nfsd_file_close_inode_sync(struct inode *inode)
- 	nfsd_file_dispose_list(&dispose);
- }
- 
-+/**
-+ * nfsd_file_close_export - close cached file handles for an export
-+ * @net: net namespace in which to operate
-+ * @path: export path whose cached files should be closed
-+ *
-+ * Close out GC-managed nfsd_file entries whose underlying file is on
-+ * the same filesystem as, and a descendant of, @path.  nfsd_file
-+ * entries do not carry an export reference, so the check uses the
-+ * file's dentry ancestry.  False positives (closing a cached handle
-+ * that did not originate from the target export) are harmless -- the
-+ * handle is simply reopened on the next access.
-+ *
-+ * Called from the NFSD_CMD_UNLOCK_EXPORT handler before revoking
-+ * NFSv4 state, to ensure that cached file handles do not hold the
-+ * filesystem busy.
-+ */
-+void nfsd_file_close_export(struct net *net, const struct path *path)
-+{
-+	struct rhashtable_iter iter;
-+	struct nfsd_file *nf;
-+	LIST_HEAD(dispose);
-+
-+	rhltable_walk_enter(&nfsd_file_rhltable, &iter);
-+	do {
-+		rhashtable_walk_start(&iter);
-+
-+		nf = rhashtable_walk_next(&iter);
-+		while (!IS_ERR_OR_NULL(nf)) {
-+			if (nf->nf_net == net &&
-+			    test_bit(NFSD_FILE_GC, &nf->nf_flags) &&
-+			    nf->nf_file &&
-+			    file_inode(nf->nf_file)->i_sb ==
-+					path->dentry->d_sb &&
-+			    is_subdir(nf->nf_file->f_path.dentry,
-+				      path->dentry))
-+				nfsd_file_cond_queue(nf, &dispose);
-+			nf = rhashtable_walk_next(&iter);
-+		}
-+
-+		rhashtable_walk_stop(&iter);
-+	} while (nf == ERR_PTR(-EAGAIN));
-+	rhashtable_walk_exit(&iter);
-+
-+	nfsd_file_dispose_list(&dispose);
-+}
-+
- static int
- nfsd_file_lease_notifier_call(struct notifier_block *nb, unsigned long arg,
- 			    void *data)
-diff --git a/fs/nfsd/filecache.h b/fs/nfsd/filecache.h
-index b383dbc5b921..683b6437cacc 100644
---- a/fs/nfsd/filecache.h
-+++ b/fs/nfsd/filecache.h
-@@ -70,6 +70,7 @@ struct net *nfsd_file_put_local(struct nfsd_file __rcu **nf);
- struct nfsd_file *nfsd_file_get(struct nfsd_file *nf);
- struct file *nfsd_file_file(struct nfsd_file *nf);
- void nfsd_file_close_inode_sync(struct inode *inode);
-+void nfsd_file_close_export(struct net *net, const struct path *path);
- void nfsd_file_net_dispose(struct nfsd_net *nn);
- bool nfsd_file_is_cached(struct inode *inode);
- __be32 nfsd_file_acquire_gc(struct svc_rqst *rqstp, struct svc_fh *fhp,
-diff --git a/fs/nfsd/nfsctl.c b/fs/nfsd/nfsctl.c
-index 65f4c757a0f4..c76849f316f7 100644
---- a/fs/nfsd/nfsctl.c
-+++ b/fs/nfsd/nfsctl.c
-@@ -2392,9 +2392,10 @@ int nfsd_nl_unlock_export_doit(struct sk_buff *skb, struct genl_info *info)
- 		return error;
- 
- 	mutex_lock(&nfsd_mutex);
--	if (nn->nfsd_serv)
-+	if (nn->nfsd_serv) {
-+		nfsd_file_close_export(net, &path);
- 		nfsd4_revoke_export_states(nn, &path);
--	else
-+	} else
- 		error = -EINVAL;
- 	mutex_unlock(&nfsd_mutex);
- 
-
--- 
-2.53.0
-
+>  }
+>  
+>  static __always_inline int validate_range(struct mm_struct *mm,
+> -- 
+> 2.47.3
+> 
+> 
