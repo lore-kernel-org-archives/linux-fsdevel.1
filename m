@@ -1,149 +1,170 @@
-Received: from smtp-190c.mail.infomaniak.ch (smtp-190c.mail.infomaniak.ch [185.125.25.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F32940DFCD
-	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Apr 2026 12:24:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.25.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AF493C5DCE;
+	Wed,  8 Apr 2026 12:30:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775651069; cv=none; b=mK1NHKxx6JiChULROdure6Vn8rZxtUVvF1Gm93+D5kKyvAtZS4hlqftE55dzAJyXgSErgFTcD+7rlGpaHq7aS0vGJleoW9tVZW6+3zT4H2Q+Hi5kNt66YsPu7LYWaLNpWAv/J3AA1zFKRP6QMcXaakYYrIm2C+pfU8BnPtQOS3E=
+	t=1775651409; cv=none; b=q6JwoGLtrxbKU/Y0/7C1k5eKMx30ZVJJlNz0yy8/SL0omyO4nOfzgIxEHFPNl6NahOKfTysqABHJCu3YJ046VcQDUQvkecmJj5WSuF48fSDGQpOV3FZyuLcMItDAZkSnUWs0bBFrvJzKPpZJ7RJcsEkMhYPrwhsmf9PINmGyXuI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775651069; c=relaxed/simple;
-	bh=jPn2+XUdBDU4PE9SQFsVLHuJ4Z/pk83Xi6yn+2VHq8U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JGKxZaE3mlyTj6AFbPeD6sGhh0dQa4KhfS9mLp50YDjEXYhqhfbVfUKvBnpj5abukZGpBqHZATTSavypW3AXCTemnB6CXWSsvOQ5BSOvQPMPMULyEKfM1bZTuEVaiKFlWC/xNtMCMG9s15C7XlU9O+Xn5FWqVxfCCdsI2oTyvnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=tX0yHVyy; arc=none smtp.client-ip=185.125.25.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
+	s=arc-20240116; t=1775651409; c=relaxed/simple;
+	bh=V87dwed4H3oRivgkQPJQJjVUqgwCsFYEsU3rdV9BwFA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=YUq2CYflm45ptV31pfBU8BuCahBK7Ysx+aQB/qr6DjAzs/xWhfuvhfPPHCIPK4Gu8tVulPEepMl6DgMVgl3nVk+81gDrxfmsbmqSOn+S/CDG9YbB15127k/NM4WsdX2JHLS0waivPPo9KX4BmrpfwLmq2qc5ycw44KJDbN53mvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T/yBYfpW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="tX0yHVyy"
-Received: from smtp-3-0000.mail.infomaniak.ch (smtp-3-0000.mail.infomaniak.ch [10.4.36.107])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4frMgq6jCYznbT;
-	Wed,  8 Apr 2026 14:24:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
-	s=20191114; t=1775651063;
-	bh=B1smvf+ybVXTtSJ2nuo3dWZp5RzBVc6OX7E5d64qHeM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tX0yHVyybaVscrS/X/1DuTLcZ4ibs0LVnESKf2ATooWNhcBUDS1p/CPdk7zXV9aSR
-	 cDX5Od5X+vzJeXLUjMS7aool5H4h1fPCxtagyHzh/H3ZTuHDY4eZg3pgDXm2eXmcDC
-	 2altqDirckIxrpNmPN+cOichendSApR0zKjpTgNU=
-Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4frMgn20gvzX2c;
-	Wed,  8 Apr 2026 14:24:21 +0200 (CEST)
-Date: Wed, 8 Apr 2026 14:24:17 +0200
-From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-To: Christian Brauner <brauner@kernel.org>
-Cc: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, 
-	Paul Moore <paul@paul-moore.com>, linux-security-module@vger.kernel.org, 
-	John Johansen <john.johansen@canonical.com>, Georgia Garcia <georgia.garcia@canonical.com>, 
-	Kentaro Takeda <takedakn@nttdata.co.jp>, Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>, 
-	linux-fsdevel@vger.kernel.org, Alejandro Colomar <alx@kernel.org>
-Subject: Re: LSM: Whiteout chardev creation sidesteps mknod hook
-Message-ID: <20260408.jae8Cohse9Pe@digikod.net>
-References: <adUBCQXrt7kmgqJT@google.com>
- <20260408.beu1Eing5aFo@digikod.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T/yBYfpW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CF2AC19421;
+	Wed,  8 Apr 2026 12:30:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775651408;
+	bh=V87dwed4H3oRivgkQPJQJjVUqgwCsFYEsU3rdV9BwFA=;
+	h=From:Subject:Date:To:Cc:From;
+	b=T/yBYfpWIOQ5ahj7IqRShb4YkrUnazCtxPdcUxtzGrg4U20b33+sTJdO7y8qLvZsd
+	 5gFm/EH2emfQdiRVcWmq7w5FkXtIMn317QwnjohvipoU0mdhG1ivcFwS/D6duhQKuK
+	 X2sVUAuYtyMqzlyMK19llkrpitFuJs3bF51HmKvuGjrHKAXUHHybR2Q/lcm+lDl+EP
+	 wPd24dnS0Cj55eGFoS+7xfScwSG4/SMqVkKjnwDkUHoZw7afAKNjKUv024b42ZgE08
+	 DOZ1CnHWKv/7TYWqwvG59AXxr4aZFY2k9jU8hQldYopjgrLBecI9Z1VHqdJNSEnDvh
+	 fnjU7/OARuzWw==
+From: Chuck Lever <cel@kernel.org>
+Subject: [PATCH v8 0/9] Automatic NFSv4 state revocation on filesystem
+ unmount
+Date: Wed, 08 Apr 2026 08:29:50 -0400
+Message-Id: <20260408-umount-kills-nfsv4-state-v8-0-6e02a1d03d60@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260408.beu1Eing5aFo@digikod.net>
-X-Infomaniak-Routing: alpha
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAD5K1mkC/43OQW7DIBAF0KtErEsLg7FxVr1H1QXGg03rQAXYa
+ hX57oV0kypSlN380czTP5OE0WEix8OZRNxccsGXoJ4OxMzaT0jdWDIBBi0TXNH1FFaf6adblkS
+ 9TVtDU9YZKRcKuLJgG2SkvH9FtO77Qr+9/+W0Dh9ocvXqxaAT0iFqb+a6CtFNzr8Uc6QZU3Z+q
+ lezSznEn0vDranaA2XKwKhstR6bRg+9gtcQtVnw2YQTqW02eSVBe0eSRRrBIOv4IGTHbqT2ShL
+ 8jtQWiSuQzPbSAugbqXtU6monNQIi9sJK8U/a9/0X1Oj1ctcBAAA=
+X-Change-ID: 20260318-umount-kills-nfsv4-state-138218f2f4e0
+To: NeilBrown <neil@brown.name>, Jeff Layton <jlayton@kernel.org>, 
+ Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, 
+ Tom Talpey <tom@talpey.com>
+Cc: linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ Chuck Lever <chuck.lever@oracle.com>, Dai Ngo <dai.ngo@oracle.com>
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3937;
+ i=chuck.lever@oracle.com; h=from:subject:message-id;
+ bh=V87dwed4H3oRivgkQPJQJjVUqgwCsFYEsU3rdV9BwFA=;
+ b=owEBbQKS/ZANAwAKATNqszNvZn+XAcsmYgBp1kpFZX1t2+2gIogVEqPHOeG1Q+hHlcJrG9GaS
+ fvIzL7dZauJAjMEAAEKAB0WIQQosuWwEobfJDzyPv4zarMzb2Z/lwUCadZKRQAKCRAzarMzb2Z/
+ lwToD/42CGH+XUM8Mo+U1wobl1mYWIrFJD4M+URw6DTjlQIb1S5MoxsVyJl5a6W0X3i4r9zDCsE
+ xEaXeeN15r/C0SUi0IrArBzyECzpW/QZm/0shKspfJzfpRh38JzSTNjkfYoPU+PKAZkdGs294gy
+ 6bI+zICObnzcgH/1mhsyTbC1pDr/ZRYa5BF2DRJLvLJVwY/5D502M3XuqWbKunDi0TKy1yKafCE
+ 4UTObUdj9+V7bDkjNpaHV6SFez+aqHoCF4NebzGrrdNC8nLJaNM1UM6mJkCczpxjxf05zBG85sP
+ 0Zr2KMCtpSSeTAHSSpu2lCpzDlUQUwqpzpZmWQNUqDkpKFCkCsWUUT0qnFx70cErFCQzZvxCvFW
+ JmsFREvxTwBG7terJibz0TySHBVV3QfvTZLMGCDALMcXQfnHBBH3s+xhKMgrS8fdsWvV2BpfEDm
+ krkrEJdjmlY9RO64dwPyAN5aa8Zg9nnAVNTz5l3PcvhoPUXrAveQR9N/TeZGhCRR+rK2DdeYcxB
+ qeKuXOHYtTycBYaFW+x4X25+s/qLn//U1vLterUTPejJRKiH41BZTxpvEraA07W0Rj93t9MqtKb
+ X8TycIgp+AXd4hbFMrtsQEB4ImHN5TuYElyI93tM3a4E4T5I+Hru59oS9NOOMGZyxlHqmVkqK15
+ zbulUGUkBzE+lRg==
+X-Developer-Key: i=chuck.lever@oracle.com; a=openpgp;
+ fpr=28B2E5B01286DF243CF23EFE336AB3336F667F97
 
-CCing fsdevel and Alejandro.
+When an NFS server exports a filesystem and clients hold NFSv4
+state (opens, locks, delegations), unmounting the underlying
+filesystem fails with EBUSY. The /proc/fs/nfsd/unlock_ip and
+/proc/fs/nfsd/unlock_fs procfs interfaces handle this, but have
+no netlink equivalents, and unlock_fs operates at whole-superblock
+granularity.
 
-On Wed, Apr 08, 2026 at 01:01:31PM +0200, Mickaël Salaün wrote:
-> On Tue, Apr 07, 2026 at 03:05:13PM +0200, Günther Noack wrote:
-> > Hello Christian, Paul, Mickaël and LSM maintainers!
-> > 
-> > I discovered the following bug in Landlock, which potentially also
-> > affects other LSMs:
-> > 
-> > With renameat2(2)'s RENAME_WHITEOUT flag, it is possible to create a
-> > "whiteout object" at the source of the rename.  Whiteout objects are
-> > character devices with major/minor (0, 0) -- these devices are not
-> > bound to any driver, so they are harmless, but still, the creation of
-> > these files can sidestep the LANDLOCK_ACCESS_FS_MAKE_CHAR access right
-> > in Landlock.
-> 
-> Any way to "write" on the filesystem should properly be controlled.  The
-> man page says that RENAME_WHITEOUT requires CAP_MKNOD, however, looking
-> at vfs_mknod(), there is an explicit exception to not check CAP_MKNOD
-> for whiteout devices. See commit a3c751a50fe6 ("vfs: allow unprivileged
-> whiteout creation").
-> 
-> > 
-> > 
-> > I am unconvinced which is the right fix here -- do you have an opinion
-> > on this from the VFS/LSM side?
-> > 
-> > 
-> > Option 1: Make filesystems call security_path_mknod() during RENAME_WHITEOUT?
-> 
-> This is the right semantic.
-> 
-> > 
-> > Do it in the VFS rename hook.
-> > 
-> > * Pro: Fixes it for all LSMs
-> > * Con: Call would have to be done in multiple filesystems
-> 
-> That would not work.
-> 
-> > 
-> > 
-> > Option 2: Handle it in security_{path,inode}_rename()
-> > 
-> > Make Landlock handle it in security_inode_rename() by looking for the
-> > RENAME_WHITEOUT flag.
-> > 
-> > * Con: Operation should only be denied if the file system even
-> >   implements RENAME_WHITEOUT, and we would have to maintain a list of
-> >   affected filesystems for that.  (That feels like solving it at the
-> >   wrong layer of abstraction.)
-> 
-> Why would we need to maintain such list?  If it's only about the errno,
-> well, that would not be perfect be ok with a proper doc.
-> 
-> I'm mostly worried that there might be other (future) call paths to
-> create whiteout devices.
-> 
-> I think option 2 would be the most practical approach for Landlock, with
-> a new LANDLOCK_ACCESS_FS_MAKE_WHITEOUT right.
-> 
-> I'm also wondering how are the chances that other kind of special file
-> type like a whiteout device could come up in the future.  Any guess
-> Christian?
-> 
-> > * Con: Unclear whether other LSMs need a similar fix
-> 
-> I guess at least AppArmor and Tomoyo would consider that an issue.
-> 
-> > 
-> > 
-> > Option 3: Declare that this is working as intended?
-> 
-> We need to be able to controle any file creation, which is not currently
-> the case because of this whiteout exception.
-> 
-> > 
-> > * Pro: (0, 0) is not a "real" character device
-> > 
-> > 
-> > In cases 1 and 2, we'd likely need to double check that we are not
-> > breaking existing scenarios involving OverlayFS, by suddenly requiring
-> > a more lax policy for creating character devices on these directories.
-> > 
-> > Please let me know what you think.  I'm specifically interested in:
-> > 
-> > 1. Christian: What is the appropriate way to do this VFS wise?
-> > 2. LSM maintainers: Is this a bug that affects other LSMs as well?
-> > 
-> > Thanks,
-> > —Günther
-> > 
-> > P.S.: For full transparency, I found this bug by pointing Google
-> > Gemini at the Landlock codebase.
-> > 
+This series adds three new NFSD netlink commands, each with its own
+attribute set:
+
+ - NFSD_CMD_UNLOCK_IP releases NLM locks held by a client IP
+   address. Netlink equivalent of write_unlock_ip.
+
+ - NFSD_CMD_UNLOCK_FILESYSTEM revokes all NFS state on a
+   superblock. Netlink equivalent of write_unlock_fs.
+
+ - NFSD_CMD_UNLOCK_EXPORT revokes NFSv4 state acquired through
+   exports of a specific path, regardless of client.
+
+UNLOCK_FILESYSTEM and UNLOCK_EXPORT serve different intents.
+UNLOCK_FILESYSTEM means "unmounting /data, release everything
+on this superblock." UNLOCK_EXPORT means "no clients remain for
+/data/projectA, release only the state acquired through exports
+of that path." Userspace (exportfs -u) sends UNLOCK_EXPORT after
+removing the last client for a given path, enabling the underlying
+filesystem to be unmounted.
+
+The path-only design for UNLOCK_EXPORT avoids the auth_domain
+naming complexity (use_ipaddr vs hostname-based domains) by not
+requiring the caller to identify a specific client. Since this
+mechanism is to be used to enable umount, this seemed like a
+reasonable compromise.
+
+---
+Changes since v7:
+- Rebase on Jeff's mountd netlink patches
+- Fix pre-existing state revocation bugs
+
+Changes since v6:
+- Send the complete series (v5 was missing patches 6 and 7)
+
+Changes since v5:
+- Rename state_lock => nn->deleg_lock
+
+Changes since v4:
+- 1/9 has been queued in nfsd-testing
+- Split single NFSD_CMD_UNLOCK into three separate commands
+- UNLOCK_EXPORT takes path only, no client attribute to avoid
+  auth_domain naming complexity with use_ipaddr
+
+Changes since v3:
+- All VFS changes replaced with new netlink "unlock" operation
+
+Changes since v2:
+- Replace fs_pin with an SRCU umount notifier chain in VFS
+- Merge the pending COPY cancellation patch
+- Replace xa_cmpxchg() with xa_insert()
+- Use cancel_work_sync() instead of flush_workqueue()
+- Remove rcu_barrier()
+- Correct misleading claims in kdoc comments and commit messages
+
+Changes since v1:
+- Explain why drop_client() is being renamed
+- Finish implementing revocation on umount
+- Rename pin_insert_group
+- Clarified log output and code comments
+- Hold nfsd_mutex while closing nfsd_files
+
+---
+Chuck Lever (9):
+      NFSD: Fix infinite loop in layout state revocation
+      NFSD: Handle layout stid in nfsd4_drop_revoked_stid()
+      NFSD: Extract revoke_one_stid() utility function
+      NFSD: Add NFSD_CMD_UNLOCK_IP netlink command
+      NFSD: Add NFSD_CMD_UNLOCK_FILESYSTEM netlink command
+      NFSD: Replace idr_for_each_entry_ul in find_one_sb_stid()
+      NFSD: Track svc_export in nfs4_stid
+      NFSD: Add NFSD_CMD_UNLOCK_EXPORT netlink command
+      NFSD: Close cached file handles when revoking export state
+
+ Documentation/netlink/specs/nfsd.yaml |  61 +++++++++
+ fs/nfsd/filecache.c                   |  46 +++++++
+ fs/nfsd/filecache.h                   |   1 +
+ fs/nfsd/netlink.c                     |  36 +++++
+ fs/nfsd/netlink.h                     |   3 +
+ fs/nfsd/nfs4layouts.c                 |   2 +
+ fs/nfsd/nfs4state.c                   | 240 ++++++++++++++++++++++++----------
+ fs/nfsd/nfsctl.c                      | 126 +++++++++++++++++-
+ fs/nfsd/state.h                       |   6 +
+ fs/nfsd/trace.h                       |  32 ++++-
+ include/uapi/linux/nfsd_netlink.h     |  24 ++++
+ 11 files changed, 498 insertions(+), 79 deletions(-)
+---
+base-commit: b495a392b2748dca31d2a4b404632c6f907aa136
+change-id: 20260318-umount-kills-nfsv4-state-138218f2f4e0
+
+Best regards,
+--  
+Chuck Lever
+
