@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A22E70830;
-	Wed,  8 Apr 2026 05:03:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90BBD34EF03;
+	Wed,  8 Apr 2026 05:06:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775624635; cv=none; b=AaLb88WGaRGAfenHqnH+H0z4M9GoSDdqYzxAI1OBkfxgEfBgOfkYNPwIdxR6FZ4BrKZHnar9GaaAdp4bflQqGdvW73dpvBhy9WCaVssnxxYOcyPKXkmYNriOvQd7kMF8/9YnDV51msxcH/jI6D0uQe9vOuMC+lQPnb3Ep5seE2A=
+	t=1775624808; cv=none; b=md/eXOKMU1H+s1z2MpdlWeuvJC0aqEb8jl78Ydl4Pj4NpiJdf+MOoInFtL/WJO9pLt1ANp9EWsNrRQTAiDgjilSOg9ZugrMG/mJUvIrNtYRjH261Dc3UCprDnl8LCW0NpEHpXJ1hksdyA7ESmPVlPsds3qtYTRwCLUJ4S2IRjNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775624635; c=relaxed/simple;
-	bh=nzKj1JYDVWXdfypihrSWXODLI+7vjEaN/DAreeNUhn4=;
+	s=arc-20240116; t=1775624808; c=relaxed/simple;
+	bh=KxdT77sIotJP2qhhF+vMPM/9tSXb7KQCKTtWbKQ34Qs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZUn0+CDgGjz5vNy2rOhZAkmmuptWQ0j8X2e7dVvHyZtQrFEIBNQhhctALWNopzle+0Bt/PzEXQTFQN8G//kOibCXu1B4p2Rvs2lMP9o+qXuifHQQd04lcayDioRdQek2RWeTJb3kO9RZnaw/az+dWXlqOOZ3R8MJA1Woe+fdh60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=diIsj1vj; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=K0vDwKAfXRr1JYKBOqVEs34v2/fFoOHPX06CmE6LMaXiNAoEJPpX2Nw8HEusysg7tCyxp4IU3M21gyd++Spn86A94p1Q+eGersotcyxrITiOe6714eiihJ+M5lqfhpCqbMfqdYs+rq+G8eZ/Ej3TGgPFL4zIaYSolXSO/mUtk5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iejLIiwR; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="diIsj1vj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iejLIiwR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775624634; x=1807160634;
+  t=1775624806; x=1807160806;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=nzKj1JYDVWXdfypihrSWXODLI+7vjEaN/DAreeNUhn4=;
-  b=diIsj1vjhXNqZM296a4OHPnFelU/7wUrolhzqMzFBEnEEsUEOWt79Bh6
-   nfww9KhgD/koeX5N72kvsOipJhdC4uwV3Hl4k/ZV8kYWNdWU1FyPLisiJ
-   hH6fBBRlu3IunAiwPlfxqaC7OvP9rXa9128EljEamogEQh9Phkmm2zrzQ
-   gLTKArHoLECtOaCBQ00a3dJA/FhpFOiA3AmdJrrOJ3/mHizJEwKmoIeIp
-   hsjIQsKQbaa7iejDVBQavak7rWaz8GJKwDFjoHu723/yrDNvSUhS3RkZu
-   uWqoxqYtFWHo1vSMlYidm12g088gtpkHkKwWUeKRzibgAz2QUzZLh3x9p
-   g==;
-X-CSE-ConnectionGUID: QXkUrDB+QjqA4Nggl7P1IA==
-X-CSE-MsgGUID: /Mezk+/KTcyonCxXu0jgxA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11752"; a="87982043"
+  bh=KxdT77sIotJP2qhhF+vMPM/9tSXb7KQCKTtWbKQ34Qs=;
+  b=iejLIiwR7Hj3q1Q051dNeS1wINKHy5lPDm3CHI0aL1Bz7ZxUp9Nqpf4g
+   NN4NeJTFjklYe1kmEtMFDciT97d6Atzi4YUOvfVvHXNPLp2MwXYJYe5Rd
+   edZsEPX3pCzoGChqxGmFZP4iHLnExen9ctUaeIlUm76Xgq3X/191M0A1w
+   vAyRhXsZfZYBRKD6umyYgmwXqQSyhqIFbxMgPBQ+8nvEznGQ/F4iXBpLX
+   sK1x3FPBlaS+aYUyKq6gOPrnP78yDPpny5GmUe/XdgOniot4rJClWOyT9
+   2FJ/WxFA5NG3NxwAP6UW1ZkZm6Lq+IJhyiN6i0eTbZIxv6bYsZ1japrmU
+   Q==;
+X-CSE-ConnectionGUID: uyZl1zbLT+GeTdk0Ra3nWw==
+X-CSE-MsgGUID: nqHt0kyrQd6iRccE+UuL6A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11752"; a="88051946"
 X-IronPort-AV: E=Sophos;i="6.23,167,1770624000"; 
-   d="scan'208";a="87982043"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 22:03:53 -0700
-X-CSE-ConnectionGUID: sg7DmW7JS1aZ7LxRPdRRiA==
-X-CSE-MsgGUID: TMFdbeG+SruJuCCKBcJl+A==
+   d="scan'208";a="88051946"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 22:06:45 -0700
+X-CSE-ConnectionGUID: u0Sb7QV5T9KGKrKtWMN0rQ==
+X-CSE-MsgGUID: DmsiHcP+RdyO5aitdlLFsA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,167,1770624000"; 
-   d="scan'208";a="251688363"
-Received: from lkp-server01.sh.intel.com (HELO d00eb8a6782a) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 07 Apr 2026 22:03:52 -0700
-Received: from kbuild by d00eb8a6782a with local (Exim 4.98.2)
+   d="scan'208";a="225185719"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 07 Apr 2026 22:06:43 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wAL4v-000000001Rt-2SJC;
-	Wed, 08 Apr 2026 05:03:49 +0000
-Date: Wed, 8 Apr 2026 13:03:22 +0800
+	id 1wAL7h-00000000APP-1bOa;
+	Wed, 08 Apr 2026 05:06:41 +0000
+Date: Wed, 8 Apr 2026 07:06:04 +0200
 From: kernel test robot <lkp@intel.com>
 To: Li Wang <liwang@kylinos.cn>, Miklos Szeredi <miklos@szeredi.hu>,
 	Bernd Schubert <bernd@bsbernd.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org, Li Wang <liwang@kylinos.cn>
 Subject: Re: [PATCH v2] fuse: Send FORGET over io_uring when ring is ready
-Message-ID: <202604081238.PU4HPayI-lkp@intel.com>
+Message-ID: <202604080703.edi7Btyb-lkp@intel.com>
 References: <20260403035752.20206-1-liwang@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -81,14 +81,14 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Li-Wang/fuse-Send-FORGET-
 base:   v7.0-rc7
 patch link:    https://lore.kernel.org/r/20260403035752.20206-1-liwang%40kylinos.cn
 patch subject: [PATCH v2] fuse: Send FORGET over io_uring when ring is ready
-config: m68k-defconfig (https://download.01.org/0day-ci/archive/20260408/202604081238.PU4HPayI-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260408/202604081238.PU4HPayI-lkp@intel.com/reproduce)
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260408/202604080703.edi7Btyb-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260408/202604080703.edi7Btyb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604081238.PU4HPayI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604080703.edi7Btyb-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
