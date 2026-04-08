@@ -1,61 +1,81 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from fhigh-b4-smtp.messagingengine.com (fhigh-b4-smtp.messagingengine.com [202.12.124.155])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E31842D0C97;
-	Wed,  8 Apr 2026 01:08:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED76C3191A5;
+	Wed,  8 Apr 2026 01:10:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775610527; cv=none; b=o6qrCjl1LfhhXcWzNGzXQGZzr+CIilOW+e3eueruXcuLcG3vUZbjjg6RR0wKw0e5pjDGkSRnkm3OQ8S1ufTfsl16J65o0U56oDIX4jDAOSHjJR8HHmk2s9JuQbfKLx+wWiPMG7f9AfrnNOU4vuUUL06i1RVjvWzv7RBTKFCWid8=
+	t=1775610634; cv=none; b=KWWJXY3eQPLgprkakZPr8uvzQO5cmn+bhmrBvi451/JfVGDMWnPmhGnwlcx/tHKyyW6E8V8Sh8EGF64S0u5nU3p8SiK8W8PYVrm6Hg9HZjsWWX7hlzfwWal+VxinWquAgFmcJ2XJR+AYF2tfjXqdyv5zLzUK0Wsg0JUdT+w8HmE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775610527; c=relaxed/simple;
-	bh=oH58kHBZb00Q9kMPpxKZ0IVYZlXPeghOafrSChGoMdk=;
+	s=arc-20240116; t=1775610634; c=relaxed/simple;
+	bh=X/vMTQg9Mg7optEV0JTWExto9WjwKniw/bC23pvy7pg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ANBVSpDbI25ibHrh32ebzBzqjmX/WbM6IU6W7cC9XFiw3B1K72DbbP0rFK2sJ5201rJCDHIxe3QaroGqQrn3sJdyH1NG40T9ogjbW9ZzMQRaeTeaFsn595nJPbbfcWxzFf43r1ik/anrp4Th9CMRcUAUd0aPSN9qcX4RW0Vqyq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NTpbul3E; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=XEZg3Lw9jWXpIljpN9a5Tw7fom59BoNGsEcaHJ/VTv+ix9bQh/RRMtRHnb76YwB1vinXnaR8E/P84eFvnBmVEgzQR6mHXUeECRLu7f9kltB1Fxq76m8P+659kEvORhj/nSEmg0wgESZZAG2P7fke/3LHzsAh271AH1iSMJ787/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tyhicks.com; spf=pass smtp.mailfrom=tyhicks.com; dkim=pass (2048-bit key) header.d=tyhicks.com header.i=@tyhicks.com header.b=flCTnGJR; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=OJMvNuQx; arc=none smtp.client-ip=202.12.124.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tyhicks.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tyhicks.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NTpbul3E"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775610524; x=1807146524;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=oH58kHBZb00Q9kMPpxKZ0IVYZlXPeghOafrSChGoMdk=;
-  b=NTpbul3E83UMWKCR2aDPC5WOaVneNIYYVDasrHB9363u0bsLenOj0QqW
-   TRX8wc45j4dFBTrN6FA/XH428ze2oteubBUtWCULWEHQGkP/5vWf5oage
-   d+F7rQPDxgS2stb4ru7krz/smhAjl03EOB7zxa+j5nVvR3tjrqUo1y8fi
-   inoYb60y4oDw2mNy0Z2rgQ3Gpj/IIkcFkM5J2QR6bW2LfyP0bax5Uo0JQ
-   QubA+bXh3YsOo3S8v6H9jMMb/WtFR9pW7KUel/XbmNozz5Lll8vV6EKpp
-   I3vt/ZiGKALYCb9yNvTZOe9xy3ypAym2YBCE6obWwLdM3tohx/q2UZE3T
-   g==;
-X-CSE-ConnectionGUID: BW7MjazjSzGR6F6YmS2+0g==
-X-CSE-MsgGUID: 2e8RIyh1SiWBVnu/EgXuEg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11752"; a="75622884"
-X-IronPort-AV: E=Sophos;i="6.23,166,1770624000"; 
-   d="scan'208";a="75622884"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 18:08:43 -0700
-X-CSE-ConnectionGUID: d9Nn0MbaTqag8TpAkiH9TA==
-X-CSE-MsgGUID: JXu9yp3ZQxK+OAJQAkqEkw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,166,1770624000"; 
-   d="scan'208";a="232698541"
-Received: from lkp-server01.sh.intel.com (HELO d00eb8a6782a) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 07 Apr 2026 18:08:40 -0700
-Received: from kbuild by d00eb8a6782a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wAHPG-000000001GX-3tPg;
-	Wed, 08 Apr 2026 01:08:34 +0000
-Date: Wed, 8 Apr 2026 09:08:22 +0800
-From: kernel test robot <lkp@intel.com>
-To: Li Wang <liwang@kylinos.cn>, Miklos Szeredi <miklos@szeredi.hu>,
-	Bernd Schubert <bernd@bsbernd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Li Wang <liwang@kylinos.cn>
-Subject: Re: [PATCH v2] fuse: Send FORGET over io_uring when ring is ready
-Message-ID: <202604080826.6cW9hWuX-lkp@intel.com>
-References: <20260403035752.20206-1-liwang@kylinos.cn>
+	dkim=pass (2048-bit key) header.d=tyhicks.com header.i=@tyhicks.com header.b="flCTnGJR";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="OJMvNuQx"
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 157F77A0260;
+	Tue,  7 Apr 2026 21:10:32 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Tue, 07 Apr 2026 21:10:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tyhicks.com; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1775610631; x=1775697031; bh=XwjmQG1Z6q
+	2YIpUddDTDKCwUA8dhQbQ+9xl0vnD4fmA=; b=flCTnGJRBjNc+p3V/SyD2ZUWkN
+	Fxnu6sGSMj3FsCVYCv5sA7kJcUni3xz7p0awTndmwZzy6qCf6Pyom5uSpldNj53l
+	NcJ65vOXz2ew6gfFhm2FryRqGLufCgufHpuWyXgIbcHjXY1b/MHoDjcjb0E1xxr7
+	iADVDHhg8BnbfRF9LiDcgxzZwKP4UjoIoOgx8n5TUWiK9cgpCDE4xG10j+FVn8/V
+	0kTWfOT6vgpw8iAY3peuLnUqH7JygpR/LgQ4E5kt5DHhQb3VPQWpllSuGIiSfwd8
+	VVVbP79F2Ews/H4fbLGtF5xOkvD9OLGsJ6BeCvVDGAs7Usd0NY1jF3+sRObg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1775610631; x=1775697031; bh=XwjmQG1Z6q2YIpUddDTDKCwUA8dhQbQ+9xl
+	0vnD4fmA=; b=OJMvNuQxQdgGd4hnFFnnSGozLGfWAzfLwTFVVSmE3fELI0AhiWb
+	FiCzbk8v8GNZqtXT7GQo6Wm1Vc/N4a08zY+gI4zUK26mWc5xRZXmsfDG7iV8x1A/
+	ngBrRUVLY2Vayj9G3ZiHDw0jHAd+FPIV3ziy6MxrDjIkyKwRz4hd4HVewXsXVn/E
+	ADa57Do4t6GH7onNwCqkMs5idVoml7yNVKW7Yd13unw7n6IneVi92kFTPgjJGbWy
+	tobDmqVQMFGmW/sffbTyopk1bxG4pKkaz6KfIAOPR7+b+n/y8rGnuadDEdzQ3YaB
+	EV9p/eN/pWZfC/1x99Psf5eYi1Bos3iFuGA==
+X-ME-Sender: <xms:B6vVaZZJm1Z6aEPhRDDiiw7a4e-MRvgpLawS6nOfOpkOq_0wCdXrqQ>
+    <xme:B6vVaYKcTTe-R8MxMeRZfaIpq9sJdG2AvjynEL7JLxlS9vSSuU4aiZ_95LCuojXbZ
+    9V5-QJYQCz7TXicwOqWJTzoqd2Atks-l2xjL3zn8vzyvzM5EKv0ym8>
+X-ME-Received: <xmr:B6vVafDq4bTM13Lm7JqvGhb4jOGaGr4JP2XQ9eEUf1OTYhMAFjXIuMg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddvvddulecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefvhihlvghrucfj
+    ihgtkhhsuceotghouggvsehthihhihgtkhhsrdgtohhmqeenucggtffrrghtthgvrhhnpe
+    etfeffjefgudekleduleeljeevtdfhvdefhfejhfehgffhtddvueellefhgfelheenucff
+    ohhmrghinhepihhnfhhrrgguvggrugdrohhrghenucevlhhushhtvghrufhiiigvpedtne
+    curfgrrhgrmhepmhgrihhlfhhrohhmpegtohguvgesthihhhhitghkshdrtghomhdpnhgs
+    pghrtghpthhtohepfedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohephhgthhesih
+    hnfhhrrgguvggrugdrohhrghdprhgtphhtthhopegvtghrhihpthhfshesvhhgvghrrdhk
+    vghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgvrh
+    drkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:B6vVaVopFr3CNV2LKVh0L3kJtxZqu7dIOR-MkAI0nkD5s3GYtvvSbw>
+    <xmx:B6vVaSiBYQQqYUNAEMl7KynMDms5yvXXadFIRxuIiozh0jaIzaSj-g>
+    <xmx:B6vVaaCunJsacfnd_Hs4Bmg_vrNMPjV2WZ_U0iPHo8MIDro8ZltrlA>
+    <xmx:B6vVafEnBDBp4B1brQsuZJlw4l9aHyNFx0pycMM-wtcofNZg4yLdLw>
+    <xmx:B6vVaRdYYLm4WKOw2UIALAP7F93vy1eLIcNNEycHKA5i-kVZPAt7jnQt>
+Feedback-ID: i78e14604:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 7 Apr 2026 21:10:30 -0400 (EDT)
+Date: Tue, 7 Apr 2026 20:10:29 -0500
+From: Tyler Hicks <code@tyhicks.com>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: ecryptfs@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: cleanup truncate handling in ecryptfs v2
+Message-ID: <adWrBVPMUj0otxi_@yaupon>
+References: <20260407140329.633186-1-hch@lst.de>
+ <adUZs-oTFj5t1Lnh@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -64,114 +84,34 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260403035752.20206-1-liwang@kylinos.cn>
+In-Reply-To: <adUZs-oTFj5t1Lnh@infradead.org>
 
-Hi Li,
+On 2026-04-07 07:50:27, Christoph Hellwig wrote:
+> On Tue, Apr 07, 2026 at 04:02:36PM +0200, Christoph Hellwig wrote:
+> > Hi Tyler,
+> > 
+> > this series cleans up the truncate handling in ecryptfs.  I did
+> > it as preparation for some changes into size changing truncate
+> > VFS interfaces I'm looking into in the moment.  The changes have
+> > passed the regression test suite in the userspace ecryptfs
+> > repository and against the ecryptfs next branch.
+> 
+> So right after I posted this I came up with an idea how to better
+> pass arguments to the low-level truncate helper as the size + lower_ia
+> kept irking me.  The branch here:
+> 
+> https://git.infradead.org/?p=users/hch/misc.git;a=shortlog;h=refs/heads/ecryptfs-truncate
+> 
+> simply only passed the upper ia, which feels a lot cleaner.  It passes
+> the ecryptfs test suite, but otherwise is hot off the press.  If you
+> like the new version I'll send it out tomorrow.
+> 
 
-kernel test robot noticed the following build errors:
+Yep, that's the right thing to do. Thanks for give it more thought.
 
-[auto build test ERROR on v7.0-rc7]
-[also build test ERROR on linus/master]
-[cannot apply to mszeredi-fuse/for-next next-20260407]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I only had time to do a diff between v1 and this branch. The code
+changes look good. One tiny typo in a code comment:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Li-Wang/fuse-Send-FORGET-over-io_uring-when-ring-is-ready/20260408-015226
-base:   v7.0-rc7
-patch link:    https://lore.kernel.org/r/20260403035752.20206-1-liwang%40kylinos.cn
-patch subject: [PATCH v2] fuse: Send FORGET over io_uring when ring is ready
-config: i386-randconfig-141-20260408 (https://download.01.org/0day-ci/archive/20260408/202604080826.6cW9hWuX-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-smatch: v0.5.0-9004-gb810ac53
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260408/202604080826.6cW9hWuX-lkp@intel.com/reproduce)
+s/file systen/file system/
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604080826.6cW9hWuX-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> fs/fuse/dev_uring.c:1433:15: error: no member named 'abort_on_kill' in 'struct fuse_args'
-    1433 |         if (!d->args.abort_on_kill)
-         |              ~~~~~~~ ^
-   1 error generated.
-
-
-vim +1433 fs/fuse/dev_uring.c
-
-  1378	
-  1379	/*
-  1380	 * Send FUSE_FORGET through the io-uring ring when active; same payload as
-  1381	 * fuse_read_single_forget(), with userspace committing like any other request.
-  1382	 * Called from fuse_dev_queue_forget() when fuse_uring_ready().
-  1383	 */
-  1384	void fuse_io_uring_send_forget(struct fuse_iqueue *fiq,
-  1385					struct fuse_forget_link *forget)
-  1386	{
-  1387		struct fuse_conn *fc = container_of(fiq, struct fuse_conn, iq);
-  1388		struct fuse_mount *fm;
-  1389		struct fuse_req *req;
-  1390		struct fuse_forget_uring_data *d;
-  1391	
-  1392		if (!fuse_uring_ready(fc)) {
-  1393			fuse_dev_queue_forget_list(fiq, forget);
-  1394			return;
-  1395		}
-  1396	
-  1397		down_read(&fc->killsb);
-  1398		if (list_empty(&fc->mounts)) {
-  1399			up_read(&fc->killsb);
-  1400			fuse_dev_queue_forget_list(fiq, forget);
-  1401			return;
-  1402		}
-  1403		fm = list_first_entry(&fc->mounts, struct fuse_mount, fc_entry);
-  1404		up_read(&fc->killsb);
-  1405	
-  1406		d = kmalloc(sizeof(*d), GFP_KERNEL);
-  1407		if (!d)
-  1408			goto fallback;
-  1409	
-  1410		atomic_inc(&fc->num_waiting);
-  1411		req = fuse_request_alloc(fm, GFP_KERNEL);
-  1412		if (!req) {
-  1413			kfree(d);
-  1414			fuse_drop_waiting(fc);
-  1415			goto fallback;
-  1416		}
-  1417	
-  1418		memset(&d->args, 0, sizeof(d->args));
-  1419		d->inarg.nlookup = forget->forget_one.nlookup;
-  1420		d->args.opcode = FUSE_FORGET;
-  1421		d->args.nodeid = forget->forget_one.nodeid;
-  1422		d->args.in_numargs = 1;
-  1423		d->args.in_args[0].size = sizeof(d->inarg);
-  1424		d->args.in_args[0].value = &d->inarg;
-  1425		d->args.force = true;
-  1426		d->args.noreply = true;
-  1427		d->args.end = fuse_forget_uring_free;
-  1428	
-  1429		kfree(forget);
-  1430	
-  1431		fuse_force_creds(req);
-  1432		__set_bit(FR_WAITING, &req->flags);
-> 1433		if (!d->args.abort_on_kill)
-  1434			__set_bit(FR_FORCE, &req->flags);
-  1435		fuse_adjust_compat(fc, &d->args);
-  1436		fuse_args_to_req(req, &d->args);
-  1437		req->in.h.len = sizeof(struct fuse_in_header) +
-  1438			fuse_len_args(req->args->in_numargs,
-  1439				      (struct fuse_arg *)req->args->in_args);
-  1440	
-  1441		fuse_uring_queue_fuse_req(fiq, req);
-  1442		return;
-  1443	
-  1444	fallback:
-  1445		fuse_dev_queue_forget_list(fiq, forget);
-  1446	}
-  1447	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Tyler
