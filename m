@@ -1,228 +1,166 @@
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30B603B5304;
-	Wed,  8 Apr 2026 10:22:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5BBC7262B;
+	Wed,  8 Apr 2026 11:10:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775643764; cv=none; b=RQ6iiqpuDYGYQ8PJLUqVzfLIz/mYj7f3ZtS9aPUi9xl2DTepWKP9dm1zP+qm+ilJ9uhr+a9vMnlkkiYXlyUQsG2al06JCOxYmhqj56ObUVbaRoRvCFcIU1CEM5wXYIr9u0wcJt9T3cSMV4LzmDkAPVxOzZEk3zKT/81H3w4f67Q=
+	t=1775646620; cv=none; b=caHFXUFHysQkrDC3r1tyCinig1xMXKEEvjq2MdMShbcuIIZUxftVkRZ8s+RKQMMmpL3MbAGBgCnhONaQUYjacFdw/ysyTjN3eHosfN5WP5vdnZrEWEP/DPN9H9JsIXymlCw4SycZT4CVcRepWIKW7vsTMbxRnOMQVELVgO93yOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775643764; c=relaxed/simple;
-	bh=QIEpJji1TfJqLOzPMAYDArLk96P5CTzdoQe2gwiuv9o=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=aP9YXVYl22PNszBSUjlnxLcbQVyrME+EquQFhOcnD+pqG7XlKFalsQps3pQV0CzV0j+1SuwV6SlEGLnwx5x9+hfsJGaiGcB30L9In8Bq+JCMljZcuEKkz6K6yixC2RNepRu9SoPajTSL+869DYu8wxjvS1QEcYGtyeSk4PKdIq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=ETJ+h7XM; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	s=arc-20240116; t=1775646620; c=relaxed/simple;
+	bh=noqBErSZ2RiJYL/mozVn4gwWu9+pijNorhgJrYTS7x0=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=fgRraP0u+Z+wyQS7uf5Y1ztHyc2Ps9i3RZyYBpqv3JisH8EZnfvUdlPgFN8nVWi2bAJrJEzdRMmbsoJVT8OrgiAcsOT4UsP7Ap6pubcajggaSZkTgI90IspJZ4kDkC76VEPpxJES/nVCY+N8fzqRfXpgeOLS+OoGIWXdye60R7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dVSQwfFv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="ETJ+h7XM"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
-	Date:References:In-Reply-To:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=/K1cqBbmO2BrGXIkUCu69EK/41F59QC1xA5tpQ3GBQA=; b=ETJ+h7XMoyYJ7vohBep1EAfWzc
-	ohE27euenn/SMZ5nFXRrOSK35QGHUA1o6XGIHUzHxVqNu/mXZGBKGEqhERDVfOWtd65/pRVNPiPj0
-	rh7fRRfIbDmIUwjmFKBpG9wANUUM966RNvwgEEUaNAi6e2eLizZuLjd3pXoOsg4ushFnYfKml/T3b
-	NKBDom8+z5oW/t6UIh3kl6dXSm3DC14ROsjIpcJzU/rLmmlixGFEAdUY7Y595OFeUvJgeBdIrasit
-	cDNssihy3pN7gIyZfldMqCDAdehq3y3N/tGe7BXGRAdGrpy4hRSpnrPXwtC1t8NW0bSrl9gAgwC3F
-	g083Xfdw==;
-Received: from bl15-209-88.dsl.telepac.pt ([188.80.209.88] helo=localhost)
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1wAQ3C-00DQNG-8u; Wed, 08 Apr 2026 12:22:22 +0200
-From: Luis Henriques <luis@igalia.com>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>,  Amir Goldstein
- <amir73il@gmail.com>,  Bernd Schubert <bschubert@ddn.com>,  Bernd Schubert
- <bernd@bsbernd.com>,  "Darrick J. Wong" <djwong@kernel.org>,  Horst
- Birthelmer <hbirthelmer@ddn.com>,  Kevin Chen <kchen@ddn.com>,
-  linux-fsdevel@vger.kernel.org,  linux-kernel@vger.kernel.org,  Matt
- Harvey <mharvey@jumptrading.com>,  kernel-dev@igalia.com
-Subject: Re: [RFC PATCH v3 6/8] fuse: implementation of lookup_handle+statx
- compound operation
-In-Reply-To: <CAJnrk1b9CkQ0i6FdFvxcKbhS7K4TG5yQKbnEXV=Hc+ry593KoQ@mail.gmail.com>
-	(Joanne Koong's message of "Tue, 7 Apr 2026 16:24:50 -0700")
-References: <20260225112439.27276-1-luis@igalia.com>
-	<20260225112439.27276-7-luis@igalia.com>
-	<CAJnrk1Yxpy0+tx2yb7CxVVwF9gqNRz_pHH5NUpBHOg55NNooJA@mail.gmail.com>
-	<87v7e24gdw.fsf@igalia.com>
-	<CAJnrk1aG_N-FVJfNpoU6iLcA6XHsUvWe74E0Pkth-hev9zgmHg@mail.gmail.com>
-	<CAJnrk1b9CkQ0i6FdFvxcKbhS7K4TG5yQKbnEXV=Hc+ry593KoQ@mail.gmail.com>
-Date: Wed, 08 Apr 2026 11:22:22 +0100
-Message-ID: <87bjftlpk1.fsf@igalia.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dVSQwfFv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02F53C19421;
+	Wed,  8 Apr 2026 11:10:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775646620;
+	bh=noqBErSZ2RiJYL/mozVn4gwWu9+pijNorhgJrYTS7x0=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=dVSQwfFvwLuiScJ4EvioMkJkPj5muEGszMjEoRpQqUKoH/1/xIwkuhGyogbIcf0yz
+	 d5EdpZGBbU4xdM0SuqXDPVkgZK1R8jkEXyCiR93HFgBO/cbP9YX9dIH+hSr19ImIXJ
+	 AjDIKlBOrF9YnWIiE8uPtqDaM+wTcLJ81h+Wt1zoCZCCSlUVqhWLo7tfAyVckQHFMn
+	 LzFVVZF6Zb0O9ecuKpAZf7incRMYO6Uc75b7HLyOlA2u47/tmaAAFSofaslhYS5Iod
+	 N7uc6WZsEG+tNvfV1KxmONfFF4DU4Jlv5pQpKqWQo48iFrfYCzVHw0m9669+v/o6aK
+	 kOpU2adBNnWmw==
+Message-ID: <f892e27541e2a21ab2dd763b8d127b91fa9a140a.camel@kernel.org>
+Subject: Re: [PATCH] dcache: warn when a dentry is freed with a non-empty
+ ->d_lru
+From: Jeff Layton <jlayton@kernel.org>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Wed, 08 Apr 2026 07:10:17 -0400
+In-Reply-To: <20260408064251.GE3836593@ZenIV>
+References: <20260406-dcache-warn-v1-1-c665efbc005f@kernel.org>
+	 <20260408064251.GE3836593@ZenIV>
+Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
+ keydata=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
+ QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 07 2026, Joanne Koong wrote:
+On Wed, 2026-04-08 at 07:42 +0100, Al Viro wrote:
+> On Mon, Apr 06, 2026 at 12:44:13PM -0400, Jeff Layton wrote:
+> > We've had a number of panics that seem to occur on hosts with heavy
+> > process churn. The symptoms are a panic when invalidating /proc entries
+> > as a task is exiting:
+> >=20
+> > queued_spin_lock_slowpath+0x153/0x270
+> > shrink_dentry_list+0x11d/0x220
+> > shrink_dcache_parent+0x68/0x110
+> > d_invalidate+0x90/0x170
+> > proc_invalidate_siblings_dcache+0xc8/0x140
+> > release_task+0x41b/0x510
+> > do_exit+0x3d8/0x9d0
+> > do_group_exit+0x7d/0xa0
+> > get_signal+0x2a9/0x6a0
+> > arch_do_signal_or_restart+0x1a/0x1c0
+> > syscall_exit_to_user_mode+0xe6/0x1c0
+> > do_syscall_64+0x74/0x130
+> > entry_SYSCALL_64_after_hwframe+0x4b/0x53
+> >=20
+> > The problem appears to be a UAF. It's freeing a shrink list of
+> > dentries, but one of the dentries on it has already been freed.
+>=20
+> That, or dentry pointer passed to shrink_dcache_parent() is a
+> complete garbage - e.g. due to struct pid having already been
+> freed.  Might make sense to try and get a crash dump and poke
+> around...
+>=20
 
-> On Tue, Apr 7, 2026 at 4:06=E2=80=AFPM Joanne Koong <joannelkoong@gmail.c=
-om> wrote:
->>
->> On Tue, Apr 7, 2026 at 2:20=E2=80=AFPM Luis Henriques <luis@igalia.com> =
-wrote:
->> >
->> > Hi Joanne,
->> >
->> > On Tue, Apr 07 2026, Joanne Koong wrote:
->> >
->> > > On Wed, Feb 25, 2026 at 3:25=E2=80=AFAM Luis Henriques <luis@igalia.=
-com> wrote:
->> > >>
->> > >> The implementation of lookup_handle+statx compound operation extend=
-s the
->> > >> lookup operation so that a file handle is be passed into the kernel=
-.  It
->> > >> also needs to include an extra inarg, so that the parent directory =
-file
->> > >> handle can be sent to user-space.  This extra inarg is added as an =
-extension
->> > >> header to the request.
->> > >>
->> > >> By having a separate statx including in a compound operation allows=
- the
->> > >> attr to be dropped from the lookup_handle request, simplifying the
->> > >> traditional FUSE lookup operation.
->> > >>
->> > >> Signed-off-by: Luis Henriques <luis@igalia.com>
->> > >> ---
->> > >>  fs/fuse/dir.c             | 294 ++++++++++++++++++++++++++++++++++=
-+---
->> > >>  fs/fuse/fuse_i.h          |  23 ++-
->> > >>  fs/fuse/inode.c           |  48 +++++--
->> > >>  fs/fuse/readdir.c         |   2 +-
->> > >>  include/uapi/linux/fuse.h |  23 ++-
->> > >>  5 files changed, 355 insertions(+), 35 deletions(-)
->> > >>
->> > >> diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
->> > >> index 113583c4efb6..89e6176abe25 100644
->> > >> --- a/include/uapi/linux/fuse.h
->> > >> +++ b/include/uapi/linux/fuse.h
->> > >>
->> > >>  enum fuse_opcode {
->> > >> @@ -671,6 +676,8 @@ enum fuse_opcode {
->> > >>          */
->> > >>         FUSE_COMPOUND           =3D 54,
->> > >>
->> > >> +       FUSE_LOOKUP_HANDLE      =3D 55,
->> > >> +
->> > >>         /* CUSE specific operations */
->> > >>         CUSE_INIT               =3D 4096,
->> > >>
->> > >> @@ -707,6 +714,20 @@ struct fuse_entry_out {
->> > >>         struct fuse_attr attr;
->> > >>  };
->> > >>
->> > >> +struct fuse_entry2_out {
->> > >> +       uint64_t        nodeid;
->> > >> +       uint64_t        generation;
->> > >> +       uint64_t        entry_valid;
->> > >> +       uint32_t        entry_valid_nsec;
->> > >> +       uint32_t        flags;
->> > >> +       uint64_t        spare;
->> > >> +};
->> > >
->> > > Hi Luis,
->> > >
->> > > Could you explain why we need a new struct fuse_entry2_out instead of
->> > > reusing struct fuse_entry_out? From what i see, the only differences
->> > > between them are that fuse_entry2_out drops attr_valid,
->> > > attr_valid_nsec, and struct fuse_attr. Is this done so that it saves
->> > > the ~100 bytes per lookup? Would it be cleaner from an abi perspecti=
-ve
->> > > to just reuse fuse_entry_out and ignore the attr fields if they're n=
-ot
->> > > necessary? The reason I'm asking is because I'm looking at how you're
->> > > doing the lookup request reply to see if the fuse passthrough stuff
->> > > for metadata/directory operations can be combined with it. But I'm n=
-ot
->> > > fully understanding why fuse_entry2_out is needed here.
->> > >
->> > > I'm also a bit confused by why the compound with statx is needed her=
-e,
->> > > could you explain this part? I see the call to fuse_statx_to_attr()
->> > > after do_lookup_handle_statx(),  but fuse_statx_to_attr() converts t=
-he
->> > > statx reply right back to a struct fuse_attr for inode setup, so if
->> > > FUSE_LOOKUP_HANDLE returned struct fuse_entry_out instead of struct
->> > > fuse_entry2_out, doesn't this solve the problem of needing to compou=
-nd
->> > > it with a statx or getattr request? I also noticed that the statx pa=
-rt
->> > > uses FUSE_ROOT_ID as a workaround for the node id because the actual
->> > > nodeid isn't known yet, this seems like another sign that the
->> > > attributes stuff should just be part of the lookup response itself
->> > > rather than a separate operation?
->> >
->> > First of all, thanks a lot for looking into this patchset.  Much
->> > appreciated!
->> >
->> > The main reason for swapping the usage of attr by statx is that statx
->> > includes some attributes that attr does not (e.g. btime).  And since I=
- was
->> > adding a new FUSE operation, it would be a good time for using statx
->> > instead.  (Moreover, as new attributes may be added to statx in the
->> > future, the benefits of using statx could eventually be even greater.)
->> >
->> > This was suggested by Miklos here[0], before converting the whole thin=
-g to
->> > use compound commands.  So, I was going to use fuse_statx in the _out =
-args
->> > for lookup_handle.  However, because the interface was getting a bit
->> > complex with extra args (and ext headers!), Miklos ended up suggesting=
-[1]
->> > to remove attr completely from the lookup_handle operation, and use
->> > compounds instead to have the full functionality.
->>
->> Thank you for the context and links, Luis!
->>
->> Using fuse_statx over fuse_getattr makes sense to me for the new
->> FUSE_LOOKUP_HANDLE op but the part I am confused about is why it needs
->> to be compounded. If we are adding a new struct (struct
->> fuse_entry2_out) to the abi, why is it not simpler to just make the
->> new struct something like:
->>
->>   struct fuse_entry_handle_out {
->
-> Thinking more about how passthrough will use this... I'm thinking
-> something like this would be ideal (though please correct me if I'm
-> completely off track here, Amir):
->
->   struct fuse_entry_handle_out {
->       uint64_t    nodeid;
->       uint64_t    generation;
->       uint64_t    entry_valid;
->       uint64_t    attr_valid;
->       uint32_t    entry_valid_nsec;
->       uint32_t    attr_valid_nsec;
->       int32_t     backing_id;
->       uint32_t    flags;
->       struct fuse_statx statx;
->   };
->
-> where if the inode is not passed through, the kernel uses the stax
-> field for the attributes but if the inode is passed through and the
-> server sets a bitmask specifying that attributes should be derived
-> from the backing file, then the statx field will be ignored by the
-> server and kernel).
+I'm trying to get one. We had an issue that prevented the machines that
+were crashing this way from getting a coredump. Hoping that'll be
+resolved soon and we can get it.
 
-If we end up deciding to revert back to not using compound commands I'll
-have to take a closer look into this, as it's not clear what the above
-means.  For example, when you say:
+> Which kernels have you seen it on?
 
-  "... if the inode is not passed through"
+v6.11 and v6.13 so far. The crash seems to be pretty workload-dependent
+(a lot of processes rapidly starting and exiting). I'm not sure this
+workload is running on later kernels yet so I don't know if this is
+something already fixed.
 
-does this "inode" refer to the backing_id?  I guess this is some index to
-backing ids being used by FUSE, not exactly an inode, but I'm not very
-familiar with the code.
-
-Cheers,
+Thanks,
 --=20
-Lu=C3=ADs
+Jeff Layton <jlayton@kernel.org>
