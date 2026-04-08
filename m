@@ -1,74 +1,73 @@
 Received: from mx0b-00364e01.pphosted.com (mx0b-00364e01.pphosted.com [148.163.139.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 565EB38946A
-	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Apr 2026 23:09:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8DF43A4502
+	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Apr 2026 23:09:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.139.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775689752; cv=none; b=G3VfJ9hrZT/zXX+4Kujs1TBbO8j4FuTnYaODQMWpU0L+N6nCIdUwo7zq8EivyMUIbHQ44WpQZ8nP+ar7iAfl6qD8Jbn0jSzYjbYlSgOIgAO4EhKDWjd0CiLie8KRK+RidDyuHtEIQ+q3NG+kVzezWpkSulWIDohaWbx6cUYRIBI=
+	t=1775689754; cv=none; b=VDKc6wEtGe6Gff0GOB8cQKjcwdekmXjoVbTw8HKr4WwCC3BziR/O6QMPSjps0ozU8od4efu8oSrwNdJjhhJhoxpufcwsydVMgFES1/TOiuqiaPdFULrsy/KKA6OicOuibHKMYoj3r+YUkw8mcMLpD6dcj9sf/aopj4rolVpzf+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775689752; c=relaxed/simple;
-	bh=uxVNlK6BMzyn/Swuex2mcjfTN1L938gYzjb1HF2lqyU=;
+	s=arc-20240116; t=1775689754; c=relaxed/simple;
+	bh=vqYjVe4t0i/AiFArpSZ9mEXLlU4rnE2ZRBBMSnozEZ0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=aEyAqXLFXyqJ6mvzrjBF0YzG967uwCXunI21+Z254psrQa7S8C5+GUiB0grh2VKQ+2Rofh8i7HbIGJhcHpd/GwOb4uOShIW/g96E28IlQ4rz4/2bm/4jS/oTGrMLObHd5j9yTE+cD95V4p0Ixxf2P78vldtdPXxyW5+tLoNjGZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu; spf=pass smtp.mailfrom=columbia.edu; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=G95NswD+; arc=none smtp.client-ip=148.163.139.74
+	 In-Reply-To:To:Cc; b=PE9yb6q2E5YqOt/pUBnTgzgpy+HpUmfbr+7xn4vMO3Vkhd84grWH9V289b04rEBS0DeItC54AaVNwCXTIYPq7o/caOhV2IQ2RNftOzJmwrdjs5ytP3m8MhyRzpJ0AisBS05c1OQHVEYp5VxaWtSLp4RZb2xBJUXEEzt+m2KvrM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu; spf=pass smtp.mailfrom=columbia.edu; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=sX/DybFo; arc=none smtp.client-ip=148.163.139.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="G95NswD+"
-Received: from pps.filterd (m0167074.ppops.net [127.0.0.1])
-	by mx0b-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 638MuWFA2689219
-	for <linux-fsdevel@vger.kernel.org>; Wed, 8 Apr 2026 19:09:09 -0400
+	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="sX/DybFo"
+Received: from pps.filterd (m0167073.ppops.net [127.0.0.1])
+	by mx0b-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 638MtsNT2293497
+	for <linux-fsdevel@vger.kernel.org>; Wed, 8 Apr 2026 19:09:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pps01; bh=8dsl
-	Z9dvpn2QBwNrcJEpfHjycCNypPP7xdaXKfMePho=; b=G95NswD+1AgrwF1KSmuo
-	7ejnwnOjIs4ukUSShU1rYQhI+zrg5Ns4e67slikatL5s+3HTdp0Ob+Y3K+es5jKl
-	PA+SO8dD5ezEfR+GrDhs9SMAoOHcQS/sWaEWVi+Bc0WYLYSL5qeiOyKsmNwe+1Dy
-	x8DB5xHpHsRjQfFhUzF2YM/jsDzZXKmKA6c/euUY1KUgWXso3wAhwiAiDFB9udzF
-	NQnlG3OYbqFIe11dVdrc76+R8CC0VBm8h056JDC0GpLqoSxncN/Ipiyl/dFo9skJ
-	UXesjWHj5qmY1lJ2eH9Sl53JNd6z/VnObBZyoXey6h30J2sRqT42No8Z4oBUZKtR
-	og==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0b-00364e01.pphosted.com (PPS) with ESMTPS id 4dda3n8v5q-1
+	:message-id:mime-version:references:subject:to; s=pps01; bh=S7NO
+	oLpQC1gt8jjGEOFARMhStqFULmtQPTxyzd8Tw9E=; b=sX/DybFoA6nPq2/fiQXH
+	P1m4akAquZ6v2+LHTPlMLkgavf+yG/DxaGshLuCrqSsAX1UsI7rsFWWkC8zKyt6R
+	o1zyLIdzrtyjaUXfI/1+JiOR3R5ucwVnwPjynyuQRSoQwEj65c1m2riCbuU9eaVi
+	EDGmL0+83ljeQ52xYm3+wL9pa6Pera34PDJQGRduG35WlqlTGSk2lJmjjpiHpzmk
+	inX4NVoEK2SBuy2TVftA54Yy+kkL09FQ4K1GH0WO50Ld1C0sRhaPuvjbAYxv144V
+	+0qQTlQqhrroAD0eG8b9WPI88SLci48x/PbC/hNlpBaytb43vk9WRZs4dD0UUI5K
+	Gg==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0b-00364e01.pphosted.com (PPS) with ESMTPS id 4dda3mgu6d-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-fsdevel@vger.kernel.org>; Wed, 08 Apr 2026 19:09:09 -0400 (EDT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-8d5b5d607d1so62741585a.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 08 Apr 2026 16:09:09 -0700 (PDT)
+	for <linux-fsdevel@vger.kernel.org>; Wed, 08 Apr 2026 19:09:10 -0400 (EDT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-8cb706313beso22000285a.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 08 Apr 2026 16:09:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775689749; x=1776294549;
+        d=1e100.net; s=20251104; t=1775689750; x=1776294550;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=8dslZ9dvpn2QBwNrcJEpfHjycCNypPP7xdaXKfMePho=;
-        b=fdBRNSccrV2Nnv6+A6NG1JBoq+zAKOU1HsJHcx+zK5z3HzD+DXnaNOoXwtDUBuD7fZ
-         e4Jd8lOHXuPALDAxNHPhhtpXhVxwBGDmtoa1B/7tiCWASvy6+toGNCitHRVsSdSjgdZW
-         vQKqAAtncrewYtlRDutUmIR7OFrc8mLDl/Yf8i9tBUF8YDrz5zXL6Rrv5d+R8Xb+R2Ky
-         eOciBFiasGYuuK1VdW3q7fANMqu9yyZIkmH/XhaUHXwA3RDBYNMH8lWooGhr8N57Ix/n
-         YAEdRUm40AQ/NXxYIwWXxnO0BNX2wYBoFolEmoHwR2lmL2052QxpP14gO7ZPIypwZXfb
-         tyHw==
-X-Forwarded-Encrypted: i=1; AJvYcCWvFmnVYyvVhcyD+pQ2Ez/0pwaZ+1SoIlpZIPeOY8/V6P3SEQ7BkfCc5o9gD0d6ofqhLlY/6o7sUxOxVBBo@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywc2vhJSNBWcotr3Ne60M1l1zZIN3kjvw7th64OeerIGbW7N+Qs
-	36K6GYJjho5dpNlWBviXWhxZ6E8bKGH6z1kO0+k2q7hmOXPlotrN1jD8SWoFKpOVxIYVdhQzSis
-	mEX4AIM/B3BhHgB6CHdB/JFawdnqb4OVXcreByG80YzOIyX9eiefmlZ5G2yGf4W0=
-X-Gm-Gg: AeBDietG79VbmxTYOV+WiGIgQXTN3f+BNiylE0jAIosTy6SeKLPEOU/h8O4lvSStPQy
-	rfLFOYOuOAkdV0daPB3gEhXEWLMyEBchaEv4zP8zBpNOx6GVuTtteHd2dQuVUpDv0xHZeO1Y1eY
-	qh5KOHOxephjhwv7raIyodBS+YH0VnF/dG3sNzwRTz+6m1VnVFhtTUPA8wh6o0uH0iWkkhfVKoF
-	m3h9ILDzyeOYpsuZBy2ditAwVkJhS3HKDnXjybi8CJS38KfrPwEcgfEoT2xd5w4Heg1O0Hghh+Z
-	jCKislxB1L06nOTbUHflrW+w+ZWclWUdspS5R4hcjvwTY492TTv3EZ6+3NgpgFHXhY/ykEOkI+l
-	a0pGP6VIfpylGHkUgBxbGBXmHy/d6SsWk
-X-Received: by 2002:a05:620a:440e:b0:8cd:8f04:50ec with SMTP id af79cd13be357-8dc3b03cfe9mr238712885a.2.1775689748792;
-        Wed, 08 Apr 2026 16:09:08 -0700 (PDT)
-X-Received: by 2002:a05:620a:440e:b0:8cd:8f04:50ec with SMTP id af79cd13be357-8dc3b03cfe9mr238705885a.2.1775689748199;
-        Wed, 08 Apr 2026 16:09:08 -0700 (PDT)
+        bh=S7NOoLpQC1gt8jjGEOFARMhStqFULmtQPTxyzd8Tw9E=;
+        b=ZWYXxdl4g/55nBkuE0thG7fp41M7B/jKZvxaxgN1CcOSxk+H46RXLSDINdUWF73UIs
+         MYjPBPWWvrQOnBBjYYFDsNaazg4smmhBTXRWZtEJxxTKosMDt/c2atFis0CaZiUAys5k
+         soxn+ww724jj/zhUxO8RaDWCKuq2bJnCCrhdDk/rnaaoRXaLZHlWuxHhmMu+c0LmXuLN
+         pAzy98IlaPooehTTxfldSCBcBES9P2DHLxzBTFyjBcCnCahOcU40+PGcpRZ04EXkLiwn
+         kbG+H+KT9PknC+6D5Vtlz1Gfu3xkD353/WjOJSCtSdtngPPFgGM7NV0AKYFLr0Vsr+T3
+         FttQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUaxAu6VJscqDR3waNFuiddFOKC0uZ2CstUS7hOyj94P6MQFVxBYqDZvgt6TqqYvfQHUiLTwfC1sdShSh68@vger.kernel.org
+X-Gm-Message-State: AOJu0YxIdOQOEUgjlOW1n2fWtu+qPCB75Hh3aSTQDfNsckrY6uH6etcL
+	+Du518xH26l3HiC9aRk6zGz7OYacuXix3uf5vdvaRE7VF9WedWwByBJk15E5JQOoQ/YfJsqtUKi
+	duCNR44EXgcshWiUyJnmdIW3vu73IJLXBggVA6YbSxy9AVRN6wTJn59Me2zsiZAI=
+X-Gm-Gg: AeBDievGdm6RWqLewQl5YhWrXibR7xUCQdgjtW1WF1njJZkWY9Nuzo1Uvu1VwGUjm73
+	KPn6gvJyIP4zvTCk0rJEL2M6f46woLpx52ASNF5gB1nyHBjoUQwpz20IeLkIeautZC28UtBcYa5
+	sWXBdryEzVBpqR39W4yVzPlOmdM2uhaqNvo/IC89RI5dRwz0H8NOYnWbeSlr2QFhNzrxxE772RK
+	/R4Ni7RMYOYLHFItmSy6zT0A7TEThwjWmfCmelIMcOTVi5ThLzUeZF7snksiY8GXtVnHTSpcJWm
+	dJ7B59KTK6Z7aWQD+5PArBpdQvKMqvXuHxxMLwc4TmgckWvHHu0+NhMP5zy2slFwqB+l03XAuhx
+	Okvh5NllVbI3tqnvXlhQZVPeL5TLN5hE4
+X-Received: by 2002:a05:620a:2848:b0:8cf:df8b:1e5e with SMTP id af79cd13be357-8d4185c9512mr3194927185a.5.1775689749864;
+        Wed, 08 Apr 2026 16:09:09 -0700 (PDT)
+X-Received: by 2002:a05:620a:2848:b0:8cf:df8b:1e5e with SMTP id af79cd13be357-8d4185c9512mr3194922385a.5.1775689749261;
+        Wed, 08 Apr 2026 16:09:09 -0700 (PDT)
 Received: from [127.0.1.1] ([216.158.158.246])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8dc1514d382sm125665485a.4.2026.04.08.16.09.07
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8dc1514d382sm125665485a.4.2026.04.08.16.09.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Apr 2026 16:09:07 -0700 (PDT)
+        Wed, 08 Apr 2026 16:09:08 -0700 (PDT)
 From: Tal Zussman <tz2294@columbia.edu>
-Date: Wed, 08 Apr 2026 19:08:50 -0400
-Subject: [PATCH RFC v5 2/3] iomap: use BIO_COMPLETE_IN_TASK for dropbehind
- writeback
+Date: Wed, 08 Apr 2026 19:08:51 -0400
+Subject: [PATCH RFC v5 3/3] block: enable RWF_DONTCACHE for block devices
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -77,7 +76,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260408-blk-dontcache-v5-2-0f080c20a96f@columbia.edu>
+Message-Id: <20260408-blk-dontcache-v5-3-0f080c20a96f@columbia.edu>
 References: <20260408-blk-dontcache-v5-0-0f080c20a96f@columbia.edu>
 In-Reply-To: <20260408-blk-dontcache-v5-0-0f080c20a96f@columbia.edu>
 To: Jens Axboe <axboe@kernel.dk>,
@@ -92,115 +91,158 @@ Cc: Christoph Hellwig <hch@infradead.org>, Dave Chinner <dgc@kernel.org>,
         linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
         Tal Zussman <tz2294@columbia.edu>
 X-Mailer: b4 0.14.3-dev-d7477
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1775689745; l=3055;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1775689745; l=4833;
  i=tz2294@columbia.edu; s=20250528; h=from:subject:message-id;
- bh=uxVNlK6BMzyn/Swuex2mcjfTN1L938gYzjb1HF2lqyU=;
- b=wiuqQGIUXlaDQRyL/2cvKQLeklEvgNwRkNWuSOVmD4QDiAmxSLl8wwsDtLCKaObM2FWAiuPdv
- KjGXMpBW4o4ASxzBvkdeJ8ApER14bjxSNNSrtc8cfpyy9YHBS4vsTeF
+ bh=vqYjVe4t0i/AiFArpSZ9mEXLlU4rnE2ZRBBMSnozEZ0=;
+ b=TkXe1cDpr+0h2BcgYcYMwDXJ9OzGkB0Fsjl6RdOUbuhHuLsFpdpyPcESqIE4200vy+eNNs/A+
+ 038SUVLSqekBHFqdXjGfViao6J1wkhHyywZ87y01bw5yaC4bwnIIKLF
 X-Developer-Key: i=tz2294@columbia.edu; a=ed25519;
  pk=BIj5KdACscEOyAC0oIkeZqLB3L94fzBnDccEooxeM5Y=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDA4MDIxNCBTYWx0ZWRfX+FVOctH2+LO+
- 0b+sms045X+7UiGCA0C8PMTQhXP2Ry9IhJjNDEB0ghA4bIf6p6MZyqDktUvCxa0/6WXSOPab1T1
- 6dWFBUHvtnbzPYT1c8FI4D2q2YY77xDW6zcWuCpbGMnvqxHGC0xVFpPHom56+5J4Ag9IVjS90mn
- 6x4wL8P/Lo018thrUlSGLnfcb0MnCgVXvMwEnbrxYQRMMhzzhpRI/g1/8mDJs/z3g86AFZrmqYf
- R9raH7n8/0LPm2qY6KFkD+D87yTbn4jbVFxh2FfNac/UK2BhgDoLBqTsPRNhtXA4UVqjMQZVjHE
- eQHFkaP61p04uMz/bwbB9WzyhXGupn93Lye5b6cN/NVvlORJKXoShkDh1+pU0rnYhL5cjP74xEz
- xjf54luPFIUwcFSePOUZqySSc3J0WztkpGFlBMsJxaqXmR8BWDsa2pWWqJQiGgULcxc+sR9ti4L
- qco0YgpSQNUTPaBIX+g==
-X-Proofpoint-GUID: eltSkyXRGtzsWWWhiMsMQ1FA6CD79FWL
-X-Proofpoint-ORIG-GUID: eltSkyXRGtzsWWWhiMsMQ1FA6CD79FWL
-X-Authority-Analysis: v=2.4 cv=N9AZ0W9B c=1 sm=1 tr=0 ts=69d6e015 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=mD05b5UW6KhLIDvowZ5dSQ==:17
+X-Proofpoint-GUID: stmSBrj6p2XGy5oVL5QnCZJ_GS0iTbKp
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDA4MDIxNCBTYWx0ZWRfXywv3/VDCHLvm
+ V6Ypn81oar7R7EwjTPlDAiNN2OqmPd1eM73vmx13vSSE6NrCHupNlrtv0dr3dmGnaWR2BrpGiin
+ GjRGfnGUUEHWtU5dLekxl3NKcD/vVBe90zHkRlZ3UkcT4ayPBEoNCUQ4XDxeE4c61z3GljrTlc3
+ 3ryrbZ60zj9Gb13dFSUzELCuGc8toShFhr34y2wTNbfbMMI1ZfUa5IOu20zUp8lLkrUg9To8SJO
+ 8mdugxnFUxhIFmnB3Am/0SjFb+qG6XVskqhxBjCAohEDfnBLN/c6eLMYy4nRiafU8ltPSRqxiuY
+ Rq/HHlcN4Jm+Wqjv7LvCMcvhDx33w8oQoIed+zgfTWk5FwCQ8ewJDgSch3KlUZNB/F8hCf0Ad0i
+ 27BM5kc19amcOVTI4rNbne+2F74BIGalLV+jiNz6Y0EueiRXNs9qBYykXTC0c6DXCxgOB7BWRWQ
+ geCz0bJfpXCogaTkeAw==
+X-Proofpoint-ORIG-GUID: stmSBrj6p2XGy5oVL5QnCZJ_GS0iTbKp
+X-Authority-Analysis: v=2.4 cv=X7Fi7mTe c=1 sm=1 tr=0 ts=69d6e016 cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=mD05b5UW6KhLIDvowZ5dSQ==:17
  a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=x7bEGLp0ZPQA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=azVShVRs0zEubeQ0wG0L:22
- a=tmanUA2hrRIj4wcn57QA:9 a=QEXdDO2ut3YA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
+ a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=jHxIr1HyPKZ_Q5_91PL3:22
+ a=KmSSIXLuV57r0wwE8Y4A:9 a=QEXdDO2ut3YA:10 a=IoWCM6iH3mJn3m4BftBB:22
 X-Proofpoint-Virus-Version: vendor=nai engine=6800 definitions=11753
  signatures=596818
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 lowpriorityscore=10 bulkscore=10 priorityscore=1501 clxscore=1015
- phishscore=0 impostorscore=10 suspectscore=0 adultscore=0 malwarescore=0
+ bulkscore=10 priorityscore=1501 impostorscore=10 spamscore=0 phishscore=0
+ adultscore=0 malwarescore=0 clxscore=1015 lowpriorityscore=10 suspectscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2604010000 definitions=main-2604080214
 
-Set BIO_COMPLETE_IN_TASK on iomap writeback bios when a dropbehind folio
-is added. This ensures that bi_end_io runs in task context, where
-folio_end_dropbehind() can safely invalidate folios.
+Block device buffered reads and writes already pass through
+filemap_read() and iomap_file_buffered_write() respectively, both of
+which handle IOCB_DONTCACHE. Enable RWF_DONTCACHE for block device files
+by setting FOP_DONTCACHE in def_blk_fops.
 
-With the bio layer now handling task-context deferral generically,
-IOMAP_IOEND_DONTCACHE is no longer needed, as XFS no longer needs to
-route DONTCACHE ioends through its completion workqueue. Remove the flag
-and its NOMERGE entry.
+For CONFIG_BUFFER_HEAD=y paths, add block_write_begin_iocb() which
+threads the kiocb through so that buffer_head-based I/O can use
+DONTCACHE behavior. The existing block_write_begin() is preserved as a
+wrapper that passes a NULL iocb. Set BIO_COMPLETE_IN_TASK in
+submit_bh_wbc() when the folio has dropbehind so that buffer_head
+writeback completions get deferred to task context.
 
-Without the NOMERGE, regular I/Os that get merged with a dropbehind
-folio will also have their completion deferred to task context.
+CONFIG_BUFFER_HEAD=n paths are handled by the previously added iomap
+BIO_COMPLETE_IN_TASK support.
+
+This support is useful for databases that operate on raw block devices,
+among other userspace applications.
 
 Signed-off-by: Tal Zussman <tz2294@columbia.edu>
 ---
- fs/iomap/ioend.c      | 5 +++--
- fs/xfs/xfs_aops.c     | 4 ----
- include/linux/iomap.h | 6 +-----
- 3 files changed, 4 insertions(+), 11 deletions(-)
+ block/fops.c                |  5 +++--
+ fs/buffer.c                 | 22 +++++++++++++++++++---
+ include/linux/buffer_head.h |  3 +++
+ 3 files changed, 25 insertions(+), 5 deletions(-)
 
-diff --git a/fs/iomap/ioend.c b/fs/iomap/ioend.c
-index e4d57cb969f1..fe2a4c3dae42 100644
---- a/fs/iomap/ioend.c
-+++ b/fs/iomap/ioend.c
-@@ -182,8 +182,6 @@ ssize_t iomap_add_to_ioend(struct iomap_writepage_ctx *wpc, struct folio *folio,
- 		ioend_flags |= IOMAP_IOEND_UNWRITTEN;
- 	if (wpc->iomap.flags & IOMAP_F_SHARED)
- 		ioend_flags |= IOMAP_IOEND_SHARED;
--	if (folio_test_dropbehind(folio))
--		ioend_flags |= IOMAP_IOEND_DONTCACHE;
- 	if (pos == wpc->iomap.offset && (wpc->iomap.flags & IOMAP_F_BOUNDARY))
- 		ioend_flags |= IOMAP_IOEND_BOUNDARY;
- 
-@@ -200,6 +198,9 @@ ssize_t iomap_add_to_ioend(struct iomap_writepage_ctx *wpc, struct folio *folio,
- 	if (!bio_add_folio(&ioend->io_bio, folio, map_len, poff))
- 		goto new_ioend;
- 
-+	if (folio_test_dropbehind(folio))
-+		bio_set_flag(&ioend->io_bio, BIO_COMPLETE_IN_TASK);
-+
- 	/*
- 	 * Clamp io_offset and io_size to the incore EOF so that ondisk
- 	 * file size updates in the ioend completion are byte-accurate.
-diff --git a/fs/xfs/xfs_aops.c b/fs/xfs/xfs_aops.c
-index 76678814f46f..0d469b91377d 100644
---- a/fs/xfs/xfs_aops.c
-+++ b/fs/xfs/xfs_aops.c
-@@ -510,10 +510,6 @@ xfs_ioend_needs_wq_completion(
- 	if (ioend->io_flags & (IOMAP_IOEND_UNWRITTEN | IOMAP_IOEND_SHARED))
- 		return true;
- 
--	/* Page cache invalidation cannot be done in irq context. */
--	if (ioend->io_flags & IOMAP_IOEND_DONTCACHE)
--		return true;
--
- 	return false;
+diff --git a/block/fops.c b/block/fops.c
+index 4d32785b31d9..d8165f6ba71c 100644
+--- a/block/fops.c
++++ b/block/fops.c
+@@ -505,7 +505,8 @@ static int blkdev_write_begin(const struct kiocb *iocb,
+ 			      unsigned len, struct folio **foliop,
+ 			      void **fsdata)
+ {
+-	return block_write_begin(mapping, pos, len, foliop, blkdev_get_block);
++	return block_write_begin_iocb(iocb, mapping, pos, len, foliop,
++				     blkdev_get_block);
  }
  
-diff --git a/include/linux/iomap.h b/include/linux/iomap.h
-index 99b7209dabd7..a5d6401ebd80 100644
---- a/include/linux/iomap.h
-+++ b/include/linux/iomap.h
-@@ -392,16 +392,12 @@ sector_t iomap_bmap(struct address_space *mapping, sector_t bno,
- #define IOMAP_IOEND_BOUNDARY		(1U << 2)
- /* is direct I/O */
- #define IOMAP_IOEND_DIRECT		(1U << 3)
--/* is DONTCACHE I/O */
--#define IOMAP_IOEND_DONTCACHE		(1U << 4)
--
- /*
-  * Flags that if set on either ioend prevent the merge of two ioends.
-  * (IOMAP_IOEND_BOUNDARY also prevents merges, but only one-way)
-  */
- #define IOMAP_IOEND_NOMERGE_FLAGS \
--	(IOMAP_IOEND_SHARED | IOMAP_IOEND_UNWRITTEN | IOMAP_IOEND_DIRECT | \
--	 IOMAP_IOEND_DONTCACHE)
-+	(IOMAP_IOEND_SHARED | IOMAP_IOEND_UNWRITTEN | IOMAP_IOEND_DIRECT)
+ static int blkdev_write_end(const struct kiocb *iocb,
+@@ -967,7 +968,7 @@ const struct file_operations def_blk_fops = {
+ 	.splice_write	= iter_file_splice_write,
+ 	.fallocate	= blkdev_fallocate,
+ 	.uring_cmd	= blkdev_uring_cmd,
+-	.fop_flags	= FOP_BUFFER_RASYNC,
++	.fop_flags	= FOP_BUFFER_RASYNC | FOP_DONTCACHE,
+ };
  
- /*
-  * Structure for writeback I/O completions.
+ static __init int blkdev_init(void)
+diff --git a/fs/buffer.c b/fs/buffer.c
+index ed724a902657..c60c0ad6cc35 100644
+--- a/fs/buffer.c
++++ b/fs/buffer.c
+@@ -2239,14 +2239,19 @@ EXPORT_SYMBOL(block_commit_write);
+  *
+  * The filesystem needs to handle block truncation upon failure.
+  */
+-int block_write_begin(struct address_space *mapping, loff_t pos, unsigned len,
++int block_write_begin_iocb(const struct kiocb *iocb,
++		struct address_space *mapping, loff_t pos, unsigned len,
+ 		struct folio **foliop, get_block_t *get_block)
+ {
+ 	pgoff_t index = pos >> PAGE_SHIFT;
++	fgf_t fgp_flags = FGP_WRITEBEGIN;
+ 	struct folio *folio;
+ 	int status;
+ 
+-	folio = __filemap_get_folio(mapping, index, FGP_WRITEBEGIN,
++	if (iocb && iocb->ki_flags & IOCB_DONTCACHE)
++		fgp_flags |= FGP_DONTCACHE;
++
++	folio = __filemap_get_folio(mapping, index, fgp_flags,
+ 			mapping_gfp_mask(mapping));
+ 	if (IS_ERR(folio))
+ 		return PTR_ERR(folio);
+@@ -2261,6 +2266,13 @@ int block_write_begin(struct address_space *mapping, loff_t pos, unsigned len,
+ 	*foliop = folio;
+ 	return status;
+ }
++
++int block_write_begin(struct address_space *mapping, loff_t pos, unsigned len,
++		struct folio **foliop, get_block_t *get_block)
++{
++	return block_write_begin_iocb(NULL, mapping, pos, len, foliop,
++				      get_block);
++}
+ EXPORT_SYMBOL(block_write_begin);
+ 
+ int block_write_end(loff_t pos, unsigned len, unsigned copied,
+@@ -2589,7 +2601,8 @@ int cont_write_begin(const struct kiocb *iocb, struct address_space *mapping,
+ 		(*bytes)++;
+ 	}
+ 
+-	return block_write_begin(mapping, pos, len, foliop, get_block);
++	return block_write_begin_iocb(iocb, mapping, pos, len, foliop,
++				     get_block);
+ }
+ EXPORT_SYMBOL(cont_write_begin);
+ 
+@@ -2801,6 +2814,9 @@ static void submit_bh_wbc(blk_opf_t opf, struct buffer_head *bh,
+ 
+ 	bio = bio_alloc(bh->b_bdev, 1, opf, GFP_NOIO);
+ 
++	if (folio_test_dropbehind(bh->b_folio))
++		bio_set_flag(bio, BIO_COMPLETE_IN_TASK);
++
+ 	fscrypt_set_bio_crypt_ctx_bh(bio, bh, GFP_NOIO);
+ 
+ 	bio->bi_iter.bi_sector = bh->b_blocknr * (bh->b_size >> 9);
+diff --git a/include/linux/buffer_head.h b/include/linux/buffer_head.h
+index b16b88bfbc3e..ddf88ce290f2 100644
+--- a/include/linux/buffer_head.h
++++ b/include/linux/buffer_head.h
+@@ -260,6 +260,9 @@ int block_read_full_folio(struct folio *, get_block_t *);
+ bool block_is_partially_uptodate(struct folio *, size_t from, size_t count);
+ int block_write_begin(struct address_space *mapping, loff_t pos, unsigned len,
+ 		struct folio **foliop, get_block_t *get_block);
++int block_write_begin_iocb(const struct kiocb *iocb,
++		struct address_space *mapping, loff_t pos, unsigned len,
++		struct folio **foliop, get_block_t *get_block);
+ int __block_write_begin(struct folio *folio, loff_t pos, unsigned len,
+ 		get_block_t *get_block);
+ int block_write_end(loff_t pos, unsigned len, unsigned copied, struct folio *);
 
 -- 
 2.39.5
