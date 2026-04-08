@@ -1,210 +1,95 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx1.manguebit.org (mx1.manguebit.org [143.255.12.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0660A3CFF72
-	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Apr 2026 13:45:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0BDC3B8938;
+	Wed,  8 Apr 2026 13:49:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=143.255.12.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775655956; cv=none; b=lK+7TUC9KyagffeiGGbMrD1yYhdHkv5wWj1jYMuBTJwfm1rzjdoG9c+vHrkoJuFzBkXg9wyNBgWYjl3DL7A+4/LgATKEWiQUK+uHmWs/+XyEe29fcJ0ARaG5RTS9o2qA10ZHGLZDacK1rFZi1JsHgZ+cFXaEyIWoN1k1D4Pn3Ho=
+	t=1775656144; cv=none; b=JZUvogo8oZMbYymuFH6O/YB4buzkoy3szOC/tZWvtOBHijHVKwoQAk5Nyu3EZQnywmOwRI7HCuPoFlglp7N8soyr54vR4HwXQwPkf+NzKdHXmR/wFhbpWQeYoqd4pAp0HEZavvggMrQYWI1wSuamkrvFgDhBeQ1kfvE9H4KlGEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775655956; c=relaxed/simple;
-	bh=rZ0duswfBdUhkusiv4tADdSMnN38HqNLb6wTtRuYR1A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B3z4Lt9ImpWCXOuI8EsbdjIyMy3jZTDERCqVHpI4/MeqDSdHan+dWDWcycFd31g/74nRhhprXK7pPEzvD56uhIvwuXrFNTfuwu4SK/QENwZgXxrOg8fKsddb1xUJyQQdPl/T0Knl40qV5hD5aPDOrQpQg65J0HXHmgK0L0u1ybs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=tg6tb3UY; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=cew9A90C; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=tg6tb3UY; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=cew9A90C; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1775656144; c=relaxed/simple;
+	bh=J/36tdXnuL5/WxPiUuPIVcK4e6LUbAv18uNk9LedBZ8=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Date:
+	 MIME-Version:Content-Type; b=IvYcy4o6qkAgIYTZWu4tccLCkIYGJJCU3ljgriPDGcFlSJ5EP04Q06XsRUogMp7tEQhKimgP1A7zR0U8KOeUZe5Vetp6e1MXLcXs6O46jKfmYv1SZMTR8AmvpW10K1Tvaxv9WYdHlAnIEdC+8J0LdsQ8EjtO9yTP3eyjHRzKXmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manguebit.org; spf=pass smtp.mailfrom=manguebit.org; dkim=pass (2048-bit key) header.d=manguebit.org header.i=@manguebit.org header.b=4aRV+x1U; arc=none smtp.client-ip=143.255.12.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manguebit.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manguebit.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="tg6tb3UY";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="cew9A90C";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="tg6tb3UY";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="cew9A90C"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6E0324E9EF;
-	Wed,  8 Apr 2026 13:45:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1775655953; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=guUl31ZUjxckt3Htiuc/TyOB8T15D5Nl2LWqFUhvEMQ=;
-	b=tg6tb3UY7faz5Ffb1PsBx8JVOA4rS5DOc/FPbt91cpCG/Y0C4BrqlMWcAUBYOcl2bcbxuP
-	djprqB9dd2xObulO9eN5LSSBbuCi0m4Q6ptFVF4ay/CnEFauTNHIF9Gib1MgbDgqYqyaPs
-	Gb26p7ys5bFPZzbQLrmhnL7NT/TQJtI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1775655953;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=guUl31ZUjxckt3Htiuc/TyOB8T15D5Nl2LWqFUhvEMQ=;
-	b=cew9A90CdH7GyDzQpj75Fq7kJ4Tx+ouCBZsaxHGiyAvTKUn3Qvw4Xvvi8auaebSDap2MRN
-	ZepDb7OE2t/Az7BQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1775655953; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=guUl31ZUjxckt3Htiuc/TyOB8T15D5Nl2LWqFUhvEMQ=;
-	b=tg6tb3UY7faz5Ffb1PsBx8JVOA4rS5DOc/FPbt91cpCG/Y0C4BrqlMWcAUBYOcl2bcbxuP
-	djprqB9dd2xObulO9eN5LSSBbuCi0m4Q6ptFVF4ay/CnEFauTNHIF9Gib1MgbDgqYqyaPs
-	Gb26p7ys5bFPZzbQLrmhnL7NT/TQJtI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1775655953;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=guUl31ZUjxckt3Htiuc/TyOB8T15D5Nl2LWqFUhvEMQ=;
-	b=cew9A90CdH7GyDzQpj75Fq7kJ4Tx+ouCBZsaxHGiyAvTKUn3Qvw4Xvvi8auaebSDap2MRN
-	ZepDb7OE2t/Az7BQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 637174A0B3;
-	Wed,  8 Apr 2026 13:45:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id vrJTGBFc1mlQNwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 08 Apr 2026 13:45:53 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 2D681A0A7E; Wed,  8 Apr 2026 15:45:53 +0200 (CEST)
-Date: Wed, 8 Apr 2026 15:45:53 +0200
-From: Jan Kara <jack@suse.cz>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Chuck Lever <chuck.lever@oracle.com>, 
-	Alexander Aring <alex.aring@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, 
-	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
-	Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
-	Amir Goldstein <amir73il@gmail.com>, Calum Mackay <calum.mackay@oracle.com>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-nfs@vger.kernel.org
-Subject: Re: [PATCH 02/24] filelock: add a tracepoint to start of
- break_lease()
-Message-ID: <7r75tbhyr3wckzdruut4smhu66gp7imbmktss2iaentoctc7ik@d2u2rdkykgsu>
-References: <20260407-dir-deleg-v1-0-aaf68c478abd@kernel.org>
- <20260407-dir-deleg-v1-2-aaf68c478abd@kernel.org>
+	dkim=pass (2048-bit key) header.d=manguebit.org header.i=@manguebit.org header.b="4aRV+x1U"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=manguebit.org; s=dkim; h=Content-Type:MIME-Version:Date:References:
+	In-Reply-To:Subject:Cc:To:From:Message-ID:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=Vj3tKZDOUQi62GOzvuBEjG6R84zZC9FphJesg2j9ymQ=; b=4aRV+x1UBGS+3XuflLgRiqxmAb
+	TUr0t0NAXLUI17C3xwJpZmy32mXoFPxW4BlUrErfHkXtMHolATcNzy5FGUJUskXhUBLN5geizIhbT
+	D+tQ2vjddo5Ion0ZuN8JQx61CQcXRcp8txL9sUTob7NaIeaPCvxxs3NRNeyd/ND4iIflM/uDI9JjW
+	XmloBN2M9RGwctCTYjIaA3vxwoJqK1SoPNJozUQ8A1aVMtlSOZOKIciTm01K8Zl33CgeyYtzAxq45
+	9/kEMFfYlMV+Z9P1uVJgnnzgApWaaKCzETXI09tdksh+9avpyKDQOA/0y+4uFf1HWIp6k7XK4D7vW
+	WU6AX3hQ==;
+Received: from pc by mx1.manguebit.org with local (Exim 4.99.1)
+	id 1wATH2-00000002QPR-2848;
+	Wed, 08 Apr 2026 10:48:52 -0300
+Message-ID: <817395109cbfd3cd58203ea300eca8eb@manguebit.org>
+From: Paulo Alcantara <pc@manguebit.org>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: NeilBrown <neil@brown.name>, smfrench@gmail.com, David Howells
+ <dhowells@redhat.com>, linux-fsdevel@vger.kernel.org,
+ linux-cifs@vger.kernel.org
+Subject: Re: [PATCH 2/2] smb: client: add support for O_TMPFILE
+In-Reply-To: <20260408065719.GF3836593@ZenIV>
+References: <20260405211819.1251369-1-pc@manguebit.org>
+ <20260405211819.1251369-2-pc@manguebit.org>
+ <20260405233222.GW3836593@ZenIV>
+ <177543319568.1474915.17445767081272255066@noble.neil.brown.name>
+ <98c9845554e2e6a79965d68ba8ae722b@manguebit.org>
+ <20260408065719.GF3836593@ZenIV>
+Date: Wed, 08 Apr 2026 10:48:52 -0300
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260407-dir-deleg-v1-2-aaf68c478abd@kernel.org>
-X-Spamd-Result: default: False [-2.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[24];
-	TAGGED_RCPT(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	R_RATELIMIT(0.00)[to_ip_from(RL63fqwwx8ot6gmekemcs76f9d)];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,oracle.com,gmail.com,goodmis.org,efficios.com,lwn.net,linuxfoundation.org,brown.name,redhat.com,talpey.com,vger.kernel.org];
-	RCVD_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,suse.cz:email]
-X-Spam-Flag: NO
-X-Spam-Score: -2.30
-X-Spam-Level: 
+Content-Type: text/plain
 
-On Tue 07-04-26 09:21:15, Jeff Layton wrote:
-> ...mostly to show the LEASE_BREAK_* flags.
-> 
-> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+Al Viro <viro@zeniv.linux.org.uk> writes:
 
-OK. Feel free to add:
+> On Mon, Apr 06, 2026 at 10:28:51PM -0300, Paulo Alcantara wrote:
+>
+>> IIUC, this is what we currently have
+>> 
+>> * cifs_atomic_open()
+>> 
+>>   init state: in-lookup or hashed-negative
+>>   [d_drop() + d_add()]
+>>   end state: hashed-positive
+>> 
+>> * cifs_tmpfile()
+>> 
+>>   init state: unhashed-negative
+>>   [d_drop() + d_instantiate()]
+>>   end state: unhashed-positive
+>> 
+>> * cifs_create()
+>> 
+>>   init state: hashed-negative
+>>   [d_drop() + d_add()]
+>>   end state: hashed-positive
+>
+> IDGI.  Why shouldn't cifs_create() simply do d_instantiate() instead
+> of that dance, ditto for cifs_tmpfile()?
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+Yes, makes sense.  Especially d_drop() for cifs_tmpfile() which is
+simply a no-op.
 
-								Honza
+> The only case where you want to change the hashed status is in-lookup
+> O_CREAT ->atomic_open().  And there it's not d_drop()+d_add() - it's
+> d_splice_alias().
 
-> ---
->  fs/locks.c                      |  2 ++
->  include/trace/events/filelock.h | 33 +++++++++++++++++++++++++++++++++
->  2 files changed, 35 insertions(+)
-> 
-> diff --git a/fs/locks.c b/fs/locks.c
-> index dafa0752fdce..5af6dca2d46c 100644
-> --- a/fs/locks.c
-> +++ b/fs/locks.c
-> @@ -1654,6 +1654,8 @@ int __break_lease(struct inode *inode, unsigned int flags)
->  	bool want_write = !(flags & LEASE_BREAK_OPEN_RDONLY);
->  	int error = 0;
->  
-> +	trace_break_lease(inode, flags);
-> +
->  	if (flags & LEASE_BREAK_LEASE)
->  		type = FL_LEASE;
->  	else if (flags & LEASE_BREAK_DELEG)
-> diff --git a/include/trace/events/filelock.h b/include/trace/events/filelock.h
-> index ef4bb0afb86a..fff0ee2d452d 100644
-> --- a/include/trace/events/filelock.h
-> +++ b/include/trace/events/filelock.h
-> @@ -120,6 +120,39 @@ DEFINE_EVENT(filelock_lock, flock_lock_inode,
->  		TP_PROTO(struct inode *inode, struct file_lock *fl, int ret),
->  		TP_ARGS(inode, fl, ret));
->  
-> +#define show_lease_break_flags(val)					\
-> +	__print_flags(val, "|",						\
-> +		{ LEASE_BREAK_LEASE,		"LEASE" },		\
-> +		{ LEASE_BREAK_DELEG,		"DELEG" },		\
-> +		{ LEASE_BREAK_LAYOUT,		"LAYOUT" },		\
-> +		{ LEASE_BREAK_NONBLOCK,		"NONBLOCK" },		\
-> +		{ LEASE_BREAK_OPEN_RDONLY,	"OPEN_RDONLY" },	\
-> +		{ LEASE_BREAK_DIR_CREATE,	"DIR_CREATE" },		\
-> +		{ LEASE_BREAK_DIR_DELETE,	"DIR_DELETE" },		\
-> +		{ LEASE_BREAK_DIR_RENAME,	"DIR_RENAME" })
-> +
-> +TRACE_EVENT(break_lease,
-> +	TP_PROTO(struct inode *inode, unsigned int flags),
-> +
-> +	TP_ARGS(inode, flags),
-> +
-> +	TP_STRUCT__entry(
-> +		__field(unsigned long, i_ino)
-> +		__field(dev_t, s_dev)
-> +		__field(unsigned int, flags)
-> +	),
-> +
-> +	TP_fast_assign(
-> +		__entry->s_dev = inode->i_sb->s_dev;
-> +		__entry->i_ino = inode->i_ino;
-> +		__entry->flags = flags;
-> +	),
-> +
-> +	TP_printk("dev=0x%x:0x%x ino=0x%lx flags=%s",
-> +		  MAJOR(__entry->s_dev), MINOR(__entry->s_dev),
-> +		  __entry->i_ino, show_lease_break_flags(__entry->flags))
-> +);
-> +
->  DECLARE_EVENT_CLASS(filelock_lease,
->  	TP_PROTO(struct inode *inode, struct file_lease *fl),
->  
-> 
-> -- 
-> 2.53.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+ACK.
+
+> I'd lift that d_drop() out of cifs_do_create() into the callers and
+> get rid of it, along with d_add()...
+
+Sounds good.  Let me play with it a little bit and, if tests survive,
+will send a follow-up patch fixing all that mess.
