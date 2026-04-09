@@ -1,51 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C51FD2C0303;
-	Thu,  9 Apr 2026 13:23:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0FBD72623;
+	Thu,  9 Apr 2026 13:26:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775740988; cv=none; b=jMNSRaUjyVyEBGK34m6wdE8FxJiBhfnuWWFqfPCg8ZaPOpCSJokoY1YH13JsloERiJKfCLoTLAsdmnkBokV6a6IKjDAmbvp6xjJhItvIzCiMuhiNTBJ+XBYWRQcljw/jSgQzDk8LfZPUbiCYm+qyegzJCzTaR4EPr1yFSTJ3Qsg=
+	t=1775741174; cv=none; b=lO8DWyhdIUdoSav2lfhR5DIrMJebZOIMrZqo03emoAukEMpp8X0kZRdqnqEpAWhFfAtuqqs+NKvS26pxC6Lm8VCfflsH0NV/NY2yuU7K2yvx0/nFUsxqr3NzFQa84DhVjjE6/muJX3w6juQf5ml39ti8+7guCRQPeCd1b62e+gw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775740988; c=relaxed/simple;
-	bh=tqL1fimNDWlyLrxDSkoymopCMl8WNimZ9u/t901NIq4=;
+	s=arc-20240116; t=1775741174; c=relaxed/simple;
+	bh=zmhkq4PDS4IfOWhY+pb2UCU8sN/y24aMrKPrN72/iKc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=twO0weUwoTvbf0ES9QVBDarzikqFFBYgLCzmyOkfdNzgPgKI0pEhdCopIIg1/sgm146LPb6YNlfJqYWfe+adkvyFy7x1JzpegOvjC0VLmnCWrvtsAqKzU5jyh1dRBiBUgUHg1cObLx96BUpOa0eTgW2RC2rkus5PsqPZtO4CJ3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gAVlBbSw; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=fsFgDN/hZd+2smkuVV3Z++FQ7J0d/ISlhjTZJ8yox8YMDNo4qMK4fRLIXK74lIm3fFjPDq7LE3Pmn5+qVvnwCn8Gk72xysDCgaKCnkq4clPDu52BSrM5BeyU/lMTSnQr9gNrY6vcoMDZ7ZdJ5XEg56NKHn843zGWk0fJiGBvcEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u1ahtYIt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gAVlBbSw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9666C2BCB2;
-	Thu,  9 Apr 2026 13:23:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u1ahtYIt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C113C4CEF7;
+	Thu,  9 Apr 2026 13:26:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775740988;
-	bh=tqL1fimNDWlyLrxDSkoymopCMl8WNimZ9u/t901NIq4=;
+	s=k20201202; t=1775741174;
+	bh=zmhkq4PDS4IfOWhY+pb2UCU8sN/y24aMrKPrN72/iKc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gAVlBbSwQ2EhjlAwBlMNJeosfz0dD/8/v41ae3TtdzbJ4z1x3dD4yTseDt0lVJtuY
-	 bPPpYhmxSCVZyjh7JC0K0y5Dw2ZboOV+3v0qtTJfhHkOkdo8tkm1dRIIKCBDhYcCpw
-	 62TcG886O1nJQIEV5zQUUb2JNYXEHY8UDWiHHh0habAexbRBhLpAkYw/Yf7Fu10JrT
-	 6yEawp4pnmL1Vrsjz8Iq4dX+w+XzA9pmI1rgkQ5grLt0pzA3IDL93pcxKo2fB07nfV
-	 2B7unxdgFM/y+9dQ1ApQeXfmvZtOnpQkyjMNYFbiVx96jPgwg8CrxgwCTE4Ymj7s9J
-	 YKfVqZs9BLKVA==
-Date: Thu, 9 Apr 2026 15:23:00 +0200
+	b=u1ahtYItx4uVvPHncZBk+Kgg4NIk3Fmd1T0zOxBZ4/lncRxrqwUm0jEBt8ENiaeYr
+	 Pl0Ai5axEw8mE5poBo2ON6nguiK7BVcHLG12VuHROCYARu1ePxirj2BbEny08cSFO3
+	 AJ3AHZCMVnKKcyb6wgZrZttDKA6x0hr7nJ0Z7D3yuKZM6ZMBuGY0z2sYYgepdDvPC1
+	 FO3iX/zdUE8CZD8KEUeQnfLmwFTq3nwlu23GDu6MqRX8hnGUQGwa5uZ2+pRyIQit2O
+	 OAnaUSvMFmq4rvaTneqOH9RrcqEB4kLyM+OHKipc2Fna1xkj5T+arT+rwV+7+VYdjv
+	 L+V+KDH4GIsRA==
+Date: Thu, 9 Apr 2026 15:26:09 +0200
 From: Christian Brauner <brauner@kernel.org>
-To: Anand Moon <linux.amoon@gmail.com>
-Cc: David Howells <dhowells@redhat.com>, 
-	David Woodhouse <dwmw2@infradead.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Kees Cook <kees@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, Douglas Anderson <dianders@chromium.org>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Randy Dunlap <rdunlap@infradead.org>, 
-	Masahiro Yamada <masahiroy@kernel.org>, "open list:CERTIFICATE HANDLING" <keyrings@vger.kernel.org>, 
-	open list <linux-kernel@vger.kernel.org>, 
-	"open list:FILESYSTEMS (VFS and infrastructure)" <linux-fsdevel@vger.kernel.org>, "open list:MEMORY MANAGEMENT - CORE" <linux-mm@kvack.org>
-Subject: Re: [PATCH v1] treewide: Fix indentation and whitespace in Kconfig
- files
-Message-ID: <20260409-kontraproduktiv-sterben-034defac1e79@brauner>
-References: <20260407053945.14116-1-linux.amoon@gmail.com>
+To: Chuck Lever <cel@kernel.org>
+Cc: NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, 
+	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, linux-nfs@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, Christoph Hellwig <hch@lst.de>, 
+	Chuck Lever <chuck.lever@oracle.com>, Jeff Layton <jlayton@kernel.org>, 
+	Amir Goldstein <amir73il@gmail.com>
+Subject: Re: cleanup block-style layouts exports v2
+Message-ID: <20260409-schwalben-neutralisieren-fb5a184e5049@brauner>
+References: <20260401144059.160746-1-hch@lst.de>
+ <8bef4d4e-1c0d-451d-8854-ed0cba27ee1f@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -54,20 +46,39 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260407053945.14116-1-linux.amoon@gmail.com>
+In-Reply-To: <8bef4d4e-1c0d-451d-8854-ed0cba27ee1f@app.fastmail.com>
 
-On Tue, Apr 07, 2026 at 11:09:34AM +0530, Anand Moon wrote:
-> Clean up inconsistent indentation (mixing tabs and spaces) and remove
-> extraneous whitespace in several Kconfig files across the tree.
-> This is a purely cosmetic change to improve readability.
+On Wed, Apr 01, 2026 at 04:31:10PM -0400, Chuck Lever wrote:
 > 
-> Adjust indentation from spaces to tab (+optional two spaces) as in
-> coding style with command like:
 > 
-> $ sed -e 's/^        /\t/' -i */Kconfig
+> On Wed, Apr 1, 2026, at 10:40 AM, Christoph Hellwig wrote:
+> > Hi all,
+> >
+> > this series cleanups the exportfs support for block-style layouts that
+> > provide direct block device access.  This is preparation for supporting
+> > exportfs of more than a single device per file system.
+> >
+> > Changes since v1:
+> >  - consity struct exportfs_block_ops
+> >  - fix spelling
+> >
+> > Changes since the multi-device export series:
+> >  - check for NULL bops in nfsd4_setup_layout_type
+> >  - clearly document why we are ignoring loca_time_modify
+> >
+> > Diffstat:
+> >  MAINTAINERS                    |    2 
+> >  fs/nfsd/blocklayout.c          |   37 +++++++----------
+> >  fs/nfsd/export.c               |    3 -
+> >  fs/nfsd/nfs4layouts.c          |   29 +++----------
+> >  fs/xfs/xfs_export.c            |    4 -
+> >  fs/xfs/xfs_pnfs.c              |   44 ++++++++++++++------
+> >  fs/xfs/xfs_pnfs.h              |   11 ++---
+> >  include/linux/exportfs.h       |   25 +++--------
+> >  include/linux/exportfs_block.h |   88 +++++++++++++++++++++++++++++++++++++++++
+> >  9 files changed, 162 insertions(+), 81 deletions(-)
 > 
-> Signed-off-by: Anand Moon <linux.amoon@gmail.com>
-> ---
+> Christian, are you OK if I take this series through the NFSD tree?
 
-Sure,
-Reviewed-by: Christian Brauner <brauner@kernel.org>
+Hm, I generally prefer infrastructure to go through the VFS tree.
+You can get a stable branch ofc.
