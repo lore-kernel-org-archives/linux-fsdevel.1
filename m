@@ -1,129 +1,203 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C1EB2FD1D0
-	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Apr 2026 19:41:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 928322E4247
+	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Apr 2026 20:02:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775763677; cv=none; b=u6M3Y27ftvWr4kh8OZX6dPjBD9TLnvKAXmSk7lqvw8zo5huICLqF5wVFVPYpvIJtw9GzQXHqs2x1OIOyzJM1Hd9qkz6mvC7iUfOHGR1l7H/JyFWEML2SxD6DB55gChSqh+Uq/JiSfy/Yuiy1UN3i5Mvd9PHENRzqBL2XB1mEdj4=
+	t=1775764935; cv=none; b=jHzKwR7xlqMWhtk5e3nc1KG5L3zqRO5veuMGHxCw8jnRqA96ExlsxISxJza656YSV0zTZNX1APxAvkFB2YVTasXKLai33xUQdMYHSmpZH9+36zZpnwEk4aGrD4hPpYh/cqtrzaG/W9c8WQgeUIKwikrxL+sqhlxi8DZGDWtCkl4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775763677; c=relaxed/simple;
-	bh=/PJnG0g81Uazm2ySSpdx1M8cQl48Pc3TVCyGFdK3QVM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M41wIO+nshV0j+jZC8JfC3719ZYj11gytb8MsEjIV+vwAnCNdNm/vIuSES/n0SsWhWGqWgKTGJT9/de/GwEZpH22dymjZf71JpCXjemkbQ5EZ25nDHOKsqkUQBusbblitCb1b83Y/uZdeix7JTtICWBaPJDFAE8rQTQZma9Qymo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=IVVVpo3i; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1775764935; c=relaxed/simple;
+	bh=TUamk2c/n4EzSk6tInWpK3UAwk4JT+YoELnhh/bIzL4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gFnkkz5ifUAb3NXa3u82VRHA3gMO3ItOtbhbuk3Li4F5R1RJUIra0GL3oD2xI0BOFaexnnmuC7dE2ZHiG4DLuRMfY+FdL0sfPA5k8exPBYQGsW52cYZyhmE1CopkhUI0UQhojRd2qSUz9YDZGdLdpKiGFRR1lSiSC97ydAv5s/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=HNC+Q/Z2; arc=none smtp.client-ip=209.85.128.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="IVVVpo3i"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-43cfbd17589so916335f8f.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 09 Apr 2026 12:41:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="HNC+Q/Z2"
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-79ea87af213so21064777b3.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 09 Apr 2026 13:02:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1775763674; x=1776368474; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ge1b1xcWybylA8rGPuIV1asvwgEzJw2EpZ+7Ph4FvfI=;
-        b=IVVVpo3i9YxLpshkTpz+q0gx5M/I0xp5GAoTjNzH6mWcq/npmz9mzz3x3Z1KEgzTJv
-         xuZwWnSs8bIETuFodSuX6Ge+7yBrisM91UJhaCuHEnw8vbvqVYqRfsmQUxp/8yscTgX2
-         3DihES4q3ScQ1BMM/SrWNyk5qS1DI1w++dFVxMmNeOUc2eNy+Um8gXODKolgVmP4xHVR
-         MfLy8oaH8KhPIOC0k/1/9tdd+w0GaHYOBmKnVLg5Amc8q+RyMByLVcF9BDo7jcDECluZ
-         kB/DRyQJjpeXGBQWNI21aEqTl0AvpNemir1OBt8cC9HmTr5CMDfpLayJrcKmAz/pDRZR
-         ZBnw==
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1775764932; x=1776369732; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8IG2sMAY20mayyZ4amBkcGSEP9gN1FD0ITFCaJNDX6M=;
+        b=HNC+Q/Z2zQKvm8jseOFG85f1I4FAE67hlIh1krRKXzHp91XDS3PlYQnNQOVVq9vGab
+         LN5GY6cQqYqRMxnu0836ckWVcESJKjT/0Cq51sccqwnE+oQjaBzNNyJ3bu2PJhLx1NxO
+         TPGeh7cgSQ4vgwy/I4jI6S2Rt5P3AFmdIX5jQMDX4apjtn/9bTPvM3xpFPZbc4tcRUht
+         BY1njeYUHIZ5KY11M0ers9EtLIxUdSysjSVA3iSZBeF+jCY1fpveTXNJFOdYJ5uH337w
+         Bay48MaVc0JVUD1zzS5BkXZmgPdBvzvnGuPqT6eobZyMx5v0GrRRlTpoJmHxR+DUdIxh
+         FU0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775763674; x=1776368474;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ge1b1xcWybylA8rGPuIV1asvwgEzJw2EpZ+7Ph4FvfI=;
-        b=CZ7yfzQwUREXp0b3dum6BMLTuCVtGpYB3Brp62EZjGtQSuc/1mQd82/GwEPh0BGcnx
-         yw8frTeaFwCwlc9CDMM+7AqckSXcjwjfyEghNfhOKYrlMLPhawc1WqSDgpVhn8/0TCHG
-         4HxFs0+zj53XjV+wFGTYQrCP0uNyundSpk7l+3zZpKae4PuscYcY7QME94NPwXJJVWQB
-         UmDzo+4qNEErVhxahai1wZ0dbyi5SvNu6LOh/cIH3uvJhif3uW+HtvhZkXF4R8NX8PFa
-         88UTuk/VEWXloCKH7Mc4Dg1utIj1yKc7ic4x9ZsU0gHRYxUZt6+es+WBypol3NLRMYFt
-         tqgw==
-X-Forwarded-Encrypted: i=1; AJvYcCVOPUMLSXeBplTQ6XWvk1S7bnTUJe2mxiJQskdQCPOEfpVvKcRRVzxH9z2j6ppI1g8rfrvGXO/ufa8PR0Mn@vger.kernel.org
-X-Gm-Message-State: AOJu0Yylpk6Ni+MtV961BXICWJIYbKnw7APWdxC3hBdSZFq+E2o7FGx0
-	CQd1j7/6fujhGleEsjAz5gCHiof3YgWno6TAKARbucFguVIxWVSLzOGU/Re8fSzuzrU=
-X-Gm-Gg: AeBDieuOcRnl1KH98amArw1Ao03XelmTrOa6NbA1YWZee2TTfKsf3hvWlLwc5GwBsLj
-	y4aASpaFRHL2kPX6TlM4AD3AZnGJrKDCONc6ULh3JTxTS3uQ3gSGJ+Bb/oNLj1UC0lE2e7ORIla
-	kSWjreiVfGU2Zo4RbcBFbrj0LCkKw9FCaKfM5f7Mdfc8kfZT1uMgZeD5p9yCtbJGYyxEsqEMXaz
-	ME+s5G/N7YpwZKlH7lK90abVcztKUoEpiQW5JPii6XdJtAtKQBK8CpfRkF+UOUX3c/qfx045cHm
-	0rYD8cLJyuvmbWPQUeELWBfDec2RLLfUn+snUvCrRMzWotEV/RF9dV902iF6NCals4v8XvPImwp
-	nG2N3M9+4+EFTEMK8xtOeWa0Ok1L3nfyC706fM88vOdqyz7Y1K5o/vWAajxhNOc6wHeXZjw+Ksw
-	fVaDmSpMNigXhCTJx7RriM/9N8xkCDR5laAQ==
-X-Received: by 2002:a05:6000:607:b0:43c:f81f:3e6f with SMTP id ffacd0b85a97d-43d6423cfdemr517256f8f.8.1775763674566;
-        Thu, 09 Apr 2026 12:41:14 -0700 (PDT)
-Received: from localhost (109-81-92-28.rct.o2.cz. [109.81.92.28])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d63e50289sm1144780f8f.28.2026.04.09.12.41.13
+        d=1e100.net; s=20251104; t=1775764932; x=1776369732;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8IG2sMAY20mayyZ4amBkcGSEP9gN1FD0ITFCaJNDX6M=;
+        b=iu4H8dyZkM6v/zkC/sh4GDuAUgArcecbISFQCTLEzHARUU6zjryz+rJNZYNJqWuuS5
+         xu9gyvLv6DdDVFPtzAJ1m3gfGBZ1g2tYujiiCM3Q6hr7nQ3rWyO2Db8kyyQVCEnOUHDx
+         Zgqn4TSlvNv0IFcAN3VPMkV40hTKHkmKtljdptlsDyWPhLJqStZIuYXfYNRqIdrrl+8w
+         O3o14/Ff/cllic/zL0LsDxPTQw9VI0fla5sI88VxvLNQgvseGcJRmL4uwBYzW6KSMfBJ
+         EIWYWe+49+K1mY7b0CDxNgJg9FBrb3j6hO8arEJml3kU2iPYO1/GOP2fwxQXVoXLw5R6
+         Eo8w==
+X-Forwarded-Encrypted: i=1; AJvYcCUoTy+c6KgEQELlePrLgXgxWXuiECxEKhubh0460RDTG94vYHjB2ySGrl8kg2YjzXWPROFhjJFVTmUo5bAT@vger.kernel.org
+X-Gm-Message-State: AOJu0YyNvX2d2XnSpMihwflCfPjpGRssPfF812O3OlAexbIOo4mVKo/h
+	49q9Xj42VVss1FiqIpxzaRF96qV3D8X4lhFLLo0GwL4fgaR7sKmRyB7LTsVXHWFD/o4=
+X-Gm-Gg: AeBDiev7fNzrx2OLBAZJo4OjKOKieskVKXiriwiY+CAnxu+XyNJs5JM99h5d2dt/nWn
+	F7dGsPk/CoJnO9w53T2IxUqESrYbvCFjxiJUEqDrYXByRcw/0y58FohxWmihsuhHacfCUwQSqOV
+	p1HqTg1YNY8ikE1xkC2MiLUCkzySvggaFAcOud6t4UY/uyOTl/55iOmW8R278MWkM6UJhjZOjpi
+	3G0KDclLo9/Hb2KFyoZMsnRlsqav2bkgZ/79i91PWKQA/ZlVVRJiVlUsGfrX61r0TeIMHCFmY3w
+	Nh8QIt5xI+oG1chnddeDnRlApfb/8EYiTaW0VvlEjVhck7Yh/ZHDb88oNJwSgA61l/LO6y5oLvi
+	Gg9VMPHhkID0U4gO7xiCFHYgXYGi7LTAGpT8P1Ko8X3Nw94Gd1TtZ4XyMpxeJS0pqhCBb+iisTB
+	9kt48utthr6s+oqDmT76DcDt+Xf22uiBd9QlPm8wMqu1b2KPGx+RCXcchDD/IFsLOAS+swAi5v8
+	6jqR6ju8PzP/6J84VqbYsdGw8fWVA4=
+X-Received: by 2002:a05:690c:7246:b0:7a0:884e:67f8 with SMTP id 00721157ae682-7af78f572f8mr2078207b3.17.1775764932473;
+        Thu, 09 Apr 2026 13:02:12 -0700 (PDT)
+Received: from system76-pc.attlocal.net ([2600:1700:6476:1430:594a:e569:c7df:c654])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7af3fdff108sm3545937b3.42.2026.04.09.13.02.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Apr 2026 12:41:13 -0700 (PDT)
-Date: Thu, 9 Apr 2026 21:41:12 +0200
-From: Michal Hocko <mhocko@suse.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Kefeng Wang <wangkefeng.wang@huawei.com>,
-	David Hildenbrand <david@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Jan Kara <jack@suse.cz>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Lorenzo Stoakes <ljs@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: [PATCH RFC] fs: drop_caches: introduce per-node drop_caches
- interface
-Message-ID: <adgA2IKrdStZJ6AX@tiehlicka>
-References: <20260409063503.3475420-1-wangkefeng.wang@huawei.com>
- <addP4MKmA8zfSN1o@tiehlicka>
- <dbb92553-58ba-42e1-b7df-b8450bd69d33@huawei.com>
- <20260409081619.34f172dad0e5a56923b7eb2d@linux-foundation.org>
+        Thu, 09 Apr 2026 13:02:11 -0700 (PDT)
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: ceph-devel@vger.kernel.org
+Cc: idryomov@gmail.com,
+	linux-fsdevel@vger.kernel.org,
+	pdonnell@redhat.com,
+	amarkuze@redhat.com,
+	Slava.Dubeyko@ibm.com,
+	slava@dubeyko.com
+Subject: [PATCH] ceph: fix BUG_ON in __ceph_build_xattrs_blob() due to stale blob size
+Date: Thu,  9 Apr 2026 13:01:59 -0700
+Message-ID: <20260409200158.318567-2-slava@dubeyko.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260409081619.34f172dad0e5a56923b7eb2d@linux-foundation.org>
+Content-Transfer-Encoding: 8bit
 
-On Thu 09-04-26 08:16:19, Andrew Morton wrote:
-> On Thu, 9 Apr 2026 16:08:37 +0800 Kefeng Wang <wangkefeng.wang@huawei.com> wrote:
-> 
-> > > Quite honestly drop_caches is not the best interface to build any new
-> > > functionality on top of. It has backfired a lot in the past and we have
-> > > tried to make it extra clear that this should be used for debugging
-> > > purposes only. Extending it further sounds like a bad step.
-> > 
-> > 
-> > I am not clear about this history of this interface, but some of our
-> > products do use this interface :(
-> 
-> I added it more than 20 years ago (before debugfs existed) as a way of
-> exercising cold-cache testing fs/pagecache code.  My stress-testing
-> code was previously using umount/mount but this was inconvenient for
-> some reason.
-> 
-> But the damn thing because so popular!  Mainly because our caching code
-> has always been problematic in various ways and people found that
-> drop_caches was an effective workaround :(
-> 
-> So it's an unhappy story.  Caching causes people problems, caching code
-> doesn't get fixed, people get stuck on using a stupid debug thing which
-> I guess I should have just kept local in my tree.
+From: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
 
-<rant>
-Our caching strategies might not be fitting all existing usecases but as
-usual we are targetting as many of them as viable. The problem with
-drop_caches is that it has grown unproportianal amount of cargo cult and
-grown into "solution for any performance problems" magic pill. Even when
-proven to cause more problems than it solves so many times. Again and
-again. That is really sad. Same as THP causes more problems than it
-solves and that you should be using 2GB of swap space or that swap out
-is a signal of a disaster. There are more and they are hard to die.
-</rant>
+The generic/642 test-case can reproduce the kernel crash:
 
+[40243.605254] ------------[ cut here ]------------
+[40243.605956] kernel BUG at fs/ceph/xattr.c:918!
+[40243.607142] Oops: invalid opcode: 0000 [#1] SMP PTI
+[40243.608067] CPU: 7 UID: 0 PID: 498762 Comm: kworker/7:1 Not tainted 7.0.0-rc7+ #3 PREEMPT(full)
+[40243.609700] Hardware name: QEMU Ubuntu 25.10 PC v2 (i440FX + PIIX, + 10.1 machine, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+[40243.611820] Workqueue: ceph-msgr ceph_con_workfn
+[40243.612715] RIP: 0010:__ceph_build_xattrs_blob+0x1b8/0x1e0
+[40243.613731] Code: 0f 84 82 fe ff ff e9 cf 8e 56 ff 48 8d 65 e8 31 c0 5b 41 5c 41 5d 5d 31 d2 31 c9 31 f6 31 ff 45 31 c0 45 31 c9 c3 cc cc cc cc <0f> 0b 4c 8b 62 08 41 8b 85 24 07 00 00 49 83 c4 04 41 89 44 24 fc
+[40243.616888] RSP: 0018:ffffcc80c4d4b688 EFLAGS: 00010287
+[40243.617773] RAX: 0000000000010026 RBX: 0000000000000001 RCX: 0000000000000000
+[40243.618928] RDX: ffff8a773798dee0 RSI: 0000000000000000 RDI: 0000000000000000
+[40243.620158] RBP: ffffcc80c4d4b6a0 R08: 0000000000000000 R09: 0000000000000000
+[40243.621573] R10: 0000000000000000 R11: 0000000000000000 R12: ffff8a75f3b58000
+[40243.622907] R13: ffff8a75f3b58000 R14: 0000000000000080 R15: 000000000000bffd
+[40243.624054] FS:  0000000000000000(0000) GS:ffff8a787d1b4000(0000) knlGS:0000000000000000
+[40243.625331] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[40243.626269] CR2: 000072f390b623c0 CR3: 000000011c02a003 CR4: 0000000000372ef0
+[40243.627408] Call Trace:
+[40243.627839]  <TASK>
+[40243.628188]  __prep_cap+0x3fd/0x4a0
+[40243.628789]  ? do_raw_spin_unlock+0x4e/0xe0
+[40243.629474]  ceph_check_caps+0x46a/0xc80
+[40243.630094]  ? __lock_acquire+0x4a2/0x2650
+[40243.630773]  ? find_held_lock+0x31/0x90
+[40243.631347]  ? handle_cap_grant+0x79f/0x1060
+[40243.632068]  ? lock_release+0xd9/0x300
+[40243.632696]  ? __mutex_unlock_slowpath+0x3e/0x340
+[40243.633429]  ? lock_release+0xd9/0x300
+[40243.634052]  handle_cap_grant+0xcf6/0x1060
+[40243.634745]  ceph_handle_caps+0x122b/0x2110
+[40243.635415]  mds_dispatch+0x5bd/0x2160
+[40243.636034]  ? ceph_con_process_message+0x65/0x190
+[40243.636828]  ? lock_release+0xd9/0x300
+[40243.637431]  ceph_con_process_message+0x7a/0x190
+[40243.638184]  ? kfree+0x311/0x4f0
+[40243.638749]  ? kfree+0x311/0x4f0
+[40243.639268]  process_message+0x16/0x1a0
+[40243.639915]  ? sg_free_table+0x39/0x90
+[40243.640572]  ceph_con_v2_try_read+0xf58/0x2120
+[40243.641255]  ? lock_acquire+0xc8/0x300
+[40243.641863]  ceph_con_workfn+0x151/0x820
+[40243.642493]  process_one_work+0x22f/0x630
+[40243.643093]  ? process_one_work+0x254/0x630
+[40243.643770]  worker_thread+0x1e2/0x400
+[40243.644332]  ? __pfx_worker_thread+0x10/0x10
+[40243.645020]  kthread+0x109/0x140
+[40243.645560]  ? __pfx_kthread+0x10/0x10
+[40243.646125]  ret_from_fork+0x3f8/0x480
+[40243.646752]  ? __pfx_kthread+0x10/0x10
+[40243.647316]  ? __pfx_kthread+0x10/0x10
+[40243.647919]  ret_from_fork_asm+0x1a/0x30
+[40243.648556]  </TASK>
+[40243.648902] Modules linked in: overlay hctr2 libpolyval chacha libchacha adiantum libnh libpoly1305 essiv intel_rapl_msr intel_rapl_common intel_uncore_frequency_common skx_edac_common nfit kvm_intel kvm irqbypass joydev ghash_clmulni_intel aesni_intel rapl input_leds mac_hid psmouse vga16fb serio_raw vgastate floppy i2c_piix4 pata_acpi bochs qemu_fw_cfg i2c_smbus sch_fq_codel rbd dm_crypt msr parport_pc ppdev lp parport efi_pstore
+[40243.654766] ---[ end trace 0000000000000000 ]---
+
+Commit d93231a6bc8a ("ceph: prevent a client from exceeding the MDS
+maximum xattr size") moved the required_blob_size computation to before
+the __build_xattrs() call, introducing a race.
+
+__build_xattrs() releases and reacquires i_ceph_lock during execution.
+In that window, handle_cap_grant() may update i_xattrs.blob with a
+newer MDS-provided blob and bump i_xattrs.version.  When
+__build_xattrs() detects that index_version < version, it destroys and
+rebuilds the entire xattr rb-tree from the new blob, potentially
+increasing count, names_size, and vals_size.
+
+The prealloc_blob size check that follows still uses the stale
+required_blob_size computed before the rebuild, so it passes even when
+prealloc_blob is too small for the now-larger tree. After __set_xattr()
+adds one more xattr on top, __ceph_build_xattrs_blob() is called from
+the cap flush path and hits:
+
+    BUG_ON(need > ci->i_xattrs.prealloc_blob->alloc_len);
+
+Fix this by recomputing required_blob_size after __build_xattrs()
+returns, using the current tree state. Also re-validate against
+m_max_xattr_size to fall back to the sync path if the rebuilt tree now
+exceeds the MDS limit.
+
+Fixes: d93231a6bc8a ("ceph: prevent a client from exceeding the MDS maximum xattr size")
+Link: https://tracker.ceph.com/issues/55725
+Signed-off-by: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
+cc: Alex Markuze <amarkuze@redhat.com>
+cc: Ilya Dryomov <idryomov@gmail.com>
+cc: Patrick Donnelly <pdonnell@redhat.com>
+cc: Ceph Development <ceph-devel@vger.kernel.org>
+---
+ fs/ceph/xattr.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+diff --git a/fs/ceph/xattr.c b/fs/ceph/xattr.c
+index 5f87f62091a1..31de29629ba8 100644
+--- a/fs/ceph/xattr.c
++++ b/fs/ceph/xattr.c
+@@ -1254,6 +1254,22 @@ int __ceph_setxattr(struct inode *inode, const char *name,
+ 	      ceph_vinop(inode), name, ceph_cap_string(issued));
+ 	__build_xattrs(inode);
+ 
++	/*
++	 * __build_xattrs() may have released and reacquired i_ceph_lock,
++	 * during which handle_cap_grant() could have replaced i_xattrs.blob
++	 * with a newer MDS-provided blob and bumped i_xattrs.version. If that
++	 * caused __build_xattrs() to rebuild the rb-tree from the new blob,
++	 * count/names_size/vals_size may now be larger than when
++	 * required_blob_size was computed above. Recompute it here so the
++	 * prealloc_blob size check below reflects the current tree state.
++	 */
++	required_blob_size = __get_required_blob_size(ci, name_len, val_len);
++	if (required_blob_size > mdsc->mdsmap->m_max_xattr_size) {
++		doutc(cl, "sync (size too large): %d > %llu\n",
++		      required_blob_size, mdsc->mdsmap->m_max_xattr_size);
++		goto do_sync;
++	}
++
+ 	if (!ci->i_xattrs.prealloc_blob ||
+ 	    required_blob_size > ci->i_xattrs.prealloc_blob->alloc_len) {
+ 		struct ceph_buffer *blob;
 -- 
-Michal Hocko
-SUSE Labs
+2.53.0
+
