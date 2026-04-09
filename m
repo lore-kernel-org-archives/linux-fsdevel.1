@@ -1,43 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0FBD72623;
-	Thu,  9 Apr 2026 13:26:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22BA0278161;
+	Thu,  9 Apr 2026 13:29:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775741174; cv=none; b=lO8DWyhdIUdoSav2lfhR5DIrMJebZOIMrZqo03emoAukEMpp8X0kZRdqnqEpAWhFfAtuqqs+NKvS26pxC6Lm8VCfflsH0NV/NY2yuU7K2yvx0/nFUsxqr3NzFQa84DhVjjE6/muJX3w6juQf5ml39ti8+7guCRQPeCd1b62e+gw=
+	t=1775741358; cv=none; b=cc75/psWtHEKvDYPVONhd/JyAqlMQp1P95MgWf0IjnRdjvClvIt31+80Gc02/q8RyPyflhInmZgg2mQ461v1XqEuBmizBEddSPhX/9nPzHLPNKlLGSJpvvcsgtx071J7LT5ikLRykIQvDQ0LeRrglpMz/od4gNlrTMYByakTbqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775741174; c=relaxed/simple;
-	bh=zmhkq4PDS4IfOWhY+pb2UCU8sN/y24aMrKPrN72/iKc=;
+	s=arc-20240116; t=1775741358; c=relaxed/simple;
+	bh=djDdSMdqOGVdSJJ4JPsKERci5+Mr5nMi1DGuXs8IRL8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fsFgDN/hZd+2smkuVV3Z++FQ7J0d/ISlhjTZJ8yox8YMDNo4qMK4fRLIXK74lIm3fFjPDq7LE3Pmn5+qVvnwCn8Gk72xysDCgaKCnkq4clPDu52BSrM5BeyU/lMTSnQr9gNrY6vcoMDZ7ZdJ5XEg56NKHn843zGWk0fJiGBvcEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u1ahtYIt; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=mgM6MiHn8DI8CCP270hSrRpcpao6aM+jln5UgxK57BI7qvZSIie2PhhcDTsAT8lDAav/kOW45BrdYgRCuo33KiiImglrx/WQYpBO/np/UZnjhmiF54FhOcabsrDDyh9q4bDWUV8iOd6DTyPhCYWkAibAaxIW4YWu7UEX1jB00T8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DRToOjtq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u1ahtYIt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C113C4CEF7;
-	Thu,  9 Apr 2026 13:26:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DRToOjtq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6CECC4CEF7;
+	Thu,  9 Apr 2026 13:29:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775741174;
-	bh=zmhkq4PDS4IfOWhY+pb2UCU8sN/y24aMrKPrN72/iKc=;
+	s=k20201202; t=1775741358;
+	bh=djDdSMdqOGVdSJJ4JPsKERci5+Mr5nMi1DGuXs8IRL8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=u1ahtYItx4uVvPHncZBk+Kgg4NIk3Fmd1T0zOxBZ4/lncRxrqwUm0jEBt8ENiaeYr
-	 Pl0Ai5axEw8mE5poBo2ON6nguiK7BVcHLG12VuHROCYARu1ePxirj2BbEny08cSFO3
-	 AJ3AHZCMVnKKcyb6wgZrZttDKA6x0hr7nJ0Z7D3yuKZM6ZMBuGY0z2sYYgepdDvPC1
-	 FO3iX/zdUE8CZD8KEUeQnfLmwFTq3nwlu23GDu6MqRX8hnGUQGwa5uZ2+pRyIQit2O
-	 OAnaUSvMFmq4rvaTneqOH9RrcqEB4kLyM+OHKipc2Fna1xkj5T+arT+rwV+7+VYdjv
-	 L+V+KDH4GIsRA==
-Date: Thu, 9 Apr 2026 15:26:09 +0200
+	b=DRToOjtqikAyOfNhhTSXdnxVjRRQudoinX0PnO6nq32VQJphO0WhSoZCbr4PwkF8H
+	 7RXslPPFdfBPeyKtVOT0gzR36cLcZg8jOLDeGH47EhPxLUSM4KBM5OcAXEPIL0dUmP
+	 1mGuLuW8tsu6YjU0F1YrXcTxEaYe41NezeHMehC7Gv4MNxjT6FKOKhgluGs9uZdW7f
+	 D5sVNA2dwJzN1AZaQTLElx6Io2qlSLWjeSvpQdbV3ZSBDpx2YrSBnkpkO2/r5/9TyH
+	 GoZsariL7XGKAL6yKBrq1RF5+Go6VatUl5BJLWZKFKJV+1dyNWdOP5K3/oe33siHcH
+	 E5wwK/E5GA6+A==
+Date: Thu, 9 Apr 2026 15:29:12 +0200
 From: Christian Brauner <brauner@kernel.org>
-To: Chuck Lever <cel@kernel.org>
-Cc: NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, 
-	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, linux-nfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, Christoph Hellwig <hch@lst.de>, 
-	Chuck Lever <chuck.lever@oracle.com>, Jeff Layton <jlayton@kernel.org>, 
-	Amir Goldstein <amir73il@gmail.com>
-Subject: Re: cleanup block-style layouts exports v2
-Message-ID: <20260409-schwalben-neutralisieren-fb5a184e5049@brauner>
-References: <20260401144059.160746-1-hch@lst.de>
- <8bef4d4e-1c0d-451d-8854-ed0cba27ee1f@app.fastmail.com>
+To: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+Cc: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, 
+	Paul Moore <paul@paul-moore.com>, "Serge E . Hallyn" <serge@hallyn.com>, 
+	Justin Suess <utilityemal77@gmail.com>, Lennart Poettering <lennart@poettering.net>, 
+	Mikhail Ivanov <ivanov.mikhail1@huawei-partners.com>, Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>, 
+	Shervin Oloumi <enlightened@google.com>, Tingmao Wang <m@maowtm.org>, kernel-team@cloudflare.com, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org
+Subject: Re: [RFC PATCH v1 02/11] security: Add LSM_AUDIT_DATA_NS for
+ namespace audit records
+Message-ID: <20260409-besoffen-beinen-7ee307ec5c94@brauner>
+References: <20260312100444.2609563-1-mic@digikod.net>
+ <20260312100444.2609563-3-mic@digikod.net>
+ <20260325-fachgebiet-parzelle-8ae15e6f305f@brauner>
+ <20260401.XohYeim7tah8@digikod.net>
+ <20260401.AhPieg6heeth@digikod.net>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -46,39 +52,69 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <8bef4d4e-1c0d-451d-8854-ed0cba27ee1f@app.fastmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260401.AhPieg6heeth@digikod.net>
 
-On Wed, Apr 01, 2026 at 04:31:10PM -0400, Chuck Lever wrote:
+On Wed, Apr 01, 2026 at 08:48:23PM +0200, Mickaël Salaün wrote:
+> On Wed, Apr 01, 2026 at 06:38:34PM +0200, Mickaël Salaün wrote:
+> > On Wed, Mar 25, 2026 at 01:32:42PM +0100, Christian Brauner wrote:
+> > > On Thu, Mar 12, 2026 at 11:04:35AM +0100, Mickaël Salaün wrote:
+> > > > Add a new LSM audit data type LSM_AUDIT_DATA_NS that logs namespace
+> > > > information in audit records.  Two fields are provided, matching the
+> > > > field names of struct ns_common:
+> > > > 
+> > > > - ns_type: the CLONE_NEW* flag identifying the namespace type, logged in
+> > > >   hexadecimal.
+> > > > 
+> > > > - inum: the proc inode number identifying a specific namespace instance.
+> > > >   Namespace inode numbers are allocated by proc_alloc_inum() via
+> > > >   ida_alloc_max() bounded to UINT_MAX, so the value always fits in 32
+> > > >   bits.
+> > > > 
+> > > > A new audit data type is needed because no existing LSM_AUDIT_DATA_*
+> > > > type carries namespace information.  The closest alternatives (e.g.
+> > > > LSM_AUDIT_DATA_TASK or LSM_AUDIT_DATA_NONE with custom strings) would
+> > > > either lose the namespace type or require ad-hoc formatting that
+> > > > bypasses the structured audit data union.
+> > > > 
+> > > > Cc: Christian Brauner <brauner@kernel.org>
+> > > > Cc: Günther Noack <gnoack@google.com>
+> > > > Cc: Paul Moore <paul@paul-moore.com>
+> > > > Signed-off-by: Mickaël Salaün <mic@digikod.net>
+> > > > ---
+> > > >  include/linux/lsm_audit.h | 5 +++++
+> > > >  security/lsm_audit.c      | 4 ++++
+> > > >  2 files changed, 9 insertions(+)
+> > > > 
+> > > > diff --git a/include/linux/lsm_audit.h b/include/linux/lsm_audit.h
+> > > > index 382c56a97bba..6e20a56b8c22 100644
+> > > > --- a/include/linux/lsm_audit.h
+> > > > +++ b/include/linux/lsm_audit.h
+> > > > @@ -78,6 +78,7 @@ struct common_audit_data {
+> > > >  #define LSM_AUDIT_DATA_NOTIFICATION 16
+> > > >  #define LSM_AUDIT_DATA_ANONINODE	17
+> > > >  #define LSM_AUDIT_DATA_NLMSGTYPE	18
+> > > > +#define LSM_AUDIT_DATA_NS		19
+> > > >  	union 	{
+> > > >  		struct path path;
+> > > >  		struct dentry *dentry;
+> > > > @@ -100,6 +101,10 @@ struct common_audit_data {
+> > > >  		int reason;
+> > > >  		const char *anonclass;
+> > > >  		u16 nlmsg_type;
+> > > > +		struct {
+> > > > +			u32 ns_type;
+> > > > +			unsigned int inum;
+> > > 
+> > > fwiw, you might want to start the 64-bit namespace id as well.
+> > > But either way:
+> > 
+> > Right now these numbers are generated by ida_alloc_max(), which return
+> > an int.  Is there an ongoing patch series for this change?
 > 
-> 
-> On Wed, Apr 1, 2026, at 10:40 AM, Christoph Hellwig wrote:
-> > Hi all,
-> >
-> > this series cleanups the exportfs support for block-style layouts that
-> > provide direct block device access.  This is preparation for supporting
-> > exportfs of more than a single device per file system.
-> >
-> > Changes since v1:
-> >  - consity struct exportfs_block_ops
-> >  - fix spelling
-> >
-> > Changes since the multi-device export series:
-> >  - check for NULL bops in nfsd4_setup_layout_type
-> >  - clearly document why we are ignoring loca_time_modify
-> >
-> > Diffstat:
-> >  MAINTAINERS                    |    2 
-> >  fs/nfsd/blocklayout.c          |   37 +++++++----------
-> >  fs/nfsd/export.c               |    3 -
-> >  fs/nfsd/nfs4layouts.c          |   29 +++----------
-> >  fs/xfs/xfs_export.c            |    4 -
-> >  fs/xfs/xfs_pnfs.c              |   44 ++++++++++++++------
-> >  fs/xfs/xfs_pnfs.h              |   11 ++---
-> >  include/linux/exportfs.h       |   25 +++--------
-> >  include/linux/exportfs_block.h |   88 +++++++++++++++++++++++++++++++++++++++++
-> >  9 files changed, 162 insertions(+), 81 deletions(-)
-> 
-> Christian, are you OK if I take this series through the NFSD tree?
+> OK, we should not use the inode's number (32-bit) but the namespace ID
+> (64-bit) which is readable with the NS_GET_ID IOCTL on the namespace
+> FDs.  I'll use that with ns_id instead of inum.  I'll also update the
+> Landlock code and tests accordingly.
 
-Hm, I generally prefer infrastructure to go through the VFS tree.
-You can get a stable branch ofc.
+Yes, it's embedded in struct ns_common.
