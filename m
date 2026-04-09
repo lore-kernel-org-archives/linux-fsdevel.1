@@ -1,84 +1,82 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81CCE1A724C;
-	Thu,  9 Apr 2026 13:15:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 816432475CB;
+	Thu,  9 Apr 2026 13:19:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775740516; cv=none; b=F0P1wRBn3rk2K1Epnaj9OKDR6UawkRWqhoy6aXtGGZSeSvV4bzVwQvq8gHmCELYWfQi7nRussevL6CJZ71Ji0xrTyus7v3nWgei2leByzuT815uIeHzNiwJRpryDVmdUemo/pwMzlgErl8xHOi33SuPvp8M9n1hoDPenWkYGIWs=
+	t=1775740772; cv=none; b=FlzDmfKAps245ORXhLsbF96e8jq2HOZZJ1736bqQJopnt+01Zg8R4h7suRNfr8q0SeQ9VEd4xty4ZFz9zUCDTvCQ+r/zn0hDPNGJlncQoLKLSyUELGiFkJBp4tquGabdF5c8nIdaiE1h6eI0yGbgzMUvIA3GkGpKKF4TDQYh1Tw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775740516; c=relaxed/simple;
-	bh=ED63hkK8etbxautcxx1u5AO9FSZT6ssFdgXiGIlo5Yc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nCWqYbPKnVn4+IRA+u33NtU2uYy1UugPGjMlkqGrsltVRL+LS/b/bjX0u7pCNLzlLHsN7Ptn14D9jynUwMpz88zKAR1ZW4SqXqA+mOr5UFo0PzMZcn/sdK1ltdlFRE6Yv12g65KLm9cwWXY2QyTfhIyVnRzYFD3ccfhZnkJRSpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SgnUKH/U; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775740772; c=relaxed/simple;
+	bh=ZXxpoZGq9wmo4unMkWf6o7LxEDGAuAfvyAJDIHhl3Lo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Rx5WfNH79HcAxn2lIKxUc6JM9ab73sFuW2v/M5I7Z9WjFnujHnTtGdTXKjrRg7hNmC00T7h8fDQVDdm0h3WEMGE2BZx/KXbJyQUZCyuA0EKUd4C3wY+h8RIwiqNuUQ+eXPskoSE70h4enlITLHLtMmU4E6XMUgHXaESnUabK9Ic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lYuokoO1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SgnUKH/U"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90A5DC19424;
-	Thu,  9 Apr 2026 13:15:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lYuokoO1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B948C4CEF7;
+	Thu,  9 Apr 2026 13:19:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775740516;
-	bh=ED63hkK8etbxautcxx1u5AO9FSZT6ssFdgXiGIlo5Yc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=SgnUKH/UmPVe4QCfUQAd367I+wAQhreR/7jRfSjhmskf2ITh4ZeJByNXCpm0gSMAN
-	 GrRDZ6tIIzRLTkPPDRuNLRNHjI8zieJVblUNNVyeEp0RRVxnVoVk2ULP7Sdxdnnz1j
-	 fQQHqGe1OvKUyJF69mKixM8uBPdCCc5Ggu0lQ865W36TSg2gsGT7Kc+DSZfjqOIf2f
-	 kO33NyQgjzb33ZCkJhhmnNmmUSDguta1aOssbIxMYZ0I/zmgbGyOhhCXeu3SGBvJcS
-	 IBQ7Od5egeu3UhDxNgQ81hNMHkG07rdNIxO+yZQjIV3wql7az3anRMfY8ZjK7nSYkr
-	 OOddv5UJ6xCVw==
-From: Andrey Albershteyn <aalbersh@kernel.org>
-To: linux-xfs@vger.kernel.org,
-	fsverity@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	ebiggers@kernel.org
-Cc: Andrey Albershteyn <aalbersh@kernel.org>,
-	hch@lst.de,
-	linux-ext4@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net,
-	linux-btrfs@vger.kernel.org,
-	djwong@kernel.org
-Subject: [PATCH v7 22/22] xfs: enable ro-compat fs-verity flag
-Date: Thu,  9 Apr 2026 15:13:54 +0200
-Message-ID: <20260409131404.1545834-23-aalbersh@kernel.org>
-X-Mailer: git-send-email 2.51.2
-In-Reply-To: <20260409131404.1545834-1-aalbersh@kernel.org>
-References: <20260409131404.1545834-1-aalbersh@kernel.org>
+	s=k20201202; t=1775740772;
+	bh=ZXxpoZGq9wmo4unMkWf6o7LxEDGAuAfvyAJDIHhl3Lo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lYuokoO1yHd0UbFpWdW6F9LLZUmwrSsJcUOMGr3zYOit1axOjfh7Hmizyz3EXZWmP
+	 T6GpqgBFOrqqCCHigArvuZhPx2KNUF00uPpEf2+MfAuFChU/xtyCxZX9oxmOzymbQi
+	 ap4INcYEr7yngBzbm6UpDsSlGcutJNQPDb682pqNGV5l4QGSYyKl7uBsFzbYZew5hm
+	 +twrYAa3eRtZMHtPOEmBARPoKRmaECdxdPbEHWVzfRyia+DSlWLAx0bytXgkbrT6Ss
+	 bCwt+oAvMX5O30FZfAXOUzFN9s6fAB1XGIhleztlGPtSb+c2Vsiau0IF6ghp9OvfMZ
+	 x+tzFBi8ys/rQ==
+Date: Thu, 9 Apr 2026 15:19:27 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: "Darrick J. Wong" <djwong@kernel.org>, 
+	Amir Goldstein <amir73il@gmail.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Jan Kara <jack@suse.cz>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Alexei Starovoitov <ast@kernel.org>, linux-fsdevel@vger.kernel.org, bpf@vger.kernel.org
+Subject: Re: [PATCH] bpf: add bpf_real_inode() kfunc
+Message-ID: <20260409-vorsichtig-umstand-d417555377e4@brauner>
+References: <20260326-work-bpf-verity-v1-1-efe9edc46ddc@kernel.org>
+ <acYVjuDOD7NynO9m@infradead.org>
+ <20260327060518.GP6202@frogsfrogsfrogs>
+ <20260407-unmengen-wahltag-474557ec0c58@brauner>
+ <adUalnAyY9mm1LUr@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <adUalnAyY9mm1LUr@infradead.org>
 
-Finalize fs-verity integration in XFS by making kernel fs-verity
-aware with ro-compat flag.
+On Tue, Apr 07, 2026 at 07:54:14AM -0700, Christoph Hellwig wrote:
+> On Tue, Apr 07, 2026 at 12:25:29PM +0200, Christian Brauner wrote:
+> > Yes, I'm aware of that limitation. In this case we know exactly what
+> > type of filesystem is used. But thanks for reminding me that for btrfs
+> > it's s_dev is never the actual block device.
+> >   
+> > What I would ultimately would like in the future is to have a security
+> > hook that allows bpf to reject mounting any block devices that aren't
+> > dm-verity protected. Maybe we can chat about this at LSFMM as well. I
+> > know you will love this idea.
+> 
+> I'd much rather go right to that, with a slight tweak to clearly
+> specify the expected protection and not hard code dm-verity.  There's
 
-Reviewed-by: Darrick J. Wong <djwong@kernel.org>
-[djwong: add spaces]
-Signed-off-by: Darrick J. Wong <djwong@kernel.org>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
----
- fs/xfs/libxfs/xfs_format.h | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+Yes, of course. I just used that as an example because we're using that
+policy. Just a mechanism to intercept the onlining/mounting of devices
+based on $rule. And the placement of that call needs to be as central as
+possible so we don't have to spaghetti that everywhere.
 
-diff --git a/fs/xfs/libxfs/xfs_format.h b/fs/xfs/libxfs/xfs_format.h
-index 4dff29659e40..0ce46c234b9c 100644
---- a/fs/xfs/libxfs/xfs_format.h
-+++ b/fs/xfs/libxfs/xfs_format.h
-@@ -378,8 +378,9 @@ xfs_sb_has_compat_feature(
- #define XFS_SB_FEAT_RO_COMPAT_ALL \
- 		(XFS_SB_FEAT_RO_COMPAT_FINOBT | \
- 		 XFS_SB_FEAT_RO_COMPAT_RMAPBT | \
--		 XFS_SB_FEAT_RO_COMPAT_REFLINK| \
--		 XFS_SB_FEAT_RO_COMPAT_INOBTCNT)
-+		 XFS_SB_FEAT_RO_COMPAT_REFLINK | \
-+		 XFS_SB_FEAT_RO_COMPAT_INOBTCNT | \
-+		 XFS_SB_FEAT_RO_COMPAT_VERITY)
- #define XFS_SB_FEAT_RO_COMPAT_UNKNOWN	~XFS_SB_FEAT_RO_COMPAT_ALL
- static inline bool
- xfs_sb_has_ro_compat_feature(
--- 
-2.51.2
+> ways to do full file system verity [1] much more efficiently inside the
+> file systems, and it would be good to not lock in a specific solution
 
+Note about that: we generally don't rely on any verity implementation
+that makes the verity information itself part of the on-disk filesystem
+format. The nice property of dm-verity is that the integrity is
+completely separate from the filesystem format and it's basically simple
+math that is trivially to prove correct.
+
+> [1] not to be confused with the existing fsverity for certain read-only
+> files.  Although a loopback image on that would probably also qualify.
