@@ -1,97 +1,65 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 770BF2F84F;
-	Thu,  9 Apr 2026 03:05:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7118728E0;
+	Thu,  9 Apr 2026 05:40:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775703963; cv=none; b=lpygOwafBUKkKJPmhFoA2nmoTaV02Lvvd5c0ji4uOXMLHHbxBxUBoUpaiIGzlj+qvipScaNz/G/4pv+knxwGPGFVutb0dBKH6X76rOQKVyohd8LFt5wDpW2/CLeEjmFLyzeODoUSb7zfREtzfKCkJxwJcYgvlZFW3nu2JJ7mAAc=
+	t=1775713238; cv=none; b=AB+rVhsokJAQQRUmqsqxB3H7QDwbsyrTNUw9JmPfohjuRx7xxxLS7Zxb4RACfjyJmNWhUmJDrVI/WB3apsu8e1ixYw6u8MOOaBqhi6/vSgfP8vSc0tmitZ0lT9FFqSCXSQ8nvaXLqh046BMEHPJc9ReNZdx+ExKIpFUxXjuwwIU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775703963; c=relaxed/simple;
-	bh=/B3wYGv6hNrVQLFN+vO+rg1HAtXwVzm6twn/XIgFd1I=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=II0JC0g1ZG4GdOn3DMdyVg6cZZBJwWy3W8hyIUt/vVzdRuDOHFVEoDRe1T/qsWOYAIeEfYP0Z4CV4ySiwdSjyDtfWioq0KYgp4mOns/lVng44kLQVL4ldHLInTR5k4vzpJ0kA3LHXGuBiAPe2s03x6xgU7XTP1twStH+WckwUN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 05ffd5d833c111f1aa26b74ffac11d73-20260409
-X-CTIC-Tags:
-	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
-	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
-	HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM, HR_SJ_PHRASE
-	HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT, HR_TO_NAME
-	IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_TRUSTED, SA_EXISTED
-	SN_TRUSTED, SN_EXISTED, SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS
-	CIE_BAD, CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS, GTI_RG_INFO
-	GTI_C_BU, AMN_GOOD, ABX_MISS_RDNS
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:9352e855-de0c-422b-b691-7cbe150b86cb,IP:15,
-	URL:0,TC:0,Content:0,EDM:25,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTI
-	ON:release,TS:35
-X-CID-INFO: VERSION:1.3.12,REQID:9352e855-de0c-422b-b691-7cbe150b86cb,IP:15,UR
-	L:0,TC:0,Content:0,EDM:25,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:35
-X-CID-META: VersionHash:e7bac3a,CLOUDID:d683bf1bee2005505f7a6e012e58f104,BulkI
-	D:260409110555QNJ4QMI8,BulkQuantity:0,Recheck:0,SF:17|19|66|78|102|127|898
-	,TC:nil,Content:0|15|50,EDM:5,IP:-2,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,
-	BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 05ffd5d833c111f1aa26b74ffac11d73-20260409
-X-User: liwang@kylinos.cn
-Received: from computer.. [(116.128.244.171)] by mailgw.kylinos.cn
-	(envelope-from <liwang@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1308210033; Thu, 09 Apr 2026 11:05:54 +0800
-From: Li Wang <liwang@kylinos.cn>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Bernd Schubert <bernd@bsbernd.com>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Li Wang <liwang@kylinos.cn>
-Subject: [PATCH] fuse: drop redundant err assignment in fuse_create_open()
-Date: Thu,  9 Apr 2026 11:04:57 +0800
-Message-Id: <20260409030457.4632-1-liwang@kylinos.cn>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1775713238; c=relaxed/simple;
+	bh=K9TjD/MsPW01zaPmlWER6fuIgkrg6/E9lVBvroMZ6vo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=S8Q99xz6MyCgUGhs5V9T5rOWFJZMnTy/zZqJP9lZ5+WqLx5iKuSN6zPU4z0U+X5Eq/5Og94DbdZhlvBabZ50EbbSn0QAutK1yH278NjGgp54lmj41nEq+M1/OibUnZ8MmXOsHVtlb401KDzlDPaJYqTI+UlXnnM5GnJXsqZDTLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=4edJFwxs; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="4edJFwxs"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=o0ScfNlJGSA2uAJMI4ulU1pLyWdBug8Lf8guz+qT7sY=; b=4edJFwxsbyJkPqyn1XaMjCDdSC
+	FlJdc1layEXP+v7Bc2DUT78tlL2tMpEQhzr+g6u7TDB1lpdV4g2ptYtaNmR0IxILvz7kv4ix348K1
+	uNyP3t9DRWiyviPTTydvWMvAMXtodrCA9szonPWUyLmrJTF2zQ/O6koGmwppKavXVt0HE5ZsWy91N
+	vqSKoWtyS0HwFYqXcu345tgJGIeqvR0MlM9eOUGlttvMcq9nnZ8c7LmlKHquJloOJMU7S4CIoNFPg
+	cxwyYH4tgGgBWNt8y9CmG1B2vkuN98d9XXsUKAnLFzbvg8I9PwHtYf0gNE0QXt4LUi7Nui/3cTqwq
+	WmfrJCWw==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1wAi7u-00000009jBY-0Up6;
+	Thu, 09 Apr 2026 05:40:26 +0000
+Date: Wed, 8 Apr 2026 22:40:26 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Jaegeuk Kim <jaegeuk@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v3] f2fs: do not support mmap write for large folio
+Message-ID: <adc7yo1_sr_eeV33@infradead.org>
+References: <20260406154940.2407853-1-jaegeuk@kernel.org>
+ <adaasm42rLxRY2GN@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <adaasm42rLxRY2GN@google.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-In fuse_create_open(), err is initialized to -ENOMEM immediately before
-the fuse_alloc_forget() NULL check. If forget allocation fails,
-it branches to out_err with that value. If it succeeds, it falls through
-without modifying err, so err is still -ENOMEM at the point where
-fuse_file_alloc() is called. The second err = -ENOMEM before
-fuse_file_alloc() therefore is redundant.
+[adding back fsdevel and mm to the discussion]
 
-Removing this redundant assignment not only improves performance
-but also makes the intended error semantics obvious: a single ENOMEM
-initialization covers both allocation failure exits that share
-this prelude.
+On Wed, Apr 08, 2026 at 06:13:06PM +0000, Jaegeuk Kim wrote:
+> Let's check mmap writes onto the large folio, since we don't support writing
+> large folios.
 
-Signed-off-by: Li Wang <liwang@kylinos.cn>
----
- fs/fuse/dir.c | 1 -
- 1 file changed, 1 deletion(-)
+What does this fix?  As state in the previous round of discussion f2fs
+only support large folios for immutable files, how do you get ->mkwrite
+called for them.
 
-diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
-index f7443ca37e35..b118cf23d41a 100644
---- a/fs/fuse/dir.c
-+++ b/fs/fuse/dir.c
-@@ -838,7 +838,6 @@ static int fuse_create_open(struct mnt_idmap *idmap, struct inode *dir,
- 	if (!forget)
- 		goto out_err;
- 
--	err = -ENOMEM;
- 	ff = fuse_file_alloc(fm, true);
- 	if (!ff)
- 		goto out_put_forget_req;
--- 
-2.34.1
-
+The only way I can think of that is when clearing the immutable flag,
+but simply rejecting writes with SIGBUS after that seems like it's
+breaking the expected API, and I don't see handling for normal writes
+after that either.
