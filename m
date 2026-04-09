@@ -1,130 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from canpmsgout02.his.huawei.com (canpmsgout02.his.huawei.com [113.46.200.217])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F2FE25CC79;
-	Thu,  9 Apr 2026 08:01:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BB5F38E5C0
+	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Apr 2026 08:08:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.217
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775721686; cv=none; b=Rp11MQ8T1O9+SBuGaxJ5LEYgTLI+hsk047ctLR8Abg+vBBtiTr4Gbi0ZY8Rm7JHX9DYdl79r2RLKiYcSypjDg6ZaJ5vVX6zpsLXMdVE7YxknLvSVAwvi7N8WMdbMKwfREx/6fyfuwHG8VEpR+jwlXbykq+wzdUu8Ik0QK+/lark=
+	t=1775722130; cv=none; b=E+/nKneU1fXcM0QWavVh5XBGi5VGx9CNpTQicH9WBcIGLEQmD56gP5k1FDW+waQ53SGumHDNAjYQhT4VwG8RF/QifF6j+fpeptkJu5jANYxAvKO42k4zCjf3P6D0CkOdfQnE5vgMNLBt71qCtE4vkc+9VG81t6+ivMN4e+aC+/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775721686; c=relaxed/simple;
-	bh=RGmpNngIfJC7vsE/AA6AGxc8jF7BEr2rUsoHZzp8PsQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Jv6riFtgCJWe4nIEZ62rQr9IC2uZa7PtTgzPfOxT/oc5Lp8O9p38kMyQrbAYLKS/0tb4d9RtcrOroyBSgEqudk1kv4Pq4URXsFJ24Rxg1hfi+4XX9/QKUXn7h2vGWNsALeRH4wGYHnL5D2CeRtfKKPxnnxC7nw6rK3LdlLzdq9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rOTz9tLV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775722130; c=relaxed/simple;
+	bh=Ldk7zM4xHPvkN7qlQhnzrX2SCfdO6Z3dzEsYXTGoFtg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=adO/n3s4dLVhtzIvmaj7RNHIEa+v1N5OAi7j3ml8ZQN2dB7aXyG8jNt2iJn6+2kRlBb+eMdqaapxztiS5y+QsONlbmjiRjftthSTmEQadBdWmo0tyLWaP87hTIiX3Kl+x+qlkZITN0VGbuzWdOyXpoTPlOoyx/1pGB5Gydo3Nc0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=Qg3MJHeR; arc=none smtp.client-ip=113.46.200.217
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rOTz9tLV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 933BFC2BC9E;
-	Thu,  9 Apr 2026 08:01:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775721685;
-	bh=RGmpNngIfJC7vsE/AA6AGxc8jF7BEr2rUsoHZzp8PsQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rOTz9tLV6I6aNdusDm3HswNPIWXdRp/W6DkRosUNvQIzX9eaIsc5Tbz0x7b4UcVJD
-	 VghAjUDqOJFDCdxJWd6SUI9/j/6Ib9lheDAoTXVwEbTbxh69QWEZ28y3Uj0PaniLm8
-	 eLCzJ9OnW71vIFeqfBTsPsf7/n5c5f4d6sxAWDTKB1Kd7U2Jx9X/sliZ4ru/t8xybV
-	 Hngi1RQTrPDym8ZFVyYzNfVv88ValdoNCYPc7mNPNEyZL6YlHovTNGUlGIZfbyelGm
-	 cWIZka/2Kf5Nu6Kh7areDqyG7LuzyK1U5AKAPK1Pio5MDnq19kTt+XsB8sbiO/H5B7
-	 KeLJ25ueK/PNA==
-Date: Thu, 9 Apr 2026 09:01:20 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: Usama Arif <usama.arif@linux.dev>
-Cc: "Denis M. Karpov" <komlomal@gmail.com>, rppt@kernel.org, 
-	akpm@linux-foundation.org, Liam.Howlett@oracle.com, vbabka@kernel.org, jannh@google.com, 
-	peterx@redhat.com, pfalcato@suse.de, brauner@kernel.org, viro@zeniv.linux.org.uk, 
-	jack@suse.cz, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH] userfaultfd: allow registration of ranges below
- mmap_min_addr
-Message-ID: <addcUpxfuR2llaiW@lucifer>
-References: <20260407081442.6256-1-komlomal@gmail.com>
- <20260408123700.1596800-1-usama.arif@linux.dev>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="Qg3MJHeR"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=2wKIVbg9ebDYTSOl8F0vaTg0+4KOKttW9ZEjysh+UqA=;
+	b=Qg3MJHeR+jC0YBSXUgSxWuy6TUsy0aGjFOw80rQSgUK48+NK/rpO1fdY3TzRVAFSPIcHtz8Sz
+	v/d5xZV7DUgWv/jLOq1H5ZMGpitBSjxW/fTB9PfAKtZc73XL2kebD5f65nA+rKFw55fy9KS5UkA
+	E78O4/vVhCfmVPplr/JmIpg=
+Received: from mail.maildlp.com (unknown [172.19.162.144])
+	by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4frsq44MT1zcZyR;
+	Thu,  9 Apr 2026 16:02:24 +0800 (CST)
+Received: from dggpemf100008.china.huawei.com (unknown [7.185.36.138])
+	by mail.maildlp.com (Postfix) with ESMTPS id A903D40538;
+	Thu,  9 Apr 2026 16:08:43 +0800 (CST)
+Received: from [10.174.177.243] (10.174.177.243) by
+ dggpemf100008.china.huawei.com (7.185.36.138) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Thu, 9 Apr 2026 16:08:42 +0800
+Message-ID: <dbb92553-58ba-42e1-b7df-b8450bd69d33@huawei.com>
+Date: Thu, 9 Apr 2026 16:08:37 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260408123700.1596800-1-usama.arif@linux.dev>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC] fs: drop_caches: introduce per-node drop_caches
+ interface
+To: Michal Hocko <mhocko@suse.com>
+CC: Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand
+	<david@kernel.org>, Christian Brauner <brauner@kernel.org>, Alexander Viro
+	<viro@zeniv.linux.org.uk>, "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, Lorenzo
+ Stoakes <ljs@kernel.org>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan
+	<surenb@google.com>, Vlastimil Babka <vbabka@kernel.org>,
+	<linux-fsdevel@vger.kernel.org>, <linux-mm@kvack.org>
+References: <20260409063503.3475420-1-wangkefeng.wang@huawei.com>
+ <addP4MKmA8zfSN1o@tiehlicka>
+Content-Language: en-US
+From: Kefeng Wang <wangkefeng.wang@huawei.com>
+In-Reply-To: <addP4MKmA8zfSN1o@tiehlicka>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
+ dggpemf100008.china.huawei.com (7.185.36.138)
 
-On Wed, Apr 08, 2026 at 05:36:59AM -0700, Usama Arif wrote:
-> On Tue,  7 Apr 2026 11:14:42 +0300 "Denis M. Karpov" <komlomal@gmail.com> wrote:
->
-> > The current implementation of validate_range() in fs/userfaultfd.c
-> > performs a hard check against mmap_min_addr without considering
-> > capabilities, but the mmap() syscall uses security_mmap_addr()
-> > which allows privileged processes (with CAP_SYS_RAWIO) to map below
-> > mmap_min_addr. Furthermore, security_mmap_addr()->cap_mmap_addr() uses
-> > dac_mmap_min_addr variable which can be changed with
-> > /proc/sys/vm/mmap_min_addr.
-> >
-> > Because userfaultfd uses a different check, UFFDIO_REGISTER may fail
-> > with -EINVAL for valid memory areas that were successfully mapped
-> > below mmap_min_addr even with appropriate capabilities.
-> >
-> > This prevents apps like binary compilers from using UFFD for valid memory
-> > regions mapped by application.
-> >
-> > Replace the rigid mmap_min_addr check with security_mmap_addr() to align
-> > userfaultfd with the standard kernel memory mapping security policy.
-> >
-> > Signed-off-by: Denis M. Karpov <komlomal@gmail.com>
-> >
-> > ---
-> > Initial RFC following the discussion on the [BUG] thread.
-> > Link: https://lore.kernel.org/all/CADtiZd0tWysx5HMCUnOXfSHB7PXAuXg1Mh4eY_hUmH29S=sejg@mail.gmail.com/
-> > ---
-> >  fs/userfaultfd.c | 4 +---
-> >  1 file changed, 1 insertion(+), 3 deletions(-)
-> >
-> > diff --git a/fs/userfaultfd.c b/fs/userfaultfd.c
-> > index bdc84e521..dbfe5b2a0 100644
-> > --- a/fs/userfaultfd.c
-> > +++ b/fs/userfaultfd.c
-> > @@ -1238,15 +1238,13 @@ static __always_inline int validate_unaligned_range(
-> >  		return -EINVAL;
-> >  	if (!len)
-> >  		return -EINVAL;
-> > -	if (start < mmap_min_addr)
-> > -		return -EINVAL;
-> >  	if (start >= task_size)
-> >  		return -EINVAL;
-> >  	if (len > task_size - start)
-> >  		return -EINVAL;
-> >  	if (start + len <= start)
-> >  		return -EINVAL;
-> > -	return 0;
-> > +	return security_mmap_addr(start);
->
-> Is this introducing an ABI change?
->
-> The old code returned -EINVAL when start was below mmap_min_addr.
-> The new code calls security_mmap_addr() which returns -EPERM when
-> the caller lacks CAP_SYS_RAWIO. Existing userspace callers checking
-> specifically for -EINVAL would see different behavior start is
-> below mmap_min_addr.
 
-You mean API change? :) we don't guarantee ABI for kernel stuff anyway.
 
-Firstly, as with Harry, I don't believe we should be duplicating checks here
-anyway. UFFD is duplicative enough as it is.
+On 4/9/2026 3:06 PM, Michal Hocko wrote:
+> On Thu 09-04-26 14:35:03, Kefeng Wang wrote:
+>> Add a sysfs interface at /sys/devices/system/node/nodeX/drop_caches
+>> to allow dropping caches on a specific NUMA node.
+>>
+>> The existing global drop_caches mechanism (/proc/sys/vm/drop_caches)
+>> operates across all NUMA nodes indiscriminately, causing,
+>> - Unnecessary eviction of hot cache on some nodes
+>> - Performance degradation for applications with NUMA affinity
+>> - Long times spent on large systems with lots of memory
+>>
+>> By exposing a per-node interface, admistrator can,
+>> - Target specific nodes experiencing memory pressure
+>> - Preserve cache on unaffected nodes
+>> - Perform reclamation with finer granularity
+> 
+> Quite honestly drop_caches is not the best interface to build any new
+> functionality on top of. It has backfired a lot in the past and we have
+> tried to make it extra clear that this should be used for debugging
+> purposes only. Extending it further sounds like a bad step.
 
-And this is such a silly edge case that I don't think it is valid or reasonable
-for us to account for whichever totally insane user relies on a pointless
-re-check being done there and _then_ relies on the error code
-being... -EINVAL... which is overloaded for a million other possible failures.
 
-Let's let it be -EFAULT and remove this silly check altogether.
+I am not clear about this history of this interface, but some of our
+products do use this interface :(
 
->
-> >  }
-> >
-> >  static __always_inline int validate_range(struct mm_struct *mm,
-> > --
-> > 2.47.3
-> >
-> >
+> 
+>> One use cases is hot-pluggable NUMA nodes, during hot-remove, simply
+>> dropping pagecache is far more efficient than migrating large amounts
+>> of pages to other nodes, which also eliminating the risk of accessing
+>> potentially faulty memory.
+> 
+> Does the per-node reclaim interface can help with this by
+> any means?
 
-Thanks, Lorenzo
+I have also considered this interface. As mentioned above, our product
+uses drop_caches, so it is easy to convert to using the per-node
+drop_caches interface.
+
+'echo 1 > per-node-dropcaches'  VS 'echo XG swappiness=0 > per-node-reclaim'
+
+To use the reclaim interface, there are two differences,
+
+1) we need to input the reclaim numbers and swappiness, this is not a 
+big problem
+2) for reclaim, it supports swappiness=max to only reclaim anonymous 
+pages, but cannot only reclaim file pages,
+
+So if per-node-drop_caches cannot be accepted, we can consider expanding
+the reclaim interface to reclaim file pages?
