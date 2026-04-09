@@ -1,74 +1,89 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from out30-99.freemail.mail.aliyun.com (out30-99.freemail.mail.aliyun.com [115.124.30.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B9FB2E3AF1;
-	Thu,  9 Apr 2026 14:24:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B0D029B78D;
+	Thu,  9 Apr 2026 14:37:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.99
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775744686; cv=none; b=tRDewFkII3rmoxEPDNSe5Ej6DBsiWfeWrxuxAKVd7fuNaOsBkWQTneAR2/zQzbtRhtXNPJE0Ho2lznjy7zBkPsSAzlo7XUUNVlCI+LT8x6MOHrgoTet1RSOH+zIeFhm+HA11BnCH+YqhkMuc0Ie8Qck5Nd5VTju9qBqklQU8KdA=
+	t=1775745473; cv=none; b=l7f4dHVaulePgQrOEu98Z5baLTIteoH+S4SSHNQsrc1hnuxCo+p0NSCB9pJ/Lbqg9kYehu+1YEXQBIorwqEMgSu8qmaxugqf47SdFOlgtOZ5ITb4wIYGPlRJ3IkkdkzACt7vAGJjJ/WTogh02FXJ3PyO2OuOJv+tFky+GqcqPn0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775744686; c=relaxed/simple;
-	bh=SUdGY5HVFvDcHzp72SDRpxbcKlePboKVB8TKShOaiJw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AI8RSMK8DIgb/067ZN31DvPik53qILUQWos0e/9xIsgqieUhKQ5nw3MD5zFlvZF0U/pPQQX/C97Vax/miWaiW4xfqQz5UGLP0jAquundJ3wPgYqwk+ctPQmW893yzp+2yH0fNREl/zh8Ulidh7FriC2sC7V2i+oWL8/Bhp3//+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=TsXFe7VC; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1775745473; c=relaxed/simple;
+	bh=6DWMFvsSMDfBi+51f0s0BGiwf4kZBzVSyVt4VWnrKrs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TTU4GapAwBdxabBdtjBPNQPUqzmijCxVqsOccvC7x53zQbhbBeQ30dJS5SSZAfQazYTM4Tv6+NejvdU2q1TSHJUD13UzCSU3rYWmAha2kWt3Nur2w0V21QCSwAB1XoHjnhIANf3gDheXmr1V3xk6AjdHB4bj+9gvV06QeLdrxdw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=vs9L2UCA; arc=none smtp.client-ip=115.124.30.99
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="TsXFe7VC"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=ZriNUv43y9hyKogezhLLvYEHVpd46sW27LpgGvQvIZ0=; b=TsXFe7VCaHgNbmPsKxGHE0QGE1
-	0jqJpQeq/eSThLRv/i0M+L4POuXbvK/9f2jaEwBoHAzGD4d9E7XGDbBSCIrjEZpGMzvjd6SJxwA2d
-	63oMZWEp+icNkGWfYM4DR0Nm7nvSPFRf7NhHGGnWw50opqlInYWeu4rqLc4WpT1JW8v2LeSiyWBWe
-	kMwfSnDB2+TQSdrUm2QVsxHE/ksBnR41b9wi6dRjcdId9t56rwp5luH2jkNm7SHd2BTWVPMF1DJFM
-	VqvWoJCxFlM2eyJc87hwivMuPgDksAWccmQsX1mQzc10Q3+HbZmX9x0Xn3fW1OO0iWK5iou1/7pwU
-	OLrIzesQ==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wAqJ4-0000000AhGG-2DKp;
-	Thu, 09 Apr 2026 14:24:30 +0000
-Date: Thu, 9 Apr 2026 07:24:30 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Alexei Starovoitov <ast@kernel.org>, linux-fsdevel@vger.kernel.org,
-	bpf@vger.kernel.org
-Subject: Re: [PATCH] bpf: add bpf_real_inode() kfunc
-Message-ID: <ade2nskzkdcsvF55@infradead.org>
-References: <20260326-work-bpf-verity-v1-1-efe9edc46ddc@kernel.org>
- <acYVjuDOD7NynO9m@infradead.org>
- <20260327060518.GP6202@frogsfrogsfrogs>
- <20260407-unmengen-wahltag-474557ec0c58@brauner>
- <adUalnAyY9mm1LUr@infradead.org>
- <20260409-vorsichtig-umstand-d417555377e4@brauner>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="vs9L2UCA"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1775745468; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=E1p69RJjKiJrkHqzfUHfp5KTa/fZVVB2ULuTIqlExdQ=;
+	b=vs9L2UCABEOqda9/HNISxuk2Z7lNcQ1UDhyMnhYHjEYrI8bpiLXD0X95XaMYp58i+MqvRy9554RvqFH2MB/L3hSOCCNr3FEmQSPSr0mw0V7hLlYWlFE8rAXfxDwwRE44/tCYOr1PRKT35P+T7zTtbrudEP5eKuaraLj3isrbn/0=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033032089153;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=10;SR=0;TI=SMTPD_---0X0iXRcm_1775745467;
+Received: from 30.41.54.139(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X0iXRcm_1775745467 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Thu, 09 Apr 2026 22:37:47 +0800
+Message-ID: <d889ed2b-ca34-4e95-ae5b-1d66636b515d@linux.alibaba.com>
+Date: Thu, 9 Apr 2026 22:37:46 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260409-vorsichtig-umstand-d417555377e4@brauner>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] bpf: add bpf_real_inode() kfunc
+To: Christoph Hellwig <hch@infradead.org>,
+ Christian Brauner <brauner@kernel.org>
+Cc: "Darrick J. Wong" <djwong@kernel.org>, Amir Goldstein
+ <amir73il@gmail.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Jan Kara <jack@suse.cz>, Daniel Borkmann <daniel@iogearbox.net>,
+ Alexei Starovoitov <ast@kernel.org>, linux-fsdevel@vger.kernel.org,
+ bpf@vger.kernel.org
+References: <20260326-work-bpf-verity-v1-1-efe9edc46ddc@kernel.org>
+ <acYVjuDOD7NynO9m@infradead.org> <20260327060518.GP6202@frogsfrogsfrogs>
+ <20260407-unmengen-wahltag-474557ec0c58@brauner>
+ <adUalnAyY9mm1LUr@infradead.org>
+ <20260409-vorsichtig-umstand-d417555377e4@brauner>
+ <ade2nskzkdcsvF55@infradead.org>
+From: Gao Xiang <hsiangkao@linux.alibaba.com>
+In-Reply-To: <ade2nskzkdcsvF55@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Apr 09, 2026 at 03:19:27PM +0200, Christian Brauner wrote:
-> > ways to do full file system verity [1] much more efficiently inside the
-> > file systems, and it would be good to not lock in a specific solution
+
+
+On 2026/4/9 22:24, Christoph Hellwig wrote:
+> On Thu, Apr 09, 2026 at 03:19:27PM +0200, Christian Brauner wrote:
+>>> ways to do full file system verity [1] much more efficiently inside the
+>>> file systems, and it would be good to not lock in a specific solution
+>>
+>> Note about that: we generally don't rely on any verity implementation
+>> that makes the verity information itself part of the on-disk filesystem
+>> format. The nice property of dm-verity is that the integrity is
+>> completely separate from the filesystem format and it's basically simple
+>> math that is trivially to prove correct.
 > 
-> Note about that: we generally don't rely on any verity implementation
-> that makes the verity information itself part of the on-disk filesystem
-> format. The nice property of dm-verity is that the integrity is
-> completely separate from the filesystem format and it's basically simple
-> math that is trivially to prove correct.
+> Any file system integrated version storing the hashed in the extended
+> LBA data (which Linux also confusingly calls intgrity data) would be
+> even simpler and easier to verify.  But yes, we need to clearly
+> document what we want.
 
-Any file system integrated version storing the hashed in the extended
-LBA data (which Linux also confusingly calls intgrity data) would be
-even simpler and easier to verify.  But yes, we need to clearly
-document what we want.
+Yes, you could keep hash / checksum in the extended OOB area, but
+I guess you still don't know if the hash / checksum of the
+particular data can be trusted (or is changed by attackers).
+
+I think the key point of merkle tree approach is not only for
+data integrity but also to distribute the trust between all
+hashes by calculating the hash (of the hashes) of the hashes
+so that you could get the only one root hash value regardless
+of how to organize the container filesystem (meta)data so
+that it's totally seperated from individual filesystem layouts
+and can be proven seperately and even implemented easily by
+hardware/firmware rather than inside the specific filesystem
+implementation.
+
+Thanks,
+Gao Xiang
