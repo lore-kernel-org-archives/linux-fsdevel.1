@@ -1,67 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from canpmsgout08.his.huawei.com (canpmsgout08.his.huawei.com [113.46.200.223])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FACA40DFCC;
-	Thu,  9 Apr 2026 13:40:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 757A929B78D
+	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Apr 2026 13:45:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775742043; cv=none; b=l0AYfBBHJZzGHmhxc3LrSTORqwiGIhfq6BkAiWEq8XTj3plBkrQ/u7tohQi4vswcuYukdYD/DDXNbH0UG858mOtUjB1Fj6Mi/J6yWoPFx+YFV1WTqs6OqZ4XtHcfm6HJQLtwACY+fAnBKSjXeW0TVdO7y2Nm2/e22PwBa4XV1PI=
+	t=1775742321; cv=none; b=hZtXbfSgL/+z8nIcxJGSPo6WeMPYb+t21RuWDBhHirAm+Zr5NH7hzoZ2AQAcobdQqctMTUO4RwqVitOK802VK0bJSD9ZyFDd9LSwYGv6aNc4EQxNsmJsRIzRMOz134dt88/4EKMZBvV19gbRD8sfD8xet8xJrwMgZLEVzseJnWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775742043; c=relaxed/simple;
-	bh=ceyLircT23qxl5OTtwUMU1E9O2wWy5XtvTc4kbO4HXI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DtgS+dX78WE4P9iIZM/6IX1OjRgQ1Jplg6Z0yH6NVBwo/CBqWnHlseHuZzjOenmJOXkehyKUMdjR7xj/V/XW6yHMACXbWphxmUfVz6eFa974rMx/xj7JdataGTzRT8L4C4LUBXEMOKWDa5EEu2EO4OBy7CX9zz1gqLf4CpMVpac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dKVJh+uQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775742321; c=relaxed/simple;
+	bh=/Q8XhsKUf9+1RZBBNCrZXZbKX/wirTtKJz8rnNQZLn8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=VyaO1dDIcYvGlZjhXASICkNR0C42ULD5IuXa3yWNhH3RvunQSs2ecdEI5Uo7gT7TCvESRoz4Bu4nWAFMyuIDjetPvib6lgxOw6yGcCqrlTwZm0VTw4BEZSPA8lfMv+73DKYFgCeZzqvm/30n2wj6UjBqS7BE114TzbphTTp36p0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=QqozcRe0; arc=none smtp.client-ip=113.46.200.223
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dKVJh+uQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B91FC4CEF7;
-	Thu,  9 Apr 2026 13:40:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775742043;
-	bh=ceyLircT23qxl5OTtwUMU1E9O2wWy5XtvTc4kbO4HXI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dKVJh+uQUVk1wDoCIPKJubzRmDalRP1Sh5/KRRHFAqLMwGfN7zY+Vg0hD26Jooxd2
-	 CfsPtfu/URiEawUWbBQOyFBaP1KhuOV2ni9eE2PVlVy8I2jb6BQWdbhp7KS61DhGrN
-	 yTpH97LNaZVY9dzBNj53jm0V7lePG+Pabgt0nJQiVvJzE5vTLwTvAnApysbB0hVyxD
-	 MijAHPMDwJCd2/7AfgPQUebeQzQeIydsPbVjtXtqISg5clzE5zlKduusu9arzUSOgA
-	 nQRyJaID/vgv5yQHUpNtvz/36bXCz5bpGuB1+S3kQhtbQ1XVXjykBAC0fnSCUmPGr4
-	 Zlw3/02/D9cmQ==
-Date: Thu, 9 Apr 2026 15:40:39 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Mateusz Guzik <mjguzik@gmail.com>
-Cc: Jan Kara <jack@suse.cz>, viro@zeniv.linux.org.uk, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v5 3/4] fs: handle potential filesystems which use
- I_DONTCACHE and drop the lock in ->drop_inode
-Message-ID: <20260409-weben-obstgarten-1465edb3d7bf@brauner>
-References: <20260331160851.3854954-1-mjguzik@gmail.com>
- <20260331160851.3854954-4-mjguzik@gmail.com>
- <itaix3v2pgkrlvhxetyepfzrbyg7bnigghrkrdofznas37nsyf@irriakb7cwzj>
- <CAGudoHEBkMu=mY12U6WmXDReY5EUXehP6wG45XmLyQ5qHiMA3w@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="QqozcRe0"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=gJ3AK0pFALltuMA1doiDwlpqhRI344SC4WJuiz5X1dY=;
+	b=QqozcRe0aKq0MNTlS8Hpb0XYFDQ4Bt6buwo6ox398OnNhv5CnKMRSYyPq/jF6/dPTdUhMn2ge
+	u2q+qYnbUZb1sKawAVk7hxVOD1D2bMnDnubvnDZahA9guoqsqJSQ6QjlmEGpxqKIcvdLHf6rX/D
+	aznrGZ3Y+1+JUPYzRv518fc=
+Received: from mail.maildlp.com (unknown [172.19.163.163])
+	by canpmsgout08.his.huawei.com (SkyGuard) with ESMTPS id 4fs1HR34HTzmV6X;
+	Thu,  9 Apr 2026 21:38:59 +0800 (CST)
+Received: from dggpemf100008.china.huawei.com (unknown [7.185.36.138])
+	by mail.maildlp.com (Postfix) with ESMTPS id AC28F4048B;
+	Thu,  9 Apr 2026 21:45:15 +0800 (CST)
+Received: from [10.174.177.243] (10.174.177.243) by
+ dggpemf100008.china.huawei.com (7.185.36.138) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Thu, 9 Apr 2026 21:45:13 +0800
+Message-ID: <1141f0ca-3b43-455f-bfa3-39c6da68ee58@huawei.com>
+Date: Thu, 9 Apr 2026 21:45:09 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC] fs: drop_caches: introduce per-node drop_caches
+ interface
+To: Michal Hocko <mhocko@suse.com>
+CC: Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand
+	<david@kernel.org>, Christian Brauner <brauner@kernel.org>, Alexander Viro
+	<viro@zeniv.linux.org.uk>, "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, Lorenzo
+ Stoakes <ljs@kernel.org>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan
+	<surenb@google.com>, Vlastimil Babka <vbabka@kernel.org>,
+	<linux-fsdevel@vger.kernel.org>, <linux-mm@kvack.org>
+References: <20260409063503.3475420-1-wangkefeng.wang@huawei.com>
+ <addP4MKmA8zfSN1o@tiehlicka>
+ <dbb92553-58ba-42e1-b7df-b8450bd69d33@huawei.com>
+ <addhuRqrB-u7oDp8@tiehlicka>
+ <bdd49511-9b84-42cc-a286-9fdf2ef531a7@huawei.com>
+ <adeFBKzNq9rNzbHk@tiehlicka>
+ <95bc0034-a72b-449c-9be4-b691fd03dc1e@huawei.com>
+ <adejDzw8Mf6407-a@tiehlicka>
+Content-Language: en-US
+From: Kefeng Wang <wangkefeng.wang@huawei.com>
+In-Reply-To: <adejDzw8Mf6407-a@tiehlicka>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGudoHEBkMu=mY12U6WmXDReY5EUXehP6wG45XmLyQ5qHiMA3w@mail.gmail.com>
+X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
+ dggpemf100008.china.huawei.com (7.185.36.138)
 
-On Wed, Apr 01, 2026 at 08:50:39PM +0200, Mateusz Guzik wrote:
-> On Wed, Apr 1, 2026 at 7:45 PM Jan Kara <jack@suse.cz> wrote:
-> >
-> > On Tue 31-03-26 18:08:50, Mateusz Guzik wrote:
-> > > f2fs and ntfs play games where they transitioning the refcount 0->1 and release
-> >
-> > I don't see ntfs providing .drop_inode at all in current Linu's kernel? The
-> > f2fs case is indeed ugly and a gross hack. But I don't see easy way how to
-> > fix that for now.
-> >
+
+
+On 4/9/2026 9:01 PM, Michal Hocko wrote:
+> On Thu 09-04-26 20:50:33, Kefeng Wang wrote:
+>>
+>>
+>> On 4/9/2026 6:52 PM, Michal Hocko wrote:
+>>> On Thu 09-04-26 16:54:48, Kefeng Wang wrote:
+>>>>
+>>>>
+>>>> On 4/9/2026 4:22 PM, Michal Hocko wrote:
+>>>>> On Thu 09-04-26 16:08:37, Kefeng Wang wrote:
+>>>>> [...]
+>>>>>> To use the reclaim interface, there are two differences,
+>>>>>>
+>>>>>> 1) we need to input the reclaim numbers and swappiness, this is not a big
+>>>>>> problem
+>>>>>> 2) for reclaim, it supports swappiness=max to only reclaim anonymous pages,
+>>>>>> but cannot only reclaim file pages,
+>>>>>
+>>>>> Why is 2) a real constrain?
+>>>>
+>>>> This should not be a restriction, but a strategy. Our product wants to
+>>>> migrate anonymous pages to the local instead of swapping them out. However,
+>>>> the current per-node-reclaim interface does not support reclaiming only file
+>>>> pages.
+>>>
+>>> Yes, I do understand that you want to keep your hot anonymous pages
+>>> resident on some node. Those shouldn't be reclaimed by the user space
+>>> triggered reclaim anyway, right? Migration will then happen during the
+>>> memory offlining.
+>>
+>> Yes, that we need.
+>>>
+>>> This will certainly require some fine tuning but I do not see any reason
+>>> this should be completely impossible. Certainly a more robust way (from
+>>> API POV) than the suggested drop_caches. I am also not convinced we need
+>>> page-cache-only reclaim for the existing reclaim interface. I believe it
+>>> makes more sense to look at the reclaim from hotness POV rather than
+>>> anon vs. file.
+>>
+>> It is already support only reclaim file pages when swappiness = 0 for
+>> memcg.reclaim, but not for per-node-reclaim, so we can just make a few
+>> small changes to enable it(no tested)
 > 
-> This was generated against next-20260327, then:
+> This might be small changes wrt code impact but they are changing the
+> semantic of the interface and that needs proper analysis of impact,
+> potential regression risk and also evaluate whether this is what we
+> really want/need. Memcg has been special in this regards from early on
+> and we pretty much had to keep the status quo IIRC.
 
-Ideally don't develop against next... If you already know you're going
-to do a bunch of work in an area. I can just assign you a branch to work
-of off. Easier for everyone. Also makes the CI easier.
+
+For proactive reclaim, there are three interface for now,
+1) lru_gen:  called lru_gen_seq_write()
+2) memcg.reclaim/per-node-reclaim :  called user_proactive_reclaim（）
+
+
+I think it is reasonable to provide more strategic options for user 
+proactive reclaim. The new code changes the semantic of lru_gen/per-
+node-reclaim, but not memcg, so if we do need to avoid potential
+regression, maybe add something like swappiness=min to only reclaim
+file page.
+
+
+
