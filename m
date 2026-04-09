@@ -1,138 +1,130 @@
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49DA2387570;
-	Thu,  9 Apr 2026 07:58:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F2FE25CC79;
+	Thu,  9 Apr 2026 08:01:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775721537; cv=none; b=O8PhCgLNqPW/1hGOGo8YiiYpnLQGw71A3g8vYwz1SYMhFyIQ8u52jn+ZSfe48l32YowaYeNIhJjj0p941ilaUscQL/ovbpt+WS6Ds+v3l5DsihRwUDDxauqGfPkXM86x9ZFT4rUXnnNrgvUdR5QgiLGm2PWZ/xFY5I1cUG2lnSQ=
+	t=1775721686; cv=none; b=Rp11MQ8T1O9+SBuGaxJ5LEYgTLI+hsk047ctLR8Abg+vBBtiTr4Gbi0ZY8Rm7JHX9DYdl79r2RLKiYcSypjDg6ZaJ5vVX6zpsLXMdVE7YxknLvSVAwvi7N8WMdbMKwfREx/6fyfuwHG8VEpR+jwlXbykq+wzdUu8Ik0QK+/lark=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775721537; c=relaxed/simple;
-	bh=uGHjWOVWbXx3D0UdHIEoCnTuSer89svIFp1G0mY5U2E=;
+	s=arc-20240116; t=1775721686; c=relaxed/simple;
+	bh=RGmpNngIfJC7vsE/AA6AGxc8jF7BEr2rUsoHZzp8PsQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Cg62BKPjS6Y3b4hprC1jHIzXPb0PZ9AqH0kbScfPgYVaqygYOUvzpWLyfU3rlWx20lewQ5LjYI/FS4AGhYIYN7+qwxWkuD9YwD/OfI+jltushVzMgDuv9L8ZaIj1CvN7EivqWY6l6JJJkVsP0f5Aj5l1JSyiGY9IsYqu7LikaAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=Y/OCmmj8; arc=none smtp.client-ip=80.241.56.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jv6riFtgCJWe4nIEZ62rQr9IC2uZa7PtTgzPfOxT/oc5Lp8O9p38kMyQrbAYLKS/0tb4d9RtcrOroyBSgEqudk1kv4Pq4URXsFJ24Rxg1hfi+4XX9/QKUXn7h2vGWNsALeRH4wGYHnL5D2CeRtfKKPxnnxC7nw6rK3LdlLzdq9Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rOTz9tLV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="Y/OCmmj8"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4frsky0nnkz9tcN;
-	Thu,  9 Apr 2026 09:58:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
-	t=1775721530;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uGHjWOVWbXx3D0UdHIEoCnTuSer89svIFp1G0mY5U2E=;
-	b=Y/OCmmj84uO6UTKKkqhY4xBDKhY2FimlOsu2fJKwXU3+ZJ6KZnWKQxDZFKgd3wxkkMeHzN
-	UfQqbNrjI4Be91At2EbABl8Z9D1gftb/6IuZCeYjiZ+RYY6waYUH88s09l4EIseIUjjU/a
-	HvChXSdUJHpf7cAZFAqCrkEVMLUs//edNyU01Njj6j8HJ6mLieZp184SACcq3Eb3yQJy2c
-	klt6wn+acJB4mnHRtRa87u/lmcLyGPvaSV7bTRGxya1hprDH0bib62wb6gNfwdKWiy3ysn
-	/vovZYnKWvldTm8rGxa5SuaTw38vHoHtPH0jvFHuilgu68IE6kVb7lODjqJwug==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=none;
-	spf=pass (outgoing_mbo_mout: domain of cyphar@cyphar.com designates 2001:67c:2050:b231:465::2 as permitted sender) smtp.mailfrom=cyphar@cyphar.com
-Date: Thu, 9 Apr 2026 17:58:31 +1000
-From: Aleksa Sarai <cyphar@cyphar.com>
-To: Jori Koolstra <jkoolstra@xs4all.nl>
-Cc: Mateusz Guzik <mjguzik@gmail.com>, Andy Lutomirski <luto@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
-	Chuck Lever <chuck.lever@oracle.com>, Arnd Bergmann <arnd@arndb.de>, Shuah Khan <shuah@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "H. Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, 
-	Alexander Aring <alex.aring@gmail.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Oleg Nesterov <oleg@redhat.com>, Andrey Albershteyn <aalbersh@redhat.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, Namhyung Kim <namhyung@kernel.org>, 
-	Arnaldo Carvalho de Melo <acme@redhat.com>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-api@vger.kernel.org, linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	cmirabil@redhat.com, "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-Subject: Re: [RFC PATCH 1/2] vfs: syscalls: add mkdirat_fd()
-Message-ID: <2026-04-09-blank-hunky-inactivity-flowers-18Sd4K@cyphar.com>
-References: <20260331172011.3512876-1-jkoolstra@xs4all.nl>
- <20260331172011.3512876-2-jkoolstra@xs4all.nl>
- <pbobkjhtuli53o3z34ajyxztaosmztwlygxfxhhjq5ajt47inc@ngtoge3ucdm5>
- <2026-04-02-aged-convex-snowbird-foxes-Ym20JZ@cyphar.com>
- <52244194.1650546.1775684643065@kpc.webmail.kpnmail.nl>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rOTz9tLV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 933BFC2BC9E;
+	Thu,  9 Apr 2026 08:01:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775721685;
+	bh=RGmpNngIfJC7vsE/AA6AGxc8jF7BEr2rUsoHZzp8PsQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rOTz9tLV6I6aNdusDm3HswNPIWXdRp/W6DkRosUNvQIzX9eaIsc5Tbz0x7b4UcVJD
+	 VghAjUDqOJFDCdxJWd6SUI9/j/6Ib9lheDAoTXVwEbTbxh69QWEZ28y3Uj0PaniLm8
+	 eLCzJ9OnW71vIFeqfBTsPsf7/n5c5f4d6sxAWDTKB1Kd7U2Jx9X/sliZ4ru/t8xybV
+	 Hngi1RQTrPDym8ZFVyYzNfVv88ValdoNCYPc7mNPNEyZL6YlHovTNGUlGIZfbyelGm
+	 cWIZka/2Kf5Nu6Kh7areDqyG7LuzyK1U5AKAPK1Pio5MDnq19kTt+XsB8sbiO/H5B7
+	 KeLJ25ueK/PNA==
+Date: Thu, 9 Apr 2026 09:01:20 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: Usama Arif <usama.arif@linux.dev>
+Cc: "Denis M. Karpov" <komlomal@gmail.com>, rppt@kernel.org, 
+	akpm@linux-foundation.org, Liam.Howlett@oracle.com, vbabka@kernel.org, jannh@google.com, 
+	peterx@redhat.com, pfalcato@suse.de, brauner@kernel.org, viro@zeniv.linux.org.uk, 
+	jack@suse.cz, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH] userfaultfd: allow registration of ranges below
+ mmap_min_addr
+Message-ID: <addcUpxfuR2llaiW@lucifer>
+References: <20260407081442.6256-1-komlomal@gmail.com>
+ <20260408123700.1596800-1-usama.arif@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="k2hfwjyntbi772ln"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <52244194.1650546.1775684643065@kpc.webmail.kpnmail.nl>
-X-Rspamd-Queue-Id: 4frsky0nnkz9tcN
+In-Reply-To: <20260408123700.1596800-1-usama.arif@linux.dev>
 
+On Wed, Apr 08, 2026 at 05:36:59AM -0700, Usama Arif wrote:
+> On Tue,  7 Apr 2026 11:14:42 +0300 "Denis M. Karpov" <komlomal@gmail.com> wrote:
+>
+> > The current implementation of validate_range() in fs/userfaultfd.c
+> > performs a hard check against mmap_min_addr without considering
+> > capabilities, but the mmap() syscall uses security_mmap_addr()
+> > which allows privileged processes (with CAP_SYS_RAWIO) to map below
+> > mmap_min_addr. Furthermore, security_mmap_addr()->cap_mmap_addr() uses
+> > dac_mmap_min_addr variable which can be changed with
+> > /proc/sys/vm/mmap_min_addr.
+> >
+> > Because userfaultfd uses a different check, UFFDIO_REGISTER may fail
+> > with -EINVAL for valid memory areas that were successfully mapped
+> > below mmap_min_addr even with appropriate capabilities.
+> >
+> > This prevents apps like binary compilers from using UFFD for valid memory
+> > regions mapped by application.
+> >
+> > Replace the rigid mmap_min_addr check with security_mmap_addr() to align
+> > userfaultfd with the standard kernel memory mapping security policy.
+> >
+> > Signed-off-by: Denis M. Karpov <komlomal@gmail.com>
+> >
+> > ---
+> > Initial RFC following the discussion on the [BUG] thread.
+> > Link: https://lore.kernel.org/all/CADtiZd0tWysx5HMCUnOXfSHB7PXAuXg1Mh4eY_hUmH29S=sejg@mail.gmail.com/
+> > ---
+> >  fs/userfaultfd.c | 4 +---
+> >  1 file changed, 1 insertion(+), 3 deletions(-)
+> >
+> > diff --git a/fs/userfaultfd.c b/fs/userfaultfd.c
+> > index bdc84e521..dbfe5b2a0 100644
+> > --- a/fs/userfaultfd.c
+> > +++ b/fs/userfaultfd.c
+> > @@ -1238,15 +1238,13 @@ static __always_inline int validate_unaligned_range(
+> >  		return -EINVAL;
+> >  	if (!len)
+> >  		return -EINVAL;
+> > -	if (start < mmap_min_addr)
+> > -		return -EINVAL;
+> >  	if (start >= task_size)
+> >  		return -EINVAL;
+> >  	if (len > task_size - start)
+> >  		return -EINVAL;
+> >  	if (start + len <= start)
+> >  		return -EINVAL;
+> > -	return 0;
+> > +	return security_mmap_addr(start);
+>
+> Is this introducing an ABI change?
+>
+> The old code returned -EINVAL when start was below mmap_min_addr.
+> The new code calls security_mmap_addr() which returns -EPERM when
+> the caller lacks CAP_SYS_RAWIO. Existing userspace callers checking
+> specifically for -EINVAL would see different behavior start is
+> below mmap_min_addr.
 
---k2hfwjyntbi772ln
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [RFC PATCH 1/2] vfs: syscalls: add mkdirat_fd()
-MIME-Version: 1.0
+You mean API change? :) we don't guarantee ABI for kernel stuff anyway.
 
-On 2026-04-08, Jori Koolstra <jkoolstra@xs4all.nl> wrote:
->=20
-> > Op 02-04-2026 04:52 CEST schreef Aleksa Sarai <cyphar@cyphar.com>:
-> >=20
-> > Please do not use O_* flags! O_CLOEXEC takes up 3 flag bits on different
-> > architectures which makes adding new flags a nightmare.
-> >=20
-> > I think this should take AT_* flags and (like most newer syscalls)
-> > O_CLOEXEC should be automatically set. Userspace can unset it with
-> > fnctl(F_SETFD) in the relatively rare case where they don't want
-> > O_CLOEXEC.
->=20
-> And then do something like statx_lookup_flags() does to build the lookup
-> flags from those AT flags?
+Firstly, as with Harry, I don't believe we should be duplicating checks here
+anyway. UFFD is duplicative enough as it is.
 
-Yeah, that is the usual pattern for *at(2) syscalls.
+And this is such a silly edge case that I don't think it is valid or reasonable
+for us to account for whichever totally insane user relies on a pointless
+re-check being done there and _then_ relies on the error code
+being... -EINVAL... which is overloaded for a million other possible failures.
 
-> But there is also no AT_ROOT_CONTAINED (or whatever you would want to
-> call the RESOLVE_IN_ROOT AT-equivalent) right now.
+Let's let it be -EFAULT and remove this silly check altogether.
 
-This point about AT_* flags was a separate point to my hopes that we
-could get this into openat2(2). We don't have AT_* equivalents to
-RESOLVE_* flags because it would burn too many bits (at least 5,
-likely more when we add RESOLVE_NO_DOTDOT and other such extensions) and
-openat2(2) is actually sufficient for almost all operations in practice.
+>
+> >  }
+> >
+> >  static __always_inline int validate_range(struct mm_struct *mm,
+> > --
+> > 2.47.3
+> >
+> >
 
-> > Alternatively, we could just bite the bullet and make
-> > AT_NO_CLOEXEC a thing...
->=20
-> What's the bullet to bite there?
-
-It's not a big deal but it just burns another generic AT_* flag bit for
-something that userspace can do themselves with fnctl(2).
-
-Maybe having it will encourage future syscall authors to default to
-O_CLOEXEC, but we could end up with the slightly silly AT_SYMLINK_FOLLOW
-/ AT_SYMLINK_NOFOLLOW situation too. Documenting it in
-seemingly-rarely-read Documentation/process/adding-syscalls.rst might
-end up being equally (in)effective without burning a flag bit... :/
-
---=20
-Aleksa Sarai
-https://www.cyphar.com/
-
---k2hfwjyntbi772ln
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCaddcJhsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMiwyLDIACgkQKJf60rfpRG/mcgEA9HmAsJvMhlTmxWLJnRhT
-N6H+k7b6Nyum8hYopahQGrQA/3s9M0dm2wGkVJdmVn0sUDH5Xs6JMfuVRNz0n8hV
-Fk0N
-=uAhk
------END PGP SIGNATURE-----
-
---k2hfwjyntbi772ln--
+Thanks, Lorenzo
