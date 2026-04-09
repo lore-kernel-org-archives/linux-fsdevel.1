@@ -1,44 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 879E730BF6D;
-	Thu,  9 Apr 2026 13:38:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FACA40DFCC;
+	Thu,  9 Apr 2026 13:40:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775741916; cv=none; b=t/Uf7WtUVzDrJl3ylr4EgAS/EAGVFFe5QPMI5rIYyi+ywSY7p50MZWqlqDsomPx2f99Q0S8J7kM12vr0dsF1vsC9dMMPg7wEM1F6TH1Kvmi64v1BHTFRsuCAtgE5HHM6xN2xHgVs5RfzL0qwwTd4JmHWoxR6UqR2yU/R7NpRsG0=
+	t=1775742043; cv=none; b=l0AYfBBHJZzGHmhxc3LrSTORqwiGIhfq6BkAiWEq8XTj3plBkrQ/u7tohQi4vswcuYukdYD/DDXNbH0UG858mOtUjB1Fj6Mi/J6yWoPFx+YFV1WTqs6OqZ4XtHcfm6HJQLtwACY+fAnBKSjXeW0TVdO7y2Nm2/e22PwBa4XV1PI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775741916; c=relaxed/simple;
-	bh=ZZTegXgr9pUaseE17m2ATJSgkEL6TWH6qbyHnwiViJg=;
+	s=arc-20240116; t=1775742043; c=relaxed/simple;
+	bh=ceyLircT23qxl5OTtwUMU1E9O2wWy5XtvTc4kbO4HXI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Dd32ptqYhkFoNT1PaRjYP/JUDhbr78/mUqDoEkluPSqHCDVp/6smZdzrRHN8GzXPSisgbAGlvFY0BRmaM4QfJwsnsalza9Oup2PdnssM+DXLni1mrJBHqG/D0fyMs5UCrEgrJkdsWhAvuc1HFGMZ7fxEtkzAkaUfk+5VhwJBupU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ubRxbUba; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=DtgS+dX78WE4P9iIZM/6IX1OjRgQ1Jplg6Z0yH6NVBwo/CBqWnHlseHuZzjOenmJOXkehyKUMdjR7xj/V/XW6yHMACXbWphxmUfVz6eFa974rMx/xj7JdataGTzRT8L4C4LUBXEMOKWDa5EEu2EO4OBy7CX9zz1gqLf4CpMVpac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dKVJh+uQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ubRxbUba"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B74DC4CEF7;
-	Thu,  9 Apr 2026 13:38:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dKVJh+uQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B91FC4CEF7;
+	Thu,  9 Apr 2026 13:40:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775741916;
-	bh=ZZTegXgr9pUaseE17m2ATJSgkEL6TWH6qbyHnwiViJg=;
+	s=k20201202; t=1775742043;
+	bh=ceyLircT23qxl5OTtwUMU1E9O2wWy5XtvTc4kbO4HXI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ubRxbUbaV2ZuKcyHWFhmbZuLOrwRH02qOI4yuICGL8GEcVt9kNosuqWeoF0hOqEK0
-	 LlcRO4PAuuWe6hS7Ir5Mv4JGnDEeYUYOKNfi8IZfeksJxEeNCCwFRAJy7vF40uXvA7
-	 zNejjEi7ec6pN2yZaz8mRJVOMh6Il/WOZKKI9vLOD/YNi+n7VLaBfNPwz+PY16fC1q
-	 cSZvtmXIXJfoPUbVpOUMgFe8IKzPk9gdhL3zJ1x25fKK5Lj/dTL16EUdeU3P+6TSYP
-	 HezU9r7PKGwlW/hjCJe+FOHFK1uCsUGUP1haycbUSMmYB0latNB3nJffoo6+RzAsCR
-	 wyJz4Q50xWXEw==
-Date: Thu, 9 Apr 2026 15:38:31 +0200
+	b=dKVJh+uQUVk1wDoCIPKJubzRmDalRP1Sh5/KRRHFAqLMwGfN7zY+Vg0hD26Jooxd2
+	 CfsPtfu/URiEawUWbBQOyFBaP1KhuOV2ni9eE2PVlVy8I2jb6BQWdbhp7KS61DhGrN
+	 yTpH97LNaZVY9dzBNj53jm0V7lePG+Pabgt0nJQiVvJzE5vTLwTvAnApysbB0hVyxD
+	 MijAHPMDwJCd2/7AfgPQUebeQzQeIydsPbVjtXtqISg5clzE5zlKduusu9arzUSOgA
+	 nQRyJaID/vgv5yQHUpNtvz/36bXCz5bpGuB1+S3kQhtbQ1XVXjykBAC0fnSCUmPGr4
+	 Zlw3/02/D9cmQ==
+Date: Thu, 9 Apr 2026 15:40:39 +0200
 From: Christian Brauner <brauner@kernel.org>
-To: Theodore Tso <tytso@mit.edu>
-Cc: Sean Smith <defendthedisabled@gmail.com>, 
-	linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org, linux-btrfs@vger.kernel.org, 
-	dsterba@suse.com, david@fromorbit.com, osandov@osandov.com, 
-	hirofumi@mail.parknet.co.jp, linkinjeon@kernel.org
-Subject: Re: [RFC PATCH v1 0/6] provenance_time (ptime): a new settable
- timestamp for cross-filesystem provenance
-Message-ID: <20260409-hinblick-anregen-b50f248bd7e4@brauner>
-References: <20260405225442.GA1763@macsyma-wired.lan>
- <20260407000558.417-1-DefendTheDisabled@gmail.com>
- <20260407233618.GB12536@macsyma-wired.lan>
+To: Mateusz Guzik <mjguzik@gmail.com>
+Cc: Jan Kara <jack@suse.cz>, viro@zeniv.linux.org.uk, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v5 3/4] fs: handle potential filesystems which use
+ I_DONTCACHE and drop the lock in ->drop_inode
+Message-ID: <20260409-weben-obstgarten-1465edb3d7bf@brauner>
+References: <20260331160851.3854954-1-mjguzik@gmail.com>
+ <20260331160851.3854954-4-mjguzik@gmail.com>
+ <itaix3v2pgkrlvhxetyepfzrbyg7bnigghrkrdofznas37nsyf@irriakb7cwzj>
+ <CAGudoHEBkMu=mY12U6WmXDReY5EUXehP6wG45XmLyQ5qHiMA3w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -47,18 +46,22 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260407233618.GB12536@macsyma-wired.lan>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAGudoHEBkMu=mY12U6WmXDReY5EUXehP6wG45XmLyQ5qHiMA3w@mail.gmail.com>
 
-On Tue, Apr 07, 2026 at 07:36:18PM -0400, Theodore Ts'o wrote:
-> On Mon, Apr 06, 2026 at 07:05:55PM -0500, Sean Smith wrote:
-> > The patches implement rename-over preservation in all 5
-> > filesystem rename handlers. When rename(source, target)
-> > replaces an existing file, and the source has ptime=0 (the
-> > default for any newly-created temp file) while the target
-> > has ptime != 0, the filesystem copies the target's ptime to
-> > the source before destroying the target's inode. This runs
-> > inside the rename transaction, atomic with the rename itself.
+On Wed, Apr 01, 2026 at 08:50:39PM +0200, Mateusz Guzik wrote:
+> On Wed, Apr 1, 2026 at 7:45 PM Jan Kara <jack@suse.cz> wrote:
+> >
+> > On Tue 31-03-26 18:08:50, Mateusz Guzik wrote:
+> > > f2fs and ntfs play games where they transitioning the refcount 0->1 and release
+> >
+> > I don't see ntfs providing .drop_inode at all in current Linu's kernel? The
+> > f2fs case is indeed ugly and a gross hack. But I don't see easy way how to
+> > fix that for now.
+> >
 > 
-> Yelch.   This is so *very* non-Unixy / non-POSIX / non-Linux.
+> This was generated against next-20260327, then:
 
-I think you meant to type "N", "A", and "K".
+Ideally don't develop against next... If you already know you're going
+to do a bunch of work in an area. I can just assign you a branch to work
+of off. Easier for everyone. Also makes the CI easier.
