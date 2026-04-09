@@ -1,140 +1,189 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61A6F12CD8B
-	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Apr 2026 12:30:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775737813; cv=none; b=MT6t9ouLsUZXAh9OTsxumEjdoDyftwL1I3QfPmRw6FMcpKN86d0XVv8jE715AomPEERRNQ4C40n98FIWLzc2GTxDM8sOZwCsS93iKAhKLjn5mB/s+dreVQOTGd0vet1Si2HDNKcWgZv56p7et6Y8rSlFxGzyYp+t9C8S2PTaqfA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775737813; c=relaxed/simple;
-	bh=f+0yHDMsjyaBxPVkG3NgRs4DDuLlNKrf3iS74/mzmMs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C2OLyS/SBY8RIrGeaSlYf+1a68UW6i5ER1FrbdOWSoiq8aMj7g56m4KPDd+O9D0DPAJBVDdDYbKiSwoJN+junf/QVTywx7reQTai9sGOlCZZpKrQSwyWC31TG80UVb+yvRAyNbvyYvUypUunUxrlQ5IHKdYibu+LgcfQuVsV4I0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=X6dZYlP6; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3TK8WTTE; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=X6dZYlP6; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3TK8WTTE; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A48F73CD8A6
+	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Apr 2026 12:41:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775738521; cv=pass; b=A3e02SDcGJSuGUgGU5ItCzGscvCYkSIqedZoQPwLT0O4xKeb0nOYRq6YsLGyk1jQfciYJrYu1yMgWByzaV9qEyOAc9I9Rt4zObGFAiGwV7KsKf9IL4KiRhwkRbrvYtsCOZJ5ULPbQYhMcfOUw987RN5alnFWeo/GeKGjw1QmVa4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775738521; c=relaxed/simple;
+	bh=CXVexyaHWcToRDmha3nkO9tNbAoOtfc3VkC6kJvbNfs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=U6Bs+hLdqcgoDNt6kvKJH8gIcpUroFAUbzdTJpqWfaM8KkfvrrNLNiJYFX4eNpuuVSe4CMzKf/Glya+Re62i+p11Jk/X9RH7ab8IQ+TYSG46oxeErlw3sG0uH5RtVx46LuBO3+bDqp50EQhNbt3TBAUsP3lyNhA4vBN0QI8NaUQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IthU/XcS; arc=pass smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="X6dZYlP6";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3TK8WTTE";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="X6dZYlP6";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3TK8WTTE"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 7FE225BD91;
-	Thu,  9 Apr 2026 12:30:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775737810; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Q+BclCMMJkegAVjxkS8iqk3jYq/9F9dXxMWASAliJHE=;
-	b=X6dZYlP6DDDRp6OregtEaw74ANiWrOsY7Bh3gbVhrJEJv+9U4OVvTHWccgNlk6CqSRSeRd
-	gSNhhue2F/t2Js4OvDV73nZvn7Slyzl1yO+c81KA58+mMJsLDWLCHrrU+puQeKdtAuOzGe
-	qdkbiq0Q/jXK90m19n7RAzkqtYqL4hg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775737810;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Q+BclCMMJkegAVjxkS8iqk3jYq/9F9dXxMWASAliJHE=;
-	b=3TK8WTTERfRUanMAPa3HPrH8Y1KMBSnVdrAsAxfojf1Wx84+ONKCr6PmYuk6kGEOyx0vKI
-	7DFZCXNtZNJqgEAw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775737810; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Q+BclCMMJkegAVjxkS8iqk3jYq/9F9dXxMWASAliJHE=;
-	b=X6dZYlP6DDDRp6OregtEaw74ANiWrOsY7Bh3gbVhrJEJv+9U4OVvTHWccgNlk6CqSRSeRd
-	gSNhhue2F/t2Js4OvDV73nZvn7Slyzl1yO+c81KA58+mMJsLDWLCHrrU+puQeKdtAuOzGe
-	qdkbiq0Q/jXK90m19n7RAzkqtYqL4hg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775737810;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Q+BclCMMJkegAVjxkS8iqk3jYq/9F9dXxMWASAliJHE=;
-	b=3TK8WTTERfRUanMAPa3HPrH8Y1KMBSnVdrAsAxfojf1Wx84+ONKCr6PmYuk6kGEOyx0vKI
-	7DFZCXNtZNJqgEAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 744334A0B3;
-	Thu,  9 Apr 2026 12:30:09 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id kWMCGdGb12myBwAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Thu, 09 Apr 2026 12:30:09 +0000
-Date: Thu, 9 Apr 2026 13:30:07 +0100
-From: Pedro Falcato <pfalcato@suse.de>
-To: "Denis M. Karpov" <komlomal@gmail.com>
-Cc: harry@kernel.org, rppt@kernel.org, akpm@linux-foundation.org, 
-	Liam.Howlett@oracle.com, ljs@kernel.org, vbabka@kernel.org, jannh@google.com, 
-	peterx@redhat.com, brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz, 
-	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	usama.arif@linux.dev
-Subject: Re: [PATCH v2] userfaultfd: allow registration of ranges below
- mmap_min_addr
-Message-ID: <d4xigmgectqbv5q5dxsrlunea3ynexa4ym4nuxy2rokrawsqu6@yfhzm3hl5nya>
-References: <20260409103345.15044-1-komlomal@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IthU/XcS"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b9b1ffbb9f5so120961666b.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 09 Apr 2026 05:41:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775738518; cv=none;
+        d=google.com; s=arc-20240605;
+        b=V3wFqCuKrFhU99NEOCquKxDWqsDIi/K/9ysCWKe7snh0GvpjhfbjirMt1yzWHtJ52w
+         ATJIhacU7FYzQ6orhrt2nz1eFZvt2A5/8J5/8nvbOH8qwo4y805K5C1af4lHCvShbCzX
+         ldZlud/klbI87BfeenXox79rEZ3Ga9zgiwTKoQ+bprKAw0f6rtB1AaxTe8HsVseadalQ
+         CVG/NJY3VNOgfN0SpX9UQEB0a9gmph18iNNXeoA2GWGVm1QyELPkQg358gIEkaRVUnTX
+         bxEMUNDvkfuGv3BF8M5Eh/A0SJU0xQukIsAfpPoQtTYlwsu/ueiR7VI81wJKrs0Jg4q5
+         Wjnw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=krEW4g39zA5lK72ctRH8tMRv6A/4JdJgscNdgkiGL6s=;
+        fh=0e842PpyFJc1eA+vrzEyaRgz2A/n2XFY/uDNoztxWkI=;
+        b=Z6Vcvfx3kBLA/d8tW6VlQI5oWWWB/VSIJ6uWhlm3raxAZ//4kCzcXqsKxW57VJyMVL
+         tYBNVNPEQ7Rg4nU6Zx9wS56eGuEqlC0tss/1VFnSxnGEoPImYz/kDhG7W0UuDS/p1LVj
+         yzdamCMdW15g2V2ZdzVF9y1pFp5to3yd31Z5SA/PNhupVhOXzr5yUyo3zjkAZhU4jnt7
+         BU++vixLPj6kdFuNehto0KSQzDmlhSLRlJ3N/2SwDJNwJ5JGJpJ0qcwlrp3G26HptPxB
+         dcFzm9DubsBYdRvRs13W8y7cn5jrebVHT/bQCzlPkhtTErTFufIMMKf2W2L0pOIN4L98
+         KdKA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775738518; x=1776343318; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=krEW4g39zA5lK72ctRH8tMRv6A/4JdJgscNdgkiGL6s=;
+        b=IthU/XcSupH+OgHD8NXunweaKIvTONcJamSFL5u6YyWy40cjdTPM6ugARishw4pYUp
+         Dw89NmnKassrmOiY2qq5pmJwgLzelNf3qNP+x67owH3luLUT/9QOLpq4DGf7LwpcCfl7
+         1TSF0U1RizNxdjbzhsH1GK0suw4xx2nLOMnsgBMufgGPf6MrMnFwkRjEi1gT6Y0+aaR7
+         exEWYybDlgDsaWqWEHVgyIc6ERSKoT7KbjiC5X5ur+Ub1rWJzMBsa6FVLLRejl68RAW0
+         j/N6kiglSHfHGnfvpSouDjzl0DPyI1k5hJTQA5x9If6qKOFKCwRxj/0zliDTnx3qxsFc
+         LGng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775738518; x=1776343318;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=krEW4g39zA5lK72ctRH8tMRv6A/4JdJgscNdgkiGL6s=;
+        b=GAXiCAfFfK9ujOucB4WVgPhVNrxCAPgfWtG8pH9V3VsSDCHYw54r2/iVMnlp0rPIgX
+         vZt+CWQr5EBzQPv7QdKdFaIFJ+ofGx+IoU2Kea3TLZPXgspJBnFhX3WDWolZUN4EZWE+
+         QI2TGM/Em4db+HpNUrcbjSTTVuhjV+O5edht0GXgDjDakTATyRqAaviW3dcjqtDE3dZR
+         qZqYGZe9+v5IDDVLq8kYDGGMnXHjjvDthsEC33Qwm+HJnh3qgb5RqbhE2M5d0I13a2yW
+         7Hbgp8ZMKmZLE6s3HGbz099wnE0gzuYdZaCOPDie2UyKfIE0vXnWQPyx6ji46mvaP9wb
+         tagQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU/442L9061z2elpzpbe0hewNH9Z74r1VTqGN331TF/Q6O2i1WYAnASjAE//v45pI7f63RixIFSOxnuk33s@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzzhtf93aYcUmubZzTPfoC3DhKXTEHhc3bY5/IgIbTEpjFmDwGe
+	thXZ5EsaSkE1P+l7IN9qhCuBUhw78dZUGluat9ji3rk7G24hFU8QePYZlwWeE+YZvPSTYxuXUD6
+	ocAbYAzzhNK8Q0l6IWFNpbr0GGUs+2s6m67H2kSk=
+X-Gm-Gg: AeBDievBD4B8gis+0rzDp5MQulWRdQgc5r3U0LQg/G/ru+5vtBk1zlUItUnXezMhPBi
+	8pv9vxJX0FJpgo1ss/oqsn4fUx+N7vcGu1hZlc5WaI5eSipZSy/m5yqtD+MVRD55V181KB+4+Kx
+	RwuP0HoiyEska0m1Jp7Wf+CxF1t9PicMhFtkIqdFFyirJm81FI5iPwwhoee+f8gnNsc7uaxRrtR
+	dNCFsMTkODXgoa4DWwtR7V6SOZvz+tg3Sd33j/QEivQFatZyNpMxZXJEjj11zk5WRYMTob9hPrV
+	Uuk/YwiKir4iDFioTfF8IU83cGqu9BUxPmeM6/gak/gyybFUpqIx
+X-Received: by 2002:a17:907:2d9f:b0:b9c:b3b5:bbf0 with SMTP id
+ a640c23a62f3a-b9cb3b5bc8fmr945171466b.6.1775738517415; Thu, 09 Apr 2026
+ 05:41:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260409103345.15044-1-komlomal@gmail.com>
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email]
-X-Spam-Flag: NO
-X-Spam-Score: -3.80
-X-Spam-Level: 
+References: <DGJLR6FR7XLX.1D72IEB0DX9KC@wdc.com>
+In-Reply-To: <DGJLR6FR7XLX.1D72IEB0DX9KC@wdc.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Thu, 9 Apr 2026 14:41:46 +0200
+X-Gm-Features: AQROBzAuccbaZp02NzvMuXculSFeovu_NcZCmib9V_mWpNftbSe0wxj4pImE1J8
+Message-ID: <CAOQ4uxgxUAzmmS7=TJi2zDX15vkG7Z2jtG2_Nh=HqEeyNLzzXw@mail.gmail.com>
+Subject: Re: [Lsf-pc] [LSF/MM/BPF TOPIC] eBPF-driven Data Placement Hint
+To: Naohiro Aota <Naohiro.Aota@wdc.com>
+Cc: "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "bpf@vger.kernel.org" <bpf@vger.kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 09, 2026 at 01:33:45PM +0300, Denis M. Karpov wrote:
-> The current implementation of validate_range() in fs/userfaultfd.c
-> performs a hard check against mmap_min_addr. This is redundant because
-> UFFDIO_REGISTER operates on memory ranges that must already be backed
-> by a VMA.
-> 
-> Enforcing mmap_min_addr or capability checks again in userfaultfd is
-> unnecessary and prevents applications like binary compilers from
-> using UFFD for valid memory regions mapped by application.
-> 
-> Remove the redundant check for mmap_min_addr.
-> 
-> Fixes: 86039bd3b4e6 ("userfaultfd: add new syscall to provide memory externalization")
-> Signed-off-by: Denis M. Karpov <komlomal@gmail.com>
+On Fri, Feb 20, 2026 at 8:22=E2=80=AFAM Naohiro Aota via Lsf-pc
+<lsf-pc@lists.linux-foundation.org> wrote:
+>
+> Hi all,
+>
+> In Zoned Block Devices (ZBD), Garbage Collection (GC) efficiency is the
+> primary determinant of sustained write performance. While current ZBD-awa=
+re
+> filesystems (F2FS, Btrfs, XFS) are zone-literate, they typically fill zon=
+es
+> "blindly" by appending incoming data as it arrives. When "hot" (frequentl=
+y
+> updated) and "cold" (static) data are interleaved within the same zone, t=
+he
+> filesystem must move the cold data to a new zone before the current one c=
+an
+> be reclaimed. This write amplification leads to significant performance
+> drops across the storage stack.
+>
+> Existing solutions for data temperature segregation are often static (e.g=
+.,
+> F2FS file extensions). However, these don't scale well for dynamic,
+> multi-tenant environments where data lifetime is better predicted by
+> application context or directory hierarchy.
+>
+> We propose a unified VFS-level eBPF interface that allows for flexible,
+> programmatic data steering. By invoking a BPF program (e.g., at file_open=
+),
+> the system can set necessary steering information, based on parent
+> directory, process, or custom metadata, to ensure data is directed to a
+> desired zone or block group.
+>
+> # Use Cases:
+>
+> - ZBD GC Efficiency: Programmatically separating short-lived journals and
+>   write-ahead logs (WAL) from colder database workloads into distinct zon=
+e
+>   pools, enabling clean zone resets.
+>
+> - Multi-Tenant Isolation: Using cgroup context to influence e.g, block
+>   group selection in ext4, preventing "noisy neighbor" fragmentation.
+>
+> - HDD Performance Zoning: Steering latency-critical metadata to
+>   high-performance areas of the drive while pushing archive data to
+>   lower-tier zones, accounting for hardware-specific geometry.
+>
+> - Optional: Transparent Compression Hints: Expanding the interface to ski=
+p
+>   compression for already-encrypted/compressed formats or choosing betwee=
+n
+>   LZ4 and Zstd based on workload priority.
+>
+> # Discussion Points:
+>
+> - The Attachment Point: We currently use a struct_ops approach in XFS, bu=
+t
+>   a cleaner VFS-level path would be allowing bpf_prog_attach on a directo=
+ry
+>   FD.
+>
+>   Discussion: Is a new hook in struct file_operations the right way to
+>   "pin" a policy to a subtree? Are there better alternatives?
+>
+> - The Placement "Contract": Defining a stable struct bpf_placement_hint
+>   that works across XFS, Btrfs, F2FS, and ext4:
+>
+> struct bpf_placement_hint {
+>     enum rw_hint i_write_hint;
+>     u32 stream_id;      /* Generic Stream/Class ID / Block Group hint */
+>     u64 flags;          /* Behavioral toggles (e.g., ALLOC_FROM_HEAD, NO_=
+COMPRESS) */
+>     u64 private_data;   /* FS-specific context, could have compression hi=
+nt here? */
+> };
+>
+> - Lifecycle and Persistence: BPF programs are runtime-only.
+>
+>   Discussion: Should we keep this as an FD-based, runtime-only attachment=
+,
+>   or is there a need for persistence (e.g., via xattr)?
+>
+> I look forward to hearing your thoughts.
 
-Reviewed-by: Pedro Falcato <pfalcato@suse.de>
+Naohiro,
 
-This looks relatively safe. However, I'm not sure if we want this in stable.
-This has been broken for 11 years now, with no complaints.
+I scheduled your session for FS+IO.
+You did not mention if you needed the BFP developers to attend this session=
+.
+I assume you do not?
 
--- 
-Pedro
+Thanks,
+Amir.
