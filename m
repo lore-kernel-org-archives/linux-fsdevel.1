@@ -1,59 +1,52 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 418F53B583E;
-	Thu,  9 Apr 2026 14:21:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B9FB2E3AF1;
+	Thu,  9 Apr 2026 14:24:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775744508; cv=none; b=L43WjcLfSUrTuEd2rOBvQ8mjNcRLOV4QCAcIt6Nf0Jk8c3SxVek6rbnJMNO0KpSWwew5jz0CdR3e3u5I0uhai1N/kKO8nHQ4rPO12FONirvtFxLbtQrXe6nPMqAUSpWM7x2mMHm0dMKasBhbB1LB+UfYeQpetpKaZKGIosFEpPI=
+	t=1775744686; cv=none; b=tRDewFkII3rmoxEPDNSe5Ej6DBsiWfeWrxuxAKVd7fuNaOsBkWQTneAR2/zQzbtRhtXNPJE0Ho2lznjy7zBkPsSAzlo7XUUNVlCI+LT8x6MOHrgoTet1RSOH+zIeFhm+HA11BnCH+YqhkMuc0Ie8Qck5Nd5VTju9qBqklQU8KdA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775744508; c=relaxed/simple;
-	bh=KdI0AAIKXXq/sviYn1Y35plnhBxX8MDqftaLPVtTFvQ=;
+	s=arc-20240116; t=1775744686; c=relaxed/simple;
+	bh=SUdGY5HVFvDcHzp72SDRpxbcKlePboKVB8TKShOaiJw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OAlqeiUxbBMCVuG1ZEngyVhS+iTa79BPOz+WNiiojt+b6FE1GytYtCOaKb35Uvl9jDJiRPFzr9yUjNocBdcRRYjKSCiVkgNJDGR9bFHCu5M8U1jE/wlm1H7MnQfpcFYeW3/xny2ans3DzKJwcAqEE046hygWmmcuvDelKcd9HGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=oekmWysY; arc=none smtp.client-ip=198.137.202.133
+	 Content-Type:Content-Disposition:In-Reply-To; b=AI8RSMK8DIgb/067ZN31DvPik53qILUQWos0e/9xIsgqieUhKQ5nw3MD5zFlvZF0U/pPQQX/C97Vax/miWaiW4xfqQz5UGLP0jAquundJ3wPgYqwk+ctPQmW893yzp+2yH0fNREl/zh8Ulidh7FriC2sC7V2i+oWL8/Bhp3//+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=TsXFe7VC; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="oekmWysY"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="TsXFe7VC"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
 	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=AXd7Pgrw236phRDb4BUy2CY5/uYF1kqf7t0zPf4iggE=; b=oekmWysY0YtMv6PRwb3tb7EfZ5
-	FPdgB9Ion+gg5IECBzJHFaETbhF8z/KXCsS19UFElbUYttxXwl1T+y7bO7fPby4sniGIAVz9uSqg5
-	c4mFdGpGQ+tntp+RUbQVhaRCaCxQpQTO+my4kDbEUMVHmTc+v7VSiJWvji0wqfm+s0iMP3HQsdvYZ
-	Xo0AXa6nOnf5nUqvpTf9KqQYeFDP7IsYTmfJb9UY3dgxJzdN6FNk7B7g+4aOm+VG4kMcqfSTZzPqU
-	/+Cv5Ch7yl1d1LRsdbwsPhZHDnGV2UqjB/9MqBOFQ56ukeTyWu7rAHLv/oTFES9Ni7BPzMC/Ti7bN
-	p/jcoRfg==;
+	bh=ZriNUv43y9hyKogezhLLvYEHVpd46sW27LpgGvQvIZ0=; b=TsXFe7VCaHgNbmPsKxGHE0QGE1
+	0jqJpQeq/eSThLRv/i0M+L4POuXbvK/9f2jaEwBoHAzGD4d9E7XGDbBSCIrjEZpGMzvjd6SJxwA2d
+	63oMZWEp+icNkGWfYM4DR0Nm7nvSPFRf7NhHGGnWw50opqlInYWeu4rqLc4WpT1JW8v2LeSiyWBWe
+	kMwfSnDB2+TQSdrUm2QVsxHE/ksBnR41b9wi6dRjcdId9t56rwp5luH2jkNm7SHd2BTWVPMF1DJFM
+	VqvWoJCxFlM2eyJc87hwivMuPgDksAWccmQsX1mQzc10Q3+HbZmX9x0Xn3fW1OO0iWK5iou1/7pwU
+	OLrIzesQ==;
 Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wAqG2-0000000AgGR-2cnH;
-	Thu, 09 Apr 2026 14:21:22 +0000
-Date: Thu, 9 Apr 2026 07:21:22 -0700
+	id 1wAqJ4-0000000AhGG-2DKp;
+	Thu, 09 Apr 2026 14:24:30 +0000
+Date: Thu, 9 Apr 2026 07:24:30 -0700
 From: Christoph Hellwig <hch@infradead.org>
-To: Jan Kara <jack@suse.cz>
-Cc: Christoph Hellwig <hch@infradead.org>, Jeff Layton <jlayton@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Mike Snitzer <snitzer@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>, Chuck Lever <chuck.lever@oracle.com>,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-nfs@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v2 1/3] mm: kick writeback flusher instead of inline
- flush for IOCB_DONTCACHE
-Message-ID: <ade14lOI1CDiraar@infradead.org>
-References: <20260408-dontcache-v2-0-948dec1e756b@kernel.org>
- <20260408-dontcache-v2-1-948dec1e756b@kernel.org>
- <adc-Q1iDWHD5yxHH@infradead.org>
- <gpcc6t5unsoepakjdffsmnmd5duuvijxwdochd753ttix75h7l@nahwzi4qfdcq>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Christoph Hellwig <hch@infradead.org>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Alexei Starovoitov <ast@kernel.org>, linux-fsdevel@vger.kernel.org,
+	bpf@vger.kernel.org
+Subject: Re: [PATCH] bpf: add bpf_real_inode() kfunc
+Message-ID: <ade2nskzkdcsvF55@infradead.org>
+References: <20260326-work-bpf-verity-v1-1-efe9edc46ddc@kernel.org>
+ <acYVjuDOD7NynO9m@infradead.org>
+ <20260327060518.GP6202@frogsfrogsfrogs>
+ <20260407-unmengen-wahltag-474557ec0c58@brauner>
+ <adUalnAyY9mm1LUr@infradead.org>
+ <20260409-vorsichtig-umstand-d417555377e4@brauner>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -62,17 +55,20 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <gpcc6t5unsoepakjdffsmnmd5duuvijxwdochd753ttix75h7l@nahwzi4qfdcq>
+In-Reply-To: <20260409-vorsichtig-umstand-d417555377e4@brauner>
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Thu, Apr 09, 2026 at 09:21:36AM +0200, Jan Kara wrote:
-> > So I think you'll want a new WB_start_dontcache bit, a new
-> > get_nr_dontcache_pages() helper on a new node counter, etc.
+On Thu, Apr 09, 2026 at 03:19:27PM +0200, Christian Brauner wrote:
+> > ways to do full file system verity [1] much more efficiently inside the
+> > file systems, and it would be good to not lock in a specific solution
 > 
-> But I'm not sure how you imagine this would work without restricting
-> writeback to particular inodes. Maybe we could mark inodes which have
-> folios with dropbehind set and make flush worker only write such inodes?
+> Note about that: we generally don't rely on any verity implementation
+> that makes the verity information itself part of the on-disk filesystem
+> format. The nice property of dm-verity is that the integrity is
+> completely separate from the filesystem format and it's basically simple
+> math that is trivially to prove correct.
 
-I'd only expedite writing by the number of pending dontcache folios.
-It would still write the least recently dirtied inodes.
-
+Any file system integrated version storing the hashed in the extended
+LBA data (which Linux also confusingly calls intgrity data) would be
+even simpler and easier to verify.  But yes, we need to clearly
+document what we want.
