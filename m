@@ -1,176 +1,145 @@
-Received: from mail-oo1-f79.google.com (mail-oo1-f79.google.com [209.85.161.79])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66CFE4A3E
-	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Apr 2026 18:30:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.79
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775759421; cv=none; b=UmncYOKNXkgJm+MD2hISMlmTP2G4iNedPxhFt49zIPDm2jl/1/oQO+BCIpZ6upHhRNmKUp5o4YBtl4ZQ0vvBQK/pgljrnK7KMueEqY1v4MpiZiJNfOqY10fA8aBNhw1gF7fZin0q59lMzGOUPUKNUDMGU6O9H54z6sRQcQs7nQI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775759421; c=relaxed/simple;
-	bh=poWvt2mYdrlsJZfzq8F3W4cI/hKurn4fukrpx0V0TnI=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=I+49Q+PdfvuYzN+APhtQzy6jALw1ZGMuM0khV3sDT+01gmFimlEaFm7SX6QcGrbEoEedE3VxSlU9dyHzy2PVoJaEWiBFhVQr4zAWZrgD3tM9UkRzAJauaZV5fLvxRtLDnJ35EeWwLJ0F2jzHMK5giKRWefy64WG68eJDtMVzb98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f79.google.com with SMTP id 006d021491bc7-68582ad07ffso1082559eaf.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 09 Apr 2026 11:30:20 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D03129443
+	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Apr 2026 18:39:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775759955; cv=pass; b=u5QSuQgJgBSgIJVmV+FI1Gbmqvow9PuGtjIkBhLi+vL8i4RuB3F2U3yFiRAjxtterJ86ctUIrXJDbDIRlYnO0srBgIEDv1G8p87xDhVPFSErsGFlRN72AnZW3Gt234Uq+dT7uPgA4vJ88fEFq1rtgwXDR1ogNuiNUXE76axuxVM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775759955; c=relaxed/simple;
+	bh=0XWn66TZR/ob8ebOJ6fuw9cXJcQnqokm3cJKhraJxsY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cjk+iT0RVzaskowz9xLGaSOxgdMR/cgwq3An2uX8XHm7AWUYh+yz1RIb77SRnucdnHNBwpwfrhQRWkKssjHMVJRdr1Fa5Y+/8QUMkNPFnGn4T8Jlo4FoVQB7RNgeyyMQzjKSxUdFAnkO9H3nKBtKi782eq+R7HpNX46jUQGYi38=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i21ZLSwR; arc=pass smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i21ZLSwR"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-43cfac48bc7so844055f8f.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 09 Apr 2026 11:39:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775759951; cv=none;
+        d=google.com; s=arc-20240605;
+        b=SB1TI5qcXTGuEUadZ8B5myLqlNYADEiwUSHH/oOE0cv8IR+QVJZegmv64tZDGswHK8
+         zQjAG2VHvHPIS2Gs1NloOmkJhkbp/C5Lf0jujl/m8KGgbFzZw4acgDx5AM3QYBOGaJUr
+         95VA2Ssg4m0qmox/9O/rz8DHRnPuxnzen07Uij+O+EAd2iRyBtYa/o/Gx4FdYyp9kHTJ
+         f9Nf+o7lXUsfzarwJNgHFYurP0n6s+CCo6vVjJUqUxKYEGRCwtXTfF48vqB0kBYIj7bK
+         raj6eRbqFJKm8ciI/A1nsxx0OmxQxWgHQF0kLZ/ZWC0o0MmlbuBp7qdfdWID+ds86ikr
+         KtuQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=MdBJSfVa5+8QXRbBH5euwY2ZwyXubb1czyhJN1TCaP0=;
+        fh=AUfZlD3Q0Eo0+pgMMzrizFWLpM3HMq5KYPORT26sCLI=;
+        b=JZkmeDOnXSuCcWa9LV7t9YHogHBCfi/wKnJ8041E9YD8jW665j0PfjBTHbXkvFkpO3
+         29YetifoVs0qGwkNTAGYb6pm3DsGvlhNX/jWyh19KpCeEmtoHZjEpsKAUMGBtnQz8DC1
+         ts0laH8kPS0+5lE19Lm6aagyG1EJYPuorvMjIBlv1hW5pJg9NMvIgYDjDVDsF9fpInpU
+         p8ZRN3Eka/u3GASwBFuuUhA3GWiuX3yBT0ASvEyNM2EN2VZkTHsxVuf/K57MYdiSWwm5
+         f1XfC5LkymKQzooqSkeluPiRgSiyctJKrx7J0bnArsBM9hRb74gZRlbOKmN5fGzSM3P/
+         OS8g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775759951; x=1776364751; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MdBJSfVa5+8QXRbBH5euwY2ZwyXubb1czyhJN1TCaP0=;
+        b=i21ZLSwRocQOY5cFnPAnY6C0VQVI0pDftcKKohq0hvbRnNAha043rI1f2Jky+SdZqW
+         oImR7JqzIu1AgjloDRGcfobVenebwRYsRCVVbYY/hKyUa6J9oy8MIex3gdVLxzqcpViz
+         LZfhXvyQAiT9XUoDzOke1Gh9Kz7vZh1EbKjsVnFmcQspzbhYgiAtVysAgugh5VJQFigz
+         0s3wt8l7EKQwxB4GPvnQqhFQ6MjjvgE76ucnqq3xBsbPbkzf5yorw1IXhwLO5NLu+Uc4
+         iIVsSQOis9qh/Dqk2icWUa8+z+bH8izwZ2EZcuKKDggKesXNk7Bz4q8ljswSZGyTZhup
+         Yyow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775759419; x=1776364219;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=a9LavM2DJhLt+W+Io2Ddjpl5OjwLUli7TuamqtHNNgM=;
-        b=cI+qOHdirKHIEur0xwbqP89JAknsHZNfOfNUYWtDnK0qZKkmWlbIKhXMyhZ850pTUH
-         iXmDl+s5BKb9NGJnJIS3Ace+ab0NMODVPtvP+GLmApU5LSZwz4eW+6+yz0BeECWIluUX
-         BGxj1jEZJ4pCTUomwGgO7jcJchTxNpmsrbDc/CcIgckdE88t7DxjPAPPq/YqPo+drazY
-         q/ABEclHwGqpfNklfTSjlUw6p5/Iac0wbjJT1eGy1mE+MgxULRsppBhPGUbIX/3IIRjc
-         jrIaXIBNcwSE9Jr0k/VM3OqyHA+2YjITFbVslRix0iO3SaIilMDpu5nkHkrdUeenqClb
-         Qa6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVtNo2Vh+K60akVPm+eVO73DWhbZMCnLzP2XSEViHKIXtNjvIWjFLKVsw7RK6HGN6gKAIPursHQqwe3G1VV@vger.kernel.org
-X-Gm-Message-State: AOJu0YxbL89dSUyMFYw8Txk1NnPrMA1Y0VHCtnYYVW7w5IR2+gFx9xha
-	o+7qtHZVgKTlPKslD91TB3FR24Ni8JBD8N5zVTMhAgp32qn343H0klbKyYLY36pXsjPWzSIaU3j
-	lPiIgJcaYaz1n3sPb8EJVjoifw4sHhSroESCxfvorKTg/c510rR1D8vmMqzI=
+        d=1e100.net; s=20251104; t=1775759951; x=1776364751;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=MdBJSfVa5+8QXRbBH5euwY2ZwyXubb1czyhJN1TCaP0=;
+        b=SmS/nMm0yZKqXNwFgElHnCdIqoherswObvpLEKVst64tcc0f+cH+NARARDcWUSWLkY
+         WV8EG2AVNMzb/n2UJ4Fd0l112fJLL09gYhXjJ5Wlm8Kzmzj+g+7gfeSs2KnewbB2K2G7
+         HYKOleyzk2UtA4t0eImw7MBtruu5mhxlyU/XMmmmJ80pzNWOo2CLNotvaRH6kp/UhWPD
+         j+Iz0ogXN9ptNV86aiaQ+E+bW7lAAp4+JaO3nY119yJOJQTpI6J92yJjTvdhY9ezKw04
+         u2/NKj3vlxxIRsjHRIFyWxy/4NfofvZAQ4ox6EooR9V53WdpQqFVhRr+Fz8+MV5Bna0X
+         Zn2g==
+X-Forwarded-Encrypted: i=1; AJvYcCVo4Pqco5oWQz1qkWjs//FAbJmG2mzsjzUT0WdK0D5zNwG1AbL84HHT6VmX2HyRho0Gn34BMH/goUMR4NXu@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyeu4jgePMmDnb7wUS8FBMYMvtsVMrE709CWpQreySrFouxC+hU
+	jTgD7U+aXjrA8W1hXSnnxUzzaV6veiGsozUfOAAI0crujE8alR+O++CA8xAYvcM9v0jLYI9zTj1
+	L1seV6++/nPBnjNFJlsvrTKFH/X2odsvdJnwKicI=
+X-Gm-Gg: AeBDieu5WuU8O1Hm53ygVpCeqhWeFdhWp123MyOKaiho1MBe0A4ePdhsItUPdoidzls
+	/dFyH0ER97MPpnEbJivY0TfVl7Bcvg4sLhNmWOybTvuVQpuyiW7l2tQMpc7qB8uXMFOq+rUVOWX
+	ZIWp6vXX4VbHatuBPGeHhi1Nabqus9Nw5khkvgLIqcD3lIAiJuTizTGqrkVADgD7Un9uvga2s/p
+	B6UtLvYIy9jf0icp+GxFWG3jJs8W+V+2HhPhKYBevQU/zs7guUVzO+LIGVFSEZfsccTNAfqkeEF
+	CwVsPg==
+X-Received: by 2002:a05:6000:40de:b0:43d:650:25e9 with SMTP id
+ ffacd0b85a97d-43d6428d3efmr296823f8f.20.1775759950980; Thu, 09 Apr 2026
+ 11:39:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:20a:b0:688:29ff:2dd8 with SMTP id
- 006d021491bc7-68be7cee982mr96766eaf.41.1775759419434; Thu, 09 Apr 2026
- 11:30:19 -0700 (PDT)
-Date: Thu, 09 Apr 2026 11:30:19 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <69d7f03b.050a0220.3030df.001b.GAE@google.com>
-Subject: [syzbot] [fuse?] BUG: scheduling while atomic in __synchronize_srcu
-From: syzbot <syzbot+12b178b7c756664d2518@syzkaller.appspotmail.com>
-To: anna-maria@linutronix.de, frederic@kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	miklos@szeredi.hu, syzkaller-bugs@googlegroups.com, tglx@kernel.org
+References: <20260409030457.4632-1-liwang@kylinos.cn>
+In-Reply-To: <20260409030457.4632-1-liwang@kylinos.cn>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Thu, 9 Apr 2026 11:38:59 -0700
+X-Gm-Features: AQROBzDuzJ6W0p_2TXTCOOTzX77WTTlelN0HjAa7dbRHUAZu9xwSy5mEUKMMbWw
+Message-ID: <CAJnrk1a9pC4dVHDfCqrQU=O9ucSWpDw9vqw3YmNdNQD94jbi_g@mail.gmail.com>
+Subject: Re: [PATCH] fuse: drop redundant err assignment in fuse_create_open()
+To: Li Wang <liwang@kylinos.cn>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Bernd Schubert <bernd@bsbernd.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+On Wed, Apr 8, 2026 at 8:06=E2=80=AFPM Li Wang <liwang@kylinos.cn> wrote:
+>
+> In fuse_create_open(), err is initialized to -ENOMEM immediately before
+> the fuse_alloc_forget() NULL check. If forget allocation fails,
+> it branches to out_err with that value. If it succeeds, it falls through
+> without modifying err, so err is still -ENOMEM at the point where
+> fuse_file_alloc() is called. The second err =3D -ENOMEM before
+> fuse_file_alloc() therefore is redundant.
+>
+> Removing this redundant assignment not only improves performance
 
-syzbot found the following issue on:
+This LGTM but imo this line is inaccurate. Modern compilers
+(gcc/clang) will likely optimize away redundant assignments anyways.
+Even if it were not optimized away, the impact on performance is
+negligible. I think you could get rid of the second paragraph
+entirely, as you explain it clearly in the first paragraph already (eg
+the second err =3D -ENOMEM is redundant).
 
-HEAD commit:    7f87a5ea75f0 Merge tag 'hid-for-linus-2026040801' of git:/..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=12439316580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=2d08886358f27e8c
-dashboard link: https://syzkaller.appspot.com/bug?extid=12b178b7c756664d2518
-compiler:       aarch64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-userspace arch: arm64
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1461aeba580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14c85e06580000
+Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
 
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/fa3fbcfdac58/non_bootable_disk-7f87a5ea.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/28f02ff1720d/vmlinux-7f87a5ea.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/7d30b9e8505e/Image-7f87a5ea.gz.xz
+Thanks,
+Joanne
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+12b178b7c756664d2518@syzkaller.appspotmail.com
-
-BUG: scheduling while atomic: syz.1.49/3699/0x00000002
-Modules linked in:
-CPU: 1 UID: 0 PID: 3699 Comm: syz.1.49 Not tainted syzkaller #0 PREEMPT 
-Hardware name: linux,dummy-virt (DT)
-Call trace:
- dump_backtrace arch/arm64/kernel/stacktrace.c:498 [inline] (C)
- show_stack+0x18/0x24 arch/arm64/kernel/stacktrace.c:499 (C)
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x60/0x80 lib/dump_stack.c:120
- dump_stack+0x18/0x24 lib/dump_stack.c:129
- __schedule_bug+0x54/0x78 kernel/sched/core.c:5847
- schedule_debug kernel/sched/core.c:5874 [inline]
- __schedule+0x858/0xd84 kernel/sched/core.c:6786
- __schedule_loop kernel/sched/core.c:6993 [inline]
- schedule+0x34/0x114 kernel/sched/core.c:7008
- schedule_timeout+0xd4/0x110 kernel/time/sleep_timeout.c:75
- do_wait_for_common kernel/sched/completion.c:100 [inline]
- __wait_for_common kernel/sched/completion.c:121 [inline]
- wait_for_common kernel/sched/completion.c:132 [inline]
- wait_for_completion+0x78/0x160 kernel/sched/completion.c:153
- __synchronize_srcu+0x90/0xd0 kernel/rcu/srcutree.c:1496
- synchronize_srcu_expedited+0x24/0x40 kernel/rcu/srcutree.c:1521
- kvm_set_irq_routing+0x204/0x294 virt/kvm/irqchip.c:225
- kvm_vgic_setup_default_irq_routing+0x78/0xc0 arch/arm64/kvm/vgic/vgic-irqfd.c:153
- vgic_init+0x1ac/0x268 arch/arm64/kvm/vgic/vgic-init.c:421
- vgic_lazy_init+0x54/0x6c arch/arm64/kvm/vgic/vgic-init.c:550
- kvm_vgic_inject_irq+0x30/0x12c arch/arm64/kvm/vgic/vgic.c:520
- kvm_timer_update_irq+0x68/0x7c arch/arm64/kvm/arch_timer.c:450
- kvm_timer_vcpu_reset+0xd8/0x1e0 arch/arm64/kvm/arch_timer.c:1036
- kvm_reset_vcpu+0x194/0x360 arch/arm64/kvm/reset.c:268
- kvm_vcpu_set_target arch/arm64/kvm/arm.c:1632 [inline]
- kvm_arch_vcpu_ioctl_vcpu_init arch/arm64/kvm/arm.c:1652 [inline]
- kvm_arch_vcpu_ioctl+0x2e4/0x8c8 arch/arm64/kvm/arm.c:1773
- kvm_vcpu_ioctl+0x4ac/0x8f4 virt/kvm/kvm_main.c:4653
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:597 [inline]
- __se_sys_ioctl fs/ioctl.c:583 [inline]
- __arm64_sys_ioctl+0xac/0x104 fs/ioctl.c:583
- __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
- invoke_syscall+0x48/0x104 arch/arm64/kernel/syscall.c:49
- el0_svc_common.constprop.0+0x40/0xe0 arch/arm64/kernel/syscall.c:132
- do_el0_svc+0x1c/0x28 arch/arm64/kernel/syscall.c:151
- el0_svc+0x34/0x124 arch/arm64/kernel/entry-common.c:724
- el0t_64_sync_handler+0xa0/0xf0 arch/arm64/kernel/entry-common.c:743
- el0t_64_sync+0x1a4/0x1a8 arch/arm64/kernel/entry.S:596
-BUG: scheduling while atomic: syz.1.49/3699/0x00000000
-Modules linked in:
-CPU: 1 UID: 0 PID: 3699 Comm: syz.1.49 Tainted: G        W           syzkaller #0 PREEMPT 
-Tainted: [W]=WARN
-Hardware name: linux,dummy-virt (DT)
-Call trace:
- dump_backtrace arch/arm64/kernel/stacktrace.c:498 [inline] (C)
- show_stack+0x18/0x24 arch/arm64/kernel/stacktrace.c:499 (C)
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x60/0x80 lib/dump_stack.c:120
- dump_stack+0x18/0x24 lib/dump_stack.c:129
- __schedule_bug+0x54/0x78 kernel/sched/core.c:5847
- schedule_debug kernel/sched/core.c:5874 [inline]
- __schedule+0x858/0xd84 kernel/sched/core.c:6786
- __schedule_loop kernel/sched/core.c:6993 [inline]
- schedule+0x34/0x114 kernel/sched/core.c:7008
- futex_do_wait kernel/futex/waitwake.c:358 [inline]
- __futex_wait+0xf0/0x178 kernel/futex/waitwake.c:687
- futex_wait+0x88/0x118 kernel/futex/waitwake.c:715
- do_futex+0xf8/0x1a0 kernel/futex/syscalls.c:130
- __do_sys_futex kernel/futex/syscalls.c:207 [inline]
- __se_sys_futex kernel/futex/syscalls.c:188 [inline]
- __arm64_sys_futex+0xfc/0x1a0 kernel/futex/syscalls.c:188
- __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
- invoke_syscall+0x48/0x104 arch/arm64/kernel/syscall.c:49
- el0_svc_common.constprop.0+0x40/0xe0 arch/arm64/kernel/syscall.c:132
- do_el0_svc+0x1c/0x28 arch/arm64/kernel/syscall.c:151
- el0_svc+0x34/0x124 arch/arm64/kernel/entry-common.c:724
- el0t_64_sync_handler+0xa0/0xf0 arch/arm64/kernel/entry-common.c:743
- el0t_64_sync+0x1a4/0x1a8 arch/arm64/kernel/entry.S:596
-psi: inconsistent task state! task=30:pr/ttyAMA-1 cpu=1 psi_flags=14 clear=0 set=10
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+> but also makes the intended error semantics obvious: a single ENOMEM
+> initialization covers both allocation failure exits that share
+> this prelude.
+>
+> Signed-off-by: Li Wang <liwang@kylinos.cn>
+> ---
+>  fs/fuse/dir.c | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+> index f7443ca37e35..b118cf23d41a 100644
+> --- a/fs/fuse/dir.c
+> +++ b/fs/fuse/dir.c
+> @@ -838,7 +838,6 @@ static int fuse_create_open(struct mnt_idmap *idmap, =
+struct inode *dir,
+>         if (!forget)
+>                 goto out_err;
+>
+> -       err =3D -ENOMEM;
+>         ff =3D fuse_file_alloc(fm, true);
+>         if (!ff)
+>                 goto out_put_forget_req;
+> --
+> 2.34.1
+>
+>
