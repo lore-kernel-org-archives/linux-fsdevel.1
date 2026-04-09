@@ -1,135 +1,209 @@
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+Received: from out30-100.freemail.mail.aliyun.com (out30-100.freemail.mail.aliyun.com [115.124.30.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A11EF23643F;
-	Thu,  9 Apr 2026 01:13:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0F882309AA;
+	Thu,  9 Apr 2026 02:27:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775697188; cv=none; b=ZiCmBc8k9AFzHoIChJnmeKS95v7an4Gs9q46evLa03NQFaOKB7bDllcEhW1kO2FHWNOX7XStaS2dnK8UY4ufmD+qLhY9Fn4y324b0UWB/11f4kfSINNEdG30mbxc4sm+KF/miAiXkl6GARo12ArnrSc+/pB5ZJoF00X9y89Y8DU=
+	t=1775701662; cv=none; b=KEsDBKHUAXT2krAZhDmNOqdz1wRZUIcQ3CNSyEkDpravTzih7GDCaFa3adJOpmx18muz6vDMOmZl/SLrW0QAw0+kWB1WGoe/P5oRWprcwrtHR9pl3fCGrBx2zq8PKG3INFlwy7kRyjI68hnU20X+DVh2p3yt8VS0uR1VnjSvoGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775697188; c=relaxed/simple;
-	bh=WCi0MrIHl1kiwvtpnXz7txYMtrH0iG7NTmnJecE2j4s=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Gipyn0rZQEgdW9cymmNN2ulY43LQjlI62e67QxikdpVBA12mx2fR2ccb4MBaPzXb+/ynAWYr6lHeLkZ6dtfGwjskBehlTsHjsfzilFwbPyqAdcgrSAe92AHiQL1TKS6pRdDSTCQrFwI9ewZThi1UB5fo6fx5f6qedWPP1OQf6T8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.170])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4frhkl3K9CzKHMLD;
-	Thu,  9 Apr 2026 09:13:03 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.112])
-	by mail.maildlp.com (Postfix) with ESMTP id E91A34056B;
-	Thu,  9 Apr 2026 09:13:02 +0800 (CST)
-Received: from huaweicloud.com (unknown [10.50.85.155])
-	by APP1 (Coremail) with SMTP id cCh0CgC3utoW_dZp37OQDw--.20149S4;
-	Thu, 09 Apr 2026 09:13:02 +0800 (CST)
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-To: linux-ext4@vger.kernel.org
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	dave@stgolabs.net,
-	tytso@mit.edu,
-	adilger.kernel@dilger.ca,
-	jack@suse.cz,
-	ojaswin@linux.ibm.com,
-	ritesh.list@gmail.com,
-	libaokun@linux.alibaba.com,
-	yi.zhang@huawei.com,
-	yi.zhang@huaweicloud.com,
-	yizhang089@gmail.com,
-	yangerkun@huawei.com,
-	yukuai@fnnas.com
-Subject: [PATCH] jbd2: fix deadlock in jbd2_journal_cancel_revoke()
-Date: Thu,  9 Apr 2026 09:07:30 +0800
-Message-ID: <20260409010730.5508-1-yi.zhang@huaweicloud.com>
-X-Mailer: git-send-email 2.52.0
+	s=arc-20240116; t=1775701662; c=relaxed/simple;
+	bh=bGAFxpTiq/WlFBLb1YcygMa4jv0YwVYg/pCCPvVSasc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QhqBNF2IDnBNfuSqIgiRgzlsWga4ujw/i0ot43OYrxgF3t4uD/z8ZG6OVGKnqL2r/MB1GOkWg4wcK+NXiGuo8/fklHgL40Pdv670Ho6SLnRGD+PVT69WCM2vKxKKgeMNRnkSK5mxlq+P8xtRa6Eo6W0VgWXcTm2hwDkkDa9Iyps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=H7nUpdGp; arc=none smtp.client-ip=115.124.30.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="H7nUpdGp"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1775701656; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=OWgOCsqbJLPzolipxltE1h0Dmoqj1O51GEEuMn/8ELc=;
+	b=H7nUpdGpVPOY1oYbJOX27W1my7ghY9bjp4VVvo2UN9r1uuJR8UqLBzTNlrxOcKru6rGa/ZfZj95haeXIDob0xvGynAvUpGFqQLi2PKGdWA/RwL4KsA/qk933ATbuRuQ9SBgKt8j0xQmCvTfprB1NanhxpbyY2Vq6e/+KLSoIszg=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R901e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045133197;MF=jefflexu@linux.alibaba.com;NM=1;PH=DS;RN=13;SR=0;TI=SMTPD_---0X0gktlq_1775701628;
+Received: from 30.221.145.70(mailfrom:jefflexu@linux.alibaba.com fp:SMTPD_---0X0gktlq_1775701628 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Thu, 09 Apr 2026 10:27:35 +0800
+Message-ID: <5c13b5ae-ca74-4fd8-97ec-39f24ccfd5c2@linux.alibaba.com>
+Date: Thu, 9 Apr 2026 10:27:35 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v3 6/8] fuse: implementation of lookup_handle+statx
+ compound operation
+To: Luis Henriques <luis@igalia.com>, Joanne Koong <joannelkoong@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>,
+ Bernd Schubert <bschubert@ddn.com>, Bernd Schubert <bernd@bsbernd.com>,
+ "Darrick J. Wong" <djwong@kernel.org>, Horst Birthelmer
+ <hbirthelmer@ddn.com>, Kevin Chen <kchen@ddn.com>,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Matt Harvey <mharvey@jumptrading.com>, kernel-dev@igalia.com
+References: <20260225112439.27276-1-luis@igalia.com>
+ <20260225112439.27276-7-luis@igalia.com>
+ <CAJnrk1Yxpy0+tx2yb7CxVVwF9gqNRz_pHH5NUpBHOg55NNooJA@mail.gmail.com>
+ <87v7e24gdw.fsf@igalia.com>
+ <CAJnrk1aG_N-FVJfNpoU6iLcA6XHsUvWe74E0Pkth-hev9zgmHg@mail.gmail.com>
+ <87fr55lpu4.fsf@igalia.com>
+Content-Language: en-US
+From: Jingbo Xu <jefflexu@linux.alibaba.com>
+In-Reply-To: <87fr55lpu4.fsf@igalia.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:cCh0CgC3utoW_dZp37OQDw--.20149S4
-X-Coremail-Antispam: 1UD129KBjvJXoW7Kw15XF4rJr15JF43XFWrKrg_yoW8Zw13pr
-	90kFyYkrykuF9Ik3ZrXa4UX3ZxCw1kWryUWFZa9wnFkF45XFnFgF42g3WYqFWjvrs7XwsY
-	qFWjya4rua109rDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9Y14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
-	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
-	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
-	Y2ka0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
-	0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
-	zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF
-	4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWU
-	CwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCT
-	nIWIevJa73UjIFyTuYvjfUOv38UUUUU
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
-From: Zhang Yi <yi.zhang@huawei.com>
+Hi Luis,
 
-Commit f76d4c28a46a ("fs/jbd2: use sleeping version of
-__find_get_block()") changed jbd2_journal_cancel_revoke() to use
-__find_get_block_nonatomic() which holds the folio lock instead of
-i_private_lock. This breaks the lock ordering (folio -> buffer) and
-causes an ABBA deadlock when the filesystem blocksize < pagesize:
+On 4/8/26 6:16 PM, Luis Henriques wrote:
+> On Tue, Apr 07 2026, Joanne Koong wrote:
+> 
+>> On Tue, Apr 7, 2026 at 2:20 PM Luis Henriques <luis@igalia.com> wrote:
+>>>
+>>> Hi Joanne,
+>>>
+>>> On Tue, Apr 07 2026, Joanne Koong wrote:
+>>>
+>>>> On Wed, Feb 25, 2026 at 3:25 AM Luis Henriques <luis@igalia.com> wrote:
+>>>>>
+>>>>> The implementation of lookup_handle+statx compound operation extends the
+>>>>> lookup operation so that a file handle is be passed into the kernel.  It
+>>>>> also needs to include an extra inarg, so that the parent directory file
+>>>>> handle can be sent to user-space.  This extra inarg is added as an extension
+>>>>> header to the request.
+>>>>>
+>>>>> By having a separate statx including in a compound operation allows the
+>>>>> attr to be dropped from the lookup_handle request, simplifying the
+>>>>> traditional FUSE lookup operation.
+>>>>>
+>>>>> Signed-off-by: Luis Henriques <luis@igalia.com>
+>>>>> ---
+>>>>>  fs/fuse/dir.c             | 294 +++++++++++++++++++++++++++++++++++---
+>>>>>  fs/fuse/fuse_i.h          |  23 ++-
+>>>>>  fs/fuse/inode.c           |  48 +++++--
+>>>>>  fs/fuse/readdir.c         |   2 +-
+>>>>>  include/uapi/linux/fuse.h |  23 ++-
+>>>>>  5 files changed, 355 insertions(+), 35 deletions(-)
+>>>>>
+>>>>> diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
+>>>>> index 113583c4efb6..89e6176abe25 100644
+>>>>> --- a/include/uapi/linux/fuse.h
+>>>>> +++ b/include/uapi/linux/fuse.h
+>>>>>
+>>>>>  enum fuse_opcode {
+>>>>> @@ -671,6 +676,8 @@ enum fuse_opcode {
+>>>>>          */
+>>>>>         FUSE_COMPOUND           = 54,
+>>>>>
+>>>>> +       FUSE_LOOKUP_HANDLE      = 55,
+>>>>> +
+>>>>>         /* CUSE specific operations */
+>>>>>         CUSE_INIT               = 4096,
+>>>>>
+>>>>> @@ -707,6 +714,20 @@ struct fuse_entry_out {
+>>>>>         struct fuse_attr attr;
+>>>>>  };
+>>>>>
+>>>>> +struct fuse_entry2_out {
+>>>>> +       uint64_t        nodeid;
+>>>>> +       uint64_t        generation;
+>>>>> +       uint64_t        entry_valid;
+>>>>> +       uint32_t        entry_valid_nsec;
+>>>>> +       uint32_t        flags;
+>>>>> +       uint64_t        spare;
+>>>>> +};
+>>>>
+>>>> Hi Luis,
+>>>>
+>>>> Could you explain why we need a new struct fuse_entry2_out instead of
+>>>> reusing struct fuse_entry_out? From what i see, the only differences
+>>>> between them are that fuse_entry2_out drops attr_valid,
+>>>> attr_valid_nsec, and struct fuse_attr. Is this done so that it saves
+>>>> the ~100 bytes per lookup? Would it be cleaner from an abi perspective
+>>>> to just reuse fuse_entry_out and ignore the attr fields if they're not
+>>>> necessary? The reason I'm asking is because I'm looking at how you're
+>>>> doing the lookup request reply to see if the fuse passthrough stuff
+>>>> for metadata/directory operations can be combined with it. But I'm not
+>>>> fully understanding why fuse_entry2_out is needed here.
+>>>>
+>>>> I'm also a bit confused by why the compound with statx is needed here,
+>>>> could you explain this part? I see the call to fuse_statx_to_attr()
+>>>> after do_lookup_handle_statx(),  but fuse_statx_to_attr() converts the
+>>>> statx reply right back to a struct fuse_attr for inode setup, so if
+>>>> FUSE_LOOKUP_HANDLE returned struct fuse_entry_out instead of struct
+>>>> fuse_entry2_out, doesn't this solve the problem of needing to compound
+>>>> it with a statx or getattr request? I also noticed that the statx part
+>>>> uses FUSE_ROOT_ID as a workaround for the node id because the actual
+>>>> nodeid isn't known yet, this seems like another sign that the
+>>>> attributes stuff should just be part of the lookup response itself
+>>>> rather than a separate operation?
+>>>
+>>> First of all, thanks a lot for looking into this patchset.  Much
+>>> appreciated!
+>>>
+>>> The main reason for swapping the usage of attr by statx is that statx
+>>> includes some attributes that attr does not (e.g. btime).  And since I was
+>>> adding a new FUSE operation, it would be a good time for using statx
+>>> instead.  (Moreover, as new attributes may be added to statx in the
+>>> future, the benefits of using statx could eventually be even greater.)
+>>>
+>>> This was suggested by Miklos here[0], before converting the whole thing to
+>>> use compound commands.  So, I was going to use fuse_statx in the _out args
+>>> for lookup_handle.  However, because the interface was getting a bit
+>>> complex with extra args (and ext headers!), Miklos ended up suggesting[1]
+>>> to remove attr completely from the lookup_handle operation, and use
+>>> compounds instead to have the full functionality.
+>>
+>> Thank you for the context and links, Luis!
+>>
+>> Using fuse_statx over fuse_getattr makes sense to me for the new
+>> FUSE_LOOKUP_HANDLE op but the part I am confused about is why it needs
+>> to be compounded. If we are adding a new struct (struct
+>> fuse_entry2_out) to the abi, why is it not simpler to just make the
+>> new struct something like:
+>>
+>>   struct fuse_entry_handle_out {
+>>       uint64_t    nodeid;
+>>       uint64_t    generation;
+>>       uint64_t    entry_valid;
+>>       uint64_t    attr_valid;
+>>       uint32_t    entry_valid_nsec;
+>>       uint32_t    attr_valid_nsec;
+>>       struct fuse_statx stat;
+>>   };
+>>
+>> and avoid the compound stuff altogether? Is it because that would make
+>> the struct fuse_entry_handle_out too big to be stack-allocated and
+>> would thus have to be heap allocated? But if I'm recalling correctly,
+>> the compound requests path requires heap allocations as well. Although
+>> at that point if we're gonna have to do the heap allocation, then we
+>> might as well just also embed the struct fuse_file_handle inside
+>> struct fuse_entry_handle_out?
+> 
+> I'm open to drop the usage of compounds for this, of course.  In fact,
+> during the v2 discussions I suggested here[0] the usage of a similar
+> struct fuse_entry_handle_out.  Using compound commands was a way to try to
+> simplify the interface.  But maybe at that point I was too quick at
+> jumping into the compound commands suggestion.  It may make sense to
+> reevaluate this decision if you think it simplifies things, specially for
+> passthrough.
+> 
+> [0] https://lore.kernel.org/all/87zf6nov6c.fsf@wotan.olymp
+> 
 
-     T1                                T2
-ext4_mkdir()
- ext4_init_new_dir()
-  ext4_append()
-   ext4_getblk()
-    lock_buffer()    <- A
-                                   sync_blockdev()
-                                    blkdev_writepages()
-                                     writeback_iter()
-                                      writeback_get_folio()
-                                       folio_lock()   <- B
-     ext4_journal_get_create_access()
-      jbd2_journal_cancel_revoke()
-       __find_get_block_nonatomic()
-        folio_lock()  <- B
-                                     block_write_full_folio()
-                                      lock_buffer()   <- A
+Many thanks for your work on this.
 
-This can occasionally cause generic/013 to hang.
+Just FYI We are also interested in the kernel-maintained filehandle,
+which can dramatically help reduce the memory footprint on the FUSE
+server side.
 
-Fix by only calling __find_get_block_nonatomic() when the passed
-buffer_head doesn't belong to the bdev (i.e., !bh->b_bdev), which is the
-only case that we need to look up its bdev alias. Otherwise, the lookup
-is redundant since the found buffer_head is equal to the one we passed
-in.
+It just seems that the overall design is still not clear right now.  I'd
+like to and would be happy if I could help any.
 
-Fixes: f76d4c28a46a ("fs/jbd2: use sleeping version of __find_get_block()")
-Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
----
- fs/jbd2/revoke.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/fs/jbd2/revoke.c b/fs/jbd2/revoke.c
-index 9016ddb82447..8b52d40c27c9 100644
---- a/fs/jbd2/revoke.c
-+++ b/fs/jbd2/revoke.c
-@@ -464,13 +464,14 @@ void jbd2_journal_cancel_revoke(handle_t *handle, struct journal_head *jh)
- 	 * buffer_head?  If so, we'd better make sure we clear the
- 	 * revoked status on any hashed alias too, otherwise the revoke
- 	 * state machine will get very upset later on. */
--	if (need_cancel) {
-+	if (need_cancel && !bh->b_bdev) {
- 		struct buffer_head *bh2;
-+
- 		bh2 = __find_get_block_nonatomic(bh->b_bdev, bh->b_blocknr,
- 						 bh->b_size);
- 		if (bh2) {
--			if (bh2 != bh)
--				clear_buffer_revoked(bh2);
-+			WARN_ON_ONCE(bh2 == bh);
-+			clear_buffer_revoked(bh2);
- 			__brelse(bh2);
- 		}
- 	}
 -- 
-2.52.0
+Thanks,
+Jingbo
 
