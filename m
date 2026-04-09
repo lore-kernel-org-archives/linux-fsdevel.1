@@ -1,209 +1,199 @@
-Received: from out30-100.freemail.mail.aliyun.com (out30-100.freemail.mail.aliyun.com [115.124.30.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0F882309AA;
-	Thu,  9 Apr 2026 02:27:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35B253537FB
+	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Apr 2026 02:36:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775701662; cv=none; b=KEsDBKHUAXT2krAZhDmNOqdz1wRZUIcQ3CNSyEkDpravTzih7GDCaFa3adJOpmx18muz6vDMOmZl/SLrW0QAw0+kWB1WGoe/P5oRWprcwrtHR9pl3fCGrBx2zq8PKG3INFlwy7kRyjI68hnU20X+DVh2p3yt8VS0uR1VnjSvoGo=
+	t=1775702185; cv=none; b=O978B6jQRiNRvj2HrMve2O8CMu8JDXS9JhV9qnh4DWvo+cXl9IdG3zuMSz4ixW/OvcZs/RoKxp5NMls8aurxc7GQX/SY+t6ihOWPKmkyknPxFqwN5rsszb+2lyvQoaHx9LoAwuvD37ezkDQLFZiYIjT5ZvEXpwNzs9+pLqDmTUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775701662; c=relaxed/simple;
-	bh=bGAFxpTiq/WlFBLb1YcygMa4jv0YwVYg/pCCPvVSasc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QhqBNF2IDnBNfuSqIgiRgzlsWga4ujw/i0ot43OYrxgF3t4uD/z8ZG6OVGKnqL2r/MB1GOkWg4wcK+NXiGuo8/fklHgL40Pdv670Ho6SLnRGD+PVT69WCM2vKxKKgeMNRnkSK5mxlq+P8xtRa6Eo6W0VgWXcTm2hwDkkDa9Iyps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=H7nUpdGp; arc=none smtp.client-ip=115.124.30.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1775702185; c=relaxed/simple;
+	bh=mUgJ9gNC6/kJyF4YcWw2rC9fYFif+peaopsPceIy5Rs=;
+	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References:
+	 MIME-version:Content-type; b=c5OPdCHF6+6KnGguJSZ/MaIPGH3TiETfGErj6IsrYgmxOPxnVtJhFEyW5JP8P4S5U9YYxH6dOzDK+S2i0CoOqH65F2ZXp7V8DfkuTUWS8UWzaNNGtK5CLLzRPV34u85+I5+X1CCpDZj+D7f4xy3IQ/Yp4iwirPWg1tMHAJvX1mQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LjHZ26V0; arc=none smtp.client-ip=209.85.215.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="H7nUpdGp"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1775701656; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=OWgOCsqbJLPzolipxltE1h0Dmoqj1O51GEEuMn/8ELc=;
-	b=H7nUpdGpVPOY1oYbJOX27W1my7ghY9bjp4VVvo2UN9r1uuJR8UqLBzTNlrxOcKru6rGa/ZfZj95haeXIDob0xvGynAvUpGFqQLi2PKGdWA/RwL4KsA/qk933ATbuRuQ9SBgKt8j0xQmCvTfprB1NanhxpbyY2Vq6e/+KLSoIszg=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R901e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045133197;MF=jefflexu@linux.alibaba.com;NM=1;PH=DS;RN=13;SR=0;TI=SMTPD_---0X0gktlq_1775701628;
-Received: from 30.221.145.70(mailfrom:jefflexu@linux.alibaba.com fp:SMTPD_---0X0gktlq_1775701628 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Thu, 09 Apr 2026 10:27:35 +0800
-Message-ID: <5c13b5ae-ca74-4fd8-97ec-39f24ccfd5c2@linux.alibaba.com>
-Date: Thu, 9 Apr 2026 10:27:35 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LjHZ26V0"
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-c6e2355739dso180285a12.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 08 Apr 2026 19:36:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775702182; x=1776306982; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:message-id:date
+         :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Lw0Tv+5NbELb9GtHhwh2AbG2K6I+ORA+QMsewcCrAeQ=;
+        b=LjHZ26V0Z9gwhWZ+npXQIXVU2vn95J6nMqUzeZXTEfJW3bb8ae2i5aKEXXagoADy/p
+         21s7LChSsYZ7pDlELzCtWoXeDf36VzSv6rsFx2vbewCg2t0z4KRWvA9u2sjVwGlnAv2M
+         t8RVdviR26ly/adBMUkJ3h0W4xpqgBH5OcUPvOSrgT0whCqgPZ1BnDvnTO3lqqaecD/Q
+         bt3y2oxWPB7zI2d+R3S8OWD0gt+U1Bd/Ks0E0CRHdpIukwsEs6xzrEuNAFxCLnojRLQV
+         N+Xbkd7oW7L8RKambGDq6gEZzIJ2L8sOjfxCXf5RRSk8edhkFvnRPAk7oukVhmes7uLk
+         JPOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775702182; x=1776306982;
+        h=content-transfer-encoding:mime-version:references:message-id:date
+         :in-reply-to:subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Lw0Tv+5NbELb9GtHhwh2AbG2K6I+ORA+QMsewcCrAeQ=;
+        b=XvAJquP20AqbKNBQfzcmpxlb3mTasUGcbKIkxC13u+5lSI61oGoLqBl//Ip2Fxp+xY
+         gz5j7qtPsYD+XdWIS0nN7qdiCSGAF6Qrp8GuTYOdmVHi+q/flDyk2Va6OTdVzm2Yn/XM
+         Ym0EkiRZlNuF2yIX49KwTLCkZzOO67VzabsU5IRbTe9J6DJrUbyBnfwfon28GO22niw/
+         he4hOwytK3JFZqwfuYS2bti/Wd+ZblJ/dIrIULNq8W8mLu224TLIz7JVk0cQKh18qF5f
+         1FfdctHWAt20bfWBOZpEGLrLFmTz6UxqQAEmFgDArVw5E4PwUKxKD8ofWjFM3ysFK2b0
+         kigA==
+X-Gm-Message-State: AOJu0YxAthfkUGQOBksjexySRIwAA/15awpYFlVd8OvpDX3FLzb2S8C0
+	coe273SRuih/HinJshMrui5PL9Ur8ZGj1z44hZ0gWfmbLOlf9AxEHiD5
+X-Gm-Gg: AeBDieuuugZM/epI55Y641HjOc7UC/xk6O2wNhg80XzX/wXnFpuIqtwfoCIwLWsX4fa
+	mX1wG54Bdhn6R6eEO0w4KOe1Cfa2JyUqab+/vtG7hdZLCznGewIG3OjqRYh4OFnuBvSx1CUeI3J
+	x3SXqhzCjRMMXPQ0i0EiKcn+9QwlTExqIpJ5oRE2zKziLDiw4Qxkm0fkbTjASP/Yvu7wwSFp6ap
+	Uh0ymrp8lXCM1RflXNAqGDJcuX8ZNgE9C+Ou+Pt8UnihjLL0b8+lUcN02BtHhmEbFcIQsnExBw9
+	rJLYF0O1h8S01EwitFaDyNOO4+0752OnMBSxNOGzT92HM9bKnnoDtEYtfZC7i72m7eMp+LE30eD
+	FjzOkkzfX/rxrm8Y3M3zypIe90gRXzTccG0wqKF3/GV/1owuTgXrq2xLB+IIwv3KR02yfUEohyZ
+	3P4Og/YONC6Svn4f78CfOxFRpLtYXnW2Qc
+X-Received: by 2002:a17:903:238b:b0:2ad:d0ff:2ed4 with SMTP id d9443c01a7336-2b28164c3d7mr267295685ad.6.1775702182377;
+        Wed, 08 Apr 2026 19:36:22 -0700 (PDT)
+Received: from pve-server ([49.205.216.49])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b2749ce29esm233858135ad.81.2026.04.08.19.36.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Apr 2026 19:36:21 -0700 (PDT)
+From: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
+To: Jeff Layton <jlayton@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Mike Snitzer <snitzer@kernel.org>, Jens Axboe <axboe@kernel.dk>, Chuck Lever <chuck.lever@oracle.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-mm@kvack.org, Jeff Layton <jlayton@kernel.org>
+Subject: Re: [PATCH v2 1/3] mm: kick writeback flusher instead of inline flush for IOCB_DONTCACHE
+In-Reply-To: <20260408-dontcache-v2-1-948dec1e756b@kernel.org>
+Date: Thu, 09 Apr 2026 07:10:32 +0530
+Message-ID: <tstklxm7.ritesh.list@gmail.com>
+References: <20260408-dontcache-v2-0-948dec1e756b@kernel.org> <20260408-dontcache-v2-1-948dec1e756b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v3 6/8] fuse: implementation of lookup_handle+statx
- compound operation
-To: Luis Henriques <luis@igalia.com>, Joanne Koong <joannelkoong@gmail.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>,
- Bernd Schubert <bschubert@ddn.com>, Bernd Schubert <bernd@bsbernd.com>,
- "Darrick J. Wong" <djwong@kernel.org>, Horst Birthelmer
- <hbirthelmer@ddn.com>, Kevin Chen <kchen@ddn.com>,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- Matt Harvey <mharvey@jumptrading.com>, kernel-dev@igalia.com
-References: <20260225112439.27276-1-luis@igalia.com>
- <20260225112439.27276-7-luis@igalia.com>
- <CAJnrk1Yxpy0+tx2yb7CxVVwF9gqNRz_pHH5NUpBHOg55NNooJA@mail.gmail.com>
- <87v7e24gdw.fsf@igalia.com>
- <CAJnrk1aG_N-FVJfNpoU6iLcA6XHsUvWe74E0Pkth-hev9zgmHg@mail.gmail.com>
- <87fr55lpu4.fsf@igalia.com>
-Content-Language: en-US
-From: Jingbo Xu <jefflexu@linux.alibaba.com>
-In-Reply-To: <87fr55lpu4.fsf@igalia.com>
-Content-Type: text/plain; charset=UTF-8
+MIME-version: 1.0
+Content-type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 
-Hi Luis,
+Jeff Layton <jlayton@kernel.org> writes:
 
-On 4/8/26 6:16 PM, Luis Henriques wrote:
-> On Tue, Apr 07 2026, Joanne Koong wrote:
-> 
->> On Tue, Apr 7, 2026 at 2:20 PM Luis Henriques <luis@igalia.com> wrote:
->>>
->>> Hi Joanne,
->>>
->>> On Tue, Apr 07 2026, Joanne Koong wrote:
->>>
->>>> On Wed, Feb 25, 2026 at 3:25 AM Luis Henriques <luis@igalia.com> wrote:
->>>>>
->>>>> The implementation of lookup_handle+statx compound operation extends the
->>>>> lookup operation so that a file handle is be passed into the kernel.  It
->>>>> also needs to include an extra inarg, so that the parent directory file
->>>>> handle can be sent to user-space.  This extra inarg is added as an extension
->>>>> header to the request.
->>>>>
->>>>> By having a separate statx including in a compound operation allows the
->>>>> attr to be dropped from the lookup_handle request, simplifying the
->>>>> traditional FUSE lookup operation.
->>>>>
->>>>> Signed-off-by: Luis Henriques <luis@igalia.com>
->>>>> ---
->>>>>  fs/fuse/dir.c             | 294 +++++++++++++++++++++++++++++++++++---
->>>>>  fs/fuse/fuse_i.h          |  23 ++-
->>>>>  fs/fuse/inode.c           |  48 +++++--
->>>>>  fs/fuse/readdir.c         |   2 +-
->>>>>  include/uapi/linux/fuse.h |  23 ++-
->>>>>  5 files changed, 355 insertions(+), 35 deletions(-)
->>>>>
->>>>> diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
->>>>> index 113583c4efb6..89e6176abe25 100644
->>>>> --- a/include/uapi/linux/fuse.h
->>>>> +++ b/include/uapi/linux/fuse.h
->>>>>
->>>>>  enum fuse_opcode {
->>>>> @@ -671,6 +676,8 @@ enum fuse_opcode {
->>>>>          */
->>>>>         FUSE_COMPOUND           = 54,
->>>>>
->>>>> +       FUSE_LOOKUP_HANDLE      = 55,
->>>>> +
->>>>>         /* CUSE specific operations */
->>>>>         CUSE_INIT               = 4096,
->>>>>
->>>>> @@ -707,6 +714,20 @@ struct fuse_entry_out {
->>>>>         struct fuse_attr attr;
->>>>>  };
->>>>>
->>>>> +struct fuse_entry2_out {
->>>>> +       uint64_t        nodeid;
->>>>> +       uint64_t        generation;
->>>>> +       uint64_t        entry_valid;
->>>>> +       uint32_t        entry_valid_nsec;
->>>>> +       uint32_t        flags;
->>>>> +       uint64_t        spare;
->>>>> +};
->>>>
->>>> Hi Luis,
->>>>
->>>> Could you explain why we need a new struct fuse_entry2_out instead of
->>>> reusing struct fuse_entry_out? From what i see, the only differences
->>>> between them are that fuse_entry2_out drops attr_valid,
->>>> attr_valid_nsec, and struct fuse_attr. Is this done so that it saves
->>>> the ~100 bytes per lookup? Would it be cleaner from an abi perspective
->>>> to just reuse fuse_entry_out and ignore the attr fields if they're not
->>>> necessary? The reason I'm asking is because I'm looking at how you're
->>>> doing the lookup request reply to see if the fuse passthrough stuff
->>>> for metadata/directory operations can be combined with it. But I'm not
->>>> fully understanding why fuse_entry2_out is needed here.
->>>>
->>>> I'm also a bit confused by why the compound with statx is needed here,
->>>> could you explain this part? I see the call to fuse_statx_to_attr()
->>>> after do_lookup_handle_statx(),  but fuse_statx_to_attr() converts the
->>>> statx reply right back to a struct fuse_attr for inode setup, so if
->>>> FUSE_LOOKUP_HANDLE returned struct fuse_entry_out instead of struct
->>>> fuse_entry2_out, doesn't this solve the problem of needing to compound
->>>> it with a statx or getattr request? I also noticed that the statx part
->>>> uses FUSE_ROOT_ID as a workaround for the node id because the actual
->>>> nodeid isn't known yet, this seems like another sign that the
->>>> attributes stuff should just be part of the lookup response itself
->>>> rather than a separate operation?
->>>
->>> First of all, thanks a lot for looking into this patchset.  Much
->>> appreciated!
->>>
->>> The main reason for swapping the usage of attr by statx is that statx
->>> includes some attributes that attr does not (e.g. btime).  And since I was
->>> adding a new FUSE operation, it would be a good time for using statx
->>> instead.  (Moreover, as new attributes may be added to statx in the
->>> future, the benefits of using statx could eventually be even greater.)
->>>
->>> This was suggested by Miklos here[0], before converting the whole thing to
->>> use compound commands.  So, I was going to use fuse_statx in the _out args
->>> for lookup_handle.  However, because the interface was getting a bit
->>> complex with extra args (and ext headers!), Miklos ended up suggesting[1]
->>> to remove attr completely from the lookup_handle operation, and use
->>> compounds instead to have the full functionality.
->>
->> Thank you for the context and links, Luis!
->>
->> Using fuse_statx over fuse_getattr makes sense to me for the new
->> FUSE_LOOKUP_HANDLE op but the part I am confused about is why it needs
->> to be compounded. If we are adding a new struct (struct
->> fuse_entry2_out) to the abi, why is it not simpler to just make the
->> new struct something like:
->>
->>   struct fuse_entry_handle_out {
->>       uint64_t    nodeid;
->>       uint64_t    generation;
->>       uint64_t    entry_valid;
->>       uint64_t    attr_valid;
->>       uint32_t    entry_valid_nsec;
->>       uint32_t    attr_valid_nsec;
->>       struct fuse_statx stat;
->>   };
->>
->> and avoid the compound stuff altogether? Is it because that would make
->> the struct fuse_entry_handle_out too big to be stack-allocated and
->> would thus have to be heap allocated? But if I'm recalling correctly,
->> the compound requests path requires heap allocations as well. Although
->> at that point if we're gonna have to do the heap allocation, then we
->> might as well just also embed the struct fuse_file_handle inside
->> struct fuse_entry_handle_out?
-> 
-> I'm open to drop the usage of compounds for this, of course.  In fact,
-> during the v2 discussions I suggested here[0] the usage of a similar
-> struct fuse_entry_handle_out.  Using compound commands was a way to try to
-> simplify the interface.  But maybe at that point I was too quick at
-> jumping into the compound commands suggestion.  It may make sense to
-> reevaluate this decision if you think it simplifies things, specially for
-> passthrough.
-> 
-> [0] https://lore.kernel.org/all/87zf6nov6c.fsf@wotan.olymp
-> 
+> The IOCB_DONTCACHE writeback path in generic_write_sync() calls
+> filemap_flush_range() on every write, submitting writeback inline in
+> the writer's context.  Perf lock contention profiling shows the
+> performance problem is not lock contention but the writeback submission
+> work itself — walking the page tree and submitting I/O blocks the
+> writer for milliseconds, inflating p99.9 latency from 23ms (buffered)
+> to 93ms (dontcache).
+>
+> Replace the inline filemap_flush_range() call with a
+> wakeup_flusher_threads_bdi() call that kicks the BDI's flusher thread
+> to drain dirty pages in the background.  This moves writeback
+> submission completely off the writer's hot path.  The flusher thread
+> handles writeback asynchronously, naturally coalescing and rate-limiting
+> I/O without any explicit skip-if-busy or dirty pressure checks.
+>
 
-Many thanks for your work on this.
-
-Just FYI We are also interested in the kernel-maintained filehandle,
-which can dramatically help reduce the memory footprint on the FUSE
-server side.
-
-It just seems that the overall design is still not clear right now.  I'd
-like to and would be happy if I could help any.
+Thanks Jeff for explaining this. It make sense now.
 
 
--- 
-Thanks,
-Jingbo
+> Add WB_REASON_DONTCACHE as a new writeback reason for tracing
+> visibility.
+>
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> ---
+>  fs/fs-writeback.c                | 14 ++++++++++++++
+>  include/linux/backing-dev-defs.h |  1 +
+>  include/linux/fs.h               |  6 ++----
+>  include/trace/events/writeback.h |  3 ++-
+>  4 files changed, 19 insertions(+), 5 deletions(-)
+>
+> diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
+> index 3c75ee025bda..88dc31388a31 100644
+> --- a/fs/fs-writeback.c
+> +++ b/fs/fs-writeback.c
+> @@ -2466,6 +2466,20 @@ void wakeup_flusher_threads_bdi(struct backing_dev_info *bdi,
+>  	rcu_read_unlock();
+>  }
+>  
+> +/**
+> + * filemap_dontcache_kick_writeback - kick flusher for IOCB_DONTCACHE writes
+> + * @mapping:	address_space that was just written to
+> + *
+> + * Wake the BDI flusher thread to start writeback of dirty pages in the
+> + * background.
+> + */
+> +void filemap_dontcache_kick_writeback(struct address_space *mapping)
 
+This api gives a wrong sense that we are kicking writeback to write
+dirty pages which belongs to only this inode's address space mapping.
+But instead we are starting wb for everything on the respective bdi.
+
+So instead why not just export symbol for wakeup_flusher_threads_bdi()
+and use it instead?
+
+If not, then IMO at least making it... 
+   filemap_kick_writeback_all(mapping, enum wb_reason)
+
+... might be better.
+
+> +{
+> +	wakeup_flusher_threads_bdi(inode_to_bdi(mapping->host),
+> +				   WB_REASON_DONTCACHE);
+> +}
+> +EXPORT_SYMBOL(filemap_dontcache_kick_writeback);
+> +
+>  /*
+>   * Wakeup the flusher threads to start writeback of all currently dirty pages
+>   */
+> diff --git a/include/linux/backing-dev-defs.h b/include/linux/backing-dev-defs.h
+> index c88fd4d37d1f..4a81c90a8928 100644
+> --- a/include/linux/backing-dev-defs.h
+> +++ b/include/linux/backing-dev-defs.h
+> @@ -55,6 +55,7 @@ enum wb_reason {
+>  	 */
+>  	WB_REASON_FORKER_THREAD,
+>  	WB_REASON_FOREIGN_FLUSH,
+> +	WB_REASON_DONTCACHE,
+>  
+>  	WB_REASON_MAX,
+>  };
+> diff --git a/include/linux/fs.h b/include/linux/fs.h
+> index 8b3dd145b25e..2fd36608ac73 100644
+> --- a/include/linux/fs.h
+> +++ b/include/linux/fs.h
+> @@ -2610,6 +2610,7 @@ extern int __must_check file_write_and_wait_range(struct file *file,
+>  						loff_t start, loff_t end);
+>  int filemap_flush_range(struct address_space *mapping, loff_t start,
+>  		loff_t end);
+> +void filemap_dontcache_kick_writeback(struct address_space *mapping);
+>  
+>  static inline int file_write_and_wait(struct file *file)
+>  {
+> @@ -2643,10 +2644,7 @@ static inline ssize_t generic_write_sync(struct kiocb *iocb, ssize_t count)
+>  		if (ret)
+>  			return ret;
+>  	} else if (iocb->ki_flags & IOCB_DONTCACHE) {
+> -		struct address_space *mapping = iocb->ki_filp->f_mapping;
+> -
+> -		filemap_flush_range(mapping, iocb->ki_pos - count,
+> -				iocb->ki_pos - 1);
+> +		filemap_dontcache_kick_writeback(iocb->ki_filp->f_mapping);
+>  	}
+>  
+>  	return count;
+> diff --git a/include/trace/events/writeback.h b/include/trace/events/writeback.h
+> index 4d3d8c8f3a1b..9727af542699 100644
+> --- a/include/trace/events/writeback.h
+> +++ b/include/trace/events/writeback.h
+> @@ -44,7 +44,8 @@
+>  	EM( WB_REASON_PERIODIC,			"periodic")		\
+>  	EM( WB_REASON_FS_FREE_SPACE,		"fs_free_space")	\
+>  	EM( WB_REASON_FORKER_THREAD,		"forker_thread")	\
+> -	EMe(WB_REASON_FOREIGN_FLUSH,		"foreign_flush")
+> +	EM( WB_REASON_FOREIGN_FLUSH,		"foreign_flush")	\
+> +	EMe(WB_REASON_DONTCACHE,		"dontcache")
+>  
+>  WB_WORK_REASON
+>  
+>
+> -- 
+> 2.53.0
