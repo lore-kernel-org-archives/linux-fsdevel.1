@@ -1,123 +1,158 @@
-Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6F57233149
-	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Apr 2026 19:15:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.41
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775762135; cv=none; b=icKK/tr5fjteBjJYAZLEkI8wINq6EmKXWRZ5I3re+7eiVUQDvOEkuGQa6r1/zZWpam6F/Sv4cwNAuga7TwJlGbRIW/ePfnrOKlFdwbuCkSyyzqTjCGqLC8MiNQcawel6bZ8zZEpMJqpBj46F2+mnIvKH4rWuISojNKS6+ouHf48=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775762135; c=relaxed/simple;
-	bh=mLxbGdF+LocgfZ13nZ2Tg+a474WR2+r7/8rr6DVILOw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mYEpHXECAO2HVPK1kr6cPMqMpHIqkJ3bSN+HZQaudr0JoMh16utb0kz5WqbbhWsxHvewNszsQEbo1F6nGanzDB8IY+i699HE9cpwxyZSr7WnRFi4YzhUM88VdTUUqx1yvFR/AbAkIyJe8774XQqbW0gwiXDveb2Yv3mF7HHHF2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=qvMeisT6; arc=none smtp.client-ip=74.125.224.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E3DD261B8D;
+	Thu,  9 Apr 2026 19:22:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775762541; cv=pass; b=NoGOE8m1aD0kAAG0vRLfIDj6OjFF1dZvC12OAP+IQsW4A2wgxeCybalb1/if+MEJyTPbkIRnytHGXIjmNWAMXgpYHNEiD0VMfJ+L0/1s2R9GXbyPLqi5gMEz9lHXDrQTgAh2j00dSWZXNblRp+P9ADfhhcK/EWaGHgWcIIyXAkU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775762541; c=relaxed/simple;
+	bh=ABg8sJ+/UIG+zaHTF8FE4V2Q8CfCjtoq7FfLessYPIs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KDQubcoe6SHVJMlkMKkrxcrXCWB6fms36HoRn6IPivpEJHNbsjsIM5vtwjVF/U4yDtc4qQxqL1n0SdjDEkiGaYGB3MREmKhTmzZR5/Pm0kRDzcYQcDvn5vWtXeTA0AjQd6+0ZbhKvH5jgOjDxAGWAWxqr8C9fpA8ibJnz5SRs9Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b=AUAa/L3+; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="qvMeisT6"
-Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-65003f40a22so1149507d50.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 09 Apr 2026 12:15:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1775762133; x=1776366933; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=h5Ot6MQCY3SHVCp2P/Z1z8XnvK7coQdd/EmtdJmQhrs=;
-        b=qvMeisT6z5CprDyM/kuJh5ETD7RZ+BZTFh2/GUUatfZdfRV3l6PchA1fzG2e8Zvu4h
-         pLk4+Btk5mlRcQl7WPCiNUDEPBdGKKFi88s3DMYGbXkgRDWRaXGcgVz8U1q5rwY+ZXnu
-         GcKmpu2wk4ObNcUVMLMLsnGhcdqLLC5xfqgqK6hadu7d/9LOyIQem6JVINRJhpVEuOX2
-         9FHd5DXWoTVWP6Y+IYQ0eI5MI4KOsEUh9Iw5KFz9Fs+4qU47e3Hlx2zQ4eZovm6jkrqK
-         g5fd0RI5xXWT6qKXqC7i4Wqds55P1lsqyUOxgknkMpLomgBCYWIAWetwYZFM6h4u6/Py
-         nriw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775762133; x=1776366933;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=h5Ot6MQCY3SHVCp2P/Z1z8XnvK7coQdd/EmtdJmQhrs=;
-        b=pxOyuIdzZ/emF01uCCkkI2QleaEQn7q21T/MbARgGX35yutFhqx4pKNo3o14T5nYKx
-         n7nVNmBcq082vkAyiJ0tEM0qj3igJ19WRqRH1ZzgCu6PWOz7o2V8IXzzMfSF4WQShF5t
-         v0TR3WS8yv7R+k5xgPbr4M8qI4+sEXM+7w4urDnGfViZ7aTQPDwIQAW/IlJ5zbN82BpG
-         mwmwmMA78IAGDmeimlvOoaGBV0gShEo/IxNtSTNrNTL/l+GGuK7A0cR93ccUP9tUbDpK
-         VurLaUSniQ30Kz/9KKp+MDxG9Fpj14BUege4bRBKnNYZ3TDzbWRA5giN7e2nrzcxWzqB
-         598A==
-X-Forwarded-Encrypted: i=1; AJvYcCVPa5vAPTSZa3ANiX7lKaSnkefwtxYVYzbpbCL6EGNzKDx9IhNparbq9omoIqEQ42HiBMsoDJNXjICtlcCc@vger.kernel.org
-X-Gm-Message-State: AOJu0YxiJnIuWQXsbcX0wDnqF/OsQSJnTQKs0581lfd+CWuRF30E8EG+
-	1Q+DZsHCACbrwxy2nP3xfH+5Xm4rLBO92GSy9RIGcDpYfOrsVAs8GVSvTD0tqjf7G+E=
-X-Gm-Gg: AeBDieszHAPL1z5FN4Ier7ibEK1u+TgAVqAecl9wHpfQ1MDqc/mYMsLhHBDgNENv5L2
-	Kyx1mgS0fFvLx1Pjc9hR4jf2siDUM6qj+oWMePlp2Up9DVJKl4/ycNGynaAFkWprhOGuwt1hgo7
-	ThP4qUIKCzdRTbzebmkJNskJUD0pZZRbGtEb82Mb4Br1KR0BH8aN13jSIXqqsbbOT48eZ/6BCqZ
-	gdv0NO1w2y7uiK24SVMq9ZIUGtZQ4CQZlE5tAjjsLu5hT0aY0i7GT90g/A3GqE9omoQ+8ckTygE
-	me2nFwzhS7x7LEcQJeUfjM5cp8qQmdwnPWAy/j8GNGzgqic/OIiegmHokj/Aef/DcFH2cWjne+O
-	5h4S6KsAL7o15SkbvmqTBVZTdjvb+M0uChNZqHDege/7n0bhjFh3VAzi70BtHhNFPBprMnpJaZi
-	daoEOo1WwDWH03Mh2E5mCuZGTLyksdU7S8QgU50IKCEuO+Z0REHfFKos7x7UCtbl8wvV5DIdr32
-	xdSWcEejLb1mGKDBMDuahY/JcdJLM8=
-X-Received: by 2002:a53:b1d0:0:b0:64f:fc0d:6240 with SMTP id 956f58d0204a3-65198bda2bemr163013d50.62.1775762132712;
-        Thu, 09 Apr 2026 12:15:32 -0700 (PDT)
-Received: from system76-pc.attlocal.net ([2600:1700:6476:1430:594a:e569:c7df:c654])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-65197a82effsm198983d50.7.2026.04.09.12.15.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Apr 2026 12:15:32 -0700 (PDT)
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: ceph-devel@vger.kernel.org
-Cc: idryomov@gmail.com,
-	linux-fsdevel@vger.kernel.org,
-	pdonnell@redhat.com,
-	amarkuze@redhat.com,
-	Slava.Dubeyko@ibm.com,
-	slava@dubeyko.com
-Subject: [PATCH] libceph: switch ceph-msgr workqueue from WQ_PERCPU to WQ_UNBOUND
-Date: Thu,  9 Apr 2026 12:15:18 -0700
-Message-ID: <20260409191517.318015-2-slava@dubeyko.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="AUAa/L3+"
+ARC-Seal: i=1; a=rsa-sha256; t=1775762463; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=LQlkhaNjyUWKbfUI20z4Sf3YS1KXPL7jIOiTz9QQebt+/5alABNaXgzyknVE0jXSnulby0iELWugUFszjHTtlJAiAu2XyP9z3N04j9ynaHH5XoFoFxtLKE0jiRtIoPVxaWEVrGyQXtiF0hkGtvLBzx0FKM7iVd9MbRqe9rFNuxo=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1775762463; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=F3Si1X1PgfNUXsdrfdhmzDQHbKwjXj53THXSeknqpyA=; 
+	b=LPS7I3lOkF4ABWJNXHjlKfo/6IkuMA20YSQPMs692qQJKYfxqk28xUkElvEmLgdpeimhqC3DoHYFsjiHqpJ27GPJyCiaODVsxC5cqgMe0hPfI4GwsGDg4iRuxK4bxQHuaZ/wUYmij2f/Yw/ONiMz4zjJ0ZagsmFYKLXYYue3L3k=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
+	dmarc=pass header.from=<sebastian.reichel@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1775762463;
+	s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+	bh=F3Si1X1PgfNUXsdrfdhmzDQHbKwjXj53THXSeknqpyA=;
+	b=AUAa/L3+2lwVCL2ZUfTY1LNdK91B6s8tQ5VeIrMtAQqAlMwE3MmmyWcWyy6p2VkA
+	3IUgm2n8XHb5tSjzFDzvnXYsIxyoPcDV6hZBRg74n1V6qVPnKT3yHQ0EWte9RuGdrs/
+	fuorKCbCwIr7tGLCtnF9xpeN4Q4XRD+Q+LOa3cm8=
+Received: by mx.zohomail.com with SMTPS id 177576246039850.8603406281004;
+	Thu, 9 Apr 2026 12:21:00 -0700 (PDT)
+Received: by venus (Postfix, from userid 1000)
+	id 2ACC9180E60; Thu, 09 Apr 2026 21:20:55 +0200 (CEST)
+Date: Thu, 9 Apr 2026 21:20:55 +0200
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Thomas Gleixner <tglx@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, linux-pm@vger.kernel.org, 
+	Calvin Owens <calvin@wbinvd.org>, Anna-Maria Behnsen <anna-maria@linutronix.de>, 
+	Frederic Weisbecker <frederic@kernel.org>, "Peter Zijlstra (Intel)" <peterz@infradead.org>, 
+	John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	linux-fsdevel@vger.kernel.org, Pablo Neira Ayuso <pablo@netfilter.org>, 
+	Florian Westphal <fw@strlen.de>, Phil Sutter <phil@nwl.cc>, netfilter-devel@vger.kernel.org, 
+	coreteam@netfilter.org
+Subject: Re: [patch V2 09/11] power: supply: charger-manager: Switch to
+ alarm_start_timer()
+Message-ID: <adf72vL5dCapChax@venus>
+References: <20260408102356.783133335@kernel.org>
+ <20260408114952.536945376@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="wmsijnsatuforoie"
+Content-Disposition: inline
+In-Reply-To: <20260408114952.536945376@kernel.org>
+X-Zoho-Virus-Status: 1
+X-Zoho-AV-Stamp: zmail-av-0.2.2.1.5.2/275.753.7
+X-ZohoMailClient: External
 
-From: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
 
-The ceph-msgr workqueue was changed to use WQ_PERCPU in commit
-27ce71e1ce81 ("net: WQ_PERCPU added to alloc_workqueue users") as part
-of a tree-wide transition to make per-CPU workqueue binding explicit.
+--wmsijnsatuforoie
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [patch V2 09/11] power: supply: charger-manager: Switch to
+ alarm_start_timer()
+MIME-Version: 1.0
 
-However, ceph_con_workfn contains a while(true) loop that retries on
--EAGAIN from socket reads and writes, making it capable of hogging a
-bound CPU for extended periods. This manifests at runtime as:
+Hi,
 
-  workqueue: ceph_con_workfn hogged CPU for >10000us N times,
-  consider switching to WQ_UNBOUND
+On Wed, Apr 08, 2026 at 01:54:24PM +0200, Thomas Gleixner wrote:
+> The existing alarm_start() interface is replaced with the new
+> alarm_start_timer() mechanism, which does not longer queue an already
+> expired timer and returns the state. Adjust the code to utilize this.
+>=20
+> No functional change intended.
+>=20
+> Signed-off-by: Thomas Gleixner <tglx@kernel.org>
+> Cc: Sebastian Reichel <sre@kernel.org>
+> Cc: linux-pm@vger.kernel.org
+> ---
+> V2: Rename to alarm_start_timer()
+> ---
 
-Switch the workqueue to WQ_UNBOUND so the scheduler can freely place
-workers across CPUs, preventing starvation of other work items on the
-bound CPU. The loss of cache locality is acceptable for network I/O
-work.
+Acked-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 
-Fixes: 27ce71e1ce81 ("net: WQ_PERCPU added to alloc_workqueue users")
-Signed-off-by: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
-cc: Alex Markuze <amarkuze@redhat.com>
-cc: Ilya Dryomov <idryomov@gmail.com>
-cc: Patrick Donnelly <pdonnell@redhat.com>
-cc: Ceph Development <ceph-devel@vger.kernel.org>
----
- net/ceph/messenger.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Greetings,
 
-diff --git a/net/ceph/messenger.c b/net/ceph/messenger.c
-index 108adb583744..dbca8bfaf5fc 100644
---- a/net/ceph/messenger.c
-+++ b/net/ceph/messenger.c
-@@ -253,7 +253,7 @@ int __init ceph_msgr_init(void)
- 	 * connections, so leave @max_active at default.
- 	 */
- 	ceph_msgr_wq = alloc_workqueue("ceph-msgr",
--				       WQ_MEM_RECLAIM | WQ_PERCPU, 0);
-+				       WQ_MEM_RECLAIM | WQ_UNBOUND, 0);
- 	if (ceph_msgr_wq)
- 		return 0;
- 
--- 
-2.53.0
+-- Sebastian
 
+>  drivers/power/supply/charger-manager.c |   12 +++++++-----
+>  1 file changed, 7 insertions(+), 5 deletions(-)
+> --- a/drivers/power/supply/charger-manager.c
+> +++ b/drivers/power/supply/charger-manager.c
+> @@ -881,7 +881,7 @@ static bool cm_setup_timer(void)
+>  	mutex_unlock(&cm_list_mtx);
+> =20
+>  	if (timer_req && cm_timer) {
+> -		ktime_t now, add;
+> +		ktime_t exp;
+> =20
+>  		/*
+>  		 * Set alarm with the polling interval (wakeup_ms)
+> @@ -893,14 +893,16 @@ static bool cm_setup_timer(void)
+> =20
+>  		pr_info("Charger Manager wakeup timer: %u ms\n", wakeup_ms);
+> =20
+> -		now =3D ktime_get_boottime();
+> -		add =3D ktime_set(wakeup_ms / MSEC_PER_SEC,
+> +		exp =3D ktime_set(wakeup_ms / MSEC_PER_SEC,
+>  				(wakeup_ms % MSEC_PER_SEC) * NSEC_PER_MSEC);
+> -		alarm_start(cm_timer, ktime_add(now, add));
+> =20
+>  		cm_suspend_duration_ms =3D wakeup_ms;
+> =20
+> -		return true;
+> +		/*
+> +		 * The timer should always be queued as the timeout is at least
+> +		 * two seconds out. Handle it correctly nevertheless.
+> +		 */
+> +		return alarm_start_timer(cm_timer, exp, true);
+>  	}
+>  	return false;
+>  }
+>=20
+
+--wmsijnsatuforoie
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmnX/BMACgkQ2O7X88g7
++ppCgQ//Xp8a07UKClRacIo2ssfPxtLLDokFqQogI/X3wdIBPG7TzC4up3u6iOpW
+QL/v5Ei9zpO1frj1LZsqyHNoUFccdjnXa8aJLB98SI0n1fCb7ffbrrCX7GVhr0WD
+AmfPILOLWqL4Qnw6UH1xRrJGE9ovffSK41qGIFCa3q6fDySJFf/VAjgpusxS02zO
+1KhGRmzAfsQZ4tPTsoBpUIDoRPip9x2lMZ1amfNRPHjPgqPv9h9lAvWhcKFHaOkH
+6xO4bKJnCN3liD4Jl5wGLN3lv1u2bOOB+JfjxhVobrgyNR1N07GdfOug5O9czi4X
+KOmcuiv2o0i+xae9lgOO0q6QwbW+hjCJI10AfU9lzzXHJotL0U49unBeOGUME5OK
+Oxg1Ls6EUd37jOceN3sV6vi3FvASZUC1aZbRK7qR9Y/fdI2Vkf1ekCnkRHkJ7wve
+XEL+28UxEH6NZcfmJ4aHlMAFcSApQakDW9D8pKiGxZHw3W16Jt3AGDNgaReLbJqY
+jzAxbxKhn97GnGADeLNm6XNiO9yiano/1fHVlzk28E6otD9/kNcGVQhITEHNTiLl
+OWkjFBapyzwofoXJfFmrsB/8ume7hzcdnSIjeBLWQvMJyKB1ykFuQqCeZViRLrhS
+RG2ROUORryKiQwoVDt2saF56FLbq9zsNy1bpPxHjKdlGMF8AYL0=
+=crXt
+-----END PGP SIGNATURE-----
+
+--wmsijnsatuforoie--
