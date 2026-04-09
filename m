@@ -1,55 +1,40 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BE7B3B7741;
-	Thu,  9 Apr 2026 16:11:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A1E53B5304
+	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Apr 2026 16:12:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775751068; cv=none; b=ehvm9tqXIVMRIyjy3rupsGu7VN+uMsBs2IWTSZn+hpvwp/QYOnlzSZBKGt7yO0Cy1UPhn61zIwK/w2xnOeEG3F95O+XRbQ4t3AwnYUJ7YKmFlJ8MjUoT4o/XIPsUKsTyZiKrYOYI6csF2tKQ8f/QOgkE9o/LY2lSM5vprTzggjs=
+	t=1775751179; cv=none; b=SJWjxUA/qwcS3zlncmEk1JzHtJWOr1XPa5eLqHB6XItJjk9bimS93/43RWZy5zPe+MWvzZRWEPZcoU/WbDJBz6CYWhF8YsDtpNjAMfsRTjDG7GRvgOZ0pf8K/MD/C1C+IOU625rVxv5jNhNpp2g4mL2yYQkYseqrAUt2ZN2RxQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775751068; c=relaxed/simple;
-	bh=nopiZ+wWjn6L1ZI266QPLnkgnBR9AIWFQQ71CUhCNSA=;
+	s=arc-20240116; t=1775751179; c=relaxed/simple;
+	bh=f4fYl1Bgw3X/qBz85lGZ8DoKbiAtjXnT8GvKt8TU8dQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r7jt/jdi9rcod0C9wIPbLNuyfHI6Vas7vRk20uSwZq+w5XU64jGZAJeRJrZ7e3kayiI5hhQFwjbuwWqkG5Qdc/Ms2x5YfH4TOoL6gL5Qco6DTauFI40H2X9BHbY7ppfChrdh+LIFZBnE+Zt5ayEZn5soL+eRPppDWELBXP7nNBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=qH5/9cKS; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=DcHLGpNT2XZnu/B1QE2w+Co7gS/MNh5A97Y7pc+fL99KnqD9GAX34EqIAAGAv5h0YXa/w0MQuA0DeS+BHvyy5xOZ+RVj4Tk2eLFoyLcF7cC3RqF5wUZffnO4X98GDw24HaMSHZ+noTh4kAsPrX1Gmnn2zALRzuslaQv+avCsDFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L95Rovtd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="qH5/9cKS"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=fnOSvuDUL9+1Ay/ob5YlOvnH99aIvHh/5ZmPHvtUw2A=; b=qH5/9cKScqEntBSLt2Ss94G6mH
-	ZIbK/otNIklPLaUuahSS6gmr0+nCm0cogprXjwYi/LdWNRWR/CIyl3L7HndlscS8WBFVptVz6dqWA
-	gL2bn4G+Zmfk2YkmH387jOPaAqURAoPmgGHuaXUbbj2w9Asl5eO94q8Us4CR5a8L2A//pHuHeiuPh
-	FhNTUI3aTR6q99o8ENjOaQtdjeh1C29Qm0wOrdzSMZtQAWiYecb76Yslmo+j1jqonbd5zrgYjPoR8
-	n7QIzllEkmcyzJX2akc9UwvS9oM2+UXPfSYaK0ofpio0efrvOIoVClXHlfY1weT8y2K9Z8rJv+xcG
-	iGHxeyMA==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wAry9-0000000Atez-29nt;
-	Thu, 09 Apr 2026 16:11:02 +0000
-Date: Thu, 9 Apr 2026 09:11:01 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Gao Xiang <hsiangkao@linux.alibaba.com>
-Cc: Christoph Hellwig <hch@infradead.org>,
-	Christian Brauner <brauner@kernel.org>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Alexei Starovoitov <ast@kernel.org>, linux-fsdevel@vger.kernel.org,
-	bpf@vger.kernel.org
-Subject: Re: [PATCH] bpf: add bpf_real_inode() kfunc
-Message-ID: <adfPlQrImtuyhMIO@infradead.org>
-References: <20260326-work-bpf-verity-v1-1-efe9edc46ddc@kernel.org>
- <acYVjuDOD7NynO9m@infradead.org>
- <20260327060518.GP6202@frogsfrogsfrogs>
- <20260407-unmengen-wahltag-474557ec0c58@brauner>
- <adUalnAyY9mm1LUr@infradead.org>
- <20260409-vorsichtig-umstand-d417555377e4@brauner>
- <ade2nskzkdcsvF55@infradead.org>
- <d889ed2b-ca34-4e95-ae5b-1d66636b515d@linux.alibaba.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L95Rovtd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0AC3C4CEF7;
+	Thu,  9 Apr 2026 16:12:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775751178;
+	bh=f4fYl1Bgw3X/qBz85lGZ8DoKbiAtjXnT8GvKt8TU8dQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=L95RovtdTY6ZH7BEOl0PSFriOj2XL6j4oBWoN6g7RlBWEAOsu3DpN0hd6VQd6GgbL
+	 A6eRlIH9Sq1DyjbvN0tRKofTpdAaS05EJ+8QSbfth6aW2O+IUeIg5A2c7j0SlXmRn6
+	 CEsBqh4isVK62rqshknzXbXBEtGPvtEnr0MJ6Qc4j9mhFoyV29Gkv0ldiAvz6I6T9U
+	 QNjW/ypcMsze+dzIVbPbqzPl5JMuQojwd0XlxFd00ULmA7bResEVf1C+8JO7FjPU4U
+	 gPrGKL/4AqkvsUZjDVd0aVo3B9g7hoO8JGJ73DS/KxRlNfeLwvxLBdhJcF6O7wnKY0
+	 9/qKHO3F1LIuw==
+Date: Thu, 9 Apr 2026 09:12:58 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Jan Kara <jack@suse.cz>
+Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	Matthew Wilcox <willy@infradead.org>,
+	lsf-pc@lists.linux-foundation.org
+Subject: Re: [LSF/MM/BPF TOPIC] Filesystem inode reclaim
+Message-ID: <20260409161258.GU6202@frogsfrogsfrogs>
+References: <m5v2s4fc6od2y2en5m62sr6fx57fdkhtqrn2kv47ngpcb65ump@4cfu4os3x5yy>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -58,22 +43,88 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d889ed2b-ca34-4e95-ae5b-1d66636b515d@linux.alibaba.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <m5v2s4fc6od2y2en5m62sr6fx57fdkhtqrn2kv47ngpcb65ump@4cfu4os3x5yy>
 
-On Thu, Apr 09, 2026 at 10:37:46PM +0800, Gao Xiang wrote:
-> > LBA data (which Linux also confusingly calls intgrity data) would be
-> > even simpler and easier to verify.  But yes, we need to clearly
-> > document what we want.
+On Thu, Apr 09, 2026 at 11:16:44AM +0200, Jan Kara wrote:
+> Hello!
 > 
-> Yes, you could keep hash / checksum in the extended OOB area, but
-> I guess you still don't know if the hash / checksum of the
-> particular data can be trusted (or is changed by attackers).
+> This is a recurring topic Matthew has been kicking forward for the last
+> year so let me maybe offer a fs-person point of view on the problem and
+> possible solutions. The problem is very simple: When a filesystem (ext4,
+> btrfs, vfat) is about to reclaim an inode, it sometimes needs to perform a
+> complex cleanup - like trimming of preallocated blocks beyond end of file,
+> making sure journalling machinery is done with the inode, etc.. This may
+> require reading metadata into memory which requires memory allocations and
+> as inode eviction cannot fail, these are effectively GFP_NOFAIL
+> allocations (and there are other reasons why it would be very difficult to
+> make some of these required allocations in the filesystems failable).
+> 
+> GFP_NOFAIL allocation from reclaim context (be it kswapd or direct reclaim)
+> trigger warnings - and for a good reason as forward progress isn't
+> guaranteed. Also it leaves a bad taste that we are performing sometimes
+> rather long running operations blocking on IO from reclaim context thus
+> stalling reclaim for substantial amount of time to free 1k worth of slab
+> cache.
+> 
+> I have been mulling over possible solutions since I don't think each
+> filesystem should be inventing a complex inode lifetime management scheme
+> as XFS has invented to solve these issues. Here's what I think we could do:
+> 
+> 1) Filesystems will be required to mark inodes that have non-trivial
+> cleanup work to do on reclaim with an inode flag I_RECLAIM_HARD (or
+> whatever :)). Usually I expect this to happen on first inode modification
+> or so. This will require some per-fs work but it shouldn't be that
+> difficult and filesystems can be adapted one-by-one as they decide to
+> address these warnings from reclaim.
+> 
+> 2) Inodes without I_RECLAIM_HARD will be reclaimed as usual directly from
+> kswapd / direct reclaim. I'm keeping this variant of inode reclaim for
+> performance reasons. I expect this to be a significant portion of inodes
+> on average and in particular for some workloads which scan a lot of inodes
+> (find through the whole fs or similar) the efficiency of inode reclaim is
+> one of the determining factors for their performance.
+> 
+> 3) Inodes with I_RECLAIM_HARD will be moved by the shrinker to a separate
+> per-sb list s_hard_reclaim_inodes and we'll queue work (per-sb work struct)
+> to process them.
+> 
+> 4) The work will walk s_hard_reclaim_inodes list and call evict() for each
+> inode, doing the hard work.
+> 
+> This way, kswapd / direct reclaim doesn't wait for hard to reclaim inodes
+> and they can work on freeing memory needed for freeing of hard to reclaim
+> inodes. So warnings about GFP_NOFAIL allocations aren't only papered over,
+> they should really be addressed.
 
-You'd still need to build a full merkle-tree out of them, but storing
-the leaf hashes in the extent LBAs means:
+This more or less sounds fine to me.
 
- - a lot less I/O amplification
- - a sane way to actually have verification (including authenticated
-   encryption) in a writable file system
+> One possible concern is that s_hard_reclaim_inodes list could grow out of
+> control for some workloads (in particular because there could be multiple
+> CPUs generating hard to reclaim inodes while the cleanup would be
+> single-threaded). This could be addressed by tracking number of inodes in
+> that list and if it grows over some limit, we could start throttling
+> processes when setting I_RECLAIM_HARD inode flag.
 
+<nod> XFS does that, see xfs_inodegc_want_flush_work in
+xfs_inodegc_queue.
+
+> There's also a simpler approach to this problem but with more radical
+> changes to behavior. For example getting rid of inode LRU completely -
+> inodes without dentries referencing them anymore should be rare and it
+> isn't very useful to cache them. So we can always drop inodes on last
+> iput() (as we currently do for example for unlinked inodes). But I have a
+> nagging feeling that somebody is depending on inode LRU somewhere - I'd
+> like poll the collective knowledge of what could possibly go wrong here :)
+
+NFS, possibly? ;)
+
+--D
+
+> In the session I'd like to discuss if people see some problems with these
+> approaches, what they'd prefer etc.
+> 
+> 								Honza
+> -- 
+> Jan Kara <jack@suse.com>
+> SUSE Labs, CR
+> 
