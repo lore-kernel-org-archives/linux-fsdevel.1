@@ -1,170 +1,168 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FB1D35E949;
-	Thu,  9 Apr 2026 07:46:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 176772192FA;
+	Thu,  9 Apr 2026 07:58:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775720765; cv=none; b=VCGsUl8SsgAPsEqm1MwqrqTYQb7g0hoh3yBcFdoQLwnXj7+DW2LgQxL/GRyu6nDmPJmZnQ3YIZ+08+JZYx5vct2OYwSCPuNusZ9kO4IRBrIJhLBTeFxhIlI9l0FdVTjF+0ODrKhnmT0mhDYcHDOdbjK7pG0Xclg67Z8ezoI5GU4=
+	t=1775721540; cv=none; b=Ca47LIyTHSh1EpmlLnKXi/ePGwzBErkuigBeFlYDnrYEzSQwpZyuusgV+xJVT4DeLKgoxH5Hlsq+JKj0C4oQVGRH1pFrCXi+W2LRaTpLsLzJQLM4GPxZ43wfHUOl0khFSHGPAu1Utx2hT9YVQSzV//1k2B/ckOloyH8qcB24/ZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775720765; c=relaxed/simple;
-	bh=oLAsdPlPpEfpJ80R8qSFEbRgF25HbvAv4mAxIfdsv8E=;
+	s=arc-20240116; t=1775721540; c=relaxed/simple;
+	bh=vWlsbBNlV4qxxJh+mktKzb+dE9BzzFofWF3ur8Ob5iM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cbnzyDnkHgw/08IQuGSFBz5U7+GOUw0hXsTXK4AeBvunfxItQE5jS9jGgl/ptN/IiBOYdUPef6Vbkt/BeJB7zc409E3jod50tqmsAs02jjO8Z5dT6W3QOG9IPnuELw44WLaAy6v/NsEkyBvIUpzg8Hn2BjuHHPR4dn39RUi7clk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=MF+cdMgq; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=jFyo/50b6yE82WTCQBc5V5FpGmLUjt1unbjEj1mtw9x0jBO16lM+s5e8aj9JT6rVI3L2b5qVLiO2ZECpZdHqyuuftt2iGxdXAqhhPQQAbggq/3cZZMsomLJL9W8TCTVotX5RD2i8shfvJ6zZeD16et12D+NohNr3Pfwwyw5AvG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y5C3Nu4w; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="MF+cdMgq"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4frsS63RH3z9sWq;
-	Thu,  9 Apr 2026 09:45:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
-	t=1775720758;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oLAsdPlPpEfpJ80R8qSFEbRgF25HbvAv4mAxIfdsv8E=;
-	b=MF+cdMgqxrR1PK8iEAN5cRZgXkF6AQ9KbgM3U24NDbeYOHTf7ddArdVqsyr7S7ubd9Y7q6
-	aXVqrNhnlnGpbgNZ27+hdanFg9PUvqp9i8m2wMm9n5cf8oAiVx8/ycG5gLU2Cwgd5honDh
-	jWcubSsiDDUwOzYPQi4gNj74VeSx2j6gh9DVndirTpdDv8vxnQZKnqAUAjPoMEheSp/Zxu
-	tzESsJzV9rtghd57uzoUHMnTJNoLX2it6E2jBOVD/gfcGgLV/m3mVEzEFYa6tByYGHgq+l
-	DrBjRf6bqc5stNpy9eTfdzxWnA2GWR2iFVX67XNlyF2ckbYfjwCBLnb2E2KHDA==
-Date: Thu, 9 Apr 2026 17:45:26 +1000
-From: Aleksa Sarai <cyphar@cyphar.com>
-To: Mateusz Guzik <mjguzik@gmail.com>
-Cc: Jori Koolstra <jkoolstra@xs4all.nl>, Andy Lutomirski <luto@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
-	Chuck Lever <chuck.lever@oracle.com>, Arnd Bergmann <arnd@arndb.de>, Shuah Khan <shuah@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "H. Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, 
-	Alexander Aring <alex.aring@gmail.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Oleg Nesterov <oleg@redhat.com>, Andrey Albershteyn <aalbersh@redhat.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, Namhyung Kim <namhyung@kernel.org>, 
-	Arnaldo Carvalho de Melo <acme@redhat.com>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-api@vger.kernel.org, linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	cmirabil@redhat.com, "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-Subject: Re: [RFC PATCH 1/2] vfs: syscalls: add mkdirat_fd()
-Message-ID: <2026-04-09-chic-creative-coworker-wharf-TUf4Z1@cyphar.com>
-References: <20260331172011.3512876-1-jkoolstra@xs4all.nl>
- <20260331172011.3512876-2-jkoolstra@xs4all.nl>
- <pbobkjhtuli53o3z34ajyxztaosmztwlygxfxhhjq5ajt47inc@ngtoge3ucdm5>
- <2026-04-02-aged-convex-snowbird-foxes-Ym20JZ@cyphar.com>
- <CAGudoHH7z8CwAXMxAxTbjfovRBpne5f19Tz0okMh7_6G9NfQ-Q@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y5C3Nu4w"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24C7AC4CEF7;
+	Thu,  9 Apr 2026 07:58:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775721539;
+	bh=vWlsbBNlV4qxxJh+mktKzb+dE9BzzFofWF3ur8Ob5iM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Y5C3Nu4w/fCBUkGKprgozESwjJS2l94AULTHqMmwU6SJoUNQDRtJDsLEwRobzzi4z
+	 dMFUXS8mGNN4q6a2djyCGMWuNIB30YAfU34um99BNH928/q4kVBmFQJUM73ou7ZABi
+	 K6GWcorGWf0WTlaFMoTcrwhWfGOMGqdmEgZWwdQp9xGGJiUlT50QqndTBEVnE93MPP
+	 iz5f1T1ZqbMbfTHPobvw9rE1AzXoyuulPMyFFwKIhjgNMDPpBwYc67TdzDGXbulj7o
+	 uTftzrY7E+0TzoL4uQ2oDMe2RsNIjr75HKWklfIfgOhXi7mw4l6GhKKWXInNJ76BJj
+	 5EtRQ2+Jukm+A==
+Date: Thu, 9 Apr 2026 08:58:53 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: "Harry Yoo (Oracle)" <harry@kernel.org>
+Cc: "Denis M. Karpov" <komlomal@gmail.com>, 
+	Andrea Arcangeli <aarcange@redhat.com>, rppt@kernel.org, akpm@linux-foundation.org, 
+	Liam.Howlett@oracle.com, vbabka@kernel.org, jannh@google.com, peterx@redhat.com, 
+	pfalcato@suse.de, brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz, 
+	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH] userfaultfd: allow registration of ranges below
+ mmap_min_addr
+Message-ID: <addXVDMjY89-cJ4A@lucifer>
+References: <20260407081442.6256-1-komlomal@gmail.com>
+ <adXJop1d0QdH2Mwm@hyeyoo>
+ <CADtiZd3AcY2LwPfCkb782TaY1h50dTPpEzhfLSyMeQeXG6VXfA@mail.gmail.com>
+ <adcUHx27oZLftSjS@hyeyoo>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ysmvgwg663dlrjno"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAGudoHH7z8CwAXMxAxTbjfovRBpne5f19Tz0okMh7_6G9NfQ-Q@mail.gmail.com>
+In-Reply-To: <adcUHx27oZLftSjS@hyeyoo>
 
-
---ysmvgwg663dlrjno
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [RFC PATCH 1/2] vfs: syscalls: add mkdirat_fd()
-MIME-Version: 1.0
-
-On 2026-04-07, Mateusz Guzik <mjguzik@gmail.com> wrote:
-> On Thu, Apr 2, 2026 at 4:52=E2=80=AFAM Aleksa Sarai <cyphar@cyphar.com> w=
-rote:
+On Thu, Apr 09, 2026 at 11:51:11AM +0900, Harry Yoo (Oracle) wrote:
+> On Wed, Apr 08, 2026 at 11:09:00AM +0300, Denis M. Karpov wrote:
+> > > Hmm but it looks bit strange to check capability for address that is
+> > > already mapped by mmap(). Why is this required?
 > >
-> > On 2026-04-01, Mateusz Guzik <mjguzik@gmail.com> wrote:
-> > > Trying to handle this in open() is a no-go. openat2 is rather
-> > > problematic.
-> >
-> > I'm interested in what makes you say that. It would be very nice to be =
-able
-> > to do mkdir + RESOLVE_IN_ROOT and get an fd back all in one syscall. :D
-> >
->=20
-> Not handling this in either of open or openat2 does not preclude mkdir
-> + RESOLVE_IN_ROOT + getting a fd in one go from existing.
+> > Actually, it's not obvious to me either, but I may miss something.
+> > My intent was to replace the current restrictive check with a more flexible one.
+>
+> Technically, it's less restrictive only if start < mmap_min_addr
+> (setting aside the discussion of whether this is an appropriate check).
+>
+> Otherwise (start >= mmap_min_addr) it's more restrictive? (now, the process
+> should have the capability when registering an existing VMA to userfaultfd)
+>
+> > I think performing this check here allows us to deny invalid requests early,
+> > before locks or VMA lookups occur.
+>
+> But we're not trying to optimize it and we shouldn't add checks without
+> a proper explanation for the sake of optimization.
 
-Well, that would also require passing RESOLVE_* flags to mkdirat2(2)
-which kind of begs the question why not just integrate it into
-openat2(2) -- otherwise there will always be more features available to
-O_CREAT than mkdirat2(2) which seems unfortunate.
+Duplicating this kind of logic in the already horribly duplicative (and more
+generally, horrible) UFFD implementation is actively buggy and incorrect IMO.
 
-> Creating a directory was always a different syscall than creating a
-> file. I don't see any benefit to squeezing it into open. I do see a
-> downside because of an extra branchfest to differentiate the cases.
+I also find it extremely odd that we are validating that a... source
+address... is... mapped that way (in userfaultfd_copy(), we validate
+uffdio_copy.src using validate_unaligned_range(), as well as the destination via
+validate_range()).
 
-Ah, so it's just an issue of taste, not a technical problem (as the mail
-I replied to made it sound)?
+It just makes no sense to me at all.
 
-> > > The routine would have to start with validating the passed O_ flags, =
-for
-> > > now only allowing O_CLOEXEC and EINVAL-ing otherwise.
-> >
-> > Please do not use O_* flags! O_CLOEXEC takes up 3 flag bits on different
-> > architectures which makes adding new flags a nightmare.
-> >
->=20
-> With my proposal there are no new flags added so I don't think that's rel=
-evant.
+Let's get rid of it.
 
-I'm confused, was "the new routine would have to start with validating
-the passed O_ flags" talking about a hypothetical API you oppose? It
-read like a suggestion on my first pass-through, hence the reply.
+>
+> > Removing this check entirely would also allow using UFFD in cases where a task
+> > drops privileges after the initial mmap(). This seems reasonable because the
+> > VMA already exists, i.e. kernel already allowed this mapping.
+>
+> Yeah, that seems reasonable to me.
+>
+> IOW, I don't think "creating a VMA on a specific address (w/ proper
+> capabilities) is okay but once it is registered to userfaultfd,
+> it becomes a security hole" is a valid argument.
 
-If you're saying that your proposal doesn't add any new O_* (or
-MKDIRAT_*) flags that really isn't the issue -- any syscall that takes a
-flag argument will grow new flags eventually and using the literal value
-of O_CLOEXEC for some other syscall's flags just leads to burning three
-flag bits needlessly.
+Yes.
 
-This is arguably the most painful thing about open_tree(2)'s flags --
-most other syscalls define their own flag that is equivalent to
-O_CLOEXEC but not literally equal to it (this is even recommended in
-Documentation/process/adding-syscalls.rst!).
+>
+> And we don't unmap those mappings when the process loses the capability
+> to map them anyway.
 
-> > I think this should take AT_* flags and (like most newer syscalls)
-> > O_CLOEXEC should be automatically set. Userspace can unset it with
-> > fnctl(F_SETFD) in the relatively rare case where they don't want
-> > O_CLOEXEC. Alternatively, we could just bite the bullet and make
-> > AT_NO_CLOEXEC a thing...
-> >
->=20
-> I would say that's a pretty weird discrepancy vs what normally happens
-> with other syscalls, but perhaps it would be fine.
+Once it's mapped it's mapped...?
 
-Quite a few of the newer uAPIs do this -- all of the pidfd APIs do it,
-as well as newer ioctls that return fds (like the NS_GET_* ioctls for
-nsfs).
+>
+> > In the [BUG] thread discussion
+>
+> Was it a private discussion? I can't find Andrea's emails on the thread.
+>
+> > Andrea Arcangeli also suggested adding a check for
+> > FIRST_USER_ADDRESS to handle architectural constraints.
+>
+> Again, what's the point of checking this on the VMA that is already created?
+> *checks why FIRST_USER_ADDRESS was introduced*
 
-Clearing O_CLOEXEC safely is trivial but safely setting it is not really
-possible in multi-threaded programs (see "man 2 openat"), so it makes
-more sense for newer APIs to just default to O_CLOEXEC and userspace can
-unset it (and that is what newer APIs already do).
+Yeah this is just the exact same thing with a different thing to compare
+against no?
 
-We should probably update Documentation/process/adding-syscalls.rst to
-mention this...
+copy_from_user() will handle this in mfill_copy_folio_locked(), returning an
+error if a user tried to copy from somewhere they shouldn't have (the same way
+as if the user tried to copy from somewhere else they shouldn't have).
 
---=20
-Aleksa Sarai
-https://www.cyphar.com/
+Let's not block on off-list sidebars.
 
---ysmvgwg663dlrjno
-Content-Type: application/pgp-signature; name="signature.asc"
+>
+> commit e2cdef8c847b480529b7e26991926aab4be008e6
+> Author: Hugh Dickins <hugh@veritas.com>
+> Date:   Tue Apr 19 13:29:19 2005 -0700
+>
+>     [PATCH] freepgt: free_pgtables from FIRST_USER_ADDRESS
+>
+>     The patches to free_pgtables by vma left problems on any architectures which
+>     leave some user address page table entries unencapsulated by vma.  Andi has
+>     fixed the 32-bit vDSO on x86_64 to use a vma.  Now fix arm (and arm26), whose
+>     first PAGE_SIZE is reserved (perhaps) for machine vectors.
+>
+>     Our calls to free_pgtables must not touch that area, and exit_mmap's
+>     BUG_ON(nr_ptes) must allow that arm's get_pgd_slow may (or may not) have
+>     allocated an extra page table, which its free_pgd_slow would free later.
+>
+>     FIRST_USER_PGD_NR has misled me and others: until all the arches define
+>     FIRST_USER_ADDRESS instead, a hack in mmap.c to derive one from t'other.  This
+>     patch fixes the bugs, the remaining patches just clean it up.
+>
+>     Signed-off-by: Hugh Dickins <hugh@veritas.com>
+>     Signed-off-by: Andrew Morton <akpm@osdl.org>
+>     Signed-off-by: Linus Torvalds <torvalds@osdl.org>
+>
+> Oh, ok. there might be a raw mapping without VMA below FIRST_USER_ADDRESS.
+>
+> Adding such a check wouldn't hurt... but if there is no VMA, you can't
+> register the range to userfaultfd anyway?
 
------BEGIN PGP SIGNATURE-----
+Exactly... and I don't want to see us randomly do checks that already happened
+previously.
 
-iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCaddZFhsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMiwyLDIACgkQKJf60rfpRG+2igD/QwWbRDT79+zw0U60bypI
-YXwNBLVfChskScmAh2h29KoA/0pakhamlU7+JdqG90l2cHnQXZllKMVFS64unuHR
-y7wB
-=/i4S
------END PGP SIGNATURE-----
+Putting duplicated bitrot-baiting code in what is one of the worst areas of
+mm is not something I want us to do, and would like us to actively remove
+anything that already exists like this.
 
---ysmvgwg663dlrjno--
+And the fact that this is in an fs/ file is even more annoying to me. Really I
+don't think _any_ meaningful uffd logic belongs there. Especially since we have
+a bunch of other uffd crap in mm/userfaultfd.c.
+
+The fs/userfaultfd.c file should be a bare-bones thing that handles the fs side
+of uffd _only_.
+
+Cheers, Lorenzo
