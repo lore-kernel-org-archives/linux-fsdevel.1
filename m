@@ -1,97 +1,98 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 498D43C3C0E
-	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Apr 2026 15:11:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775747477; cv=pass; b=lb73eVv1SBZnyy8yByS6A+NeqcT4ScdveZq6ro4y0TWAsEUKJRZjdreZmvietPWl4rpv8bZXiZKvZDe/DlcVps4Chb3Ziu5C3wlINX5TGYwOhxrOFDJDBhae7u6I9WOd1H4DgBOG7RLeeS4UBctvHFIReXDv2Y9jK3yHtk0F5NA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775747477; c=relaxed/simple;
-	bh=660ytwGdCFipcecnJRMdhbLivK3uL/iOdRo1f5tFBls=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=LKlGKKdZs1OoyqWU+QG/vynO1uuO8yWuRiN5Cd4oTf1/ObtGJY6HSZOXMlCV0UxEAW+Ttyjm4WzZu4N9FD9ILwMR/rLi4GCN3EFY9S+stLhzUNViTcrM3/P9ldWM6fHkoMaAZqaZYiQwiWhkeMJ2xGS1LKCp8MAb8alUY6NhHX4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=BI7NfpCs; arc=pass smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1EF539023C;
+	Thu,  9 Apr 2026 15:13:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775747605; cv=none; b=lIgdtjl/4dcY7xQBU6U5PpyzFapN6JMpGswbXcI5KlqwJ4POXTQ7dFQBxqdNm36GrMxmqDaE+h8PgNsWkKKN5HOqjLPbxfNDZvKdEAXk3v5FxItpzDMWNjAuXLtmfCW6wLnomHVBNGJHAvHmhet0ipdvm7bMMH7hpdVPrDi7a1g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775747605; c=relaxed/simple;
+	bh=owesWMMhEZ10jRbXPNEnxMG0zX+QmTfFOcYuaS6Uh0o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b7OZHjPTSXqE6oqnPC12DsG2FrrVc7lScgy+Nf4aY2nEZufVyvL1+foIwxZnorMV+LpGIvdXmURCYEwAUK4r2sDd/XNQxMeM+XVoR2ivnEeCa8wzRfDqhOT4LTCewW1ivMyZn21JVHwVCCGDKvsotbqet54FyqMTXrBmz2AT6Ck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l4EN9yu5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="BI7NfpCs"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-506aa685d62so5328931cf.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 09 Apr 2026 08:11:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775747474; cv=none;
-        d=google.com; s=arc-20240605;
-        b=FVBBtS4SJOipMXlZW8o9TYFwO+9x/wPaHEbzUaSizhxy+LtIi40yNE7+BUV9G7O+XY
-         VZB1t6uenaWnOlTIsb57p00yMO9IFtOY6dL/KIWneRR004QSQdPfLH1SeE9blgw8A07c
-         yzCDdVMGc1Ju9kFta++tcXywM3WcYb671rYmVzAC7L7kUgf2KFoQjqejqP6WX7KsbSmL
-         xgjZ8yys0OUNnZgEzCCDOPkstEQUs5sLqh+0eD/eR5qQryRPxWZZ3+9JJZM2G6PNzeVh
-         RfGABA+Mp5J3AyHp0Xo4T7k6hHLHWhUOHMzRhhmkXKHmwdINMq3iEjq4GDIwXGZ35x4B
-         9WgA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=660ytwGdCFipcecnJRMdhbLivK3uL/iOdRo1f5tFBls=;
-        fh=tSxdqRTOhASNgR/orh4Zmgr3JP5xIXUKwWJ2N+MoR7E=;
-        b=dtq1Ewd1WxHHGhQpEuwdwclsrBPhygQdgnz1tXMIxXSTuCUOYSfjBUosiHzjABtO+Z
-         1Tc3mRyA2JNbbhnEm2iVfBJk/I9M5XbI7dxm8gXKbiOIH5HwIkBqwxyAPn5fDsdWwq/p
-         T12/kLYn2uYWApdxDq+Y2+joarioK97hMQgLJJ1HrG6rodMw0DqHTpXauJWm8QIQEuvp
-         TR+fAKJLat7p8Qy0ivtWBuEXdxuBJJiDLzZmp6v6FE1w7Q30nkxpad4ofbz44dvzrab+
-         Z0NhRRRqSZGs2mW5WA5Y9l2Gu6+0M3ZAKZ9LbdRpVYJcd4lNArRw6Gq+Vr8xO/pXndCo
-         leCQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1775747474; x=1776352274; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=660ytwGdCFipcecnJRMdhbLivK3uL/iOdRo1f5tFBls=;
-        b=BI7NfpCsXQ1FMOhUXiHbGbMG5/zYuWGRz9HdPKIlJQQfWS/pOyXcgpzxX9FEHLONch
-         vcjmT0vqBAFFqR7FvKS9+oNEKwFswyklDcl+5CA7VpPjsxNksWYxtE3f4ffaUVTQZ2wo
-         DA54G+ByCIP23j1QThms3halHLj/D4XLLqG3I=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775747474; x=1776352274;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=660ytwGdCFipcecnJRMdhbLivK3uL/iOdRo1f5tFBls=;
-        b=RJNCm6kdecrguzqGm8jyLPKGcFxFL7hG5gEOuWAZQHZ7YnpecGCjTe0VVBN0N8udt2
-         UNKx5zk7q6OzGpwYk+qQ3IIt8V9m2wp8rWdKXq1riLLT5ThXhidN75de/ljf2Nk32qtS
-         agqmiulK+Gttg8eeteikDT7JRW0q4WdU3jN6pG4ZQBWZd0/uF0mB+0yprZC6bx6pDQ3J
-         JgU1MDS0XNBMU//6T+lpgvUs5Spd3LRoPCpMc0x5u2joqt1iGrV9MdSKT/4TXFkzN4mD
-         iHr3NFEQAc8/RLMd/VRvQn/9ugxUToyi0AhazXImbqlu0nWG/dYvz5yIdXdbwAtfC+8u
-         cS5w==
-X-Gm-Message-State: AOJu0YwR7830GFUgImB04khMvxQyl3dNly3N1jEkax+kdyks2B5FoKvI
-	Rr8uQUymd1zGr/SHSo64Mpy7jK0GNAwVDo2mf8fgh+hx9DJ5WpIYW7oFY7tFhp0lz9Q1NMXlfKp
-	0ATU0jbtwe0UFUaLn+3W9yukl2YBFYnAkaJj4+1wa4A==
-X-Gm-Gg: AeBDievJuW99JorU5eXtZ7DrIYtvkEvHJYgAlZxqIi//N7J2Qok1SBvZGezb/cZhoTP
-	G6YzNFWtvNVjrzGkWDVkIR3qbErBpT2HvvYQ64msTucwcn+N0dnwm7JDKlkO3uB8FsybdDNdomv
-	p6VDU1NByh9q/bD45KHiphTG8rJll9wUWiAC59hcO4LXfBhdggv2S/yePWDVBFaspQ2cpkUBH5I
-	EdaeGFUZVRLBJuUinXyUMmgcJPd97QzXWAb7h4En3ZFC5Juh5v1f1oq+sdmy2Ai40Jr0pZ/BoL3
-	pNLKD06XhA==
-X-Received: by 2002:ac8:5f09:0:b0:50d:a602:1263 with SMTP id
- d75a77b69052e-50da6021b8emr153731801cf.63.1775747472989; Thu, 09 Apr 2026
- 08:11:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l4EN9yu5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6ECCC116C6;
+	Thu,  9 Apr 2026 15:13:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775747605;
+	bh=owesWMMhEZ10jRbXPNEnxMG0zX+QmTfFOcYuaS6Uh0o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=l4EN9yu524R4fMKtvtcTuJmGimqWFPvuyMWu5Y+SlnHXdSp+SHpy8AtM2EXrf1522
+	 rXrnFY8/E5aAHwDVA0tlaQk+rsUzOydQolkX2P8gn+nAHCetUtkzB2mxwLJ2dWaej/
+	 SevoiQOBFet5p4dBRVg3GCjZ8t6KTwvFLfgV8O48llfr3A3yO2Kz+JlIzNhP0uDSw4
+	 mtdrfqI8M/fsL/wa33uQffEvI2UxZtt2/8BOTJeLX2Tt6fimxeCAfaS+gAhC71N6EF
+	 ZUcN9x87gzSTFDol4yR+vKH1kft72K1FWXfiSoOlNpzr310/3F5quZSDr++OwnN+2M
+	 u5BEbnaY47OpA==
+Date: Thu, 9 Apr 2026 18:13:17 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: "Denis M. Karpov" <komlomal@gmail.com>
+Cc: harry@kernel.org, akpm@linux-foundation.org, Liam.Howlett@oracle.com,
+	ljs@kernel.org, vbabka@kernel.org, jannh@google.com,
+	peterx@redhat.com, pfalcato@suse.de, brauner@kernel.org,
+	viro@zeniv.linux.org.uk, jack@suse.cz, linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	usama.arif@linux.dev
+Subject: Re: [PATCH v2] userfaultfd: allow registration of ranges below
+ mmap_min_addr
+Message-ID: <adfCDR9Rh9p6aZun@kernel.org>
+References: <20260409103345.15044-1-komlomal@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Thu, 9 Apr 2026 17:11:02 +0200
-X-Gm-Features: AQROBzA_jumnGHTkG244U7GC7e0Lq4nDolWVxkvWe_y17iutpYA6vGvZlFm4XUA
-Message-ID: <CAJfpegsxe=QdrGGPVSUWfJunDKvOXoszy6BnaP0MjHpRS7rHHQ@mail.gmail.com>
-Subject: fsnotify_prepare_user_wait() bug?
-To: Amir Goldstein <amir73il@gmail.com>, Jan Kara <jack@suse.cz>
-Cc: linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260409103345.15044-1-komlomal@gmail.com>
 
-Hi,
+On Thu, Apr 09, 2026 at 01:33:45PM +0300, Denis M. Karpov wrote:
+> The current implementation of validate_range() in fs/userfaultfd.c
+> performs a hard check against mmap_min_addr. This is redundant because
+> UFFDIO_REGISTER operates on memory ranges that must already be backed
+> by a VMA.
+> 
+> Enforcing mmap_min_addr or capability checks again in userfaultfd is
+> unnecessary and prevents applications like binary compilers from
+> using UFFD for valid memory regions mapped by application.
+> 
+> Remove the redundant check for mmap_min_addr.
+> 
+> Fixes: 86039bd3b4e6 ("userfaultfd: add new syscall to provide memory externalization")
+> Signed-off-by: Denis M. Karpov <komlomal@gmail.com>
 
-Maybe I'm misreading the code, but shouldn't
-fsnotify_prepare_user_wait() filter out marks that are in different
-groups from the one being acted on?
+Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 
-AFAICS the current code allows failure of a permission event, for
-example, due to an unrelated group being torn down in case the current
-group doesn't have a mark for a certain type, while the lower prio one
-does have a mark with that type.
+> ---
+> v2:
+> - Remove the check entirely rather than replacing it, as suggested by
+>   Harry Yoo and Lorenzo Stoakes.
+> - Added Fixes tag.
+> - Link to v1: https://lore.kernel.org/r/20260407081442.6256-1-komlomal@gmail.com
+> ---
+>  fs/userfaultfd.c | 2 --
+>  1 file changed, 2 deletions(-)
+> 
+> diff --git a/fs/userfaultfd.c b/fs/userfaultfd.c
+> index bdc84e521..4b53dc4a3 100644
+> --- a/fs/userfaultfd.c
+> +++ b/fs/userfaultfd.c
+> @@ -1238,8 +1238,6 @@ static __always_inline int validate_unaligned_range(
+>  		return -EINVAL;
+>  	if (!len)
+>  		return -EINVAL;
+> -	if (start < mmap_min_addr)
+> -		return -EINVAL;
+>  	if (start >= task_size)
+>  		return -EINVAL;
+>  	if (len > task_size - start)
+> -- 
+> 2.43.0
+> 
 
-Thanks,
-Miklos
+-- 
+Sincerely yours,
+Mike.
