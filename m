@@ -1,135 +1,131 @@
-Received: from canpmsgout08.his.huawei.com (canpmsgout08.his.huawei.com [113.46.200.223])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 757A929B78D
-	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Apr 2026 13:45:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.223
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775742321; cv=none; b=hZtXbfSgL/+z8nIcxJGSPo6WeMPYb+t21RuWDBhHirAm+Zr5NH7hzoZ2AQAcobdQqctMTUO4RwqVitOK802VK0bJSD9ZyFDd9LSwYGv6aNc4EQxNsmJsRIzRMOz134dt88/4EKMZBvV19gbRD8sfD8xet8xJrwMgZLEVzseJnWY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775742321; c=relaxed/simple;
-	bh=/Q8XhsKUf9+1RZBBNCrZXZbKX/wirTtKJz8rnNQZLn8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=VyaO1dDIcYvGlZjhXASICkNR0C42ULD5IuXa3yWNhH3RvunQSs2ecdEI5Uo7gT7TCvESRoz4Bu4nWAFMyuIDjetPvib6lgxOw6yGcCqrlTwZm0VTw4BEZSPA8lfMv+73DKYFgCeZzqvm/30n2wj6UjBqS7BE114TzbphTTp36p0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=QqozcRe0; arc=none smtp.client-ip=113.46.200.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE7FA3D88F6
+	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Apr 2026 14:04:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775743450; cv=pass; b=XCnMJfySngUGmGcEKFZraVKoYVcFSfARdw7EWPqEPcarDmqmbCxqG+P3Nplpl6A/g7JzB21nmHxLyDtgd+rWshNKJm20yNtlrluAB8bERhUH8i3PUTu/2t8HXISetg+fHYwlPzQdkY21ke87zoJAZu2H0OersPNh7AyHVd5DpT4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775743450; c=relaxed/simple;
+	bh=gqUmfP4EYl4QgkwnCetuwgSQhMe5JhxTNpQBw2MnZMs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rwOMGClHLOkVZJNUiEmUn36zhWHwHdWze4KTaGOlK9qRToHJT+4U7YOySydLbzL1/hU4o+J5JGgRF/UFRHS2MWsDNMXcjVQJ/p2SrNFSKYzWJFVP8WnJb2qDhNhJzAhDsf4zcsTNxl/5U2Q1TyA9jbd6d6JEHOIAkmypn/Uey0A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VUEkHA+M; arc=pass smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="QqozcRe0"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=gJ3AK0pFALltuMA1doiDwlpqhRI344SC4WJuiz5X1dY=;
-	b=QqozcRe0aKq0MNTlS8Hpb0XYFDQ4Bt6buwo6ox398OnNhv5CnKMRSYyPq/jF6/dPTdUhMn2ge
-	u2q+qYnbUZb1sKawAVk7hxVOD1D2bMnDnubvnDZahA9guoqsqJSQ6QjlmEGpxqKIcvdLHf6rX/D
-	aznrGZ3Y+1+JUPYzRv518fc=
-Received: from mail.maildlp.com (unknown [172.19.163.163])
-	by canpmsgout08.his.huawei.com (SkyGuard) with ESMTPS id 4fs1HR34HTzmV6X;
-	Thu,  9 Apr 2026 21:38:59 +0800 (CST)
-Received: from dggpemf100008.china.huawei.com (unknown [7.185.36.138])
-	by mail.maildlp.com (Postfix) with ESMTPS id AC28F4048B;
-	Thu,  9 Apr 2026 21:45:15 +0800 (CST)
-Received: from [10.174.177.243] (10.174.177.243) by
- dggpemf100008.china.huawei.com (7.185.36.138) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Thu, 9 Apr 2026 21:45:13 +0800
-Message-ID: <1141f0ca-3b43-455f-bfa3-39c6da68ee58@huawei.com>
-Date: Thu, 9 Apr 2026 21:45:09 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VUEkHA+M"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-66fb5f2183fso1562062a12.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 09 Apr 2026 07:04:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775743442; cv=none;
+        d=google.com; s=arc-20240605;
+        b=MJzZ0Jl0GJiN8SRfceDQIcOFzsKlLEozbMGnXPRzsQZHui3jSaqUe039EBa5Ynhy6x
+         F2zrVsFztpYM1JpORREv3hs4uoT2KVVNolECw4tajaLF8X7L4QzcX4KoniZTPtWcX07v
+         5pzzB6CUHWpUoUDEmq6GsGQg5bf2ve59Dj67wOwb67mN39mYd6YoG8ZJzBQe4/Pgm2DI
+         hkyj8lkmJkThQhWeQ3VfECrQdnhOgroaPvwCBQQ2lE6VKO/oU3qCQgqklTyDZ36AF6WG
+         E+0UOBHffdn8GiWg2NxdJ2fc/9dkDOnwVeM15GHfbHD68nlpbCqu7GwewRr3RZ5gv5Tm
+         XQug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=gqUmfP4EYl4QgkwnCetuwgSQhMe5JhxTNpQBw2MnZMs=;
+        fh=jCqA67vYZzwlnE5XOI/6p2l2QHEP12didErNLJu0aaM=;
+        b=S53Oy1v5zzL36GsQnNT2znBjxDgi53bRmJV5w3VuFhbYqZu9Ahj5It+dNjvhg/xELX
+         BEDBO0daEhQ99mUu1jr/kjVxvlgmWSjinYwXVvWdN/DdYDmtyEpfQcrNtmxEX7otCqtp
+         uX1V3Y8FSF8cSAqMmmshg4FEQWTZ7HejqT3JlC0lXn9iGcits9L0bn/mDVQC/uS4Ze54
+         i7Lzn+HOSG5KtdicKNHDRzG3ZcH9lNaQ1NGgXadictyu0rnVvwYDo+GMF4RtpcCwJHcf
+         osT2V7yke3OQFmcJ3xYzpE6Jv7bzKJZNlG+Mg5dqw0x1+tr3I+9ZIuf6hWXHvFJmE8D5
+         IZ3w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775743442; x=1776348242; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gqUmfP4EYl4QgkwnCetuwgSQhMe5JhxTNpQBw2MnZMs=;
+        b=VUEkHA+MpjLxMu6ejZntX7ZMU0g4EaXS+Yx2a5VNh7NA0mohemlYp3lkLlsAxHs36t
+         d7ixjAj4vmvRiGTMoc1F5klH73jN0W5GjAItyflHVOG1FYRdLS0UtRNL/Cjo1RWQRDdY
+         fltNHEZjD5QXczxESDvjowp+ZLTF6PX8bCZFwHBY4PRP2tj38vufp2L2K/6EI046o2fS
+         6PryS+ZibBKxF5b2fcO98PJiE86XwucEy/PFJnAN/Yx+Oz9UjnG584jWLDhO5c6ovgZr
+         Tz9PPMW+3m1Yw529NR7G2sYLNX0s+NEGxcQVQeIpaBlUFoB6WkGcA+y9Tc5klgpg4F/n
+         Iukw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775743442; x=1776348242;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=gqUmfP4EYl4QgkwnCetuwgSQhMe5JhxTNpQBw2MnZMs=;
+        b=IMxJ/1I7ZPJJ6QKXszZI+TQ9vPs4c6f3j9xm16aQBz7cVAvfBBo4qAs0bgMYd+7dK+
+         fhGLxfpwcjDEEocEZgXHSnZsFJBNm7IvwK+3hT+YlcEOPd6Xs/OXOAlgknGU3pxcYreY
+         qt5HaEJIMrwX5Lpj4saxBcmBt1Q00YeoO+WoJNTa+BGK6EYWzWqWejUw6Db+xyjB3FT2
+         0XYtlsEjwu+5AA6buzMx8FbaYetLK2AT+1izZnz0DUBu44kzyN8NU+LhPsV1q17eqr0W
+         UtnFtgdpNEXOys1s/TUHkDZYVgDsJtcyIi7lv3xNlw6+qBZH8QYjGLrEwWvKJ5I3FQNN
+         JH6w==
+X-Forwarded-Encrypted: i=1; AJvYcCXSYfHUBH200EM+THBQNrm+0DrVwmfBddVNNKlSA0hkldBnzGswSNDRoceGSXhSsaWTF9iGOB8pCo9Sm6/q@vger.kernel.org
+X-Gm-Message-State: AOJu0YwbWE/YYmKa3aRdgLeUGVsb/CCLFc5zFyvljnWk9wBwcY9lhPlp
+	3f4fGQQtNlPEprm7JRkW0AobbucszNxA+o3P00mjTTGLF4yvnUbmQwB1opeQmTuwJDsqi7aS5ub
+	xUeqWWBsNSBHy6LaTAluAAEK/fpwdLxs=
+X-Gm-Gg: AeBDietN6WgDoH/kcjjsfjPTXU3igpZVcyLJA4zoNGycSDTRvCIpw9xB7xIL+s9I+QV
+	JyVNLUMPe3VeCqBBHkQ1zL4Ww0ZS1JQgr4Ji9R5/1TO3db/ke75Z0Crl0mW73j1tq31nO2AUBZM
+	LX85zfXcERd9fWZcWQXLpSuXi2R+AQXzb7mILRJpDIheaT5fK9qeXfeTh8QFO/hyhN+YeLh+0sh
+	NqT6zG3aVClI/l9IsTP+nqWRmcLiYrAGYeRPCGhso01t/oPdPdEsdBcLVp8UU7E9qRYLB+XUXGy
+	2Vt8oCueZJ7V+NdZWyc0cBJ1QuViITItWmKsuu2Wpg==
+X-Received: by 2002:a05:6402:430f:b0:66e:c7e3:55bc with SMTP id
+ 4fb4d7f45d1cf-66ec7e357d9mr9096793a12.23.1775743441546; Thu, 09 Apr 2026
+ 07:04:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC] fs: drop_caches: introduce per-node drop_caches
- interface
-To: Michal Hocko <mhocko@suse.com>
-CC: Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand
-	<david@kernel.org>, Christian Brauner <brauner@kernel.org>, Alexander Viro
-	<viro@zeniv.linux.org.uk>, "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Jan Kara <jack@suse.cz>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, Lorenzo
- Stoakes <ljs@kernel.org>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan
-	<surenb@google.com>, Vlastimil Babka <vbabka@kernel.org>,
-	<linux-fsdevel@vger.kernel.org>, <linux-mm@kvack.org>
-References: <20260409063503.3475420-1-wangkefeng.wang@huawei.com>
- <addP4MKmA8zfSN1o@tiehlicka>
- <dbb92553-58ba-42e1-b7df-b8450bd69d33@huawei.com>
- <addhuRqrB-u7oDp8@tiehlicka>
- <bdd49511-9b84-42cc-a286-9fdf2ef531a7@huawei.com>
- <adeFBKzNq9rNzbHk@tiehlicka>
- <95bc0034-a72b-449c-9be4-b691fd03dc1e@huawei.com>
- <adejDzw8Mf6407-a@tiehlicka>
-Content-Language: en-US
-From: Kefeng Wang <wangkefeng.wang@huawei.com>
-In-Reply-To: <adejDzw8Mf6407-a@tiehlicka>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
- dggpemf100008.china.huawei.com (7.185.36.138)
+References: <20260225112439.27276-1-luis@igalia.com> <20260225112439.27276-7-luis@igalia.com>
+ <CAJnrk1Yxpy0+tx2yb7CxVVwF9gqNRz_pHH5NUpBHOg55NNooJA@mail.gmail.com>
+ <87v7e24gdw.fsf@igalia.com> <CAJnrk1aG_N-FVJfNpoU6iLcA6XHsUvWe74E0Pkth-hev9zgmHg@mail.gmail.com>
+ <87fr55lpu4.fsf@igalia.com> <5c13b5ae-ca74-4fd8-97ec-39f24ccfd5c2@linux.alibaba.com>
+In-Reply-To: <5c13b5ae-ca74-4fd8-97ec-39f24ccfd5c2@linux.alibaba.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Thu, 9 Apr 2026 16:03:49 +0200
+X-Gm-Features: AQROBzBW00Cw63h_SOIyarS0DPMRFfif399CKVOAyHMZMLCTm1-921EO6sol8i0
+Message-ID: <CAOQ4uxjRN9hCXwxmy3rwsR-vaHN0d2+i+U1pOC7WgSwSdWCC7g@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 6/8] fuse: implementation of lookup_handle+statx
+ compound operation
+To: Jingbo Xu <jefflexu@linux.alibaba.com>
+Cc: Luis Henriques <luis@igalia.com>, Joanne Koong <joannelkoong@gmail.com>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Bernd Schubert <bschubert@ddn.com>, 
+	Bernd Schubert <bernd@bsbernd.com>, "Darrick J. Wong" <djwong@kernel.org>, 
+	Horst Birthelmer <hbirthelmer@ddn.com>, Kevin Chen <kchen@ddn.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Matt Harvey <mharvey@jumptrading.com>, 
+	kernel-dev@igalia.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, Apr 9, 2026 at 4:27=E2=80=AFAM Jingbo Xu <jefflexu@linux.alibaba.co=
+m> wrote:
+>
+> Many thanks for your work on this.
+>
+> Just FYI We are also interested in the kernel-maintained filehandle,
+> which can dramatically help reduce the memory footprint on the FUSE
+> server side.
+>
 
+Hi Jingbo,
 
-On 4/9/2026 9:01 PM, Michal Hocko wrote:
-> On Thu 09-04-26 20:50:33, Kefeng Wang wrote:
->>
->>
->> On 4/9/2026 6:52 PM, Michal Hocko wrote:
->>> On Thu 09-04-26 16:54:48, Kefeng Wang wrote:
->>>>
->>>>
->>>> On 4/9/2026 4:22 PM, Michal Hocko wrote:
->>>>> On Thu 09-04-26 16:08:37, Kefeng Wang wrote:
->>>>> [...]
->>>>>> To use the reclaim interface, there are two differences,
->>>>>>
->>>>>> 1) we need to input the reclaim numbers and swappiness, this is not a big
->>>>>> problem
->>>>>> 2) for reclaim, it supports swappiness=max to only reclaim anonymous pages,
->>>>>> but cannot only reclaim file pages,
->>>>>
->>>>> Why is 2) a real constrain?
->>>>
->>>> This should not be a restriction, but a strategy. Our product wants to
->>>> migrate anonymous pages to the local instead of swapping them out. However,
->>>> the current per-node-reclaim interface does not support reclaiming only file
->>>> pages.
->>>
->>> Yes, I do understand that you want to keep your hot anonymous pages
->>> resident on some node. Those shouldn't be reclaimed by the user space
->>> triggered reclaim anyway, right? Migration will then happen during the
->>> memory offlining.
->>
->> Yes, that we need.
->>>
->>> This will certainly require some fine tuning but I do not see any reason
->>> this should be completely impossible. Certainly a more robust way (from
->>> API POV) than the suggested drop_caches. I am also not convinced we need
->>> page-cache-only reclaim for the existing reclaim interface. I believe it
->>> makes more sense to look at the reclaim from hotness POV rather than
->>> anon vs. file.
->>
->> It is already support only reclaim file pages when swappiness = 0 for
->> memcg.reclaim, but not for per-node-reclaim, so we can just make a few
->> small changes to enable it(no tested)
-> 
-> This might be small changes wrt code impact but they are changing the
-> semantic of the interface and that needs proper analysis of impact,
-> potential regression risk and also evaluate whether this is what we
-> really want/need. Memcg has been special in this regards from early on
-> and we pretty much had to keep the status quo IIRC.
+I might have told you this before. I don't keep track of who I shared this =
+with.
+If you are implementing a passthough fs to a backing fs like ext4/xfs which
+CAN open a file by inode number, you could already use this library
+that I developed for our in house passthrough fs, to reduce memory footprin=
+t
+of server:
 
+https://github.com/amir73il/libfuse/commits/fuse_passthrough
 
-For proactive reclaim, there are three interface for now,
-1) lru_gen:  called lru_gen_seq_write()
-2) memcg.reclaim/per-node-reclaim :  called user_proactive_reclaim（）
+It was my intention to adapt this library to also work with LOOKUP_HANDLE
+to support more backing fs after LOOKUP_HANDLE is implemented.
 
-
-I think it is reasonable to provide more strategic options for user 
-proactive reclaim. The new code changes the semantic of lru_gen/per-
-node-reclaim, but not memcg, so if we do need to avoid potential
-regression, maybe add something like swappiness=min to only reclaim
-file page.
-
-
-
+Thanks,
+Amir.
