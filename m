@@ -1,127 +1,170 @@
-Received: from mx0a-00364e01.pphosted.com (mx0a-00364e01.pphosted.com [148.163.135.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2474A31E832
-	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Apr 2026 18:59:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F096333262C
+	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Apr 2026 19:01:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775761160; cv=none; b=Sgb+EZXnCCaAB1nc2MYYuP+T6GgxRYTg59xG+sSx4nBGPkCxIdWBcQEavjazYgddy/xps7b3jPSKYMErNtDipwFbpISMLtfBDFYRLPZB/jPmXf5HidiSkI89wmgcMYqltDsmjX1ZNa/pYuHTTew3EOS1d8jRvC1AzcaorTyN6KA=
+	t=1775761279; cv=none; b=MgZJ7Qu7xkVNyn3Xr1rzhsaICJsjfYRwAbCgSmpm4RIQWSKxQCGgZ+3FJnV5ysQa4thLtWpeuCj90UsOTaq09kQ498CyzI6bhDzLQN4rwGxEMSOQhyCSKlzQqLyJCV9M+rV8UD/9FKuQhWpYBncJgh0VOfI5oFk3nty0TJLmdzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775761160; c=relaxed/simple;
-	bh=83mNKZIsBND3Lg8+THcthV/SuzYcLTq1w+CNeg0fbZc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Pq7relgBRN3T7H/jVKRdzzSJLQhBsWou62raNyKFkhfaNPvhOF/apwfsL8brpVYhzIIHAoTTX/168/xLf5ToKSipQ3dJSPupv9l9mmRtnK/7CZ0aWCzJ0ewedMhdBvCoEge2MIpZ/vAYA1B0KTaKDC1JKvIzFaPJUsFaNyImUGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu; spf=pass smtp.mailfrom=columbia.edu; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=EHz3tC4l; arc=none smtp.client-ip=148.163.135.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
+	s=arc-20240116; t=1775761279; c=relaxed/simple;
+	bh=hY0KfO1K/z022Q1PuKLkfRl6gjvByumiYd+sln7YkjI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tCBolDBehILaBVRIzi79nNnrvmKNK8g/MLkJzeR7YYaoTcEiPeVMCIai3N5IDttZRgbCwdT6jzrEHOFyP+D/EHqDU5Ipwjmyivf5doW2bZsi9ISgqtnt1QaZnhclRahpe+kQ3SMOVZ2MtSDUIpFKGk1vGUWzoBW9VfXMIUrMJP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=U4+H5Moo; arc=none smtp.client-ip=209.85.128.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="EHz3tC4l"
-Received: from pps.filterd (m0167072.ppops.net [127.0.0.1])
-	by mx0a-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 639IuCpT4153791
-	for <linux-fsdevel@vger.kernel.org>; Thu, 9 Apr 2026 14:59:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pps01; bh=83mN
-	KZIsBND3Lg8+THcthV/SuzYcLTq1w+CNeg0fbZc=; b=EHz3tC4lRgXai8PvPEZq
-	pkKUs3OvD5nVT1jqwDXFpk6Rhe9R5SxV6b/feB3LGa6Ml2hWQWH9nTOnbI0jQzLo
-	QLYJRGLVXQOHbFB1Vy36nqjvpb9IUyFleXcX5OznP1OtLhuMvp6uayzuz2W+yvxa
-	bs5GuKsexDDUjrZp0lEwLGsyCESY+7+nHbIsv21ltQxArYbn0i1Bt/Bmp3jLurPn
-	iki6jHLGtAFYO7D52XkMbj6PiglwXmCOboDjwVU3VjlwlhD1YByF+WvnaBhABguH
-	kkai+Ec2gVbgexur9XaYmeywsRhFC5Ikw68louduoTGyWGonKSBQ7TCwkUGf3TYB
-	lQ==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
-	by mx0a-00364e01.pphosted.com (PPS) with ESMTPS id 4def061n6j-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-fsdevel@vger.kernel.org>; Thu, 09 Apr 2026 14:59:18 -0400 (EDT)
-Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-89cd4f56e89so28482726d6.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 09 Apr 2026 11:59:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="U4+H5Moo"
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-7982c3b7dfcso12905427b3.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 09 Apr 2026 12:01:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1775761262; x=1776366062; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YK13ZqqjQ3wLQBdIjTUYThCV1qQdnIxPjzSA+72DBJY=;
+        b=U4+H5Moo0wSNSVkmoo6xJ0g4fwkOXJ4+3ih7FwfzZO6gV935U5q1dyLCd4QMAmahGc
+         k/jRp4NK0LF+GJ1O0D8+RfCr3PSmNw1noBDByluUmmnwumEFjz38Cl7/UFJcWYfAiZZC
+         rXIXcvEZIqKbEgeFsd7yqns5ZvNSRr3fsZHLuyiCqWHaAI6FQOP/fNRXesfJ0axjF25t
+         Hvga5ioeQh4enyuXtzq60GtelfrH/hyj9TM3REZvhyOV84AOVVzClF4bQfpa20Bvnxr6
+         1jcYdzmJXj8k9XpO2/SWVQZ7H2dNUXqaudzF/VbXnFjWiyXPYLc+e0Th0FUIhYkfXtzz
+         KnXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775761157; x=1776365957;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=83mNKZIsBND3Lg8+THcthV/SuzYcLTq1w+CNeg0fbZc=;
-        b=exNuzKLkwQpIrJkLkZCTAqWVbOMjOPWFVMOT55jdCNzEjYro0FuqKGILT4HVa3eRRs
-         4BRlPnqowi7Afc/ePaI1xC0NE+OCr8Pbc4BIbB+frs0SyN1Ay0a6WRuGokl9Qbs7lRoE
-         T6XAv6CMOqZXaFrSEbiTIxzPx/RCK1XrACuWcHUVoxoMsHAJe5csi4s+3cv5x3OgAiig
-         XFMgFtDIiYZjqCGA1xxiC1O8r9eQ/f2GxvkmIWAKHzc4tMgPPjyGhiWzqVgDtstbHdsI
-         cUKeZF09poZaPgCV1QJad1hxKwncTVvq78k1GOOF9BsN+JlX027Samov8PZ+LZYAgS3j
-         AD/A==
-X-Forwarded-Encrypted: i=1; AJvYcCVEh9wMDxL/C4cyt23heV5vDz9iGWrrgOR0c9i0TUrfuP98n86mSXKUg5Q2YQ3tkmNJ+gIl+T5QZr+dGTkV@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw+ETG2RqauOraRgN46ggolM5vbb+QCnLy8Aq1apjQXEwRbWac9
-	fB60yIzrFD7KItAxxALBKd/mYEB/72Blo1Uxzq6cmA0XuiaOkODWGEpfjUZJiWNr6c1hz6hO45Q
-	6HeokVNKC7t1oSJGvzV6MZYstAeq2QnmBXx6qaoArb9fZI8H7o9LQGLwSYnkVsLg=
-X-Gm-Gg: AeBDiet2FPHcZS8FBxW/Y2FzGrwNzqxkdaTfqBzbxvMTN2xjCCEfK5CNKyPQMo9gJuM
-	qhaMVXtuo0NcP1oDBojpnfEm+RYy8dO9Ut8IjneD3Gk3QLbeGB9/gJWPzqF+2iyMmUd9ZIHeaO4
-	GJiwYkrkUwyS6+lRi1q3ZWKxADjg0qZO5nN8YHIDmza6fm4P1WlSyURVx7wAcw9UZppyPhds7zE
-	/uSe267dyFvLqNZ+ZMmacj26lNm2eKYHKsth3jvAOy0jdS07tX6mP8GlONl+nfco9IDqC49KCbG
-	M1n9TBz2fW6l3+bfJ/AwoLNFJGHSkZJ8wR98+z9ty1MsMKpWOV7RXwZ5mzhTcFpfG36Qu2hdhDR
-	KFKDwkWdyCKN5nFBuEwnv35hisnuTiTUjHMiuC+pp
-X-Received: by 2002:a05:6214:44a1:b0:89c:bf90:e4ea with SMTP id 6a1803df08f44-8a7042f7e4amr439710516d6.34.1775761157324;
-        Thu, 09 Apr 2026 11:59:17 -0700 (PDT)
-X-Received: by 2002:a05:6214:44a1:b0:89c:bf90:e4ea with SMTP id 6a1803df08f44-8a7042f7e4amr439710016d6.34.1775761156904;
-        Thu, 09 Apr 2026 11:59:16 -0700 (PDT)
-Received: from [10.206.71.59] ([129.236.231.31])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8ac849db735sm4286926d6.2.2026.04.09.11.59.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Apr 2026 11:59:16 -0700 (PDT)
-Message-ID: <fdbb90a3-846f-4b55-b22a-5a8027bee288@columbia.edu>
-Date: Thu, 9 Apr 2026 14:59:15 -0400
+        d=1e100.net; s=20251104; t=1775761262; x=1776366062;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YK13ZqqjQ3wLQBdIjTUYThCV1qQdnIxPjzSA+72DBJY=;
+        b=d0M/xa4Xfi6JfozEJO12quTAxM8XnWZ1uMJ0X+sidMrU+lduXseW4pyTChcRHq5wD3
+         FP6Bakgi1eHL447YEqw0LbLtHsUGburoDvNoqp/Ykq8TjMmYysAUe5ZENOAI2TElDIfO
+         EpmbQqgE4sTiNNm1JVgxSwWKMKb1QwWn5cYGEWFQmvs2WSlsWm0Jfrnz0OfvR8pHU8rH
+         wcIA1CuNOLGDk2iMq5Ud9POb+rhuj0ejKD4oUuF+3gco4v7M4IDx/CF+YicVcTIDps1b
+         X5NJX5LPDgHRc3o+p6ja59cg+HxU/Hg0zrToYt2M9hr9zDMjmjQG9mDaUN4Pzo6ooZO9
+         MIcw==
+X-Forwarded-Encrypted: i=1; AJvYcCU06tFB+X2Lpb8RY0vldzc80mFNdxKM2AQWld0/dhlJkZ6v1mrwe+vekPUgVqLjo8ErNF3uyNWiXWxf+MVO@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywj4TsbVsbLsK01t2cPXD03VYUp8G4FZyKXKoUO7D3KjKTQbq52
+	SQoxRk7GvPP9y8eEl9SvPNDPKPLV9+uw6hKrBJWi+VX4nbRXcMpbmQC6odUn8AUKWpjjowYX9iW
+	vVaw5h3s=
+X-Gm-Gg: AeBDievvC5kux1X4pDYBCsaLVkosfZF/7OnP2bHZhbs8DiVJc6L3mn0/a8hOMZ3MLAp
+	fq4suCrpWuA/uSsalJeC5lKiyRB+4FQMrG9LsB30xEkbIyleKWR5OUBN8lPImEeaLgFLVUMed5o
+	d9tYEOiyDDqOd5RtBR0f+U2VU5RoyCpP2oulqVR74ZA45SC0i8wtSWqN1dDOvu1Qg2kC5utSPuo
+	hN1RSFYCwIJ3akRevBKnf1beEWyiFqkimVsq9kHOq6QMPrhHTLzn59Pg4izkmMUuAyZTwQGhdOM
+	1Q2WDdB7RdYuZe08v8Pd7Toggy9TyzgvS1GTbRtzgQabBNHGU//lXXKriv2xXSAMk3K9o7GFPjQ
+	VQxTguQvHk4DBBi05btsGtSRT9Q2S9L21ZMb9epLwQEATkmmnD81yVd3rnMngVOdre4dDYTIhez
+	Nkm/AGL9WxHjY72Ki5DBBwXAzAqwsJ+VBOy6s8QA3icLnpEu5RuDnUdLinw7sZjh4RqjBgYSjOj
+	pHAepQEK7jUxDleZvMBHTAtHq/j4AM=
+X-Received: by 2002:a05:690c:dc5:b0:79b:cf31:9767 with SMTP id 00721157ae682-7af6ec4c6efmr1873047b3.3.1775761261647;
+        Thu, 09 Apr 2026 12:01:01 -0700 (PDT)
+Received: from system76-pc.attlocal.net ([2600:1700:6476:1430:594a:e569:c7df:c654])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7af3d6a9c87sm2899607b3.22.2026.04.09.12.01.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Apr 2026 12:01:00 -0700 (PDT)
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: ceph-devel@vger.kernel.org
+Cc: idryomov@gmail.com,
+	linux-fsdevel@vger.kernel.org,
+	pdonnell@redhat.com,
+	amarkuze@redhat.com,
+	Slava.Dubeyko@ibm.com,
+	slava@dubeyko.com
+Subject: [PATCH v2] ceph: add ceph_has_realms_with_quotas() check into ceph_quota_update_statfs()
+Date: Thu,  9 Apr 2026 12:00:47 -0700
+Message-ID: <20260409190046.317760-2-slava@dubeyko.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v5 3/3] block: enable RWF_DONTCACHE for block devices
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Jens Axboe <axboe@kernel.dk>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Christian Brauner <brauner@kernel.org>,
-        "Darrick J. Wong"
- <djwong@kernel.org>,
-        Carlos Maiolino <cem@kernel.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-        Dave Chinner <dgc@kernel.org>, Bart Van Assche <bvanassche@acm.org>,
-        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org
-References: <20260408-blk-dontcache-v5-0-0f080c20a96f@columbia.edu>
- <20260408-blk-dontcache-v5-3-0f080c20a96f@columbia.edu>
- <adfPA0_U312XhCYF@infradead.org>
-Content-Language: en-US
-From: Tal Zussman <tz2294@columbia.edu>
-In-Reply-To: <adfPA0_U312XhCYF@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: bBVjyZy7JUNAHYFHYSqULF0LC1DUCQwf
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDA5MDE3MyBTYWx0ZWRfXzac4KMjSHUlv
- 4X0ZAXAuU3/sVmfBd7tMtA10v4s1lpfbaddnkyUPcbxGiTW6Og4ubxVJHnhg5qv6fvpRzBObnNl
- iXrH3VSUNrh109G2toPNPIYEPVSKgRwtKLjng7FVLnPS15uU5nf5xiCT39PMuvX3ogCJb9G00Lf
- FFPQqK/FctxbsuDns6f9zixoOS7Eu8ZxfAVQMsw1sF4PZA5Twz0c3zhcnVp0hxaRNuMdDtY9yCg
- M45bwmslN7g38aqY6q90AlmoTYH6JdCBU22eJCGcukZuGsY7L1OoVMZH1KOhAZutcrnn5xQRex2
- qCri05OSE4CWvI3Q7suDKc3gralX05+rtp6QVdqllOh6r6R2g9XPdxazBtw6H8vqwVwbgyVZkqJ
- HKHPzedhdN6/kayqxT4jlq/6hd4wq5yrK/GKLy/FBwcj7L32b2UHJ2ZOv5sjdY+5sSZeyTCMES9
- dxN1JPUGxOORKbWz4Qw==
-X-Proofpoint-GUID: bBVjyZy7JUNAHYFHYSqULF0LC1DUCQwf
-X-Authority-Analysis: v=2.4 cv=GP841ONK c=1 sm=1 tr=0 ts=69d7f706 cx=c_pps
- a=wEM5vcRIz55oU/E2lInRtA==:117 a=RFpAoTwO7tzpE9r8PTiuXw==:17
- a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=x7bEGLp0ZPQA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=SsB-OO3BMngHh3ZO9fOt:22
- a=VtaHy3UVxHd-gCO4CH0A:9 a=QEXdDO2ut3YA:10 a=OIgjcC2v60KrkQgK7BGD:22
-X-Proofpoint-Virus-Version: vendor=nai engine=6800 definitions=11754
- signatures=596818
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 clxscore=1015 lowpriorityscore=10 impostorscore=10
- spamscore=0 malwarescore=0 adultscore=0 suspectscore=0 phishscore=0
- bulkscore=10 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2604010000
- definitions=main-2604090173
+Content-Transfer-Encoding: 8bit
 
-On 4/9/26 12:08 PM, Christoph Hellwig wrote:
-> For the next round please split this into the buffer.c parts for
-> the infrastructure and the use in the block device file operations.
+From: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
 
-Will do.
+When MDS rejects a session, remove_session_caps() ->
+__ceph_remove_cap() -> ceph_change_snap_realm() clears
+i_snap_realm for every inode that loses its last cap.
+The realm is restored once caps are re-granted after
+reconnect. It is not a real error and thsi patch changes
+pr_err_ratelimited_client() on doutc().
+
+Every quota methods ceph_quota_is_max_files_exceeded(),
+ceph_quota_is_max_bytes_exceeded(),
+ceph_quota_is_max_bytes_approaching() calls
+ceph_has_realms_with_quotas() check. This patch adds
+the missing ceph_has_realms_with_quotas() call into
+ceph_quota_update_statfs().
+
+v2
+Small cleanup by adding braces for multiline if-else
+statements and changing the comments.
+
+Signed-off-by: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
+cc: Alex Markuze <amarkuze@redhat.com>
+cc: Ilya Dryomov <idryomov@gmail.com>
+cc: Patrick Donnelly <pdonnell@redhat.com>
+cc: Ceph Development <ceph-devel@vger.kernel.org>
+---
+ fs/ceph/quota.c | 33 +++++++++++++++++++++++++--------
+ 1 file changed, 25 insertions(+), 8 deletions(-)
+
+diff --git a/fs/ceph/quota.c b/fs/ceph/quota.c
+index 4dc9426643e8..67ce1ff1a421 100644
+--- a/fs/ceph/quota.c
++++ b/fs/ceph/quota.c
+@@ -230,10 +230,17 @@ static int get_quota_realm(struct ceph_mds_client *mdsc, struct inode *inode,
+ 	realm = ceph_inode(inode)->i_snap_realm;
+ 	if (realm)
+ 		ceph_get_snap_realm(mdsc, realm);
+-	else
+-		pr_err_ratelimited_client(cl,
+-				"%p %llx.%llx null i_snap_realm\n",
+-				inode, ceph_vinop(inode));
++	else {
++		/*
++		 * i_snap_realm is NULL when all caps have been released, e.g.
++		 * after an MDS session rejection. This is a transient state;
++		 * the realm will be restored once caps are re-granted.
++		 * Treat it as "no quota realm found".
++		 */
++		doutc(cl, "%p %llx.%llx null i_snap_realm\n",
++		      inode, ceph_vinop(inode));
++	}
++
+ 	while (realm) {
+ 		bool has_inode;
+ 
+@@ -342,10 +349,17 @@ static bool check_quota_exceeded(struct inode *inode, enum quota_check_op op,
+ 	realm = ceph_inode(inode)->i_snap_realm;
+ 	if (realm)
+ 		ceph_get_snap_realm(mdsc, realm);
+-	else
+-		pr_err_ratelimited_client(cl,
+-				"%p %llx.%llx null i_snap_realm\n",
+-				inode, ceph_vinop(inode));
++	else {
++		/*
++		 * i_snap_realm is NULL when all caps have been released, e.g.
++		 * after an MDS session rejection. This is a transient state;
++		 * the realm will be restored once caps are re-granted.
++		 * Treat it as "quota not exceeded".
++		 */
++		doutc(cl, "%p %llx.%llx null i_snap_realm\n",
++		      inode, ceph_vinop(inode));
++	}
++
+ 	while (realm) {
+ 		bool has_inode;
+ 
+@@ -496,6 +510,9 @@ bool ceph_quota_update_statfs(struct ceph_fs_client *fsc, struct kstatfs *buf)
+ 	u64 total = 0, used, free;
+ 	bool is_updated = false;
+ 
++	if (!ceph_has_realms_with_quotas(d_inode(fsc->sb->s_root)))
++		return false;
++
+ 	down_read(&mdsc->snap_rwsem);
+ 	get_quota_realm(mdsc, d_inode(fsc->sb->s_root), QUOTA_GET_MAX_BYTES,
+ 			&realm, true);
+-- 
+2.53.0
+
