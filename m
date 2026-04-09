@@ -1,43 +1,56 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7118728E0;
-	Thu,  9 Apr 2026 05:40:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88DAA28640C;
+	Thu,  9 Apr 2026 05:51:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775713238; cv=none; b=AB+rVhsokJAQQRUmqsqxB3H7QDwbsyrTNUw9JmPfohjuRx7xxxLS7Zxb4RACfjyJmNWhUmJDrVI/WB3apsu8e1ixYw6u8MOOaBqhi6/vSgfP8vSc0tmitZ0lT9FFqSCXSQ8nvaXLqh046BMEHPJc9ReNZdx+ExKIpFUxXjuwwIU=
+	t=1775713866; cv=none; b=ZlfBt1yWylCRi9iHTw3zKn+jptaNkVlk2aRYAd4kr/ttzOizlm6SkDVwRdUWq9tMFbOa5DbvFaTZMyJbuWpUD5X0OXh2vCe5bQEx121rDD7RSEMCzAUp6d1BBFgB9yncZVrZtVMHKzWzg1O8SrRqK1PMtrgfP8sb3D0Q2hQNEHY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775713238; c=relaxed/simple;
-	bh=K9TjD/MsPW01zaPmlWER6fuIgkrg6/E9lVBvroMZ6vo=;
+	s=arc-20240116; t=1775713866; c=relaxed/simple;
+	bh=B0pZF0M+Na0FsE5cmKSvTL5sl17QlJMKu5wgbAmElV8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S8Q99xz6MyCgUGhs5V9T5rOWFJZMnTy/zZqJP9lZ5+WqLx5iKuSN6zPU4z0U+X5Eq/5Og94DbdZhlvBabZ50EbbSn0QAutK1yH278NjGgp54lmj41nEq+M1/OibUnZ8MmXOsHVtlb401KDzlDPaJYqTI+UlXnnM5GnJXsqZDTLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=4edJFwxs; arc=none smtp.client-ip=198.137.202.133
+	 Content-Type:Content-Disposition:In-Reply-To; b=OdjeVpH/3zjGJfB8xgGBerXvFHAnNmSBlLMru/RNhgjdi1AUIoH31yESgP7POPu36gthG0IfJxyZfZJXoDpnhvPv8EJGb7d6NIoh6PBhpDthy33vtgbRRQlcj2qv+Ai6LMCS/QDUT66euhmRBfnV44KpPvwNYivou3PRaQMqncA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=2jwv1M/T; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="4edJFwxs"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="2jwv1M/T"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
 	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=o0ScfNlJGSA2uAJMI4ulU1pLyWdBug8Lf8guz+qT7sY=; b=4edJFwxsbyJkPqyn1XaMjCDdSC
-	FlJdc1layEXP+v7Bc2DUT78tlL2tMpEQhzr+g6u7TDB1lpdV4g2ptYtaNmR0IxILvz7kv4ix348K1
-	uNyP3t9DRWiyviPTTydvWMvAMXtodrCA9szonPWUyLmrJTF2zQ/O6koGmwppKavXVt0HE5ZsWy91N
-	vqSKoWtyS0HwFYqXcu345tgJGIeqvR0MlM9eOUGlttvMcq9nnZ8c7LmlKHquJloOJMU7S4CIoNFPg
-	cxwyYH4tgGgBWNt8y9CmG1B2vkuN98d9XXsUKAnLFzbvg8I9PwHtYf0gNE0QXt4LUi7Nui/3cTqwq
-	WmfrJCWw==;
+	bh=SevTQiMUPxnzE7hB73BHC4x9bLPrhVzNNZ0TFANaSpM=; b=2jwv1M/TAmBmK5jU+sXOIOzevv
+	5FsTHueWHde19wdB+LAf827ZaszQ0qO37U/NRQfwdy85NEJ9Sr68n7oGkdBAPLx6+OT9Azk9xzGAF
+	PwGijCAQkymLFrwlWLQvwM+FvmlKmLnmOVXxNUF8PIg3mWAC0QitPNrHF3KJgmZAQTpvk+2KW/xSQ
+	dfhW3OvCiJkfQYD0mddjkrEqm2Mt4iTaX7ZYAhdlugkPQL8UcOcYKGUZhLuvC/oKl1tHnW1mNNCnz
+	sByYSlLk3+l7d01wRvp85DK6stgHw4yH8zvNB6/LqYU8osGmsVHTK4C/SJFxGc23xN/pB7evMA02t
+	QIF0eABg==;
 Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wAi7u-00000009jBY-0Up6;
-	Thu, 09 Apr 2026 05:40:26 +0000
-Date: Wed, 8 Apr 2026 22:40:26 -0700
+	id 1wAiI7-00000009jXc-2g7T;
+	Thu, 09 Apr 2026 05:50:59 +0000
+Date: Wed, 8 Apr 2026 22:50:59 -0700
 From: Christoph Hellwig <hch@infradead.org>
-To: Jaegeuk Kim <jaegeuk@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v3] f2fs: do not support mmap write for large folio
-Message-ID: <adc7yo1_sr_eeV33@infradead.org>
-References: <20260406154940.2407853-1-jaegeuk@kernel.org>
- <adaasm42rLxRY2GN@google.com>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Mike Snitzer <snitzer@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>, Chuck Lever <chuck.lever@oracle.com>,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-nfs@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v2 1/3] mm: kick writeback flusher instead of inline
+ flush for IOCB_DONTCACHE
+Message-ID: <adc-Q1iDWHD5yxHH@infradead.org>
+References: <20260408-dontcache-v2-0-948dec1e756b@kernel.org>
+ <20260408-dontcache-v2-1-948dec1e756b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -46,20 +59,47 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <adaasm42rLxRY2GN@google.com>
+In-Reply-To: <20260408-dontcache-v2-1-948dec1e756b@kernel.org>
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-[adding back fsdevel and mm to the discussion]
+On Wed, Apr 08, 2026 at 10:25:21AM -0400, Jeff Layton wrote:
+> Replace the inline filemap_flush_range() call with a
+> wakeup_flusher_threads_bdi() call that kicks the BDI's flusher thread
+> to drain dirty pages in the background.  This moves writeback
+> submission completely off the writer's hot path.  The flusher thread
+> handles writeback asynchronously, naturally coalescing and rate-limiting
+> I/O without any explicit skip-if-busy or dirty pressure checks.
 
-On Wed, Apr 08, 2026 at 06:13:06PM +0000, Jaegeuk Kim wrote:
-> Let's check mmap writes onto the large folio, since we don't support writing
-> large folios.
 
-What does this fix?  As state in the previous round of discussion f2fs
-only support large folios for immutable files, how do you get ->mkwrite
-called for them.
+Having numbers showing the benefit here would be very useful.
 
-The only way I can think of that is when clearing the immutable flag,
-but simply rejecting writes with SIGBUS after that seems like it's
-breaking the expected API, and I don't see handling for normal writes
-after that either.
+> +/**
+> + * filemap_dontcache_kick_writeback - kick flusher for IOCB_DONTCACHE writes
+> + * @mapping:	address_space that was just written to
+> + *
+> + * Wake the BDI flusher thread to start writeback of dirty pages in the
+> + * background.
+> + */
+> +void filemap_dontcache_kick_writeback(struct address_space *mapping)
+> +{
+> +	wakeup_flusher_threads_bdi(inode_to_bdi(mapping->host),
+> +				   WB_REASON_DONTCACHE);
+> +}
+
+wakeup_flusher_threads_bdi ends up calling wb_start_writeback eventually,
+which sets WB_start_all, pushes the reason to start_all_reason and then
+does the actual wakeup.
+
+The flusher thread then through wb_check_start_all does a WB_SYNC_NONE
+writeback based on get_nr_dirty_pages.  Which seems wrong - we don't
+want to do a huge writeback evertime the some DONTCACHE write finished.
+
+So I think you'll want a new WB_start_dontcache bit, a new
+get_nr_dontcache_pages() helper on a new node counter, etc.
+
+
+> +EXPORT_SYMBOL(filemap_dontcache_kick_writeback);
+
+EXPORT_SYMBOL_GPL, please.
+
+
