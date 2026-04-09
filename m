@@ -1,47 +1,63 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D759A37EFFC
-	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Apr 2026 08:30:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA96D35B632;
+	Thu,  9 Apr 2026 08:48:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775723456; cv=none; b=beZhjZX9GZ/O8503WAeZcU5cMaltNg1eM2lAv4AwQ5oPH0koBoZ15ez3nTjS6wWka+PqisewzF5jgQulCyAITopQr9Akaqhnz/SwWtNyU1zlOBB61m5CTuQkmINDtyi4Xr3Jtx+0aLlagz5lXeDNJnby090SZEoAfEXvYAuxzlM=
+	t=1775724539; cv=none; b=icp6QAZcjOUY1HWNtwhbMHePUeV+m0YHod/ENkuHZpVIcBD6sofdx+lh+ShleVIBSMJ/uraFPO/nhYQxLNxjHEnOL4M3atC+3MZq2JtK83I/gTAnae9MPsKQJKzKViWOxsrFvbYQdzcwpkhFHslxXLCTlP/c2ySwTx59aYj9kBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775723456; c=relaxed/simple;
-	bh=w7+WQEPdZAbaIeNUWLI05wldYgx//0og0LMFZyzUjgM=;
+	s=arc-20240116; t=1775724539; c=relaxed/simple;
+	bh=eAqTo0iQZIB/nmUmtWdYSxA1QZLSoGfvAUXtQLRvMDU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bO9Ux3yc7z9XMHLBpRcx8kvG54GdSKOMJhjmDHFJi5i3FSJxIF4v66AkIuQjmLQ7EupKosZmK9h7NR0GUT/skrcYeypQuXcpZHAM390GKOWL7Cpe1gZAkYZ+hDbLgyDPJxFHxHtkImGJZfkF1Vm7mSVxnVEdfykXq+MpsoNNdrM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ruokKZdC; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Atk/po4Orz7JdaqD6geUCK9fbjkz3Si7GB8aygeSgghkEwQmERZW3wTpVwFFuVcQt6G6l2SRNoKIlzP7YV1WEV8gAUcrxeHDpseYWh0VwOrP2yk147HwjOaUgXuepvObprCEHntDfY1RsMdJHK7xhAH+V8cvm7Y0wCZuQEh7x9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hpB+WSLN; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ruokKZdC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 557F8C4CEF7;
-	Thu,  9 Apr 2026 08:30:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775723456;
-	bh=w7+WQEPdZAbaIeNUWLI05wldYgx//0og0LMFZyzUjgM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ruokKZdCmJx7L5SIx8dUn8jgqp0U92ztzhYLlfLOqemt50nL01wCCr87saOVWQkRn
-	 ipR56g2gMUyn7hp5+Eg+kRgPjjm5gs9mbHMTLD6GflZ0s7PnS91k99hm9zGOpRFz4F
-	 JyYlNHF8Lq5fGjKdsebU+Pvd/wITCV25iGAxMFCH97JBmmWGKHPhk35PvUdWbNkED/
-	 8+ct838P5EjqYeOX4zufsxjdQfkPyVX433K0rQWltCB8+3McXZNSV4fI1fGyFMFOKv
-	 ZyN+vXRT8msUUf4WC4sEJuglCnHfUfpgzR+ceWRNb6RdYszyVIyVRorxDRUvuPAOHC
-	 252EmDm7wALmQ==
-Date: Thu, 9 Apr 2026 09:30:51 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: Kefeng Wang <wangkefeng.wang@huawei.com>
-Cc: Michal Hocko <mhocko@suse.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@kernel.org>, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH RFC] fs: drop_caches: introduce per-node drop_caches
- interface
-Message-ID: <addjLJ9MVTNQD7YZ@lucifer>
-References: <20260409063503.3475420-1-wangkefeng.wang@huawei.com>
- <addP4MKmA8zfSN1o@tiehlicka>
- <dbb92553-58ba-42e1-b7df-b8450bd69d33@huawei.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hpB+WSLN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1775724538; x=1807260538;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=eAqTo0iQZIB/nmUmtWdYSxA1QZLSoGfvAUXtQLRvMDU=;
+  b=hpB+WSLNuTKA7ez+4nStSUelWpJZlY5uBYnH4Icbe6r4aePkmvYujn0p
+   x2XMQ2dukL1+FJRxguLp7WkYniJ50lsjkRTFeJKrAPgiLUgBAzvnNvqMW
+   yCy/A+gQC33JjOrLmwmwtaNRD3uziTi3c+VsuoBDRv/qQhTZ1ppZSSkDa
+   q9o0rx/39dXydRIVodDC5LBr+JruYZEsyx24J8SLoBnj3NhI75aeg+053
+   sRU5ownW71KR0lkjT0SZ//9dfk3ttBLx8tfESWZ+wbJc9/zVGL65bkqqH
+   PxpjGXQ51Myppthfhz0/Q1MXqLHFPUmyN4+SjE6EQX4OlTZWvqsxxuv1s
+   Q==;
+X-CSE-ConnectionGUID: F8A2OnusTf+JhuGS8tY6cA==
+X-CSE-MsgGUID: V2dVhi+tTpOQxWKXjvIC1g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11753"; a="76441734"
+X-IronPort-AV: E=Sophos;i="6.23,169,1770624000"; 
+   d="scan'208";a="76441734"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 01:48:58 -0700
+X-CSE-ConnectionGUID: /kRpxIXfQxuNarG/WAD9uw==
+X-CSE-MsgGUID: EhdljPDqRJ+EESDAjgUlnw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,169,1770624000"; 
+   d="scan'208";a="225546762"
+Received: from ncintean-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.162])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 01:48:54 -0700
+Date: Thu, 9 Apr 2026 11:48:52 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Petr Mladek <pmladek@suse.com>
+Cc: David Disseldorp <ddiss@suse.de>, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH v5 0/6] initramfs: test and improve cpio hex header
+ validation
+Message-ID: <addn9HXBt8SV9x-D@ashevche-desk.local>
+References: <20260331070519.5974-1-ddiss@suse.de>
+ <ac0Wd1tmV0ndmE1-@pathway.suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -50,16 +66,66 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <dbb92553-58ba-42e1-b7df-b8450bd69d33@huawei.com>
+In-Reply-To: <ac0Wd1tmV0ndmE1-@pathway.suse.cz>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Thu, Apr 09, 2026 at 04:08:37PM +0800, Kefeng Wang wrote:
-> On 4/9/2026 3:06 PM, Michal Hocko wrote:
-> > Quite honestly drop_caches is not the best interface to build any new
-> > functionality on top of. It has backfired a lot in the past and we have
-> > tried to make it extra clear that this should be used for debugging
-> > purposes only. Extending it further sounds like a bad step.
->
-> I am not clear about this history of this interface, but some of our
-> products do use this interface :(
+On Wed, Apr 01, 2026 at 02:58:31PM +0200, Petr Mladek wrote:
+> On Tue 2026-03-31 17:57:30, David Disseldorp wrote:
+> > v5 changes:
+> > - rework 2/6 and 4/6 test comment, as suggested by Andy
+> > - 2/6: initialize struct kstat in tests to account for possible
+> >   init_stat() failure
+> >   + drop Andy's review tag due to this minor change
+> > 
+> > ----------------------------------------------------------------
+> > v4: 20260329105307.2876-1-ddiss@suse.de
+> > - rework initramfs_test changes to use an inject_ox parameter instead of
+> >   having tests pass through an unvalidated format string.
+> >   + drop Andy's reviewed-by from 1/6 and 2/6 to account for changed test
+> >   + 4/6 minor changes for test context and comment
+> > - add review tags for 3/6, 5/6 and 6/6 following list feedback
+> > 
+> > ----------------------------------------------------------------
+> > v3: 20260323150054.3587083-1-andriy.shevchenko@linux.intel.com
+> > 
+> > The series that introduced simple_strntoul() had passed into kernel
+> > without proper review and hence reinvented a wheel that's not needed.
+> > Here is the refactoring to show that. It can go via PRINTK or VFS
+> > tree.
+> > 
+> > I have tested this on x86, but I believe the same result will be
+> > on big-endian CPUs (I deduced that from how strtox() works).
+> > 
+> > I also run KUnit tests.
+> > 
+> > Changelog v3:
+> > - rebased on top of latest kernel
+> > - squashed patches proposed by David
+> > 
+> > v2: 20260121172749.32322-1-ddiss@suse.de
+> > v1: 20260119204151.1447503-1-andriy.shevchenko@linux.intel.com
+> > 
+> > ----------------------------------------------------------------
+> > Andy Shevchenko (4):
+> >       initramfs: Sort headers alphabetically
+> >       initramfs: Refactor to use hex2bin() instead of custom approach
+> >       vsprintf: Revert "add simple_strntoul"
+> >       kstrtox: Drop extern keyword in the simple_strtox() declarations
+> > 
+> > David Disseldorp (2):
+> >       initramfs_test: add fill_cpio() inject_ox parameter
+> >       initramfs_test: test header fields with 0x hex prefix
+> 
+> The patchset seems to be ready for linux-next. I could take it via
+> printk tree.
+> 
+> But I would like see an ACK from a VFS maintainer first.
 
-All the more reason for us not to add another one like it...!
+Christian, what route do you prefer?
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
