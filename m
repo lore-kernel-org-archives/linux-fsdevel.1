@@ -1,199 +1,135 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35B253537FB
-	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Apr 2026 02:36:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A93E34F26F;
+	Thu,  9 Apr 2026 02:45:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775702185; cv=none; b=O978B6jQRiNRvj2HrMve2O8CMu8JDXS9JhV9qnh4DWvo+cXl9IdG3zuMSz4ixW/OvcZs/RoKxp5NMls8aurxc7GQX/SY+t6ihOWPKmkyknPxFqwN5rsszb+2lyvQoaHx9LoAwuvD37ezkDQLFZiYIjT5ZvEXpwNzs9+pLqDmTUw=
+	t=1775702723; cv=none; b=m2jptE2T6cgbubA072x7iLfYsh32NrFf9vzeoo1wM1NRNwnxbYCKC9WeBUCNSoD7uzEY42CHusJBEacH59cf12Q776dRUoPdMsNEtEtVDnFgkUkpMtHAQfYp3VQPSnFsjkM6znoo6EHh1mHuqu50hRS0HurNxAV/20J1uRqLSWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775702185; c=relaxed/simple;
-	bh=mUgJ9gNC6/kJyF4YcWw2rC9fYFif+peaopsPceIy5Rs=;
-	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References:
-	 MIME-version:Content-type; b=c5OPdCHF6+6KnGguJSZ/MaIPGH3TiETfGErj6IsrYgmxOPxnVtJhFEyW5JP8P4S5U9YYxH6dOzDK+S2i0CoOqH65F2ZXp7V8DfkuTUWS8UWzaNNGtK5CLLzRPV34u85+I5+X1CCpDZj+D7f4xy3IQ/Yp4iwirPWg1tMHAJvX1mQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LjHZ26V0; arc=none smtp.client-ip=209.85.215.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LjHZ26V0"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-c6e2355739dso180285a12.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 08 Apr 2026 19:36:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775702182; x=1776306982; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:message-id:date
-         :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Lw0Tv+5NbELb9GtHhwh2AbG2K6I+ORA+QMsewcCrAeQ=;
-        b=LjHZ26V0Z9gwhWZ+npXQIXVU2vn95J6nMqUzeZXTEfJW3bb8ae2i5aKEXXagoADy/p
-         21s7LChSsYZ7pDlELzCtWoXeDf36VzSv6rsFx2vbewCg2t0z4KRWvA9u2sjVwGlnAv2M
-         t8RVdviR26ly/adBMUkJ3h0W4xpqgBH5OcUPvOSrgT0whCqgPZ1BnDvnTO3lqqaecD/Q
-         bt3y2oxWPB7zI2d+R3S8OWD0gt+U1Bd/Ks0E0CRHdpIukwsEs6xzrEuNAFxCLnojRLQV
-         N+Xbkd7oW7L8RKambGDq6gEZzIJ2L8sOjfxCXf5RRSk8edhkFvnRPAk7oukVhmes7uLk
-         JPOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775702182; x=1776306982;
-        h=content-transfer-encoding:mime-version:references:message-id:date
-         :in-reply-to:subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Lw0Tv+5NbELb9GtHhwh2AbG2K6I+ORA+QMsewcCrAeQ=;
-        b=XvAJquP20AqbKNBQfzcmpxlb3mTasUGcbKIkxC13u+5lSI61oGoLqBl//Ip2Fxp+xY
-         gz5j7qtPsYD+XdWIS0nN7qdiCSGAF6Qrp8GuTYOdmVHi+q/flDyk2Va6OTdVzm2Yn/XM
-         Ym0EkiRZlNuF2yIX49KwTLCkZzOO67VzabsU5IRbTe9J6DJrUbyBnfwfon28GO22niw/
-         he4hOwytK3JFZqwfuYS2bti/Wd+ZblJ/dIrIULNq8W8mLu224TLIz7JVk0cQKh18qF5f
-         1FfdctHWAt20bfWBOZpEGLrLFmTz6UxqQAEmFgDArVw5E4PwUKxKD8ofWjFM3ysFK2b0
-         kigA==
-X-Gm-Message-State: AOJu0YxAthfkUGQOBksjexySRIwAA/15awpYFlVd8OvpDX3FLzb2S8C0
-	coe273SRuih/HinJshMrui5PL9Ur8ZGj1z44hZ0gWfmbLOlf9AxEHiD5
-X-Gm-Gg: AeBDieuuugZM/epI55Y641HjOc7UC/xk6O2wNhg80XzX/wXnFpuIqtwfoCIwLWsX4fa
-	mX1wG54Bdhn6R6eEO0w4KOe1Cfa2JyUqab+/vtG7hdZLCznGewIG3OjqRYh4OFnuBvSx1CUeI3J
-	x3SXqhzCjRMMXPQ0i0EiKcn+9QwlTExqIpJ5oRE2zKziLDiw4Qxkm0fkbTjASP/Yvu7wwSFp6ap
-	Uh0ymrp8lXCM1RflXNAqGDJcuX8ZNgE9C+Ou+Pt8UnihjLL0b8+lUcN02BtHhmEbFcIQsnExBw9
-	rJLYF0O1h8S01EwitFaDyNOO4+0752OnMBSxNOGzT92HM9bKnnoDtEYtfZC7i72m7eMp+LE30eD
-	FjzOkkzfX/rxrm8Y3M3zypIe90gRXzTccG0wqKF3/GV/1owuTgXrq2xLB+IIwv3KR02yfUEohyZ
-	3P4Og/YONC6Svn4f78CfOxFRpLtYXnW2Qc
-X-Received: by 2002:a17:903:238b:b0:2ad:d0ff:2ed4 with SMTP id d9443c01a7336-2b28164c3d7mr267295685ad.6.1775702182377;
-        Wed, 08 Apr 2026 19:36:22 -0700 (PDT)
-Received: from pve-server ([49.205.216.49])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b2749ce29esm233858135ad.81.2026.04.08.19.36.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Apr 2026 19:36:21 -0700 (PDT)
-From: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
-To: Jeff Layton <jlayton@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Mike Snitzer <snitzer@kernel.org>, Jens Axboe <axboe@kernel.dk>, Chuck Lever <chuck.lever@oracle.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-mm@kvack.org, Jeff Layton <jlayton@kernel.org>
-Subject: Re: [PATCH v2 1/3] mm: kick writeback flusher instead of inline flush for IOCB_DONTCACHE
-In-Reply-To: <20260408-dontcache-v2-1-948dec1e756b@kernel.org>
-Date: Thu, 09 Apr 2026 07:10:32 +0530
-Message-ID: <tstklxm7.ritesh.list@gmail.com>
-References: <20260408-dontcache-v2-0-948dec1e756b@kernel.org> <20260408-dontcache-v2-1-948dec1e756b@kernel.org>
+	s=arc-20240116; t=1775702723; c=relaxed/simple;
+	bh=42jt/B1x0R/zhB+VrV+Mn2VfwG5trZJy9L0IrlmuAvE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=i4kZm/k3KB747sF12aEaxdBC/AvkndNsU1XNEqe4qPDeRdIaXzlBCvGqDoSrqs09dZyLUPjMhNG8eZ9JS5LVtb0fLVAydImZ2hltrS1gL5OllBjFI8/pCmRwgsGY/WoDMcw0+lS7cKd+Zsn+gBM4nl4a8unXywCD5Gb6b5eK2T4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.198])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4frkmV0KnZzYQtgS;
+	Thu,  9 Apr 2026 10:44:42 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.112])
+	by mail.maildlp.com (Postfix) with ESMTP id 2AB4640561;
+	Thu,  9 Apr 2026 10:45:17 +0800 (CST)
+Received: from [10.174.178.253] (unknown [10.174.178.253])
+	by APP1 (Coremail) with SMTP id cCh0CgBHSdm7EtdpP26YDw--.24580S3;
+	Thu, 09 Apr 2026 10:45:16 +0800 (CST)
+Message-ID: <6864da80-b244-4444-aecd-2555c2d60db0@huaweicloud.com>
+Date: Thu, 9 Apr 2026 10:45:14 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-version: 1.0
-Content-type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] jbd2: fix deadlock in jbd2_journal_cancel_revoke()
+To: linux-ext4@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dave@stgolabs.net, tytso@mit.edu, adilger.kernel@dilger.ca, jack@suse.cz,
+ ojaswin@linux.ibm.com, ritesh.list@gmail.com, libaokun@linux.alibaba.com,
+ yi.zhang@huawei.com, yizhang089@gmail.com, yangerkun@huawei.com,
+ yukuai@fnnas.com
+References: <20260409010730.5508-1-yi.zhang@huaweicloud.com>
+Content-Language: en-US
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+In-Reply-To: <20260409010730.5508-1-yi.zhang@huaweicloud.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:cCh0CgBHSdm7EtdpP26YDw--.24580S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7CrykXryrXFyfCr1rWF15Jwb_yoW8trW7pr
+	90kF1YkrWDuFyqk3ZrWFy5X3Z7Cw1kGryUWFZxuwnrCr45XrnIgFZ2gw1aqFyjqrsrXr4k
+	XF4Ut3yrua10vFDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
+	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
+	14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
+	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8
+	ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
+	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
+	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU1
+	7KsUUUUUU==
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
-Jeff Layton <jlayton@kernel.org> writes:
+Please ignore this patch; this solution does not correct.
 
-> The IOCB_DONTCACHE writeback path in generic_write_sync() calls
-> filemap_flush_range() on every write, submitting writeback inline in
-> the writer's context.  Perf lock contention profiling shows the
-> performance problem is not lock contention but the writeback submission
-> work itself — walking the page tree and submitting I/O blocks the
-> writer for milliseconds, inflating p99.9 latency from 23ms (buffered)
-> to 93ms (dontcache).
->
-> Replace the inline filemap_flush_range() call with a
-> wakeup_flusher_threads_bdi() call that kicks the BDI's flusher thread
-> to drain dirty pages in the background.  This moves writeback
-> submission completely off the writer's hot path.  The flusher thread
-> handles writeback asynchronously, naturally coalescing and rate-limiting
-> I/O without any explicit skip-if-busy or dirty pressure checks.
->
+Best Regards.
+Yi.
 
-Thanks Jeff for explaining this. It make sense now.
-
-
-> Add WB_REASON_DONTCACHE as a new writeback reason for tracing
-> visibility.
->
-> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+On 4/9/2026 9:07 AM, Zhang Yi wrote:
+> From: Zhang Yi <yi.zhang@huawei.com>
+> 
+> Commit f76d4c28a46a ("fs/jbd2: use sleeping version of
+> __find_get_block()") changed jbd2_journal_cancel_revoke() to use
+> __find_get_block_nonatomic() which holds the folio lock instead of
+> i_private_lock. This breaks the lock ordering (folio -> buffer) and
+> causes an ABBA deadlock when the filesystem blocksize < pagesize:
+> 
+>      T1                                T2
+> ext4_mkdir()
+>  ext4_init_new_dir()
+>   ext4_append()
+>    ext4_getblk()
+>     lock_buffer()    <- A
+>                                    sync_blockdev()
+>                                     blkdev_writepages()
+>                                      writeback_iter()
+>                                       writeback_get_folio()
+>                                        folio_lock()   <- B
+>      ext4_journal_get_create_access()
+>       jbd2_journal_cancel_revoke()
+>        __find_get_block_nonatomic()
+>         folio_lock()  <- B
+>                                      block_write_full_folio()
+>                                       lock_buffer()   <- A
+> 
+> This can occasionally cause generic/013 to hang.
+> 
+> Fix by only calling __find_get_block_nonatomic() when the passed
+> buffer_head doesn't belong to the bdev (i.e., !bh->b_bdev), which is the
+> only case that we need to look up its bdev alias. Otherwise, the lookup
+> is redundant since the found buffer_head is equal to the one we passed
+> in.
+> 
+> Fixes: f76d4c28a46a ("fs/jbd2: use sleeping version of __find_get_block()")
+> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
 > ---
->  fs/fs-writeback.c                | 14 ++++++++++++++
->  include/linux/backing-dev-defs.h |  1 +
->  include/linux/fs.h               |  6 ++----
->  include/trace/events/writeback.h |  3 ++-
->  4 files changed, 19 insertions(+), 5 deletions(-)
->
-> diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
-> index 3c75ee025bda..88dc31388a31 100644
-> --- a/fs/fs-writeback.c
-> +++ b/fs/fs-writeback.c
-> @@ -2466,6 +2466,20 @@ void wakeup_flusher_threads_bdi(struct backing_dev_info *bdi,
->  	rcu_read_unlock();
->  }
->  
-> +/**
-> + * filemap_dontcache_kick_writeback - kick flusher for IOCB_DONTCACHE writes
-> + * @mapping:	address_space that was just written to
-> + *
-> + * Wake the BDI flusher thread to start writeback of dirty pages in the
-> + * background.
-> + */
-> +void filemap_dontcache_kick_writeback(struct address_space *mapping)
-
-This api gives a wrong sense that we are kicking writeback to write
-dirty pages which belongs to only this inode's address space mapping.
-But instead we are starting wb for everything on the respective bdi.
-
-So instead why not just export symbol for wakeup_flusher_threads_bdi()
-and use it instead?
-
-If not, then IMO at least making it... 
-   filemap_kick_writeback_all(mapping, enum wb_reason)
-
-... might be better.
-
-> +{
-> +	wakeup_flusher_threads_bdi(inode_to_bdi(mapping->host),
-> +				   WB_REASON_DONTCACHE);
-> +}
-> +EXPORT_SYMBOL(filemap_dontcache_kick_writeback);
+>  fs/jbd2/revoke.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/fs/jbd2/revoke.c b/fs/jbd2/revoke.c
+> index 9016ddb82447..8b52d40c27c9 100644
+> --- a/fs/jbd2/revoke.c
+> +++ b/fs/jbd2/revoke.c
+> @@ -464,13 +464,14 @@ void jbd2_journal_cancel_revoke(handle_t *handle, struct journal_head *jh)
+>  	 * buffer_head?  If so, we'd better make sure we clear the
+>  	 * revoked status on any hashed alias too, otherwise the revoke
+>  	 * state machine will get very upset later on. */
+> -	if (need_cancel) {
+> +	if (need_cancel && !bh->b_bdev) {
+>  		struct buffer_head *bh2;
 > +
->  /*
->   * Wakeup the flusher threads to start writeback of all currently dirty pages
->   */
-> diff --git a/include/linux/backing-dev-defs.h b/include/linux/backing-dev-defs.h
-> index c88fd4d37d1f..4a81c90a8928 100644
-> --- a/include/linux/backing-dev-defs.h
-> +++ b/include/linux/backing-dev-defs.h
-> @@ -55,6 +55,7 @@ enum wb_reason {
->  	 */
->  	WB_REASON_FORKER_THREAD,
->  	WB_REASON_FOREIGN_FLUSH,
-> +	WB_REASON_DONTCACHE,
->  
->  	WB_REASON_MAX,
->  };
-> diff --git a/include/linux/fs.h b/include/linux/fs.h
-> index 8b3dd145b25e..2fd36608ac73 100644
-> --- a/include/linux/fs.h
-> +++ b/include/linux/fs.h
-> @@ -2610,6 +2610,7 @@ extern int __must_check file_write_and_wait_range(struct file *file,
->  						loff_t start, loff_t end);
->  int filemap_flush_range(struct address_space *mapping, loff_t start,
->  		loff_t end);
-> +void filemap_dontcache_kick_writeback(struct address_space *mapping);
->  
->  static inline int file_write_and_wait(struct file *file)
->  {
-> @@ -2643,10 +2644,7 @@ static inline ssize_t generic_write_sync(struct kiocb *iocb, ssize_t count)
->  		if (ret)
->  			return ret;
->  	} else if (iocb->ki_flags & IOCB_DONTCACHE) {
-> -		struct address_space *mapping = iocb->ki_filp->f_mapping;
-> -
-> -		filemap_flush_range(mapping, iocb->ki_pos - count,
-> -				iocb->ki_pos - 1);
-> +		filemap_dontcache_kick_writeback(iocb->ki_filp->f_mapping);
+>  		bh2 = __find_get_block_nonatomic(bh->b_bdev, bh->b_blocknr,
+>  						 bh->b_size);
+>  		if (bh2) {
+> -			if (bh2 != bh)
+> -				clear_buffer_revoked(bh2);
+> +			WARN_ON_ONCE(bh2 == bh);
+> +			clear_buffer_revoked(bh2);
+>  			__brelse(bh2);
+>  		}
 >  	}
->  
->  	return count;
-> diff --git a/include/trace/events/writeback.h b/include/trace/events/writeback.h
-> index 4d3d8c8f3a1b..9727af542699 100644
-> --- a/include/trace/events/writeback.h
-> +++ b/include/trace/events/writeback.h
-> @@ -44,7 +44,8 @@
->  	EM( WB_REASON_PERIODIC,			"periodic")		\
->  	EM( WB_REASON_FS_FREE_SPACE,		"fs_free_space")	\
->  	EM( WB_REASON_FORKER_THREAD,		"forker_thread")	\
-> -	EMe(WB_REASON_FOREIGN_FLUSH,		"foreign_flush")
-> +	EM( WB_REASON_FOREIGN_FLUSH,		"foreign_flush")	\
-> +	EMe(WB_REASON_DONTCACHE,		"dontcache")
->  
->  WB_WORK_REASON
->  
->
-> -- 
-> 2.53.0
+
