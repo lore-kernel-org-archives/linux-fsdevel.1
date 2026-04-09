@@ -1,131 +1,85 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from canpmsgout02.his.huawei.com (canpmsgout02.his.huawei.com [113.46.200.217])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA96D35B632;
-	Thu,  9 Apr 2026 08:48:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25679386C1F
+	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Apr 2026 08:54:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.217
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775724539; cv=none; b=icp6QAZcjOUY1HWNtwhbMHePUeV+m0YHod/ENkuHZpVIcBD6sofdx+lh+ShleVIBSMJ/uraFPO/nhYQxLNxjHEnOL4M3atC+3MZq2JtK83I/gTAnae9MPsKQJKzKViWOxsrFvbYQdzcwpkhFHslxXLCTlP/c2ySwTx59aYj9kBk=
+	t=1775724901; cv=none; b=pM9hL80OUF6VwJoS2iEi9tAwE3yAv+YLMIFhztW2Etw7Bgr/w8EKK6QciyLtZk6b8pX++7eT7GydldkPhbpofvcbWhOT/5mTPsbypp0SZVKomGAgag82FzUZ7IRTtZbwDYg/ca0CSNegVerhIDQc3GzaQz+p1+IJ2WTfEM1mDF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775724539; c=relaxed/simple;
-	bh=eAqTo0iQZIB/nmUmtWdYSxA1QZLSoGfvAUXtQLRvMDU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Atk/po4Orz7JdaqD6geUCK9fbjkz3Si7GB8aygeSgghkEwQmERZW3wTpVwFFuVcQt6G6l2SRNoKIlzP7YV1WEV8gAUcrxeHDpseYWh0VwOrP2yk147HwjOaUgXuepvObprCEHntDfY1RsMdJHK7xhAH+V8cvm7Y0wCZuQEh7x9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hpB+WSLN; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1775724901; c=relaxed/simple;
+	bh=GjinFiOGwLarVoATRmMWigzha3NBvpalUZ9U65a98Qs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=SdT8qT0/XehbQFjhI4Cjbzg1ZmqkL0Cy9fR+1YXEa+Q+/yuPVHo7XBLYpO4+FQt1Aj6cHWw6OzmtPVHdGc/WOebphYnzZtRkErsQImXgyVkPPRTEFe8+8j6bmbzzOHiO6U2J2mNXv4jYN+G/N9pvZvIk/xIR6joJ3xEmO1npYdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=ylb3kxaT; arc=none smtp.client-ip=113.46.200.217
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hpB+WSLN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775724538; x=1807260538;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eAqTo0iQZIB/nmUmtWdYSxA1QZLSoGfvAUXtQLRvMDU=;
-  b=hpB+WSLNuTKA7ez+4nStSUelWpJZlY5uBYnH4Icbe6r4aePkmvYujn0p
-   x2XMQ2dukL1+FJRxguLp7WkYniJ50lsjkRTFeJKrAPgiLUgBAzvnNvqMW
-   yCy/A+gQC33JjOrLmwmwtaNRD3uziTi3c+VsuoBDRv/qQhTZ1ppZSSkDa
-   q9o0rx/39dXydRIVodDC5LBr+JruYZEsyx24J8SLoBnj3NhI75aeg+053
-   sRU5ownW71KR0lkjT0SZ//9dfk3ttBLx8tfESWZ+wbJc9/zVGL65bkqqH
-   PxpjGXQ51Myppthfhz0/Q1MXqLHFPUmyN4+SjE6EQX4OlTZWvqsxxuv1s
-   Q==;
-X-CSE-ConnectionGUID: F8A2OnusTf+JhuGS8tY6cA==
-X-CSE-MsgGUID: V2dVhi+tTpOQxWKXjvIC1g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11753"; a="76441734"
-X-IronPort-AV: E=Sophos;i="6.23,169,1770624000"; 
-   d="scan'208";a="76441734"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 01:48:58 -0700
-X-CSE-ConnectionGUID: /kRpxIXfQxuNarG/WAD9uw==
-X-CSE-MsgGUID: EhdljPDqRJ+EESDAjgUlnw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,169,1770624000"; 
-   d="scan'208";a="225546762"
-Received: from ncintean-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.162])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 01:48:54 -0700
-Date: Thu, 9 Apr 2026 11:48:52 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Petr Mladek <pmladek@suse.com>
-Cc: David Disseldorp <ddiss@suse.de>, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH v5 0/6] initramfs: test and improve cpio hex header
- validation
-Message-ID: <addn9HXBt8SV9x-D@ashevche-desk.local>
-References: <20260331070519.5974-1-ddiss@suse.de>
- <ac0Wd1tmV0ndmE1-@pathway.suse.cz>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="ylb3kxaT"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=sdrsHSwCRgZ6uS9xoPl86hpy3G8uYrU07GQUvhHy4KY=;
+	b=ylb3kxaTKjTEwhB2+nK78hg3owDGCr5AAKr964qMrhpr3j3fRZ4FgDYp/gvOMkCs2cFU/zJFd
+	fpkpYgJaYUkLqU23EB1JNQq9V/jkH2xEfz8BzuQ/jxl7j9X8/c/rC8O3ug9NxVcSNTI2KP4B0bQ
+	863Z36N9tL+/AhR5MMHe/a8=
+Received: from mail.maildlp.com (unknown [172.19.162.144])
+	by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4frtrM5hhgzcbNR;
+	Thu,  9 Apr 2026 16:48:35 +0800 (CST)
+Received: from dggpemf100008.china.huawei.com (unknown [7.185.36.138])
+	by mail.maildlp.com (Postfix) with ESMTPS id E2A8E40538;
+	Thu,  9 Apr 2026 16:54:54 +0800 (CST)
+Received: from [10.174.177.243] (10.174.177.243) by
+ dggpemf100008.china.huawei.com (7.185.36.138) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Thu, 9 Apr 2026 16:54:53 +0800
+Message-ID: <bdd49511-9b84-42cc-a286-9fdf2ef531a7@huawei.com>
+Date: Thu, 9 Apr 2026 16:54:48 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ac0Wd1tmV0ndmE1-@pathway.suse.cz>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC] fs: drop_caches: introduce per-node drop_caches
+ interface
+To: Michal Hocko <mhocko@suse.com>
+CC: Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand
+	<david@kernel.org>, Christian Brauner <brauner@kernel.org>, Alexander Viro
+	<viro@zeniv.linux.org.uk>, "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, Lorenzo
+ Stoakes <ljs@kernel.org>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan
+	<surenb@google.com>, Vlastimil Babka <vbabka@kernel.org>,
+	<linux-fsdevel@vger.kernel.org>, <linux-mm@kvack.org>
+References: <20260409063503.3475420-1-wangkefeng.wang@huawei.com>
+ <addP4MKmA8zfSN1o@tiehlicka>
+ <dbb92553-58ba-42e1-b7df-b8450bd69d33@huawei.com>
+ <addhuRqrB-u7oDp8@tiehlicka>
+Content-Language: en-US
+From: Kefeng Wang <wangkefeng.wang@huawei.com>
+In-Reply-To: <addhuRqrB-u7oDp8@tiehlicka>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
+ dggpemf100008.china.huawei.com (7.185.36.138)
 
-On Wed, Apr 01, 2026 at 02:58:31PM +0200, Petr Mladek wrote:
-> On Tue 2026-03-31 17:57:30, David Disseldorp wrote:
-> > v5 changes:
-> > - rework 2/6 and 4/6 test comment, as suggested by Andy
-> > - 2/6: initialize struct kstat in tests to account for possible
-> >   init_stat() failure
-> >   + drop Andy's review tag due to this minor change
-> > 
-> > ----------------------------------------------------------------
-> > v4: 20260329105307.2876-1-ddiss@suse.de
-> > - rework initramfs_test changes to use an inject_ox parameter instead of
-> >   having tests pass through an unvalidated format string.
-> >   + drop Andy's reviewed-by from 1/6 and 2/6 to account for changed test
-> >   + 4/6 minor changes for test context and comment
-> > - add review tags for 3/6, 5/6 and 6/6 following list feedback
-> > 
-> > ----------------------------------------------------------------
-> > v3: 20260323150054.3587083-1-andriy.shevchenko@linux.intel.com
-> > 
-> > The series that introduced simple_strntoul() had passed into kernel
-> > without proper review and hence reinvented a wheel that's not needed.
-> > Here is the refactoring to show that. It can go via PRINTK or VFS
-> > tree.
-> > 
-> > I have tested this on x86, but I believe the same result will be
-> > on big-endian CPUs (I deduced that from how strtox() works).
-> > 
-> > I also run KUnit tests.
-> > 
-> > Changelog v3:
-> > - rebased on top of latest kernel
-> > - squashed patches proposed by David
-> > 
-> > v2: 20260121172749.32322-1-ddiss@suse.de
-> > v1: 20260119204151.1447503-1-andriy.shevchenko@linux.intel.com
-> > 
-> > ----------------------------------------------------------------
-> > Andy Shevchenko (4):
-> >       initramfs: Sort headers alphabetically
-> >       initramfs: Refactor to use hex2bin() instead of custom approach
-> >       vsprintf: Revert "add simple_strntoul"
-> >       kstrtox: Drop extern keyword in the simple_strtox() declarations
-> > 
-> > David Disseldorp (2):
-> >       initramfs_test: add fill_cpio() inject_ox parameter
-> >       initramfs_test: test header fields with 0x hex prefix
+
+
+On 4/9/2026 4:22 PM, Michal Hocko wrote:
+> On Thu 09-04-26 16:08:37, Kefeng Wang wrote:
+> [...]
+>> To use the reclaim interface, there are two differences,
+>>
+>> 1) we need to input the reclaim numbers and swappiness, this is not a big
+>> problem
+>> 2) for reclaim, it supports swappiness=max to only reclaim anonymous pages,
+>> but cannot only reclaim file pages,
 > 
-> The patchset seems to be ready for linux-next. I could take it via
-> printk tree.
-> 
-> But I would like see an ACK from a VFS maintainer first.
+> Why is 2) a real constrain?
 
-Christian, what route do you prefer?
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+This should not be a restriction, but a strategy. Our product wants to
+migrate anonymous pages to the local instead of swapping them out. 
+However, the current per-node-reclaim interface does not support 
+reclaiming only file pages.
 
