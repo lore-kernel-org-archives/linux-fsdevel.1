@@ -1,184 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C68882E7635;
-	Thu,  9 Apr 2026 02:51:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2160D2D0C97
+	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Apr 2026 02:52:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775703073; cv=none; b=eZIQf+9LKAT+kkmemv9t0qlnuqXB7qoNyEwXC/h89vPSanUt75hw9Rz7WxVSnoIRA4+vbanTC1lr94FP7HxUTHGsAkir2STF54JhwYl5BrcFrf6v5dVtr9uMjjpKf2sxCaNdPMAi7Z/ccDq0CNVc5zxmZF4PPTi+vxhrYLtYRHw=
+	t=1775703177; cv=none; b=Kd9tHtSTSna5qMhw62+rNtnXPAMxYa6B5/WM+eSowY/ge5ORwLD9xtONO6w5+UmtgOlrrjAVD8s+QywMffwmx1G+6QNBgjDrXpJJBNrArFfqnZRwkdaX5U0QbIvwOOEjgghEDk6Pj7r+lX3T3/JNe0fQDndO/XoCLOBE/gx9ac4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775703073; c=relaxed/simple;
-	bh=pb4X9hM5ZH85eVRwGPqpDeJTNycAfQb6SOBqEFeQrp0=;
+	s=arc-20240116; t=1775703177; c=relaxed/simple;
+	bh=4QjqaFHIg/Dy6Jc2O+lz+QefipsXiEqtsyKueInTJ/I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OUWVzKdd2JXHQiq6TZVVj/E1uqqR/wQFoEt8zSLUsXiA/4ez0hUoi7S1v5nDNSsyMSrH56OCXXFLtbIaSIrjetlvXdttiWCF0mm09aufY90HPexhgRWU2V0itxqc1lM/78PDN28wloxoqfsM1HomC+FpRNeKUS3PyXqUM617Qvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=deUUMGAv; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=o8gvdF364XmPz9SnJ8NIpMaCpP3CWk0v4MiPwjWInhYSkziT/XNK0Bk4iKsiT7VOt6l9EQ1rFVMOCZTk0U/MR5kM323DqaW6Z7k9upU/EkrMRLafYJsiSu+eTl4BA5RbPLCDiMJhU7I3cUEUhkI2p8YwqgOoMWuN5GvtJNTENXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=GRkLTg2Y; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="deUUMGAv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2024C2BC9E;
-	Thu,  9 Apr 2026 02:51:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775703073;
-	bh=pb4X9hM5ZH85eVRwGPqpDeJTNycAfQb6SOBqEFeQrp0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=deUUMGAvKvkM3fUmHPRPbOH6ZJijZNulPZc1F7z2KcYxRxBw5VGezZ16h9X2E7Agd
-	 Y2dx6IUIy5wn0L+z629ro6P7co/O9zEeC4E/EvBZsIXp+xVaIi+HElzyCiYRB+MSbR
-	 wzGxaWsu0XlDs0IbhEwXZDfqw3nA3X4j7/AUJRo9LtPDAsQ8p4mGTP1Olt7Cy5F0dN
-	 k+TduRW6aBiIl2Bbwedrkmgo+ygxIERs7FxilUjXPaDcYfMC4ytGe9ZZ943JsdAHNC
-	 5aMGaadR8VUSsYzZwhbExZ5gBxnHxvNYREI+Rgtbb3Z7i/ALXlK++B10IxcWod0Lb2
-	 /LZp0OShknESQ==
-Date: Thu, 9 Apr 2026 11:51:11 +0900
-From: "Harry Yoo (Oracle)" <harry@kernel.org>
-To: "Denis M. Karpov" <komlomal@gmail.com>
-Cc: Andrea Arcangeli <aarcange@redhat.com>, rppt@kernel.org,
-	akpm@linux-foundation.org, Liam.Howlett@oracle.com, ljs@kernel.org,
-	vbabka@kernel.org, jannh@google.com, peterx@redhat.com,
-	pfalcato@suse.de, brauner@kernel.org, viro@zeniv.linux.org.uk,
-	jack@suse.cz, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH] userfaultfd: allow registration of ranges below
- mmap_min_addr
-Message-ID: <adcUHx27oZLftSjS@hyeyoo>
-References: <20260407081442.6256-1-komlomal@gmail.com>
- <adXJop1d0QdH2Mwm@hyeyoo>
- <CADtiZd3AcY2LwPfCkb782TaY1h50dTPpEzhfLSyMeQeXG6VXfA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="GRkLTg2Y"
+Received: from macsyma.thunk.org (pool-173-48-116-90.bstnma.fios.verizon.net [173.48.116.90])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 6392qZDs017818
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 8 Apr 2026 22:52:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1775703158; bh=pRitemWm7oStHMtE/NSYcFZebUdUwyyWgpbueyh1kbc=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=GRkLTg2YZM1nkobsvKOOd4bs+yNeo2+bnwcQxFOxx+RpkJ5i22in1Mbkx8Vek3kB+
+	 4wwe+Sb+c3P7P88+AXXXvkT8n3YNoNnKWUDP88SxeqjimV1yDkcktAbT/XeqXnJcgt
+	 O/97o+7a6ugGW3pNwTbuLB3P/U6rVVTWMbvpsNgbANQeQh0VDTj+rsvUgrsUpJIJV2
+	 dVoZS0IzySHkZlJxKHqZ26C3Qpje3zWbpyKmW/m+Mt7e+KaQnOk5UkEDQ694IXqvFd
+	 5ra2zqdUG2c+CEb+prE4I/lw+vfJNIRjgsruvX4DMz0ErApXs2pzgHAzgoGlHm9QVC
+	 mRspiQafk+x5w==
+Received: by macsyma.thunk.org (Postfix, from userid 15806)
+	id 9B01162570A1; Wed,  8 Apr 2026 22:51:35 -0400 (EDT)
+Date: Wed, 8 Apr 2026 22:51:35 -0400
+From: "Theodore Tso" <tytso@mit.edu>
+To: Jan Kara <jack@suse.cz>
+Cc: Ye Bin <yebin@huaweicloud.com>, adilger.kernel@dilger.ca,
+        linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 0/3] show orphan file inode detail info
+Message-ID: <20260409025135.GB99725@macsyma-wired.lan>
+References: <20260403082507.1882703-1-yebin@huaweicloud.com>
+ <n4sccudy5avcgnkdhc27rzofzoprxqtwhfrlmsh3yyrj6vbc6d@mmu73gmtawkq>
+ <20260407202845.GA38246@macsyma-wired.lan>
+ <fdil2jz7kizzrlew7airdlpvnz7qyzigigaw3huktm66455wuh@yyqhacmxe4qk>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CADtiZd3AcY2LwPfCkb782TaY1h50dTPpEzhfLSyMeQeXG6VXfA@mail.gmail.com>
+In-Reply-To: <fdil2jz7kizzrlew7airdlpvnz7qyzigigaw3huktm66455wuh@yyqhacmxe4qk>
 
-On Wed, Apr 08, 2026 at 11:09:00AM +0300, Denis M. Karpov wrote:
-> > Hmm but it looks bit strange to check capability for address that is
-> > already mapped by mmap(). Why is this required?
->
-> Actually, it's not obvious to me either, but I may miss something.
-> My intent was to replace the current restrictive check with a more flexible one.
-
-Technically, it's less restrictive only if start < mmap_min_addr
-(setting aside the discussion of whether this is an appropriate check).
-
-Otherwise (start >= mmap_min_addr) it's more restrictive? (now, the process
-should have the capability when registering an existing VMA to userfaultfd)
-
-> I think performing this check here allows us to deny invalid requests early,
-> before locks or VMA lookups occur.
-
-But we're not trying to optimize it and we shouldn't add checks without
-a proper explanation for the sake of optimization.
-
-> Removing this check entirely would also allow using UFFD in cases where a task
-> drops privileges after the initial mmap(). This seems reasonable because the
-> VMA already exists, i.e. kernel already allowed this mapping.
-
-Yeah, that seems reasonable to me.
-
-IOW, I don't think "creating a VMA on a specific address (w/ proper
-capabilities) is okay but once it is registered to userfaultfd,
-it becomes a security hole" is a valid argument.
-
-And we don't unmap those mappings when the process loses the capability
-to map them anyway.
-
-> In the [BUG] thread discussion
-
-Was it a private discussion? I can't find Andrea's emails on the thread.
-
-> Andrea Arcangeli also suggested adding a check for
-> FIRST_USER_ADDRESS to handle architectural constraints.
-
-Again, what's the point of checking this on the VMA that is already created?
-*checks why FIRST_USER_ADDRESS was introduced*
-
-commit e2cdef8c847b480529b7e26991926aab4be008e6
-Author: Hugh Dickins <hugh@veritas.com>
-Date:   Tue Apr 19 13:29:19 2005 -0700
-
-    [PATCH] freepgt: free_pgtables from FIRST_USER_ADDRESS
-
-    The patches to free_pgtables by vma left problems on any architectures which
-    leave some user address page table entries unencapsulated by vma.  Andi has
-    fixed the 32-bit vDSO on x86_64 to use a vma.  Now fix arm (and arm26), whose
-    first PAGE_SIZE is reserved (perhaps) for machine vectors.
-
-    Our calls to free_pgtables must not touch that area, and exit_mmap's
-    BUG_ON(nr_ptes) must allow that arm's get_pgd_slow may (or may not) have
-    allocated an extra page table, which its free_pgd_slow would free later.
-
-    FIRST_USER_PGD_NR has misled me and others: until all the arches define
-    FIRST_USER_ADDRESS instead, a hack in mmap.c to derive one from t'other.  This
-    patch fixes the bugs, the remaining patches just clean it up.
-
-    Signed-off-by: Hugh Dickins <hugh@veritas.com>
-    Signed-off-by: Andrew Morton <akpm@osdl.org>
-    Signed-off-by: Linus Torvalds <torvalds@osdl.org>
-
-Oh, ok. there might be a raw mapping without VMA below FIRST_USER_ADDRESS.
-
-Adding such a check wouldn't hurt... but if there is no VMA, you can't
-register the range to userfaultfd anyway?
-
-> Andrea, could you please comment on this? Specifically, would a
-> check against FIRST_USER_ADDRESS sufficient here, or do we still
-> need to check caps?
+On Wed, Apr 08, 2026 at 03:36:10PM +0200, Jan Kara wrote:
+> > And inodes on the orphan inode list have been unlinked, so we don't want
+> > to allow people to be able to open them.
 > 
-> On Wed, Apr 8, 2026 at 6:21 AM Harry Yoo (Oracle) <harry@kernel.org> wrote:
-> >
-> > On Tue, Apr 07, 2026 at 11:14:42AM +0300, Denis M. Karpov wrote:
-> > > The current implementation of validate_range() in fs/userfaultfd.c
-> > > performs a hard check against mmap_min_addr without considering
-> > > capabilities, but the mmap() syscall uses security_mmap_addr()
-> > > which allows privileged processes (with CAP_SYS_RAWIO) to map below
-> > > mmap_min_addr. Furthermore, security_mmap_addr()->cap_mmap_addr() uses
-> > > dac_mmap_min_addr variable which can be changed with
-> > > /proc/sys/vm/mmap_min_addr.
-> > >
-> > > Because userfaultfd uses a different check, UFFDIO_REGISTER may fail
-> > > with -EINVAL for valid memory areas that were successfully mapped
-> > > below mmap_min_addr even with appropriate capabilities.
-> > >
-> > > This prevents apps like binary compilers from using UFFD for valid memory
-> > > regions mapped by application.
-> > >
-> > > Replace the rigid mmap_min_addr check with security_mmap_addr() to align
-> > > userfaultfd with the standard kernel memory mapping security policy.
-> >
-> > Perhaps worth adding
-> >
-> > Fixes: 86039bd3b4e6 ("userfaultfd: add new syscall to provide memory externalization")
-> >
-> > > Signed-off-by: Denis M. Karpov <komlomal@gmail.com>
-> > >
-> > > ---
-> > >  fs/userfaultfd.c | 4 +---
-> > >  1 file changed, 1 insertion(+), 3 deletions(-)
-> > >
-> > > diff --git a/fs/userfaultfd.c b/fs/userfaultfd.c
-> > > index bdc84e521..dbfe5b2a0 100644
-> > > --- a/fs/userfaultfd.c
-> > > +++ b/fs/userfaultfd.c
-> > > @@ -1238,15 +1238,13 @@ static __always_inline int validate_unaligned_range(
-> > >               return -EINVAL;
-> > >       if (!len)
-> > >               return -EINVAL;
-> > > -     if (start < mmap_min_addr)
-> > > -             return -EINVAL;
-> > >       if (start >= task_size)
-> > >               return -EINVAL;
-> > >       if (len > task_size - start)
-> > >               return -EINVAL;
-> > >       if (start + len <= start)
-> > >               return -EINVAL;
-> > > -     return 0;
-> > > +     return security_mmap_addr(start);
-> >
-> > Hmm but it looks bit strange to check capability for address that is
-> > already mapped by mmap(). Why is this required?
+> Why? You can reopen unlinked files using magic links in proc or file
+> handles just fine today (just tested this if I'm not missing anything in
+> the code). Only once the inode is really deleted you cannot open using the
+> handle anymore.
 
--- 
-Cheers,
-Harry / Hyeonggon
+You're right.  I don't know why I thought that would fail, but it does
+indeed work.  I think I was thinking of linkat(2) with AT_EMPTY_FLAG.
+
+So yeah, your suggestion of a synthetic fd that returns a list of file
+handles sounds good to me.
+
+					- Ted
