@@ -1,238 +1,212 @@
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 034813BFE25;
-	Thu,  9 Apr 2026 11:10:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775733023; cv=none; b=XSZkV/alBrUimZGh5Frj3Rakh82o091jbxEyUrVz9WQjCYcGUaiJ5n/ddVL1PVGaWMkJqNM3IbZSBmtMEtIGO7LBcz6/be/L6Vl554/nr2peatw4H5i7W4TSrtqBe+bv9d90KL8lfGZLj+46SzJ0is/tkmyANKOmEz+r0CfXeXg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775733023; c=relaxed/simple;
-	bh=3w0XcAfaAgMYpnbofUaykPjTuMzlLF7R1ICR8ORFEA0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=gDY3yR82aLTm18C3QWRDliQqPnqEpawJ0zkCL+5nwovBmxGahK91yWarpI2jd2kxV2GFGNzIBE72Lj08xP9VQWQi6RV7CnUxi/SLCbn73evhtmAwX5chGjtyOS70Me3TVbcylUEJcT0nimdDzCeXFWXsRUaPcJKNs48VNsD/2VY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=Odxw7z6+; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAAF03A9605
+	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Apr 2026 11:34:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.129.124
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775734466; cv=pass; b=ofVWOD4XuO2c4l3Qy5GDKku5/f5eRyKLUDBkAny07e8NyBftybdZjpYlObugAF7DLQq0nB9Dn5BBx9eJRJYTakDQssGQtekwnPCPAgqjLQX1AdBSxFF1WGSEpjrwUSl3rJvbweclv9gT1jMKXQh5ucY6O4SNM3ou09vNANR1e1I=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775734466; c=relaxed/simple;
+	bh=L+Wczuh9KLGAXgg+iq0uFWPCITlLrRyjxt3LtFr4r7c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hQxidzZI4DGGecIq43T0Zwqnh+gd9apgrglaObf8Nnfrl+vrfzwSOCsWxxw1/w+cOG8y+bemPeqqIMW1ERXACKAONrEG2JQ7ptF8gVskXTay625cKjjNW+My+rq0/naVNjVX5+oKBwI01YcKtp8o9EvKiiLQdLwCTu+YrA6K2Ec=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GVwBGJxY; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=dSW4B+rx; arc=pass smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="Odxw7z6+"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
-	Date:References:In-Reply-To:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=gY6lxrEedf9kICFMdC4m9Tl4+u/hf3WGm3hdZN8a7sM=; b=Odxw7z6+ju70oTdCR0C/jvSWye
-	xpkh7OUsuCLhZGnNolSpdyP6y/TGUNMJeAkj6Bb2mcC+UnjB7NutfuV5YfVXcTrFCfbz95qvDL4zC
-	lmtTR+rNDLSGH2naio1Ux4zD8r7skB9yFxf2DuyN5MDmwWnVYte+Ith0+pwqe4LiPOOk4B1YEO+0D
-	VpKHqhfITUCvn0tVIJwBypKkQOTzQixHy9DVNUC+/qF5+wTMli4PnSEJVUvrNzAftU6cm0nF/cgDN
-	52ncqU43b+YnIRgvDau1/wUCFjm0vc5E01h5qFrAs+aY6hH52Rt0C0P3TB+0SAHar4b4IZEALzjL6
-	MYOhyg3w==;
-Received: from bl15-209-88.dsl.telepac.pt ([188.80.209.88] helo=localhost)
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1wAnGv-00DuKM-TX; Thu, 09 Apr 2026 13:10:06 +0200
-From: Luis Henriques <luis@igalia.com>
-To: Jingbo Xu <jefflexu@linux.alibaba.com>
-Cc: Joanne Koong <joannelkoong@gmail.com>,  Miklos Szeredi
- <miklos@szeredi.hu>,  Amir Goldstein <amir73il@gmail.com>,  Bernd Schubert
- <bschubert@ddn.com>,  Bernd Schubert <bernd@bsbernd.com>,  "Darrick J.
- Wong" <djwong@kernel.org>,  Horst Birthelmer <hbirthelmer@ddn.com>,  Kevin
- Chen <kchen@ddn.com>,  linux-fsdevel@vger.kernel.org,
-  linux-kernel@vger.kernel.org,  Matt Harvey <mharvey@jumptrading.com>,
-  kernel-dev@igalia.com
-Subject: Re: [RFC PATCH v3 6/8] fuse: implementation of lookup_handle+statx
- compound operation
-In-Reply-To: <5c13b5ae-ca74-4fd8-97ec-39f24ccfd5c2@linux.alibaba.com> (Jingbo
-	Xu's message of "Thu, 9 Apr 2026 10:27:35 +0800")
-References: <20260225112439.27276-1-luis@igalia.com>
-	<20260225112439.27276-7-luis@igalia.com>
-	<CAJnrk1Yxpy0+tx2yb7CxVVwF9gqNRz_pHH5NUpBHOg55NNooJA@mail.gmail.com>
-	<87v7e24gdw.fsf@igalia.com>
-	<CAJnrk1aG_N-FVJfNpoU6iLcA6XHsUvWe74E0Pkth-hev9zgmHg@mail.gmail.com>
-	<87fr55lpu4.fsf@igalia.com>
-	<5c13b5ae-ca74-4fd8-97ec-39f24ccfd5c2@linux.alibaba.com>
-Date: Thu, 09 Apr 2026 12:10:05 +0100
-Message-ID: <87ika0z8xe.fsf@igalia.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GVwBGJxY";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="dSW4B+rx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1775734463;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WgrCj/PkEUGlRNLIdX4qp/95pD0BbHO19KX/pjOhdks=;
+	b=GVwBGJxYaEIC71i/OFgzSDtNets6sM9YUt+ilaqN0qixknrrIoMhhso1XOfWtuTO3C0ppr
+	lYXVAf7usutWvPEjEptFW3P8rllALbEqldt7a2zVAivZuCG06yHWn/PrgXDjGoR5xJWwbl
+	6+8oSqYxmTc6R0R3h/hMko39PDndL+E=
+Received: from mail-vs1-f69.google.com (mail-vs1-f69.google.com
+ [209.85.217.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-139-HDpEoRGXNNiLU_X8IW-SgA-1; Thu, 09 Apr 2026 07:34:21 -0400
+X-MC-Unique: HDpEoRGXNNiLU_X8IW-SgA-1
+X-Mimecast-MFC-AGG-ID: HDpEoRGXNNiLU_X8IW-SgA_1775734461
+Received: by mail-vs1-f69.google.com with SMTP id ada2fe7eead31-5fae584a130so975376137.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 09 Apr 2026 04:34:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775734461; cv=none;
+        d=google.com; s=arc-20240605;
+        b=UiEGqlonEKxm5GpH/5iNaxigvmBteLknNpHE21zaqw6I+FUFUjgtstLZAnZx0+U1g7
+         eVBnIR9IZ+z85XlglS5X7FqoB4EjGAIsJ1hgW4nHgK4LVfz8y96ORyxG5fffXNnoDLm6
+         baJQ3g8Y23s0hfS04ZlNAci7vkSs6mBzyImskDUbYioQqToV09X4FZeCRT4LTWQFD+Hl
+         z5wCLiIXrsgAv/yNHO3G9aydzA/swciphZFlHF0jGQFwmxSWCLJUhv+NetmWZLjMOdnJ
+         iYMvS3niZ/iPDdsSEV92YNF9LVeTOuD2DnK68vWt/9e0WcJ/vJ3g6FD9SnMxmgncOunr
+         JIuw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=WgrCj/PkEUGlRNLIdX4qp/95pD0BbHO19KX/pjOhdks=;
+        fh=hhmO+sr5SIg2fJ0W7BTWn6dbZMLayahnPxDtvNdlgls=;
+        b=PMCWE9jBRurnpLpOuh9qYkv64b3rMQdKr8W0Lbw6KRFQYnoI53UnPiQ3GqZU6vtsej
+         HMYF6wo36rKjEkPo0wmf7IowM1DmOgVjFfckGq5IjEaO8qpluB1u6SAwcz/ol3HKIGpQ
+         R/TtDqBm4hgwcZRRnNA1r1gZnARq8iQUIKcWZaM7X146Fuxa0XAr3IXb/HWMnIhcXH4E
+         lILVAI4u1/2hgzmC40pd1sc5WqMXy0ajNpKBBkqWgfsjYFgB6MzVW82UMrpnU7AnxwyY
+         L+QKxZX3k0e7utjX9hP2unVWQLa7pRo5eeBsqAdyiGpwLgNTBw+j0zMwf3J0GWMuocUN
+         uz3w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1775734461; x=1776339261; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WgrCj/PkEUGlRNLIdX4qp/95pD0BbHO19KX/pjOhdks=;
+        b=dSW4B+rxncCdBUH4hsExy/ydX+glNM7G5nrr9uYQ12KbKmm2UW0tBxUBkJRXKtOZYK
+         xQngfa0STZSHZtuxItDyfOS6Sipyr8/uAXWhC3Ru4we96RBYBxNvuS7FXJu+Z2N8DodX
+         uQ3PeW5dbRIsJ8xew27UJfVuLNRl0eALxEIjbdPorhZEfAqBS3lgazfRgduOe8D/nsl/
+         AHlkaAwCp6cmDbSmyKWpDFQt+YCihFf15aFU79BT05Ugplff4Saa8wniVkTQSTFY1/wh
+         nBHaPy34NVYVTHyvWLBaecwSSHDE86Z8bb0gvfFQG/eFCZLHafdUasUL7djwWhD0dWTJ
+         nkWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775734461; x=1776339261;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=WgrCj/PkEUGlRNLIdX4qp/95pD0BbHO19KX/pjOhdks=;
+        b=X26boevlvW4y3UowwQm5buda2mvpuqsaYYX32Zdi6j0qytOQIkhfm76iF20wlr5uv1
+         c7U+JD276Dz3h9nhmhG8O0302fOoeX4DhhyHuTor0xR0hoyOvPwslnP2J/kmY8HaHFEN
+         IYtR/bHftw5p37joCXgrIurHomSXl9gjJ2A5xYjTUE5snEpYoFkbrDmDKEmm81I4K7cs
+         oAyaL+VYZbqiD7/9aV+EfRFLEND/p2tS5pU7e2OAKLj2D968KRn5A3dRO8v3sNhUhxY2
+         oPCa4dC8oKbWPiUNrFDWSTjBxfWNY85v4QuqJ9uwb6GT06BCycT0umJo/jp2lsOi3pX8
+         0tDg==
+X-Forwarded-Encrypted: i=1; AJvYcCVu6/EIaHobz+ZjfD5Bq4+X1+BPQ1UWvXUtcoJiEc1s1PqSQ76VDNGrFpxZlrdVMq17YSktoPnKjRjC/2d/@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLI+IYL08murxEVutUSpiuy8y8ExcDFe4cIjrvrkm4dk8Iw73p
+	iZUvbAmC5wilzJV1CqPOopxchzbKMcegm/s8RnzA+xH3i7Ksq9/ukIvDRHsVbL+xZ9BvBu38KpN
+	gfM8wqI23v/h4/PREHlmOsGU4h4EHSZoDbNpggcj2NI1yo2HFk9KLuMMXxNPi16mnXn1hLkipX0
+	c1xBLp2QHexAqPcQpXDgoUTK+L9zqPZ5jxsv1yn977tQ==
+X-Gm-Gg: AeBDies4Yb6I1zJmR5cn9tKg23rupTCHzMhd+j3AtiK+UbL5UyyggrhgVu41tc8RAwr
+	nuwxZrO/W8rXQx1zLJJZaZ16yyRTgiOLoSNPT4sMLgvpr9hMiz40X3ug1m2jPdj0+K6C1cVsf2e
+	VM/BgaMtLx5FroWN0KZL/zkvCJ/QNR5L2tmnu64kojyHL2MUV9p1QQlSBBlcdRT87AFJYt4eDFH
+	ujmTQ==
+X-Received: by 2002:a05:6102:644c:b0:603:273f:3576 with SMTP id ada2fe7eead31-605a4e0c576mr11168310137.10.1775734460989;
+        Thu, 09 Apr 2026 04:34:20 -0700 (PDT)
+X-Received: by 2002:a05:6102:644c:b0:603:273f:3576 with SMTP id
+ ada2fe7eead31-605a4e0c576mr11168299137.10.1775734460536; Thu, 09 Apr 2026
+ 04:34:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20260408181123.310291-2-slava@dubeyko.com>
+In-Reply-To: <20260408181123.310291-2-slava@dubeyko.com>
+From: Alex Markuze <amarkuze@redhat.com>
+Date: Thu, 9 Apr 2026 14:34:08 +0300
+X-Gm-Features: AQROBzD2oAW4zebr47SzIxZN4ebOV7_ib45EoYE6M5Hr_27mto2gFY8z02oGRbQ
+Message-ID: <CAO8a2SgeDwVzdKphHYQZJMV_z5Sg7Mc=jfPY3q1RZTvCWaUDkA@mail.gmail.com>
+Subject: Re: [PATCH] ceph: add ceph_has_realms_with_quotas() check into ceph_quota_update_statfs()
+To: Viacheslav Dubeyko <slava@dubeyko.com>
+Cc: ceph-devel@vger.kernel.org, idryomov@gmail.com, 
+	linux-fsdevel@vger.kernel.org, pdonnell@redhat.com, Slava.Dubeyko@ibm.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 09 2026, Jingbo Xu wrote:
+Good catch. Please add braces for multiline if-else statements; braces
+are needed even if it is only a comment braces are now needed.
+Small nit, please change the comment to  * Treat it as "no quota realm
+found" and fall through gracefully. you are not returning.
 
-> Hi Luis,
+On Wed, Apr 8, 2026 at 9:12=E2=80=AFPM Viacheslav Dubeyko <slava@dubeyko.co=
+m> wrote:
 >
-> On 4/8/26 6:16 PM, Luis Henriques wrote:
->> On Tue, Apr 07 2026, Joanne Koong wrote:
->>=20
->>> On Tue, Apr 7, 2026 at 2:20=E2=80=AFPM Luis Henriques <luis@igalia.com>=
- wrote:
->>>>
->>>> Hi Joanne,
->>>>
->>>> On Tue, Apr 07 2026, Joanne Koong wrote:
->>>>
->>>>> On Wed, Feb 25, 2026 at 3:25=E2=80=AFAM Luis Henriques <luis@igalia.c=
-om> wrote:
->>>>>>
->>>>>> The implementation of lookup_handle+statx compound operation extends=
- the
->>>>>> lookup operation so that a file handle is be passed into the kernel.=
-  It
->>>>>> also needs to include an extra inarg, so that the parent directory f=
-ile
->>>>>> handle can be sent to user-space.  This extra inarg is added as an e=
-xtension
->>>>>> header to the request.
->>>>>>
->>>>>> By having a separate statx including in a compound operation allows =
-the
->>>>>> attr to be dropped from the lookup_handle request, simplifying the
->>>>>> traditional FUSE lookup operation.
->>>>>>
->>>>>> Signed-off-by: Luis Henriques <luis@igalia.com>
->>>>>> ---
->>>>>>  fs/fuse/dir.c             | 294 +++++++++++++++++++++++++++++++++++=
----
->>>>>>  fs/fuse/fuse_i.h          |  23 ++-
->>>>>>  fs/fuse/inode.c           |  48 +++++--
->>>>>>  fs/fuse/readdir.c         |   2 +-
->>>>>>  include/uapi/linux/fuse.h |  23 ++-
->>>>>>  5 files changed, 355 insertions(+), 35 deletions(-)
->>>>>>
->>>>>> diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
->>>>>> index 113583c4efb6..89e6176abe25 100644
->>>>>> --- a/include/uapi/linux/fuse.h
->>>>>> +++ b/include/uapi/linux/fuse.h
->>>>>>
->>>>>>  enum fuse_opcode {
->>>>>> @@ -671,6 +676,8 @@ enum fuse_opcode {
->>>>>>          */
->>>>>>         FUSE_COMPOUND           =3D 54,
->>>>>>
->>>>>> +       FUSE_LOOKUP_HANDLE      =3D 55,
->>>>>> +
->>>>>>         /* CUSE specific operations */
->>>>>>         CUSE_INIT               =3D 4096,
->>>>>>
->>>>>> @@ -707,6 +714,20 @@ struct fuse_entry_out {
->>>>>>         struct fuse_attr attr;
->>>>>>  };
->>>>>>
->>>>>> +struct fuse_entry2_out {
->>>>>> +       uint64_t        nodeid;
->>>>>> +       uint64_t        generation;
->>>>>> +       uint64_t        entry_valid;
->>>>>> +       uint32_t        entry_valid_nsec;
->>>>>> +       uint32_t        flags;
->>>>>> +       uint64_t        spare;
->>>>>> +};
->>>>>
->>>>> Hi Luis,
->>>>>
->>>>> Could you explain why we need a new struct fuse_entry2_out instead of
->>>>> reusing struct fuse_entry_out? From what i see, the only differences
->>>>> between them are that fuse_entry2_out drops attr_valid,
->>>>> attr_valid_nsec, and struct fuse_attr. Is this done so that it saves
->>>>> the ~100 bytes per lookup? Would it be cleaner from an abi perspective
->>>>> to just reuse fuse_entry_out and ignore the attr fields if they're not
->>>>> necessary? The reason I'm asking is because I'm looking at how you're
->>>>> doing the lookup request reply to see if the fuse passthrough stuff
->>>>> for metadata/directory operations can be combined with it. But I'm not
->>>>> fully understanding why fuse_entry2_out is needed here.
->>>>>
->>>>> I'm also a bit confused by why the compound with statx is needed here,
->>>>> could you explain this part? I see the call to fuse_statx_to_attr()
->>>>> after do_lookup_handle_statx(),  but fuse_statx_to_attr() converts the
->>>>> statx reply right back to a struct fuse_attr for inode setup, so if
->>>>> FUSE_LOOKUP_HANDLE returned struct fuse_entry_out instead of struct
->>>>> fuse_entry2_out, doesn't this solve the problem of needing to compound
->>>>> it with a statx or getattr request? I also noticed that the statx part
->>>>> uses FUSE_ROOT_ID as a workaround for the node id because the actual
->>>>> nodeid isn't known yet, this seems like another sign that the
->>>>> attributes stuff should just be part of the lookup response itself
->>>>> rather than a separate operation?
->>>>
->>>> First of all, thanks a lot for looking into this patchset.  Much
->>>> appreciated!
->>>>
->>>> The main reason for swapping the usage of attr by statx is that statx
->>>> includes some attributes that attr does not (e.g. btime).  And since I=
- was
->>>> adding a new FUSE operation, it would be a good time for using statx
->>>> instead.  (Moreover, as new attributes may be added to statx in the
->>>> future, the benefits of using statx could eventually be even greater.)
->>>>
->>>> This was suggested by Miklos here[0], before converting the whole thin=
-g to
->>>> use compound commands.  So, I was going to use fuse_statx in the _out =
-args
->>>> for lookup_handle.  However, because the interface was getting a bit
->>>> complex with extra args (and ext headers!), Miklos ended up suggesting=
-[1]
->>>> to remove attr completely from the lookup_handle operation, and use
->>>> compounds instead to have the full functionality.
->>>
->>> Thank you for the context and links, Luis!
->>>
->>> Using fuse_statx over fuse_getattr makes sense to me for the new
->>> FUSE_LOOKUP_HANDLE op but the part I am confused about is why it needs
->>> to be compounded. If we are adding a new struct (struct
->>> fuse_entry2_out) to the abi, why is it not simpler to just make the
->>> new struct something like:
->>>
->>>   struct fuse_entry_handle_out {
->>>       uint64_t    nodeid;
->>>       uint64_t    generation;
->>>       uint64_t    entry_valid;
->>>       uint64_t    attr_valid;
->>>       uint32_t    entry_valid_nsec;
->>>       uint32_t    attr_valid_nsec;
->>>       struct fuse_statx stat;
->>>   };
->>>
->>> and avoid the compound stuff altogether? Is it because that would make
->>> the struct fuse_entry_handle_out too big to be stack-allocated and
->>> would thus have to be heap allocated? But if I'm recalling correctly,
->>> the compound requests path requires heap allocations as well. Although
->>> at that point if we're gonna have to do the heap allocation, then we
->>> might as well just also embed the struct fuse_file_handle inside
->>> struct fuse_entry_handle_out?
->>=20
->> I'm open to drop the usage of compounds for this, of course.  In fact,
->> during the v2 discussions I suggested here[0] the usage of a similar
->> struct fuse_entry_handle_out.  Using compound commands was a way to try =
-to
->> simplify the interface.  But maybe at that point I was too quick at
->> jumping into the compound commands suggestion.  It may make sense to
->> reevaluate this decision if you think it simplifies things, specially for
->> passthrough.
->>=20
->> [0] https://lore.kernel.org/all/87zf6nov6c.fsf@wotan.olymp
->>=20
+> From: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
 >
-> Many thanks for your work on this.
+> When MDS rejects a session, remove_session_caps() ->
+> __ceph_remove_cap() -> ceph_change_snap_realm() clears
+> i_snap_realm for every inode that loses its last cap.
+> The realm is restored once caps are re-granted after
+> reconnect. It is not a real error and thsi patch changes
+> pr_err_ratelimited_client() on doutc().
 >
-> Just FYI We are also interested in the kernel-maintained filehandle,
-> which can dramatically help reduce the memory footprint on the FUSE
-> server side.
+> Every quota methods ceph_quota_is_max_files_exceeded(),
+> ceph_quota_is_max_bytes_exceeded(),
+> ceph_quota_is_max_bytes_approaching() calls
+> ceph_has_realms_with_quotas() check. This patch adds
+> the missing ceph_has_realms_with_quotas() call into
+> ceph_quota_update_statfs().
+>
+> Signed-off-by: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
+> cc: Alex Markuze <amarkuze@redhat.com>
+> cc: Ilya Dryomov <idryomov@gmail.com>
+> cc: Patrick Donnelly <pdonnell@redhat.com>
+> cc: Ceph Development <ceph-devel@vger.kernel.org>
+> ---
+>  fs/ceph/quota.c | 25 +++++++++++++++++++------
+>  1 file changed, 19 insertions(+), 6 deletions(-)
+>
+> diff --git a/fs/ceph/quota.c b/fs/ceph/quota.c
+> index 4dc9426643e8..0fa0e7c4b52f 100644
+> --- a/fs/ceph/quota.c
+> +++ b/fs/ceph/quota.c
+> @@ -231,9 +231,14 @@ static int get_quota_realm(struct ceph_mds_client *m=
+dsc, struct inode *inode,
+>         if (realm)
+>                 ceph_get_snap_realm(mdsc, realm);
+>         else
+> -               pr_err_ratelimited_client(cl,
+> -                               "%p %llx.%llx null i_snap_realm\n",
+> -                               inode, ceph_vinop(inode));
+> +               /*
+> +                * i_snap_realm is NULL when all caps have been released,=
+ e.g.
+> +                * after an MDS session rejection.  This is a transient s=
+tate;
+> +                * the realm will be restored once caps are re-granted.  =
+Treat
+> +                * it as "no quota realm found" and return gracefully.
+> +                */
+> +               doutc(cl, "%p %llx.%llx null i_snap_realm\n",
+> +                     inode, ceph_vinop(inode));
+>         while (realm) {
+>                 bool has_inode;
+>
+> @@ -343,9 +348,14 @@ static bool check_quota_exceeded(struct inode *inode=
+, enum quota_check_op op,
+>         if (realm)
+>                 ceph_get_snap_realm(mdsc, realm);
+>         else
+> -               pr_err_ratelimited_client(cl,
+> -                               "%p %llx.%llx null i_snap_realm\n",
+> -                               inode, ceph_vinop(inode));
+> +               /*
+> +                * i_snap_realm is NULL when all caps have been released,=
+ e.g.
+> +                * after an MDS session rejection.  This is a transient s=
+tate;
+> +                * the realm will be restored once caps are re-granted.  =
+Treat
+> +                * it as "quota not exceeded" and return gracefully.
+> +                */
+> +               doutc(cl, "%p %llx.%llx null i_snap_realm\n",
+> +                     inode, ceph_vinop(inode));
+>         while (realm) {
+>                 bool has_inode;
+>
+> @@ -496,6 +506,9 @@ bool ceph_quota_update_statfs(struct ceph_fs_client *=
+fsc, struct kstatfs *buf)
+>         u64 total =3D 0, used, free;
+>         bool is_updated =3D false;
+>
+> +       if (!ceph_has_realms_with_quotas(d_inode(fsc->sb->s_root)))
+> +               return false;
+> +
+>         down_read(&mdsc->snap_rwsem);
+>         get_quota_realm(mdsc, d_inode(fsc->sb->s_root), QUOTA_GET_MAX_BYT=
+ES,
+>                         &realm, true);
+> --
+> 2.53.0
+>
 
-Awesome!
-
-> It just seems that the overall design is still not clear right now.  I'd
-> like to and would be happy if I could help any.
-
-Thanks you, Jingbo.  I guess that for now we need to revalidate the usage
-of compounds or going back to my previous (v2) approach.  If we end up
-deciding to drop compound commands, I can try to get a new version of the
-patchset before LSFMM so that we can eventually discuss more details
-there.
-
-Cheers,
---=20
-Lu=C3=ADs
