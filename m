@@ -1,46 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5148D34D38B
-	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Apr 2026 07:19:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FFA9371890
+	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Apr 2026 07:21:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775719160; cv=none; b=JWZBjRncin8PqOH6VX2TRl3PIszLbtGWrSQtDZhuUZfV8tM+FZOEYkaxM4FVYn571I4Ik4+0VsvDq5zGzko0zTdWj1ZD6Zgeu4D3QGM24Ny8tPxe8rH8GFl4S5r9r6QLY6SkmYMGrT2TZf70DLG4QrgvAZMoKtGlJCAV8MVLisg=
+	t=1775719304; cv=none; b=Ku+QCh1seE5oid8y3mqY/3p19i5FiYYAH8j38PxAp74bxa3JNz5BnRwJ6Mj63M5V/sj2sgwvRGBOkQGxrlaZsqdgSm8VJZVPCvU2a/J8Hr9J7PW+j7cfUm1k7DNbwX47HKoeS5IfvUZD1qvWLf5xkiPxV8WORPNsel5rh8A9/3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775719160; c=relaxed/simple;
-	bh=my6LXn8xmgzajdOla0euu8Ri/1WZ4QR4CXhOVlghjT0=;
+	s=arc-20240116; t=1775719304; c=relaxed/simple;
+	bh=tozVDqb6hggNZyf4iiZsDRCXAIfyEAYWqXu0b80Atuw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kMPFr7Js8/B6Vxi5w7UINfJdwD45S6O5mfQVAmpyzTdtuucAZNH3MpomIwZSdxyG9OIdFGywkEJx5NKPSkPIeXKvu1IbRxdfx008msp0xcIw3bjarMBLjhz5HBYjEg0Umj29+/wdFxUvV9K9628U6iRmDWRqxUNfpK/lPirGfJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KkPQXE2O; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=IMyGbCDXp1/pxD1HGOkUaR1Xta3isH7sL9zWGFY1kDC55llA7cpKOG5OHOCqW2Mm3iwd/xgdb+gYOUPj7ULp/C3HKMafIqq4zhQMQzwxyr+XfWGaEIn/+sd/dIzMeI9wpUmO8StwWvD31NsATZlqF9uHOOczR/KrvwGRrh5HWn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=MwgQvcvk; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=OqpuF0Yw; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=MwgQvcvk; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=OqpuF0Yw; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KkPQXE2O"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D789AC4CEF7;
-	Thu,  9 Apr 2026 07:19:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775719160;
-	bh=my6LXn8xmgzajdOla0euu8Ri/1WZ4QR4CXhOVlghjT0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KkPQXE2OV9lhdm+b7H4aSgxRaoDCoYGrSQ12jMsAv3+DSapTtrBfG+ibb6XjBr4Lj
-	 iRKUx0U2FlzhVuuLSF5gYDCOWd4Zrp6t4pXODl90fgBQqoErjBWwkIVfhqzSP59mH4
-	 /V5RPQitO2Ww3CqrUF6W+sUybi0mB1Kt4834r1PTqhEGI7nX5gtB9k7HPJg9nToZdN
-	 DiPwFt99EAo6sAlGhgW2wviRWtMGGLfswjU9bBbfBLnJfl7/YODT8n1ui3Shj1YWAD
-	 AD9Dq5hdWqIWwUKSRXg0+W96XVATFE9DpuBuLceVFcI18zIIXZwBN85m3qozzIy6uo
-	 GvTroDgy7uqVA==
-Date: Thu, 9 Apr 2026 08:19:14 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: Michal Hocko <mhocko@suse.com>
-Cc: Kefeng Wang <wangkefeng.wang@huawei.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@kernel.org>, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH RFC] fs: drop_caches: introduce per-node drop_caches
- interface
-Message-ID: <addRr9Vn_LNiXp11@lucifer>
-References: <20260409063503.3475420-1-wangkefeng.wang@huawei.com>
- <addP4MKmA8zfSN1o@tiehlicka>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="MwgQvcvk";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="OqpuF0Yw";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="MwgQvcvk";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="OqpuF0Yw"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3F54B4EDF5;
+	Thu,  9 Apr 2026 07:21:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1775719301; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ESt4c0B8oOSEtkd+8LJXFtuu42Yc6K56200il9oR8Ts=;
+	b=MwgQvcvkocHrUrSYzXzcSGpLTN9LmNoPNost69oIb3tYDmegXcIx3mCVExdKZq3IMiWiml
+	oWoa5hBrQgtUqIs/jP9iB5yuo5jlpO0TpsY1RQPXlv8mESwV34XV2BxxUfvGsxVq3EnMmW
+	yUSSvl4rEanxFGNgqr9ytKBNTCfP9Dw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1775719301;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ESt4c0B8oOSEtkd+8LJXFtuu42Yc6K56200il9oR8Ts=;
+	b=OqpuF0YwK4VoT8f/ASHl/EGTw57DTLAUSEpPrZm8NcxxitUZvBvhqcvHVU5vvEdPaynI1P
+	hF9BuqaT/bjI5AAA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=MwgQvcvk;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=OqpuF0Yw
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1775719301; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ESt4c0B8oOSEtkd+8LJXFtuu42Yc6K56200il9oR8Ts=;
+	b=MwgQvcvkocHrUrSYzXzcSGpLTN9LmNoPNost69oIb3tYDmegXcIx3mCVExdKZq3IMiWiml
+	oWoa5hBrQgtUqIs/jP9iB5yuo5jlpO0TpsY1RQPXlv8mESwV34XV2BxxUfvGsxVq3EnMmW
+	yUSSvl4rEanxFGNgqr9ytKBNTCfP9Dw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1775719301;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ESt4c0B8oOSEtkd+8LJXFtuu42Yc6K56200il9oR8Ts=;
+	b=OqpuF0YwK4VoT8f/ASHl/EGTw57DTLAUSEpPrZm8NcxxitUZvBvhqcvHVU5vvEdPaynI1P
+	hF9BuqaT/bjI5AAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 34D924A0B3;
+	Thu,  9 Apr 2026 07:21:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id CcHhDIVT12mbSwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 09 Apr 2026 07:21:41 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id E4924A0A7E; Thu,  9 Apr 2026 09:21:36 +0200 (CEST)
+Date: Thu, 9 Apr 2026 09:21:36 +0200
+From: Jan Kara <jack@suse.cz>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Jeff Layton <jlayton@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Mike Snitzer <snitzer@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+	Chuck Lever <chuck.lever@oracle.com>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-nfs@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v2 1/3] mm: kick writeback flusher instead of inline
+ flush for IOCB_DONTCACHE
+Message-ID: <gpcc6t5unsoepakjdffsmnmd5duuvijxwdochd753ttix75h7l@nahwzi4qfdcq>
+References: <20260408-dontcache-v2-0-948dec1e756b@kernel.org>
+ <20260408-dontcache-v2-1-948dec1e756b@kernel.org>
+ <adc-Q1iDWHD5yxHH@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -49,58 +98,81 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <addP4MKmA8zfSN1o@tiehlicka>
+In-Reply-To: <adc-Q1iDWHD5yxHH@infradead.org>
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:dkim];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -4.01
+X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 3F54B4EDF5
 
-On Thu, Apr 09, 2026 at 09:06:08AM +0200, Michal Hocko wrote:
-> On Thu 09-04-26 14:35:03, Kefeng Wang wrote:
-> > Add a sysfs interface at /sys/devices/system/node/nodeX/drop_caches
-> > to allow dropping caches on a specific NUMA node.
-> >
-> > The existing global drop_caches mechanism (/proc/sys/vm/drop_caches)
-> > operates across all NUMA nodes indiscriminately, causing,
-> > - Unnecessary eviction of hot cache on some nodes
-> > - Performance degradation for applications with NUMA affinity
-> > - Long times spent on large systems with lots of memory
-> >
-> > By exposing a per-node interface, admistrator can,
-> > - Target specific nodes experiencing memory pressure
-> > - Preserve cache on unaffected nodes
-> > - Perform reclamation with finer granularity
->
-> Quite honestly drop_caches is not the best interface to build any new
-> functionality on top of. It has backfired a lot in the past and we have
-> tried to make it extra clear that this should be used for debugging
-> purposes only. Extending it further sounds like a bad step.
+On Wed 08-04-26 22:50:59, Christoph Hellwig wrote:
+> On Wed, Apr 08, 2026 at 10:25:21AM -0400, Jeff Layton wrote:
+> > +/**
+> > + * filemap_dontcache_kick_writeback - kick flusher for IOCB_DONTCACHE writes
+> > + * @mapping:	address_space that was just written to
+> > + *
+> > + * Wake the BDI flusher thread to start writeback of dirty pages in the
+> > + * background.
+> > + */
+> > +void filemap_dontcache_kick_writeback(struct address_space *mapping)
+> > +{
+> > +	wakeup_flusher_threads_bdi(inode_to_bdi(mapping->host),
+> > +				   WB_REASON_DONTCACHE);
+> > +}
+> 
+> wakeup_flusher_threads_bdi ends up calling wb_start_writeback eventually,
+> which sets WB_start_all, pushes the reason to start_all_reason and then
+> does the actual wakeup.
+> 
+> The flusher thread then through wb_check_start_all does a WB_SYNC_NONE
+> writeback based on get_nr_dirty_pages.  Which seems wrong - we don't
+> want to do a huge writeback evertime the some DONTCACHE write finished.
 
-Agreed, there is still _huge_ confusion out there as to what this is for.
+This is all true and I can certainly construct a workload where this
+behavior will lead to big regressions in performance - for example one
+process creating say 1G temporary file and deleting it shortly after
+creation + one process doing small DONTCACHE writes. Before this change
+only DONTCACHE writes will make it to the disk and temporary file will only
+be in the page cache, after this change you pay for allocating, writing
+back, and deleting the temporary file.
 
-(If I hear another person tell me this is a way to 'free up memory' I'll scream
-:)
+> So I think you'll want a new WB_start_dontcache bit, a new
+> get_nr_dontcache_pages() helper on a new node counter, etc.
 
-Really I think it should be seen as a legacy thing for, as Michal says,
-debug purposes (it would have been a good idea to put this in debugfs tbh).
+But I'm not sure how you imagine this would work without restricting
+writeback to particular inodes. Maybe we could mark inodes which have
+folios with dropbehind set and make flush worker only write such inodes?
+That would probably require tracking number of folios with dropbehind flag
+per inode but that wouldn't be too bad. Or we could just lazily clear this
+"inode has dropbehind folios" flag once the inode is clean.
 
-And adding something to sysfs as a permanent, maintained interface for this
-purpose seems problematic.
+								Honza
 
-What is the use-case for this? Why are you dropping the caches? Presumably
-for debugging/perf measuring/etc. purposes? The cover letter is lacking
-that.
-
-I wonder, if this is something we should move forward with, whether we
-might be better off putting it in debugfs as a result?
-
->
-> > One use cases is hot-pluggable NUMA nodes, during hot-remove, simply
-> > dropping pagecache is far more efficient than migrating large amounts
-> > of pages to other nodes, which also eliminating the risk of accessing
-> > potentially faulty memory.
->
-> Does the per-node reclaim interface can help with this by
-> any means?
->
-> --
-> Michal Hocko
-> SUSE Labs
-
-Thanks, Lorenzo
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
