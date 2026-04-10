@@ -1,68 +1,68 @@
 Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FC663D7D7F
-	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 14:51:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B2953A6418
+	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 15:02:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775832720; cv=none; b=SNpLyMd0HHsg1NQGqXvcrbXObp1A19goAn9lze4bq4rWjWSVxpuVZaQqyaWVeBic4PbIpZNRDEreaOQ4XI5IgKU+xRIqWRwZh9fzrzwYIMA2eCFvovr2zbL9OksXmNlAEpsPjgNO4HNFrNpDZBrv769BZp4R40Z+TilACWFPITY=
+	t=1775833363; cv=none; b=oaASmyaQzOV9rHXXjOrQE67eL7vi5hk2jTkixDUAwjWZYXZQydqmy049vU1U1XQeDZ7kkSnp7Eqpfv1P5lEaPQj12KyedlzXamyRH5m/vW0OesgPHGlv7e1vT5ByU4RMglV9X1q6zDzVA/NiecoXNP8jqQxovhYXJAQsR4+d6rc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775832720; c=relaxed/simple;
-	bh=I/8lc6braBw/e4NcIvWqRqCQpO/OPDvTarHCMXJBwFQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RctJMU/5AnIBAuavFb6CHV8T03VPFZYLA7ZxAKWU9VZ6dEHYa7AWvvwLWrKikNoGkewUigbzAMn+D8+2bWH8u/exrceiHsJsIxncV31aYUKwjJfH/mOOsrHXI0nr5RNSAOLIoqibNE418/Efv4VPcqjMJRHi84+Z4KgA+rm4ge8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kRiORMil; arc=none smtp.client-ip=209.85.128.50
+	s=arc-20240116; t=1775833363; c=relaxed/simple;
+	bh=g3UUX9BwiPjFu34lG9MZ/T47YpGSdqcHgTiM8VnQDKY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=k7HJeHResau5eGYGmEKfyIUEkizOm1xx7THfSExkTD0RyqngQNc8wKCUKgtAfe5GtuzFecDyUWCUNPln42RF2Af3Jnnyjg6Rx79rlno1/nwzo+KfJnbztr/QvkAkzEWG2QVySFT3Dft0Y+XHRmGyVhRE91j+cO43jQ3g9ILBLoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pulpfjxN; arc=none smtp.client-ip=209.85.128.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kRiORMil"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4888375f735so21030965e9.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 07:51:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pulpfjxN"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-488aa77a06eso34012635e9.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 08:02:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775832716; x=1776437516; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1775833358; x=1776438158; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5rFlt7tKud9bgPiSyM8wYE/DUUynsXjpN9wJ4qL+fJY=;
-        b=kRiORMilQnOQKbXSvqlfC1+UBtF2oO6f1qk19SDjSxIlgRNamMr2B+Ha2ag4JfWk0l
-         bkfuj9YA7NOVvqOKy8OVRhBGiC76h0ccJiByX2KHETEd2UiIweA5O6lpITVOaS2Zwk/Q
-         UZc3nwqX7hznz1VpYNjyw/+jyj9MTgE5GcFwAG8obpl2valxFoum4pPQlVIxvtF6fhrd
-         OcMROaYIyFmHdRczLoYGxAW1w93b20s1iL15ScMBSpDUMk/GNJtPzdo2Y8s2Z003J/4x
-         B7/GbISO8jPXBu2Vs1/JDZ/Wm/FXWy+/Y/FFnxs5yDy4AQg8/GIHMq56ZRp+B1IvUdlG
-         ViuA==
+        bh=i2KfuTUBLcEiX4RW0LrSjFfhHyXOE3GQRnfJI9Y2ZoM=;
+        b=pulpfjxNRslbBPH2JnhsXWj2fvnmbs0+3ChgEb12yc+7SiNEppFe4HFF/kQFlBqRQ8
+         lw7Jr1CiusMrnh9/v1c/FdLfFYaW3B5kFE65ybVOcm7q00cycPABNuW437paneeqdHbr
+         dlMt9yY2xd8jSLhwZC2pO7G7dYNerWQkv2KtPiTmBwzPLdpRqFP2duBkihyAlE3t/hMD
+         0+AuUQAsfP2Xp1PH+S18RBoYuiYxv2nSbKC54VMcLZHttS1GiRcshKZ2V49BwEyfBgB0
+         8nxgC0VJY9SNhoYfT9ROXhAzwnjLcfNmawAr1tzQ6wQpQNz0vNjh4SzwU7IIJjtkQFC2
+         gJ+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775832716; x=1776437516;
+        d=1e100.net; s=20251104; t=1775833358; x=1776438158;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5rFlt7tKud9bgPiSyM8wYE/DUUynsXjpN9wJ4qL+fJY=;
-        b=b+6Xap2g1Cy73AHOP5F4LuspLko41QYBseMFyNbpfy4O3JBXqeD33EdgzTkrsv+fJO
-         l66I0j7gXd9RwEN63bJc+ZlelL3BhNzo7cSMfK0m8HRbWoG7FoxzeoPfYOY98xrAbA/q
-         yLFH50ap3+L3gn3MbbGqF0zib/Q355x3EayfaqpoT96DpaTZxef6PyeWUI+0mO/8ptXc
-         im03T/4dli1fITcSWNnMPwsUD5r3AHwbPMfxD0qmkR/RYD13ZHDtICxrgc/VTfEJqGA+
-         zjNXkLo/UX/8xVUBrU+O9tYkvhK6XBFGuziMFvq2kxNtjGZxPaQoLg9yLtwIIUDnXAFk
-         kLXg==
-X-Gm-Message-State: AOJu0YwFWIBRKVi/iT3sud2+qZuPmAkRVJKbxfVpUp8Sqd5UXDxIQHup
-	lO5BgVP0lriaI3Oi9qJ2OQM/4pfTwlR/ceCZy2dEP2Lj0QOPi66f7WjVBruQ4g==
-X-Gm-Gg: AeBDietEhrt89Xd7GO7+Bl+7hVsxGnULaxEj8Hq9rZc3hco937V6tkXUtyIdVwvtpUK
-	YuUAZdDyBhLE4HDiiUIoSjC+If5G9V7I28jpqO/i+QxaPyNyvI41nPgnMGLK2mrINlyA54kKJmX
-	d7XURxj8QRHEUHlGq+yijiFXpgdXK1QI0FAIngFETo135MFolSOFwVsajEC68KTc30lQGrjv1Vv
-	gT9icQRGY88uL7yFXSgVPWBzCR18U3oeaya9w3sBqCUu7cIINiOV+a0kWqGwzDKSucvAvH7s31k
-	UKn+8ea1/tIELzg8EGV76RUV1DFOxtm9QhQ/+HTNgn9CCzymhXhBeYwfxd0J0eKrDVR//LYwC9z
-	HhevxTdfzBJC3/I1v55s1d4kbmyf2jYovQSpBOmKsM8j4hZEPKhKb+893yS04DD4YADEf5y+p0K
-	cWUdcVI7cQMUZfseJyIWuPSM9hld/khVjJN9OrYvW65HnhhGblO/kGl72SQdWH/QAP4JDP02kwY
-	A6+/EJDdywVoKjGa6XyGA==
-X-Received: by 2002:a05:600c:45cf:b0:483:8062:b2f with SMTP id 5b1f17b1804b1-488d67b8dddmr43127665e9.6.1775832716048;
-        Fri, 10 Apr 2026 07:51:56 -0700 (PDT)
+        bh=i2KfuTUBLcEiX4RW0LrSjFfhHyXOE3GQRnfJI9Y2ZoM=;
+        b=ZbPM6X4p76YSWsQXnz30SPDlGqirLhCZslKYab9AD+B1b6gITBckZ4Abs1RTtC1m9Y
+         6eQ/H9Skgv/FErTxo3udyN3P0T2PzF06N8mZ4hQmuLB4O0qQrXTmbwoUWtpGRwAL82XV
+         hl8BB6d0HaJN33Z0TrfO0EqFzKOphVEkzPGcK96LwHKCmSbLahMa+cePMni6Nacl6Tkd
+         d7cMx+G5vNOi0ueS7jCdIw4dP8UKsaDy+DmT6DKoN2BdKH8wC/WiXmZ6o4QfjUZjVc7S
+         tl91HW6ImdHJXU8zQ8zdoLTkrjWaY7SYMHz2vIwOkEH0D0GGeWO/IMU83K8AyV78jmQ+
+         ywkQ==
+X-Gm-Message-State: AOJu0YwIOeobsCnQnCMraSQ+xwGgb5YemiFpibl+j5s41GIRyocGQyWZ
+	Nk+1gPVlBrgub14jg892RnXdoWlBMLYluyE+Sf0mYMl28a2jz65/S0pmQ53p4g==
+X-Gm-Gg: AeBDieurMD/Rdy7Wz7p3grCGze5LONFhR6pWlXu7xvs6IpDkqScQi5Dbz7PrEoy367A
+	qarezSRll7A7CQGe7dZx1ZveGbJGkFnX6YlLW9nBQ+E8Uipr9wHDfdALNTxEn6ynGDhS7OLYUub
+	8bSvC8xIod3ea5NRQlR4RDeyTefJsmq73X1Jm52BI8alKBnzXtHpcj9brVY8gYrE0rrULXmcjMo
+	7nADWb85T0XoLPPQieXZ6BYIb/gcmGXdV8XxlnyAUrlSW9SxaVQsfyYrYaRNsd5s7jljNVNxqJC
+	2A0xOwZoxCa4vEypUfnMuV87IEtxcV6LlMvYXWkX5RN6NY1OuAuQRqINgiLM36GI3pXvYXAdHIh
+	4MOXqLWPGM3Sv3YaYgNXxneFnCbLIYsFZZRQfMAr0CXtEJF4N+CZGy6/GNPllh1To2lT2ZB1KDN
+	t99UnxfH9WfMT59DQiPxX6Vve7hF//rjwtkJoR12PaUdAN5hkMc9ILtNRTTxe9vhOu3L17j0p6Y
+	QqI/G4/STM=
+X-Received: by 2002:a05:600c:a109:b0:477:76bf:e1fb with SMTP id 5b1f17b1804b1-488d6843245mr33905795e9.16.1775833358268;
+        Fri, 10 Apr 2026 08:02:38 -0700 (PDT)
 Received: from corblimey.Home ([2a02:c7c:37d6:c100:60ca:408d:517a:4a96])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-488d5b56d1asm79715825e9.15.2026.04.10.07.51.55
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-488d533e596sm83244875e9.6.2026.04.10.08.02.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Apr 2026 07:51:55 -0700 (PDT)
+        Fri, 10 Apr 2026 08:02:37 -0700 (PDT)
 From: Adrian McMenamin <adrianmcmenamin@gmail.com>
 To: linux-fsdevel@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	Adrian McMenamin <adrianmcmenamin@gmail.com>
-Subject: [PATCH 07/10] Add support for VMUFAT filesystem
-Date: Fri, 10 Apr 2026 15:42:11 +0100
-Message-ID: <20260410144210.308512-2-adrianmcmenamin@gmail.com>
+Subject: [PATCH 08/10] Add support for VMUFAT filesystem
+Date: Fri, 10 Apr 2026 15:53:01 +0100
+Message-ID: <20260410145300.308731-2-adrianmcmenamin@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -72,26 +72,24 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-inode.c supports inode operations on the VMUFAT filesystem.
+super.c supports superblock operations on the filesystem.
 
-There are no physical inodes on VMUFAT, as files are referenced via a file allocation table.
+A VMUFAT filesystem includes a system block (at block 255 on a factory supplied VMU) which contains information about the volume size, the file allocation table and the directory. This code accesses this information.
 
-The file system is not particularly sophisticated and many operations are executed by generic functions.
+It also initialises (and destroys) caches of inode structures and block lists (each inode structure holds a linked list of the blocks used by a file).
 
-This code does, though, oversee creation of new files on the volume, their removal and reading files off the volume.
-
-Physical VMUs use flash and so, as a general rule, the filesystem code avoids excessive writes to the medium, though this may not be an issue for VMUFAT volumes on other media.
-
-This code also handles timestamping of files, and uses code that will work on both 32- and 64-bit systems.
+The code supports, as default behaviour, the Dreamcast policy of placing executables in lower block numbers and data files in higher block numbers but it will not fail if this policy cannot be followed.
 
 Signed-off-by: Adrian McMenamin <adrianmcmenamin@gmail.com>
 
-fs/vmufat/inode.c                    | 1017 ++++++++++++++++++++++++++
 
+
+fs/vmufat/super.c                    |  581 +++++++++++++++
+---
 
 --- /dev/null
-+++ b/fs/vmufat/inode.c
-@@ -0,0 +1,1017 @@
++++ b/fs/vmufat/super.c
+@@ -0,0 +1,581 @@
 +// SPDX-License-Identifier: GPL-2.0+
 +/*
 + * VMUFAT file system
@@ -124,785 +122,203 @@ fs/vmufat/inode.c                    | 1017 ++++++++++++++++++++++++++
 +#include <linux/module.h>
 +#include <linux/statfs.h>
 +#include <linux/buffer_head.h>
-+#include <linux/mpage.h>
++#include <linux/fs_context.h>
 +#include "vmufat.h"
 +
-+const struct inode_operations vmufat_inode_operations;
-+const struct file_operations vmufat_file_operations;
-+const struct address_space_operations vmufat_address_space_operations;
-+const struct file_operations vmufat_file_dir_operations;
-+extern struct kmem_cache *vmufat_blist_cachep;
-+/* Linear day numbers of the respective 1sts in non-leap years. */
-+int day_n[] = {0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334};
++static struct kmem_cache *vmufat_inode_cachep;
++struct kmem_cache *vmufat_blist_cachep;
++static const struct super_operations vmufat_super_operations;
++extern int *day_n;
++extern const struct inode_operations vmufat_inode_operations;
++extern const struct file_operations vmufat_file_operations;
++extern const struct address_space_operations vmufat_address_space_operations;
++extern const struct file_operations vmufat_file_dir_operations;
 +
-+static struct dentry *vmufat_inode_lookup(struct inode *in, struct dentry *dent,
-+	unsigned int ignored)
++static time64_t vmufat_get_date(struct buffer_head *bh, int offset)
 +{
-+	struct super_block *sb;
-+	struct memcard *vmudetails;
++	int century, year, month, day, hour, minute, second;
++	century = bcd2bin(bh->b_data[offset++]);
++	year = bcd2bin(bh->b_data[offset++]);
++	month = bcd2bin(bh->b_data[offset++]);
++	day = bcd2bin(bh->b_data[offset++]);
++	hour = bcd2bin(bh->b_data[offset++]);
++	minute = bcd2bin(bh->b_data[offset++]);
++	second = bcd2bin(bh->b_data[offset]);
++
++	return mktime64(century * 100 + year, month, day, hour, minute,
++		second);
++}
++
++static struct inode *vmufat_alloc_inode(struct super_block *sb)
++{
++	struct vmufat_inode *vi = kmem_cache_alloc(vmufat_inode_cachep,
++		GFP_KERNEL);
++	if (!vi)
++		return NULL;
++
++	INIT_LIST_HEAD(&vi->blocks);
++	return &vi->vfs_inode;
++}
++
++static void vmufat_destroy_inode(struct inode *in)
++{
++	struct vmufat_inode *vi;
++	struct vmufat_block *iter, *iter2;
++	vi = VMUFAT_I(in);
++	if (!vi)
++		return;
++
++	list_for_each_entry_safe(iter, iter2, &vi->blocks, b_list) {
++		list_del(&iter->b_list);
++		kmem_cache_free(vmufat_blist_cachep, iter);
++	}
++	kmem_cache_free(vmufat_inode_cachep, vi);
++}
++
++struct inode *vmufat_get_inode(struct super_block *sb, long ino)
++{
 +	struct buffer_head *bh = NULL;
-+	struct inode *ino;
-+	int i, j;
-+	int error = 0;
++	int error = 0, i, j;
++	int offsetindir;
++	struct inode *inode;
++	struct memcard *vmudetails;
++	long superblock_bno;
++	struct timespec64 current_time;
 +
-+	if (dent->d_name.len > VMUFAT_NAMELEN) {
-+		return ERR_PTR(-ENAMETOOLONG);
++	inode = iget_locked(sb, ino);
++	if (!inode) {
++		error = -ENOENT;
++		goto reterror;
 +	}
-+	sb = in->i_sb;
 +	vmudetails = sb->s_fs_info;
-+
-+	for (i = vmudetails->dir_bnum;
-+		i > vmudetails->dir_bnum - vmudetails->dir_len; i--) {
-+		brelse(bh);
-+		bh = vmufat_sb_bread(sb, i);
-+		if (!bh) {
-+			return ERR_PTR(-EIO);
-+		}
-+		for (j = 0; j < VMU_DIR_ENTRIES_PER_BLOCK; j++) {
-+			int record_offset = j * VMU_DIR_RECORD_LEN;
-+			if (bh->b_data[record_offset] == 0)
-+				goto insert_negative;
-+			if (memcmp(dent->d_name.name,
-+				bh->b_data + record_offset +
-+				VMUFAT_NAME_OFFSET, dent->d_name.len) == 0) {
-+				ino = vmufat_get_inode(sb,
-+					le16_to_cpu(((u16 *) bh->b_data)
-+					[(record_offset / 2)
-+					+ VMUFAT_FIRSTBLOCK_OFFSET16]));
-+				if (IS_ERR(ino)) {
-+					error = PTR_ERR(ino);
-+					goto out;
-+				} else if (!ino) {
-+					error = -EACCES;
-+					goto out;
-+				}
-+				d_add(dent, ino);
-+				goto out;
-+			}
-+		}
++	if (!vmudetails) {
++		error = -ENOMEM;
++		goto reterror;
 +	}
-+insert_negative:
-+	d_add(dent, NULL); /* Did not find the file */
-+out:
++	superblock_bno = vmudetails->sb_bnum;
++
++	if (inode_state_read_once(inode) & I_NEW) {
++		inode->i_uid = current_fsuid();
++		inode->i_gid = current_fsgid();
++		inode->i_mode &= ~S_IFMT;
++		if (inode->i_ino == superblock_bno) {
++			bh = vmufat_sb_bread(sb, inode->i_ino);
++			if (!bh) {
++				error = -ENOENT;
++				goto failed;
++			}
++			inode->i_ctime_sec = inode->i_mtime_sec =
++				vmufat_get_date(bh, VMUFAT_SB_DATEOFFSET);
++
++			/* Mark as a directory */
++			inode->i_mode = S_IFDIR | S_IRUGO | S_IXUGO;
++			inode->i_op = &vmufat_inode_operations;
++			inode->i_fop = &vmufat_file_dir_operations;
++		} else {
++			/* Mark file as regular type */
++			inode->i_mode = S_IFREG | S_IRUGO | S_IWUSR;
++
++			/* Scan through the directory to find matching file */
++			for (i = 0; i < vmudetails->dir_len; i++) {
++				brelse(bh);
++				bh = vmufat_sb_bread(sb,
++					vmudetails->dir_bnum - i);
++				if (!bh) {
++					error = -ENOMEM;
++					goto failed;
++				}
++				for (j = 0; j < VMU_DIR_ENTRIES_PER_BLOCK; j++)
++				{
++					u16 ino_read = le16_to_cpu(((u16 *)
++						bh->b_data)[j * 
++						VMU_DIR_RECORD_LEN16 + 
++						VMUFAT_FIRSTBLOCK_OFFSET16]);
++					if (ino_read == ino) {
++							goto found;
++					}
++				}
++			}
++			error = -ENOENT;
++			goto failed;
++found:
++			/* identified the correct directory entry */
++			offsetindir = j * VMU_DIR_RECORD_LEN;
++			inode->i_ctime_sec = inode->i_mtime_sec =
++				vmufat_get_date(bh,
++					offsetindir + VMUFAT_FILE_DATEOFFSET);
++			/* Execute if a game, write if not copy protected */
++			inode->i_mode &= ~(S_IWUGO | S_IXUGO);
++			inode->i_mode |= S_IRUGO;
++			/* Mode - is it write protected? */
++			if ((((u8 *) bh->b_data)[0x01 + offsetindir] == 0x00) &
++				~(sb->s_flags & SB_RDONLY)) {
++				inode->i_mode |= S_IWUSR;
++			}
++			/* Is file executible - ie a game */
++			if ((((u8 *) bh->b_data)[offsetindir] == 0xcc) &
++				~(sb->s_flags & SB_NOEXEC)) {
++				inode->i_mode |= S_IXUSR;
++			}
++			inode->i_blocks =
++				le16_to_cpu(((u16 *) bh->b_data)
++				[offsetindir / 2 + 0x0C]);
++			inode->i_size = inode->i_blocks * sb->s_blocksize;
++			inode->i_mapping->a_ops =
++				&vmufat_address_space_operations;
++			inode->i_op = &vmufat_inode_operations;
++			inode->i_fop = &vmufat_file_operations;
++			error = vmufat_list_blocks(inode);
++			if (error)
++				goto failed;
++		}
++		ktime_get_coarse_real_ts64(&current_time);
++		inode->i_atime_sec = current_time.tv_sec;
++		unlock_new_inode(inode);
++	}
++	brelse(bh);
++	return inode;
++
++failed:
++	iget_failed(inode);
++reterror:
 +	brelse(bh);
 +	return ERR_PTR(error);
 +}
 +
-+
-+/* Search for free block in inclusive range */
-+static int vmufat_get_freeblock(int start, int end, struct buffer_head *bh)
++static void vmufat_put_super(struct super_block *sb)
 +{
-+	int i, ret = -1;
-+	__le16 fatdata;
-+	if (start < end) {
-+		for (i = start; i <= end; i++) {
-+			fatdata = le16_to_cpu(((u16 *)bh->b_data)[i]);
-+			if (fatdata == VMUFAT_UNALLOCATED) {
-+				ret = i;
-+				break;
-+			}
-+		}
-+	} else {
-+		for (i = start; i >= end; i--) {
-+			fatdata = le16_to_cpu(((u16 *)bh->b_data)[i]);
-+			if (fatdata == VMUFAT_UNALLOCATED) {
-+				ret = i;
-+				break;
-+			}
-+		}
-+	}
-+	return ret;
++	sb->s_dev = 0;
++	kfree(sb->s_fs_info);
 +}
 +
-+/*
-+ * Find a block marked free in the FAT - for exec files
-+ * Dreamcasts expect data and exec files to be stored differently
-+ * - we attempt to replicate that with *enforcing* a policy
-+ */
-+static int vmufat_find_free_forward(struct super_block *sb)
++static void vmufat_count_freeblocks(struct super_block *sb,
++					struct kstatfs *kstatbuf)
 +{
-+	struct memcard *vmudetails;
-+	int testblk, fatblk, i;
-+	struct buffer_head *bh_fat;
-+	vmudetails = sb->s_fs_info;
-+	fatblk = vmudetails->fat_bnum;
-+	for (i = 0; i < vmudetails->fat_len; i++) {
-+		bh_fat = vmufat_sb_bread(sb, fatblk + i);
-+		if (!bh_fat) {
-+			return -EIO;
-+		}
-+		testblk = vmufat_get_freeblock(0, VMU_BLK_SZ16 - 1, bh_fat);
-+		brelse(bh_fat);
-+		if (testblk >= 0 && testblk + (i * VMU_BLK_SZ16) < 
-+			vmudetails->numblocks) {
-+			return testblk + (i * VMU_BLK_SZ16);
-+		}
-+	}
-+	printk(KERN_INFO "VMUFAT: volume is full, cannot save game file\n");
-+	return -ENOSPC;
-+}
-+
-+/* And for data files*/
-+static int vmufat_find_free_backward(struct super_block *sb)
-+{
-+	struct memcard *vmudetails;
-+	int testblk;
-+	int i, readblk;
-+	struct buffer_head *bh_fat;
-+
-+	vmudetails = sb->s_fs_info;
-+	readblk = (vmudetails->numblocks - 1) % VMU_BLK_SZ16;
-+
-+	for (i = vmudetails->fat_len - 1; i >= 0; i--) {
-+		bh_fat = vmufat_sb_bread(sb, i + vmudetails->fat_bnum);
-+		if (!bh_fat) {
-+			return -EIO;
-+		}
-+		testblk = vmufat_get_freeblock(readblk, 0, bh_fat);
-+		brelse(bh_fat);
-+		if (testblk >= 0) {
-+			return testblk + (i * VMU_BLK_SZ16);
-+		}
-+		readblk = VMU_BLK_SZ16 - 1;
-+	}
-+	printk(KERN_INFO "VMUFAT: volume is full, cannot save data file\n");
-+	return -ENOSPC;
-+}
-+
-+/* read the FAT for a given block */
-+u16 vmufat_get_fat(struct super_block *sb, long block)
-+{
-+	struct buffer_head *bufhead;
-+	int offset;
-+	u16 block_content = VMUFAT_ERROR;
++	int i, free = 0;
 +	struct memcard *vmudetails = sb->s_fs_info;
 +
-+	/* which block in the FAT */
-+	offset = block / VMU_BLK_SZ16;
-+	if (offset >= vmudetails->fat_len)
-+		goto out;
-+	/* fat_bnum points to lowest block in FAT */
-+	bufhead = vmufat_sb_bread(sb, offset + vmudetails->fat_bnum);
-+	if (!bufhead)
-+		goto out;
-+	/* look inside the block */
-+	block_content = le16_to_cpu(((u16 *)bufhead->b_data)
-+		[block % VMU_BLK_SZ16]);
-+	brelse(bufhead);
-+out:
-+	return block_content;
-+}
-+
-+/* set the FAT for a given block */
-+static int vmufat_set_fat(struct super_block *sb, long block, u16 data)
-+{
-+	struct buffer_head *bh;
-+	int offset;
-+	struct memcard *vmudetails = sb->s_fs_info;
-+
-+	offset = block / VMU_BLK_SZ16;
-+	if (offset >= vmudetails->fat_len) {
-+		return -EINVAL;
-+	}
-+	bh = vmufat_sb_bread(sb, offset + vmudetails->fat_bnum);
-+	if (!bh) {
-+		return -EIO;
-+	}
-+	((u16 *) bh->b_data)[block % VMU_BLK_SZ16] = cpu_to_le16(data);
-+	mark_buffer_dirty(bh);
-+	brelse(bh);
-+	return 0;
-+}
-+
-+/* No real time clock or real time clock read fails */
-+static void vmufat_save_bcd_no_rtc(struct inode *in, char *bh, int index_to_dir)
-+{
-+	u32 years, days, seconds;
-+	unsigned char bcd_century, nl_day, bcd_month;
-+	unsigned char u8year;
-+	time64_t unix_date, substitute_date;
-+	unix_date = in->i_mtime_sec;
-+	substitute_date = unix_date;
-+	do_div(substitute_date, SECONDS_PER_DAY);
-+	days = (u32)substitute_date; /* cast not an issue for next 5 million years+ */
-+	years = days / DAYS_PER_YEAR;
-+	/* 1 Jan gets 1 day later after every leap year */
-+	if ((years + 3) / 4 + DAYS_PER_YEAR * years >= days)
-+		years--;
-+	/* rebase days to account for leap years */
-+	days -= (years + 3) / 4 + DAYS_PER_YEAR * years;
-+	// 2100 is not a leap year
-+	if (years >= CENTURY22 + 1) {
-+		days--;
-+	}
-+	/* 1 Jan is Day 1 */
-+	days++;
-+	if (days == (FEB28 + 1) && !(years % 4) && (years != CENTURY22)) {
-+		nl_day = days;
-+		bcd_month = 2;
-+	} else {
-+		nl_day = (years % 4) || days <= FEB28 ? days : days - 1;
-+		for (bcd_month = 0; bcd_month < 12; bcd_month++) {
-+			if (day_n[bcd_month] > nl_day)
-+				break;
++	/* Look through the FAT */
++	for (i = 0; i < vmudetails->numblocks; i++) {
++		if (vmufat_get_fat(sb, i) == VMUFAT_UNALLOCATED) {
++			free++;
 +		}
 +	}
-+
-+	bcd_century = 19;
-+	if (years > 29)
-+		bcd_century += 1 + (years - CENTURY21)/100;
-+
-+	bh[index_to_dir + VMUFAT_DIR_CENT] = bin2bcd(bcd_century);
-+	u8year = years + START_OF_EPOCH; /* account for epoch */
-+	if (u8year > 99)
-+		u8year = u8year - 100;
-+
-+	bh[index_to_dir + VMUFAT_DIR_YEAR] = bin2bcd(u8year);
-+	bh[index_to_dir + VMUFAT_DIR_MONTH] = bin2bcd(bcd_month);
-+	bh[index_to_dir + VMUFAT_DIR_DAY] =
-+	    bin2bcd(days - day_n[bcd_month - 1]);
-+	substitute_date = unix_date;
-+	do_div(substitute_date, SECONDS_PER_HOUR);
-+	bh[index_to_dir + VMUFAT_DIR_HOUR] =
-+	    bin2bcd(do_div(substitute_date, HOURS_PER_DAY));
-+	seconds = do_div(unix_date, SIXTY_MINS_OR_SECS);
-+	bh[index_to_dir + VMUFAT_DIR_MIN] =
-+		bin2bcd(unix_date);
-+	bh[index_to_dir + VMUFAT_DIR_SEC] =
-+		bin2bcd(seconds);
++	kstatbuf->f_bfree = free;
++	kstatbuf->f_bavail = free;
++	kstatbuf->f_blocks = vmudetails->sb_bnum + 1;
 +}
 +
-+#ifdef CONFIG_RTC_CLASS
-+static void vmufat_save_bcd_rtc(struct rtc_device *rtc, struct inode *in,
-+	char *bh, int index_to_dir)
++int vmufat_count_files(struct super_block *sb)
 +{
-+	struct rtc_time now;
-+
-+	if (rtc_read_time(rtc, &now))
-+		vmufat_save_bcd_no_rtc(in, bh, index_to_dir);
-+	else {
-+		bh[index_to_dir + VMUFAT_DIR_CENT] = bin2bcd((char)((now.tm_year + 1900)/100));
-+		bh[index_to_dir + VMUFAT_DIR_YEAR] =
-+			bin2bcd((char)(now.tm_year % 100));
-+		bh[index_to_dir + VMUFAT_DIR_MONTH] = bin2bcd((char)(now.tm_mon + 1));
-+		bh[index_to_dir + VMUFAT_DIR_DAY] = bin2bcd((char)(now.tm_mday));
-+		bh[index_to_dir + VMUFAT_DIR_HOUR] = bin2bcd((char)(now.tm_hour));
-+		bh[index_to_dir + VMUFAT_DIR_MIN] = bin2bcd((char)(now.tm_min));
-+		bh[index_to_dir + VMUFAT_DIR_SEC] = bin2bcd((char)(now.tm_sec));
-+		bh[index_to_dir + VMUFAT_DIR_DOW] = bin2bcd((char)((now.tm_wday + 6))
-+			% DAYS_PER_WEEK);
-+	}
-+}
-+#endif
-+
-+/*
-+ * write out the date in bcd format
-+ * in the appropriate part of the
-+ * directory entry
-+ */
-+void vmufat_save_bcd(struct inode *in, char *bh, int index_to_dir)
-+{
-+#ifdef CONFIG_RTC_CLASS
-+	struct rtc_device *rtc;
-+	rtc = rtc_class_open("rtc0");
-+	if (!rtc)
-+#endif
-+		vmufat_save_bcd_no_rtc(in, bh, index_to_dir);
-+#ifdef CONFIG_RTC_CLASS
-+	else {
-+		vmufat_save_bcd_rtc(rtc, in, bh, index_to_dir);
-+		rtc_class_close(rtc);
-+	}
-+#endif
-+}
-+
-+static int vmufat_allocate_inode(umode_t imode,
-+		struct super_block *sb, struct inode *in)
-+{
-+	struct vmufat_inode *vin = VMUFAT_I(in);
-+	int error = 0;
-+	/* Executable files should be at the start of the volume if possible */
-+	if (imode & EXEC) {
-+		vin->ft = GAME;
-+		if (vmufat_get_fat(sb, 0) != VMUFAT_UNALLOCATED) {
-+			/* Warning for anyone concerned about playable games */
-+			printk(KERN_WARNING 
-+				"VMUFAT: Warning cannot write excutable "
-+				"file to block 0: already allocated.\n");
-+		}
-+		else {
-+			in->i_ino = VMUFAT_ZEROBLOCK;
-+			return error;
-+		}
-+		error = vmufat_find_free_forward(sb);
-+	} else {
-+		vin->ft = DATA;
-+		error = vmufat_find_free_backward(sb);
-+	}
-+	if (error == 0) {
-+		in->i_ino = VMUFAT_ZEROBLOCK;
-+	} else if (error > 0) {
-+		in->i_ino = error;
-+	}
-+	return error;
-+}
-+
-+static void vmufat_setup_inode(struct inode *in, struct super_block *sb)
-+{
-+	simple_inode_init_ts(in);
-+	in->i_blocks = 1;
-+	in->i_sb = sb;
-+	in->i_op = &vmufat_inode_operations;
-+	in->i_fop = &vmufat_file_operations;
-+	in->i_mapping->a_ops = &vmufat_address_space_operations;
-+	insert_inode_hash(in);
-+}
-+
-+static void vmu_handle_zeroblock(int recno, struct buffer_head *bh, int ino)
-+{
-+	/* offset and header offset settings */
-+	if (ino != VMUFAT_ZEROBLOCK) {
-+		((u16 *) bh->b_data)[recno + VMUFAT_START_OFFSET16] =
-+			cpu_to_le16(ino);
-+		((u16 *) bh->b_data)[recno + VMUFAT_HEADER_OFFSET16] = 0;
-+	} else {
-+		((u16 *) bh->b_data)[recno + VMUFAT_START_OFFSET16] = 0;
-+		((u16 *) bh->b_data)[recno + VMUFAT_HEADER_OFFSET16] =
-+			cpu_to_le16(1);
-+	}
-+}
-+
-+static void vmu_write_name(int recno, struct buffer_head *bh, char *name,
-+	int len)
-+{
-+	if ((bh->b_size - recno - VMUFAT_NAME_OFFSET) >= VMUFAT_NAMELEN &&
-+		(bh->b_size - recno - VMUFAT_NAME_OFFSET) >= len) {
-+		memset((char *)(bh->b_data + recno + VMUFAT_NAME_OFFSET),
-+			'\0', VMUFAT_NAMELEN);
-+		memcpy((char *)(bh->b_data + recno + VMUFAT_NAME_OFFSET),
-+			name, len);
-+	}
-+}
-+
-+static int vmufat_inode_create(struct mnt_idmap *idmap, struct inode *dir,
-+	struct dentry *de, umode_t imode, bool excl)
-+{
-+	int i, j, entry, error = 0, freeblock;
-+	struct inode *inode;
-+	struct super_block *sb;
-+	struct memcard *vmudetails;
++	int error = -1;
++	int files_found = 0;
 +	struct buffer_head *bh = NULL;
-+
-+	sb = dir->i_sb;
-+	vmudetails = sb->s_fs_info;
-+	inode = new_inode(sb);
-+	if (!inode) {
-+		error = -ENOSPC;
-+		goto out;
-+	}
-+
-+	mutex_lock(&vmudetails->mutex);
-+	freeblock = vmufat_allocate_inode(imode, sb, inode);
-+	if (freeblock < 0) {
-+		mutex_unlock(&vmudetails->mutex);
-+		error = freeblock;
-+		goto clean_inode;
-+	}
-+	/* mark as single block file - may grow later */
-+	error = vmufat_set_fat(sb, freeblock, VMUFAT_FILE_END);
-+	mutex_unlock(&vmudetails->mutex);
-+	if (error)
-+		goto clean_inode;
-+	inode_init_owner(&nop_mnt_idmap, inode, dir, imode);
-+	vmufat_setup_inode(inode, sb);
-+
-+	/* Write to the directory
-+	 * Now search for space for the directory entry */
-+	mutex_lock(&vmudetails->mutex);
-+	for (i = vmudetails->dir_bnum;
-+		i > vmudetails->dir_bnum - vmudetails->dir_len; i--) {
-+		brelse(bh);
-+		bh = vmufat_sb_bread(sb, i);
-+		if (!bh) {
-+			mutex_unlock(&vmudetails->mutex);
-+			error = -EIO;
-+			goto clean_fat;
-+		}
-+		for (j = 0; j < VMU_DIR_ENTRIES_PER_BLOCK; j++) {
-+			entry = j * VMU_DIR_RECORD_LEN;
-+			if (((bh->b_data)[entry]) == 0) {
-+				goto dir_space_found;
-+			}
-+		}
-+	}
-+	goto clean_fat;
-+dir_space_found:
-+	/* Have the directory entry
-+	 * so now update it */
-+	if (imode & EXEC)
-+		bh->b_data[entry] = VMU_GAME;
-+	else
-+		bh->b_data[entry] = VMU_DATA;
-+
-+	/* copy protection settings */
-+	if (bh->b_data[entry + 1] != (char) NOCOPY)
-+		bh->b_data[entry + 1] = (char) CANCOPY;
-+
-+	vmu_handle_zeroblock(entry / 2, bh, inode->i_ino);
-+	vmu_write_name(entry, bh, (char *) de->d_name.name, de->d_name.len);
-+
-+	/* BCD timestamp it */
-+	vmufat_save_bcd(inode, bh->b_data, entry);
-+
-+	((u16 *) bh->b_data)[entry / 2 + VMUFAT_SIZE_OFFSET16] =
-+	    cpu_to_le16(inode->i_blocks);
-+	mark_buffer_dirty(bh);
-+	brelse(bh);
-+
-+	error = vmufat_list_blocks(inode);
-+	if (error)
-+		goto clean_fat;
-+	mutex_unlock(&vmudetails->mutex);
-+	mark_inode_dirty(inode);
-+	d_instantiate(de, inode);
-+	return error;
-+
-+clean_fat:
-+	vmufat_set_fat(sb, freeblock, VMUFAT_UNALLOCATED);
-+	mutex_unlock(&vmudetails->mutex);
-+clean_inode:
-+	iput(inode);
-+out:
-+	if (error < 0)
-+		printk(KERN_ERR "VMUFAT: inode creation fails with error"
-+			" %i\n", error);
-+	return error;
-+}
-+
-+static int vmufat_readdir(struct file *filp, struct dir_context *ctx)
-+{
-+	int filenamelen, index, j, k;
-+	int error = 0;
-+	struct vmufat_file_info *saved_file = NULL;
-+	struct dentry *dentry;
-+	struct inode *inode;
-+	struct super_block *sb;
 +	struct memcard *vmudetails;
-+	struct buffer_head *bh = NULL;
-+
-+	inode = file_inode(filp);
-+	dentry = filp->f_path.dentry;
-+	sb = inode->i_sb;
++	// get directory
 +	vmudetails = sb->s_fs_info;
-+	index = ctx->pos;
-+	/* handle . for this directory and .. for parent */
-+	switch ((unsigned int) ctx->pos) {
-+	case 0:
-+		error = ctx->actor(ctx, ".", 1, index++, inode->i_ino, DT_DIR);
-+		ctx->pos++;
-+		if (error < 0)
-+			return error;
-+		fallthrough;
-+	case 1:
-+		error = ctx->actor(ctx, "..", 2, index++,
-+			    dentry->d_parent->d_inode->i_ino, DT_DIR);
-+		ctx->pos++;
-+		if (error < 0)
-+			return error;
-+	default:
-+		break;
-+	}
-+
-+	saved_file =
-+	    kmalloc(sizeof(struct vmufat_file_info), GFP_KERNEL);
-+	if (!saved_file) {
-+		return -ENOMEM;
-+	}
-+
-+	for (j = vmudetails->dir_bnum -
-+		(index - 2) / VMU_DIR_ENTRIES_PER_BLOCK;
-+		j > vmudetails->dir_bnum - vmudetails->dir_len; j--) {
-+		brelse(bh);
-+		bh = vmufat_sb_bread(sb, j);
-+		if (!bh) {
-+			return -EIO;
-+		}
-+		for (k = (index - 2) % VMU_DIR_ENTRIES_PER_BLOCK;
-+			k < VMU_DIR_ENTRIES_PER_BLOCK; k++) {
-+			int pos, pos16;
-+			pos = k * VMU_DIR_RECORD_LEN;
-+			pos16 = k * VMU_DIR_RECORD_LEN16;
-+			saved_file->ftype = bh->b_data[pos];
-+			if (saved_file->ftype == 0)
-+				goto finish;
-+			saved_file->fblk =
-+				le16_to_cpu(((u16 *) bh->b_data)
-+				[pos16 + VMUFAT_START_OFFSET16]);
-+			if (saved_file->fblk == 0)
-+				saved_file->fblk = VMUFAT_ZEROBLOCK;
-+			if ((bh->b_size - pos - VMUFAT_NAME_OFFSET) >=
-+				VMUFAT_NAMELEN) {
-+				memcpy(saved_file->fname,
-+				bh->b_data + pos + VMUFAT_NAME_OFFSET,
-+				VMUFAT_NAMELEN);
-+			}
-+			filenamelen = strnlen(saved_file->fname,
-+						VMUFAT_NAMELEN);
-+			error = ctx->actor(ctx, saved_file->fname, filenamelen,
-+				index++, saved_file->fblk, DT_REG);
-+			ctx->pos++;
-+			if (error < 0)
-+				goto finish;
-+		}
-+	}
-+finish:
-+	ctx->pos = index;
-+	kfree(saved_file);
-+	brelse(bh);
-+	return error;
-+}
-+
-+
-+int vmufat_list_blocks(struct inode *in)
-+{
-+	struct vmufat_inode *vi;
-+	struct super_block *sb;
-+	long nextblock;
-+	long ino;
-+	struct memcard *vmudetails;
-+	int error = -EINVAL;
-+	struct vmufat_block *iter, *iter2, *vbl;
-+	u16 fatdata;
-+
-+	vi = VMUFAT_I(in);
-+	if (!vi)
++	if (!vmudetails) {
 +		return error;
-+	sb = in->i_sb;
-+	ino = in->i_ino;
-+	vmudetails = sb->s_fs_info;
-+	error = 0;
-+	nextblock = ino;
-+	if (nextblock == VMUFAT_ZEROBLOCK)
-+		nextblock = 0;
-+
-+	/* Delete any previous list of blocks */
-+	list_for_each_entry_safe(iter, iter2, &vi->blocks, b_list) {
-+		list_del(&iter->b_list);
-+		kmem_cache_free(vmufat_blist_cachep, iter);
 +	}
-+	vi->nblcks = 0;
-+	do {
-+		vbl = kmem_cache_alloc(vmufat_blist_cachep,
-+			GFP_KERNEL);
-+		if (!vbl) {
-+			error = -ENOMEM;
-+			goto unwind_out;
-+		}
-+		INIT_LIST_HEAD(&vbl->b_list);
-+		vbl->bno = nextblock;
-+		list_add_tail(&vbl->b_list, &vi->blocks);
-+		vi->nblcks++;
-+
-+		/* Find next block in the FAT - if there is one */
-+		fatdata = vmufat_get_fat(sb, nextblock);
-+		if (fatdata == VMUFAT_UNALLOCATED) {
-+			printk(KERN_ERR "VMUFAT: FAT table appears to have"
-+				" been corrupted.\n");
-+			error = -EIO;
-+			goto unwind_out;
-+		}
-+		if (fatdata == VMUFAT_FILE_END)
-+			break;
-+		nextblock = fatdata;
-+	} while (1);
-+	return error;
-+
-+unwind_out:
-+	list_for_each_entry_safe(iter, iter2, &vi->blocks, b_list) {
-+		list_del(&iter->b_list);
-+		kmem_cache_free(vmufat_blist_cachep, iter);
-+	}
-+	return error;
-+}
-+
-+static int vmufat_clean_fat(struct super_block *sb, int inum)
-+{
-+	int error = 0;
-+	u16 fatword, nextword;
-+
-+	nextword = inum;
-+	do {
-+		fatword = vmufat_get_fat(sb, nextword);
-+		if (fatword == VMUFAT_ERROR) {
-+			error = -EIO;
-+			printk(KERN_ERR
-+				"VMUFAT: Failure while cleaning FAT.\n");
-+			break;
-+		}
-+		error = vmufat_set_fat(sb, nextword, VMUFAT_UNALLOCATED);
-+		if (error)
-+			break;
-+		if (fatword == VMUFAT_FILE_END)
-+			break;
-+		nextword = fatword;
-+	} while (1);
-+
-+	return error;
-+}
-+
-+/*
-+ * Delete inode by marking space as free in FAT
-+ * no need to waste time and effort by actually
-+ * wiping underlying data on media
-+ */
-+static void vmufat_remove_inode(struct inode *in)
-+{
-+	struct buffer_head *bh = NULL, *bh_old = NULL;
-+	struct super_block *sb;
-+	struct memcard *vmudetails;
-+	int i, j, k, l, x;
-+	bool found, first = true;
-+
-+	if (in->i_ino == VMUFAT_ZEROBLOCK)
-+		in->i_ino = 0;
-+	sb = in->i_sb;
-+	vmudetails = sb->s_fs_info;
-+	if (in->i_ino > vmudetails->fat_len * sb->s_blocksize / 2) {
-+		printk(KERN_ERR "VMUFAT: attempting to delete"
-+			"inode beyond device size");
-+		return;
-+	}
-+
-+	mutex_lock(&vmudetails->mutex);
-+	if (vmufat_clean_fat(sb, in->i_ino)) {
-+		mutex_unlock(&vmudetails->mutex);
-+		goto failure;
-+	}
-+
-+	/* Now clean the directory entry
-+	 * Have to walk through entries
-+	 * to find the appropriate entry */
-+	for (x = vmudetails->dir_bnum;
-+		x > vmudetails->dir_bnum - vmudetails->dir_len; x--) {
-+		brelse(bh);
-+		bh = vmufat_sb_bread(sb, x);
-+		if (!bh) {
-+			mutex_unlock(&vmudetails->mutex);
-+			goto failure;
-+		}
-+		for (j = 0; j < VMU_DIR_ENTRIES_PER_BLOCK; j++) {
-+			if (bh->b_data[j * VMU_DIR_RECORD_LEN] == 0) {
-+				mutex_unlock(&vmudetails->mutex);
-+				brelse(bh);
-+				goto failure;
-+			}
-+			if (le16_to_cpu(((u16 *) bh->b_data)
-+				[j * VMU_DIR_RECORD_LEN16 +
-+				VMUFAT_FIRSTBLOCK_OFFSET16]) == in->i_ino) {
-+				found = true;
-+				goto found_bk;
-+			}
-+		}
-+	}
-+found_bk:
-+	// actually found nothing - an error or failure of some sort
-+	if (!found) {
-+		brelse(bh);
-+		goto failure;
-+	}
-+	// have found the directory entry, so first we clean it out
-+	for (i = 0; i < VMU_DIR_RECORD_LEN; i++) {
-+		bh->b_data[i + (j * VMU_DIR_RECORD_LEN)] = 0;
-+	}
-+	mark_buffer_dirty(bh);
-+	// now test if there are further records
-+	found = false;
-+	for (i = x; i > vmudetails->dir_bnum - vmudetails->dir_len; i--) {
-+		brelse(bh_old);
-+		bh_old = vmufat_sb_bread(sb, i);
-+		if (first) {
-+			for (l = j; l < VMU_DIR_ENTRIES_PER_BLOCK; l++) {
-+				if (first) {
-+					first = false;
-+					continue;
-+				}
-+				if (bh_old->b_data[l * VMU_DIR_RECORD_LEN]
-+					== 0) {
-+					found = true;
-+					goto found_final;
-+				}
-+			}
-+		} else {
-+			for (l = 0; l < VMU_DIR_ENTRIES_PER_BLOCK; l++) {
-+				if (bh_old->b_data[l * VMU_DIR_RECORD_LEN]
-+					== 0) {
-+					found = true;
-+					goto found_final;
-+				}
-+			}
-+		}
-+	}
-+found_final:
-+	if (!found) {
-+		// cleaned entry was final entry
-+		mutex_unlock(&vmudetails->mutex);
-+		brelse(bh_old);
-+		brelse(bh);
-+		return;
-+	}
-+	// copy the final entry into the empty slot and zero the final entry
-+	if (l == VMU_DIR_ENTRIES_PER_BLOCK) {
-+		l = 0;
-+		brelse(bh_old);
-+		bh_old = vmufat_sb_bread(sb, i - 1);
-+	} else {
-+		l--;
-+	}
-+	for (k = 0; k < VMU_DIR_RECORD_LEN; k++) {
-+		bh->b_data[k + (j * VMU_DIR_RECORD_LEN)] =
-+			bh_old->b_data[k + (l * VMU_DIR_RECORD_LEN)];
-+		bh_old->b_data[k + (l * VMU_DIR_RECORD_LEN)] = 0;
-+	}
-+	mark_buffer_dirty(bh);
-+	mark_buffer_dirty(bh_old);
-+	mutex_unlock(&vmudetails->mutex);
-+	brelse(bh);
-+	brelse(bh_old);
-+	return;
-+
-+failure:
-+	printk(KERN_WARNING "VMUFAT: Failure to read volume,"
-+		" could not delete inode - filesystem may be damaged\n");
-+	return;
-+}
-+
-+/*
-+ * vmufat_unlink - delete a file pointed to
-+ * by the dentry (only one directory in a
-+ * vmufat fs so safe to ignore the inode
-+ * supplied here
-+ */
-+static int vmufat_unlink(struct inode *dir, struct dentry *dentry)
-+{
-+	struct inode *in;
-+	in = dentry->d_inode;
-+	vmufat_remove_inode(in);
-+	return 0;
-+}
-+
-+/* Update the directory record */
-+static int vmufat_increment_filesize(struct inode *inode)
-+{
-+	struct super_block *sb = inode->i_sb;
-+	struct buffer_head *bh = NULL;
-+	struct memcard *vmudetails = sb->s_fs_info;
-+	unsigned long ino_num = inode->i_ino;
-+	int error = 0;
-+
-+	if (ino_num == VMUFAT_ZEROBLOCK) {
-+		ino_num = 0;
-+	}
-+
 +	for (int i = vmudetails->dir_bnum;
 +		i > vmudetails->dir_bnum - vmudetails->dir_len; i--) {
 +		brelse(bh);
@@ -913,202 +329,348 @@ fs/vmufat/inode.c                    | 1017 ++++++++++++++++++++++++++
 +		}
 +		for (int j = 0; j < VMU_DIR_ENTRIES_PER_BLOCK; j++) {
 +			int record_offset = j * VMU_DIR_RECORD_LEN;
-+			if (bh->b_data[record_offset] == 0) {
-+				continue;
++			if (bh->b_data[record_offset] != 0) {
++				files_found++;
 +			}
-+			if (le16_to_cpu(((u16 *) bh->b_data)
-+				[(j * VMU_DIR_RECORD_LEN16) +
-+				VMUFAT_FIRSTBLOCK_OFFSET16]) != ino_num) {
-+					continue;
-+			}
-+			int current_count = le16_to_cpu(((u16 *) bh->b_data)
-+				[(j * VMU_DIR_RECORD_LEN16) + VMUFAT_SIZE_OFFSET16]);
-+			current_count++;
-+			((u16 *) bh->b_data)
-+				[(j * VMU_DIR_RECORD_LEN16) + VMUFAT_SIZE_OFFSET16] =
-+				cpu_to_le16(current_count);
-+			mark_buffer_dirty(bh);
-+			goto done;
 +		}
 +	}
-+done:
-+	brelse(bh);
-+	return error;
++	return files_found;
 +}
 +
-+static int vmufat_get_block(struct inode *inode, sector_t iblock,
-+	struct buffer_head *bh_result, int create)
++static int vmufat_count_file_space(struct super_block *sb)
 +{
-+	struct vmufat_inode *vin;
-+	struct list_head *vlist;
-+	struct vmufat_block *vblk;
-+	struct super_block *sb;
++	int error = -1;
++	int files_available = 0;
++	struct buffer_head *bh = NULL;
 +	struct memcard *vmudetails;
-+	int cural;
-+	int finblk, nxtblk, exeblk;
-+	struct list_head *iter;
-+	sector_t cntdwn = iblock;
-+	sector_t phys;
-+	int error = -EINVAL;
-+
-+	vin = VMUFAT_I(inode);
-+	if (!vin || vin->nblcks <= 0)
-+		return -EINVAL;
-+	vlist = &vin->blocks;
-+	sb = inode->i_sb;
++	// get directory
++	if (!sb) {
++		return error;
++	}
 +	vmudetails = sb->s_fs_info;
-+
-+	if (iblock < vin->nblcks) {
-+		/* block is already here so read it into the buffer head */
-+		list_for_each(iter, vlist) {
-+			if (cntdwn-- == 0)
-+				break;
++	if (!vmudetails) {
++		return error;
++	}
++	for (int i = vmudetails->dir_bnum;
++		i > vmudetails->numblocks; i--) {
++		brelse(bh);
++		bh = vmufat_sb_bread(sb, i);
++		if (!bh) {
++			error = -EIO;
++			return error;
 +		}
-+		vblk = list_entry(iter, struct vmufat_block, b_list);
-+		clear_buffer_new(bh_result);
-+		error = 0;
-+		phys = vblk->bno;
-+		goto got_it;
-+	}
-+	if (!create)
-+		goto out;
-+	/*
-+	 * check not looking for a block too far
-+	 * beyond the end of the existing file
-+	 */
-+	if (iblock > vin->nblcks)
-+		goto out;
-+
-+	/* if looking for a block that is not current - allocate it */
-+	cural = vin->nblcks;
-+	list_for_each(iter, vlist) {
-+		if (cural-- == 1)
-+			break;
-+	}
-+	vblk = list_entry(iter, struct vmufat_block, b_list);
-+	finblk = vblk->bno;
-+
-+	mutex_lock(&vmudetails->mutex);
-+	/* Exec files have to be linear on real VMUs */
-+	/* But this is policy so we warn but don't fail */
-+	if (inode->i_ino == 0) {
-+		exeblk = vmufat_get_fat(sb, finblk + 1);
-+		if (exeblk != VMUFAT_UNALLOCATED) {
-+			mutex_unlock(&vmudetails->mutex);
-+			printk(KERN_WARNING "VMUFAT: Cannot allocate linear "
-+				"space needed for executible\n");
-+			mutex_lock(&vmudetails->mutex);
-+			nxtblk = vmufat_find_free_forward(sb);
-+			if (nxtblk < 0) {
-+				mutex_unlock(&vmudetails->mutex);
-+				return nxtblk;
++		for (int j = 0; j < VMU_DIR_ENTRIES_PER_BLOCK; j++) {
++			int record_offset = j * VMU_DIR_RECORD_LEN;
++			if (bh->b_data[record_offset] == 0) {
++				files_available++;
 +			}
 +		}
-+		else {
-+			nxtblk = finblk + 1;
-+		}
-+	} else {
-+		if (vin->ft == GAME) {
-+			nxtblk = vmufat_find_free_forward(sb);
-+		} else {
-+			nxtblk = vmufat_find_free_backward(sb);
-+		}
-+		if (nxtblk < 0) {
-+			mutex_unlock(&vmudetails->mutex);
-+			return nxtblk;
-+		}
 +	}
-+	error = vmufat_set_fat(sb, finblk, nxtblk);
-+	if (!error) {
-+		error = vmufat_increment_filesize(inode);
-+	}
-+	if (error) {
-+		mutex_unlock(&vmudetails->mutex);
-+		return error;
-+	}
-+	error = vmufat_set_fat(sb, nxtblk, VMUFAT_FILE_END);
-+	mutex_unlock(&vmudetails->mutex);
-+	if (error)
-+		return error;
-+	error = vmufat_list_blocks(inode);
-+	mark_inode_dirty(inode);
-+	if (error)
-+		return error;
-+	set_buffer_new(bh_result);
-+	phys = nxtblk;
-+	error = 0;
-+got_it:
-+	map_bh(bh_result, sb, phys);
-+out:
-+	return error;
++	return files_available;
 +}
 +
-+static int vmufat_writepages(struct address_space *mapping, struct writeback_control *wbc)
-+{
-+	return mpage_writepages(mapping, wbc, vmufat_get_block);
-+}
-+
-+static int vmufat_write_begin(const struct kiocb *iocb, struct address_space *mapping,
-+		loff_t pos, unsigned len, struct folio **foliop, void **fsdata)
-+{
-+	*foliop = NULL;
-+	return block_write_begin(mapping, pos, len, foliop, vmufat_get_block);
-+}
-+
-+static int vmufat_read_folio(struct file *file, struct folio *folio)
-+{
-+	return block_read_full_folio(folio, vmufat_get_block);
-+}
-+
-+static int vmufat_getattr(struct mnt_idmap *idmap, const struct path *path,
-+	struct kstat *stat, u32 request_mask, unsigned int query_flags)
++static int vmufat_statfs(struct dentry *dentry, struct kstatfs *kstatbuf)
 +{
 +	struct super_block *sb;
-+	struct memcard *vmudetails;
-+	struct inode *inode = d_inode(path->dentry);
-+	generic_fillattr(&nop_mnt_idmap, request_mask, inode, stat);
-+	/* correct for superblock to give directory size */
-+	/* as all metadata combined */
-+	sb = inode->i_sb;
-+	if (sb) {
-+		vmudetails = sb->s_fs_info;
-+		if (vmudetails && vmudetails->sb_bnum == inode->i_ino) {
-+			stat->size = (vmudetails->fat_len + vmudetails->dir_len + 1) * 
-+				VMU_BLK_SZ;
-+			stat->nlink = vmufat_count_files(sb) + 2;
-+		}
++	sb = dentry->d_sb;
++	vmufat_count_freeblocks(sb, kstatbuf);
++	kstatbuf->f_type = VMUFAT_SUPER_MAGIC;
++	kstatbuf->f_bsize = sb->s_blocksize;
++	kstatbuf->f_namelen = VMUFAT_NAMELEN;
++	kstatbuf->f_files = vmufat_count_files(sb);
++	kstatbuf->f_ffree = vmufat_count_file_space(sb);
++	if (kstatbuf->f_ffree > kstatbuf->f_bfree) {
++		kstatbuf->f_ffree = kstatbuf->f_bfree;
 +	}
 +	return 0;
 +}
 +
-+const struct address_space_operations
-+		vmufat_address_space_operations = {
-+	.read_folio =	vmufat_read_folio,
-+	.writepages =	vmufat_writepages,
-+	.write_begin =	vmufat_write_begin,
-+	.write_end =	generic_write_end,
++/* Remove inode from memory */
++static void vmufat_evict_inode(struct inode *in)
++{
++	truncate_inode_pages(&in->i_data, 0);
++	invalidate_inode_buffers(in);
++	in->i_size = 0;
++	clear_inode(in);
++}
++
++/*
++ * There are no inodes on the medium - vmufat_write_inode
++ * updates the directory entry
++ */
++static int vmufat_write_inode(struct inode *in, struct writeback_control *wbc)
++{
++	struct buffer_head *bh = NULL;
++	unsigned long inode_num;
++	int i, j; 
++	int found = 0;
++	int pos, pos16;
++	struct super_block *sb;
++	struct memcard *vmudetails;
++	struct timespec64 current_time;
++	sb = in->i_sb;
++	vmudetails = sb->s_fs_info;
++
++	/* As most real world devices are flash we
++	 * won't update the superblock every time */
++	if (in->i_ino == vmudetails->sb_bnum)
++		return 0;
++	if (in->i_ino == VMUFAT_ZEROBLOCK)
++		inode_num = 0;
++	else
++		inode_num = in->i_ino;
++
++	/* update the directory and inode details */
++	/* Now search for the directory entry */
++	mutex_lock(&vmudetails->mutex);
++	for (i = vmudetails->dir_bnum;
++		i > vmudetails->dir_bnum - vmudetails->dir_len; i--) {
++		bh = vmufat_sb_bread(sb, i);
++		if (!bh) {
++			mutex_unlock(&vmudetails->mutex);
++			return -ENXIO;
++		}
++		for (j = 0; j < VMU_DIR_ENTRIES_PER_BLOCK; j++) {
++			pos = j * VMU_DIR_RECORD_LEN;
++			pos16 = j * VMU_DIR_RECORD_LEN16;
++			if (bh->b_data[pos] == 0) {
++				mutex_unlock(&vmudetails->mutex);
++				brelse(bh);
++				return -ENOENT;
++			}
++			if (le16_to_cpu(((u16 *)bh->b_data)
++				[pos16 + VMUFAT_FIRSTBLOCK_OFFSET16])
++				== inode_num) {
++				found = 1;
++				goto found;
++			}
++		}
++		brelse(bh);
++	}
++found:
++	if (found == 0) {
++		mutex_unlock(&vmudetails->mutex);
++		return -ENXIO;
++	}
++	/* BCD timestamp it */
++	ktime_get_coarse_real_ts64(&current_time);
++	in->i_mtime_sec = current_time.tv_sec;
++	vmufat_save_bcd(in, bh->b_data, pos);
++	mutex_unlock(&vmudetails->mutex);
++	mark_buffer_dirty(bh);
++	brelse(bh);
++	return 0;
++}
++
++static int check_sb_format(struct buffer_head *bh)
++{
++	return (((u32 *) bh->b_data)[0] == VMUFAT_SUPER_MAGIC &&
++		((u32 *) bh->b_data)[1] == VMUFAT_SUPER_MAGIC &&
++		((u32 *) bh->b_data)[2] == VMUFAT_SUPER_MAGIC &&
++		((u32 *) bh->b_data)[3] == VMUFAT_SUPER_MAGIC);
++}
++
++static void vmufat_populate_vmudata(struct memcard *vmudata,
++		struct buffer_head *bh, int test_sz)
++{
++	vmudata->sb_bnum = test_sz - 1;
++	vmudata->fat_bnum =
++		le16_to_cpu(((u16 *) bh->b_data)[VMU_LOCATION_FAT]);
++	vmudata->fat_len =
++		le16_to_cpu(((u16 *) bh->b_data)[VMU_LOCATION_FATLEN]);
++	vmudata->dir_bnum =
++		le16_to_cpu(((u16 *) bh->b_data)[VMU_LOCATION_DIR]);
++	vmudata->dir_len =
++		le16_to_cpu(((u16 *) bh->b_data)[VMU_LOCATION_DIRLEN]);
++	if (test_sz == VMU_PHYS_SZ) {
++		vmudata->numblocks =
++		le16_to_cpu(((u16 *) bh->b_data)[VMU_LOCATION_USRLEN]);
++		if (vmudata->numblocks == 0) {
++			vmudata->numblocks =
++				vmudata->dir_bnum;
++		}
++	} else {
++	/* return the true number of user available blocks - physical VMUs
++ 	 * return a neat 200 and ignore 40 blocks of usable space -
++ 	 * we get round that in a hardware neutral way */
++		vmudata->numblocks =
++			vmudata->dir_bnum;
++	}
++}
++
++static int vmufat_get_size(struct super_block *sb, struct buffer_head **bh)
++{
++	int i;
++	for (i = VMUFAT_MIN_BLK; i <= VMUFAT_MAX_BLK; i = i * 2) {
++		brelse(*bh);
++		*bh = vmufat_sb_bread(sb, i - 1);
++		if (*bh == NULL) {
++			return -EIO;
++		}
++		if (check_sb_format(*bh))
++			break;
++	}
++	if (i > VMUFAT_MAX_BLK) {
++		return -ENOENT;
++	}
++	return i;
++}
++
++static int vmufat_fill_super(struct super_block *sb, struct fs_context *fc)
++{
++	struct buffer_head *bh = NULL;
++	struct memcard *vmudata = NULL;
++	int test_sz;
++	struct inode *root_i;
++	int ret = 0;
++
++	vmudata = kzalloc(sizeof(struct memcard), GFP_KERNEL);
++	if (!vmudata) {
++		return -ENOMEM;
++	}
++	sb->s_fs_info = vmudata;
++	sb_set_blocksize(sb, VMU_BLK_SZ);
++	sb->s_blocksize_bits = ilog2(VMU_BLK_SZ);
++	sb->s_magic = VMUFAT_SUPER_MAGIC;
++	sb->s_op = &vmufat_super_operations;
++
++	/* 
++	 * Hardware VMUs are 256 blocks in size but
++	 * the specification allows for other sizes
++	 */
++	test_sz = vmufat_get_size(sb, &bh);
++	if (test_sz < VMUFAT_MIN_BLK) {
++		printk(KERN_ERR "VMUFAT: attempted to mount corrupted vmufat "
++			"or non-vmufat volume as vmufat.\n");
++		ret = test_sz;
++		goto freebh_out;
++	}
++
++	vmufat_populate_vmudata(vmudata, bh, test_sz);
++	mutex_init(&vmudata->mutex);
++
++	root_i = vmufat_get_inode(sb, vmudata->sb_bnum);
++	if (!root_i) {
++		printk(KERN_ERR "VMUFAT: get root inode failed\n");
++		ret = -ENOMEM;
++		goto freebh_out;
++	}
++	if (IS_ERR(root_i)) {
++		printk(KERN_ERR "VMUFAT: get root"
++			" inode failed - error 0x%lX\n",
++			PTR_ERR(root_i));
++		ret = PTR_ERR(root_i);
++		goto freebh_out;
++	}
++
++	sb->s_root = d_make_root(root_i);
++	if (!sb->s_root) {
++		ret = -EIO;
++		goto freebh_out;
++	}
++	else 
++		goto out;
++
++freebh_out:
++	brelse(bh);
++	kfree(vmudata);
++out:
++	return ret;
++}
++
++static void init_once(void *foo)
++{
++	struct vmufat_inode *vi = foo;
++	vi->nblcks = 0;
++	inode_init_once(&vi->vfs_inode);
++}
++
++static int init_inodecache(void)
++{
++	vmufat_blist_cachep = kmem_cache_create("vmufat_block_cache",
++		sizeof(struct vmufat_block), 0, SLAB_RECLAIM_ACCOUNT, 0);
++	if (!vmufat_blist_cachep) {
++		printk(KERN_CRIT
++			"VMUFAT: Could not create block list cache.\n");
++		return -ENOMEM;
++	}
++	vmufat_inode_cachep = kmem_cache_create("vmufat_inode_cache",
++		sizeof(struct vmufat_inode), 0, SLAB_RECLAIM_ACCOUNT,
++		init_once);
++	if (!vmufat_inode_cachep) {
++		printk(KERN_CRIT
++			"VMUFAT: Could not create inode cache.\n");
++		kmem_cache_destroy(vmufat_inode_cachep);
++		return -ENOMEM;
++	}
++	return 0;
++}
++
++static void destroy_inodecache(void)
++{
++	// ensure the caches are up to date before we try to destroy them
++	rcu_barrier();
++	kmem_cache_destroy(vmufat_inode_cachep);
++	rcu_barrier();
++	kmem_cache_destroy(vmufat_blist_cachep);
++}
++
++static const struct super_operations vmufat_super_operations = {
++	.alloc_inode =		vmufat_alloc_inode,
++	.destroy_inode =	vmufat_destroy_inode,
++	.write_inode =		vmufat_write_inode,
++	.evict_inode =		vmufat_evict_inode,
++	.put_super =		vmufat_put_super,
++	.statfs =		vmufat_statfs,
 +};
 +
-+const struct inode_operations vmufat_inode_operations = {
-+	.lookup =	vmufat_inode_lookup,
-+	.create =	vmufat_inode_create,
-+	.unlink =	vmufat_unlink,
-+	.getattr =	vmufat_getattr,
++static int vmufat_get_tree(struct fs_context *fc)
++{
++	return get_tree_bdev(fc, vmufat_fill_super);
++}
++
++static const struct fs_context_operations vmufat_fs_context_ops = {
++	.get_tree	= vmufat_get_tree,
 +};
 +
-+const struct file_operations vmufat_file_dir_operations = {
-+	.read =			generic_read_dir,
-+	.iterate_shared =	vmufat_readdir,
-+	.fsync =		generic_file_fsync,
-+	.llseek =		generic_file_llseek,
++static int vmufat_init_fs_context(struct fs_context *fc)
++{
++	fc->ops = &vmufat_fs_context_ops;
++	return 0;
++}
++
++static struct file_system_type vmufat_fs_type = {
++	.owner =			THIS_MODULE,
++	.name = 			"vmufat",
++	.kill_sb = 			kill_block_super,
++	.fs_flags =			FS_REQUIRES_DEV,
++	.init_fs_context =		vmufat_init_fs_context,
 +};
 +
-+const struct file_operations vmufat_file_operations = {
-+	.llseek =	generic_file_llseek,
-+	.read_iter =	generic_file_read_iter,
-+	.write_iter =	generic_file_write_iter,
-+	.fsync =	generic_file_fsync,
-+};
-diff --git a/fs/vmufat/super.c b/fs/vmufat/super.c
++static int __init init_vmufat_fs(void)
++{
++	int err;
++	err = init_inodecache();
++	if (err)
++		return err;
++	else
++		return register_filesystem(&vmufat_fs_type);
++}
++
++static void __exit exit_vmufat_fs(void)
++{
++	destroy_inodecache();
++	// ensure all caches removed before we disappear
++	rcu_barrier();
++	unregister_filesystem(&vmufat_fs_type);
++}
++
++module_init(init_vmufat_fs);
++module_exit(exit_vmufat_fs);
++
++MODULE_DESCRIPTION("Filesystem used in Sega Dreamcast VMU");
++MODULE_AUTHOR("Adrian McMenamin <adrianmcmenamin@gmail.com>");
++MODULE_LICENSE("GPL");
+diff --git a/fs/vmufat/vmufat.h b/fs/vmufat/vmufat.h
 new file mode 100644
-index 000000000000..69f4852f3d03
+index 000000000000..369ee59738ee
