@@ -1,87 +1,141 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EDA33CE48F
-	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 15:13:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCCB974C14;
+	Fri, 10 Apr 2026 15:15:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775833990; cv=none; b=UlDlnqrNyMSp0GV1zEnOc7uQm/mdhwb/rXtjkmIwoXYxPb4T4sWiLa2UvV/Cht1UC1n0BoeSG/lzyxwpI5nBKkL/JCYTDVwUM2J+YnNw7pi4tLyH48kQmoBjFM1wOyHE77kIl8UYtBeVm6F8e+FMV5GBzmROKqoBf6mZOWeEYRo=
+	t=1775834117; cv=none; b=niAcKYEfoXqKWRT6QufuRfCgAJBq7AGHcDjZi79wL1kR2tBJ8lznHrZ/04XzUrOT29gX6ENnoHoOEg8PGiIc4vlR8r0Rx8LIK++XgEcCR+B0rdLxnykVg+VkQumh306BvCwVrUc4ivAb/tXdc//XhWVJAUcFs8tZZqn2+XxYRiA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775833990; c=relaxed/simple;
-	bh=TwcYvbUAOnR0P7l2KWFuorORJhSrQA6oe8VX51ghrv0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZEB51LFiVszJl0KiOzHod8nuZJ9zYn7KO2S8lFWto+VAeraI0wplEh44LDxPpkTMCkqXvwrkUxLHoedMkhsOCeW/tUIgEIas2t8hAmDQjv1jpydw+FSQ5YpXuvMssTR9z7JHjAhjlGidDNIN6G50mz554OCcwCS4gBuX1vDD3As=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BR5ZghIm; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1775834117; c=relaxed/simple;
+	bh=+s8UCQ7e7KipXT0+I2OPxRc8iFd4hRF22+8RJKTSRQA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mk950AXZCG7Yo+twaJgEddZ9aNn+2nPAWwgGKkgsKpGBEa05+HW2M3hnRhODgA7yiJoNwfHNR8LFsycmC/Md7h3mTw/Qp85+JpZSXW3kTZi9DUaduH2xGQuzBT8aN2gNDlRvLU7nLZPg+V4zK/OjlADTiah07l3ySP03dWjE+gU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QU7RR5jT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BR5ZghIm"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-43cf7683a28so1442392f8f.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 08:13:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775833988; x=1776438788; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=F94BGokyGX2AdRwzWyQMBNCM0wg/Rqsn529BpT6FiCk=;
-        b=BR5ZghIm19BFLHhGVa8Ib053HPuJbkzIDcvBFuk/+j0X12H7PfkJucAJOAV2FYkPcV
-         cZ4ctPCyhOzJb/VmzTI2LG+eVxDrzcmR23/b3Hsck+QkLw+hnGrIpFB00ZqKhuCgSek9
-         5UQqD0sGNu22eBbzS0eL8k72+50dZRIDnvENCLJLC3yPu1rr288ZuE33WChN0VPTgU+p
-         94MbHu10/C8eODVhNsjUojhrPb9Hpjhi5gk6AnHqEL9DcgLX1cB1l/VXnHHENcckOtsP
-         UwIpv+/KrzStTGP8Rj32JWXeQ2X+qmsf0t4GGcb3PI/8gT6VWjUQlr+JiPFZF82AqINS
-         6RuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775833988; x=1776438788;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=F94BGokyGX2AdRwzWyQMBNCM0wg/Rqsn529BpT6FiCk=;
-        b=O9FHbtr4W2KEaloRkp9FdZ7kbXJ12TqOkBDGmiu82yeNUNsP5Uj1d7Zdrsv6xqrC2Z
-         xG0dJ1RgGqi8tO0PJngc0LB3ZYs4Pr7KMF08pa6sJk4ikTHz21UuARt0RIdc/x7QYVUQ
-         X0EDukVPnSTO7to5Gg/rIFREwUwa/69z9uJODompezk2e3/Gs+gA+/GAIXjyde8TSqCQ
-         7grgI5HrAoUdu0nDzYGAWCAJGU2iGZnQK6yXYsG57WozoXvi6LJYH/StVy/CahMWhpEm
-         f6p8KctQns6syq87Xi8x4IREgTZAVSlhEoEtN3mP8a10x5FtiVv0sDZfeI/KtbDyL+gK
-         td8Q==
-X-Gm-Message-State: AOJu0YwJNaLRb2wyHLY+titHPic33DJKxpBu/kmALTLLzrBwElAnKmTn
-	mc5cOxeYDUZDR70dsuAo4bmxX929VU+m1eZTnzgLyyM6ikx+HR5HYilksie6fA==
-X-Gm-Gg: AeBDieuDHGxE8W6fc4+CbIHc9xAiPdB/7NHbYifSOWKbFPPJ+ZdLkg4aGH5B9y6LHPS
-	2s4ADNFiiOViGp7g/tLXv3fxv5gDyenaUopaRx7kwHYLiH2HRkjUxjUrTnLBLAS6jkdLKrleWBM
-	AEgxuFBpnm/ELTZyIpnmwG8l8Lx80b/GwuljeU9OfwUChNyExDdWOw4RoSV7oH7iWHG3aKCg0rz
-	XGIzj10ij4plOEjgbNHPb1SsZ/wekLKVrI4ZizF99Nz68mYDWQofsAU9u2pJGDzboPZxxoVAEBN
-	3x+ssi0ZmzeRaG+rFQT+2tn3SKCmvmftay0vuu9Z5Q/cv304/a+vEBC/T782vAFqbxGJDPHpxI+
-	y8FJHqHtabgsIGWdoVHmui3Alzh9EJITYjhrOd/fmpxBghGUchzFmS2RpCCH1yLWIX4aBZOwMyq
-	WC8DY77kKCQVfsyRBgHqugC6k9svnbfS5Qf627If+C8YlEmoZbMfEPBXPHnP235Ke9kGInwCzBm
-	ogQx3ceH5Yj2xu5qq4hkQ==
-X-Received: by 2002:a05:6000:2411:b0:43b:4f86:e985 with SMTP id ffacd0b85a97d-43d642c0e02mr5719811f8f.33.1775833987398;
-        Fri, 10 Apr 2026 08:13:07 -0700 (PDT)
-Received: from corblimey.Home ([2a02:c7c:37d6:c100:60ca:408d:517a:4a96])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-43d63e5061fsm7835787f8f.30.2026.04.10.08.13.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Apr 2026 08:13:06 -0700 (PDT)
-From: Adrian McMenamin <adrianmcmenamin@gmail.com>
-To: linux-fsdevel@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Subject: [PATCH 01/10] Add support for VMUFAT filesystem
-Date: Fri, 10 Apr 2026 16:13:06 +0100
-Message-ID: <20260410151306.309202-1-adrianmcmenamin@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QU7RR5jT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A80BC19421;
+	Fri, 10 Apr 2026 15:15:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775834117;
+	bh=+s8UCQ7e7KipXT0+I2OPxRc8iFd4hRF22+8RJKTSRQA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=QU7RR5jTZ0pV9FnU3uTqDO9EeyCoFAj7pGCkqY3tyFXiexiKlUTpQEUDguRGUS9Za
+	 fL1kqJDE1HAX7bDyln35hqBzT74VypZLx+Y6EyyEhRJ77W1UcUznfhHhQ9gTeSATvB
+	 FyBWKjtoRfoDDK0Gc+27NvF82NTrv5EEcxIkXlvKW3jPfMdWDLFrwJ58F/4DDfrBZe
+	 xAxZKkGQGcHWAwSqay0bpI/Cdrna4QUlGA6IRRYD9auuwhQ6QYZQ328c4RBzPYiC6m
+	 Hlx2L4/cbdjPS3kEOPjll4s8qeTrENwQBU9/gmtB3Ue8gxBEmo/czMTUqhQmD3IIvz
+	 +ajutW//3lPPw==
+From: Christian Brauner <brauner@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Christian Brauner <brauner@kernel.org>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [GIT PULL for v7.0] vfs fixes
+Date: Fri, 10 Apr 2026 17:14:49 +0200
+Message-ID: <20260410-vfs-fixes-52296d845868@brauner>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3900; i=brauner@kernel.org; h=from:subject:message-id; bh=+s8UCQ7e7KipXT0+I2OPxRc8iFd4hRF22+8RJKTSRQA=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTeFH4vk9Db3tO/2F7G+cGz6LjADbu/NV+/+D/qXNGx7 4vOTP1ws6OUhUGMi0FWTJHFod0kXG45T8Vmo0wNmDmsTCBDGLg4BWAi8ycy/DPw2Gsq0m0v7Tkz 3XZi3855MeU7KkrYdEvumMfJ9c2b+ICRodv88pTgRg3HzbzPEzmOsBzw7zV9Y+Pd6+1cJXva/Dc nIwA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
 
-diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index f4873197587d..893b585d17a9 100644
---- a/Documentation/filesystems/index.rst
-+++ b/Documentation/filesystems/index.rst
-@@ -120,5 +120,6 @@ Documentation for filesystem implementations.
-    udf
-    virtiofs
-    vfat
-+   vmufat
-    xfs/index
-    zonefs
-diff --git a/Documentation/filesystems/vmufat.rst b/Documentation/filesystems/vmufat.rst
-new file mode 100644
-index 000000000000..2f7230e8e390
+Hey Linus,
+
+/* Summary */
+
+This contains a batch of late-stage fixes for this cycle. The kernfs
+rework can also go into during the v7.2 merge window. In which case you
+can either just cherry-pick the cachefiles and epoll fix.
+
+The kernfs rbtree is keyed by (hash, ns, name) where the hash is seeded
+with the raw namespace pointer via init_name_hash(ns). The resulting
+hash values are exposed to userspace through readdir seek positions, and
+the pointer-based ordering in kernfs_name_compare() is observable
+through entry order.
+
+Switch from raw pointers to ns_common::ns_id for both hashing and
+comparison. A preparatory commit first replaces all const void *
+namespace parameters with const struct ns_common * throughout
+kernfs/sysfs/kobject so the code can access ns->ns_id. Also compare the
+ns_id when hashes match in the rbtree to handle crafted collisions.
+
+/* Conflicts */
+
+Merge conflicts with mainline
+=============================
+
+No known conflicts.
+
+Merge conflicts with other trees
+================================
+
+The following changes since commit d0c3bcd5b8976159d835a897254048e078f447e6:
+
+  Merge tag 'libcrypto-for-linus' of git://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux (2026-03-30 13:40:48 -0700)
+
+are available in the Git repository at:
+
+  git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.0-rc8.fixes
+
+for you to fetch changes up to cb76a81c7cec37bdf525164561b02665cd763421:
+
+  kernfs: make directory seek namespace-aware (2026-04-09 14:36:52 +0200)
+
+----------------------------------------------------------------
+vfs-7.0-rc8.fixes
+
+Please consider pulling these changes from the signed vfs-7.0-rc8.fixes tag.
+
+Thanks!
+Christian
+
+----------------------------------------------------------------
+Christian Brauner (3):
+      kernfs: pass struct ns_common instead of const void * for namespace tags
+      kernfs: use namespace id instead of pointer for hashing and comparison
+      kernfs: make directory seek namespace-aware
+
+NeilBrown (1):
+      cachefiles: fix incorrect dentry refcount in cachefiles_cull()
+
+Nicholas Carlini (1):
+      eventpoll: defer struct eventpoll free to RCU grace period
+
+ drivers/base/class.c                |  4 +--
+ drivers/base/core.c                 |  7 ++--
+ drivers/infiniband/core/device.c    |  5 +--
+ drivers/infiniband/ulp/srp/ib_srp.c |  7 ++--
+ drivers/net/bonding/bond_sysfs.c    |  4 +--
+ drivers/net/ipvlan/ipvtap.c         |  5 +--
+ drivers/net/macvtap.c               |  5 +--
+ fs/cachefiles/namei.c               |  5 +++
+ fs/eventpoll.c                      |  6 +++-
+ fs/kernfs/dir.c                     | 68 ++++++++++++++++++++++++++-----------
+ fs/kernfs/file.c                    |  2 +-
+ fs/kernfs/kernfs-internal.h         |  2 +-
+ fs/kernfs/mount.c                   |  2 +-
+ fs/nfs/sysfs.c                      | 16 +++++----
+ fs/sysfs/dir.c                      |  6 ++--
+ fs/sysfs/file.c                     |  8 ++---
+ fs/sysfs/mount.c                    | 10 +++---
+ fs/sysfs/symlink.c                  |  7 ++--
+ fs/sysfs/sysfs.h                    |  4 +--
+ include/linux/device/class.h        |  6 ++--
+ include/linux/kernfs.h              | 40 +++++++++++++---------
+ include/linux/kobject.h             |  4 +--
+ include/linux/kobject_ns.h          | 13 +++----
+ include/linux/netdevice.h           |  4 +--
+ include/linux/sysfs.h               | 24 ++++++-------
+ include/net/net_namespace.h         |  8 ++---
+ lib/kobject.c                       |  8 ++---
+ lib/kobject_uevent.c                | 13 ++++---
+ net/core/net-sysfs.c                | 50 +++++++++++++--------------
+ net/core/net_namespace.c            |  8 ++---
+ net/sunrpc/sysfs.c                  | 17 ++++++----
+ net/wireless/sysfs.c                |  4 +--
+ 32 files changed, 216 insertions(+), 156 deletions(-)
