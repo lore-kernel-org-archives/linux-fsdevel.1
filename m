@@ -1,132 +1,115 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b6-smtp.messagingengine.com (fout-b6-smtp.messagingengine.com [202.12.124.149])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB60C4400
-	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 01:38:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F34AF274B23;
+	Fri, 10 Apr 2026 01:45:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775785122; cv=none; b=WiytrEh3D4YLFy4JRTKraV4IOwCp+rNkekQqYWQLThrxlSabLXQJ5weWrV8Y1Qhro72wEMo7m/yBd3YCSi3FW9z3ly/LQ1nxXUwGlpKiSL2JuSt4bp+Ipl7CDihR9dTIJBeS4Y+WntUXEIzNBivHRt5cUnJTha2lakvNa0kwF94=
+	t=1775785511; cv=none; b=Z8P5ZR7n5g/YJdZDEDSBTWvnX754Z4VSmCpRSZuhVYvL3vWlHj++2mO+96cbL1gmoi8ICO8JPRL4skBxsZC9rcAFll8av16kL8FTFzyTjzhcgEL2FcJ5O2GRwKvYYfn1DctMptNRu6vWLOd+zZmRZue2b4gtT8QRbdk6aXFYQmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775785122; c=relaxed/simple;
-	bh=jULwVJY16VlHn2/5krce6laxliTnwUN/SJUJVrd5nto=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nS7J2cE/d0dBfWRF+PZETksKQWpFPlMvwgfAhLgizJDxPPn4g137wY4AlYUhu4Mh2BshOyEWhnIsTyGa0FoYXexxWRIkRiHmgt479p++4gDAHPY2zQzvkHA5EG4rNrBEFWX9NvA2nMUoLLgjTdqnE/rJqqXItBF8RAht24p3uT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=FoQnf2Hj; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=fnoSXJY0; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1775785511; c=relaxed/simple;
+	bh=Neeii8zrl1ugmtb76zd2nnWrxnSSUoTT1BzhPC7YXV4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mIgsOxLFOY5efXnN2Enr9AWKasQsvEdJ34AnYlFPRVxP94Ii98KFXPoCn/PqNez+6J9sd7O0vNiMXojygwY+8Nqv/lgo050jw5mpv4wBpgFrMGWRFSaks8/SUqxiSmTzV1L4Jm37XvhBfYx6ELwcUWyrnlkfeNEObFdcfUNzjOY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=maowtm.org; spf=pass smtp.mailfrom=maowtm.org; dkim=pass (2048-bit key) header.d=maowtm.org header.i=@maowtm.org header.b=C2e1bmx0; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=uK2J00GJ; arc=none smtp.client-ip=202.12.124.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=maowtm.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=maowtm.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="FoQnf2Hj";
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="fnoSXJY0"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id F1DAD6A7EA;
-	Fri, 10 Apr 2026 01:38:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1775785113; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Nx1Nja6q8dogmFHY6ABatI7JgWfcyFSoYgvbo3nW4Nw=;
-	b=FoQnf2HjPDFZIs5HDosCOvMgu5qBvKGeogNQZ2aZyJTyzVtPCNAgHNok/qn0+5LqAo7tpI
-	eSTHUrydkXpvP+GVYqvQKjzeM7f3/CuOEKdjHIR04DZauGKUH8Lg7zt6I+uJg4yChF22mH
-	LZKx6hmnLAl96V2oJbR4I84XeQiQbB8=
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1775785112; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Nx1Nja6q8dogmFHY6ABatI7JgWfcyFSoYgvbo3nW4Nw=;
-	b=fnoSXJY0jtj7PhnqoPff2MQ8CnoizWvtghHVPgXC2DaK4rMOqGwTOtwOWAK41wuJjGwRs4
-	sXYi0Q/P8F03Ax2GMVS97muWijTZlsYseC93DXLJ1INkCoLbpQT7CjnpxI3OY3Rhy2HqeE
-	RT51HMsFahyZ9AcH/JvjTA8ef1qMxX4=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EC0D54A0B2;
-	Fri, 10 Apr 2026 01:38:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 7A6fOZhU2GkXfgAAD6G6ig
-	(envelope-from <dsterba@suse.com>); Fri, 10 Apr 2026 01:38:32 +0000
-From: David Sterba <dsterba@suse.com>
-To: torvalds@linux-foundation.org
-Cc: Hyungjung Joo <jhj140711@gmail.com>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	David Sterba <dsterba@suse.com>
-Subject: [PATCH 1/1] affs: bound hash_pos before table lookup in affs_readdir
-Date: Fri, 10 Apr 2026 03:38:26 +0200
-Message-ID: <6fa253b38b9b293a0de2a361de400557ca7666ca.1775783818.git.dsterba@suse.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <cover.1775783818.git.dsterba@suse.com>
-References: <cover.1775783818.git.dsterba@suse.com>
+	dkim=pass (2048-bit key) header.d=maowtm.org header.i=@maowtm.org header.b="C2e1bmx0";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="uK2J00GJ"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.stl.internal (Postfix) with ESMTP id A15F51D00114;
+	Thu,  9 Apr 2026 21:45:08 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Thu, 09 Apr 2026 21:45:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maowtm.org; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1775785508;
+	 x=1775871908; bh=6NwyPCyHaboSEWdcitdJmN8JzYLSO5FAnnQf1Yhqdag=; b=
+	C2e1bmx0RE4aYSqt5wsDwUB16tz/Nr/7VXhU6or7vPQlK5ZzE2bNFmOhdSo2b5qs
+	itYbTNs4HFRuYosW5/bJMygvZ4SORmR4r/FHmA+iTZfu1JWOs7qkkISvuiQakoyg
+	ZtwkrZEqabE0LOipQo/ZSYVLtg9e6/5QjLzThJ1hQtoZ8Uje99atNvJL02k27/zu
+	B1eDwV7YfCq3SrwBp5XNzT4ws8C+faCdHSSmCLgNWkfzCFcpAaWlTS/uwWj2DNGp
+	F3RZqRfA7tz0wkn5O2i+Ahac+6+dLvnPJmexoqxQ+C3bX5bYDdN1nuC2+XEsIyTM
+	5cT++xxbTiaN2D9yqT2bbg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1775785508; x=
+	1775871908; bh=6NwyPCyHaboSEWdcitdJmN8JzYLSO5FAnnQf1Yhqdag=; b=u
+	K2J00GJJh2PFhd8cSi40+MtRZngi++anlOiDAFui9sRiKHm+PA3C++u0Ff89Mw7L
+	SI+c31DcUsTyBKBcLm+ncXNqVYPFifNkYhTY+s8D2vOr6HCJ117iRz5chxRGmZlm
+	ZubWCcTtEfmVGImSGtDpF96HPq7U8VSex1y2dAC1gRa+V67KuLj2pVBe7bwKpSKB
+	KMiFG5HuPYI4Us8Tow+nWnoqD1Pq6X+DHkCCqZyX6gwx3Xleto2WD1jKbLyE+yAM
+	2584npdts98LhT4QUDIC4WKz6gCLTGDFlfLYbOKi16Lu9nhZf7Rww7Y+lutmDG3X
+	PT7VNNXH2MDS7ytCamhbA==
+X-ME-Sender: <xms:I1bYad_IEvk81Z3eu5ri98yVn9voExSWe1k4Ssjq1UhoRucxt_CUeQ>
+    <xme:I1bYacH1QAR0_Ush4vWlz6bkRjlBtJypbIFiTUNFShat7yc-C688gbZHpnuVCXj1u
+    S1b6LZuvNKqeuzLsYD2QX12xf2d0gNa-rj0AGQi3r7epbFTZKGCyU_g>
+X-ME-Received: <xmr:I1bYaRKpJsXQw5ueeS6Fj9Rz7Oaa3dxTNuv-Z0D1AipAr1dndnW0uXVWgdAA0BNi46AsFoeJK3GHcLMxzg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddvkedtlecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeenucfhrhhomhepvfhinhhgmhgr
+    ohcuhggrnhhguceomhesmhgrohifthhmrdhorhhgqeenucggtffrrghtthgvrhhnpeduke
+    evhfegvedvveeihedvvdeghfeglefgudegfeetvdekiefgledtheeggefhgfenucevlhhu
+    shhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmsehmrghofihtmh
+    drohhrghdpnhgspghrtghpthhtohepudegpdhmohguvgepshhmthhpohhuthdprhgtphht
+    thhopehmihgtseguihhgihhkohgurdhnvghtpdhrtghpthhtohepsghrrghunhgvrheskh
+    gvrhhnvghlrdhorhhgpdhrtghpthhtohepghhnohgrtghksehgohhoghhlvgdrtghomhdp
+    rhgtphhtthhopehprghulhesphgruhhlqdhmohhorhgvrdgtohhmpdhrtghpthhtohepsh
+    gvrhhgvgeshhgrlhhlhihnrdgtohhmpdhrtghpthhtohepuhhtihhlihhthigvmhgrlhej
+    jeesghhmrghilhdrtghomhdprhgtphhtthhopehlvghnnhgrrhhtsehpohgvthhtvghrih
+    hnghdrnhgvthdprhgtphhtthhopehivhgrnhhovhdrmhhikhhhrghilhdusehhuhgrfigv
+    ihdqphgrrhhtnhgvrhhsrdgtohhmpdhrtghpthhtohepnhhitgholhgrshdrsghouhgthh
+    hinhgvthesohhsshdrtgihsggvrhdrghhouhhvrdhfrh
+X-ME-Proxy: <xmx:I1bYaclMW0FzflK1uUWR-ENmJWbA-YDrSWBVBscA43gMtIUcCwc7pg>
+    <xmx:I1bYaaxMU4b4ZXDaRudCoXprNlKVW2i8dLNTgjd6jpdeckk6k1xBEg>
+    <xmx:I1bYaWuglBI2U9aecGKR528_HHQmC8oSWr67bnpEAyj0HusxXiHgdQ>
+    <xmx:I1bYacHf7344_zotsE6sqWCE3pJr89iUBNd6rzwk1xCUdiNwnPXY5g>
+    <xmx:JFbYaff0_46KNmTSlmuiiv0NbocrNPy4JWPBdGYSVHN-vyDl7Py9I_q5>
+Feedback-ID: i580e4893:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 9 Apr 2026 21:45:05 -0400 (EDT)
+Message-ID: <c39bea2a-2ed4-4f71-bb19-8669a4e1b072@maowtm.org>
+Date: Fri, 10 Apr 2026 02:45:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v1 04/11] landlock: Wrap per-layer access masks in
+ struct layer_rights
+To: =?UTF-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+Cc: Christian Brauner <brauner@kernel.org>, =?UTF-8?Q?G=C3=BCnther_Noack?=
+ <gnoack@google.com>, Paul Moore <paul@paul-moore.com>,
+ "Serge E . Hallyn" <serge@hallyn.com>, Justin Suess
+ <utilityemal77@gmail.com>, Lennart Poettering <lennart@poettering.net>,
+ Mikhail Ivanov <ivanov.mikhail1@huawei-partners.com>,
+ Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>,
+ Shervin Oloumi <enlightened@google.com>, kernel-team@cloudflare.com,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-security-module@vger.kernel.org
+References: <20260312100444.2609563-1-mic@digikod.net>
+ <20260312100444.2609563-5-mic@digikod.net>
+Content-Language: en-US
+From: Tingmao Wang <m@maowtm.org>
+In-Reply-To: <20260312100444.2609563-5-mic@digikod.net>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-6.80 / 50.00];
-	REPLY(-4.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_COUNT_TWO(0.00)[2];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,suse.com];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:mid,suse.com:email];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:mid,suse.com:email];
-	RCPT_COUNT_FIVE(0.00)[5];
-	DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Spam-Flag: NO
-X-Spam-Score: -6.80
-X-Spam-Level: 
 
-From: Hyungjung Joo <jhj140711@gmail.com>
+On 3/12/26 10:04, Mickaël Salaün wrote:
+> [...]
 
-affs_readdir() decodes ctx->pos into hash_pos and chain_pos and then
-dereferences AFFS_HEAD(dir_bh)->table[hash_pos] before validating
-that hash_pos is within the runtime table bound. Treat out-of-range
-positions as end-of-directory before the first table lookup.
+Hi Mickaël,
 
-Signed-off-by: Hyungjung Joo <jhj140711@gmail.com>
-Reviewed-by: David Sterba <dsterba@suse.com>
-Signed-off-by: David Sterba <dsterba@suse.com>
----
- fs/affs/dir.c | 2 ++
- 1 file changed, 2 insertions(+)
+As requested I have reviewed this series.  All looks good to me with one
+minor comment on the next patch.
 
-diff --git a/fs/affs/dir.c b/fs/affs/dir.c
-index 5c8d83387a39..075c18c4ccde 100644
---- a/fs/affs/dir.c
-+++ b/fs/affs/dir.c
-@@ -119,6 +119,8 @@ affs_readdir(struct file *file, struct dir_context *ctx)
- 		pr_debug("readdir() left off=%d\n", ino);
- 		goto inside;
- 	}
-+	if (hash_pos >= AFFS_SB(sb)->s_hashsize)
-+		goto done;
- 
- 	ino = be32_to_cpu(AFFS_HEAD(dir_bh)->table[hash_pos]);
- 	for (i = 0; ino && i < chain_pos; i++) {
--- 
-2.51.0
-
+(for patch 4,5,6,10)
+Reviewed-by: Tingmao Wang <m@maowtm.org>
