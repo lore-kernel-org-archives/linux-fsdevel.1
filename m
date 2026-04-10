@@ -1,42 +1,43 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CA1638E5C7;
-	Fri, 10 Apr 2026 07:08:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75F68385524
+	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 07:19:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775804893; cv=none; b=Sqd+Iaxd0vi2bzCpVHkeJ8bzgZGbHYEutsQKBkg0jk+p12wj5V7o6PaUi6w6nC6BjZe89tGN0fRUVgZnpCUgNNbsUInCODcxvWIoxtlVkhXOahuLdZhCLdoki7BfC1XPpn34odL5ngJIkihx437D4j9JIdeJTrDhhUdJ4lDMn1I=
+	t=1775805585; cv=none; b=WVmOyGwBAtPhl0qurZghMidEhdjchn/5xsIzdUt8yMayHsIOK0++Fo5tPtlB9zvnL+eaxD29lN50znYcP8WmqhL2nGlDQSLwe7+ysAqy9qDXOgWHWmjm93yQ4bYPGdxYzU4mWgBYt0eJS38r5bGZIisWJQETQXCdRWO7HdlZV+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775804893; c=relaxed/simple;
-	bh=dLrnTN7l85A4M/+nuDYynQvuWGIh0VWPyahjcmdC4Yk=;
+	s=arc-20240116; t=1775805585; c=relaxed/simple;
+	bh=FKm4fY57ehTraJok2DjF06Qjd0t462XUR5IMDglyolI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FQYb21TolBbXCEhimS/IfOI5dndOfDWAXxVFipXeznqpFQ+VjhShmoARvIdaNJ71yKqUmIKnzZ35fZa4emr5osKkcncloMFX4EkrC+jor6fqwQh4xh0T/4aG6z6/3N1eltOQlDbA59exoRj07Zl7IS9vuyHsTGyD1qwxBDxwoBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=FtuugAuG; arc=none smtp.client-ip=198.137.202.133
+	 Content-Type:Content-Disposition:In-Reply-To; b=cMZWqL7hUfySs+Gn9GkW4Vb9dK5q/4el6TfP4OOe3jXqet45rweS/GoUdTtvuqTJ9TWiVzgoAPePu1gDfibHuxb9eVMLJEyF9uktv7qN8NFFh7f6cnS0iGlx1liq3L3dOjec3uUlxVmbkcu1XzNFp1M+ejeWwJB9/GV43AaZfsI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=MGVJsZEu; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="FtuugAuG"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MGVJsZEu"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
 	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=xPaxU+hWT0ZEvzMf51KWwAKk8kmuCkfO6rPBhH2/bDM=; b=FtuugAuGyqZC2jQrdNhDVwzxpi
-	dJ5SExKEL6oOf5ZM/vBhsqAs4X7id6OJQfzGpjXAOPfUG3QNrMgVymo5yGk+Pteme3HlMErSpyosH
-	EYzkJi5uupoAJz/H3OiU8lG6oeGCbtitZfMu2UMnGRwKRIFdFU+tCrDVeFYpYQx431oTr73xMcUhn
-	yCpRhmC5cUA6nj7lI8wTfCMseD+k5gFAUKi8XRlqnaf3H7ITogD84t5f/p1vk6nUBf8YGj2bMnUnL
-	svhucEGk643fE6RXT/3XYZy+TDvUzrnKJD8r4qMP92fSKa+h5rnUf/Pbx0FX9yJkjzeTfF+xJ7WWT
-	wc/pBhSg==;
+	bh=Q/kagYmVsXElg7lTyBHh77u9odsxBWTXsyTBAIuO6lc=; b=MGVJsZEuqUkcOnsTZIQOdFsPt7
+	KvEjZq2UYGDEvkE+ajwptiwBqgEBkNGi5xUR7oVoEup2fw9EiAhu6OcD1nj8ai83nd52bSJW7zelj
+	ZHTDOguDQ47pRxBaAGDrN8lH8Vs1+t/I88sBtzGmxX7mZuTNZJR9jNAGu4uNGThd8Ko0Cf0t9mPsp
+	a1YD2A6ap2TbRyeD74Lg9GPVwl5OschvOEA5h+godygdpOyPHbq4iTGMDhrDLEOeu8BWHoJgDuPgJ
+	T+Wg+h6VnXwgogYidWGjxBXFpIKsrVHHxbgz87/Wg97i78vsPevtl4by35Ba3zSuKJR0xKV4l6u/w
+	YcXHP9og==;
 Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wB5yM-0000000Bi7B-1NBq;
-	Fri, 10 Apr 2026 07:08:10 +0000
-Date: Fri, 10 Apr 2026 00:08:10 -0700
+	id 1wB69X-0000000Bj4c-432Z;
+	Fri, 10 Apr 2026 07:19:43 +0000
+Date: Fri, 10 Apr 2026 00:19:43 -0700
 From: Christoph Hellwig <hch@infradead.org>
-To: Boris Burkov <boris@bur.io>
-Cc: linux-fsdevel@vger.kernel.org, lsf-pc@lists.linux-foundation.org,
-	linux-mm@kvack.org, linux-btrfs@vger.kernel.org
-Subject: Re: [LSF/MM/BPF TOPIC] Direct Reclaim and Filesystems
-Message-ID: <adih2i15lagPQmGc@infradead.org>
-References: <20260409210906.GA881465@zen.localdomain>
+To: Jan Kara <jack@suse.cz>
+Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	Matthew Wilcox <willy@infradead.org>,
+	lsf-pc@lists.linux-foundation.org
+Subject: Re: [LSF/MM/BPF TOPIC] Filesystem inode reclaim
+Message-ID: <adikj3y6OXgSyObW@infradead.org>
+References: <m5v2s4fc6od2y2en5m62sr6fx57fdkhtqrn2kv47ngpcb65ump@4cfu4os3x5yy>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -45,20 +46,45 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260409210906.GA881465@zen.localdomain>
+In-Reply-To: <m5v2s4fc6od2y2en5m62sr6fx57fdkhtqrn2kv47ngpcb65ump@4cfu4os3x5yy>
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Thu, Apr 09, 2026 at 02:09:06PM -0700, Boris Burkov wrote:
-> - Reclaim freeing metadata and/or forcing metadata writeback [1][3][4]
-> In btrfs, this results in redundant work fetching and writing btree nodes if
-> it happens to hot nodes in the btree. Should we be trying to lock some of
-> these nodes down from reclaim? If so, how many is appropriate/safe?
+I think a patch is more useful than a discussion here, that idea has been
+voiced multiple times, and effecticely implemented in XFS.
 
-The solution to that is object based reclaim as in the xfs buffer
-cache.  That way you can set priorities on the nodes to keep them on
-the LRU, or even pin things down much more easily.
+Trying to lift the XFS logic into the VFS and finding other consumers
+for it would be very helpful.
 
-When we last discussed this Josef didn't think it would work for btrfs
-due to the amount of metadata, but I don't think that is a valid
-argument.
+> 1) Filesystems will be required to mark inodes that have non-trivial
+> cleanup work to do on reclaim with an inode flag I_RECLAIM_HARD (or
+> whatever :)). Usually I expect this to happen on first inode modification
+> or so. This will require some per-fs work but it shouldn't be that
+> difficult and filesystems can be adapted one-by-one as they decide to
+> address these warnings from reclaim.
+
+I think otherwise we call this dirty :)
+
+> 2) Inodes without I_RECLAIM_HARD will be reclaimed as usual directly from
+> kswapd / direct reclaim. I'm keeping this variant of inode reclaim for
+> performance reasons. I expect this to be a significant portion of inodes
+> on average and in particular for some workloads which scan a lot of inodes
+> (find through the whole fs or similar) the efficiency of inode reclaim is
+> one of the determining factors for their performance.
+
+Yes, in most file systems most inodes are clean.
+
+> There's also a simpler approach to this problem but with more radical
+> changes to behavior. For example getting rid of inode LRU completely -
+> inodes without dentries referencing them anymore should be rare and it
+> isn't very useful to cache them. So we can always drop inodes on last
+> iput() (as we currently do for example for unlinked inodes). But I have a
+> nagging feeling that somebody is depending on inode LRU somewhere - I'd
+> like poll the collective knowledge of what could possibly go wrong here :)
+
+I've heard this theory multiple times, but we really need to valide that
+we don't need the LRU.  It also doesn't really solve the above problem,
+as we still would not want to perform the expensive inode inactivation
+work inline with the last dput.
+
+So while this might be worth investigating, please keept it separate.
 
