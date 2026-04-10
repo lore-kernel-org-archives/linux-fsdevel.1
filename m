@@ -1,39 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA6E7329C67
-	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 09:23:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B03C13BED11;
+	Fri, 10 Apr 2026 09:35:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775813011; cv=none; b=fawKCKdyEuwYCwDJsf5WAmWiiq3Ar2Ih9577dlDjn46Ey8wQ0+rRiP4ytb2hTcCLGdyWhS5xRjnw9wzGvUIcNUWJCSfYiWGM6KJ+ItRHd9IPF/Hmeq40hO3AS6HG1QFJxjM7dL4hPp1bMA6ulHGVMg9UyyeMZt9fnPriERVU5AE=
+	t=1775813741; cv=none; b=jXeYy9OzY1Lr38XXZnDP4eUYAcIg3SAlQ/JDrc5A3cY631GkaLRreiuLJRMZoLNNQqR1y1BPSHQuMd2NSMZxf3tQ5OV6gvtbyZlbhrBt67dF1dkR/8XVytepJPJGtMvpSn4+AgYvwXLB8cHfKfgwDLH+XJSBQBrIxRzL76+9NEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775813011; c=relaxed/simple;
-	bh=bRS2sFDSkxDNUxdLeMiZMk1q5DPX9sCGAQGX2rFyGa0=;
+	s=arc-20240116; t=1775813741; c=relaxed/simple;
+	bh=O4o+tsYx4QunLRAY5Y24vYFemdKhvddX0+f3Tr0uiKM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q1W07j9nn04C2euMztLTcCK5fPqECsWL+isRLItGl+8ArcFdW5UIzsFftdjADI+e8nPM3493x4RFUTTRLhpvoHXRmkleytAsO1C7m3sRuHU9eRLzLptgpPK/YaeY+TxQVUVioyFQ+ugynlV8A/Wew8K2lZ2nUGNZJSyJDOPk6pE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BXP9WrNi; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=nxtexcJd5HOZWuHkpOJ3aCVyYmIoghn/GRK8Ad9H/9clLLI/M2//Nek6XMbZX/og0kxv9hHsJjcJURdzyhOweShpe8NgWP99dFa9gSlSJPyu1dgHBQ8cYxuTs6pG+mv/wcnI1j31NrcLt3uixT98OEwi7A0CoCzV1gl2JIjABWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZgXdef6N; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BXP9WrNi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5A61C19421;
-	Fri, 10 Apr 2026 09:23:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZgXdef6N"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE911C2BC9E;
+	Fri, 10 Apr 2026 09:35:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775813011;
-	bh=bRS2sFDSkxDNUxdLeMiZMk1q5DPX9sCGAQGX2rFyGa0=;
+	s=k20201202; t=1775813741;
+	bh=O4o+tsYx4QunLRAY5Y24vYFemdKhvddX0+f3Tr0uiKM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BXP9WrNis/L8hNuW4Ic6OoPesbEAjB1wAoV4JK8O4tFeM9AKY9lwNWLtfK1gj0EzO
-	 O4bNbfXYyQfJgqkczpXdFRJvyWnqvfa7fkt6ZIkjvBJeXx9h9AIqfOw+JC6qfcj0BT
-	 dlNLLL0wNfexikgNm/PU4lTU7NGIcu6mp7MXxmPdEJdFqqoano9zlHds5wSs84Zb0m
-	 xw0uF4caQzfOaXDh1S0t5QCJZ04QkjPbNqp0Gozm++BGvD1ZcXLvTn2g2WxE6JT5O3
-	 djlsiOGlGxr6B9LsxLVXYuMF5du/p7ehQMF6t3rYM0r4NxAShCMqnjf/kbJc8K0D2P
-	 pvODL5A/odabA==
-Date: Fri, 10 Apr 2026 11:23:26 +0200
+	b=ZgXdef6NQLJXS3M5P5X/I1QiRCeXnLvl6Sfhh+P2mYpKu4SHT1CODfFq7TPiroF+M
+	 IA5/ZwNoFMOw/gjQaTfLrgYtbE162GxjJALPwahO9kAe8umAVdoRXgfEEW1nR+rLaW
+	 wf4lCsUdO0PvCxgl63RMyINUZ8qEONbUhisNCg3+O4g/RQtr37umT6dHkAdanUhh7C
+	 d2T2hCJVplWK96+wFExpFMN+IY01XmQqdUQQOCUQddxt4Zv1cHjAMEwcJ4Lf8LNKH7
+	 nJtYnFz1pGxL7M3RUFIHlwOKkI52+5Fr3/ZQGSqMmedV0L402mqjYZkkoLAj1qCzEV
+	 kG7y5pbm/m+HQ==
+Date: Fri, 10 Apr 2026 11:35:35 +0200
 From: Christian Brauner <brauner@kernel.org>
-To: Jan Kara <jack@suse.cz>
-Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	Matthew Wilcox <willy@infradead.org>, lsf-pc@lists.linux-foundation.org
-Subject: Re: [LSF/MM/BPF TOPIC] Filesystem inode reclaim
-Message-ID: <20260410-anonym-freigaben-186946cb50e3@brauner>
-References: <m5v2s4fc6od2y2en5m62sr6fx57fdkhtqrn2kv47ngpcb65ump@4cfu4os3x5yy>
+To: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+Cc: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, 
+	Paul Moore <paul@paul-moore.com>, "Serge E . Hallyn" <serge@hallyn.com>, 
+	Justin Suess <utilityemal77@gmail.com>, Lennart Poettering <lennart@poettering.net>, 
+	Mikhail Ivanov <ivanov.mikhail1@huawei-partners.com>, Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>, 
+	Shervin Oloumi <enlightened@google.com>, Tingmao Wang <m@maowtm.org>, kernel-team@cloudflare.com, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, Daniel Durning <danieldurning.work@gmail.com>
+Subject: Re: [RFC PATCH v1 01/11] security: add LSM blob and hooks for
+ namespaces
+Message-ID: <20260410-sterben-intolerant-bf8b880885f9@brauner>
+References: <20260312100444.2609563-1-mic@digikod.net>
+ <20260312100444.2609563-2-mic@digikod.net>
+ <20260325-filmverleih-auffressen-e897fcf8d3f2@brauner>
+ <20260409.Mei6Yei0beeZ@digikod.net>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -42,82 +51,302 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <m5v2s4fc6od2y2en5m62sr6fx57fdkhtqrn2kv47ngpcb65ump@4cfu4os3x5yy>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260409.Mei6Yei0beeZ@digikod.net>
 
-On Thu, Apr 09, 2026 at 11:16:44AM +0200, Jan Kara wrote:
-> Hello!
+On Thu, Apr 09, 2026 at 06:40:03PM +0200, Mickaël Salaün wrote:
+> On Wed, Mar 25, 2026 at 01:31:30PM +0100, Christian Brauner wrote:
+> > On Thu, Mar 12, 2026 at 11:04:34AM +0100, Mickaël Salaün wrote:
+> > > From: Christian Brauner <brauner@kernel.org>
+> > > 
+> > > All namespace types now share the same ns_common infrastructure. Extend
+> > > this to include a security blob so LSMs can start managing namespaces
+> > > uniformly without having to add one-off hooks or security fields to
+> > > every individual namespace type.
+> > > 
+> > > Add a ns_security pointer to ns_common and the corresponding lbs_ns
+> > > blob size to lsm_blob_sizes. Allocation and freeing hooks are called
+> > > from the common __ns_common_init() and __ns_common_free() paths so
+> > > every namespace type gets covered in one go. All information about the
+> > > namespace type and the appropriate casting helpers to get at the
+> > > containing namespace are available via ns_common making it
+> > > straightforward for LSMs to differentiate when they need to.
+> > > 
+> > > A namespace_install hook is called from validate_ns() during setns(2)
+> > > giving LSMs a chance to enforce policy on namespace transitions.
+> > > 
+> > > Individual namespace types can still have their own specialized security
+> > > hooks when needed. This is just the common baseline that makes it easy
+> > > to track and manage namespaces from the security side without requiring
+> > > every namespace type to reinvent the wheel.
+> > > 
+> > > Cc: Günther Noack <gnoack@google.com>
+> > > Cc: Paul Moore <paul@paul-moore.com>
+> > > Cc: Serge E. Hallyn <serge@hallyn.com>
+> > > Signed-off-by: Christian Brauner <brauner@kernel.org>
+> > > Link: https://lore.kernel.org/r/20260216-work-security-namespace-v1-1-075c28758e1f@kernel.org
+> > > ---
+> > >  include/linux/lsm_hook_defs.h      |  3 ++
+> > >  include/linux/lsm_hooks.h          |  1 +
+> > >  include/linux/ns/ns_common_types.h |  3 ++
+> > >  include/linux/security.h           | 20 ++++++++
+> > >  kernel/nscommon.c                  | 12 +++++
+> > >  kernel/nsproxy.c                   |  8 +++-
+> > >  security/lsm_init.c                |  2 +
+> > >  security/security.c                | 76 ++++++++++++++++++++++++++++++
+> > >  8 files changed, 124 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.h
+> > > index 8c42b4bde09c..fefd3aa6d8f4 100644
+> > > --- a/include/linux/lsm_hook_defs.h
+> > > +++ b/include/linux/lsm_hook_defs.h
+> > > @@ -260,6 +260,9 @@ LSM_HOOK(int, -ENOSYS, task_prctl, int option, unsigned long arg2,
+> > >  LSM_HOOK(void, LSM_RET_VOID, task_to_inode, struct task_struct *p,
+> > >  	 struct inode *inode)
+> > >  LSM_HOOK(int, 0, userns_create, const struct cred *cred)
+> > > +LSM_HOOK(int, 0, namespace_alloc, struct ns_common *ns)
+> > > +LSM_HOOK(void, LSM_RET_VOID, namespace_free, struct ns_common *ns)
+> > > +LSM_HOOK(int, 0, namespace_install, const struct nsset *nsset, struct ns_common *ns)
+> > >  LSM_HOOK(int, 0, ipc_permission, struct kern_ipc_perm *ipcp, short flag)
+> > >  LSM_HOOK(void, LSM_RET_VOID, ipc_getlsmprop, struct kern_ipc_perm *ipcp,
+> > >  	 struct lsm_prop *prop)
+> > > diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
+> > > index d48bf0ad26f4..3e7afe76e86c 100644
+> > > --- a/include/linux/lsm_hooks.h
+> > > +++ b/include/linux/lsm_hooks.h
+> > > @@ -111,6 +111,7 @@ struct lsm_blob_sizes {
+> > >  	unsigned int lbs_ipc;
+> > >  	unsigned int lbs_key;
+> > >  	unsigned int lbs_msg_msg;
+> > > +	unsigned int lbs_ns;
+> > >  	unsigned int lbs_perf_event;
+> > >  	unsigned int lbs_task;
+> > >  	unsigned int lbs_xattr_count; /* num xattr slots in new_xattrs array */
+> > > diff --git a/include/linux/ns/ns_common_types.h b/include/linux/ns/ns_common_types.h
+> > > index 0014fbc1c626..170288e2e895 100644
+> > > --- a/include/linux/ns/ns_common_types.h
+> > > +++ b/include/linux/ns/ns_common_types.h
+> > > @@ -115,6 +115,9 @@ struct ns_common {
+> > >  	struct dentry *stashed;
+> > >  	const struct proc_ns_operations *ops;
+> > >  	unsigned int inum;
+> > > +#ifdef CONFIG_SECURITY
+> > > +	void *ns_security;
+> > > +#endif
+> > >  	union {
+> > >  		struct ns_tree;
+> > >  		struct rcu_head ns_rcu;
+> > > diff --git a/include/linux/security.h b/include/linux/security.h
+> > > index 83a646d72f6f..611b9098367d 100644
+> > > --- a/include/linux/security.h
+> > > +++ b/include/linux/security.h
+> > > @@ -67,6 +67,7 @@ enum fs_value_type;
+> > >  struct watch;
+> > >  struct watch_notification;
+> > >  struct lsm_ctx;
+> > > +struct nsset;
+> > >  
+> > >  /* Default (no) options for the capable function */
+> > >  #define CAP_OPT_NONE 0x0
+> > > @@ -80,6 +81,7 @@ struct lsm_ctx;
+> > >  
+> > >  struct ctl_table;
+> > >  struct audit_krule;
+> > > +struct ns_common;
+> > >  struct user_namespace;
+> > >  struct timezone;
+> > >  
+> > > @@ -533,6 +535,9 @@ int security_task_prctl(int option, unsigned long arg2, unsigned long arg3,
+> > >  			unsigned long arg4, unsigned long arg5);
+> > >  void security_task_to_inode(struct task_struct *p, struct inode *inode);
+> > >  int security_create_user_ns(const struct cred *cred);
+> > > +int security_namespace_alloc(struct ns_common *ns);
+> > > +void security_namespace_free(struct ns_common *ns);
+> > > +int security_namespace_install(const struct nsset *nsset, struct ns_common *ns);
+> > >  int security_ipc_permission(struct kern_ipc_perm *ipcp, short flag);
+> > >  void security_ipc_getlsmprop(struct kern_ipc_perm *ipcp, struct lsm_prop *prop);
+> > >  int security_msg_msg_alloc(struct msg_msg *msg);
+> > > @@ -1407,6 +1412,21 @@ static inline int security_create_user_ns(const struct cred *cred)
+> > >  	return 0;
+> > >  }
+> > >  
+> > > +static inline int security_namespace_alloc(struct ns_common *ns)
+> > > +{
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static inline void security_namespace_free(struct ns_common *ns)
+> > > +{
+> > > +}
+> > > +
+> > > +static inline int security_namespace_install(const struct nsset *nsset,
+> > > +					     struct ns_common *ns)
+> > > +{
+> > > +	return 0;
+> > > +}
+> > > +
+> > >  static inline int security_ipc_permission(struct kern_ipc_perm *ipcp,
+> > >  					  short flag)
+> > >  {
+> > > diff --git a/kernel/nscommon.c b/kernel/nscommon.c
+> > > index bdc3c86231d3..de774e374f9d 100644
+> > > --- a/kernel/nscommon.c
+> > > +++ b/kernel/nscommon.c
+> > > @@ -4,6 +4,7 @@
+> > >  #include <linux/ns_common.h>
+> > >  #include <linux/nstree.h>
+> > >  #include <linux/proc_ns.h>
+> > > +#include <linux/security.h>
+> > >  #include <linux/user_namespace.h>
+> > >  #include <linux/vfsdebug.h>
+> > >  
+> > > @@ -59,6 +60,9 @@ int __ns_common_init(struct ns_common *ns, u32 ns_type, const struct proc_ns_ope
+> > >  
+> > >  	refcount_set(&ns->__ns_ref, 1);
+> > >  	ns->stashed = NULL;
+> > > +#ifdef CONFIG_SECURITY
+> > > +	ns->ns_security = NULL;
+> > > +#endif
+> > >  	ns->ops = ops;
+> > >  	ns->ns_id = 0;
+> > >  	ns->ns_type = ns_type;
+> > > @@ -77,6 +81,13 @@ int __ns_common_init(struct ns_common *ns, u32 ns_type, const struct proc_ns_ope
+> > >  		ret = proc_alloc_inum(&ns->inum);
+> > >  	if (ret)
+> > >  		return ret;
+> > > +
+> > > +	ret = security_namespace_alloc(ns);
+> > > +	if (ret) {
+> > > +		proc_free_inum(ns->inum);
+> > 
+> > ret = security_namespace_alloc(ns);
+> > if (ret && !inum)
+> >         proc_free_inum(ns->inum);
+> > return ret;
+> > 
+> > 
+> > > +		return ret;
+> > > +	}
+> > > +
+> > >  	/*
+> > >  	 * Tree ref starts at 0. It's incremented when namespace enters
+> > >  	 * active use (installed in nsproxy) and decremented when all
+> > > @@ -91,6 +102,7 @@ int __ns_common_init(struct ns_common *ns, u32 ns_type, const struct proc_ns_ope
+> > >  
+> > >  void __ns_common_free(struct ns_common *ns)
+> > >  {
+> > > +	security_namespace_free(ns);
+> > >  	proc_free_inum(ns->inum);
+> > >  }
+> > >  
+> > > diff --git a/kernel/nsproxy.c b/kernel/nsproxy.c
+> > > index 259c4b4f1eeb..f0b30d1907e7 100644
+> > > --- a/kernel/nsproxy.c
+> > > +++ b/kernel/nsproxy.c
+> > > @@ -379,7 +379,13 @@ static int prepare_nsset(unsigned flags, struct nsset *nsset)
+> > >  
+> > >  static inline int validate_ns(struct nsset *nsset, struct ns_common *ns)
+> > >  {
+> > > -	return ns->ops->install(nsset, ns);
+> > > +	int ret;
+> > > +
+> > > +	ret = ns->ops->install(nsset, ns);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	return security_namespace_install(nsset, ns);
+> > 
+> > In my local tree I had that moved before the ->install() and I think
+> > that's the correct thing to do. So please switch to that.
 > 
-> This is a recurring topic Matthew has been kicking forward for the last
-> year so let me maybe offer a fs-person point of view on the problem and
-> possible solutions. The problem is very simple: When a filesystem (ext4,
-> btrfs, vfat) is about to reclaim an inode, it sometimes needs to perform a
-> complex cleanup - like trimming of preallocated blocks beyond end of file,
-> making sure journalling machinery is done with the inode, etc.. This may
-> require reading metadata into memory which requires memory allocations and
-> as inode eviction cannot fail, these are effectively GFP_NOFAIL
-> allocations (and there are other reasons why it would be very difficult to
-> make some of these required allocations in the filesystems failable).
-> 
-> GFP_NOFAIL allocation from reclaim context (be it kswapd or direct reclaim)
-> trigger warnings - and for a good reason as forward progress isn't
-> guaranteed. Also it leaves a bad taste that we are performing sometimes
-> rather long running operations blocking on IO from reclaim context thus
-> stalling reclaim for substantial amount of time to free 1k worth of slab
-> cache.
-> 
-> I have been mulling over possible solutions since I don't think each
-> filesystem should be inventing a complex inode lifetime management scheme
-> as XFS has invented to solve these issues. Here's what I think we could do:
-> 
-> 1) Filesystems will be required to mark inodes that have non-trivial
-> cleanup work to do on reclaim with an inode flag I_RECLAIM_HARD (or
-> whatever :)). Usually I expect this to happen on first inode modification
-> or so. This will require some per-fs work but it shouldn't be that
-> difficult and filesystems can be adapted one-by-one as they decide to
-> address these warnings from reclaim.
-> 
-> 2) Inodes without I_RECLAIM_HARD will be reclaimed as usual directly from
-> kswapd / direct reclaim. I'm keeping this variant of inode reclaim for
-> performance reasons. I expect this to be a significant portion of inodes
-> on average and in particular for some workloads which scan a lot of inodes
-> (find through the whole fs or similar) the efficiency of inode reclaim is
-> one of the determining factors for their performance.
-> 
-> 3) Inodes with I_RECLAIM_HARD will be moved by the shrinker to a separate
-> per-sb list s_hard_reclaim_inodes and we'll queue work (per-sb work struct)
-> to process them.
+> Looks good, I'll include your fixes in the next version.
 
-I like this approach.
+Thanks!
 
-> 4) The work will walk s_hard_reclaim_inodes list and call evict() for each
-> inode, doing the hard work.
 > 
-> This way, kswapd / direct reclaim doesn't wait for hard to reclaim inodes
-> and they can work on freeing memory needed for freeing of hard to reclaim
-> inodes. So warnings about GFP_NOFAIL allocations aren't only papered over,
-> they should really be addressed.
+> > 
+> > The rest looks good to me, thanks.
 > 
-> One possible concern is that s_hard_reclaim_inodes list could grow out of
-> control for some workloads (in particular because there could be multiple
-> CPUs generating hard to reclaim inodes while the cleanup would be
-> single-threaded). This could be addressed by tracking number of inodes in
-
-Hm, I don't know with WQ_UNBOUND is that really a concern?
-
-> that list and if it grows over some limit, we could start throttling
-> processes when setting I_RECLAIM_HARD inode flag.
+> Another issue raised by Daniel Durning [1] is freeing of anonymous
+> namespaces.
 > 
-> There's also a simpler approach to this problem but with more radical
-> changes to behavior. For example getting rid of inode LRU completely -
-> inodes without dentries referencing them anymore should be rare and it
-> isn't very useful to cache them. So we can always drop inodes on last
-> iput() (as we currently do for example for unlinked inodes). But I have a
-> nagging feeling that somebody is depending on inode LRU somewhere - I'd
-> like poll the collective knowledge of what could possibly go wrong here :)
+> I'll extend this patch with this new hunk if that's ok:
+> 
+> diff --git a/fs/namespace.c b/fs/namespace.c
+> index 854f4fc66469..f6977e59be7d 100644
+> --- a/fs/namespace.c
+> +++ b/fs/namespace.c
+> @@ -4186,6 +4186,8 @@ static void free_mnt_ns(struct mnt_namespace *ns)
+>  {
+>         if (!is_anon_ns(ns))
+>                 ns_common_free(ns);
+> +       else
+> +               security_namespace_free(&ns->ns);
+>         dec_mnt_namespaces(ns->ucounts);
+>         mnt_ns_tree_remove(ns);
+>  }
 
-I still think we should try this - for the reduced maintenance cost
-alone. Imagine living in a world where there aren't 2 different LRUs
-constantly battling for review attention..
+I think that's fixing it at the wrong layer. It's probably better to do
+sm like:
 
-I'm split here but depending on the size of the actual work needed to
-make this happen we should at least be open to try this.
+diff --git a/include/uapi/linux/nsfs.h b/include/uapi/linux/nsfs.h
+index a25e38d1c874..ea0f0267d90f 100644
+--- a/include/uapi/linux/nsfs.h
++++ b/include/uapi/linux/nsfs.h
+@@ -55,6 +55,7 @@ enum init_ns_ino {
+        MNT_NS_INIT_INO         = 0xEFFFFFF8U,
+ #ifdef __KERNEL__
+        MNT_NS_ANON_INO         = 0xEFFFFFF7U,
++       MNT_NS_INO_SPECIAL_MAX  = MNT_NS_ANON_INO,
+ #endif
+ };
+
+diff --git a/kernel/nscommon.c b/kernel/nscommon.c
+index 3166c1fd844a..e7a3dd2189cc 100644
+--- a/kernel/nscommon.c
++++ b/kernel/nscommon.c
+@@ -91,7 +91,10 @@ int __ns_common_init(struct ns_common *ns, u32 ns_type, const struct proc_ns_ope
+
+ void __ns_common_free(struct ns_common *ns)
+ {
+-       proc_free_inum(ns->inum);
++       security_namespace_free(&ns->ns);
++
++       if (ns->inum > MNT_NS_INO_SPECIAL_MAX)
++               proc_free_inum(ns->inum);
+ }
+
+ struct ns_common *__must_check ns_owner(struct ns_common *ns)
+
+> 
+> Daniel, could you please confirm that this fixes the memory leak?
+> 
+> [1] https://lore.kernel.org/all/20260330193100.3603-1-danieldurning.work@gmail.com/
+> 
+> 
+> > > +/**
+> > > + * security_namespace_free() - Release LSM security data from a namespace
+> > > + * @ns: the namespace being freed
+> > > + *
+> > > + * Release security data attached to the namespace. Called before the
+> > > + * namespace structure is freed.
+> > > + *
+> > > + * Note: The namespace may be freed via kfree_rcu(). LSMs must use
+> > > + * RCU-safe freeing for any data that might be accessed by concurrent
+> > > + * RCU readers.
+> > > + */
+> > > +void security_namespace_free(struct ns_common *ns)
+> > > +{
+> > > +       if (!ns->ns_security)
+> > > +               return;
+> > > +
+> > > +       call_void_hook(namespace_free, ns);
+> > > +
+> 
+> > > +       kfree(ns->ns_security);
+> > > +       ns->ns_security = NULL;
+> 
+> I think it would be safer to replace these two lines with:
+> kfree_rcu_mightsleep(ns->ns_security)
+> 
+> > > +}
