@@ -1,159 +1,108 @@
-Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-133.freemail.mail.aliyun.com (out30-133.freemail.mail.aliyun.com [115.124.30.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D10626C39E
-	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 23:30:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D4DA387361;
+	Fri, 10 Apr 2026 23:44:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775863837; cv=none; b=WFZZmwyZqjY/RhZNRdpLn7GvnBdFslBT3Jt3CrM/Z9mnhvwFVkA7UNts1fjDqM7bOj6eiu3nL+0fgBTtnV2Pvhm03oIp3idZJ0TMY7gh7GeT4FjuBhbgOai1GpoYd5I1RYKZBRixQjO4MKxjPiHqzvLsvC+06ms0OhvESLfW9CA=
+	t=1775864692; cv=none; b=oFhHpNcob07woYQuObbE5Tw963eVLM9SB6K3VF/9MgiCCaQGvac6sNsegXSgzLHLoEAQ5hIHoRFYrNI9iAB3+QcZa0dfOYlW12txjwFv45TdtC80NaSOaHmvhoaa1a5EkCZjXCvH4HeXeYwjzBpLMwEzNIkAwTAVyPAa+lG/41o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775863837; c=relaxed/simple;
-	bh=dcDmvzADvLAa9s73l6GbiE8iEYUbIBGgrJgrTQzXJgg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Mrr/tHp8sVvhcx/LlV110RWOUXAtuFUnbedxbNuC6QPt0EUozGW4aa6n4opfPvngxGmtikt2kLJPJiQu+i1xzlqO30AA7M/9jt2hdNEScn7/6aEF5Z1VOChHzydbGOl6wSmbN3xnYE18TOaFhw5S1S0sZ+d7d3EWktrIXkPusAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wbinvd.org; spf=pass smtp.mailfrom=wbinvd.org; dkim=pass (2048-bit key) header.d=wbinvd.org header.i=@wbinvd.org header.b=OW4WwDrG; arc=none smtp.client-ip=74.125.82.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wbinvd.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wbinvd.org
+	s=arc-20240116; t=1775864692; c=relaxed/simple;
+	bh=pit/Q/uY4fhe9wzjCs3sh2iYocEfgoIZLc2nbI6VqbY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KicGaerx7cvONRt+hY2H9HOsdjRPqeW1xp+ymndAewyjBasstsHzaCZrR7ysDO+4ULCESCzfHC/avNrba7nxUhoeMjwbeCiDO9cq0gAeTzhoQbNickojPOjmWFJkin4kDJx4elOeXgmkhIMI3494zx83JMmpUH6XzJ0ZnlswiF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=SX7HG5EB; arc=none smtp.client-ip=115.124.30.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wbinvd.org header.i=@wbinvd.org header.b="OW4WwDrG"
-Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-2cf1646bd11so4633773eec.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 16:30:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=wbinvd.org; s=wbinvd; t=1775863835; x=1776468635; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=DHttyiBQABFZFJ9QRm5pPYMSzKpe9Fu10AMSmNwuwNU=;
-        b=OW4WwDrGtY6LAy57yFyn9ICMWKSc19ZwVgPwfFvaXrmR+dLBsj4g7wuT0vpa0V0guW
-         5h3O6IY4IxKrunsN2fXO8smW/qoTUocBm/XOF2DbhyFFEGEa9JeBKRx5cMa2lufl6SM1
-         Dr8myMLEZyuhIlWLwN3xmase5zDnUorccUla/bT396hH1ZmaAQNA8ah5RfWmEClx2Tpp
-         LwBEfbo+288pKl5vyT8hpFS1MsQDOevQaM+MLnCF6tbNwIMCAs/vPcAFH/I0aObf1BFQ
-         qYALrqWKCIQ/LX+jAabY2Gzgow2SyiAhSGI5uhsNkMSbt4uD9IUaNblBUDMvKYYiR8sl
-         Gfrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775863835; x=1776468635;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DHttyiBQABFZFJ9QRm5pPYMSzKpe9Fu10AMSmNwuwNU=;
-        b=ZUc/6ws15FdIlfT69w3KuzPphngrLC3P367vCj98hkmvOaEsmt5VyKzm2Xoi04Ducx
-         0vP/rn3E4tx9IFX2nTReeZ1+Wnuv2BvcLg67kLJKOlS/2vx7BOt5vb6Zep0sHFotRTPD
-         Jn+CG9QsqQddfMveM0vkOiLskFUpjDBHhIIc1NXra9dAMAHjiZaIdclonck2+SmddH/P
-         2EW74i75FQMm/z10/qhN7sjMYglx/71Kq/voar5YjYT/du9kugbWp54wb+SCZ8UxyO6U
-         hCp36EocSK74FCKmUMo/4aEE/my88mjg6phL9Bf0X51JWc06mtBlfymkpcq4ewpyk30J
-         HIHw==
-X-Forwarded-Encrypted: i=1; AJvYcCVprmyuvWsK7uX6YQ19aDFwEUw77f6qybS6+DI20qn0SvyJ3oE8oGK+qRcguHF7BY12iqr/fiFh+jFuxwbp@vger.kernel.org
-X-Gm-Message-State: AOJu0YwhjUURLrGQcqCChmhP2VFTyEy6mOlUOjUEfxnbH+mBXcoh7TOk
-	xSEKNtAyVN5ToxHCjiVnAjfmZxZep0nnbZnpKt5wMyPcHDTv8x7UK9+ryNcxgnEfJqU=
-X-Gm-Gg: AeBDietMJDg1voU9ir+BXj3dFUbKFotoAA92acD0sqvxrMrvtwn2xMWnmIsM2r5WmWE
-	hQmR/bGp1juK2jWZGOMHcKJOdnjl5ytSr0e2flBfgX8o4hORD/mWz988g76VNPrxW9SSBrsBJTr
-	zqsr8QZC4hcK5yxLq6uG6ze48zWajlJk5/rcyUp0gYQQSvr2HYyEuJH9kzmKK7pkI7gKopLzV/N
-	FlRO24FIOb4STevEmGnPKsPIUwrdaKcyBe5KZCYXKAkZxPSUo3Ir9LcXirJLSoo7wimMEiaA3Fu
-	p1J52dd6sUp53r8lbYmK7feXb76xTJuTo+C0EctUzVcI1Ec62OTep7LeQi9C2oez5TlKfv5JZmP
-	wsyDB0grtizlgh3pgjqBtq7U09zJVUeqm52XNLqSR2gdfPZO+v3ai21gERlTplpUkY3FmCH/KQa
-	hyYkR55FQg+HWqUEBVtC8Z4AQqw9/ZhDsXwj0=
-X-Received: by 2002:a05:693c:2a03:b0:2d6:3ff4:5dbf with SMTP id 5a478bee46e88-2d63ff46040mr1554512eec.6.1775863835349;
-        Fri, 10 Apr 2026 16:30:35 -0700 (PDT)
-Received: from mozart.vkv.me ([2001:5a8:468b:d015:3c8c:e28:ae12:f28d])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2d55f5c69d5sm7408208eec.3.2026.04.10.16.30.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Apr 2026 16:30:34 -0700 (PDT)
-Date: Fri, 10 Apr 2026 16:30:32 -0700
-From: Calvin Owens <calvin@wbinvd.org>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Jeff Layton <jlayton@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Boqun Feng <boqun@kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Uladzislau Rezki <urezki@gmail.com>, linux-fsdevel@vger.kernel.org,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Nikolay Borisov <nik.borisov@suse.com>,
-	Max Kellermann <max.kellermann@ionos.com>,
-	Eric Sandeen <sandeen@redhat.com>,
-	Paulo Alcantara <pc@manguebit.org>
-Subject: Re: [RFC][PATCH] make sure that lock_for_kill() callers drop the
- locks in safe order
-Message-ID: <admIGCR-xGfKgIQ-@mozart.vkv.me>
-References: <CAHk-=wjRgHLvSnEY3P45hSQ0ycKxdz-xqnccAMPuGRrwsvWdig@mail.gmail.com>
- <adkk8FiLHnVx1Bup@tardis.local>
- <CAHk-=wjuOm+AGHtjF15Zx8cxJwYwbzJgi28EQ6KW=Ze-4YjN+g@mail.gmail.com>
- <4305138de599923591df7403aefc4d663f50324a.camel@kernel.org>
- <20260410191907.GV3836593@ZenIV>
- <30ac5108ada614560326636d4da353d6304c3f91.camel@kernel.org>
- <adln5vp9HFbX-oz0@mozart.vkv.me>
- <20260410212403.GY3836593@ZenIV>
- <adl2dMjN2hmVvORh@mozart.vkv.me>
- <20260410230553.GZ3836593@ZenIV>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="SX7HG5EB"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1775864686; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=W3lO6GXVv7klJnoi8dvFD4CH0/qjcMgEJJcFSxyeaJs=;
+	b=SX7HG5EBcs8MSqTlYMBEdoECl1lFo4MejPADm9UVlNKgsv77PcWs6xRmPW1uQPp5GJ1MZ7KbL8Qj3FFbnDYyptb7x/kxEmNQqhps/PnCISRw0ZQYoVZs9znCCCAPalNRAkszyn+dYreOKd9dmQjZau25BY/JKjFn5ASa1smF8sI=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R121e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045133197;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=17;SR=0;TI=SMTPD_---0X0mL5yD_1775864683;
+Received: from 30.41.54.139(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X0mL5yD_1775864683 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Sat, 11 Apr 2026 07:44:44 +0800
+Message-ID: <7f0d072b-97a7-405f-bff5-d3819de2e3dd@linux.alibaba.com>
+Date: Sat, 11 Apr 2026 07:44:43 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260410230553.GZ3836593@ZenIV>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 8/8] RFC: use a TASK_FIFO kthread for read completion
+ support
+To: Dave Chinner <dgc@kernel.org>, Christoph Hellwig <hch@lst.de>
+Cc: Tal Zussman <tz2294@columbia.edu>, Jens Axboe <axboe@kernel.dk>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Christian Brauner <brauner@kernel.org>, "Darrick J. Wong"
+ <djwong@kernel.org>, Carlos Maiolino <cem@kernel.org>,
+ Al Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+ Bart Van Assche <bvanassche@acm.org>, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ Sandeep Dhavale <dhavale@google.com>
+References: <20260409160243.1008358-1-hch@lst.de>
+ <20260409160243.1008358-9-hch@lst.de> <adl1iqhldFvJwSw-@dread>
+From: Gao Xiang <hsiangkao@linux.alibaba.com>
+In-Reply-To: <adl1iqhldFvJwSw-@dread>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Saturday 04/11 at 00:05 +0100, Al Viro wrote:
-> On Fri, Apr 10, 2026 at 03:15:16PM -0700, Calvin Owens wrote:
-> > On Friday 04/10 at 22:24 +0100, Al Viro wrote:
-> > > On Fri, Apr 10, 2026 at 02:13:10PM -0700, Calvin Owens wrote:
-> > > > On Friday 04/10 at 15:32 -0400, Jeff Layton wrote:
-> > > > > Yep, not even with that. One thing that claude pointed out: doing an
-> > > > > mdelay() might prevent it from making any progress freeing dentries.
-> > > > > I'm experimenting now with one that only randomly does a delay, but so
-> > > > > far that hasn't turned up anything. I'll let you know if that changes.
-> > > > 
-> > > > Hi Jeff,
-> > > > 
-> > > > I've been poking at this one too. With the attached reproducer, the
-> > > > waiter will get stuck in an infinite loop apparently in d_walk() with a
-> > > > stock 7.0-rc7 (in my case with PREEMPT_LAZY):
-> > > 
-> > > Interesting...  I'll try it in a bit, but just in case - could you check if
-> > > git://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git #work.dcache-busy-wait
-> > > steps into the same thing on your setup?
-> > 
-> > Hi Al,
-> > 
-> > It still reproduces on that branch in the exact same way.
-> > 
-> > I'm absolutely 100% guessing... but I recall tomfoolery with the "magic"
-> > symlinks in /proc/$/fd/* in the past... the below patch makes the infinite
-> > spins impossible to trigger with my reproducer, does my explanation make
-> > any sense to you? Apologies if I'm off in the weeds...
+
+
+On 2026/4/11 06:11, Dave Chinner wrote:
+> On Thu, Apr 09, 2026 at 06:02:21PM +0200, Christoph Hellwig wrote:
+>> Commit 3fffb589b9a6 ("erofs: add per-cpu threads for decompression as an
+>> option") explains why workqueue aren't great for low-latency completion
+>> handling.  Switch to a per-cpu kthread to handle it instead.  This code
+>> is based on the erofs code in the above commit, but further simplified
+>> by directly using a kthread instead of a kthread_work.
+>>
+>> Signed-off-by: Christoph Hellwig <hch@lst.de>
 > 
-> What it's doing, AFAICS, is a weird way of opening arseloads of files, mostly
-> the same ones again and again - the reason it needs that prlimit (there's
-> way fewer files in procfs when it starts) is that these threads keep running
-> through each other's /proc/*/fd and opening what they'd got again and again,
-> adding to /proc/*/fd/* as they go.
+> Can we please not go back to the (bad) old days of individual
+> subsystems needing their own set of per-cpu kernel tasks just
+> sitting around idle most of of the time?  The whole point of the
+> workqueue infrastructure was to get rid of this widely repeated
+> anti-pattern.
+> 
+> If there's a latency problem with workqueue scheduling, then we
+> should be fixing that problem rather than working around it in every
+> subsystem that thinkgs it has a workqueue scheduling latency
+> issue...
 
-Yes exactly, I was trying a lot of different pathological behaviors and
-that was the first pattern I found that triggered the d_walk() spin
-consistently.
+It has been "fixed" but never actually get fixed:
+https://lore.kernel.org/r/CAB=BE-QaNBn1cVK6c7LM2cLpH_Ck_9SYw-YDYEnNrtwfoyu81Q@mail.gmail.com
 
-Initially I made the reproducer ignore itself in /proc. But it turns out
-to be much more reliable if it *doesn't*. I realized it was opening its
-own children's files in /proc/*/fd/*, and the children were also opening
-other /proc files, which is what made me suspect the magic symlinks.
+and workqueues don't have any plan to introduce RT threads;
 
-> IOW, you are opening a random mix of files, both procfs and ones some processes
-> had opened, then exiting.  That triggers invalidation of your /proc/*, with
-> a _lot_ of shite that needs to be taken out.  It might be triggering a livelock
-> or a UAF somewhere in dcache or it might be something entirely different -
-> no idea at that point.  I'll look further into that, but I wouldn't be surprised
-> if it turns out to be entirely unrelated.  Would be easier to deal with if the
-> mix had been more predictable, but we have what we have...
+If Sandeep has more time, I hope he could have more time to
+test since I don't work on Android anymore: In principle,
+I still think RT thread is needed somewhere for such usage
+since lowest latencies is needed.
 
-I'm sure I can narrow down the reproducer more, I'll try a bit.
+Compared to the scheduling latency issues, interested users
+don't care "individual subsystems needing their own set of
+per-cpu kernel tasks just sitting around idle most of of
+the time". If end users care it more, they can just turn
+it off by Kconfig.
 
-I appreciate you taking a look. I'm happy to test anything else you like
-if that reproducer isn't working for you, it's very consistent for me on
-two different machines. Hopefully it works for Jeff.
+If you think it's unclean to block subsystems, I'm fine to
+leave it as-is.  I'm not sure how it impacts to others:
+either some subsystems implement RT threads (workqueue or
+block), or leave it as-is; Otherwise there is always such
+latency issues and unacceptable for end users.
 
 Thanks,
-Calvin
+Gao Xiang
+
+
+> 
+> -Dave.
+> 
+
