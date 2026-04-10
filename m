@@ -1,249 +1,148 @@
-Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABFF53B9613;
-	Fri, 10 Apr 2026 11:26:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05F4A2D6E5A;
+	Fri, 10 Apr 2026 11:31:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775820420; cv=none; b=QJ5/AYC1np068eFTots4Kt5VKYMutiGBV47VDZZcF8tkJV78DmvzLXsMpwMGZx2NtaBPM6P3bc0LKDAbJHy2CVnAbTMMvDo+zjlLRsLj+gAgsLcR4vFcg5vWJgprPrg0lO6nqdW/MuIZ9/7Re8JfMuTRjqDZ2yeUaXxApjRt3i0=
+	t=1775820685; cv=none; b=nQcYTkjOt0i9fQ40KGIZ4wTcHl1EhJsEeyG8I6fYZljsrXCjiI5R6unbedXvhoSLzRqNU9v/cetW8r0C+mf0Q/S8smqo2RkrsVoXFYgKy3DSn7XFJBPl+OWlBxEFiVmDdKm0fTNa5UUG8qPxicdzYaP8xYQ6YvJc/voPAC87jsk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775820420; c=relaxed/simple;
-	bh=t3sydj9RC0hGhyZ/c6JaM+nYJwCW1IuLr5C1AiYuufk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UHINUcXxDwJmCKTT3IkxGef2JmCqaw8dGf5DhswbGrJOBOlpspi6sQpgOmuDnNTZk5L6QuclREJBx0r5a1bOIuTmjxiI91920EasH/RKSLKB0BHJli2JXY0TD5HkORrQAVOSEFyRmTU3YQBSwm9wiPueiPDAMJ565fZ+CHFmC6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=GRkoHqEc; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Tne5brQ6; arc=none smtp.client-ip=103.168.172.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	s=arc-20240116; t=1775820685; c=relaxed/simple;
+	bh=QLKGDGwldbNIz41BFbe9eP66xq7F5Z+wbkz8Q9d4zB8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y5nu+ZD1QMASyFn7OzaabpF1SVRHVEAub87iatouT4BYwa3oR2HIXSzkK7NFe4HkLWobGaS4dX9xfQVkA3pis0Ze3/5DrpwVssIYAPS8kuGWwCzpkPPf6fDyOF6GGgaxhuHwXcIKVPp3zgKFmY3M8DrE2aVKNipc297j60ntYVA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A459o6iP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="GRkoHqEc";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Tne5brQ6"
-Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id CAD591400143;
-	Fri, 10 Apr 2026 07:26:57 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-08.internal (MEProxy); Fri, 10 Apr 2026 07:26:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1775820417;
-	 x=1775906817; bh=CFIuDoJP1rz4n9s/VPto6c+bmWc9hheKSJdyP8Mn2/s=; b=
-	GRkoHqEcbux1ZUjLcUtPR5+5E1o6+NE64G8vH4+yJB3pqLe+3jrCdz95NhI/nyyK
-	F6pJsrTZNj9M07yx3xjfyb4s95pTRUm6G3nyEYijOOJUbGbFW63pfdht8gGUwoXY
-	kR6wzn4OFifLKwOcvZOvpRNNOX2347FUpVqwF7AyAPHkQ1ZqnNL/4WX9eql4pvO9
-	X5o7+zE4K+1UNMU2Dj91bYYKkb8QjUptbj0CwXoQ+b2/FPxHzjD/fjN4rve/OGFR
-	tblPzcn/Imd+OzxihobNrQfODMi3lUDUxVvQCNbjp6uLAs7ZawPE57gp7KWAYGQS
-	WykVdqALHigeAtYuR9wiUA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1775820417; x=
-	1775906817; bh=CFIuDoJP1rz4n9s/VPto6c+bmWc9hheKSJdyP8Mn2/s=; b=T
-	ne5brQ6VOluwXXjjsZ0Zozk55zd9ZC2QY9G8rCGGCnm8ZpZ8w9PR6A2fwoG8dkVa
-	4nct25LE7HFLTAnoLSm3e5HdE6l+5EhHOJKdQdAnYD4HYOzWw9OpOihrg95A7jhG
-	V0MbxkgnJQyDWEhZvVHsHOG7L8rFG0awSYbW0KS3VfeLpdy+A95PO5DxT3aTFvsJ
-	VMvmqQZS3qV7kj5r7ojU8537ly55T2UMaV+ONhC32sAsuMnHAw4m8Wb7IoLY4X5q
-	HakbAZHI6jD/H8UR6OsDqVSQVFU0O29IS21pceN+W0uk+8N47/INbG07eES3Ch1W
-	6DCIL/taZz2Y9T13c6Hcw==
-X-ME-Sender: <xms:gd7YaeZUukWF3tfFcrcmOrwaDNunKQHhtqJUfIkaUvVMBSN2N3WTkA>
-    <xme:gd7YaSE4VF8vTh_hU9UOmM7Nxfcyll4SLCc7T26NiSewOZ6YjeFBAJx1NfTOlhw7M
-    MD_fQvs8_AqJt_f-D-jvi9u6iNZctSixakS3CcGaB6W0dd7pyPU>
-X-ME-Received: <xmr:gd7YaXJgauVOjSbPC_m9ZcIZskg3V_VxW4t5dEUxx-j4nCcK-Wb_RHWKBs9-JRYD8uH8ddM0elRTJbtBvWudG4chNH2OVtJ--y4VvJNPTUBMRT2Z1w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddvledvlecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeenucfhrhhomhepuegvrhhnugcu
-    ufgthhhusggvrhhtuceosggvrhhnugessghssggvrhhnugdrtghomheqnecuggftrfgrth
-    htvghrnheptdeuvdeuudeltddukefhueeludduieejvdevveevteduvdefuedvkeffjeel
-    ueeunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
-    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegsvghrnhgusegsshgsvghrnhgurdgtohhm
-    pdhnsggprhgtphhtthhopeejpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehjoh
-    grnhhnvghlkhhoohhnghesghhmrghilhdrtghomhdprhgtphhtthhopegsshgthhhusggv
-    rhhtseguughnrdgtohhmpdhrtghpthhtohepmhhikhhlohhssehsiigvrhgvughirdhhuh
-    dprhgtphhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvghlrdho
-    rhhgpdhrtghpthhtoheprghlihesuggunhdrtghomhdprhgtphhtthhopehsthgrsghlvg
-    esvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehhsghirhhthhgvlhhmvghr
-    seguughnrdgtohhm
-X-ME-Proxy: <xmx:gd7YaVPcVliCSvnY16WM9ZnW2MBcq-K4EFM5H5ocfXKR9ci93m3u7w>
-    <xmx:gd7Yafm8TDGiGPgRiqTyWWtjZMIVXzj2BsDs1PNqNG9ZIuJxKwUVgg>
-    <xmx:gd7YaR4naaHlN54bgKF3Yzu75o38Hs2qxeLJ1HPRhjLS7By0l_xLkg>
-    <xmx:gd7Yab1ZH9oLysakvN0-h2fuEiqd-LfykuHEowLCFonlDVtz2gqZOQ>
-    <xmx:gd7YaRoENormQipKriJrJvsIxvzwxubpDPRT0jt17mKKL1YTh80bMenw>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 10 Apr 2026 07:26:56 -0400 (EDT)
-Message-ID: <3eabbc7b-010f-4d4c-9145-30d69fe1aa79@bsbernd.com>
-Date: Fri, 10 Apr 2026 13:26:54 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A459o6iP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2725C19421;
+	Fri, 10 Apr 2026 11:31:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775820684;
+	bh=QLKGDGwldbNIz41BFbe9eP66xq7F5Z+wbkz8Q9d4zB8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=A459o6iPYP4Ws7/tAPYUoDEj4NoHtQhqCBgsO6YNMOXvYd7Y4xlwHWNX3KvdRJWVC
+	 aPkaOLIu4GUJmJBdkw+lUhfUT00qHfDAkNnG02qGt/Gwk+5cjj/iv9lGRxZ9i4znEx
+	 gQg3MN9dZl2IW1cVwSaaYiNGfWpnrpdTyztGMf7hB0j7DBHDEOJxw6w+UGzu9tAGp5
+	 2hP31PCMoU87QgHGcha9d79Yz3bkyzZZD1QiV8YGDa6OG4C9Tfv3ViJ8whmtE8oLjL
+	 SM9eKciKr6PMKFQkboMMhmK40ePQK0B6DWAA6YDeK820yZaTYfIBo28kH0UcY/UlYU
+	 cNAfhnS2zQBVQ==
+Date: Fri, 10 Apr 2026 13:31:19 +0200
+From: Alexey Gladkov <legion@kernel.org>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Dan Klishch <danilklishch@gmail.com>, Al Viro <viro@zeniv.linux.org.uk>,
+	"Eric W . Biederman" <ebiederm@xmission.com>,
+	Kees Cook <keescook@chromium.org>, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 4/5] proc: Relax check of mount visibility
+Message-ID: <adjfhxs5JTrZDnbv@example.org>
+References: <cover.1768295900.git.legion@kernel.org>
+ <cover.1770979341.git.legion@kernel.org>
+ <0943f113592a25bee341aae25d1cea088791054f.1770979341.git.legion@kernel.org>
+ <20260217-helikopter-parkplatz-859f8f7c0054@brauner>
+ <20260410-textstellen-anrollen-17acbf930c3a@brauner>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] fuse: Fix possible memleak at startup with immediate
- teardown
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Bernd Schubert <bschubert@ddn.com>, Miklos Szeredi <miklos@szeredi.hu>,
- linux-fsdevel@vger.kernel.org, Jian Huang Li <ali@ddn.com>,
- stable@vger.kernel.org, Horst Birthelmer <hbirthelmer@ddn.com>
-References: <20251021-io-uring-fixes-cancel-mem-leak-v1-0-26b78b2c973c@ddn.com>
- <4b5a8040-b62c-4d75-a474-70d0b4759461@bsbernd.com>
- <CAJnrk1ZohxcDERszbii8ZM0g1ZzTwk6+wEqRWpCoSwBXzgavkg@mail.gmail.com>
-From: Bernd Schubert <bernd@bsbernd.com>
-In-Reply-To: <CAJnrk1ZohxcDERszbii8ZM0g1ZzTwk6+wEqRWpCoSwBXzgavkg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260410-textstellen-anrollen-17acbf930c3a@brauner>
 
-Hi Joanne,
-
-On 4/10/26 01:09, Joanne Koong wrote:
-> On Thu, Apr 9, 2026 at 4:02 AM Bernd Schubert <bernd@bsbernd.com> wrote:
->>
->>
->>
->> On 10/21/25 23:33, Bernd Schubert wrote:
->>> Do not merge yet, the current series has not been tested yet.
->>
->> I'm glad that that I was hesitating to apply it, the DDN branch had it
->> for ages and this patch actually introduced a possible fc->num_waiting
->> issue, because fc->uring->queue_refs might go down to 0 though
->> fuse_uring_cancel() and then fuse_uring_abort() would never stop and
->> flush the queues without another addition.
->>
+On Fri, Apr 10, 2026 at 01:12:36PM +0200, Christian Brauner wrote:
+> On Tue, Feb 17, 2026 at 12:59:54PM +0100, Christian Brauner wrote:
+> > On Fri, Feb 13, 2026 at 11:44:29AM +0100, Alexey Gladkov wrote:
+> > > When /proc is mounted with the subset=pid option, all system files from
+> > > the root of the file system are not accessible in userspace. Only
+> > > dynamic information about processes is available, which cannot be
+> > > hidden with overmount.
+> > > 
+> > > For this reason, checking for full visibility is not relevant if
+> > > mounting is performed with the subset=pid option.
+> > > 
+> > > Signed-off-by: Alexey Gladkov <legion@kernel.org>
+> > > ---
+> > >  fs/namespace.c                 | 29 ++++++++++++++++-------------
+> > >  fs/proc/root.c                 | 17 ++++++++++-------
+> > >  include/linux/fs/super_types.h |  2 ++
+> > >  3 files changed, 28 insertions(+), 20 deletions(-)
+> > > 
+> > > diff --git a/fs/namespace.c b/fs/namespace.c
+> > > index c58674a20cad..7daa86315c05 100644
+> > > --- a/fs/namespace.c
+> > > +++ b/fs/namespace.c
+> > > @@ -6116,7 +6116,8 @@ static bool mnt_already_visible(struct mnt_namespace *ns,
+> > >  		/* This mount is not fully visible if it's root directory
+> > >  		 * is not the root directory of the filesystem.
+> > >  		 */
+> > > -		if (mnt->mnt.mnt_root != mnt->mnt.mnt_sb->s_root)
+> > > +		if (!(sb->s_iflags & SB_I_USERNS_ALLOW_REVEALING) &&
+> > > +		    mnt->mnt.mnt_root != mnt->mnt.mnt_sb->s_root)
+> > >  			continue;
+> > >  
+> > >  		/* A local view of the mount flags */
+> > > @@ -6136,18 +6137,20 @@ static bool mnt_already_visible(struct mnt_namespace *ns,
+> > >  		    ((mnt_flags & MNT_ATIME_MASK) != (new_flags & MNT_ATIME_MASK)))
+> > >  			continue;
+> > 
+> > There are a few things that I find problematic here.
+> > 
+> > Even before your change the mount flags of the first fully visible
+> > procfs mount would be picked up. If the caller was unlucky they could
+> > stumble upon the most restricted procfs mount in the mount namespace
+> > rbtree. Leading to weird scenarios where a user cannot write to the
+> > procfs instance they just mounted but could to another one that is also
+> > in their namespace.
+> > 
+> > The other thing is that with this change specifically:
+> > 
+> >     if (!(sb->s_iflags & SB_I_USERNS_ALLOW_REVEALING) &&
+> >         mnt->mnt.mnt_root != mnt->mnt.mnt_sb->s_root)
+> > 
+> > we start caring about mount options of even partially exposed procfs
+> > mounts. IOW, if someone had a bind-mount of e.g., /proc/pressure
+> > somewhere that got inherited via CLONE_NEWNS then we suddenly take the
+> > mount options of that into account for a new /proc/<pid>/* only instance.
+> > I think we should continue caring only about procfs mounts that are
+> > visible from their root.
+> > 
+> > The the other problem is that it is really annoying that we walk all
+> > mounts in a mount namespace just to find procfs and sysfs mounts in
+> > there. Currently a lot of workloads still do the CLONE_NEWNS dance
+> > meaning they inherit all the crap from the host and then proceed to
+> > setup their new rootfs. Busy container workloads that can be a lot.
+> > 
+> > So let's just be honest about it and treat procfs and sysfs as the
+> > snowflakes that they have become and record their instances in a
+> > separate per mount namespace hlist as in the (untested) patch below [1].
+> > 
+> > Also SB_I_USERNS_ALLOW_REVEALING seems unnecessary. The only time we
+> > care about that flag is when we setup a new superblock. So this could
+> > easily be a struct fs_context bitfield that just exists for the duration
+> > of the creation of the new superblock and mount. So maybe pass that down
+> > to mount_too_revealing() and further down into the actual helper.
+> > 
+> > [1]:
+> > >From 4bbd41e7a3ef91667dd334f31b1b6bf8caec0599 Mon Sep 17 00:00:00 2001
+> > From: Christian Brauner <brauner@kernel.org>
+> > Date: Tue, 17 Feb 2026 12:02:34 +0100
+> > Subject: [PATCH] namespace: record fully visible mounts in list
+> > 
+> > Instead of wading through all the mounts in the mount namespace rbtree
+> > to find fully visible procfs and sysfs mounts, be honest about them
+> > being special cruft and record them in a separate per-mount namespace
+> > list.
 > 
-> Hi Bernd and Jian,
-> 
-> For some reason the "[PATCH 2/2] fs/fuse: fix potential memory leak
-> from fuse_uring_cancel" email was never delivered to my inbox, so I am
-> just going to write my reply to that patch here instead, hope that's
-> ok.
-> 
-> Just to summarize, the race is that during unmount, fuse_abort() ->
-> fuse_uring_abort() -> ... -> fuse_uring_teardown_entries() -> ... ->
-> fuse_uring_entry_teardown() gets run but there may still be sqes that
-> are being registered, which results in new ents that are created (and
-> leaked) after the teardown logic has finished and the queues are
-> stopped/dead. The async teardown work (fuse_uring_async_stop_queues())
-> never gets scheduled because at the time of teardown, queue->refs is 0
-> as those sqes have not fully created the ents and grabbed refs yet.
-> fuse_uring_destruct() runs during unmount, but this doesn't clean up
-> the created ents because those registered ents got put on the
-> ent_in_userspace list which fuse_uring_destruct() doesn't go through
-> to free, resulting in those ents being leaked.
-> 
-> The root cause of the race is that ents are being registered even when
-> the queue is already stopped/dead. I think if we at registration time
-> check the queue state before calling fuse_uring_prepare_cancel(), we
-> eliminate the race altogether. If we see that the abort path has
-> already triggered (eg queue->stopped == true), we manually free the
-> ent and return an error instead of adding it to a list, eg
-> 
-> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-> index d88a0c05434a..351c19150aae 100644
-> --- a/fs/fuse/dev_uring.c
-> +++ b/fs/fuse/dev_uring.c
-> @@ -969,7 +969,7 @@ static bool is_ring_ready(struct fuse_ring *ring,
-> int current_qid)
->  /*
->   * fuse_uring_req_fetch command handling
->   */
-> -static void fuse_uring_do_register(struct fuse_ring_ent *ent,
-> +static int fuse_uring_do_register(struct fuse_ring_ent *ent,
->                                    struct io_uring_cmd *cmd,
->                                    unsigned int issue_flags)
->  {
-> @@ -978,6 +978,16 @@ static void fuse_uring_do_register(struct
-> fuse_ring_ent *ent,
->         struct fuse_conn *fc = ring->fc;
->         struct fuse_iqueue *fiq = &fc->iq;
-> 
-> +       spin_lock(&queue->lock);
-> +       /* abort teardown path is running or has run */
-> +       if (queue->stopped) {
-> +               spin_unlock(&queue->lock);
-> +               atomic_dec(&ring->queue_refs);
-> +               kfree(ent);
-> +               return -ECONNABORTED;
-> +       }
-> +       spin_unlock(&queue->lock);
-> +
->         fuse_uring_prepare_cancel(cmd, issue_flags, ent);
-> 
->         spin_lock(&queue->lock);
-> @@ -994,6 +1004,7 @@ static void fuse_uring_do_register(struct
-> fuse_ring_ent *ent,
->                         wake_up_all(&fc->blocked_waitq);
->                 }
->         }
-> +       return 0;
->  }
-> 
->  /*
-> @@ -1109,9 +1120,7 @@ static int fuse_uring_register(struct io_uring_cmd *cmd,
->         if (IS_ERR(ent))
->                 return PTR_ERR(ent);
-> 
-> -       fuse_uring_do_register(ent, cmd, issue_flags);
-> -
-> -       return 0;
-> +       return fuse_uring_do_register(ent, cmd, issue_flags);
->  }
-> 
-> There's the scenario where the abort path's "queue->stopped = true"
-> gets set right between when we drop the queue lock and before we call
-> fuse_uring_prepare_cancel(), but the fuse_uring_create_ring_ent()
-> logic that was called before fuse_uring_do_register() has already
-> grabbed the ref on ring->queue_refs, which means in the abort path,
-> the async teardown (fuse_uring_async_stop_queues()) work is guaranteed
-> to run and clean up / free the entry.
+> If you rework this I would expect to take it for v7.3. It's a bit late
+> now...
 
+No problem. I understand. Sorry it took me so long to get back to you.
+I was laid off from my job and had to look for a new one quickly.
 
-I don't think your changes are needed, it should be handled by
-IO_URING_F_CANCEL -> fuse_uring_cancel(). That is exactly where the
-initial leak was - these commands came after abort and
-fuse_uring_cancel() in linux upstream then puts the entries onto the
-&queue->ent_in_userspace list.
-Issue in master is, fuse_uring_stop_queues() might have been run already
-- entries then get leaked and fuse_uring_destruct() later might give a
-warning. That part can be reproduced with xfstests, before it starts any
-of the tests it does some funny start stop actions.
+I’ll be back soon to update this patch.
 
-Initial *simple* patch was to either add a new list or to just remove
-the warning and to also handle either that new list or
-queue->ent_in_userspace list  in fuse_uring_destruct(). The comment
-explaining why it is needed was much longer than the rest of the patch.
-The hard part in the long term would be tranfer the knowledge for that
-requirement.
+-- 
+Rgrds, legion
 
-You then asked to handle the release directly in fuse_uring_cancel()
-without another list
-https://lore.kernel.org/r/CAJnrk1YaRRKHA-jVPAKZYpydaKcdswLG0XO7pUQZZ4-pTewkHQ@mail.gmail.com
-
-Yes possible and this is what the next patch version does. However,
-given fuse_uring_cancel() runs outside of all the fuse locks, it is racy
-and I therefore asked in the introduction patch not to merge it yet.
-
-https://lore.kernel.org/all/20251021-io-uring-fixes-cancel-mem-leak-v1-0-26b78b2c973c@ddn.com/
-
-
-Turns out my suspicion was right ;)
-
-Queue references might go to 0 when nothing is in flight and then
-fuse_uring_abort(), which _might_ race and come a little later, then
-might not doing anything.
-
-        if (atomic_read(&ring->queue_refs) > 0) {
-                fuse_uring_abort_end_requests(ring);
-                fuse_uring_stop_queues(ring);
-        }
-
-As Horst figure out, removing this check for queue_refs avoids the
-issue. I'm rather sure that the check was needed during development and
-avoided some null pointer derefs, as that is what I remember. But I
-don't think it is needed anymore.
-
-
-Thanks,
-Bernd
