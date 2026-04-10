@@ -1,255 +1,345 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88D7038F931
-	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 20:09:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775851791; cv=pass; b=rIG66BxG69ljWToMOyOXXqSVxEwCO3CqoM4TrOkXt7TXx2yqY2Nm99hMWX7YJ9PfqLSfRv9mk8xc8d60YQcTBe/WPzNIOb911EJy4ptbibFKUAd0sUt7dapoPXzWirIjOdfLVMP2NMcoAmmaIPrAcdx5/YxmfqFmSwSbJY3LzXk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775851791; c=relaxed/simple;
-	bh=ogOCvyyoZ9XSpNfyYtW2p4XJwVTVTXAMukOYXRQXI0I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GASct//MpH/pUGR2RruA/+40IBNGIuPsvqaDyH6kWLw4Cj/fM8oxy9vKUoTj86l7NjLdOLXYqVmsiX0/xsWZ5eZ2dt+t+8YG8XQVRMiK+SE1SVstfMyRd/RrtppFlpccI8yVHuH3Sk6IDSNo5TX9tB6a+cAIXNurV26FOytyxWk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QEy7znA7; arc=pass smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5977D261B92
+	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 20:20:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775852421; cv=none; b=MQIyoTLqrByBGEEcNNL1tSS1lg6yvujGC8Amy2WiBF9isryvFImLy2tvX6Ocxyw6F0H9khr2DyptCvykg2qgvcKU3GSsm7+/R7DftUnfKgBL1SyRvxDPBNs1z/zuOeLY0cWzqiXCC0qMCaGPzhQ8thw73zS5TjXvo9kW+8Qs0jY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775852421; c=relaxed/simple;
+	bh=QbaGypw7p3uvzJBOE5OWmhmsxfgS56mgyR7bktugYa4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iSL4UEpIYDpllrk3SC/HkBTsvD6p55W7dwPMHDB2B+x6koMx6y/45eutSVpE0CQIM/O0TjO7xVP4Yw3VPMZ8zQdjNuMPwibDFQBEBBHaDmueC3UorvR9XBx92LI77KivvRnU3rgrlKMaRldvbHcLEH1P1clDU9XhKVf7Lyf76lc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=i8q6mnII; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QEy7znA7"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-48374014a77so33972245e9.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 13:09:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775851788; cv=none;
-        d=google.com; s=arc-20240605;
-        b=gr8n9jk2MLTeA/vhwVZ7UAfKhCLpmIYyJCZkTltzqZNYOrUYmexQ4UPHfu2MiVdM9N
-         rKKbAQyCpKpN1Zx0JKj9yFhEaVWIAqKfXS58zzYN7iI014q4ohbps3D/5rEcIqNJxhRb
-         ZudNLDDuMJTAoVtXVsn991iM5LJIs4J5TYD9TkMjFhG+LvExyi9k4er4CMPe7KaP4v6d
-         TeLIYt2pb5MxgtL/Zh3EpDHYv6J3xzbjf1cY3uWkEgUKQTpPvZivAO6nvWtWOIBOc3Ag
-         rRORBl68ywkpCkjFferp4DxJX0LMAw1OzsMB+p1DvDJnlJbiRYml8kaC57GL/egbLTfB
-         rGVg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ogOCvyyoZ9XSpNfyYtW2p4XJwVTVTXAMukOYXRQXI0I=;
-        fh=ML7JcZGw/kG4Bp4LecsZjlmqFKTUNpyEva3b5RgqeBw=;
-        b=ho7feQTFeD0bsqO1LujKUK43JwFmAwht9uQ0DXG/g/iutSomIXD35I7izyJxhJA/Rt
-         Cn/23OsoZWGsF4PXntvC8CrEJTAPQHyMMmMI+Iia1wVVeqnGCOE7ERXZ8m2cRveTVU5w
-         Kf2v+unTVe6cY0lf69OpfE+ArFIivYfg0MJX9XG8B4ZFq0H6E/duvgVRAbE0k8katxy+
-         FKcBQdC+MneHGp4FC/bh60YaNtctR82l7EsuHDBcD3GzoLG3X/obwdKpDCE5uplJLACU
-         BnbARzQOslwEysawSBIgNx6ZPkAmDDtOrPYxeBc+nsxR0IN6MaCXbbksHKEe3DsohmbF
-         UjDw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775851788; x=1776456588; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ogOCvyyoZ9XSpNfyYtW2p4XJwVTVTXAMukOYXRQXI0I=;
-        b=QEy7znA7t6BHcgNXG3k87Uyr6WNh0DQE/C39tUBGWmRYuDiMxb/8EXiUrtBp/JHtu+
-         welp1szQKxtYNlfdcO1yNRSnnSy7IMZ3Fon2vIonOshQT1sx7BuDbEGyXmFvkLLUgva0
-         IMpK1Vb4u3+lRSDw8fFEErWRDC2ltmA/K81jwq20MlLRd1yf9qT/jrzYGzz8cDPaK8ep
-         dpxvw0ddf0t68d4sQHQTaT0CBYZXfGhDDwavHWsw5PJ31WdVzA/ApFI4mogEYL/OjPuH
-         JuHTbq4HEkzgPm2GMGrpxt0u8+Myg6fjKxqOUaSTykQv6g3HhSLLa1h+Mh7CRhvNnkfs
-         2Jrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775851788; x=1776456588;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ogOCvyyoZ9XSpNfyYtW2p4XJwVTVTXAMukOYXRQXI0I=;
-        b=ShICZ77lOKcaEpsl8np2V7kNNL0qO8iSi9Qi0hZk6KcoXQVU7x82aeTH+UeM15jDEo
-         a3QEdYLxzD8G6I7mTBWIJI6xkOH+9NA3n7c9pCBUBBEI5x5yLrBwbQL0TgV4saUkXiBA
-         dRFRGe9LpTd9apoYz48hF01pThKtE7cD4RcN3siej4JES1xrZwSr9INQRnSN/mNEaaDA
-         B4/pMeZBBPed6oB6aZqubSiH5F0nPmSQocaosioU7at2AMwPHTuxvvQRFYVP1hqmokZt
-         DJmF43nSlRGP+yJ32iULGtiT5GzVMT34sGv1Td0I9/TRGeO69TuR8jIOnyu5HgVwuElh
-         wJYA==
-X-Forwarded-Encrypted: i=1; AJvYcCVnFhZhJew42eaUc4asR3Fj1umDLtq9c4u5rImC4u8VNQX6iaX0VraxZgaMObfNSvOcMbzwpMatbBmXlRCa@vger.kernel.org
-X-Gm-Message-State: AOJu0YxwUyx1EGfgwi4cvO1qjtxosJiBpiKAJmVKJviKMLPWMR02ez2S
-	PvBJ0Z3NXU4/jvqXngdZ73Rosl8EOjg1bgmKFPGu8dVmn4shOzo0H/5guatNsDt9C2ZWbFjiYOL
-	Ptfjp2TcKmuj2xw/yoYapmBDy1lKwGBc=
-X-Gm-Gg: AeBDieuF+Z5CPrtWYM+g9X0PQC94yU3Y7OktyvjrEhvfwgnJzMIZgVUt4I3WIt7n5Db
-	EoaPh45Ko6FRsUUpEIhxBlZtbq0APtSANlLDQKP08/9iAyQtSEElOO8uztJ75fMNCJPP4v9OQEg
-	8k/jQus1/c+eCRCUII9ImN2b0nsE0UN7BVx2ym9EeQmtcb8tAdSbiIFI+qmJ6qQzqmGSCtq+8Og
-	eESYzlCBiXIB85J8haPE/L1SWCGAdjH1BXr6gz8vCJUi49a461boLY90m/qKptXMzaJ/si+GXa3
-	InXoog==
-X-Received: by 2002:a05:6000:4285:b0:43b:f322:34e1 with SMTP id
- ffacd0b85a97d-43d642d9f0bmr6365691f8f.51.1775851787743; Fri, 10 Apr 2026
- 13:09:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="i8q6mnII"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=UsVWIGKtUHKoMFQvUUypoGXttoFtkrJK4AxYpLs04zE=; b=i8q6mnIIP6T6+6NQJy45zNhq6f
+	FbmXNPi6zuL70Ig0GoSNR0EGetvb/Ug1r+RlEO9iO/3VXh0SV9f7a0FIcpQKv5e0L8fEmHs8+8OMH
+	HQaA5YpXj8iHCLduOROH0jpcyKIHgtjmjLfOZ0kdF/+5+VCron0KGhJZzHT98ukiOM7ujGT32/WXe
+	S22CH3oDf5mf9Y1LD9sK/zZNMjQc+sKpK3Zrt2iAjmP37pLL5LvsQnd7OkZa1Eh8lnVy6rYtqre3M
+	RNvIwaG3dFJvDopDKYLqpYHYwLMquR+lnJyEL79SaljJxuWknfFcPL9JWZvymv6LKqNq/ciADc7Rv
+	OHTWu3Sg==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wBIOa-00000007a0o-3LAH;
+	Fri, 10 Apr 2026 20:24:04 +0000
+Date: Fri, 10 Apr 2026 21:24:04 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: "Paul E. McKenney" <paulmck@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
+	Jeff Layton <jlayton@kernel.org>, linux-fsdevel@vger.kernel.org,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Nikolay Borisov <nik.borisov@suse.com>,
+	Max Kellermann <max.kellermann@ionos.com>,
+	Eric Sandeen <sandeen@redhat.com>,
+	Paulo Alcantara <pc@manguebit.org>
+Subject: Re: [RFC][PATCH] make sure that lock_for_kill() callers drop the
+ locks in safe order
+Message-ID: <20260410202404.GW3836593@ZenIV>
+References: <20260122202025.GG3183987@ZenIV>
+ <20260404080751.2526990-1-viro@zeniv.linux.org.uk>
+ <53b4795292d1df2fe1569fc724325ab52fcab322.camel@kernel.org>
+ <20260409190213.GQ3836593@ZenIV>
+ <41cfd0f95b7fde411c0d59463dce979be89cb8ef.camel@kernel.org>
+ <20260409215733.GS3836593@ZenIV>
+ <20260410084839.GA1310153@ZenIV>
+ <CAHk-=wjRgHLvSnEY3P45hSQ0ycKxdz-xqnccAMPuGRrwsvWdig@mail.gmail.com>
+ <20260410185243.GU3836593@ZenIV>
+ <CAHk-=wiiJ4uO6C3U-B_SVuyjzQpNd3yMjWck8kJ7tZ4oPwhGWA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251021-io-uring-fixes-cancel-mem-leak-v1-0-26b78b2c973c@ddn.com>
- <4b5a8040-b62c-4d75-a474-70d0b4759461@bsbernd.com> <CAJnrk1ZohxcDERszbii8ZM0g1ZzTwk6+wEqRWpCoSwBXzgavkg@mail.gmail.com>
- <adiiTGjP1tqZfIrI@fedora> <CAJnrk1Y37_=OtwZHK_-AEN9Fysoi8VapeiQmv-xxvWjZJZn8+Q@mail.gmail.com>
- <adlE6dSPAlMH-ek-@fedora>
-In-Reply-To: <adlE6dSPAlMH-ek-@fedora>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Fri, 10 Apr 2026 13:09:36 -0700
-X-Gm-Features: AQROBzDl5u9RsBQZJwaYp4PaanKuHfyGrgmk6Kp2qbDA6zFCLoRJLrmfHaTlQgY
-Message-ID: <CAJnrk1acOQ4vm0bj+uLsx7vRodcwJBbfxjY=mn0BJ_j_eMr11Q@mail.gmail.com>
-Subject: Re: Re: Re: [PATCH 0/2] fuse: Fix possible memleak at startup with
- immediate teardown
-To: Horst Birthelmer <horst@birthelmer.de>
-Cc: Bernd Schubert <bernd@bsbernd.com>, Bernd Schubert <bschubert@ddn.com>, 
-	Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org, 
-	Jian Huang Li <ali@ddn.com>, stable@vger.kernel.org, 
-	Horst Birthelmer <hbirthelmer@ddn.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wiiJ4uO6C3U-B_SVuyjzQpNd3yMjWck8kJ7tZ4oPwhGWA@mail.gmail.com>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-On Fri, Apr 10, 2026 at 11:55=E2=80=AFAM Horst Birthelmer <horst@birthelmer=
-.de> wrote:
->
-> On Fri, Apr 10, 2026 at 10:09:36AM -0700, Joanne Koong wrote:
-> > On Fri, Apr 10, 2026 at 12:21=E2=80=AFAM Horst Birthelmer <horst@birthe=
-lmer.de> wrote:
-> > >
-> > > On Thu, Apr 09, 2026 at 04:09:53PM -0700, Joanne Koong wrote:
-> > > > On Thu, Apr 9, 2026 at 4:02=E2=80=AFAM Bernd Schubert <bernd@bsbern=
-d.com> wrote:
-> > > > >
-> > > > >
-> > > > >
-> > > > > On 10/21/25 23:33, Bernd Schubert wrote:
-> > > > > > Do not merge yet, the current series has not been tested yet.
-> > > > >
-> > > > > I'm glad that that I was hesitating to apply it, the DDN branch h=
-ad it
-> > > > > for ages and this patch actually introduced a possible fc->num_wa=
-iting
-> > > > > issue, because fc->uring->queue_refs might go down to 0 though
-> > > > > fuse_uring_cancel() and then fuse_uring_abort() would never stop =
+On Fri, Apr 10, 2026 at 12:30:13PM -0700, Linus Torvalds wrote:
+
+> The reason it exists is because lock_for_kill() can drop d_lock(), but
+> that's in the unlikely case that we cn't just immediately get the
+> inode lock.
+> 
+> So honestly, I think that rcu_read_lock() should be inside
+> lock_for_kill(), rather than in the caller as a "just in case things
+> go down".
+
+Yup, in the cascade of followups I've mentioned...
+
+> IOW, that code basically now not only does that typically unnecessary
+> rcu locking (and then unlocking), it does so *because* it knows about
+> the subtle internal behavior of lock_for_kill().
+> 
+> In contrast, if we put it inside lock_for_kill(), all we need is a
+> fairly straightforward comment along the lines of
+> 
+>   "we're dropping the spinlock in order to take the inode lock, but
+> the caller may be depending on RCU behavior so we need to take the rcu
+> read lock first".
+> 
+>  that would turn strange illogical code that also generates worse code
+> into straightforwardly explained code that also performs better.
+> 
+> Ok, so "performs better" is kind of exaggerated, in that obviously the
+> extra rcu_read_lock/unlock sequences aren't exactly expensive, but
+> still - I feel it's a win-win to just do this differently.
+> 
+> Or am I missing somethign else?
+
+Mostly that fast_dput() calling conventions would need to change a bit
+as well.
+
+With the above as step 1,
+
+Step 2: fold lock_for_kill() into shrink_kill().  Result: 2 call sites of
+lock_for_kill() left, shrink_kill() becomes
+static inline void shrink_kill(struct dentry *victim)
+{
+	while (lock_for_kill(victim)) {   
+		rcu_read_unlock();
+		victim = __dentry_kill(victim);
+		if (!victim)
+			return;
+		rcu_read_lock();
+	}
+	spin_unlock(&victim->d_lock);
+	rcu_read_unlock();
+}
+shrink_dentry_list() and shrink_dentry_tree() calling shrink_kill()
+without bothering with lock_for_kill().
+
+Step 3: note that both call sites of lock_for_kill() are followed with the
+same sequence - drop ->d_lock + rcu_read_unlock on failure,
+rcu_read_unlock + __dentry_kill() on success.  And these are the
+only callers of __dentry_kill().  Moreover, NULL from __dentry_kill()
+means "bugger off" in both callers.  So add
+
+struct dentry *dentry_kill(dentry)
+{
+	if (!lock_for_kill(dentry)) {
+		spin_unlock(&dentry->d_lock);
+		rcu_read_unlock();
+		return NULL;
+	}
+	rcu_read_unlock();
+	return __dentry_kill(dentry);
+}
+and convert both callers to that:
+static inline void shrink_kill(struct dentry *victim)
+{
+	while ((victim = dentry_kill(victim)) != NULL)
+		rcu_read_lock();
+}
 and
-> > > > > flush the queues without another addition.
-> > > > >
-> > > >
-> > > > Hi Bernd and Jian,
-> > > >
-> > > > For some reason the "[PATCH 2/2] fs/fuse: fix potential memory leak
-> > > > from fuse_uring_cancel" email was never delivered to my inbox, so I=
- am
-> > > > just going to write my reply to that patch here instead, hope that'=
-s
-> > > > ok.
-> > > >
-> > > > Just to summarize, the race is that during unmount, fuse_abort() ->
-> > > > fuse_uring_abort() -> ... -> fuse_uring_teardown_entries() -> ... -=
->
-> > > > fuse_uring_entry_teardown() gets run but there may still be sqes th=
-at
-> > > > are being registered, which results in new ents that are created (a=
-nd
-> > > > leaked) after the teardown logic has finished and the queues are
-> > > > stopped/dead. The async teardown work (fuse_uring_async_stop_queues=
-())
-> > > > never gets scheduled because at the time of teardown, queue->refs i=
-s 0
-> > > > as those sqes have not fully created the ents and grabbed refs yet.
-> > > > fuse_uring_destruct() runs during unmount, but this doesn't clean u=
-p
-> > > > the created ents because those registered ents got put on the
-> > > > ent_in_userspace list which fuse_uring_destruct() doesn't go throug=
-h
-> > > > to free, resulting in those ents being leaked.
-> > > >
-> > > > The root cause of the race is that ents are being registered even w=
-hen
-> > > > the queue is already stopped/dead. I think if we at registration ti=
-me
-> > > > check the queue state before calling fuse_uring_prepare_cancel(), w=
-e
-> > > > eliminate the race altogether. If we see that the abort path has
-> > > > already triggered (eg queue->stopped =3D=3D true), we manually free=
- the
-> > > > ent and return an error instead of adding it to a list, eg
-> > >
-> > > In my case (Bernd mentioned that I was investigating a hang during um=
-ount)
-> > > there were a lot of requests created during teardown, so what happene=
-d
-> > > was very similar, but for exact the opposite reason.
-> > > In fuse_uring_abort() queue_refs was already 0 due to an optimization
-> > > where the ring teardown ran before fuse_abort_conn().
-> >
-> > Hi Horst,
-> >
-> > Just to clarify, is this with running locally patched changes on your
-> > ddn kernel? In the upstream code I'm seeing that teardown is only
-> > called by the abort path, eg fuse_abort_conn() -> fuse_uring_abort()
-> > -> fuse_uring_stop_queues() -> teardown logic, so I'm not seeing how
-> > it's possible for teardown to run before fuse_abort_conn(). Is there
-> > something I'm missing?
->
-> Yes and no ... ;-)
-> The original patch this whole discussion was started by had a call to
-> the teardown of the entries and I had that applied.
-> But even without that the problem can still occur that queue_refs is 0
-> by the time fuse_abort_conn() is called.
+static void finish_dput(struct dentry *dentry)
+{
+	while ((dentry = dentry_kill(dentry)) != NULL) {
+		if (retain_dentry(dentry, true)) {
+			spin_unlock(&dentry->d_lock);
+			return;
+		}
+		rcu_read_lock();
+	}
+}
 
-Gotcha, thanks for clarifying.
+Step 4: note that callers of shrink_kill() and finish_dput()
+have dentry->d_lock held.  We can (assuming there's no RCU
+bugs) drop the lock before calling them and grab it the
+first thing in.  Moreover, we can shift grabbing it into
+lock_for_kill(), leaving these
+static inline void shrink_kill(struct dentry *victim)
+{
+	while ((victim = dentry_kill(victim)) != NULL)
+		;
+}
+and
+static void finish_dput(struct dentry *dentry)
+{
+	while ((dentry = dentry_kill(dentry)) != NULL) {
+		if (retain_dentry(dentry, true)) {
+			spin_unlock(&dentry->d_lock);
+			return;
+		}
+	}
+}
+resp., with the callers becoming
+void dput(struct dentry *dentry)
+{
+	if (!dentry)
+		return;
+	might_sleep();
+	rcu_read_lock();
+	if (likely(fast_dput(dentry))) {
+		rcu_read_unlock();
+		return;
+	}
+	rcu_read_unlock();
+	finish_dput(dentry);
+}
 
-Without the original patch, can queue_refs still be 0 by the time
-fuse_abort_conn() is called? The only case where I see that is when
-the sqes are in the middle of being registered but haven't grabbed the
-queue ref yet, and then the abort logic runs (I am going to write more
-about this race in a reply to Bernd's other message in this thread),
-but other than that I don't see how without the original patch we run
-into this case since teardown -> queue ref decrement only happens in
-fuse_uring_stop_list_entries() which only is triggered on the abort
-path. Are you talking about a subsequent fuse_abort_conn() call (the
-one called from fuse_dev_release())?
+void d_make_discardable(struct dentry *dentry)
+{
+        spin_lock(&dentry->d_lock);
+        WARN_ON(!(dentry->d_flags & DCACHE_PERSISTENT));
+        dentry->d_flags &= ~DCACHE_PERSISTENT;
+        dentry->d_lockref.count--;
+        finish_dput(dentry);
+}
 
+void shrink_dentry_list(struct list_head *list)
+{
+        while (!list_empty(list)) {
+                struct dentry *dentry;
+ 
+                dentry = list_entry(list->prev, struct dentry, d_lru);
+                spin_lock(&dentry->d_lock);
+                d_shrink_del(dentry);
+		if (unlikely(dentry->d_flags & DCACHE_DENTRY_KILLED) {
+                        spin_unlock(&dentry->d_lock);
+			dentry_free(dentry);
+			continue;
+		}
+                shrink_kill(dentry);
+	}
+}
 
-Thanks,
-Joanne
->
-> >
-> > > Thus the queue->stopped was never set.
-> > >
-> > > How do we make sure that fuse_uring_teardown_entries() has not been
-> > > called by fuse_uring_async_stop_queues()?
-> >
-> > If i'm understanding your question correctly, your question is what
-> > ensures the teardown logic in fuse_uring_async_stop_queues() hasn't
-> > already executed by the time we drop the queue lock after checking if
-> > the queue has been stopped? In fuse_uring_async_stop_queues(), the
-> > async teardown work gets continuously rescheduled so long as
-> > queue_refs > 0. The ent holds a reference on the queue, so when the
-> > queue lock is dropped that async teardown work will be continuously
-> > running until it cleans up that (and any other) ents.
-> >
->
-> You understand correctly.
-> If the fuse_async_stop_queues() runs there is still a window where
-> we have queue_refs =3D=3D 0. If in that window fuse_abort_conn() runs
-> we never actually stop the queues and we can accept requests which
-> will never be processed.
->
-> I have never seen this happen without the patch mentioned above,
-> but with that 'optimization' it happens regularly when you are able to
-> kill the fuse server and the application using the file system more or
-> less at the same time e.g. by an OOM event, when the kernel tries to
-> free resources.
->
-> To me this looks like nothing will stop this from happening, though,
-> but maybe I'm just not familiar enough with the uring code ...
->
-> > >
-> > > Maybe I'm missing something?
-> > >
-> > > My fix was to remove the check for queue_refs > 0 in fuse_uring_abort=
-()
-> > > and make sure that even if the teardown was complete nothing bad happ=
-ens
-> > > in fuse_uring_abort_end_requests() and fuse_uring_stop_queues().
-> >
-> > I'll look more at this path today.
-> >
-> > Thanks,
-> > Joanne
->
-> Thanks,
-> Horst
+and, in shrink_dentry_list(),
+                        spin_lock(&v->d_lock);
+			rcu_read_unlock();	// now held by ->d_lock
+                        if (v->d_lockref.count < 0 &&
+                            !(v->d_flags & DCACHE_DENTRY_KILLED)) {
+                                struct completion_list wait;
+                                // It's busy dying; have it notify us once
+                                // it becomes invisible to d_walk().
+                                d_add_waiter(v, &wait);
+                                spin_unlock(&v->d_lock);
+                                if (!list_empty(&data.dispose))
+                                        shrink_dentry_list(&data.dispose);
+                                wait_for_completion(&wait.completion);
+                                continue;
+                        }
+			shrink_kill(v);
+
+lock_for_kill() has grown a call of rcu_read_lock() in the very beginning,
+will be gone shortly.
+
+Step 5: pull the followup rcu_read_unlock() (and dropping ->d_lock on
+failure) into lock_for_kill(); again, that assumes no RCU bugs there:
+static bool lock_for_kill(struct dentry *dentry)
+{
+        struct inode *inode = dentry->d_inode;
+ 
+        if (unlikely(dentry->d_lockref.count)) {
+		spin_unlock(&dentry->d_lock);
+                return false;
+	}
+ 
+        if (!inode || likely(spin_trylock(&inode->i_lock)))
+                return true;
+ 
+	rcu_read_lock();
+        do {   
+                spin_unlock(&dentry->d_lock);
+                spin_lock(&inode->i_lock);
+                spin_lock(&dentry->d_lock);
+                if (likely(inode == dentry->d_inode))
+                        break;
+                spin_unlock(&inode->i_lock);
+                inode = dentry->d_inode;
+        } while (inode);
+	rcu_read_unlock();
+        if (likely(!dentry->d_lockref.count))
+                return true;
+        if (inode)
+                spin_unlock(&inode->i_lock);
+	spin_unlock(&dentry->d_lock);
+        return false;
+}
+
+and in dentry_kill()
+{
+	if (!lock_for_kill(dentry))
+		return NULL;
+	return __dentry_kill(dentry);
+}
+
+Step 6: fold __dentry_kill() into dentry_kill().
+
+Step 7: both callers of fast_dput() are identical:
+        rcu_read_lock();
+        if (likely(fast_dput(dentry))) {
+                rcu_read_unlock();
+                return;
+        }
+	rcu_read_unlock();
+(in dput() and dput_to_list()).  Pull rcu_read_lock() and rcu_read_unlock()
+into fast_dput(); ends up with 5 lines added there.  Result (with comments
+skipped) is
+static inline bool fast_dput(struct dentry *dentry)
+{
+        int ret;
+ 
+	rcu_read_lock();		// added
+        ret = lockref_put_return(&dentry->d_lockref);
+ 
+        if (unlikely(ret < 0)) {
+                spin_lock(&dentry->d_lock);
+		rcu_read_unlock();	// added
+                if (WARN_ON_ONCE(dentry->d_lockref.count <= 0)) {
+                        spin_unlock(&dentry->d_lock);
+                        return true;
+                }
+                dentry->d_lockref.count--;
+                goto locked;
+        }
+        if (ret) {
+		rcu_read_unlock();	// added
+                return true;
+	}
+        if (retain_dentry(dentry, false)) {
+		rcu_read_unlock();	// added
+                return true;
+	}
+        spin_lock(&dentry->d_lock);
+	rcu_read_unlock();		// added
+locked:
+        if (dentry->d_lockref.count || retain_dentry(dentry, true)) {
+                spin_unlock(&dentry->d_lock);
+                return true;
+        }
+        return false;
+}
+
+Callers become
+void dput(struct dentry *dentry)
+{
+	if (!dentry)
+		return;
+	might_sleep();
+	if (likely(fast_dput(dentry)))
+		return;
+	finish_dput(dentry);
+}
+and
+void dput_to_list(struct dentry *dentry, struct list_head *list)
+{
+	if (likely(fast_dput(dentry)))
+		return;
+	to_shrink_list(dentry, list);
+	spin_unlock(&dentry->d_lock);
+}
+resp.
