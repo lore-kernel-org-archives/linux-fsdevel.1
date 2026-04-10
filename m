@@ -1,173 +1,195 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DC973A962E
-	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 22:12:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F1E4CA4E
+	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 22:15:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775859131; cv=none; b=AQDNxMAKa4jl6pRxMmi1WGAm/M4ZFZMzoqYQeNBfewdyslbuao7Rhzdl0Q97nF94GvvaL7I2WIxOVVFDcVvtpFvZe0HYhgdv1qoN04oo4MEovXcYJeQ+A7LgjslfeouqTRvZSJBtp/YmB/HFjT6/GbS1mbSWZ1POF3D5q7oQ9BE=
+	t=1775859321; cv=none; b=cf3E3ElVwurn7/y3Ez+tSb4UiqwgV7Ne7k3ffoDcg5l5QRUMbULbBi2MxqWgXoD+ZHOahN1zEAyTOOTatKRAgdAq3g/TY0HE7DQSNHJceMnc8VHFWrfL/B8u+Wrd9pBvLu1yibv7gMewhy0euc/yAH7XdX8T9FoCJMVju0gtfxM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775859131; c=relaxed/simple;
-	bh=PtNDE4tN4d7SAuz8aeKtNDhjZ+731dMhReMbpWVY3JI=;
+	s=arc-20240116; t=1775859321; c=relaxed/simple;
+	bh=gdgSrLGW/VaEiRmpoGAtvWDHNlIQNmsYKN1Ph0YK7sg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ewIxh6OiByJ+lHDSpTwM9ilUkJe1H4Wi4/lnxLeujJ66x0FPKL2pA/boVMvhLVduZd5ab8p0/SKgH9oeeaXuPQexvI7vV9KuWi5neJpSW8rgqXvHhfWmk4czNy9ulltqddcqaSE3djQFMO1AN09Nk59MLzrTFRdGsz0/DzuDMRs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ssB7q/iY; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=SQ0MOebTUpM6i7U3B7LSLbS/m2Ch14aVsTir8lFW+AEMoqwqCSOdzXWWdQis+vifroQzVR6fNTzfuoReGEAOCHY84KC42KGDEJDF0xJt+EcJO+fgjEvzzNkZwAbepwQQHKercE4s3ExOodjUplmV7V0z0q/zdjZtWbryYTQ4+Yk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wbinvd.org; spf=pass smtp.mailfrom=wbinvd.org; dkim=pass (2048-bit key) header.d=wbinvd.org header.i=@wbinvd.org header.b=frOsbES/; arc=none smtp.client-ip=74.125.82.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wbinvd.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wbinvd.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ssB7q/iY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13AB1C19421;
-	Fri, 10 Apr 2026 22:12:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775859131;
-	bh=PtNDE4tN4d7SAuz8aeKtNDhjZ+731dMhReMbpWVY3JI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ssB7q/iYyHSg/La1opvgZWuHn+kc+oTetCK75/V3JaAek0QqM2NL+SXcKKJA9olDq
-	 A9IjYlAp0uyffjXldZIU4Oa7WqpsJUrLEA5wkFZ43eFodCAlEVZhe6s4QxcHRr0mWs
-	 5rJWrLKjOvQ6Wnw+M8gRzy0XHno6bBQp/9OYM0Wh4hkNjLa9r0nPoTclF/we3zJ5gy
-	 M2YS1fLOfJkgFJY0ZFOt9wNB3xnCG5QI0m6y4l9RXEnAl0bsv6j0Sa/ERPfy7PQk55
-	 Pl5JX1q9hooECdXDta43I76JKyeDTW5M3LvhiM4r4eJtixCzuIHAL97j53PPceMQGu
-	 /wM2RgAYpgnmQ==
-Date: Fri, 10 Apr 2026 15:12:10 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: bschubert@ddn.com, joannelkoong@gmail.com,
-	linux-fsdevel@vger.kernel.org, miklos@szeredi.hu, neal@gompa.dev
-Subject: Re: [GIT PULL] libfuse: run fuse servers as a contained service
-Message-ID: <20260410221210.GV6254@frogsfrogsfrogs>
-References: <177577271287.2064584.12214566734023027732.stg-ugh@frogsfrogsfrogs>
- <549999df-d6eb-43a0-840c-43310de667ca@bsbernd.com>
- <20260410155601.GS6254@frogsfrogsfrogs>
- <5de6956e-dce5-4095-a2fa-199c2dc1408a@bsbernd.com>
+	dkim=pass (2048-bit key) header.d=wbinvd.org header.i=@wbinvd.org header.b="frOsbES/"
+Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-12c287eb77fso1565664c88.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 15:15:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=wbinvd.org; s=wbinvd; t=1775859319; x=1776464119; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+ZElh/vhz7cLO39kZK9jA2M+QKGuPYEoNtEy+sxO5nM=;
+        b=frOsbES/dx6V0Bv6ZaMVi0GqgD1KzX6uyHYn6wWae6wXW41jQ0i0VVa9tIjJVLbtMd
+         oflSgKLQa6aUYsoutlAfBiBw3f6rFz0PdJXeu9uJCRE6JCm5jGitrQVa+xAfc+v3nA95
+         KQyiX8yg8b99Q+Xl5zSaiK/NARYaZeJ3ZFlJrKu6sKY0mrMssZAnd36f0iJccm33K/UX
+         Xmklg5V2b2DsiNj0E3SNrexabiGsKjXEtgisQOaLAeBjCVnfGdK2z/6e3USnOU6TNiCW
+         XFfSwWsj/NlZSl9muCdfmzkQiER9jbLCk0GdpOVvcldtJnf5m4P2ncRJzA93WllWjQXX
+         uHfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775859319; x=1776464119;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+ZElh/vhz7cLO39kZK9jA2M+QKGuPYEoNtEy+sxO5nM=;
+        b=bvSgfzCYfeDwusWoFfWwfXIGkv/xrQ2ZqcAuit4+q9xerSruNg9ncUunI37fkFh3ka
+         +TYpMFMMzr9lOpfjOC9E2lFpKP/gjGPU/kypTzt1/hez1Z5mHzNLK13ImttEh7RFQEAX
+         Lgqt84tSf+B/g8VXuFNSo1GQSOyjbAAsrAG3lEQpJD+W7+4t4+WkV/VkMVnnSt7CpIbw
+         d2d2voUO8J3QRtfEvFu54xhELdKAJAjefmjornySzwJPxO/M8xXsEIaZoWoXokRg0boh
+         GdSW3OUS+Thc5GA+BYO7N+AodUNTJnP6VBfXhyyOdCt4s8jH6TXAYTxCCDp8z73QCFuc
+         4lpw==
+X-Forwarded-Encrypted: i=1; AJvYcCXnUNc+dV3fMTcRbnGEnr4FWyROvyKOWPhiarNwTzwDZ0g86PAV3fOvAxVW44n6BbqQHrE4nZtAviENObOk@vger.kernel.org
+X-Gm-Message-State: AOJu0YztZEbb1o6w5q/rMIq+R2uQkOogaaAWZbzzRAKiaCA/pjolJuAn
+	qGl8kBHV0+NrpFIZZun0J7BD7xaiWrRO42daOd0qk7xZmJcUDh4fk9mTCDos/I2fv9o=
+X-Gm-Gg: AeBDiesoDrvALmc+oiCG8m6uE2QDth1anzEcslCaVvwPVApJYdHrGUD4ICUaJtO9H82
+	/eIqg4n1Mzws4R8wbht9ghdNZANO0xKz1AJE665WYJgtiFBCH5I9QJWwmj7m8Sm50l3UxjakKRw
+	YzeZa5Uw69+D9raYT1U9mOrhbX64LDZelbBqWtIuNUshqvT0oOfHlG32Cw1XhQlxXILEuP/HkyW
+	99J9I0UbN6xCX28IYiS+MvrOgcVJqa6i9BKkhql4mg5QDXzFsg4E8br8WnJgXjiZM5p375rGgyx
+	u6THqGYC9cig1CI7OyMi/z7YQnx+YwqnMG97KovX379ziip2GSUfB95PXH2ZQOpqPtk7eVLLQCU
+	yPrYtzyTdiA7r2ZpvweGlLHU2NFIgswbaVC1d9SnoF4HeyWvkFZpORom6zWN0M08/Gt9U1YcRgG
+	3PvgQM4WeSLc793/QJVArUB6rHsw==
+X-Received: by 2002:a05:7022:3d12:b0:12a:949b:b9b with SMTP id a92af1059eb24-12c34eedbd5mr3071543c88.23.1775859319270;
+        Fri, 10 Apr 2026 15:15:19 -0700 (PDT)
+Received: from mozart.vkv.me ([2001:5a8:468b:d015:c494:2bdb:81fb:43b3])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12c3459f7ffsm5087216c88.3.2026.04.10.15.15.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Apr 2026 15:15:18 -0700 (PDT)
+Date: Fri, 10 Apr 2026 15:15:16 -0700
+From: Calvin Owens <calvin@wbinvd.org>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: Jeff Layton <jlayton@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Boqun Feng <boqun@kernel.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Uladzislau Rezki <urezki@gmail.com>, linux-fsdevel@vger.kernel.org,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Nikolay Borisov <nik.borisov@suse.com>,
+	Max Kellermann <max.kellermann@ionos.com>,
+	Eric Sandeen <sandeen@redhat.com>,
+	Paulo Alcantara <pc@manguebit.org>
+Subject: Re: [RFC][PATCH] make sure that lock_for_kill() callers drop the
+ locks in safe order
+Message-ID: <adl2dMjN2hmVvORh@mozart.vkv.me>
+References: <20260409215733.GS3836593@ZenIV>
+ <20260410084839.GA1310153@ZenIV>
+ <CAHk-=wjRgHLvSnEY3P45hSQ0ycKxdz-xqnccAMPuGRrwsvWdig@mail.gmail.com>
+ <adkk8FiLHnVx1Bup@tardis.local>
+ <CAHk-=wjuOm+AGHtjF15Zx8cxJwYwbzJgi28EQ6KW=Ze-4YjN+g@mail.gmail.com>
+ <4305138de599923591df7403aefc4d663f50324a.camel@kernel.org>
+ <20260410191907.GV3836593@ZenIV>
+ <30ac5108ada614560326636d4da353d6304c3f91.camel@kernel.org>
+ <adln5vp9HFbX-oz0@mozart.vkv.me>
+ <20260410212403.GY3836593@ZenIV>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <5de6956e-dce5-4095-a2fa-199c2dc1408a@bsbernd.com>
+In-Reply-To: <20260410212403.GY3836593@ZenIV>
 
-On Fri, Apr 10, 2026 at 08:30:49PM +0200, Bernd Schubert wrote:
-> 
-> 
-> On 4/10/26 17:56, Darrick J. Wong wrote:
-> > On Fri, Apr 10, 2026 at 02:24:28PM +0200, Bernd Schubert wrote:
-> >> Hi Darrick,
-> >>
-> >> On 4/10/26 00:24, Darrick J. Wong wrote:
-> >>> Hi Bernd,
-> >>>
-> >>> Please pull this branch with changes for libfuse.
-> >>>
-> >>> As usual, I did a test-merge with the main upstream branch as of a few
-> >>> minutes ago, and didn't see any conflicts.  Please let me know if you
-> >>> encounter any problems.
-> >>
-> >> I had already merged another patch beginning of this week that
-> >> introduced a new merge conflict in
-> >> .github/workflows/install-ubuntu-dependencies.sh
-> >>
-> >> I resolved it myself now.
-> >>
-> >>>
-> >>> --D
-> >>>
-> >>> The following changes since commit 3bb9cd99b3688df1bb7536de158ed9e532b277fb:
-> >>>
-> >>> Add the codechecker/cppcheck github action (2026-04-07 10:08:49 +0200)
-> >>>
-> >>> are available in the Git repository at:
-> >>>
-> >>> https://git.kernel.org/pub/scm/linux/kernel/git/djwong/libfuse.git tags/fuse-service-container_2026-04-09
-> >>>
-> >>> for you to fetch changes up to 0db39a8f8844ff88496ed36da417554cb4f3751d:
-> >>>
-> >>> nullfs: support fuse systemd service mode (2026-04-09 12:31:08 -0700)
-> >>
-> >> I had quite a busy last weekend, because I got libfuse security reports.
-> >> In ordert to avoid lots of reports, I just added support for CodeChecker
-> >> + cppcheck and CodeChecker+gcc checker. Clang CTU is is prepared, but I
-> >> need to let AI work over the weekend to fixes for these (obviously will
-> >> need manual editing, as last weekend).
-> >> In the end not too bad and I don't think and urgent need for a new
-> >> release. Although I should probably make a new 3.18.3 version soon.
-> >>
-> >> That also made me to add new checks. I actually already that github
-> >> codeql checker in place, but only realized last weekend that it didn't
-> >> generate any reports. On your PR that gives
-> >>
-> >> New alerts in code changed by this pull request
-> >>
-> >> Security Alerts:
-> >>
-> >>     4 critical
-> >>     3 high
-> >>
-> >> Other Alerts:
-> >>
-> >>     4 warnings
-> >>     10 notes
-> >>
-> >>
-> >> Some of these, like "This switch statement should either handle more
-> >> cases, or be rewritten as an if statement." can be suppressed. With some
-> >> I probably agree
-> >>
-> >>
-> >> 	cmd = malloc(iov.iov_len);
-> >> 	if (!cmd) {
-> >> 		int error = errno;
-> >> Note
-> >> Declaration hides parameter
-> >> Local variable 'error' hides a parameter of the same name.
-> >> CodeQL
+On Friday 04/10 at 22:24 +0100, Al Viro wrote:
+> On Fri, Apr 10, 2026 at 02:13:10PM -0700, Calvin Owens wrote:
+> > On Friday 04/10 at 15:32 -0400, Jeff Layton wrote:
+> > > Yep, not even with that. One thing that claude pointed out: doing an
+> > > mdelay() might prevent it from making any progress freeing dentries.
+> > > I'm experimenting now with one that only randomly does a delay, but so
+> > > far that hasn't turned up anything. I'll let you know if that changes.
 > > 
-> > Oh yikes yes.  I probably ought to have added the same "turn the gcc
-> > warnings up real high" patch to my branch that I use for xfs stuff.
+> > Hi Jeff,
 > > 
-> > (Huh.  No warnings.  Well, that's good at least.)
-> > 
-> >> The new CodeChecker (gcc,cppchechk) actions also complain, the GUI
-> >> should give the output, but I don't see it yet.
-> > 
-> > <nod> Any reports you get about my branch, please feel free to lob it at
-> > me and tell me to fix it :)
-> > 
-> > I can run cppcheck locally, so I'll try to fix all the warnings that
-> > your copy is throwing out, and send you an updated pr.
-> > 
-> >> My plan for the weekend is to address your comments in my series and
-> >> then to merge it. If still some time left, I would like to fix all the
-> >> reports in your series and merge that as well.
-> >> Then maybe next week to combine some mount code dup that comes from both
-> >> series.
-> >>
-> >> Ok with you?
-> > 
-> > Yes, that sounds good.  Let me know if you want any help. :)
+> > I've been poking at this one too. With the attached reproducer, the
+> > waiter will get stuck in an infinite loop apparently in d_walk() with a
+> > stock 7.0-rc7 (in my case with PREEMPT_LAZY):
 > 
-> Would be great if you could fix the cppcheck and gcc codechecker
-> reports. For cppcheck you might need to inline suppress some wrong
-> warnings - needs this patch
-> 
-> https://github.com/libfuse/libfuse/pull/1477/changes/0322af4d9bba93aad5f6445346aa83a549bb3d19
-> 
-> This commit also shows the path how to run it:
-> 
-> .github/workflows/codechecker.sh
-> 
-> Fow now we we ignore everything in example/ and some cppcheck warnings
-> are ignored for now - these were too many for now.
+> Interesting...  I'll try it in a bit, but just in case - could you check if
+> git://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git #work.dcache-busy-wait
+> steps into the same thing on your setup?
 
-Ok, I got the cppcheck part working, and the fixes were fairly straight
-forward.  As for CodeChecker, is this the one:
+Hi Al,
 
-https://github.com/Ericsson/codechecker
+It still reproduces on that branch in the exact same way.
 
-that the yml file tries to find?
+I'm absolutely 100% guessing... but I recall tomfoolery with the "magic"
+symlinks in /proc/$/fd/* in the past... the below patch makes the infinite
+spins impossible to trigger with my reproducer, does my explanation make
+any sense to you? Apologies if I'm off in the weeds...
 
---D
+Thanks,
+Calvin
 
-> 
-> Thanks,
-> Bernd
+---
+From: Calvin Owens <calvin@wbinvd.org>
+Subject: [PATCH] fs/proc: Implement d_weak_revalidate()
+
+I think this is necessary because ND_JUMPED can happen in /proc when
+the magic symlinks in /proc/$/fd/* point to files in /proc. If true,
+this is a problem, because the default behavior for d_weak_revalidate()
+is to assume the jumped-to dentries are always valid.
+
+Fix by checking the in_use count in d_weak_revalidate() for procfs, the
+same way it is checked in procfs d_revalidate() today.
+
+Signed-off-by: Calvin Owens <calvin@wbinvd.org>
+---
+ fs/proc/generic.c | 22 +++++++++++++++++-----
+ 1 file changed, 17 insertions(+), 5 deletions(-)
+
+diff --git a/fs/proc/generic.c b/fs/proc/generic.c
+index 501889856461..359176e5eeb3 100644
+--- a/fs/proc/generic.c
++++ b/fs/proc/generic.c
+@@ -216,15 +216,26 @@ void proc_free_inum(unsigned int inum)
+ 	ida_free(&proc_inum_ida, inum - PROC_DYNAMIC_FIRST);
+ }
+ 
++static int __proc_misc_revalidate(struct dentry *dentry)
++{
++	if (atomic_read(&PDE(d_inode(dentry))->in_use) < 0)
++		return 0; /* revalidate */
++	return 1;
++}
++
+ static int proc_misc_d_revalidate(struct inode *dir, const struct qstr *name,
+ 				  struct dentry *dentry, unsigned int flags)
+ {
+ 	if (flags & LOOKUP_RCU)
+ 		return -ECHILD;
+ 
+-	if (atomic_read(&PDE(d_inode(dentry))->in_use) < 0)
+-		return 0; /* revalidate */
+-	return 1;
++	return __proc_misc_revalidate(dentry);
++}
++
++static int proc_misc_d_weak_revalidate(struct dentry * dentry,
++				       unsigned int flags)
++{
++	return __proc_misc_revalidate(dentry);
+ }
+ 
+ static int proc_misc_d_delete(const struct dentry *dentry)
+@@ -233,8 +244,9 @@ static int proc_misc_d_delete(const struct dentry *dentry)
+ }
+ 
+ static const struct dentry_operations proc_misc_dentry_ops = {
+-	.d_revalidate	= proc_misc_d_revalidate,
+-	.d_delete	= proc_misc_d_delete,
++	.d_revalidate		= proc_misc_d_revalidate,
++	.d_weak_revalidate	= proc_misc_d_weak_revalidate,
++	.d_delete		= proc_misc_d_delete,
+ };
+ 
+ /*
+-- 
+2.47.3
+
