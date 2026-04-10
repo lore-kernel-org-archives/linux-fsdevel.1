@@ -1,39 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EF303DA5B3;
-	Fri, 10 Apr 2026 15:16:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86A613D9047;
+	Fri, 10 Apr 2026 15:17:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775834200; cv=none; b=amtqOK+M+PuF8ffOmhPTuqsuxcVyzia+DqRtRFSc9hIrmJKdFDP7g2uvdMn9Rq7AIejxXZmEM0U7vulh42MIJfKkbwlMeGZgGHh/p1Vge/XFX6PrhNBXsfRCbIlVgvsqHh7PucvpUD8xajf0xkvO7L+K5wq/WZQqxvVMIAVSVPQ=
+	t=1775834222; cv=none; b=jkWGsxtp5g7wC92XNNylOKP/mI3FJDZgYNIJc0HcIlYnLWLFeANoyseSPdcf0E/dgfts/YXyEM++jspWzDiueLOOqtaGrLCIoWev2SI0CWRWwIdpIG6DqZJhZMcIrGxmGIclL1YP5XacNculhSbxXHbaRF00M72MPOx+V2M+IMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775834200; c=relaxed/simple;
-	bh=ouBz9XS6IK9U9PkSEL1EJ5UnsvbkKel3/U0qkAHagCg=;
+	s=arc-20240116; t=1775834222; c=relaxed/simple;
+	bh=fH9WDxmaxZTGdpe78UOwVXQfxqIS0RVqoJkLf0mQ2tw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eOkKfHPyxhauwu1Fr7wFT1pYMrQYlzl6WM0QIqHsiyIS/SoNGFy5YKBOFoFWOW1E4ewlDZh5MBNR/YJidyqKVN5nManMZJXs/DGk+VtPxgRtMt4sUUvrZvyJnYMu7TaGtcnSlRvbOaUWb98DliLWXDy7J2KEuEenAoGh20yCWhw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PomoGY0F; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=ETJY9ks6HbEltae78c6AfMpw7o/kvvoyBzyBy4V9fyM3zRIVsrWgLY9hMfO3MIuy4PrM+3uHyHaFff0+40t6MyLpv7G7AaUzRK47hrp8oo1Jz5DlT7bwNLIqCAygyb/peIe0kvGfbwnwKQGg5Tmnr/7VNUaZlgKNsBB0nA6ph8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DVgZSohj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PomoGY0F"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B9F1C19421;
-	Fri, 10 Apr 2026 15:16:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DVgZSohj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2D02C2BC87;
+	Fri, 10 Apr 2026 15:17:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775834199;
-	bh=ouBz9XS6IK9U9PkSEL1EJ5UnsvbkKel3/U0qkAHagCg=;
+	s=k20201202; t=1775834222;
+	bh=fH9WDxmaxZTGdpe78UOwVXQfxqIS0RVqoJkLf0mQ2tw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=PomoGY0F3P4hAFsBPJo9Q44bY3dyQWHZP9Zq7Ci64nBElDhYidCsF4/6jpN1rms84
-	 EnPRYtTXWiPzgxdnQs9vbh+sD8wB+aHFd/F9p8p3+xZn3psPWSjHfZeLddO5pA/Lf+
-	 XMUJH5iZKhip6m8XN0wXBwsZqaXOb/pCzXDNuV/br84Z3WjJSl6E4K1fxHf7qjsKuB
-	 N7v8xN/sNmyw2gtWmecHlbjSzqkJ/wcLouWYZBgO43r+UzCCUS3+Kh6H1bDodhlUwE
-	 +P/H9IwikRYuitfap9ATp09/ZAKkK0LHqL+iDx5hbOtZiDI9X5eyYh95G6syjsCZMV
-	 DxOfMFWlQGkoQ==
+	b=DVgZSohjijEtLauz75k49MvDJFO8a719qJJUEHOaetOI7NMVVB9v7+srkv5BR1GkG
+	 LWFzKz76VsDVavCjvlclfRAY8n4ngwudES0BxRRPjjwMkd+4w111hO24JidMlWw9A7
+	 xoEYlBBQw0CiUGYHJGNtQpGAMaVv8LZ5MfDfhJGsp7GyuAyYIvjSaLOzI6EMS/eYbP
+	 5wOLfJ18U99U72D8kELXz2SXea9Hn4jBVHJjW+f3RDqWSg7Ht9dYzbAm4OKuepWVWN
+	 kj7NEOQKK3ZzfC7svRzmnzgSseHODVDMXFsdAybSKgGYVwFq2yE6/VpFaxq4e6MaMM
+	 pIoIiXQ5d8RlA==
 From: Christian Brauner <brauner@kernel.org>
 To: Linus Torvalds <torvalds@linux-foundation.org>
 Cc: Christian Brauner <brauner@kernel.org>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [GIT PULL 02/12 for v7.1] vfs xattr
-Date: Fri, 10 Apr 2026 17:16:30 +0200
-Message-ID: <20260410-vfs-xattr-v71-9b287a50d751@brauner>
+Subject: [GIT PULL 03/12 for v7.1] vfs directory
+Date: Fri, 10 Apr 2026 17:16:51 +0200
+Message-ID: <20260410-vfs-directory-v71-76a569f63c00@brauner>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260410-vfs-v71-b055f260060c@brauner>
 References: <20260410-vfs-v71-b055f260060c@brauner>
@@ -43,7 +43,7 @@ List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6258; i=brauner@kernel.org; h=from:subject:message-id; bh=ouBz9XS6IK9U9PkSEL1EJ5UnsvbkKel3/U0qkAHagCg=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTeFAkMTL7KWP9r9/vtGvsvRAet+7c1ojF/defF/ceDF u301LW51VHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRzQcZGdaeV/Y3mbD8z4LV Abzf/ia86pkl9u+TgbL3nDj+P/ySLZyMDK9MN+17qs254fz3L7YHpr1yXnk81ub3f6YtZmwZil2 1kgwA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4681; i=brauner@kernel.org; h=from:subject:message-id; bh=fH9WDxmaxZTGdpe78UOwVXQfxqIS0RVqoJkLf0mQ2tw=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTeFMmcdyN2y5tkJqm/+otObNU5cLHJo747ufzMQ+5C0 Q9/HgbFdZSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEwkw43hf8iXU8JlpTdVNlU5 caiarQiLM7smflQ4PfCoucMUkfuJ8YwMy1P27DqRKsJ0pXN/2eqw+S/Peu+ddTsi4zgf78F9c4I SOQE=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
 
@@ -51,59 +51,21 @@ Hey Linus,
 
 /* Summary */
 
-Rework simple xattrs and support user.* xattrs on sockets
-This reworks the simple_xattr infrastructure and adds support for
-user.* extended attributes on sockets.
+Recently "start_creating", "start_removing", "start_renaming" and
+related interaces were added which combine the locking and the lookup.
+At that time many callers were changed to use the new interfaces.
+However there are still an assortment of places out side of the core vfs
+where the directory is locked explictly, whether with inode_lock() or
+lock_rename() or similar. These were missed in the first pass for an
+assortment of uninteresting reasons.
 
-The simple_xattr subsystem currently uses an rbtree protected by a
-reader-writer spinlock. This series replaces the rbtree with an
-rhashtable giving O(1) average-case lookup with RCU-based lockless
-reads. This sped up concurrent access patterns on tmpfs quite a bit
-and it's an overall easy enough conversion to do and gets rid or
-rwlock_t.
+This series addresses the remaining places where explicit locking is
+used, and changes them to use the new interfaces, or otherwise removes
+the explicit locking.
 
-The conversion is done incrementally: a new rhashtable path is added
-alongside the existing rbtree, consumers are migrated one at a time
-(shmem, kernfs, pidfs), and then the rbtree code is removed. All three
-consumers switch from embedded structs to pointer-based lazy
-allocation so the rhashtable overhead is only paid for inodes that
-actually use xattrs.
-
-With this infrastructure in place the series adds support for user.*
-xattrs on sockets. Path-based AF_UNIX sockets inherit xattr support
-from the underlying filesystem (e.g. tmpfs) but sockets in sockfs -
-that is everything created via socket() including abstract namespace
-AF_UNIX sockets - had no xattr support at all.
-
-The xattr_permission() checks are reworked to allow user.* xattrs on
-S_IFSOCK inodes. Sockfs sockets get per-inode limits of 128 xattrs and
-128KB total value size matching the limits already in use for kernfs.
-
-The practical motivation comes from several directions. systemd and
-GNOME are expanding their use of Varlink as an IPC mechanism. For
-D-Bus there are tools like dbus-monitor that can observe IPC traffic
-across the system but this only works because D-Bus has a central
-broker. For Varlink there is no broker and there is currently no way
-to identify which sockets speak Varlink. With user.* xattrs on sockets
-a service can label its socket with the IPC protocol it speaks (e.g.,
-user.varlink=1) and an eBPF program can then selectively capture
-traffic on those sockets. Enumerating bound sockets via netlink
-combined with these xattr labels gives a way to discover all Varlink
-IPC entrypoints for debugging and introspection.
-
-Similarly, systemd-journald wants to use xattrs on the /dev/log socket
-for protocol negotiation to indicate whether RFC 5424 structured
-syslog is supported or whether only the legacy RFC 3164 format should
-be used.
-
-In containers these labels are particularly useful as high-privilege
-or more complicated solutions for socket identification aren't
-available.
-
-The series comes with comprehensive selftests covering path-based
-AF_UNIX sockets, sockfs socket operations, per-inode limit
-enforcement, and xattr operations across multiple address families
-(AF_INET, AF_INET6, AF_NETLINK, AF_PACKET).
+The biggest changes are in overlayfs. The other changes are quite
+simple, though maybe the cachefiles changes is the least simple of
+those.
 
 /* Testing */
 
@@ -117,10 +79,40 @@ No build failures or warnings were observed.
 Merge conflicts with mainline
 =============================
 
-No known conflicts.
+diff --cc security/apparmor/apparmorfs.c
+index 242c71b3fb6e,f93c4f31d02a..000000000000
+--- a/security/apparmor/apparmorfs.c
++++ b/security/apparmor/apparmorfs.c
+@@@ -364,22 -289,13 +358,17 @@@ static struct dentry *aafs_create(cons
+        }
+
+        error = __aafs_setup_d_inode(dir, dentry, mode, data, link, fops, iops);
++       simple_done_creating(dentry);
+        if (error)
+-               goto fail_dentry;
+-       inode_unlock(dir);
++               goto fail;
+ +
+ +      if (data)
+ +              aa_get_common_ref(data);
+ +
+        return dentry;
+
+- fail_dentry:
+-       dput(dentry);
+-
+- fail_lock:
+-       inode_unlock(dir);
++ fail:
+        simple_release_fs(&aafs_mnt, &aafs_count);
+-
+        return ERR_PTR(error);
+  }
 
 Merge conflicts with other trees
 ================================
+
+[1]: https://lore.kernel.org/linux-next/adZNhv68QCxJt00c@sirena.org.uk
 
 The following changes since commit 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f:
 
@@ -128,56 +120,54 @@ The following changes since commit 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f:
 
 are available in the Git repository at:
 
-  git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.1-rc1.xattr
+  git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.1-rc1.directory
 
-for you to fetch changes up to 98779186aa0b3367489a87c6d8bc0911f577444e:
+for you to fetch changes up to 9c62536a958ffef246b6f7c01125ebac962158f8:
 
-  Merge patch series "xattr: rework simple xattrs and support user.* xattrs on sockets" (2026-03-02 11:06:43 +0100)
+  Merge patch series "Further centralising of directory locking for name ops." (2026-03-09 09:43:04 +0100)
 
 ----------------------------------------------------------------
-vfs-7.1-rc1.xattr
+vfs-7.1-rc1.directory
 
-Please consider pulling these changes from the signed vfs-7.1-rc1.xattr tag.
+Please consider pulling these changes from the signed vfs-7.1-rc1.directory tag.
 
 Thanks!
 Christian
 
 ----------------------------------------------------------------
-Christian Brauner (15):
-      xattr: add rcu_head and rhash_head to struct simple_xattr
-      xattr: add rhashtable-based simple_xattr infrastructure
-      shmem: adapt to rhashtable-based simple_xattrs with lazy allocation
-      kernfs: adapt to rhashtable-based simple_xattrs with lazy allocation
-      pidfs: adapt to rhashtable-based simple_xattrs
-      xattr: remove rbtree-based simple_xattr infrastructure
-      xattr: add xattr_permission_error()
-      xattr: switch xattr_permission() to switch statement
-      xattr: move user limits for xattrs to generic infra
-      xattr,net: support limited amount of extended attributes on sockfs sockets
-      xattr: support extended attributes on sockets
-      selftests/xattr: path-based AF_UNIX socket xattr tests
-      selftests/xattr: sockfs socket xattr tests
-      selftests/xattr: test xattrs on various socket families
-      Merge patch series "xattr: rework simple xattrs and support user.* xattrs on sockets"
+Christian Brauner (1):
+      Merge patch series "Further centralising of directory locking for name ops."
 
- fs/kernfs/dir.c                                    |  15 +-
- fs/kernfs/inode.c                                  |  99 +----
- fs/kernfs/kernfs-internal.h                        |   5 +-
- fs/pidfs.c                                         |  64 +--
- fs/xattr.c                                         | 423 +++++++++++++------
- include/linux/kernfs.h                             |   2 -
- include/linux/shmem_fs.h                           |   2 +-
- include/linux/xattr.h                              |  47 ++-
- mm/shmem.c                                         |  46 +-
- net/socket.c                                       | 119 ++++--
- .../testing/selftests/filesystems/xattr/.gitignore |   3 +
- tools/testing/selftests/filesystems/xattr/Makefile |   6 +
- .../filesystems/xattr/xattr_socket_test.c          | 470 +++++++++++++++++++++
- .../filesystems/xattr/xattr_socket_types_test.c    | 177 ++++++++
- .../filesystems/xattr/xattr_sockfs_test.c          | 363 ++++++++++++++++
- 15 files changed, 1546 insertions(+), 295 deletions(-)
- create mode 100644 tools/testing/selftests/filesystems/xattr/.gitignore
- create mode 100644 tools/testing/selftests/filesystems/xattr/Makefile
- create mode 100644 tools/testing/selftests/filesystems/xattr/xattr_socket_test.c
- create mode 100644 tools/testing/selftests/filesystems/xattr/xattr_socket_types_test.c
- create mode 100644 tools/testing/selftests/filesystems/xattr/xattr_sockfs_test.c
+NeilBrown (15):
+      VFS: note error returns in documentation for various lookup functions
+      fs/proc: Don't lock root inode when creating "self" and "thread-self"
+      VFS: move the start_dirop() kerndoc comment to before start_dirop()
+      libfs: change simple_done_creating() to use end_creating()
+      Apparmor: Use simple_start_creating() / simple_done_creating()
+      selinux: Use simple_start_creating() / simple_done_creating()
+      nfsd: switch purge_old() to use start_removing_noperm()
+      VFS: make lookup_one_qstr_excl() static.
+      ovl: Simplify ovl_lookup_real_one()
+      cachefiles: change cachefiles_bury_object to use start_renaming_dentry()
+      ovl: pass name buffer to ovl_start_creating_temp()
+      ovl: change ovl_create_real() to get a new lock when re-opening created file.
+      ovl: use is_subdir() for testing if one thing is a subdir of another
+      ovl: remove ovl_lock_rename_workdir()
+      VFS: unexport lock_rename(), lock_rename_child(), unlock_rename()
+
+ Documentation/filesystems/porting.rst | 14 ++++++
+ fs/cachefiles/namei.c                 | 93 ++++++++++++-----------------------
+ fs/libfs.c                            |  3 +-
+ fs/namei.c                            | 70 +++++++++++++++++---------
+ fs/nfsd/nfs4recover.c                 |  6 +--
+ fs/overlayfs/dir.c                    | 51 ++++++++++++-------
+ fs/overlayfs/export.c                 | 71 +++++++++++++-------------
+ fs/overlayfs/overlayfs.h              | 10 +---
+ fs/overlayfs/super.c                  | 16 +++---
+ fs/overlayfs/util.c                   | 25 ----------
+ fs/proc/self.c                        |  3 --
+ fs/proc/thread_self.c                 |  3 --
+ include/linux/namei.h                 |  6 ---
+ security/apparmor/apparmorfs.c        | 35 +++----------
+ security/selinux/selinuxfs.c          | 17 +++----
+ 15 files changed, 184 insertions(+), 239 deletions(-)
