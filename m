@@ -1,115 +1,107 @@
-Received: from out30-130.freemail.mail.aliyun.com (out30-130.freemail.mail.aliyun.com [115.124.30.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07E4F2FE042;
-	Fri, 10 Apr 2026 07:29:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.130
+Received: from outbound.baidu.com (jpmx.baidu.com [119.63.196.201])
+	by smtp.subspace.kernel.org (Postfix) with SMTP id 4E4CF322522;
+	Fri, 10 Apr 2026 08:09:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=119.63.196.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775806188; cv=none; b=dvj/1AaBfrvu99NQMATMUMBGaEMvGxItDZy4BuqoQBuhjhofnRse+RtiKVWeQaqydfD5oGqbVD4SK2fsBeTiMoO5A08ddbEQy845JwCjQMM1ITM+BekhZJU9zhBkEHjeHyjLFQKLHYjnomEVOhcHlO+TKpKwxxOun+zRCP7QdSM=
+	t=1775808583; cv=none; b=Tma73poKzXkcGo2vYsKfLzBilGUc2W1pXLKOaO0wSTd8MpffGYw2pwE3VrWayeQI3ELH0QN+FQalFSjc4Wv3Aj/PRf8MgmwAjeljFIocsCea/2v4IHBkqOLh1FEW/RI1Y6CiD1azYEn3ML6S7m5sXWy1vC++dcd5dn1qEMyiGyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775806188; c=relaxed/simple;
-	bh=90quZfFp/zNbAfQjmjjkE6kJ1aAxPV/sS/yGrJcPP/I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=glOr46KkARCli6m7ZrMSPYF8b/eEp8z8+K0Bmcq8T54droD18zdLXl1PRh9Jfn+c5SHO4BnVSlvhn9ruWUhckzZ2bop3Yrq8X2rRlNjogwPMmLh8Fu7mGMCTAsyy0llgY1s1MC1tfqfoILbUEBCDF9AsGrChZlFNbDbgFnY/J+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=F66okIR6; arc=none smtp.client-ip=115.124.30.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1775808583; c=relaxed/simple;
+	bh=U3T3Nmt8WQngqYwW23gJAjqWivbPR/W82jaF38xPcrQ=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=T4uyjlhAjuG1vqkrp58mkSyRZ0yKfOto8D1NdXdFehjiqEnDQpbg9sDu03HeRxCO60AcIpUaEWDQcS65iP7Hy6i06UHTNXHnH2JITA9qTDTQKSfbxDH5hLWHMK+2e6dpT5JDy5pLXpJNIoPI+lOJo5F3Z55KoAZdvO0KG/abxNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com; spf=pass smtp.mailfrom=baidu.com; dkim=pass (2048-bit key) header.d=baidu.com header.i=@baidu.com header.b=IfPgkFB+; arc=none smtp.client-ip=119.63.196.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baidu.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="F66okIR6"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1775806181; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=ZiYDJH6G5nEZPKa3wnpYh0WEnqoDw7vS63MMN4mBIRQ=;
-	b=F66okIR6zit3L6hacXggTwY1zdderGkDs8Sd3IF12yXb8QycUGcEzMjK0RbsloPI3gc9qFX/7OfV+c92iIkIiaXS/ZYmVb8UBVZSjdXSEqljaIDvkWIUPvLMdTqUM2AHRpv0xYzeTyAAj985edT8hnY3TRc4kDqgr88ghbnHHtA=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R201e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam011083073210;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=10;SR=0;TI=SMTPD_---0X0kURBV_1775806179;
-Received: from 30.221.132.105(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X0kURBV_1775806179 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Fri, 10 Apr 2026 15:29:40 +0800
-Message-ID: <6bfe805e-be0d-4bd5-ac45-1b58fc55839f@linux.alibaba.com>
-Date: Fri, 10 Apr 2026 15:29:39 +0800
+	dkim=pass (2048-bit key) header.d=baidu.com header.i=@baidu.com header.b="IfPgkFB+"
+X-MD-Sfrom: lirongqing@baidu.com
+X-MD-SrcIP: 172.31.50.47
+From: lirongqing <lirongqing@baidu.com>
+To: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner
+	<brauner@kernel.org>, Jan Kara <jack@suse.cz>, Kees Cook <kees@kernel.org>,
+	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-mm@kvack.org>
+CC: Li RongQing <lirongqing@baidu.com>
+Subject: [PATCH] fs/coredump: reduce redundant log noise in validate_coredump_safety
+Date: Fri, 10 Apr 2026 04:09:18 -0400
+Message-ID: <20260410080918.2319-1-lirongqing@baidu.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] bpf: add bpf_real_inode() kfunc
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Christian Brauner <brauner@kernel.org>,
- "Darrick J. Wong" <djwong@kernel.org>, Amir Goldstein <amir73il@gmail.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
- Daniel Borkmann <daniel@iogearbox.net>, Alexei Starovoitov <ast@kernel.org>,
- linux-fsdevel@vger.kernel.org, bpf@vger.kernel.org
-References: <20260327060518.GP6202@frogsfrogsfrogs>
- <20260407-unmengen-wahltag-474557ec0c58@brauner>
- <adUalnAyY9mm1LUr@infradead.org>
- <20260409-vorsichtig-umstand-d417555377e4@brauner>
- <ade2nskzkdcsvF55@infradead.org>
- <d889ed2b-ca34-4e95-ae5b-1d66636b515d@linux.alibaba.com>
- <adfPlQrImtuyhMIO@infradead.org>
- <7a605318-9f09-436f-806e-d4a3bd31b97d@linux.alibaba.com>
- <adiVdIhcgfiIoXja@infradead.org>
- <b3dfc06b-9f9b-4337-be96-a277061517d0@linux.alibaba.com>
- <adihXuFuuS5uoJ31@infradead.org>
-From: Gao Xiang <hsiangkao@linux.alibaba.com>
-In-Reply-To: <adihXuFuuS5uoJ31@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-ClientProxiedBy: bjhj-exc3.internal.baidu.com (172.31.3.13) To
+ bjkjy-exc3.internal.baidu.com (172.31.50.47)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=baidu.com;
+	s=selector1; t=1775808569;
+	bh=XVCGD+rFsf43XDlKVku2Aq26Sh7eivzVMrrFZLWXJH8=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type;
+	b=IfPgkFB+sc6OWsS1ZWYHvMKOYEqCT1w3AieFwYEv9HlKJBcj22RwlKihb1QdyNcXy
+	 oHjN7tPwQ0MgWM4311uB3/A7SkX4TsbXrTWqn/qk+yLd2V7+UwsPFBu+VF1HC9jy4g
+	 2M3p4BAiPkRmgK+Iz27NM/z/r3Q63EK6NxbMi3nHhgan+MxDfsaJpd+NiEjfx9AQeF
+	 9UsNoRk6oNXqHaD8I5iDMjo1BGA4JyjcoOv+sYyKE0o71cH4qB+teMCYbD3u5UmEav
+	 R0h07/sd8sYxPm2Z4TAVYOqhiF+tfFdoUq85PYfKu3GnusNPRsyPDHbiJeUPi7ejle
+	 6x8e4t5CvgDuA==
 
+From: Li RongQing <lirongqing@baidu.com>
 
+Currently, writing to 'core_pattern' or 'suid_dumpable' sysctl nodes
+always triggers validate_coredump_safety(), even if the values have
+not changed. This results in redundant warning messages in dmesg:
 
-On 2026/4/10 15:06, Christoph Hellwig wrote:
-> On Fri, Apr 10, 2026 at 02:46:00PM +0800, Gao Xiang wrote:
->>> It needs to be applied in-memory for every changed, and persisted to
->>> disk on every fsync or equivalent operation.
->>
->> Yes, yet it doesn't change my evaluation: and you need
->> to consider background writebacks too (since writeback
->> will update data and then impact the whole hash tree).
->>
->> Currently data writeback can be applied for each block
->> independently, but if you consider maintaining a hash
->> tree (rather than simple checksums), I guess you have
->> to keep strict atomicity between data writeback,
->> metadata and hash-tree writeback, otherwise the hashes
->> and partial writeback data will be mismatched.
-> 
-> You write the leaf checksum with each block.  The rest of the chain
-> leading up to the root is kept in metadata tied to the inode and needs
-> to be written atomically with the transaction commit that updates the
-> on-disk metadata to point to the newly written block.
-> 
->> Yes, the OOB approach for leaf hashes will help to
->> reduce write amplification, but my current observation
->> is that it won't have any help to read amplification,
->> especially for small random read; overall it depends
->> on the target workload.
-> 
-> For HDD is roughly halves the number of seeks for random reads, and
-> at least significantly reduces it significantly but quite a bit
-> less.  For SSD it reduces the IOPS in a similar way, but for that
+"Unsafe core_pattern used with fs.suid_dumpable=2..."
 
-Yes, seeks can be reduced and if all related leaf block
-hashes can be loaded in a single request (even some main
-data blocks may not needed) it will help more; in
-practice, a POC forming out to measure the numbers between
-hashing in individual blocks or extended area may help to
-get more detailed ideas.
+This patch optimizes the procfs handlers to only invoke the safety
+validation when an actual change in the configuration is detected:
 
-If it's useful, I think dm-verity can work out in this way
-too as a bogus as long as the device supports it (and
-converting between these two metadata formats should be
-trivial.)
+1. In proc_dostring_coredump(), compare the new core_pattern string
+   with the existing one using strncmp().
+2. In proc_dointvec_minmax_coredump(), check if the new suid_dumpable
+   value differs from the previous one.
 
-> you need to max out the IOPS, which for most workloads you won't
-> on anything currently (and probably in the future) using erofs.
+This keeps the kernel log clean from repetitive warnings when
+re-applying the same sysctl settings.
 
-The problem is not always maximum IOPS (I also suspect
-there is such real long-term max-IOPS workload too), but
-small random burst I/Os with low latencies is what we
-usually care much for typical use cases.
+Signed-off-by: Li RongQing <lirongqing@baidu.com>
+---
+ fs/coredump.c | 3 ++-
+ fs/exec.c     | 6 ++++--
+ 2 files changed, 6 insertions(+), 3 deletions(-)
 
-Thanks,
-Gao Xiang
+diff --git a/fs/coredump.c b/fs/coredump.c
+index 29df8aa..9b357d2 100644
+--- a/fs/coredump.c
++++ b/fs/coredump.c
+@@ -1483,7 +1483,8 @@ static int proc_dostring_coredump(const struct ctl_table *table, int write,
+ 		return -EINVAL;
+ 	}
+ 
+-	validate_coredump_safety();
++	if (strncmp(old_core_pattern, core_pattern, CORENAME_MAX_SIZE))
++		validate_coredump_safety();
+ 	return error;
+ }
+ 
+diff --git a/fs/exec.c b/fs/exec.c
+index 9ea3a77..32b46e4 100644
+--- a/fs/exec.c
++++ b/fs/exec.c
+@@ -1975,9 +1975,11 @@ COMPAT_SYSCALL_DEFINE5(execveat, int, fd,
+ static int proc_dointvec_minmax_coredump(const struct ctl_table *table, int write,
+ 		void *buffer, size_t *lenp, loff_t *ppos)
+ {
+-	int error = proc_dointvec_minmax(table, write, buffer, lenp, ppos);
++	int error, old = READ_ONCE(suid_dumpable);
+ 
+-	if (!error && write)
++	error = proc_dointvec_minmax(table, write, buffer, lenp, ppos);
++
++	if (!error && write && (old != READ_ONCE(suid_dumpable)))
+ 		validate_coredump_safety();
+ 	return error;
+ }
+-- 
+2.9.4
 
