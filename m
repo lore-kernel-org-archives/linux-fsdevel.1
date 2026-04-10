@@ -1,68 +1,68 @@
 Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BE091F4181
-	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 15:07:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B54D93D891B
+	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 15:10:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775833628; cv=none; b=kMMUc9zXqVfUXGytm8X5u7JWg1rNb2mpcRY73HW//ScLAlorgXJ1bD4NGgD/r2NrBrXu1VbQdoTkqqV+zdJtx5SaZ2q0JKVQAb+SDk+Xa8PlMZSeSDa9CvTcfw+3UXK3k8CtPcrWHaXgxlpAdLGQUP1mZDKPeeRlmvlKS3cnaOI=
+	t=1775833821; cv=none; b=PostwlKwhVjnPR4a9iUjTQS7gcojPtCRkDwQ2IuQC8pzlaijRgG+f8pC4K5xnb7xa8/GPqADzzZ2VnKHA2V822/qHmT1CszJDFrN76NbrdDU9lZYhYhBYL+uMUcsasUfC17e0Gck02NGlSYE5AZ7ivxFL2H063z/J+Cre21k7qQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775833628; c=relaxed/simple;
-	bh=IwMVusI3iVqOcsu9zsxmYcL3ZVH51sOYCj+SfVFVzOU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ykfq18jpQkfQJjZC3WTvFaprdrbFiDbh/0tQky/qLzpnpvyXq1a2jYzRpkFQeDT4qlsN2O8WlPhgPHCZCe//6Pm8UAMaMEE95j47X2VACVioVl5Z7aHDlLVsLYcHhyQVJBDaiSzDyK1uabBoYXicc7FNZK4iAKb0UymFuHFhTI0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hb40+q/Z; arc=none smtp.client-ip=209.85.128.49
+	s=arc-20240116; t=1775833821; c=relaxed/simple;
+	bh=eeKKmdEcnUe4ATSCumsaoF7MKusPgU9rj9DPYfi/GZs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ad/u73545Z/P1r66DWa4RepLIZ4IoLsLOq2RYZcMsBJwNqXzc8mYSJ4OxRZ93w3C7vcQrtHBy3CKUPwja8LDAZHz4Ky47f5qHiRB9GE79fmCX7AW3j848oXT67OXYNGScqvfBMOBQfWebNQxMR2T3nDQLeB6+gX5U2UOowmaQLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ptK4RadI; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hb40+q/Z"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-482f454be5bso23318025e9.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 08:07:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ptK4RadI"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-488ab2db91aso31902555e9.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 08:10:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775833625; x=1776438425; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1775833818; x=1776438618; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=o/Dn3weYqW/mAs0aO61ucSWpXPQ2xQU21uyBf/oql60=;
-        b=hb40+q/ZvE/kXjo/Bp6LQHfM6kPGAfNb0wUo3Abjuxd6srXTMSopk/Fs2lRKdBBDC6
-         bbNmSAZVG1aEb+Xaf/XITXTvzKhjpP9zNPsvK3oZjuE1SY2JNGBC6w9b4om0AQRj9GAw
-         SVmvdxyd0UvW1MczTYjYWMTWGnqlhxDCb63Q/XYiC7CGaNY28wEhyRxuH1Tz3j/+83RP
-         +5rOZSuiyWt01f5fpUox04YjHfPEVHq0o/2/qJpos+islatnyxRYB7icn2pkcwHU7QuO
-         YeUK6iM4F3kMjUGsSAmFIlbQtd8eTyYpTzciXIu0cn99CRST8FWXzPGFLO8juxzmPbfw
-         33DQ==
+        bh=z5tBWZIfM48yI8RtqbTHFRPEDxWlEomagza0DDkSzOQ=;
+        b=ptK4RadItfUWHfJh2wCrCe+4yRVMoLsh+BE1YFb7EpVr8ezQ+bEYsTwCJwieQf3xZf
+         FJyZyOCQu+V5iYjKvmr3cAZMOl9zW/Gnb7QR4zdivhHKGv+LnBMxZW7s12k+AXCpPW21
+         QGo/hJPrFBZIXaUrt1XqPzi+ddcov9t4SKOCa6ic2qn1kwDXG0vh5dS0T04KlaSZTXov
+         DS4uSpHJ83dMelzjmyA4qleJE4sUtgF8nLg13Aw9gHHSB25GsZvv5JymN/d50nAHqzkN
+         eihaqwHeYXnt/sa6C/LK3wBMMketYjm+ltjU5rlB9I59Ve10ryhdEjMiztBqawNlzvKw
+         XwsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775833625; x=1776438425;
+        d=1e100.net; s=20251104; t=1775833818; x=1776438618;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=o/Dn3weYqW/mAs0aO61ucSWpXPQ2xQU21uyBf/oql60=;
-        b=ElkuuHAzlbcrB28nVGW5a6SFlq21OED9ZGNft4dhdY79j2T+M5vHiEayIzlHXjNi+F
-         F74QWxFnkjfu13DjV6YVlks7DBm4464zCYG0gX9Rsfw8rzJpNLKssaxJavs3fZ95PtTx
-         zbocWwvueF2yTXkR+YeBbqMXa1SEdvNf5gYdkTjygI8pGqHN+1vvs9H/Bfg1lfoz0l64
-         ECiKMMWxvCbFMigKDuhbnM0C3up6uSp77oB9n3ze1c98/YTbAt9lGtFe1z7jDNi0Ju47
-         BJHQAeVdECjNyssjHp1rhiuAG6X5/teUImLNDEFKvf9+rgZFIgKAX/NRnAoT3ZgA3MBG
-         UbXw==
-X-Gm-Message-State: AOJu0Yyij3HSKn5zcKjclbHl7nxSWYF+Amkjk+WRIcu1qZEpPTNtimkz
-	hTbHrfiDgl6+0+OBtoPg0JkG31cGS7gfu3NmOunJ0eIv47ZcB2IfEkN1caSpvQ==
-X-Gm-Gg: AeBDies4IldTwrg+795SyL5326TiqtSJjTBL3MpdUBdGWueA2d4JrDjr/jwOo19B+kn
-	qNKXeoqKZbDEZ4BPUNjocNccRODjAaBBb+gLrZnBJiCwHx1pvzS0erf/Zc8CBAGXedg2+/fl/K2
-	KIxCXSZ4CBr8iACJl+E/4k6YCNwXaarHPcbUI6m3J0P4amFFlslwTrozJxax+v/jAdO4S51kYcW
-	E3XFbgI+NHwDGg9rv2EKHBUMPBjPHWJqJKB43IRYlGNd/ElHrUoYdBHd8EzBkV4N05e4QZudHF+
-	PyDXUSdHqj6XxwO+2IBOvXz9fCpUaD0OM0rMrFPjSOBywj6eMUS3RWcksIlrh2vNY6pqYRbJ9dR
-	Re+WJWXHRY+DxvkfiHHuIxbLlrC/mhr5wAtqJLsJCJNSKBxVbbrdGYF9JUnGwhkoOPSciY98tB4
-	1zXuaAyHUNognqHXgrSMjJ2DLVAILwShVWpoTp6GsWX5t+SRRRqxlkB7CyIeEeYdMnTtop+8oDs
-	w0GaiZru1o=
-X-Received: by 2002:a05:600d:8496:10b0:486:f893:56c6 with SMTP id 5b1f17b1804b1-488db8d16aamr8909665e9.10.1775833625129;
-        Fri, 10 Apr 2026 08:07:05 -0700 (PDT)
+        bh=z5tBWZIfM48yI8RtqbTHFRPEDxWlEomagza0DDkSzOQ=;
+        b=RkxzG8kSZgyMgmmjhglN+22X5hkvz2pwJRVI5n1PSz2gYMIs2fKeaqoLMPjkW5bQ2g
+         15/HjElldan6Ad6sAhMdlGX8YukfZFgkj45ZpM23Kt2kVdJJa7bhKgQb1TI1jwgylhcS
+         EkWI41fLfs4241lL051Zs7lOrrrkR+aeQBD74eAzKO8LVrNCbCW9J/X2oB2Wzpu+oS50
+         A9DMxMRci62QmEoZWjrWovIVnAw/efRNXMXTbfFjuYW1F516Wsa0Y7On/RmMbqWSMGp7
+         tL1D+MGBomPlDDtH7f17cFo4tLwFgb+S2AhpPH/YPjuq8rklTB9UTxfovE81AVmHcJJ+
+         qbOQ==
+X-Gm-Message-State: AOJu0Yz4clXLc5n8TxpAwXG5clic+2UsjY5enGsg/JMblCc4DrSpCnJ7
+	H9MMgt1whSH63akgN2WWYQKD9Oxe9H+TO/k71utxZ0eo2wS+ixFoVY1M+sMF3Q==
+X-Gm-Gg: AeBDietecN8AxYuNwk1RBL9WUP6Y0jRyE/pvK2/05zwJC8U7ITbmyGAvbHaf6uSWxQm
+	PlDCnKlx87iepP5092tBoyNGt5K+WSakpjxHVaks30z+3g5e7yjfkvoSVaLdd84WkmQsQvqpUdL
+	CMPtp3734EJxKqPFDsRssLGqgMtGX0VHsnTrGtCHRzBBaBygRgCXk0a28ugrYrbB68nVZr1OqNj
+	poPO0kNBs88OGMapf8WjKaLQaTY4VEPfA5+PuP4OYNCpliurx1WWFuNdiaE9IUr5VRNsemz8JAE
+	ynMUcIA9Orx8v6yLGv0zSMIjfz+x+nw0RXx9Qk/Kk8VorSktSJOC6p0F9nrUS3mHmxD7yAjcNkD
+	5RjepKlJdWjM2Be9XYvLNwOGDX+704R7rwMHUi0WD+KkloSl4i+Hw0CAIo8eA7GQHhABe47mj2Z
+	bn3FhLbnELkkU+Yrvx9Pk6oSIGzJYr3JmUxZs5sTy1wTYssalpN+j7FsK/r1fHbglw0urVGvXAJ
+	6zNKfjg5So=
+X-Received: by 2002:a05:600c:c108:b0:488:c282:e78c with SMTP id 5b1f17b1804b1-488d684bd3amr34120995e9.19.1775833817773;
+        Fri, 10 Apr 2026 08:10:17 -0700 (PDT)
 Received: from corblimey.Home ([2a02:c7c:37d6:c100:60ca:408d:517a:4a96])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-488d67b4903sm28331225e9.5.2026.04.10.08.07.04
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-488d684b55fsm22526985e9.26.2026.04.10.08.10.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Apr 2026 08:07:04 -0700 (PDT)
+        Fri, 10 Apr 2026 08:10:17 -0700 (PDT)
 From: Adrian McMenamin <adrianmcmenamin@gmail.com>
 To: linux-fsdevel@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	Adrian McMenamin <adrianmcmenamin@gmail.com>
-Subject: [PATCH 09/10] Add support for VMUFAT filesystem
-Date: Fri, 10 Apr 2026 16:02:57 +0100
-Message-ID: <20260410150256.308947-2-adrianmcmenamin@gmail.com>
+Subject: [PATCH 10/10] Add support for VMUFAT filesystem
+Date: Fri, 10 Apr 2026 16:07:46 +0100
+Message-ID: <20260410150745.309076-2-adrianmcmenamin@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -72,141 +72,25 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-vmufat.h provides constants and common data structures to inode.c and super.c as well as a wrapper around calls to sb_read
+The pattern 0x55555555 is used in the VMUFAT system block, so we add it as a magic number here.
 
 Signed-off-by: Adrian McMenamin <adrianmcmenamin@gmail.com>
-
-fs/vmufat/vmufat.h                   |  126 ++++
 
 ---
 
 
---- /dev/null
-+++ b/fs/vmufat/vmufat.h
-@@ -0,0 +1,126 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/* Header file for VMUFAT filesystem */
-+#ifndef _VMUFAT_H_
-+#define _VMUFAT_H_
-+
-+/* maximum length of file name */
-+#define VMUFAT_NAMELEN			12
-+
-+/* Some GNU utils might not list files with inode num 0 */
-+#define VMUFAT_ZEROBLOCK		0x10000
-+#define VMU_BLK_SZ			0x200
-+#define	VMU_BLK_SZ16			0x100
-+#define VMU_PHYS_SZ			0x100
-+
-+/* file allocation table markers */
-+#define VMUFAT_FILE_END			0xFFFA
-+#define VMUFAT_UNALLOCATED		0xFFFC
-+#define VMUFAT_ERROR			0xFFFF
-+
-+/* parameters for possible VMU volume sizes */
-+#define VMUFAT_MIN_BLK			0x04
-+#define VMUFAT_MAX_BLK			0x10000
-+
-+/* specifcations for directory entries */
-+#define VMU_DIR_RECORD_LEN		0x20
-+#define VMU_DIR_RECORD_LEN16		0x10
-+#define VMU_DIR_ENTRIES_PER_BLOCK	0x10
-+#define VMUFAT_NAME_OFFSET		0x04
-+#define VMUFAT_FIRSTBLOCK_OFFSET16	0x01
-+#define VMUFAT_START_OFFSET16		0x01
-+#define VMUFAT_SIZE_OFFSET16		0x0C
-+#define VMUFAT_HEADER_OFFSET16		0x0D
-+
-+/* File types used in directory */
-+#define VMU_GAME			0xCC
-+#define VMU_DATA			0x33
-+
-+/* filesystem locations marked in the root block */
-+#define VMU_LOCATION_FAT		0x23
-+#define VMU_LOCATION_FATLEN		0x24
-+#define VMU_LOCATION_DIR		0x25
-+#define VMU_LOCATION_DIRLEN		0x26
-+#define VMU_LOCATION_USRLEN		0x28 /* set to 200 by real hardware */
-+
-+/* date offsets */
-+#define VMUFAT_SB_DATEOFFSET	0x30
-+#define VMUFAT_FILE_DATEOFFSET	0x10
-+
-+#define EXEC				0111
-+#define NOCOPY				0xFF
-+#define CANCOPY				0x00
-+
-+u16 vmufat_get_fat(struct super_block *sb, long block);
-+void vmufat_save_bcd(struct inode *in, char *bh, int index_to_dir);
-+struct inode *vmufat_get_inode(struct super_block *sb, long ino);
-+int vmufat_list_blocks(struct inode *in);
-+
-+enum vmufat_date {
-+	VMUFAT_DIR_CENT	=		0x10,
-+	VMUFAT_DIR_YEAR,
-+	VMUFAT_DIR_MONTH,
-+	VMUFAT_DIR_DAY,
-+	VMUFAT_DIR_HOUR,
-+	VMUFAT_DIR_MIN,
-+	VMUFAT_DIR_SEC,
-+	VMUFAT_DIR_DOW
-+};
-+
-+/* constants for BCD conversion */
-+#define SECONDS_PER_DAY			86400
-+#define DAYS_PER_YEAR			365
-+#define SECONDS_PER_HOUR		3600
-+#define HOURS_PER_DAY			24
-+#define SIXTY_MINS_OR_SECS		60
-+#define FEB28				59
-+#define DAYS_PER_WEEK			7
-+#define START_OF_EPOCH			70
-+#define CENTURY21			30
-+#define CENTURY22			130
-+
-+struct memcard {
-+	unsigned int sb_bnum;
-+	unsigned int fat_bnum;
-+	unsigned int fat_len;
-+	unsigned int dir_bnum;
-+	unsigned int dir_len;
-+	unsigned int numblocks;
-+	struct mutex mutex;
-+};
-+
-+struct vmufat_block {
-+	struct list_head b_list;
-+	int bno;
-+};
-+
-+struct vmufat_inode {
-+	struct list_head blocks;
-+	unsigned int nblcks;
-+	enum vmufat_file_type {
-+		GAME = 1,
-+		DATA = 2
-+	} ft;
-+	struct inode vfs_inode;
-+};
-+
-+static inline struct vmufat_inode *VMUFAT_I(struct inode *in)
-+{
-+	return container_of(in, struct vmufat_inode, vfs_inode);
-+}
-+
-+struct vmufat_file_info {
-+	u8 ftype;
-+	int fblk;
-+	char fname[VMUFAT_NAMELEN];
-+};
-+
-+static struct buffer_head *vmufat_sb_bread(struct super_block *sb,
-+	sector_t block)
-+{
-+	if (!sb)
-+		return NULL;
-+	return sb_bread(sb, block);
-+}
-+
-+int vmufat_count_files(struct super_block *sb);
-+#endif
+diff --git a/include/uapi/linux/magic.h b/include/uapi/linux/magic.h
+index 4f2da935a76c..7a3ab866ef48 100644
+--- a/include/uapi/linux/magic.h
++++ b/include/uapi/linux/magic.h
+@@ -54,6 +54,7 @@
+ #define QNX4_SUPER_MAGIC	0x002f		/* qnx4 fs detection */
+ #define QNX6_SUPER_MAGIC	0x68191122	/* qnx6 fs detection */
+ #define AFS_FS_MAGIC		0x6B414653
++#define VMUFAT_SUPER_MAGIC	0x55555555  /* opening bytes of root */
+ 
+ 
+ #define REISERFS_SUPER_MAGIC	0x52654973	/* used by gcc */
+-- 
+2.43.0
+
