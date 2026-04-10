@@ -1,215 +1,102 @@
-Received: from iad-out-013.esa.us-east-1.outbound.mail-perimeter.amazon.com (iad-out-013.esa.us-east-1.outbound.mail-perimeter.amazon.com [34.198.218.121])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 000C73E022B;
-	Fri, 10 Apr 2026 15:19:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.198.218.121
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15F863E121D;
+	Fri, 10 Apr 2026 15:19:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775834349; cv=none; b=mrN1SxAO93xygzroOIfFOGaZVMHi8ejyu3/XA3ODxupmS5UJZ3+I2wKj0cImUAKPCX5fzRr/XyS1NszhHn4Id9g1PYd079SnAw9H6lEXjzkM8Sj2dFhMs1jXu45ZAx8kRiKRWiwVpClh35aIKkw5baua7R/3hiBW+jGLHKWIvAs=
+	t=1775834353; cv=none; b=HauGHvhv80PDEyNq0ZYe5Aubx5pUoDUNGutmuLeKWHk/7ZYIF7DBovTw/wEAi1pL8UkpJW2D5EItznQV4SEsWYYsDq8XCx7vpJbYFaafJ/jdoUoGp+ui3gZKgBT4DURSAk7Q69Kh8zaEXMsyq5hgDO6+z3uzq4r5Wa+aGUrdqZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775834349; c=relaxed/simple;
-	bh=HFjPDA1LExr1rF5na9xG0pr70juzZXDamz5IUqH2n9I=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=JADFETYGxuXwDL4SBqFAsh1NZqoIUdlotASI7Ab3S7iEqi7ezKAFH3oN0Z9uiwx2HATT4QUFVxH+wV0nVNZjSd7kj1DSmUSey5mpHcqB5Fn/6IUx4Jd3bQX8COtfWOCXJweowuNMe5mBV++XkwflQgwp1pPgIdrahEOQrcTkcVo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.co.uk; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (2048-bit key) header.d=amazon.co.uk header.i=@amazon.co.uk header.b=F0wq15Mt; arc=none smtp.client-ip=34.198.218.121
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
+	s=arc-20240116; t=1775834353; c=relaxed/simple;
+	bh=M+YVMOr5JUMFwqh3R+Pgt86GCRL+hlJY6mzvFNMIPZw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ROEBkRRe2wF7INl9Za0uwkoAhaObK2Y2svdiIf1VolmojfV3Z1DMkd9q14rUuxZ6vLgZzhlkoep7N3D1+b0sWZq59P2yHXIsw1QI2A3pQlChG5wbNK2Pas5RkpeevwoPXgkZ17EogsNlLFDJK02fjVnSYkp7RQFk6kvibeqSvmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nj1leYy0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.co.uk header.i=@amazon.co.uk header.b="F0wq15Mt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.co.uk; i=@amazon.co.uk; q=dns/txt;
-  s=amazoncorp2; t=1775834348; x=1807370348;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=Ad2/8Xs1KJ387StiAXeHCQllqb1BIfUe92knKJwThxc=;
-  b=F0wq15MtFlVF4qJT8NZMW0QQcKUvvV0NKJXQZ/HqvnuXuieVUW8yDAXd
-   37sH4HBddaTJ0HhoG6tTmb96Z5S6idto6E2iI/6yjRpRpJG/Ig4B46BfL
-   Kdm4IEtTOV8bLc+aXulRmQOqxpQCsSEyCcPURBlGyoQEJyLSPznR+rMp+
-   sB3AoAieXMYzuCWDCxexZuig0EiorKuNnHWfTGA0KhPN06AnazqTFq9nw
-   rESTysy3d0epHtzltZHgMQinxUgYBR6U3BXZtLfJ8blL65gggw3y0l5Wm
-   qRLHnClqqErJ8LighnmeLVrfz+FG+7GRG0/EoF8ivdcjAW9cRzHhqSUGk
-   Q==;
-X-CSE-ConnectionGUID: I/19sXPASriJWeV5I8YRwg==
-X-CSE-MsgGUID: eiDY6iBTQ5WKRe3wTfoRSA==
-X-IronPort-AV: E=Sophos;i="6.23,171,1770595200"; 
-   d="scan'208";a="15428618"
-Received: from ip-10-4-22-235.ec2.internal (HELO smtpout.naws.us-east-1.prod.farcaster.email.amazon.dev) ([10.4.22.235])
-  by internal-iad-out-013.esa.us-east-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2026 15:19:06 +0000
-Received: from EX19MTAUEA001.ant.amazon.com [72.21.196.67:3109]
- by smtpin.naws.us-east-1.prod.farcaster.email.amazon.dev [10.0.62.178:2525] with esmtp (Farcaster)
- id e2c7b72b-ac09-4431-91ba-569d63e54e7d; Fri, 10 Apr 2026 15:19:06 +0000 (UTC)
-X-Farcaster-Flow-ID: e2c7b72b-ac09-4431-91ba-569d63e54e7d
-Received: from EX19D027UEC004.ant.amazon.com (10.252.137.178) by
- EX19MTAUEA001.ant.amazon.com (10.252.134.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
- Fri, 10 Apr 2026 15:19:03 +0000
-Received: from EX19D027UEC003.ant.amazon.com (10.252.137.250) by
- EX19D027UEC004.ant.amazon.com (10.252.137.178) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
- Fri, 10 Apr 2026 15:19:03 +0000
-Received: from EX19D027UEC003.ant.amazon.com ([fe80::887f:519b:ba73:21d]) by
- EX19D027UEC003.ant.amazon.com ([fe80::887f:519b:ba73:21d%3]) with mapi id
- 15.02.2562.037; Fri, 10 Apr 2026 15:19:03 +0000
-From: "Kalyazin, Nikita" <kalyazin@amazon.co.uk>
-To: "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "kvmarm@lists.linux.dev"
-	<kvmarm@lists.linux.dev>, "linux-fsdevel@vger.kernel.org"
-	<linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"bpf@vger.kernel.org" <bpf@vger.kernel.org>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"kernel@xen0n.name" <kernel@xen0n.name>, "linux-riscv@lists.infradead.org"
-	<linux-riscv@lists.infradead.org>, "linux-s390@vger.kernel.org"
-	<linux-s390@vger.kernel.org>, "loongarch@lists.linux.dev"
-	<loongarch@lists.linux.dev>, "linux-pm@vger.kernel.org"
-	<linux-pm@vger.kernel.org>
-CC: "pbonzini@redhat.com" <pbonzini@redhat.com>, "corbet@lwn.net"
-	<corbet@lwn.net>, "maz@kernel.org" <maz@kernel.org>, "oupton@kernel.org"
-	<oupton@kernel.org>, "joey.gouly@arm.com" <joey.gouly@arm.com>,
-	"suzuki.poulose@arm.com" <suzuki.poulose@arm.com>, "yuzenghui@huawei.com"
-	<yuzenghui@huawei.com>, "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-	"will@kernel.org" <will@kernel.org>, "seanjc@google.com" <seanjc@google.com>,
-	"tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>,
-	"bp@alien8.de" <bp@alien8.de>, "dave.hansen@linux.intel.com"
-	<dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>,
-	"hpa@zytor.com" <hpa@zytor.com>, "luto@kernel.org" <luto@kernel.org>,
-	"peterz@infradead.org" <peterz@infradead.org>, "willy@infradead.org"
-	<willy@infradead.org>, "akpm@linux-foundation.org"
-	<akpm@linux-foundation.org>, "david@kernel.org" <david@kernel.org>,
-	"lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>,
-	"vbabka@kernel.org" <vbabka@kernel.org>, "rppt@kernel.org" <rppt@kernel.org>,
-	"surenb@google.com" <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>,
-	"ast@kernel.org" <ast@kernel.org>, "daniel@iogearbox.net"
-	<daniel@iogearbox.net>, "andrii@kernel.org" <andrii@kernel.org>,
-	"martin.lau@linux.dev" <martin.lau@linux.dev>, "eddyz87@gmail.com"
-	<eddyz87@gmail.com>, "song@kernel.org" <song@kernel.org>,
-	"yonghong.song@linux.dev" <yonghong.song@linux.dev>,
-	"john.fastabend@gmail.com" <john.fastabend@gmail.com>, "kpsingh@kernel.org"
-	<kpsingh@kernel.org>, "sdf@fomichev.me" <sdf@fomichev.me>,
-	"haoluo@google.com" <haoluo@google.com>, "jolsa@kernel.org"
-	<jolsa@kernel.org>, "jgg@ziepe.ca" <jgg@ziepe.ca>, "jhubbard@nvidia.com"
-	<jhubbard@nvidia.com>, "peterx@redhat.com" <peterx@redhat.com>,
-	"jannh@google.com" <jannh@google.com>, "pfalcato@suse.de" <pfalcato@suse.de>,
-	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>, "riel@surriel.com"
-	<riel@surriel.com>, "ryan.roberts@arm.com" <ryan.roberts@arm.com>,
-	"jgross@suse.com" <jgross@suse.com>, "yu-cheng.yu@intel.com"
-	<yu-cheng.yu@intel.com>, "kas@kernel.org" <kas@kernel.org>, "coxu@redhat.com"
-	<coxu@redhat.com>, "ackerleytng@google.com" <ackerleytng@google.com>,
-	"yosry@kernel.org" <yosry@kernel.org>, "ajones@ventanamicro.com"
-	<ajones@ventanamicro.com>, "maobibo@loongson.cn" <maobibo@loongson.cn>,
-	"tabba@google.com" <tabba@google.com>, "prsampat@amd.com" <prsampat@amd.com>,
-	"wu.fei9@sanechips.com.cn" <wu.fei9@sanechips.com.cn>, "mlevitsk@redhat.com"
-	<mlevitsk@redhat.com>, "jmattson@google.com" <jmattson@google.com>,
-	"jthoughton@google.com" <jthoughton@google.com>, "agordeev@linux.ibm.com"
-	<agordeev@linux.ibm.com>, "alex@ghiti.fr" <alex@ghiti.fr>,
-	"aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>, "borntraeger@linux.ibm.com"
-	<borntraeger@linux.ibm.com>, "chenhuacai@kernel.org" <chenhuacai@kernel.org>,
-	"baolu.lu@linux.intel.com" <baolu.lu@linux.intel.com>, "dev.jain@arm.com"
-	<dev.jain@arm.com>, "gor@linux.ibm.com" <gor@linux.ibm.com>,
-	"hca@linux.ibm.com" <hca@linux.ibm.com>, "palmer@dabbelt.com"
-	<palmer@dabbelt.com>, "pjw@kernel.org" <pjw@kernel.org>,
-	"shijie@os.amperecomputing.com" <shijie@os.amperecomputing.com>,
-	"svens@linux.ibm.com" <svens@linux.ibm.com>, "thuth@redhat.com"
-	<thuth@redhat.com>, "yang@os.amperecomputing.com"
-	<yang@os.amperecomputing.com>, "Liam.Howlett@oracle.com"
-	<Liam.Howlett@oracle.com>, "urezki@gmail.com" <urezki@gmail.com>,
-	"zhengqi.arch@bytedance.com" <zhengqi.arch@bytedance.com>,
-	"gerald.schaefer@linux.ibm.com" <gerald.schaefer@linux.ibm.com>,
-	"jiayuan.chen@shopee.com" <jiayuan.chen@shopee.com>, "lenb@kernel.org"
-	<lenb@kernel.org>, "pavel@kernel.org" <pavel@kernel.org>, "rafael@kernel.org"
-	<rafael@kernel.org>, "yangyicong@hisilicon.com" <yangyicong@hisilicon.com>,
-	"vannapurve@google.com" <vannapurve@google.com>, "jackmanb@google.com"
-	<jackmanb@google.com>, "patrick.roy@linux.dev" <patrick.roy@linux.dev>,
-	"Thomson, Jack" <jackabt@amazon.co.uk>, "Itazuri, Takahiro"
-	<itazur@amazon.co.uk>, "Manwaring, Derek" <derekmn@amazon.com>, "Kalyazin,
- Nikita" <kalyazin@amazon.co.uk>, Vlastimil Babka <vbabka@suse.cz>
-Subject: [PATCH v12 07/16] KVM: guest_memfd: Add stub for
- kvm_arch_gmem_invalidate
-Thread-Topic: [PATCH v12 07/16] KVM: guest_memfd: Add stub for
- kvm_arch_gmem_invalidate
-Thread-Index: AQHcyP1dDjIbyJ6qvkGL5MWaBvgVKw==
-Date: Fri, 10 Apr 2026 15:19:03 +0000
-Message-ID: <20260410151746.61150-8-kalyazin@amazon.com>
-References: <20260410151746.61150-1-kalyazin@amazon.com>
-In-Reply-To: <20260410151746.61150-1-kalyazin@amazon.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nj1leYy0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 719FBC2BCAF;
+	Fri, 10 Apr 2026 15:19:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775834352;
+	bh=M+YVMOr5JUMFwqh3R+Pgt86GCRL+hlJY6mzvFNMIPZw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=nj1leYy0ShE9MEj/fLTSM72chYSItMmZHpJ2XeLrDSQy42m983kAsq5Q0kBKcn3Po
+	 6XfIF/o6S+B3ii4oKmB7QaH/Nwg/eF7U8VVynDA0Aqh0Sq3AlNvqU6bp0XH4+Asgby
+	 aORRIhKz14xrvYYp0ZX3sAOviQe9hNrbhl3Bi0vM/DS08J5FOP+tqG88mSG+f9X9LH
+	 Sz/jy3YAR+bFtFk9kDqz6KGoJ3/vzlX3EdQbfI+V6pgVuZp+Z3eb6tMdPY0kTgGJNb
+	 aL9YR1TClsTRl1o+x9sAY29bobbcq9u3EK9F9z5S5xYGgpWIlZ1rBbkAYqoE2llC0y
+	 NJanacaR/uezQ==
+From: Christian Brauner <brauner@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Christian Brauner <brauner@kernel.org>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [GIT PULL 07/12 for v7.1] vfs fat
+Date: Fri, 10 Apr 2026 17:19:02 +0200
+Message-ID: <20260410-vfs-fat-v71-5d175366d729@brauner>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260410-vfs-v71-b055f260060c@brauner>
+References: <20260410-vfs-v71-b055f260060c@brauner>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1380; i=brauner@kernel.org; h=from:subject:message-id; bh=M+YVMOr5JUMFwqh3R+Pgt86GCRL+hlJY6mzvFNMIPZw=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTeFHnjkfWvVlJzWSdX578uVp+deRv7X7w4uzBpXsfbL 5lst7+86yhlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZiI8keGv4KH932t2vjphE// 1A1BaxRnpvbGbGD2CGT5ly/pVbXIwJ+R4eQXOUvOXtVK+aI/E4KMGFRSn7OuYVvyWd/88tMXMnt S2AE=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-From: Patrick Roy <patrick.roy@linux.dev>=0A=
-=0A=
-Add a no-op stub for kvm_arch_gmem_invalidate if=0A=
-CONFIG_HAVE_KVM_ARCH_GMEM_INVALIDATE=3Dn. This allows defining=0A=
-kvm_gmem_free_folio without ifdef-ery, which allows more cleanly using=0A=
-guest_memfd's free_folio callback for non-arch-invalidation related=0A=
-code.=0A=
-=0A=
-Acked-by: David Hildenbrand (Red Hat) <david@kernel.org>=0A=
-Signed-off-by: Patrick Roy <patrick.roy@linux.dev>=0A=
-Acked-by: Vlastimil Babka <vbabka@suse.cz>=0A=
-Reviewed-by: Ackerley Tng <ackerleytng@google.com>=0A=
-Signed-off-by: Nikita Kalyazin <nikita.kalyazin@linux.dev>=0A=
----=0A=
- include/linux/kvm_host.h | 2 ++=0A=
- virt/kvm/guest_memfd.c   | 4 ----=0A=
- 2 files changed, 2 insertions(+), 4 deletions(-)=0A=
-=0A=
-diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h=0A=
-index 6b76e7a6f4c2..e8aa3d676c31 100644=0A=
---- a/include/linux/kvm_host.h=0A=
-+++ b/include/linux/kvm_host.h=0A=
-@@ -2587,6 +2587,8 @@ long kvm_gmem_populate(struct kvm *kvm, gfn_t gfn, vo=
-id __user *src, long npages=0A=
- =0A=
- #ifdef CONFIG_HAVE_KVM_ARCH_GMEM_INVALIDATE=0A=
- void kvm_arch_gmem_invalidate(kvm_pfn_t start, kvm_pfn_t end);=0A=
-+#else=0A=
-+static inline void kvm_arch_gmem_invalidate(kvm_pfn_t start, kvm_pfn_t end=
-) { }=0A=
- #endif=0A=
- =0A=
- #ifdef CONFIG_KVM_GENERIC_PRE_FAULT_MEMORY=0A=
-diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c=0A=
-index 017d84a7adf3..651649623448 100644=0A=
---- a/virt/kvm/guest_memfd.c=0A=
-+++ b/virt/kvm/guest_memfd.c=0A=
-@@ -522,7 +522,6 @@ static int kvm_gmem_error_folio(struct address_space *m=
-apping, struct folio *fol=0A=
- 	return MF_DELAYED;=0A=
- }=0A=
- =0A=
--#ifdef CONFIG_HAVE_KVM_ARCH_GMEM_INVALIDATE=0A=
- static void kvm_gmem_free_folio(struct folio *folio)=0A=
- {=0A=
- 	struct page *page =3D folio_page(folio, 0);=0A=
-@@ -531,15 +530,12 @@ static void kvm_gmem_free_folio(struct folio *folio)=
-=0A=
- =0A=
- 	kvm_arch_gmem_invalidate(pfn, pfn + (1ul << order));=0A=
- }=0A=
--#endif=0A=
- =0A=
- static const struct address_space_operations kvm_gmem_aops =3D {=0A=
- 	.dirty_folio =3D noop_dirty_folio,=0A=
- 	.migrate_folio	=3D kvm_gmem_migrate_folio,=0A=
- 	.error_remove_folio =3D kvm_gmem_error_folio,=0A=
--#ifdef CONFIG_HAVE_KVM_ARCH_GMEM_INVALIDATE=0A=
- 	.free_folio =3D kvm_gmem_free_folio,=0A=
--#endif=0A=
- };=0A=
- =0A=
- static int kvm_gmem_setattr(struct mnt_idmap *idmap, struct dentry *dentry=
-,=0A=
--- =0A=
-2.50.1=0A=
-=0A=
+Hey Linus,
+
+/* Summary */
+
+This contains minor fixes for the fat filesystem.
+
+/* Testing */
+
+gcc (Debian 14.2.0-19) 14.2.0
+Debian clang version 19.1.7 (3+b1)
+
+No build failures or warnings were observed.
+
+/* Conflicts */
+
+Merge conflicts with mainline
+=============================
+
+No known conflicts.
+
+Merge conflicts with other trees
+================================
+
+The following changes since commit 1f318b96cc84d7c2ab792fcc0bfd42a7ca890681:
+
+  Linux 7.0-rc3 (2026-03-08 16:56:54 -0700)
+
+are available in the Git repository at:
+
+  git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.1-rc1.fat
+
+for you to fetch changes up to 94505767bd32f8a240cf3590776b16a12d75d98e:
+
+  fat: fix stack frame size warnings in KUnit tests (2026-03-26 14:36:03 +0100)
+
+----------------------------------------------------------------
+vfs-7.1-rc1.fat
+
+Please consider pulling these changes from the signed vfs-7.1-rc1.fat tag.
+
+Thanks!
+Christian
+
+----------------------------------------------------------------
+Christian Brauner (1):
+      fat: fix stack frame size warnings in KUnit tests
+
+avivdaum (1):
+      fat: add KUnit tests for timestamp conversion helpers
+
+ fs/fat/fat_test.c | 181 +++++++++++++++++++++++++++++++++++++++++++++++++++---
+ fs/fat/misc.c     |   2 +
+ 2 files changed, 175 insertions(+), 8 deletions(-)
