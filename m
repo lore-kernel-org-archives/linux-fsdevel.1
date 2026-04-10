@@ -1,40 +1,93 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FBD83CD8D1
-	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 15:56:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C75B3DB65D
+	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 16:27:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775836562; cv=none; b=nqm7NrQ06kS8IXuVMM/HYzmmvJ/X+uF0kz5kVwPpaQLB7CUJ9JO41mxUTr+a7Pk3C8WGOi0Gwav3pXIkZgLmSNVsmxczkCe1J/E5nTu+0aXymjZVvhoXcwGhcxtDnPhTHaXsvG3aEBAMIJd55tRo5DVhrC3zjc1pPWl7dmasT1A=
+	t=1775838452; cv=none; b=DFlES3W7q7Hb5uL0Se/GhpV2AWRqFUVOdKUvn9NuBlEVh7k8mPS8ZQWKmAYGZ70kTOAdgNr2YbDl2bMc6smGrljjXDqUZsi6Po13QxPd9ifJJulgeSTkio/cgiTicxLCISkPU94x9tGWZ5xFZ3HEEdleTO0j2Gg7D/YZhp2w8eM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775836562; c=relaxed/simple;
-	bh=FbW47ktZ2lnheBZykc/N8L/KHvU1qhX3nlST4ZfJPIE=;
+	s=arc-20240116; t=1775838452; c=relaxed/simple;
+	bh=JjS2XpaH7zKVIRvCbBJRYv8X0wiXq1CMXbeTOfVGWu4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eO1nZN3d8SbJEXu4rOIpgxj3CfDzZOxX2TydU/hSqqB3zVPzQQuGF/4TYqICiub7s1+5Lx7EuxVXBy7rpIuL96qtB3sUsYETaIaY1Sv4TdhYi7/4d+0KLsz2bFHU11uQYq6V2o0N1MkkEOOTki1T5EVI8QKo0YgIdkvYe8xIM1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PnLTRtsu; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wce6IhLr9z+A1D+6wSsUtFzsxpRuLWZD5rxVdaE3HBwHfhNkn1EbvfguRczscLoH4GY2K02RvjOkV7yHRpsmy/oR0bfx2XRNwsaNW5dxmm73meONRm9c79KfBdhZHqelhRXXXAU/jeWsVVkPCCxPar//SqS7Ax4Py1lrPvRfRxo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PC9W1KiF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PnLTRtsu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21E32C4AF09;
-	Fri, 10 Apr 2026 15:56:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PC9W1KiF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6695BC19424;
+	Fri, 10 Apr 2026 16:27:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775836562;
-	bh=FbW47ktZ2lnheBZykc/N8L/KHvU1qhX3nlST4ZfJPIE=;
+	s=k20201202; t=1775838451;
+	bh=JjS2XpaH7zKVIRvCbBJRYv8X0wiXq1CMXbeTOfVGWu4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PnLTRtsupfTjM/QDfsCPOcZuNKQiKovBMmU+SxKv8dascwOxh9AJXFceslEZlK12g
-	 LbveS8BC7X14kiuncE7j7ecSnsKiJzJwnkBL0RDLCz4OYZzmN5mAQA6cHblcCpWo3E
-	 b8uUmf0Gl3VAa9cZXQ4TnQTHwlQOyI6VSzxHNvrB7SNLLUb5HGb2STnrARSETYY4yf
-	 RerxcLUFviPHgCjHkEWAsFLAv34ymhubW2f++eQyi1xxLuVbX8V7PXW9HIfhdXEAZY
-	 cVyYXqcRHKiYUBL0SuyQJ4Kq61RQYPOtP9B7pK7LO49ANWOks4L1Hx3veUTaN3DWsL
-	 w3TF6DwjwdlyA==
-Date: Fri, 10 Apr 2026 08:56:01 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: bschubert@ddn.com, joannelkoong@gmail.com,
-	linux-fsdevel@vger.kernel.org, miklos@szeredi.hu, neal@gompa.dev
-Subject: Re: [GIT PULL] libfuse: run fuse servers as a contained service
-Message-ID: <20260410155601.GS6254@frogsfrogsfrogs>
-References: <177577271287.2064584.12214566734023027732.stg-ugh@frogsfrogsfrogs>
- <549999df-d6eb-43a0-840c-43310de667ca@bsbernd.com>
+	b=PC9W1KiFB6qrJc8OXoTi6/2XrIIicwvQ9a1fczpPSQF+vzUgIHApaM+brwIdFBg+6
+	 LAXWwsHXM8eTGZc2E9qNJoKx0ric36xYiFjCMIEUBr8nE/to28GD2yAYya2JEI3G0R
+	 XK2Ufq5Fzke7bVLi1xmudeZvRcU76GlkC26EoQrBOtzAkw9PVlFRaV1kUDdb4LodAs
+	 hg9yT+ExYo6uY3SvfjX2QAmJbkxeR9npulczf6N9gVCtVx9AaXVizqGWn/1jfBU6z1
+	 uaQBOCtrtwCOS244jB86EQIU5ufn8VYyu9BnK2ggCZqdjJmNKx3iNTaLUKNvG/6WOF
+	 3aW5f7SZKQH3A==
+Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 79F48F4007A;
+	Fri, 10 Apr 2026 12:27:30 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-07.internal (MEProxy); Fri, 10 Apr 2026 12:27:30 -0400
+X-ME-Sender: <xms:8iTZaaPMum-iEOZqQxI4CCFtZ8CKsghtZn6Y-hPIzGft3fbRIxyIxg>
+    <xme:8iTZaZ4R4KLxqATeyuoUrbTsNWK-y9unECL4cpx74v9behEsoA7_8jhAzBBj2hXHZ
+    Ou6gwsys1VFjhpxEaq-6kFjP83eIGY6OUtkaWKfCiz2QW5rOrZEb0I>
+X-ME-Received: <xmr:8iTZaRl6kMlpkX9Cjq0H-M3CFicA-cZ0BHmjUWqOXH2wIoJImbdoa9sIF9EKqbUUlsVqdoxm1eR-VRBPoRLckQSCwDkPWNZA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddvleeklecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpeeuohhquhhnucfh
+    vghnghcuoegsohhquhhnsehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvghrnheple
+    euheethfdttdfgjedvjeeuhefhkeetveeuueeukeegteeigeeghedvffehhffhnecuffho
+    mhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
+    grmhepmhgrihhlfhhrohhmpegsohhquhhnodhmvghsmhhtphgruhhthhhpvghrshhonhgr
+    lhhithihqdduieejtdelkeegjeduqddujeejkeehheehvddqsghoqhhunheppehkvghrnh
+    gvlhdrohhrghesfhhigihmvgdrnhgrmhgvpdhnsggprhgtphhtthhopedujedpmhhouggv
+    pehsmhhtphhouhhtpdhrtghpthhtohepthhorhhvrghlughssehlihhnuhigqdhfohhunh
+    gurghtihhonhdrohhrghdprhgtphhtthhopehvihhrohesiigvnhhivhdrlhhinhhugidr
+    ohhrghdruhhkpdhrtghpthhtohepphgruhhlmhgtkheskhgvrhhnvghlrdhorhhgpdhrtg
+    hpthhtohepfhhrvgguvghrihgtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehnvggv
+    rhgrjhdruhhprgguhhihrgihsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehjohgvlh
+    grghhnvghlfhesnhhvihguihgrrdgtohhmpdhrtghpthhtohepjhhoshhhsehjohhshhht
+    rhhiphhlvghtthdrohhrghdprhgtphhtthhopehurhgviihkihesghhmrghilhdrtghomh
+    dprhgtphhtthhopehjlhgrhihtohhnsehkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:8iTZaZI8xIr7BvNn_OUADHZh39zNEH_s1EnJCptgEsKEBiP52-j8lw>
+    <xmx:8iTZaZSYhpDqxYeWX5qxfZn8f8XGRY8kHSsTZUUEpxNgot7L5bFBIw>
+    <xmx:8iTZaeutGMAki2CVXCPYIt-NCQReZ45W_CToA7GC0VAPFDD8o9hSCA>
+    <xmx:8iTZaU_LSNhH5E_nm6Qh3BXUjKX3rRNP6edE6NTEhZ5wcF6EeN5DAg>
+    <xmx:8iTZaXZjIY_6HstG89FGI6IuIxQpjZAG0w546zs3hpKIcaf1CkNQjF-3>
+Feedback-ID: i8dbe485b:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 10 Apr 2026 12:27:29 -0400 (EDT)
+Date: Fri, 10 Apr 2026 09:27:28 -0700
+From: Boqun Feng <boqun@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Al Viro <viro@zeniv.linux.org.uk>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Jeff Layton <jlayton@kernel.org>, linux-fsdevel@vger.kernel.org,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Nikolay Borisov <nik.borisov@suse.com>,
+	Max Kellermann <max.kellermann@ionos.com>,
+	Eric Sandeen <sandeen@redhat.com>,
+	Paulo Alcantara <pc@manguebit.org>
+Subject: Re: [RFC][PATCH] make sure that lock_for_kill() callers drop the
+ locks in safe order
+Message-ID: <adkk8FiLHnVx1Bup@tardis.local>
+References: <20260122202025.GG3183987@ZenIV>
+ <20260404080751.2526990-1-viro@zeniv.linux.org.uk>
+ <53b4795292d1df2fe1569fc724325ab52fcab322.camel@kernel.org>
+ <20260409190213.GQ3836593@ZenIV>
+ <41cfd0f95b7fde411c0d59463dce979be89cb8ef.camel@kernel.org>
+ <20260409215733.GS3836593@ZenIV>
+ <20260410084839.GA1310153@ZenIV>
+ <CAHk-=wjRgHLvSnEY3P45hSQ0ycKxdz-xqnccAMPuGRrwsvWdig@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -43,105 +96,92 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <549999df-d6eb-43a0-840c-43310de667ca@bsbernd.com>
+In-Reply-To: <CAHk-=wjRgHLvSnEY3P45hSQ0ycKxdz-xqnccAMPuGRrwsvWdig@mail.gmail.com>
 
-On Fri, Apr 10, 2026 at 02:24:28PM +0200, Bernd Schubert wrote:
-> Hi Darrick,
+On Fri, Apr 10, 2026 at 08:25:27AM -0700, Linus Torvalds wrote:
+> [ Adding RCU maintainers to the participants: see
 > 
-> On 4/10/26 00:24, Darrick J. Wong wrote:
-> > Hi Bernd,
-> > 
-> > Please pull this branch with changes for libfuse.
-> > 
-> > As usual, I did a test-merge with the main upstream branch as of a few
-> > minutes ago, and didn't see any conflicts.  Please let me know if you
-> > encounter any problems.
+>   https://lore.kernel.org/all/20260410084839.GA1310153@ZenIV/
 > 
-> I had already merged another patch beginning of this week that
-> introduced a new merge conflict in
-> .github/workflows/install-ubuntu-dependencies.sh
+>  and the fairly long thread associated with it  for context ]
 > 
-> I resolved it myself now.
+> On Fri, 10 Apr 2026 at 01:44, Al Viro <viro@zeniv.linux.org.uk> wrote:
+> >
+> > [this may or may not be the source of UAFs caught by Jeff and by Helge]
 > 
-> > 
-> > --D
-> > 
-> > The following changes since commit 3bb9cd99b3688df1bb7536de158ed9e532b277fb:
-> > 
-> > Add the codechecker/cppcheck github action (2026-04-07 10:08:49 +0200)
-> > 
-> > are available in the Git repository at:
-> > 
-> > https://git.kernel.org/pub/scm/linux/kernel/git/djwong/libfuse.git tags/fuse-service-container_2026-04-09
-> > 
-> > for you to fetch changes up to 0db39a8f8844ff88496ed36da417554cb4f3751d:
-> > 
-> > nullfs: support fuse systemd service mode (2026-04-09 12:31:08 -0700)
+> Hmm.
 > 
-> I had quite a busy last weekend, because I got libfuse security reports.
-> In ordert to avoid lots of reports, I just added support for CodeChecker
-> + cppcheck and CodeChecker+gcc checker. Clang CTU is is prepared, but I
-> need to let AI work over the weekend to fixes for these (obviously will
-> need manual editing, as last weekend).
-> In the end not too bad and I don't think and urgent need for a new
-> release. Although I should probably make a new 3.18.3 version soon.
+> I think this patch may indeed fix the problem, and I don't mind how it looks.
 > 
-> That also made me to add new checks. I actually already that github
-> codeql checker in place, but only realized last weekend that it didn't
-> generate any reports. On your PR that gives
+> But while I think the patch looks fine, I am still quite unhappy about
+> it if it matters - because we have very much documented that spinlocks
+> in themselves are also RCU read locks:
 > 
-> New alerts in code changed by this pull request
+>         Note that anything that disables bottom halves, preemption,
+>         or interrupts also enters an RCU read-side critical section.
+>         Acquiring a spinlock also enters an RCU read-side critical
+>         sections, even for spinlocks that do not disable preemption,
+>         as is the case in kernels built with CONFIG_PREEMPT_RT=y.
+>         Sleeplocks do *not* enter RCU read-side critical sections.
 > 
-> Security Alerts:
+> so *if* this makes a difference, I think it's actually implying that
+> there's something wrong with our "rcu_read_unlock()" implementation,
+> and that it doesn't nest properly.
 > 
->     4 critical
->     3 high
+> Because our documentation also makes it very clear that this should
+> all work as-is, and your patch should be a complete no-op. Just a few
+> lines later in that core RCU doc, we have
 > 
-> Other Alerts:
+>         Note that RCU read-side critical sections may be nested and/or
+>         overlapping.
 > 
->     4 warnings
->     10 notes
+> so the order of the spin_unlock() and the rcu_read_unlock() *should*
+> be entirely immaterial, and the order of unlocking simply shouldn't
+> matter.
 > 
-> 
-> Some of these, like "This switch statement should either handle more
-> cases, or be rewritten as an if statement." can be suppressed. With some
-> I probably agree
-> 
-> 
-> 	cmd = malloc(iov.iov_len);
-> 	if (!cmd) {
-> 		int error = errno;
-> Note
-> Declaration hides parameter
-> Local variable 'error' hides a parameter of the same name.
-> CodeQL
 
-Oh yikes yes.  I probably ought to have added the same "turn the gcc
-warnings up real high" patch to my branch that I use for xfs stuff.
+I agree. So there could be a lock/RCU bug here ;-)
 
-(Huh.  No warnings.  Well, that's good at least.)
-
-> The new CodeChecker (gcc,cppchechk) actions also complain, the GUI
-> should give the output, but I don't see it yet.
-
-<nod> Any reports you get about my branch, please feel free to lob it at
-me and tell me to fix it :)
-
-I can run cppcheck locally, so I'll try to fix all the warnings that
-your copy is throwing out, and send you an updated pr.
-
-> My plan for the weekend is to address your comments in my series and
-> then to merge it. If still some time left, I would like to fix all the
-> reports in your series and merge that as well.
-> Then maybe next week to combine some mount code dup that comes from both
-> series.
+> So it may indeed be that relying on the ordering of RCU read unlock
+> matters for the case of explicit unlocks and the implicit unlocks by a
+> spinlock, but that's not great.
 > 
-> Ok with you?
-
-Yes, that sounds good.  Let me know if you want any help. :)
-
---D
-
+> Does the rcu_read_unlock() code perhaps only check the RCU count, not
+> the atomicity count? That would explain it, and looking at
+> __rcu_read_unlock() in kernel/rcu/tree_plugin.h that may indeed be the
+> case (rcu_preempt_read_exit() seems to only check
+> rcu_read_lock_nesting).
 > 
-> Thanks,
-> Bernd
+
+Notice in rcu_read_unlock_special(), atomicity/preemption count is
+checked in two ways:
+
+a) if it's called with preemption count being 0, then good a quiescent
+  state will be reported to unblock the RCU grace period.
+
+b) if it's called with preemption disabled, there are two cases:
+
+  1. use_softirq is true and either we are in an hard irq or we need an
+     expedited GP, RCU softirq will raised, but in it, rcu_core() will
+     guard the rcu_preempt_deferred_qs() with preempt count checking.
+  2. otherwise, RCU will just rely on __schedule() to call
+     rcu_note_context_switch() to report a QS, hence the preempt count
+     is also respected.
+
+@Jeff, just want to confirm, this UAF can be reproduced without
+PREEMPT_RT=y, right?
+
+Regards,
+Boqun
+
+> This is most likely dependent on kernel config options, and it may all
+> be unavoidable becasue RCU might not even have a way to tell that it's
+> still in a critical region without preemption counts etc.
+> 
+> But if it's unavoidable, we need to update the docs about this gotcha,
+> and we need to have some tooling scan our existing code for this
+> documentation change.
+> 
+> RCU people - what do you think?
+> 
+>           Linus
