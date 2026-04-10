@@ -1,170 +1,350 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A03BA150997
-	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 19:32:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775849568; cv=none; b=PddvXU/6442JQ71Jj9K62YsYEqsObYlngWAWzKf5Bo9YMOmDI8gcGr0cu03HamCt/nVu7C1xgn0aGBSdc2yQtq4dPB0QBE8gR/TBN1LXSnXmwdU27qGfwSPKHBHyzA8hMc6GRgQS/CcplgGcLfCBaxTylt4kh4qPD/0TlrmJm38=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775849568; c=relaxed/simple;
-	bh=ayoCoR8M+zW4B7baMd77vvz+ZmjAp41wnjLL6vdYSXk=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=A5OEik4CfzBDLaD591vaFllfZQPyR7/VyNqAZtfsfgTUx0Ev8V3w0n8/p2Q9vwZsWIGX0+Q8XRG8RwYLh0sfvc4izHnJy8OcBOVHOotZmVYYsA5zJAEI9xpO7eMqZnnQqUlqWZwECOFg2l02SYGGS8PF4Bj/E+GvjoPSjG90C3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fi5yFlxG; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5541369970
+	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 19:44:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775850293; cv=pass; b=P3POm9RhtQy+irw479aVbZNiFdCd4Pn4eHMrfYBvIaFefanPXu6OGEp1CpwyXcZTrq6BrLXiTnAYr2WpT26F5Bet9vs/cnbHOJISi1joW1FqiOPMsgrEAedYgvSrYhp8oXXK4H0dlsT8jPylikcLQxofjMknwX5o49U6QgbtPjM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775850293; c=relaxed/simple;
+	bh=FNAI03nk/4gAmnUEUdqnX++d1yEbPhddX0iMENhQHCo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Bh2deeMCSCNPKFhk6hftSRaqSZ+XQYhXrZfuMiUVxhiJhrEZZidZFmECr4hTRWoa2z3lA9uQjP330+iFhndE6/WnsLM1besxZAiYc3NaQWj53mmzBm05KUcgLc5bGo/vBLW+z75CGTWnTCJ+RUbRc9N0iFP2K64lC56B5LNTS2Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IGM7thAY; arc=pass smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fi5yFlxG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3C73C19421;
-	Fri, 10 Apr 2026 19:32:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775849568;
-	bh=ayoCoR8M+zW4B7baMd77vvz+ZmjAp41wnjLL6vdYSXk=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=fi5yFlxGQS3hh5j2BR6Vu1PL9mI+HKbj3GW3+UytveGCaiZhdTXvMGNEIzN1rZmtV
-	 K0cRv0xytZYwyGcikDM9lDytEKZ7klSttEZPzoB1zDcUQ8Ba2tNcKtzURYi7qNyYMH
-	 FeAQ+VtnsV5Ki5C5Hk4HE6F5bW79hIrCH850Y2Zi9/RRxh13+TKjOhCzt0R5ZVUTj9
-	 RAytwVmfvbqfevGHW+khqIPrnx8gcNjyU9qGc0dBF7D7SFRca1qievk7rnagQm1ZyR
-	 vtqUH74C+w7PStb3SwSa1JK2DxOjES5XzWa/1TgqEeAAi8hMEeX/ExI8euKN89vHtk
-	 0SS3m8/4GeI+Q==
-Message-ID: <30ac5108ada614560326636d4da353d6304c3f91.camel@kernel.org>
-Subject: Re: [RFC][PATCH] make sure that lock_for_kill() callers drop the
- locks in safe order
-From: Jeff Layton <jlayton@kernel.org>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Boqun Feng	
- <boqun@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>, Frederic
- Weisbecker <frederic@kernel.org>, Neeraj Upadhyay
- <neeraj.upadhyay@kernel.org>, Joel Fernandes	 <joelagnelf@nvidia.com>, Josh
- Triplett <josh@joshtriplett.org>, Uladzislau Rezki <urezki@gmail.com>,
- linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>,  Jan
- Kara <jack@suse.cz>, Nikolay Borisov <nik.borisov@suse.com>, Max Kellermann
-	 <max.kellermann@ionos.com>, Eric Sandeen <sandeen@redhat.com>, Paulo
- Alcantara	 <pc@manguebit.org>
-Date: Fri, 10 Apr 2026 15:32:44 -0400
-In-Reply-To: <20260410191907.GV3836593@ZenIV>
-References: <20260404080751.2526990-1-viro@zeniv.linux.org.uk>
-	 <53b4795292d1df2fe1569fc724325ab52fcab322.camel@kernel.org>
-	 <20260409190213.GQ3836593@ZenIV>
-	 <41cfd0f95b7fde411c0d59463dce979be89cb8ef.camel@kernel.org>
-	 <20260409215733.GS3836593@ZenIV> <20260410084839.GA1310153@ZenIV>
-	 <CAHk-=wjRgHLvSnEY3P45hSQ0ycKxdz-xqnccAMPuGRrwsvWdig@mail.gmail.com>
-	 <adkk8FiLHnVx1Bup@tardis.local>
-	 <CAHk-=wjuOm+AGHtjF15Zx8cxJwYwbzJgi28EQ6KW=Ze-4YjN+g@mail.gmail.com>
-	 <4305138de599923591df7403aefc4d663f50324a.camel@kernel.org>
-	 <20260410191907.GV3836593@ZenIV>
-Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
- keydata=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
- QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IGM7thAY"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-43d03db7f87so1560633f8f.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 12:44:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775850288; cv=none;
+        d=google.com; s=arc-20240605;
+        b=bAXrnf7KzxFd1uH+KkMaREROsrZ/klLpdnZqY3mFmrh/Z+8PHlQNOVRtldOTPp5y7P
+         8qHBN3+0qzIoVkPkMvWOUPx7SzAEqYQdLuk5ccqCwHJV9ORTAd66nZUkCRK4bejRE775
+         ZXD8M1X+zv+Xjl/x+eznrNywjletQEI9hjVcaiToCJHZTIAK2nPs0+RG+0mLVYEAX7Bf
+         RuxNoiGg+MSb31rU3LJXIpVYMGYCWYZAEo3jmp0gFnQ7SSR08plGL8yUt0ocYo3Ke1Uq
+         +554rjsTcjNn4v25wCCWZ22Y514m1PAZIj+rWMgcuhgV4Ad1slZ4PNv3jy9R2Gmc1RE/
+         Y4QQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=YA+Vo+BLpjEum5uJOjv2yu6kV+TyvNZtWpStQlX6OBg=;
+        fh=Aco0Kvw3+5C/BIpNfonPHylbcHS74h3Btbl2zrz0wuo=;
+        b=JV6BNiWi8VA98m27TytRfbGGKW/24T0UUfcf8LJeDPvz0N20PVhxxceT53vNjOnOXc
+         zcHt4Lo/ij0pkW3sZr3O3rFbNWM7a7wm8q0++dm9ugN/ilpA07WIw4xMgoasb6o1cVrE
+         K0PQKGJ3E2U24ZnS6BoKW/MU/774LWgPTuliTRVafxQ5JgBysiWSinEYHQ76wAvZzjDK
+         3jTCcpPpM2C9bhGxmSdkQCcgeYKxU9n1DuEmSLYuy3m2x8yAWe6LCN1BXUf8I5U2QFWm
+         +msb25/Z2gdP3qgBbZ2qd7YZYNfTVQB189bPBpCq0tUv0oueuZ3se3nfTAJ/YVzdX7Ne
+         o7nw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775850288; x=1776455088; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YA+Vo+BLpjEum5uJOjv2yu6kV+TyvNZtWpStQlX6OBg=;
+        b=IGM7thAYfdRhj4Pq6JU+8m+V+TrV33GG5sFc0V+EAeogsYPFNVqMx00I0Rhqu3hVr9
+         lYa0Ga6OXtGvZAlm8+bTb7M41DqTB/2j91xEYJpfnME4YW4Srv4RCmOy/5OBGLqxk8f0
+         xed/juwTax4J/5a7Q8ptMy3Gf5lVohTuX4WqEzMqG3rJekfaVzB6QKvn2BX0j7Wu/QEX
+         Kru7xHsfZKDvTqH1nk8h1J/y/2wHBSOHSuWT57l/sBagL/XAs0J6S8VQVd/vVnVr3Vke
+         wo38dG+FCrkoKNlvRr7tIkcO3uqKewcGVQA0QsvgQYASZzwj13K8buOsXYnQNKG5G57o
+         pUJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775850288; x=1776455088;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=YA+Vo+BLpjEum5uJOjv2yu6kV+TyvNZtWpStQlX6OBg=;
+        b=aZEr+eCLZcF3lHfGDcxvl21POuwzjpv5s2PKMO469ci1QSC3nIpnjKJ4wA5+Y0KD3r
+         hpfPkw2w1EgdR+xI4ccHFjOLozSWiMEjHgg4rV2hRD4vVWgnDEgJueevB+xN41zGNn5q
+         szunNYP37HrndwZVuh6G75iWICF+GY8ud8ySIQ0T6uYuEIGx05q8/6OPTAAumfko4+XW
+         6lYxo5LlC2V9xb4zrmT3bV9JKd4/BIViPcKPTx2HKosssdV9hPIr/p5qDy4tTra/8etK
+         m+oRogHzTkLpi9LwfW4Hj5ItqI2RXS6/+WxCAP+1GufzrtiN4ZXYHT9L+vsUrv6t9YX6
+         Rh3w==
+X-Forwarded-Encrypted: i=1; AJvYcCWvzP4Ea7RCyGOGHAcrW2+axIQfKSJxBtjgihQ1KiP9yJ1LWR+M+vFjD29/xkGdAARrVXcZYJHnydq2BnIS@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzai1NfRnlZ1vuGtjy5Smh5lstyzjhOQdK64IsPhSrCjUe9WZv6
+	UDEKPOFCj7Y+Wl/dtvv4Q1wqih6QYtcggMSHdEXBX+H9r83+cHPGY99ZS+qrgF1qXLvj9mp8Olz
+	4sIGGFfv/el8+Nlmo6JwnvYUCdUv/fwc=
+X-Gm-Gg: AeBDieth0ioK26GZ5aU7R5zPcyItkwvxStCLtrydM7CYtUfL9EDC+Ua7mDKDSMSlGZz
+	P+IKN4OR1gch8PnmZs2BeFCe+sQGmcdx0JqkXPjl6bFB9kjh431CaFvUY2LGK7hNsEt7D0WVCwB
+	ZMuTCQyt8YmaRCZeuUAEBevPDAMzZBf+G2tNlIHqwxSuLCtD3l9tf8SXbG6w6YI2juFdeKczLu9
+	cPmVniXx9QP4q2mZyaOUmpSaTaHiSad6gbUmjrvGz0KnRjeUUD/zNiop5zBeE2ub9ln2GFoF5k3
+	hR0wSQ==
+X-Received: by 2002:a05:6000:26cf:b0:439:b440:b8a2 with SMTP id
+ ffacd0b85a97d-43d642b6b7fmr6878443f8f.28.1775850288128; Fri, 10 Apr 2026
+ 12:44:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20260331123702.35052-1-john@jagalactic.com> <0100019d43e5f632-f5862a3e-361c-4b54-a9a6-96c242a8f17a-000000@email.amazonses.com>
+ <CAJnrk1ZRTGWjNzkMxS3UkeZMmrpadJDtWKontMx2=d-smXYq=w@mail.gmail.com>
+ <adkDq0m5Wt9YhJ8A@groves.net> <38744253-efa3-41c5-a491-b177a4a4c835@bsbernd.com>
+ <adlBcwJjLOQDAR65@groves.net>
+In-Reply-To: <adlBcwJjLOQDAR65@groves.net>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Fri, 10 Apr 2026 12:44:35 -0700
+X-Gm-Features: AQROBzARHDFbLCramX7y6XHbmzYw4l9YPeopkOWAW_WNkYoeqE-JB9tvnAmSS9c
+Message-ID: <CAJnrk1a06zkUmXW5EFiUmgAoFauwtzsYvnotaPH0ifVtyh7iDQ@mail.gmail.com>
+Subject: Re: [PATCH V10 00/10] famfs: port into fuse
+To: John Groves <John@groves.net>
+Cc: Bernd Schubert <bernd@bsbernd.com>, John Groves <john@jagalactic.com>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Dan Williams <dan.j.williams@intel.com>, 
+	Bernd Schubert <bschubert@ddn.com>, Alison Schofield <alison.schofield@intel.com>, 
+	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
+	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+	Stefan Hajnoczi <shajnocz@redhat.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, djbw@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2026-04-10 at 20:19 +0100, Al Viro wrote:
-> On Fri, Apr 10, 2026 at 02:21:39PM -0400, Jeff Layton wrote:
->=20
-> > I've not been able to reproduce the UAF at all.
-> >=20
-> > It was possible to reproduce the hang that we were seeing by injecting
-> > an mdelay() just after the cond_resched() in __dentry_kill(), but Al's
-> > other series seems to have fixed that.
->=20
-> Elimination of busy-wait is likely to hide whatever's going on, so it
-> shouldn't be there when hunting for reproducer.
->=20
+On Fri, Apr 10, 2026 at 11:38=E2=80=AFAM John Groves <John@groves.net> wrot=
+e:
+>
+> On 26/04/10 05:24PM, Bernd Schubert wrote:
+> >
+> >
+> > On 4/10/26 16:46, John Groves wrote:
+> > > On 26/04/06 10:43AM, Joanne Koong wrote:
+> > >> On Tue, Mar 31, 2026 at 5:37=E2=80=AFAM John Groves <john@jagalactic=
+.com> wrote:
+> > >>>
+> > >>> From: John Groves <john@groves.net>
+> > >>>
+> > >>> NOTE: this series depends on the famfs dax series in Ira's for-7.1/=
+dax-famfs
+> > >>> branch [0]
+> > >>>
+> > >>> Description:
+> > >>>
+> > >>> This patch series introduces famfs into the fuse file system framew=
+ork.
+> > >>> Famfs depends on the bundled dax patch set.
+> > >>>
+> > >>> The famfs user space code can be found at [1].
+> > >>>
+> > >>> John Groves (10):
+> > >>>   famfs_fuse: Update macro s/FUSE_IS_DAX/FUSE_IS_VIRTIO_DAX/
+> > >>>   famfs_fuse: Basic fuse kernel ABI enablement for famfs
+> > >>>   famfs_fuse: Plumb the GET_FMAP message/response
+> > >>>   famfs_fuse: Create files with famfs fmaps
+> > >>>   famfs_fuse: GET_DAXDEV message and daxdev_table
+> > >>>   famfs_fuse: Plumb dax iomap and fuse read/write/mmap
+> > >>>   famfs_fuse: Add holder_operations for dax notify_failure()
+> > >>>   famfs_fuse: Add DAX address_space_operations with noop_dirty_foli=
+o
+> > >>>   famfs_fuse: Add famfs fmap metadata documentation
+> > >>>   famfs_fuse: Add documentation
+> > >>>
+> > >>>  Documentation/filesystems/famfs.rst |  142 ++++
+> > >>>  Documentation/filesystems/index.rst |    1 +
+> > >>>  MAINTAINERS                         |   10 +
+> > >>>  fs/fuse/Kconfig                     |   13 +
+> > >>>  fs/fuse/Makefile                    |    1 +
+> > >>>  fs/fuse/dir.c                       |    2 +-
+> > >>>  fs/fuse/famfs.c                     | 1180 +++++++++++++++++++++++=
+++++
+> > >>>  fs/fuse/famfs_kfmap.h               |  167 ++++
+> > >>>  fs/fuse/file.c                      |   45 +-
+> > >>>  fs/fuse/fuse_i.h                    |  116 ++-
+> > >>>  fs/fuse/inode.c                     |   35 +-
+> > >>>  fs/fuse/iomode.c                    |    2 +-
+> > >>>  fs/namei.c                          |    1 +
+> > >>>  include/uapi/linux/fuse.h           |   88 ++
+> > >>>  14 files changed, 1790 insertions(+), 13 deletions(-)
+> > >>>  create mode 100644 Documentation/filesystems/famfs.rst
+> > >>>  create mode 100644 fs/fuse/famfs.c
+> > >>>  create mode 100644 fs/fuse/famfs_kfmap.h
+> > >>>
+> > >>>
+> > >>> base-commit: 2ae624d5a555d47a735fb3f4d850402859a4db77
+> > >>> --
+> > >>> 2.53.0
+> > >>>
+> > >>
+> > >> Hi John,
+> > >>
+> > >> I=E2=80=99m curious to hear your thoughts on whether you think it ma=
+kes sense
+> > >> for the famfs-specific logic in this series to be moved to a bpf
+> > >> program that goes through a generic fuse iomap dax layer.
+> > >>
+> > >> Based on [1], this gives feature-parity with the famfs logic in this
+> > >> series. In my opinion, having famfs go through a generic fuse iomap
+> > >> dax layer makes the fuse kernel code more extensible for future
+> > >> servers that will also want to use dax iomap, and keeps the fuse cod=
+e
+> > >> cleaner by not having famfs-specific logic hardcoded in and having t=
+o
+> > >> introduce new fuse uapis for something famfs-specific. In my
+> > >> understanding of it, fuse is meant to be generic and it feels like
+> > >> adding server-specific logic goes against that design philosophy and
+> > >> sets a precedent for other servers wanting similar special-casing in
+> > >> the future. I'd like to explore whether the bpf and generic fuse iom=
+ap
+> > >> dax layer approach can preserve that philosophy while still giving
+> > >> famfs the flexibility it needs.
+> > >>
+> > >> I think moving the famfs logic to bpf benefits famfs as well:
+> > >> - Instead of needing to issue a FUSE_GET_FMAP request after a file i=
+s
+> > >> opened, the server can directly populate the metadata map from
+> > >> userspace with the mapping info when it processes the FUSE_OPEN
+> > >> request, which gets rid of the roundtrip cost
+> > >> - The server can dynamically update the metadata / bpf maps during
+> > >> runtime from userspace if any mapping info needs to change
+> > >> - Future code changes / updates for famfs are all server-side and ca=
+n
+> > >> be deployed immediately instead of needing to go through the upstrea=
+m
+> > >> kernel mailing list process
+> > >> - Famfs updates / new releases can ship independently of kernel rele=
+ases
+> > >>
+> > >> I'd appreciate the chance to discuss tradeoffs or if you'd rather
+> > >> discuss this at the fuse BoF at lsf, that sounds great too.
+> > >>
+> > >> Thanks,
+> > >> Joanne
+> > >>
+> > >
+> > > Hi Joanne,
+> > >
+> > > I'm definitely up for discussing it, and talking before LSFMM would b=
+e
+> > > good because then I'd have some time to think about before we discuss
+> > > at LSFMM.
+> > >
+> > > I have not had a chance to really study this, in part since I've neve=
+r even
+> > > written a "hello world" BPF program.
+> > >
+> > > I'll ping off-list about times to talk.
+> > >
+> > > However...
+> > >
+> > > I would object vehemently to this sort of re-write prior to going ups=
+tream,
+> > > as would users and vendors who need famfs now that the memory product=
+s it
+> > > enables have started to ship.
+> > >
+> > > This work started over 3 years ago, initial patches over 2 years ago,
+> > > community decision that it should go into fuse 2 years ago, first fus=
+e
+> > > patches a year ago.
+> > >
+> > > This implementation is pretty much exactly in line with expectation-s=
+etting
+> > > starting two years ago. Famfs is a complicated orchestration between =
+dax,
+> > > fuse, ndctl (for daxctl), libfuse and the extensive famfs user space.=
+ Famfs
+> > > has a fairly small kernel footprint, but its user space is much large=
+r.
+> > > This could set it back a year if we re-write now.
 
-This was before that. I know Gustavo also tried to reproduce it and he
-was able to hit the hang but no UAF.
 
-> > The UAF seems to be dependent on those hangs somehow, but we were never
-> > able to get one to fire from a reproducer attempt. They just
-> > occasionally pop up when these stalls occur.
->=20
-> Not even with mdelay() stuck in there?  FWIW, another UAF report in the
-> same general area is parisc buildd running into that when building
-> a specific package (webkit2gtk); Debian kernels 6.16..6.19 (at least),
-> no idea which config it is...
+Hi John,
 
-Yep, not even with that. One thing that claude pointed out: doing an
-mdelay() might prevent it from making any progress freeing dentries.
-I'm experimenting now with one that only randomly does a delay, but so
-far that hasn't turned up anything. I'll let you know if that changes.
+Thanks for your email. I totally understand where you're coming from -
+having already spent a year reworking your initial patches to go
+through fuse, the last thing needed is another change. Bernd brought
+up the question of whether after merging this series in, it could then
+be converted to bpf. If this is an option on the table, I'd say we
+should just merge your series now and do any conversions later, but I
+don't think this is possible. As I understand it, the policy is that
+all kernel releases must be backwards-compatible, which means once
+this series lands, the famfs code will live within fuse permanently.
 
---=20
-Jeff Layton <jlayton@kernel.org>
+I definitely do not want to see famfs set back by yet another year.
+With the bpf approach, I don't think it requires another rewrite. I'm
+not sure if you had the chance to look at my email from February [1],
+but it contains the prototype code for the generic fuse iomap dax
+layer with your famfs logic in this series moved to bpf. I think it's
+pretty technically straightforward as it uses the famfs code logic
+you've already written in this series and just moves it to bpf.
+
+Overall, my intention with bringing this up is just to make sure we're
+at least aware of this alternative before anything is merged and
+permanent. If Miklos and you think we should land this series, then
+I'm on board with that.
+
+Thanks,
+Joanne
+
+[1] https://lore.kernel.org/linux-fsdevel/CAJnrk1YMqDKA5gDZasrxGjJtfdbhmjxX=
+5uhUv=3DOSPyA=3DG5EE+Q@mail.gmail.com/
+
+> > >
+> > > Two things are true at once: I think this is a serious idea worth
+> > > considering, and I think it's too late to make this sort of change be=
+fore
+> > > going upstream. Products need this enablement, and quite a long proce=
+ss has
+> > > run in order to make it available in a timely fashion (which means so=
+on
+> > > now). I hope we can avoid making the perfect the enemy of the good.
+> > >
+> > > I believe the risk of merging famfs soon is quite low, because famfs =
+will
+> > > not affect anybody who doesn't use it. I hope we can run this discuss=
+ion and
+> > > analysis in parallel with merging the current implementation of famfs=
+ soon.
+> >
+> >
+> > Hi John,
+> >
+> > one question, assuming most of these things can be done with eBPF, woul=
+d
+> > you convert to eBPF after the merge?
+>
+> Hi Bernd,
+>
+> Stipulating that I've never even written 'hello world' with BPF, if it's
+> a nicer solution with no downsides we would migrate there. I don't know
+> enough yet to put a time frame on it, but I'll certainly understand more
+> by LSFMM. Will you be there?
+>
+> I'm hoping for a call with Joanne and Darrick in the next few days to get
+> better educated on it.
+>
+> >
+> > (I also need to find the time to review at least all of your libfuse
+> > changes, I feel guilty that still haven't done it.).
+> >
+> >
+> > Thanks,
+> > Bernd
+>
+> The libfuse changes are pretty small now. Two new messages - GET_FMAP and
+> GET_DAXDEV - plus a few more bits and bobs. If a future BPF migration too=
+k
+> place, there is a chance that those message numbers could be retired and
+> reused in the future.
+>
+> Watch this space...
+>
+> Thanks,
+> John
+>
