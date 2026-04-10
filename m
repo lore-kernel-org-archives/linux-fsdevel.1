@@ -1,104 +1,85 @@
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B034F3002B9
-	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 10:57:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.174
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775818650; cv=pass; b=avqEv+DffrzC3lxd2PFOc/8lxAy5O1M791XyGYPw/o3YqdAa5Zjljefua+OpX17UDJI7vzzHMsboBDABnMVJ58ZS6m67HC3sayBARQI7we6Yj+oJfjC4Q9bGlBrQsdR3Hn3BmhUs3He+oYwKGRO1L+EdpTb0grSlKaYpEErP5qU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775818650; c=relaxed/simple;
-	bh=H7mv/ZG9KZSTQ3A8DZwP03i4ew9OTFpKK7oiylr4fFM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lN2C6SY4DH1lCTjg9UXgpI3ewaPvH/krVULtWqjT7QeqcGGC2eF66IOsxjz4j0ce1uN8T43jKve5YxKwnlRGpIu2tv1JZDeFW5hS6+JmxD4Wz5nFwOUsFnEwqNlwDSifOIaj5OnkxpTNjJgKFaJ8uULZAW2fEx72+aiaXkDICv4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=jxqonK3I; arc=pass smtp.client-ip=209.85.160.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF89838F920
+	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 11:03:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775818999; cv=none; b=HNN3OxBmp+Ymy0J9wZn9rBNjnSfEy/c5x+2aohbWCcoVhYmSvy/wmrdf0a/RLBfJn1Cdx4keksmMRIBgr5CS8UtFfFSmevvUywLf5r6XGdlntVZdW9VuiHoiBofrxfd4BYGbk57mxQc8Rdc3ePI3kQqMMNTY0T3+FiLeY+R2aaw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775818999; c=relaxed/simple;
+	bh=wEhZRWB2QYR9aCfpJcHsbkBH8H7Via0tqcyJM/CTihg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bvC15tRw1Mx7+zZzyGuNWN/ZoTGXeWyaqIVi+iCIneA6o0L+2U1aye1ShW6z7aB0cTJOLIYtMLNvO7yx9oplepmHmUljX+jWT6l4b0qP3jK32X9Qe2EtyghW7D4vyfAUjOIJYUPR+bWX16QtwoKa7TuMOFUMJZhgAyUydbVx6cw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=iJoGufjQ; arc=none smtp.client-ip=95.215.58.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="jxqonK3I"
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-50baafd6c4aso19630801cf.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 03:57:28 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775818647; cv=none;
-        d=google.com; s=arc-20240605;
-        b=YS0O6AXyMeVaJved8HRxj60ip3yKAjBTd5276TpleMoZevNgV2FPY36N21521UP9zo
-         b92wQ4J269yAcG8H/EMyivCwX/2cjrQFRnFeV/6hKkJa9i6rUY/Oy4oEBD83NkWS08SB
-         hw+sS0zzX7NJ1Y4TKqm0PVS/flCNWa0wgaBER5AX+9/QO/Bgr1WHMteRCeTHfkm2h3N0
-         h/D+4Pw8Ch2VyEjsS+W5ZAS/jx1+Gq8z6JavGxlNytaUEo/6GoM2UUr+ZU4DN4c4wEwU
-         ZFUrNofE72D/pXUMIUbadfgDneRHItqicf+La5oobMtQjnRIYaawdBrXwgvPfUfrQJfp
-         VOQg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=H7mv/ZG9KZSTQ3A8DZwP03i4ew9OTFpKK7oiylr4fFM=;
-        fh=nZH57Aq/6mjKrWZhZxJE20vTSOFKHiS9GAa7XTqNdUY=;
-        b=TXrN7TM/7ScRr04PZ6kn4JAqBrD+5lD6kC0sOrdNOfu55yF2LpfxZmU9lzDo/6+E6A
-         n9qNl/VrdtJ44uhz17VUciMgcRjLZH/c2SnK7BEXNG2EWDsCWbjIJOWy1ehHdBBh8mdA
-         EOrI35bkkH4q46PyX2mk3GmO5EMaKft5pnI01lDxMOWdDUxRvcqMn5cMIZYeyK956Itr
-         Nb1WKGiByDVNId0b2Ej7HoOWEYY5/T5m7lGM8bdZObZV2sCytIMdgsB/PrEEadoFkl0L
-         BczKZIxUSrgyEqZUydK7eIXyBYGXtI9UuUPoCYIQfFdyQTtXROYT782ohDRALhLhC0bu
-         R/EQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1775818647; x=1776423447; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=H7mv/ZG9KZSTQ3A8DZwP03i4ew9OTFpKK7oiylr4fFM=;
-        b=jxqonK3IPpj4OdJs2Q015PcqpZdBcZwTuAxNjeihTvkoova7otxZxhOb6xHKppw3SO
-         JNXePcwZygHv7n5b310vnQ5fv2LgoWeTYfssSITxHXFWPXI7u2WP/ijkpqxyGtTBUegA
-         pUjD9wTGZHVcLBhMSBRyKNL8yoNj/ph6YoBtw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775818647; x=1776423447;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=H7mv/ZG9KZSTQ3A8DZwP03i4ew9OTFpKK7oiylr4fFM=;
-        b=eApuBg6yeAukJ5h9J6JY32zKv0v6ecb3PAkb8kpLdZrOke9bZy0Y1d+iXhEylhJWS4
-         hdh3Vu0zLWrDmOn/zBC7dIphuLi4ljcSgeRAoNJUJM6QEAPx4URn21stym4T3qG4PBpD
-         w/v1x/iWYtGl5YhqdW9KNz809vH6EVXxZx3Zc97Qr7GX92Cwrb1PfoAc8mXczpRwcGP8
-         tS2HMLDvLkbP0HS6RfhTLiTGJOKjsxXXCtPP5G4d6B0D2/GZXH8F8bt03hYd9nKrcpBl
-         sWXtUg7UnGYpEK/QeY3q8IzPJQozHxsf8Ko4a3Eh9UY6g/LVElhoxA9FpzIempIjA/e9
-         2lOg==
-X-Forwarded-Encrypted: i=1; AJvYcCUJc4WScy5uttJV+EG5OhQCgdJVtHvRJY7II5CUIJotDXPu4jmQ5bo1yP1gQf74o1NSmYAKkwtsLUhKLLgg@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz9TUGm041Dy1MdQMcFyGLHgt2RbVOCI/D0u67WB/z1NN62pGQG
-	I3R60GZsRpdXu39LIC3vF6HFCMXl9NqWVaeHBrSP7Ew6sb9ZSG4oX3cq08JdCMF5lM8M1cCjAKj
-	+ByoxFUQFek1yKv0SOXU/wzCI1d/6PDkdDLc8xjrRSg==
-X-Gm-Gg: AeBDieuY9ZzKb3RmYFR2MiXa6R6/5rlKcLzfDZPbrQ0BUR4YADDF8gosW4Iu9+i49Ph
-	YzrpF+Z+Q+FpQ1LtPabIq49m7xN0ajJlsWbAa3Bs56W36cjNWBUsqJDK3QzDwfYnu8Hvjz6mlqe
-	4C6bzUXSlJ3A3usaUsJaENKMOW9brIAwneB4JLXrjztu24Tlvrg6P95/c5iL2hdTIMBiximH24K
-	qWZGFTEw2fJ+hDRTslUCPMjeRfKJu5FyDsMiaLscsjhII5t90e1h6EfCo5wTsOnq4f3HrxX1KnO
-	qRCh4VVgk7wQzBFSziPndUxvyYQK5IxWdHDOLOgwSg==
-X-Received: by 2002:a05:622a:148a:b0:50d:6a40:692a with SMTP id
- d75a77b69052e-50dd5b72c30mr45047911cf.18.1775818647473; Fri, 10 Apr 2026
- 03:57:27 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="iJoGufjQ"
+Message-ID: <803a0c15-0a6a-4c00-b6b3-eaae56d5fc15@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1775818995;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8bka1cw1Qi/26a2+Jc2kZb2RQ89wlOuzga7814xjpSI=;
+	b=iJoGufjQVaQA6OgKeg5PcAsyZ8KZg1ybHyCC/iI7k/7xV/aIhUEg2lF1iVeMxXrG9M077+
+	EoC6fgrcjKXP0ZjKnjkT1Yvi28Vfmm6jVAR3ASkUYQ/Z0Ldz7JnJE9po7D5M3BnsWEuBwm
+	p8XAjefEGV13yARmt8akLWTc9caFn4g=
+Date: Fri, 10 Apr 2026 12:03:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAJfpegsxe=QdrGGPVSUWfJunDKvOXoszy6BnaP0MjHpRS7rHHQ@mail.gmail.com>
- <CAOQ4uxgjDYihoPGcVZMZPu6S5OCfAJ4StispKUYj=+6Ay_qtkg@mail.gmail.com>
-In-Reply-To: <CAOQ4uxgjDYihoPGcVZMZPu6S5OCfAJ4StispKUYj=+6Ay_qtkg@mail.gmail.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Fri, 10 Apr 2026 12:57:16 +0200
-X-Gm-Features: AQROBzD5x3SVUCyIj0D-jd6R_PnN_vT8QXHLMsvklazNd4_QpWiNPvjyA_JSWT0
-Message-ID: <CAJfpegsdKww4FQQnyS2K-CLL7ZQiJ5YT9FB_WPd_OAhVCHBKmg@mail.gmail.com>
-Subject: Re: fsnotify_prepare_user_wait() bug?
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v3 0/4] mm: improve large folio readahead and alignment
+ for exec memory
+Content-Language: en-GB
+To: Andrew Morton <akpm@linux-foundation.org>, david@kernel.org,
+ willy@infradead.org, ryan.roberts@arm.com, linux-mm@kvack.org
+Cc: r@hev.cc, jack@suse.cz, ajd@linux.ibm.com, apopple@nvidia.com,
+ baohua@kernel.org, baolin.wang@linux.alibaba.com, brauner@kernel.org,
+ catalin.marinas@arm.com, dev.jain@arm.com, kees@kernel.org,
+ kevin.brodsky@arm.com, lance.yang@linux.dev, Liam.Howlett@oracle.com,
+ linux-arm-kernel@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Lorenzo Stoakes <ljs@kernel.org>,
+ mhocko@suse.com, npache@redhat.com, pasha.tatashin@soleen.com,
+ rmclure@linux.ibm.com, rppt@kernel.org, surenb@google.com,
+ vbabka@kernel.org, Al Viro <viro@zeniv.linux.org.uk>, ziy@nvidia.com,
+ hannes@cmpxchg.org, kas@kernel.org, shakeel.butt@linux.dev,
+ leitao@debian.org, kernel-team@meta.com
+References: <20260402181326.3107102-1-usama.arif@linux.dev>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Usama Arif <usama.arif@linux.dev>
+In-Reply-To: <20260402181326.3107102-1-usama.arif@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Fri, 10 Apr 2026 at 11:46, Amir Goldstein <amir73il@gmail.com> wrote:
 
-> Do you think this will improve the situation in practice for real world cases?
-> I assume that you have observed such cases?
 
-There is a report of stray permission failure near an unrelated group
-removal, which would be explained by this.
+On 02/04/2026 19:08, Usama Arif wrote:
+> v2 -> v3: https://lore.kernel.org/all/20260320140315.979307-1-usama.arif@linux.dev/
+> - Take into account READ_ONLY_THP_FOR_FS for elf alignment by aligning
+>   to HPAGE_PMD_SIZE limited to 2M (Rui)
+> - Reviewed-by tags for patch 1 from Kiryl and Jan
+> - Remove preferred_exec_order() (Jan)
+> - Change ra->order to HPAGE_PMD_ORDER if vma_pages(vma) >= HPAGE_PMD_NR
+>   otherwise use exec_folio_order() with gfp &= ~__GFP_RECLAIM for
+>   do_sync_mmap_readahead().
+> - Change exec_folio_order() to return 2M (cont-pte size) for 64K base
+>   page size for arm64.
+> - remove bprm->file NULL check (Matthew)
+> - Change filp to file (Matthew)
+> - Improve checking of p_vaddr and p_vaddr (Rui and Matthew)
+> 
 
-How about propagating EAGAIN back to fsnotify() which would redo the
-send_to_group() with an updated iter_info?
+Hello!
 
-Thanks,
-Miklos
+Just wanted to check if there was any feedback/review on the latest
+revision? 
+
+Thanks!
+
