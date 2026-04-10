@@ -1,141 +1,96 @@
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2973F3264FF
-	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 06:51:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.172
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775803904; cv=pass; b=B0YtB0w0Wj4yscwOSr8ooDVlfMW/EonlPHw304HkQPvBnpFQQRncYWRXTNuhuXOaWoLLkddWvZwqkMn9nPL+TtGeJl0lb8/UEDaUrxtqnUHnzA3QwM7O5qBXbuf8VxiTaJXj/YWrc22to55iZv40BfJt8btG2KQ+tcq2fEEr3nk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775803904; c=relaxed/simple;
-	bh=S5ecvBhpda9ioV3CZUSK6c06l0wj2C9Zw3R8v4d6gvQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=Nlq1K+W+bhZAPX5pirMjz7nC1NrWv7tVnDn4VhzciAEbTWAU7ZUvCx/tIu0DolAy1cpkzyEl2pc2iYxi8EZu+WEkdlWdTlJHckv0KpJO+tcfqDsupm8hWzk2DfKENnAJkN1+gK7htgZIqtHcR7ZeoOPMN9mxCTcucynI7bIZesg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fOmga7zm; arc=pass smtp.client-ip=209.85.208.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48ED33890EE;
+	Fri, 10 Apr 2026 07:06:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775804774; cv=none; b=ZFdMKDC1b4FateMnZwZno09kGPixh0bEhc0mdXZfxUJdEIbxtKBghlPevDehKSsfFxYr0PzCCjefCpihWMkXJQluuOqKZ9SLqtcemm3Fa2oMYDv5SRhoJdaLe2/mkhwksLFz+YPjnApX0pVQwhh4kaUFnRGlVvfpFo/fYPoDt7o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775804774; c=relaxed/simple;
+	bh=iTEb/pgMc2T+B9SCp6Qn6buK3/n5BaKhcJPU8IEoEhg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WCqxK5eNMtMaBZC00AV8/lcaWjbtbnxkdvOF2LJ61NLvdEcxTf5trkmt7i2QK8VdvqdQ6pynSoUikoFFoAPR7GZhFg7bbDhffCJzNa6K2lpPKdjnvyHAbRLo85Qix+4VEgjhnuRucYHxXFUEo91aFMiMyAFRSIwNuDtM5b37CwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=nsVgIZmV; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fOmga7zm"
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-38de18126e7so18419621fa.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 09 Apr 2026 23:51:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775803901; cv=none;
-        d=google.com; s=arc-20240605;
-        b=bnPTEsEz9dJx33FIMDhLnxAq8UAD1LHNLAgngzfbiYN9CDrg/0tox80UNdO3Y6CeE4
-         L9U41scvPBPRdU7hLriZrbgHjhlKcc8GbTogF8iiE4zasIguhmfJFghQvp0UTqUgP107
-         bda91+SHLUBtGgjxUPLECjIOKCChON4e8MDSVaJuWSm5eTdOa8LEu0XNOZ9ea2MBJ7wY
-         uKLwkH3u/s/pwvKepA4v/MgcKpzmeqNEuHDY2UxkZVmYz2V7qhChWF5ohM/WQ3huHm1i
-         X/ZmIYaG/iC1Sm+Bwf3fc7BDBlj1gG72ZLCxCzJjcz8jFPQUd2kjcIeB+csIPoWDcuhl
-         3yBg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=S5ecvBhpda9ioV3CZUSK6c06l0wj2C9Zw3R8v4d6gvQ=;
-        fh=ZHAJKCNgiNfLXnvALl6njZ9Lxe0O1lJoIuGH16Rqj1I=;
-        b=MDdd01MCRMmJrUoLU7/jVTFGT97nZtyU3CEPR2xUYOjlPdmRzOwc7W+cvWutoQ+/8P
-         2zvkacMGuND790CZ6jnLkcrTB8NSIc6PswmlovEzlQf2UJxQGw0OFNo/pF4SMPuoDRvI
-         x8XgqstLjEVVoXDk66+JEfpFFb+5jBdsk+kciJ3c/EPW9SSl1Mpt1htJG0Bw7HYQNVM/
-         CIg+hhokgL6GoRM1A+F6x/gpJ1Tz4SIseB7YP4jAMRbfrXRjLmnLyjTPfGeqcVn8arsi
-         ZlpywTZG29UYdtNd33rc0DFZi46hG0pBpx5zxiTSEpeEw3Bko9Uv5UZLWTFo9S8gbz3D
-         5YzA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775803901; x=1776408701; darn=vger.kernel.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=S5ecvBhpda9ioV3CZUSK6c06l0wj2C9Zw3R8v4d6gvQ=;
-        b=fOmga7zmQiGibSRMABPeprbkYW56YiDmJjqgIjSCt/huxpPy5JQ+k1hpohEvJL79Fd
-         KQaZgPNQixDxcsPFhjnjBYgPeXKo2L51FxkCIw0HuTxxHZC7QRgQH+nrn4/31y2xr7V/
-         kUEU4BBYNpXv/Qge95jAhk/IKqb6w05rI1EuwsQTdqoPBmzpjHhGaW8EqD/F3oNZr1e8
-         Fb3cjcl1SYxj9SYyKHw6miCQXo3NehIKzlEOK70nzpeY6NQJvCy+G/1z/mXevqn6VGSv
-         alBUU+Niq4UX43evxKhFSOsAxM98g0dt0elNGeZte5Cxuasknqs5goeSgO4saQc6inEM
-         aSvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775803901; x=1776408701;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=S5ecvBhpda9ioV3CZUSK6c06l0wj2C9Zw3R8v4d6gvQ=;
-        b=d8rFryh7JxzY27EidpbcPJC0ncJ1CKQzC5LmYcFa8gRMumZZ2fnTQNwqUJEbzLsBv4
-         S4+xGe2se+sF5tnEkvgvDy2brB6qNBK/a9pAhBu6BVnceeQbr5lhsugaz8spVYPDDcDH
-         nnjAYm9m06TnOJnmjdL5H4UWBuaNTLPwv/dqg77JzB6xnydnK5Kwgo0WIK2Litpq37k7
-         vVqYKfKE9TiZLePyaFevTGkNDMFoNakDWRkgak7oCzCiDU6blCEYpctEbzRsBajXsROE
-         RrFmjFJ9b/bMEShhOEsrRVb5I8s2UPzNADsgE96HQ2l7UibI4XpmV0KbxNm8U0FxV9DZ
-         PIUg==
-X-Forwarded-Encrypted: i=1; AJvYcCVJi/f4PuuR/1aHUbuE1oVWzsK1EkUUTemhw4ZSF54pY52NwMNlwic42jss6ZwTiE9A3ugQUyTFalv8yFlp@vger.kernel.org
-X-Gm-Message-State: AOJu0YwNTrSk173g3nw0I08qiuGoKZSeil0uvc3m8NmQMsfQL3nI9dXa
-	ae+pYhNg4lRsGDGuxHNUMRjbAJgwJ+PZg/uJ489fZ7yqJOKItDKNf7iGK6D9IVGGoFRkYnvDvbf
-	NtuWfjzzI96GkPYs8PCnkwSV6z38cd1Y=
-X-Gm-Gg: AeBDietTUQHnSk/16q+6FN3BZeKzGCGuXTAhnD0u6LSUIJ5ABXY5e/pxwkUHxwJsDKe
-	9NRZV5TX3GwDMePk1ufkzw7T8OB0Lf8uWXiSEcj6/qZDISevgSxZ82msa4+4kwLnQlkVoWGUQbO
-	8YW8qGGtUTIMwAuV/VRhaEHxyRZ/dC9DcaA14ekqYNjWZw9buiM2+TUnXCOI4inCYCLuk+3ZnzH
-	OTroK7O3JSYJQvHOvgdCT354ad6JvRsiHIqGOfr8cxFWth8enotfI0g3JDvsjs/7YrPqYTz1yvv
-	V//KBh0=
-X-Received: by 2002:a2e:8a8d:0:b0:387:2df:f3ee with SMTP id
- 38308e7fff4ca-38e4c02e493mr3910501fa.33.1775803900834; Thu, 09 Apr 2026
- 23:51:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="nsVgIZmV"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=JVEMqQ2bTZsmiRaT8BYrbWGfG4e+wCHFw8ZKkwuHg9E=; b=nsVgIZmVfoni6RhL7GQ74HwuQG
+	QwSuZRqxhYf6H+9lvaL4rHrbVjplVvhqm+9W7DfcCwubqcs6TozhtqFn1ZA0PkbIJhFPSlvIxFgss
+	LVXUC8Amo+W3WQcU09eokGtAPAmZqthFbMYUZOptYcyod+O0qENXYwEds2yvnjHsp+TY2rGoLHVEC
+	I0aDX5n9Uv3YkeaJSKPj6zbHyekByQZpANSGf8GSpmiw+qZcfkXzv7WC7WaSLw8HiWRW3H2W/Ud9q
+	kpRqQy3VXpuDk3uv/fqAmc1Rxp1XHtOjv+BcRRMj0Evz4hd5O2fYmpa1TFP3FhfHSQFBUQit7x+aO
+	ooHatB/g==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1wB5wM-0000000Bhzu-3FTT;
+	Fri, 10 Apr 2026 07:06:06 +0000
+Date: Fri, 10 Apr 2026 00:06:06 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Gao Xiang <hsiangkao@linux.alibaba.com>
+Cc: Christoph Hellwig <hch@infradead.org>,
+	Christian Brauner <brauner@kernel.org>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Alexei Starovoitov <ast@kernel.org>, linux-fsdevel@vger.kernel.org,
+	bpf@vger.kernel.org
+Subject: Re: [PATCH] bpf: add bpf_real_inode() kfunc
+Message-ID: <adihXuFuuS5uoJ31@infradead.org>
+References: <20260327060518.GP6202@frogsfrogsfrogs>
+ <20260407-unmengen-wahltag-474557ec0c58@brauner>
+ <adUalnAyY9mm1LUr@infradead.org>
+ <20260409-vorsichtig-umstand-d417555377e4@brauner>
+ <ade2nskzkdcsvF55@infradead.org>
+ <d889ed2b-ca34-4e95-ae5b-1d66636b515d@linux.alibaba.com>
+ <adfPlQrImtuyhMIO@infradead.org>
+ <7a605318-9f09-436f-806e-d4a3bd31b97d@linux.alibaba.com>
+ <adiVdIhcgfiIoXja@infradead.org>
+ <b3dfc06b-9f9b-4337-be96-a277061517d0@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260409103345.15044-1-komlomal@gmail.com> <d4xigmgectqbv5q5dxsrlunea3ynexa4ym4nuxy2rokrawsqu6@yfhzm3hl5nya>
- <adfDCpTH9n2lG63n@kernel.org> <CADtiZd0NF8=4YDs9YR6vKYK92SKYOFd0LR1R3w9ZNoZW4cy+jg@mail.gmail.com>
- <jjhjdtdg5o72rlff75hs5oqaqqshmn2m5vfgjuew76dmjd23le@nw3rb2zw52h3>
-In-Reply-To: <jjhjdtdg5o72rlff75hs5oqaqqshmn2m5vfgjuew76dmjd23le@nw3rb2zw52h3>
-From: "Denis M. Karpov" <komlomal@gmail.com>
-Date: Fri, 10 Apr 2026 09:51:28 +0300
-X-Gm-Features: AQROBzBbYnfPywRG3Yp0tRYc7KAWWajkBK8MVh_qYfBGHCI1-FaAx9kMSaKpQ04
-Message-ID: <CADtiZd1gL6wFD7LYBrFLcgPRitYWe0PuSDMoXw-4THOwVoErxQ@mail.gmail.com>
-Subject: Re: [PATCH v2] userfaultfd: allow registration of ranges below mmap_min_addr
-To: "Liam R. Howlett" <Liam.Howlett@oracle.com>, "Denis M. Karpov" <komlomal@gmail.com>, 
-	Mike Rapoport <rppt@kernel.org>, Pedro Falcato <pfalcato@suse.de>, harry@kernel.org, 
-	akpm@linux-foundation.org, ljs@kernel.org, vbabka@kernel.org, 
-	jannh@google.com, peterx@redhat.com, brauner@kernel.org, 
-	viro@zeniv.linux.org.uk, jack@suse.cz, linux-mm@kvack.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	usama.arif@linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b3dfc06b-9f9b-4337-be96-a277061517d0@linux.alibaba.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Thanks, Liam. Andrew has already picked up the patch and added the stable t=
-ag.
-I'll make sure to include it from the start next time.
+On Fri, Apr 10, 2026 at 02:46:00PM +0800, Gao Xiang wrote:
+> > It needs to be applied in-memory for every changed, and persisted to
+> > disk on every fsync or equivalent operation.
+> 
+> Yes, yet it doesn't change my evaluation: and you need
+> to consider background writebacks too (since writeback
+> will update data and then impact the whole hash tree).
+> 
+> Currently data writeback can be applied for each block
+> independently, but if you consider maintaining a hash
+> tree (rather than simple checksums), I guess you have
+> to keep strict atomicity between data writeback,
+> metadata and hash-tree writeback, otherwise the hashes
+> and partial writeback data will be mismatched.
 
-On Thu, Apr 9, 2026 at 11:16=E2=80=AFPM Liam R. Howlett <Liam.Howlett@oracl=
-e.com> wrote:
->
-> * Denis M. Karpov <komlomal@gmail.com> [260409 11:54]:
-> > On Thu, Apr 9, 2026 at 6:17=E2=80=AFPM Mike Rapoport <rppt@kernel.org> =
-wrote:
-> > > On Thu, Apr 09, 2026 at 01:30:07PM +0100, Pedro Falcato wrote:
-> > > > This looks relatively safe. However, I'm not sure if we want this i=
-n stable.
-> > > > This has been broken for 11 years now, with no complaints.
-> > >
-> > > I believe Denis has a new usecase that wasn't there for those 11 year=
-s :)
-> > >
-> > > Denis, can you share more details about your usecase for us to better
-> > > understand importance of backporting this to stable?
-> > Hello Mike.
-> > Actually, there is nothing new about the use case. We simply started us=
-ing
-> > UFFD instead of the classic mprotect approach in the binary translator =
-to
-> > track application writes. During development, we encountered this bug.
-> > The translator cannot control where the translated application chooses
-> > to map its
-> > memory and if the app requires a low-address area, UFFD fails, whereas
-> > mprotect would work just fine. I believe this is a genuine logic bug ra=
-ther than
-> > an improvement, and I would appreciate including the fix in stable.
->
-> Then you should have cc'ed stable (with the tag too).
->
-> I'm fine with it backported or not.
->
-> Reviewed-by: Liam R. Howlett <Liam.Howlett@oracle.com>
->
+You write the leaf checksum with each block.  The rest of the chain
+leading up to the root is kept in metadata tied to the inode and needs
+to be written atomically with the transaction commit that updates the
+on-disk metadata to point to the newly written block.
+
+> Yes, the OOB approach for leaf hashes will help to
+> reduce write amplification, but my current observation
+> is that it won't have any help to read amplification,
+> especially for small random read; overall it depends
+> on the target workload.
+
+For HDD is roughly halves the number of seeks for random reads, and
+at least significantly reduces it significantly but quite a bit
+less.  For SSD it reduces the IOPS in a similar way, but for that
+you need to max out the IOPS, which for most workloads you won't
+on anything currently (and probably in the future) using erofs.
