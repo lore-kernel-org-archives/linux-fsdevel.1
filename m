@@ -1,227 +1,130 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-dl1-f41.google.com (mail-dl1-f41.google.com [74.125.82.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFD69390231
-	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Apr 2026 23:10:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775776208; cv=pass; b=NetVcJeyMaXFBn2PVKJZxgVeKjQBAJuaABs+5ZPKm0kMoK+5oQmMzkti5Et2eHgykax8it67nTjZMGuEi0uIxL91yCTC42d3TiO/o/SQXxr1/LlUSXyfsWHb1RsDf8U38UTaINTDUB3ZMdwP6mPJ+jHLITUpTqY98HkU5cajqjk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775776208; c=relaxed/simple;
-	bh=hnqIVK9AmZg4pLfPqp1hiR8+DY2eWZrisJhjbUazIH8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Rj3U4tNOIkL8GzqhgMqPWi3oTKxAfgYc8xxw3xypCM8xV5kQ5Q/OoUYbUU6vP9EvzTz+1zWop0lSOHsADudsbmAwoPZ6TrFK5t9yQXCYAU9Sjv4TNNVt4iRBI9uP6+XI2Grglqg2n3ex+55d8+rNh4GYSUjHYR8Fyzg0BvC5Qos=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jrDz3CdY; arc=pass smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AFF2314A65
+	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 00:47:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.41
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775782025; cv=none; b=NohRhpycX6nhgA3EQh9shPZQoIlLWd2gsiUEHyNhEu2qOpGovwUkSX14aMvZKKeVN0wSQvKFJUN+4lqrPfHBOTe6VtCmfSbtriS/yvZU+eQjPl64a9jH1xZkRhULEqRXn4y3NMAbb95jVmoCeUggZc0DTPAs6QXgIyxVyYBLnMk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775782025; c=relaxed/simple;
+	bh=5RSqm0i7TAMALBXs719N1oHBv8HwMRI4TbjdGJov0So=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=i2UJxL+0T1GsGExumLJQWvOBt1zOALiglaRsIOPLhgztz9joxu2zd0qHRe2O/ihvXDtWI88Dq65zQwNpHrzPyrkbvSH8pVhtlLZ8Y19Rtos/lOXhN7929cQOG1xeQGk962AQyj3+bTZGNpMvDKR/hnYSIfzUJKopgO6tvozRs/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b=WL05AItd; arc=none smtp.client-ip=74.125.82.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jrDz3CdY"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-43d04fc3bf2so824550f8f.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 09 Apr 2026 16:10:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775776205; cv=none;
-        d=google.com; s=arc-20240605;
-        b=LSQoyqQoS6gBS7DlEfELBn2t1L7WbsOBB1upVWxyAZjOWIZP3vk2IEQc9AFstEti5E
-         1Ys1/++R1F8TJhRvfWqCXF1YQb5LIFZwhpz9cyk22Gdn6wP1pEUuuyF9xGCbK9F97sC1
-         8nHjEPx0Zj6iTJHGlZj4+gNj3YFbqC4o+LEgFKchJKpYCRZUwikPDoi4iuJlmH+p59in
-         GighJVTPBRATsY8thPf8ws24d2vpYxE7TUZpFj92y11wwHmPMsBQdaOkXD6yZFDjzzIu
-         ZLpQjCsUUvHf+ONsaD8fqLc9LMYPnSW2nCnKZuTRLrIzagK2YxQ7ZGcOqIFN0aBJ9Nko
-         4lrw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=V0720UCU3sQFjdaGRxAYeJgM+ub10KIdf1BhWBleziQ=;
-        fh=l+gAqrSxEDI3buN6UByeX3l9qLlOL6yHBxvhy4w2RW8=;
-        b=dhclfROB46tX0LYqS70lpbO1PNMHZ7LjvpPknzUw+u6ciPhgTd7jCZSw6UEWzk2VUz
-         0J01j/67evOa0fvyiC6Ipst+sUAW6JoyVeJV25tDUNKCuip5d1tm5yfuFrGGlO/IeJEf
-         AeWvQqO0uKOHL4ilXdx/sfDiZoWomDuCHjRTjGBIQ5kQsjOTMg2zt430E34E7y8wi/ym
-         I9AH4jhgcwK3SEw3nX/FUSudZnw3FGhCcL5OwOcghFfX9JJHOiuE1DMTYoXNP/xjOvE1
-         Wqz+w2AXMcau99KfsN7Wdc8VTozPJGIspUO1KFjoaERU9nkYGmFVg0Rg9tdGoifkxsgu
-         BL0A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b="WL05AItd"
+Received: by mail-dl1-f41.google.com with SMTP id a92af1059eb24-12732165d1eso10752884c88.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 09 Apr 2026 17:47:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775776205; x=1776381005; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=V0720UCU3sQFjdaGRxAYeJgM+ub10KIdf1BhWBleziQ=;
-        b=jrDz3CdYmFRT934nCxZI6OsELctFHzOm4dDTOZ1LQ/ALD4AqjCJ/jWxs84N4Ylirgu
-         KGf/tqmbS8Bklr8JYcwaRqLOx2OHl6301or9UharTeqTbCMRiKHY6tnya5epMM7iLSat
-         kRygfffxvCrrv8yQ2hx/+ZEeUC7f42X7P3N4lBXbx70AW2JNY4+z5eSKaJzbhqPrn/97
-         EF8C0k6R/YQG/Y/uMBdhuYQg/DsGyfIuH0FA8L8w6tu60DjOdHdUFE7OOprzbqKJJi0W
-         EOGCPZSV/p3SrYw8My36nzXZ9Z86io9+83yVCN6YSzVJBgD3VpPdRR5KwJI2L15XqVEb
-         VDNA==
+        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1775782022; x=1776386822; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8dLqEnr+wCE0zIFZUjHqtBjKoRS3kf2QNeojFry0cDY=;
+        b=WL05AItdw5GBbK/6YpQRx2xq0tzJP8x47J0Zbl8l/X8losGNzCSaDoSyBHSLagUmKC
+         mzb0oB0nm33ulQ9luFZR3p1Yr36j8L0RJqDZRK2ZZxkZsukD3UvntYa0outb/ptdl6N3
+         VCav4Er0OTMZEdPtu77kKoTx4pNp1AtV8/mRCuIh7VrE5zLNmXYxU5eGpMOCBicwh7zA
+         CnX5rlRaIXjywKFCfMd0niM4t0j8Ic7lfKwpLdqJoRE67IM+GLHz24BqQZGC7RurZsYS
+         PLK9sOE/w8z8TwnJV2uE/fnpNYIxLGHADXziHF6Nub7ozUqrGfjIayp1KpM/YfWMgMhO
+         aOfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775776205; x=1776381005;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=V0720UCU3sQFjdaGRxAYeJgM+ub10KIdf1BhWBleziQ=;
-        b=BYYvZxvgNfqfulXPi6Qb0n8enytRhuhEjt9UhY+f1sqaSja5AsuTq4zxGE/1mO2sOW
-         FLkV6eU/b0Pa9csvVjUXZB5kt+TH1mBNrmpacIYfuL66CbCe2TS22r7hl4gsoJiE9YC1
-         sAuKHJiXCBMbLqSucAdoNafXU8lggPNYcKLcH0Xrun8zjF+2tLYuE4fRx6Grhfz4Xwyn
-         2riY/zx52L1krAIUu1OgZrv2mSOSDlJMy4Beea+bRYxoChkB/wl1ixdGTxndLRa1Y9TB
-         YOnV1l+qr/2/VGxG2/24uAex7fUZwkpNU5snYFNyf/DMLWCg9PtuGH6US56/gYUNY4DK
-         +ViA==
-X-Forwarded-Encrypted: i=1; AJvYcCV8h8qROQS8BY5tL85OkihcuuB4C0MMhpdL01t+HJ3NPqwz/DrQBiKJwjO04DyGPi5f/xhS9JcAZxN5faHG@vger.kernel.org
-X-Gm-Message-State: AOJu0YwwL/50OvbcAxepAX4vLlOHFuROB/XhcvWsifGduUDkEi28SyTZ
-	NQyK3cTTLYS3869wk8t/Xnpw5MaEdkysjZpdZ0Yynivx1c6ouQycvBpAdWIu3GONMEzReec1A0g
-	BtumanRobLTfMf2hfPSUKEEMGzlf5CYI=
-X-Gm-Gg: AeBDievUrhZd/hnAwT6jHgp/oUH8vIcr7IKzCruYjprf0pScpgZ2FA3UBWURJfRcWZJ
-	+4WeNddkdXli99z4OOn9a7ce3cOqOpmeE37Q0k+uX9yj08X5kzzwYR1iJLW4yVWkVLv5K5O6tJL
-	+Rmp2QajCWbueS+DIONWRh9orSCMdJkayDdC1P6Ov7h9q/UvOrSo4YF2AkQKF005jKc0tazRV71
-	b6+uDea7jOVqZIOOZPvofH8bVlg7yTgQmj9tYmGSqfS7DpASX1XopjNpPRvSPurhxyVEOlmPvLk
-	aLmXcEKmdiyD5YRs
-X-Received: by 2002:a05:6000:2211:b0:43c:f247:4792 with SMTP id
- ffacd0b85a97d-43d642702a4mr1194138f8f.12.1775776205019; Thu, 09 Apr 2026
- 16:10:05 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1775782022; x=1776386822;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8dLqEnr+wCE0zIFZUjHqtBjKoRS3kf2QNeojFry0cDY=;
+        b=Z6oYpkfLlMeE/KP+0SOEZbqz6LHuN+yUH51rw40RNJ4PJM7Q5YF6rrJPcYrtm+9TgN
+         wr/7XDEKcpKF3ainPmtiYUKGQ9A39xwJRErWre6A9HFLBjSeChxgzMMDZarENTHeXIDj
+         2peiar16hWbP7U4mAMotmzpQXaXKQgqYyddwFPvbbP2K2dGHBDD0++7WfHaZAf8doPbs
+         LcnU+xD87dKzco9tu2AIJYx2wBpNQy4En+nijvogTa10/+oJAjnHZtikqPEdI9rZi3I2
+         Lg9kLYuWQAP/UoytL3MOtXqT50rGpwN1wDirmpeHM/HxkRBBNy2t2Jv7m/i34GHdicm0
+         BDXA==
+X-Forwarded-Encrypted: i=1; AJvYcCWPrgOd9tHTBlOVne0tkaOM5YN/T3uFCVeFZetVP6hHf4FxRnAPPSI2OqKUTSXvJNlq2PDVhSDRScQ2rrbJ@vger.kernel.org
+X-Gm-Message-State: AOJu0YyKzpM9WX+O3XVzdWgnsa+6pt0FndGGFvf7LJnudA0CJDwtlo9p
+	XL/Rbyupoh2q5n7E0NqFLauMz1iWP0PEv3oH+oKcQ5dNEWQRTTeztXqWxocYM9tP1+k=
+X-Gm-Gg: AeBDievs28Ga0Gko4WUy3GtM9DoaTJdtCIFGOMTQjxaNr/YyCdNVOMrNsmt14Ds3VnR
+	TBEVH1GeT2msBi7kbb4Vt3zx4JZ10o1RMJ0s9f+saV9fxfQv/uHVnuU92e2p1vQqOA0TZsUOMsx
+	M89llpIklexFU6QwrM98HI1VhZtXCn0P/Efff1XAmB/X4iC/b7kQcPQQKQEpsCjnTd4Qzymneis
+	icPFiWrg78icOjYPZTDUmo/9XAzkb58eCsmKIXGdjohT+5uC+QaYFVaLm1kiaZEgR1hOF3Yy5le
+	88y9OaBg3FA5TpLVsG7ocKELk9NaWS7EpskeOkyu03xNzGv2nVIfj80xrTpcf75WbN/BMCQKhL0
+	BmrpbagpLCA3HNb/B5LmLV8ZJGZEzmAosUOPtsMa+B2Qb3TEqq+9JUbQTs4Ttw3Uvgt1zB52JA+
+	tlQNYSIwQ8z4iX8ftbAFl3763VVfhI2izI7BAfqMvxo/VH7VuElcDlMPjCtZImcnc2OLo0nEx0B
+	09WHuzUm0a+euPV76iRJhAXADwi+IICN15t0erBtaIpKydFQDECeE8=
+X-Received: by 2002:a05:7022:e986:b0:127:15cd:9f52 with SMTP id a92af1059eb24-12c34e37b1fmr652018c88.5.1775782021786;
+        Thu, 09 Apr 2026 17:47:01 -0700 (PDT)
+Received: from ?IPV6:2600:380:873e:380f:e9e5:ea98:a905:9cbb? ([2600:380:873e:380f:e9e5:ea98:a905:9cbb])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12c34352490sm1530405c88.0.2026.04.09.17.46.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Apr 2026 17:47:01 -0700 (PDT)
+Message-ID: <fb64ba71-7284-4768-979b-84919f2aa5f0@kernel.dk>
+Date: Thu, 9 Apr 2026 18:46:54 -0600
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251021-io-uring-fixes-cancel-mem-leak-v1-0-26b78b2c973c@ddn.com>
- <4b5a8040-b62c-4d75-a474-70d0b4759461@bsbernd.com>
-In-Reply-To: <4b5a8040-b62c-4d75-a474-70d0b4759461@bsbernd.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Thu, 9 Apr 2026 16:09:53 -0700
-X-Gm-Features: AQROBzAWY9HD1HeNgkxoBCmsk_3-haNIvT52DUzlw8juQUIk6-SVKZJCxSZwekw
-Message-ID: <CAJnrk1ZohxcDERszbii8ZM0g1ZzTwk6+wEqRWpCoSwBXzgavkg@mail.gmail.com>
-Subject: Re: [PATCH 0/2] fuse: Fix possible memleak at startup with immediate teardown
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: Bernd Schubert <bschubert@ddn.com>, Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org, 
-	Jian Huang Li <ali@ddn.com>, stable@vger.kernel.org, 
-	Horst Birthelmer <hbirthelmer@ddn.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC v4 1/3] block: add BIO_COMPLETE_IN_TASK for
+ task-context completion
+To: Tal Zussman <tz2294@columbia.edu>
+Cc: Matthew Wilcox <willy@infradead.org>,
+ Christian Brauner <brauner@kernel.org>, "Darrick J. Wong"
+ <djwong@kernel.org>, Carlos Maiolino <cem@kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+ Christoph Hellwig <hch@infradead.org>, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
+References: <97b81868-6410-4c79-a242-679a9f04f073@columbia.edu>
+ <95F28FA1-5CEF-4E80-BBB7-A429B4437D12@kernel.dk>
+ <7e468bd2-e52b-4165-95c6-3f04e1dca21e@columbia.edu>
+Content-Language: en-US
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <7e468bd2-e52b-4165-95c6-3f04e1dca21e@columbia.edu>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Apr 9, 2026 at 4:02=E2=80=AFAM Bernd Schubert <bernd@bsbernd.com> w=
-rote:
->
->
->
-> On 10/21/25 23:33, Bernd Schubert wrote:
-> > Do not merge yet, the current series has not been tested yet.
->
-> I'm glad that that I was hesitating to apply it, the DDN branch had it
-> for ages and this patch actually introduced a possible fc->num_waiting
-> issue, because fc->uring->queue_refs might go down to 0 though
-> fuse_uring_cancel() and then fuse_uring_abort() would never stop and
-> flush the queues without another addition.
->
+On 4/9/26 12:54 PM, Tal Zussman wrote:
+> 
+> 
+> On 4/8/26 7:36 PM, Jens Axboe wrote:
+>> On Apr 8, 2026, at 4:51?PM, Tal Zussman <tz2294@columbia.edu> wrote:
+>>>> On 4/8/26 3:51 PM, Jens Axboe wrote:
+>>>>> On 4/8/26 12:?48 PM, Tal Zussman wrote: > On 3/25/26 4:?14 PM, Jens Axboe wrote:
+>>>>>
+>>>>> Thanks! I'm going to give Dave's llist suggestion a shot on top of
+>>>>> this as it seems like it'll simplify this nicely. Looks like that'll
+>>>>> involve turning bio::bi_next into a union with a struct llist_node.
+>>>>
+>>>> Since these lists can get long, I'd keep an eye on llist reversal
+>>>> overhead there...
+>>>>
+>>>
+>>> Going to send v5 shortly -- tested with and without the llist reversal and
+>>> it didn't seem to make much of a difference. This was on a single-disk VM
+>>> though, so any stress testing you could do would be very helpful.
+>>>
+>>
+>> With all due respect, a single test like that isn?t going to be that useful. I?d be wary of making that change willy nilly and just thinking ?it?s fine, worked fine on the one case I tested?.
+> 
+> Understood -- unfortunately that's what I have access to at the moment. I
+> can requisition a machine with 2, maybe 3 disks, and test more thoroughly on
+> that before sending the next version, but that'll take a few days. You had
+> previously offered to test on your big box, so was hoping that was still on
+> the table :)
 
-Hi Bernd and Jian,
+I can do that, but I'm OOO for the next week, so won't be until I'm
+back.
 
-For some reason the "[PATCH 2/2] fs/fuse: fix potential memory leak
-from fuse_uring_cancel" email was never delivered to my inbox, so I am
-just going to write my reply to that patch here instead, hope that's
-ok.
+> (Although Christoph seems to have proposed moving away from llist again)
 
-Just to summarize, the race is that during unmount, fuse_abort() ->
-fuse_uring_abort() -> ... -> fuse_uring_teardown_entries() -> ... ->
-fuse_uring_entry_teardown() gets run but there may still be sqes that
-are being registered, which results in new ents that are created (and
-leaked) after the teardown logic has finished and the queues are
-stopped/dead. The async teardown work (fuse_uring_async_stop_queues())
-never gets scheduled because at the time of teardown, queue->refs is 0
-as those sqes have not fully created the ents and grabbed refs yet.
-fuse_uring_destruct() runs during unmount, but this doesn't clean up
-the created ents because those registered ents got put on the
-ent_in_userspace list which fuse_uring_destruct() doesn't go through
-to free, resulting in those ents being leaked.
+I think that's a good idea, not a fan of using llist for this, in case
+that wasn't clear. These are per-cpu lists anyway, and having a constant
+overhead is better than needing to reverse an llist. IMHO.
 
-The root cause of the race is that ents are being registered even when
-the queue is already stopped/dead. I think if we at registration time
-check the queue state before calling fuse_uring_prepare_cancel(), we
-eliminate the race altogether. If we see that the abort path has
-already triggered (eg queue->stopped =3D=3D true), we manually free the
-ent and return an error instead of adding it to a list, eg
-
-diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-index d88a0c05434a..351c19150aae 100644
---- a/fs/fuse/dev_uring.c
-+++ b/fs/fuse/dev_uring.c
-@@ -969,7 +969,7 @@ static bool is_ring_ready(struct fuse_ring *ring,
-int current_qid)
- /*
-  * fuse_uring_req_fetch command handling
-  */
--static void fuse_uring_do_register(struct fuse_ring_ent *ent,
-+static int fuse_uring_do_register(struct fuse_ring_ent *ent,
-                                   struct io_uring_cmd *cmd,
-                                   unsigned int issue_flags)
- {
-@@ -978,6 +978,16 @@ static void fuse_uring_do_register(struct
-fuse_ring_ent *ent,
-        struct fuse_conn *fc =3D ring->fc;
-        struct fuse_iqueue *fiq =3D &fc->iq;
-
-+       spin_lock(&queue->lock);
-+       /* abort teardown path is running or has run */
-+       if (queue->stopped) {
-+               spin_unlock(&queue->lock);
-+               atomic_dec(&ring->queue_refs);
-+               kfree(ent);
-+               return -ECONNABORTED;
-+       }
-+       spin_unlock(&queue->lock);
-+
-        fuse_uring_prepare_cancel(cmd, issue_flags, ent);
-
-        spin_lock(&queue->lock);
-@@ -994,6 +1004,7 @@ static void fuse_uring_do_register(struct
-fuse_ring_ent *ent,
-                        wake_up_all(&fc->blocked_waitq);
-                }
-        }
-+       return 0;
- }
-
- /*
-@@ -1109,9 +1120,7 @@ static int fuse_uring_register(struct io_uring_cmd *c=
-md,
-        if (IS_ERR(ent))
-                return PTR_ERR(ent);
-
--       fuse_uring_do_register(ent, cmd, issue_flags);
--
--       return 0;
-+       return fuse_uring_do_register(ent, cmd, issue_flags);
- }
-
-There's the scenario where the abort path's "queue->stopped =3D true"
-gets set right between when we drop the queue lock and before we call
-fuse_uring_prepare_cancel(), but the fuse_uring_create_ring_ent()
-logic that was called before fuse_uring_do_register() has already
-grabbed the ref on ring->queue_refs, which means in the abort path,
-the async teardown (fuse_uring_async_stop_queues()) work is guaranteed
-to run and clean up / free the entry.
-
-Thanks,
-Joanne
-
-> Thanks,
-> Bernd
->
-> > The race is only easily reproducible with additional patches that
-> > pin pages during FUSE_IO_URING_CMD_REGISTER - slows it down and then
-> > xfstest's generic/001 triggers it reliably. However, I need to update
-> > these pin patches for linux master.
-> >
-> > Signed-off-by: Bernd Schubert <bschubert@ddn.com>
-> > ---
-> > Bernd Schubert (1):
-> >       fuse: Move ring queues_refs decrement
-> >
-> > Jian Huang Li (1):
-> >       fs/fuse: fix potential memory leak from fuse_uring_cancel
-> >
-> >  fs/fuse/dev_uring.c | 33 ++++++++++++++-------------------
-> >  1 file changed, 14 insertions(+), 19 deletions(-)
-> > ---
-> > base-commit: 6548d364a3e850326831799d7e3ea2d7bb97ba08
-> > change-id: 20251021-io-uring-fixes-cancel-mem-leak-820642677c37
-> >
-> > Best regards,
->
+-- 
+Jens Axboe
