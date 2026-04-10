@@ -1,57 +1,39 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F35DE2C08C8;
-	Fri, 10 Apr 2026 06:15:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0B9C345CC2;
+	Fri, 10 Apr 2026 06:17:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775801732; cv=none; b=XUoX7p6mIAJQFsnGWRLmfaZhjulOtqpDienP59vdtWQtn4ZAt06FPf2kbUMft2eANYxd1PVVjPsvE5elHeevxHULVLpepnHghdSjViycvoc296+3T3QN2tVRCUDZ3CkIoTqY7UUw0hPUhA4R+3BXPVUmtyaoHV/RPRrjO2Q33A4=
+	t=1775801860; cv=none; b=F+pGNNtubIVFnL0ltFCCrj9sJcPUA8gTjF6wuugC8nYXBl7tLGeFe3N3/YeyWaW2w6mvtv6gy0til1fp59Bp8UKHHaqv0qWmek5VhIDAzCinyNb8h1NWVoPb4va9P3ISCf670cGLAuL0JOvL6ZV75WSoUAx4XchzzGXkVnYOWqA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775801732; c=relaxed/simple;
-	bh=KgvnKGcXGXU88l0czntTzYFax2G5Iid/3FAP9jKyAMw=;
+	s=arc-20240116; t=1775801860; c=relaxed/simple;
+	bh=OdGHQwpqgvNgX+GVjjwYFcl6quDS0xZcNmCnDzSNWsA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qo5XnSk8sjw7QT28RtDfonu6RfBajvk9oPexPqH5KNjqKu61T3M240o2TIbRD4XY9xb5mAEfQ3FS59QL4VRrbSJtZCHoeHLrFQP+rsjvTtO9BbWvhCuA2H4jGFiCWVr3C4gYb0Wn3rhbjlfb2syQp/NkC7JRpd2UjHDaHeNmfJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=zsTIFQla; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="zsTIFQla"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=1Kk3EU/XwfJL9hGGHRQptOeSG6TwGLTBxlWVgkU2o2I=; b=zsTIFQlac0OVQ6jQXXHfQCatYd
-	9PiNnMeIZYp3BXrusZ2eqU8Z6tigF6T/XTp2D9y7SD+Nv7iAtTr7glCU+dCJKzZ902X6xj8UxHht9
-	G4OGKGJQ8qEcpG3ujjrcFn676rIC8WuLQl1KtjwYZORsfbZjNtqvyO4TGhSfGBcBzVP2+cXUtLdsR
-	SgORoyZ+xlyyfiHI/6eLaNaBnYn/v2slv4CwJjX7+4lsFozLlMkDGEEi6cNa82Vu/5UknDXGjoH7R
-	hnuEtqX+S3gU0SUdlcsRfOhwKXCoSWWKdoNle3V3wTP3Ck1sGpkNQ/pZ8Wc8+xQBhhoNFgm/i7c7R
-	XcEmSp9A==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wB59A-0000000BfVD-43nY;
-	Fri, 10 Apr 2026 06:15:16 +0000
-Date: Thu, 9 Apr 2026 23:15:16 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Gao Xiang <hsiangkao@linux.alibaba.com>
-Cc: Christoph Hellwig <hch@infradead.org>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=CXprDF1B1jiJz7Z7D591cOkbyjSPlITl+pOlK/I9ginvitkUiDi2kxfP2jgUpM5Ph/Rn99jt7buOMR8V4cdZ0BDHHCQvdVSldrMjq4v7gZ9Tob4ukQCSjGfoWQ5xApdBNpHpRGTotP4ya0FrIg5trTrKeY3tIFqXI4GzYungf3k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id E27AC68CFE; Fri, 10 Apr 2026 08:17:25 +0200 (CEST)
+Date: Fri, 10 Apr 2026 08:17:25 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Christoph Hellwig <hch@lst.de>, Tal Zussman <tz2294@columbia.edu>,
+	Jens Axboe <axboe@kernel.dk>,
 	Christian Brauner <brauner@kernel.org>,
 	"Darrick J. Wong" <djwong@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Alexei Starovoitov <ast@kernel.org>, linux-fsdevel@vger.kernel.org,
-	bpf@vger.kernel.org
-Subject: Re: [PATCH] bpf: add bpf_real_inode() kfunc
-Message-ID: <adiVdIhcgfiIoXja@infradead.org>
-References: <20260326-work-bpf-verity-v1-1-efe9edc46ddc@kernel.org>
- <acYVjuDOD7NynO9m@infradead.org>
- <20260327060518.GP6202@frogsfrogsfrogs>
- <20260407-unmengen-wahltag-474557ec0c58@brauner>
- <adUalnAyY9mm1LUr@infradead.org>
- <20260409-vorsichtig-umstand-d417555377e4@brauner>
- <ade2nskzkdcsvF55@infradead.org>
- <d889ed2b-ca34-4e95-ae5b-1d66636b515d@linux.alibaba.com>
- <adfPlQrImtuyhMIO@infradead.org>
- <7a605318-9f09-436f-806e-d4a3bd31b97d@linux.alibaba.com>
+	Carlos Maiolino <cem@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>, Dave Chinner <dgc@kernel.org>,
+	Bart Van Assche <bvanassche@acm.org>,
+	Gao Xiang <hsiangkao@linux.alibaba.com>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: Re: [PATCH 4/8] FOLD: block: change the defer in task context
+ interface to be procedural
+Message-ID: <20260410061725.GA24667@lst.de>
+References: <20260409160243.1008358-1-hch@lst.de> <20260409160243.1008358-5-hch@lst.de> <adgJqiA0vivaW7NA@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -60,36 +42,54 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7a605318-9f09-436f-806e-d4a3bd31b97d@linux.alibaba.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <adgJqiA0vivaW7NA@casper.infradead.org>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Fri, Apr 10, 2026 at 12:42:41AM +0800, Gao Xiang wrote:
-> >   - a lot less I/O amplification
+On Thu, Apr 09, 2026 at 09:18:50PM +0100, Matthew Wilcox wrote:
+> On Thu, Apr 09, 2026 at 06:02:17PM +0200, Christoph Hellwig wrote:
+> > @@ -1836,9 +1837,7 @@ void bio_endio(struct bio *bio)
+> >  	}
+> >  #endif
+> >  
+> > -	if (!in_task() && bio_flagged(bio, BIO_COMPLETE_IN_TASK))
+> > -		bio_queue_completion(bio);
+> > -	else if (bio->bi_end_io)
+> > +	if (bio->bi_end_io)
+> >  		bio->bi_end_io(bio);
 > 
-> But not quite sure recently how extended OOB data is
-> kept within the physical media (I remembered in the
-> early years each page of raw nand flashes has
-> several-byte OOB together with the user data): if
-> it's along with the corresponding LBA main area, I
-> guess it has to read extended data among multiple
-> LBAs (but the LBA main data may not relate to this
-> partcular I/O) in order to verify the hash of the
-> hashes.
+> What I liked about this before is that we had one central place that
+> needed to be changed.  This change means that every bi_end_io now needs
+> to check whether the BIO can be completed in its context.
 
-For HDD it it is stored next to the media, and doesn't introduce
-extra seeks.  For NAND-based SSDs it typically is stored close to
-the data as well.  NAND pages are significantly larger than the
-exposed block size for any modern SSD.
+Yes.  On the other hand we can actually use it when we don't know if
+we need to offload beforehand, which enabls the two later conversions
+and probably more.
 
 > 
-> >   - a sane way to actually have verification (including authenticated
-> >     encryption) in a writable file system
+> > +++ b/fs/buffer.c
+> > @@ -2673,6 +2673,9 @@ static void end_bio_bh_io_sync(struct bio *bio)
+> >  {
+> >  	struct buffer_head *bh = bio->bi_private;
+> >  
+> > +	if (buffer_dropbehind(bh) && bio_complete_in_task(bio))
+> > +		return;
 > 
-> Yet if considering modification, it need to move up
-> the tree and recalculate/update all hashes until the
-> root hash, it's not a low-overhead task TBH, and need
-> to apply to every single on-disk change.
+> I really don't like this.  It assumes there's only one reason to
+> complete in task context -- whether the buffer belongs to a dropbehind
+> folio.  I want there to be other reasons.  Why would you introduce the
+> new BH_dropbehind flag instead of checking BIO_COMPLETE_IN_TASK?
 
-It needs to be applied in-memory for every changed, and persisted to
-disk on every fsync or equivalent operation.
+Because there's no BIO_COMPLETE_IN_TASK? left.
 
+> >  	struct iomap_ioend *ioend = iomap_ioend_from_bio(bio);
+> >  
+> > +	/* Page cache invalidation cannot be done in irq context. */
+> > +	if (ioend->io_flags & IOMAP_IOEND_DONTCACHE) {
+> > +		if (bio_complete_in_task(bio))
+> > +			return;
+> > +	}
+> 
+> I thought we agreed to kill off IOMAP_IOEND_DONTCACHE?
+
+Only IFF we don't need it.  With this version there is no way to just
+remove it.
