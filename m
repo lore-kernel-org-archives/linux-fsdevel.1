@@ -1,132 +1,179 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26293389E05;
-	Fri, 10 Apr 2026 12:24:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 866163C7E1E
+	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 12:24:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775823867; cv=none; b=MnarLLaZjHXSKXGw83+DbWLYzZztGQ+cq5axnscVuwOdIuWTYaBbS6MfSbAJn8/lOqWhepMpLQq1ZDf+iLMR0PYZxFBHI5jDIhbxvsLaSlDOCYJYBO3/jFxdgX75h8/d5vRHkxSqeTjPuoH875EvFUmvq2uWiZa3A1SNNJCtG/k=
+	t=1775823873; cv=none; b=Mkda/oMQ7dQ5jDmWYYGc0q1Pt8hew+nx4QtVnt/0nGMk37ZmGh3rRc5O59jaNUSMv6nH6TfkzQxuVlhLN+LoKjy5kEMlPseqJVSwFtSpG/4ysYio98SmJwPmIBRX0MOY6P7KW2X0oiXRAi1jbZRMMjXQA+ip0WbLQBLpwseY3Lw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775823867; c=relaxed/simple;
-	bh=u3shdn/VhTUrysknc+IWeX13Mypw2Gqe8IMtP46BvmE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ny8iJfAT51rPi3O9vaxiINMIHaz5B0C+MyIA0m09Ne/shddMvvY4LUgrOxFvjcQl/InaowTursDho4d2gF8XAGeCZKQMctmva+QWEHx4L4bOvBejGnTGL+C7Ck8j4Osg3r8bR6EGgGgvTLdapiO2ynVoNTdUF7L6f42l/natEkg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YKHcdKXE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775823873; c=relaxed/simple;
+	bh=pqdF6Mi38GJvQ4L9GZ6r05yf5V9/rHrY6Xj3qBGgu88=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bdZZ+C+Lez1BWv1Q0EYnWu90gS3pF3CllPR/U5v57DaVxAIwB+zUWOYCxS5UQKojioFgTPKvHA+zCMMqjQyo1ASTfN6KesXq6XLN0h992/tx8aJzVSKqLDrMBdcb+dkTaRaGKz+laOrwfRu3sYOY0g6hqd50ZDtnyytLK5aao0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=ij98B60a; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=cGmTaxaf; arc=none smtp.client-ip=103.168.172.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YKHcdKXE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2810BC19421;
-	Fri, 10 Apr 2026 12:24:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775823866;
-	bh=u3shdn/VhTUrysknc+IWeX13Mypw2Gqe8IMtP46BvmE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YKHcdKXE2kz4m0NEBd5EKtByrIIew2xRPM9M6TUF00occZ4EyMKOt2YUdYVsHnCo0
-	 fNSRX0fb0Hbd2twIm/dyttA2LN+TqLTdZ909pvkhZS8h7pGn7Yhva68ZtJqsZLZ/If
-	 tdguzE3v/3GvKP5hHIRnkjjVac850Gdb2uNM2zbSio5tgjmijdEdz+01rtEvdJNKjY
-	 QY9VKGe7uu/nk/E51BxqhEmmdYN1W/PvkHS3utdN+SbGU+hY3BJSyQa4VKOyVStKX+
-	 7rhSZO2S67XO/uptDkC1XS9crG8eNVR7QT+21pAsNytGil3CdbYboU0ETriEW7gqau
-	 PEplVxGXwpW0Q==
-Date: Fri, 10 Apr 2026 13:24:16 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: Usama Arif <usama.arif@linux.dev>
-Cc: Andrew Morton <akpm@linux-foundation.org>, david@kernel.org, 
-	willy@infradead.org, ryan.roberts@arm.com, linux-mm@kvack.org, r@hev.cc, jack@suse.cz, 
-	ajd@linux.ibm.com, apopple@nvidia.com, baohua@kernel.org, 
-	baolin.wang@linux.alibaba.com, brauner@kernel.org, catalin.marinas@arm.com, dev.jain@arm.com, 
-	kees@kernel.org, kevin.brodsky@arm.com, lance.yang@linux.dev, 
-	Liam.Howlett@oracle.com, linux-arm-kernel@lists.infradead.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, mhocko@suse.com, npache@redhat.com, 
-	pasha.tatashin@soleen.com, rmclure@linux.ibm.com, rppt@kernel.org, surenb@google.com, 
-	vbabka@kernel.org, Al Viro <viro@zeniv.linux.org.uk>, ziy@nvidia.com, 
-	hannes@cmpxchg.org, kas@kernel.org, shakeel.butt@linux.dev, leitao@debian.org, 
-	kernel-team@meta.com
-Subject: Re: [PATCH v3 0/4] mm: improve large folio readahead and alignment
- for exec memory
-Message-ID: <adjrKwgiZwXR9epk@lucifer>
-References: <20260402181326.3107102-1-usama.arif@linux.dev>
- <803a0c15-0a6a-4c00-b6b3-eaae56d5fc15@linux.dev>
- <adjkCOiLgZ_-zovg@lucifer>
- <adjllNan2vgBNBHJ@lucifer>
- <5f99b289-629c-47c4-bef0-966d6678a2a8@linux.dev>
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="ij98B60a";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="cGmTaxaf"
+Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id DAA241400281;
+	Fri, 10 Apr 2026 08:24:30 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-09.internal (MEProxy); Fri, 10 Apr 2026 08:24:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1775823870;
+	 x=1775910270; bh=FpnT/+E2w62wCn8dGkzDSKmYtsZfKjHDAG+9k3eh/R0=; b=
+	ij98B60auEl4M9YtYsuO8fItnz5iWPgogwc6NejGiMU8KqxlQeCF1WzGAZB2p6EH
+	6vfmln15xtDKkcHzjveQePPUC2V9Fdtj0JKbN5aGkdBDWVm9kv/Fgf2PwKoEcru+
+	DxIMpd7KBumaVNpmu5DXAmZplUS+UJ48pXyL2/0MoVSp6C1yK4rz3hJ38DX3hIJ0
+	KrOIX7CmN7E77l83GmqYyx+/KHxbSI+Yi5VabwF9cb+aGwav+3tzaGHnU/g8+EJ8
+	62q3GvkWlYTbTzbDH0OatOi0JfKenjjYygnyGme34ne8Fk3+U3mVJsbr7HguwBBE
+	24kK3WNv0HBSHRUywowUoA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1775823870; x=
+	1775910270; bh=FpnT/+E2w62wCn8dGkzDSKmYtsZfKjHDAG+9k3eh/R0=; b=c
+	GmTaxafpYRk7c6RNMLfEnQ4I+f4JgfyiY7VgFopo32QK/NQJXLmuBEX4y8VDP+5p
+	Zw9NjzKItPhrCttSTJxGRjbWdcYqHm7jAVy1DOX4gyRcigZPHwa2CauByqeIDtvB
+	463byDquSADcDVSjbWkviCANP9oSFV9JHv5hDZNBE++TyTfpBG8zrjE6JGvx9trs
+	Dj4aeok2jvC7e9fGiEjV23oleuZpQHHiujp5unsIFCr73ANRMq1/h/5TonGjE7w8
+	wtG7D4RAAeZAJu1+4dmKbzdLsglR2rjxa+PHiZ3SKmWbdfEfXtXBzYsBWMqNa7Lb
+	gzGNLOmLthNXuA1hjvEYA==
+X-ME-Sender: <xms:_uvYaeu83FV8aImCNYPIeEeeSU4yCjpw9hP7NNNX5k6v_YDmZTS8Vg>
+    <xme:_uvYaXLTzMrchDggItVh2IsVdOOWcpBTJg2iRkxpV2z5Rv2VC2OmX150B0dbqHX3g
+    MNStaye-lvG-fEag_ZRt5kK8GRFHa2ICcawtvYc9aWRwqerDzgz>
+X-ME-Received: <xmr:_uvYaTnOCXF2TM03SAsPtvf_XszRhnFdvXQLeY9cfQsaILoSv4Z-LG03lU8gkkzZoa7o4ZPeDC0WcxLfbdcYM_yk5eUHx7aH-ts2q1UzhqPXsltsBA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddvleegtdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefkffggfgfuvfevfhfhjggtgfesthejredttddvjeenucfhrhhomhepuegvrhhnugcu
+    ufgthhhusggvrhhtuceosggvrhhnugessghssggvrhhnugdrtghomheqnecuggftrfgrth
+    htvghrnhepjefgleejueffhefhueekvdduhfetteehtdehfeejhfevudethefhtdetvdek
+    keevnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
+    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegsvghrnhgusegsshgsvghrnhgurdgtohhm
+    pdhnsggprhgtphhtthhopeeipdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegujh
+    ifohhngheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepsghstghhuhgsvghrthesuggu
+    nhdrtghomhdprhgtphhtthhopehjohgrnhhnvghlkhhoohhnghesghhmrghilhdrtghomh
+    dprhgtphhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvghlrdho
+    rhhgpdhrtghpthhtohepmhhikhhlohhssehsiigvrhgvughirdhhuhdprhgtphhtthhope
+    hnvggrlhesghhomhhprgdruggvvh
+X-ME-Proxy: <xmx:_uvYaQJ07V5eN4O62aOOP9cgERjKLjnUqMv2SAwoyG4RQLOljW0OGw>
+    <xmx:_uvYaQ4AotXe_lJeT8lUoVPCCRUy16T64GlaRrxx8O7cH-hil4QmKQ>
+    <xmx:_uvYac24HkJ-jvJqhn9fSTzv3GHkfvdJhl-71eZ1bWt8kvobjvLbYg>
+    <xmx:_uvYaedTIfKfx7I1aKVuxtdmfDFV2RbMGD_bWLqhdbGAtA-LUD2uFQ>
+    <xmx:_uvYaRH-6hLqP6lt4qfSgQpVmv3bn6DP3IZgv1H2sAug6wvSg7P7jvA6>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 10 Apr 2026 08:24:29 -0400 (EDT)
+Message-ID: <549999df-d6eb-43a0-840c-43310de667ca@bsbernd.com>
+Date: Fri, 10 Apr 2026 14:24:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5f99b289-629c-47c4-bef0-966d6678a2a8@linux.dev>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [GIT PULL] libfuse: run fuse servers as a contained service
+To: "Darrick J. Wong" <djwong@kernel.org>, bschubert@ddn.com
+Cc: joannelkoong@gmail.com, linux-fsdevel@vger.kernel.org, miklos@szeredi.hu,
+ neal@gompa.dev
+References: <177577271287.2064584.12214566734023027732.stg-ugh@frogsfrogsfrogs>
+From: Bernd Schubert <bernd@bsbernd.com>
+In-Reply-To: <177577271287.2064584.12214566734023027732.stg-ugh@frogsfrogsfrogs>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Apr 10, 2026 at 01:19:08PM +0100, Usama Arif wrote:
->
->
-> On 10/04/2026 12:57, Lorenzo Stoakes wrote:
-> > On Fri, Apr 10, 2026 at 12:55:42PM +0100, Lorenzo Stoakes wrote:
-> >> On Fri, Apr 10, 2026 at 12:03:03PM +0100, Usama Arif wrote:
-> >>>
-> >>>
-> >>> On 02/04/2026 19:08, Usama Arif wrote:
-> >>>> v2 -> v3: https://lore.kernel.org/all/20260320140315.979307-1-usama.arif@linux.dev/
-> >>>> - Take into account READ_ONLY_THP_FOR_FS for elf alignment by aligning
-> >>>>   to HPAGE_PMD_SIZE limited to 2M (Rui)
-> >>>> - Reviewed-by tags for patch 1 from Kiryl and Jan
-> >>>> - Remove preferred_exec_order() (Jan)
-> >>>> - Change ra->order to HPAGE_PMD_ORDER if vma_pages(vma) >= HPAGE_PMD_NR
-> >>>>   otherwise use exec_folio_order() with gfp &= ~__GFP_RECLAIM for
-> >>>>   do_sync_mmap_readahead().
-> >>>> - Change exec_folio_order() to return 2M (cont-pte size) for 64K base
-> >>>>   page size for arm64.
-> >>>> - remove bprm->file NULL check (Matthew)
-> >>>> - Change filp to file (Matthew)
-> >>>> - Improve checking of p_vaddr and p_vaddr (Rui and Matthew)
-> >>>>
-> >>>
-> >>> Hello!
-> >>>
-> >>> Just wanted to check if there was any feedback/review on the latest
-> >>> revision?
-> >>
-> >> It's -rc7, this is definitely something for next cycle :)
-> >>
-> >> On my part, my upstream bandwidth has drastically reduced, and review is
-> >> probably going to have to be a hobbyist thing at least for now.
-> >>
-> >> Also, not to be mean but:
-> >>
-> >> $ git log -E -i --grep "(Reviewed|Acked)-by: Usama Arif" --oneline | wc -l
-> >> 21
-> >>
-> >> So... :)
-> >>
-> >> Review in mm is very lop-sided, let's try to balance it out a bit!
-> >>
-> >>>
-> >>> Thanks!
-> >>>
-> >>
-> >> Thanks, Lorenzo
-> >
-> > (Note that we're in a 'quiet period' from here until -rc1 of next cycle and
-> > won't be taking anything new until then. We plan to do this from around rc5 or
-> > rc6 of each cycle in future).
->
-> Thanks! Just wanted to check, as I am always confused about this. Is it ok
-> to send patches for review for next release at this time? So that they
-> are in a good state when rc1 comes. I wanted to send PMD swap entries
-> for review after I am finished testing, but I want them for review for
-> next release.
+Hi Darrick,
 
-I think different people have different views on that :)
+On 4/10/26 00:24, Darrick J. Wong wrote:
+> Hi Bernd,
+> 
+> Please pull this branch with changes for libfuse.
+> 
+> As usual, I did a test-merge with the main upstream branch as of a few
+> minutes ago, and didn't see any conflicts.  Please let me know if you
+> encounter any problems.
 
-I mean it's debateable whether having a glut of new material on day one of -rc1
-is preferable to having a bunch come in that might or might not get lost along
-the way :)
+I had already merged another patch beginning of this week that
+introduced a new merge conflict in
+.github/workflows/install-ubuntu-dependencies.sh
 
-I personally feel it'd be better to send during the cycle window rather than
-before but I suspect others disagree with that!
+I resolved it myself now.
 
-So from your point of view, feel free to do what you like, but maybe David +
-others would want to chime in with their opinions?
+> 
+> --D
+> 
+> The following changes since commit 3bb9cd99b3688df1bb7536de158ed9e532b277fb:
+> 
+> Add the codechecker/cppcheck github action (2026-04-07 10:08:49 +0200)
+> 
+> are available in the Git repository at:
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/djwong/libfuse.git tags/fuse-service-container_2026-04-09
+> 
+> for you to fetch changes up to 0db39a8f8844ff88496ed36da417554cb4f3751d:
+> 
+> nullfs: support fuse systemd service mode (2026-04-09 12:31:08 -0700)
 
-Thanks, Lorenzo
+I had quite a busy last weekend, because I got libfuse security reports.
+In ordert to avoid lots of reports, I just added support for CodeChecker
++ cppcheck and CodeChecker+gcc checker. Clang CTU is is prepared, but I
+need to let AI work over the weekend to fixes for these (obviously will
+need manual editing, as last weekend).
+In the end not too bad and I don't think and urgent need for a new
+release. Although I should probably make a new 3.18.3 version soon.
+
+That also made me to add new checks. I actually already that github
+codeql checker in place, but only realized last weekend that it didn't
+generate any reports. On your PR that gives
+
+New alerts in code changed by this pull request
+
+Security Alerts:
+
+    4 critical
+    3 high
+
+Other Alerts:
+
+    4 warnings
+    10 notes
+
+
+Some of these, like "This switch statement should either handle more
+cases, or be rewritten as an if statement." can be suppressed. With some
+I probably agree
+
+
+	cmd = malloc(iov.iov_len);
+	if (!cmd) {
+		int error = errno;
+Note
+Declaration hides parameter
+Local variable 'error' hides a parameter of the same name.
+CodeQL
+
+
+The new CodeChecker (gcc,cppchechk) actions also complain, the GUI
+should give the output, but I don't see it yet.
+
+
+My plan for the weekend is to address your comments in my series and
+then to merge it. If still some time left, I would like to fix all the
+reports in your series and merge that as well.
+Then maybe next week to combine some mount code dup that comes from both
+series.
+
+Ok with you?
+
+
+Thanks,
+Bernd
