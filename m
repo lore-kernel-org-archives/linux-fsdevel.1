@@ -1,100 +1,59 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F91C3CC9EB
-	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 14:35:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 943E53290B0;
+	Fri, 10 Apr 2026 14:38:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775831755; cv=none; b=GKFMRlAkyfizfAdbhHpVMWPZQ4Cm6Z+zLf4l/l+Ve+8WuuuzVrcvoJ2YsaAjkUerDBeH2JqXVPE33xzNllPC+gzrp0h7SE9YAgoql2OZrq3JBYiJryX3CLKHYYNVGvtgtxgGsOqhQXeebeupjHp/xQZy2bFWZKWoyxUbN8jjbxY=
+	t=1775831923; cv=none; b=FNNIitrGlhPtIvipuIZ0hePdHwdNEDzqKULX5YWIwnOp4wJXVi00bXdQDziacBZjThbhiPWJS3WR2KbOPXIzIZd/AMjmdpdQGsHucyylsMTqF8TnuywgfP+fe/O7+qC+mphGGOMWHqTwUpaHwpMvLrSutsNzENjZjs6BA64MsbA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775831755; c=relaxed/simple;
-	bh=5nFnRj4FT6jZjt8sFUab4x48m3ZmNzcQs1yF7dtkLGU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hlJPS0TH3dFCRbjlOgXmK/+ZhT4dHi6sQhIdjdEGs5uxj23rNUtoSeHb3QptbLyJAPddN8yBVXQNAbPwDJIoxa4olY3NiErgNsDhG13AN0m4BwJIdkSkJLp8CfOimgmFRf+VSM7welVsSyRSYmOLtFsfFWUNK7oVk0UzjtV3qYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=isUQSo2i; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1775831923; c=relaxed/simple;
+	bh=F3ujDe7ZjTTxQQSP3g57HntqVPeRaAvrt4MC+7gAeP0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=a9zxUtQzqpKpK1kMqKG3y9g7sB6qcOx0LayXcEkUkEgpVvWSZU7hMxm+bT3xynDWYt8pIloIhQeWVcr7SUVUuD3I5T611nPaJimJoV//Bhhymuz4ilanIXo/9vnlilloSpodd5PkJHfmHebieM+0F1wWIBgKdddraOdYQdYo6ro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=gCQOrls6; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="isUQSo2i"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-48897fd88ebso22331045e9.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 07:35:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775831753; x=1776436553; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SE2TYNgoaeP3xAI61Teh47NCLwxtZ/1mLvdibGc6cXw=;
-        b=isUQSo2ixm4msDSO4RbDCvEpgYRIov9lPohvV/EqnN7/7CjIGUEllzs5CxK418YM0/
-         mxU+WTqWwBP1WChBHpWClehhFA4djKA1r1jAav7lu3PAntmbTh4D1bdV18UzBRCJbwyi
-         q2rYfD1IG/jIVvQu0daHkxygnKml3aolrKvChpIMfmpFCdKPHTKSEhngHeY3iB4joQ2d
-         +5AcSfaNPhLO3sdBDLQY5NcS3p3IXwu5JqEdEZ4CtIzKkfrNNHbz9apNyOpsmm6ldCFp
-         QF3Lbokkp0doVwJiFs9PU1jI0Ie1lXyN0otbRLDfZ7AaHbo/Y9Flon8jCzVaUQwUS6fg
-         242A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775831753; x=1776436553;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SE2TYNgoaeP3xAI61Teh47NCLwxtZ/1mLvdibGc6cXw=;
-        b=bFetpMgygtGlVqQJ1+HLR0FzJHYqAjlXBOnoiLvghHA0ZFI9IR3aUYhP/7dd1GTpwW
-         qgDgXQ0Bn7i+McSUvZUhUJh3nWVsWoSyNhcubzfzXYGBINGPsG6BBHtp014WOXFTduGs
-         4HLk5TaZZ4YleCW8D5fYy+N6CiqzPH1xTGy63nkQaWEGcrCTul5hrYvBdampvN2mUb/o
-         15J61mXc86r5wAoGpmz4gYf4RTD30hCGjaS4CsgBFI4Uuk94xD7qrFomiWm8ad0e1sbM
-         L68EaovJqU4khLiLfO7RDENujST5/CfAkODzhstqaYAfRCaQEE4dKOTA5hgoqLrQLc2M
-         LJLA==
-X-Gm-Message-State: AOJu0Yw9x7f2yV+WbbkCy5oyEgsoEVHl8D67RtFhJ68PxHiHCqY5500U
-	Be6FHnkx3idGgPfQhEhgXWDbAUPGhlw6h/siej2mE7R/+FZtVTL991+CtObMog==
-X-Gm-Gg: AeBDievypyzrZtbIVtgwhy0O0VETiinuvnGVWAgv5K5kQY+e7c/qX6qUhHlKfsC5UWI
-	TFQzH9LVUAMOsUPfF5h3dlH9ljS6d8hK1i8eqFu6aiwPj2uS6x2bylYDe+3EYzBarhusBkwfE2U
-	zcsRz32yA/MhOYlvB1DjQkDW5S6WMsEqc3EhaDto6OptHUCs2JanDwkax5zB/OFzSK08nRPMv7C
-	FGK7DeVS+4MYoYWYIyyvUL9Ln+OHKyjsG36KuEqpmsIV3E+M6TnVvM0tQvuCHmpc/ZAHXjegG7c
-	HNHVMVKT9JoBFr9xw1ZtML9eLdQUljYNmVHVTs8NypHCtblVD5UpbcdD/1J5Fv4RyIphSw4OUVN
-	IQDX0CG1cEnJGnxXLSsqCZuNHC24/e+TvWSN8iYSDlqPo2KbPViehyUqT43THXGejqI+PiknmOI
-	oGsCCj3DIrJ0x8V8Zk6xWl3Fuq5OwZRCUeG4sSy6tYjOsmAuYoR667IzKo2C7AF0xdXwH7pqJRX
-	IsNqbVXHlUe8Jli/FGwjg==
-X-Received: by 2002:a05:600c:628b:b0:487:1fbf:e0bb with SMTP id 5b1f17b1804b1-488d680851fmr44354185e9.6.1775831752535;
-        Fri, 10 Apr 2026 07:35:52 -0700 (PDT)
-Received: from corblimey.Home ([2a02:c7c:37d6:c100:60ca:408d:517a:4a96])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-488d53807d7sm128938305e9.10.2026.04.10.07.35.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Apr 2026 07:35:52 -0700 (PDT)
-From: Adrian McMenamin <adrianmcmenamin@gmail.com>
-To: linux-fsdevel@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Subject: [PATCH 05/10] Add support for VMUFAT filesystem
-Date: Fri, 10 Apr 2026 15:32:20 +0100
-Message-ID: <20260410143219.308299-2-adrianmcmenamin@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="gCQOrls6"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=x7Pc7BdpmXYmebB68kH1nFny0rSOm+Pd6TCbUj4Kyew=; b=gCQOrls6VgYStvOUweRSAAAQZF
+	BUrrRwSLo63npXXVYJO/lVHwyUfibLgVz565F7/MALV3uYEUN5x8d5jUQYrBVGb8327Wa30nple9I
+	TCR5lgStT4r/a5mYNmYowlYpaZU9/ZrRbV1RtXvJ6bRxltfURkDeUEIs1QZE4ciLXwdHYz2QdG3LX
+	O1bX0F/klQ77gWzcMoIhcXOcQcF9zAEITEahkfj/eHXh5v5KJPZPv4ENGnDraxDeUlv7c4RapAigU
+	gTuUlqPhjPYUpLgFBw/JRZJ2l83GbmTeUDMERbB4YVbtJEsXw0UzwHBaWC4ENkKJOfjDCC87fAMyc
+	jYrVk03g==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1wBD0G-00000009Vmq-2Ykj;
+	Fri, 10 Apr 2026 14:38:36 +0000
+Date: Fri, 10 Apr 2026 15:38:36 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Adrian McMenamin <adrianmcmenamin@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 02/10] Add support for VMUFAT filesystem
+Message-ID: <adkLbCyI7ZnxkSAp@casper.infradead.org>
+References: <20260410142403.308108-2-adrianmcmenamin@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260410142403.308108-2-adrianmcmenamin@gmail.com>
 
-Contents of a new fs/vmufat/Kconfig file that describes reasons to, or not to, include VMUFAT in the build.
+On Fri, Apr 10, 2026 at 03:24:04PM +0100, Adrian McMenamin wrote:
+> Document the VMUFAT filesystem with a new vmufat.rst file
+> 
+> Documentation/filesystems/vmufat.rst |  127 ++++
 
-Create a new fs/vmufat/Makefile
+You should add an extry to Documentation/filesystems/index.rst too.
 
----
+> +An executible file (generally a game written in the native machine code of
 
+That's spelled "executable" (both times)
 
---- /dev/null
-+++ b/fs/vmufat/Kconfig
-@@ -0,0 +1,14 @@
-+config VMUFAT_FS
-+	tristate "Dreamcast VMU FAT filesystem"
-+	depends on BLOCK
-+	help
-+	  This implements the simple FAT type filesystem found on SEGA
-+	  Dreamcast visual memory units.
-+
-+	  Dreamcast users who want to mount their VMUs to view the native
-+	  filesystem will say 'Y' here. The filesystem is hardware independent
-+	  but is not recommended for use in other circumstances, so just about
-+	  everyone else should say 'N'.
-+
-+	  To compile this as a module say 'M' here. The module will be called
-+	  vmufat.
-diff --git a/fs/vmufat/Makefile b/fs/vmufat/Makefile
-new file mode 100644
-index 000000000000..da423b0c7eec
