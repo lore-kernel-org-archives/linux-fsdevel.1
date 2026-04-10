@@ -1,115 +1,160 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B3823612FB
-	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 11:03:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775819003; cv=pass; b=ErsZ6msUD/ma3bRSfDdNqf6U38O6MrAuMMkQBMMn2erF6ZKcIBnWw3ancH4TmORD0segdU9be+g/tFXMSnNUJRyeq9ryEBBkEVlA3lYk3ioif8Hk5sZRlV5AXIYJIzsCmx4NW115O8bMhgRyiFgS+I+q46SGTug2S7psKiUPSjA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775819003; c=relaxed/simple;
-	bh=ejLyRkZ537mc7OvMaSktA/NDcYaklBBIQdvV8hSA1O8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pTKsxiqrvw2EZS+cA1R1fFBQldIklwghqDfs6zzRs9bKt9U/NxuvmDN/zpWrAHidowkN5fGT/vNvAjQuLYp6AymCZU3iLQptRyJf6yAKaxqn+Oeytyv5jAJGvUsY0ljEPxdP8KDRk1Tf2hIu0pdXleFcfszVDRHIh6UduuDIUjw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BbJhQZO7; arc=pass smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 505723B27E8;
+	Fri, 10 Apr 2026 11:05:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775819122; cv=none; b=TD2ldLk7eRuTeFT2zFPZN/91YaCSapM1lecrGsTqLhHndeFM27TteWmljq8ydv0XA7s7w+DEkkC1ab0rdwef3iQSSimhuEKKgnpRIe3xuNHwmHe5t0sW02MRFfr0q5Pvp/1Qf4au4/UXOxCSsySVBVJiJ5d3e0Eoz851faaTuS4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775819122; c=relaxed/simple;
+	bh=iRlDfmRKxqUDhfcZ2nC/nwbPHVz0HLElSVyR/zYGygY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Odusr9Ui1RUvc/yi05HJdeUdW5E+vhOK9JjnIjDYdDFUVkUrwOk30s5ol4W7pv2MF+L19ejEWpkfSJZma9mPC1TRbiAOqTi3l5NrIgzdmzcl8Osr0lM+mZrK5x7vv7tzCzI7j+Oqa3nMeflA11DYl+4nruOK8tjkZVXiK5Q3IhE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nE/i6Gs3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BbJhQZO7"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-b9c745e18a0so38212966b.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 04:03:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775819001; cv=none;
-        d=google.com; s=arc-20240605;
-        b=WKj3AHXvShdUsthmmJUa6nGHR/k6u6N6gEXT7AYNiZGgo9slZTmQEmUqq0Dq5eEltR
-         I7hk2hnrMbirmwRHk0/sejA6UrsEC6WjjhRvJnS9Hvxaj0IRXXRGSZceL4/91fQzgR1N
-         fWapZ7f3wt15qke1REFfOrObQ2MIX30iUIgiKmlW3UQKjDVmYGKNpdeFGv1k1pJ2fp1s
-         ew0TEI7/VOu+ykutaBru0EnPBDitau45k+DBRn+sG2Nx3krS/hLg+g7xX0U48G1qmpUH
-         QuoZAgpA9hzjp61NaTag5MGpt+bZssW3XS7j2153cg4EJeVa55Utu9nntsPVzFbsFuFi
-         GMyw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ejLyRkZ537mc7OvMaSktA/NDcYaklBBIQdvV8hSA1O8=;
-        fh=KjYv0NNhhjrmDOCwaiOzS1sX2rr3BMOO+uvdIOw7xRU=;
-        b=hgh1/j1+DhAFTjLC8XA2fd8tyAjwZbKMSrxS2YSO5mvOBrgOcy+hSR8xigSxgkWDB7
-         Yro9BrocYV9Rqhqm1eei/UDKjgJ7CrJUYFPMELpSUGfC+OqPnHO+6q4fKvfP6yIjLNDB
-         HohuKTSDecH2Uj3wt692ItMv8I+FzSI1HXdaj2VrBflao57Lu8vxqU+zintAcfIUcWY0
-         9uzjASrbqV7oN6trhVXv7xYnxWbVw0hY4P9gHuoCiX5kxMj02HbrKIUoPaxBKv3ateRQ
-         pY/6/VTj3js3Ub4j/i9DWoaiKcvDi3EFHHiyZykKds4GyavUri6gFhOkgId6B6fyoPMI
-         0MSw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775819001; x=1776423801; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ejLyRkZ537mc7OvMaSktA/NDcYaklBBIQdvV8hSA1O8=;
-        b=BbJhQZO7Zjq4eTcnh9h9Ask8cgEhAzcaXAZHj3BNtiIyaE9RH/gla8x9tPR94ba2iB
-         Y/0NruitDhsKLxn56KxpNvFu089RzxLuF0zkay/yh9sO5kVcMSVvtjXFcPhCW1OI4U7Y
-         KGN/WCCWXljOZzpHSYS44cJecCbkD6Ys7eIZSLiS41siLEgzmTdSaT/QgD6fIAVZHkY3
-         99RFFkT8uGXu4ll10+Cr91e+59rCOMe93+5zOJRF6EFxptELIwCkn5Qupjq/WCodE6CT
-         8iQfHpybCM5/aDEbpPr2He8BMsiP5PYq7Q7PHoVuCnWAFYcQ1AAsKrJfnSdBbaV0+BtO
-         CsLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775819001; x=1776423801;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ejLyRkZ537mc7OvMaSktA/NDcYaklBBIQdvV8hSA1O8=;
-        b=XyMtpKkp4+QUUPvYeFjvgTFDisRX7nEK1ylU/gnyv451hZxJ2N9qwHLPPk0yd0iV0S
-         Tw47ZTv6PZYLpDJqTklAZoEJrD0G/pvLigyVfO2JywWd8A2mgY0SYM7sdbVfe6BrCDsk
-         1wqk5WOeClcNq8mmjRPSWvOSJ5iXjxy7eG8qxErjxamCAfwd0M6EqevUxEtUEPnFWL+h
-         QsPcz94Jwj3JUthY7qOW6TbWD0+6+1xCmBfFJz7f9vj3wBIuABXb4BOHw3kKLJvuCU00
-         fbzHe9l235Ntkam/V3AnYCip1XmkItnpU2UmLGEH1I1QPilauBnQvf4J7Wf1cSGw1rST
-         lnyw==
-X-Forwarded-Encrypted: i=1; AJvYcCXCYaTEvlmwxCtJ/B6ml9Zdq7wIGN1lqb9S668/HK0w62pfYwWLw34V9MZa/VlRrS+Xg41N15ISiFl/k3q2@vger.kernel.org
-X-Gm-Message-State: AOJu0YyU6sFrvzDskxHoTLLNmoQwc+1KJ+pku0lQPIgREmS+ZyInErLO
-	7l5ocBC1tx3lXQp2LJ3oVgeTTYR9Z1SS/Q8emVAaH9mGUPInYHIcvUrA/8kXdoLDBu3P5PpiXLd
-	ZIUtsM1RCXJOwHLYgW9SW1dBZq60U6+c=
-X-Gm-Gg: AeBDievtwpcDNUgrlIARk4fS38/dfCELmA3vB3ziSD77iHtHNQYo5W1IAalIMXlsEG6
-	TyYvu1FfD66RDCWIDlDYZsx/Sw+KilcWsemNmUtE9UbDiWnG59D0UtC/gYDrk1SfNdOcGsx7Rh8
-	P58tZ33jJSr/5GjY5L/77FftTGN1q4yJ1306zXYwGbH4FL6DDJZ2XzPh8iL0Bo/pmT+1GWlNrie
-	l8tRTmIDNa3nGuCZzfQxrkfFSboh3vxPMEYgdxZ/aHRA5EUkVy0YsN7HoyyhqWunO4Plr19rpZL
-	dXH1cwKiTWwZvnGCcHL5KOmwPYhM37z/i1q6Sl8KBQ==
-X-Received: by 2002:a17:907:9719:b0:b98:284b:53b with SMTP id
- a640c23a62f3a-b9d76d2c9dbmr148199966b.14.1775819000571; Fri, 10 Apr 2026
- 04:03:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nE/i6Gs3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 770EBC19421;
+	Fri, 10 Apr 2026 11:05:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775819122;
+	bh=iRlDfmRKxqUDhfcZ2nC/nwbPHVz0HLElSVyR/zYGygY=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=nE/i6Gs31Xc2a+DKYjlJrWbobqbkCPY7qpm3H/KUSURPlDJNsc4uq0wRPN0gfwnit
+	 g91Ub6aJpfd2SK7NHBQwTpBxRGGJXn7JQ95W3gyCRdE5jXe9P+lwD4DCRU0SsbSy4T
+	 hCLXZQ3/oRIj/OdkTJXY7pB0gGAwF+ytio3qnzLT6reevK7vafYBiaZ+MOCpG9EKkR
+	 KifAIa7kH6+U7PVTxce37XHqg0hL3Mj6ibPpAyBU1BdT22UjKRXgD0RSKGDJKJciG1
+	 u5jQqmsFYhKf0NGDQ3JIo7csHHf7e//PyvIMoqZE2hkvwCmfG8WkngsCrPZbAMJOcD
+	 uY5hRm74eJRCg==
+Message-ID: <7f78f6ad39c3c66a207ae66e2be7edfb1421df06.camel@kernel.org>
+Subject: Re: [PATCH v2 1/3] mm: kick writeback flusher instead of inline
+ flush for IOCB_DONTCACHE
+From: Jeff Layton <jlayton@kernel.org>
+To: Jan Kara <jack@suse.cz>, Christoph Hellwig <hch@infradead.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner	
+ <brauner@kernel.org>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand
+ <david@kernel.org>, Lorenzo Stoakes	 <ljs@kernel.org>, "Liam R. Howlett"
+ <Liam.Howlett@oracle.com>, Vlastimil Babka	 <vbabka@kernel.org>, Mike
+ Rapoport <rppt@kernel.org>, Suren Baghdasaryan	 <surenb@google.com>, Michal
+ Hocko <mhocko@suse.com>, Mike Snitzer	 <snitzer@kernel.org>, Jens Axboe
+ <axboe@kernel.dk>, Chuck Lever	 <chuck.lever@oracle.com>,
+ linux-fsdevel@vger.kernel.org, 	linux-kernel@vger.kernel.org,
+ linux-nfs@vger.kernel.org, linux-mm@kvack.org
+Date: Fri, 10 Apr 2026 07:05:18 -0400
+In-Reply-To: <quptbqj7jfparfhrxt45cassborouvwggeqkwbk3ixyt74crb6@e7ivbuu5qlox>
+References: <20260408-dontcache-v2-0-948dec1e756b@kernel.org>
+	 <20260408-dontcache-v2-1-948dec1e756b@kernel.org>
+	 <adc-Q1iDWHD5yxHH@infradead.org>
+	 <gpcc6t5unsoepakjdffsmnmd5duuvijxwdochd753ttix75h7l@nahwzi4qfdcq>
+	 <ade14lOI1CDiraar@infradead.org>
+	 <quptbqj7jfparfhrxt45cassborouvwggeqkwbk3ixyt74crb6@e7ivbuu5qlox>
+Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
+ keydata=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
+ QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAJfpegsxe=QdrGGPVSUWfJunDKvOXoszy6BnaP0MjHpRS7rHHQ@mail.gmail.com>
- <CAOQ4uxgjDYihoPGcVZMZPu6S5OCfAJ4StispKUYj=+6Ay_qtkg@mail.gmail.com> <CAJfpegsdKww4FQQnyS2K-CLL7ZQiJ5YT9FB_WPd_OAhVCHBKmg@mail.gmail.com>
-In-Reply-To: <CAJfpegsdKww4FQQnyS2K-CLL7ZQiJ5YT9FB_WPd_OAhVCHBKmg@mail.gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Fri, 10 Apr 2026 13:03:08 +0200
-X-Gm-Features: AQROBzDMl6VO-5aYWlHa6-P3gb7WkIJi73SKYtFBmc87tteXRSuS14OnuhAGSEE
-Message-ID: <CAOQ4uxh5bNnxO_mirds4atXX2tcaS1Ynhjvo5R-TsSCpsAw5qA@mail.gmail.com>
-Subject: Re: fsnotify_prepare_user_wait() bug?
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 10, 2026 at 12:57=E2=80=AFPM Miklos Szeredi <miklos@szeredi.hu>=
- wrote:
->
-> On Fri, 10 Apr 2026 at 11:46, Amir Goldstein <amir73il@gmail.com> wrote:
->
-> > Do you think this will improve the situation in practice for real world=
- cases?
-> > I assume that you have observed such cases?
->
-> There is a report of stray permission failure near an unrelated group
-> removal, which would be explained by this.
->
-> How about propagating EAGAIN back to fsnotify() which would redo the
-> send_to_group() with an updated iter_info?
+On Fri, 2026-04-10 at 12:41 +0200, Jan Kara wrote:
+> On Thu 09-04-26 07:21:22, Christoph Hellwig wrote:
+> > On Thu, Apr 09, 2026 at 09:21:36AM +0200, Jan Kara wrote:
+> > > > So I think you'll want a new WB_start_dontcache bit, a new
+> > > > get_nr_dontcache_pages() helper on a new node counter, etc.
+> > >=20
+> > > But I'm not sure how you imagine this would work without restricting
+> > > writeback to particular inodes. Maybe we could mark inodes which have
+> > > folios with dropbehind set and make flush worker only write such inod=
+es?
+> >=20
+> > I'd only expedite writing by the number of pending dontcache folios.
+> > It would still write the least recently dirtied inodes.
+>=20
+> So that may result in dontcache folios staying cached for quite some time
+> if DONTCACHE and normal writes are mixed. But I agree over longer time it
+> might just level out so maybe that's fine.
+>=20
 
-Yes either that or ERESTARTSYS were discussed in the past.
-
-Thanks,
-Amir.
+I think that's probably OK. In my interpretation, DONTCACHE on write
+just means "don't cache this data beyond what's needed for writeback".
+It doesn't provide any guarantees about when the writeback will be
+done.
+--=20
+Jeff Layton <jlayton@kernel.org>
