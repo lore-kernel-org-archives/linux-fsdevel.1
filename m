@@ -1,67 +1,87 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0774233E377
-	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 10:11:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C423890F6
+	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 10:14:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775815895; cv=none; b=Ht6zrTgFb2o37SYUztxIRVERGLdR32TyjDGigvFP72uY+LaKkJh0g4oP/iqVmQsgvNDKXZvXFDZeH+G1EdSjV7ZbDiFa13bqn7eStqHRmHiYXRoq4WefDyNAC5gToIRuJ83BnZgy9U56mgMPBtS+BfhAc17dHWwXfsOf8A0WxUA=
+	t=1775816078; cv=none; b=FrB3W2qfrIzgru0hvGfzb81WKUI/1utF2RzW4V79F3996LTjnAT6ORpSuuNIzdpodMAQBta9JFtvweaw3TasHSwGHiz7fuZPMVqerd2j6nRu3MNwrCsBitMawne3ixDzCvo4onPmStj7vEMCeno4NKp7Y9rMlXhg3DutrN4U7EI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775815895; c=relaxed/simple;
-	bh=VnZIxKmaUTXGoKo6wGhU2EVsNOdIX+vEPHKn0bXhH7w=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=biFXsMm/saUi8hlSvpCX5oPh+wHo3wyuv1FUd41fqqE3STHF3LG9wbff0rVY/ICnatzxSpp2UFs9zpUUKHCZXXMapUKbkcgON0UCpyH5Sqgg825pYRIxsDqo42hS4YAGaWWyijz6evOtnkcYZ5AULTj7EXl9pACqOLz7UNRsk40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pSK86CZh; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1775816078; c=relaxed/simple;
+	bh=9+W9e3fX4vpfor6d/qnm6lJjVwztxDI24fBqgbz0xBU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MOnUGsxYRLKmo4y7ElvyXp3x5BWKKBa/kLjiNN4zhH7JQJBporsug8GDZxUmskUxkXkxkRxGlyxYkFKnFOq0SrdxClbGKWid2ZVbn1ySFOhSlKCa7ud7HLqLqnxpp3rQQHjD1AS6xnqRaxKupWZrO0yCgJRwDPCU6vEOLLibf0Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Whk/T0Jt; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=d3pE0V1G; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=xtfrm//R; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=B2tjeK36; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pSK86CZh"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-488d2079582so15373375e9.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 03:11:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775815892; x=1776420692; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Lqo9R/XWBFDRhtrRCH5LCTBN7UeMvzrHk4D6qdLAmws=;
-        b=pSK86CZhZ1Z85iBA0at+18JUCHvZrQ0fxnUuG4NwxxY70lRXxIoWQJbvOnuYnNwnBt
-         Ej4/Q81ePtvy6wOVCyJbXFbF4fNat9QuAoocYlvfsLTKjt/TuSDUZywJ8atJ07y4Hvrk
-         BE/TgceJ3Mj01saagMtnAvkugvQU1Jy7AC7H6oZI9ha1OtORJb0+0lXJDKQFTPceAqFw
-         uABr7RNOozof0gz2gOE3rwfMmqXKX8u8mQS7GmXRmgg6ckMX3dh9KgrbZW/1Y472nav3
-         5fgZp6eaJQgZz6n8EXfU92gDE/EbKQGHox1bErco6Na0PvTrW06SpxccFzyz+ku1w958
-         ifjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775815892; x=1776420692;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Lqo9R/XWBFDRhtrRCH5LCTBN7UeMvzrHk4D6qdLAmws=;
-        b=aYsCdtGSCvo7UzlwB4qMpwzt8QaxeGTtVk+FUI+Yk5bLh1PLpNZlvYZa+F1e5NhMLE
-         E8NrOVvU+DhYfMuGvfhRjjh8W8rYHXIWMGUkvUgHbKZ/6xbJrDoeKJ8SvYVAO0c6eMnK
-         ytKIczeYGnsRb1S/TQwkqngpGVoiMHzURCLVHJz9c6/9rkFOOJBMBy5YOCVqPszV4rTM
-         ke8WTsQD7NfgCsDcj8TDLJQKNv9BGB70/ckWo8yINiNthYO9C46caU1ag+nSLCiFTrX+
-         tum8USrOtC28RtvgmV85G6WSBznDJ9z21V1OP66fKN5Trv+FeRqkwpWbah6HwSkj6Goc
-         2Cjg==
-X-Gm-Message-State: AOJu0YxrJUDsChOMVHjFj9dvLzv0SzZU7R/s8zb7YN44lVWv20E/H40d
-	bQVbQh0VRcZiLy25he8tMEcI7rIDrd9qxVoDj0kGvV46Kw8v9hp8ivhJ
-X-Gm-Gg: AeBDievROceFv4ZVghS9bLjV0hDcgGMxLD3xqF5G4GbaYvDDTWss4Y5V8GPc1PrRZ2f
-	u0FB1smTwrjhqLtLuxW+IKsIrc66vO4ipvB8XnhuK5Y++kRZ/PJpO2Z1xcKBUg7YTOVunhVT6QZ
-	uOVQrdwh1nJBSYwKaJFgL3H7iF9KPbpwSQrqkZNCA7thFO9ib6CueIhCKfPLRnaoLo4CRPdELED
-	AqFL8dikpbQZuUYby0b9KAXxNVMjzEGmVvZbQKY8i8xeOTfgq/lBlvx6WajrSQtSUP7gXEhUMO4
-	4m1OrBqCoXbsQQ9puPniy4svradFOs4viQXjfWxvS/nxsTp3SRBdP7XJ6qh6m3Ru8qI8HW/9bOh
-	HvKpwnY9stEM8VueJjGu+U2Vd+HkaiSaHwHzUvG0PsqOJ8tfJaei88+z37FKYwvy5wojUyOBe/z
-	IDlvDqXYb7UxzxqpspYLI=
-X-Received: by 2002:a05:600c:3f0d:b0:485:40fd:8390 with SMTP id 5b1f17b1804b1-488d68769f9mr27640345e9.26.1775815892151;
-        Fri, 10 Apr 2026 03:11:32 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488d531f229sm88612795e9.3.2026.04.10.03.11.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Apr 2026 03:11:31 -0700 (PDT)
-Date: Fri, 10 Apr 2026 13:11:28 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Namjae Jeon <linkinjeon@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org
-Subject: [bug report] ntfs: update attrib operations
-Message-ID: <adjM0PIEaYLUe5NS@stanley.mountain>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Whk/T0Jt";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="d3pE0V1G";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="xtfrm//R";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="B2tjeK36"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D4E5E6A7ED;
+	Fri, 10 Apr 2026 10:14:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1775816075; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FB+RnV89/37CNFnIW/6jx4C9HcTENMZLB0o6vivbJHw=;
+	b=Whk/T0Jt2kL8zZgd28b5/dawxDtyeXnbtKt4/yU9/6KIxlzSXJMkZ6w/68PyhrrUpLsIwV
+	wHEhjMdRgAmU7EHhv14P2taRd9ynHatQkoUp0TlxBli0H7l4CKil3zbN32/UcuUcuq+TZn
+	qlGO0UG3qokgjFy7GbZlWbrn1hJ9Tyk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1775816075;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FB+RnV89/37CNFnIW/6jx4C9HcTENMZLB0o6vivbJHw=;
+	b=d3pE0V1Geu7hKi5JAB081R15zdWg9sR9NP71WaZqPXZ1SOZCU8thSD1aixFqQR/hI4e+o+
+	wgg5rZ3VveMs1zCg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b="xtfrm//R";
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=B2tjeK36
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1775816074; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FB+RnV89/37CNFnIW/6jx4C9HcTENMZLB0o6vivbJHw=;
+	b=xtfrm//RBCmhKmhb2JcJBTBBFXYMehTnUgRzoARP6NJiYC8AajGsCvh+tUA0yRAfg8HwFy
+	aBajCyKACffeA1N6oVhuFqHTMsJWRnWzkwTvAFpVPYu6c+aYiA9uDTf29LwazLHbV3HqHv
+	2x3EdvfkcrXw2n+Pi+7SJURkXtN+83Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1775816074;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FB+RnV89/37CNFnIW/6jx4C9HcTENMZLB0o6vivbJHw=;
+	b=B2tjeK36uzy73fkyWsRDAew4RvcL1qPmpRF6iSlRw+N0hkPEe7jJD5YbmUhh3J9VEY2zQ6
+	wfxfP816p13khQCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BA4254A0B2;
+	Fri, 10 Apr 2026 10:14:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id +DJzLYrN2GlcagAAD6G6ig
+	(envelope-from <jack@suse.cz>); Fri, 10 Apr 2026 10:14:34 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 7BD09A0A81; Fri, 10 Apr 2026 12:14:30 +0200 (CEST)
+Date: Fri, 10 Apr 2026 12:14:30 +0200
+From: Jan Kara <jack@suse.cz>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org, Matthew Wilcox <willy@infradead.org>, 
+	lsf-pc@lists.linux-foundation.org
+Subject: Re: [LSF/MM/BPF TOPIC] Filesystem inode reclaim
+Message-ID: <cvoy3vexgyxgyqghchpybluuvi4dvicbyjdodab5afqlmxe2yf@vgpzcmu6upri>
+References: <m5v2s4fc6od2y2en5m62sr6fx57fdkhtqrn2kv47ngpcb65ump@4cfu4os3x5yy>
+ <20260410-anonym-freigaben-186946cb50e3@brauner>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -70,56 +90,132 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20260410-anonym-freigaben-186946cb50e3@brauner>
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:dkim];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Rspamd-Queue-Id: D4E5E6A7ED
+X-Spam-Flag: NO
+X-Spam-Score: -4.01
+X-Spam-Level: 
 
-Hello Namjae Jeon,
+Hello!
 
-Commit 495e90fa3348 ("ntfs: update attrib operations") from Feb 13,
-2026 (linux-next), leads to the following Smatch static checker
-warning:
+On Fri 10-04-26 11:23:26, Christian Brauner wrote:
+> On Thu, Apr 09, 2026 at 11:16:44AM +0200, Jan Kara wrote:
+> > This is a recurring topic Matthew has been kicking forward for the last
+> > year so let me maybe offer a fs-person point of view on the problem and
+> > possible solutions. The problem is very simple: When a filesystem (ext4,
+> > btrfs, vfat) is about to reclaim an inode, it sometimes needs to perform a
+> > complex cleanup - like trimming of preallocated blocks beyond end of file,
+> > making sure journalling machinery is done with the inode, etc.. This may
+> > require reading metadata into memory which requires memory allocations and
+> > as inode eviction cannot fail, these are effectively GFP_NOFAIL
+> > allocations (and there are other reasons why it would be very difficult to
+> > make some of these required allocations in the filesystems failable).
+> > 
+> > GFP_NOFAIL allocation from reclaim context (be it kswapd or direct reclaim)
+> > trigger warnings - and for a good reason as forward progress isn't
+> > guaranteed. Also it leaves a bad taste that we are performing sometimes
+> > rather long running operations blocking on IO from reclaim context thus
+> > stalling reclaim for substantial amount of time to free 1k worth of slab
+> > cache.
+> > 
+> > I have been mulling over possible solutions since I don't think each
+> > filesystem should be inventing a complex inode lifetime management scheme
+> > as XFS has invented to solve these issues. Here's what I think we could do:
+> > 
+> > 1) Filesystems will be required to mark inodes that have non-trivial
+> > cleanup work to do on reclaim with an inode flag I_RECLAIM_HARD (or
+> > whatever :)). Usually I expect this to happen on first inode modification
+> > or so. This will require some per-fs work but it shouldn't be that
+> > difficult and filesystems can be adapted one-by-one as they decide to
+> > address these warnings from reclaim.
+> > 
+> > 2) Inodes without I_RECLAIM_HARD will be reclaimed as usual directly from
+> > kswapd / direct reclaim. I'm keeping this variant of inode reclaim for
+> > performance reasons. I expect this to be a significant portion of inodes
+> > on average and in particular for some workloads which scan a lot of inodes
+> > (find through the whole fs or similar) the efficiency of inode reclaim is
+> > one of the determining factors for their performance.
+> > 
+> > 3) Inodes with I_RECLAIM_HARD will be moved by the shrinker to a separate
+> > per-sb list s_hard_reclaim_inodes and we'll queue work (per-sb work struct)
+> > to process them.
+> 
+> I like this approach.
+> 
+> > 4) The work will walk s_hard_reclaim_inodes list and call evict() for each
+> > inode, doing the hard work.
+> > 
+> > This way, kswapd / direct reclaim doesn't wait for hard to reclaim inodes
+> > and they can work on freeing memory needed for freeing of hard to reclaim
+> > inodes. So warnings about GFP_NOFAIL allocations aren't only papered over,
+> > they should really be addressed.
+> > 
+> > One possible concern is that s_hard_reclaim_inodes list could grow out of
+> > control for some workloads (in particular because there could be multiple
+> > CPUs generating hard to reclaim inodes while the cleanup would be
+> > single-threaded). This could be addressed by tracking number of inodes in
+> 
+> Hm, I don't know with WQ_UNBOUND is that really a concern?
 
-	fs/ntfs/compress.c:1377 ntfs_write_cb()
-	warn: should bitwise negate be 'llong'?
+I planned to have a single work item processing the inodes which means
+single CPU cleaning the list even with WQ_UNBOUND. And MM folks tend to be
+cautious about these pathological scenarios where all your reclaimable
+memory is filled with hard to reclaim objects (dirty pages are prime
+example we have solved long ago but dirty / hard to reclaim inodes aren't
+really different). I'm definitely open to postponing the throttling part
+for later if people are willing to try.
 
-fs/ntfs/compress.c
-    1274 static int ntfs_write_cb(struct ntfs_inode *ni, loff_t pos, struct page **pages,
-    1275                 int pages_per_cb)
-    1276 {
+> > that list and if it grows over some limit, we could start throttling
+> > processes when setting I_RECLAIM_HARD inode flag.
+> > 
+> > There's also a simpler approach to this problem but with more radical
+> > changes to behavior. For example getting rid of inode LRU completely -
+> > inodes without dentries referencing them anymore should be rare and it
+> > isn't very useful to cache them. So we can always drop inodes on last
+> > iput() (as we currently do for example for unlinked inodes). But I have a
+> > nagging feeling that somebody is depending on inode LRU somewhere - I'd
+> > like poll the collective knowledge of what could possibly go wrong here :)
+> 
+> I still think we should try this - for the reduced maintenance cost
+> alone. Imagine living in a world where there aren't 2 different LRUs
+> constantly battling for review attention..
+> 
+> I'm split here but depending on the size of the actual work needed to
+> make this happen we should at least be open to try this.
 
-[ snip ]
+I'd love to but as Jeff points out, at least NFS depends on inode LRU today
+so we'd have to come up with some way to avoid purging all files from NFS
+directory from cache on revalidate events. And I don't see a simple
+solution for that...
 
-    1363         if (!fail && !allzeroes) {
-    1364                 outbuf[compsz++] = 0;
-    1365                 outbuf[compsz++] = 0;
-    1366                 rounded = ((compsz - 1) | (vol->cluster_size - 1)) + 1;
-    1367                 memset(&outbuf[compsz], 0, rounded - compsz);
-    1368                 bio_size = rounded;
-    1369                 pages = pages_disk;
-    1370         } else if (allzeroes) {
-    1371                 err = 0;
-    1372                 goto out;
-    1373         } else {
-    1374                 bio_size = insz;
-    1375         }
-    1376 
---> 1377         new_vcn = ntfs_bytes_to_cluster(vol, pos & ~(ni->itype.compressed.block_size - 1));
-
-This should be ~(loff_t)(ni->itype.compressed.block_size - 1).  Otherwise
-it zeroes out everything higher than 32 bits.
-
-    1378         new_length = ntfs_bytes_to_cluster(vol, round_up(bio_size, vol->cluster_size));
-    1379 
-    1380         err = ntfs_non_resident_attr_punch_hole(ni, new_vcn, ni->itype.compressed.block_clusters);
-    1381         if (err < 0)
-    1382                 goto out;
-    1383 
-    1384         rlc = ntfs_cluster_alloc(vol, new_vcn, new_length, -1, DATA_ZONE,
-    1385                         false, true, true);
-    1386         if (IS_ERR(rlc)) {
-    1387                 err = PTR_ERR(rlc);
-    1388                 goto out;
-    1389         }
-
-This email is a free service from the Smatch-CI project [smatch.sf.net].
-
-regards,
-dan carpenter
+								Honza
+--
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
