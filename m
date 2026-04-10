@@ -1,200 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE9BD3DE45A;
-	Fri, 10 Apr 2026 15:21:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D7823DA5CB
+	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 15:23:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775834483; cv=none; b=YvFwsj4nb5sRI0BBfUF3PnSBKLByguU9TZN8L0gn3kVEYxDF7275cnrhgN2sGgU6kqP0IBZRfQ1sLxHq7scoNHMTjlPjSp3orJUwfabjwWv6iGvRK1sSwUgpuBWQK5t42zlGTzIsvpONo0nKcAFrEkIkDM0qU3SY9SlRCkVhjT8=
+	t=1775834590; cv=none; b=Tc7ClxEKGv5aW2Q35/Hv0rzTqtcmuIS0f+tgVlLEdwzZ4xVQsb9D6gUgzNER7dXjGYz34jZHVHdrKtorXyOUvm+ADbth1COM0ee8SOGD9pqq0poLEmKc1dw7Obo962vygg/B4A4mCT4DSNSzRtc4aodhqUw0w4bTxpDL96VONM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775834483; c=relaxed/simple;
-	bh=V9BB4+EE5S2fRNiIi0lwtnNutslbnfd7oNA6wRwYZo8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JC3YiKSy9iekOwWr+xhIj3upx9JDMoQ0ZiwoEd1jGyJLOA3SedMWr2Up5DKITeGS5aIU20Q5iaNIdFSpPB8ymspEqqoJrT985+wcjZCVOH+CDdKCr3fl1AiogqVMql3qM6k5Y4TodfFUqOi6IMu7qHClq6DrKCU66Rq1zeiDHtk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XrYPRZ9o; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775834590; c=relaxed/simple;
+	bh=9fOtjxl1AVxS9jBd56O8yj9/CPpyk7CwC6NfklDZvac=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HO/1HX3ddQWN3MUNdT7actL0fUTShR5+nfdymr3OpZ5PvWJ+oXwI967oouLSBBccLP+EZ93h9CBYOnbxo8BE/mxenPV0ESUWg9f1guP3h8nJSOxhV3rpJQHTHzMe7Kw4sjIOPrzQjuJ70szdiE6mN/NY6e68oTKftLwTfPudKs4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MNylztcQ; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XrYPRZ9o"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5148BC2BC87;
-	Fri, 10 Apr 2026 15:21:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775834482;
-	bh=V9BB4+EE5S2fRNiIi0lwtnNutslbnfd7oNA6wRwYZo8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=XrYPRZ9oawfYz/xzpVy9e5Hhi4ustrU4OPEb9jnFaE7Ps/ztXYmClLGWrEnMCxlfj
-	 /aFNdxBkHDZKf9NI8GO4iLScmeHYphBALeq620Df1pj39HjoFMACFcoDuwQaOMRmpe
-	 wuhgXTgA/df1CJp5imqdZSw+SSF7QLyLbcd2KszZYnoh+ZZb+BiCOYQkDxQWjko84k
-	 Rg3FPJEc7wbGu6yMoiKNuS2V5eUnBpPnEbQUncIBRQtEp1Dlfa6V36ZTDiIcMMeqgB
-	 BmWFFniHRusP/Ty9FmkySJjey2Gv6xioMHPXIgCLVG0XK9Xm01mYiaRL2+iH+hxL3S
-	 khG/CZtlj4Iew==
-From: Christian Brauner <brauner@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [GIT PULL 10/12 for v7.1] vfs pidfs
-Date: Fri, 10 Apr 2026 17:21:05 +0200
-Message-ID: <20260410-vfs-pidfs-v71-b736f79a20b9@brauner>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260410-vfs-v71-b055f260060c@brauner>
-References: <20260410-vfs-v71-b055f260060c@brauner>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MNylztcQ"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4852a9c6309so20807695e9.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 08:23:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775834587; x=1776439387; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=aVuKbWZgxpyNY9aAkEjYJ1rylsyo4JWZ9890RwomJzc=;
+        b=MNylztcQg3JEHO0iA/EQuIMoWD5G47f7o386ym+GE7aKB9vY/Khb+KMydvZFFn1zio
+         +gcZhYVKNcQrKJNFo+PFT/IN3g9uwJQ6qSfvk9aGf7iLDQLkFjCslyJRB5puqQzkyREg
+         mHNf2kKSB+lDLpe7zwAUtfWoaRqq1mvPkHyiiyyJttVBwTERWCEcujNqmcfrmOumcxoM
+         YsZ0XLwGKR5lycuB4GoDYAmDojwwKJMHbrOFHSsQjAWDHmR22iNwMsCra3bWqJYMmwpS
+         jNTTImKFEpOE7CCW8jkOH3jPMb3Ot8JQOqS2crPvf9XrTHlWG0vYpQHny1gX8v/L1e2X
+         xHRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775834587; x=1776439387;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aVuKbWZgxpyNY9aAkEjYJ1rylsyo4JWZ9890RwomJzc=;
+        b=IH8+M9Fn9Xn3hepKGLrvQWZj6KnKP57bWNp7BltuZ9l/RPdOkImuMb10UaS/jegRhd
+         SQPOPYdLjvuG5FXerSuZRvvzsW+SG6LgPlz4JPYwAuZqoUfD0oB+RZQE8OAJ0KHtmT9I
+         hrK/WWUI/NAOCq5VExVepgx3qBQ/QWklwFI1vbt2bJ6y2od9tZYJckFXpmdTqgjWmFa2
+         1PshxRFC4jWvD35gc1/OAQ9y3122Wgb3c9oB5J9eQoU4zEniFYskC80UZidtrap64iru
+         QZ24UueuB71Voqo4EN09iE99IgBAfO8iWABgK1+dAqIhP6OD/l8RVeNFxzQHMB38bOGe
+         TI+g==
+X-Gm-Message-State: AOJu0YztYaO1tuivWVbIW9rf1qIKmLX+MVJ2FKHcXjyqLXMPoGR1d5lJ
+	UvkHXtHrcvscGz2ZD9Bx7vACFU3zhvf2HzGd7U9CVwgGMCCEpC1OUisSk5cidQ==
+X-Gm-Gg: AeBDiessmydMPUQaF9JCnEcH7zxrKJD0juHHd8NyFLVQBeYZ78azWLDYguz2SeSihYj
+	piUZPP3DNM46OLPYry3NWYteZ8BQ9hsVueORW3nhqt+T47W7gr1fEB0/MVR5um2DLczgjf+Yd5U
+	ZrEMtuJZwi89+qxWMsxqfY/s0fl9+NGsPRZvgULzySJZ1zQpizZTUqsDP566dpY1ZoThIe0Xczc
+	CZu4Pcp90NMRikWATW64+LNVZd+zzXDA75uZT5TMKOSorLj5hprU2zKc5VFEF4Tj8OorE93Jaam
+	/dHOUIU5nqrkNKUZC0QRPV4EjeiT6cw0t/SAvFu0aSDY97UvGWrLcAKA6R7nNqOqJOTKCWSY1eI
+	iFTekwVQg8vRwLvbyIO83E/3az7KT1MkD4CsfYmh/+f8vJsGUertC4rUBZCr/faQvjryFG+Un4y
+	HKLJhb7aKQ2zAm09tH2GLJHHDWBAXoWYtOTEz5THoC6Jv1h5sydHlXSBWHrK/bdGW+PotVZmoZQ
+	9bnh1/GC7w=
+X-Received: by 2002:a05:600c:3b29:b0:486:fbf6:abd4 with SMTP id 5b1f17b1804b1-488d67d24cbmr45720235e9.9.1775834587232;
+        Fri, 10 Apr 2026 08:23:07 -0700 (PDT)
+Received: from corblimey.Home ([2a02:c7c:37d6:c100:60ca:408d:517a:4a96])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-488d5d70891sm24978625e9.2.2026.04.10.08.23.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Apr 2026 08:23:06 -0700 (PDT)
+From: Adrian McMenamin <adrianmcmenamin@gmail.com>
+To: linux-fsdevel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Adrian McMenamin <adrianmcmenamin@gmail.com>
+Subject: [PATCH 05/10] Add support for VMUFAT filesystem (resend)
+Date: Fri, 10 Apr 2026 16:22:15 +0100
+Message-ID: <20260410152214.309696-2-adrianmcmenamin@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6750; i=brauner@kernel.org; h=from:subject:message-id; bh=V9BB4+EE5S2fRNiIi0lwtnNutslbnfd7oNA6wRwYZo8=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTeFM26EftOdrHjHH1Oz4T3FpESjiY287WzkuMnPDvTv Ucs8at2RykLgxgXg6yYIotDu0m43HKeis1GmRowc1iZQIYwcHEKwETaIhgZTmWZ7m5ZUpCg12XF FZH2urz3mG/u8XWpblN/lIZzPF/5h+F/kvu8C8IFzbNO7zsUkqy1SYqnJTZi4dGcvC0y1Y2Nj+K YAA==
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
 
-Hey Linus,
+Contents of a new fs/vmufat/Kconfig file that describes reasons to, or not to, include VMUFAT in the build.
 
-/* Summary */
+Missing "signed-off-by" line added for resend.
 
-Add three new clone3() flags for pidfd-based process lifecycle
-management.
+Create a new fs/vmufat/Makefile
 
-=== CLONE_AUTOREAP ===
+Signed-off-by: Adrian McMenamin <adrianmcmenamin@gmail.com>
 
-CLONE_AUTOREAP makes a child process auto-reap on exit without ever
-becoming a zombie. This is a per-process property in contrast to the
-existing auto-reap mechanism via SA_NOCLDWAIT or SIG_IGN for SIGCHLD
-which applies to all children of a given parent.
+---
 
-Currently the only way to automatically reap children is to set
-SA_NOCLDWAIT or SIG_IGN on SIGCHLD. This is a parent-scoped property
-affecting all children which makes it unsuitable for libraries or
-applications that need selective auto-reaping of specific children
-while still being able to wait() on others.
 
-CLONE_AUTOREAP stores an autoreap flag in the child's signal_struct.
-When the child exits do_notify_parent() checks this flag and causes
-exit_notify() to transition the task directly to EXIT_DEAD. Since the
-flag lives on the child it survives reparenting: if the original
-parent exits and the child is reparented to a subreaper or init the
-child still auto-reaps when it eventually exits. This is cleaner than
-forcing the subreaper to get SIGCHLD and then reaping it. If the
-parent doesn't care the subreaper won't care. If there's a subreaper
-that would care it would be easy enough to add a prctl() that either
-just turns back on SIGCHLD and turns off auto-reaping or a prctl()
-that just notifies the subreaper whenever a child is reparented to it.
-
-CLONE_AUTOREAP can be combined with CLONE_PIDFD to allow the parent to
-monitor the child's exit via poll() and retrieve exit status via
-PIDFD_GET_INFO. Without CLONE_PIDFD it provides a fire-and-forget
-pattern. No exit signal is delivered so exit_signal must be zero.
-CLONE_THREAD and CLONE_PARENT are rejected: CLONE_THREAD because
-autoreap is a process-level property, and CLONE_PARENT because an
-autoreap child reparented via CLONE_PARENT could become an invisible
-zombie under a parent that never calls wait().
-
-The flag is not inherited by the autoreap process's own children. Each
-child that should be autoreaped must be explicitly created with
-CLONE_AUTOREAP.
-
-=== CLONE_NNP ===
-
-CLONE_NNP sets no_new_privs on the child at clone time. Unlike
-prctl(PR_SET_NO_NEW_PRIVS) which a process sets on itself, CLONE_NNP
-allows the parent to impose no_new_privs on the child at creation
-without affecting the parent's own privileges. CLONE_THREAD is
-rejected because threads share credentials. CLONE_NNP is useful on its
-own for any spawn-and-sandbox pattern but was specifically introduced
-to enable unprivileged usage of CLONE_PIDFD_AUTOKILL.
-
-=== CLONE_PIDFD_AUTOKILL ===
-
-This flag ties a child's lifetime to the pidfd returned from clone3().
-When the last reference to the struct file created by clone3() is
-closed the kernel sends SIGKILL to the child. A pidfd obtained via
-pidfd_open() for the same process does not keep the child alive and
-does not trigger autokill - only the specific struct file from
-clone3() has this property. This is useful for container runtimes,
-service managers, and sandboxed subprocess execution - any scenario
-where the child must die if the parent crashes or abandons the pidfd
-or just wants a throwaway helper process.
-
-CLONE_PIDFD_AUTOKILL requires both CLONE_PIDFD and CLONE_AUTOREAP. It
-requires CLONE_PIDFD because the whole point is tying the child's
-lifetime to the pidfd. It requires CLONE_AUTOREAP because a killed
-child with no one to reap it would become a zombie - the primary use
-case is the parent crashing or abandoning the pidfd so no one is
-around to call waitpid(). CLONE_THREAD is rejected because autokill
-targets a process not a thread.
-
-If CLONE_NNP is specified together with CLONE_PIDFD_AUTOKILL an
-unprivileged user may spawn a process that is autokilled. The child
-cannot escalate privileges via setuid/setgid exec after being spawned.
-If CLONE_PIDFD_AUTOKILL is specified without CLONE_NNP the caller must
-have have CAP_SYS_ADMIN in its user namespace.
-
-/* Testing */
-
-gcc (Debian 14.2.0-19) 14.2.0
-Debian clang version 19.1.7 (3+b1)
-
-No build failures or warnings were observed.
-
-/* Conflicts */
-
-Merge conflicts with mainline
-=============================
-
-No known conflicts.
-
-Merge conflicts with other trees
-================================
-
-The following changes since commit 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f:
-
-  Linux 7.0-rc1 (2026-02-22 13:18:59 -0800)
-
-are available in the Git repository at:
-
-  git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.1-rc1.pidfs
-
-for you to fetch changes up to d29eb5f0ce674cfe71b93f8ff67dc0f66e6a9371:
-
-  Merge patch series "pidfds: add coredump_code field to pidfd_info" (2026-03-23 16:29:22 +0100)
-
-----------------------------------------------------------------
-vfs-7.1-rc1.pidfs
-
-Please consider pulling these changes from the signed vfs-7.1-rc1.pidfs tag.
-
-Thanks!
-Christian
-
-----------------------------------------------------------------
-Christian Brauner (8):
-      clone: add CLONE_AUTOREAP
-      clone: add CLONE_NNP
-      pidfd: add CLONE_PIDFD_AUTOKILL
-      selftests/pidfd: add CLONE_AUTOREAP tests
-      selftests/pidfd: add CLONE_NNP tests
-      selftests/pidfd: add CLONE_PIDFD_AUTOKILL tests
-      Merge patch series "pidfd: add CLONE_AUTOREAP, CLONE_NNP, and CLONE_PIDFD_AUTOKILL"
-      Merge patch series "pidfds: add coredump_code field to pidfd_info"
-
-Emanuele Rocca (3):
-      kselftest/coredump: reintroduce null pointer dereference
-      pidfds: add coredump_code field to pidfd_info
-      selftests: check pidfd_info->coredump_code correctness
-
- fs/pidfs.c                                         |  50 +-
- include/linux/sched/signal.h                       |   1 +
- include/uapi/linux/pidfd.h                         |   5 +
- include/uapi/linux/sched.h                         |   7 +-
- kernel/fork.c                                      |  52 +-
- kernel/ptrace.c                                    |   3 +-
- kernel/signal.c                                    |   4 +
- .../coredump/coredump_socket_protocol_test.c       |  26 +
- .../selftests/coredump/coredump_socket_test.c      |  32 +
- .../selftests/coredump/coredump_test_helpers.c     |   6 +-
- tools/testing/selftests/pidfd/.gitignore           |   1 +
- tools/testing/selftests/pidfd/Makefile             |   2 +-
- tools/testing/selftests/pidfd/pidfd.h              |   5 +
- .../testing/selftests/pidfd/pidfd_autoreap_test.c  | 900 +++++++++++++++++++++
- tools/testing/selftests/pidfd/pidfd_info_test.c    |   1 +
- 15 files changed, 1075 insertions(+), 20 deletions(-)
- create mode 100644 tools/testing/selftests/pidfd/pidfd_autoreap_test.c
+--- /dev/null
++++ b/fs/vmufat/Kconfig
+@@ -0,0 +1,14 @@
++config VMUFAT_FS
++	tristate "Dreamcast VMU FAT filesystem"
++	depends on BLOCK
++	help
++	  This implements the simple FAT type filesystem found on SEGA
++	  Dreamcast visual memory units.
++
++	  Dreamcast users who want to mount their VMUs to view the native
++	  filesystem will say 'Y' here. The filesystem is hardware independent
++	  but is not recommended for use in other circumstances, so just about
++	  everyone else should say 'N'.
++
++	  To compile this as a module say 'M' here. The module will be called
++	  vmufat.
+diff --git a/fs/vmufat/Makefile b/fs/vmufat/Makefile
+new file mode 100644
+index 000000000000..da423b0c7eec
