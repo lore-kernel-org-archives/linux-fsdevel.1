@@ -1,117 +1,103 @@
-Received: from out30-99.freemail.mail.aliyun.com (out30-99.freemail.mail.aliyun.com [115.124.30.99])
+Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65FC035B658;
-	Fri, 10 Apr 2026 23:53:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.99
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D3681F936
+	for <linux-fsdevel@vger.kernel.org>; Sat, 11 Apr 2026 00:06:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.147.23.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775865238; cv=none; b=kaUawKJDtswgdEKhr+I8b8fBbOv5yRwL4ZquTuzFqmoegahny6iZbeOio6qv0r0FSfbej/mKN4YmREqVJtSBitsdifFOoyfHB8TLiw0rSygyxC3WDA5p0S6mo9i9Rktl0qPIjcKdCFmEguu9NCNYApmFvINxrScat4VjP1q7kgQ=
+	t=1775865973; cv=none; b=ZLSR/UwpTyTb78OjU3ioc5/E2eBFnofsESXHceFOYpwxKCBf2AfMjVHBNynX+7eAL1D/8+EKYjGxgZQZ/h61AzW+Pq+D43S3hLhzBQqbGw6jvzNWA+eFw7Cw6rmhh3ijoJDSZLm0HyfdbMTF/zz1lU8vHQUpDfn9lCJ8WEIO0j8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775865238; c=relaxed/simple;
-	bh=o6Y727obsFVZ+XOV47ks34G5EZJhrwjg4+t7sDHa7hg=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=iJF6lc4dbGMaTDZHQl203tPD1B+McQGAsCyzPOcxiUxrfJ6FUrnt4aETfCz0VBPvXp/QMEYbpdDLkt/vYwEhBL97bneshk7JeR4UOk9nRcBwtGmRIfGQTES4z3bTwm59BuOXW3/d0IatoyTBhz6StJTuNt9I8yyn0rwO0h8Vq2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=hmDRhbjm; arc=none smtp.client-ip=115.124.30.99
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="hmDRhbjm"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1775865232; h=Message-ID:Date:MIME-Version:Subject:From:To:Content-Type;
-	bh=RNH7yjOrTqdECFy4P+AAkfpojvo5A1fv4ak4vr+ZOKE=;
-	b=hmDRhbjmo+r4U6W9EMPryyKMsvpc6FsgdqG6B4wuvzqaDXrX6tE9hyCSu/LhRA8x//FozmQgzzENgs5paattlNTb7IqnDCukDj5M1fjWxItM8Im2mBjjyaQoLmKiyHvSH/4lHB1rZJWwb1r2aXadWsiQOJmC6+BZ4zjvjW/c8vg=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R711e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033032089153;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=17;SR=0;TI=SMTPD_---0X0mPuB0_1775865229;
-Received: from 30.41.54.139(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X0mPuB0_1775865229 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Sat, 11 Apr 2026 07:53:50 +0800
-Message-ID: <136497e1-ba93-465f-84cd-e07eba110978@linux.alibaba.com>
-Date: Sat, 11 Apr 2026 07:53:49 +0800
+	s=arc-20240116; t=1775865973; c=relaxed/simple;
+	bh=a+ZSb4mfTAgnfpS7FUxHtveS1lSCEkabIHIfQ4bLM6c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AEAAIX6ZczyKN0hfM1w5A6TTrljT9VACSEtFgdfEvh5sw8Smq5a0odU3thV7H/XvghDGuQ3NHQ8TifOUrg3cNt0GxEHJ0rLQyGQqwPUCy2Sw/mtdzOJ7SNAfK2YJjqYu49/1cUMpW6qazjUbgqnug06YIAisc/nNGOfInxh57Zc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=156.147.23.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
+Received: from unknown (HELO lgeamrelo02.lge.com) (156.147.1.126)
+	by 156.147.23.51 with ESMTP; 11 Apr 2026 08:36:07 +0900
+X-Original-SENDERIP: 156.147.1.126
+X-Original-MAILFROM: hyc.lee@gmail.com
+Received: from unknown (HELO hyunchul-PC02.lge.net) (10.177.111.62)
+	by 156.147.1.126 with ESMTP; 11 Apr 2026 08:36:07 +0900
+X-Original-SENDERIP: 10.177.111.62
+X-Original-MAILFROM: hyc.lee@gmail.com
+From: Hyunchul Lee <hyc.lee@gmail.com>
+To: Namjae Jeon <linkinjeon@kernel.org>
+Cc: Hyunchul Lee <hyc.lee@gmail.com>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	cheol.lee@lge.com
+Subject: [PATCH] ntfs: fix uninitialized symbol warnings
+Date: Sat, 11 Apr 2026 08:35:53 +0900
+Message-ID: <20260410233553.2542229-1-hyc.lee@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 8/8] RFC: use a TASK_FIFO kthread for read completion
- support
-From: Gao Xiang <hsiangkao@linux.alibaba.com>
-To: Dave Chinner <dgc@kernel.org>, Christoph Hellwig <hch@lst.de>
-Cc: Tal Zussman <tz2294@columbia.edu>, Jens Axboe <axboe@kernel.dk>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Christian Brauner <brauner@kernel.org>, "Darrick J. Wong"
- <djwong@kernel.org>, Carlos Maiolino <cem@kernel.org>,
- Al Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
- Bart Van Assche <bvanassche@acm.org>, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- Sandeep Dhavale <dhavale@google.com>
-References: <20260409160243.1008358-1-hch@lst.de>
- <20260409160243.1008358-9-hch@lst.de> <adl1iqhldFvJwSw-@dread>
- <7f0d072b-97a7-405f-bff5-d3819de2e3dd@linux.alibaba.com>
-In-Reply-To: <7f0d072b-97a7-405f-bff5-d3819de2e3dd@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
+Detected by Smatch:
 
+fs/ntfs/ea.c:444
+  ntfs_ea_set_wsl_inode() error: uninitialized symbol 'err'.
+fs/ntfs/namei.c:651
+  __ntfs_create() error: uninitialized symbol 'ea_size.
+fs/ntfs/iomap.c:517
+  ntfs_write_simple_iomap_begin_non_resident()
+  error: uninitialized symbol 'err'.
 
-On 2026/4/11 07:44, Gao Xiang wrote:
-> 
-> 
-> On 2026/4/11 06:11, Dave Chinner wrote:
->> On Thu, Apr 09, 2026 at 06:02:21PM +0200, Christoph Hellwig wrote:
->>> Commit 3fffb589b9a6 ("erofs: add per-cpu threads for decompression as an
->>> option") explains why workqueue aren't great for low-latency completion
->>> handling.  Switch to a per-cpu kthread to handle it instead.  This code
->>> is based on the erofs code in the above commit, but further simplified
->>> by directly using a kthread instead of a kthread_work.
->>>
->>> Signed-off-by: Christoph Hellwig <hch@lst.de>
->>
->> Can we please not go back to the (bad) old days of individual
->> subsystems needing their own set of per-cpu kernel tasks just
->> sitting around idle most of of the time?  The whole point of the
->> workqueue infrastructure was to get rid of this widely repeated
->> anti-pattern.
->>
->> If there's a latency problem with workqueue scheduling, then we
->> should be fixing that problem rather than working around it in every
->> subsystem that thinkgs it has a workqueue scheduling latency
->> issue...
-> 
-> It has been "fixed" but never actually get fixed:
-> https://lore.kernel.org/r/CAB=BE-QaNBn1cVK6c7LM2cLpH_Ck_9SYw-YDYEnNrtwfoyu81Q@mail.gmail.com
-> 
-> and workqueues don't have any plan to introduce RT threads;
-> 
-> If Sandeep has more time, I hope he could have more time to
-> test since I don't work on Android anymore: In principle,
-> I still think RT thread is needed somewhere for such usage
-> since lowest latencies is needed.
-> 
-> Compared to the scheduling latency issues, interested users
-> don't care "individual subsystems needing their own set of
-> per-cpu kernel tasks just sitting around idle most of of
-> the time". If end users care it more, they can just turn
-> it off by Kconfig.
-> 
-> If you think it's unclean to block subsystems, I'm fine to
-> leave it as-is.  I'm not sure how it impacts to others:
-> either some subsystems implement RT threads (workqueue or
-> block), or leave it as-is; Otherwise there is always such
+Signed-off-by: Hyunchul Lee <hyc.lee@gmail.com>
+---
+ fs/ntfs/ea.c    | 5 ++++-
+ fs/ntfs/iomap.c | 2 +-
+ fs/ntfs/namei.c | 2 +-
+ 3 files changed, 6 insertions(+), 3 deletions(-)
 
-^ Implement dedicated queues somewhere using
-sched_set_fifo_low() for such latency-sensitive work.
-
-> latency issues and unacceptable for end users.
-> 
-> Thanks,
-> Gao Xiang
-> 
-> 
->>
->> -Dave.
->>
-> 
+diff --git a/fs/ntfs/ea.c b/fs/ntfs/ea.c
+index ee99baf9c7d2..c4a4a3e3e599 100644
+--- a/fs/ntfs/ea.c
++++ b/fs/ntfs/ea.c
+@@ -406,7 +406,10 @@ int ntfs_ea_set_wsl_inode(struct inode *inode, dev_t rdev, __le16 *ea_size,
+ 		unsigned int flags)
+ {
+ 	__le32 v;
+-	int err;
++	int err = 0;
++
++	if (ea_size)
++		*ea_size = 0;
+ 
+ 	if (flags & NTFS_EA_UID) {
+ 		/* Store uid to lxuid EA */
+diff --git a/fs/ntfs/iomap.c b/fs/ntfs/iomap.c
+index 621645fbbf2e..3d1458dea90f 100644
+--- a/fs/ntfs/iomap.c
++++ b/fs/ntfs/iomap.c
+@@ -384,7 +384,7 @@ static int ntfs_write_simple_iomap_begin_non_resident(struct inode *inode, loff_
+ 	loff_t vcn_ofs, rl_length;
+ 	struct runlist_element *rl, *rlc;
+ 	bool is_retry = false;
+-	int err;
++	int err = 0;
+ 	s64 vcn, lcn;
+ 	s64 max_clu_count =
+ 		ntfs_bytes_to_cluster(vol, round_up(length, vol->cluster_size));
+diff --git a/fs/ntfs/namei.c b/fs/ntfs/namei.c
+index 10894de519c3..d5cd2a790678 100644
+--- a/fs/ntfs/namei.c
++++ b/fs/ntfs/namei.c
+@@ -408,7 +408,7 @@ static struct ntfs_inode *__ntfs_create(struct mnt_idmap *idmap, struct inode *d
+ 	struct super_block *sb = dir_ni->vol->sb;
+ 	__le64 parent_mft_ref;
+ 	u64 child_mft_ref;
+-	__le16 ea_size;
++	__le16 ea_size = 0;
+ 
+ 	vi = new_inode(vol->sb);
+ 	if (!vi)
+-- 
+2.43.0
 
