@@ -1,32 +1,32 @@
-Received: from out30-101.freemail.mail.aliyun.com (out30-101.freemail.mail.aliyun.com [115.124.30.101])
+Received: from out30-110.freemail.mail.aliyun.com (out30-110.freemail.mail.aliyun.com [115.124.30.110])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12CD71AC44D;
-	Fri, 10 Apr 2026 02:17:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E46321AC44D;
+	Fri, 10 Apr 2026 02:18:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.110
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775787464; cv=none; b=Z1SGkPiqBdwVzn4LMk+fZLepLsxp8Z5CzVyIk0IlAcbGXnLo7A5MT4N0CEZan1BrDvvDWT8t7RMduLUHj0Hq6VYNyFz2PkZzXYsBQhKeIqGaHgT06hRUt1C9atFVGynHpcMKPNRNYbvCDiKBw6Ii2KYAf3YRl9+edouUj2V4FoU=
+	t=1775787501; cv=none; b=NnqnpJX1mlAMg+gGmBNajAP8FMj5ZN9qH4j6wHFwGkd2YQMDutaAY/iZMAE0rjTsXP65lavD/STVaLGIDdLeDbJCVc2pC3Ow9tQzewMtiCRIiFHUuCyTb2+/RCmFgQtEWUWHNdO7qJ49MNV/sUaTrzphoJkKrT10cP1Hj4ZWWOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775787464; c=relaxed/simple;
-	bh=c5C0ozKYK9gfyZHVn9W1yVtl86aGApueKdZDlITWWHk=;
+	s=arc-20240116; t=1775787501; c=relaxed/simple;
+	bh=oiTvxZu4DxhxAH8DLvCU05nM34ZZwo3Ql7p3EYLBNUQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NpLR0Z6z6ZJdZNpMKQXhB4BrQsi51ANvTcoctKR3fXf0wJi4Sv4HBs3+yecKMYQf4MphwJO99Ydavto9tSFsS1JAkzSwuzJYRTJ9b8tQkQaeKl8nvOrCUyzodOj/1V1kGfKvsMNjzHPYnNH+XeJhoUMti+M8GogRaRXaoL/Lu6E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=BYD/ICwf; arc=none smtp.client-ip=115.124.30.101
+	 In-Reply-To:Content-Type; b=kTCIt7IuE599ftsQT8yFXLrrL5jnxFJZzWeGX5R/5AciMl/c94ileOipswF3lKmC6W4eTr7TG6+ZO84R9Syjl9lXLCPcOp3+w/Cfi72G6WJJQ3I2nKUeSbLZCQkYjqpEOe4VVkjbMDlpvbAe4+zLAAoFeufvCxKmEbukhJx1XJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=X5iTfkqJ; arc=none smtp.client-ip=115.124.30.110
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="BYD/ICwf"
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="X5iTfkqJ"
 DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1775787453; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=Iy3mih1dyYGtLK3soy9gqeCAYhH4XWLvz5hQJbUTmhw=;
-	b=BYD/ICwflQrG/cGEYaKhCFRFwwIZC+3AwqYLy38CMvGB2eRXrvfW+Jnjoc3HQTTrDXYCUWJAssEbHpR+Dm2I7BdF2jou17nqExeOtX4BuXeW1PwcQJ32tDO9Bhl7Gmk/1IDkdJv34+GNG1lIFvyKz5C+l2pd2mEY+AdE45FtGdk=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R681e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037026112;MF=jefflexu@linux.alibaba.com;NM=1;PH=DS;RN=13;SR=0;TI=SMTPD_---0X0jegMD_1775787451;
-Received: from 30.221.146.186(mailfrom:jefflexu@linux.alibaba.com fp:SMTPD_---0X0jegMD_1775787451 cluster:ay36)
+	t=1775787496; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=OA0NU7MCCPlCsqQt4P08z/aM+/ZyhmuXJ5wLXrRxlOs=;
+	b=X5iTfkqJC74NzJffLMb5GRcB9zNUdTJZhKQSY3BbGyaHg7zB82wBUWWqkiy3/uHow7ueb88mW9mNBjQy6dbT897VmKGwZcrqg4y3kBZFarb9nJMXb0LH4WIAmbXr5UNQG7fXbn4pXeBxKI2upV3rxE2S4mfhQL9Y13heUw9iaLY=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R141e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037033178;MF=jefflexu@linux.alibaba.com;NM=1;PH=DS;RN=13;SR=0;TI=SMTPD_---0X0ji.gb_1775787495;
+Received: from 30.221.146.186(mailfrom:jefflexu@linux.alibaba.com fp:SMTPD_---0X0ji.gb_1775787495 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Fri, 10 Apr 2026 10:17:32 +0800
-Message-ID: <e6d9be02-fa8d-47b3-a76a-4afd83293ef6@linux.alibaba.com>
-Date: Fri, 10 Apr 2026 10:17:30 +0800
+          Fri, 10 Apr 2026 10:18:16 +0800
+Message-ID: <51b72794-329b-461b-88ea-fda8f697b746@linux.alibaba.com>
+Date: Fri, 10 Apr 2026 10:18:14 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -36,11 +36,12 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [RFC PATCH v3 6/8] fuse: implementation of lookup_handle+statx
  compound operation
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Luis Henriques <luis@igalia.com>, Joanne Koong <joannelkoong@gmail.com>,
- Miklos Szeredi <miklos@szeredi.hu>, Bernd Schubert <bschubert@ddn.com>,
- Bernd Schubert <bernd@bsbernd.com>, "Darrick J. Wong" <djwong@kernel.org>,
- Horst Birthelmer <hbirthelmer@ddn.com>, Kevin Chen <kchen@ddn.com>,
+To: Luis Henriques <luis@igalia.com>
+Cc: Joanne Koong <joannelkoong@gmail.com>, Miklos Szeredi
+ <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>,
+ Bernd Schubert <bschubert@ddn.com>, Bernd Schubert <bernd@bsbernd.com>,
+ "Darrick J. Wong" <djwong@kernel.org>, Horst Birthelmer
+ <hbirthelmer@ddn.com>, Kevin Chen <kchen@ddn.com>,
  linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
  Matt Harvey <mharvey@jumptrading.com>, kernel-dev@igalia.com
 References: <20260225112439.27276-1-luis@igalia.com>
@@ -50,51 +51,175 @@ References: <20260225112439.27276-1-luis@igalia.com>
  <CAJnrk1aG_N-FVJfNpoU6iLcA6XHsUvWe74E0Pkth-hev9zgmHg@mail.gmail.com>
  <87fr55lpu4.fsf@igalia.com>
  <5c13b5ae-ca74-4fd8-97ec-39f24ccfd5c2@linux.alibaba.com>
- <CAOQ4uxjRN9hCXwxmy3rwsR-vaHN0d2+i+U1pOC7WgSwSdWCC7g@mail.gmail.com>
+ <87ika0z8xe.fsf@igalia.com>
 Content-Language: en-US
 From: Jingbo Xu <jefflexu@linux.alibaba.com>
-In-Reply-To: <CAOQ4uxjRN9hCXwxmy3rwsR-vaHN0d2+i+U1pOC7WgSwSdWCC7g@mail.gmail.com>
+In-Reply-To: <87ika0z8xe.fsf@igalia.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi Amir,
 
-On 4/9/26 10:03 PM, Amir Goldstein wrote:
-> On Thu, Apr 9, 2026 at 4:27 AM Jingbo Xu <jefflexu@linux.alibaba.com> wrote:
+
+On 4/9/26 7:10 PM, Luis Henriques wrote:
+> On Thu, Apr 09 2026, Jingbo Xu wrote:
+> 
+>> Hi Luis,
+>>
+>> On 4/8/26 6:16 PM, Luis Henriques wrote:
+>>> On Tue, Apr 07 2026, Joanne Koong wrote:
+>>>
+>>>> On Tue, Apr 7, 2026 at 2:20 PM Luis Henriques <luis@igalia.com> wrote:
+>>>>>
+>>>>> Hi Joanne,
+>>>>>
+>>>>> On Tue, Apr 07 2026, Joanne Koong wrote:
+>>>>>
+>>>>>> On Wed, Feb 25, 2026 at 3:25 AM Luis Henriques <luis@igalia.com> wrote:
+>>>>>>>
+>>>>>>> The implementation of lookup_handle+statx compound operation extends the
+>>>>>>> lookup operation so that a file handle is be passed into the kernel.  It
+>>>>>>> also needs to include an extra inarg, so that the parent directory file
+>>>>>>> handle can be sent to user-space.  This extra inarg is added as an extension
+>>>>>>> header to the request.
+>>>>>>>
+>>>>>>> By having a separate statx including in a compound operation allows the
+>>>>>>> attr to be dropped from the lookup_handle request, simplifying the
+>>>>>>> traditional FUSE lookup operation.
+>>>>>>>
+>>>>>>> Signed-off-by: Luis Henriques <luis@igalia.com>
+>>>>>>> ---
+>>>>>>>  fs/fuse/dir.c             | 294 +++++++++++++++++++++++++++++++++++---
+>>>>>>>  fs/fuse/fuse_i.h          |  23 ++-
+>>>>>>>  fs/fuse/inode.c           |  48 +++++--
+>>>>>>>  fs/fuse/readdir.c         |   2 +-
+>>>>>>>  include/uapi/linux/fuse.h |  23 ++-
+>>>>>>>  5 files changed, 355 insertions(+), 35 deletions(-)
+>>>>>>>
+>>>>>>> diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
+>>>>>>> index 113583c4efb6..89e6176abe25 100644
+>>>>>>> --- a/include/uapi/linux/fuse.h
+>>>>>>> +++ b/include/uapi/linux/fuse.h
+>>>>>>>
+>>>>>>>  enum fuse_opcode {
+>>>>>>> @@ -671,6 +676,8 @@ enum fuse_opcode {
+>>>>>>>          */
+>>>>>>>         FUSE_COMPOUND           = 54,
+>>>>>>>
+>>>>>>> +       FUSE_LOOKUP_HANDLE      = 55,
+>>>>>>> +
+>>>>>>>         /* CUSE specific operations */
+>>>>>>>         CUSE_INIT               = 4096,
+>>>>>>>
+>>>>>>> @@ -707,6 +714,20 @@ struct fuse_entry_out {
+>>>>>>>         struct fuse_attr attr;
+>>>>>>>  };
+>>>>>>>
+>>>>>>> +struct fuse_entry2_out {
+>>>>>>> +       uint64_t        nodeid;
+>>>>>>> +       uint64_t        generation;
+>>>>>>> +       uint64_t        entry_valid;
+>>>>>>> +       uint32_t        entry_valid_nsec;
+>>>>>>> +       uint32_t        flags;
+>>>>>>> +       uint64_t        spare;
+>>>>>>> +};
+>>>>>>
+>>>>>> Hi Luis,
+>>>>>>
+>>>>>> Could you explain why we need a new struct fuse_entry2_out instead of
+>>>>>> reusing struct fuse_entry_out? From what i see, the only differences
+>>>>>> between them are that fuse_entry2_out drops attr_valid,
+>>>>>> attr_valid_nsec, and struct fuse_attr. Is this done so that it saves
+>>>>>> the ~100 bytes per lookup? Would it be cleaner from an abi perspective
+>>>>>> to just reuse fuse_entry_out and ignore the attr fields if they're not
+>>>>>> necessary? The reason I'm asking is because I'm looking at how you're
+>>>>>> doing the lookup request reply to see if the fuse passthrough stuff
+>>>>>> for metadata/directory operations can be combined with it. But I'm not
+>>>>>> fully understanding why fuse_entry2_out is needed here.
+>>>>>>
+>>>>>> I'm also a bit confused by why the compound with statx is needed here,
+>>>>>> could you explain this part? I see the call to fuse_statx_to_attr()
+>>>>>> after do_lookup_handle_statx(),  but fuse_statx_to_attr() converts the
+>>>>>> statx reply right back to a struct fuse_attr for inode setup, so if
+>>>>>> FUSE_LOOKUP_HANDLE returned struct fuse_entry_out instead of struct
+>>>>>> fuse_entry2_out, doesn't this solve the problem of needing to compound
+>>>>>> it with a statx or getattr request? I also noticed that the statx part
+>>>>>> uses FUSE_ROOT_ID as a workaround for the node id because the actual
+>>>>>> nodeid isn't known yet, this seems like another sign that the
+>>>>>> attributes stuff should just be part of the lookup response itself
+>>>>>> rather than a separate operation?
+>>>>>
+>>>>> First of all, thanks a lot for looking into this patchset.  Much
+>>>>> appreciated!
+>>>>>
+>>>>> The main reason for swapping the usage of attr by statx is that statx
+>>>>> includes some attributes that attr does not (e.g. btime).  And since I was
+>>>>> adding a new FUSE operation, it would be a good time for using statx
+>>>>> instead.  (Moreover, as new attributes may be added to statx in the
+>>>>> future, the benefits of using statx could eventually be even greater.)
+>>>>>
+>>>>> This was suggested by Miklos here[0], before converting the whole thing to
+>>>>> use compound commands.  So, I was going to use fuse_statx in the _out args
+>>>>> for lookup_handle.  However, because the interface was getting a bit
+>>>>> complex with extra args (and ext headers!), Miklos ended up suggesting[1]
+>>>>> to remove attr completely from the lookup_handle operation, and use
+>>>>> compounds instead to have the full functionality.
+>>>>
+>>>> Thank you for the context and links, Luis!
+>>>>
+>>>> Using fuse_statx over fuse_getattr makes sense to me for the new
+>>>> FUSE_LOOKUP_HANDLE op but the part I am confused about is why it needs
+>>>> to be compounded. If we are adding a new struct (struct
+>>>> fuse_entry2_out) to the abi, why is it not simpler to just make the
+>>>> new struct something like:
+>>>>
+>>>>   struct fuse_entry_handle_out {
+>>>>       uint64_t    nodeid;
+>>>>       uint64_t    generation;
+>>>>       uint64_t    entry_valid;
+>>>>       uint64_t    attr_valid;
+>>>>       uint32_t    entry_valid_nsec;
+>>>>       uint32_t    attr_valid_nsec;
+>>>>       struct fuse_statx stat;
+>>>>   };
+>>>>
+>>>> and avoid the compound stuff altogether? Is it because that would make
+>>>> the struct fuse_entry_handle_out too big to be stack-allocated and
+>>>> would thus have to be heap allocated? But if I'm recalling correctly,
+>>>> the compound requests path requires heap allocations as well. Although
+>>>> at that point if we're gonna have to do the heap allocation, then we
+>>>> might as well just also embed the struct fuse_file_handle inside
+>>>> struct fuse_entry_handle_out?
+>>>
+>>> I'm open to drop the usage of compounds for this, of course.  In fact,
+>>> during the v2 discussions I suggested here[0] the usage of a similar
+>>> struct fuse_entry_handle_out.  Using compound commands was a way to try to
+>>> simplify the interface.  But maybe at that point I was too quick at
+>>> jumping into the compound commands suggestion.  It may make sense to
+>>> reevaluate this decision if you think it simplifies things, specially for
+>>> passthrough.
+>>>
+>>> [0] https://lore.kernel.org/all/87zf6nov6c.fsf@wotan.olymp
+>>>
 >>
 >> Many thanks for your work on this.
 >>
 >> Just FYI We are also interested in the kernel-maintained filehandle,
 >> which can dramatically help reduce the memory footprint on the FUSE
 >> server side.
->>
 > 
-> Hi Jingbo,
+> Awesome!
 > 
-> I might have told you this before. I don't keep track of who I shared this with.
-> If you are implementing a passthough fs to a backing fs like ext4/xfs which
-> CAN open a file by inode number, you could already use this library
-> that I developed for our in house passthrough fs, to reduce memory footprint
-> of server:
+>> It just seems that the overall design is still not clear right now.  I'd
+>> like to and would be happy if I could help any.
 > 
-> https://github.com/amir73il/libfuse/commits/fuse_passthrough
-> 
-> It was my intention to adapt this library to also work with LOOKUP_HANDLE
-> to support more backing fs after LOOKUP_HANDLE is implemented.
+> Thanks you, Jingbo.  I guess that for now we need to revalidate the usage
+> of compounds or going back to my previous (v2) approach.  If we end up
+> deciding to drop compound commands, I can try to get a new version of the
+> patchset before LSFMM so that we can eventually discuss more details
+> there.
 
+Awesome.  Looking forward for the progress on it!
 
-Many thanks for the shared link and kind reminder.  To be honest I
-didn't notice it.  IIUC it seems that the previous O_PATH fd (of backing
-ext4/xfs file) is replaced by the file handle (of backing file), so that
-the memory footprint for the inode cache for the backing files could be
-saved.
-
-Actually in our using case, the backing store is a remote network file
-system and FUSE daemon uses file handles to access remote network files.
-
-Besides the LOOKUP_HANDLE mechanism also helps the FUSE daemon recovery,
-since the daemon doesn't need to rebuild the nodeid<->filehandle mapping
-after recovery any more.
 
 -- 
 Thanks,
