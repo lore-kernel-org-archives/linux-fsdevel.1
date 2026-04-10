@@ -1,263 +1,141 @@
-Received: from mx1.manguebit.org (mx1.manguebit.org [143.255.12.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13A9578F4F;
-	Fri, 10 Apr 2026 23:20:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=143.255.12.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775863261; cv=none; b=gum/5uhSv7EXfVSUnMh6mjPfu4YQJr5irUaMO2CHDel4gjHHcLeJoh1SH/lTust6AMKNcPLqFbdp3LF8wnNY0BbZwukA78GeU936Z0LJT8hGceBIWm0Q4930i0AqZG0jGwh+Mr7Gty9t43Y+buKE6XeaYP2sn8xsK/cJfwNM/zY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775863261; c=relaxed/simple;
-	bh=xLYMJsZb9IzyVX8l8/n9T3eevmN2NNElKg+5QWW6LjI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ScNahaThFuZ+kkU+0JXm02VML8GM8o8GVDGjEZuhzGAc9cDsVWG1QCJ4H9irHi2kftR88d+CTD+VeAx1zk8VU+EvJUb6gggEy3vad3vpcTCVfcO8o9xfKtKcXQzG/Qhd3KPAEc3Ny0MHHPZOX8Lr5l/m0fyviWJZaO+40Y9dpeE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manguebit.org; spf=pass smtp.mailfrom=manguebit.org; dkim=pass (2048-bit key) header.d=manguebit.org header.i=@manguebit.org header.b=IDFZeIu8; arc=none smtp.client-ip=143.255.12.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manguebit.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manguebit.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4FE2336ECF
+	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 23:23:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775863435; cv=pass; b=dmTZbOpdnwYHMAJqUUC5P/S1NND9JjoWOguk09JXDj+4SilMAf8DjxmKyvInKWdKlXsgoChB+XvVrmWrUR/glxWcHIODu5HvY/bREK8CJnh2t2hCUBB3RQh/O9+5Z+tiv5VyuntKRA7LZRDuwgjknSV6AAzz2vtUb0eHqUxyGb0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775863435; c=relaxed/simple;
+	bh=Os0BCB17opKvNzfWaWmy35HOKb/otcD9H0RdbQOsd18=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Zjeky4aIDjuha2jjiTNf6Ja15+xEgiD3Jd0IIGYvnKy8Los2bk0yqSY8Me0kg+ocNaFb5uscwhfc3blTlxd2WpkZwdR2ii7aB1z0jXamIEWPy47D/YWlV9EFcRtVJpGz4lftx63ylOFduVgW8xBsnG8t9nY0WsS3jwbF/PtnXkU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JfCFDHpd; arc=pass smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=manguebit.org header.i=@manguebit.org header.b="IDFZeIu8"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=manguebit.org; s=dkim; h=Content-Transfer-Encoding:MIME-Version:Message-ID:
-	Date:Subject:Cc:To:From:Sender:Content-Type:Reply-To:Content-ID:
-	Content-Description:In-Reply-To:References;
-	bh=pxwfcnC1ooZ01QHTltFOb/7v1rFhrgwsQWkVgNQtSxM=; b=IDFZeIu8u1O5uINakARi2UE7Lw
-	XhtIsWqEKqnTOCWCMk7t9YNLPV8t9tkYWyPvajtQYhFXhjC0G13NAbYo5LGeUHG+OZq4tcylv4n23
-	2Omolsb3rX/EXLusypZ+BQNdcxfpXWZkAo8rbUdFbaJp+2xaN0UuD0fcrnKCPwOoWSedOc2oVy8NT
-	i0cVvlK6wS0gwJnXAhlUJ5bRUxZIjWSYRd3bqcb9Iy/wjws8hs1TfLJ/rbUPX+dFzotSmeivmjbb/
-	2hY8Tk25GPFzBwitETQo0Tl9jeRZRYpgieI9TSMWG+vQJBR88CaD4e/33iT+I7H6KDSI5tcpQVasm
-	bHcsKa6Q==;
-Received: from pc by mx1.manguebit.org with local (Exim 4.99.1)
-	id 1wBL9k-00000002aTc-0MMA;
-	Fri, 10 Apr 2026 20:20:56 -0300
-From: Paulo Alcantara <pc@manguebit.org>
-To: smfrench@gmail.com
-Cc: Al Viro <viro@zeniv.linux.org.uk>,
-	"Paulo Alcantara (Red Hat)" <pc@manguebit.org>,
-	David Howells <dhowells@redhat.com>,
-	NeilBrown <neilb@ownmail.net>,
-	linux-fsdevel@vger.kernel.org,
-	linux-cifs@vger.kernel.org
-Subject: [PATCH] smb: client: get rid of d_drop()+d_add()
-Date: Fri, 10 Apr 2026 20:20:55 -0300
-Message-ID: <20260410232055.1582463-1-pc@manguebit.org>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JfCFDHpd"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5a3d42263e4so2613104e87.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 16:23:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775863432; cv=none;
+        d=google.com; s=arc-20240605;
+        b=G4VjNueVZPwu29RiyGNVvlw7wdgQeLh+vQMPxoID/OvKNeHTN8nOoxOK/S8Ho3B4Cp
+         wOj+71deotecKpI9HOAV6iGvGiOAm+4U9tyXx32yvyT3csjlEGJbwZ6YRuHUpN89LS1V
+         jG0HlSwLlMKrCs9ZTiStks1XgExHUYOVMW2dSy64Yda0HzA+vr14K573x0Rwltwn68oW
+         kCLUwdfk9EKvO1S8hMsWsK7Svi9pXiPN4jpar9or13Q1e9kHvV1hAeV9+g3B+4qDpDHX
+         rXwWkvZ60Ge0roA1Ccr/cTMCpqP7z4l3Rio9htQ2FKBliA2XGCWy8EmWKp3LhEcWa15I
+         Pw7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=DMaw5i2hxWOm6x4SzpF4gNjjqFipmF5/iEGGBkTmhWU=;
+        fh=BhTIidZt1KbQH8Ti4IuuF65duIRJW8/xSNQaaFb0h8w=;
+        b=bI9cJP+FV1hYwOkRwlr/MoNAQkx1hhN3142dCGl2YHKAzohLRM2CSMhvp9OfD9ITfi
+         DTezMH1pdJQRRVZGtFUfXbeESW6FIj4Ty7ccDnwYt1x873HcuxH1eCNxZg1GrK+3RIlx
+         RJ7XZXQEGL1ZtVwaWQlOvsOwfIpNKGLOYrlYfwl1hGk7rb2rh1IECvwTYUyPDWRo1eGV
+         7W36KSs2pGHxXQVNr49rgM+c2u08bTSSI7bhmnUGZuc7G7K04HSuxc93lq3OJ0FwOLl3
+         vkDxLLwjWrdYmY8ge2W74HYLLaO9T8mM5KfGQ5YuyuZ7t1Sl7DFEp6a/7xt6iSJzsS09
+         WvSA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775863432; x=1776468232; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DMaw5i2hxWOm6x4SzpF4gNjjqFipmF5/iEGGBkTmhWU=;
+        b=JfCFDHpdNtOa6lKi27dBIwIh76EnDNFUP1k2d5UqehdXUMnP8cZR0+0+p8Ttjl0O08
+         GdelU64ur11Q7FuNGpWnJKUcUOmKvWF+mdpPKyvc9feSnwLEir3FTXsH/CU2IiIp6Rxz
+         oY9DBikqHLLqbJPkhKyDLd76eTgDIemLC5hxvWu/6bai+g9tG7oqam72IbP8FKbnAo0r
+         2KtG+/eQ0Ty1Nd/+tase6Yr7KkrRbNyXNk5ZOHbPU04coVxSaXGDXcJFnbKGuvnuyeaw
+         LZKHdbQnKBiEGyrTSBwjEJuOoJFjWYMJxaFgrLMWPKcwEcl8hGYXbquqZaE5wUCo3IVy
+         u6wA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775863432; x=1776468232;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=DMaw5i2hxWOm6x4SzpF4gNjjqFipmF5/iEGGBkTmhWU=;
+        b=bsla94q2jzR9EqbroutoGXP5+pl7k7Jzh6sdhJikoIKSLrlrLIPU00Z0qmcWsogOb2
+         +dFFdwUwXJ8phOdWtL3zprpPzrnLOSLXpW6pHIDjinePbv0GIZbv5jReuHSs0sugH6Mx
+         pvaIQRlZIPWzkJwvEPnLrHrdLXrK/bit/uZoRFoNhWh3gMcYpzZLI/qnUvtHp8b3Mg0Q
+         PbpyyjVmS64RfftNJSBNKzauhmhIOADtgK8ng7Wda+sSHFPa4PRAtxXAu9OUw8ecgieJ
+         d+dpExINYJjaXzu1TjugM4ixF4uNwS+c7c4PcMvo/Dx8iiVnKXqRxiOCpAk9iX76V0J2
+         u0bQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVV26f2S3zxgAQB5LeYmL574p/klxTfWvWq0ZmY///PAXpucNjJR6ezCtBqFUbOMYgoRTPJOhW2B+aBTm6b@vger.kernel.org
+X-Gm-Message-State: AOJu0YwBjy9tKFcQsh6eu3hKl4gntkHI6WAk0sJ085poCLazVHlq9wXz
+	+PS9XW6N8rjJMzy3we2VtXMLYdgP8h0qd05vdkels/5rC0J/3sk4xao5PCPPE7k6FiFUJLPridZ
+	Z54oJet4+ZMunWbKjxVSNs/igfte3Rym0tUTg
+X-Gm-Gg: AeBDievvPwYnj4O7f+VS1yHTN+tAGDRzhWtPZllzEy4PB3eTfV2Arf7jxcC24ZWOTtm
+	h37wP/Bld5qYoylG+KMsNji7l+Fn6tC5xxj+BDRvub1rxKTIuWtIVPAfKFssbb1GyeOAfkXmiM1
+	5HV+BAcVKqPyJvaFODWKXtkNx6LqfoYTlKvIYS64D29LMeFdVVVMgOzBZLL9dOz/OwVAgCkKozs
+	qUqwX+89l9ar9z+T9kUwEMwphD5x2hhlB0QZ1SUCG5u1TK8DnQc90B+CkpzFhdJjBXm1Cl61gja
+	fPUaHXyq4g==
+X-Received: by 2002:a05:6512:1285:b0:5a1:885:1dfa with SMTP id
+ 2adb3069b0e04-5a3ef90436dmr1879326e87.13.1775863431596; Fri, 10 Apr 2026
+ 16:23:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <adic_St-SP3UONMV@stanley.mountain>
+In-Reply-To: <adic_St-SP3UONMV@stanley.mountain>
+From: Hyunchul Lee <hyc.lee@gmail.com>
+Date: Sat, 11 Apr 2026 08:23:39 +0900
+X-Gm-Features: AQROBzBhLpZG-I1c_Bu4YQMcsFFScuG3SLWCs6sXVpoZNk1o0cnTBlZ7Klt6YCE
+Message-ID: <CANFS6bY_9YtCSpATnhEqzZKv48g86Sk4Cf36cVvLgZm3gQ8Bcw@mail.gmail.com>
+Subject: Re: [PATCH next] ntfs: add missing error code in ntfs_mft_record_alloc()
+To: Dan Carpenter <error27@gmail.com>
+Cc: Namjae Jeon <linkinjeon@kernel.org>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Replace d_drop()+d_add() in cifs_tmpfile() and cifs_create() with
-d_instantiate(), and in cifs_atomic_open() with d_splice_alias() if
-in-lookup, otherwise d_instantiate().
+2026=EB=85=84 4=EC=9B=94 10=EC=9D=BC (=EA=B8=88) =EC=98=A4=ED=9B=84 3:47, D=
+an Carpenter <error27@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+>
+> Return -ENOMEM if the kmalloc() fails.  Don't return success.
+>
+> Fixes: 115380f9a2f9 ("ntfs: update mft operations")
+> Signed-off-by: Dan Carpenter <error27@gmail.com>
 
-Reported-by: Al Viro <viro@zeniv.linux.org.uk>
-Closes: https://lore.kernel.org/r/20260408065719.GF3836593@ZenIV
-Signed-off-by: Paulo Alcantara (Red Hat) <pc@manguebit.org>
-Cc: David Howells <dhowells@redhat.com>
-Cc: NeilBrown <neilb@ownmail.net>
-Cc: linux-fsdevel@vger.kernel.org
-Cc: linux-cifs@vger.kernel.org
----
- fs/smb/client/cifsfs.h |  4 +--
- fs/smb/client/dir.c    | 62 ++++++++++++++++++++++++++----------------
- 2 files changed, 40 insertions(+), 26 deletions(-)
+Looks good to me.
 
-diff --git a/fs/smb/client/cifsfs.h b/fs/smb/client/cifsfs.h
-index 64c7a4c6ac83..18f9f93a01b4 100644
---- a/fs/smb/client/cifsfs.h
-+++ b/fs/smb/client/cifsfs.h
-@@ -52,9 +52,9 @@ void cifs_sb_deactive(struct super_block *sb);
- /* Functions related to inodes */
- extern const struct inode_operations cifs_dir_inode_ops;
- struct inode *cifs_root_iget(struct super_block *sb);
--int cifs_create(struct mnt_idmap *idmap, struct inode *inode,
-+int cifs_create(struct mnt_idmap *idmap, struct inode *dir,
- 		struct dentry *direntry, umode_t mode, bool excl);
--int cifs_atomic_open(struct inode *inode, struct dentry *direntry,
-+int cifs_atomic_open(struct inode *dir, struct dentry *direntry,
- 		     struct file *file, unsigned int oflags, umode_t mode);
- int cifs_tmpfile(struct mnt_idmap *idmap, struct inode *dir,
- 		 struct file *file, umode_t mode);
-diff --git a/fs/smb/client/dir.c b/fs/smb/client/dir.c
-index bfc887d506b6..6ea1ae7f7a46 100644
---- a/fs/smb/client/dir.c
-+++ b/fs/smb/client/dir.c
-@@ -219,6 +219,7 @@ static int __cifs_do_create(struct inode *dir, struct dentry *direntry,
- 	int rdwr_for_fscache = 0;
- 	__le32 lease_flags = 0;
- 
-+	*inode = NULL;
- 	*oplock = 0;
- 	if (tcon->ses->server->oplocks)
- 		*oplock = REQ_OPLOCK;
-@@ -462,7 +463,6 @@ static int __cifs_do_create(struct inode *dir, struct dentry *direntry,
- 		goto out_err;
- 	}
- 
--	d_drop(direntry);
- 	*inode = newinode;
- 	return rc;
- 
-@@ -478,11 +478,11 @@ static int cifs_do_create(struct inode *dir, struct dentry *direntry,
- 			  unsigned int xid, struct tcon_link *tlink,
- 			  unsigned int oflags, umode_t mode,
- 			  __u32 *oplock, struct cifs_fid *fid,
--			  struct cifs_open_info_data *buf)
-+			  struct cifs_open_info_data *buf,
-+			  struct inode **inode)
- {
- 	void *page = alloc_dentry_path();
- 	const char *full_path;
--	struct inode *inode;
- 	int rc;
- 
- 	full_path = build_path_from_dentry(direntry, page);
-@@ -491,9 +491,7 @@ static int cifs_do_create(struct inode *dir, struct dentry *direntry,
- 	} else {
- 		rc = __cifs_do_create(dir, direntry, full_path, xid,
- 				      tlink, oflags, mode, oplock,
--				      fid, buf, &inode);
--		if (!rc)
--			d_add(direntry, inode);
-+				      fid, buf, inode);
- 	}
- 	free_dentry_path(page);
- 	return rc;
-@@ -504,13 +502,13 @@ static int cifs_do_create(struct inode *dir, struct dentry *direntry,
-  * Look up, create and open a CIFS file.
-  *
-  * The initial dentry state is in-lookup or hashed-negative.  On success, dentry
-- * will become hashed-positive by calling d_drop() & d_add(), respectively.
-+ * will become hashed-positive by calling d_splice_alias() if in-lookup,
-+ * otherwise d_instantiate().
-  */
--int
--cifs_atomic_open(struct inode *inode, struct dentry *direntry,
--		 struct file *file, unsigned int oflags, umode_t mode)
-+int cifs_atomic_open(struct inode *dir, struct dentry *direntry,
-+		     struct file *file, unsigned int oflags, umode_t mode)
- {
--	struct cifs_sb_info *cifs_sb = CIFS_SB(inode);
-+	struct cifs_sb_info *cifs_sb = CIFS_SB(dir);
- 	struct cifs_open_info_data buf = {};
- 	struct TCP_Server_Info *server;
- 	struct cifsFileInfo *file_info;
-@@ -519,6 +517,8 @@ cifs_atomic_open(struct inode *inode, struct dentry *direntry,
- 	struct tcon_link *tlink;
- 	struct cifs_tcon *tcon;
- 	unsigned int sbflags;
-+	struct dentry *alias;
-+	struct inode *inode;
- 	unsigned int xid;
- 	__u32 oplock;
- 	int rc;
-@@ -545,13 +545,13 @@ cifs_atomic_open(struct inode *inode, struct dentry *direntry,
- 		if (!d_in_lookup(direntry))
- 			return -ENOENT;
- 
--		return finish_no_open(file, cifs_lookup(inode, direntry, 0));
-+		return finish_no_open(file, cifs_lookup(dir, direntry, 0));
- 	}
- 
- 	xid = get_xid();
- 
- 	cifs_dbg(FYI, "parent inode = 0x%p name is: %pd and dentry = 0x%p\n",
--		 inode, direntry, direntry);
-+		 dir, direntry, direntry);
- 
- 	tlink = cifs_sb_tlink(cifs_sb);
- 	if (IS_ERR(tlink)) {
-@@ -572,13 +572,21 @@ cifs_atomic_open(struct inode *inode, struct dentry *direntry,
- 
- 	cifs_add_pending_open(&fid, tlink, &open);
- 
--	rc = cifs_do_create(inode, direntry, xid, tlink, oflags, mode,
--			    &oplock, &fid, &buf);
-+	rc = cifs_do_create(dir, direntry, xid, tlink, oflags, mode,
-+			    &oplock, &fid, &buf, &inode);
- 	if (rc) {
- 		cifs_del_pending_open(&open);
- 		goto out;
- 	}
- 
-+	if (d_in_lookup(direntry)) {
-+		alias = d_splice_alias(inode, direntry);
-+		if (!IS_ERR_OR_NULL(alias))
-+			direntry = alias;
-+	} else {
-+		d_instantiate(direntry, inode);
-+	}
-+
- 	if ((oflags & (O_CREAT | O_EXCL)) == (O_CREAT | O_EXCL))
- 		file->f_mode |= FMODE_CREATED;
- 
-@@ -622,11 +630,12 @@ cifs_atomic_open(struct inode *inode, struct dentry *direntry,
-  * Create a CIFS file.
-  *
-  * The initial dentry state is hashed-negative.  On success, dentry will become
-- * hashed-positive by calling d_drop() & d_add(), respectively.
-+ * hashed-positive by calling d_instantiate().
-  */
--int cifs_create(struct mnt_idmap *idmap, struct inode *inode,
-+int cifs_create(struct mnt_idmap *idmap, struct inode *dir,
- 		struct dentry *direntry, umode_t mode, bool excl)
- {
-+	struct cifs_sb_info *cifs_sb = CIFS_SB(dir);
- 	int rc;
- 	unsigned int xid = get_xid();
- 	/*
-@@ -640,19 +649,20 @@ int cifs_create(struct mnt_idmap *idmap, struct inode *inode,
- 	struct tcon_link *tlink;
- 	struct cifs_tcon *tcon;
- 	struct TCP_Server_Info *server;
-+	struct inode *inode;
- 	struct cifs_fid fid;
- 	__u32 oplock;
- 	struct cifs_open_info_data buf = {};
- 
- 	cifs_dbg(FYI, "cifs_create parent inode = 0x%p name is: %pd and dentry = 0x%p\n",
--		 inode, direntry, direntry);
-+		 dir, direntry, direntry);
- 
--	if (unlikely(cifs_forced_shutdown(CIFS_SB(inode->i_sb)))) {
-+	if (unlikely(cifs_forced_shutdown(cifs_sb))) {
- 		rc = smb_EIO(smb_eio_trace_forced_shutdown);
- 		goto out_free_xid;
- 	}
- 
--	tlink = cifs_sb_tlink(CIFS_SB(inode->i_sb));
-+	tlink = cifs_sb_tlink(cifs_sb);
- 	rc = PTR_ERR(tlink);
- 	if (IS_ERR(tlink))
- 		goto out_free_xid;
-@@ -663,9 +673,13 @@ int cifs_create(struct mnt_idmap *idmap, struct inode *inode,
- 	if (server->ops->new_lease_key)
- 		server->ops->new_lease_key(&fid);
- 
--	rc = cifs_do_create(inode, direntry, xid, tlink, oflags, mode, &oplock, &fid, &buf);
--	if (!rc && server->ops->close)
--		server->ops->close(xid, tcon, &fid);
-+	rc = cifs_do_create(dir, direntry, xid, tlink, oflags,
-+			    mode, &oplock, &fid, &buf, &inode);
-+	if (!rc) {
-+		d_instantiate(direntry, inode);
-+		if (server->ops->close)
-+			server->ops->close(xid, tcon, &fid);
-+	}
- 
- 	cifs_free_open_info(&buf);
- 	cifs_put_tlink(tlink);
-@@ -1035,7 +1049,7 @@ static int set_tmpfile_attr(const unsigned int xid, unsigned int oflags,
-  * Create a hidden temporary CIFS file with delete-on-close bit set.
-  *
-  * The initial dentry state is unhashed-negative.  On success, dentry will
-- * become unhashed-positive by calling d_drop() & d_instantiate(), respectively.
-+ * become unhashed-positive by calling d_instantiate().
-  */
- int cifs_tmpfile(struct mnt_idmap *idmap, struct inode *dir,
- 		 struct file *file, umode_t mode)
--- 
-2.53.0
+Reviewed-by: Hyunchul Lee <hyc.lee@gmail.com>
 
+> ---
+> This email is a free service from the Smatch-CI project [smatch.sf.net].
+>
+> I have wanted to avoid sending patches but it was easier to fix it than
+> explain the warning.  :P
+>
+>     fs/ntfs/namei.c:677 __ntfs_create() error: uninitialized symbol 'ni_m=
+rec'.
+>
+>  fs/ntfs/mft.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/fs/ntfs/mft.c b/fs/ntfs/mft.c
+> index bf028c1aea26..0c545fd08b66 100644
+> --- a/fs/ntfs/mft.c
+> +++ b/fs/ntfs/mft.c
+> @@ -2503,6 +2503,7 @@ int ntfs_mft_record_alloc(struct ntfs_volume *vol, =
+const int mode,
+>                         folio_unlock(folio);
+>                         kunmap_local(m);
+>                         folio_put(folio);
+> +                       err =3D -ENOMEM;
+>                         goto undo_mftbmp_alloc;
+>                 }
+>
+> --
+> 2.53.0
+>
+
+
+--=20
+Thanks,
+Hyunchul
