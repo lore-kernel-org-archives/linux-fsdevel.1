@@ -1,67 +1,67 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C2F12BD5B9
-	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 06:47:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 694FF386C17
+	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 06:47:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775803624; cv=none; b=dwoLeQaBQLHhNCZ6UvvUXU0WX4fEedKERwH1ZmcmyfABfCB/PBjUlxO5/G+hainCe/MXgIPm4FmhKfSXnMnmwS01sxXAvFfvtJG0Fd/YF44wPd1T07ckL+X/L+qB7wOAkBLTpf9xXJx06yoAt+6peKj4y+HxdU7aP8Gf0TfbsJQ=
+	t=1775803632; cv=none; b=ECNmKRNkgmOCH8BasS/fSv4MpPnbznS87yDEvhNwigWB76KSVjpWKfiCQTgai4M2l7tmud2a2R7S/jNxEJwaZYCpa+0Gzu2I0mYwLgRtBB8Aw8+8fLSMrYr85bulY7fx/O4HDXdLxW2WbPZqAfp7zo4/oEGuZyz81R0Ed6sdDc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775803624; c=relaxed/simple;
-	bh=KsxLF3DCLTdOtxD995G1lTLjDLdi/K2Z8eVxn8pdCSg=;
+	s=arc-20240116; t=1775803632; c=relaxed/simple;
+	bh=+NX37KmNCiRQobtp0AZJA83dK44q/9DxsG2l4pUAzfY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Vl+sUiyRcxzeLqBffh5XcQ9aw66EBVo7GF6hTECbWXtHlvnT1ZObzh7M0Kff/lkzcBLBB7maK+MjPvX3ZQ9eH/Au0/8BF47tiuEupwrESEDO423jTATOYKZ5hv91kIzH68wP3+dOOLINf6hZHwUCnscw+1015KzC2VaBkAMa5gs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WhJfgAdV; arc=none smtp.client-ip=209.85.221.41
+	 Content-Disposition; b=Eq+rbnYDTmlVkea02Vox88eSIphHBOhnHMXTYRA/y/FupOvyIgTy9XPYW/4JybnxM+U9NxmyxB8hsE3gVyeyw6jaMleEF4P+hAhPL60HKH8dljbOlyiyXwNRzlqcXTtgQoSqxX9bkJhRRwWyrjahk7NG2Q521nzbJQT+1gyKBh0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UOMbLBEt; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WhJfgAdV"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-43cfde3c3f3so1575477f8f.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 09 Apr 2026 23:47:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UOMbLBEt"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-488aa77a06eso26374265e9.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 09 Apr 2026 23:47:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775803621; x=1776408421; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1775803628; x=1776408428; darn=vger.kernel.org;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=xkJhung2ozHU+Fpx7n1C/vMEwaxo6uNBxz41h3N6gIA=;
-        b=WhJfgAdVN3dp04F6Uc9baS0dW1Dg3bSsYfu2rE1GnAoQojpaMqfcNlLoB2AeXmuTEY
-         L5sXt9OnnEk+ROcM8iWfU8eFWfCZIEVvCHhTeuPy41t+diq9CSVvmeboRMk4FgFU90VW
-         UU2TxW3dVBoTwxdBGtTVKY9jPznM0ChadPsPnCpeAKbwiL4S6bVOvRxI4dUMwbsXEit+
-         TSw0FtYS/s5uF4b+TC6ti2wA3+wGruV3GxZX9m7JGuR0+uDrbeONMSXse+fkb62dYVEh
-         DcS6jhBAg+US4UIdqCXwcO0fjey8wrbrUDAZl/89LWrYj9D+UUd4Y71u1PMUc2Nfz+q/
-         ey6g==
+        bh=6RODSSp/HcmdrzLuyL94yj+lqKUbtuAT0pxgzahly0I=;
+        b=UOMbLBEtRjbFe0J5jY/6QC+zskT0kU7tBQBn9V8VNBOLSGaM/t0IOnpDOCgjga1/Qe
+         s/vH2ZJFsDYFt6TduBk/+bPGaB9I4BgI+bFF4mfhhyTnW5qcRkOGH7jxbgYL+hnyYN+9
+         eC8LKibeS4Z8Q1nqCKGCbUTGOPe/iHUrhh2r54MX6hNgnJsRltQ8n2v9wmTGpm/jrzTF
+         KSHX5nDZGhqVAQ/sSXbQoIcpiw5+Xz346JtUZYl3hkXhVBEx/raz7ZzPtfoNyTO9kDcj
+         PrfSI8Rg69bpfgAMm6ZkcFCKvBnByKvKXPeyXG1PU58Dx0n5HQudxN2t1IToq7NLyl1V
+         7o9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775803621; x=1776408421;
+        d=1e100.net; s=20251104; t=1775803628; x=1776408428;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=xkJhung2ozHU+Fpx7n1C/vMEwaxo6uNBxz41h3N6gIA=;
-        b=JPGnTeRr/pEdGJ1LcXaS6TL4XGLPPgA5nRQnN1owb0/4bRY9ccN2FVs0qtSMhM0T74
-         zTQIONJPYHUSkWNx0fJSafq1Zz2iHLXNoRat+sN+OVBq9JRTeQ9C8RQ85tpTK2Xola66
-         +je9Vh8tFL7o25jNXGS6BYROiCr4RGCBRjlE8SPie0WiyVQx0NzXgFEvuDWdxXELdWhY
-         PniSkHnJqAandz05GO/bP7WA2gluQSzVLaAcQbrX116yWLYuwZCG+55tYaJ+63tzNJlF
-         pu9YCSBMG2WlPyW1apPa0eZ8Uux35C1rbguyDiCZeB29goYM9EZZoi1vdHL4asgwuduZ
-         C1/g==
-X-Gm-Message-State: AOJu0YxmCkUBi8U3UegdAs1E+Bhzf4JDyDLoptFxjvGw/1wJetuPUdw3
-	l8v5ixK0hOIYPoirRUAQEKUKlXJLG4ni1TgWIDCdRRDt80iBCC9yDZWa
-X-Gm-Gg: AeBDieuik2ND0YOk4hmEIDNbgOGe59eeG8eXLSmprc8dVwOZ6nFT7hETzM/5bDNPZRh
-	Y0aHTp8iQbyOHZdpBSf7o34RHUO+p+ZllvJhhQjVhDtk26R7xhbIzfgDgDCyHPKooBmOcU6z6p5
-	LeZmlv8SVRZzKhr85Crbl0C3oLTGITKRQBtP2XvfF7FUoj8yI9ZxMVdHw+1wurK4EoCH7qaNbka
-	PBsPTYOnslmV3IWKVzK3h4XG9PGHonwTt+Atpw2wtgC8P5Lhqg5IBf7R1ZQ0j1mgETAiP2eCFne
-	xTad0jaeFctzAoq4+/axI10bC7cEygP9EIBe1ft/n+fbRNPr/0fuJbo2UUTze/6pWHW3LThtts+
-	uzddEOzVYkcuUBb5pbD1wT0/knneoG9xgZhRzLj0PYnoMzZJlmz7Ms5WwAFUl08X/M7b2kloFo1
-	nYLa3DR6l+GS9UJjyoYTM=
-X-Received: by 2002:a5d:5d02:0:b0:43d:1df7:ed24 with SMTP id ffacd0b85a97d-43d642a64b1mr2658295f8f.21.1775803621116;
-        Thu, 09 Apr 2026 23:47:01 -0700 (PDT)
+        bh=6RODSSp/HcmdrzLuyL94yj+lqKUbtuAT0pxgzahly0I=;
+        b=NxRoQlk//zbmKl9d5z/aX1WQFyWDPbWNU3IrLeG1IYlHj5KGubgf/12hO6fU7bMTEW
+         Ou/H+RCSyH7YniLkUd+rLi7cQDe9IKV/p64yDO+KjfM2STSHApKmzkz9rIRXwMHz15or
+         96ixpjeF9ewDAQ6i1h4cIex+r38XP1dJ4+p4JkjvAOMBS6ziwabFf3JhxwXY600fRs2o
+         Qu+VUbhuo3CLHS9zCcDsWMPEfcvhEqDvReGzUmfFU5VM67b4fozUTm/1w5qoXWuKXhRl
+         y8CfpToyr1sPp+D4D8JMTYqg1Oj2no/Obtunoy7KUvwnm1U4EIMJ7qVo5jUQXmKrf465
+         SyFQ==
+X-Gm-Message-State: AOJu0Yx35buGyp9EqS2E0p8Zutn3yD2SqAxo76Ak+e3ZbdGj+RArPQB6
+	0WOMUq+p6IWnOduyTsYvvegvCcs0HMKVr3/YGaI/0bVrNGyLmLqZ5e6ijSyLKLaa
+X-Gm-Gg: AeBDiev17GwucZZCEa+ZNPIcR+gsPMabOqWBQTVpXR+H4GHekEv/I9P4K2k8TlaGkr8
+	ayZ4qYFmyHNOYV9X9yh3SxAaehEmj8g18ISuXt7dD6f5W08UA4Yj0cvxdKqiuITAIH5I8lPz8qT
+	vBh20mp2P66HnbDE/a6ky+oKtQj5ntHiMHJcGoLAJo4xRnK4B7Zi466tp8aO2nVcPJ1hudulScr
+	i/W5EJAsSM+zS2qfrLLkFdwT7aFOfeMGedEuf15F2j24h+uT0oyyDQvytClBv8NHz9WKyY0HDs5
+	+CjrFTg/szqLy+WPyiQR0a3UvxDz2CFJ7XKMIoaA9we9EGMTL/79HP/RuJaSUJoDG5xCmO0Ieoz
+	k6wkurei9SFxdLYRpJqi6rz3irzN3jHocJZHGQfx30v2uE/5yyMOFy0r/VfXkoYannhAsfgdmtU
+	i7TLjcszlnaSoCfbZLdZc=
+X-Received: by 2002:a05:600c:c16d:b0:488:be21:54ae with SMTP id 5b1f17b1804b1-488d66504bfmr23421935e9.0.1775803628349;
+        Thu, 09 Apr 2026 23:47:08 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d63de2a69sm4969375f8f.4.2026.04.09.23.47.00
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488d5888c12sm57403135e9.3.2026.04.09.23.47.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Apr 2026 23:47:00 -0700 (PDT)
-Date: Fri, 10 Apr 2026 09:46:57 +0300
+        Thu, 09 Apr 2026 23:47:07 -0700 (PDT)
+Date: Fri, 10 Apr 2026 09:47:04 +0300
 From: Dan Carpenter <error27@gmail.com>
 To: Namjae Jeon <linkinjeon@kernel.org>
 Cc: linux-fsdevel@vger.kernel.org
-Subject: [bug report] ntfs: update mft operations
-Message-ID: <adic4W19jh0_xQ1n@stanley.mountain>
+Subject: [bug report] ntfs: add reparse and ea operations
+Message-ID: <adic6OYLSfoUEcDu@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -73,172 +73,62 @@ Content-Disposition: inline
 
 Hello Namjae Jeon,
 
-Commit 115380f9a2f9 ("ntfs: update mft operations") from Feb 13, 2026
-(linux-next), leads to the following Smatch static checker warning:
+Commit fc053f05ca28 ("ntfs: add reparse and ea operations") from Feb
+13, 2026 (linux-next), leads to the following Smatch static checker
+warning:
 
-	fs/ntfs/mft.c:2823 ntfs_write_mft_block()
-	error: uninitialized symbol 'rl'.
+    fs/ntfs/ea.c:444 ntfs_ea_set_wsl_inode() error: uninitialized symbol 'err'.
+    fs/ntfs/namei.c:651 __ntfs_create() error: uninitialized symbol 'ea_size'.
 
-fs/ntfs/mft.c
-    2697 static int ntfs_write_mft_block(struct folio *folio, struct writeback_control *wbc)
-    2698 {
-    2699         struct address_space *mapping = folio->mapping;
-    2700         struct inode *vi = mapping->host;
-    2701         struct ntfs_inode *ni = NTFS_I(vi);
-    2702         struct ntfs_volume *vol = ni->vol;
-    2703         u8 *kaddr;
-    2704         struct ntfs_inode **locked_nis __free(kfree) = kmalloc_array(PAGE_SIZE / NTFS_BLOCK_SIZE,
-    2705                                                         sizeof(struct ntfs_inode *), GFP_NOFS);
-    2706         int nr_locked_nis = 0, err = 0, mft_ofs, prev_mft_ofs;
-    2707         struct inode **ref_inos __free(kfree) = kmalloc_array(PAGE_SIZE / NTFS_BLOCK_SIZE,
-    2708                                                               sizeof(struct inode *), GFP_NOFS);
-    2709         int nr_ref_inos = 0;
-    2710         struct bio *bio = NULL;
-    2711         u64 mft_no;
-    2712         struct ntfs_inode *tni;
-    2713         s64 lcn;
-    2714         s64 vcn = ntfs_pidx_to_cluster(vol, folio->index);
-    2715         s64 end_vcn = ntfs_bytes_to_cluster(vol, ni->allocated_size);
-    2716         unsigned int folio_sz;
-    2717         struct runlist_element *rl;
-    2718         loff_t i_size = i_size_read(vi);
-    2719 
-    2720         ntfs_debug("Entering for inode 0x%llx, attribute type 0x%x, folio index 0x%lx.",
-    2721                         ni->mft_no, ni->type, folio->index);
-    2722 
-    2723         if (!locked_nis || !ref_inos)
-    2724                 return -ENOMEM;
-    2725 
-    2726         /* We have to zero every time due to mmap-at-end-of-file. */
-    2727         if (folio->index >= (i_size >> folio_shift(folio)))
-    2728                 /* The page straddles i_size. */
-    2729                 folio_zero_segment(folio,
-    2730                                    offset_in_folio(folio, i_size),
-    2731                                    folio_size(folio));
-    2732 
-    2733         lcn = lcn_from_index(vol, ni, folio->index);
-    2734         if (lcn <= LCN_HOLE) {
-    2735                 folio_start_writeback(folio);
-    2736                 folio_unlock(folio);
-    2737                 folio_end_writeback(folio);
-    2738                 return -EIO;
-    2739         }
-    2740 
-    2741         /* Map folio so we can access its contents. */
-    2742         kaddr = kmap_local_folio(folio, 0);
-    2743         /* Clear the page uptodate flag whilst the mst fixups are applied. */
-    2744         folio_clear_uptodate(folio);
-    2745 
-    2746         for (mft_ofs = 0; mft_ofs < PAGE_SIZE && vcn < end_vcn;
-    2747              mft_ofs += vol->mft_record_size) {
-    2748                 /* Get the mft record number. */
-    2749                 mft_no = (((s64)folio->index << PAGE_SHIFT) + mft_ofs) >>
-    2750                         vol->mft_record_size_bits;
-    2751                 vcn = ntfs_mft_no_to_cluster(vol, mft_no);
-    2752                 /* Check whether to write this mft record. */
-    2753                 tni = NULL;
-    2754                 if (ntfs_may_write_mft_record(vol, mft_no,
-    2755                                         (struct mft_record *)(kaddr + mft_ofs),
-    2756                                         &tni, &ref_inos[nr_ref_inos])) {
-    2757                         unsigned int mft_record_off = 0;
-    2758                         s64 vcn_off = vcn;
-    2759 
-    2760                         /*
-    2761                          * Skip $MFT extent mft records and let them being written
-    2762                          * by writeback to avioid deadlocks. the $MFT runlist
-    2763                          * lock must be taken before $MFT extent mrec_lock is taken.
-    2764                          */
-    2765                         if (tni && tni->nr_extents < 0 &&
-    2766                                 tni->ext.base_ntfs_ino == NTFS_I(vol->mft_ino)) {
-    2767                                 mutex_unlock(&tni->mrec_lock);
-    2768                                 atomic_dec(&tni->count);
-    2769                                 iput(vol->mft_ino);
-    2770                                 continue;
-    2771                         }
-    2772 
-    2773                         /*
-    2774                          * The record should be written.  If a locked ntfs
-    2775                          * inode was returned, add it to the array of locked
-    2776                          * ntfs inodes.
-    2777                          */
-    2778                         if (tni)
-    2779                                 locked_nis[nr_locked_nis++] = tni;
-    2780                         else if (ref_inos[nr_ref_inos])
-    2781                                 nr_ref_inos++;
-    2782 
-    2783                         if (bio && (mft_ofs != prev_mft_ofs + vol->mft_record_size)) {
-    2784 flush_bio:
-    2785                                 bio->bi_end_io = ntfs_bio_end_io;
-    2786                                 submit_bio(bio);
-    2787                                 bio = NULL;
-    2788                         }
-    2789 
-    2790                         if (vol->cluster_size < folio_size(folio)) {
-    2791                                 down_write(&ni->runlist.lock);
-    2792                                 rl = ntfs_attr_vcn_to_rl(ni, vcn_off, &lcn);
+fs/ntfs/ea.c
+    405 int ntfs_ea_set_wsl_inode(struct inode *inode, dev_t rdev, __le16 *ea_size,
+    406                 unsigned int flags)
+    407 {
+    408         __le32 v;
+    409         int err;
+    410 
+    411         if (flags & NTFS_EA_UID) {
+    412                 /* Store uid to lxuid EA */
+    413                 v = cpu_to_le32(i_uid_read(inode));
+    414                 err = ntfs_set_ea(inode, "$LXUID", sizeof("$LXUID") - 1, &v,
+    415                                 sizeof(v), 0, ea_size);
+    416                 if (err)
+    417                         return err;
+    418         }
+    419 
+    420         if (flags & NTFS_EA_GID) {
+    421                 /* Store gid to lxgid EA */
+    422                 v = cpu_to_le32(i_gid_read(inode));
+    423                 err = ntfs_set_ea(inode, "$LXGID", sizeof("$LXGID") - 1, &v,
+    424                                 sizeof(v), 0, ea_size);
+    425                 if (err)
+    426                         return err;
+    427         }
+    428 
+    429         if (flags & NTFS_EA_MODE) {
+    430                 /* Store mode to lxmod EA */
+    431                 v = cpu_to_le32(inode->i_mode);
+    432                 err = ntfs_set_ea(inode, "$LXMOD", sizeof("$LXMOD") - 1, &v,
+    433                                 sizeof(v), 0, ea_size);
+    434                 if (err)
+    435                         return err;
+    436         }
+    437 
+    438         if (rdev) {
 
-rl is assigned here.
+err needs to be initialized if rdev is false.
 
-    2793                                 up_write(&ni->runlist.lock);
-    2794                                 if (IS_ERR(rl) || lcn < 0) {
-    2795                                         err = -EIO;
-    2796                                         goto unm_done;
-    2797                                 }
-    2798 
-    2799                                 if (bio &&
-    2800                                    (bio_end_sector(bio) >> (vol->cluster_size_bits - 9)) !=
-    2801                                     lcn) {
-    2802                                         bio->bi_end_io = ntfs_bio_end_io;
-    2803                                         submit_bio(bio);
-    2804                                         bio = NULL;
-    2805                                 }
-    2806                         }
-    2807 
-    2808                         if (!bio) {
-    2809                                 unsigned int off;
-    2810 
-    2811                                 off = ((mft_no << vol->mft_record_size_bits) +
-    2812                                        mft_record_off) & vol->cluster_size_mask;
-    2813 
-    2814                                 bio = bio_alloc(vol->sb->s_bdev, 1, REQ_OP_WRITE,
-    2815                                                 GFP_NOIO);
-    2816                                 bio->bi_iter.bi_sector =
-    2817                                         ntfs_bytes_to_sector(vol,
-    2818                                                         ntfs_cluster_to_bytes(vol, lcn) + off);
-    2819                         }
-    2820 
-    2821                         if (vol->cluster_size == NTFS_BLOCK_SIZE &&
-    2822                             (mft_record_off ||
---> 2823                              rl->length - (vcn_off - rl->vcn) == 1 ||
-                                      ^^^^^^^^^^
-this warning looks reasonable to me, but the code is a bit complicated.
+    439                 v = cpu_to_le32(rdev);
+    440                 err = ntfs_set_ea(inode, "$LXDEV", sizeof("$LXDEV") - 1, &v, sizeof(v),
+    441                                 0, ea_size);
+    442         }
+    443 
+--> 444         return err;
+                ^^^^^^^^^^^
+Also Smatch thinks that this function can return success without setting
+ea_size.
 
-    2824                              mft_ofs + NTFS_BLOCK_SIZE >= PAGE_SIZE))
-    2825                                 folio_sz = NTFS_BLOCK_SIZE;
-    2826                         else
-    2827                                 folio_sz = vol->mft_record_size;
-    2828                         if (!bio_add_folio(bio, folio, folio_sz,
-    2829                                            mft_ofs + mft_record_off)) {
-    2830                                 err = -EIO;
-    2831                                 bio_put(bio);
-    2832                                 goto unm_done;
-    2833                         }
-    2834                         mft_record_off += folio_sz;
-    2835 
-    2836                         if (mft_record_off != vol->mft_record_size) {
-    2837                                 vcn_off++;
-    2838                                 goto flush_bio;
-    2839                         }
-    2840                         prev_mft_ofs = mft_ofs;
-    2841 
-    2842                         if (mft_no < vol->mftmirr_size)
-    2843                                 ntfs_sync_mft_mirror(vol, mft_no,
-    2844                                                 (struct mft_record *)(kaddr + mft_ofs));
-    2845                 } else if (ref_inos[nr_ref_inos])
-    2846                         nr_ref_inos++;
-    2847         }
-    2848 
-    2849         if (bio) {
+    445 }
 
 This email is a free service from the Smatch-CI project [smatch.sf.net].
 
