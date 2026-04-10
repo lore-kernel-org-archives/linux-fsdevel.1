@@ -1,209 +1,123 @@
-Received: from iad-out-009.esa.us-east-1.outbound.mail-perimeter.amazon.com (iad-out-009.esa.us-east-1.outbound.mail-perimeter.amazon.com [34.198.94.229])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 688C93DA5BF;
-	Fri, 10 Apr 2026 15:18:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.198.94.229
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D13863DA5AC;
+	Fri, 10 Apr 2026 15:18:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775834304; cv=none; b=uQAytkdw99OIjUXAFsvqVirrXo2MnHjBZE5vmGG3wHRENg43KyI0ILITxghS2SMAa4T9bMLZzFM86cqgtXa1o1L2TtK9ZUCZvO3f2Nw1o/T39FMUyjoCeDoLSzaKpE3taHbUJ27mixvNGV7lZlfE3eS++7oUP41HqeN/ujTJjwE=
+	t=1775834310; cv=none; b=frHKHtp44E2OFYTW67lIbUn3NeTqrHQiH1dxVQ07AcfUt5YDaQHXAvAXSmgANfW92UVxHPIGpOEjgu6qSVlrrJ9uRWgUAVQZ9rS2JA/39tEaYv4ZJElTO+Mzqp5LVSQ+JKvUvSN+CqVySnDaf0LhFvZCFVbwhV4uv+qWMPBWT48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775834304; c=relaxed/simple;
-	bh=8DjXIMBWBLOAn+CXSrJbYeOgxkkXIgdkJo0CROITJ0E=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=cQecDALK4JnuBvMH6LwkMIVSmlwcn+fse/3N8J7/k9Vxt1JK1B1nPSg7MCxejBae6HbtpvV2WFzc8Cduy7aeU1mTYZgPD62mcMwqHRF34vHrXCQMeEYRELopX6uqJXCR2IDbylLaU6I9FiYXyIFkp2mBl8jMztzBENRyqbfQY78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.co.uk; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (2048-bit key) header.d=amazon.co.uk header.i=@amazon.co.uk header.b=lPCUFR09; arc=none smtp.client-ip=34.198.94.229
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
+	s=arc-20240116; t=1775834310; c=relaxed/simple;
+	bh=s4rwWqNth34RtxPk2+M7vTo4UKKDvqU4JTrmjhK7b8A=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Pu/N0XVPD26ts3E5Qgnc2givFwYBL3//ppVSDF89xWA6Lcj0N2q78cUy812hmLMvsbr0x1AlZGhpVHhJ4pk8KtvCnlDQW2M/ZwTa05Qk48GIyLNDs8s4v2faSlsLk0fk91X1RPM+csfdjCsQPC6bhOLglSsY+9OIFZfSBRj2aiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cg5XWJ+f; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.co.uk header.i=@amazon.co.uk header.b="lPCUFR09"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.co.uk; i=@amazon.co.uk; q=dns/txt;
-  s=amazoncorp2; t=1775834303; x=1807370303;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=SXUxXoRrWTOvyOc+uAqr+1ZCvKnUa6yiTRH8yoXeRFw=;
-  b=lPCUFR09v9NfYL2aWeP5Vl7peYGiK799Q2GZk3o6E3GqXRqHzdwkZTdd
-   pWjDBRj6F51lS2cxWnlbVvoj3MPayI0nQEtds+R5lxwX1yxODdh9xUK4/
-   5zCl/50piHU72M1EbT/lv+Htzyl3M8NHHxzbQCvSjXeyBVwOgaAQ2EKTe
-   tIObM+oKA91Ifrb8Y5z7CuBXGBtxFZblIWGYJ/E9J9xM3ExeU66650QJX
-   7x2AxyLsG9WdhEpoycc25ATLsxDmv6HYb9DqppEI/lRVb+zW7Pj2rN/Hv
-   ufju2h5E+MpMqzmZuWAJCxka7cC8NrEkERRB6xQNiJLB9nngcD0xTBoxp
-   Q==;
-X-CSE-ConnectionGUID: ETAIPHXHQ6Cl6VUBPfxqbA==
-X-CSE-MsgGUID: K9skfv97QeinTXXHdn0ngg==
-X-IronPort-AV: E=Sophos;i="6.23,171,1770595200"; 
-   d="scan'208";a="15898090"
-Received: from ip-10-4-17-41.ec2.internal (HELO smtpout.naws.us-east-1.prod.farcaster.email.amazon.dev) ([10.4.17.41])
-  by internal-iad-out-009.esa.us-east-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2026 15:18:21 +0000
-Received: from EX19MTAUEA002.ant.amazon.com [52.94.133.129:4854]
- by smtpin.naws.us-east-1.prod.farcaster.email.amazon.dev [10.0.3.180:2525] with esmtp (Farcaster)
- id 5c57dd77-82b6-4d25-81d9-bfb9fbf59a7a; Fri, 10 Apr 2026 15:18:20 +0000 (UTC)
-X-Farcaster-Flow-ID: 5c57dd77-82b6-4d25-81d9-bfb9fbf59a7a
-Received: from EX19D027UEC001.ant.amazon.com (10.252.137.156) by
- EX19MTAUEA002.ant.amazon.com (10.252.134.9) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
- Fri, 10 Apr 2026 15:18:20 +0000
-Received: from EX19D027UEC003.ant.amazon.com (10.252.137.250) by
- EX19D027UEC001.ant.amazon.com (10.252.137.156) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
- Fri, 10 Apr 2026 15:18:20 +0000
-Received: from EX19D027UEC003.ant.amazon.com ([fe80::887f:519b:ba73:21d]) by
- EX19D027UEC003.ant.amazon.com ([fe80::887f:519b:ba73:21d%3]) with mapi id
- 15.02.2562.037; Fri, 10 Apr 2026 15:18:20 +0000
-From: "Kalyazin, Nikita" <kalyazin@amazon.co.uk>
-To: "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "kvmarm@lists.linux.dev"
-	<kvmarm@lists.linux.dev>, "linux-fsdevel@vger.kernel.org"
-	<linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"bpf@vger.kernel.org" <bpf@vger.kernel.org>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"kernel@xen0n.name" <kernel@xen0n.name>, "linux-riscv@lists.infradead.org"
-	<linux-riscv@lists.infradead.org>, "linux-s390@vger.kernel.org"
-	<linux-s390@vger.kernel.org>, "loongarch@lists.linux.dev"
-	<loongarch@lists.linux.dev>, "linux-pm@vger.kernel.org"
-	<linux-pm@vger.kernel.org>
-CC: "pbonzini@redhat.com" <pbonzini@redhat.com>, "corbet@lwn.net"
-	<corbet@lwn.net>, "maz@kernel.org" <maz@kernel.org>, "oupton@kernel.org"
-	<oupton@kernel.org>, "joey.gouly@arm.com" <joey.gouly@arm.com>,
-	"suzuki.poulose@arm.com" <suzuki.poulose@arm.com>, "yuzenghui@huawei.com"
-	<yuzenghui@huawei.com>, "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-	"will@kernel.org" <will@kernel.org>, "seanjc@google.com" <seanjc@google.com>,
-	"tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>,
-	"bp@alien8.de" <bp@alien8.de>, "dave.hansen@linux.intel.com"
-	<dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>,
-	"hpa@zytor.com" <hpa@zytor.com>, "luto@kernel.org" <luto@kernel.org>,
-	"peterz@infradead.org" <peterz@infradead.org>, "willy@infradead.org"
-	<willy@infradead.org>, "akpm@linux-foundation.org"
-	<akpm@linux-foundation.org>, "david@kernel.org" <david@kernel.org>,
-	"lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>,
-	"vbabka@kernel.org" <vbabka@kernel.org>, "rppt@kernel.org" <rppt@kernel.org>,
-	"surenb@google.com" <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>,
-	"ast@kernel.org" <ast@kernel.org>, "daniel@iogearbox.net"
-	<daniel@iogearbox.net>, "andrii@kernel.org" <andrii@kernel.org>,
-	"martin.lau@linux.dev" <martin.lau@linux.dev>, "eddyz87@gmail.com"
-	<eddyz87@gmail.com>, "song@kernel.org" <song@kernel.org>,
-	"yonghong.song@linux.dev" <yonghong.song@linux.dev>,
-	"john.fastabend@gmail.com" <john.fastabend@gmail.com>, "kpsingh@kernel.org"
-	<kpsingh@kernel.org>, "sdf@fomichev.me" <sdf@fomichev.me>,
-	"haoluo@google.com" <haoluo@google.com>, "jolsa@kernel.org"
-	<jolsa@kernel.org>, "jgg@ziepe.ca" <jgg@ziepe.ca>, "jhubbard@nvidia.com"
-	<jhubbard@nvidia.com>, "peterx@redhat.com" <peterx@redhat.com>,
-	"jannh@google.com" <jannh@google.com>, "pfalcato@suse.de" <pfalcato@suse.de>,
-	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>, "riel@surriel.com"
-	<riel@surriel.com>, "ryan.roberts@arm.com" <ryan.roberts@arm.com>,
-	"jgross@suse.com" <jgross@suse.com>, "yu-cheng.yu@intel.com"
-	<yu-cheng.yu@intel.com>, "kas@kernel.org" <kas@kernel.org>, "coxu@redhat.com"
-	<coxu@redhat.com>, "ackerleytng@google.com" <ackerleytng@google.com>,
-	"yosry@kernel.org" <yosry@kernel.org>, "ajones@ventanamicro.com"
-	<ajones@ventanamicro.com>, "maobibo@loongson.cn" <maobibo@loongson.cn>,
-	"tabba@google.com" <tabba@google.com>, "prsampat@amd.com" <prsampat@amd.com>,
-	"wu.fei9@sanechips.com.cn" <wu.fei9@sanechips.com.cn>, "mlevitsk@redhat.com"
-	<mlevitsk@redhat.com>, "jmattson@google.com" <jmattson@google.com>,
-	"jthoughton@google.com" <jthoughton@google.com>, "agordeev@linux.ibm.com"
-	<agordeev@linux.ibm.com>, "alex@ghiti.fr" <alex@ghiti.fr>,
-	"aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>, "borntraeger@linux.ibm.com"
-	<borntraeger@linux.ibm.com>, "chenhuacai@kernel.org" <chenhuacai@kernel.org>,
-	"baolu.lu@linux.intel.com" <baolu.lu@linux.intel.com>, "dev.jain@arm.com"
-	<dev.jain@arm.com>, "gor@linux.ibm.com" <gor@linux.ibm.com>,
-	"hca@linux.ibm.com" <hca@linux.ibm.com>, "palmer@dabbelt.com"
-	<palmer@dabbelt.com>, "pjw@kernel.org" <pjw@kernel.org>,
-	"shijie@os.amperecomputing.com" <shijie@os.amperecomputing.com>,
-	"svens@linux.ibm.com" <svens@linux.ibm.com>, "thuth@redhat.com"
-	<thuth@redhat.com>, "yang@os.amperecomputing.com"
-	<yang@os.amperecomputing.com>, "Liam.Howlett@oracle.com"
-	<Liam.Howlett@oracle.com>, "urezki@gmail.com" <urezki@gmail.com>,
-	"zhengqi.arch@bytedance.com" <zhengqi.arch@bytedance.com>,
-	"gerald.schaefer@linux.ibm.com" <gerald.schaefer@linux.ibm.com>,
-	"jiayuan.chen@shopee.com" <jiayuan.chen@shopee.com>, "lenb@kernel.org"
-	<lenb@kernel.org>, "pavel@kernel.org" <pavel@kernel.org>, "rafael@kernel.org"
-	<rafael@kernel.org>, "yangyicong@hisilicon.com" <yangyicong@hisilicon.com>,
-	"vannapurve@google.com" <vannapurve@google.com>, "jackmanb@google.com"
-	<jackmanb@google.com>, "patrick.roy@linux.dev" <patrick.roy@linux.dev>,
-	"Thomson, Jack" <jackabt@amazon.co.uk>, "Itazuri, Takahiro"
-	<itazur@amazon.co.uk>, "Manwaring, Derek" <derekmn@amazon.com>, "Kalyazin,
- Nikita" <kalyazin@amazon.co.uk>
-Subject: [PATCH v12 03/16] mm/secretmem: make use of
- folio_{zap,restore}_direct_map
-Thread-Topic: [PATCH v12 03/16] mm/secretmem: make use of
- folio_{zap,restore}_direct_map
-Thread-Index: AQHcyP1DBItR5zMXtEmj13bg9CfDRw==
-Date: Fri, 10 Apr 2026 15:18:19 +0000
-Message-ID: <20260410151746.61150-4-kalyazin@amazon.com>
-References: <20260410151746.61150-1-kalyazin@amazon.com>
-In-Reply-To: <20260410151746.61150-1-kalyazin@amazon.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cg5XWJ+f"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46281C2BC87;
+	Fri, 10 Apr 2026 15:18:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775834310;
+	bh=s4rwWqNth34RtxPk2+M7vTo4UKKDvqU4JTrmjhK7b8A=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Cg5XWJ+fAoPu5BWYEZJCws16Xs9HyEHY5yss1HqHKAnDqDPiQBTZ+nNaBFNWR2cuv
+	 28suqjo/9k6o3gwjDNFRLTaC7yRAKI81//obXG5GJQdPHPuEePg9Ev9Yjiv14BTqCN
+	 CwTfUB3FcIf3WTtw4F8lGVPYbJjyhpEKyAlDNsIJee5LvyNydoQhrdIoKudaEmJ5mv
+	 sQqv0V10icGGzBWuZL1k8ElgtbrMwfWjtSGKxsoobPJr7doSgyKVqUgEgheO5km64d
+	 pSmVCdfJUcT/rK/MKgDl1jLK2yuYizn4jK4bg+xAtqnx1I23cOh09ndyOgUx93qwEd
+	 xAet4viR/3zbg==
+From: Christian Brauner <brauner@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Christian Brauner <brauner@kernel.org>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [GIT PULL 05/12 for v7.1] vfs fs_struct
+Date: Fri, 10 Apr 2026 17:18:19 +0200
+Message-ID: <20260410-vfs-fs_struct-v71-cf1d44311509@brauner>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260410-vfs-v71-b055f260060c@brauner>
+References: <20260410-vfs-v71-b055f260060c@brauner>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2711; i=brauner@kernel.org; h=from:subject:message-id; bh=s4rwWqNth34RtxPk2+M7vTo4UKKDvqU4JTrmjhK7b8A=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTeFDko52Mi6pH3Z8kd/4afmkK2dzt2rHz+3+0Qu9zN7 8l2kmF7OkpZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACYS/YqRYV68yc/rcjdO3SgO P6CWV8/yo4nF4+xuHqM0n9NXK6aIlzH8FWxb9YnrnoxedEKe8hkDa+lZLa9WXE45aLr7tkmVa2g VGwA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-From: Nikita Kalyazin <nikita.kalyazin@linux.dev>=0A=
-=0A=
-Replace set_direct_map_*_noflush with newly available=0A=
-folio_zap_direct_map calls that take folio's address internally.  A side=0A=
-effect is even if filemap_add_folio fails, the TLB is still flushed,=0A=
-which is not expected to be on the hot path.=0A=
-=0A=
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>=0A=
-Reviewed-by: Ackerley Tng <ackerleytng@google.com>=0A=
-Signed-off-by: Nikita Kalyazin <nikita.kalyazin@linux.dev>=0A=
----=0A=
- mm/secretmem.c | 8 ++------=0A=
- 1 file changed, 2 insertions(+), 6 deletions(-)=0A=
-=0A=
-diff --git a/mm/secretmem.c b/mm/secretmem.c=0A=
-index fd29b33c6764..27b176af8fc4 100644=0A=
---- a/mm/secretmem.c=0A=
-+++ b/mm/secretmem.c=0A=
-@@ -53,7 +53,6 @@ static vm_fault_t secretmem_fault(struct vm_fault *vmf)=
-=0A=
- 	struct inode *inode =3D file_inode(vmf->vma->vm_file);=0A=
- 	pgoff_t offset =3D vmf->pgoff;=0A=
- 	gfp_t gfp =3D vmf->gfp_mask;=0A=
--	unsigned long addr;=0A=
- 	struct folio *folio;=0A=
- 	vm_fault_t ret;=0A=
- 	int err;=0A=
-@@ -72,7 +71,7 @@ static vm_fault_t secretmem_fault(struct vm_fault *vmf)=
-=0A=
- 			goto out;=0A=
- 		}=0A=
- =0A=
--		err =3D set_direct_map_invalid_noflush(folio_address(folio));=0A=
-+		err =3D folio_zap_direct_map(folio);=0A=
- 		if (err) {=0A=
- 			folio_put(folio);=0A=
- 			ret =3D vmf_error(err);=0A=
-@@ -87,7 +86,7 @@ static vm_fault_t secretmem_fault(struct vm_fault *vmf)=
-=0A=
- 			 * already happened when we marked the page invalid=0A=
- 			 * which guarantees that this call won't fail=0A=
- 			 */=0A=
--			set_direct_map_default_noflush(folio_address(folio));=0A=
-+			folio_restore_direct_map(folio);=0A=
- 			folio_put(folio);=0A=
- 			if (err =3D=3D -EEXIST)=0A=
- 				goto retry;=0A=
-@@ -95,9 +94,6 @@ static vm_fault_t secretmem_fault(struct vm_fault *vmf)=
-=0A=
- 			ret =3D vmf_error(err);=0A=
- 			goto out;=0A=
- 		}=0A=
--=0A=
--		addr =3D (unsigned long)folio_address(folio);=0A=
--		flush_tlb_kernel_range(addr, addr + PAGE_SIZE);=0A=
- 	}=0A=
- =0A=
- 	vmf->page =3D folio_file_page(folio, vmf->pgoff);=0A=
--- =0A=
-2.50.1=0A=
-=0A=
+Hey Linus,
+
+/* Summary */
+
+Avoid excessive dput/dget in audit_context setup and reset paths When
+the audit subsystem is enabled, it can do a lot of get_fs_pwd() calls to
+get references to fs->pwd and then releasing those references back with
+path_put() later. That may cause a lot of spinlock contention on a
+single pwd's dentry lock because of the constant changes to the
+reference count when there are many processes on the same working
+directory actively doing open/close system calls. This can cause
+noticeable performance regresssion when compared with the case where the
+audit subsystem is turned off especially on systems with a lot of CPUs
+which is becoming more common these days.
+
+Avoid this type of performance regression caused by audit by adding a
+new set of fs_struct helpers to reduce unncessary path_get() and
+path_put() calls and the audit code is modified to use these new
+helpers.
+
+/* Testing */
+
+gcc (Debian 14.2.0-19) 14.2.0
+Debian clang version 19.1.7 (3+b1)
+
+No build failures or warnings were observed.
+
+/* Conflicts */
+
+Merge conflicts with mainline
+=============================
+
+No known conflicts.
+
+Merge conflicts with other trees
+================================
+
+The following changes since commit 1f318b96cc84d7c2ab792fcc0bfd42a7ca890681:
+
+  Linux 7.0-rc3 (2026-03-08 16:56:54 -0700)
+
+are available in the Git repository at:
+
+  git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.1-rc1.fs_struct
+
+for you to fetch changes up to 9eecc28ec595bfc0a8af3306b57f566027b3560c:
+
+  fs: factor out get_fs_pwd_pool_locked() for lock-held callers (2026-03-12 13:41:45 +0100)
+
+----------------------------------------------------------------
+vfs-7.1-rc1.fs_struct
+
+Please consider pulling these changes from the signed vfs-7.1-rc1.fs_struct tag.
+
+Thanks!
+Christian
+
+----------------------------------------------------------------
+Christian Brauner (5):
+      Merge patch series "fs, audit: Avoid excessive dput/dget in audit_context setup and reset paths"
+      fs: use path_equal() in fs_struct helpers
+      fs: document seqlock usage in pwd pool APIs
+      fs: add drain_fs_pwd_pool() helper
+      fs: factor out get_fs_pwd_pool_locked() for lock-held callers
+
+Waiman Long (2):
+      fs: Add a pool of extra fs->pwd references to fs_struct
+      audit: Use the new {get,put}_fs_pwd_pool() APIs to get/put pwd references
+
+ fs/fs_struct.c            | 34 ++++++++++++++++++++++++++++------
+ fs/namespace.c            | 10 ++++++++++
+ include/linux/fs_struct.h | 43 ++++++++++++++++++++++++++++++++++++++++++-
+ kernel/auditsc.c          |  7 +++++--
+ 4 files changed, 85 insertions(+), 9 deletions(-)
