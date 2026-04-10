@@ -1,47 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 765493DEACF
-	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 18:21:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCBDA39EF0B
+	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 18:26:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775845303; cv=none; b=c6XWSPWh4Z5rAS2q2HgOC+2knryQOuz8EPv7ibkHe9MLO5coTgWyrOoe28QfPKhxzQ39HZOSuzY2trhXOqeW4g/tW0TljG1tcF4UAWtn43w2SWsobrs2/JmjVN6/Zp145jceJ00xkfOcnb4ii9PC1qW/oSf6dwjrmSgTQhejnHk=
+	t=1775845611; cv=none; b=u34wg4174zI5G/hB0uhhJygOjq3XHUiequLK0pzU9wtU6pQ/O48HZUA+yJFA9P5iUz3KquIdL0GazW4BSnuFp9pubkeS6Qm1dDr3qn9QSmL3WZaFjk+D02q7DLlhesGjzxQBjn3H2JNciQo6/QFKNzRmKsRZAzrf4WXW7MQ075U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775845303; c=relaxed/simple;
-	bh=oFRwkRX6bHFTBZv16pKYlFfMBaDt6ha55/7Cyw0xWQ4=;
+	s=arc-20240116; t=1775845611; c=relaxed/simple;
+	bh=AKpKlrQkaO/5xjksveQqks9iDh0sQqNF7bqCug9KXac=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=FO9qcdYwOq0TZLCGlzaNpWaVCCNrfYyio2T1WivTK4z29OGBrvrzk4ewJKsFFU26iEheUx3SWx3Fq4wV37yjrp516KrvL3egIwoZtq6Kj8SfBePR/iHrYell/ipEAE2b3yIwnxc/5mMv/emHkEqZc29YIJgScQCMdgLiGufFVh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nZYe/mZd; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=XHa9K9K24nVAMlxMN8dVD9etzpwipf0iVaOvfEiVv6239GGX3jIl+lRnBY5A4eY2u9nVJ1z4kLV1AhK9pHW/Y062K23X0Pd4mRJZNhjnKJX7Gg2qPYPfFNLpe6FA5BA4lrXXl1JEKNLy9s01+8n+vAI2727FNLwmYEIuTO0kGFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cr5z7fTk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nZYe/mZd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7D9DC19421;
-	Fri, 10 Apr 2026 18:21:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cr5z7fTk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBBFDC19421;
+	Fri, 10 Apr 2026 18:26:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775845303;
-	bh=oFRwkRX6bHFTBZv16pKYlFfMBaDt6ha55/7Cyw0xWQ4=;
+	s=k20201202; t=1775845611;
+	bh=AKpKlrQkaO/5xjksveQqks9iDh0sQqNF7bqCug9KXac=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=nZYe/mZdd7gOx4uhdwlq0w4Yt5Wh7GHpmkJGl9JwbdRcGrH1gEBso4QwIqiALHrmF
-	 Zukseja+XOHo4v+CmsVxOM3FXr8PqzFDlBLm354yTZlWNcltPMFnrNIqTyHbhMCYsF
-	 kuUgvb46x9oixRyS38LebDp3PEYUx83yZXdDs+27HT6PfQzqc6WveapVtBfVFnYfLi
-	 KdSX3j0XcsFbNF+ePcLMRbQg3mg5pTV5ixJa8xigdV7QBn8kcBmGOwY7iE7jbnCR3H
-	 NYClEvy+8bh/lrZo2VZzY3IxKNjbfy0t4eQt1hneXyH8FPw4OQRFN5ZTOTizDY7f99
-	 zn7VjZIJxldoA==
-Message-ID: <4305138de599923591df7403aefc4d663f50324a.camel@kernel.org>
+	b=Cr5z7fTk9G4ZoTPOxQFYPgizBcVg5MKxt4EUF1FEY0VrPtM3egKkBPNZK0pPJoD2X
+	 FfRPXxIc77DtkHsXe2OPq6/rB3bMBk9iPjIf/yRIco+TqE/j70/4x3P3m/iyHT+euS
+	 khx7UMquSvTly61mEbRx3MVSKDi/kSAg7sn05vseN4KiNbwTLuv2BCHcvpOZVmDN9Z
+	 cA2veBVyaLr62gRzaBA3CTEUQKswbpjLJfT3qpubI18vyx/x2JLjmDlSl6f3Z2RH0u
+	 fhY1N9ZLoXSZ13M8NNxVgZPXQgYBHFbV8B0r5I2cAsjCX1XdsYrdqHu2q6NV46LdzT
+	 eEO4lyEAb9Mng==
+Message-ID: <7abf5ad83150dc51ac57e5b0c703ce9d2187dc94.camel@kernel.org>
 Subject: Re: [RFC][PATCH] make sure that lock_for_kill() callers drop the
  locks in safe order
 From: Jeff Layton <jlayton@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>, Boqun Feng
-	 <boqun@kernel.org>
-Cc: Al Viro <viro@zeniv.linux.org.uk>, "Paul E. McKenney"
- <paulmck@kernel.org>,  Frederic Weisbecker	 <frederic@kernel.org>, Neeraj
- Upadhyay <neeraj.upadhyay@kernel.org>, Joel Fernandes
- <joelagnelf@nvidia.com>, Josh Triplett <josh@joshtriplett.org>, Uladzislau
- Rezki	 <urezki@gmail.com>, linux-fsdevel@vger.kernel.org, Christian Brauner
-	 <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Nikolay Borisov	
- <nik.borisov@suse.com>, Max Kellermann <max.kellermann@ionos.com>, Eric
- Sandeen	 <sandeen@redhat.com>, Paulo Alcantara <pc@manguebit.org>
-Date: Fri, 10 Apr 2026 14:21:39 -0400
-In-Reply-To: <CAHk-=wjuOm+AGHtjF15Zx8cxJwYwbzJgi28EQ6KW=Ze-4YjN+g@mail.gmail.com>
+To: paulmck@kernel.org, Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Al Viro <viro@zeniv.linux.org.uk>, Frederic Weisbecker
+ <frederic@kernel.org>,  Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, Joel
+ Fernandes <joelagnelf@nvidia.com>, Josh Triplett	 <josh@joshtriplett.org>,
+ Boqun Feng <boqun@kernel.org>, Uladzislau Rezki	 <urezki@gmail.com>,
+ linux-fsdevel@vger.kernel.org, Christian Brauner	 <brauner@kernel.org>, Jan
+ Kara <jack@suse.cz>, Nikolay Borisov	 <nik.borisov@suse.com>, Max
+ Kellermann <max.kellermann@ionos.com>, Eric Sandeen	 <sandeen@redhat.com>,
+ Paulo Alcantara <pc@manguebit.org>
+Date: Fri, 10 Apr 2026 14:26:47 -0400
+In-Reply-To: <99127a4f-30bc-477f-9a84-83fa771589cc@paulmck-laptop>
 References: <20260122202025.GG3183987@ZenIV>
 	 <20260404080751.2526990-1-viro@zeniv.linux.org.uk>
 	 <53b4795292d1df2fe1569fc724325ab52fcab322.camel@kernel.org>
@@ -49,8 +48,7 @@ References: <20260122202025.GG3183987@ZenIV>
 	 <41cfd0f95b7fde411c0d59463dce979be89cb8ef.camel@kernel.org>
 	 <20260409215733.GS3836593@ZenIV> <20260410084839.GA1310153@ZenIV>
 	 <CAHk-=wjRgHLvSnEY3P45hSQ0ycKxdz-xqnccAMPuGRrwsvWdig@mail.gmail.com>
-	 <adkk8FiLHnVx1Bup@tardis.local>
-	 <CAHk-=wjuOm+AGHtjF15Zx8cxJwYwbzJgi28EQ6KW=Ze-4YjN+g@mail.gmail.com>
+	 <99127a4f-30bc-477f-9a84-83fa771589cc@paulmck-laptop>
 Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
  keydata=mQINBE6V0TwBEADXhJg7s8wFDwBMEvn0qyhAnzFLTOCHooMZyx7XO7dAiIhDSi7G1NPxw
  n8jdFUQMCR/GlpozMFlSFiZXiObE7sef9rTtM68ukUyZM4pJ9l0KjQNgDJ6Fr342Htkjxu/kFV1Wv
@@ -135,59 +133,145 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-On Fri, 2026-04-10 at 10:31 -0700, Linus Torvalds wrote:
-> On Fri, 10 Apr 2026 at 09:27, Boqun Feng <boqun@kernel.org> wrote:
+On Fri, 2026-04-10 at 10:32 -0700, Paul E. McKenney wrote:
+> On Fri, Apr 10, 2026 at 08:25:27AM -0700, Linus Torvalds wrote:
+> > [ Adding RCU maintainers to the participants: see
 > >=20
-> > Notice in rcu_read_unlock_special(), atomicity/preemption count is
-> > checked in two ways:
+> >   https://lore.kernel.org/all/20260410084839.GA1310153@ZenIV/
+> >=20
+> >  and the fairly long thread associated with it  for context ]
+> >=20
+> > On Fri, 10 Apr 2026 at 01:44, Al Viro <viro@zeniv.linux.org.uk> wrote:
+> > >=20
+> > > [this may or may not be the source of UAFs caught by Jeff and by Helg=
+e]
+> >=20
+> > Hmm.
+> >=20
+> > I think this patch may indeed fix the problem, and I don't mind how it =
+looks.
+> >=20
+> > But while I think the patch looks fine, I am still quite unhappy about
+> > it if it matters - because we have very much documented that spinlocks
+> > in themselves are also RCU read locks:
+> >=20
+> >         Note that anything that disables bottom halves, preemption,
+> >         or interrupts also enters an RCU read-side critical section.
+> >         Acquiring a spinlock also enters an RCU read-side critical
+> >         sections, even for spinlocks that do not disable preemption,
+> >         as is the case in kernels built with CONFIG_PREEMPT_RT=3Dy.
+> >         Sleeplocks do *not* enter RCU read-side critical sections.
+> >=20
+> > so *if* this makes a difference, I think it's actually implying that
+> > there's something wrong with our "rcu_read_unlock()" implementation,
+> > and that it doesn't nest properly.
+> >=20
+> > Because our documentation also makes it very clear that this should
+> > all work as-is, and your patch should be a complete no-op. Just a few
+> > lines later in that core RCU doc, we have
+> >=20
+> >         Note that RCU read-side critical sections may be nested and/or
+> >         overlapping.
+> >=20
+> > so the order of the spin_unlock() and the rcu_read_unlock() *should*
+> > be entirely immaterial, and the order of unlocking simply shouldn't
+> > matter.
+> >=20
+> > So it may indeed be that relying on the ordering of RCU read unlock
+> > matters for the case of explicit unlocks and the implicit unlocks by a
+> > spinlock, but that's not great.
+> >=20
+> > Does the rcu_read_unlock() code perhaps only check the RCU count, not
+> > the atomicity count? That would explain it, and looking at
+> > __rcu_read_unlock() in kernel/rcu/tree_plugin.h that may indeed be the
+> > case (rcu_preempt_read_exit() seems to only check
+> > rcu_read_lock_nesting).
+> >=20
+> > This is most likely dependent on kernel config options, and it may all
+> > be unavoidable becasue RCU might not even have a way to tell that it's
+> > still in a critical region without preemption counts etc.
+> >=20
+> > But if it's unavoidable, we need to update the docs about this gotcha,
+> > and we need to have some tooling scan our existing code for this
+> > documentation change.
+> >=20
+> > RCU people - what do you think?
 >=20
-> Yeah, I didn't go that deep ... That code is inscrutable.
+> Adding to Boqun's email:
 >=20
-> Raising a softirq looks pretty strangein there, since there's
-> absolutely no reason to believe that the preemption-off region has
-> ended before the softirq is triggered. It makes sense for the "we're
-> in hardirq context", but it also does it for that (needs_exp &&
-> !irqs_were_disabled()) case
->=20
-> So then it depends on the softirq checking it *again*. That all seems
-> a bit strange.
->=20
-> But it looks like rcu_core_si() does do that, and then falls back to
->=20
->         if (rcu_preempt_need_deferred_qs())
->                 set_need_resched_current();
->=20
-> and it feels like maybe the rcu_read_unlock_special() should just have
-> done that itself instead of playing softirq games.
->=20
-> Maybe it's some off optimization, but going through the softirq code
-> doesn't _feel_ like it's the right thing to do.
->=20
-> I don't know this code well enough to judge.
->=20
-> Let's wait to see if Al's patch actually makes any difference. It
-> *shouldn't* make any difference, and maybe it doesn't. No need to
-> start chasing RCU bugs that may not even be there.
->=20
-> Jeff?
->=20
-> > @Jeff, just want to confirm, this UAF can be reproduced without
-> > PREEMPT_RT=3Dy, right?
->=20
-> I haven't seen Jeff's config, but some of the syzbot reports that
-> *may* be related have configs that look pretty normal and didn't have
-> PREEMPT_RT.
->=20
+> The https://lore.kernel.org/all/20260410084839.GA1310153@ZenIV URL
+> has preemption disabled (right, Jeff?)
 >=20
 
-I've not been able to reproduce the UAF at all.
+Not as familiar with this part of the kernel, but I think that's
+correct:
 
-It was possible to reproduce the hang that we were seeing by injecting
-an mdelay() just after the cond_resched() in __dentry_kill(), but Al's
-other series seems to have fixed that.
+# zgrep PREEMPT /proc/config.gz=20
+CONFIG_PREEMPT_NONE_BUILD=3Dy
+CONFIG_ARCH_HAS_PREEMPT_LAZY=3Dy
+CONFIG_PREEMPT_NONE=3Dy
+# CONFIG_PREEMPT_VOLUNTARY is not set
+# CONFIG_PREEMPT is not set
+# CONFIG_PREEMPT_LAZY is not set
+# CONFIG_PREEMPT_RT is not set
+# CONFIG_PREEMPT_DYNAMIC is not set
+CONFIG_HAVE_PREEMPT_DYNAMIC=3Dy
+CONFIG_HAVE_PREEMPT_DYNAMIC_CALL=3Dy
+CONFIG_PREEMPT_NOTIFIERS=3Dy
+# CONFIG_PREEMPTIRQ_DELAY_TEST is not set
 
-The UAF seems to be dependent on those hangs somehow, but we were never
-able to get one to fire from a reproducer attempt. They just
-occasionally pop up when these stalls occur.
+
+> , in which case rcu_read_lock()
+> is just preempt_disable() and rcu_read_unlock() is just preempt_enable().
+> All the spinlocks also disable and enable preemption, so if you have
+> something like this:
+>=20
+> 	rcu_read_lock();
+> 	do_something();
+> 	spin_lock(...);
+> 	do_something_else();
+> 	rcu_read_unlock();
+> 	do_yet_another_thing();
+> 	spin_unlock(...);
+>=20
+> Then there should not be any calls to schedule() between the initial
+> rcu_read_lock() and the final spin_unlock().  But this is just
+> preempt_disable() doing its job, not much to do with RCU.
+>=20
+> And repeating Boqun's email:
+>=20
+> Now if this is a preemptible kernel, things are more involved.
+> However, in this case we know that the kernel has been built with
+> CONFIG_PREEMPT_COUNT=3Dy.  So rcu_read_unlock_special() can sample
+> preempt_count() and set preempt_bh_were_disabled is then true if either
+> preemption or softirq are disabled.  Then irqs_were_disabled is set if
+> interrupts were disabled on entry.  If either are set, the inner pair of
+> "if" statements set up to defer the end of the read-side critical section=
+.
+> If this is important, which it might be, I will go through this in more
+> detail later.
+>=20
+> Otherwise, the call to rcu_preempt_deferred_qs_irqrestore() at the end
+> of rcu_read_unlock_special() immediately ends the RCU read-side critical
+> section.
+>=20
+> And more adding to Boqun's email:
+>=20
+> Now, CONFIG_PREEMPT_RT=3Dy is a special case, because "spinlocks"
+> are preemptible.  So __rt_spin_lock() and __rt_spin_trylock() both do
+> rcu_read_lock() and rt_spin_unlock() does rcu_read_unlock().  So that
+> should be covered via RCU nesting along with the rcu_read_unlock_special(=
+)
+> checks for disabled interrupts, softirq, and preemption.
+>=20
+> And rcutorture tests random overlapping of RCU readers with all those
+> disabled regions.  But it might still be missing something.  And I
+> will add spinlocks to the mix in addition to the preemption disabling.
+>=20
+> In the meantime, is there something more specific that I should be
+> looking at?
+>=20
+> 						Thanx, Paul
+
 --=20
 Jeff Layton <jlayton@kernel.org>
