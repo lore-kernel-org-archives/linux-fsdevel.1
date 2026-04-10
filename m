@@ -1,70 +1,71 @@
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1222A38F658
-	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 22:05:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA64E3E0C65
+	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 22:09:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775858743; cv=none; b=OkPXQqPynu30dRJHQERNNMGyeRfnVigJ7zS95aCPqqiAEfmHSgQZouwkfoHLERoPuDIftHfBZ3HOWpWF3YFkpuayhtPmFqZJTxGC5xrOxdP+WBXH52W+nRKF2OQHt/pXQzXTSsqwCKd9ADVFxl3mLTGYyxUV0PKPWoUIbaiyu0w=
+	t=1775858999; cv=none; b=Ppyv2C21svGA2PWdi8s1q+MvVSVUTU9eb1mRvjSrWuVGbPcXCr2Dga6HgmyGdtYyGH1RG0iP1C5/mexE/EdlOwwGJEZ+zdG7w0shKP7m1VyqL5Oav2glG7XpK+lvN74RdpNfPHDzuTul6btMe5UufBy4C/enGDgE3eoPsZwQxpo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775858743; c=relaxed/simple;
-	bh=cM5jMfErasd8BLEAVG1vyvxUr26LK3lPLzuvhGvq9dU=;
-	h=Message-ID:Subject:From:To:Cc:Date:Content-Type:MIME-Version; b=oG6DntgnrnDxG+h6acYnftdVOVe9A27ovWCdseFJDWCaWGKdS1XHGQYkeAeS08lNqpcOHx5gT95QxzkKWod5wj6W4kfmLKoUl9IZFFApt2cH1/dgVKwOeCDme447D+ZAuM0Y3sVb8VthvQ0ZZ2lQspxU4aSc/1hgwts/K03MtnM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=O3hUlAjZ; arc=none smtp.client-ip=209.85.128.180
+	s=arc-20240116; t=1775858999; c=relaxed/simple;
+	bh=c+w0PHX2emHFrUDcE4HRgBY8dM0zYSZ9lqcyJPE9VJ4=;
+	h=Message-ID:Subject:From:To:Cc:Date:Content-Type:MIME-Version; b=n+QS1YdTg+MvpbgWpR401Tc1eiJp7RTYAdOErRdUnv8PZNj6h28f/hlIuKC7eZWgD3urOmWE6SLYo5B2Lj2Si6BMCy6EUPWJfS0HUmxY0gbkmEov03gqOFsA77KLA5Fez3QXOJGG715NOiU9UORmFo8xDG62HJN3tNPWBus+yCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=zTKxkG0d; arc=none smtp.client-ip=74.125.224.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="O3hUlAjZ"
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-79a46260385so29488237b3.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 15:05:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="zTKxkG0d"
+Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-6507a7d2eccso2655414d50.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 15:09:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1775858741; x=1776463541; darn=vger.kernel.org;
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1775858997; x=1776463797; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt:date:cc
          :to:from:subject:message-id:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=J/XJaVGZ/lI47CNYm2TlDt2u10jZruVaD/13uVW4GfI=;
-        b=O3hUlAjZlgCUy3epwaJ44v3E8evXXGaEUj7RPi8GM2gGjfj3sBIPnSRtLuiwlENGGV
-         d60M0qfMaf+JkpakldOGaI3i0mghRnh3GiiVsRgPFzXupkbvFEhOL6XsRhYmZk8xJ7XZ
-         /KwvNtjeNXV+JUbMF8CY5LbyzG5kS9fUI3duCT9KXd+ord4mRxlp6SjTvn8xwKZo0dlo
-         kqW4dYwCqL5LZ3l9nfwoKw7gJCjLRyhuIqLlQN6AhnDFn16tesdpw3/VaLiUYZOfSTGP
-         CPrh6dXbDV2wT3Rolou5qwTI+wFffqtJ4E91pgkcHw/4tC8u6A3bUnl1Hlq13S0vT4Tc
-         VSCg==
+        bh=fQcMp0dTb2c9NR5jykKdSHnksmK+T1YUw6hYUqur2yI=;
+        b=zTKxkG0dU5Qh1fTM+ozs/WuajxPAkI/ieLX7yf+sDrY/aS3otanvGl7vqvkLiNGby6
+         jNQaGzIjjCchkZCx8uzz93JGpUtmLBgRB6N+UaOdscCOPiE1uWKDjlmvNaYDSNEkn0mS
+         lnX3HzBmgfeVu+KNerkbj2cg/mY3JBMVC6uG4VgLaqTfExppOles+Yp6jwQq4mnL1uq2
+         /FdX9w6sczWeCLRRJN9GRKuFR9Abyavskbvk4rOhZQsw1VXDqpGMNZFB5gAx/g6zCH50
+         njtVNQwW/B1EMKGErEPrH5PbMTUIf+pzbIG1KjJ9ULR2iF281gN0FviI2Y6fbsYGHy5x
+         8P7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775858741; x=1776463541;
+        d=1e100.net; s=20251104; t=1775858997; x=1776463797;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt:date:cc
          :to:from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=J/XJaVGZ/lI47CNYm2TlDt2u10jZruVaD/13uVW4GfI=;
-        b=D6Ca1eNFF1HlaXSQXXzD1eVcLAId+BLADPX6/nynROTiArkPVw3ocWc2KvmRNxnqS4
-         zSUQEpPQVAOfc7Xbgi6d+yiXN6d4nx1g17xOLJs9RoFYFf9ldxV2J7QueTz84BPtbIZe
-         8qVhdvomjREyhqRTrj4LJrfyom6gB3lWpuyM4KN1YXHyF416JE5U9891dAKKKdEvtQbu
-         +LyBNqn79/UzYvrVbGHp2sqaBm0m0ybW6IA1WMy1lTPLCbRjxmt7dm74nVe5QKrceLc6
-         KxR4EMCGEuc00+PF1VHneyddHa0RH17Jj+R35AFOwx6sC2pBU9DxI0qdIr/atTIUGnv+
-         9Gpg==
-X-Gm-Message-State: AOJu0YzLv0k7TXSFbbyUQxAAt1NtGA3M22r5nO7dLDh48mJNStawlY9w
-	ApQeuFVxPECdFDG9VDi4BgDTjsNP/MkuZtaDm1uSoIF5U8H4G0490uiriNwpjGpjVNI=
-X-Gm-Gg: AeBDieuSgj2gW65iZI3spgqiTGzQzZ4Guk/iyPO4xSgnQNfkyvDDnw1TJgsRutxfbJ8
-	fgv/xpg33mtnp0ThemIlL9tZF+YVTvqOAE+yC8IpoO8lBMCK2a/BXog29YKDzPX7HdpZcwZ8ojb
-	XIigVZfeBSjX5hnsZFiAM9eCMMmscP+XWS6h904tBOaID0cRS6qIW2lWcRE2H+dGZY7FgHgMQTb
-	A9mWcH5X23f3q8ZVHrKmPHd/sYmLldxibe/s+CZ8zqSPwZFDYkPWCCVXvPsu+aCyGpE/7d44b9t
-	RhU4/Jk84VIygGDbWHa/V2tGklSVn3chtXgQgGnofo3Kj8C6t0oaYP6R1NP5qhBPEViH5dwtoIR
-	tHRTViuZHHL+9HxAtMzD4CeN7BUG2ngw6TGzMKoMNx9JXzVWV80K7wOuPU+cyoPUdNg0b/A6nY9
-	jHadrk5Qpu2Fl0eOnVXKciHZy3p6eUXy1pQxeLt4PuPJWEdlU4mZ32kB4bjoFa6Lfh9cIvTF+8R
-	pBOVDPLq+Tm2AX/+41nTyrBWgciVh7l3kxDOSvCFHi7DkcR0IrZVgu1bVhq
-X-Received: by 2002:a05:690c:2506:b0:7a1:3088:e528 with SMTP id 00721157ae682-7af6fbf1a28mr54913667b3.18.1775858741060;
-        Fri, 10 Apr 2026 15:05:41 -0700 (PDT)
+        bh=fQcMp0dTb2c9NR5jykKdSHnksmK+T1YUw6hYUqur2yI=;
+        b=KFwEGFaYKr0KU5qP0oI3IYrTPdkGbLtyJFzQEd7di2UcAAYx2EGpu3pRa9+YlEIoTd
+         jN8dJ+M+QOetG/i+vUNGi1RkUK6Pn9uV2xaVKG0KRbf9BIPbXr+YTtChn4TlSv00NzvA
+         hZ/gtr1YcDxOP4cbzW19txO1yo4RdfEoFx9YzAVt7Xz12F3sbNP6bZSL3lJmOnnA39Oi
+         ci4mPQ9WLfLNSI3FhQOfjHo0e0E8LyxTas20Hm36ZFO0a3OqCOIZKuAC4LcoJ2YSufc9
+         JUiyvhcbuSFG+iGU+SGeCxW20vUw5frp2kq0QomjPmlvqh4+Z6jQIfSVr0RLV9GyjTYp
+         ST/g==
+X-Forwarded-Encrypted: i=1; AJvYcCXYa/Z2Tyo5jIeo6XdSjEd7f1tV+jw2er13yMrEwVEuwTUfza3NqpfsXva1RqydFlVspDtsqgqBb6OLePKG@vger.kernel.org
+X-Gm-Message-State: AOJu0YyjbzarddrZiTaIEGON8GDc2WXBcdoYwXxLxaqF3lQ+VhsDlkIZ
+	XDdWmyS+TueNkEHcFu3h8bgU6Azj+5+9gu/V3JSuoAgnd3EXkU1CYJmVfkpSAe5/5jk=
+X-Gm-Gg: AeBDievtJEqgRGGBung2MQ9/gyBSTKCZSLcgg6JBpdXPj1RdLtweSKdy1iNHo6a7WKz
+	d5kEKYoV+ZYKZm9Pf0iAHWrc0vAN8d15HxUrmwIQkQUJQs4EsB/2UxvCSmey70vxsUw8o9wnj9W
+	YA+9joTQDRvG5oUPzzHND8Xj/C39Xq0t2knx0TUS+6RSJHbWsoBaTB/INMg7+M97i/B1oRNZn0z
+	Xh8q/mfz9ALS49CjpKKggueqVq4s6+tcgMGTio58qIe+ZsibRoPr5NW7pglgtQYB9G6GCkO74fZ
+	PHb/4/E8XRy7pznwng4VBjkas8g2AstFjsPCs4DaTGizpg+ko/lTT9w+1H2DzBunYNYvrl4HSMt
+	G17DZP8b6x4cYc3zNq3Z7Pl9alY2IFnK21o3OsiYVf3yZAqAg393RlBAz4jss3fDs4BrDh+/pI0
+	EvXZ9h8Lq2Zarn9zTbht7MUg4iX5AzqeZBV0UqfLRzAu9TiZKeuJMlpXrDARU53gE/TRuy95uAh
+	OUVUrCiYEHwCYqsYbQigWbMnPngcvsxx8oo+eimFd0oP58aCFQCwAxWkTtW
+X-Received: by 2002:a05:690e:248f:b0:64c:97ae:2e75 with SMTP id 956f58d0204a3-65198c168c0mr3439933d50.69.1775858997021;
+        Fri, 10 Apr 2026 15:09:57 -0700 (PDT)
 Received: from ?IPv6:2600:1700:6476:1430:cd6f:deb8:7bef:a487? ([2600:1700:6476:1430:cd6f:deb8:7bef:a487])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7af3f23f924sm19489487b3.24.2026.04.10.15.05.39
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-65197a6f42dsm1912522d50.6.2026.04.10.15.09.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Apr 2026 15:05:40 -0700 (PDT)
-Message-ID: <8a4699567ef82973224fe25d372c0831a46b189e.camel@dubeyko.com>
-Subject: [GIT PULL] hfs/hfsplus changes for 7.1-rc1
+        Fri, 10 Apr 2026 15:09:56 -0700 (PDT)
+Message-ID: <527a5bdc86b866f96a9ceab4aae7180e12f74624.camel@dubeyko.com>
+Subject: [GIT PULL] nilfs2 changes for 7.1-rc1
 From: Viacheslav Dubeyko <slava@dubeyko.com>
 To: torvalds@linux-foundation.org
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	glaubitz@physik.fu-berlin.de, frank.li@vivo.com, kartikey406@gmail.com, 
-	shardul.b@mpiricsoftware.com, zilin@seu.edu.cn, Slava.Dubeyko@ibm.com
-Date: Fri, 10 Apr 2026 15:05:38 -0700
+Cc: linux-nilfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, konishi.ryusuke@gmail.com,
+ Kartikey406@gmail.com, 	Slava.Dubeyko@ibm.com
+Date: Fri, 10 Apr 2026 15:09:55 -0700
 Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
  keydata=mQINBGgaTLYBEADaJc/WqWTeunGetXyyGJ5Za7b23M/ozuDCWCp+yWUa2GqQKH40dxRIR
  zshgOmAue7t9RQJU9lxZ4ZHWbi1Hzz85+0omefEdAKFmxTO6+CYV0g/sapU0wPJws3sC2Pbda9/eJ
@@ -121,46 +122,30 @@ MIME-Version: 1.0
 
 Hello Linus,
 
-This pull request contains several fixes of syzbot reported
-issues and HFS+ fixes of xfstests failures.
+This pull request contains fixes of syzbot reported issues in
+NILFS2 functionality.
 
-Deepanshu Kartikey has fixed a syzbot reported issue of
-a KMSAN uninit-value in hfsplus_strcasecmp(). The root
-cause is that hfs_brec_read() doesn't validate that
-the on-disk record size matches the expected size
-for the record type being read. The fix introduced
-hfsplus_brec_read_cat() wrapper that validates the record
-size based on the type field and returns -EIO if size doesn't
-match.
+The DAT inode's btree node cache (i_assoc_inode) is initialized lazily
+during btree operations. However, nilfs_mdt_save_to_shadow_map()
+assumes i_assoc_inode is already initialized when copying dirty pages
+to the shadow map during GC. If NILFS_IOCTL_CLEAN_SEGMENTS is called
+immediately after mount before any btree operation has occurred on
+the DAT inode, i_assoc_inode is NULL leading to a general protection
+fault. Deepanshu Kartikey has fixed this by calling
+nilfs_attach_btree_node_cache() on the DAT inode in nilfs_dat_read()
+at mount time, ensuring i_assoc_inode is always initialized before
+any GC operation can use it.
 
-Shardul Bankar has fixed a syzbot reported issue of
-processing corrupted HFS+ images where the b-tree
-allocation bitmap indicates that the header node (Node 0) is free.
-Node 0 must always be allocated. Violating this invariant leads
-to allocator corruption, which cascades into kernel panics or
-undefined behavior. Prevent trusting a corrupted allocator state
-by adding a validation check during hfs_btree_open().
-If corruption is detected, print a warning identifying the specific
-corrupted tree and force the filesystem to mount read-only (SB_RDONLY).
-This prevents kernel panics from corrupted images while enabling data
-recovery.
-
-Zilin Guan has fixed a potential deadlock in hfsplus_fill_super().
-hfsplus_fill_super() calls hfs_find_init() to initialize a search
-structure, which acquires tree->tree_lock. If the subsequent call to
-hfsplus_cat_build_key() fails, the function jumps to the out_put_root
-error label without releasing the lock. Fix this by adding the missing
-hfs_find_exit(&fd) call before jumping to the out_put_root error label.
-This ensures that tree->tree_lock is properly released on the error
-path.
-
-Yangtao Li has fixed the issue of not updating the change time
-after file change. The fix updates file's ctime after rename in
-hfsplus_rename().
-
-The rest patches introduce the HFS+ fixes for the case of generic/348,
-generic/728, generic/533, generic/523, and generic/642 test-cases of
-xfstests suite.
+nilfs_ioctl_mark_blocks_dirty() uses bd_oblocknr to detect dead blocks
+by comparing it with the current block number bd_blocknr. If they
+differ, the block is considered dead and skipped. A corrupted ioctl
+request with bd_oblocknr set to 0 causes the comparison to incorrectly
+match when the lookup returns -ENOENT and sets bd_blocknr to 0,
+bypassing the dead block check and calling nilfs_bmap_mark() on a non-
+existent block. This causes nilfs_btree_do_lookup() to return -ENOENT,
+triggering the WARN_ON(ret =3D=3D -ENOENT). Deepanshu Kartikey has fixed
+this by rejecting ioctl requests with bd_oblocknr set to 0 at the
+beginning of each iteration.
 
 The following changes since commit
 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f:
@@ -169,72 +154,29 @@ The following changes since commit
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/vdubeyko/hfs.git
-tags/hfs-v7.1-tag1
+  git://git.kernel.org/pub/scm/linux/kernel/git/vdubeyko/nilfs2.git
+tags/nilfs2-v7.1-tag1
 
 for you to fetch changes up to
-c1307d18caa819ddc28459d858eb38fdd6c3f8a0:
+be3e5d10643d3be1cbac9d9939f220a99253f980:
 
-  hfsplus: fix generic/642 failure (2026-04-08 14:23:29 -0700)
-
-----------------------------------------------------------------
-hfs/hfsplus updates for v7.1
-
-- hfsplus: fix generic/642 failure
-- hfsplus: rework logic of map nodes creation in xattr b-tree
-- hfsplus: fix logic of alloc/free b-tree node
-- hfsplus: fix error processing issue in hfs_bmap_free()
-- hfsplus: fix potential race conditions in b-tree functionality
-- hfsplus: extract hidden directory search into a helper function
-- hfsplus: fix held lock freed on hfsplus_fill_super()
-- hfsplus: fix generic/523 test-case failure
-- hfsplus: validate b-tree node 0 bitmap at mount time
-- hfsplus: refactor b-tree map page access and add node-type validation
-- hfsplus: fix to update ctime after rename
-- hfsplus: fix generic/533 test-case failure
-- hfsplus: set ctime after setxattr and removexattr
-- hfsplus: fix uninit-value by validating catalog record size
-- hfsplus: fix potential Allocation File corruption after fsync
+  nilfs2: reject zero bd_oblocknr in nilfs_ioctl_mark_blocks_dirty()
+(2026-03-31 11:05:55 -0700)
 
 ----------------------------------------------------------------
-Deepanshu Kartikey (1):
-      hfsplus: fix uninit-value by validating catalog record size
+nilfs2 updates for v7.1
 
-Shardul Bankar (2):
-      hfsplus: refactor b-tree map page access and add node-type
-validation
-      hfsplus: validate b-tree node 0 bitmap at mount time
+- nilfs2: reject zero bd_oblocknr in nilfs_ioctl_mark_blocks_dirty()
+- nilfs2: fix NULL i_assoc_inode dereference in
+nilfs_mdt_save_to_shadow_map
 
-Viacheslav Dubeyko (10):
-      hfsplus: fix potential Allocation File corruption after fsync
-      hfsplus: set ctime after setxattr and removexattr
-      hfsplus: fix generic/533 test-case failure
-      hfsplus: fix to update ctime after rename
-      hfsplus: fix generic/523 test-case failure
-      hfsplus: fix potential race conditions in b-tree functionality
-      hfsplus: fix error processing issue in hfs_bmap_free()
-      hfsplus: fix logic of alloc/free b-tree node
-      hfsplus: rework logic of map nodes creation in xattr b-tree
-      hfsplus: fix generic/642 failure
+----------------------------------------------------------------
+Deepanshu Kartikey (2):
+      nilfs2: fix NULL i_assoc_inode dereference in
+nilfs_mdt_save_to_shadow_map
+      nilfs2: reject zero bd_oblocknr in
+nilfs_ioctl_mark_blocks_dirty()
 
-Zilin Guan (2):
-      hfsplus: fix held lock freed on hfsplus_fill_super()
-      hfsplus: extract hidden directory search into a helper function
-
- fs/hfsplus/attributes.c    |  44 +++++++--
- fs/hfsplus/bfind.c         |  51 ++++++++++
- fs/hfsplus/bnode.c         |   3 +
- fs/hfsplus/brec.c          |  32 +++---
- fs/hfsplus/btree.c         | 241 ++++++++++++++++++++++++++++++++++++-
---------
- fs/hfsplus/catalog.c       |  11 ++-
- fs/hfsplus/dir.c           |  23 ++++-
- fs/hfsplus/extents.c       |   7 ++
- fs/hfsplus/hfsplus_fs.h    |  26 ++++-
- fs/hfsplus/inode.c         |  42 +++++---
- fs/hfsplus/super.c         |  47 +++++++--
- fs/hfsplus/unicode.c       | 121 ++++++++++++++++-------
- fs/hfsplus/unicode_test.c  |  51 ++++++----
- fs/hfsplus/xattr.c         | 156 +++++++++++++++++++++++------
- include/linux/hfs_common.h |   9 ++
- 15 files changed, 682 insertions(+), 182 deletions(-)
+ fs/nilfs2/dat.c   | 3 +++
+ fs/nilfs2/ioctl.c | 6 ++++++
+ 2 files changed, 9 insertions(+)
