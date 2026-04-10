@@ -1,369 +1,235 @@
-Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D22A3D75C8;
-	Fri, 10 Apr 2026 14:46:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775832385; cv=none; b=BZ3+MAFpLKn9GOlcXTbxnLy1oViT6Wi4rLPhS0MCTxU4dFhjwUav3SnjWgLPOJIqlmypKJLPvD5rI360rNEkoXH/146u+GpVYDbK5vprmxLK+X1KNskuqpxWSDAntCI+rOlVMoe0m/bd9wgFRKZZV4udnrt9smvLaSDnTAwS8g0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775832385; c=relaxed/simple;
-	bh=13gX3EbKN5SloFw3x7gZpmh1+KTteyaOkjcObn9GtsQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LzMwpVG46rfjX+++d3Be+RE0zORumBrdElUpyRO/CUgm0soQCx6+8fieHWkyF3nNms/Jdaw7dPE8SyOcqfcWb5OOp9ANC3CK+RbQYfkHivep4DDSb4X41PmVTmilqff2/5gVYNqqP/5tGa8vlLSKSeaslKavrdalm4hVEzFDUzA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
-Received: from omf02.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay01.hostedemail.com (Postfix) with ESMTP id 27B3AE31FD;
-	Fri, 10 Apr 2026 14:46:14 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf02.hostedemail.com (Postfix) with ESMTPA id CB7D780014;
-	Fri, 10 Apr 2026 14:46:03 +0000 (UTC)
-Date: Fri, 10 Apr 2026 09:46:02 -0500
-From: John Groves <John@groves.net>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: John Groves <john@jagalactic.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
-	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
-	Stefan Hajnoczi <shajnocz@redhat.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH V10 00/10] famfs: port into fuse
-Message-ID: <adkDq0m5Wt9YhJ8A@groves.net>
-References: <20260331123702.35052-1-john@jagalactic.com>
- <0100019d43e5f632-f5862a3e-361c-4b54-a9a6-96c242a8f17a-000000@email.amazonses.com>
- <CAJnrk1ZRTGWjNzkMxS3UkeZMmrpadJDtWKontMx2=d-smXYq=w@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB8563D8117
+	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 14:48:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775832506; cv=pass; b=c+9vPdPgypQyVLL5KI6uKOXydrpNJIMS/3L/yI2sgkuJnCMxAHng8fDjOdS8pBzSlUCZfZP6Qzm6IETnSZ0qe3SXj6r4XYd/XNwmATzwqNOeDqa5JqldjTtujHYDxl00AMHDhHKEcp9lQr6KsIxJmV696C8QL5CS8iE/oyv3vkc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775832506; c=relaxed/simple;
+	bh=MSBna9QEDkQr8jeyhYZPyf7jJJEZO+zbc/yNP4NZlCE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=p03CkW51dbluBV2B/TgMyonx1h9ZfiQCfabWa9K6S0gw5ArSIE1yECptZipV7Mep2p+wRfLQYUkCF4rc0oc7t7XTeMWXejbWsvRDKC50kt118H2TQYLLI3Dzxk2JFTYrWtStZdT5mdiKgVYs8KgDgE818d4MOZuvz559gX6IkEw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=kvo0hIN/; arc=pass smtp.client-ip=209.85.219.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="kvo0hIN/"
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-8a210c813f8so12405896d6.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 07:48:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775832504; cv=none;
+        d=google.com; s=arc-20240605;
+        b=LnnPbKamxcIQF0vI2OP2y4oBkSKYGHYV0N3c4Byo6/EBibx6sSAEO00eUWG/XIN41A
+         nI78GPE18PlBtIk9hlp6maOIDw7OIoRJyJbU9ZOkVFOBvC4Zn6nTopet24M5HqwxGKKz
+         daekSUHeAwnthz343kojqEukGw6qHXMI0nADSJKWPIeCKA/QptIbsNzS3eyl8cgPQB6P
+         DR0tbctjUvriWkxgxK5YbZ43YBE/TDWvSCfMo/VnSSrMCiu5Esv/IpGeGOl9Y4OtA3Af
+         CGhYM8/yMrvHj4Tcd8u+yNbq7G/tmbvLToVcFR+BLD+CjUiTnc0c64R0gMIaYFM0YvXw
+         MRAA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=POIb+p/VkouhVUA2xEIVD9Zh+FgjuvVK6yZfoMgDiZc=;
+        fh=Id1mi/dFLCFVbDLAdJEuLvz3mOoi0ICCZ+FlOPgXROg=;
+        b=S0i/Mc/RwWhqptzKJbrWM2zThHp+iVigVLIteZQowCijnwJ8C92jknNehTsG7fqdJr
+         cc7s+Ojz2c6eRfuCQ4cbP+FNrbgFHH3UKsZ4ryf6I8vTEONzzMHhOfBx1dzCnK0oxDXI
+         /pgTyiQPc4PVjtKTHuJ/xEmftnUNggVjDPCMt/mvAIcwVmh5c93yQUFqyCJPj9qeFuP6
+         6nRXd9phXo6yH0K6KsnjIQMBqui+WjySYz5E1iSpLxQ78w8YYi8QwCPc1Q0sQ1fKrTHa
+         9Jy9j1jubw3bn1d8KcnDG8r3pkaPaTRsTrF9d2IOpWHxrU6dvU1vaRbXELuStuSSStCC
+         U1RQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1775832504; x=1776437304; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=POIb+p/VkouhVUA2xEIVD9Zh+FgjuvVK6yZfoMgDiZc=;
+        b=kvo0hIN//oXrmrjdP2pCpnoJnOORuMz6/SwDVAs4QP+sAUJ0O7QmhnL20BY/jeYdVQ
+         V7fnrxVctu2ImmX7IT7kDC+nen90nSYrPFZKg4DjrbFc57+mJVkhAZpPMczV5+z7eGtY
+         JhdROI5mjpX7dHD9wH9P8TiUh5854VPeBLFXw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775832504; x=1776437304;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=POIb+p/VkouhVUA2xEIVD9Zh+FgjuvVK6yZfoMgDiZc=;
+        b=Ed3kEILggod4vHRJvoKBJ1nBHMvjrwigkOfT8O5ITBm6uZSYMRvVTK373yxTd2hZLS
+         Ph+tdnhIyKMVYHSm9o6cIrW/OxvzDymrOWkqzMJ81LpDWTF3UQpXrTxf3p5mmM+aMsoi
+         6YwP0MKndr/ZE/r2X5i9QO0fz3jSAjG2ZkEtM3bjCGgJISxk+0Jhn9YEbpZF2wc6gfRq
+         cgC/Wea79H9AEMnY/5+fvRQd3DKPhiyPWr7mP6ftyIM9csic2ByVGwDDLnh8KD4CrwNT
+         B2CaI0hYOjmb6dkpChcOueQ6FFxHcMcbv/H/7xAhXwrBRJLY9MSGcfCeHaxSRascOcgI
+         LZgQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVd9CB/ptMhsKDUA1+5EGmP9mS/M4OORSvEtW1kR4/dQhfYbXOK3uJssXGgTLC3hIlzNr76fW3bX1icjVln@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyrrg0LStHbUOymcIQaDh4hJiIhYGjDZamLVTPndwDWh7IJ7gW9
+	pzbT1cv5dMRzpQdzREbxHhpoY9d/rk8eqaN+SYoSpt8tm5jVheEhRAJaJ4nnk78JHUxrL/GOJwq
+	tfysoERK4VzSV5uXN/AmZRYUq+Zg+VPKiJ6D+7KmVVw==
+X-Gm-Gg: AeBDieum3sPgrYIZR61biZMcn/AcmyrV9IrrxvbS+Ecz6Ru5++VIdJRpQUBbHro2p+R
+	MVhLiurN9a0Wphm8NOp+eIG5uL27FgxTKrZ7jxqCNCwN4zO4W84TPTGOe4Va5Aenb/6fxqmIIlm
+	FSvjY8Zjd/TzNhI+DzCzZkXLQqt3WFgcQYBdNkSw9PN/ax4RGxLcO55kX29Q3GRKDu9WguNMMix
+	PWFJYBPx7Qc51nbwxcditb94JN1yjqyTLe0veyoJ656NkpFOefxMWq0R4lRHVS31PgOGf0ijQqw
+	ilKhOwDxqYJG+p2OF+YoU+M9bzCDmGVt+cwcS04FZQ==
+X-Received: by 2002:a05:6214:5290:b0:89c:d4c5:452b with SMTP id
+ 6a1803df08f44-8ac86220cc7mr44183576d6.38.1775832503588; Fri, 10 Apr 2026
+ 07:48:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJnrk1ZRTGWjNzkMxS3UkeZMmrpadJDtWKontMx2=d-smXYq=w@mail.gmail.com>
-X-Stat-Signature: ihdmbg1zgywygkoujrwy354wdo3sbca3
-X-Rspamd-Server: rspamout08
-X-Rspamd-Queue-Id: CB7D780014
-X-Session-Marker: 6A6F686E4067726F7665732E6E6574
-X-Session-ID: U2FsdGVkX1/dvAlKyofCw6UM5jL1uQABD38JRpHtNBc=
-X-HE-Tag: 1775832363-431619
-X-HE-Meta: U2FsdGVkX1912XIrOD1TQWz9LKbZw5xOMXl/+bv1nTu14riyUmL2WllhsvQeMhJ70Z0iX0pv6ZQhLqThRAAjX7WYFZWyTkSj+/GPM9FL3vGouDXmHgjZNxbCvpuusU5pKI8LeAZtKd1WO50iitjIBqN4LEAaaZKliCRt4P16W5mY7SKooyDgfs/SHTj2IBAx52VFR87ZM/jX1UGqr+qfsRctyNSFN47R+MCCWqI55OqMqgBC/AZG3JAQQh78cVBeFHK88aiJpJp13kz14Tv608xoffXwuhVbhxnqO10feWv4fC6SmB37VDkpKlWg2XKQa7T8fAPfodJ/ekVJepi5RHX3HFnYlE2TtknIAIiJNNG0aXLRqWDiYz7N4cjoU++49u3liMPWFSUgXKz9M1bKtdzELq9WWUdapFasqJTYEM1m0O9eZNrJHAZDRLJJIkQPLOGbIMY7WLBxEgStmxIn/oCe9sjuynMtIMcdVN+flXBCWXUyvRlKNMaPZz5Igihul0Ux9RIyuurNcUODcOUsfqDmzlV8bmbKYFrt9OSWTAaeBtxUlnQs3XBine0WaXhClROQu4q7vBYYq9C2XGQFmRah33HY4MffwoIf+1Bb7Fbmat9cQLtoDXqxSgS6rsIW
+References: <CAJfpegsxe=QdrGGPVSUWfJunDKvOXoszy6BnaP0MjHpRS7rHHQ@mail.gmail.com>
+ <CAOQ4uxgjDYihoPGcVZMZPu6S5OCfAJ4StispKUYj=+6Ay_qtkg@mail.gmail.com>
+ <CAJfpegsdKww4FQQnyS2K-CLL7ZQiJ5YT9FB_WPd_OAhVCHBKmg@mail.gmail.com> <CAOQ4uxh5bNnxO_mirds4atXX2tcaS1Ynhjvo5R-TsSCpsAw5qA@mail.gmail.com>
+In-Reply-To: <CAOQ4uxh5bNnxO_mirds4atXX2tcaS1Ynhjvo5R-TsSCpsAw5qA@mail.gmail.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Fri, 10 Apr 2026 16:48:11 +0200
+X-Gm-Features: AQROBzCUHJrfLfT8t9Mb0ta1oy-BOXCdYKnjXlLauKs8jzg5vWtwb3dw_AChAUw
+Message-ID: <CAJfpegtybvOrOH+JzQKGe-DV9z_nmhwy6uCH4XRh1Y8dF01uAw@mail.gmail.com>
+Subject: Re: fsnotify_prepare_user_wait() bug?
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org
+Content-Type: multipart/mixed; boundary="0000000000008ee0b5064f1c3940"
 
-On 26/04/06 10:43AM, Joanne Koong wrote:
-> On Tue, Mar 31, 2026 at 5:37 AM John Groves <john@jagalactic.com> wrote:
-> >
-> > From: John Groves <john@groves.net>
-> >
-> > NOTE: this series depends on the famfs dax series in Ira's for-7.1/dax-famfs
-> > branch [0]
-> >
-> > Changes v9 -> v10
-> > - Rebased to Ira's for-7.1/dax-famfs branch [0], which contains the required
-> >   dax patches
-> > - Add parentheses to FUSE_IS_VIRTIO_DAX() macro, in case something bad is
-> >   passed in as fuse_inode (thanks Jonathan's AI)
-> >
-> > Description:
-> >
-> > This patch series introduces famfs into the fuse file system framework.
-> > Famfs depends on the bundled dax patch set.
-> >
-> > The famfs user space code can be found at [1].
-> >
-> > Fuse Overview:
-> >
-> > Famfs started as a standalone file system, but this series is intended to
-> > permanently supersede that implementation. At a high level, famfs adds
-> > two new fuse server messages:
-> >
-> > GET_FMAP   - Retrieves a famfs fmap (the file-to-dax map for a famfs
-> >              file)
-> > GET_DAXDEV - Retrieves the details of a particular daxdev that was
-> >              referenced by an fmap
-> >
-> > Famfs Overview
-> >
-> > Famfs exposes shared memory as a file system. Famfs consumes shared
-> > memory from dax devices, and provides memory-mappable files that map
-> > directly to the memory - no page cache involvement. Famfs differs from
-> > conventional file systems in fs-dax mode, in that it handles in-memory
-> > metadata in a sharable way (which begins with never caching dirty shared
-> > metadata).
-> >
-> > Famfs started as a standalone file system [2,3], but the consensus at
-> > LSFMM was that it should be ported into fuse [4,5].
-> >
-> > The key performance requirement is that famfs must resolve mapping faults
-> > without upcalls. This is achieved by fully caching the file-to-devdax
-> > metadata for all active files. This is done via two fuse client/server
-> > message/response pairs: GET_FMAP and GET_DAXDEV.
-> >
-> > Famfs remains the first fs-dax file system that is backed by devdax
-> > rather than pmem in fs-dax mode (hence the need for the new dax mode).
-> >
-> > Notes
-> >
-> > - When a file is opened in a famfs mount, the OPEN is followed by a
-> >   GET_FMAP message and response. The "fmap" is the full file-to-dax
-> >   mapping, allowing the fuse/famfs kernel code to handle
-> >   read/write/fault without any upcalls.
-> >
-> > - After each GET_FMAP, the fmap is checked for extents that reference
-> >   previously-unknown daxdevs. Each such occurrence is handled with a
-> >   GET_DAXDEV message and response.
-> >
-> > - Daxdevs are stored in a table (which might become an xarray at some
-> >   point). When entries are added to the table, we acquire exclusive
-> >   access to the daxdev via the fs_dax_get() call (modeled after how
-> >   fs-dax handles this with pmem devices). Famfs provides
-> >   holder_operations to devdax, providing a notification path in the
-> >   event of memory errors or forced reconfiguration.
-> >
-> > - If devdax notifies famfs of memory errors on a dax device, famfs
-> >   currently blocks all subsequent accesses to data on that device. The
-> >   recovery is to re-initialize the memory and file system. Famfs is
-> >   memory, not storage...
-> >
-> > - Because famfs uses backing (devdax) devices, only privileged mounts are
-> >   supported (i.e. the fuse server requires CAP_SYS_RAWIO).
-> >
-> > - The famfs kernel code never accesses the memory directly - it only
-> >   facilitates read, write and mmap on behalf of user processes, using
-> >   fmap metadata provided by its privileged fuse server. As such, the
-> >   RAS of the shared memory affects applications, but not the kernel.
-> >
-> > - Famfs has backing device(s), but they are devdax (char) rather than
-> >   block. Right now there is no way to tell the vfs layer that famfs has a
-> >   char backing device (unless we say it's block, but it's not). Currently
-> >   we use the standard anonymous fuse fs_type - but I'm not sure that's
-> >   ultimately optimal (thoughts?)
-> >
-> > Changes v8 -> v9
-> > - Kconfig: fs/fuse/Kconfig:CONFIG_FUSE_FAMFS_DAX now depends on the
-> >   new CONFIG_DEV_DAX_FSDEV (from drivers/dax/Kconfig) rather than
-> >   just CONFIG_DEV_DAX and CONFIG_FS_DAX. (CONFIG_FUSE_FAMFS_DAX
-> >   depends on those...)
-> >
-> > Changes v7 -> v8
-> > - Moved to inline __free declaration in fuse_get_fmap() and
-> >   famfs_fuse_meta_alloc(), famfs_teardown()
-> > - Adopted FIELD_PREP() macro rather than manual bitfield manipulation
-> > - Minor doc edits
-> > - I dropped adding magic numbers to include/uapi/linux/magic.h. That
-> >   can be done later if appropriate
-> >
-> > Changes v6 -> v7
-> > - Fixed a regression in famfs_interleave_fileofs_to_daxofs() that
-> >   was reported by Intel's kernel test robot
-> > - Added a check in __fsdev_dax_direct_access() for negative return
-> >   from pgoff_to_phys(), which would indicate an out-of-range offset
-> > - Fixed a bug in __famfs_meta_free(), where not all interleaved
-> >   extents were freed
-> > - Added chunksize alignment checks in famfs_fuse_meta_alloc() and
-> >   famfs_interleave_fileofs_to_daxofs() as interleaved chunks must
-> >   be PTE or PMD aligned
-> > - Simplified famfs_file_init_dax() a bit
-> > - Re-ran CM's kernel code review prompts on the entire series and
-> >   fixed several minor issues
-> >
-> > Changes v4 -> v5 -> v6
-> > - None. Re-sending due to technical difficulties
-> >
-> > Changes v3 [9] -> v4
-> > - The patch "dax: prevent driver unbind while filesystem holds device"
-> >   has been dropped. Dan Williams indicated that the favored behavior is
-> >   for a file system to stop working if an underlying driver is unbound,
-> >   rather than preventing the unbind.
-> > - The patch "famfs_fuse: Famfs mount opt: -o shadow=<shadowpath>" has
-> >   been dropped. Found a way for the famfs user space to do without the
-> >   -o opt (via getxattr).
-> > - Squashed the fs/fuse/Kconfig patch into the first subsequent patch
-> >   that needed the change
-> >   ("famfs_fuse: Basic fuse kernel ABI enablement for famfs")
-> > - Many review comments addressed.
-> > - Addressed minor kerneldoc infractions reported by test robot.
-> >
-> > Changes v2 [7] -> v3
-> > - Dax: Completely new fsdev driver (drivers/dax/fsdev.c) replaces the
-> >   dev_dax_iomap modifications to bus.c/device.c. Devdax devices can now
-> >   be switched among 'devdax', 'famfs' and 'system-ram' modes via daxctl
-> >   or sysfs.
-> > - Dax: fsdev uses MEMORY_DEVICE_FS_DAX type and leaves folios at order-0
-> >   (no vmemmap_shift), allowing fs-dax to manage folio lifecycles
-> >   dynamically like pmem does.
-> > - Dax: The "poisoned page" problem is properly fixed via
-> >   fsdev_clear_folio_state(), which clears stale mapping/compound state
-> >   when fsdev binds. The temporary WARN_ON_ONCE workaround in fs/dax.c
-> >   has been removed.
-> > - Dax: Added dax_set_ops() so fsdev can set dax_operations at bind time
-> >   (and clear them on unbind), since the dax_device is created before we
-> >   know which driver will bind.
-> > - Dax: Added custom bind/unbind sysfs handlers; unbind return -EBUSY if a
-> >   filesystem holds the device, preventing unbind while famfs is mounted.
-> > - Fuse: Famfs mounts now require that the fuse server/daemon has
-> >   CAP_SYS_RAWIO because they expose raw memory devices.
-> > - Fuse: Added DAX address_space_operations with noop_dirty_folio since
-> >   famfs is memory-backed with no writeback required.
-> > - Rebased to latest kernels, fully compatible with Alistair Popple
-> >   et. al's recent dax refactoring.
-> > - Ran this series through Chris Mason's code review AI prompts to check
-> >   for issues - several subtle problems found and fixed.
-> > - Dropped RFC status - this version is intended to be mergeable.
-> >
-> > Changes v1 [8] -> v2:
-> >
-> > - The GET_FMAP message/response has been moved from LOOKUP to OPEN, as
-> >   was the pretty much unanimous consensus.
-> > - Made the response payload to GET_FMAP variable sized (patch 12)
-> > - Dodgy kerneldoc comments cleaned up or removed.
-> > - Fixed memory leak of fc->shadow in patch 11 (thanks Joanne)
-> > - Dropped many pr_debug and pr_notice calls
-> >
-> >
-> > References
-> >
-> > [0] - https://git.kernel.org/pub/scm/linux/kernel/git/nvdimm/nvdimm.git/
-> > [1] - https://famfs.org (famfs user space)
-> > [2] - https://lore.kernel.org/linux-cxl/cover.1708709155.git.john@groves.net/
-> > [3] - https://lore.kernel.org/linux-cxl/cover.1714409084.git.john@groves.net/
-> > [4] - https://lwn.net/Articles/983105/ (lsfmm 2024)
-> > [5] - https://lwn.net/Articles/1020170/ (lsfmm 2025)
-> > [6] - https://lore.kernel.org/linux-cxl/cover.8068ad144a7eea4a813670301f4d2a86a8e68ec4.1740713401.git-series.apopple@nvidia.com/
-> > [7] - https://lore.kernel.org/linux-fsdevel/20250703185032.46568-1-john@groves.net/ (famfs fuse v2)
-> > [8] - https://lore.kernel.org/linux-fsdevel/20250421013346.32530-1-john@groves.net/ (famfs fuse v1)
-> > [9] - https://lore.kernel.org/linux-fsdevel/20260107153244.64703-1-john@groves.net/T/#mb2c868801be16eca82dab239a1d201628534aea7 (famfs fuse v3)
-> >
-> >
-> > John Groves (10):
-> >   famfs_fuse: Update macro s/FUSE_IS_DAX/FUSE_IS_VIRTIO_DAX/
-> >   famfs_fuse: Basic fuse kernel ABI enablement for famfs
-> >   famfs_fuse: Plumb the GET_FMAP message/response
-> >   famfs_fuse: Create files with famfs fmaps
-> >   famfs_fuse: GET_DAXDEV message and daxdev_table
-> >   famfs_fuse: Plumb dax iomap and fuse read/write/mmap
-> >   famfs_fuse: Add holder_operations for dax notify_failure()
-> >   famfs_fuse: Add DAX address_space_operations with noop_dirty_folio
-> >   famfs_fuse: Add famfs fmap metadata documentation
-> >   famfs_fuse: Add documentation
-> >
-> >  Documentation/filesystems/famfs.rst |  142 ++++
-> >  Documentation/filesystems/index.rst |    1 +
-> >  MAINTAINERS                         |   10 +
-> >  fs/fuse/Kconfig                     |   13 +
-> >  fs/fuse/Makefile                    |    1 +
-> >  fs/fuse/dir.c                       |    2 +-
-> >  fs/fuse/famfs.c                     | 1180 +++++++++++++++++++++++++++
-> >  fs/fuse/famfs_kfmap.h               |  167 ++++
-> >  fs/fuse/file.c                      |   45 +-
-> >  fs/fuse/fuse_i.h                    |  116 ++-
-> >  fs/fuse/inode.c                     |   35 +-
-> >  fs/fuse/iomode.c                    |    2 +-
-> >  fs/namei.c                          |    1 +
-> >  include/uapi/linux/fuse.h           |   88 ++
-> >  14 files changed, 1790 insertions(+), 13 deletions(-)
-> >  create mode 100644 Documentation/filesystems/famfs.rst
-> >  create mode 100644 fs/fuse/famfs.c
-> >  create mode 100644 fs/fuse/famfs_kfmap.h
-> >
-> >
-> > base-commit: 2ae624d5a555d47a735fb3f4d850402859a4db77
-> > --
-> > 2.53.0
-> >
-> 
-> Hi John,
-> 
-> I’m curious to hear your thoughts on whether you think it makes sense
-> for the famfs-specific logic in this series to be moved to a bpf
-> program that goes through a generic fuse iomap dax layer.
-> 
-> Based on [1], this gives feature-parity with the famfs logic in this
-> series. In my opinion, having famfs go through a generic fuse iomap
-> dax layer makes the fuse kernel code more extensible for future
-> servers that will also want to use dax iomap, and keeps the fuse code
-> cleaner by not having famfs-specific logic hardcoded in and having to
-> introduce new fuse uapis for something famfs-specific. In my
-> understanding of it, fuse is meant to be generic and it feels like
-> adding server-specific logic goes against that design philosophy and
-> sets a precedent for other servers wanting similar special-casing in
-> the future. I'd like to explore whether the bpf and generic fuse iomap
-> dax layer approach can preserve that philosophy while still giving
-> famfs the flexibility it needs.
-> 
-> I think moving the famfs logic to bpf benefits famfs as well:
-> - Instead of needing to issue a FUSE_GET_FMAP request after a file is
-> opened, the server can directly populate the metadata map from
-> userspace with the mapping info when it processes the FUSE_OPEN
-> request, which gets rid of the roundtrip cost
-> - The server can dynamically update the metadata / bpf maps during
-> runtime from userspace if any mapping info needs to change
-> - Future code changes / updates for famfs are all server-side and can
-> be deployed immediately instead of needing to go through the upstream
-> kernel mailing list process
-> - Famfs updates / new releases can ship independently of kernel releases
-> 
-> I'd appreciate the chance to discuss tradeoffs or if you'd rather
-> discuss this at the fuse BoF at lsf, that sounds great too.
-> 
-> Thanks,
-> Joanne
-> 
+--0000000000008ee0b5064f1c3940
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Joanne,
+On Fri, 10 Apr 2026 at 13:03, Amir Goldstein <amir73il@gmail.com> wrote:
+> Yes either that or ERESTARTSYS were discussed in the past.
 
-I'm definitely up for discussing it, and talking before LSFMM would be
-good because then I'd have some time to think about before we discuss
-at LSFMM.
+Not actually needed, the detached marks can be skipped in
+fsnotify_get_mark_safe().  Will send a patch in a minute.
 
-I have not had a chance to really study this, in part since I've never even
-written a "hello world" BPF program.
+Attaching a reproducer created by claude.
 
-I'll ping off-list about times to talk.
+Thanks,
+Miklos
 
-However... 
+--0000000000008ee0b5064f1c3940
+Content-Type: text/x-csrc; charset="UTF-8"; name="fanotify_race_reproducer.c"
+Content-Disposition: attachment; filename="fanotify_race_reproducer.c"
+Content-Transfer-Encoding: base64
+Content-ID: <f_mnt0ln060>
+X-Attachment-Id: f_mnt0ln060
 
-I would object vehemently to this sort of re-write prior to going upstream, 
-as would users and vendors who need famfs now that the memory products it 
-enables have started to ship.
-
-This work started over 3 years ago, initial patches over 2 years ago, 
-community decision that it should go into fuse 2 years ago, first fuse 
-patches a year ago.
-
-This implementation is pretty much exactly in line with expectation-setting
-starting two years ago. Famfs is a complicated orchestration between dax, 
-fuse, ndctl (for daxctl), libfuse and the extensive famfs user space. Famfs 
-has a fairly small kernel footprint, but its user space is much larger.
-This could set it back a year if we re-write now.
-
-Two things are true at once: I think this is a serious idea worth 
-considering, and I think it's too late to make this sort of change before
-going upstream. Products need this enablement, and quite a long process has
-run in order to make it available in a timely fashion (which means soon 
-now). I hope we can avoid making the perfect the enemy of the good.
-
-I believe the risk of merging famfs soon is quite low, because famfs will 
-not affect anybody who doesn't use it. I hope we can run this discussion and
-analysis in parallel with merging the current implementation of famfs soon.
-
-Thank you,
-John
-
-
-
-
+LyoKICogUmVwcm9kdWNlciBmb3IgZmFub3RpZnkgZmFsc2UgcG9zaXRpdmUgcGVybWlzc2lvbiBi
+eXBhc3MKICoKICogVGhlIHJhY2UgY29uZGl0aW9uOgogKiAxLiBUd28gbWFya3Mgb2YgRElGRkVS
+RU5UIFRZUEVTIHdhdGNoIGV2ZW50cyBvbiB0aGUgc2FtZSBmaWxlCiAqICAgIC0gSU5PREUgbWFy
+azogcGVybWlzc2lvbiBldmVudHMgKEZBTl9PUEVOX1BFUk0pCiAqICAgIC0gTU9VTlQgbWFyazog
+bm9uLXBlcm1pc3Npb24gZXZlbnRzIChGQU5fT1BFTikKICogMi4gV2hlbiBvcGVuKCkgdHJpZ2dl
+cnMsIGJvdGggbWFya3MgcHJlc2VudCBpbiBpdGVyX2luZm86CiAqICAgIC0gaXRlcl9pbmZvLT5t
+YXJrc1tGU05PVElGWV9JVEVSX1RZUEVfSU5PREVdID0gcGVybWlzc2lvbiBtYXJrCiAqICAgIC0g
+aXRlcl9pbmZvLT5tYXJrc1tGU05PVElGWV9JVEVSX1RZUEVfVkZTTU9VTlRdID0gbW91bnQgbWFy
+awogKiAzLiBmc25vdGlmeV9wcmVwYXJlX3VzZXJfd2FpdCgpIGl0ZXJhdGVzIEFMTCBtYXJrIHR5
+cGVzCiAqIDQuIElmIE1PVU5UIG1hcmsncyBncm91cCBpcyBkZXN0cm95ZWQgZHVyaW5nIGl0ZXJh
+dGlvbiwKICogICAgZnNub3RpZnlfZ2V0X21hcmtfc2FmZSgpIGZhaWxzCiAqIDUuIFRoaXMgY2F1
+c2VzIHRoZSBlbnRpcmUgcGVybWlzc2lvbiBjaGVjayB0byBiZSBieXBhc3NlZCAocmV0dXJucyAw
+KQogKiA2LiBFdmVuIHRob3VnaCB0aGUgSU5PREUgcGVybWlzc2lvbiBtYXJrIHNob3VsZCBibG9j
+ayBpdCEKICoKICogVGhpcyByZXByb2R1Y2VyOgogKiAtIFBlcm1pc3Npb24gbWFyazogSU5PREUg
+bWFyayB0aGF0IERFTklFUyBhbGwgb3BlbnMKICogLSBSYWNpbmcgbWFyazogTU9VTlQgbWFyayBj
+b250aW51b3VzbHkgY3JlYXRlZC9kZXN0cm95ZWQKICogLSBUcmllcyB0byBvcGVuIGEgZmlsZSB0
+aGF0IHNob3VsZCBhbHdheXMgYmUgYmxvY2tlZAogKiAtIERldGVjdHMgd2hlbiBvcGVucyBzdWNj
+ZWVkIGR1ZSB0byB0aGUgcmFjZQogKi8KCiNkZWZpbmUgX0dOVV9TT1VSQ0UKI2luY2x1ZGUgPHN0
+ZGlvLmg+CiNpbmNsdWRlIDxzdGRsaWIuaD4KI2luY2x1ZGUgPHVuaXN0ZC5oPgojaW5jbHVkZSA8
+ZmNudGwuaD4KI2luY2x1ZGUgPHN5cy9mYW5vdGlmeS5oPgojaW5jbHVkZSA8c3lzL3N0YXQuaD4K
+I2luY2x1ZGUgPHB0aHJlYWQuaD4KI2luY2x1ZGUgPGVycm5vLmg+CiNpbmNsdWRlIDxzdHJpbmcu
+aD4KI2luY2x1ZGUgPHNpZ25hbC5oPgojaW5jbHVkZSA8c3lzL3dhaXQuaD4KI2luY2x1ZGUgPHN0
+ZGF0b21pYy5oPgoKI2RlZmluZSBURVNUX0ZJTEUgIi90bXAvZmFub3RpZnlfdGVzdF9maWxlIgoj
+ZGVmaW5lIFRFU1RfRElSICIvdG1wIgoKc3RhdGljIGF0b21pY19pbnQgc2hvdWxkX3N0b3AgPSAw
+OwpzdGF0aWMgYXRvbWljX2ludCByYWNlX2RldGVjdGVkID0gMDsKc3RhdGljIGF0b21pY19sb25n
+IG9wZW5zX2F0dGVtcHRlZCA9IDA7CnN0YXRpYyBhdG9taWNfbG9uZyBvcGVuc19zdWNjZWVkZWQg
+PSAwOwpzdGF0aWMgcGlkX3QgZ2xvYmFsX29wZW5lcl9waWQgPSAwOwpzdGF0aWMgaW50IGdsb2Jh
+bF9wZXJtX2ZkID0gLTE7CgovKiBUaHJlYWQgdGhhdCBjb250aW51b3VzbHkgY3JlYXRlcyBhbmQg
+ZGVzdHJveXMgR3JvdXAgQiAqLwp2b2lkICpyYWNpbmdfZ3JvdXBfdGhyZWFkKHZvaWQgKmFyZykK
+ewoJd2hpbGUgKCFhdG9taWNfbG9hZCgmc2hvdWxkX3N0b3ApKSB7CgkJaW50IGZkOwoKCQkvKiBD
+cmVhdGUgZmFub3RpZnkgZ3JvdXAgd2l0aCBub24tcGVybWlzc2lvbiBldmVudHMgKi8KCQlmZCA9
+IGZhbm90aWZ5X2luaXQoRkFOX0NMQVNTX05PVElGLCBPX1JET05MWSk7CgkJaWYgKGZkIDwgMCkg
+ewoJCQlwZXJyb3IoImZhbm90aWZ5X2luaXQgKHJhY2luZykiKTsKCQkJY29udGludWU7CgkJfQoK
+CQkvKiBBZGQgTU9VTlQgbWFyayAoZGlmZmVyZW50IHR5cGUgdGhhbiBwZXJtaXNzaW9uIG1hcmsg
+b24gaW5vZGUpICovCgkJaWYgKGZhbm90aWZ5X21hcmsoZmQsIEZBTl9NQVJLX0FERCB8IEZBTl9N
+QVJLX01PVU5ULAoJCQkJICBGQU5fT1BFTiB8IEZBTl9DTE9TRSwKCQkJCSAgQVRfRkRDV0QsIFRF
+U1RfRklMRSkgPCAwKSB7CgkJCWlmIChlcnJubyAhPSBFTk9FTlQpCgkJCQlwZXJyb3IoImZhbm90
+aWZ5X21hcmsgKHJhY2luZykiKTsKCQkJY2xvc2UoZmQpOwoJCQljb250aW51ZTsKCQl9CgoJCS8q
+IEtlZXAgaXQgYWxpdmUgZm9yIGEgdGlueSBiaXQgdG8gaW5jcmVhc2UgcmFjZSB3aW5kb3cgKi8K
+CQl1c2xlZXAoMTAwKTsKCgkJLyogRGVzdHJveSB0aGUgZ3JvdXAgLSB0aGlzIHdpbGwgZGV0YWNo
+IHRoZSBtYXJrICovCgkJY2xvc2UoZmQpOwoJfQoKCXJldHVybiBOVUxMOwp9Cgp2b2lkIHNpZ25h
+bF9oYW5kbGVyKGludCBzaWcpCnsKCWF0b21pY19zdG9yZSgmc2hvdWxkX3N0b3AsIDEpOwoKCS8q
+IEtpbGwgdGhlIGNoaWxkIHByb2Nlc3MgdG8gc3RvcCBnZW5lcmF0aW5nIGV2ZW50cyAqLwoJaWYg
+KGdsb2JhbF9vcGVuZXJfcGlkID4gMCkgewoJCWtpbGwoZ2xvYmFsX29wZW5lcl9waWQsIFNJR0tJ
+TEwpOwoJfQoKCS8qIENsb3NlIGZhbm90aWZ5IGZkIHRvIHVuYmxvY2sgdGhlIHJlYWQoKSAqLwoJ
+aWYgKGdsb2JhbF9wZXJtX2ZkID49IDApIHsKCQljbG9zZShnbG9iYWxfcGVybV9mZCk7CgkJZ2xv
+YmFsX3Blcm1fZmQgPSAtMTsKCX0KfQoKLyogUHJvY2VzcyB0aGF0IGhhbmRsZXMgcGVybWlzc2lv
+biBldmVudHMgYW5kIERFTklFUyBhbGwgb3BlbnMgKi8Kdm9pZCBwZXJtaXNzaW9uX2hhbmRsZXIo
+aW50IGZhbl9mZCkKewoJc3RydWN0IGZhbm90aWZ5X2V2ZW50X21ldGFkYXRhIGJ1ZlsxMF07Cglz
+c2l6ZV90IGxlbjsKCgl3aGlsZSAoIWF0b21pY19sb2FkKCZzaG91bGRfc3RvcCkpIHsKCQlsZW4g
+PSByZWFkKGZhbl9mZCwgYnVmLCBzaXplb2YoYnVmKSk7CgkJaWYgKGxlbiA8PSAwKSB7CgkJCWlm
+IChlcnJubyA9PSBFSU5UUiB8fCBhdG9taWNfbG9hZCgmc2hvdWxkX3N0b3ApKQoJCQkJYnJlYWs7
+CgkJCWJyZWFrOwoJCX0KCgkJc3RydWN0IGZhbm90aWZ5X2V2ZW50X21ldGFkYXRhICptZXRhZGF0
+YSA9IGJ1ZjsKCQl3aGlsZSAoRkFOX0VWRU5UX09LKG1ldGFkYXRhLCBsZW4pKSB7CgkJCWlmICht
+ZXRhZGF0YS0+dmVycyAhPSBGQU5PVElGWV9NRVRBREFUQV9WRVJTSU9OKSB7CgkJCQlmcHJpbnRm
+KHN0ZGVyciwgIk1pc21hdGNoIG9mIGZhbm90aWZ5IG1ldGFkYXRhIHZlcnNpb25cbiIpOwoJCQkJ
+ZXhpdCgxKTsKCQkJfQoKCQkJaWYgKG1ldGFkYXRhLT5mZCA+PSAwKSB7CgkJCQlzdHJ1Y3QgZmFu
+b3RpZnlfcmVzcG9uc2UgcmVzcG9uc2UgPSB7CgkJCQkJLmZkID0gbWV0YWRhdGEtPmZkLAoJCQkJ
+CS5yZXNwb25zZSA9IEZBTl9ERU5ZICAvKiBBTFdBWVMgREVOWSAqLwoJCQkJfTsKCgkJCQkvKiBS
+ZXNwb25kIHRvIHBlcm1pc3Npb24gZXZlbnQgKi8KCQkJCXdyaXRlKGZhbl9mZCwgJnJlc3BvbnNl
+LCBzaXplb2YocmVzcG9uc2UpKTsKCQkJCWNsb3NlKG1ldGFkYXRhLT5mZCk7CgkJCX0KCgkJCW1l
+dGFkYXRhID0gRkFOX0VWRU5UX05FWFQobWV0YWRhdGEsIGxlbik7CgkJfQoJfQp9CgovKiBQcm9j
+ZXNzIHRoYXQgdHJpZXMgdG8gb3BlbiB0aGUgZmlsZSAoc2hvdWxkIGFsd2F5cyBmYWlsKSAqLwp2
+b2lkIG9wZW5lcl9wcm9jZXNzKHZvaWQpCnsKCXdoaWxlICghYXRvbWljX2xvYWQoJnNob3VsZF9z
+dG9wKSkgewoJCWludCBmZDsKCgkJYXRvbWljX2ZldGNoX2FkZCgmb3BlbnNfYXR0ZW1wdGVkLCAx
+KTsKCgkJZmQgPSBvcGVuKFRFU1RfRklMRSwgT19SRE9OTFkpOwoJCWlmIChmZCA+PSAwKSB7CgkJ
+CS8qIFRISVMgU0hPVUxEIE5FVkVSIEhBUFBFTiEgKi8KCQkJLyogVGhlIHBlcm1pc3Npb24gaGFu
+ZGxlciBhbHdheXMgZGVuaWVzICovCgkJCXByaW50ZigiISEhIFJBQ0UgREVURUNURUQgISEhIE9w
+ZW4gc3VjY2VlZGVkIHdoZW4gaXQgc2hvdWxkIGhhdmUgYmVlbiBkZW5pZWQhXG4iKTsKCQkJcHJp
+bnRmKCIgICAgT3BlbnMgYXR0ZW1wdGVkOiAlbGQsIHN1Y2NlZWRlZDogJWxkXG4iLAoJCQkgICAg
+ICAgYXRvbWljX2xvYWQoJm9wZW5zX2F0dGVtcHRlZCksCgkJCSAgICAgICBhdG9taWNfZmV0Y2hf
+YWRkKCZvcGVuc19zdWNjZWVkZWQsIDEpICsgMSk7CgkJCWF0b21pY19zdG9yZSgmcmFjZV9kZXRl
+Y3RlZCwgMSk7CgkJCWNsb3NlKGZkKTsKCgkJCS8qIERvbid0IHNwYW0gdG9vIG11Y2ggKi8KCQkJ
+dXNsZWVwKDEwMDApOwoJCX0gZWxzZSBpZiAoZXJybm8gIT0gRVBFUk0pIHsKCQkJLyogRXhwZWN0
+ZWQ6IEVQRVJNIChwZXJtaXNzaW9uIGRlbmllZCBieSBmYW5vdGlmeSkgKi8KCQkJcGVycm9yKCJv
+cGVuIik7CgkJfQoKCQkvKiBCcmllZiBwYXVzZSB0byBub3QgY29tcGxldGVseSBoYW1tZXIgdGhl
+IHN5c3RlbSAqLwoJCXVzbGVlcCgxMCk7Cgl9CgoJZXhpdChhdG9taWNfbG9hZCgmcmFjZV9kZXRl
+Y3RlZCkgPyAwIDogMSk7Cn0KCmludCBtYWluKHZvaWQpCnsKCWludCBwZXJtX2ZkOwoJcHRocmVh
+ZF90IHJhY2VyX3RocmVhZDsKCXBpZF90IG9wZW5lcl9waWQ7CglpbnQgc3RhdHVzOwoKCXByaW50
+ZigiRmFub3RpZnkgcGVybWlzc2lvbiBieXBhc3MgcmFjZSByZXByb2R1Y2VyXG4iKTsKCXByaW50
+ZigiPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09XG5cbiIpOwoKCS8q
+IENyZWF0ZSB0ZXN0IGZpbGUgKi8KCWludCB0bXBfZmQgPSBvcGVuKFRFU1RfRklMRSwgT19DUkVB
+VCB8IE9fV1JPTkxZIHwgT19UUlVOQywgMDY0NCk7CglpZiAodG1wX2ZkIDwgMCkgewoJCXBlcnJv
+cigiY3JlYXRlIHRlc3QgZmlsZSIpOwoJCXJldHVybiAxOwoJfQoJd3JpdGUodG1wX2ZkLCAidGVz
+dFxuIiwgNSk7CgljbG9zZSh0bXBfZmQpOwoKCS8qIENyZWF0ZSBwZXJtaXNzaW9uIGZhbm90aWZ5
+IGdyb3VwIChHcm91cCBBKSAqLwoJcGVybV9mZCA9IGZhbm90aWZ5X2luaXQoRkFOX0NMQVNTX0NP
+TlRFTlQsIE9fUkRPTkxZKTsKCWlmIChwZXJtX2ZkIDwgMCkgewoJCXBlcnJvcigiZmFub3RpZnlf
+aW5pdCAocGVybWlzc2lvbikiKTsKCQlwcmludGYoIk5vdGU6IFRoaXMgcmVxdWlyZXMgQ0FQX1NZ
+U19BRE1JTi4gVHJ5IHJ1bm5pbmcgd2l0aCBzdWRvLlxuIik7CgkJcmV0dXJuIDE7Cgl9CglnbG9i
+YWxfcGVybV9mZCA9IHBlcm1fZmQ7CgoJLyogQWRkIHBlcm1pc3Npb24gbWFyayBvbiBJTk9ERSAq
+LwoJaWYgKGZhbm90aWZ5X21hcmsocGVybV9mZCwgRkFOX01BUktfQUREIHwgRkFOX01BUktfSU5P
+REUsIEZBTl9PUEVOX1BFUk0sCgkJCSAgQVRfRkRDV0QsIFRFU1RfRklMRSkgPCAwKSB7CgkJcGVy
+cm9yKCJmYW5vdGlmeV9tYXJrIChwZXJtaXNzaW9uKSIpOwoJCWNsb3NlKHBlcm1fZmQpOwoJCXJl
+dHVybiAxOwoJfQoKCXByaW50ZigiU2V0dXAgY29tcGxldGU6XG4iKTsKCXByaW50ZigiLSBQZXJt
+aXNzaW9uIG1hcms6IElOT0RFIG1hcmsgd2l0aCBGQU5fT1BFTl9QRVJNIChERU5JRVMgYWxsIG9w
+ZW5zKVxuIik7CglwcmludGYoIi0gUmFjaW5nIG1hcms6IE1PVU5UIG1hcmsgd2l0aCBGQU5fT1BF
+TiAoY29uc3RhbnRseSBkZXN0cm95ZWQvcmVjcmVhdGVkKVxuIik7CglwcmludGYoIi0gVGVzdCBm
+aWxlOiAlc1xuXG4iLCBURVNUX0ZJTEUpOwoKCS8qIFN0YXJ0IHRoZSByYWNpbmcgdGhyZWFkIChj
+cmVhdGVzL2Rlc3Ryb3lzIEdyb3VwIEIpICovCglpZiAocHRocmVhZF9jcmVhdGUoJnJhY2VyX3Ro
+cmVhZCwgTlVMTCwgcmFjaW5nX2dyb3VwX3RocmVhZCwgTlVMTCkgIT0gMCkgewoJCXBlcnJvcigi
+cHRocmVhZF9jcmVhdGUiKTsKCQljbG9zZShwZXJtX2ZkKTsKCQlyZXR1cm4gMTsKCX0KCgkvKiBG
+b3JrIG9wZW5lciBwcm9jZXNzICovCglvcGVuZXJfcGlkID0gZm9yaygpOwoJaWYgKG9wZW5lcl9w
+aWQgPCAwKSB7CgkJcGVycm9yKCJmb3JrIik7CgkJYXRvbWljX3N0b3JlKCZzaG91bGRfc3RvcCwg
+MSk7CgkJcHRocmVhZF9qb2luKHJhY2VyX3RocmVhZCwgTlVMTCk7CgkJY2xvc2UocGVybV9mZCk7
+CgkJcmV0dXJuIDE7Cgl9CgoJaWYgKG9wZW5lcl9waWQgPT0gMCkgewoJCS8qIENoaWxkOiB0cnkg
+dG8gb3BlbiB0aGUgZmlsZSAqLwoJCW9wZW5lcl9wcm9jZXNzKCk7CgkJLyogTm90IHJlYWNoZWQg
+Ki8KCX0KCgkvKiBQYXJlbnQ6IGhhbmRsZSBwZXJtaXNzaW9uIGV2ZW50cyAqLwoJZ2xvYmFsX29w
+ZW5lcl9waWQgPSBvcGVuZXJfcGlkOwoKCXByaW50ZigiUnVubmluZy4uLiBQcmVzcyBDdHJsK0Mg
+dG8gc3RvcC5cbiIpOwoJcHJpbnRmKCJXYXRjaGluZyBmb3Igb3BlbnMgdGhhdCBieXBhc3MgcGVy
+bWlzc2lvbiBjaGVjay4uLlxuXG4iKTsKCgkvKiBTZXQgdXAgc2lnbmFsIGhhbmRsZXIgKi8KCXNp
+Z25hbChTSUdJTlQsIHNpZ25hbF9oYW5kbGVyKTsKCXNpZ25hbChTSUdURVJNLCBzaWduYWxfaGFu
+ZGxlcik7CgoJLyogSGFuZGxlIHBlcm1pc3Npb24gZXZlbnRzICovCglwZXJtaXNzaW9uX2hhbmRs
+ZXIocGVybV9mZCk7CgoJLyogQ2xlYW51cCAqLwoJYXRvbWljX3N0b3JlKCZzaG91bGRfc3RvcCwg
+MSk7CglwdGhyZWFkX2pvaW4ocmFjZXJfdGhyZWFkLCBOVUxMKTsKCWlmIChnbG9iYWxfb3BlbmVy
+X3BpZCA+IDApIHsKCQlraWxsKGdsb2JhbF9vcGVuZXJfcGlkLCBTSUdLSUxMKTsKCQl3YWl0cGlk
+KGdsb2JhbF9vcGVuZXJfcGlkLCAmc3RhdHVzLCAwKTsKCX0KCWlmIChnbG9iYWxfcGVybV9mZCA+
+PSAwKSB7CgkJY2xvc2UoZ2xvYmFsX3Blcm1fZmQpOwoJfQoJdW5saW5rKFRFU1RfRklMRSk7CgoJ
+aWYgKGF0b21pY19sb2FkKCZyYWNlX2RldGVjdGVkKSkgewoJCXByaW50ZigiXG7inJMgUmFjZSBj
+b25kaXRpb24gc3VjY2Vzc2Z1bGx5IHRyaWdnZXJlZCFcbiIpOwoJCXJldHVybiAwOwoJfSBlbHNl
+IHsKCQlwcmludGYoIlxuUmFjZSBub3QgZGV0ZWN0ZWQgaW4gdGhpcyBydW4uXG4iKTsKCQlyZXR1
+cm4gMTsKCX0KfQo=
+--0000000000008ee0b5064f1c3940--
