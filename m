@@ -1,241 +1,274 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from iad-out-013.esa.us-east-1.outbound.mail-perimeter.amazon.com (iad-out-013.esa.us-east-1.outbound.mail-perimeter.amazon.com [34.198.218.121])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 699B13DA5C8;
-	Fri, 10 Apr 2026 15:18:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA1213DAC13;
+	Fri, 10 Apr 2026 15:18:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.198.218.121
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775834288; cv=none; b=SAXvLMZiNHr7PofRTE1h0Q81pFGlrR0/Yf72zoex6BSVuejT4lp1pNfKdgYdJvTP+zlDyV8/tG8Pxs5VC4/kRJ9fkHXFiw2I+MddH5HhbjSwRvTWgOFYtZHaa1biBxkDWtDRj7yJeE4AB0i+pGdrCMmIz/rwvb4iJ+yfD6Woy0o=
+	t=1775834293; cv=none; b=chCXGTzly6xnEO3M8hMX6+Ob4bXLY98lC/RDP8OVXCkKu1eiBpSwxYveQDvdHC/oO+bOt7rufumUbiewJgBhvsAWvRp7rLZYiA9rIxe8HcyGG0zM7gFPBbOKh4wzxF4Zgexy3LZ4Wm5XgmrhtJENaO77PO6DJ6yNjLDdrzyqmLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775834288; c=relaxed/simple;
-	bh=0lI6o0QaaueDRhtmAhU+GU45hUg1f1YH3Dss65h9JKk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oerQzTkHKOZux9aitGqtYooeyhOfCOJb3yoEwaEtF15S1YhwGVL3cVZO7zcqLYqMFr1QQJ4i55hjdoqKJABl0L9Jn6yqwpiGvw07eLl5m5GSsHlvkdGqfjxXCHrIXSSolf4FGdx4InylffnQiH7a9asJILWeGRRz2O8GITAiFo0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rEf+tCKu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775834293; c=relaxed/simple;
+	bh=xm1ElNBUhNoV3Z4Q6VfxjoCKzjmlHdr9fbk29ZfRtoo=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=uWdiAn7ti6cIEWVYLVIoNbNezwzGWKOZHfD87rU5JwHD1ChuJ5a0e1w0jx4ZNBQzzMkMRPdUz5w1U5RL+hKxAIuJ4+U+gB8yS0AwZle96kxrpvjR9yJzXnl32HpaD9flNL0NAp7aKdUqTMTs+BDsnK8GeD97ygS9kzZPNOa6Iro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.co.uk; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (2048-bit key) header.d=amazon.co.uk header.i=@amazon.co.uk header.b=W1N1f1xY; arc=none smtp.client-ip=34.198.218.121
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rEf+tCKu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFC88C2BCC7;
-	Fri, 10 Apr 2026 15:18:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775834288;
-	bh=0lI6o0QaaueDRhtmAhU+GU45hUg1f1YH3Dss65h9JKk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=rEf+tCKuf55L1WO9m1rjneRU5Q5bmt8SXHc2BmzQJD50GuUIzqNekyY47+Md0LZ5W
-	 X4Sxae1CxNdOVo2wueeyGJAGMdPJamrQpctduroaM5hP/UK2dIcPRfTuU8gVC/saxm
-	 XlOXJ7YlBTi/yflfPM7i/+Q8NNmJtlkLU1b4ROsbUAMfXOyT9DqLqea60v/KSWqFkh
-	 DsnfBwa9zvOKx/McczSEmV7zkVhWc9Cwcvhxw/hHBfa96qd/ipqhmTOJoi6YHTwcKA
-	 FH5u7t1lBPqtmSRZNZ98qMDE3QitGi+EHJxzAQ3wcMsNzLdj+0KNuxUnt6VE5AGNGY
-	 XUJFVKd6fwzSQ==
-From: Christian Brauner <brauner@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [GIT PULL 04/12 for v7.1] vfs integrity
-Date: Fri, 10 Apr 2026 17:17:13 +0200
-Message-ID: <20260410-vfs-integrity-v71-caf8be59f7dd@brauner>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260410-vfs-v71-b055f260060c@brauner>
-References: <20260410-vfs-v71-b055f260060c@brauner>
+	dkim=pass (2048-bit key) header.d=amazon.co.uk header.i=@amazon.co.uk header.b="W1N1f1xY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.co.uk; i=@amazon.co.uk; q=dns/txt;
+  s=amazoncorp2; t=1775834292; x=1807370292;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=wtjHGpnQg1lu73D2AL344q66wwOjm1vkuSNtOJPDZj4=;
+  b=W1N1f1xY93hExaD2Nh40rHQ5rNxVBgSAtOvUbjK/3SG3fvA40y8xpeU4
+   7jlV+/7/gFZHYcJQGKqdRjpVowzq9D2B0PRY4eul4dJwbCt2BTfFoZ4cH
+   C5jLREuw6zsQ1wjas+5V3MbSFt/wJ4FhwsFLCTNLCmwgJAhBeBxUHhqJt
+   R8PDpdpHdfH6AwD3E9+FVwed7xdgExcwOE1trd5KBpDWTf17qa2LLXbvg
+   AClmktEfHnZK2zZsQZSRh8yjLGupqvEE6nJyfZYN3sjy/incoYnZK5I7A
+   po9JqldgJR8awRMshA9802UWmg//yt6jobHGdAxW/ZLe1Te1VxOm2elKJ
+   Q==;
+X-CSE-ConnectionGUID: BTx+enIwRwGAT80uKS6img==
+X-CSE-MsgGUID: 9iPVJ/7aQoyu6dbmF3RzpA==
+X-IronPort-AV: E=Sophos;i="6.23,171,1770595200"; 
+   d="scan'208";a="15428526"
+Received: from ip-10-4-7-229.ec2.internal (HELO smtpout.naws.us-east-1.prod.farcaster.email.amazon.dev) ([10.4.7.229])
+  by internal-iad-out-013.esa.us-east-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2026 15:18:10 +0000
+Received: from EX19MTAUEA001.ant.amazon.com [72.21.196.67:8399]
+ by smtpin.naws.us-east-1.prod.farcaster.email.amazon.dev [10.0.29.254:2525] with esmtp (Farcaster)
+ id ab9b97a0-55cc-470f-a2db-ce7ac5d2c725; Fri, 10 Apr 2026 15:18:10 +0000 (UTC)
+X-Farcaster-Flow-ID: ab9b97a0-55cc-470f-a2db-ce7ac5d2c725
+Received: from EX19D027UEC002.ant.amazon.com (10.252.137.166) by
+ EX19MTAUEA001.ant.amazon.com (10.252.134.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
+ Fri, 10 Apr 2026 15:18:09 +0000
+Received: from EX19D027UEC003.ant.amazon.com (10.252.137.250) by
+ EX19D027UEC002.ant.amazon.com (10.252.137.166) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
+ Fri, 10 Apr 2026 15:18:09 +0000
+Received: from EX19D027UEC003.ant.amazon.com ([fe80::887f:519b:ba73:21d]) by
+ EX19D027UEC003.ant.amazon.com ([fe80::887f:519b:ba73:21d%3]) with mapi id
+ 15.02.2562.037; Fri, 10 Apr 2026 15:18:09 +0000
+From: "Kalyazin, Nikita" <kalyazin@amazon.co.uk>
+To: "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "kvmarm@lists.linux.dev"
+	<kvmarm@lists.linux.dev>, "linux-fsdevel@vger.kernel.org"
+	<linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+	"kernel@xen0n.name" <kernel@xen0n.name>, "linux-riscv@lists.infradead.org"
+	<linux-riscv@lists.infradead.org>, "linux-s390@vger.kernel.org"
+	<linux-s390@vger.kernel.org>, "loongarch@lists.linux.dev"
+	<loongarch@lists.linux.dev>, "linux-pm@vger.kernel.org"
+	<linux-pm@vger.kernel.org>
+CC: "pbonzini@redhat.com" <pbonzini@redhat.com>, "corbet@lwn.net"
+	<corbet@lwn.net>, "maz@kernel.org" <maz@kernel.org>, "oupton@kernel.org"
+	<oupton@kernel.org>, "joey.gouly@arm.com" <joey.gouly@arm.com>,
+	"suzuki.poulose@arm.com" <suzuki.poulose@arm.com>, "yuzenghui@huawei.com"
+	<yuzenghui@huawei.com>, "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+	"will@kernel.org" <will@kernel.org>, "seanjc@google.com" <seanjc@google.com>,
+	"tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>,
+	"bp@alien8.de" <bp@alien8.de>, "dave.hansen@linux.intel.com"
+	<dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>,
+	"hpa@zytor.com" <hpa@zytor.com>, "luto@kernel.org" <luto@kernel.org>,
+	"peterz@infradead.org" <peterz@infradead.org>, "willy@infradead.org"
+	<willy@infradead.org>, "akpm@linux-foundation.org"
+	<akpm@linux-foundation.org>, "david@kernel.org" <david@kernel.org>,
+	"lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>,
+	"vbabka@kernel.org" <vbabka@kernel.org>, "rppt@kernel.org" <rppt@kernel.org>,
+	"surenb@google.com" <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>,
+	"ast@kernel.org" <ast@kernel.org>, "daniel@iogearbox.net"
+	<daniel@iogearbox.net>, "andrii@kernel.org" <andrii@kernel.org>,
+	"martin.lau@linux.dev" <martin.lau@linux.dev>, "eddyz87@gmail.com"
+	<eddyz87@gmail.com>, "song@kernel.org" <song@kernel.org>,
+	"yonghong.song@linux.dev" <yonghong.song@linux.dev>,
+	"john.fastabend@gmail.com" <john.fastabend@gmail.com>, "kpsingh@kernel.org"
+	<kpsingh@kernel.org>, "sdf@fomichev.me" <sdf@fomichev.me>,
+	"haoluo@google.com" <haoluo@google.com>, "jolsa@kernel.org"
+	<jolsa@kernel.org>, "jgg@ziepe.ca" <jgg@ziepe.ca>, "jhubbard@nvidia.com"
+	<jhubbard@nvidia.com>, "peterx@redhat.com" <peterx@redhat.com>,
+	"jannh@google.com" <jannh@google.com>, "pfalcato@suse.de" <pfalcato@suse.de>,
+	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>, "riel@surriel.com"
+	<riel@surriel.com>, "ryan.roberts@arm.com" <ryan.roberts@arm.com>,
+	"jgross@suse.com" <jgross@suse.com>, "yu-cheng.yu@intel.com"
+	<yu-cheng.yu@intel.com>, "kas@kernel.org" <kas@kernel.org>, "coxu@redhat.com"
+	<coxu@redhat.com>, "ackerleytng@google.com" <ackerleytng@google.com>,
+	"yosry@kernel.org" <yosry@kernel.org>, "ajones@ventanamicro.com"
+	<ajones@ventanamicro.com>, "maobibo@loongson.cn" <maobibo@loongson.cn>,
+	"tabba@google.com" <tabba@google.com>, "prsampat@amd.com" <prsampat@amd.com>,
+	"wu.fei9@sanechips.com.cn" <wu.fei9@sanechips.com.cn>, "mlevitsk@redhat.com"
+	<mlevitsk@redhat.com>, "jmattson@google.com" <jmattson@google.com>,
+	"jthoughton@google.com" <jthoughton@google.com>, "agordeev@linux.ibm.com"
+	<agordeev@linux.ibm.com>, "alex@ghiti.fr" <alex@ghiti.fr>,
+	"aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>, "borntraeger@linux.ibm.com"
+	<borntraeger@linux.ibm.com>, "chenhuacai@kernel.org" <chenhuacai@kernel.org>,
+	"baolu.lu@linux.intel.com" <baolu.lu@linux.intel.com>, "dev.jain@arm.com"
+	<dev.jain@arm.com>, "gor@linux.ibm.com" <gor@linux.ibm.com>,
+	"hca@linux.ibm.com" <hca@linux.ibm.com>, "palmer@dabbelt.com"
+	<palmer@dabbelt.com>, "pjw@kernel.org" <pjw@kernel.org>,
+	"shijie@os.amperecomputing.com" <shijie@os.amperecomputing.com>,
+	"svens@linux.ibm.com" <svens@linux.ibm.com>, "thuth@redhat.com"
+	<thuth@redhat.com>, "yang@os.amperecomputing.com"
+	<yang@os.amperecomputing.com>, "Liam.Howlett@oracle.com"
+	<Liam.Howlett@oracle.com>, "urezki@gmail.com" <urezki@gmail.com>,
+	"zhengqi.arch@bytedance.com" <zhengqi.arch@bytedance.com>,
+	"gerald.schaefer@linux.ibm.com" <gerald.schaefer@linux.ibm.com>,
+	"jiayuan.chen@shopee.com" <jiayuan.chen@shopee.com>, "lenb@kernel.org"
+	<lenb@kernel.org>, "pavel@kernel.org" <pavel@kernel.org>, "rafael@kernel.org"
+	<rafael@kernel.org>, "yangyicong@hisilicon.com" <yangyicong@hisilicon.com>,
+	"vannapurve@google.com" <vannapurve@google.com>, "jackmanb@google.com"
+	<jackmanb@google.com>, "patrick.roy@linux.dev" <patrick.roy@linux.dev>,
+	"Thomson, Jack" <jackabt@amazon.co.uk>, "Itazuri, Takahiro"
+	<itazur@amazon.co.uk>, "Manwaring, Derek" <derekmn@amazon.com>, "Kalyazin,
+ Nikita" <kalyazin@amazon.co.uk>
+Subject: [PATCH v12 02/16] set_memory: add folio_{zap,restore}_direct_map
+ helpers
+Thread-Topic: [PATCH v12 02/16] set_memory: add folio_{zap,restore}_direct_map
+ helpers
+Thread-Index: AQHcyP09iU0saiM/JE2jxlJdvD20bQ==
+Date: Fri, 10 Apr 2026 15:18:09 +0000
+Message-ID: <20260410151746.61150-3-kalyazin@amazon.com>
+References: <20260410151746.61150-1-kalyazin@amazon.com>
+In-Reply-To: <20260410151746.61150-1-kalyazin@amazon.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6999; i=brauner@kernel.org; h=from:subject:message-id; bh=0lI6o0QaaueDRhtmAhU+GU45hUg1f1YH3Dss65h9JKk=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTeFFmtJnYlYYZy4+S4db1c0je3SkRN0RR/sphTxkj+z d6TPyfEdJSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEykxILhr/iTyyd401g4Nkf2 heidPTnzWmLUuaq9U+YL7xCvlODqi2NkmBNdtEH30NmtHU9UZ63j9tCOODD7oo/NLudvDM09vE+ 2cwMA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
 
-Hey Linus,
-
-/* Summary */
-
-This adds support to generate and verify integrity information (aka T10
-PI) in the file system, instead of the automatic below the covers
-support that is currently used.
-
-The implementation is based on refactoring the existing block layer PI
-code to be reusable for this use case, and then adding relatively
-small wrappers for the file system use case. These are then used in
-iomap to implement the semantics, and wired up in XFS with a small
-amount of glue code.
-
-Compared to the baseline this does not change performance for writes,
-but increases read performance up to 15% for 4k I/O, with the benefit
-decreasing with larger I/O sizes as even the baseline maxes out the
-device quickly on my older enterprise SSD.
-
-/* Testing */
-
-gcc (Debian 14.2.0-19) 14.2.0
-Debian clang version 19.1.7 (3+b1)
-
-No build failures or warnings were observed.
-
-/* Conflicts */
-
-Merge conflicts with mainline
-=============================
-
-diff --cc fs/iomap/bio.c
-index edd908183058,f989ffcaac96..000000000000
---- a/fs/iomap/bio.c
-+++ b/fs/iomap/bio.c
-@@@ -8,66 -9,33 +9,77 @@@
-  #include "internal.h"
-  #include "trace.h"
-
- +static DEFINE_SPINLOCK(failed_read_lock);
- +static struct bio_list failed_read_list = BIO_EMPTY_LIST;
- +
-- static void __iomap_read_end_io(struct bio *bio)
-+ static u32 __iomap_read_end_io(struct bio *bio, int error)
-  {
--       int error = blk_status_to_errno(bio->bi_status);
-        struct folio_iter fi;
-+       u32 folio_count = 0;
-
--       bio_for_each_folio_all(fi, bio)
-+       bio_for_each_folio_all(fi, bio) {
-                iomap_finish_folio_read(fi.folio, fi.offset, fi.length, error);
-+               folio_count++;
-+       }
-+       if (bio_integrity(bio))
-+               fs_bio_integrity_free(bio);
-        bio_put(bio);
-+       return folio_count;
-  }
-
- +static void
- +iomap_fail_reads(
- +      struct work_struct      *work)
- +{
- +      struct bio              *bio;
- +      struct bio_list         tmp = BIO_EMPTY_LIST;
- +      unsigned long           flags;
- +
- +      spin_lock_irqsave(&failed_read_lock, flags);
- +      bio_list_merge_init(&tmp, &failed_read_list);
- +      spin_unlock_irqrestore(&failed_read_lock, flags);
- +
- +      while ((bio = bio_list_pop(&tmp)) != NULL) {
--               __iomap_read_end_io(bio);
-++              __iomap_read_end_io(bio, blk_status_to_errno(bio->bi_status));
- +              cond_resched();
- +      }
- +}
- +
- +static DECLARE_WORK(failed_read_work, iomap_fail_reads);
- +
- +static void iomap_fail_buffered_read(struct bio *bio)
- +{
- +      unsigned long flags;
- +
- +      /*
- +       * Bounce I/O errors to a workqueue to avoid nested i_lock acquisitions
- +       * in the fserror code.  The caller no longer owns the bio reference
- +       * after the spinlock drops.
- +       */
- +      spin_lock_irqsave(&failed_read_lock, flags);
- +      if (bio_list_empty(&failed_read_list))
- +              WARN_ON_ONCE(!schedule_work(&failed_read_work));
- +      bio_list_add(&failed_read_list, bio);
- +      spin_unlock_irqrestore(&failed_read_lock, flags);
- +}
- +
-  static void iomap_read_end_io(struct bio *bio)
-  {
- -      __iomap_read_end_io(bio, blk_status_to_errno(bio->bi_status));
- +      if (bio->bi_status) {
- +              iomap_fail_buffered_read(bio);
- +              return;
- +      }
- +
--       __iomap_read_end_io(bio);
-++      __iomap_read_end_io(bio, 0);
-+ }
-+
-+ u32 iomap_finish_ioend_buffered_read(struct iomap_ioend *ioend)
-+ {
-+       return __iomap_read_end_io(&ioend->io_bio, ioend->io_error);
-  }
-
-- static void iomap_bio_submit_read(struct iomap_read_folio_ctx *ctx)
-+ static void iomap_bio_submit_read(const struct iomap_iter *iter,
-+               struct iomap_read_folio_ctx *ctx)
-  {
-        struct bio *bio = ctx->read_ctx;
-
-Merge conflicts with other trees
-================================
-
-The following changes since commit 1f318b96cc84d7c2ab792fcc0bfd42a7ca890681:
-
-  Linux 7.0-rc3 (2026-03-08 16:56:54 -0700)
-
-are available in the Git repository at:
-
-  git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.1-rc1.integrity
-
-for you to fetch changes up to 1b63f91d1c9013629fb2005ace48b7aeead32330:
-
-  Merge patch series "support file system generated / verified integrity information v4" (2026-03-10 10:29:18 +0100)
-
-----------------------------------------------------------------
-vfs-7.1-rc1.integrity
-
-Please consider pulling these changes from the signed vfs-7.1-rc1.integrity tag.
-
-Thanks!
-Christian
-
-----------------------------------------------------------------
-Christian Brauner (2):
-      Merge branch 'for-7.1/block-integrity'
-      Merge patch series "support file system generated / verified integrity information v4"
-
-Christoph Hellwig (16):
-      block: factor out a bio_integrity_action helper
-      block: factor out a bio_integrity_setup_default helper
-      block: add a bdev_has_integrity_csum helper
-      block: prepare generation / verification helpers for fs usage
-      block: make max_integrity_io_size public
-      block: add fs_bio_integrity helpers
-      block: pass a maxlen argument to bio_iov_iter_bounce
-      iomap: refactor iomap_bio_read_folio_range
-      iomap: pass the iomap_iter to ->submit_read
-      iomap: only call into ->submit_read when there is a read_ctx
-      iomap: allow file systems to hook into buffered read bio submission
-      ntfs3: remove copy and pasted iomap code
-      iomap: add a bioset pointer to iomap_read_folio_ops
-      iomap: support ioends for buffered reads
-      iomap: support T10 protection information
-      xfs: support T10 protection information
-
- block/Makefile                |   2 +-
- block/bio-integrity-auto.c    |  80 ++++---------------------
- block/bio-integrity-fs.c      |  81 +++++++++++++++++++++++++
- block/bio-integrity.c         |  64 ++++++++++++++++++++
- block/bio.c                   |  17 +++---
- block/blk-mq.c                |   6 +-
- block/blk-settings.c          |  13 ----
- block/blk.h                   |   6 +-
- block/t10-pi.c                |  12 ++--
- drivers/nvdimm/btt.c          |   6 +-
- fs/fuse/file.c                |   5 +-
- fs/iomap/bio.c                | 135 ++++++++++++++++++++++++++++--------------
- fs/iomap/buffered-io.c        |   8 +--
- fs/iomap/direct-io.c          |  15 ++++-
- fs/iomap/internal.h           |  14 +++++
- fs/iomap/ioend.c              |  30 ++++++++--
- fs/ntfs3/inode.c              |  57 ++----------------
- fs/xfs/xfs_aops.c             |  47 +++++++++++++--
- fs/xfs/xfs_iomap.c            |   9 ++-
- include/linux/bio-integrity.h |  12 +++-
- include/linux/bio.h           |   2 +-
- include/linux/blk-integrity.h |  28 +++++++--
- include/linux/blkdev.h        |  34 +++++++++--
- include/linux/iomap.h         |  20 ++++++-
- 24 files changed, 470 insertions(+), 233 deletions(-)
- create mode 100644 block/bio-integrity-fs.c
+From: Nikita Kalyazin <nikita.kalyazin@linux.dev>=0A=
+=0A=
+Let's provide folio_{zap,restore}_direct_map helpers as preparation for=0A=
+supporting removal of the direct map for guest_memfd folios.=0A=
+In folio_zap_direct_map(), flush TLB to make sure the data is not=0A=
+accessible.  On some architectures, there may be a double TLB flush=0A=
+issued because set_direct_map_valid_noflush already performs a flush=0A=
+internally.=0A=
+=0A=
+The new helpers need to be accessible to KVM on architectures that=0A=
+support guest_memfd (x86 and arm64).=0A=
+=0A=
+Direct map removal gives guest_memfd the same protection that=0A=
+memfd_secret does, such as hardening against Spectre-like attacks=0A=
+through in-kernel gadgets.=0A=
+=0A=
+Acked-by: David Hildenbrand (Arm) <david@kernel.org>=0A=
+Signed-off-by: Nikita Kalyazin <nikita.kalyazin@linux.dev>=0A=
+---=0A=
+ include/linux/set_memory.h | 13 +++++++++++=0A=
+ mm/memory.c                | 45 ++++++++++++++++++++++++++++++++++++++=0A=
+ 2 files changed, 58 insertions(+)=0A=
+=0A=
+diff --git a/include/linux/set_memory.h b/include/linux/set_memory.h=0A=
+index 1a2563f525fc..24caea2931f9 100644=0A=
+--- a/include/linux/set_memory.h=0A=
++++ b/include/linux/set_memory.h=0A=
+@@ -41,6 +41,15 @@ static inline int set_direct_map_valid_noflush(const voi=
+d *addr,=0A=
+ 	return 0;=0A=
+ }=0A=
+ =0A=
++static inline int folio_zap_direct_map(struct folio *folio)=0A=
++{=0A=
++	return 0;=0A=
++}=0A=
++=0A=
++static inline void folio_restore_direct_map(struct folio *folio)=0A=
++{=0A=
++}=0A=
++=0A=
+ static inline bool kernel_page_present(struct page *page)=0A=
+ {=0A=
+ 	return true;=0A=
+@@ -57,6 +66,10 @@ static inline bool can_set_direct_map(void)=0A=
+ }=0A=
+ #define can_set_direct_map can_set_direct_map=0A=
+ #endif=0A=
++=0A=
++int folio_zap_direct_map(struct folio *folio);=0A=
++void folio_restore_direct_map(struct folio *folio);=0A=
++=0A=
+ #endif /* CONFIG_ARCH_HAS_SET_DIRECT_MAP */=0A=
+ =0A=
+ #ifdef CONFIG_X86_64=0A=
+diff --git a/mm/memory.c b/mm/memory.c=0A=
+index 2f815a34d924..3b9ada2cc19c 100644=0A=
+--- a/mm/memory.c=0A=
++++ b/mm/memory.c=0A=
+@@ -78,6 +78,7 @@=0A=
+ #include <linux/sched/sysctl.h>=0A=
+ #include <linux/pgalloc.h>=0A=
+ #include <linux/uaccess.h>=0A=
++#include <linux/set_memory.h>=0A=
+ =0A=
+ #include <trace/events/kmem.h>=0A=
+ =0A=
+@@ -7479,3 +7480,47 @@ void vma_pgtable_walk_end(struct vm_area_struct *vma=
+)=0A=
+ 	if (is_vm_hugetlb_page(vma))=0A=
+ 		hugetlb_vma_unlock_read(vma);=0A=
+ }=0A=
++=0A=
++#ifdef CONFIG_ARCH_HAS_SET_DIRECT_MAP=0A=
++/**=0A=
++ * folio_zap_direct_map - remove a folio from the kernel direct map=0A=
++ * @folio: folio to remove from the direct map=0A=
++ *=0A=
++ * Removes the folio from the kernel direct map and flushes the TLB.  This=
+ may=0A=
++ * require splitting huge pages in the direct map, which can fail due to m=
+emory=0A=
++ * allocation.  So far, only order-0 folios are supported.=0A=
++ *=0A=
++ * Return: 0 on success, or a negative error code on failure.=0A=
++ */=0A=
++int folio_zap_direct_map(struct folio *folio)=0A=
++{=0A=
++	const void *addr =3D folio_address(folio);=0A=
++	int ret;=0A=
++=0A=
++	if (folio_test_large(folio))=0A=
++		return -EINVAL;=0A=
++=0A=
++	ret =3D set_direct_map_valid_noflush(addr, folio_nr_pages(folio), false);=
+=0A=
++	flush_tlb_kernel_range((unsigned long)addr,=0A=
++			       (unsigned long)addr + folio_size(folio));=0A=
++=0A=
++	return ret;=0A=
++}=0A=
++EXPORT_SYMBOL_FOR_MODULES(folio_zap_direct_map, "kvm");=0A=
++=0A=
++/**=0A=
++ * folio_restore_direct_map - restore the kernel direct map entry for a fo=
+lio=0A=
++ * @folio: folio whose direct map entry is to be restored=0A=
++ *=0A=
++ * This may only be called after a prior successful folio_zap_direct_map()=
+ on=0A=
++ * the same folio.  Because the zap will have already split any huge pages=
+ in=0A=
++ * the direct map, restoration here only updates protection bits and canno=
+t=0A=
++ * fail.=0A=
++ */=0A=
++void folio_restore_direct_map(struct folio *folio)=0A=
++{=0A=
++	WARN_ON_ONCE(set_direct_map_valid_noflush(folio_address(folio),=0A=
++						  folio_nr_pages(folio), true));=0A=
++}=0A=
++EXPORT_SYMBOL_FOR_MODULES(folio_restore_direct_map, "kvm");=0A=
++#endif /* CONFIG_ARCH_HAS_SET_DIRECT_MAP */=0A=
+-- =0A=
+2.50.1=0A=
+=0A=
