@@ -1,258 +1,113 @@
-Received: from smtp01-ext2.udag.de (smtp01-ext2.udag.de [62.146.106.18])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1665C377004;
-	Fri, 10 Apr 2026 22:16:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.146.106.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2C481F0991
+	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 23:02:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775859416; cv=none; b=j9mX3z1UuzevFcbBgwDQJVIZ6LY4FZ0OjlDQKIsgU7xvbpMXJxzP8kGSSHYYkdaR6GgaMxwZKMutLJ/tJWm3fPPwu42qKooe1SdQQ1O5mbVwkViGOd+snW3DdUBVlHUAo/peMg9cbSsUdMWUI4hQ7xSYRHwrk/nfxAL52lZ52CA=
+	t=1775862132; cv=none; b=VqmQVmMH9XK49iRUiXLeM5B+e1tacSyHOh3cH5Qrn9SDT0Jw/09gM/sV90Pe5wa2w6s5AVV0/ndnMgFyRRofLPZiZwo0gq6kxkcWS3Ln5QWIWEQKaBUR3ilEvGkgceM1tx9tjxm/Mu8myz5uUzXGXMTQYBa0Rptd+c4WVkXWHcE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775859416; c=relaxed/simple;
-	bh=XEBI1Ib2iXNQlGQXkb1exsBs8kcwmR5fdYB0jj/Fgi0=;
+	s=arc-20240116; t=1775862132; c=relaxed/simple;
+	bh=u+sD4JLFbrmYRTtt/IJP1/6QPkPfiXBsg07Yv6C4Bj0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uALw9dvONswgZptizU6klLgx/ceFYZgQaeiYabPHiARLOyqPgl+0w5YS0VJlurO35PdA/mekYJAlY9RQ76DOfIzkg+kFF8D9Hr/ELWCkkrVD190EKZ5vJKEDaPG4YyVKYOILT0xCgvvovjFs16m0wL+HOMu17mq04En2CQA8ou8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de; spf=pass smtp.mailfrom=birthelmer.de; arc=none smtp.client-ip=62.146.106.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birthelmer.de
-Received: from localhost (113-140-067-156.ip-addr.inexio.net [156.67.140.113])
-	by smtp01-ext2.udag.de (Postfix) with ESMTPA id 7C7DDE03D4;
-	Sat, 11 Apr 2026 00:08:30 +0200 (CEST)
-Authentication-Results: smtp01-ext2.udag.de;
-	auth=pass smtp.auth=birthelmercom-0001 smtp.mailfrom=horst@birthelmer.de
-Date: Sat, 11 Apr 2026 00:08:29 +0200
-From: Horst Birthelmer <horst@birthelmer.de>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Bernd Schubert <bernd@bsbernd.com>, Bernd Schubert <bschubert@ddn.com>, 
-	Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org, Jian Huang Li <ali@ddn.com>, 
-	stable@vger.kernel.org, Horst Birthelmer <hbirthelmer@ddn.com>
-Subject: Re: Re: [PATCH 0/2] fuse: Fix possible memleak at startup with
- immediate teardown
-Message-ID: <adlyjDaxLZyHcSun@fedora>
-References: <20251021-io-uring-fixes-cancel-mem-leak-v1-0-26b78b2c973c@ddn.com>
- <4b5a8040-b62c-4d75-a474-70d0b4759461@bsbernd.com>
- <CAJnrk1ZohxcDERszbii8ZM0g1ZzTwk6+wEqRWpCoSwBXzgavkg@mail.gmail.com>
- <3eabbc7b-010f-4d4c-9145-30d69fe1aa79@bsbernd.com>
- <CAJnrk1aoxGMGNZi+OwdoET6ahhGHp_7dw__=dmOWW+PMxnsj2w@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=kOGk1P1Yj4uy1IxmrYJuZCdaA3CgNkVw5QSOs9p26GbSuAeUDrAv0++Ru/MnMbNLS/GQ84VtirlFT5bEKXgNZOpy1HTh8hFtsiMaFoLPNrz9j8UO5bLvXQhAervsVezL0gMhOJPzNeDlT1L1MxejIGF57FjlidmEzkh83XvUl+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=wVHOR879; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="wVHOR879"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=3QCXLm7hTCIRCprEvrcvk4G75h3wNVPi3bdBkycM2rA=; b=wVHOR879aBwJnrrJ7QZ44lt4fw
+	p43LZUVl2Z5wklgamdiLtp6YqTBqqAz5iZvnnnYf4yYhjkKbutk7t8vunl45tGIFNpVR9062zkopd
+	boaX/HTpVeZTZKhkaWSeNYEIrrPXXn7W0rYooMaMW3jZDNmIDdPR4Gbcm/+bEwzMZLPiYKt5MovLd
+	nLkM/3m5auOZ8GiXc/d9vcde++vKUWtF+F0oX3lt7WPfCk+ClLsinijDumsbEwYnlyVqiKrGpwdon
+	m75HDu53YpkcbRQNtj58ezZ/VWERx6fS9+ziOXjS54CNefdt65n5mgKGvWUr/rrFQoOnAp2fnfSab
+	F8Zah65Q==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wBKvB-00000007qoe-3JxG;
+	Fri, 10 Apr 2026 23:05:53 +0000
+Date: Sat, 11 Apr 2026 00:05:53 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Calvin Owens <calvin@wbinvd.org>
+Cc: Jeff Layton <jlayton@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Boqun Feng <boqun@kernel.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Uladzislau Rezki <urezki@gmail.com>, linux-fsdevel@vger.kernel.org,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Nikolay Borisov <nik.borisov@suse.com>,
+	Max Kellermann <max.kellermann@ionos.com>,
+	Eric Sandeen <sandeen@redhat.com>,
+	Paulo Alcantara <pc@manguebit.org>
+Subject: Re: [RFC][PATCH] make sure that lock_for_kill() callers drop the
+ locks in safe order
+Message-ID: <20260410230553.GZ3836593@ZenIV>
+References: <20260410084839.GA1310153@ZenIV>
+ <CAHk-=wjRgHLvSnEY3P45hSQ0ycKxdz-xqnccAMPuGRrwsvWdig@mail.gmail.com>
+ <adkk8FiLHnVx1Bup@tardis.local>
+ <CAHk-=wjuOm+AGHtjF15Zx8cxJwYwbzJgi28EQ6KW=Ze-4YjN+g@mail.gmail.com>
+ <4305138de599923591df7403aefc4d663f50324a.camel@kernel.org>
+ <20260410191907.GV3836593@ZenIV>
+ <30ac5108ada614560326636d4da353d6304c3f91.camel@kernel.org>
+ <adln5vp9HFbX-oz0@mozart.vkv.me>
+ <20260410212403.GY3836593@ZenIV>
+ <adl2dMjN2hmVvORh@mozart.vkv.me>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJnrk1aoxGMGNZi+OwdoET6ahhGHp_7dw__=dmOWW+PMxnsj2w@mail.gmail.com>
+In-Reply-To: <adl2dMjN2hmVvORh@mozart.vkv.me>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-On Fri, Apr 10, 2026 at 02:24:08PM -0700, Joanne Koong wrote:
-> On Fri, Apr 10, 2026 at 4:26 AM Bernd Schubert <bernd@bsbernd.com> wrote:
-> >
-> Hi Bernd,
+On Fri, Apr 10, 2026 at 03:15:16PM -0700, Calvin Owens wrote:
+> On Friday 04/10 at 22:24 +0100, Al Viro wrote:
+> > On Fri, Apr 10, 2026 at 02:13:10PM -0700, Calvin Owens wrote:
+> > > On Friday 04/10 at 15:32 -0400, Jeff Layton wrote:
+> > > > Yep, not even with that. One thing that claude pointed out: doing an
+> > > > mdelay() might prevent it from making any progress freeing dentries.
+> > > > I'm experimenting now with one that only randomly does a delay, but so
+> > > > far that hasn't turned up anything. I'll let you know if that changes.
+> > > 
+> > > Hi Jeff,
+> > > 
+> > > I've been poking at this one too. With the attached reproducer, the
+> > > waiter will get stuck in an infinite loop apparently in d_walk() with a
+> > > stock 7.0-rc7 (in my case with PREEMPT_LAZY):
+> > 
+> > Interesting...  I'll try it in a bit, but just in case - could you check if
+> > git://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git #work.dcache-busy-wait
+> > steps into the same thing on your setup?
 > 
-> > Hi Joanne,
-> >
-> > On 4/10/26 01:09, Joanne Koong wrote:
-> > > On Thu, Apr 9, 2026 at 4:02 AM Bernd Schubert <bernd@bsbernd.com> wrote:
-> > >>
-> > >>
-> > >>
-> > >> On 10/21/25 23:33, Bernd Schubert wrote:
-> > >>> Do not merge yet, the current series has not been tested yet.
-> > >>
-> > >> I'm glad that that I was hesitating to apply it, the DDN branch had it
-> > >> for ages and this patch actually introduced a possible fc->num_waiting
-> > >> issue, because fc->uring->queue_refs might go down to 0 though
-> > >> fuse_uring_cancel() and then fuse_uring_abort() would never stop and
-> > >> flush the queues without another addition.
-> > >>
-> > >
-> > > Hi Bernd and Jian,
-> > >
-> > > For some reason the "[PATCH 2/2] fs/fuse: fix potential memory leak
-> > > from fuse_uring_cancel" email was never delivered to my inbox, so I am
-> > > just going to write my reply to that patch here instead, hope that's
-> > > ok.
-> > >
-> > > Just to summarize, the race is that during unmount, fuse_abort() ->
-> > > fuse_uring_abort() -> ... -> fuse_uring_teardown_entries() -> ... ->
-> > > fuse_uring_entry_teardown() gets run but there may still be sqes that
-> > > are being registered, which results in new ents that are created (and
-> > > leaked) after the teardown logic has finished and the queues are
-> > > stopped/dead. The async teardown work (fuse_uring_async_stop_queues())
-> > > never gets scheduled because at the time of teardown, queue->refs is 0
-> > > as those sqes have not fully created the ents and grabbed refs yet.
-> > > fuse_uring_destruct() runs during unmount, but this doesn't clean up
-> > > the created ents because those registered ents got put on the
-> > > ent_in_userspace list which fuse_uring_destruct() doesn't go through
-> > > to free, resulting in those ents being leaked.
-> > >
-> > > The root cause of the race is that ents are being registered even when
-> > > the queue is already stopped/dead. I think if we at registration time
-> > > check the queue state before calling fuse_uring_prepare_cancel(), we
-> > > eliminate the race altogether. If we see that the abort path has
-> > > already triggered (eg queue->stopped == true), we manually free the
-> > > ent and return an error instead of adding it to a list, eg
-> > >
-> > > diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-> > > index d88a0c05434a..351c19150aae 100644
-> > > --- a/fs/fuse/dev_uring.c
-> > > +++ b/fs/fuse/dev_uring.c
-> > > @@ -969,7 +969,7 @@ static bool is_ring_ready(struct fuse_ring *ring,
-> > > int current_qid)
-> > >  /*
-> > >   * fuse_uring_req_fetch command handling
-> > >   */
-> > > -static void fuse_uring_do_register(struct fuse_ring_ent *ent,
-> > > +static int fuse_uring_do_register(struct fuse_ring_ent *ent,
-> > >                                    struct io_uring_cmd *cmd,
-> > >                                    unsigned int issue_flags)
-> > >  {
-> > > @@ -978,6 +978,16 @@ static void fuse_uring_do_register(struct
-> > > fuse_ring_ent *ent,
-> > >         struct fuse_conn *fc = ring->fc;
-> > >         struct fuse_iqueue *fiq = &fc->iq;
-> > >
-> > > +       spin_lock(&queue->lock);
-> > > +       /* abort teardown path is running or has run */
-> > > +       if (queue->stopped) {
-> > > +               spin_unlock(&queue->lock);
-> > > +               atomic_dec(&ring->queue_refs);
-> > > +               kfree(ent);
-> > > +               return -ECONNABORTED;
-> > > +       }
-> > > +       spin_unlock(&queue->lock);
-> > > +
-> > >         fuse_uring_prepare_cancel(cmd, issue_flags, ent);
-> > >
-> > >         spin_lock(&queue->lock);
-> > > @@ -994,6 +1004,7 @@ static void fuse_uring_do_register(struct
-> > > fuse_ring_ent *ent,
-> > >                         wake_up_all(&fc->blocked_waitq);
-> > >                 }
-> > >         }
-> > > +       return 0;
-> > >  }
-> > >
-> > >  /*
-> > > @@ -1109,9 +1120,7 @@ static int fuse_uring_register(struct io_uring_cmd *cmd,
-> > >         if (IS_ERR(ent))
-> > >                 return PTR_ERR(ent);
-> > >
-> > > -       fuse_uring_do_register(ent, cmd, issue_flags);
-> > > -
-> > > -       return 0;
-> > > +       return fuse_uring_do_register(ent, cmd, issue_flags);
-> > >  }
-> > >
-> > > There's the scenario where the abort path's "queue->stopped = true"
-> > > gets set right between when we drop the queue lock and before we call
-> > > fuse_uring_prepare_cancel(), but the fuse_uring_create_ring_ent()
-> > > logic that was called before fuse_uring_do_register() has already
-> > > grabbed the ref on ring->queue_refs, which means in the abort path,
-> > > the async teardown (fuse_uring_async_stop_queues()) work is guaranteed
-> > > to run and clean up / free the entry.
-> >
-> >
-> > I don't think your changes are needed, it should be handled by
-> > IO_URING_F_CANCEL -> fuse_uring_cancel(). That is exactly where the
-> > initial leak was - these commands came after abort and
-> > fuse_uring_cancel() in linux upstream then puts the entries onto the
-> > &queue->ent_in_userspace list.
+> Hi Al,
 > 
-> I think there are still races if we handle it in fuse_uring_cancel()
-> that still leak the ent, eg even with the fuse_uring_abort()
-> queue_refs gating taken out in the original (jian's) patch:
-> * thread A: fuse_uring_register() ->fuse_uring_create_ring_ent() ->
-> kzalloc, sets up the entry but hasn't called
-> atomic_inc(&ring->queue_refs) yet
->   concurrently on another thread, thread B: fuse_uring_cancel()
-> ->fuse_uring_entry_teardown() ->
-> atomic_dec_return(&queue->ring->queue_refs) -> brings queue_refs down
-> to 0
->   At this instant, queue_Refs == 0. fuse_uring_stop_queues() ->
-> teardown entries (nothing left) -> checks "if
-> atomic_read(&ring->queue_refs) > 0", sees this is false, and skips
-> scheduling any async teardown work
->   thread A calls atomic_inc(&ring->queue_refs) for the new ent,
-> queue_refs is now 1, the ent is now placed on the ent_avail_queue, but
-> it's never torn down.
->   the ent is leaked and there's also a hang now when we hit
-> fuse_uring_wait_stopped_queues() -> fuse_uring_wait_stopped_queues()
-> where it sleeps and is never woken since it's waiting for queue refs
-> to drop to 0
+> It still reproduces on that branch in the exact same way.
 > 
-> imo, the change proposed in my last message is more robust and handles
-> this case since it guarantees the async teardown worker will be
-> running (since it does the queue state check after the ent has grabbed
-> the queue ref).
+> I'm absolutely 100% guessing... but I recall tomfoolery with the "magic"
+> symlinks in /proc/$/fd/* in the past... the below patch makes the infinite
+> spins impossible to trigger with my reproducer, does my explanation make
+> any sense to you? Apologies if I'm off in the weeds...
 
-Ok so you rely on the fact that fuse_abort_conn() will call 
-fuse_uring_abort() and that sets queue->stopped.
-This could work, but I would still remove the check for
-queue_refs > 0 in fuse_uring_abort(), since it just complicates things
-for no real reason.
+What it's doing, AFAICS, is a weird way of opening arseloads of files, mostly
+the same ones again and again - the reason it needs that prlimit (there's
+way fewer files in procfs when it starts) is that these threads keep running
+through each other's /proc/*/fd and opening what they'd got again and again,
+adding to /proc/*/fd/* as they go.
 
-> 
-> btw, there's also another (separate) race, which neither of our
-> approaches solve lol. This is the situation where fuse_uring_cancel()
-> runs right after we call fuse_uring_prepare_cancel() in
-> fuse_uring_do_register() but before we have set the ent state to
-> FRRS_AVAILABLE. The ent gets leaked and continues to be used even
-> though it's canceled, which may lead to use-after-frees. This probably
-> requires a separate fix, I haven't had time to look much at it yet.
-> Maybe Horst or Jian has looked at this?
-> 
-Interesting scenario ... haven't seen that one so far.
-
-> > Issue in master is, fuse_uring_stop_queues() might have been run already
-> > - entries then get leaked and fuse_uring_destruct() later might give a
-> > warning. That part can be reproduced with xfstests, before it starts any
-> > of the tests it does some funny start stop actions.
-> >
-> > Initial *simple* patch was to either add a new list or to just remove
-> > the warning and to also handle either that new list or
-> > queue->ent_in_userspace list  in fuse_uring_destruct(). The comment
-> > explaining why it is needed was much longer than the rest of the patch.
-> > The hard part in the long term would be tranfer the knowledge for that
-> > requirement.
-> 
-> I think the initial simple patch doesn't address the hang. When the
-> ent is canceled, it still has the ref on queue_refs, which means
-> fuse_uring_wait_stopped_queues() will wait for queue_refs == 0
-> forever. I don't think we ever even get to fuse_uring_destruct().
-> 
-> Thanks,
-> Joanne
-> 
-> >
-> > You then asked to handle the release directly in fuse_uring_cancel()
-> > without another list
-> > https://lore.kernel.org/r/CAJnrk1YaRRKHA-jVPAKZYpydaKcdswLG0XO7pUQZZ4-pTewkHQ@mail.gmail.com
-> >
-> > Yes possible and this is what the next patch version does. However,
-> > given fuse_uring_cancel() runs outside of all the fuse locks, it is racy
-> > and I therefore asked in the introduction patch not to merge it yet.
-> >
-> > https://lore.kernel.org/all/20251021-io-uring-fixes-cancel-mem-leak-v1-0-26b78b2c973c@ddn.com/
-> >
-> >
-> > Turns out my suspicion was right ;)
-> >
-> > Queue references might go to 0 when nothing is in flight and then
-> > fuse_uring_abort(), which _might_ race and come a little later, then
-> > might not doing anything.
-> >
-> >         if (atomic_read(&ring->queue_refs) > 0) {
-> >                 fuse_uring_abort_end_requests(ring);
-> >                 fuse_uring_stop_queues(ring);
-> >         }
-> >
-> > As Horst figure out, removing this check for queue_refs avoids the
-> > issue. I'm rather sure that the check was needed during development and
-> > avoided some null pointer derefs, as that is what I remember. But I
-> > don't think it is needed anymore.
-> >
-> >
-> > Thanks,
-> > Bernd
-> 
+IOW, you are opening a random mix of files, both procfs and ones some processes
+had opened, then exiting.  That triggers invalidation of your /proc/*, with
+a _lot_ of shite that needs to be taken out.  It might be triggering a livelock
+or a UAF somewhere in dcache or it might be something entirely different -
+no idea at that point.  I'll look further into that, but I wouldn't be surprised
+if it turns out to be entirely unrelated.  Would be easier to deal with if the
+mix had been more predictable, but we have what we have...
