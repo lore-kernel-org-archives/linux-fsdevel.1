@@ -1,53 +1,88 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2826138BF76
-	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 08:44:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB9513AC0C5
+	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 08:52:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775810696; cv=none; b=NP3V84eapu1BhSO74U2JVgga2iXR9xDYXoho3cWKxjXHyiUHhrTj2wHf/t5l3ZGpxyWERYaPlMAiVduzuKuVsbmhbI1v+fUq5fYrQtOtc/dnf8dWCXSdLvgmIaXir8oj1CnNHFHuvG2dF64QoQxXDRGpqBEMWg9KC4mGSpjnLrg=
+	t=1775811141; cv=none; b=qBnfJRtfbhpz1qf03yqrrBJTTYHeOdw0E/mB7fJBWSeP2XRBk1881Usx70JimKqWeourww5UqSX4kX0T/zWg810Fae7Kqy3NT/R5fkfRsRuQLpTqon/UxWxznKcsvpuLSE/wNzS3LOGoC66GYLi0s7rolpoKXLbLnm/GBj4VpjU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775810696; c=relaxed/simple;
-	bh=MXDO6aA8bwO/EbjFuIkhb+T7V5lBSgLyk6Wmx09N0m0=;
+	s=arc-20240116; t=1775811141; c=relaxed/simple;
+	bh=2NF4CMzdVYJS+90CHEA+68ig7xbItwmKkaLQrQS1wX4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G6h3w8cZPQUXxz9wLQhL7dcAZD4T4ynq4RfOKztEeCQBEVv04s4rp96bfFcvryQaFtqEwl+JFxYi80Au0DXlZrVLsdad6EUfs9wa3M2sCSgLaHn/WQ2DOqA2o4UpqmIZUJjXiNs3WMkNuGGkq3aFBxXZgjPat3GWrAmSKa9fCvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=J37B/5BT; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	 Content-Type:Content-Disposition:In-Reply-To; b=FxzaHdMlZGA86CLs6SjlvG/PW5YFFB6tiDk2Sa9zwfOaHXIwsaMTxq5C9RTd4vkTZNz1+cX2txDkYvmjAe8AapS4axV6MVJzBC0JLrtoPrvmMvEBsGrHRdxtgfkltBCpMJfNgIfQI80DxCRfTewfmb5/MIvEyyLQ+406e5S5yYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=umvHFZ9d; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=LHBWfGxJ; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=1FFuLjaj; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Naqda7/5; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="J37B/5BT"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=gR/0YTka3JzSnDdYhZqLg1QUuEyVZg1NaJI6eR7hfS4=; b=J37B/5BTUUc2GjIdnZ2FlOMdWm
-	MxwocmQYlXXcfgQEq0kMFMo/JEcn3aJnaq5Ii9MK/3j8Mbbu/Rz9fLJ8eguoKl7C/HiH27l+iiPt+
-	2thXBtrK80qpkvGDTM3dflj3HkSbUrVkX4VXnH6acy2J4ih2Qh4JT+RYkYGfQCBaUUE1T8Ek+uFG7
-	ix7jJfHWOhRlKCPFOFDD/n/+L1T1WXkB0SpRRtsEtLJVi5B9aUtQvXyXsAzpgJbADYKzVqNBwgYaD
-	AEuFx7n4NfsnAlnOstbK2D7L53b6XtJ0M/AGs1wy+RHNCe9wxaRsAm00i+OvzH8kXAeOUaZoBC1Od
-	nj3NViQg==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wB7Xb-00000005dP3-0VrO;
-	Fri, 10 Apr 2026 08:48:39 +0000
-Date: Fri, 10 Apr 2026 09:48:39 +0100
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	linux-fsdevel@vger.kernel.org,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Nikolay Borisov <nik.borisov@suse.com>,
-	Max Kellermann <max.kellermann@ionos.com>,
-	Eric Sandeen <sandeen@redhat.com>,
-	Paulo Alcantara <pc@manguebit.org>
-Subject: [RFC][PATCH] make sure that lock_for_kill() callers drop the locks
- in safe order
-Message-ID: <20260410084839.GA1310153@ZenIV>
-References: <20260122202025.GG3183987@ZenIV>
- <20260404080751.2526990-1-viro@zeniv.linux.org.uk>
- <53b4795292d1df2fe1569fc724325ab52fcab322.camel@kernel.org>
- <20260409190213.GQ3836593@ZenIV>
- <41cfd0f95b7fde411c0d59463dce979be89cb8ef.camel@kernel.org>
- <20260409215733.GS3836593@ZenIV>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="umvHFZ9d";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="LHBWfGxJ";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="1FFuLjaj";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Naqda7/5"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id ACF0C5BCD9;
+	Fri, 10 Apr 2026 08:52:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1775811138; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZDyO4k9B0CglAcYyPRfUWEeqKYLsjkgP04eByE2FkcA=;
+	b=umvHFZ9dbM79L/u1GPpnISgGAua5NIjD7hsJNubBpb1IookyAxuACcikQ5LbIhiCltqKod
+	stYRQtgfzn0Ogb4UyNtrVLOkPWhk0fq73oMt4QvJZWRdVlhr4740fkl+ZOo8z8uzxOLAOM
+	+uf0f2jIE4on35RidnnB46jBsF+DccQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1775811138;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZDyO4k9B0CglAcYyPRfUWEeqKYLsjkgP04eByE2FkcA=;
+	b=LHBWfGxJsiDgNRnuZNxod/Mr96o/5slXWuHB4L3JCa70l+pQiRRMOsAZayGjbJ0vqJtK/I
+	suFMC7++ESc53GDA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=1FFuLjaj;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="Naqda7/5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1775811136; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZDyO4k9B0CglAcYyPRfUWEeqKYLsjkgP04eByE2FkcA=;
+	b=1FFuLjajZeVxCt6zWo8qPGXAEQf9DghIUO8grmrQqAlEYp1O2/JdbB0om0NO3AAmEiVO9t
+	fXZL2gWXIzDR5x/D69WFqWjRUTMyiKdy5DBtaBeeCZSSznK0DobauDMidN5Sy7Gzgzb49+
+	Cq8JRWiVcT2NdXJtD3aMLfutXH55LY0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1775811136;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZDyO4k9B0CglAcYyPRfUWEeqKYLsjkgP04eByE2FkcA=;
+	b=Naqda7/5VfnHTbpWWUa3Ba1WFDXlZN6StPp866IhPGqvP6zg6oLsD3zvB35c9pI9UXDbnS
+	3tWRPhx7XATN2DAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9F0B94A0B2;
+	Fri, 10 Apr 2026 08:52:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 5RrOJkC62GkHGgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Fri, 10 Apr 2026 08:52:16 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 5504AA0A81; Fri, 10 Apr 2026 10:52:16 +0200 (CEST)
+Date: Fri, 10 Apr 2026 10:52:16 +0200
+From: Jan Kara <jack@suse.cz>
+To: Zhang Yi <yi.zhang@huaweicloud.com>
+Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, dave@stgolabs.net, tytso@mit.edu, adilger.kernel@dilger.ca, 
+	jack@suse.cz, ojaswin@linux.ibm.com, ritesh.list@gmail.com, 
+	libaokun@linux.alibaba.com, yi.zhang@huawei.com, yizhang089@gmail.com, yangerkun@huawei.com, 
+	yukuai@fnnas.com
+Subject: Re: [PATCH v2] jbd2: fix deadlock in jbd2_journal_cancel_revoke()
+Message-ID: <zyzdcmnkvrqgqzslms4ba3vrnk7gsbry3z2dgkpto3a2vidngx@2i4i36ndeebi>
+References: <20260409114204.917154-1-yi.zhang@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -56,92 +91,129 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260409215733.GS3836593@ZenIV>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+In-Reply-To: <20260409114204.917154-1-yi.zhang@huaweicloud.com>
+X-Spamd-Result: default: False [-2.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,stgolabs.net,mit.edu,dilger.ca,suse.cz,linux.ibm.com,gmail.com,linux.alibaba.com,huawei.com,fnnas.com];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:email,huawei.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:email]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -2.51
+X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: ACF0C5BCD9
 
-[this may or may not be the source of UAFs caught by Jeff and by Helge]
+On Thu 09-04-26 19:42:03, Zhang Yi wrote:
+> From: Zhang Yi <yi.zhang@huawei.com>
+> 
+> Commit f76d4c28a46a ("fs/jbd2: use sleeping version of
+> __find_get_block()") changed jbd2_journal_cancel_revoke() to use
+> __find_get_block_nonatomic() which holds the folio lock instead of
+> i_private_lock. This breaks the lock ordering (folio -> buffer) and
+> causes an ABBA deadlock when the filesystem blocksize < pagesize:
+> 
+>      T1                                T2
+> ext4_mkdir()
+>  ext4_init_new_dir()
+>   ext4_append()
+>    ext4_getblk()
+>     lock_buffer()    <- A
+>                                    sync_blockdev()
+>                                     blkdev_writepages()
+>                                      writeback_iter()
+>                                       writeback_get_folio()
+>                                        folio_lock()   <- B
+>      ext4_journal_get_create_access()
+>       jbd2_journal_cancel_revoke()
+>        __find_get_block_nonatomic()
+>         folio_lock()  <- B
+>                                      block_write_full_folio()
+>                                       lock_buffer()   <- A
+> 
+> This can occasionally cause generic/013 to hang.
+> 
+> Fix by only calling __find_get_block_nonatomic() when the passed
+> buffer_head doesn't belong to the bdev, which is the only case that we
+> need to look up its bdev alias. Otherwise, the lookup is redundant since
+> the found buffer_head is equal to the one we passed in.
+> 
+> Fixes: f76d4c28a46a ("fs/jbd2: use sleeping version of __find_get_block()")
+> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
 
-lock_for_kill() losing a race to eviction by another thread will end up
-returning false (correctly - the caller should *not* evict dentry in
-that case), with ->d_lock held and rcu read-critical area still unbroken,
-so the caller can safely drop the locks, provided that it's done in the
-right order - ->d_lock should be dropped before rcu_read_unlock().
+Indeed, good catch! Sadly, lockep didn't tell us about this as it tracks
+neither buffer locks nor folio locks... The patch looks good. Feel free to
+add:
 
-Unfortunately, 3 of 4 callers did it the other way round and for two of them
-(finish_dput() and shrink_kill()) that ended up with a possibility of UAF.
-The third (shrink_dentry_list()) had been safe for other reasons (dentry being
-on the shrink list => the other thread wouldn't even schedule its freeing
-until observing dentry off the shrink list while holding ->d_lock), but it's
-simpler to make it a general rule - in case of lock_for_kill() failure
-->d_lock must be dropped before rcu_read_unlock().
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-UAF scenario was basically this:
-	dput() drops the last reference to foo/bar and evicts it.
-	The reference it held to foo happens to be the last one.
-	When trylock on ->i_lock of parent's inode fails, we
-	(under rcu_read_lock()) drop ->d_lock and take the locks in
-	the right order; while we'd been spinning on ->i_lock somebody
-	else comes and evicts the parent.
-	Noticing non-zero (negative) refcount we decide there's nothing
-	left to do.  And had we only dropped parent's ->d_lock before
-	rcu_read_unlock(), everything would be fine.  Unfortunately,
-	doing that the other way round allows rcu-scheduled freeing of
-	parent to proceed before we drop its ->d_lock.
-The same applies if instead of final dput() of foo/bar it gets evicted
-by shrink_dcache_parent() or memory pressure, again taking out the last
-reference to that used to pin its parent.
-
-Fixes: 339e9e13530b ("don't try to cut corners in shrink_lock_dentry()")
-Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
----
-diff --git a/fs/dcache.c b/fs/dcache.c
-index 0c8faeee02e2..b1c163f20db6 100644
---- a/fs/dcache.c
-+++ b/fs/dcache.c
-@@ -751,6 +751,8 @@ static struct dentry *__dentry_kill(struct dentry *dentry)
-  *
-  * Return false if dentry is busy.  Otherwise, return true and have
-  * that dentry's inode locked.
-+ *
-+ * On failure the caller must drop ->d_lock *before* rcu_read_unlock()
-  */
- 
- static bool lock_for_kill(struct dentry *dentry)
-@@ -933,8 +935,8 @@ static void finish_dput(struct dentry *dentry)
- 		}
- 		rcu_read_lock();
- 	}
--	rcu_read_unlock();
- 	spin_unlock(&dentry->d_lock);
-+	rcu_read_unlock();
- }
- 
- /* 
-@@ -1193,11 +1195,12 @@ static inline void shrink_kill(struct dentry *victim)
- 	do {
- 		rcu_read_unlock();
- 		victim = __dentry_kill(victim);
-+		if (!victim)
-+			return;
- 		rcu_read_lock();
--	} while (victim && lock_for_kill(victim));
-+	} while (lock_for_kill(victim));
-+	spin_unlock(&victim->d_lock);
- 	rcu_read_unlock();
--	if (victim)
--		spin_unlock(&victim->d_lock);
- }
- 
- void shrink_dentry_list(struct list_head *list)
-@@ -1210,10 +1213,10 @@ void shrink_dentry_list(struct list_head *list)
- 		rcu_read_lock();
- 		if (!lock_for_kill(dentry)) {
- 			bool can_free;
--			rcu_read_unlock();
- 			d_shrink_del(dentry);
- 			can_free = dentry->d_flags & DCACHE_DENTRY_KILLED;
- 			spin_unlock(&dentry->d_lock);
-+			rcu_read_unlock();
- 			if (can_free)
- 				dentry_free(dentry);
- 			continue;
+								Honza
+> ---
+> v1->v2:
+>  - Switch to using sb_is_blkdev_sb() to check whether the bh belongs to
+>    the bdev.
+> 
+>  fs/jbd2/revoke.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+> 
+> diff --git a/fs/jbd2/revoke.c b/fs/jbd2/revoke.c
+> index 9016ddb82447..e4c2fbd381f1 100644
+> --- a/fs/jbd2/revoke.c
+> +++ b/fs/jbd2/revoke.c
+> @@ -428,6 +428,7 @@ void jbd2_journal_cancel_revoke(handle_t *handle, struct journal_head *jh)
+>  	journal_t *journal = handle->h_transaction->t_journal;
+>  	int need_cancel;
+>  	struct buffer_head *bh = jh2bh(jh);
+> +	struct address_space *bh_mapping = bh->b_folio->mapping;
+>  
+>  	jbd2_debug(4, "journal_head %p, cancelling revoke\n", jh);
+>  
+> @@ -464,13 +465,14 @@ void jbd2_journal_cancel_revoke(handle_t *handle, struct journal_head *jh)
+>  	 * buffer_head?  If so, we'd better make sure we clear the
+>  	 * revoked status on any hashed alias too, otherwise the revoke
+>  	 * state machine will get very upset later on. */
+> -	if (need_cancel) {
+> +	if (need_cancel && !sb_is_blkdev_sb(bh_mapping->host->i_sb)) {
+>  		struct buffer_head *bh2;
+> +
+>  		bh2 = __find_get_block_nonatomic(bh->b_bdev, bh->b_blocknr,
+>  						 bh->b_size);
+>  		if (bh2) {
+> -			if (bh2 != bh)
+> -				clear_buffer_revoked(bh2);
+> +			WARN_ON_ONCE(bh2 == bh);
+> +			clear_buffer_revoked(bh2);
+>  			__brelse(bh2);
+>  		}
+>  	}
+> -- 
+> 2.52.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
