@@ -1,143 +1,193 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87EBD3E3D88
-	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 18:12:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775844740; cv=pass; b=R/J/L4WAsyH68rIyxqOfzKiPy+i+euR0A2DiNOl4+BSk2KQJTiTyd2wD8G/MhLPdtUn26/RvGZxd/mKmrhz3GjfmZEJOmsTztXA8qiGxVDJ8PVzMUZk0C2o7TBZGz+AozlSPbzos7wjyjquS/Z5DtBsq4H3ibAwBiI/dEjKJsPA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775844740; c=relaxed/simple;
-	bh=PA5zTQMyHZQ1NmMD6YmECLuqq66PS9pN4nB6JaBqVNo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=I1MUEzjkCKvvy8OBNa8QWTP6fUGmTsebun9nEVsgi+UpDWC6qz/lZM3NdyOxOY3K6Tgm6zdBTLxFxuvS1YODyb1Yx6RcDt2WjfyOVcgYvktGjtYOpYkwuxOB/RI2tfNJhbcnFTmHOUHVxUOG4VaIjjH3JF8tFWjRvNDzWKiOKjI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KuRVXsRi; arc=pass smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 765493DEACF
+	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 18:21:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775845303; cv=none; b=c6XWSPWh4Z5rAS2q2HgOC+2knryQOuz8EPv7ibkHe9MLO5coTgWyrOoe28QfPKhxzQ39HZOSuzY2trhXOqeW4g/tW0TljG1tcF4UAWtn43w2SWsobrs2/JmjVN6/Zp145jceJ00xkfOcnb4ii9PC1qW/oSf6dwjrmSgTQhejnHk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775845303; c=relaxed/simple;
+	bh=oFRwkRX6bHFTBZv16pKYlFfMBaDt6ha55/7Cyw0xWQ4=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=FO9qcdYwOq0TZLCGlzaNpWaVCCNrfYyio2T1WivTK4z29OGBrvrzk4ewJKsFFU26iEheUx3SWx3Fq4wV37yjrp516KrvL3egIwoZtq6Kj8SfBePR/iHrYell/ipEAE2b3yIwnxc/5mMv/emHkEqZc29YIJgScQCMdgLiGufFVh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nZYe/mZd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KuRVXsRi"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-b9c62fc8debso374843966b.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 11:12:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775844738; cv=none;
-        d=google.com; s=arc-20240605;
-        b=fOOMEyRXE7HdhAGGj73QWCZOanXp5JPDl9Df9sZg6CjMIvlCy3daU8JhD60XE9Fghn
-         Qcfh5A5/CYSmEmndB6P4tvDedIW+8u1ttBqZiVRe0vKST+5CZe4TNIDL6rrOsvz2zM2J
-         OijgXR9kWSwpWjQj6TZyF5D6wD98Cqv7GKrusE4E8ARNEfDRzGJ0RyRI0I4F/j64tffR
-         fpgZeyGITf/H36fK77vOkNTsTnnQgDn1mkkFOQGkDRnidpyvoTWEtWRAfg1cFUsOqAVX
-         2eUWZS6Owhv5CnNIzttmYmUeev1Mw1kHzhqvJHIt1WDzMLUDjBqU8iYwM6lIwOgmO6F4
-         RTGA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=UFiNFpFbfy0GjElN2Nmo5DJvPhQRgD96BASohru05w4=;
-        fh=Ab9oeLisT6RvSodLLP62OTJghGgBf46YnNNMuMzrpHY=;
-        b=ln0OaUNVuUSinMPM16rukAgYdgh0C/8/IAK0Jm8phyA/orX9zjTmSzzSBUwyBDjUwR
-         oLKdzpyhehN7Q0kApp4nymjOvfJsIMexIk9yt+CA6zOflH1/BfWQTyIgQCtaDXfNY1Fs
-         hqDl1v/TM/E1am1GmFlUJxNNDPuGDK+ZSgYdfDbWzIN9M7B+KRzEVxiiFcHUN5ZgAgpy
-         cIu7guiXX6rEU7heXy00SkGZelo5H0/yP9/k38h/axugEhPuoGrj1Yr3YGlKvN3bC19q
-         OmK7+siaf6Q89BPVPSlQ93u6SEw0Es64nVevzi5DVXl1o0PmpvTF7V0OMw3lZsJSMC21
-         ilFQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775844738; x=1776449538; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=UFiNFpFbfy0GjElN2Nmo5DJvPhQRgD96BASohru05w4=;
-        b=KuRVXsRiQY/zEfevkMel8Z0cpLUqOsZ5qWcbYTJ8DB4sm8JGkhJ6GuWGeuq0Buhl0A
-         EkdWM1lag/20Tub3lkqVs2qCdVm1iVRs4WzpilRlDV3LWeDRiIPNKsD21L7rBbv1KXpT
-         44UQn36/l5Adyd8vSogrSKbN4kUZ2wmEZr8IVPdsoSjdUj1S9l1UbyfYasEVRPLj3BTU
-         xyBvmJbaFO9FoTsCt1QI3FO4c8MLAyVc6IdcWu2nPj38Q9JVhrE14w/dcpsENAItC8ks
-         elE+x/Qtz/WtqDBg8Qqpzzo80oT8tvWG4tEzYMvzOuTRsaWfC2XLDw8Q+QediGJGT4NJ
-         EWKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775844738; x=1776449538;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UFiNFpFbfy0GjElN2Nmo5DJvPhQRgD96BASohru05w4=;
-        b=tYvhp5++uztEbyZ5/Xa/do12xi82ozOP7A/VlQacgaTA+Qepyb9Wmz7RG5wQg6jFdo
-         ypRHChP0mOcJm+GTNOgvaP+Y5YS6cGdK3V4/dCYw0cOzhio3Of+1U530j10Zkxq/T9x1
-         P2KlnNq8HUDtIAXNtsdU4JWp8rMZa6BazttFzrB4hJ3Pb36Nm4m6jxQTYANdnR5x0G7T
-         /RXRA3K0u6iQmpYbE/faktlyoN0G2jQEsXCcVhmQorZ67Ui32nPknXJKfSKBomlhci+g
-         tTrYzO5YHOsERUGduG8XZp8YMrdz47ubf8AVr01fm2ubj+rvkD2dNhfN8sbcHbgSKu+P
-         14sg==
-X-Gm-Message-State: AOJu0YzTtNkHC4H9iAkN6JAhx3kcXOtHi7sU3k7S1PODD13r5rmjvA8k
-	lotBizp/VDri6lpjKiAP5Fca+cIMlau+YJ/LZQxeT8oU1kXha0M5fK0jlBDFTneIFegQ+XuOJMA
-	nmuwq9zZZnr3H1FPh1bhmKFEhvySk4+I=
-X-Gm-Gg: AeBDietPoTruYxPCpmypMe7SuqHDbKjInw+it4VM+E1VY2RHyrDJ+IGvyew+FX0KtgJ
-	WMKhFqJxkEIvduhEW0DBWgeMjfQEHTNgGDA9axHuQxYuo7cJdxzFu0h0hf8TvpUmLVzMGElg912
-	CTbQumrMME6SqexajE5r9bX8TrtVqALAjgN1pmz4VODn7ZqcKc/m14Pdoy1XJwBDnr2jT41CkEj
-	+RfQl8hEZEwoJdAaWyksA6J5cW1PsVPcGk/bMp998ZWAbG+xokAS2wYf/8fg1TxaJtWjSZ716tB
-	Zuu7lyvQogPualjxHlXw7FVm+FN65qr4TOIYKhmVsvDTlUFsYXJLSbit9btL9mo9BWuGADvfNqx
-	lKBT+WD/877eyPDGApCObQA==
-X-Received: by 2002:a17:907:94d3:b0:b9d:1adb:fcbf with SMTP id
- a640c23a62f3a-b9d7297e213mr260114566b.33.1775844737599; Fri, 10 Apr 2026
- 11:12:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nZYe/mZd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7D9DC19421;
+	Fri, 10 Apr 2026 18:21:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775845303;
+	bh=oFRwkRX6bHFTBZv16pKYlFfMBaDt6ha55/7Cyw0xWQ4=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=nZYe/mZdd7gOx4uhdwlq0w4Yt5Wh7GHpmkJGl9JwbdRcGrH1gEBso4QwIqiALHrmF
+	 Zukseja+XOHo4v+CmsVxOM3FXr8PqzFDlBLm354yTZlWNcltPMFnrNIqTyHbhMCYsF
+	 kuUgvb46x9oixRyS38LebDp3PEYUx83yZXdDs+27HT6PfQzqc6WveapVtBfVFnYfLi
+	 KdSX3j0XcsFbNF+ePcLMRbQg3mg5pTV5ixJa8xigdV7QBn8kcBmGOwY7iE7jbnCR3H
+	 NYClEvy+8bh/lrZo2VZzY3IxKNjbfy0t4eQt1hneXyH8FPw4OQRFN5ZTOTizDY7f99
+	 zn7VjZIJxldoA==
+Message-ID: <4305138de599923591df7403aefc4d663f50324a.camel@kernel.org>
+Subject: Re: [RFC][PATCH] make sure that lock_for_kill() callers drop the
+ locks in safe order
+From: Jeff Layton <jlayton@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>, Boqun Feng
+	 <boqun@kernel.org>
+Cc: Al Viro <viro@zeniv.linux.org.uk>, "Paul E. McKenney"
+ <paulmck@kernel.org>,  Frederic Weisbecker	 <frederic@kernel.org>, Neeraj
+ Upadhyay <neeraj.upadhyay@kernel.org>, Joel Fernandes
+ <joelagnelf@nvidia.com>, Josh Triplett <josh@joshtriplett.org>, Uladzislau
+ Rezki	 <urezki@gmail.com>, linux-fsdevel@vger.kernel.org, Christian Brauner
+	 <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Nikolay Borisov	
+ <nik.borisov@suse.com>, Max Kellermann <max.kellermann@ionos.com>, Eric
+ Sandeen	 <sandeen@redhat.com>, Paulo Alcantara <pc@manguebit.org>
+Date: Fri, 10 Apr 2026 14:21:39 -0400
+In-Reply-To: <CAHk-=wjuOm+AGHtjF15Zx8cxJwYwbzJgi28EQ6KW=Ze-4YjN+g@mail.gmail.com>
+References: <20260122202025.GG3183987@ZenIV>
+	 <20260404080751.2526990-1-viro@zeniv.linux.org.uk>
+	 <53b4795292d1df2fe1569fc724325ab52fcab322.camel@kernel.org>
+	 <20260409190213.GQ3836593@ZenIV>
+	 <41cfd0f95b7fde411c0d59463dce979be89cb8ef.camel@kernel.org>
+	 <20260409215733.GS3836593@ZenIV> <20260410084839.GA1310153@ZenIV>
+	 <CAHk-=wjRgHLvSnEY3P45hSQ0ycKxdz-xqnccAMPuGRrwsvWdig@mail.gmail.com>
+	 <adkk8FiLHnVx1Bup@tardis.local>
+	 <CAHk-=wjuOm+AGHtjF15Zx8cxJwYwbzJgi28EQ6KW=Ze-4YjN+g@mail.gmail.com>
+Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
+ keydata=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
+ QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260410142403.308108-2-adrianmcmenamin@gmail.com>
- <adkLbCyI7ZnxkSAp@casper.infradead.org> <CACwZE5SctP1QAy_5_sBTC--O8ubGwFpFry0KF+CS72W=EXn7Eg@mail.gmail.com>
- <adk5I8RsBjJY3bRM@casper.infradead.org> <CACwZE5ScnatgFD_VT75m4p4dH=R4biWj2OZKwXkuGrzREi4urg@mail.gmail.com>
-In-Reply-To: <CACwZE5ScnatgFD_VT75m4p4dH=R4biWj2OZKwXkuGrzREi4urg@mail.gmail.com>
-From: Adrian McMenamin <adrianmcmenamin@gmail.com>
-Date: Fri, 10 Apr 2026 19:12:04 +0100
-X-Gm-Features: AQROBzAJHuTH5PLhjFG_HaPfoe6IGRF1nRgRF3ZHUICLyH6OMpKIt85jM8w3nck
-Message-ID: <CACwZE5TmJKmQVei0xrS3awJurt2Fg2Xq=hbqdCeoPgV2vrafwg@mail.gmail.com>
-Subject: Re: [PATCH 02/10] Add support for VMUFAT filesystem
-To: Matthew Wilcox <willy@infradead.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 
-> On Fri, 10 Apr 2026 at 18:53, Matthew Wilcox <willy@infradead.org> wrote:
->>
->> On Fri, Apr 10, 2026 at 04:37:36PM +0100, Adrian McMenamin wrote:
->> > On Fri, 10 Apr 2026 at 15:38, Matthew Wilcox <willy@infradead.org> wrote:
->>
->> I have to say this patch series is almost impossible to review.  I'm
->> not quite sure what you did, but it feels like you generated these
->> patches manually and then used git send-email to send them.
->>
->
-I know it's not great. But there are 101 commits in the changes ( you
-can see them all as a git pull request here -
-https://github.com/mcmenaminadrian/linux/pull/1/changes ) - as this is
-something I've been working on for some time, so I couldn't see a
-rational way to use git format-patch. So I ended up using splitdiff on
-the full change set as that at least broke the changes up file by
-file. I then used git send-email on those. I didn't realise I could
-have edited those generated patches statically before using git
-send-email unfortunately.
->
->
->
->>
->> What I do is construct a git tree that contains all the patches I want
->> then generate a series like this:
->>
->> git format-patch HEAD~4 -o pgtable-20251113 --to 'Andrew Morton <akpm@linux-foundation.org>' --cc 'David Hildenbrand <david@kernel.org>' --cc 'Vishal Moola <vishal.moola@gmail.com>' --cc linux-mm@kvack.org --cover-letter
->>
->
-So, if I understand you correctly I basically should break the change
-into a small number (4 or 5?) of logical units and submit them? I
-think I can see how that would work and I will give it a go in due
-course.
->
->>
->> Then I scp them over to the machine which handles my email and use git
->> send-email on that machine to send the pgtable-20251113 directory full
->> of patches.
->>
->> The other thing that I'd advise you to be careful to do is make sure the
->> patch series is properly bisectable -- for example, you're adding the
->> Kconfig options before the Makefile and the Makefile before the files
->> that it would make.  I'd invert that order; add all the code, then the
->> Makefile, then the documentation.
->
->
-Thanks (and apologies if you get this twice as I forgot to turn off
-HTML email earlier)
+On Fri, 2026-04-10 at 10:31 -0700, Linus Torvalds wrote:
+> On Fri, 10 Apr 2026 at 09:27, Boqun Feng <boqun@kernel.org> wrote:
+> >=20
+> > Notice in rcu_read_unlock_special(), atomicity/preemption count is
+> > checked in two ways:
+>=20
+> Yeah, I didn't go that deep ... That code is inscrutable.
+>=20
+> Raising a softirq looks pretty strangein there, since there's
+> absolutely no reason to believe that the preemption-off region has
+> ended before the softirq is triggered. It makes sense for the "we're
+> in hardirq context", but it also does it for that (needs_exp &&
+> !irqs_were_disabled()) case
+>=20
+> So then it depends on the softirq checking it *again*. That all seems
+> a bit strange.
+>=20
+> But it looks like rcu_core_si() does do that, and then falls back to
+>=20
+>         if (rcu_preempt_need_deferred_qs())
+>                 set_need_resched_current();
+>=20
+> and it feels like maybe the rcu_read_unlock_special() should just have
+> done that itself instead of playing softirq games.
+>=20
+> Maybe it's some off optimization, but going through the softirq code
+> doesn't _feel_ like it's the right thing to do.
+>=20
+> I don't know this code well enough to judge.
+>=20
+> Let's wait to see if Al's patch actually makes any difference. It
+> *shouldn't* make any difference, and maybe it doesn't. No need to
+> start chasing RCU bugs that may not even be there.
+>=20
+> Jeff?
+>=20
+> > @Jeff, just want to confirm, this UAF can be reproduced without
+> > PREEMPT_RT=3Dy, right?
+>=20
+> I haven't seen Jeff's config, but some of the syzbot reports that
+> *may* be related have configs that look pretty normal and didn't have
+> PREEMPT_RT.
+>=20
+>=20
+
+I've not been able to reproduce the UAF at all.
+
+It was possible to reproduce the hang that we were seeing by injecting
+an mdelay() just after the cond_resched() in __dentry_kill(), but Al's
+other series seems to have fixed that.
+
+The UAF seems to be dependent on those hangs somehow, but we were never
+able to get one to fire from a reproducer attempt. They just
+occasionally pop up when these stalls occur.
+--=20
+Jeff Layton <jlayton@kernel.org>
