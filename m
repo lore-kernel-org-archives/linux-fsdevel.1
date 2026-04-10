@@ -1,73 +1,96 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DD2C3DDDC4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D18FD3DA5C6
 	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 15:19:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775834341; cv=none; b=OjoMqyyP4Ym7w/dudB45z9VXUPK13x1g8rdKfw8m+kGMA4g5XYFX/Z4nDM3DO+jxQjKG5dEcJPkqsUBE45eXbpkb1itEivfvTX/wORC+UjkHZKExn/PAp+Aa1cczSEi0a680QA93z20kdyaRm2+2t854m3e2J+U9eB6RsPvfTFA=
+	t=1775834342; cv=none; b=p3fe2LY1HDKOtuogURbP3x5usWHyq1cKffVJCzmv5cNT0J1CsChXuw+7JeKWU3RXakcqiOrCP0PkxQ/DRyTSmoz884GT2bfDghE3pgVM+4PEtSXIS9Ut9lZBwFZzCvjCpULpqPb3eyuwsgG3AM9lP3iFhstxBPljaJmXe4QjOjs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775834341; c=relaxed/simple;
-	bh=dL7vwgfPNwBYMIV8T9K96L/NzR1Vk762TZ5RQelz2ig=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=B7oZHzN48PywPgP9clC5uFi+Gvx3Tu+pel1R005vp3uCZbzkp7KuXQIStD9zxJF8mNNbcw3hK8g8hp7yoyeyZlpymLD1CStCIhhzSGre2yfvao5KPlTsrhRWv3/f8xiE0vmXZCYkD61R8e86O8/NDH0ISV9fM2WlOGhDIord7Aw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=Ad4m0N0u; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	s=arc-20240116; t=1775834342; c=relaxed/simple;
+	bh=lfJi2zn6bJAyatZ8pqBbK6mCHq9/IlN2H29hl/6rlDc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=j+DG3teoNUYbr3Sh0HjUKnZ3DkiAMQfChwMkr4cd9B7Ndtv4nm6FsLiVaxNoJTsZ0qlhgYFvnAHzMKhVV78GzPHisfA2OX/xANNb5CZ+IOAKvyw0QZSN4T22O1gXY+h7PNPogSLd3dHfzHFotl0lz6Nm0W1iBKh/bQXUBo/1dms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fW4+QaGz; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="Ad4m0N0u"
-Received: from trampoline.thunk.org (pool-173-48-116-90.bstnma.fios.verizon.net [173.48.116.90])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 63AFIoil015834
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 10 Apr 2026 11:18:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1775834332; bh=T3UD7vN4xZLfVzrYjrUiXSTKkNdy02+chYzncXZxnMU=;
-	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=Ad4m0N0uIU3G6rrxSL2ze1Yk/g1HlXEFuXYBbA3x2Vr/bdlqeDwdpYbwmVYHrT+J5
-	 93t6cAnWSxCmghS+779Pv9Qj7j7AtghGsWh+uW3wsQ1ICq9sPU7U+lPqFzS6L7eiwu
-	 7jcl+u/SMYkG+UEeX8YD4x+o6fYzXBVV9ub5RrrdEpGry3NaKBff2tNzf7yAWhl0XJ
-	 OaZpnFjoaqce5Zfd09tE+GX1AXgxdCNNC/FPAVG+BxEkBnUhc7Jdufcrj7KGy1aZje
-	 3uByqyV//HHIy8gt4RMFYj/fd/jepbUxxw2KsSrh9mlTbDsAFPJ5HDiue+UCMLyiAM
-	 kVQpm8TYEZc0A==
-Received: by trampoline.thunk.org (Postfix, from userid 15806)
-	id 061DE2E00DF; Fri, 10 Apr 2026 11:18:48 -0400 (EDT)
-From: "Theodore Ts'o" <tytso@mit.edu>
-To: Andreas Dilger <adilger.kernel@dilger.ca>, Jan Kara <jack@suse.cz>,
-        Harshad Shirwadkar <harshadshirwadkar@gmail.com>,
-        NeilBrown <neilb@ownmail.net>
-Cc: "Theodore Ts'o" <tytso@mit.edu>, linux-ext4@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] ext4: split __ext4_add_entry() out of ext4_add_entry()
-Date: Fri, 10 Apr 2026 11:18:38 -0400
-Message-ID: <177583430872.2758959.13958536214376230716.b4-ty@b4>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260320000838.3797494-2-neilb@ownmail.net>
-References: <20260320000838.3797494-2-neilb@ownmail.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fW4+QaGz"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-488c2690057so21359925e9.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 08:19:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775834339; x=1776439139; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=F7fcJpTq6cn1ESqOVAL6kg23cXEzmOx8T5HKoZ1W76s=;
+        b=fW4+QaGzrSZeu5YRC/vRXSvMBFrU3y0k95zMnivXVZjobiApeTJ6eiCDtQNRv52laU
+         rWf0OjalORDQ/pfQfnuxNCfDQdy8WXgicbNftxxEqI96UqNCdg/G2P6N6OXEiQgymLJp
+         OwGw0971EoVKHEOFUHMfJ9tDE+stTrWgS6CGBwYHiOLC5TcDP7yfkJF6cPxkZnI+2Bkg
+         Q19BHnGu92aTCW6tMoUojsdwJhIfxYKQ88opt9uKp6bzzEWG94IdG9yQyAh1aeEbJIky
+         VLWdz17rR4wXo3Rrwvf3n4Gbmq3z+RS3BsJgFCanfbGE7nbLu5Pe7XxJG29YM1nsIblj
+         712A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775834339; x=1776439139;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=F7fcJpTq6cn1ESqOVAL6kg23cXEzmOx8T5HKoZ1W76s=;
+        b=qQee75A763qoXD02tRNlvvzm4bivXEa2aHP8quhYFNCaXsblwShLGj/88sau1+ai+h
+         epwIjHbhM5G9dzaYqQSAHmG329RZnGe83UcA7BPE2WyEX/K/LxSOp/bXD94cyI7SEiD2
+         Xd0jSNM+1eNcFkAf/4Pgij3vHLv0EWoj7i9VXf76jr+LnIZ5HqT6PnIeIlZjTz6WGzMs
+         ZII3pEd24NF5J48Mum5j8LDdKNukWBf986qFC1x3UnYV36soyAMkD7AlGL3+KdXTy5U+
+         LebZ7klAd0UNiQTns200Z/dj/tb8PaJprajLWfEJn1rYE/bomRxn6MexjMzN/vnGWbkU
+         +xWw==
+X-Gm-Message-State: AOJu0Yxk0gVUi9J3qPPOz8O2rxeQNmrxOBtiSQaxONrhPordAbdnRgLu
+	qgTP/5Ucox5uDYenVKNqNBwIaPvO49DAt/7ta1ytzAGn5aC/92vQ7Rxn1wmuZA==
+X-Gm-Gg: AeBDiesInAZAY+T2d8HG0qkPHIX6V7RuRZJAO7H320eEM+HaJBz9rmJxbfY6K/uq5YX
+	V957xMPj6DW5NhcsKyOZQI6CjbKtyG9XCeJgfAXhS4HUWGicts5DgsGCfSSNHgknX2GmTl73fUr
+	oMVaXt0NasSyMlBHEiY4IAwXNZRytLwzs4eJM+lPoe57dQthTnHID2UwPhQPhM/NVw72qlysQ50
+	TeK7gHhU/E46F1BInkjJZqh2sxjvxEYJcncCJA6qao3POC1ZLNJRNwHzSFL4aRV/2VmJIy42q5G
+	87UhHnLUzhKvlEUPbM6HISpNlXSi5BOXm8PVF8LxwhhcCEJcgDatZCmJgHum7JPHV3h45QgTgfj
+	/Vty5ARv4ege43CG9ehduK8t695y0Rv0q8pj16T6lhgphypLjLaG7cI+O8Xt16lD10hAHszNSdz
+	v1F5w26YyVwToa9FlK71yKt5Bh220aJyVio1WXgU/2UrKYOvJx8ZzQ695/koAzWdEdpd1dNq0fP
+	HgPLGBIsME=
+X-Received: by 2002:a05:600c:5249:b0:488:c40b:c8bf with SMTP id 5b1f17b1804b1-488d680577dmr44220845e9.2.1775834338769;
+        Fri, 10 Apr 2026 08:18:58 -0700 (PDT)
+Received: from corblimey.Home ([2a02:c7c:37d6:c100:60ca:408d:517a:4a96])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-488d67ce3e4sm52262335e9.5.2026.04.10.08.18.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Apr 2026 08:18:57 -0700 (PDT)
+From: Adrian McMenamin <adrianmcmenamin@gmail.com>
+To: linux-fsdevel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Adrian McMenamin <adrianmcmenamin@gmail.com>
+Subject: [PATCH 01/10] Add support for VMUFAT filesystem (second resend)
+Date: Fri, 10 Apr 2026 16:18:40 +0100
+Message-ID: <20260410151839.309554-2-adrianmcmenamin@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
+Add vmufat as an option for documentation and create an empty vmufat.rst file (filled in patch 02/10)
 
-On Fri, 20 Mar 2026 11:03:16 +1100, NeilBrown wrote:
-> __ext4_add_entry() is not given a dentry - just inodes and name.
-> This will help the next patch which simplifies __ex4_link().
 
-Applied, thanks!
+Apologies for re-sending this (again) but git send-email won't take me to the editor with it for some reason
 
-[1/3] ext4: split __ext4_add_entry() out of ext4_add_entry()
-      commit: 2879374604b72bd43b346777fa05d3ac6dea9c45
-[2/3] ext4: add ext4_fc_eligible()
-      commit: 0f5f14f334c85efd80503489f8c7cba1dd64bd51
-[3/3] ext4: move dcache manipulation out of __ext4_link()
-      commit: 52b4fea162dd384792d0dec7f817e4ba5d8d4c9b
+Signed-off-by: Adrian McMenamin <adrianmcmenamin@gmail.com>
+---
 
-Best regards,
--- 
-Theodore Ts'o <tytso@mit.edu>
+diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
+index f4873197587d..893b585d17a9 100644
+--- a/Documentation/filesystems/index.rst
++++ b/Documentation/filesystems/index.rst
+@@ -120,5 +120,6 @@ Documentation for filesystem implementations.
+    udf
+    virtiofs
+    vfat
++   vmufat
+    xfs/index
+    zonefs
+diff --git a/Documentation/filesystems/vmufat.rst b/Documentation/filesystems/vmufat.rst
+new file mode 100644
+index 000000000000..2f7230e8e390
