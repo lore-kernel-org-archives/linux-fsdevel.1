@@ -1,105 +1,115 @@
-Received: from smtp05-ext.udag.de (smtp05-ext.udag.de [62.146.106.75])
+Received: from out30-130.freemail.mail.aliyun.com (out30-130.freemail.mail.aliyun.com [115.124.30.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7D8233F58B;
-	Fri, 10 Apr 2026 07:26:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.146.106.75
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07E4F2FE042;
+	Fri, 10 Apr 2026 07:29:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775806015; cv=none; b=VSfzRlF3RfnWBajh5UzuIwaT4utaA7t5/0B6uHELVED/SGTOwNs9kiLXA0w3QuDW3/ER3W5yswyfLOCwqUfqS4L6hrnXxbkcRCUd1qHXP0iAoq442SzWhnYNjCD2Lt+Ed5DgnRNjN9vbQL0kP5LBh48GDu6n3+UsPoL8DHN7ZPk=
+	t=1775806188; cv=none; b=dvj/1AaBfrvu99NQMATMUMBGaEMvGxItDZy4BuqoQBuhjhofnRse+RtiKVWeQaqydfD5oGqbVD4SK2fsBeTiMoO5A08ddbEQy845JwCjQMM1ITM+BekhZJU9zhBkEHjeHyjLFQKLHYjnomEVOhcHlO+TKpKwxxOun+zRCP7QdSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775806015; c=relaxed/simple;
-	bh=2Dtxv5HRuf3kRhF7oX3tyEpHrEZRTULYNcLMcJ/AUu4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ezILzWDensxhK57wWap/0C4x3BOm7PG0UaA7D6pRYfKS0g9tIjTUhUGgXdyYuV8LCuVEc7GPTALRINQFPAWdffdIYa7nsqlT0Phh5/EwsRVLDlyZpjuEhE8/8FFLkcG5Jb8oLBSrRg1sRzbDuY8tQM5CkPVxUDkDXa9rQPzucaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de; spf=pass smtp.mailfrom=birthelmer.de; arc=none smtp.client-ip=62.146.106.75
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birthelmer.de
-Received: from localhost (113-140-067-156.ip-addr.inexio.net [156.67.140.113])
-	by smtp05-ext.udag.de (Postfix) with ESMTPA id E5283E04F1;
-	Fri, 10 Apr 2026 09:21:17 +0200 (CEST)
-Authentication-Results: smtp05-ext.udag.de;
-	auth=pass smtp.auth=birthelmercom-0001 smtp.mailfrom=horst@birthelmer.de
-Date: Fri, 10 Apr 2026 09:21:17 +0200
-From: Horst Birthelmer <horst@birthelmer.de>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Bernd Schubert <bernd@bsbernd.com>, Bernd Schubert <bschubert@ddn.com>, 
-	Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org, Jian Huang Li <ali@ddn.com>, 
-	stable@vger.kernel.org, Horst Birthelmer <hbirthelmer@ddn.com>
-Subject: Re: Re: [PATCH 0/2] fuse: Fix possible memleak at startup with
- immediate teardown
-Message-ID: <adiiTGjP1tqZfIrI@fedora>
-References: <20251021-io-uring-fixes-cancel-mem-leak-v1-0-26b78b2c973c@ddn.com>
- <4b5a8040-b62c-4d75-a474-70d0b4759461@bsbernd.com>
- <CAJnrk1ZohxcDERszbii8ZM0g1ZzTwk6+wEqRWpCoSwBXzgavkg@mail.gmail.com>
+	s=arc-20240116; t=1775806188; c=relaxed/simple;
+	bh=90quZfFp/zNbAfQjmjjkE6kJ1aAxPV/sS/yGrJcPP/I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=glOr46KkARCli6m7ZrMSPYF8b/eEp8z8+K0Bmcq8T54droD18zdLXl1PRh9Jfn+c5SHO4BnVSlvhn9ruWUhckzZ2bop3Yrq8X2rRlNjogwPMmLh8Fu7mGMCTAsyy0llgY1s1MC1tfqfoILbUEBCDF9AsGrChZlFNbDbgFnY/J+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=F66okIR6; arc=none smtp.client-ip=115.124.30.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="F66okIR6"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1775806181; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=ZiYDJH6G5nEZPKa3wnpYh0WEnqoDw7vS63MMN4mBIRQ=;
+	b=F66okIR6zit3L6hacXggTwY1zdderGkDs8Sd3IF12yXb8QycUGcEzMjK0RbsloPI3gc9qFX/7OfV+c92iIkIiaXS/ZYmVb8UBVZSjdXSEqljaIDvkWIUPvLMdTqUM2AHRpv0xYzeTyAAj985edT8hnY3TRc4kDqgr88ghbnHHtA=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R201e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam011083073210;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=10;SR=0;TI=SMTPD_---0X0kURBV_1775806179;
+Received: from 30.221.132.105(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X0kURBV_1775806179 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Fri, 10 Apr 2026 15:29:40 +0800
+Message-ID: <6bfe805e-be0d-4bd5-ac45-1b58fc55839f@linux.alibaba.com>
+Date: Fri, 10 Apr 2026 15:29:39 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJnrk1ZohxcDERszbii8ZM0g1ZzTwk6+wEqRWpCoSwBXzgavkg@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] bpf: add bpf_real_inode() kfunc
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Christian Brauner <brauner@kernel.org>,
+ "Darrick J. Wong" <djwong@kernel.org>, Amir Goldstein <amir73il@gmail.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+ Daniel Borkmann <daniel@iogearbox.net>, Alexei Starovoitov <ast@kernel.org>,
+ linux-fsdevel@vger.kernel.org, bpf@vger.kernel.org
+References: <20260327060518.GP6202@frogsfrogsfrogs>
+ <20260407-unmengen-wahltag-474557ec0c58@brauner>
+ <adUalnAyY9mm1LUr@infradead.org>
+ <20260409-vorsichtig-umstand-d417555377e4@brauner>
+ <ade2nskzkdcsvF55@infradead.org>
+ <d889ed2b-ca34-4e95-ae5b-1d66636b515d@linux.alibaba.com>
+ <adfPlQrImtuyhMIO@infradead.org>
+ <7a605318-9f09-436f-806e-d4a3bd31b97d@linux.alibaba.com>
+ <adiVdIhcgfiIoXja@infradead.org>
+ <b3dfc06b-9f9b-4337-be96-a277061517d0@linux.alibaba.com>
+ <adihXuFuuS5uoJ31@infradead.org>
+From: Gao Xiang <hsiangkao@linux.alibaba.com>
+In-Reply-To: <adihXuFuuS5uoJ31@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Apr 09, 2026 at 04:09:53PM -0700, Joanne Koong wrote:
-> On Thu, Apr 9, 2026 at 4:02 AM Bernd Schubert <bernd@bsbernd.com> wrote:
-> >
-> >
-> >
-> > On 10/21/25 23:33, Bernd Schubert wrote:
-> > > Do not merge yet, the current series has not been tested yet.
-> >
-> > I'm glad that that I was hesitating to apply it, the DDN branch had it
-> > for ages and this patch actually introduced a possible fc->num_waiting
-> > issue, because fc->uring->queue_refs might go down to 0 though
-> > fuse_uring_cancel() and then fuse_uring_abort() would never stop and
-> > flush the queues without another addition.
-> >
+
+
+On 2026/4/10 15:06, Christoph Hellwig wrote:
+> On Fri, Apr 10, 2026 at 02:46:00PM +0800, Gao Xiang wrote:
+>>> It needs to be applied in-memory for every changed, and persisted to
+>>> disk on every fsync or equivalent operation.
+>>
+>> Yes, yet it doesn't change my evaluation: and you need
+>> to consider background writebacks too (since writeback
+>> will update data and then impact the whole hash tree).
+>>
+>> Currently data writeback can be applied for each block
+>> independently, but if you consider maintaining a hash
+>> tree (rather than simple checksums), I guess you have
+>> to keep strict atomicity between data writeback,
+>> metadata and hash-tree writeback, otherwise the hashes
+>> and partial writeback data will be mismatched.
 > 
-> Hi Bernd and Jian,
+> You write the leaf checksum with each block.  The rest of the chain
+> leading up to the root is kept in metadata tied to the inode and needs
+> to be written atomically with the transaction commit that updates the
+> on-disk metadata to point to the newly written block.
 > 
-> For some reason the "[PATCH 2/2] fs/fuse: fix potential memory leak
-> from fuse_uring_cancel" email was never delivered to my inbox, so I am
-> just going to write my reply to that patch here instead, hope that's
-> ok.
+>> Yes, the OOB approach for leaf hashes will help to
+>> reduce write amplification, but my current observation
+>> is that it won't have any help to read amplification,
+>> especially for small random read; overall it depends
+>> on the target workload.
 > 
-> Just to summarize, the race is that during unmount, fuse_abort() ->
-> fuse_uring_abort() -> ... -> fuse_uring_teardown_entries() -> ... ->
-> fuse_uring_entry_teardown() gets run but there may still be sqes that
-> are being registered, which results in new ents that are created (and
-> leaked) after the teardown logic has finished and the queues are
-> stopped/dead. The async teardown work (fuse_uring_async_stop_queues())
-> never gets scheduled because at the time of teardown, queue->refs is 0
-> as those sqes have not fully created the ents and grabbed refs yet.
-> fuse_uring_destruct() runs during unmount, but this doesn't clean up
-> the created ents because those registered ents got put on the
-> ent_in_userspace list which fuse_uring_destruct() doesn't go through
-> to free, resulting in those ents being leaked.
-> 
-> The root cause of the race is that ents are being registered even when
-> the queue is already stopped/dead. I think if we at registration time
-> check the queue state before calling fuse_uring_prepare_cancel(), we
-> eliminate the race altogether. If we see that the abort path has
-> already triggered (eg queue->stopped == true), we manually free the
-> ent and return an error instead of adding it to a list, eg
+> For HDD is roughly halves the number of seeks for random reads, and
+> at least significantly reduces it significantly but quite a bit
+> less.  For SSD it reduces the IOPS in a similar way, but for that
 
-In my case (Bernd mentioned that I was investigating a hang during umount)
-there were a lot of requests created during teardown, so what happened
-was very similar, but for exact the opposite reason.
-In fuse_uring_abort() queue_refs was already 0 due to an optimization
-where the ring teardown ran before fuse_abort_conn(). 
-Thus the queue->stopped was never set.
+Yes, seeks can be reduced and if all related leaf block
+hashes can be loaded in a single request (even some main
+data blocks may not needed) it will help more; in
+practice, a POC forming out to measure the numbers between
+hashing in individual blocks or extended area may help to
+get more detailed ideas.
 
-How do we make sure that fuse_uring_teardown_entries() has not been
-called by fuse_uring_async_stop_queues()?
+If it's useful, I think dm-verity can work out in this way
+too as a bogus as long as the device supports it (and
+converting between these two metadata formats should be
+trivial.)
 
-Maybe I'm missing something?
+> you need to max out the IOPS, which for most workloads you won't
+> on anything currently (and probably in the future) using erofs.
 
-My fix was to remove the check for queue_refs > 0 in fuse_uring_abort()
-and make sure that even if the teardown was complete nothing bad happens
-in fuse_uring_abort_end_requests() and fuse_uring_stop_queues().
+The problem is not always maximum IOPS (I also suspect
+there is such real long-term max-IOPS workload too), but
+small random burst I/Os with low latencies is what we
+usually care much for typical use cases.
 
 Thanks,
-Horst
+Gao Xiang
 
