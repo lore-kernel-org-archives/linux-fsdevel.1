@@ -1,157 +1,90 @@
-Received: from smtp04-ext3.udag.de (smtp04-ext3.udag.de [62.146.106.41])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67B52336EE1;
-	Fri, 10 Apr 2026 19:01:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.146.106.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE1EB2DCBFA
+	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 19:15:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775847715; cv=none; b=nPieDhjMKl1hqU7cojehfa1g6dn1tOEQWN/qQPRGr5ItKaiOcXu1QCgQWruqwy96n6ya6dRy+zU9l38oISKYDs9BCOZpUmiRcJn55AwOibkBsVv3T+Cum7KiuK15sZGdWMTfzndOp3w+Jf+dwRPkJizkI1+1xQy57+2DGhjwYoA=
+	t=1775848524; cv=none; b=MsaT5FfKTRxZSUZh6zOslBD6k9LB2sCIJimmbkqjhf65WRfoAiWAewpBo/WZW9303oKEjc52spf2S+ROJES9sSN8tBmskU6QiU61LQJffwkfsTtIDOJFVYJezuSvSFQCNHmjYNQTXhTvOfGQx0rAhn1NxJu+UFI161S/8lltY8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775847715; c=relaxed/simple;
-	bh=uF/tNSKxFJCiDWNBVZ0HgIRhwm7YuanhgVLGVWK0EGk=;
+	s=arc-20240116; t=1775848524; c=relaxed/simple;
+	bh=yiPiRsKpKAtXCsGv5HQO88lRlFpzNsl0C7LU+X5qI+0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HXIqUdfXigvEhnvZfG5vKDjlx0Z2MKkDX8nCLH07njmYlSvbtCZebPFEs0FN3FPQzvjMosVZyiNNy6QkOtfl/cjOTLEgG4Mg4gPtdX3BjiONUuvlyRixsyZTYTFeMEh3HuJBHAQAWTEumavMDhCBPaOn4JkwouFFA9/nn88oTDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de; spf=pass smtp.mailfrom=birthelmer.de; arc=none smtp.client-ip=62.146.106.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birthelmer.de
-Received: from localhost (113-140-067-156.ip-addr.inexio.net [156.67.140.113])
-	by smtp04-ext3.udag.de (Postfix) with ESMTPA id 53E07E0731;
-	Fri, 10 Apr 2026 20:55:30 +0200 (CEST)
-Authentication-Results: smtp04-ext3.udag.de;
-	auth=pass smtp.auth=birthelmercom-0001 smtp.mailfrom=horst@birthelmer.de
-Date: Fri, 10 Apr 2026 20:55:29 +0200
-From: Horst Birthelmer <horst@birthelmer.de>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Bernd Schubert <bernd@bsbernd.com>, Bernd Schubert <bschubert@ddn.com>, 
-	Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org, Jian Huang Li <ali@ddn.com>, 
-	stable@vger.kernel.org, Horst Birthelmer <hbirthelmer@ddn.com>
-Subject: Re: Re: Re: [PATCH 0/2] fuse: Fix possible memleak at startup with
- immediate teardown
-Message-ID: <adlE6dSPAlMH-ek-@fedora>
-References: <20251021-io-uring-fixes-cancel-mem-leak-v1-0-26b78b2c973c@ddn.com>
- <4b5a8040-b62c-4d75-a474-70d0b4759461@bsbernd.com>
- <CAJnrk1ZohxcDERszbii8ZM0g1ZzTwk6+wEqRWpCoSwBXzgavkg@mail.gmail.com>
- <adiiTGjP1tqZfIrI@fedora>
- <CAJnrk1Y37_=OtwZHK_-AEN9Fysoi8VapeiQmv-xxvWjZJZn8+Q@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=AUalMqpkxXYqe/nOfqKADD4oae8afbo/1J+sTvls52u92APkvr01RxZhMn9a1MnqQ9aXw+7gHckib8y0h0csPv1cFb1bbCVUyhiJf+52EDof91SInprUrQolSyRvaVCYYwnXV2IS7BQEjm49h7yG0EbDejdqlFtnfsqg+dbUCGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=G7hi7NMC; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="G7hi7NMC"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=oCb4Wtl5Dh1CKnMI6rlk3e926mt1eLjRcM9RrzlLC7o=; b=G7hi7NMCavOawpexUL6TELGOQw
+	sMgoQI3RyOKo7vhLhNoTKz2gqmGcaB9szmu94d7nDiEwXjSsatbBMaCytOGo7qJ6U0QKNoNP5/xb3
+	mouSQTMtfE9FHp/3bmMB5odqUyhi/YkeEZtxD5Gjj49E4VUMGyLqx6W1pR+mao8NNwYL33xnlStej
+	YGEFGvhZZO0+TU4fjtrX0UO42aZTNEDj/bFw6Nbd3SU2Bvh0VphcnHjBTMuJ7wIO11KucmVYv/bVE
+	lad0jGV8ixFe9XXGQ5v+dDkpxtzY9kGqCCw4/o4gYoy8M8ccJzPHeUlnnO0NB8f7xAP7qInh7z7Sx
+	CmEG6Ksg==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wBHNj-00000007T4Y-16dc;
+	Fri, 10 Apr 2026 19:19:07 +0000
+Date: Fri, 10 Apr 2026 20:19:07 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+	Boqun Feng <boqun@kernel.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Uladzislau Rezki <urezki@gmail.com>, linux-fsdevel@vger.kernel.org,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Nikolay Borisov <nik.borisov@suse.com>,
+	Max Kellermann <max.kellermann@ionos.com>,
+	Eric Sandeen <sandeen@redhat.com>,
+	Paulo Alcantara <pc@manguebit.org>
+Subject: Re: [RFC][PATCH] make sure that lock_for_kill() callers drop the
+ locks in safe order
+Message-ID: <20260410191907.GV3836593@ZenIV>
+References: <20260404080751.2526990-1-viro@zeniv.linux.org.uk>
+ <53b4795292d1df2fe1569fc724325ab52fcab322.camel@kernel.org>
+ <20260409190213.GQ3836593@ZenIV>
+ <41cfd0f95b7fde411c0d59463dce979be89cb8ef.camel@kernel.org>
+ <20260409215733.GS3836593@ZenIV>
+ <20260410084839.GA1310153@ZenIV>
+ <CAHk-=wjRgHLvSnEY3P45hSQ0ycKxdz-xqnccAMPuGRrwsvWdig@mail.gmail.com>
+ <adkk8FiLHnVx1Bup@tardis.local>
+ <CAHk-=wjuOm+AGHtjF15Zx8cxJwYwbzJgi28EQ6KW=Ze-4YjN+g@mail.gmail.com>
+ <4305138de599923591df7403aefc4d663f50324a.camel@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJnrk1Y37_=OtwZHK_-AEN9Fysoi8VapeiQmv-xxvWjZJZn8+Q@mail.gmail.com>
+In-Reply-To: <4305138de599923591df7403aefc4d663f50324a.camel@kernel.org>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-On Fri, Apr 10, 2026 at 10:09:36AM -0700, Joanne Koong wrote:
-> On Fri, Apr 10, 2026 at 12:21 AM Horst Birthelmer <horst@birthelmer.de> wrote:
-> >
-> > On Thu, Apr 09, 2026 at 04:09:53PM -0700, Joanne Koong wrote:
-> > > On Thu, Apr 9, 2026 at 4:02 AM Bernd Schubert <bernd@bsbernd.com> wrote:
-> > > >
-> > > >
-> > > >
-> > > > On 10/21/25 23:33, Bernd Schubert wrote:
-> > > > > Do not merge yet, the current series has not been tested yet.
-> > > >
-> > > > I'm glad that that I was hesitating to apply it, the DDN branch had it
-> > > > for ages and this patch actually introduced a possible fc->num_waiting
-> > > > issue, because fc->uring->queue_refs might go down to 0 though
-> > > > fuse_uring_cancel() and then fuse_uring_abort() would never stop and
-> > > > flush the queues without another addition.
-> > > >
-> > >
-> > > Hi Bernd and Jian,
-> > >
-> > > For some reason the "[PATCH 2/2] fs/fuse: fix potential memory leak
-> > > from fuse_uring_cancel" email was never delivered to my inbox, so I am
-> > > just going to write my reply to that patch here instead, hope that's
-> > > ok.
-> > >
-> > > Just to summarize, the race is that during unmount, fuse_abort() ->
-> > > fuse_uring_abort() -> ... -> fuse_uring_teardown_entries() -> ... ->
-> > > fuse_uring_entry_teardown() gets run but there may still be sqes that
-> > > are being registered, which results in new ents that are created (and
-> > > leaked) after the teardown logic has finished and the queues are
-> > > stopped/dead. The async teardown work (fuse_uring_async_stop_queues())
-> > > never gets scheduled because at the time of teardown, queue->refs is 0
-> > > as those sqes have not fully created the ents and grabbed refs yet.
-> > > fuse_uring_destruct() runs during unmount, but this doesn't clean up
-> > > the created ents because those registered ents got put on the
-> > > ent_in_userspace list which fuse_uring_destruct() doesn't go through
-> > > to free, resulting in those ents being leaked.
-> > >
-> > > The root cause of the race is that ents are being registered even when
-> > > the queue is already stopped/dead. I think if we at registration time
-> > > check the queue state before calling fuse_uring_prepare_cancel(), we
-> > > eliminate the race altogether. If we see that the abort path has
-> > > already triggered (eg queue->stopped == true), we manually free the
-> > > ent and return an error instead of adding it to a list, eg
-> >
-> > In my case (Bernd mentioned that I was investigating a hang during umount)
-> > there were a lot of requests created during teardown, so what happened
-> > was very similar, but for exact the opposite reason.
-> > In fuse_uring_abort() queue_refs was already 0 due to an optimization
-> > where the ring teardown ran before fuse_abort_conn().
+On Fri, Apr 10, 2026 at 02:21:39PM -0400, Jeff Layton wrote:
+
+> I've not been able to reproduce the UAF at all.
 > 
-> Hi Horst,
-> 
-> Just to clarify, is this with running locally patched changes on your
-> ddn kernel? In the upstream code I'm seeing that teardown is only
-> called by the abort path, eg fuse_abort_conn() -> fuse_uring_abort()
-> -> fuse_uring_stop_queues() -> teardown logic, so I'm not seeing how
-> it's possible for teardown to run before fuse_abort_conn(). Is there
-> something I'm missing?
+> It was possible to reproduce the hang that we were seeing by injecting
+> an mdelay() just after the cond_resched() in __dentry_kill(), but Al's
+> other series seems to have fixed that.
 
-Yes and no ... ;-)
-The original patch this whole discussion was started by had a call to
-the teardown of the entries and I had that applied.
-But even without that the problem can still occur that queue_refs is 0
-by the time fuse_abort_conn() is called.
+Elimination of busy-wait is likely to hide whatever's going on, so it
+shouldn't be there when hunting for reproducer.
 
-> 
-> > Thus the queue->stopped was never set.
-> >
-> > How do we make sure that fuse_uring_teardown_entries() has not been
-> > called by fuse_uring_async_stop_queues()?
-> 
-> If i'm understanding your question correctly, your question is what
-> ensures the teardown logic in fuse_uring_async_stop_queues() hasn't
-> already executed by the time we drop the queue lock after checking if
-> the queue has been stopped? In fuse_uring_async_stop_queues(), the
-> async teardown work gets continuously rescheduled so long as
-> queue_refs > 0. The ent holds a reference on the queue, so when the
-> queue lock is dropped that async teardown work will be continuously
-> running until it cleans up that (and any other) ents.
-> 
+> The UAF seems to be dependent on those hangs somehow, but we were never
+> able to get one to fire from a reproducer attempt. They just
+> occasionally pop up when these stalls occur.
 
-You understand correctly.
-If the fuse_async_stop_queues() runs there is still a window where
-we have queue_refs == 0. If in that window fuse_abort_conn() runs
-we never actually stop the queues and we can accept requests which
-will never be processed.
-
-I have never seen this happen without the patch mentioned above,
-but with that 'optimization' it happens regularly when you are able to
-kill the fuse server and the application using the file system more or
-less at the same time e.g. by an OOM event, when the kernel tries to
-free resources.
-
-To me this looks like nothing will stop this from happening, though,
-but maybe I'm just not familiar enough with the uring code ...
-
-> >
-> > Maybe I'm missing something?
-> >
-> > My fix was to remove the check for queue_refs > 0 in fuse_uring_abort()
-> > and make sure that even if the teardown was complete nothing bad happens
-> > in fuse_uring_abort_end_requests() and fuse_uring_stop_queues().
-> 
-> I'll look more at this path today.
-> 
-> Thanks,
-> Joanne
-
-Thanks,
-Horst
+Not even with mdelay() stuck in there?  FWIW, another UAF report in the
+same general area is parisc buildd running into that when building
+a specific package (webkit2gtk); Debian kernels 6.16..6.19 (at least),
+no idea which config it is...
