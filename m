@@ -1,140 +1,159 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FABB3876A9
-	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 23:26:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775863564; cv=pass; b=g5WroL8hJkEvPSu6mZENpaeLta8nkSx/5e6ioVlzV5cD/W1HSLoLeSf/mQ7OtdgwApJz2SeLgtVxHecqmkVVx4DSOO+l+/BKulCBRAQcgXmYNMTlm2w+ZZKPiCNTURJL5H9INRVeF0j6Rxgp1jwpLyieBusUCmaAECDUtRK2184=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775863564; c=relaxed/simple;
-	bh=Ctedkfm08XoSSUXxENdCsLe9XNAH9ADnJHMTWYIWX+Y=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ufVOfVWNhHzT9MEMjU78vN2Nj4wAREiVgN3fGx5E6nkbZu6kYI8TrB1oR61VqkCp+5GGXn2XGivzfSD0D9mJ059O3pbDtPyzZlG+33Pg6tGG4LnNf/TTLrV0nGLfIwRKU+uqMgFLwux7cIENSkzKXbvaEHumn6daSq9K6nPbXP4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=djvp6uSM; arc=pass smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D10626C39E
+	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 23:30:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.175
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775863837; cv=none; b=WFZZmwyZqjY/RhZNRdpLn7GvnBdFslBT3Jt3CrM/Z9mnhvwFVkA7UNts1fjDqM7bOj6eiu3nL+0fgBTtnV2Pvhm03oIp3idZJ0TMY7gh7GeT4FjuBhbgOai1GpoYd5I1RYKZBRixQjO4MKxjPiHqzvLsvC+06ms0OhvESLfW9CA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775863837; c=relaxed/simple;
+	bh=dcDmvzADvLAa9s73l6GbiE8iEYUbIBGgrJgrTQzXJgg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Mrr/tHp8sVvhcx/LlV110RWOUXAtuFUnbedxbNuC6QPt0EUozGW4aa6n4opfPvngxGmtikt2kLJPJiQu+i1xzlqO30AA7M/9jt2hdNEScn7/6aEF5Z1VOChHzydbGOl6wSmbN3xnYE18TOaFhw5S1S0sZ+d7d3EWktrIXkPusAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wbinvd.org; spf=pass smtp.mailfrom=wbinvd.org; dkim=pass (2048-bit key) header.d=wbinvd.org header.i=@wbinvd.org header.b=OW4WwDrG; arc=none smtp.client-ip=74.125.82.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wbinvd.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wbinvd.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="djvp6uSM"
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-59de8155501so2873868e87.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 16:26:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775863562; cv=none;
-        d=google.com; s=arc-20240605;
-        b=eUqtMkV68rMJsvBcVMJar/9wB2lgDMJH30HqjvBPLzwKc9jUciAQinBb1dDeEzzFBb
-         kJjfATMCAsZBQuoRXK3TBl/om2b8A9PgmUt/cx+RkPF0FYp6vB80soTUYRKEpr7tBz6v
-         OK84eMp6G4/t4snbZUF8ML9oWndNkYP1TV2O3AGnBshYhOSi3oYvMVwy46i+a02tbvoK
-         Hj65RJ6uaQgriI25/vhNdD+qKm1yH1dyfwjJ7LMIyJpVlrO8bGsUf0wHdeNjtctzj4rs
-         5a14pBvx6Ps5q7dhvnxVAJXGgY/GR2ezfBtULPBhr5/vj0S3zBRJOIYJnhMYsQapBQFo
-         ZD2g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=URHDsYQxbWckRjRtpI0pZvLDTeFqTvzZhMylWv9xs6o=;
-        fh=8wfKxlQeDvsKVE059mdYgjf/0o910p1FWkaNc/mr8bY=;
-        b=E5++dIkm02s1cj2gk8gShCy2iKChsBchqSzIVDWJXH7yP1AZbUUWC/MXwOFgc+xQRd
-         RCl+8/AxFPsEVswY+nP4B+9METT6lAqTRyp6dU6MplKe1JI2/QmoBlENBLqfwjpvID9u
-         PWDL7YsQrX/axPfjZ2QqaDD7DPKa1O85hZkNbMWLbuAtTgq1Bzc8JfGUmrMgtMQ2VUfs
-         QG5MNC+Wk9dpGuYTMs150IyPNp2Y1LwEcg+MgCp14Jn8mIx/y6RsLsrOJm6Rxchjo5dA
-         SYz0Tg8faEJtIxCyWjpJkGzc2Y34InwCuMMP5uxwI3p2MSk+gd6+A9ea7Rm6ft3bnN1c
-         c6pA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=wbinvd.org header.i=@wbinvd.org header.b="OW4WwDrG"
+Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-2cf1646bd11so4633773eec.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 16:30:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775863562; x=1776468362; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=URHDsYQxbWckRjRtpI0pZvLDTeFqTvzZhMylWv9xs6o=;
-        b=djvp6uSMn1jDY+NjDFzdacnXB7uSMsLn91qrBb1ZNnO+qeR6ClcgrDoglgqsBgSZ29
-         BQt48nFfkPy/ghYxJBuQti+82Ux6JMbqZymTKYiPCuwZ7jTMEYkJT7Mba2lNJDn/Y8Vy
-         SQuw8jFzYXFfmLiB+JNtKLZPeCrMqYbaQSDjB7KA/aPoR9cTOySbeeWI1p0dTvSK6wW1
-         r03p9oEHpv84FNwqLA4waMJwSXAP0sYkPipAaF1LCo0p9hHoIpg06lEUkA+qA7NzlFab
-         tmXUvMU6tDIqziDnhpMDyuJzA4SRdpkzavxotMgFoB7V77/IEBBMxXtQEM3+/F0RO5aW
-         kQSA==
+        d=wbinvd.org; s=wbinvd; t=1775863835; x=1776468635; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=DHttyiBQABFZFJ9QRm5pPYMSzKpe9Fu10AMSmNwuwNU=;
+        b=OW4WwDrGtY6LAy57yFyn9ICMWKSc19ZwVgPwfFvaXrmR+dLBsj4g7wuT0vpa0V0guW
+         5h3O6IY4IxKrunsN2fXO8smW/qoTUocBm/XOF2DbhyFFEGEa9JeBKRx5cMa2lufl6SM1
+         Dr8myMLEZyuhIlWLwN3xmase5zDnUorccUla/bT396hH1ZmaAQNA8ah5RfWmEClx2Tpp
+         LwBEfbo+288pKl5vyT8hpFS1MsQDOevQaM+MLnCF6tbNwIMCAs/vPcAFH/I0aObf1BFQ
+         qYALrqWKCIQ/LX+jAabY2Gzgow2SyiAhSGI5uhsNkMSbt4uD9IUaNblBUDMvKYYiR8sl
+         Gfrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775863562; x=1776468362;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=URHDsYQxbWckRjRtpI0pZvLDTeFqTvzZhMylWv9xs6o=;
-        b=CiD3PbCzqgENzl2a/1yLoPvjMb6qFMJ8RhQb5oe7Q3nOoFK1M49N4JCKSf68yI66X6
-         2Tv2c/+o2v1KTF5IqwkAbsLDdGzttIQNx/WzBuwrjCVJbBUUNJp4cbvf8RsmPVz96U+U
-         S9+bLn93MBhHdAqjrXQyPfmLB9PDLpX8S6Bil52hxWG71IPUBHdmG4Xt0634lCnUomS9
-         1GLwNEIlyb0ShjCz5Nhr8pq+F9FyBm7Igkp+DwHoePGTL43WCTDvJFhUvWBn14AYHGqF
-         kQuotiOGs2ypF6HDKqWhgHbbI9WkqvWH146DkML5R0ApoEM2CMnQGZg7C4sjfG1titir
-         FmNg==
-X-Forwarded-Encrypted: i=1; AJvYcCXrEM+mtzGRVNaLaJymZLdOGif1QTXubG67wzJAlOSJy3VGNh9nyZjZ3kECMeAILllYqZOkBrfLg4jNHsw1@vger.kernel.org
-X-Gm-Message-State: AOJu0YxW0BKwoHc5K4yM3osI2leTPdkqBaQOCThibI6OvYwK3CbAqX8f
-	tBAnGmahHSFKfKcYARuCUxmjcZ/DdXd3uBX3K/bDIMzxD3aPlIeZwmaMew9GSuR5aZEObNP51K2
-	atNc+J2earAMntmX3iGr/2YLUatZ5aeQ=
-X-Gm-Gg: AeBDietezvQz1Lq+vDs7RT7Fpl8cmrE+RazllDXewcmlfiJP9p/6lVd5FlCfuJUBhcJ
-	IwPb22fb0zTzox5gn0idJQ4Gjwwq1hBe/QiZJ76js+9ZiFlI6Te8A11czXDIsnL+FUuff5s2Mu7
-	GY38DrIYSzULDxVQcZrGFfguIbrcXecC62WZco6eFmaMEp8kPnT1Ugr4AkRXZGTkVJnnJEBevVl
-	F1XVMHfeT4sy3CyNuGRt6kziHIsDIMPoE9xtnISkwTTY5N7jrSXisn+7SGVGiAGK8tf1dVu7K+2
-	lks5c7z28MmUKt8ILRG8
-X-Received: by 2002:a05:6512:3189:b0:5a3:e016:979c with SMTP id
- 2adb3069b0e04-5a3efe994c1mr1626268e87.36.1775863561443; Fri, 10 Apr 2026
- 16:26:01 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1775863835; x=1776468635;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DHttyiBQABFZFJ9QRm5pPYMSzKpe9Fu10AMSmNwuwNU=;
+        b=ZUc/6ws15FdIlfT69w3KuzPphngrLC3P367vCj98hkmvOaEsmt5VyKzm2Xoi04Ducx
+         0vP/rn3E4tx9IFX2nTReeZ1+Wnuv2BvcLg67kLJKOlS/2vx7BOt5vb6Zep0sHFotRTPD
+         Jn+CG9QsqQddfMveM0vkOiLskFUpjDBHhIIc1NXra9dAMAHjiZaIdclonck2+SmddH/P
+         2EW74i75FQMm/z10/qhN7sjMYglx/71Kq/voar5YjYT/du9kugbWp54wb+SCZ8UxyO6U
+         hCp36EocSK74FCKmUMo/4aEE/my88mjg6phL9Bf0X51JWc06mtBlfymkpcq4ewpyk30J
+         HIHw==
+X-Forwarded-Encrypted: i=1; AJvYcCVprmyuvWsK7uX6YQ19aDFwEUw77f6qybS6+DI20qn0SvyJ3oE8oGK+qRcguHF7BY12iqr/fiFh+jFuxwbp@vger.kernel.org
+X-Gm-Message-State: AOJu0YwhjUURLrGQcqCChmhP2VFTyEy6mOlUOjUEfxnbH+mBXcoh7TOk
+	xSEKNtAyVN5ToxHCjiVnAjfmZxZep0nnbZnpKt5wMyPcHDTv8x7UK9+ryNcxgnEfJqU=
+X-Gm-Gg: AeBDietMJDg1voU9ir+BXj3dFUbKFotoAA92acD0sqvxrMrvtwn2xMWnmIsM2r5WmWE
+	hQmR/bGp1juK2jWZGOMHcKJOdnjl5ytSr0e2flBfgX8o4hORD/mWz988g76VNPrxW9SSBrsBJTr
+	zqsr8QZC4hcK5yxLq6uG6ze48zWajlJk5/rcyUp0gYQQSvr2HYyEuJH9kzmKK7pkI7gKopLzV/N
+	FlRO24FIOb4STevEmGnPKsPIUwrdaKcyBe5KZCYXKAkZxPSUo3Ir9LcXirJLSoo7wimMEiaA3Fu
+	p1J52dd6sUp53r8lbYmK7feXb76xTJuTo+C0EctUzVcI1Ec62OTep7LeQi9C2oez5TlKfv5JZmP
+	wsyDB0grtizlgh3pgjqBtq7U09zJVUeqm52XNLqSR2gdfPZO+v3ai21gERlTplpUkY3FmCH/KQa
+	hyYkR55FQg+HWqUEBVtC8Z4AQqw9/ZhDsXwj0=
+X-Received: by 2002:a05:693c:2a03:b0:2d6:3ff4:5dbf with SMTP id 5a478bee46e88-2d63ff46040mr1554512eec.6.1775863835349;
+        Fri, 10 Apr 2026 16:30:35 -0700 (PDT)
+Received: from mozart.vkv.me ([2001:5a8:468b:d015:3c8c:e28:ae12:f28d])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2d55f5c69d5sm7408208eec.3.2026.04.10.16.30.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Apr 2026 16:30:34 -0700 (PDT)
+Date: Fri, 10 Apr 2026 16:30:32 -0700
+From: Calvin Owens <calvin@wbinvd.org>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: Jeff Layton <jlayton@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Boqun Feng <boqun@kernel.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Uladzislau Rezki <urezki@gmail.com>, linux-fsdevel@vger.kernel.org,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Nikolay Borisov <nik.borisov@suse.com>,
+	Max Kellermann <max.kellermann@ionos.com>,
+	Eric Sandeen <sandeen@redhat.com>,
+	Paulo Alcantara <pc@manguebit.org>
+Subject: Re: [RFC][PATCH] make sure that lock_for_kill() callers drop the
+ locks in safe order
+Message-ID: <admIGCR-xGfKgIQ-@mozart.vkv.me>
+References: <CAHk-=wjRgHLvSnEY3P45hSQ0ycKxdz-xqnccAMPuGRrwsvWdig@mail.gmail.com>
+ <adkk8FiLHnVx1Bup@tardis.local>
+ <CAHk-=wjuOm+AGHtjF15Zx8cxJwYwbzJgi28EQ6KW=Ze-4YjN+g@mail.gmail.com>
+ <4305138de599923591df7403aefc4d663f50324a.camel@kernel.org>
+ <20260410191907.GV3836593@ZenIV>
+ <30ac5108ada614560326636d4da353d6304c3f91.camel@kernel.org>
+ <adln5vp9HFbX-oz0@mozart.vkv.me>
+ <20260410212403.GY3836593@ZenIV>
+ <adl2dMjN2hmVvORh@mozart.vkv.me>
+ <20260410230553.GZ3836593@ZenIV>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <adjMsTa3Xv7O3jWH@stanley.mountain>
-In-Reply-To: <adjMsTa3Xv7O3jWH@stanley.mountain>
-From: Hyunchul Lee <hyc.lee@gmail.com>
-Date: Sat, 11 Apr 2026 08:25:49 +0900
-X-Gm-Features: AQROBzBThMHBhMrYKU48tKnMzybia1V7xtSEq8GeK9_HbMfZiOVJhmzFsQUW2Zk
-Message-ID: <CANFS6bZxN8iqtyMRxrvdXBssMBu2S=zBDFds_Asc1W1vs_WDoQ@mail.gmail.com>
-Subject: Re: [PATCH] ntfs: delete dead code
-To: Dan Carpenter <error27@gmail.com>
-Cc: Namjae Jeon <linkinjeon@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260410230553.GZ3836593@ZenIV>
 
-2026=EB=85=84 4=EC=9B=94 10=EC=9D=BC (=EA=B8=88) =EC=98=A4=ED=9B=84 7:11, D=
-an Carpenter <error27@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> We know "ret2" is zero so there is no need to check.  Delete the
-> if statement.
->
-> Signed-off-by: Dan Carpenter <error27@gmail.com>
+On Saturday 04/11 at 00:05 +0100, Al Viro wrote:
+> On Fri, Apr 10, 2026 at 03:15:16PM -0700, Calvin Owens wrote:
+> > On Friday 04/10 at 22:24 +0100, Al Viro wrote:
+> > > On Fri, Apr 10, 2026 at 02:13:10PM -0700, Calvin Owens wrote:
+> > > > On Friday 04/10 at 15:32 -0400, Jeff Layton wrote:
+> > > > > Yep, not even with that. One thing that claude pointed out: doing an
+> > > > > mdelay() might prevent it from making any progress freeing dentries.
+> > > > > I'm experimenting now with one that only randomly does a delay, but so
+> > > > > far that hasn't turned up anything. I'll let you know if that changes.
+> > > > 
+> > > > Hi Jeff,
+> > > > 
+> > > > I've been poking at this one too. With the attached reproducer, the
+> > > > waiter will get stuck in an infinite loop apparently in d_walk() with a
+> > > > stock 7.0-rc7 (in my case with PREEMPT_LAZY):
+> > > 
+> > > Interesting...  I'll try it in a bit, but just in case - could you check if
+> > > git://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git #work.dcache-busy-wait
+> > > steps into the same thing on your setup?
+> > 
+> > Hi Al,
+> > 
+> > It still reproduces on that branch in the exact same way.
+> > 
+> > I'm absolutely 100% guessing... but I recall tomfoolery with the "magic"
+> > symlinks in /proc/$/fd/* in the past... the below patch makes the infinite
+> > spins impossible to trigger with my reproducer, does my explanation make
+> > any sense to you? Apologies if I'm off in the weeds...
+> 
+> What it's doing, AFAICS, is a weird way of opening arseloads of files, mostly
+> the same ones again and again - the reason it needs that prlimit (there's
+> way fewer files in procfs when it starts) is that these threads keep running
+> through each other's /proc/*/fd and opening what they'd got again and again,
+> adding to /proc/*/fd/* as they go.
 
-Looks good to me.
+Yes exactly, I was trying a lot of different pathological behaviors and
+that was the first pattern I found that triggered the d_walk() spin
+consistently.
 
-Reviewed-by: Hyunchul Lee <hyc.lee@gmail.com>
+Initially I made the reproducer ignore itself in /proc. But it turns out
+to be much more reliable if it *doesn't*. I realized it was opening its
+own children's files in /proc/*/fd/*, and the children were also opening
+other /proc files, which is what made me suspect the magic symlinks.
 
-> ---
->  fs/ntfs/file.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
->
-> diff --git a/fs/ntfs/file.c b/fs/ntfs/file.c
-> index e5b897a6c1e1..b04919124989 100644
-> --- a/fs/ntfs/file.c
-> +++ b/fs/ntfs/file.c
-> @@ -534,10 +534,9 @@ static ssize_t ntfs_dio_write_iter(struct kiocb *ioc=
-b, struct iov_iter *from)
->                         ret =3D -EIO;
->                         goto out;
->                 }
-> -               if (!ret2)
-> -                       invalidate_mapping_pages(iocb->ki_filp->f_mapping=
-,
-> -                                                offset >> PAGE_SHIFT,
-> -                                                end >> PAGE_SHIFT);
-> +               invalidate_mapping_pages(iocb->ki_filp->f_mapping,
-> +                                        offset >> PAGE_SHIFT,
-> +                                        end >> PAGE_SHIFT);
->         }
->
->  out:
-> --
-> 2.53.0
->
+> IOW, you are opening a random mix of files, both procfs and ones some processes
+> had opened, then exiting.  That triggers invalidation of your /proc/*, with
+> a _lot_ of shite that needs to be taken out.  It might be triggering a livelock
+> or a UAF somewhere in dcache or it might be something entirely different -
+> no idea at that point.  I'll look further into that, but I wouldn't be surprised
+> if it turns out to be entirely unrelated.  Would be easier to deal with if the
+> mix had been more predictable, but we have what we have...
 
+I'm sure I can narrow down the reproducer more, I'll try a bit.
 
---=20
+I appreciate you taking a look. I'm happy to test anything else you like
+if that reproducer isn't working for you, it's very consistent for me on
+two different machines. Hopefully it works for Jeff.
+
 Thanks,
-Hyunchul
+Calvin
