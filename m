@@ -1,67 +1,67 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19DF438A715
-	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 06:46:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C2F12BD5B9
+	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 06:47:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775803615; cv=none; b=bzh5I19+S/Ig3Si/RvI3WkSHSK1L8MtyaQRvVo9nwUpWoLfpWUSIRDT2G77G8ZCavoDRiHlwTCznG66MaRrBP6PzPx49xjw8CVuuoWjEW8b+jPNKb8SeS3VITQ++3DXPz3oh+u9VLtswf5+xBj4ZnY7Z+LDOOQN0JN6qy7fn00Q=
+	t=1775803624; cv=none; b=dwoLeQaBQLHhNCZ6UvvUXU0WX4fEedKERwH1ZmcmyfABfCB/PBjUlxO5/G+hainCe/MXgIPm4FmhKfSXnMnmwS01sxXAvFfvtJG0Fd/YF44wPd1T07ckL+X/L+qB7wOAkBLTpf9xXJx06yoAt+6peKj4y+HxdU7aP8Gf0TfbsJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775803615; c=relaxed/simple;
-	bh=pls8UUUI+uEAv854rg0zOFP4wF2+iCg9v0FKh/Jr8Pk=;
+	s=arc-20240116; t=1775803624; c=relaxed/simple;
+	bh=KsxLF3DCLTdOtxD995G1lTLjDLdi/K2Z8eVxn8pdCSg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CeBMD76s4suUAl0ZErqNSRYQdeo05LOKLXDskNigLWtXBTDHSMg34xzzrnL4p6dDjoAZX7E+PgqlA2ExIoZgNRcYfyoXOKsy+q/TJNC1maEdwcAIOmKbwZkbO9nIqUMP/v/ft/vF7d/eO8tyCu3ZvwwiAnZHew2reASk6iUqGTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bl8Tmcbl; arc=none smtp.client-ip=209.85.128.45
+	 Content-Disposition; b=Vl+sUiyRcxzeLqBffh5XcQ9aw66EBVo7GF6hTECbWXtHlvnT1ZObzh7M0Kff/lkzcBLBB7maK+MjPvX3ZQ9eH/Au0/8BF47tiuEupwrESEDO423jTATOYKZ5hv91kIzH68wP3+dOOLINf6hZHwUCnscw+1015KzC2VaBkAMa5gs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WhJfgAdV; arc=none smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bl8Tmcbl"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-488a8ca4aadso18297895e9.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 09 Apr 2026 23:46:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WhJfgAdV"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-43cfde3c3f3so1575477f8f.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 09 Apr 2026 23:47:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775803611; x=1776408411; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1775803621; x=1776408421; darn=vger.kernel.org;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=BnufnjucvVsDOT21h9grz6edlmIOM5lbkjYR3MJRD+Q=;
-        b=bl8TmcblGh1AEo8g2cQ646X9/0jO0ELSCu3mtmfcsP7bLTyPtfkkbm/E+mv/q+BNC6
-         hung4wcShiFvSnQIyyqGZaWrDgeIzCNOBMMRMoT0ufD1U59k+aUdiKSPekNVQGPCnuw3
-         ktruwmfGNW5lYBAKah/Ybj//78caqjyKqiVoeZIegWF4fy4wTGYwxHhij6Rlci6fifEY
-         7Mma6GA0GTUyRWzBLnPpQR+M0gVWuUcf+SdsAusg6wHs8tPrZO4+EWZT6Db7Yz8LOf2U
-         yIBv/bqJE8MNrfIj7Cx/cYlYb0YXVqrviAjsM79m6MoRlMHBPxHVLf50ZAKYEAFHcShG
-         MBmw==
+        bh=xkJhung2ozHU+Fpx7n1C/vMEwaxo6uNBxz41h3N6gIA=;
+        b=WhJfgAdVN3dp04F6Uc9baS0dW1Dg3bSsYfu2rE1GnAoQojpaMqfcNlLoB2AeXmuTEY
+         L5sXt9OnnEk+ROcM8iWfU8eFWfCZIEVvCHhTeuPy41t+diq9CSVvmeboRMk4FgFU90VW
+         UU2TxW3dVBoTwxdBGtTVKY9jPznM0ChadPsPnCpeAKbwiL4S6bVOvRxI4dUMwbsXEit+
+         TSw0FtYS/s5uF4b+TC6ti2wA3+wGruV3GxZX9m7JGuR0+uDrbeONMSXse+fkb62dYVEh
+         DcS6jhBAg+US4UIdqCXwcO0fjey8wrbrUDAZl/89LWrYj9D+UUd4Y71u1PMUc2Nfz+q/
+         ey6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775803611; x=1776408411;
+        d=1e100.net; s=20251104; t=1775803621; x=1776408421;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=BnufnjucvVsDOT21h9grz6edlmIOM5lbkjYR3MJRD+Q=;
-        b=Qb7Se2q6nTkayIsmovJIGhX3FO7BLebJ+lkJJ68Qb10vGa+77viNYdUi17YzA5uqLO
-         zqgh5ezHkkE6sr7/gT1FwGA8bCgjj68mmpMmrxzIJAy9ZeiOmDO2x5+1IMJ0w8QXw4yn
-         nQxUDqeoUfD/6T+zZRf/QWkYEGF/9/Irw2WXxXQQrtwPBaiVWPl2bgM7KGtjgyxQ5+Yf
-         qOkpTkx47br8kDKAFUGY7n1hCr/My+ScP2xueTd+Y5SwdOzDoIuI3hn7B/7JzwVGHksO
-         SLs/Yl8dRunU79KYgPrCkjtf+ZUavWbmUZjpyRj6Hwg+TVVtsOChX9E6BJMt1tbm2Yxk
-         TuDQ==
-X-Gm-Message-State: AOJu0YwpZEJ5jvnRWnd1s+rZnpMipIa4+fn2u3e/GeQMExzM/JWf9ZA/
-	VbLE4LqTAhe4xgrtTyYj3uYYZn1dSEd9B81u2xP67mdFRF4diu00CN+J
-X-Gm-Gg: AeBDiesmfiG+8jcqf8LgyHq0/aK+Yy7KhGWzjNrCkj2xkh63cDv3DQV9+kxFWCJiY+c
-	fiRoG3hEgE0HyAfCnKVYvV/xrEvBtpSe6Di5K1CJsDsNsrm/5Pb4tqIBMlBWcINsmlcuLYpKfq2
-	qUg91BzzgVcPm20eDhWy1hKE7atIq1BpkVHC0TvcKOvZ/+suLlmEoT/B8kljIBrFl73QsMruFEm
-	tkpF/9/4MaFU03u3pvZimfnhI1ncJbrt1wV17sbrX4FWAAJ3ipdXxzs71BIES7Fbz1ZPw40mCQA
-	+sHjmkPSbQhUPLr12lwGnCwluTJjl6u9sMmH18BngN7pMuAhLiQ+V+z9Tdc6Y9XeKVreWUlmpW/
-	pGXVGpj1rHPyh2FZFYZtQCJwfTsK1qFMm0u6gz3PwGEoGt8xgGKCvi0DIrbQuCwXHayV9pe9MoY
-	XmQZ6DcizCLkDeol+swfynwY0KxWse6w==
-X-Received: by 2002:a05:600c:4709:b0:488:ae6c:42c0 with SMTP id 5b1f17b1804b1-488d67d2ab2mr18915365e9.7.1775803611119;
-        Thu, 09 Apr 2026 23:46:51 -0700 (PDT)
+        bh=xkJhung2ozHU+Fpx7n1C/vMEwaxo6uNBxz41h3N6gIA=;
+        b=JPGnTeRr/pEdGJ1LcXaS6TL4XGLPPgA5nRQnN1owb0/4bRY9ccN2FVs0qtSMhM0T74
+         zTQIONJPYHUSkWNx0fJSafq1Zz2iHLXNoRat+sN+OVBq9JRTeQ9C8RQ85tpTK2Xola66
+         +je9Vh8tFL7o25jNXGS6BYROiCr4RGCBRjlE8SPie0WiyVQx0NzXgFEvuDWdxXELdWhY
+         PniSkHnJqAandz05GO/bP7WA2gluQSzVLaAcQbrX116yWLYuwZCG+55tYaJ+63tzNJlF
+         pu9YCSBMG2WlPyW1apPa0eZ8Uux35C1rbguyDiCZeB29goYM9EZZoi1vdHL4asgwuduZ
+         C1/g==
+X-Gm-Message-State: AOJu0YxmCkUBi8U3UegdAs1E+Bhzf4JDyDLoptFxjvGw/1wJetuPUdw3
+	l8v5ixK0hOIYPoirRUAQEKUKlXJLG4ni1TgWIDCdRRDt80iBCC9yDZWa
+X-Gm-Gg: AeBDieuik2ND0YOk4hmEIDNbgOGe59eeG8eXLSmprc8dVwOZ6nFT7hETzM/5bDNPZRh
+	Y0aHTp8iQbyOHZdpBSf7o34RHUO+p+ZllvJhhQjVhDtk26R7xhbIzfgDgDCyHPKooBmOcU6z6p5
+	LeZmlv8SVRZzKhr85Crbl0C3oLTGITKRQBtP2XvfF7FUoj8yI9ZxMVdHw+1wurK4EoCH7qaNbka
+	PBsPTYOnslmV3IWKVzK3h4XG9PGHonwTt+Atpw2wtgC8P5Lhqg5IBf7R1ZQ0j1mgETAiP2eCFne
+	xTad0jaeFctzAoq4+/axI10bC7cEygP9EIBe1ft/n+fbRNPr/0fuJbo2UUTze/6pWHW3LThtts+
+	uzddEOzVYkcuUBb5pbD1wT0/knneoG9xgZhRzLj0PYnoMzZJlmz7Ms5WwAFUl08X/M7b2kloFo1
+	nYLa3DR6l+GS9UJjyoYTM=
+X-Received: by 2002:a5d:5d02:0:b0:43d:1df7:ed24 with SMTP id ffacd0b85a97d-43d642a64b1mr2658295f8f.21.1775803621116;
+        Thu, 09 Apr 2026 23:47:01 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488d5380feesm62746325e9.9.2026.04.09.23.46.50
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d63de2a69sm4969375f8f.4.2026.04.09.23.47.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Apr 2026 23:46:50 -0700 (PDT)
-Date: Fri, 10 Apr 2026 09:46:46 +0300
+        Thu, 09 Apr 2026 23:47:00 -0700 (PDT)
+Date: Fri, 10 Apr 2026 09:46:57 +0300
 From: Dan Carpenter <error27@gmail.com>
 To: Namjae Jeon <linkinjeon@kernel.org>
 Cc: linux-fsdevel@vger.kernel.org
-Subject: [bug report] ntfs: update attrib operations
-Message-ID: <adic1vbVQJoOJq9n@stanley.mountain>
+Subject: [bug report] ntfs: update mft operations
+Message-ID: <adic4W19jh0_xQ1n@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -73,143 +73,172 @@ Content-Disposition: inline
 
 Hello Namjae Jeon,
 
-Commit 495e90fa3348 ("ntfs: update attrib operations") from Feb 13,
-2026 (linux-next), leads to the following Smatch static checker
-warning:
+Commit 115380f9a2f9 ("ntfs: update mft operations") from Feb 13, 2026
+(linux-next), leads to the following Smatch static checker warning:
 
-	fs/ntfs/attrib.c:196 ntfs_map_runlist_nolock()
-	error: uninitialized symbol 'ctx_needs_reset'.
+	fs/ntfs/mft.c:2823 ntfs_write_mft_block()
+	error: uninitialized symbol 'rl'.
 
-fs/ntfs/attrib.c
-    78 int ntfs_map_runlist_nolock(struct ntfs_inode *ni, s64 vcn, struct ntfs_attr_search_ctx *ctx)
-    79 {
-    80         s64 end_vcn;
-    81         unsigned long flags;
-    82         struct ntfs_inode *base_ni;
-    83         struct mft_record *m;
-    84         struct attr_record *a;
-    85         struct runlist_element *rl;
-    86         struct folio *put_this_folio = NULL;
-    87         int err = 0;
-    88         bool ctx_is_temporary = false, ctx_needs_reset;
-    89         struct ntfs_attr_search_ctx old_ctx = { NULL, };
-    90         size_t new_rl_count;
-    91 
-    92         ntfs_debug("Mapping runlist part containing vcn 0x%llx.",
-    93                         (unsigned long long)vcn);
-    94         if (!NInoAttr(ni))
-    95                 base_ni = ni;
-    96         else
-    97                 base_ni = ni->ext.base_ntfs_ino;
-    98         if (!ctx) {
-    99                 ctx_is_temporary = ctx_needs_reset = true;
-    100                 m = map_mft_record(base_ni);
-    101                 if (IS_ERR(m))
-    102                         return PTR_ERR(m);
-    103                 ctx = ntfs_attr_get_search_ctx(base_ni, m);
-    104                 if (unlikely(!ctx)) {
-    105                         err = -ENOMEM;
-    106                         goto err_out;
-    107                 }
-    108         } else {
-    109                 s64 allocated_size_vcn;
-    110 
-    111                 WARN_ON(IS_ERR(ctx->mrec));
-    112                 a = ctx->attr;
-    113                 if (!a->non_resident) {
-    114                         err = -EIO;
-    115                         goto err_out;
+fs/ntfs/mft.c
+    2697 static int ntfs_write_mft_block(struct folio *folio, struct writeback_control *wbc)
+    2698 {
+    2699         struct address_space *mapping = folio->mapping;
+    2700         struct inode *vi = mapping->host;
+    2701         struct ntfs_inode *ni = NTFS_I(vi);
+    2702         struct ntfs_volume *vol = ni->vol;
+    2703         u8 *kaddr;
+    2704         struct ntfs_inode **locked_nis __free(kfree) = kmalloc_array(PAGE_SIZE / NTFS_BLOCK_SIZE,
+    2705                                                         sizeof(struct ntfs_inode *), GFP_NOFS);
+    2706         int nr_locked_nis = 0, err = 0, mft_ofs, prev_mft_ofs;
+    2707         struct inode **ref_inos __free(kfree) = kmalloc_array(PAGE_SIZE / NTFS_BLOCK_SIZE,
+    2708                                                               sizeof(struct inode *), GFP_NOFS);
+    2709         int nr_ref_inos = 0;
+    2710         struct bio *bio = NULL;
+    2711         u64 mft_no;
+    2712         struct ntfs_inode *tni;
+    2713         s64 lcn;
+    2714         s64 vcn = ntfs_pidx_to_cluster(vol, folio->index);
+    2715         s64 end_vcn = ntfs_bytes_to_cluster(vol, ni->allocated_size);
+    2716         unsigned int folio_sz;
+    2717         struct runlist_element *rl;
+    2718         loff_t i_size = i_size_read(vi);
+    2719 
+    2720         ntfs_debug("Entering for inode 0x%llx, attribute type 0x%x, folio index 0x%lx.",
+    2721                         ni->mft_no, ni->type, folio->index);
+    2722 
+    2723         if (!locked_nis || !ref_inos)
+    2724                 return -ENOMEM;
+    2725 
+    2726         /* We have to zero every time due to mmap-at-end-of-file. */
+    2727         if (folio->index >= (i_size >> folio_shift(folio)))
+    2728                 /* The page straddles i_size. */
+    2729                 folio_zero_segment(folio,
+    2730                                    offset_in_folio(folio, i_size),
+    2731                                    folio_size(folio));
+    2732 
+    2733         lcn = lcn_from_index(vol, ni, folio->index);
+    2734         if (lcn <= LCN_HOLE) {
+    2735                 folio_start_writeback(folio);
+    2736                 folio_unlock(folio);
+    2737                 folio_end_writeback(folio);
+    2738                 return -EIO;
+    2739         }
+    2740 
+    2741         /* Map folio so we can access its contents. */
+    2742         kaddr = kmap_local_folio(folio, 0);
+    2743         /* Clear the page uptodate flag whilst the mst fixups are applied. */
+    2744         folio_clear_uptodate(folio);
+    2745 
+    2746         for (mft_ofs = 0; mft_ofs < PAGE_SIZE && vcn < end_vcn;
+    2747              mft_ofs += vol->mft_record_size) {
+    2748                 /* Get the mft record number. */
+    2749                 mft_no = (((s64)folio->index << PAGE_SHIFT) + mft_ofs) >>
+    2750                         vol->mft_record_size_bits;
+    2751                 vcn = ntfs_mft_no_to_cluster(vol, mft_no);
+    2752                 /* Check whether to write this mft record. */
+    2753                 tni = NULL;
+    2754                 if (ntfs_may_write_mft_record(vol, mft_no,
+    2755                                         (struct mft_record *)(kaddr + mft_ofs),
+    2756                                         &tni, &ref_inos[nr_ref_inos])) {
+    2757                         unsigned int mft_record_off = 0;
+    2758                         s64 vcn_off = vcn;
+    2759 
+    2760                         /*
+    2761                          * Skip $MFT extent mft records and let them being written
+    2762                          * by writeback to avioid deadlocks. the $MFT runlist
+    2763                          * lock must be taken before $MFT extent mrec_lock is taken.
+    2764                          */
+    2765                         if (tni && tni->nr_extents < 0 &&
+    2766                                 tni->ext.base_ntfs_ino == NTFS_I(vol->mft_ino)) {
+    2767                                 mutex_unlock(&tni->mrec_lock);
+    2768                                 atomic_dec(&tni->count);
+    2769                                 iput(vol->mft_ino);
+    2770                                 continue;
+    2771                         }
+    2772 
+    2773                         /*
+    2774                          * The record should be written.  If a locked ntfs
+    2775                          * inode was returned, add it to the array of locked
+    2776                          * ntfs inodes.
+    2777                          */
+    2778                         if (tni)
+    2779                                 locked_nis[nr_locked_nis++] = tni;
+    2780                         else if (ref_inos[nr_ref_inos])
+    2781                                 nr_ref_inos++;
+    2782 
+    2783                         if (bio && (mft_ofs != prev_mft_ofs + vol->mft_record_size)) {
+    2784 flush_bio:
+    2785                                 bio->bi_end_io = ntfs_bio_end_io;
+    2786                                 submit_bio(bio);
+    2787                                 bio = NULL;
+    2788                         }
+    2789 
+    2790                         if (vol->cluster_size < folio_size(folio)) {
+    2791                                 down_write(&ni->runlist.lock);
+    2792                                 rl = ntfs_attr_vcn_to_rl(ni, vcn_off, &lcn);
 
-ctx_is_temporary is false. ctx_needs_reset is uninitialized.
+rl is assigned here.
 
-    116                 }
-    117                 end_vcn = le64_to_cpu(a->data.non_resident.highest_vcn);
-    118                 read_lock_irqsave(&ni->size_lock, flags);
-    119                 allocated_size_vcn =
-    120                         ntfs_bytes_to_cluster(ni->vol, ni->allocated_size);
-    121                 read_unlock_irqrestore(&ni->size_lock, flags);
-    122                 if (!a->data.non_resident.lowest_vcn && end_vcn <= 0)
-    123                         end_vcn = allocated_size_vcn - 1;
-    124                 /*
-    125                  * If we already have the attribute extent containing @vcn in
-    126                  * @ctx, no need to look it up again.  We slightly cheat in
-    127                  * that if vcn exceeds the allocated size, we will refuse to
-    128                  * map the runlist below, so there is definitely no need to get
-    129                  * the right attribute extent.
-    130                  */
-    131                 if (vcn >= allocated_size_vcn || (a->type == ni->type &&
-    132                                 a->name_length == ni->name_len &&
-    133                                 !memcmp((u8 *)a + le16_to_cpu(a->name_offset),
-    134                                 ni->name, ni->name_len) &&
-    135                                 le64_to_cpu(a->data.non_resident.lowest_vcn)
-    136                                 <= vcn && end_vcn >= vcn))
-    137                         ctx_needs_reset = false;
-    138                 else {
-    139                         /* Save the old search context. */
-    140                         old_ctx = *ctx;
-    141                         /*
-    142                          * If the currently mapped (extent) inode is not the
-    143                          * base inode we will unmap it when we reinitialize the
-    144                          * search context which means we need to get a
-    145                          * reference to the page containing the mapped mft
-    146                          * record so we do not accidentally drop changes to the
-    147                          * mft record when it has not been marked dirty yet.
-    148                          */
-    149                         if (old_ctx.base_ntfs_ino && old_ctx.ntfs_ino !=
-    150                                         old_ctx.base_ntfs_ino) {
-    151                                 put_this_folio = old_ctx.ntfs_ino->folio;
-    152                                 folio_get(put_this_folio);
-    153                         }
-    154                         /*
-    155                          * Reinitialize the search context so we can lookup the
-    156                          * needed attribute extent.
-    157                          */
-    158                         ntfs_attr_reinit_search_ctx(ctx);
-    159                         ctx_needs_reset = true;
-    160                 }
-    161         }
-    162         if (ctx_needs_reset) {
-    163                 err = ntfs_attr_lookup(ni->type, ni->name, ni->name_len,
-    164                                 CASE_SENSITIVE, vcn, NULL, 0, ctx);
-    165                 if (unlikely(err)) {
-    166                         if (err == -ENOENT)
-    167                                 err = -EIO;
-    168                         goto err_out;
-    169                 }
-    170                 WARN_ON(!ctx->attr->non_resident);
-    171         }
-    172         a = ctx->attr;
-    173         /*
-    174          * Only decompress the mapping pairs if @vcn is inside it.  Otherwise
-    175          * we get into problems when we try to map an out of bounds vcn because
-    176          * we then try to map the already mapped runlist fragment and
-    177          * ntfs_mapping_pairs_decompress() fails.
-    178          */
-    179         end_vcn = le64_to_cpu(a->data.non_resident.highest_vcn) + 1;
-    180         if (unlikely(vcn && vcn >= end_vcn)) {
-    181                 err = -ENOENT;
-    182                 goto err_out;
-    183         }
-    184         rl = ntfs_mapping_pairs_decompress(ni->vol, a, &ni->runlist, &new_rl_count);
-    185         if (IS_ERR(rl))
-    186                 err = PTR_ERR(rl);
-    187         else {
-    188                 ni->runlist.rl = rl;
-    189                 ni->runlist.count = new_rl_count;
-    190         }
-    191 err_out:
-    192         if (ctx_is_temporary) {
-    193                 if (likely(ctx))
-    194                         ntfs_attr_put_search_ctx(ctx);
-    195                 unmap_mft_record(base_ni);
---> 196         } else if (ctx_needs_reset) {
-                           ^^^^^^^^^^^^^^^
-Uninitialized
+    2793                                 up_write(&ni->runlist.lock);
+    2794                                 if (IS_ERR(rl) || lcn < 0) {
+    2795                                         err = -EIO;
+    2796                                         goto unm_done;
+    2797                                 }
+    2798 
+    2799                                 if (bio &&
+    2800                                    (bio_end_sector(bio) >> (vol->cluster_size_bits - 9)) !=
+    2801                                     lcn) {
+    2802                                         bio->bi_end_io = ntfs_bio_end_io;
+    2803                                         submit_bio(bio);
+    2804                                         bio = NULL;
+    2805                                 }
+    2806                         }
+    2807 
+    2808                         if (!bio) {
+    2809                                 unsigned int off;
+    2810 
+    2811                                 off = ((mft_no << vol->mft_record_size_bits) +
+    2812                                        mft_record_off) & vol->cluster_size_mask;
+    2813 
+    2814                                 bio = bio_alloc(vol->sb->s_bdev, 1, REQ_OP_WRITE,
+    2815                                                 GFP_NOIO);
+    2816                                 bio->bi_iter.bi_sector =
+    2817                                         ntfs_bytes_to_sector(vol,
+    2818                                                         ntfs_cluster_to_bytes(vol, lcn) + off);
+    2819                         }
+    2820 
+    2821                         if (vol->cluster_size == NTFS_BLOCK_SIZE &&
+    2822                             (mft_record_off ||
+--> 2823                              rl->length - (vcn_off - rl->vcn) == 1 ||
+                                      ^^^^^^^^^^
+this warning looks reasonable to me, but the code is a bit complicated.
 
-    197                 /*
-    198                  * If there is no attribute list, restoring the search context
-    199                  * is accomplished simply by copying the saved context back over
-    200                  * the caller supplied context.  If there is an attribute list,
+    2824                              mft_ofs + NTFS_BLOCK_SIZE >= PAGE_SIZE))
+    2825                                 folio_sz = NTFS_BLOCK_SIZE;
+    2826                         else
+    2827                                 folio_sz = vol->mft_record_size;
+    2828                         if (!bio_add_folio(bio, folio, folio_sz,
+    2829                                            mft_ofs + mft_record_off)) {
+    2830                                 err = -EIO;
+    2831                                 bio_put(bio);
+    2832                                 goto unm_done;
+    2833                         }
+    2834                         mft_record_off += folio_sz;
+    2835 
+    2836                         if (mft_record_off != vol->mft_record_size) {
+    2837                                 vcn_off++;
+    2838                                 goto flush_bio;
+    2839                         }
+    2840                         prev_mft_ofs = mft_ofs;
+    2841 
+    2842                         if (mft_no < vol->mftmirr_size)
+    2843                                 ntfs_sync_mft_mirror(vol, mft_no,
+    2844                                                 (struct mft_record *)(kaddr + mft_ofs));
+    2845                 } else if (ref_inos[nr_ref_inos])
+    2846                         nr_ref_inos++;
+    2847         }
+    2848 
+    2849         if (bio) {
 
 This email is a free service from the Smatch-CI project [smatch.sf.net].
 
