@@ -1,107 +1,147 @@
-Received: from outbound.baidu.com (jpmx.baidu.com [119.63.196.201])
-	by smtp.subspace.kernel.org (Postfix) with SMTP id 4E4CF322522;
-	Fri, 10 Apr 2026 08:09:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=119.63.196.201
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2826138BF76
+	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 08:44:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775808583; cv=none; b=Tma73poKzXkcGo2vYsKfLzBilGUc2W1pXLKOaO0wSTd8MpffGYw2pwE3VrWayeQI3ELH0QN+FQalFSjc4Wv3Aj/PRf8MgmwAjeljFIocsCea/2v4IHBkqOLh1FEW/RI1Y6CiD1azYEn3ML6S7m5sXWy1vC++dcd5dn1qEMyiGyY=
+	t=1775810696; cv=none; b=NP3V84eapu1BhSO74U2JVgga2iXR9xDYXoho3cWKxjXHyiUHhrTj2wHf/t5l3ZGpxyWERYaPlMAiVduzuKuVsbmhbI1v+fUq5fYrQtOtc/dnf8dWCXSdLvgmIaXir8oj1CnNHFHuvG2dF64QoQxXDRGpqBEMWg9KC4mGSpjnLrg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775808583; c=relaxed/simple;
-	bh=U3T3Nmt8WQngqYwW23gJAjqWivbPR/W82jaF38xPcrQ=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=T4uyjlhAjuG1vqkrp58mkSyRZ0yKfOto8D1NdXdFehjiqEnDQpbg9sDu03HeRxCO60AcIpUaEWDQcS65iP7Hy6i06UHTNXHnH2JITA9qTDTQKSfbxDH5hLWHMK+2e6dpT5JDy5pLXpJNIoPI+lOJo5F3Z55KoAZdvO0KG/abxNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com; spf=pass smtp.mailfrom=baidu.com; dkim=pass (2048-bit key) header.d=baidu.com header.i=@baidu.com header.b=IfPgkFB+; arc=none smtp.client-ip=119.63.196.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baidu.com
+	s=arc-20240116; t=1775810696; c=relaxed/simple;
+	bh=MXDO6aA8bwO/EbjFuIkhb+T7V5lBSgLyk6Wmx09N0m0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G6h3w8cZPQUXxz9wLQhL7dcAZD4T4ynq4RfOKztEeCQBEVv04s4rp96bfFcvryQaFtqEwl+JFxYi80Au0DXlZrVLsdad6EUfs9wa3M2sCSgLaHn/WQ2DOqA2o4UpqmIZUJjXiNs3WMkNuGGkq3aFBxXZgjPat3GWrAmSKa9fCvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=J37B/5BT; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baidu.com header.i=@baidu.com header.b="IfPgkFB+"
-X-MD-Sfrom: lirongqing@baidu.com
-X-MD-SrcIP: 172.31.50.47
-From: lirongqing <lirongqing@baidu.com>
-To: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner
-	<brauner@kernel.org>, Jan Kara <jack@suse.cz>, Kees Cook <kees@kernel.org>,
-	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-mm@kvack.org>
-CC: Li RongQing <lirongqing@baidu.com>
-Subject: [PATCH] fs/coredump: reduce redundant log noise in validate_coredump_safety
-Date: Fri, 10 Apr 2026 04:09:18 -0400
-Message-ID: <20260410080918.2319-1-lirongqing@baidu.com>
-X-Mailer: git-send-email 2.17.1
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="J37B/5BT"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=gR/0YTka3JzSnDdYhZqLg1QUuEyVZg1NaJI6eR7hfS4=; b=J37B/5BTUUc2GjIdnZ2FlOMdWm
+	MxwocmQYlXXcfgQEq0kMFMo/JEcn3aJnaq5Ii9MK/3j8Mbbu/Rz9fLJ8eguoKl7C/HiH27l+iiPt+
+	2thXBtrK80qpkvGDTM3dflj3HkSbUrVkX4VXnH6acy2J4ih2Qh4JT+RYkYGfQCBaUUE1T8Ek+uFG7
+	ix7jJfHWOhRlKCPFOFDD/n/+L1T1WXkB0SpRRtsEtLJVi5B9aUtQvXyXsAzpgJbADYKzVqNBwgYaD
+	AEuFx7n4NfsnAlnOstbK2D7L53b6XtJ0M/AGs1wy+RHNCe9wxaRsAm00i+OvzH8kXAeOUaZoBC1Od
+	nj3NViQg==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wB7Xb-00000005dP3-0VrO;
+	Fri, 10 Apr 2026 08:48:39 +0000
+Date: Fri, 10 Apr 2026 09:48:39 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+	linux-fsdevel@vger.kernel.org,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Nikolay Borisov <nik.borisov@suse.com>,
+	Max Kellermann <max.kellermann@ionos.com>,
+	Eric Sandeen <sandeen@redhat.com>,
+	Paulo Alcantara <pc@manguebit.org>
+Subject: [RFC][PATCH] make sure that lock_for_kill() callers drop the locks
+ in safe order
+Message-ID: <20260410084839.GA1310153@ZenIV>
+References: <20260122202025.GG3183987@ZenIV>
+ <20260404080751.2526990-1-viro@zeniv.linux.org.uk>
+ <53b4795292d1df2fe1569fc724325ab52fcab322.camel@kernel.org>
+ <20260409190213.GQ3836593@ZenIV>
+ <41cfd0f95b7fde411c0d59463dce979be89cb8ef.camel@kernel.org>
+ <20260409215733.GS3836593@ZenIV>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-ClientProxiedBy: bjhj-exc3.internal.baidu.com (172.31.3.13) To
- bjkjy-exc3.internal.baidu.com (172.31.50.47)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=baidu.com;
-	s=selector1; t=1775808569;
-	bh=XVCGD+rFsf43XDlKVku2Aq26Sh7eivzVMrrFZLWXJH8=;
-	h=From:To:CC:Subject:Date:Message-ID:Content-Type;
-	b=IfPgkFB+sc6OWsS1ZWYHvMKOYEqCT1w3AieFwYEv9HlKJBcj22RwlKihb1QdyNcXy
-	 oHjN7tPwQ0MgWM4311uB3/A7SkX4TsbXrTWqn/qk+yLd2V7+UwsPFBu+VF1HC9jy4g
-	 2M3p4BAiPkRmgK+Iz27NM/z/r3Q63EK6NxbMi3nHhgan+MxDfsaJpd+NiEjfx9AQeF
-	 9UsNoRk6oNXqHaD8I5iDMjo1BGA4JyjcoOv+sYyKE0o71cH4qB+teMCYbD3u5UmEav
-	 R0h07/sd8sYxPm2Z4TAVYOqhiF+tfFdoUq85PYfKu3GnusNPRsyPDHbiJeUPi7ejle
-	 6x8e4t5CvgDuA==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260409215733.GS3836593@ZenIV>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-From: Li RongQing <lirongqing@baidu.com>
+[this may or may not be the source of UAFs caught by Jeff and by Helge]
 
-Currently, writing to 'core_pattern' or 'suid_dumpable' sysctl nodes
-always triggers validate_coredump_safety(), even if the values have
-not changed. This results in redundant warning messages in dmesg:
+lock_for_kill() losing a race to eviction by another thread will end up
+returning false (correctly - the caller should *not* evict dentry in
+that case), with ->d_lock held and rcu read-critical area still unbroken,
+so the caller can safely drop the locks, provided that it's done in the
+right order - ->d_lock should be dropped before rcu_read_unlock().
 
-"Unsafe core_pattern used with fs.suid_dumpable=2..."
+Unfortunately, 3 of 4 callers did it the other way round and for two of them
+(finish_dput() and shrink_kill()) that ended up with a possibility of UAF.
+The third (shrink_dentry_list()) had been safe for other reasons (dentry being
+on the shrink list => the other thread wouldn't even schedule its freeing
+until observing dentry off the shrink list while holding ->d_lock), but it's
+simpler to make it a general rule - in case of lock_for_kill() failure
+->d_lock must be dropped before rcu_read_unlock().
 
-This patch optimizes the procfs handlers to only invoke the safety
-validation when an actual change in the configuration is detected:
+UAF scenario was basically this:
+	dput() drops the last reference to foo/bar and evicts it.
+	The reference it held to foo happens to be the last one.
+	When trylock on ->i_lock of parent's inode fails, we
+	(under rcu_read_lock()) drop ->d_lock and take the locks in
+	the right order; while we'd been spinning on ->i_lock somebody
+	else comes and evicts the parent.
+	Noticing non-zero (negative) refcount we decide there's nothing
+	left to do.  And had we only dropped parent's ->d_lock before
+	rcu_read_unlock(), everything would be fine.  Unfortunately,
+	doing that the other way round allows rcu-scheduled freeing of
+	parent to proceed before we drop its ->d_lock.
+The same applies if instead of final dput() of foo/bar it gets evicted
+by shrink_dcache_parent() or memory pressure, again taking out the last
+reference to that used to pin its parent.
 
-1. In proc_dostring_coredump(), compare the new core_pattern string
-   with the existing one using strncmp().
-2. In proc_dointvec_minmax_coredump(), check if the new suid_dumpable
-   value differs from the previous one.
-
-This keeps the kernel log clean from repetitive warnings when
-re-applying the same sysctl settings.
-
-Signed-off-by: Li RongQing <lirongqing@baidu.com>
+Fixes: 339e9e13530b ("don't try to cut corners in shrink_lock_dentry()")
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
 ---
- fs/coredump.c | 3 ++-
- fs/exec.c     | 6 ++++--
- 2 files changed, 6 insertions(+), 3 deletions(-)
-
-diff --git a/fs/coredump.c b/fs/coredump.c
-index 29df8aa..9b357d2 100644
---- a/fs/coredump.c
-+++ b/fs/coredump.c
-@@ -1483,7 +1483,8 @@ static int proc_dostring_coredump(const struct ctl_table *table, int write,
- 		return -EINVAL;
+diff --git a/fs/dcache.c b/fs/dcache.c
+index 0c8faeee02e2..b1c163f20db6 100644
+--- a/fs/dcache.c
++++ b/fs/dcache.c
+@@ -751,6 +751,8 @@ static struct dentry *__dentry_kill(struct dentry *dentry)
+  *
+  * Return false if dentry is busy.  Otherwise, return true and have
+  * that dentry's inode locked.
++ *
++ * On failure the caller must drop ->d_lock *before* rcu_read_unlock()
+  */
+ 
+ static bool lock_for_kill(struct dentry *dentry)
+@@ -933,8 +935,8 @@ static void finish_dput(struct dentry *dentry)
+ 		}
+ 		rcu_read_lock();
  	}
- 
--	validate_coredump_safety();
-+	if (strncmp(old_core_pattern, core_pattern, CORENAME_MAX_SIZE))
-+		validate_coredump_safety();
- 	return error;
+-	rcu_read_unlock();
+ 	spin_unlock(&dentry->d_lock);
++	rcu_read_unlock();
  }
  
-diff --git a/fs/exec.c b/fs/exec.c
-index 9ea3a77..32b46e4 100644
---- a/fs/exec.c
-+++ b/fs/exec.c
-@@ -1975,9 +1975,11 @@ COMPAT_SYSCALL_DEFINE5(execveat, int, fd,
- static int proc_dointvec_minmax_coredump(const struct ctl_table *table, int write,
- 		void *buffer, size_t *lenp, loff_t *ppos)
- {
--	int error = proc_dointvec_minmax(table, write, buffer, lenp, ppos);
-+	int error, old = READ_ONCE(suid_dumpable);
- 
--	if (!error && write)
-+	error = proc_dointvec_minmax(table, write, buffer, lenp, ppos);
-+
-+	if (!error && write && (old != READ_ONCE(suid_dumpable)))
- 		validate_coredump_safety();
- 	return error;
+ /* 
+@@ -1193,11 +1195,12 @@ static inline void shrink_kill(struct dentry *victim)
+ 	do {
+ 		rcu_read_unlock();
+ 		victim = __dentry_kill(victim);
++		if (!victim)
++			return;
+ 		rcu_read_lock();
+-	} while (victim && lock_for_kill(victim));
++	} while (lock_for_kill(victim));
++	spin_unlock(&victim->d_lock);
+ 	rcu_read_unlock();
+-	if (victim)
+-		spin_unlock(&victim->d_lock);
  }
--- 
-2.9.4
-
+ 
+ void shrink_dentry_list(struct list_head *list)
+@@ -1210,10 +1213,10 @@ void shrink_dentry_list(struct list_head *list)
+ 		rcu_read_lock();
+ 		if (!lock_for_kill(dentry)) {
+ 			bool can_free;
+-			rcu_read_unlock();
+ 			d_shrink_del(dentry);
+ 			can_free = dentry->d_flags & DCACHE_DENTRY_KILLED;
+ 			spin_unlock(&dentry->d_lock);
++			rcu_read_unlock();
+ 			if (can_free)
+ 				dentry_free(dentry);
+ 			continue;
