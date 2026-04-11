@@ -1,50 +1,35 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+Received: from embla.dev.snart.me (embla.dev.snart.me [54.252.183.203])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2E603176EE
-	for <linux-fsdevel@vger.kernel.org>; Sat, 11 Apr 2026 21:31:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F538175A6B
+	for <linux-fsdevel@vger.kernel.org>; Sat, 11 Apr 2026 22:50:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.252.183.203
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775943068; cv=none; b=csagFRlicfmmIB3ZpVQmxtgwgO3f6VBT6ujyH1Xr/InheJh57ielAFRxUqyEQd1iRB7PP8cAk3JvW4ZRPScxK0JELRn9Q8iZCThpkhB+nmzOj6+y+Bo2h7UIcvzx+1kdeWG4kiQiOBPG0lIqSXCYRfRRYMijD3poHc61VzI6zrw=
+	t=1775947820; cv=none; b=EVOxqI21m7sEf6/qZegRKQQIf4XhSuCWvCUuL/n4pnyM1o8ivBZnRVzxfIcrJqABsFHg/IrgLNUIHvHTqYXSi7CQ3jT5V8V+ZT2Wner8yKi3WueD6imJKFY2U8B80Li1Nz6rsxwdA5RPZ8AufdrQ9QQLwHHZFVj6cwZSOvomwxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775943068; c=relaxed/simple;
-	bh=pytYp6kBFI1T8BdPifrllnrR2qWdVoRCEpO1+s77mUY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ppzeBmRUPIwmmir0liZreogOTZzGJLqHb19jAxtImUsVydEwXYP0wbHRdyyI9YqxXgmxgriN/cdqCWNaf86gX1fEKLdlly7dbnIwmcLVBCdofOlvMPs48Eo0zwjuqjhTBa8lfPjqAfdbPSZ98bkhdtev3m/nYR8/KStRzTZ6H3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=aBLhYrOy; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="aBLhYrOy"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=xW1R9SVm4ZOoG51SOjZic3sJ3NDGsmzWT/F2b4vrC/c=; b=aBLhYrOyHiagaaQ+VLb9qG6CuZ
-	TOO9Cw62VHeLOyajeU238tT8LR0qJ7pi0uak+W0wi8ne5dy8TYM/qZqXery9st3Ux8VZsBBqpWJ2k
-	3bxXZdwhhzqIYzbKkVUUdkJFNLP7VopNb5ggQq4B2SBPy55Q9OYoi0ynfCwZeuGiGbBcfOWsGM2Pd
-	T9dqm/i+oGL96oK7hx+w0NKM43T/eauOiXFq/wNuLIHb+PjCNUCe+YuvZ0/cuZphPM0F/ZgyWDqa/
-	UJvFeX1v/YgV+6q3TGxGSj0Q9dMxYHzJvtxydOb2Ycr1aHlIIG9pCU1qqyPciwwlhdrx6hzMYLWsn
-	xQ98nnXA==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wBfyh-0000000A991-3tf8;
-	Sat, 11 Apr 2026 21:34:55 +0000
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Linus Torvalds <torvalds@linux-foundation.org>
+	s=arc-20240116; t=1775947820; c=relaxed/simple;
+	bh=2LdA8/X+eilPnRyfsAPMHNqiLbGSV2Atqt8/ZUfoJto=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=t5IkrI5yD82J8JttmirmdAWoWs8pX0MCjyTC6jrdp31682VvnVb0tWIz3CpRosoj04KbRuUK9a3+hVHbNIwCz+8lvY8Hx2ZWhVQ7u87bIOuGp/XQk/arIWduaSYmJp6WaKHEN41gz4nF1lShsjwXMpiKn7ryZvoYjbC15K9/A9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me; spf=pass smtp.mailfrom=dev.snart.me; arc=none smtp.client-ip=54.252.183.203
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dev.snart.me
+Received: from embla.dev.snart.me (localhost [IPv6:::1])
+	by embla.dev.snart.me (Postfix) with ESMTP id D2AFC302F1;
+	Sat, 11 Apr 2026 22:50:10 +0000 (UTC)
+Received: from maya.d.snart.me ([182.226.25.243])
+	by embla.dev.snart.me with ESMTPSA
+	id ugaLICLQ2mkzMAcA8KYfjw
+	(envelope-from <dxdt@dev.snart.me>); Sat, 11 Apr 2026 22:50:10 +0000
+From: David Timber <dxdt@dev.snart.me>
+To: Namjae Jeon <linkinjeon@kernel.org>,
+	Sungjong Seo <sj1557.seo@samsung.com>,
+	Yuezhang Mo <yuezhang.mo@sony.com>
 Cc: linux-fsdevel@vger.kernel.org,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Nikolay Borisov <nik.borisov@suse.com>,
-	Max Kellermann <max.kellermann@ionos.com>,
-	Eric Sandeen <sandeen@redhat.com>,
-	Paulo Alcantara <pc@manguebit.org>
-Subject: [RFC PATCH 08/11] reducing rcu_read_lock() scopes in dput and friends, step 5
-Date: Sat, 11 Apr 2026 22:34:51 +0100
-Message-ID: <20260411213454.2418381-8-viro@zeniv.linux.org.uk>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260411213454.2418381-1-viro@zeniv.linux.org.uk>
-References: <20260411213348.GB3836593@ZenIV>
- <20260411213454.2418381-1-viro@zeniv.linux.org.uk>
+	David Timber <dxdt@dev.snart.me>
+Subject: [PATCH] exfat: fix integer overflow in exfat_create_upcase_table()
+Date: Sun, 12 Apr 2026 07:49:47 +0900
+Message-ID: <20260411224947.296754-1-dxdt@dev.snart.me>
+X-Mailer: git-send-email 2.53.0.1.ga224b40d3f.dirty
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -52,100 +37,50 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Sender: Al Viro <viro@ftp.linux.org.uk>
 
-Shrink rcu_read_lock() scopes surrounding fast_dput() calls.
-Both callers are immediately preceded and followed by
-rcu_read_lock()/rcu_read_unlock() resp.  Shrink that down
-into fast_dput() itself; in case when fast_dput() ends up
-grabbing ->d_lock, we can pull rcu_read_unlock() up to
-right after spin_lock().
+When the size of the upcase table is set to zero in the dentry for any
+reason(e.g. corrupted media or misbehaving device), an integer overflow
+causes the module to loop indefinitely.
 
-Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+If the size of the upcase table is read zero, do not attempt to load the
+table. Instead, fallback to loading the default upcase table and raise
+exfat_fs_error() to mark the volume read-only. This is also the
+behaviour of MS Windows.
+
+Signed-off-by: David Timber <dxdt@dev.snart.me>
 ---
- fs/dcache.c | 23 +++++++++++------------
- 1 file changed, 11 insertions(+), 12 deletions(-)
+ fs/exfat/nls.c | 17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
 
-diff --git a/fs/dcache.c b/fs/dcache.c
-index 4f38af6fabae..6c90039d0935 100644
---- a/fs/dcache.c
-+++ b/fs/dcache.c
-@@ -876,6 +876,7 @@ static inline bool fast_dput(struct dentry *dentry)
- 	/*
- 	 * try to decrement the lockref optimistically.
- 	 */
-+	rcu_read_lock();
- 	ret = lockref_put_return(&dentry->d_lockref);
+diff --git a/fs/exfat/nls.c b/fs/exfat/nls.c
+index 57db08a5271c..fe5230cae377 100644
+--- a/fs/exfat/nls.c
++++ b/fs/exfat/nls.c
+@@ -769,13 +769,18 @@ int exfat_create_upcase_table(struct super_block *sb)
  
- 	/*
-@@ -885,6 +886,7 @@ static inline bool fast_dput(struct dentry *dentry)
- 	 */
- 	if (unlikely(ret < 0)) {
- 		spin_lock(&dentry->d_lock);
-+		rcu_read_unlock();
- 		if (WARN_ON_ONCE(dentry->d_lockref.count <= 0)) {
- 			spin_unlock(&dentry->d_lock);
- 			return true;
-@@ -896,8 +898,10 @@ static inline bool fast_dput(struct dentry *dentry)
- 	/*
- 	 * If we weren't the last ref, we're done.
- 	 */
--	if (ret)
-+	if (ret) {
-+		rcu_read_unlock();
- 		return true;
-+	}
- 
- 	/*
- 	 * Can we decide that decrement of refcount is all we needed without
-@@ -905,8 +909,10 @@ static inline bool fast_dput(struct dentry *dentry)
- 	 * dentry looks like it ought to be retained and there's nothing else
- 	 * to do.
- 	 */
--	if (retain_dentry(dentry, false))
-+	if (retain_dentry(dentry, false)) {
-+		rcu_read_unlock();
- 		return true;
-+	}
- 
- 	/*
- 	 * Either not worth retaining or we can't tell without the lock.
-@@ -914,6 +920,7 @@ static inline bool fast_dput(struct dentry *dentry)
- 	 * but we'll need to re-check the situation after getting the lock.
- 	 */
- 	spin_lock(&dentry->d_lock);
-+	rcu_read_unlock();
- 
- 	/*
- 	 * Did somebody else grab a reference to it in the meantime, and
-@@ -971,12 +978,8 @@ void dput(struct dentry *dentry)
- 	if (!dentry)
- 		return;
- 	might_sleep();
--	rcu_read_lock();
--	if (likely(fast_dput(dentry))) {
--		rcu_read_unlock();
-+	if (likely(fast_dput(dentry)))
- 		return;
--	}
--	rcu_read_unlock();
- 	finish_dput(dentry);
- }
- EXPORT_SYMBOL(dput);
-@@ -1003,12 +1006,8 @@ __must_hold(&dentry->d_lock)
- 
- void dput_to_list(struct dentry *dentry, struct list_head *list)
- {
--	rcu_read_lock();
--	if (likely(fast_dput(dentry))) {
--		rcu_read_unlock();
-+	if (likely(fast_dput(dentry)))
- 		return;
--	}
--	rcu_read_unlock();
- 	to_shrink_list(dentry, list);
- 	spin_unlock(&dentry->d_lock);
- }
+ 			tbl_clu  = le32_to_cpu(ep->dentry.upcase.start_clu);
+ 			tbl_size = le64_to_cpu(ep->dentry.upcase.size);
+-
+-			sector = exfat_cluster_to_sector(sbi, tbl_clu);
+-			num_sectors = ((tbl_size - 1) >> blksize_bits) + 1;
+-			ret = exfat_load_upcase_table(sb, sector, num_sectors,
+-				le32_to_cpu(ep->dentry.upcase.checksum));
+-
++			if (tbl_size) {
++				sector = exfat_cluster_to_sector(sbi, tbl_clu);
++				num_sectors = ((tbl_size - 1) >> blksize_bits) + 1;
++				ret = exfat_load_upcase_table(sb, sector, num_sectors,
++					le32_to_cpu(ep->dentry.upcase.checksum));
++			} else {
++				exfat_fs_error(sb,
++					       "bad upcase table size (0 bytes). Please run fsck");
++				ret = -EINVAL;
++			}
+ 			brelse(bh);
++
+ 			if (ret && ret != -EIO) {
+ 				/* free memory from exfat_load_upcase_table call */
+ 				exfat_free_upcase_table(sbi);
 -- 
-2.47.3
+2.53.0.1.ga224b40d3f.dirty
 
