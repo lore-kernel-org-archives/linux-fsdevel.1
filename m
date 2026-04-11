@@ -1,70 +1,70 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D248E38C43F
-	for <linux-fsdevel@vger.kernel.org>; Sat, 11 Apr 2026 15:12:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F23C38F234
+	for <linux-fsdevel@vger.kernel.org>; Sat, 11 Apr 2026 15:12:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775920339; cv=none; b=BZd5dd8ToVol/FAQSbk5KXgoTF728DQFqeVA+9QI/3ydi00LAbp0ggVfY5wCIE7jU8VSaoz0F62gPKYceXt53UX1JeJPoTNctDyKCRwPosHzklnm1lR7tZjIvFKFXQ8VOiVDqYadv2H2eYbtiKwGPGxYGPy9MlMuQ5q3cggXIA4=
+	t=1775920340; cv=none; b=umVBkSguLuut+icK5ghc6xBZCMOEWceabzPJncq3QVLkueSrYPl5rt3lZ9x4ISUHVm0zQYF3FXwkA/9WxtxGi3JOnkNIRtOQ61XbrcYnih86wmUuoR8HM7JIw4wF8GRrSlGHWmc4lyJwl//fFC4dlmaLI/0qXOK89Y/QMtyfg1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775920339; c=relaxed/simple;
-	bh=lbJIgS8JoP7yrdxL3apU7ip1p1tcoU9c8Z0Q5PBZu1c=;
+	s=arc-20240116; t=1775920340; c=relaxed/simple;
+	bh=XpDQNhU0YAgq6eWgBkxxt+03udeTHH945hMY8DgZpdI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=izWcBewWN7R23cEZwG36GzttLmYqoRq4gt14pStYgfl3oNJd4gbaKv1zgjK5vbSKV/UY371x0d8H3KGkGuDWeL+aIFnejQ1q0puDuwc0XJI3QgeqnOugqY26jX7cKefMSvjeirXZkE9nrfT+Rvfiej7+mLSLtWLj8aW0/8gMRmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mGF/o8+l; arc=none smtp.client-ip=209.85.221.47
+	 MIME-Version; b=tjYA6leluEFbbrfDy+ETqIlVbOya8KN+EWM1OSd5bybgr3rWzIyFvxANN/4orizvNguLBt/ykqQBfeUBP9ORzEb1soYZ8OIXnt0hZNYyBFtUZqFdGUjIfD6n+7VivdlsELCUe9cVwytpRYwr7uN3heGyeF2yyBerU6g4muntK9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=s7JmSZmO; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mGF/o8+l"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-43ccda008cdso1679492f8f.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 11 Apr 2026 08:12:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="s7JmSZmO"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-488971db0fdso29559615e9.0
+        for <linux-fsdevel@vger.kernel.org>; Sat, 11 Apr 2026 08:12:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775920336; x=1776525136; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1775920337; x=1776525137; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6zgbfd4qk9eHr8cYBg6jrVQCT/+PJttNZMyaURX0hWw=;
-        b=mGF/o8+lzTr35OGrTVFkvni0glNpUBmUEr6dsciaQnu11H7wQs14rXTTMufcT0kuBu
-         MZqrE+aeU3RZg/0zD3vCDdVQok6WoottTbCsRnKCUji0xEfmxeisK9S91xegRFk1fsVu
-         oJeskDYlZ7x/1ijJ5MOygHwPxMd7jrQQj1hw7Iigjo4LZv4P2gsqzMMxLnculoy9ub1C
-         mGRaahm/XjaVRl5q8A3lM1H93TNE1zqOoH2gjlbYyVB1mzOUkyqd86WNIDJ4unDBaq0G
-         9UgNZzp+NkX+R0nKmC97XOILsXlAE/TEkk3oGsnryBXy9/OK7+p6WDVxnyAoceR3yVXt
-         TuRA==
+        bh=EKlpdpark2ywyu/DKZmFr/LkIVCpBUEOyvYhEoA5byc=;
+        b=s7JmSZmOCEchjQZ6m97Ol3pITUhK9kFyU2lEnJmop6IaFDBSyiWc3mwsTFBS7ngalT
+         Nto0LQfISc3usmRDwu2JpuxLIznbM1nlHSDi/yFXqiSZ04aVGq1ARyqsEvPm56M+j9iM
+         9P2zyTemYrCIqcUqh+wdG+lG/SNiyyPMBN4SQmlwztC/Mmdc7N1yY9yAbQZ7QRSEDyxV
+         dGNw1PlHZf/DsH8Wvm9uKt8iCxT3eaFhtFqRf8koXQ4ZaNqi6wMFveYvAsN+ae+zI0mM
+         kvtWQ1hx1UGrAqxBm+v6asd1t/lDgwfbEfQPLpg6vqDuNHK9j8D/+AUTTDv0de20G37p
+         quRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775920336; x=1776525136;
+        d=1e100.net; s=20251104; t=1775920337; x=1776525137;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=6zgbfd4qk9eHr8cYBg6jrVQCT/+PJttNZMyaURX0hWw=;
-        b=gjhxjHENngpMULDoNqrhD1Q/JVk+mbFbuhXcRl9BsjdRkgl9GhVqzFvFZXn9hya0uj
-         7aOLaYKGeNVukOS0RSSRj7wcKpzXVsbzxF0jcIRN7cdMJN9mrjXu6jJJf3kU5TK/tNUH
-         mqZUDjMw4017yZbF2OOd/P/n/IadxVgHUhbtS1A6uLVpv9SOayyE0ygewpngIsXxVPE5
-         wXj67ocj8SNNmHra4DXMBgGj/cYCRq9TYxipek09GREIR2T+r1vGOXM5xhfsqi2iXQyH
-         TbO8xTk9UMj0V+S3nU8kM7otSBzfL8UXBSLoSRdDJZc4YnNw0CR2YM77Zqp46DAVdp+a
-         FJ5g==
-X-Gm-Message-State: AOJu0Yw3r0BJ0xMVfO5iANppUU9RhIrhkCricqW2jRvBcdHXeL+260b7
-	bwgP/FKjyepXsNBCMn5Clmvdt1/QQzZJu4z6wgzPWDvfX4nbE8DVgZ/whtSHAw==
-X-Gm-Gg: AeBDietIlRjuy0Kv7uLFkZVL9g/t0Sdd9TwxZi3W7DEOwUiN99nz6wNSWv3aAlXUXoi
-	Vh0e5ZgoAy0ihFASQMyzvB6PSOL/alQ0IXp77wO/riGn6Oq60+dKTtvyp8pQpGAAdU4bOHk+L7Y
-	C3zDi782be+YinX+FfEsDh9QoDier1/d3XBbQ2TN/XtB01ghD9Nqx+BKLvV/9r4uSXTyYZJ6Zrl
-	swuMqjX66YJRGWCqlQnj+zl1XX3fuL0FygavtzWCu8Zt3Ls/LAwF/1zdRwzHfb0dp05e8msCcjI
-	b39E9ZH4+DwPR2P1cQRytj5BHSVeioKAl+pM+tAaz+/3I8XgcFyiBdc/5d7Qii/S2AgIKpxGOSf
-	mCfyi4vLBq7phc97m1wSnEQIeG2DrAtj6fQcsO0/ZgIdlC1KGmhkAZSX4cvBhpFphennzNS72Tc
-	bZyyuZnGtqPnGEKp8AqU9C7ZtyW8/8a75SQ3LbNnfG9joqglyGga/hRfP5J9DKSf/Ajmwj6QNt+
-	6ZoIQcTP8v6Rwu4bzJy
-X-Received: by 2002:a5d:6f04:0:b0:43b:4951:6b37 with SMTP id ffacd0b85a97d-43d595c4c41mr16183829f8f.15.1775920335644;
-        Sat, 11 Apr 2026 08:12:15 -0700 (PDT)
+        bh=EKlpdpark2ywyu/DKZmFr/LkIVCpBUEOyvYhEoA5byc=;
+        b=a883eoRQpMDJfMZw4EGRmEqN1syLB8DaVshaPW9+SEflOWfI8Di4sBkFcGvYe1Zgi4
+         zMPMa7nFo/A87TVHh2U9BTM+7g+486hEmxOQsl5OVlBj/OCLZlwxydmn8H3kgZPlAOnJ
+         lzMWsmh983ndBi+LvlqXNpAFLWlc8sBqo0WDai8JGLszMgrPNKi2EAXjo/KdrR+C24DE
+         vqjLQIcbnPI/jpzrMKiHd1ZIMeW5VlbPRhnlICdoCDN9KsClGiTRLUQzJZMWE6I37Bs3
+         tq35YgmJzpsOQiNgEkgNxK/li2nab0nf5JuRi1VvcBuCs2kym2tbOdWkj7rd9W2y85Bu
+         lCjQ==
+X-Gm-Message-State: AOJu0YyW10Eg3xwcOBDQ55HyMU2U+N3o5QL0AVKexF5he7A9jzBRqwhm
+	4o512YiORlqK2fD+d7wrBEJasIJGF5Oqcw+MhzXWF8Zp7bALyKQSJwaUFk17JQ==
+X-Gm-Gg: AeBDietMZXvfZXEHXs0PsayLRloXbTpnrMgz5nUWwrKd29gTT0VFMwfiVMzjndjqaFQ
+	h7W9Ff1f7fYtZ4zLsL6I8N++Uhw0aEmRNyo832b5DLjDZ6aEtjsjqVUs5UqF9s2bj5rA7UWSAjo
+	pQ7XA6ReZDHawyW7SnQNRdMJWoAzbxuHFmVZbDICEC5dFNDFBzPaTUruGAkEa7ijelzzUWiVpqu
+	tKRc8MZdsVgQFScERpO81+xcwsqur3qLFMqZwO+aZBZMf2ZLR4o49JeECdFv4XWN55Brabh/Gal
+	yyo4EpToNIdpk8VpYNE7eZgGDqElaOjE/O2qs4KUXOTX5qAeXj1zqP58mOWdLjW2YDhxRG8wmg9
+	WyZkgipwZkLDSy/bDkt875RhwLA/z39opnYHrfLQug9I+byRy4+u69BEtLZIbuBSK83xIzIHQuu
+	bUsEXHmta48gtaEcMFPQGtg6SM9XzM5SKhDmbjz+ZX44QQWGF2P5gUD3DCoNFcxY2xuVtZsCBbg
+	UQlEN+yqsD/jERgONmX
+X-Received: by 2002:a05:600c:64c9:b0:488:c40b:c8b9 with SMTP id 5b1f17b1804b1-488d67b8d4emr108745565e9.3.1775920337258;
+        Sat, 11 Apr 2026 08:12:17 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:c7c:37d6:c100:81d8:4e83:a60e:1a81])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-43d63e5c981sm17167835f8f.33.2026.04.11.08.12.15
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-43d63e5c981sm17167835f8f.33.2026.04.11.08.12.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Apr 2026 08:12:15 -0700 (PDT)
+        Sat, 11 Apr 2026 08:12:16 -0700 (PDT)
 From: Adrian McMenamin <adrianmcmenamin@gmail.com>
 To: Linux FS development <linux-fsdevel@vger.kernel.org>
 Cc: Adrian McMenamin <adrianmcmenamin@gmail.com>,
 	Linux kernel mailing list <linux-kernel@vger.kernel.org>
-Subject: [PATCH 4/5 -v2] Add vmufat documentation
-Date: Sat, 11 Apr 2026 16:11:38 +0100
-Message-ID: <20260411151155.321214-5-adrianmcmenamin@gmail.com>
+Subject: [PATCH 5/5 -v2] miscellaneous vmufat changes and additions
+Date: Sat, 11 Apr 2026 16:11:39 +0100
+Message-ID: <20260411151155.321214-6-adrianmcmenamin@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260411151155.321214-1-adrianmcmenamin@gmail.com>
 References: <20260411151155.321214-1-adrianmcmenamin@gmail.com>
@@ -76,148 +76,115 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-vmufat.rst documents the VMUFAT filesystem
+Documentation/filesystems/index.rst
+Update the documentation index file to link to the VMUFAT documentation..
+
+fs/Kconfig
+Update the fs Kconfig to make the VMUFAT option available.
+
+fs/Makefile
+Update the fs Makefile to allow VMUFAT to be built.
+
+fs/vmufat/Kconfig
+Advise kernel builders on whether or not to build VMUFAT code.
+
+fs/vmufat/Makefile
+Add a makefile to build the VMUFAT code as a built-in or a module.
+
+include/uapi/linux/magic.h
+0x55555555 is used mark the VMUFAT superblock, add it as an indentifying
+magic number.
 
 Signed-off-by: Adrian McMenamin <adrianmcmenamin@gmail.com>
 
 ---
- Documentation/filesystems/vmufat.rst | 127 +++++++++++++++++++++++++++
- 1 file changed, 127 insertions(+)
- create mode 100644 Documentation/filesystems/vmufat.rst
+ Documentation/filesystems/index.rst |  1 +
+ fs/Kconfig                          |  1 +
+ fs/Makefile                         |  1 +
+ fs/vmufat/Kconfig                   | 14 ++++++++++++++
+ fs/vmufat/Makefile                  |  7 +++++++
+ include/uapi/linux/magic.h          |  1 +
+ 6 files changed, 25 insertions(+)
+ create mode 100644 fs/vmufat/Kconfig
+ create mode 100644 fs/vmufat/Makefile
 
-diff --git a/Documentation/filesystems/vmufat.rst b/Documentation/filesystems/vmufat.rst
+diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
+index f4873197587d..893b585d17a9 100644
+--- a/Documentation/filesystems/index.rst
++++ b/Documentation/filesystems/index.rst
+@@ -120,5 +120,6 @@ Documentation for filesystem implementations.
+    udf
+    virtiofs
+    vfat
++   vmufat
+    xfs/index
+    zonefs
+diff --git a/fs/Kconfig b/fs/Kconfig
+index 0bfdaecaa877..89a37c9c58a0 100644
+--- a/fs/Kconfig
++++ b/fs/Kconfig
+@@ -332,6 +332,7 @@ source "fs/pstore/Kconfig"
+ source "fs/ufs/Kconfig"
+ source "fs/erofs/Kconfig"
+ source "fs/vboxsf/Kconfig"
++source "fs/vmufat/Kconfig"
+ 
+ endif # MISC_FILESYSTEMS
+ 
+diff --git a/fs/Makefile b/fs/Makefile
+index cf4a745e9679..3cdc3d7b804c 100644
+--- a/fs/Makefile
++++ b/fs/Makefile
+@@ -129,3 +129,4 @@ obj-$(CONFIG_VBOXSF_FS)		+= vboxsf/
+ obj-$(CONFIG_ZONEFS_FS)		+= zonefs/
+ obj-$(CONFIG_BPF_LSM)		+= bpf_fs_kfuncs.o
+ obj-$(CONFIG_RESCTRL_FS)	+= resctrl/
++obj-$(CONFIG_VMUFAT_FS)		+= vmufat/
+diff --git a/fs/vmufat/Kconfig b/fs/vmufat/Kconfig
 new file mode 100644
-index 000000000000..f2dfb15c0cfb
+index 000000000000..92553a246911
 --- /dev/null
-+++ b/Documentation/filesystems/vmufat.rst
-@@ -0,0 +1,127 @@
-+==================
-+VMUFAT FILESYSTEM
-+==================
++++ b/fs/vmufat/Kconfig
+@@ -0,0 +1,14 @@
++config VMUFAT_FS
++	tristate "Dreamcast VMU FAT filesystem"
++	depends on BLOCK
++	help
++	  This implements the simple FAT type filesystem found on SEGA
++	  Dreamcast visual memory units.
 +
-+VMUFAT is the simple file allocation table (FAT) based filesystem used in Sega
-+Dreamcast Visual Memory Units (VMUs) and various Dreamcast emulators and
-+Android apps etc.
++	  Dreamcast users who want to mount their VMUs to view the native
++	  filesystem will say 'Y' here. The filesystem is hardware independent
++	  but is not recommended for use in other circumstances, so just about
++	  everyone else should say 'N'.
 +
-+It is not recommended for general use, but does not require a Dreamcast.
++	  To compile this as a module say 'M' here. The module will be called
++	  vmufat.
+diff --git a/fs/vmufat/Makefile b/fs/vmufat/Makefile
+new file mode 100644
+index 000000000000..da423b0c7eec
+--- /dev/null
++++ b/fs/vmufat/Makefile
+@@ -0,0 +1,7 @@
++#
++# Makefile for VMUFAT filesystem
++#
 +
-+All the physical VMU devices that were made were of the same size - 256 blocks
-+of 512 octets (8 bit bytes) - 128KB in total. But the specification supports a 
-+wider range of sizes and the filesystem in the Linux kernel is capable of
-+handling volumes of a size between 256 blocks and 65536 blocks.
++obj-$(CONFIG_VMUFAT_FS) += vmufat.o
 +
-+The standard 256 block VMU is described below:
-+
-++----------+---------------------------------------------+
-+| BLOCK NO |   CONTENT                                   |
-++==========+=============================================+
-+| 0-199    |   Space used by Dreamcast to save files     |
-++----------+---------------------------------------------+
-+| 200-240  |   Space used by the Dreamcast system        |
-++----------+---------------------------------------------+
-+| 241-253  |   Directory (can hold 208 file records)     |
-++----------+---------------------------------------------+
-+| 254      |   File Allocation Table (FAT)               |
-++----------+---------------------------------------------+
-+| 255      |   Root Block                                |
-++----------+---------------------------------------------+
-+
-+The standard VMU filesystem has 241 blocks which can be used for file storage
-+but a Dreamcast will only use 200 of these. The other 41 are for Dreamcast system
-+use, though the filesystem can access them if set up as a general file store.
-+If a device is formatted as strictly compatible with the Dreamcast those blocks
-+will not be accessible. Most use cases will want that strict compatibility.
-+
-+An executable file (generally a game written in the native machine code of
-+the VMU's microcontroller) must begin at block 0 and be stored linearly in
-+the volume. The filesystem driver seeks to match that policy but it is not
-+absolutely constrained by it.
-+
-+=========
-+Directory
-+=========
-+
-+The directory contains records 32 octets long (format detail below from Marcus
-+Comstedt's website - http://mc.pp.se/dc/vms/flashmem.html)
-+
-+0x00      : file type (0x00 = no file, 0x33 = data, 0xcc = game)
-+
-+0x01      : copy protect (0x00 = copy ok, 0xff = copy protected)
-+
-+0x02-0x03 : 16 bits (little endian) : location of first block
-+
-+0x04-0x0f : ASCII string : filename (12 characters)
-+
-+0x10-0x17 : Binary Coded Decimal timestamp: file creation time
-+
-+0x18-0x19 : 16 bits (little endian) : file size (in blocks)
-+
-+0x1a-0x1b : 16 bits (little endian) : offset of header (in blocks)
-+
-+
-+Header positioning is a matter for executable files written in native
-+code for a physical VMU (an 8 bit Sanyo microcontroller).
-+
-+BCD dates are encoded as follows:
-+
-+Century prefix (eg., 20)
-+
-+Year (eg., 12)
-+
-+Month (eg., 02)
-+
-+Day in month (eg., 29)
-+
-+Hour (eg., 20)
-+
-+Minute (eg., 49)
-+
-+Second (eg., 22)
-+
-+Day of week (Monday is 00, Sunday is 06)
-+
-+=====================
-+File allocation table
-+=====================
-+
-+Every block in the volume is mapped to the FAT eg., block 0 of the VMU maps to
-+the first 16 bits of the FAT and so on. Blocks marked 0xFFFC are empty, blocks
-+allocated to a file are either numbered with with next block or, if the final
-+block are marked 0xFFFA.
-+
-+==========
-+Root block
-+==========
-+
-+The first 16 octets are marked as 0x55 - we use this to provide the *magic
-+number* for this filesystem. The octets at 0x10 - 0x14 are used to determine
-+the colour the representation of the VMU is displayed in by a Dreamcast and our
-+filesystem does not touch these.
-+
-+Octets 0x30 - 0x37 contain the BCD timestamp of the VMU.
-+
-+Octets 0x46 - 0x47 contain the location (little endian format) of the FAT
-+
-+Octets 0x48 - 0x49 contain the size (little endian) of the FAT
-+
-+Octets 0x4A - 0x4B contain the location (little endian) of the Directory
-+
-+Octets 0x4C - 0x4D contain the size (little endian) of the Directory
-+
-+Octets 0x4E - 0x4F is Dreamcast specific (icon shape)
-+
-+Octets 0x50 - 0x51 contain the number (little endian) of user blocks - NB this
-+is marked as 200 in a physical VMU. A filesystem formatted for strict
-+compatibility will respect this boundary, one formatted as a general
-+file store will not and will instead seek to use all writeable blocks.
-+
-+====================
-+Formatting tool
-+====================
-+
-+A formatting tool is available at https://github.com/mcmenaminadrian/mkfs.vmufat
-+
-+A physical, factory-set, VMU is unlikely to require reformatting, of course.
++vmufat-y := inode.o super.o
+diff --git a/include/uapi/linux/magic.h b/include/uapi/linux/magic.h
+index 4f2da935a76c..7a3ab866ef48 100644
+--- a/include/uapi/linux/magic.h
++++ b/include/uapi/linux/magic.h
+@@ -54,6 +54,7 @@
+ #define QNX4_SUPER_MAGIC	0x002f		/* qnx4 fs detection */
+ #define QNX6_SUPER_MAGIC	0x68191122	/* qnx6 fs detection */
+ #define AFS_FS_MAGIC		0x6B414653
++#define VMUFAT_SUPER_MAGIC	0x55555555  /* opening bytes of root */
+ 
+ 
+ #define REISERFS_SUPER_MAGIC	0x52654973	/* used by gcc */
 -- 
 2.43.0
 
