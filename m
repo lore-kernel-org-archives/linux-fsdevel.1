@@ -1,178 +1,124 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE569258CD9
-	for <linux-fsdevel@vger.kernel.org>; Sat, 11 Apr 2026 13:49:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775915384; cv=pass; b=SZTwITxWGNfimdnG3eyei2Q1IbG9uxU8HvymtldR5v9QLJy0Rpt24qkjMMDP6ri6FyJqOAp++IJxlwFYr5F3fOSJQbC278xrvsRmezSUcO7zwhZ+CjN/Vft9uYLuRFfTY/XuApEhp4+bzmRIgTVGei0TmDJ8M62Mt9WLe0gSFys=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775915384; c=relaxed/simple;
-	bh=b2ASPSjL6NsYzzQ0ErhmHZ0Qv+cjFrzu7TvEu9Dt8WI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YN7sG28lFtAq+NQGWYg/4v9cOlwiFESPRVuFpA/y598zi09g7JAtWD8UNaN9r9ipSTW/yr7IPpK58oa7G/ZeQI+8k8VlsS808CTn68gC2X/SjjXV2Isgi5Wb+qkYMJvgLngjMpqlF+bJAsdGlvKhARSDWar8+xmnRDq9/jYEgoY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eUXKJpZW; arc=pass smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C8BB1A5B9E
+	for <linux-fsdevel@vger.kernel.org>; Sat, 11 Apr 2026 15:12:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775920328; cv=none; b=mJSjE2KtHu3h7NmsuknP82pxy3opvV2kPeXNVhVN3w9LhVoP1TFAbXlsVo7/Z4SvL4hIUcgFP1zLXxpu/makNqrApk1nHi/OBUOwt6s1+kLKKXpS46F2DyCkgUeDR0xEz4iDO/BbHORSpzm1UwUHZ7Ug9nwtEXsCq5HhxzPYk9Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775920328; c=relaxed/simple;
+	bh=nXjZXJf8VfeT5JDRUg6nWo55B0dSWEh3hpNRsqOHtxM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TaLCANLJ/L4Kmb8suEOIcutGTpu7oT/pcGVIH35dNiB7mv07FBQCCWp7Bg3vOQxo38Qb7HFFxFa2ueR9aH/Y19Wo4NkjCJcBzlT8kURfqFrs1e0EwZleXQZiaORpEJGY1D3pTW7WgFFnbwamjOsY+7fV/9yNp8E6craO9k1S854=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b7FlrTiY; arc=none smtp.client-ip=209.85.221.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eUXKJpZW"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b9825ba7e8dso428018966b.3
-        for <linux-fsdevel@vger.kernel.org>; Sat, 11 Apr 2026 06:49:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775915381; cv=none;
-        d=google.com; s=arc-20240605;
-        b=VJCKAeFClvEsHQj0KLEdHlJhKTGa+8N0MJiCdgyidkFw+CrwN+xBRaXD7Po2GgxCzi
-         RcwLcxF2U4+1o5JDtx7UvTQeZAPGoNV4yIrhrH2lNBgvkVrc925bQOOaxUaXkzuCmsWi
-         Y2FIsEHCSivU8B4Ftwlv8FCpIej5DqH5VDtHbOUDWPP0qJ1VCtGQvvAQGBiYP0o7bysO
-         UA9J3bEaY0k+Dxez9wMKp1mkfNXngOGCGj5Mccn7iBq6im9QY/bWCSsVCfyw0/yL8n9R
-         E8EsV1rfsKhqKtOXqTJx++eneyGrbeDYNikciqhcT40isV7QZz4gy+uPQ9nrPbGWW2LH
-         aFhw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=TpYnmQg3J90D/DTbPfZ0SBbeSNJ+Xfr3TwIBHDSwmA8=;
-        fh=N8N/G00MLJXvs3fPwUHXrVt3rgeMckWmtpYoABA9hZs=;
-        b=OVVSSgc/o5mgWK6LjkamddiSUz+KjKZT2mSWMT83D/FSMRD5T9iukTVcFfuqJKPFAL
-         CNnv3A1wde7tekD55n69ObM/SgchfuphMWYqPv1cLyDf2fJvnxijrOTxtDbBPcOdY5vZ
-         qLduvWQ7qeoZ/8Vo6MwbKNjOgj1DN2F1POBX4Jkhljv2tWvoJPHJn6zwi5KaDr8auLRi
-         f4i9ocomzzpCQgk4kfah6I7sBmg9d1mRsPxQRFYV6BtJs58uoicvAXhHuf7AP6nq3zI5
-         rhfJDDrDKD/95DcJOJrnx36lCjJplC6hMhuswHBnDaqOhdwFKaZoByO47EwGZcztIGjp
-         aLyg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b7FlrTiY"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-43d01d6b50cso2993467f8f.1
+        for <linux-fsdevel@vger.kernel.org>; Sat, 11 Apr 2026 08:12:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775915381; x=1776520181; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TpYnmQg3J90D/DTbPfZ0SBbeSNJ+Xfr3TwIBHDSwmA8=;
-        b=eUXKJpZWnZi34qPXC5D3SHyVEwQtuYCYtUsddJPZlpEGRgmAypKJAirgr3mZhYDESt
-         E4KuwV3LqhWoIYfOdQyK5by6cCmLGeZ/GIFctzZ5V7xpXc93STBAON2F52l1sceMKua0
-         7fCTbuGo1GG8fhpBFsUTOexkmEqXWn0NDrOlpiKvmz7aTSmo+YxbaDCGWY78DZDlFPS4
-         cu58fXlj9JuWnva+dmt33WWo+glW7s041XGlwbQYV8o9joujllL3CHqVWI22XyobuITf
-         20ugIKycCBWPKAq61++lkNxJbz2eR8oNdSJPcAIRsNoIHmohvy5VO4uP30HGww6GsdFK
-         dsEg==
+        d=gmail.com; s=20251104; t=1775920325; x=1776525125; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=koZgFRj2r45fGI2cOFHy/6Y1uTwVM4TIZK1RfEx16ic=;
+        b=b7FlrTiYAR/ZVWbdpS1z+cVLCPdidvYSoEGQ1bib1NV3Ti2AKYzwPwuSaoxQ3SRMkN
+         ILRH/rA06y6WVFHSBFMfAjkP5eBz1vobUXZEmTQUguHLTB3O9izNiDfekog9FKfVxXrP
+         ulJWkeTMDDt8QzibedaeNN1XrYb1NPjnEgX2HsBFTYTsttg/fwe5HfpfHVsn83NnPUga
+         2Sp57TkF1ETmu0aMqRewyl6yifCLqzvht+sGkSk8EF7I5t5y89XpH2EwxUAECkDRDT6t
+         0XpRpKu+ORQhQ+rgkjU8lKFKFkV6aMvFaqGVwF7SHKdHe2g3MxL5T1dVLG1Fvr+YsBcK
+         8WOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775915381; x=1776520181;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=TpYnmQg3J90D/DTbPfZ0SBbeSNJ+Xfr3TwIBHDSwmA8=;
-        b=n1PPpVB1PPux4mMZ5J+ntL3P9yB5S5kC3fCCqhyOi1oqLtJ8J0nHiIRBDwoc9saqL0
-         2IbUvo6Ln9j3Uwp5MeCAsx1NJn2fE5dh3gIadwTwDakvztuuln6lkp2bkSjTLUiXkIJw
-         /uY+zzE1OvYiK4DTj3wFEkQlH76d10U2v+uNKQd3FG/kUb7dOL33IsipX6icsyvQ3HB5
-         4shFCq/VmIDJpm5tfNl3e1LtzMK+iG3uCYdQkR6FEYQF2Hi0eFu9Y4tXDCG/CT7doXdp
-         kvek84ZQP0sstwqCsyV3o4lkuB2s2nC5JD299rRcyLiaGmYWX6Zky2G8RbOsiqjmP0Qx
-         lrtw==
-X-Gm-Message-State: AOJu0Yw6jQicd4y7737T7k6BvqJhYfsp+yXlVVOuskQ8duOk3Ku4oXvA
-	s1COQLnYjsfhWVDEOiERVbnMxSYYlYD7ykIgpYt9EpuodYrj6kDY78JHnn4vFXezbWcD2GETIga
-	si+zXGaHlfbeJ8QZVO2mR7w0QUjklNw4=
-X-Gm-Gg: AeBDievs0TL6sGs0SieV3kfmhyHkZ7zWpvGaUxOzHZPRCxpl2OSY2Z410N3pAH9kOv1
-	ve+wT8ZMSS+LNqLY6UAOCA6GRhdCLKv9oCjriGiPbGLihd6FjnkMHEiahICCKWdAafXe0EbVR3G
-	4gr6U5lbOQGgootBqFWiVV7TFK9N1jlIIsOk1OiB/wM4Hvvhf4b1lySsXMVkEYP6atcEcal3HIr
-	p2dJEu8zyKSwl/O1yeXnJ183qLq3vABARhJk9I+BMoRG4e6fUHdqj3pHuX8YUXX3+GVFQkXFXj5
-	pTnU1pfVJcpehTDBGpyPbhPkkZXME9tQotu9zGHg4g==
-X-Received: by 2002:a17:907:c996:b0:b9c:2f1d:7157 with SMTP id
- a640c23a62f3a-b9d72999807mr273907566b.39.1775915380746; Sat, 11 Apr 2026
- 06:49:40 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1775920325; x=1776525125;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=koZgFRj2r45fGI2cOFHy/6Y1uTwVM4TIZK1RfEx16ic=;
+        b=RZkmDD+32smA1EJ8gmYJTJIE69ouArPky0naF5Zs4bzuHU/727b0lDAUY/agaV1Fki
+         ipgCjFfgJ2LV/7rPzpilEQJD7k4YxEIHY5990f4KYSTufwSUwLvbyEg7xZSD6VC2Vz5r
+         H4ftUUhnmrE5HxJovOUYkiIUArRvAuoeZ/RDYJUnw1+CSPdRjLMw4b4fDoeHEe+BOEAU
+         YXYIE/3SXy4pPgaui32XtWYChuJzbdyjPzGQQENuSDI/MECLdZGPxbWGu+bd56/mqX5S
+         5umdigf59KVipuSPGKQn5vT+zH7Wql6/YI9gdvXr0IamgVQZHxk3idGViBHhUI9kcm74
+         hdYA==
+X-Gm-Message-State: AOJu0Yw/6Jf9nEb5nLzibE8XRXCpVYF/5+5uURH0s79PODs+yTb8EVNO
+	Hm1MW6EENnpqKRYKaPMep7odBMIHPcf4IEF5DSBKVJjHV9454dhKhwIlykPtdA==
+X-Gm-Gg: AeBDieuzQK4iwgHRx55ylO+wlWMKQZyEdzZOyrtXQ3Sm7F48irwVBVnJ2JkJDydYOdh
+	CwkarcVtEKS6RLD+HXrA4o9RTMvyc09xxmjqW31kcmewi8pqcwSIisRJWPmCO9fOzkEqtJ4vo0q
+	TQNyW9o+E9wotE0rVsw6aankv8xejc4RoZ0OD2csWkAn2eqyd04kXZ+sWuMYh9SUvahORPA0ypj
+	Wxs9k0NSXuofH0rGN59OCDFvDWLVOse16c3i7IGRkbn8C89/8PMNf5HYWx1xfjxRCNonq7xxKDV
+	jr/6lzxfaSWc9rdfolkF6edVkHjW2/6kSUVkmAkXVGWHTJ0w9alxQ3H1a9v/eR6LLpyktMyubrz
+	IOqcCK14hYjxJQ0EcQqtUoQ5egwvpQggXRyWssristcMJCwhSiCfzvVZn4N/ngtSrkvd4yXm/BX
+	VOcixQQoPyCKh/yEFaeaQczQXbKxl7j9fjk1txQg0zjk3ON8VUCSggNMkzgpmGbkw86Ms3xkrk8
+	8gCYXxkEWmGV6oQffff
+X-Received: by 2002:adf:e80d:0:b0:43d:69ff:6898 with SMTP id ffacd0b85a97d-43d69ff69c4mr3694302f8f.9.1775920325183;
+        Sat, 11 Apr 2026 08:12:05 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:c7c:37d6:c100:81d8:4e83:a60e:1a81])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-43d63e5c981sm17167835f8f.33.2026.04.11.08.12.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 11 Apr 2026 08:12:04 -0700 (PDT)
+From: Adrian McMenamin <adrianmcmenamin@gmail.com>
+To: Linux FS development <linux-fsdevel@vger.kernel.org>
+Cc: Adrian McMenamin <adrianmcmenamin@gmail.com>,
+	Linux kernel mailing list <linux-kernel@vger.kernel.org>
+Subject: [PATCH 0/5 -v2] Add support for VMUFAT filesystem 
+Date: Sat, 11 Apr 2026 16:11:34 +0100
+Message-ID: <20260411151155.321214-1-adrianmcmenamin@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260410144950.156160-1-mszeredi@redhat.com>
-In-Reply-To: <20260410144950.156160-1-mszeredi@redhat.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Sat, 11 Apr 2026 15:49:29 +0200
-X-Gm-Features: AQROBzBqcQxwnBuDedInw9EPjIkKKCq-V24XTokpFlh_fmODd69QLr1MGzJWtos
-Message-ID: <CAOQ4uxha9ki24wyW1z2AtQJ6kSPgGbSiTaPw7DcBWkhDeABoDA@mail.gmail.com>
-Subject: Re: [PATCH] fanotify: fix false positive on permission events
-To: Miklos Szeredi <mszeredi@redhat.com>
-Cc: linux-fsdevel@vger.kernel.org, Jan Kara <jack@suse.cz>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Apr 10, 2026 at 4:49=E2=80=AFPM Miklos Szeredi <mszeredi@redhat.com=
-> wrote:
->
-> fsnotify_get_mark_safe() may return false for a mark on an unrelated grou=
-p,
-> which results in bypassing the permission check.
->
-> Fix by skipping over detached marks that are not in the current group.
->
-> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
-> ---
->  fs/notify/fsnotify.c             |  2 +-
->  fs/notify/mark.c                 | 18 +++++++++++-------
->  include/linux/fsnotify_backend.h |  1 +
->  3 files changed, 13 insertions(+), 8 deletions(-)
->
-> diff --git a/fs/notify/fsnotify.c b/fs/notify/fsnotify.c
-> index 9995de1710e5..b646a861a84c 100644
-> --- a/fs/notify/fsnotify.c
-> +++ b/fs/notify/fsnotify.c
-> @@ -388,7 +388,7 @@ static struct fsnotify_mark *fsnotify_first_mark(stru=
-ct fsnotify_mark_connector
->         return hlist_entry_safe(node, struct fsnotify_mark, obj_list);
->  }
->
-> -static struct fsnotify_mark *fsnotify_next_mark(struct fsnotify_mark *ma=
-rk)
-> +struct fsnotify_mark *fsnotify_next_mark(struct fsnotify_mark *mark)
->  {
->         struct hlist_node *node =3D NULL;
->
-> diff --git a/fs/notify/mark.c b/fs/notify/mark.c
-> index c2ed5b11b0fe..622f05977f86 100644
-> --- a/fs/notify/mark.c
-> +++ b/fs/notify/mark.c
-> @@ -457,9 +457,6 @@ EXPORT_SYMBOL_GPL(fsnotify_put_mark);
->   */
->  static bool fsnotify_get_mark_safe(struct fsnotify_mark *mark)
->  {
-> -       if (!mark)
-> -               return true;
-> -
->         if (refcount_inc_not_zero(&mark->refcnt)) {
->                 spin_lock(&mark->lock);
->                 if (mark->flags & FSNOTIFY_MARK_FLAG_ATTACHED) {
-> @@ -500,15 +497,22 @@ bool fsnotify_prepare_user_wait(struct fsnotify_ite=
-r_info *iter_info)
->         int type;
->
->         fsnotify_foreach_iter_type(type) {
-> +               struct fsnotify_mark *mark =3D iter_info->marks[type];
-> +
->                 /* This can fail if mark is being removed */
-> -               if (!fsnotify_get_mark_safe(iter_info->marks[type])) {
-> -                       __release(&fsnotify_mark_srcu);
-> -                       goto fail;
-> +               while (mark && !fsnotify_get_mark_safe(mark)) {
-> +                       if (mark->group =3D=3D iter_info->current_group) =
-{
-> +                               __release(&fsnotify_mark_srcu);
-> +                               goto fail;
-> +                       }
-> +                       /* This is a mark in an unrelated group, skip */
-> +                       mark =3D fsnotify_next_mark(mark);
-> +                       iter_info->marks[type] =3D mark;
->                 }
->         }
->
+SEGA Dreamcasts come with a "visual memory unit" (VMU) which contains a slab
+of flash memory to save games playable on the VMU or data from Dreamcast games.
 
-Locally, for mark iteration, the fix looks fine, but fsnotify_mark_srcu als=
-o
-protects lifetime of destroyed mark and connector and I have the eering fee=
-ling
-that some of that code may be relying of the detached mark to either
-have a ref or fsnotify_mark_srcu.
+The VMU uses a file allocation based filesystem - which we label VMUFAT - to
+organise the data. With a control block, a file allocation table and a directory.
 
-It's not that I know of something wrong, I just feel that I need proof that=
- the
-lifetime or mark and connector is not affected.
+All physical VMUs are of the same size (256 blocks of 512 octets) but the
+filesystem itself is extendable to other sizes and need not be tied to the VMU.
 
-Jan, WDYT?
+These patches implement VMUFAT as a Linux filesystem independent of hardware.
 
-Thanks,
-Amir.
+It seems obvious almost all users will be those working with Linux on
+Dreamcasts or Dreamcast emulators but there is no dependence on SH or on the
+MTD layer.
+
+VMUFAT has been tested on a 32 bit Dreamcast and on x86_64 systems.
+
+Tools to format a filesystem are available here: 
+https://github.com/mcmenaminadrian/mkfs.vmufat
+
+Signed-off-by: Adrian McMenamin <adrianmcmenamin@gmail.com>
+
+Adrian McMenamin (5):
+  Add vmufat super.c
+  Add vmufat inode.c
+  Add vmufat header
+  Add vmufat documentation
+  miscellaneous vmufat changes and additions
+
+ Documentation/filesystems/index.rst  |    1 +
+ Documentation/filesystems/vmufat.rst |  127 ++++
+ fs/Kconfig                           |    1 +
+ fs/Makefile                          |    1 +
+ fs/vmufat/Kconfig                    |   14 +
+ fs/vmufat/Makefile                   |    7 +
+ fs/vmufat/inode.c                    | 1017 ++++++++++++++++++++++++++
+ fs/vmufat/super.c                    |  581 +++++++++++++++
+ fs/vmufat/vmufat.h                   |  126 ++++
+ include/uapi/linux/magic.h           |    1 +
+ 10 files changed, 1876 insertions(+)
+ create mode 100644 Documentation/filesystems/vmufat.rst
+ create mode 100644 fs/vmufat/Kconfig
+ create mode 100644 fs/vmufat/Makefile
+ create mode 100644 fs/vmufat/inode.c
+ create mode 100644 fs/vmufat/super.c
+ create mode 100644 fs/vmufat/vmufat.h
+
+-- 
+2.43.0
+
