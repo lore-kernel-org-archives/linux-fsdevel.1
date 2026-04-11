@@ -1,81 +1,104 @@
-Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com [209.85.210.70])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A06E311C1D
-	for <linux-fsdevel@vger.kernel.org>; Sat, 11 Apr 2026 06:42:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 191BE2E282B
+	for <linux-fsdevel@vger.kernel.org>; Sat, 11 Apr 2026 08:56:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775889748; cv=none; b=kpbiQDvRInzR5QWNSY5A1hXo1zsa1KpB5ZnFWcZIZLAE3bGcDhkVs3+CX1yDHSPT9pr9NIsJxCvUMoTI/12Raczr7cOHSsUTCD+npxjgRCeNT12BbU71QDqs2MciYPmE87lu+7j7REF0NHuKILi4cThfuH3oWra/tQE9CM9R/0c=
+	t=1775897818; cv=none; b=PmcEOH4vsIjg2d6Y4CByDSFZK2ga/KmgPGexS0GrTInXW+n5Z/BldbZTAZ1V0/5CKA9ZazewnQFkq0PnUYwLEIGqUyhkP+XML4J+05KLeQH+cTjH1r/XfXmpkBhDYI234b9DENz0xUVHid9zoyVstf7d8Ncen9DpHPTEIcEsJzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775889748; c=relaxed/simple;
-	bh=QcbreetYo1TSyFjtSm8UtQtTNR/zgT2+qjn/LajR940=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=tMnnJu+RlEZxgGQc88+/zj6Vrtlx4ElX1AgQf10K1A4NO83aICGatLvIIhtD92i1sKUuAa0W2e/87LvUR87Smy/jbPlvrL9dlsquXsf2/YT3kox6nCsrc72y519Q/kLli7leFkNFoenA/BNmbCrSzrKexug5RSBWIsjZKNMYqjo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-ot1-f70.google.com with SMTP id 46e09a7af769-7dbb97a2b6eso6112487a34.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 10 Apr 2026 23:42:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775889746; x=1776494546;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jaZ0naLHUw1XNfeaPKbo8usE9QcsOjuxAjMal1Vo1C0=;
-        b=pRXPTqU4DsdmpY/dhrSuhQEtR9wZ8YJXaUJQ2ntTYmV/EzKKWA4gbZa1tFuH4kidLn
-         DROOU1nZTLQ+wcI5F0Kih0P+3ciKazfNgVmxhWpUWkxPD2NzfA1s4VSMGryxZNSV6msH
-         wIiP/V+VRknISk5fubphD7t8fB1gX6rF7kAHFIiMny3AV7IOslzMZrpZVxF8P97rerQX
-         mIfOVvZTJZxshvve5xyvprDwDMQz9WDx/HwRVFpvr9KX0XEhUOfey5A+AcAnCpralEkr
-         N/MSAB5oSnLbIIoSRQg6/hEKDIarVVU1H/VW1M0bPNUFmTIXk9cqmwXRWK2AAVAZPZJW
-         lsvw==
-X-Gm-Message-State: AOJu0Yxm4riTi+glQjx9fuX4NKUaW1uVKWfpLlS4r6oP5PPM/5IPW4Bg
-	z4fq4NLwMiTpj6U0LOt5u+Bz122hECc0cxGoncnAv1yX3mso3GXQPZoes3dPNXWxpmgYP507vy5
-	gmJLKJRHsQMxqdO9XF3wrHe48n9XqY/YChrgxxkTSgbMa8l+zXtZOlXrgmEY=
+	s=arc-20240116; t=1775897818; c=relaxed/simple;
+	bh=6IyTjJ0FkMoSea9J+AGLQ3aUcY30PRNbR4NncpohA1Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uqAzKxH8SFQDLY1EeLIvyBJXwuBGb3KEjoDlJS7PRkCu9PtRRHuhy0LpgnR1j9ngGdSm3U7cs7RepJar6QhuF6ReBMDtG1M/KIQcACp5eJWSYDz/q3d7jB3GNP17mWpDgCeD1rHMqeRFDeyIdrajDNof/MdorLFCMDHRKuH8Joo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=K94+BNzv; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="K94+BNzv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1775897816;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=ki83Ytu611LIH2psopIG9xX0z9ofN4J/Dowiy8MC1r8=;
+	b=K94+BNzvmivxa4GX3Accthd7ISKqlZeQ2YbvYV/VrBfH3zcCpgMGXQXu5BsnjFnfT8AvLX
+	XIqw1t0nbloY4MIVeHyOBQu1VMcl+SeUDlc+/smiUX1vwl32bRZ++oaJB3UPrNeu0NwMd9
+	wp1ubv1c8E6uG/6FS7NaOhCfzvdk7YU=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-391-J6cteSNxMlWcHbnBDMk3Og-1; Sat,
+ 11 Apr 2026 04:56:52 -0400
+X-MC-Unique: J6cteSNxMlWcHbnBDMk3Og-1
+X-Mimecast-MFC-AGG-ID: J6cteSNxMlWcHbnBDMk3Og_1775897811
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1B92B1956080;
+	Sat, 11 Apr 2026 08:56:51 +0000 (UTC)
+Received: from warthog.procyon.org.com (unknown [10.44.48.47])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 179D6195608E;
+	Sat, 11 Apr 2026 08:56:46 +0000 (UTC)
+From: David Howells <dhowells@redhat.com>
+To: Christian Brauner <christian@brauner.io>
+Cc: David Howells <dhowells@redhat.com>,
+	Paulo Alcantara <pc@manguebit.com>,
+	netfs@lists.linux.dev,
+	linux-afs@lists.infradead.org,
+	linux-cifs@vger.kernel.org,
+	ceph-devel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/4] netfs: Miscellaneous fixes
+Date: Sat, 11 Apr 2026 09:56:38 +0100
+Message-ID: <20260411085643.3221565-1-dhowells@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:1799:b0:683:43f2:5029 with SMTP id
- 006d021491bc7-68be5c5dd22mr3344789eaf.3.1775889746211; Fri, 10 Apr 2026
- 23:42:26 -0700 (PDT)
-Date: Fri, 10 Apr 2026 23:42:26 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <69d9ed52.a00a0220.475f0.0006.GAE@google.com>
-Subject: [syzbot] Monthly fuse report (Apr 2026)
-From: syzbot <syzbot+list5a5fabbd60ac5aa4e76b@syzkaller.appspotmail.com>
-To: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	miklos@szeredi.hu, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-Hello fuse maintainers/developers,
+Hi Christian,
 
-This is a 31-day syzbot report for the fuse subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/fuse
+Here are some miscellaneous fixes for netfslib:
 
-During the period, 3 new issues were detected and 0 were fixed.
-In total, 8 issues are still open and 46 have already been fixed.
+ (1) Fix triggering of a VM_BUG_ON_FOLIO() in netfs_write_begin().
 
-Some of the still happening issues:
+ (2) Fix error handling in netfs_extract_user_iter().
 
-Ref Crashes Repro Title
-<1> 670     Yes   INFO: task hung in __fuse_simple_request
-                  https://syzkaller.appspot.com/bug?extid=0dbb0d6fda088e78a4d8
-<2> 47      Yes   INFO: task hung in fuse_lookup (3)
-                  https://syzkaller.appspot.com/bug?extid=b64df836ad08c8e31a47
-<3> 20      No    linux-next test error: general protection fault in fuse_dev_alloc_install
-                  https://syzkaller.appspot.com/bug?extid=9b639ce94c265f1daf1f
+ (3) Fix the dentry refcounting in cachefiles_cull().
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ (4) Fix netfs_invalidate_folio() to clear the page dirty bit if all dirty
+     data removed.
 
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
+The patches can also be found here:
 
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
+	https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git/log/?h=netfs-fixes
 
-You may send multiple commands in a single email message.
+Thanks,
+David
+
+David Howells (1):
+  netfs: Fix netfs_invalidate_folio() to clear dirty bit if all changes
+    gone
+
+NeilBrown (1):
+  cachefiles: fix incorrect dentry refcount in cachefiles_cull()
+
+Paulo Alcantara (1):
+  netfs: fix error handling in netfs_extract_user_iter()
+
+Viacheslav Dubeyko (1):
+  netfs: fix VM_BUG_ON_FOLIO() issue in netfs_write_begin() call
+
+ fs/cachefiles/namei.c        |  5 +++++
+ fs/netfs/iterator.c          | 13 ++++++++++---
+ fs/netfs/misc.c              |  6 +++++-
+ fs/netfs/read_retry.c        | 11 +++++++++--
+ include/trace/events/netfs.h |  4 ++++
+ 5 files changed, 33 insertions(+), 6 deletions(-)
+
