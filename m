@@ -1,88 +1,187 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C218336A035
-	for <linux-fsdevel@vger.kernel.org>; Sun, 12 Apr 2026 18:59:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87B36CA5A;
+	Sun, 12 Apr 2026 18:59:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776020380; cv=none; b=kM5ZCJULVA3dGwkLb2lEmblYwfChvMCBmw8BheSjv9ABVQFMkTjdGURHnvB6PLn+uiV/BR2RqC5ySrCQRtlAr6CQ88mMqJURoXEEzBJSBQQi8YKB5BYXaV1Nm+xY5TgbB7QypBgumEAE/JEciiPmzfIadIvpctu5fj0CrTFFGOs=
+	t=1776020397; cv=none; b=XBMBOOASaRkM7ZnmW84JRwx6ujEPKRAJ5pcwV4TBDd+mwG8vjEtvOTXvzQBJf/PJfuVAJ1zkxJqOxB22dLzadC9xjlXDAWu2xv47uObOrtJSK8RPXljBQap+dMuU8Lj3IvC8/psQ5L/h3AgDTAZhlwEAs3h4juLO7apMAtD3Yck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776020380; c=relaxed/simple;
-	bh=knW6SA55bMavy43fJYeZSPmnRH+HzaHIwrL4YNrhk3k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Bf2ccE57F6N7lE/wcBvTGvvBFSDSOLiuGwJl9vVnXgkJQMAnyfApZf7icUw1JVLT5FyXpZbhg94WUN4pWo00z2JgpV/QKW8nG+LpM3nHpGdJLAKtWeFRaU6/LkeVlmVDG3Z/MGcw1O4kzF+sA9UobsNG87Le+EVjT9khl52FKfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=k52DjATJ; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	s=arc-20240116; t=1776020397; c=relaxed/simple;
+	bh=c5nX17VEd6pfb8YBjWIDLaDupaE+dxyisObEf1BO9qU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=fADszMghgw1pWywUU935VkP2vI8G+XObBYrq19Xo3cm2LLlmNa2e97bf0YEg0S5CWg4ubWS80AGvu2CBXOiPKfp36Fc8TV5f2wS9AnggI9be7/xb0FZdIwaY476u/jLKFMTbR6eu33y1GKx8IpE2xqwI6T0Cs3+DPKWdCCBp4ck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lxfu5tG4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="k52DjATJ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=szDcnKrXbq5QxftSZcOhEpVFQxSQJEmcbKqj411G3oY=; b=k52DjATJ0Q6cqNa2I2InPnQLjR
-	oYHjrM6LXq3NMybrvE2iAPOXDFvl/JOt0jUUKH1j8yVy9Q0OwkR4iDcL/a5nRMlQhYvH1TrK7Y9Da
-	fX/ke5Os9vRltmwJTsXFa7qaowVk6waOqAAh3X4U517RtJZluXIFJCT6VbOQOrbGqX8QWQt9R0uTx
-	ThVt6p/w2GI0/n2Hjh268ohhCDowu8uty5c1k5iiAvDEAlo1Bhc7Y38T5MCDa8h/6lpE7yABV2uuD
-	1iIDrv/n06ujqa76xJwQpjOKyysyWij39bYkx8bPfuO96EoUI31mx3+heslRyVI0HOXpAEeqeSOGN
-	00n25Ijg==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wC05f-0000000BW0I-3AtW;
-	Sun, 12 Apr 2026 19:03:28 +0000
-Date: Sun, 12 Apr 2026 20:03:27 +0100
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>, Nikolay Borisov <nik.borisov@suse.com>,
-	Max Kellermann <max.kellermann@ionos.com>,
-	Eric Sandeen <sandeen@redhat.com>,
-	Paulo Alcantara <pc@manguebit.org>
-Subject: Re: [RFC PATCH 01/11] shrink_dentry_list(): start with removing from
- shrink list
-Message-ID: <20260412190327.GC3836593@ZenIV>
-References: <20260411213348.GB3836593@ZenIV>
- <20260411213454.2418381-1-viro@zeniv.linux.org.uk>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lxfu5tG4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22BE5C19424;
+	Sun, 12 Apr 2026 18:59:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776020397;
+	bh=c5nX17VEd6pfb8YBjWIDLaDupaE+dxyisObEf1BO9qU=;
+	h=From:Subject:Date:To:Cc:From;
+	b=lxfu5tG4r1oBXYBsWqkORgXMFdEEWDR1s2ofUH+NE9ImdK8k4lw9lqbaSRhOUoQ2Q
+	 99CzxakPFcjKWNYyVZcbfwyAiIQe+KcTS5G0jWUfyz7f1XqXd/RoE+LOVV7N1wzZYb
+	 bXna0M/w7a7Xc3ZmXjwGtk5UiMyabygE/pFLUWjhkm4Qy+//1yGoLPjNS8TAox4t8a
+	 +a2TU2+kx+Mp+kiv+EEPK6Fb8rXXk2Dd+S/w+0YM/gh4WcrXt8NLxIjCxiaoVt6/Qt
+	 cc341LiNqvQpTQyqp1QU8uT1SkuxMXtGBb7JTL8bGZTvcn17/Vo6k8FGz32GNT42K6
+	 rAoDjru9ItEOg==
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Subject: [PATCH RFC 00/13] mm/rmap: support arbitrary folio mappings
+Date: Sun, 12 Apr 2026 20:59:31 +0200
+Message-Id: <20260412-mapcount-v1-0-05e8dfab52e0@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260411213454.2418381-1-viro@zeniv.linux.org.uk>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJPr22kC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDY2MD3dzEguT80rwSXWMjAzOzZDMLcwNDAyWg8oKi1LTMCrBR0UpBbs5
+ KsbW1AN0GLIlfAAAA
+To: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+ =?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+ Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
+ Jann Horn <jannh@google.com>, Brendan Jackman <jackmanb@google.com>, 
+ Zi Yan <ziy@nvidia.com>, Pedro Falcato <pfalcato@suse.de>, 
+ Matthew Wilcox <willy@infradead.org>
+Cc: cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+ linux-fsdevel@vger.kernel.org, "David Hildenbrand (Arm)" <david@kernel.org>
+X-Mailer: b4 0.13.0
 
-On Sat, Apr 11, 2026 at 10:34:44PM +0100, Al Viro wrote:
+This series is related to my LSF/MM/BPF topic:
 
-> +		d_shrink_del(dentry);
-> +		if (unlikely(dentry->d_flags & DCACHE_DENTRY_KILLED)) {
-> +			dentry_free(dentry);
-> +			spin_unlock(&dentry->d_lock);
-Untested is right - missing
-			continue;
-here, obviously...
-> +		}
->  		rcu_read_lock();
->  		if (!lock_for_kill(dentry)) {
-> -			bool can_free;
-> -			rcu_read_unlock();
-> -			d_shrink_del(dentry);
-> -			can_free = dentry->d_flags & DCACHE_DENTRY_KILLED;
->  			spin_unlock(&dentry->d_lock);
-> -			if (can_free)
-> -				dentry_free(dentry);
-> -			continue;
-> +			rcu_read_unlock();
-> +		} else {
-> +			shrink_kill(dentry);
->  		}
-> -		d_shrink_del(dentry);
-> -		shrink_kill(dentry);
->  	}
->  }
->  EXPORT_SYMBOL(shrink_dentry_list);
-> -- 
-> 2.47.3
-> 
-> 
+	[LSF/MM/BPF TOPIC] Towards removing CONFIG_PAGE_MAPCOUNT [1]
+
+And does the following things:
+
+(a) Gets rid of CONFIG_PAGE_MAPCOUNT, stopping rmap-related code to no
+    longer use page->_mapcount.
+
+(b) Converts the entire mapcount to a "total mapped pages" counter, that
+    can trivially be used to calculate the per-page average mapcount in
+    a folio.
+
+(c) Cleans up the code heavily,
+
+(d) Teaches RMAP code to support arbitrary folio mappings: For example,
+    supporting PMD-mapping of folios that span multiple PMDs.
+
+Initially, I wanted to use a PMD + PUD mapcount, but once I realized that
+we can do the same thing much easier with a "total mapped pages" counters,
+I tried that. And was surprised how clean it looks.
+
+More details in the last patch.
+
+Functional Changes
+------------------
+
+The kernel now always behaves like CONFIG_PAGE_NO_MAPCOUNT currently
+does, in particular:
+
+(1) System/node/memcg stats account large folios as fully mapped as soon
+    as a single page is mapped, instead of the precise number of pages
+    a partially-mapped folio has mapped. For example, this affects
+    "AnonPages:", "Mapped:" and "Shmem" in /proc/meminfo.
+
+(2) "mapmax" part of /proc/$PID/numa_maps uses the average page mapcount
+    in a folio instead of the effective page mapcount.
+
+(3) Determining the PM_MMAP_EXCLUSIVE flag for /proc/$PID/pagemap is based on
+    folio_maybe_mapped_shared() instead of the effective page mapcount.
+
+(4) /proc/kpagecount exposes the average page mapcount in a folio
+    instead of the effective page mapcount.
+
+(5) Calculating the Pss for /proc/$PID/smaps and /proc/$PID/smaps_rollup
+    uses the average page mapcount in a folio instead of the effective
+    page mapcount.
+
+(6) Calculating the Uss for /proc/$PID/smaps and /proc/$PID/smaps_rollup
+    uses folio_maybe_mapped_shared() instead of the effective page
+    mapcount.
+
+(7) Detecting partially-mapped anonymous folios uses the average
+    page-page mapcount. This implies that we cannot detect partial
+    mappings of shared anonymous folios in all cases.
+
+TODOs
+-----
+
+Partially-mapped folios:
+
+If deemed relevant, we could detect more partially-mapped shared
+anonymous folios on the memory reclaim path (e.g., during access-bit
+harvesting) and flag them accordingly, so they can get deferred-split.
+We might also just let the deferred splitting logic perform more such
+scanning of possible candidates.
+
+Mapcount overflows:
+
+It may already be possible to overflow a large folio's mapcount
+(+refcount). With this series, it may be possible to overflow
+"total mapped pages" on 32bit; and I'd like to avoid making it an
+unsigned long long on 32bit.
+
+In a distant future, we may want a 64bit mapcountv value, but for
+the time being (no relevant use cases), we should likely reject new
+folio mappings if there is the possibility for mapcount +
+"total mapped pages" overflows early. I assume doing some basic checks
+during fork() + file folio mapping should be good enough (e.g., stop
+once it would turn negative).
+
+This series saw only very basic testing on 64bit and no performance
+fine-tuning yet.
+
+[1] https://lore.kernel.org/all/fe6afcc3-7539-4650-863b-04d971e89cfb@kernel.org/
+
+---
+David Hildenbrand (Arm) (13):
+      mm/rmap: remove folio->_nr_pages_mapped
+      fs/proc/task_mmu: remove CONFIG_PAGE_MAPCOUNT handling for "mapmax"
+      fs/proc/page: remove CONFIG_PAGE_MAPCOUNT handling for kpagecount
+      fs/proc/task_mmu: remove CONFIG_PAGE_MAPCOUNT handling for PM_MMAP_EXCLUSIVE
+      fs/proc/task_mmu: remove mapcount comment in smaps_account()
+      fs/proc/task_mmu: remove CONFIG_PAGE_MAPCOUNT handling in smaps_account()
+      mm/rmap: remove CONFIG_PAGE_MAPCOUNT
+      mm: re-consolidate folio->_entire_mapcount
+      mm: move _large_mapcount to _mapcount in page[1] of a large folio
+      mm: re-consolidate folio->_pincount
+      mm/rmap: stop using the entire mapcount for hugetlb folios
+      mm/rmap: large mapcount interface cleanups
+      mm/rmap: support arbitrary folio mappings
+
+ Documentation/admin-guide/cgroup-v1/memory.rst |   6 +-
+ Documentation/admin-guide/cgroup-v2.rst        |  13 +-
+ Documentation/admin-guide/mm/pagemap.rst       |  30 ++-
+ Documentation/filesystems/proc.rst             |  41 ++--
+ Documentation/mm/transhuge.rst                 |  29 +--
+ fs/proc/internal.h                             |  58 +----
+ fs/proc/page.c                                 |  10 +-
+ fs/proc/task_mmu.c                             |  69 ++----
+ include/linux/mm.h                             |  37 +--
+ include/linux/mm_types.h                       |  22 +-
+ include/linux/pgtable.h                        |  22 ++
+ include/linux/rmap.h                           | 221 ++++++++----------
+ mm/Kconfig                                     |  17 --
+ mm/debug.c                                     |  10 +-
+ mm/internal.h                                  |  30 +--
+ mm/memory.c                                    |   3 +-
+ mm/page_alloc.c                                |  31 +--
+ mm/rmap.c                                      | 302 ++++++++-----------------
+ 18 files changed, 325 insertions(+), 626 deletions(-)
+---
+base-commit: 196ab4af58d724f24335fed3da62920c3cea945f
+change-id: 20260330-mapcount-32066c687010
+
+Best regards,
+-- 
+David Hildenbrand (Arm) <david@kernel.org>
+
