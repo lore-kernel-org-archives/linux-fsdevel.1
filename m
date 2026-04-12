@@ -1,66 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7080D1A275;
-	Sun, 12 Apr 2026 00:46:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD588212FAD;
+	Sun, 12 Apr 2026 06:12:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775954792; cv=none; b=SRLDfllyf1e0dFSa11XdXRQRY0phES/BVk66rcC+Zq4dtEv7bPUocN5M556PDcta/WeGmsDa0KSF3pNigRAjcWnGTjpk1sjbScwlLXkjqXG3tnVT8YGR5VBOV+XcHhW4pctCc6y5gymBgLfJ0aQUYaXfLRDjNo84eQyqT9KjEOA=
+	t=1775974377; cv=none; b=Hr95es09yFNp2hULh3EoZCHXe3U1NfVjmTuwBvL22hCdPmTH7SnGjoh78u/WAlRSCbo87XICk6mDmCwEiz7iA7vOKyEqAJOVJy097ZlGaK8H+4FaLWGvMxArsJVVqfb8980tonUhRYIU8LRv2YLhaBJk0ctKrJNy1qptLkGGbkc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775954792; c=relaxed/simple;
-	bh=DXMiRubHlvCTIwey5BQzAyERUfm0SaM6XImUdTgpUO4=;
+	s=arc-20240116; t=1775974377; c=relaxed/simple;
+	bh=nOLM+PsoUT1yA6dMxwwfRsA4qMQaT1sCJP/CVAkEfCs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iK+qKhPs5wbjE/6Z3ZtW56fdDZvFI7QDVHOWli6nBUTzytvmsRtkpidcCFet/SewSSdM7Kc2RwnxruHQnrj7btHk129G1T3Xo2dCs5LYilbfEfNH2TF6fGzWccG9eNUmaUiff/RmIeeTWFr5cndffO+zaYdHTMbZi0GW3SbuG84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E9OPjwkm; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=LIrSqvx/bl32uRWsnq0oTcR7c96OASmaVnJUABrJXHqZkYk8yQv9cHO+tddGdtU2BRc35nwkR+jFe+OaGACKGXipSXejKWglbCDbF3xO5CLK4Vms0BxgwmopbkKVVDhGWm/9W5kGg6kbs7mYnf5B+bcWL0hVZmOJlZy/c831ByE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=FQGx+IPl; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E9OPjwkm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775954791; x=1807490791;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DXMiRubHlvCTIwey5BQzAyERUfm0SaM6XImUdTgpUO4=;
-  b=E9OPjwkmvlG0PJelbvZN2Fro74JTqDHiSYhfRvteK8I+62I1eWqvG9RN
-   EV+yGM29Ch8k3BoXhUgv7DAKmfqoTNyAyLccP98li1BrqglBI+VbJQMIL
-   1QzpiG5Th/62agNamNKdOopfJ99+DCPqpjezZHCzuZ2rjk2R50BeXTMW1
-   tAtvvOVRXDoCe8JreuIQ/MakZz60i4fGgxYCY8+pfj5pNCI6Gok8RQthl
-   YhSgSWwgSHfn5L2DNjqiv6ijMmrDmCERpf5v9KFQd2v20VT9bE9nyerc8
-   GQRgHo6KQoaMCj7Vy2lX3VPHYrsyvEC/8AxGZhDbuyGo2EFcJSOVC0zzx
-   w==;
-X-CSE-ConnectionGUID: AHB0Nc+XQyWXUWnuRt2FuA==
-X-CSE-MsgGUID: asZF3XEVRLOXGDR8N6Kmbw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11755"; a="79517401"
-X-IronPort-AV: E=Sophos;i="6.23,174,1770624000"; 
-   d="scan'208";a="79517401"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2026 17:46:30 -0700
-X-CSE-ConnectionGUID: SifAcYjiQaqI8LCBuipWiw==
-X-CSE-MsgGUID: UWYEpjYjSqiLIV9R5SGfrA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,174,1770624000"; 
-   d="scan'208";a="222951793"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 11 Apr 2026 17:46:26 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wBiy0-00000000BDZ-1HEP;
-	Sun, 12 Apr 2026 00:46:24 +0000
-Date: Sun, 12 Apr 2026 02:45:51 +0200
-From: kernel test robot <lkp@intel.com>
-To: Christian Benton <t1bur0n.kernel.org@protonmail.ch>,
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, aliceryhl@google.com, ojeda@kernel.org,
-	boqun@kernel.org, gary@garyguo.net, bjorn3_gh@protonmail.com,
-	lossin@kernel.org, a.hindborg@kernel.org, tmgross@umich.edu,
-	dakr@kernel.org, viro@zeniv.linux.org.uk, brauner@kernel.org,
-	jack@suse.cz, Christian Benton <t1bur0n.kernel.org@protonmail.ch>
-Subject: Re: [PATCH v2 1/1] rust: seq_file: add puts, putc, write, and
- hex_dump methods
-Message-ID: <202604120236.nzYgh7vO-lkp@intel.com>
-References: <20260408215530.446994-2-t1bur0n.kernel.org@protonmail.ch>
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="FQGx+IPl"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=54X+pAIEIZJIuajdozx1cKC21ou+PfAOr8qApo+Znmc=; b=FQGx+IPl0FzCYpBAhf/YCT6/GX
+	/f4MRuWnDAxT8pb6TCtNKcoQXCtI9WqCEk+5RkfI0dBxeS3odIkR1Sp7NA1WKspKcVqc7VXpiPxQ/
+	QytTiGTVz6pgygoN+gAkjLRmFkX0sgGYA27KbcloFu9QgdKGVRCfqiXh0MnZviP4vFTK7PwmSwHvi
+	KCXpfXtuLwIB6hczs8k+9c/O7dP8a+FIRX0LMHGYvSW1wVxezBKmOLbwSkWv/GJ0J6D3CDIYmnO5T
+	3DBWV2chahuM02KkvnSLE3sdM2hUi7+sfCkzQRq1clxfIePwwEFeXrWDsEAogp0coLnhFIW16qmQm
+	Fj3h3HDA==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wBo7h-0000000Agqe-09Dl;
+	Sun, 12 Apr 2026 06:16:45 +0000
+Date: Sun, 12 Apr 2026 07:16:44 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [GIT PULL] fuse update for 6.19
+Message-ID: <20260412061644.GA2485189@ZenIV>
+References: <CAJfpegunwB28WKqxNWCQyd5zrMfSif_YmBFp+_m-ZsDap9+G7Q@mail.gmail.com>
+ <CAHk-=wht097GMgEuH870PU4dMfBCinZ5_qvxpqK2Q9PP=QRdTA@mail.gmail.com>
+ <20251206014242.GO1712166@ZenIV>
+ <CAHk-=wg8KJbcPuoRBFmD9c42awaeb4anXsC4evEOj0_QVKg0QQ@mail.gmail.com>
+ <20251206022826.GP1712166@ZenIV>
+ <CAHk-=wgBU3MQniRBmbKi2yj0fRrWQjViViNvNJ6sqjEB-3r4XA@mail.gmail.com>
+ <20251206035403.GR1712166@ZenIV>
+ <20251206042242.GS1712166@ZenIV>
+ <CAJfpegtsDZW7v=YDhs+gPq25G+QOh-5mjiaXT04DDW=iU+R75A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -69,46 +53,52 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260408215530.446994-2-t1bur0n.kernel.org@protonmail.ch>
+In-Reply-To: <CAJfpegtsDZW7v=YDhs+gPq25G+QOh-5mjiaXT04DDW=iU+R75A@mail.gmail.com>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-Hi Christian,
+On Wed, Jan 14, 2026 at 04:23:04PM +0100, Miklos Szeredi wrote:
 
-kernel test robot noticed the following build warnings:
+> Posted a short patchset fixing this.
+> 
+> I really think there's no point in doing the get-ref, drop-ref dance.
+>  Retrieving the dentry from any source will require locking and that
+> needs to nest d_lock with or without the refcount manipulation.
+> 
+> So I kept the d_dispose_if_unused() API, but added a note to the
+> function doc that additional locking is necessary to prevent eviction.
 
-[auto build test WARNING on brauner-vfs/vfs.all]
-[also build test WARNING on next-20260410]
-[cannot apply to linus/master v6.16-rc1]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+	Looking at that thing again, I really hate how subtle it is ;-/
+Consider the lockless case in your ->d_release() and try to write down
+the reasons why it's safe.  Among the other things, kfree_rcu() is there
+to protect RCU callers of ->d_revalidate(); fair enough, but it quietly
+doubles as delaying that freeing past the scope of dentry_hash[].lock in
+which you'd done RB_CLEAR_NODE(&fd->node) that had pushed ->d_release()
+to lockless path.  Another side of that fun is the proof that if
+fuse_dentry_tree_work() sees a dentry, it won't get freed under us.
+Locked case of ->d_release() is easy; proving that the lockless one
+is OK without explict barriers is more interesting.  Basically, all
+insertions are ordered wrt ->d_release() (on ->d_lock), so if the value
+we are observing in RB_EMPTY_NODE() has come from those we will hit the
+locked case.  If the value we observe has come from RB_CLEAR_NODE() in
+earlier fuse_dentry_tree_work() (these are ordered on dentry_hash[].lock,
+wrt each other and insertions), there mustn't have been any subsequent
+insertions, or ->d_release() would've observed the effect of those.
+If the value has come from the _same_ fuse_dentry_tree_work(), the
+implicit barrier in spin_lock() would've ordered that store wrt beginning
+of the scope, and since dentry_free() is ordered wrt ->d_release()
+the callback of call_rcu() in there wouldn't run until the the end of
+the scope in question.  So I think it's OK, but having it done without
+a single comment either on barriers or on memory safety...  Ouch.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Benton/rust-seq_file-add-puts-putc-write-and-hex_dump-methods/20260412-035855
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20260408215530.446994-2-t1bur0n.kernel.org%40protonmail.ch
-patch subject: [PATCH v2 1/1] rust: seq_file: add puts, putc, write, and hex_dump methods
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260412/202604120236.nzYgh7vO-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260412/202604120236.nzYgh7vO-lkp@intel.com/reproduce)
+	Note that we *can* run into a dentry getting killed just after
+RB_CLEAR_NODE() in there; it's just that store to ->d_flags of dying
+or killed dentry is safe under ->d_lock and d_dispose_if_unused() is
+a no-op for dying and killed ones - it's not just "If dentry has no
+external references, move it to shrink list" as your comment in
+fs/dcache.c says.  And in your case it very much does have an
+external reference - it's just that it's an equivalent of RCU one,
+with all the joy that inflicts upon the user.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604120236.nzYgh7vO-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> warning: methods with the following characteristics: (`to_*` and `self` type is not `Copy`) usually take `self` by reference
-   --> rust/kernel/seq_file.rs:29:17
-   |
-   29 |     fn to_c_int(self) -> ffi::c_int {
-   |                 ^^^^
-   |
-   = help: consider choosing a less ambiguous name
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#wrong_self_convention
-   = note: `-W clippy::wrong-self-convention` implied by `-W clippy::all`
-   = help: to override `-W clippy::all` add `#[allow(clippy::wrong_self_convention)]`
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+	FWIW, right now I'm still looking for the source of the UAF
+reported by jlayton; I think this stuff in fuse can be excluded as
+a possible cause, but I'm not happy with that primitive at all... ;-/
