@@ -1,95 +1,100 @@
-Received: from embla.dev.snart.me (embla.dev.snart.me [54.252.183.203])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED781213E7A
-	for <linux-fsdevel@vger.kernel.org>; Sat, 11 Apr 2026 23:33:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.252.183.203
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB49E1A2C04;
+	Sun, 12 Apr 2026 00:19:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775950382; cv=none; b=Su5YawFxD7kK0vQVnf+KuSxlXwrT1nK6NjZed5E+yJyEi9OouVePB/c1y6xdU8lwUyS76BTimXJU1USUcTgiR+eY0gYTsXlfOsDqmDZczmYmNiYzyM+6kqDBLuM6Y1npa62Rr2+x9hqpq6z/tzXYvUH92jmP4ZASrd3izItl5M0=
+	t=1775953177; cv=none; b=rgIrNtXEyP/Nr4VvNcdYRQgUWa/DaJBHZ/WxqIvjVeIEEb84j8vvQuhdstb0PyYGQKJJPk8VkgW84VapTp63j+1eBxO3zs3Tv6k/oxT8JO9zEBXXgDptNZvCGWDSw5U6w3MruiYiVvvXO7fzpz3RxKReC5guTKGNk2X+3F/Ibd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775950382; c=relaxed/simple;
-	bh=MUYZ02mLWmiMs/YnBEJIp/1HN1JmXwl+TnJYYcbfW7Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=o/m4pZGCuGkdSAUHyoIANe3qSrIoNQLuPd48gvLnayY0Lje0YCS/in/IEWlDu7WbNeLoWE8Xrg14P/iah2tvaXTM0xpfuxLqng5C4rznlvuK3IdbJwMAa5TtFhdEIIlFwOs0quoJMM8RXdxkSF5ITuUyqXdIaAesWd5DAHdG5O0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me; spf=pass smtp.mailfrom=dev.snart.me; arc=none smtp.client-ip=54.252.183.203
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dev.snart.me
-Received: from embla.dev.snart.me (localhost [IPv6:::1])
-	by embla.dev.snart.me (Postfix) with ESMTP id B5FF6302F1;
-	Sat, 11 Apr 2026 23:32:58 +0000 (UTC)
-Received: from maya.d.snart.me ([182.226.25.243])
-	by embla.dev.snart.me with ESMTPSA
-	id RTbiGyra2mnxMgcA8KYfjw
-	(envelope-from <dxdt@dev.snart.me>); Sat, 11 Apr 2026 23:32:58 +0000
-From: David Timber <dxdt@dev.snart.me>
-To: Namjae Jeon <linkinjeon@kernel.org>,
-	Sungjong Seo <sj1557.seo@samsung.com>,
-	Yuezhang Mo <yuezhang.mo@sony.com>
-Cc: linux-fsdevel@vger.kernel.org,
-	David Timber <dxdt@dev.snart.me>
-Subject: [PATCH v1] exfat: fix handling of damaged volume in exfat_create_upcase_table()
-Date: Sun, 12 Apr 2026 08:32:51 +0900
-Message-ID: <20260411233251.330698-1-dxdt@dev.snart.me>
-X-Mailer: git-send-email 2.53.0.1.ga224b40d3f.dirty
+	s=arc-20240116; t=1775953177; c=relaxed/simple;
+	bh=bHcod1uxP1ivKIc/+dttd5Ip/4XLZ0zlpJ4vYMeOYgw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=b+tnfTyfbxadYXi1c3tBQ104t2PYfTePKVO3ufCXmY31aPrqP50fB0ge5aG97ukgjv5g8mGZeMWLYSHwXdSbNivRvF33ikXEqCVtDywg9K/DsxZtMrqNB/HdUlDYtt7k9OLbzBBBN0/vXSKmewsjlaXNlHA2DOhHZvPEaEcrBRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E7/hKr8W; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E7/hKr8W"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22B28C19425;
+	Sun, 12 Apr 2026 00:19:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775953177;
+	bh=bHcod1uxP1ivKIc/+dttd5Ip/4XLZ0zlpJ4vYMeOYgw=;
+	h=Date:From:To:Cc:Subject:From;
+	b=E7/hKr8WOoaKcB8CXqmH1Psj6fKTj4JHkgdWgP/3jp75hiOIkbD42uE28515Qaux+
+	 52Qh4wZOstcto7UR19Wo/Axpo4CT2ZKgFWRbdPwwzNhCiprzCAc3shLuL3ZhtuzeAs
+	 3Z/+R3Nd7IVLf2hShVtLnlxZE26zeRkvnjm6nW/50aBxZIQOVil+5RepV0eyMfml6N
+	 1njr9Sg5Ezphu+4qcNSBEeMqQfq68721u1R4we26tyKhpSZLChloYgKLCLVk/6N+5R
+	 F9Vta5A99OPzUjtR75w3wLGwS2yqZDs35y/M+JLts8wYEhHITl8ZEf76pZtY7MYuR8
+	 ht9FVghpcf2Rw==
+Date: Sat, 11 Apr 2026 17:18:20 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linux-fscrypt@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
+	Jaegeuk Kim <jaegeuk@kernel.org>, Christoph Hellwig <hch@lst.de>
+Subject: [GIT PULL] fscrypt updates for 7.1
+Message-ID: <20260412001820.GA6632@sol>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-When the size of the upcase table is set to zero in the dentry for any
-reason(e.g. corrupted media or misbehaving device), an integer overflow
-causes the module to loop indefinitely.
+The following changes since commit 1f318b96cc84d7c2ab792fcc0bfd42a7ca890681:
 
-If the size of the upcase table is read zero, do not attempt to load the
-table. Instead, fallback to loading the default upcase table. If the
-size of the upcase table is zero or no upcase table is found, raise
-exfat_fs_error() to mark the volume read-only.
+  Linux 7.0-rc3 (2026-03-08 16:56:54 -0700)
 
-Signed-off-by: David Timber <dxdt@dev.snart.me>
----
- fs/exfat/nls.c | 19 +++++++++++++------
- 1 file changed, 13 insertions(+), 6 deletions(-)
+are available in the Git repository at:
 
-diff --git a/fs/exfat/nls.c b/fs/exfat/nls.c
-index 57db08a5271c..055447edcf9a 100644
---- a/fs/exfat/nls.c
-+++ b/fs/exfat/nls.c
-@@ -769,13 +769,18 @@ int exfat_create_upcase_table(struct super_block *sb)
- 
- 			tbl_clu  = le32_to_cpu(ep->dentry.upcase.start_clu);
- 			tbl_size = le64_to_cpu(ep->dentry.upcase.size);
--
--			sector = exfat_cluster_to_sector(sbi, tbl_clu);
--			num_sectors = ((tbl_size - 1) >> blksize_bits) + 1;
--			ret = exfat_load_upcase_table(sb, sector, num_sectors,
--				le32_to_cpu(ep->dentry.upcase.checksum));
--
-+			if (tbl_size) {
-+				sector = exfat_cluster_to_sector(sbi, tbl_clu);
-+				num_sectors = ((tbl_size - 1) >> blksize_bits) + 1;
-+				ret = exfat_load_upcase_table(sb, sector, num_sectors,
-+					le32_to_cpu(ep->dentry.upcase.checksum));
-+			} else {
-+				exfat_fs_error(sb,
-+					       "bad upcase table size (0 bytes). Please run fsck");
-+				ret = -EINVAL;
-+			}
- 			brelse(bh);
-+
- 			if (ret && ret != -EIO) {
- 				/* free memory from exfat_load_upcase_table call */
- 				exfat_free_upcase_table(sbi);
-@@ -790,6 +795,8 @@ int exfat_create_upcase_table(struct super_block *sb)
- 			return -EIO;
- 	}
- 
-+	exfat_fs_error(sb, "no upcase table entry. Please run fsck");
-+
- load_default:
- 	/* load default upcase table */
- 	return exfat_load_default_upcase_table(sb);
--- 
-2.53.0.1.ga224b40d3f.dirty
+  https://git.kernel.org/pub/scm/fs/fscrypt/linux.git tags/fscrypt-for-linus
 
+for you to fetch changes up to 1546d3feb5e533fbee6710bd51b2847b2ec23623:
+
+  fscrypt: use AES library for v1 key derivation (2026-03-25 12:06:33 -0700)
+
+----------------------------------------------------------------
+
+- Various cleanups for the interface between fs/crypto/ and
+  filesystems, from Christoph Hellwig
+
+- Simplify and optimize the implementation of v1 key derivation by
+  using the AES library instead of the crypto_skcipher API
+
+----------------------------------------------------------------
+Christoph Hellwig (14):
+      ext4: initialize the write hint in io_submit_init_bio
+      ext4: open code fscrypt_set_bio_crypt_ctx_bh
+      ext4: factor out a io_submit_need_new_bio helper
+      ext4, fscrypt: merge fscrypt_mergeable_bio_bh into io_submit_need_new_bio
+      fscrypt: move fscrypt_set_bio_crypt_ctx_bh to buffer.c
+      fscrypt: pass a byte offset to fscrypt_generate_dun
+      fscrypt: pass a byte offset to fscrypt_mergeable_bio
+      fscrypt: pass a byte offset to fscrypt_set_bio_crypt_ctx
+      fscrypt: pass a byte offset to fscrypt_zeroout_range_inline_crypt
+      fscrypt: pass a byte length to fscrypt_zeroout_range_inline_crypt
+      fscrypt: pass a byte offset to fscrypt_zeroout_range
+      fscrypt: pass a byte length to fscrypt_zeroout_range
+      fscrypt: pass a real sector_t to fscrypt_zeroout_range
+      ext4: use a byte granularity cursor in ext4_mpage_readpages
+
+Eric Biggers (1):
+      fscrypt: use AES library for v1 key derivation
+
+ fs/buffer.c                 | 18 +++++++++-
+ fs/crypto/Kconfig           |  2 +-
+ fs/crypto/bio.c             | 38 +++++++++-----------
+ fs/crypto/fscrypt_private.h |  3 --
+ fs/crypto/inline_crypt.c    | 86 +++++---------------------------------------
+ fs/crypto/keysetup.c        |  2 --
+ fs/crypto/keysetup_v1.c     | 87 +++++++++++++++------------------------------
+ fs/ext4/inode.c             |  5 ++-
+ fs/ext4/page-io.c           | 28 +++++++++++----
+ fs/ext4/readpage.c          | 10 +++---
+ fs/f2fs/data.c              |  7 ++--
+ fs/f2fs/file.c              |  4 ++-
+ fs/iomap/direct-io.c        |  6 ++--
+ include/linux/fscrypt.h     | 37 +++++--------------
+ 14 files changed, 120 insertions(+), 213 deletions(-)
