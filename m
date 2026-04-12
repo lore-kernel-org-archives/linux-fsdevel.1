@@ -1,104 +1,118 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD588212FAD;
-	Sun, 12 Apr 2026 06:12:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 985D95C613;
+	Sun, 12 Apr 2026 07:37:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.171.160.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775974377; cv=none; b=Hr95es09yFNp2hULh3EoZCHXe3U1NfVjmTuwBvL22hCdPmTH7SnGjoh78u/WAlRSCbo87XICk6mDmCwEiz7iA7vOKyEqAJOVJy097ZlGaK8H+4FaLWGvMxArsJVVqfb8980tonUhRYIU8LRv2YLhaBJk0ctKrJNy1qptLkGGbkc=
+	t=1775979472; cv=none; b=kqn4vtuakMXVZ/PN9HyjScRh86ju7rs2lgW42IrpL98fLSu6OG5q3WGDLGXpRljUyjp0S1XYkxSU/ZzWeSYSTBweizzUa0+udLscm0wfbcV1vhYRoD1wK19I6lNUdSjF2B+54oFDb6Kx9cS5GA0j1uq2w8TvfL6uqIWSsIY9hds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775974377; c=relaxed/simple;
-	bh=nOLM+PsoUT1yA6dMxwwfRsA4qMQaT1sCJP/CVAkEfCs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LIrSqvx/bl32uRWsnq0oTcR7c96OASmaVnJUABrJXHqZkYk8yQv9cHO+tddGdtU2BRc35nwkR+jFe+OaGACKGXipSXejKWglbCDbF3xO5CLK4Vms0BxgwmopbkKVVDhGWm/9W5kGg6kbs7mYnf5B+bcWL0hVZmOJlZy/c831ByE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=FQGx+IPl; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	s=arc-20240116; t=1775979472; c=relaxed/simple;
+	bh=SSIUhJU80+447hykQM89Kd0Bd2wiCduRayjO9PAew0U=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=p6p4s2Kw92SPPGJK0F11fyLxfYpgrXEtSbB2cxrYl7yxDyELGB+uTL5Uxem9bQTgnwpserux84h9KE0EPQfYkgMtGw1GlMCZRMjRJk5PsbUQHhK+KAuNL5JRLJTyOjJoChP9VU8/5HNfqxhQNmarTOaIpDakNo7suD+b3u09VEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp; spf=pass smtp.mailfrom=parknet.co.jp; dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=ntdgmlez; dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=hcqgPiGl; arc=none smtp.client-ip=210.171.160.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="FQGx+IPl"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=54X+pAIEIZJIuajdozx1cKC21ou+PfAOr8qApo+Znmc=; b=FQGx+IPl0FzCYpBAhf/YCT6/GX
-	/f4MRuWnDAxT8pb6TCtNKcoQXCtI9WqCEk+5RkfI0dBxeS3odIkR1Sp7NA1WKspKcVqc7VXpiPxQ/
-	QytTiGTVz6pgygoN+gAkjLRmFkX0sgGYA27KbcloFu9QgdKGVRCfqiXh0MnZviP4vFTK7PwmSwHvi
-	KCXpfXtuLwIB6hczs8k+9c/O7dP8a+FIRX0LMHGYvSW1wVxezBKmOLbwSkWv/GJ0J6D3CDIYmnO5T
-	3DBWV2chahuM02KkvnSLE3sdM2hUi7+sfCkzQRq1clxfIePwwEFeXrWDsEAogp0coLnhFIW16qmQm
-	Fj3h3HDA==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wBo7h-0000000Agqe-09Dl;
-	Sun, 12 Apr 2026 06:16:45 +0000
-Date: Sun, 12 Apr 2026 07:16:44 +0100
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [GIT PULL] fuse update for 6.19
-Message-ID: <20260412061644.GA2485189@ZenIV>
-References: <CAJfpegunwB28WKqxNWCQyd5zrMfSif_YmBFp+_m-ZsDap9+G7Q@mail.gmail.com>
- <CAHk-=wht097GMgEuH870PU4dMfBCinZ5_qvxpqK2Q9PP=QRdTA@mail.gmail.com>
- <20251206014242.GO1712166@ZenIV>
- <CAHk-=wg8KJbcPuoRBFmD9c42awaeb4anXsC4evEOj0_QVKg0QQ@mail.gmail.com>
- <20251206022826.GP1712166@ZenIV>
- <CAHk-=wgBU3MQniRBmbKi2yj0fRrWQjViViNvNJ6sqjEB-3r4XA@mail.gmail.com>
- <20251206035403.GR1712166@ZenIV>
- <20251206042242.GS1712166@ZenIV>
- <CAJfpegtsDZW7v=YDhs+gPq25G+QOh-5mjiaXT04DDW=iU+R75A@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="ntdgmlez";
+	dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="hcqgPiGl"
+Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
+	by mail.parknet.co.jp (Postfix) with ESMTPSA id DB7CB26F765F;
+	Sun, 12 Apr 2026 16:37:48 +0900 (JST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
+	s=20250114; t=1775979469;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+ezdJFUdQHPMTWeWoJ/LtRWVv2fY4x7jWAP3znNXtYQ=;
+	b=ntdgmlezQXcDKUx/0aJGoJhB5V1AUDKSt+gzJzKXClGVS/JCZd6JjXNZldEvySCah3oCKa
+	4+RuysSBY/LTAfmtlrzVbC3vNxjnWcAaTK81euWCc0UeRfx+1brZYeTL00koHt6p9sAR4B
+	v6yx5D1T0DG+UKfAHu8+HeByrMODkF6Mnk0uFRgvbtbbG+4SIZspcBiiy0g/NypuCn90xl
+	wko1SncDLCFB44fxVZV3dwgxzSZ9CkI54Sb832QuQDQquqoZ5phjGr6sLpSZmmZu+V1qV0
+	DNKh0lWJdGHKcIOu/NRZ1/0i6pbaJ5zOkmP9OKSSQgvehfKcyX0JC+g9rLnn4A==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
+	s=20250114-ed25519; t=1775979469;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+ezdJFUdQHPMTWeWoJ/LtRWVv2fY4x7jWAP3znNXtYQ=;
+	b=hcqgPiGl57cdm/bBhjxJeq9lB4MXpu+D6ANg5rcO+OQZ2Gbn73ZMO62yZY2hfMNQ5gvIU9
+	EQy9+5tvnAKRh+Ag==
+Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
+	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id 6A5BAE00112;
+	Sun, 12 Apr 2026 16:37:48 +0900 (JST)
+Received: by devron.myhome.or.jp (Postfix, from userid 1000)
+	id 5E30922000D8; Sun, 12 Apr 2026 16:37:48 +0900 (JST)
+From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Ziran Zhang <zhangcoder@yeah.net>, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v4] FAT: Allow 0xE9 near jump in fat_read_static_bpb()
+In-Reply-To: <20260412070109.5197-1-zhangcoder@yeah.net>
+References: <87wlyclmvr.fsf@mail.parknet.co.jp>
+	<20260412070109.5197-1-zhangcoder@yeah.net>
+Date: Sun, 12 Apr 2026 16:37:48 +0900
+Message-ID: <87se90ljcj.fsf@mail.parknet.co.jp>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJfpegtsDZW7v=YDhs+gPq25G+QOh-5mjiaXT04DDW=iU+R75A@mail.gmail.com>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+Content-Type: text/plain
 
-On Wed, Jan 14, 2026 at 04:23:04PM +0100, Miklos Szeredi wrote:
+Ziran Zhang <zhangcoder@yeah.net> writes:
 
-> Posted a short patchset fixing this.
-> 
-> I really think there's no point in doing the get-ref, drop-ref dance.
->  Retrieving the dentry from any source will require locking and that
-> needs to nest d_lock with or without the refcount manipulation.
-> 
-> So I kept the d_dispose_if_unused() API, but added a note to the
-> function doc that additional locking is necessary to prevent eviction.
+> The fat_read_static_bpb() only accepts a short jump as a valid
+> bootstrap code signature for DOS 1.x volumes when the dos1xfloppy
+> mount option is used.
+>
+> However, according to the Microsoft fatgen103.doc, the BS_jmpBoot
+> field has two allowed forms: 0xEB 0x?? 0x90 (short jump + NOP)
+> and 0xE9 0x?? 0x?? (near jump). The specification explicitly states
+> that either form is acceptable.
+>
+> This patch relaxes the check to also accept 0xE9 as the first byte of
+> the jump instruction.
+>
+> Changes in v4:
+> - Add original commit log
+>
+> Signed-off-by: Ziran Zhang <zhangcoder@yeah.net>
 
-	Looking at that thing again, I really hate how subtle it is ;-/
-Consider the lockless case in your ->d_release() and try to write down
-the reasons why it's safe.  Among the other things, kfree_rcu() is there
-to protect RCU callers of ->d_revalidate(); fair enough, but it quietly
-doubles as delaying that freeing past the scope of dentry_hash[].lock in
-which you'd done RB_CLEAR_NODE(&fd->node) that had pushed ->d_release()
-to lockless path.  Another side of that fun is the proof that if
-fuse_dentry_tree_work() sees a dentry, it won't get freed under us.
-Locked case of ->d_release() is easy; proving that the lockless one
-is OK without explict barriers is more interesting.  Basically, all
-insertions are ordered wrt ->d_release() (on ->d_lock), so if the value
-we are observing in RB_EMPTY_NODE() has come from those we will hit the
-locked case.  If the value we observe has come from RB_CLEAR_NODE() in
-earlier fuse_dentry_tree_work() (these are ordered on dentry_hash[].lock,
-wrt each other and insertions), there mustn't have been any subsequent
-insertions, or ->d_release() would've observed the effect of those.
-If the value has come from the _same_ fuse_dentry_tree_work(), the
-implicit barrier in spin_lock() would've ordered that store wrt beginning
-of the scope, and since dentry_free() is ordered wrt ->d_release()
-the callback of call_rcu() in there wouldn't run until the the end of
-the scope in question.  So I think it's OK, but having it done without
-a single comment either on barriers or on memory safety...  Ouch.
+Thanks.
 
-	Note that we *can* run into a dentry getting killed just after
-RB_CLEAR_NODE() in there; it's just that store to ->d_flags of dying
-or killed dentry is safe under ->d_lock and d_dispose_if_unused() is
-a no-op for dying and killed ones - it's not just "If dentry has no
-external references, move it to shrink list" as your comment in
-fs/dcache.c says.  And in your case it very much does have an
-external reference - it's just that it's an equivalent of RCU one,
-with all the joy that inflicts upon the user.
+Acked-by: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
 
-	FWIW, right now I'm still looking for the source of the UAF
-reported by jlayton; I think this stuff in fuse can be excluded as
-a possible cause, but I'm not happy with that primitive at all... ;-/
+> ---
+>
+>> Could you add original commit log, instead of changelog?
+>> 
+>> Thanks.
+>
+> Done! Please ignore the earlier erroneous v2 v2 and v3.
+>
+>  fs/fat/inode.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/fs/fat/inode.c b/fs/fat/inode.c
+> index 28f78df08..0e7d106ea 100644
+> --- a/fs/fat/inode.c
+> +++ b/fs/fat/inode.c
+> @@ -1479,8 +1479,9 @@ static int fat_read_static_bpb(struct super_block *sb,
+>  	int error = -EINVAL;
+>  	unsigned i;
+>  
+> -	/* 16-bit DOS 1.x reliably wrote bootstrap short-jmp code */
+> -	if (b->ignored[0] != 0xeb || b->ignored[2] != 0x90) {
+> +	/* 16-bit DOS 1.x reliably wrote bootstrap short-jmp or near-jmp code */
+> +	if ((b->ignored[0] != 0xeb || b->ignored[2] != 0x90) &&
+> +	    (b->ignored[0] != 0xe9)) {
+>  		if (!silent)
+>  			fat_msg(sb, KERN_ERR,
+>  				"%s; no bootstrapping code", notdos1x);
+
+-- 
+OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
