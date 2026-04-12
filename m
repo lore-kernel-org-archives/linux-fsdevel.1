@@ -1,118 +1,73 @@
-Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 985D95C613;
-	Sun, 12 Apr 2026 07:37:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.171.160.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C58942AA9
+	for <linux-fsdevel@vger.kernel.org>; Sun, 12 Apr 2026 07:44:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775979472; cv=none; b=kqn4vtuakMXVZ/PN9HyjScRh86ju7rs2lgW42IrpL98fLSu6OG5q3WGDLGXpRljUyjp0S1XYkxSU/ZzWeSYSTBweizzUa0+udLscm0wfbcV1vhYRoD1wK19I6lNUdSjF2B+54oFDb6Kx9cS5GA0j1uq2w8TvfL6uqIWSsIY9hds=
+	t=1775979869; cv=none; b=WGYtacN+G1eHwgmDdJwDvAa5xk2XJLFH9v5HYWeFjCT3RG3b745OF+xTukQ0PO4tSVWYqfzShzfslfJdNpq2ZcnEY5D9PaGJ1RjTlwEwrYb5u4DAvk/IiXmx4QXQlt6qfr7OW7MMn7CJuGmSyYXrGyy+6iXXDnDaxBEDigUP9MQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775979472; c=relaxed/simple;
-	bh=SSIUhJU80+447hykQM89Kd0Bd2wiCduRayjO9PAew0U=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=p6p4s2Kw92SPPGJK0F11fyLxfYpgrXEtSbB2cxrYl7yxDyELGB+uTL5Uxem9bQTgnwpserux84h9KE0EPQfYkgMtGw1GlMCZRMjRJk5PsbUQHhK+KAuNL5JRLJTyOjJoChP9VU8/5HNfqxhQNmarTOaIpDakNo7suD+b3u09VEA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp; spf=pass smtp.mailfrom=parknet.co.jp; dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=ntdgmlez; dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=hcqgPiGl; arc=none smtp.client-ip=210.171.160.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="ntdgmlez";
-	dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="hcqgPiGl"
-Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
-	by mail.parknet.co.jp (Postfix) with ESMTPSA id DB7CB26F765F;
-	Sun, 12 Apr 2026 16:37:48 +0900 (JST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114; t=1775979469;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+ezdJFUdQHPMTWeWoJ/LtRWVv2fY4x7jWAP3znNXtYQ=;
-	b=ntdgmlezQXcDKUx/0aJGoJhB5V1AUDKSt+gzJzKXClGVS/JCZd6JjXNZldEvySCah3oCKa
-	4+RuysSBY/LTAfmtlrzVbC3vNxjnWcAaTK81euWCc0UeRfx+1brZYeTL00koHt6p9sAR4B
-	v6yx5D1T0DG+UKfAHu8+HeByrMODkF6Mnk0uFRgvbtbbG+4SIZspcBiiy0g/NypuCn90xl
-	wko1SncDLCFB44fxVZV3dwgxzSZ9CkI54Sb832QuQDQquqoZ5phjGr6sLpSZmmZu+V1qV0
-	DNKh0lWJdGHKcIOu/NRZ1/0i6pbaJ5zOkmP9OKSSQgvehfKcyX0JC+g9rLnn4A==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114-ed25519; t=1775979469;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+ezdJFUdQHPMTWeWoJ/LtRWVv2fY4x7jWAP3znNXtYQ=;
-	b=hcqgPiGl57cdm/bBhjxJeq9lB4MXpu+D6ANg5rcO+OQZ2Gbn73ZMO62yZY2hfMNQ5gvIU9
-	EQy9+5tvnAKRh+Ag==
-Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
-	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id 6A5BAE00112;
-	Sun, 12 Apr 2026 16:37:48 +0900 (JST)
-Received: by devron.myhome.or.jp (Postfix, from userid 1000)
-	id 5E30922000D8; Sun, 12 Apr 2026 16:37:48 +0900 (JST)
-From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Ziran Zhang <zhangcoder@yeah.net>, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v4] FAT: Allow 0xE9 near jump in fat_read_static_bpb()
-In-Reply-To: <20260412070109.5197-1-zhangcoder@yeah.net>
-References: <87wlyclmvr.fsf@mail.parknet.co.jp>
-	<20260412070109.5197-1-zhangcoder@yeah.net>
-Date: Sun, 12 Apr 2026 16:37:48 +0900
-Message-ID: <87se90ljcj.fsf@mail.parknet.co.jp>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	s=arc-20240116; t=1775979869; c=relaxed/simple;
+	bh=pnX8oCDjZN99xrgmD0U6AwR/OQ6ii4zVkCqYu+qNd8M=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=gFIlbWGpnZQCrQyP84MqNgkxOPlkAWSnju+bjRlE0dgZkPbMO3aKFGMt7GqpB8pWtGsyjAVuWK9CFhfuKKYo4RZbdv65YaRaYyuU1Fp2PdU/yidljvKnKiMLDQMltOfKMtq9wwKT9E97n5bW+bHxOUUdIUvSe0zXsLmDo9ESE2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
+Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 63C75QBI021442;
+	Sun, 12 Apr 2026 16:05:26 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from [192.168.1.5] (M106072072000.v4.enabler.ne.jp [106.72.72.0])
+	(authenticated bits=0)
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 63C75QXZ021439
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+	Sun, 12 Apr 2026 16:05:26 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <ee4992b1-06ce-40f9-b554-bfcadd45cf97@I-love.SAKURA.ne.jp>
+Date: Sun, 12 Apr 2026 16:05:25 +0900
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Miklos Szeredi <miklos@szeredi.hu>, Miklos Szeredi <mszeredi@redhat.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Subject: [linux-next] fuse: wrong usage of no_free_ptr() in
+ cuse_channel_open()
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Virus-Status: clean
+X-Anti-Virus-Server: fsav305.rs.sakura.ne.jp
 
-Ziran Zhang <zhangcoder@yeah.net> writes:
+syzbot is failing to test linux-next kernels since next-20260403, for
+commit 288de43f7c73 ("fuse: change fud->fc to fud->chan") is causing
+"cat /dev/cuse" to trigger NULL pointer dereference problem.
 
-> The fat_read_static_bpb() only accepts a short jump as a valid
-> bootstrap code signature for DOS 1.x volumes when the dos1xfloppy
-> mount option is used.
->
-> However, according to the Microsoft fatgen103.doc, the BS_jmpBoot
-> field has two allowed forms: 0xEB 0x?? 0x90 (short jump + NOP)
-> and 0xE9 0x?? 0x?? (near jump). The specification explicitly states
-> that either form is acceptable.
->
-> This patch relaxes the check to also accept 0xE9 as the first byte of
-> the jump instruction.
->
-> Changes in v4:
-> - Add original commit log
->
-> Signed-off-by: Ziran Zhang <zhangcoder@yeah.net>
+The problem is that fch is NULL as of calling fuse_dev_alloc_install(), for
+fuse_conn_init() uses no_free_ptr(fch) instead of plain fch; in other words,
+you are calling no_free_ptr() too early.
 
-Thanks.
+  --- a/fs/fuse/cuse.c
+  +++ b/fs/fuse/cuse.c
+  @@ -521,7 +521,7 @@ static int cuse_channel_open(struct inode *inode, struct file *file)
+           */
+          fuse_conn_init(&cc->fc, &cc->fm, file->f_cred->user_ns, no_free_ptr(fch));
+          cc->fc.release = cuse_fc_release;
+  -       fud = fuse_dev_alloc_install(&cc->fc);
+  +       fud = fuse_dev_alloc_install(fch);
+          fuse_conn_put(&cc->fc);
+          if (!fud)
+                  return -ENOMEM;
 
-Acked-by: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Please be sure to include a fix for this problem before sending pull
+request to Linus, or syzbot would have to disable CONFIG_CUSE because
+syzbot will start failing to test all kernels due to this problem.
 
-> ---
->
->> Could you add original commit log, instead of changelog?
->> 
->> Thanks.
->
-> Done! Please ignore the earlier erroneous v2 v2 and v3.
->
->  fs/fat/inode.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/fs/fat/inode.c b/fs/fat/inode.c
-> index 28f78df08..0e7d106ea 100644
-> --- a/fs/fat/inode.c
-> +++ b/fs/fat/inode.c
-> @@ -1479,8 +1479,9 @@ static int fat_read_static_bpb(struct super_block *sb,
->  	int error = -EINVAL;
->  	unsigned i;
->  
-> -	/* 16-bit DOS 1.x reliably wrote bootstrap short-jmp code */
-> -	if (b->ignored[0] != 0xeb || b->ignored[2] != 0x90) {
-> +	/* 16-bit DOS 1.x reliably wrote bootstrap short-jmp or near-jmp code */
-> +	if ((b->ignored[0] != 0xeb || b->ignored[2] != 0x90) &&
-> +	    (b->ignored[0] != 0xe9)) {
->  		if (!silent)
->  			fat_msg(sb, KERN_ERR,
->  				"%s; no bootstrapping code", notdos1x);
+Reported-by: syzbot+9b639ce94c265f1daf1f@syzkaller.appspotmail.com
+Link: https://syzkaller.appspot.com/bug?extid=9b639ce94c265f1daf1f
 
--- 
-OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
