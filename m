@@ -1,247 +1,140 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6F5135B62F
-	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 21:20:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8328337C904
+	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 21:23:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776115249; cv=none; b=Ye8HOt1+E0YAz7/OlBMrEstjeIH5p4YsN4Im3uetH5x/KD/eC3W6rdQRf8UufoVQWGZVel+cA7pcvmMYihHrdT7TohkR116FD2vDGstANQyNpw3/knk2+UdBucxmx2Mp0Q5q8lRKI7cTrEyIq1rUHYKxMeI/FF8abu3+cOHSmv8=
+	t=1776115405; cv=none; b=BVBWTaiqC1aGRzsp6kignzfgh1UVprdSKmnmLMvIpgsn77YgHjluf1akBwZJFnhE5+3IvfDDcbLReVdulQq4Cr2l13JwP9bIvVTsDAms1qOSuL+XvIlaLbVfwaP+PJ34juQAum+5tMuHtFbftZRKBhBk5PgcrttuIiqxN4DdpgY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776115249; c=relaxed/simple;
-	bh=+KNjJIKSmLSTNCxVPcEZ/mpl/fmbcdg+ekJWpmUzLyE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WpFvY+k6++vntMJT0eh/UwJfNZislZ6RpGc/3WuS7oNMdf0Wj4fZeG/tIUmjR2K0lfpmY/uca82i9P4iV8y0NYZi6ty4GZq3FENrD5EasSQrY2jHs8LRr3zHRGlQH8Xl6Nl1gHwjuPrVm8Paoyb89FcumfxxVUcsz0r7gDRvMoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FUFPFDfB; arc=none smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776115405; c=relaxed/simple;
+	bh=RHw7hafdFcVpHLvN82G8YNIhid3gDr0Hsz6V+vipYdE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LYIHGcxTlOYdLu/W6x/MctCGlgIO5MdS/TaPusaRY+TfPEKSh0qIegpQHW1Lx8swFD7sRh4sGp7nKwovCaxb4tJe90ZfGi8bJy0IeCpLVcr36OTMccmCSSOKNbxYRBxaI7fTdd1Yri8NHPsufa681+onoVufOZs9dXd2x1e4ja0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=D7QKdTHF; arc=none smtp.client-ip=91.218.175.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FUFPFDfB"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-671a827adccso1705989a12.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 14:20:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776115246; x=1776720046; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:mime-version:date:message-id:sender:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=HTRp+l7/0tc5qrHVhM0cLgoMYRaB+2fMs37hHfn3p50=;
-        b=FUFPFDfBlUqsQjlzjVeiHztRcorXcwfjGERgPESGe9/psCC6l+I/Mp+rH2vC/6jV7P
-         euGgVRQVt3VPARFXtNrHxHTQ1MLmvlMxvqsS8QXeGPfbKWlfa9rOQyzHScVo6WZdZ1Pg
-         fs3cdVdYFn/YDnyZNz6+zDjIr6aQEGtSx9lyFo0QNbktsBMWMJN/EXnc+cYJPqucFrEl
-         AuqODk1fNIe0kfTvh7kvoA28b+AWr4b22pj/cItAs99VoU59OCLYv7cZvFABG3LTp/LQ
-         broC9QkCWF60Tbpy4tUrLOX0cDIjIdIfqA80mgFMSQLwhvZmV3M20lZVl69DUQzJ5KiF
-         vUlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776115246; x=1776720046;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:mime-version:date:message-id:sender
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HTRp+l7/0tc5qrHVhM0cLgoMYRaB+2fMs37hHfn3p50=;
-        b=CBpWctDTUAI3eFPkYj9pQdY9J0d6PDRsnl6yA8g2Hh0dN52PdWQmsF+In6+udPSfOI
-         tkkb7zklZSKni21UuxEPg/5EoK8ZoJwPVtHjiOSAVsHXQgQmkFqg4SUhoipoeAELaMlL
-         jWeVLKgNthf7ktvPvIcePldoBo1uXRoelZvmg9BtYQUTeChMO7StMNhGj7C+o1GGKb0L
-         G1CipViOlaxga55zXjY5lPqD1Ab8ZOXVh6BXhkX0xrYVj6VMrk/Ksa50FTpbtNc/FK1S
-         rCpH/hOB3fF202XHAES4YpPuYcpRSTHiWg2ZbPn867hYGdZfxf/96EvdJJKnjBFPn7oH
-         9zuw==
-X-Forwarded-Encrypted: i=1; AFNElJ8uqt/y/ZCr+3UP5ydAgZ9skWndcIa4lpwKoJoce3EcFelmy2eesvhEMJnRR5RU6JHc+Mgf+FhZZ9RtAYTt@vger.kernel.org
-X-Gm-Message-State: AOJu0YwltbpjwRnPbF/V1W82KB1g+ZBXYQOS9puqkqdfDnSNIyxhGf7b
-	Y2PKBH5Oip6L7GFv6gd9WFC9cxtGY8XgHt6jiz5RAAqRCB8ATAhz5sNZ
-X-Gm-Gg: AeBDiev0Segvs/b9gtKhYtL6TkNFyKEe16gPZ8l323V83uitDKS3qAk9jjAlgEAekEG
-	wUGozeaf0lgD3DuqgIZ3dKjSQslzsJlfwQ8XxWmCMiFUVuHBIWI4lOL+g4IBIZwZCu+tFw5h+gG
-	druCod+B2mCBSeU2HaKeJtWISDh1UwqVyYn6u1kG9L+I2I+k7utZFRGuFtXAdo4PcUrtZUI5QlJ
-	f5JRnLFYo9+/QjMcRcRm5NNOZNfQzvjBxzUeCrzoTyXrOcsAJD5v0Fwb4Egt6GUunoitnsxXb40
-	Ft8CE87I9aIGiAvxAmeK7/HcFn2NigSqGJLQeG+eplHvWwKhZBU1c7NlHls6f9at92vqzLbQAGU
-	g9PDKkobVR7Fryn9l/whrQFVtOKQ6iVzt3NFrCOGSkqqT9LpTqXmriJ3cVI+oKuG2uLrl3wS81/
-	0Hs5gFRor8yBW/JDBsYgO/QEJlYREnNdLdPY9yUVLxwYU=
-X-Received: by 2002:a17:906:6a0f:b0:b9b:3a1b:e2ec with SMTP id a640c23a62f3a-b9d7248abc2mr747543566b.14.1776115245800;
-        Mon, 13 Apr 2026 14:20:45 -0700 (PDT)
-Received: from 127.0.0.1 ([94.41.86.134])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9d6de9b65fsm341457466b.7.2026.04.13.14.20.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Apr 2026 14:20:45 -0700 (PDT)
-Sender: <irecca.kun@gmail.com>
-Message-ID: <68d1e9ac-2780-4be3-8ee3-0788062dd3a4@gmail.com>
-Date: Mon, 13 Apr 2026 21:20:43 +0000
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="D7QKdTHF"
+Date: Mon, 13 Apr 2026 14:23:13 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1776115401;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yI8J2cXzEwopatsEgqidYN8N2g5P4kB/2yo2GpS+P7U=;
+	b=D7QKdTHFaq/RjbXd8/DvRJ2OQdNFnKdNdh2OdyaDhsWmNEdF82Ktq6ob3qr/AZT/qFI8nk
+	gMagaeWYpzzRPvATfta9l+8Q6ZjMmhCrM76idR/FgeQdR6MO9cdPQFuirZAoZOdWzvE1WA
+	f0Zjkmnykf46SsHhAa6ViP9mA+IgCkc=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Shakeel Butt <shakeel.butt@linux.dev>
+To: Jan Kara <jack@suse.cz>
+Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	Matthew Wilcox <willy@infradead.org>, lsf-pc@lists.linux-foundation.org
+Subject: Re: [LSF/MM/BPF TOPIC] Filesystem inode reclaim
+Message-ID: <ad1QfUWEPSCDUDYv@linux.dev>
+References: <m5v2s4fc6od2y2en5m62sr6fx57fdkhtqrn2kv47ngpcb65ump@4cfu4os3x5yy>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: The "clockevents: Prevent timer interrupt starvation" patch causes
- lockups
-To: Thomas Gleixner <tglx@kernel.org>, LKML <linux-kernel@vger.kernel.org>
-Cc: Calvin Owens <calvin@wbinvd.org>, Peter Zijlstra <peterz@infradead.org>,
- Anna-Maria Behnsen <anna-maria@linutronix.de>,
- Frederic Weisbecker <frederic@kernel.org>, Ingo Molnar <mingo@kernel.org>,
- John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- linux-fsdevel@vger.kernel.org, Sebastian Reichel <sre@kernel.org>,
- linux-pm@vger.kernel.org, Pablo Neira Ayuso <pablo@netfilter.org>,
- Florian Westphal <fw@strlen.de>, Phil Sutter <phil@nwl.cc>,
- netfilter-devel@vger.kernel.org, coreteam@netfilter.org
-References: <20260407083219.478203185@kernel.org>
- <20260407083247.562657657@kernel.org>
-Content-Language: en-US
-From: Hanabishi <i.r.e.c.c.a.k.u.n+kernel.org@gmail.com>
-In-Reply-To: <20260407083247.562657657@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <m5v2s4fc6od2y2en5m62sr6fx57fdkhtqrn2kv47ngpcb65ump@4cfu4os3x5yy>
+X-Migadu-Flow: FLOW_OUT
 
-On 07/04/2026 08:54, Thomas Gleixner wrote:
-> From: Thomas Gleixner <tglx@kernel.org>
-> 
-> Calvin reported an odd NMI watchdog lockup which claims that the CPU locked
-> up in user space. He provided a reproducer, which sets up a timerfd based
-> timer and then rearms it in a loop with an absolute expiry time of 1ns.
-> 
-> As the expiry time is in the past, the timer ends up as the first expiring
-> timer in the per CPU hrtimer base and the clockevent device is programmed
-> with the minimum delta value. If the machine is fast enough, this ends up
-> in a endless loop of programming the delta value to the minimum value
-> defined by the clock event device, before the timer interrupt can fire,
-> which starves the interrupt and consequently triggers the lockup detector
-> because the hrtimer callback of the lockup mechanism is never invoked.
-> 
-> As a first step to prevent this, avoid reprogramming the clock event device
-> when:
->       - a forced minimum delta event is pending
->       - the new expiry delta is less then or equal to the minimum delta
-> 
-> Thanks to Calvin for providing the reproducer and to Borislav for testing
-> and providing data from his Zen5 machine.
-> 
-> The problem is not limited to Zen5, but depending on the underlying
-> clock event device (e.g. TSC deadline timer on Intel) and the CPU speed
-> not necessarily observable.
-> 
-> This change serves only as the last resort and further changes will be made
-> to prevent this scenario earlier in the call chain as far as possible.
-> 
-> Fixes: d316c57ff6bf ("[PATCH] clockevents: add core functionality")
-> Reported-by: Calvin Owens <calvin@wbinvd.org>
-> Signed-off-by: Thomas Gleixner <tglx@kernel.org>
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> Cc: Anna-Maria Behnsen <anna-maria@linutronix.de>
-> Cc: Frederic Weisbecker <frederic@kernel.org>
-> Cc: Ingo Molnar <mingo@kernel.org>
-> Link: https://lore.kernel.org/lkml/acMe-QZUel-bBYUh@mozart.vkv.me/
-> ---
-> V2: Simplified the clockevents code - Peter
-> ---
->   include/linux/clockchips.h |    2 ++
->   kernel/time/clockevents.c  |   23 +++++++++++++++--------
->   kernel/time/hrtimer.c      |    1 +
->   kernel/time/tick-common.c  |    1 +
->   kernel/time/tick-sched.c   |    1 +
->   5 files changed, 20 insertions(+), 8 deletions(-)
-> --- a/include/linux/clockchips.h
-> +++ b/include/linux/clockchips.h
-> @@ -80,6 +80,7 @@ enum clock_event_state {
->    * @shift:		nanoseconds to cycles divisor (power of two)
->    * @state_use_accessors:current state of the device, assigned by the core code
->    * @features:		features
-> + * @next_event_forced:	True if the last programming was a forced event
->    * @retries:		number of forced programming retries
->    * @set_state_periodic:	switch state to periodic
->    * @set_state_oneshot:	switch state to oneshot
-> @@ -108,6 +109,7 @@ struct clock_event_device {
->   	u32			shift;
->   	enum clock_event_state	state_use_accessors;
->   	unsigned int		features;
-> +	unsigned int		next_event_forced;
->   	unsigned long		retries;
->   
->   	int			(*set_state_periodic)(struct clock_event_device *);
-> --- a/kernel/time/clockevents.c
-> +++ b/kernel/time/clockevents.c
-> @@ -172,6 +172,7 @@ void clockevents_shutdown(struct clock_e
->   {
->   	clockevents_switch_state(dev, CLOCK_EVT_STATE_SHUTDOWN);
->   	dev->next_event = KTIME_MAX;
-> +	dev->next_event_forced = 0;
->   }
->   
->   /**
-> @@ -305,7 +306,6 @@ int clockevents_program_event(struct clo
->   {
->   	unsigned long long clc;
->   	int64_t delta;
-> -	int rc;
->   
->   	if (WARN_ON_ONCE(expires < 0))
->   		return -ETIME;
-> @@ -324,16 +324,23 @@ int clockevents_program_event(struct clo
->   		return dev->set_next_ktime(expires, dev);
->   
->   	delta = ktime_to_ns(ktime_sub(expires, ktime_get()));
-> -	if (delta <= 0)
-> -		return force ? clockevents_program_min_delta(dev) : -ETIME;
->   
-> -	delta = min(delta, (int64_t) dev->max_delta_ns);
-> -	delta = max(delta, (int64_t) dev->min_delta_ns);
-> +	if (delta > (int64_t)dev->min_delta_ns) {
-> +		delta = min(delta, (int64_t) dev->max_delta_ns);
-> +		clc = ((unsigned long long) delta * dev->mult) >> dev->shift;
-> +		if (!dev->set_next_event((unsigned long) clc, dev))
-> +			return 0;
-> +	}
->   
-> -	clc = ((unsigned long long) delta * dev->mult) >> dev->shift;
-> -	rc = dev->set_next_event((unsigned long) clc, dev);
-> +	if (dev->next_event_forced)
-> +		return 0;
->   
-> -	return (rc && force) ? clockevents_program_min_delta(dev) : rc;
-> +	if (dev->set_next_event(dev->min_delta_ticks, dev)) {
-> +		if (!force || clockevents_program_min_delta(dev))
-> +			return -ETIME;
-> +	}
-> +	dev->next_event_forced = 1;
-> +	return 0;
->   }
->   
->   /*
-> --- a/kernel/time/hrtimer.c
-> +++ b/kernel/time/hrtimer.c
-> @@ -1888,6 +1888,7 @@ void hrtimer_interrupt(struct clock_even
->   	BUG_ON(!cpu_base->hres_active);
->   	cpu_base->nr_events++;
->   	dev->next_event = KTIME_MAX;
-> +	dev->next_event_forced = 0;
->   
->   	raw_spin_lock_irqsave(&cpu_base->lock, flags);
->   	entry_time = now = hrtimer_update_base(cpu_base);
-> --- a/kernel/time/tick-common.c
-> +++ b/kernel/time/tick-common.c
-> @@ -110,6 +110,7 @@ void tick_handle_periodic(struct clock_e
->   	int cpu = smp_processor_id();
->   	ktime_t next = dev->next_event;
->   
-> +	dev->next_event_forced = 0;
->   	tick_periodic(cpu);
->   
->   	/*
-> --- a/kernel/time/tick-sched.c
-> +++ b/kernel/time/tick-sched.c
-> @@ -1513,6 +1513,7 @@ static void tick_nohz_lowres_handler(str
->   	struct tick_sched *ts = this_cpu_ptr(&tick_cpu_sched);
->   
->   	dev->next_event = KTIME_MAX;
-> +	dev->next_event_forced = 0;
->   
->   	if (likely(tick_nohz_handler(&ts->sched_timer) == HRTIMER_RESTART))
->   		tick_program_event(hrtimer_get_expires(&ts->sched_timer), 1);
-> 
-> 
+Hi Jan,
 
-Hello.
+Thanks for looking into this issue. I have couple of questions.
 
-Sorry, but this patch as of 7.0 introduced *severe* periodic lockups on my Ryzen 7700X machine.
-I see such messages in the log:
+On Thu, Apr 09, 2026 at 11:16:44AM +0200, Jan Kara wrote:
+> Hello!
+> 
+> This is a recurring topic Matthew has been kicking forward for the last
+> year so let me maybe offer a fs-person point of view on the problem and
+> possible solutions. The problem is very simple: When a filesystem (ext4,
+> btrfs, vfat) is about to reclaim an inode, it sometimes needs to perform a
+> complex cleanup - like trimming of preallocated blocks beyond end of file,
+> making sure journalling machinery is done with the inode, etc.. This may
+> require reading metadata into memory which requires memory allocations and
 
-clocksource: Long readout interval, skipping watchdog check: cs_nsec: 2897344852 wd_nsec: 2897356996
+Some of these allocations may have __GFP_ACCOUNT flag as well, right? Also are
+these just slab allocations or can be page allocations as well? And does the
+caller holds shared locks while performing these allocations?
 
-Reverting d6e152d905bdb1f32f9d99775e2f453350399a6a for mainline fixes the issue for me.
+> as inode eviction cannot fail, these are effectively GFP_NOFAIL
+> allocations (and there are other reasons why it would be very difficult to
+> make some of these required allocations in the filesystems failable).
+> 
+> GFP_NOFAIL allocation from reclaim context (be it kswapd or direct reclaim)
+> trigger warnings 
+
+I assume these are the PF_MEMALLOC + GFP_NOFAIL warnings, right?
+
+> - and for a good reason as forward progress isn't
+> guaranteed. Also it leaves a bad taste that we are performing sometimes
+> rather long running operations blocking on IO from reclaim context thus
+> stalling reclaim for substantial amount of time to free 1k worth of slab
+> cache.
+
+Agreed, particularly in the multi-tenant and overcommitted environments where
+unrelated direct reclaimers have to spend their CPU time to cleaup/freeup
+memory from others.
+
+BTW I think kswapd doing such hard work is fine.
+
+> 
+> I have been mulling over possible solutions since I don't think each
+> filesystem should be inventing a complex inode lifetime management scheme
+> as XFS has invented to solve these issues. Here's what I think we could do:
+> 
+> 1) Filesystems will be required to mark inodes that have non-trivial
+> cleanup work to do on reclaim with an inode flag I_RECLAIM_HARD (or
+> whatever :)). Usually I expect this to happen on first inode modification
+> or so. This will require some per-fs work but it shouldn't be that
+> difficult and filesystems can be adapted one-by-one as they decide to
+> address these warnings from reclaim.
+> 
+> 2) Inodes without I_RECLAIM_HARD will be reclaimed as usual directly from
+> kswapd / direct reclaim. I'm keeping this variant of inode reclaim for
+> performance reasons. I expect this to be a significant portion of inodes
+> on average and in particular for some workloads which scan a lot of inodes
+> (find through the whole fs or similar) the efficiency of inode reclaim is
+> one of the determining factors for their performance.
+> 
+> 3) Inodes with I_RECLAIM_HARD will be moved by the shrinker to a separate
+> per-sb list s_hard_reclaim_inodes and we'll queue work (per-sb work struct)
+> to process them.
+
+This async worker is an interesting idea. I have been brain-storming for similar
+problems and I was going towards more kswapds or async/background reclaimers and
+such reclaimers can do more intensive cleanup work. Basically aim to avoid
+direct reclaimers as much as possible.
+
+> 
+> 4) The work will walk s_hard_reclaim_inodes list and call evict() for each
+> inode, doing the hard work.
+> 
+> This way, kswapd / direct reclaim doesn't wait for hard to reclaim inodes
+> and they can work on freeing memory needed for freeing of hard to reclaim
+> inodes. So warnings about GFP_NOFAIL allocations aren't only papered over,
+> they should really be addressed.
+> 
+> One possible concern is that s_hard_reclaim_inodes list could grow out of
+> control for some workloads (in particular because there could be multiple
+> CPUs generating hard to reclaim inodes while the cleanup would be
+> single-threaded).
+
+Why single-threaded? What will be the issue to have multiple such workers doing
+independent cleanups? Also these workers will need memory guarantees as well
+(something like PF_MEMALLOC) to not cause their allocations stuck in reclaim.
+
+> This could be addressed by tracking number of inodes in
+> that list and if it grows over some limit, we could start throttling
+> processes when setting I_RECLAIM_HARD inode flag.
+
+I assume you are thinking of this specific limit as similar to the dirty memory
+limits we already have, right?
 
