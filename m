@@ -1,186 +1,109 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8484435A925
-	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 15:09:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 313B534B69C;
+	Mon, 13 Apr 2026 15:09:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776092945; cv=none; b=Qz49im6d7uw0q1aCFMgGD/9sbFz05AYktNPegHZhg/IsyqIqcByE8wGPvY/KkqRcD+EboFfVRgcZRRT1Pqi93k1bB0WTCUXThs7ft0WVTbMPTWuS4p+3v1SP5/sFHp6wQwylo4JYw0em7rEL6cUeW63OV2EtyovjoJfBbnJYQGk=
+	t=1776092960; cv=none; b=sE8egH6U/tP1Iq9LSEX6RD093RiNVEiFgwjip1gWuVIk5zx9x/hI/UHYh6/98fNt3tzJZLXg1GolYhpS/Kpa/f1NZTTCZ2JAeJgUwGEAWhQFhrgURBuUQUud2J8crMW9ygNeU0xbTBYmISM0myFpqGwa7R0F4VrVgB/fzj7ifJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776092945; c=relaxed/simple;
-	bh=jDMP+fZwqfgD5IA8cPIvPtBkwaDAjYm8eZ6T53j405M=;
+	s=arc-20240116; t=1776092960; c=relaxed/simple;
+	bh=SKAzL3Yq8wXS7838HUXvKLtOK7sEtRRDjp+BXoCmWQE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MD6JRxc+1M+HgN2oUNFVOrP+lr95UJVI+6GMw2ZjSuMNsjCw6d6qX7nqOL68IzXo5ICFcSn+2vW7XiDo7CcAMsxQTkL+zEgPcODhpNABnMnLe2g1eR9uJI8Tz8oMh4oa8IEajj+RJUTmqv0dPsmEEAAFZtO3i+2x+Hld1y+Cqug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EEybKn28; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HuddEAv7; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EEybKn28; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HuddEAv7; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=IhVj6hEzpMcdE4mpGWxu11gafv1c4jjSenOfjiGK6DrEsgOiGxkAMaO2kXAE0MdvwMqfUT56QdwP31sNohcDM4RkMutyoNmXXETGK/PLUtHeEc3mWQ3kkQYV5YUPAOs91j36E/gUROcX+9lo9eZ0UN4ECF8UXdxx8YQToD1VEJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=VS8nmYSN; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EEybKn28";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HuddEAv7";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EEybKn28";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HuddEAv7"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 83E106A8AE;
-	Mon, 13 Apr 2026 15:09:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1776092942; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UgetTjD7giGAxpCxHYMrnKGytpHhQ8QqoYwhRAcF104=;
-	b=EEybKn283N1i5bwlicKEtdQ/XFWHo6Kg2SeMjb29cTZ09zpjbsJifIP44m8UMgIZdkYS64
-	iJ4+Rc6zm5zlOY1kynuMtDsWK9rTWZLCihHAYZk21TfNPGCNz4roFW3XvVAoQ4xEtEbBP+
-	GAQpGX4Ho9GSe86gEJi9DVkWSvcLCtY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1776092942;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UgetTjD7giGAxpCxHYMrnKGytpHhQ8QqoYwhRAcF104=;
-	b=HuddEAv7ysEcZGsKxZOphcZy0P4vIG4lAG+A/Ov6s+plSApbhonYpBzx3eFmH8MzIEgnKL
-	r5wFA7KD9u0B4kDQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=EEybKn28;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=HuddEAv7
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1776092942; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UgetTjD7giGAxpCxHYMrnKGytpHhQ8QqoYwhRAcF104=;
-	b=EEybKn283N1i5bwlicKEtdQ/XFWHo6Kg2SeMjb29cTZ09zpjbsJifIP44m8UMgIZdkYS64
-	iJ4+Rc6zm5zlOY1kynuMtDsWK9rTWZLCihHAYZk21TfNPGCNz4roFW3XvVAoQ4xEtEbBP+
-	GAQpGX4Ho9GSe86gEJi9DVkWSvcLCtY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1776092942;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UgetTjD7giGAxpCxHYMrnKGytpHhQ8QqoYwhRAcF104=;
-	b=HuddEAv7ysEcZGsKxZOphcZy0P4vIG4lAG+A/Ov6s+plSApbhonYpBzx3eFmH8MzIEgnKL
-	r5wFA7KD9u0B4kDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0FE5C4AF4A;
-	Mon, 13 Apr 2026 15:09:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id AJ6AAA4H3WnnKAAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Mon, 13 Apr 2026 15:09:02 +0000
-Date: Mon, 13 Apr 2026 16:09:00 +0100
-From: Pedro Falcato <pfalcato@suse.de>
-To: Adrian McMenamin <adrianmcmenamin@gmail.com>
-Cc: Linux FS development <linux-fsdevel@vger.kernel.org>, 
-	Linux kernel mailing list <linux-kernel@vger.kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Subject: Re: [PATCH 0/5 -v2] Add support for VMUFAT filesystem
-Message-ID: <uamj3cggfd4fdvah6jjfbyqmffxaib7yj4upbnkxzudaos6ig6@xz4rhorxkufp>
-References: <20260411151155.321214-1-adrianmcmenamin@gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="VS8nmYSN"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=p5+8HmZ+UOEZA8FzGHT3s0GYagF4SWgxaz82IDTYLWg=; b=VS8nmYSNeVgHpsaZaEZSc7alrd
+	Ece6UfwpZo0gYAYOLFOJZZE/hBFiJouZpyUiuGmRLoG9nqad10NdYlmSwRfkKXaEpyxIortVDBZzB
+	YHwfpcKYlHTflaNEEMhTaG9P3dk7kA5c9F1ulpcfrDhLhiu1a/K8+BeE19DOewDuNqIjS6UUAMqpi
+	XOzy5is1AAJvzZa59KIoHkQ3/7tzq7g8aMyQbwGDt3kS3ndlAZmRFyPHqKaVfy+uK5Vh5EQV8sX4F
+	vY0XZt1Uu2YhgWYEkyT+BhkpDUS38GmLSdtcYWd8vc4aVvj7ayThTM3Ic0fxW+OMSya0pgylj3us8
+	eE0PL3CQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1wCIua-0000000E3Wi-0R8x;
+	Mon, 13 Apr 2026 15:09:16 +0000
+Date: Mon, 13 Apr 2026 16:09:15 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Aurelien DESBRIERES <aurelien@hackers.camp>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	viro@zeniv.linux.org.uk, brauner@kernel.org
+Subject: Re: [RFC PATCH 05/10] ftrfs: add file operations
+Message-ID: <ad0HG2nC51h2ZHEv@casper.infradead.org>
+References: <20260413142357.515792-1-aurelien@hackers.camp>
+ <20260413142357.515792-6-aurelien@hackers.camp>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260411151155.321214-1-adrianmcmenamin@gmail.com>
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_TWO(0.00)[2];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Queue-Id: 83E106A8AE
-X-Spam-Flag: NO
-X-Spam-Score: -4.01
-X-Spam-Level: 
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260413142357.515792-6-aurelien@hackers.camp>
 
-On Sat, Apr 11, 2026 at 04:11:34PM +0100, Adrian McMenamin wrote:
-> SEGA Dreamcasts come with a "visual memory unit" (VMU) which contains a slab
-> of flash memory to save games playable on the VMU or data from Dreamcast games.
+On Mon, Apr 13, 2026 at 04:23:51PM +0200, Aurelien DESBRIERES wrote:
+> From: Aurélien DESBRIERES <aurelien@hackers.camp>
 > 
-> The VMU uses a file allocation based filesystem - which we label VMUFAT - to
-> organise the data. With a control block, a file allocation table and a directory.
+> Implement basic file read/write using generic VFS helpers:
 > 
-> All physical VMUs are of the same size (256 blocks of 512 octets) but the
-> filesystem itself is extendable to other sizes and need not be tied to the VMU.
-> 
-> These patches implement VMUFAT as a Linux filesystem independent of hardware.
+> - ftrfs_file_operations: generic_file_read_iter, generic_file_write_iter
+> - ftrfs_file_inode_operations: getattr via simple_getattr
+> - ftrfs_address_space_operations: readpage via block_read_full_folio,
+>   writepage via block_write_full_folio, bmap via generic_block_bmap
 
-Isn't this filesystem a great target for FUSE? You definitely don't need
-super high performance here.
+... where is this?  I only see file_operations and inode_operations.  I
+don't see address_space_operations anywhere.
 
-Also, you're missing the fs maintainers. Adding them.
-
+> Read path delegates to the page cache via generic helpers.
+> Write path is wired but depends on the block allocator (alloc.c)
+> and write_inode (namei.c) for persistence.
 > 
-> It seems obvious almost all users will be those working with Linux on
-> Dreamcasts or Dreamcast emulators but there is no dependence on SH or on the
-> MTD layer.
+> Signed-off-by: Aurélien DESBRIERES <aurelien@hackers.camp>
+> ---
+>  fs/ftrfs/file.c | 25 +++++++++++++++++++++++++
+>  1 file changed, 25 insertions(+)
+>  create mode 100644 fs/ftrfs/file.c
 > 
-> VMUFAT has been tested on a 32 bit Dreamcast and on x86_64 systems.
-> 
-> Tools to format a filesystem are available here: 
-> https://github.com/mcmenaminadrian/mkfs.vmufat
-> 
-> Signed-off-by: Adrian McMenamin <adrianmcmenamin@gmail.com>
-> 
-> Adrian McMenamin (5):
->   Add vmufat super.c
->   Add vmufat inode.c
->   Add vmufat header
->   Add vmufat documentation
->   miscellaneous vmufat changes and additions
-> 
->  Documentation/filesystems/index.rst  |    1 +
->  Documentation/filesystems/vmufat.rst |  127 ++++
->  fs/Kconfig                           |    1 +
->  fs/Makefile                          |    1 +
->  fs/vmufat/Kconfig                    |   14 +
->  fs/vmufat/Makefile                   |    7 +
->  fs/vmufat/inode.c                    | 1017 ++++++++++++++++++++++++++
->  fs/vmufat/super.c                    |  581 +++++++++++++++
->  fs/vmufat/vmufat.h                   |  126 ++++
->  include/uapi/linux/magic.h           |    1 +
->  10 files changed, 1876 insertions(+)
->  create mode 100644 Documentation/filesystems/vmufat.rst
->  create mode 100644 fs/vmufat/Kconfig
->  create mode 100644 fs/vmufat/Makefile
->  create mode 100644 fs/vmufat/inode.c
->  create mode 100644 fs/vmufat/super.c
->  create mode 100644 fs/vmufat/vmufat.h
-> 
+> diff --git a/fs/ftrfs/file.c b/fs/ftrfs/file.c
+> new file mode 100644
+> index 000000000..ef121359b
+> --- /dev/null
+> +++ b/fs/ftrfs/file.c
+> @@ -0,0 +1,25 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * FTRFS — File operations (skeleton)
+> + * Author: roastercode - Aurelien DESBRIERES <aurelien@hackers.camp>
+> + *
+> + * NOTE: read/write use generic_file_* for now.
+> + * The EDAC/RS layer will intercept at the block I/O level (next iteration).
+> + */
+> +
+> +#include <linux/fs.h>
+> +#include <linux/mm.h>
+> +#include "ftrfs.h"
+> +
+> +const struct file_operations ftrfs_file_operations = {
+> +	.llseek         = generic_file_llseek,
+> +	.read_iter      = generic_file_read_iter,
+> +	.write_iter     = generic_file_write_iter,
+> +	.mmap           = generic_file_mmap,
+> +	.fsync          = generic_file_fsync,
+> +	.splice_read    = filemap_splice_read,
+> +};
+> +
+> +const struct inode_operations ftrfs_file_inode_operations = {
+> +	.getattr        = simple_getattr,
+> +};
 > -- 
-> 2.43.0
+> 2.52.0
 > 
-
--- 
-Pedro
+> 
