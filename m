@@ -1,165 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EDEB3ACF10
-	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 09:41:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776073286; cv=none; b=J30R0bzvJIKcQ3KUmwbmrUrlYtwRy4k6bwjwZkvO1pbFd6u1u8bN0qek3PtFpaoIYqO/jMOEm1nwYoL9WtQh5HulUV0bW50zKKTq8dAE4Q+OAAJRl6KOx1/xptNXT1Abk6jkEdZh1hD8fXVR3Wa5XU2rDj5qpQ/oPJ4drXLTkRs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776073286; c=relaxed/simple;
-	bh=F/7XqJrleuAbkkw9wF6BaLrs/oFiwC+qlVpSGucsb9M=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=dlY6IB7dEgap4luCekSlzGqMFQIGNq6wldefpOonLB7se12M1aLgXRsQteEJubPONKYxA8yBXgOPgW+bqmZaRmEX7Jf3CSVgI8RIWJ9XjxoVem+s+oDinDGXX+VQ7OlAg3l/KiFlZLdoWDn4IZTeIV9uhNXL1mbnS9HqQ63EhPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T1FxSZ2N; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36DB33B2FE4
+	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 09:49:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.170
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776073778; cv=pass; b=Hw6HhhTu5mIUFwZqRIlgskWZ1DZ/lVI2UGLWa8W7DEYcWwHFDMG0KAKPVaqj+bqW6ivR1U63JEiYP0mrEZLe0weDMlz4uN0lps+EIuOfgfDwT/1M4XftB9QWV/VMLbpU1sm7LJo5H5UPsmAWZYxHc1cyZ7Xzr9P4u+waite1imo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776073778; c=relaxed/simple;
+	bh=Jiq8G8AEdsoqKwh5PjPO0CAmrRjM7cAFmwSPqfT90Ss=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=V1L1OmshtgL1pxtRINSgZQyykubcZUp5KpQN/6nZMwuZe+6BGz8ZQeXlk2Dbjb26iA/1Rl/t9bQuGZJ5VCrYHhEB0FvuV7weDElspRN7hloEwdBQzmoVE0Z4vDV4ztgC9/gALoxo7MA9Qv+rytdmimGKkSULOuSVTc8O90tzDh0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=En8RjWTn; arc=pass smtp.client-ip=209.85.160.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T1FxSZ2N"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8238EC116C6;
-	Mon, 13 Apr 2026 09:41:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776073286;
-	bh=F/7XqJrleuAbkkw9wF6BaLrs/oFiwC+qlVpSGucsb9M=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=T1FxSZ2NbZeMD8J+1R2DUTQnWTnodfSI1B/5B8K3hLiYpzDJc58UCElNP3CgxlcQU
-	 67XacpyYfczni5gK+4vm9tQ+HREkSTFE9V7RxQAkfW1yE4OvAkUHnvjLkC59A1+qeJ
-	 +BLKDUJeEQwhQNVXi6F4MRq2Hl9D1cCHOmQ/REUzlZRx5ncVHcB9ZORkhsnFVMlqOM
-	 U+U1oeB9jb2jmL3zDDK6PtzDmobb6oPWmiIz64XwFXZTpjgseMCh2FmlZRO1xUfS4V
-	 PNj+ppaIW2D4F91UrdItfbq3zHeU2l2VULOLfRcdkPBhcPBIUQMq4SSdVembmauSRW
-	 Jy7P5Ynb687Jw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B1F1EBFD26;
-	Mon, 13 Apr 2026 09:41:26 +0000 (UTC)
-From: Bernd Schubert via B4 Relay <devnull+bernd.bsbernd.com@kernel.org>
-Date: Mon, 13 Apr 2026 11:41:30 +0200
-Subject: [PATCH v4 7/8] fuse: Add retry attempts for numa local queues for
- load distribution
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="En8RjWTn"
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-50d75bfb259so28308441cf.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 02:49:35 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776073775; cv=none;
+        d=google.com; s=arc-20240605;
+        b=TvkxvL5v1GyCzgPCpxoPe3d6bF/WMjaOsXYSJvJ5qyIaNCyHYu3pYTX0hi5K7JiRPQ
+         rnSDUjpO3QtKmyk2wtY4Cg4Z9soSGv9zT8tRaSGVlX8J3CoFZHIj5ot0fO1T5E14fgX+
+         Y/vP18gVAQlmXJMHYPf1Lijw16Nc95WFWAXcI3qiS4yduu8q0R83ezvBIFo11kusHPm7
+         alaKEPpY7Zrot23k1e+Vr6vMdmKjVIUHeJRbS7JaOS5M6p3pqN8YQAlHqs4aun6xXxZp
+         XmGC0o4HEJWn2y8bgrn6Z7153Nl7DbC1gbV6+JRbhcnI5lndNXeCnRiwxF/DPHz/KkBk
+         PWPg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=Jiq8G8AEdsoqKwh5PjPO0CAmrRjM7cAFmwSPqfT90Ss=;
+        fh=HmY3ZDk2xe5aHYC1geX2bWyxyY0uJOyROR4sSleGj2I=;
+        b=hQjtTcEpZrTERrXkSOXsnI5vP5eygSwPqd4dRVAIREf7TUu6dbcl2l1G6qBAAI/HfW
+         86RisOgLBBw2QEXNVWcvspHjanBWbqX8piJAHkuQA/qFm0PtFGARhdMw496q+rSeZiAT
+         vkR/m/Ii3jD2t0k3MJQMfQFGpimOFVbZtI+QC3yHLKJQOqNXOmGBa34Ie6yNjqxLg5xm
+         lUqmMpDYurluQNXpgr8UnHIK5U4nUumKGE4v+x5qJ+gcv5ilrxmSSZky7EAzxbkzh/Al
+         c/kBq5gMONMJYfn3mSPw9easPJH52cPKwIYd05Du2DgwwvRhyMStQn3Iip9mmkBAbRDC
+         nuqA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1776073775; x=1776678575; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Jiq8G8AEdsoqKwh5PjPO0CAmrRjM7cAFmwSPqfT90Ss=;
+        b=En8RjWTn8FjJCMz7FFf9qdNpGOeCx9NxWnoCX1zRQezfKNklAnfYtInRaiqr1iBmP3
+         fxzKY6TRBMbmi0bSXKqSi/rnJMun+o2NP5R9/9azMsIbsIyGh0sRnZAZ9OdYh6gD/TC3
+         Z5PuUkPCE61aHWO/MMJabKZu69kcyxpT1NML4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776073775; x=1776678575;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Jiq8G8AEdsoqKwh5PjPO0CAmrRjM7cAFmwSPqfT90Ss=;
+        b=plq93jaj/pdt8nkHY4cZxERkgZho2JUyYv81L1NCj1KeEC9Wcfa0R1mrM9q2rG3kCi
+         3BT09gR4ZAAULtAlY2nvINWMdtkP/MoRHMJJ6oh4MxUPBUjje4xSPq5ADANs2oyk3kWP
+         HX1gVgREqeAnpdZd2n5H60+L4ryxJ5qSK1n1ob1Hz5FLmEPMLUmdjqqVv/ekR47G1OM7
+         BCNaW6upSUaJ7/w7bhIH4+zSNWMJTGLoey8DAx/EMulF76bjpdWxouP6RcaqbmPVd715
+         YyHVlW5O+avz8g/04PNNdAhdDsMNwLR1KvZhillG5145xTcdphIf1mpUsBG/JFeFcicU
+         CMiA==
+X-Forwarded-Encrypted: i=1; AFNElJ/N79re1D4Gh6FcpjP9pcyWZlNQkdl6oUb+GEI2xZHObafSlq106fEo5nSnxVbmXoi5fq2rz0xS8c/E4ORL@vger.kernel.org
+X-Gm-Message-State: AOJu0YwzXgbi4wnD2ukhqbb/kSANLchuyjy4XlHFAAjcpJnMAmU/TP0X
+	+hzHjHGxRJ11t6r13vT0QynhEHaMtkfs6dS9EGlHtpdsT9Bx/8RhErM6kJNs3sBBRXogcXN13ir
+	EVutJjs0MCb5dnfppr4sIlD5BgqWuOnF+Kxy2ogTv+BfeTmEo+beE0aY=
+X-Gm-Gg: AeBDietaSLQFrSCyKoZvQDOPDwHK9GsBPyfAI4X4cNaV2EIIScskpiPi+x/KSt3FEJJ
+	xHXgqw1fr5Yeh5UdJYLwiwgGhPSlCNGstl4FAv+BBbs8qt7LYwzFVzaFyrbqfz/T55Dzzmrp2gN
+	FIIdLzdBjrevh/LpXxECtmobl/SvNU4Lpjql5CztIe/sKIxJk6QQV7m50e9jw1Dtsmgp2oUBb8M
+	QL5akcpSwk3X2uL614wifP/ZKAdit13AE/cVOQ12d2Efqkqzawy4TrnweQ7zhKBHfsW4+JdJIWp
+	8R8kLHBo46fWNtHBWVUWEQgUWwkV16Mgs6Ld
+X-Received: by 2002:a05:622a:5a8d:b0:50b:49b2:7bf with SMTP id
+ d75a77b69052e-50dd5a8f9afmr202457341cf.12.1776073774915; Mon, 13 Apr 2026
+ 02:49:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260413-reduced-nr-ring-queues_3-v4-7-982b6414b723@bsbernd.com>
-References: <20260413-reduced-nr-ring-queues_3-v4-0-982b6414b723@bsbernd.com>
-In-Reply-To: <20260413-reduced-nr-ring-queues_3-v4-0-982b6414b723@bsbernd.com>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Joanne Koong <joannelkoong@gmail.com>, linux-fsdevel@vger.kernel.org, 
- Luis Henriques <luis@igalia.com>, Gang He <dchg2000@gmail.com>, 
- Bernd Schubert <bschubert@ddn.com>
-X-Mailer: b4 0.15-dev-2a633
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1776073284; l=2788;
- i=bernd@bsbernd.com; s=20240529; h=from:subject:message-id;
- bh=qpG0ubP0wjO/E0aaRE8uP8XLGn7GvVV5imcxnF0GZf8=;
- b=HG4a8nd3nc9k6Ws7jB8PgxdJzrBH/zLkqHpkhj+0CKvzjSpabk+BkydQmN+qCfcq3Izb7kDLd
- AVqnVItcpXkB9q2U2wLs99PIz/9u4kX0YH2kNco/1DVjWV45jEqB1Rd
-X-Developer-Key: i=bernd@bsbernd.com; a=ed25519;
- pk=EZVU4bq64+flgoWFCVQoj0URAs3Urjno+1fIq9ZJx8Y=
-X-Endpoint-Received: by B4 Relay for bernd@bsbernd.com/20240529 with
- auth_id=732
-X-Original-From: Bernd Schubert <bernd@bsbernd.com>
-Reply-To: bernd@bsbernd.com
+References: <ee4992b1-06ce-40f9-b554-bfcadd45cf97@I-love.SAKURA.ne.jp>
+In-Reply-To: <ee4992b1-06ce-40f9-b554-bfcadd45cf97@I-love.SAKURA.ne.jp>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Mon, 13 Apr 2026 11:49:23 +0200
+X-Gm-Features: AQROBzCituvTEJu0VaOFkuGurdag9wnZqN4FN-CpZjpG9Q9w9VDtfMxru7l5pRQ
+Message-ID: <CAJfpegs+8pcuQFBNB_0TfDh2Fo3_13pcpVNNzRdR=eZ-tvx35A@mail.gmail.com>
+Subject: Re: [linux-next] fuse: wrong usage of no_free_ptr() in cuse_channel_open()
+To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Cc: Miklos Szeredi <mszeredi@redhat.com>, Linus Torvalds <torvalds@linux-foundation.org>, 
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Bernd Schubert <bschubert@ddn.com>
+On Sun, 12 Apr 2026 at 09:05, Tetsuo Handa
+<penguin-kernel@i-love.sakura.ne.jp> wrote:
+>
+> syzbot is failing to test linux-next kernels since next-20260403, for
+> commit 288de43f7c73 ("fuse: change fud->fc to fud->chan") is causing
+> "cat /dev/cuse" to trigger NULL pointer dereference problem.
+>
+> The problem is that fch is NULL as of calling fuse_dev_alloc_install(), for
+> fuse_conn_init() uses no_free_ptr(fch) instead of plain fch; in other words,
+> you are calling no_free_ptr() too early.
 
-This is to further improve performance.
+Thanks, fixed.
 
-fio --directory=/tmp/dest --name=iops.\$jobnum --rw=randread \
---bs=4k --size=1G --numjobs=1 --iodepth=4 --time_based\
---runtime=30s --group_reporting --ioengine=io_uring\
---direct=1
-
-unpatched
-   READ: bw=650MiB/s (682MB/s)
-patched:
-   READ: bw=995MiB/s (1043MB/s)
-
-with --iodepth=8
-
-unpatched
-   READ: bw=641MiB/s (672MB/s)
-patched
-   READ: bw=966MiB/s (1012MB/s)
-
-Reason is that with --iodepth=x (x > 1) fio submits multiple async
-requests and a single queue might become CPU limited. I.e. spreading
-the load helps.
----
- fs/fuse/dev_uring.c | 30 ++++++++++++++++++++++++++++--
- 1 file changed, 28 insertions(+), 2 deletions(-)
-
-diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-index ed061e239b8ed70ff36deb51dd6957fe1704ec87..e06d45b161d5000e24431314b2222b66bdea58aa 100644
---- a/fs/fuse/dev_uring.c
-+++ b/fs/fuse/dev_uring.c
-@@ -19,6 +19,7 @@ MODULE_PARM_DESC(enable_uring,
- 
- #define FUSE_URING_IOV_SEGS 2 /* header and payload */
- 
-+#define FUSE_URING_Q_THRESHOLD 2
- 
- bool fuse_uring_enabled(void)
- {
-@@ -1310,9 +1311,10 @@ static struct fuse_ring_queue *fuse_uring_select_queue(struct fuse_ring *ring,
- 						       bool background)
- {
- 	unsigned int qid;
--	int node;
-+	int node, retries = 0;
- 	unsigned int nr_queues;
- 	unsigned int cpu = task_cpu(current);
-+	struct fuse_ring_queue *queue, *primary_queue = NULL;
- 
- 	/*
- 	 *  Background requests result in better performance on a different
-@@ -1321,6 +1323,7 @@ static struct fuse_ring_queue *fuse_uring_select_queue(struct fuse_ring *ring,
- 	if (background)
- 		cpu++;
- 
-+retry:
- 	cpu = cpu % ring->max_nr_queues;
- 
- 	/* numa local registered queue bitmap */
-@@ -1336,12 +1339,35 @@ static struct fuse_ring_queue *fuse_uring_select_queue(struct fuse_ring *ring,
- 		qid = ring->numa_q_map[node].cpu_to_qid[cpu];
- 		if (WARN_ON_ONCE(qid >= ring->max_nr_queues))
- 			return NULL;
--		return READ_ONCE(ring->queues[qid]);
-+		queue = READ_ONCE(ring->queues[qid]);
-+
-+		/* Might happen on teardown */
-+		if (unlikely(!queue))
-+			return NULL;
-+
-+		if (queue->nr_reqs < FUSE_URING_Q_THRESHOLD)
-+			return queue;
-+
-+		/* Retries help for load balancing */
-+		if (retries < FUSE_URING_Q_THRESHOLD) {
-+			if (!retries)
-+				primary_queue = queue;
-+
-+			/* Increase cpu, assuming it will map to a differet qid*/
-+			cpu++;
-+			retries++;
-+			goto retry;
-+		}
- 	}
- 
-+	/* Retries exceeded, take the primary target queue */
-+	if (primary_queue)
-+		return primary_queue;
-+
- 	/* global registered queue bitmap */
- 	qid = ring->q_map.cpu_to_qid[cpu];
- 	if (WARN_ON_ONCE(qid >= ring->max_nr_queues))
-+	/* Might happen on teardown */
- 		return NULL;
- 	return READ_ONCE(ring->queues[qid]);
- }
-
--- 
-2.43.0
-
-
+Miklos
