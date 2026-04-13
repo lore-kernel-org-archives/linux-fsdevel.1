@@ -1,166 +1,207 @@
-Received: from mail-oo1-f78.google.com (mail-oo1-f78.google.com [209.85.161.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC65334404A
-	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 21:50:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 442A438CFEF;
+	Mon, 13 Apr 2026 22:00:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776117039; cv=none; b=KE5iScXuGyHucMLtKNrMYMTB4FLDV+wKKmFHWvskdVGykimugwFKQPMauIQ4ogWL1gRfNBWjODJSu24TDIb1E1bczbMOMBaF2xCcCqMMnQc+WlquXXzy0xpJLSb+6VIUtFja7m8UvlhsQ355XeexCxpb5gWRKhT2Bg1NTwGrcs4=
+	t=1776117644; cv=none; b=r5vwbYkxK6Nx6CrgDZ6m82fN10+qXrvV+dqe7Bhs4dO5vbfpZVoRn0JA0bwRIYfmpxEMqasmlRFMOaTRic71nWLgPEp2I1Zx4Q2sUVMGoYxHv0BeANGniLnpILhuKtGhW+ahNwi3UY5lFZFIXseA8Dmuoqu4NoSuCQ92BEECW2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776117039; c=relaxed/simple;
-	bh=c+E4eRjAaW/lr/CqAgJ3dUHPMdCkswslkPy6X9zSgU8=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=XInSfOlbB+Tzuh7r019btWwnYT5wn4rlXSjoy0HLi7oEg8gkYAV+9DfwuXnwYUl9oXAztlmErrBGw1kz3Vu6v4041EXoh/+hlaNsBLzT1U1qmm7YQfzE2rtsgn+92pciIwzqNn4S/YsFr0sJMDO3WUm7WjQy92nKw/tKa6HgaBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f78.google.com with SMTP id 006d021491bc7-68d5974b947so5820582eaf.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 14:50:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776117037; x=1776721837;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=OOvOK1zozUXDfJnQ6T41CBvF6hsgMt5kdcyiaW4zRzA=;
-        b=oS8eBIf/lsDZ8GtD0Ii/STsh2cqckRBxqm6+FQQelP5V4t1emvnvQjG5JjXfNTk0q7
-         /imgQrpzcmc0PDzizZKg1QSSEmMyRya+zbiKXK4DjyKUAJpcfrhlduQcbUxHcJ/dk4HM
-         fwbSWMtRLHCer1tmSwUeXYpOT39wd/uzCDN0rttFjAS9YfpbBHI1Z1Lv5bHgFM9og6Xr
-         eVc05Z0jSZ8obkbhqPLfop7EdnG6+U9fadTfgVtIMNhwsvBh9L+z8RR+wlvbo1duwxbf
-         iuPQz6ABx5itPfNey+lnHwysctAeoGYk7v6APUPzr9ib1Cdvl+yfc5u3ogzd4cbDYgvW
-         2pJw==
-X-Forwarded-Encrypted: i=1; AFNElJ9hlTfZpnCn70YsbYKgTTA2Ez7DEMyp/wmuXqrkY1XI9rE5/k+/ivqrUyTn8VMZkroLhfxX2HEIaMdOR+sE@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWhmK89rZsUXtSe03LNV3wyaTEM4bFMT1bJHkBztlOpKUSi97I
-	VJasrcxofyXWyFC/+18HOJ3KeO8+3Lph4hZd17M6JnZ0rEQB2A2TcVDPyIRaXuLdwuGEFHxxwlu
-	1V/DH6s9HZywa0IiyJAdDR/Y7cYKdYhn7nXWPCYPKPBsLr/8mYPGntDdTuCQ=
+	s=arc-20240116; t=1776117644; c=relaxed/simple;
+	bh=+d5elElghJKOKPQGOlV3P5BiT4TgXBpZ6fBtl1v9+j8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=l25Kc6j+YnOoLFwCKqKwhAt6URNau45GY1aX1tdCc69bqu8asa526bZ3Tswa1x8aYXdzkKQjhKOHQ00sTczLvhKCTgoSNYiwmYSo9j6Wm09YKW4jCXsn+TE7yAft9F5PO4ysPWgUS9Nfxb/L76NjxCS9nra/954+ACjD1YSOa7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=cU+nR2wC; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="cU+nR2wC"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=+xx0sRYVrbduhk04sImp2beyOtNvxalHH0K6TOAA1wM=; b=cU+nR2wCNa2YPDhpQ4ebJZCnDo
+	lc/HIYTSOJANTOp0Gg1lsCMEwt4VZBGoK7N0QTMuRgpiq6frV5zIQiGZiFAXOessgStGzqwb8CFgn
+	rqjVeGx44Hgv2aRqb+fVh5OdsOJr3Yzn3Po2a6pb9daAEdcz2LT81+9wPrllq1ceC7aBL0iIxt1mJ
+	3rTa3+13m/8JeD36zYO/ONvUJthqywlwEmcpiGq/E74Ws0oAw6nocgMwTEH5xnC5ZsEzX7QZhcyeY
+	h17BFNzB0sAIblMHylm4EJpWErzxFeSRSFUMcIZNa4UqIOH11M3l9j4rzqOY1Dj3k2K9OGM7XrrVs
+	jMEq/vag==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wCPOT-0000000ElPE-3NBZ;
+	Mon, 13 Apr 2026 22:04:34 +0000
+Date: Mon, 13 Apr 2026 23:04:33 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [GIT PULL] fuse update for 6.19
+Message-ID: <20260413220433.GD3836593@ZenIV>
+References: <CAHk-=wht097GMgEuH870PU4dMfBCinZ5_qvxpqK2Q9PP=QRdTA@mail.gmail.com>
+ <20251206014242.GO1712166@ZenIV>
+ <CAHk-=wg8KJbcPuoRBFmD9c42awaeb4anXsC4evEOj0_QVKg0QQ@mail.gmail.com>
+ <20251206022826.GP1712166@ZenIV>
+ <CAHk-=wgBU3MQniRBmbKi2yj0fRrWQjViViNvNJ6sqjEB-3r4XA@mail.gmail.com>
+ <20251206035403.GR1712166@ZenIV>
+ <20251206042242.GS1712166@ZenIV>
+ <CAJfpegtsDZW7v=YDhs+gPq25G+QOh-5mjiaXT04DDW=iU+R75A@mail.gmail.com>
+ <20260412061644.GA2485189@ZenIV>
+ <20260413002940.GA2846532@ZenIV>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:290e:b0:68e:314a:aefa with SMTP id
- 006d021491bc7-68e314abe27mr4743672eaf.28.1776117036870; Mon, 13 Apr 2026
- 14:50:36 -0700 (PDT)
-Date: Mon, 13 Apr 2026 14:50:36 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <69dd652c.a00a0220.475f0.002d.GAE@google.com>
-Subject: [syzbot] [hfs?] general protection fault in hfsplus_cat_write_inode
-From: syzbot <syzbot+c0ba772a362e70937dfb@syzkaller.appspotmail.com>
-To: frank.li@vivo.com, glaubitz@physik.fu-berlin.de, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	slava@dubeyko.com, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260413002940.GA2846532@ZenIV>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-Hello,
+On Mon, Apr 13, 2026 at 01:29:41AM +0100, Al Viro wrote:
 
-syzbot found the following issue on:
+> As for the primitive itself...
+> 
+> /**
+>  * __move_to_shrink_list - try to place a dentry into a shrink list
+>  * @dentry:	dentry to try putting into shrink list
+>  * @list:	the list to put @dentry into.
+>  * Returns:	true @dentry had been placed into @list, false otherwise
+>  *
+>  * If @dentry is idle and not already include into a shrink list, move
+>  * it into @list and return %true; otherwise do nothing and return %false.
+>  *
+>  * Caller must be holding @dentry->d_lock.  There must have been no calls of
+>  * dentry_free(@dentry) prior to the beginning of the RCU read-side critical
+>  * area in which __move_to_shrink_list(@dentry, @list) is called.
+>  *
+>  * @list should be thread-private and eventually emptied by passing it to
+>  * shrink_dentry_list().
+>  */
+> bool __move_to_shrink_list(struct dentry *dentry, struct list_head *list)
 
-HEAD commit:    26ff969926a0 Merge tag 'rust-7.1' of git://git.kernel.org/..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=123510ce580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=bcb138057684c76a
-dashboard link: https://syzkaller.appspot.com/bug?extid=c0ba772a362e70937dfb
-compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=163510ce580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=112bdb02580000
+Speaking of safety, it's probably worth adding
+struct shrink_list {
+	struct list_head __set;
+};
+and converting the lists used for that to that type.  That would affect
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/8710bc1acc42/disk-26ff9699.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/f03e7f936c8a/vmlinux-26ff9699.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/ba58fa2f951e/bzImage-26ff9699.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/08271f11c795/mount_0.gz
+1) function arguments that are borrowed pointers to instances:
+	* shrink_dentry_list() argument
+	* __move_to_shrink_list() second argument
+	* d_shrink_add() second argument
+	* __umount_mnt() second argument
+	* maybe_free_mountpoint() second argument
+	* dput_to_list() second argument
+	* d_lru_shrink_move() second argument
+	* dentry_list_isolate() third argument/freeable (disguised closure,
+          callback + argument passed via list_lru_shrink_walk())
+	* dentry_list_isolate_shrink() third argument/freeable (ditto)
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+c0ba772a362e70937dfb@syzkaller.appspotmail.com
+2) one global instance:
+	* ex_mountpoints; implicitly acquired in the beginning of exclusive
+scope of namespace_sem.  Contents moved into auto namespace_unlock():list
+a bit before dropping namespace_sem or downgrading it to shared with.
+No accesses to emptied object between the move and unlock/downgrade (the
+only thing done in that range is checking if notify_list is empty in order
+to decide whether to unlock or to downgrade to shared).  All accesses are
+done by holders of namespace_sem (exclusive).  Verifying is...  interesting.
 
-loop0: detected capacity change from 0 to 1024
-hfsplus: xattr search failed
-Oops: general protection fault, probably for non-canonical address 0xdffffc0000000005: 0000 [#1] SMP KASAN PTI
-KASAN: null-ptr-deref in range [0x0000000000000028-0x000000000000002f]
-CPU: 0 UID: 0 PID: 6072 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 03/18/2026
-RIP: 0010:hfsplus_cat_write_inode+0xbe/0x8f0 fs/hfsplus/inode.c:637
-Code: f3 f3 4a 89 44 33 51 4a 89 44 33 59 66 42 c7 44 33 61 f3 f3 42 c6 44 33 63 f3 e8 2d 77 23 ff 4d 8d 7d 28 4c 89 f8 48 c1 e8 03 <42> 80 3c 30 00 74 08 4c 89 ff e8 73 9b 89 ff 41 be 98 07 00 00 4d
-RSP: 0018:ffffc900040f7880 EFLAGS: 00010206
-RAX: 0000000000000005 RBX: 1ffff9200081ef14 RCX: ffff888028725b80
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-RBP: ffffc900040f7c10 R08: 0000000000000004 R09: 0000000000000004
-R10: fffff5200081ef24 R11: fffffbfff1ed4f17 R12: 1ffff9200081ef8c
-R13: 0000000000000000 R14: dffffc0000000000 R15: 0000000000000028
-FS:  0000555586e4a500(0000) GS:ffff888126332000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f427032f000 CR3: 0000000036c06000 CR4: 00000000003526f0
-Call Trace:
- <TASK>
- hfsplus_unlink+0x57a/0x930 fs/hfsplus/dir.c:435
- vfs_unlink+0x272/0x6d0 fs/namei.c:5476
- filename_unlinkat+0x3d3/0x610 fs/namei.c:5546
- __do_sys_unlink fs/namei.c:5581 [inline]
- __se_sys_unlink+0x2e/0x140 fs/namei.c:5578
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x14d/0xf80 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f464eabc819
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffd69795788 EFLAGS: 00000246 ORIG_RAX: 0000000000000057
-RAX: ffffffffffffffda RBX: 00007f464ed35fa0 RCX: 00007f464eabc819
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000200000000200
-RBP: 00007f464eb52c91 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f464ed35fac R14: 00007f464ed35fa0 R15: 00007f464ed35fa0
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:hfsplus_cat_write_inode+0xbe/0x8f0 fs/hfsplus/inode.c:637
-Code: f3 f3 4a 89 44 33 51 4a 89 44 33 59 66 42 c7 44 33 61 f3 f3 42 c6 44 33 63 f3 e8 2d 77 23 ff 4d 8d 7d 28 4c 89 f8 48 c1 e8 03 <42> 80 3c 30 00 74 08 4c 89 ff e8 73 9b 89 ff 41 be 98 07 00 00 4d
-RSP: 0018:ffffc900040f7880 EFLAGS: 00010206
-RAX: 0000000000000005 RBX: 1ffff9200081ef14 RCX: ffff888028725b80
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-RBP: ffffc900040f7c10 R08: 0000000000000004 R09: 0000000000000004
-R10: fffff5200081ef24 R11: fffffbfff1ed4f17 R12: 1ffff9200081ef8c
-R13: 0000000000000000 R14: dffffc0000000000 R15: 0000000000000028
-FS:  0000555586e4a500(0000) GS:ffff888126332000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f427032f000 CR3: 0000000036c06000 CR4: 00000000003526f0
-----------------
-Code disassembly (best guess):
-   0:	f3 f3 4a 89 44 33 51 	repz xrelease mov %rax,0x51(%rbx,%r14,1)
-   7:	4a 89 44 33 59       	mov    %rax,0x59(%rbx,%r14,1)
-   c:	66 42 c7 44 33 61 f3 	movw   $0xf3f3,0x61(%rbx,%r14,1)
-  13:	f3
-  14:	42 c6 44 33 63 f3    	movb   $0xf3,0x63(%rbx,%r14,1)
-  1a:	e8 2d 77 23 ff       	call   0xff23774c
-  1f:	4d 8d 7d 28          	lea    0x28(%r13),%r15
-  23:	4c 89 f8             	mov    %r15,%rax
-  26:	48 c1 e8 03          	shr    $0x3,%rax
-* 2a:	42 80 3c 30 00       	cmpb   $0x0,(%rax,%r14,1) <-- trapping instruction
-  2f:	74 08                	je     0x39
-  31:	4c 89 ff             	mov    %r15,%rdi
-  34:	e8 73 9b 89 ff       	call   0xff899bac
-  39:	41 be 98 07 00 00    	mov    $0x798,%r14d
-  3f:	4d                   	rex.WRB
+3) instances in auto variables - all start empty, all are emptied by
+shrink_dentry_list() at the end of scope or nearby:
+	* d_prune_aliases():dispose
+	* prune_dcache_sb():dispose
+	* shrink_dcache_sb():dispose
+	* fuse_dentry_tree_work():dispose
+	* mntput_no_expire_slowpath():list
+	* namespace_unlock():list
 
+On top of that, there's struct collect_data::dispose; the only instance
+of struct collect_data is in shrink_dcache_tree(), passed (via a poor man's
+closure) to select_collect()/select_umount()/select_collect2().
+Emptying the instance is... interesting.  Normally that happens at the
+end of scope; however, in case of select_collect2() stopping at the
+dying dentry we ask to be notified when the victim stops twitching,
+evict whatever we'd collected prior to that point, emptying the shrink list,
+then wait for completion.  Inverting the order would lead to pointless
+waiting, so shrink_dentry_list() here (and only here, AFAICS) really
+shouldn't be reordered to the end of scope.
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+Operations:
+	extraction of the first element (in shrink_dentry_list()).
+	(implicitly) removal of element in d_shrink_del().
+	element insertion in d_shrink_add().
+	list fed to list_lru_isolate_move() as the third argument,
+with element insertion done there.
+	entire contents spliced to another set (in namespace_unlock()).
+	emptiness checks (in shrink_dcache_tree(), some of those redundant,
+also in select_collect(), select_collect2() and shrink_dentry_list()).
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+All of that does look like a good cause for an explicit type.  And
+it looks like cleanup.h infrastructure might be of some use for
+those, to make it easier to verify that we don't forget to empty
+the suckers at the end...
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+PS: analysis of ex_mountpoints accesses:
+	Users: unpin_mountpoint(), umount_mnt(), mnt_change_mountpoint(),
+namespace_unlock().  Call trees:
+	unpin_mountpoint()
+	    __detach_mounts(), in scope of namespace_excl
+	    attach_recursive_mnt()
+	        graft_tree()
+	            do_loopback(), in scope of LOCK_MOUNT
+	            do_add_mount()
+	                do_new_mount_fc(), in scope of LOCK_MOUNT
+	                finish_automount(), in scope of LOCK_MOUNT_EXACT
+	        do_move_mount(), in scope of LOCK_MOUNT_MAYBE_BENEATH
+	    __unlock_mount()
+	        unlock_mount()
+	            termination of scope of LOCK_MOUNT{,_EXACT,_EXACT_COPY}
+	        lock_mount_exact()
+	            failure exit past grabbing namespace_sem exclusive
+	umount_mnt()
+	    umount_tree()
+	        do_umount(), in scope of namespace_excl
+	        __detach_mounts(), in scope of namespace_excl
+	        copy_tree()
+		    propagate_mnt()
+			attach_recursive_mnt(), see above
+	            __do_loopback()
+	                do_loopback(), in scope of LOCK_MOUNT
+	                get_detached_copy(), in scope of namespace_excl
+	                create_new_namespace(), in scope of LOCK_MOUNT_EXACT_COPY
+	            copy_mnt_ns(), in scope of namespace_excl
+	        dissolve_on_fput(), in scope of namespace_excl
+	        attach_recursive_mnt(), see above
+	    __detach_mounts(), in scope of namespace_excl
+	    attach_recursive_mnt(), see above
+	    path_pivot_root(), in scope of LOCK_MOUNT
+	mnt_change_mountpoint()
+	    attach_recursive_mnt(), see above
+	    reparent()
+		propagate_umount()
+		    umount_tree(), see above
+	namespace_unlock()
+	    termination of namespace_excl scope, some of those written
+	    weirdly for various reasons.
+Entering a LOCK_MOUNT... scope opens a namespace_excl one; leaving -
+closes it.
+	Overall, moderately unpleasant to verify manually; verifying on
+compiler level...  Ouch.  Sure, we could invent an empty type for that
+with namespace_excl scope declaring an instance of that type and then
+pass it as a token around, but call chains are deep enough to make that
+rather clumsy.  Some of that might be helped by the fact that instances
+of struct pinned_mountpoint could be treated as bearing such token -
+that reduces the call tree quite a bit (e.g. unpin_mountpoint() part
+falls out, so does attach_recursive_mnt(), but e.g. mnt_change_mountpoint()
+part still includes a bunch of chains like
+	mnt_change_mountpoint() called by
+	reparent(), which is called by
+	propagate_umount(), which is called by
+	umount_tree(), which is called by
+	copy_tree(), which is called by
+	propagate_mnt(), which is called by
+	attach_recursive_mnt(), which does
+have pinned_mountpoint.  Nothing deeper in that call chain has any use
+of pinned_mountpoint in question, so we'd need to propagate the token
+through all of that.  Unpleasant...  In any case, that's not going to
+happen until the oddball namespace_excl scopes are untangled.
