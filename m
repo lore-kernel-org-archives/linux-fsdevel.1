@@ -1,177 +1,652 @@
-Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012030.outbound.protection.outlook.com [40.107.200.30])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 836E0391E79;
-	Mon, 13 Apr 2026 20:42:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.200.30
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776112975; cv=fail; b=MpJA7uvReuz1+VC98IdeBmG/gKMJOe8+JUqeMHaN1HkK03+N4ntcFmWa+ZImp734AW7/P9I4zDxCAJaSxvXD10xg+eDZLsHcmn/cOaDg54dwY70S712zANK1GaYmgMIKISHm3gH1gUeEVPD4XVtt8ydtcqm7ByIGOTi/+vddFk0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776112975; c=relaxed/simple;
-	bh=Rokn8L/Ulex63D5ZCL5Q8wQzbugD6fk8vN53Xt+8K/k=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=qVYAEH/TfL3RiNhxX7D14bMGg3CJs4nLfgxrJqWtKSPmnWvEpNyrUjRNHa29gJ+ejWRe7ioOvi2bHH6u7n3PdqBUW1IIXrYoUz80RFbJr8K6Az3WBSQqa+vntMvkg1W95qRac7u8VFH4z526r/5rOGwZOyrkDaoin95XXoSax3E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=nAzi/8Sx; arc=fail smtp.client-ip=40.107.200.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FA503914E7
+	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 20:44:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776113041; cv=none; b=C8WFc+hHypjdnGhObNSq0qbkxIiBGt+02JtrsM13Yf7s1gGLVV07K8nsJRNc7vcluDKH01DuihMmDr+OILAda3Oh9H9keBQD1F8+k/+zNrSCmjjhkPtxXlgKTEuiQ6M9H99s3r13Wegnv0eLfU3oE3d/hNdRFIr/on+01Yvz1LQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776113041; c=relaxed/simple;
+	bh=l/9Enu/5Mpdj4z5io8N0vOWTIXFw3s5GeSfiLwTbBUU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lgcCLa+3b0fGxhwBbaah6eY4xU/S3d6viKwSVXYU5J6lyrcqAfOYhSSNOIkfYLT7DKFH9JZgmsS17xrV7gFWfDn1XSsz9IbqM8fGi2I/CV88xTw0rMQr80u1+pFkBALBuP2Lwpct9qnM8bfhQkDSLOOM9bcD0THHykz8ZE8buwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h7z5rIsC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="nAzi/8Sx"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kFfE5MYiTmBlS2LQJGgP+QV4dPztSWxaRjRw6hrlDJAjUeAmv0YA9mjQbdX63d0LD7e/cn4mI8EybS7Y6XbZ+dOKe55S/WDzuksUA5CKnc9YpBL0/r48zlcezbNqZ2pls6JO++sBqhGzNq/Js0EsCI+MkX7rScXwO2Ry8LHo4cr4nsE2EqxylcKdJhFoRhtO7DDGXbDF8G+EBEdM+WxPhT/cIP/1UF6CEfGBhOR1Kz/iYXoCYkILPnPqTcCppRFealcS6Wyzf0c3oba60jrBCEd57Za3nY9fdynlCoUi+Z2OsMKH3+hBke8Qk1qHryrvbarw01s8dYlcWcy441mdvQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fcIIFMOCklLrkVEfByb5lM5cc5C1Di7q7PPaM8L8TSo=;
- b=TwwKsTVfcqKcnx5eWeeRpVaxY31yOgEmnNkBgSqoYdDXSzyPDBC+dweLVUDYK+MK5zaoEM5Gs3yTkJeUaUQQrHLH7Yngc/zzg82A0ofmUIX7f9YG2Sn7oO4rqYMh2yyO3E6xRpSOVxNdYg4KdIHhb9xFhmV6ZSjoZLXpgVBWw5GnyHy/TkqD+6ULcC6oUWARONhS6NKLIWW1g9VjLCj6zfes3+mX5rfIZJSQo58oXZJk5humpRoHZ+iWPNd+zdc7/vkfiK4iP/8GIGU8Th+XJUXYv1KKI/jBQwxYieRRMhEQ5qhPlXMEKX+8wD4TK373kCivzVktsX6zFUQOS4BlQA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fcIIFMOCklLrkVEfByb5lM5cc5C1Di7q7PPaM8L8TSo=;
- b=nAzi/8SxPV2AqLyigXCl3GTMAD6hTnZolHG+eOGZAsuzpagC1g43/CzWTAi08gESXy7fRiajTotacmyHHftrf7s5QgH5Tk35Kf4HmrJwBgo5c4+QSRN+vQRyyWGw9CixiKhmref2ImalwPQLWp/d47fwOrhl/Y8sgIJqXXkiDJFqX0tutPFwJ5DWiH8OhAxh7jgS2tu7OstPTtkb/oMhneT1Rvv2im/MiestV5UlBAsS40x1Y3Rmm8jbEVikX0DXKI27eMfnU72uJ1NmAbLyKPF6Su9v+tIVorkJpO9gJ6oa7AO0kphEvVB1mElfQXGWritKvAODf0Pb4V6hBNbZlw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
- CH3PR12MB8727.namprd12.prod.outlook.com (2603:10b6:610:173::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.20; Mon, 13 Apr
- 2026 20:42:41 +0000
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::f01d:73d2:2dda:c7b2]) by DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::f01d:73d2:2dda:c7b2%4]) with mapi id 15.20.9769.046; Mon, 13 Apr 2026
- 20:42:41 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Song Liu <songliubraving@fb.com>, Chris Mason <clm@fb.com>,
- David Sterba <dsterba@suse.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Shuah Khan <shuah@kernel.org>, linux-btrfs@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH 7.2 v2 05/12] mm/khugepaged: remove READ_ONLY_THP_FOR_FS
- check in hugepage_pmd_enabled()
-Date: Mon, 13 Apr 2026 16:42:37 -0400
-X-Mailer: MailMate (2.0r6290)
-Message-ID: <05F00072-7E06-47C9-BC26-FE3736F557FC@nvidia.com>
-In-Reply-To: <ad1TMjF1L3usYIC5@casper.infradead.org>
-References: <20260413192030.3275825-1-ziy@nvidia.com>
- <20260413192030.3275825-6-ziy@nvidia.com>
- <ad1TMjF1L3usYIC5@casper.infradead.org>
-Content-Type: text/plain
-X-ClientProxiedBy: MN0P220CA0002.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:208:52e::31) To DS7PR12MB9473.namprd12.prod.outlook.com
- (2603:10b6:8:252::5)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h7z5rIsC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67D92C2BCAF;
+	Mon, 13 Apr 2026 20:43:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776113040;
+	bh=l/9Enu/5Mpdj4z5io8N0vOWTIXFw3s5GeSfiLwTbBUU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=h7z5rIsCpQQVVEmlqpHysImg12D2GbuS1PX8xkpJOoDfOIoPULepTXtPHyNOzVeSS
+	 n7MKC+CEhOfFyEjaK+seKTNnaEKoSOiNPBG/xUAynOsX51hybhk1NplU7TacsMCBwi
+	 cB64lbO/NcTJ/x3hHFK5fBgwI1zR9uDbCJmsT9pU07ROJ5n+Vau23wMYDZCccpdNU8
+	 iCU/maI3x+x1rdTFVTUPCn8eLPBORj3Er6tGpARioGZCQ9j0WrzZY6xRQA32IrX+cq
+	 xj6UJvLKXEZL5IdjpOSCe084/UFDcaegoKUyIEA68E6GpTFtYNCeVEhWzzJtdq4eba
+	 5MI4xWQWYynsA==
+From: hubcap@kernel.org
+To: linux-fsdevel@vger.kernel.org
+Cc: Mike Marshall <hubcap@omnibond.com>,
+	devel@lists.orangefs.org,
+	error27@gmail.com,
+	arnd@arndb.de
+Subject: [PATCH v2]    bufmap: manage as folios, V2.
+Date: Mon, 13 Apr 2026 16:43:46 -0400
+Message-ID: <20260413204351.196857-1-hubcap@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|CH3PR12MB8727:EE_
-X-MS-Office365-Filtering-Correlation-Id: a21175ec-86d2-45eb-ecb4-08de999d3503
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|7416014|376014|22082099003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	U42cSImbYGquwBqbELKAWZzx+2BDjCXzKhUeYCd9ol4xAEG2S0CII+Z02FzsM+4+EbHqMocy9sq+X1yPgWp0FNPJ6l3B7Y5TqKe9SrxtsSvw63M0lqBPmSQTiwfiUkEgDmhS2tw+vtvrJIn/67CBs29ym4caFr56hlYBfrdUvDnXrvrXbCFYuy8FTmLK9UgLpsGe1pzXvVenHtqMkMUGbmFZ08PwHRa846I2aX+19dRkWfW/QWDdPWNqOGCDLBsIf0sL01llFtJQ0ihUVXvLPDDbOmgqrOYvU6x5QmD48wqgvJZ+glnp9yWJ4AK98C6eNfpmYrHX1dPKUk8GeNmSeenDPxFmX2f18VNY99GIzFPwALeas18kf+UGDKv4PHSkTttDEsHOVwP4ujYeRwFOiwZsF56BDNquhcAhzXv+282HXkQeKIz4U+ExxPxCAn6Mj18NCYtD/jP8JdUt6XPjf7oyptFceKXJ3Cu9u/9otxXruS3ECBcLGk3hThGnCl84Ggsb5CuoFz1RghsH62TUlxLlSz9KBHvxHALdBGT3ZH1X52Mf5+/LY9zlCVnvGO0tvG//sGzbk+fnjWsz4GPuBMkMLRspS24r4EiJqWOs1xJ3/vKXKWih4goV3vKXWAiQg9bxlVhrj6G2rpUOt/MpHlafLm51KU9MeREx89S7Ezj5jthSmMJkNwh7qqVn7TtCyRZhlt1kClfh3YEyJmDNrQpVhy3cwiLWvuxchN4/4+M=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?FpW1Wf2Ajty79E/OFmmU4cFneeqNTSr+upBCEAeGW49c36eqSYGHBL9qfOw6?=
- =?us-ascii?Q?2InDIfzrkztRhzUW9DdW0wtqLUdyLWj8YBBNIlUESp1njMtiSMds1HC7SJRE?=
- =?us-ascii?Q?oUZvx96u8cCNPirvbdVg7tfav6uHFQVxH2gwq1zQRPTHXPyH7izGfk6Iv4hg?=
- =?us-ascii?Q?17c9FYigDdz4jZttZ5fHO6Gz7KGL9sYSmvMSOregTeaiOjkJlnrbMWsa0kpx?=
- =?us-ascii?Q?Ixq45XsjEvuUqdEVQnyVIWi5716/2+Sx4zv176CV0ouwLyf8fspaDsMYm5vS?=
- =?us-ascii?Q?Um0ke6qgruQjKKHSBVp1bCu6QgfiP27EKQzUuW4Sut9HvOpZizyihjxdKe9S?=
- =?us-ascii?Q?8XwkrxtP6hKvpC1e+2iLO+b81jOKOEqrYn1KtIbnB0JkfxRLLZuiJuibWYES?=
- =?us-ascii?Q?CwbeSF1ZuJ43r5dJxWjR3np29+OY4B8SneTzmmSXU8NIfE/bTrEG99x/rGi4?=
- =?us-ascii?Q?2TRYbrdAo7VxlyKx/hNrJw1Mn8TvvB5mqwfLHgkPirHKD6SqlqvUBl7tyMdR?=
- =?us-ascii?Q?hShMV/qSCRq65N817/g2sJRBtfkZjAW/o/sNwlfNmicf8e4rw4OQXsek3vwT?=
- =?us-ascii?Q?YSbMdf1JJKswkY1+53P2rPxdqaZspOQyjr21s/H/ss/F/kwJS28Jn93URpl/?=
- =?us-ascii?Q?JziBHiQ84dOQcNkTU104rLhGn9JVfrYocy1mqZtS5lJg0IfxplvVyKwBox5Z?=
- =?us-ascii?Q?PzTlq+/n2uWwtwOneCJ45rjvc8GHUIiRfNnDrjWk9Zecz7FdpgfWZnuBPKUM?=
- =?us-ascii?Q?YpJ88YIJwECmXNiUmeui2R7Pl5wY92mZSL1QTq6JE5dk3dzcqlzqxhb+O/rT?=
- =?us-ascii?Q?iShQX61Ne5fnQ1d0nkRRiZoHyUHKHsLXVUSTM7VP708ehX4ege/MGEElKOoD?=
- =?us-ascii?Q?hb59lED7R81CCGDEyK3svGKednepZhWkZfs/ggib8PxPzIu4NEJlUAkSuhz1?=
- =?us-ascii?Q?UPIHm/Gc7E4QAgws+EnYaUwMlv9gKrgKD2gSedkx7SB+bDu1vNJki94oK/kw?=
- =?us-ascii?Q?bszf+4uLIe9CsRoPVFoS6VE07yOEvBrqoYlsL8mipkrHNJaSKmzeJ4jbkQ2i?=
- =?us-ascii?Q?pQJs+HTtJdlOVyfU9REQhBYlM50Ym21H8vyzIrr7PGE0QwU3XZNzLyabZjK0?=
- =?us-ascii?Q?q18DjRVc6b1nMJl3YanZyXZ7N5+VfNdJqbYTpx5PJCZof+3+nTyiIZbRV/5B?=
- =?us-ascii?Q?UfFwiqJfgUwtB06vQe+sGe6GRt7HV8nUoYLzGSzPKEzcyU8JswoiTqECRvrW?=
- =?us-ascii?Q?Gq6ONKI+qQ+y1uwA045SumsTB3K9zweUqayYJ0v0HceQXeuaWpDGgDAtmgT6?=
- =?us-ascii?Q?rkxl5oe2m2kTSn/bmjOhOrsYVi7m97RLHMHHX/Vkn8AXATb6ZhGThMCAJluU?=
- =?us-ascii?Q?ri8UUinlDDMGGPwVUgPVU5Ei3K+7YeQk4ANOVTfHc3cdGQCnpidW1wxtsajv?=
- =?us-ascii?Q?CgDC024M2UxQszv8i2C/hQix2mzyc4Ljo0MjsLlDiSo8PUEPCidxLc3QVBM3?=
- =?us-ascii?Q?NRim9m2tI10oV103drZZAG20hbr8Vt44lnDEICBWxMIuyZQlZqQQW6cifnoa?=
- =?us-ascii?Q?4m2rSMcxbA9bys+fxBrzXAXlFaYPGFG2c2t7/s5SIdLv8I4gyFLyhun9Y4B7?=
- =?us-ascii?Q?vbgqKfka+eTVgN6+Al0PSWzV3nlKPduEAw0VjNwTgAABW2wFF7BjJLaoFeV/?=
- =?us-ascii?Q?2IqnlOevyRHuNVN78H0InHPCD2Q5qsNgrMOsx7RJ/gTvm4U+Utoxe5NrijDZ?=
- =?us-ascii?Q?FeK62cGUbQ=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a21175ec-86d2-45eb-ecb4-08de999d3503
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Apr 2026 20:42:41.2466
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ICc2eUsNxA8nXHqFy7a4AyZcTQeluNkksDkFbtP/4KoSybkSoA4+ZDjrpOxoae6w
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8727
+Content-Transfer-Encoding: 8bit
 
-On 13 Apr 2026, at 16:33, Matthew Wilcox wrote:
+From: Mike Marshall <hubcap@omnibond.com>
 
-> On Mon, Apr 13, 2026 at 03:20:23PM -0400, Zi Yan wrote:
->> After READ_ONLY_THP_FOR_FS Kconfig is removed, this check becomes dead
->> code.
->>
->> This changes hugepage_pmd_enabled() semantics. Previously, with
->> READ_ONLY_THP_FOR_FS enabled, hugepage_pmd_enabled() returned true whenever
->> /sys/kernel/mm/transparent_hugepage/enabled was set to "always" or
->> "madvise".
->>
->> After this change, hugepage_pmd_enabled() is governed only by the anon and
->> shmem PMD THP controls. As a result, khugepaged collapse for file-backed
->> folios no longer runs unconditionally under the top-level THP setting, and
->> now depends on the anon/shmem PMD configuration.
->
-> This seems like it'll turn off khugepaged too easily.  I would have
-> thought we'd want:
->
-> -	if (IS_ENABLED(CONFIG_READ_ONLY_THP_FOR_FS) &&
-> -	    hugepage_global_enabled())
-> +	if (hugepage_global_enabled())
->  		return true;
+    Thanks for the feedback from Dan Carpenter and Arnd Bergmann.
 
-I thought about this, but it means khugepaged is turned on regardless of
-anon and shmem configs. I tend to think the original code was a bug,
-since enabling CONFIG_READ_ONLY_THP_FOR_FS would enable khugepaged all
-the time.
+       Dan suggested to make the rollback loop in orangefs_bufmap_map
+       more robust.
 
->
-> ... or maybe this whole thing could be simplified?
+       Arnd caught a %ld format for a size_t in
+       orangefs_bufmap_copy_to_iovec. He suggested %zd, I
+       used %zu which I think is OK too.
 
-Alternatives could be:
-1. to add a file-backed khhugepaged config, but another sysfs?
-2. to replace hugepage_pmd_enabled() with hugepage_global_enabled()
-   and let thp_vma_allowable_order() in collapse_scan_mm_slot()
-   skip not qualified VMAs, but that would waste extra CPU cycles
-   for scanning. Maybe not too much waste.
+    Orangefs userspace allocates 40 megabytes on an address that's page
+    aligned.
 
+    With this folio modification the allocation is aligned on a multiple of
+    2 megabytes:
+    posix_memalign(&ptr, 2097152, 41943040);
 
+    Then userspace tries to enable Huge Pages for the range:
+    madvise(ptr, 41943040, MADV_HUGEPAGE);
 
-Best Regards,
-Yan, Zi
+    Userspace provides the address of the 40 megabyte allocation to
+    the Orangefs kernel module with an ioctl.
+
+    The kernel module initializes the memory as a "bufmap" with ten
+    4 megabyte "slots".
+
+    Traditionally, the slots are manipulated a page at a time.
+
+    This folio/bufmap modification manages the slots as folios, with
+    two 2 megabyte folios per slot and data can be read into
+    and out of each slot a folio at a time.
+
+    This modification works fine with orangefs userspace lacking
+    the THP focused posix_memalign and madvise settings listed above,
+    each slot can end up being made of page sized folios. It also works
+    if there are some, but less than 20, hugepages available. A message
+    is printed in the kernel ring buffer (dmesg) at userspace start
+    time that describes the folio/page ratio. As an example, I started
+    orangefs and saw "Grouped 2575 folios from 10240 pages" in the ring
+    buffer.
+
+    To get the optimum ratio, 20/10240, I use these settings before
+    I start the orangefs userspace:
+
+      echo always > /sys/kernel/mm/transparent_hugepage/enabled
+      echo always > /sys/kernel/mm/transparent_hugepage/defrag
+      echo 30 > /proc/sys/vm/nr_hugepages
+
+    https://docs.kernel.org/admin-guide/mm/hugetlbpage.html discusses
+    hugepages and manipulating the /proc/sys/vm settings.
+
+    Comparing the performance between the page/bufmap and the folio/bufmap
+    is a mixed bag.
+
+      - The folio/bufmap version is about 8% faster at running through the
+        xfstest suite on my VMs.
+
+       - It is easy to construct an fio test that brings the page/bufmap
+         version to its knees on my dinky VM test system, with all bufmap
+         slots used and I/O timeouts cascading.
+
+       - Some smaller tests I did with fio that didn't overwhelm the
+         page/bufmap version showed no performance gain with the
+         folio/bufmap version on my VM.
+
+    I suspect this change will improve performance only in some use-cases.
+    I think it will be a gain when there are many concurrent IOs that
+    mostly fill the bufmap. I'm working up a gcloud test for that.
+
+    Reported-by: Dan Carpenter <error27@gmail.com>
+    Reported-by: Arnd Bergmann <arnd@arndb.de>
+    Signed-off-by: Mike Marshall <hubcap@omnibond.com>
+---
+ fs/orangefs/orangefs-bufmap.c | 401 ++++++++++++++++++++++++++++++----
+ 1 file changed, 358 insertions(+), 43 deletions(-)
+
+diff --git a/fs/orangefs/orangefs-bufmap.c b/fs/orangefs/orangefs-bufmap.c
+index 5dd2708cce94..a557e1cf7436 100644
+--- a/fs/orangefs/orangefs-bufmap.c
++++ b/fs/orangefs/orangefs-bufmap.c
+@@ -139,9 +139,15 @@ static int get(struct slot_map *m)
+ /* used to describe mapped buffers */
+ struct orangefs_bufmap_desc {
+ 	void __user *uaddr;		/* user space address pointer */
+-	struct page **page_array;	/* array of mapped pages */
+-	int array_count;		/* size of above arrays */
+-	struct list_head list_link;
++	struct folio **folio_array;
++	/*
++	 * folio_offsets could be needed when userspace sets custom
++	 * sizes in user_desc, or when folios aren't all backed by
++	 * 2MB THPs.
++	 */
++	size_t *folio_offsets;
++	int folio_count;
++	bool is_two_2mib_chunks;
+ };
+ 
+ static struct orangefs_bufmap {
+@@ -150,8 +156,10 @@ static struct orangefs_bufmap {
+ 	int desc_count;
+ 	int total_size;
+ 	int page_count;
++	int folio_count;
+ 
+ 	struct page **page_array;
++	struct folio **folio_array;
+ 	struct orangefs_bufmap_desc *desc_array;
+ 
+ 	/* array to track usage of buffer descriptors */
+@@ -174,6 +182,17 @@ orangefs_bufmap_unmap(struct orangefs_bufmap *bufmap)
+ static void
+ orangefs_bufmap_free(struct orangefs_bufmap *bufmap)
+ {
++	int i;
++
++	if (!bufmap)
++		return;
++
++	for (i = 0; i < bufmap->desc_count; i++) {
++		kfree(bufmap->desc_array[i].folio_array);
++		kfree(bufmap->desc_array[i].folio_offsets);
++		bufmap->desc_array[i].folio_array = NULL;
++		bufmap->desc_array[i].folio_offsets = NULL;
++	}
+ 	kfree(bufmap->page_array);
+ 	kfree(bufmap->desc_array);
+ 	bitmap_free(bufmap->buffer_index_array);
+@@ -213,8 +232,10 @@ orangefs_bufmap_alloc(struct ORANGEFS_dev_map_desc *user_desc)
+ 	bufmap->desc_count = user_desc->count;
+ 	bufmap->desc_size = user_desc->size;
+ 	bufmap->desc_shift = ilog2(bufmap->desc_size);
++	bufmap->page_count = bufmap->total_size / PAGE_SIZE;
+ 
+-	bufmap->buffer_index_array = bitmap_zalloc(bufmap->desc_count, GFP_KERNEL);
++	bufmap->buffer_index_array =
++		bitmap_zalloc(bufmap->desc_count, GFP_KERNEL);
+ 	if (!bufmap->buffer_index_array)
+ 		goto out_free_bufmap;
+ 
+@@ -223,16 +244,21 @@ orangefs_bufmap_alloc(struct ORANGEFS_dev_map_desc *user_desc)
+ 	if (!bufmap->desc_array)
+ 		goto out_free_index_array;
+ 
+-	bufmap->page_count = bufmap->total_size / PAGE_SIZE;
+-
+ 	/* allocate storage to track our page mappings */
+ 	bufmap->page_array =
+ 		kzalloc_objs(struct page *, bufmap->page_count);
+ 	if (!bufmap->page_array)
+ 		goto out_free_desc_array;
+ 
++	/* allocate folio array. */
++	bufmap->folio_array = kzalloc_objs(struct folio *, bufmap->page_count);
++	if (!bufmap->folio_array)
++		goto out_free_page_array;
++
+ 	return bufmap;
+ 
++out_free_page_array:
++	kfree(bufmap->page_array);
+ out_free_desc_array:
+ 	kfree(bufmap->desc_array);
+ out_free_index_array:
+@@ -243,16 +269,65 @@ orangefs_bufmap_alloc(struct ORANGEFS_dev_map_desc *user_desc)
+ 	return NULL;
+ }
+ 
+-static int
+-orangefs_bufmap_map(struct orangefs_bufmap *bufmap,
+-		struct ORANGEFS_dev_map_desc *user_desc)
++static int orangefs_bufmap_group_folios(struct orangefs_bufmap *bufmap)
++{
++	int i = 0;
++	int f = 0;
++	int k;
++	int num_pages;
++	struct page *page;
++	struct folio *folio;
++
++	while (i < bufmap->page_count) {
++		page = bufmap->page_array[i];
++		folio = page_folio(page);
++		num_pages = folio_nr_pages(folio);
++		gossip_debug(GOSSIP_BUFMAP_DEBUG,
++			"%s: i:%d: num_pages:%d: \n", __func__, i, num_pages);
++
++		for (k = 1; k < num_pages; k++) {
++			if (bufmap->page_array[i + k] != folio_page(folio, k)) {
++				gossip_err("%s: bad match,  i:%d: k:%d:\n",
++					__func__, i, k);
++				return -EINVAL;
++			}
++		}
++
++		bufmap->folio_array[f++] = folio;
++		i += num_pages;
++	}
++
++	bufmap->folio_count = f;
++	pr_info("%s: Grouped %d folios from %d pages.\n",
++		__func__,
++		bufmap->folio_count,
++		bufmap->page_count);
++	return 0;
++}
++
++static int orangefs_bufmap_map(struct orangefs_bufmap *bufmap,
++				struct ORANGEFS_dev_map_desc *user_desc)
+ {
+ 	int pages_per_desc = bufmap->desc_size / PAGE_SIZE;
+-	int offset = 0, ret, i;
++	int ret;
++	int i;
++	int j;
++	int current_folio;
++	int desc_pages_needed;
++	int desc_folio_count;
++	int remaining_pages;
++	int need_avail_min;
++	int pages_assigned_to_this_desc;
++	int allocated_descs = 0;
++	size_t current_offset;
++	size_t adjust_offset;
++	struct folio *folio;
+ 
+ 	/* map the pages */
+ 	ret = pin_user_pages_fast((unsigned long)user_desc->ptr,
+-			     bufmap->page_count, FOLL_WRITE, bufmap->page_array);
++		bufmap->page_count,
++		FOLL_WRITE,
++		bufmap->page_array);
+ 
+ 	if (ret < 0)
+ 		return ret;
+@@ -260,7 +335,6 @@ orangefs_bufmap_map(struct orangefs_bufmap *bufmap,
+ 	if (ret != bufmap->page_count) {
+ 		gossip_err("orangefs error: asked for %d pages, only got %d.\n",
+ 				bufmap->page_count, ret);
+-
+ 		for (i = 0; i < ret; i++)
+ 			unpin_user_page(bufmap->page_array[i]);
+ 		return -ENOMEM;
+@@ -275,16 +349,120 @@ orangefs_bufmap_map(struct orangefs_bufmap *bufmap,
+ 	for (i = 0; i < bufmap->page_count; i++)
+ 		flush_dcache_page(bufmap->page_array[i]);
+ 
+-	/* build a list of available descriptors */
+-	for (offset = 0, i = 0; i < bufmap->desc_count; i++) {
+-		bufmap->desc_array[i].page_array = &bufmap->page_array[offset];
+-		bufmap->desc_array[i].array_count = pages_per_desc;
++	/*
++	 * Group pages into folios.
++	 */
++	ret = orangefs_bufmap_group_folios(bufmap);
++	if (ret)
++		goto unpin;
++
++	pr_info("%s: desc_size=%d bytes (%d pages per desc), total folios=%d\n",
++			__func__, bufmap->desc_size, pages_per_desc,
++			bufmap->folio_count);
++
++	current_folio = 0;
++	remaining_pages = 0;
++	current_offset = 0;
++	for (i = 0; i < bufmap->desc_count; i++) {
++		desc_pages_needed = pages_per_desc;
++		desc_folio_count = 0;
++		pages_assigned_to_this_desc = 0;
++		bufmap->desc_array[i].is_two_2mib_chunks = false;
++
++		/*
++		 * We hope there was enough memory that each desc is
++		 * covered by two THPs/folios, if not we want to keep on
++		 * working even if there's only one page per folio.
++		 */
++		bufmap->desc_array[i].folio_array =
++			kzalloc_objs(struct folio *, pages_per_desc);
++		if (!bufmap->desc_array[i].folio_array) {
++			ret = -ENOMEM;
++			goto unpin;
++		}
++
++		bufmap->desc_array[i].folio_offsets =
++			kzalloc_objs(size_t, pages_per_desc);
++		if (!bufmap->desc_array[i].folio_offsets) {
++			ret = -ENOMEM;
++			kfree(bufmap->desc_array[i].folio_array);
++			bufmap->desc_array[i].folio_array = NULL;
++			goto unpin;
++		}
++
+ 		bufmap->desc_array[i].uaddr =
+-		    (user_desc->ptr + (i * pages_per_desc * PAGE_SIZE));
+-		offset += pages_per_desc;
++			user_desc->ptr + (size_t)i * bufmap->desc_size;
++
++		/*
++		 * Accumulate folios until desc is full.
++		 */
++		while (desc_pages_needed > 0) {
++			if (remaining_pages == 0) {
++				/* shouldn't happen. */
++				if (current_folio >= bufmap->folio_count) {
++					ret = -EINVAL;
++					goto unpin;
++				}
++				folio = bufmap->folio_array[current_folio++];
++				remaining_pages = folio_nr_pages(folio);
++				current_offset = 0;
++			} else {
++				folio = bufmap->folio_array[current_folio - 1];
++			}
++
++			need_avail_min =
++				min(desc_pages_needed, remaining_pages);
++			adjust_offset = need_avail_min * PAGE_SIZE;
++
++			bufmap->desc_array[i].folio_array[desc_folio_count] =
++				folio;
++			bufmap->desc_array[i].folio_offsets[desc_folio_count] =
++				current_offset;
++			desc_folio_count++;
++			pages_assigned_to_this_desc += need_avail_min;
++			desc_pages_needed -= need_avail_min;
++			remaining_pages -= need_avail_min;
++			current_offset += adjust_offset;
++		}
++
++		/* Detect optimal case: two 2MiB folios per 4MiB slot. */
++		if (desc_folio_count == 2 &&
++		  folio_nr_pages(bufmap->desc_array[i].folio_array[0]) == 512 &&
++		  folio_nr_pages(bufmap->desc_array[i].folio_array[1]) == 512) {
++			bufmap->desc_array[i].is_two_2mib_chunks = true;
++			gossip_debug(GOSSIP_BUFMAP_DEBUG, "%s: descriptor :%d: "
++				"optimal folio/page ratio.\n", __func__, i);
++		}
++
++		bufmap->desc_array[i].folio_count = desc_folio_count;
++		gossip_debug(GOSSIP_BUFMAP_DEBUG,
++			" descriptor %d: folio_count=%d, "
++			"pages_assigned=%d (should be %d)\n",
++			i, desc_folio_count, pages_assigned_to_this_desc,
++			pages_per_desc);
++
++		allocated_descs = i + 1;
+ 	}
+ 
+ 	return 0;
++unpin:
++	/*
++	 * rollback any allocations we got so far...
++	 * Memory pressure, like in generic/340, led me
++	 * to write the rollback this way.
++	 */
++	for (j = 0; j < allocated_descs; j++) {
++		if (bufmap->desc_array[j].folio_array) {
++			kfree(bufmap->desc_array[j].folio_array);
++			bufmap->desc_array[j].folio_array = NULL;
++		}
++		if (bufmap->desc_array[j].folio_offsets) {
++			kfree(bufmap->desc_array[j].folio_offsets);
++			bufmap->desc_array[j].folio_offsets = NULL;
++		}
++	}
++	unpin_user_pages(bufmap->page_array, bufmap->page_count);
++	return ret;
+ }
+ 
+ /*
+@@ -292,6 +470,8 @@ orangefs_bufmap_map(struct orangefs_bufmap *bufmap,
+  *
+  * initializes the mapped buffer interface
+  *
++ * user_desc is the parameters provided by userspace for the bufmap.
++ *
+  * returns 0 on success, -errno on failure
+  */
+ int orangefs_bufmap_initialize(struct ORANGEFS_dev_map_desc *user_desc)
+@@ -300,8 +480,8 @@ int orangefs_bufmap_initialize(struct ORANGEFS_dev_map_desc *user_desc)
+ 	int ret = -EINVAL;
+ 
+ 	gossip_debug(GOSSIP_BUFMAP_DEBUG,
+-		     "orangefs_bufmap_initialize: called (ptr ("
+-		     "%p) sz (%d) cnt(%d).\n",
++		     "%s: called (ptr (" "%p) sz (%d) cnt(%d).\n",
++		     __func__,
+ 		     user_desc->ptr,
+ 		     user_desc->size,
+ 		     user_desc->count);
+@@ -371,7 +551,7 @@ int orangefs_bufmap_initialize(struct ORANGEFS_dev_map_desc *user_desc)
+ 	spin_unlock(&orangefs_bufmap_lock);
+ 
+ 	gossip_debug(GOSSIP_BUFMAP_DEBUG,
+-		     "orangefs_bufmap_initialize: exiting normally\n");
++		     "%s: exiting normally\n", __func__);
+ 	return 0;
+ 
+ out_unmap_bufmap:
+@@ -471,22 +651,89 @@ int orangefs_bufmap_copy_from_iovec(struct iov_iter *iter,
+ 				size_t size)
+ {
+ 	struct orangefs_bufmap_desc *to;
+-	int i;
++	size_t remaining = size;
++	int folio_index = 0;
++	struct folio *folio;
++	size_t folio_offset;
++	size_t folio_avail;
++	size_t copy_amount;
++	size_t copied;
++	void *kaddr;
++	size_t half;
++	size_t first;
++	size_t second;
++
++	to = &__orangefs_bufmap->desc_array[buffer_index];
++
++	/* shouldn't happen... */
++	if (size > 4194304)
++		pr_info("%s: size:%zu\n", __func__, size);
+ 
+ 	gossip_debug(GOSSIP_BUFMAP_DEBUG,
+-		     "%s: buffer_index:%d: size:%zu:\n",
+-		     __func__, buffer_index, size);
++		"%s: buffer_index:%d size:%zu folio_count:%d\n",
++		__func__,
++		buffer_index,
++		size,
++		to->folio_count);
++
++	/* Fast path: exactly two 2 MiB folios */
++	if (to->is_two_2mib_chunks && size <= 4194304) {
++		gossip_debug(GOSSIP_BUFMAP_DEBUG,
++			"%s: fastpath hit.\n", __func__);
++		half = 2097152;		/* 2 MiB */
++		first = min(size, half);
++		second = (size > half) ? size - half : 0;
++
++		/* First 2 MiB chunk */
++		kaddr = kmap_local_folio(to->folio_array[0], 0);
++		copied = copy_from_iter(kaddr, first, iter);
++		kunmap_local(kaddr);
++		if (copied != first)
++			return -EFAULT;
+ 
+-	to = &__orangefs_bufmap->desc_array[buffer_index];
+-	for (i = 0; size; i++) {
+-		struct page *page = to->page_array[i];
+-		size_t n = size;
+-		if (n > PAGE_SIZE)
+-			n = PAGE_SIZE;
+-		if (copy_page_from_iter(page, 0, n, iter) != n)
++		if (second == 0)
++			return 0;
++
++		/* Second 2 MiB chunk */
++		kaddr = kmap_local_folio(to->folio_array[1], 0);
++		copied = copy_from_iter(kaddr, second, iter);
++		kunmap_local(kaddr);
++		if (copied != second)
+ 			return -EFAULT;
+-		size -= n;
++
++		return 0;
+ 	}
++
++	while (remaining > 0) {
++
++		if (unlikely(folio_index >= to->folio_count ||
++			to->folio_array[folio_index] == NULL)) {
++				gossip_err("%s: "
++				   "folio_index:%d: >= folio_count:%d: "
++		                   "(size %zu, buffer %d)\n",
++					__func__,
++					folio_index,
++					to->folio_count,
++					size,
++					buffer_index);
++				return -EFAULT;
++		}
++
++		folio = to->folio_array[folio_index];
++		folio_offset = to->folio_offsets[folio_index];
++		folio_avail = folio_nr_pages(folio) * PAGE_SIZE - folio_offset;
++		copy_amount = min(remaining, folio_avail);
++		kaddr = kmap_local_folio(folio, folio_offset);
++		copied = copy_from_iter(kaddr, copy_amount, iter);
++		kunmap_local(kaddr);
++
++		if (copied != copy_amount)
++			return -EFAULT;
++
++		remaining -= copied;
++		folio_index++;
++	}
++
+ 	return 0;
+ }
+ 
+@@ -499,23 +746,91 @@ int orangefs_bufmap_copy_to_iovec(struct iov_iter *iter,
+ 				    size_t size)
+ {
+ 	struct orangefs_bufmap_desc *from;
+-	int i;
++	size_t remaining = size;
++	int folio_index = 0;
++	struct folio *folio;
++	size_t folio_offset;
++	size_t folio_avail;
++	size_t copy_amount;
++	size_t copied;
++	void *kaddr;
++	size_t half;
++	size_t first;
++	size_t second;
+ 
+ 	from = &__orangefs_bufmap->desc_array[buffer_index];
++
++	/* shouldn't happen... */
++	if (size > 4194304)
++		pr_info("%s: size:%zu\n", __func__, size);
++
+ 	gossip_debug(GOSSIP_BUFMAP_DEBUG,
+-		     "%s: buffer_index:%d: size:%zu:\n",
+-		     __func__, buffer_index, size);
++		"%s: buffer_index:%d size:%zu folio_count:%d\n",
++		__func__,
++		buffer_index,
++		size,
++		from->folio_count);
++
++	/* Fast path: exactly two 2 MiB folios */
++	if (from->is_two_2mib_chunks && size <= 4194304) {
++		gossip_debug(GOSSIP_BUFMAP_DEBUG,
++			"%s: fastpath hit.\n", __func__);
++		half = 2097152;		/* 2 MiB */
++		first = min(size, half);
++		second = (size > half) ? size - half : 0;
++		void *kaddr;
++		size_t copied;
++
++		/* First 2 MiB chunk */
++		kaddr = kmap_local_folio(from->folio_array[0], 0);
++		copied = copy_to_iter(kaddr, first, iter);
++		kunmap_local(kaddr);
++		if (copied != first)
++			return -EFAULT;
++
++		if (second == 0)
++			return 0;
++
++		/* Second 2 MiB chunk */
++		kaddr = kmap_local_folio(from->folio_array[1], 0);
++		copied = copy_to_iter(kaddr, second, iter);
++		kunmap_local(kaddr);
++		if (copied != second)
++			return -EFAULT;
+ 
++		return 0;
++	}
++
++	while (remaining > 0) {
++
++		if (unlikely(folio_index >= from->folio_count ||
++			from->folio_array[folio_index] == NULL)) {
++				gossip_err("%s: "
++				   "folio_index:%d: >= folio_count:%d: "
++		                   "(size %zu, buffer %d)\n",
++					__func__,
++					folio_index,
++					from->folio_count,
++					size,
++					buffer_index);
++				return -EFAULT;
++		}
+ 
+-	for (i = 0; size; i++) {
+-		struct page *page = from->page_array[i];
+-		size_t n = size;
+-		if (n > PAGE_SIZE)
+-			n = PAGE_SIZE;
+-		n = copy_page_to_iter(page, 0, n, iter);
+-		if (!n)
++		folio = from->folio_array[folio_index];
++		folio_offset = from->folio_offsets[folio_index];
++		folio_avail = folio_nr_pages(folio) * PAGE_SIZE - folio_offset;
++		copy_amount = min(remaining, folio_avail);
++
++		kaddr = kmap_local_folio(folio, folio_offset);
++		copied = copy_to_iter(kaddr, copy_amount, iter);
++		kunmap_local(kaddr);
++
++		if (copied != copy_amount)
+ 			return -EFAULT;
+-		size -= n;
++
++		remaining -= copied;
++		folio_index++;
+ 	}
++
+ 	return 0;
+ }
+-- 
+2.53.0
+
