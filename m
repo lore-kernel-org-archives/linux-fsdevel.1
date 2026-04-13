@@ -1,389 +1,116 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3947D137750
-	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 15:57:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8036F30BBAE
+	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 16:29:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.44
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776095830; cv=pass; b=pG/HGHYWVN1hYWznMUgI8YspoygSzxs3OQbo8C1XsfpoB5OBzefMmckBHe5g32UqAttX6tx/KX/txS+xiUw7JPnJjBZKR2Hin10SxMvATtNqKjw2B3Vz3WteK6ZkLI8KNpqJPhLlNTi3X75w33gYV58k/SlDWGb/BnvWB06HnDU=
+	t=1776097759; cv=pass; b=gETrRndsWGf8ZXafZgdLsRn66Murp3Pwm3rhxUtMiF/TsiWFlyxYMHLSB2apqjlGP5mZZXJB5PICkBA0PfSKUe8Mr18TKwHnTNccBrZ+wfyrk+1Yhcw0oLxNA517OTuVLrz3y7bY5yJ/o1DlJIbi4NqwNlKsGa6B61aEBaTuEdA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776095830; c=relaxed/simple;
-	bh=uCKT3mDcBLIjf8+Wa0Yr7vV5tltP+TxZuHAJOqsVuZM=;
+	s=arc-20240116; t=1776097759; c=relaxed/simple;
+	bh=X5WxGS1gx5dlEQaQJN5plmhIxqyJbgfkfTMwTS420T8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mfZvLHmOBrnGlXn8j+QSkt5psWOMmfbG0GhslrWBktINrAgOboDyh6zBWWBfGLeb7sRJjaO/quqwCkyxs5/OHM0o/6waY6ACa0jHcNb79pu8aXtsd8rqSkJbkgVC2/6f9d4qWQ5pDjX3yJWHY3yRO7Sqkk3nlZ55g4czPzJwUcY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G/8FYODa; arc=pass smtp.client-ip=209.85.128.41
+	 To:Cc:Content-Type; b=SCgPv5HsJPUqJvlxkeG8fdsBXn7ndLmZkLQUyJM+bqDpKIHy7tjKUPa/azbKfGMNvIOYoCzi/CS0XdZDTdBq1r3xxXYZD/NzEcrD+InG2Bksvlz4/8zOEKh+ePv0oVl2BGaQ9nAmtrMrJdOsIHWeUc5rnrnXNRpHMZUdv9GqLBk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vs+O2Dwo; arc=pass smtp.client-ip=209.85.218.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G/8FYODa"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-48374014a77so64067745e9.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 08:57:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776095828; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vs+O2Dwo"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-b9c04152730so699994366b.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 09:29:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776097757; cv=none;
         d=google.com; s=arc-20240605;
-        b=I4Agc8kUahynr3z47t+ulBpTZmKgwJVWQsNNbnbR5x9/jEI3UmhmDt2a/R8q58Sm6/
-         R9aP6jmUwpba5DZUM5HEj8lZu6FG1/VQSi1L3uKHDD/X/KfPb07+7NPTe3zMZbzE5gzy
-         4ocjBLSp5Zk+gP39PhPP/emZD14zclHT1mTgeXfZUgd8hniMzmccfxh4JZPPYNoQoNXv
-         ESbneW6Zpf821QykYKaOYCDrw5aT5XYiw/IQl0QsvcZhLAQidU0LBFntRKEDAgri4mhx
-         IAiX+hYODQLpVVvXqCbTyiYz55k1luMfPoICRrr5cEUlVFj8DBPm9b98aZJHiAd6rjj4
-         BKHg==
+        b=c+Phj43pKw25ddAOnpDpCglpE0pQOrINoGVkby+ZzskB/unHqKnsoGq8BAkF40F+Q3
+         WnWhF7WJvbwVoAdaHfWxUy7jH843n9rO57/N4f+ORAELnEtZVaMATmN0hm4Rodv3/c9b
+         f9xJb+C5f91QcVHXycHzbKfqJ2Y48C33n0C9nVna8gQQxoUf84ONSE3skqVajE5YiK4f
+         9Y6ErT6rrZMJfNbcJOPA+sSMAAoaB3B0mmFpzURl9NsVl7dHV286GG84gZBR/3KR4MLk
+         ChdGBnMJG/yrEJuTxzRqi8qP5iJZ8m1cX5g8ESTPNFSSBLe0foqwnw5weRec4ThpIrI2
+         xDBQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=lLY/V59tkdL3GjoxouNe5fdjlq2HK/DPMs0km7foI4M=;
-        fh=HoI1garf7p/sfhGUJ0VMcXgaAs4Uq/6dLKUtVJAcLRQ=;
-        b=MrMx2ylRsmzm+w7DVLLf5SORo3Y9Rij5B+DiFoPHZ0I+zCw1UYyLl3NdIP3nraeLhe
-         ug/LllKEqJnN6Gq6vJkhZ+3ffxivUW91AX1iTB6JYH3pRWde8g91BXfMlSWque0I+Ajk
-         Sw9ElI5ZEugsJ7TbFlOEPblI3f2ucPKL6kcenNvBo/OG4wtdTv//42wHpLL8yPdyYoK7
-         roUT2Z1bIipoqcKIL2FJ1RK8kDmFE19knxJfsA6aWsaC+lbMt/jnohngLB3eBbJqpBBK
-         7WlYab5lYk8C8x4YDrsRABXtpFkA6HPFqb2qCXFp0RDOOsGNoWgsvlW3YevFmSQYTOsk
-         5xXQ==;
+        bh=NfGR3/JoZh1LLlI0sYWrmfBZzbJ31Iznfm0tL9CgGr4=;
+        fh=kFALhtYFpDuL32/6oPbqV069c4BwtTOWb3nrCg1XAEs=;
+        b=j+1Hoc7g3awqO+LKKIFwzzhkTmoSrtQedDYZzTuVtK4kuNM2N8OF5YiRxSc9nl3qTF
+         JnwGnE9UZ/x6D3ytOh6EtFXcZgfBtz/ViINlajjDFNn765Db1d7jBSMNMFva8ErAIWiI
+         F39XkahE5AQvSCGPBRLFMwbbglXg9oVw61LhF0EfXxoHAKb3m8/DrPXJBT0SdWTKOXkj
+         Tr90v6zlGQM6Ox6aGyvfo2ZvX9UkFqa1lOx9AXqWd3HDfnuNMUO+IjLJaqBjdCes2m7f
+         wZLL8P4POFWA56rj6ZYY5jVv9vQAN3fyLrhXRljxncKenuxUwDyntG6AZHQ2guALdk9F
+         rnjA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776095828; x=1776700628; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1776097757; x=1776702557; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lLY/V59tkdL3GjoxouNe5fdjlq2HK/DPMs0km7foI4M=;
-        b=G/8FYODaLngjYClLa2F322p3GjfpG9iRRznYQkZzFWITuCW/d+TcWLsm402CoMCK5+
-         Cfg804+v91QcJrh04++5y0aG3YSg1XuVvDPwpiJLSfALFR23PO7KKbX0UuGTHSv8khrB
-         f4/rvN9rJcsh2bz2ujHpNGpCoBmUhN946PdVlpegFLhtY2aWGr4WtycDv4MiRxwMpqEu
-         yTcjJpJAxU81FJBW2DD6mgj9lFXRT2wLrE5ZQeSyX/DXLgGh5JMJzphqQFxTL9Bm139G
-         EG30EjDKBIUHeGEQsqQw/BB+wHcCNgKzroFaBt2apUWFVmHo36UjlOvOJWa7YY3XTP3u
-         Hedw==
+        bh=NfGR3/JoZh1LLlI0sYWrmfBZzbJ31Iznfm0tL9CgGr4=;
+        b=Vs+O2DwodjvfU8s5GxTUL0WQZUbOkFEYKBcb/WKEyaVdpTvtzY41Ymw5xjnTniGgMo
+         mn+sn9FRILbLQVok/MpK2HV/htURK5ZvImNJveXeHttSj6K0y7NHkpzbrwsSb3At9SX4
+         5vvV6ZUpMmzgW9O6qY3NByZsvw2xBwu04+sXamu4LkVVLYlmK1zEWMWlJo3c8zr/H36H
+         0iKE1CS1DK+todszRbBQv/VddspihOUceiMFAatTnwcsFyvgIK/8hJOXkIVDtbMkeexj
+         R2AyJJBsKH5sz6rzt9ejN883zyBpjPWWkFGeriTdtyw5UgEUtLMzDNtmieBLjcEhdLHZ
+         v1Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776095828; x=1776700628;
+        d=1e100.net; s=20251104; t=1776097757; x=1776702557;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=lLY/V59tkdL3GjoxouNe5fdjlq2HK/DPMs0km7foI4M=;
-        b=NJd5jwoM6fn7noTOgxhdAt6vujbKdJ6PfghvlLdpKpyJmcMFPhscWT8GtasgLrTSr2
-         5ysPnY8CHaAzi5m8OmECVbeWEqMRR3v4vuT3S/rJvl1iNrb0KIR9OpzxBD5ljD2TTlgG
-         jrXvCu5urHlbhbt3PAv+kO5tnIsD2UiHUjQZa3/RllfDKosT2EWET3toaekDesA9UXuK
-         UgyatCmWnws7a7pLLhQT/Ms8YDpH4J6Fjc98xysK2nJQv9hT4UlLdj+7ME5ECqChqatd
-         KL2c54B0KKJEuOI5V8XAvxPP/5/XVx8ZkUF+CQ6vAcaBoQPJWIV888zS04UD0ykt54VB
-         izWg==
-X-Forwarded-Encrypted: i=1; AFNElJ9twzk0jFxgLUMIdtu9tBehFw0cjrjWjzIyAmrwuzMvgtsCl3rzaCa16DIlneFYgrhsizRyOaXms18jBWUx@vger.kernel.org
-X-Gm-Message-State: AOJu0YybrXxbMiBZSP+3fsW7ZqSImocbhaclzWMrikfLJbTb0Xy4tX4y
-	sT5cdClXGGhcnL3vFvWEan9hgGzxxB421aw1qyY8XCg8DGI9dRQze3EBlNpseUqJfrtyjBBf1uU
-	yUHwacZpnE/k4J3oQLx3j/st02BKQ2sg=
-X-Gm-Gg: AeBDietejwSNX0naE4lR7zNrJxPCGyOIOV9xFmN+Mm4PQYKDeMOEftuFZUZSY1Bsd0A
-	OUyTJ5O6yNEXSfuw86FIsPoUnoAJieUR3twoC0IPtw5SMJ8XV+oPSb9hDwLbduRz3R5mWZ//RDU
-	jCeZQE9fEccO8psuMsJZ2d1osD7JXezsjwE5YwfHwVfuh5a5hP9zeiViQo1jeP0FrWQLD7k5oKF
-	T3x+Zj35BiC4Q+erpvDZYiMCGMsGghkW3vDkxQlAA25Y+DZDI/+X1B4qv0l6eS2T5iZrXEug/sr
-	CFBTp4Yv6X1X8Eja
-X-Received: by 2002:a05:600c:820a:b0:488:81b1:ae36 with SMTP id
- 5b1f17b1804b1-488d688688fmr191294365e9.23.1776095827255; Mon, 13 Apr 2026
- 08:57:07 -0700 (PDT)
+        bh=NfGR3/JoZh1LLlI0sYWrmfBZzbJ31Iznfm0tL9CgGr4=;
+        b=RTN0DCT6Z8bzZQabHf4e9HSc8kd19MtmyPvY4xmLfzKfw/Vo+55/lgl7Vs865UVYYU
+         uoXJPISUmrTEuZ5Qx4qo2ZAqaXFf9Cxt/e8jrUr/yF37vlvv1S5964kHFKBBE3K1CkwE
+         ivV13QSK7A9ogUPE/AnKcqh4kQ5GMpnn6pDQu0qXhAE6Niwt/XW0c8nTLZHyIrBYPjgv
+         DZPTvELTu6UXnuNRTYEvJ8tm0NyPpNhWRwSHsREK4Ui1wDPSYpEAxLw1UwZjnHdubg1c
+         LQXo3b2TTu7O+DdgSMgigP4vCxa8iV1mbq0Nxzpl5Cyd18DjimXtJAS2oZlpK8ntYuos
+         oPZQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+yVKpahNPEA3x1Sl9oko4mOkzLlVBy1hjw28E+Xkg0Hv2UsIUnzGOs0k729vNmTMy821rouo/9jqeGFjoX@vger.kernel.org
+X-Gm-Message-State: AOJu0YzYxa42p22wqxXmRBy8onCGiL60tsRHwW5QhbRyv9UBxY9IFC75
+	dxsbpTHicZ0eeKwnErZOUu3vWJ1gm02UPU3fNoC/rgnXMEiTk0MZukAsrFnZYPQK8pPHtHg4RTC
+	94A7yHdpU4lMl9M761u99x1I7z8Gpkv8=
+X-Gm-Gg: AeBDieue0vDMV2Io7V7ozkZG60+imDEb/+ckNyhnJSaKUHxTXkUkpEwdcMH2YDxUV7O
+	7JnDxQ1LUlmyYzUFBll8jPWApGqbKw+0GpB7A3V0Cp+6gLpKvudDg9/2sL4FpWV2aqmwGjhw0Ko
+	XOZQSJjGoRyfPdROXiGqCMTgolgdrY1abxbNZSqodEEQjhAIiPYEn/R4JmQMz/RijrmkVmr7E2G
+	iYLAvxeODH6COk/VjMolj/H44336KfSWRI1Pus0kxfZapPFX8ZQpdE2/WLJ/BF0jYpXQfcoRcTS
+	rl+luj/EvgWtHhh1zAJXkfG/3W8KGrdAn8Y7CeDaTg==
+X-Received: by 2002:a17:907:1ca5:b0:b9c:b3b5:bbf0 with SMTP id
+ a640c23a62f3a-b9d724995a8mr801125966b.6.1776097756510; Mon, 13 Apr 2026
+ 09:29:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251021-io-uring-fixes-cancel-mem-leak-v1-0-26b78b2c973c@ddn.com>
- <4b5a8040-b62c-4d75-a474-70d0b4759461@bsbernd.com> <CAJnrk1ZohxcDERszbii8ZM0g1ZzTwk6+wEqRWpCoSwBXzgavkg@mail.gmail.com>
- <3eabbc7b-010f-4d4c-9145-30d69fe1aa79@bsbernd.com> <CAJnrk1aoxGMGNZi+OwdoET6ahhGHp_7dw__=dmOWW+PMxnsj2w@mail.gmail.com>
- <adlyjDaxLZyHcSun@fedora> <CAJnrk1Yb2ABBKFK=KMaU+W10FNazt+h93P445i1USXcN2W45Xw@mail.gmail.com>
- <f27651af-e5c0-4c3e-8baa-fa2d7232cb4d@bsbernd.com>
-In-Reply-To: <f27651af-e5c0-4c3e-8baa-fa2d7232cb4d@bsbernd.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Mon, 13 Apr 2026 08:56:54 -0700
-X-Gm-Features: AQROBzCQB5LUKidCfDKTOcAMORMn7yCvE_iIjd42P_3YuhwAl8rp2gTfh_3ajVM
-Message-ID: <CAJnrk1YPrPXN74fgesg1dbqJJsmjPOJ_My_mYMUevJfSrmrECg@mail.gmail.com>
-Subject: Re: [PATCH 0/2] fuse: Fix possible memleak at startup with immediate teardown
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: Horst Birthelmer <horst@birthelmer.de>, Bernd Schubert <bschubert@ddn.com>, 
-	Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org, 
-	Jian Huang Li <ali@ddn.com>, stable@vger.kernel.org, 
-	Horst Birthelmer <hbirthelmer@ddn.com>, fuse-devel@lists.linux.dev
+References: <20260410144950.156160-1-mszeredi@redhat.com> <CAOQ4uxha9ki24wyW1z2AtQJ6kSPgGbSiTaPw7DcBWkhDeABoDA@mail.gmail.com>
+ <CAJfpeguziBrBhr_iXXsRCkw1G1iOx7NH9GUDDsCrrkr-9th0tQ@mail.gmail.com>
+In-Reply-To: <CAJfpeguziBrBhr_iXXsRCkw1G1iOx7NH9GUDDsCrrkr-9th0tQ@mail.gmail.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Mon, 13 Apr 2026 18:29:05 +0200
+X-Gm-Features: AQROBzB_c_j6nHFeQwnxwV-OwoGBTsPPYmaWwqWWH36FbR5yanq9HNyrBKDWAMo
+Message-ID: <CAOQ4uxijJ9X5uLTjWz1jVm1f7W1EOVGZVyB+O_zXhRW0UttRgw@mail.gmail.com>
+Subject: Re: [PATCH] fanotify: fix false positive on permission events
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Miklos Szeredi <mszeredi@redhat.com>, linux-fsdevel@vger.kernel.org, 
+	Jan Kara <jack@suse.cz>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Apr 11, 2026 at 12:22=E2=80=AFPM Bernd Schubert <bernd@bsbernd.com>=
- wrote:
+On Mon, Apr 13, 2026 at 3:23=E2=80=AFPM Miklos Szeredi <miklos@szeredi.hu> =
+wrote:
 >
+> On Sat, 11 Apr 2026 at 15:50, Amir Goldstein <amir73il@gmail.com> wrote:
 >
+> > Locally, for mark iteration, the fix looks fine, but fsnotify_mark_srcu=
+ also
+> > protects lifetime of destroyed mark and connector and I have the eering=
+ feeling
+> > that some of that code may be relying of the detached mark to either
+> > have a ref or fsnotify_mark_srcu.
 >
-> On 4/11/26 20:11, Joanne Koong wrote:
-> > On Fri, Apr 10, 2026 at 3:08=E2=80=AFPM Horst Birthelmer <horst@birthel=
-mer.de> wrote:
-> >>
-> >> On Fri, Apr 10, 2026 at 02:24:08PM -0700, Joanne Koong wrote:
-> >>> On Fri, Apr 10, 2026 at 4:26=E2=80=AFAM Bernd Schubert <bernd@bsbernd=
-.com> wrote:
-> >>>>
-> >>> Hi Bernd,
-> >>>
-> >>>> Hi Joanne,
-> >>>>
-> >>>> On 4/10/26 01:09, Joanne Koong wrote:
-> >>>>> On Thu, Apr 9, 2026 at 4:02=E2=80=AFAM Bernd Schubert <bernd@bsbern=
-d.com> wrote:
-> >>>>>>
-> >>>>>>
-> >>>>>>
-> >>>>>> On 10/21/25 23:33, Bernd Schubert wrote:
-> >>>>>>> Do not merge yet, the current series has not been tested yet.
-> >>>>>>
-> >>>>>> I'm glad that that I was hesitating to apply it, the DDN branch ha=
-d it
-> >>>>>> for ages and this patch actually introduced a possible fc->num_wai=
-ting
-> >>>>>> issue, because fc->uring->queue_refs might go down to 0 though
-> >>>>>> fuse_uring_cancel() and then fuse_uring_abort() would never stop a=
-nd
-> >>>>>> flush the queues without another addition.
-> >>>>>>
-> >>>>>
-> >>>>> Hi Bernd and Jian,
-> >>>>>
-> >>>>> For some reason the "[PATCH 2/2] fs/fuse: fix potential memory leak
-> >>>>> from fuse_uring_cancel" email was never delivered to my inbox, so I=
- am
-> >>>>> just going to write my reply to that patch here instead, hope that'=
-s
-> >>>>> ok.
-> >>>>>
-> >>>>> Just to summarize, the race is that during unmount, fuse_abort() ->
-> >>>>> fuse_uring_abort() -> ... -> fuse_uring_teardown_entries() -> ... -=
->
-> >>>>> fuse_uring_entry_teardown() gets run but there may still be sqes th=
-at
-> >>>>> are being registered, which results in new ents that are created (a=
-nd
-> >>>>> leaked) after the teardown logic has finished and the queues are
-> >>>>> stopped/dead. The async teardown work (fuse_uring_async_stop_queues=
-())
-> >>>>> never gets scheduled because at the time of teardown, queue->refs i=
-s 0
-> >>>>> as those sqes have not fully created the ents and grabbed refs yet.
-> >>>>> fuse_uring_destruct() runs during unmount, but this doesn't clean u=
-p
-> >>>>> the created ents because those registered ents got put on the
-> >>>>> ent_in_userspace list which fuse_uring_destruct() doesn't go throug=
-h
-> >>>>> to free, resulting in those ents being leaked.
-> >>>>>
-> >>>>> The root cause of the race is that ents are being registered even w=
-hen
-> >>>>> the queue is already stopped/dead. I think if we at registration ti=
-me
-> >>>>> check the queue state before calling fuse_uring_prepare_cancel(), w=
-e
-> >>>>> eliminate the race altogether. If we see that the abort path has
-> >>>>> already triggered (eg queue->stopped =3D=3D true), we manually free=
- the
-> >>>>> ent and return an error instead of adding it to a list, eg
-> >>>>>
-> >>>>> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-> >>>>> index d88a0c05434a..351c19150aae 100644
-> >>>>> --- a/fs/fuse/dev_uring.c
-> >>>>> +++ b/fs/fuse/dev_uring.c
-> >>>>> @@ -969,7 +969,7 @@ static bool is_ring_ready(struct fuse_ring *rin=
-g,
-> >>>>> int current_qid)
-> >>>>>  /*
-> >>>>>   * fuse_uring_req_fetch command handling
-> >>>>>   */
-> >>>>> -static void fuse_uring_do_register(struct fuse_ring_ent *ent,
-> >>>>> +static int fuse_uring_do_register(struct fuse_ring_ent *ent,
-> >>>>>                                    struct io_uring_cmd *cmd,
-> >>>>>                                    unsigned int issue_flags)
-> >>>>>  {
-> >>>>> @@ -978,6 +978,16 @@ static void fuse_uring_do_register(struct
-> >>>>> fuse_ring_ent *ent,
-> >>>>>         struct fuse_conn *fc =3D ring->fc;
-> >>>>>         struct fuse_iqueue *fiq =3D &fc->iq;
-> >>>>>
-> >>>>> +       spin_lock(&queue->lock);
-> >>>>> +       /* abort teardown path is running or has run */
-> >>>>> +       if (queue->stopped) {
-> >>>>> +               spin_unlock(&queue->lock);
-> >>>>> +               atomic_dec(&ring->queue_refs);
-> >>>>> +               kfree(ent);
-> >>>>> +               return -ECONNABORTED;
-> >>>>> +       }
-> >>>>> +       spin_unlock(&queue->lock);
-> >>>>> +
-> >>>>>         fuse_uring_prepare_cancel(cmd, issue_flags, ent);
-> >>>>>
-> >>>>>         spin_lock(&queue->lock);
-> >>>>> @@ -994,6 +1004,7 @@ static void fuse_uring_do_register(struct
-> >>>>> fuse_ring_ent *ent,
-> >>>>>                         wake_up_all(&fc->blocked_waitq);
-> >>>>>                 }
-> >>>>>         }
-> >>>>> +       return 0;
-> >>>>>  }
-> >>>>>
-> >>>>>  /*
-> >>>>> @@ -1109,9 +1120,7 @@ static int fuse_uring_register(struct io_urin=
-g_cmd *cmd,
-> >>>>>         if (IS_ERR(ent))
-> >>>>>                 return PTR_ERR(ent);
-> >>>>>
-> >>>>> -       fuse_uring_do_register(ent, cmd, issue_flags);
-> >>>>> -
-> >>>>> -       return 0;
-> >>>>> +       return fuse_uring_do_register(ent, cmd, issue_flags);
-> >>>>>  }
-> >>>>>
-> >>>>> There's the scenario where the abort path's "queue->stopped =3D tru=
-e"
-> >>>>> gets set right between when we drop the queue lock and before we ca=
-ll
-> >>>>> fuse_uring_prepare_cancel(), but the fuse_uring_create_ring_ent()
-> >>>>> logic that was called before fuse_uring_do_register() has already
-> >>>>> grabbed the ref on ring->queue_refs, which means in the abort path,
-> >>>>> the async teardown (fuse_uring_async_stop_queues()) work is guarant=
-eed
-> >>>>> to run and clean up / free the entry.
-> >>>>
-> >>>>
-> >>>> I don't think your changes are needed, it should be handled by
-> >>>> IO_URING_F_CANCEL -> fuse_uring_cancel(). That is exactly where the
-> >>>> initial leak was - these commands came after abort and
-> >>>> fuse_uring_cancel() in linux upstream then puts the entries onto the
-> >>>> &queue->ent_in_userspace list.
-> >>>
-> >>> I think there are still races if we handle it in fuse_uring_cancel()
-> >>> that still leak the ent, eg even with the fuse_uring_abort()
-> >>> queue_refs gating taken out in the original (jian's) patch:
-> >>> * thread A: fuse_uring_register() ->fuse_uring_create_ring_ent() ->
-> >>> kzalloc, sets up the entry but hasn't called
-> >>> atomic_inc(&ring->queue_refs) yet
-> >>>   concurrently on another thread, thread B: fuse_uring_cancel()
-> >>> ->fuse_uring_entry_teardown() ->
-> >>> atomic_dec_return(&queue->ring->queue_refs) -> brings queue_refs down
-> >>> to 0
-> >>>   At this instant, queue_Refs =3D=3D 0. fuse_uring_stop_queues() ->
-> >>> teardown entries (nothing left) -> checks "if
-> >>> atomic_read(&ring->queue_refs) > 0", sees this is false, and skips
-> >>> scheduling any async teardown work
-> >>>   thread A calls atomic_inc(&ring->queue_refs) for the new ent,
-> >>> queue_refs is now 1, the ent is now placed on the ent_avail_queue, bu=
-t
-> >>> it's never torn down.
-> >>>   the ent is leaked and there's also a hang now when we hit
-> >>> fuse_uring_wait_stopped_queues() -> fuse_uring_wait_stopped_queues()
-> >>> where it sleeps and is never woken since it's waiting for queue refs
-> >>> to drop to 0
-> >>>
-> >>> imo, the change proposed in my last message is more robust and handle=
-s
-> >>> this case since it guarantees the async teardown worker will be
-> >>> running (since it does the queue state check after the ent has grabbe=
-d
-> >>> the queue ref).
-> >>
-> >> Ok so you rely on the fact that fuse_abort_conn() will call
-> >> fuse_uring_abort() and that sets queue->stopped.
-> >> This could work, but I would still remove the check for
-> >> queue_refs > 0 in fuse_uring_abort(), since it just complicates things
-> >> for no real reason.
-> >>
-> >>>
-> >>> btw, there's also another (separate) race, which neither of our
-> >>> approaches solve lol. This is the situation where fuse_uring_cancel()
-> >>> runs right after we call fuse_uring_prepare_cancel() in
-> >>> fuse_uring_do_register() but before we have set the ent state to
-> >>> FRRS_AVAILABLE. The ent gets leaked and continues to be used even
-> >>> though it's canceled, which may lead to use-after-frees. This probabl=
-y
-> >>> requires a separate fix, I haven't had time to look much at it yet.
-> >>> Maybe Horst or Jian has looked at this?
-> >>>
-> >> Interesting scenario ... haven't seen that one so far.
-> >
-> > Looking at the io-uring code for how cancels are handled
-> > (io_uring_try_cancel_uring_cmd()), I was wrong in my prevoius message
-> > about these two races. io-uring already serializes this for us, the
-> > io-uring code unconditionally grabs the uring lock before invoking
-> > file->f_op->uring_cmd() in the cancel path, which means there's no
-> > interweaving between the fuse registration logic and the cancel logic.
-> >
-> > But I still think the more robust/resilient fix for the memleak is to
-> > do the preemptive checking at registration time. I think this fixes
-> > races in the force unmount case between registration and abort that is
-> > unresolved with the original patch. With the original patch w/
-> > fuse_uring_abort()'s queue_refs check removed, I think we can still
-> > hit this:
->
-> I need to go through the other messages, but I still do not see any
-> registration time leak. At least not with the additional patch we have
-> here to tear down entries through IO_URING_F_CANCEL
+> The fsnotify_next_mark() call in fsnotify_iter_next() does the same
+> thing.  Why do you think this could be different?
 
-The issue is the hang, not the leak.
-
->
->
-> Sorry, besides also looking into ublk now (for main work), also in
-> progress to fix an issue with reduced queues and also still on the
-> libfuse part of sync-init....
->
-> >
-> > registration vs abort:
-> >   - thread a: io_uring_enter -> register sqe ->
-> > fuse_uring_create_ring_ent -> allocate ent but doesn't grab queue_ref
-> > yet
-> >   - thread b: fuse_conn_destroy() -> fuse_abort_conn() ->
-> > fuse_uring_abort() -> fuse_uring_stop_queues() ->
-> > fuse_uring_teardown_entries(), skips scheduling async teardown work
-> > since queue_refs =3D=3D 0, returns
-> >   - thread a: grabs the queue_ref, queue_ref is now 1, rest of
-> > fuse_uring_do_register() logic executes, ent is now marked cancelable,
-> > ent state is now available, ent is placed on available queue
-> >   - thread b: fuse_abort_conn() returns, fuse_wait_aborted() now runs
-> > and does a "wait_event(ring->stop_waitq,
-> > atomic_read(&ring->queue_refs) =3D=3D 0);" which hangs since the waiter
-> > never gets woken
-> >
-> > whereas if we check preemptively at registration time, we explicjtly
-> > free the ent and release the queue_ref. I think the preemptive check
-> > needs to check ring->fc->connected though instead of queue->stopped,
-> > because there's the race where abort and stop_queues() may have been
-> > triggered before the register sqe path does queue creation. I'm hoping
-> > there's a better solution than having to grab the fc lock and checking
-> > fc->connected though, will try to look more at this next week.
-> >
-> > I think we can hit this hang on a ring creation vs abort race as well:
-> > * thread a: fuse_uring_cmd() gets called, passes fc->aborted check (not=
- set yet)
-> > * thread b: abort is called, calls fuse_uring_abort(),
-> > fuse_uring_abort() is a no-op since ring =3D=3D NULL right now
-> > * thread a: creates ring, creates queue, creates entry
-> > - if thread a takes the queue_ref count before the rest of the abort
-> > logic, we end up with the same hang as the situation above.
->
-> IO-uring sends IO_URING_F_CANCEL for every registred command. We never
-> had a leak you describe. Upstream has a leak because it does not free
-> 'queue->ent_in_userspace' in fuse_uring_destruct. I'm fine with the
-> addition in fuse_uring_cancel() (although the just freeing the entries
-> in the list is much simpler and race free).
->
-> Please let's not make it anymore complex.
-
-The issue is the hang, not the ent leak. What I'm trying to say is
-that the original patch submitted fixes one issue (kfreeing the ents)
-but doesn't fix the registration vs abort race, whereas the preemptive
-registration check fixes the leaked ents and the race.
-
-With the original patch, the umount thread still gets stuck
-permanently in TASK_UNINTERRUPTIBLE during the race. Even if the admin
-kills the daemon, the umount thread still holds the mount ref, which
-means delayed_release -> fuse_uring_destruct() will never get called
-and the entire ring gets leaked. If the original patch adds a
-wake_up_all() when queue_refs hits 0 in teardown, then killing the
-daemon does resolve it (as it'll wake up the umount thread), but the
-force-unmount still blocks in TASK_UNINTERRUPTIBLE state until the
-admin kills the server. The preemptive registration check is the more
-robust fix imo.
+No you're right. seems safe.
 
 Thanks,
-Joanne
-
->
->
-> Thanks,
-> Bernd
+Amir.
