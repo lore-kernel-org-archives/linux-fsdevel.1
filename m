@@ -1,360 +1,164 @@
-Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA3E839B494;
-	Mon, 13 Apr 2026 22:26:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5211A39B4BC;
+	Mon, 13 Apr 2026 22:28:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776119184; cv=none; b=knObSExMVbw4SCfTQK2/hCS9XmgGVx+fdi9k/VsLoaIb1Sdmh9Kf8aNpOlb3G0D8HnHytAcIDSRMxiWQyEuHdW5kvx3bYMzSeupU7J3oDBXEHQJKXcke0tOoMxNL+GIH73x73VauMLOU25sdz6DR2N2PdUQT/IKopOveeSIdiVc=
+	t=1776119301; cv=none; b=oxQRzKmeP2+5iid+BBhLkTsU/TqIt9b04Fz0C14P71VhPtsrn0LvbGtSmNprP1PXYEuNr/02H04pcR0Umf7jXm5AEZ7k9DkRISJlc+jox+laMcpCcoXelQCus07rxb4kjyqfmzsUQssY8ceAVWzoYWCCM81HD/ZH1+BnPemLD1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776119184; c=relaxed/simple;
-	bh=5A7fVcPbR26mydlKiWE9R0xeDAsL1zhvxBOOqc2kDDA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z5AfUDphtcuNSkdlV+dlnTitF3q0ZfT0dvtdhOsik+wHw1YCyJYH62ro3cKoISee3SzwSuQY9/nfkbA3meweDTCNRk7JEh9YZLezdZSw61acaqPSWNQNJ4PIssW5FJC0Ay3az16V3gZ1H60T+zB4MOLjGEyZNyZYl6cNV2orPR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
-Received: from omf19.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay07.hostedemail.com (Postfix) with ESMTP id F33CF160338;
-	Mon, 13 Apr 2026 22:26:17 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf19.hostedemail.com (Postfix) with ESMTPA id AA44720025;
-	Mon, 13 Apr 2026 22:26:07 +0000 (UTC)
-Date: Mon, 13 Apr 2026 17:26:06 -0500
-From: John Groves <John@groves.net>
-To: Ira Weiny <ira.weiny@intel.com>
-Cc: Alison Schofield <alison.schofield@intel.com>, 
-	John Groves <john@jagalactic.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
-	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
-	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
-	Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, 
-	Josef Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
-	Chen Linxuan <chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH V10 0/8] dax: prepare for famfs
-Message-ID: <ad1tUMoTjlb8LCHw@groves.net>
-References: <20260327210311.79099-1-john@jagalactic.com>
- <0100019d311bed04-dbb67b48-c55d-4e6a-962a-a0f8b714f2e7-000000@email.amazonses.com>
- <acrpbBt5UsWEiEbm@aschofie-mobl2.lan>
- <69dd576924b0f_24f910029@iweiny-mobl.notmuch>
- <69dd62eba432e_20039100b5@iweiny-mobl.notmuch>
+	s=arc-20240116; t=1776119301; c=relaxed/simple;
+	bh=fByOYkjMSojHVmdj9DaufISzbwDFdcjpg+f/Enowu40=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=iksWPEm2qkx9sao+9T0fXT+6jFzNERBeTXNZMqV2YNKSDrQCkU+RfeAuRaKSgif3i4nNsfl3m58YTOLStmyINoFpGDbxkSp8byws8c73dftTRc6WvVSTmwVPSgszN8Wc77O6Xvu92muj9qIetZY9M0B0FmydAIPTW21Vhu2YRHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WIL4AjjF; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WIL4AjjF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E519DC2BCAF;
+	Mon, 13 Apr 2026 22:28:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776119301;
+	bh=fByOYkjMSojHVmdj9DaufISzbwDFdcjpg+f/Enowu40=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=WIL4AjjFVj1oeac6j6iGj1TDMnsraGwDl/eKCSJQzRwxDRa6v/r+fUCm8TPFAOBj1
+	 WEXJ6tYjdVJybVhO/15GYZQt0ICWiI1RjSjW0my/awb3F04GLCB9UwmEl74R5psy9L
+	 OrGrwz26yms+l5kwYTzaiOUtly9m1q4Jw/h3AmLeSWolqyTtaORtQrriQ+WJkr0YBp
+	 sM2dJy8YKzuB7KM+jEBTbQQZMEYGuOTMBHgTWqTXpun3Ps3o+o0WmFrXPjpZnPL/fE
+	 IEbe3hup3W7sGFxlrQkic++OFsX23k86rDEaY8+s/8x9CjAdEZi1uEUp2ysvlNA7XF
+	 5OPY5Ihd2T8TQ==
+Message-ID: <70a0192e20bc9d7672862802d16f39ed1f522893.camel@kernel.org>
+Subject: Re: [PATCH 4/4] exportfs,nfsd: rework checking for layout-based
+ block device access support
+From: Jeff Layton <jlayton@kernel.org>
+To: Christoph Hellwig <hch@lst.de>, Chuck Lever <chuck.lever@oracle.com>, 
+ Amir Goldstein <amir73il@gmail.com>
+Cc: NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, 
+ Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
+ linux-nfs@vger.kernel.org, 	linux-fsdevel@vger.kernel.org
+Date: Mon, 13 Apr 2026 15:28:20 -0700
+In-Reply-To: <20260401144059.160746-5-hch@lst.de>
+References: <20260401144059.160746-1-hch@lst.de>
+	 <20260401144059.160746-5-hch@lst.de>
+Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
+ keydata=mQINBE6V0TwBEADXhJg7s8wFDwBMEvn0qyhAnzFLTOCHooMZyx7XO7dAiIhDSi7G1NPxw
+ n8jdFUQMCR/GlpozMFlSFiZXiObE7sef9rTtM68ukUyZM4pJ9l0KjQNgDJ6Fr342Htkjxu/kFV1Wv
+ egyjnSsFt7EGoDjdKqr1TS9syJYFjagYtvWk/UfHlW09X+jOh4vYtfX7iYSx/NfqV3W1D7EDi0PqV
+ T2h6v8i8YqsATFPwO4nuiTmL6I40ZofxVd+9wdRI4Db8yUNA4ZSP2nqLcLtFjClYRBoJvRWvsv4lm
+ 0OX6MYPtv76hka8lW4mnRmZqqx3UtfHX/hF/zH24Gj7A6sYKYLCU3YrI2Ogiu7/ksKcl7goQjpvtV
+ YrOOI5VGLHge0awt7bhMCTM9KAfPc+xL/ZxAMVWd3NCk5SamL2cE99UWgtvNOIYU8m6EjTLhsj8sn
+ VluJH0/RcxEeFbnSaswVChNSGa7mXJrTR22lRL6ZPjdMgS2Km90haWPRc8Wolcz07Y2se0xpGVLEQ
+ cDEsvv5IMmeMe1/qLZ6NaVkNuL3WOXvxaVT9USW1+/SGipO2IpKJjeDZfehlB/kpfF24+RrK+seQf
+ CBYyUE8QJpvTZyfUHNYldXlrjO6n5MdOempLqWpfOmcGkwnyNRBR46g/jf8KnPRwXs509yAqDB6sE
+ LZH+yWr9LQZEwARAQABtCVKZWZmIExheXRvbiA8amxheXRvbkBwb29jaGllcmVkcy5uZXQ+iQI7BB
+ MBAgAlAhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAUCTpXWPAIZAQAKCRAADmhBGVaCFc65D/4
+ gBLNMHopQYgG/9RIM3kgFCCQV0pLv0hcg1cjr+bPI5f1PzJoOVi9s0wBDHwp8+vtHgYhM54yt43uI
+ 7Htij0RHFL5eFqoVT4TSfAg2qlvNemJEOY0e4daljjmZM7UtmpGs9NN0r9r50W82eb5Kw5bc/r0km
+ R/arUS2st+ecRsCnwAOj6HiURwIgfDMHGPtSkoPpu3DDp/cjcYUg3HaOJuTjtGHFH963B+f+hyQ2B
+ rQZBBE76ErgTDJ2Db9Ey0kw7VEZ4I2nnVUY9B5dE2pJFVO5HJBMp30fUGKvwaKqYCU2iAKxdmJXRI
+ ONb7dSde8LqZahuunPDMZyMA5+mkQl7kpIpR6kVDIiqmxzRuPeiMP7O2FCUlS2DnJnRVrHmCljLkZ
+ Wf7ZUA22wJpepBligemtSRSbqCyZ3B48zJ8g5B8xLEntPo/NknSJaYRvfEQqGxgk5kkNWMIMDkfQO
+ lDSXZvoxqU9wFH/9jTv1/6p8dHeGM0BsbBLMqQaqnWiVt5mG92E1zkOW69LnoozE6Le+12DsNW7Rj
+ iR5K+27MObjXEYIW7FIvNN/TQ6U1EOsdxwB8o//Yfc3p2QqPr5uS93SDDan5ehH59BnHpguTc27Xi
+ QQZ9EGiieCUx6Zh2ze3X2UW9YNzE15uKwkkuEIj60NvQRmEDfweYfOfPVOueC+iFifbQgSmVmZiBM
+ YXl0b24gPGpsYXl0b25AcmVkaGF0LmNvbT6JAjgEEwECACIFAk6V0q0CGwMGCwkIBwMCBhUIAgkKC
+ wQWAgMBAh4BAheAAAoJEAAOaEEZVoIViKUQALpvsacTMWWOd7SlPFzIYy2/fjvKlfB/Xs4YdNcf9q
+ LqF+lk2RBUHdR/dGwZpvw/OLmnZ8TryDo2zXVJNWEEUFNc7wQpl3i78r6UU/GUY/RQmOgPhs3epQC
+ 3PMJj4xFx+VuVcf/MXgDDdBUHaCTT793hyBeDbQuciARDJAW24Q1RCmjcwWIV/pgrlFa4lAXsmhoa
+ c8UPc82Ijrs6ivlTweFf16VBc4nSLX5FB3ls7S5noRhm5/Zsd4PGPgIHgCZcPgkAnU1S/A/rSqf3F
+ LpU+CbVBDvlVAnOq9gfNF+QiTlOHdZVIe4gEYAU3CUjbleywQqV02BKxPVM0C5/oVjMVx3bri75n1
+ TkBYGmqAXy9usCkHIsG5CBHmphv9MHmqMZQVsxvCzfnI5IO1+7MoloeeW/lxuyd0pU88dZsV/riHw
+ 87i2GJUJtVlMl5IGBNFpqoNUoqmvRfEMeXhy/kUX4Xc03I1coZIgmwLmCSXwx9MaCPFzV/dOOrju2
+ xjO+2sYyB5BNtxRqUEyXglpujFZqJxxau7E0eXoYgoY9gtFGsspzFkVNntamVXEWVVgzJJr/EWW0y
+ +jNd54MfPRqH+eCGuqlnNLktSAVz1MvVRY1dxUltSlDZT7P2bUoMorIPu8p7ZCg9dyX1+9T6Muc5d
+ Hxf/BBP/ir+3e8JTFQBFOiLNdFtB9KZWZmIExheXRvbiA8amxheXRvbkBzYW1iYS5vcmc+iQI4BBM
+ BAgAiBQJOldK9AhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRAADmhBGVaCFWgWD/0ZRi4h
+ N9FK2BdQs9RwNnFZUr7JidAWfCrs37XrA/56olQl3ojn0fQtrP4DbTmCuh0SfMijB24psy1GnkPep
+ naQ6VRf7Dxg/Y8muZELSOtsv2CKt3/02J1BBitrkkqmHyni5fLLYYg6fub0T/8Kwo1qGPdu1hx2BQ
+ RERYtQ/S5d/T0cACdlzi6w8rs5f09hU9Tu4qV1JLKmBTgUWKN969HPRkxiojLQziHVyM/weR5Reu6
+ FZVNuVBGqBD+sfk/c98VJHjsQhYJijcsmgMb1NohAzwrBKcSGKOWJToGEO/1RkIN8tqGnYNp2G+aR
+ 685D0chgTl1WzPRM6mFG1+n2b2RR95DxumKVpwBwdLPoCkI24JkeDJ7lXSe3uFWISstFGt0HL8Eew
+ P8RuGC8s5h7Ct91HMNQTbjgA+Vi1foWUVXpEintAKgoywaIDlJfTZIl6Ew8ETN/7DLy8bXYgq0Xzh
+ aKg3CnOUuGQV5/nl4OAX/3jocT5Cz/OtAiNYj5mLPeL5z2ZszjoCAH6caqsF2oLyAnLqRgDgR+wTQ
+ T6gMhr2IRsl+cp8gPHBwQ4uZMb+X00c/Amm9VfviT+BI7B66cnC7Zv6Gvmtu2rEjWDGWPqUgccB7h
+ dMKnKDthkA227/82tYoFiFMb/NwtgGrn5n2vwJyKN6SEoygGrNt0SI84y6hEVbQlSmVmZiBMYXl0b
+ 24gPGpsYXl0b25AcHJpbWFyeWRhdGEuY29tPokCOQQTAQIAIwUCU4xmKQIbAwcLCQgHAwIBBhUIAg
+ kKCwQWAgMBAh4BAheAAAoJEAAOaEEZVoIV1H0P/j4OUTwFd7BBbpoSp695qb6HqCzWMuExsp8nZjr
+ uymMaeZbGr3OWMNEXRI1FWNHMtcMHWLP/RaDqCJil28proO+PQ/yPhsr2QqJcW4nr91tBrv/MqItu
+ AXLYlsgXqp4BxLP67bzRJ1Bd2x0bWXurpEXY//VBOLnODqThGEcL7jouwjmnRh9FTKZfBDpFRaEfD
+ FOXIfAkMKBa/c9TQwRpx2DPsl3eFWVCNuNGKeGsirLqCxUg5kWTxEorROppz9oU4HPicL6rRH22Ce
+ 6nOAON2vHvhkUuO3GbffhrcsPD4DaYup4ic+DxWm+DaSSRJ+e1yJvwi6NmQ9P9UAuLG93S2MdNNbo
+ sZ9P8k2mTOVKMc+GooI9Ve/vH8unwitwo7ORMVXhJeU6Q0X7zf3SjwDq2lBhn1DSuTsn2DbsNTiDv
+ qrAaCvbsTsw+SZRwF85eG67eAwouYk+dnKmp1q57LDKMyzysij2oDKbcBlwB/TeX16p8+LxECv51a
+ sjS9TInnipssssUDrHIvoTTXWcz7Y5wIngxDFwT8rPY3EggzLGfK5Zx2Q5S/N0FfmADmKknG/D8qG
+ IcJE574D956tiUDKN4I+/g125ORR1v7bP+OIaayAvq17RP+qcAqkxc0x8iCYVCYDouDyNvWPGRhbL
+ UO7mlBpjW9jK9e2fvZY9iw3QzIPGKtClKZWZmIExheXRvbiA8amVmZi5sYXl0b25AcHJpbWFyeWRh
+ dGEuY29tPokCOQQTAQIAIwUCU4xmUAIbAwcLCQgHAwIBBhUIAgkKCwQWAgMBAh4BAheAAAoJEAAOa
+ EEZVoIVzJoQALFCS6n/FHQS+hIzHIb56JbokhK0AFqoLVzLKzrnaeXhE5isWcVg0eoV2oTScIwUSU
+ apy94if69tnUo4Q7YNt8/6yFM6hwZAxFjOXR0ciGE3Q+Z1zi49Ox51yjGMQGxlakV9ep4sV/d5a50
+ M+LFTmYSAFp6HY23JN9PkjVJC4PUv5DYRbOZ6Y1+TfXKBAewMVqtwT1Y+LPlfmI8dbbbuUX/kKZ5d
+ dhV2736fgyfpslvJKYl0YifUOVy4D1G/oSycyHkJG78OvX4JKcf2kKzVvg7/Rnv+AueCfFQ6nGwPn
+ 0P91I7TEOC4XfZ6a1K3uTp4fPPs1Wn75X7K8lzJP/p8lme40uqwAyBjk+IA5VGd+CVRiyJTpGZwA0
+ jwSYLyXboX+Dqm9pSYzmC9+/AE7lIgpWj+3iNisp1SWtHc4pdtQ5EU2SEz8yKvDbD0lNDbv4ljI7e
+ flPsvN6vOrxz24mCliEco5DwhpaaSnzWnbAPXhQDWb/lUgs/JNk8dtwmvWnqCwRqElMLVisAbJmC0
+ BhZ/Ab4sph3EaiZfdXKhiQqSGdK4La3OTJOJYZphPdGgnkvDV9Pl1QZ0ijXQrVIy3zd6VCNaKYq7B
+ AKidn5g/2Q8oio9Tf4XfdZ9dtwcB+bwDJFgvvDYaZ5bI3ln4V3EyW5i2NfXazz/GA/I/ZtbsigCFc
+ 8ftCBKZWZmIExheXRvbiA8amxheXRvbkBrZXJuZWwub3JnPokCOAQTAQIAIgUCWe8u6AIbAwYLCQg
+ HAwIGFQgCCQoLBBYCAwECHgECF4AACgkQAA5oQRlWghUuCg/+Lb/xGxZD2Q1oJVAE37uW308UpVSD
+ 2tAMJUvFTdDbfe3zKlPDTuVsyNsALBGclPLagJ5ZTP+Vp2irAN9uwBuacBOTtmOdz4ZN2tdvNgozz
+ uxp4CHBDVzAslUi2idy+xpsp47DWPxYFIRP3M8QG/aNW052LaPc0cedYxp8+9eiVUNpxF4SiU4i9J
+ DfX/sn9XcfoVZIxMpCRE750zvJvcCUz9HojsrMQ1NFc7MFT1z3MOW2/RlzPcog7xvR5ENPH19ojRD
+ CHqumUHRry+RF0lH00clzX/W8OrQJZtoBPXv9ahka/Vp7kEulcBJr1cH5Wz/WprhsIM7U9pse1f1g
+ Yy9YbXtWctUz8uvDR7shsQxAhX3qO7DilMtuGo1v97I/Kx4gXQ52syh/w6EBny71CZrOgD6kJwPVV
+ AaM1LRC28muq91WCFhs/nzHozpbzcheyGtMUI2Ao4K6mnY+3zIuXPygZMFr9KXE6fF7HzKxKuZMJO
+ aEZCiDOq0anx6FmOzs5E6Jqdpo/mtI8beK+BE7Va6ni7YrQlnT0i3vaTVMTiCThbqsB20VrbMjlhp
+ f8lfK1XVNbRq/R7GZ9zHESlsa35ha60yd/j3pu5hT2xyy8krV8vGhHvnJ1XRMJBAB/UYb6FyC7S+m
+ QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <69dd62eba432e_20039100b5@iweiny-mobl.notmuch>
-X-Stat-Signature: 3ezap5jn6g73nfycmmsj9o9zyds13o35
-X-Rspamd-Server: rspamout08
-X-Rspamd-Queue-Id: AA44720025
-X-Session-Marker: 6A6F686E4067726F7665732E6E6574
-X-Session-ID: U2FsdGVkX18aHdyj8CPonE2nMkMlfxQw8N6d++WsvZY=
-X-HE-Tag: 1776119167-822919
-X-HE-Meta: U2FsdGVkX182KUrTrOIBq57VVW5WWL50AUv3BqL4jIgvkPZooM25GEyX43V2YzPZiWCzjy1R582lpIyBAzT/7ru3gILLs8Ca1jy0vYlr1JOROvMM1Cx0aJnsvqKJ3RPabKAYHYG+s7YTGHuMvWpYz4OPIruM5JsTnisjCXFdXCc5Z9dXecVd3Pen694jsfGFbfpsgg0EnUhAaY04v+BuuBzS9K+7BjNj+gGkgpfiZeMklHZ9XH53jqz8U2onXZSm31PTHaHBvViFFdBgVnNnKTtu4TQkk42GRLep5yqnBElmiYMVamyBNJVUla6IPM7SSA0LJyrkzDTzNl7ERyKyXK63HhpwBNnEN6Hm4BZidbPmfUIZ2yOhFDuRUiTQRAyxuJKE1go4ddsmXqHuAdQrtg==
 
-On 26/04/13 04:40PM, Ira Weiny wrote:
-> Ira Weiny wrote:
-> > Alison Schofield wrote:
-> > > On Fri, Mar 27, 2026 at 09:03:26PM +0000, John Groves wrote:
-> > > > From: John Groves <john@groves.net>
-> > > > 
-> 
-> [snip]
-> 
-> > > > 
-> > > > Description:
-> > > > 
-> > > > This patch series introduces the required dax support for famfs.
-> > > > Previous versions of the famfs series included both dax and fuse patches.
-> > > > This series separates them into separate patch series' (and the fuse
-> > > > series dependends on this dax series).
-> > > > 
-> > > > The famfs user space code can be found at [1]
-> > > > 
-> > > > Dax Overview:
-> > > > 
-> > > > This series introduces a new "famfs mode" of devdax, whose driver is
-> > > > drivers/dax/fsdev.c. This driver supports dax_iomap_rw() and
-> > > > dax_iomap_fault() calls against a character dax instance. A dax device
-> > > > now can be converted among three modes: 'system-ram', 'devdax' and
-> > > > 'famfs' via daxctl or sysfs (e.g. unbind devdax and bind famfs instead).
-> > > > 
-> > > > In famfs mode, a dax device initializes its pages consistent with the
-> > > > fsdaxmode of pmem. Raw read/write/mmap are not supported in this mode,
-> > > > but famfs is happy in this mode - using dax_iomap_rw() for read/write and
-> > > > dax_iomap_fault() for mmap faults.
-> > > > 
-> > > 
-> > > Here's what I found:
-> > > 
-> > > famfs-v10 on 7.0-rc5 + ndctl v84:
-> > > 	dax suite all pass 13/13, so no regression appears
-> > > 
-> > > famfs-v10 on 7.0-rc5 +
-> > > (ndctl v84 w https://github.com/jagalactic/ndctl/tree/famfs
-> > > top 3 patches + edit daxctl-famfs.sh to use cxl-test:
-> > > 
-> > > 	existing dax suite keeps passing
-> > > 	daxctl-famfs.sh oops w the new test at # Restore original mode"
-> > > 	seems easy to repoduce, maybe cannot go back to system-ram???
-> > 
-> > John have you been able to reproduce this?
-> > 
-> > Ira
-> 
-> John I've found a different crash with the daxctl-famfs.sh test.  See
-> below.
-> 
-> I got the ndctl repo with the test from Alison.
-> 
-> I'm not at all clear what is happening at this point...
-> 
-> Ira
-> 
-> <crash>
-> 
-> [  519.007691] BUG: TASK stack guard page was hit at ffffc90001767fc8 (stack is ffffc90001768000..ffffc9000176c000)
-> [  519.007694] Oops: stack guard page: 0000 [#1] SMP NOPTI
-> [  519.007697] CPU: 0 UID: 0 PID: 1465 Comm: daxctl Tainted: G           O        7.0.0-rc6ira+ #68 PREEMPT(full)
-> [  519.007699] Tainted: [O]=OOT_MODULE
-> [  519.007700] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS edk2-20250812-19.fc42 08/12/2025
-> [  519.007701] RIP: 0010:sprintf+0xc/0x50
-> [  519.007709] Code: 24 10 e8 37 f8 ff ff c9 c3 cc cc cc cc 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 55 48 89 e5 48 83 ec 48 48 8d 45 10 <48>
->  89 54 24 28 48 89 f2 be ff ff ff 7f 48 89 4c 24 30 48 89 e1 48
-> [  519.007710] RSP: 0018:ffffc90001767fd0 EFLAGS: 00010282
-> [  519.007712] RAX: ffffc90001768028 RBX: ffffc90001768068 RCX: 0000000000001e08
-> [  519.007712] RDX: 0000000000000207 RSI: ffffffff82abab1c RDI: ffffc90001768068
-> [  519.007713] RBP: ffffc90001768018 R08: 0000000000000000 R09: 0000000000000001
-> [  519.007713] R10: ffffc90001768110 R11: 0000000000000002 R12: 0000000000000800
-> [  519.007714] R13: ffffc90001768068 R14: 0000000000000000 R15: ffffffff839c71c0
-> [  519.007715] FS:  00007fb94b807c80(0000) GS:ffff8880f9e9c000(0000) knlGS:0000000000000000
-> [  519.007717] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [  519.007717] CR2: ffffc90001767fc8 CR3: 0000000077d2e005 CR4: 0000000000770ef0
-> [  519.007720] PKRU: 55555554
-> [  519.007721] Call Trace:
-> [  519.007722]  <TASK>
-> [  519.007723]  info_print_prefix+0xc0/0xe0
-> [  519.007728]  record_print_text+0x58/0x2d0
-> [  519.007730]  printk_get_next_message+0xd8/0x220
-> [  519.007733]  console_flush_one_record+0x1a5/0x390
-> [  519.007735]  console_unlock+0x5a/0xe0
-> [  519.007737]  vprintk_emit+0x2e8/0x340
-> [  519.007738]  _printk+0x48/0x50
-> [  519.007741]  ? printk_get_next_message+0x70/0x220
-> [  519.007743]  __dump_page.cold+0x3c/0x331
-> [  519.007746]  ? dump_page+0x1b/0x30
-> [  519.007748]  dump_page+0x1b/0x30
-> [  519.007749]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007751]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007753]  __dump_page.cold+0x1c6/0x331
-> [  519.007755]  ? dump_page+0x1b/0x30
-> [  519.007756]  dump_page+0x1b/0x30
-> [  519.007756]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007757]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007758]  __dump_page.cold+0x1c6/0x331
-> [  519.007760]  ? dump_page+0x1b/0x30
-> [  519.007761]  dump_page+0x1b/0x30
-> [  519.007761]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007762]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007763]  __dump_page.cold+0x1c6/0x331
-> [  519.007765]  ? dump_page+0x1b/0x30
-> [  519.007765]  dump_page+0x1b/0x30
-> [  519.007766]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007767]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007772]  __dump_page.cold+0x1c6/0x331
-> [  519.007774]  ? dump_page+0x1b/0x30
-> [  519.007775]  dump_page+0x1b/0x30
-> [  519.007775]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007776]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007777]  __dump_page.cold+0x1c6/0x331
-> [  519.007779]  ? dump_page+0x1b/0x30
-> [  519.007780]  dump_page+0x1b/0x30
-> [  519.007780]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007781]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007782]  __dump_page.cold+0x1c6/0x331
-> [  519.007784]  ? dump_page+0x1b/0x30
-> [  519.007785]  dump_page+0x1b/0x30
-> [  519.007785]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007786]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007787]  __dump_page.cold+0x1c6/0x331
-> [  519.007789]  ? dump_page+0x1b/0x30
-> [  519.007790]  dump_page+0x1b/0x30
-> [  519.007790]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007791]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007792]  __dump_page.cold+0x1c6/0x331
-> [  519.007794]  ? dump_page+0x1b/0x30
-> [  519.007795]  dump_page+0x1b/0x30
-> [  519.007795]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007796]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007797]  __dump_page.cold+0x1c6/0x331
-> [  519.007799]  ? dump_page+0x1b/0x30
-> [  519.007800]  dump_page+0x1b/0x30
-> [  519.007800]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007801]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007802]  __dump_page.cold+0x1c6/0x331
-> [  519.007804]  ? dump_page+0x1b/0x30
-> [  519.007805]  dump_page+0x1b/0x30
-> [  519.007808]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007809]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007810]  __dump_page.cold+0x1c6/0x331
-> [  519.007812]  ? dump_page+0x1b/0x30
-> [  519.007813]  dump_page+0x1b/0x30
-> [  519.007813]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007814]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007815]  __dump_page.cold+0x1c6/0x331
-> [  519.007817]  ? dump_page+0x1b/0x30
-> [  519.007818]  dump_page+0x1b/0x30
-> [  519.007818]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007819]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007820]  __dump_page.cold+0x1c6/0x331
-> [  519.007822]  ? dump_page+0x1b/0x30
-> [  519.007823]  dump_page+0x1b/0x30
-> [  519.007824]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007824]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007825]  __dump_page.cold+0x1c6/0x331
-> [  519.007827]  ? dump_page+0x1b/0x30
-> [  519.007828]  dump_page+0x1b/0x30
-> [  519.007829]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007829]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007830]  __dump_page.cold+0x1c6/0x331
-> [  519.007833]  ? dump_page+0x1b/0x30
-> [  519.007833]  dump_page+0x1b/0x30
-> [  519.007834]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007834]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007835]  __dump_page.cold+0x1c6/0x331
-> [  519.007838]  ? dump_page+0x1b/0x30
-> [  519.007838]  dump_page+0x1b/0x30
-> [  519.007839]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007840]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007841]  __dump_page.cold+0x1c6/0x331
-> [  519.007843]  ? dump_page+0x1b/0x30
-> [  519.007843]  dump_page+0x1b/0x30
-> [  519.007844]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007845]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007846]  __dump_page.cold+0x1c6/0x331
-> [  519.007848]  ? dump_page+0x1b/0x30
-> [  519.007849]  dump_page+0x1b/0x30
-> [  519.007849]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007850]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007851]  __dump_page.cold+0x1c6/0x331
-> [  519.007853]  ? dump_page+0x1b/0x30
-> [  519.007854]  dump_page+0x1b/0x30
-> [  519.007854]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007855]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007856]  __dump_page.cold+0x1c6/0x331
-> [  519.007858]  ? dump_page+0x1b/0x30
-> [  519.007859]  dump_page+0x1b/0x30
-> [  519.007859]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007860]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007861]  __dump_page.cold+0x1c6/0x331
-> [  519.007863]  ? dump_page+0x1b/0x30
-> [  519.007864]  dump_page+0x1b/0x30
-> [  519.007864]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007865]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007866]  __dump_page.cold+0x1c6/0x331
-> [  519.007868]  ? dump_page+0x1b/0x30
-> [  519.007869]  dump_page+0x1b/0x30
-> [  519.007869]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007870]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007871]  __dump_page.cold+0x1c6/0x331
-> [  519.007873]  ? dump_page+0x1b/0x30
-> [  519.007874]  dump_page+0x1b/0x30
-> [  519.007874]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007875]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007876]  __dump_page.cold+0x1c6/0x331
-> [  519.007878]  ? dump_page+0x1b/0x30
-> [  519.007879]  dump_page+0x1b/0x30
-> [  519.007880]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007880]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007881]  __dump_page.cold+0x1c6/0x331
-> [  519.007883]  ? dump_page+0x1b/0x30
-> [  519.007884]  dump_page+0x1b/0x30
-> [  519.007885]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007885]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007886]  __dump_page.cold+0x1c6/0x331
-> [  519.007889]  ? dump_page+0x1b/0x30
-> [  519.007889]  dump_page+0x1b/0x30
-> [  519.007890]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007890]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007891]  __dump_page.cold+0x1c6/0x331
-> [  519.007894]  ? dump_page+0x1b/0x30
-> [  519.007894]  dump_page+0x1b/0x30
-> [  519.007895]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007895]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007896]  __dump_page.cold+0x1c6/0x331
-> [  519.007899]  ? dump_page+0x1b/0x30
-> [  519.007899]  dump_page+0x1b/0x30
-> [  519.007900]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007900]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007901]  __dump_page.cold+0x1c6/0x331
-> [  519.007904]  ? dump_page+0x1b/0x30
-> [  519.007904]  dump_page+0x1b/0x30
-> [  519.007905]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007905]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007906]  __dump_page.cold+0x1c6/0x331
-> [  519.007907]  ? do_file_open+0xbe/0x150
-> [  519.007910]  ? stack_depot_save_flags+0x24/0x910
-> [  519.007918]  ? dump_page+0x1b/0x30
-> [  519.007919]  dump_page+0x1b/0x30
-> [  519.007920]  memmap_init_range+0x2f6/0x310
-> [  519.007922]  move_pfn_range_to_zone+0xee/0x220
-> [  519.007924]  mhp_init_memmap_on_memory+0x23/0xb0
-> [  519.007926]  memory_subsys_online+0x122/0x1a0
-> [  519.007929]  device_online+0x49/0x80
-> [  519.007931]  state_store+0x8e/0xa0
-> [  519.007932]  kernfs_fop_write_iter+0x136/0x1f0
-> [  519.007935]  vfs_write+0x205/0x460
-> [  519.007937]  ksys_write+0x57/0xd0
-> [  519.007938]  do_syscall_64+0x106/0x5f0
-> [  519.007940]  ? irqentry_exit+0x6c/0x520
-> [  519.007941]  ? exc_page_fault+0x66/0x180
-> [  519.007942]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-> [  519.007944] RIP: 0033:0x7fb94ba3473e
-> [  519.007946] Code: 4d 89 d8 e8 d4 bc 00 00 4c 8b 5d f8 41 8b 93 08 03 00 00 59 5e 48 83 f8 fc 74 11 c9 c3 0f 1f 80 00 00 00 00 48 8b 45 10 0f 05 <c9>
->  c3 83 e2 39 83 fa 08 75 e7 e8 13 ff ff ff 0f 1f 00 f3 0f 1e fa
-> [  519.007946] RSP: 002b:00007fff47c8ddd0 EFLAGS: 00000202 ORIG_RAX: 0000000000000001
-> [  519.007948] RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007fb94ba3473e
-> [  519.007948] RDX: 000000000000000f RSI: 00007fb94bc21a3e RDI: 0000000000000004
-> [  519.007949] RBP: 00007fff47c8dde0 R08: 0000000000000000 R09: 0000000000000000
-> [  519.007949] R10: 0000000000000000 R11: 0000000000000202 R12: 00007fff47c8e3f8
-> [  519.007950] R13: 0000000000000006 R14: 00007fb94bc67000 R15: 0000000000413d88
-> [  519.007951]  </TASK>
-> [  519.007951] Modules linked in: cxl_test(O) cxl_acpi(O) device_dax(O) fsdev_dax kmem nd_pmem(O) nd_btt(O) cxl_pmu dax_cxl dax_pmem(O) cxl_pci nd_e820
-> (O) nfit(O) cxl_mock_mem(O) cxl_pmem(O) cxl_mem(O) cxl_port(O) cxl_mock(O) libnvdimm(O) nfit_test_iomap(O) cxl_core(O) fwctl [last unloaded: cxl_acpi(O
-> )]
-> [  519.007962] ---[ end trace 0000000000000000 ]---
-> [  519.007963] RIP: 0010:sprintf+0xc/0x50
-> [  519.007964] Code: 24 10 e8 37 f8 ff ff c9 c3 cc cc cc cc 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 55 48 89 e5 48 83 ec 48 48 8d 45 10 <48>
->  89 54 24 28 48 89 f2 be ff ff ff 7f 48 89 4c 24 30 48 89 e1 48
-> [  519.007965] RSP: 0018:ffffc90001767fd0 EFLAGS: 00010282
-> [  519.007966] RAX: ffffc90001768028 RBX: ffffc90001768068 RCX: 0000000000001e08
-> [  519.007966] RDX: 0000000000000207 RSI: ffffffff82abab1c RDI: ffffc90001768068
-> [  519.007967] RBP: ffffc90001768018 R08: 0000000000000000 R09: 0000000000000001
-> [  519.007967] R10: ffffc90001768110 R11: 0000000000000002 R12: 0000000000000800
-> [  519.007967] R13: ffffc90001768068 R14: 0000000000000000 R15: ffffffff839c71c0
-> [  519.007968] FS:  00007fb94b807c80(0000) GS:ffff8880f9e9c000(0000) knlGS:0000000000000000
-> [  519.007969] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [  519.007969] CR2: ffffc90001767fc8 CR3: 0000000077d2e005 CR4: 0000000000770ef0
-> [  519.007971] PKRU: 55555554
-> [  519.007972] Kernel panic - not syncing: Fatal exception in interrupt
-> [  519.008404] Kernel Offset: disabled
-> [  519.083400] ---[ end Kernel panic - not syncing: Fatal exception in interrupt ]---
+On Wed, 2026-04-01 at 16:40 +0200, Christoph Hellwig wrote:
+> Currently NFSD hard codes checking support for block-style layouts.
+> Lift the checks into a file system-helper and provide a exportfs-level
+> helper to implement the typical checks.
+>=20
+> This prepares for supporting block layout export of multiple devices
+> per file system.
+>=20
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> Reviewed-by: Jeff Layton <jlayton@kernel.org>
+> ---
+>  fs/nfsd/export.c               |  3 +-
+>  fs/nfsd/nfs4layouts.c          | 26 +++++------------
+>  fs/xfs/xfs_pnfs.c              | 13 +++++++++
+>  include/linux/exportfs_block.h | 52 +++++++++++++++++++++++++++++++++-
+>  4 files changed, 73 insertions(+), 21 deletions(-)
+>=20
+> diff --git a/fs/nfsd/export.c b/fs/nfsd/export.c
+> index 8e8a76a44ff0..e20298f9212f 100644
+> --- a/fs/nfsd/export.c
+> +++ b/fs/nfsd/export.c
+> @@ -735,7 +735,8 @@ static int svc_export_parse(struct cache_detail *cd, =
+char *mesg, int mlen)
+>  			goto out4;
+>  		err =3D 0;
+> =20
+> -		nfsd4_setup_layout_type(&exp);
+> +		if (exp.ex_flags & NFSEXP_PNFS)
+> +			nfsd4_setup_layout_type(&exp);
+>  	}
+> =20
 
-Dang. Obviously runaway recursion; I don't recognize anything in
-the stack, but will start trying to reproduce it.
+There is a (minor) problem with this patch. There is a second call to
+nfsd4_setup_layout_type() in Chuck's nfsd-next branch, in
+nfsd_nl_parse_one_export(). It needs to be gated on this flag now, or
+we end up enabling pnfs unconditionally.
 
-John
-
+--=20
+Jeff Layton <jlayton@kernel.org>
