@@ -1,380 +1,168 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE7B434676D
-	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 17:18:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.177
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776100698; cv=pass; b=tCcfJL7gYyBQwF5zMB09eVKlBmyJtoiKTrZllGp9JHAt0SIbnQqwffud+cEb9CMfOOgfA6I1PfVv+inKMR31f/GITVMv68YXPOwO7z7x8ugYMJb8xitH16eY5xUzkCIIHpGQPRKAE4WOu1dkKOxeJOdqhGZ7ro6H8sJxkgwfl9Y=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776100698; c=relaxed/simple;
-	bh=zbyMKyJ30RCGOwXpD3DoxiFNGJy0XM7ArVHxPMfMSMw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dHhO0JyJ6tHocojZwdC7T6z5xQaeA+nYStJfSG3E+ZGi06kKiCqrN7jB46LNDFYUu86huXxgu3efFOW3/r4EH+QcfTTcaN0C7Htu+sIMYgQHOyf4/ZCwSOgVvsdG5oWUtfISbVqgy5rXjFKHgU28PrAHGNNZllMUbdJGM1g7RH4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TMoczvND; arc=pass smtp.client-ip=209.85.215.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6B2333B974
+	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 17:26:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776101177; cv=none; b=Dx/wN167BrCYFtAiOq5OxGH3SMHkJ0SMf3nEzuiGsewPvv62o61Nw0QCLSwgPskiG0geKiSMyWFYtsv9RtwgmjXJBmGsnVF3XDGj4OOrykc2UBLgStrmzKaWeab+ZN7e6/Oi8eNFRA3SQ7J9H2f/BB/2zHiXmYWnO7kLJXn6qZo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776101177; c=relaxed/simple;
+	bh=gk/d0vDHy1G4zVjJc8QkWV0zxa8oNGe4HoqoGbMDLwU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G0BelWCE7+1oFQ+UabcTLP7hPFSnfz6jKZowxssU7JrpYUjnHq0xs0FxR/KEVr8QTEJNIwIWbNRCnBLQ7hXFEto5c9Lwi6YQNYKHFpIKmjwpN2zVRHFxH+XhdSaOkIxLvmjWOiZHbsm7vPVv2WrlqGsEmvLFYq49+utMy9gwGE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=l+l4bQQI; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=fmxin4ZA; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=RwyBqOMT; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=9+JvvdM8; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TMoczvND"
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-c74244dc0b3so2894163a12.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 10:18:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776100696; cv=none;
-        d=google.com; s=arc-20240605;
-        b=UZ1NRXjOtJWTG5D5q/iWInTOWpdl8mdMB1nf1+VBYl8YRnGKEEO+oSI0x3R0pp2ucv
-         2wSIfTvAiKPPzkfHomowJAuc5FN7ly85nEE7VNJjdzZ6mJ7qsAJa/r6mGPbVvxQdMvpW
-         fkDp5bCvhcHEpNJtHUB5EH//u7D+nVfqiJyZ3sy/GAgiBbshtsmS9cFq2AHAvB7Z8mgw
-         ZEsFfL6TTE4etgddb5DP+zawsOJAVSXAxq/7nTl3UIUCiKhBdKDryg+tadHdVZF2gsv6
-         NqqqYkjNUqaBIuvXRqC01bwhtlxZ6ukL0IFp0rERf+1QS6i74IJG9QCciPVkLGIDDrhs
-         VPNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=F15VRocv2P4WxR2dcWf1P3WLCWVPf+xJP5ArIPyWN8M=;
-        fh=EylzROr5jvsyqrkLu0SFJ57o5OIGLAIHm3lf9iWwnAY=;
-        b=ToTB+4A8iUNwC04H0z0DtiDdeagApcqWr0WmRwwB4wBW65FCxCYAEjvMEeov5Cc+E5
-         2N1zwT5hTDc/ioPh+HrG9B6tyOJzbz/RErELHWM1KizWsswnsFO7kno2s3g4Fh43id3l
-         xV+pnIWxWHUXqJm8MkyLic4P3u91GJ4vEmwv/vqJstYdaLD2CjQkIlqxPbJAoRYS2LaG
-         71Ho0Mrdq2zclKwm6WdGVtq9DEEIk30f3SRHIsEBAag7FuFkqSrDNdjO23dr4LCOvKZu
-         qgvzrWR9gU5VAYmh7goymv8C5JZ2Mnhru5urPyiWvtaAWivVYp7PP1QrY/gmA1kdQoO4
-         uSOg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776100696; x=1776705496; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=F15VRocv2P4WxR2dcWf1P3WLCWVPf+xJP5ArIPyWN8M=;
-        b=TMoczvNDmalCgyZurGKDOLxQGEFGdfERGtj3ontNbI1i946/LWfba62uKU5vpVLwkg
-         On/v3Z/UOVx3hYGHJJwA3g714Qj7sq9qquNHcHPGmXXlxagvhZQsJzwRdwa7/NPZg3ov
-         9UAEkACblJAZoViz6Aj7/0y/cM8/6q5mhhpbRoHnq54uguX1LpZC4zquW7EtagAM9a98
-         ixI7NwuZUOnIm9LWhV0+8E/bLEDMlQ9WG2bnam+Si5ZLgL7vJL7TB4n0eu2Bdvz/Br9B
-         kqlKvnmQmlbrvuAPscGCXkAwCG9LV5UwcnvzbrwrPiWZAND8ORpuxHKwFw2e7LYLh7pW
-         fLqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776100696; x=1776705496;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=F15VRocv2P4WxR2dcWf1P3WLCWVPf+xJP5ArIPyWN8M=;
-        b=cUDVLJ5UzJbY2lkLeNpLnHm4jg/xIeTVtmrp+d2i+R3BrJpPHSvu4/hWkcwlwXvvGV
-         yR5XSHzjKEdCzDC//h3wMfO2fBVbLBOXzQYl9vR1LnZrHo+PWBwZNZLnyEpz8rkZ3Fj0
-         NOeCRVAu6Ne0vdkFClZG/M/mEClwxm0G2adjUUBf981uTcwpuJ46HTajqS1FwCKrlp0N
-         Eq1Z/uyq+kRgny1dFyBT3RDa/IxvQHSS7jMYfNIOo9WYtEmLaOW43iAtMjiWzYxfMayz
-         jZAizGmw6VXGfsuZ0c93qDjj3Al1BZTZOhfhFt77Dwdukaked/m1djOTEiMUd+j64n6j
-         cdCQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9Q1C0bEixJDxiOyIS2kcN8rwIJvG/s5ch9PHdb3rPauxiw/hTBkjPaO9gl9PJwYchNyI4uU0a1byHlOZHe@vger.kernel.org
-X-Gm-Message-State: AOJu0YyecDacbxJd6jRAglD5ST3uamdcEH1Xd20Lhdeu0mnkHcOSrdj2
-	vm8Fh4tGFh8+F44S4bppq0P13rhQPXu1sRhyoE8fDhDPOg1DEuNQ3lwwPpSo4lDJDuVEOfJpXRj
-	TGlmoJRy2i4bwvp9VI8BN6cBJcD+s2yw=
-X-Gm-Gg: AeBDieuIuycsNeXdqkeYXNYkEeZUGeDPsDoFr3Zcm3W6bBDBb1ur1ZFzLDS+UwHuaRb
-	UWxI4cRseDzxMp0F52ab8wKGMy7Ty7kkk9qENBpx77X8oqfnv8evORhnZv2cszLT31KI4muNx+k
-	DzhJcjLCkuyzvbpLRTFileztCpP/TqiD7ogEpBWru2ZecvU/PIdDfS80ZRm4hkHqQNwFJRgS0oW
-	CNr2OkKrtm9AlPYJjzNK1sIbVlk/aFz53ysBNNYsvgBno9kTLplmf3txTnQsSz4QR4X3Oztcg75
-	lc/KpuA=
-X-Received: by 2002:a05:6a00:f99:b0:823:9c6:1985 with SMTP id
- d2e1a72fcca58-82f0c288c79mr14697645b3a.16.1776100695927; Mon, 13 Apr 2026
- 10:18:15 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="l+l4bQQI";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="fmxin4ZA";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="RwyBqOMT";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="9+JvvdM8"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E02046A8AE;
+	Mon, 13 Apr 2026 17:26:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1776101175; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=o7aw8J/j07FwLbBY8fhKkEl8gN1ZFsU/i8nNYo+FjrQ=;
+	b=l+l4bQQISeg4R6PuteS0WR9jpy6T0t8zFTUS1bYFM9C2z19YHKTcWu8ZklcN3zCQdBbZFF
+	y7sgY3LjhCZ4BJmk5n2w3p0Wqz4vS3qzjzD2tKefVnt4axpQK9i/aRBb8HlABnwNysEpAK
+	Njbubfpv1ErqwbzUpplpyCPJgDYQTD4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1776101175;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=o7aw8J/j07FwLbBY8fhKkEl8gN1ZFsU/i8nNYo+FjrQ=;
+	b=fmxin4ZAyQAh9iR1x2GLZDO9hSKqk6pubAdgr45syO17S+IEU6BLfI5LxZrtpzzjPPTzAx
+	TbnHVbscjazmtrBw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1776101174; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=o7aw8J/j07FwLbBY8fhKkEl8gN1ZFsU/i8nNYo+FjrQ=;
+	b=RwyBqOMTYaIxPvzNelBN/SjXGqZpM8EIHUNnVFKr4o5BfT8+fFBONbBpumTgzclFweWKZt
+	W51L/ifiMHFyTZdQPpSvinbmIAcFbWTgSM0MXYTVSvdCXwwJkdrfAclnWJRDcnNcsLWZ/t
+	dKh7EOja5K29rBeIsPjyPQB4bQRASRM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1776101174;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=o7aw8J/j07FwLbBY8fhKkEl8gN1ZFsU/i8nNYo+FjrQ=;
+	b=9+JvvdM8wn+MVzhnBn6KdCsxI1+iDeQ/Js4Uk5GqsLcg89KlIOnhpWovFzFiiYK/lxrNc6
+	VBcQt3O3HmtlSAAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D6B704AFD3;
+	Mon, 13 Apr 2026 17:26:14 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 0OVoNDYn3WmlLwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 13 Apr 2026 17:26:14 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 98C42A0B44; Mon, 13 Apr 2026 19:26:14 +0200 (CEST)
+Date: Mon, 13 Apr 2026 19:26:14 +0200
+From: Jan Kara <jack@suse.cz>
+To: Tejun Heo <tj@kernel.org>
+Cc: Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>, 
+	linux-fsdevel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] writeback: Fix use after free in
+ inode_switch_wbs_work_fn()
+Message-ID: <acw7s5offdtioyzijg5wpuwzxcytrovadfdcqqh6l5dsyfwbvr@exd3emeqpjze>
+References: <20260413093618.17244-2-jack@suse.cz>
+ <ad0aM1nN4j2I9Zh_@slm.duckdns.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260318184400.3502908-1-song@kernel.org> <20260318184400.3502908-8-song@kernel.org>
-In-Reply-To: <20260318184400.3502908-8-song@kernel.org>
-From: Stephen Smalley <stephen.smalley.work@gmail.com>
-Date: Mon, 13 Apr 2026 13:18:04 -0400
-X-Gm-Features: AQROBzDMToOoMkTBxw1JVrqkX7aPgT7CuehV5_REXeUNyYzsXUc_KGEXz4KU6kY
-Message-ID: <CAEjxPJ69Fqah25_q1V=VrO5cyXNOv0HYjzky=FQ62QycPb_QFQ@mail.gmail.com>
-Subject: Re: [PATCH 7/7] lsm: Remove security_sb_mount and security_move_mount
-To: Song Liu <song@kernel.org>
-Cc: linux-security-module@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	selinux@vger.kernel.org, apparmor@lists.ubuntu.com, paul@paul-moore.com, 
-	jmorris@namei.org, serge@hallyn.com, viro@zeniv.linux.org.uk, 
-	brauner@kernel.org, jack@suse.cz, john.johansen@canonical.com, 
-	omosnace@redhat.com, mic@digikod.net, gnoack@google.com, 
-	takedakn@nttdata.co.jp, penguin-kernel@i-love.sakura.ne.jp, 
-	kernel-team@meta.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ad0aM1nN4j2I9Zh_@slm.duckdns.org>
+X-Spam-Score: -3.80
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
 
-On Wed, Mar 18, 2026 at 2:44=E2=80=AFPM Song Liu <song@kernel.org> wrote:
->
-> Now that all LSMs have been converted to granular mount hooks,
-> remove the old hooks:
->
-> - security_sb_mount(): removed from lsm_hook_defs.h, security.h,
->   security.c, and its call in path_mount().
-> - security_move_mount(): removed and replaced by security_mount_move()
->   in do_move_mount(). All LSMs now use mount_move exclusively.
->
-> Code generated with the assistance of Claude, reviewed by human.
->
-> Signed-off-by: Song Liu <song@kernel.org>
+On Mon 13-04-26 06:30:43, Tejun Heo wrote:
+> On Mon, Apr 13, 2026 at 11:36:19AM +0200, Jan Kara wrote:
+> > inode_switch_wbs_work_fn() has a loop like:
+> > 
+> >   wb_get(new_wb);
+> >   while (1) {
+> >     list = llist_del_all(&new_wb->switch_wbs_ctxs);
+> >     /* Nothing to do? */
+> >     if (!list)
+> >       break;
+> >     ... process the items ...
+> >   }
+> > 
+> > Now adding of items to the list looks like:
+> > 
+> > wb_queue_isw()
+> >   if (llist_add(&isw->list, &wb->switch_wbs_ctxs))
+> >     queue_work(isw_wq, &wb->switch_work);
+> > 
+> > Because inode_switch_wbs_work_fn() loops when processing isw items, it
+> > can happen that wb->switch_work is pending while wb->switch_wbs_ctxs is
+> > empty. This is a problem because in that case wb can get freed (no isw
+> > items -> no wb reference) while the work is still pending causing
+> > use-after-free issues.
+> > 
+> > We cannot just fix this by cancelling work when freeing wb because that
+> > could still trigger problematic 0 -> 1 transitions on wb refcount due to
+> > wb_get() in inode_switch_wbs_work_fn(). It could be all handled with
+> > more careful code but that seems unnecessarily complex so let's avoid
+> > that until it is proven that the looping actually brings practical
+> > benefit. Just remove the loop from inode_switch_wbs_work_fn() instead.
+> > That way when wb_queue_isw() queues work, we are guaranteed we have
+> > added the first item to wb->switch_wbs_ctxs and nobody is going to
+> > remove it (and drop the wb reference it holds) until the queued work
+> > runs.
+> > 
+> > Fixes: e1b849cfa6b6 ("writeback: Avoid contention on wb->list_lock when switching inodes")
+> > CC: stable@vger.kernel.org
+> > Signed-off-by: Jan Kara <jack@suse.cz>
+> 
+> Oh man, that's too subtle.
+> 
+> Acked-by: Tejun Heo <tj@kernel.org>
 
-Reviewed-by: Stephen Smalley <stephen.smalley.work@gmail.com>
-Tested-by: Stephen Smalley <stephen.smalley.work@gmail.com # for selinux on=
-ly
+Thanks for review! I forgot to mention in the changelog that these UAF
+issues were actually reliably hit in practice by one user on a Kubernetes
+cluster. So it is subtle but actually practical issue...
 
-> ---
->  fs/namespace.c                |  6 +-----
->  include/linux/lsm_hook_defs.h |  4 ----
->  include/linux/security.h      | 16 ---------------
->  kernel/bpf/bpf_lsm.c          |  2 --
->  security/apparmor/lsm.c       |  1 -
->  security/landlock/fs.c        |  1 -
->  security/security.c           | 38 -----------------------------------
->  security/selinux/hooks.c      |  2 --
->  8 files changed, 1 insertion(+), 69 deletions(-)
->
-> diff --git a/fs/namespace.c b/fs/namespace.c
-> index de33070e514a..ba5baccdde67 100644
-> --- a/fs/namespace.c
-> +++ b/fs/namespace.c
-> @@ -4108,7 +4108,6 @@ int path_mount(const char *dev_name, const struct p=
-ath *path,
->                 const char *type_page, unsigned long flags, void *data_pa=
-ge)
->  {
->         unsigned int mnt_flags =3D 0, sb_flags;
-> -       int ret;
->
->         /* Discard magic */
->         if ((flags & MS_MGC_MSK) =3D=3D MS_MGC_VAL)
-> @@ -4121,9 +4120,6 @@ int path_mount(const char *dev_name, const struct p=
-ath *path,
->         if (flags & MS_NOUSER)
->                 return -EINVAL;
->
-> -       ret =3D security_sb_mount(dev_name, path, type_page, flags, data_=
-page);
-> -       if (ret)
-> -               return ret;
->         if (!may_mount())
->                 return -EPERM;
->         if (flags & SB_MANDLOCK)
-> @@ -4538,7 +4534,7 @@ static inline int vfs_move_mount(const struct path =
-*from_path,
->  {
->         int ret;
->
-> -       ret =3D security_move_mount(from_path, to_path);
-> +       ret =3D security_mount_move(from_path, to_path);
->         if (ret)
->                 return ret;
->
-> diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.=
-h
-> index 6bb67059fb43..95537574c40b 100644
-> --- a/include/linux/lsm_hook_defs.h
-> +++ b/include/linux/lsm_hook_defs.h
-> @@ -69,8 +69,6 @@ LSM_HOOK(int, 0, sb_remount, struct super_block *sb, vo=
-id *mnt_opts)
->  LSM_HOOK(int, 0, sb_kern_mount, const struct super_block *sb)
->  LSM_HOOK(int, 0, sb_show_options, struct seq_file *m, struct super_block=
- *sb)
->  LSM_HOOK(int, 0, sb_statfs, struct dentry *dentry)
-> -LSM_HOOK(int, 0, sb_mount, const char *dev_name, const struct path *path=
-,
-> -        const char *type, unsigned long flags, void *data)
->  LSM_HOOK(int, 0, sb_umount, struct vfsmount *mnt, int flags)
->  LSM_HOOK(int, 0, sb_pivotroot, const struct path *old_path,
->          const struct path *new_path)
-> @@ -79,8 +77,6 @@ LSM_HOOK(int, 0, sb_set_mnt_opts, struct super_block *s=
-b, void *mnt_opts,
->  LSM_HOOK(int, 0, sb_clone_mnt_opts, const struct super_block *oldsb,
->          struct super_block *newsb, unsigned long kern_flags,
->          unsigned long *set_kern_flags)
-> -LSM_HOOK(int, 0, move_mount, const struct path *from_path,
-> -        const struct path *to_path)
->  LSM_HOOK(int, 0, mount_bind, const struct path *from, const struct path =
-*to,
->          bool recurse)
->  LSM_HOOK(int, 0, mount_new, struct fs_context *fc, const struct path *mp=
-,
-> diff --git a/include/linux/security.h b/include/linux/security.h
-> index 6e31de9b3d68..3610a49304c6 100644
-> --- a/include/linux/security.h
-> +++ b/include/linux/security.h
-> @@ -372,8 +372,6 @@ int security_sb_remount(struct super_block *sb, void =
-*mnt_opts);
->  int security_sb_kern_mount(const struct super_block *sb);
->  int security_sb_show_options(struct seq_file *m, struct super_block *sb)=
-;
->  int security_sb_statfs(struct dentry *dentry);
-> -int security_sb_mount(const char *dev_name, const struct path *path,
-> -                     const char *type, unsigned long flags, void *data);
->  int security_sb_umount(struct vfsmount *mnt, int flags);
->  int security_sb_pivotroot(const struct path *old_path, const struct path=
- *new_path);
->  int security_sb_set_mnt_opts(struct super_block *sb,
-> @@ -384,7 +382,6 @@ int security_sb_clone_mnt_opts(const struct super_blo=
-ck *oldsb,
->                                 struct super_block *newsb,
->                                 unsigned long kern_flags,
->                                 unsigned long *set_kern_flags);
-> -int security_move_mount(const struct path *from_path, const struct path =
-*to_path);
->  int security_mount_bind(const struct path *from, const struct path *to,
->                         bool recurse);
->  int security_mount_new(struct fs_context *fc, const struct path *mp,
-> @@ -818,13 +815,6 @@ static inline int security_sb_statfs(struct dentry *=
-dentry)
->         return 0;
->  }
->
-> -static inline int security_sb_mount(const char *dev_name, const struct p=
-ath *path,
-> -                                   const char *type, unsigned long flags=
-,
-> -                                   void *data)
-> -{
-> -       return 0;
-> -}
-> -
->  static inline int security_sb_umount(struct vfsmount *mnt, int flags)
->  {
->         return 0;
-> @@ -852,12 +842,6 @@ static inline int security_sb_clone_mnt_opts(const s=
-truct super_block *oldsb,
->         return 0;
->  }
->
-> -static inline int security_move_mount(const struct path *from_path,
-> -                                     const struct path *to_path)
-> -{
-> -       return 0;
-> -}
-> -
->  static inline int security_mount_bind(const struct path *from,
->                                       const struct path *to, bool recurse=
-)
->  {
-> diff --git a/kernel/bpf/bpf_lsm.c b/kernel/bpf/bpf_lsm.c
-> index 65235d70ee23..3e61c54f9b48 100644
-> --- a/kernel/bpf/bpf_lsm.c
-> +++ b/kernel/bpf/bpf_lsm.c
-> @@ -350,7 +350,6 @@ BTF_ID(func, bpf_lsm_release_secctx)
->  BTF_ID(func, bpf_lsm_sb_alloc_security)
->  BTF_ID(func, bpf_lsm_sb_eat_lsm_opts)
->  BTF_ID(func, bpf_lsm_sb_kern_mount)
-> -BTF_ID(func, bpf_lsm_sb_mount)
->  BTF_ID(func, bpf_lsm_sb_remount)
->  BTF_ID(func, bpf_lsm_sb_set_mnt_opts)
->  BTF_ID(func, bpf_lsm_sb_show_options)
-> @@ -383,7 +382,6 @@ BTF_ID(func, bpf_lsm_task_prctl)
->  BTF_ID(func, bpf_lsm_task_setscheduler)
->  BTF_ID(func, bpf_lsm_task_to_inode)
->  BTF_ID(func, bpf_lsm_userns_create)
-> -BTF_ID(func, bpf_lsm_move_mount)
->  BTF_ID(func, bpf_lsm_mount_bind)
->  BTF_ID(func, bpf_lsm_mount_new)
->  BTF_ID(func, bpf_lsm_mount_remount)
-> diff --git a/security/apparmor/lsm.c b/security/apparmor/lsm.c
-> index 7fe774535992..13a8049b1b59 100644
-> --- a/security/apparmor/lsm.c
-> +++ b/security/apparmor/lsm.c
-> @@ -1713,7 +1713,6 @@ static struct security_hook_list apparmor_hooks[] _=
-_ro_after_init =3D {
->         LSM_HOOK_INIT(capget, apparmor_capget),
->         LSM_HOOK_INIT(capable, apparmor_capable),
->
-> -       LSM_HOOK_INIT(move_mount, apparmor_move_mount),
->         LSM_HOOK_INIT(mount_bind, apparmor_mount_bind),
->         LSM_HOOK_INIT(mount_new, apparmor_mount_new),
->         LSM_HOOK_INIT(mount_remount, apparmor_mount_remount),
-> diff --git a/security/landlock/fs.c b/security/landlock/fs.c
-> index 6e810550efcb..5f723a70baa4 100644
-> --- a/security/landlock/fs.c
-> +++ b/security/landlock/fs.c
-> @@ -1857,7 +1857,6 @@ static struct security_hook_list landlock_hooks[] _=
-_ro_after_init =3D {
->         LSM_HOOK_INIT(mount_reconfigure, hook_mount_reconfigure),
->         LSM_HOOK_INIT(mount_change_type, hook_mount_change_type),
->         LSM_HOOK_INIT(mount_move, hook_move_mount),
-> -       LSM_HOOK_INIT(move_mount, hook_move_mount),
->         LSM_HOOK_INIT(sb_umount, hook_sb_umount),
->         LSM_HOOK_INIT(sb_remount, hook_sb_remount),
->         LSM_HOOK_INIT(sb_pivotroot, hook_sb_pivotroot),
-> diff --git a/security/security.c b/security/security.c
-> index 356ef228d5de..af95868af34d 100644
-> --- a/security/security.c
-> +++ b/security/security.c
-> @@ -1039,29 +1039,6 @@ int security_sb_statfs(struct dentry *dentry)
->         return call_int_hook(sb_statfs, dentry);
->  }
->
-> -/**
-> - * security_sb_mount() - Check permission for mounting a filesystem
-> - * @dev_name: filesystem backing device
-> - * @path: mount point
-> - * @type: filesystem type
-> - * @flags: mount flags
-> - * @data: filesystem specific data
-> - *
-> - * Check permission before an object specified by @dev_name is mounted o=
-n the
-> - * mount point named by @nd.  For an ordinary mount, @dev_name identifie=
-s a
-> - * device if the file system type requires a device.  For a remount
-> - * (@flags & MS_REMOUNT), @dev_name is irrelevant.  For a loopback/bind =
-mount
-> - * (@flags & MS_BIND), @dev_name identifies the        pathname of the o=
-bject being
-> - * mounted.
-> - *
-> - * Return: Returns 0 if permission is granted.
-> - */
-> -int security_sb_mount(const char *dev_name, const struct path *path,
-> -                     const char *type, unsigned long flags, void *data)
-> -{
-> -       return call_int_hook(sb_mount, dev_name, path, type, flags, data)=
-;
-> -}
-> -
->  /**
->   * security_sb_umount() - Check permission for unmounting a filesystem
->   * @mnt: mounted filesystem
-> @@ -1141,21 +1118,6 @@ int security_sb_clone_mnt_opts(const struct super_=
-block *oldsb,
->  }
->  EXPORT_SYMBOL(security_sb_clone_mnt_opts);
->
-> -/**
-> - * security_move_mount() - Check permissions for moving a mount
-> - * @from_path: source mount point
-> - * @to_path: destination mount point
-> - *
-> - * Check permission before a mount is moved.
-> - *
-> - * Return: Returns 0 if permission is granted.
-> - */
-> -int security_move_mount(const struct path *from_path,
-> -                       const struct path *to_path)
-> -{
-> -       return call_int_hook(move_mount, from_path, to_path);
-> -}
-> -
->  /**
->   * security_mount_bind() - Check permissions for a bind mount
->   * @from: source path
-> diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-> index 415b5541ab9e..446e9e242134 100644
-> --- a/security/selinux/hooks.c
-> +++ b/security/selinux/hooks.c
-> @@ -7477,8 +7477,6 @@ static struct security_hook_list selinux_hooks[] __=
-ro_after_init =3D {
->         LSM_HOOK_INIT(sb_set_mnt_opts, selinux_set_mnt_opts),
->         LSM_HOOK_INIT(sb_clone_mnt_opts, selinux_sb_clone_mnt_opts),
->
-> -       LSM_HOOK_INIT(move_mount, selinux_move_mount),
-> -
->         LSM_HOOK_INIT(dentry_init_security, selinux_dentry_init_security)=
-,
->         LSM_HOOK_INIT(dentry_create_files_as, selinux_dentry_create_files=
-_as),
->
-> --
-> 2.52.0
->
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
