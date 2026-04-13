@@ -1,95 +1,247 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D807352C34
-	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 21:17:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6F5135B62F
+	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 21:20:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776115052; cv=none; b=BC02SPAxtYc3C9HQ4m/RLvxJa7F5K6aMdE3zN7CJV2TF6mm0lVDT3AIqIzALWzBHP5HjAmV5oz2a5LmRbycuADeAtvB3FgRejAkGWKwfZhhu94V2jqbKhSh1m8Hrx1X7pBfTAL2Cy+QY+weUsoCVT77CJxyw77cR6+b0hT7h/jA=
+	t=1776115249; cv=none; b=Ye8HOt1+E0YAz7/OlBMrEstjeIH5p4YsN4Im3uetH5x/KD/eC3W6rdQRf8UufoVQWGZVel+cA7pcvmMYihHrdT7TohkR116FD2vDGstANQyNpw3/knk2+UdBucxmx2Mp0Q5q8lRKI7cTrEyIq1rUHYKxMeI/FF8abu3+cOHSmv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776115052; c=relaxed/simple;
-	bh=jjz/HhUUFieDVgwHDlcrtbhigzZK/gco/C11DgaIWc0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kNEGokf/GlOHl/Y3lETJNfYthvRpoZvf7xDl0PF5K6HJEsGKyNx2Dyq8Fs98XBo2LUu/1m6UYQT9NcK9h4/9Rliu7C3ry1AtiyH5TSyJg4Q4bZPCOh0WP/hsCYidE1VzAHhnErbDvJhptq5owqjLtk0hFyMXMdFSEWBBk9/KtQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=IkjzZXPq; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1776115249; c=relaxed/simple;
+	bh=+KNjJIKSmLSTNCxVPcEZ/mpl/fmbcdg+ekJWpmUzLyE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WpFvY+k6++vntMJT0eh/UwJfNZislZ6RpGc/3WuS7oNMdf0Wj4fZeG/tIUmjR2K0lfpmY/uca82i9P4iV8y0NYZi6ty4GZq3FENrD5EasSQrY2jHs8LRr3zHRGlQH8Xl6Nl1gHwjuPrVm8Paoyb89FcumfxxVUcsz0r7gDRvMoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FUFPFDfB; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="IkjzZXPq"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b9c603ec2dfso650760266b.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 14:17:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FUFPFDfB"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-671a827adccso1705989a12.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 14:20:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1776115049; x=1776719849; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=9h2gDyNayaY45W3DGBdN37EYfSKihLPqKo+SOpzlBEQ=;
-        b=IkjzZXPqoQyxpO3nbR+L4//0dGzR9rBF3D9qu8KbcHbITViqIkDXRbUGbOqhgZQqGI
-         x+4taBDBrM3QO7vx2V37w4LJ1cE9+82yg5BNwFM3Vfmq/wJIX3BwPFogwmxm6mcLGz8D
-         r3oYitLjLm/H24sdRLy1ZyCBUTpliaImpB+VM=
+        d=gmail.com; s=20251104; t=1776115246; x=1776720046; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:mime-version:date:message-id:sender:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=HTRp+l7/0tc5qrHVhM0cLgoMYRaB+2fMs37hHfn3p50=;
+        b=FUFPFDfBlUqsQjlzjVeiHztRcorXcwfjGERgPESGe9/psCC6l+I/Mp+rH2vC/6jV7P
+         euGgVRQVt3VPARFXtNrHxHTQ1MLmvlMxvqsS8QXeGPfbKWlfa9rOQyzHScVo6WZdZ1Pg
+         fs3cdVdYFn/YDnyZNz6+zDjIr6aQEGtSx9lyFo0QNbktsBMWMJN/EXnc+cYJPqucFrEl
+         AuqODk1fNIe0kfTvh7kvoA28b+AWr4b22pj/cItAs99VoU59OCLYv7cZvFABG3LTp/LQ
+         broC9QkCWF60Tbpy4tUrLOX0cDIjIdIfqA80mgFMSQLwhvZmV3M20lZVl69DUQzJ5KiF
+         vUlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776115049; x=1776719849;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9h2gDyNayaY45W3DGBdN37EYfSKihLPqKo+SOpzlBEQ=;
-        b=K3EODlrPyjdRFFlLgzQW2/dDkEdfey52T4AZ/+QEDhlA3qe3TsOJXGJt5TUXhQaGZC
-         OO9H2mxKyXFe7AnxyRPDYwUeuLaYr011Rpoi8UhHL45nRbtM4/lFfwFDq+ydmjkocm0m
-         25h4F1G5jZghss/640EQL39QlbZ+mCVGz8hfbq4CZfITN7PPWGwPKIhFNlxIK8aVCzwN
-         uT6pJklSP3EpwqpxrXnxGSWhPA0SvGPkvSUcVlNL1/rMRvBqEOToycL3UKFjG3p7WHOm
-         GgAUpqytNhwmV+oWWuI48ZPjhTb86361HxxCAC7+JKOJArnJHjqgC8KEAa7HDkmaXsOO
-         LsCQ==
-X-Gm-Message-State: AOJu0YzB3Wsfju7pE63+g+eNqvoqcbGkNtWbS3dq49H3xXe7i4GOiZDw
-	WrFZGGcVWOF2irhRalOW+LflRUR54Wq7Zt0dMt4tS4KrJZooILqBUYr8m0K1obj0iyzAqmFX9ez
-	X+Pbho4A=
-X-Gm-Gg: AeBDievj3Ha2TS8P1BUkmm2nVOdMEzNdMUB5LNOpzLuU6lO73lENrZysLcdi74Krsb9
-	qOYETaAAiDtjJdMPIx5nDuFZAqIptiMQpkwYCGNatvXyqxrM4I5DlloWgYpbkJWgp8pwCJVezkO
-	lawFix31mAxuXCyPtiu1CS3oWsBVliw7MGsr1s/sgCriFO1ye2z4SmnVj83j/h9AzAANoMuFH30
-	ekg55qHfR/1SA8CKyrjZdpn0RXKVX5vJU2yzhSDWj8RKtFNnx2yFXaogSGoo2T3NMFWZujdu0Ec
-	7ppXllXFTdSQxdHdpbfS2DU71tGonPQpAoYhSWI4P130v76uAOWCQ8HCHIpo4Xte+PoQvauQdmk
-	Dh+2Uhwiacs0+TKkUdr98R1pBIGujBK8g0Njn4RPRXWEqSUuJoSYIiBLG7+2Vit9j/r4S/yKPFO
-	irxkLLciDi8vRRLPW8FZErh16sLWMTH9JlCUUV2IIdl/5Fna/165dqY6hQjL8PrGgFTX5UFT2G
-X-Received: by 2002:a17:907:a806:b0:b94:cfd:f37b with SMTP id a640c23a62f3a-b9d729cba9fmr847666066b.45.1776115048610;
-        Mon, 13 Apr 2026 14:17:28 -0700 (PDT)
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com. [209.85.208.53])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9d6e7f1765sm330601366b.56.2026.04.13.14.17.27
-        for <linux-fsdevel@vger.kernel.org>
+        d=1e100.net; s=20251104; t=1776115246; x=1776720046;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:mime-version:date:message-id:sender
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HTRp+l7/0tc5qrHVhM0cLgoMYRaB+2fMs37hHfn3p50=;
+        b=CBpWctDTUAI3eFPkYj9pQdY9J0d6PDRsnl6yA8g2Hh0dN52PdWQmsF+In6+udPSfOI
+         tkkb7zklZSKni21UuxEPg/5EoK8ZoJwPVtHjiOSAVsHXQgQmkFqg4SUhoipoeAELaMlL
+         jWeVLKgNthf7ktvPvIcePldoBo1uXRoelZvmg9BtYQUTeChMO7StMNhGj7C+o1GGKb0L
+         G1CipViOlaxga55zXjY5lPqD1Ab8ZOXVh6BXhkX0xrYVj6VMrk/Ksa50FTpbtNc/FK1S
+         rCpH/hOB3fF202XHAES4YpPuYcpRSTHiWg2ZbPn867hYGdZfxf/96EvdJJKnjBFPn7oH
+         9zuw==
+X-Forwarded-Encrypted: i=1; AFNElJ8uqt/y/ZCr+3UP5ydAgZ9skWndcIa4lpwKoJoce3EcFelmy2eesvhEMJnRR5RU6JHc+Mgf+FhZZ9RtAYTt@vger.kernel.org
+X-Gm-Message-State: AOJu0YwltbpjwRnPbF/V1W82KB1g+ZBXYQOS9puqkqdfDnSNIyxhGf7b
+	Y2PKBH5Oip6L7GFv6gd9WFC9cxtGY8XgHt6jiz5RAAqRCB8ATAhz5sNZ
+X-Gm-Gg: AeBDiev0Segvs/b9gtKhYtL6TkNFyKEe16gPZ8l323V83uitDKS3qAk9jjAlgEAekEG
+	wUGozeaf0lgD3DuqgIZ3dKjSQslzsJlfwQ8XxWmCMiFUVuHBIWI4lOL+g4IBIZwZCu+tFw5h+gG
+	druCod+B2mCBSeU2HaKeJtWISDh1UwqVyYn6u1kG9L+I2I+k7utZFRGuFtXAdo4PcUrtZUI5QlJ
+	f5JRnLFYo9+/QjMcRcRm5NNOZNfQzvjBxzUeCrzoTyXrOcsAJD5v0Fwb4Egt6GUunoitnsxXb40
+	Ft8CE87I9aIGiAvxAmeK7/HcFn2NigSqGJLQeG+eplHvWwKhZBU1c7NlHls6f9at92vqzLbQAGU
+	g9PDKkobVR7Fryn9l/whrQFVtOKQ6iVzt3NFrCOGSkqqT9LpTqXmriJ3cVI+oKuG2uLrl3wS81/
+	0Hs5gFRor8yBW/JDBsYgO/QEJlYREnNdLdPY9yUVLxwYU=
+X-Received: by 2002:a17:906:6a0f:b0:b9b:3a1b:e2ec with SMTP id a640c23a62f3a-b9d7248abc2mr747543566b.14.1776115245800;
+        Mon, 13 Apr 2026 14:20:45 -0700 (PDT)
+Received: from 127.0.0.1 ([94.41.86.134])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9d6de9b65fsm341457466b.7.2026.04.13.14.20.43
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Apr 2026 14:17:27 -0700 (PDT)
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-6708cc2d6f6so4975649a12.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 14:17:27 -0700 (PDT)
-X-Received: by 2002:a05:6402:4343:b0:671:df5b:5394 with SMTP id
- 4fb4d7f45d1cf-671df5b54bemr189227a12.18.1776115047594; Mon, 13 Apr 2026
- 14:17:27 -0700 (PDT)
+        Mon, 13 Apr 2026 14:20:45 -0700 (PDT)
+Sender: <irecca.kun@gmail.com>
+Message-ID: <68d1e9ac-2780-4be3-8ee3-0788062dd3a4@gmail.com>
+Date: Mon, 13 Apr 2026 21:20:43 +0000
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260410-vfs-v71-b055f260060c@brauner> <20260410-vfs-mount-v71-89e63a03df4d@brauner>
-In-Reply-To: <20260410-vfs-mount-v71-89e63a03df4d@brauner>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Mon, 13 Apr 2026 14:17:11 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wiA_XzFe_YswO4hezv7MQH6D66k-MBWEZwFJ4urut1aJQ@mail.gmail.com>
-X-Gm-Features: AQROBzAQACdJ_gQflq9FRL8Z5UcPmn-JycQ0sjLe0GGiRdGdWlhvYVeqPmrwAW0
-Message-ID: <CAHk-=wiA_XzFe_YswO4hezv7MQH6D66k-MBWEZwFJ4urut1aJQ@mail.gmail.com>
-Subject: Re: [GIT PULL 11/12 for v7.1] vfs mount
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: The "clockevents: Prevent timer interrupt starvation" patch causes
+ lockups
+To: Thomas Gleixner <tglx@kernel.org>, LKML <linux-kernel@vger.kernel.org>
+Cc: Calvin Owens <calvin@wbinvd.org>, Peter Zijlstra <peterz@infradead.org>,
+ Anna-Maria Behnsen <anna-maria@linutronix.de>,
+ Frederic Weisbecker <frederic@kernel.org>, Ingo Molnar <mingo@kernel.org>,
+ John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ linux-fsdevel@vger.kernel.org, Sebastian Reichel <sre@kernel.org>,
+ linux-pm@vger.kernel.org, Pablo Neira Ayuso <pablo@netfilter.org>,
+ Florian Westphal <fw@strlen.de>, Phil Sutter <phil@nwl.cc>,
+ netfilter-devel@vger.kernel.org, coreteam@netfilter.org
+References: <20260407083219.478203185@kernel.org>
+ <20260407083247.562657657@kernel.org>
+Content-Language: en-US
+From: Hanabishi <i.r.e.c.c.a.k.u.n+kernel.org@gmail.com>
+In-Reply-To: <20260407083247.562657657@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, 10 Apr 2026 at 08:23, Christian Brauner <brauner@kernel.org> wrote:
->
->   git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.1-rc1.mount
+On 07/04/2026 08:54, Thomas Gleixner wrote:
+> From: Thomas Gleixner <tglx@kernel.org>
+> 
+> Calvin reported an odd NMI watchdog lockup which claims that the CPU locked
+> up in user space. He provided a reproducer, which sets up a timerfd based
+> timer and then rearms it in a loop with an absolute expiry time of 1ns.
+> 
+> As the expiry time is in the past, the timer ends up as the first expiring
+> timer in the per CPU hrtimer base and the clockevent device is programmed
+> with the minimum delta value. If the machine is fast enough, this ends up
+> in a endless loop of programming the delta value to the minimum value
+> defined by the clock event device, before the timer interrupt can fire,
+> which starves the interrupt and consequently triggers the lockup detector
+> because the hrtimer callback of the lockup mechanism is never invoked.
+> 
+> As a first step to prevent this, avoid reprogramming the clock event device
+> when:
+>       - a forced minimum delta event is pending
+>       - the new expiry delta is less then or equal to the minimum delta
+> 
+> Thanks to Calvin for providing the reproducer and to Borislav for testing
+> and providing data from his Zen5 machine.
+> 
+> The problem is not limited to Zen5, but depending on the underlying
+> clock event device (e.g. TSC deadline timer on Intel) and the CPU speed
+> not necessarily observable.
+> 
+> This change serves only as the last resort and further changes will be made
+> to prevent this scenario earlier in the call chain as far as possible.
+> 
+> Fixes: d316c57ff6bf ("[PATCH] clockevents: add core functionality")
+> Reported-by: Calvin Owens <calvin@wbinvd.org>
+> Signed-off-by: Thomas Gleixner <tglx@kernel.org>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: Anna-Maria Behnsen <anna-maria@linutronix.de>
+> Cc: Frederic Weisbecker <frederic@kernel.org>
+> Cc: Ingo Molnar <mingo@kernel.org>
+> Link: https://lore.kernel.org/lkml/acMe-QZUel-bBYUh@mozart.vkv.me/
+> ---
+> V2: Simplified the clockevents code - Peter
+> ---
+>   include/linux/clockchips.h |    2 ++
+>   kernel/time/clockevents.c  |   23 +++++++++++++++--------
+>   kernel/time/hrtimer.c      |    1 +
+>   kernel/time/tick-common.c  |    1 +
+>   kernel/time/tick-sched.c   |    1 +
+>   5 files changed, 20 insertions(+), 8 deletions(-)
+> --- a/include/linux/clockchips.h
+> +++ b/include/linux/clockchips.h
+> @@ -80,6 +80,7 @@ enum clock_event_state {
+>    * @shift:		nanoseconds to cycles divisor (power of two)
+>    * @state_use_accessors:current state of the device, assigned by the core code
+>    * @features:		features
+> + * @next_event_forced:	True if the last programming was a forced event
+>    * @retries:		number of forced programming retries
+>    * @set_state_periodic:	switch state to periodic
+>    * @set_state_oneshot:	switch state to oneshot
+> @@ -108,6 +109,7 @@ struct clock_event_device {
+>   	u32			shift;
+>   	enum clock_event_state	state_use_accessors;
+>   	unsigned int		features;
+> +	unsigned int		next_event_forced;
+>   	unsigned long		retries;
+>   
+>   	int			(*set_state_periodic)(struct clock_event_device *);
+> --- a/kernel/time/clockevents.c
+> +++ b/kernel/time/clockevents.c
+> @@ -172,6 +172,7 @@ void clockevents_shutdown(struct clock_e
+>   {
+>   	clockevents_switch_state(dev, CLOCK_EVT_STATE_SHUTDOWN);
+>   	dev->next_event = KTIME_MAX;
+> +	dev->next_event_forced = 0;
+>   }
+>   
+>   /**
+> @@ -305,7 +306,6 @@ int clockevents_program_event(struct clo
+>   {
+>   	unsigned long long clc;
+>   	int64_t delta;
+> -	int rc;
+>   
+>   	if (WARN_ON_ONCE(expires < 0))
+>   		return -ETIME;
+> @@ -324,16 +324,23 @@ int clockevents_program_event(struct clo
+>   		return dev->set_next_ktime(expires, dev);
+>   
+>   	delta = ktime_to_ns(ktime_sub(expires, ktime_get()));
+> -	if (delta <= 0)
+> -		return force ? clockevents_program_min_delta(dev) : -ETIME;
+>   
+> -	delta = min(delta, (int64_t) dev->max_delta_ns);
+> -	delta = max(delta, (int64_t) dev->min_delta_ns);
+> +	if (delta > (int64_t)dev->min_delta_ns) {
+> +		delta = min(delta, (int64_t) dev->max_delta_ns);
+> +		clc = ((unsigned long long) delta * dev->mult) >> dev->shift;
+> +		if (!dev->set_next_event((unsigned long) clc, dev))
+> +			return 0;
+> +	}
+>   
+> -	clc = ((unsigned long long) delta * dev->mult) >> dev->shift;
+> -	rc = dev->set_next_event((unsigned long) clc, dev);
+> +	if (dev->next_event_forced)
+> +		return 0;
+>   
+> -	return (rc && force) ? clockevents_program_min_delta(dev) : rc;
+> +	if (dev->set_next_event(dev->min_delta_ticks, dev)) {
+> +		if (!force || clockevents_program_min_delta(dev))
+> +			return -ETIME;
+> +	}
+> +	dev->next_event_forced = 1;
+> +	return 0;
+>   }
+>   
+>   /*
+> --- a/kernel/time/hrtimer.c
+> +++ b/kernel/time/hrtimer.c
+> @@ -1888,6 +1888,7 @@ void hrtimer_interrupt(struct clock_even
+>   	BUG_ON(!cpu_base->hres_active);
+>   	cpu_base->nr_events++;
+>   	dev->next_event = KTIME_MAX;
+> +	dev->next_event_forced = 0;
+>   
+>   	raw_spin_lock_irqsave(&cpu_base->lock, flags);
+>   	entry_time = now = hrtimer_update_base(cpu_base);
+> --- a/kernel/time/tick-common.c
+> +++ b/kernel/time/tick-common.c
+> @@ -110,6 +110,7 @@ void tick_handle_periodic(struct clock_e
+>   	int cpu = smp_processor_id();
+>   	ktime_t next = dev->next_event;
+>   
+> +	dev->next_event_forced = 0;
+>   	tick_periodic(cpu);
+>   
+>   	/*
+> --- a/kernel/time/tick-sched.c
+> +++ b/kernel/time/tick-sched.c
+> @@ -1513,6 +1513,7 @@ static void tick_nohz_lowres_handler(str
+>   	struct tick_sched *ts = this_cpu_ptr(&tick_cpu_sched);
+>   
+>   	dev->next_event = KTIME_MAX;
+> +	dev->next_event_forced = 0;
+>   
+>   	if (likely(tick_nohz_handler(&ts->sched_timer) == HRTIMER_RESTART))
+>   		tick_program_event(hrtimer_get_expires(&ts->sched_timer), 1);
+> 
+> 
 
-I pulled this, did all the merge conflicts, and then at the end
-noticed that you had merged the broken audit garbage into this branch.
+Hello.
 
-End result: I unpulled it all and I can't pull this branch either
-because it has that broken stuff in it.
+Sorry, but this patch as of 7.0 introduced *severe* periodic lockups on my Ryzen 7700X machine.
+I see such messages in the log:
 
-This is why different branches should be independent things. When they
-contain each other, there's no point. One bad branch poisons the
-others.
+clocksource: Long readout interval, skipping watchdog check: cs_nsec: 2897344852 wd_nsec: 2897356996
 
-               Linus
+Reverting d6e152d905bdb1f32f9d99775e2f453350399a6a for mainline fixes the issue for me.
+
