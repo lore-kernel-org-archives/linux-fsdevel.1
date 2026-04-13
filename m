@@ -1,137 +1,142 @@
-Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
+Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 517761D798E;
-	Mon, 13 Apr 2026 01:20:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.222
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 216F740DFAC;
+	Mon, 13 Apr 2026 03:06:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.171.160.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776043240; cv=none; b=SVS5KQfwJFvP0to71tODANApTw52lSJ7kBjp7UYKKu3p+VGkY1rO38i8zsXSVIvFxb2AUxceLvhWLyHjIDtWJ38g/CQtzf5aW2C5JdOUh++E3TtbqbM60O7jXtc6w0O9hMD+hlwgIJLViySM9/e8OSNH11ny8FuDVBYw0m0Qp0U=
+	t=1776049594; cv=none; b=RreGHhK7AxwXri7x2RRRH3UMhN/jtPtygGHeLuiQRPgbsME6CKezDip5uRUuwgfYFHREswzANxyF70hiYINWdb2XtiDf9ieBKLE5AAs6l/XmU3K183RGu3PLzMK44YIVGGgI7Ww8uVWoWXqCtwtGbJS/MOhbjJx+mnpeA3qhrx8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776043240; c=relaxed/simple;
-	bh=gHv8EurdnR2M89vIBOLJFuk6PI3dwM0tzY2ikdH8W7U=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=qWqq1ujUHAjfFqRh7Qdl2Ss/HaRubYFuM6wtns6zMy6Rb1hWfbMKUBNBhica1Gkq7hysw1N6vGktOJZczBy7lI6u9u+G+AlxCqks89hYHgGkvp9t8SnTF9bDhvs+xWlS6vaK8cvIS7PsFd4eLRrF8/6XRTOi++cE9dO41tk31us=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=I+4FBnhk; arc=none smtp.client-ip=113.46.200.222
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1776049594; c=relaxed/simple;
+	bh=+2JRl8xDuf4Nre+/kufJVQfy+GigkEdIL7MdbWXRXJk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=nwIJT+E+0zH1KwyXG0BZ1JD+jxAiIsNjxTkdtdn/ghqrX5+1jhOpuOQz/jvy/5vB38rDX68C7GqGmZkBbJUp4lMYxU9Tfdhhc14K260fSw4GOGld83gKI1P7g7xD4lBZY214hxxUgcu9Bxn4m6Pp5kF1HAK3iui6q958VL7QMrI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp; spf=pass smtp.mailfrom=parknet.co.jp; dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=MD0vMWkA; dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=tYdXQ4dW; arc=none smtp.client-ip=210.171.160.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="I+4FBnhk"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=Nab4JFj3gjnZrt72+cRNOZ5Q4mhAZwI9Xu1s/Jte8+k=;
-	b=I+4FBnhkc/NdaPPv5TdqM+HB2Qblgyx7ZeJ4xf9xU3XeRy+uOmiLBM58tTNW4lHT5+ETAt8Wu
-	vlPjscP5G95hO//CQ+RDy0UC1LpDzfg+zO81sd99i67xTsobFyc63Vv1QihmhLus8olfr5vwY9L
-	2M7SAWlln2Fcl89iA2v+duw=
-Received: from mail.maildlp.com (unknown [172.19.162.92])
-	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4fv8ZD4NrvzLlrY;
-	Mon, 13 Apr 2026 09:14:12 +0800 (CST)
-Received: from kwepemf100017.china.huawei.com (unknown [7.202.181.16])
-	by mail.maildlp.com (Postfix) with ESMTPS id BC78140562;
-	Mon, 13 Apr 2026 09:20:28 +0800 (CST)
-Received: from huawei.com (10.50.159.234) by kwepemf100017.china.huawei.com
- (7.202.181.16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Mon, 13 Apr
- 2026 09:20:27 +0800
-From: Zizhi Wo <wozizhi@huawei.com>
-To: <viro@zeniv.linux.org.uk>, <jack@suse.com>, <brauner@kernel.org>,
-	<bcrl@kvack.org>, <linux-fsdevel@vger.kernel.org>, <linux-aio@kvack.org>,
-	<linux-kernel@vger.kernel.org>
-CC: <wozizhi@huawei.com>, <yangerkun@huawei.com>, <chengzhihao1@huawei.com>
-Subject: [PATCH] fs: aio: set VMA_DONTCOPY_BIT in mmap to fix NULL-pointer-dereference error
-Date: Mon, 13 Apr 2026 09:08:14 +0800
-Message-ID: <20260413010814.548568-1-wozizhi@huawei.com>
-X-Mailer: git-send-email 2.39.2
+	dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="MD0vMWkA";
+	dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="tYdXQ4dW"
+Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
+	by mail.parknet.co.jp (Postfix) with ESMTPSA id A2FCD2096798;
+	Mon, 13 Apr 2026 12:06:23 +0900 (JST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
+	s=20250114; t=1776049583;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iVkxsvDNZZ/6hMZFcuU6ezDCIK/Fw98fh0XXxB6tcoU=;
+	b=MD0vMWkABEEDBa7bkOFbAK2a7CixUAscjEXusNUPLzxGNVva4mv0i2frB1CHLKwWUBGOaO
+	Nu8O9WEaSf8+LHhbjttPOElo9swTzMYUp3qU0fStw6tx/B9VWc8WVCepRP55ECkcVaSC0j
+	z7WrHmPfy7i7IKHrwbiq48pDJWyDQ88ubcunz3Am2/agFR14XVXfuCPKKpRw4ItYVuV/I7
+	xCwN4Em8lJdeBMbPmV7oKCXymBaY53SZFIPCTFNsHvrZdP4RyDyMfLwXYjipjWVzH2h5jg
+	hoxceS96Let+lMQgahYuR1ooLFbGHdp7HioDpKAf8h3pkiFYe9QQBJBPn6uORA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
+	s=20250114-ed25519; t=1776049583;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iVkxsvDNZZ/6hMZFcuU6ezDCIK/Fw98fh0XXxB6tcoU=;
+	b=tYdXQ4dWx40XBlnWNQMvWs/NVaRfacHs2q1Jh1IQiLST2GszKl0r3iGsHL4U3Sq+QODVrF
+	oyqsNeO2/3aOjnAA==
+Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
+	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id 2DA4DE00134;
+	Mon, 13 Apr 2026 12:06:23 +0900 (JST)
+Received: by devron.myhome.or.jp (Postfix, from userid 1000)
+	id 11EA3220014E; Mon, 13 Apr 2026 12:06:23 +0900 (JST)
+From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Adi Nata <adinata.softwareengineer@gmail.com>,
+  linux-kernel@vger.kernel.org,  linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] kunit: fat: test cluster and directory i_pos layout
+ helpers
+In-Reply-To: <87y0j2m1d0.fsf@mail.parknet.co.jp>
+References: <20260405011920.28622-1-adinata.softwareengineer@gmail.com>
+	<87y0j2m1d0.fsf@mail.parknet.co.jp>
+Date: Mon, 13 Apr 2026 12:06:23 +0900
+Message-ID: <877bqbeez4.fsf@mail.parknet.co.jp>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
- kwepemf100017.china.huawei.com (7.202.181.16)
 
-[BUG]
-Recently, our internal syzkaller testing uncovered a null pointer
-dereference issue:
-BUG: kernel NULL pointer dereference, address: 0000000000000000
-...
-[   51.111664]  filemap_read_folio+0x25/0xe0
-[   51.112410]  filemap_fault+0xad7/0x1250
-[   51.113112]  __do_fault+0x4b/0x460
-[   51.113699]  do_pte_missing+0x5bc/0x1db0
-[   51.114250]  ? __pte_offset_map+0x23/0x170
-[   51.114822]  __handle_mm_fault+0x9f8/0x1680
-[   51.115408]  handle_mm_fault+0x24c/0x570
-[   51.115958]  do_user_addr_fault+0x226/0xa50
-...
-Crash analysis showed the file involved was an AIO ring file.
+OGAWA Hirofumi <hirofumi@mail.parknet.co.jp> writes:
 
-[CAUSE]
-	PARENT process		CHILD process
-t=0	io_setup(1, &ctx)
-	[access ctx addr]
-	fork()
-	io_destroy
-	  vm_munmap // not affect child vma
-	  percpu_ref_put
-	  ...
-	    put_aio_ring_file
-t=1				[access ctx addr]	// pagefault
-				...
-				  __do_fault
-				    filemap_fault
-				      max_idx = DIV_ROUND_UP(i_size_read(inode), PAGE_SIZE)
-t=2	      truncate_setsize
-	        truncate_pagecache
-t=3				      filemap_get_folio	// no folio, create folio
-				      __filemap_get_folio(..., FGP_CREAT, ...)	// page_not_uptodate
-				      filemap_read_folio(file, mapping->a_ops->read_folio, folio) // oops!
+Hi, Christian. ping?
 
-At t=0, the parent process calls io_setup and then fork. The child process
-gets its own VMA but without any PTEs. The parent then calls io_destroy.
-Before i_size is truncated to 0, at t=1 the child process accesses this AIO
-ctx address and triggers a pagefault. After the max_idx check passes, at
-t=2 the parent calls truncate_setsize and truncate_pagecache. At t=3 the
-child fails to obtain the folio, falls into the "page_not_uptodate" path,
-and hits this problem because AIO does not implement "read_folio".
+> Adi Nata <adinata.softwareengineer@gmail.com> writes:
+>
+>> Add KUnit coverage for fat_clus_to_blknr() and fat_get_blknr_offset()
+>> using stub msdos_sb_info values so cluster-to-sector and i_pos split
+>> math stays correct.
+>>
+>> Signed-off-by: Adi Nata <adinata.softwareengineer@gmail.com>
+>
+> Looks good.
+>
+> Acked-by: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+>
+> Thanks.
+>
+>> ---
+>>  fs/fat/fat_test.c | 33 +++++++++++++++++++++++++++++++++
+>>  1 file changed, 33 insertions(+)
+>>
+>> diff --git a/fs/fat/fat_test.c b/fs/fat/fat_test.c
+>> index 1f0062659067..add44178f28e 100644
+>> --- a/fs/fat/fat_test.c
+>> +++ b/fs/fat/fat_test.c
+>> @@ -20,6 +20,37 @@ static void fat_checksum_test(struct kunit *test)
+>>  	KUNIT_EXPECT_EQ(test, fat_checksum("ABCDEFGHA  "), (u8)98);
+>>  }
+>>  
+>> +static void fat_clus_to_blknr_test(struct kunit *test)
+>> +{
+>> +	struct msdos_sb_info sbi = {
+>> +		.sec_per_clus = 4,
+>> +		.data_start = 100,
+>> +	};
+>> +
+>> +	KUNIT_EXPECT_EQ(test, (sector_t)100,
+>> +			fat_clus_to_blknr(&sbi, FAT_START_ENT));
+>> +	KUNIT_EXPECT_EQ(test, (sector_t)112, fat_clus_to_blknr(&sbi, 5));
+>> +}
+>> +
+>> +static void fat_get_blknr_offset_test(struct kunit *test)
+>> +{
+>> +	struct msdos_sb_info sbi = {
+>> +		.dir_per_block = 16,
+>> +		.dir_per_block_bits = 4,
+>> +	};
+>> +
+>> +	sector_t blknr;
+>> +	int offset;
+>> +
+>> +	fat_get_blknr_offset(&sbi, 0, &blknr, &offset);
+>> +	KUNIT_EXPECT_EQ(test, (sector_t)0, blknr);
+>> +	KUNIT_EXPECT_EQ(test, 0, offset);
+>> +
+>> +	fat_get_blknr_offset(&sbi, (10 << 4) | 7, &blknr, &offset);
+>> +	KUNIT_EXPECT_EQ(test, (sector_t)10, blknr);
+>> +	KUNIT_EXPECT_EQ(test, 7, offset);
+>> +}
+>> +
+>>  struct fat_timestamp_testcase {
+>>  	const char *name;
+>>  	struct timespec64 ts;
+>> @@ -181,6 +212,8 @@ static void fat_time_unix2fat_test(struct kunit *test)
+>>  
+>>  static struct kunit_case fat_test_cases[] = {
+>>  	KUNIT_CASE(fat_checksum_test),
+>> +	KUNIT_CASE(fat_clus_to_blknr_test),
+>> +	KUNIT_CASE(fat_get_blknr_offset_test),
+>>  	KUNIT_CASE_PARAM(fat_time_fat2unix_test, fat_time_gen_params),
+>>  	KUNIT_CASE_PARAM(fat_time_unix2fat_test, fat_time_gen_params),
+>>  	{},
 
-[Fix]
-Fix this by marking the AIO ring buffer VMA with VM_DONTCOPY so
-that fork()'s dup_mmap() skips it entirely. This is the correct
-semantic because:
-
-1) The child's ioctx_table is already reset to NULL by mm_init_aio() during
-fork(), so the child has no AIO context and no way to perform any AIO
-operations on this mapping.
-2) The AIO ring VMA is only meaningful in conjunction with its associated
-kioctx, which is never inherited across fork(). So child process with no
-AIO context has no legitimate reason to access the ring buffer. Delivering
-SIGSEGV on such an erroneous access is preferable to a kernel crash.
-
-Signed-off-by: Zizhi Wo <wozizhi@huaweicloud.com>
----
- fs/aio.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/fs/aio.c b/fs/aio.c
-index 4fe163b8bf67..74e0e40b9636 100644
---- a/fs/aio.c
-+++ b/fs/aio.c
-@@ -397,11 +397,11 @@ static const struct vm_operations_struct aio_ring_vm_ops = {
- #endif
- };
- 
- static int aio_ring_mmap_prepare(struct vm_area_desc *desc)
- {
--	vma_desc_set_flags(desc, VMA_DONTEXPAND_BIT);
-+	vma_desc_set_flags(desc, VMA_DONTEXPAND_BIT, VMA_DONTCOPY_BIT);
- 	desc->vm_ops = &aio_ring_vm_ops;
- 	return 0;
- }
- 
- static const struct file_operations aio_ring_fops = {
 -- 
-2.39.2
-
+OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
