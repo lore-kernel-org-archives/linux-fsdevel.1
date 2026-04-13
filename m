@@ -1,97 +1,141 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2323A30C35F;
-	Mon, 13 Apr 2026 05:37:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A6CD39151A
+	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 06:07:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776058675; cv=none; b=VrthSnC0aKYhCgVEZbRKozfnX3k9sHpZ3DmVaAsC5kBizcYj7EZWlfZUtw5YN/98GzaerVlMPUTputAHKxPkGTJm7de0Tf/7I+H/1Eeh6d2IwY4TP0p5ITdOjtMisoOo8qjR1szBAs44mvMEnGmsA2sERxMoJypt0UMD/o0vvNI=
+	t=1776060428; cv=none; b=kOBqCTmrlpNGqFn6xL0WPJKmn+DiyRhCatP/ndVB3g700G5NN5s0BJL2NoChitWAVDOKzkP14gQK05tHBl0XjUiwu+koSihxyKxxEbv8ow9Yq1ZpbZSpQSi2ntFf/TNq1EO+nriNNXdzFuEBpEsY6ciLeiWNdhsvgAz74fI8co0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776058675; c=relaxed/simple;
-	bh=c9xdq9i+G0zulG6323Mzb3s5ZrM924e/Sx6+1KNbAKI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g4GsPoe+PNPCFy1xXwwsK0VDQQl9ADsbrY8Jr0OGwBNn2oIxW4gVyGIqpxx02/cGnaHGOFrFww3m2tODOF6AEIhquGEac84vxJ3bZW9+YYNbItX1tRWlFbRzS6hfsT2Jq9gt2vBtf8qrW0SiHVthSUNHNegiQU6qnjaqNcd5/JA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CYAidPKq; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776060428; c=relaxed/simple;
+	bh=8xJ3Bno2f7K9RyTiCHfv8Hum/iKEj0okL/CRt1vRS8Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=apmTAcqCTy3kC+OHPBkN5+2WKf+XmXsk4GUupRGMUmAr0Sn+4RxIQZJrragJCSsRosnLdC4vOaRZvtjstS6h6wrO0lCgcVWweTT9ejtBiR5dpbkByc6Kwp0a+2cS/ttnSgDtuIR2TmsgMnKqbTxHm3I1AMNG4wff2ehwDBzWzJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dWKTOkvf; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CYAidPKq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D756C116C6;
-	Mon, 13 Apr 2026 05:37:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776058674;
-	bh=c9xdq9i+G0zulG6323Mzb3s5ZrM924e/Sx6+1KNbAKI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CYAidPKqcLB7DggtGonSr6XqmwbLLK9P1gNbNHNBTA3mq0vH1b50IIBl5v1zbXXps
-	 GHHshy2hpn9wUga0epb1dJOO1e0BFndrNx4clnhZZOn7zUnMfzMx6U35BjPalsVv13
-	 qe/HFMZY82osynewGvSj46/ZbqIGUSh+xDIhvSd+QTqUHgM4YzoDv1x2RvlqnEOdRo
-	 7wWfyVwal3hQDzOC2w+RlZOAL/OCU5glHRpaDPGFhkr7WJsPEXrSyKatLqSv2fukC/
-	 Y5fVO5ybbUpow/LSffY8kBaDZD2Hl75evpdO2SqpzWa/lnBVl0wUwWPho8OkumYSk0
-	 wrCdvcELxpHgA==
-Date: Mon, 13 Apr 2026 06:37:41 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>, 
-	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"K . Y . Srinivasan" <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, 
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Miquel Raynal <miquel.raynal@bootlin.com>, 
-	Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
-	Bodo Stroesser <bostroesser@gmail.com>, "Martin K . Petersen" <martin.petersen@oracle.com>, 
-	David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	David Hildenbrand <david@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, 
-	Pedro Falcato <pfalcato@suse.de>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>, 
-	"linux-stm32@st-md-mailman.stormreply.com" <linux-stm32@st-md-mailman.stormreply.com>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>, 
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>, "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>, 
-	"target-devel@vger.kernel.org" <target-devel@vger.kernel.org>, "linux-afs@lists.infradead.org" <linux-afs@lists.infradead.org>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
-	Ryan Roberts <ryan.roberts@arm.com>
-Subject: Re: [PATCH v4 19/21] uio: replace deprecated mmap hook with
- mmap_prepare in uio_info
-Message-ID: <adyAzdYVm95MZny2@lucifer>
-References: <cover.1774045440.git.ljs@kernel.org>
- <157583e4477705b496896c7acd4ac88a937b8fa6.1774045440.git.ljs@kernel.org>
- <adx2ws5z0NMIe5Yj@shinmob>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dWKTOkvf"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-823c56765fdso2217857b3a.1
+        for <linux-fsdevel@vger.kernel.org>; Sun, 12 Apr 2026 23:07:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776060427; x=1776665227; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9xGYynR6r25XFEHisSmxEo6/BK/p866fHi4Bq8os+Ow=;
+        b=dWKTOkvftAgFgXuedeSkqCOT966YRFqCpWPskIeGZiS8pRbJmA1VIzaA8hkM7dD73y
+         ahq9hfu4EJRUUwWR/bx5BVEZZOqug3+GljzsRm7nKb+v8PVUnO3gZEnlbAylc9bs2ZjR
+         4GCvnOIxKEBphfQK+p7+LAx+oPeTb/j5FXRrag+mf8xpBlGz1GLeKeK7LeIamIVhluRJ
+         8kBx0BrR8EAKrZJiyUm8WWgmhkz7/gP3SxJkYLd/wJF4lo/ssPvREZgnHYFkk07wZfoK
+         YzXHAsRu+KRyUPBWh1lMYxEW3ZowR3pRLKbLqD0WA8opnLRB2I2Gos86gTbkXLkKe8/e
+         GUvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776060427; x=1776665227;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9xGYynR6r25XFEHisSmxEo6/BK/p866fHi4Bq8os+Ow=;
+        b=TzljrsfJpXtKc+LKSFvwdQodBxhffouxtij2eNVNmoBHtgnVesI5851cBs4y7CqXoX
+         go1N95LVufK+ZSkNe6BXR81CyO+G+L/iY3D2t5Xr/6Lx2wVo6rWD92SlnsnhoLd6V8tX
+         e3R5gyoemGznFZFtySnW3XeNnzyzc7GRuKOCMs7GzHjk5KaIYj8RCHCiw4AUeSa/zqOl
+         PZ6Z5gNwqL0opE/IMvUBjkiohDgrhxxuP/SIpw5iuqc8s7fwxz7jAHOXNq6UZBoUkUav
+         dDm/p+F9/3eaECZ+e2eJLyCEIrTaFTWpV+ZSrTcVPV5qSC6la0U/ivEwkIAEMO3GPS7R
+         Ki1w==
+X-Forwarded-Encrypted: i=1; AFNElJ+RzBKNisA+r8uXkuquvE+HL1FVNXD1ze+OaLM1xSWPh2/nqu0NC2wkwg2M4OHBmkDUXNNF5pJdHAFFo29l@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz45kI+YWbzJ1P8IsKa8mkUIdLodVxqoFHc/e39vE9RulxFjYxC
+	E0M0VWYZ8Vy2XwI8wEc0ipSjIqmVAd7c7RK/B+r/TiI6SE08W2rMGjLS
+X-Gm-Gg: AeBDiesdCqlu+fMuqlTmhqShmYB4xI4TvHKaw2fEz/IZ5Bb0u72zyP7W4ySdSHGBoey
+	UaglXHqUUH4tmEhycFouXpGWqarBBgizILR8Eqo3qzLJOMKJTrYwFA6dBHm7YqRgeMn/WPhBPCt
+	kHOzv6pxKRXSQmi2GfadtsAivnZKm1rkFp/dTUZ5uVF+OhaydAuBmLeaDt3sBLsDWWRA4pWKCGo
+	kgGOWm7kOITQmwE27xbPHEpzq1WS2XQ2lQgxjY4SY/S7KuYHqsYhlbHTJOvd59djrdxiismr926
+	oS+gguDjwd2PriM9n3YxwUj/avMYdxss+29VxJ+bhmwSuFwcm+EYkQX1eYSFwWvoQEXtd+yr7Xk
+	jJHgsp+v/tmmerV4HyqvtPZrTI+5kIYmxxURnn4x3pHnq+YZy0GYdRhFnI1Sg4U9TQNeok8+0Hk
+	rS+sL1H1wLb6kpU6FAB52sb7md1qfScmxVcTrj2Q==
+X-Received: by 2002:a05:6a00:1d96:b0:82f:761:2b49 with SMTP id d2e1a72fcca58-82f0c2dc498mr12541247b3a.49.1776060426545;
+        Sun, 12 Apr 2026 23:07:06 -0700 (PDT)
+Received: from manakaao.dns.podman ([104.28.211.108])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f0c4e3d41sm12531053b3a.48.2026.04.12.23.07.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Apr 2026 23:07:06 -0700 (PDT)
+From: Wang Haoran <haoranwangsec@gmail.com>
+To: viro@zeniv.linux.org.uk,
+	akpm@linux-foundation.org
+Cc: linux-block@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Wang Haoran <haoranwangsec@gmail.com>
+Subject: [PATCH] iov_iter: use kmemdup_array for dup_iter to harden against overflow
+Date: Mon, 13 Apr 2026 14:06:55 +0800
+Message-ID: <20260413060655.1139141-1-haoranwangsec@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <adx2ws5z0NMIe5Yj@shinmob>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, Apr 13, 2026 at 05:14:08AM +0000, Shinichiro Kawasaki wrote:
-> On Mar 20, 2026 / 22:39, Lorenzo Stoakes (Oracle) wrote:
-> > The f_op->mmap interface is deprecated, so update uio_info to use its
-> > successor, mmap_prepare.
-> >
-> > Therefore, replace the uio_info->mmap hook with a new
-> > uio_info->mmap_prepare hook, and update its one user, target_core_user,
-> > to both specify this new mmap_prepare hook and also to use the new
-> > vm_ops->mapped() hook to continue to maintain a correct udev->kref
-> > refcount.
-> >
-> > Then update uio_mmap() to utilise the mmap_prepare compatibility layer to
-> > invoke this callback from the uio mmap invocation.
-> >
-> > Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
->
-> Hello Lorenzo, since two weeks ago, I observe a failure during my kernel test
-> set targeting Linux for-next branch. On failure, kernel reported a WARN at
-> __vma_check_mmap_hook [1]. I bisected and found that this patch is the trigger.
-> Here I share my observations of the failure. Actions or advices for fix will be
-> appreciated.
+While auditing the Linux 7.0-rc2 kernel, I identified a potential security
+vulnerability in the iov_iter framework's memory allocation logic.
 
-Ugh yeah thanks, this actually needs to account for use of compatibility layer,
-so probably we shouldn't even assert this as that isn't easily detectable.
+The dup_iter() function, which is exported via EXPORT_SYMBOL, currently
+uses kmemdup() with a raw multiplication to allocate the duplicate iovec array:
 
-I'll send a hotfix for this that can be bundled up with 7.1 patches.
+new->iov = kmemdup(from->iov, nr_segs * sizeof(struct iovec), gfp);
 
-Cheers, Lorenzo
+The hazard here is that dup_iter() relies on a primitive multiplication without
+any integrated overflow check. Since nr_segs is often derived from user-space
+input, this line is vulnerable to integer overflow (on 32-bit systems or
+via type narrowing), potentially leading to a small allocation followed by a
+large out-of-bounds memory copy. Furthermore, it allows for unbounded memory
+allocations, as the function lacks intrinsic knowledge of safe limits.
+
+On the 7.0-rc2 branch, several high-impact callchains still rely on this
+exported function:
+
+drivers/usb/gadget/function/f_fs.c:
+The ffs_epfile_read_iter() path demonstrates why relying on dup_iter() is
+dangerous: it performs allocation based on user input before verifying driver
+state. This confirms that dup_iter() must be hardened internally as it cannot
+assume pre-validated input.
+
+drivers/usb/gadget/legacy/inode.c:
+The ep_read_iter() path illustrates how dup_iter()’s lack of boundary awareness
+compounds resource risks. When combined with other allocations, it creates
+a multiplier effect for kernel memory pressure.
+
+This patch replaces kmemdup() with kmemdup_array(), which utilizes
+check_mul_overflow() to ensure the allocation size is calculated safely,
+hardening dup_iter() against malicious or malformed inputs from its callers
+
+Signed-off-by: Wang Haoran <haoranwangsec@gmail.com>
+---
+ lib/iov_iter.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/lib/iov_iter.c b/lib/iov_iter.c
+index 0a63c7fba..63aa8b6e3 100644
+--- a/lib/iov_iter.c
++++ b/lib/iov_iter.c
+@@ -1224,13 +1224,13 @@ const void *dup_iter(struct iov_iter *new, struct iov_iter *old, gfp_t flags)
+ {
+ 	*new = *old;
+ 	if (iov_iter_is_bvec(new))
+-		return new->bvec = kmemdup(new->bvec,
+-				    new->nr_segs * sizeof(struct bio_vec),
++		return new->bvec = kmemdup_array(new->bvec,
++				    new->nr_segs, sizeof(struct bio_vec),
+ 				    flags);
+ 	else if (iov_iter_is_kvec(new) || iter_is_iovec(new))
+ 		/* iovec and kvec have identical layout */
+-		return new->__iov = kmemdup(new->__iov,
+-				   new->nr_segs * sizeof(struct iovec),
++		return new->__iov = kmemdup_array(new->__iov,
++				   new->nr_segs, sizeof(struct iovec),
+ 				   flags);
+ 	return NULL;
+ }
+-- 
+2.43.0
+
