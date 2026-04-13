@@ -1,136 +1,95 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FB67332EC8
-	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 21:12:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D807352C34
+	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 21:17:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776114780; cv=none; b=u5sz/zPcHVYkGop4iWUX8SjvcdyXg9B8es3RqMStxg90b2dhs2kd42sHD7T7L3sWvKTqrxkszo/ms7d91pdKc1DlVkSt4LjsAW9Ms7e3Ohg/wMFNyqFQbBVOn486s1KVXWbALgtsECZ7A6WDBAaH7tvTN5sn0qdQPnKpZc1HAZg=
+	t=1776115052; cv=none; b=BC02SPAxtYc3C9HQ4m/RLvxJa7F5K6aMdE3zN7CJV2TF6mm0lVDT3AIqIzALWzBHP5HjAmV5oz2a5LmRbycuADeAtvB3FgRejAkGWKwfZhhu94V2jqbKhSh1m8Hrx1X7pBfTAL2Cy+QY+weUsoCVT77CJxyw77cR6+b0hT7h/jA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776114780; c=relaxed/simple;
-	bh=zhwHBvxowx/CDbJvKJKLuT1kONQfkrgCboxl/nz+Drg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CRgZcHcnnbfNSt70PyBPGsW90GbxXHJ5g7Y/RxHoZXBVSKWx/MosoB4hZ5+ms3EQnFJ0PEF5ye/wy3zpSgr1ULnp1lsJq6IBiURmUu1PYexS62RzqvLQ20HazevQHgljVEfD+Kr6mDW+I0TXH3Oh5QqfDnlPPGt4xBYS/1Ihkzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AMjQH1go; arc=none smtp.client-ip=209.85.160.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776115052; c=relaxed/simple;
+	bh=jjz/HhUUFieDVgwHDlcrtbhigzZK/gco/C11DgaIWc0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kNEGokf/GlOHl/Y3lETJNfYthvRpoZvf7xDl0PF5K6HJEsGKyNx2Dyq8Fs98XBo2LUu/1m6UYQT9NcK9h4/9Rliu7C3ry1AtiyH5TSyJg4Q4bZPCOh0WP/hsCYidE1VzAHhnErbDvJhptq5owqjLtk0hFyMXMdFSEWBBk9/KtQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=IkjzZXPq; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AMjQH1go"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-50de80b9567so17111371cf.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 14:12:59 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="IkjzZXPq"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b9c603ec2dfso650760266b.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 14:17:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776114778; x=1776719578; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=wRm3QQarp6KprRAVENXxH9rbQ7MVgBtYRP8MX65QUmA=;
-        b=AMjQH1goATY7LUP4WqBcAx7uObXy2Qi9B5Xhj+atCj0wOPzTi5rqvLaDmhr+7Puguk
-         SEQ/THvmInMF2hH2AHJnngTTNh5N8Qrhj4GqpHqCf8W92E5udlHoSe94GDtj/+YkIJBY
-         EblrsazoKIY/KCQL3NwrMKr0dwdDpaS2mLOKz+uJCfRe/6/wMuFAQXGB60HYpMjYJ1Xs
-         s37v8jdO44MH/uHIZ0KcYNjDTtZ0cJ2MIXqv833v3dva47YP96NBCaXtE0ojcH1KkrHv
-         0JK40uZ7a9/i0sb5Skupc2kOyLeoFIiNrcgQYE3Kr3OhWayOGy+uQ5Mlpb8Q/MNYDKyt
-         X61A==
+        d=linux-foundation.org; s=google; t=1776115049; x=1776719849; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=9h2gDyNayaY45W3DGBdN37EYfSKihLPqKo+SOpzlBEQ=;
+        b=IkjzZXPqoQyxpO3nbR+L4//0dGzR9rBF3D9qu8KbcHbITViqIkDXRbUGbOqhgZQqGI
+         x+4taBDBrM3QO7vx2V37w4LJ1cE9+82yg5BNwFM3Vfmq/wJIX3BwPFogwmxm6mcLGz8D
+         r3oYitLjLm/H24sdRLy1ZyCBUTpliaImpB+VM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776114778; x=1776719578;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1776115049; x=1776719849;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wRm3QQarp6KprRAVENXxH9rbQ7MVgBtYRP8MX65QUmA=;
-        b=ba6Ir0v3BQzsd6UsNkWTTzDNkY1cczJBtHPB3dXfJqQ9/OyQmCZs5Eu5IReDJSeX1P
-         ayzADmBL4pNnG87DROzuKIlK8w1Mok1aa0QGUPhTV8XYsgksVUODDu3zXfl8Ebmz9yLb
-         ktdCVtWAjXYAnyFO41/0kZqCrjWPGe3YrOuXvL1cBfPBqp9M0FI5dmhh5d5b2muupLfj
-         DA+yXYMPfs+vusC3JHCUBIpeZc1HkREAGDVoj+v+18r9um/fSBZNpyJcHFqxDzvpOyBx
-         NowwT9vZ5rsBTzT24BVMSUjPZDF0+41JCQBSNbBNWHqh/iIykwTtnK858o/AgjSuupNg
-         iLkQ==
-X-Gm-Message-State: AOJu0Yy7ztV3UAQBTclt6hGjBlfxgEy7EX1XR4B0+9UayNC5BhAB7J7U
-	hDZHqYYfFVwP9bGtHpjjceVlPiEkWuWyr6tU4GVNIFZvVSC8PuzCBeCH
-X-Gm-Gg: AeBDievPAx0PXi9da8tL6d1tSWUXnR64kGpuH4pazZ5itSEmQhrsiPDOD95AdiR1znD
-	D6pr/j70dYuvh65bs/qZHq86+WqIfIWBviPzX9NfyLtGJOOLe8O5ic2FierOjVpQhqE5LCZ2Mqp
-	6dmFmttf82490cXVlnOqrytCQTqwUnpBsSsGgd4JLxN9r+RTz5heGCktg2vI5TE9yXdDDa3rElg
-	oTSHpMSMf94iFcAjUChbR42zBJ50/MxUQmXaZik44lh0sQSLZDwrcDeLdUECmanHaK/zHd9ncoF
-	+ro7sqmC0+ph4WE9GrUZZcPEgRNa+SD1QZDpgerOE7SXOUKUO4bULTb9FSO3dx2xU47sq9VkDoj
-	XCRvPbNgYVD6OyGvo9tGRTgm7Q+TmT4CNVbt1i8vG7ObxvOgge62FlKiWEZRr5WMFZEw9qkqVJt
-	a+mronCwbBDWjYRyqSw6+XpsMnzjnmMYSFPgHlz6bUOtrloftDLsMWeOiMQ2fcs69UppenuEkdx
-	hcPatGr5t76hSxzcNi99UFQx/XdNTg=
-X-Received: by 2002:ac8:5d13:0:b0:50b:4726:f152 with SMTP id d75a77b69052e-50dd5b346demr220545431cf.8.1776114777966;
-        Mon, 13 Apr 2026 14:12:57 -0700 (PDT)
-Received: from server0 (c-68-48-65-54.hsd1.mi.comcast.net. [68.48.65.54])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50dd539b3f3sm95998551cf.2.2026.04.13.14.12.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Apr 2026 14:12:57 -0700 (PDT)
-From: Michael Bommarito <michael.bommarito@gmail.com>
-To: Jan Kara <jack@suse.com>
-Cc: linux-fsdevel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH] udf: reject descriptors with oversized CRC length
-Date: Mon, 13 Apr 2026 17:12:40 -0400
-Message-ID: <20260413211240.853662-1-michael.bommarito@gmail.com>
-X-Mailer: git-send-email 2.53.0
+        bh=9h2gDyNayaY45W3DGBdN37EYfSKihLPqKo+SOpzlBEQ=;
+        b=K3EODlrPyjdRFFlLgzQW2/dDkEdfey52T4AZ/+QEDhlA3qe3TsOJXGJt5TUXhQaGZC
+         OO9H2mxKyXFe7AnxyRPDYwUeuLaYr011Rpoi8UhHL45nRbtM4/lFfwFDq+ydmjkocm0m
+         25h4F1G5jZghss/640EQL39QlbZ+mCVGz8hfbq4CZfITN7PPWGwPKIhFNlxIK8aVCzwN
+         uT6pJklSP3EpwqpxrXnxGSWhPA0SvGPkvSUcVlNL1/rMRvBqEOToycL3UKFjG3p7WHOm
+         GgAUpqytNhwmV+oWWuI48ZPjhTb86361HxxCAC7+JKOJArnJHjqgC8KEAa7HDkmaXsOO
+         LsCQ==
+X-Gm-Message-State: AOJu0YzB3Wsfju7pE63+g+eNqvoqcbGkNtWbS3dq49H3xXe7i4GOiZDw
+	WrFZGGcVWOF2irhRalOW+LflRUR54Wq7Zt0dMt4tS4KrJZooILqBUYr8m0K1obj0iyzAqmFX9ez
+	X+Pbho4A=
+X-Gm-Gg: AeBDievj3Ha2TS8P1BUkmm2nVOdMEzNdMUB5LNOpzLuU6lO73lENrZysLcdi74Krsb9
+	qOYETaAAiDtjJdMPIx5nDuFZAqIptiMQpkwYCGNatvXyqxrM4I5DlloWgYpbkJWgp8pwCJVezkO
+	lawFix31mAxuXCyPtiu1CS3oWsBVliw7MGsr1s/sgCriFO1ye2z4SmnVj83j/h9AzAANoMuFH30
+	ekg55qHfR/1SA8CKyrjZdpn0RXKVX5vJU2yzhSDWj8RKtFNnx2yFXaogSGoo2T3NMFWZujdu0Ec
+	7ppXllXFTdSQxdHdpbfS2DU71tGonPQpAoYhSWI4P130v76uAOWCQ8HCHIpo4Xte+PoQvauQdmk
+	Dh+2Uhwiacs0+TKkUdr98R1pBIGujBK8g0Njn4RPRXWEqSUuJoSYIiBLG7+2Vit9j/r4S/yKPFO
+	irxkLLciDi8vRRLPW8FZErh16sLWMTH9JlCUUV2IIdl/5Fna/165dqY6hQjL8PrGgFTX5UFT2G
+X-Received: by 2002:a17:907:a806:b0:b94:cfd:f37b with SMTP id a640c23a62f3a-b9d729cba9fmr847666066b.45.1776115048610;
+        Mon, 13 Apr 2026 14:17:28 -0700 (PDT)
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com. [209.85.208.53])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9d6e7f1765sm330601366b.56.2026.04.13.14.17.27
+        for <linux-fsdevel@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Apr 2026 14:17:27 -0700 (PDT)
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-6708cc2d6f6so4975649a12.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 14:17:27 -0700 (PDT)
+X-Received: by 2002:a05:6402:4343:b0:671:df5b:5394 with SMTP id
+ 4fb4d7f45d1cf-671df5b54bemr189227a12.18.1776115047594; Mon, 13 Apr 2026
+ 14:17:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260410-vfs-v71-b055f260060c@brauner> <20260410-vfs-mount-v71-89e63a03df4d@brauner>
+In-Reply-To: <20260410-vfs-mount-v71-89e63a03df4d@brauner>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Mon, 13 Apr 2026 14:17:11 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wiA_XzFe_YswO4hezv7MQH6D66k-MBWEZwFJ4urut1aJQ@mail.gmail.com>
+X-Gm-Features: AQROBzAQACdJ_gQflq9FRL8Z5UcPmn-JycQ0sjLe0GGiRdGdWlhvYVeqPmrwAW0
+Message-ID: <CAHk-=wiA_XzFe_YswO4hezv7MQH6D66k-MBWEZwFJ4urut1aJQ@mail.gmail.com>
+Subject: Re: [GIT PULL 11/12 for v7.1] vfs mount
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-udf_read_tagged() skips CRC verification when descCRCLength +
-sizeof(struct tag) exceeds the block size.  A crafted UDF image can
-set descCRCLength to an oversized value to bypass CRC validation
-entirely; the descriptor is then accepted based solely on the 8-bit
-tag checksum, which is trivially recomputable.
+On Fri, 10 Apr 2026 at 08:23, Christian Brauner <brauner@kernel.org> wrote:
+>
+>   git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.1-rc1.mount
 
-Reject such descriptors instead of silently accepting them.  A
-legitimate single-block descriptor should never have a CRC length that
-exceeds the block.
+I pulled this, did all the merge conflicts, and then at the end
+noticed that you had merged the broken audit garbage into this branch.
 
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Cc: stable@vger.kernel.org
-Assisted-by: Claude:claude-opus-4-6
-Assisted-by: Codex:gpt-5-4
-Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
----
-Found during a filesystem security audit.  The CRC validation
-condition in udf_read_tagged() uses OR logic: the first arm
-(descCRCLength too large) short-circuits the second arm (CRC
-comparison), so an oversized descCRCLength causes the function to
-return the buffer head without verifying the CRC.  The descriptor
-is accepted based solely on the 8-bit tag checksum.
+End result: I unpulled it all and I can't pull this branch either
+because it has that broken stuff in it.
 
-A crafted UDF image with descCRCLength set to blocksize (e.g. 2048
-on a 2048-byte-block filesystem, vs the 2032 limit) in both the
-main and reserve Volume Descriptor Sequences mounts successfully
-with corrupted descriptor bodies.
+This is why different branches should be independent things. When they
+contain each other, there's no point. One bad branch poisons the
+others.
 
-Reproduced on UML (ARCH=um, KASAN-enabled v7.0-rc7) with a
-mkudffs-generated 20 MiB image, both LVD copies patched to
-descCRCLength=2040, CRC left stale, body byte flipped, tag
-checksum recomputed.  Mount succeeds (MOUNT=0) with the corrupt
-LVD accepted.  With this patch applied, mount fails with EINVAL
-and the new "CRC length ... exceeds block size" error is logged.
-
-Reproducer details and UML console logs available on request.
-
- fs/udf/misc.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
-
-diff --git a/fs/udf/misc.c b/fs/udf/misc.c
-index 0788593b6a1d..6928e378fbbd 100644
---- a/fs/udf/misc.c
-+++ b/fs/udf/misc.c
-@@ -230,8 +230,12 @@ struct buffer_head *udf_read_tagged(struct super_block *sb, uint32_t block,
- 	}
- 
- 	/* Verify the descriptor CRC */
--	if (le16_to_cpu(tag_p->descCRCLength) + sizeof(struct tag) > sb->s_blocksize ||
--	    le16_to_cpu(tag_p->descCRC) == crc_itu_t(0,
-+	if (le16_to_cpu(tag_p->descCRCLength) + sizeof(struct tag) > sb->s_blocksize) {
-+		udf_err(sb, "block %u: CRC length %u exceeds block size\n",
-+			block, le16_to_cpu(tag_p->descCRCLength));
-+		goto error_out;
-+	}
-+	if (le16_to_cpu(tag_p->descCRC) == crc_itu_t(0,
- 					bh->b_data + sizeof(struct tag),
- 					le16_to_cpu(tag_p->descCRCLength)))
- 		return bh;
--- 
-2.53.0
-
+               Linus
