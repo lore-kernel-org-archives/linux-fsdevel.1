@@ -1,231 +1,207 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E87C3A383B
-	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 09:20:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EF122DA765
+	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 09:36:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776072050; cv=none; b=L/3zBk+eSK89TUkhb5NwO63gds3QA4hIBgsfmo4vtbYkcVlypmHUj6MFeXZmkjQE0NEHLUGSl5QQi8CIrKF/f6FwiKKflH6fJGmx/l8kgQfG3r6NZBGdDTXEz2QzF+LMy5bm/Nl1261CwPfFctr89KWx+x0xNI/GSKHrKLTsWV0=
+	t=1776073015; cv=none; b=a41P+A1jtZ0gAOThN0CEYpOSahqk4cMw85Q2KNoCNVPAfL1wHh5BTCbcO0buEReJXqJJTEHisEQkXBDmAGaBRHML7T3FOBWqvk3TNUzTmH55HiX+vUJQwVwfWWx9pTod3LQBlE5vq1uSIfopZbR61wGIiP3tMKoNCv72pDC+RUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776072050; c=relaxed/simple;
-	bh=af4SC7gxF5ARH29qhYGCZcdnSlcflSKZH1a5iNzXRoc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J65v6WlMbQOOLUymMwQSI25kASOheMky7GAxTEq2rqMEelavPvGK4BYlhOzQyn2QUzM5pHHXigFRbvcjpviCc/1EkiKzAUmdIiqvPQbB47hlmuq8bGqFGCmYM6XJOcni7VjoodZdRaif+goIpabNBLCoAeMJKlEXpbOlpzZlBc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=RRto1dxF; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=21PrhNQO; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=RRto1dxF; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=21PrhNQO; arc=none smtp.client-ip=195.135.223.130
+	s=arc-20240116; t=1776073015; c=relaxed/simple;
+	bh=QmTIoBAchIY+pe5X8DTpJXlXGK/uWBerFKCE0ptjle4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ksVasdIXYDCdOUpM8PguPRtx3BfmVLuzG2YUGcPshxF0zHigzw+glOQVKq2aYfUXCFdkfHRXveRNwHMoekWszNjJ1Uppigqrbl+rC9lmVWlnlQLk5k/Of5Ea3sP9eYrxCqY5+Qi2XzkG0e0BdelkUoFtmYz/taPQhp16j2pjyU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=t0yPqyxm; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=7Kq3htOd; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=t0yPqyxm; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=7Kq3htOd; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="RRto1dxF";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="21PrhNQO";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="RRto1dxF";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="21PrhNQO"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="t0yPqyxm";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="7Kq3htOd";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="t0yPqyxm";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="7Kq3htOd"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 57BCC6A8F9;
-	Mon, 13 Apr 2026 09:20:47 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8B5995BDDC;
+	Mon, 13 Apr 2026 09:36:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1776072047; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IvMuYDV/SvreVKJmRPiqeUuqZL90QVQqicE/blnlBr8=;
-	b=RRto1dxF17Nnwbbe84dyGPy+SSA1ILXqsMlKBggm/LmgQtugiLIbezV1pKgRUHURq8saJa
-	NSh7T/UvP9UOhBEjMSmxhAhZH+1J7+A7myJIRxIuQUsOGuVAq//iuvFzk9JBLG0035XJtw
-	dT4VkrOKgArs9VGsOyy+FvIplj1l6/w=
+	t=1776073012; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=Zpq8kjeNIvb9jFsMF9AD32hVWMZZRMxx90VRGTrvU+0=;
+	b=t0yPqyxm0oAW12yi70/aaau00c1Px7HnuExKZmFFNOXQ00PBcV1GGEHjAJPzgI+CTt3BxV
+	avgj3Ak+hUndbcdz+tcoEAAm+e/dnRjJ27Uvoo429IwlsAQ4ZpiG0sg7WzxOUo6/2AGtv2
+	X/YobycCRYwOFuEWQlT6ADy/hrg/Y4E=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1776072047;
+	s=susede2_ed25519; t=1776073012;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IvMuYDV/SvreVKJmRPiqeUuqZL90QVQqicE/blnlBr8=;
-	b=21PrhNQOfug0n0XY2YdkV4yP5V/DnPAYowlAYevwmYSoVg6k3MzWtNctVg8xZJY/XLPbM0
-	jYqTJS4l3BeADXAA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=RRto1dxF;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=21PrhNQO
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=Zpq8kjeNIvb9jFsMF9AD32hVWMZZRMxx90VRGTrvU+0=;
+	b=7Kq3htOdf0hriXwh1+IH8CM5hZOszPRo7dWj6McKMMD2ZHmbdFuLpmY+qIoRFfh+sMyWwn
+	RGh40dhy5n6ZP6CQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1776072047; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IvMuYDV/SvreVKJmRPiqeUuqZL90QVQqicE/blnlBr8=;
-	b=RRto1dxF17Nnwbbe84dyGPy+SSA1ILXqsMlKBggm/LmgQtugiLIbezV1pKgRUHURq8saJa
-	NSh7T/UvP9UOhBEjMSmxhAhZH+1J7+A7myJIRxIuQUsOGuVAq//iuvFzk9JBLG0035XJtw
-	dT4VkrOKgArs9VGsOyy+FvIplj1l6/w=
+	t=1776073012; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=Zpq8kjeNIvb9jFsMF9AD32hVWMZZRMxx90VRGTrvU+0=;
+	b=t0yPqyxm0oAW12yi70/aaau00c1Px7HnuExKZmFFNOXQ00PBcV1GGEHjAJPzgI+CTt3BxV
+	avgj3Ak+hUndbcdz+tcoEAAm+e/dnRjJ27Uvoo429IwlsAQ4ZpiG0sg7WzxOUo6/2AGtv2
+	X/YobycCRYwOFuEWQlT6ADy/hrg/Y4E=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1776072047;
+	s=susede2_ed25519; t=1776073012;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IvMuYDV/SvreVKJmRPiqeUuqZL90QVQqicE/blnlBr8=;
-	b=21PrhNQOfug0n0XY2YdkV4yP5V/DnPAYowlAYevwmYSoVg6k3MzWtNctVg8xZJY/XLPbM0
-	jYqTJS4l3BeADXAA==
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=Zpq8kjeNIvb9jFsMF9AD32hVWMZZRMxx90VRGTrvU+0=;
+	b=7Kq3htOdf0hriXwh1+IH8CM5hZOszPRo7dWj6McKMMD2ZHmbdFuLpmY+qIoRFfh+sMyWwn
+	RGh40dhy5n6ZP6CQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4D9604ADED;
-	Mon, 13 Apr 2026 09:20:47 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7F8824ADFE;
+	Mon, 13 Apr 2026 09:36:52 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 3V/vEm+13GkxSAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 13 Apr 2026 09:20:47 +0000
+	id xCMtHzS53GlEWAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 13 Apr 2026 09:36:52 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 0A735A0AFF; Mon, 13 Apr 2026 11:20:43 +0200 (CEST)
-Date: Mon, 13 Apr 2026 11:20:43 +0200
+	id 223CAA0AFF; Mon, 13 Apr 2026 11:36:44 +0200 (CEST)
 From: Jan Kara <jack@suse.cz>
-To: Zizhi Wo <wozizhi@huawei.com>
-Cc: viro@zeniv.linux.org.uk, jack@suse.com, brauner@kernel.org, 
-	bcrl@kvack.org, linux-fsdevel@vger.kernel.org, linux-aio@kvack.org, 
-	linux-kernel@vger.kernel.org, yangerkun@huawei.com, chengzhihao1@huawei.com, 
-	Jens Axboe <axboe@kernel.dk>
-Subject: Re: [PATCH] fs: aio: set VMA_DONTCOPY_BIT in mmap to fix
- NULL-pointer-dereference error
-Message-ID: <rv7yz6zjyfv66u7yncwuzhxe4ov7om3uhkbndqvxy7avn5tjuk@f4b3pxx5blxh>
-References: <20260413010814.548568-1-wozizhi@huawei.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Tejun Heo <tj@kernel.org>,
+	<linux-fsdevel@vger.kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	stable@vger.kernel.org
+Subject: [PATCH] writeback: Fix use after free in inode_switch_wbs_work_fn()
+Date: Mon, 13 Apr 2026 11:36:19 +0200
+Message-ID: <20260413093618.17244-2-jack@suse.cz>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260413010814.548568-1-wozizhi@huawei.com>
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-0.21 / 50.00];
-	SEM_URIBL(3.50)[huaweicloud.com:email];
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3335; i=jack@suse.cz; h=from:subject; bh=QmTIoBAchIY+pe5X8DTpJXlXGK/uWBerFKCE0ptjle4=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBp3LkTRaCXLIFbJ8U/1etB83+UZMczMACbZ7lgK m8rBaOIUciJATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCady5EwAKCRCcnaoHP2RA 2QlMCADVs8GlstAYuGbk93Jm7pRf/GmDp6S8GJwD0eyjl8BDbjXAvQoTidKBa6bo0jWHxu51K7f zonwUgBW13XC0j+I4za5U3Kk7ULrFGEzibI+qHLc2WMXNV3LAtddN03RHDGm086uql0L9S1NvFG rGfn+B8WuG01tC8KsQHUYnlT4qXv2xFvdwnFxuIA8KZs5RWaIcvGG7PTQFW2Jg0wjQ07wsI7t2e 4G9HOIaK/EvqA01wEW+UU9lk6e+djG3lPwSlViDrQVA1c/XcV63U3u9RJB9y44Sck7fOFFqP5Bk PI0bBAeoW54WhA9C3E6BfBaI/Y8B30uOkGHCnWLxk0pkok/p
+X-Developer-Key: i=jack@suse.cz; a=openpgp; fpr=93C6099A142276A28BBE35D815BC833443038D8C
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-2.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	BAD_REP_POLICIES(0.10)[];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	R_DKIM_ALLOW(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	ARC_NA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	TO_DN_SOME(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MISSING_XM_UA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[huaweicloud.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:email,suse.cz:dkim,suse.cz:email]
-X-Spamd-Bar: /
-X-Rspamd-Queue-Id: 57BCC6A8F9
-X-Rspamd-Action: no action
+	RCVD_COUNT_THREE(0.00)[3];
+	RCVD_TLS_LAST(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCPT_COUNT_FIVE(0.00)[5];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:mid,suse.cz:email,imap1.dmz-prg2.suse.org:helo]
 X-Spam-Flag: NO
-X-Spam-Score: -0.21
+X-Spam-Score: -2.80
 X-Spam-Level: 
 
-On Mon 13-04-26 09:08:14, Zizhi Wo wrote:
-> [BUG]
-> Recently, our internal syzkaller testing uncovered a null pointer
-> dereference issue:
-> BUG: kernel NULL pointer dereference, address: 0000000000000000
-> ...
-> [   51.111664]  filemap_read_folio+0x25/0xe0
-> [   51.112410]  filemap_fault+0xad7/0x1250
-> [   51.113112]  __do_fault+0x4b/0x460
-> [   51.113699]  do_pte_missing+0x5bc/0x1db0
-> [   51.114250]  ? __pte_offset_map+0x23/0x170
-> [   51.114822]  __handle_mm_fault+0x9f8/0x1680
-> [   51.115408]  handle_mm_fault+0x24c/0x570
-> [   51.115958]  do_user_addr_fault+0x226/0xa50
-> ...
-> Crash analysis showed the file involved was an AIO ring file.
-> 
-> [CAUSE]
-> 	PARENT process		CHILD process
-> t=0	io_setup(1, &ctx)
-> 	[access ctx addr]
-> 	fork()
-> 	io_destroy
-> 	  vm_munmap // not affect child vma
-> 	  percpu_ref_put
-> 	  ...
-> 	    put_aio_ring_file
-> t=1				[access ctx addr]	// pagefault
-> 				...
-> 				  __do_fault
-> 				    filemap_fault
-> 				      max_idx = DIV_ROUND_UP(i_size_read(inode), PAGE_SIZE)
-> t=2	      truncate_setsize
-> 	        truncate_pagecache
-> t=3				      filemap_get_folio	// no folio, create folio
-> 				      __filemap_get_folio(..., FGP_CREAT, ...)	// page_not_uptodate
-> 				      filemap_read_folio(file, mapping->a_ops->read_folio, folio) // oops!
-> 
-> At t=0, the parent process calls io_setup and then fork. The child process
-> gets its own VMA but without any PTEs. The parent then calls io_destroy.
-> Before i_size is truncated to 0, at t=1 the child process accesses this AIO
-> ctx address and triggers a pagefault. After the max_idx check passes, at
-> t=2 the parent calls truncate_setsize and truncate_pagecache. At t=3 the
-> child fails to obtain the folio, falls into the "page_not_uptodate" path,
-> and hits this problem because AIO does not implement "read_folio".
-> 
-> [Fix]
-> Fix this by marking the AIO ring buffer VMA with VM_DONTCOPY so
-> that fork()'s dup_mmap() skips it entirely. This is the correct
-> semantic because:
-> 
-> 1) The child's ioctx_table is already reset to NULL by mm_init_aio() during
-> fork(), so the child has no AIO context and no way to perform any AIO
-> operations on this mapping.
-> 2) The AIO ring VMA is only meaningful in conjunction with its associated
-> kioctx, which is never inherited across fork(). So child process with no
-> AIO context has no legitimate reason to access the ring buffer. Delivering
-> SIGSEGV on such an erroneous access is preferable to a kernel crash.
-> 
-> Signed-off-by: Zizhi Wo <wozizhi@huaweicloud.com>
+inode_switch_wbs_work_fn() has a loop like:
 
-Thanks for the fix! I agree it would have to be a rather contrived setup to
-rely on AIO ringbuffer being inherited by fork(2) for the reasons you
-mention above. Plus I think AIO ringbuffer is mostly a legacy thing these
-days with people moving towards io_uring so the simpler we can make the
-code the better. So I'm OK with trying this simple fix and seeing whether
-somebody complains. Let me add Jens to CC just in case he's aware of a
-situation where this could be problematic.  Feel free to add:
+  wb_get(new_wb);
+  while (1) {
+    list = llist_del_all(&new_wb->switch_wbs_ctxs);
+    /* Nothing to do? */
+    if (!list)
+      break;
+    ... process the items ...
+  }
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+Now adding of items to the list looks like:
 
-								Honza
+wb_queue_isw()
+  if (llist_add(&isw->list, &wb->switch_wbs_ctxs))
+    queue_work(isw_wq, &wb->switch_work);
 
-> ---
->  fs/aio.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/fs/aio.c b/fs/aio.c
-> index 4fe163b8bf67..74e0e40b9636 100644
-> --- a/fs/aio.c
-> +++ b/fs/aio.c
-> @@ -397,11 +397,11 @@ static const struct vm_operations_struct aio_ring_vm_ops = {
->  #endif
->  };
->  
->  static int aio_ring_mmap_prepare(struct vm_area_desc *desc)
->  {
-> -	vma_desc_set_flags(desc, VMA_DONTEXPAND_BIT);
-> +	vma_desc_set_flags(desc, VMA_DONTEXPAND_BIT, VMA_DONTCOPY_BIT);
->  	desc->vm_ops = &aio_ring_vm_ops;
->  	return 0;
->  }
->  
->  static const struct file_operations aio_ring_fops = {
-> -- 
-> 2.39.2
-> 
+Because inode_switch_wbs_work_fn() loops when processing isw items, it
+can happen that wb->switch_work is pending while wb->switch_wbs_ctxs is
+empty. This is a problem because in that case wb can get freed (no isw
+items -> no wb reference) while the work is still pending causing
+use-after-free issues.
+
+We cannot just fix this by cancelling work when freeing wb because that
+could still trigger problematic 0 -> 1 transitions on wb refcount due to
+wb_get() in inode_switch_wbs_work_fn(). It could be all handled with
+more careful code but that seems unnecessarily complex so let's avoid
+that until it is proven that the looping actually brings practical
+benefit. Just remove the loop from inode_switch_wbs_work_fn() instead.
+That way when wb_queue_isw() queues work, we are guaranteed we have
+added the first item to wb->switch_wbs_ctxs and nobody is going to
+remove it (and drop the wb reference it holds) until the queued work
+runs.
+
+Fixes: e1b849cfa6b6 ("writeback: Avoid contention on wb->list_lock when switching inodes")
+CC: stable@vger.kernel.org
+Signed-off-by: Jan Kara <jack@suse.cz>
+---
+ fs/fs-writeback.c | 36 +++++++++++++++++++-----------------
+ 1 file changed, 19 insertions(+), 17 deletions(-)
+
+diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
+index 3c75ee025bda..d63baa1b6fec 100644
+--- a/fs/fs-writeback.c
++++ b/fs/fs-writeback.c
+@@ -570,28 +570,30 @@ void inode_switch_wbs_work_fn(struct work_struct *work)
+ 	struct inode_switch_wbs_context *isw, *next_isw;
+ 	struct llist_node *list;
+ 
++	list = llist_del_all(&new_wb->switch_wbs_ctxs);
+ 	/*
+-	 * Grab out reference to wb so that it cannot get freed under us
++	 * Nothing to do? That would be a problem as references held by isw
++	 * items protect wb from freeing...
++	 */
++	if (WARN_ON_ONCE(!list))
++		return;
++
++	/*
++	 * Grab our reference to wb so that it cannot get freed under us
+ 	 * after we process all the isw items.
+ 	 */
+ 	wb_get(new_wb);
+-	while (1) {
+-		list = llist_del_all(&new_wb->switch_wbs_ctxs);
+-		/* Nothing to do? */
+-		if (!list)
+-			break;
+-		/*
+-		 * In addition to synchronizing among switchers, I_WB_SWITCH
+-		 * tells the RCU protected stat update paths to grab the i_page
+-		 * lock so that stat transfer can synchronize against them.
+-		 * Let's continue after I_WB_SWITCH is guaranteed to be
+-		 * visible.
+-		 */
+-		synchronize_rcu();
++	/*
++	 * In addition to synchronizing among switchers, I_WB_SWITCH
++	 * tells the RCU protected stat update paths to grab the i_page
++	 * lock so that stat transfer can synchronize against them.
++	 * Let's continue after I_WB_SWITCH is guaranteed to be
++	 * visible.
++	 */
++	synchronize_rcu();
+ 
+-		llist_for_each_entry_safe(isw, next_isw, list, list)
+-			process_inode_switch_wbs(new_wb, isw);
+-	}
++	llist_for_each_entry_safe(isw, next_isw, list, list)
++		process_inode_switch_wbs(new_wb, isw);
+ 	wb_put(new_wb);
+ }
+ 
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.51.0
+
