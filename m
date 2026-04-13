@@ -1,93 +1,93 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4635B320393
-	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 17:14:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8964D346A1C
+	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 17:17:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.180
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776100470; cv=pass; b=pk3CvobO4XMo1gA7sq2DRaWdBWqWfs/XgUzBUk0ML02j7ZiffDl+KLZayHOe24rIw9OlctB+ewM5Zzt5yV8PxUYtA3tlMdYHcmplVn4mQAUjAJawZfN1gXQq8HxNiQc8qbFzuhAUxk9LMvCux81f9bdQvCgjHYsj22QbR1Bt4cI=
+	t=1776100626; cv=pass; b=dhRurXb5I4GTzeZ71yiKVU1ivM3RWpjKB0/bkWmPjTvLEBOBuYGs/0iy8Tq2OF8F2b505swgo4kQ83dtRNBCFmTbfEbvHXwWULAy+Zs9mgsTij5qoGbbhFvMJlZ4ADAdrJdOJg31aWpaG7Biht/9VfHiQlzv1Bohbfqwq2kxjRk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776100470; c=relaxed/simple;
-	bh=VEo/oE2HvhgNYpPq6jIVYwyaLzkrrSIVz4Dd73v+Fh4=;
+	s=arc-20240116; t=1776100626; c=relaxed/simple;
+	bh=Z+b0ZECAqJfNW/F2wJOeNwpfdYXiYK+ERVdEdDe+Zms=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=j1kceiYFdI0CuQKJKXMjjprVd/14JS2fFHZKlutY/5IqpdyMQ4Dysbs3xbyywGhc4w4R3G2Dmbn0O2dtcGyQppajO/2AiinB18rCBeokRtwevkPBbjvNBeCj44FbN37WlpJa+N+QKAO0tkAsd6ZMNRfNyhqDae7CNW4bTCUWhNY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Yj5z+on6; arc=pass smtp.client-ip=209.85.210.172
+	 To:Cc:Content-Type; b=GX0oHiQs+cFRrE+6+0TcgOljwxhVw3SavvNRTP2g44GqaOKdzdkC/NVavkOClI6EkUtHgKfCmCbBvefpNUCu5Lt67BHVzGKIfbGt3Dvw6voiJZ0x4JIA5M9p8i8nWFHGu2PUQLRIm3qZmUHm5+PqOQChCRxD39SAw8ZWQQx1LiQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mg9yOP+a; arc=pass smtp.client-ip=209.85.210.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yj5z+on6"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-82f344e880bso1030656b3a.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 10:14:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776100468; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mg9yOP+a"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-8296dabef74so4726772b3a.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 10:17:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776100624; cv=none;
         d=google.com; s=arc-20240605;
-        b=lVMNAZpYgnbXhegOs1z0Lg1JjCKfPBllQtc2oc+JQwktTzPPmk/qvUQwiUgpzjyQuB
-         BKH5kWAFM3HwswwzN1L2Bkpr0+R5Vw2gfK9EbUKjohEmZP9e1N+uAu2LwXMhpnjj52hk
-         ugAfe1LK9eVlt2LvXKuqETqWNEg2gtyFoMbrq9OC2X5qjVp9ez2kf7FUU08Z/t83JPsp
-         P51AxE/Os3wY1zeGtiq9bLGlgwn2Xy91M4OYwlfAhWNkLYmXTDeGjwCNGY22T3PMx/w2
-         4H1EGes/9UlqEq0iHW2f9LymdffzbboDikjdpp4jx4T4hs5vJSI6deJNGZcIUH1oadS+
-         OeRg==
+        b=aEYCRV/7DQGwlh6GJQRIY/WISI4hf0HCUGgzjLdR+lI32AomaJ5nsYhTQrlDSLCKrl
+         tNP/rxYnAs/3BiV1LiHRGutoLx59jgbVe91CRQKsaD4nHVo44CgydTJ+CxB7glzTRIna
+         YToq9t8EF4iFFzkDlbCnm8jYbfYdQE+XbRW5uuj5toixzKLS0MRv6tnCP5rY/QlGeM/5
+         v6PEDBRjMK9pa7i/GcH1+DFABTJj4ZXUCUOqI/EZ3Fr0azyhJfcR3ZUr+A8qQDmLnmGz
+         IA8OXA6C1qPsIHzkcPpxafF06Lq48lHkxdlekUVyV7qYKiTOhYtn3MIdhkYcN2iDWe6r
+         ExRg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=QygrDBL2RtJkB6vENTKE5mRPBFDruU3+BPQuEukfRvo=;
-        fh=12bzHyG/5+/k5EJNuuqeMVqIw0HSb6U+4Ft8WPgo540=;
-        b=GIdLfIrO+jSOZrBSQai1bVv3jJfAOXihwMBxiVAgIYOuNL6eTjd4NbDOEDE4i1DhQx
-         N2pHbC0T5lFI/Uk1GHD+moakMYqw+A7yu+A00KhVj2JzMF3LOdlw6brnSYqprtR6YEmf
-         OirOh4ylfwin1W8CdMDBs+p2h3tHOwqLPVcHlOjJYhZoOi6WtQrGBuUc5VqAx5dYC3MT
-         iqAYWyQ7iZKwf63SQlU/B4HuJqafPDVS4gX24F6VYbhSMIpiW5/875vIyKIxtoU0Keq8
-         Qv6L9ouMQ7cfeGAuQkzpptgjf47voOlorU7Dc9m6IJLb3/LRQgJjq10i6ZmIfTwTsmiI
-         Qysw==;
+        bh=BRAbh5NTmH7fPoUJt2iXhkljH90jFoJ00lEuAgJuvXo=;
+        fh=g11HIRBYaICwDYymUEqcxECZdifE1n5T9SqvsG1XmSg=;
+        b=dfvDvcSHIlD93lG9V0VIggm2qYzg0neusc5r+WsWc9t640zTbdzx5pWDuIoObyn/3Z
+         WiN++QsR1tX9EtHXpOfxaMsd5Mo47ym4bnFpEFIslivEfQFCvtjKW0Se1X+qihI9IFjp
+         dzAlEvJRvRKZtd04P9Oj123hJwdr93fxYM+K4kYxjD6xWAft6doiCI+3Nwo1GMwS3qsB
+         uB1TYJv9uvV3dELfej3r+2N3ZrUgoCW1ijHAEr4bpA/uP/XqqFzhlreHpNVDhAIk4dnQ
+         Ztx6NMXdZHll3Lu3vAN8U+PNt0qPcZ03wRwBlQO5qGQ5xMLyRAPnmDCi7WAOHLicsUum
+         YCrQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776100468; x=1776705268; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1776100624; x=1776705424; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QygrDBL2RtJkB6vENTKE5mRPBFDruU3+BPQuEukfRvo=;
-        b=Yj5z+on6aB6E7BPFj7kEZrEgqUQPRAUhfKXR9lIb8t4ad9wuu7nm/sdjTgxouuejWb
-         Ep3iY61f3J0daxpiTE8XxYT5kARfGQ3zmfF8UJo6/PEXOxK26FUaCe9TxnFIDCz9/ulB
-         wdFA2ejEu92zqxARlHk60AgQSzmXmB4+adbvp6Kf9sbcfPE9GBaNqiRz70N9WuRmTLqJ
-         cD83cbuXu22Jzmydt3Aw4Uz+RSL9yt2SES8PzphGIIvES+I3oHhns21MwdHWGkJXiLfc
-         3DPLVhl5Pr0I9D1hVBkRywuQXk6+rc5Xpo8VSkW5xxv3wPOiUwurizZfyBBjVar9rT2z
-         U/lw==
+        bh=BRAbh5NTmH7fPoUJt2iXhkljH90jFoJ00lEuAgJuvXo=;
+        b=mg9yOP+aAdi9JL4gAaBghM3CSTkqAHQhe/NqMu/v5a4EKu/UYxDhF22zW2WGJXB4vb
+         7LtCysAvS5QvrEo5JrbLKKiepmxSwrWwJgDdC8oRD/7+0RVe2pGDnXlFpSCsQ+DI2VFm
+         /SSljwPCGkOSp29sUFIycWEWEbL5TqJkGAOrPq3OlOzuBiNaAE5JAqTQ3S/buc92OKw9
+         TLFzsW7lFbsAaY3UpljzYcaG88O1rqy8VwHK1WCUnoUqtpfHVQhAcU7iGYHHUW3s503d
+         hcw3gKI/ykxXG8EdqTOEu2IDAK8yf1uagWc9i6pWdM0eRTr+pSXt5nqIKBxCIy5KorQn
+         Ua6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776100468; x=1776705268;
+        d=1e100.net; s=20251104; t=1776100624; x=1776705424;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=QygrDBL2RtJkB6vENTKE5mRPBFDruU3+BPQuEukfRvo=;
-        b=rLLUuH+KUCaRZgnQSv1p1bqqmTMOu5U3ZRJKbJlWVFDRpJQjkeZWeKZWdTKyZCEUdZ
-         /R7lwnYeSX2lCZC9JiCEyyo6vr0Y7OUHriSmjTmOAzQskG8bCK2gdDWbEyllt5IpteQj
-         iCJNre0zPo1P9SJ6nWQQ71Io7j9z3AEA9mFoVVhm7yPzWawBIc8NNIs1gYk8A+JgnP/N
-         qmsDB46lT7LYh1B9nFjD1h5LR9Arae8XFFV58y+PgxSOOkZZHgIhzfugja5lMs1mQ8V3
-         pw7jNW1tmavgFYC2UVFfqjdX/77BY0dvn7qs3SRc/v2sz8ycvxmCJZTt0/SWl4idu3O/
-         vlNg==
-X-Forwarded-Encrypted: i=1; AFNElJ9ym3zeikWWQhGp37V2iiSOHHZA4BuIxjIP3FbWaB5E6KqNiYV89OBhGw8Wb4yclH/YZnV+MzSTzjDIqyl8@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy1BJs2MYZifr1y2MF90AwyH8Q5hnBQljl+G4rbaagtjlxjiMpp
-	mUZ1ryzcmbBTSCwBoAiZGtdjc4fwe55u9BlWgH3eLc69qd/wRbeUkW+luQLGmKHmCvYgr8ydLSB
-	OPVrtLRoeRtNTsynz5IpCHiGEsuG08FQ=
-X-Gm-Gg: AeBDiet5AcByrEbkLjcFft77GYy5E4aaYn+XhJq+nDg62O6Gig08IQQhLwhbOqdBt0H
-	pPXPcWPoAFm0mNUHneFrIxhrWtLXFsG1BpQRpSN7FFdQHUxk5RA5MNJgQpRsRcAwU27nrX5yLqs
-	K5vlchNrcMT2kJuGAoAGPE8lXkfZMTLbT1Sx9R86TI+Y3appjcB86W+SmakKXLEdTjOkj+7Bf0N
-	i3P5aVkiqyz05W2LGjrMMvJSS8wJP14ILObbQH/gy6r66NvZuDoOQlAoF+DTIqrMFGaiAKTeSzo
-	fD5hwb8=
-X-Received: by 2002:a05:6a00:1ad1:b0:823:d58:c4ab with SMTP id
- d2e1a72fcca58-82f0c1d9e56mr14680702b3a.2.1776100468322; Mon, 13 Apr 2026
- 10:14:28 -0700 (PDT)
+        bh=BRAbh5NTmH7fPoUJt2iXhkljH90jFoJ00lEuAgJuvXo=;
+        b=tTg9fhTi8cFr/b0xpyXBIJrYmsa0Mf10BoreIUqTnNT/B1b3baIhfeO05VP7LMxByW
+         /qtKy3ySZVhGh03fCbOCS9g5fitDSmyOCV+R1MsxgtavKoktEeytyvuZRbsF80a0KH99
+         3UCzd9tXF4O4sPeCZ2FFSFRpVOxrNMW62BagTy9JRub/9a0xefBnxM+FH0/uCGtYUFQC
+         dFLEGBzoe6knWiM8iTupQaXJUNBK/PaNGRCE4p+VCL4p90mkqLtV5xU5fkNFzIkcAXyd
+         p+eMR3mq3MADZw4HvRdMzhb1FXW+MlD63xfIfJOWDnuXlwOiLChtTRxfi9baNdyRWaBv
+         J9iQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/ynEb960JhwCek39UcnO0TyvkQFRohMgVrMMHq89Z8Qfah2fuTOCm1HtMHG30J+Owr3O/OglKwUO7/NMk+@vger.kernel.org
+X-Gm-Message-State: AOJu0YyruS+2Py57SuGUeWoGAFdLgUzZt8Ibli9zBQhs0eTL8P0XcxVA
+	xqNv1tbuaIeIKCkjW37pC9QJTunqZfkKuZSYeM4kGFLQtP8GLQ/90YWPECrUXI3+QbAQ3U8f+Kz
+	s49JmJhB/sSCCJP6sIYD5U2bjx5wiE7Y=
+X-Gm-Gg: AeBDievAy894dsIDCwOWp7d+s8wFWK4k4XekV46jZAg1zrGauJ/i2PkXE8/twlLNm6e
+	lbJUKT4gbwsknX4ABSwMXc897mIJiYB52EZ1pQBTl/mrDUg0ZYjdDfZJJpuaoX/W6VILBdSvbhx
+	uJskwB3TbpVVpfZhSRiTRqoB8+rXxdAqWjuXMwKpm6fd7ntG5VrvZ9T0wpMcZhF+fyZgnZorZXi
+	czxTCJgW/M/YdzxJnV/xcMzEnROdcipHJZCLhyRUmXDOC0a3PqMRMoOqNhUqtE2OioHAI18DuPN
+	a5DUklY=
+X-Received: by 2002:a05:6a00:1f0e:b0:82f:5125:a327 with SMTP id
+ d2e1a72fcca58-82f5125a71emr888914b3a.27.1776100623918; Mon, 13 Apr 2026
+ 10:17:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260318184400.3502908-1-song@kernel.org> <20260318184400.3502908-2-song@kernel.org>
-In-Reply-To: <20260318184400.3502908-2-song@kernel.org>
+References: <20260318184400.3502908-1-song@kernel.org> <20260318184400.3502908-5-song@kernel.org>
+In-Reply-To: <20260318184400.3502908-5-song@kernel.org>
 From: Stephen Smalley <stephen.smalley.work@gmail.com>
-Date: Mon, 13 Apr 2026 13:14:17 -0400
-X-Gm-Features: AQROBzBriwFuNxM2IXwsxZCb4zVhy8FAovjmyaSwr6r7rMOyTsP9GenvDd6CfXg
-Message-ID: <CAEjxPJ5UU9riMZt57bODXHpxPLn2RKGJ02r7HWvdD979a-2ycA@mail.gmail.com>
-Subject: Re: [PATCH 1/7] lsm: Add granular mount hooks to replace security_sb_mount
+Date: Mon, 13 Apr 2026 13:16:52 -0400
+X-Gm-Features: AQROBzD6lyXWHoKW5RWqw1gdlCZn4rvcVErICJ7ENPulk3A0gDivj2NjCp7Gp1A
+Message-ID: <CAEjxPJ5iDbnZj9gXb=GHORoXGwRP4EG0yUEH8MPmGqJWZEONWQ@mail.gmail.com>
+Subject: Re: [PATCH 4/7] selinux: Convert from sb_mount to granular mount hooks
 To: Song Liu <song@kernel.org>
 Cc: linux-security-module@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
 	selinux@vger.kernel.org, apparmor@lists.ubuntu.com, paul@paul-moore.com, 
@@ -101,431 +101,105 @@ Content-Transfer-Encoding: quoted-printable
 
 On Wed, Mar 18, 2026 at 2:44=E2=80=AFPM Song Liu <song@kernel.org> wrote:
 >
-> Add six new LSM hooks for mount operations:
+> Replace selinux_mount() with granular mount hooks, preserving the
+> same permission checks:
 >
-> - mount_bind(from, to, recurse): bind mount with pre-resolved
->   struct path for source and destination.
-> - mount_new(fc, mp, mnt_flags, flags, data): new mount, called after
->   mount options are parsed. The flags and data parameters carry the
->   original mount(2) flags and data for LSMs that need them (AppArmor,
->   Tomoyo).
-> - mount_remount(fc, mp, mnt_flags, flags, data): filesystem remount,
->   called after mount options are parsed into the fs_context.
-> - mount_reconfigure(mp, mnt_flags, flags): mount flag reconfiguration
->   (MS_REMOUNT|MS_BIND path).
-> - mount_move(from, to): move mount with pre-resolved paths.
-> - mount_change_type(mp, ms_flags): propagation type changes.
+> - mount_bind, mount_new, mount_change_type: FILE__MOUNTON
+> - mount_remount, mount_reconfigure: FILESYSTEM__REMOUNT
+> - mount_move: FILE__MOUNTON (reuses selinux_move_mount)
 >
-> These replace the monolithic security_sb_mount() which conflates
-> multiple distinct operations into a single hook, and suffers from
-> TOCTOU issues where LSMs re-resolve string-based dev_name via
-> kern_path().
->
-> The mount_move hook is added alongside the existing move_mount hook.
-> During the transition, LSMs register for both hooks. The move_mount
-> hook will be removed once all LSMs have been converted.
->
-> Some LSMs, such as apparmor and tomoyo, audit the original input passed
-> in the mount syscall. To keep the same behavior, argument data and flags
-> are passed in do_* functions. These can be removed if these LSMs no
-> longer need these information.
->
-> All new hooks are registered as sleepable BPF LSM hooks.
+> The flags and data parameters are unused by SELinux.
 >
 > Code generated with the assistance of Claude, reviewed by human.
 >
 > Signed-off-by: Song Liu <song@kernel.org>
 
+Not expecting you to do this, but after this lands, I think it would
+make sense to revisit the SELinux checks and further specialize them
+while providing backward compatibility.
+
 Reviewed-by: Stephen Smalley <stephen.smalley.work@gmail.com>
-Tested-by: Stephen Smalley <stephen.smalley.work@gmail.com # for selinux on=
-ly
+Tested-by: Stephen Smalley <stephen.smalley.work@gmail.com
 
 > ---
->  fs/namespace.c                |  35 ++++++++++--
->  include/linux/lsm_hook_defs.h |  12 ++++
->  include/linux/security.h      |  50 +++++++++++++++++
->  kernel/bpf/bpf_lsm.c          |   7 +++
->  security/security.c           | 101 ++++++++++++++++++++++++++++++++++
->  5 files changed, 199 insertions(+), 6 deletions(-)
+>  security/selinux/hooks.c | 47 ++++++++++++++++++++++++++++++----------
+>  1 file changed, 35 insertions(+), 12 deletions(-)
 >
-> diff --git a/fs/namespace.c b/fs/namespace.c
-> index 854f4fc66469..de33070e514a 100644
-> --- a/fs/namespace.c
-> +++ b/fs/namespace.c
-> @@ -2875,6 +2875,10 @@ static int do_change_type(const struct path *path,=
- int ms_flags)
->         if (!type)
->                 return -EINVAL;
->
-> +       err =3D security_mount_change_type(path, ms_flags);
-> +       if (err)
-> +               return err;
-> +
->         guard(namespace_excl)();
->
->         err =3D may_change_propagation(mnt);
-> @@ -3007,6 +3011,10 @@ static int do_loopback(const struct path *path, co=
-nst char *old_name,
->         if (err)
->                 return err;
->
-> +       err =3D security_mount_bind(&old_path, path, recurse);
-> +       if (err)
-> +               return err;
-> +
->         if (mnt_ns_loop(old_path.dentry))
->                 return -EINVAL;
->
-> @@ -3319,7 +3327,8 @@ static void mnt_warn_timestamp_expiry(const struct =
-path *mountpoint,
->   * superblock it refers to.  This is triggered by specifying MS_REMOUNT|=
-MS_BIND
->   * to mount(2).
->   */
-> -static int do_reconfigure_mnt(const struct path *path, unsigned int mnt_=
-flags)
-> +static int do_reconfigure_mnt(const struct path *path, unsigned int mnt_=
-flags,
-> +                             unsigned long flags)
->  {
->         struct super_block *sb =3D path->mnt->mnt_sb;
->         struct mount *mnt =3D real_mount(path->mnt);
-> @@ -3334,6 +3343,10 @@ static int do_reconfigure_mnt(const struct path *p=
-ath, unsigned int mnt_flags)
->         if (!can_change_locked_flags(mnt, mnt_flags))
->                 return -EPERM;
->
-> +       ret =3D security_mount_reconfigure(path, mnt_flags, flags);
-> +       if (ret)
-> +               return ret;
-> +
->         /*
->          * We're only checking whether the superblock is read-only not
->          * changing it, so only take down_read(&sb->s_umount).
-> @@ -3357,7 +3370,7 @@ static int do_reconfigure_mnt(const struct path *pa=
-th, unsigned int mnt_flags)
->   * on it - tough luck.
->   */
->  static int do_remount(const struct path *path, int sb_flags,
-> -                     int mnt_flags, void *data)
-> +                     int mnt_flags, void *data, unsigned long flags)
->  {
->         int err;
->         struct super_block *sb =3D path->mnt->mnt_sb;
-> @@ -3384,6 +3397,9 @@ static int do_remount(const struct path *path, int =
-sb_flags,
->         fc->oldapi =3D true;
->
->         err =3D parse_monolithic_mount_data(fc, data);
-> +       if (!err)
-> +               err =3D security_mount_remount(fc, path, mnt_flags, flags=
-,
-> +                                           data);
->         if (!err) {
->                 down_write(&sb->s_umount);
->                 err =3D -EPERM;
-> @@ -3713,6 +3729,10 @@ static int do_move_mount_old(const struct path *pa=
-th, const char *old_name)
->         if (err)
->                 return err;
->
-> +       err =3D security_mount_move(&old_path, path);
-> +       if (err)
-> +               return err;
-> +
->         return do_move_mount(&old_path, path, 0);
+> diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
+> index d8224ea113d1..415b5541ab9e 100644
+> --- a/security/selinux/hooks.c
+> +++ b/security/selinux/hooks.c
+> @@ -2778,19 +2778,37 @@ static int selinux_sb_statfs(struct dentry *dentr=
+y)
+>         return superblock_has_perm(cred, dentry->d_sb, FILESYSTEM__GETATT=
+R, &ad);
 >  }
 >
-> @@ -3791,7 +3811,7 @@ static int do_new_mount_fc(struct fs_context *fc, c=
-onst struct path *mountpoint,
->   */
->  static int do_new_mount(const struct path *path, const char *fstype,
->                         int sb_flags, int mnt_flags,
-> -                       const char *name, void *data)
-> +                       const char *name, void *data, unsigned long flags=
-)
+> -static int selinux_mount(const char *dev_name,
+> -                        const struct path *path,
+> -                        const char *type,
+> -                        unsigned long flags,
+> -                        void *data)
+> +static int selinux_mount_bind(const struct path *from, const struct path=
+ *to,
+> +                             bool recurse)
 >  {
->         struct file_system_type *type;
->         struct fs_context *fc;
-> @@ -3835,6 +3855,9 @@ static int do_new_mount(const struct path *path, co=
-nst char *fstype,
->                 err =3D parse_monolithic_mount_data(fc, data);
->         if (!err && !mount_capable(fc))
->                 err =3D -EPERM;
+> -       const struct cred *cred =3D current_cred();
+> +       return path_has_perm(current_cred(), to, FILE__MOUNTON);
+> +}
+>
+> -       if (flags & MS_REMOUNT)
+> -               return superblock_has_perm(cred, path->dentry->d_sb,
+> -                                          FILESYSTEM__REMOUNT, NULL);
+> -       else
+> -               return path_has_perm(cred, path, FILE__MOUNTON);
+> +static int selinux_mount_new(struct fs_context *fc, const struct path *m=
+p,
+> +                            int mnt_flags, unsigned long flags, void *da=
+ta)
+> +{
+> +       return path_has_perm(current_cred(), mp, FILE__MOUNTON);
+> +}
 > +
-> +       if (!err)
-> +               err =3D security_mount_new(fc, path, mnt_flags, flags, da=
-ta);
->         if (!err)
->                 err =3D do_new_mount_fc(fc, path, mnt_flags);
->
-> @@ -4146,9 +4169,9 @@ int path_mount(const char *dev_name, const struct p=
-ath *path,
->                             SB_I_VERSION);
->
->         if ((flags & (MS_REMOUNT | MS_BIND)) =3D=3D (MS_REMOUNT | MS_BIND=
-))
-> -               return do_reconfigure_mnt(path, mnt_flags);
-> +               return do_reconfigure_mnt(path, mnt_flags, flags);
->         if (flags & MS_REMOUNT)
-> -               return do_remount(path, sb_flags, mnt_flags, data_page);
-> +               return do_remount(path, sb_flags, mnt_flags, data_page, f=
-lags);
->         if (flags & MS_BIND)
->                 return do_loopback(path, dev_name, flags & MS_REC);
->         if (flags & (MS_SHARED | MS_PRIVATE | MS_SLAVE | MS_UNBINDABLE))
-> @@ -4157,7 +4180,7 @@ int path_mount(const char *dev_name, const struct p=
-ath *path,
->                 return do_move_mount_old(path, dev_name);
->
->         return do_new_mount(path, type_page, sb_flags, mnt_flags, dev_nam=
-e,
-> -                           data_page);
-> +                           data_page, flags);
->  }
->
->  int do_mount(const char *dev_name, const char __user *dir_name,
-> diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.=
-h
-> index 8c42b4bde09c..6bb67059fb43 100644
-> --- a/include/linux/lsm_hook_defs.h
-> +++ b/include/linux/lsm_hook_defs.h
-> @@ -81,6 +81,18 @@ LSM_HOOK(int, 0, sb_clone_mnt_opts, const struct super=
-_block *oldsb,
->          unsigned long *set_kern_flags)
->  LSM_HOOK(int, 0, move_mount, const struct path *from_path,
->          const struct path *to_path)
-> +LSM_HOOK(int, 0, mount_bind, const struct path *from, const struct path =
-*to,
-> +        bool recurse)
-> +LSM_HOOK(int, 0, mount_new, struct fs_context *fc, const struct path *mp=
-,
-> +        int mnt_flags, unsigned long flags, void *data)
-> +LSM_HOOK(int, 0, mount_remount, struct fs_context *fc,
-> +        const struct path *mp, int mnt_flags, unsigned long flags,
-> +        void *data)
-> +LSM_HOOK(int, 0, mount_reconfigure, const struct path *mp,
-> +        unsigned int mnt_flags, unsigned long flags)
-> +LSM_HOOK(int, 0, mount_move, const struct path *from_path,
-> +        const struct path *to_path)
-> +LSM_HOOK(int, 0, mount_change_type, const struct path *mp, int ms_flags)
->  LSM_HOOK(int, -EOPNOTSUPP, dentry_init_security, struct dentry *dentry,
->          int mode, const struct qstr *name, const char **xattr_name,
->          struct lsm_context *cp)
-> diff --git a/include/linux/security.h b/include/linux/security.h
-> index 83a646d72f6f..6e31de9b3d68 100644
-> --- a/include/linux/security.h
-> +++ b/include/linux/security.h
-> @@ -385,6 +385,17 @@ int security_sb_clone_mnt_opts(const struct super_bl=
-ock *oldsb,
->                                 unsigned long kern_flags,
->                                 unsigned long *set_kern_flags);
->  int security_move_mount(const struct path *from_path, const struct path =
-*to_path);
-> +int security_mount_bind(const struct path *from, const struct path *to,
-> +                       bool recurse);
-> +int security_mount_new(struct fs_context *fc, const struct path *mp,
-> +                      int mnt_flags, unsigned long flags, void *data);
-> +int security_mount_remount(struct fs_context *fc, const struct path *mp,
-> +                          int mnt_flags, unsigned long flags, void *data=
-);
-> +int security_mount_reconfigure(const struct path *mp, unsigned int mnt_f=
-lags,
-> +                              unsigned long flags);
-> +int security_mount_move(const struct path *from_path,
-> +                       const struct path *to_path);
-> +int security_mount_change_type(const struct path *mp, int ms_flags);
->  int security_dentry_init_security(struct dentry *dentry, int mode,
->                                   const struct qstr *name,
->                                   const char **xattr_name,
-> @@ -847,6 +858,45 @@ static inline int security_move_mount(const struct p=
-ath *from_path,
->         return 0;
->  }
->
-> +static inline int security_mount_bind(const struct path *from,
-> +                                     const struct path *to, bool recurse=
+> +static int selinux_mount_remount(struct fs_context *fc, const struct pat=
+h *mp,
+> +                                int mnt_flags, unsigned long flags,
+> +                                void *data)
+> +{
+> +       return superblock_has_perm(current_cred(), fc->root->d_sb,
+> +                                  FILESYSTEM__REMOUNT, NULL);
+> +}
+> +
+> +static int selinux_mount_reconfigure(const struct path *mp,
+> +                                    unsigned int mnt_flags,
+> +                                    unsigned long flags)
+> +{
+> +       return superblock_has_perm(current_cred(), mp->dentry->d_sb,
+> +                                  FILESYSTEM__REMOUNT, NULL);
+> +}
+> +
+> +static int selinux_mount_change_type(const struct path *mp, int ms_flags=
 )
 > +{
-> +       return 0;
-> +}
-> +
-> +static inline int security_mount_new(struct fs_context *fc,
-> +                                    const struct path *mp, int mnt_flags=
-,
-> +                                    unsigned long flags, void *data)
-> +{
-> +       return 0;
-> +}
-> +
-> +static inline int security_mount_remount(struct fs_context *fc,
-> +                                        const struct path *mp, int mnt_f=
-lags,
-> +                                        unsigned long flags, void *data)
-> +{
-> +       return 0;
-> +}
-> +
-> +static inline int security_mount_reconfigure(const struct path *mp,
-> +                                            unsigned int mnt_flags,
-> +                                            unsigned long flags)
-> +{
-> +       return 0;
-> +}
-> +
-> +static inline int security_mount_move(const struct path *from_path,
-> +                                     const struct path *to_path)
-> +{
-> +       return 0;
-> +}
-> +
-> +static inline int security_mount_change_type(const struct path *mp,
-> +                                            int ms_flags)
-> +{
-> +       return 0;
-> +}
-> +
->  static inline int security_path_notify(const struct path *path, u64 mask=
-,
->                                 unsigned int obj_type)
->  {
-> diff --git a/kernel/bpf/bpf_lsm.c b/kernel/bpf/bpf_lsm.c
-> index 0c4a0c8e6f70..65235d70ee23 100644
-> --- a/kernel/bpf/bpf_lsm.c
-> +++ b/kernel/bpf/bpf_lsm.c
-> @@ -383,6 +383,13 @@ BTF_ID(func, bpf_lsm_task_prctl)
->  BTF_ID(func, bpf_lsm_task_setscheduler)
->  BTF_ID(func, bpf_lsm_task_to_inode)
->  BTF_ID(func, bpf_lsm_userns_create)
-> +BTF_ID(func, bpf_lsm_move_mount)
-> +BTF_ID(func, bpf_lsm_mount_bind)
-> +BTF_ID(func, bpf_lsm_mount_new)
-> +BTF_ID(func, bpf_lsm_mount_remount)
-> +BTF_ID(func, bpf_lsm_mount_reconfigure)
-> +BTF_ID(func, bpf_lsm_mount_move)
-> +BTF_ID(func, bpf_lsm_mount_change_type)
->  BTF_SET_END(sleepable_lsm_hooks)
->
->  BTF_SET_START(untrusted_lsm_hooks)
-> diff --git a/security/security.c b/security/security.c
-> index 67af9228c4e9..356ef228d5de 100644
-> --- a/security/security.c
-> +++ b/security/security.c
-> @@ -1156,6 +1156,107 @@ int security_move_mount(const struct path *from_p=
-ath,
->         return call_int_hook(move_mount, from_path, to_path);
+> +       return path_has_perm(current_cred(), mp, FILE__MOUNTON);
 >  }
 >
-> +/**
-> + * security_mount_bind() - Check permissions for a bind mount
-> + * @from: source path
-> + * @to: destination mount point
-> + * @recurse: whether this is a recursive bind mount
-> + *
-> + * Check permission before a bind mount is performed. Called with the
-> + * source path already resolved, eliminating TOCTOU issues with
-> + * string-based dev_name in security_sb_mount().
-> + *
-> + * Return: Returns 0 if permission is granted.
-> + */
-> +int security_mount_bind(const struct path *from, const struct path *to,
-> +                       bool recurse)
-> +{
-> +       return call_int_hook(mount_bind, from, to, recurse);
-> +}
-> +
-> +/**
-> + * security_mount_new() - Check permissions for a new mount
-> + * @fc: filesystem context with parsed options
-> + * @mp: mount point path
-> + * @mnt_flags: mount flags (MNT_*)
-> + * @flags: original mount flags (MS_*, used by AppArmor/Tomoyo)
-> + * @data: filesystem specific data (used by AppArmor)
-> + *
-> + * Check permission before a new filesystem is mounted. Called after
-> + * mount options are parsed, providing access to the fs_context.
-> + *
-> + * Return: Returns 0 if permission is granted.
-> + */
-> +int security_mount_new(struct fs_context *fc, const struct path *mp,
-> +                      int mnt_flags, unsigned long flags, void *data)
-> +{
-> +       return call_int_hook(mount_new, fc, mp, mnt_flags, flags, data);
-> +}
-> +
-> +/**
-> + * security_mount_remount() - Check permissions for a remount
-> + * @fc: filesystem context with parsed options
-> + * @mp: mount point path
-> + * @mnt_flags: mount flags (MNT_*)
-> + * @flags: original mount flags (MS_*, used by AppArmor/Tomoyo)
-> + * @data: filesystem specific data (used by AppArmor)
-> + *
-> + * Check permission before a filesystem is remounted. Called after
-> + * mount options are parsed, providing access to the fs_context.
-> + *
-> + * Return: Returns 0 if permission is granted.
-> + */
-> +int security_mount_remount(struct fs_context *fc, const struct path *mp,
-> +                          int mnt_flags, unsigned long flags, void *data=
-)
-> +{
-> +       return call_int_hook(mount_remount, fc, mp, mnt_flags, flags, dat=
-a);
-> +}
-> +
-> +/**
-> + * security_mount_reconfigure() - Check permissions for mount reconfigur=
-ation
-> + * @mp: mount point path
-> + * @mnt_flags: new mount flags (MNT_*)
-> + * @flags: original mount flags (MS_*, used by AppArmor/Tomoyo)
-> + *
-> + * Check permission before mount flags are reconfigured (MS_REMOUNT|MS_B=
-IND).
-> + *
-> + * Return: Returns 0 if permission is granted.
-> + */
-> +int security_mount_reconfigure(const struct path *mp, unsigned int mnt_f=
-lags,
-> +                              unsigned long flags)
-> +{
-> +       return call_int_hook(mount_reconfigure, mp, mnt_flags, flags);
-> +}
-> +
-> +/**
-> + * security_mount_move() - Check permissions for moving a mount
-> + * @from_path: source mount path
-> + * @to_path: destination mount point path
-> + *
-> + * Check permission before a mount is moved.
-> + *
-> + * Return: Returns 0 if permission is granted.
-> + */
-> +int security_mount_move(const struct path *from_path,
-> +                       const struct path *to_path)
-> +{
-> +       return call_int_hook(mount_move, from_path, to_path);
-> +}
-> +
-> +/**
-> + * security_mount_change_type() - Check permissions for propagation chan=
-ges
-> + * @mp: mount point path
-> + * @ms_flags: propagation flags (MS_SHARED, MS_PRIVATE, etc.)
-> + *
-> + * Check permission before mount propagation type is changed.
-> + *
-> + * Return: Returns 0 if permission is granted.
-> + */
-> +int security_mount_change_type(const struct path *mp, int ms_flags)
-> +{
-> +       return call_int_hook(mount_change_type, mp, ms_flags);
-> +}
-> +
->  /**
->   * security_path_notify() - Check if setting a watch is allowed
->   * @path: file path
+>  static int selinux_move_mount(const struct path *from_path,
+> @@ -7449,7 +7467,12 @@ static struct security_hook_list selinux_hooks[] _=
+_ro_after_init =3D {
+>         LSM_HOOK_INIT(sb_kern_mount, selinux_sb_kern_mount),
+>         LSM_HOOK_INIT(sb_show_options, selinux_sb_show_options),
+>         LSM_HOOK_INIT(sb_statfs, selinux_sb_statfs),
+> -       LSM_HOOK_INIT(sb_mount, selinux_mount),
+> +       LSM_HOOK_INIT(mount_bind, selinux_mount_bind),
+> +       LSM_HOOK_INIT(mount_new, selinux_mount_new),
+> +       LSM_HOOK_INIT(mount_remount, selinux_mount_remount),
+> +       LSM_HOOK_INIT(mount_reconfigure, selinux_mount_reconfigure),
+> +       LSM_HOOK_INIT(mount_change_type, selinux_mount_change_type),
+> +       LSM_HOOK_INIT(mount_move, selinux_move_mount),
+>         LSM_HOOK_INIT(sb_umount, selinux_umount),
+>         LSM_HOOK_INIT(sb_set_mnt_opts, selinux_set_mnt_opts),
+>         LSM_HOOK_INIT(sb_clone_mnt_opts, selinux_sb_clone_mnt_opts),
 > --
 > 2.52.0
 >
