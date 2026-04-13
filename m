@@ -1,80 +1,46 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBA0438947E
-	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 06:25:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+Received: from mailgw1.hygon.cn (unknown [101.204.27.37])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 530152DC332;
+	Mon, 13 Apr 2026 06:37:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.204.27.37
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776061551; cv=none; b=WhNf5FMn6fK/ueoOPG9iPjJ6eZVfVW2cMT6OLSOWddTCt19H19/t7iXENyLnbDR1U1BR0tNQWByV/7CEYABnMijN/kYFq/c5h1xPc71YxoTkhexvjEf2AZPj9XciUbXMPbG4hfkOH3XIR8Y/sueOgW5H5wPISEXUs+3Cn1IGdgM=
+	t=1776062276; cv=none; b=WJh5bGqo66xouwOHgAAncWY73w2y83kP9z2jnwrClLgAYiGjBqxoRKQAMCDpAzlAPZOq5D/6s25bYGCJhPDOBcnSvfeR5E9J3TFlptmPK4ZNoGMx/78Avwr+Qo+Y2zJmzliAlb09+PSJLD6Dheu7Z/3nhNe0s+NQISSpJjDM2NE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776061551; c=relaxed/simple;
-	bh=kWUJURp+uF9u4Y1dNuO0maD9jAqb/5vkOI1EQA+2rsc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=HG9oKDzttpeEwUzus8pnF0bg1XLUEZRTnjFYlUdO3lQ0jf+2/3UhSujKXr8nA3qTRvWUM1b4Kc/epcd2vWwTcronzk3UmIdkLit14fOCxQKpLRIt1s7UTXrTlxi5UzfThdQup1MwKKdIpMPQpC8TTdP8yBynSxTvQExQskWI1zs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HlSS97Zn; arc=none smtp.client-ip=209.85.210.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HlSS97Zn"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-82f1bfc9b8fso802045b3a.1
-        for <linux-fsdevel@vger.kernel.org>; Sun, 12 Apr 2026 23:25:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776061549; x=1776666349; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=00cP/T9QeuySw5AlaNH1mzjkrGnGheu4JmbuNHs7ieI=;
-        b=HlSS97ZnKtj1356sK3AsmZzPJIfuhEzwD7PuLWedrJSgTzFvASVpTvAzuyK8W4qiex
-         POHE4f8Np9cR0UlHM8ZcaaExhKS6wIHedA03dRIM/HaeYSmvweGARpkOKMHK9XfK6WUd
-         k+uQvBhU3T9X1i1Ufb+L6Td4hHzFBdZ645f6Q5PdM10eyzi8dVmeQJKQirMnKeE4GNoB
-         LLhEVpJ0u+VrcEx+PJ9U/XSFVhk5YrKbUEiPLDkpD719s/EnRULPOsno4hasKY65+scf
-         sARU1aOMJlH4l9Xstj3PB/PG00ysgN3SMEzUkMUjkWwVilAQvJfhdvresAYS3xzOz2+8
-         w9fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776061549; x=1776666349;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=00cP/T9QeuySw5AlaNH1mzjkrGnGheu4JmbuNHs7ieI=;
-        b=c5kKjXw0oh+crxrrd7JsuLn/dREgLPQiRdCHEsGvHAd1j0KlIxj1IpCaqQ3i6NbPQY
-         Bl6BCG0ma48kLXyYD9L5NpZPuOoemyMKpvxhMyqTuh1A1hV/PLPjdJ+ct9+Vqgofo599
-         5hnmUi3Gxz2YzKby60dCk+Vyt9BHVsHef5Eek4GC/s+wk7nuHfaj4UShfDfMbdRBjggs
-         cDdmH2KnNdbvY1HihXdSI18nAIMR1CN5oY5oHnYUcsWtq7qkbmqhQAR5sRobZqbhbqhh
-         MhsQoDG1fSydYRuTkZ3Jawb4myNVKe9EcYM5vwsMNYQ9kMaLD6ATVmtz8l1WprQ1J7xS
-         9ALw==
-X-Forwarded-Encrypted: i=1; AFNElJ9ujpYURJo5Pz6e4ho2t2JWIXNq1WPXGhJGf+00S4So8t8I/AF24HTjBe4uWnFCsD1AjgA3Jw1B6nRaysec@vger.kernel.org
-X-Gm-Message-State: AOJu0YxJwoYd6sFoKXYHGfJE0XDprw+SvSWaQF0cGyVREZpAxDmhDCYk
-	aAmn3NNcSkFm+M01jmAzhiLmIXwQjk1uLXgrQOadtnoEL+MwnkfSSQIG
-X-Gm-Gg: AeBDiet4ppZ3oOU4fQDbq3yyzEt34PhqDG+hHvYDbPOaEqRNwHQmcfqkliTELqlXgAh
-	8vZfUbRqS9C/E2IWUN38HQ1DQ65zHx5dMf38ydlfVNECXBWqpOD+alLcosXjcLfpVZNbl/2PJrr
-	ZTNUN/qdYQJs92kIX7yUV3HlQ/Mf/KkYIEhZUOaszZv2lYH7Wtb4zy8L0aLVNMyrZqe2AlyzgGb
-	ibwtg1Ng7Sj8HQw6TVdd6nu2hFZCaNoaEHvgj9fGiJ0dcLO/n2jg3UBsiYYFFVgXVO3zz3+FYMS
-	E6XNlzlXkjASAsmjmoa4+sQmOXPcZeVER3qJ5L9VYcydYESQWIHInjPifJCWThwva4Zm86ucZd/
-	Cko+xcKSSqo8CGxOaCC8z5Qb8VLrO0Fvsbqd3GMsyEb+OZ7fAbq7L+cX5lTnLwhjzIY/0XZ85As
-	Ffl/zBCta0QNezCXWW9en39dGeuLR72kdK1+mY
-X-Received: by 2002:a05:6a00:2e9d:b0:82f:48e:2421 with SMTP id d2e1a72fcca58-82f0c29c84amr12217294b3a.24.1776061549283;
-        Sun, 12 Apr 2026 23:25:49 -0700 (PDT)
-Received: from n37-098-250.byted.org ([115.190.40.14])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f0c20aed6sm10035640b3a.0.2026.04.12.23.25.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Apr 2026 23:25:48 -0700 (PDT)
-From: Diangang Li <diangangli@gmail.com>
-To: tytso@mit.edu,
-	adilger.kernel@dilger.ca
-Cc: linux-ext4@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	changfengnan@bytedance.com,
-	yizhang089@gmail.com,
-	willy@infradead.org,
-	Diangang Li <lidiangang@bytedance.com>
-Subject: [RFC v2 1/1] ext4: fail fast on repeated buffer_head reads after IO failure
-Date: Mon, 13 Apr 2026 14:25:00 +0800
-Message-Id: <20260413062500.1380307-2-diangangli@gmail.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20260413062500.1380307-1-diangangli@gmail.com>
-References: <20260325093349.630193-1-diangangli@gmail.com>
- <20260413062500.1380307-1-diangangli@gmail.com>
+	s=arc-20240116; t=1776062276; c=relaxed/simple;
+	bh=Z9XLeNZgfJZzIm722H6ZRjTeIvlgm7LF4f2hJ4qqQW4=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EX+yenUseLMAke5AR1dpt5PMGUkt6npGgBkLmNzuEFEPYVNTLUyS4Qt33xgEnwJU4KCcgcNtL7jR+UUkqwwre7cjs10TZ8RpRTUNLPFglbRhPNy7bmMRwZViM63uI4ByFHzhVnwspiThQ/3Cyboh1C2l0geTZWThWTC0nH9LQbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn; spf=pass smtp.mailfrom=hygon.cn; arc=none smtp.client-ip=101.204.27.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hygon.cn
+Received: from maildlp2.hygon.cn (unknown [127.0.0.1])
+	by mailgw1.hygon.cn (Postfix) with ESMTP id 4fvHNd43CYzg1cT;
+	Mon, 13 Apr 2026 14:21:21 +0800 (CST)
+Received: from maildlp2.hygon.cn (unknown [172.23.18.61])
+	by mailgw1.hygon.cn (Postfix) with ESMTP id 4fvHNb0jGXzg1cT;
+	Mon, 13 Apr 2026 14:21:19 +0800 (CST)
+Received: from cncheex04.Hygon.cn (unknown [172.23.18.114])
+	by maildlp2.hygon.cn (Postfix) with ESMTPS id 0CFF730004D3;
+	Mon, 13 Apr 2026 14:19:26 +0800 (CST)
+Received: from SH-HV00110.Hygon.cn (172.19.26.208) by cncheex04.Hygon.cn
+ (172.23.18.114) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Mon, 13 Apr
+ 2026 14:21:17 +0800
+From: Huang Shijie <huangsj@hygon.cn>
+To: <akpm@linux-foundation.org>, <viro@zeniv.linux.org.uk>,
+	<brauner@kernel.org>
+CC: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-fsdevel@vger.kernel.org>,
+	<muchun.song@linux.dev>, <osalvador@suse.de>,
+	<linux-trace-kernel@vger.kernel.org>, <linux-perf-users@vger.kernel.org>,
+	<linux-parisc@vger.kernel.org>, <nvdimm@lists.linux.dev>,
+	<zhongyuan@hygon.cn>, <fangbaoshun@hygon.cn>, <yingzhiwei@hygon.cn>, Huang
+ Shijie <huangsj@hygon.cn>
+Subject: [PATCH 2/3] mm: use get_i_mmap_root to access the file's i_mmap
+Date: Mon, 13 Apr 2026 14:20:41 +0800
+Message-ID: <20260413062042.804-3-huangsj@hygon.cn>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260413062042.804-1-huangsj@hygon.cn>
+References: <20260413062042.804-1-huangsj@hygon.cn>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -82,462 +48,489 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: cncheex06.Hygon.cn (172.23.18.116) To cncheex04.Hygon.cn
+ (172.23.18.114)
 
-From: Diangang Li <lidiangang@bytedance.com>
+Do not access the file's i_mmap directly, use get_i_mmap_root()
+to access it. This patch makes preparations for later patches.
 
-ext4 buffer_head reads serialize on BH_Lock. If a read fails, the buffer
-remains !Uptodate. With concurrent callers, each waiter may resubmit the
-same failing read after the previous holder drops BH_Lock. This can turn
-a single read error into long stalls and hung tasks.
-
-The block layer already retries reads. After it gives up, re-submitting
-the same buffer_head read from ext4 makes no forward progress and just
-keeps waiters serialized on BH_Lock.
-
-Record read failures on buffer_head (BH_Read_EIO + b_err_timestamp) and,
-when a retry window is configured (sysfs: err_retry_sec), fail fast for
-repeated ext4 buffer_head reads within the window. Clear the state on
-successful completion so the buffer can recover.
-
-err_retry_sec defaults to 0, which keeps the current behavior (subsequent
-callers may retry the same read). Set it to a non-zero value to throttle
-repeated reads within the window.
-
-Example hung stacks:
-
-  INFO: task toutiao.infra.t:3760933 blocked for more than 327 seconds.
-  Call Trace:
-   __schedule
-   io_schedule
-   __wait_on_bit_lock
-   bh_uptodate_or_lock
-   __read_extent_tree_block
-   ext4_find_extent
-   ext4_ext_map_blocks
-   ext4_map_blocks
-   ext4_getblk
-   ext4_bread
-   __ext4_read_dirblock
-   dx_probe
-   ext4_htree_fill_tree
-   ext4_readdir
-   iterate_dir
-   ksys_getdents64
-
-  INFO: task toutiao.infra.t:2724456 blocked for more than 327 seconds.
-  Call Trace:
-   __schedule
-   io_schedule
-   __wait_on_bit_lock
-   ext4_read_bh_lock
-   ext4_bread
-   __ext4_read_dirblock
-   htree_dirblock_to_tree
-   ext4_htree_fill_tree
-   ext4_readdir
-   iterate_dir
-   ksys_getdents64
-
-Signed-off-by: Diangang Li <lidiangang@bytedance.com>
+Signed-off-by: Huang Shijie <huangsj@hygon.cn>
 ---
- fs/buffer.c                 |  2 ++
- fs/ext4/balloc.c            |  2 +-
- fs/ext4/ext4.h              | 13 ++++++----
- fs/ext4/extents.c           |  2 +-
- fs/ext4/ialloc.c            |  3 ++-
- fs/ext4/indirect.c          |  2 +-
- fs/ext4/inode.c             | 10 ++++----
- fs/ext4/mmp.c               |  2 +-
- fs/ext4/move_extent.c       |  2 +-
- fs/ext4/resize.c            |  2 +-
- fs/ext4/super.c             | 51 +++++++++++++++++++++++++++----------
- fs/ext4/sysfs.c             |  2 ++
- include/linux/buffer_head.h | 16 ++++++++++++
- 13 files changed, 79 insertions(+), 30 deletions(-)
+ arch/arm/mm/fault-armv.c   |  3 ++-
+ arch/arm/mm/flush.c        |  3 ++-
+ arch/nios2/mm/cacheflush.c |  3 ++-
+ arch/parisc/kernel/cache.c |  4 +++-
+ fs/dax.c                   |  3 ++-
+ fs/hugetlbfs/inode.c       |  6 +++---
+ include/linux/fs.h         |  5 +++++
+ include/linux/mm.h         |  1 +
+ kernel/events/uprobes.c    |  3 ++-
+ mm/hugetlb.c               |  7 +++++--
+ mm/khugepaged.c            |  6 ++++--
+ mm/memory-failure.c        |  8 +++++---
+ mm/memory.c                |  4 ++--
+ mm/mmap.c                  |  2 +-
+ mm/nommu.c                 |  9 +++++----
+ mm/pagewalk.c              |  2 +-
+ mm/rmap.c                  |  2 +-
+ mm/vma.c                   | 14 ++++++++------
+ 18 files changed, 54 insertions(+), 31 deletions(-)
 
-diff --git a/fs/buffer.c b/fs/buffer.c
-index 22b43642ba574..10b1f60368db4 100644
---- a/fs/buffer.c
-+++ b/fs/buffer.c
-@@ -159,6 +159,7 @@ static void __end_buffer_read_notouch(struct buffer_head *bh, int uptodate)
- void end_buffer_read_sync(struct buffer_head *bh, int uptodate)
+diff --git a/arch/arm/mm/fault-armv.c b/arch/arm/mm/fault-armv.c
+index 91e488767783..1b5fe151e805 100644
+--- a/arch/arm/mm/fault-armv.c
++++ b/arch/arm/mm/fault-armv.c
+@@ -126,6 +126,7 @@ make_coherent(struct address_space *mapping, struct vm_area_struct *vma,
  {
- 	put_bh(bh);
-+	bh_update_read_io_error(bh, uptodate, jiffies);
- 	__end_buffer_read_notouch(bh, uptodate);
- }
- EXPORT_SYMBOL(end_buffer_read_sync);
-@@ -167,6 +168,7 @@ void end_buffer_write_sync(struct buffer_head *bh, int uptodate)
+ 	const unsigned long pmd_start_addr = ALIGN_DOWN(addr, PMD_SIZE);
+ 	const unsigned long pmd_end_addr = pmd_start_addr + PMD_SIZE;
++	struct rb_root_cached *root = get_i_mmap_root(mapping);
+ 	struct mm_struct *mm = vma->vm_mm;
+ 	struct vm_area_struct *mpnt;
+ 	unsigned long offset;
+@@ -140,7 +141,7 @@ make_coherent(struct address_space *mapping, struct vm_area_struct *vma,
+ 	 * cache coherency.
+ 	 */
+ 	flush_dcache_mmap_lock(mapping);
+-	vma_interval_tree_foreach(mpnt, &mapping->i_mmap, pgoff, pgoff) {
++	vma_interval_tree_foreach(mpnt, root, pgoff, pgoff) {
+ 		/*
+ 		 * If we are using split PTE locks, then we need to take the pte
+ 		 * lock. Otherwise we are using shared mm->page_table_lock which
+diff --git a/arch/arm/mm/flush.c b/arch/arm/mm/flush.c
+index 19470d938b23..b9641901f206 100644
+--- a/arch/arm/mm/flush.c
++++ b/arch/arm/mm/flush.c
+@@ -238,6 +238,7 @@ void __flush_dcache_folio(struct address_space *mapping, struct folio *folio)
+ static void __flush_dcache_aliases(struct address_space *mapping, struct folio *folio)
  {
- 	if (uptodate) {
- 		set_buffer_uptodate(bh);
-+		bh_update_read_io_error(bh, 1, jiffies);
- 	} else {
- 		buffer_io_error(bh, ", lost sync page write");
- 		mark_buffer_write_io_error(bh);
-diff --git a/fs/ext4/balloc.c b/fs/ext4/balloc.c
-index 8040c731b3e45..8d7797adbb63e 100644
---- a/fs/ext4/balloc.c
-+++ b/fs/ext4/balloc.c
-@@ -548,7 +548,7 @@ ext4_read_block_bitmap_nowait(struct super_block *sb, ext4_group_t block_group,
+ 	struct mm_struct *mm = current->active_mm;
++	struct rb_root_cached *root = get_i_mmap_root(mapping);
+ 	struct vm_area_struct *vma;
+ 	pgoff_t pgoff, pgoff_end;
+ 
+@@ -251,7 +252,7 @@ static void __flush_dcache_aliases(struct address_space *mapping, struct folio *
+ 	pgoff_end = pgoff + folio_nr_pages(folio) - 1;
+ 
+ 	flush_dcache_mmap_lock(mapping);
+-	vma_interval_tree_foreach(vma, &mapping->i_mmap, pgoff, pgoff_end) {
++	vma_interval_tree_foreach(vma, root, pgoff, pgoff_end) {
+ 		unsigned long start, offset, pfn;
+ 		unsigned int nr;
+ 
+diff --git a/arch/nios2/mm/cacheflush.c b/arch/nios2/mm/cacheflush.c
+index 8321182eb927..ab6e064fabe2 100644
+--- a/arch/nios2/mm/cacheflush.c
++++ b/arch/nios2/mm/cacheflush.c
+@@ -78,11 +78,12 @@ static void flush_aliases(struct address_space *mapping, struct folio *folio)
+ 	unsigned long flags;
+ 	pgoff_t pgoff;
+ 	unsigned long nr = folio_nr_pages(folio);
++	struct rb_root_cached *root = get_i_mmap_root(mapping);
+ 
+ 	pgoff = folio->index;
+ 
+ 	flush_dcache_mmap_lock_irqsave(mapping, flags);
+-	vma_interval_tree_foreach(vma, &mapping->i_mmap, pgoff, pgoff + nr - 1) {
++	vma_interval_tree_foreach(vma, root, pgoff, pgoff + nr - 1) {
+ 		unsigned long start;
+ 
+ 		if (vma->vm_mm != mm)
+diff --git a/arch/parisc/kernel/cache.c b/arch/parisc/kernel/cache.c
+index 4c5240d3a3c7..920adacaaac2 100644
+--- a/arch/parisc/kernel/cache.c
++++ b/arch/parisc/kernel/cache.c
+@@ -473,6 +473,7 @@ static inline unsigned long get_upa(struct mm_struct *mm, unsigned long addr)
+ void flush_dcache_folio(struct folio *folio)
+ {
+ 	struct address_space *mapping = folio_flush_mapping(folio);
++	struct rb_root_cached *root;
+ 	struct vm_area_struct *vma;
+ 	unsigned long addr, old_addr = 0;
+ 	void *kaddr;
+@@ -494,6 +495,7 @@ void flush_dcache_folio(struct folio *folio)
+ 		return;
+ 
+ 	pgoff = folio->index;
++	root = get_i_mmap_root(mapping);
+ 
+ 	/*
+ 	 * We have carefully arranged in arch_get_unmapped_area() that
+@@ -503,7 +505,7 @@ void flush_dcache_folio(struct folio *folio)
+ 	 * on machines that support equivalent aliasing
  	 */
- 	set_buffer_new(bh);
- 	trace_ext4_read_block_bitmap_load(sb, block_group, ignore_locked);
--	ext4_read_bh_nowait(bh, REQ_META | REQ_PRIO |
-+	ext4_read_bh_nowait(sb, bh, REQ_META | REQ_PRIO |
- 			    (ignore_locked ? REQ_RAHEAD : 0),
- 			    ext4_end_bitmap_read,
- 			    ext4_simulate_fail(sb, EXT4_SIM_BBITMAP_EIO));
-diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
-index 7617e2d454ea5..4b6ff26201933 100644
---- a/fs/ext4/ext4.h
-+++ b/fs/ext4/ext4.h
-@@ -1682,6 +1682,8 @@ struct ext4_sb_info {
- 	struct timer_list s_err_report;
- 	/* timeout in seconds for s_err_report; 0 disables the timer. */
- 	unsigned long s_err_report_sec;
-+	/* timeout in seconds for read error retry window; 0 disables. */
-+	unsigned long s_err_retry_sec;
+ 	flush_dcache_mmap_lock_irqsave(mapping, flags);
+-	vma_interval_tree_foreach(vma, &mapping->i_mmap, pgoff, pgoff + nr - 1) {
++	vma_interval_tree_foreach(vma, root, pgoff, pgoff + nr - 1) {
+ 		unsigned long offset = pgoff - vma->vm_pgoff;
+ 		unsigned long pfn = folio_pfn(folio);
  
- 	/* Lazy inode table initialization info */
- 	struct ext4_li_request *s_li_request;
-@@ -3185,11 +3187,12 @@ extern struct buffer_head *ext4_sb_bread_unmovable(struct super_block *sb,
- 						   sector_t block);
- extern struct buffer_head *ext4_sb_bread_nofail(struct super_block *sb,
- 						sector_t block);
--extern void ext4_read_bh_nowait(struct buffer_head *bh, blk_opf_t op_flags,
--				bh_end_io_t *end_io, bool simu_fail);
--extern int ext4_read_bh(struct buffer_head *bh, blk_opf_t op_flags,
--			bh_end_io_t *end_io, bool simu_fail);
--extern int ext4_read_bh_lock(struct buffer_head *bh, blk_opf_t op_flags, bool wait);
-+extern void ext4_read_bh_nowait(struct super_block *sb, struct buffer_head *bh,
-+				blk_opf_t op_flags, bh_end_io_t *end_io, bool simu_fail);
-+extern int ext4_read_bh(struct super_block *sb, struct buffer_head *bh,
-+			blk_opf_t op_flags, bh_end_io_t *end_io, bool simu_fail);
-+extern int ext4_read_bh_lock(struct super_block *sb, struct buffer_head *bh,
-+			blk_opf_t op_flags, bool wait);
- extern void ext4_sb_breadahead_unmovable(struct super_block *sb, sector_t block);
- extern int ext4_seq_options_show(struct seq_file *seq, void *offset);
- extern int ext4_calculate_overhead(struct super_block *sb);
-diff --git a/fs/ext4/extents.c b/fs/ext4/extents.c
-index 8cce1479be6d1..b7fb195ded3e3 100644
---- a/fs/ext4/extents.c
-+++ b/fs/ext4/extents.c
-@@ -567,7 +567,7 @@ __read_extent_tree_block(const char *function, unsigned int line,
+diff --git a/fs/dax.c b/fs/dax.c
+index 289e6254aa30..00fe5481accc 100644
+--- a/fs/dax.c
++++ b/fs/dax.c
+@@ -1101,6 +1101,7 @@ static int dax_writeback_one(struct xa_state *xas, struct dax_device *dax_dev,
+ 		struct address_space *mapping, void *entry)
+ {
+ 	unsigned long pfn, index, count, end;
++	struct rb_root_cached *root = get_i_mmap_root(mapping);
+ 	long ret = 0;
+ 	struct vm_area_struct *vma;
  
- 	if (!bh_uptodate_or_lock(bh)) {
- 		trace_ext4_ext_load_extent(inode, pblk, _RET_IP_);
--		err = ext4_read_bh(bh, 0, NULL, false);
-+		err = ext4_read_bh(inode->i_sb, bh, 0, NULL, false);
- 		if (err < 0)
- 			goto errout;
+@@ -1164,7 +1165,7 @@ static int dax_writeback_one(struct xa_state *xas, struct dax_device *dax_dev,
+ 
+ 	/* Walk all mappings of a given index of a file and writeprotect them */
+ 	i_mmap_lock_read(mapping);
+-	vma_interval_tree_foreach(vma, &mapping->i_mmap, index, end) {
++	vma_interval_tree_foreach(vma, root, index, end) {
+ 		pfn_mkclean_range(pfn, count, index, vma);
+ 		cond_resched();
  	}
-diff --git a/fs/ext4/ialloc.c b/fs/ext4/ialloc.c
-index b1bc1950c9f03..25a177eb89bf1 100644
---- a/fs/ext4/ialloc.c
-+++ b/fs/ext4/ialloc.c
-@@ -72,6 +72,7 @@ void ext4_end_bitmap_read(struct buffer_head *bh, int uptodate)
- 		set_buffer_uptodate(bh);
- 		set_bitmap_uptodate(bh);
+diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
+index ab5ac092d8a6..9cf82fba6eb6 100644
+--- a/fs/hugetlbfs/inode.c
++++ b/fs/hugetlbfs/inode.c
+@@ -400,7 +400,7 @@ static void hugetlb_unmap_file_folio(struct hstate *h,
+ 					struct address_space *mapping,
+ 					struct folio *folio, pgoff_t index)
+ {
+-	struct rb_root_cached *root = &mapping->i_mmap;
++	struct rb_root_cached *root = get_i_mmap_root(mapping);
+ 	struct hugetlb_vma_lock *vma_lock;
+ 	unsigned long pfn = folio_pfn(folio);
+ 	struct vm_area_struct *vma;
+@@ -647,7 +647,7 @@ static void hugetlb_vmtruncate(struct inode *inode, loff_t offset)
+ 	i_size_write(inode, offset);
+ 	i_mmap_lock_write(mapping);
+ 	if (mapping_mapped(mapping))
+-		hugetlb_vmdelete_list(&mapping->i_mmap, pgoff, 0,
++		hugetlb_vmdelete_list(get_i_mmap_root(mapping), pgoff, 0,
+ 				      ZAP_FLAG_DROP_MARKER);
+ 	i_mmap_unlock_write(mapping);
+ 	remove_inode_hugepages(inode, offset, LLONG_MAX);
+@@ -708,7 +708,7 @@ static long hugetlbfs_punch_hole(struct inode *inode, loff_t offset, loff_t len)
+ 	/* Unmap users of full pages in the hole. */
+ 	if (hole_end > hole_start) {
+ 		if (mapping_mapped(mapping))
+-			hugetlb_vmdelete_list(&mapping->i_mmap,
++			hugetlb_vmdelete_list(get_i_mmap_root(mapping),
+ 					      hole_start >> PAGE_SHIFT,
+ 					      hole_end >> PAGE_SHIFT, 0);
  	}
-+	bh_update_read_io_error(bh, uptodate, jiffies);
- 	unlock_buffer(bh);
- 	put_bh(bh);
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index 8b3dd145b25e..a6a99e044265 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -555,6 +555,11 @@ static inline int mapping_mapped(const struct address_space *mapping)
+ 	return	!RB_EMPTY_ROOT(&mapping->i_mmap.rb_root);
  }
-@@ -193,7 +194,7 @@ ext4_read_inode_bitmap(struct super_block *sb, ext4_group_t block_group)
- 	 * submit the buffer_head for reading
- 	 */
- 	trace_ext4_load_inode_bitmap(sb, block_group);
--	ext4_read_bh(bh, REQ_META | REQ_PRIO,
-+	ext4_read_bh(sb, bh, REQ_META | REQ_PRIO,
- 		     ext4_end_bitmap_read,
- 		     ext4_simulate_fail(sb, EXT4_SIM_IBITMAP_EIO));
- 	if (!buffer_uptodate(bh)) {
-diff --git a/fs/ext4/indirect.c b/fs/ext4/indirect.c
-index da76353b3a575..1ff2b5872e8b0 100644
---- a/fs/ext4/indirect.c
-+++ b/fs/ext4/indirect.c
-@@ -170,7 +170,7 @@ static Indirect *ext4_get_branch(struct inode *inode, int depth,
- 		}
  
- 		if (!bh_uptodate_or_lock(bh)) {
--			if (ext4_read_bh(bh, 0, NULL, false) < 0) {
-+			if (ext4_read_bh(sb, bh, 0, NULL, false) < 0) {
- 				put_bh(bh);
- 				goto failure;
- 			}
-diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
-index 1123d995494b5..49c03c485a8d5 100644
---- a/fs/ext4/inode.c
-+++ b/fs/ext4/inode.c
-@@ -1053,7 +1053,7 @@ struct buffer_head *ext4_bread(handle_t *handle, struct inode *inode,
- 	if (!bh || ext4_buffer_uptodate(bh))
- 		return bh;
++static inline struct rb_root_cached *get_i_mmap_root(struct address_space *mapping)
++{
++	return &mapping->i_mmap;
++}
++
+ /*
+  * Might pages of this file have been modified in userspace?
+  * Note that i_mmap_writable counts all VM_SHARED, VM_MAYWRITE vmas: do_mmap
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index abb4963c1f06..15cb1da43eb2 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -3797,6 +3797,7 @@ struct vm_area_struct *vma_interval_tree_iter_first(struct rb_root_cached *root,
+ struct vm_area_struct *vma_interval_tree_iter_next(struct vm_area_struct *node,
+ 				unsigned long start, unsigned long last);
  
--	ret = ext4_read_bh_lock(bh, REQ_META | REQ_PRIO, true);
-+	ret = ext4_read_bh_lock(inode->i_sb, bh, REQ_META | REQ_PRIO, true);
- 	if (ret) {
- 		put_bh(bh);
- 		return ERR_PTR(ret);
-@@ -1079,7 +1079,7 @@ int ext4_bread_batch(struct inode *inode, ext4_lblk_t block, int bh_count,
- 	for (i = 0; i < bh_count; i++)
- 		/* Note that NULL bhs[i] is valid because of holes. */
- 		if (bhs[i] && !ext4_buffer_uptodate(bhs[i]))
--			ext4_read_bh_lock(bhs[i], REQ_META | REQ_PRIO, false);
-+			ext4_read_bh_lock(inode->i_sb, bhs[i], REQ_META | REQ_PRIO, false);
++/* Please use get_i_mmap_root() to get the @root */
+ #define vma_interval_tree_foreach(vma, root, start, last)		\
+ 	for (vma = vma_interval_tree_iter_first(root, start, last);	\
+ 	     vma; vma = vma_interval_tree_iter_next(vma, start, last))
+diff --git a/kernel/events/uprobes.c b/kernel/events/uprobes.c
+index 923b24b321cc..420035b0cc7b 100644
+--- a/kernel/events/uprobes.c
++++ b/kernel/events/uprobes.c
+@@ -1201,6 +1201,7 @@ static inline struct map_info *free_map_info(struct map_info *info)
+ static struct map_info *
+ build_map_info(struct address_space *mapping, loff_t offset, bool is_register)
+ {
++	struct rb_root_cached *root = get_i_mmap_root(mapping);
+ 	unsigned long pgoff = offset >> PAGE_SHIFT;
+ 	struct vm_area_struct *vma;
+ 	struct map_info *curr = NULL;
+@@ -1210,7 +1211,7 @@ build_map_info(struct address_space *mapping, loff_t offset, bool is_register)
  
- 	if (!wait)
- 		return 0;
-@@ -1239,7 +1239,7 @@ int ext4_block_write_begin(handle_t *handle, struct folio *folio,
- 		if (!buffer_uptodate(bh) && !buffer_delay(bh) &&
- 		    !buffer_unwritten(bh) &&
- 		    (block_start < from || block_end > to)) {
--			ext4_read_bh_lock(bh, 0, false);
-+			ext4_read_bh_lock(inode->i_sb, bh, 0, false);
- 			wait[nr_wait++] = bh;
- 		}
- 	}
-@@ -4063,7 +4063,7 @@ static int __ext4_block_zero_page_range(handle_t *handle,
- 		set_buffer_uptodate(bh);
- 
- 	if (!buffer_uptodate(bh)) {
--		err = ext4_read_bh_lock(bh, 0, true);
-+		err = ext4_read_bh_lock(inode->i_sb, bh, 0, true);
- 		if (err)
- 			goto unlock;
- 		if (fscrypt_inode_uses_fs_layer_crypto(inode)) {
-@@ -4891,7 +4891,7 @@ static int __ext4_get_inode_loc(struct super_block *sb, unsigned long ino,
- 	 * Read the block from disk.
- 	 */
- 	trace_ext4_load_inode(sb, ino);
--	ext4_read_bh_nowait(bh, REQ_META | REQ_PRIO, NULL,
-+	ext4_read_bh_nowait(sb, bh, REQ_META | REQ_PRIO, NULL,
- 			    ext4_simulate_fail(sb, EXT4_SIM_INODE_EIO));
- 	blk_finish_plug(&plug);
- 	wait_on_buffer(bh);
-diff --git a/fs/ext4/mmp.c b/fs/ext4/mmp.c
-index 6f57c181ff778..6407b7fbdd3e8 100644
---- a/fs/ext4/mmp.c
-+++ b/fs/ext4/mmp.c
-@@ -90,7 +90,7 @@ static int read_mmp_block(struct super_block *sb, struct buffer_head **bh,
- 	}
- 
- 	lock_buffer(*bh);
--	ret = ext4_read_bh(*bh, REQ_META | REQ_PRIO, NULL, false);
-+	ret = ext4_read_bh(sb, *bh, REQ_META | REQ_PRIO, NULL, false);
- 	if (ret)
- 		goto warn_exit;
- 
-diff --git a/fs/ext4/move_extent.c b/fs/ext4/move_extent.c
-index ce1f738dff938..a304352a0741f 100644
---- a/fs/ext4/move_extent.c
-+++ b/fs/ext4/move_extent.c
-@@ -162,7 +162,7 @@ static int mext_folio_mkuptodate(struct folio *folio, size_t from, size_t to)
- 			unlock_buffer(bh);
+  again:
+ 	i_mmap_lock_read(mapping);
+-	vma_interval_tree_foreach(vma, &mapping->i_mmap, pgoff, pgoff) {
++	vma_interval_tree_foreach(vma, root, pgoff, pgoff) {
+ 		if (!valid_vma(vma, is_register))
  			continue;
- 		}
--		ext4_read_bh_nowait(bh, 0, NULL, false);
-+		ext4_read_bh_nowait(inode->i_sb, bh, 0, NULL, false);
- 		nr++;
- 	} while (block++, (bh = bh->b_this_page) != head);
  
-diff --git a/fs/ext4/resize.c b/fs/ext4/resize.c
-index 2c5b851c552a6..0350e85cc58fb 100644
---- a/fs/ext4/resize.c
-+++ b/fs/ext4/resize.c
-@@ -1299,7 +1299,7 @@ static struct buffer_head *ext4_get_bitmap(struct super_block *sb, __u64 block)
- 	if (unlikely(!bh))
- 		return NULL;
- 	if (!bh_uptodate_or_lock(bh)) {
--		if (ext4_read_bh(bh, 0, NULL, false) < 0) {
-+		if (ext4_read_bh(sb, bh, 0, NULL, false) < 0) {
- 			brelse(bh);
- 			return NULL;
- 		}
-diff --git a/fs/ext4/super.c b/fs/ext4/super.c
-index a34efb44e73d7..c0e4d8106e4f3 100644
---- a/fs/ext4/super.c
-+++ b/fs/ext4/super.c
-@@ -160,8 +160,26 @@ MODULE_ALIAS("ext3");
- #define IS_EXT3_SB(sb) ((sb)->s_type == &ext3_fs_type)
+diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+index 327eaa4074d3..8d27f1b8abb5 100644
+--- a/mm/hugetlb.c
++++ b/mm/hugetlb.c
+@@ -5396,6 +5396,7 @@ static void unmap_ref_private(struct mm_struct *mm, struct vm_area_struct *vma,
+ 	struct hstate *h = hstate_vma(vma);
+ 	struct vm_area_struct *iter_vma;
+ 	struct address_space *mapping;
++	struct rb_root_cached *root;
+ 	pgoff_t pgoff;
  
- 
--static inline void __ext4_read_bh(struct buffer_head *bh, blk_opf_t op_flags,
--				  bh_end_io_t *end_io, bool simu_fail)
-+static bool ext4_bh_throttle_read(struct super_block *sb, struct buffer_head *bh)
-+{
-+	unsigned long retry_sec = EXT4_SB(sb)->s_err_retry_sec;
-+
-+	if (!retry_sec || !buffer_read_io_error(bh))
-+		return false;
-+
-+	if (bh->b_err_timestamp &&
-+	    time_before(jiffies, bh->b_err_timestamp +
-+			secs_to_jiffies(retry_sec)))
-+		return true;
-+
-+	clear_buffer_read_io_error(bh);
-+	bh->b_err_timestamp = 0;
-+	return false;
-+}
-+
-+static inline void __ext4_read_bh(struct super_block *sb, struct buffer_head *bh,
-+				  blk_opf_t op_flags, bh_end_io_t *end_io,
-+				  bool simu_fail)
- {
- 	if (simu_fail) {
- 		clear_buffer_uptodate(bh);
-@@ -169,6 +187,12 @@ static inline void __ext4_read_bh(struct buffer_head *bh, blk_opf_t op_flags,
- 		return;
- 	}
- 
-+	if (ext4_bh_throttle_read(sb, bh)) {
-+		clear_buffer_uptodate(bh);
-+		unlock_buffer(bh);
-+		return;
-+	}
-+
  	/*
- 	 * buffer's verified bit is no longer valid after reading from
- 	 * disk again due to write out error, clear it to make sure we
-@@ -181,8 +205,8 @@ static inline void __ext4_read_bh(struct buffer_head *bh, blk_opf_t op_flags,
- 	submit_bh(REQ_OP_READ | op_flags, bh);
- }
+@@ -5406,6 +5407,7 @@ static void unmap_ref_private(struct mm_struct *mm, struct vm_area_struct *vma,
+ 	pgoff = ((address - vma->vm_start) >> PAGE_SHIFT) +
+ 			vma->vm_pgoff;
+ 	mapping = vma->vm_file->f_mapping;
++	root = get_i_mmap_root(mapping);
  
--void ext4_read_bh_nowait(struct buffer_head *bh, blk_opf_t op_flags,
--			 bh_end_io_t *end_io, bool simu_fail)
-+void ext4_read_bh_nowait(struct super_block *sb, struct buffer_head *bh,
-+			 blk_opf_t op_flags, bh_end_io_t *end_io, bool simu_fail)
- {
- 	BUG_ON(!buffer_locked(bh));
- 
-@@ -190,11 +214,11 @@ void ext4_read_bh_nowait(struct buffer_head *bh, blk_opf_t op_flags,
- 		unlock_buffer(bh);
- 		return;
- 	}
--	__ext4_read_bh(bh, op_flags, end_io, simu_fail);
-+	__ext4_read_bh(sb, bh, op_flags, end_io, simu_fail);
- }
- 
--int ext4_read_bh(struct buffer_head *bh, blk_opf_t op_flags,
--		 bh_end_io_t *end_io, bool simu_fail)
-+int ext4_read_bh(struct super_block *sb, struct buffer_head *bh,
-+		 blk_opf_t op_flags, bh_end_io_t *end_io, bool simu_fail)
- {
- 	BUG_ON(!buffer_locked(bh));
- 
-@@ -203,7 +227,7 @@ int ext4_read_bh(struct buffer_head *bh, blk_opf_t op_flags,
- 		return 0;
- 	}
- 
--	__ext4_read_bh(bh, op_flags, end_io, simu_fail);
-+	__ext4_read_bh(sb, bh, op_flags, end_io, simu_fail);
- 
- 	wait_on_buffer(bh);
- 	if (buffer_uptodate(bh))
-@@ -211,14 +235,15 @@ int ext4_read_bh(struct buffer_head *bh, blk_opf_t op_flags,
- 	return -EIO;
- }
- 
--int ext4_read_bh_lock(struct buffer_head *bh, blk_opf_t op_flags, bool wait)
-+int ext4_read_bh_lock(struct super_block *sb, struct buffer_head *bh,
-+		      blk_opf_t op_flags, bool wait)
- {
- 	lock_buffer(bh);
- 	if (!wait) {
--		ext4_read_bh_nowait(bh, op_flags, NULL, false);
-+		ext4_read_bh_nowait(sb, bh, op_flags, NULL, false);
- 		return 0;
- 	}
--	return ext4_read_bh(bh, op_flags, NULL, false);
-+	return ext4_read_bh(sb, bh, op_flags, NULL, false);
- }
- 
- /*
-@@ -240,7 +265,7 @@ static struct buffer_head *__ext4_sb_bread_gfp(struct super_block *sb,
- 	if (ext4_buffer_uptodate(bh))
- 		return bh;
- 
--	ret = ext4_read_bh_lock(bh, REQ_META | op_flags, true);
-+	ret = ext4_read_bh_lock(sb, bh, REQ_META | op_flags, true);
- 	if (ret) {
- 		put_bh(bh);
- 		return ERR_PTR(ret);
-@@ -282,7 +307,7 @@ void ext4_sb_breadahead_unmovable(struct super_block *sb, sector_t block)
- 
- 	if (likely(bh)) {
- 		if (trylock_buffer(bh))
--			ext4_read_bh_nowait(bh, REQ_RAHEAD, NULL, false);
-+			ext4_read_bh_nowait(sb, bh, REQ_RAHEAD, NULL, false);
- 		brelse(bh);
- 	}
- }
-diff --git a/fs/ext4/sysfs.c b/fs/ext4/sysfs.c
-index 923b375e017fa..21fed223c9e86 100644
---- a/fs/ext4/sysfs.c
-+++ b/fs/ext4/sysfs.c
-@@ -249,6 +249,7 @@ EXT4_ATTR_OFFSET(mb_group_prealloc, 0644, clusters_in_group,
- EXT4_ATTR_OFFSET(mb_best_avail_max_trim_order, 0644, mb_order,
- 		 ext4_sb_info, s_mb_best_avail_max_trim_order);
- EXT4_ATTR_OFFSET(err_report_sec, 0644, err_report_sec, ext4_sb_info, s_err_report_sec);
-+EXT4_RW_ATTR_SBI_UL(err_retry_sec, s_err_retry_sec);
- EXT4_RW_ATTR_SBI_UI(inode_goal, s_inode_goal);
- EXT4_RW_ATTR_SBI_UI(mb_stats, s_mb_stats);
- EXT4_RW_ATTR_SBI_UI(mb_max_to_scan, s_mb_max_to_scan);
-@@ -342,6 +343,7 @@ static struct attribute *ext4_attrs[] = {
- 	ATTR_LIST(sb_update_sec),
- 	ATTR_LIST(sb_update_kb),
- 	ATTR_LIST(err_report_sec),
-+	ATTR_LIST(err_retry_sec),
- 	NULL,
- };
- ATTRIBUTE_GROUPS(ext4);
-diff --git a/include/linux/buffer_head.h b/include/linux/buffer_head.h
-index b16b88bfbc3e7..77e42e706d1e5 100644
---- a/include/linux/buffer_head.h
-+++ b/include/linux/buffer_head.h
-@@ -29,6 +29,7 @@ enum bh_state_bits {
- 	BH_Delay,	/* Buffer is not yet allocated on disk */
- 	BH_Boundary,	/* Block is followed by a discontiguity */
- 	BH_Write_EIO,	/* I/O error on write */
-+	BH_Read_EIO,	/* I/O error on read */
- 	BH_Unwritten,	/* Buffer is allocated on disk but not written */
- 	BH_Quiet,	/* Buffer Error Prinks to be quiet */
- 	BH_Meta,	/* Buffer contains metadata */
-@@ -79,6 +80,7 @@ struct buffer_head {
- 	spinlock_t b_uptodate_lock;	/* Used by the first bh in a page, to
- 					 * serialise IO completion of other
- 					 * buffers in the page */
-+	unsigned long b_err_timestamp;	/* timestamp of last IO error (jiffies) */
- };
- 
- /*
-@@ -132,11 +134,25 @@ BUFFER_FNS(Async_Write, async_write)
- BUFFER_FNS(Delay, delay)
- BUFFER_FNS(Boundary, boundary)
- BUFFER_FNS(Write_EIO, write_io_error)
-+BUFFER_FNS(Read_EIO, read_io_error)
- BUFFER_FNS(Unwritten, unwritten)
- BUFFER_FNS(Meta, meta)
- BUFFER_FNS(Prio, prio)
- BUFFER_FNS(Defer_Completion, defer_completion)
- 
-+static __always_inline void bh_update_read_io_error(struct buffer_head *bh,
-+						    int uptodate,
-+						    unsigned long now)
-+{
-+	if (uptodate) {
-+		clear_buffer_read_io_error(bh);
-+		bh->b_err_timestamp = 0;
-+	} else if (!buffer_read_io_error(bh)) {
-+		set_buffer_read_io_error(bh);
-+		bh->b_err_timestamp = now;
-+	}
-+}
-+
- static __always_inline void set_buffer_uptodate(struct buffer_head *bh)
- {
  	/*
+ 	 * Take the mapping lock for the duration of the table walk. As
+@@ -5413,7 +5415,7 @@ static void unmap_ref_private(struct mm_struct *mm, struct vm_area_struct *vma,
+ 	 * __unmap_hugepage_range() is called as the lock is already held
+ 	 */
+ 	i_mmap_lock_write(mapping);
+-	vma_interval_tree_foreach(iter_vma, &mapping->i_mmap, pgoff, pgoff) {
++	vma_interval_tree_foreach(iter_vma, root, pgoff, pgoff) {
+ 		/* Do not unmap the current VMA */
+ 		if (iter_vma == vma)
+ 			continue;
+@@ -6879,6 +6881,7 @@ pte_t *huge_pmd_share(struct mm_struct *mm, struct vm_area_struct *vma,
+ 		      unsigned long addr, pud_t *pud)
+ {
+ 	struct address_space *mapping = vma->vm_file->f_mapping;
++	struct rb_root_cached *root = get_i_mmap_root(mapping);
+ 	pgoff_t idx = ((addr - vma->vm_start) >> PAGE_SHIFT) +
+ 			vma->vm_pgoff;
+ 	struct vm_area_struct *svma;
+@@ -6887,7 +6890,7 @@ pte_t *huge_pmd_share(struct mm_struct *mm, struct vm_area_struct *vma,
+ 	pte_t *pte;
+ 
+ 	i_mmap_lock_read(mapping);
+-	vma_interval_tree_foreach(svma, &mapping->i_mmap, idx, idx) {
++	vma_interval_tree_foreach(svma, root, idx, idx) {
+ 		if (svma == vma)
+ 			continue;
+ 
+diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+index 1dd3cfca610d..3a4e81474fe3 100644
+--- a/mm/khugepaged.c
++++ b/mm/khugepaged.c
+@@ -1740,10 +1740,11 @@ static bool file_backed_vma_is_retractable(struct vm_area_struct *vma)
+ 
+ static void retract_page_tables(struct address_space *mapping, pgoff_t pgoff)
+ {
++	struct rb_root_cached *root = get_i_mmap_root(mapping);
+ 	struct vm_area_struct *vma;
+ 
+ 	i_mmap_lock_read(mapping);
+-	vma_interval_tree_foreach(vma, &mapping->i_mmap, pgoff, pgoff) {
++	vma_interval_tree_foreach(vma, root, pgoff, pgoff) {
+ 		struct mmu_notifier_range range;
+ 		struct mm_struct *mm;
+ 		unsigned long addr;
+@@ -2163,7 +2164,8 @@ static enum scan_result collapse_file(struct mm_struct *mm, unsigned long addr,
+ 		 * not be able to observe any missing pages due to the
+ 		 * previously inserted retry entries.
+ 		 */
+-		vma_interval_tree_foreach(vma, &mapping->i_mmap, start, end) {
++		vma_interval_tree_foreach(vma, get_i_mmap_root(mapping),
++					start, end) {
+ 			if (userfaultfd_missing(vma)) {
+ 				result = SCAN_EXCEED_NONE_PTE;
+ 				goto immap_locked;
+diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+index ee42d4361309..85196d9bb26c 100644
+--- a/mm/memory-failure.c
++++ b/mm/memory-failure.c
+@@ -598,7 +598,7 @@ static void collect_procs_file(const struct folio *folio,
+ 
+ 		if (!t)
+ 			continue;
+-		vma_interval_tree_foreach(vma, &mapping->i_mmap, pgoff,
++		vma_interval_tree_foreach(vma, get_i_mmap_root(mapping), pgoff,
+ 				      pgoff) {
+ 			/*
+ 			 * Send early kill signal to tasks where a vma covers
+@@ -650,7 +650,8 @@ static void collect_procs_fsdax(const struct page *page,
+ 			t = task_early_kill(tsk, true);
+ 		if (!t)
+ 			continue;
+-		vma_interval_tree_foreach(vma, &mapping->i_mmap, pgoff, pgoff) {
++		vma_interval_tree_foreach(vma, get_i_mmap_root(mapping), pgoff,
++					pgoff) {
+ 			if (vma->vm_mm == t->mm)
+ 				add_to_kill_fsdax(t, page, vma, to_kill, pgoff);
+ 		}
+@@ -2251,7 +2252,8 @@ static void collect_procs_pfn(struct pfn_address_space *pfn_space,
+ 		t = task_early_kill(tsk, true);
+ 		if (!t)
+ 			continue;
+-		vma_interval_tree_foreach(vma, &mapping->i_mmap, 0, ULONG_MAX) {
++		vma_interval_tree_foreach(vma, get_i_mmap_root(mapping),
++					0, ULONG_MAX) {
+ 			pgoff_t pgoff;
+ 
+ 			if (vma->vm_mm == t->mm &&
+diff --git a/mm/memory.c b/mm/memory.c
+index 366054435773..1ddd6b55fe7e 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -4298,7 +4298,7 @@ void unmap_mapping_folio(struct folio *folio)
+ 
+ 	i_mmap_lock_read(mapping);
+ 	if (unlikely(mapping_mapped(mapping)))
+-		unmap_mapping_range_tree(&mapping->i_mmap, first_index,
++		unmap_mapping_range_tree(get_i_mmap_root(mapping), first_index,
+ 					 last_index, &details);
+ 	i_mmap_unlock_read(mapping);
+ }
+@@ -4328,7 +4328,7 @@ void unmap_mapping_pages(struct address_space *mapping, pgoff_t start,
+ 
+ 	i_mmap_lock_read(mapping);
+ 	if (unlikely(mapping_mapped(mapping)))
+-		unmap_mapping_range_tree(&mapping->i_mmap, first_index,
++		unmap_mapping_range_tree(get_i_mmap_root(mapping), first_index,
+ 					 last_index, &details);
+ 	i_mmap_unlock_read(mapping);
+ }
+diff --git a/mm/mmap.c b/mm/mmap.c
+index 843160946aa5..5b0671dff019 100644
+--- a/mm/mmap.c
++++ b/mm/mmap.c
+@@ -1832,7 +1832,7 @@ __latent_entropy int dup_mmap(struct mm_struct *mm, struct mm_struct *oldmm)
+ 			flush_dcache_mmap_lock(mapping);
+ 			/* insert tmp into the share list, just after mpnt */
+ 			vma_interval_tree_insert_after(tmp, mpnt,
+-					&mapping->i_mmap);
++					get_i_mmap_root(mapping));
+ 			flush_dcache_mmap_unlock(mapping);
+ 			i_mmap_unlock_write(mapping);
+ 		}
+diff --git a/mm/nommu.c b/mm/nommu.c
+index c3a23b082adb..2e64b6c4c539 100644
+--- a/mm/nommu.c
++++ b/mm/nommu.c
+@@ -569,7 +569,7 @@ static void setup_vma_to_mm(struct vm_area_struct *vma, struct mm_struct *mm)
+ 
+ 		i_mmap_lock_write(mapping);
+ 		flush_dcache_mmap_lock(mapping);
+-		vma_interval_tree_insert(vma, &mapping->i_mmap);
++		vma_interval_tree_insert(vma, get_i_mmap_root(mapping));
+ 		flush_dcache_mmap_unlock(mapping);
+ 		i_mmap_unlock_write(mapping);
+ 	}
+@@ -585,7 +585,7 @@ static void cleanup_vma_from_mm(struct vm_area_struct *vma)
+ 
+ 		i_mmap_lock_write(mapping);
+ 		flush_dcache_mmap_lock(mapping);
+-		vma_interval_tree_remove(vma, &mapping->i_mmap);
++		vma_interval_tree_remove(vma, get_i_mmap_root(mapping));
+ 		flush_dcache_mmap_unlock(mapping);
+ 		i_mmap_unlock_write(mapping);
+ 	}
+@@ -1804,6 +1804,7 @@ EXPORT_SYMBOL_GPL(copy_remote_vm_str);
+ int nommu_shrink_inode_mappings(struct inode *inode, size_t size,
+ 				size_t newsize)
+ {
++	struct rb_root_cached *root = get_i_mmap_root(&inode->mapping);
+ 	struct vm_area_struct *vma;
+ 	struct vm_region *region;
+ 	pgoff_t low, high;
+@@ -1816,7 +1817,7 @@ int nommu_shrink_inode_mappings(struct inode *inode, size_t size,
+ 	i_mmap_lock_read(inode->i_mapping);
+ 
+ 	/* search for VMAs that fall within the dead zone */
+-	vma_interval_tree_foreach(vma, &inode->i_mapping->i_mmap, low, high) {
++	vma_interval_tree_foreach(vma, root, low, high) {
+ 		/* found one - only interested if it's shared out of the page
+ 		 * cache */
+ 		if (vma->vm_flags & VM_SHARED) {
+@@ -1832,7 +1833,7 @@ int nommu_shrink_inode_mappings(struct inode *inode, size_t size,
+ 	 * we don't check for any regions that start beyond the EOF as there
+ 	 * shouldn't be any
+ 	 */
+-	vma_interval_tree_foreach(vma, &inode->i_mapping->i_mmap, 0, ULONG_MAX) {
++	vma_interval_tree_foreach(vma, root, 0, ULONG_MAX) {
+ 		if (!(vma->vm_flags & VM_SHARED))
+ 			continue;
+ 
+diff --git a/mm/pagewalk.c b/mm/pagewalk.c
+index a94c401ab2cf..c6c1c45df575 100644
+--- a/mm/pagewalk.c
++++ b/mm/pagewalk.c
+@@ -792,7 +792,7 @@ int walk_page_mapping(struct address_space *mapping, pgoff_t first_index,
+ 		return -EINVAL;
+ 
+ 	lockdep_assert_held(&mapping->i_mmap_rwsem);
+-	vma_interval_tree_foreach(vma, &mapping->i_mmap, first_index,
++	vma_interval_tree_foreach(vma, get_i_mmap_root(mapping), first_index,
+ 				  first_index + nr - 1) {
+ 		/* Clip to the vma */
+ 		vba = vma->vm_pgoff;
+diff --git a/mm/rmap.c b/mm/rmap.c
+index 391337282e3f..52288d39d8a2 100644
+--- a/mm/rmap.c
++++ b/mm/rmap.c
+@@ -3036,7 +3036,7 @@ static void __rmap_walk_file(struct folio *folio, struct address_space *mapping,
+ 		i_mmap_lock_read(mapping);
+ 	}
+ lookup:
+-	vma_interval_tree_foreach(vma, &mapping->i_mmap,
++	vma_interval_tree_foreach(vma, get_i_mmap_root(mapping),
+ 			pgoff_start, pgoff_end) {
+ 		unsigned long address = vma_address(vma, pgoff_start, nr_pages);
+ 
+diff --git a/mm/vma.c b/mm/vma.c
+index be64f781a3aa..1768e4355a13 100644
+--- a/mm/vma.c
++++ b/mm/vma.c
+@@ -231,7 +231,7 @@ static void __vma_link_file(struct vm_area_struct *vma,
+ 		mapping_allow_writable(mapping);
+ 
+ 	flush_dcache_mmap_lock(mapping);
+-	vma_interval_tree_insert(vma, &mapping->i_mmap);
++	vma_interval_tree_insert(vma, get_i_mmap_root(mapping));
+ 	flush_dcache_mmap_unlock(mapping);
+ }
+ 
+@@ -245,7 +245,7 @@ static void __remove_shared_vm_struct(struct vm_area_struct *vma,
+ 		mapping_unmap_writable(mapping);
+ 
+ 	flush_dcache_mmap_lock(mapping);
+-	vma_interval_tree_remove(vma, &mapping->i_mmap);
++	vma_interval_tree_remove(vma, get_i_mmap_root(mapping));
+ 	flush_dcache_mmap_unlock(mapping);
+ }
+ 
+@@ -316,10 +316,11 @@ static void vma_prepare(struct vma_prepare *vp)
+ 
+ 	if (vp->file) {
+ 		flush_dcache_mmap_lock(vp->mapping);
+-		vma_interval_tree_remove(vp->vma, &vp->mapping->i_mmap);
++		vma_interval_tree_remove(vp->vma,
++					get_i_mmap_root(vp->mapping));
+ 		if (vp->adj_next)
+ 			vma_interval_tree_remove(vp->adj_next,
+-						 &vp->mapping->i_mmap);
++					get_i_mmap_root(vp->mapping));
+ 	}
+ 
+ }
+@@ -338,8 +339,9 @@ static void vma_complete(struct vma_prepare *vp, struct vma_iterator *vmi,
+ 	if (vp->file) {
+ 		if (vp->adj_next)
+ 			vma_interval_tree_insert(vp->adj_next,
+-						 &vp->mapping->i_mmap);
+-		vma_interval_tree_insert(vp->vma, &vp->mapping->i_mmap);
++					get_i_mmap_root(vp->mapping));
++		vma_interval_tree_insert(vp->vma,
++					get_i_mmap_root(vp->mapping));
+ 		flush_dcache_mmap_unlock(vp->mapping);
+ 	}
+ 
 -- 
-2.39.5
+2.43.0
+
 
