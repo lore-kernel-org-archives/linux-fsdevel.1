@@ -1,85 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D3913CB2C1;
-	Mon, 13 Apr 2026 14:02:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EBF13CB2DF
+	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 14:03:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776088939; cv=none; b=lLzMu2I4Xh+lbSFWPw9zxYQmzpvg1AgmbsbA0EalwNhUpyxFJLTTG3czSS1RXrzoc8nkmz5ja/hTyuNp3yzWPCjoNH2m7eNvhoJ2AziZJBVmkvk1ITAa12cG2+JC/B26mZ6/8KRF7PESIewUrq7Bo8qnGax0dPjyKzv4DY07JXs=
+	t=1776089033; cv=none; b=TQo9ULFgW1iKPDZQuEphawv1gbYq8kSbtQCvXLH6WKDy0RymV3PIBaZW/kGIyaQUBl1ARMfx3QwXS14euv5gzDbhF0AA1yW/6brC5bUWo50CEYXVsRkB5aC5Z4YI+RTDpFZwWKkiS3hNEqr/wYET78TNweTIlmupftYQdemNrpc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776088939; c=relaxed/simple;
-	bh=J8T6Dw9NftUnSxGcHO5ibrBAJE+CebJPNtYC8nRk5pk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KNeWsPvfwnaWIPwNYDOs4aCnB0/eonx6EIgGvvw7mdncHfUzPNFyocZAnC0xPmNmGMYK1oRFo0H4fepNG5NNgwk2D/el4Zo1nYlwL6efg6pA7LoMTwaugYHxTIeZR4h3ZI3IU2C573aovlnZw59XKKOtm8qiypkZ2h/bfBQGoGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AEan9QiV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776089033; c=relaxed/simple;
+	bh=3n45xZfSKVIDlFM6Kgn6HXK1Qa6b66QdRPNOzH/dCMA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=j0hESUAXTEfAOAEn+ejXPBAP7ckg0M4u7vYvtfUQDAbgUGmhZNMRK/IEnwjeuNg9H+8+P7gURmHitDr0lUvTh5/fswEIs/2dafC44c7Kgz5EYkby06wtpjN2dFGO61r6KXui730/nx7P7YlY2HPZURTLaP6xB3HYP373+T+r8eU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=o2BenqPd; arc=none smtp.client-ip=209.85.217.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AEan9QiV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3E55C2BCAF;
-	Mon, 13 Apr 2026 14:02:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776088938;
-	bh=J8T6Dw9NftUnSxGcHO5ibrBAJE+CebJPNtYC8nRk5pk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AEan9QiVkF11/pica1V//uavUJAxHURk/fNrhf3UJDdRX9JPHIySKLThL6kSQhGZ3
-	 trvibNDdlVNJIksx0OS+AKn1EjpwXRdjWcoi4b6yN36RlD4pQ7bGMFzHDBgpavKd+D
-	 1hamjYOUtE6h52r+6PvngIsmIWpf59C+AmQb8TpJn1xV3n2To5sTtK/OiEeRNX8oGr
-	 GMRryoclRICNbN7OuW1Ioav8jzY6/GjnKXN3Fjg6r2wD8SNPpnXVEn+f4OVXnxx8sB
-	 HvHi9yKQnO0LOSowMStisrHJcv5OHF4Enok3jCl2dXUgdLdR45CVLDuFDMIAJnx70d
-	 n6ZDuCnEUS23A==
-Date: Mon, 13 Apr 2026 15:02:12 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	David Hildenbrand <david@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-mm@kvack.org" <linux-mm@kvack.org>
-Subject: Re: [PATCH mm-hotfixes] mm/vma: remove __vma_check_mmap_hook()
-Message-ID: <adz3XI5vimbxDghN@lucifer>
-References: <20260413105713.92625-1-ljs@kernel.org>
- <adzg2DWDWDR3DFJh@shinmob>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="o2BenqPd"
+Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-605b3b6c4dcso2604966137.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 07:03:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776089028; x=1776693828; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FxnO/umNBngoNT0kCEAoae6kj6gwTy259ZD1rGH+vQM=;
+        b=o2BenqPdk5hUhOl+ICYWn4veKZg4da0NGC9kpa+1dYjS6FXx17J8Vzlg0RRRMuFdo0
+         F5H0OUkNihu7Vw6WQq+1CHr+eq1aWU7hFfCqOk0Py9UVTn5Ur42abqCyqmxv0lN5gaUN
+         J97BXB2duT91lY/6IrgDQDAdzrrC905JiwIYlBMl+RgtWCHQnkf3JpuxlAA1L8paIVG0
+         b5GRHCOieprvXwtfwxFznIUBEJKGRs+FpzXHIzU6pbvZZTRAAF5QrWaPU9wtxJ8J7V3O
+         xwpbPwcHJEsUmcgrw2q6ltR+FPxPpBWmvhDzkffBCkZcsSooeAzuaihtseMqDhNfPGji
+         Gliw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776089028; x=1776693828;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FxnO/umNBngoNT0kCEAoae6kj6gwTy259ZD1rGH+vQM=;
+        b=tTjQa2AVHLFtZvLU6f02zKuauCt0Gxg4a6b1hWR2uSnTT9zLK8bfyELoxpPGU8R0eG
+         cg+jB6tfl5AuR9+Kg3IH35BUcQ0Yo42NEDEl8cwYCjGLPTk/VgXyOD7KjA+HHSCtEjnQ
+         WWBglQ9TWeUWKUwdurt4s0g+MsHdnlyQW4Oxr3cwi1ax7AZzeKUHgH9AN2xffPdxBpV0
+         sr+oHFDta0Y8DYGfmpoddfiB/Wj7uMaXKbs3vsC8WZGbti8yWgknZmL1sH/xrrrlAQUN
+         Q7gyHKqlVLb5udffOEkXRClLuuu48HRz/TCMn1YgQfZyRBwjh/SLm5+JA5kIoXelqo0N
+         lCKQ==
+X-Gm-Message-State: AOJu0YxPyheE6yddbh+Sr3qQwRXXc88jXQCxcBz9Ca2z9nP/RVwDa2bk
+	cf3s0GuSJIgCr9GUoCEwGEdvAmMNkuRWddyAxMHSjTpwAwHEpxDEaeDF
+X-Gm-Gg: AeBDievM5jHEpfizeRfwZysopOHfpxIzVE5B8Ve/LnzYRw64VxOQJoO/k9WEow9Bp2i
+	elinogLC1u1nUki4Wio1415SFtxHmOSb9lzpWxpyCeULNZMG5kkLf42WnPFZQYTUhGlqzzl4I1C
+	1NnGDaaN32jmEX1rYdfle94g9WQhKCPUGSnJtbA2x2iZoXhwL9J5P1MAOZ6yPuzxzyTq4KUCR8y
+	bPkOqlbK/EIpI/IhLiIELyivRpvmtX6QSdAbacziNa5hp7/xgyZa7/vBXWG3F2ox+292jm+EVW6
+	t4wNP9k3CyfCf9TXPYo4ag7lLBXRrs36PLaY2RXqeCiwT1eknE54IbiwBNc+9DJoSnIdxkCLfoP
+	2ym28IBog9dRy6PywdvgHxrUTrGO3Sz3NOQBQIQfLMTa5yHwTvvO9g0VuxnojZXLW3ZbF9xfYYb
+	Pcpbn2UBGHTcsCBnoEmjF+Tq7MZ6TkcpsR3CE=
+X-Received: by 2002:a05:6102:3e02:b0:608:e69f:a443 with SMTP id ada2fe7eead31-60a08c173e7mr4009694137.2.1776089028461;
+        Mon, 13 Apr 2026 07:03:48 -0700 (PDT)
+Received: from localhost.localdomain ([2a09:bac5:6d77:aa::11:15d])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-609d8c5b741sm6301514137.3.2026.04.13.07.03.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Apr 2026 07:03:47 -0700 (PDT)
+From: Sebastian Alba Vives <sebasjosue84@gmail.com>
+To: greg@kroah.com
+Cc: linux-fsdevel@vger.kernel.org,
+	security@kernel.org,
+	Sebastian Alba Vives <sebasjosue84@gmail.com>
+Subject: [PATCH] jfs: fix missing bounds check in __jfs_setxattr()
+Date: Mon, 13 Apr 2026 08:03:28 -0600
+Message-ID: <20260413140328.173446-1-sebasjosue84@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <adzg2DWDWDR3DFJh@shinmob>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Apr 13, 2026 at 12:28:46PM +0000, Shinichiro Kawasaki wrote:
-> On Apr 13, 2026 / 11:57, Lorenzo Stoakes wrote:
-> > Commit c50ca15dd496 ("mm: add vm_ops->mapped hook") introduced
-> > __vma_check_mmap_hook() in order to assert that a driver doesn't
-> > incorrectly implement both an f_op->mmap() and a vm_ops->mapped hook, the
-> > latter of which would not ultimately get invoked.
-> >
-> > However, this did not correctly account for stacked drivers (or drivers
-> > that otherwise use the compatibility layer) which might recursively call
-> > an mmap_prepare hook via the compatibility layer.
-> >
-> > Thus the nested mmap_prepare() invocation might result in a VMA which has
-> > vm_ops->mapped set with an overlaying mmap() hook, causing the
-> > __vma_check_mmap_hook() to fail in vfs_mmap(), wrongly failing the
-> > operation.
-> >
-> > This patch resolves this by simply removing the check, as we can't be
-> > certain that an mmap() hook doesn't at some point invoke the compatibility
-> > layer, and it's not worth trying to track it.
-> >
-> > Fixes: c50ca15dd496 ("mm: add vm_ops->mapped hook")
-> > Reported-by: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-> > Closes: https://lore.kernel.org/all/adx2ws5z0NMIe5Yj@shinmob/
-> > Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
->
-> Lorenzo, thank you for the swift fix. I applied this patch on top of the
-> next-20260410 kernel, and confirmed the failure disappeared. Good.
->
-> Tested-by: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+The loop in __jfs_setxattr() iterates over EA entries without validating
+that NEXT_EA(ea) stays within the ealist buffer. A crafted filesystem
+image with a manipulated EA valuelen field can cause NEXT_EA() to land
+inside the buffer but past the last valid entry, leading to out-of-bounds
+reads in the subsequent memcmp() call.
 
-Thanks! :)
+Fix this by adding the same bounds check already present in
+__jfs_getxattr() and jfs_listxattr().
 
-Cheers, Lorenzo
+Reported-by: Sebastian Alba Vives <sebasjosue84@gmail.com>
+Signed-off-by: Sebastian Alba Vives <sebasjosue84@gmail.com>
+---
+ fs/jfs/xattr.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/fs/jfs/xattr.c b/fs/jfs/xattr.c
+index 11d7f74d2..320659bb8 100644
+--- a/fs/jfs/xattr.c
++++ b/fs/jfs/xattr.c
+@@ -688,8 +688,14 @@ int __jfs_setxattr(tid_t tid, struct inode *inode, const char *name,
+ 	new_size = sizeof (struct jfs_ea_list);
+ 
+ 	if (xattr_size) {
+-		for (ea = FIRST_EA(ealist); ea < END_EALIST(ealist);
++		struct jfs_ea *ealist_end = END_EALIST(ealist);
++		for (ea = FIRST_EA(ealist); ea < ealist_end;
+ 		     ea = NEXT_EA(ea)) {
++			if (unlikely(ea + 1 > ealist_end) ||
++			    unlikely(NEXT_EA(ea) > ealist_end)) {
++				rc = -EUCLEAN;
++				goto release;
++			}
+ 			if ((namelen == ea->namelen) &&
+ 			    (memcmp(name, ea->name, namelen) == 0)) {
+ 				found = 1;
+-- 
+2.43.0
+
