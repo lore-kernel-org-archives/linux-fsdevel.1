@@ -1,85 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADC373C552E;
-	Mon, 13 Apr 2026 18:11:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DF7A38F64A;
+	Mon, 13 Apr 2026 18:43:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776103917; cv=none; b=prBQHHkpwVw7StD9yruryzomzPV0wjBhMi/4hesm14EeLpiZuJKSgxV1S7FVILZ4PQUujU+ivvDYSeaxH4nL8GjxVF3mRefX4CPQOVfXGXfzpbLl5hPoSEz1QMIG5u5agp6w47aT2ii26VVQfosPzZyhEylYFwjNZ0a9KEy8UFg=
+	t=1776105806; cv=none; b=NqkJbqOPsVgotd2S9TUoQj8/daAI6ip+j4BpFbAUlA3oGKTSyTZ8i8liQob8iR5mZ76N1JubriuSsnoRVvwYi/3JYQUMzfPbec8bOD32gIGbo4Pq5LqIQfFnIHsuTPv+D5jzn10Gq4I5tkFdNSOpX1ENZ3vtSNpJSaxZpHiIjYA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776103917; c=relaxed/simple;
-	bh=GqEblOIW2F5gQb9NP0lUn1DmJkawbMT18pwCaysfhBw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QtpUYzGztCdFdnnKHGdfFzUXPQfG27esx2jSU+xMPNgO/EnZP0JIGp4yRaRFkrwMCZrlNbkq4BznQDKLZ0KCoUXVuIpN5d4lCqHQEb5wfFFlUeEwdOt1uyl2TNLh3MrDBTJygYBQUvQb+hPjo/A3kVoQn37Kupetv4YrpOxterc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AGpujUap; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776105806; c=relaxed/simple;
+	bh=zoV2k8MzCWNy21h2JF6nhQfGEX8w5EwkF91mKeelG2M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MCZHzA09IQOnYE8QwOb23Y0sj7eTNq/96BHQ/6SscrnysN1XBit/a6qqf8kTWgVykJCatylEKQWePZ5eVKfhjYRPnWS2MU25FTiHgJaZtu666NGHViSsn9b6QuDqSz1xW52C9ZeRoOWkjtPYL3p8XbxiMu1D18KCVCVG/shb544=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Mhxaednr; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AGpujUap"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64247C2BCAF;
-	Mon, 13 Apr 2026 18:11:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776103917;
-	bh=GqEblOIW2F5gQb9NP0lUn1DmJkawbMT18pwCaysfhBw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AGpujUapboi92ORM0AThJwTNTrTULuozrp5frl3kHF83gg2r7TyylitC/5RlaAuaz
-	 vRh/iNR9D6KoDbfXOEGtpECQMu3qiksmOiLeQb5guOZLMzK0kpZg9mCnkq971JjHmS
-	 M/BC2pH1UPWwU0GMtXRTyVXFbFsq+ckdeGqi571VnlaLlFq2Vsd/hE1d+L9QzcoLfH
-	 Ai2Q980IZbc0YoCmqxwgEyZhI4A1Reed753PhfurpsE/mT9czGfNI6XMS6cZj82RRC
-	 9s3SqXsLsk+oNDArILjlMgVfAu3v8gfVzy8OUG0EJpYqpt0wjS7G/8g42f2NsAWO/J
-	 hWMzTgRh6Yb8g==
-Date: Mon, 13 Apr 2026 11:11:56 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Aurelien DESBRIERES <aurelien@hackers.camp>,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	viro@zeniv.linux.org.uk, brauner@kernel.org
-Subject: Re: [RFC PATCH 0/10] ftrfs: Fault-Tolerant Radiation-Robust
- Filesystem
-Message-ID: <20260413181156.GY6202@frogsfrogsfrogs>
-References: <20260413142357.515792-1-aurelien@hackers.camp>
- <ad0GX6gVgHxD9-ym@casper.infradead.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Mhxaednr"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+	Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=7+dnmsOeh6AHqg2BhNW2UdgF8EdFnZSC7APgeVGJlpg=; b=MhxaednrwdG+RPq61MKq1e/UmW
+	FV41IdAWLXwizrThta5K0oncE8BD/J8z4GvuPpbmGK9Pv1muKA+VQuUrbOtCQeEuihMNChHI4EW5H
+	1t5jGMSUGGYnkizBuCKlXETLVRH64DWCVwUpLX9/fHLxjNL6lGoC84kqnVa+0rfuTiutbkgFNSEkg
+	2coY2kgJbXER1qJKaP8XcWaXAKO0TIXw4TsLNN3/GqezimYRKZltRjSsDSEXBMnkP9IjPS28pal+F
+	KWd3s1SQGi7Pk635NRfHlmo1IeQPUeg5wIYiC5LfLPsyAugUytIVw62lhkFrknUjUeuodaoCHf7M0
+	TyVNN0ew==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1wCMFj-0000000ELgf-0Jru;
+	Mon, 13 Apr 2026 18:43:19 +0000
+From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	Jens Axboe <axboe@kernel.dk>,
+	stable@vger.kernel.org,
+	Google Big Sleep <big-sleep-vuln-reports+bigsleep-501448199@google.com>
+Subject: [PATCH] mm: Call ->free_folio() directly in folio_unmap_invalidate()
+Date: Mon, 13 Apr 2026 19:43:11 +0100
+Message-ID: <20260413184314.3419945-1-willy@infradead.org>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ad0GX6gVgHxD9-ym@casper.infradead.org>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Apr 13, 2026 at 04:06:07PM +0100, Matthew Wilcox wrote:
-> On Mon, Apr 13, 2026 at 04:23:46PM +0200, Aurelien DESBRIERES wrote:
-> > FTRFS was originally described in:
-> > 
-> >   Fuchs, C.M., Langer, M., Trinitis, C. (2015).
-> >   FTRFS: A Fault-Tolerant Radiation-Robust Filesystem for Space Use.
-> >   ARCS 2015, LNCS vol 9017, Springer.
-> >   https://doi.org/10.1007/978-3-319-16086-3_8
-> 
-> Might be nice to link to a non-paywalled copy of that paper, eg:
-> 
-> https://www.cfuchs.net/chris/publication-list/ARCS2015/FTRFS.pdf
-> 
-> > This implementation is an independent open-source realization of the
-> > concepts described in that paper, developed for the Linux kernel.
-> 
-> Can I ask why?  Is the original code not available or too ugly?
-> 
-> > On-disk layout:
-> > 
-> >   Block 0        : superblock (magic 0x46545246, CRC32-protected)
-> >   Block 1..N     : inode table (128 bytes/inode, CRC32 per inode)
-> >   Block N+1..end : data blocks (CRC32 + RS FEC per block)
-> > 
-> > Inodes use direct addressing (12 direct block pointers) plus single
-> > and double indirection. Directory entries are fixed-size (268 bytes)
-> > stored in direct blocks.
-> 
-> This is very old-school.  That may be appropriate for the intended
-> use-case, but it ignores about five decades of filesystem research.
+We can only call filemap_free_folio() if we have a reference to (or hold a
+lock on) the mapping.  Otherwise, we've already removed the folio from the
+mapping so it no longer pins the mapping and the mapping can be removed,
+causing a use-after-free when accessing mapping->a_ops.
 
-Why not add FEC to btrfs instead?  Then you can concentrate on getting
-the IO paths correct, instead of burning time on ensuring that you've
-implemented all the other posix filesystemisms correctly.
+Follow the same pattern as __remove_mapping() and load the free_folio
+function pointer before dropping the lock on the mapping.  That lets
+us make filemap_free_folio() static as this was the only caller outside
+filemap.c.
 
---D
+Fixes: 4a9e23159fd3 (mm/truncate: add folio_unmap_invalidate() helper)
+Cc: Jens Axboe <axboe@kernel.dk>
+Cc: stable@vger.kernel.org
+Reported-by: Google Big Sleep <big-sleep-vuln-reports+bigsleep-501448199@google.com>
+Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+---
+ mm/filemap.c  | 3 ++-
+ mm/internal.h | 1 -
+ mm/truncate.c | 6 +++++-
+ 3 files changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/mm/filemap.c b/mm/filemap.c
+index 406cef06b684..5a4fecb24257 100644
+--- a/mm/filemap.c
++++ b/mm/filemap.c
+@@ -228,7 +228,8 @@ void __filemap_remove_folio(struct folio *folio, void *shadow)
+ 	page_cache_delete(mapping, folio, shadow);
+ }
+ 
+-void filemap_free_folio(struct address_space *mapping, struct folio *folio)
++static void filemap_free_folio(const struct address_space *mapping,
++		struct folio *folio)
+ {
+ 	void (*free_folio)(struct folio *);
+ 
+diff --git a/mm/internal.h b/mm/internal.h
+index cb0af847d7d9..546114d3ee44 100644
+--- a/mm/internal.h
++++ b/mm/internal.h
+@@ -540,7 +540,6 @@ unsigned find_lock_entries(struct address_space *mapping, pgoff_t *start,
+ 		pgoff_t end, struct folio_batch *fbatch, pgoff_t *indices);
+ unsigned find_get_entries(struct address_space *mapping, pgoff_t *start,
+ 		pgoff_t end, struct folio_batch *fbatch, pgoff_t *indices);
+-void filemap_free_folio(struct address_space *mapping, struct folio *folio);
+ int truncate_inode_folio(struct address_space *mapping, struct folio *folio);
+ bool truncate_inode_partial_folio(struct folio *folio, loff_t start,
+ 		loff_t end);
+diff --git a/mm/truncate.c b/mm/truncate.c
+index 12467c1bd711..8617a12cb169 100644
+--- a/mm/truncate.c
++++ b/mm/truncate.c
+@@ -622,6 +622,7 @@ static int folio_launder(struct address_space *mapping, struct folio *folio)
+ int folio_unmap_invalidate(struct address_space *mapping, struct folio *folio,
+ 			   gfp_t gfp)
+ {
++	void (*free_folio)(struct folio *);
+ 	int ret;
+ 
+ 	VM_BUG_ON_FOLIO(!folio_test_locked(folio), folio);
+@@ -648,9 +649,12 @@ int folio_unmap_invalidate(struct address_space *mapping, struct folio *folio,
+ 	xa_unlock_irq(&mapping->i_pages);
+ 	if (mapping_shrinkable(mapping))
+ 		inode_lru_list_add(mapping->host);
++	free_folio = mapping->a_ops->free_folio;
+ 	spin_unlock(&mapping->host->i_lock);
+ 
+-	filemap_free_folio(mapping, folio);
++	if (free_folio)
++		free_folio(folio);
++	folio_put_refs(folio, folio_nr_pages(folio));
+ 	return 1;
+ failed:
+ 	xa_unlock_irq(&mapping->i_pages);
+-- 
+2.47.3
+
