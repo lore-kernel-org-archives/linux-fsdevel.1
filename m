@@ -1,134 +1,98 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FE163C2763
-	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 15:33:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE6887262F;
+	Mon, 13 Apr 2026 15:44:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776094416; cv=none; b=QYTzzvE8ARrd2tdFAwhOKOVy2W8FRBl0T6xX7N0nQHxQY+x2hvYxhVOZc/xeNO3/HgBInRfwa+XGOOCgf0DmRzBeDnDOFUx+cFYKzPawtB5O1zx/h/EEnWYZudUaYjD4x5z6UUz9z/y0+sWXlUJueHjAc0itab5Cqq7lapO6JbM=
+	t=1776095046; cv=none; b=dN5f0xdAZsQdtYCqbpnOeWP1aBBN9HrlaTNMVnZoUmsylcu7mvmru+Ww0famDNkcnyAIuU0Y0KxK69yBkOw7K5S5l58ciLTjpvsAyqRHUzsj53bASqdwufoYQdEo0NJMT1x7MZbYNYQGJ9rsqHHiQLcnnGgGT18UlhpQI/tgByw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776094416; c=relaxed/simple;
-	bh=iX4hzBFj2m2KZiJVUrG8vp2JMXC1uhBlllLkPM8W0L4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jqckXQuCiMOJVQTbylQ1eKoO3n+yyOpwf23vqLi1Sy8Imup3uh6SWVbzqaoToZd6HNVFTUXYlZhRGo7+/PxR+2ewoZqjwXd/Vz+PKZApxKPDJiG4itYMOtMpOGKk2P8hlfp0BnSCzxNaqVmgOALMaeT4CYx/CyIHA4jNE59I/Cg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dPCS6XPj; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dPCS6XPj"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4852a9c6309so43633695e9.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 08:33:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776094414; x=1776699214; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9ShgF/BpsS7cAVnwA77xlwKbX+t0sp7V8xBcXlbEXIY=;
-        b=dPCS6XPjbAcd5lFxQIloBbLEIOj1qAEAy0Z1o1/7E2bSZBjOgmuZ9LWIqx8XtZJZY6
-         5E5vQeDiEHpmcTuRQZjvOSmFhzBJ2r/mpanb7foJJh4yQfmNDU107a/dT5eNTFD6Q87v
-         EHgYQVZXzoJ5Wwj0ZfVZScxkNgnT1+TMHQzqAC4zKc1QzexLFAexvcE6qr5QPi6eV9lm
-         qTfH0mc05A4ereysiVK+ek0S63hWdmJcJk3mLqX5lOqmOAJtrumPiknB41As6TypFLri
-         TFPmkObiZWzj6dmJbNt435FNpsl1n5fegAbkmdyLuKsxSidMajs2UtAGRloLMTCHSc3x
-         HyFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776094414; x=1776699214;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9ShgF/BpsS7cAVnwA77xlwKbX+t0sp7V8xBcXlbEXIY=;
-        b=ZwlyyBcPkBSSTu6MeH0wOW8RzJnzK8WDxkZD1Bi/54jPdPMtdado8UuZ2tsPGR3/nB
-         rp6KHAEiB60whdbfaboK/jXcpMryUfCJx7ibOi43u7CP3j3UsCMB8s3y7TaLasnH4rhf
-         RX+1pDcpFDlcwDFjM2nKbfARgV8Oo8Jyq/H+BZAHBkgx5vY7AxEoIITrCsopei/gpeJH
-         OQsPm0RysRPIxvvA/dFKlQKXCZbFSER/L2Lxpf/0CIhCiWkIgonapIKEC+yJd3n5Fu71
-         DhQyAiMMPsnnkZacPHCE3DVLH7bR2/hC0kfUwuP01SOGYrjbr/J+wVT2cK20YrPSZT7a
-         1zTg==
-X-Forwarded-Encrypted: i=1; AFNElJ+gfMIdXPJCoODoJchcoCkiwdSothE1nbTjJqq0FdWHwFyLYRn0zHqEZ2z8v6eDFhmRqaGgdSZBFqO9t7IH@vger.kernel.org
-X-Gm-Message-State: AOJu0YwXiWovwtfav9R6JYJDK9xVwU06RpDX6LBIjcZE35ln2xwRKcEu
-	iaXBDB9/XaMVKkGQTRZWgCOtcYcD6l8uw4TlxUjfNhmPioQjDgg/YxiR
-X-Gm-Gg: AeBDiesosJtzvxduQ3GN1WtBZl+qtlnLW43QM/mhLwPoRmEENMxn/mBCBzyZH5AkE8+
-	yu1xl/C6YIZA6cOO76LkKPebIfsmsyFsUmgwrShYhFROvgwckejNdiYk96nWIhfuA87ygFho/DK
-	Usx3bCx5gjdAdYFBUp/X9K9TaqFTWBYhLQIhgW9rH27E4t343WII+F0CY9pDnkrHcPhrAxupZWI
-	lq65NJ8Ry8Kwnfgrp2Jg4mrGNzp9i5JIn5ZXCFycWZ8oQd0ZvbUAXCR9VWieaye+kg+9v0StNWC
-	t0z5t19WvfvzsdjzHIwVNmW8+ioN1EsNnmYdDG2y2CZ69mSFXwTYci5LSmMSqhLbJzp4cUWb8Uz
-	XVE0iVR+i3yQ8RGPKtLI1PRkQkDtb6nfl5vm86dTEOQRQITTIK4a5Kh393E1mXCpJbb3lMFjiWx
-	5DQVfUIn0mrsIJ4iR/tqwCjPYQFmStx+ge4iVL1HMo3u7QyPX0lp4wqfpZWFjXB5FXb0TIE2k=
-X-Received: by 2002:a05:600c:314b:b0:488:b241:2c5f with SMTP id 5b1f17b1804b1-488d687c076mr159606435e9.26.1776094413364;
-        Mon, 13 Apr 2026 08:33:33 -0700 (PDT)
-Received: from f (cst-prg-89-171.cust.vodafone.cz. [46.135.89.171])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488d684406bsm94248555e9.24.2026.04.13.08.33.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Apr 2026 08:33:31 -0700 (PDT)
-Date: Mon, 13 Apr 2026 17:33:21 +0200
-From: Mateusz Guzik <mjguzik@gmail.com>
-To: Huang Shijie <huangsj@hygon.cn>
-Cc: akpm@linux-foundation.org, viro@zeniv.linux.org.uk, brauner@kernel.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-fsdevel@vger.kernel.org, muchun.song@linux.dev, 
-	osalvador@suse.de, linux-trace-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-parisc@vger.kernel.org, nvdimm@lists.linux.dev, 
-	zhongyuan@hygon.cn, fangbaoshun@hygon.cn, yingzhiwei@hygon.cn
-Subject: Re: [PATCH 0/3] mm: split the file's i_mmap tree for NUMA
-Message-ID: <76pfiwabdgsej6q2yxfh3efuqvsyg7mt7rvl5itzzjyhdrto5r@53viaxsackzv>
-References: <20260413062042.804-1-huangsj@hygon.cn>
+	s=arc-20240116; t=1776095046; c=relaxed/simple;
+	bh=4qYbspDYQJcmOhz1JJFBn7ZGQBe0oN+RPtMUDJK/VmY=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kJbdzCDkv2KxQSf9WEfxuiUM28YcfzLV5ePOpHT0rOCsV0yNlrY/AabZJC8hf4lChRmt6PNlhFj45DcZjcmW6QhMEjQW9CPhpQGlcD26Tx8f39SxnqYyw/jc+8DwKXszbjR8MEztAcdNwM+jcynZR+tWEcweKmAA6JMYfYRQuwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.107])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fvWsc4QhrzHnH5R;
+	Mon, 13 Apr 2026 23:43:48 +0800 (CST)
+Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
+	by mail.maildlp.com (Postfix) with ESMTPS id EF9D540587;
+	Mon, 13 Apr 2026 23:44:00 +0800 (CST)
+Received: from localhost (10.203.86.132) by dubpeml500005.china.huawei.com
+ (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 13 Apr
+ 2026 16:44:00 +0100
+Date: Mon, 13 Apr 2026 16:43:59 +0100
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+To: Hannes Reinecke <hare@suse.de>
+CC: lsf-pc <lsf-pc@lists.linux-foundation.org>, <linux-cxl@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>
+Subject: Re: [LSF/MM/BPF TOPIC] Strategies for memory deallocation/movement
+ for Dynamic Capacity Pooling
+Message-ID: <20260413164359.00001c86@huawei.com>
+In-Reply-To: <e06deabf-44ad-4f3f-b817-78506c5e3203@suse.de>
+References: <e06deabf-44ad-4f3f-b817-78506c5e3203@suse.de>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260413062042.804-1-huangsj@hygon.cn>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100011.china.huawei.com (7.191.174.247) To
+ dubpeml500005.china.huawei.com (7.214.145.207)
 
-On Mon, Apr 13, 2026 at 02:20:39PM +0800, Huang Shijie wrote:
->   In NUMA, there are maybe many NUMA nodes and many CPUs.
-> For example, a Hygon's server has 12 NUMA nodes, and 384 CPUs.
-> In the UnixBench tests, there is a test "execl" which tests
-> the execve system call.
+On Mon, 30 Mar 2026 09:59:56 +0200
+Hannes Reinecke <hare@suse.de> wrote:
+
+> Hi all,
 > 
->   When we test our server with "./Run -c 384 execl",
-> the test result is not good enough. The i_mmap locks contended heavily on
-> "libc.so" and "ld.so". For example, the i_mmap tree for "libc.so" can have 
-> over 6000 VMAs, all the VMAs can be in different NUMA mode.
-> The insert/remove operations do not run quickly enough.
+> during discussion with our partners regarding implementing dynamic 
+> capacity devices (DCD) on CXL the question has been brought up if
+> we can somehow 'steer' which memory page to move.
+> The problem is that for dynamic capacity devices we have a certain
+> freedom which memory page to move/deallocate, so ideally there would
+> be a strategy which pages to move/deallocate.
+
+Hi Hannes,
+
+Can you talk through your use model a little bit more?
+I'm guessing this is about untagged DCD being used in a virtio-mem
+like way?  Hence you want to clear out a range of DPA base so you can
+do a partial release?
+
+I may have completely missed what you are targetting though so an
+example would be great.
+
+> Should it be per application/cgroup?
+> Does it make sense to move individual pages from one application/cgroup
+> or would it be better to move all pages from the application/cgroup?
+> Should we implement something (eg via madvise()) to allow applicaitons
+> to influence the policy?
+> If so, what would that be?
 > 
-> patch 1 & patch 2 are try to hide the direct access of i_mmap.
-> patch 3 splits the i_mmap into sibling trees, and we can get better 
-> performance with this patch set:
->     we can get 77% performance improvement(10 times average)
+> So quite some things to discuss; however, not sure if this isn't too
+> much of an arcane topic which should rather be directed at places like
+> LPC. But I'll let the PC decide.
+
+Superficially feels a bit arcane, particularly as we are currently
+kicking untagged memory into the long grass as there are too many
+open questions on how to present it at all (e.g. related to Gregory's
+recent work on private nodes).  On recent CXL sync calls the proposal
+has been to do tagged memory first and only support allocation of
+all memory with a given tag in one go and full release.
+
+Anyhow, sounds like the sort of thing I'm always keen to discuss
+but I'm not going to be at LSFMM this year.
+
+Jonathan
+
 > 
+> Cheers,
+> 
+> Hannes
 
-To my reading you kept the lock as-is and only distributed the protected
-state.
-
-While I don't doubt the improvement, I'm confident should you take a
-look at the profile you are going to find this still does not scale with
-rwsem being one of the problems (there are other global locks, some of
-which have experimental patches for).
-
-Apart from that this does nothing to help high core systems which are
-all one node, which imo puts another question mark on this specific
-proposal.
-
-Of course one may question whether a RB tree is the right choice here,
-it may be the lock-protected cost can go way down with merely a better
-data structure.
-
-Regardless of that, for actual scalability, there will be no way around
-decentralazing locking around this and partitioning per some core count
-(not just by numa awareness).
-
-Decentralizing locking is definitely possible, but I have not looked
-into specifics of how problematic it is. Best case scenario it will
-merely with separate locks. Worst case scenario something needs a fully
-stabilized state for traversal, in that case another rw lock can be
-slapped around this, creating locking order read lock -> per-subset
-write lock -- this will suffer scalability due to the read locking, but
-it will still scale drastically better as apart from that there will be
-no serialization. In this setting the problematic consumer will write
-lock the new thing to stabilize the state.
-
-So my non-maintainer opinion is that the patchset is not worth it as it
-fails to address anything for significantly more common and already
-affected setups.
-
-Have you looked into splitting the lock?
