@@ -1,49 +1,49 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B64F3932ED
-	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 21:06:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3BCF395250
+	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 21:06:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776114384; cv=none; b=pI7WmP/KDZu8ueJmEqPcq8u0zss4/Tx7fxkuqKsYgO51riSwqOl74lmPPmYPL/DScon0Pn1O2w/LhefyZJblHlbMFMOJ3oywMd1R1ijErOB+/68ePDpcVtZTrdw3GfGKj/mBDwFhbp7fOuPQZ9aIFr7NtV9iHKq5UEe9WHU1yoM=
+	t=1776114385; cv=none; b=VSHDaoIfvnNEgroSB5Qsf+WKT0veRn+6FyCiB/2g5LbX2Bz3MlCwDfBbjVlSOwN+z5gFNPAbD7phADFqf1ENOe+OpsuTLFoaJA2gBDwKRWYGgL9MPdad5HSYzRms1eMt6AfgGeZLziP5KM+Tw2VBRlXFKBeqHqDCMtpottF2JC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776114384; c=relaxed/simple;
-	bh=k3ZcmerPCaSP5l5VqDhCeas4xqbTxaeRMl4kGnOUlA8=;
+	s=arc-20240116; t=1776114385; c=relaxed/simple;
+	bh=v32LiiFvmmIm2TLfU9CJlRKpWxy/76tGuhfVX78Pjms=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=coIycTjNuZHlRi0e2U6nMrO0FKudYLIAThZESzEkOrtzZu1HRyVadEEkpBS3IjaMEGUT5T6SxpmD+3xyyDzbI5H0UW5AaIO8XDZI/XJInRHxfILa2Pf/CLVB4os9MEJUzKq8TFM/hi9AVFuagmFD8654hAQyNZfFZfAHwq2IvXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hackers.camp; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.45
+	 MIME-Version:Content-Type; b=OyUUiB7QGmMzjqPY+N6i/p6GMZimR4z+1Zqq+C1UG+QiNny8sESfC4jkIT9bh3bkkPeyGXUo+R2jYiET6fhTIa/5hbq/LtDYf7sezueSKMcc2c125X2Dw33OQxBzyFaul6bELCgsZlSVzrVxOtWSzoA+3lNGtrrR+8yNoCKL8Yo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hackers.camp; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hackers.camp
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-488822b93c7so5327725e9.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 14:06:22 -0700 (PDT)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-488ac04e13dso6180295e9.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 14:06:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776114381; x=1776719181;
+        d=1e100.net; s=20251104; t=1776114382; x=1776719182;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=zCysZkMCVzz4vFWVIOblJf4TyrdfU5COK82iM1u8HRI=;
-        b=aadrL+n6E4SVELCfdKSf0XTPFn2lU6GYwSdQMYyPS4uenDb8pvqaubLhk4d+2PTwRx
-         HT8VbF/TcYuxqyIhYDXOJ5Il54Jkr7Rv2Bj8HmM9f+KerLCWiAfId3tq/Ht+NTnUiqoN
-         7zXAxj4RXUkZ4KoDsBCveuUXGJvQxgSeVLQCvpUzguWrEfGsb66IZTxeGudoXi6MUOTd
-         w2bbLXBB//FTj2p9tSYGGtMFvTYYCY5PBnKUju8gpWMc1g5TpC7oo1B7iTRyxGe8s+EP
-         LdZK7IrGJ9gmqTKRVvJUaPvGXsHkk7Ka10DgmOZkhG+T0/uiNxU+o4JtonDPZKTEmKlR
-         TFNQ==
-X-Gm-Message-State: AOJu0Ywu7U2wQILjdoHz7qgx6D9LiPaQ4gnDtAIIbvN3Zb0hmEUX1HHB
-	2e8MICofPGZ+Qdpb5W9zr/ecUCErXt7ZC6dc264BDhhuAd+NQSchv0YkCjzKOtNtwLg=
-X-Gm-Gg: AeBDiesZqvRMYwpYrUAE88rKWHTbb6MX7N2aFXT51V5JZ2fHz0AQ0ibQdUjJAwI9w1F
-	fY1uyUg0G+sbg9qVoWdIqn5cyqHsEu0uRN9GUwsWda2R51OOsDVPx5J55Lga4qkb+XY4l/ySqYY
-	FZWtTOHecxLYu6OaFdXJ7aGRAoVgV6tXmZo1hJcWryJCJVmyc0DK2P/DaPSMoAwCxbFMWl9sN9k
-	EhWOTWcgvCEH4IEtXfrLmWKAm0dn2Fdm1A9hUAQqp4pVKbX7ylKU0VlncO6b2uRvw/rsQhVJCEa
-	YyxEYJJrB1XWCK9j7YXbIU3cbgGYhHlZvAZ5Vz/9RN+Ligmgd/LErk9PUK6rgnHfSqsArDPc7rB
-	pdfHmFgsfrhX9Me0oKbLtLgSDHv/YIOD4N++VmMcfL8aZ5y6v1d2RbeP9WZNeWqxnk6EecrhAP/
-	8UcAzJd7B+pWO3gYiMK66PAScAqHXdYlX30auQWgSm75pRaOqrKJdSEMACo5cdMfJ8Fpt9xtu/4
-	uaV
-X-Received: by 2002:a05:600c:524a:b0:488:926e:3ccd with SMTP id 5b1f17b1804b1-488d7f24014mr106140105e9.4.1776114380582;
-        Mon, 13 Apr 2026 14:06:20 -0700 (PDT)
+        bh=DbD7D+uc0+23/XzD49X5LHz5RWaS8JM3kH9aHiCiWR4=;
+        b=Y1m1T+JvUoeJ+PCr5wER/GQJ96CZXz0YVpWbqX/88UNn4W2U7v+/EfBeJFOCNN4FCT
+         oIFw36fJw8xbBYXhUdY5p8skfQTuJk9PnVO5zVgdlVAmg1LQib3ySfOGty6gRycS/vIJ
+         roilwV87JH9VOLBLWSp9DBVvctynfWH+W9P9csw9sULCefVTrMxNDwAr7yVOtaEsEJzG
+         8D6ZWxSgo6xGQcJbnaR1Dz1LzVvHlWSUPnJ9387tjOmYf5Z4Jw/aPT2Tf4LQ2xq7ClFk
+         mZTd5e+MozcgXhI0eEFhSffNiHKjFvXnvKllPM0D/uuuqxMA+LafLQ255KMBqkVt1OkB
+         770g==
+X-Gm-Message-State: AOJu0YyikR4PewC4FBnni0moOOMfaRISJtybmwVPD3x7qshJDf0sED3E
+	Shdf5bt+oTbhuguBHeInoAd0n0bp1uSp6rQSnufKKTep3YADlg+HavKgxZJcaFm0yMg=
+X-Gm-Gg: AeBDiesacxTqm3k847GkQHOxgBOWvLrCOWb3Ce3tFojphjSdOy3Su49HErlCV/qZN/b
+	VqPPal/3HdPndxomlSerYPbFAWTlL3kzvdGceAjgRu6qn1UrsQa7oxU4JgpppLG0d7mwDgPrT0y
+	qZELLsbl8wia46mTaw4o4RnqZEswlcpWQnUryn/dtHHM5s1Owf57Ik3mzyq0TEZ3ACCyTjgO/k/
+	29t/0inhNUzbq1HbXUWtomLDRCyB3tJa/9OV+B/IaJFCnHIWizUVNAK5r4bIhJID19fCtWuQjSX
+	miX4ozUT36aB0QYQuHwU0Bymyavu9NrENG78s40WmhuH6gxc1D6ihPTjy5pN9umSwoKLetpqR47
+	yFyM89W3qnFiWZMHtC6to9QzHRBF0HbrZl2xVAxwlTRzWWV/ZlDpFzt9TwvxnXgI5Qy+K+c2iE4
+	g1YCik4l4D1UJbqbml+GtSNUnfZ/OGElq7wPSzG90VAtOgIYFSJlLFfh6+K6NHLWqVJQfiaf1wJ
+	Do/
+X-Received: by 2002:a05:6000:2f84:b0:43d:5584:9077 with SMTP id ffacd0b85a97d-43d64289ccbmr11795787f8f.2.1776114381608;
+        Mon, 13 Apr 2026 14:06:21 -0700 (PDT)
 Received: from spartian-1.home ([2a01:cb1c:784:2f00:708:2805:7128:7a75])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d63e5c98fsm35130020f8f.35.2026.04.13.14.06.19
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d63e5c98fsm35130020f8f.35.2026.04.13.14.06.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Apr 2026 14:06:20 -0700 (PDT)
+        Mon, 13 Apr 2026 14:06:21 -0700 (PDT)
 From: Aurelien DESBRIERES <aurelien@hackers.camp>
 To: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
@@ -54,9 +54,9 @@ Cc: Aurelien DESBRIERES <aurelien@hackers.camp>,
 	djwong@kernel.org,
 	adilger@dilger.ca,
 	pfalcato@suse.de
-Subject: [PATCH v2 02/11] ftrfs: add superblock operations
-Date: Tue, 14 Apr 2026 01:05:43 +0200
-Message-ID: <20260413230601.525400-3-aurelien@hackers.camp>
+Subject: [PATCH v2 03/11] ftrfs: add inode operations
+Date: Tue, 14 Apr 2026 01:05:44 +0200
+Message-ID: <20260413230601.525400-4-aurelien@hackers.camp>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260413230601.525400-1-aurelien@hackers.camp>
 References: <20260413230601.525400-1-aurelien@hackers.camp>
@@ -69,306 +69,131 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Implement VFS superblock operations for FTRFS:
+Implement ftrfs_iget() to read inodes from the on-disk inode table:
 
-- ftrfs_fill_super(): read and validate on-disk superblock (magic,
-  CRC32), allocate ftrfs_sb_info, read root inode, initialize
-  in-memory free block bitmap
-- ftrfs_put_super(): release bitmap and buffer heads on unmount
-- ftrfs_statfs(): report filesystem statistics
-- ftrfs_write_inode(): persist inode to disk via namei.c
-- ftrfs_init_fs_context() / ftrfs_get_tree(): kernel 5.15+ mount API
-- ftrfs_free_inode(): kernel 5.9+ inode freeing API
-
-Module init/exit registers ftrfs as a filesystem type and allocates
-a dedicated slab cache for ftrfs_inode_info objects.
+- Locate inode block from s_inode_table_blk and inode number
+- Read raw ftrfs_inode via sb_bread()
+- Verify per-inode CRC32 checksum
+- Populate VFS inode fields (mode, uid, gid, size, timestamps)
+- Copy direct/indirect block pointers to ftrfs_inode_info
+- Assign inode_operations and file_operations based on file type
+- Use inode_state_read_once() for I_NEW test (kernel 7.0 API)
 
 Signed-off-by: Aurelien DESBRIERES <aurelien@hackers.camp>
 ---
- fs/ftrfs/super.c | 274 +++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 274 insertions(+)
- create mode 100644 fs/ftrfs/super.c
+ fs/ftrfs/inode.c | 103 +++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 103 insertions(+)
+ create mode 100644 fs/ftrfs/inode.c
 
-diff --git a/fs/ftrfs/super.c b/fs/ftrfs/super.c
+diff --git a/fs/ftrfs/inode.c b/fs/ftrfs/inode.c
 new file mode 100644
-index 000000000..8acc62921
+index 000000000..e1279c796
 --- /dev/null
-+++ b/fs/ftrfs/super.c
-@@ -0,0 +1,274 @@
++++ b/fs/ftrfs/inode.c
+@@ -0,0 +1,103 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
-+ * FTRFS — Superblock operations
++ * FTRFS — Inode operations
 + * Author: roastercode - Aurelien DESBRIERES <aurelien@hackers.camp>
 + */
 +
-+#include <linux/module.h>
-+#include <linux/kernel.h>
-+#include <linux/init.h>
 +#include <linux/fs.h>
-+#include <linux/fs_context.h>
-+#include <linux/slab.h>
 +#include <linux/buffer_head.h>
-+#include <linux/statfs.h>
++#include <linux/slab.h>
++#include <linux/time.h>
 +#include "ftrfs.h"
 +
-+/* Inode cache (slab allocator) */
-+static struct kmem_cache *ftrfs_inode_cachep;
-+
 +/*
-+ * alloc_inode — allocate a new inode with ftrfs_inode_info embedded
++ * ftrfs_iget — read inode from disk into VFS
++ * @sb:  superblock
++ * @ino: inode number (1-based)
++ *
++ * Inode table starts at s_inode_table_blk.
++ * Each block holds FTRFS_BLOCK_SIZE / sizeof(ftrfs_inode) inodes.
 + */
-+static struct inode *ftrfs_alloc_inode(struct super_block *sb)
++struct inode *ftrfs_iget(struct super_block *sb, unsigned long ino)
 +{
++	struct ftrfs_sb_info    *sbi = FTRFS_SB(sb);
 +	struct ftrfs_inode_info *fi;
++	struct ftrfs_inode      *raw;
++	struct buffer_head      *bh;
++	struct inode            *inode;
++	unsigned long            inodes_per_block;
++	unsigned long            block, offset;
++	__u32                    crc;
 +
-+	fi = kmem_cache_alloc(ftrfs_inode_cachep, GFP_KERNEL);
-+	if (!fi)
-+		return NULL;
++	inode = iget_locked(sb, ino);
++	if (!inode)
++		return ERR_PTR(-ENOMEM);
 +
-+	memset(fi->i_direct, 0, sizeof(fi->i_direct));
-+	fi->i_indirect  = 0;
-+	fi->i_dindirect = 0;
-+	fi->i_flags     = 0;
++	/* Already in cache */
++	if (!(inode_state_read_once(inode) & I_NEW))
++		return inode;
 +
-+	return &fi->vfs_inode;
-+}
++	inodes_per_block = FTRFS_BLOCK_SIZE / sizeof(struct ftrfs_inode);
++	block  = le64_to_cpu(sbi->s_ftrfs_sb->s_inode_table_blk)
++		 + (ino - 1) / inodes_per_block;
++	offset = (ino - 1) % inodes_per_block;
 +
-+/*
-+ * free_inode — return inode to slab cache (kernel 5.9+ uses free_inode)
-+ */
-+static void ftrfs_free_inode(struct inode *inode)
-+{
-+	kmem_cache_free(ftrfs_inode_cachep, FTRFS_I(inode));
-+}
-+
-+/*
-+ * statfs — filesystem statistics
-+ */
-+static int ftrfs_statfs(struct dentry *dentry, struct kstatfs *buf)
-+{
-+	struct super_block   *sb  = dentry->d_sb;
-+	struct ftrfs_sb_info *sbi = FTRFS_SB(sb);
-+
-+	buf->f_type    = FTRFS_MAGIC;
-+	buf->f_bsize   = sb->s_blocksize;
-+	buf->f_blocks  = le64_to_cpu(sbi->s_ftrfs_sb->s_block_count);
-+	buf->f_bfree   = sbi->s_free_blocks;
-+	buf->f_bavail  = sbi->s_free_blocks;
-+	buf->f_files   = le64_to_cpu(sbi->s_ftrfs_sb->s_inode_count);
-+	buf->f_ffree   = sbi->s_free_inodes;
-+	buf->f_namelen = FTRFS_MAX_FILENAME;
-+
-+	return 0;
-+}
-+
-+/*
-+ * put_super — release superblock resources
-+ */
-+static void ftrfs_put_super(struct super_block *sb)
-+{
-+	struct ftrfs_sb_info *sbi = FTRFS_SB(sb);
-+
-+	if (sbi) {
-+		ftrfs_destroy_bitmap(sb);
-+		brelse(sbi->s_sbh);
-+		kfree(sbi->s_ftrfs_sb);
-+		kfree(sbi);
-+		sb->s_fs_info = NULL;
-+	}
-+}
-+
-+static const struct super_operations ftrfs_super_ops = {
-+	.alloc_inode    = ftrfs_alloc_inode,
-+	.free_inode     = ftrfs_free_inode,
-+	.put_super      = ftrfs_put_super,
-+		.write_inode    = ftrfs_write_inode,
-+	.statfs         = ftrfs_statfs,
-+};
-+
-+/*
-+ * ftrfs_fill_super — read superblock from disk and initialize VFS sb
-+ */
-+int ftrfs_fill_super(struct super_block *sb, struct fs_context *fc)
-+{
-+	struct ftrfs_sb_info     *sbi;
-+	struct ftrfs_super_block *fsb;
-+	struct buffer_head       *bh;
-+	struct inode             *root_inode;
-+	__u32                     crc;
-+	int                       ret = -EINVAL;
-+
-+	/* Set block size */
-+	if (!sb_set_blocksize(sb, FTRFS_BLOCK_SIZE)) {
-+		errorf(fc, "ftrfs: unable to set block size %d", FTRFS_BLOCK_SIZE);
-+		return -EINVAL;
-+	}
-+
-+	/* Read block 0 — superblock */
-+	bh = sb_bread(sb, 0);
++	bh = sb_bread(sb, block);
 +	if (!bh) {
-+		errorf(fc, "ftrfs: unable to read superblock");
-+		return -EIO;
++		pr_err("ftrfs: unable to read inode block %lu\n", block);
++		iget_failed(inode);
++		return ERR_PTR(-EIO);
 +	}
 +
-+	fsb = (struct ftrfs_super_block *)bh->b_data;
-+
-+	/* Verify magic */
-+	if (le32_to_cpu(fsb->s_magic) != FTRFS_MAGIC) {
-+		errorf(fc, "ftrfs: bad magic 0x%08x (expected 0x%08x)",
-+		       le32_to_cpu(fsb->s_magic), FTRFS_MAGIC);
-+		goto out_brelse;
++	raw = (struct ftrfs_inode *)bh->b_data + offset;
++	/* Verify inode CRC32 */
++	crc = ftrfs_crc32(raw, offsetof(struct ftrfs_inode, i_crc32));
++	if (crc != le32_to_cpu(raw->i_crc32)) {
++		pr_err("ftrfs: inode %lu CRC32 mismatch\n", ino);
++		brelse(bh);
++		iget_failed(inode);
++		return ERR_PTR(-EIO);
 +	}
 +
-+	/* Verify CRC32 of superblock (excluding the crc32 field itself) */
-+	crc = ftrfs_crc32(fsb, offsetof(struct ftrfs_super_block, s_crc32));
-+	if (crc != le32_to_cpu(fsb->s_crc32)) {
-+		errorf(fc, "ftrfs: superblock CRC32 mismatch (got 0x%08x, expected 0x%08x)",
-+		       crc, le32_to_cpu(fsb->s_crc32));
-+		goto out_brelse;
++	fi = FTRFS_I(inode);
++
++	/* Populate VFS inode */
++	inode->i_mode  = le16_to_cpu(raw->i_mode);
++	inode->i_uid   = make_kuid(sb->s_user_ns, le16_to_cpu(raw->i_uid));
++	inode->i_gid   = make_kgid(sb->s_user_ns, le16_to_cpu(raw->i_gid));
++	set_nlink(inode, le16_to_cpu(raw->i_nlink));
++	inode->i_size  = le64_to_cpu(raw->i_size);
++	inode->i_blocks = le32_to_cpu(raw->i_blocks);
++
++	inode_set_atime(inode,
++		le64_to_cpu(raw->i_atime) / NSEC_PER_SEC,
++		le64_to_cpu(raw->i_atime) % NSEC_PER_SEC);
++	inode_set_mtime(inode,
++		le64_to_cpu(raw->i_mtime) / NSEC_PER_SEC,
++		le64_to_cpu(raw->i_mtime) % NSEC_PER_SEC);
++	inode_set_ctime(inode,
++		le64_to_cpu(raw->i_ctime) / NSEC_PER_SEC,
++		le64_to_cpu(raw->i_ctime) % NSEC_PER_SEC);
++
++	/* Copy block pointers to in-memory inode */
++	memcpy(fi->i_direct, raw->i_direct, sizeof(fi->i_direct));
++	fi->i_indirect  = raw->i_indirect;
++	fi->i_dindirect = raw->i_dindirect;
++	fi->i_flags     = le32_to_cpu(raw->i_flags);
++
++	/* Set ops based on file type */
++	if (S_ISDIR(inode->i_mode)) {
++		inode->i_op  = &ftrfs_dir_inode_operations;
++		inode->i_fop = &ftrfs_dir_operations;
++	} else if (S_ISREG(inode->i_mode)) {
++		inode->i_op  = &ftrfs_file_inode_operations;
++		inode->i_fop = &ftrfs_file_operations;
++	} else {
++		/* Special files: use generic */
++		init_special_inode(inode, inode->i_mode, 0);
 +	}
 +
-+	/* Allocate in-memory sb info */
-+	sbi = kzalloc(sizeof(*sbi), GFP_KERNEL);
-+	if (!sbi) {
-+		ret = -ENOMEM;
-+		goto out_brelse;
-+	}
-+
-+	sbi->s_ftrfs_sb = kzalloc(sizeof(*sbi->s_ftrfs_sb), GFP_KERNEL);
-+	if (!sbi->s_ftrfs_sb) {
-+		ret = -ENOMEM;
-+		goto out_free_sbi;
-+	}
-+
-+	memcpy(sbi->s_ftrfs_sb, fsb, sizeof(*fsb));
-+	sbi->s_sbh         = bh;
-+	sbi->s_free_blocks = le64_to_cpu(fsb->s_free_blocks);
-+	sbi->s_free_inodes = le64_to_cpu(fsb->s_free_inodes);
-+	spin_lock_init(&sbi->s_lock);
-+
-+	sb->s_fs_info  = sbi;
-+	sb->s_magic    = FTRFS_MAGIC;
-+	sb->s_op       = &ftrfs_super_ops;
-+	sb->s_maxbytes = MAX_LFS_FILESIZE;
-+
-+	/* Read root inode (inode 1) */
-+	root_inode = ftrfs_iget(sb, 1);
-+	if (IS_ERR(root_inode)) {
-+		ret = PTR_ERR(root_inode);
-+		pr_err("ftrfs: failed to read root inode: %d\n", ret);
-+		goto out_free_fsb;
-+	}
-+
-+	sb->s_root = d_make_root(root_inode);
-+	if (!sb->s_root) {
-+		ret = -ENOMEM;
-+		goto out_free_fsb;
-+	}
-+
-+	if (ftrfs_setup_bitmap(sb)) {
-+		ret = -ENOMEM;
-+		goto out_free_fsb;
-+	}
-+
-+	pr_info("ftrfs: mounted (blocks=%llu free=%lu inodes=%llu)\n",
-+		le64_to_cpu(fsb->s_block_count),
-+		sbi->s_free_blocks,
-+		le64_to_cpu(fsb->s_inode_count));
-+
-+	return 0;
-+
-+out_free_fsb:
-+	kfree(sbi->s_ftrfs_sb);
-+out_free_sbi:
-+	kfree(sbi);
-+	sb->s_fs_info = NULL;
-+out_brelse:
 +	brelse(bh);
-+	return ret;
++	unlock_new_inode(inode);
++	return inode;
 +}
-+
-+/*
-+ * fs_context ops — kernel 5.15+ mount API
-+ */
-+static int ftrfs_get_tree(struct fs_context *fc)
-+{
-+	return get_tree_bdev(fc, ftrfs_fill_super);
-+}
-+
-+static const struct fs_context_operations ftrfs_context_ops = {
-+	.get_tree = ftrfs_get_tree,
-+};
-+
-+static int ftrfs_init_fs_context(struct fs_context *fc)
-+{
-+	fc->ops = &ftrfs_context_ops;
-+	return 0;
-+}
-+
-+static struct file_system_type ftrfs_fs_type = {
-+	.owner            = THIS_MODULE,
-+	.name             = "ftrfs",
-+	.init_fs_context  = ftrfs_init_fs_context,
-+	.kill_sb          = kill_block_super,
-+	.fs_flags         = FS_REQUIRES_DEV,
-+};
-+
-+/*
-+ * Inode cache constructor
-+ */
-+static void ftrfs_inode_init_once(void *obj)
-+{
-+	struct ftrfs_inode_info *fi = obj;
-+
-+	inode_init_once(&fi->vfs_inode);
-+}
-+
-+/*
-+ * Module init / exit
-+ */
-+static int __init ftrfs_init(void)
-+{
-+	int ret;
-+
-+	ftrfs_inode_cachep = kmem_cache_create(
-+		"ftrfs_inode_cache",
-+		sizeof(struct ftrfs_inode_info),
-+		0,
-+		SLAB_RECLAIM_ACCOUNT | SLAB_ACCOUNT,
-+		ftrfs_inode_init_once);
-+
-+	if (!ftrfs_inode_cachep) {
-+		pr_err("ftrfs: failed to create inode cache\n");
-+		return -ENOMEM;
-+	}
-+
-+	ret = register_filesystem(&ftrfs_fs_type);
-+	if (ret) {
-+		pr_err("ftrfs: failed to register filesystem: %d\n", ret);
-+		kmem_cache_destroy(ftrfs_inode_cachep);
-+		return ret;
-+	}
-+
-+	pr_info("ftrfs: module loaded (FTRFS Fault-Tolerant Radiation-Robust FS)\n");
-+	return 0;
-+}
-+
-+static void __exit ftrfs_exit(void)
-+{
-+	unregister_filesystem(&ftrfs_fs_type);
-+	rcu_barrier();
-+	kmem_cache_destroy(ftrfs_inode_cachep);
-+	pr_info("ftrfs: module unloaded\n");
-+}
-+
-+module_init(ftrfs_init);
-+module_exit(ftrfs_exit);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("roastercode - Aurelien DESBRIERES <aurelien@hackers.camp>");
-+MODULE_DESCRIPTION("FTRFS: Fault-Tolerant Radiation-Robust Filesystem");
-+MODULE_VERSION("0.1.0");
-+MODULE_ALIAS_FS("ftrfs");
 -- 
 2.52.0
 
