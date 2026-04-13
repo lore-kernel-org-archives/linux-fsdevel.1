@@ -1,292 +1,197 @@
-Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com [95.215.58.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D07D39151B;
-	Mon, 13 Apr 2026 11:48:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.174
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776080939; cv=none; b=lMGZSnku+ZSN5C5vic1p6AoEsGyfSrNlg7fiPkHRNqilLfAtRMdaHpUlNyLCJ7C/3zFhgToAnyak4gl9YpyS9fFOJ4+PLY4V4BWPtzBqUlF3hItunmkG8g9BWg4j1Avi/K+veNvCWZjWv6/hctuy9L2+W24qZdd3KGS6lZ6Vj+k=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776080939; c=relaxed/simple;
-	bh=Jopr9vjLJ5xocHnfxTcEzSB9FTRb4qSp3OmRRp9+Wmk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gi+9YsEn/cxgHco06cihTRPFAtL5NRicFuVRDi7gQPIRLRnBzaIWkC0bu6h8NhbkdOG42VSVBW457UhpirSLLjp6wBVLNYLwMvzk13XidFsix8RqsZHgZJt3u5bUsbyCwUYojQOmSxLoICC8xoJ9iDeoFTvX5VXNMF9qkHEb7w0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=uNsNyeBw; arc=none smtp.client-ip=95.215.58.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF5113C4548
+	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 12:23:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776083014; cv=pass; b=IBEkX2CDoS3XEf+guS/4JekOye5xnYchJ1uz0Y7Vi/RXd4zJ9jIfeXGa18aYygaYaXE93SwNf+UfqOPwJLYgt3B16ttLUUAklKqW022V/46pjT+Hl+YjQHVEmdny0PfnAJLSAbixG50QOD+5qZlo9X2A0z7KGGme2cB81O9u4os=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776083014; c=relaxed/simple;
+	bh=NJnbcxur+Di9Sw8iiKloTt0UVQQYsI9XXlYh0xw/qC8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=llJR7IIcx0dB6W1bTo31YdmuHmVZtzbgf9vuUWNtNMCSzPvcs4sFxyBCzo+IfQLz9kIdqGEo/pyDb4rwu2+0p98gBlYcxGKcFtmt8TxtZ/AsDyqqOu6cNhHpUDSD9ZE1jAQpFRQ94oFOaqjePyqjw3gMwTo0W228seCrtw6MwPc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LgCe4Yua; arc=pass smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="uNsNyeBw"
-Message-ID: <a598cd04-9db6-43bf-a3d5-9320bdf395bd@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1776080934;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4IjyGsFE0RAc+jCgnm01ouXsvsI/sEbPMxALfKo5KqA=;
-	b=uNsNyeBwjHPn6FGcHCAZ0gkvp9Rf069Jfz4KJaa1ShSN3nv64PsSgYgIJx+mLck2JyaZ7B
-	MAnIwjK2Ll9hNcQ/2scX+lSDzwcjnW3/I3ypkn5N0btau4+Yxsd+IHFbQzENNKzjkapYMI
-	oyZa1Dsf9k0v5bGaLhFv4bO5NHcIOVY=
-Date: Mon, 13 Apr 2026 12:48:42 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LgCe4Yua"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b9c3e2cf3c0so673007566b.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 05:23:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776083011; cv=none;
+        d=google.com; s=arc-20240605;
+        b=QA0C1FnbKIUXx1Q2T1PeEzrEKrdJqMoO0xM9R9jssvMqTVjr5GZkBSfiEjQ4lLVq/z
+         2Wrf0nvALDosn4o/YS72mjJOcH3OCDmUomiDkqKDe1w56XZWWI4C32BYOlfe0tjZYJeR
+         VZLciK4uarnEmX6ko46nJMIFSDOJRriBgKEqaM5VhGEDx/YAHcGEhscSrEgmmi6lyFd4
+         CfGJQZjIxB9VkyvkeFAQgD1lhXpEuWA/4VI0fCoYTgxVYCkWjDkBw2Kkd3cpPpaYv4nw
+         0E5TXOIwlREaVwVWkaO5Lm7WcTJqENaGvZiOoQuYFQzJToIfpHht9WSy5vrd2816i4rg
+         DGnA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=WdXBDy3UTCAqlwG2cuSmoWMTuv5Bur9pQvnnMUgtqi4=;
+        fh=uXIvmqDcDxSV8W5q+9tQpuRmxGgZxtPgUAt/imfRzYw=;
+        b=kUf8fcgcN1YNbmpNnaSsBbghzCItKL8lcDbOa07bpc0OyBwQCZNC8cCMUtY0JcYmUu
+         zPHwOrexu182ISTKYvQZpIs7E8n/XWlN2F7wOC0r16SYHoHzsVS9dMVF5Od1KLq2/pjv
+         izmLy7ZBQWoecTOlTxckkcigoOpqooRAZ0slL3JczKlfhURblwSyq4Ea141zoI7CQfBG
+         +/jYoNNVDFgqzEHW3ABlIMgFD5z1jdV2zqCz89vcZ4s2Zypbodd3/cm1rd7GAMBvWpXn
+         oNddtRyw/9Crg0G2Liy/ajFrN95wfbCa2+J2NrjGY7pIf/onEwM+xPc+clBNsc/hkOHl
+         FBrg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776083011; x=1776687811; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WdXBDy3UTCAqlwG2cuSmoWMTuv5Bur9pQvnnMUgtqi4=;
+        b=LgCe4YuaRHp1aJWw5NVJLqX55FLZ4Y6UJzaPqpJkUqpepiSu8h2eza0TQtCmRtVwRD
+         Wv34F1elz7orDGiNHulY9hj6qGGcn0n4AKEnXwWH+adrWUk99alITSrPFh7BJXQnwAlD
+         CDd9Jpw3EdiHz2WEyGNUxiEVVxhTd6NgN3y0303wuDCs8Ox+95SunibC6htvnk6Mf8ir
+         b13+QDBrLJlEygKWyCVaaiNKGB+AsnykPpLfY+kV4SajX/jVZ1kGMOhOUIjji2LHwlT5
+         HS5Yl1AjxussTTMMtHxg6id5pe9aE4wfbR25UJsbO4mhdcsgBndhcoaBCjad/e3YLm29
+         MrSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776083011; x=1776687811;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=WdXBDy3UTCAqlwG2cuSmoWMTuv5Bur9pQvnnMUgtqi4=;
+        b=NQH12B8BV0PWQTLmvXwuMOQ4m7rAMa17mFyRc7IXAraf2FLaKq91NTOAl2aX3/CZSE
+         6QmrKZv66RoMc7Sd3dx2Zz9ly3NQohUGoddK6z0kcSKdFrZcmux3iszdAfqAukoIWRlE
+         sg3UHGm9ynxzDfgUv33qsTh+KZq+eq/LFQDFu5xSZzRFmqHKU2IKA1F8ej3ZL3m7KMJ+
+         aiskeSQobvsEMJUkJVe+KqGxpz+UrN7oMlZU41nYzsJgKuUIctrDAu95G17555V0bhqW
+         Ub3Pmkws/E9+xyy5HKFeoMAGePBpZOspLcrCp+GhoKauF2H4IyygDW3peGt6qtoc4j2Z
+         kv6A==
+X-Forwarded-Encrypted: i=1; AFNElJ836RcWfSQyoxvk4BKmhv5wkyvL8amSEgBoASeF6Gz9Pz4zMKiSUrXWHMZXOvwyMgyS3z+a/SwMz6szuWPa@vger.kernel.org
+X-Gm-Message-State: AOJu0YzDYeaRFAsZjIyjH5jG9HIu4jqgtNxkQf6CKpJ9HG5235rZp6G9
+	KnLSiPZiMhI2bSTi5JMvNrbTHfCh4n0FrI4F9EDEpwJutQ5XZtZXCcWEEX2iGbzzWfMj9r20mbZ
+	ua7mcYEWOFIb3i3Q618Hw8EcZlUhXnk0=
+X-Gm-Gg: AeBDiesFMXZxHW39KTnhUE6bRJprIyVLp7DnIHyYjCzTlEvdSwoK2ndTzBg3udq5n7e
+	MNinNpE1u1EbklInp8sgQ0sSDUi6Vu1KxLyKRny8/FkCoX1kNqzAUhnvybAQ4JcAJY+dOFpUSv6
+	H4B4XXWQviKg/SO8uygCJKNvStGW1aUzoHyiTfM3RcWj/qXPkn21GZ8vOxFH8O1++xsaPm3k7oP
+	HILX9mlyusDYJEM9Ec6Gv6zqrnBTJQ7Pi37tXi5P+EsdPyVGKmaK9I9lBSbFa1zrbF6kOvmgUBv
+	iCnzWoQfDtXd6KoyEJL4+JfslD5xavDRi6q6j4R82w==
+X-Received: by 2002:a17:907:c48e:b0:b9c:5672:852 with SMTP id
+ a640c23a62f3a-b9d727fe83bmr746453066b.40.1776083009787; Mon, 13 Apr 2026
+ 05:23:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v3 2/4] mm: use tiered folio allocation for VM_EXEC
- readahead
-Content-Language: en-GB
-To: Jan Kara <jack@suse.cz>
-Cc: Andrew Morton <akpm@linux-foundation.org>, david@kernel.org,
- willy@infradead.org, ryan.roberts@arm.com, linux-mm@kvack.org, r@hev.cc,
- ajd@linux.ibm.com, apopple@nvidia.com, baohua@kernel.org,
- baolin.wang@linux.alibaba.com, brauner@kernel.org, catalin.marinas@arm.com,
- dev.jain@arm.com, kees@kernel.org, kevin.brodsky@arm.com,
- lance.yang@linux.dev, Liam.Howlett@oracle.com,
- linux-arm-kernel@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, Lorenzo Stoakes <ljs@kernel.org>,
- mhocko@suse.com, npache@redhat.com, pasha.tatashin@soleen.com,
- rmclure@linux.ibm.com, rppt@kernel.org, surenb@google.com,
- vbabka@kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
- wilts.infradead.org@quack3, ziy@nvidia.com, hannes@cmpxchg.org,
- kas@kernel.org, shakeel.butt@linux.dev, leitao@debian.org,
- kernel-team@meta.com
-References: <20260402181326.3107102-1-usama.arif@linux.dev>
- <20260402181326.3107102-3-usama.arif@linux.dev>
- <aji7zs42th272khtxesk6dfcrgf7ddr5r5n62wgzeqooyexgxf@5ns3i47f5nlg>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Usama Arif <usama.arif@linux.dev>
-In-Reply-To: <aji7zs42th272khtxesk6dfcrgf7ddr5r5n62wgzeqooyexgxf@5ns3i47f5nlg>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+References: <20260326-fuse-init-before-mount-v2-0-b1ca8fcbf60f@bsbernd.com>
+ <adTyw4UJ04qOggCQ@amir-ThinkPad-T480> <c4ffec34-fad0-40d9-bff1-06c3cd202351@bsbernd.com>
+ <CAOQ4uxhBC7eTkaB6Ws1DqewzxkGdEfcCyJ8EZszn+YeHwG0-wQ@mail.gmail.com>
+ <5d7295b0-bd7e-41e7-b176-3d19b240413c@bsbernd.com> <20260407191046.GL6254@frogsfrogsfrogs>
+ <CAOQ4uxiU3RcoNMD21Yx_ZPqCpmtL8-Eda=a5+uJC+AsO7F=_2Q@mail.gmail.com>
+In-Reply-To: <CAOQ4uxiU3RcoNMD21Yx_ZPqCpmtL8-Eda=a5+uJC+AsO7F=_2Q@mail.gmail.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Mon, 13 Apr 2026 14:23:16 +0200
+X-Gm-Features: AQROBzBJEPDbN5cE7NaFSed_jf6F4jyPs0uC1n1qzEhkM_oy3DQDatuGivkhF2E
+Message-ID: <CAOQ4uxg+DhWoKtHFOt4eEgYYqAAmcJG_q3nJcQ2ZVOFCWRN0bw@mail.gmail.com>
+Subject: Re: fuse-devel list on kernel.org
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Bernd Schubert <bernd@bsbernd.com>, linux-fsdevel@vger.kernel.org, 
+	Miklos Szeredi <miklos@szeredi.hu>, Joanne Koong <joannelkoong@gmail.com>, Kevin Chen <kchen@ddn.com>, 
+	Bernd Schubert <bschubert@ddn.com>, fuse-devel@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Apr 8, 2026 at 10:21=E2=80=AFAM Amir Goldstein <amir73il@gmail.com>=
+ wrote:
+>
+> On Tue, Apr 7, 2026 at 9:10=E2=80=AFPM Darrick J. Wong <djwong@kernel.org=
+> wrote:
+> >
+> > On Tue, Apr 07, 2026 at 08:05:36PM +0200, Bernd Schubert wrote:
+> > >
+> > >
+> > > On 4/7/26 14:29, Amir Goldstein wrote:
+> > > > On Tue, Apr 7, 2026 at 2:25=E2=80=AFPM Bernd Schubert <bernd@bsbern=
+d.com> wrote:
+> > > >>
+> > > >>
+> > > >>
+> > > >> On 4/7/26 14:04, Amir Goldstein wrote:
+> > > >>> On Thu, Mar 26, 2026 at 10:34:33PM +0100, Bernd Schubert wrote:
+> > > >>>> I'm taking Darricks example here and posting API changing libfus=
+e
+> > > >>>> changes to linux-fsdevel. We should consider to create a fuse
+> > > >>>> specific list if that is too much. The existing
+> > > >>>> fuse-devel@lists.sourceforge.net is rather hopeless due to lack
+> > > >>>> of spam filtering.
+> > > >>>>
+> > > >>>
+> > > >>> Let's do this already!
+> > > >>>
+> > > >>> https://korg.docs.kernel.org/lore-archives.html
+> > > >>>
+> > > >>> Do you want me to send the email to kernel.org?
+> > > >>>
+> > > >>> I suggest that we ask for fuse-deve@lists.linux.dev
+> > > >
+> > > > Just don't copy paste my fuse-deve typo in the request ;)
+> > > >
+> > > >>> and then we can migrated the old sourceforge archives
+> > > >>
+> > > >> I'm all for a new fuse mailing list.
+> > > >>
+> > > >>>
+> > > >>> As far as I can understand getting the archives from sourceforge
+> > > >>> required the admin password:
+> > > >>>
+> > > >>> https://sourceforge.net/p/forge/documentation/Mailing%20List%20Ar=
+chives/
+> > > >>>
+> > > >>> Mikos,
+> > > >>>
+> > > >>> Will you be able to handle the archive migration?
+> > > >>
+> > > >> Have that password from Nikolaus.
+> > > >>
+> > > >
+> > > > Excellent, so will you be sending that email to helpdesk@kernel.org=
+?
+> > >
+> > > I can login here as admin:
+> > > https://lists.sourceforge.net/lists/admin/fuse-devel with the admin
+> > > password.
+> > >
+> > > Here https://lists.sourceforge.net/mbox/fuse-devel which is supposed =
+to
+> > > create the mbox file it asks for "user" and password. Assuming the
+> > > password is the same, what is the "user"? Also tried my user sourcefo=
+rge
+> > > credentials, does not work either.
+> > >
+> > > Can we defer this a bit? Too many things to do and I think for now
+> > > reviewing Joannes Patches and finishing sync-init and Darricks mail h=
+as
+> > > a higher priority than fighting with sourceforge mbox.
+> >
+> > I don't have a problem with deferring, but FYI you don't have to have
+> > old ML history ready to go when you apply for a new list.  It, erm, too=
+k
+> > us months to scrounge the entire xfs history together after linux-xfs
+> > was created.
+>
+> I requested the list:
+> https://lore.kernel.org/linux-fsdevel/CAOQ4uxjRgQGxWYWbRbjVZy19oA5qKZSd9e=
+ANKyD8yCoBNGPNNw@mail.gmail.com/
+>
+> I cannot imagine anyone missing the fuse patches on fsdevel
+> if people just started posting their kernel and libfuse patches to fuse-d=
+evel.
+>
+> Should have done this two years ago when it was also proposed.
+>
 
+Well the list is up (now in CC) <fuse-devel@lists.linux.dev> and
+archived on lore.kernel.org.
 
-On 13/04/2026 12:03, Jan Kara wrote:
-> On Thu 02-04-26 11:08:23, Usama Arif wrote:
->> When executable pages are faulted via do_sync_mmap_readahead(), request
->> a folio order that enables the best hardware TLB coalescing available:
->>
->> - If the VMA is large enough to contain a full PMD, request
->>   HPAGE_PMD_ORDER so the folio can be PMD-mapped. This benefits
->>   architectures where PMD_SIZE is reasonable (e.g. 2M on x86-64
->>   and arm64 with 4K pages). VM_EXEC VMAs are very unlikely to be
->>   large enough for 512M pages on ARM to take into affect.
-> 
-> I'm not sure relying on PMD_SIZE will be too much for a VMA is a great
-> strategy. With 16k PAGE_SIZE the PMD would be 32MB large which would fit in
-> the .text size but already looks a bit too much? Mapping with PMD sized
-> folios brings some benefits but at the same time it costs because now parts
-> of VMA that would be never paged in are pulled into memory and also LRU
-> tracking now happens with this very large granularity making it fairly
-> inefficient (big folios have much higher chances of getting accessed
-> similarly often making LRU order mostly random). We are already getting
-> reports of people with small machines (phones etc.) where the memory
-> overhead of large folios (in the page cache) is simply too much. So I'd
-> have a bigger peace of mind if we capped folio size at 2MB for now until we
-> come with a more sophisticated heuristic of picking sensible folio order
-> given the machine size. Now I'm not really an MM person so my feeling here
-> may be just wrong but I wanted to voice this concern from what I can see...
-> 
-> 								Honza
-> 
-> 
+Now you'all only need to subscribe and send the patches there.
 
-Thanks for the feedback! I agree, it makes sense. I did that in the previous
-revision [1]. I will reinistante that in the next one.
-
-[1] https://lore.kernel.org/all/20260320140315.979307-3-usama.arif@linux.dev/
-
->> - Otherwise, fall back to exec_folio_order(), which returns the
->>   minimum order for hardware PTE coalescing for arm64:
->>   - arm64 4K:  order 4 (64K) for contpte (16 PTEs → 1 iTLB entry)
->>   - arm64 16K: order 2 (64K) for HPA (4 pages → 1 TLB entry)
->>   - arm64 64K: order 5 (2M) for contpte (32 PTEs → 1 iTLB entry)
->>   - generic:   order 0 (no coalescing)
->>
->> Update the arm64 exec_folio_order() to return ilog2(SZ_2M >>
->> PAGE_SHIFT) on 64K page configurations, where the previous SZ_64K
->> value collapsed to order 0 (a single page) and provided no coalescing
->> benefit.
->>
->> Use ~__GFP_RECLAIM so the allocation is opportunistic: if a large
->> folio is readily available, use it, otherwise fall back to smaller
->> folios without stalling on reclaim or compaction. The existing fallback
->> in page_cache_ra_order() handles this naturally.
->>
->> The readahead window is already clamped to the VMA boundaries, so
->> ra->size naturally caps the folio order via ilog2(ra->size) in
->> page_cache_ra_order().
->>
->> Signed-off-by: Usama Arif <usama.arif@linux.dev>
->> ---
->>  arch/arm64/include/asm/pgtable.h | 16 +++++++++----
->>  mm/filemap.c                     | 40 +++++++++++++++++++++++---------
->>  mm/internal.h                    |  3 ++-
->>  mm/readahead.c                   |  7 +++---
->>  4 files changed, 45 insertions(+), 21 deletions(-)
->>
->> diff --git a/arch/arm64/include/asm/pgtable.h b/arch/arm64/include/asm/pgtable.h
->> index 52bafe79c10a..9ce9f73a6f35 100644
->> --- a/arch/arm64/include/asm/pgtable.h
->> +++ b/arch/arm64/include/asm/pgtable.h
->> @@ -1591,12 +1591,18 @@ static inline void update_mmu_cache_range(struct vm_fault *vmf,
->>  #define arch_wants_old_prefaulted_pte	cpu_has_hw_af
->>  
->>  /*
->> - * Request exec memory is read into pagecache in at least 64K folios. This size
->> - * can be contpte-mapped when 4K base pages are in use (16 pages into 1 iTLB
->> - * entry), and HPA can coalesce it (4 pages into 1 TLB entry) when 16K base
->> - * pages are in use.
->> + * Request exec memory is read into pagecache in folios large enough for
->> + * hardware TLB coalescing. On 4K and 16K page configs this is 64K, which
->> + * enables contpte mapping (16 × 4K) and HPA coalescing (4 × 16K). On
->> + * 64K page configs, contpte requires 2M (32 × 64K).
->>   */
->> -#define exec_folio_order() ilog2(SZ_64K >> PAGE_SHIFT)
->> +#define exec_folio_order exec_folio_order
->> +static inline unsigned int exec_folio_order(void)
->> +{
->> +	if (PAGE_SIZE == SZ_64K)
->> +		return ilog2(SZ_2M >> PAGE_SHIFT);
->> +	return ilog2(SZ_64K >> PAGE_SHIFT);
->> +}
->>  
->>  static inline bool pud_sect_supported(void)
->>  {
->> diff --git a/mm/filemap.c b/mm/filemap.c
->> index a4ea869b2ca1..7ffea986b3b4 100644
->> --- a/mm/filemap.c
->> +++ b/mm/filemap.c
->> @@ -3311,6 +3311,7 @@ static struct file *do_sync_mmap_readahead(struct vm_fault *vmf)
->>  	DEFINE_READAHEAD(ractl, file, ra, mapping, vmf->pgoff);
->>  	struct file *fpin = NULL;
->>  	vm_flags_t vm_flags = vmf->vma->vm_flags;
->> +	gfp_t gfp = readahead_gfp_mask(mapping);
->>  	bool force_thp_readahead = false;
->>  	unsigned short mmap_miss;
->>  
->> @@ -3363,28 +3364,45 @@ static struct file *do_sync_mmap_readahead(struct vm_fault *vmf)
->>  			ra->size *= 2;
->>  		ra->async_size = HPAGE_PMD_NR;
->>  		ra->order = HPAGE_PMD_ORDER;
->> -		page_cache_ra_order(&ractl, ra);
->> +		page_cache_ra_order(&ractl, ra, gfp);
->>  		return fpin;
->>  	}
->>  
->>  	if (vm_flags & VM_EXEC) {
->>  		/*
->> -		 * Allow arch to request a preferred minimum folio order for
->> -		 * executable memory. This can often be beneficial to
->> -		 * performance if (e.g.) arm64 can contpte-map the folio.
->> -		 * Executable memory rarely benefits from readahead, due to its
->> -		 * random access nature, so set async_size to 0.
->> +		 * Request large folios for executable memory to enable
->> +		 * hardware PTE coalescing and PMD mappings:
->>  		 *
->> -		 * Limit to the boundaries of the VMA to avoid reading in any
->> -		 * pad that might exist between sections, which would be a waste
->> -		 * of memory.
->> +		 *  - If the VMA is large enough for a PMD, request
->> +		 *    HPAGE_PMD_ORDER so the folio can be PMD-mapped.
->> +		 *  - Otherwise, use exec_folio_order() which returns
->> +		 *    the minimum order for hardware TLB coalescing
->> +		 *    (e.g. arm64 contpte/HPA).
->> +		 *
->> +		 * Use ~__GFP_RECLAIM so large folio allocation is
->> +		 * opportunistic — if memory isn't readily available,
->> +		 * fall back to smaller folios rather than stalling on
->> +		 * reclaim or compaction.
->> +		 *
->> +		 * Executable memory rarely benefits from speculative
->> +		 * readahead due to its random access nature, so set
->> +		 * async_size to 0.
->> +		 *
->> +		 * Limit to the boundaries of the VMA to avoid reading
->> +		 * in any pad that might exist between sections, which
->> +		 * would be a waste of memory.
->>  		 */
->> +		gfp &= ~__GFP_RECLAIM;
->>  		struct vm_area_struct *vma = vmf->vma;
->>  		unsigned long start = vma->vm_pgoff;
->>  		unsigned long end = start + vma_pages(vma);
->>  		unsigned long ra_end;
->>  
->> -		ra->order = exec_folio_order();
->> +		if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) &&
->> +		    vma_pages(vma) >= HPAGE_PMD_NR)
->> +			ra->order = HPAGE_PMD_ORDER;
->> +		else
->> +			ra->order = exec_folio_order();
->>  		ra->start = round_down(vmf->pgoff, 1UL << ra->order);
->>  		ra->start = max(ra->start, start);
->>  		ra_end = round_up(ra->start + ra->ra_pages, 1UL << ra->order);
->> @@ -3403,7 +3421,7 @@ static struct file *do_sync_mmap_readahead(struct vm_fault *vmf)
->>  
->>  	fpin = maybe_unlock_mmap_for_io(vmf, fpin);
->>  	ractl._index = ra->start;
->> -	page_cache_ra_order(&ractl, ra);
->> +	page_cache_ra_order(&ractl, ra, gfp);
->>  	return fpin;
->>  }
->>  
->> diff --git a/mm/internal.h b/mm/internal.h
->> index 475bd281a10d..e624cb619057 100644
->> --- a/mm/internal.h
->> +++ b/mm/internal.h
->> @@ -545,7 +545,8 @@ int zap_vma_for_reaping(struct vm_area_struct *vma);
->>  int folio_unmap_invalidate(struct address_space *mapping, struct folio *folio,
->>  			   gfp_t gfp);
->>  
->> -void page_cache_ra_order(struct readahead_control *, struct file_ra_state *);
->> +void page_cache_ra_order(struct readahead_control *, struct file_ra_state *,
->> +			 gfp_t gfp);
->>  void force_page_cache_ra(struct readahead_control *, unsigned long nr);
->>  static inline void force_page_cache_readahead(struct address_space *mapping,
->>  		struct file *file, pgoff_t index, unsigned long nr_to_read)
->> diff --git a/mm/readahead.c b/mm/readahead.c
->> index 7b05082c89ea..b3dc08cf180c 100644
->> --- a/mm/readahead.c
->> +++ b/mm/readahead.c
->> @@ -465,7 +465,7 @@ static inline int ra_alloc_folio(struct readahead_control *ractl, pgoff_t index,
->>  }
->>  
->>  void page_cache_ra_order(struct readahead_control *ractl,
->> -		struct file_ra_state *ra)
->> +		struct file_ra_state *ra, gfp_t gfp)
->>  {
->>  	struct address_space *mapping = ractl->mapping;
->>  	pgoff_t start = readahead_index(ractl);
->> @@ -475,7 +475,6 @@ void page_cache_ra_order(struct readahead_control *ractl,
->>  	pgoff_t mark = index + ra->size - ra->async_size;
->>  	unsigned int nofs;
->>  	int err = 0;
->> -	gfp_t gfp = readahead_gfp_mask(mapping);
->>  	unsigned int new_order = ra->order;
->>  
->>  	trace_page_cache_ra_order(mapping->host, start, ra);
->> @@ -626,7 +625,7 @@ void page_cache_sync_ra(struct readahead_control *ractl,
->>  readit:
->>  	ra->order = 0;
->>  	ractl->_index = ra->start;
->> -	page_cache_ra_order(ractl, ra);
->> +	page_cache_ra_order(ractl, ra, readahead_gfp_mask(ractl->mapping));
->>  }
->>  EXPORT_SYMBOL_GPL(page_cache_sync_ra);
->>  
->> @@ -697,7 +696,7 @@ void page_cache_async_ra(struct readahead_control *ractl,
->>  		ra->size -= end - aligned_end;
->>  	ra->async_size = ra->size;
->>  	ractl->_index = ra->start;
->> -	page_cache_ra_order(ractl, ra);
->> +	page_cache_ra_order(ractl, ra, readahead_gfp_mask(ractl->mapping));
->>  }
->>  EXPORT_SYMBOL_GPL(page_cache_async_ra);
->>  
->> -- 
->> 2.52.0
->>
-
+Cheers,
+Amir.
