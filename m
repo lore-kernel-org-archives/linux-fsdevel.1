@@ -1,323 +1,162 @@
-Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C36B30EF89
-	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 21:05:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E9D33603CA
+	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 21:16:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776200711; cv=none; b=P2cBqfhcaYSyL8KHbPPOFQMil41cpbIp5bP9vsmoEUKe2E5Z3s6MGzNPrDvR5oEIBMFozAM/JZ0E7xOIwDwpRxqmjJ1w0wODslkP/uR/F4RGQDMDdYlBu5rBNELfwtq9bnX+KRWffx18pUaGS4p8jMP2QmXXWrEdeVoZtAz4f6U=
+	t=1776201370; cv=none; b=EYRy20oURAyyvECFZywr3cGRjY7cACpsOnL4UgqcbS/Ur6CMt1Ru6lKIINLw3Sse19OSceNdmoB1V3WxUSCGi/DXpB1qUJjtT6qpgU6EQmCks2gOQbb62Jk65SP+zFWi/Jgk7B3hXu5l+dldL0QaEi1cUHi+pqZnwRZeGa5cDAU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776200711; c=relaxed/simple;
-	bh=exomypjfBeYVLFKQL6dgsEirh5l3F4AHKNYdc/Kwna4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=I2OqYSYqkoQZeaYpNj0Lctq2ptQOIuWnX5eASS1uyuGLe2R4j9na71MWDf50gmmQMqvvdjkhuQQRsYnEoNAq3qVnDiwzZCH43gCYIZd9lqz1lUWj083oFPOeQodugtI9aCulUOqQH4lwDh0mG2HFxXBNNgQDqy/glGRty5+037E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=dMSXZEPm; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=F+uDg0vX; arc=none smtp.client-ip=202.12.124.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	s=arc-20240116; t=1776201370; c=relaxed/simple;
+	bh=Q4INpfKWk7mxaKmB7Uf/Gsp8EUYR21VjlgB0GxYGYxY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=qpsRHmdCuFPFzZzr4I3ILJQeoKIYfzE6HrdXfyXn/ZYFF8Zm0+9TDcm2T/3bbuITioCY/dto1EuuhRGm9iZNOa0ttCgkFapf0uHy13ev45fEAHpAxRNVbMXqHMs9cCwHwbByBiY8uS47fb7g0kn4d8p0qeKCqjEMiyOe+7Dy6EA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DPYdadDv; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=MRyqJv9r; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="dMSXZEPm";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="F+uDg0vX"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.stl.internal (Postfix) with ESMTP id 615CC1D001BA;
-	Tue, 14 Apr 2026 17:05:08 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Tue, 14 Apr 2026 17:05:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1776200708;
-	 x=1776287108; bh=VN34HDAfftOAi4fza5l5+mwMARMoAueOHn2rM1UxC8A=; b=
-	dMSXZEPmRk5CzVVBaTqFmAAuAhWGTQoj3MD7oS1i0oox+wdqgwdZI47rnEA5RF2i
-	PXsGzk0eNKKjzhzRz7Xkfa/sIqwnILClwF3nuH2dxl1lTcG5ZLmr+szub6bvIudU
-	ebqi/vW1P6VqCQWh5Cjp3svwwlr3K4QYoAk6c3EGBDv9C6JNYODTjDE5O+V9E6vU
-	mPZflJ0F3BQxynBSMmBKbzaeonmyo63KVqbjOgtCLI84wHlkw8Np4j5VErJhJpER
-	Q6QGf6fArtBJGR7bilSM83SxEGnf1p6hIBJDp4fGp3BKeZnTbg7c/BA7VB8Q7iKY
-	WVTx3ux4J+n3GEsyfRMdGw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1776200708; x=
-	1776287108; bh=VN34HDAfftOAi4fza5l5+mwMARMoAueOHn2rM1UxC8A=; b=F
-	+uDg0vXwGbezuvGJLCCVIw04N4EKyxZdkLvjWKaD3HnKoczlydDzIxveGlydBmJ5
-	MOQyV8rh2RBi2vz3QxnIYFwrBHA7nyBmEaeWnqKVSaSthbaMiSU8AoNVnz1Kjunr
-	Zut24atx11VfR5Zi9Uh8Tbdoy2woC4T6Ikn5QMuDbaLdjs+9NCgvW2AfVYmk83k6
-	w806bLm13WEw5lfw24UOKPloeUY0KOVULU9vxlrUMYnPWzOJCBWUDA704ZlltTkg
-	s3h061UeWWEyO2iMtTvNHPhz0eIfb/ReP8ArIqc03MeVJftiobpViixXaL+DBCiu
-	hIMDeMyXgY+uBJma7BFDw==
-X-ME-Sender: <xms:A6zeaUP9wYplKTXepREgBkAvGCf_b26XVfGQ2k93IHyCJUxrFPlCuA>
-    <xme:A6zeaR_IFVWlA90zprK076N14ZXm81VGmfF0Qu5tVhJ31cCqUeFuDPnD46RbQMuhT
-    FgM1UqpqjuwLec3seoE76QC-I-OiPK2voAiZucYD8NcCb17NWGG>
-X-ME-Received: <xmr:A6zeaQQdkJjHMdXTx8lLAkIxqu7NMcdOI0FmIurjwAZGsn4YpgL_F4rrjTrrknjSSp8Hk5TXwehoR-F3J6FSoAzXj_Zgzl4Po0knzEyNdQLnuo5PHg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdegvddvtdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefkffggfgfuvfevfhfhjggtgfesthejredttddvjeenucfhrhhomhepuegvrhhnugcu
-    ufgthhhusggvrhhtuceosggvrhhnugessghssggvrhhnugdrtghomheqnecuggftrfgrth
-    htvghrnhephefhjeeujeelhedtheetfedvgfdtleffuedujefhheegudefvdfhheeuvedu
-    ueegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsg
-    gvrhhnugessghssggvrhhnugdrtghomhdpnhgspghrtghpthhtohepgedpmhhouggvpehs
-    mhhtphhouhhtpdhrtghpthhtohepjhhorghnnhgvlhhkohhonhhgsehgmhgrihhlrdgtoh
-    hmpdhrtghpthhtohepmhhikhhlohhssehsiigvrhgvughirdhhuhdprhgtphhtthhopegr
-    gigsohgvsehkvghrnhgvlhdrughkpdhrtghpthhtoheplhhinhhugidqfhhsuggvvhgvlh
-    esvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:A6zeabkAPoDeBXbNz1Rutto1-xv2FvVuZCB0hS7kScVEiO8Xkq_-Zw>
-    <xmx:A6zeaYS62RRWW1VE-K0Ox90wmnyC7zBIPReh_-DfXxKCICbWmzB5jg>
-    <xmx:A6zeaRNQjTarqdEP7w69QQFFiKbG8JO4AdP-2z3xNiIsP41y_FwU5A>
-    <xmx:A6zeaZU9iwPVrTxQuBWRSO3GTjOSb944xUg6qBGWZz2kiMzrHIFC1g>
-    <xmx:BKzeafqTjV3NfNlP57PDSNaKjkbnO-rgYDPNfcXfePnWwuLt7cZGAJT3>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 14 Apr 2026 17:05:05 -0400 (EDT)
-Message-ID: <0f2b87c5-2c98-4463-9a9c-bfca91e83cfc@bsbernd.com>
-Date: Tue, 14 Apr 2026 23:05:01 +0200
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DPYdadDv";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="MRyqJv9r"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1776201368;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/TyCH9SMWGwZ0uzhcSuuZUtHYH+vVfCSIhLbgFrzZ0M=;
+	b=DPYdadDvQDuRpYejYsBmMk9dxAbMDwnGZlkFDDyni7OaWReJomjDqkHnJ6Ma8iaoi6OqW7
+	iN69YMVjheB0wkOOPrS0glWd8tV4C0UdnwNbdC8qq4Dn1qTseVRrl4NwWQgRsXBfJb6oSQ
+	YJjL1oQ1tqxPy73j/+Vdn9q1tF+lGtI=
+Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
+ [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-389-xXOZnVfNPFWI5NS47YZ10Q-1; Tue, 14 Apr 2026 17:16:07 -0400
+X-MC-Unique: xXOZnVfNPFWI5NS47YZ10Q-1
+X-Mimecast-MFC-AGG-ID: xXOZnVfNPFWI5NS47YZ10Q_1776201366
+Received: by mail-yw1-f198.google.com with SMTP id 00721157ae682-7982c3b7da7so145251197b3.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 14:16:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1776201366; x=1776806166; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=/TyCH9SMWGwZ0uzhcSuuZUtHYH+vVfCSIhLbgFrzZ0M=;
+        b=MRyqJv9r0e3ouh+RXrs//POsjQjs4Go1fUYCNIopgEJ6i3wvJl0q49Qh4VZ/ElX2bm
+         Djmf30gsrihnSWevTIQwdo1xGNt2tqYildA3THy2nBSh/pab4N90w2ZRxIjVPVip0rDo
+         rOvZW+ZVR4jRV2OHO5kkY9/TgjOrXUaQsuJ8BQ1SQ7JRIZtxbTryW+hYGwyRW8AvDvit
+         HQGKaScx/axmE9W5VpHem/wG1/HEt7ODqB06cqkR2TCiwqiekWxUDf3tHAak8Lk5fabS
+         z+PQB5yD6664u8DRfH+6XISCppnvpgC2Rne3xej74dRyQ2wClImZnybrswNAiyE658n+
+         nq5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776201366; x=1776806166;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/TyCH9SMWGwZ0uzhcSuuZUtHYH+vVfCSIhLbgFrzZ0M=;
+        b=DqUjufeYvcCr+t5Pt7mFf+csiIugKAj2x6dJJpCcuCRnKyCQS6X0mQ6mMhUAKXYHwj
+         Epdt0uMZmv2nGspFZnvUOOlB9FLW/U0ZOm+tT4Tb45tO/H+DQtQxQkDeeDC+J8JDAX+q
+         JKsLhY7kmOkFKYN/uO46jX6MiUaPOunow8xPAvHGZhRiAc7Uh8HcrBNtE5hIGvlCJUdl
+         rmEVFWdFBCmPvKPwGMUFZHk7DF6wnX7Hqq+78yx6hlX1FEHWjymZTkK6Di95+FrN1KoS
+         vZ867w7x3JMNq4D0w0OpE+X7E7bfm420+weCwvBx2ekoSKV69rwvJvQu+aSivcXXAeL4
+         fSgw==
+X-Forwarded-Encrypted: i=1; AFNElJ/VtIhi3YsFPzaGNDSkIvdS8KmMQTsC6ueNopSoSIdjBOXfKlzS1JmR1jGotalcW7Jjq1OqHVBLtxGGEW3M@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+ZXQSHcIQLzo5pD9ydUvFlVbKSDYsKg/+7SBVemQgHrtijGCr
+	e38oscCw7RSIu5eRoGw1WzgnXE6w7LLf1BAXDovallLS/fzry0nqTs/9u4W3hHv3Pdb9mzJqR+F
+	xQnDiW9cuhuXeKw9Es059ZAHj2ca+AqDH3iv6vSKDKEmkzU4wkmYhinntvhHpkj3EuwQ=
+X-Gm-Gg: AeBDievGL41WD5EAAkZoPOyheEcPtvt9mYGw50YGU+9tkHulwidOjDmu5vvVMkDPgvf
+	UP057SohG7Pt6dvMZT0kBC55KDMxxBTZoir4/jT4wpwtqIL4C3hfCsiPAR8m2A1qt/iN7v8Qthm
+	IyjeKqbZCUYxlpY4+wM93OXFD7sqBb8l3JXlKHKtW2dhctuZSDBIlmq+vbCrYuirXc8pRvEpbfm
+	d+21RvyMQDt/i9BkA0NEUus3sr4CapuiCVVrCVWAAQ3CnJ79ivOgYffHDSHWbvENVFIp4fW679f
+	83touQEibjkK9/pUg27IrY6+w0eO81Tjpc0bBh9VIkXeJ95v1mDAda1P5seJBRO7PA8sh59GumH
+	J1KC2YHyYU28hDUAzG8ME21gIaGRiidb0nqNc2/kp0XHPj60hElqvMJexi95BDF8=
+X-Received: by 2002:a05:690c:c1cc:b0:7a1:a31a:bfce with SMTP id 00721157ae682-7af715776famr166038057b3.32.1776201365730;
+        Tue, 14 Apr 2026 14:16:05 -0700 (PDT)
+X-Received: by 2002:a05:690c:c1cc:b0:7a1:a31a:bfce with SMTP id 00721157ae682-7af715776famr166037817b3.32.1776201365354;
+        Tue, 14 Apr 2026 14:16:05 -0700 (PDT)
+Received: from li-4c4c4544-0032-4210-804c-c3c04f423534.ibm.com ([2600:1700:6476:1430::29])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7af3d1c07absm73967887b3.19.2026.04.14.14.16.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Apr 2026 14:16:04 -0700 (PDT)
+Message-ID: <f57f2eb9cb81dfd11f1b4dbc9f345b7713dbb5f4.camel@redhat.com>
+Subject: Re: [PATCH] hfsplus: remove xattr error message
+From: Viacheslav Dubeyko <vdubeyko@redhat.com>
+To: "Colin King (gmail)" <colin.i.king@gmail.com>, Viacheslav Dubeyko	
+ <slava@dubeyko.com>, John Paul Adrian Glaubitz
+ <glaubitz@physik.fu-berlin.de>,  Yangtao Li <frank.li@vivo.com>,
+ linux-fsdevel@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Tue, 14 Apr 2026 14:16:03 -0700
+In-Reply-To: <4a6a9ef3-cfa1-46df-bf82-d083ef30041a@gmail.com>
+References: <20260411125338.165758-1-colin.i.king@gmail.com>
+	 <b0e9b8218a2daeb65c8481d1f4646f3ca89d713a.camel@redhat.com>
+	 <4a6a9ef3-cfa1-46df-bf82-d083ef30041a@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43app2) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 14/14] docs: fuse: add io-uring bufring and zero-copy
- documentation
-To: Joanne Koong <joannelkoong@gmail.com>, miklos@szeredi.hu
-Cc: axboe@kernel.dk, linux-fsdevel@vger.kernel.org
-References: <20260402162840.2989717-1-joannelkoong@gmail.com>
- <20260402162840.2989717-15-joannelkoong@gmail.com>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: en-US
-In-Reply-To: <20260402162840.2989717-15-joannelkoong@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
+On Tue, 2026-04-14 at 21:19 +0100, Colin King (gmail) wrote:
+> On 13/04/2026 18:12, Viacheslav Dubeyko wrote:
+> > On Sat, 2026-04-11 at 13:53 +0100, Colin Ian King wrote:
+> > > When exercising hfsplus with the stress-ng xattr stressor a large
+> > > quantity of somewhat unhelpful error messages "hfsplus: xattr exists
+> > > yet" spam the kernel log. Remove these.
+> >=20
+> > We can convert it into hfs_dbg() and to add showing inode ID + name. Wh=
+at do you
+> > think?
+>=20
+> Yes, that's a good idea. Perhaps the phrase "xattr exists yet" can be=20
+> rephrased as the message is not really that clear. Any ideas for an=20
+> improved message?
 
-
-On 4/2/26 18:28, Joanne Koong wrote:
-> Add documentation for fuse over io-uring usage of buffer rings and
-> zero-copy.
-> 
-> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
-> ---
->  .../filesystems/fuse/fuse-io-uring.rst        | 189 ++++++++++++++++++
->  1 file changed, 189 insertions(+)
-> 
-> diff --git a/Documentation/filesystems/fuse/fuse-io-uring.rst b/Documentation/filesystems/fuse/fuse-io-uring.rst
-> index d73dd0dbd238..bc47686c023f 100644
-> --- a/Documentation/filesystems/fuse/fuse-io-uring.rst
-> +++ b/Documentation/filesystems/fuse/fuse-io-uring.rst
-> @@ -95,5 +95,194 @@ Sending requests with CQEs
->   |    <fuse_unlink()                         |
->   |  <sys_unlink()                            |
->  
-> +Buffer rings
-> +============
->  
-> +Buffer rings have two main advantages:
->  
-> +* Reduced memory usage: payload buffers are pooled and selected on demand
-> +  rather than dedicated per-entry, allowing fewer buffers than entries. This
-> +  infrastructure also allows for future optimizations like incremental buffer
-> +  consumption where non-overlapping parts of a buffer may be used across
-> +  concurrent requests.
-> +* Foundation for pinned buffers: contiguous buffer allocations allow the
-> +  kernel to pin and vmap the entire region, avoiding per-request page
-> +  resolution overhead
-> +
-> +At a high-level, this is how fuse uses buffer rings:
-> +
-> +* The first REGISTER SQE for a queue creates the queue and sets up the
-> +  buffer ring. The server provides two iovecs: one for headers and one for
-> +  payload buffers. Each entry gets a fixed ID (sqe->buf_index) that maps
-> +  to a specific header slot.
-
-Hi Joanne,
-
-thanks a lot for this document! Could we discuss if we could just hook
-in here and allow SQEs with different iovecs for the payload buffer?
-Let's say fuse-server wants multiple IO sizes - it could easily do that
-via different pBufs and just needs to specify the dedicated IO size per
-pBuf. Those buffers could then get sorted into an array - we could
-define either via FUSE init the number of buf sizes or use a fixed size
-array. Fuse requests then would just need to pick the right array.
-This is basically what I'm currently working on for ublk.
-
-I think it would be good to agree on the design before it gets merged so
-that uapi doesn't change.
+Maybe, "unable to recreate the existing xattr"?
 
 Thanks,
-Bernd
+Slava.
 
-
-> +* When a client request arrives, the kernel selects a payload buffer from
-> +  the ring (if the request has copyable data), copies headers and payload
-> +  data, and completes the sqe.
-> +* The buf_id of the selected payload buffer is communicated to the server
-> +  via the fuse_uring_ent_in_out header. The server uses this to locate the
-> +  payload data in its buffer.
-> +* The server processes the request and sends a COMMIT_AND_FETCH SQE with
-> +  the reply. The kernel processes the reply and recycles the buffer.
-> +
-> +Visually, this looks like::
-> +
-> + Headers buffer:
-> + +-----------------------+-----------------------+-----+
-> + | fuse_uring_req_header | fuse_uring_req_header | ... |
-> + | [ent 0]               | [ent 1]               |     |
-> + +-----------------------+-----------------------+-----+
-> + ^                       ^
-> + |                       |
-> + ent 0 header slot       ent 1 header slot
-> + (sqe->buf_index=0)      (sqe->buf_index=1)
-> +
-> + Payload buffer pool:
-> + +-----------+-----------+-----------+-----+
-> + | buf 0     | buf 1     | buf 2     | ... |
-> + | (buf_size)| (buf_size)| (buf_size)|     |
-> + +-----------+-----------+-----------+-----+
-> + selected on demand, recycled after each request
-> +
-> +Buffer ring request flow
-> +------------------------::
-> +
-> +|  Kernel                                  |  FUSE daemon
-> +|                                          |
-> +|  [client request arrives]                |
-> +|  >fuse_uring_send()                      |
-> +|    [select payload buf from ring]        |
-> +|    >fuse_uring_select_buffer()           |
-> +|    [copy headers to ent's header slot]   |
-> +|    >copy_header_to_ring()                |
-> +|    [copy payload to selected buf]        |
-> +|    >fuse_uring_copy_to_ring()            |
-> +|    [set buf_id in ent_in_out header]     |
-> +|    >io_uring_cmd_done()                  |
-> +|                                          |  [CQE received]
-> +|                                          |  [read headers from header slot]
-> +|                                          |  [read payload from buf_id]
-> +|                                          |  [process request]
-> +|                                          |  [write reply to header slot]
-> +|                                          |  [write reply payload to buf]
-> +|                                          |  >io_uring_submit()
-> +|                                          |   COMMIT_AND_FETCH
-> +|  >fuse_uring_commit_fetch()              |
-> +|    >fuse_uring_commit()                  |
-> +|     [copy reply from ring]               |
-> +|     >fuse_uring_recycle_buffer()         |
-> +|    >fuse_uring_get_next_fuse_req()       |
-> +
-> +Pinned buffers
-> +==============
-> +
-> +Servers can optionally pin their header and/or payload buffers by setting
-> +FUSE_URING_PINNED_HEADERS and/or FUSE_URING_PINNED_BUFFERS flags. When
-> +set, the kernel pins the user pages and vmaps them during queue setup,
-> +enabling memcpy to/from the kernel virtual address instead of
-> +copy_to_user/copy_from_user.
-> +
-> +This avoids the per-request cost of pinning/unpinning user pages and
-> +translating virtual addresses. Buffers must be page-aligned. The pinned pages
-> +are accounted against RLIMIT_MEMLOCK (bypassable with CAP_IPC_LOCK).
-> +
-> +Zero-copy
-> +=========
-> +
-> +Fuse io-uring zero-copy allows the server to directly read from / write to
-> +the client's pages, bypassing any intermediary buffer copies. This requires
-> +the FUSE_URING_ZERO_COPY flag, buffer rings with pinned headers and buffers,
-> +and CAP_SYS_ADMIN.
-> +
-> +The kernel registers the client's underlying pages as a sparse buffer at
-> +the entry's fixed id via io_buffer_register_bvec(). The fuse server can
-> +then perform io_uring read/write operations directly on these pages.
-> +Non-page-backed args (eg out headers) go through the payload buffer as
-> +normal. Pages are unregistered when the request completes.
-> +
-> +The request flow for the zero-copy write path (client writes data, server
-> +reads it) is as follows:
-> +
-> +Zero-copy write
-> +---------------::
-> +|  Kernel                                   |  FUSE server
-> +|                                           |
-> +|  "write(fd, buf, 1MB)"                    |
-> +|                                           |
-> +|  >sys_write()                             |
-> +|    >fuse_file_write_iter()                |
-> +|      >fuse_send_one()                     |
-> +|        [req->args->in_pages = true]       |
-> +|        [folios hold client write data]    |
-> +|                                           |
-> +|  >fuse_uring_copy_to_ring()               |
-> +|    >copy_header_to_ring(IN_OUT)           |
-> +|      [memcpy fuse_in_header to            |
-> +|       pinned headers buf via kaddr]       |
-> +|    >copy_header_to_ring(OP)               |
-> +|      [memcpy write_in header]             |
-> +|                                           |
-> +|    >fuse_uring_args_to_ring()             |
-> +|      >setup_fuse_copy_state()             |
-> +|        [is_kaddr = true]                  |
-> +|        [skip_folio_copy = true]           |
-> +|                                           |
-> +|      >fuse_uring_set_up_zero_copy()       |
-> +|        [folio_get for each client folio]  |
-> +|        [build bio_vec array from folios]  |
-> +|        >io_buffer_register_bvec()         |
-> +|          [register pages at ent->id]      |
-> +|        [ent->zero_copied = true]          |
-> +|                                           |
-> +|      >fuse_copy_args()                    |
-> +|        [skip_folio_copy => return 0       |
-> +|         for page arg, skip data copy]     |
-> +|                                           |
-> +|    >copy_header_to_ring(RING_ENT)         |
-> +|      [memcpy ent_in_out]                  |
-> +|    >io_uring_cmd_done()                   |
-> +|                                           |
-> +|                                           | [CQE received]
-> +|                                           |
-> +|                                           | [issue io_uring READ at
-> +|                                           |  ent->id]
-> +|                                           | [reads directly from
-> +|                                           | client's pages (ZERO_COPY)]
-> +|                                           |
-> +|                                           | [write data to backing
-> +|                                           | store]
-> +|                                           |  [submit COMMIT AND FETCH]
-> +|                                           |
-> +|  >fuse_uring_commit_fetch()               |
-> +|    >fuse_uring_commit()                   |
-> +|      >fuse_uring_copy_from_ring()         |
-> +|    >fuse_uring_req_end()                  |
-> +|      >io_buffer_unregister(ent->id)       |
-> +|        [unregister sparse buffer]         |
-> +|      >fuse_zero_copy_release()            |
-> +|        [folio_put for each folio]         |
-> +|      [ent->zero_copied = false]           |
-> +|      >fuse_request_end()                  |
-> +|        [wake up client]                   |
-> +
-> +The zero-copy read path is analogous.
-> +
-> +Some requests may have both page-backed args and non-page-backed args.
-> +For these requests, the page-backed args are zero-copied while the
-> +non-page-backed args are copied to the buffer selected from the buffer
-> +ring:
-> +  zero-copy: pages registered via io_buffer_register_bvec()
-> +  non-page-backed: copied to payload buffer via fuse_copy_args()
-> +
-> +For a request whose payload is zero-copied, the registration/unregistration
-> +path looks like:
-> +
-> +register:  fuse_uring_set_up_zero_copy()
-> +	     folio_get() for each folio
-> +	     io_buffer_register_bvec(ent->id)
-> +
-> +[server accesses pages via io_uring fixed buf at ent->id]
-> +
-> +unregister: fuse_uring_req_end()
-> +	      io_buffer_unregister(ent->id)
-> +	      -> fuse_zero_copy_release() callback
-> +		 folio_put() for each folio
+>=20
+> Colin
+>=20
+> >=20
+> > Also, there are other pr_err() in xattr code that can be converted into
+> > hfs_dbg(). Could you please take a look into other ones too?
+> >=20
+> > Thanks,
+> > Slava.
+> >=20
+> > >=20
+> > > Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+> > > ---
+> > >   fs/hfsplus/xattr.c | 2 --
+> > >   1 file changed, 2 deletions(-)
+> > >=20
+> > > diff --git a/fs/hfsplus/xattr.c b/fs/hfsplus/xattr.c
+> > > index c70bb6f494b2..e10e1d8a5862 100644
+> > > --- a/fs/hfsplus/xattr.c
+> > > +++ b/fs/hfsplus/xattr.c
+> > > @@ -301,7 +301,6 @@ int __hfsplus_setxattr(struct inode *inode, const=
+ char *name,
+> > >  =20
+> > >   	if (!strcmp_xattr_finder_info(name)) {
+> > >   		if (flags & XATTR_CREATE) {
+> > > -			pr_err("xattr exists yet\n");
+> > >   			err =3D -EOPNOTSUPP;
+> > >   			goto end_setxattr;
+> > >   		}
+> > > @@ -348,7 +347,6 @@ int __hfsplus_setxattr(struct inode *inode, const=
+ char *name,
+> > >  =20
+> > >   	if (hfsplus_attr_exists(inode, name)) {
+> > >   		if (flags & XATTR_CREATE) {
+> > > -			pr_err("xattr exists yet\n");
+> > >   			err =3D -EOPNOTSUPP;
+> > >   			goto end_setxattr;
+> > >   		}
+> >=20
 
