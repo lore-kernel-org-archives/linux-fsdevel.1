@@ -1,59 +1,41 @@
-Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A51D03DCDAD;
-	Tue, 14 Apr 2026 23:53:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE4723E5EDD
+	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 23:56:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776210834; cv=none; b=CWwYeTbuFs3UHU78aztZanZZJwSOWf/K1TYExQ+56ofE8PNLL3HKOJC3YGc6dZinqSE7iROQpruD9qls3FdCgZ7sbhmqaEHc2DOe1GNbw3Gjm/gpc0BhwWwj15PaElWKcb98f26ACuYk/YVrISuXXRPU8oXo1hUbKSm2Hg5feAw=
+	t=1776210971; cv=none; b=YfOxJRryIA2grU0YWm8OwQ2ta57J7TR0WNGhF6c6+x9fopE0gTMM4cBUb9katksvpzBxhpNj6046m7untrVlr5sDbcmaAO/+vo5X8AcQtuHppdCIHgl8pdCaBo5Kfm763XwJAHUboahaKIRG0DLmDcGM11kwXfiQIbhBG3Jv+ws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776210834; c=relaxed/simple;
-	bh=UQxDydzHMl8DmOV6Duguxc2Ei/DSGKKYYgW+NaCpKuo=;
+	s=arc-20240116; t=1776210971; c=relaxed/simple;
+	bh=ChbyD/r7w7aLEmxQV1DuiSHTU/f48k79leBqy0qXEss=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lMxgKqzKScekot1myOX9q0/1z9hv00bsoccluPDtCDixcCEhnOb4YXOnqki4R2DLLcfuV6eqBWawUJFPzFjpN8CWf9+1WDNRSV/7MVQVj/fYoTbait15scbd9wk5VnQ//Lt1srF68dNA2A2GjJXqx5tMIa75tnYcwAbtupY6TKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
-Received: from omf15.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay09.hostedemail.com (Postfix) with ESMTP id 2E2E588E8B;
-	Tue, 14 Apr 2026 23:53:42 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf15.hostedemail.com (Postfix) with ESMTPA id 920FF1F;
-	Tue, 14 Apr 2026 23:53:31 +0000 (UTC)
-Date: Tue, 14 Apr 2026 18:53:30 -0500
-From: John Groves <John@groves.net>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, 
-	Joanne Koong <joannelkoong@gmail.com>, Bernd Schubert <bernd@bsbernd.com>, 
-	John Groves <john@jagalactic.com>, Dan Williams <dan.j.williams@intel.com>, 
-	Bernd Schubert <bschubert@ddn.com>, Alison Schofield <alison.schofield@intel.com>, 
-	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Josef Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
-	Chen Linxuan <chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	djbw@kernel.org
-Subject: Re: [PATCH V10 00/10] famfs: port into fuse
-Message-ID: <ad7MC5Em4l72nJ6u@groves.net>
-References: <20260331123702.35052-1-john@jagalactic.com>
- <0100019d43e5f632-f5862a3e-361c-4b54-a9a6-96c242a8f17a-000000@email.amazonses.com>
- <CAJnrk1ZRTGWjNzkMxS3UkeZMmrpadJDtWKontMx2=d-smXYq=w@mail.gmail.com>
- <adkDq0m5Wt9YhJ8A@groves.net>
- <38744253-efa3-41c5-a491-b177a4a4c835@bsbernd.com>
- <adlBcwJjLOQDAR65@groves.net>
- <CAJnrk1a06zkUmXW5EFiUmgAoFauwtzsYvnotaPH0ifVtyh7iDQ@mail.gmail.com>
- <CAJfpegvVTcV89=q3L326aGQjhduBcv7PVg5QKftGLjNZmCLmaw@mail.gmail.com>
- <ad4_jFsR951c2Mtn@groves.net>
- <20260414185740.GA604658@frogsfrogsfrogs>
+	 Content-Type:Content-Disposition:In-Reply-To; b=HYlc8TdphgLkkd28LTjhFIZdNPUvAFfT2pjQR/t03Ngum7c+0IOxcNwIzpW/Aosaojdeq/rqjmxpIAEVyP5xEbnpzZi4u1ir1pp85aTrkl+hd95YwHqFA27rO81um7k86vmyU54vOtqX50gESqx8iFB9fztYughDM50gT5tQCTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sFMGCkAX; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sFMGCkAX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 408D0C19425;
+	Tue, 14 Apr 2026 23:56:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776210971;
+	bh=ChbyD/r7w7aLEmxQV1DuiSHTU/f48k79leBqy0qXEss=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sFMGCkAXj5cCmPVq1O35rZgmaPoAIFgGy43QbY2KKHn4KYe1/Ptl1t2EEwGN1kWQN
+	 9uiDdQfiMLfkIcBjVf5k6KPcGlUqFURB7HwBfznlF1xfYF1XCYDD2BmrIXvUbmBK5g
+	 Jn0qncUUTspDyqemT61lL5bNFA+bgbxjgrRVznjx1ipCam1w059vC/svYtlyQcVdPP
+	 gle9n9OUGOZCKHw2da1eHuOCmO6hQww22Ng7chBMY9aCKhNs+mCbcSfz155BkmjZVZ
+	 5+iLudBlrV3B7qJgw+CiUAMHnsQ3cmVN5UGps0/wmrr3auBkAwx+FT6fYhralQmewd
+	 ma88gyBcFTueg==
+Date: Tue, 14 Apr 2026 16:56:10 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: bschubert@ddn.com
+Cc: miklos@szeredi.hu, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
+	bernd@bsbernd.com, joannelkoong@gmail.com
+Subject: Re: [PATCH 11/13] example/service_ll: create a sample systemd
+ service fuse server
+Message-ID: <20260414235610.GF604658@frogsfrogsfrogs>
+References: <177577270167.2064074.16504004857564657756.stgit@frogsfrogsfrogs>
+ <177577270412.2064074.6178076333925029149.stgit@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -62,248 +44,1395 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260414185740.GA604658@frogsfrogsfrogs>
-X-Stat-Signature: 65uuprhu7zrsa9mynkht1p5kqjy1ec8b
-X-Rspamd-Server: rspamout01
-X-Rspamd-Queue-Id: 920FF1F
-X-Session-Marker: 6A6F686E4067726F7665732E6E6574
-X-Session-ID: U2FsdGVkX1/dEzdtymyfXnoI12SBeqiiXTQK738e8KA=
-X-HE-Tag: 1776210811-614244
-X-HE-Meta: U2FsdGVkX1+W2uuZ1T1Kn87mex9yPWL6bIePtEYZKGJX/hOFSzlnWir/Q2E/ipZEgwp4k7vQEE6f63Mr2mcnIDv5vBGpBofKSksnYlKicfadZheWGB8ijTSNc/XWlGXsHmHuab3cA+YJLVUgLZouysJGC+QcC5Y4FtqTMk7ROfy3T/8/lUjxtR+04YtCgrFyYJnbDlLRkSeCR7ZyJ5FUAnLQB9LK7wY3GanKZE0KtIAnTPBr0r61htN3MA1k5BoGmZcvatyXqIb0DjMu0wcUsD8sou32w/GX729XBh/DiQCIAtyY2Et8sklOypC6MaSGomUPok9UndG9TkV5K9echHb0D9l4PRiisKyJ+OCaxIFLX3OudtPgBQ==
+In-Reply-To: <177577270412.2064074.6178076333925029149.stgit@frogsfrogsfrogs>
 
-On 26/04/14 11:57AM, Darrick J. Wong wrote:
-> On Tue, Apr 14, 2026 at 08:41:42AM -0500, John Groves wrote:
-> > On 26/04/14 03:19PM, Miklos Szeredi wrote:
-> > > On Fri, 10 Apr 2026 at 21:44, Joanne Koong <joannelkoong@gmail.com> wrote:
-> > > 
-> > > > Overall, my intention with bringing this up is just to make sure we're
-> > > > at least aware of this alternative before anything is merged and
-> > > > permanent. If Miklos and you think we should land this series, then
-> > > > I'm on board with that.
-> > > 
-> > > TBH, I'd prefer not to add the famfs specific mapping interface if not
-> > > absolutely necessary.  This was the main sticking point originally,
-> > > but there seemed to be no better alternative.
-> > > 
-> > > However with the bpf approach this would be gone, which is great.
+On Thu, Apr 09, 2026 at 03:23:24PM -0700, Darrick J. Wong wrote:
+> From: Darrick J. Wong <djwong@kernel.org>
 > 
-> Well... you can't get away with having *no* mapping interface at all.
-> You still have to define a UABI that BPF programs can use to convey
-> mapping data into fsdax/iomap.  BTF is a nice piece of work that smooths
-> over minor fluctuations in struct layout between a running kernel and
-> a precompiled BPF program, but fundamentally we still need a fuse-native
-> representation.
+> Create a simple fuse server that can be run as a systemd service.
+> I plan to create some more single-file fuse server examples, so most of
+> the boilerplate code goes in a separate file.
+> 
+> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
+> ---
+>  example/single_file.h        |  149 ++++++++++
+>  lib/util.h                   |   35 ++
+>  example/meson.build          |   14 +
+>  example/service_ll.c         |  308 ++++++++++++++++++++
+>  example/service_ll.socket.in |   15 +
+>  example/service_ll@.service  |  102 +++++++
+>  example/single_file.c        |  646 ++++++++++++++++++++++++++++++++++++++++++
+>  meson.build                  |    1 
+>  8 files changed, 1270 insertions(+)
+>  create mode 100644 example/single_file.h
+>  create mode 100644 example/service_ll.c
+>  create mode 100644 example/service_ll.socket.in
+>  create mode 100644 example/service_ll@.service
+>  create mode 100644 example/single_file.c
+> 
+> 
+> diff --git a/example/single_file.h b/example/single_file.h
+> new file mode 100644
+> index 00000000000000..af91ea8196a408
+> --- /dev/null
+> +++ b/example/single_file.h
+> @@ -0,0 +1,149 @@
+> +/*
+> + * FUSE: Filesystem in Userspace
+> + * Copyright (C) 2026 Oracle.
+> + *
+> + * This program can be distributed under the terms of the GNU GPLv2.
+> + * See the file GPL2.txt.
+> + */
+> +#ifndef FUSE_SINGLE_FILE_H_
+> +#define FUSE_SINGLE_FILE_H_
+> +
+> +static inline uint64_t round_up(uint64_t b, unsigned int align)
+> +{
+> +	unsigned int m;
+> +
+> +	if (align == 0)
+> +		return b;
+> +	m = b % align;
+> +	if (m)
+> +		b += align - m;
+> +	return b;
+> +}
+> +
+> +static inline uint64_t round_down(uint64_t b, unsigned int align)
+> +{
+> +	unsigned int m;
+> +
+> +	if (align == 0)
+> +		return b;
+> +	m = b % align;
+> +	return b - m;
+> +}
+> +
+> +static inline uint64_t howmany(uint64_t b, unsigned int align)
+> +{
+> +	unsigned int m;
+> +
+> +	if (align == 0)
+> +		return b;
+> +	m = (b % align) ? 1 : 0;
+> +	return (b / align) + m;
+> +}
+> +
+> +struct single_file {
+> +	int backing_fd;
+> +
+> +	int64_t isize;
+> +	uint64_t blocks;
+> +
+> +	mode_t mode;
+> +
+> +	bool ro;
+> +	bool allow_dio;
+> +	bool sync;
+> +	bool require_bdev;
+> +
+> +	unsigned int blocksize;
+> +
+> +	struct timespec atime;
+> +	struct timespec mtime;
+> +
+> +	pthread_mutex_t lock;
+> +};
+> +
+> +extern struct single_file single_file;
+> +
+> +static inline uint64_t b_to_fsbt(uint64_t off)
+> +{
+> +	return off / single_file.blocksize;
+> +}
+> +
+> +static inline uint64_t b_to_fsb(uint64_t off)
+> +{
+> +	return (off + single_file.blocksize - 1) / single_file.blocksize;
+> +}
+> +
+> +static inline uint64_t fsb_to_b(uint64_t fsb)
+> +{
+> +	return fsb * single_file.blocksize;
+> +}
+> +
+> +enum single_file_opt_keys {
+> +	SINGLE_FILE_RO = 171717, /* how many options could we possibly have? */
+> +	SINGLE_FILE_RW,
+> +	SINGLE_FILE_REQUIRE_BDEV,
+> +	SINGLE_FILE_DIO,
+> +	SINGLE_FILE_NODIO,
+> +	SINGLE_FILE_SYNC,
+> +	SINGLE_FILE_NOSYNC,
+> +	SINGLE_FILE_SIZE,
+> +	SINGLE_FILE_BLOCKSIZE,
+> +
+> +	SINGLE_FILE_NR_KEYS,
+> +};
+> +
+> +#define SINGLE_FILE_OPT_KEYS \
+> +	FUSE_OPT_KEY("ro",		SINGLE_FILE_RO), \
+> +	FUSE_OPT_KEY("rw",		SINGLE_FILE_RW), \
+> +	FUSE_OPT_KEY("require_bdev",	SINGLE_FILE_REQUIRE_BDEV), \
+> +	FUSE_OPT_KEY("dio",		SINGLE_FILE_DIO), \
+> +	FUSE_OPT_KEY("nodio",		SINGLE_FILE_NODIO), \
+> +	FUSE_OPT_KEY("sync",		SINGLE_FILE_SYNC), \
+> +	FUSE_OPT_KEY("nosync",		SINGLE_FILE_NOSYNC), \
+> +	FUSE_OPT_KEY("size=%s",		SINGLE_FILE_SIZE), \
+> +	FUSE_OPT_KEY("blocksize=%s",	SINGLE_FILE_BLOCKSIZE)
+> +
+> +int single_file_opt_proc(void *data, const char *arg, int key,
+> +			 struct fuse_args *outargs);
+> +
+> +unsigned long long parse_num_blocks(const char *arg, int log_block_size);
+> +
+> +struct fuse_service;
+> +int single_file_service_open(struct fuse_service *sf, const char *path);
+> +
+> +void single_file_check_read(off_t pos, size_t *count);
+> +int single_file_check_write(off_t pos, size_t *count);
+> +
+> +int single_file_configure(const char *device, const char *filename);
+> +int single_file_configure_simple(const char *filename);
+> +void single_file_close(void);
+> +
+> +/* low-level fuse operation handlers */
+> +
+> +bool is_single_file_child(fuse_ino_t parent, const char *name);
+> +bool is_single_file_ino(fuse_ino_t ino);
+> +
+> +void single_file_ll_readdir(fuse_req_t req, fuse_ino_t ino, size_t size,
+> +				off_t off, struct fuse_file_info *fi);
+> +
+> +void single_file_ll_statfs(fuse_req_t req, fuse_ino_t ino);
+> +
+> +void single_file_ll_statx(fuse_req_t req, fuse_ino_t ino, int flags, int mask,
+> +		       struct fuse_file_info *fi);
+> +
+> +void single_file_ll_getattr(fuse_req_t req, fuse_ino_t ino,
+> +			    struct fuse_file_info *fi);
+> +void single_file_ll_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
+> +			 int to_set, struct fuse_file_info *fi);
+> +
+> +void single_file_ll_lookup(fuse_req_t req, fuse_ino_t parent, const char *name);
+> +void single_file_ll_open(fuse_req_t req, fuse_ino_t ino,
+> +			 struct fuse_file_info *fi);
+> +
+> +void single_file_ll_fsync(fuse_req_t req, fuse_ino_t ino, int datasync,
+> +			  struct fuse_file_info *fi);
+> +
+> +int reply_buf_limited(fuse_req_t req, const char *buf, size_t bufsize,
+> +		      off_t off, size_t maxsize);
+> +
+> +#endif /* FUSE_SINGLE_FILE_H_ */
+> diff --git a/lib/util.h b/lib/util.h
+> index 107a2bfdd6105b..6ec6604fb74caf 100644
+> --- a/lib/util.h
+> +++ b/lib/util.h
+> @@ -4,6 +4,9 @@
+>  #include <stdint.h>
+>  #include <stdbool.h>
+>  
+> +#define max(x, y) ((x) > (y) ? (x) : (y))
+> +#define min(x, y) ((x) < (y) ? (x) : (y))
+> +
+>  #define ROUND_UP(val, round_to) (((val) + (round_to - 1)) & ~(round_to - 1))
+>  
+>  #define likely(x) __builtin_expect(!!(x), 1)
+> @@ -46,4 +49,36 @@ static inline uint64_t fuse_higher_32_bits(uint64_t nr)
+>  #define fallthrough do {} while (0)
+>  #endif
+>  
+> +static inline uint64_t round_up(uint64_t b, unsigned int align)
+> +{
+> +	unsigned int m;
+> +
+> +	if (align == 0)
+> +		return b;
+> +	m = b % align;
+> +	if (m)
+> +		b += align - m;
+> +	return b;
+> +}
+> +
+> +static inline uint64_t round_down(uint64_t b, unsigned int align)
+> +{
+> +	unsigned int m;
+> +
+> +	if (align == 0)
+> +		return b;
+> +	m = b % align;
+> +	return b - m;
+> +}
+> +
+> +static inline uint64_t howmany(uint64_t b, unsigned int align)
+> +{
+> +	unsigned int m;
+> +
+> +	if (align == 0)
+> +		return b;
+> +	m = (b % align) ? 1 : 0;
+> +	return (b / align) + m;
+> +}
+> +
+>  #endif /* FUSE_UTIL_H_ */
+> diff --git a/example/meson.build b/example/meson.build
+> index 76cf2d96db0349..e948f6ba74fdfa 100644
+> --- a/example/meson.build
+> +++ b/example/meson.build
+> @@ -12,6 +12,15 @@ if not platform.endswith('bsd') and platform != 'dragonfly'
+>      examples += [ 'null' ]
+>  endif
+>  
+> +single_file_examples = [ ]
+> +
+> +if platform.endswith('linux')
+> +    single_file_examples += [ 'service_ll' ]
+> +    configure_file(input: 'service_ll.socket.in',
+> +                   output: 'service_ll.socket',
+> +                   configuration: private_cfg)
+> +endif
+> +
+>  threaded_examples = [ 'notify_inval_inode',
+>                        'invalidate_path',
+>                        'notify_store_retrieve',
+> @@ -25,6 +34,11 @@ foreach ex : examples
+>                 install: false)
+>  endforeach
+>  
+> +foreach ex : single_file_examples
+> +    executable(ex, [ex + '.c', 'single_file.c'],
+> +               dependencies: [ libfuse_dep ],
+> +               install: false)
+> +endforeach
+>  
+>  foreach ex : threaded_examples
+>      executable(ex, ex + '.c',
+> diff --git a/example/service_ll.c b/example/service_ll.c
+> new file mode 100644
+> index 00000000000000..da1d64f03be5f2
+> --- /dev/null
+> +++ b/example/service_ll.c
+> @@ -0,0 +1,308 @@
+> +/*
+> + * FUSE: Filesystem in Userspace
+> + * Copyright (C) 2026 Oracle.
+> + *
+> + * This program can be distributed under the terms of the GNU GPLv2.
+> + * See the file GPL2.txt.
+> + */
+> +
+> +/** @file
+> + *
+> + * minimal example filesystem using low-level API and systemd service api
+> + *
+> + * Compile with:
+> + *
+> + *     gcc -Wall single_file.c service_ll.c `pkg-config fuse3 --cflags --libs` -o service_ll
+> + *
+> + * Note: If the pkg-config command fails due to the absence of the fuse3.pc
+> + *     file, you should configure the path to the fuse3.pc file in the
+> + *     PKG_CONFIG_PATH variable.
+> + *
+> + * Change the ExecStart line in service_ll@.service:
+> + *
+> + *     ExecStart=/path/to/service_ll
+> + *
+> + * to point to the actual path of the service_ll binary.
+> + *
+> + * Finally, install the service_ll@.service and service_ll.socket files to the
+> + * systemd service directory, usually /run/systemd/system.
+> + *
+> + * ## Source code ##
+> + * \include service_ll.c
+> + * \include service_ll.socket
+> + * \include service_ll@.service
+> + * \include single_file.c
+> + * \include single_file.h
+> + */
+> +
+> +#define FUSE_USE_VERSION FUSE_MAKE_VERSION(3, 19)
+> +
+> +#ifndef _GNU_SOURCE
+> +#define _GNU_SOURCE
+> +#endif
+> +
+> +#include <fuse_lowlevel.h>
+> +#include <fuse_service.h>
+> +#include <stdio.h>
+> +#include <stdlib.h>
+> +#include <string.h>
+> +#include <errno.h>
+> +#include <fcntl.h>
+> +#include <unistd.h>
+> +#include <assert.h>
+> +#include <pthread.h>
+> +#include "single_file.h"
+> +
+> +struct service_ll {
+> +	struct fuse_session *se;
+> +	char *device;
+> +	struct fuse_service *service;
+> +
+> +	/* really booleans */
+> +	int debug;
+> +};
+> +
+> +static struct service_ll ll = { };
+> +
+> +static void service_ll_init(void *userdata, struct fuse_conn_info *conn)
+> +{
+> +	(void)userdata;
+> +
+> +	conn->time_gran = 1;
+> +}
+> +
+> +static void service_ll_read(fuse_req_t req, fuse_ino_t ino, size_t count,
+> +			    off_t pos, struct fuse_file_info *fi)
+> +{
+> +	void *buf = NULL;
+> +	ssize_t got;
+> +	int ret;
+> +
+> +	if (!is_single_file_ino(ino)) {
+> +		ret = EIO;
+> +		goto out_reply;
+> +	}
+> +
+> +	if (ll.debug)
+> +		fprintf(stderr, "%s: pos 0x%llx count 0x%llx\n",
+> +			__func__,
+> +			(unsigned long long)pos,
+> +			(unsigned long long)count);
+> +
+> +	if (!single_file.allow_dio && fi->direct_io) {
+> +		ret = ENOSYS;
+> +		goto out_reply;
+> +	}
+> +
+> +	single_file_check_read(pos, &count);
+> +
+> +	if (!count) {
+> +		fuse_reply_buf(req, buf, 0);
+> +		return;
+> +	}
+> +
+> +	buf = malloc(count);
+> +	if (!buf) {
+> +		ret = ENOMEM;
+> +		goto out_reply;
+> +	}
+> +
+> +	got = pread(single_file.backing_fd, buf, count, pos);
+> +	if (got < 0) {
+> +		ret = errno;
+> +		goto out_reply;
+> +	}
+> +
+> +	fuse_reply_buf(req, buf, got);
+> +	goto out_buf;
+> +
+> +out_reply:
+> +	fuse_reply_err(req, ret);
+> +out_buf:
+> +	free(buf);
+> +}
+> +
+> +static void service_ll_write(fuse_req_t req, fuse_ino_t ino, const char *buf,
+> +			     size_t count, off_t pos,
+> +			     struct fuse_file_info *fi)
+> +{
+> +	ssize_t got;
+> +	int ret;
+> +
+> +	if (!is_single_file_ino(ino)) {
+> +		ret = EIO;
+> +		goto out_reply;
+> +	}
+> +
+> +	if (ll.debug)
+> +		fprintf(stderr, "%s: pos 0x%llx count 0x%llx\n",
+> +			__func__,
+> +			(unsigned long long)pos,
+> +			(unsigned long long)count);
+> +
+> +	if (!single_file.allow_dio && fi->direct_io) {
+> +		ret = ENOSYS;
+> +		goto out_reply;
+> +	}
+> +
+> +	ret = -single_file_check_write(pos, &count);
+> +	if (ret)
+> +		goto out_reply;
+> +
+> +	got = pwrite(single_file.backing_fd, buf, count, pos);
+> +	if (got < 0) {
+> +		ret = errno;
+> +		goto out_reply;
+> +	}
+> +
+> +	if (single_file.sync) {
+> +		ret = fsync(single_file.backing_fd);
+> +		if (ret < 0) {
+> +			ret = errno;
+> +			goto out_reply;
+> +		}
+> +	}
+> +
+> +	fuse_reply_write(req, got);
+> +	return;
+> +
+> +out_reply:
+> +	fuse_reply_err(req, ret);
+> +}
+> +
+> +static const struct fuse_lowlevel_ops service_ll_oper = {
+> +	.lookup		= single_file_ll_lookup,
+> +	.getattr	= single_file_ll_getattr,
+> +	.setattr	= single_file_ll_setattr,
+> +	.readdir	= single_file_ll_readdir,
+> +	.open		= single_file_ll_open,
+> +	.statfs		= single_file_ll_statfs,
+> +	.statx		= single_file_ll_statx,
+> +	.fsync		= single_file_ll_fsync,
+> +
+> +	.init		= service_ll_init,
+> +	.read		= service_ll_read,
+> +	.write		= service_ll_write,
+> +};
+> +
+> +#define SERVICE_LL_OPT(t, p, v) { t, offsetof(struct service_ll, p), v }
+> +
+> +static struct fuse_opt service_ll_opts[] = {
+> +	SERVICE_LL_OPT("debug",		debug,			1),
+> +	SINGLE_FILE_OPT_KEYS,
+> +	FUSE_OPT_END
+> +};
+> +
+> +static int service_ll_opt_proc(void *data, const char *arg, int key,
+> +				 struct fuse_args *outargs)
+> +{
+> +	int ret = single_file_opt_proc(data, arg, key, outargs);
+> +
+> +	if (ret < 1)
+> +		return ret;
+> +
+> +	switch (key) {
+> +	case FUSE_OPT_KEY_NONOPT:
+> +		if (!ll.device) {
+> +			ll.device = strdup(arg);
+> +			return 0;
+> +		}
+> +		return 1;
+> +	}
+> +
+> +	return 1;
+> +}
+> +
+> +int main(int argc, char *argv[])
+> +{
+> +	struct fuse_args args = FUSE_ARGS_INIT(argc, argv);
+> +	struct fuse_cmdline_opts opts = { };
+> +	int ret = 1;
+> +
+> +	if (fuse_service_accept(&ll.service))
+> +		goto err_args;
+> +
+> +	if (!fuse_service_accepted(ll.service))
+> +		goto err_args;
+> +
+> +	if (fuse_service_append_args(ll.service, &args))
+> +		goto err_service;
+> +
+> +	if (fuse_opt_parse(&args, &ll, service_ll_opts, service_ll_opt_proc))
+> +		goto err_service;
+> +
+> +	if (fuse_service_parse_cmdline_opts(&args, &opts))
+> +		goto err_service;
+> +
+> +	if (opts.show_help) {
+> +		printf("usage: %s [options] <device> <mountpoint>\n\n", argv[0]);
+> +		fuse_cmdline_help();
+> +		fuse_lowlevel_help();
+> +		ret = 0;
+> +		goto err_service;
+> +	} else if (opts.show_version) {
+> +		printf("FUSE library version %s\n", fuse_pkgversion());
+> +		fuse_lowlevel_version();
+> +		ret = 0;
+> +		goto err_service;
+> +	}
+> +
+> +	if (!opts.mountpoint || !ll.device) {
+> +		printf("usage: %s [options] <device> <mountpoint>\n", argv[0]);
+> +		printf("       %s --help\n", argv[0]);
+> +		goto err_service;
+> +	}
+> +
+> +	if (single_file_service_open(ll.service, ll.device))
+> +		goto err_service;
+> +
+> +	if (fuse_service_finish_file_requests(ll.service))
+> +		goto err_singlefile;
+> +
+> +	if (single_file_configure(ll.device, NULL))
+> +		goto err_singlefile;
+> +
+> +	ll.se = fuse_session_new(&args, &service_ll_oper,
+> +				 sizeof(service_ll_oper), NULL);
+> +	if (ll.se == NULL)
+> +		goto err_singlefile;
+> +
+> +	if (fuse_set_signal_handlers(ll.se))
+> +		goto err_session;
+> +
+> +	if (fuse_service_session_mount(ll.service, ll.se, S_IFDIR, &opts))
+> +		goto err_signals;
+> +
+> +	fuse_service_send_goodbye(ll.service, 0);
+> +	fuse_service_release(ll.service);
+> +
+> +	fuse_daemonize(opts.foreground);
 
-A couple of points here, that are really top level observations.
+This is unnecessary -- fuse services are already daemons, being systemd
+services.  fuse_service_session_mount should just do the chdir and leave
+everything alone; it already sets opts->foreground = 1.
 
-The call path from fuse into famfs largely looks like:
+> +
+> +	/* Block until ctrl+c or fusermount -u */
+> +	if (opts.singlethread) {
+> +		ret = fuse_session_loop(ll.se);
+> +	} else {
+> +		struct fuse_loop_config *config = fuse_loop_cfg_create();
 
-if (passthrough)
-	return passthrough_call()
-else if (virtiofs)
-	return virtiofs_call()
-else if (famfs)
-	return famfs_call()
+NULL pointer check needed here.
 
-So from a hooking in standpoint I was trying to be compliant.
+> +
+> +		fuse_loop_cfg_set_clone_fd(config, opts.clone_fd);
+> +		fuse_loop_cfg_set_max_threads(config, opts.max_threads);
+> +		ret = fuse_session_loop_mt(ll.se, config);
+> +		fuse_loop_cfg_destroy(config);
+> +	}
+> +
+> +	fuse_session_unmount(ll.se);
 
-Second point: iomap is an overloaded term. The famfs iomap usage is stolen
-from xfs' fs-dax iomap call patterns. I *think* that is distinct from the
-stuff called iomap that handles block I/O. Because maybe not everybody who
-reads this will understand that famfs is, uh, kinda like hugetlbfs except
-that the memory is from devdax (in 'famfs' mode, because the old mode
-stopped working for file-backed maps. Famfs files are never sparse, and
-they never use the page cache - which is super, super different from a
-conventional file system.
+You can't unmount from within a service if you've already sent the
+goodby packet, so the fallible calls (e.g.  fuse_loop_cfg_create) should
+happen before fuse_service_session_mount.
 
-the famfs_filemap_fault() path calls dax_iomap_fault() path (which I added 
-to devdax in the new famfs mode, because it was in pmem but not devdax)
-always just updates a page table beause the page is always present. That
-means that the fault path is SUPER PERFORMANCE CRITICAL because in heavy
-use there can be millions of these faults per second - and with famfs there
-is NEVER EVER a read from storage to amortize the call overhead over. 
+Also if a service is going to unmount, it should be calling
+fuse_service_session_unmount(ll.service).
 
-This is a super-important point. famfs_filemap_fault() is a in the
-vm_operations_struct. It is called to remind the CPU where an address maps
-to, because the TLB and PTE had been purged (which happens ALL THE TIME).
+--D
 
-The ask here is to insert a BPF program as a vma fault handler. Can it work?
-Probably. Will it perform? I HAVE NO IDEA, BUT THERE ARE REASONS TO WORRY
-THAT IT MIGHT NOT.
-
-I don't think this suggestion was made from a full understanding of the
-performance requirements of this code path.
-
-This is why we need a discussion with fs/mm/bpf experts. We should be able 
-to assemble an understanding of what the overhead of calling the BPF program
-are and how many nanoseconds (or microseconds) that could possibly add.
-Anything longer than the current famfs_filemap_fault() path is potentially
-disastrous because the whole point of famfs is to expose memory via files,
-and avoid sabotaging the performance.
-
-An L3 cache miss costs 100ns in round numbers on fast local DRAM, and
-3-5x as long on switched disaggregated memory. We cannot afford an expensive
-code path resolving these mappings.
-
-This is why, at the last two LSFMMs and in the famfs documentation, I said 
-things like "we're exposing memory, and it must run at memory speeds".
-
-Famfs also registers with the memory provider (devdax in famfs mode) to
-receive notifications of memory failures, and uses a 'holder_operations'
-pattern copied from pmem. This stuff is not in generic iomap (correct me
-if that's wrong).
-
-And finally since I've core dumped quite a bit here, I'll go ahead and add
-a thought experiment that *might* rule out using a BPF program as a vma
-fault handler. Could we do that with hugetlbfs without damaging performance
-for memory-intensive workloads? Hugetlbfs is a pretty solid stand-in for
-famfs: it never does data-movement faults, it's never sparse, and it needs
-to resolve TLB/PTE/PMD/PUD faults FAST.
-
+> +err_signals:
+> +	fuse_remove_signal_handlers(ll.se);
+> +err_session:
+> +	fuse_session_destroy(ll.se);
+> +err_singlefile:
+> +	single_file_close();
+> +err_service:
+> +	free(opts.mountpoint);
+> +	free(ll.device);
+> +	fuse_service_send_goodbye(ll.service, ret);
+> +	fuse_service_destroy(&ll.service);
+> +err_args:
+> +	fuse_opt_free_args(&args);
+> +	return fuse_service_exit(ret);
+> +}
+> diff --git a/example/service_ll.socket.in b/example/service_ll.socket.in
+> new file mode 100644
+> index 00000000000000..c41c382878a0cd
+> --- /dev/null
+> +++ b/example/service_ll.socket.in
+> @@ -0,0 +1,15 @@
+> +# SPDX-License-Identifier: GPL-2.0-or-later
+> +#
+> +# Copyright (C) 2026 Oracle.  All Rights Reserved.
+> +# Author: Darrick J. Wong <djwong@kernel.org>
+> +[Unit]
+> +Description=Socket for service_ll Service
+> +
+> +[Socket]
+> +ListenSequentialPacket=@FUSE_SERVICE_SOCKET_DIR_RAW@/service_ll
+> +Accept=yes
+> +SocketMode=@FUSE_SERVICE_SOCKET_PERMS@
+> +RemoveOnStop=yes
+> +
+> +[Install]
+> +WantedBy=sockets.target
+> diff --git a/example/service_ll@.service b/example/service_ll@.service
+> new file mode 100644
+> index 00000000000000..016d839babe3cc
+> --- /dev/null
+> +++ b/example/service_ll@.service
+> @@ -0,0 +1,102 @@
+> +# SPDX-License-Identifier: GPL-2.0-or-later
+> +#
+> +# Copyright (C) 2026 Oracle.  All Rights Reserved.
+> +# Author: Darrick J. Wong <djwong@kernel.org>
+> +[Unit]
+> +Description=service_ll Sample Fuse Service
+> +
+> +# Don't leave failed units behind, systemd does not clean them up!
+> +CollectMode=inactive-or-failed
+> +
+> +[Service]
+> +Type=exec
+> +ExecStart=/path/to/service_ll
+> +
+> +# Try to capture core dumps
+> +LimitCORE=infinity
+> +
+> +SyslogIdentifier=%N
+> +
+> +# No realtime CPU scheduling
+> +RestrictRealtime=true
+> +
+> +# Don't let us see anything in the regular system, and don't run as root
+> +DynamicUser=true
+> +ProtectSystem=strict
+> +ProtectHome=true
+> +PrivateTmp=true
+> +PrivateDevices=true
+> +PrivateUsers=true
+> +
+> +# No network access
+> +PrivateNetwork=true
+> +ProtectHostname=true
+> +RestrictAddressFamilies=none
+> +IPAddressDeny=any
+> +
+> +# Don't let the program mess with the kernel configuration at all
+> +ProtectKernelLogs=true
+> +ProtectKernelModules=true
+> +ProtectKernelTunables=true
+> +ProtectControlGroups=true
+> +ProtectProc=invisible
+> +RestrictNamespaces=true
+> +RestrictFileSystems=
+> +
+> +# Hide everything in /proc, even /proc/mounts
+> +ProcSubset=pid
+> +
+> +# Only allow the default personality Linux
+> +LockPersonality=true
+> +
+> +# No writable memory pages
+> +MemoryDenyWriteExecute=true
+> +
+> +# Don't let our mounts leak out to the host
+> +PrivateMounts=true
+> +
+> +# Restrict system calls to the native arch and only enough to get things going
+> +SystemCallArchitectures=native
+> +SystemCallFilter=@system-service
+> +SystemCallFilter=~@privileged
+> +SystemCallFilter=~@resources
+> +
+> +SystemCallFilter=~@clock
+> +SystemCallFilter=~@cpu-emulation
+> +SystemCallFilter=~@debug
+> +SystemCallFilter=~@module
+> +SystemCallFilter=~@reboot
+> +SystemCallFilter=~@swap
+> +
+> +SystemCallFilter=~@mount
+> +
+> +# libfuse io_uring wants to pin cores and memory
+> +SystemCallFilter=mbind
+> +SystemCallFilter=sched_setaffinity
+> +
+> +# Leave a breadcrumb if we get whacked by the system call filter
+> +SystemCallErrorNumber=EL3RST
+> +
+> +# Log to the kernel dmesg, just like an in-kernel filesystem driver
+> +StandardOutput=append:/dev/ttyprintk
+> +StandardError=append:/dev/ttyprintk
+> +
+> +# Run with no capabilities at all
+> +CapabilityBoundingSet=
+> +AmbientCapabilities=
+> +NoNewPrivileges=true
+> +
+> +# We don't create files
+> +UMask=7777
+> +
+> +# No access to hardware /dev files at all
+> +ProtectClock=true
+> +DevicePolicy=closed
+> +
+> +# Don't mess with set[ug]id anything.
+> +RestrictSUIDSGID=true
+> +
+> +# Don't let OOM kills of processes in this containment group kill the whole
+> +# service, because we don't want filesystem drivers to go down.
+> +OOMPolicy=continue
+> +OOMScoreAdjust=-1000
+> diff --git a/example/single_file.c b/example/single_file.c
+> new file mode 100644
+> index 00000000000000..b2dedf59de9552
+> --- /dev/null
+> +++ b/example/single_file.c
+> @@ -0,0 +1,646 @@
+> +/*
+> + * FUSE: Filesystem in Userspace
+> + * Copyright (C) 2026 Oracle.
+> + *
+> + * This program can be distributed under the terms of the GNU GPLv2.
+> + * See the file GPL2.txt.
+> + */
+> +#define _GNU_SOURCE
+> +#include <pthread.h>
+> +#include <errno.h>
+> +#include <stdlib.h>
+> +#include <errno.h>
+> +#include <stdio.h>
+> +#include <string.h>
+> +#include <unistd.h>
+> +#include <sys/ioctl.h>
+> +#include <sys/stat.h>
+> +#ifdef __linux__
+> +#include <linux/fs.h>
+> +#include <linux/stat.h>
+> +#endif
+> +
+> +#define FUSE_USE_VERSION (FUSE_MAKE_VERSION(3, 19))
+> +
+> +#include "fuse_lowlevel.h"
+> +#include "fuse_service.h"
+> +#include "single_file.h"
+> +
+> +#define min(x, y) ((x) < (y) ? (x) : (y))
+> +
+> +#if __has_attribute(__fallthrough__)
+> +#define fallthrough __attribute__((__fallthrough__))
+> +#else
+> +#define fallthrough do {} while (0)
+> +#endif
+> +
+> +struct dirbuf {
+> +	char *p;
+> +	size_t size;
+> +};
+> +
+> +struct single_file_stat {
+> +	struct fuse_entry_param entry;
+> +};
+> +
+> +#define SINGLE_FILE_INO		(FUSE_ROOT_ID + 1)
+> +
+> +static const char *single_file_name = "single_file";
+> +static bool single_file_name_set;
+> +
+> +struct single_file single_file = {
+> +	.backing_fd = -1,
+> +	.allow_dio = true,
+> +	.mode = S_IFREG | 0444,
+> +	.lock = PTHREAD_MUTEX_INITIALIZER,
+> +};
+> +
+> +static void dirbuf_add(fuse_req_t req, struct dirbuf *b, const char *name,
+> +		       fuse_ino_t ino)
+> +{
+> +	struct stat stbuf;
+> +	size_t oldsize = b->size;
+> +
+> +	b->size += fuse_add_direntry(req, NULL, 0, name, NULL, 0);
+> +	b->p = (char *) realloc(b->p, b->size);
+> +	memset(&stbuf, 0, sizeof(stbuf));
+> +	stbuf.st_ino = ino;
+> +	fuse_add_direntry(req, b->p + oldsize, b->size - oldsize, name, &stbuf,
+> +			  b->size);
+> +}
+> +
+> +int reply_buf_limited(fuse_req_t req, const char *buf, size_t bufsize,
+> +		      off_t off, size_t maxsize)
+> +{
+> +	if (off < bufsize)
+> +		return fuse_reply_buf(req, buf + off,
+> +				      min(bufsize - off, maxsize));
+> +	else
+> +		return fuse_reply_buf(req, NULL, 0);
+> +}
+> +
+> +bool is_single_file_child(fuse_ino_t parent, const char *name)
+> +{
+> +	return  parent == FUSE_ROOT_ID &&
+> +		strcmp(name, single_file_name) == 0;
+> +}
+> +
+> +bool is_single_file_ino(fuse_ino_t ino)
+> +{
+> +	return ino == SINGLE_FILE_INO;
+> +}
+> +
+> +void single_file_ll_readdir(fuse_req_t req, fuse_ino_t ino, size_t size,
+> +			    off_t off, struct fuse_file_info *fi)
+> +{
+> +	struct dirbuf b;
+> +
+> +	(void) fi;
+> +
+> +	switch (ino) {
+> +	case FUSE_ROOT_ID:
+> +		break;
+> +	case SINGLE_FILE_INO:
+> +		fuse_reply_err(req, ENOTDIR);
+> +		return;
+> +	default:
+> +		fuse_reply_err(req, ENOENT);
+> +		return;
+> +	}
+> +
+> +	memset(&b, 0, sizeof(b));
+> +	dirbuf_add(req, &b, ".", FUSE_ROOT_ID);
+> +	dirbuf_add(req, &b, "..", FUSE_ROOT_ID);
+> +	dirbuf_add(req, &b, single_file_name, SINGLE_FILE_INO);
+> +	reply_buf_limited(req, b.p, b.size, off, size);
+> +	free(b.p);
+> +}
+> +
+> +static bool sf_stat(fuse_ino_t ino, struct single_file_stat *llstat)
+> +{
+> +	struct fuse_entry_param *entry = &llstat->entry;
+> +	struct stat *stbuf = &entry->attr;
+> +
+> +	if (ino == FUSE_ROOT_ID) {
+> +		stbuf->st_mode = S_IFDIR | 0755;
+> +		stbuf->st_nlink = 2;
+> +	} else if (ino == SINGLE_FILE_INO) {
+> +		stbuf->st_mode = single_file.mode;
+> +		stbuf->st_nlink = 1;
+> +		stbuf->st_size = single_file.isize;
+> +		stbuf->st_blksize = single_file.blocksize;
+> +		stbuf->st_blocks = howmany(single_file.isize, 512);
+> +		stbuf->st_atim = single_file.atime;
+> +		stbuf->st_mtim = single_file.mtime;
+> +	} else {
+> +		return false;
+> +	}
+> +	stbuf->st_ino = ino;
+> +
+> +	entry->generation = ino + 1;
+> +	entry->attr_timeout = 0.0;
+> +	entry->entry_timeout = 0.0;
+> +	entry->ino = ino;
+> +
+> +	return true;
+> +}
+> +
+> +#if defined(STATX_BASIC_STATS)
+> +static inline void sf_set_statx_attr(struct statx *stx,
+> +				     uint64_t statx_flag, int set)
+> +{
+> +	if (set)
+> +		stx->stx_attributes |= statx_flag;
+> +	stx->stx_attributes_mask |= statx_flag;
+> +}
+> +
+> +static void sf_statx_directio(struct statx *stx)
+> +{
+> +	struct statx devx;
+> +	int ret;
+> +
+> +	ret = statx(single_file.backing_fd, "", AT_EMPTY_PATH, STATX_DIOALIGN,
+> +		    &devx);
+> +	if (ret)
+> +		return;
+> +	if (!(devx.stx_mask & STATX_DIOALIGN))
+> +		return;
+> +
+> +	stx->stx_mask |= STATX_DIOALIGN;
+> +	stx->stx_dio_mem_align = devx.stx_dio_mem_align;
+> +	stx->stx_dio_offset_align = devx.stx_dio_offset_align;
+> +}
+> +
+> +static bool sf_statx(fuse_ino_t ino, int statx_mask, struct statx *stx)
+> +{
+> +	(void)statx_mask;
+> +
+> +	if (ino == FUSE_ROOT_ID) {
+> +		stx->stx_mode = S_IFDIR | 0755;
+> +		stx->stx_nlink = 2;
+> +	} else if (ino == SINGLE_FILE_INO) {
+> +		stx->stx_mode = single_file.mode;
+> +		stx->stx_nlink = 1;
+> +		stx->stx_size = single_file.isize;
+> +		stx->stx_blksize = single_file.blocksize;
+> +		stx->stx_blocks = howmany(single_file.isize, 512);
+> +		stx->stx_atime.tv_sec = single_file.atime.tv_sec;
+> +		stx->stx_atime.tv_nsec = single_file.atime.tv_nsec;
+> +		stx->stx_mtime.tv_sec = single_file.mtime.tv_sec;
+> +		stx->stx_mtime.tv_nsec = single_file.mtime.tv_nsec;
+> +	} else {
+> +		return false;
+> +	}
+> +	stx->stx_mask = STATX_BASIC_STATS;
+> +	stx->stx_ino = ino;
+> +
+> +	sf_set_statx_attr(stx, STATX_ATTR_IMMUTABLE, single_file.ro);
+> +	sf_statx_directio(stx);
+> +
+> +	return true;
+> +}
+> +
+> +void single_file_ll_statx(fuse_req_t req, fuse_ino_t ino, int flags, int mask,
+> +			  struct fuse_file_info *fi)
+> +{
+> +	struct statx stx = { };
+> +	bool filled;
+> +
+> +	(void)flags;
+> +	(void)fi;
+> +
+> +	pthread_mutex_lock(&single_file.lock);
+> +	filled = sf_statx(ino, mask, &stx);
+> +	pthread_mutex_unlock(&single_file.lock);
+> +	if (!filled)
+> +		fuse_reply_err(req, ENOENT);
+> +	else
+> +		fuse_reply_statx(req, 0, &stx, 0.0);
+> +}
+> +#else
+> +void single_file_ll_statx(fuse_req_t req, fuse_ino_t ino, int flags, int mask,
+> +			  struct fuse_file_info *fi)
+> +{
+> +	fuse_reply_err(req, ENOSYS);
+> +}
+> +#endif /* STATX_BASIC_STATS */
+> +
+> +void single_file_ll_statfs(fuse_req_t req, fuse_ino_t ino)
+> +{
+> +	struct statvfs buf;
+> +
+> +	(void)ino;
+> +
+> +	pthread_mutex_lock(&single_file.lock);
+> +	buf.f_bsize = single_file.blocksize;
+> +	buf.f_frsize = 0;
+> +
+> +	buf.f_blocks = single_file.blocks;
+> +	buf.f_bfree = 0;
+> +	buf.f_bavail = 0;
+> +	buf.f_files = 1;
+> +	buf.f_ffree = 0;
+> +	buf.f_favail = 0;
+> +	buf.f_fsid = 0x50C00L;
+> +	buf.f_flag = 0;
+> +	if (single_file.ro)
+> +		buf.f_flag |= ST_RDONLY;
+> +	buf.f_namemax = 255;
+> +	pthread_mutex_unlock(&single_file.lock);
+> +
+> +	fuse_reply_statfs(req, &buf);
+> +}
+> +
+> +void single_file_ll_getattr(fuse_req_t req, fuse_ino_t ino,
+> +			    struct fuse_file_info *fi)
+> +{
+> +	struct single_file_stat llstat;
+> +	bool filled;
+> +
+> +	(void) fi;
+> +
+> +	memset(&llstat, 0, sizeof(llstat));
+> +	pthread_mutex_lock(&single_file.lock);
+> +	filled = sf_stat(ino, &llstat);
+> +	pthread_mutex_unlock(&single_file.lock);
+> +	if (!filled)
+> +		fuse_reply_err(req, ENOENT);
+> +	else
+> +		fuse_reply_attr(req, &llstat.entry.attr,
+> +				llstat.entry.attr_timeout);
+> +}
+> +
+> +static void get_now(struct timespec *now)
+> +{
+> +#ifdef CLOCK_REALTIME
+> +	if (!clock_gettime(CLOCK_REALTIME, now))
+> +		return;
+> +#endif
+> +
+> +	now->tv_sec = time(NULL);
+> +	now->tv_nsec = 0;
+> +}
+> +
+> +void single_file_ll_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
+> +			    int to_set, struct fuse_file_info *fi)
+> +{
+> +	struct timespec now;
+> +
+> +	if (ino != SINGLE_FILE_INO)
+> +		goto deny;
+> +	if (to_set & (FUSE_SET_ATTR_UID | FUSE_SET_ATTR_GID |
+> +		      FUSE_SET_ATTR_SIZE))
+> +		goto deny;
+> +
+> +	get_now(&now);
+> +
+> +	pthread_mutex_lock(&single_file.lock);
+> +	if (to_set & FUSE_SET_ATTR_MODE)
+> +		single_file.mode = (single_file.mode & S_IFMT) |
+> +				   (attr->st_mode & ~S_IFMT);
+> +	if (to_set & FUSE_SET_ATTR_ATIME) {
+> +		if (to_set & FUSE_SET_ATTR_ATIME_NOW)
+> +			single_file.atime = now;
+> +		else
+> +			single_file.atime = attr->st_atim;
+> +	}
+> +	if (to_set & FUSE_SET_ATTR_MTIME) {
+> +		if (to_set & FUSE_SET_ATTR_MTIME_NOW)
+> +			single_file.mtime = now;
+> +		else
+> +			single_file.mtime = attr->st_mtim;
+> +	}
+> +	pthread_mutex_unlock(&single_file.lock);
+> +
+> +	single_file_ll_getattr(req, ino, fi);
+> +	return;
+> +deny:
+> +	fuse_reply_err(req, EPERM);
+> +}
+> +
+> +void single_file_ll_lookup(fuse_req_t req, fuse_ino_t parent, const char *name)
+> +{
+> +	struct single_file_stat llstat;
+> +	bool filled;
+> +
+> +	if (!is_single_file_child(parent, name)) {
+> +		fuse_reply_err(req, ENOENT);
+> +		return;
+> +	}
+> +
+> +	memset(&llstat, 0, sizeof(llstat));
+> +	pthread_mutex_lock(&single_file.lock);
+> +	filled = sf_stat(SINGLE_FILE_INO, &llstat);
+> +	pthread_mutex_unlock(&single_file.lock);
+> +	if (!filled)
+> +		fuse_reply_err(req, ENOENT);
+> +	else
+> +		fuse_reply_entry(req, &llstat.entry);
+> +}
+> +
+> +void single_file_ll_open(fuse_req_t req, fuse_ino_t ino,
+> +			 struct fuse_file_info *fi)
+> +{
+> +	if (ino != SINGLE_FILE_INO)
+> +		fuse_reply_err(req, EISDIR);
+> +	else if (single_file.ro && (fi->flags & O_ACCMODE) != O_RDONLY)
+> +		fuse_reply_err(req, EACCES);
+> +	else
+> +		fuse_reply_open(req, fi);
+> +}
+> +
+> +void single_file_ll_fsync(fuse_req_t req, fuse_ino_t ino, int datasync,
+> +			  struct fuse_file_info *fi)
+> +{
+> +	int ret = 0;
+> +
+> +	(void)datasync;
+> +	(void)fi;
+> +
+> +	if (ino == SINGLE_FILE_INO) {
+> +		ret = fsync(single_file.backing_fd);
+> +		if (ret)
+> +			ret = errno;
+> +	}
+> +
+> +	fuse_reply_err(req, ret);
+> +}
+> +
+> +unsigned long long parse_num_blocks(const char *arg, int log_block_size)
+> +{
+> +	char *p;
+> +	unsigned long long num;
+> +
+> +	num = strtoull(arg, &p, 0);
+> +
+> +	if (p[0] && p[1])
+> +		return 0;
+> +
+> +	switch (*p) {
+> +	case 'T': case 't':
+> +		num <<= 10;
+> +		fallthrough;
+> +	case 'G': case 'g':
+> +		num <<= 10;
+> +		fallthrough;
+> +	case 'M': case 'm':
+> +		num <<= 10;
+> +		fallthrough;
+> +	case 'K': case 'k':
+> +		if (log_block_size < 0)
+> +			num <<= 10;
+> +		else
+> +			num >>= log_block_size;
+> +		break;
+> +	case 's':
+> +		if (log_block_size < 0)
+> +			num <<= 9;
+> +		else
+> +			num >>= (1+log_block_size);
+> +		break;
+> +	case '\0':
+> +		break;
+> +	default:
+> +		return 0;
+> +	}
+> +	return num;
+> +}
+> +
+> +static int single_file_set_blocksize(const char *arg)
+> +{
+> +	unsigned long long l = parse_num_blocks(arg, -1);
+> +
+> +	if (l < 512 || l > INT32_MAX || (l & (l - 1)) != 0) {
+> +		fprintf(stderr, "%s: block size must be power of two between 512 and 2G.\n",
+> +			arg);
+> +		return -1;
+> +	}
+> +
+> +	/* do not pass through to libfuse */
+> +	single_file.blocksize = l;
+> +	return 0;
+> +}
+> +
+> +static int single_file_set_size(const char *arg)
+> +{
+> +	unsigned long long l = parse_num_blocks(arg, -1);
+> +
+> +	if (l < 1 || (l & 511) != 0 || l > INT64_MAX) {
+> +		fprintf(stderr, "%s: size must be multiple of 512 and larger than zero.\n",
+> +			arg);
+> +		return -1;
+> +	}
+> +
+> +	/* do not pass through to libfuse */
+> +	single_file.isize = l;
+> +	return 0;
+> +}
+> +
+> +int single_file_opt_proc(void *data, const char *arg, int key,
+> +			 struct fuse_args *outargs)
+> +{
+> +	(void)data;
+> +	(void)outargs;
+> +
+> +	switch (key) {
+> +	case SINGLE_FILE_RO:
+> +		/* pass through to libfuse */
+> +		single_file.ro = true;
+> +		return 1;
+> +	case SINGLE_FILE_RW:
+> +		/* pass through to libfuse */
+> +		single_file.ro = false;
+> +		return 1;
+> +	case SINGLE_FILE_REQUIRE_BDEV:
+> +		single_file.require_bdev = true;
+> +		return 0;
+> +	case SINGLE_FILE_DIO:
+> +		single_file.allow_dio = true;
+> +		return 0;
+> +	case SINGLE_FILE_NODIO:
+> +		single_file.allow_dio = false;
+> +		return 0;
+> +	case SINGLE_FILE_SYNC:
+> +		single_file.sync = true;
+> +		return 0;
+> +	case SINGLE_FILE_NOSYNC:
+> +		single_file.sync = false;
+> +		return 0;
+> +	case SINGLE_FILE_BLOCKSIZE:
+> +		return single_file_set_blocksize(arg + 10);
+> +	case SINGLE_FILE_SIZE:
+> +		return single_file_set_size(arg + 5);
+> +	}
+> +
+> +	return 1;
+> +}
+> +
+> +int single_file_service_open(struct fuse_service *sf, const char *path)
+> +{
+> +	int open_flags = single_file.ro ? O_RDONLY : O_RDWR;
+> +	int fd;
+> +	int ret;
+> +
+> +again:
+> +	if (single_file.require_bdev)
+> +		ret = fuse_service_request_blockdev(sf, path,
+> +						    open_flags | O_EXCL, 0, 0,
+> +						    single_file.blocksize);
+> +	else
+> +		ret = fuse_service_request_file(sf, path, open_flags | O_EXCL,
+> +						0, 0);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (!single_file.ro && open_flags == O_RDONLY)
+> +		single_file.ro = true;
+> +
+> +	ret = fuse_service_receive_file(sf, path, &fd);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* downgrade from rw to ro if necessary */
+> +	if ((fd == -EPERM || fd == -EACCES) && open_flags == O_RDWR) {
+> +		open_flags = O_RDONLY;
+> +		goto again;
+> +	}
+> +
+> +	if (fd < 0) {
+> +		fprintf(stderr, "%s: opening file: %s.\n",
+> +			path, strerror(-fd));
+> +		return -1;
+> +	}
+> +
+> +	single_file.backing_fd = fd;
+> +	return 0;
+> +}
+> +
+> +int single_file_check_write(off_t pos, size_t *count)
+> +{
+> +	if (pos >= single_file.isize)
+> +		return -EFBIG;
+> +
+> +	if (*count > single_file.isize)
+> +		*count = single_file.isize;
+> +	if (pos >= single_file.isize - *count)
+> +		*count = single_file.isize - pos;
+> +
+> +	return 0;
+> +}
+> +
+> +void single_file_check_read(off_t pos, size_t *count)
+> +{
+> +	int ret = single_file_check_write(pos, count);
+> +
+> +	if (ret)
+> +		*count = 0;
+> +}
+> +
+> +int single_file_configure(const char *device, const char *filename)
+> +{
+> +	struct stat statbuf;
+> +	unsigned long long backing_size;
+> +	unsigned int proposed_blocksize;
+> +	int lbasize;
+> +	int ret;
+> +
+> +	ret = fstat(single_file.backing_fd, &statbuf);
+> +	if (ret) {
+> +		perror(device);
+> +		return -1;
+> +	}
+> +	lbasize = statbuf.st_blksize;
+> +	backing_size = statbuf.st_size;
+> +
+> +	if (S_ISBLK(statbuf.st_mode)) {
+> +#ifdef BLKSSZGET
+> +		ret = ioctl(single_file.backing_fd, BLKSSZGET, &lbasize);
+> +		if (ret) {
+> +			perror(device);
+> +			return -1;
+> +		}
+> +#endif
+> +
+> +#ifdef BLKGETSIZE64
+> +		ret = ioctl(single_file.backing_fd, BLKGETSIZE64, &backing_size);
+> +		if (ret) {
+> +			perror(device);
+> +			return -1;
+> +		}
+> +#endif
+> +	}
+> +
+> +	if (backing_size == 0) {
+> +		fprintf(stderr, "%s: backing file size zero?\n", device);
+> +		return -1;
+> +	}
+> +
+> +	if (lbasize == 0) {
+> +		fprintf(stderr, "%s: blocksize zero?\n", device);
+> +		return -1;
+> +	}
+> +
+> +	proposed_blocksize = single_file.blocksize ? single_file.blocksize :
+> +						     sysconf(_SC_PAGESIZE);
+> +	if (lbasize > proposed_blocksize) {
+> +		fprintf(stderr, "%s: lba size %u smaller than blocksize %u\n",
+> +			device, lbasize, proposed_blocksize);
+> +		return -1;
+> +	}
+> +
+> +	if (single_file.isize % proposed_blocksize > 0) {
+> +		fprintf(stderr, "%s: size parameter %llu not congruent with blocksize %u\n",
+> +			device, (unsigned long long)single_file.isize,
+> +			proposed_blocksize);
+> +		return -1;
+> +	}
+> +
+> +	if (single_file.isize > backing_size) {
+> +		fprintf(stderr, "%s: file size %llu smaller than size param %llu\n",
+> +			device, backing_size,
+> +			(unsigned long long)single_file.isize);
+> +		return -1;
+> +	}
+> +
+> +	if (!single_file.blocksize)
+> +		single_file.blocksize = proposed_blocksize;
+> +	if (!single_file.isize)
+> +		single_file.isize = backing_size;
+> +
+> +	single_file.isize = round_down(single_file.isize, single_file.blocksize);
+> +	single_file.blocks = single_file.isize / single_file.blocksize;
+> +
+> +	return single_file_configure_simple(filename);
+> +}
+> +
+> +int single_file_configure_simple(const char *filename)
+> +{
+> +	if (!single_file.blocksize)
+> +		single_file.blocksize = sysconf(_SC_PAGESIZE);
+> +
+> +	if (filename) {
+> +		char *n = strdup(filename);
+> +
+> +		if (!n) {
+> +			perror(filename);
+> +			return -1;
+> +		}
+> +
+> +		if (single_file_name_set)
+> +			free((void *)single_file_name);
+> +		single_file_name = n;
+> +		single_file_name_set = true;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +void single_file_close(void)
+> +{
+> +	close(single_file.backing_fd);
+> +	single_file.backing_fd = -1;
+> +
+> +	if (single_file_name_set)
+> +		free((void *)single_file_name);
+> +	single_file_name_set = false;
+> +}
+> diff --git a/meson.build b/meson.build
+> index 827ec45ad3ad75..de038df8d92071 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -77,6 +77,7 @@ endif
+>  if service_socket_perms == ''
+>    service_socket_perms = '0220'
+>  endif
+> +private_cfg.set('FUSE_SERVICE_SOCKET_DIR_RAW', service_socket_dir)
+>  private_cfg.set_quoted('FUSE_SERVICE_SOCKET_DIR', service_socket_dir)
+>  private_cfg.set('FUSE_SERVICE_SOCKET_PERMS', service_socket_perms)
+>  
 > 
-> That last sentence was an indirect way of saying: No, we're not going
-> to export struct iomap to userspace.  The fuse-iomap patchset provides
-> all the UABI pieces we need for regular filesystems (ext4) and hardware
-> adjacent filesystems (famfs) to exchange file mapping data with the
-> kernel.  This has been out for review since last October, but the lack
-> of engagement with that patchset (or its February resubmission) doesn't
-> leave me with confidence that any of it is going anywhere.
 > 
-> Note: The reason for bolting BPF atop fuse-iomap is so that famfs can
-> upload bpf programs to generate interleaved mappings.  It's not so hard
-> to convert famfs' iomapping paths to use fuse-iomap, but I haven't
-> helped him do that because:
-> 
-> a) I have no idea what Miklos' thoughts are about merging any of the
-> famfs stuff.
-> 
-> b) I also have no idea what his thoughts are about fuse-iomap.  The
-> sparse replies are not encouraging.
-> 
-> c) It didn't seem fair to John to make him take on a whole new patchset
-> dependency given (a) and (b).
-> 
-> d) Nobody ever replied to my reply to the LSFMM thread about "can we do
-> some code review of fuse iomap without waiting three months for LSFMM?"
-> I've literally done nothing with fuse-iomap for two of the three months
-> requested.
-> 
-> > > So let us please at least have a try at this. I'm not into bpf yet,
-> > > but willing to learn.
-> 
-> I sent out the patches to enable exactly this sort of experimentation
-> two months ago, and have not received any responses:
-> 
-> https://lore.kernel.org/linux-fsdevel/177188736765.3938194.6770791688236041940.stgit@frogsfrogsfrogs/
-> 
-> I would like to say this as gently as possible: I don't know what the
-> problem here is, Miklos -- are you uninterested in the work?  Do you
-> have too many other things to do inside RH that you can't talk about?
-> Is it too difficult to figure out how the iomap stuff fits into the rest
-> of the fuse codebase?  Do you need help from the rest of us to get
-> reviews done?  Is there something else with which I could help?
-> 
-> Because ... over the past few years, many of my team's filesystem
-> projects have endured monthslong review cycles and often fail to get
-> merged.  This has led to burnout and frustration among my teammates such
-> that many of them chose to move on to other things.  For the remaining
-> people, it was very difficult to justify continuing headcount when
-> progress on projects is so slow that individuals cannot achieve even one
-> milestone per quarter on any project.
-> 
-> There's now nobody left here but me.
-> 
-> I'm not blaming you (Miklos) for any of this, but that is the current
-> deplorable state of things.
-> 
-> > > Thanks,
-> > > Miklos
-> > 
-> > Thanks for responding...
-> > 
-> > My short response: Noooooooooo!!!!!!
-> > 
-> > I very strongly object to making this a prerequisite to merging. This
-> > is an untested idea that will certainly delay us by at least a couple
-> > of merge windows when products are shipping now, and the existing approach
-> > has been in circulation for a long time. It is TOO LATE!!!!!!
-> 
-> /me notes that has "we're shipping so you have to merge it over peoples'
-> concerns" rarely carries the day in LKML land, and has never ended well
-> in the few cases that it happens.  As Ted is fond of saying, this is a
-> team sport, not an individual effort.  Unfortunately, to abuse your
-> sports metaphor, we all play for the ******* A's.
-
-That's totally fair. This process has been very long and grueling, and I'm
-not always thinking clearly.
-
-> 
-> That said, you're clearly pissed at the goalposts changing yet again,
-> and that's really not fair that we collectively keep moving them.
-> 
-> It's a rotten situation that I could have even helped you to solve both
-> our problems via fuse-iomap, but I just couldn't motivate myself to
-> entwine our two projects until the technical direction questions got
-> answered.
-> 
-> > Famfs is not a science project, it's enablement for actual products and
-> > early versions are available now!!!
-> > 
-> > That doesn't mean we couldn't convert later IF THERE ARE NO HIDDEN PROBLEMS.
-> 
-> Heck, the fuse command field is a u32.  There are plenty of numberspace
-> left, and the kernel can just *stop issuing them*.
-> 
-> > What are the risks of converting to BPF?
-> > 
-> > - I don't know how to do it - so it'll be slow (kinda like my fuse learning
-> >   curve cost about a year because this is not that similar to anything
-> >   else that was already in fuse.
-> 
-> ...and per above, BPF isn't some magic savior that avoids the expansion
-> of the UABI.
-> 
-> > - Those of us who are involved don't fully understand either the security
-> >   or performance implications of this. It 
-> 
-> Correct.  I sure think it's swell that people can inject IR programs
-> that jit/link into the kernel.  Don't ask which secondary connotation of
-> "swell" I'm talking about.
-> 
-> > - Famfs is enabling access to memory and mapping fault handling must be
-> >   at "memory speed". We know that BPF walks some data structures when a 
-> >   program executes. That exposes us to additional serialized L3 cache 
-> >   misses each time we service a mapping fault (any TLB & page table miss).
-> >   This should be studied side-by-side with the existing approach under
-> >   multiple loads before being adopted for production.
-> 
-> Yes, it should.  AFAICT if one switched to a per-inode bpf program, then
-> you could do per-inode bpf programs.  Then you don't even need the bpf
-> map, and the ->iomap_begin becomes an indirect call into JITted x86_64
-> math code.
-> 
-> (The downside is that dyn code can't be meaningfully signed, requires
-> clang on the system, and you have to deal with inode eviction issues.)
-> 
-> > - This has never been done in production, and we're throwing it in the way
-> >   of a project that has been soaking for years and needs to support early
-> >   shipments of products.
-> 
-> Correct.  I haven't even implemented BPF-iomap for fuse4fs.  This BPF
-> integration stuff is *highly* experimental code.
-> 
-> > If this is the only path, I'd like to revive famfs as a standalone file
-> > system. I'm still maintaining that and it's still in use.
-> 
-> Honestly, you should probably just ship that to your users.  As long as
-> the ondisk format doesn't change much, switching the implementation at a
-> later date is at least still possible.
-> 
-> --D
-
-And apologies to the polite universe for being a bit raw earlier. Getting
-this far has been quite a grind...
-
-Thanks,
-John
-
