@@ -1,135 +1,160 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47A012EDD78
-	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 01:56:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776131800; cv=none; b=AgdY9sebNqxzVjysfntv6FzGs6Hy69vMofOeXVw0TPybvuLgcPTYKqBJvUgNiXF5N2Lqc4Nk+JHZA+l4zz0+C3qQR3h+S6oMu1514Qr4rEDAaWMMsg4O30Fuv+8U2GL4XYC5NfbX6yMsZlOmvOATV5O2UP6fNbGk7GpPyInjNw8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776131800; c=relaxed/simple;
-	bh=85pNC5vEdgGMvRTfth1N9wOwvmCOSwVjkZ3eUsZZkl0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=l/OjFI3WEktgJEy28zT/lG1AteKP5oV1hdRy31FQgn0EdTPIk7WR2UA/uEDS8t3mF+7HMEj3lZyoN83M6vUbUU1IIpwRxZml+GvtteMJZGTErVCnF2+O2+7ENBeK8n59KfYTfSNavJCZpv3hqqrAvbNDjjsvF1dsD/n84cc/1uo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=s1mMfKZA; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5A5425EF9C
+	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 01:57:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.169
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776131865; cv=pass; b=sy2tSjP+t/RNeEwKDmU08r7nHjY296fUOiAYblIR16okmQLF01X7uQaqEBzfQCWX6U+gK2fRRh6zV3nEZSlPRm7QvsXKLkwq6ufXO0q5xU7XP/nG4FCvGfEHXxY5AEtedYEL+3VfWvqRccCNZ8K2ZZ3QxZ7rXh2MJv+uuBy2PLs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776131865; c=relaxed/simple;
+	bh=7z8VPBl0uyEme0x/C3OZ1AuHvf//58bMte5JYSE8OdA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QuCkvLLDxP17MQYqFwApXAPUYpjvG2k+OVeoNBHQwp+VGm7qsuUvo4QdpzYKSZAdoR5FYbEEb/3Vfct2MymkrvBntIH+Y2cOnwK1TI58E3H6lfcTVsWIdLZApY22wTd1F+S+83+JEdQRg701JSBsnlFMDPtEulknHsg+hcdOKSo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ra1wFhqB; arc=pass smtp.client-ip=209.85.128.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="s1mMfKZA"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-82c70e4654eso2205467b3a.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 18:56:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ra1wFhqB"
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-79ea87af213so71439507b3.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 18:57:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776131862; cv=none;
+        d=google.com; s=arc-20240605;
+        b=jigjBbMhbJg1vfJBrLuGrYrX68Ig+QCM7yrB7lKofd2ijtEz7x8KDVugf2DxgyFwI1
+         QtV/vwateGuT2e+vh2YRglAl6c8ODKvDqylq8yrugRB6KozYVqMZ/c1t4SDTs+n1VcLh
+         tuMNR+1jqH3OjePUu4F+S+AfgKaxnbMi6qz7ryt5ioeDGb9vt7bpKDxbg5bsuW0m7BgT
+         XHIBlLzmGfZ/BgwlovOck/GX9ZSjP5cVOnEGpOzkcLiNFje2w7LVQxPOkravBsnR7E2x
+         psxvVaOspxIbIzZILJR6vuNSsgzhN/2iVInEt1W+oXDQQKj7h11ioMFIrOzzMx9MzNxb
+         JvxA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=M5wP3kXy3jv1Ajs85Ixh4F5Dko192c5SMJqhckL629E=;
+        fh=MlhpW8fuQ2EtyT6S4mUxKWY5863yRiCkxdr2GzNv9ok=;
+        b=jMv8FINhdZW+A5YAYaQjdMGSGwRrz8pR3c+ldpbmFZWubcUI6snCvrsLVSGROiIQnh
+         rpmTmnOy/GUXoph9Gvc0MoB4ZHAWsnUqa/J9HtXZkfIrVVR4nGlxrhFgKA203HXawHuM
+         yoRg7zULigDBksiidwF66qqSRtRMI77/Fn7pauwsy0YcP4EGITsGu41Dicx8Z9wTpBT9
+         evzANrlnaYutayK31wB/yjKYDEOhYFjL/RwFshFyXSxvyQsRIHtaVMjyjAwG9EfV4S51
+         8EfoeEqKf46AWay5siHmxld4AV0yv06WOqLaQpG0CvFcsx3QyBOl9tbooU21U2DcCp2V
+         HLYw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776131797; x=1776736597; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=YMfYbXP1FT74ETBselWjg6OStd152nmOJb74V1LxHW8=;
-        b=s1mMfKZAHEFWC7Ulf6GzdtsZqvtA95mgwOTiKuaLJpulZrPEaRONZrMrVaVa3vwFPr
-         zcmEi8aDz91ew+xsZQ7lNOIJkP41EUGRCtJmW01uhu8lmwzLXzhOVEYK+mc8wIs4bOiK
-         NaQDbxnSMnuOlKpYSYu70MrE/NwWVkyTp928fS6L1VtAko4na/VWuRZO/fmgxLOz6jxR
-         SIT0vj/4KmkSfvVLFanRRTYCp3DZExdiw8zoRIJLRatIp9v0qGT7IdhbEME/NLg9WmKB
-         Awl3yE/awq/vifLXbcJB4VCWp9D8MBEI6DVd3G/3aPfo0CPLT/c9HFCaRE5BJ6ZmCbzu
-         y+rQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776131797; x=1776736597;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1776131862; x=1776736662; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YMfYbXP1FT74ETBselWjg6OStd152nmOJb74V1LxHW8=;
-        b=q1Z3dYAdBYbKnxplX0RW/famuFO25gHMqgfocq6f38e4lK+GbinNeyMEoosMzwUk7W
-         b4caj3lXNtb+uDEX0k4wpYvIy0+d0jj7n5zQwLf1MguPtPyxLTVn4AnoRJPLv21/0vG8
-         BpsCTEZReYCgMSgvBrjxV/R0NOzqYts0IjHOwjCVuspJ0h5721H99n6gSOy92i/yS1gj
-         DFXNARhlfxddfWWHJ6RfETK5WXYksDB2lWaVYBilccZQimvUtVu2XXCm3/1ONfWkTqdE
-         6T5kGTzXUl+CYsubl77iIYL7+wWGj6yhT3MnvPfeP+WD8zJ7/+OsAB0qfxuTPELNHFJy
-         cdQA==
-X-Forwarded-Encrypted: i=1; AFNElJ8IhGgXpxq5EsA49Bg5O6BP3jlzmXpif1Krv4O9KGZyIFLqBzCgD6gYhokxHa+V4bzJTESIbWvC8OPCoGlr@vger.kernel.org
-X-Gm-Message-State: AOJu0YyOd5XtEA+BrpV9lj1S8tSbU3ev3v1WIvP6NUYZDK3/aaCE9MMu
-	2FEN1iabSgg2y6BJoU9f/zLejHEBhkh8i08Wd0VdYL3tYYWLRY/7RpdO
-X-Gm-Gg: AeBDieuk4EYRN2cxwEvmp1C2TiFQQFhXwm4fAypTTOg4rcrJ5SJxGWcUxRUr9o36CMu
-	0Vkd97Sv2F2Lv0V44StWTsweKUShwTyFztHbkwP0gMEixvst+Sy7jh+Y5x0uwN0jNC397DDdX9X
-	dtX9zinBZ+wT2v8T5ajqlUnmbos8cQRCUOQXtWVI5zuKJIcVmi1hL9pamNoL3k0ON+sxNhZUNo9
-	2yIwzYGdis7szQun4Xh5L0PI0U3LMQM14lOMKW0DX/OGsrwkrRU3XLvnApo5bAtS5av88e85TPR
-	nl+y+XrkI38YFLaLblWTkT+aFFSLaNbhvwKwjO5/ymkUDPd+aZ0Ly8yQjez2bcIP9/OZSiZ2wCr
-	JbBjCnAj7kKKW8VGLT5XLr6KcOVgqjX7KkcDgeu6sE2m93KqxXYoGZRnIzd2rvP4fq7f9sSg9iP
-	ikAfS9Aa02E0jzakm+9PVCdTiRN9eGxNqvnE5QOYmgfvB88iz6Yoa8Gfm5dFSHhnjtV4jaCBTrT
-	HBkMDjBmWGTHGub6w==
-X-Received: by 2002:a05:6a00:f0a:b0:81f:4884:4fed with SMTP id d2e1a72fcca58-82f0c24e21emr14125019b3a.7.1776131797253;
-        Mon, 13 Apr 2026 18:56:37 -0700 (PDT)
-Received: from deepanshu-kernel-hacker.. ([2405:201:682f:383f:445c:f4a3:a803:e3c6])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f0c4e1a2dsm13070584b3a.44.2026.04.13.18.56.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Apr 2026 18:56:36 -0700 (PDT)
-From: Deepanshu Kartikey <kartikey406@gmail.com>
-To: slava@dubeyko.com,
-	glaubitz@physik.fu-berlin.de,
-	frank.li@vivo.com
-Cc: akpm@linux-foundation.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Deepanshu Kartikey <kartikey406@gmail.com>,
-	syzbot+c0ba772a362e70937dfb@syzkaller.appspotmail.com
-Subject: [PATCH v2] hfsplus: fix ignored error return in hfsplus_delete_cat
-Date: Tue, 14 Apr 2026 07:26:30 +0530
-Message-ID: <20260414015630.65081-1-kartikey406@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=M5wP3kXy3jv1Ajs85Ixh4F5Dko192c5SMJqhckL629E=;
+        b=Ra1wFhqBojriMnrPRTqicqBDKKSxZ9wEXYQU1zxOIhFX8VVIqMljq6GxyWCFqQCmK0
+         Wq0Nmv700MThgs7r02e1/FlUXEhlnMGwvr2yKB8RunbKBYcbsngtQw2ZBc9K0FNq/UhR
+         iG+AxAGSA0b5WzpLMc/InDTTAttmIycfiDRSBggfOW6AaZgbfLl74j33hSB/DkeE/2xt
+         ZR+/iBzeUJ4/p2wLukok4SHbBQelk5vECEebgEHJo39xwxP+JRvAM2yCtkVbFSLjU1AG
+         6s+RYzX02QNNQ/OWIeBWPiLr5iCkVHMo7bBgLy0a8S4gVhz/j1xcW8jHoiyx/n/o2MU5
+         Njcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776131862; x=1776736662;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=M5wP3kXy3jv1Ajs85Ixh4F5Dko192c5SMJqhckL629E=;
+        b=lyZXkNgSUmXEjcztYlnJzi35SiQEShZlqy79dgi1PWCeC0PhBY+avZ1Co6HSplA+7c
+         pAUTLTiJdoCofAeNworP/Eh32p9i8EIFQQRe10CSjV5PcnzH2BgA8Kvz0szd++uSJetI
+         xUznZ85CvZydf8ifp3pVBym6xscKo8uPojbNf1F5CKfEia4T1O0VNPKlAzDlc19FcKWW
+         iOABuNTOFjGJXLiAfF44ZHMCFAfxuCaYbjzUGu/FwXjSMyOztsQH8rg6MF4OMUxYp+dB
+         GHYWcszN8ryPO4svZlT9QSxkheBKafneN8yQm+4zUSuGHnyW8Ytqg62ztndVC1gUu/Ei
+         gxfA==
+X-Forwarded-Encrypted: i=1; AFNElJ948sag90nQPGKXTRhiJRqr3ZaaYNVzto49efPAX1TmuUJ++0ipUI1vH1mQ+d7lVNQOJl9e4HlNQ9xlpsk1@vger.kernel.org
+X-Gm-Message-State: AOJu0YwCao9AElnEy7Drn6qJGed7lkY2AdvhrRu6XL5txV5mckaXHvfl
+	P/lzENzgwZsFxgizR8IzPB3TDnAZvLsR89MMpX6PtbBvF79GSnxRKYZZ74UAiBPj5c2kP8Ccxc6
+	nz4aWPldVs24TwSI2oHtF3nJEB4V+ABU=
+X-Gm-Gg: AeBDiesEoDesO28/027G3zAVRswl6uDB/xnLK0x7oHTZ1KpmtzdcQzlYfX2JUK01PO1
+	sNBwRLa0+/a0SLQiJm/bQodj1imhiY7TyM72yCqLFQkm+ZDFGyR5zQLXtDvAGzsifxOuiMya8At
+	DzPUZCI14I5l3TefLBlhSdtan9UBL/oB23yzHYfE64jTimT0p0uLugmTHIqoBfQXanev61QbTgW
+	/ZPzK5zM+oULYXi8PpBtQQIrY+nvbp2DCWUZz+iubksk1uqEPv5iH0F7Ti6X5iQhv5owcY30JlH
+	lTguc3Vm16giPu9rKfXwn0P3uOFB2bG5/2E0elbtTzPJn9dqzXPjwnVeDhzyp2d/6M8wT7tzakz
+	Y5yOSxVZnFwEIMxvXDQ==
+X-Received: by 2002:a05:690c:c50a:b0:79a:b49a:cb4e with SMTP id
+ 00721157ae682-7af76de9dddmr132925007b3.6.1776131861939; Mon, 13 Apr 2026
+ 18:57:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260414015315.64954-1-kartikey406@gmail.com>
+In-Reply-To: <20260414015315.64954-1-kartikey406@gmail.com>
+From: Deepanshu Kartikey <kartikey406@gmail.com>
+Date: Tue, 14 Apr 2026 07:27:31 +0530
+X-Gm-Features: AQROBzATd1u6NyuADj1fnN-gfyWe_rgR1_n9vda2eYJ_W1CAiwAVYF8DxjSoIBE
+Message-ID: <CADhLXY583ft1Okyp8y82j4jYmFoJpTN9ikym_Y4ufmy03JwkLQ@mail.gmail.com>
+Subject: Re: [PATCH] hfsplus: fix ignored error return in hfsplus_delete_cat
+To: slava@dubeyko.com, glaubitz@physik.fu-berlin.de, frank.li@vivo.com
+Cc: akpm@linux-foundation.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	syzbot+c0ba772a362e70937dfb@syzkaller.appspotmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-hfsplus_delete_cat() calls hfsplus_delete_all_attrs() to remove all
-extended attributes associated with a catalog entry, but silently
-discards its return value.
+On Tue, Apr 14, 2026 at 7:23=E2=80=AFAM Deepanshu Kartikey
+<kartikey406@gmail.com> wrote:
+>
+> hfsplus_delete_cat() calls hfsplus_delete_all_attrs() to remove all
+> extended attributes associated with a catalog entry, but silently
+> discards its return value.
+>
+> When the xattr deletion fails on a corrupt filesystem image (as
+> triggered by syzbot), hfsplus_delete_cat() incorrectly returns 0
+> (success) to its callers, allowing execution to continue with the
+> filesystem in an inconsistent state and eventually triggering a
+> general protection fault in hfsplus_cat_write_inode().
+>
+> Fix this by capturing the return value of hfsplus_delete_all_attrs()
+> and propagating genuine errors back to the caller. -ENOENT is
+> excluded since it signals normal loop termination (no more xattrs
+> left to delete) and is not an error condition.
+>
+> Fixes: 324ef39a8a4f ("hfsplus: add support of manipulation by attributes =
+file")
+> Reported-by: syzbot+c0ba772a362e70937dfb@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=3Dc0ba772a362e70937dfb
+> Tested-by: syzbot+c0ba772a362e70937dfb@syzkaller.appspotmail.com
+> Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
+> ---
+>  fs/hfsplus/catalog.c | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+>
+> diff --git a/fs/hfsplus/catalog.c b/fs/hfsplus/catalog.c
+> index 02c1eee4a4b8..adbaeabc06ab 100644
+> --- a/fs/hfsplus/catalog.c
+> +++ b/fs/hfsplus/catalog.c
+> @@ -421,8 +421,15 @@ int hfsplus_delete_cat(u32 cnid, struct inode *dir, =
+const struct qstr *str)
+>         hfsplus_mark_inode_dirty(dir, HFSPLUS_I_CAT_DIRTY);
+>
+>         if (type =3D=3D HFSPLUS_FILE || type =3D=3D HFSPLUS_FOLDER) {
+> -               if (HFSPLUS_SB(sb)->attr_tree)
+> -                       hfsplus_delete_all_attrs(dir, cnid);
+> +               if (HFSPLUS_SB(sb)->attr_tree) {
+> +                       int attr_err =3D hfsplus_delete_all_attrs(dir, cn=
+id);
+> +
+> +                       if (attr_err && attr_err !=3D -ENOENT) {
+> +                               pr_err("hfsplus: failed to delete xattrs =
+for cnid %u: %d\n",
+> +                                      cnid, attr_err);
+> +                               err =3D attr_err;
+> +                       }
+> +               }
+>         }
+>
+>  out:
+> --
+> 2.43.0
+>
 
-When the xattr deletion fails on a corrupt filesystem image (as
-triggered by syzbot), hfsplus_delete_cat() incorrectly returns 0
-(success) to its callers, allowing execution to continue with the
-filesystem in an inconsistent state and eventually triggering a
-general protection fault in hfsplus_cat_write_inode().
 
-Fix this by capturing the return value of hfsplus_delete_all_attrs()
-and propagating genuine errors back to the caller. -ENOENT is
-excluded since it signals normal loop termination (no more xattrs
-left to delete) and is not an error condition.
+I have sent pach v2.
 
-Changes in v2:
-  - Fixed commit message: hfsplus_delete_cat() is called from multiple
-    callers (hfsplus_unlink, hfsplus_rmdir, hfsplus_rename,
-    hfsplus_evict_inode, hfsplus_fill_super), not just hfsplus_unlink()
-    as incorrectly stated in v1.
-
-Fixes: 324ef39a8a4f ("hfsplus: add support of manipulation by attributes file")
-Reported-by: syzbot+c0ba772a362e70937dfb@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=c0ba772a362e70937dfb
-Tested-by: syzbot+c0ba772a362e70937dfb@syzkaller.appspotmail.com
-Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
----
- fs/hfsplus/catalog.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
-
-diff --git a/fs/hfsplus/catalog.c b/fs/hfsplus/catalog.c
-index 02c1eee4a4b8..adbaeabc06ab 100644
---- a/fs/hfsplus/catalog.c
-+++ b/fs/hfsplus/catalog.c
-@@ -421,8 +421,15 @@ int hfsplus_delete_cat(u32 cnid, struct inode *dir, const struct qstr *str)
- 	hfsplus_mark_inode_dirty(dir, HFSPLUS_I_CAT_DIRTY);
- 
- 	if (type == HFSPLUS_FILE || type == HFSPLUS_FOLDER) {
--		if (HFSPLUS_SB(sb)->attr_tree)
--			hfsplus_delete_all_attrs(dir, cnid);
-+		if (HFSPLUS_SB(sb)->attr_tree) {
-+			int attr_err = hfsplus_delete_all_attrs(dir, cnid);
-+
-+			if (attr_err && attr_err != -ENOENT) {
-+				pr_err("hfsplus: failed to delete xattrs for cnid %u: %d\n",
-+				       cnid, attr_err);
-+				err = attr_err;
-+			}
-+		}
- 	}
- 
- out:
--- 
-2.43.0
-
+Thanks
+Deepanshu
