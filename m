@@ -1,180 +1,71 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29D0B35DA64
-	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 07:08:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 534B2381B03;
+	Tue, 14 Apr 2026 07:48:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776150506; cv=none; b=Ra6r78z5gXXLA19s0axY/T/h9HKkSzUEjWe3QwKEMXSbtTH6khEuN20yDxMWA8rjhceS5JjQKaMkJYjkSAdPrlp+uQUf2+609ZPrreRZRCuxUIpSUUaqzIg9rjuaNBvD6RZuEhv06BE6rC8cyFztlWLdoJ6IAPotrNUuUqfZ0eI=
+	t=1776152894; cv=none; b=UIoCvH3HVJZKIemfU5DDW3S4zT38aCC5UGD7b1ztQCSSH2rxcfJVby3p3O80RAaTxazCQQCuPbycWB9weXpJnWaE4mceIiX6aEywv55bhkG3KX0xhWJA2P5xZyN6XAn16ncWtUyFC7Dyh/g1YyBETqvL22OJ/4cP/OfeJ+1q7nQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776150506; c=relaxed/simple;
-	bh=6ULNw+7qjHeF3d4yTKwQLQi3THOD2jv5jeXt1zc3dEI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=b/4U+/WpeyDbz6d5YThCRUggwcuYv8+rNIvE0catrCbe4MY9U2OcNtyZ2frlgL27Q6YZxVPqBCBiqEAkQNvo8LjuC2IupaMYoYbTkOSm9Mz0lUhi0KGcODxdFV18QC7zPcXb5Vmt2Amv4R0UPXIZKD0b1EXoc9p4OZwLxRcMg0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2ZrEZXGp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5oqspILO; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2ZrEZXGp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5oqspILO; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1776152894; c=relaxed/simple;
+	bh=Vo8I0qhLt4wp907NZhqDdp5qUzTsOYUT5GTm2xQ9n1M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EzJWFJq983PX+YP7KW2xT8/jN0Lm6MEaF2/6dwJDI+IwZ5E7O+9FEEhPFyWRpLd+cnDWCYQf4oCOgBYNya+j2HhW9ay2SirrPvEpk7c3OR3rkKX9/p/4aqJDioHjLXw08wOQKS8M8THdp99QLdcTbp+0DDvNpOh4ZEee2Vv4qu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=tCll1VUk; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2ZrEZXGp";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5oqspILO";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2ZrEZXGp";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5oqspILO"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3F1225BDC6;
-	Tue, 14 Apr 2026 07:08:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1776150503; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Wt6kw4jL5p1XsC5RPgmFgPFuBvYztobMsY4SgGXfGIc=;
-	b=2ZrEZXGpnbNVpWl5bb3rjDubn8n/uzqsSwnNSubmdUKYn061Yu/3GKbR4Z7I9Y5S/dOu1l
-	hDMahK0ZAntq0tJ4cRPcNY52JJ//x7qsq2RUWV1SbnAAfRpbg9Elsu/Gzu0y3ewcO0FtWX
-	3O/ukZPgqns4u3oHem6D/H3tbr1lCuM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1776150503;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Wt6kw4jL5p1XsC5RPgmFgPFuBvYztobMsY4SgGXfGIc=;
-	b=5oqspILO4TNmq/oBc+DBMhbzi6+Zy/7eixVJk+OPjH6QOcOcz2RM0hUAJUKLnc4J5TJRGa
-	G3hPwIt2kWJW5tCA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1776150503; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Wt6kw4jL5p1XsC5RPgmFgPFuBvYztobMsY4SgGXfGIc=;
-	b=2ZrEZXGpnbNVpWl5bb3rjDubn8n/uzqsSwnNSubmdUKYn061Yu/3GKbR4Z7I9Y5S/dOu1l
-	hDMahK0ZAntq0tJ4cRPcNY52JJ//x7qsq2RUWV1SbnAAfRpbg9Elsu/Gzu0y3ewcO0FtWX
-	3O/ukZPgqns4u3oHem6D/H3tbr1lCuM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1776150503;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Wt6kw4jL5p1XsC5RPgmFgPFuBvYztobMsY4SgGXfGIc=;
-	b=5oqspILO4TNmq/oBc+DBMhbzi6+Zy/7eixVJk+OPjH6QOcOcz2RM0hUAJUKLnc4J5TJRGa
-	G3hPwIt2kWJW5tCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 14E424B302;
-	Tue, 14 Apr 2026 07:08:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 1fzmA+fn3WlsPQAAD6G6ig
-	(envelope-from <hare@suse.de>); Tue, 14 Apr 2026 07:08:23 +0000
-Message-ID: <38952332-dad4-4d17-a9c1-5c25d79f67b4@suse.de>
-Date: Tue, 14 Apr 2026 09:08:22 +0200
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="tCll1VUk"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=mQU94fiChMs8s73Hk9p3t74X0fyEWgNmpMh4SQ5FZtA=; b=tCll1VUkT0NJMf0YsZpYpkrg1o
+	RTzsJU2xQlnhqreJID/gDCVDnlisTsCJTYbzcYi1E9X/yyhIvDBynb/xPodIuTB4JvJhG8JQYU/j8
+	LSucQI3K8c6KBSHBTuU38+N3xWDY4uysgsZF8UpeLq7hy1gZ6wfgqTZaKTZnxW3hYZ5hxwJGZOiNf
+	m1fFbMBbutq+fgqm32erUxfvGtuf9UgcexMnnv6j4RyLbpe54YzSDbybWZ2lneKzmNbbCuayaNDfb
+	vpPUbpEH74RuO5OR4z7rbLjpdVu1bZFuzWo9bBSef1vd74Huag13SeGGoi2Ro2sYxaQ58vD831pK5
+	iqAkoPDg==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1wCYVE-0000000GvIY-0yr4;
+	Tue, 14 Apr 2026 07:48:08 +0000
+Date: Tue, 14 Apr 2026 00:48:08 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	Jens Axboe <axboe@kernel.dk>, stable@vger.kernel.org,
+	Google Big Sleep <big-sleep-vuln-reports+bigsleep-501448199@google.com>
+Subject: Re: [PATCH] mm: Call ->free_folio() directly in
+ folio_unmap_invalidate()
+Message-ID: <ad3xOI71tU2Uofo_@infradead.org>
+References: <20260413184314.3419945-1-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [LSF/MM/BPF TOPIC] Strategies for memory deallocation/movement
- for Dynamic Capacity Pooling
-To: Gregory Price <gourry@gourry.net>,
- Jonathan Cameron <jonathan.cameron@huawei.com>
-Cc: lsf-pc <lsf-pc@lists.linux-foundation.org>, linux-cxl@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-References: <e06deabf-44ad-4f3f-b817-78506c5e3203@suse.de>
- <20260413164359.00001c86@huawei.com>
- <ad1b4dVCgG27A5AK@gourry-fedora-PF4VCD3F>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <ad1b4dVCgG27A5AK@gourry-fedora-PF4VCD3F>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -4.30
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.982];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email]
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260413184314.3419945-1-willy@infradead.org>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On 4/13/26 23:10, Gregory Price wrote:
-> On Mon, Apr 13, 2026 at 04:43:59PM +0100, Jonathan Cameron wrote:
->>>
->>> So quite some things to discuss; however, not sure if this isn't too
->>> much of an arcane topic which should rather be directed at places like
->>> LPC. But I'll let the PC decide.
->>
->> Superficially feels a bit arcane, particularly as we are currently
->> kicking untagged memory into the long grass as there are too many
->> open questions on how to present it at all (e.g. related to Gregory's
->> recent work on private nodes).  On recent CXL sync calls the proposal
->> has been to do tagged memory first and only support allocation of
->> all memory with a given tag in one go and full release.
->>
+On Mon, Apr 13, 2026 at 07:43:11PM +0100, Matthew Wilcox (Oracle) wrote:
+> We can only call filemap_free_folio() if we have a reference to (or hold a
+> lock on) the mapping.  Otherwise, we've already removed the folio from the
+> mapping so it no longer pins the mapping and the mapping can be removed,
+> causing a use-after-free when accessing mapping->a_ops.
 > 
-> General consensus after last few months seems to be:
+> Follow the same pattern as __remove_mapping() and load the free_folio
+> function pointer before dropping the lock on the mapping.  That lets
+> us make filemap_free_folio() static as this was the only caller outside
+> filemap.c.
 > 
-> "While technically possible, untagged memory a bad idea for $REASONS"
-> 
-> I do not thing the private node case changes this, if anything it only
-> changes where the capacity ends up.
-> 
-Thing is, there will be things like CXL switches. And with that we'll 
-get CXL memory behind the switch, making it possible to reshuffle memory
-'behind the back' of the application.
-While the situation is similar to the current memory hotplug case
-(and, in fact, the mechanism on the host side will be the same I guess),
-the problem is now that we have a bit more flexibility.
+> Fixes: 4a9e23159fd3 (mm/truncate: add folio_unmap_invalidate() helper)
 
-The reason why one would want to reshuffle memory behind a CXL switch
-is to deallocate memory from one machine to reassign it to another
-machine. But as the request is just for 'memory' (not 'this particular
-CXL card holding _that_ memory'), the admin gets to decide _which_
-of the memory areas assigned to machine A should be moved to machine B.
-But how?
+That commit just consolidated code, but did not change the locking
+assumptions, and did in fact not touch this part of the code at all
+despite moving it into a new helper.  So I don't it this is the
+culprit.
 
-And that basically is the question: Can we get the admin / orchestration
-a better idea which of the memory blocks should be preferred for 
-reassignment?
-I'm sure there are applications which have a pretty flexible memory
-allocation strategy which, with some prodding, they would be happy to 
-relinquish. But I'm equally sure there are applications which react
-extremely allergic to memory being pulled of underneath them.
-And then there are 'modern' applications, which also don't like that
-but for them it really doesn't matter as one can simply restart them.
-
-So it would be cool if we could address this, as then the admin 
-/orchastration can make a far better choice which memory area to
-reassign.
-And it might even help in other scenarios (VM ballooning?), too.
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
