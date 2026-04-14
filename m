@@ -1,165 +1,375 @@
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C16E382F1D
-	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 07:50:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776153018; cv=pass; b=XSnazC/8yLjdjNEziZ4omk+RP5F8lKAPpVsmve0B4wn+otX+NCNmyyGYf8oPyh+K5dFF89uughjgQUdCKXbpQlcpXbCMhkNJTjXCAee9nI9EDX02SsxMiFC29CW2mFxdmZKpszhupqPcIlpJWptkQBfIp0TMBa/0XH4apncql8w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776153018; c=relaxed/simple;
-	bh=pG9c7KG8qT2X44FMa5nydCOd9BrOCqG8FVeShJSbR/s=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=DuTwR9plb3PgmdoR4H97CAfkBdWadLRWnFechvZdUCdkx5Udj9DwZoq8u5huk/KXDv/VI+nMTfYqjujc54+2+a1DViSDES1VoeBQ/7ZsaPgLmy0/QQOEOSecV9QCEJoPMXTSFHyX7mfCDYjpzpTbr3q1t3YvGzrgrjeM1vMbxY0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=jarYHGrC; arc=pass smtp.client-ip=209.85.219.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BE5138B14C;
+	Tue, 14 Apr 2026 08:02:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776153732; cv=none; b=pu5l7toQwZr6UbzP64/MU3af/Dl3tqigJyos6Ax8fzFcJS11pOVuahqP5O2CHktrOF13npFhiXvD3MfLKCkFdOPB0DDqoQU8gtk2iC0FPkIvoBkTuL5gHt/QuwjUxqpgIteCJQQDKAfHgJm8mew+OL8HDCHgLdLPBO/mYr75eyE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776153732; c=relaxed/simple;
+	bh=uaor2DKLyytAuIF7n158KCvCl663VtZtLtUH+9Kzxdg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aiachaLmaHY197f9sna6oFnrg0658Q1MaFRyQvFWMJ+GQXwwtvLi4mxH6GqkHSQkSKXF/na9lAMUpBj/4GDXU+EtqGGvnp3FQiH1ueeQF98r6nfMR/RKgTKw2K5wjNxhguBvAlJ9+olnUTb0/eneYmiUVnfo7QuRa/jQ12qFMGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=BKODt+GP; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="jarYHGrC"
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-8ac9ef74131so35455686d6.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 00:50:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776153014; cv=none;
-        d=google.com; s=arc-20240605;
-        b=JNXpKRSim/vb/6w4GiypmGugqp/9b2MK0xXd+Onc2u/4sGEn0w8gf/MVLoOJa5+kr8
-         PSSscNSXR7sZu0+BqLSp44uhn1EJ40s7NvF3d5rMkeu3s7aT8uPfNnJbwTZ9m2gWlI4B
-         oPiDC867X7IzLthl3+tyMO7y8L6tNt+oxTMAEkOiT8CCINdd3o89UJr4su5BrhzJqHHv
-         ZXkM2cm8TLaGZk8gPyCz3EXyygoK5G++NAdI+t1J59q5Ne2QsonQNCdaDT7xMPOgVese
-         hTtW8Hg0kV93l8xm8AUvXNr/ajuY5WF/hlcCcj8x3Xp7DMkYVAvLaMi4wcQKyOra1cw/
-         5EUw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=GJwj50SpYsa8vIzaBHPSXC8N3IHFqZ2Z3+m6w1drTS4=;
-        fh=6LM0eG6bLNpQ2etkEdjD6XlJQ0HLKr/29yAH7pDxw+g=;
-        b=ZDEkSupgvAie21yPqG/YtuOl/4htLdWMTEZDO7Y6wZrZN3heFpxQpb5bJK27J5j+3B
-         N1lHzIyWWtd8gIlKbteEayyNUa2TteI+Fl1wLqWCYRT4VIi4FU1RvT6CQ3esR7mfLL8H
-         om6DVYlqXRxWdS2no+IrUjdCITSP1qTlZ0ihsGZ8CUS7EcrT70oLuAaN1r3Z0d3SUOjL
-         VcmImoHwEhB8bKxmkRbVh4FHYC0vRfLIK1xvVLDvU/ceMUQUX/KU0/9sUA3oArI4ytUU
-         GX71cumIzh0/PzAiPXeTd2E6qheEChICN6EWeI1ywjEzwOTMKZShrkatx5RLC1Bc/eug
-         U6jA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1776153014; x=1776757814; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=GJwj50SpYsa8vIzaBHPSXC8N3IHFqZ2Z3+m6w1drTS4=;
-        b=jarYHGrCdAjq/hkcmm0KqNyBiV50AYFi98qHzCwSgVv7JECIudySiTZPtYtb7Ovqmt
-         hsf5sOWjSL7ZIGfBc1gxIZJIARsy9p01e4RovYFjolIfIGNoYGUqwuTrdep6J/u4wZ8O
-         aDKCt02WYcr2L8PTqaXE3vy04BznRfm8D4tkU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776153014; x=1776757814;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GJwj50SpYsa8vIzaBHPSXC8N3IHFqZ2Z3+m6w1drTS4=;
-        b=GOmoG/dFeqRFg7+ihadjXOyH4jlNs/zC8XFRR4YTI8uusYpjEhXB/X+Vlx/KXcqu4p
-         LZ1zIZfogYGv1KI4dtE0lbtKXqrCoKI8gH+3sJKCVRMqWMPMvWlY7u4h1HOajPIDike/
-         RARrQ6UgrH7N6/IXJ2cWVvLd8E3PvKteGydMam50K2dtyQmGgf5gmuetGjVqM7e6xrPf
-         hhWnik9kSi8H9tgLN7OkQD1m8Iv6zaZb6z3UwLyEiEELKAEIUjZu/dg86ApjNPksYgEz
-         OLkk1wIUlTbwT2nDq4+mtxqNUZSZmLO05FDZShqz3o2M0GXcLLsVTKah0p3wieraDXrB
-         7EEg==
-X-Gm-Message-State: AOJu0YwlEAuierD1jdhkd5yRSByrkvSEL/GF19ozYTIqwaXPUueTPI4M
-	6kmhVzbxMXDfnQ2uTbvCQK4JHAH+8OJmRq5AM9TB3EF2FGGzdOjv111qz4vI8TDMvJ0K5s7NAk+
-	ZAiLH1TAChIchs68JWp6eCHEVyhp7pSR8uBLmV4GMB/UZxBRPgy8Mx74=
-X-Gm-Gg: AeBDieuI0e0Jr9+XLVYDcoL2r5LAr4QIVeoJSUn3YOfmRkujldYjFoAh3UIsvt4/izw
-	1Er6ox3o9WCzImwJhDvYVT6pxXM2HAXKiBo3U2/SzfINPmrWEQIQrLoHD6aQJP104VT8JGbx6jQ
-	jzMHS6jwjGQs2I+AA6LChalsQtViVPszssjjNQPHAyJSZ4ZbST5Xu76hCC8BWvxAUcKmDY9ywV2
-	XuK6SV9rq1xl4PaFpk/v2wQuTTGGAYpnhtmiyE7OPpdZgtpoutjwMUbghPqcSnPLcLdZchSREke
-	duHVrWuZH6Xjef3v6JRs5Ibh86P9ihDWDQfy
-X-Received: by 2002:a05:6214:43c8:b0:89c:de0e:263b with SMTP id
- 6a1803df08f44-8ac862bbcbcmr245100976d6.42.1776153013935; Tue, 14 Apr 2026
- 00:50:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="BKODt+GP"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=jZB6wvifj9UkY04zogY2eepEJ7vJgc4ipMPW1svIE5s=; b=BKODt+GPW9p8gckvhmEzBDeovM
+	wqjOZdWiQpjfsdFwasDJbeSyV1AqWAVoYN270d7OovdVHqprwb3rELyb7GvKxKNXlDqjz1hV4PBgB
+	F+vRjsj82DftHnjaDVxXt0XGXbKctogIuMnooOIyN5lzMMQovFl9VpWNQKxCw1TcksVHmfW34k7sU
+	Bm0B1Z3xqzZ5uDCP7h/j5A7XeApCCBPMpffhyRteG12gbaMxhZ87v73y+lxwrt1CYoO+V/H2VDZ5m
+	cDxRO5goNOHIKuBlt63dySKrgwNXRwoLD6FMw77xH5FrUH3FStfna+P9q6fWUm354zueWv83Wdf+j
+	3QzoY9Wg==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1wCYip-0000000Gw6B-0Hmo;
+	Tue, 14 Apr 2026 08:02:11 +0000
+Date: Tue, 14 Apr 2026 01:02:11 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Jaegeuk Kim <jaegeuk@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+	Akilesh Kailash <akailash@google.com>,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	linux-api@vger.kernel.org
+Subject: Re: [PATCH v2] f2fs: another way to set large folio by remembering
+ inode number
+Message-ID: <ad30g9xMs9wNJhFb@infradead.org>
+References: <20260409134538.3692605-1-jaegeuk@kernel.org>
+ <adhPZxtbZxgU-37v@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Tue, 14 Apr 2026 09:50:03 +0200
-X-Gm-Features: AQROBzBxfI-lp1KKyyUeZ1x4jxeIIoJfZWlGo7PssyNQkHaVdxiI1tg9Ck9S5Hg
-Message-ID: <CAJfpegt4sD_u1Qv+NQcQdJa=b+Je7Z973J=Ztcad8YgmEQU8Gw@mail.gmail.com>
-Subject: [GIT PULL] fuse update for 7.1
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <adhPZxtbZxgU-37v@google.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Hi Linus,
+Please add the relevant mailing lists when adding new user interfaces.
 
-Please pull from:
+And I'm not sure hacks working around the proper large folio
+implementation are something that should be merged upstream.
 
-git://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git
-tags/fuse-update-7.1
-
-- Fix possible hang in virtiofs when cleaning up a DAX inode (Sergio Lopez)
-
-- Fix a warning when using large folio as the source of SPLICE_F_MOVE
-on the fuse device (Bernd)
-
-- Fix uninitialized value found by KMSAN (Luis Henriques)
-
-- Fix synchronous INIT hang (Miklos)
-
-- Fix race between inode initialization and FUSE_NOTIFY_INVAL_INODE (Horst)
-
-- Allow fd to be closed after passing fuse device fd to fsconfig(...,
-"fd", ...) (Miklos)
-
-- Support FSCONFIG_SET_FD for "fd" option (Miklos)
-
-- Misc fixes and cleanups
-
-Thanks,
-Miklos
-
----
-Bernd Schubert (1):
-      fuse: Check for large folio with SPLICE_F_MOVE
-
-Darrick J. Wong (1):
-      fuse: quiet down complaints in fuse_conn_limit_write
-
-Horst Birthelmer (1):
-      fuse: fix inode initialization race
-
-Jingbo Xu (1):
-      fuse: fix premature writetrhough request for large folio
-
-Joanne Koong (4):
-      fuse: validate outarg offset and size in notify store/retrieve
-      fuse: simplify logic in fuse_notify_store() and fuse_retrieve()
-      fuse: use DIV_ROUND_UP() for page count calculations
-      fuse: use offset_in_page() for page offset calculations
-
-Luis Henriques (2):
-      fuse: drop unnecessary argument from fuse_lookup_init()
-      fuse: fix uninit-value in fuse_dentry_revalidate()
-
-Miklos Szeredi (8):
-      fuse: abort on fatal signal during sync init
-      fuse: fuse_dev_ioctl_clone() should wait for device file to be initialized
-      fuse: check connection state on notification
-      fuse: create fuse_dev on /dev/fuse open instead of mount
-      fuse: add refcount to fuse_dev
-      fuse: don't require /dev/fuse fd to be kept open during mount
-      fuse: clean up device cloning
-      fuse: support FSCONFIG_SET_FD for "fd" option
-
-Sergio Lopez (1):
-      fuse: mark DAX inode releases as blocking
-
-Yuto Ohnuki (2):
-      virtiofs: add FUSE protocol validation
-      fuse: refactor duplicate queue teardown operation
-
----
- fs/fuse/control.c    |   4 +-
- fs/fuse/cuse.c       |   2 +-
- fs/fuse/dev.c        | 156 +++++++++++++++++++++++++--------------------------
- fs/fuse/dev_uring.c  |  36 ++++++------
- fs/fuse/dir.c        |  14 +++--
- fs/fuse/file.c       |  18 +++---
- fs/fuse/fuse_dev_i.h |  34 ++++++++---
- fs/fuse/fuse_i.h     |  19 +++----
- fs/fuse/inode.c      | 136 ++++++++++++++++++++++++++------------------
- fs/fuse/readdir.c    |   8 +--
- fs/fuse/virtio_fs.c  |  33 ++++++++---
- 11 files changed, 263 insertions(+), 197 deletions(-)
+On Fri, Apr 10, 2026 at 01:16:23AM +0000, Jaegeuk Kim wrote:
+> enum {
+>        F2FS_XATTR_FADV_LARGEFOLIO,
+> };
+> 
+> unsigned int value = BIT(F2FS_XATTR_FADV_LARGEFOLIO);
+> 
+> 1. setxattr(file, "user.fadvise", &value, sizeof(unsigned int), 0)
+>  -> register the inode number for large folio
+> 2. chmod(0400, file)
+>  -> make Read-Only
+> 3. fsync() && close() && open(READ)
+>  -> f2fs_iget() with large folio
+> 4. open(WRITE), mkwrite on mmap, chmod(WRITE)
+>  -> return error
+> 5. close() and open()
+>  -> goto #3
+> 6. unlink
+>  -> deregister the inode number
+> 
+> Suggested-by: Akilesh Kailash <akailash@google.com>
+> Signed-off-by: Jaegeuk Kim <jaegeuk@kernel.org>
+> ---
+>  
+>   Log from v1:
+>    - add a condition in f2fs_drop_inode
+>    - add Doc
+> 
+>  Documentation/filesystems/f2fs.rst | 41 ++++++++++++++++++++++++++----
+>  fs/f2fs/checkpoint.c               |  2 +-
+>  fs/f2fs/data.c                     |  2 +-
+>  fs/f2fs/f2fs.h                     |  1 +
+>  fs/f2fs/file.c                     | 11 ++++++--
+>  fs/f2fs/inode.c                    | 19 +++++++++++---
+>  fs/f2fs/super.c                    |  7 +++++
+>  fs/f2fs/xattr.c                    | 35 ++++++++++++++++++++++++-
+>  fs/f2fs/xattr.h                    |  6 +++++
+>  9 files changed, 111 insertions(+), 13 deletions(-)
+> 
+> diff --git a/Documentation/filesystems/f2fs.rst b/Documentation/filesystems/f2fs.rst
+> index 7e4031631286..de899d0d3088 100644
+> --- a/Documentation/filesystems/f2fs.rst
+> +++ b/Documentation/filesystems/f2fs.rst
+> @@ -1044,11 +1044,14 @@ page allocation for significant performance gains. To minimize code complexity,
+>  this support is currently excluded from the write path, which requires handling
+>  complex optimizations such as compression and block allocation modes.
+>  
+> -This optional feature is triggered only when a file's immutable bit is set.
+> -Consequently, F2FS will return EOPNOTSUPP if a user attempts to open a cached
+> -file with write permissions, even immediately after clearing the bit. Write
+> -access is only restored once the cached inode is dropped. The usage flow is
+> -demonstrated below:
+> +This optional feature is triggered by two mechanisms: the file's immutable bit
+> +or a specific xattr flag. In both cases, F2FS ensures data integrity by
+> +restricting the file to a read-only state while large folios are active.
+> +
+> +1. Immutable Bit Approach:
+> +Triggered when the FS_IMMUTABLE_FL is set. This is a strict enforcement
+> +where the file cannot be modified at all until the bit is cleared and
+> +the cached inode is dropped.
+>  
+>  .. code-block::
+>  
+> @@ -1078,3 +1081,31 @@ demonstrated below:
+>     Written 4096 bytes with pattern = zero, total_time = 29 us, max_latency = 28 us
+>  
+>     # rm /data/testfile_read_seq
+> +
+> +2. XATTR fadvise Approach:
+> +A more flexible registration via extended attributes.
+> +
+> +.. code-block::
+> +
+> +    enum {
+> +        F2FS_XATTR_FADV_LARGEFOLIO,
+> +    };
+> +    unsigned int value = BIT(F2FS_XATTR_FADV_LARGEFOLIO);
+> +
+> +    /* Registers the inode number for large folio support in the subsystem.*/
+> +    # setxattr(file, "user.fadvise", &value, sizeof(unsigned int), 0)
+> +
+> +    /* The file must be made Read-Only to transition into the large folio path. */
+> +    # fchmod(0400, fd)
+> +
+> +    /* clean up dirty inode state. */
+> +    # fsync(fd)
+> +
+> +    /* Drop the inode cache.
+> +    # close(fd)
+> +
+> +    /* f2fs_iget() instantiates the inode with large folio support.*/
+> +    # open()
+> +
+> +    /* Returns -EOPNOTSUPP or error to protect the large folio cache.*/
+> +    # open(WRITE), mkwrite on mmap, or chmod(WRITE)
+> diff --git a/fs/f2fs/checkpoint.c b/fs/f2fs/checkpoint.c
+> index 01e1ba77263e..fdd62ddc3ed6 100644
+> --- a/fs/f2fs/checkpoint.c
+> +++ b/fs/f2fs/checkpoint.c
+> @@ -778,7 +778,7 @@ void f2fs_remove_ino_entry(struct f2fs_sb_info *sbi, nid_t ino, int type)
+>  	__remove_ino_entry(sbi, ino, type);
+>  }
+>  
+> -/* mode should be APPEND_INO, UPDATE_INO or TRANS_DIR_INO */
+> +/* mode should be APPEND_INO, UPDATE_INO, LARGE_FOLIO_IO, or TRANS_DIR_INO */
+>  bool f2fs_exist_written_data(struct f2fs_sb_info *sbi, nid_t ino, int mode)
+>  {
+>  	struct inode_management *im = &sbi->im[mode];
+> diff --git a/fs/f2fs/data.c b/fs/f2fs/data.c
+> index 965d4e6443c6..5e46230398d7 100644
+> --- a/fs/f2fs/data.c
+> +++ b/fs/f2fs/data.c
+> @@ -2494,7 +2494,7 @@ static int f2fs_read_data_large_folio(struct inode *inode,
+>  	int ret = 0;
+>  	bool folio_in_bio;
+>  
+> -	if (!IS_IMMUTABLE(inode) || f2fs_compressed_file(inode)) {
+> +	if (f2fs_compressed_file(inode)) {
+>  		if (folio)
+>  			folio_unlock(folio);
+>  		return -EOPNOTSUPP;
+> diff --git a/fs/f2fs/f2fs.h b/fs/f2fs/f2fs.h
+> index e40b6b2784ee..02bc6eb96a59 100644
+> --- a/fs/f2fs/f2fs.h
+> +++ b/fs/f2fs/f2fs.h
+> @@ -381,6 +381,7 @@ enum {
+>  /* for the list of ino */
+>  enum {
+>  	ORPHAN_INO,		/* for orphan ino list */
+> +	LARGE_FOLIO_INO,	/* for large folio case */
+>  	APPEND_INO,		/* for append ino list */
+>  	UPDATE_INO,		/* for update ino list */
+>  	TRANS_DIR_INO,		/* for transactions dir ino list */
+> diff --git a/fs/f2fs/file.c b/fs/f2fs/file.c
+> index c0220cd7b332..64ba900410fc 100644
+> --- a/fs/f2fs/file.c
+> +++ b/fs/f2fs/file.c
+> @@ -2068,9 +2068,16 @@ static long f2fs_fallocate(struct file *file, int mode,
+>  
+>  static int f2fs_release_file(struct inode *inode, struct file *filp)
+>  {
+> -	if (atomic_dec_and_test(&F2FS_I(inode)->open_count))
+> +	if (atomic_dec_and_test(&F2FS_I(inode)->open_count)) {
+>  		f2fs_remove_donate_inode(inode);
+> -
+> +		/*
+> +		 * In order to get large folio as soon as possible, let's drop
+> +		 * inode cache asap. See also f2fs_drop_inode.
+> +		 */
+> +		if (f2fs_exist_written_data(F2FS_I_SB(inode),
+> +					    inode->i_ino, LARGE_FOLIO_INO))
+> +                       d_drop(filp->f_path.dentry);
+> +	}
+>  	/*
+>  	 * f2fs_release_file is called at every close calls. So we should
+>  	 * not drop any inmemory pages by close called by other process.
+> diff --git a/fs/f2fs/inode.c b/fs/f2fs/inode.c
+> index 89240be8cc59..e100bc5a378c 100644
+> --- a/fs/f2fs/inode.c
+> +++ b/fs/f2fs/inode.c
+> @@ -565,6 +565,20 @@ static bool is_meta_ino(struct f2fs_sb_info *sbi, unsigned int ino)
+>  		ino == F2FS_COMPRESS_INO(sbi);
+>  }
+>  
+> +static void f2fs_mapping_set_large_folio(struct inode *inode)
+> +{
+> +	struct f2fs_sb_info *sbi = F2FS_I_SB(inode);
+> +
+> +	if (f2fs_compressed_file(inode))
+> +		return;
+> +	if (f2fs_quota_file(sbi, inode->i_ino))
+> +		return;
+> +	if (IS_IMMUTABLE(inode) ||
+> +	    (f2fs_exist_written_data(sbi, inode->i_ino, LARGE_FOLIO_INO) &&
+> +	     !(inode->i_mode & S_IWUGO)))
+> +	    mapping_set_folio_min_order(inode->i_mapping, 0);
+> +}
+> +
+>  struct inode *f2fs_iget(struct super_block *sb, unsigned long ino)
+>  {
+>  	struct f2fs_sb_info *sbi = F2FS_SB(sb);
+> @@ -620,9 +634,7 @@ struct inode *f2fs_iget(struct super_block *sb, unsigned long ino)
+>  		inode->i_op = &f2fs_file_inode_operations;
+>  		inode->i_fop = &f2fs_file_operations;
+>  		inode->i_mapping->a_ops = &f2fs_dblock_aops;
+> -		if (IS_IMMUTABLE(inode) && !f2fs_compressed_file(inode) &&
+> -		    !f2fs_quota_file(sbi, inode->i_ino))
+> -			mapping_set_folio_min_order(inode->i_mapping, 0);
+> +		f2fs_mapping_set_large_folio(inode);
+>  	} else if (S_ISDIR(inode->i_mode)) {
+>  		inode->i_op = &f2fs_dir_inode_operations;
+>  		inode->i_fop = &f2fs_dir_operations;
+> @@ -895,6 +907,7 @@ void f2fs_evict_inode(struct inode *inode)
+>  	f2fs_remove_ino_entry(sbi, inode->i_ino, APPEND_INO);
+>  	f2fs_remove_ino_entry(sbi, inode->i_ino, UPDATE_INO);
+>  	f2fs_remove_ino_entry(sbi, inode->i_ino, FLUSH_INO);
+> +	f2fs_remove_ino_entry(sbi, inode->i_ino, LARGE_FOLIO_INO);
+>  
+>  	if (!is_sbi_flag_set(sbi, SBI_IS_FREEZING)) {
+>  		sb_start_intwrite(inode->i_sb);
+> diff --git a/fs/f2fs/super.c b/fs/f2fs/super.c
+> index ccf806b676f5..11d1e0c99ac1 100644
+> --- a/fs/f2fs/super.c
+> +++ b/fs/f2fs/super.c
+> @@ -1844,6 +1844,13 @@ static int f2fs_drop_inode(struct inode *inode)
+>  			return 1;
+>  		}
+>  	}
+> +	/*
+> +	 * In order to get large folio as soon as possible, let's drop
+> +	 * inode cache asap. See also f2fs_release_file.
+> +	 */
+> +	if (f2fs_exist_written_data(sbi, inode->i_ino, LARGE_FOLIO_INO) &&
+> +	    !is_inode_flag_set(inode, FI_DIRTY_INODE))
+> +		return 1;
+>  
+>  	/*
+>  	 * This is to avoid a deadlock condition like below.
+> diff --git a/fs/f2fs/xattr.c b/fs/f2fs/xattr.c
+> index 941dc62a6d6f..0c0e44c2dcdd 100644
+> --- a/fs/f2fs/xattr.c
+> +++ b/fs/f2fs/xattr.c
+> @@ -44,6 +44,16 @@ static void xattr_free(struct f2fs_sb_info *sbi, void *xattr_addr,
+>  		kfree(xattr_addr);
+>  }
+>  
+> +static int f2fs_xattr_fadvise_get(struct inode *inode, void *buffer)
+> +{
+> +	if (!buffer)
+> +		goto out;
+> +	if (mapping_large_folio_support(inode->i_mapping))
+> +		*((unsigned int *)buffer) |= BIT(F2FS_XATTR_FADV_LARGEFOLIO);
+> +out:
+> +	return sizeof(unsigned int);
+> +}
+> +
+>  static int f2fs_xattr_generic_get(const struct xattr_handler *handler,
+>  		struct dentry *unused, struct inode *inode,
+>  		const char *name, void *buffer, size_t size)
+> @@ -61,10 +71,29 @@ static int f2fs_xattr_generic_get(const struct xattr_handler *handler,
+>  	default:
+>  		return -EINVAL;
+>  	}
+> +	if (handler->flags == F2FS_XATTR_INDEX_USER &&
+> +	    !strcmp(name, "fadvise"))
+> +		return f2fs_xattr_fadvise_get(inode, buffer);
+> +
+>  	return f2fs_getxattr(inode, handler->flags, name,
+>  			     buffer, size, NULL);
+>  }
+>  
+> +static int f2fs_xattr_fadvise_set(struct inode *inode, const void *value)
+> +{
+> +	unsigned int new_fadvise;
+> +
+> +	new_fadvise = *(unsigned int *)value;
+> +
+> +	if (new_fadvise & BIT(F2FS_XATTR_FADV_LARGEFOLIO))
+> +		f2fs_add_ino_entry(F2FS_I_SB(inode),
+> +				inode->i_ino, LARGE_FOLIO_INO);
+> +	else
+> +		f2fs_remove_ino_entry(F2FS_I_SB(inode),
+> +				inode->i_ino, LARGE_FOLIO_INO);
+> +	return 0;
+> +}
+> +
+>  static int f2fs_xattr_generic_set(const struct xattr_handler *handler,
+>  		struct mnt_idmap *idmap,
+>  		struct dentry *unused, struct inode *inode,
+> @@ -84,6 +113,10 @@ static int f2fs_xattr_generic_set(const struct xattr_handler *handler,
+>  	default:
+>  		return -EINVAL;
+>  	}
+> +	if (handler->flags == F2FS_XATTR_INDEX_USER &&
+> +	    !strcmp(name, "fadvise"))
+> +		return f2fs_xattr_fadvise_set(inode, value);
+> +
+>  	return f2fs_setxattr(inode, handler->flags, name,
+>  					value, size, NULL, flags);
+>  }
+> @@ -842,4 +875,4 @@ int __init f2fs_init_xattr_cache(void)
+>  void f2fs_destroy_xattr_cache(void)
+>  {
+>  	kmem_cache_destroy(inline_xattr_slab);
+> -}
+> \ No newline at end of file
+> +}
+> diff --git a/fs/f2fs/xattr.h b/fs/f2fs/xattr.h
+> index bce3d93e4755..455f460d014e 100644
+> --- a/fs/f2fs/xattr.h
+> +++ b/fs/f2fs/xattr.h
+> @@ -24,6 +24,7 @@
+>  #define F2FS_XATTR_REFCOUNT_MAX         1024
+>  
+>  /* Name indexes */
+> +#define F2FS_USER_FADVISE_NAME			"user.fadvise"
+>  #define F2FS_SYSTEM_ADVISE_NAME			"system.advise"
+>  #define F2FS_XATTR_INDEX_USER			1
+>  #define F2FS_XATTR_INDEX_POSIX_ACL_ACCESS	2
+> @@ -39,6 +40,11 @@
+>  #define F2FS_XATTR_NAME_ENCRYPTION_CONTEXT	"c"
+>  #define F2FS_XATTR_NAME_VERITY			"v"
+>  
+> +/* used for F2FS_USER_FADVISE_NAME */
+> +enum {
+> +	F2FS_XATTR_FADV_LARGEFOLIO,
+> +};
+> +
+>  struct f2fs_xattr_header {
+>  	__le32  h_magic;        /* magic number for identification */
+>  	__le32  h_refcount;     /* reference count */
+> -- 
+> 2.53.0.1213.gd9a14994de-goog
+> 
+> 
+---end quoted text---
