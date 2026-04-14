@@ -1,267 +1,375 @@
-Received: from fhigh-b1-smtp.messagingengine.com (fhigh-b1-smtp.messagingengine.com [202.12.124.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41D0E1B4138
-	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 22:00:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.152
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776204048; cv=none; b=IU+DvS90JYxI8Vc3p4eLm8cMRzyQ9n38RDgzOl8pxxjf+qhaf8YZus6wlGe5EYf52yMJ29Lje8viQBnH0/iw0k5ydkqwlaLjRa7Y5q/Jyv6f5L3rhMQKeMzCgvAdLymVU4F37RGECITl/fSN3unUQXHnkfjQPR1Njw+z9xCpbLI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776204048; c=relaxed/simple;
-	bh=Vq3zU3D/2KxZVRn/5h46GYDp+ELv3uQmf36tiPjEXV0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WWoI7PvT5Mt2DGXcfMSIQBhr/CWOqcbkU3eFpiKyXI2bpCVPdwwFeHG0Lc9t6YU6x8sv5kMgy4CVitDoZDZjfHiDodnrfDev34+kl8VWco9348Pt2rMMri7v93NET5PDT2aNzoK/LoOTMKFdjmL1TDqpkpYnsrjuGlHpp6cJ8XY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=UaZuENsZ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=hc/l1Obf; arc=none smtp.client-ip=202.12.124.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AC7937E30D
+	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 22:14:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776204853; cv=pass; b=tISCN0yfT2EfUpUm6g/JNhEbH7s/NmP5h/C32OOnQxMH8XD7nRjzZ2vPQzd7KgFTBKh+C7Lj9Xd56gpgHg9sna5SV+PL0i/AvQWG3FcAkphu8mbaspeZaRE2Wk/ZQk4UmdtH1l47iyJ0UD1xYmDURcsDt2BV6ROmJN6cOvxHhr8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776204853; c=relaxed/simple;
+	bh=EFuG3O2GySYI1nkRvikReQtUCyFAwyYO97i5pS4YUoo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ePDeMJrMnoEHn+vb5WgMf3/2K/Ed/wBlgT/lAb7NLTQAcGybDAO5PXO1a1SbQD87dTv6woGwDbs2MKE6vlIJMlZBS820Js7EACMQGijs+ifhnTYUzaYMmHU2HI1j5NjdAA9rPt1q8WkiutljC42k9MTK6mEzUhMBS5+YWCb4h1I=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BIpUt2aU; arc=pass smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="UaZuENsZ";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="hc/l1Obf"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 5EDD97A022B;
-	Tue, 14 Apr 2026 18:00:45 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Tue, 14 Apr 2026 18:00:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1776204045;
-	 x=1776290445; bh=GkHNXkWKaVPEfySorKzTM2xq77nuAajaFVkWcqs+MfM=; b=
-	UaZuENsZH7y9KKbiZEi0JgHTT5rXMMIE3Xa2oQ2qniIID+FBuJYzkvVvPq0qwNbZ
-	ZpQeHU5ARXUXU4aEzgTxY2S94bohT0rHwFFzAqaunULbUuAND23DC0g7DDQbK/VZ
-	u07odgUy6zfhlNj5qc96kHARyeG7yjZCUXvFG9avErfQ+Lt06jeXAnZAt+NV2bzI
-	o1YVyp/u+O+UyYgdlWL30OTLR2a8p/PmxN5LonG2uHOhO8OQMYXgj+9P0QZ8qgQe
-	I35ImLsppfeSfxyiWhDcvELFmRLyAXxMLQAfLoqaTKOnKZ2IguylF1UrNScSGe1P
-	L3je1U2y7yMrb/5uGjs2Nw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1776204045; x=
-	1776290445; bh=GkHNXkWKaVPEfySorKzTM2xq77nuAajaFVkWcqs+MfM=; b=h
-	c/l1ObfT/v3oii1ivL95KfTrj0dCvxqUhmqUMf0IkEhKioMqC+iOINi0HUWBFLBJ
-	KPbeirrjTW6Sil0fEpkcftmCKkb92s/VZvDvxJ2p471J9rMkHEKduB3oaBx24sPR
-	9rRTivU1JW49ZIdsdf6nHFoz5mYZzCJBtQb7+5lDGjd2Wtkybut5njTA8pHktL7V
-	eFI0/sGbX7ZLPLcvyuhCqZM6ZcwGctawu99GOhi+3IfBLPf11OWb2v8UvO0H/tws
-	9wln4cfiiOG8zTa4/kCya/EduLPBWZMyg6mBW2+iaeipqXStxRRtoX72PXw4T57+
-	ciE2TtUtE0bwjk+CkZA7A==
-X-ME-Sender: <xms:DLneaS5FNNlyH5p5R-n-oQVBzGKeqqgN63SG1Gadgn-6f6UaWvItUg>
-    <xme:DLneaSyv_Ta-7vUHlPHKMGY9ooUY7m0X8H6A-0Vw0kr7xMsUmGFuX-Em7wVembV07
-    JfbuBrQ3HYZZWNBngXs4HAlb5QJwKoYJXPEwiXNDwMEKsvv4ZjC5w>
-X-ME-Received: <xmr:DLneaZywB50VeXhgoPY0rg3ZEObVnfiYbY9nwLuHcZKkz4f3yWZ0iG7ij26Q0iYR4XDkfXfr-qU6X9xrpxIw_qxHGmFBksRCtDSaoSP7bZhdUBIPEA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdegvdeffecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefkffggfgfuvfevfhfhjggtgfesthejredttddvjeenucfhrhhomhepuegvrhhnugcu
-    ufgthhhusggvrhhtuceosggvrhhnugessghssggvrhhnugdrtghomheqnecuggftrfgrth
-    htvghrnhephedutdffvdegffehheelgfduhfdtgfevieduheeigfduhfegfedtuedukeeu
-    jeefnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpughjfihonhhgrdhorhhgpdhgih
-    hthhhusgdrtghomhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhl
-    fhhrohhmpegsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeehpd
-    hmohguvgepshhmthhpohhuthdprhgtphhtthhopegujhifohhngheskhgvrhhnvghlrdho
-    rhhgpdhrtghpthhtohepjhhorghnnhgvlhhkohhonhhgsehgmhgrihhlrdgtohhmpdhrtg
-    hpthhtoheplhhinhhugidqfhhsuggvvhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdp
-    rhgtphhtthhopehmihhklhhoshesshiivghrvgguihdrhhhupdhrtghpthhtohepnhgvrg
-    hlsehgohhmphgrrdguvghv
-X-ME-Proxy: <xmx:DLneaayEY2J4t9ZdQrX9-2KdTEuYqdp7bEUu250zDuYis8jYu-UUlw>
-    <xmx:DLneaTbCN_nc0bKwAMgJEgB5FTrxL2GLinFMI2ylldGbheAUfXto3g>
-    <xmx:DLneabWO_hahPCh_ST-fDq8yJ4dzUDBw1v8IF6VFWA2yPjl1bpK2Xw>
-    <xmx:DLneaRiprlmrqLPJ8BV5EY_FebkTerT6a2UJgNLaTnuCnfsVSOWR9Q>
-    <xmx:DbneaTgusR9YNJHh4wD3_8Yh8DljHRay5HEMx1RkcLzE9EVXTMHfLBIb>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 14 Apr 2026 18:00:43 -0400 (EDT)
-Message-ID: <774cac3c-0ee9-4bd3-a32c-249953cb32d8@bsbernd.com>
-Date: Wed, 15 Apr 2026 00:00:41 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BIpUt2aU"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-488e1a8ac40so50451755e9.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 15:14:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776204849; cv=none;
+        d=google.com; s=arc-20240605;
+        b=AmOh+N566hVR04njfBh6P7fezxp7pWMuS+LtayyOZkA44TMzz4U0rsqyl9VqfLI937
+         XCK5SvrtNuDacQMeY2jYhcoV5VcSNNIN+HvfP321weTQC7mEZW73GW89BJSHNSl73DEY
+         bMRxCEmHjS4AJ1kLSSi8MWR/ez7BAHFirm0uNeVd+dlVAYZ8rNZsdi7IGmDj51jCZmxJ
+         N765j313sM/xVS9Zl+trbF3yFtJ2ISVkIstShw2fl3QpzsPdAWCJCQKx8NBVBsjz2gbh
+         58pzlvLalTM1y0mibEj+ikIoqNBZ2HtOByRtOCl1gGLUYoFY/if12yXlr76oB/qeNOVB
+         4q1g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=XHGoqrVAF4yRodgucren3pErXmC922PltoQad4CPqCU=;
+        fh=o+v4XPA2VYajTRtvhq/Wz7/nI8uQdoX8i7PhpkGdMpQ=;
+        b=ZQUPNlh8A3R0No22oNAMGF0/6tDNouXhcCRJoFhHLJvNw3cSqFQhGDNebZzlbnrCdd
+         ONOwdv7Hs/ycJt2Ik31c6wfsa+ZkI+VwunkPuLEMTOPMKx+I+cX75+S8HsgHKJSyozGq
+         N2URXIZVkHH03xw9QRYAQGzRMxtFRYppY7Q5fOT/L2tzvo+Ci/zk0ZW2ElQ6/TQ/V5BN
+         mXxGXuLd7asPz/p0ooqCFlNqa7pKg6Cu4BxXDQ1wJ5dHYC6AbVA6/ihUdnnnGhwpFc6N
+         bCXSXal4XaFZKasN13+/8wp91+kSwJs7ftbra4T7+/InpL+haMce4GaZLlOtU5W8QD5T
+         LVPQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776204849; x=1776809649; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XHGoqrVAF4yRodgucren3pErXmC922PltoQad4CPqCU=;
+        b=BIpUt2aUIurYcVRlz8yJ47oY+d4to0e5UTP1mP3OYO5ciZ5OGle+rbMb4oRKzMyAOQ
+         CNNdxaLRMAdyTYYE4p6TQr2WIfo1H+cOljG/cUoUwfA205fhXgS/OhTYamPgRcLziF8L
+         VBKT9Koyfh3C6IC/Zb1/PpM/hhbheG8EDQ9y1GNTeV7W2bni1BE5n8GhwONFSwVB2iIB
+         pW9VWtWBHkUzBYGUurRh2Di4uXHJeKmjPlR3l3svMnjUYrNR0wyXqkQj7ZyNcii4OsGT
+         mprKQthumNTFv2BIxeo2PyKSZc2N5ABtOJbva5diWW1cm7HJOX2blhUADsIJTahsHLnH
+         E8lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776204849; x=1776809649;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=XHGoqrVAF4yRodgucren3pErXmC922PltoQad4CPqCU=;
+        b=RWVLznHbZ5Vllz4oAOYLcK6jVHEwjM/8Vy/IjyObPpwiR/X0GLDbvywIqdMNgkaK7y
+         T6Td1DDGS+N/JmKe/cYD1h1SkqtFCUgwvqTCVxpf9Um6F7HaxYzQPQUm7GmBnzrYa/hM
+         Zo/jpUKAYfBloOnQtJjBpmgAyno/8wa/dJMdzMlGI3EHL217vJvqzusHwlE5j957d4Cs
+         3bbby345qRD6KG99bpletG/doBRfLqrVpE8ikm1WEIu0xoJ4ca29oJHW1cKkYV4KXrJf
+         r1+lcpPLpxNRTqFp0vci8t8HYoadOT/n9JdlpwRaMdKwrJxFOHo8ddJyHypNduDXappM
+         iwcA==
+X-Forwarded-Encrypted: i=1; AFNElJ++eg+4GrwkWLAxfgVJ+PQuR1d6RdjI3Dmqj2dTOcWgvuNEcAUJPvbH/Wlk7hGUYG8Sow7t2mRKVjwCRzr6@vger.kernel.org
+X-Gm-Message-State: AOJu0YwwlMN4gWvzp1l9tLeLYzmpsVaX1vKpqeBdK3ciakN9GWLA/qA/
+	BkerKvZV0fKlYvw1vr3UTODDt/H04BXCGLYavOD3oNjDDfGvk6AOoqLBElWqDjS7wXsQhEZP4+J
+	cXezOOPx4l5Pghlwl1dJ2k3snXNST37ZzT309JcI=
+X-Gm-Gg: AeBDieuFy0zBwB2/AnzDs1L+C1Ig67NXhkdnZxCEYTO3KnUGmbri3N/Y/OlgVCpsSDn
+	c2BUNhtzuJb34FIMwMYbKnA2osme+Jg7J513AO3azaje6xjU7XYyUu4sgrdrW/6CJwg6e2mcVcs
+	ADJCCixcWzEIM7LicQaO2FR/ZMHvVpkl0Ito8j650c8luPW4NAGU8929oObillSYJigjry4K4tw
+	4fPJqhzoKcm5ggon3JLNcN6TmVKm9C4L1vd0cRI5t80fsEyQjdc8tC0Ef9XP2+ouKjYXv4JO0F2
+	nPIBlOqCUt0uA0l4
+X-Received: by 2002:a5d:4443:0:b0:43d:696b:72a6 with SMTP id
+ ffacd0b85a97d-43d696b7352mr16413725f8f.7.1776204849185; Tue, 14 Apr 2026
+ 15:14:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT PULL] libfuse: run fuse servers as a contained service
+References: <20260331123702.35052-1-john@jagalactic.com> <0100019d43e5f632-f5862a3e-361c-4b54-a9a6-96c242a8f17a-000000@email.amazonses.com>
+ <CAJnrk1ZRTGWjNzkMxS3UkeZMmrpadJDtWKontMx2=d-smXYq=w@mail.gmail.com>
+ <adkDq0m5Wt9YhJ8A@groves.net> <38744253-efa3-41c5-a491-b177a4a4c835@bsbernd.com>
+ <adlBcwJjLOQDAR65@groves.net> <CAJnrk1a06zkUmXW5EFiUmgAoFauwtzsYvnotaPH0ifVtyh7iDQ@mail.gmail.com>
+ <CAJfpegvVTcV89=q3L326aGQjhduBcv7PVg5QKftGLjNZmCLmaw@mail.gmail.com>
+ <ad4_jFsR951c2Mtn@groves.net> <20260414185740.GA604658@frogsfrogsfrogs>
+In-Reply-To: <20260414185740.GA604658@frogsfrogsfrogs>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Tue, 14 Apr 2026 15:13:57 -0700
+X-Gm-Features: AQROBzAAIIChNBd3LuntveTzVP71atwEu6BvgneAi9g5zAgR2JCNJI8CupfByL8
+Message-ID: <CAJnrk1ZgcMuwfMpT1fXvUwBBiq9eWFHWVeOFQFFKiamGGe1RJg@mail.gmail.com>
+Subject: Re: [PATCH V10 00/10] famfs: port into fuse
 To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: joannelkoong@gmail.com, linux-fsdevel@vger.kernel.org, miklos@szeredi.hu,
- neal@gompa.dev
-References: <177577271287.2064584.12214566734023027732.stg-ugh@frogsfrogsfrogs>
- <549999df-d6eb-43a0-840c-43310de667ca@bsbernd.com>
- <20260410155601.GS6254@frogsfrogsfrogs>
- <5de6956e-dce5-4095-a2fa-199c2dc1408a@bsbernd.com>
- <20260410221210.GV6254@frogsfrogsfrogs>
- <20260411024835.GV6202@frogsfrogsfrogs>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: fr
-In-Reply-To: <20260411024835.GV6202@frogsfrogsfrogs>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Cc: John Groves <John@groves.net>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Bernd Schubert <bernd@bsbernd.com>, John Groves <john@jagalactic.com>, 
+	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
+	Josef Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
+	Chen Linxuan <chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>, 
+	Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, djbw@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Apr 14, 2026 at 11:57=E2=80=AFAM Darrick J. Wong <djwong@kernel.org=
+> wrote:
+>
+> On Tue, Apr 14, 2026 at 08:41:42AM -0500, John Groves wrote:
+> > On 26/04/14 03:19PM, Miklos Szeredi wrote:
+> > > On Fri, 10 Apr 2026 at 21:44, Joanne Koong <joannelkoong@gmail.com> w=
+rote:
+> > >
+> > > > Overall, my intention with bringing this up is just to make sure we=
+'re
+> > > > at least aware of this alternative before anything is merged and
+> > > > permanent. If Miklos and you think we should land this series, then
+> > > > I'm on board with that.
+> > >
+> > > TBH, I'd prefer not to add the famfs specific mapping interface if no=
+t
+> > > absolutely necessary.  This was the main sticking point originally,
+> > > but there seemed to be no better alternative.
+> > >
+> > > However with the bpf approach this would be gone, which is great.
+>
+> Well... you can't get away with having *no* mapping interface at all.
 
+Yes but the mapping interface should be *generic*, not one that is so
+specifically tailored to one server. fuse will have to support this
+forever.
 
-On 4/11/26 04:48, Darrick J. Wong wrote:
-> On Fri, Apr 10, 2026 at 03:12:10PM -0700, Darrick J. Wong wrote:
->> On Fri, Apr 10, 2026 at 08:30:49PM +0200, Bernd Schubert wrote:
->>>
->>>
->>> On 4/10/26 17:56, Darrick J. Wong wrote:
->>>> On Fri, Apr 10, 2026 at 02:24:28PM +0200, Bernd Schubert wrote:
->>>>> Hi Darrick,
->>>>>
->>>>> On 4/10/26 00:24, Darrick J. Wong wrote:
->>>>>> Hi Bernd,
->>>>>>
->>>>>> Please pull this branch with changes for libfuse.
->>>>>>
->>>>>> As usual, I did a test-merge with the main upstream branch as of a few
->>>>>> minutes ago, and didn't see any conflicts.  Please let me know if you
->>>>>> encounter any problems.
->>>>>
->>>>> I had already merged another patch beginning of this week that
->>>>> introduced a new merge conflict in
->>>>> .github/workflows/install-ubuntu-dependencies.sh
->>>>>
->>>>> I resolved it myself now.
->>>>>
->>>>>>
->>>>>> --D
->>>>>>
->>>>>> The following changes since commit 3bb9cd99b3688df1bb7536de158ed9e532b277fb:
->>>>>>
->>>>>> Add the codechecker/cppcheck github action (2026-04-07 10:08:49 +0200)
->>>>>>
->>>>>> are available in the Git repository at:
->>>>>>
->>>>>> https://git.kernel.org/pub/scm/linux/kernel/git/djwong/libfuse.git tags/fuse-service-container_2026-04-09
-> 
-> Hi Bernd,
-> 
-> Here's today's branch, with the static checker problems fixed, I hope:
-> https://git.kernel.org/pub/scm/linux/kernel/git/djwong/libfuse.git tags/fuse-service-container_2026-04-10
-> 
-> This is the codechecker report that I got (u:x p:x, I'm too lame for
-> anubis):
-> https://djwong.org/docs/libfuse/#sort=file-path&asc=1
-> from pip install'ing codechecker and running:
-> 
-> ./.github/workflows/codechecker.sh --gcc --codechecker --build-dir build-x86_64/
-> 
-> AFAICT, none of those bugs are related to anything touched by the
-> containerization patches.  Though I'm not 100% sure of the outputs; I
-> didn't see anything about a switch statement.
-> 
+> You still have to define a UABI that BPF programs can use to convey
+> mapping data into fsdax/iomap.  BTF is a nice piece of work that smooths
+> over minor fluctuations in struct layout between a running kernel and
+> a precompiled BPF program, but fundamentally we still need a fuse-native
+> representation.
+>
+> That last sentence was an indirect way of saying: No, we're not going
+> to export struct iomap to userspace.  The fuse-iomap patchset provides
+> all the UABI pieces we need for regular filesystems (ext4) and hardware
+> adjacent filesystems (famfs) to exchange file mapping data with the
+> kernel.  This has been out for review since last October, but the lack
+> of engagement with that patchset (or its February resubmission) doesn't
+> leave me with confidence that any of it is going anywhere.
+>
+> Note: The reason for bolting BPF atop fuse-iomap is so that famfs can
+> upload bpf programs to generate interleaved mappings.  It's not so hard
+> to convert famfs' iomapping paths to use fuse-iomap, but I haven't
+> helped him do that because:
+>
+> a) I have no idea what Miklos' thoughts are about merging any of the
+> famfs stuff.
+>
+> b) I also have no idea what his thoughts are about fuse-iomap.  The
+> sparse replies are not encouraging.
+>
+> c) It didn't seem fair to John to make him take on a whole new patchset
+> dependency given (a) and (b).
+>
+> d) Nobody ever replied to my reply to the LSFMM thread about "can we do
+> some code review of fuse iomap without waiting three months for LSFMM?"
+> I've literally done nothing with fuse-iomap for two of the three months
+> requested.
+>
+> > > So let us please at least have a try at this. I'm not into bpf yet,
+> > > but willing to learn.
+>
+> I sent out the patches to enable exactly this sort of experimentation
+> two months ago, and have not received any responses:
+>
+> https://lore.kernel.org/linux-fsdevel/177188736765.3938194.67707916882360=
+41940.stgit@frogsfrogsfrogs/
+>
+> I would like to say this as gently as possible: I don't know what the
+> problem here is, Miklos -- are you uninterested in the work?  Do you
+> have too many other things to do inside RH that you can't talk about?
+> Is it too difficult to figure out how the iomap stuff fits into the rest
+> of the fuse codebase?  Do you need help from the rest of us to get
+> reviews done?  Is there something else with which I could help?
+>
+> Because ... over the past few years, many of my team's filesystem
+> projects have endured monthslong review cycles and often fail to get
+> merged.  This has led to burnout and frustration among my teammates such
+> that many of them chose to move on to other things.  For the remaining
+> people, it was very difficult to justify continuing headcount when
+> progress on projects is so slow that individuals cannot achieve even one
+> milestone per quarter on any project.
+>
+> There's now nobody left here but me.
+>
+> I'm not blaming you (Miklos) for any of this, but that is the current
+> deplorable state of things.
+>
+> > > Thanks,
+> > > Miklos
+> >
+> > Thanks for responding...
+> >
+> > My short response: Noooooooooo!!!!!!
+> >
+> > I very strongly object to making this a prerequisite to merging. This
+> > is an untested idea that will certainly delay us by at least a couple
+> > of merge windows when products are shipping now, and the existing appro=
+ach
+> > has been in circulation for a long time. It is TOO LATE!!!!!!
+>
+> /me notes that has "we're shipping so you have to merge it over peoples'
+> concerns" rarely carries the day in LKML land, and has never ended well
+> in the few cases that it happens.  As Ted is fond of saying, this is a
+> team sport, not an individual effort.  Unfortunately, to abuse your
+> sports metaphor, we all play for the ******* A's.
+>
+> That said, you're clearly pissed at the goalposts changing yet again,
+> and that's really not fair that we collectively keep moving them.
+>
+> It's a rotten situation that I could have even helped you to solve both
+> our problems via fuse-iomap, but I just couldn't motivate myself to
+> entwine our two projects until the technical direction questions got
+> answered.
+>
+> > Famfs is not a science project, it's enablement for actual products and
+> > early versions are available now!!!
+> >
+> > That doesn't mean we couldn't convert later IF THERE ARE NO HIDDEN PROB=
+LEMS.
+>
+> Heck, the fuse command field is a u32.  There are plenty of numberspace
+> left, and the kernel can just *stop issuing them*.
+
+I don't think the problem is the command field. As I understand it, if
+this lands and is converted over later, none of the famfs code in this
+series can be removed from fuse. If fuse has native non-bpf support
+for famfs, then it will always need to have that. That's the part that
+worries me.
+
+>
+> > What are the risks of converting to BPF?
+
+I think maybe there is a misinterpretation of what the alternative
+approach entails. From my point of view, the alternative approach is
+not that different from what is already in this series. The only piece
+of the famfs logic that would need to use bpf is the logic for
+finding/computing the extent mappings (which is the famfs-specific
+logic that would not be applicable to any other server). That famfs
+bpf code is minimal and already written [1], as it is just the logic
+that is in patch 6 [2] in this series copied over. No other part of
+famfs touches bpf. The rest is renaming the functions in
+fs/fuse/famfs.c to generic fuse_iomap_dax_XXX names (the logic is the
+same logic in this series, eg invoking the lower-level calls to
+dax_iomap_rw/fault/etc) and moving the daxdev setup/initialization to
+connection initialization time where the server passes that daxdev
+setup info/configs upfront. I don't think this would delay things by
+several merge windows, as the code is already mostly written. If it
+would be helpful, I can clean up what's in the prototype and send that
+out.
+
+I think the part that is not clear yet and needs to be verified is
+whether this approach runs into any technical limitations on famfs's
+production workloads. For example, does the overhead of using bpf maps
+lead to a noticeable performance drop on real workloads? In the
+future, will there be too many extent mappings on high-scale systems
+to make this feasible? etc. If there are technical reasons why the
+famfs logic has to be in fuse, then imo we should figure that out and
+ideally that's the discussion we should be having. I am not a cxl
+expert so perhaps there is something missing in the approach that
+makes it not sufficient on production systems. If we don't end up
+going with the alternative approach, I still think this series should
+try to make the famfs uapi additions to fuse as generic as possible
+since that will be irreversible.
+
+If we expedited the alternative approach in terms of reviewing and
+merging, would that suffice? Is the main pushback the timing of it, eg
+that it would take too long to get reviewed, merged, and shipped?
+
+> >
+> > - I don't know how to do it - so it'll be slow (kinda like my fuse lear=
+ning
+> >   curve cost about a year because this is not that similar to anything
+> >   else that was already in fuse.
+>
+> ...and per above, BPF isn't some magic savior that avoids the expansion
+> of the UABI.
+
+It doesn't avoid the expansion of the UABI but it makes the UABI
+generic (eg plenty of future servers can/will use the generic iomap
+layer).
+
+>
+> > - Those of us who are involved don't fully understand either the securi=
+ty
+> >   or performance implications of this. It
+>
+> Correct.  I sure think it's swell that people can inject IR programs
+> that jit/link into the kernel.  Don't ask which secondary connotation of
+> "swell" I'm talking about.
+
+bpf is used elsewhere in the kernel (eg networking, scheduling). If it
+is the case that it is unsafe (which maybe it is, I don't know), then
+wouldn't those other areas have the same issues?
+
+>
+> > - Famfs is enabling access to memory and mapping fault handling must be
+> >   at "memory speed". We know that BPF walks some data structures when a
+> >   program executes. That exposes us to additional serialized L3 cache
+> >   misses each time we service a mapping fault (any TLB & page table mis=
+s).
+> >   This should be studied side-by-side with the existing approach under
+> >   multiple loads before being adopted for production.
+>
+> Yes, it should.  AFAICT if one switched to a per-inode bpf program, then
+> you could do per-inode bpf programs.  Then you don't even need the bpf
+> map, and the ->iomap_begin becomes an indirect call into JITted x86_64
+> math code.
+>
+> (The downside is that dyn code can't be meaningfully signed, requires
+> clang on the system, and you have to deal with inode eviction issues.)
+>
+> > - This has never been done in production, and we're throwing it in the =
+way
+> >   of a project that has been soaking for years and needs to support ear=
+ly
+> >   shipments of products.
+>
+> Correct.  I haven't even implemented BPF-iomap for fuse4fs.  This BPF
+> integration stuff is *highly* experimental code.
+
+I think what fuse4fs needs for bpf is significantly more complicated
+and intensive than what famfs needs. For famfs, the extent mapping
+logic is straightforward computation.
+
+>
+> > If this is the only path, I'd like to revive famfs as a standalone file
+> > system. I'm still maintaining that and it's still in use.
+>
+> Honestly, you should probably just ship that to your users.  As long as
+> the ondisk format doesn't change much, switching the implementation at a
+> later date is at least still possible.
+
+I recognize this is an unfair situation John as you've already spent
+years working on this and did what the community asked with rewriting
+it. What I'm hoping to convey is that the approach where the extent
+computing/finding logic gets moved to bpf is not radically different
+from the famfs logic already in this patchset. In my view, moving this
+logic to bpf is more advantageous for both fuse *and* famfs
+(decoupling famfs releases from kernel releases) - it would be great
+to consider this on technical merits if expediting the timeline of the
+alternative approach would suffice.
+
+Thanks,
+Joanne
+
+[1] https://github.com/joannekoong/libfuse/blob/444fa27fa9fd2118a0dc3329331=
+97faf9bbf25aa/example/famfs.bpf.c
+[2] https://lore.kernel.org/linux-fsdevel/0100019d43e79794-0eadcf5e-b659-43=
+f7-8fdc-dec9f4ccce14-000000@email.amazonses.com/
+
+>
 > --D
-> 
->>>>>>
->>>>>> for you to fetch changes up to 0db39a8f8844ff88496ed36da417554cb4f3751d:
->>>>>>
->>>>>> nullfs: support fuse systemd service mode (2026-04-09 12:31:08 -0700)
->>>>>
->>>>> I had quite a busy last weekend, because I got libfuse security reports.
->>>>> In ordert to avoid lots of reports, I just added support for CodeChecker
->>>>> + cppcheck and CodeChecker+gcc checker. Clang CTU is is prepared, but I
->>>>> need to let AI work over the weekend to fixes for these (obviously will
->>>>> need manual editing, as last weekend).
->>>>> In the end not too bad and I don't think and urgent need for a new
->>>>> release. Although I should probably make a new 3.18.3 version soon.
->>>>>
->>>>> That also made me to add new checks. I actually already that github
->>>>> codeql checker in place, but only realized last weekend that it didn't
->>>>> generate any reports. On your PR that gives
->>>>>
->>>>> New alerts in code changed by this pull request
->>>>>
->>>>> Security Alerts:
->>>>>
->>>>>     4 critical
->>>>>     3 high
->>>>>
->>>>> Other Alerts:
->>>>>
->>>>>     4 warnings
->>>>>     10 notes
->>>>>
->>>>>
->>>>> Some of these, like "This switch statement should either handle more
->>>>> cases, or be rewritten as an if statement." can be suppressed. With some
->>>>> I probably agree
->>>>>
->>>>>
->>>>> 	cmd = malloc(iov.iov_len);
->>>>> 	if (!cmd) {
->>>>> 		int error = errno;
->>>>> Note
->>>>> Declaration hides parameter
->>>>> Local variable 'error' hides a parameter of the same name.
->>>>> CodeQL
->>>>
->>>> Oh yikes yes.  I probably ought to have added the same "turn the gcc
->>>> warnings up real high" patch to my branch that I use for xfs stuff.
->>>>
->>>> (Huh.  No warnings.  Well, that's good at least.)
->>>>
->>>>> The new CodeChecker (gcc,cppchechk) actions also complain, the GUI
->>>>> should give the output, but I don't see it yet.
->>>>
->>>> <nod> Any reports you get about my branch, please feel free to lob it at
->>>> me and tell me to fix it :)
->>>>
->>>> I can run cppcheck locally, so I'll try to fix all the warnings that
->>>> your copy is throwing out, and send you an updated pr.
->>>>
->>>>> My plan for the weekend is to address your comments in my series and
->>>>> then to merge it. If still some time left, I would like to fix all the
->>>>> reports in your series and merge that as well.
->>>>> Then maybe next week to combine some mount code dup that comes from both
->>>>> series.
->>>>>
->>>>> Ok with you?
->>>>
->>>> Yes, that sounds good.  Let me know if you want any help. :)
-
-
-Hi Darrick,
-
-thanks a lot for the updates. And apologies, I didn't get that far
-during the weekend again :( I also eventually wanted to send the new
-version for the reduced ring queue patches and then xfstests got stuck
-at at generic/650 (cpu off/on loop) and I was searching for the issue
-kind of all weekend. Unfortunately searched in the wrong place (kernel)
-and only noticed when I had added debugfs support to fuse. Patch for
-debugfs support follows during the next days. (The ugly part was that
-passthrough_hp had crashed and got stuck in backtrace_symbols - process
-alive, but not operating...).
-I will get to your patch series the next evenings.
-
-
->>>
->>> Would be great if you could fix the cppcheck and gcc codechecker
->>> reports. For cppcheck you might need to inline suppress some wrong
->>> warnings - needs this patch
->>>
->>> https://github.com/libfuse/libfuse/pull/1477/changes/0322af4d9bba93aad5f6445346aa83a549bb3d19
->>>
->>> This commit also shows the path how to run it:
->>>
->>> .github/workflows/codechecker.sh
->>>
->>> Fow now we we ignore everything in example/ and some cppcheck warnings
->>> are ignored for now - these were too many for now.
->>
->> Ok, I got the cppcheck part working, and the fixes were fairly straight
->> forward.  As for CodeChecker, is this the one:
->>
->> https://github.com/Ericsson/codechecker
->>
->> that the yml file tries to find?
-
-Yes. this one. There is also a codql yml file, which is githubs own code
-checker, it complains about these single case conditions. I will just
-click that away. I guess you cannot see the reports without a github
-account.
-
-
-Sorry again and I hope I get there soon,
-Bernd
-
-
