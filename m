@@ -1,270 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC2171339A4
-	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 01:00:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E90B8469D
+	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 01:13:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776128403; cv=none; b=jqrE80TZN317wHLNtZKTwPMwP7v6OZP38iM4qAj0cCDvqmmq2Y+qCt4KMP5S3xyXT0G9c6aM4vyPpZzlW6onyAmbk6c87v4FOd4z94zyQ2KhtIgM5y5puOpCP9cLpGf4Oq+WscPtvDUuZx1YiCvTROVI0Om72RiJ133Z4bU5DhI=
+	t=1776129192; cv=none; b=tHIgGsHvzhIUWMW/7ASq7D+f89r7YG/KfVVVk9fvKdFPYV1mJkH6yMwFowINxw0GfVBnOLz8gY5NzoExTWyLopAX3JcGLHyhcBuOB/X1LN/buyz8inxTdJVM09QnYbkXjLXHrMsFFYoQ33Rv0W9SfWG6m7IpGsbrfrlbU252VxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776128403; c=relaxed/simple;
-	bh=uxJR1zzj4EfhLx6auYWQ52bgfckSSU8jOZPv1pL3uys=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PD17q7TVdpGgw7ERQrjBHRlTRiOeKVcvLOfvDQPGQVjjOlzEI21LIc7A1G/ufzmn2/5CVSGs0UrwBek/6BxKdBuKMORBvJTmW9DI/oUqQwAhLh9hx9spwwvbA8loYk7AXHcBABHGz9TQzO4/1OMbaoN7GY8tk7mOc/E3yOdCfBY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OYFcBKBV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776129192; c=relaxed/simple;
+	bh=/YNbRbuUn0se/eOxh9EWYDr7/E/hoK/hBbsC2Ksi4s0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OpsU/uH6Gw6f7/K71nCawHwCYfjGpbCSEpNMXZ8zNTZRU+0wasdL134/bNeUcgY6Yac3TJuakJHeIq3fVr4lnLbW/B+y8v4tNUO0Qe2blp3iM7jcPb467JM6gOVlzV0OfYPCeUC4qBNEDunr7pN+7p+IvX1/JCGEU8EefNj7BiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pmAxUGF+; arc=none smtp.client-ip=209.85.216.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OYFcBKBV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 824C5C2BCAF;
-	Tue, 14 Apr 2026 01:00:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776128402;
-	bh=uxJR1zzj4EfhLx6auYWQ52bgfckSSU8jOZPv1pL3uys=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OYFcBKBVJJMiv+Y8wcSMUhjmuRaHkHrglVprI3nMMJVoSsxZzoL93lYaRP5CNSTWk
-	 qqfeWh/DMVH9Iq0qgl4vGrPDIRbV1AL7qcl2/VDntndiftE9U0BCdyB5tpCjom97Ft
-	 lhLCb/QYdBfdpFTOdkwPMqO56/SmtOGNR3hFnkcV6P+DJXO5isElOHA0H2iKSGag+x
-	 F5Rm4HyjHV3jUnr8c1swX21F3Jt9CsnvKbWIYx1rHgKuHVKL1tWP9h2WY3zc9aPLqn
-	 lKE19Jeq0qIcMDKVgUl2PAKJ3hQvKKqkCn+WR9OqWi/MWlKMc1GKq0HGRTjyr93tmp
-	 25zzRam8rvOyA==
-Date: Mon, 13 Apr 2026 18:00:01 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: bschubert@ddn.com
-Cc: miklos@szeredi.hu, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
-	bernd@bsbernd.com, joannelkoong@gmail.com
-Subject: Re: [PATCH 02/13] mount_service: add systemd/inetd socket service
- mounting helper
-Message-ID: <20260414010001.GA149953@frogsfrogsfrogs>
-References: <177577270167.2064074.16504004857564657756.stgit@frogsfrogsfrogs>
- <177577270253.2064074.4846020380322993537.stgit@frogsfrogsfrogs>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pmAxUGF+"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-35fb7c1a455so632768a91.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 18:13:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776129190; x=1776733990; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=K2UbA4pmTQcH00NyW6Az7G0FxPyEU3JCK2aV1c8PuUI=;
+        b=pmAxUGF+SEFeXZlvIdYJ7WRv9ZpLK2BN0woJPBdKx/vXbhNyY60p5+HdjeiAyFb3Ta
+         gignrqSy7lsQoMPBLiSPttWd+U31LNn9dDI4jRgybn8z+zTtyry9ZycgGa07DslYayWs
+         UCiwqNQ4X+si8TYBdpYroM8vvav3rdpa340RrQo/V8XSJU52o5wuUydo625TpWq+6y5M
+         rg33yjZpBgqcQyVAe4gRUI66YySyWMqbGdDlW58cQuTaQMlecO4EAIxoMQt0jYzqnyJj
+         KJiPk068F55YU6ixuSi7hCRTUc45Egt0G4OVq2p/iIxy+TXnX2zu199fqlDw2Qs2R50H
+         0jCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776129190; x=1776733990;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=K2UbA4pmTQcH00NyW6Az7G0FxPyEU3JCK2aV1c8PuUI=;
+        b=Ht1k4hcMZZGcW/9MEooUVfeV0IkAIHg6fRTnRoX5O+ZHCk9wTu9jnGx8AWwAxLNIBM
+         zwiKLdm+gUcdOCyTf/5J38Rl5qlLHNv2TiqVoiGZBPSJarI6YNYw3/LO9RxeYf5g8Z+B
+         UgXdjoBfRIlX2UhJorhjkGnMjhjZ1q/ZuafVSyvXk958N4nWMUOvYvuTSZ0G1LOeH0g9
+         9ge4nPG9pLPYN2g0sWj0DPLxD6WGq5jQ6Tt8R6Jm1mlQkxePAf/TjnBHBwldWfO14JHS
+         lviGzUdxfUKkFD0Z67Edi1TB5dtZiw1HZ1lnJReW6FnvaEP6siASz1pQjwvzbho4xk2/
+         MizQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+TT96zj/tW2SVzKnpLQAyNa9TeZJNjqunwVkMkkl2mSSTLt1oup3Q+HUBj/d0fwQoyqqaJhdCmxxT9dRfs@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+lVLl2S9Vvfpn7kqVC1M6ju1SJucNZISpnTHqBmqsY0qj2ksq
+	CHu7TN5oC+FewJggcXKTHcBV8WELwKLYRWaBgtcn03M4whnh6Bsudqe5
+X-Gm-Gg: AeBDiev6uwW/k8D2Yw70BatUXmjTpZDuwWviSlqreBfS9jsYV04yZJYaXhQgmUCCdlR
+	iYQ0eYsirKkTf8454UrSPLDW9Wjx73M1F9fCyYSf4VgOSfg4AjlWF3OVwZ8lEtLIlUeZJbKllEa
+	//szLVIX6wmixsb0vX5iVV+nwppyMfdq44ugVSLRXw9eQxFQL2nL/TpWXx+qzyh7BneUpFmbJcq
+	jZKCAtqC8yHEogOzRwEPWPB1t7Py0tiUSeYmByr+pKXbG6qQsL3Mv5kgUvFZTXHkaZVjQwRvvOK
+	vXYaWxBZUGACIjCOUdKKsd9Wi6L2NiFoaFFm0Puh0D5X6GdOqwbA3pKkiKZs5zcSkT0fRC7WigK
+	N8TFz+ujIKG3ECy2uqda+gaZT5aoDDn3H9LYQ98x4sXI7KBnb1/PYYEQhAFWqt/DAkuF18Ai15I
+	8QP4+WbctIjiTyCr+H0vltgXr1gEJsDAS6BAlxaZffCnSnLPl4OD/eTl06lf4BKi71ssBGun7Uu
+	1MjvtLpYcFXCnqyfg==
+X-Received: by 2002:a17:90b:1e08:b0:35f:bfdd:f5a1 with SMTP id 98e67ed59e1d1-35fbfddfb16mr3220626a91.13.1776129190256;
+        Mon, 13 Apr 2026 18:13:10 -0700 (PDT)
+Received: from deepanshu-kernel-hacker.. ([2405:201:682f:383f:445c:f4a3:a803:e3c6])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35fc6e8ca0fsm251344a91.14.2026.04.13.18.13.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Apr 2026 18:13:09 -0700 (PDT)
+From: Deepanshu Kartikey <kartikey406@gmail.com>
+To: slava@dubeyko.com,
+	glaubitz@physik.fu-berlin.de,
+	frank.li@vivo.com
+Cc: akpm@linux-foundation.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Deepanshu Kartikey <kartikey406@gmail.com>,
+	syzbot+c0ba772a362e70937dfb@syzkaller.appspotmail.com
+Subject: [PATCH] hfsplus: fix ignored error return in hfsplus_delete_cat
+Date: Tue, 14 Apr 2026 06:43:03 +0530
+Message-ID: <20260414011303.61374-1-kartikey406@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <177577270253.2064074.4846020380322993537.stgit@frogsfrogsfrogs>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Apr 09, 2026 at 03:21:04PM -0700, Darrick J. Wong wrote:
-> From: Darrick J. Wong <djwong@kernel.org>
-> 
-> Create a mount helper program that can start a fuse server that runs as
-> a socket-based systemd service, and a new libfuse module to wrap all the
-> details of communicating between the mount helper and the containerized
-> fuse server.
-> 
-> This enables untrusted ext4 mounts via systemd service containers, which
-> avoids the problem of malicious filesystems compromising the integrity
-> of the running kernel through memory corruption.
-> 
-> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-> ---
->  include/fuse_service.h                           |  243 ++++
->  include/fuse_service_priv.h                      |  133 ++
->  lib/mount_common_i.h                             |    3 
->  util/mount_service.h                             |   39 +
->  .github/workflows/install-ubuntu-dependencies.sh |   12 
->  doc/fuservicemount3.8                            |   24 
->  doc/meson.build                                  |    3 
->  include/meson.build                              |    4 
->  lib/fuse_service.c                               | 1099 +++++++++++++++++++
->  lib/fuse_service_stub.c                          |  106 ++
->  lib/fuse_versionscript                           |   17 
->  lib/helper.c                                     |   51 +
->  lib/meson.build                                  |   17 
->  lib/mount.c                                      |   12 
->  meson.build                                      |   34 +
->  meson_options.txt                                |    9 
->  util/fuservicemount.c                            |   18 
->  util/meson.build                                 |    9 
->  util/mount_service.c                             | 1304 ++++++++++++++++++++++
->  19 files changed, 3132 insertions(+), 5 deletions(-)
->  create mode 100644 include/fuse_service.h
->  create mode 100644 include/fuse_service_priv.h
->  create mode 100644 util/mount_service.h
->  create mode 100644 doc/fuservicemount3.8
->  create mode 100644 lib/fuse_service.c
->  create mode 100644 lib/fuse_service_stub.c
->  create mode 100644 util/fuservicemount.c
->  create mode 100644 util/mount_service.c
-> 
-> 
+hfsplus_delete_cat() calls hfsplus_delete_all_attrs() to remove all
+extended attributes associated with a catalog entry, but silently
+discards its return value. When the xattr deletion fails due to
+filesystem corruption (as in a crafted image reported by syzbot),
+hfsplus_delete_cat() returns 0 (success) to hfsplus_unlink().
 
-<snip>
+hfsplus_unlink() then proceeds to call hfsplus_cat_write_inode() on
+the inode in a corrupt, half-deleted state. Inside that function, if
+HFSPLUS_IS_RSRC() is true but rsrc_inode was never properly set,
+main_inode is assigned NULL. The subsequent dereference of
+main_inode->i_nlink triggers a general protection fault, caught by
+KASAN as a null-ptr-deref at offset 0x28.
 
-> diff --git a/lib/fuse_service.c b/lib/fuse_service.c
-> new file mode 100644
-> index 00000000000000..b775727e7c91e2
-> --- /dev/null
-> +++ b/lib/fuse_service.c
+Fix this by capturing the return value of hfsplus_delete_all_attrs()
+and propagating genuine errors back to the caller. -ENOENT is
+excluded since it signals normal loop termination (no more xattrs
+left to delete) and is not an error condition.
 
-<snip>
+Fixes: 324ef39a8a4f ("hfsplus: add support of manipulation by attributes file")
+Reported-by: syzbot+c0ba772a362e70937dfb@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=c0ba772a362e70937dfb
+Tested-by: syzbot+c0ba772a362e70937dfb@syzkaller.appspotmail.com
+Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
+---
+ fs/hfsplus/catalog.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-> +static int negotiate_hello(struct fuse_service *sf)
-> +{
-> +	struct fuse_service_hello hello = { };
-> +	struct fuse_service_hello_reply reply = {
-> +		.p.magic = htonl(FUSE_SERVICE_HELLO_REPLY),
-> +		.version = htons(FUSE_SERVICE_PROTO),
-> +	};
-> +	struct iovec iov = {
-> +		.iov_base = &hello,
-> +		.iov_len = sizeof(hello),
-> +	};
-> +	struct msghdr msg = {
-> +		.msg_iov = &iov,
-> +		.msg_iovlen = 1,
-> +	};
-> +	uint64_t flags;
+diff --git a/fs/hfsplus/catalog.c b/fs/hfsplus/catalog.c
+index 02c1eee4a4b8..adbaeabc06ab 100644
+--- a/fs/hfsplus/catalog.c
++++ b/fs/hfsplus/catalog.c
+@@ -421,8 +421,15 @@ int hfsplus_delete_cat(u32 cnid, struct inode *dir, const struct qstr *str)
+ 	hfsplus_mark_inode_dirty(dir, HFSPLUS_I_CAT_DIRTY);
+ 
+ 	if (type == HFSPLUS_FILE || type == HFSPLUS_FOLDER) {
+-		if (HFSPLUS_SB(sb)->attr_tree)
+-			hfsplus_delete_all_attrs(dir, cnid);
++		if (HFSPLUS_SB(sb)->attr_tree) {
++			int attr_err = hfsplus_delete_all_attrs(dir, cnid);
++
++			if (attr_err && attr_err != -ENOENT) {
++				pr_err("hfsplus: failed to delete xattrs for cnid %u: %d\n",
++				       cnid, attr_err);
++				err = attr_err;
++			}
++		}
+ 	}
+ 
+ out:
+-- 
+2.43.0
 
-This is a u32 in the socket protocol.
-
-> +	ssize_t size;
-> +
-> +	size = recvmsg(sf->sockfd, &msg, MSG_TRUNC);
-> +	if (size < 0) {
-> +		int error = errno;
-> +
-> +		fuse_log(FUSE_LOG_ERR, "fuse: receive service hello: %s\n",
-> +			 strerror(error));
-> +		return -error;
-> +	}
-> +	if (size != sizeof(hello)) {
-> +		fuse_log(FUSE_LOG_ERR, "fuse: wrong service hello size %zd, expected %zd\n",
-> +			 size, sizeof(hello));
-> +		return -EBADMSG;
-> +	}
-> +
-> +	if (ntohl(hello.p.magic) != FUSE_SERVICE_HELLO_CMD) {
-> +		fuse_log(FUSE_LOG_ERR, "fuse: service server did not send hello command\n");
-> +		return -EBADMSG;
-> +	}
-> +
-> +	if (ntohs(hello.min_version) < FUSE_SERVICE_MIN_PROTO) {
-> +		fuse_log(FUSE_LOG_ERR, "fuse: unsupported min service protocol version %u\n",
-> +			ntohs(hello.min_version));
-> +		return -EOPNOTSUPP;
-> +	}
-> +
-> +	if (ntohs(hello.max_version) > FUSE_SERVICE_MAX_PROTO) {
-> +		fuse_log(FUSE_LOG_ERR, "fuse: unsupported max service protocol version %u\n",
-> +			ntohs(hello.min_version));
-> +		return -EOPNOTSUPP;
-> +	}
-> +
-> +	flags = ntohl(hello.flags);
-
-Need to check for unrecognized bits being set here.
-
-<snip>
-
-> diff --git a/util/mount_service.c b/util/mount_service.c
-> new file mode 100644
-> index 00000000000000..abe88a0710255b
-> --- /dev/null
-> +++ b/util/mount_service.c
-
-<snip>
-
-> +static int mount_service_handle_fsopen_cmd(struct mount_service *mo,
-> +					   const struct fuse_service_packet *p,
-> +					   size_t psz)
-> +{
-> +	struct fuse_service_string_command *oc =
-> +			container_of(p, struct fuse_service_string_command, p);
-> +
-> +	if (psz < sizeof_fuse_service_string_command(1)) {
-> +		fprintf(stderr, "%s: fsopen command too small\n",
-> +			mo->msgtag);
-> +		return mount_service_send_reply(mo, EINVAL);
-> +	}
-> +
-> +	if (!check_null_endbyte(p, psz)) {
-> +		fprintf(stderr, "%s: fsopen command must be null terminated\n",
-> +			mo->msgtag);
-> +		return mount_service_send_reply(mo, EINVAL);
-> +	}
-> +
-> +	if (mo->fstype) {
-> +		fprintf(stderr, "%s: fstype respecified!\n",
-> +			mo->msgtag);
-> +		return mount_service_send_reply(mo, EINVAL);
-> +	}
-> +
-> +	mo->fstype = strdup(oc->value);
-
-It occurs to me -- the user that ran fuservicemount already *told* us
-what the fuse subtype is going to be; they supplied it via the -t
-option.  There's no need to pass the subtype to the fuse server only to
-make it pass the subtype back to us.  The only thing that the fuse
-server needs to tell us is if this is actually a fuseblk server, since
-(among other things) it has to be able to *deal* with weird fuseblk
-quirks, such as relying on the kernel to prevent other processes from
-writing to the block device.
-
-Therefore, the mount_service can just make a copy of the subtype string
-from the cli arguments.  The fuse server can tell us if it wants fuseblk
-mode (as a flag, instead of copying strings around!).  For the fsmount()
-code path, it can set subtype= to the subtype string copied earlier.
-For the classic mount() code, it can format "fuse{,blk}.$subtype" into a
-string and pass that in.
-
-<snip>
-
-> +static int mount_service_handle_mount_cmd(struct mount_service *mo,
-> +					  struct fuse_service_packet *p,
-> +					  size_t psz)
-> +{
-> +	struct stat stbuf;
-> +	struct fuse_service_mount_command *oc =
-> +			container_of(p, struct fuse_service_mount_command, p);
-> +	int ret;
-> +
-> +	if (psz != sizeof(struct fuse_service_mount_command)) {
-> +		fprintf(stderr, "%s: mount command wrong size\n",
-> +			mo->msgtag);
-> +		return mount_service_send_reply(mo, EINVAL);
-> +	}
-> +
-> +	if (!mo->fstype) {
-> +		fprintf(stderr, "%s: missing mount type parameter\n",
-> +			mo->msgtag);
-> +		return mount_service_send_reply(mo, EINVAL);
-> +	}
-> +
-> +	if (!mo->source) {
-> +		fprintf(stderr, "%s: missing mount source parameter\n",
-> +			mo->msgtag);
-> +		return mount_service_send_reply(mo, EINVAL);
-> +	}
-> +
-> +	if (!mo->mountpoint) {
-> +		fprintf(stderr, "%s: missing mount point parameter\n",
-> +			mo->msgtag);
-> +		return mount_service_send_reply(mo, EINVAL);
-> +	}
-> +
-> +	/*
-> +	 * Make sure we can access the mountpoint and that it's either a
-> +	 * directory or a regular file.  Linux can handle mounting atop special
-> +	 * files, but we don't care to do such crazy things.
-> +	 */
-> +	ret = fstat(mo->mountfd, &stbuf);
-> +	if (ret < 0) {
-> +		int error = errno;
-> +
-> +		fprintf(stderr, "%s: %s: %s\n",
-> +			mo->msgtag, mo->mountpoint, strerror(error));
-> +		return mount_service_send_reply(mo, error);
-> +	}
-> +
-> +	/* Make sure the mountpoint type matches what the caller wanted */
-> +	switch (ntohs(oc->expected_fmt)) {
-
-Now that the mountpoint command opens the mount point, the expected
-format bits of the mountpoint should be passed along with the mountpoint
-command and checked earlier.  The permission checks need to stay where
-they are, though.
-
---D
