@@ -1,49 +1,49 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B61533BC69E
-	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 10:07:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE83A3CFF46
+	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 10:07:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776161260; cv=none; b=II/TQdj2bjR3HrYiI5MRmnvEUfLA6l/K/NQnai9LqwDWQyp9BiQ50R0ms8LSaC+sQ2lOWe0EBhqnbDvHfPdyYnB27yYmm/pJENYBGChHQcV9gUMjW8sg0VMImK7fmG0LfHZG0Fk7qY/btYAozduzSNZV7HaWUQZPrF31WPr9K9Y=
+	t=1776161261; cv=none; b=PpIFPdubHLjhXIGh47xevLeidl12t0nEDc3UnjbWHTRxdqS5J41gVxoB12+m+JT70V0QlMOSCDvPv7HBKmO2Oy97AcUwE6XJiQBZF5l02XAMxLcJ1S7T2erqqJoIEkRSLzhDPbGtXVc8Wl7W0rMGDGAbFW9zi5/+UlzKz6Ky5HU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776161260; c=relaxed/simple;
-	bh=xB/yNGnxOR7s1//nkhBo7TPkoq+OgOBnD2r4Aw3SaHo=;
+	s=arc-20240116; t=1776161261; c=relaxed/simple;
+	bh=yxOwe+ZAi8eq+GEsp/IgrfQcj8tR/cps95A8fxqnPMQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mwGPAhWs3T8IyizX3XREOu5v9bbajSkImk6/KG/VzaPXRUXQAqk8Vc/H2srKg/2S132ksr1RDULf85/K58TUX00+O2e/A7vlAqn00+MS5UF+JGOpdF9TeGWugNWYMGQ2c01LXk4xOclXh+1q2AueCgGHedJ0+Ba+eZr+mBuYZV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hackers.camp; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.51
+	 MIME-Version:Content-Type; b=Wmixjgx0Ak0TcotyifiGSTQpRGbb0h+zG3jRWzUs+UMtsuIcsYS2ZBvr92ttRgYMaTs6LXGZ+pkvtJ6UKKNdlw4wZhtF9FKYNiQ5wEAtxOqycKRJ9qMIf1zYf4PpJrPHO5noiu1UQAeWgqg7PSos8bOaI+iFlpJFpUfCjN8MDe4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hackers.camp; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hackers.camp
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4830b67aa6bso7665965e9.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 03:07:38 -0700 (PDT)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-488822b93c7so6003865e9.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 03:07:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776161257; x=1776766057;
+        d=1e100.net; s=20251104; t=1776161258; x=1776766058;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Fdq4Fqu6vJGRSQdt56RxNwfRuxVRsYCe3ADkLdMXhoc=;
-        b=HMgw8eWVyjUfOWlLEpc1WlCS5kHocIJHvzjZChibKBtmuEQhsnaOTiBQtb6sCk6cqI
-         JhiS08URI68/CremHLtMbleitls9hGwLcF/wlwiYlYAs8G6oMkG+uf1bB4Jjlpcd9tMK
-         a2cElnwFv6dlAgjnWlprW/0uV0BcmnKEwQFi9hcdcLFwe/mf1H2AsIYaR23rjAqSI3wz
-         A29L4djSGhjEKtKWMi/FASurf2nqlLjLdo8wMw/i9rfHDlCjQNVqVDLg9G/23E4sOtu7
-         zPE088GdTfrl4xPhJ3HoE9hX4K8Xsml4by/pM3wgXZh8d8VH7pwlaTHVy9rPlbJiRrxg
-         qWEQ==
-X-Gm-Message-State: AOJu0YxheB4HolnxUMZiXvXHzcjC++Ga+R+DT04Q6bpFtgYbN8AkY35N
-	3pGuiql/6GJL+oZwamjxsfqu8E5p38P/WAB0eataeV6mHAQ07tsMwXhiCnyTbAVd
-X-Gm-Gg: AeBDieuIN1nUGIjqKsyxpjhfpgvzU8z9CmpMIDd2nka3JQekmQfTtrtCqMHqEWju28v
-	8Qtd8KPEK2IoWIHB4GFORDM0dVKyfwNA+lfxzBKpS66nWuSayxgY1azfWBK8D0zWv3cXWgD13Nj
-	IeBaPty2jjjxl1IqaD59XFA4MS1sp23O3I54HfASgCAUxFj9479RM2jaWc6t1kbBemImh7LyjI8
-	c1WEBiE/X++vd/FquK4LqBBID4y6RNLos+Akk5VmueNs57lC0JK8NtqhzFA1tP3B+9fEQ+C+mn4
-	5NM7aGJEd53hhmbLvrz/EXN0MMW15MtHIO2QASGZOyCxbAqgK4tXep3hRQ/f6VMvYiVcYSL3yQ9
-	Dh/R/gvhtPV0rEKKx/G2O0QW0xZNOwIY2YZSy/JfsPv1TfKhOhag59DVglffJrH+jFsPRiykkPO
-	X3g2XtuLqDtoxCpLA7qnmaKyJ1aIH9/HhOYXHVK7xlxVMNfLHb/o8FdCCKJMuu8XBQdFz3R4vd7
-	XQ=
-X-Received: by 2002:a05:600c:474a:b0:487:1826:e13b with SMTP id 5b1f17b1804b1-488d67bbd2cmr119440225e9.2.1776161256733;
-        Tue, 14 Apr 2026 03:07:36 -0700 (PDT)
+        bh=a465pWOyvoZU05HiIIPl0LD4EBbwLj19TV803zaD4aE=;
+        b=A0dRwaP/AxnyvYtodQmenP6g6/LkLDwTby9cwivygk/lyyY97E81hnZmRinR2UuR4q
+         mxgL0T7f9sB4gxj+Im5kOFx0meRYUGLpb76WK2L1g5VMd5JDwAa+jXK06D/vBmbuiHNR
+         9IcorIigH9h/b4FwIdvbdpE3tIYjW68+owykSDICAhaL15IVRETngypA6LgjV7v7mHqm
+         QChGzJafRgpM+7hvVzRvgJkQJr/Hq77mVSbzGbOq/Vora3dIFBBMJ0pnDQy53SVDR3zj
+         rOPQ+DhW2a52oEcCtlPJEvDBa6PSvG8EWyTUv/hE+vp289InPohn8W3YhRLhmYntfeau
+         pzuw==
+X-Gm-Message-State: AOJu0YyNvp3GCEkgcrsIyS1rBVhQFX8nlQPmhACN2caT9pm7zKjVQoMW
+	QKvw9IiFOfW+Dl+eiwyMmsuiGOjCJfAHhGhPx8FarnMfcvjyeAS5JCXEXIO0gMkA
+X-Gm-Gg: AeBDiesoMg9cRU2uIvSryqB1oaKLkRC+JT4NWWXL0GqPd1QpdL8bwW9h06rksag/ZI7
+	wDaRVmDKXV5T1d5/ln5Ztvi+yH2rUyH+fTyzUl1yaX38kQb/nHi9Ndew2/AoiGZsuh3N14Pg/Vi
+	AtwcrgyOlJrrN3x0b5MiXxiL3D3mTP3jPgGB0M+jpaHojb+YGOhx3NWVXQLj7IorwIYbCd1DuXd
+	QDu/AcxN9pReWObkkA0LF3eVm8l0ATKyglnU4jIaGxi2QGedEaEZOfgKOxglVeNDR+Md61g7cNq
+	T/5TgFd+md34HaaizEeljOIjfssVgjR6lNJnaK8DgOAzknt8l6zOqn8w0Eqf4wbpDSxNluY6VoJ
+	lyGtgJb/noq/sbpeQmlutYlQ2oyJ6W8+j169EsfUme+epY57Bn+k3v10+d5JtmRi2gDqzoXm8ug
+	5ew+zOrO17eNx1uoZm8i6IrGHJUapxiAUvZ6wqsqbaKaHI1+azbYfHBx0i0UiFdKDrptoQAfMhi
+	4o=
+X-Received: by 2002:a05:600c:524a:b0:488:926e:3ccd with SMTP id 5b1f17b1804b1-488d7f24014mr120661015e9.4.1776161257764;
+        Tue, 14 Apr 2026 03:07:37 -0700 (PDT)
 Received: from spartian-1.home ([2a01:cb1c:784:2f00:708:2805:7128:7a75])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488ede1e050sm65870545e9.5.2026.04.14.03.07.35
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488ede1e050sm65870545e9.5.2026.04.14.03.07.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Apr 2026 03:07:36 -0700 (PDT)
+        Tue, 14 Apr 2026 03:07:37 -0700 (PDT)
 From: Aurelien DESBRIERES <aurelien@hackers.camp>
 To: linux-fsdevel@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
@@ -54,9 +54,9 @@ Cc: linux-kernel@vger.kernel.org,
 	pedro.falcato@gmail.com,
 	xiang@kernel.org,
 	Aurelien DESBRIERES <aurelien@hackers.camp>
-Subject: [PATCH v3 07/12] ftrfs: add filename and directory entry operations
-Date: Tue, 14 Apr 2026 14:07:20 +0200
-Message-ID: <20260414120726.5713-8-aurelien@hackers.camp>
+Subject: [PATCH v3 08/12] ftrfs: add CRC32 checksumming and Reed-Solomon FEC skeleton
+Date: Tue, 14 Apr 2026 14:07:21 +0200
+Message-ID: <20260414120726.5713-9-aurelien@hackers.camp>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260414120726.5713-1-aurelien@hackers.camp>
 References: <20260413230601.525400-1-aurelien@hackers.camp>
@@ -70,460 +70,115 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Implement VFS inode_operations for directories and write path:
+Implement data integrity layer:
 
-- ftrfs_create(): allocate inode, write to disk, add dir entry
-- ftrfs_mkdir(): create directory with . and .. entries
-- ftrfs_unlink(): remove directory entry, decrement link count
-- ftrfs_rmdir(): remove empty directory
-- ftrfs_link(): create hard link
-- ftrfs_write_inode(): VFS super_op, persist inode via sb_bread/
-  mark_buffer_dirty with CRC32 update
-- ftrfs_new_inode(): allocate and initialize a new VFS inode
+- ftrfs_crc32(): CRC32 wrapper via kernel crc32_le(), used for
+  per-inode and per-superblock checksums
+- init_gf_tables(): initialize GF(2^8) Galois Field lookup tables
+  (primitive polynomial 0x1d) for Reed-Solomon arithmetic
+- gf_mul(): GF(2^8) multiplication via log/exp tables
+- ftrfs_rs_encode(): systematic Reed-Solomon encoder over
+  FTRFS_SUBBLOCK_DATA bytes with FTRFS_RS_PARITY check symbols
 
-ftrfs_mkdir() returns struct dentry * as required by kernel 7.0
-inode_operations.mkdir API change.
+The RS encoder operates on sub-blocks within each 4096-byte data
+block. Decoding (error correction) is not yet implemented.
 
 Signed-off-by: Aurelien DESBRIERES <aurelien@hackers.camp>
 ---
- fs/ftrfs/namei.c | 428 +++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 428 insertions(+)
- create mode 100644 fs/ftrfs/namei.c
+ fs/ftrfs/edac.c | 84 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 84 insertions(+)
+ create mode 100644 fs/ftrfs/edac.c
 
-diff --git a/fs/ftrfs/namei.c b/fs/ftrfs/namei.c
+diff --git a/fs/ftrfs/edac.c b/fs/ftrfs/edac.c
 new file mode 100644
-index 000000000000..a8c1f79ebe44
+index 000000000000..ebe676c98be6
 --- /dev/null
-+++ b/fs/ftrfs/namei.c
-@@ -0,0 +1,428 @@
++++ b/fs/ftrfs/edac.c
+@@ -0,0 +1,84 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
-+ * FTRFS — Filename / directory entry operations
-+ * Author: Aurélien DESBRIERES <aurelien@hackers.camp>
-+ *
-+ * Implements: create, mkdir, unlink, rmdir, link, rename
++ * FTRFS — EDAC layer: CRC32 + Reed-Solomon FEC
++ * Author: roastercode - Aurelien DESBRIERES <aurelien@hackers.camp>
 + */
 +
-+#include <linux/fs.h>
-+#include <linux/buffer_head.h>
++#include <linux/kernel.h>
++#include <linux/crc32.h>
 +#include <linux/slab.h>
-+#include <linux/time.h>
 +#include "ftrfs.h"
 +
-+/* ------------------------------------------------------------------ */
-+/* Helper: write a raw ftrfs_inode to disk                             */
-+/* ------------------------------------------------------------------ */
++/* Reed-Solomon FEC context */
++static uint8_t gf_exp[256];
++static uint8_t gf_log[256];
++static bool rs_initialized;
 +
-+static int ftrfs_write_inode_raw(struct inode *inode)
++/* Initialize Galois Field tables */
++static void init_gf_tables(void)
 +{
-+	struct super_block      *sb  = inode->i_sb;
-+	struct ftrfs_sb_info    *sbi = FTRFS_SB(sb);
-+	struct ftrfs_inode_info *fi  = FTRFS_I(inode);
-+	struct ftrfs_inode      *raw;
-+	struct buffer_head      *bh;
-+	unsigned long            inodes_per_block;
-+	unsigned long            block, offset;
++	uint8_t x = 1;
 +
-+	inodes_per_block = FTRFS_BLOCK_SIZE / sizeof(struct ftrfs_inode);
-+	block  = le64_to_cpu(sbi->s_ftrfs_sb->s_inode_table_blk)
-+		 + (inode->i_ino - 1) / inodes_per_block;
-+	offset = (inode->i_ino - 1) % inodes_per_block;
-+
-+	bh = sb_bread(sb, block);
-+	if (!bh)
-+		return -EIO;
-+
-+	raw = (struct ftrfs_inode *)bh->b_data + offset;
-+
-+	raw->i_mode   = cpu_to_le16(inode->i_mode);
-+	raw->i_uid    = cpu_to_le16(i_uid_read(inode));
-+	raw->i_gid    = cpu_to_le16(i_gid_read(inode));
-+	raw->i_nlink  = cpu_to_le16(inode->i_nlink);
-+	raw->i_size   = cpu_to_le64(inode->i_size);
-+	raw->i_blocks = cpu_to_le32(inode->i_blocks);
-+	raw->i_atime  = cpu_to_le64(inode_get_atime_sec(inode) * NSEC_PER_SEC
-+				     + inode_get_atime_nsec(inode));
-+	raw->i_mtime  = cpu_to_le64(inode_get_mtime_sec(inode) * NSEC_PER_SEC
-+				     + inode_get_mtime_nsec(inode));
-+	raw->i_ctime  = cpu_to_le64(inode_get_ctime_sec(inode) * NSEC_PER_SEC
-+				     + inode_get_ctime_nsec(inode));
-+	raw->i_flags  = cpu_to_le32(fi->i_flags);
-+
-+	memcpy(raw->i_direct, fi->i_direct, sizeof(fi->i_direct));
-+	raw->i_indirect  = fi->i_indirect;
-+	raw->i_dindirect = fi->i_dindirect;
-+
-+	raw->i_crc32 = ftrfs_crc32(raw,
-+				    offsetof(struct ftrfs_inode, i_crc32));
-+
-+	mark_buffer_dirty(bh);
-+	brelse(bh);
-+
-+	return 0;
++	for (int i = 0; i < 255; i++) {
++		gf_exp[i] = x;
++		gf_log[x] = i;
++		x = (x << 1) ^ ((x & 0x80) ? 0x1d : 0);
++	}
++	gf_exp[255] = gf_exp[0];
++	rs_initialized = true;
 +}
 +
-+/* ------------------------------------------------------------------ */
-+/* Helper: add a directory entry to a directory inode                  */
-+/* ------------------------------------------------------------------ */
-+
-+static int ftrfs_add_dirent(struct inode *dir, const struct qstr *name,
-+			    u64 ino, unsigned int file_type)
++/* Galois Field multiplication */
++static uint8_t gf_mul(uint8_t a, uint8_t b)
 +{
-+	struct super_block      *sb = dir->i_sb;
-+	struct ftrfs_inode_info *fi = FTRFS_I(dir);
-+	struct ftrfs_dir_entry  *de;
-+	struct buffer_head      *bh;
-+	unsigned int             offset;
-+	u64                      block_no;
-+	int                      i;
++	if (a == 0 || b == 0)
++		return 0;
++	return gf_exp[(gf_log[a] + gf_log[b]) % 255];
++}
 +
-+	/* Look for space in existing direct blocks */
-+	for (i = 0; i < FTRFS_DIRECT_BLOCKS; i++) {
-+		block_no = le64_to_cpu(fi->i_direct[i]);
-+		if (!block_no)
-+			break;
++/* Reed-Solomon encoding */
++int ftrfs_rs_encode(uint8_t *data, uint8_t *parity)
++{
++	uint8_t msg[FTRFS_SUBBLOCK_DATA + FTRFS_RS_PARITY];
 +
-+		bh = sb_bread(sb, block_no);
-+		if (!bh)
-+			return -EIO;
++	if (!rs_initialized)
++		init_gf_tables();
 +
-+		offset = 0;
-+		while (offset + sizeof(*de) <= FTRFS_BLOCK_SIZE) {
-+			de = (struct ftrfs_dir_entry *)(bh->b_data + offset);
++	memset(msg, 0, sizeof(msg));
++	memcpy(msg, data, FTRFS_SUBBLOCK_DATA);
 +
-+			/* Free slot: ino == 0 */
-+			if (!de->d_ino) {
-+				de->d_ino       = cpu_to_le64(ino);
-+				de->d_name_len  = name->len;
-+				de->d_file_type = file_type;
-+				de->d_rec_len   = cpu_to_le16(
-+					sizeof(struct ftrfs_dir_entry));
-+				memcpy(de->d_name, name->name, name->len);
-+				de->d_name[name->len] = '\0';
-+				mark_buffer_dirty(bh);
-+				brelse(bh);
-+				inode_set_mtime_to_ts(dir,
-+					current_time(dir));
-+				mark_inode_dirty(dir);
-+				return 0;
-+			}
-+			offset += le16_to_cpu(de->d_rec_len);
-+			if (!de->d_rec_len)
-+				break;
++	for (int i = 0; i < FTRFS_SUBBLOCK_DATA; i++) {
++		uint8_t feedback = gf_mul(msg[i], gf_exp[FTRFS_RS_PARITY]);
++
++		if (feedback != 0) {
++			for (int j = 1; j <= FTRFS_RS_PARITY; j++)
++				msg[FTRFS_SUBBLOCK_DATA + j - 1] ^= gf_mul(msg[i], gf_exp[j]);
 +		}
-+		brelse(bh);
 +	}
 +
-+	/* Need a new block */
-+	if (i >= FTRFS_DIRECT_BLOCKS)
-+		return -ENOSPC;
-+
-+	block_no = ftrfs_alloc_block(sb);
-+	if (!block_no)
-+		return -ENOSPC;
-+
-+	bh = sb_bread(sb, block_no);
-+	if (!bh) {
-+		ftrfs_free_block(sb, block_no);
-+		return -EIO;
-+	}
-+
-+	memset(bh->b_data, 0, FTRFS_BLOCK_SIZE);
-+
-+	de = (struct ftrfs_dir_entry *)bh->b_data;
-+	de->d_ino       = cpu_to_le64(ino);
-+	de->d_name_len  = name->len;
-+	de->d_file_type = file_type;
-+	de->d_rec_len   = cpu_to_le16(sizeof(struct ftrfs_dir_entry));
-+	memcpy(de->d_name, name->name, name->len);
-+	de->d_name[name->len] = '\0';
-+
-+	mark_buffer_dirty(bh);
-+	brelse(bh);
-+
-+	fi->i_direct[i] = cpu_to_le64(block_no);
-+	dir->i_size += FTRFS_BLOCK_SIZE;
-+	dir->i_blocks++;
-+	inode_set_mtime_to_ts(dir, current_time(dir));
-+	mark_inode_dirty(dir);
-+
++	memcpy(parity, msg + FTRFS_SUBBLOCK_DATA, FTRFS_RS_PARITY);
 +	return 0;
 +}
 +
-+/* ------------------------------------------------------------------ */
-+/* Helper: remove a directory entry from a directory                   */
-+/* ------------------------------------------------------------------ */
-+
-+static int ftrfs_del_dirent(struct inode *dir, const struct qstr *name)
++/* Reed-Solomon decoding (simplified for now) */
++int ftrfs_rs_decode(uint8_t *data, uint8_t *parity)
 +{
-+	struct super_block      *sb = dir->i_sb;
-+	struct ftrfs_inode_info *fi = FTRFS_I(dir);
-+	struct ftrfs_dir_entry  *de;
-+	struct buffer_head      *bh;
-+	unsigned int             offset;
-+	u64                      block_no;
-+	int                      i;
++	if (!rs_initialized)
++		init_gf_tables();
 +
-+	for (i = 0; i < FTRFS_DIRECT_BLOCKS; i++) {
-+		block_no = le64_to_cpu(fi->i_direct[i]);
-+		if (!block_no)
-+			break;
-+
-+		bh = sb_bread(sb, block_no);
-+		if (!bh)
-+			return -EIO;
-+
-+		offset = 0;
-+		while (offset + sizeof(*de) <= FTRFS_BLOCK_SIZE) {
-+			de = (struct ftrfs_dir_entry *)(bh->b_data + offset);
-+
-+			if (de->d_ino &&
-+			    de->d_name_len == name->len &&
-+			    !memcmp(de->d_name, name->name, name->len)) {
-+				/* Zero out the entry (mark as free) */
-+				memset(de, 0, sizeof(*de));
-+				mark_buffer_dirty(bh);
-+				brelse(bh);
-+				inode_set_mtime_to_ts(dir,
-+					current_time(dir));
-+				mark_inode_dirty(dir);
-+				return 0;
-+			}
-+
-+			if (!de->d_rec_len)
-+				break;
-+			offset += le16_to_cpu(de->d_rec_len);
-+		}
-+		brelse(bh);
-+	}
-+
-+	return -ENOENT;
-+}
-+
-+/* ------------------------------------------------------------------ */
-+/* Helper: allocate and initialize a new VFS inode                     */
-+/* ------------------------------------------------------------------ */
-+
-+struct inode *ftrfs_new_inode(struct inode *dir, umode_t mode)
-+{
-+	struct super_block   *sb = dir->i_sb;
-+	struct inode         *inode;
-+	struct ftrfs_inode_info *fi;
-+	u64                   ino;
-+
-+	ino = ftrfs_alloc_inode_num(sb);
-+	if (!ino)
-+		return ERR_PTR(-ENOSPC);
-+
-+	inode = new_inode(sb);
-+	if (!inode)
-+		return ERR_PTR(-ENOMEM);
-+
-+	inode_init_owner(&nop_mnt_idmap, inode, dir, mode);
-+	inode->i_ino    = ino;
-+	inode->i_blocks = 0;
-+	inode->i_size   = 0;
-+	inode_set_atime_to_ts(inode, current_time(inode));
-+	inode_set_mtime_to_ts(inode, current_time(inode));
-+	inode_set_ctime_to_ts(inode, current_time(inode));
-+
-+	fi = FTRFS_I(inode);
-+	memset(fi->i_direct, 0, sizeof(fi->i_direct));
-+	fi->i_indirect  = 0;
-+	fi->i_dindirect = 0;
-+	fi->i_flags     = 0;
-+
-+	if (S_ISDIR(mode)) {
-+		inode->i_op  = &ftrfs_dir_inode_operations;
-+		inode->i_fop = &ftrfs_dir_operations;
-+		set_nlink(inode, 2);
-+	} else {
-+		inode->i_op  = &ftrfs_file_inode_operations;
-+		inode->i_fop = &ftrfs_file_operations;
-+		set_nlink(inode, 1);
-+	}
-+
-+	insert_inode_hash(inode);
-+	mark_inode_dirty(inode);
-+	return ERR_CAST(inode);
-+}
-+
-+/* ------------------------------------------------------------------ */
-+/* create — create a regular file                                       */
-+/* ------------------------------------------------------------------ */
-+
-+static int ftrfs_create(struct mnt_idmap *idmap, struct inode *dir,
-+			struct dentry *dentry, umode_t mode, bool excl)
-+{
-+	struct inode *inode;
-+	int           ret;
-+
-+	inode = ftrfs_new_inode(dir, mode | S_IFREG);
-+	if (IS_ERR(inode))
-+		return PTR_ERR(inode);
-+
-+	ret = ftrfs_write_inode_raw(inode);
-+	if (ret)
-+		goto out_iput;
-+
-+	ret = ftrfs_add_dirent(dir, &dentry->d_name, inode->i_ino, 1 /* DT_REG */);
-+	if (ret)
-+		goto out_iput;
-+
-+	ret = ftrfs_write_inode_raw(dir);
-+	if (ret)
-+		goto out_iput;
-+
-+	d_instantiate(dentry, inode);
-+	return 0;
-+
-+out_iput:
-+	iput(inode);
-+	return ret;
-+}
-+
-+/* ------------------------------------------------------------------ */
-+/* mkdir — create a directory                                          */
-+/* ------------------------------------------------------------------ */
-+
-+static struct dentry *ftrfs_mkdir(struct mnt_idmap *idmap, struct inode *dir,
-+				  struct dentry *dentry, umode_t mode)
-+{
-+	struct inode *inode;
-+	int           ret;
-+
-+	inode_inc_link_count(dir);
-+
-+	inode = ftrfs_new_inode(dir, mode | S_IFDIR);
-+	if (IS_ERR(inode)) {
-+		inode_dec_link_count(dir);
-+		return ERR_CAST(inode);
-+	}
-+
-+	/* Add . and .. entries */
-+	ret = ftrfs_add_dirent(inode, &(struct qstr)QSTR_INIT(".", 1),
-+			       inode->i_ino, 4 /* DT_DIR */);
-+	if (ret)
-+		goto out_fail;
-+
-+	ret = ftrfs_add_dirent(inode, &(struct qstr)QSTR_INIT("..", 2),
-+			       dir->i_ino, 4 /* DT_DIR */);
-+	if (ret)
-+		goto out_fail;
-+
-+	ret = ftrfs_write_inode_raw(inode);
-+	if (ret)
-+		goto out_fail;
-+
-+	ret = ftrfs_add_dirent(dir, &dentry->d_name, inode->i_ino,
-+			       4 /* DT_DIR */);
-+	if (ret)
-+		goto out_fail;
-+
-+	ret = ftrfs_write_inode_raw(dir);
-+	if (ret)
-+		goto out_fail;
-+
-+	d_instantiate(dentry, inode);
-+	return NULL;
-+
-+out_fail:
-+	inode_dec_link_count(inode);
-+	inode_dec_link_count(inode);
-+	iput(inode);
-+	inode_dec_link_count(dir);
-+	return ERR_PTR(ret);
-+}
-+
-+/* ------------------------------------------------------------------ */
-+/* unlink — remove a file                                              */
-+/* ------------------------------------------------------------------ */
-+
-+static int ftrfs_unlink(struct inode *dir, struct dentry *dentry)
-+{
-+	struct inode *inode = d_inode(dentry);
-+	int           ret;
-+
-+	ret = ftrfs_del_dirent(dir, &dentry->d_name);
-+	if (ret)
-+		return ret;
-+
-+	inode_set_ctime_to_ts(inode, current_time(inode));
-+	inode_dec_link_count(inode);
-+	ftrfs_write_inode_raw(dir);
++	/* For now, assume no errors (full decoding to be implemented) */
 +	return 0;
 +}
 +
-+/* ------------------------------------------------------------------ */
-+/* rmdir — remove an empty directory                                   */
-+/* ------------------------------------------------------------------ */
-+
-+static int ftrfs_rmdir(struct inode *dir, struct dentry *dentry)
++/*
++ * ftrfs_crc32 - compute CRC32 checksum
++ * @buf: data buffer
++ * @len: length in bytes
++ *
++ * Returns CRC32 checksum. Uses kernel's hardware-accelerated CRC32
++ * (same as ext4/btrfs).
++ */
++__u32 ftrfs_crc32(const void *buf, size_t len)
 +{
-+	struct inode *inode = d_inode(dentry);
-+	int           ret;
-+
-+	if (inode->i_nlink > 2)
-+		return -ENOTEMPTY;
-+
-+	ret = ftrfs_del_dirent(dir, &dentry->d_name);
-+	if (ret)
-+		return ret;
-+
-+	inode_dec_link_count(inode);
-+	inode_dec_link_count(inode);
-+	inode_dec_link_count(dir);
-+	ftrfs_write_inode_raw(dir);
-+	return 0;
++	return crc32_le(0xFFFFFFFF, buf, len) ^ 0xFFFFFFFF;
 +}
-+
-+/* ------------------------------------------------------------------ */
-+/* link — create a hard link                                           */
-+/* ------------------------------------------------------------------ */
-+
-+static int ftrfs_link(struct dentry *old_dentry, struct inode *dir,
-+		      struct dentry *dentry)
-+{
-+	struct inode *inode = d_inode(old_dentry);
-+	int           ret;
-+
-+	inode_set_ctime_to_ts(inode, current_time(inode));
-+	inode_inc_link_count(inode);
-+
-+	ret = ftrfs_add_dirent(dir, &dentry->d_name, inode->i_ino, 1);
-+	if (ret) {
-+		inode_dec_link_count(inode);
-+		return ret;
-+	}
-+
-+	ftrfs_write_inode_raw(inode);
-+	ftrfs_write_inode_raw(dir);
-+	d_instantiate(dentry, inode);
-+	ihold(inode);
-+	return 0;
-+}
-+
-+/* ------------------------------------------------------------------ */
-+/* write_inode — VFS super_op: persist inode to disk                  */
-+/* ------------------------------------------------------------------ */
-+
-+int ftrfs_write_inode(struct inode *inode, struct writeback_control *wbc)
-+{
-+	return ftrfs_write_inode_raw(inode);
-+}
-+
-+/* ------------------------------------------------------------------ */
-+/* dir inode_operations — exported                                     */
-+/* ------------------------------------------------------------------ */
-+
-+const struct inode_operations ftrfs_dir_inode_operations = {
-+	.lookup  = ftrfs_lookup,
-+	.create  = ftrfs_create,
-+	.mkdir   = ftrfs_mkdir,
-+	.unlink  = ftrfs_unlink,
-+	.rmdir   = ftrfs_rmdir,
-+	.link    = ftrfs_link,
-+};
 -- 
 2.52.0
 
