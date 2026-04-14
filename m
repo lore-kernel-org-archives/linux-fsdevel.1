@@ -1,159 +1,218 @@
-Received: from mail-oo1-f77.google.com (mail-oo1-f77.google.com [209.85.161.77])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C7D23D9DBC
-	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 13:58:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A33838B7A5
+	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 13:59:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776175112; cv=none; b=GlA2AfLV+XOwWthXFwJQzy0IHa+0RRzyvdM09Ar/2X97W13BGnBExHVrbeHBjfbjbNBRHNTDkTjyhQ/GgUY9rwujNYK3+lAcjXOxJwLTJtFKC6C5DFfhJ+M3akJL7welghH3AsBGMqUfJmCdnw0SB0G/THpsukN4h95B8Nu0E6s=
+	t=1776175189; cv=none; b=jhLS9fzBEtPoBEiMd/EvDD6uDn6CH2kHBdReAdEfn0Xhr8NNcuzovGrmVDZJlJnNPKPnXiWPiB9yJplerxIvQ7ytT2zDnoVIWl/4RsYYBNuAsyrX/jDBxd9dXXcwx8K37KffFeNc7vVC7KeB7gmGlO9rHsiplX/TEYAZsiCk7+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776175112; c=relaxed/simple;
-	bh=J4D67UWjuFui1G+Wxv//O7qqWMvG1YuiXR7YExP6Rlk=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=GyX2KAuSrXYF7gd6bJj+AcpAaQWfClxylHTeY5Ji5H0iGfjLwILfAQaiSSPoCeS9g2RIHk/pcWOLHo+l0JDcUSElUW3N4ZlDa2ivNnxRaMlMYvmyC+EqLWk4bj547nuMylqSJRHYwOqqoN5s6PPVwEnK1hvdmoN8TYhevJEMxUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f77.google.com with SMTP id 006d021491bc7-68240056f4cso10455523eaf.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 06:58:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776175110; x=1776779910;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=hBgdAsL//GQnTapAXF/VlCVSr0qK85PQANpDue0Mnv0=;
-        b=OgX9yaNqpcOO9c4980yD79UPqA7VybS/EZGvtV7Kjbzh1YPpw7rZHQsVBLWzlaGm9t
-         1AdAUFHn8ejhEoqAHOU2TVsgJanZUTEsVra6TPZ3qZqLPlutM4ZjlMKRyThK8y9FCLcI
-         XuDZG4svk14bUZMNTLmp/hQ4V6GXk39FtemLiJeNcxoqRy2TXPfjOhNwJxOaEPuTMtxK
-         RgM5A/f3NudDVtm0nET6oZ6CCdizTFGbRS1tFa7xc4JSl4dbv1XGT6RHyHm4n1qIej3f
-         NcEG8peCForGkE06bqxtlH5kdPk+eIptmVya0zTYj0tmn1Dxq3a7TbJ7X/X9IhBtH6H9
-         on9w==
-X-Forwarded-Encrypted: i=1; AFNElJ8Rpz49IUQS0WWTVydZ3rr0Ed0IUKqdVltWoRFUkcasbgbd4zuDO7j/sKKf3H+V1na95c5xhE2dqJqjmKqi@vger.kernel.org
-X-Gm-Message-State: AOJu0YyWph1P+cclyZ6ny4JzzMw1TU/N8oOy6abLSJWzucQ5JXN7hxt6
-	Yte72X8Cs+/rUYbvHhS/aEP6c5j76iSgv041Pl2EzJKf1/yhOuVPV5c0KELhec/dUdPp2Ck5pDA
-	uJfkNJ7RTe6+JtQ09kis4U4iHy5uA8+PvGbbPcviB35aC1/htMXHhk8JDBLw=
+	s=arc-20240116; t=1776175189; c=relaxed/simple;
+	bh=kBt739tw5tLAvcH81mlChMOw7N7oABmyVzXAITnT60s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=thQF2BGi8fa7agGSyY2h+90/7OfzY2TeglmswL0pfcST2GkYI8U84r1gli9tEGJoEj4sB377brAy6mCsIbTR+qpf+LKc+0fGhwRYbjMEJBghJC9yqGdmRAlTPTICkrhrkoulFPw/JU6DNAYh4QE0ro9xOAGpOVoOuxIrvQFeAa0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=oACHbNLo; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=g6Vpt4I5; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=oACHbNLo; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=g6Vpt4I5; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="oACHbNLo";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="g6Vpt4I5";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="oACHbNLo";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="g6Vpt4I5"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 9FF835BDD0;
+	Tue, 14 Apr 2026 13:59:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1776175185; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wXOtfRsvuZnDFjbUV6OIa+UG2nJnaHEySR+qGNBwNTc=;
+	b=oACHbNLoi5g8ynhA9wMPXaXHTAkd6t/DcwUfKiydOBbYkrsPkEwtEZ54IZi+mQk4axUzn0
+	GTWNngXRE9g/pw7dPmwdFdEYF6ayC8j9C06HbrzB3Mo46czOsHEnyI7n2ljwXhRpcmmszR
+	ASVp2u2eJBaRL7BK5smIUhhen5AGh6w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1776175185;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wXOtfRsvuZnDFjbUV6OIa+UG2nJnaHEySR+qGNBwNTc=;
+	b=g6Vpt4I5aX/qJkGjDyPwc+BWNJZ1remMXpZR9oHTtohV+HKi4YBq5/Zy27IymO0bWRWbL2
+	WHC8AV0oI0twdGDw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=oACHbNLo;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=g6Vpt4I5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1776175185; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wXOtfRsvuZnDFjbUV6OIa+UG2nJnaHEySR+qGNBwNTc=;
+	b=oACHbNLoi5g8ynhA9wMPXaXHTAkd6t/DcwUfKiydOBbYkrsPkEwtEZ54IZi+mQk4axUzn0
+	GTWNngXRE9g/pw7dPmwdFdEYF6ayC8j9C06HbrzB3Mo46czOsHEnyI7n2ljwXhRpcmmszR
+	ASVp2u2eJBaRL7BK5smIUhhen5AGh6w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1776175185;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wXOtfRsvuZnDFjbUV6OIa+UG2nJnaHEySR+qGNBwNTc=;
+	b=g6Vpt4I5aX/qJkGjDyPwc+BWNJZ1remMXpZR9oHTtohV+HKi4YBq5/Zy27IymO0bWRWbL2
+	WHC8AV0oI0twdGDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 935DE4B4A0;
+	Tue, 14 Apr 2026 13:59:45 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 7vnzI1FI3mlXYAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 14 Apr 2026 13:59:45 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 51769A0B53; Tue, 14 Apr 2026 15:59:45 +0200 (CEST)
+Date: Tue, 14 Apr 2026 15:59:45 +0200
+From: Jan Kara <jack@suse.cz>
+To: Miklos Szeredi <mszeredi@redhat.com>
+Cc: linux-fsdevel@vger.kernel.org, Jan Kara <jack@suse.cz>, 
+	Amir Goldstein <amir73il@gmail.com>
+Subject: Re: [PATCH] fanotify: fix false positive on permission events
+Message-ID: <huuoax2nfz5ny6ql2km6su6uv5juf7muab2jdrfjnaggetshap@f2nl3wo5fjev>
+References: <20260410144950.156160-1-mszeredi@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a4a:ef03:0:b0:67b:b0bd:8bd2 with SMTP id
- 006d021491bc7-68be89e6708mr5870736eaf.59.1776175110028; Tue, 14 Apr 2026
- 06:58:30 -0700 (PDT)
-Date: Tue, 14 Apr 2026 06:58:30 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <69de4806.a00a0220.475f0.0043.GAE@google.com>
-Subject: [syzbot] [netfs?] general protection fault in netfs_put_subrequest
-From: syzbot <syzbot+a0788ffdca16ee21c493@syzkaller.appspotmail.com>
-To: dhowells@redhat.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, netfs@lists.linux.dev, pc@manguebit.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260410144950.156160-1-mszeredi@redhat.com>
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	MISSING_XM_UA(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,suse.cz,gmail.com];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Queue-Id: 9FF835BDD0
+X-Spam-Flag: NO
+X-Spam-Score: -4.01
+X-Spam-Level: 
 
-Hello,
+On Fri 10-04-26 16:49:47, Miklos Szeredi wrote:
+> fsnotify_get_mark_safe() may return false for a mark on an unrelated group,
+> which results in bypassing the permission check.
+> 
+> Fix by skipping over detached marks that are not in the current group.
+> 
+> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
 
-syzbot found the following issue on:
+Sorry for a bit delayed reply. I was thinking about this for a while and
+the fix looks good. I like it. I'll queue it once I push out pull requests
+to Linus later this week. Thanks!
 
-HEAD commit:    9a9c8ce300cd Merge tag 'kbuild-fixes-7.0-4' of git://git.k..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=142de106580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=5a3e5e8c17cc174e
-dashboard link: https://syzkaller.appspot.com/bug?extid=a0788ffdca16ee21c493
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+								Honza
 
-Unfortunately, I don't have any reproducer for this issue yet.
-
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-9a9c8ce3.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/073107a6c46a/vmlinux-9a9c8ce3.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/f6457493483c/bzImage-9a9c8ce3.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+a0788ffdca16ee21c493@syzkaller.appspotmail.com
-
-Oops: general protection fault, probably for non-canonical address 0xdffffc0000000055: 0000 [#1] SMP KASAN NOPTI
-KASAN: null-ptr-deref in range [0x00000000000002a8-0x00000000000002af]
-CPU: 1 UID: 0 PID: 1247 Comm: kworker/u32:10 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-Workqueue: events_unbound netfs_unbuffered_write_async
-
-RIP: 0010:netfs_put_subrequest+0x88/0x4e0 fs/netfs/objects.c:248
-Code: df 48 c1 ea 03 80 3c 02 00 0f 85 fa 03 00 00 48 b8 00 00 00 00 00 fc ff df 48 8b 2b 48 8d bd ac 02 00 00 48 89 fa 48 c1 ea 03 <0f> b6 14 02 48 89 f8 83 e0 07 83 c0 03 38 d0 7c 08 84 d2 0f 85 96
-RSP: 0018:ffffc9000619fa48 EFLAGS: 00010207
-RAX: dffffc0000000000 RBX: ffff88804679adc0 RCX: 0000000000000000
-RDX: 0000000000000055 RSI: 0000000000000008 RDI: 00000000000002ac
-RBP: 0000000000000000 R08: 1ffff110055b509b R09: 0000000000000000
-R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000007
-R13: 0000000000000001 R14: 0000000000000002 R15: ffff88804679ae10
-FS:  0000000000000000(0000) GS:ffff8880d6438000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000000000000000 CR3: 000000002b072000 CR4: 0000000000352ef0
-Call Trace:
- <TASK>
- netfs_clear_subrequests+0x158/0x260 fs/netfs/objects.c:106
- netfs_unbuffered_write_done fs/netfs/direct_write.c:59 [inline]
- netfs_unbuffered_write+0x13ac/0x2260 fs/netfs/direct_write.c:202
- netfs_unbuffered_write_async+0x19/0x30 fs/netfs/direct_write.c:211
- process_one_work+0xa23/0x19a0 kernel/workqueue.c:3276
- process_scheduled_works kernel/workqueue.c:3359 [inline]
- worker_thread+0x5ef/0xe50 kernel/workqueue.c:3440
- kthread+0x370/0x450 kernel/kthread.c:436
- ret_from_fork+0x754/0xd80 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:netfs_put_subrequest+0x88/0x4e0 fs/netfs/objects.c:248
-Code: df 48 c1 ea 03 80 3c 02 00 0f 85 fa 03 00 00 48 b8 00 00 00 00 00 fc ff df 48 8b 2b 48 8d bd ac 02 00 00 48 89 fa 48 c1 ea 03 <0f> b6 14 02 48 89 f8 83 e0 07 83 c0 03 38 d0 7c 08 84 d2 0f 85 96
-RSP: 0018:ffffc9000619fa48 EFLAGS: 00010207
-RAX: dffffc0000000000 RBX: ffff88804679adc0 RCX: 0000000000000000
-RDX: 0000000000000055 RSI: 0000000000000008 RDI: 00000000000002ac
-RBP: 0000000000000000 R08: 1ffff110055b509b R09: 0000000000000000
-R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000007
-R13: 0000000000000001 R14: 0000000000000002 R15: ffff88804679ae10
-FS:  0000000000000000(0000) GS:ffff8880d6438000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000000000000000 CR3: 0000000031877000 CR4: 0000000000352ef0
-----------------
-Code disassembly (best guess), 1 bytes skipped:
-   0:	48 c1 ea 03          	shr    $0x3,%rdx
-   4:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1)
-   8:	0f 85 fa 03 00 00    	jne    0x408
-   e:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
-  15:	fc ff df
-  18:	48 8b 2b             	mov    (%rbx),%rbp
-  1b:	48 8d bd ac 02 00 00 	lea    0x2ac(%rbp),%rdi
-  22:	48 89 fa             	mov    %rdi,%rdx
-  25:	48 c1 ea 03          	shr    $0x3,%rdx
-* 29:	0f b6 14 02          	movzbl (%rdx,%rax,1),%edx <-- trapping instruction
-  2d:	48 89 f8             	mov    %rdi,%rax
-  30:	83 e0 07             	and    $0x7,%eax
-  33:	83 c0 03             	add    $0x3,%eax
-  36:	38 d0                	cmp    %dl,%al
-  38:	7c 08                	jl     0x42
-  3a:	84 d2                	test   %dl,%dl
-  3c:	0f                   	.byte 0xf
-  3d:	85                   	.byte 0x85
-  3e:	96                   	xchg   %eax,%esi
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+> ---
+>  fs/notify/fsnotify.c             |  2 +-
+>  fs/notify/mark.c                 | 18 +++++++++++-------
+>  include/linux/fsnotify_backend.h |  1 +
+>  3 files changed, 13 insertions(+), 8 deletions(-)
+> 
+> diff --git a/fs/notify/fsnotify.c b/fs/notify/fsnotify.c
+> index 9995de1710e5..b646a861a84c 100644
+> --- a/fs/notify/fsnotify.c
+> +++ b/fs/notify/fsnotify.c
+> @@ -388,7 +388,7 @@ static struct fsnotify_mark *fsnotify_first_mark(struct fsnotify_mark_connector
+>  	return hlist_entry_safe(node, struct fsnotify_mark, obj_list);
+>  }
+>  
+> -static struct fsnotify_mark *fsnotify_next_mark(struct fsnotify_mark *mark)
+> +struct fsnotify_mark *fsnotify_next_mark(struct fsnotify_mark *mark)
+>  {
+>  	struct hlist_node *node = NULL;
+>  
+> diff --git a/fs/notify/mark.c b/fs/notify/mark.c
+> index c2ed5b11b0fe..622f05977f86 100644
+> --- a/fs/notify/mark.c
+> +++ b/fs/notify/mark.c
+> @@ -457,9 +457,6 @@ EXPORT_SYMBOL_GPL(fsnotify_put_mark);
+>   */
+>  static bool fsnotify_get_mark_safe(struct fsnotify_mark *mark)
+>  {
+> -	if (!mark)
+> -		return true;
+> -
+>  	if (refcount_inc_not_zero(&mark->refcnt)) {
+>  		spin_lock(&mark->lock);
+>  		if (mark->flags & FSNOTIFY_MARK_FLAG_ATTACHED) {
+> @@ -500,15 +497,22 @@ bool fsnotify_prepare_user_wait(struct fsnotify_iter_info *iter_info)
+>  	int type;
+>  
+>  	fsnotify_foreach_iter_type(type) {
+> +		struct fsnotify_mark *mark = iter_info->marks[type];
+> +
+>  		/* This can fail if mark is being removed */
+> -		if (!fsnotify_get_mark_safe(iter_info->marks[type])) {
+> -			__release(&fsnotify_mark_srcu);
+> -			goto fail;
+> +		while (mark && !fsnotify_get_mark_safe(mark)) {
+> +			if (mark->group == iter_info->current_group) {
+> +				__release(&fsnotify_mark_srcu);
+> +				goto fail;
+> +			}
+> +			/* This is a mark in an unrelated group, skip */
+> +			mark = fsnotify_next_mark(mark);
+> +			iter_info->marks[type] = mark;
+>  		}
+>  	}
+>  
+>  	/*
+> -	 * Now that both marks are pinned by refcount in the inode / vfsmount
+> +	 * Now that all marks are pinned by refcount in the inode / vfsmount / etc
+>  	 * lists, we can drop SRCU lock, and safely resume the list iteration
+>  	 * once userspace returns.
+>  	 */
+> diff --git a/include/linux/fsnotify_backend.h b/include/linux/fsnotify_backend.h
+> index 95985400d3d8..e5cde39d6e85 100644
+> --- a/include/linux/fsnotify_backend.h
+> +++ b/include/linux/fsnotify_backend.h
+> @@ -915,6 +915,7 @@ extern void fsnotify_clear_marks_by_group(struct fsnotify_group *group,
+>  					  unsigned int obj_type);
+>  extern void fsnotify_get_mark(struct fsnotify_mark *mark);
+>  extern void fsnotify_put_mark(struct fsnotify_mark *mark);
+> +struct fsnotify_mark *fsnotify_next_mark(struct fsnotify_mark *mark);
+>  extern void fsnotify_finish_user_wait(struct fsnotify_iter_info *iter_info);
+>  extern bool fsnotify_prepare_user_wait(struct fsnotify_iter_info *iter_info);
+>  
+> -- 
+> 2.53.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
