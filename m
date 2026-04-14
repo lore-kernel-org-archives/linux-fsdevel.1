@@ -1,147 +1,100 @@
-Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
+Received: from smtpout.sipearl.com (smtpout.sipearl.com [178.170.11.57])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB71A3EAC95
-	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 15:43:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82CEA3ECBE2;
+	Tue, 14 Apr 2026 15:54:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.170.11.57
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776181419; cv=none; b=OCqrBhf7zzZnrj2jW9jjdLv+8myJYw4RjrWaa8EKW6YoQR7wy6eoj7l+Oo7Y78B4MJyPwJdy0/tifEu6ggEptMPYUvxlpipRToE9kyEpR7kuGoxfeLz5bEYGuw3W1b0I7gE/MOZanJGEi172sRS5zXwkaWR0ns+iNr7sBk2rkx8=
+	t=1776182091; cv=none; b=RE+rb1ysNk7RptNzgokMDPrEs2QmvqiQ66FvSwMMJEbwk4c+YHY9EvD6P2w241No6RE9zXvGDYjRNmKtJCvPYZqNNBcMF+b3SR00U2ysEzUeBxv9PTUKZTPlU7bfTYzBjByOAiTUgGeLnbKOmeAaBOm2gVOrLySKLxbX43skIOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776181419; c=relaxed/simple;
-	bh=hZDJpf0SiekVMU9h5Mt5tAfgMY1esUFBXHQ1y03LU4s=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FO9GdJTY42ejmTspjSdeI/aS6+lsnCn2A/zVzcZCOXAlANgIkpntGifIElbMpgrBPggaE2xZMd1jmxY1wNRsECVXglNxCU68fwiq3H8LinN3yHrwEhfh4tTIklB5culI76G6GZvsizcpooGfBFXd21cdKTcQU66svR922GrDjHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=a+Zoy3/H; arc=none smtp.client-ip=91.218.175.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1776182091; c=relaxed/simple;
+	bh=hBpEZsMGJbbcwkIsdPscSBfh1J1HrVfRbu1Orufbujg=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gzhl7bfKwNk9yVf9lfTN9ChFUr4QQohYMhu/yjPaJH1ILUP8ZU50Ylj7V7Yc+fKUf8SaQr1ownmbwRhYI/k87A6PyKtdyzxRW1YMzBGEghBBIV2IUqI+VxViTEWeRr9ht+7qcEASQFj+njoCkLJKj/xBeRgXVbg/t6j+1/bvL0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipearl.com; spf=pass smtp.mailfrom=sipearl.com; dkim=pass (2048-bit key) header.d=sipearl.com header.i=@sipearl.com header.b=HKOBHOjN; arc=none smtp.client-ip=178.170.11.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipearl.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sipearl.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="a+Zoy3/H"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1776181404;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xofRIGZTZWakFR4r7hnHb6VQphFQ4wt9gOLnTsomTno=;
-	b=a+Zoy3/HP0If3I2KC+z/xy+o4Zd3PZ4Kc0jqpMBHxJwT2FNA1df/rmFfyx81rcasSH+5Hv
-	3D8TW/roWmTFaZKQaN7FwnaCG0eCBFeUrBT5hmsEqIkTCywMek5EgN3BWqJqRa7+KXE8dh
-	ISMIBMFQ06zz7nJpwbC5FH7qif4qJk0=
-From: Lance Yang <lance.yang@linux.dev>
-To: ziy@nvidia.com,
-	david@kernel.org
-Cc: willy@infradead.org,
-	songliubraving@fb.com,
-	clm@fb.com,
-	dsterba@suse.com,
-	viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	jack@suse.cz,
-	akpm@linux-foundation.org,
-	ljs@kernel.org,
-	baolin.wang@linux.alibaba.com,
-	Liam.Howlett@oracle.com,
-	npache@redhat.com,
-	ryan.roberts@arm.com,
-	dev.jain@arm.com,
-	baohua@kernel.org,
-	vbabka@kernel.org,
-	rppt@kernel.org,
-	surenb@google.com,
-	mhocko@suse.com,
-	shuah@kernel.org,
-	linux-btrfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org,
-	Lance Yang <lance.yang@linux.dev>
-Subject: Re: [PATCH 7.2 v2 01/12] mm/khugepaged: remove READ_ONLY_THP_FOR_FS check
-Date: Tue, 14 Apr 2026 23:43:16 +0800
-Message-Id: <20260414154316.42935-1-lance.yang@linux.dev>
-In-Reply-To: <20260414153724.35950-1-lance.yang@linux.dev>
-References: <20260414153724.35950-1-lance.yang@linux.dev>
+	dkim=pass (2048-bit key) header.d=sipearl.com header.i=@sipearl.com header.b="HKOBHOjN"
+Received: from smtpout.sipearl.com ([172.31.29.1])
+	by smtpin.sipearl.com  with ESMTPS id 63EFdPLt001588-63EFdPLv001588
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Tue, 14 Apr 2026 17:39:26 +0200
+Received: from dc2pvlnosz002.pub.int.sipearl.com (172.31.65.18) by
+ dc2pvwexcz001.sipearl.corp (172.31.29.1) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.36; Tue, 14 Apr 2026 17:39:16 +0200
+From: Herve Vico <herve.vico@sipearl.com>
+To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+CC: Herve Vico <herve.vico@sipearl.com>, <linux-kernel@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+Subject: [PATCH] docs: proc.rst: update description of VmallocUsed and VmallocChunk
+Date: Tue, 14 Apr 2026 17:38:44 +0200
+Message-ID: <20260414153845.3480832-1-herve.vico@sipearl.com>
+X-Mailer: git-send-email 2.51.2
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain
+X-ClientProxiedBy: dc2pvwexcz002.sipearl.corp (172.31.29.2) To
+ dc2pvwexcz001.sipearl.corp (172.31.29.1)
+X-FEAS-BEC-Info: WlpIGw0aAQkEARIJHAEHBlJSCRoLAAEeDUhZUEhYSFhIWUhZXkguLT4lWFo8JVpcWFhZW1xcSFpaSAANGh4NRh4BCwcoGwEYDQkaBEYLBwVIWUhZXEgLBxoKDRwoBB8GRgYNHEhYSFpIWVlIWV9aRltZRlpRRllIUEhYSFhIW0hYSFhIWEhZXEgLBxoKDRwoBB8GRgYNHEhYSFpdSAQBBh0QRQwHCygeDw0aRgMNGgYNBEYHGg9IWEhaXUgbAwAJBigEAQYdEA4HHQYMCRwBBwZGBxoPSFg=
+X-FEAS-Client-IP: 172.31.29.1
+X-FE-Policy-ID: 2:2:2:SYSTEM
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; d=sipearl.com; s=sipearl2024; c=relaxed/relaxed;
+ h=from:to:cc:subject:date:message-id:mime-version:content-type;
+ bh=9HwEGJjZ2iPAPucAAohyFG4xYSQ6h/xnr+F/xbaR3Qg=;
+ b=HKOBHOjNAqY4p2EUY0DZqJUR9QYh3bLyajZUE4tHR7sIBMrqzaZcBuTMTuNM+BRLuFVWrmri2Xuc
+	yiUPE21OQTQSMWnBlimqAWEHndZvgeckV5xdpFW1frpxR0wAFlAqoqfBx8/DAUnGJS2uPw8iRCvu
+	SAWQwEkfWgkBU/PEQJjmWQYWz44iigY2+1SyhFAKsRmkrGvX28/kSFxCYpw/WVTYmVngawEUAun+
+	LNtbD/6zDY1FIvSDxK0WjE5P+cLkSIKjgGa3tAH6q1Q/Gtv6kZcwMpQFYBQ7NSwGM+RAif1pdv4o
+	vFdSLqr9KZIvzcr+QFtOShDuc0+A9TJc/xwFvw==
 
+A long time ago the behavior of two /proc/meminfo Vmalloc<...> counters
+has been modified twice without updating the doc:
 
-On Tue, Apr 14, 2026 at 11:37:24PM +0800, Lance Yang wrote:
->
->On Tue, Apr 14, 2026 at 12:29:04PM +0200, David Hildenbrand (Arm) wrote:
->>On 4/13/26 21:20, Zi Yan wrote:
->>> collapse_file() requires FSes supporting large folio with at least
->>> PMD_ORDER, so replace the READ_ONLY_THP_FOR_FS check with that.
->>> MADV_COLLAPSE ignores shmem huge config, so exclude the check for shmem.
->>> 
->>> While at it, replace VM_BUG_ON with VM_WARN_ON_ONCE.
->>> 
->>> In collapse_scan_file(), add FS eligibility check to avoid redundant scans.
->>> 
->>> Signed-off-by: Zi Yan <ziy@nvidia.com>
->>> ---
->>>  mm/khugepaged.c | 12 ++++++++++--
->>>  1 file changed, 10 insertions(+), 2 deletions(-)
->>> 
->>> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
->>> index b8452dbdb043..d2f0acd2dac2 100644
->>> --- a/mm/khugepaged.c
->>> +++ b/mm/khugepaged.c
->>> @@ -1892,8 +1892,9 @@ static enum scan_result collapse_file(struct mm_struct *mm, unsigned long addr,
->>>  	int nr_none = 0;
->>>  	bool is_shmem = shmem_file(file);
->>>  
->>> -	VM_BUG_ON(!IS_ENABLED(CONFIG_READ_ONLY_THP_FOR_FS) && !is_shmem);
->>> -	VM_BUG_ON(start & (HPAGE_PMD_NR - 1));
->>> +	/* MADV_COLLAPSE ignores shmem huge config, so do not check shmem */
->>> +	VM_WARN_ON_ONCE(!is_shmem && mapping_max_folio_order(mapping) < PMD_ORDER);
->>> +	VM_WARN_ON_ONCE(start & (HPAGE_PMD_NR - 1));
->>>  
->>>  	result = alloc_charge_folio(&new_folio, mm, cc);
->>>  	if (result != SCAN_SUCCEED)
->>> @@ -2321,6 +2322,13 @@ static enum scan_result collapse_scan_file(struct mm_struct *mm,
->>>  	int node = NUMA_NO_NODE;
->>>  	enum scan_result result = SCAN_SUCCEED;
->>>  
->>> +	/*
->>> +	 * skip files without PMD-order folio support
->>> +	 * do not check shmem, since MADV_COLLAPSE ignores shmem huge config
->>> +	 */
->>
->>How is the !collapse path handled? Through thp_vma_allowable_order() in
->>collapse_scan_mm_slot()?
->>
->>Wouldn't it be better to have that check exactly there?
->
->Right! Looks like patch #03[1] already does that, as David also pointed
->out there :)
->
->With that in place, regular files should end up in file_thp_enabled(),
->which checks that mapping_max_folio_order() >= PMD_ORDER.
+- v4.4 removes the expensive 'vmalloc_info' bookkeeping behind VmallocUsed
+  and VmallocChunk, and makes both counters return zero:
 
-Forgot to add:
+  commit a5ad88ce8c7f ("mm: get rid of 'vmalloc_info' from /proc/meminfo")
 
-thp_vma_allowable_order()
-	-> file_thp_enabled()
-	-> mapping_max_folio_order() check
+-  v5.3 reintroduces VmallocUsed, making it now report the physical memory
+  allocated by vmalloc() calls rather than the vmalloc VA space:
 
->For khugepaged, collapse_scan_mm_slot() calls thp_vma_allowable_order()
->before entering the per-PMD scan loop, so ineligible regular file VMAs
->should already get filtered there.
->
->madvise_collapse() also calls thp_vma_allowable_order() early, so it
->should get the same filtering before reaching collapse_scan_file().
->
->So the extra check here looks redundant :)
->
->[1] https://lore.kernel.org/linux-mm/20260413192030.3275825-4-ziy@nvidia.com/
->
->Cheers,
->Lance
->
+  commit 97105f0ab7b8 ("mm: vmalloc: show number of vmalloc pages in
+                        /proc/meminfo")
+
+Let's update the doc to reflect the current behavior.
+
+Signed-off-by: Herve Vico <herve.vico@sipearl.com>
+---
+ Documentation/filesystems/proc.rst | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index b0c0d1b45b99..4a36ac960417 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -1233,9 +1233,12 @@ Committed_AS
+ VmallocTotal
+               total size of vmalloc virtual address space
+ VmallocUsed
+-              amount of vmalloc area which is used
++              Amount of memory allocated by vmalloc() calls.
++              Note that VmallocTotal is a constant that refers to the size of
++              the vmalloc VA space, while VmallocUsed reports the amount of
++              memory allocated by vmalloc() calls.
+ VmallocChunk
+-              largest contiguous block of vmalloc area which is free
++              Deprecated, hardcoded to zero.
+ Percpu
+               Memory allocated to the percpu allocator used to back percpu
+               allocations. This stat excludes the cost of metadata.
+
+base-commit: d60bc140158342716e13ff0f8aa65642f43ba053
+-- 
+2.51.2
+
