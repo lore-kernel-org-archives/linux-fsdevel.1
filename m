@@ -1,140 +1,206 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-b4-smtp.messagingengine.com (fhigh-b4-smtp.messagingengine.com [202.12.124.155])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7588B21D590;
-	Tue, 14 Apr 2026 12:47:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC0F01A681B
+	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 12:47:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776170829; cv=none; b=emO3MBHjL0Ld7hci2YfcAI3eKJ4YLD7IkyP/B++Qe4L+3xQDuk1Bg6f6MWwtuGaskFMLo6O/3jAr48WB8RQnxO/Nbptneq2u3LHTlbL6EMS1vIYmxepuphxDk3KIGZ9ElWg7Pq3muYeP0KMeDTCMMYBWivmjU6tOMJ1iGXqtXro=
+	t=1776170837; cv=none; b=aaTjFktT68SUoCDtWfShU+HUjtPUbHP9mI5/Bj/CTU6m+S2VOuY9q+nDXdxZA/pWW54JumQpq1WUWwwYDwYUUBLDsTXcIHUMBeg2Piy4U8O9SKRgk7mksQs1s+Q7sgw7kem5XuwY2ng3z+QdbeprcTrCjxLwgAc75g0fZSNTJxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776170829; c=relaxed/simple;
-	bh=oavQCFlhBvhaXTjOq8I2CKUL1hZ7l8Gr2Qin7BB0+hY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QCyB88KhEHhv5FOVtQ4kQqdsXQlscIYO7lFUIq6PYIqIrjBPLSz7ODI0wYO1lZ4NLqf0zWX1fUGtyCYOoIkoaWq0JjE1Wm1ltgyWydhZe7KwcdJz3ATMrVh3pQYCz0WHH+tj7AnfZvD5F2DRsr0MblaxWauIv2H5Sc1+2EJUxa8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bTW1jX/0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776170837; c=relaxed/simple;
+	bh=7psQKgCYnBisZRrE0Fj4k0l873mVJQ+756AZLNstwqo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XGF86UdoScca6IKIPCAoGChOnW9G5VZ8pjHuQWPFSZRaQTiCS5+tevD+rC7arKgDJ3N8YipptvDX5lfITig2IbqWOJpRZH06bxybkj8w0CZHn10Bg90YkoMZJzxoqKYEdGy+mi+v5g+2PthwKybEKxGZb6LjpbTXd1kxFAkdgGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=mWJhv9h/; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=crxbjdrb; arc=none smtp.client-ip=202.12.124.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bTW1jX/0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B77EDC19425;
-	Tue, 14 Apr 2026 12:47:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776170829;
-	bh=oavQCFlhBvhaXTjOq8I2CKUL1hZ7l8Gr2Qin7BB0+hY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=bTW1jX/0EMRkHfHH4RwpgVSXN7m/knvUt1Dh9S+EW2+1yQIDpqjPKdOP9ZRnDZqi9
-	 vqPRKmm6TXeSfv984iBzoK9LoaP7R1AlGw4GO/BOFk8wSgENUCJ4WKgJUTil9QJkip
-	 7YLZQbxn3O2X0uMZ3//mSDmK/WpqoRpyHnGr3HD3s4doGZ1vJ+4NVqCfXVzUpoZEm0
-	 xW8F4ia/LU3faPsYshf/GICnOALp4VTlCG3wwwCNWwejhwEaRARWdcFVsZ6VcLoanI
-	 oQrLFmnEi2XRVoWJfhhdLU5Y3qfiV8qgxIgQNxfC2ZpqVtM3k3TEPMBnLHNLJ6gphG
-	 3cMCQbfbKY7zg==
-From: Christian Brauner <brauner@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [GIT PULL for v7.1] kernel misc
-Date: Tue, 14 Apr 2026 14:46:36 +0200
-Message-ID: <20260414-kernel-misc-v71-d07943689d03@brauner>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260410-vfs-v71-b055f260060c@brauner>
-References: <20260410-vfs-v71-b055f260060c@brauner>
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="mWJhv9h/";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="crxbjdrb"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 5C7427A026B;
+	Tue, 14 Apr 2026 08:47:14 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-04.internal (MEProxy); Tue, 14 Apr 2026 08:47:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1776170834;
+	 x=1776257234; bh=rqrU/3Vu1AMnAQABoJM8/LSEDWmwdOnR8nzTyJKavNo=; b=
+	mWJhv9h/XI2ih2h31mTGvSp1CYfy7yOGrAXhqqZB7CNlAnCcrNV0KIkRreKwAXcz
+	Aej/T4lGlwK2IxKAL1auScidT3oeOs9UVhc6s4pAAJo+SqSsCWE/bNfHx4taAgk0
+	qwh9gDy+vRol5p/5qm0AEDtZRlSH1PRKNpOgwtlEpwFo65NF2rYr9cgiY8s/Aevr
+	3I3mGLDE0hYD41SJfngKW1woQqNIuYeGPTULo2xTAuHx9VXam/UstcSxfzCNqIKn
+	6jf2TJLChAa7/Sc1mtVOMDaVt2y7SjcMuVSx+NkRTetELqI3jcwrtY1oTx7FKf98
+	K3IqAZR3bFNwl0MQOZ/jqg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1776170834; x=
+	1776257234; bh=rqrU/3Vu1AMnAQABoJM8/LSEDWmwdOnR8nzTyJKavNo=; b=c
+	rxbjdrbD6S/rGnXOCsJFmMPEPMVdO+RQj5oQZR8bkrZ2UFAQ/llhaFWG1oFHSk4U
+	+vW+m78lQ+n8TvtLXGC5BA4iQ6R02qFSIlWrTp0l0qzPzPghIjWxG7rVDvbU/Wyk
+	U8sYefC+6Ik3nm41h4jOytPXXYOA8mj6+rMRJulUbiYrLr0dLQ4PH14glPjvjU8f
+	cTMbW0rK0tXoe+N7/Fj7QUSc5C8u9FPhSwwjTrXXjl9SDItSewmQC7nEJE6Bxl96
+	TOlSCOQbmJ2AYGyE/KrKuKSwuVB44JnpIAdO4sm+vEaxfR/UpIl4PDV+Ts6aRb23
+	nXX5sXnIkacHPlX8jVviw==
+X-ME-Sender: <xms:UTfeabU8eWV9Wcmj4Drz0ep9o9t5xhjfSQsSNjtJDTbxWtOZ70SxUQ>
+    <xme:UTfeaak3NHH7P-LTIDJRDUwoJWpHokhlo1uGENJH8JBeyDgC-ZiTe5M56qaUkAHkn
+    A-nvhP5HKMSDPJgBy3q7ZtWFNG1MBIwZZRaDVbqQiEFV7hLHtYIfw>
+X-ME-Received: <xmr:UTfeacaW82jzcO9mDkXKb58wdXG79E3TtvhqZzFpW7ozqPzwnXpGBO7MGzC4S3M2anxNlWmYfNk590yBKNEubeCJ0hCqlnXLJOTuxTZNlAj1jr-hOw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeguddulecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefkffggfgfuvfevfhfhjggtgfesthejredttddvjeenucfhrhhomhepuegvrhhnugcu
+    ufgthhhusggvrhhtuceosggvrhhnugessghssggvrhhnugdrtghomheqnecuggftrfgrth
+    htvghrnhephefhjeeujeelhedtheetfedvgfdtleffuedujefhheegudefvdfhheeuvedu
+    ueegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsg
+    gvrhhnugessghssggvrhhnugdrtghomhdpnhgspghrtghpthhtohepgedpmhhouggvpehs
+    mhhtphhouhhtpdhrtghpthhtohepjhhorghnnhgvlhhkohhonhhgsehgmhgrihhlrdgtoh
+    hmpdhrtghpthhtohepmhhikhhlohhssehsiigvrhgvughirdhhuhdprhgtphhtthhopegr
+    gigsohgvsehkvghrnhgvlhdrughkpdhrtghpthhtoheplhhinhhugidqfhhsuggvvhgvlh
+    esvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:UTfeaVMk1RQzekstlTgxFPYCjMLexB-DZXHhP45wGrNgtm6voOZDBA>
+    <xmx:UTfeaRY_KIF0WQYf8G2QQhiePMRm-E_-WVOSbNEtBazNWqUrycjUdA>
+    <xmx:UTfeaT3urrE4re78aD-agsgI8BNiJ35QVugypvE-IZmY0YbJxBEhyQ>
+    <xmx:UTfeaXdRrd8xjP3TrFQvVOsSjTzPC1fx95i5uCYtcRpyDAbg0qUxJw>
+    <xmx:UjfeaXyDgvuZ1fBbyC_LXc2auGlLYIa6eslrqef9MWX4d0RziBiOrnrg>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 14 Apr 2026 08:47:12 -0400 (EDT)
+Message-ID: <81b7ce30-50c3-4148-b0dc-fbf0a870f76e@bsbernd.com>
+Date: Tue, 14 Apr 2026 14:47:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3201; i=brauner@kernel.org; h=from:subject:message-id; bh=oavQCFlhBvhaXTjOq8I2CKUL1hZ7l8Gr2Qin7BB0+hY=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTeMzfsD71489nMWuuLrS09sez1cme8qtReO/+Weth6Y vUa69NWHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABOZsJXhvw+fqWniEstNvCdn vTw649Keq9XlPporJr4K8zc4yXu/8DMjw+Lp1Vx3emuKgjv2diakWQS1HLsvNGEe85U6G+8szov JzAA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 11/14] fuse: add pinned headers capability for io-uring
+ buffer rings
+To: Joanne Koong <joannelkoong@gmail.com>, miklos@szeredi.hu
+Cc: axboe@kernel.dk, linux-fsdevel@vger.kernel.org
+References: <20260402162840.2989717-1-joannelkoong@gmail.com>
+ <20260402162840.2989717-12-joannelkoong@gmail.com>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: fr
+In-Reply-To: <20260402162840.2989717-12-joannelkoong@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hey Linus,
 
-/* Summary */
 
-Features
+On 4/2/26 18:28, Joanne Koong wrote:
+> Allow fuse servers to pin their header buffers by setting the
+> FUSE_URING_PINNED_HEADERS flag alongside FUSE_URING_BUFRING on REGISTER
+> sqes. When set, the kernel pins the header pages, vmaps them for a
+> kernel virtual address, and uses direct memcpy for copying. This avoids
+> the per-request overhead of having to pin/unpin user pages and translate
+> virtual addresses.
+> 
+> Buffers must be page-aligned. The kernel accounts pinned pages against
+> RLIMIT_MEMLOCK (bypassed with CAP_IPC_LOCK) and tracks mm->pinned_vm.
+> Unpinning is done in process context during connection abort, since vmap
+> cannot run in softirq (where final destruction occurs via RCU).
+> 
+> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+> ---
+>  fs/fuse/dev_uring.c       | 228 ++++++++++++++++++++++++++++++++++++--
+>  fs/fuse/dev_uring_i.h     |  23 +++-
+>  include/uapi/linux/fuse.h |   2 +
+>  3 files changed, 243 insertions(+), 10 deletions(-)
+> 
+> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
+> index 9f14a2bcde3f..79736b02cf9f 100644
+> --- a/fs/fuse/dev_uring.c
+> +++ b/fs/fuse/dev_uring.c
+> @@ -11,6 +11,7 @@
+>  
+>  #include <linux/fs.h>
+>  #include <linux/io_uring/cmd.h>
+> +#include <linux/vmalloc.h>
+>  
+>  static bool __read_mostly enable_uring;
+>  module_param(enable_uring, bool, 0644);
+> @@ -46,6 +47,11 @@ static inline bool bufring_enabled(struct fuse_ring_queue *queue)
+>  	return queue->bufring != NULL;
+>  }
+>  
+> +static inline bool bufring_pinned_headers(struct fuse_ring_queue *queue)
+> +{
+> +	return queue->bufring->use_pinned_headers;
+> +}
+> +
+>  static void uring_cmd_set_ring_ent(struct io_uring_cmd *cmd,
+>  				   struct fuse_ring_ent *ring_ent)
+>  {
+> @@ -200,6 +206,37 @@ bool fuse_uring_request_expired(struct fuse_conn *fc)
+>  	return false;
+>  }
+>  
+> +static void fuse_bufring_unpin_mem(struct fuse_bufring_pinned *mem)
+> +{
+> +	struct page **pages = mem->pages;
+> +	unsigned int nr_pages = mem->nr_pages;
+> +	struct user_struct *user = mem->user;
+> +	struct mm_struct *mm_account = mem->mm_account;
+> +
+> +	vunmap(mem->addr);
+> +	unpin_user_pages(pages, nr_pages);
+> +
+> +	if (user) {
+> +		atomic_long_sub(nr_pages, &user->locked_vm);
+> +		free_uid(user);
+> +	}
+> +
+> +	atomic64_sub(nr_pages, &mm_account->pinned_vm);
+> +	mmdrop(mm_account);
+> +
+> +	kvfree(mem->pages);
+> +}
+> +
+> +static void fuse_uring_bufring_unpin(struct fuse_ring_queue *queue)
+> +{
+> +	struct fuse_bufring *br = queue->bufring;
+> +
+> +	if (bufring_pinned_headers(queue)) {
+> +		fuse_bufring_unpin_mem(&br->pinned_headers);
+> +		br->use_pinned_headers = false;
+> +	}
+> +}
+> +
+>  void fuse_uring_destruct(struct fuse_conn *fc)
+>  {
+>  	struct fuse_ring *ring = fc->ring;
+> @@ -227,7 +264,10 @@ void fuse_uring_destruct(struct fuse_conn *fc)
+>  		}
+>  
+>  		kfree(queue->fpq.processing);
+> -		kfree(queue->bufring);
+> +		if (bufring_enabled(queue)) {
+> +			fuse_uring_bufring_unpin(queue);
+> +			kfree(queue->bufring);
+> +		}
+>  		kfree(queue);
+>  		ring->queues[qid] = NULL;
+>  	}
+> @@ -309,14 +349,131 @@ static int fuse_uring_get_iovec_from_sqe(const struct io_uring_sqe *sqe,
+>  	return 0;
+>  }
+>  
+> +static struct page **fuse_uring_pin_user_pages(void __user *uaddr,
+> +					       unsigned long len, int *npages)
 
-- pid_namespace: make init creation more flexible
+I think this is a duplicate of io_pin_pages(), can we just export that
+and use here? I'm basically going to propose to use the same technique
+in ublk - would be another duplicate.
 
-  Annotate ->child_reaper accesses with {READ,WRITE}_ONCE() to protect
-  the unlocked readers from cpu/compiler reordering, and enforce that
-  pid 1 in a pid namespace is always the first allocated pid (the
-  set_tid path already required this).
 
-  On top of that, allow opening pid_for_children before the pid
-  namespace init has been created. This lets one process create the
-  pid namespace and a different process create the init via setns(),
-  which makes clone3(set_tid) usable in all cases evenly and is
-  particularly useful to CRIU when restoring nested containers.
+(Not a complete a review yet, just something I just noticed).
 
-  A new selftest covers both the basic create-pidns-then-init flow and
-  the cross-process variant, and a MAINTAINERS entry for the pid
-  namespace code is added.
 
-Cleanups
-
-- signal: update outdated comment for the removed freezable_schedule()
-
-/* Testing */
-
-gcc (Debian 14.2.0-19) 14.2.0
-Debian clang version 19.1.7 (3+b1)
-
-No build failures or warnings were observed.
-
-/* Conflicts */
-
-Merge conflicts with mainline
-=============================
-
-No known conflicts.
-
-Merge conflicts with other trees
-================================
-
-No known conflicts.
-
-The following changes since commit 1f318b96cc84d7c2ab792fcc0bfd42a7ca890681:
-
-  Linux 7.0-rc3 (2026-03-08 16:56:54 -0700)
-
-are available in the Git repository at:
-
-  git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/kernel-7.1-rc1.misc
-
-for you to fetch changes up to 4c68d150246d7e1d826a807a82e6eb6b4669f42c:
-
-  signal: update outdated comment for removed freezable_schedule() (2026-03-23 16:38:31 +0100)
-
-----------------------------------------------------------------
-kernel-7.1-rc1.misc
-
-Please consider pulling these changes from the signed kernel-7.1-rc1.misc tag.
-
-Thanks!
-Christian
-
-----------------------------------------------------------------
-Christian Brauner (1):
-      Merge patch series "pid_namespace: make init creation more flexible"
-
-Kexin Sun (1):
-      signal: update outdated comment for removed freezable_schedule()
-
-Pavel Tikhomirov (5):
-      pid_namespace: avoid optimization of accesses to ->child_reaper
-      pid: check init is created first after idr alloc
-      pid_namespace: allow opening pid_for_children before init was created
-      selftests: Add tests for creating pidns init via setns
-      MAINTAINERS: add a pid namespace entry
-
- MAINTAINERS                                        |  11 +-
- kernel/exit.c                                      |   3 +-
- kernel/fork.c                                      |   5 +-
- kernel/pid.c                                       |  19 +-
- kernel/pid_namespace.c                             |   9 -
- kernel/signal.c                                    |   5 +-
- tools/testing/selftests/pid_namespace/.gitignore   |   1 +
- tools/testing/selftests/pid_namespace/Makefile     |   2 +-
- .../selftests/pid_namespace/pidns_init_via_setns.c | 238 +++++++++++++++++++++
- 9 files changed, 269 insertions(+), 24 deletions(-)
- create mode 100644 tools/testing/selftests/pid_namespace/pidns_init_via_setns.c
+Thanks,
+Bernd
