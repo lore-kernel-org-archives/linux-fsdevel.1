@@ -1,123 +1,174 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93ABB39A052;
-	Tue, 14 Apr 2026 10:20:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A8283CA4AA
+	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 10:22:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776162029; cv=none; b=bnIaYB+o+KhBeKOhFfHp0GvTtDLupi9Z+qG4RkfKKHKdCDrR1/hH3VM9RuMK/bdq2lnBzihDGB+tyyDZLav8HiBzCNVo4zANmvdImoqI5JxMpP37kgI+/UBWYoVnj440rJHhvL8zAeBBFT1xeySHdmmWErFSKHX27b9Yx0bO2vs=
+	t=1776162166; cv=none; b=e2Dk79sIUI5tFRFf059rJ/TT353SEN6AljJ68LrUIxiN1ZBJ7bFUg/yZyisK68sG2UZX3t1nL38JuJmr01QQ7pJvW8CcIQJzfsh4VwE9+uNKOJt+yaSZiqXeAaBDS3xyLjUr4C/3hXaIfvFpSqm1+KECFaXxQfPYhVjqlUYGzCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776162029; c=relaxed/simple;
-	bh=RGgiwNNKERTEHoOTPwB9B49AuENlAfKt7sU34JQ6brg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Rbi4yFHN5i1bRG6MCb550CGn5V09kPK12TCYBaeFNA5TF63VhgrS2HqwNYOIqF/jaesad/HNoV6U5M1noAE8VsAKiFXCgni7Ri04X8RxnlNH0ezBbuk88lwDEcxs37eG4w1nCqgTu2B4kBUfc3zxxtUwJ9ypwEqEGkL4AZFy2DI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Za1ua/c2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776162166; c=relaxed/simple;
+	bh=RHyY3fu+KsskXf9Ho9PFuJfqQqHGL6sXPkChG335C00=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CBeZzssD9LDNu7E9pu8P7fgZ3eX+bE6W5JNCuZzVsdlsE9tXZR7xed0RJPwAPe9b09BMxtNzn8hwZlclPsbljkHJtb6bxEmEulhsouED6dL2YpkAoy+UANB55vFQuSXeVlQv/Wxrf2bB/Y5OxJvA81DdzNDlz3vee7YMIXx5r5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ox++Anid; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=N6tr2sly; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ED6dSCiq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=u4qaZEyC; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Za1ua/c2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AADE4C19425;
-	Tue, 14 Apr 2026 10:20:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776162029;
-	bh=RGgiwNNKERTEHoOTPwB9B49AuENlAfKt7sU34JQ6brg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Za1ua/c2pBc2SFfHoE9LK94I5v2vvCEqP+T0fD3yg+NZGgSkqjcAQQxDo2PuyT0Oz
-	 7kSmatnHBwa1r7/ybCAH/w3+bmRIPw1+TfawF6oZs78YEU1C67uRFNC6NrS+8MJKST
-	 09IcwKF/jVZTrrrd8G6cO1uwfujb/jWnDqH9tBmvTRMN4N9zXYVYfHqjTwVAFSPH+F
-	 uqP1+HavbMfQufGK87I6hQNJp4AAFX4pxRtSjSbq3k/zBJjZ8CthPl/3tGhb2QAOUg
-	 LKkUF/rIlqdQsvMRkME8GYw7YHGfvaO7yVdIYxOiqU8wOYc+5HQ7lO/DNl/LzqSkBw
-	 syvj5qllWnvuw==
-Message-ID: <45d8e6d2-66f3-4ce9-8f01-7c47cd81e4e5@kernel.org>
-Date: Tue, 14 Apr 2026 12:20:19 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ox++Anid";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="N6tr2sly";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ED6dSCiq";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="u4qaZEyC"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id F0EE96A8CA;
+	Tue, 14 Apr 2026 10:22:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1776162158; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=j0TNOkA/+a7W7vErcFBKrNBDFT19xL80TsUxcGCksYo=;
+	b=Ox++Anid9LYWuZqS+PUwQBxuuvcABjVDcQnw4jX0PWItsOI4RDk5RE18i/lqxXoHDARjjQ
+	DXo9jSAfM5qjCS2zUkVzYelazgsU8qh8jc/Z+SOjq9rU/3TZw77rlC3t6l5yFS66cTqc67
+	r0FRnVVHJoW+HbiCs9HKpNwaPIqT76w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1776162158;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=j0TNOkA/+a7W7vErcFBKrNBDFT19xL80TsUxcGCksYo=;
+	b=N6tr2sly/YqmqYnX1tfOg0+/0YEbKts4beCq1bIgmNDVR7hLW9uHQv6Ubue8RO0EaLoei0
+	9ehitt/PfTVxBUBQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1776162157; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=j0TNOkA/+a7W7vErcFBKrNBDFT19xL80TsUxcGCksYo=;
+	b=ED6dSCiqALiqtWCaf0v19sDgYkSIPWtVQaHBt6Rs32bN7weloZnpSq52cfP4cGKikptztV
+	6lRNrfPOiaDBAiZK76otnorfowb4ec6Gmh/t7hPdpEKV96G6FyPwZsZIx43txG/6b9r6b7
+	niIKUMqahLuzhWzuISm3Ss/ATzSBm/M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1776162157;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=j0TNOkA/+a7W7vErcFBKrNBDFT19xL80TsUxcGCksYo=;
+	b=u4qaZEyCzZ9Ks7vu627v8+uZH5EtvIFD5LMUf2FmaIUmgqtYNkZzxAWiYEnxvHByY0gHQV
+	fa6iPKbJLkPCpcDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4E7014B3C4;
+	Tue, 14 Apr 2026 10:22:37 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 2X7XD20V3mmgBQAAD6G6ig
+	(envelope-from <pfalcato@suse.de>); Tue, 14 Apr 2026 10:22:37 +0000
+Date: Tue, 14 Apr 2026 11:22:35 +0100
+From: Pedro Falcato <pfalcato@suse.de>
+To: Aurelien DESBRIERES <aurelien@hackers.camp>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	torvalds@linux-foundation.org, willy@infradead.org, djwong@kernel.org, adilger.kernel@dilger.ca, 
+	pedro.falcato@gmail.com, xiang@kernel.org
+Subject: Re: [PATCH v3 00/12] ftrfs: Fault-Tolerant Radiation-Robust
+ Filesystem
+Message-ID: <bxgqldv2abuadh3gweymib2co6gfor7sgpbkouznj6jliyblfq@42xw4jviodeb>
+References: <20260413230601.525400-1-aurelien@hackers.camp>
+ <20260414120726.5713-1-aurelien@hackers.camp>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 7.2 v2 01/12] mm/khugepaged: remove READ_ONLY_THP_FOR_FS
- check
-To: Zi Yan <ziy@nvidia.com>, Matthew Wilcox <willy@infradead.org>
-Cc: Song Liu <songliubraving@fb.com>, Chris Mason <clm@fb.com>,
- David Sterba <dsterba@suse.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Shuah Khan <shuah@kernel.org>, linux-btrfs@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-References: <20260413192030.3275825-1-ziy@nvidia.com>
- <20260413192030.3275825-2-ziy@nvidia.com>
- <ad1P-bfr_Vp6VdKf@casper.infradead.org>
- <CD565023-4FA6-44C4-8E40-8B06CB09B59F@nvidia.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
- dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
- QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
- XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
- Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
- PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
- WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
- UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
- jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
- B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzS5EYXZpZCBIaWxk
- ZW5icmFuZCAoQ3VycmVudCkgPGRhdmlkQGtlcm5lbC5vcmc+wsGQBBMBCAA6AhsDBQkmWAik
- AgsJBBUKCQgCFgICHgUCF4AWIQQb2cqtc1xMOkYN/MpN3hD3AP+DWgUCaYJt/AIZAQAKCRBN
- 3hD3AP+DWriiD/9BLGEKG+N8L2AXhikJg6YmXom9ytRwPqDgpHpVg2xdhopoWdMRXjzOrIKD
- g4LSnFaKneQD0hZhoArEeamG5tyo32xoRsPwkbpIzL0OKSZ8G6mVbFGpjmyDLQCAxteXCLXz
- ZI0VbsuJKelYnKcXWOIndOrNRvE5eoOfTt2XfBnAapxMYY2IsV+qaUXlO63GgfIOg8RBaj7x
- 3NxkI3rV0SHhI4GU9K6jCvGghxeS1QX6L/XI9mfAYaIwGy5B68kF26piAVYv/QZDEVIpo3t7
- /fjSpxKT8plJH6rhhR0epy8dWRHk3qT5tk2P85twasdloWtkMZ7FsCJRKWscm1BLpsDn6EQ4
- jeMHECiY9kGKKi8dQpv3FRyo2QApZ49NNDbwcR0ZndK0XFo15iH708H5Qja/8TuXCwnPWAcJ
- DQoNIDFyaxe26Rx3ZwUkRALa3iPcVjE0//TrQ4KnFf+lMBSrS33xDDBfevW9+Dk6IISmDH1R
- HFq2jpkN+FX/PE8eVhV68B2DsAPZ5rUwyCKUXPTJ/irrCCmAAb5Jpv11S7hUSpqtM/6oVESC
- 3z/7CzrVtRODzLtNgV4r5EI+wAv/3PgJLlMwgJM90Fb3CB2IgbxhjvmB1WNdvXACVydx55V7
- LPPKodSTF29rlnQAf9HLgCphuuSrrPn5VQDaYZl4N/7zc2wcWM7BTQRVy5+RARAA59fefSDR
- 9nMGCb9LbMX+TFAoIQo/wgP5XPyzLYakO+94GrgfZjfhdaxPXMsl2+o8jhp/hlIzG56taNdt
- VZtPp3ih1AgbR8rHgXw1xwOpuAd5lE1qNd54ndHuADO9a9A0vPimIes78Hi1/yy+ZEEvRkHk
- /kDa6F3AtTc1m4rbbOk2fiKzzsE9YXweFjQvl9p+AMw6qd/iC4lUk9g0+FQXNdRs+o4o6Qvy
- iOQJfGQ4UcBuOy1IrkJrd8qq5jet1fcM2j4QvsW8CLDWZS1L7kZ5gT5EycMKxUWb8LuRjxzZ
- 3QY1aQH2kkzn6acigU3HLtgFyV1gBNV44ehjgvJpRY2cC8VhanTx0dZ9mj1YKIky5N+C0f21
- zvntBqcxV0+3p8MrxRRcgEtDZNav+xAoT3G0W4SahAaUTWXpsZoOecwtxi74CyneQNPTDjNg
- azHmvpdBVEfj7k3p4dmJp5i0U66Onmf6mMFpArvBRSMOKU9DlAzMi4IvhiNWjKVaIE2Se9BY
- FdKVAJaZq85P2y20ZBd08ILnKcj7XKZkLU5FkoA0udEBvQ0f9QLNyyy3DZMCQWcwRuj1m73D
- sq8DEFBdZ5eEkj1dCyx+t/ga6x2rHyc8Sl86oK1tvAkwBNsfKou3v+jP/l14a7DGBvrmlYjO
- 59o3t6inu6H7pt7OL6u6BQj7DoMAEQEAAcLBfAQYAQgAJgIbDBYhBBvZyq1zXEw6Rg38yk3e
- EPcA/4NaBQJonNqrBQkmWAihAAoJEE3eEPcA/4NaKtMQALAJ8PzprBEXbXcEXwDKQu+P/vts
- IfUb1UNMfMV76BicGa5NCZnJNQASDP/+bFg6O3gx5NbhHHPeaWz/VxlOmYHokHodOvtL0WCC
- 8A5PEP8tOk6029Z+J+xUcMrJClNVFpzVvOpb1lCbhjwAV465Hy+NUSbbUiRxdzNQtLtgZzOV
- Zw7jxUCs4UUZLQTCuBpFgb15bBxYZ/BL9MbzxPxvfUQIPbnzQMcqtpUs21CMK2PdfCh5c4gS
- sDci6D5/ZIBw94UQWmGpM/O1ilGXde2ZzzGYl64glmccD8e87OnEgKnH3FbnJnT4iJchtSvx
- yJNi1+t0+qDti4m88+/9IuPqCKb6Stl+s2dnLtJNrjXBGJtsQG/sRpqsJz5x1/2nPJSRMsx9
- 5YfqbdrJSOFXDzZ8/r82HgQEtUvlSXNaXCa95ez0UkOG7+bDm2b3s0XahBQeLVCH0mw3RAQg
- r7xDAYKIrAwfHHmMTnBQDPJwVqxJjVNr7yBic4yfzVWGCGNE4DnOW0vcIeoyhy9vnIa3w1uZ
- 3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
- CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
- qIws/H2t
-In-Reply-To: <CD565023-4FA6-44C4-8E40-8B06CB09B59F@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260414120726.5713-1-aurelien@hackers.camp>
+X-Spam-Score: -2.30
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,linux-foundation.org,infradead.org,kernel.org,dilger.ca,gmail.com];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[hackers.camp:email,suse.de:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
 
->> huge=never       Do not allocate huge pages.  This is the default.
->> huge=always      Attempt to allocate huge page every time a new page is needed.
->> huge=within_size Only allocate huge page if it will be fully within i_size.
->>                  Also respect madvise(2) hints.
->> huge=advise      Only allocate huge page if requested with madvise(2).
->>
->> so what's the difference between huge=never and huge=madvise?
+On Tue, Apr 14, 2026 at 02:07:13PM +0200, Aurelien DESBRIERES wrote:
+> This is v3 of the FTRFS patch series. FTRFS is a Linux kernel filesystem
+> designed for dependable storage in radiation-intensive environments,
+> implementing Reed-Solomon FEC at the filesystem block level for in-place
+> correction of silent bit flips on single-device embedded systems (MRAM,
+> NOR flash) without external redundancy.
 > 
-> I think madvise means MADV_HUGEPAGE for the region, not MADV_COLLAPSE.
+> Based on: Fuchs, Langer, Trinitis - ARCS 2015, TU Munich / MOVE-II CubeSat.
+> Full text: https://www.cfuchs.net/chris/publication-list/ARCS2015/FTRFS.pdf
+> 
+> Changes since v2 (<20260413230601.525400-1-aurelien@hackers.camp>):
+> 
+>   - iomap IO path: replace buffer_head based read/write with iomap API
+>     as requested by Matthew Wilcox. Implements ftrfs_iomap_begin/end,
+>     iomap_writeback_ops (writeback_range/writeback_submit), and uses
+>     iomap_bio_read_ops for the read path. buffer_head is retained for
+>     metadata IO (inode table, directory blocks) as discussed.
+> 
+>   - rename: implement ftrfs_rename in namei.c. Handles same-dir and
+>     cross-dir rename for files and directories, updates '..' entries
+>     and nlink counts. RENAME_EXCHANGE and RENAME_WHITEOUT return
+>     -EINVAL (not supported in v3).
+> 
+>   - RS FEC decoder: implement full RS(255,239) decoder in edac.c using
+>     Berlekamp-Massey error locator polynomial, Chien search, and Forney
+>     algorithm for in-place correction. Corrects up to 8 symbol errors
+>     per 255-byte subblock. Returns -EBADMSG if uncorrectable.
+> 
+>   - Radiation Event Journal: persistent ring buffer of 64 x 24 bytes
+>     in the superblock reserved area. Records block number, timestamp
+>     (ns), symbols corrected, and per-entry CRC32 for each RS correction
+>     event. Written under spinlock via ftrfs_log_rs_event(). No existing
+>     Linux filesystem provides this filesystem-level radiation event
+>     history - VxWorks HRFS, btrfs scrub, and NVMe SMART all operate
+>     at different layers.
+> 
+> AI tooling disclosure (Documentation/process/coding-assistants.rst):
+>   Assisted-by: Claude:claude-sonnet-4-6
+>   The submitter takes full responsibility for all code, has reviewed,
+>   tested, and debugged every patch.
 
-Yes, most likely. The doc is quite old.
+I was going to ask if you were on the world's strongest stimulant but, yeah,
+this also makes sense.
+
+3 versions in a day and no reply to review comments, no usecase, just vibes,
+AI ones at that. This latest batch even got the LLM to hallucinate my old
+email address.
+
+Naturally,
+Nacked-by: Pedro Falcato <pfalcato@suse.de>
+
+Please pick this up to every patch if you get to send more slop versions.
 
 -- 
-Cheers,
-
-David
+Pedro
