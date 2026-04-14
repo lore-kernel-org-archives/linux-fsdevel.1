@@ -1,132 +1,72 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F79439A040;
-	Tue, 14 Apr 2026 11:09:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E6253939A2
+	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 11:21:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776164970; cv=none; b=LiCPmPNLJAQ7el1bOtBF2tCZaRBZxOCh12J+OBHISX6dKgvXbmECQxYTVaWKBMgeZOMX0T6riB2BDrnB8YaRRZh6BBZD0eiP4hgQDQg4RAWmqYG93HDK54yah/bNBx0UlTeFj7mzRouakEHAHmgp871lXVshqbQeVFmFWfSD23w=
+	t=1776165704; cv=none; b=Zin7vUKxCc1ajyJzISOJhmvbMNG44CjuosSCKoB/WItotY2ahBdWcLAfYKPm/nOQAXxjiY3k/AXHk2CQMGUAous2yqIuvgJWNiFYoHyAdVvEQogwG64mLoLWt/ITk47vaUeGadAnyZ0Yg1wzLjmipRapzuEg8629U5A6e1nCrYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776164970; c=relaxed/simple;
-	bh=Igrdgqjd1mSlqPVTKCYHYfCc2YqtKV+qD/MgEpVL3fs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=poylTB8bBRJWP1ywhrtzPX4ZlNhjWtvE666wlxHLGqcDBSRCoac2/z9kkBSjdleFGRnxEUXtYQMoTuj4Hj6GfYia/xt7bdWH1mdTP41cPOSEHSTQxbYwm57LLlECQcm85PK7G+Y7nd7nFayl/VK6r1/BgRjnv0BKPtFO/IrMweQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hZLMAdoI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776165704; c=relaxed/simple;
+	bh=muFHZE8ZpXIIzHiXEnNQnN9sUvNSqQLJ8E9Rby7pedA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JrRVhn8abefH2ssSAgs0xuSUwR6W0fW5sZTSG+8G7VMb9tvmrmq4KP7nl4Hcp3hiEG8nfzpGdUtEU3z+G0II/v1uJSI6AsdBYI9BTRDf2CZtOWzvWFIiIar+iE7FI4dps+QOlfa0biW3Zjt5vKgn9ZUYvzG7pCXrSeB3MbyTyLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YrKgKED8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hZLMAdoI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B47A7C19425;
-	Tue, 14 Apr 2026 11:09:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YrKgKED8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEA4DC2BCB6
+	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 11:21:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776164969;
-	bh=Igrdgqjd1mSlqPVTKCYHYfCc2YqtKV+qD/MgEpVL3fs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=hZLMAdoIcuwxCt4ZaPjDyUxjQGYQ6QzclOsD+DMOX9kSSwpSYyK9cABZl+5inW9+3
-	 hEv1hvV052o4UTpCwnYEIRgLg4uUm7P02gACkmu/zrBAt+T4tozNkraNTjJz0GOg+Y
-	 kMwt28gdnlWVu+KthcNd2V6NN3O9fCCTzd2km/5w2GDKYiRnhow8uuCi17RS0e1KHU
-	 Iu3USVaYspHKQ1g6QRgcwicIsHNWtAflwe3m7Th80vs1SdvSYaLohm09z/AQmgl41/
-	 oXtEEy0N6QXAZPL6xEd1CFw6BrtGTHUQyodT3hU813wXm2/JHnEe8KhAL2TCHIf7Su
-	 /y9IpduDCZpyg==
-Message-ID: <c696705c-4c0a-4e3c-996c-358d2f0b7074@kernel.org>
-Date: Tue, 14 Apr 2026 13:09:20 +0200
+	s=k20201202; t=1776165704;
+	bh=muFHZE8ZpXIIzHiXEnNQnN9sUvNSqQLJ8E9Rby7pedA=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=YrKgKED8KlQq2NP1T/yaARXTcYYYG+r52C3mUkes6pD+z8/qdFXy4D7pvSCxc6xnj
+	 czS/waDtr+bdUuaRoGQQiCLf57mKu6+Vgq7KFgZcHedWipBI5OPdiPTdMffVwx10QO
+	 MYILIXYSsXh6/jeTvv+nOksa6ar/Gg6pweMjYVQDNi2XWsZwlicOM4kKLkd1ALFIBh
+	 78pLYF1dex6T5z1bhky1iN8S1624CIvk/NUDa5fMG/B2d0y+RVuSPmFhNxbdA6b6qr
+	 XAr6OuDHiq8E44Ev7Q9o13DwEZNQ7SMr6WOJnK3T1kseQx9JRhOgEg2LVJaduSOHg+
+	 Y/JVG3fWIiJ6g==
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b9e00649769so208156866b.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 04:21:43 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8bA6vCtVIHdHpkKeGNEAiUE7qytuL4OK3mlkXlk+5t/dNnhBimrNoPAsoh/ePtEazshq2xF/QsJQR7Uuxy@vger.kernel.org
+X-Gm-Message-State: AOJu0YzMHHrlvNha7VM3Y+2DSigl0kOZIEBZSPEvJash1Z0S+yxUz5fu
+	p+zERqj4TPC8PjrYdjirC+c03t3zy17aTj3nYAPXsXqsSbIQc0hbxd7RMqIiY15pxVXivtxGDXH
+	b0IwQGYuQciNozsd70ucaTIvj1LCY7ZA=
+X-Received: by 2002:a17:907:9803:b0:b9e:345b:a900 with SMTP id
+ a640c23a62f3a-b9e345baa82mr186847066b.31.1776165702461; Tue, 14 Apr 2026
+ 04:21:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 7.2 v2 12/12] selftests/mm: remove READ_ONLY_THP_FOR_FS
- from comments in guard-regions
-To: Matthew Wilcox <willy@infradead.org>, Zi Yan <ziy@nvidia.com>
-Cc: Song Liu <songliubraving@fb.com>, Chris Mason <clm@fb.com>,
- David Sterba <dsterba@suse.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Shuah Khan <shuah@kernel.org>, linux-btrfs@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-References: <20260413192030.3275825-1-ziy@nvidia.com>
- <20260413192030.3275825-13-ziy@nvidia.com>
- <ad1WTCR5Kld-tiL8@casper.infradead.org>
- <E3268570-18E4-40AF-92E5-931A8ED1C9B5@nvidia.com>
- <ad1uK11f_J8sFN0e@casper.infradead.org>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <ad1uK11f_J8sFN0e@casper.infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260411233251.330698-1-dxdt@dev.snart.me>
+In-Reply-To: <20260411233251.330698-1-dxdt@dev.snart.me>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Tue, 14 Apr 2026 20:21:29 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd_2cUqEn94TWKWHD51iGA3KrHsH26neXHsjd9UqjJ6VaA@mail.gmail.com>
+X-Gm-Features: AQROBzAnE3NrTAg5P3tZfGsm3hgm-IZGJ2KtM7QYklv9moU6nw_K7hDsXZ5dcGw
+Message-ID: <CAKYAXd_2cUqEn94TWKWHD51iGA3KrHsH26neXHsjd9UqjJ6VaA@mail.gmail.com>
+Subject: Re: [PATCH v1] exfat: fix handling of damaged volume in exfat_create_upcase_table()
+To: David Timber <dxdt@dev.snart.me>
+Cc: Sungjong Seo <sj1557.seo@samsung.com>, Yuezhang Mo <yuezhang.mo@sony.com>, 
+	linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 4/14/26 00:28, Matthew Wilcox wrote:
-> On Mon, Apr 13, 2026 at 04:51:28PM -0400, Zi Yan wrote:
->> On 13 Apr 2026, at 16:47, Matthew Wilcox wrote:
->>
->>>
->>> Is this true?  Does MADV_COLLAPSE refuse to work on writable files?
->>> Should we delete some code here as well as fix the comment?  ;-)
->>
->> file_thp_enabled() used by __thp_vma_allowable_orders() refuses
->> writable files with inode_is_open_for_write(). That should prevent
->> MADV_COLLAPSE from working on writable files.
-> 
-> That sounds like more code that was added for RO_THP and should be
-> deleted?  See commit e6be37b2e7bd
-
-Sounds like something to implement on top of this patch set?
-
-But with the added dirty checks in patch #2, maybe it's trivial to do it
-in this patchset already.
-
--- 
-Cheers,
-
-David
+On Sun, Apr 12, 2026 at 8:33=E2=80=AFAM David Timber <dxdt@dev.snart.me> wr=
+ote:
+>
+> When the size of the upcase table is set to zero in the dentry for any
+> reason(e.g. corrupted media or misbehaving device), an integer overflow
+> causes the module to loop indefinitely.
+>
+> If the size of the upcase table is read zero, do not attempt to load the
+> table. Instead, fallback to loading the default upcase table. If the
+> size of the upcase table is zero or no upcase table is found, raise
+> exfat_fs_error() to mark the volume read-only.
+>
+> Signed-off-by: David Timber <dxdt@dev.snart.me>
+Applied it to #dev.
+Thanks.
