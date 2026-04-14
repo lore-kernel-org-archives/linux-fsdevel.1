@@ -1,341 +1,189 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC74C37E2E9;
-	Tue, 14 Apr 2026 10:58:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E918D330D28;
+	Tue, 14 Apr 2026 11:02:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776164321; cv=none; b=C9/z8Mo9E0fZyQlylrwh2asON5qxEgvKJ+iDOVTPqj/06MPhtpg6cQI6s62hBqVCyOxb213gDUhSf8OntoVvROM5XTaL4J+GQw6wxarLmWfNWWFsB4Fz7hCDlccfoJBdfVSvAcdMtsePu1XkuwYzaQ6b+xb6Wy+8Wn1Jynf292g=
+	t=1776164534; cv=none; b=SBANktJmbVleqjnkhMhYyRSHJOJ8v/SjXfW3NRPH1tz2XLJBJJ7U4oZ3lCslzOKq+v4cEO3BHrTb5K8JiFpaqh5kgnvuBHZAG3ehqCftPc0MiIayqmqfic2Q8+RU/CyBQB0IjILDDYwNQTiegGlOZW9lc6ZGZzjomOFlKpKkTgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776164321; c=relaxed/simple;
-	bh=JCtui1lYKnHf3ZVUSfPJVnQeZB3H0dRk8/K+IfqXGwc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V4tjVpUofN+x1RlkVTL54eX2DBDL/Pdb+QwWIuIZX9CK2dqoNIICOuwmseIQFb5hEIAZzJtAzdz0isjzbNg27iTgllJSjrjzhr+I+huVEOBC0RpicI+htcvBkW9upF3CfDsFJKAjIn0L55TLG4qJEfjWlW+X5XWzq4/JTH7aeas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qtZxGax4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776164534; c=relaxed/simple;
+	bh=3pzMZMfMkr/IcuqUWA3o3NMItdA227VUY7ANJl/0BFs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=S1gKKqeaRNmpGzTnaEea2VmIglQTEY3LNrhits8YYJ1PFfOg+YygkidPNL+SyrZ4NV/ZMiERsC5hDUhNGHPJLhPYGvP7LdiKW7DT2uNDhCwIky6VxmMDAe1XljhmqI2j9X9bhJ6k+954QCOjXwacHnr5+qNaKM6rLz3VjD4LaLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NfrtkX74; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qtZxGax4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E546C19425;
-	Tue, 14 Apr 2026 10:58:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NfrtkX74"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92A6DC19425;
+	Tue, 14 Apr 2026 11:02:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776164321;
-	bh=JCtui1lYKnHf3ZVUSfPJVnQeZB3H0dRk8/K+IfqXGwc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qtZxGax4Nc97GgujyWo5gTK6ba1Q0/zoOqHnICd6wLOi0CD47kn4pP0mlfYudSIDn
-	 m30Jogv0l4Xl1CqpjgBbxFY0RaBwbZlkW9ouSC0mR2MB1ImnNXO6fSKZAGK3YAGs3a
-	 Q6FmD1k9WVF5TJ6rEtwvkoWI4yx6oIkmt62BjE8LKFnjocKuiK1KVujWQm2Isn2tus
-	 LAqWBKAj4Kk6wAB6qJ/0uDzhX2g+JXQk8q6UX1tfRvvv9WElb68BbKOHWUsd2EOHC3
-	 gpE+0SwNNObNi22lWpRXR+t9Wj1RXml+jkbws49TEG7iM+BmzXW/cB8lox8W6GxjGG
-	 4r1A9kRJ+pgJQ==
-Date: Tue, 14 Apr 2026 12:58:37 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [GIT PULL 11/12 for v7.1] vfs mount
-Message-ID: <20260414-textur-anbahnen-004b3ac3ab8f@brauner>
-References: <20260410-vfs-v71-b055f260060c@brauner>
- <20260410-vfs-mount-v71-89e63a03df4d@brauner>
- <CAHk-=wiA_XzFe_YswO4hezv7MQH6D66k-MBWEZwFJ4urut1aJQ@mail.gmail.com>
+	s=k20201202; t=1776164533;
+	bh=3pzMZMfMkr/IcuqUWA3o3NMItdA227VUY7ANJl/0BFs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=NfrtkX74P0KKHje61gprd/J6K00bTdrDkBqxS4bMicEwRhHRqJmr/MIBHFi059xyZ
+	 9Nn4IbiL3DtTnBSsdyPa1YJJUsjrCw2R6T3DuulETl6gzTFaD1Y0VyI/ovgpryfF/o
+	 kHLaibZ8LVCz6RgHsz3MlnqTYu6sKe3JWouz24qxN9ypDUqdMKi8Y8l39kaWMZTcdt
+	 lhrJ6+kunkGflPirnUc0V6A1U/coHeRoDiTCn0Tnb/jqvzq/OUDrMWxlNxjEyhHbG+
+	 HxAS4YEy/mcvYjZu6np5TrwFbHoST+htmjVEHLaeJWLafcixeHpyEjgpPQk5EOgcZu
+	 a2s9DurQZtt8A==
+Message-ID: <a4d477a8-71d8-4219-9cb3-153f2c01e184@kernel.org>
+Date: Tue, 14 Apr 2026 13:02:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wiA_XzFe_YswO4hezv7MQH6D66k-MBWEZwFJ4urut1aJQ@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 7.2 v2 05/12] mm/khugepaged: remove READ_ONLY_THP_FOR_FS
+ check in hugepage_pmd_enabled()
+To: Zi Yan <ziy@nvidia.com>, Matthew Wilcox <willy@infradead.org>
+Cc: Song Liu <songliubraving@fb.com>, Chris Mason <clm@fb.com>,
+ David Sterba <dsterba@suse.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Shuah Khan <shuah@kernel.org>, linux-btrfs@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, linux-kselftest@vger.kernel.org
+References: <20260413192030.3275825-1-ziy@nvidia.com>
+ <20260413192030.3275825-6-ziy@nvidia.com>
+ <ad1TMjF1L3usYIC5@casper.infradead.org>
+ <05F00072-7E06-47C9-BC26-FE3736F557FC@nvidia.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <05F00072-7E06-47C9-BC26-FE3736F557FC@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-> This is why different branches should be independent things. When they
-> contain each other, there's no point. One bad branch poisons the
-> others.
+On 4/13/26 22:42, Zi Yan wrote:
+> On 13 Apr 2026, at 16:33, Matthew Wilcox wrote:
+> 
+>> On Mon, Apr 13, 2026 at 03:20:23PM -0400, Zi Yan wrote:
+>>> After READ_ONLY_THP_FOR_FS Kconfig is removed, this check becomes dead
+>>> code.
+>>>
+>>> This changes hugepage_pmd_enabled() semantics. Previously, with
+>>> READ_ONLY_THP_FOR_FS enabled, hugepage_pmd_enabled() returned true whenever
+>>> /sys/kernel/mm/transparent_hugepage/enabled was set to "always" or
+>>> "madvise".
+>>>
+>>> After this change, hugepage_pmd_enabled() is governed only by the anon and
+>>> shmem PMD THP controls. As a result, khugepaged collapse for file-backed
+>>> folios no longer runs unconditionally under the top-level THP setting, and
+>>> now depends on the anon/shmem PMD configuration.
+>>
+>> This seems like it'll turn off khugepaged too easily.  I would have
+>> thought we'd want:
+>>
+>> -	if (IS_ENABLED(CONFIG_READ_ONLY_THP_FOR_FS) &&
+>> -	    hugepage_global_enabled())
+>> +	if (hugepage_global_enabled())
+>>  		return true;
+>
 
-Usually all branches I sent are completely independent of another unless
-the merge conflict is just needlessly nasty or it is shared with another
-tree. Here this clearly worked to our detriment. Sorry about that, I
-failed to mention the dependency explicitly as I usually do.
+I assume such a change should come before patch #4, as it seems to affect
+the functionality that depended on CONFIG_READ_ONLY_THP_FOR_FS.
+ 
+> I thought about this, but it means khugepaged is turned on regardless of
+> anon and shmem configs. I tend to think the original code was a bug,
+> since enabling CONFIG_READ_ONLY_THP_FOR_FS would enable khugepaged all
+> the time.
 
-I dropped the merge of the audit branch that you disagreed with from
-this branch. The only commits that had to be reapplied on top are
-selftest fixes and one syzbot bugfix. I hope this is ok now.
+There might be some FS mapping to collapse? So that makes sense to
+some degree.
 
-Hey Linus,
+I really don't like the side-effects of "/sys/kernel/mm/transparent_hugepage/enabled".
+Like, enabling khugepaged+PMD for files.
 
-/* Summary */
+> 
+>>
+>> ... or maybe this whole thing could be simplified?
+> 
+> Alternatives could be:
+> 1. to add a file-backed khhugepaged config, but another sysfs?
 
-* Add FSMOUNT_NAMESPACE flag to fsmount() that creates a new mount
-  namespace with the newly created filesystem attached to a copy of the
-  real rootfs. This returns a namespace file descriptor instead of an
-  O_PATH mount fd, similar to how OPEN_TREE_NAMESPACE works for
-  open_tree().
+Maybe that would be the time to decouple file THP logic from
+hugepage_global_enabled()/hugepage_global_always().
 
-  This allows creating a new filesystem and immediately placing it in a
-  new mount namespace in a single operation, which is useful for
-  container runtimes and other namespace-based isolation mechanisms.
+In particular, as pagecache folio allocation doesn't really care about __thp_vma_allowable_orders() IIRC.
 
-  This accompanies OPEN_TREE_NAMESPACE and avoids a needless detour via
-  OPEN_TREE_NAMESPACE to get the same effect. Will be especially useful
-  when you mount an actual filesystem to be used as the container
-  rootfs.
+I'm thinking about something like the following:
 
-* Currently, creating a new mount namespace always copies the entire
-  mount tree from the caller's namespace. For containers and sandboxes
-  that intend to build their mount table from scratch this is wasteful:
-  they inherit a potentially large mount tree only to immediately tear
-  it down.
+diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+index b2a6060b3c20..fb3a4fd84fe0 100644
+--- a/mm/huge_memory.c
++++ b/mm/huge_memory.c
+@@ -184,15 +184,6 @@ unsigned long __thp_vma_allowable_orders(struct vm_area_struct *vma,
+                                                   forced_collapse);
+ 
+        if (!vma_is_anonymous(vma)) {
+-               /*
+-                * Enforce THP collapse requirements as necessary. Anonymous vmas
+-                * were already handled in thp_vma_allowable_orders().
+-                */
+-               if (!forced_collapse &&
+-                   (!hugepage_global_enabled() || (!(vm_flags & VM_HUGEPAGE) &&
+-                                                   !hugepage_global_always())))
+-                       return 0;
+-
+                /*
+                 * Trust that ->huge_fault() handlers know what they are doing
+                 * in fault path.
 
-  This series adds support for creating a mount namespace that contains
-  only a clone of the root mount, with none of the child mounts. Two new
-  flags are introduced:
+Then, we might indeed just want a khugepaged toggle whether to enable it at
+all in files. (or just a toggle to disable khugeapged entirely?)
 
-  - CLONE_EMPTY_MNTNS (0x400000000) for clone3(), using the 64-bit flag space.
-  - UNSHARE_EMPTY_MNTNS (0x00100000) for unshare()
+-- 
+Cheers,
 
-  Both flags imply CLONE_NEWNS. The resulting namespace contains a
-  single nullfs root mount with an immutable empty directory. The
-  intended workflow is to then mount a real filesystem (e.g., tmpfs)
-  over the root and build the mount table from there.
-
-* Allow MOVE_MOUNT_BENEATH to target the caller's rootfs, allowing to
-  switch out the rootfs without pivot_root(2).
-
-  The traditional approach to switching the rootfs involves
-  pivot_root(2) or a chroot_fs_refs()-based mechanism that atomically
-  updates fs->root for all tasks sharing the same fs_struct. This has
-  consequences for fork(), unshare(CLONE_FS), and setns().
-
-  This series instead decomposes root-switching into individually
-  atomic, locally-scoped steps:
-
-  fd_tree = open_tree(-EBADF, "/newroot", OPEN_TREE_CLONE | OPEN_TREE_CLOEXEC);
-  fchdir(fd_tree); move_mount(fd_tree, "", AT_FDCWD, "/", MOVE_MOUNT_BENEATH | MOVE_MOUNT_F_EMPTY_PATH);
-  chroot(".");
-  umount2(".", MNT_DETACH);
-
-  Since each step only modifies the caller's own state, the
-  fork/unshare/setns races are eliminated by design.
-
-  A key step to making this possible is to remove the locked mount
-  restriction. Originally MOVE_MOUNT_BENEATH doesn't support mounting
-  beneath a mount that is locked. The locked mount protects the
-  underlying mount from being revealed. This is a core mechanism of
-  unshare(CLONE_NEWUSER | CLONE_NEWNS). The mounts in the new mount
-  namespace become locked. That effectively makes the new mount table
-  useless as the caller cannot ever get rid of any of the mounts no
-  matter how useless they are.
-
-  We can lift this restriction though. We simply transfer the locked
-  property from the top mount to the mount beneath. This works because
-  what we care about is to protect the underlying mount aka the parent.
-  The mount mounted between the parent and the top mount takes over the
-  job of protecting the parent mount from the top mount mount. This
-  leaves us free to remove the locked property from the top mount which
-  can consequently be unmounted:
-
-  unshare(CLONE_NEWUSER | CLONE_NEWNS)
-
-  and we inherit a clone of procfs on /proc then currently we cannot
-  unmount it as:
-
-  umount -l /proc
-
-  will fail with EINVAL because the procfs mount is locked.
-
-  After this series we can now do:
-
-  mount --beneath -t tmpfs tmpfs /proc umount -l /proc
-
-  after which a tmpfs mount has been placed beneath the procfs mount.
-  The tmpfs mount has become locked and the procfs mount has become
-  unlocked.
-
-  This means you can safely modify an inherited mount table after
-  unprivileged namespace creation.
-
-  Afterwards we simply make it possible to move a mount beneath the
-  rootfs allowing to upgrade the rootfs.
-
-  Removing the locked restriction makes this very useful for containers
-  created with unshare(CLONE_NEWUSER | CLONE_NEWNS) to reshuffle an
-  inherited mount table safely and MOVE_MOUNT_BENEATH makes it possible
-  to switch out the rootfs instead of using the costly pivot_root(2).
-
-/* Testing */
-
-gcc (Debian 14.2.0-19) 14.2.0
-Debian clang version 19.1.7 (3+b1)
-
-No build failures or warnings were observed.
-
-/* Conflicts */
-
-Merge conflicts with mainline
-=============================
-
-No known conflicts.
-
-Merge conflicts with other trees
-================================
-
-This will have a merge conflict with:
-[1]: https://lore.kernel.org/20260410-namespaces-misc-v71-000ced4f8b7a@brauner
-[2]: https://lore.kernel.org/20260410-vfs-pidfs-v71-b736f79a20b9@brauner
-
-It can be resolved as follows:
-
-diff --cc include/uapi/linux/sched.h
-index 149dbc64923b,4e76fce9f777..000000000000
---- a/include/uapi/linux/sched.h
-+++ b/include/uapi/linux/sched.h
-@@@ -34,11 -34,9 +34,12 @@@
-  #define CLONE_IO              0x80000000      /* Clone io context */
-
-  /* Flags for the clone3() syscall. */
- -#define CLONE_CLEAR_SIGHAND 0x100000000ULL /* Clear any signal handler and reset to SIG_DFL. */
- -#define CLONE_INTO_CGROUP 0x200000000ULL /* Clone into a specific cgroup given the right permissions. */
- +#define CLONE_CLEAR_SIGHAND   (1ULL << 32) /* Clear any signal handler and reset to SIG_DFL. */
- +#define CLONE_INTO_CGROUP     (1ULL << 33) /* Clone into a specific cgroup given the right permissions. */
- +#define CLONE_AUTOREAP                (1ULL << 34) /* Auto-reap child on exit. */
- +#define CLONE_NNP             (1ULL << 35) /* Set no_new_privs on child. */
- +#define CLONE_PIDFD_AUTOKILL  (1ULL << 36) /* Kill child when clone pidfd closes. */
-+ #define CLONE_EMPTY_MNTNS     (1ULL << 37) /* Create an empty mount namespace. */
-
-  /*
-   * cloning flags intersect with CSIGNAL so can be used with unshare and clone3
-diff --cc kernel/fork.c
-index 55a6906d3014,dea6b3454447..000000000000
---- a/kernel/fork.c
-+++ b/kernel/fork.c
-@@@ -2941,9 -2906,9 +2951,9 @@@ static inline bool clone3_stack_valid(s
-  static bool clone3_args_valid(struct kernel_clone_args *kargs)
-  {
-        /* Verify that no unknown flags are passed along. */
---      if (kargs->flags &
--           ~(CLONE_LEGACY_FLAGS | CLONE_CLEAR_SIGHAND | CLONE_INTO_CGROUP |
--             CLONE_AUTOREAP | CLONE_NNP | CLONE_PIDFD_AUTOKILL))
- -          ~(CLONE_LEGACY_FLAGS | CLONE_CLEAR_SIGHAND |
- -            CLONE_INTO_CGROUP | CLONE_EMPTY_MNTNS))
-++      if (kargs->flags & ~(CLONE_LEGACY_FLAGS | CLONE_CLEAR_SIGHAND |
-++                           CLONE_INTO_CGROUP | CLONE_AUTOREAP | CLONE_NNP |
-++                           CLONE_PIDFD_AUTOKILL | CLONE_EMPTY_MNTNS))
-                return false;
-
-        /*
-@@@ -3092,9 -3057,11 +3102,9 @@@ void __init proc_caches_init(void
-   */
-  static int check_unshare_flags(unsigned long unshare_flags)
-  {
- -      if (unshare_flags & ~(CLONE_THREAD|CLONE_FS|CLONE_NEWNS|CLONE_SIGHAND|
- +      if (unshare_flags & ~(CLONE_THREAD|CLONE_FS|CLONE_SIGHAND|
-                                CLONE_VM|CLONE_FILES|CLONE_SYSVSEM|
--                               CLONE_NS_ALL))
- -                              CLONE_NEWUTS|CLONE_NEWIPC|CLONE_NEWNET|
- -                              CLONE_NEWUSER|CLONE_NEWPID|CLONE_NEWCGROUP|
- -                              CLONE_NEWTIME | UNSHARE_EMPTY_MNTNS))
-++                              CLONE_NS_ALL|UNSHARE_EMPTY_MNTNS))
-                return -EINVAL;
-        /*
-         * Not implemented, but pretend it works if there is nothing
-diff --cc kernel/nsproxy.c
-index 63b44ee79847,1bdc5be2dd20..000000000000
---- a/kernel/nsproxy.c
-+++ b/kernel/nsproxy.c
-@@@ -211,9 -213,12 +212,10 @@@ int unshare_nsproxy_namespaces(unsigne
-        struct nsproxy **new_nsp, struct cred *new_cred, struct fs_struct *new_fs)
-  {
-        struct user_namespace *user_ns;
-+       u64 flags = unshare_flags;
-        int err = 0;
-
--       if (!(unshare_flags & (CLONE_NS_ALL & ~CLONE_NEWUSER)))
- -      if (!(flags & (CLONE_NEWNS | CLONE_NEWUTS | CLONE_NEWIPC |
- -                     CLONE_NEWNET | CLONE_NEWPID | CLONE_NEWCGROUP |
- -                     CLONE_NEWTIME)))
-++      if (!(flags & (CLONE_NS_ALL & ~CLONE_NEWUSER)))
-                return 0;
-
-        user_ns = new_cred ? new_cred->user_ns : current_user_ns();
-
-The following changes since commit 1f318b96cc84d7c2ab792fcc0bfd42a7ca890681:
-
-  Linux 7.0-rc3 (2026-03-08 16:56:54 -0700)
-
-are available in the Git repository at:
-
-  git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.1-rc1.mount.v2
-
-for you to fetch changes up to cad3bf1c330274d11f25f1b7afae9b9dba13fbd3:
-
-  selftests/namespaces: remove unused utils.h include from listns_efault_test (2026-04-14 09:31:18 +0200)
-
-----------------------------------------------------------------
-vfs-7.1-rc1.mount.v2
-
-Please consider pulling these changes from the signed vfs-7.1-rc1.mount.v2 tag.
-
-Thanks!
-Christian
-
-----------------------------------------------------------------
-Christian Brauner (21):
-      mount: start iterating from start of rbtree
-      mount: simplify __do_loopback()
-      mount: add FSMOUNT_NAMESPACE
-      tools: update mount.h header
-      selftests/statmount: add statmount_alloc() helper
-      selftests: add FSMOUNT_NAMESPACE tests
-      Merge patch series "fsmount: add FSMOUNT_NAMESPACE"
-      namespace: allow creating empty mount namespaces
-      selftests/filesystems: add tests for empty mount namespaces
-      selftests/filesystems: add clone3 tests for empty mount namespaces
-      Merge patch series "namespace: allow creating empty mount namespaces"
-      move_mount: transfer MNT_LOCKED
-      move_mount: allow MOVE_MOUNT_BENEATH on the rootfs
-      selftests/filesystems: add MOVE_MOUNT_BENEATH rootfs tests
-      Merge patch series "move_mount: expand MOVE_MOUNT_BENEATH"
-      mount: always duplicate mount
-      selftests/statmount: remove duplicate wait_for_pid()
-      selftests/empty_mntns: fix statmount_alloc() signature mismatch
-      selftests/empty_mntns: fix wrong CLONE_EMPTY_MNTNS hex value in comment
-      selftests/fsmount_ns: add missing TARGETS and fix cap test
-      selftests/namespaces: remove unused utils.h include from listns_efault_test
-
- fs/namespace.c                                     |  194 ++--
- include/uapi/linux/mount.h                         |    1 +
- include/uapi/linux/sched.h                         |    7 +
- kernel/fork.c                                      |   17 +-
- kernel/nsproxy.c                                   |   21 +-
- tools/include/uapi/linux/mount.h                   |   14 +-
- tools/testing/selftests/Makefile                   |    3 +
- .../selftests/filesystems/empty_mntns/.gitignore   |    4 +
- .../selftests/filesystems/empty_mntns/Makefile     |   12 +
- .../empty_mntns/clone3_empty_mntns_test.c          |  938 ++++++++++++++++
- .../filesystems/empty_mntns/empty_mntns.h          |   25 +
- .../filesystems/empty_mntns/empty_mntns_test.c     |  725 +++++++++++++
- .../empty_mntns/overmount_chroot_test.c            |  225 ++++
- .../selftests/filesystems/fsmount_ns/.gitignore    |    1 +
- .../selftests/filesystems/fsmount_ns/Makefile      |   10 +
- .../filesystems/fsmount_ns/fsmount_ns_test.c       | 1135 ++++++++++++++++++++
- .../selftests/filesystems/move_mount/.gitignore    |    2 +
- .../selftests/filesystems/move_mount/Makefile      |   10 +
- .../filesystems/move_mount/move_mount_test.c       |  492 +++++++++
- .../selftests/filesystems/open_tree_ns/Makefile    |    2 +-
- .../filesystems/open_tree_ns/open_tree_ns_test.c   |   43 +-
- .../selftests/filesystems/statmount/statmount.h    |   51 +
- .../filesystems/statmount/statmount_test.c         |   45 +-
- .../filesystems/statmount/statmount_test_ns.c      |   25 -
- tools/testing/selftests/filesystems/utils.c        |    4 +-
- tools/testing/selftests/filesystems/utils.h        |    2 +
- .../selftests/namespaces/listns_efault_test.c      |    1 -
- 27 files changed, 3814 insertions(+), 195 deletions(-)
- create mode 100644 tools/testing/selftests/filesystems/empty_mntns/.gitignore
- create mode 100644 tools/testing/selftests/filesystems/empty_mntns/Makefile
- create mode 100644 tools/testing/selftests/filesystems/empty_mntns/clone3_empty_mntns_test.c
- create mode 100644 tools/testing/selftests/filesystems/empty_mntns/empty_mntns.h
- create mode 100644 tools/testing/selftests/filesystems/empty_mntns/empty_mntns_test.c
- create mode 100644 tools/testing/selftests/filesystems/empty_mntns/overmount_chroot_test.c
- create mode 100644 tools/testing/selftests/filesystems/fsmount_ns/.gitignore
- create mode 100644 tools/testing/selftests/filesystems/fsmount_ns/Makefile
- create mode 100644 tools/testing/selftests/filesystems/fsmount_ns/fsmount_ns_test.c
- create mode 100644 tools/testing/selftests/filesystems/move_mount/.gitignore
- create mode 100644 tools/testing/selftests/filesystems/move_mount/Makefile
- create mode 100644 tools/testing/selftests/filesystems/move_mount/move_mount_test.c
+David
