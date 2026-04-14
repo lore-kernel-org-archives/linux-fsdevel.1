@@ -1,107 +1,154 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDB353D3CF2
-	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 14:39:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.175
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776177594; cv=pass; b=pCK3YahkRgfJIyCF4Z4xlmBzbhiO8DufxVxbvOyuJAvIX81S/RT8KEKtx/jXyhO6yglS1LBYPJYxiD6VkhHsLRCGFRU8hEPm11TPPxdCP+RHSa1TKj5C/YYp3GzOPRKNhW2gGBew0RBGWevo3tBHXRAQ0dVsAQIZfwf/WO/Revg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776177594; c=relaxed/simple;
-	bh=gBCre1Um+if/uEhzyyBB14P0yHe7klLtMEk1Sen/6CQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XIFazpWsGDPOuccPK8xbCc2cxDZnDKV/2wgAlz97mKIZtWRRM4Wh59FPHaTKaiS6qiKgokarxNKqw6CTwFTucJTU1o357xTyVI6hunQ2bTiiHomDFRUO4tIZgv1zFSsZhH9WPoFDb0OQKwmOnnaJTcbE/enNSkKYWfhSdvMhvnc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=OsjZ7gCE; arc=pass smtp.client-ip=209.85.160.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E62BE3E8683
+	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 15:00:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776178809; cv=none; b=opkG7zpoTd6zB7k8ftMLrl/c9tfwbC7fQRL26J270zKLMQ/o3FOhfx5MHd0Y6nQJBTfZAauliTrA0XDDErdt36FFD701fSdq+pc6CdRpL2ocRqdzcP+98QdI44YuGX2rJ0hEhlEbHUfH4388LhggWnZ20w4sllSJl9y0rcgFjFM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776178809; c=relaxed/simple;
+	bh=MHeRXp7jWudyKWW5LDG/8x9GyvugF0IbBMSQO7eKVm8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=LUEomOhbWG78lbpb9POtowVDvrTGPVnBCNuCfzPfd3f27JbzUDrfbXrJDQWXmhTM1OXgS0XRLowiJbhLemWBhIilje56OzZ3iPsp2Yc/BI2o+1legPxsNHucRkBxwtsIvlCgQQgSxK92o+e+7u6RDheBUAJSB8ahFJIXzPL+Rwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=leNYsSUY; arc=none smtp.client-ip=209.85.210.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="OsjZ7gCE"
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-50babbce85fso60522971cf.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 07:39:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776177592; cv=none;
-        d=google.com; s=arc-20240605;
-        b=blZmyX65s4m8fBwdAQGf488s93G2V3GtkBGumwetEzLeoUhauBrrHXj8tTRcaiE8lA
-         0P3Z830R3vkwpVuFhZ/mxrlsN8L5PcSgnGzdDmhwn1QzVlg9wjTujeWnbAxA5JiT6H8r
-         /cby2WJR6rLjEAEROAMlFom/dcNaru4SEV9Pj4dEnYpA2fKvHHVa1QFm2BI/icmCKwlU
-         M9ilaaOklvOjaNHLLP0Fc73dZplcmjl9AjwzQjU7mF4pJ8gID2YaCfSFpLhotBd6lTP6
-         Z2ojFRKgdXo4JR20gGfXKOTNc40BuE5Ddf0vuwtVWH9asK1CiByBQo+0zaalSP4vtNCh
-         J5bQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=4EcfSCmC+jBrLkjkvPNn/5Oowyd9l/0x1OUXzwYof+k=;
-        fh=/Mb/ioVqMRBLQUzt7ozvXntQQRmdN09U0BasMOCuZds=;
-        b=IjTo2SYie8yH3RyXDv0zKDYKTAKyWaWZueApGbvs4A4fwyMuXwT9aVcaDsjXpHhX7q
-         Y06NgWpY/iANRdRhzSfJAqKFocJcf4VpFPPCycOE7C5dMMEUZeIC/yFuy0spY+OZQdmd
-         C3jVgHZa52npM4ufgcYO+x/nzm2Wlut0Eps5u3Y0xdlQT8emmDB0VHehwghuy000q5lu
-         WM+fDnueIVuVVzKwOrlG2hCs82X/F0UTbYxSbdpW9kJt3xXyEEmyiDzLFkiJFVVASz4S
-         4oQhPl9KPk0Yc+VYlFcw1W6oXVVdCQaEq2WMEAhSD9ekfkEXMe5Rd1BZ7bqWz/s+3Ycm
-         oNlg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="leNYsSUY"
+Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-7dbcd61429cso2713068a34.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 08:00:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1776177592; x=1776782392; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=4EcfSCmC+jBrLkjkvPNn/5Oowyd9l/0x1OUXzwYof+k=;
-        b=OsjZ7gCEPdPvk1QOlqFPOxwUFFhPvimRCnYVtTpp/2bRy5bsV0mHkGMfFEI+/NFmJg
-         6IZIatmpwrVzI7i7bBcyKHqJXgNlhJTuXXebZV7eIxFyc0opW6nRJ7lLpskqAGaCUXN2
-         khbB8d2PBT8oNqwRZFGEfsyDSViUPIXCoRDxs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776177592; x=1776782392;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1776178806; x=1776783606; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4EcfSCmC+jBrLkjkvPNn/5Oowyd9l/0x1OUXzwYof+k=;
-        b=Sn2lE+3LSWGqeEOqnuNKFDJ9YO0ZKQ5NvlmArd6iKqpUCNAg/GzLIdR4aOjFHInUqQ
-         aeBnhbmdSDTPNWPE5bafiTDAcPjNCbKZsgalm4cK6lwqgMc3uIoZov7vcUlggTeJSdfx
-         zdklJAdG7ZvVrKOx4gsM3m0wGuFzMIGt2hB8vquVAMV6Z6Juakzgov68YUzq6SK29TLA
-         1DswOhFWLy3m37h7tCPF9V44sTwqWfrhze4vuh6mMs6YoClNLFfgQVTjIsB+OWr3S/99
-         TAvN0Ry1NecRylAnz+78PenZ4dSbsFPqnFQ4Dd5LZ2xWbOrIVcnzUQeiv+v0GyMoiFUP
-         WtIQ==
-X-Gm-Message-State: AOJu0YzpW72ajEuGtZw1HvFr5bSYbNWqMG4LKbWTb/RMHO6FMCX2Kjl1
-	WM7gwytbG93EFwKVNYh2W4udEqKMIGRJzaLtfr7lHV1cxgKtTdzlfB3fo/Sl2/K7kdU0G4wRz2I
-	FfLrGCB6bbZeWrLjcK0FrtSP1OXK0xGjPptF24K4DVg==
-X-Gm-Gg: AeBDiev8VKz/SojGZRNoVPKxCkOoXVPKcTFqviXTSJdjoDzk4B2Sr0Lkc+CHQnr/R9v
-	h4m2P1u8tdJKWg3MdTaxokOwGZc6KQF+wKxcgunO5mQGwtgwJrNpqARFeR9gYTuIgwPwedDsNN2
-	5kieHPFV48pT3QwUsrI6oZxyPvuOxqeuS4Pu3tgxBy3IgkBtjTcltaMnfK+Z7I5DzKiqPxFotai
-	obqwoNl/FfyzNi0Fcxk9Ti7WEVXtyWChBtxOdEfKfCSWeVRw4+2WFATyCG6xLLikX04J6Tgtga4
-	acZBsNLoXxWoJ7+lF2yxw1MwSc/Ms6rBlsc9
-X-Received: by 2002:a05:622a:2505:b0:50d:e2ea:7232 with SMTP id
- d75a77b69052e-50de2ea7996mr218430461cf.31.1776177591930; Tue, 14 Apr 2026
- 07:39:51 -0700 (PDT)
+        bh=4HhNjSBI2VaOj0qFbdmW6uKns8Ks8XYfh0+PT8mKMJY=;
+        b=leNYsSUYtU573OFGCWKt04bmvenwZ6cITupzuVlO/TCG7KEOjQG4HPFLMeWgC1Sm88
+         WRVtpi+E0HoTuxY5yj51vLUKPG18HUB4DKi9ARNNiuVUCGAqt81nxaK4sEhiAMGDZ+VY
+         xdETbdaDbxm/5K3T7+qnVXCQON9A8MQ7GsDHuEuis8gSLRurhmi1hlQDP2mAixHog0ta
+         flK2x6ZP0sumaUTeF1cf4VNEBdCBSsNdX6jwSvkjbAl15uHHHoViK7JSj7Wg3xoLa4DU
+         0S4Nex5JOUdiHKqoWte3p+uP7Vmt17DsjUJWfagoxlBFp5sHUShTZEXAZQZMR8jiTiaK
+         ljuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776178806; x=1776783606;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=4HhNjSBI2VaOj0qFbdmW6uKns8Ks8XYfh0+PT8mKMJY=;
+        b=mA5/3lMm5xAoClQatY6lqsXGhDpeapQ2xmiMuM3Yco3wqepWgBBKIV0RpJPTrmiInj
+         as70Np7ZUgwRS3lzlKoYmz2cgdiMMKd5aidLZw7bImZDBhrU8Z4+t3PjKgEl2QurJK/w
+         ezosbaCMKB+SMhdVgHNtFjVi+kGfhtX7bjmyr/4bkXE1M89psgAIMKNVWjDLfuNqPw/5
+         ffYPSHksH5eFtH/+r0sMWJNguc6Y7FzO4KS7d46beToKTM9Mi0i5AglZeIYEHZieSs/a
+         GUq2oYHIRbkuh5/03QxV4D+6kXAvTa5oQPQL0R7i+QSYq9hKLXULsVDb8O5XJeQA+yby
+         I8sg==
+X-Forwarded-Encrypted: i=1; AFNElJ9PBAqt7Mpy//lcgAtHCz8rGOtXOjlGL481T+dyTHCQqyx89q+sG9e/ui151uY1CQRWsXcMrxudAKjrFL3P@vger.kernel.org
+X-Gm-Message-State: AOJu0YyL3leva1zZb9p0MkvpBXcBLnKbvX3hCtOW6CQa0iWXzIHrOS2N
+	wPY6Qv+LwFqqNA6aWcrjuireIb3w1NgscV7n+jMVHddVB1CcXQK5QwhJjwriHQ==
+X-Gm-Gg: AeBDievGlvzn+ksGFHtPmKTpHFOvj0/G57QhDpMGPcZQnRJZoe1NDXparxxB4tk1DAN
+	zpwlghkj2kMIy7gGj6IuTrl0SKaliFcGLd+lA69EaDLmYhy+eBnPiAbU4e9Q+84V87xuWR8tqJI
+	z0s0WhsL+mwm1ljUmU0DvscvtAeO/bZ7YDMGF9z/aC9JFlI5xG7SgwHZDz/ZSPvHJtht6wO6BhR
+	bD1QH+uwWBEDqMZfpEPkyGR72bqAXr/qgfhDID7pGJHA7hcDuCqzQOEkSg1qstllg1O1stmA/7v
+	g2DkHwURIfyEcnxAr0b1xgZUaLZiMaCw5DmzCHzlvBaPcGbzLH9ULXksidMC76ks9qbQmxigzMN
+	oh1uFdR+rhUzje+TY1TyLO5vCJEyrL80riKnFwFGVZ4mF51GYaQZw3bxYg8zm4Hhyf8XNP5Nj44
+	INxi86dELUt8/RKfZurOu+KA==
+X-Received: by 2002:a05:6830:488e:b0:7d7:51af:4aa1 with SMTP id 46e09a7af769-7dc27db3792mr10373819a34.18.1776178805691;
+        Tue, 14 Apr 2026 08:00:05 -0700 (PDT)
+Received: from localhost ([2a03:2880:10ff:54::])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7dc265c2babsm10705351a34.7.2026.04.14.08.00.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Apr 2026 08:00:04 -0700 (PDT)
+From: Joshua Hahn <joshua.hahnjy@gmail.com>
+To: Ye Liu <ye.liu@linux.dev>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Ye Liu <liuye@kylinos.cn>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 3/4] mm/vmstat: remove unused __node_stat_* wrappers
+Date: Tue, 14 Apr 2026 07:59:58 -0700
+Message-ID: <20260414150001.3262806-1-joshua.hahnjy@gmail.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260414091527.2970844-4-ye.liu@linux.dev>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260407005040.1929492-1-rdunlap@infradead.org>
-In-Reply-To: <20260407005040.1929492-1-rdunlap@infradead.org>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Tue, 14 Apr 2026 16:39:41 +0200
-X-Gm-Features: AQROBzCMSkzJ76-j4C_O8wHJrhM_xTPXA6a9511QV3oQbPdGZUTdhtkR48l8A64
-Message-ID: <CAJfpegtRFgW2z5PSrMM1YwdtR8=sNktkMOHWacB-FNoQ=2BOGw@mail.gmail.com>
-Subject: Re: [PATCH 1/3 v2] fuse: {io-uring} drop kernel-doc notation for a comment
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, 7 Apr 2026 at 02:50, Randy Dunlap <rdunlap@infradead.org> wrote:
->
-> Use regular C comment syntax for a non-kernel-doc comment to avoid
-> a kernel-doc warning:
->
-> Warning: fs/fuse/dev_uring_i.h:104 This comment starts with '/**', but
->  isn't a kernel-doc comment.
->  * Describes if uring is for communication and holds alls the data needed
->
-> Binary build output is the same before and after this change.
->
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+On Tue, 14 Apr 2026 17:15:20 +0800 Ye Liu <ye.liu@linux.dev> wrote:
+
+> From: Ye Liu <liuye@kylinos.cn>
+> 
+> Replace the single call to __node_stat_mod_folio()
+> with node_stat_mod_folio(), and remove the dead inline __node_stat_*
+> wrapper definitions from include/linux/vmstat.h.
+> 
+> Signed-off-by: Ye Liu <liuye@kylinos.cn>
 > ---
-> v2: rebase and resend
+>  include/linux/vmstat.h | 18 ------------------
+>  mm/page-writeback.c    |  2 +-
+>  2 files changed, 1 insertion(+), 19 deletions(-)
+> 
+> diff --git a/include/linux/vmstat.h b/include/linux/vmstat.h
+> index 3c9c266cf782..54da7d820f78 100644
+> --- a/include/linux/vmstat.h
+> +++ b/include/linux/vmstat.h
+> @@ -440,24 +440,6 @@ static inline void zone_stat_sub_folio(struct folio *folio,
+>  	mod_zone_page_state(folio_zone(folio), item, -folio_nr_pages(folio));
+>  }
+>  
+> -static inline void __node_stat_mod_folio(struct folio *folio,
+> -		enum node_stat_item item, long nr)
+> -{
+> -	__mod_node_page_state(folio_pgdat(folio), item, nr);
+> -}
+> -
+> -static inline void __node_stat_add_folio(struct folio *folio,
+> -		enum node_stat_item item)
+> -{
+> -	__mod_node_page_state(folio_pgdat(folio), item, folio_nr_pages(folio));
+> -}
+> -
+> -static inline void __node_stat_sub_folio(struct folio *folio,
+> -		enum node_stat_item item)
+> -{
+> -	__mod_node_page_state(folio_pgdat(folio), item, -folio_nr_pages(folio));
+> -}
+> -
+>  static inline void node_stat_mod_folio(struct folio *folio,
+>  		enum node_stat_item item, long nr)
+>  {
+> diff --git a/mm/page-writeback.c b/mm/page-writeback.c
+> index 6f9b7b081ab7..ed3301753e89 100644
+> --- a/mm/page-writeback.c
+> +++ b/mm/page-writeback.c
+> @@ -2627,7 +2627,7 @@ static void folio_account_dirtied(struct folio *folio,
+>  
+>  		lruvec_stat_mod_folio(folio, NR_FILE_DIRTY, nr);
+>  		__zone_stat_mod_folio(folio, NR_ZONE_WRITE_PENDING, nr);
+> -		__node_stat_mod_folio(folio, NR_DIRTIED, nr);
+> +		node_stat_mod_folio(folio, NR_DIRTIED, nr);
 
-Thanks, series applied.
+Hi Ye, thank you for the patch,
 
-Miklos
+In addition to what Matthew has pointed out, I also wanted to note that this
+substitution isn't trivial; there are differences between the __ prefixed
+version of node_stat_mod_folio and the one without. Even though the correctness
+of the two versions might be the same, I think that a change like this should
+be supplemented by a description of what side effects this change has
+(i.e. introducing additional overhead from the cmpxchg loop).
+
+Thank you, I hope you have a great day!
+Joshua
