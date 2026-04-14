@@ -1,232 +1,107 @@
-Received: from mx1.manguebit.org (mx1.manguebit.org [143.255.12.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 958793115AF;
-	Tue, 14 Apr 2026 14:37:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=143.255.12.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776177452; cv=none; b=Eyi8F678HsolDQBDr43UcbVHDd8Oi1V6r7pv73PDFjJzDkJBszVjb0gCKvVpRUKC9bgORrhpdQ1X/nk3H5Kyi3QaXDVBzJs6yIOu7LmcC+FiccK4NxVRy/9VSdgBpXQfjkwk8HpSeWXTYLrLVuQm6K8xaof8mk5kN4kcbQiAVd4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776177452; c=relaxed/simple;
-	bh=5RQ2BoHKBBLKbxf6m8wqphbNLkkIJ8MXTz6bhV2aqyw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=H7DFUGhDNTTmKpdHT3BHrg5BnoswFpTqjodnntQRy7ufiBVjTQReundt7VpkOicXtG4FGtRTJQDJnM2zYezaCna0u6XSZYcK4noMa4h4QPF5oKPEzEp32thp+LIVBy2ODLtGFYoyaMhuq2y+FK0k11f6Ay5wSagBAENLsnegAKI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manguebit.org; spf=pass smtp.mailfrom=manguebit.org; dkim=pass (2048-bit key) header.d=manguebit.org header.i=@manguebit.org header.b=52TnticL; arc=none smtp.client-ip=143.255.12.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manguebit.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manguebit.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDB353D3CF2
+	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 14:39:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.175
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776177594; cv=pass; b=pCK3YahkRgfJIyCF4Z4xlmBzbhiO8DufxVxbvOyuJAvIX81S/RT8KEKtx/jXyhO6yglS1LBYPJYxiD6VkhHsLRCGFRU8hEPm11TPPxdCP+RHSa1TKj5C/YYp3GzOPRKNhW2gGBew0RBGWevo3tBHXRAQ0dVsAQIZfwf/WO/Revg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776177594; c=relaxed/simple;
+	bh=gBCre1Um+if/uEhzyyBB14P0yHe7klLtMEk1Sen/6CQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XIFazpWsGDPOuccPK8xbCc2cxDZnDKV/2wgAlz97mKIZtWRRM4Wh59FPHaTKaiS6qiKgokarxNKqw6CTwFTucJTU1o357xTyVI6hunQ2bTiiHomDFRUO4tIZgv1zFSsZhH9WPoFDb0OQKwmOnnaJTcbE/enNSkKYWfhSdvMhvnc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=OsjZ7gCE; arc=pass smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=manguebit.org header.i=@manguebit.org header.b="52TnticL"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=manguebit.org; s=dkim; h=Content-Transfer-Encoding:MIME-Version:Message-ID:
-	Date:Subject:Cc:To:From:Sender:Content-Type:Reply-To:Content-ID:
-	Content-Description:In-Reply-To:References;
-	bh=J8x1aq6PSopvf/hXZfxwRUdDZpC5EfUzTLL7KcXdPyU=; b=52TnticLchLpV1ImUTXVktw8Wp
-	hHA4XTC5Bii4qtvF9XEELd9NE/c4Uo5Bb0rsKpQpU4BVd0fek4KtAKronBws70ScpgYHMmtR/N+du
-	of8wjXZakhvkUB/ZgDQ8ODZtzdqMDO05QDY0QVNYv01+yZ/rVQ9O5/Z4FmZ7dsU5dx7rlicRpbQRZ
-	9YeH9C4+E+NcWHCqS/h01zuRIR9JIkvTY6imhjk9EGBuJMoO41/mRHxgFybD2eqMHJcHUYbVasge+
-	toBd/HjiSX1i5OUzneBXKLQqY67dGLUuCwDuo5WFILIRA2xdtmcA8Zbe/ab5Nu7Yz2gq/v0VEy51T
-	6QIhydXA==;
-Received: from pc by mx1.manguebit.org with local (Exim 4.99.1)
-	id 1wCetH-000000009sy-1t1a;
-	Tue, 14 Apr 2026 11:37:23 -0300
-From: Paulo Alcantara <pc@manguebit.org>
-To: Steve French <smfrench@gmail.com>,
-	Al Viro <viro@zeniv.linux.org.uk>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	"Paulo Alcantara (Red Hat)" <pc@manguebit.org>,
-	David Howells <dhowells@redhat.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	linux-cifs@vger.kernel.org
-Subject: [PATCH] vfs: get rid of BUG_ON() in d_mark_tmpfile_name()
-Date: Tue, 14 Apr 2026 11:37:21 -0300
-Message-ID: <20260414143721.858743-1-pc@manguebit.org>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="OsjZ7gCE"
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-50babbce85fso60522971cf.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 07:39:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776177592; cv=none;
+        d=google.com; s=arc-20240605;
+        b=blZmyX65s4m8fBwdAQGf488s93G2V3GtkBGumwetEzLeoUhauBrrHXj8tTRcaiE8lA
+         0P3Z830R3vkwpVuFhZ/mxrlsN8L5PcSgnGzdDmhwn1QzVlg9wjTujeWnbAxA5JiT6H8r
+         /cby2WJR6rLjEAEROAMlFom/dcNaru4SEV9Pj4dEnYpA2fKvHHVa1QFm2BI/icmCKwlU
+         M9ilaaOklvOjaNHLLP0Fc73dZplcmjl9AjwzQjU7mF4pJ8gID2YaCfSFpLhotBd6lTP6
+         Z2ojFRKgdXo4JR20gGfXKOTNc40BuE5Ddf0vuwtVWH9asK1CiByBQo+0zaalSP4vtNCh
+         J5bQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=4EcfSCmC+jBrLkjkvPNn/5Oowyd9l/0x1OUXzwYof+k=;
+        fh=/Mb/ioVqMRBLQUzt7ozvXntQQRmdN09U0BasMOCuZds=;
+        b=IjTo2SYie8yH3RyXDv0zKDYKTAKyWaWZueApGbvs4A4fwyMuXwT9aVcaDsjXpHhX7q
+         Y06NgWpY/iANRdRhzSfJAqKFocJcf4VpFPPCycOE7C5dMMEUZeIC/yFuy0spY+OZQdmd
+         C3jVgHZa52npM4ufgcYO+x/nzm2Wlut0Eps5u3Y0xdlQT8emmDB0VHehwghuy000q5lu
+         WM+fDnueIVuVVzKwOrlG2hCs82X/F0UTbYxSbdpW9kJt3xXyEEmyiDzLFkiJFVVASz4S
+         4oQhPl9KPk0Yc+VYlFcw1W6oXVVdCQaEq2WMEAhSD9ekfkEXMe5Rd1BZ7bqWz/s+3Ycm
+         oNlg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1776177592; x=1776782392; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=4EcfSCmC+jBrLkjkvPNn/5Oowyd9l/0x1OUXzwYof+k=;
+        b=OsjZ7gCEPdPvk1QOlqFPOxwUFFhPvimRCnYVtTpp/2bRy5bsV0mHkGMfFEI+/NFmJg
+         6IZIatmpwrVzI7i7bBcyKHqJXgNlhJTuXXebZV7eIxFyc0opW6nRJ7lLpskqAGaCUXN2
+         khbB8d2PBT8oNqwRZFGEfsyDSViUPIXCoRDxs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776177592; x=1776782392;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4EcfSCmC+jBrLkjkvPNn/5Oowyd9l/0x1OUXzwYof+k=;
+        b=Sn2lE+3LSWGqeEOqnuNKFDJ9YO0ZKQ5NvlmArd6iKqpUCNAg/GzLIdR4aOjFHInUqQ
+         aeBnhbmdSDTPNWPE5bafiTDAcPjNCbKZsgalm4cK6lwqgMc3uIoZov7vcUlggTeJSdfx
+         zdklJAdG7ZvVrKOx4gsM3m0wGuFzMIGt2hB8vquVAMV6Z6Juakzgov68YUzq6SK29TLA
+         1DswOhFWLy3m37h7tCPF9V44sTwqWfrhze4vuh6mMs6YoClNLFfgQVTjIsB+OWr3S/99
+         TAvN0Ry1NecRylAnz+78PenZ4dSbsFPqnFQ4Dd5LZ2xWbOrIVcnzUQeiv+v0GyMoiFUP
+         WtIQ==
+X-Gm-Message-State: AOJu0YzpW72ajEuGtZw1HvFr5bSYbNWqMG4LKbWTb/RMHO6FMCX2Kjl1
+	WM7gwytbG93EFwKVNYh2W4udEqKMIGRJzaLtfr7lHV1cxgKtTdzlfB3fo/Sl2/K7kdU0G4wRz2I
+	FfLrGCB6bbZeWrLjcK0FrtSP1OXK0xGjPptF24K4DVg==
+X-Gm-Gg: AeBDiev8VKz/SojGZRNoVPKxCkOoXVPKcTFqviXTSJdjoDzk4B2Sr0Lkc+CHQnr/R9v
+	h4m2P1u8tdJKWg3MdTaxokOwGZc6KQF+wKxcgunO5mQGwtgwJrNpqARFeR9gYTuIgwPwedDsNN2
+	5kieHPFV48pT3QwUsrI6oZxyPvuOxqeuS4Pu3tgxBy3IgkBtjTcltaMnfK+Z7I5DzKiqPxFotai
+	obqwoNl/FfyzNi0Fcxk9Ti7WEVXtyWChBtxOdEfKfCSWeVRw4+2WFATyCG6xLLikX04J6Tgtga4
+	acZBsNLoXxWoJ7+lF2yxw1MwSc/Ms6rBlsc9
+X-Received: by 2002:a05:622a:2505:b0:50d:e2ea:7232 with SMTP id
+ d75a77b69052e-50de2ea7996mr218430461cf.31.1776177591930; Tue, 14 Apr 2026
+ 07:39:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260407005040.1929492-1-rdunlap@infradead.org>
+In-Reply-To: <20260407005040.1929492-1-rdunlap@infradead.org>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Tue, 14 Apr 2026 16:39:41 +0200
+X-Gm-Features: AQROBzCMSkzJ76-j4C_O8wHJrhM_xTPXA6a9511QV3oQbPdGZUTdhtkR48l8A64
+Message-ID: <CAJfpegtRFgW2z5PSrMM1YwdtR8=sNktkMOHWacB-FNoQ=2BOGw@mail.gmail.com>
+Subject: Re: [PATCH 1/3 v2] fuse: {io-uring} drop kernel-doc notation for a comment
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Do proper error handling in d_mark_tmpfile_name() by returning errors
-rather than using BUG_ON()'s.
+On Tue, 7 Apr 2026 at 02:50, Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> Use regular C comment syntax for a non-kernel-doc comment to avoid
+> a kernel-doc warning:
+>
+> Warning: fs/fuse/dev_uring_i.h:104 This comment starts with '/**', but
+>  isn't a kernel-doc comment.
+>  * Describes if uring is for communication and holds alls the data needed
+>
+> Binary build output is the same before and after this change.
+>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> ---
+> v2: rebase and resend
 
-Adjust caller to check for errors from d_mark_tmpfile_name() as well
-as clean it up for using return value from scnprintf() in QSTR_LEN()
-to make it more obvious where the tmpfile name's length is coming
-from.
+Thanks, series applied.
 
-Link: https://lore.kernel.org/r/CAHk-=wgerpUKCDhdzKH0FEdLyfhj3doc9t+kO9Yb6rSsTp7hdQ@mail.gmail.com
-Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
-Signed-off-by: Paulo Alcantara (Red Hat) <pc@manguebit.org>
-Cc: David Howells <dhowells@redhat.com>
-Cc: Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>
-CC: linux-fsdevel@vger.kernel.org
-Cc: linux-cifs@vger.kernel.org
----
- fs/dcache.c            | 14 +++++++++-----
- fs/smb/client/cifsfs.h | 15 +++++----------
- fs/smb/client/dir.c    | 25 +++++++++++++++----------
- include/linux/dcache.h |  2 +-
- 4 files changed, 30 insertions(+), 26 deletions(-)
-
-diff --git a/fs/dcache.c b/fs/dcache.c
-index df11bbba0342..dbcbd0affb26 100644
---- a/fs/dcache.c
-+++ b/fs/dcache.c
-@@ -3196,15 +3196,18 @@ void d_mark_tmpfile(struct file *file, struct inode *inode)
- }
- EXPORT_SYMBOL(d_mark_tmpfile);
- 
--void d_mark_tmpfile_name(struct file *file, const struct qstr *name)
-+int d_mark_tmpfile_name(struct file *file, const struct qstr *name)
- {
- 	struct dentry *dentry = file->f_path.dentry;
- 	char *dname = dentry->d_shortname.string;
- 
--	BUG_ON(dname_external(dentry));
--	BUG_ON(d_really_is_positive(dentry));
--	BUG_ON(!d_unlinked(dentry));
--	BUG_ON(name->len > DNAME_INLINE_LEN - 1);
-+	if (unlikely(dname_external(dentry) ||
-+		     d_really_is_positive(dentry) ||
-+		     !d_unlinked(dentry)))
-+		return -EINVAL;
-+	if (unlikely(name->len > DNAME_INLINE_LEN - 1))
-+		return -ENAMETOOLONG;
-+
- 	spin_lock(&dentry->d_parent->d_lock);
- 	spin_lock_nested(&dentry->d_lock, DENTRY_D_LOCK_NESTED);
- 	dentry->__d_name.len = name->len;
-@@ -3212,6 +3215,7 @@ void d_mark_tmpfile_name(struct file *file, const struct qstr *name)
- 	dname[name->len] = '\0';
- 	spin_unlock(&dentry->d_lock);
- 	spin_unlock(&dentry->d_parent->d_lock);
-+	return 0;
- }
- EXPORT_SYMBOL(d_mark_tmpfile_name);
- 
-diff --git a/fs/smb/client/cifsfs.h b/fs/smb/client/cifsfs.h
-index 18f9f93a01b4..7370b38da938 100644
---- a/fs/smb/client/cifsfs.h
-+++ b/fs/smb/client/cifsfs.h
-@@ -10,6 +10,7 @@
- #define _CIFSFS_H
- 
- #include <linux/hash.h>
-+#include <linux/dcache.h>
- 
- #define ROOT_I 2
- 
-@@ -149,17 +150,11 @@ struct dentry *cifs_smb3_do_mount(struct file_system_type *fs_type, int flags,
- 
- char *cifs_silly_fullpath(struct dentry *dentry);
- 
--#define CIFS_TMPNAME_PREFIX        ".__smbfile_tmp"
--#define CIFS_TMPNAME_PREFIX_LEN    ((int)sizeof(CIFS_TMPNAME_PREFIX) - 1)
--#define CIFS_TMPNAME_COUNTER_LEN   ((int)sizeof(cifs_tmpcounter) * 2)
--#define CIFS_TMPNAME_LEN \
--	(CIFS_TMPNAME_PREFIX_LEN + CIFS_TMPNAME_COUNTER_LEN)
-+#define CIFS_TMPNAME_PREFIX	".__smbfile_tmp"
-+#define CIFS_TMPNAME_LEN	(DNAME_INLINE_LEN - 1)
- 
--#define CIFS_SILLYNAME_PREFIX	    ".__smbfile_silly"
--#define CIFS_SILLYNAME_PREFIX_LEN  ((int)sizeof(CIFS_SILLYNAME_PREFIX) - 1)
--#define CIFS_SILLYNAME_COUNTER_LEN ((int)sizeof(cifs_sillycounter) * 2)
--#define CIFS_SILLYNAME_LEN \
--	(CIFS_SILLYNAME_PREFIX_LEN + CIFS_SILLYNAME_COUNTER_LEN)
-+#define CIFS_SILLYNAME_PREFIX	".__smbfile_silly"
-+#define CIFS_SILLYNAME_LEN	(DNAME_INLINE_LEN - 1)
- 
- #ifdef CONFIG_CIFS_NFSD_EXPORT
- extern const struct export_operations cifs_export_ops;
-diff --git a/fs/smb/client/dir.c b/fs/smb/client/dir.c
-index 6ea1ae7f7a46..e4295a5b55b3 100644
---- a/fs/smb/client/dir.c
-+++ b/fs/smb/client/dir.c
-@@ -1056,9 +1056,9 @@ int cifs_tmpfile(struct mnt_idmap *idmap, struct inode *dir,
- {
- 	struct dentry *dentry = file->f_path.dentry;
- 	struct cifs_sb_info *cifs_sb = CIFS_SB(dir);
-+	size_t namesize = CIFS_TMPNAME_LEN + 1;
- 	char *path __free(kfree) = NULL, *name;
- 	unsigned int oflags = file->f_flags;
--	size_t size = CIFS_TMPNAME_LEN + 1;
- 	int retries = 0, max_retries = 16;
- 	struct TCP_Server_Info *server;
- 	struct cifs_pending_open open;
-@@ -1070,6 +1070,7 @@ int cifs_tmpfile(struct mnt_idmap *idmap, struct inode *dir,
- 	struct inode *inode;
- 	unsigned int xid;
- 	__u32 oplock;
-+	int namelen;
- 	int rc;
- 
- 	if (unlikely(cifs_forced_shutdown(cifs_sb)))
-@@ -1093,7 +1094,7 @@ int cifs_tmpfile(struct mnt_idmap *idmap, struct inode *dir,
- 		server->ops->new_lease_key(&fid);
- 	cifs_add_pending_open(&fid, tlink, &open);
- 
--	path = alloc_parent_path(dentry, size - 1);
-+	path = alloc_parent_path(dentry, namesize - 1);
- 	if (IS_ERR(path)) {
- 		cifs_del_pending_open(&open);
- 		rc = PTR_ERR(path);
-@@ -1103,16 +1104,22 @@ int cifs_tmpfile(struct mnt_idmap *idmap, struct inode *dir,
- 
- 	name = path + strlen(path);
- 	do {
--		scnprintf(name, size,
--			  CIFS_TMPNAME_PREFIX "%0*x",
--			  CIFS_TMPNAME_COUNTER_LEN,
--			  atomic_inc_return(&cifs_tmpcounter));
-+		/* Append tmpfile name to @path */
-+		namelen = scnprintf(name, namesize, CIFS_TMPNAME_PREFIX "%x",
-+				    atomic_inc_return(&cifs_tmpcounter));
- 		rc = __cifs_do_create(dir, dentry, path, xid, tlink, oflags,
- 				      mode, &oplock, &fid, NULL, &inode);
- 		if (!rc) {
-+			rc = d_mark_tmpfile_name(file, &QSTR_LEN(name, namelen));
-+			if (rc) {
-+				cifs_dbg(VFS | ONCE, "%s: failed to set filename in dentry: %d\n",
-+					 __func__, rc);
-+				rc = -EISDIR;
-+				iput(inode);
-+				goto err_open;
-+			}
- 			set_nlink(inode, 0);
- 			mark_inode_dirty(inode);
--			d_mark_tmpfile_name(file, &QSTR_LEN(name, size - 1));
- 			d_instantiate(dentry, inode);
- 			break;
- 		}
-@@ -1168,9 +1175,7 @@ char *cifs_silly_fullpath(struct dentry *dentry)
- 
- 	do {
- 		dput(sdentry);
--		scnprintf(name, namesize,
--			  CIFS_SILLYNAME_PREFIX "%0*x",
--			  CIFS_SILLYNAME_COUNTER_LEN,
-+		scnprintf(name, namesize, CIFS_SILLYNAME_PREFIX "%x",
- 			  atomic_inc_return(&cifs_sillycounter));
- 		sdentry = lookup_noperm(&QSTR(name), dentry->d_parent);
- 		if (IS_ERR(sdentry))
-diff --git a/include/linux/dcache.h b/include/linux/dcache.h
-index f60819dcfebd..c5bd5a74baba 100644
---- a/include/linux/dcache.h
-+++ b/include/linux/dcache.h
-@@ -264,7 +264,7 @@ extern void d_invalidate(struct dentry *);
- extern struct dentry * d_make_root(struct inode *);
- 
- extern void d_mark_tmpfile(struct file *, struct inode *);
--void d_mark_tmpfile_name(struct file *file, const struct qstr *name);
-+int d_mark_tmpfile_name(struct file *file, const struct qstr *name);
- extern void d_tmpfile(struct file *, struct inode *);
- 
- extern struct dentry *d_find_alias(struct inode *);
--- 
-2.53.0
-
+Miklos
