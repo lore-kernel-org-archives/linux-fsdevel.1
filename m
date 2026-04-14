@@ -1,42 +1,66 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3346117A2EA;
-	Tue, 14 Apr 2026 17:34:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD619146A66;
+	Tue, 14 Apr 2026 17:40:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776188066; cv=none; b=qNZO2x+RTna4VIBa84Ljk/mqkrsk04KcTB/888mY/gddzQapNJeKSQHiEiZTdPJK7Hsvn0DARL3cGKiXrkznlAJy78HhxyCbIPc0iLQIusYcXaXEruxjNJn2axGviJi8NAehKD31vJ+Eypv3uNz/jCPLA1tmmnENkAtcTMPU3Sc=
+	t=1776188432; cv=none; b=e9yl9o5kw5hc+7Xr0Obww1nNLWnSOYNUpcfTfWTdILTW3d4engdMm6Yagkeai84Zb7FMObWuIZrma/N7CrvxUrTsjyn28dmmM+Zr8hLHUSvqt+WhQSzLlwXv0lteAp6Xs0dHGxYHlvtBnGV5ay+kvce4245o+eVFWUXyu/LYMX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776188066; c=relaxed/simple;
-	bh=RZIJkrt4uTkUK0CCrjlOPMYTyc5t7ImaWmtrc8Kh5vM=;
+	s=arc-20240116; t=1776188432; c=relaxed/simple;
+	bh=IM7wi6nK1/XqNCbhguwlKyoBUk4OtdSkidHefbNZKzU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FTVwKjLPJCplUgSKPwvu88r3QRdaEjXsLXb0lSAK+J03x+NDwkgXWp5FGGCPy2uY0gOMeln7Al8Xe1wory3lRYQK4fNcVj2Qytvkev9fBOd9Ix5X9jse+0IZOwSpr25yYs6D1wi6vMPp9FTiiqqdFnt41qAMA6imMzTHU0e4Iuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t3A9UrTW; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=YClPvPBgbuvyy6J3cg/My026rJ/dp79cLyEwx1dzYxzTum3qu4H+BSBvVY8t17NgHhzqL1XGIJuz1/bNv5+ZV6DdaEVjwK1JWbxDlQg4WHMb+1GUrKrG7lqkVxoL+7rzSLRgw+NgTs3tcnnIb2Ikd7RIWxRBzcUxhyP+f6K3O8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=pkBwYtIk; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t3A9UrTW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D494C19425;
-	Tue, 14 Apr 2026 17:34:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776188065;
-	bh=RZIJkrt4uTkUK0CCrjlOPMYTyc5t7ImaWmtrc8Kh5vM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=t3A9UrTW5Hyp0LuXchy7Wo4I7zbQ1aSQHmu1lMSW6a5HZyiNB7iQcO0dL0wU28VKV
-	 MK/4VmMQi6nXHhYg0k0l1QBsuiz/V1Y0mXn3S6ybt70aCfLaFwNPVAkhGSQYxwk2b1
-	 RzragL4ak6K5lbfALOMXHNXkf7JX0vDt5/+tvooWm66PIMKaxEjkmnHG9Jei9p5+y1
-	 9/VMLbqpegmmDddKQbWAVruAqyaBKnc642/67hoZtR6U6b5i+2mnXLy37IfKGSNTmL
-	 1B0hLdvgUcDGT/eddkZ6U95TULcFDMRgTFxG8gikHW7YzwPVroGdUYY8hLaiLWYzk5
-	 7IMk8AZBpt/Lg==
-Date: Tue, 14 Apr 2026 10:34:23 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: Aurelien DESBRIERES <aurelien@hackers.camp>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	viro@zeniv.linux.org.uk, brauner@kernel.org, willy@infradead.org,
-	djwong@kernel.org, adilger@dilger.ca, pfalcato@suse.de
-Subject: Re: [PATCH v2 08/11] ftrfs: add CRC32 checksumming and Reed-Solomon
- FEC skeleton
-Message-ID: <20260414173423.GA24456@quark>
-References: <20260413230601.525400-1-aurelien@hackers.camp>
- <20260413230601.525400-9-aurelien@hackers.camp>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="pkBwYtIk"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=H34Qz4t0dOFSEu57O5bBR0ByBGobQOtvzsKeF/dJkS0=; b=pkBwYtIkbRZIjLyneuTW65xL3+
+	eeAj/0ArP5i6IeX/Ddqr97HyFgDMUMMcWqEHKrLByJp2q7cqu90awbUiiTzZZp3rdJ3hXqQRCVqKR
+	dkixxZmQtAf3p2l2osR32cyGWHqiNOzxR6VmSYO+/DXvCVVE6f7F8w8+SZ6MY8Vt5KYC/O715zIPo
+	SpTK10LNJfcI2FuMEV2tetR8QC9MgCRMgwP2GMMs/Q97jyDLvDrO1jkFzAvENmYFzxSmNXjp/ZJMz
+	oq9V1ZY6x/wRTEO+CRbUWXCetmHbtZWyLTL0aYGk6OdTIEXc9/94uDh8nARgFwfpGmMzmHaNO1D/0
+	4fXCHStA==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1wChkB-0000000FzXu-1gMl;
+	Tue, 14 Apr 2026 17:40:11 +0000
+Date: Tue, 14 Apr 2026 18:40:11 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Zi Yan <ziy@nvidia.com>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
+	Song Liu <songliubraving@fb.com>, Chris Mason <clm@fb.com>,
+	David Sterba <dsterba@suse.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+	Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+	Lance Yang <lance.yang@linux.dev>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>,
+	linux-btrfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH 7.2 v2 12/12] selftests/mm: remove READ_ONLY_THP_FOR_FS
+ from comments in guard-regions
+Message-ID: <ad57-5Nqd5cci8HQ@casper.infradead.org>
+References: <20260413192030.3275825-1-ziy@nvidia.com>
+ <20260413192030.3275825-13-ziy@nvidia.com>
+ <ad1WTCR5Kld-tiL8@casper.infradead.org>
+ <E3268570-18E4-40AF-92E5-931A8ED1C9B5@nvidia.com>
+ <ad1uK11f_J8sFN0e@casper.infradead.org>
+ <c696705c-4c0a-4e3c-996c-358d2f0b7074@kernel.org>
+ <1EBEBA57-E519-4004-899A-CBF21A77ED53@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -45,25 +69,22 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260413230601.525400-9-aurelien@hackers.camp>
+In-Reply-To: <1EBEBA57-E519-4004-899A-CBF21A77ED53@nvidia.com>
 
-On Tue, Apr 14, 2026 at 01:05:49AM +0200, Aurelien DESBRIERES wrote:
-> Implement data integrity layer:
+On Tue, Apr 14, 2026 at 12:45:18PM -0400, Zi Yan wrote:
+> On 14 Apr 2026, at 7:09, David Hildenbrand (Arm) wrote:
+> > On 4/14/26 00:28, Matthew Wilcox wrote:
+> >> That sounds like more code that was added for RO_THP and should be
+> >> deleted?  See commit e6be37b2e7bd
+> >
+> > Sounds like something to implement on top of this patch set?
+> >
+> > But with the added dirty checks in patch #2, maybe it's trivial to do it
+> > in this patchset already.
 > 
-> - ftrfs_crc32(): CRC32 wrapper via kernel crc32_le(), used for
->   per-inode and per-superblock checksums
-> - init_gf_tables(): initialize GF(2^8) Galois Field lookup tables
->   (primitive polynomial 0x1d) for Reed-Solomon arithmetic
-> - gf_mul(): GF(2^8) multiplication via log/exp tables
-> - ftrfs_rs_encode(): systematic Reed-Solomon encoder over
->   FTRFS_SUBBLOCK_DATA bytes with FTRFS_RS_PARITY check symbols
-> 
-> The RS encoder operates on sub-blocks within each 4096-byte data
-> block. Decoding (error correction) is not yet implemented.
-> 
-> Signed-off-by: Aurelien DESBRIERES <aurelien@hackers.camp>
+> Can you two elaborate? The code from commit e6be37b2e7bd is moved around
+> and replaced by functions like __thp_vma_allowable_orders().
 
-Is there a reason why the kernel's existing Reed-Solomon
-encoding/decoding library isn't being used?
-
-- Eric
+What I was trying to say is that this restriction was added because
+of ROTHP.  Since we're getting rid of ROTHP, we can remove this
+restriction.  No matter where the code has now migrated to.
