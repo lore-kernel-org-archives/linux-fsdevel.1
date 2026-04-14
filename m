@@ -1,160 +1,216 @@
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-98.freemail.mail.aliyun.com (out30-98.freemail.mail.aliyun.com [115.124.30.98])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5A5425EF9C
-	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 01:57:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776131865; cv=pass; b=sy2tSjP+t/RNeEwKDmU08r7nHjY296fUOiAYblIR16okmQLF01X7uQaqEBzfQCWX6U+gK2fRRh6zV3nEZSlPRm7QvsXKLkwq6ufXO0q5xU7XP/nG4FCvGfEHXxY5AEtedYEL+3VfWvqRccCNZ8K2ZZ3QxZ7rXh2MJv+uuBy2PLs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776131865; c=relaxed/simple;
-	bh=7z8VPBl0uyEme0x/C3OZ1AuHvf//58bMte5JYSE8OdA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QuCkvLLDxP17MQYqFwApXAPUYpjvG2k+OVeoNBHQwp+VGm7qsuUvo4QdpzYKSZAdoR5FYbEEb/3Vfct2MymkrvBntIH+Y2cOnwK1TI58E3H6lfcTVsWIdLZApY22wTd1F+S+83+JEdQRg701JSBsnlFMDPtEulknHsg+hcdOKSo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ra1wFhqB; arc=pass smtp.client-ip=209.85.128.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 459A1296BCB;
+	Tue, 14 Apr 2026 02:23:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.98
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776133403; cv=none; b=ohesYXuMbO/109GS3uVeJmdLn5OFmyAwn+GSntZE1mCVwlnSRQ6CcO886blhR81mzwfBWnro7+vVK9CpYvCLQZvmOg2bKnhUap9A/bmpY0g+wUfMhbJvLemWr2A/JYsgcDl9HcjwHe1GHqVclzNKcWj/DgDHgwvgfRN7miMD818=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776133403; c=relaxed/simple;
+	bh=8JFQO1UOjzQs4UukxhVltbj6zV7FF5UO9BfAAoV6JHQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pZ8zMKi+bYCPh+VZY3GAg/p/HzbEsFbj9SiDfweEXApG/nIGQWQu/+dm4QtvUFqVMSRX2pb6WuqGSi/wB1asdvI6yA8Ul68d/JR+xETEeY7M5buqyWigU3DPs6ejia8nXZ1/pzMBX8ZmMUspJzq9mKzkHuMGja+keGMKlTa3qZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=huHC6bO2; arc=none smtp.client-ip=115.124.30.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ra1wFhqB"
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-79ea87af213so71439507b3.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 13 Apr 2026 18:57:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776131862; cv=none;
-        d=google.com; s=arc-20240605;
-        b=jigjBbMhbJg1vfJBrLuGrYrX68Ig+QCM7yrB7lKofd2ijtEz7x8KDVugf2DxgyFwI1
-         QtV/vwateGuT2e+vh2YRglAl6c8ODKvDqylq8yrugRB6KozYVqMZ/c1t4SDTs+n1VcLh
-         tuMNR+1jqH3OjePUu4F+S+AfgKaxnbMi6qz7ryt5ioeDGb9vt7bpKDxbg5bsuW0m7BgT
-         XHIBlLzmGfZ/BgwlovOck/GX9ZSjP5cVOnEGpOzkcLiNFje2w7LVQxPOkravBsnR7E2x
-         psxvVaOspxIbIzZILJR6vuNSsgzhN/2iVInEt1W+oXDQQKj7h11ioMFIrOzzMx9MzNxb
-         JvxA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=M5wP3kXy3jv1Ajs85Ixh4F5Dko192c5SMJqhckL629E=;
-        fh=MlhpW8fuQ2EtyT6S4mUxKWY5863yRiCkxdr2GzNv9ok=;
-        b=jMv8FINhdZW+A5YAYaQjdMGSGwRrz8pR3c+ldpbmFZWubcUI6snCvrsLVSGROiIQnh
-         rpmTmnOy/GUXoph9Gvc0MoB4ZHAWsnUqa/J9HtXZkfIrVVR4nGlxrhFgKA203HXawHuM
-         yoRg7zULigDBksiidwF66qqSRtRMI77/Fn7pauwsy0YcP4EGITsGu41Dicx8Z9wTpBT9
-         evzANrlnaYutayK31wB/yjKYDEOhYFjL/RwFshFyXSxvyQsRIHtaVMjyjAwG9EfV4S51
-         8EfoeEqKf46AWay5siHmxld4AV0yv06WOqLaQpG0CvFcsx3QyBOl9tbooU21U2DcCp2V
-         HLYw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776131862; x=1776736662; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=M5wP3kXy3jv1Ajs85Ixh4F5Dko192c5SMJqhckL629E=;
-        b=Ra1wFhqBojriMnrPRTqicqBDKKSxZ9wEXYQU1zxOIhFX8VVIqMljq6GxyWCFqQCmK0
-         Wq0Nmv700MThgs7r02e1/FlUXEhlnMGwvr2yKB8RunbKBYcbsngtQw2ZBc9K0FNq/UhR
-         iG+AxAGSA0b5WzpLMc/InDTTAttmIycfiDRSBggfOW6AaZgbfLl74j33hSB/DkeE/2xt
-         ZR+/iBzeUJ4/p2wLukok4SHbBQelk5vECEebgEHJo39xwxP+JRvAM2yCtkVbFSLjU1AG
-         6s+RYzX02QNNQ/OWIeBWPiLr5iCkVHMo7bBgLy0a8S4gVhz/j1xcW8jHoiyx/n/o2MU5
-         Njcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776131862; x=1776736662;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=M5wP3kXy3jv1Ajs85Ixh4F5Dko192c5SMJqhckL629E=;
-        b=lyZXkNgSUmXEjcztYlnJzi35SiQEShZlqy79dgi1PWCeC0PhBY+avZ1Co6HSplA+7c
-         pAUTLTiJdoCofAeNworP/Eh32p9i8EIFQQRe10CSjV5PcnzH2BgA8Kvz0szd++uSJetI
-         xUznZ85CvZydf8ifp3pVBym6xscKo8uPojbNf1F5CKfEia4T1O0VNPKlAzDlc19FcKWW
-         iOABuNTOFjGJXLiAfF44ZHMCFAfxuCaYbjzUGu/FwXjSMyOztsQH8rg6MF4OMUxYp+dB
-         GHYWcszN8ryPO4svZlT9QSxkheBKafneN8yQm+4zUSuGHnyW8Ytqg62ztndVC1gUu/Ei
-         gxfA==
-X-Forwarded-Encrypted: i=1; AFNElJ948sag90nQPGKXTRhiJRqr3ZaaYNVzto49efPAX1TmuUJ++0ipUI1vH1mQ+d7lVNQOJl9e4HlNQ9xlpsk1@vger.kernel.org
-X-Gm-Message-State: AOJu0YwCao9AElnEy7Drn6qJGed7lkY2AdvhrRu6XL5txV5mckaXHvfl
-	P/lzENzgwZsFxgizR8IzPB3TDnAZvLsR89MMpX6PtbBvF79GSnxRKYZZ74UAiBPj5c2kP8Ccxc6
-	nz4aWPldVs24TwSI2oHtF3nJEB4V+ABU=
-X-Gm-Gg: AeBDiesEoDesO28/027G3zAVRswl6uDB/xnLK0x7oHTZ1KpmtzdcQzlYfX2JUK01PO1
-	sNBwRLa0+/a0SLQiJm/bQodj1imhiY7TyM72yCqLFQkm+ZDFGyR5zQLXtDvAGzsifxOuiMya8At
-	DzPUZCI14I5l3TefLBlhSdtan9UBL/oB23yzHYfE64jTimT0p0uLugmTHIqoBfQXanev61QbTgW
-	/ZPzK5zM+oULYXi8PpBtQQIrY+nvbp2DCWUZz+iubksk1uqEPv5iH0F7Ti6X5iQhv5owcY30JlH
-	lTguc3Vm16giPu9rKfXwn0P3uOFB2bG5/2E0elbtTzPJn9dqzXPjwnVeDhzyp2d/6M8wT7tzakz
-	Y5yOSxVZnFwEIMxvXDQ==
-X-Received: by 2002:a05:690c:c50a:b0:79a:b49a:cb4e with SMTP id
- 00721157ae682-7af76de9dddmr132925007b3.6.1776131861939; Mon, 13 Apr 2026
- 18:57:41 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="huHC6bO2"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1776133396; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=N5c08oqpW8xInrDeySZRyRa+d0wZsG8dfZpf7bL6oRM=;
+	b=huHC6bO2k9CGeeYB/gfWatfo7N5avmnQ/f02Id5Q5ufjnHtjeRHUavmPRT04xajfhmYgcM2JJNtBNpZEs59lHwsLXMKyx6YeVvXD8F4rWhvVXa5SJiIbaBfnW8d1q/3TMw6UzMEMcNNs7E4p94STdWyohgg8o/oi4R+Bniqiixk=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R141e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam011083073210;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=17;SR=0;TI=SMTPD_---0X1.p49D_1776133393;
+Received: from 30.221.131.198(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X1.p49D_1776133393 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Tue, 14 Apr 2026 10:23:14 +0800
+Message-ID: <a7a74185-df02-4906-a0ec-f87e2394aa5f@linux.alibaba.com>
+Date: Tue, 14 Apr 2026 10:23:13 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260414015315.64954-1-kartikey406@gmail.com>
-In-Reply-To: <20260414015315.64954-1-kartikey406@gmail.com>
-From: Deepanshu Kartikey <kartikey406@gmail.com>
-Date: Tue, 14 Apr 2026 07:27:31 +0530
-X-Gm-Features: AQROBzATd1u6NyuADj1fnN-gfyWe_rgR1_n9vda2eYJ_W1CAiwAVYF8DxjSoIBE
-Message-ID: <CADhLXY583ft1Okyp8y82j4jYmFoJpTN9ikym_Y4ufmy03JwkLQ@mail.gmail.com>
-Subject: Re: [PATCH] hfsplus: fix ignored error return in hfsplus_delete_cat
-To: slava@dubeyko.com, glaubitz@physik.fu-berlin.de, frank.li@vivo.com
-Cc: akpm@linux-foundation.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	syzbot+c0ba772a362e70937dfb@syzkaller.appspotmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Apr 14, 2026 at 7:23=E2=80=AFAM Deepanshu Kartikey
-<kartikey406@gmail.com> wrote:
->
-> hfsplus_delete_cat() calls hfsplus_delete_all_attrs() to remove all
-> extended attributes associated with a catalog entry, but silently
-> discards its return value.
->
-> When the xattr deletion fails on a corrupt filesystem image (as
-> triggered by syzbot), hfsplus_delete_cat() incorrectly returns 0
-> (success) to its callers, allowing execution to continue with the
-> filesystem in an inconsistent state and eventually triggering a
-> general protection fault in hfsplus_cat_write_inode().
->
-> Fix this by capturing the return value of hfsplus_delete_all_attrs()
-> and propagating genuine errors back to the caller. -ENOENT is
-> excluded since it signals normal loop termination (no more xattrs
-> left to delete) and is not an error condition.
->
-> Fixes: 324ef39a8a4f ("hfsplus: add support of manipulation by attributes =
-file")
-> Reported-by: syzbot+c0ba772a362e70937dfb@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3Dc0ba772a362e70937dfb
-> Tested-by: syzbot+c0ba772a362e70937dfb@syzkaller.appspotmail.com
-> Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
-> ---
->  fs/hfsplus/catalog.c | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
->
-> diff --git a/fs/hfsplus/catalog.c b/fs/hfsplus/catalog.c
-> index 02c1eee4a4b8..adbaeabc06ab 100644
-> --- a/fs/hfsplus/catalog.c
-> +++ b/fs/hfsplus/catalog.c
-> @@ -421,8 +421,15 @@ int hfsplus_delete_cat(u32 cnid, struct inode *dir, =
-const struct qstr *str)
->         hfsplus_mark_inode_dirty(dir, HFSPLUS_I_CAT_DIRTY);
->
->         if (type =3D=3D HFSPLUS_FILE || type =3D=3D HFSPLUS_FOLDER) {
-> -               if (HFSPLUS_SB(sb)->attr_tree)
-> -                       hfsplus_delete_all_attrs(dir, cnid);
-> +               if (HFSPLUS_SB(sb)->attr_tree) {
-> +                       int attr_err =3D hfsplus_delete_all_attrs(dir, cn=
-id);
-> +
-> +                       if (attr_err && attr_err !=3D -ENOENT) {
-> +                               pr_err("hfsplus: failed to delete xattrs =
-for cnid %u: %d\n",
-> +                                      cnid, attr_err);
-> +                               err =3D attr_err;
-> +                       }
-> +               }
->         }
->
->  out:
-> --
-> 2.43.0
->
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 8/8] RFC: use a TASK_FIFO kthread for read completion
+ support
+To: Dave Chinner <dgc@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Tal Zussman <tz2294@columbia.edu>,
+ Jens Axboe <axboe@kernel.dk>, "Matthew Wilcox (Oracle)"
+ <willy@infradead.org>, Christian Brauner <brauner@kernel.org>,
+ "Darrick J. Wong" <djwong@kernel.org>, Carlos Maiolino <cem@kernel.org>,
+ Al Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+ Bart Van Assche <bvanassche@acm.org>, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ Sandeep Dhavale <dhavale@google.com>
+References: <20260409160243.1008358-1-hch@lst.de>
+ <20260409160243.1008358-9-hch@lst.de> <adl1iqhldFvJwSw-@dread>
+ <7f0d072b-97a7-405f-bff5-d3819de2e3dd@linux.alibaba.com>
+ <ad2RKNo2FGhpzJQp@dread>
+From: Gao Xiang <hsiangkao@linux.alibaba.com>
+In-Reply-To: <ad2RKNo2FGhpzJQp@dread>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
-I have sent pach v2.
 
-Thanks
-Deepanshu
+On 2026/4/14 08:58, Dave Chinner wrote:
+> On Sat, Apr 11, 2026 at 07:44:43AM +0800, Gao Xiang wrote:
+>>
+>>
+>> On 2026/4/11 06:11, Dave Chinner wrote:
+>>> On Thu, Apr 09, 2026 at 06:02:21PM +0200, Christoph Hellwig wrote:
+>>>> Commit 3fffb589b9a6 ("erofs: add per-cpu threads for decompression as an
+>>>> option") explains why workqueue aren't great for low-latency completion
+>>>> handling.  Switch to a per-cpu kthread to handle it instead.  This code
+>>>> is based on the erofs code in the above commit, but further simplified
+>>>> by directly using a kthread instead of a kthread_work.
+>>>>
+>>>> Signed-off-by: Christoph Hellwig <hch@lst.de>
+>>>
+>>> Can we please not go back to the (bad) old days of individual
+>>> subsystems needing their own set of per-cpu kernel tasks just
+>>> sitting around idle most of of the time?  The whole point of the
+>>> workqueue infrastructure was to get rid of this widely repeated
+>>> anti-pattern.
+>>>
+>>> If there's a latency problem with workqueue scheduling, then we
+>>> should be fixing that problem rather than working around it in every
+>>> subsystem that thinkgs it has a workqueue scheduling latency
+>>> issue...
+>>
+>> It has been "fixed" but never actually get fixed:
+>> https://lore.kernel.org/r/CAB=BE-QaNBn1cVK6c7LM2cLpH_Ck_9SYw-YDYEnNrtwfoyu81Q@mail.gmail.com
+>>
+>> and workqueues don't have any plan to introduce RT threads;
+> 
+> They don't need to (or should) introduce RT threads. Per-cpu kernel
+> threads already get priority over normal user tasks on scheduling
+> decisions.  However, they do not pre-empt running kernel tasks of
+> the same priority.
+> 
+> In general, kernel threads should not use RT scheduling at all - if
+> the kernel uses RT prioprity tasks then that can interfere with user
+> scheduled RT tasks. This is especially true in this case where a
+> non-RT tasks issue the IO, and the IO completion is then scheduled
+> with RT priority. IOWs, any unprivileged user can now impact the
+> processing time available to, and the response latency of, other
+> RT scheduled tasks the system is running.
+
+All softirq IO completion already works like this although
+softirq tasks are not strictly called "RT tasks" (i.e. a non-RT
+task issues the IO, and the softirq IO completion will interrupt
+all ongoing tasks).
+
+Basically what we want is to get a non-atomic context instead of
+using the current softirq context for read post-processing and
+switch to the task context immediately as you said, because:
+
+  - Our post-processing needs to work in task contexts since
+    advanced features like compression deduplication need it;
+
+  - Even regardless of our specific requirement needing task
+    contexts, using a dedicated task context for read
+    post-processing is much better than run in the original
+    softirq context:
+
+    - Algorithmic work could take extra time (especially slow
+      LZMA algorithm could take milliseconds on low devices
+      (however, we need a common workflow for all algorithms,
+      including fast algorithms like lz4) and verify work for
+      example); and long processing time will interfere with
+      other remaining softirq tasks like sound-playback
+      / network softirqs;
+
+    - If it is then deferred to softirqd, it just makes this
+      latency issue _worse_.
+
+
+Thus, if there is another dedicated mechanism which can provide
+a lightweight task context and is scheduled to run immediately
+after the softirq: that would fit our requirement and I believe
+it's useful for other various use cases, but currently there is
+no such clean infra; RT threads can just fulfill our requirement
+in a less elegant way.
+
+> 
+> Tejun asked Sandeep if setting the workqueue thread priority to
+> -19 through sysfs (i.e. making them higher priority than normal
+> kernel threads) had the same effect on latency as using a dedicated
+> per-cpu RT task thread. THere was no followup.
+
+I think the issue is that people are not already working on the
+same topic:
+
+  - Unlike large subsystems like XFS, people don't already work on
+    EROFS unless they have new requirements or urgent production
+    issues;
+
+  - The original latency issue was already considered as "done" in
+    2023, and I'm not sure if Sandeep could have the bandwidth to
+    pause his current work and test more setups according to this
+    ongoing discussion in 2026.
+
+> 
+> In theory, this should provide the same benefit, because what RT
+> scheduling is doing is pre-empting any user and kernel task that was
+> running when the interrupt was delivered to execute the completion
+> task immediately.
+
+But anyway, I think nice -19 can be evaluated if Sandeep have time,
+but such nice value should be set by the filesystem instead of
+the userspace since the reason is as above.
+
+Additionally, we also need a way to set nice if we decide to switch
+to the new BIO_COMPLETE_IN_TASK approach as well if the nice way
+really works.
+
+> 
+> Setting the workqueue to use kernel threads of a higher scheduler
+> prioirty should do the same thing, without the need to use dedicated
+> per-cpu RT threads.
+> 
+>> If Sandeep has more time, I hope he could have more time to
+>> test since I don't work on Android anymore: In principle,
+>> I still think RT thread is needed somewhere for such usage
+>> since lowest latencies is needed.
+> 
+> All that is needed is for the kworker thread to be scheduled to run
+> immeidately after the interrupt that scheduled the work exits. This
+> does not require dedicated per-cpu kernel tasks or RT scheduling....
+
+Right and not sure, it needs some latency evaluation with
+heavy background/foreground app pressures.
+
+> 
+>> Compared to the scheduling latency issues, interested users
+>> don't care "individual subsystems needing their own set of
+>> per-cpu kernel tasks just sitting around idle most of of
+>> the time". If end users care it more, they can just turn
+>> it off by Kconfig.
+> 
+> Distros enable all these subsystems all the time, so saying
+> "turn it off via kconfig" is not a viable mitigation
+> strategy. Proliferation of dedicated per-CPU worker task pools is a
+> known problem, and we really don't want to regress back to those
+> days when a typical system had thousands of dedicated per-cpu work
+> queues that largely did nothing most of the time.
+
+That kconfig is off by default, but all Android vendors
+turn it on, and that latency issue is particularly vital
+for Android ecosystem.
+
+Currently RT threads won't be used for other use cases even
+desktop use cases: Android workloads are pretty harsh
+even compared to desktops for example.
+
+Thanks,
+Gao Xiang
+
+> 
+> -Dave.
+> 
+
