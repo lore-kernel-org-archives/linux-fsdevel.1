@@ -1,41 +1,59 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 420153DCDAD
-	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 23:53:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A51D03DCDAD;
+	Tue, 14 Apr 2026 23:53:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776210830; cv=none; b=NcR6CdKdsABg03Gar+tpwyu2IhiXtkObOcgWgDtKSrffV+xpwOVxFT1LuIAUROnYssN8CK7lmjHtRiGlPD9WYfrqeshJLnBrPpM4zBRZJ/dx+gmqC7IxetUJdyw1HAE+vaEwBA6FZa/RWp6/PjRouxp7LqihfnvPZddhuus/RPo=
+	t=1776210834; cv=none; b=CWwYeTbuFs3UHU78aztZanZZJwSOWf/K1TYExQ+56ofE8PNLL3HKOJC3YGc6dZinqSE7iROQpruD9qls3FdCgZ7sbhmqaEHc2DOe1GNbw3Gjm/gpc0BhwWwj15PaElWKcb98f26ACuYk/YVrISuXXRPU8oXo1hUbKSm2Hg5feAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776210830; c=relaxed/simple;
-	bh=Ux2qLUCNu5sN8hQS6k8OyEOfbVtZIyq8zlXJePvcBII=;
+	s=arc-20240116; t=1776210834; c=relaxed/simple;
+	bh=UQxDydzHMl8DmOV6Duguxc2Ei/DSGKKYYgW+NaCpKuo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OHi+R94cV0cm1MXvgZCeWGYm8uvQLT4hQcbLasrbt2wFI66A1duj5grSwPcqdMQ1ninzb1zfb9ydnud3cQXIC1uSeNaCindGMhZO2R9uHQJBOWnoWWvKsa+KyHteaDfPcl1JuRWdVMOxVy1QeOSLROg+OnRNdVkglCfdcDqnTW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V+6a/wvx; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V+6a/wvx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1043C19425;
-	Tue, 14 Apr 2026 23:53:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776210829;
-	bh=Ux2qLUCNu5sN8hQS6k8OyEOfbVtZIyq8zlXJePvcBII=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=V+6a/wvxZvfCv8Sonf+6uViJfFkAowo94A1Rw7Q6xtEOj531CuRYoplPalipeT9E2
-	 Lu66tbSGi25pAfzHBBxL434xw03LTUPcmHwf09GcG/xCXGt60zS3CciL6QqiNvBs/0
-	 yicsPkBcKUSFhe3S6bCnzb+llJD0hMYkP6Cm1e9cDd9c7cwjvwYoYiYsf8QzyT5m28
-	 cMKajZ8zOzQ0B5vmhSeZLu7Bw0cJ3p4NoU9KfV2qhNC+WnpiY/ftpzwBsfLU0A84/7
-	 Y67zhLUpHKLAsW9IiITrut9z1ZLx4SZKJecaWjEPx74C6fSQByEN9iz5ebGQlpvddd
-	 g3eFXIOV5soXQ==
-Date: Tue, 14 Apr 2026 16:53:49 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: bschubert@ddn.com
-Cc: miklos@szeredi.hu, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
-	bernd@bsbernd.com, joannelkoong@gmail.com
-Subject: Re: [PATCH 08/13] mount_service: enable unprivileged users in the
- same manner as fusermount
-Message-ID: <20260414235349.GE604658@frogsfrogsfrogs>
-References: <177577270167.2064074.16504004857564657756.stgit@frogsfrogsfrogs>
- <177577270359.2064074.2765615359461460085.stgit@frogsfrogsfrogs>
+	 Content-Type:Content-Disposition:In-Reply-To; b=lMxgKqzKScekot1myOX9q0/1z9hv00bsoccluPDtCDixcCEhnOb4YXOnqki4R2DLLcfuV6eqBWawUJFPzFjpN8CWf9+1WDNRSV/7MVQVj/fYoTbait15scbd9wk5VnQ//Lt1srF68dNA2A2GjJXqx5tMIa75tnYcwAbtupY6TKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
+Received: from omf15.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay09.hostedemail.com (Postfix) with ESMTP id 2E2E588E8B;
+	Tue, 14 Apr 2026 23:53:42 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf15.hostedemail.com (Postfix) with ESMTPA id 920FF1F;
+	Tue, 14 Apr 2026 23:53:31 +0000 (UTC)
+Date: Tue, 14 Apr 2026 18:53:30 -0500
+From: John Groves <John@groves.net>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, 
+	Joanne Koong <joannelkoong@gmail.com>, Bernd Schubert <bernd@bsbernd.com>, 
+	John Groves <john@jagalactic.com>, Dan Williams <dan.j.williams@intel.com>, 
+	Bernd Schubert <bschubert@ddn.com>, Alison Schofield <alison.schofield@intel.com>, 
+	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
+	Josef Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
+	Chen Linxuan <chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	djbw@kernel.org
+Subject: Re: [PATCH V10 00/10] famfs: port into fuse
+Message-ID: <ad7MC5Em4l72nJ6u@groves.net>
+References: <20260331123702.35052-1-john@jagalactic.com>
+ <0100019d43e5f632-f5862a3e-361c-4b54-a9a6-96c242a8f17a-000000@email.amazonses.com>
+ <CAJnrk1ZRTGWjNzkMxS3UkeZMmrpadJDtWKontMx2=d-smXYq=w@mail.gmail.com>
+ <adkDq0m5Wt9YhJ8A@groves.net>
+ <38744253-efa3-41c5-a491-b177a4a4c835@bsbernd.com>
+ <adlBcwJjLOQDAR65@groves.net>
+ <CAJnrk1a06zkUmXW5EFiUmgAoFauwtzsYvnotaPH0ifVtyh7iDQ@mail.gmail.com>
+ <CAJfpegvVTcV89=q3L326aGQjhduBcv7PVg5QKftGLjNZmCLmaw@mail.gmail.com>
+ <ad4_jFsR951c2Mtn@groves.net>
+ <20260414185740.GA604658@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -44,296 +62,248 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <177577270359.2064074.2765615359461460085.stgit@frogsfrogsfrogs>
+In-Reply-To: <20260414185740.GA604658@frogsfrogsfrogs>
+X-Stat-Signature: 65uuprhu7zrsa9mynkht1p5kqjy1ec8b
+X-Rspamd-Server: rspamout01
+X-Rspamd-Queue-Id: 920FF1F
+X-Session-Marker: 6A6F686E4067726F7665732E6E6574
+X-Session-ID: U2FsdGVkX1/dEzdtymyfXnoI12SBeqiiXTQK738e8KA=
+X-HE-Tag: 1776210811-614244
+X-HE-Meta: U2FsdGVkX1+W2uuZ1T1Kn87mex9yPWL6bIePtEYZKGJX/hOFSzlnWir/Q2E/ipZEgwp4k7vQEE6f63Mr2mcnIDv5vBGpBofKSksnYlKicfadZheWGB8ijTSNc/XWlGXsHmHuab3cA+YJLVUgLZouysJGC+QcC5Y4FtqTMk7ROfy3T/8/lUjxtR+04YtCgrFyYJnbDlLRkSeCR7ZyJ5FUAnLQB9LK7wY3GanKZE0KtIAnTPBr0r61htN3MA1k5BoGmZcvatyXqIb0DjMu0wcUsD8sou32w/GX729XBh/DiQCIAtyY2Et8sklOypC6MaSGomUPok9UndG9TkV5K9echHb0D9l4PRiisKyJ+OCaxIFLX3OudtPgBQ==
 
-On Thu, Apr 09, 2026 at 03:22:38PM -0700, Darrick J. Wong wrote:
-> From: Darrick J. Wong <djwong@kernel.org>
+On 26/04/14 11:57AM, Darrick J. Wong wrote:
+> On Tue, Apr 14, 2026 at 08:41:42AM -0500, John Groves wrote:
+> > On 26/04/14 03:19PM, Miklos Szeredi wrote:
+> > > On Fri, 10 Apr 2026 at 21:44, Joanne Koong <joannelkoong@gmail.com> wrote:
+> > > 
+> > > > Overall, my intention with bringing this up is just to make sure we're
+> > > > at least aware of this alternative before anything is merged and
+> > > > permanent. If Miklos and you think we should land this series, then
+> > > > I'm on board with that.
+> > > 
+> > > TBH, I'd prefer not to add the famfs specific mapping interface if not
+> > > absolutely necessary.  This was the main sticking point originally,
+> > > but there seemed to be no better alternative.
+> > > 
+> > > However with the bpf approach this would be gone, which is great.
 > 
-> Some Linux distributions allow unprivileged users to mount fuse
-> filesystems through the use of the setuid fusermount helper program.  It
-> would be useful to provide similar functionality when mounting a
-> filesystem that runs as a systemd service.
+> Well... you can't get away with having *no* mapping interface at all.
+> You still have to define a UABI that BPF programs can use to convey
+> mapping data into fsdax/iomap.  BTF is a nice piece of work that smooths
+> over minor fluctuations in struct layout between a running kernel and
+> a precompiled BPF program, but fundamentally we still need a fuse-native
+> representation.
+
+A couple of points here, that are really top level observations.
+
+The call path from fuse into famfs largely looks like:
+
+if (passthrough)
+	return passthrough_call()
+else if (virtiofs)
+	return virtiofs_call()
+else if (famfs)
+	return famfs_call()
+
+So from a hooking in standpoint I was trying to be compliant.
+
+Second point: iomap is an overloaded term. The famfs iomap usage is stolen
+from xfs' fs-dax iomap call patterns. I *think* that is distinct from the
+stuff called iomap that handles block I/O. Because maybe not everybody who
+reads this will understand that famfs is, uh, kinda like hugetlbfs except
+that the memory is from devdax (in 'famfs' mode, because the old mode
+stopped working for file-backed maps. Famfs files are never sparse, and
+they never use the page cache - which is super, super different from a
+conventional file system.
+
+the famfs_filemap_fault() path calls dax_iomap_fault() path (which I added 
+to devdax in the new famfs mode, because it was in pmem but not devdax)
+always just updates a page table beause the page is always present. That
+means that the fault path is SUPER PERFORMANCE CRITICAL because in heavy
+use there can be millions of these faults per second - and with famfs there
+is NEVER EVER a read from storage to amortize the call overhead over. 
+
+This is a super-important point. famfs_filemap_fault() is a in the
+vm_operations_struct. It is called to remind the CPU where an address maps
+to, because the TLB and PTE had been purged (which happens ALL THE TIME).
+
+The ask here is to insert a BPF program as a vma fault handler. Can it work?
+Probably. Will it perform? I HAVE NO IDEA, BUT THERE ARE REASONS TO WORRY
+THAT IT MIGHT NOT.
+
+I don't think this suggestion was made from a full understanding of the
+performance requirements of this code path.
+
+This is why we need a discussion with fs/mm/bpf experts. We should be able 
+to assemble an understanding of what the overhead of calling the BPF program
+are and how many nanoseconds (or microseconds) that could possibly add.
+Anything longer than the current famfs_filemap_fault() path is potentially
+disastrous because the whole point of famfs is to expose memory via files,
+and avoid sabotaging the performance.
+
+An L3 cache miss costs 100ns in round numbers on fast local DRAM, and
+3-5x as long on switched disaggregated memory. We cannot afford an expensive
+code path resolving these mappings.
+
+This is why, at the last two LSFMMs and in the famfs documentation, I said 
+things like "we're exposing memory, and it must run at memory speeds".
+
+Famfs also registers with the memory provider (devdax in famfs mode) to
+receive notifications of memory failures, and uses a 'holder_operations'
+pattern copied from pmem. This stuff is not in generic iomap (correct me
+if that's wrong).
+
+And finally since I've core dumped quite a bit here, I'll go ahead and add
+a thought experiment that *might* rule out using a BPF program as a vma
+fault handler. Could we do that with hugetlbfs without damaging performance
+for memory-intensive workloads? Hugetlbfs is a pretty solid stand-in for
+famfs: it never does data-movement faults, it's never sparse, and it needs
+to resolve TLB/PTE/PMD/PUD faults FAST.
+
 > 
-> Therefore, read the fuse config file and implement the same checks as
-> fusermount.
+> That last sentence was an indirect way of saying: No, we're not going
+> to export struct iomap to userspace.  The fuse-iomap patchset provides
+> all the UABI pieces we need for regular filesystems (ext4) and hardware
+> adjacent filesystems (famfs) to exchange file mapping data with the
+> kernel.  This has been out for review since last October, but the lack
+> of engagement with that patchset (or its February resubmission) doesn't
+> leave me with confidence that any of it is going anywhere.
 > 
-> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-> ---
->  util/mount_service.c |  150 +++++++++++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 147 insertions(+), 3 deletions(-)
+> Note: The reason for bolting BPF atop fuse-iomap is so that famfs can
+> upload bpf programs to generate interleaved mappings.  It's not so hard
+> to convert famfs' iomapping paths to use fuse-iomap, but I haven't
+> helped him do that because:
 > 
+> a) I have no idea what Miklos' thoughts are about merging any of the
+> famfs stuff.
 > 
-> diff --git a/util/mount_service.c b/util/mount_service.c
-> index 8e9c721a56fd2a..0f7eae94ada377 100644
-> --- a/util/mount_service.c
-> +++ b/util/mount_service.c
-> @@ -33,6 +33,7 @@
->  #include "fuse_i.h"
->  #include "fuse_service_priv.h"
->  #include "mount_service.h"
-> +#include "fuser_conf.h"
->  
->  struct mount_service {
->  	/* prefix for printing error messages */
-> @@ -166,7 +167,9 @@ static int mount_service_connect(struct mount_service *mo)
->  		return -1;
->  	}
->  
-> +	drop_privs();
->  	ret = connect(sockfd, (const struct sockaddr *)&name, sizeof(name));
-> +	restore_privs();
->  	if (ret && (errno == ENOENT || errno == ECONNREFUSED)) {
->  		fprintf(stderr, "%s: no safe filesystem driver for %s available.\n",
->  			mo->msgtag, mo->subtype);
-> @@ -208,7 +211,7 @@ static int mount_service_send_hello(struct mount_service *mo)
->  	};
->  	ssize_t size;
->  
-> -	if (getuid() == 0)
-> +	if (getuid() == 0 || user_allow_other)
->  		hello.flags |= htonl(FUSE_SERVICE_FLAG_ALLOW_OTHER);
->  
->  	size = sendmsg(mo->sockfd, &msg, MSG_EOR | MSG_NOSIGNAL);
-> @@ -490,7 +493,9 @@ static int mount_service_send_required_files(struct mount_service *mo,
->  {
->  	int ret;
->  
-> +	drop_privs();
->  	mo->fusedevfd = open(fusedev, O_RDWR | O_CLOEXEC);
-> +	restore_privs();
->  	if (mo->fusedevfd < 0) {
->  		fprintf(stderr, "%s: %s: %s\n",
->  			mo->msgtag, fusedev, strerror(errno));
-> @@ -628,7 +633,9 @@ static int prepare_bdev(struct mount_service *mo,
->  	if (oc->block_size) {
->  		int block_size = ntohl(oc->block_size);
->  
-> +		drop_privs();
->  		ret = ioctl(fd, BLKBSZSET, &block_size);
-> +		restore_privs();
->  		if (ret) {
->  			int error = errno;
->  
-> @@ -675,7 +682,9 @@ static int mount_service_open_path(struct mount_service *mo,
->  		return mount_service_send_file_error(mo, EINVAL, oc->path);
->  	}
->  
-> -	fd = open(oc->path, ntohl(oc->open_flags), ntohl(oc->create_mode));
-> +	drop_privs();
-> +	fd = open(oc->path, ntohl(oc->open_flags) | O_CLOEXEC, ntohl(oc->create_mode));
-> +	restore_privs();
->  	if (fd < 0) {
->  		int error = errno;
->  
-> @@ -908,6 +917,20 @@ static int mount_service_handle_mntopts_cmd(struct mount_service *mo,
->  			*equals = 0;
->  		}
->  
-> +		if (getuid() != 0 && !user_allow_other &&
-> +		    (!strcmp(tok, "allow_other") ||
-> +		     !strcmp(tok, "allow_root"))) {
-> +			fprintf(stderr,
-> +"%s: option %s only allowed if 'user_allow_other' is set in %s\n",
-> +				mo->msgtag, tok, FUSE_CONF);
-> +			return mount_service_send_reply(mo, EPERM);
-> +		}
-> +		if (!strcmp(tok, "blkdev") && getuid() != 0) {
-
-blkdev is an internal mount option that libfuse never sends to the
-kernel, so there's no need to check it here either.  Sending "blkdev" to
-the kernel will just cause mount() EINVAL failures.
-
-
-> +			fprintf(stderr, "%s: option blkdev is privileged\n",
-> +				mo->msgtag);
-> +			return mount_service_send_reply(mo, EPERM);
-> +		}
-> +
->  #ifdef HAVE_NEW_MOUNT_API
->  		if (mo->fsopenfd >= 0) {
->  			int ret;
-> @@ -985,10 +1008,16 @@ static int attach_to_mountpoint(struct mount_service *mo, char *mntpt)
->  	int error;
->  	int ret;
->  
-> +	drop_privs();
-> +
->  	/*
->  	 * Open the alleged mountpoint, make sure it's a dir or a file.
-> +	 * For unprivileged callers, we only allow mounting on paths that the
-> +	 * user can write to.
->  	 */
-> -	mountfd = open(mntpt, O_RDONLY | O_CLOEXEC);
-> +	mountfd = open(mntpt, (getuid() == 0 ? O_RDONLY : O_WRONLY) | O_CLOEXEC);
-> +	if (mountfd < 0 && errno == EISDIR)
-> +		mountfd = open(mntpt, O_RDONLY | O_CLOEXEC);
-
-This mess!
-
-This might add a new requirement that the unprivileged caller has to
-have read access to the mountpoint.  This isn't explicitly checked in
-fusermount, but I'm pretty sure that the lstat in fusermount will fail
-with EACCESS.
-
-That said, if we're unprivileged and fall back to opening readonly, then
-we should require that the fd point to a directory.  Note that the
-access check just prior to mount()/fsmount() will confirm that the
-unprivileged caller could (at least in theory) create a new child entry.
-
---D
-
->  	if (mountfd < 0) {
->  		error = errno;
->  		fprintf(stderr, "%s: %s: %s\n", mo->msgtag, mntpt,
-> @@ -1067,6 +1096,7 @@ static int attach_to_mountpoint(struct mount_service *mo, char *mntpt)
->  	mo->mountfd = mountfd;
->  	mo->resv_mountpoint = res_mntpt;
->  
-> +	restore_privs();
->  	return mount_service_send_reply(mo, 0);
->  
->  out_res_mntpt:
-> @@ -1075,6 +1105,7 @@ static int attach_to_mountpoint(struct mount_service *mo, char *mntpt)
->  	close(mountfd);
->  out_error:
->  	free(mntpt);
-> +	restore_privs();
->  	return mount_service_send_reply(mo, error);
->  }
->  
-> @@ -1399,6 +1430,77 @@ static int mount_service_fsopen_mount(struct mount_service *mo,
->  # define mount_service_fsopen_mount(...)	(FUSE_MOUNT_FALLBACK_NEEDED)
->  #endif
->  
-> +static int check_nonroot_file_access(struct mount_service *mo)
-> +{
-> +	struct stat sb1, sb2;
-> +	int fd;
-> +	int ret;
-> +
-> +	/*
-> +	 * If we already succeeded in opening the file with write access, then
-> +	 * we're good.
-> +	 */
-> +	ret = fcntl(mo->mountfd, F_GETFL);
-> +	if (ret < 0) {
-> +		int error = errno;
-> +
-> +		fprintf(stderr, "%s: %s: %s\n", mo->msgtag, mo->mountpoint,
-> +			strerror(error));
-> +		return -1;
-> +	}
-> +
-> +	if ((ret & O_ACCMODE) != O_RDONLY)
-> +		return 0;
-> +
-> +	ret = fstat(mo->mountfd, &sb1);
-> +	if (ret) {
-> +		int error = errno;
-> +
-> +		fprintf(stderr, "%s: %s: %s\n",
-> +			mo->msgtag, mo->mountpoint, strerror(error));
-> +		return -1;
-> +	}
-> +
-> +	/* Try to reopen the file with write access this time. */
-> +	fd = open(mo->real_mountpoint, O_WRONLY | O_CLOEXEC);
-> +	if (fd < 0) {
-> +		int error = errno;
-> +
-> +		fprintf(stderr, "%s: %s: %s\n",
-> +			mo->msgtag, mo->mountpoint, strerror(error));
-> +		return -1;
-> +	}
-> +
-> +	/* Is this the same file? */
-> +	ret = fstat(fd, &sb2);
-> +	if (ret) {
-> +		int error = errno;
-> +
-> +		fprintf(stderr, "%s: %s: %s\n",
-> +			mo->msgtag, mo->mountpoint, strerror(error));
-> +		goto out_fd;
-> +	}
-> +
-> +	if (sb1.st_dev != sb2.st_dev || sb1.st_ino != sb2.st_ino) {
-> +		fprintf(stderr, "%s: %s: Mount point moved during fuse startup.\n",
-> +			mo->msgtag, mo->mountpoint);
-> +		ret = -1;
-> +		goto out_fd;
-> +	}
-> +
-> +	/*
-> +	 * We reopened the same file with write access, everything is ok.  Swap
-> +	 * the two file descriptors so that we retain our write access.
-> +	 */
-> +	ret = mo->mountfd;
-> +	mo->mountfd = fd;
-> +	fd = ret;
-> +	ret = 0;
-> +out_fd:
-> +	close(fd);
-> +	return ret;
-> +}
-> +
->  static int mount_service_handle_mount_cmd(struct mount_service *mo,
->  					  struct fuse_service_packet *p,
->  					  size_t psz)
-> @@ -1471,6 +1573,44 @@ static int mount_service_handle_mount_cmd(struct mount_service *mo,
->  		return mount_service_send_reply(mo, EINVAL);
->  	}
->  
-> +	/*
-> +	 * fuse.conf can limit the number of unprivileged fuse mounts.
-> +	 * For unprivileged mounts (via setuid) we also require write access
-> +	 * to the mountpoint, and we'll only accept certain underlying
-> +	 * filesystems.
-> +	 */
-> +	if (getuid() != 0) {
-> +		struct statfs fs_buf;
-> +
-> +		ret = check_nonroot_mount_count(mo->msgtag);
-> +		if (ret)
-> +			return mount_service_send_reply(mo, EUSERS);
-> +
-> +		ret = fstatfs(mo->mountfd, &fs_buf);
-> +		if (ret) {
-> +			int error = errno;
-> +
-> +			fprintf(stderr, "%s: %s: %s\n",
-> +				mo->msgtag, mo->mountpoint, strerror(error));
-> +			return mount_service_send_reply(mo, error);
-> +		}
-> +
-> +		drop_privs();
-> +		if (S_ISDIR(stbuf.st_mode))
-> +			ret = check_nonroot_dir_access(mo->msgtag,
-> +						       mo->mountpoint,
-> +						       mo->real_mountpoint,
-> +						       &stbuf);
-> +		else
-> +			ret = check_nonroot_file_access(mo);
-> +		if (!ret)
-> +			ret = check_nonroot_fstype(mo->msgtag, &fs_buf);
-> +		restore_privs();
-> +
-> +		if (ret)
-> +			return mount_service_send_reply(mo, EPERM);
-> +	}
-> +
->  	if (mo->fsopenfd >= 0) {
->  		ret = mount_service_fsopen_mount(mo, oc, &stbuf);
->  		if (ret != FUSE_MOUNT_FALLBACK_NEEDED)
-> @@ -1601,6 +1741,10 @@ int mount_service_main(int argc, char *argv[])
->  	else
->  		mo.msgtag = "mount.service";
->  
-> +	drop_privs();
-> +	read_conf(mo.msgtag);
-> +	restore_privs();
-> +
->  	ret = mount_service_init(&mo, argc, argv);
->  	if (ret)
->  		return EXIT_FAILURE;
+> b) I also have no idea what his thoughts are about fuse-iomap.  The
+> sparse replies are not encouraging.
 > 
+> c) It didn't seem fair to John to make him take on a whole new patchset
+> dependency given (a) and (b).
 > 
+> d) Nobody ever replied to my reply to the LSFMM thread about "can we do
+> some code review of fuse iomap without waiting three months for LSFMM?"
+> I've literally done nothing with fuse-iomap for two of the three months
+> requested.
+> 
+> > > So let us please at least have a try at this. I'm not into bpf yet,
+> > > but willing to learn.
+> 
+> I sent out the patches to enable exactly this sort of experimentation
+> two months ago, and have not received any responses:
+> 
+> https://lore.kernel.org/linux-fsdevel/177188736765.3938194.6770791688236041940.stgit@frogsfrogsfrogs/
+> 
+> I would like to say this as gently as possible: I don't know what the
+> problem here is, Miklos -- are you uninterested in the work?  Do you
+> have too many other things to do inside RH that you can't talk about?
+> Is it too difficult to figure out how the iomap stuff fits into the rest
+> of the fuse codebase?  Do you need help from the rest of us to get
+> reviews done?  Is there something else with which I could help?
+> 
+> Because ... over the past few years, many of my team's filesystem
+> projects have endured monthslong review cycles and often fail to get
+> merged.  This has led to burnout and frustration among my teammates such
+> that many of them chose to move on to other things.  For the remaining
+> people, it was very difficult to justify continuing headcount when
+> progress on projects is so slow that individuals cannot achieve even one
+> milestone per quarter on any project.
+> 
+> There's now nobody left here but me.
+> 
+> I'm not blaming you (Miklos) for any of this, but that is the current
+> deplorable state of things.
+> 
+> > > Thanks,
+> > > Miklos
+> > 
+> > Thanks for responding...
+> > 
+> > My short response: Noooooooooo!!!!!!
+> > 
+> > I very strongly object to making this a prerequisite to merging. This
+> > is an untested idea that will certainly delay us by at least a couple
+> > of merge windows when products are shipping now, and the existing approach
+> > has been in circulation for a long time. It is TOO LATE!!!!!!
+> 
+> /me notes that has "we're shipping so you have to merge it over peoples'
+> concerns" rarely carries the day in LKML land, and has never ended well
+> in the few cases that it happens.  As Ted is fond of saying, this is a
+> team sport, not an individual effort.  Unfortunately, to abuse your
+> sports metaphor, we all play for the ******* A's.
+
+That's totally fair. This process has been very long and grueling, and I'm
+not always thinking clearly.
+
+> 
+> That said, you're clearly pissed at the goalposts changing yet again,
+> and that's really not fair that we collectively keep moving them.
+> 
+> It's a rotten situation that I could have even helped you to solve both
+> our problems via fuse-iomap, but I just couldn't motivate myself to
+> entwine our two projects until the technical direction questions got
+> answered.
+> 
+> > Famfs is not a science project, it's enablement for actual products and
+> > early versions are available now!!!
+> > 
+> > That doesn't mean we couldn't convert later IF THERE ARE NO HIDDEN PROBLEMS.
+> 
+> Heck, the fuse command field is a u32.  There are plenty of numberspace
+> left, and the kernel can just *stop issuing them*.
+> 
+> > What are the risks of converting to BPF?
+> > 
+> > - I don't know how to do it - so it'll be slow (kinda like my fuse learning
+> >   curve cost about a year because this is not that similar to anything
+> >   else that was already in fuse.
+> 
+> ...and per above, BPF isn't some magic savior that avoids the expansion
+> of the UABI.
+> 
+> > - Those of us who are involved don't fully understand either the security
+> >   or performance implications of this. It 
+> 
+> Correct.  I sure think it's swell that people can inject IR programs
+> that jit/link into the kernel.  Don't ask which secondary connotation of
+> "swell" I'm talking about.
+> 
+> > - Famfs is enabling access to memory and mapping fault handling must be
+> >   at "memory speed". We know that BPF walks some data structures when a 
+> >   program executes. That exposes us to additional serialized L3 cache 
+> >   misses each time we service a mapping fault (any TLB & page table miss).
+> >   This should be studied side-by-side with the existing approach under
+> >   multiple loads before being adopted for production.
+> 
+> Yes, it should.  AFAICT if one switched to a per-inode bpf program, then
+> you could do per-inode bpf programs.  Then you don't even need the bpf
+> map, and the ->iomap_begin becomes an indirect call into JITted x86_64
+> math code.
+> 
+> (The downside is that dyn code can't be meaningfully signed, requires
+> clang on the system, and you have to deal with inode eviction issues.)
+> 
+> > - This has never been done in production, and we're throwing it in the way
+> >   of a project that has been soaking for years and needs to support early
+> >   shipments of products.
+> 
+> Correct.  I haven't even implemented BPF-iomap for fuse4fs.  This BPF
+> integration stuff is *highly* experimental code.
+> 
+> > If this is the only path, I'd like to revive famfs as a standalone file
+> > system. I'm still maintaining that and it's still in use.
+> 
+> Honestly, you should probably just ship that to your users.  As long as
+> the ondisk format doesn't change much, switching the implementation at a
+> later date is at least still possible.
+> 
+> --D
+
+And apologies to the polite universe for being a bit raw earlier. Getting
+this far has been quite a grind...
+
+Thanks,
+John
+
