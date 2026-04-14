@@ -1,32 +1,32 @@
-Received: from out30-98.freemail.mail.aliyun.com (out30-98.freemail.mail.aliyun.com [115.124.30.98])
+Received: from out30-100.freemail.mail.aliyun.com (out30-100.freemail.mail.aliyun.com [115.124.30.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 459A1296BCB;
-	Tue, 14 Apr 2026 02:23:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F138B19DFAB;
+	Tue, 14 Apr 2026 02:56:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776133403; cv=none; b=ohesYXuMbO/109GS3uVeJmdLn5OFmyAwn+GSntZE1mCVwlnSRQ6CcO886blhR81mzwfBWnro7+vVK9CpYvCLQZvmOg2bKnhUap9A/bmpY0g+wUfMhbJvLemWr2A/JYsgcDl9HcjwHe1GHqVclzNKcWj/DgDHgwvgfRN7miMD818=
+	t=1776135404; cv=none; b=gmsP40/3yBwBVhd+4Fl2pFkjBImISTDzx5Rdbngs0k3YWtgIZ9dXqMeRsaCFKbrfmLEXoLNx/6ci3LPbGbLJrVwWx9YtUWMPyfjfVICvt9wuDla62w+H33DsFfMWemiLCeAlyiO2hgK56oA+Z0ZbTyhOLLfSFauRuxA2XW/1Xqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776133403; c=relaxed/simple;
-	bh=8JFQO1UOjzQs4UukxhVltbj6zV7FF5UO9BfAAoV6JHQ=;
+	s=arc-20240116; t=1776135404; c=relaxed/simple;
+	bh=XgKM+CkUSnyIyF46+xCdWGlKShW0HPjduLuNnd/ygAU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pZ8zMKi+bYCPh+VZY3GAg/p/HzbEsFbj9SiDfweEXApG/nIGQWQu/+dm4QtvUFqVMSRX2pb6WuqGSi/wB1asdvI6yA8Ul68d/JR+xETEeY7M5buqyWigU3DPs6ejia8nXZ1/pzMBX8ZmMUspJzq9mKzkHuMGja+keGMKlTa3qZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=huHC6bO2; arc=none smtp.client-ip=115.124.30.98
+	 In-Reply-To:Content-Type; b=RAwKMmn5cNVPI6tkhtXmm5Cy4cqfwmHlm0guKNwBDAIrXN0br2Hcoe8Hj8jSOVnDO8/HqC1FFvGrvFJs2xQKrRanvDHynjZ8LGgOcJHeuDMxmCU82T0On9v1eEM7hQlepMMuF46NT4xiGRKnRLlBiCWSolA1hBLpnu0yMrkEm/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=c3+3DNc0; arc=none smtp.client-ip=115.124.30.100
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="huHC6bO2"
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="c3+3DNc0"
 DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1776133396; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=N5c08oqpW8xInrDeySZRyRa+d0wZsG8dfZpf7bL6oRM=;
-	b=huHC6bO2k9CGeeYB/gfWatfo7N5avmnQ/f02Id5Q5ufjnHtjeRHUavmPRT04xajfhmYgcM2JJNtBNpZEs59lHwsLXMKyx6YeVvXD8F4rWhvVXa5SJiIbaBfnW8d1q/3TMw6UzMEMcNNs7E4p94STdWyohgg8o/oi4R+Bniqiixk=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R141e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam011083073210;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=17;SR=0;TI=SMTPD_---0X1.p49D_1776133393;
-Received: from 30.221.131.198(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X1.p49D_1776133393 cluster:ay36)
+	t=1776135398; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=rFJsBCml9uGA7if6kqvhuINKYdwVEfVBPzHF5zso0YY=;
+	b=c3+3DNc0vsx6pTo/VOTgjBIEMR/nBmGdeuZFwAacj8uabLG3JoqFcUDGjiVpg7NFQfdYUft73xAxEMfuF5xxDftPbP9BrLFMYE6IT/35rCMRzwCO7Ub0WLIPKqgLqsWZ10QJUsWbG5IGzsecXPqjeyMJHFbKnR3lGZhPlD1cg/g=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R551e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037033178;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0X10.UXv_1776135396;
+Received: from 30.221.131.198(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X10.UXv_1776135396 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Tue, 14 Apr 2026 10:23:14 +0800
-Message-ID: <a7a74185-df02-4906-a0ec-f87e2394aa5f@linux.alibaba.com>
-Date: Tue, 14 Apr 2026 10:23:13 +0800
+          Tue, 14 Apr 2026 10:56:37 +0800
+Message-ID: <8045f0a1-bda8-4c79-b488-3b48cd3bcb18@linux.alibaba.com>
+Date: Tue, 14 Apr 2026 10:56:36 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -34,183 +34,126 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 8/8] RFC: use a TASK_FIFO kthread for read completion
- support
-To: Dave Chinner <dgc@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Tal Zussman <tz2294@columbia.edu>,
- Jens Axboe <axboe@kernel.dk>, "Matthew Wilcox (Oracle)"
- <willy@infradead.org>, Christian Brauner <brauner@kernel.org>,
- "Darrick J. Wong" <djwong@kernel.org>, Carlos Maiolino <cem@kernel.org>,
- Al Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
- Bart Van Assche <bvanassche@acm.org>, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- Sandeep Dhavale <dhavale@google.com>
-References: <20260409160243.1008358-1-hch@lst.de>
- <20260409160243.1008358-9-hch@lst.de> <adl1iqhldFvJwSw-@dread>
- <7f0d072b-97a7-405f-bff5-d3819de2e3dd@linux.alibaba.com>
- <ad2RKNo2FGhpzJQp@dread>
+Subject: Re: [RFC PATCH 0/10] ftrfs: Fault-Tolerant Radiation-Robust
+ Filesystem
+To: Andreas Dilger <adilger@dilger.ca>, Pedro Falcato <pfalcato@suse.de>
+Cc: Aurelien DESBRIERES <aurelien@hackers.camp>,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ viro@zeniv.linux.org.uk, brauner@kernel.org
+References: <20260413142357.515792-1-aurelien@hackers.camp>
+ <fkf75lk2sm2nfych34jiyoeqfctwkirzo22coqsad72yeau7ht@mh36h7nercwh>
+ <B1515863-5EA3-44A7-BEC2-40A49BEDE7DD@dilger.ca>
 From: Gao Xiang <hsiangkao@linux.alibaba.com>
-In-Reply-To: <ad2RKNo2FGhpzJQp@dread>
+In-Reply-To: <B1515863-5EA3-44A7-BEC2-40A49BEDE7DD@dilger.ca>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
 
 
-On 2026/4/14 08:58, Dave Chinner wrote:
-> On Sat, Apr 11, 2026 at 07:44:43AM +0800, Gao Xiang wrote:
+On 2026/4/14 02:03, Andreas Dilger wrote:
+> On Apr 13, 2026, at 09:04, Pedro Falcato <pfalcato@suse.de> wrote:
 >>
->>
->> On 2026/4/11 06:11, Dave Chinner wrote:
->>> On Thu, Apr 09, 2026 at 06:02:21PM +0200, Christoph Hellwig wrote:
->>>> Commit 3fffb589b9a6 ("erofs: add per-cpu threads for decompression as an
->>>> option") explains why workqueue aren't great for low-latency completion
->>>> handling.  Switch to a per-cpu kthread to handle it instead.  This code
->>>> is based on the erofs code in the above commit, but further simplified
->>>> by directly using a kthread instead of a kthread_work.
->>>>
->>>> Signed-off-by: Christoph Hellwig <hch@lst.de>
+>> On Mon, Apr 13, 2026 at 04:23:46PM +0200, Aurelien DESBRIERES wrote:
+>>> From: Aurélien DESBRIERES <aurelien@hackers.camp>
 >>>
->>> Can we please not go back to the (bad) old days of individual
->>> subsystems needing their own set of per-cpu kernel tasks just
->>> sitting around idle most of of the time?  The whole point of the
->>> workqueue infrastructure was to get rid of this widely repeated
->>> anti-pattern.
+>>> This RFC introduces FTRFS, a new Linux filesystem designed for dependable
+>>> storage in radiation-intensive environments, targeting embedded Linux systems
+>>> operating in space or other harsh conditions.
 >>>
->>> If there's a latency problem with workqueue scheduling, then we
->>> should be fixing that problem rather than working around it in every
->>> subsystem that thinkgs it has a workqueue scheduling latency
->>> issue...
+>>> FTRFS was originally described in:
+>>>
+>>>   Fuchs, C.M., Langer, M., Trinitis, C. (2015).
+>>>   FTRFS: A Fault-Tolerant Radiation-Robust Filesystem for Space Use.
+>>>   ARCS 2015, LNCS vol 9017, Springer.
+>>>   https://doi.org/10.1007/978-3-319-16086-3_8
+>>>
+>>> This implementation is an independent open-source realization of the
+>>> concepts described in that paper, developed for the Linux kernel.
 >>
->> It has been "fixed" but never actually get fixed:
->> https://lore.kernel.org/r/CAB=BE-QaNBn1cVK6c7LM2cLpH_Ck_9SYw-YDYEnNrtwfoyu81Q@mail.gmail.com
+>> Well, here's the obvious question: do you have a usecase for this?
 >>
->> and workqueues don't have any plan to introduce RT threads;
+>>>
+>>> == Design ==
+>>>
+>>> FTRFS provides three layers of data integrity:
+>>>
+>>>   - CRC32 per block and per inode (hardware-accelerated via crc32_le)
+>>>   - Reed-Solomon FEC (encoder implemented, decoder planned)
+>>>   - EDAC-compatible error tracking
+>>>
+>>> On-disk layout:
+>>>
+>>>   Block 0        : superblock (magic 0x46545246, CRC32-protected)
+>>>   Block 1..N     : inode table (128 bytes/inode, CRC32 per inode)
+>>>   Block N+1..end : data blocks (CRC32 + RS FEC per block)
+>>>
+>>> Inodes use direct addressing (12 direct block pointers) plus single
+>>> and double indirection. Directory entries are fixed-size (268 bytes)
+>>> stored in direct blocks.
+>>>
+>>>
+>>> Compile-tested on x86_64 with Linux 7.0 (this series).
+>>> checkpatch.pl: 0 errors on all patches.
+>>>
+>>> == Feedback Requested ==
+>>>
+>>> This is an RFC. Feedback is welcome on:
+>>>
+>>>   1. On-disk format: is the superblock/inode layout reasonable?
+>>
+>> The layout itself is super unix-filesystem/ext2 reminiscent, so if something
+>> like this is really needed, I would strongly recommend you perhaps add this
+>> there. One feature (crc32c checksums over several metadata structures) already
+>> exists on ext4.
 > 
-> They don't need to (or should) introduce RT threads. Per-cpu kernel
-> threads already get priority over normal user tasks on scheduling
-> decisions.  However, they do not pre-empt running kernel tasks of
-> the same priority.
+> This was my first question as well.  If this was some existing filesystem
+> that was widely used in satellites or something, it might make sense to
+> add support for that format (though a FUSE plugin might be better if the
+> performance is not critical).  But it doesn't necessarily make sense to
+> implement a greenfield filesystem that doesn't extend the boundaries over
+> existing filesystems very far.
 > 
-> In general, kernel threads should not use RT scheduling at all - if
-> the kernel uses RT prioprity tasks then that can interfere with user
-> scheduled RT tasks. This is especially true in this case where a
-> non-RT tasks issue the IO, and the IO completion is then scheduled
-> with RT priority. IOWs, any unprivileged user can now impact the
-> processing time available to, and the response latency of, other
-> RT scheduled tasks the system is running.
-
-All softirq IO completion already works like this although
-softirq tasks are not strictly called "RT tasks" (i.e. a non-RT
-task issues the IO, and the softirq IO completion will interrupt
-all ongoing tasks).
-
-Basically what we want is to get a non-atomic context instead of
-using the current softirq context for read post-processing and
-switch to the task context immediately as you said, because:
-
-  - Our post-processing needs to work in task contexts since
-    advanced features like compression deduplication need it;
-
-  - Even regardless of our specific requirement needing task
-    contexts, using a dedicated task context for read
-    post-processing is much better than run in the original
-    softirq context:
-
-    - Algorithmic work could take extra time (especially slow
-      LZMA algorithm could take milliseconds on low devices
-      (however, we need a common workflow for all algorithms,
-      including fast algorithms like lz4) and verify work for
-      example); and long processing time will interfere with
-      other remaining softirq tasks like sound-playback
-      / network softirqs;
-
-    - If it is then deferred to softirqd, it just makes this
-      latency issue _worse_.
-
-
-Thus, if there is another dedicated mechanism which can provide
-a lightweight task context and is scheduled to run immediately
-after the softirq: that would fit our requirement and I believe
-it's useful for other various use cases, but currently there is
-no such clean infra; RT threads can just fulfill our requirement
-in a less elegant way.
-
+> Modern ext4 has metadata checksums for many years, and fsverity can be used
+> to add Merkle-tree checksums for file data.  Data redundancy can be handled
+> by the block layer.
 > 
-> Tejun asked Sandeep if setting the workqueue thread priority to
-> -19 through sysfs (i.e. making them higher priority than normal
-> kernel threads) had the same effect on latency as using a dedicated
-> per-cpu RT task thread. THere was no followup.
+> If code size/complexity is a significant issue for new embedded satellite
+> controllers, then implementing "read-only" support for ext4 could be fairly
+> straight forward development to put large chunks of the code under a CONFIG
+> option.
 
-I think the issue is that people are not already working on the
-same topic:
+According to the patchset, they need read-write support, but
+I think the ext2 codebase is more suitable for embedded use
+(if they don't need journalling) and to isolate unneeded
+features.
 
-  - Unlike large subsystems like XFS, people don't already work on
-    EROFS unless they have new requirements or urgent production
-    issues;
-
-  - The original latency issue was already considered as "done" in
-    2023, and I'm not sure if Sandeep could have the bandwidth to
-    pause his current work and test more setups according to this
-    ongoing discussion in 2026.
+However, I don't think an RO Kconfig option is useful for
+isolating filesystem complexity concerns, unless the ondisk
+layout and related runtime codepath can be separated by
+design rather than gathering random RO pieces together:
+because in that way, the new RO Kconfig option can only
+make the testing and new development worse.
 
 > 
-> In theory, this should provide the same benefit, because what RT
-> scheduling is doing is pre-empting any user and kernel task that was
-> running when the interrupt was delivered to execute the completion
-> task immediately.
+> You also have to consider that filesystems are critical components of any
+> computer, and having bugs in newly-developed filesystem code could be as
+> fatal to the satellite as the radiation.  The general rule of thumb is that
+> filesystems take about 10 years to mature.
 
-But anyway, I think nice -19 can be evaluated if Sandeep have time,
-but such nice value should be set by the filesystem instead of
-the userspace since the reason is as above.
+Just a wild guess, I'm not sure if it's part of the AI work
+(because it seems even there is no page cache for mmap()):
 
-Additionally, we also need a way to set nice if we decide to switch
-to the new BIO_COMPLETE_IN_TASK approach as well if the nice way
-really works.
-
-> 
-> Setting the workqueue to use kernel threads of a higher scheduler
-> prioirty should do the same thing, without the need to use dedicated
-> per-cpu RT threads.
-> 
->> If Sandeep has more time, I hope he could have more time to
->> test since I don't work on Android anymore: In principle,
->> I still think RT thread is needed somewhere for such usage
->> since lowest latencies is needed.
-> 
-> All that is needed is for the kworker thread to be scheduled to run
-> immeidately after the interrupt that scheduled the work exits. This
-> does not require dedicated per-cpu kernel tasks or RT scheduling....
-
-Right and not sure, it needs some latency evaluation with
-heavy background/foreground app pressures.
-
-> 
->> Compared to the scheduling latency issues, interested users
->> don't care "individual subsystems needing their own set of
->> per-cpu kernel tasks just sitting around idle most of of
->> the time". If end users care it more, they can just turn
->> it off by Kconfig.
-> 
-> Distros enable all these subsystems all the time, so saying
-> "turn it off via kconfig" is not a viable mitigation
-> strategy. Proliferation of dedicated per-CPU worker task pools is a
-> known problem, and we really don't want to regress back to those
-> days when a typical system had thousands of dedicated per-cpu work
-> queues that largely did nothing most of the time.
-
-That kconfig is off by default, but all Android vendors
-turn it on, and that latency issue is particularly vital
-for Android ecosystem.
-
-Currently RT threads won't be used for other use cases even
-desktop use cases: Android workloads are pretty harsh
-even compared to desktops for example.
+with new AI tools like Claude, it's pretty easy for everyone
+to "write" and publish something now and in the future.
 
 Thanks,
 Gao Xiang
 
 > 
-> -Dave.
+> Cheers, Andreas
+> 
+> 
+> 
+> 
 > 
 
