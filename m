@@ -1,41 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2AC5318B9D;
-	Tue, 14 Apr 2026 09:52:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 277B1358375;
+	Tue, 14 Apr 2026 09:55:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776160348; cv=none; b=MakNn/BYbhoVmlz11uj+jLpAjyCVLQ4wq91z+pficKVohjimAjou2bI+T2tQb5Uvg+muuPlv6dVmg/EAL1bjXbVa46jzEpdZH5YJDMnIWYOtN4zXXIRSULCJ8f8jzYHL+D4WsN/QoyJlAorFX+Ww3jyXcmNLiwEyv4EttldncN0=
+	t=1776160531; cv=none; b=qFD2uKSg0FCo/Di2N1FzysfqzwwN3meP0CdHUi3rpIWcEmG/XrCTVhuSSZ19uVTJK3jXvYlSxV9JaEP0lGTIsiXJZQaM+zOOgzoT4Y7PlHBuW44F/EoM8kfmk/902njeIPU0S0exZD/NVZtoNfVXUTp0FTr32hpXcrSgjkssX98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776160348; c=relaxed/simple;
-	bh=xC4j98w4sZWCYmtLSTdLSIfWfef7vJkPLwgcyfZnfG8=;
+	s=arc-20240116; t=1776160531; c=relaxed/simple;
+	bh=hhE4zNnmKkl6kUlozX9TbtMR+uNdd/idlRMIa69UChE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i1sQoRUWE++0XiyQy30aDjaGQ2FbRAv+hCTmWpZiAlYbY+HPsihO9Vg/obHe91hy6AZk8oke97y2jvw+gRiRDJlQGbzN/kAF4/CNYcSWd5/RJzeXUvHBRbixGuviEPOAOLek7lebOZim1qO7fg1dPc28zJqvePuJsVTdOxM6QUw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vDIhEhbp; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=DVwG2oYcaTZ4aVlvvdFooOwx+CKb+shYK+rpJDJYo2YYZyzPxr91o5r5MgP2XLrrYSS5r3bFvhz+knEMdbblY6vu4J3R7dpbDKgqYgGtrS6n8POXMz9P1FeHTr0RirpuwcG7+DWswOIda9oLlUThu633Fww4u21pnQHIYrLZH/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NVMPmRhk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vDIhEhbp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A12DC19425;
-	Tue, 14 Apr 2026 09:52:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NVMPmRhk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7A7BC19425;
+	Tue, 14 Apr 2026 09:55:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776160348;
-	bh=xC4j98w4sZWCYmtLSTdLSIfWfef7vJkPLwgcyfZnfG8=;
+	s=k20201202; t=1776160530;
+	bh=hhE4zNnmKkl6kUlozX9TbtMR+uNdd/idlRMIa69UChE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vDIhEhbpfk26v0dBJVZmUo9Esro2i4wh2L7HITwBZ1Sz7pHDUT946PmqjO0EVgqwd
-	 zAY/KYhC1k9KYw15eSpX/7YufkaBXB9oaUZEUG071N4zBq/x5fJvbbkQVUYLENzFti
-	 auHomPdaiEiB5NGzw0Vb9VWb6oFzhJEpdCex2pRkIzweT4l9CizF8p+NHWx2s+hOav
-	 iY2QXiLzxGb2GAVqyTuU3p4DdEbocoWzPv03bGR3TskINcNivx8BnaJM75Vb1j8iyt
-	 G6fbAgC0jnP9tinKqU9Mhe+nk1+srMmyHPNinnO3kZLPSwbu0FdeXveM4OiLYSMQFp
-	 mkraX4IiIGdZQ==
-Date: Tue, 14 Apr 2026 11:52:24 +0200
+	b=NVMPmRhkJO78D11lvo1uVGLP2QyB3F/Gh0YQxQ33nGm+QyRgXcgya4lGPdqJV9mui
+	 8Lx1FMTgdzO7hKhP2ihj+my7k/HahPgXDvznJuVrh3FGHmX2Y5ELlqatIxmdgozO3O
+	 g5foAVX+8G8w0YwW6dlNz8LQqLkZ6vZph5StndnlceTmaW8sSVcZvhzveMCzDsx4c9
+	 96p/fllxyDS0W2++8OMS5nj1kltE8zrNB3+KSjIedNkLvSg7zdUcz7++sd3Rmx8WUb
+	 5GFAw+0HFV+rYlsEekpQedts+q28VLHPC0bAPOVNBdnOLYtx97bNe09z5s9YXMPOq5
+	 TI7Yt0LIlibhA==
+Date: Tue, 14 Apr 2026 11:55:26 +0200
 From: Christian Brauner <brauner@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Waiman Long <longman@redhat.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [GIT PULL 05/12 for v7.1] vfs fs_struct
-Message-ID: <20260414-garen-eckwerte-62bd3b06005a@brauner>
-References: <20260410-vfs-v71-b055f260060c@brauner>
- <20260410-vfs-fs_struct-v71-cf1d44311509@brauner>
- <CAHk-=wiW53j3vmc1Y58-E_8jUBJtjgAVxDRt+r-w3WPQN+Zm5w@mail.gmail.com>
+To: Alexey Gladkov <legion@kernel.org>
+Cc: Dan Klishch <danilklishch@gmail.com>, 
+	Al Viro <viro@zeniv.linux.org.uk>, "Eric W . Biederman" <ebiederm@xmission.com>, 
+	Kees Cook <keescook@chromium.org>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 4/5] proc: Relax check of mount visibility
+Message-ID: <20260414-mathematik-beispiel-cd22801e71af@brauner>
+References: <cover.1768295900.git.legion@kernel.org>
+ <cover.1770979341.git.legion@kernel.org>
+ <0943f113592a25bee341aae25d1cea088791054f.1770979341.git.legion@kernel.org>
+ <20260217-helikopter-parkplatz-859f8f7c0054@brauner>
+ <20260410-textstellen-anrollen-17acbf930c3a@brauner>
+ <adjfhxs5JTrZDnbv@example.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -44,59 +48,98 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAHk-=wiW53j3vmc1Y58-E_8jUBJtjgAVxDRt+r-w3WPQN+Zm5w@mail.gmail.com>
+In-Reply-To: <adjfhxs5JTrZDnbv@example.org>
 
-On Mon, Apr 13, 2026 at 12:18:16PM -0700, Linus Torvalds wrote:
-> On Fri, 10 Apr 2026 at 08:18, Christian Brauner <brauner@kernel.org> wrote:
-> >
-> > Avoid excessive dput/dget in audit_context setup and reset paths
+On Fri, Apr 10, 2026 at 01:31:19PM +0200, Alexey Gladkov wrote:
+> On Fri, Apr 10, 2026 at 01:12:36PM +0200, Christian Brauner wrote:
+> > On Tue, Feb 17, 2026 at 12:59:54PM +0100, Christian Brauner wrote:
+> > > On Fri, Feb 13, 2026 at 11:44:29AM +0100, Alexey Gladkov wrote:
+> > > > When /proc is mounted with the subset=pid option, all system files from
+> > > > the root of the file system are not accessible in userspace. Only
+> > > > dynamic information about processes is available, which cannot be
+> > > > hidden with overmount.
+> > > > 
+> > > > For this reason, checking for full visibility is not relevant if
+> > > > mounting is performed with the subset=pid option.
+> > > > 
+> > > > Signed-off-by: Alexey Gladkov <legion@kernel.org>
+> > > > ---
+> > > >  fs/namespace.c                 | 29 ++++++++++++++++-------------
+> > > >  fs/proc/root.c                 | 17 ++++++++++-------
+> > > >  include/linux/fs/super_types.h |  2 ++
+> > > >  3 files changed, 28 insertions(+), 20 deletions(-)
+> > > > 
+> > > > diff --git a/fs/namespace.c b/fs/namespace.c
+> > > > index c58674a20cad..7daa86315c05 100644
+> > > > --- a/fs/namespace.c
+> > > > +++ b/fs/namespace.c
+> > > > @@ -6116,7 +6116,8 @@ static bool mnt_already_visible(struct mnt_namespace *ns,
+> > > >  		/* This mount is not fully visible if it's root directory
+> > > >  		 * is not the root directory of the filesystem.
+> > > >  		 */
+> > > > -		if (mnt->mnt.mnt_root != mnt->mnt.mnt_sb->s_root)
+> > > > +		if (!(sb->s_iflags & SB_I_USERNS_ALLOW_REVEALING) &&
+> > > > +		    mnt->mnt.mnt_root != mnt->mnt.mnt_sb->s_root)
+> > > >  			continue;
+> > > >  
+> > > >  		/* A local view of the mount flags */
+> > > > @@ -6136,18 +6137,20 @@ static bool mnt_already_visible(struct mnt_namespace *ns,
+> > > >  		    ((mnt_flags & MNT_ATIME_MASK) != (new_flags & MNT_ATIME_MASK)))
+> > > >  			continue;
+> > > 
+> > > There are a few things that I find problematic here.
+> > > 
+> > > Even before your change the mount flags of the first fully visible
+> > > procfs mount would be picked up. If the caller was unlucky they could
+> > > stumble upon the most restricted procfs mount in the mount namespace
+> > > rbtree. Leading to weird scenarios where a user cannot write to the
+> > > procfs instance they just mounted but could to another one that is also
+> > > in their namespace.
+> > > 
+> > > The other thing is that with this change specifically:
+> > > 
+> > >     if (!(sb->s_iflags & SB_I_USERNS_ALLOW_REVEALING) &&
+> > >         mnt->mnt.mnt_root != mnt->mnt.mnt_sb->s_root)
+> > > 
+> > > we start caring about mount options of even partially exposed procfs
+> > > mounts. IOW, if someone had a bind-mount of e.g., /proc/pressure
+> > > somewhere that got inherited via CLONE_NEWNS then we suddenly take the
+> > > mount options of that into account for a new /proc/<pid>/* only instance.
+> > > I think we should continue caring only about procfs mounts that are
+> > > visible from their root.
+> > > 
+> > > The the other problem is that it is really annoying that we walk all
+> > > mounts in a mount namespace just to find procfs and sysfs mounts in
+> > > there. Currently a lot of workloads still do the CLONE_NEWNS dance
+> > > meaning they inherit all the crap from the host and then proceed to
+> > > setup their new rootfs. Busy container workloads that can be a lot.
+> > > 
+> > > So let's just be honest about it and treat procfs and sysfs as the
+> > > snowflakes that they have become and record their instances in a
+> > > separate per mount namespace hlist as in the (untested) patch below [1].
+> > > 
+> > > Also SB_I_USERNS_ALLOW_REVEALING seems unnecessary. The only time we
+> > > care about that flag is when we setup a new superblock. So this could
+> > > easily be a struct fs_context bitfield that just exists for the duration
+> > > of the creation of the new superblock and mount. So maybe pass that down
+> > > to mount_too_revealing() and further down into the actual helper.
+> > > 
+> > > [1]:
+> > > >From 4bbd41e7a3ef91667dd334f31b1b6bf8caec0599 Mon Sep 17 00:00:00 2001
+> > > From: Christian Brauner <brauner@kernel.org>
+> > > Date: Tue, 17 Feb 2026 12:02:34 +0100
+> > > Subject: [PATCH] namespace: record fully visible mounts in list
+> > > 
+> > > Instead of wading through all the mounts in the mount namespace rbtree
+> > > to find fully visible procfs and sysfs mounts, be honest about them
+> > > being special cruft and record them in a separate per-mount namespace
+> > > list.
+> > 
+> > If you rework this I would expect to take it for v7.3. It's a bit late
+> > now...
 > 
-> I really don't like this one, and I'm going to at least delay pulling it.
+> No problem. I understand. Sorry it took me so long to get back to you.
+> I was laid off from my job and had to look for a new one quickly.
 
-I don't like it either.
-
-> Because this really feels wrong to me. It feels like a hack. Just
-
-It is. I commented on that explicitly when the series was proposed.
-
-> looking at some of the paths that get modified, we have that
-> copy_fs_struct, which does
-> 
->         path_get(&fs->root);
-> 
-> to increment the root, and then the very next line ends up being
-> 
->         get_fs_pwd_pool_locked(old, &fs->pwd);
-> 
-> that copies the pwd very differently.
-> 
-> And the only reason 'pwd' is different is because the audit code
-> treats pwd and root differently.
-> 
-> And that, in turn, is because the audit code is just historical and
-> broken, and can't deal with chroot environments.
-> 
-> The pwd and root paths are two sides of the same coin, and any code
-> that treats them this differently is *wrong*.
-> 
-> So this basically takes a audit mistake, and makes that mistake
-> visible to non-audit users.
-> 
-> I absolutely hate it.
-> 
-> I'm going to think about this more, and maybe I'll end up saying "it's
-> still ugly, but whatever, I'll pull it anyway".
-> 
-> But right now I'm going "there HAS to be a better way".
-> 
-> And maybe you can convince me this hackery is the right thing, but it
-
-It isn't and I'm not going to try.
-
-> really is rubbing me the wrong way entirely.
-
-I'm sorry I can't offer more than agreement with you right now. The only
-reason I considered it was that my appetetite for audit internals is
-very very low but tbh that shouldn't have led me to accept the
-hackishness. So again, no long-winded argument from me here... I droped
-this from the other pr. The CI is still running then I'll resend.
+Damn, I'm very sorry to hear this. But the hopefully this will just be a
+very minor setback.
