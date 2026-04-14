@@ -1,51 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7AA98460;
-	Tue, 14 Apr 2026 00:58:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC2171339A4
+	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 01:00:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776128311; cv=none; b=o4waXXFpYmKLMwx0nSuz3G1Dw5ciDFqfmpPTB8BehOkN+P5vtx0UjybaNoLOIB3YXrMdPDW4wPU2hLSddIic5iQHmcZjwzJGaS60JZqvpBfx/rwJuxfc9BlxKEZ8Lq6uAu9Dq1gxzVlkpEBlPLt3yfAJ6ruirhYEhYBEv47V/G4=
+	t=1776128403; cv=none; b=jqrE80TZN317wHLNtZKTwPMwP7v6OZP38iM4qAj0cCDvqmmq2Y+qCt4KMP5S3xyXT0G9c6aM4vyPpZzlW6onyAmbk6c87v4FOd4z94zyQ2KhtIgM5y5puOpCP9cLpGf4Oq+WscPtvDUuZx1YiCvTROVI0Om72RiJ133Z4bU5DhI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776128311; c=relaxed/simple;
-	bh=3CPipGJaHA3s88GYGUsO7x7ehen2R8UngXGLoTHJjjw=;
+	s=arc-20240116; t=1776128403; c=relaxed/simple;
+	bh=uxJR1zzj4EfhLx6auYWQ52bgfckSSU8jOZPv1pL3uys=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rlCZKP0sryAOOlQmx/h8iW6/HFUCIF8eOPUDwooJjg+qBygtMSdupvdFYYZ8AyqKqz6h0G7mQ8UjoHN30TQPnn2NpT05evdNhMLkQz36J9W02qT16cLnavjdNBrIHVMWwA2Gj2GJUyI+aSem02b+xl4ct8ttK24B24fb0PnzlKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OcsJXF1P; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=PD17q7TVdpGgw7ERQrjBHRlTRiOeKVcvLOfvDQPGQVjjOlzEI21LIc7A1G/ufzmn2/5CVSGs0UrwBek/6BxKdBuKMORBvJTmW9DI/oUqQwAhLh9hx9spwwvbA8loYk7AXHcBABHGz9TQzO4/1OMbaoN7GY8tk7mOc/E3yOdCfBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OYFcBKBV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OcsJXF1P"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0E1FC2BCAF;
-	Tue, 14 Apr 2026 00:58:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OYFcBKBV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 824C5C2BCAF;
+	Tue, 14 Apr 2026 01:00:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776128311;
-	bh=3CPipGJaHA3s88GYGUsO7x7ehen2R8UngXGLoTHJjjw=;
+	s=k20201202; t=1776128402;
+	bh=uxJR1zzj4EfhLx6auYWQ52bgfckSSU8jOZPv1pL3uys=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OcsJXF1PmRjCZDAfuYGZoXbIniLv84Y/ELoCE7qu3TgOHRTrVtUykun/PwQZccOnZ
-	 6PAQXF1uHTMuw8JRnCIRQUcHacvwwIDGYCflED7jspQ4Dk1hSHD9EIcwKt75U25MNm
-	 GXlvVkaNlmgoWYfPVlmEDVmQScReiJW+SBCFXwC9TUJUDDZ1cNQ85FCC6BNOX1ClBS
-	 7uF4GFWmCBmTZwJWoobFmybkYl5JZ0bqL7SL29031q8R1x5jvJQ/8BR+0CLMx/W7Bh
-	 FYTxmGNZr/VD7oP2SiGvam5GfwHFsK17AbwxbrBGeDQtDs/cKX9vhXFAmnc3HFDkkt
-	 pqwDN77HE8ImQ==
-Date: Tue, 14 Apr 2026 10:58:16 +1000
-From: Dave Chinner <dgc@kernel.org>
-To: Gao Xiang <hsiangkao@linux.alibaba.com>
-Cc: Christoph Hellwig <hch@lst.de>, Tal Zussman <tz2294@columbia.edu>,
-	Jens Axboe <axboe@kernel.dk>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Christian Brauner <brauner@kernel.org>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Carlos Maiolino <cem@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>, Bart Van Assche <bvanassche@acm.org>,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org, Sandeep Dhavale <dhavale@google.com>
-Subject: Re: [PATCH 8/8] RFC: use a TASK_FIFO kthread for read completion
- support
-Message-ID: <ad2RKNo2FGhpzJQp@dread>
-References: <20260409160243.1008358-1-hch@lst.de>
- <20260409160243.1008358-9-hch@lst.de>
- <adl1iqhldFvJwSw-@dread>
- <7f0d072b-97a7-405f-bff5-d3819de2e3dd@linux.alibaba.com>
+	b=OYFcBKBVJJMiv+Y8wcSMUhjmuRaHkHrglVprI3nMMJVoSsxZzoL93lYaRP5CNSTWk
+	 qqfeWh/DMVH9Iq0qgl4vGrPDIRbV1AL7qcl2/VDntndiftE9U0BCdyB5tpCjom97Ft
+	 lhLCb/QYdBfdpFTOdkwPMqO56/SmtOGNR3hFnkcV6P+DJXO5isElOHA0H2iKSGag+x
+	 F5Rm4HyjHV3jUnr8c1swX21F3Jt9CsnvKbWIYx1rHgKuHVKL1tWP9h2WY3zc9aPLqn
+	 lKE19Jeq0qIcMDKVgUl2PAKJ3hQvKKqkCn+WR9OqWi/MWlKMc1GKq0HGRTjyr93tmp
+	 25zzRam8rvOyA==
+Date: Mon, 13 Apr 2026 18:00:01 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: bschubert@ddn.com
+Cc: miklos@szeredi.hu, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
+	bernd@bsbernd.com, joannelkoong@gmail.com
+Subject: Re: [PATCH 02/13] mount_service: add systemd/inetd socket service
+ mounting helper
+Message-ID: <20260414010001.GA149953@frogsfrogsfrogs>
+References: <177577270167.2064074.16504004857564657756.stgit@frogsfrogsfrogs>
+ <177577270253.2064074.4846020380322993537.stgit@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -54,88 +44,227 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7f0d072b-97a7-405f-bff5-d3819de2e3dd@linux.alibaba.com>
+In-Reply-To: <177577270253.2064074.4846020380322993537.stgit@frogsfrogsfrogs>
 
-On Sat, Apr 11, 2026 at 07:44:43AM +0800, Gao Xiang wrote:
+On Thu, Apr 09, 2026 at 03:21:04PM -0700, Darrick J. Wong wrote:
+> From: Darrick J. Wong <djwong@kernel.org>
+> 
+> Create a mount helper program that can start a fuse server that runs as
+> a socket-based systemd service, and a new libfuse module to wrap all the
+> details of communicating between the mount helper and the containerized
+> fuse server.
+> 
+> This enables untrusted ext4 mounts via systemd service containers, which
+> avoids the problem of malicious filesystems compromising the integrity
+> of the running kernel through memory corruption.
+> 
+> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
+> ---
+>  include/fuse_service.h                           |  243 ++++
+>  include/fuse_service_priv.h                      |  133 ++
+>  lib/mount_common_i.h                             |    3 
+>  util/mount_service.h                             |   39 +
+>  .github/workflows/install-ubuntu-dependencies.sh |   12 
+>  doc/fuservicemount3.8                            |   24 
+>  doc/meson.build                                  |    3 
+>  include/meson.build                              |    4 
+>  lib/fuse_service.c                               | 1099 +++++++++++++++++++
+>  lib/fuse_service_stub.c                          |  106 ++
+>  lib/fuse_versionscript                           |   17 
+>  lib/helper.c                                     |   51 +
+>  lib/meson.build                                  |   17 
+>  lib/mount.c                                      |   12 
+>  meson.build                                      |   34 +
+>  meson_options.txt                                |    9 
+>  util/fuservicemount.c                            |   18 
+>  util/meson.build                                 |    9 
+>  util/mount_service.c                             | 1304 ++++++++++++++++++++++
+>  19 files changed, 3132 insertions(+), 5 deletions(-)
+>  create mode 100644 include/fuse_service.h
+>  create mode 100644 include/fuse_service_priv.h
+>  create mode 100644 util/mount_service.h
+>  create mode 100644 doc/fuservicemount3.8
+>  create mode 100644 lib/fuse_service.c
+>  create mode 100644 lib/fuse_service_stub.c
+>  create mode 100644 util/fuservicemount.c
+>  create mode 100644 util/mount_service.c
 > 
 > 
-> On 2026/4/11 06:11, Dave Chinner wrote:
-> > On Thu, Apr 09, 2026 at 06:02:21PM +0200, Christoph Hellwig wrote:
-> > > Commit 3fffb589b9a6 ("erofs: add per-cpu threads for decompression as an
-> > > option") explains why workqueue aren't great for low-latency completion
-> > > handling.  Switch to a per-cpu kthread to handle it instead.  This code
-> > > is based on the erofs code in the above commit, but further simplified
-> > > by directly using a kthread instead of a kthread_work.
-> > > 
-> > > Signed-off-by: Christoph Hellwig <hch@lst.de>
-> > 
-> > Can we please not go back to the (bad) old days of individual
-> > subsystems needing their own set of per-cpu kernel tasks just
-> > sitting around idle most of of the time?  The whole point of the
-> > workqueue infrastructure was to get rid of this widely repeated
-> > anti-pattern.
-> > 
-> > If there's a latency problem with workqueue scheduling, then we
-> > should be fixing that problem rather than working around it in every
-> > subsystem that thinkgs it has a workqueue scheduling latency
-> > issue...
-> 
-> It has been "fixed" but never actually get fixed:
-> https://lore.kernel.org/r/CAB=BE-QaNBn1cVK6c7LM2cLpH_Ck_9SYw-YDYEnNrtwfoyu81Q@mail.gmail.com
-> 
-> and workqueues don't have any plan to introduce RT threads;
 
-They don't need to (or should) introduce RT threads. Per-cpu kernel
-threads already get priority over normal user tasks on scheduling
-decisions.  However, they do not pre-empt running kernel tasks of
-the same priority.
+<snip>
 
-In general, kernel threads should not use RT scheduling at all - if
-the kernel uses RT prioprity tasks then that can interfere with user
-scheduled RT tasks. This is especially true in this case where a
-non-RT tasks issue the IO, and the IO completion is then scheduled
-with RT priority. IOWs, any unprivileged user can now impact the
-processing time available to, and the response latency of, other
-RT scheduled tasks the system is running.
+> diff --git a/lib/fuse_service.c b/lib/fuse_service.c
+> new file mode 100644
+> index 00000000000000..b775727e7c91e2
+> --- /dev/null
+> +++ b/lib/fuse_service.c
 
-Tejun asked Sandeep if setting the workqueue thread priority to
--19 through sysfs (i.e. making them higher priority than normal
-kernel threads) had the same effect on latency as using a dedicated
-per-cpu RT task thread. THere was no followup.
+<snip>
 
-In theory, this should provide the same benefit, because what RT
-scheduling is doing is pre-empting any user and kernel task that was
-running when the interrupt was delivered to execute the completion
-task immediately.
+> +static int negotiate_hello(struct fuse_service *sf)
+> +{
+> +	struct fuse_service_hello hello = { };
+> +	struct fuse_service_hello_reply reply = {
+> +		.p.magic = htonl(FUSE_SERVICE_HELLO_REPLY),
+> +		.version = htons(FUSE_SERVICE_PROTO),
+> +	};
+> +	struct iovec iov = {
+> +		.iov_base = &hello,
+> +		.iov_len = sizeof(hello),
+> +	};
+> +	struct msghdr msg = {
+> +		.msg_iov = &iov,
+> +		.msg_iovlen = 1,
+> +	};
+> +	uint64_t flags;
 
-Setting the workqueue to use kernel threads of a higher scheduler
-prioirty should do the same thing, without the need to use dedicated
-per-cpu RT threads.
+This is a u32 in the socket protocol.
 
-> If Sandeep has more time, I hope he could have more time to
-> test since I don't work on Android anymore: In principle,
-> I still think RT thread is needed somewhere for such usage
-> since lowest latencies is needed.
+> +	ssize_t size;
+> +
+> +	size = recvmsg(sf->sockfd, &msg, MSG_TRUNC);
+> +	if (size < 0) {
+> +		int error = errno;
+> +
+> +		fuse_log(FUSE_LOG_ERR, "fuse: receive service hello: %s\n",
+> +			 strerror(error));
+> +		return -error;
+> +	}
+> +	if (size != sizeof(hello)) {
+> +		fuse_log(FUSE_LOG_ERR, "fuse: wrong service hello size %zd, expected %zd\n",
+> +			 size, sizeof(hello));
+> +		return -EBADMSG;
+> +	}
+> +
+> +	if (ntohl(hello.p.magic) != FUSE_SERVICE_HELLO_CMD) {
+> +		fuse_log(FUSE_LOG_ERR, "fuse: service server did not send hello command\n");
+> +		return -EBADMSG;
+> +	}
+> +
+> +	if (ntohs(hello.min_version) < FUSE_SERVICE_MIN_PROTO) {
+> +		fuse_log(FUSE_LOG_ERR, "fuse: unsupported min service protocol version %u\n",
+> +			ntohs(hello.min_version));
+> +		return -EOPNOTSUPP;
+> +	}
+> +
+> +	if (ntohs(hello.max_version) > FUSE_SERVICE_MAX_PROTO) {
+> +		fuse_log(FUSE_LOG_ERR, "fuse: unsupported max service protocol version %u\n",
+> +			ntohs(hello.min_version));
+> +		return -EOPNOTSUPP;
+> +	}
+> +
+> +	flags = ntohl(hello.flags);
 
-All that is needed is for the kworker thread to be scheduled to run
-immeidately after the interrupt that scheduled the work exits. This
-does not require dedicated per-cpu kernel tasks or RT scheduling....
+Need to check for unrecognized bits being set here.
 
-> Compared to the scheduling latency issues, interested users
-> don't care "individual subsystems needing their own set of
-> per-cpu kernel tasks just sitting around idle most of of
-> the time". If end users care it more, they can just turn
-> it off by Kconfig.
+<snip>
 
-Distros enable all these subsystems all the time, so saying
-"turn it off via kconfig" is not a viable mitigation
-strategy. Proliferation of dedicated per-CPU worker task pools is a
-known problem, and we really don't want to regress back to those
-days when a typical system had thousands of dedicated per-cpu work
-queues that largely did nothing most of the time.
+> diff --git a/util/mount_service.c b/util/mount_service.c
+> new file mode 100644
+> index 00000000000000..abe88a0710255b
+> --- /dev/null
+> +++ b/util/mount_service.c
 
--Dave.
+<snip>
 
--- 
-Dave Chinner
-dgc@kernel.org
+> +static int mount_service_handle_fsopen_cmd(struct mount_service *mo,
+> +					   const struct fuse_service_packet *p,
+> +					   size_t psz)
+> +{
+> +	struct fuse_service_string_command *oc =
+> +			container_of(p, struct fuse_service_string_command, p);
+> +
+> +	if (psz < sizeof_fuse_service_string_command(1)) {
+> +		fprintf(stderr, "%s: fsopen command too small\n",
+> +			mo->msgtag);
+> +		return mount_service_send_reply(mo, EINVAL);
+> +	}
+> +
+> +	if (!check_null_endbyte(p, psz)) {
+> +		fprintf(stderr, "%s: fsopen command must be null terminated\n",
+> +			mo->msgtag);
+> +		return mount_service_send_reply(mo, EINVAL);
+> +	}
+> +
+> +	if (mo->fstype) {
+> +		fprintf(stderr, "%s: fstype respecified!\n",
+> +			mo->msgtag);
+> +		return mount_service_send_reply(mo, EINVAL);
+> +	}
+> +
+> +	mo->fstype = strdup(oc->value);
+
+It occurs to me -- the user that ran fuservicemount already *told* us
+what the fuse subtype is going to be; they supplied it via the -t
+option.  There's no need to pass the subtype to the fuse server only to
+make it pass the subtype back to us.  The only thing that the fuse
+server needs to tell us is if this is actually a fuseblk server, since
+(among other things) it has to be able to *deal* with weird fuseblk
+quirks, such as relying on the kernel to prevent other processes from
+writing to the block device.
+
+Therefore, the mount_service can just make a copy of the subtype string
+from the cli arguments.  The fuse server can tell us if it wants fuseblk
+mode (as a flag, instead of copying strings around!).  For the fsmount()
+code path, it can set subtype= to the subtype string copied earlier.
+For the classic mount() code, it can format "fuse{,blk}.$subtype" into a
+string and pass that in.
+
+<snip>
+
+> +static int mount_service_handle_mount_cmd(struct mount_service *mo,
+> +					  struct fuse_service_packet *p,
+> +					  size_t psz)
+> +{
+> +	struct stat stbuf;
+> +	struct fuse_service_mount_command *oc =
+> +			container_of(p, struct fuse_service_mount_command, p);
+> +	int ret;
+> +
+> +	if (psz != sizeof(struct fuse_service_mount_command)) {
+> +		fprintf(stderr, "%s: mount command wrong size\n",
+> +			mo->msgtag);
+> +		return mount_service_send_reply(mo, EINVAL);
+> +	}
+> +
+> +	if (!mo->fstype) {
+> +		fprintf(stderr, "%s: missing mount type parameter\n",
+> +			mo->msgtag);
+> +		return mount_service_send_reply(mo, EINVAL);
+> +	}
+> +
+> +	if (!mo->source) {
+> +		fprintf(stderr, "%s: missing mount source parameter\n",
+> +			mo->msgtag);
+> +		return mount_service_send_reply(mo, EINVAL);
+> +	}
+> +
+> +	if (!mo->mountpoint) {
+> +		fprintf(stderr, "%s: missing mount point parameter\n",
+> +			mo->msgtag);
+> +		return mount_service_send_reply(mo, EINVAL);
+> +	}
+> +
+> +	/*
+> +	 * Make sure we can access the mountpoint and that it's either a
+> +	 * directory or a regular file.  Linux can handle mounting atop special
+> +	 * files, but we don't care to do such crazy things.
+> +	 */
+> +	ret = fstat(mo->mountfd, &stbuf);
+> +	if (ret < 0) {
+> +		int error = errno;
+> +
+> +		fprintf(stderr, "%s: %s: %s\n",
+> +			mo->msgtag, mo->mountpoint, strerror(error));
+> +		return mount_service_send_reply(mo, error);
+> +	}
+> +
+> +	/* Make sure the mountpoint type matches what the caller wanted */
+> +	switch (ntohs(oc->expected_fmt)) {
+
+Now that the mountpoint command opens the mount point, the expected
+format bits of the mountpoint should be passed along with the mountpoint
+command and checked earlier.  The permission checks need to stay where
+they are, though.
+
+--D
