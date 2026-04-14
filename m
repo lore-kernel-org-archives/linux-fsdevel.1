@@ -1,41 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE4723E5EDD
-	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 23:56:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13E6C38424D
+	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 23:58:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776210971; cv=none; b=YfOxJRryIA2grU0YWm8OwQ2ta57J7TR0WNGhF6c6+x9fopE0gTMM4cBUb9katksvpzBxhpNj6046m7untrVlr5sDbcmaAO/+vo5X8AcQtuHppdCIHgl8pdCaBo5Kfm763XwJAHUboahaKIRG0DLmDcGM11kwXfiQIbhBG3Jv+ws=
+	t=1776211116; cv=none; b=d9jQMx7UicxOjv/IU4/vQAKrs65ADoIyEqBJUrVBbDxo6xLsTK/OFBlMHxxHfQyKgeUE0ROwQmvaDzxHJFozLK5azfyYxVfAgQS4aN3MIPPW3MsgwaAWsluKxHQhv0ubmHOIP6gHTs/3Ku6OODFifwG03ymTVOUTYmqftnXruKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776210971; c=relaxed/simple;
-	bh=ChbyD/r7w7aLEmxQV1DuiSHTU/f48k79leBqy0qXEss=;
+	s=arc-20240116; t=1776211116; c=relaxed/simple;
+	bh=v/OgGfgRPpbITqjocX/o2f0PDQwtRFi2ShcXRbp8Dg4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HYlc8TdphgLkkd28LTjhFIZdNPUvAFfT2pjQR/t03Ngum7c+0IOxcNwIzpW/Aosaojdeq/rqjmxpIAEVyP5xEbnpzZi4u1ir1pp85aTrkl+hd95YwHqFA27rO81um7k86vmyU54vOtqX50gESqx8iFB9fztYughDM50gT5tQCTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sFMGCkAX; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=vBJzgR99DLtedh2XJPnNXYPBWGhJh2wju4bHkdxzCcVaYey30DeMh6mzP7DCjKZQruK+heQQG2K+HceED4ThyKBLHgygIntKD2LqJVUIBFZxKy3HC1co6/D2JnpY9rRfHfc58c8XdEwGyEzYV6kbEyO8TWZWSVuDPsWYH1ZodgM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FbppLJ3l; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sFMGCkAX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 408D0C19425;
-	Tue, 14 Apr 2026 23:56:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FbppLJ3l"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C390FC19425;
+	Tue, 14 Apr 2026 23:58:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776210971;
-	bh=ChbyD/r7w7aLEmxQV1DuiSHTU/f48k79leBqy0qXEss=;
+	s=k20201202; t=1776211115;
+	bh=v/OgGfgRPpbITqjocX/o2f0PDQwtRFi2ShcXRbp8Dg4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sFMGCkAXj5cCmPVq1O35rZgmaPoAIFgGy43QbY2KKHn4KYe1/Ptl1t2EEwGN1kWQN
-	 9uiDdQfiMLfkIcBjVf5k6KPcGlUqFURB7HwBfznlF1xfYF1XCYDD2BmrIXvUbmBK5g
-	 Jn0qncUUTspDyqemT61lL5bNFA+bgbxjgrRVznjx1ipCam1w059vC/svYtlyQcVdPP
-	 gle9n9OUGOZCKHw2da1eHuOCmO6hQww22Ng7chBMY9aCKhNs+mCbcSfz155BkmjZVZ
-	 5+iLudBlrV3B7qJgw+CiUAMHnsQ3cmVN5UGps0/wmrr3auBkAwx+FT6fYhralQmewd
-	 ma88gyBcFTueg==
-Date: Tue, 14 Apr 2026 16:56:10 -0700
+	b=FbppLJ3l62LP3IpkWBUqvOpRXPpZBghEq4O5FDDemdW1k9OOGVzyPJjeZ54YGopuy
+	 vJ9AfgnnZUhdOYLfRcAXz2xraW+NXV0JW4I/3oNpQXm31RGuZ/IJimYdNr2RlBWRrd
+	 VQwvKyeUdengae700ZXb89eS1ihW5ZLz8Xuv4EiDQF+CXgzrqtmir9UjufIZqiMy8C
+	 O0BS5eoTRR822zu3A2bAUUVJdX53MD87fGYy4PIzE1wqm/IFA9eoJQO5hXjkKHw+ij
+	 5btv6cQe3lHmEjeZZCPX3SRnmtW2RifxdZH5d82gyDLQpJDBYaBysDnosiQAMyossy
+	 z0GicwX7njilw==
+Date: Tue, 14 Apr 2026 16:58:35 -0700
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: bschubert@ddn.com
 Cc: miklos@szeredi.hu, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
 	bernd@bsbernd.com, joannelkoong@gmail.com
-Subject: Re: [PATCH 11/13] example/service_ll: create a sample systemd
- service fuse server
-Message-ID: <20260414235610.GF604658@frogsfrogsfrogs>
+Subject: Re: [PATCH 03/13] mount_service: create high level fuse helpers
+Message-ID: <20260414235835.GG604658@frogsfrogsfrogs>
 References: <177577270167.2064074.16504004857564657756.stgit@frogsfrogsfrogs>
- <177577270412.2064074.6178076333925029149.stgit@frogsfrogsfrogs>
+ <177577270271.2064074.7122706765827201316.stgit@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -44,1395 +43,244 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <177577270412.2064074.6178076333925029149.stgit@frogsfrogsfrogs>
+In-Reply-To: <177577270271.2064074.7122706765827201316.stgit@frogsfrogsfrogs>
 
-On Thu, Apr 09, 2026 at 03:23:24PM -0700, Darrick J. Wong wrote:
+On Thu, Apr 09, 2026 at 03:21:20PM -0700, Darrick J. Wong wrote:
 > From: Darrick J. Wong <djwong@kernel.org>
 > 
-> Create a simple fuse server that can be run as a systemd service.
-> I plan to create some more single-file fuse server examples, so most of
-> the boilerplate code goes in a separate file.
+> Create a fuse_main wrapper for fuse services.
 > 
-> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
+> Signed-off-by: Darrick J. Wong <djwong@kernel.org>
 > ---
->  example/single_file.h        |  149 ++++++++++
->  lib/util.h                   |   35 ++
->  example/meson.build          |   14 +
->  example/service_ll.c         |  308 ++++++++++++++++++++
->  example/service_ll.socket.in |   15 +
->  example/service_ll@.service  |  102 +++++++
->  example/single_file.c        |  646 ++++++++++++++++++++++++++++++++++++++++++
->  meson.build                  |    1 
->  8 files changed, 1270 insertions(+)
->  create mode 100644 example/single_file.h
->  create mode 100644 example/service_ll.c
->  create mode 100644 example/service_ll.socket.in
->  create mode 100644 example/service_ll@.service
->  create mode 100644 example/single_file.c
+>  include/fuse.h         |   34 +++++++++++++
+>  lib/fuse_versionscript |    1 
+>  lib/helper.c           |  125 ++++++++++++++++++++++++++++++++++++++++++++++--
+>  3 files changed, 156 insertions(+), 4 deletions(-)
 > 
 > 
-> diff --git a/example/single_file.h b/example/single_file.h
-> new file mode 100644
-> index 00000000000000..af91ea8196a408
-> --- /dev/null
-> +++ b/example/single_file.h
-> @@ -0,0 +1,149 @@
-> +/*
-> + * FUSE: Filesystem in Userspace
-> + * Copyright (C) 2026 Oracle.
-> + *
-> + * This program can be distributed under the terms of the GNU GPLv2.
-> + * See the file GPL2.txt.
-> + */
-> +#ifndef FUSE_SINGLE_FILE_H_
-> +#define FUSE_SINGLE_FILE_H_
-> +
-> +static inline uint64_t round_up(uint64_t b, unsigned int align)
-> +{
-> +	unsigned int m;
-> +
-> +	if (align == 0)
-> +		return b;
-> +	m = b % align;
-> +	if (m)
-> +		b += align - m;
-> +	return b;
-> +}
-> +
-> +static inline uint64_t round_down(uint64_t b, unsigned int align)
-> +{
-> +	unsigned int m;
-> +
-> +	if (align == 0)
-> +		return b;
-> +	m = b % align;
-> +	return b - m;
-> +}
-> +
-> +static inline uint64_t howmany(uint64_t b, unsigned int align)
-> +{
-> +	unsigned int m;
-> +
-> +	if (align == 0)
-> +		return b;
-> +	m = (b % align) ? 1 : 0;
-> +	return (b / align) + m;
-> +}
-> +
-> +struct single_file {
-> +	int backing_fd;
-> +
-> +	int64_t isize;
-> +	uint64_t blocks;
-> +
-> +	mode_t mode;
-> +
-> +	bool ro;
-> +	bool allow_dio;
-> +	bool sync;
-> +	bool require_bdev;
-> +
-> +	unsigned int blocksize;
-> +
-> +	struct timespec atime;
-> +	struct timespec mtime;
-> +
-> +	pthread_mutex_t lock;
-> +};
-> +
-> +extern struct single_file single_file;
-> +
-> +static inline uint64_t b_to_fsbt(uint64_t off)
-> +{
-> +	return off / single_file.blocksize;
-> +}
-> +
-> +static inline uint64_t b_to_fsb(uint64_t off)
-> +{
-> +	return (off + single_file.blocksize - 1) / single_file.blocksize;
-> +}
-> +
-> +static inline uint64_t fsb_to_b(uint64_t fsb)
-> +{
-> +	return fsb * single_file.blocksize;
-> +}
-> +
-> +enum single_file_opt_keys {
-> +	SINGLE_FILE_RO = 171717, /* how many options could we possibly have? */
-> +	SINGLE_FILE_RW,
-> +	SINGLE_FILE_REQUIRE_BDEV,
-> +	SINGLE_FILE_DIO,
-> +	SINGLE_FILE_NODIO,
-> +	SINGLE_FILE_SYNC,
-> +	SINGLE_FILE_NOSYNC,
-> +	SINGLE_FILE_SIZE,
-> +	SINGLE_FILE_BLOCKSIZE,
-> +
-> +	SINGLE_FILE_NR_KEYS,
-> +};
-> +
-> +#define SINGLE_FILE_OPT_KEYS \
-> +	FUSE_OPT_KEY("ro",		SINGLE_FILE_RO), \
-> +	FUSE_OPT_KEY("rw",		SINGLE_FILE_RW), \
-> +	FUSE_OPT_KEY("require_bdev",	SINGLE_FILE_REQUIRE_BDEV), \
-> +	FUSE_OPT_KEY("dio",		SINGLE_FILE_DIO), \
-> +	FUSE_OPT_KEY("nodio",		SINGLE_FILE_NODIO), \
-> +	FUSE_OPT_KEY("sync",		SINGLE_FILE_SYNC), \
-> +	FUSE_OPT_KEY("nosync",		SINGLE_FILE_NOSYNC), \
-> +	FUSE_OPT_KEY("size=%s",		SINGLE_FILE_SIZE), \
-> +	FUSE_OPT_KEY("blocksize=%s",	SINGLE_FILE_BLOCKSIZE)
-> +
-> +int single_file_opt_proc(void *data, const char *arg, int key,
-> +			 struct fuse_args *outargs);
-> +
-> +unsigned long long parse_num_blocks(const char *arg, int log_block_size);
-> +
+> diff --git a/include/fuse.h b/include/fuse.h
+> index 2bc3a9650c7c8b..129c744e39c46a 100644
+> --- a/include/fuse.h
+> +++ b/include/fuse.h
+> @@ -1008,6 +1008,40 @@ static inline int fuse_main_fn(int argc, char *argv[],
+>  #define fuse_main(argc, argv, op, user_data) \
+>  	fuse_main_fn(argc, argv, op, user_data)
+>  
+> +#if FUSE_MAKE_VERSION(3, 19) <= FUSE_USE_VERSION
 > +struct fuse_service;
-> +int single_file_service_open(struct fuse_service *sf, const char *path);
+> +int fuse_service_main_real_versioned(struct fuse_service *service,
+> +				     struct fuse_args *args,
+> +				     const struct fuse_operations *op,
+> +				     size_t op_size,
+> +				     struct libfuse_version *version,
+> +				     void *user_data);
 > +
-> +void single_file_check_read(off_t pos, size_t *count);
-> +int single_file_check_write(off_t pos, size_t *count);
-> +
-> +int single_file_configure(const char *device, const char *filename);
-> +int single_file_configure_simple(const char *filename);
-> +void single_file_close(void);
-> +
-> +/* low-level fuse operation handlers */
-> +
-> +bool is_single_file_child(fuse_ino_t parent, const char *name);
-> +bool is_single_file_ino(fuse_ino_t ino);
-> +
-> +void single_file_ll_readdir(fuse_req_t req, fuse_ino_t ino, size_t size,
-> +				off_t off, struct fuse_file_info *fi);
-> +
-> +void single_file_ll_statfs(fuse_req_t req, fuse_ino_t ino);
-> +
-> +void single_file_ll_statx(fuse_req_t req, fuse_ino_t ino, int flags, int mask,
-> +		       struct fuse_file_info *fi);
-> +
-> +void single_file_ll_getattr(fuse_req_t req, fuse_ino_t ino,
-> +			    struct fuse_file_info *fi);
-> +void single_file_ll_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
-> +			 int to_set, struct fuse_file_info *fi);
-> +
-> +void single_file_ll_lookup(fuse_req_t req, fuse_ino_t parent, const char *name);
-> +void single_file_ll_open(fuse_req_t req, fuse_ino_t ino,
-> +			 struct fuse_file_info *fi);
-> +
-> +void single_file_ll_fsync(fuse_req_t req, fuse_ino_t ino, int datasync,
-> +			  struct fuse_file_info *fi);
-> +
-> +int reply_buf_limited(fuse_req_t req, const char *buf, size_t bufsize,
-> +		      off_t off, size_t maxsize);
-> +
-> +#endif /* FUSE_SINGLE_FILE_H_ */
-> diff --git a/lib/util.h b/lib/util.h
-> index 107a2bfdd6105b..6ec6604fb74caf 100644
-> --- a/lib/util.h
-> +++ b/lib/util.h
-> @@ -4,6 +4,9 @@
->  #include <stdint.h>
->  #include <stdbool.h>
->  
-> +#define max(x, y) ((x) > (y) ? (x) : (y))
-> +#define min(x, y) ((x) < (y) ? (x) : (y))
-> +
->  #define ROUND_UP(val, round_to) (((val) + (round_to - 1)) & ~(round_to - 1))
->  
->  #define likely(x) __builtin_expect(!!(x), 1)
-> @@ -46,4 +49,36 @@ static inline uint64_t fuse_higher_32_bits(uint64_t nr)
->  #define fallthrough do {} while (0)
->  #endif
->  
-> +static inline uint64_t round_up(uint64_t b, unsigned int align)
-> +{
-> +	unsigned int m;
-> +
-> +	if (align == 0)
-> +		return b;
-> +	m = b % align;
-> +	if (m)
-> +		b += align - m;
-> +	return b;
-> +}
-> +
-> +static inline uint64_t round_down(uint64_t b, unsigned int align)
-> +{
-> +	unsigned int m;
-> +
-> +	if (align == 0)
-> +		return b;
-> +	m = b % align;
-> +	return b - m;
-> +}
-> +
-> +static inline uint64_t howmany(uint64_t b, unsigned int align)
-> +{
-> +	unsigned int m;
-> +
-> +	if (align == 0)
-> +		return b;
-> +	m = (b % align) ? 1 : 0;
-> +	return (b / align) + m;
-> +}
-> +
->  #endif /* FUSE_UTIL_H_ */
-> diff --git a/example/meson.build b/example/meson.build
-> index 76cf2d96db0349..e948f6ba74fdfa 100644
-> --- a/example/meson.build
-> +++ b/example/meson.build
-> @@ -12,6 +12,15 @@ if not platform.endswith('bsd') and platform != 'dragonfly'
->      examples += [ 'null' ]
->  endif
->  
-> +single_file_examples = [ ]
-> +
-> +if platform.endswith('linux')
-> +    single_file_examples += [ 'service_ll' ]
-> +    configure_file(input: 'service_ll.socket.in',
-> +                   output: 'service_ll.socket',
-> +                   configuration: private_cfg)
-> +endif
-> +
->  threaded_examples = [ 'notify_inval_inode',
->                        'invalidate_path',
->                        'notify_store_retrieve',
-> @@ -25,6 +34,11 @@ foreach ex : examples
->                 install: false)
->  endforeach
->  
-> +foreach ex : single_file_examples
-> +    executable(ex, [ex + '.c', 'single_file.c'],
-> +               dependencies: [ libfuse_dep ],
-> +               install: false)
-> +endforeach
->  
->  foreach ex : threaded_examples
->      executable(ex, ex + '.c',
-> diff --git a/example/service_ll.c b/example/service_ll.c
-> new file mode 100644
-> index 00000000000000..da1d64f03be5f2
-> --- /dev/null
-> +++ b/example/service_ll.c
-> @@ -0,0 +1,308 @@
-> +/*
-> + * FUSE: Filesystem in Userspace
-> + * Copyright (C) 2026 Oracle.
-> + *
-> + * This program can be distributed under the terms of the GNU GPLv2.
-> + * See the file GPL2.txt.
+> +/**
+> + * Same as fuse_service_main_fn, but takes its information from the mount
+> + * service context and an fuse_args that has already had fuse_service_append_args
+> + * applied to it.
 > + */
-> +
-> +/** @file
-> + *
-> + * minimal example filesystem using low-level API and systemd service api
-> + *
-> + * Compile with:
-> + *
-> + *     gcc -Wall single_file.c service_ll.c `pkg-config fuse3 --cflags --libs` -o service_ll
-> + *
-> + * Note: If the pkg-config command fails due to the absence of the fuse3.pc
-> + *     file, you should configure the path to the fuse3.pc file in the
-> + *     PKG_CONFIG_PATH variable.
-> + *
-> + * Change the ExecStart line in service_ll@.service:
-> + *
-> + *     ExecStart=/path/to/service_ll
-> + *
-> + * to point to the actual path of the service_ll binary.
-> + *
-> + * Finally, install the service_ll@.service and service_ll.socket files to the
-> + * systemd service directory, usually /run/systemd/system.
-> + *
-> + * ## Source code ##
-> + * \include service_ll.c
-> + * \include service_ll.socket
-> + * \include service_ll@.service
-> + * \include single_file.c
-> + * \include single_file.h
-> + */
-> +
-> +#define FUSE_USE_VERSION FUSE_MAKE_VERSION(3, 19)
-> +
-> +#ifndef _GNU_SOURCE
-> +#define _GNU_SOURCE
-> +#endif
-> +
-> +#include <fuse_lowlevel.h>
-> +#include <fuse_service.h>
-> +#include <stdio.h>
-> +#include <stdlib.h>
-> +#include <string.h>
-> +#include <errno.h>
-> +#include <fcntl.h>
-> +#include <unistd.h>
-> +#include <assert.h>
-> +#include <pthread.h>
-> +#include "single_file.h"
-> +
-> +struct service_ll {
-> +	struct fuse_session *se;
-> +	char *device;
-> +	struct fuse_service *service;
-> +
-> +	/* really booleans */
-> +	int debug;
-> +};
-> +
-> +static struct service_ll ll = { };
-> +
-> +static void service_ll_init(void *userdata, struct fuse_conn_info *conn)
+> +static inline int fuse_service_main_fn(struct fuse_service *service,
+> +				       struct fuse_args *args,
+> +				       const struct fuse_operations *op,
+> +				       void *user_data)
 > +{
-> +	(void)userdata;
+> +	struct libfuse_version version = {
+> +		.major  = FUSE_MAJOR_VERSION,
+> +		.minor  = FUSE_MINOR_VERSION,
+> +		.hotfix = FUSE_HOTFIX_VERSION,
+> +		.padding = FUSE_USE_VERSION,
+> +	};
 > +
-> +	conn->time_gran = 1;
+> +	return fuse_service_main_real_versioned(service, args, op,
+> +						sizeof(*(op)), &version,
+> +						user_data);
 > +}
+> +#define fuse_service_main(s, args, op, user_data) \
+> +	fuse_service_main_fn(s, args, op, user_data)
+> +#endif /* FUSE_USE_VERSION >= FUSE_MAKE_VERSION(3, 19) */
 > +
-> +static void service_ll_read(fuse_req_t req, fuse_ino_t ino, size_t count,
-> +			    off_t pos, struct fuse_file_info *fi)
+>  /* ----------------------------------------------------------- *
+>   * More detailed API					       *
+>   * ----------------------------------------------------------- */
+> diff --git a/lib/fuse_versionscript b/lib/fuse_versionscript
+> index aa1912c76fb715..fc37931b475bdf 100644
+> --- a/lib/fuse_versionscript
+> +++ b/lib/fuse_versionscript
+> @@ -236,6 +236,7 @@ FUSE_3.19 {
+>  		fuse_service_exit;
+>  		fuse_service_expect_mount_mode;
+>  		fuse_service_finish_file_requests;
+> +		fuse_service_main_real_versioned;
+>  		fuse_service_parse_cmdline_opts;
+>  		fuse_service_receive_file;
+>  		fuse_service_release;
+> diff --git a/lib/helper.c b/lib/helper.c
+> index 819b9a6e4d243c..a2b3cc617bca54 100644
+> --- a/lib/helper.c
+> +++ b/lib/helper.c
+> @@ -15,6 +15,7 @@
+>  #include "fuse_misc.h"
+>  #include "fuse_opt.h"
+>  #include "fuse_lowlevel.h"
+> +#include "fuse_service.h"
+>  #include "mount_util.h"
+>  
+>  #include <stdio.h>
+> @@ -365,6 +366,126 @@ int fuse_daemonize(int foreground)
+>  	return 0;
+>  }
+>  
+> +struct fuse *_fuse_new_31(struct fuse_args *args,
+> +		       const struct fuse_operations *op, size_t op_size,
+> +		       struct libfuse_version *version,
+> +		       void *user_data);
+> +
+> +int fuse_service_main_real_versioned(struct fuse_service *service,
+> +				     struct fuse_args *args,
+> +				     const struct fuse_operations *op,
+> +				     size_t op_size,
+> +				     struct libfuse_version *version,
+> +				     void *user_data)
 > +{
-> +	void *buf = NULL;
-> +	ssize_t got;
-> +	int ret;
+> +	struct fuse *fuse;
+> +	struct fuse_cmdline_opts opts;
+> +	int res;
+> +	struct fuse_loop_config *loop_config = NULL;
 > +
-> +	if (!is_single_file_ino(ino)) {
-> +		ret = EIO;
-> +		goto out_reply;
+> +	if (fuse_service_parse_cmdline_opts(args, &opts) != 0) {
+> +		res = 1;
+> +		goto out0;
 > +	}
 > +
-> +	if (ll.debug)
-> +		fprintf(stderr, "%s: pos 0x%llx count 0x%llx\n",
-> +			__func__,
-> +			(unsigned long long)pos,
-> +			(unsigned long long)count);
-> +
-> +	if (!single_file.allow_dio && fi->direct_io) {
-> +		ret = ENOSYS;
-> +		goto out_reply;
+> +	if (opts.show_version) {
+> +		printf("FUSE library version %s\n", PACKAGE_VERSION);
+> +		fuse_lowlevel_version();
+> +		res = 0;
+> +		goto out1;
 > +	}
-> +
-> +	single_file_check_read(pos, &count);
-> +
-> +	if (!count) {
-> +		fuse_reply_buf(req, buf, 0);
-> +		return;
-> +	}
-> +
-> +	buf = malloc(count);
-> +	if (!buf) {
-> +		ret = ENOMEM;
-> +		goto out_reply;
-> +	}
-> +
-> +	got = pread(single_file.backing_fd, buf, count, pos);
-> +	if (got < 0) {
-> +		ret = errno;
-> +		goto out_reply;
-> +	}
-> +
-> +	fuse_reply_buf(req, buf, got);
-> +	goto out_buf;
-> +
-> +out_reply:
-> +	fuse_reply_err(req, ret);
-> +out_buf:
-> +	free(buf);
-> +}
-> +
-> +static void service_ll_write(fuse_req_t req, fuse_ino_t ino, const char *buf,
-> +			     size_t count, off_t pos,
-> +			     struct fuse_file_info *fi)
-> +{
-> +	ssize_t got;
-> +	int ret;
-> +
-> +	if (!is_single_file_ino(ino)) {
-> +		ret = EIO;
-> +		goto out_reply;
-> +	}
-> +
-> +	if (ll.debug)
-> +		fprintf(stderr, "%s: pos 0x%llx count 0x%llx\n",
-> +			__func__,
-> +			(unsigned long long)pos,
-> +			(unsigned long long)count);
-> +
-> +	if (!single_file.allow_dio && fi->direct_io) {
-> +		ret = ENOSYS;
-> +		goto out_reply;
-> +	}
-> +
-> +	ret = -single_file_check_write(pos, &count);
-> +	if (ret)
-> +		goto out_reply;
-> +
-> +	got = pwrite(single_file.backing_fd, buf, count, pos);
-> +	if (got < 0) {
-> +		ret = errno;
-> +		goto out_reply;
-> +	}
-> +
-> +	if (single_file.sync) {
-> +		ret = fsync(single_file.backing_fd);
-> +		if (ret < 0) {
-> +			ret = errno;
-> +			goto out_reply;
-> +		}
-> +	}
-> +
-> +	fuse_reply_write(req, got);
-> +	return;
-> +
-> +out_reply:
-> +	fuse_reply_err(req, ret);
-> +}
-> +
-> +static const struct fuse_lowlevel_ops service_ll_oper = {
-> +	.lookup		= single_file_ll_lookup,
-> +	.getattr	= single_file_ll_getattr,
-> +	.setattr	= single_file_ll_setattr,
-> +	.readdir	= single_file_ll_readdir,
-> +	.open		= single_file_ll_open,
-> +	.statfs		= single_file_ll_statfs,
-> +	.statx		= single_file_ll_statx,
-> +	.fsync		= single_file_ll_fsync,
-> +
-> +	.init		= service_ll_init,
-> +	.read		= service_ll_read,
-> +	.write		= service_ll_write,
-> +};
-> +
-> +#define SERVICE_LL_OPT(t, p, v) { t, offsetof(struct service_ll, p), v }
-> +
-> +static struct fuse_opt service_ll_opts[] = {
-> +	SERVICE_LL_OPT("debug",		debug,			1),
-> +	SINGLE_FILE_OPT_KEYS,
-> +	FUSE_OPT_END
-> +};
-> +
-> +static int service_ll_opt_proc(void *data, const char *arg, int key,
-> +				 struct fuse_args *outargs)
-> +{
-> +	int ret = single_file_opt_proc(data, arg, key, outargs);
-> +
-> +	if (ret < 1)
-> +		return ret;
-> +
-> +	switch (key) {
-> +	case FUSE_OPT_KEY_NONOPT:
-> +		if (!ll.device) {
-> +			ll.device = strdup(arg);
-> +			return 0;
-> +		}
-> +		return 1;
-> +	}
-> +
-> +	return 1;
-> +}
-> +
-> +int main(int argc, char *argv[])
-> +{
-> +	struct fuse_args args = FUSE_ARGS_INIT(argc, argv);
-> +	struct fuse_cmdline_opts opts = { };
-> +	int ret = 1;
-> +
-> +	if (fuse_service_accept(&ll.service))
-> +		goto err_args;
-> +
-> +	if (!fuse_service_accepted(ll.service))
-> +		goto err_args;
-> +
-> +	if (fuse_service_append_args(ll.service, &args))
-> +		goto err_service;
-> +
-> +	if (fuse_opt_parse(&args, &ll, service_ll_opts, service_ll_opt_proc))
-> +		goto err_service;
-> +
-> +	if (fuse_service_parse_cmdline_opts(&args, &opts))
-> +		goto err_service;
 > +
 > +	if (opts.show_help) {
-> +		printf("usage: %s [options] <device> <mountpoint>\n\n", argv[0]);
+> +		if (args->argv[0][0] != '\0')
+> +			printf("usage: %s [options] <mountpoint>\n\n",
+> +			       args->argv[0]);
+> +		printf("FUSE options:\n");
 > +		fuse_cmdline_help();
-> +		fuse_lowlevel_help();
-> +		ret = 0;
-> +		goto err_service;
-> +	} else if (opts.show_version) {
-> +		printf("FUSE library version %s\n", fuse_pkgversion());
-> +		fuse_lowlevel_version();
-> +		ret = 0;
-> +		goto err_service;
+> +		fuse_lib_help(args);
+> +		res = 0;
+> +		goto out1;
 > +	}
 > +
-> +	if (!opts.mountpoint || !ll.device) {
-> +		printf("usage: %s [options] <device> <mountpoint>\n", argv[0]);
-> +		printf("       %s --help\n", argv[0]);
-> +		goto err_service;
+> +	if (!opts.show_help &&
+> +	    !opts.mountpoint) {
+> +		fuse_log(FUSE_LOG_ERR, "error: no mountpoint specified\n");
+> +		res = 2;
+> +		goto out1;
 > +	}
 > +
-> +	if (single_file_service_open(ll.service, ll.device))
-> +		goto err_service;
+> +	fuse = _fuse_new_31(args, op, op_size, version, user_data);
+> +	if (fuse == NULL) {
+> +		res = 3;
+> +		goto out1;
+> +	}
 > +
-> +	if (fuse_service_finish_file_requests(ll.service))
-> +		goto err_singlefile;
-> +
-> +	if (single_file_configure(ll.device, NULL))
-> +		goto err_singlefile;
-> +
-> +	ll.se = fuse_session_new(&args, &service_ll_oper,
-> +				 sizeof(service_ll_oper), NULL);
-> +	if (ll.se == NULL)
-> +		goto err_singlefile;
-> +
-> +	if (fuse_set_signal_handlers(ll.se))
-> +		goto err_session;
-> +
-> +	if (fuse_service_session_mount(ll.service, ll.se, S_IFDIR, &opts))
-> +		goto err_signals;
-> +
-> +	fuse_service_send_goodbye(ll.service, 0);
-> +	fuse_service_release(ll.service);
-> +
-> +	fuse_daemonize(opts.foreground);
+> +	if (fuse_service_session_mount(service, fuse_get_session(fuse),
 
-This is unnecessary -- fuse services are already daemons, being systemd
-services.  fuse_service_session_mount should just do the chdir and leave
-everything alone; it already sets opts->foreground = 1.
+Just use @se below.
 
+> +				       0, &opts) != 0) {
+> +		res = 4;
+> +		goto out2;
+> +	}
 > +
-> +	/* Block until ctrl+c or fusermount -u */
+> +	/* No need to fork when running as a systemd service */
+> +	if (fuse_daemonize(1) != 0) {
+
+I'll change fuse_service_session_mount to do the chdir("/") call and
+then we can skip this call entirely.
+
+> +		res = 5;
+> +		goto out3;
+> +	}
+> +
+> +	struct fuse_session *se = fuse_get_session(fuse);
+> +
+> +	if (fuse_set_signal_handlers(se) != 0) {
+> +		res = 6;
+> +		goto out3;
+> +	}
+> +
 > +	if (opts.singlethread) {
-> +		ret = fuse_session_loop(ll.se);
+> +		fuse_service_send_goodbye(service, 0);
+> +		fuse_service_release(service);
+> +
+> +		res = fuse_loop(fuse);
 > +	} else {
-> +		struct fuse_loop_config *config = fuse_loop_cfg_create();
+> +		loop_config = fuse_loop_cfg_create();
+> +		if (loop_config == NULL) {
 
-NULL pointer check needed here.
+Put this fallible call before fuse_service_session_mount and then we
+don't have to call fuse_service_session_unmount to back this out.
 
+> +			res = 7;
+> +			goto out4;
+> +		}
 > +
-> +		fuse_loop_cfg_set_clone_fd(config, opts.clone_fd);
-> +		fuse_loop_cfg_set_max_threads(config, opts.max_threads);
-> +		ret = fuse_session_loop_mt(ll.se, config);
-> +		fuse_loop_cfg_destroy(config);
+> +		fuse_loop_cfg_set_clone_fd(loop_config, opts.clone_fd);
+> +
+> +		fuse_loop_cfg_set_idle_threads(loop_config, opts.max_idle_threads);
+> +		fuse_loop_cfg_set_max_threads(loop_config, opts.max_threads);
+> +
+> +		fuse_service_send_goodbye(service, 0);
+> +		fuse_service_release(service);
+> +
+> +		res = fuse_loop_mt(fuse, loop_config);
 > +	}
+> +	if (res)
+> +		res = 8;
 > +
-> +	fuse_session_unmount(ll.se);
+> +	/*
+> +	 * We've released the mount service helper, so we can't ask it to
+> +	 * unmount the filesystem.  In other words, once mount() succeeds,
+> +	 * the user has to unmount the filesystem.
+> +	 */
+> +	fuse_remove_signal_handlers(se);
+> +	goto out2;
+> +
+> +out4:
+> +	fuse_remove_signal_handlers(se);
 
-You can't unmount from within a service if you've already sent the
-goodby packet, so the fallible calls (e.g.  fuse_loop_cfg_create) should
-happen before fuse_service_session_mount.
-
-Also if a service is going to unmount, it should be calling
-fuse_service_session_unmount(ll.service).
+Not needing the fuse_service_session_unmount call makes this cleanup
+code become much simpler.
 
 --D
 
-> +err_signals:
-> +	fuse_remove_signal_handlers(ll.se);
-> +err_session:
-> +	fuse_session_destroy(ll.se);
-> +err_singlefile:
-> +	single_file_close();
-> +err_service:
+> +out3:
+> +	fuse_service_session_unmount(service);
+> +out2:
+> +	fuse_destroy(fuse);
+> +out1:
+> +	fuse_loop_cfg_destroy(loop_config);
 > +	free(opts.mountpoint);
-> +	free(ll.device);
-> +	fuse_service_send_goodbye(ll.service, ret);
-> +	fuse_service_destroy(&ll.service);
-> +err_args:
-> +	fuse_opt_free_args(&args);
-> +	return fuse_service_exit(ret);
-> +}
-> diff --git a/example/service_ll.socket.in b/example/service_ll.socket.in
-> new file mode 100644
-> index 00000000000000..c41c382878a0cd
-> --- /dev/null
-> +++ b/example/service_ll.socket.in
-> @@ -0,0 +1,15 @@
-> +# SPDX-License-Identifier: GPL-2.0-or-later
-> +#
-> +# Copyright (C) 2026 Oracle.  All Rights Reserved.
-> +# Author: Darrick J. Wong <djwong@kernel.org>
-> +[Unit]
-> +Description=Socket for service_ll Service
-> +
-> +[Socket]
-> +ListenSequentialPacket=@FUSE_SERVICE_SOCKET_DIR_RAW@/service_ll
-> +Accept=yes
-> +SocketMode=@FUSE_SERVICE_SOCKET_PERMS@
-> +RemoveOnStop=yes
-> +
-> +[Install]
-> +WantedBy=sockets.target
-> diff --git a/example/service_ll@.service b/example/service_ll@.service
-> new file mode 100644
-> index 00000000000000..016d839babe3cc
-> --- /dev/null
-> +++ b/example/service_ll@.service
-> @@ -0,0 +1,102 @@
-> +# SPDX-License-Identifier: GPL-2.0-or-later
-> +#
-> +# Copyright (C) 2026 Oracle.  All Rights Reserved.
-> +# Author: Darrick J. Wong <djwong@kernel.org>
-> +[Unit]
-> +Description=service_ll Sample Fuse Service
-> +
-> +# Don't leave failed units behind, systemd does not clean them up!
-> +CollectMode=inactive-or-failed
-> +
-> +[Service]
-> +Type=exec
-> +ExecStart=/path/to/service_ll
-> +
-> +# Try to capture core dumps
-> +LimitCORE=infinity
-> +
-> +SyslogIdentifier=%N
-> +
-> +# No realtime CPU scheduling
-> +RestrictRealtime=true
-> +
-> +# Don't let us see anything in the regular system, and don't run as root
-> +DynamicUser=true
-> +ProtectSystem=strict
-> +ProtectHome=true
-> +PrivateTmp=true
-> +PrivateDevices=true
-> +PrivateUsers=true
-> +
-> +# No network access
-> +PrivateNetwork=true
-> +ProtectHostname=true
-> +RestrictAddressFamilies=none
-> +IPAddressDeny=any
-> +
-> +# Don't let the program mess with the kernel configuration at all
-> +ProtectKernelLogs=true
-> +ProtectKernelModules=true
-> +ProtectKernelTunables=true
-> +ProtectControlGroups=true
-> +ProtectProc=invisible
-> +RestrictNamespaces=true
-> +RestrictFileSystems=
-> +
-> +# Hide everything in /proc, even /proc/mounts
-> +ProcSubset=pid
-> +
-> +# Only allow the default personality Linux
-> +LockPersonality=true
-> +
-> +# No writable memory pages
-> +MemoryDenyWriteExecute=true
-> +
-> +# Don't let our mounts leak out to the host
-> +PrivateMounts=true
-> +
-> +# Restrict system calls to the native arch and only enough to get things going
-> +SystemCallArchitectures=native
-> +SystemCallFilter=@system-service
-> +SystemCallFilter=~@privileged
-> +SystemCallFilter=~@resources
-> +
-> +SystemCallFilter=~@clock
-> +SystemCallFilter=~@cpu-emulation
-> +SystemCallFilter=~@debug
-> +SystemCallFilter=~@module
-> +SystemCallFilter=~@reboot
-> +SystemCallFilter=~@swap
-> +
-> +SystemCallFilter=~@mount
-> +
-> +# libfuse io_uring wants to pin cores and memory
-> +SystemCallFilter=mbind
-> +SystemCallFilter=sched_setaffinity
-> +
-> +# Leave a breadcrumb if we get whacked by the system call filter
-> +SystemCallErrorNumber=EL3RST
-> +
-> +# Log to the kernel dmesg, just like an in-kernel filesystem driver
-> +StandardOutput=append:/dev/ttyprintk
-> +StandardError=append:/dev/ttyprintk
-> +
-> +# Run with no capabilities at all
-> +CapabilityBoundingSet=
-> +AmbientCapabilities=
-> +NoNewPrivileges=true
-> +
-> +# We don't create files
-> +UMask=7777
-> +
-> +# No access to hardware /dev files at all
-> +ProtectClock=true
-> +DevicePolicy=closed
-> +
-> +# Don't mess with set[ug]id anything.
-> +RestrictSUIDSGID=true
-> +
-> +# Don't let OOM kills of processes in this containment group kill the whole
-> +# service, because we don't want filesystem drivers to go down.
-> +OOMPolicy=continue
-> +OOMScoreAdjust=-1000
-> diff --git a/example/single_file.c b/example/single_file.c
-> new file mode 100644
-> index 00000000000000..b2dedf59de9552
-> --- /dev/null
-> +++ b/example/single_file.c
-> @@ -0,0 +1,646 @@
-> +/*
-> + * FUSE: Filesystem in Userspace
-> + * Copyright (C) 2026 Oracle.
-> + *
-> + * This program can be distributed under the terms of the GNU GPLv2.
-> + * See the file GPL2.txt.
-> + */
-> +#define _GNU_SOURCE
-> +#include <pthread.h>
-> +#include <errno.h>
-> +#include <stdlib.h>
-> +#include <errno.h>
-> +#include <stdio.h>
-> +#include <string.h>
-> +#include <unistd.h>
-> +#include <sys/ioctl.h>
-> +#include <sys/stat.h>
-> +#ifdef __linux__
-> +#include <linux/fs.h>
-> +#include <linux/stat.h>
-> +#endif
-> +
-> +#define FUSE_USE_VERSION (FUSE_MAKE_VERSION(3, 19))
-> +
-> +#include "fuse_lowlevel.h"
-> +#include "fuse_service.h"
-> +#include "single_file.h"
-> +
-> +#define min(x, y) ((x) < (y) ? (x) : (y))
-> +
-> +#if __has_attribute(__fallthrough__)
-> +#define fallthrough __attribute__((__fallthrough__))
-> +#else
-> +#define fallthrough do {} while (0)
-> +#endif
-> +
-> +struct dirbuf {
-> +	char *p;
-> +	size_t size;
-> +};
-> +
-> +struct single_file_stat {
-> +	struct fuse_entry_param entry;
-> +};
-> +
-> +#define SINGLE_FILE_INO		(FUSE_ROOT_ID + 1)
-> +
-> +static const char *single_file_name = "single_file";
-> +static bool single_file_name_set;
-> +
-> +struct single_file single_file = {
-> +	.backing_fd = -1,
-> +	.allow_dio = true,
-> +	.mode = S_IFREG | 0444,
-> +	.lock = PTHREAD_MUTEX_INITIALIZER,
-> +};
-> +
-> +static void dirbuf_add(fuse_req_t req, struct dirbuf *b, const char *name,
-> +		       fuse_ino_t ino)
-> +{
-> +	struct stat stbuf;
-> +	size_t oldsize = b->size;
-> +
-> +	b->size += fuse_add_direntry(req, NULL, 0, name, NULL, 0);
-> +	b->p = (char *) realloc(b->p, b->size);
-> +	memset(&stbuf, 0, sizeof(stbuf));
-> +	stbuf.st_ino = ino;
-> +	fuse_add_direntry(req, b->p + oldsize, b->size - oldsize, name, &stbuf,
-> +			  b->size);
+> +out0:
+> +	fuse_service_send_goodbye(service, res);
+> +	fuse_service_release(service);
+> +	return res;
 > +}
 > +
-> +int reply_buf_limited(fuse_req_t req, const char *buf, size_t bufsize,
-> +		      off_t off, size_t maxsize)
-> +{
-> +	if (off < bufsize)
-> +		return fuse_reply_buf(req, buf + off,
-> +				      min(bufsize - off, maxsize));
-> +	else
-> +		return fuse_reply_buf(req, NULL, 0);
-> +}
-> +
-> +bool is_single_file_child(fuse_ino_t parent, const char *name)
-> +{
-> +	return  parent == FUSE_ROOT_ID &&
-> +		strcmp(name, single_file_name) == 0;
-> +}
-> +
-> +bool is_single_file_ino(fuse_ino_t ino)
-> +{
-> +	return ino == SINGLE_FILE_INO;
-> +}
-> +
-> +void single_file_ll_readdir(fuse_req_t req, fuse_ino_t ino, size_t size,
-> +			    off_t off, struct fuse_file_info *fi)
-> +{
-> +	struct dirbuf b;
-> +
-> +	(void) fi;
-> +
-> +	switch (ino) {
-> +	case FUSE_ROOT_ID:
-> +		break;
-> +	case SINGLE_FILE_INO:
-> +		fuse_reply_err(req, ENOTDIR);
-> +		return;
-> +	default:
-> +		fuse_reply_err(req, ENOENT);
-> +		return;
-> +	}
-> +
-> +	memset(&b, 0, sizeof(b));
-> +	dirbuf_add(req, &b, ".", FUSE_ROOT_ID);
-> +	dirbuf_add(req, &b, "..", FUSE_ROOT_ID);
-> +	dirbuf_add(req, &b, single_file_name, SINGLE_FILE_INO);
-> +	reply_buf_limited(req, b.p, b.size, off, size);
-> +	free(b.p);
-> +}
-> +
-> +static bool sf_stat(fuse_ino_t ino, struct single_file_stat *llstat)
-> +{
-> +	struct fuse_entry_param *entry = &llstat->entry;
-> +	struct stat *stbuf = &entry->attr;
-> +
-> +	if (ino == FUSE_ROOT_ID) {
-> +		stbuf->st_mode = S_IFDIR | 0755;
-> +		stbuf->st_nlink = 2;
-> +	} else if (ino == SINGLE_FILE_INO) {
-> +		stbuf->st_mode = single_file.mode;
-> +		stbuf->st_nlink = 1;
-> +		stbuf->st_size = single_file.isize;
-> +		stbuf->st_blksize = single_file.blocksize;
-> +		stbuf->st_blocks = howmany(single_file.isize, 512);
-> +		stbuf->st_atim = single_file.atime;
-> +		stbuf->st_mtim = single_file.mtime;
-> +	} else {
-> +		return false;
-> +	}
-> +	stbuf->st_ino = ino;
-> +
-> +	entry->generation = ino + 1;
-> +	entry->attr_timeout = 0.0;
-> +	entry->entry_timeout = 0.0;
-> +	entry->ino = ino;
-> +
-> +	return true;
-> +}
-> +
-> +#if defined(STATX_BASIC_STATS)
-> +static inline void sf_set_statx_attr(struct statx *stx,
-> +				     uint64_t statx_flag, int set)
-> +{
-> +	if (set)
-> +		stx->stx_attributes |= statx_flag;
-> +	stx->stx_attributes_mask |= statx_flag;
-> +}
-> +
-> +static void sf_statx_directio(struct statx *stx)
-> +{
-> +	struct statx devx;
-> +	int ret;
-> +
-> +	ret = statx(single_file.backing_fd, "", AT_EMPTY_PATH, STATX_DIOALIGN,
-> +		    &devx);
-> +	if (ret)
-> +		return;
-> +	if (!(devx.stx_mask & STATX_DIOALIGN))
-> +		return;
-> +
-> +	stx->stx_mask |= STATX_DIOALIGN;
-> +	stx->stx_dio_mem_align = devx.stx_dio_mem_align;
-> +	stx->stx_dio_offset_align = devx.stx_dio_offset_align;
-> +}
-> +
-> +static bool sf_statx(fuse_ino_t ino, int statx_mask, struct statx *stx)
-> +{
-> +	(void)statx_mask;
-> +
-> +	if (ino == FUSE_ROOT_ID) {
-> +		stx->stx_mode = S_IFDIR | 0755;
-> +		stx->stx_nlink = 2;
-> +	} else if (ino == SINGLE_FILE_INO) {
-> +		stx->stx_mode = single_file.mode;
-> +		stx->stx_nlink = 1;
-> +		stx->stx_size = single_file.isize;
-> +		stx->stx_blksize = single_file.blocksize;
-> +		stx->stx_blocks = howmany(single_file.isize, 512);
-> +		stx->stx_atime.tv_sec = single_file.atime.tv_sec;
-> +		stx->stx_atime.tv_nsec = single_file.atime.tv_nsec;
-> +		stx->stx_mtime.tv_sec = single_file.mtime.tv_sec;
-> +		stx->stx_mtime.tv_nsec = single_file.mtime.tv_nsec;
-> +	} else {
-> +		return false;
-> +	}
-> +	stx->stx_mask = STATX_BASIC_STATS;
-> +	stx->stx_ino = ino;
-> +
-> +	sf_set_statx_attr(stx, STATX_ATTR_IMMUTABLE, single_file.ro);
-> +	sf_statx_directio(stx);
-> +
-> +	return true;
-> +}
-> +
-> +void single_file_ll_statx(fuse_req_t req, fuse_ino_t ino, int flags, int mask,
-> +			  struct fuse_file_info *fi)
-> +{
-> +	struct statx stx = { };
-> +	bool filled;
-> +
-> +	(void)flags;
-> +	(void)fi;
-> +
-> +	pthread_mutex_lock(&single_file.lock);
-> +	filled = sf_statx(ino, mask, &stx);
-> +	pthread_mutex_unlock(&single_file.lock);
-> +	if (!filled)
-> +		fuse_reply_err(req, ENOENT);
-> +	else
-> +		fuse_reply_statx(req, 0, &stx, 0.0);
-> +}
-> +#else
-> +void single_file_ll_statx(fuse_req_t req, fuse_ino_t ino, int flags, int mask,
-> +			  struct fuse_file_info *fi)
-> +{
-> +	fuse_reply_err(req, ENOSYS);
-> +}
-> +#endif /* STATX_BASIC_STATS */
-> +
-> +void single_file_ll_statfs(fuse_req_t req, fuse_ino_t ino)
-> +{
-> +	struct statvfs buf;
-> +
-> +	(void)ino;
-> +
-> +	pthread_mutex_lock(&single_file.lock);
-> +	buf.f_bsize = single_file.blocksize;
-> +	buf.f_frsize = 0;
-> +
-> +	buf.f_blocks = single_file.blocks;
-> +	buf.f_bfree = 0;
-> +	buf.f_bavail = 0;
-> +	buf.f_files = 1;
-> +	buf.f_ffree = 0;
-> +	buf.f_favail = 0;
-> +	buf.f_fsid = 0x50C00L;
-> +	buf.f_flag = 0;
-> +	if (single_file.ro)
-> +		buf.f_flag |= ST_RDONLY;
-> +	buf.f_namemax = 255;
-> +	pthread_mutex_unlock(&single_file.lock);
-> +
-> +	fuse_reply_statfs(req, &buf);
-> +}
-> +
-> +void single_file_ll_getattr(fuse_req_t req, fuse_ino_t ino,
-> +			    struct fuse_file_info *fi)
-> +{
-> +	struct single_file_stat llstat;
-> +	bool filled;
-> +
-> +	(void) fi;
-> +
-> +	memset(&llstat, 0, sizeof(llstat));
-> +	pthread_mutex_lock(&single_file.lock);
-> +	filled = sf_stat(ino, &llstat);
-> +	pthread_mutex_unlock(&single_file.lock);
-> +	if (!filled)
-> +		fuse_reply_err(req, ENOENT);
-> +	else
-> +		fuse_reply_attr(req, &llstat.entry.attr,
-> +				llstat.entry.attr_timeout);
-> +}
-> +
-> +static void get_now(struct timespec *now)
-> +{
-> +#ifdef CLOCK_REALTIME
-> +	if (!clock_gettime(CLOCK_REALTIME, now))
-> +		return;
-> +#endif
-> +
-> +	now->tv_sec = time(NULL);
-> +	now->tv_nsec = 0;
-> +}
-> +
-> +void single_file_ll_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
-> +			    int to_set, struct fuse_file_info *fi)
-> +{
-> +	struct timespec now;
-> +
-> +	if (ino != SINGLE_FILE_INO)
-> +		goto deny;
-> +	if (to_set & (FUSE_SET_ATTR_UID | FUSE_SET_ATTR_GID |
-> +		      FUSE_SET_ATTR_SIZE))
-> +		goto deny;
-> +
-> +	get_now(&now);
-> +
-> +	pthread_mutex_lock(&single_file.lock);
-> +	if (to_set & FUSE_SET_ATTR_MODE)
-> +		single_file.mode = (single_file.mode & S_IFMT) |
-> +				   (attr->st_mode & ~S_IFMT);
-> +	if (to_set & FUSE_SET_ATTR_ATIME) {
-> +		if (to_set & FUSE_SET_ATTR_ATIME_NOW)
-> +			single_file.atime = now;
-> +		else
-> +			single_file.atime = attr->st_atim;
-> +	}
-> +	if (to_set & FUSE_SET_ATTR_MTIME) {
-> +		if (to_set & FUSE_SET_ATTR_MTIME_NOW)
-> +			single_file.mtime = now;
-> +		else
-> +			single_file.mtime = attr->st_mtim;
-> +	}
-> +	pthread_mutex_unlock(&single_file.lock);
-> +
-> +	single_file_ll_getattr(req, ino, fi);
-> +	return;
-> +deny:
-> +	fuse_reply_err(req, EPERM);
-> +}
-> +
-> +void single_file_ll_lookup(fuse_req_t req, fuse_ino_t parent, const char *name)
-> +{
-> +	struct single_file_stat llstat;
-> +	bool filled;
-> +
-> +	if (!is_single_file_child(parent, name)) {
-> +		fuse_reply_err(req, ENOENT);
-> +		return;
-> +	}
-> +
-> +	memset(&llstat, 0, sizeof(llstat));
-> +	pthread_mutex_lock(&single_file.lock);
-> +	filled = sf_stat(SINGLE_FILE_INO, &llstat);
-> +	pthread_mutex_unlock(&single_file.lock);
-> +	if (!filled)
-> +		fuse_reply_err(req, ENOENT);
-> +	else
-> +		fuse_reply_entry(req, &llstat.entry);
-> +}
-> +
-> +void single_file_ll_open(fuse_req_t req, fuse_ino_t ino,
-> +			 struct fuse_file_info *fi)
-> +{
-> +	if (ino != SINGLE_FILE_INO)
-> +		fuse_reply_err(req, EISDIR);
-> +	else if (single_file.ro && (fi->flags & O_ACCMODE) != O_RDONLY)
-> +		fuse_reply_err(req, EACCES);
-> +	else
-> +		fuse_reply_open(req, fi);
-> +}
-> +
-> +void single_file_ll_fsync(fuse_req_t req, fuse_ino_t ino, int datasync,
-> +			  struct fuse_file_info *fi)
-> +{
-> +	int ret = 0;
-> +
-> +	(void)datasync;
-> +	(void)fi;
-> +
-> +	if (ino == SINGLE_FILE_INO) {
-> +		ret = fsync(single_file.backing_fd);
-> +		if (ret)
-> +			ret = errno;
-> +	}
-> +
-> +	fuse_reply_err(req, ret);
-> +}
-> +
-> +unsigned long long parse_num_blocks(const char *arg, int log_block_size)
-> +{
-> +	char *p;
-> +	unsigned long long num;
-> +
-> +	num = strtoull(arg, &p, 0);
-> +
-> +	if (p[0] && p[1])
-> +		return 0;
-> +
-> +	switch (*p) {
-> +	case 'T': case 't':
-> +		num <<= 10;
-> +		fallthrough;
-> +	case 'G': case 'g':
-> +		num <<= 10;
-> +		fallthrough;
-> +	case 'M': case 'm':
-> +		num <<= 10;
-> +		fallthrough;
-> +	case 'K': case 'k':
-> +		if (log_block_size < 0)
-> +			num <<= 10;
-> +		else
-> +			num >>= log_block_size;
-> +		break;
-> +	case 's':
-> +		if (log_block_size < 0)
-> +			num <<= 9;
-> +		else
-> +			num >>= (1+log_block_size);
-> +		break;
-> +	case '\0':
-> +		break;
-> +	default:
-> +		return 0;
-> +	}
-> +	return num;
-> +}
-> +
-> +static int single_file_set_blocksize(const char *arg)
-> +{
-> +	unsigned long long l = parse_num_blocks(arg, -1);
-> +
-> +	if (l < 512 || l > INT32_MAX || (l & (l - 1)) != 0) {
-> +		fprintf(stderr, "%s: block size must be power of two between 512 and 2G.\n",
-> +			arg);
-> +		return -1;
-> +	}
-> +
-> +	/* do not pass through to libfuse */
-> +	single_file.blocksize = l;
-> +	return 0;
-> +}
-> +
-> +static int single_file_set_size(const char *arg)
-> +{
-> +	unsigned long long l = parse_num_blocks(arg, -1);
-> +
-> +	if (l < 1 || (l & 511) != 0 || l > INT64_MAX) {
-> +		fprintf(stderr, "%s: size must be multiple of 512 and larger than zero.\n",
-> +			arg);
-> +		return -1;
-> +	}
-> +
-> +	/* do not pass through to libfuse */
-> +	single_file.isize = l;
-> +	return 0;
-> +}
-> +
-> +int single_file_opt_proc(void *data, const char *arg, int key,
-> +			 struct fuse_args *outargs)
-> +{
-> +	(void)data;
-> +	(void)outargs;
-> +
-> +	switch (key) {
-> +	case SINGLE_FILE_RO:
-> +		/* pass through to libfuse */
-> +		single_file.ro = true;
-> +		return 1;
-> +	case SINGLE_FILE_RW:
-> +		/* pass through to libfuse */
-> +		single_file.ro = false;
-> +		return 1;
-> +	case SINGLE_FILE_REQUIRE_BDEV:
-> +		single_file.require_bdev = true;
-> +		return 0;
-> +	case SINGLE_FILE_DIO:
-> +		single_file.allow_dio = true;
-> +		return 0;
-> +	case SINGLE_FILE_NODIO:
-> +		single_file.allow_dio = false;
-> +		return 0;
-> +	case SINGLE_FILE_SYNC:
-> +		single_file.sync = true;
-> +		return 0;
-> +	case SINGLE_FILE_NOSYNC:
-> +		single_file.sync = false;
-> +		return 0;
-> +	case SINGLE_FILE_BLOCKSIZE:
-> +		return single_file_set_blocksize(arg + 10);
-> +	case SINGLE_FILE_SIZE:
-> +		return single_file_set_size(arg + 5);
-> +	}
-> +
-> +	return 1;
-> +}
-> +
-> +int single_file_service_open(struct fuse_service *sf, const char *path)
-> +{
-> +	int open_flags = single_file.ro ? O_RDONLY : O_RDWR;
-> +	int fd;
-> +	int ret;
-> +
-> +again:
-> +	if (single_file.require_bdev)
-> +		ret = fuse_service_request_blockdev(sf, path,
-> +						    open_flags | O_EXCL, 0, 0,
-> +						    single_file.blocksize);
-> +	else
-> +		ret = fuse_service_request_file(sf, path, open_flags | O_EXCL,
-> +						0, 0);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (!single_file.ro && open_flags == O_RDONLY)
-> +		single_file.ro = true;
-> +
-> +	ret = fuse_service_receive_file(sf, path, &fd);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* downgrade from rw to ro if necessary */
-> +	if ((fd == -EPERM || fd == -EACCES) && open_flags == O_RDWR) {
-> +		open_flags = O_RDONLY;
-> +		goto again;
-> +	}
-> +
-> +	if (fd < 0) {
-> +		fprintf(stderr, "%s: opening file: %s.\n",
-> +			path, strerror(-fd));
-> +		return -1;
-> +	}
-> +
-> +	single_file.backing_fd = fd;
-> +	return 0;
-> +}
-> +
-> +int single_file_check_write(off_t pos, size_t *count)
-> +{
-> +	if (pos >= single_file.isize)
-> +		return -EFBIG;
-> +
-> +	if (*count > single_file.isize)
-> +		*count = single_file.isize;
-> +	if (pos >= single_file.isize - *count)
-> +		*count = single_file.isize - pos;
-> +
-> +	return 0;
-> +}
-> +
-> +void single_file_check_read(off_t pos, size_t *count)
-> +{
-> +	int ret = single_file_check_write(pos, count);
-> +
-> +	if (ret)
-> +		*count = 0;
-> +}
-> +
-> +int single_file_configure(const char *device, const char *filename)
-> +{
-> +	struct stat statbuf;
-> +	unsigned long long backing_size;
-> +	unsigned int proposed_blocksize;
-> +	int lbasize;
-> +	int ret;
-> +
-> +	ret = fstat(single_file.backing_fd, &statbuf);
-> +	if (ret) {
-> +		perror(device);
-> +		return -1;
-> +	}
-> +	lbasize = statbuf.st_blksize;
-> +	backing_size = statbuf.st_size;
-> +
-> +	if (S_ISBLK(statbuf.st_mode)) {
-> +#ifdef BLKSSZGET
-> +		ret = ioctl(single_file.backing_fd, BLKSSZGET, &lbasize);
-> +		if (ret) {
-> +			perror(device);
-> +			return -1;
-> +		}
-> +#endif
-> +
-> +#ifdef BLKGETSIZE64
-> +		ret = ioctl(single_file.backing_fd, BLKGETSIZE64, &backing_size);
-> +		if (ret) {
-> +			perror(device);
-> +			return -1;
-> +		}
-> +#endif
-> +	}
-> +
-> +	if (backing_size == 0) {
-> +		fprintf(stderr, "%s: backing file size zero?\n", device);
-> +		return -1;
-> +	}
-> +
-> +	if (lbasize == 0) {
-> +		fprintf(stderr, "%s: blocksize zero?\n", device);
-> +		return -1;
-> +	}
-> +
-> +	proposed_blocksize = single_file.blocksize ? single_file.blocksize :
-> +						     sysconf(_SC_PAGESIZE);
-> +	if (lbasize > proposed_blocksize) {
-> +		fprintf(stderr, "%s: lba size %u smaller than blocksize %u\n",
-> +			device, lbasize, proposed_blocksize);
-> +		return -1;
-> +	}
-> +
-> +	if (single_file.isize % proposed_blocksize > 0) {
-> +		fprintf(stderr, "%s: size parameter %llu not congruent with blocksize %u\n",
-> +			device, (unsigned long long)single_file.isize,
-> +			proposed_blocksize);
-> +		return -1;
-> +	}
-> +
-> +	if (single_file.isize > backing_size) {
-> +		fprintf(stderr, "%s: file size %llu smaller than size param %llu\n",
-> +			device, backing_size,
-> +			(unsigned long long)single_file.isize);
-> +		return -1;
-> +	}
-> +
-> +	if (!single_file.blocksize)
-> +		single_file.blocksize = proposed_blocksize;
-> +	if (!single_file.isize)
-> +		single_file.isize = backing_size;
-> +
-> +	single_file.isize = round_down(single_file.isize, single_file.blocksize);
-> +	single_file.blocks = single_file.isize / single_file.blocksize;
-> +
-> +	return single_file_configure_simple(filename);
-> +}
-> +
-> +int single_file_configure_simple(const char *filename)
-> +{
-> +	if (!single_file.blocksize)
-> +		single_file.blocksize = sysconf(_SC_PAGESIZE);
-> +
-> +	if (filename) {
-> +		char *n = strdup(filename);
-> +
-> +		if (!n) {
-> +			perror(filename);
-> +			return -1;
-> +		}
-> +
-> +		if (single_file_name_set)
-> +			free((void *)single_file_name);
-> +		single_file_name = n;
-> +		single_file_name_set = true;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +void single_file_close(void)
-> +{
-> +	close(single_file.backing_fd);
-> +	single_file.backing_fd = -1;
-> +
-> +	if (single_file_name_set)
-> +		free((void *)single_file_name);
-> +	single_file_name_set = false;
-> +}
-> diff --git a/meson.build b/meson.build
-> index 827ec45ad3ad75..de038df8d92071 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -77,6 +77,7 @@ endif
->  if service_socket_perms == ''
->    service_socket_perms = '0220'
->  endif
-> +private_cfg.set('FUSE_SERVICE_SOCKET_DIR_RAW', service_socket_dir)
->  private_cfg.set_quoted('FUSE_SERVICE_SOCKET_DIR', service_socket_dir)
->  private_cfg.set('FUSE_SERVICE_SOCKET_PERMS', service_socket_perms)
+>  int fuse_main_real_versioned(int argc, char *argv[],
+>  			     const struct fuse_operations *op, size_t op_size,
+>  			     struct libfuse_version *version, void *user_data)
+> @@ -403,10 +524,6 @@ int fuse_main_real_versioned(int argc, char *argv[],
+>  		goto out1;
+>  	}
 >  
+> -	struct fuse *_fuse_new_31(struct fuse_args *args,
+> -			       const struct fuse_operations *op, size_t op_size,
+> -			       struct libfuse_version *version,
+> -			       void *user_data);
+>  	fuse = _fuse_new_31(&args, op, op_size, version, user_data);
+>  	if (fuse == NULL) {
+>  		res = 3;
 > 
 > 
