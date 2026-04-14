@@ -1,49 +1,49 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF8FF3CBE71
-	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 10:07:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 643CB3CCFBA
+	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 10:07:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776161255; cv=none; b=n1gApQ2luGv8dvlz3wnc4r5PfxN33+w88NRhmSiZEiklCLeeeZVOxy1Xa2t3VZ9DeDdRDqsgKsJCzvuSe8Nd3m81ZjuHOu4oygrrW3I4AwxJDihEV1bd9FlEQhF4sAFaheBtq573J8VrrMzGEIEnwydmKAkaSe6u9gAtz+joHyA=
+	t=1776161257; cv=none; b=o3bt9uSiVxUR2/w/opmne+21l1cgys2WHTUMMFE2Pv3YXVyJp6drQEbv1RWOi6ppyB59Yjvlh5JHq3VhsecKFfYsm8XV4rWDblt/6W1rMj9NmjdmwB+XOH+Iitx7m1c8QnYvdlsIR34BMaBfrB1q+C3gCgRyp0Ik888vANVXSH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776161255; c=relaxed/simple;
-	bh=xU5n+mIIoZXtzCpNbCf/Cc4DkEYifetPRkM1IVS+p6Y=;
+	s=arc-20240116; t=1776161257; c=relaxed/simple;
+	bh=UpYZeqLlO7XAI8xioHTCGc+EjyJYzK1FRJsK8WUWOeU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RVgEJrRCX5lxFSkVVNCTacs1DkpLZtfLuivsUch1Z9vydTaapBGU9FLmu/MehLFYXOztIeocAuHn7zgK/roB2H3S4jM9lE113LWuNb1fTu8uEmrD3Ff3WWj+xxS3MUB/rj3UcO/u6NN/qx2hHUMfzlt6s+1/jsBoz0FOsIV/4Ic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hackers.camp; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.45
+	 MIME-Version:Content-Type; b=peyOKFXgv1dAXO0VGctRTIAOnv6rGqp1+5aHN2aVUNAvxzZW1wrhhMZPXtRq0s/BvEM2tT23ozlg0H0r21hcXaW+eSj5bJOtG2UUxmX2MJOjhCQcPxHrwFs/ZYp/lo4aWwkldQJmOwF2CegbfF12D4Zisb5AsYKPeLM8T+eZjxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hackers.camp; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hackers.camp
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-488822b93c7so6003725e9.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 03:07:33 -0700 (PDT)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-483708b697cso8693165e9.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 03:07:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776161252; x=1776766052;
+        d=1e100.net; s=20251104; t=1776161253; x=1776766053;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=oLsOWgSgd0+sji5zrVI71lwx4+8AIBuQ+XeZ7/IKXtA=;
-        b=ZRvZYGu3wEZjzmOBUOybFaZrOH9u0QT8jHsC7mVlKtpxrHftg0QMZaV9RJmUwHsSvV
-         xHnKFDQfuVCzO8Hd70p870xGQAVnZpbR3nQwwKEpTWZUYqPgkUs1fXsODai9wTHSKhDT
-         /OHv8wISwKhwktKHSC6dRI8di1E7sLDdS0X8XstPlNdmxW9gGJA7XFCeym+C4i5uyi08
-         lLxsYYd3P7S/39fYPU2DbzilEN/V0gRb0LMPWrcjhmCGBImPF1Pk3tL1+4TxEB61CweW
-         dXmk5wpgqEEGdbSF5hSWDlzBfqClDk9paZZNWyd5HvUMQOWKoWK+1cOCxjBjOXnj2tAv
-         +bHg==
-X-Gm-Message-State: AOJu0Yw1SgM4gGHg02oCTRnwePryvYLu3OAblb7k0YTaKFEWgFSM/FFR
-	RbGOhfEPxaJMH7mqTe3fb6Wq6PfP0FOvGiacAfYtDiooPSIXd4D3HIB9AwTU9jrQ
-X-Gm-Gg: AeBDievwEF0GqYnCMNtQNZjSSIjkYeiEXR6994tziLZ8m6oydDfSd/MRpmTeBGlMdIp
-	AC/D5ordeRjmLsKXx6UwWHaQs9G5VI12nXdj/X5Mr7IULLH2obambYZbo1iqhqIAKk7ERyRKH2y
-	qbLY4jEYnqyw1fDBO8SzplvBOW+PsvqT+bN9OKPtYGDcod909EmDhl/vFzTf22egCgb/3VwJaHp
-	i79ahrUCFqbkxAMzh8sWcX9JPu7tK4i/idR7Ieks3OkV9P9szJB5p7khS+LVdVBOvcozFffoy+/
-	Q+uDlb7BXNN6V2kEYHEva+gEk3iUB4bIIBgDbYMCA8skwew0vYKsN4ksY77bb1I7Ch+ag6A6F3l
-	i/9yrl97Qet4NMcqUE5q42EVLBQciR2R+/OcuncFPn55kJU/Ty7MZa9/PcAsPU6ikd0LwD+Aguz
-	9iS6fXCLHsV2p2Lclru2XBdI7Wmw8clqjPorNsfMnfn44LNWLLJMpkcf6ZMEYG/NHpsGqIndax1
-	1A=
-X-Received: by 2002:a05:600c:4ece:b0:488:a2ac:a338 with SMTP id 5b1f17b1804b1-488d7f3328bmr115367545e9.5.1776161252032;
-        Tue, 14 Apr 2026 03:07:32 -0700 (PDT)
+        bh=GZYlrpG6ibaaLw+Sa4FOLMlMfX1UHEtv7mMrIDu+G+Y=;
+        b=YPHc47heSXagZMXYHWPpK5Ctb3jiFiJPYCJO1RABtos0vwp3F4Tr660SnLLtt5NrDM
+         in4AchuuK9p5/jLxbZZGohwqpq9+Hj0SDIlBzwFcTyJyCXHRVHVRQ+z5ckSVl8EN3MOK
+         zZ5XujIksvxdmphmrx3i1lrYAPBS6iN0xsewj9UInfzXx1RESFjxUMm1nDjkRYSYuV9N
+         7CWNyckT2wiyQTC4ulLMj3jyX2vVVULARqqOmX8hHDhz9HlxscaCzwBETO1Qeyo9tuia
+         /p879ZG9nT6JppXaWm74+kX5jo6o2zRxjJl8mkzB67MbOMmTEnydJH1zdBQ3oul3l5uv
+         S9gw==
+X-Gm-Message-State: AOJu0Yw9l29PnpwM8bQsXQKcmLnjh9sZBN8acjjbaVUs9UAaGLZntnc0
+	Po+uiNPR5lt3ow20eGO4GeQF0p2Dz6M4iQDSv5aLmX+lo1VoGM4UXo9ZFtZgmemw
+X-Gm-Gg: AeBDieu8VIszlBFiDnKYpZIVLbYIMwuqFQIxCIcbZJeLPC+nwmHPvq868NYeulEZlC2
+	M2w4iPcEPatoagRU3L7FKs0N7B+Y7mDS+LsOXHz9EZxcwm9DAjkE4T1StzSXQUvhRLy9HFhUvfM
+	T5ADhMevw9ici8kOc/etjDHowk3G9+kyyJr8ajbbx71Fc/CALnOrpdKxh5rpXOT0y73tQPyw/pU
+	ripbNUlbc4KSJqnMeOJ3u5XLJDn0CmNkOMni909r2FyJDubguj3Poj+iqRvbNBrhVpreFU94kXd
+	piqMl2rRTozmII1MKurJgV5jY7IOTnhmhK3nIjgOBf8nqgGuf4bhd3UIO6H8uxKuP+LVeEnRNzS
+	BK3qrrtM3JiHH7grWNiAJcMhODTMsw24hI/ozHrfEVQL68/edc+BOJBR9UgyyZpju4pwDAzoned
+	I19BX6yRW6FdQBYobA5cex2HHlUQ0DYDy3kceNUIwCl5qs7qqPMg3ULlO3wu/A2NIeRV1Be17nA
+	Vk=
+X-Received: by 2002:a05:600c:b85:b0:486:fb8a:fed with SMTP id 5b1f17b1804b1-488d68a0975mr124812685e9.8.1776161253251;
+        Tue, 14 Apr 2026 03:07:33 -0700 (PDT)
 Received: from spartian-1.home ([2a01:cb1c:784:2f00:708:2805:7128:7a75])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488ede1e050sm65870545e9.5.2026.04.14.03.07.31
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488ede1e050sm65870545e9.5.2026.04.14.03.07.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Apr 2026 03:07:31 -0700 (PDT)
+        Tue, 14 Apr 2026 03:07:32 -0700 (PDT)
 From: Aurelien DESBRIERES <aurelien@hackers.camp>
 To: linux-fsdevel@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
@@ -54,9 +54,9 @@ Cc: linux-kernel@vger.kernel.org,
 	pedro.falcato@gmail.com,
 	xiang@kernel.org,
 	Aurelien DESBRIERES <aurelien@hackers.camp>
-Subject: [PATCH v3 03/12] ftrfs: add inode operations
-Date: Tue, 14 Apr 2026 14:07:16 +0200
-Message-ID: <20260414120726.5713-4-aurelien@hackers.camp>
+Subject: [PATCH v3 04/12] ftrfs: add directory operations
+Date: Tue, 14 Apr 2026 14:07:17 +0200
+Message-ID: <20260414120726.5713-5-aurelien@hackers.camp>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260414120726.5713-1-aurelien@hackers.camp>
 References: <20260413230601.525400-1-aurelien@hackers.camp>
@@ -70,131 +70,161 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Implement ftrfs_iget() to read inodes from the on-disk inode table:
+Implement directory iteration and lookup:
 
-- Locate inode block from s_inode_table_blk and inode number
-- Read raw ftrfs_inode via sb_bread()
-- Verify per-inode CRC32 checksum
-- Populate VFS inode fields (mode, uid, gid, size, timestamps)
-- Copy direct/indirect block pointers to ftrfs_inode_info
-- Assign inode_operations and file_operations based on file type
-- Use inode_state_read_once() for I_NEW test (kernel 7.0 API)
+- ftrfs_readdir(): iterate directory entries from direct blocks,
+  emit via dir_emit_dots() then dir_emit() for real entries,
+  use ctx->pos as entry index with INT_MAX as EOF sentinel
+- ftrfs_lookup(): search directory blocks for a matching name,
+  call ftrfs_iget() on match and return via d_splice_alias()
+
+Both functions scan ftrfs_dir_entry records in direct block
+pointers only (no indirect block support yet).
 
 Signed-off-by: Aurelien DESBRIERES <aurelien@hackers.camp>
 ---
- fs/ftrfs/inode.c | 103 +++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 103 insertions(+)
- create mode 100644 fs/ftrfs/inode.c
+ fs/ftrfs/dir.c | 132 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 132 insertions(+)
+ create mode 100644 fs/ftrfs/dir.c
 
-diff --git a/fs/ftrfs/inode.c b/fs/ftrfs/inode.c
+diff --git a/fs/ftrfs/dir.c b/fs/ftrfs/dir.c
 new file mode 100644
-index 000000000000..e1279c7968a3
+index 000000000000..dbf0102a40f3
 --- /dev/null
-+++ b/fs/ftrfs/inode.c
-@@ -0,0 +1,103 @@
++++ b/fs/ftrfs/dir.c
+@@ -0,0 +1,132 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
-+ * FTRFS — Inode operations
++ * FTRFS — Directory operations
 + * Author: roastercode - Aurelien DESBRIERES <aurelien@hackers.camp>
 + */
 +
 +#include <linux/fs.h>
 +#include <linux/buffer_head.h>
-+#include <linux/slab.h>
-+#include <linux/time.h>
 +#include "ftrfs.h"
 +
 +/*
-+ * ftrfs_iget — read inode from disk into VFS
-+ * @sb:  superblock
-+ * @ino: inode number (1-based)
-+ *
-+ * Inode table starts at s_inode_table_blk.
-+ * Each block holds FTRFS_BLOCK_SIZE / sizeof(ftrfs_inode) inodes.
++ * ftrfs_readdir — iterate directory entries
 + */
-+struct inode *ftrfs_iget(struct super_block *sb, unsigned long ino)
++static int ftrfs_readdir(struct file *file, struct dir_context *ctx)
 +{
-+	struct ftrfs_sb_info    *sbi = FTRFS_SB(sb);
-+	struct ftrfs_inode_info *fi;
-+	struct ftrfs_inode      *raw;
-+	struct buffer_head      *bh;
-+	struct inode            *inode;
-+	unsigned long            inodes_per_block;
-+	unsigned long            block, offset;
-+	__u32                    crc;
++	struct inode       *inode = file_inode(file);
++	struct super_block *sb    = inode->i_sb;
++	struct ftrfs_inode_info *fi = FTRFS_I(inode);
++	struct buffer_head *bh;
++	struct ftrfs_dir_entry *de;
++	unsigned long block_idx, block_no;
++	unsigned int  offset;
 +
-+	inode = iget_locked(sb, ino);
-+	if (!inode)
-+		return ERR_PTR(-ENOMEM);
-+
-+	/* Already in cache */
-+	if (!(inode_state_read_once(inode) & I_NEW))
-+		return inode;
-+
-+	inodes_per_block = FTRFS_BLOCK_SIZE / sizeof(struct ftrfs_inode);
-+	block  = le64_to_cpu(sbi->s_ftrfs_sb->s_inode_table_blk)
-+		 + (ino - 1) / inodes_per_block;
-+	offset = (ino - 1) % inodes_per_block;
-+
-+	bh = sb_bread(sb, block);
-+	if (!bh) {
-+		pr_err("ftrfs: unable to read inode block %lu\n", block);
-+		iget_failed(inode);
-+		return ERR_PTR(-EIO);
++	/* EOF guard */
++	if (ctx->pos == INT_MAX)
++		return 0;
++	/* Emit . and .. (ctx->pos: 0=., 1=.., 2+=real entries) */
++	if (ctx->pos < 2) {
++		if (!dir_emit_dots(file, ctx))
++			return 0;
 +	}
 +
-+	raw = (struct ftrfs_inode *)bh->b_data + offset;
-+	/* Verify inode CRC32 */
-+	crc = ftrfs_crc32(raw, offsetof(struct ftrfs_inode, i_crc32));
-+	if (crc != le32_to_cpu(raw->i_crc32)) {
-+		pr_err("ftrfs: inode %lu CRC32 mismatch\n", ino);
++	/* Iterate over direct blocks only (skeleton: no indirect yet) */
++	for (block_idx = 0; block_idx < FTRFS_DIRECT_BLOCKS; block_idx++) {
++		block_no = le64_to_cpu(fi->i_direct[block_idx]);
++		if (!block_no)
++			break;
++
++		bh = sb_bread(sb, block_no);
++		if (!bh)
++			continue;
++
++		offset = 0;
++		while (offset < FTRFS_BLOCK_SIZE) {
++			de = (struct ftrfs_dir_entry *)(bh->b_data + offset);
++
++			if (!de->d_rec_len)
++				break; /* end of dir block */
++
++			if (de->d_ino && de->d_name_len) {
++				if (!dir_emit(ctx,
++					      de->d_name,
++					      de->d_name_len,
++					      le64_to_cpu(de->d_ino),
++					      de->d_file_type)) {
++					brelse(bh);
++					return 0;
++				}
++				ctx->pos++;
++			}
++
++			offset += le16_to_cpu(de->d_rec_len);
++		}
++
 +		brelse(bh);
-+		iget_failed(inode);
-+		return ERR_PTR(-EIO);
 +	}
 +
-+	fi = FTRFS_I(inode);
-+
-+	/* Populate VFS inode */
-+	inode->i_mode  = le16_to_cpu(raw->i_mode);
-+	inode->i_uid   = make_kuid(sb->s_user_ns, le16_to_cpu(raw->i_uid));
-+	inode->i_gid   = make_kgid(sb->s_user_ns, le16_to_cpu(raw->i_gid));
-+	set_nlink(inode, le16_to_cpu(raw->i_nlink));
-+	inode->i_size  = le64_to_cpu(raw->i_size);
-+	inode->i_blocks = le32_to_cpu(raw->i_blocks);
-+
-+	inode_set_atime(inode,
-+		le64_to_cpu(raw->i_atime) / NSEC_PER_SEC,
-+		le64_to_cpu(raw->i_atime) % NSEC_PER_SEC);
-+	inode_set_mtime(inode,
-+		le64_to_cpu(raw->i_mtime) / NSEC_PER_SEC,
-+		le64_to_cpu(raw->i_mtime) % NSEC_PER_SEC);
-+	inode_set_ctime(inode,
-+		le64_to_cpu(raw->i_ctime) / NSEC_PER_SEC,
-+		le64_to_cpu(raw->i_ctime) % NSEC_PER_SEC);
-+
-+	/* Copy block pointers to in-memory inode */
-+	memcpy(fi->i_direct, raw->i_direct, sizeof(fi->i_direct));
-+	fi->i_indirect  = raw->i_indirect;
-+	fi->i_dindirect = raw->i_dindirect;
-+	fi->i_flags     = le32_to_cpu(raw->i_flags);
-+
-+	/* Set ops based on file type */
-+	if (S_ISDIR(inode->i_mode)) {
-+		inode->i_op  = &ftrfs_dir_inode_operations;
-+		inode->i_fop = &ftrfs_dir_operations;
-+	} else if (S_ISREG(inode->i_mode)) {
-+		inode->i_op  = &ftrfs_file_inode_operations;
-+		inode->i_fop = &ftrfs_file_operations;
-+	} else {
-+		/* Special files: use generic */
-+		init_special_inode(inode, inode->i_mode, 0);
-+	}
-+
-+	brelse(bh);
-+	unlock_new_inode(inode);
-+	return inode;
++	ctx->pos = INT_MAX;
++	return 0;
 +}
++
++/*
++ * ftrfs_lookup — find dentry in directory
++ */
++struct dentry *ftrfs_lookup(struct inode *dir,
++				   struct dentry *dentry,
++				   unsigned int flags)
++{
++	struct super_block      *sb = dir->i_sb;
++	struct ftrfs_inode_info *fi = FTRFS_I(dir);
++	struct buffer_head      *bh;
++	struct ftrfs_dir_entry  *de;
++	struct inode            *inode = NULL;
++	unsigned long            block_idx, block_no;
++	unsigned int             offset;
++
++	if (dentry->d_name.len > FTRFS_MAX_FILENAME)
++		return ERR_PTR(-ENAMETOOLONG);
++
++	for (block_idx = 0; block_idx < FTRFS_DIRECT_BLOCKS; block_idx++) {
++		block_no = le64_to_cpu(fi->i_direct[block_idx]);
++		if (!block_no)
++			break;
++
++		bh = sb_bread(sb, block_no);
++		if (!bh)
++			continue;
++
++		offset = 0;
++		while (offset < FTRFS_BLOCK_SIZE) {
++			de = (struct ftrfs_dir_entry *)(bh->b_data + offset);
++
++			if (!de->d_rec_len)
++				break; /* end of dir block */
++
++			if (de->d_ino &&
++			    de->d_name_len == dentry->d_name.len &&
++			    !memcmp(de->d_name, dentry->d_name.name,
++				    de->d_name_len)) {
++				unsigned long ino = le64_to_cpu(de->d_ino);
++
++				brelse(bh);
++				inode = ftrfs_iget(sb, ino);
++				goto found;
++			}
++
++			offset += le16_to_cpu(de->d_rec_len);
++		}
++		brelse(bh);
++	}
++
++found:
++	return d_splice_alias(inode, dentry);
++}
++
++const struct file_operations ftrfs_dir_operations = {
++	.llseek  = generic_file_llseek,
++	.read    = generic_read_dir,
++	.iterate_shared = ftrfs_readdir,
++};
++
++
 -- 
 2.52.0
 
