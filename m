@@ -1,130 +1,96 @@
-Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com [95.215.58.178])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 427A83C1981
-	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 09:16:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20CC2312807;
+	Tue, 14 Apr 2026 09:46:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776158192; cv=none; b=kus77sD39o4C/Y+jXBhLiQ0+RwRK3Nmn0V28BL8HRrp67oXVBC/qGPqT4AiVmHB3lvuYlZpGiH0H7cVZxYGroFl/RWZ+ErNQJR5MlzhW8PlfIwhcqSy01EJ53h6BeoeUfPbqkWhccg/PW7yvqK5oa1e608O8P19SK4r9LFQGzmI=
+	t=1776159965; cv=none; b=dricxQEAUjJzDsup/kLKOab0DLlaj7H6Ts9eNdP+feIs7f3+1HWuLMx5Y1dn9qvnjmaf1OUjwCYrWafX+KFytGDrlAHssO6P0DHomBvLzoAyx315MkrsgLBGQnhc+Sspi2ss9ltUMPaiT/A9SibahSSA+NWb2V2I1usym3qnRmo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776158192; c=relaxed/simple;
-	bh=X9tUl1YJczEifAlFTO7a72YOYzVQxoefF/ZtAImlv+s=;
+	s=arc-20240116; t=1776159965; c=relaxed/simple;
+	bh=oTBMMrZ0WwYlS0VBPYtswgP7rWKp6SV6mrmoV1WuJFw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=s02brDkT6MIB/ljozGKYYWlskO9SKw9746BlrgoF217GMBx/FLXMHUsE1TeqmBmCLD40Qc3Ej1ZU+4sLLvfHte5FNmS2CwN3LIDEPQ2krjIluAPPD3fy471Br0J7Nb99aCsWadCbKvnHt09BEWKWqQmC3CkZR+0FprvdJASn5xA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=bSzUWx5M; arc=none smtp.client-ip=95.215.58.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 MIME-Version:Content-Type; b=YApzCnOe5kjGC0xMWWVVTyXbnH9I5+vIZfAWHrlZDG54jXBJKlPqg10ZgRf6pJjwSYkoNWEYYzsIiJhjULWW4CJHD9g9w/5uIkFVOZiDsWw+wNzHcxdDCus2caPKkO8p9WwR0WaP+yyjqsIG0j5JMCTnl8OOuK+bGLbwULlqO4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PlAovLXv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="bSzUWx5M"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1776158189;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EUwHi+Ort/Ib9sz8toDLY7SUId44AzcYXWL5RjCYhJU=;
-	b=bSzUWx5MKFC5mvcnmpsT84AJ0+or8OtzZQhWDdciCAm54q0oDl5GeX3RJt4OyFGfgCc24o
-	2iASg8NQc6TZdX2Cv3v71/uzQMPOcxhw+UX82Q1AvjbKDb4M0bDETBoRQ52+iXhQspfRpI
-	Xu11Is5OQ36tweOrFYfGq0vi1dUcZ3o=
-From: Ye Liu <ye.liu@linux.dev>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc: Ye Liu <liuye@kylinos.cn>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Jann Horn <jannh@google.com>,
-	Pedro Falcato <pfalcato@suse.de>,
-	linux-mm@kvack.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PlAovLXv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86D91C19425;
+	Tue, 14 Apr 2026 09:46:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776159964;
+	bh=oTBMMrZ0WwYlS0VBPYtswgP7rWKp6SV6mrmoV1WuJFw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=PlAovLXv38p9O5RR1blnsSS4iYbhpQ+E4A/24iX/4y2FsC6A/rM55fg+On1eMt/lH
+	 SVNkKNZ5JcZpJdKnH0nhScf227ChtDLbcL86GtPRmINSi5D/t3YtAPbhl0CREzM5Ig
+	 FNSt+AOoDd+Le2PGAscjwM4bBO+K4hvOPoxawXowXXUnKtkyio/FyIfVu2CHW1DYkX
+	 DAOanp90mS75auRwrrscVZIme9rC0p7N9aj6ndb1waP0l3zznK5822x5m2RyT9UuMW
+	 eoPcv/PirA2YY19y7GKLfCcG9Avp+aoQIezE1np91/jY8EFyrYIYKHxnc5t5IiXTEL
+	 EGpc6fXVZdcIw==
+From: Christian Brauner <brauner@kernel.org>
+To: David Howells <dhowells@redhat.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	netfs@lists.linux.dev,
+	linux-afs@lists.infradead.org,
+	linux-cifs@vger.kernel.org,
+	ceph-devel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH 4/4] mm/vmstat: remove unused __zone_stat_* wrappers
-Date: Tue, 14 Apr 2026 17:15:21 +0800
-Message-ID: <20260414091527.2970844-5-ye.liu@linux.dev>
-In-Reply-To: <20260414091527.2970844-1-ye.liu@linux.dev>
-References: <20260414091527.2970844-1-ye.liu@linux.dev>
+	Paulo Alcantara <pc@manguebit.org>
+Subject: Re: [PATCH v2 0/7] netfs: Miscellaneous fixes
+Date: Tue, 14 Apr 2026 11:45:49 +0200
+Message-ID: <20260414-ellenlang-imposant-90fbc86f78ef@brauner>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260414082004.3756080-1-dhowells@redhat.com>
+References: <20260414082004.3756080-1-dhowells@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1849; i=brauner@kernel.org; h=from:subject:message-id; bh=oTBMMrZ0WwYlS0VBPYtswgP7rWKp6SV6mrmoV1WuJFw=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTe47m65eNH59wEH2n+VSs+Zl0Nm6nlGy66wDhr5twN0 tuU+yM7O0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACZyYzXDf3cX9r3HdjdZ+71N Dj2W9+zA7M2i56azvzmxdu7uiQ1Wa6YyMlwMU+c9uvzqVrNJj6Y86/TSZveUeXl0Q75Q5C5d0fd f3zICAA==
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
-From: Ye Liu <liuye@kylinos.cn>
+On Tue, 14 Apr 2026 09:19:56 +0100, David Howells wrote:
+> Here are some miscellaneous fixes for netfslib:
+> 
+>  (1) Fix triggering of a VM_BUG_ON_FOLIO() in netfs_write_begin().
+> 
+>  (2) Fix error handling in netfs_extract_user_iter().
+> 
+>  (3) Fix netfs_invalidate_folio() to clear the folio dirty bit if all dirty
+>      data removed.
+> 
+> [...]
 
-Replace the remaining __zone_stat_mod_folio() call with
-zone_stat_mod_folio(), and remove the dead inline
-__zone_stat_* wrappers definitions from include/linux/vmstat.h.
+Applied to the vfs.fixes branch of the vfs/vfs.git tree.
+Patches in the vfs.fixes branch should appear in linux-next soon.
 
-Signed-off-by: Ye Liu <liuye@kylinos.cn>
----
- include/linux/vmstat.h | 18 ------------------
- mm/mlock.c             |  2 +-
- mm/page-writeback.c    |  2 +-
- 3 files changed, 2 insertions(+), 20 deletions(-)
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
-diff --git a/include/linux/vmstat.h b/include/linux/vmstat.h
-index 54da7d820f78..009b80e3c048 100644
---- a/include/linux/vmstat.h
-+++ b/include/linux/vmstat.h
-@@ -404,24 +404,6 @@ static inline void drain_zonestat(struct zone *zone,
- 			struct per_cpu_zonestat *pzstats) { }
- #endif		/* CONFIG_SMP */
- 
--static inline void __zone_stat_mod_folio(struct folio *folio,
--		enum zone_stat_item item, long nr)
--{
--	__mod_zone_page_state(folio_zone(folio), item, nr);
--}
--
--static inline void __zone_stat_add_folio(struct folio *folio,
--		enum zone_stat_item item)
--{
--	__mod_zone_page_state(folio_zone(folio), item, folio_nr_pages(folio));
--}
--
--static inline void __zone_stat_sub_folio(struct folio *folio,
--		enum zone_stat_item item)
--{
--	__mod_zone_page_state(folio_zone(folio), item, -folio_nr_pages(folio));
--}
--
- static inline void zone_stat_mod_folio(struct folio *folio,
- 		enum zone_stat_item item, long nr)
- {
-diff --git a/mm/mlock.c b/mm/mlock.c
-index 0cafcb2f4e8d..654487063fbb 100644
---- a/mm/mlock.c
-+++ b/mm/mlock.c
-@@ -141,7 +141,7 @@ static struct lruvec *__munlock_folio(struct folio *folio, struct lruvec *lruvec
- 
- munlock:
- 	if (folio_test_clear_mlocked(folio)) {
--		__zone_stat_mod_folio(folio, NR_MLOCK, -nr_pages);
-+		zone_stat_mod_folio(folio, NR_MLOCK, -nr_pages);
- 		if (isolated || !folio_test_unevictable(folio))
- 			__count_vm_events(UNEVICTABLE_PGMUNLOCKED, nr_pages);
- 		else
-diff --git a/mm/page-writeback.c b/mm/page-writeback.c
-index ed3301753e89..dc15d775761e 100644
---- a/mm/page-writeback.c
-+++ b/mm/page-writeback.c
-@@ -2626,7 +2626,7 @@ static void folio_account_dirtied(struct folio *folio,
- 		wb = inode_to_wb(inode);
- 
- 		lruvec_stat_mod_folio(folio, NR_FILE_DIRTY, nr);
--		__zone_stat_mod_folio(folio, NR_ZONE_WRITE_PENDING, nr);
-+		zone_stat_mod_folio(folio, NR_ZONE_WRITE_PENDING, nr);
- 		node_stat_mod_folio(folio, NR_DIRTIED, nr);
- 		wb_stat_mod(wb, WB_RECLAIMABLE, nr);
- 		wb_stat_mod(wb, WB_DIRTIED, nr);
--- 
-2.43.0
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
 
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs.fixes
+
+[1/7] netfs: fix VM_BUG_ON_FOLIO() issue in netfs_write_begin() call
+      https://git.kernel.org/vfs/vfs/c/adcb8efb5429
+[2/7] netfs: fix error handling in netfs_extract_user_iter()
+      https://git.kernel.org/vfs/vfs/c/8ef352bc015d
+[3/7] netfs: Fix netfs_invalidate_folio() to clear dirty bit if all changes gone
+      https://git.kernel.org/vfs/vfs/c/920532e4996c
+[4/7] netfs: Fix streaming write being overwritten
+      https://git.kernel.org/vfs/vfs/c/1bfeb53e990b
+[5/7] netfs: Fix read-gaps to remove netfs_folio from filled folio
+      https://git.kernel.org/vfs/vfs/c/d259cfb7dd32
+[6/7] netfs: Fix zeropoint update where i_size > remote_i_size
+      https://git.kernel.org/vfs/vfs/c/bb3dd1ea2628
+[7/7] netfs: Fix write streaming disablement if fd open O_RDWR
+      https://git.kernel.org/vfs/vfs/c/eac38f8a2b85
