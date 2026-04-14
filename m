@@ -1,72 +1,169 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E6253939A2
-	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 11:21:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4404E359A8D
+	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 11:28:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776165704; cv=none; b=Zin7vUKxCc1ajyJzISOJhmvbMNG44CjuosSCKoB/WItotY2ahBdWcLAfYKPm/nOQAXxjiY3k/AXHk2CQMGUAous2yqIuvgJWNiFYoHyAdVvEQogwG64mLoLWt/ITk47vaUeGadAnyZ0Yg1wzLjmipRapzuEg8629U5A6e1nCrYo=
+	t=1776166119; cv=none; b=PPvZ+Yta+CcNyJCjwbUf7KuDYleN4mmZxteLJC053J7HMbTd7iwD6wx5Yw+F9C8aAMGg/MkSPL18nBo5JSekmwfYJjqyoQ24Os1AmcYkVOHCFzkyTWBcE89RH3aECQZ3HQ+BLcphIi+AgGFSmWH0vjV5Wpa/8J8cos/cHe9RVlM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776165704; c=relaxed/simple;
-	bh=muFHZE8ZpXIIzHiXEnNQnN9sUvNSqQLJ8E9Rby7pedA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JrRVhn8abefH2ssSAgs0xuSUwR6W0fW5sZTSG+8G7VMb9tvmrmq4KP7nl4Hcp3hiEG8nfzpGdUtEU3z+G0II/v1uJSI6AsdBYI9BTRDf2CZtOWzvWFIiIar+iE7FI4dps+QOlfa0biW3Zjt5vKgn9ZUYvzG7pCXrSeB3MbyTyLI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YrKgKED8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776166119; c=relaxed/simple;
+	bh=XwNiH4/+Qej7ma56CkLt0PimA+IA0ghuzQd+wQ/sIbA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sNJMsuonULrllrwneLfC1ryxwagtUzw4xqIxSmdMN6UBhgLSzes7jcGMj1l5AGBj7VR8i9Bo9Am4bVFIEWc5AFyHA9Ls2NbGUkSID1eBFC1q084M/e1jDkkR71ftbstK85QCLi6KJMDWOkrckclPqPpDsG1dkDkPRRgS42rkgsM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=gqoIpEIC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YOxXBTnC; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=gqoIpEIC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YOxXBTnC; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YrKgKED8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEA4DC2BCB6
-	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 11:21:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776165704;
-	bh=muFHZE8ZpXIIzHiXEnNQnN9sUvNSqQLJ8E9Rby7pedA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=YrKgKED8KlQq2NP1T/yaARXTcYYYG+r52C3mUkes6pD+z8/qdFXy4D7pvSCxc6xnj
-	 czS/waDtr+bdUuaRoGQQiCLf57mKu6+Vgq7KFgZcHedWipBI5OPdiPTdMffVwx10QO
-	 MYILIXYSsXh6/jeTvv+nOksa6ar/Gg6pweMjYVQDNi2XWsZwlicOM4kKLkd1ALFIBh
-	 78pLYF1dex6T5z1bhky1iN8S1624CIvk/NUDa5fMG/B2d0y+RVuSPmFhNxbdA6b6qr
-	 XAr6OuDHiq8E44Ev7Q9o13DwEZNQ7SMr6WOJnK3T1kseQx9JRhOgEg2LVJaduSOHg+
-	 Y/JVG3fWIiJ6g==
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b9e00649769so208156866b.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 04:21:43 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8bA6vCtVIHdHpkKeGNEAiUE7qytuL4OK3mlkXlk+5t/dNnhBimrNoPAsoh/ePtEazshq2xF/QsJQR7Uuxy@vger.kernel.org
-X-Gm-Message-State: AOJu0YzMHHrlvNha7VM3Y+2DSigl0kOZIEBZSPEvJash1Z0S+yxUz5fu
-	p+zERqj4TPC8PjrYdjirC+c03t3zy17aTj3nYAPXsXqsSbIQc0hbxd7RMqIiY15pxVXivtxGDXH
-	b0IwQGYuQciNozsd70ucaTIvj1LCY7ZA=
-X-Received: by 2002:a17:907:9803:b0:b9e:345b:a900 with SMTP id
- a640c23a62f3a-b9e345baa82mr186847066b.31.1776165702461; Tue, 14 Apr 2026
- 04:21:42 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gqoIpEIC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YOxXBTnC";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gqoIpEIC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YOxXBTnC"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 7AE7E5BD00;
+	Tue, 14 Apr 2026 11:28:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1776166116; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=J+/UTaLm1FoNUho5Jmq3dFK22ooaSSdlHwvjKnrUI+U=;
+	b=gqoIpEICqqXJOvOMnD0QC5W2HfbtqOTSmPVHHOhfw+HpaNeEOGWkFnPsmSYl8HWkds5xHF
+	ph6c3Ja82mkBBrTLR82aMZBg1EsYvlQu2zKeXLkjxUHw5gWreRYIA1RDXmjBJDatOHlPm8
+	+eEg2ZeB62xJyq/g2p8SF23gm3Zuj48=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1776166116;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=J+/UTaLm1FoNUho5Jmq3dFK22ooaSSdlHwvjKnrUI+U=;
+	b=YOxXBTnCWzKBbFe6o373lYqC/yl/+Hj+qr3vBv0ljQKTcFgP1p/i8qwU0F+OUWIsPnOxzE
+	YjW/4Z4eA7OtczCw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1776166116; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=J+/UTaLm1FoNUho5Jmq3dFK22ooaSSdlHwvjKnrUI+U=;
+	b=gqoIpEICqqXJOvOMnD0QC5W2HfbtqOTSmPVHHOhfw+HpaNeEOGWkFnPsmSYl8HWkds5xHF
+	ph6c3Ja82mkBBrTLR82aMZBg1EsYvlQu2zKeXLkjxUHw5gWreRYIA1RDXmjBJDatOHlPm8
+	+eEg2ZeB62xJyq/g2p8SF23gm3Zuj48=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1776166116;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=J+/UTaLm1FoNUho5Jmq3dFK22ooaSSdlHwvjKnrUI+U=;
+	b=YOxXBTnCWzKBbFe6o373lYqC/yl/+Hj+qr3vBv0ljQKTcFgP1p/i8qwU0F+OUWIsPnOxzE
+	YjW/4Z4eA7OtczCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C11EA4B406;
+	Tue, 14 Apr 2026 11:28:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id guzNK+Mk3mnARgAAD6G6ig
+	(envelope-from <pfalcato@suse.de>); Tue, 14 Apr 2026 11:28:35 +0000
+Date: Tue, 14 Apr 2026 12:28:33 +0100
+From: Pedro Falcato <pfalcato@suse.de>
+To: Joshua Peisach <jpeisach@ubuntu.com>
+Cc: Aurelien DESBRIERES <aurelien@hackers.camp>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, torvalds@linux-foundation.org, 
+	willy@infradead.org, djwong@kernel.org, adilger.kernel@dilger.ca, 
+	pedro.falcato@gmail.com, xiang@kernel.org
+Subject: Re: [PATCH v3 00/12] ftrfs: Fault-Tolerant Radiation-Robust
+ Filesystem
+Message-ID: <ab7zobowzvreloffpvua4orlqf6tecvczqwxvv5pdjn3wplnod@4vy7dp32elia>
+References: <20260413230601.525400-1-aurelien@hackers.camp>
+ <20260414120726.5713-1-aurelien@hackers.camp>
+ <bxgqldv2abuadh3gweymib2co6gfor7sgpbkouznj6jliyblfq@42xw4jviodeb>
+ <DHSTUKN1JCDK.2FO2HZLZLXTOT@ubuntu.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260411233251.330698-1-dxdt@dev.snart.me>
-In-Reply-To: <20260411233251.330698-1-dxdt@dev.snart.me>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Tue, 14 Apr 2026 20:21:29 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd_2cUqEn94TWKWHD51iGA3KrHsH26neXHsjd9UqjJ6VaA@mail.gmail.com>
-X-Gm-Features: AQROBzAnE3NrTAg5P3tZfGsm3hgm-IZGJ2KtM7QYklv9moU6nw_K7hDsXZ5dcGw
-Message-ID: <CAKYAXd_2cUqEn94TWKWHD51iGA3KrHsH26neXHsjd9UqjJ6VaA@mail.gmail.com>
-Subject: Re: [PATCH v1] exfat: fix handling of damaged volume in exfat_create_upcase_table()
-To: David Timber <dxdt@dev.snart.me>
-Cc: Sungjong Seo <sj1557.seo@samsung.com>, Yuezhang Mo <yuezhang.mo@sony.com>, 
-	linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DHSTUKN1JCDK.2FO2HZLZLXTOT@ubuntu.com>
+X-Spam-Score: -2.30
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[hackers.camp,vger.kernel.org,linux-foundation.org,infradead.org,kernel.org,dilger.ca,gmail.com];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email]
+X-Spam-Flag: NO
 
-On Sun, Apr 12, 2026 at 8:33=E2=80=AFAM David Timber <dxdt@dev.snart.me> wr=
-ote:
->
-> When the size of the upcase table is set to zero in the dentry for any
-> reason(e.g. corrupted media or misbehaving device), an integer overflow
-> causes the module to loop indefinitely.
->
-> If the size of the upcase table is read zero, do not attempt to load the
-> table. Instead, fallback to loading the default upcase table. If the
-> size of the upcase table is zero or no upcase table is found, raise
-> exfat_fs_error() to mark the volume read-only.
->
-> Signed-off-by: David Timber <dxdt@dev.snart.me>
-Applied it to #dev.
-Thanks.
+On Tue, Apr 14, 2026 at 07:05:30AM -0400, Joshua Peisach wrote:
+> On Tue Apr 14, 2026 at 6:22 AM EDT, Pedro Falcato wrote:
+> > On Tue, Apr 14, 2026 at 02:07:13PM +0200, Aurelien DESBRIERES wrote:
+> > > 
+> > > Based on: Fuchs, Langer, Trinitis - ARCS 2015, TU Munich / MOVE-II CubeSat.
+> > > Full text: https://www.cfuchs.net/chris/publication-list/ARCS2015/FTRFS.pdf
+> > > 
+> 
+> > > AI tooling disclosure (Documentation/process/coding-assistants.rst):
+> > >   Assisted-by: Claude:claude-sonnet-4-6
+> > >   The submitter takes full responsibility for all code, has reviewed,
+> > >   tested, and debugged every patch.
+> > 
+> > I was going to ask if you were on the world's strongest stimulant but, yeah,
+> > this also makes sense.
+> > 
+> > 3 versions in a day and no reply to review comments, no usecase, just vibes,
+> > AI ones at that. This latest batch even got the LLM to hallucinate my old
+> > email address.
+> > 
+> > Naturally,
+> > Nacked-by: Pedro Falcato <pfalcato@suse.de>
+> > 
+> > Please pick this up to every patch if you get to send more slop versions.
+> 
+> I'm not enthusiastic about vibe coding either, so I understand why you
+> wanted to NACK the series. But I feel obligated to say that you
+> can't claim there is "no usecase" when in the cover letter, a paper was
+> provided, and you even quoted it in the reply.
+
+Yes, a paper is provided. However, when I asked for a usecase I really did mean:
+"is anyone going to actually use this?". Which is a very non-trivial question to
+answer, particularly when it comes to "space stuff" (how commonly is linux even
+used for those?).
+
+Good answers (IMHO):
+- "Yes, we have a couple of planned users for this"
+- "Yes, this has been maintained out-of-tree for X months/years, known to work
+well for a variety of users"
+- "Yes, we are using it"
+
+IMO it's not sufficient to say this _could_ be used in space, or was used
+by the paper authors. And instead of a straight up answer, there was radio
+silence.
+
+-- 
+Pedro
