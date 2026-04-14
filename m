@@ -1,52 +1,49 @@
-Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
+Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com [95.215.58.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94E493BFE25
-	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 09:16:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD1B135B631
+	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 09:16:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776158181; cv=none; b=Yb9HN2hkmC3dbONiiPxhLVCp78iS3M6kYaGSlPGytP22+u2LUufRa4nkmkIUEXvPzqG7Hjd228CJyocXfiMq7Umr9NsaQGqsx5Uwr1gSrj88vNZtclylS056pW2Jj84qPeKEgtcyTNIYy8hsie99V5JKycRBjwKU+Ba3OtiQgME=
+	t=1776158187; cv=none; b=f4hhTa1vtDU1+mO+WznM0A/sfbL2qDEf0e5rTnJfQsWm3wyEmYQO5wnZvWKRzCTFoub6ByPJWPXJ0jb/W9drGikIMGEhl4Cv6r9ShUdJIvc3VucLizK8b88JcwLYgmWtEaXmdtMSE2WxRknP9htZPgzevtJzZdo+HGw07xFtZRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776158181; c=relaxed/simple;
-	bh=nxTxVq6K3Bw2U0JDrr9AvYOfbWqH/rjUKDpf5OEqgXw=;
+	s=arc-20240116; t=1776158187; c=relaxed/simple;
+	bh=nabJJ2tRSjgXsfVhjycDB6bNUKrgkKWj5cInp5QbIus=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AkixfoBy2wkM5EltY+BjaiF6+lbAXli9hpUT2/2BjdNA+PX1MY+eB+EYW6ssDUJVdaXmLfjWe3gW5tUbu3VI/yUxDZa3YDjgivygd/4EusA4li/qdLj3LSpx6eo/rfLOnZOuKB1zVm0YPruugZ3okCPi2n5nMBorFGPNw+LZAKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=TX2kBkfH; arc=none smtp.client-ip=95.215.58.180
+	 MIME-Version; b=YrNUvF813eYsciSQDSSOfh+n2+wL07YUfU3pcQDw9w1cJA5UGIE1s9q6jPKge0doqIyKoePvqVt8UxdAu3Tlw6YqNjq9zkvmlmM88pELj/iu+HeEpVhpiTYDc0tXjzCPYEQxGKu7HJm7dYBXBKqi9WNUPFXJZZm/I8b++uFZzpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=buF2bIC9; arc=none smtp.client-ip=95.215.58.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="TX2kBkfH"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="buF2bIC9"
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1776158177;
+	t=1776158184;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9Im9++lg/lpHN74Nk2FRmzX3snVH1LvwzoX73u95S3I=;
-	b=TX2kBkfHAXl/AoJvsdawQlVCbbtFUOqmbqWwxcLAtHnvy8fCkD5glCD6qJF9rHwnYhySDH
-	kjm51JNBzG2pEhhpUtjzdZZUioipbKBvZxZMy/tuFt3LOcA/Ykb9namQ677T6BvWiQ6goN
-	2w1Wvh0FSYcZSJt1i/keRIly3WOEgbE=
+	bh=cl11sG7u/+NHktUdM96cUoh+7Wg6iuNjhJ6suVzR84k=;
+	b=buF2bIC9KmRd4kn31/Rusxq2pS4W/UeA2oA4o3ZAcUXos0LYlUrzpsYxwtDnmudQT50ba5
+	59iTe9p7v/FvolvAKJV66cbFhFktzN3bnXnbLv+bl1tgWVVyyd/HUkkn20vie8g7RIKo04
+	xFd4cDpi6wgUFlos4LqRyj+2SluPsLU=
 From: Ye Liu <ye.liu@linux.dev>
 To: Andrew Morton <akpm@linux-foundation.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>
+	David Hildenbrand <david@kernel.org>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>
 Cc: Ye Liu <liuye@kylinos.cn>,
-	Jann Horn <jannh@google.com>,
-	Pedro Falcato <pfalcato@suse.de>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
 	Suren Baghdasaryan <surenb@google.com>,
 	Michal Hocko <mhocko@suse.com>,
-	Brendan Jackman <jackmanb@google.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Zi Yan <ziy@nvidia.com>,
 	linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org
-Subject: [PATCH 2/4] mm/vmstat: use zone_stat_add_folio/sub_folio for folio_nr_pages operations
-Date: Tue, 14 Apr 2026 17:15:19 +0800
-Message-ID: <20260414091527.2970844-3-ye.liu@linux.dev>
+Subject: [PATCH 3/4] mm/vmstat: remove unused __node_stat_* wrappers
+Date: Tue, 14 Apr 2026 17:15:20 +0800
+Message-ID: <20260414091527.2970844-4-ye.liu@linux.dev>
 In-Reply-To: <20260414091527.2970844-1-ye.liu@linux.dev>
 References: <20260414091527.2970844-1-ye.liu@linux.dev>
 Precedence: bulk
@@ -60,95 +57,58 @@ X-Migadu-Flow: FLOW_OUT
 
 From: Ye Liu <liuye@kylinos.cn>
 
-Replace zone_stat_mod_folio() calls that pass folio_nr_pages(folio) or
--folio_nr_pages(folio) as the third argument with the more concise
-zone_stat_add_folio() and zone_stat_sub_folio() functions respectively.
-
-This makes the code more readable and reduces the number of arguments
-passed to these functions.
+Replace the single call to __node_stat_mod_folio()
+with node_stat_mod_folio(), and remove the dead inline __node_stat_*
+wrapper definitions from include/linux/vmstat.h.
 
 Signed-off-by: Ye Liu <liuye@kylinos.cn>
 ---
- mm/mlock.c          | 4 ++--
- mm/page-writeback.c | 8 ++++----
- mm/page_alloc.c     | 2 +-
- 3 files changed, 7 insertions(+), 7 deletions(-)
+ include/linux/vmstat.h | 18 ------------------
+ mm/page-writeback.c    |  2 +-
+ 2 files changed, 1 insertion(+), 19 deletions(-)
 
-diff --git a/mm/mlock.c b/mm/mlock.c
-index 8c227fefa2df..0cafcb2f4e8d 100644
---- a/mm/mlock.c
-+++ b/mm/mlock.c
-@@ -249,7 +249,7 @@ void mlock_folio(struct folio *folio)
- 	if (!folio_test_set_mlocked(folio)) {
- 		int nr_pages = folio_nr_pages(folio);
+diff --git a/include/linux/vmstat.h b/include/linux/vmstat.h
+index 3c9c266cf782..54da7d820f78 100644
+--- a/include/linux/vmstat.h
++++ b/include/linux/vmstat.h
+@@ -440,24 +440,6 @@ static inline void zone_stat_sub_folio(struct folio *folio,
+ 	mod_zone_page_state(folio_zone(folio), item, -folio_nr_pages(folio));
+ }
  
--		zone_stat_mod_folio(folio, NR_MLOCK, nr_pages);
-+		zone_stat_add_folio(folio, NR_MLOCK);
- 		__count_vm_events(UNEVICTABLE_PGMLOCKED, nr_pages);
- 	}
- 
-@@ -273,7 +273,7 @@ void mlock_new_folio(struct folio *folio)
- 	fbatch = this_cpu_ptr(&mlock_fbatch.fbatch);
- 	folio_set_mlocked(folio);
- 
--	zone_stat_mod_folio(folio, NR_MLOCK, nr_pages);
-+	zone_stat_add_folio(folio, NR_MLOCK);
- 	__count_vm_events(UNEVICTABLE_PGMLOCKED, nr_pages);
- 
- 	folio_get(folio);
+-static inline void __node_stat_mod_folio(struct folio *folio,
+-		enum node_stat_item item, long nr)
+-{
+-	__mod_node_page_state(folio_pgdat(folio), item, nr);
+-}
+-
+-static inline void __node_stat_add_folio(struct folio *folio,
+-		enum node_stat_item item)
+-{
+-	__mod_node_page_state(folio_pgdat(folio), item, folio_nr_pages(folio));
+-}
+-
+-static inline void __node_stat_sub_folio(struct folio *folio,
+-		enum node_stat_item item)
+-{
+-	__mod_node_page_state(folio_pgdat(folio), item, -folio_nr_pages(folio));
+-}
+-
+ static inline void node_stat_mod_folio(struct folio *folio,
+ 		enum node_stat_item item, long nr)
+ {
 diff --git a/mm/page-writeback.c b/mm/page-writeback.c
-index 87e9ea41313a..6f9b7b081ab7 100644
+index 6f9b7b081ab7..ed3301753e89 100644
 --- a/mm/page-writeback.c
 +++ b/mm/page-writeback.c
-@@ -2647,7 +2647,7 @@ void folio_account_cleaned(struct folio *folio, struct bdi_writeback *wb)
- 	long nr = folio_nr_pages(folio);
+@@ -2627,7 +2627,7 @@ static void folio_account_dirtied(struct folio *folio,
  
- 	lruvec_stat_mod_folio(folio, NR_FILE_DIRTY, -nr);
--	zone_stat_mod_folio(folio, NR_ZONE_WRITE_PENDING, -nr);
-+	zone_stat_sub_folio(folio, NR_ZONE_WRITE_PENDING);
- 	wb_stat_mod(wb, WB_RECLAIMABLE, -nr);
- 	task_io_account_cancelled_write(nr * PAGE_SIZE);
- }
-@@ -2916,7 +2916,7 @@ bool folio_clear_dirty_for_io(struct folio *folio)
- 		if (folio_test_clear_dirty(folio)) {
- 			long nr = folio_nr_pages(folio);
- 			lruvec_stat_mod_folio(folio, NR_FILE_DIRTY, -nr);
--			zone_stat_mod_folio(folio, NR_ZONE_WRITE_PENDING, -nr);
-+			zone_stat_sub_folio(folio, NR_ZONE_WRITE_PENDING);
- 			wb_stat_mod(wb, WB_RECLAIMABLE, -nr);
- 			ret = true;
- 		}
-@@ -2980,7 +2980,7 @@ bool __folio_end_writeback(struct folio *folio)
- 	}
- 
- 	lruvec_stat_mod_folio(folio, NR_WRITEBACK, -nr);
--	zone_stat_mod_folio(folio, NR_ZONE_WRITE_PENDING, -nr);
-+	zone_stat_sub_folio(folio, NR_ZONE_WRITE_PENDING);
- 	node_stat_add_folio(folio, NR_WRITTEN);
- 
- 	return ret;
-@@ -3032,7 +3032,7 @@ void __folio_start_writeback(struct folio *folio, bool keep_write)
- 	}
- 
- 	lruvec_stat_mod_folio(folio, NR_WRITEBACK, nr);
--	zone_stat_mod_folio(folio, NR_ZONE_WRITE_PENDING, nr);
-+	zone_stat_add_folio(folio, NR_ZONE_WRITE_PENDING);
- 
- 	access_ret = arch_make_folio_accessible(folio);
- 	/*
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 65e205111553..a81ceb4181ea 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -1327,7 +1327,7 @@ __always_inline bool __free_pages_prepare(struct page *page,
- 		long nr_pages = folio_nr_pages(folio);
- 
- 		__folio_clear_mlocked(folio);
--		zone_stat_mod_folio(folio, NR_MLOCK, -nr_pages);
-+		zone_stat_sub_folio(folio, NR_MLOCK);
- 		count_vm_events(UNEVICTABLE_PGCLEARED, nr_pages);
- 	}
- 
+ 		lruvec_stat_mod_folio(folio, NR_FILE_DIRTY, nr);
+ 		__zone_stat_mod_folio(folio, NR_ZONE_WRITE_PENDING, nr);
+-		__node_stat_mod_folio(folio, NR_DIRTIED, nr);
++		node_stat_mod_folio(folio, NR_DIRTIED, nr);
+ 		wb_stat_mod(wb, WB_RECLAIMABLE, nr);
+ 		wb_stat_mod(wb, WB_DIRTIED, nr);
+ 		task_io_account_write(nr * PAGE_SIZE);
 -- 
 2.43.0
 
