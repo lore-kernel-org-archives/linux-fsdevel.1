@@ -1,49 +1,49 @@
 Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD5073D3306
-	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 10:07:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAF123D34A5
+	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 10:07:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776161265; cv=none; b=kkynxRorRbJ5m2C/xNqVkzJ3fcI4EvaOkCwl0BV+HJ5o5yEKDpQ5+5XNawMXmS0xuh5oGzqPoAqjgM8JERrGypmiKE3zFMiiVHbJqUGwaw20HUg0c9CwVQ9/uYGe4VfCrjZS+dPbw7eSbIsiUWulzhMubKK3F3Uc+Y+A3f5xCsk=
+	t=1776161266; cv=none; b=Ja28woW5nhgl4MYBvY5zv/aPop0MGQ6cqqXfVNP5yeaHYzTuZeRwEQgDBTKSRtp09Oa4KCkAkd+gXqk9yJ/A4aOg+SAe1PiFyq2LRlh5grblzVRvo6aVtVz/UPYYq+kJzTuK/LbJ+unK7ODIbkhEtlBfssXXl6a7qKnMBRboxHA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776161265; c=relaxed/simple;
-	bh=/EIM7YFF4b74bmElYKXZBW4YDA9BK2dtDOSuYEtCAco=;
+	s=arc-20240116; t=1776161266; c=relaxed/simple;
+	bh=xNYDjPn+AycQplZ9xOLGYmQqtfwFksBMI0lDSNikyYU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RJaosWt19V6/FF4vPrGAr/DtQ8n4KnhgJPfYgmDp+gmCfmHDmEscw2NyjNVQ3ph1G2ULSYFu4H6ObSWu5PVsnjP77IJDl6r5LF6gEU9Jb6AuGTuiv64hYtzoklMEukxSa0cTUmzs8jUNy+TiCnkd9cCM6GrJXmu0UT3ArXrxPVk=
+	 MIME-Version:Content-Type; b=QRHWcI9kTZ2TMTiDB+gOG3rqaVSV/4C2YrQ/1+NEldHNKQ1IhqE/WMCVK0RIlWOXeultz7WH2EW6B4Zx2a4w1c9WHtb+cfEtIxdrEyHYMQE13I0vILu6lft5sWE17Hgol99W+u9YMgCWmMQG95EefVvltV2Zybo5vRcj5/DSuPM=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hackers.camp; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hackers.camp
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-488822b93c7so6003925e9.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 03:07:42 -0700 (PDT)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4889d0a9df0so6619715e9.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 03:07:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776161261; x=1776766061;
+        d=1e100.net; s=20251104; t=1776161262; x=1776766062;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=a900wcOj7zcPWpJzKD066ft+BK23BwJpbo5stM93Fwg=;
-        b=Cs5mfv8Z2ABVE7nXHJDZtRjzVHOr36GtR41v++GO46lH20fjgXcSIg/gyR8fj55D37
-         Efzt8+jth733P0T7FZ3PLTbCi9gEqhsDhuHipUm2PfMA+psgcPF/kyMwhd2L1T2oY5iB
-         R1QqbO6uVkn3yM17ou5VYvLaEwe1PWCvVinfyZm4OgKO6RNXL0oYLIBpt+d4Hzza+rhY
-         XzQHLC+DlSkwyieubJPOEz8VnMf49l0ZbROwRXQQsX1/YGwFLNHcQT1m76gQnO4oD36U
-         5VPCHnH/7wgxRN4fts5A4yvz1DS/JsBVg6woHR12jBE5TNrWeZAYzfKplFGrpFEFFMMB
-         5cGA==
-X-Gm-Message-State: AOJu0YyMhVB6vF3JpYywRheoXNAlAoQKLfNOiNnWk78VPHv9mSxP8t5M
-	JQWqzRShcjJluaq07MTVrtl+tQ98vhtXInVY6+X/C5OW+Yot50Z6be99NsVLAE/m
-X-Gm-Gg: AeBDiesdD0GaMuW7KeUpkUNk+Chq6k6t/WBfY8/dDDpGIWCtvXUpPbvpnWcMVWaeEkT
-	tAzDSCj1PjeF3xHstEQ0OLTpx92brkf2VBjjAhn6nmURhSIlbWPu9iKAr133SMkPVDDmXJ3wlu0
-	eKQFccZ45sbQMXYHIIAVdwBoktxntzjg4GL82DXTeG7LylQUqMrvmFw5kR9G3g4LRpn2Trw0HoS
-	WhPj9CNDzZtsku3xVPuNtyrr6F4zKqq+BH2rPQy1KF6AFXJ+Rn7QQL2x0ALgbcYvf3dUc/widRD
-	6gc8mGUuJuz7NhSQ+K2avo/rU+AO4/N+5982+Pd+3ufDS+TimUsbQpkyHhAq31dLcEDVM64q6AO
-	zwZfpTlvWluOt0dtoO1HHFSaexdbDa3RAKH8XASk6LKY23VjprJxa/dyE/UshUeHAVojVIR6Urt
-	Rs2uQw3rrIUMf1zGU+ve912fPLp/qwKzTl24z+VWP2tBMAsETgvfs38G5PV3DhMDt1AP9v90W/0
-	hA=
-X-Received: by 2002:a05:600c:4689:b0:488:93c5:4dc with SMTP id 5b1f17b1804b1-488d7f76192mr140071495e9.7.1776161260697;
-        Tue, 14 Apr 2026 03:07:40 -0700 (PDT)
+        bh=NcPs4nyUwKMtO0DM4U0v6bFXd0AmFFKWA58Kzo3r5rM=;
+        b=sv0tONJxPhgLlLyOMZmFioBn1NCLzcsHXfXarwGzm3fdqVQA2BL3JEbZL6yESrV53V
+         o9YjYr13W3C1ROwQmzrYjeNjKKB2J7ggkxD+DKf+msO6VlXiyO/HQR+3I1Dusspe5Tl9
+         YLm+BauTMofh5DhsD3U5QQS3bOD+5OpIi19m+XcFapS/Yn/CGmy0WWBZe8+nLKyA9NaD
+         vQ544xdHOfOWPJjBZRHINVJP3CKvWsBqeBA0fxMc9VJB2mTTNed5Ypnncs0e4Nhyhjws
+         akORluNvCucCEFyjmu7ankoYRA5XKxEUfCI4094CLm2hg5Cs5td1/CaBwOr/3U3UsYBj
+         eoUA==
+X-Gm-Message-State: AOJu0Yy4HcruBgvKiiiuNXNEySPDFbcIalZSi3pTzbMmI00q+fdQpHSK
+	Jpu20qLiLaUnOg9FDIS60Eqhy1m4RUM5JbH7ij/ovysNAyzyh4NQN3hHEt3ndmdp
+X-Gm-Gg: AeBDievKne7TaLJ5/UHulrKec+aDN0SMDrgz2CEm+0FiE3CU6CeciCmH5yozN0Xxxd+
+	YwSW2RwcYxC0Ye20JR6Ia/YSMdkdT22ZSD1wenqYy/yXN0WcGooBQFS/+GmHMYUwxZnFtW5t0Nb
+	Y2r6kwt9VHQqey7Gev2AR9YvqnuHUzjlikWRedv4zJKjIyLgaSUGNAwR4eqHZKCgG2jEs8mvm05
+	38HUzIOBPkWGeFGCzRcna4HnuV1ax2gcgre2iV8+15J8V8OMR0TYN86fxu9Hq2uyz+tPAwsrIIr
+	xlH4zkDQK6QqNHj/ze0ueyU/d9dOL8tr0taoSTGTk1hbkwHQna8kgYipZxeZkwrUO4s8IYAWf32
+	sdsR2vZ09jF1IgCc1PcgbnwCM4AnKtyPHeV7XnprT4H8YxaSeY/RCJOXH+0sDW9WO73N5n+OnI1
+	BzDeKL+9KU/Mg5j32pOAYedimvy3ABJTwjOCqX8QCHVQjPO+eumkeVt3uPT8qmJB23whOp8wVDS
+	vU=
+X-Received: by 2002:a05:600c:190d:b0:488:b7ec:a9ba with SMTP id 5b1f17b1804b1-488d6abebf8mr115314995e9.7.1776161261797;
+        Tue, 14 Apr 2026 03:07:41 -0700 (PDT)
 Received: from spartian-1.home ([2a01:cb1c:784:2f00:708:2805:7128:7a75])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488ede1e050sm65870545e9.5.2026.04.14.03.07.39
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488ede1e050sm65870545e9.5.2026.04.14.03.07.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Apr 2026 03:07:40 -0700 (PDT)
+        Tue, 14 Apr 2026 03:07:41 -0700 (PDT)
 From: Aurelien DESBRIERES <aurelien@hackers.camp>
 To: linux-fsdevel@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
@@ -54,9 +54,9 @@ Cc: linux-kernel@vger.kernel.org,
 	pedro.falcato@gmail.com,
 	xiang@kernel.org,
 	Aurelien DESBRIERES <aurelien@hackers.camp>
-Subject: [PATCH v3 11/12] =?UTF-8?q?ftrfs:=20v2=20fixes=20=E2=80=94=20writ?= =?UTF-8?q?e=20path,=20inode=20lifecycle,=20on-disk=20format?=
-Date: Tue, 14 Apr 2026 14:07:24 +0200
-Message-ID: <20260414120726.5713-12-aurelien@hackers.camp>
+Subject: [PATCH v3 12/12] =?UTF-8?q?ftrfs:=20v3=20=E2=80=94=20iomap=20IO?= =?UTF-8?q?=20path,=20rename,=20RS=20decoder,=20Radiation=20Event=20Journa?= =?UTF-8?q?l?=
+Date: Tue, 14 Apr 2026 14:07:25 +0200
+Message-ID: <20260414120726.5713-13-aurelien@hackers.camp>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260414120726.5713-1-aurelien@hackers.camp>
 References: <20260413230601.525400-1-aurelien@hackers.camp>
@@ -70,552 +70,739 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-address_space_operations:
-- Implement ftrfs_get_block with block allocation (create=1)
-- Return -EIO for holes on read (create=0), not 0
-- Set bh_result->b_size = 1 << i_blkbits on all mapped paths
-- Add ftrfs_write_begin, ftrfs_write_end, ftrfs_readahead, ftrfs_bmap
-- Add dirty_folio, invalidate_folio to ftrfs_aops
+This commit brings FTRFS to v3, addressing all major feedback from the
+RFC v2 review on linux-fsdevel (April 14, 2026).
 
-Inode lifecycle:
-- Use insert_inode_locked() instead of insert_inode_hash()
-  new_inode() does not set I_NEW; insert_inode_locked() does
-- Move unlock_new_inode() to callers after d_instantiate()
-- Add unlock_new_inode() on error paths
+Changes since v2 (ce07d54dc):
 
-On-disk format:
-- ftrfs_inode: 128 -> 256 bytes
-- uid/gid: __le16 -> __le32 (standard kernel convention)
-- Add i_tindirect: triple indirect (~512 GiB max file size)
-- Remove i_blocks: redundant, calculable from i_size
-- i_reserved[84]: explicit padding to 256 bytes
-- Superblock padding: 3948 -> 3980 bytes (enforce 4096)
-- Add BUILD_BUG_ON for both structure sizes
+fs/ftrfs/file.c:
+  - Replace buffer_head IO path with iomap API (Matthew Wilcox review)
+  - Implement ftrfs_iomap_begin/end (iomap_ops)
+  - Implement ftrfs_iomap_write_ops (get_folio/put_folio)
+  - Implement ftrfs_writeback_ops (writeback_range/writeback_submit)
+  - Read path uses iomap_bio_read_ops + iomap_read_folio_ctx
+  - Remove <linux/buffer_head.h> and <linux/mpage.h> from file.c
 
-Directory:
-- Skip . and .. in readdir data blocks (dir_emit_dots emits them)
+fs/ftrfs/namei.c:
+  - Implement ftrfs_rename: same-dir and cross-dir rename for files
+    and directories, '..' update, nlink fixup
+  - RENAME_EXCHANGE and RENAME_WHITEOUT return -EINVAL (v1)
+  - Add .rename to ftrfs_dir_inode_operations
 
-Compat:
-- Add ftrfs_inode_is_new macro for inode_state_read_once API
+fs/ftrfs/edac.c:
+  - Implement full RS(255,239) decoder
+  - Berlekamp-Massey error locator polynomial
+  - Chien search for error positions
+  - Forney algorithm for in-place magnitude correction
+  - Corrects up to 8 symbol errors per 255-byte subblock
+  - Returns -EBADMSG if uncorrectable (> 8 errors)
 
-Tested on arm64 kernel 7.0-rc7 (Yocto KVM):
-- mount, write, mkdir, read: all working
-- 0 BUG/WARN/Oops in dmesg
+fs/ftrfs/super.c:
+  - Add ftrfs_log_rs_event(): persistent radiation event logging
+  - Ring buffer of 64 x 24 bytes in superblock reserved area
+  - Written under spinlock, marks superblock buffer dirty
 
-Addresses review feedback from:
-- Matthew Wilcox: address_space_operations now implemented
-- Darrick J. Wong: i_size __le64 intentional, BUILD_BUG_ON documents limits
-- Andreas Dilger: DO-178C/ECSS certification rationale documented
+fs/ftrfs/ftrfs.h:
+  - Add struct ftrfs_rs_event (24 bytes, __packed)
+  - Add FTRFS_RS_JOURNAL_SIZE = 64
+  - Replace 3980-byte s_pad with s_rs_journal[64] + s_pad[2443]
+  - sizeof(ftrfs_super_block) == 4096 enforced by BUILD_BUG_ON
+  - Add ftrfs_log_rs_event() prototype
+  - inode_state_read_once compat macro for kernel < 7.0
 
+Testing:
+  - qemuarm64, kernel 7.0 final (Yocto Styhead 5.1)
+  - mount, write, read, rename, umount: 0 BUG/WARN/Oops
+  - xfstests generic/001, 002, 010 equivalent: all pass
+  - Slurm 25.11.4 HPC cluster: 3-node parallel jobs validated
+
+Assisted-by: Claude:claude-sonnet-4-6
 Signed-off-by: Aurelien DESBRIERES <aurelien@hackers.camp>
 ---
- fs/ftrfs/dir.c   | 88 +++++++++++++++++++++-----------------------
- fs/ftrfs/file.c  | 95 +++++++++++++++++++++++++++++++++++++++++++++---
- fs/ftrfs/ftrfs.h | 35 +++++++++++++-----
- fs/ftrfs/inode.c |  9 +++--
- fs/ftrfs/namei.c | 21 +++++++----
- fs/ftrfs/super.c |  2 +
- 6 files changed, 177 insertions(+), 73 deletions(-)
+ fs/ftrfs/edac.c  | 197 ++++++++++++++++++++++++++++++++++++++++++++++-
+ fs/ftrfs/file.c  | 173 ++++++++++++++++++++++++++++++-----------
+ fs/ftrfs/ftrfs.h |  20 ++++-
+ fs/ftrfs/namei.c | 113 +++++++++++++++++++++++++++
+ fs/ftrfs/super.c |  41 ++++++++++
+ 5 files changed, 498 insertions(+), 46 deletions(-)
 
-diff --git a/fs/ftrfs/dir.c b/fs/ftrfs/dir.c
-index dbf0102a40f3..fd06910bf9cc 100644
---- a/fs/ftrfs/dir.c
-+++ b/fs/ftrfs/dir.c
-@@ -3,7 +3,6 @@
-  * FTRFS — Directory operations
-  * Author: roastercode - Aurelien DESBRIERES <aurelien@hackers.camp>
-  */
--
- #include <linux/fs.h>
- #include <linux/buffer_head.h>
- #include "ftrfs.h"
-@@ -13,24 +12,23 @@
-  */
- static int ftrfs_readdir(struct file *file, struct dir_context *ctx)
- {
--	struct inode       *inode = file_inode(file);
--	struct super_block *sb    = inode->i_sb;
-+	struct inode *inode = file_inode(file);
-+	struct super_block *sb = inode->i_sb;
- 	struct ftrfs_inode_info *fi = FTRFS_I(inode);
- 	struct buffer_head *bh;
- 	struct ftrfs_dir_entry *de;
- 	unsigned long block_idx, block_no;
--	unsigned int  offset;
-+	unsigned int offset;
- 
--	/* EOF guard */
- 	if (ctx->pos == INT_MAX)
- 		return 0;
-+
- 	/* Emit . and .. (ctx->pos: 0=., 1=.., 2+=real entries) */
- 	if (ctx->pos < 2) {
- 		if (!dir_emit_dots(file, ctx))
- 			return 0;
- 	}
- 
--	/* Iterate over direct blocks only (skeleton: no indirect yet) */
- 	for (block_idx = 0; block_idx < FTRFS_DIRECT_BLOCKS; block_idx++) {
- 		block_no = le64_to_cpu(fi->i_direct[block_idx]);
- 		if (!block_no)
-@@ -43,25 +41,28 @@ static int ftrfs_readdir(struct file *file, struct dir_context *ctx)
- 		offset = 0;
- 		while (offset < FTRFS_BLOCK_SIZE) {
- 			de = (struct ftrfs_dir_entry *)(bh->b_data + offset);
--
- 			if (!de->d_rec_len)
--				break; /* end of dir block */
--
--			if (de->d_ino && de->d_name_len) {
--				if (!dir_emit(ctx,
--					      de->d_name,
--					      de->d_name_len,
--					      le64_to_cpu(de->d_ino),
--					      de->d_file_type)) {
--					brelse(bh);
--					return 0;
--				}
--				ctx->pos++;
-+				break;
-+
-+			/* Skip . and .. — emitted by dir_emit_dots */
-+			if (!de->d_ino || !de->d_name_len)
-+				goto next;
-+			if (de->d_name_len == 1 && de->d_name[0] == '.')
-+				goto next;
-+			if (de->d_name_len == 2 && de->d_name[0] == '.'
-+			    && de->d_name[1] == '.')
-+				goto next;
-+
-+			if (!dir_emit(ctx, de->d_name, de->d_name_len,
-+				      le64_to_cpu(de->d_ino),
-+				      de->d_file_type)) {
-+				brelse(bh);
-+				return 0;
- 			}
--
-+			ctx->pos++;
-+next:
- 			offset += le16_to_cpu(de->d_rec_len);
- 		}
--
- 		brelse(bh);
- 	}
- 
-@@ -73,22 +74,19 @@ static int ftrfs_readdir(struct file *file, struct dir_context *ctx)
-  * ftrfs_lookup — find dentry in directory
-  */
- struct dentry *ftrfs_lookup(struct inode *dir,
--				   struct dentry *dentry,
--				   unsigned int flags)
-+			    struct dentry *dentry,
-+			    unsigned int flags)
- {
--	struct super_block      *sb = dir->i_sb;
-+	struct super_block *sb = dir->i_sb;
- 	struct ftrfs_inode_info *fi = FTRFS_I(dir);
--	struct buffer_head      *bh;
--	struct ftrfs_dir_entry  *de;
--	struct inode            *inode = NULL;
--	unsigned long            block_idx, block_no;
--	unsigned int             offset;
--
--	if (dentry->d_name.len > FTRFS_MAX_FILENAME)
--		return ERR_PTR(-ENAMETOOLONG);
-+	struct ftrfs_dir_entry *de;
-+	struct buffer_head *bh;
-+	unsigned int offset;
-+	unsigned long block_no;
-+	int i;
- 
--	for (block_idx = 0; block_idx < FTRFS_DIRECT_BLOCKS; block_idx++) {
--		block_no = le64_to_cpu(fi->i_direct[block_idx]);
-+	for (i = 0; i < FTRFS_DIRECT_BLOCKS; i++) {
-+		block_no = le64_to_cpu(fi->i_direct[i]);
- 		if (!block_no)
- 			break;
- 
-@@ -97,30 +95,28 @@ struct dentry *ftrfs_lookup(struct inode *dir,
- 			continue;
- 
- 		offset = 0;
--		while (offset < FTRFS_BLOCK_SIZE) {
-+		while (offset + sizeof(*de) <= FTRFS_BLOCK_SIZE) {
- 			de = (struct ftrfs_dir_entry *)(bh->b_data + offset);
--
- 			if (!de->d_rec_len)
--				break; /* end of dir block */
--
-+				break;
- 			if (de->d_ino &&
- 			    de->d_name_len == dentry->d_name.len &&
- 			    !memcmp(de->d_name, dentry->d_name.name,
--				    de->d_name_len)) {
--				unsigned long ino = le64_to_cpu(de->d_ino);
-+				    dentry->d_name.len)) {
-+				u64 ino = le64_to_cpu(de->d_ino);
-+				struct inode *inode;
- 
- 				brelse(bh);
- 				inode = ftrfs_iget(sb, ino);
--				goto found;
-+				return d_splice_alias(inode, dentry);
- 			}
--
- 			offset += le16_to_cpu(de->d_rec_len);
-+			if (!de->d_rec_len)
-+				break;
- 		}
- 		brelse(bh);
- 	}
--
--found:
--	return d_splice_alias(inode, dentry);
-+	return d_splice_alias(NULL, dentry);
+diff --git a/fs/ftrfs/edac.c b/fs/ftrfs/edac.c
+index ebe676c98be6..8cc449363037 100644
+--- a/fs/ftrfs/edac.c
++++ b/fs/ftrfs/edac.c
+@@ -60,13 +60,206 @@ int ftrfs_rs_encode(uint8_t *data, uint8_t *parity)
+ 	return 0;
  }
  
- const struct file_operations ftrfs_dir_operations = {
-@@ -128,5 +124,3 @@ const struct file_operations ftrfs_dir_operations = {
- 	.read    = generic_read_dir,
- 	.iterate_shared = ftrfs_readdir,
- };
--
--
-diff --git a/fs/ftrfs/file.c b/fs/ftrfs/file.c
-index ef121359be77..1807ac698d7d 100644
---- a/fs/ftrfs/file.c
-+++ b/fs/ftrfs/file.c
-@@ -1,14 +1,12 @@
- // SPDX-License-Identifier: GPL-2.0-only
- /*
-- * FTRFS — File operations (skeleton)
-+ * FTRFS — File operations
-  * Author: roastercode - Aurelien DESBRIERES <aurelien@hackers.camp>
-- *
-- * NOTE: read/write use generic_file_* for now.
-- * The EDAC/RS layer will intercept at the block I/O level (next iteration).
-  */
--
- #include <linux/fs.h>
- #include <linux/mm.h>
-+#include <linux/buffer_head.h>
-+#include <linux/mpage.h>
- #include "ftrfs.h"
- 
- const struct file_operations ftrfs_file_operations = {
-@@ -23,3 +21,90 @@ const struct file_operations ftrfs_file_operations = {
- const struct inode_operations ftrfs_file_inode_operations = {
- 	.getattr        = simple_getattr,
- };
+-/* Reed-Solomon decoding (simplified for now) */
++/* Galois Field power */
++static uint8_t gf_pow(uint8_t x, int power)
++{
++	return gf_exp[(gf_log[x] * power) % 255];
++}
++
++/* Galois Field inverse */
++static uint8_t gf_inv(uint8_t x)
++{
++	return gf_exp[255 - gf_log[x]];
++}
 +
 +/*
-+ * ftrfs_get_block — map logical block to physical block
-+ * Handles allocation when create=1, returns -EIO for holes on read.
++ * Compute RS syndromes.
++ * Returns true if all syndromes zero (no error).
 + */
-+static int ftrfs_get_block(struct inode *inode, sector_t iblock,
-+			   struct buffer_head *bh_result, int create)
++static bool rs_calc_syndromes(uint8_t *msg, int msglen, uint8_t *syndromes)
 +{
-+	struct ftrfs_inode_info *fi = FTRFS_I(inode);
-+	u64 new_block;
-+	__le64 phys;
++	bool all_zero = true;
++	int i, j;
 +
-+	if (iblock >= FTRFS_DIRECT_BLOCKS) {
-+		pr_err("ftrfs: indirect block not yet supported\n");
-+		return -EOPNOTSUPP;
++	for (i = 0; i < FTRFS_RS_PARITY; i++) {
++		syndromes[i] = 0;
++		for (j = 0; j < msglen; j++)
++			syndromes[i] ^= gf_mul(msg[j], gf_pow(gf_exp[1], i * j));
++		if (syndromes[i])
++			all_zero = false;
++	}
++	return all_zero;
++}
++
++/*
++ * Berlekamp-Massey — find error locator polynomial.
++ * Returns number of errors, or -1 if uncorrectable.
++ */
++static int rs_berlekamp_massey(uint8_t *syndromes, uint8_t *err_loc,
++			       int *err_loc_len)
++{
++	uint8_t old_loc[FTRFS_RS_PARITY + 1];
++	uint8_t tmp[FTRFS_RS_PARITY + 1];
++	uint8_t new_loc[FTRFS_RS_PARITY + 1];
++	int old_len = 1;
++	int i, j, nerr, new_len;
++	uint8_t delta;
++
++	err_loc[0] = 1;
++	*err_loc_len = 1;
++	old_loc[0] = 1;
++
++	for (i = 0; i < FTRFS_RS_PARITY; i++) {
++		delta = syndromes[i];
++		for (j = 1; j < *err_loc_len; j++)
++			delta ^= gf_mul(err_loc[j], syndromes[i - j]);
++
++		tmp[0] = 0;
++		memcpy(tmp + 1, old_loc, old_len);
++
++		if (delta == 0) {
++			old_len++;
++		} else if (2 * (*err_loc_len - 1) <= i) {
++			new_len = old_len + 1;
++			for (j = 0; j < new_len; j++) {
++				new_loc[j] = (j < *err_loc_len) ? err_loc[j] : 0;
++				new_loc[j] ^= gf_mul(delta, tmp[j]);
++			}
++			memcpy(old_loc, err_loc, *err_loc_len);
++			old_len = *err_loc_len + 1 - new_len + old_len;
++			memcpy(err_loc, new_loc, new_len);
++			*err_loc_len = new_len;
++		} else {
++			for (j = 0; j < *err_loc_len; j++)
++				err_loc[j] ^= gf_mul(delta, tmp[j]);
++			old_len++;
++		}
 +	}
 +
-+	phys = fi->i_direct[iblock];
-+	if (phys) {
-+		map_bh(bh_result, inode->i_sb, le64_to_cpu(phys));
-+		bh_result->b_size = 1 << inode->i_blkbits;
++	nerr = *err_loc_len - 1;
++	if (nerr > FTRFS_RS_PARITY / 2)
++		return -1;
++	return nerr;
++}
++
++/*
++ * Chien search — find roots of error locator polynomial.
++ * Returns number of roots found.
++ */
++static int rs_chien_search(uint8_t *err_loc, int err_loc_len,
++			   int msglen, int *errs)
++{
++	int nerrs = 0;
++	int i, j;
++	uint8_t val;
++
++	for (i = 0; i < msglen; i++) {
++		val = 0;
++		for (j = 0; j < err_loc_len; j++)
++			val ^= gf_mul(err_loc[j], gf_pow(gf_exp[1], i * j));
++		if (val == 0)
++			errs[nerrs++] = msglen - 1 - i;
++	}
++	return nerrs;
++}
++
++/*
++ * Forney algorithm — compute and apply error corrections.
++ */
++static void rs_forney(uint8_t *msg, uint8_t *syndromes,
++		      uint8_t *err_loc, int err_loc_len,
++		      int *errs, int nerrs)
++{
++	uint8_t omega[FTRFS_RS_PARITY];
++	uint8_t err_loc_prime[FTRFS_RS_PARITY];
++	int i, j;
++
++	memset(omega, 0, sizeof(omega));
++	for (i = 0; i < FTRFS_RS_PARITY; i++) {
++		for (j = 0; j < err_loc_len && j <= i; j++)
++			omega[i] ^= gf_mul(syndromes[i - j], err_loc[j]);
++	}
++
++	memset(err_loc_prime, 0, sizeof(err_loc_prime));
++	for (i = 1; i < err_loc_len; i += 2)
++		err_loc_prime[i - 1] = err_loc[i];
++
++	for (i = 0; i < nerrs; i++) {
++		uint8_t xi     = gf_pow(gf_exp[1], errs[i]);
++		uint8_t xi_inv = gf_inv(xi);
++		uint8_t omega_val = 0;
++		uint8_t elp_val   = 0;
++
++		for (j = FTRFS_RS_PARITY - 1; j >= 0; j--)
++			omega_val = gf_mul(omega_val, xi_inv) ^ omega[j];
++
++		for (j = (err_loc_len - 1) & ~1; j >= 0; j -= 2)
++			elp_val = gf_mul(elp_val, gf_mul(xi_inv, xi_inv))
++				  ^ err_loc_prime[j];
++
++		if (elp_val == 0)
++			continue;
++
++		msg[errs[i]] ^= gf_mul(gf_mul(xi, omega_val), gf_inv(elp_val));
++	}
++}
++
++/*
++ * ftrfs_rs_decode - decode and correct a RS(255,239) codeword in place.
++ * @data:   FTRFS_SUBBLOCK_DATA bytes of data (corrected in place)
++ * @parity: FTRFS_RS_PARITY bytes of parity
++ *
++ * Returns 0 if no errors or errors corrected,
++ * -EBADMSG if uncorrectable (> 8 symbol errors).
++ */
+ int ftrfs_rs_decode(uint8_t *data, uint8_t *parity)
+ {
++	uint8_t msg[FTRFS_SUBBLOCK_DATA + FTRFS_RS_PARITY];
++	uint8_t syndromes[FTRFS_RS_PARITY];
++	uint8_t err_loc[FTRFS_RS_PARITY + 1];
++	int err_loc_len;
++	int errs[FTRFS_RS_PARITY / 2];
++	int nerrs, nroots;
++
+ 	if (!rs_initialized)
+ 		init_gf_tables();
+ 
+-	/* For now, assume no errors (full decoding to be implemented) */
++	memcpy(msg, data, FTRFS_SUBBLOCK_DATA);
++	memcpy(msg + FTRFS_SUBBLOCK_DATA, parity, FTRFS_RS_PARITY);
++
++	/* Step 1: syndromes */
++	if (rs_calc_syndromes(msg, FTRFS_SUBBLOCK_DATA + FTRFS_RS_PARITY,
++			      syndromes))
++		return 0; /* no errors */
++
++	/* Step 2: Berlekamp-Massey */
++	memset(err_loc, 0, sizeof(err_loc));
++	nerrs = rs_berlekamp_massey(syndromes, err_loc, &err_loc_len);
++	if (nerrs < 0) {
++		pr_err_ratelimited("ftrfs: RS block uncorrectable\n");
++		return -EBADMSG;
++	}
++
++	/* Step 3: Chien search */
++	nroots = rs_chien_search(err_loc, err_loc_len,
++				 FTRFS_SUBBLOCK_DATA + FTRFS_RS_PARITY,
++				 errs);
++	if (nroots != nerrs) {
++		pr_err_ratelimited("ftrfs: RS Chien search mismatch\n");
++		return -EBADMSG;
++	}
++
++	/* Step 4: Forney corrections */
++	rs_forney(msg, syndromes, err_loc, err_loc_len, errs, nerrs);
++
++	/* Step 5: verify */
++	if (!rs_calc_syndromes(msg, FTRFS_SUBBLOCK_DATA + FTRFS_RS_PARITY,
++			       syndromes)) {
++		pr_err_ratelimited("ftrfs: RS correction failed verification\n");
++		return -EBADMSG;
++	}
++
++	memcpy(data, msg, FTRFS_SUBBLOCK_DATA);
+ 	return 0;
+ }
+ 
+diff --git a/fs/ftrfs/file.c b/fs/ftrfs/file.c
+index 1807ac698d7d..2520896c71e3 100644
+--- a/fs/ftrfs/file.c
++++ b/fs/ftrfs/file.c
+@@ -5,14 +5,17 @@
+  */
+ #include <linux/fs.h>
+ #include <linux/mm.h>
+-#include <linux/buffer_head.h>
+-#include <linux/mpage.h>
++#include <linux/iomap.h>
++#include <linux/pagemap.h>
+ #include "ftrfs.h"
+ 
++/* Forward declaration — defined after iomap_ops */
++static ssize_t ftrfs_file_write_iter(struct kiocb *iocb, struct iov_iter *from);
++
+ const struct file_operations ftrfs_file_operations = {
+ 	.llseek         = generic_file_llseek,
+ 	.read_iter      = generic_file_read_iter,
+-	.write_iter     = generic_file_write_iter,
++	.write_iter     = ftrfs_file_write_iter,
+ 	.mmap           = generic_file_mmap,
+ 	.fsync          = generic_file_fsync,
+ 	.splice_read    = filemap_splice_read,
+@@ -23,88 +26,172 @@ const struct inode_operations ftrfs_file_inode_operations = {
+ };
+ 
+ /*
+- * ftrfs_get_block — map logical block to physical block
+- * Handles allocation when create=1, returns -EIO for holes on read.
++ * ftrfs_iomap_begin — map a file range to disk blocks for iomap.
++ * Handles read (no allocation) and write (allocate on demand).
++ * Only direct blocks supported (max 48 KiB per file).
+  */
+-static int ftrfs_get_block(struct inode *inode, sector_t iblock,
+-			   struct buffer_head *bh_result, int create)
++static int ftrfs_iomap_begin(struct inode *inode, loff_t pos, loff_t length,
++			     unsigned int flags, struct iomap *iomap,
++			     struct iomap *srcmap)
+ {
+-	struct ftrfs_inode_info *fi = FTRFS_I(inode);
+-	u64 new_block;
+-	__le64 phys;
++	struct ftrfs_inode_info *fi  = FTRFS_I(inode);
++	struct super_block      *sb  = inode->i_sb;
++	u64  iblock    = pos >> FTRFS_BLOCK_SHIFT;
++	u64  new_block;
++	u64  phys;
+ 
+ 	if (iblock >= FTRFS_DIRECT_BLOCKS) {
+-		pr_err("ftrfs: indirect block not yet supported\n");
++		pr_err_ratelimited("ftrfs: iomap: offset beyond direct blocks\n");
+ 		return -EOPNOTSUPP;
+ 	}
+ 
+-	phys = fi->i_direct[iblock];
++	iomap->offset = iblock << FTRFS_BLOCK_SHIFT;
++	iomap->length = FTRFS_BLOCK_SIZE;
++	iomap->bdev   = sb->s_bdev;
++	iomap->flags  = 0;
++
++	phys = le64_to_cpu(fi->i_direct[iblock]);
+ 	if (phys) {
+-		map_bh(bh_result, inode->i_sb, le64_to_cpu(phys));
+-		bh_result->b_size = 1 << inode->i_blkbits;
++		iomap->type = IOMAP_MAPPED;
++		iomap->addr = phys << FTRFS_BLOCK_SHIFT;
+ 		return 0;
+ 	}
+ 
+-	if (!create)
+-		return -EIO;
++	/* Hole on read — do not allocate */
++	if (!(flags & IOMAP_WRITE)) {
++		iomap->type = IOMAP_HOLE;
++		iomap->addr = IOMAP_NULL_ADDR;
 +		return 0;
 +	}
+ 
+-	new_block = ftrfs_alloc_block(inode->i_sb);
++	/* Allocate a new block for write */
++	new_block = ftrfs_alloc_block(sb);
+ 	if (!new_block) {
+-		pr_err("ftrfs: no free blocks\n");
++		pr_err("ftrfs: iomap: no free blocks\n");
+ 		return -ENOSPC;
+ 	}
+ 
+ 	fi->i_direct[iblock] = cpu_to_le64(new_block);
+-	map_bh(bh_result, inode->i_sb, new_block);
+-	bh_result->b_size = 1 << inode->i_blkbits;
+-	set_buffer_new(bh_result);
++	mark_inode_dirty(inode);
 +
-+	if (!create)
-+		return -EIO;
-+
-+	new_block = ftrfs_alloc_block(inode->i_sb);
-+	if (!new_block) {
-+		pr_err("ftrfs: no free blocks\n");
-+		return -ENOSPC;
-+	}
-+
-+	fi->i_direct[iblock] = cpu_to_le64(new_block);
-+	map_bh(bh_result, inode->i_sb, new_block);
-+	bh_result->b_size = 1 << inode->i_blkbits;
-+	set_buffer_new(bh_result);
++	iomap->type = IOMAP_MAPPED;
++	iomap->addr = new_block << FTRFS_BLOCK_SHIFT;
+ 	return 0;
+ }
+ 
+-static int ftrfs_read_folio(struct file *file, struct folio *folio)
++static int ftrfs_iomap_end(struct inode *inode, loff_t pos, loff_t length,
++			   ssize_t written, unsigned int flags,
++			   struct iomap *iomap)
+ {
+-	return block_read_full_folio(folio, ftrfs_get_block);
 +	return 0;
+ }
+ 
+-static int ftrfs_writepages(struct address_space *mapping,
+-			    struct writeback_control *wbc)
++const struct iomap_ops ftrfs_iomap_ops = {
++	.iomap_begin = ftrfs_iomap_begin,
++	.iomap_end   = ftrfs_iomap_end,
++};
++
++/*
++ * Write path — ftrfs_iomap_write_ops
++ * get_folio/put_folio use generic helpers (no journaling required).
++ */
++static struct folio *ftrfs_iomap_get_folio(struct iomap_iter *iter,
++					   loff_t pos, unsigned int len)
+ {
+-	return mpage_writepages(mapping, wbc, ftrfs_get_block);
++	return iomap_get_folio(iter, pos, len);
+ }
+ 
+-static void ftrfs_readahead(struct readahead_control *rac)
++static void ftrfs_iomap_put_folio(struct inode *inode, loff_t pos,
++				  unsigned int copied, struct folio *folio)
+ {
+-	mpage_readahead(rac, ftrfs_get_block);
++	folio_unlock(folio);
++	folio_put(folio);
+ }
+ 
+-static int ftrfs_write_begin(const struct kiocb *iocb,
+-			     struct address_space *mapping,
+-			     loff_t pos, unsigned int len,
+-			     struct folio **foliop, void **fsdata)
++static const struct iomap_write_ops ftrfs_iomap_write_ops = {
++	.get_folio = ftrfs_iomap_get_folio,
++	.put_folio = ftrfs_iomap_put_folio,
++};
++
++static ssize_t ftrfs_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
+ {
+-	return block_write_begin(mapping, pos, len, foliop, ftrfs_get_block);
++	return iomap_file_buffered_write(iocb, from, &ftrfs_iomap_ops,
++					 &ftrfs_iomap_write_ops, NULL);
+ }
+ 
+-static int ftrfs_write_end(const struct kiocb *iocb,
+-			   struct address_space *mapping,
+-			   loff_t pos, unsigned int len, unsigned int copied,
+-			   struct folio *folio, void *fsdata)
++/*
++ * Writeback path — ftrfs_writeback_ops
++ */
++static ssize_t ftrfs_writeback_range(struct iomap_writepage_ctx *wpc,
++				  struct folio *folio, u64 offset,
++				  unsigned int len, u64 end_pos)
+ {
+-	return generic_write_end(iocb, mapping, pos, len, copied, folio, fsdata);
++	if (offset < wpc->iomap.offset ||
++	    offset >= wpc->iomap.offset + wpc->iomap.length) {
++		int ret;
++
++		memset(&wpc->iomap, 0, sizeof(wpc->iomap));
++		ret = ftrfs_iomap_begin(wpc->inode,
++					offset, INT_MAX, 0,
++					&wpc->iomap, NULL);
++		if (ret)
++			return ret;
++	}
++	return iomap_add_to_ioend(wpc, folio, offset, end_pos, len);
 +}
 +
-+static int ftrfs_read_folio(struct file *file, struct folio *folio)
-+{
-+	return block_read_full_folio(folio, ftrfs_get_block);
-+}
++static const struct iomap_writeback_ops ftrfs_writeback_ops = {
++	.writeback_range  = ftrfs_writeback_range,
++	.writeback_submit = iomap_ioend_writeback_submit,
++};
 +
 +static int ftrfs_writepages(struct address_space *mapping,
 +			    struct writeback_control *wbc)
 +{
-+	return mpage_writepages(mapping, wbc, ftrfs_get_block);
++	struct iomap_writepage_ctx wpc = {
++		.inode = mapping->host,
++		.wbc   = wbc,
++		.ops   = &ftrfs_writeback_ops,
++	};
++
++	return iomap_writepages(&wpc);
++}
++
++/*
++ * Read path — uses iomap_bio_read_ops (kernel-provided)
++ */
++static int ftrfs_read_folio(struct file *file, struct folio *folio)
++{
++	struct iomap_read_folio_ctx ctx = {
++		.ops       = &iomap_bio_read_ops,
++		.cur_folio = folio,
++	};
++
++	iomap_read_folio(&ftrfs_iomap_ops, &ctx, NULL);
++	return 0;
 +}
 +
 +static void ftrfs_readahead(struct readahead_control *rac)
 +{
-+	mpage_readahead(rac, ftrfs_get_block);
-+}
++	struct iomap_read_folio_ctx ctx = {
++		.ops = &iomap_bio_read_ops,
++		.rac = rac,
++	};
 +
-+static int ftrfs_write_begin(const struct kiocb *iocb,
-+			     struct address_space *mapping,
-+			     loff_t pos, unsigned int len,
-+			     struct folio **foliop, void **fsdata)
-+{
-+	return block_write_begin(mapping, pos, len, foliop, ftrfs_get_block);
-+}
-+
-+static int ftrfs_write_end(const struct kiocb *iocb,
-+			   struct address_space *mapping,
-+			   loff_t pos, unsigned int len, unsigned int copied,
-+			   struct folio *folio, void *fsdata)
-+{
-+	return generic_write_end(iocb, mapping, pos, len, copied, folio, fsdata);
-+}
-+
-+static sector_t ftrfs_bmap(struct address_space *mapping, sector_t block)
-+{
-+	return generic_block_bmap(mapping, block, ftrfs_get_block);
-+}
-+
-+const struct address_space_operations ftrfs_aops = {
-+	.read_folio       = ftrfs_read_folio,
-+	.readahead        = ftrfs_readahead,
-+	.write_begin      = ftrfs_write_begin,
-+	.write_end        = ftrfs_write_end,
-+	.writepages       = ftrfs_writepages,
-+	.bmap             = ftrfs_bmap,
-+	.dirty_folio      = block_dirty_folio,
-+	.invalidate_folio = block_invalidate_folio,
-+};
++	iomap_readahead(&ftrfs_iomap_ops, &ctx, NULL);
+ }
+ 
+ static sector_t ftrfs_bmap(struct address_space *mapping, sector_t block)
+ {
+-	return generic_block_bmap(mapping, block, ftrfs_get_block);
++	return iomap_bmap(mapping, block, &ftrfs_iomap_ops);
+ }
+ 
+ const struct address_space_operations ftrfs_aops = {
+ 	.read_folio       = ftrfs_read_folio,
+ 	.readahead        = ftrfs_readahead,
+-	.write_begin      = ftrfs_write_begin,
+-	.write_end        = ftrfs_write_end,
+ 	.writepages       = ftrfs_writepages,
+ 	.bmap             = ftrfs_bmap,
+-	.dirty_folio      = block_dirty_folio,
+-	.invalidate_folio = block_invalidate_folio,
++	.dirty_folio      = iomap_dirty_folio,
++	.invalidate_folio = iomap_invalidate_folio,
++	.release_folio    = iomap_release_folio,
+ };
 diff --git a/fs/ftrfs/ftrfs.h b/fs/ftrfs/ftrfs.h
-index 82502c9fb07d..1f2d8a954814 100644
+index 1f2d8a954814..f75709aee0ee 100644
 --- a/fs/ftrfs/ftrfs.h
 +++ b/fs/ftrfs/ftrfs.h
-@@ -13,6 +13,10 @@
- #include <linux/fs_context.h>
- #include <linux/types.h>
+@@ -35,6 +35,21 @@
+ #define FTRFS_INDIRECT_BLOCKS 1
+ #define FTRFS_DINDIRECT_BLOCKS 1
  
-+/* inode_state_read_once returns inode_state_flags in kernel 7.0 */
-+#define ftrfs_inode_is_new(inode) \
-+	(inode_state_read_once(inode) & I_NEW)
++/*
++ * Radiation Event Journal entry — 24 bytes
++ * Records each RS FEC correction event persistently in the superblock.
++ * 64 entries give operators a map of physical degradation over time.
++ * No existing Linux filesystem provides this at the block layer.
++ */
++struct ftrfs_rs_event {
++	__le64  re_block_no;    /* corrected block number */
++	__le64  re_timestamp;   /* nanoseconds since boot  */
++	__le32  re_error_bits;  /* number of symbols corrected */
++	__le32  re_crc32;       /* CRC32 of this entry */
++} __packed;                 /* 24 bytes */
 +
- /* Magic number: 'FTRF' */
- #define FTRFS_MAGIC         0x46545246
- 
-@@ -49,29 +53,38 @@ struct ftrfs_super_block {
++#define FTRFS_RS_JOURNAL_SIZE  64   /* entries in the radiation event journal */
++
+ /*
+  * On-disk superblock — block 0
+  * Total size: fits in one 4096-byte block
+@@ -53,7 +68,9 @@ struct ftrfs_super_block {
  	__le32  s_crc32;            /* CRC32 of this superblock */
  	__u8    s_uuid[16];         /* UUID */
  	__u8    s_label[32];        /* Volume label */
--	__u8    s_pad[3948];        /* Padding to 4096 bytes */
-+	__u8    s_pad[3980];        /* Padding to 4096 bytes */
+-	__u8    s_pad[3980];        /* Padding to 4096 bytes */
++	 struct ftrfs_rs_event s_rs_journal[FTRFS_RS_JOURNAL_SIZE]; /* 1536 bytes */
++	__u8    s_rs_journal_head;  /* next write index (ring buffer) */
++	__u8    s_pad[2443];        /* Padding to 4096 bytes */
  } __packed;
  
  /*
-  * On-disk inode
-- * Size: 128 bytes
-+ * Size: 256 bytes
-+ *
-+ * Addressing capacity:
-+ *   direct  (12)  =              48 KiB
-+ *   indirect (1)  =               2 MiB
-+ *   dindirect (1) =               1 GiB
-+ *   tindirect (1) =             512 GiB
-+ *
-+ * uid/gid: __le32 to support uid > 65535 (standard kernel convention)
-+ * timestamps: __le64 nanoseconds (required for space mission precision)
-  */
- struct ftrfs_inode {
- 	__le16  i_mode;             /* File mode */
--	__le16  i_uid;              /* Owner UID */
--	__le16  i_gid;              /* Owner GID */
- 	__le16  i_nlink;            /* Hard link count */
--	__le64  i_size;             /* File size in bytes */
-+	__le32  i_uid;              /* Owner UID */
-+	__le32  i_gid;              /* Owner GID */
-+	__le64  i_size;             /* File size in bytes (64-bit, future-proof) */
- 	__le64  i_atime;            /* Access time (ns) */
- 	__le64  i_mtime;            /* Modification time (ns) */
- 	__le64  i_ctime;            /* Change time (ns) */
--	__le32  i_blocks;           /* Block count */
- 	__le32  i_flags;            /* Inode flags */
-+	__le32  i_crc32;            /* CRC32 of inode (excluding this field) */
- 	__le64  i_direct[FTRFS_DIRECT_BLOCKS];    /* Direct block pointers */
--	__le64  i_indirect;         /* Single indirect */
--	__le64  i_dindirect;        /* Double indirect */
--	__le32  i_crc32;            /* CRC32 of inode */
--	__u8    i_pad[2];           /* Padding to 128 bytes */
-+	__le64  i_indirect;         /* Single indirect (~2 MiB) */
-+	__le64  i_dindirect;        /* Double indirect (~1 GiB) */
-+	__le64  i_tindirect;        /* Triple indirect (~512 GiB) */
-+	__u8    i_reserved[84];     /* Padding to 256 bytes */
- } __packed;
+@@ -142,6 +159,7 @@ static inline struct ftrfs_sb_info *FTRFS_SB(struct super_block *sb)
+ /* Function prototypes */
+ /* super.c */
+ int ftrfs_fill_super(struct super_block *sb, struct fs_context *fc);
++void ftrfs_log_rs_event(struct super_block *sb, u64 block_no, u32 err_bits);
  
- /* Inode flags */
-@@ -111,6 +124,7 @@ struct ftrfs_inode_info {
- 	__le64          i_direct[FTRFS_DIRECT_BLOCKS];
- 	__le64          i_indirect;
- 	__le64          i_dindirect;
-+	__le64          i_tindirect;
- 	__u32           i_flags;
- 	struct inode    vfs_inode;  /* Must be last */
- };
-@@ -140,6 +154,7 @@ extern const struct inode_operations ftrfs_dir_inode_operations;
- /* file.c */
- extern const struct file_operations ftrfs_file_operations;
- extern const struct inode_operations ftrfs_file_inode_operations;
-+extern const struct address_space_operations ftrfs_aops;
- 
- /* edac.c */
- __u32 ftrfs_crc32(const void *buf, size_t len);
-diff --git a/fs/ftrfs/inode.c b/fs/ftrfs/inode.c
-index e1279c7968a3..f655ccbd9919 100644
---- a/fs/ftrfs/inode.c
-+++ b/fs/ftrfs/inode.c
-@@ -34,7 +34,7 @@ struct inode *ftrfs_iget(struct super_block *sb, unsigned long ino)
- 		return ERR_PTR(-ENOMEM);
- 
- 	/* Already in cache */
--	if (!(inode_state_read_once(inode) & I_NEW))
-+	if (!ftrfs_inode_is_new(inode))
- 		return inode;
- 
- 	inodes_per_block = FTRFS_BLOCK_SIZE / sizeof(struct ftrfs_inode);
-@@ -63,11 +63,10 @@ struct inode *ftrfs_iget(struct super_block *sb, unsigned long ino)
- 
- 	/* Populate VFS inode */
- 	inode->i_mode  = le16_to_cpu(raw->i_mode);
--	inode->i_uid   = make_kuid(sb->s_user_ns, le16_to_cpu(raw->i_uid));
--	inode->i_gid   = make_kgid(sb->s_user_ns, le16_to_cpu(raw->i_gid));
-+	inode->i_uid   = make_kuid(sb->s_user_ns, le32_to_cpu(raw->i_uid));
-+	inode->i_gid   = make_kgid(sb->s_user_ns, le32_to_cpu(raw->i_gid));
- 	set_nlink(inode, le16_to_cpu(raw->i_nlink));
- 	inode->i_size  = le64_to_cpu(raw->i_size);
--	inode->i_blocks = le32_to_cpu(raw->i_blocks);
- 
- 	inode_set_atime(inode,
- 		le64_to_cpu(raw->i_atime) / NSEC_PER_SEC,
-@@ -83,6 +82,7 @@ struct inode *ftrfs_iget(struct super_block *sb, unsigned long ino)
- 	memcpy(fi->i_direct, raw->i_direct, sizeof(fi->i_direct));
- 	fi->i_indirect  = raw->i_indirect;
- 	fi->i_dindirect = raw->i_dindirect;
-+	fi->i_tindirect = raw->i_tindirect;
- 	fi->i_flags     = le32_to_cpu(raw->i_flags);
- 
- 	/* Set ops based on file type */
-@@ -92,6 +92,7 @@ struct inode *ftrfs_iget(struct super_block *sb, unsigned long ino)
- 	} else if (S_ISREG(inode->i_mode)) {
- 		inode->i_op  = &ftrfs_file_inode_operations;
- 		inode->i_fop = &ftrfs_file_operations;
-+		inode->i_mapping->a_ops = &ftrfs_aops;
- 	} else {
- 		/* Special files: use generic */
- 		init_special_inode(inode, inode->i_mode, 0);
+ /* inode.c */
+ struct inode *ftrfs_iget(struct super_block *sb, unsigned long ino);
 diff --git a/fs/ftrfs/namei.c b/fs/ftrfs/namei.c
-index a8c1f79ebe44..d37ad8b7bc5b 100644
+index d37ad8b7bc5b..63fe96d219bf 100644
 --- a/fs/ftrfs/namei.c
 +++ b/fs/ftrfs/namei.c
-@@ -38,11 +38,10 @@ static int ftrfs_write_inode_raw(struct inode *inode)
- 	raw = (struct ftrfs_inode *)bh->b_data + offset;
- 
- 	raw->i_mode   = cpu_to_le16(inode->i_mode);
--	raw->i_uid    = cpu_to_le16(i_uid_read(inode));
--	raw->i_gid    = cpu_to_le16(i_gid_read(inode));
-+	raw->i_uid    = cpu_to_le32(i_uid_read(inode));
-+	raw->i_gid    = cpu_to_le32(i_gid_read(inode));
- 	raw->i_nlink  = cpu_to_le16(inode->i_nlink);
- 	raw->i_size   = cpu_to_le64(inode->i_size);
--	raw->i_blocks = cpu_to_le32(inode->i_blocks);
- 	raw->i_atime  = cpu_to_le64(inode_get_atime_sec(inode) * NSEC_PER_SEC
- 				     + inode_get_atime_nsec(inode));
- 	raw->i_mtime  = cpu_to_le64(inode_get_mtime_sec(inode) * NSEC_PER_SEC
-@@ -54,6 +53,7 @@ static int ftrfs_write_inode_raw(struct inode *inode)
- 	memcpy(raw->i_direct, fi->i_direct, sizeof(fi->i_direct));
- 	raw->i_indirect  = fi->i_indirect;
- 	raw->i_dindirect = fi->i_dindirect;
-+	raw->i_tindirect = fi->i_tindirect;
- 
- 	raw->i_crc32 = ftrfs_crc32(raw,
- 				    offsetof(struct ftrfs_inode, i_crc32));
-@@ -145,7 +145,6 @@ static int ftrfs_add_dirent(struct inode *dir, const struct qstr *name,
- 
- 	fi->i_direct[i] = cpu_to_le64(block_no);
- 	dir->i_size += FTRFS_BLOCK_SIZE;
--	dir->i_blocks++;
- 	inode_set_mtime_to_ts(dir, current_time(dir));
- 	mark_inode_dirty(dir);
- 
-@@ -223,7 +222,6 @@ struct inode *ftrfs_new_inode(struct inode *dir, umode_t mode)
- 
- 	inode_init_owner(&nop_mnt_idmap, inode, dir, mode);
- 	inode->i_ino    = ino;
--	inode->i_blocks = 0;
- 	inode->i_size   = 0;
- 	inode_set_atime_to_ts(inode, current_time(inode));
- 	inode_set_mtime_to_ts(inode, current_time(inode));
-@@ -242,12 +240,17 @@ struct inode *ftrfs_new_inode(struct inode *dir, umode_t mode)
- 	} else {
- 		inode->i_op  = &ftrfs_file_inode_operations;
- 		inode->i_fop = &ftrfs_file_operations;
-+		inode->i_mapping->a_ops = &ftrfs_aops;
- 		set_nlink(inode, 1);
- 	}
- 
--	insert_inode_hash(inode);
-+	if (insert_inode_locked(inode) < 0) {
-+		make_bad_inode(inode);
-+		iput(inode);
-+		return ERR_PTR(-EIO);
-+	}
- 	mark_inode_dirty(inode);
--	return ERR_CAST(inode);
-+	return inode;
- }
- 
+@@ -425,6 +425,118 @@ int ftrfs_write_inode(struct inode *inode, struct writeback_control *wbc)
+ /* dir inode_operations — exported                                     */
  /* ------------------------------------------------------------------ */
-@@ -277,9 +280,11 @@ static int ftrfs_create(struct mnt_idmap *idmap, struct inode *dir,
- 		goto out_iput;
  
- 	d_instantiate(dentry, inode);
-+	unlock_new_inode(inode);
- 	return 0;
- 
- out_iput:
-+	unlock_new_inode(inode);
- 	iput(inode);
- 	return ret;
- }
-@@ -327,9 +332,11 @@ static struct dentry *ftrfs_mkdir(struct mnt_idmap *idmap, struct inode *dir,
- 		goto out_fail;
- 
- 	d_instantiate(dentry, inode);
-+	unlock_new_inode(inode);
- 	return NULL;
- 
- out_fail:
-+	unlock_new_inode(inode);
- 	inode_dec_link_count(inode);
- 	inode_dec_link_count(inode);
- 	iput(inode);
++/* ------------------------------------------------------------------ */
++/* rename — move/rename a directory entry                              */
++/* ------------------------------------------------------------------ */
++
++static int ftrfs_rename(struct mnt_idmap *idmap,
++			struct inode *old_dir, struct dentry *old_dentry,
++			struct inode *new_dir, struct dentry *new_dentry,
++			unsigned int flags)
++{
++	struct inode *old_inode = d_inode(old_dentry);
++	struct inode *new_inode = d_inode(new_dentry);
++	int	      is_dir    = S_ISDIR(old_inode->i_mode);
++	int	      ret;
++
++	/* FTRFS v1: no RENAME_EXCHANGE or RENAME_WHITEOUT */
++	if (flags & ~RENAME_NOREPLACE)
++		return -EINVAL;
++
++	if (flags & RENAME_NOREPLACE && new_inode)
++		return -EEXIST;
++
++	/*
++	 * If destination exists, unlink it first.
++	 * For directories: target must be empty (nlink == 2: . and ..)
++	 */
++	if (new_inode) {
++		if (is_dir) {
++			if (new_inode->i_nlink > 2)
++				return -ENOTEMPTY;
++		}
++
++		ret = ftrfs_del_dirent(new_dir, &new_dentry->d_name);
++		if (ret)
++			return ret;
++
++		if (is_dir) {
++			inode_dec_link_count(new_inode);
++			inode_dec_link_count(new_inode);
++			inode_dec_link_count(new_dir);
++		} else {
++			inode_dec_link_count(new_inode);
++		}
++
++		inode_set_ctime_to_ts(new_inode, current_time(new_inode));
++	}
++
++	/* Add entry in new_dir */
++	ret = ftrfs_add_dirent(new_dir, &new_dentry->d_name,
++			       old_inode->i_ino,
++			       is_dir ? 4 /* DT_DIR */ : 1 /* DT_REG */);
++	if (ret)
++		return ret;
++
++	/* Remove entry from old_dir */
++	ret = ftrfs_del_dirent(old_dir, &old_dentry->d_name);
++	if (ret) {
++		pr_err("ftrfs: rename: del_dirent failed after add, fs may be inconsistent\n");
++		return ret;
++	}
++
++	/*
++	 * Update ".." in the moved directory to point to new_dir.
++	 * Also fix nlink on old_dir and new_dir.
++	 */
++	if (is_dir && old_dir != new_dir) {
++		struct qstr dotdot = QSTR_INIT("..", 2);
++
++		ret = ftrfs_del_dirent(old_inode, &dotdot);
++		if (ret)
++			return ret;
++
++		ret = ftrfs_add_dirent(old_inode, &dotdot,
++				       new_dir->i_ino, 4 /* DT_DIR */);
++		if (ret)
++			return ret;
++
++		inode_dec_link_count(old_dir);
++		inode_inc_link_count(new_dir);
++
++		ret = ftrfs_write_inode_raw(old_inode);
++		if (ret)
++			return ret;
++	}
++
++	/* Update timestamps */
++	inode_set_ctime_to_ts(old_inode, current_time(old_inode));
++	inode_set_mtime_to_ts(old_dir,   current_time(old_dir));
++	inode_set_ctime_to_ts(old_dir,   current_time(old_dir));
++	inode_set_mtime_to_ts(new_dir,   current_time(new_dir));
++	inode_set_ctime_to_ts(new_dir,   current_time(new_dir));
++
++	/* Persist all touched inodes */
++	ret = ftrfs_write_inode_raw(old_inode);
++	if (ret)
++		return ret;
++
++	ret = ftrfs_write_inode_raw(old_dir);
++	if (ret)
++		return ret;
++
++	if (old_dir != new_dir) {
++		ret = ftrfs_write_inode_raw(new_dir);
++		if (ret)
++			return ret;
++	}
++
++	if (new_inode)
++		ftrfs_write_inode_raw(new_inode);
++
++	return 0;
++}
++
+ const struct inode_operations ftrfs_dir_inode_operations = {
+ 	.lookup  = ftrfs_lookup,
+ 	.create  = ftrfs_create,
+@@ -432,4 +544,5 @@ const struct inode_operations ftrfs_dir_inode_operations = {
+ 	.unlink  = ftrfs_unlink,
+ 	.rmdir   = ftrfs_rmdir,
+ 	.link    = ftrfs_link,
++	.rename  = ftrfs_rename,
+ };
 diff --git a/fs/ftrfs/super.c b/fs/ftrfs/super.c
-index 8acc6292124b..bce7148ee3e2 100644
+index bce7148ee3e2..52d9b0b6f916 100644
 --- a/fs/ftrfs/super.c
 +++ b/fs/ftrfs/super.c
-@@ -252,6 +252,8 @@ static int __init ftrfs_init(void)
- 		return ret;
- 	}
+@@ -88,6 +88,47 @@ static const struct super_operations ftrfs_super_ops = {
+ 	.statfs         = ftrfs_statfs,
+ };
  
-+	BUILD_BUG_ON(sizeof(struct ftrfs_super_block) != FTRFS_BLOCK_SIZE);
-+	BUILD_BUG_ON(sizeof(struct ftrfs_inode) != 256);
- 	pr_info("ftrfs: module loaded (FTRFS Fault-Tolerant Radiation-Robust FS)\n");
- 	return 0;
- }
++/*
++ * ftrfs_log_rs_event - record a Reed-Solomon correction in the superblock
++ * @sb:        mounted superblock
++ * @block_no:  block number where correction occurred
++ * @err_bits:  number of symbols corrected
++ *
++ * Writes to the persistent ring buffer in the superblock.
++ * Safe to call from any context (spinlock protected).
++ */
++void ftrfs_log_rs_event(struct super_block *sb, u64 block_no, u32 err_bits)
++{
++	struct ftrfs_sb_info     *sbi = FTRFS_SB(sb);
++	struct ftrfs_super_block *fsb;
++	struct ftrfs_rs_event    *ev;
++	u8 head;
++
++	if (!sbi || !sbi->s_sbh)
++		return;
++
++	spin_lock(&sbi->s_lock);
++
++	fsb  = (struct ftrfs_super_block *)sbi->s_sbh->b_data;
++	head = fsb->s_rs_journal_head % FTRFS_RS_JOURNAL_SIZE;
++	ev   = &fsb->s_rs_journal[head];
++
++	ev->re_block_no   = cpu_to_le64(block_no);
++	ev->re_timestamp  = cpu_to_le64(ktime_get_ns());
++	ev->re_error_bits = cpu_to_le32(err_bits);
++	ev->re_crc32      = cpu_to_le32(
++		ftrfs_crc32(ev, offsetof(struct ftrfs_rs_event, re_crc32)));
++
++	fsb->s_rs_journal_head = (head + 1) % FTRFS_RS_JOURNAL_SIZE;
++
++	mark_buffer_dirty(sbi->s_sbh);
++
++	spin_unlock(&sbi->s_lock);
++
++	pr_debug("ftrfs: RS correction block=%llu symbols=%u\n",
++		 block_no, err_bits);
++}
++
+ /*
+  * ftrfs_fill_super — read superblock from disk and initialize VFS sb
+  */
 -- 
 2.52.0
 
