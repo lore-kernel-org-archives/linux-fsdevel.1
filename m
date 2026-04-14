@@ -1,50 +1,50 @@
-Received: from mail-oa1-f80.google.com (mail-oa1-f80.google.com [209.85.160.80])
+Received: from mail-oa1-f79.google.com (mail-oa1-f79.google.com [209.85.160.79])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2E2F358367
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D73638A710
 	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 23:20:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.80
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.79
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776208850; cv=none; b=XD4poPxMGv+43WvsVl4GKlFNNujClEvQ3ntXU/c4etU2ztRdJFu8Ioc2p/QvUEiVH7JJDbaGuRf5BmE36z7KNCCjaFFECeEmiF988punwtczBH1pN2W5kB+B7UVXwMXdQrTt/4NtZVz7UVu4M5txoGm71ezPcSEngMyg+IVf87M=
+	t=1776208850; cv=none; b=Z81xlwqbR19UubM4UZoz6zuTde921Zsg/YOARvpX96gf08jgbgqOO6kjnPfNFHkAMYP1P0ucIPXV4AkGOe1QiJ/GPrwpnuloQUxVMemjhVNxEh9ndPSOXKNaVNQXPwP4JNepjWLPooHSjDL0EawKA+T7+0x3h3CLoRf8jrB2JW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1776208850; c=relaxed/simple;
-	bh=NY2uLHN8SidzwT+5WuVcjmzJWb88q9PiKVr5fd0Sfi4=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=QBQ11Smja7NKM49XuMKG6qr1tH9zWZODZk4RON4E1V53WZFlXZnjwPjJwqgZTgjbPia5YGK3B45gY0suxrk+76iyAvw4R0aVqE4c0KIRsi8698LquyfwyOIogbGlJc2Il5q2ECIqkakDPKgR/b4keu5hnFukPrABZwiw1ilqX5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.80
+	bh=6JOf/hIBiqX2D7949boXh1336cGQ+q47OYt8p5XGIYE=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=n9I9gfWlI940wtg1OOPsXX4dzQeSusaeNOqq7eqoh43mojerMdxFSVylfo5+XNhGsggnI3m8OUpD1dU/1Ok3bBqYCXUxVzT3vUY3GZzZeAb4wTxWH2Ze1ElOjWqZRphzzbIUlvIjsgoUBdQrcff6YgnuFGP3C4wZOZtiF3h9+8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.79
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oa1-f80.google.com with SMTP id 586e51a60fabf-40a4d2264abso12176416fac.2
+Received: by mail-oa1-f79.google.com with SMTP id 586e51a60fabf-40ad1c724daso9598056fac.3
         for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 16:20:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776208847; x=1776813647;
+        d=1e100.net; s=20251104; t=1776208848; x=1776813648;
         h=to:from:subject:message-id:date:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=TXGIJMGbwoMOQTyKqYXmmRKhfwZTsunbcz9va/m6wTY=;
-        b=jC3f8jpFsIvLZmIGvYMW83v1TdzfigaG4rXjG5wC8DqrFlyh6iiEuTFMRQg97ySpEV
-         Z6k1uCf0JsAW1umPyA9IytNFfD5PnHdVJaTBJ7pRp1VW/eRsRYv2bHCVw/u0hd0PEt0H
-         mCFTK9nZ4EUr9blEbCIvZbUTmV7DYVXp3meuBDQK3vKAzHka49v9pWTnPJrVaOiFfS0a
-         /YIqkWcxdvn7hf+p0C5SV0rIEL4teoVnx8VBJs3EeSVWyCozJ+RDpqAPv4KS32PzRxoj
-         iN3WU6wrWjkUvFmjmNRiak2s2EMxhm2TwWeIhhyZ+xzkwyNECCJZBixvbEbN94Xp/4+c
-         l7Jg==
-X-Forwarded-Encrypted: i=1; AFNElJ9RHltXqQQgCZmLtopPlde3gY42Fgjv83tyrFnE3YQaxRc30Fsdt6Ql6//BxnAe7igVrQFcWc9Qglu1IK5s@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy7OEwIwzqClI46KJ15PpoqAvl0Yy7Op4irF37/qX1+NcMsUd12
-	pJc1pzgiMoNBCx47BsDWbq9eGcfnrlj2ia1AqZfcl4TWxxfSVaeKvh6PnDz8e3t8nCA3pNCLRIz
-	mF9FCjyop4OQAz0VJ5p3om6YOzgrtb/tmNaaYZPQpi4gF8lb0ntWxpotSzto=
+        bh=3KG01RFFg8KZFhfZ6cLVjTgJntF7tjXwqDBRwaszFvY=;
+        b=aM1QxrF31KuUQ01rhClXWZnV1WSsRa9SfM3Ah1yb+9GDtu0k5P6Y4Y53mqS36MDwY4
+         rjP/TWFgXky5FRrljWrvN1qCnSgsoYGdFdui5pk8ddsNRWg2vhPreYoVIRXEJEdJtzen
+         uSjRRcrc1m4ce8cmL0+9lKVhy84GAnkOV7MVgCJfRPrN34ElkUkWGkXoxcyfsQpgd86l
+         ua1GApvc9z970iL/k1g9eDr0Hh9n1QVQqUUdCH+eFyok/fLnaS1Nxm01jRHmOOtFCDla
+         3mdkoe2STdUpph702ETvSfOLlOhQ5ZCRbdg8qiwc/p8dbsH630nGRfiRc1rW9SWhM3Pe
+         +aWg==
+X-Forwarded-Encrypted: i=1; AFNElJ91HfI4dbbMUnPNsJUVM2W0l+8/bzKMb8WnajumUug85pHwTCJjt+FmDe0Rz/hJSW6+Gwhrt+vugFb9s2zc@vger.kernel.org
+X-Gm-Message-State: AOJu0YxAzJ/+xtsOX/baTxbUV0aL7t4ZcW1pkmoTTRbqGOh1LYzUpAgE
+	hKWlMW5PuqlfIGv4Vyxp1VDhaUm7V8ACn12XRzMWqj2Vx7cf+VLVq5RKQC/ScH1oWWYf7hmtYQI
+	1wUiczCnxe93npEM+C0m/cM7pxzqQ+Ac6PJlK0/g7G8cfY3LE+B1EzHn1QKw=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:a289:20b0:68a:1294:c9 with SMTP id
- 006d021491bc7-68be8be18bcmr7021691eaf.62.1776208847640; Tue, 14 Apr 2026
- 16:20:47 -0700 (PDT)
-Date: Tue, 14 Apr 2026 16:20:47 -0700
+X-Received: by 2002:a05:6820:308d:b0:692:9993:3fad with SMTP id
+ 006d021491bc7-692999347b6mr1424088eaf.64.1776208848133; Tue, 14 Apr 2026
+ 16:20:48 -0700 (PDT)
+Date: Tue, 14 Apr 2026 16:20:48 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <69decbcf.a00a0220.468cb.0069.GAE@google.com>
-Subject: [syzbot] [hfs?] general protection fault in __hfsplus_setxattr
-From: syzbot <syzbot+bc70a12e438dadba4fb4@syzkaller.appspotmail.com>
+Message-ID: <69decbd0.a00a0220.468cb.006b.GAE@google.com>
+Subject: [syzbot] [hfs?] KMSAN: uninit-value in hfsplus_bnode_find
+From: syzbot <syzbot+217eb327242d08197efb@syzkaller.appspotmail.com>
 To: frank.li@vivo.com, glaubitz@physik.fu-berlin.de, 
 	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	slava@dubeyko.com, syzkaller-bugs@googlegroups.com
@@ -56,98 +56,54 @@ syzbot found the following issue on:
 
 HEAD commit:    d60bc1401583 Merge tag 'pwrseq-updates-for-v7.1-rc1' of gi..
 git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=1605b036580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=85bd86f990609a1
-dashboard link: https://syzkaller.appspot.com/bug?extid=bc70a12e438dadba4fb4
+console output: https://syzkaller.appspot.com/x/log.txt?x=16cbe8ce580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=6b03ae1ea24aea48
+dashboard link: https://syzkaller.appspot.com/bug?extid=217eb327242d08197efb
 compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=143efeba580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1769e8ce580000
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13fe84ce580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11d5feba580000
 
 Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/c962a506ef36/disk-d60bc140.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/8590a2666b51/vmlinux-d60bc140.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/75aa1f8fc11f/bzImage-d60bc140.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/e3cd44efac38/mount_0.gz
+disk image: https://storage.googleapis.com/syzbot-assets/0751271be83e/disk-d60bc140.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/f53e11b04b29/vmlinux-d60bc140.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/4c57f9a8e1f1/bzImage-d60bc140.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/438dc293e7d9/mount_0.gz
 
 IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+bc70a12e438dadba4fb4@syzkaller.appspotmail.com
+Reported-by: syzbot+217eb327242d08197efb@syzkaller.appspotmail.com
 
 loop0: detected capacity change from 0 to 1024
-Oops: general protection fault, probably for non-canonical address 0xdffffc0000000001: 0000 [#1] SMP KASAN NOPTI
-KASAN: null-ptr-deref in range [0x0000000000000008-0x000000000000000f]
-CPU: 1 UID: 0 PID: 5977 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 03/18/2026
-RIP: 0010:hfsplus_create_attributes_file fs/hfsplus/xattr.c:320 [inline]
-RIP: 0010:__hfsplus_setxattr+0x1c68/0x2860 fs/hfsplus/xattr.c:432
-Code: 8b 36 49 83 c6 30 4c 89 f0 48 c1 e8 03 42 80 3c 20 00 74 08 4c 89 f7 e8 46 f8 80 ff 4d 8b 36 49 83 c6 08 4c 89 f0 48 c1 e8 03 <42> 80 3c 20 00 74 08 4c 89 f7 e8 29 f8 80 ff 4d 8b 36 49 8d 7e 90
-RSP: 0018:ffffc90002f37420 EFLAGS: 00010212
-RAX: 0000000000000001 RBX: fffff520005e6ea4 RCX: ffff88802f39db80
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-RBP: ffffc90002f378f8 R08: ffffea00017e23f7 R09: 1ffffd40002fc47e
-R10: dffffc0000000000 R11: fffff940002fc47f R12: dffffc0000000000
-R13: ffff88802bb42a30 R14: 0000000000000008 R15: ffff88802bb43740
-FS:  000055555c219500(0000) GS:ffff88812554b000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f407bb7b000 CR3: 0000000077cf5000 CR4: 0000000000350ef0
-Call Trace:
- <TASK>
- hfsplus_setxattr+0x124/0x340 fs/hfsplus/xattr.c:555
- hfsplus_trusted_setxattr+0x40/0x60 fs/hfsplus/xattr_trusted.c:30
- __vfs_setxattr+0x43c/0x480 fs/xattr.c:218
- __vfs_setxattr_noperm+0x12d/0x660 fs/xattr.c:252
- vfs_setxattr+0x163/0x360 fs/xattr.c:339
- do_setxattr fs/xattr.c:654 [inline]
- filename_setxattr+0x296/0x630 fs/xattr.c:682
- path_setxattrat+0x3eb/0x440 fs/xattr.c:726
- __do_sys_setxattr fs/xattr.c:760 [inline]
- __se_sys_setxattr fs/xattr.c:756 [inline]
- __x64_sys_setxattr+0xbc/0xe0 fs/xattr.c:756
+hfsplus: requested invalid offset: NODE: id 0, type 0x1, height 0, node_size 1, offset 4294967295
+=====================================================
+BUG: KMSAN: uninit-value in hfsplus_bnode_find+0x141c/0x1600 fs/hfsplus/bnode.c:584
+ hfsplus_bnode_find+0x141c/0x1600 fs/hfsplus/bnode.c:584
+ hfsplus_btree_open+0x169a/0x1e40 fs/hfsplus/btree.c:382
+ hfsplus_fill_super+0x111f/0x2770 fs/hfsplus/super.c:553
+ get_tree_bdev_flags+0x6e6/0x920 fs/super.c:1694
+ get_tree_bdev+0x38/0x50 fs/super.c:1717
+ hfsplus_get_tree+0x35/0x40 fs/hfsplus/super.c:709
+ vfs_get_tree+0xb3/0x5d0 fs/super.c:1754
+ fc_mount fs/namespace.c:1193 [inline]
+ do_new_mount_fc fs/namespace.c:3763 [inline]
+ do_new_mount+0x885/0x1dd0 fs/namespace.c:3839
+ path_mount+0x7a2/0x20b0 fs/namespace.c:4159
+ do_mount fs/namespace.c:4172 [inline]
+ __do_sys_mount fs/namespace.c:4361 [inline]
+ __se_sys_mount+0x704/0x7f0 fs/namespace.c:4338
+ __x64_sys_mount+0xe4/0x150 fs/namespace.c:4338
+ x64_sys_call+0x39f0/0x3ea0 arch/x86/include/generated/asm/syscalls_64.h:166
  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x15f/0xf80 arch/x86/entry/syscall_64.c:94
+ do_syscall_64+0x134/0xf80 arch/x86/entry/syscall_64.c:94
  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fcafdf9c819
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffd135f08f8 EFLAGS: 00000246 ORIG_RAX: 00000000000000bc
-RAX: ffffffffffffffda RBX: 00007fcafe215fa0 RCX: 00007fcafdf9c819
-RDX: 0000200000001400 RSI: 00002000000001c0 RDI: 0000200000000380
-RBP: 00007fcafe032c91 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000835 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007fcafe215fac R14: 00007fcafe215fa0 R15: 00007fcafe215fa0
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:hfsplus_create_attributes_file fs/hfsplus/xattr.c:320 [inline]
-RIP: 0010:__hfsplus_setxattr+0x1c68/0x2860 fs/hfsplus/xattr.c:432
-Code: 8b 36 49 83 c6 30 4c 89 f0 48 c1 e8 03 42 80 3c 20 00 74 08 4c 89 f7 e8 46 f8 80 ff 4d 8b 36 49 83 c6 08 4c 89 f0 48 c1 e8 03 <42> 80 3c 20 00 74 08 4c 89 f7 e8 29 f8 80 ff 4d 8b 36 49 8d 7e 90
-RSP: 0018:ffffc90002f37420 EFLAGS: 00010212
-RAX: 0000000000000001 RBX: fffff520005e6ea4 RCX: ffff88802f39db80
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-RBP: ffffc90002f378f8 R08: ffffea00017e23f7 R09: 1ffffd40002fc47e
-R10: dffffc0000000000 R11: fffff940002fc47f R12: dffffc0000000000
-R13: ffff88802bb42a30 R14: 0000000000000008 R15: ffff88802bb43740
-FS:  000055555c219500(0000) GS:ffff88812544b000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000562d49fd15e0 CR3: 0000000077cf5000 CR4: 0000000000350ef0
-----------------
-Code disassembly (best guess):
-   0:	8b 36                	mov    (%rsi),%esi
-   2:	49 83 c6 30          	add    $0x30,%r14
-   6:	4c 89 f0             	mov    %r14,%rax
-   9:	48 c1 e8 03          	shr    $0x3,%rax
-   d:	42 80 3c 20 00       	cmpb   $0x0,(%rax,%r12,1)
-  12:	74 08                	je     0x1c
-  14:	4c 89 f7             	mov    %r14,%rdi
-  17:	e8 46 f8 80 ff       	call   0xff80f862
-  1c:	4d 8b 36             	mov    (%r14),%r14
-  1f:	49 83 c6 08          	add    $0x8,%r14
-  23:	4c 89 f0             	mov    %r14,%rax
-  26:	48 c1 e8 03          	shr    $0x3,%rax
-* 2a:	42 80 3c 20 00       	cmpb   $0x0,(%rax,%r12,1) <-- trapping instruction
-  2f:	74 08                	je     0x39
-  31:	4c 89 f7             	mov    %r14,%rdi
-  34:	e8 29 f8 80 ff       	call   0xff80f862
-  39:	4d 8b 36             	mov    (%r14),%r14
-  3c:	49 8d 7e 90          	lea    -0x70(%r14),%rdi
+
+Local variable data.i created at:
+ hfsplus_bnode_read_u16 fs/hfsplus/bnode.c:58 [inline]
+ hfsplus_bnode_find+0xd6f/0x1600 fs/hfsplus/bnode.c:583
+ hfsplus_btree_open+0x169a/0x1e40 fs/hfsplus/btree.c:382
+
+CPU: 0 UID: 0 PID: 6044 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 03/18/2026
+=====================================================
 
 
 ---
