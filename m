@@ -1,129 +1,159 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f77.google.com (mail-oo1-f77.google.com [209.85.161.77])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4B002D4B68
-	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 13:53:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C7D23D9DBC
+	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 13:58:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776174825; cv=none; b=SeOihNONAudB0PiKZsgbJgdKT9J9yo50zFSdJlmWb0SyM7JKX8nyAjEr9D7E5CcaHDLi8dz6sw9JDTUCaJSisRy1WE5pkY6Hxucgvi0TS7XhncuZLpLQX5cT1rkDOitKXkw37DzubXM41426KNYdMmCdM0oA0gd/tZAJnhj7qXs=
+	t=1776175112; cv=none; b=GlA2AfLV+XOwWthXFwJQzy0IHa+0RRzyvdM09Ar/2X97W13BGnBExHVrbeHBjfbjbNBRHNTDkTjyhQ/GgUY9rwujNYK3+lAcjXOxJwLTJtFKC6C5DFfhJ+M3akJL7welghH3AsBGMqUfJmCdnw0SB0G/THpsukN4h95B8Nu0E6s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776174825; c=relaxed/simple;
-	bh=zqDrKV4/Tx3b7Hkm4HZGlLUnVsA7Xl9FQkWdRSU4yPE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i+xLWL7CF+gJ5aLbwTnCYqXbdUL4SFYnStvYyt0xhF+oNp33puezaujRsj57ujwL6E5BaQ2KDtvaMFB9o7uyW6bwxBkwWXWhA0OgtFs6wiz4YDSefx7RHieXios5ZBDZfgKAOU54TNFVXm1r30Wze5s7YahXG76ExuX/DX9toNE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SBNKXcuu; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=CVoH5aN4; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SBNKXcuu";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="CVoH5aN4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1776174821;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YY1Mbdcw/s+c+i+V6kA9q5Q93RsUlrrtxkE/+YiJlwM=;
-	b=SBNKXcuuXicvW3yBITJHxAHD0uZTxX2YPH8/wZAImg5DK3UOiC9qaZs+yRvvypbdqbwoxW
-	6TmsIIrvuL7WTloLVdi1ZDO2H3Tbu89T6ywkvT2YhoEmUaPj+zswo17Rhgym3pjNojguGy
-	td2LhwZCnqAy2GnvJcb5yHtO8S9ZioI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-532-jhk0-96kOYCvfn0VNwCSFA-1; Tue, 14 Apr 2026 09:53:40 -0400
-X-MC-Unique: jhk0-96kOYCvfn0VNwCSFA-1
-X-Mimecast-MFC-AGG-ID: jhk0-96kOYCvfn0VNwCSFA_1776174819
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-488c74405ecso34916995e9.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 06:53:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1776174819; x=1776779619; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=YY1Mbdcw/s+c+i+V6kA9q5Q93RsUlrrtxkE/+YiJlwM=;
-        b=CVoH5aN4DpoqApDooihL61VKCQD7mFM41Zitzeq66vznwU7tOa1d0XKtW1LNO7l/D6
-         BD1tUII0Sn8Sx9hKw4JwImDScNyL7HvnQY7B5m96+UEnBoaYZhGh7BUN2r9rGIrVxwYT
-         xl/wAi88G9UPbLpmmTLE56vRZ0BflAYcrVNeQppN9jY7vE1RaMVCgAu3P16WXb11BA/p
-         UpdTomNoWia9jThlVsAodPz0nTh3Dti64QlGuXrjuevNS4YnONfP9+svmi9AsHEc51gG
-         8c6IoA9x/Y60mwKYHdTYrPobJgu2A8FYj/fii1Q6kKO+8/gNZ9DwAWxGohbvHqR0oqA9
-         OdRA==
+	s=arc-20240116; t=1776175112; c=relaxed/simple;
+	bh=J4D67UWjuFui1G+Wxv//O7qqWMvG1YuiXR7YExP6Rlk=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=GyX2KAuSrXYF7gd6bJj+AcpAaQWfClxylHTeY5Ji5H0iGfjLwILfAQaiSSPoCeS9g2RIHk/pcWOLHo+l0JDcUSElUW3N4ZlDa2ivNnxRaMlMYvmyC+EqLWk4bj547nuMylqSJRHYwOqqoN5s6PPVwEnK1hvdmoN8TYhevJEMxUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f77.google.com with SMTP id 006d021491bc7-68240056f4cso10455523eaf.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 06:58:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776174819; x=1776779619;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YY1Mbdcw/s+c+i+V6kA9q5Q93RsUlrrtxkE/+YiJlwM=;
-        b=PZkiexA309guWHxoW+BNzwpx6oxvLbi2QK8mqbuf0oUhGaShyZXJM2wmNJK7hf/nir
-         ZaN9JqJMjKvQQnU1VWJkukq6vumCgDE4h4NMxjHp0k6dLAQABuOOF7bhKsBaKxaOL0S3
-         kWHVHGUa4SV0OFlY+ylgSom+62Eyogi0LlkwH3yS3N4blZdfitIPEPmeEFWocksgIQPC
-         A0flgQioGU0r0W4WACKKIkXpU1vWF6n1S8gYb/7VSSkWTJpLJ66KWXNuICVEz11H8BtW
-         4wt1ohda7dftmo1qA9ZHy6+RG7vKQ26Hu3DaiitGvfCZYBiqpjhZsh8mbObu3EEPF664
-         ixcw==
-X-Forwarded-Encrypted: i=1; AFNElJ9/Ul5slvQA8Jl+vnXtz8VdmbMRHjA5ga2lmMc9O4jdSye0GJCTKqjr6fKl5hb/PbVu9GmUrZPVm9hgRQ76@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzd3pQTTL0IwgXI4UwZ2FsKeiid+iYek3z86WMuEsYW0YUpTg9L
-	gP2A4lQF/Ysx1+l5O6xbV40zbPtlBMt48J1lVBWGbizQsl8D5X08LZlR2FGIiiRm1JIfSP887Du
-	q+l86sFT28movOlkbOVOg1670knLpMriLMEuhL+5aR9FAGCQXfy4IqIqFLtGQ4X5PXbZcV+QdU6
-	7N
-X-Gm-Gg: AeBDieuMsUyRA6AaCEKWRlLotblcCUyk/X6Wk29rupnBuEGigL6kKmjCnfhyD18ClAl
-	lf7pLWg9H501SbAQzMyUoBtawkN4ZUZTJioAU3/WncPbjFAnvvC0wnVREhmdigH+X+BD7B+6VZ3
-	uFEGwFbS4AVAQWrRrU1U5KRj0TU2qIfoCZO7/Ds9SenCt3U/yKnadybJyZnQRQaEIkq/mFfXKfQ
-	28UsoxE/qV7HqQQ5a4Wy/IUMjbGXCzdF10f0g5Ee8LnoS/p9WttgaC3MLUhVgHAOeFoOZ43cHv/
-	ke9L4xLVvAQIfnif5uvBiC298NSNCfrbwckoYgA9X7drDaozL8I/GoCXrLILZYQ5svQJnNYpFRF
-	ZMYJuhtB1CZbbdA==
-X-Received: by 2002:a05:600c:a109:b0:477:76bf:e1fb with SMTP id 5b1f17b1804b1-488d6843245mr171916495e9.16.1776174818756;
-        Tue, 14 Apr 2026 06:53:38 -0700 (PDT)
-X-Received: by 2002:a05:600c:a109:b0:477:76bf:e1fb with SMTP id 5b1f17b1804b1-488d6843245mr171916275e9.16.1776174818293;
-        Tue, 14 Apr 2026 06:53:38 -0700 (PDT)
-Received: from thinky ([91.245.205.131])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488d5cfeb2dsm124119015e9.0.2026.04.14.06.53.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Apr 2026 06:53:37 -0700 (PDT)
-Date: Tue, 14 Apr 2026 15:53:36 +0200
-From: Andrey Albershteyn <aalbersh@redhat.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Andrey Albershteyn <aalbersh@kernel.org>, linux-xfs@vger.kernel.org, 
-	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org, ebiggers@kernel.org, 
-	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
-	linux-btrfs@vger.kernel.org, djwong@kernel.org
-Subject: Re: [PATCH v7 03/22] ovl: use core fsverity ensure info interface
-Message-ID: <u3szxuhjrv7vyxwyrepuflwhzeucss7xj3cxj73mnpm5kal2da@jck24ig4oxxa>
-References: <20260409131404.1545834-1-aalbersh@kernel.org>
- <20260409131404.1545834-4-aalbersh@kernel.org>
- <20260414081301.GB11138@lst.de>
+        d=1e100.net; s=20251104; t=1776175110; x=1776779910;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hBgdAsL//GQnTapAXF/VlCVSr0qK85PQANpDue0Mnv0=;
+        b=OgX9yaNqpcOO9c4980yD79UPqA7VybS/EZGvtV7Kjbzh1YPpw7rZHQsVBLWzlaGm9t
+         1AdAUFHn8ejhEoqAHOU2TVsgJanZUTEsVra6TPZ3qZqLPlutM4ZjlMKRyThK8y9FCLcI
+         XuDZG4svk14bUZMNTLmp/hQ4V6GXk39FtemLiJeNcxoqRy2TXPfjOhNwJxOaEPuTMtxK
+         RgM5A/f3NudDVtm0nET6oZ6CCdizTFGbRS1tFa7xc4JSl4dbv1XGT6RHyHm4n1qIej3f
+         NcEG8peCForGkE06bqxtlH5kdPk+eIptmVya0zTYj0tmn1Dxq3a7TbJ7X/X9IhBtH6H9
+         on9w==
+X-Forwarded-Encrypted: i=1; AFNElJ8Rpz49IUQS0WWTVydZ3rr0Ed0IUKqdVltWoRFUkcasbgbd4zuDO7j/sKKf3H+V1na95c5xhE2dqJqjmKqi@vger.kernel.org
+X-Gm-Message-State: AOJu0YyWph1P+cclyZ6ny4JzzMw1TU/N8oOy6abLSJWzucQ5JXN7hxt6
+	Yte72X8Cs+/rUYbvHhS/aEP6c5j76iSgv041Pl2EzJKf1/yhOuVPV5c0KELhec/dUdPp2Ck5pDA
+	uJfkNJ7RTe6+JtQ09kis4U4iHy5uA8+PvGbbPcviB35aC1/htMXHhk8JDBLw=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260414081301.GB11138@lst.de>
+X-Received: by 2002:a4a:ef03:0:b0:67b:b0bd:8bd2 with SMTP id
+ 006d021491bc7-68be89e6708mr5870736eaf.59.1776175110028; Tue, 14 Apr 2026
+ 06:58:30 -0700 (PDT)
+Date: Tue, 14 Apr 2026 06:58:30 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <69de4806.a00a0220.475f0.0043.GAE@google.com>
+Subject: [syzbot] [netfs?] general protection fault in netfs_put_subrequest
+From: syzbot <syzbot+a0788ffdca16ee21c493@syzkaller.appspotmail.com>
+To: dhowells@redhat.com, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, netfs@lists.linux.dev, pc@manguebit.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On 2026-04-14 10:13:01, Christoph Hellwig wrote:
-> On Thu, Apr 09, 2026 at 03:13:35PM +0200, Andrey Albershteyn wrote:
-> > -	if (!fsverity_active(inode) && IS_VERITY(inode)) {
-> > -		/*
-> > -		 * If this inode was not yet opened, the verity info hasn't been
-> > -		 * loaded yet, so we need to do that here to force it into memory.
-> > -		 */
-> > -		filp = kernel_file_open(datapath, O_RDONLY, current_cred());
-> > -		if (IS_ERR(filp))
-> > -			return PTR_ERR(filp);
-> > -		fput(filp);
-> > -	}
-> > +	if (fsverity_active(inode))
-> > +		fsverity_ensure_verity_info(inode);
-> 
-> fsverity_ensure_verity_info already is a no-op for !fsverity_active,
-> so the check could be remove.
+Hello,
 
-I don't think it is. For non-fsverity inodes it will try to call into
-descriptor reading callback and fail.
+syzbot found the following issue on:
 
-> Also we should probably propagate the
-> error return from fsverity_ensure_verity_info here.
+HEAD commit:    9a9c8ce300cd Merge tag 'kbuild-fixes-7.0-4' of git://git.k..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=142de106580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=5a3e5e8c17cc174e
+dashboard link: https://syzkaller.appspot.com/bug?extid=a0788ffdca16ee21c493
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
 
-oh right, thanks!
+Unfortunately, I don't have any reproducer for this issue yet.
 
--- 
-- Andrey
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-9a9c8ce3.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/073107a6c46a/vmlinux-9a9c8ce3.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/f6457493483c/bzImage-9a9c8ce3.xz
 
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+a0788ffdca16ee21c493@syzkaller.appspotmail.com
+
+Oops: general protection fault, probably for non-canonical address 0xdffffc0000000055: 0000 [#1] SMP KASAN NOPTI
+KASAN: null-ptr-deref in range [0x00000000000002a8-0x00000000000002af]
+CPU: 1 UID: 0 PID: 1247 Comm: kworker/u32:10 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+Workqueue: events_unbound netfs_unbuffered_write_async
+
+RIP: 0010:netfs_put_subrequest+0x88/0x4e0 fs/netfs/objects.c:248
+Code: df 48 c1 ea 03 80 3c 02 00 0f 85 fa 03 00 00 48 b8 00 00 00 00 00 fc ff df 48 8b 2b 48 8d bd ac 02 00 00 48 89 fa 48 c1 ea 03 <0f> b6 14 02 48 89 f8 83 e0 07 83 c0 03 38 d0 7c 08 84 d2 0f 85 96
+RSP: 0018:ffffc9000619fa48 EFLAGS: 00010207
+RAX: dffffc0000000000 RBX: ffff88804679adc0 RCX: 0000000000000000
+RDX: 0000000000000055 RSI: 0000000000000008 RDI: 00000000000002ac
+RBP: 0000000000000000 R08: 1ffff110055b509b R09: 0000000000000000
+R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000007
+R13: 0000000000000001 R14: 0000000000000002 R15: ffff88804679ae10
+FS:  0000000000000000(0000) GS:ffff8880d6438000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000000000 CR3: 000000002b072000 CR4: 0000000000352ef0
+Call Trace:
+ <TASK>
+ netfs_clear_subrequests+0x158/0x260 fs/netfs/objects.c:106
+ netfs_unbuffered_write_done fs/netfs/direct_write.c:59 [inline]
+ netfs_unbuffered_write+0x13ac/0x2260 fs/netfs/direct_write.c:202
+ netfs_unbuffered_write_async+0x19/0x30 fs/netfs/direct_write.c:211
+ process_one_work+0xa23/0x19a0 kernel/workqueue.c:3276
+ process_scheduled_works kernel/workqueue.c:3359 [inline]
+ worker_thread+0x5ef/0xe50 kernel/workqueue.c:3440
+ kthread+0x370/0x450 kernel/kthread.c:436
+ ret_from_fork+0x754/0xd80 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:netfs_put_subrequest+0x88/0x4e0 fs/netfs/objects.c:248
+Code: df 48 c1 ea 03 80 3c 02 00 0f 85 fa 03 00 00 48 b8 00 00 00 00 00 fc ff df 48 8b 2b 48 8d bd ac 02 00 00 48 89 fa 48 c1 ea 03 <0f> b6 14 02 48 89 f8 83 e0 07 83 c0 03 38 d0 7c 08 84 d2 0f 85 96
+RSP: 0018:ffffc9000619fa48 EFLAGS: 00010207
+RAX: dffffc0000000000 RBX: ffff88804679adc0 RCX: 0000000000000000
+RDX: 0000000000000055 RSI: 0000000000000008 RDI: 00000000000002ac
+RBP: 0000000000000000 R08: 1ffff110055b509b R09: 0000000000000000
+R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000007
+R13: 0000000000000001 R14: 0000000000000002 R15: ffff88804679ae10
+FS:  0000000000000000(0000) GS:ffff8880d6438000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000000000 CR3: 0000000031877000 CR4: 0000000000352ef0
+----------------
+Code disassembly (best guess), 1 bytes skipped:
+   0:	48 c1 ea 03          	shr    $0x3,%rdx
+   4:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1)
+   8:	0f 85 fa 03 00 00    	jne    0x408
+   e:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
+  15:	fc ff df
+  18:	48 8b 2b             	mov    (%rbx),%rbp
+  1b:	48 8d bd ac 02 00 00 	lea    0x2ac(%rbp),%rdi
+  22:	48 89 fa             	mov    %rdi,%rdx
+  25:	48 c1 ea 03          	shr    $0x3,%rdx
+* 29:	0f b6 14 02          	movzbl (%rdx,%rax,1),%edx <-- trapping instruction
+  2d:	48 89 f8             	mov    %rdi,%rax
+  30:	83 e0 07             	and    $0x7,%eax
+  33:	83 c0 03             	add    $0x3,%eax
+  36:	38 d0                	cmp    %dl,%al
+  38:	7c 08                	jl     0x42
+  3a:	84 d2                	test   %dl,%dl
+  3c:	0f                   	.byte 0xf
+  3d:	85                   	.byte 0x85
+  3e:	96                   	xchg   %eax,%esi
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
