@@ -1,100 +1,69 @@
-Received: from fout-a2-smtp.messagingengine.com (fout-a2-smtp.messagingengine.com [103.168.172.145])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19023330D23
-	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 14:26:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A4913DCDBB;
+	Tue, 14 Apr 2026 14:27:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776176819; cv=none; b=GlXuDHXflk7QLILDebGraoPFy1mRSbYERU1Z121cl858UYaUBg3BkxKQdT0mNiyPILoFnH5PEdjC+PJZ3FWrN+iPzrw/ATL9PnlEbSPScAxy0WoJWJn44105iR7tGgg8gMc2RQ94SpFHhJveIMMP1e7U2uy0a/qUPDCnuq4hp+E=
+	t=1776176852; cv=none; b=iLrDEUTXoPOlMLKwNWywb+R3RrhG7mYJZmGXGhTXGmrN8fRpeyqmzofn7ovvSENpMO5k0eG7OIVGIWYZmzo7eNh6gutm6CsgqDqbL9QBNHMbOs8eqfRtvAPCj+zW4AL2W5qF/B/LyWY5kd9GnzOo/zfaf6mPHbkTRjMFodrGcGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776176819; c=relaxed/simple;
-	bh=+H9mi7rjt0jbpNyeuoae40N7EuIzbnZ5ig1DD8SUa5U=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:Subject:Content-Type; b=F9v/WjkdA3HEnMOZ/M5lL1tsPcg5r+57oBBK811PtOT8PuXifTCZj8Xy0XxLb5WR6Iz7iuDqK5dbmHaX+dz5p6H6kIavXrw46OH86CEQ3wttFwv8uzhJlt2AlxRsHJruEr64DODoIymFrOqL3sdFKRPNtB8PiEKkGCU+HpN4YVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=barre.sh; spf=pass smtp.mailfrom=barre.sh; dkim=pass (2048-bit key) header.d=barre.sh header.i=@barre.sh header.b=VeVkjaQy; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=E8LRRLJL; arc=none smtp.client-ip=103.168.172.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=barre.sh
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=barre.sh
+	s=arc-20240116; t=1776176852; c=relaxed/simple;
+	bh=i4xJrdkZCNvCqgwxr9JrQ53AyB8oPiIGtsM7/BoZH/A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fGSCZGFbVIGL9vPNsHzTtIvKcPeBehoyw9IMEiDHa2+XkDnp1GVUHagCbOTFDxTFFt60qD8XtW5ayavncnTBctuaJYWsujJOyfKoE/0vztpIcaiRGUTc0b5J5ETk1biWUfyUIo9tSPOMQvg2QJEXisIEEtgsh2ruNUbMw24Usck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cdvjplzh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=barre.sh header.i=@barre.sh header.b="VeVkjaQy";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="E8LRRLJL"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfout.phl.internal (Postfix) with ESMTP id 6AA60EC01AE;
-	Tue, 14 Apr 2026 10:26:57 -0400 (EDT)
-Received: from phl-imap-04 ([10.202.2.82])
-  by phl-compute-06.internal (MEProxy); Tue, 14 Apr 2026 10:26:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=barre.sh; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm1; t=1776176817; x=1776263217; bh=+H
-	9mi7rjt0jbpNyeuoae40N7EuIzbnZ5ig1DD8SUa5U=; b=VeVkjaQyP9cCVDn9mi
-	nmyGCFzq+iWbXDAtb1yYdKud3gWO8OIJTGqL9RsqeJRT4Qb9VCaR6qJ+AIVkGDNZ
-	jQq/LJ3kL7rFfYUZcgLPMUaUAVtyEYHv16FM4hkdyizsOOdEaVCIG8gUja66i1+e
-	deUuqpilhl1vRWZf/VEF79Gf7OpAPT1IfedIgtkM2fMowW9OTowW9tZKX8M2R1lK
-	xqowkXbcxdo/fSKPuM2CXlLwTCVZytvOWlaX/1DQsTeFPxQwqIWsO5CH3bnv+As7
-	Svi1Qb+RsgFUERAuvRvVeUedgpJV0dnEs68dRyuOWjnQLzg/6vBZcO0ekM5otRm+
-	dZVQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1776176817; x=1776263217; bh=+H9mi7rjt0jbpNyeuoae40N7EuIz
-	bnZ5ig1DD8SUa5U=; b=E8LRRLJLobfwjPCFcZ8jlhy4+d6KndbMj+xtyiJdFWg6
-	upiir7UEdIcNMzq+7wdjoiEOLCxQVaZk8XDxiFFUpbuiAH2Sv45wINQbjYiRuEe3
-	SyFpOZPQeeWbMVmfTQjrsoXSQBEoUZylXmxgkUQ4I81xYjORHfq5vmEY6+OnkDc1
-	edZ31INY8TlfRYH2a7psMqaFsu3cqtKZrpILiZf4hP4r/1fpLN7e8Et8NGlcrkEk
-	CUpZjGyd/GdrghLfeZJWLjs/IMYi5pbXQsVMc/YFRox1p5mmxij9pSG2tfgzq89r
-	AMUhxxWoz32Q+pa0hZPaNLZtHeVm1y9IFEE0GQcBnw==
-X-ME-Sender: <xms:sE7eaY-XL6FvIz35u-N1bXd32sd25loJKLEpMDQWhvPh_nZAR3uOPA>
-    <xme:sE7eabjV0Pgb_UFMl6W2A06gYOrgV-8rBegrJhH7sSEqlNtuWGtssUcKCeiJxeJqB
-    2g4-J_QM3iylkpONqzHNkyeOmYCkgpCxM5MX6c41_DCT9D7ryyzZPM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdegudeflecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecunecujfgurhepofggfffhvfevkffutgfgsehtjeertdertd
-    dtnecuhfhrohhmpedfrfhivghrrhgvuceurghrrhgvfdcuoehpihgvrhhrvgessggrrhhr
-    vgdrshhhqeenucggtffrrghtthgvrhhnpeejffeugffgueeihedtgeefudejkeetudfghf
-    egudekgeefgefgleduhfetfefhkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgr
-    mhepmhgrihhlfhhrohhmpehpihgvrhhrvgessggrrhhrvgdrshhhpdhnsggprhgtphhtth
-    hopeeipdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegrshhmrgguvghushestgho
-    uggvfihrvggtkhdrohhrghdprhgtphhtthhopehlihhnuhigpghoshhssegtrhhuuggvsg
-    ihthgvrdgtohhmpdhrtghpthhtoheplhhutghhohesihhonhhkohhvrdhnvghtpdhrtghp
-    thhtohepvghrihgtvhhhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehvlehfsheslh
-    hishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehlihhnuhigqdhfshguvghvvghl
-    sehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:sE7eaWfMKF2C6HqL0ZGJ6xlXuoGbaAakk-vItPljCwbSd9J7H7p03A>
-    <xmx:sE7eabKwJ6LNcIZ6uTsMPESWsWjiJ6jlFLcW8cdMNYLFFsrxDPnrEA>
-    <xmx:sE7eaWiexgGa32qxWHPKd7HRW8qh-ZNkXVNLFmZlXudCmog00NpCfg>
-    <xmx:sE7eaZTmkGqr4LLpwXMaLouz7odIREkAo_cMfRpFOLs8yPhQtfpYUw>
-    <xmx:sU7eaRI8j-fv-rc_3n2BSA9_9uLJDiAOZCcQiC4tWsDfLq1bVulgKSwl>
-Feedback-ID: i97614980:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id AC3ABB6006E; Tue, 14 Apr 2026 10:26:56 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cdvjplzh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45911C19425;
+	Tue, 14 Apr 2026 14:27:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776176851;
+	bh=i4xJrdkZCNvCqgwxr9JrQ53AyB8oPiIGtsM7/BoZH/A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cdvjplzhW57JqjM5J9cfK4l+AJSCFCpMNxIk4cDg6he8jr/pL5Z7ocEussyMGTUoE
+	 jqL46ln4lm6K/uvTL4g44YaQBidTTMXp7KdHNVJGyyuCkU3QZ8TkWxQdMDXGe+AgQe
+	 KTSagB/eI/SPWcBioiBR92vVXLhxjvkV86p7Xb3lctjeQoPZ4JpD+7NM6nBvyUXh9J
+	 ptR2UPd6P/WtF37a7t7TE0qCaJcnVzHMpjuAFK5kUJMWoBHyJ+Ku/Ry89cW7HOa+XH
+	 jvl/zErZaYA9fuJ7L1BkHiWLdKsFtiufkQmyDtAWZBSSbqyeIOE0lEnrhgtigkYbnB
+	 RSLk+blN1aPmg==
+Date: Tue, 14 Apr 2026 16:27:29 +0200
+From: Frederic Weisbecker <frederic@kernel.org>
+To: Thomas Gleixner <tglx@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, John Stultz <jstultz@google.com>,
+	Stephen Boyd <sboyd@kernel.org>, Calvin Owens <calvin@wbinvd.org>,
+	Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	"Peter Zijlstra (Intel)" <peterz@infradead.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org, Sebastian Reichel <sre@kernel.org>,
+	linux-pm@vger.kernel.org, Pablo Neira Ayuso <pablo@netfilter.org>,
+	Florian Westphal <fw@strlen.de>, Phil Sutter <phil@nwl.cc>,
+	netfilter-devel@vger.kernel.org, coreteam@netfilter.org
+Subject: Re: [patch V2 11/11] alarmtimer: Remove unused interfaces
+Message-ID: <ad5O0RO82sKUeBFt@localhost.localdomain>
+References: <20260408102356.783133335@kernel.org>
+ <20260408114952.670899355@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Tue, 14 Apr 2026 16:26:36 +0200
-From: "Pierre Barre" <pierre@barre.sh>
-To: v9fs@lists.linux.dev, linux-fsdevel@vger.kernel.org
-Cc: ericvh@kernel.org, lucho@ionkov.net, asmadeus@codewreck.org,
- linux_oss@crudebyte.com
-Message-Id: <c2c75b03-e95d-49f4-be9a-2429fde4b5fe@app.fastmail.com>
-Subject: [RFC] net/9p: raise MAX_SOCK_BUF beyond 1 MiB for fd/tcp/unix transports?
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260408114952.670899355@kernel.org>
 
-Hi all,
+Le Wed, Apr 08, 2026 at 01:54:33PM +0200, Thomas Gleixner a écrit :
+> All alarmtimer users are converted to alarm_start_timer(). Remove the now
+> unused interfaces.
+> 
+> Signed-off-by: Thomas Gleixner <tglx@kernel.org>
+> Cc: John Stultz <jstultz@google.com>
+> Cc: Stephen Boyd <sboyd@kernel.org>
 
-MAX_SOCK_BUF in net/9p/trans_fd.c currently caps msize at 1 MiB for the fd/tcp/unix transports. The commit that introduced this ceiling (22bb3b79290e, "net/9p: increase tcp max msize to 1MB") noted that a further bump would need the allocator moved off contiguous slab chunks.
+Reviewed-by: Frederic Weisbecker <frederic@kernel.org>
 
-That prerequisite appears to be met now: p9_fcall_init() in net/9p/client.c uses kvmalloc() when the transport sets supports_vmalloc = true, which fd/tcp/unix all do. So the original slab fragmentation argument against raising the cap no longer applies to these transports.
-
-Before I put together a patch, I wanted to check:
-
-1. Are there other reasons that the 1 MiB cap should stay?
-2. If a bump is welcome, is there a target value you'd prefer (e.g. 16 MiB, 32 MiB)?
-
-Thanks,
-Pierre
+-- 
+Frederic Weisbecker
+SUSE Labs
