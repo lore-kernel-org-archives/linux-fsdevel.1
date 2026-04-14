@@ -1,89 +1,90 @@
 Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0CFE3D6CD0
-	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 12:11:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C9693E0C66
+	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 12:11:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776168719; cv=none; b=AYfc5j+w967+/BJyEqqH1G1M1JyXoQEgzSp46KfrreGruxfo2goVoZyne56jK8OKY8a4hURLh5GzQOqz+boRJjeli1CtvnwUXP2uBK57S5VborRGBst5VHq36XYCgR8l5N6cW6MLCzeYlgFkYCADsy4TZusuiGT4raXAaiLOlZo=
+	t=1776168720; cv=none; b=OMl31cUClGkYoz8rQtbfdzx/EN5+9P785AAFi036VlA2QNWAwd6TQ7ZhKVejj2qFn7pyWyKrDh4ecn+2usWf05yd/1wqOQkGh8Gdkq2HWSmHYtV4D4k1yiU+Z8ybaY6TfYrN/uJ9bjCxaAAMgUOob2LW3b6DHHWYdTM/WFkFWPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776168719; c=relaxed/simple;
-	bh=b79a/FeRzU7DAYcvsukbMcvTIdQXuX/Qu+vm+CTVtoI=;
+	s=arc-20240116; t=1776168720; c=relaxed/simple;
+	bh=RbTGYcK6509LY81XJH8m1Pc4f+w2K7u1mTemWvMy5AY=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=M4VjGlAWmCsHIEhh20AUMdBu+HI0z4OoaHRjVfq+vcbYP5z1r9xY8aI8sBqkkxUJUw+LMmcOAczqMX8T8TQ6QNMaqZNZXeUbpunyh1RBt5bxqjuWXWHrSWOd39G2R3wgnMrqGAhUC6cJwri3H9SUxJsB+GpukhyvJrlCw0p1R24=
+	 Message-Id; b=s7ofVpCfnomxZj6NL87ah860l1Uw5tWzkpLLY0ofI4duF8STDR8unyugHy/1Nj2gEOlTLI7oUC/wtWmN19+EaG3bVXLM7A+6Dwmf7k2P5muwmrnDEhvvyn98lz8bOZ0B9REs4dMqjzfYoWJl5uch46euldSSBxUprMUzsP86Vzw=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hackers.camp; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hackers.camp
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-48880947b7dso7465145e9.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 05:11:57 -0700 (PDT)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-488a8f97f6bso10209905e9.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 05:11:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776168716; x=1776773516;
+        d=1e100.net; s=20251104; t=1776168717; x=1776773517;
         h=message-id:date:references:in-reply-to:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=b79a/FeRzU7DAYcvsukbMcvTIdQXuX/Qu+vm+CTVtoI=;
-        b=K27pnHkqYYA/0zsjVN47b6Lj/2KWcbwN2V+z+BxujHD/Mc3wx3ktKBULcL+16Dzi3H
-         P4uzHn+6UF9LMfoVTw773NGVzjI2Qe47XTtbYeBcESbzaDsOhz2KVxhypR1iKoWCtMQz
-         QpnAdtFWOpQkf4CCsRSL2OkYDrCP/g61A7LcDGu5BJ8mAsw/mBc+7Fb9fEzFdByIhBKM
-         IupDWNwf+f5v6nrsHifv27TZgwczCHGQTWEZX7F/fSVbsPAvoIcGrWpL+JgEjjAWTtKb
-         EAP1QANfk62SewxBCHekhegBopjBFFmmsqhnq9qqQ/h2EhIqRFsvVaaMb+tJTiDdjNSJ
-         N3Wg==
-X-Gm-Message-State: AOJu0Yzg0a+CZBcmLmxFKqmrCUytUwpACXEmmyicjAuh3b/2F79S7c0a
-	ecYx2ECj0ejFLEdXdpwHjjyvMblD3PJMWFR+tIbGZdyY+/3rGxNddz0LKKEo9JEE
-X-Gm-Gg: AeBDievCSPTxufogFhrh1jRWuGaYIAz47PO7E427HnxO/2OfBgtjg28a0Xv2WGloCHs
-	syaxuRZQV6j2sPTDTM3rNJQ57/sysTP2/4l4OW0SYUanJfioo+gIfNasR27rKOI/TRmo2wYVpXv
-	Y9sQEI669qWjbtEE47ft5jM8RkFEqZ60hrxK7IGa+s0vShNeNsJ0zADdeJV8mcR7OqX57nUESKi
-	x1UFtiJ40ypAtAXBOBLO3fARcr8v4kxduE/Kv2TTnQ68/Db3+8hSuem+FRZRioFYs7gRI2xXjmt
-	n8tZuKGIsG6/QVTv8A5Ch2V74vQYQSxBOJd8EvJEmbWXtHjz4yJ4NDQrZZnLFCUf+kLNN8YX2bT
-	sZB+Nh1/wZHMZuAHFMtUeqTBaO7pcgT+VHFp9jZj0TtLxggICAwQdT2sVJUTVootcN+UcphThsU
-	PgN5ThveTgdobRpPw+jRiYVoCC7nqlDoUgE7/wmEWpYbIf3MflZ1S4U+61uaruXBianleTk90=
-X-Received: by 2002:a05:600c:524a:b0:488:926e:3ccd with SMTP id 5b1f17b1804b1-488d7f24014mr123925205e9.4.1776168715997;
-        Tue, 14 Apr 2026 05:11:55 -0700 (PDT)
+        bh=RbTGYcK6509LY81XJH8m1Pc4f+w2K7u1mTemWvMy5AY=;
+        b=bwSGZmAMwOAawVMb8SyGDBEmraXtlmquJfubF6vPOpwIfwj7IsRv4RU1T4XFraankS
+         p6o8tmYuVwt50g5eshy2x4O/15zvsoHJaBErOrwN5dM6dK0naQVObuPQJoHNaH6SjBir
+         5QWYUsSxXDeZQ410YEuqLpH6SutuSrToUs+X4m0MZDiTDqFl5J42tZfV4ESKQgMPFKM4
+         antYdnVDAMG5+LxlrLq8g5iYSbDKMwJEoW6aze25y0h/4kcFeO3C3u01pGeguQMYi/Ej
+         IS7fWfCJAQj5xOYLWIWKRwj+zkfLDksI359+cFbnKDY8+8No/A3r7Zbes0Irvgwhsb1i
+         NHqA==
+X-Forwarded-Encrypted: i=1; AFNElJ/qLDg3OZ4WAbAwaiO1TvxMSmnw80WKmPQQalV3xaflV011+q2D3T2kNW64C7HEWESdgv647P/9OEgia3Av@vger.kernel.org
+X-Gm-Message-State: AOJu0YzsnCXumag15Ie3IicUVxkaG2Jj1Q95MTXLtyfcar0vOZIMCt41
+	8/TBhUutn0mFUXMGNARzkANmxVavA1tjx/1kYj/HDfYwM0ByUb5kWe5nuLbwm3l4
+X-Gm-Gg: AeBDieu4gYXeRGQaO+Yzh33Xj6UwIM2nj+bN29kYJM+rg4vbzLeOKuhKwtYvx8cVHHk
+	UP9zuA0SCx3v3F6PUCzi1vKrZa9SPe9GCNdOHpX2PfSr8YxDqnWgqAVyUpW/SALEhAWUTQngOWv
+	nT5ThL6pz6NBs2nj0fpLONL2j8eYitQd7QTLkxjPtlgob441QYjgsnL3mHM0Wf74HGEF4yzNIgH
+	0RzxGCu00iLL7A5DKjyJvceoLu/wf49cAVvtiQkZounvPkT4RLoP8HNYFJOCYMbutt2LUvpVL01
+	ii7iSd0BFdAo0auxmFazyHkerpEKr2+iC1VNyJMQ/xWsKjokH7ipj9n7MsUCitIoxQ8MD7PmQhC
+	4ox5tDvtC6SugpyTNZqjCzJwE1g5wvXshzwY9w6GM1Fc5ssBLSP2HCNONNpZxu5aTyZaIF1mtoD
+	NXLej1+biPABORTHthC7B0DnPwHO++BgtmVaO3myqig89uvG0/tg68kKwISuVTOLbNSw21nWk=
+X-Received: by 2002:a05:600c:45cf:b0:488:af08:73c5 with SMTP id 5b1f17b1804b1-488d683337bmr108457505e9.4.1776168717391;
+        Tue, 14 Apr 2026 05:11:57 -0700 (PDT)
 Received: from hackers.camp ([2a01:cb1c:784:2f00:708:2805:7128:7a75])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488ede156a1sm49028485e9.2.2026.04.14.05.11.54
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488ee03898bsm45605905e9.11.2026.04.14.05.11.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Apr 2026 05:11:55 -0700 (PDT)
-Received: (nullmailer pid 12724 invoked by uid 1000);
+        Tue, 14 Apr 2026 05:11:56 -0700 (PDT)
+Received: (nullmailer pid 12727 invoked by uid 1000);
 	Tue, 14 Apr 2026 14:11:31 -0000
 From: Aurelien DESBRIERES <aurelien@hackers.camp>
 To: Darrick J. Wong <djwong@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, viro@zeniv.linux.org.uk, brauner@kernel.org
-Subject: Re: [RFC PATCH 06/10] ftrfs: add block and inode allocator
-In-Reply-To: <20260413152101.GX6202@frogsfrogsfrogs>
+Cc: Matthew Wilcox <willy@infradead.org>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, viro@zeniv.linux.org.uk, brauner@kernel.org
+Subject: Re: [RFC PATCH 0/10] ftrfs: Fault-Tolerant Radiation-Robust Filesystem
+In-Reply-To: <20260413181156.GY6202@frogsfrogsfrogs>
 References: <20260413142357.515792-1-aurelien@hackers.camp>
- <20260413142357.515792-7-aurelien@hackers.camp>
- <20260413152101.GX6202@frogsfrogsfrogs>
+ <ad0GX6gVgHxD9-ym@casper.infradead.org>
+ <20260413181156.GY6202@frogsfrogsfrogs>
 Content-Type: text/plain; charset=UTF-8
 Date: Tue, 14 Apr 2026 16:11:31 +0200
-Message-Id: <1776175891.838384.12723.nullmailer@hackers.camp>
+Message-Id: <1776175891.855383.12726.nullmailer@hackers.camp>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 
-On Mon, Apr 13, 2026 at 08:21:01AM -0700, Darrick J. Wong wrote:
-> No journalling? Or even COW metadata? How is this fault tolerant??
+On Mon, Apr 13, 2026 at 11:11:56AM -0700, Darrick J. Wong wrote:
+> Why not add FEC to btrfs instead? Then you can concentrate on getting
+> the IO paths correct, instead of burning time on ensuring that you've
+> implemented all the other posix filesystemisms correctly.
 
-Fair question. The answer is that FTRFS fault tolerance is at the
-block data layer via Reed-Solomon FEC, not at the metadata consistency
-layer via journalling or COW.
+Adding FEC to btrfs would produce a filesystem that cannot be certified
+under DO-178C, ECSS-E-ST-40C, or IEC 61508. btrfs at ~200k lines is
+not auditable under these frameworks regardless of what features are
+added or removed.
 
-The threat model is radiation-induced single-event upsets (SEU) causing
-silent bit flips in data at rest on MRAM or NOR flash. Journalling
-protects against crash consistency (power loss mid-write). COW protects
-against torn writes. Neither corrects a bit flip that occurred while
-the device was idle and powered.
+The certification constraint is a hard requirement for the target
+environment (space, avionics, nuclear/industrial). It is not a
+preference. A smaller, purpose-built filesystem with RS FEC as a
+first-class design constraint is the only viable path to certification.
 
-RS FEC corrects up to 8 symbol errors per 255-byte subblock in place,
-without requiring a redundant copy. That is the specific gap that
-FTRFS addresses. The Radiation Event Journal (added in v3) provides a
-persistent log of every correction event in the superblock, giving
-operators a map of physical degradation over time.
+btrfs also carries significant complexity in its COW B-tree allocator,
+extent maps, and RAID layer that would need to be analyzed and
+certified alongside the FEC addition. The audit surface would be
+orders of magnitude larger than a dedicated implementation.
 
-Journalling for crash consistency is a valid concern for v4. The
-current design assumes the target environment (space, avionics) has
-well-defined power cycles and controlled shutdown procedures, which
-reduces the crash consistency risk relative to general-purpose use.
-This will be documented explicitly in v4.
+That said, the IO path concern is valid. v3 addresses this by
+migrating the data IO path to iomap as you and Matthew Wilcox
+requested. buffer_head is retained only for metadata IO (inode
+table, directory blocks) pending further review.
 
 Aurelien DESBRIERES <aurelien@hackers.camp>
