@@ -1,217 +1,167 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C86130EF6C
-	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 08:50:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 211263D6CC3
+	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 08:57:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.174
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776243032; cv=pass; b=KvHPAhOtPO7ka2HNvpctn7xNwsZmX7kBnrFJERWrFmS8a1Ae2h8YLTWkqonbD20SVGTK/GN8goOqGk83SXcd/RJlhi3srdm2E9xtrlvLB+LRJeGRv+r/zlsfg8qpkMXec42nFZvri5TubR9vCEXwopEsADkYOfNWKdog5w/pAV0=
+	t=1776243441; cv=pass; b=fEa16da5kPhcJ7SA6ikOzjeRUPwm+sKZEoIKl2xme5xRSXVtekK1pYjaVfAzIBfbHkQDGO6OYn0KElBYMcWW4ALCrCNOE/zBVz2rdZ8X/E+Ond7bUnKTsLYGx7On5jD8Tn4X5gfZPqj76Q4iA6T8CaEij/re5xXWUA+UI1PatAM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776243032; c=relaxed/simple;
-	bh=z5iFY2khC7ou01RIHrOW4R4MROI8kR7TzjrYDShiAvI=;
+	s=arc-20240116; t=1776243441; c=relaxed/simple;
+	bh=zZYtyxzFk/f/aBbXqwafBi1lDEMUVHJlRs1FsBDxTcc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bA2nbO2jIhj+C2fkkl782Pgs67TCtRjtTyYgN76Jjk98h+IK8fDd8Tn/vxLV4cdMS7pckM1M7fj7N8DezicccPS+lizl61ZDK7nivR5rc0za+S3EykKvyahSIHJTCJkQuurCHLLcLi5hNfy8EzEf+c+75+QHL1Z2DbPRCRhU+20=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IEQXgj4+; arc=pass smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=NHUzuBAL2kf7X2pZpweduiqGBRYVXEx8zHtbdLmlxpUKqzuSO5qohlB/Y2Be+VndtWdeD/LJg+i2R97FZncd6cfEQVi/tM971wYFpCoo2Tz1vPmThG+R8SJyIOZZXBqzI+kgiBLvPl92ABUpdEbj9x1wVlUF5ASe7CdvgmVW4pM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=B/Dr3QHk; arc=pass smtp.client-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IEQXgj4+"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-671ff4b716cso2685119a12.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 01:50:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776243030; cv=none;
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="B/Dr3QHk"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-506a747448dso51358951cf.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 01:57:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776243438; cv=none;
         d=google.com; s=arc-20240605;
-        b=Yow86I40s8gCYk0uUo0mTEIfzw0xOT+xiWBgtoYS6ufJrINS8iqvxrz0qn3C3cnLHG
-         LlO8UKLwASwaVgSiTvKbrBTHWQXUO97otJ9YDktRayj2UD2ysl4J9qhN3TnIJWzlU4Ws
-         gvdkg15f69tHdnqJRPDCxT9+7le1eUpFClAOEglgu8fO1hRCpVgjPEyLgvGZcZUHK4M7
-         /9HcjEVOvMAb8lY1jjjR6uqmqKrsIdi5h6eGpdnUc1BMWpjdxRPj6KkRVDzHKWy5piZ6
-         bksgTZG0vnXkBhLgDaLlm1D1vG4Rx8lMowNsro/9vh97lC6437E4exEwEVl6cr6iYTFg
-         Fw+g==
+        b=e2hgYZDH1t/iYRvHZqpTSFHwGj6eJjJ1PBuQ9mkIdiIDgTYHoj0tDmBYTpCrgVSahh
+         DE/dzUr3KitRAYymMKnvK0whOGSSvfZMlwf6+xDWv477bYVXLpqM++rSEb9QRUZCUr2L
+         pgJN5DwKnZSuGwDqWjgcqA1r1HWoxR+sMoUCTBMSeKp1okPdVHYDLzHwLmA/3iMojnv/
+         n+H6YQZWgsTIeJU0B50jqotgwF/Md+6Z1H9/pD9UgvW1hR+7MZxWPMqnloIXjDbc7oKX
+         KZQKuqPnV3j/Jf6jYwkO9k61502cKvEm/nX1VFpnouUo7aLO22Vx0OhcwPaYbib+Vo2Z
+         1AtA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=LfQXDhDL8kE6GGuwypTVdwLFZ+2G2+Ay+ewe6ErDBf4=;
-        fh=mujdLnNCoPDbIpROT9ofzjh6CXIvvHnc8Ln6npemIcc=;
-        b=X1jcs8cAvYFvHx7XflLxd+SwAW6skO/vOJChGQ2ksC9OCD5vecLWP+BgsuiarK1t+v
-         XmVfEBLpcNkjqCm9Q2IlAqyVVClJZWLhT/Mlqb8cA2fUFQpNvq8fMD5Do+6QFmplhZd9
-         c41rmQGBfnw8cBmiGH6lZAEcIEwooJxkkZBFOFX/L/FjXgWCci512Apjn7RV7sliNeAv
-         b8w1uh4huFnqtZQD2d4GC/ZzTsAZm7i/RFIAdeGonGlDXoosZ3BPlFoGoavdfbPB33ct
-         CXrIGDIelMIlMsVbjFi8s7O/jQdipRwNHl+wbwz8nzelSB57FQAz2uvp50g9mcCtsnxl
-         g2Sw==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=1K50PrXkHzV3G2hBT2az5kpQZDgGSB8kie6wcwLv364=;
+        fh=D/JntbjEsmnqAg/VqqY/XGMvjG9jDFLxhQy7prHfYLs=;
+        b=GouZybD6cOa/TAn5x2SKwg3qNPmAj/uLyuj+JwMvPsb7+vu4MYx9qwEtY5YQNi4N2j
+         cHu7zReDQpwWnKIBzjDXjQzFeOPbW3YgWdwExb1nLDUAWz7CLq2SSW0eEMNkso+8uqmo
+         pwcBmADpVNj+RDISyOV/xDoW8Bc+uC90tQwBHNywFH2L1KaKE64iSIkdbuxte1ibQfO/
+         mzTzvimUjeX4PoSeBk7Fl25pEQtNdJOHOqMZ3AP98PTtDYxiDjTR0/m2BgDv3N/chvAU
+         i7jv2P2Iq2Uhd4Ak17UrXnnAaozK4o5r0Fo1+l65Lqh4VAV5sYqsRombHwcn4s0UAGzE
+         26UQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776243030; x=1776847830; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LfQXDhDL8kE6GGuwypTVdwLFZ+2G2+Ay+ewe6ErDBf4=;
-        b=IEQXgj4+X61gTxb/OxsTOkeF2Mut13Rajb//5BK2mGtYsCszxHH8X+esSbkwacjSPS
-         o68nIEGFpX9lBa+ye1qCG29ZQvmJcr9mYgQ13yBdXd7sWnJx+9gl4lW+zK2jD493zMtN
-         H4rNAP4me3Gax1oANu2sGclkPPIDqF6gnGBvnCUgHAAQ9/FmRM6iOkyeRVOVd8VcxgHD
-         ERTSMGg3mn8+1UkvtiboHbBv4n+pQ9TI8AcewxPvKClJYHAF4PdGOoiAi6umN+qXTO/k
-         AdUqEBcEe1UuvJUIkrQu7vAy96TIiwUAI7cUWP0I+nc+5AOgoH6FgAKZVQVGfN/rGk7X
-         TGTw==
+        d=szeredi.hu; s=google; t=1776243438; x=1776848238; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=1K50PrXkHzV3G2hBT2az5kpQZDgGSB8kie6wcwLv364=;
+        b=B/Dr3QHkhbP8XyWnEenix2jN4PnO0K/kbuQBlRBlXGdpkelr5iJwbpHxdRnjSLN4h1
+         Pv9ZZYxWSsJclMaKdZLRaJzquEYcgZUTXIbbzcJls1Gyx74A1LrARH5gyeUqZ7MNV5EZ
+         wNqh+J3xsfokVCeS3lTt5G3LH1xXmYPpsbt/8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776243030; x=1776847830;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=LfQXDhDL8kE6GGuwypTVdwLFZ+2G2+Ay+ewe6ErDBf4=;
-        b=rjLSCM+MOVbMAXB2CufQbE5/sjjd3D63iV0eTSJgKPJakO26/BvdJV/069Pz8FmTnU
-         h1/85lE8c5PFTcBI9NUt7Ui/kcnNa/rdlWHOCy3WNv1cJpi0zRF2zODSzwp3AALBWi/Q
-         7x4HzMNIzTs0mEn4pPteSBlt++xvx7Qo43xG3DE4hvc3r4UonC749W059KYWvzltuo0V
-         2e0DKL2WCZs8jnszncbKyY7L68YLazKCJxjwZrDpcRAWwa9REC871Hr4Io3GdVEul0zX
-         2M60BfZr1LXHaJ6Ze8UnATK1AgdEgWXD+RfeQsFKCAMi/J/EBtS4VlwgPFlhJHJC2K6g
-         Yx5A==
-X-Forwarded-Encrypted: i=1; AFNElJ8DhkD9OF4H+7KTQ0PaX49R8QbxPpU2HmW3ugIMtw5Kkms6C/pQAq+3+eC/p8MIgSm1eOk1xisc42EIyD/c@vger.kernel.org
-X-Gm-Message-State: AOJu0YyAIVsLr3jWBYcfUOf2rkJCw99RuJ6NLGouAQMjbLml6smjsulu
-	kDeH6R5ZfH8BsbGr4+fYo+VDnoK+dbZ/BQJ0IcloF1EigX6Hz9VuYxAvGh6VZue3h0i47hzZ7Dp
-	5sRFrtiEWfxTfHzXX5GFso4ENojPDbn0=
-X-Gm-Gg: AeBDieukOUXgRM6LZcdVlC7yGABW8YzpK2y8BpVoK71o6bOg8WyE7smAtdc6jne1la6
-	muGccpnrEbRxnEb176Q6ZtD7sS28xmaOYKfhtiEWu2foh+FeDbTP+tQnZ7I1iVQjwTLXIQiGX3Y
-	Yslhb/1sSdV3hNB5EYAnJvgr9VEa6OwoG+P7kfarvn1+GG8S8pbWRQ7UhEbWcb5vH5gQKjpSnUk
-	7NTTiJhDAkpkToET+1F3sHd1ItWgqkec1PmFp2CePV/wp8d7txQtAdq7j2jjJ+3ZWuJyWql+FWT
-	YZ985ZBf3Hevhv4YGMQT590AuzbxnRE0o4B5S3hsEfMuC/sn04XUjGz56a/wzQ==
-X-Received: by 2002:a17:907:e113:b0:b9c:6ef1:ed18 with SMTP id
- a640c23a62f3a-b9d727aa4fdmr817355766b.25.1776243027719; Wed, 15 Apr 2026
- 01:50:27 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1776243438; x=1776848238;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1K50PrXkHzV3G2hBT2az5kpQZDgGSB8kie6wcwLv364=;
+        b=XbedtZEO0HddjPlmdBCkNIY5WAcvIfeUdAhU2PMBMFgjV2rVAmTPBSrTGBceiEuSh9
+         soAEvFDzFYXsz/fIFGsHDzbX2jtAz45jQj2zKUv6Aqx26U6ADJBVNdLWZ8M0/4KXIR0X
+         WPHCmrp4fiIyiCxjSqN7JQTHDBPS7muTdNrJKGvUk5nADN2M1z9ZlV2aekjvKybaBJ8R
+         UhKRmLDmTRNMUmU+ep0xAFWYLDIFKi+FqN9uvvG9pmwLi4mIE9/Nhsx0zhTy/Gg3mDUI
+         s8sujowue1hbwQ1oayJ988pf3VPHYXSl1y/nadcSpcJXsCl1SP/TE1WNHdHAX8brlUJL
+         WyGQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8vkCYT4dn28yaqnArg0HWhANx7kF51neaMxk7u8rafLqAVSwVc23LbTj/JMnYjAAM/6kutyNf6MeRLOPIN@vger.kernel.org
+X-Gm-Message-State: AOJu0YzXCX06yr6kjBzKNGyPZzLxRrw3FULfd6vHxoo9gJmL6+CObL16
+	JIMP+g/5vy2+55f5e0aY+mb2cGg0AZQ+IF/63vCMRw8a6xZWKyW6qctPqCxyFjRWNUmPDAbdJdQ
+	nXXiGBypuw6OFxSCGFpXeuJIYOQ8D+qTS9WuLZ4WL5w==
+X-Gm-Gg: AeBDietu1igRq7+tHuNv4q6nsWj2IFKpRCIi9MYL3AJCIPCaNdpcxynQbtCP3yMcqX3
+	fNvSnaGfgNlikwyOar3AqBBLKkbD2W5kfHxsZasXpk3hDofNYvEJhs0zBDVaEM0gobHFijegKvW
+	aDHWbYAPR1CkaSb4UgXL6f+C+PnXGI48hpNaW/MNVOC4nFfn8nmEXZSxUR/8axv/cpcEtbVO+Kw
+	DMvpn8UBcMrWl7CQ4AI5qljMpWV4ii3t4dBA5i24TLuGC0xh2l93agcj3r/olla/+30ChuQ5NV6
+	xfJYgxLz0af6kgYWS7sEg1Q80Bsuwtow6RVm6KkHcWFgqok=
+X-Received: by 2002:a05:622a:2485:b0:50b:50bf:5bbe with SMTP id
+ d75a77b69052e-50dd5adbf6fmr287758411cf.22.1776243437803; Wed, 15 Apr 2026
+ 01:57:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260414185037.3541089-1-ibrahimjirdeh@meta.com> <20260414185037.3541089-2-ibrahimjirdeh@meta.com>
-In-Reply-To: <20260414185037.3541089-2-ibrahimjirdeh@meta.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Wed, 15 Apr 2026 10:50:16 +0200
-X-Gm-Features: AQROBzBdLoUzCpOHcTdckUA-kE8mcaJI1AmcPM8lfa-HqKHJ7rg3UD6nS_V-mxA
-Message-ID: <CAOQ4uxiZEX72_qefLrfwjULuPyhvX3bsy7z-7U1VE8bnbYOEGw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] fanotify: add restart infrastructure for pending
- permission events
-To: Ibrahim Jirdeh <ibrahimjirdeh@meta.com>
-Cc: jack@suse.cz, josef@toxicpanda.com, lesha@meta.com, 
-	linux-fsdevel@vger.kernel.org, sargun@meta.com
+References: <0100019d43e5f632-f5862a3e-361c-4b54-a9a6-96c242a8f17a-000000@email.amazonses.com>
+ <CAJnrk1ZRTGWjNzkMxS3UkeZMmrpadJDtWKontMx2=d-smXYq=w@mail.gmail.com>
+ <adkDq0m5Wt9YhJ8A@groves.net> <38744253-efa3-41c5-a491-b177a4a4c835@bsbernd.com>
+ <adlBcwJjLOQDAR65@groves.net> <CAJnrk1a06zkUmXW5EFiUmgAoFauwtzsYvnotaPH0ifVtyh7iDQ@mail.gmail.com>
+ <CAJfpegvVTcV89=q3L326aGQjhduBcv7PVg5QKftGLjNZmCLmaw@mail.gmail.com>
+ <ad4_jFsR951c2Mtn@groves.net> <20260414185740.GA604658@frogsfrogsfrogs>
+ <ad7MC5Em4l72nJ6u@groves.net> <20260415001558.GH604658@frogsfrogsfrogs>
+In-Reply-To: <20260415001558.GH604658@frogsfrogsfrogs>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Wed, 15 Apr 2026 10:57:06 +0200
+X-Gm-Features: AQROBzCRCfD21Ej4HAHDpxm8vYkUzgtnq-yub_KzWJ3NjPcdpwmvfwFukwnxXxw
+Message-ID: <CAJfpegsEMQTwLP04L-EftdqNJrz2saBnK0Li6iZ9=5iiNa2arg@mail.gmail.com>
+Subject: Re: [PATCH V10 00/10] famfs: port into fuse
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: John Groves <John@groves.net>, Joanne Koong <joannelkoong@gmail.com>, 
+	Bernd Schubert <bernd@bsbernd.com>, John Groves <john@jagalactic.com>, 
+	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
+	Josef Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
+	Chen Linxuan <chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>, 
+	Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, djbw@kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 14, 2026 at 8:51=E2=80=AFPM Ibrahim Jirdeh <ibrahimjirdeh@meta.=
-com> wrote:
->
-> Add fsnotify_restart_event() which reinserts an event at the head of
-> the notification queue for reprocessing, without merge, insert, or
-> overflow handling. This is used by fanotify to restart permission
-> events when a queue fd is released.
->
-> Add fanotify_restart_pending_events() helper that walks the
-> access_list and reinserts each pending permission event back into
-> the notification queue using fsnotify_restart_event().
->
-> Suggested-by: Jan Kara <jack@suse.cz>
-> Link: https://lore.kernel.org/linux-fsdevel/sx5g7pmkchjqucfbzi77xh7wx4wua=
-5nteqi5bsa2hfqgxua2a2@v7x6ja3gsirn/
-> Signed-off-by: Ibrahim Jirdeh <ibrahimjirdeh@meta.com>
-> ---
->  fs/notify/fanotify/fanotify_user.c | 27 +++++++++++++++++++++++++++
->  fs/notify/notification.c           | 25 +++++++++++++++++++++++++
->  include/linux/fsnotify_backend.h   |  4 ++++
->  3 files changed, 56 insertions(+)
->
-> diff --git a/fs/notify/fanotify/fanotify_user.c b/fs/notify/fanotify/fano=
-tify_user.c
-> index d0b9b984002f..8203ecf5ea39 100644
-> --- a/fs/notify/fanotify/fanotify_user.c
-> +++ b/fs/notify/fanotify/fanotify_user.c
-> @@ -1095,6 +1095,33 @@ static ssize_t fanotify_write(struct file *file, c=
-onst char __user *buf, size_t
->         return count;
->  }
->
-> +static void fanotify_restart_pending_events(struct fsnotify_group *group=
-)
-> +{
-> +       spin_lock(&group->notification_lock);
-> +       while (!list_empty(&group->fanotify_data.access_list)) {
-> +               struct fanotify_perm_event *event;
-> +               int ret;
-> +
-> +               event =3D list_first_entry(&group->fanotify_data.access_l=
-ist,
-> +                                        struct fanotify_perm_event,
-> +                                        fae.fse.list);
-> +               list_del_init(&event->fae.fse.list);
-> +               spin_unlock(&group->notification_lock);
-> +
+On Wed, 15 Apr 2026 at 02:16, Darrick J. Wong <djwong@kernel.org> wrote:
 
-Do we really need to release the lock?
-Do we even need a helper?
-wouldn't open coding fsnotify_restart_event() be simpler
-without the dubious return 2.
+> Oh believe me, I had much angrier things to say elsewhere in 2023-24
+> about grueling slowass reviews.  That is, indirectly, why I'm now
+> working on /this/ project. :(
 
-> +               ret =3D fsnotify_restart_event(group, &event->fae.fse);
-> +               if (ret) {
-> +                       /*
-> +                        * Group is being shut down. Reply ALLOW for the =
-event.
-> +                        */
-> +                       spin_lock(&group->notification_lock);
-> +                       finish_permission_event(group, event, FAN_ALLOW, =
-NULL);
-> +               }
-> +
-> +               spin_lock(&group->notification_lock);
+I've been there too.  Which is not an excuse to be an unresponsive
+maintainer, but that's unfortunately exactly what seems to have
+happened.
 
-looks like a double lock in the shutdown case.
+On the positive side, I really appreciate the energy all of you put
+into improving fuse.
 
-> +       }
-> +       spin_unlock(&group->notification_lock);
+Some of the reasons for the lack of progress:
 
-How about just one wakeup here?
+- Fuse has grown, and I don't have a full understanding of it, even
+some of the core.  Getting older doesn't help, I'm sure I would've
+handled this better 20 years ago.  Currently working on some cleanups,
+progress is slow, will post the next batch shortly.  Cleaning it up
+helps in multiple ways: a) I get to know the code better, b) adding
+new stuff becomes easier.
 
-> +}
-> +
->  static int fanotify_release(struct inode *ignored, struct file *file)
->  {
->         struct fsnotify_group *group =3D file->private_data;
-> diff --git a/fs/notify/notification.c b/fs/notify/notification.c
-> index 9022ae650cf8..2d377122c904 100644
-> --- a/fs/notify/notification.c
-> +++ b/fs/notify/notification.c
-> @@ -129,6 +129,31 @@ int fsnotify_insert_event(struct fsnotify_group *gro=
-up,
->         return ret;
->  }
->
-> +/*
-> + * Reinsert an event to the head of the notification queue for reprocess=
-ing.
-> + * No merge or overflow handling.
-> + * The function returns:
-> + * 0 if the event was added to a queue
-> + * 2 if the event was not queued - the group is shutting down.
-> + */
-> +int fsnotify_restart_event(struct fsnotify_group *group,
-> +                          struct fsnotify_event *event)
-> +{
-> +       spin_lock(&group->notification_lock);
-> +
-> +       if (group->shutdown) {
-> +               spin_unlock(&group->notification_lock);
-> +               return 2;
-> +       }
-> +
-> +       group->q_len++;
-> +       list_add(&event->list, &group->notification_list);
-> +       spin_unlock(&group->notification_lock);
-> +
-> +       wake_up(&group->notification_waitq);
-> +       return 0;
-> +}
-> +
+- The fuse-iomap change is HUGE.  By line count it's some 40% of
+current fuse code.  By comparison, when fuse was merged it was
+3.5kloc.  It doesn't mean I wouldn't like to have it.  On the
+contrary, I think it's a very useful feature and would solve the long
+time issue with having a way to mount untrusted fs images with
+reasonable performance.
 
-Not convinced that a generic unlocked helper is needed
-considering that  fanotify_restart_pending_events() is likely to remain
-the only user?
+- There's no such problem with famfs, it's relatively small and self
+contained and I'd consider it ready (barring any roadblocks on the DAX
+side).  But the famfs specific mapping interface is something that I
+never did like.  Joanne offered to fix this, and I totally agree with
+her that we should not hurriedly add interfaces that will need to be
+kept for ever (yes, sometimes even API's are deprecated and removed,
+but it's much much more painful).
+
+How can this situation be improved?
+
+A dedicated co-maintainer would definitely help, not sure how it would
+work out in the fuse case.  With overlayfs I think it works nicely (at
+least that's my impression, not sure what Amir thinks ;)
+
+My experience is that face to face discussions at LSFMM will also help
+move things forward.
+
+Hope this helps.
 
 Thanks,
-Amir.
+Miklos
