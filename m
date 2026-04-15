@@ -1,62 +1,62 @@
-Received: from out203-205-221-239.mail.qq.com (out203-205-221-239.mail.qq.com [203.205.221.239])
+Received: from out203-205-221-192.mail.qq.com (out203-205-221-192.mail.qq.com [203.205.221.192])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D07132DEA6B;
-	Wed, 15 Apr 2026 08:30:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.239
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DA283CF669;
+	Wed, 15 Apr 2026 08:45:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.192
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776241832; cv=none; b=OkaBph/YXrWAJ7PYjPug9FEF9Ej+O39meCPiBRd4DIG0HMrB2TuYh34DjKGOKsERKs87iOcU8soqkhLpH9eY/ISgqjvZjx3lri10MqmN6FAorAt7TV0djq59ZqFPvv1QEecnDRyFwQOzQf/xRlsQ3wrjyrhrewMoLTq2FMa+dkc=
+	t=1776242718; cv=none; b=M7RDJ6W8hOlHLAMNa6/hQKOvnmSyUzWYPuU+/0D0lxBNBm2BmwmyuoedAndKklPk9AR+LQLu5oOs6Y0cxWpZWSuZwkNKSJKUmMQrIfmwf3T59U67qKnqKsR80bRuL2ncyoz8XyrCCuLh5ZqXOM7k8iN75CVhej6Bb2zUfc72TBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776241832; c=relaxed/simple;
-	bh=JDCKQawlr1qJCSQAQTDvLng2XETSmvFI27J4/TDQrqs=;
+	s=arc-20240116; t=1776242718; c=relaxed/simple;
+	bh=lk+6jHw1rYhShaVR8oHzz1RyJ6hkNFMUZWxE0AYD2x0=;
 	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=flr4s+AfE3tpld3VcQGWrvNcgSHbnKM2XBepfsWbWmczaoGQTjua3xMywQ++yyPzuS9tPnxPhvhv3+L7JM8qBM6AL/FBnXVyHvoP2A8o2h7btCuPwPE2BlXJz5MFFxL8fsaK3I+5wYGF8NixTxIDOO8lQkKYKsKH/eMS7e9WemY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=p1ewSIZE; arc=none smtp.client-ip=203.205.221.239
+	 MIME-Version; b=XhBbeiLrgTpKgDAXmhTApb2cXLobCZdQuLquiL/KNsJm7U11PjoBMd8SnK+/AnAlwqvb4lNNWSlCKYPIXNx62h76xmuA6dJsy49Kf2pGs2eoKS34DqOn7+DPq4y7bw0Si2vxL4OR8Gg7RYEjuG7OQ1f5v2hCBzQr7z0AEfphPUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=OpI/Zir2; arc=none smtp.client-ip=203.205.221.192
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="p1ewSIZE"
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="OpI/Zir2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1776241821; bh=kmm8vQAUOrT1UHWaLFb9fXAUDG3jO4piAShky1s/kIo=;
+	t=1776242707; bh=Z1qcQjIyQcvNh2MsmZNjN3wdZl59kpHyhu8kDEDs5EY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=p1ewSIZEDBYA9kN9EEFwa0AE6PiB+oyGfJm+KZBlr4+J3VGqh3/D1qL4E3kA4eFJE
-	 iTHUbZBKojzrK2PPMimktTe6WJ/xPmCPScbqAjUakz2iJWwbR9yMp06R6OqGJsjSyY
-	 iTzmaJeTnGMYNjryGNAVUQcnBZEr5PVFe+UVdhUI=
+	b=OpI/Zir2rOTU5owwCigmevOjDYm3q2rDzCDsZIHdm8pASEDnAaTiil2VtP0OKRIzg
+	 n+8nr/vZ17LYNE3C1n39csvZiNCxBlziXwbUyyDCosD1SlbNQD7XfeSz6YGHj1mSBv
+	 RLeuhNLSd1blPdt+OgFfQYFHVNCjjF4SnT1umWTI=
 Received: from lxu-ped-host.. ([111.198.231.89])
-	by newxmesmtplogicsvrszc43-0.qq.com (NewEsmtp) with SMTP
-	id 749182DC; Wed, 15 Apr 2026 16:29:09 +0800
-X-QQ-mid: xmsmtpt1776241749t5gy9jg17
-Message-ID: <tencent_1E9E3B1B234BA11B762595BA40BBFE33C608@qq.com>
-X-QQ-XMAILINFO: NdB5/PuY7PjGLMpsxQP7z7wPTqpU3DRqf/UXjrzZgIgButyNrE9ebDVqQUdNNe
-	 fK2f29MEhvtXElH4t+NVkypoafN8Vz+O/R69UIk4vA3khV0oHvOCGBN+7Yp/fq1TjPFg1oWRF9JT
-	 F/rzpEglFdnLRmWx+HMqhQSYxpfc5v5yU2mVGiiXY0kbj4N0TgWrFap8xxYJQ8xc85aF7UpxNLlD
-	 QmC3F3N6yIBKLfhb4XLtgu51yTqicATlT7PD8Wc9FM80QLqCtrYDVpCnXiFgtTRTEtnkx8/1JsM4
-	 uYkIqFGYPAoOIR3n4gSZiJqCAh0CUR/D6vD4me/GryZcjhoqbGbze7vcLsEpIZ6dP8u/AlRs2sLx
-	 +S5YoNGS4S1YXZdGYGdoFnCkLuTBBZfurxOF5+GTmIuIOEtYRXxnNubL34/ulFFi3yuvJ7jedJWi
-	 BVKfHgsN0Ab7FkQbsxar3RT8jpMnCsUovVZHY1RW/1FmT8cDfYs4BLyq39ap4cc8rr2lZt6UdRJI
-	 Q5DD3pufs+52iP0hEuT23bHMBOcObR/dQod0MmgN5tSWMV1xaVT74YcdfAnLV5fqNrqQ+Dh3s0F3
-	 O8zWWDbmuGWV3KXWR/k4T8gnox4qkCohMqMYfgQ+dMCk6IrnP0JD+0Dn3JJccsvbl/u6C+UuxFLK
-	 LcmvJ8QYzoAO1kzyHZTQ93D+FVYhizdlvjLKp5T/Z43O7+9qVcP6NzNIIyw19ONXNj5ju0KfV3Sr
-	 fAaUjZvCwJ4vxDbYmT4XXCyqByhbqeyxwDYwYt+X1wjtDhLVtCxsZrHMtcMHmJAkA36FMaj7o/h0
-	 xNYoqxjyNcnm0mWN86hG00gEsPwtFDO64IPe7zKZiwnZbZTWXNtqEjyM2IwloVVhhY8ddySOApZo
-	 NUfL+n7umDUq/XgoIAPHGWhBH7FZMIR9R2u3Z20M8S6ftqnU3KxRvSw+uL7Bd/sFoP52pIOVeFTt
-	 a0Rsy9NRDvF0pboqKG9CjS6CkYBxsfzuO62hnt4J6SXhJhHJHb8wCNVpquQUTbC3MFoDlgfjDxBP
-	 EKmQnUqg==
-X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
+	by newxmesmtplogicsvrsza53-0.qq.com (NewEsmtp) with SMTP
+	id B44B521C; Wed, 15 Apr 2026 16:45:04 +0800
+X-QQ-mid: xmsmtpt1776242704t83m5bic5
+Message-ID: <tencent_42B2972A36284B9A7555774B66843D4F3609@qq.com>
+X-QQ-XMAILINFO: NdJjTjI40ejMBrB3AzYxuTwgAV7Vyuen3ABBObOMI3q18hfpEOv2AtY2oMzw45
+	 hQFP+Xqkibdgv6gXykpPPPn9BzGlJRh3idiRF4qaYabZCNZsrTcPGqjXkqDi6qbfRFue3FDnOEyk
+	 g5RpvyH2snnwCIjiYaozDO3lbOybWnDOL4jyX7p7SyBA/9AGWNI06xwl8lM9qEcFMMiN2pwH4KDA
+	 1hG4KBRwEkfHRE+X8G1Wlklr9IE0DvU2rXX24fkA2kvCtqy/k7YFZojK7sIjrg6zAIsmUNhhSC3u
+	 CUpEDDExp5GAjX3o7QDOFICpZwn5Ld71D6DkZW8reJTR49JvfatoG2bWU5UDcWns2hO3uwBSd4YM
+	 EHLsBl8sEy1UL/GsEyBxVkq8cIVC8U3GrHSR29XcTf/1uqtgUXcoHe7+nGH3spvV/dxHecgSkdtx
+	 nmMj/rGtOX5VPHujdBCFx5NOQKCte5KxKZUuuUkO1QGhwQ4WJc9/OMJsh8C0cilcMsar7gbek4+r
+	 MlzF7KhXvUx6FEjqfw9DmbrLZYn66p/xKmtGr5lycEvAITkiTuDG/+ZF+8ZfDVchY5YjiTdZlDgf
+	 H8z3uFKKh3JxlJUGDYkidDAOo/rgcdTexsgjIoXjN0qxZLUfWeczlYgsmqI4zpx+puzBva3CVkpf
+	 VlPT+kyOYGjSUrNQdwIpoVRn1rwA1xa/iQ5OiBuOZ7QsGUs1+j6zHRKUAxPyh9wUfGAfqR8oYuEU
+	 eCXRUZCi//sSq3kyeU8xTwiYvPAnB+C+h1FpY2COhhblv+jkXQzqOJCPy/srjADMRMQIcWzFypj0
+	 /JIJbFHyPU4BwSFW8ruyVaUUYPLC9W/uhQASMMCg1ssWHuSyUXSebY5ldZBOTs1bTB1LCM371fv5
+	 9v+6Ytktd0Ox3ikOEy+4+topmkCBSfWham0k/Wa5pWbX72CdD6YRUBi3l0DO5L3KMRBpgRuwpZ29
+	 nm78estif2K48h5VltmnlRq6wtA3QF+e7tBd9t8GgcOvIIzEczj5QwcAS1E7VG2T6yfX3WoX+tqJ
+	 BtcVwAng==
+X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
 From: Edward Adam Davis <eadavis@qq.com>
-To: syzbot+217eb327242d08197efb@syzkaller.appspotmail.com
+To: syzbot+bc70a12e438dadba4fb4@syzkaller.appspotmail.com
 Cc: frank.li@vivo.com,
 	glaubitz@physik.fu-berlin.de,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	slava@dubeyko.com,
 	syzkaller-bugs@googlegroups.com
-Subject: [PATCH] hfsplus: Add a sanity check for catalog btree node size
-Date: Wed, 15 Apr 2026 16:29:09 +0800
-X-OQ-MSGID: <20260415082908.313880-2-eadavis@qq.com>
+Subject: [PATCH] hfsplus: set attributes inode dirty at correct position
+Date: Wed, 15 Apr 2026 16:45:05 +0800
+X-OQ-MSGID: <20260415084504.315596-2-eadavis@qq.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <69decbd0.a00a0220.468cb.006b.GAE@google.com>
-References: <69decbd0.a00a0220.468cb.006b.GAE@google.com>
+In-Reply-To: <69decbcf.a00a0220.468cb.0069.GAE@google.com>
+References: <69decbcf.a00a0220.468cb.0069.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -65,51 +65,51 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Syzbot reported a uninit-value bug in [1], during the file system mounting
-process, specifically while loading the catalog, a corrupted node_size
-value of 1 caused the rec_off argument passed to hfs_bnode_read_u16()
-(within hfs_bnode_find()) to be excessively large. Consequently, the
-function failed to return a valid value to initialize the off variable,
-triggering the bug [1].
+Syzbot reported a null-ptr-deref in [1].
+If the attributes file is not loaded during system mount, a trigger
+occurs [1] when setxattr is executed in userspace.
 
-To prevent similar issues, a check for the catalog btree node size has
-been added within the hfsplus_btree_open() function.
+Move the mark inode dirty operation to a point after the attr_tree has
+been successfully acquired.
 
 [1]
-BUG: KMSAN: uninit-value in hfsplus_bnode_find+0x141c/0x1600 fs/hfsplus/bnode.c:584
- hfsplus_bnode_find+0x141c/0x1600 fs/hfsplus/bnode.c:584
- hfsplus_btree_open+0x169a/0x1e40 fs/hfsplus/btree.c:382
- hfsplus_fill_super+0x111f/0x2770 fs/hfsplus/super.c:553
- get_tree_bdev_flags+0x6e6/0x920 fs/super.c:1694
- get_tree_bdev+0x38/0x50 fs/super.c:1717
- hfsplus_get_tree+0x35/0x40 fs/hfsplus/super.c:709
- vfs_get_tree+0xb3/0x5d0 fs/super.c:1754
- fc_mount fs/namespace.c:1193 [inline]
+KASAN: null-ptr-deref in range [0x0000000000000008-0x000000000000000f]
+Call Trace:
+ hfsplus_setxattr+0x124/0x340 fs/hfsplus/xattr.c:555
+ hfsplus_trusted_setxattr+0x40/0x60 fs/hfsplus/xattr_trusted.c:30
+ __vfs_setxattr+0x43c/0x480 fs/xattr.c:218
+ __vfs_setxattr_noperm+0x12d/0x660 fs/xattr.c:252
+ vfs_setxattr+0x163/0x360 fs/xattr.c:339
+ do_setxattr fs/xattr.c:654 [inline]
 
-Fixes: 8ad2c6a36ac4 ("hfsplus: validate b-tree node 0 bitmap at mount time")
-Reported-by: syzbot+217eb327242d08197efb@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=217eb327242d08197efb
+Reported-by: syzbot+bc70a12e438dadba4fb4@syzkaller.appspotmail.com
+Fixes: ee8422d00b7c ("hfsplus: fix potential Allocation File corruption after fsync")
+Closes: https://syzkaller.appspot.com/bug?extid=bc70a12e438dadba4fb4
 Signed-off-by: Edward Adam Davis <eadavis@qq.com>
 ---
- fs/hfsplus/btree.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ fs/hfsplus/xattr.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/fs/hfsplus/btree.c b/fs/hfsplus/btree.c
-index 761c74ccd653..61050ffe425e 100644
---- a/fs/hfsplus/btree.c
-+++ b/fs/hfsplus/btree.c
-@@ -337,6 +337,11 @@ struct hfs_btree *hfs_btree_open(struct super_block *sb, u32 id)
- 			pr_err("invalid catalog btree flag\n");
- 			goto fail_page;
- 		}
-+		if (tree->node_size < 2) {
-+			pr_err("invalid catalog btree node size %u\n",
-+				tree->node_size);
-+			goto fail_page;
-+		}
+diff --git a/fs/hfsplus/xattr.c b/fs/hfsplus/xattr.c
+index 452a1f9becb2..3e6f45b3259d 100644
+--- a/fs/hfsplus/xattr.c
++++ b/fs/hfsplus/xattr.c
+@@ -317,12 +317,14 @@ static int hfsplus_create_attributes_file(struct super_block *sb)
+ 		next_node++;
+ 	}
  
- 		if (test_bit(HFSPLUS_SB_HFSX, &HFSPLUS_SB(sb)->flags) &&
- 		    (head->key_type == HFSPLUS_KEY_BINARY))
+-	hfsplus_mark_inode_dirty(HFSPLUS_ATTR_TREE_I(sb), HFSPLUS_I_ATTR_DIRTY);
+ 	hfsplus_mark_inode_dirty(attr_file, HFSPLUS_I_ATTR_DIRTY);
+ 
+ 	sbi->attr_tree = hfs_btree_open(sb, HFSPLUS_ATTR_CNID);
+ 	if (!sbi->attr_tree)
+ 		pr_err("failed to load attributes file\n");
++	else
++		hfsplus_mark_inode_dirty(HFSPLUS_ATTR_TREE_I(sb),
++					 HFSPLUS_I_ATTR_DIRTY);
+ 
+ failed_header_node_init:
+ 	kfree(buf);
 -- 
 2.43.0
 
