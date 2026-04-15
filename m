@@ -1,137 +1,128 @@
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D1DE1E32CF
-	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 12:50:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.172
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776257412; cv=pass; b=pzftm2+Cqs0SSQ5L7CabcV6eFwHGDYr/N7W7kXVS4qpq6cWgPc6drGFjMpZY9Nwo0O8+VPC3z99aTnTh3LnBKhq6hHK/w/kcN9r7KOjN9OI+steAmwvr+4zGhKGdVB7cf9khiux+UgmFS7kEAXgSM0zxhkEqZeqs8kbLx4vucmM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776257412; c=relaxed/simple;
-	bh=ZP4vSTi237WM7Shkp/cJXygtdRvJMxuMDi0qZjIwYCg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=f3CboVJFcRG7P/McTjGJxVBWgmEzmi3sdKNHrSyzstCzs5i9Q3rwtnChAhBe8cBZQHTMuzebP6CdMQQ/sbq9+fUyCPAiCokwe1yNBBTlhJlj20qKqQXE5GBHtx42aNLXQl6qTuaVxQKBanzD0O7G/7f7LRLbdhUCOUW8E0D6A0o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=U5iWKqd9; arc=pass smtp.client-ip=209.85.222.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 421AE283C82;
+	Wed, 15 Apr 2026 12:52:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776257567; cv=none; b=WXGfA0QAuhZd7WVxigJG15IhHMtMvxYxb8YootCpPLXwQ5wvbFY3qZfVQZ37IbrZ2/QNtXGEpB8ah8vHl0IhnSU96CZpkCNElGPm4Tnk1VDbdke3g4YbJI7m/1USUpPq8MWz45+EwknWrrndAkgIy8IecR/0qWA4pjLi+oLIOxY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776257567; c=relaxed/simple;
+	bh=gq7KXSOC5+mZVKjUhfqoFacHhD99oZi0rh5YFtrpo1c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=u9JuT+iVtkjkzp+72MKn/rbm4OyvbD7XJF6MWKoCp4rGB68h20WQYuVqSiNeDzEWRvWXMH7rG+bAWSRDP+N1WziO1wfGXqLjFu4gD+mgJtf21IbNAxrP/7KYx1EPXU8oXP7dL6Xx2wQQEnd26cDj5RqIgaZYHczKsSS8y4dhNyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mG9dgdzG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="U5iWKqd9"
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-8dfb9139008so314213285a.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 05:50:11 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776257410; cv=none;
-        d=google.com; s=arc-20240605;
-        b=W1DqKKOAIuAB+4nkS/VTu3DJxMmUMgRdiNxqFsSbZL2g+JE4Kcd871PdvBKqZ5rHK1
-         nWujOiO5Jh+HhACPZ60HBALsxQo8JxVkMrWJhkAhL3h0hviQFrI4kkNqlSQZaAnp8DJc
-         8dcMOLVd1POtwlEb8NapvLIvzsdML66+KBrl+2Xz1eu9TcKzfEwumNg8PmjXw816+Tv6
-         tFlEvW0jo8WgRTd84LkrvjOaQY70ILYk2lw2XeRraqGUQesugXNu78uhF6jgpGtBj6zT
-         PYZ+BihcbmsOwMAcmfgI3Giv9qujIfMvZn2EXFuRiRwlgbl4XyKQtQL2ywfzNg7RvLcV
-         DbeQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=D4tWC3t3xANgqGsaOz03y9MNl8MWkuRMcvKOFAlOirc=;
-        fh=scfUiBnGpmLoIt7jcdbJQJMeSva4IXoxsn3+UUU02jU=;
-        b=aesAux7vTDzRCjM1dXffA5woPUgxSmBjLfkh7Te5NVvQh6kDhw80+EJN89M0TVWm6W
-         BZ2O4lyMVHpNFJDa9T8yaw7FT74+C6moCS5KLLYlFu79dNtyZvlo82lQKa0hvi1NQzWK
-         kx7XH0ZuLfD8i+UvBsrYCTKS/slok0oZbxO/aZxFOqnhJkTBAb6FKgnUxsQWuLF70XvN
-         krbO7/2hPf5b9nR5t+LPstsWbKs3uHRSeYvwTSMzTFmG/rAQO0yQVfIooclxO8pQRoHD
-         e3YFTgVLE1ZXQe8f5QoO66TzZIdlsVzvNen3YefawfCTWGo2VGe561d5VeUiSqHjjYfZ
-         r+zw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1776257410; x=1776862210; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=D4tWC3t3xANgqGsaOz03y9MNl8MWkuRMcvKOFAlOirc=;
-        b=U5iWKqd9C7K17mIJA9DrwIPET8xAgSIjI2Dt80xmicSUiKIzaYpxe+gAPBNblAuSWZ
-         DfS+CTLbbUiRFEe/2OIJCdvbn6JwJnQ7g6nGwaiMzvYG92hq04dXUiQCOK0Eoykb2HLd
-         +Lf49ORPa7Evp4kGLefWinL34LJAzskx2Z6snitX1Rv6AVyFHdge0ezE9QLgSPx9zXod
-         FVeuIF7O8omcL+i2V4/a4lCBxO602uRsOUg5W+g+9Qi7EjUTXQTmpBqrC7Sqpf72WvLE
-         bqo3c0owFzf9VVKtgZOxhriAdcbn/sj3rIAfY1XpB/TmMXUbfvX+qQp5Kw3NsVVjO3x2
-         HWBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776257410; x=1776862210;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=D4tWC3t3xANgqGsaOz03y9MNl8MWkuRMcvKOFAlOirc=;
-        b=WQcOMw8ydEJ0LaMZh59QCkX8vi4dL866592XZ4/bsyFvY3DUsbHkwCgYRk7j+ZK4Et
-         TF/2dO89EzuxYNk6tnSO+2D9yuOg2aXodx89qZge+ty9UrSOWLaZq1jt9v1EOa33Q+7Y
-         EoZk2pZ/4iVJ2GsrT5xPZHW+adNwSRmDr2pLqQ9JAPWRLo/TUDe6ZeT4x3/PdT/cgVD2
-         wojYJ+HdL4/vqbsfpvsnVHOxPub97KtKatAy1llWzhxQ8R5wnAUKZ4VUhuSt5q5l566D
-         lXGiKyzkAgwDg+Y8Mxvcfv4hRECBhoLK/f43xCqopB8pGJ4fGAo/x8QPqK9XwjnU/y4B
-         JxBQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8v2JsOXjTHrK6KQRj0NJWTiweLDsLHiZPp567aX14vxLR/wL5/ZaNS5Y/uKwXgyLmw3sWohMfs8rUfty3r@vger.kernel.org
-X-Gm-Message-State: AOJu0YwoYXEVFNBVOGJ/PjOg7Vn+2qTPp2dRsh/XD8JaNqMOesU5cZ0U
-	l5qr0IMO6KQDyGsznhSocnChARgc+1irEsuW7nPeTxaBA31hqZGknCR1DWDpMO0a6HWSYEDXIFU
-	61zIqfRs8B97CrM6RAG3Rfk1p9589AHTiYOzefLWw
-X-Gm-Gg: AeBDievmwrQy54XhPD1OjKz0znsZnQnLbMKcpmhOUzgAYZz7hxwq2L+9SfHEvUXfJb9
-	5wehfosT0ZOl+iQ675nvPQSTkOeeg0RLNo6hJNjpSPtkOtjDRpx1CNVpNNOUYeTFv/K/jPVAgFo
-	Q6BK2cQGNEtgVhMfpbiBwbHozBmUEbWOc1QNVewuksEhVYEIX6XotUnjRJ6RwVvdHYxBUHEavHQ
-	I5geF5kGVtKU06ozxMFi9MBYHNKUM+R2TmAXb/PAwaAcrHfxnts+hfgiO9T3RfbLdgLgfDRhsBU
-	YKdaNv0HCSqyPWxv3CoiMTfnwE4k
-X-Received: by 2002:a0c:f40e:0:b0:89c:ede4:ea35 with SMTP id
- 6a1803df08f44-8ac8613e90bmr340193926d6.24.1776257409637; Wed, 15 Apr 2026
- 05:50:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mG9dgdzG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0638C19424;
+	Wed, 15 Apr 2026 12:52:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776257566;
+	bh=gq7KXSOC5+mZVKjUhfqoFacHhD99oZi0rh5YFtrpo1c=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=mG9dgdzGd/EoKCzFJ6z+hRUX35HLLa/wSjkfuyXACrQ/GsjULudK1OJWQTvjxkfy/
+	 t+znJniDnUjEHtF+f6Ht3RgCs/OxTSZ7oS4zv1jwM1gPmavafQG8VFPrbTuT4NY9jy
+	 M6kSMU1NwDZltfD2DRCBMzqCmO65Li8zsdcf3uK0nTOt98pjqsQoUVyB7kVQ3GjstK
+	 WQNFQRL30k5lcN7lJ7I/3q9T6WExQrrhN4r1/lyQBZLK0RMecPVk8argUVcoZlqeth
+	 /CGZTyXZsdJ/D/C3WAx4sQ4H9I1cHcRh1RkjtuugECI58uLGF988ppgcBKmdpGHhuM
+	 sObWb/KlniUzw==
+Message-ID: <e5fcb3ba-6494-4295-a8a7-191c3ea0aae4@kernel.org>
+Date: Wed, 15 Apr 2026 14:52:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260409160243.1008358-1-hch@lst.de> <20260409160243.1008358-9-hch@lst.de>
- <adl1iqhldFvJwSw-@dread> <7f0d072b-97a7-405f-bff5-d3819de2e3dd@linux.alibaba.com>
- <ad2RKNo2FGhpzJQp@dread> <a7a74185-df02-4906-a0ec-f87e2394aa5f@linux.alibaba.com>
-In-Reply-To: <a7a74185-df02-4906-a0ec-f87e2394aa5f@linux.alibaba.com>
-From: Sandeep Dhavale <dhavale@google.com>
-Date: Wed, 15 Apr 2026 05:49:58 -0700
-X-Gm-Features: AQROBzBdnyNeg6M7eBa34eLrstKbL-D014vWbc0uebEOU17jGRgdz997IpSMUAE
-Message-ID: <CAB=BE-SObq4hSO9s36H06eVtZzyj5OBPKJSOOYGJDDD38URN8w@mail.gmail.com>
-Subject: Re: [PATCH 8/8] RFC: use a TASK_FIFO kthread for read completion support
-To: Gao Xiang <hsiangkao@linux.alibaba.com>
-Cc: Dave Chinner <dgc@kernel.org>, Christoph Hellwig <hch@lst.de>, Tal Zussman <tz2294@columbia.edu>, 
-	Jens Axboe <axboe@kernel.dk>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>, Carlos Maiolino <cem@kernel.org>, 
-	Al Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
-	Bart Van Assche <bvanassche@acm.org>, linux-block@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 1/2] procfs: add contpte info into smaps
+To: Anatoly Stepanov <stepanov.anatoly@huawei.com>, willy@infradead.org,
+ akpm@linux-foundation.org, ljs@kernel.org, Liam.Howlett@oracle.com,
+ vbabka@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com,
+ wangkefeng.wang@huawei.com, yanquanmin1@huawei.com, zuoze1@huawei.com,
+ artem.kuzin@huawei.com, gutierrez.asier@huawei-partners.com
+Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org
+References: <20260415192853.3470423-1-stepanov.anatoly@huawei.com>
+ <20260415192853.3470423-2-stepanov.anatoly@huawei.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260415192853.3470423-2-stepanov.anatoly@huawei.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-> Basically what we want is to get a non-atomic context instead of
-> using the current softirq context for read post-processing and
-> switch to the task context immediately as you said, because:
->
->   - Our post-processing needs to work in task contexts since
->     advanced features like compression deduplication need it;
->
->   - Even regardless of our specific requirement needing task
->     contexts, using a dedicated task context for read
->     post-processing is much better than run in the original
->     softirq context:
->
->     - Algorithmic work could take extra time (especially slow
->       LZMA algorithm could take milliseconds on low devices
->       (however, we need a common workflow for all algorithms,
->       including fast algorithms like lz4) and verify work for
->       example); and long processing time will interfere with
->       other remaining softirq tasks like sound-playback
->       / network softirqs;
->
->     - If it is then deferred to softirqd, it just makes this
->       latency issue _worse_.
+> +#ifndef pte_cont
+> +#define pte_cont(pte) (false)
+> +#endif
+> +
+>  static void smaps_pte_entry(pte_t *pte, unsigned long addr,
+>  		struct mm_walk *walk)
+>  {
+> @@ -1023,12 +1030,14 @@ static void smaps_pte_entry(pte_t *pte, unsigned long addr,
+>  	bool locked = !!(vma->vm_flags & VM_LOCKED);
+>  	struct page *page = NULL;
+>  	bool present = false, young = false, dirty = false;
+> +	bool cont = false;
+>  	pte_t ptent = ptep_get(pte);
+>  
+>  	if (pte_present(ptent)) {
+>  		page = vm_normal_page(vma, addr, ptent);
+>  		young = pte_young(ptent);
+>  		dirty = pte_dirty(ptent);
+> +		cont = pte_cont(ptent);
 
-Yes, this was the reasoning when I narrowed it down to per-CPU
-kthread approach. Patch has helped reduce app launch times which
-has a direct user impact.
+No, none of this low-level pte_cont fiddling in common code.
 
->
-> But anyway, I think nice -19 can be evaluated if Sandeep have time,
-> but such nice value should be set by the filesystem instead of
-> the userspace since the reason is as above.
->
+We have folio_pte_batch() to batch over folio ptes. And we want some
+better page table walkers to just do the batching for us:
 
-I will find some time to re-do this again, including setting nice -19.
+https://lore.kernel.org/r/20260412174244.133715-1-osalvador@suse.de
 
--Sandeep.
+-- 
+Cheers,
+
+David
