@@ -1,364 +1,206 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B54A38A727
-	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 21:40:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776289218; cv=pass; b=MgnKsJOSKVg6XJ+KylezNy3TawIbMuxp33O+f6AIRnDVsBqViQ4S/IZPLJOzFzjnO4l62lKu4yIc8V4wgIFUUjnRvwlTcpNXX2sgMyI6shp/1GqgfWUW6Uib4r/+4ggUftznSTybmwuXuUNVNv8N68uzZ0m9UWEFhxH41SmMHe8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776289218; c=relaxed/simple;
-	bh=BfxWaS03QavzR6RQOsGUS7baFHXQLvUh1CH1oKeY8GQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sF6Hq0CvUZ45SgY2qVlq5mlRKvo1IhJFlNkJQlNX8xue47lq2nhhs47nhUbI2fzkLSpGjNBgN+LltbrleLu49tI7b3R7sCOlt5fIdX/OJtTFLX5c+7q/J3f2gUXFxJkxSqDV7k5A6RNBaL4ZVOu3hsZwV2oY/Gi8EYnnaLbzhvw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Eixzv1x9; arc=pass smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD2E91DE3B7
+	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 21:48:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776289715; cv=none; b=pWMwDDIBr+JRWhCrRXZRp0af00A0eFfWh9G2O80GGj2RNzfBt85pawgo6vqphkO0cscAWzsaQ+txb/l1c6wzTWErxj+vdm4Wr9+CgIm432f3vVtFpkIXCrEO13MIENt9E+cjGO0uf4VBBjWxwlKwALlo557Vw8pc67TFMS5R8vo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776289715; c=relaxed/simple;
+	bh=HSbJ7b2GfHm7QF2U/lU2tID71YO60ldLPYeKB5OAhjs=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=JgY4K8TUojx2iDXOYYsbC4H7i3TzU92bO0k4MIjlYLahDq7hvpUa4krrzmnsVnK5XGzCu4IvIxd/VOOoM/txurFqknQWyjx2qJdBQ3Qjaa+9hjaQS0pQsHD+1OQoVDJM2CpXW8lndCbu6IUQyPwLmWmoCE8wWgbXFFCUm7yweOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IqijPFFw; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=fR06KltO; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Eixzv1x9"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-43cfde3c3f3so7372767f8f.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 14:40:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776289215; cv=none;
-        d=google.com; s=arc-20240605;
-        b=IYFEMeKyhQRquX2f3GQJ8jEKhj4286ZxjS+/oPVXgb+774glXtdFjXtF2DRqzVBr+Q
-         nKtW3umGojaeV/nFCNaKN/K17rIgkSNCH6PXFrRp4ma/g4PAYUDeuy+dhEYSDHihy1vD
-         oNS8jcmAe8e5ohc+6h7mQFtzhUHtNNwqP/kB0a82pR5S1zqIdEgS7Xnls5oVEEmuUC6W
-         godZHOa93iRgozHUnxShY8+ltiJ3vcwAQpLOAIOHDGPVpc/6oLe5eeB1j1ldqSs0jPim
-         Rg1PS8VHI/NCsTao5G5YbWfuYdVfR5/hNAMhEFWoh5h1L0oM7pZASVqs3nfOC5L68w7k
-         zbjg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=6/sbgt3goJpXeAIdY+603XnfW9J92SkHyWjPdUU2Hoo=;
-        fh=uI/TRr0VVHuiRFDcFwUis5XVDmpc3ob7G+3FdioRhbM=;
-        b=Vn+avbF98sxJfdw0gDwBt0lsVd9yprd2eTxwzSX5w4eRLch6dBpGFNjBdxbh7fjZj+
-         r0p8YR5XfcRXTbTqKbWameEDL+T3MKNO46VDKQQkdKFuGfg8baVhtzw6XspFFmYnhSyV
-         LopZh0h88YMAJ2QZDJoNiOm54ExRG8gGcGLfCVL7ba/dq7PxwIs8V4eMgZ6bcloDrRel
-         xxj3m8u0m1IcHj0FhM5RyqUX2IjqD76RMS68yoB62pKGPNkrcLbiZ89vT4Kli1Z/qdCM
-         34mTIFBQp6cz/39gR5o7ktoScgPQ1CgbVjQ3IBcwV9/vued7yfY1dMpPWKm5FURN5+iO
-         /nfQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IqijPFFw";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="fR06KltO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1776289712;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=y5Yjy3S3BFKJDNyOmnU55JSd5lC7QzocCDrnIK6I4+k=;
+	b=IqijPFFwxr/PqB2+w1FZBIZZP8zOGu+Wl2CN41T6eyEZrCDKKzSdZCgh7mmVaDUiAY2OYI
+	Qh4YDe3LY/Q5APLZf5p06EVfAqbvNPbOas4GXtWD+7352yoOj/RAwWq9oAM5NkzNpwI6oe
+	gaGVQ6quLxvYhYexspsMACC05R1jC7k=
+Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
+ [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-500-_30SRp__OF-yFnom5VXLzA-1; Wed, 15 Apr 2026 17:48:30 -0400
+X-MC-Unique: _30SRp__OF-yFnom5VXLzA-1
+X-Mimecast-MFC-AGG-ID: _30SRp__OF-yFnom5VXLzA_1776289710
+Received: by mail-yw1-f199.google.com with SMTP id 00721157ae682-79a670a5fe9so199045277b3.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 14:48:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776289215; x=1776894015; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6/sbgt3goJpXeAIdY+603XnfW9J92SkHyWjPdUU2Hoo=;
-        b=Eixzv1x9dKXleWw035nb+0/2h7PlzOcv9eDKHaqbHoSGRDKuBfZ0CCvN1EhlT9rUWd
-         BvANwEsoNro4RHiTGpYt/b5tI88yJR/P+ObBcBHxRDSd5U2e/3UvV7cLSp4i46ufccHH
-         Z2PukSmLpLQXzy7xvDKlxYgAU3SFhicViwf7lTl/zCWBFIA/kqfJBnlRCXNrLTyrWek2
-         T0+l0vzwMx7A2BfDyFYHCpd60qD3fizQFoqIMlkZ3BId/xDSvVvro4hzW5u6H/j+Jzip
-         KRpVPsX/uXotbwZtzs1Ej7J9vzaAR+nTxUnXVVXxi8lLxoWjBTEPi2orFVTkL/nSwzZb
-         LKHQ==
+        d=redhat.com; s=google; t=1776289710; x=1776894510; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=y5Yjy3S3BFKJDNyOmnU55JSd5lC7QzocCDrnIK6I4+k=;
+        b=fR06KltOwwZ9gzxVFCG8A9rQmORe/38800H4s1IIAJKlc+WWvoakTK1a0Ncn+Xj7XF
+         BblmlIT6nOYqPsEPdKrL2D5GccHSXNLVZuu2QWJdLfdi5enCc94rAH1+0lx9EEWkOY41
+         UgDHX71EQIKGT7PZdJV8gnAOfHzjVdzDjeRqhvbI7n6VTReS/7WNQMlWq50KPVJ/Xl3q
+         uLz7jNHptFdAiEuZCpTyqPA8pXiVF3w5CD/RsvaJMMTh9oVBnAjSI6g57SwhkC4qg953
+         CFwTeMThfZN5S6Ba3UY3uCYZ2QJOmypIJ+RDaLtOg03ZKKVOkteSFsflTd9LSWXs/tmC
+         oIag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776289215; x=1776894015;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=6/sbgt3goJpXeAIdY+603XnfW9J92SkHyWjPdUU2Hoo=;
-        b=W/7TTKOJm1T5tHx/pGDwWln3vPmUn75aKmFzPgmQR2wNP7/P89XFciR56UzBiV2X8w
-         gqsaos9iPxN6PSUATjboScv4+Bgqgz+DiyImoxHVHsdopKT6GcyoAkhZOCbZU4UvTsQ3
-         7IQ5zcBg0ctCh5c5KCMvOBdpLke9WXUjdG6PteDxL8zVGZRFJQD5T7wszMG/I26JMOur
-         WpqzpqAA/dy9svzW/wG/2hsPWXVpfYt4cC6WVRdVDWfKuD00/OlCNjs07//UgtmeF88Z
-         riCXIRboE59A1LyF3noe4e0F+YILyTlNxlGCbOPeGc1OVeFnZKp0viZc+3P8rwyRwGNK
-         VlHg==
-X-Forwarded-Encrypted: i=1; AFNElJ8sx3gGChZHAhYvMukb74ETwC9GXRZJaJ1XmjNEAHbjdimGtiHV3Kuc7ZGsFU8bnDgltlOIOUbFcZYXz0km@vger.kernel.org
-X-Gm-Message-State: AOJu0YxFzny3EzLnReDyNJoSmd0rnewrA6/6Km2HvhaD7IgDY4TdD8hG
-	QPoI0BK4ALvfvZ2/iP0fvpJ/XGJ92OeOwkUqb8FMljQPdFnPWZ0AI+zIFWA05GUIRJCAeIygOtU
-	LEPoIOS3FL3sZnvTR89FlAXyrGSdDeuosgotF
-X-Gm-Gg: AeBDieuB3dNvNwPqZEvEpL4tQ7e4Wz1tG9cESvAj3uByEVzeWADEaLM4XiY5uM9jHPj
-	w3JjrSpWaK8V0M1s/IRpb7TN2p7Xs0bGuLDvzametNI9cAKBY2EVunFPB6VVuifiluQT4SUDIGY
-	AlwOZP0bu3SHAQ6mZHa6zeP6RbILPso0eUb0yjM76zp2R6BJXj7D1IlZT7KpM0qElzlVivcJwKU
-	A68R/e60EYeLPNpjdejGw8cIMtijsJn+VzaoJyUlyRR5XL5JMtEklIcf19q1pBJsy0AMmKAeMHw
-	nE/gf/pkZiP76yuD
-X-Received: by 2002:a05:6000:24c2:b0:43d:303f:f358 with SMTP id
- ffacd0b85a97d-43d64286bbemr34104492f8f.2.1776289215067; Wed, 15 Apr 2026
- 14:40:15 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1776289710; x=1776894510;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=y5Yjy3S3BFKJDNyOmnU55JSd5lC7QzocCDrnIK6I4+k=;
+        b=pvAdGMHlV+LWoHZvxvromelbwdpiz/bo3l33KRY0E1510BDptvtgfVy8U/8NHlufTl
+         wzZ7XdrwOw2FQZ2y637pdKmQoo4+f8fxcZbCGYucWaHy2vIwV5/hc9VbiELItQuegM9x
+         +VZXxvKdn5Ml20+4AAiiAgnjKHJ6vVMHWvM+DLQwMBhAmDiXR0VJZLH3zA+9jUzGb2rU
+         0DfVlZ3zYPARAqnUczcRjfW1lg0DtJgu6Nfe5WNYi8MuknhpgFoI/2Y+FXhgVjNfq2dv
+         D+nAZuKgYi+w4iDgpaZLVn1chLlvV3N4j9eKiM7MoWmNTVEPt2naCPdp5eI7VwX3i5yM
+         7+jw==
+X-Gm-Message-State: AOJu0YzkTr7k5zxyMZXNK/vpGcsxWiUyzu85wrKi/5HMgAuO6ICBOw9h
+	S43UyqGnQb9XGl1RgN6VvS+zR50vzF37qslwzcsmwKSLdveyJPR5LiWluf+sNDtjuATwUeW/LnI
+	nA41vrzcWdCJZsVO8YRZIA+lYXgVw0nntVZFoVPuv8gqeVZBJv2D9p/ERV06DDQJxBUh1XUMrh/
+	0=
+X-Gm-Gg: AeBDiesFolxD7ow2LpwWf04z9QAHSavRpny59lPRbgPzwJNgcIf2tK1VMo+mu3gL64n
+	+ZpjBhWGWrd1MEMkGNIZm42E5z746FHH1szYd5B+CZ3J9/h0QAcZz4o5lo52SMy94vRJPQS2pHb
+	d5NiXtWGl5VlDekl0reNznujBeGFNbk40U5TR63faZt8c87VypD4suY1K8Pig84KY20UF4Drvm3
+	uMVT5j6FavP5ltsFELROg6BI8i78DvaRLRAd/gFcY8sADppc2zKfcXYk/cgpoeD/6qsW+sKd+yl
+	pNC+SQ1LmBWAI1nYWE6ZkGDtmeGWOMhZoIA/BtAlLF67ckrJbGP++OWhu8beAGESqXi8vjzXYCG
+	l3Ukk89ziq0g3h8qdPlJdCG9Qf19JBbmPGC1CtPbfINZ7uL1uiuX0G6sRp3Re29U=
+X-Received: by 2002:a05:690c:6983:b0:7b4:31cc:376d with SMTP id 00721157ae682-7b431cc3be3mr122199867b3.39.1776289709913;
+        Wed, 15 Apr 2026 14:48:29 -0700 (PDT)
+X-Received: by 2002:a05:690c:6983:b0:7b4:31cc:376d with SMTP id 00721157ae682-7b431cc3be3mr122199647b3.39.1776289709499;
+        Wed, 15 Apr 2026 14:48:29 -0700 (PDT)
+Received: from li-4c4c4544-0032-4210-804c-c3c04f423534.ibm.com ([2600:1700:6476:1430::29])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7b768d3a990sm14025537b3.26.2026.04.15.14.48.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Apr 2026 14:48:29 -0700 (PDT)
+Message-ID: <1929bc40bee602937aac95a3d338614b5fe7e082.camel@redhat.com>
+Subject: Re: [PATCH v3] hfsplus: fix null-ptr-deref in
+ hfsplus_cat_write_inode
+From: Viacheslav Dubeyko <vdubeyko@redhat.com>
+To: Deepanshu Kartikey <kartikey406@gmail.com>, slava@dubeyko.com, 
+	glaubitz@physik.fu-berlin.de, frank.li@vivo.com
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	syzbot+c0ba772a362e70937dfb@syzkaller.appspotmail.com
+Date: Wed, 15 Apr 2026 14:48:27 -0700
+In-Reply-To: <20260415014345.77796-1-kartikey406@gmail.com>
+References: <20260415014345.77796-1-kartikey406@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43app2) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260402162840.2989717-1-joannelkoong@gmail.com>
- <20260402162840.2989717-11-joannelkoong@gmail.com> <e49aab72-4ac0-499f-ba84-b64601cd9b2f@bsbernd.com>
-In-Reply-To: <e49aab72-4ac0-499f-ba84-b64601cd9b2f@bsbernd.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Wed, 15 Apr 2026 14:40:02 -0700
-X-Gm-Features: AQROBzD5ezRxz1E7KfsRyGG2iwNlCuWm64bFl9SyDKVbntp1L-ZM6IQYeN3XyOo
-Message-ID: <CAJnrk1bRYivZfHou81dFzdbe2L47d71c+Wdy8O7bHLbkQD57GA@mail.gmail.com>
-Subject: Re: [PATCH v2 10/14] fuse: add io-uring buffer rings
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: miklos@szeredi.hu, axboe@kernel.dk, linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 15, 2026 at 2:48=E2=80=AFAM Bernd Schubert <bernd@bsbernd.com> =
-wrote:
->
->
-> On 4/2/26 18:28, Joanne Koong wrote:
-> > Add fuse buffer rings for servers communicating through the io-uring
-> > interface. To use this, the server must set the FUSE_URING_BUFRING
-> > flag and provide header and payload buffers via an iovec array in the
-> > sqe during registration. The payload buffers are used to back the buffe=
-r
-> > ring. The kernel manages buffer selection and recycling through a simpl=
-e
-> > internal ring.
-> >
-> > This has the following advantages over the non-bufring (iovec) path:
-> > - Reduced memory usage: in the iovec path, each entry has its own
-> >   dedicated payload buffer, requiring N buffers for N entries where eac=
-h
-> >   buffer must be large enough to accommodate the maximum possible
-> >   payload size. With buffer rings, payload buffers are pooled and
-> >   selected on demand. Entries only hold a buffer while actively
-> >   processing a request with payload data. When incremental buffer
-> >   consumption is added, this will allow non-overlapping regions of a
-> >   single buffer to be used simultaneously across multiple requests,
-> >   further reducing memory requirements.
-> > - Foundation for pinned buffers: the buffer ring headers and payloads
-> >   are now each passed in as a contiguous memory allocation, which allow=
-s
-> >   fuse to easily pin and vmap the entire region in one operation during
-> >   queue setup. This will eliminate the per-request overhead of having t=
+On Wed, 2026-04-15 at 07:13 +0530, Deepanshu Kartikey wrote:
+> When a corrupt HFS+ image is mounted where the hidden directory is
+> absent, hfsplus_fill_super() handles -ENOENT from
+> hfsplus_get_hidden_dir_entry() silently and continues with
+> sbi->hidden_dir left as NULL.
+>=20
+> hfsplus_link() and hfsplus_unlink() call
+> hfsplus_cat_write_inode(sbi->hidden_dir) unconditionally without
+> checking whether hidden_dir is NULL, triggering a general protection
+> fault caught by KASAN as a null-ptr-deref at offset 0x28.
+>=20
+> Other call sites in dir.c already guard against this by checking
+> hidden_dir for NULL before use. Apply the same guard to the two
+> unprotected call sites in hfsplus_link() and hfsplus_unlink().
+>=20
+> Changes in v3:
+>   - Correct fix location: guard sbi->hidden_dir before calling
+>     hfsplus_cat_write_inode() in hfsplus_link() and hfsplus_unlink()
+>     in dir.c, as suggested by Vyacheslav Dubeyko.
+>=20
+> Changes in v2:
+>   - Fixed commit message: hfsplus_delete_cat() is called from
+>     multiple callers, not just hfsplus_unlink() as incorrectly
+>     stated in v1.
+>=20
+> Reported-by: syzbot+c0ba772a362e70937dfb@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=3Dc0ba772a362e70937dfb
+> Tested-by: syzbot+c0ba772a362e70937dfb@syzkaller.appspotmail.com
+> Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
+> ---
+>  fs/hfsplus/dir.c | 15 ++++++++-------
+>  1 file changed, 8 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/fs/hfsplus/dir.c b/fs/hfsplus/dir.c
+> index d559bf8625f8..a7feef53d8cb 100644
+> --- a/fs/hfsplus/dir.c
+> +++ b/fs/hfsplus/dir.c
+> @@ -362,9 +362,11 @@ static int hfsplus_link(struct dentry *src_dentry, s=
+truct inode *dst_dir,
+>  	if (res)
+>  		goto out;
+> =20
+> -	res =3D hfsplus_cat_write_inode(sbi->hidden_dir);
+> -	if (res)
+> -		goto out;
+> +	if (sbi->hidden_dir) {
+> +		res =3D hfsplus_cat_write_inode(sbi->hidden_dir);
+> +		if (res)
+> +			goto out;
+> +	}
+> =20
+>  	res =3D hfsplus_cat_write_inode(inode);
+> =20
+> @@ -431,11 +433,10 @@ static int hfsplus_unlink(struct inode *dir, struct=
+ dentry *dentry)
+>  out:
+>  	if (!res) {
+>  		res =3D hfsplus_cat_write_inode(dir);
+> -		if (!res) {
+> +		if (!res && sbi->hidden_dir)
+>  			res =3D hfsplus_cat_write_inode(sbi->hidden_dir);
+> -			if (!res)
+> -				res =3D hfsplus_cat_write_inode(inode);
+> -		}
+> +		if (!res)
+> +			res =3D hfsplus_cat_write_inode(inode);
+>  	}
+> =20
+>  	mutex_unlock(&sbi->vh_mutex);
+
+
+As far as I can see, we have such logic in hfsplus_fill_super() [1]:
+
+if (!sb_rdonly(sb)) {
+<skipped>
+    if (!sbi->hidden_dir) {
+        <create hidden dir>
+    }
+<skipped>
+}
+
+So, I have two questions:
+(1) If we mounted volume in READ-ONLY mode initially and we re-mount it int=
 o
-> >   pin/unpin user pages and translate virtual addresses and is a
-> >   prerequisite for future optimizations like performing data copies
-> >   outside of the server's task context.
-> >
-> > Each ring entry gets a fixed ID (sqe->buf_index) that maps to a specifi=
-c
-> > header slot in the headers buffer. Payload buffers are selected from
-> > the ring on demand and recycled after each request. Buffer ring usage i=
-s
-> > set on a per-queue basis. All subsequent registration SQEs for the same
-> > queue must use consistent flags.
-> >
-> > The headers are laid out contiguously and provided via iov[0]. Each slo=
-t
-> > maps to ent->id:
-> >
-> > |<- headers_size (>=3D queue_depth * sizeof(fuse_uring_req_header)) ->|
-> > +------------------------------+------------------------------+-----+
-> > | struct fuse_uring_req_header | struct fuse_uring_req_header | ... |
-> > |        [ent id=3D0]            |        [ent id=3D1]            |    =
- |
-> > +------------------------------+------------------------------+-----+
-> >
-> > On the server side, the ent id is used to determine where in the header=
-s
-> > buffer the headers data for the ent resides. This is done by
-> > calculating ent_id * sizeof(struct fuse_uring_req_header) as the offset
-> > into the headers buffer.
-> >
-> > The buffer ring is backed by the payload buffer, which is contiguous bu=
-t
-> > partitioned into individual bufs according to the buf_size passed in at
-> > registration.
-> >
-> >   PAYLOAD BUFFER POOL (contiguous, provided via iov[1]):
-> >     |<-------------- payload_size ------------>|
-> >     +--------- --+-----------+-----------+-----+
-> >     |  buf [0]   |  buf [1]  |  buf [2]  | ... |
-> >     |  buf_size  |  buf_size |  buf_size | ... |
-> >     +--------- --+-----------+-----------+-----+
-> >
-> > buffer ring state (struct fuse_bufring, kernel-internal):
-> > bufs[]: [ used | used | FREE | FREE | FREE ]
-> >                       ^^^^^^^^^^^^^^^^^^^
-> >                       available for selection
-> >
-> > The buffer ring logic is as follows:
-> > select:  buf =3D bufs[head % nbufs]; head++
-> > recycle: bufs[tail % nbufs] =3D buf; tail++
-> > empty:   tail =3D=3D head (no buffers available)
-> > full:    tail - head >=3D nbufs
-> >
-> > Buffer ring request flow
-> > ------------------------
-> > |  Kernel                                  |  FUSE daemon
-> > |                                          |
-> > |  [client request arrives]                |
-> > |  >fuse_uring_send()                      |
-> > |    [select payload buf from ring]        |
-> > |    >fuse_uring_select_buffer()           |
-> > |    [copy headers to ent's header slot]   |
-> > |    >copy_header_to_ring()                |
-> > |    [copy payload to selected buf]        |
-> > |    >fuse_uring_copy_to_ring()            |
-> > |    [set buf_id in ent_in_out header]     |
-> > |    >io_uring_cmd_done()                  |
-> > |                                          |  [CQE received]
-> > |                                          |  [read headers from header
-> > |                                          |    slot]
-> > |                                          |  [read payload from buf_id=
-]
-> > |                                          |  [process request]
-> > |                                          |  [write reply to header
-> > |                                          |    slot]
-> > |                                          |  [write reply payload to
-> > |                                          |    buf]
-> > |                                          |  >io_uring_submit()
-> > |                                          |   COMMIT_AND_FETCH
-> > |  >fuse_uring_commit_fetch()              |
-> > |    >fuse_uring_commit()                  |
-> > |     [copy reply from ring]               |
-> > |     >fuse_uring_recycle_buffer()         |
-> > |    >fuse_uring_get_next_fuse_req()       |
-> >
-> > Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
-> > ---
-> >  fs/fuse/dev_uring.c       | 363 +++++++++++++++++++++++++++++++++-----
-> >  fs/fuse/dev_uring_i.h     |  45 ++++-
-> >  include/uapi/linux/fuse.h |  27 ++-
-> >  3 files changed, 381 insertions(+), 54 deletions(-)
-> >
-> > diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-> > index a061f175b3fd..9f14a2bcde3f 100644
-> > diff --git a/fs/fuse/dev_uring_i.h b/fs/fuse/dev_uring_i.h
-> > index 349418db3374..66d5d5f8dc3f 100644
-> > --- a/fs/fuse/dev_uring_i.h
-> > +++ b/fs/fuse/dev_uring_i.h
-> > @@ -36,11 +36,47 @@ enum fuse_ring_req_state {
-> >       FRRS_RELEASED,
-> >  };
-> >
-> > +struct fuse_bufring_buf {
-> > +     uintptr_t addr;
-> > +     unsigned int len;
-> > +     unsigned int id;
-> > +};
-> > +
-> > +struct fuse_bufring {
-> > +     /* pointer to the headers buffer */
-> > +     void __user *headers;
-> > +
-> > +     unsigned int queue_depth;
->
-> Could we call this 'max_queue_depth'? I still think that it might be
-> useful to register ring entries dynamically when needed at some point.
-> And then this would become a 'max' value and not the actual value.
+READ-WRITE mode, then we skip hidden directory creation. Should we process =
+this
+in hfsplus_reconfigure()?
+(2) Should we create hidden directory if corrupted volume hasn't hidden
+directory?
 
-Sounds good, I will rename this (and the one below) to
-max_queue_depth. Thanks for taking a look at the patches.
+If we don't create the hidden dir, then we could have troubles in multiple
+places: hfsplus_rename_cat() [2,3], hfsplus_delete_cat() [4,5]. It looks li=
+ke
+that we need to create the hidden dir. Otherwise, we could trigger the kern=
+el
+crash in multiple places.
 
 Thanks,
-Joanne
->
-> > +
-> > +     /* metadata tracking state of the bufring */
-> > +     unsigned int nbufs;
-> > +     unsigned int head;
-> > +     unsigned int tail;
-> > +
-> > +     /* the buffers backing the ring */
-> > +     __DECLARE_FLEX_ARRAY(struct fuse_bufring_buf, bufs);
-> > +};
-> > +
-> >  /** A fuse ring entry, part of the ring queue */
-> >  struct fuse_ring_ent {
-> > -     /* userspace buffer */
-> > -     struct fuse_uring_req_header __user *headers;
-> > -     void __user *payload;
-> > +     union {
-> > +             /* if bufrings are not used */
-> > +             struct {
-> > +                     /* userspace buffers */
-> > +                     struct fuse_uring_req_header __user *headers;
-> > +                     void __user *payload;
-> > +             };
-> > +             /* if bufrings are used */
-> > +             struct {
-> > +                     /*
-> > +                      * unique fixed id for the ent. used by kernel/se=
-rver to
-> > +                      * locate where in the headers buffer the data fo=
-r this
-> > +                      * ent resides
-> > +                      */
-> > +                     unsigned int id;
-> > +                     struct fuse_bufring_buf payload_buf;
-> > +             };
-> > +     };
-> >
-> >       /* the ring queue that owns the request */
-> >       struct fuse_ring_queue *queue;
-> > @@ -99,6 +135,9 @@ struct fuse_ring_queue {
-> >       unsigned int active_background;
-> >
-> >       bool stopped;
-> > +
-> > +     /* only allocated if the server uses bufrings */
-> > +     struct fuse_bufring *bufring;
-> >  };
-> >
-> >  /**
-> > diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
-> > index c13e1f9a2f12..8753de7eb189 100644
-> > --- a/include/uapi/linux/fuse.h
-> > +++ b/include/uapi/linux/fuse.h
-> > @@ -240,6 +240,10 @@
-> >   *  - add FUSE_COPY_FILE_RANGE_64
-> >   *  - add struct fuse_copy_file_range_out
-> >   *  - add FUSE_NOTIFY_PRUNE
-> > + *
-> > + *  7.46
-> > + *  - add FUSE_URING_BUFRING flag
-> > + *  - add fuse_uring_cmd_req init struct
-> >   */
-> >
-> >  #ifndef _LINUX_FUSE_H
-> > @@ -1263,7 +1267,13 @@ struct fuse_uring_ent_in_out {
-> >
-> >       /* size of user payload buffer */
-> >       uint32_t payload_sz;
-> > -     uint32_t padding;
-> > +
-> > +     /*
-> > +      * if using bufrings, this is the id of the selected buffer.
-> > +      * the selected buffer holds the request payload
-> > +      */
-> > +     uint16_t buf_id;
-> > +     uint16_t padding;
-> >
-> >       uint64_t reserved;
-> >  };
-> > @@ -1294,6 +1304,9 @@ enum fuse_uring_cmd {
-> >       FUSE_IO_URING_CMD_COMMIT_AND_FETCH =3D 2,
-> >  };
-> >
-> > +/* fuse_uring_cmd_req flags */
-> > +#define FUSE_URING_BUFRING           (1 << 0)
-> > +
-> >  /**
-> >   * In the 80B command area of the SQE.
-> >   */
-> > @@ -1305,7 +1318,17 @@ struct fuse_uring_cmd_req {
-> >
-> >       /* queue the command is for (queue index) */
-> >       uint16_t qid;
-> > -     uint8_t padding[6];
-> > +     uint16_t padding;
-> > +
-> > +     union {
-> > +             struct {
-> > +                     /* size of the bufring's backing buffers */
-> > +                     uint32_t buf_size;
-> > +                     /* number of entries in the queue */
-> > +                     uint16_t queue_depth;
->
-> If you agree to change, also needs to be changed here
->
-> > +                     uint16_t padding;
-> > +             } init;
-> > +     };
-> >  };
-> >
-> >  #endif /* _LINUX_FUSE_H */
->
->
-> Thanks,
-> Bernd
+Slava.
+
+[1] https://elixir.bootlin.com/linux/v7.0/source/fs/hfsplus/super.c#L589
+[2] https://elixir.bootlin.com/linux/v7.0/source/fs/hfsplus/dir.c#L326
+[3] https://elixir.bootlin.com/linux/v7.0/source/fs/hfsplus/dir.c#L397
+[4] https://elixir.bootlin.com/linux/v7.0/source/fs/hfsplus/dir.c#L418
+[5] https://elixir.bootlin.com/linux/v7.0/source/fs/hfsplus/inode.c#L257
+
