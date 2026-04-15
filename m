@@ -1,122 +1,95 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DD6F390205;
-	Wed, 15 Apr 2026 06:30:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9795A372689;
+	Wed, 15 Apr 2026 06:35:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776234658; cv=none; b=ngWkPwe8T55nLG7l05VCypAlH+ADtURbNa8md5F2f//q9xoNDt9J4R/nCBqQxKJomLX+RxnjczcFoVHMcyc9pG4b9USbeydHQ6pSHl+17JenJBi75sgIUbbeJsj3K9Osp3uhwQ/dZLf48hMMlFRFgBGS8BpYaouvTOtDLsoW5jo=
+	t=1776234904; cv=none; b=tZvFx6+UAN+8qWdCwHDJk5cCVgbHo2IQ/Ahvak7L0QjUzQgKPDxOqK5uL1ivGoFRJ+eoPOvUT+7HtDgX3O9fDUq+N6bI2dwGKn0gzhAh+ap4jCDSz2iUSuQM5f2QZojS4BRhjgEV8dWvI12C4CBijp1A+7pXlhk62clq9EgdANo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776234658; c=relaxed/simple;
-	bh=tMiOBW919soQI8pq4nCFQj0lOFJlXnp3eUD8EkTIm4k=;
+	s=arc-20240116; t=1776234904; c=relaxed/simple;
+	bh=IBIFChv5u3e0gIoiVcTtrpvSVwZSCR7TwcaW0HD50Jc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mTucDUDrAHmHJVIFY2RaWOTeMUWsjLPQuH+7+z4juuFESh3ftaGxYQWK8OP4zvInoC66NDISRNJnDLWJ8i30DyZWjGP3U7PBAodkzKAH7D9rH4U0pMJ8upEqcWODbUPDST9HLalaY4o4uLdP1spbelVEo/iaw0qBGmG3DCkq190=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=VE7mAYeP; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=sGHXEiBr; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=LegCuOWHl1zvUPkM91WjPRQF8J9gCD5UXYR5fL/SeAQOkwLShefkAmopXGOr+VrwL/OaeP3ikTIWGg/35Qa2bLTW7u0r/tDigIRLqK1n5+KDHkawJ60LQhqbQNMe7GwxOzbHQ9HmTc5aAiAHWA8pB9Yaql9jQ7BqE6QfDmBoeF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CuMkoXWf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="VE7mAYeP";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="sGHXEiBr"
-Date: Wed, 15 Apr 2026 08:30:51 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1776234653;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VdAKD36E8rLdN/EhiUpV79Bm4JP9i6LgdGtBCZLwAhI=;
-	b=VE7mAYePSJuw8rYF2IEg8Uj5hjEni6px0w3pSuYBi6Zr4//Fs4BFaYhs6s3LLD0zT16FQZ
-	+p/SbZIr3b4N3YaRnHlraP39iqn35JLtKphSUWJ6UUmZc/1vJbISKv73yu8bqwBbYRQqt2
-	xzA8CzYm5G8MzbwIcTYdCFzt4oPe86BCZDLDCmEGueK109llRwV8U2KYJg24CG4SssKbrG
-	ofkl2ebupTRXI7ey9j1UjryAlI1hKsNHDB93aSopTB1+h6fSATl1MDrQcP3YuvPV1mD+5U
-	Ux5DD2DWvt4/bFtCDZjEIRNX61X/bfoy68PYrxABvZqiw4fFtZQKJiV/Q3Yoiw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1776234653;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VdAKD36E8rLdN/EhiUpV79Bm4JP9i6LgdGtBCZLwAhI=;
-	b=sGHXEiBrPEae0nW+Z4/Iz9is3KfRzvNPPszk5NeI4llau3YrME7LKceUTvCHIrpg1GtRK2
-	3dTRgU45mNFgUBCA==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Gao Xiang <hsiangkao@linux.alibaba.com>, Dave Chinner <dgc@kernel.org>,
-	Tal Zussman <tz2294@columbia.edu>, Jens Axboe <axboe@kernel.dk>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Christian Brauner <brauner@kernel.org>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Carlos Maiolino <cem@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>, Bart Van Assche <bvanassche@acm.org>,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org, Sandeep Dhavale <dhavale@google.com>,
-	Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Anuj Gupta <anuj20.g@samsung.com>
-Subject: Re: [PATCH 8/8] RFC: use a TASK_FIFO kthread for read completion
- support
-Message-ID: <20260415063051.H3zA99Qh@linutronix.de>
-References: <20260409160243.1008358-1-hch@lst.de>
- <20260409160243.1008358-9-hch@lst.de>
- <adl1iqhldFvJwSw-@dread>
- <7f0d072b-97a7-405f-bff5-d3819de2e3dd@linux.alibaba.com>
- <ad2RKNo2FGhpzJQp@dread>
- <a7a74185-df02-4906-a0ec-f87e2394aa5f@linux.alibaba.com>
- <20260415055552.GD26893@lst.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CuMkoXWf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED810C19424;
+	Wed, 15 Apr 2026 06:35:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776234904;
+	bh=IBIFChv5u3e0gIoiVcTtrpvSVwZSCR7TwcaW0HD50Jc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CuMkoXWfeYctFAhHSaDWr5eVIyKNfEmBqUXxPkd77WB12jVHe77dVOsSCvU9F/z+H
+	 1ANcgUsodUH8A/f6bEh4rIfIHuqVhJ/Ds082W739oju9QtvT8gnHwKuuuLGn+bwOZx
+	 hZ3gSgXwPsBXqJQb2PEdiPW4GMDvR5g+LjuezSw0EN6/5dCniB4tD55ZM8dNNFzp/o
+	 VNfCPu96Qwr1+cnEtRlW5t2fEh0GVIxF1oVGFB3ucKA+olleQi1021qVU7aJUq4g/W
+	 1IZiItoyll9lYZvslFLKUD1TffeuRbrmhL1wLdexX3/0nOeyiMcH6LxMPJ9hJ3o/S8
+	 M+Yl5a+eNTdNQ==
+Date: Wed, 15 Apr 2026 07:34:58 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, David Hildenbrand <david@kernel.org>, 
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Subject: Re: [PATCH mm-hotfixes] mm/vma: remove __vma_check_mmap_hook()
+Message-ID: <ad8xfnn05PtejbMP@lucifer>
+References: <20260413105713.92625-1-ljs@kernel.org>
+ <20260413221724.c939e483e83304fb40e3d6da@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260415055552.GD26893@lst.de>
+In-Reply-To: <20260413221724.c939e483e83304fb40e3d6da@linux-foundation.org>
 
-On 2026-04-15 07:55:52 [+0200], Christoph Hellwig wrote:
-> On Tue, Apr 14, 2026 at 10:23:13AM +0800, Gao Xiang wrote:
-> > All softirq IO completion already works like this although
-> > softirq tasks are not strictly called "RT tasks" (i.e. a non-RT
-> > task issues the IO, and the softirq IO completion will interrupt
-> > all ongoing tasks).
+On Mon, Apr 13, 2026 at 10:17:24PM -0700, Andrew Morton wrote:
+> On Mon, 13 Apr 2026 11:57:13 +0100 Lorenzo Stoakes <ljs@kernel.org> wrote:
+>
+> > Commit c50ca15dd496 ("mm: add vm_ops->mapped hook") introduced
+> > __vma_check_mmap_hook() in order to assert that a driver doesn't
+> > incorrectly implement both an f_op->mmap() and a vm_ops->mapped hook, the
+> > latter of which would not ultimately get invoked.
 > >
-> > Basically what we want is to get a non-atomic context instead of
-> > using the current softirq context for read post-processing and
-> > switch to the task context immediately as you said, because:
+> > However, this did not correctly account for stacked drivers (or drivers
+> > that otherwise use the compatibility layer) which might recursively call
+> > an mmap_prepare hook via the compatibility layer.
 > >
-> >  - Our post-processing needs to work in task contexts since
-> >    advanced features like compression deduplication need it;
+> > Thus the nested mmap_prepare() invocation might result in a VMA which has
+> > vm_ops->mapped set with an overlaying mmap() hook, causing the
+> > __vma_check_mmap_hook() to fail in vfs_mmap(), wrongly failing the
+> > operation.
 > >
-> >  - Even regardless of our specific requirement needing task
-> >    contexts, using a dedicated task context for read
-> >    post-processing is much better than run in the original
-> >    softirq context:
-> >
-> >    - Algorithmic work could take extra time (especially slow
-> >      LZMA algorithm could take milliseconds on low devices
-> >      (however, we need a common workflow for all algorithms,
-> >      including fast algorithms like lz4) and verify work for
-> >      example); and long processing time will interfere with
-> >      other remaining softirq tasks like sound-playback
-> >      / network softirqs;
-> >
-> >    - If it is then deferred to softirqd, it just makes this
-> >      latency issue _worse_.
-> 
-> Yes, and the same applies to a lot of other things.  A very similar
-> algorithmic issue is the checksum validation, be that T10-PI or
-> file system native checksums.  We don't want to run them from
-> soft/hardirq context obviously, but we really need them to preempt
-> other work on the cpu, and avoid scheduling latency.  The case
-> that started this is a bit different - folio invalidation mostly
-> needs user context to take sleeping locks, but those are usually
-> uncontented.  Again, getting this work done ASAP as readers
-> are synchronously waiting is important.
+> > This patch resolves this by simply removing the check, as we can't be
+> > certain that an mmap() hook doesn't at some point invoke the compatibility
+> > layer, and it's not worth trying to track it.
+>
+> Cool, thanks.
+>
+> > Fixes: c50ca15dd496 ("mm: add vm_ops->mapped hook")
+>
+> That's presently in flight mm.git->Linus, So I'll include this fix in
+> next week's second batch of MM updates into Linus.
 
-Not sure why I ended up here but looking at the patch I don't see how is
-different to the kworker solution that is removed. Unless you fiddle
-with the thread priority in userland.
-The get_cpu() + spin_lock usage breaks on PREEMPT_RT.
-The NOHZ_FULL camp might not be happy about putting load on isolated
-CPUs. I remember there was some effort to avoid those CPUs.
+Ack thanks!
 
-Sebastian
+>
+>
+> > c50ca15dd496 is in mm-stable, so thought best to do as fix-patch? Will
+> > leave a small bisection hazard (unfortunately) so putting this as close as
+> > possible to the patch it fixes would be ideal.
+>
+> Yep, I did that.
+
+Thanks!
+
+>
+>
+
+Cheers, Lorenzo
