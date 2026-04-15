@@ -1,181 +1,338 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0144B344DA9
-	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 22:33:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776292386; cv=none; b=XNhTG0ElDTreaeILV3qm0NbL5ATJHJb0PJFCAKfq6uU4M6isY+iUVv/HAdoxlTs8zzUrklN95O5paPSV2Xm6jJ3G05xVAuVs4lM5nxSEkYOqVeIUrJ0iywksisJK29carRBsEMYEFrt5c0JH+88edh3yzNeUqdYQ9aEU4qNQJOQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776292386; c=relaxed/simple;
-	bh=DALBnQ5Lrt/efp4QYH2fALAGKKab6IcD8A7+exrGrnU=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=hBqit+ZNe+O+PyW4IEzl7oWOeDQdLOmFC2yBH+wqgZIgZGKYA364GIYl2384EqsbMsPEizfVdJt3G0n2a7pEbff6InbmTqknk9rqDXfISf+FOgMthM1RdRtrebADS4LMyWckhr9Buu+KXFgBnfIxtrJuFJAKg6SfXw9Ic9L3osU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=St94VINb; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=YMcIUQv1; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10C013264CE
+	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 22:40:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776292860; cv=pass; b=QNa5xHbdj2A08/PYi/LFR/3tsKdSdT6O+M2D67Ek7+/v/6riDd81bmVCQQTGL9y9Xw0y16QgM2t+1rQrNLW+p4/Zb8u0cm8NWKWCfgM9VG1dzZyVp9EXi0yivh92G0V6KOX5Y8lWmzGrb8RMq8Ss5J255CI7NVCIjupk0bEuLCM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776292860; c=relaxed/simple;
+	bh=76EGVB5oWxGfenbDwi1w9hY7gjBZKqPINwO0Y7ZvTRQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bdCsTJkEYpjoiTpbQXIEU9DzZDYhA2sbWKpzX2duIG1tsoa1LWJ8VuSa+z5kRM+CksRJ+mHht1B/cnuezJK4zhktkwkin2CTNWXPuIV/lUIrZaB5WuNGDzqR5HuKO5QPhzES2odSrZ3vrjnzXr6yORb8nY20gSXeT++OU4bpwAE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MDavCgek; arc=pass smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="St94VINb";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="YMcIUQv1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1776292383;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9rC25XL9+9ngPq2KdiSvSacKjuB6dsLNIk5mkxjAJQs=;
-	b=St94VINbekONxzYhBf6ED2J7w+XvlAgUagj/TcX//13ql12Y5BfpMPv95FluXRkiuhSsi+
-	jyjgdpVn3657NE1oc+LD2AJ5ot/GFatsbri+MOrVL48xcO5gEEPszfAFGvkW0GyKnWWiFS
-	t6E9v+voSMdZNMQ0+7+yDRzzXgIgPqw=
-Received: from mail-yx1-f70.google.com (mail-yx1-f70.google.com
- [74.125.224.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-15-NNPmZOGfMyWO0Ra8CBrk7g-1; Wed, 15 Apr 2026 18:33:02 -0400
-X-MC-Unique: NNPmZOGfMyWO0Ra8CBrk7g-1
-X-Mimecast-MFC-AGG-ID: NNPmZOGfMyWO0Ra8CBrk7g_1776292382
-Received: by mail-yx1-f70.google.com with SMTP id 956f58d0204a3-64eb0bff77cso2966514d50.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 15:33:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MDavCgek"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-488b8efed61so505335e9.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 15:40:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776292857; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Y5hqAs1qlsvyJZQwBp3sJHIPE4wllvXETufzTE90GnsWRk0itytHfA4FjQ21VYo2Um
+         hHC7S+a1GnaFT/deq1psN2MvAjFCrp0LcAG6HJr0pjyqklqvY9eHtQfE0+CN8iN2H7PE
+         VTfVZbbrTxbOjYMMioDiJr2A5EtmdifCnulGkdZdW1FfEoYJD19Pww+8X8WGBHFS+rV5
+         xaRJ+jQsK6U2JqNWNiXLKHmHrfrf8ck7G5bYSgpxpva3AzWgG81kQacirnbR4kEiBxlM
+         9jnyIz77bLrEkVU994m8oSyKcJAkfFnTpdyoWdNtvxxoJLY0CvHK9me7bGgwL5Wp5nxv
+         IBOg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=cWfGw84WBIkcIJa7RtAfsO5pLmp4sTAor8d8qSFGyuw=;
+        fh=XNw4byym+TREMdxCMqKBBNxDoU27RyRKdd59zbvU0do=;
+        b=HoCkHVhAtT+xa81LgCCv1yd1JBwB6t1K5/Xx0MFshEXLa58enjAKfAoBeK7GpUy4mQ
+         0JbjRIwxNcEFSbuS8CQ5QicFOjgzn5NcDdOAwpNfQS6vZUYjWhyiqFHhMUmFum3Kuj8Q
+         CYZfo54f4GM2uKvkqs/g83ENnUZ8GXD4m5nicevc8y82hD2Uoc+88lwORACFKqFXW8K6
+         mnySabnjdMEyqHxNAyV3aoVH25wsowrL8Ifa3wXWpvHCDPHK9hZ8LyasTh6sFvfG6FTx
+         t4GZPO0jR11EnSApUCEkgUd/x/s8vXHb+jrfp3STThoNHRY3y7Z6iJpoSArPOGnqxSCg
+         X+GQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1776292382; x=1776897182; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=9rC25XL9+9ngPq2KdiSvSacKjuB6dsLNIk5mkxjAJQs=;
-        b=YMcIUQv1yQ1LMIHlHljkw/2sxXJOUUHNVwNy+y/4+pGfTYGgeBCVmiR9qP6JYjU9ED
-         wlVz9HzzcvpvFShb7yQNT7BWGyXvBZWRtkr9KghP8udQJs3MCq8lAGnWJNlhajotDydw
-         qYTePEJsxrungTpFulXfVpeRKAuCyr+pMxJLOLAuM3WCflqW+mEVlFUrExu4ZZInlFx2
-         0sABPve4iJnEU6CvHoYx8081edNI3fwacuYbbuQbkY0PcnmJCCH2oNakFdHQ9oT8rm79
-         AUPxC2YQFqqpgd+y3zkRPrVl6th+CzY5W3a9roQ4qI911Ide1meWQT9Hebsh464U5/m6
-         qbyA==
+        d=gmail.com; s=20251104; t=1776292857; x=1776897657; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cWfGw84WBIkcIJa7RtAfsO5pLmp4sTAor8d8qSFGyuw=;
+        b=MDavCgekgnjfPLqrozLq+YT9BYNRnWr3E6JXgN8NGRLQ/W1PSH45/o9Gle1DnLLiE1
+         83onpRlsTCZnetZXapVlbH9KbxNIS91B15w/+KeAW9eBMuc63vPV9sxUnpCUHefuVwZ6
+         oAGbFdsct5WbiYytbRf1nNjf0ruXMBfwPAmoBHbLte02o+mVKSJ0AGNOLL8kLzCdMKt8
+         eD1p/yFNeKtKsBQo1bG/RxM2WYSJhLx3CiC4Aonn+8bpR5YBVO7ytXP0sEjuKDBPsdEv
+         AM8/vWaE703TZ/jmK3eJjYzdoArHu9CLPtu0aZFEN+wMtOtIj2wOAf24iEeJfrAgU5Gp
+         xGjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776292382; x=1776897182;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9rC25XL9+9ngPq2KdiSvSacKjuB6dsLNIk5mkxjAJQs=;
-        b=T5tXWuzeoRMvDegt2305U71elkyAATGtnXSqSOqMyqYAmoI9rFqm0FGfLHIbou09wB
-         7K2CNIkdhgzd9MfXuRsfBh6GSesZeiebABejxdYfVgr+CDfx5tqORrSP5U5Yhr5jNFo6
-         smfSROto5qq0t5JCEKmfaK+pO9c3XFN4PqH3kTG2oSxt87dqpt2HElcCCbIMqgMzQEFM
-         924OeGuCkoFrC1lBwzCdtLHyRAWLBCVg+y8f9ZJHeI+GGH/GBCAkb8Wl7jE5vK6yx8Bp
-         KTVsrv9dEHPnxwaKFddcL/1P6RmV3DWojM8J4D0l3t7U9FyzsnyNFyZVeTu9F5qUuRlq
-         v73w==
-X-Forwarded-Encrypted: i=1; AFNElJ+wQFk61bHHXRWuHT09oUA9Eg6qpcvtlMkIMMowkpJyFHvaRNhQX3esAkQFrJgqgIsduksBT2Qq5grCu6Q+@vger.kernel.org
-X-Gm-Message-State: AOJu0YyHhV7wS0CKtBsxpUYRXHAxgQYqAlB8G2SvbyuREanyVG3wUFGU
-	bCUgz7dOIlCgmRRj/PZL/eeNUTtkRjzO2HpP1hkGmz4//GseeMAF1CKLCtPwlAUOpGv4sw1Tb4X
-	z+HocGWIJDP/J6sK2c2pUzpT4ojf6Vb73U/uy0f9D/5yyfPDU6YGVjhCOhsP5hu7TCz9fLjHYat
-	I=
-X-Gm-Gg: AeBDietMfBgFF5gBSs/BVjlxGg/CIMVABo4Q0tkDLn8ozzUBSDUSbmh0ic4vQ1Ql3e3
-	5DYzCrCjd8NcYQgC6RnMt0Td5Js3XU2icBkczxunSpEjnlA0y3so4kUCm8rl+teAI2HQ1VF78mD
-	jX0ATU+zCKyWTHPcKr5gSnw6cL+SEryODltS3ZdCAg1H77YeEi/v1m95TOoHXkTikCKOHCVr8XD
-	trE9gT7b1PInvYyri6WbS4vht7cB87GTmz50JDq2VEW1DFaoHR1GbAqK/lLEjSlt1eHn8Vq7Yvg
-	auYPkSmepWd0L4rylBogWTAanSxbB8AtDUSup/Q18jHPkX+JWIm5c57NqOlPQuw3dArDbe8aiTU
-	JIGihGSsdaMa8HQ4dHIxOoLewExKcHO0+BVDX7h3onM20G/5IgjjjvT7OXZ5PaB0=
-X-Received: by 2002:a05:690e:dcd:b0:650:3064:4cee with SMTP id 956f58d0204a3-65198ab6de9mr24373102d50.29.1776292381740;
-        Wed, 15 Apr 2026 15:33:01 -0700 (PDT)
-X-Received: by 2002:a05:690e:dcd:b0:650:3064:4cee with SMTP id 956f58d0204a3-65198ab6de9mr24373093d50.29.1776292381342;
-        Wed, 15 Apr 2026 15:33:01 -0700 (PDT)
-Received: from li-4c4c4544-0032-4210-804c-c3c04f423534.ibm.com ([2600:1700:6476:1430::29])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-652e44c08b2sm1360048d50.4.2026.04.15.15.32.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Apr 2026 15:33:00 -0700 (PDT)
-Message-ID: <646f4e41c5b0ae14fa755f75fbe83837308ee35f.camel@redhat.com>
-Subject: Re: [PATCH] hfsplus: Add a sanity check for catalog btree node size
-From: Viacheslav Dubeyko <vdubeyko@redhat.com>
-To: Edward Adam Davis <eadavis@qq.com>, 
-	syzbot+217eb327242d08197efb@syzkaller.appspotmail.com
-Cc: frank.li@vivo.com, glaubitz@physik.fu-berlin.de, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- slava@dubeyko.com, 	syzkaller-bugs@googlegroups.com
-Date: Wed, 15 Apr 2026 15:32:59 -0700
-In-Reply-To: <tencent_1E9E3B1B234BA11B762595BA40BBFE33C608@qq.com>
-References: <69decbd0.a00a0220.468cb.006b.GAE@google.com>
-	 <tencent_1E9E3B1B234BA11B762595BA40BBFE33C608@qq.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43app2) 
+        d=1e100.net; s=20251104; t=1776292857; x=1776897657;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=cWfGw84WBIkcIJa7RtAfsO5pLmp4sTAor8d8qSFGyuw=;
+        b=hA80yQuTshPHdlLUqjS5Czjn+EXTGKZcYjCJFYy04vHBDKlJcdAETd8Hg5ltITZdCI
+         4/Cu91N6oaZFMep480uRJMv6s1c4RVlAG4nC90RtTXDkzKGCM/6f2xBODXaegZGNFozW
+         aOy2WwvWyQcgQFBXOjxW2javnfIollm4YzXC44HW/At3dqh5DG1Wa+0UxVozX8NFJzL3
+         gZzQFwyRhtoOSi6skShxVZ4noGoj2VRSoSEEc4jKdIVICCmdX++Jr5NEKSnCSQqbQDCU
+         ZJaZgWRVHeffAhJ4LppAYtwmEDD4sqL5uvqTvger6ZGRg2gAgcNACSxmozXzbSOKQiLW
+         ua6w==
+X-Forwarded-Encrypted: i=1; AFNElJ+OI1pTrYvKXCOogKC5a79M19UsBtrXtZvcBL0S3UEktLKiIg5UnwwCg8CzDR4NMeUyLMuzgwXXbUf7O5jD@vger.kernel.org
+X-Gm-Message-State: AOJu0YzjtNq2hYthDPzx9LQGGxDImrUrkSV8R726KLAr+e0bOwAN8dUk
+	1C7zhg2p0fH4wcgxrj79N2mxN8bUsaWJYodHljmVyEFB4goKx25MEyGFGwtoLkwiSiYX1XaM+g1
+	1P4UZaJJOk2ZXtbT3NtaxWGdiJa7BSOI=
+X-Gm-Gg: AeBDietFaO5k6T6mXVF8vfZ67QhbxLBptR8UMI73jn7WBV0CnbpKv9motLm1+Yn0XV6
+	ItU/WaTqDn5rGh5dYbrBKA9i95Wv29CkbbE46Gg6AFMNWtuIUZohM9nEtCw6rEDbbTlor1a+TIh
+	c5XBUn9TEc64cpdLx834ZQgaLW8lkvWB8fJRuD/TNQyrq9rx51Ay6ovC1Xrc6zS7bX5BQxrZLDU
+	2VbrUakeU82Abb30xel4QGvs5VXIaKHqI2fsNYH5xQF+1P3TxjJrne6hm5gcNtH5QuYcwput+wx
+	1kZNPClrnlx6J0AV
+X-Received: by 2002:a05:600c:3e0a:b0:488:c6e9:1e0c with SMTP id
+ 5b1f17b1804b1-488f47c90ddmr15353295e9.5.1776292857262; Wed, 15 Apr 2026
+ 15:40:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20260402162840.2989717-1-joannelkoong@gmail.com>
+ <20260402162840.2989717-15-joannelkoong@gmail.com> <0f2b87c5-2c98-4463-9a9c-bfca91e83cfc@bsbernd.com>
+ <CAJnrk1ZAcbYkewWz=CbxgzkvXnk2-QKLjSk-oA0hywbnVUSM9A@mail.gmail.com> <ff596299-38c1-4c5a-8f1d-14931dd84ef0@bsbernd.com>
+In-Reply-To: <ff596299-38c1-4c5a-8f1d-14931dd84ef0@bsbernd.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Wed, 15 Apr 2026 15:40:45 -0700
+X-Gm-Features: AQROBzDigbvwD_rvz1gtTPtt4_JNchLz1er0cxfqTpS9yV371eFv1h0vOImkydk
+Message-ID: <CAJnrk1bmxYzZEV46-uG3XXaVEu2hciyEWf9K5QNXaXuz0qUWcg@mail.gmail.com>
+Subject: Re: [PATCH v2 14/14] docs: fuse: add io-uring bufring and zero-copy documentation
+To: Bernd Schubert <bernd@bsbernd.com>
+Cc: miklos@szeredi.hu, axboe@kernel.dk, linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2026-04-15 at 16:29 +0800, Edward Adam Davis wrote:
-> Syzbot reported a uninit-value bug in [1], during the file system mountin=
-g
-> process, specifically while loading the catalog, a corrupted node_size
-> value of 1 caused the rec_off argument passed to hfs_bnode_read_u16()
-> (within hfs_bnode_find()) to be excessively large. Consequently, the
-> function failed to return a valid value to initialize the off variable,
-> triggering the bug [1].
->=20
-> To prevent similar issues, a check for the catalog btree node size has
-> been added within the hfsplus_btree_open() function.
->=20
-> [1]
-> BUG: KMSAN: uninit-value in hfsplus_bnode_find+0x141c/0x1600 fs/hfsplus/b=
-node.c:584
->  hfsplus_bnode_find+0x141c/0x1600 fs/hfsplus/bnode.c:584
->  hfsplus_btree_open+0x169a/0x1e40 fs/hfsplus/btree.c:382
->  hfsplus_fill_super+0x111f/0x2770 fs/hfsplus/super.c:553
->  get_tree_bdev_flags+0x6e6/0x920 fs/super.c:1694
->  get_tree_bdev+0x38/0x50 fs/super.c:1717
->  hfsplus_get_tree+0x35/0x40 fs/hfsplus/super.c:709
->  vfs_get_tree+0xb3/0x5d0 fs/super.c:1754
->  fc_mount fs/namespace.c:1193 [inline]
->=20
-> Fixes: 8ad2c6a36ac4 ("hfsplus: validate b-tree node 0 bitmap at mount tim=
-e")
-> Reported-by: syzbot+217eb327242d08197efb@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3D217eb327242d08197efb
-> Signed-off-by: Edward Adam Davis <eadavis@qq.com>
-> ---
->  fs/hfsplus/btree.c | 5 +++++
->  1 file changed, 5 insertions(+)
->=20
-> diff --git a/fs/hfsplus/btree.c b/fs/hfsplus/btree.c
-> index 761c74ccd653..61050ffe425e 100644
-> --- a/fs/hfsplus/btree.c
-> +++ b/fs/hfsplus/btree.c
-> @@ -337,6 +337,11 @@ struct hfs_btree *hfs_btree_open(struct super_block =
-*sb, u32 id)
->  			pr_err("invalid catalog btree flag\n");
->  			goto fail_page;
->  		}
-> +		if (tree->node_size < 2) {
+On Wed, Apr 15, 2026 at 3:55=E2=80=AFAM Bernd Schubert <bernd@bsbernd.com> =
+wrote:
+>
+> On 4/15/26 03:10, Joanne Koong wrote:
+> > On Tue, Apr 14, 2026 at 2:05=E2=80=AFPM Bernd Schubert <bernd@bsbernd.c=
+om> wrote:
+> >>
+> >> On 4/2/26 18:28, Joanne Koong wrote:
+> >>> Add documentation for fuse over io-uring usage of buffer rings and
+> >>> zero-copy.
+> >>>
+> >>> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+> >>> ---
+> >>>  .../filesystems/fuse/fuse-io-uring.rst        | 189 ++++++++++++++++=
+++
+> >>>  1 file changed, 189 insertions(+)
+> >>>
+> >>> diff --git a/Documentation/filesystems/fuse/fuse-io-uring.rst b/Docum=
+entation/filesystems/fuse/fuse-io-uring.rst
+> >>> index d73dd0dbd238..bc47686c023f 100644
+> >>> --- a/Documentation/filesystems/fuse/fuse-io-uring.rst
+> >>> +++ b/Documentation/filesystems/fuse/fuse-io-uring.rst
+> >>> @@ -95,5 +95,194 @@ Sending requests with CQEs
+> >>>   |    <fuse_unlink()                         |
+> >>>   |  <sys_unlink()                            |
+> >>>
+> >>> +Buffer rings
+> >>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >>>
+> >>> +Buffer rings have two main advantages:
+> >>>
+> >>> +* Reduced memory usage: payload buffers are pooled and selected on d=
+emand
+> >>> +  rather than dedicated per-entry, allowing fewer buffers than entri=
+es. This
+>
+> Then don't register that many entries? An entry is useless if it cannot
+> carry data - why do you need to register that many entries then?
 
-Every node starts from BTree node descriptor: struct hfs_bnode_desc. So, th=
+Registering more entries gives higher concurrency (since the number of
+entries determines the max number of in-flight requests). Since not
+all fuse operations require large payload buffers simultaneously,
+buffer rings with incremental buffer consumption will allow servers to
+support higher concurrency with a lot less memory than dedicating a
+buffer per entry especially for metadata-heavy workloads.
+
+>
+> >>> +  infrastructure also allows for future optimizations like increment=
+al buffer
+> >>> +  consumption where non-overlapping parts of a buffer may be used ac=
+ross
+> >>> +  concurrent requests.
+> >>> +* Foundation for pinned buffers: contiguous buffer allocations allow=
+ the
+> >>> +  kernel to pin and vmap the entire region, avoiding per-request pag=
 e
-size of node cannot be lesser than that. However, technical specification
-declares that: "The node size (which is expressed in bytes) must be power o=
-f
-two, from 512 through 32,768, inclusive.". So, we can add more smart check =
-here.
+> >>> +  resolution overhead
+>
+> Pinning can be done per buffer as well. The part that is harder is
 
-And, maybe, it makes sense to check the node size value at the places of us=
-ing
-it. What do you think?
+Yes it could be done per buffer but imo it is much cleaner to do it
+contiguously.
 
-But we have this check of node_size in hfs_btree_open() [1]:
+> pinning of the headers - this is why libfuse currently allocates 4K for
+> every header - prepares the pinning. From my point of view, we _should_
+> make use of that and set at registration time that the header is
+> allocated as 4K and then small requests can be inlined into the
+> remaining part of those 4K. With that ring bufs become useful, because
+> most metadata do not need a new payload buffer anymore.
+> However, I think in your current design headers are mapped into a large
+> region and there is no way to use extra space. I think that is fine, as
+> long as we have the capability to have multi size buf pools.
 
-	size =3D tree->node_size;
-	if (!is_power_of_2(size))
-		goto fail_page;
+I'm not sure if you are trying to make this point or just describing
+the non-ringbuf "legacy" path, but I strongly disagree that pinning
+should be done per-header. Each struct fuse_uring_req_header is 288
+bytes, and rounding that up to 4K per header is not ideal and I don't
+see any benefit from doing that. In the original (eg non-ringbuf) path
+where each header is allocated at 4k, that can't be used with ringbufs
+as using ringbufs mandates that the headers are allocated
+contiguously.
 
-If node size is 1, for example, then this check should fail to execute the
-hfs_btree_open(). How, finally, do we have node_size =3D=3D 1 during the
-hfs_bnode_find()? I don't quite follow.
+>
+>
+> Contiguous buffer allocation can be done for entries as well - userspace
+> just needs to assign it to buffers that way. It becomes it a bit harder
+> with dynamic entry registration - entries buffers should then allocat in
+> sizes of system huge pages.
+>
+>
+> In fact I initially had that in libfuse and had allocated all userspace
+> buffers as one big memory. Then 'temporarily' removed it because I had
+> development stability issues - the single buffer needs to be marked with
+> ASAN areas in order to catch issues. For initial development that was
+> just overkill, but could be added now, in combination with ASAN buf marki=
+ng.
+> For pools it would be good think about ASAN as well.
+>
+> >>> +
+> >>> +At a high-level, this is how fuse uses buffer rings:
+> >>> +
+> >>> +* The first REGISTER SQE for a queue creates the queue and sets up t=
+he
+> >>> +  buffer ring. The server provides two iovecs: one for headers and o=
+ne for
+> >>> +  payload buffers. Each entry gets a fixed ID (sqe->buf_index) that =
+maps
+> >>> +  to a specific header slot.
+> >>
+> >> Hi Joanne,
+> >>
+> >> thanks a lot for this document! Could we discuss if we could just hook
+> >> in here and allow SQEs with different iovecs for the payload buffer?
+> >> Let's say fuse-server wants multiple IO sizes - it could easily do tha=
+t
+> >> via different pBufs and just needs to specify the dedicated IO size pe=
+r
+> >> pBuf. Those buffers could then get sorted into an array - we could
+> >> define either via FUSE init the number of buf sizes or use a fixed siz=
+e
+> >> array. Fuse requests then would just need to pick the right array.
+> >> This is basically what I'm currently working on for ublk.
+> >>
+> >> I think it would be good to agree on the design before it gets merged =
+so
+> >> that uapi doesn't change.
+> >
+> > Hi Bernd,
+> >
+> > I'm not certain I fully see the use case for a fuse server preferring
+> > a static preallocation of multiple IO sizes over using incremental
+> > buffer consumption, but in my mind to support multiple IO size
+>
+> I have to admit that I don't see why we need pbuf for dynamic
+> allocation. While the io-uring ring has a fixed number of SQEs/CQEs and
+
+If the ents are dynamically allocated, bufrings are still useful
+because incremental buffer consumption still helps with memory
+efficiency
+
+> while libfuse currently strongly couples these to fuse buffers, there is
+> no technical reason. Initially it was, because I had taken the 'tags'
+> from ublk design, but then Miklos asked to make it lists that just get
+> appended whenever a FUSE_IO_URING_CMD_REGISTER is send. Which means
+> libfuse _could_ add new entries any time. You could start with 1 entry
+> per queue, additionally with the reduce-nr-queue patches you could even
+> start with a single queue and a single entry - and then extend that at
+> any time to what libfuse or the application believes is needed.
+> I.e. except of io-uring setup, adding or even removing ring entries and
+> their buffers is mainly a missing userspace issue. In order to remove
+> idle entries, we could add another notification type like
+> FUSE_NOTIFY_WAKE_RING_ENTRIES and it would then wake a given amount per
+> queue and maybe send via a new op code like FUSE_NOOP. All of that seems
+> to be easy.
+>
+> > payloads, I was thinking something like this might work best:
+> >
+> > * iov[0] for the headers stays the same. no matter how many IO size
+> > payloads there are, the ent always maps to a header and the headers
+> > are a fixed size
+> > * iov[1...x] are the payload buffers. From the uapi perspective, in
+> > the fues_uring_cmd_req init struct, there would need to be an array of
+> > uint32_t buf_sizes. Each index in the array would correspond to index
+> > + 1 in the iov[] payloads passed
+> > * on the fuse side, each of the buffer pools has its own ring. I think
+> > this makes managing the different buffers a lot easier and gets rid of
+> > having to do any array sorting, and makes buffer selection/recycling
+> > O(1).
+>
+>
+> Let's say we would have per queue
+>
+>     struct fuse_bufring {
+>         bool use_pinned_headers: 1;
+>         bool use_zero_copy: 1;
+>         unsigned int max_queue_depth; /* headers buffer capacity; frozen
+> at first REGISTER */
+>
+>         union {
+>             void __user *headers;
+>             struct fuse_bufring_pinned pinned_headers;
+>         };
+>
+>         unsigned int nr_pools;
+>         struct fuse_bufring_pool *pools[FUSE_URING_MAX_POOLS];
+>
+>         /* lookup: order (req size) pool */
+>         struct fuse_bufring_pool *order_map[FUSE_URING_NR_ORDERS];
+>     };
+>
+>
+> Order map is then dynamically created at buf pool registration time, and
+> then we would eventually get to
+>
+> struct fuse_bufring_pool *pool =3D order_map[get_order(fuse_len_args())];
+>
+> (obviously the final code needs to get a check that we don't exceed max
+> payload size.)
+>
+> The looked up pool can be stored into ring_ent for buf recycling.
+>
+
+Yes, this aligns with what I had in mind.
+
+>
+>
+> And then
+>
+>   struct fuse_uring_cmd_req {
+>
+>       ...
+>       union {
+>           struct {
+>               __u32 max_queue_depth;      /* (renamed from queue_depth) *=
+/
+>               __u32 buf_size;
+>
+>               __u8  pool_idx;
+>               __u8  _pad[3];
+>
+>           } init;
+>           ...
+>
+>       };
+>
+>   };
+
+This makes sense to me.
+
+>
+>
+>
+> I think pool_idx is needed one way or the other, because the io-uring
+> ring owner might have other pools for its own purposes.
+>
+>
+> Thanks,
+> Bernd
 
 Thanks,
-Slava.
-
-> +			pr_err("invalid catalog btree node size %u\n",
-> +				tree->node_size);
-> +			goto fail_page;
-> +		}
-> =20
->  		if (test_bit(HFSPLUS_SB_HFSX, &HFSPLUS_SB(sb)->flags) &&
->  		    (head->key_type =3D=3D HFSPLUS_KEY_BINARY))
-
-[1] https://elixir.bootlin.com/linux/v7.0/source/fs/hfsplus/btree.c#L232
-
+Joanne
