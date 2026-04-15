@@ -1,159 +1,138 @@
-Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
+Received: from mail-ot1-f79.google.com (mail-ot1-f79.google.com [209.85.210.79])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6B0E3DF004
-	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 15:32:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CBF03E122E
+	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 15:49:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.79
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776267181; cv=none; b=c7EavL7NKZKZKbvMqo715q7ukmJvJqfX8f1agxZ7T3SB3+bCXLSh306lqdj8cHl0Sr/mJpsWuvtAdx+C4mhBz4TWrdg8nwVPu+di1S/EPMvh0POsyeMjv1+kD099Mj94q5RBcQc2v160bjP1tlVpXnXp1DM/VgVErLNmnim11qs=
+	t=1776268182; cv=none; b=TLGzTd3PmXC3c8/SEzPIqB77AsD0ugu/q0m3gzsP/zo//dzrhBqg+u0cd4ktNi7TOEKWNUO8DsP3rueuU9DsZgWM951J59jrdowKy2NFP/bPfT4vl6HngwV1x95gUq3CE0VY67OEFXccJk2jRhhkUpGFEgv296g3ecvIFWz0nhI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776267181; c=relaxed/simple;
-	bh=S9dcy47a6bd3TjyPD9yCkf196y5TA2ypeoVg+NZ5el8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GAeNFooEP/wF41JuM3CsooGAo8HpFAM65MFKqKoDUGlIuzr4S8D2JoEtYdxenPjvBjuuL1ny5birTVjgamXXrgvzhWblVvA4H5ZOCKPKPXAABmPeULgIdYWuVH4NBXJMuH50SYj3c56HnScq3o9cC7WrjRo46y8VZxry0MGdp5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=F75dbddm; arc=none smtp.client-ip=74.125.224.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="F75dbddm"
-Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-650789b22e3so7989882d50.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 08:32:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1776267172; x=1776871972; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=e5e7YwNWCtbTE/x5+I5oKOHLYRavpYy019TGcszzWak=;
-        b=F75dbddmtN8OwVFOGaZDhKK+Hwp3WWuk6vEYx4MlQTcEs+tFqsdTq57ybk+HLuWF8C
-         C6OwnvIApNdSIYMiehBPnT/3ZTurGwkLIlxJk5YEIH/y+CwjQosV+dZxCz34E3TusL6E
-         ERtST/ZlnXo/FJuJl5pSsxQ9GTH7qD3pCxch5xREEZmaNYLAdzuNYZ4dlbYGwsW/z2my
-         nxVyyA+LsvpSaiR+V237jdWKTs1RO2UQhEbpfvOjBVm0pyDcqOsQl2mp+0zzHKVH+itc
-         ONzHa2xlsJiGmYeqHns8wheZq+qgV1xvolB4hGFbwGTmRtLNIMGjrGFyvOQP5Oi+vMRY
-         laZQ==
+	s=arc-20240116; t=1776268182; c=relaxed/simple;
+	bh=+g6XMLTylpWWr7PaGvjg6GlRUR0gsvXb29tdvldILwo=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=aEoPzat41xZPP/yHKhgghOGhWaziXchsP33f5rnFs0STL/nOoPxcf4gRNxKtSNb2gVgBZLEyMIm7vP2jePH6o7GHIdqfLh6N3F8QcFA+5yP/GfS8SQnjasbmV2tdDP6Zo2RQFEiUDOlxC373oFWG4eiwLGvDsBHdYH+0o9wst5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-ot1-f79.google.com with SMTP id 46e09a7af769-7dbb97a2b6eso16020648a34.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 08:49:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776267172; x=1776871972;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=e5e7YwNWCtbTE/x5+I5oKOHLYRavpYy019TGcszzWak=;
-        b=V18zNp9N4ZLG7ywCwZxbWNQOPx/cxxrae2iYPsWPviU84v4iXHQOutwNIfrS5UDDtF
-         0VXYX9YJCO0m61217O1Xnk4tzzLENYuAerlr+SDHDYVYJX3dB1VrqGb2obvLOvzk1QMi
-         sc9DT+7u8e5r8pE4gVEN6kwOXA07BZ6sCxphkUD3Tro+qvs3n+Yv4Ao/uUnJVahD4NGt
-         aN8TXZoDrDbXrHXTsYpkrP5cjiIQbLrCkypIEFtxvXzcUuZWG4uf9d2iMqsYxoaiRQmh
-         ofzbcdT4WTji2T/9fF72WXnEZymqOMCOpA/Fkc/2+SM2EgV922Ml/IMCA8aec7kbim9R
-         Pckw==
-X-Forwarded-Encrypted: i=1; AFNElJ/VQoA811Ugf5I+aVKqse/cO1+ZSUAhqgRFTTJriC4m3KkOgvsbYDZpbv4kLJpACRJFlxX2PpvFRq1DMj1r@vger.kernel.org
-X-Gm-Message-State: AOJu0YzVEURrXiXu/brMlRXtiOUU1nMxIdXcIbgzwKZH3epyiF4GhEKA
-	o/EbXjZfpMKUr4opfV2EJPslrpaZp+azjqZfih1G83VpTMBBl8Q3MaJ2U/M3PDvkpD0=
-X-Gm-Gg: AeBDieuKAVTx2lQHksIHoQUnGUJGcvFE+49uWvencosI+QQt30aB+CYCLp/YF7colXC
-	jAi+QpA1J3avT4mW9e/qx6+mANGULZtnsyx0rAt6LJd2R04G0+PQcIcoVQ1972Az8x1AmZI7UEL
-	yeE+5UbWt5Jl3yXzTCbUS11ujQGxhZy8kW+KTbnm8OD0Wh3myao1rRieEJ49gMkgnogym5H3mJk
-	WXx+ugyioOhdeKRwCRwc1aZQj+lsZlfU8c9wTlB+4wcwTN0nywct694enm5Oez9TAmIqs9eSVbC
-	JtW70MLrURU0kxfxchPpab8F277Qdk6CM1GtfNcqXHpWLCnsQjAEn/mbYawu+TNZBfM637uoAtS
-	iBR18XlgC7RKbdq5iv0L0Hh74vN1Al7S1+C/x7SPvK6m8mE5Dna8JroYDUWA6k7ViM1/1f3p4zU
-	DqUMUHhSE9csVwP7vdQeXmPUUOOE/EVrdj1G0UFYnyrCme9JIo
-X-Received: by 2002:a05:690e:4188:b0:651:c024:5726 with SMTP id 956f58d0204a3-651c0245898mr12329101d50.33.1776267171618;
-        Wed, 15 Apr 2026 08:32:51 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F ([2607:fb90:ea03:4042:f7e3:e9e9:9e22:5a8e])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8ae6cb9ea1csm16952326d6.28.2026.04.15.08.32.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Apr 2026 08:32:50 -0700 (PDT)
-Date: Wed, 15 Apr 2026 11:32:46 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Miklos Szeredi <miklos@szeredi.hu>,
-	"David Hildenbrand (Arm)" <david@kernel.org>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	John Groves <John@groves.net>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	Bernd Schubert <bernd@bsbernd.com>,
-	John Groves <john@jagalactic.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Bernd Schubert <bschubert@ddn.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>, Jan Kara <jack@suse.cz>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Stefan Hajnoczi <shajnocz@redhat.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Chen Linxuan <chenlinxuan@uniontech.com>,
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Shivank Garg <shivankg@amd.com>,
-	Ackerley Tng <ackerleytng@google.com>,
-	Aravind Ramesh <arramesh@micron.com>,
-	Ajay Joshi <ajayjoshi@micron.com>,
-	"venkataravis@micron.com" <venkataravis@micron.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	djbw@kernel.org
-Subject: Re: [PATCH V10 00/10] famfs: port into fuse
-Message-ID: <ad-vnqRrUGs9n0N8@gourry-fedora-PF4VCD3F>
-References: <adlBcwJjLOQDAR65@groves.net>
- <CAJnrk1a06zkUmXW5EFiUmgAoFauwtzsYvnotaPH0ifVtyh7iDQ@mail.gmail.com>
- <CAJfpegvVTcV89=q3L326aGQjhduBcv7PVg5QKftGLjNZmCLmaw@mail.gmail.com>
- <ad4_jFsR951c2Mtn@groves.net>
- <20260414185740.GA604658@frogsfrogsfrogs>
- <ad69tTnx5YkD4Y9K@gourry-fedora-PF4VCD3F>
- <f254f6fc-dc06-4612-82d7-35bb10dbd32e@kernel.org>
- <ad-UAMcALRubBcHk@gourry-fedora-PF4VCD3F>
- <CAJfpegsUVv0ziMSQiq9pKeXf6G-+LROPTW077hHMSmAirVCLQw@mail.gmail.com>
- <ad-qSB4oL5D3S-ht@casper.infradead.org>
+        d=1e100.net; s=20251104; t=1776268173; x=1776872973;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=99hNkWY0Q+eVdLpDuachQrZ2MvVNwXoikg3P0685CEU=;
+        b=Gfp/QwFbPHyo7d458PQIel2S9zrPTZ8lkw5alo/R610vgiB/LsEvydgXJrMD/SG9eB
+         C35d1xc0whT4ok9T7uFN+YWVGKA7mNcLJE1wng8Eyvt61sEyAUhVH6ZcMo6OSOsNHp6T
+         cGp0DHtn5fZ8BKjiF9kdDcJb16SPBdfKQSUhN1OwYaj/pVfZzBlFuCJaebD3msiMDEEz
+         IiFxuPESU4bz1uj9GRLhuWtMpCY2g5bihXVZ4eyglzaJFH6jWh4uKjpHD+2djqFV57KO
+         uexKOKAXglG+MLOK2k1D2wbm0HWGZOPSTaLJZ8K2qQZ1oyO6wJXla64cgMgmCJkLaafL
+         JbEw==
+X-Gm-Message-State: AOJu0Ywomg2lbus/f8TbTt/N+/ao1a9+x497K1mNZX9CsM+AX1/a6ovO
+	oEoDzRSkFMsjbEj6IGRkXG1ucspuR7ihQCBVQ5qhVfEJHPNdiV+uXIY3i0XjkatZO17utJW02h+
+	7sOEXrJYmq0pQkPLVvt0QNs97MrwKcT1QiYbP56DoycvTOdLZVP5S7F8pDsFnSQ==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ad-qSB4oL5D3S-ht@casper.infradead.org>
+X-Received: by 2002:a05:6820:62a:b0:67e:313e:22c4 with SMTP id
+ 006d021491bc7-68be85d32e6mr12168340eaf.47.1776268173581; Wed, 15 Apr 2026
+ 08:49:33 -0700 (PDT)
+Date: Wed, 15 Apr 2026 08:49:33 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <69dfb38d.a00a0220.8f24c.016f.GAE@google.com>
+Subject: [syzbot] [fuse?] linux-next test error: WARNING in fuse_dev_install_with_pq
+From: syzbot <syzbot+a761f017e231803b82cd@syzkaller.appspotmail.com>
+To: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-next@vger.kernel.org, miklos@szeredi.hu, sfr@canb.auug.org.au, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Apr 15, 2026 at 04:10:00PM +0100, Matthew Wilcox wrote:
-> On Wed, Apr 15, 2026 at 04:04:50PM +0200, Miklos Szeredi wrote:
-> > On Wed, 15 Apr 2026 at 15:35, Gregory Price <gourry@gourry.net> wrote:
-> > 
-> > > This was my first reaction when I realized the BPF program would be
-> > > controlling iomap return value in the fault path.  Big ol' (!)  popped
-> > > up over my head.
-> > 
-> > I'm wondering which part of this triggers the big (!).
-> > 
-> > BPF program being run in the fault path?
-> > 
-> > Or that the return value from the BPF function is used as iomap?
-> > 
-> > Or something else?
-> 
-> If a BPF program controls what memory address a fault now allows access
-> to, who validates that this is a memory address within the purview of
-> the BPF program, and not, say, the address of the kernel page tables?
-> 
-> (I have done no looking to determine if this is already considered)
+Hello,
 
-From an initial look at the existing bpf ops structures, I do not see
-any other struct with a similar (obvious) pattern - so it's not clear to
-me such a concern has been exposed elsewhere or directly addressed.
+syzbot found the following issue on:
 
-There is a verifier step for the BPF program that in theory would
-validate the range matches the DAX ranges, but i think that only
-validates the types are right and only on load - I think the BPF
-program itself would be the address validater, which is a strong no.
+HEAD commit:    936c21068d7a Add linux-next specific files for 20260415
+git tree:       linux-next
+console output: https://syzkaller.appspot.com/x/log.txt?x=14940702580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=20564048a4030a77
+dashboard link: https://syzkaller.appspot.com/bug?extid=a761f017e231803b82cd
+compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
 
-BPF folks please correct me if i'm off base here.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/65e69b0763ee/disk-936c2106.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/eec951f96cd3/vmlinux-936c2106.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/d1e1822e93a4/bzImage-936c2106.xz
 
-My initial take is that it's a real concern a "bug" in a BPF program
-could let userland map arbitrary memory into userland page tables, and
-such an extension would not be a quick fix to the FAMFS problem.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+a761f017e231803b82cd@syzkaller.appspotmail.com
 
-~Gregory
+------------[ cut here ]------------
+fud->pq.processing
+WARNING: fs/fuse/dev.c:482 at fuse_dev_install_with_pq+0x23b/0x270 fs/fuse/dev.c:482, CPU#1: syz.4.290/6132
+Modules linked in:
+CPU: 1 UID: 0 PID: 6132 Comm: syz.4.290 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 03/18/2026
+RIP: 0010:fuse_dev_install_with_pq+0x23b/0x270 fs/fuse/dev.c:482
+Code: 85 6d fe ff ff e8 55 84 84 fe 4d 85 ed 0f 94 c0 48 83 c4 10 5b 41 5c 41 5d 41 5e 41 5f 5d c3 cc cc cc cc cc e8 36 84 84 fe 90 <0f> 0b 90 41 80 3c 2e 00 0f 85 8a fe ff ff e9 8d fe ff ff 44 89 f1
+RSP: 0018:ffffc90005357660 EFLAGS: 00010293
+RAX: ffffffff83401a0a RBX: ffff88802cb4b000 RCX: ffff88802d041ec0
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+RBP: dffffc0000000000 R08: ffff88802804d50f R09: 1ffff11005009aa1
+R10: dffffc0000000000 R11: ffffed1005009aa2 R12: ffff88802d2a2000
+R13: ffff88802804d598 R14: 1ffff11005009ab3 R15: ffff88802804d500
+FS:  0000555556ded500(0000) GS:ffff888125fbc000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f58e1e0ba40 CR3: 000000003e02c000 CR4: 00000000003526f0
+Call Trace:
+ <TASK>
+ fuse_dev_install fs/fuse/dev.c:496 [inline]
+ fuse_dev_alloc_install+0x61/0x80 fs/fuse/dev.c:508
+ cuse_channel_open+0x124/0x7b0 fs/fuse/cuse.c:524
+ misc_open+0x2de/0x350 drivers/char/misc.c:163
+ chrdev_open+0x4d0/0x5f0 fs/char_dev.c:411
+ do_dentry_open+0x83d/0x13e0 fs/open.c:947
+ vfs_open+0x3b/0x350 fs/open.c:1079
+ do_open fs/namei.c:4699 [inline]
+ path_openat+0x2e43/0x38a0 fs/namei.c:4858
+ do_file_open+0x23e/0x4a0 fs/namei.c:4887
+ do_sys_openat2+0x113/0x200 fs/open.c:1364
+ do_sys_open fs/open.c:1370 [inline]
+ __do_sys_openat fs/open.c:1386 [inline]
+ __se_sys_openat fs/open.c:1381 [inline]
+ __x64_sys_openat+0x138/0x170 fs/open.c:1381
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x15f/0xf80 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f58e1e7c819
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffdb95bfa38 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
+RAX: ffffffffffffffda RBX: 00007f58e20f5fa0 RCX: 00007f58e1e7c819
+RDX: 0000000000000002 RSI: 0000200000000040 RDI: ffffffffffffff9c
+RBP: 00007f58e1f12c91 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f58e20f5fac R14: 00007f58e20f5fa0 R15: 00007f58e20f5fa0
+ </TASK>
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
