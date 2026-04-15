@@ -1,135 +1,207 @@
-Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96FA528BAB9
-	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 00:51:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776214283; cv=none; b=IvikFOpAplkz/baje1RXCfaZFEIPOXEfQ9CI3uA5GH7RDgfisN7jAfeVVj1uhnto9caPdzHv8jBATbj7kbdfb5bWNRRytNpl5Q5nSyzyHFgqLR+Ck2MKLycKMAlimarPFgXhESWFbrTgXSPWdQrOQu1z+x882AN0yVGtgzrxv/M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776214283; c=relaxed/simple;
-	bh=EWTn4M9BJF+za/T+/mJOFb4HtEHc0IBJUVKLa1AIRis=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p9ueZcj6amKO3yEOsdriVaSohzOhcv1ZRhaTh3PFLIyKZgQ1pMJADuHWmJRSwFM/atK5kuC9q0bN8O/jWQUZnmX9hEnG1JHQitqM7UTBYxRKoZBAoXauG+3vpfCuYf94+7gOGqgPiFaVSgc8692iHbRBhoBxU6MzsqWg/j4mvoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=J8YU0AlS; arc=none smtp.client-ip=95.215.58.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 280A440DFC9
+	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 01:10:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776215416; cv=pass; b=OZp0DJJ1SaA22dOWrtinWhkddU7w67dcZfrOhTtocb2oG4CC2fjEv5SImjVX3O/FtCSXDK/JjXUi5PH16CUqXpGTA08B2X2Nzy5UA5V/AkQCBMh9o9yT6Mr43D9hnxs02jX8ki0abbYDsbjXKLywUEziRn+wBhTXbazQd000F/w=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776215416; c=relaxed/simple;
+	bh=cY8cgTRa1DZsqsE7RCYEtBwElKC6XPGbK65mYX3c4+w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ag1kqilGlhvib9//fFZT605ycYMyLI6ax9DDnspWCxlg2ZNmSRvqT0WyIi3egGMqYTnaKKQ/lMg8gliT3SBb8qs4CmPinKxLLK3eZPUnETeRCBAMLkDBw0RZhbPKyhaoUiBltC/9QXpF1ZmNRSuOcHLSOx8lxijLJ8SIbb+isvg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HVuXr6HM; arc=pass smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="J8YU0AlS"
-Message-ID: <9a852e74-1499-4a5a-8e98-56a33c67d639@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1776214278;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4mzC9E+DlpUUGq46xAvgFHlJHte5hw9EwrSfNtsp0mE=;
-	b=J8YU0AlS5C5k/kXq7rlFACUywmi7oGfW7YBS4Bq+IlpZTYRixEXAT3hqtLFusz3FxsXs6B
-	rD8AsY97471H0gKZlgTZq1ZtamhUSPOnl8FSJVkIFg+jDSjB0vMtLRP3uLZDLFDplN4CFi
-	027XHKDxVHXTl5dh7RIN1ZMbHGu5Pj0=
-Date: Wed, 15 Apr 2026 08:50:54 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HVuXr6HM"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-48374014a77so83772455e9.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 18:10:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776215413; cv=none;
+        d=google.com; s=arc-20240605;
+        b=RTZ+h3guihQJrEINs0NgD5UqunIK36/RdkvFOAj8CyMJBxSke0gQjky3fAs1ZqrBdF
+         tfV6o8lWtB68Nw23EOMXvckJC0iIgBEd626dhciGCnXb08iXnvggORWso5OWkUT+LK+L
+         7WOEZeLjibLz9BX/zxoswESlhUF9tQDgR0HYbIyYwWdIrO/wGDxb0dshNuoBOp+q+NP4
+         UJlKCmPHVaRmVRWnlFYkd9k3XUXcnC7HAmXJ5PnkUiVZmXzdTF04LzwcsDJ6x0NVBJhu
+         SwH04gPG21lSb6mq6it9yV7mcYSK7PZbVjCwzqm9hc/598NJZhivUEKr8bIJC9PyalLb
+         sk9w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=OJXb0g/1M8z17Wugtz2qq1lTdAnbqiUmqW3S/Cf/DWk=;
+        fh=znXMIfQ+KGuEkQ/pkKqploLnOvLBZUKwM4n0ajFwho0=;
+        b=TZXn0eagNbu+mu9QbKe+6fNPNJh0e2phpZ7qw15+6AXpHzG+UwOWuk043grAXmYQS7
+         3VX7Y4+X4ujSBZ3RnhdwoGJAIzHSWiLo4KLncqWLf8R3OKwqgqhyXr+lFlBS4ecnbum1
+         axXG+gUGTvhDkbtELDZuAg7ajGACOkczXEGf3eQPpFz8xcy4fPoXSt80zdG99fkjiu+O
+         /5erE+Lxt2gO4TQsij4YcylbXpsBMlhOLvXoL22LsiA7bOfLNsaD+IohyViaZzS9ApjF
+         p47M3K8NyTZthQZWDnEHwWXJl3We8mFtdbCcdOEXx+IbIAvi98xbnJHlyCwmBFCF7qoy
+         qwdA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776215413; x=1776820213; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OJXb0g/1M8z17Wugtz2qq1lTdAnbqiUmqW3S/Cf/DWk=;
+        b=HVuXr6HMJj4QvAfD/5bBx+HXXXCCw/jIZj1BJkCh7Ppc9EMY3DtVNjv0iolULhHLvR
+         PP4W37WzJtop3ObibIuzZ31hqvQYzz5Gnq1nYB7OYYBKETT17xCOSpZTJz0oMWr0/e23
+         NcfHSQeEkryEZu8aixFjm2MAjgcconPFvzOu8cdddEEyqfrAtG3QqurBKPOj8GcBmRfD
+         d71OoVaDZD8pZFJ/Bowd7uUuVv1jYHzcV2rvxIYXitAy4jj1HD4XFucIH1rZ/L9OH1td
+         6J6bOrWRJwQ9O88PEUrdzPgRgIcR0hA7RjjsVYsXJBTt5t9ai5Heu5YRD6yBCfmiQju7
+         oKvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776215413; x=1776820213;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=OJXb0g/1M8z17Wugtz2qq1lTdAnbqiUmqW3S/Cf/DWk=;
+        b=LpnpiKqGZ39MhjqZQmel4lbdAN/lPez5GWlsZ7A3gd/7xWAFd0+61bKl5IkzJZLJV5
+         UV6hnJ+3lJaaACIQsSWXzQDdkzhudWbRg3xbZPGPeqlEggyqU/t0FncGt39gkRb9quOO
+         jZNSBTMqxSk3ONQxkVRVTtXn+ffn3L+Lab2XS0P9KiXhDeQ2NGwLWcyGnoywvBEda0Ef
+         HvHKXDYikYtc/mfbe+FAnuQbYy5tTLnQ7WpznliMEOdOtv/Kkva56QRXr/AazttMvOXG
+         4BasUIf/En74BeGbhM+Jbxef3WCe1gWoUH7g1iuZUZ6fmakdUkrveLrsthW2DytmYqFL
+         VkSQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/7AayloTRukqSDonWxWKLaimJhveoqs18kZan0QWs5aSt6t7TRfjAYf5uTLG0ehhzyifl2a2JWhqVWpOuN@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZpWgPUWwlVtPEHIfErNrUPJTDbUns90ej6RgVgPSjglEucjzr
+	utFHKPDyyYyOmIt18j2qmdPVR+qtXHFS0EI4ggP6hYmP71RiPjld3zk+mhufN3NlernVE0bwagS
+	aL8wnKNxyKM4dKv2T70vARdRlSDnAwRw=
+X-Gm-Gg: AeBDieu0prjd5HOI5LMiDA8N05u6umkzSmLhKnPX3C+TQiRHYNwruLT6Z4wP8+abeOy
+	Z254wN+MO+J+9FGgCFB3bEDb/h7AmTFxLw7VkENL1dqPAtaGFY0+RNnJZmgqzY0PNLxd/CAK9ej
+	p9F/K+EbKCn6+il8cKqJzNGvOO06SPQVev4SnLZIWHRZMVf/2zbQp4tieHxdo9EPJtCk24/pcJp
+	ktzHX4eFPL/qWjrokIyDu9pHf9DL7yifOrlE/RPGvr5EGKahCGzEIDDFlUUYVQBsRGjAg3o00Zw
+	6I0idlNcEFXR7rNm
+X-Received: by 2002:a05:600c:a11c:b0:485:303b:c50a with SMTP id
+ 5b1f17b1804b1-488d6804721mr201462735e9.13.1776215413430; Tue, 14 Apr 2026
+ 18:10:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 3/4] mm/vmstat: remove unused __node_stat_* wrappers
-To: Joshua Hahn <joshua.hahnjy@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Ye Liu <liuye@kylinos.cn>,
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett"
- <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-References: <20260414150001.3262806-1-joshua.hahnjy@gmail.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Ye Liu <ye.liu@linux.dev>
-In-Reply-To: <20260414150001.3262806-1-joshua.hahnjy@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+References: <20260402162840.2989717-1-joannelkoong@gmail.com>
+ <20260402162840.2989717-15-joannelkoong@gmail.com> <0f2b87c5-2c98-4463-9a9c-bfca91e83cfc@bsbernd.com>
+In-Reply-To: <0f2b87c5-2c98-4463-9a9c-bfca91e83cfc@bsbernd.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Tue, 14 Apr 2026 18:10:01 -0700
+X-Gm-Features: AQROBzC6nH-PRX3zi6u4ymmkOu7XdP8C4KEYAgDLShVZx_OAg0NBvvVDPD8I21k
+Message-ID: <CAJnrk1ZAcbYkewWz=CbxgzkvXnk2-QKLjSk-oA0hywbnVUSM9A@mail.gmail.com>
+Subject: Re: [PATCH v2 14/14] docs: fuse: add io-uring bufring and zero-copy documentation
+To: Bernd Schubert <bernd@bsbernd.com>
+Cc: miklos@szeredi.hu, axboe@kernel.dk, linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Apr 14, 2026 at 2:05=E2=80=AFPM Bernd Schubert <bernd@bsbernd.com> =
+wrote:
+>
+> On 4/2/26 18:28, Joanne Koong wrote:
+> > Add documentation for fuse over io-uring usage of buffer rings and
+> > zero-copy.
+> >
+> > Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+> > ---
+> >  .../filesystems/fuse/fuse-io-uring.rst        | 189 ++++++++++++++++++
+> >  1 file changed, 189 insertions(+)
+> >
+> > diff --git a/Documentation/filesystems/fuse/fuse-io-uring.rst b/Documen=
+tation/filesystems/fuse/fuse-io-uring.rst
+> > index d73dd0dbd238..bc47686c023f 100644
+> > --- a/Documentation/filesystems/fuse/fuse-io-uring.rst
+> > +++ b/Documentation/filesystems/fuse/fuse-io-uring.rst
+> > @@ -95,5 +95,194 @@ Sending requests with CQEs
+> >   |    <fuse_unlink()                         |
+> >   |  <sys_unlink()                            |
+> >
+> > +Buffer rings
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >
+> > +Buffer rings have two main advantages:
+> >
+> > +* Reduced memory usage: payload buffers are pooled and selected on dem=
+and
+> > +  rather than dedicated per-entry, allowing fewer buffers than entries=
+. This
+> > +  infrastructure also allows for future optimizations like incremental=
+ buffer
+> > +  consumption where non-overlapping parts of a buffer may be used acro=
+ss
+> > +  concurrent requests.
+> > +* Foundation for pinned buffers: contiguous buffer allocations allow t=
+he
+> > +  kernel to pin and vmap the entire region, avoiding per-request page
+> > +  resolution overhead
+> > +
+> > +At a high-level, this is how fuse uses buffer rings:
+> > +
+> > +* The first REGISTER SQE for a queue creates the queue and sets up the
+> > +  buffer ring. The server provides two iovecs: one for headers and one=
+ for
+> > +  payload buffers. Each entry gets a fixed ID (sqe->buf_index) that ma=
+ps
+> > +  to a specific header slot.
+>
+> Hi Joanne,
+>
+> thanks a lot for this document! Could we discuss if we could just hook
+> in here and allow SQEs with different iovecs for the payload buffer?
+> Let's say fuse-server wants multiple IO sizes - it could easily do that
+> via different pBufs and just needs to specify the dedicated IO size per
+> pBuf. Those buffers could then get sorted into an array - we could
+> define either via FUSE init the number of buf sizes or use a fixed size
+> array. Fuse requests then would just need to pick the right array.
+> This is basically what I'm currently working on for ublk.
+>
+> I think it would be good to agree on the design before it gets merged so
+> that uapi doesn't change.
 
+Hi Bernd,
 
-在 2026/4/14 22:59, Joshua Hahn 写道:
-> On Tue, 14 Apr 2026 17:15:20 +0800 Ye Liu <ye.liu@linux.dev> wrote:
-> 
->> From: Ye Liu <liuye@kylinos.cn>
->>
->> Replace the single call to __node_stat_mod_folio()
->> with node_stat_mod_folio(), and remove the dead inline __node_stat_*
->> wrapper definitions from include/linux/vmstat.h.
->>
->> Signed-off-by: Ye Liu <liuye@kylinos.cn>
->> ---
->>  include/linux/vmstat.h | 18 ------------------
->>  mm/page-writeback.c    |  2 +-
->>  2 files changed, 1 insertion(+), 19 deletions(-)
->>
->> diff --git a/include/linux/vmstat.h b/include/linux/vmstat.h
->> index 3c9c266cf782..54da7d820f78 100644
->> --- a/include/linux/vmstat.h
->> +++ b/include/linux/vmstat.h
->> @@ -440,24 +440,6 @@ static inline void zone_stat_sub_folio(struct folio *folio,
->>  	mod_zone_page_state(folio_zone(folio), item, -folio_nr_pages(folio));
->>  }
->>  
->> -static inline void __node_stat_mod_folio(struct folio *folio,
->> -		enum node_stat_item item, long nr)
->> -{
->> -	__mod_node_page_state(folio_pgdat(folio), item, nr);
->> -}
->> -
->> -static inline void __node_stat_add_folio(struct folio *folio,
->> -		enum node_stat_item item)
->> -{
->> -	__mod_node_page_state(folio_pgdat(folio), item, folio_nr_pages(folio));
->> -}
->> -
->> -static inline void __node_stat_sub_folio(struct folio *folio,
->> -		enum node_stat_item item)
->> -{
->> -	__mod_node_page_state(folio_pgdat(folio), item, -folio_nr_pages(folio));
->> -}
->> -
->>  static inline void node_stat_mod_folio(struct folio *folio,
->>  		enum node_stat_item item, long nr)
->>  {
->> diff --git a/mm/page-writeback.c b/mm/page-writeback.c
->> index 6f9b7b081ab7..ed3301753e89 100644
->> --- a/mm/page-writeback.c
->> +++ b/mm/page-writeback.c
->> @@ -2627,7 +2627,7 @@ static void folio_account_dirtied(struct folio *folio,
->>  
->>  		lruvec_stat_mod_folio(folio, NR_FILE_DIRTY, nr);
->>  		__zone_stat_mod_folio(folio, NR_ZONE_WRITE_PENDING, nr);
->> -		__node_stat_mod_folio(folio, NR_DIRTIED, nr);
->> +		node_stat_mod_folio(folio, NR_DIRTIED, nr);
-> 
-> Hi Ye, thank you for the patch,
-> 
-> In addition to what Matthew has pointed out, I also wanted to note that this
-> substitution isn't trivial; there are differences between the __ prefixed
-> version of node_stat_mod_folio and the one without. Even though the correctness
-> of the two versions might be the same, I think that a change like this should
-> be supplemented by a description of what side effects this change has
-> (i.e. introducing additional overhead from the cmpxchg loop).
-> 
-> Thank you, I hope you have a great day!
-> Joshua
+I'm not certain I fully see the use case for a fuse server preferring
+a static preallocation of multiple IO sizes over using incremental
+buffer consumption, but in my mind to support multiple IO size
+payloads, I was thinking something like this might work best:
 
-Thank you for your review, Joshua. Regarding the difference between
-__node_stat_mod_folio and node_stat_mod_folio: in the current implementation,
-both functions ultimately use __mod_node_page_state, as mod_node_page_state
-is defined as __mod_node_page_state. There is no functional difference
-between them in terms of atomicity or overhead. The __ prefixed versions
-were wrappers that are now unused, which is why we're removing them.
+* iov[0] for the headers stays the same. no matter how many IO size
+payloads there are, the ent always maps to a header and the headers
+are a fixed size
+* iov[1...x] are the payload buffers. From the uapi perspective, in
+the fues_uring_cmd_req init struct, there would need to be an array of
+uint32_t buf_sizes. Each index in the array would correspond to index
++ 1 in the iov[] payloads passed
+* on the fuse side, each of the buffer pools has its own ring. I think
+this makes managing the different buffers a lot easier and gets rid of
+having to do any array sorting, and makes buffer selection/recycling
+O(1).
 
--- 
+From the uapi perspective, right now this patchset adds this to the
+struct fuse_uring_cmd_req [1]:
+
+union {
+    struct {
+        /* size of the bufring's backing buffers */
+        uint32_t buf_size;
+        /* number of entries in the queue */
+        uint16_t queue_depth;
+        uint16_t padding;
+      } init;
+};
+
+To accommodate multiple io size payloads, the buf_size should probably
+be the last field in the struct so it can be extended. How many
+different payload sizes do you envision needing?
+
+Does this align with what you had in mind?
+
 Thanks,
-Ye Liu
+Joanne
 
+[1] https://lore.kernel.org/linux-fsdevel/20260402162840.2989717-11-joannel=
+koong@gmail.com/
+
+>
+> Thanks,
+> Bernd
+>
