@@ -1,81 +1,125 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE17B22097;
-	Wed, 15 Apr 2026 14:30:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D7DA358367;
+	Wed, 15 Apr 2026 14:34:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776263453; cv=none; b=u35PENjowrm8RTuEIgisXZJ2dWTsU+C30cD6R9B3Ra8uZlht09Bj0GsoHBJ5iZ5FmTlBVEGcrZr4AlNGYLd7x7KH91VmE3T649/C9mL1VMHE6yBWET6gFGdiCKQncafqzSvoiqddUFqzDFC6Fai41eGPm4NOpdf/vrI9/bJMKjg=
+	t=1776263693; cv=none; b=kJZD2uY8q+ZZBXAQeoat3rK7iEy0cXCU/GAiZWV6foYb7003P+dUMEsC3j/2hs05lRfPrwA+AAkbTalQ5279foE/iRIfIWHbrJrrRRAET4x9V6NDmAleJE9TPlkWXmXUmqjVyWO7FvoSUUmLPuphYWktzvSfkjeDoz7kXn3mgwU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776263453; c=relaxed/simple;
-	bh=J0XDojRw/Mna3BVb3sFZO2YT5UKBAtP4uXxt8eW+m60=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n2RiboNNFfgYYPpIQOmI5gHs2soOpDHikUdYFiGpLhmURGHJ3O/fEvf1DRAUtsseO64fYFP2XrdwL8RuToKaqWw8QEhPka4RIoElT1OU7QJSKIPkHlZMqgSQqOo+GaZKNAavyzNknKdrwL8fUhd56FJpaLowlC98gN9MJ0tdzIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=EArKl0On; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1776263693; c=relaxed/simple;
+	bh=8B3JEnHtc26ea94Qf12pLpgUQm3OGM/HkIcKv8RtGRQ=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=WG6MK1waFaVathWyPHIwXPQVKksiDwDcQuDsLARPfv9D5L/vc5tHJI0hCQTMUt3f6K0ulBEjO/UQWZmt//ZP/ISSXAkxZTfAa+g0evojWa8gT4IS7qiowjg+gGgyOAezMg/nWtXMFDPK+/RZE0dE3/ChlCbadCXxpCTBolHb9Cc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pGRxvm/X; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="EArKl0On"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=Uk0JsMQf+CVFWDP/CsyX5sUtLObhpV7jtN+MOYTyvWk=; b=EArKl0OnAG9XoW3gQ9ptsyMcdE
-	b6gh6tQcpyIV8JguJZcbvXRbQ/wsJaYDXB0GU1SP7B1bOsZ8urKsRrJemFZjwxdWctEbvvyjCDbSR
-	wFnLNA7zNVO3RbjZQz7mIIO1dFwBX6AiXbK6oncdHs1kJrzufhytyiSparn7qGacnOTLFmsS066EX
-	wRDcF6P/59+TOksrTxfTvdBX4CgK94PB+IEe5dFi7H8mDyzKiFyd+LtwpF56AggnGniRVd1E/ZRCn
-	Tyn8MTq6BYcEE880k7ujkyDhl7loQbrS/8ZpnNAQx5QtXWHjwdUfXEkYawLopo9a7+JN7gOKd4Oud
-	uCcI9fOw==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wD1GI-0000000004t-1aLk;
-	Wed, 15 Apr 2026 14:30:38 +0000
-Date: Wed, 15 Apr 2026 15:30:38 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Tal Zussman <tz2294@columbia.edu>, Jens Axboe <axboe@kernel.dk>,
-	Christian Brauner <brauner@kernel.org>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Carlos Maiolino <cem@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>, Dave Chinner <dgc@kernel.org>,
-	Bart Van Assche <bvanassche@acm.org>,
-	Gao Xiang <hsiangkao@linux.alibaba.com>,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: [PATCH 4/8] FOLD: block: change the defer in task context
- interface to be procedural
-Message-ID: <ad-hDv8QoeTmlPW9@casper.infradead.org>
-References: <20260409160243.1008358-1-hch@lst.de>
- <20260409160243.1008358-5-hch@lst.de>
- <adgJqiA0vivaW7NA@casper.infradead.org>
- <20260410061725.GA24667@lst.de>
- <adj6iibxNot-yc9X@casper.infradead.org>
- <20260415054407.GA26893@lst.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pGRxvm/X"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEF1EC4AF0B;
+	Wed, 15 Apr 2026 14:34:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776263693;
+	bh=8B3JEnHtc26ea94Qf12pLpgUQm3OGM/HkIcKv8RtGRQ=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=pGRxvm/XD/Fq5IK9vY3jJaw08hZd7eyEB+b5JYDHsJ4W+0cSa24g0pTts4RUDDPvM
+	 4JxIblqK06IOoUrUiJS1uKhK499v7ZAuBsfIpQshaYifb5iSb2NgKoTFU3T5StYVX+
+	 QCzvV+mIvs6DVSrvQUa1UJ53+zt3HHuJv8FiSz1g58QQnFpEbkc6Axs/4Igmvz5+OC
+	 qvycua9zJo8E0IP8aizVtxbIKwuYosdaHoxqzYIlh6xkmBqU4JX4P4O4jkHH66qcT/
+	 Smhzyl3el3oPtBH8M5fj+cCz5yn223vZnDRmm1oOJ5cx0tOkf8+OWvqrgn22vUYVos
+	 R7l/SEaLWBU7w==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 97337F4006F;
+	Wed, 15 Apr 2026 10:34:51 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Wed, 15 Apr 2026 10:34:51 -0400
+X-ME-Sender: <xms:C6LfaYd7VLfQ3ekkky0J9aTErhecBsipsXemgMNMSstmGe5XmPrqfQ>
+    <xme:C6LfaVC29sOVFFe6Hx9cqUJExJHUW09Ed44bLEjvvGkf0H_Q_Na45EUnoc7Qx3Dgs
+    400skqYN6HNxprarAS6k6uKwhLBlhoRerAexw2O7V8HDhl4tusRfuUH>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeggeefgecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdevhhhutghk
+    ucfnvghvvghrfdcuoegtvghlsehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvghrnh
+    ephfffkefffedtgfehieevkeduuefhvdejvdefvdeuuddvgeelkeegtefgudfhfeelnecu
+    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheptghhuhgtkh
+    hlvghvvghrodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieefgeelleel
+    heelqdefvdelkeeggedvfedqtggvlheppehkvghrnhgvlhdrohhrghesfhgrshhtmhgrih
+    hlrdgtohhmpdhnsggprhgtphhtthhopeduvddpmhhouggvpehsmhhtphhouhhtpdhrtghp
+    thhtohepnhgvihhlsegsrhhofihnrdhnrghmvgdprhgtphhtthhopegrmhhirhejfehilh
+    esghhmrghilhdrtghomhdprhgtphhtthhopegsrhgruhhnvghrsehkvghrnhgvlhdrohhr
+    ghdprhgtphhtthhopehjlhgrhihtohhnsehkvghrnhgvlhdrohhrghdprhgtphhtthhope
+    htohhrvhgrlhgusheslhhinhhugidqfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthht
+    ohephhgthheslhhsthdruggvpdhrtghpthhtohepuggrihdrnhhgohesohhrrggtlhgvrd
+    gtohhmpdhrtghpthhtoheptghhuhgtkhdrlhgvvhgvrhesohhrrggtlhgvrdgtohhmpdhr
+    tghpthhtohepohhkohhrnhhivghvsehrvgguhhgrthdrtghomh
+X-ME-Proxy: <xmx:C6LfaTPej6W1qEA32psXtWIAu6dTfmkFfZwiffXo1foywhCDe8V4Fg>
+    <xmx:C6LfaYZ7gJoaYOoAMMsDJE-sh1r1tYJzajYNfy8rP2RVL-qymA4-7w>
+    <xmx:C6LfaZx6oZ0qBSuXcJqy93FHQW1p0L2XApjN3ZNobyuUmx6kcoqgaQ>
+    <xmx:C6LfafN9qf5sZOQJkjuvNYfbx3O78hSB5lwbwTpxEavsJ3TC-ejrmA>
+    <xmx:C6LfaQeSxPB7EcCzsSQZhh0BPhJu2vsyj1qNXq3H7Xn8F7h_5ZltEv7o>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 6314A780070; Wed, 15 Apr 2026 10:34:51 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260415054407.GA26893@lst.de>
+X-ThreadId: AwBntrSeBB7R
+Date: Wed, 15 Apr 2026 07:34:31 -0700
+From: "Chuck Lever" <cel@kernel.org>
+To: "Christoph Hellwig" <hch@lst.de>, "Christian Brauner" <brauner@kernel.org>
+Cc: NeilBrown <neil@brown.name>, "Olga Kornievskaia" <okorniev@redhat.com>,
+ "Dai Ngo" <Dai.Ngo@oracle.com>, "Tom Talpey" <tom@talpey.com>,
+ linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ "Chuck Lever" <chuck.lever@oracle.com>, "Jeff Layton" <jlayton@kernel.org>,
+ "Amir Goldstein" <amir73il@gmail.com>,
+ "Linus Torvalds" <torvalds@linux-foundation.org>
+Message-Id: <217438cb-63ff-41d2-8f3c-fbdb1945a670@app.fastmail.com>
+In-Reply-To: <20260415052925.GC26559@lst.de>
+References: <20260401144059.160746-1-hch@lst.de>
+ <8bef4d4e-1c0d-451d-8854-ed0cba27ee1f@app.fastmail.com>
+ <20260409-schwalben-neutralisieren-fb5a184e5049@brauner>
+ <20260410111007.GA10292@lst.de>
+ <20260414-ausbrechen-gemixt-ff09f46bdad2@brauner>
+ <20260415052925.GC26559@lst.de>
+Subject: Re: cleanup block-style layouts exports v2
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Wed, Apr 15, 2026 at 07:44:07AM +0200, Christoph Hellwig wrote:
-> On Fri, Apr 10, 2026 at 02:26:34PM +0100, Matthew Wilcox wrote:
-> > > Yes.  On the other hand we can actually use it when we don't know if
-> > > we need to offload beforehand, which enabls the two later conversions
-> > > and probably more.
-> > 
-> > I don't understand why we need to remove _this_ way to defer completions
-> > to take context in order to _add_ the ability to defer completions
-> > inside the bi_end_io handler.
-> 
-> I don't need to, but we'd better have very strong reasons for two ways
-> to do the same thing, and I don't really see it here.  But I can give it
-> a try if the consensus is that we want to way to do it, and we're not
-> worried about people getting the bio-flag one wrong as we could set it
-> from ->bi_end_io, but it would not do anything.
 
-I want to make all writebacks complete in task context so we can change
-the i_pages.xa_lock from being irq-disabling to a plain spinlock.
+On Tue, Apr 14, 2026, at 10:29 PM, Christoph Hellwig wrote:
+> On Tue, Apr 14, 2026 at 12:01:39PM +0200, Christian Brauner wrote:
+>> On Fri, Apr 10, 2026 at 01:10:07PM +0200, Christoph Hellwig wrote:
+>> > On Thu, Apr 09, 2026 at 03:26:09PM +0200, Christian Brauner wrote:
+>> > > > Christian, are you OK if I take this series through the NFSD tree?
+>> > > 
+>> > > Hm, I generally prefer infrastructure to go through the VFS tree.
+>> > > You can get a stable branch ofc.
+>> > 
+>> > Communicating this earlier would be helpful.  If we switch to a new
+>> > tree base we're going to miss this merge window.
+>> 
+>> The series was sent on April 1 so with about 2 weeks before the merge
+>> window... If your series isn't ready by -rc5 what is it doing being
+>> merged for the coming merge window is the other side of the question. So
+>> afaict, there's no hurry.
+>
+> That's a very weird generic standard.  I know a lot of subsystem don't
+> take complex core changes until a bit before the cutoff, but killing
+> 3 weeks of the merge window for everything is odd.
+>
+> Even more I'm not even why we're having that discussion - exportfs
+> has it's own maintainers, one of whom ACKed this including the whole
+> tree discussion.
+
+In this case, pNFS is the only consumer that will notice or use the
+new "infrastructure" and us NFS experts are the only ones who can test
+and review it properly. And, the likelihood of conflicts with patches
+in nfsd-testing is high (in fact we've already had at least one). It
+makes sense to me to take this series through NFSD.
+
+
+-- 
+Chuck Lever
