@@ -1,115 +1,217 @@
-Received: from out203-205-221-192.mail.qq.com (out203-205-221-192.mail.qq.com [203.205.221.192])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DA283CF669;
-	Wed, 15 Apr 2026 08:45:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.192
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776242718; cv=none; b=M7RDJ6W8hOlHLAMNa6/hQKOvnmSyUzWYPuU+/0D0lxBNBm2BmwmyuoedAndKklPk9AR+LQLu5oOs6Y0cxWpZWSuZwkNKSJKUmMQrIfmwf3T59U67qKnqKsR80bRuL2ncyoz8XyrCCuLh5ZqXOM7k8iN75CVhej6Bb2zUfc72TBU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776242718; c=relaxed/simple;
-	bh=lk+6jHw1rYhShaVR8oHzz1RyJ6hkNFMUZWxE0AYD2x0=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=XhBbeiLrgTpKgDAXmhTApb2cXLobCZdQuLquiL/KNsJm7U11PjoBMd8SnK+/AnAlwqvb4lNNWSlCKYPIXNx62h76xmuA6dJsy49Kf2pGs2eoKS34DqOn7+DPq4y7bw0Si2vxL4OR8Gg7RYEjuG7OQ1f5v2hCBzQr7z0AEfphPUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=OpI/Zir2; arc=none smtp.client-ip=203.205.221.192
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C86130EF6C
+	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 08:50:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776243032; cv=pass; b=KvHPAhOtPO7ka2HNvpctn7xNwsZmX7kBnrFJERWrFmS8a1Ae2h8YLTWkqonbD20SVGTK/GN8goOqGk83SXcd/RJlhi3srdm2E9xtrlvLB+LRJeGRv+r/zlsfg8qpkMXec42nFZvri5TubR9vCEXwopEsADkYOfNWKdog5w/pAV0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776243032; c=relaxed/simple;
+	bh=z5iFY2khC7ou01RIHrOW4R4MROI8kR7TzjrYDShiAvI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bA2nbO2jIhj+C2fkkl782Pgs67TCtRjtTyYgN76Jjk98h+IK8fDd8Tn/vxLV4cdMS7pckM1M7fj7N8DezicccPS+lizl61ZDK7nivR5rc0za+S3EykKvyahSIHJTCJkQuurCHLLcLi5hNfy8EzEf+c+75+QHL1Z2DbPRCRhU+20=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IEQXgj4+; arc=pass smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="OpI/Zir2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1776242707; bh=Z1qcQjIyQcvNh2MsmZNjN3wdZl59kpHyhu8kDEDs5EY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=OpI/Zir2rOTU5owwCigmevOjDYm3q2rDzCDsZIHdm8pASEDnAaTiil2VtP0OKRIzg
-	 n+8nr/vZ17LYNE3C1n39csvZiNCxBlziXwbUyyDCosD1SlbNQD7XfeSz6YGHj1mSBv
-	 RLeuhNLSd1blPdt+OgFfQYFHVNCjjF4SnT1umWTI=
-Received: from lxu-ped-host.. ([111.198.231.89])
-	by newxmesmtplogicsvrsza53-0.qq.com (NewEsmtp) with SMTP
-	id B44B521C; Wed, 15 Apr 2026 16:45:04 +0800
-X-QQ-mid: xmsmtpt1776242704t83m5bic5
-Message-ID: <tencent_42B2972A36284B9A7555774B66843D4F3609@qq.com>
-X-QQ-XMAILINFO: NdJjTjI40ejMBrB3AzYxuTwgAV7Vyuen3ABBObOMI3q18hfpEOv2AtY2oMzw45
-	 hQFP+Xqkibdgv6gXykpPPPn9BzGlJRh3idiRF4qaYabZCNZsrTcPGqjXkqDi6qbfRFue3FDnOEyk
-	 g5RpvyH2snnwCIjiYaozDO3lbOybWnDOL4jyX7p7SyBA/9AGWNI06xwl8lM9qEcFMMiN2pwH4KDA
-	 1hG4KBRwEkfHRE+X8G1Wlklr9IE0DvU2rXX24fkA2kvCtqy/k7YFZojK7sIjrg6zAIsmUNhhSC3u
-	 CUpEDDExp5GAjX3o7QDOFICpZwn5Ld71D6DkZW8reJTR49JvfatoG2bWU5UDcWns2hO3uwBSd4YM
-	 EHLsBl8sEy1UL/GsEyBxVkq8cIVC8U3GrHSR29XcTf/1uqtgUXcoHe7+nGH3spvV/dxHecgSkdtx
-	 nmMj/rGtOX5VPHujdBCFx5NOQKCte5KxKZUuuUkO1QGhwQ4WJc9/OMJsh8C0cilcMsar7gbek4+r
-	 MlzF7KhXvUx6FEjqfw9DmbrLZYn66p/xKmtGr5lycEvAITkiTuDG/+ZF+8ZfDVchY5YjiTdZlDgf
-	 H8z3uFKKh3JxlJUGDYkidDAOo/rgcdTexsgjIoXjN0qxZLUfWeczlYgsmqI4zpx+puzBva3CVkpf
-	 VlPT+kyOYGjSUrNQdwIpoVRn1rwA1xa/iQ5OiBuOZ7QsGUs1+j6zHRKUAxPyh9wUfGAfqR8oYuEU
-	 eCXRUZCi//sSq3kyeU8xTwiYvPAnB+C+h1FpY2COhhblv+jkXQzqOJCPy/srjADMRMQIcWzFypj0
-	 /JIJbFHyPU4BwSFW8ruyVaUUYPLC9W/uhQASMMCg1ssWHuSyUXSebY5ldZBOTs1bTB1LCM371fv5
-	 9v+6Ytktd0Ox3ikOEy+4+topmkCBSfWham0k/Wa5pWbX72CdD6YRUBi3l0DO5L3KMRBpgRuwpZ29
-	 nm78estif2K48h5VltmnlRq6wtA3QF+e7tBd9t8GgcOvIIzEczj5QwcAS1E7VG2T6yfX3WoX+tqJ
-	 BtcVwAng==
-X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
-From: Edward Adam Davis <eadavis@qq.com>
-To: syzbot+bc70a12e438dadba4fb4@syzkaller.appspotmail.com
-Cc: frank.li@vivo.com,
-	glaubitz@physik.fu-berlin.de,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	slava@dubeyko.com,
-	syzkaller-bugs@googlegroups.com
-Subject: [PATCH] hfsplus: set attributes inode dirty at correct position
-Date: Wed, 15 Apr 2026 16:45:05 +0800
-X-OQ-MSGID: <20260415084504.315596-2-eadavis@qq.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <69decbcf.a00a0220.468cb.0069.GAE@google.com>
-References: <69decbcf.a00a0220.468cb.0069.GAE@google.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IEQXgj4+"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-671ff4b716cso2685119a12.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 01:50:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776243030; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Yow86I40s8gCYk0uUo0mTEIfzw0xOT+xiWBgtoYS6ufJrINS8iqvxrz0qn3C3cnLHG
+         LlO8UKLwASwaVgSiTvKbrBTHWQXUO97otJ9YDktRayj2UD2ysl4J9qhN3TnIJWzlU4Ws
+         gvdkg15f69tHdnqJRPDCxT9+7le1eUpFClAOEglgu8fO1hRCpVgjPEyLgvGZcZUHK4M7
+         /9HcjEVOvMAb8lY1jjjR6uqmqKrsIdi5h6eGpdnUc1BMWpjdxRPj6KkRVDzHKWy5piZ6
+         bksgTZG0vnXkBhLgDaLlm1D1vG4Rx8lMowNsro/9vh97lC6437E4exEwEVl6cr6iYTFg
+         Fw+g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=LfQXDhDL8kE6GGuwypTVdwLFZ+2G2+Ay+ewe6ErDBf4=;
+        fh=mujdLnNCoPDbIpROT9ofzjh6CXIvvHnc8Ln6npemIcc=;
+        b=X1jcs8cAvYFvHx7XflLxd+SwAW6skO/vOJChGQ2ksC9OCD5vecLWP+BgsuiarK1t+v
+         XmVfEBLpcNkjqCm9Q2IlAqyVVClJZWLhT/Mlqb8cA2fUFQpNvq8fMD5Do+6QFmplhZd9
+         c41rmQGBfnw8cBmiGH6lZAEcIEwooJxkkZBFOFX/L/FjXgWCci512Apjn7RV7sliNeAv
+         b8w1uh4huFnqtZQD2d4GC/ZzTsAZm7i/RFIAdeGonGlDXoosZ3BPlFoGoavdfbPB33ct
+         CXrIGDIelMIlMsVbjFi8s7O/jQdipRwNHl+wbwz8nzelSB57FQAz2uvp50g9mcCtsnxl
+         g2Sw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776243030; x=1776847830; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LfQXDhDL8kE6GGuwypTVdwLFZ+2G2+Ay+ewe6ErDBf4=;
+        b=IEQXgj4+X61gTxb/OxsTOkeF2Mut13Rajb//5BK2mGtYsCszxHH8X+esSbkwacjSPS
+         o68nIEGFpX9lBa+ye1qCG29ZQvmJcr9mYgQ13yBdXd7sWnJx+9gl4lW+zK2jD493zMtN
+         H4rNAP4me3Gax1oANu2sGclkPPIDqF6gnGBvnCUgHAAQ9/FmRM6iOkyeRVOVd8VcxgHD
+         ERTSMGg3mn8+1UkvtiboHbBv4n+pQ9TI8AcewxPvKClJYHAF4PdGOoiAi6umN+qXTO/k
+         AdUqEBcEe1UuvJUIkrQu7vAy96TIiwUAI7cUWP0I+nc+5AOgoH6FgAKZVQVGfN/rGk7X
+         TGTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776243030; x=1776847830;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=LfQXDhDL8kE6GGuwypTVdwLFZ+2G2+Ay+ewe6ErDBf4=;
+        b=rjLSCM+MOVbMAXB2CufQbE5/sjjd3D63iV0eTSJgKPJakO26/BvdJV/069Pz8FmTnU
+         h1/85lE8c5PFTcBI9NUt7Ui/kcnNa/rdlWHOCy3WNv1cJpi0zRF2zODSzwp3AALBWi/Q
+         7x4HzMNIzTs0mEn4pPteSBlt++xvx7Qo43xG3DE4hvc3r4UonC749W059KYWvzltuo0V
+         2e0DKL2WCZs8jnszncbKyY7L68YLazKCJxjwZrDpcRAWwa9REC871Hr4Io3GdVEul0zX
+         2M60BfZr1LXHaJ6Ze8UnATK1AgdEgWXD+RfeQsFKCAMi/J/EBtS4VlwgPFlhJHJC2K6g
+         Yx5A==
+X-Forwarded-Encrypted: i=1; AFNElJ8DhkD9OF4H+7KTQ0PaX49R8QbxPpU2HmW3ugIMtw5Kkms6C/pQAq+3+eC/p8MIgSm1eOk1xisc42EIyD/c@vger.kernel.org
+X-Gm-Message-State: AOJu0YyAIVsLr3jWBYcfUOf2rkJCw99RuJ6NLGouAQMjbLml6smjsulu
+	kDeH6R5ZfH8BsbGr4+fYo+VDnoK+dbZ/BQJ0IcloF1EigX6Hz9VuYxAvGh6VZue3h0i47hzZ7Dp
+	5sRFrtiEWfxTfHzXX5GFso4ENojPDbn0=
+X-Gm-Gg: AeBDieukOUXgRM6LZcdVlC7yGABW8YzpK2y8BpVoK71o6bOg8WyE7smAtdc6jne1la6
+	muGccpnrEbRxnEb176Q6ZtD7sS28xmaOYKfhtiEWu2foh+FeDbTP+tQnZ7I1iVQjwTLXIQiGX3Y
+	Yslhb/1sSdV3hNB5EYAnJvgr9VEa6OwoG+P7kfarvn1+GG8S8pbWRQ7UhEbWcb5vH5gQKjpSnUk
+	7NTTiJhDAkpkToET+1F3sHd1ItWgqkec1PmFp2CePV/wp8d7txQtAdq7j2jjJ+3ZWuJyWql+FWT
+	YZ985ZBf3Hevhv4YGMQT590AuzbxnRE0o4B5S3hsEfMuC/sn04XUjGz56a/wzQ==
+X-Received: by 2002:a17:907:e113:b0:b9c:6ef1:ed18 with SMTP id
+ a640c23a62f3a-b9d727aa4fdmr817355766b.25.1776243027719; Wed, 15 Apr 2026
+ 01:50:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260414185037.3541089-1-ibrahimjirdeh@meta.com> <20260414185037.3541089-2-ibrahimjirdeh@meta.com>
+In-Reply-To: <20260414185037.3541089-2-ibrahimjirdeh@meta.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Wed, 15 Apr 2026 10:50:16 +0200
+X-Gm-Features: AQROBzBdLoUzCpOHcTdckUA-kE8mcaJI1AmcPM8lfa-HqKHJ7rg3UD6nS_V-mxA
+Message-ID: <CAOQ4uxiZEX72_qefLrfwjULuPyhvX3bsy7z-7U1VE8bnbYOEGw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] fanotify: add restart infrastructure for pending
+ permission events
+To: Ibrahim Jirdeh <ibrahimjirdeh@meta.com>
+Cc: jack@suse.cz, josef@toxicpanda.com, lesha@meta.com, 
+	linux-fsdevel@vger.kernel.org, sargun@meta.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Syzbot reported a null-ptr-deref in [1].
-If the attributes file is not loaded during system mount, a trigger
-occurs [1] when setxattr is executed in userspace.
+On Tue, Apr 14, 2026 at 8:51=E2=80=AFPM Ibrahim Jirdeh <ibrahimjirdeh@meta.=
+com> wrote:
+>
+> Add fsnotify_restart_event() which reinserts an event at the head of
+> the notification queue for reprocessing, without merge, insert, or
+> overflow handling. This is used by fanotify to restart permission
+> events when a queue fd is released.
+>
+> Add fanotify_restart_pending_events() helper that walks the
+> access_list and reinserts each pending permission event back into
+> the notification queue using fsnotify_restart_event().
+>
+> Suggested-by: Jan Kara <jack@suse.cz>
+> Link: https://lore.kernel.org/linux-fsdevel/sx5g7pmkchjqucfbzi77xh7wx4wua=
+5nteqi5bsa2hfqgxua2a2@v7x6ja3gsirn/
+> Signed-off-by: Ibrahim Jirdeh <ibrahimjirdeh@meta.com>
+> ---
+>  fs/notify/fanotify/fanotify_user.c | 27 +++++++++++++++++++++++++++
+>  fs/notify/notification.c           | 25 +++++++++++++++++++++++++
+>  include/linux/fsnotify_backend.h   |  4 ++++
+>  3 files changed, 56 insertions(+)
+>
+> diff --git a/fs/notify/fanotify/fanotify_user.c b/fs/notify/fanotify/fano=
+tify_user.c
+> index d0b9b984002f..8203ecf5ea39 100644
+> --- a/fs/notify/fanotify/fanotify_user.c
+> +++ b/fs/notify/fanotify/fanotify_user.c
+> @@ -1095,6 +1095,33 @@ static ssize_t fanotify_write(struct file *file, c=
+onst char __user *buf, size_t
+>         return count;
+>  }
+>
+> +static void fanotify_restart_pending_events(struct fsnotify_group *group=
+)
+> +{
+> +       spin_lock(&group->notification_lock);
+> +       while (!list_empty(&group->fanotify_data.access_list)) {
+> +               struct fanotify_perm_event *event;
+> +               int ret;
+> +
+> +               event =3D list_first_entry(&group->fanotify_data.access_l=
+ist,
+> +                                        struct fanotify_perm_event,
+> +                                        fae.fse.list);
+> +               list_del_init(&event->fae.fse.list);
+> +               spin_unlock(&group->notification_lock);
+> +
 
-Move the mark inode dirty operation to a point after the attr_tree has
-been successfully acquired.
+Do we really need to release the lock?
+Do we even need a helper?
+wouldn't open coding fsnotify_restart_event() be simpler
+without the dubious return 2.
 
-[1]
-KASAN: null-ptr-deref in range [0x0000000000000008-0x000000000000000f]
-Call Trace:
- hfsplus_setxattr+0x124/0x340 fs/hfsplus/xattr.c:555
- hfsplus_trusted_setxattr+0x40/0x60 fs/hfsplus/xattr_trusted.c:30
- __vfs_setxattr+0x43c/0x480 fs/xattr.c:218
- __vfs_setxattr_noperm+0x12d/0x660 fs/xattr.c:252
- vfs_setxattr+0x163/0x360 fs/xattr.c:339
- do_setxattr fs/xattr.c:654 [inline]
+> +               ret =3D fsnotify_restart_event(group, &event->fae.fse);
+> +               if (ret) {
+> +                       /*
+> +                        * Group is being shut down. Reply ALLOW for the =
+event.
+> +                        */
+> +                       spin_lock(&group->notification_lock);
+> +                       finish_permission_event(group, event, FAN_ALLOW, =
+NULL);
+> +               }
+> +
+> +               spin_lock(&group->notification_lock);
 
-Reported-by: syzbot+bc70a12e438dadba4fb4@syzkaller.appspotmail.com
-Fixes: ee8422d00b7c ("hfsplus: fix potential Allocation File corruption after fsync")
-Closes: https://syzkaller.appspot.com/bug?extid=bc70a12e438dadba4fb4
-Signed-off-by: Edward Adam Davis <eadavis@qq.com>
----
- fs/hfsplus/xattr.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+looks like a double lock in the shutdown case.
 
-diff --git a/fs/hfsplus/xattr.c b/fs/hfsplus/xattr.c
-index 452a1f9becb2..3e6f45b3259d 100644
---- a/fs/hfsplus/xattr.c
-+++ b/fs/hfsplus/xattr.c
-@@ -317,12 +317,14 @@ static int hfsplus_create_attributes_file(struct super_block *sb)
- 		next_node++;
- 	}
- 
--	hfsplus_mark_inode_dirty(HFSPLUS_ATTR_TREE_I(sb), HFSPLUS_I_ATTR_DIRTY);
- 	hfsplus_mark_inode_dirty(attr_file, HFSPLUS_I_ATTR_DIRTY);
- 
- 	sbi->attr_tree = hfs_btree_open(sb, HFSPLUS_ATTR_CNID);
- 	if (!sbi->attr_tree)
- 		pr_err("failed to load attributes file\n");
-+	else
-+		hfsplus_mark_inode_dirty(HFSPLUS_ATTR_TREE_I(sb),
-+					 HFSPLUS_I_ATTR_DIRTY);
- 
- failed_header_node_init:
- 	kfree(buf);
--- 
-2.43.0
+> +       }
+> +       spin_unlock(&group->notification_lock);
 
+How about just one wakeup here?
+
+> +}
+> +
+>  static int fanotify_release(struct inode *ignored, struct file *file)
+>  {
+>         struct fsnotify_group *group =3D file->private_data;
+> diff --git a/fs/notify/notification.c b/fs/notify/notification.c
+> index 9022ae650cf8..2d377122c904 100644
+> --- a/fs/notify/notification.c
+> +++ b/fs/notify/notification.c
+> @@ -129,6 +129,31 @@ int fsnotify_insert_event(struct fsnotify_group *gro=
+up,
+>         return ret;
+>  }
+>
+> +/*
+> + * Reinsert an event to the head of the notification queue for reprocess=
+ing.
+> + * No merge or overflow handling.
+> + * The function returns:
+> + * 0 if the event was added to a queue
+> + * 2 if the event was not queued - the group is shutting down.
+> + */
+> +int fsnotify_restart_event(struct fsnotify_group *group,
+> +                          struct fsnotify_event *event)
+> +{
+> +       spin_lock(&group->notification_lock);
+> +
+> +       if (group->shutdown) {
+> +               spin_unlock(&group->notification_lock);
+> +               return 2;
+> +       }
+> +
+> +       group->q_len++;
+> +       list_add(&event->list, &group->notification_list);
+> +       spin_unlock(&group->notification_lock);
+> +
+> +       wake_up(&group->notification_waitq);
+> +       return 0;
+> +}
+> +
+
+Not convinced that a generic unlocked helper is needed
+considering that  fanotify_restart_pending_events() is likely to remain
+the only user?
+
+Thanks,
+Amir.
