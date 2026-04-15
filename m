@@ -1,56 +1,56 @@
-Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
+Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F14BC32D43C
-	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 09:45:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCE7A3368BE
+	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 09:48:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776246336; cv=none; b=YP94C1DCNKBJL78XMHGZiB006FWu0G3pHAAtWmsv1FPnGbd67Oi2nWLXw5rNhBB4N02qT6ubmMFBLuqX6DZs7yk1EU6N3jBjtWo5YEq2Vvt/Zn5D8ySgiwj6LrbkoD1S9Pgm25JwTxGGU4cdnrKcKvlGZPkCCCGXlEQ/n037SGw=
+	t=1776246501; cv=none; b=NrT/Vh0OKE8K/s2GXxXPeqOrj/+ruI4zcptBMGgRss4W7SclCNu4dGB289D4T1pjwkT8UimNhG10/09IpRxGmBwcxojaZXEus7+9o4iKsGzPnvFNx5NKM/0cH1MoMXzxb5atcYczCnVouY31pZFDxzF+5dmogdEdz5KZosyjoxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776246336; c=relaxed/simple;
-	bh=2QHJqOoT8AV/66UcHAf4gzR/WPXbNxYUA88MeqJE24A=;
+	s=arc-20240116; t=1776246501; c=relaxed/simple;
+	bh=So/aI1/mIo243Src7lVkkM1acGm5BBNtOK1sIOmjaOc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gPhQFgaMg2uDp+JwLSoR5rb5Fce7wmr2uhchyZqRzFg7kRfoOA4x9IO58DhJ38gfyDWPeIvF3lqigY/5RLfMm82nZFcPOmB5b91ZQMuJ81Dwu07rdDb0lvA0zq7p96c2ZZ84RXdyNTCuwz0JouNbMM7A60hEYKDrLZeXc8zXucE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=pyRrEA2i; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=rFeXDrRk; arc=none smtp.client-ip=202.12.124.159
+	 In-Reply-To:Content-Type; b=qAYWKUkT4X3tyRCGV91zcxS37gjwCzuJtqlQMGHc/JNkw44VYZjiEIP3u1LLfSUGNcy2mDqTkd3L3Izx2foDCCwycp6HyyC4/m+PWucxRmRXfdvJr81+5A/roB8RlIT2HszyRTPhlPj/b1HjQS+THo32TKdhLI423xqkgUjoEQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=KtG2Jwc7; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=eKStISzJ; arc=none smtp.client-ip=202.12.124.148
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="pyRrEA2i";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="rFeXDrRk"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 30A4C7A0068;
-	Wed, 15 Apr 2026 05:45:34 -0400 (EDT)
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="KtG2Jwc7";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="eKStISzJ"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.stl.internal (Postfix) with ESMTP id 2B5071D001F0;
+	Wed, 15 Apr 2026 05:48:19 -0400 (EDT)
 Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Wed, 15 Apr 2026 05:45:34 -0400
+  by phl-compute-05.internal (MEProxy); Wed, 15 Apr 2026 05:48:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1776246334;
-	 x=1776332734; bh=ojlm7Gaz1TX0XVXvl8OjUHS9q2Dq9y2hs0cLBnTz+d8=; b=
-	pyRrEA2i70udW6rTdV8LDBvV1ePr9gkGK4d4nWoP9ODUgd2n51CVCSKIXD84leTu
-	GqyxBmfI8thylh4vZuIeZgV7G/M4CkqwKBa+tSGA5qv4aoHHZ7hZcT4ayWU+eqZa
-	7ixXj7twaAdlJtik4MOCO7wsSKpeT9buKEMHRgrg+zb2jsWAB3PgDg8nqIy5xRbY
-	iqh1tuIzlCkmDdjRWtS++iXdbnOunmQn7+ywJkZ6zKME+YosX7WlIazWUIlfi8bB
-	Pn4025PfD+ffAlkvLSmYVYQFC6VdSXz2iSKzj8zNiFJBth1spWRUUQyaS758gMSi
-	vcwVK+Kg9AlpBX6o7dUIFw==
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1776246499;
+	 x=1776332899; bh=gDKUGJJCkGtesXIObWHLPo6k1RDWFP11CXaorkPglL0=; b=
+	KtG2Jwc7BcMNwC3z/atkjW/fOrDzWBwd3H3saw5tlX0tEfXHw6kUlijv6C48aW19
+	ASvKV8wk83CKBobGzxmTWJkSYMjFjjIVsJUxp0WzhNmIYZBxf7UfGkO1gzMkQ647
+	XIfjQaN8HYIi2Q8/zZpqkA6X65gvbNDOQYcijlvBbBn8MSbJ/ZsgUblr5wc9XazI
+	uRgYdi5TPLX4FhIAEkpfz2nW8B2xXL1ZZn625giTApC0fQaS3mQ3E1MRLLCB/dAC
+	bdME9HdVm/QzxLNcF+OIn14K7iFUC2oOh12JhUN5Nl9C8q1bdMnYSxVemVXuGZtc
+	9s7UlLS8Fpr2Cid9siscwg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1776246334; x=
-	1776332734; bh=ojlm7Gaz1TX0XVXvl8OjUHS9q2Dq9y2hs0cLBnTz+d8=; b=r
-	FeXDrRkzh7ZULDq8qc9GE26xPXek5fJaLKncAOLc603By9akOZQDaQs4EWEoK3oR
-	l4/3JDUGBA3cktf8MLV1ve/hVzJSe2cfYpyc/DS8nMK/Kk5smiE6oxLj9tA019JB
-	+Sc7YH/LVw+znik77HfCgDCHFLfb3W3MTEEXuIpFw/hXUBXkr1945YdoodCyaain
-	PAXcltQbyfvtR3emMMauMk7u7CBM5IdDorxa0NOQ9gous2vFbcOzlHfbvTAzI4Ud
-	Cfs2dMpssfk6jpeQiArff8R1cTHQktOCKN086YaGZ+YJV731EhKQc9NCa7S50Hd8
-	9vxoARcW9FY4qq17zhM7g==
-X-ME-Sender: <xms:PV7faSxvpAt3uE81lR25vnCHZlIKNXcZbpJ0kIhEj0DzU10b-IFyBw>
-    <xme:PV7faVSeo7gGVJOgrJN_fq4dolyxQ7IcO679dyu2Yl7GtwTOi6Jt5fYwDopdK7m9p
-    gafEZtLzQllJrcOCmCYX6pjKsi4e8xVXHWKcjLwa3pjPYN8UoLm>
-X-ME-Received: <xmr:PV7faZXvQ9npIUHa-djXRUdAZ8XsU0FxQLASsx0UUdtguWlK9-1Jfto_09Be3ltJodoNOk6RZSRrZXUwL2QNb6UBe7XIPGaVXX4XLxiFHoXs54nLeA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdegfeejhecutefuodetggdotefrod
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1776246499; x=
+	1776332899; bh=gDKUGJJCkGtesXIObWHLPo6k1RDWFP11CXaorkPglL0=; b=e
+	KStISzJVzMrgUDJw5IYYbuePIbRiHjfw1ccy4XdKE6z5On5yw3Ozpn6LXBcmaykY
+	sCb4W6ydi4hF9KNbhKvh5q2DXfoSciM4bB0Ohu5/6L5aeeumml2SJ6S3PGFhmvf3
+	7OhwHGI6x1bPYLLfzuAh+waS8wG0Hi6sXtnANx2UaN366jPSmb8uxWbYkgNlno1e
+	NRK3G7GWyapTeYWe+OTDy64rt8j2uD5IaMb3TO0Zo8g+qOEv9FnELTRopIBaa8hC
+	eNtrOrw9oyPvCnDabr5UlJfZzictrCaPK0XU/0X4mdZUnXRee6tETcj9GgJ2iC33
+	Yy1XaS3HosnKUUsJtgCpA==
+X-ME-Sender: <xms:4l7faVlZIIs39kgFdNgjgqquKuWqOy_2IC5vxRBhekCoCfX9vqH3Uw>
+    <xme:4l7faX3BRjyWuW_vHjrTZgR96WWGlltyotBbUHH7SkEjSxwb_1t5CeQriiYHTxcq5
+    llH8sGPrn0iSToAe6sAVyXcxzl3jwVrBuzavSBygtmSTZCFEeyn>
+X-ME-Received: <xmr:4l7faQq-HG8x4pQ-D0qDUCyothzmDiCRElOtd-Y8LAfig-5sasRcq-bY0N64z2tnF1i8bBiyo-CRXI809AZ19Zs1aXgdwGFlhyfyCIJGPMtfX4L5IA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdegfeejiecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
     ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
     hrpefkffggfgfuvfevfhfhjggtgfesthejredttddvjeenucfhrhhomhepuegvrhhnugcu
@@ -62,16 +62,16 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdegfeejhecutefuodetgg
     hmpdhrtghpthhtohepmhhikhhlohhssehsiigvrhgvughirdhhuhdprhgtphhtthhopegr
     gigsohgvsehkvghrnhgvlhdrughkpdhrtghpthhtoheplhhinhhugidqfhhsuggvvhgvlh
     esvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:PV7faXbuqHfPhQPPWuoiPrGnoWfKaDncQP_YycEC_Q56cCAVLbdDig>
-    <xmx:PV7faf3BNI_8ubDfUqCzDN5Ia_SpaQ217W8EGVZVglPHmxHUwu5kWw>
-    <xmx:PV7faZg0kukDrCTm8WYAFmFrmtBkwDvZPc3vPfAuPEj3OkQCYK-L_w>
-    <xmx:PV7faTYIjKKA-n2SmWOFEoQLAtqHKWASVJHZSACQqW2jFAoFq0yytg>
-    <xmx:Pl7faWs7sIXnn3xqJXJtyQG8EWpQ1jrXZC3SkeuZ-5jRUK8qIr0wmX-w>
+X-ME-Proxy: <xmx:4l7faUf0UdiyG7cX1DZUZuKZk8KT1lCOEe8sMcYXmd5rcoQ_PEGmOA>
+    <xmx:4l7fafoBEi3sf0grVkhUvc7EHXVRtWwXCbZEilRAvCDJb4gSvIhkqg>
+    <xmx:4l7faVHBf0sEpR7totwEfRA8LgGt_ix6wXn_HMIGC8Aa7v9yvKGXmA>
+    <xmx:4l7fafsoq-l0aNI9B3bkq0n9zBitUVKyGFgj6IeakhOF8OPG0fQTsQ>
+    <xmx:417faUBepj7xmCflW5EwRzZwCncaikgdb00VVdKnwUqK_tapqhp0aPCV>
 Feedback-ID: i5c2e48a5:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 15 Apr 2026 05:45:32 -0400 (EDT)
-Message-ID: <3b5f8117-c111-43f8-b2cb-f49963470295@bsbernd.com>
-Date: Wed, 15 Apr 2026 11:45:31 +0200
+ 15 Apr 2026 05:48:17 -0400 (EDT)
+Message-ID: <e49aab72-4ac0-499f-ba84-b64601cd9b2f@bsbernd.com>
+Date: Wed, 15 Apr 2026 11:48:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -79,163 +79,772 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 09/14] fuse: rearrange io-uring iovec and ent
- allocation logic
+Subject: Re: [PATCH v2 10/14] fuse: add io-uring buffer rings
 To: Joanne Koong <joannelkoong@gmail.com>, miklos@szeredi.hu
 Cc: axboe@kernel.dk, linux-fsdevel@vger.kernel.org
 References: <20260402162840.2989717-1-joannelkoong@gmail.com>
- <20260402162840.2989717-10-joannelkoong@gmail.com>
+ <20260402162840.2989717-11-joannelkoong@gmail.com>
 From: Bernd Schubert <bernd@bsbernd.com>
 Content-Language: fr
-In-Reply-To: <20260402162840.2989717-10-joannelkoong@gmail.com>
+In-Reply-To: <20260402162840.2989717-11-joannelkoong@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
 On 4/2/26 18:28, Joanne Koong wrote:
-> Move fuse_uring_get_iovec_from_sqe() to earlier in the file and
-> move the allocation logic in fuse_uring_create_ring_ent() to the
-> beginning of the function.
+> Add fuse buffer rings for servers communicating through the io-uring
+> interface. To use this, the server must set the FUSE_URING_BUFRING
+> flag and provide header and payload buffers via an iovec array in the
+> sqe during registration. The payload buffers are used to back the buffer
+> ring. The kernel manages buffer selection and recycling through a simple
+> internal ring.
 > 
-> There is no change in logic, this is done to make the subsequent commit
-> that adds buffer rings easier to review.
+> This has the following advantages over the non-bufring (iovec) path:
+> - Reduced memory usage: in the iovec path, each entry has its own
+>   dedicated payload buffer, requiring N buffers for N entries where each
+>   buffer must be large enough to accommodate the maximum possible
+>   payload size. With buffer rings, payload buffers are pooled and
+>   selected on demand. Entries only hold a buffer while actively
+>   processing a request with payload data. When incremental buffer
+>   consumption is added, this will allow non-overlapping regions of a
+>   single buffer to be used simultaneously across multiple requests,
+>   further reducing memory requirements.
+> - Foundation for pinned buffers: the buffer ring headers and payloads
+>   are now each passed in as a contiguous memory allocation, which allows
+>   fuse to easily pin and vmap the entire region in one operation during
+>   queue setup. This will eliminate the per-request overhead of having to
+>   pin/unpin user pages and translate virtual addresses and is a
+>   prerequisite for future optimizations like performing data copies
+>   outside of the server's task context.
+> 
+> Each ring entry gets a fixed ID (sqe->buf_index) that maps to a specific
+> header slot in the headers buffer. Payload buffers are selected from
+> the ring on demand and recycled after each request. Buffer ring usage is
+> set on a per-queue basis. All subsequent registration SQEs for the same
+> queue must use consistent flags.
+> 
+> The headers are laid out contiguously and provided via iov[0]. Each slot
+> maps to ent->id:
+> 
+> |<- headers_size (>= queue_depth * sizeof(fuse_uring_req_header)) ->|
+> +------------------------------+------------------------------+-----+
+> | struct fuse_uring_req_header | struct fuse_uring_req_header | ... |
+> |        [ent id=0]            |        [ent id=1]            |     |
+> +------------------------------+------------------------------+-----+
+> 
+> On the server side, the ent id is used to determine where in the headers
+> buffer the headers data for the ent resides. This is done by
+> calculating ent_id * sizeof(struct fuse_uring_req_header) as the offset
+> into the headers buffer.
+> 
+> The buffer ring is backed by the payload buffer, which is contiguous but
+> partitioned into individual bufs according to the buf_size passed in at
+> registration.
+> 
+>   PAYLOAD BUFFER POOL (contiguous, provided via iov[1]):
+>     |<-------------- payload_size ------------>|
+>     +--------- --+-----------+-----------+-----+
+>     |  buf [0]   |  buf [1]  |  buf [2]  | ... |
+>     |  buf_size  |  buf_size |  buf_size | ... |
+>     +--------- --+-----------+-----------+-----+
+> 
+> buffer ring state (struct fuse_bufring, kernel-internal):
+> bufs[]: [ used | used | FREE | FREE | FREE ]
+> 			^^^^^^^^^^^^^^^^^^^
+> 			available for selection
+> 
+> The buffer ring logic is as follows:
+> select:  buf = bufs[head % nbufs]; head++
+> recycle: bufs[tail % nbufs] = buf; tail++
+> empty:   tail == head (no buffers available)
+> full:    tail - head >= nbufs
+> 
+> Buffer ring request flow
+> ------------------------
+> |  Kernel                                  |  FUSE daemon
+> |                                          |
+> |  [client request arrives]                |
+> |  >fuse_uring_send()                      |
+> |    [select payload buf from ring]        |
+> |    >fuse_uring_select_buffer()           |
+> |    [copy headers to ent's header slot]   |
+> |    >copy_header_to_ring()                |
+> |    [copy payload to selected buf]        |
+> |    >fuse_uring_copy_to_ring()            |
+> |    [set buf_id in ent_in_out header]     |
+> |    >io_uring_cmd_done()                  |
+> |                                          |  [CQE received]
+> |                                          |  [read headers from header
+> |                                          |    slot]
+> |                                          |  [read payload from buf_id]
+> |                                          |  [process request]
+> |                                          |  [write reply to header
+> |                                          |    slot]
+> |                                          |  [write reply payload to
+> |                                          |    buf]
+> |                                          |  >io_uring_submit()
+> |                                          |   COMMIT_AND_FETCH
+> |  >fuse_uring_commit_fetch()              |
+> |    >fuse_uring_commit()                  |
+> |     [copy reply from ring]               |
+> |     >fuse_uring_recycle_buffer()         |
+> |    >fuse_uring_get_next_fuse_req()       |
 > 
 > Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
 > ---
->  fs/fuse/dev_uring.c | 78 ++++++++++++++++++++++++---------------------
->  1 file changed, 41 insertions(+), 37 deletions(-)
+>  fs/fuse/dev_uring.c       | 363 +++++++++++++++++++++++++++++++++-----
+>  fs/fuse/dev_uring_i.h     |  45 ++++-
+>  include/uapi/linux/fuse.h |  27 ++-
+>  3 files changed, 381 insertions(+), 54 deletions(-)
 > 
 > diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-> index cce8994241b7..a061f175b3fd 100644
+> index a061f175b3fd..9f14a2bcde3f 100644
 > --- a/fs/fuse/dev_uring.c
 > +++ b/fs/fuse/dev_uring.c
-> @@ -277,6 +277,32 @@ static struct fuse_ring *fuse_uring_create(struct fuse_conn *fc)
->  	return res;
+> @@ -41,6 +41,11 @@ enum fuse_uring_header_type {
+>  	FUSE_URING_HEADER_RING_ENT,
+>  };
+>  
+> +static inline bool bufring_enabled(struct fuse_ring_queue *queue)
+> +{
+> +	return queue->bufring != NULL;
+> +}
+> +
+>  static void uring_cmd_set_ring_ent(struct io_uring_cmd *cmd,
+>  				   struct fuse_ring_ent *ring_ent)
+>  {
+> @@ -222,6 +227,7 @@ void fuse_uring_destruct(struct fuse_conn *fc)
+>  		}
+>  
+>  		kfree(queue->fpq.processing);
+> +		kfree(queue->bufring);
+>  		kfree(queue);
+>  		ring->queues[qid] = NULL;
+>  	}
+> @@ -303,20 +309,102 @@ static int fuse_uring_get_iovec_from_sqe(const struct io_uring_sqe *sqe,
+>  	return 0;
 >  }
 >  
-> +/*
-> + * sqe->addr is a ptr to an iovec array, iov[FUSE_URING_IOV_HEADERS] has the
-> + * headers, iov[FUSE_URING_IOV_PAYLOAD] the payload
-> + */
-> +static int fuse_uring_get_iovec_from_sqe(const struct io_uring_sqe *sqe,
-> +					 struct iovec iov[FUSE_URING_IOV_SEGS])
+> -static struct fuse_ring_queue *fuse_uring_create_queue(struct fuse_ring *ring,
+> -						       int qid)
+> +static int fuse_uring_bufring_setup(struct io_uring_cmd *cmd,
+> +				     struct fuse_ring_queue *queue)
 > +{
-> +	struct iovec __user *uiov = u64_to_user_ptr(READ_ONCE(sqe->addr));
-> +	struct iov_iter iter;
-> +	ssize_t ret;
+> +	const struct fuse_uring_cmd_req *cmd_req =
+> +		io_uring_sqe128_cmd(cmd->sqe, struct fuse_uring_cmd_req);
+> +	u16 queue_depth = READ_ONCE(cmd_req->init.queue_depth);
+> +	unsigned int buf_size = READ_ONCE(cmd_req->init.buf_size);
+> +	struct iovec iov[FUSE_URING_IOV_SEGS];
+> +	void __user *payload, *headers;
+> +	size_t headers_size, payload_size, ring_size;
+> +	struct fuse_bufring *br;
+> +	unsigned int nr_bufs, i;
+> +	uintptr_t payload_addr;
+> +	int err;
 > +
-> +	if (sqe->len != FUSE_URING_IOV_SEGS)
+> +	if (!queue_depth || !buf_size)
 > +		return -EINVAL;
 > +
-> +	/*
-> +	 * Direction for buffer access will actually be READ and WRITE,
-> +	 * using write for the import should include READ access as well.
-> +	 */
-> +	ret = import_iovec(WRITE, uiov, FUSE_URING_IOV_SEGS,
-> +			   FUSE_URING_IOV_SEGS, &iov, &iter);
-> +	if (ret < 0)
-> +		return ret;
+> +	err = fuse_uring_get_iovec_from_sqe(cmd->sqe, iov);
+> +	if (err)
+> +		return err;
+> +
+> +	headers = iov[FUSE_URING_IOV_HEADERS].iov_base;
+> +	headers_size = iov[FUSE_URING_IOV_HEADERS].iov_len;
+> +	payload = iov[FUSE_URING_IOV_PAYLOAD].iov_base;
+> +	payload_size = iov[FUSE_URING_IOV_PAYLOAD].iov_len;
+> +
+> +	/* check if there's enough space for all the headers */
+> +	if (headers_size < queue_depth * sizeof(struct fuse_uring_req_header))
+> +		return -EINVAL;
+> +
+> +	if (buf_size < queue->ring->max_payload_sz)
+> +		return -EINVAL;
+> +
+> +	nr_bufs = payload_size / buf_size;
+> +	if (!nr_bufs || nr_bufs > U16_MAX)
+> +		return -EINVAL;
+> +
+> +	/* create the ring buffer */
+> +	ring_size = struct_size(br, bufs, nr_bufs);
+> +	br = kzalloc(ring_size, GFP_KERNEL_ACCOUNT);
+> +	if (!br)
+> +		return -ENOMEM;
+> +
+> +	br->queue_depth = queue_depth;
+> +	br->headers = headers;
+> +
+> +	payload_addr = (uintptr_t)payload;
+> +
+> +	/* populate the ring buffer */
+> +	for (i = 0; i < nr_bufs; i++, payload_addr += buf_size) {
+> +		struct fuse_bufring_buf *buf = &br->bufs[i];
+> +
+> +		buf->addr = payload_addr;
+> +		buf->len = buf_size;
+> +		buf->id = i;
+> +	}
+> +
+> +	br->nbufs = nr_bufs;
+> +	br->tail = nr_bufs;
+> +
+> +	queue->bufring = br;
 > +
 > +	return 0;
 > +}
 > +
->  static struct fuse_ring_queue *fuse_uring_create_queue(struct fuse_ring *ring,
->  						       int qid)
+> +/*
+> + * if the queue is already registered, check that the queue was initialized with
+> + * the same init flags set for this FUSE_IO_URING_CMD_REGISTER cmd. all
+> + * FUSE_IO_URING_CMD_REGISTER cmds should have the same init fields set on a
+> + * per-queue basis.
+> + */
+> +static bool queue_init_flags_consistent(struct fuse_ring_queue *queue,
+> +					u64 init_flags)
 >  {
-> @@ -1076,32 +1102,6 @@ static void fuse_uring_do_register(struct fuse_ring_ent *ent,
->  	}
->  }
+> +	bool bufring = init_flags & FUSE_URING_BUFRING;
+> +
+> +	return bufring_enabled(queue) == bufring;
+> +}
+> +
+> +static struct fuse_ring_queue *
+> +fuse_uring_create_queue(struct io_uring_cmd *cmd, struct fuse_ring *ring,
+> +			int qid, u64 init_flags)
+> +{
+> +	bool use_bufring = init_flags & FUSE_URING_BUFRING;
+>  	struct fuse_conn *fc = ring->fc;
+>  	struct fuse_ring_queue *queue;
+>  	struct list_head *pq;
 >  
-> -/*
-> - * sqe->addr is a ptr to an iovec array, iov[FUSE_URING_IOV_HEADERS] has the
-> - * headers, iov[FUSE_URING_IOV_PAYLOAD] the payload
-> - */
-> -static int fuse_uring_get_iovec_from_sqe(const struct io_uring_sqe *sqe,
-> -					 struct iovec iov[FUSE_URING_IOV_SEGS])
-> -{
-> -	struct iovec __user *uiov = u64_to_user_ptr(READ_ONCE(sqe->addr));
-> -	struct iov_iter iter;
-> -	ssize_t ret;
-> -
-> -	if (sqe->len != FUSE_URING_IOV_SEGS)
-> -		return -EINVAL;
-> -
-> -	/*
-> -	 * Direction for buffer access will actually be READ and WRITE,
-> -	 * using write for the import should include READ access as well.
-> -	 */
-> -	ret = import_iovec(WRITE, uiov, FUSE_URING_IOV_SEGS,
-> -			   FUSE_URING_IOV_SEGS, &iov, &iter);
-> -	if (ret < 0)
-> -		return ret;
-> -
-> -	return 0;
-> -}
-> -
->  static struct fuse_ring_ent *
->  fuse_uring_create_ring_ent(struct io_uring_cmd *cmd,
->  			   struct fuse_ring_queue *queue)
-> @@ -1112,40 +1112,44 @@ fuse_uring_create_ring_ent(struct io_uring_cmd *cmd,
->  	struct iovec *headers, *payload;
+>  	queue = kzalloc_obj(*queue, GFP_KERNEL_ACCOUNT);
+>  	if (!queue)
+> -		return NULL;
+> +		return ERR_PTR(-ENOMEM);
+>  	pq = kzalloc_objs(struct list_head, FUSE_PQ_HASH_SIZE);
+>  	if (!pq) {
+>  		kfree(queue);
+> -		return NULL;
+> +		return ERR_PTR(-ENOMEM);
+>  	}
+>  
+>  	queue->qid = qid;
+> @@ -334,12 +422,29 @@ static struct fuse_ring_queue *fuse_uring_create_queue(struct fuse_ring *ring,
+>  	queue->fpq.processing = pq;
+>  	fuse_pqueue_init(&queue->fpq);
+>  
+> +	if (use_bufring) {
+> +		int err = fuse_uring_bufring_setup(cmd, queue);
+> +
+> +		if (err) {
+> +			kfree(pq);
+> +			kfree(queue);
+> +			return ERR_PTR(err);
+> +		}
+> +	}
+> +
+>  	spin_lock(&fc->lock);
+> +	/* check if the queue creation raced with another thread */
+>  	if (ring->queues[qid]) {
+>  		spin_unlock(&fc->lock);
+>  		kfree(queue->fpq.processing);
+> +		if (use_bufring)
+> +			kfree(queue->bufring);
+>  		kfree(queue);
+> -		return ring->queues[qid];
+> +
+> +		queue = ring->queues[qid];
+> +		if (!queue_init_flags_consistent(queue, init_flags))
+> +			return ERR_PTR(-EINVAL);
+> +		return queue;
+>  	}
+>  
+>  	/*
+> @@ -649,7 +754,14 @@ static int copy_header_to_ring(struct fuse_ring_ent *ent,
+>  	if (offset < 0)
+>  		return offset;
+>  
+> -	ring = (void __user *)ent->headers + offset;
+> +	if (bufring_enabled(ent->queue)) {
+> +		int buf_offset = offset +
+> +			sizeof(struct fuse_uring_req_header) * ent->id;
+> +
+> +		ring = ent->queue->bufring->headers + buf_offset;
+> +	} else {
+> +		ring = (void __user *)ent->headers + offset;
+> +	}
+>  
+>  	if (copy_to_user(ring, header, header_size)) {
+>  		pr_info_ratelimited("Copying header to ring failed.\n");
+> @@ -669,7 +781,14 @@ static int copy_header_from_ring(struct fuse_ring_ent *ent,
+>  	if (offset < 0)
+>  		return offset;
+>  
+> -	ring = (void __user *)ent->headers + offset;
+> +	if (bufring_enabled(ent->queue)) {
+> +		int buf_offset = offset +
+> +			sizeof(struct fuse_uring_req_header) * ent->id;
+> +
+> +		ring = ent->queue->bufring->headers + buf_offset;
+> +	} else {
+> +		ring = (void __user *)ent->headers + offset;
+> +	}
+>  
+>  	if (copy_from_user(header, ring, header_size)) {
+>  		pr_info_ratelimited("Copying header from ring failed.\n");
+> @@ -684,12 +803,20 @@ static int setup_fuse_copy_state(struct fuse_copy_state *cs,
+>  				 struct fuse_ring_ent *ent, int dir,
+>  				 struct iov_iter *iter)
+>  {
+> +	void __user *payload;
 >  	int err;
 >  
-> +	ent = kzalloc_obj(*ent, GFP_KERNEL_ACCOUNT);
-> +	if (!ent)
-> +		return ERR_PTR(-ENOMEM);
+> -	err = import_ubuf(dir, ent->payload, ring->max_payload_sz, iter);
+> -	if (err) {
+> -		pr_info_ratelimited("fuse: Import of user buffer failed\n");
+> -		return err;
+> +	if (bufring_enabled(ent->queue))
+> +		payload = (void __user *)ent->payload_buf.addr;
+> +	else
+> +		payload = ent->payload;
 > +
-> +	INIT_LIST_HEAD(&ent->list);
-> +
-> +	ent->queue = queue;
-> +
->  	err = fuse_uring_get_iovec_from_sqe(cmd->sqe, iov);
->  	if (err) {
->  		pr_info_ratelimited("Failed to get iovec from sqe, err=%d\n",
->  				    err);
-> -		return ERR_PTR(err);
-> +		goto error;
+> +	if (payload) {
+> +		err = import_ubuf(dir, payload, ring->max_payload_sz, iter);
+> +		if (err) {
+> +			pr_info_ratelimited("fuse: Import of user buffer failed\n");
+> +			return err;
+> +		}
 >  	}
 >  
->  	err = -EINVAL;
->  	headers = &iov[FUSE_URING_IOV_HEADERS];
->  	if (headers->iov_len < sizeof(struct fuse_uring_req_header)) {
->  		pr_info_ratelimited("Invalid header len %zu\n", headers->iov_len);
-> -		return ERR_PTR(err);
-> +		goto error;
->  	}
+>  	fuse_copy_init(cs, dir == ITER_DEST, iter);
+> @@ -741,6 +868,9 @@ static int fuse_uring_args_to_ring(struct fuse_ring *ring, struct fuse_req *req,
+>  		.commit_id = req->in.h.unique,
+>  	};
 >  
->  	payload = &iov[FUSE_URING_IOV_PAYLOAD];
->  	if (payload->iov_len < ring->max_payload_sz) {
->  		pr_info_ratelimited("Invalid req payload len %zu\n",
->  				    payload->iov_len);
-> -		return ERR_PTR(err);
-> +		goto error;
->  	}
->  
-> -	err = -ENOMEM;
-> -	ent = kzalloc_obj(*ent, GFP_KERNEL_ACCOUNT);
-> -	if (!ent)
-> -		return ERR_PTR(err);
-> -
-> -	INIT_LIST_HEAD(&ent->list);
-> -
-> -	ent->queue = queue;
->  	ent->headers = headers->iov_base;
->  	ent->payload = payload->iov_base;
->  
->  	atomic_inc(&ring->queue_refs);
->  	return ent;
+> +	if (bufring_enabled(ent->queue))
+> +		ent_in_out.buf_id = ent->payload_buf.id;
 > +
-> +error:
-> +	kfree(ent);
-> +	return ERR_PTR(err);
+>  	err = setup_fuse_copy_state(&cs, ring, req, ent, ITER_DEST, &iter);
+>  	if (err)
+>  		return err;
+> @@ -805,6 +935,96 @@ static int fuse_uring_copy_to_ring(struct fuse_ring_ent *ent,
+>  				   sizeof(req->in.h));
+>  }
+>  
+> +static bool fuse_uring_req_has_payload(struct fuse_req *req)
+> +{
+> +	struct fuse_args *args = req->args;
+> +
+> +	return args->in_numargs > 1 || args->out_numargs;
+> +}
+> +
+> +static int fuse_uring_select_buffer(struct fuse_ring_ent *ent)
+> +	__must_hold(&ent->queue->lock)
+> +{
+> +	struct fuse_ring_queue *queue = ent->queue;
+> +	struct fuse_bufring *br = queue->bufring;
+> +	struct fuse_bufring_buf *buf;
+> +	unsigned int tail = br->tail, head = br->head;
+> +
+> +	lockdep_assert_held(&queue->lock);
+> +
+> +	/* Get a buffer to use for the payload */
+> +	if (tail == head)
+> +		return -ENOBUFS;
+> +
+> +	buf = &br->bufs[head % br->nbufs];
+> +	br->head++;
+> +
+> +	ent->payload_buf = *buf;
+> +
+> +	return 0;
+> +}
+> +
+> +static void fuse_uring_recycle_buffer(struct fuse_ring_ent *ent)
+> +	__must_hold(&ent->queue->lock)
+> +{
+> +	struct fuse_bufring_buf *ent_payload = &ent->payload_buf;
+> +	struct fuse_ring_queue *queue = ent->queue;
+> +	struct fuse_bufring_buf *buf;
+> +	struct fuse_bufring *br;
+> +
+> +	lockdep_assert_held(&queue->lock);
+> +
+> +	if (!bufring_enabled(queue) || !ent_payload->addr)
+> +		return;
+> +
+> +	br = queue->bufring;
+> +
+> +	/* ring should never be full */
+> +	WARN_ON_ONCE(br->tail - br->head >= br->nbufs);
+> +
+> +	buf = &br->bufs[(br->tail) % br->nbufs];
+> +
+> +	*buf = *ent_payload;
+> +
+> +	br->tail++;
+> +
+> +	memset(ent_payload, 0, sizeof(*ent_payload));
+> +}
+> +
+> +static int fuse_uring_next_req_update_buffer(struct fuse_ring_ent *ent,
+> +					     struct fuse_req *req)
+> +{
+> +	bool buffer_selected;
+> +	bool has_payload;
+> +
+> +	if (!bufring_enabled(ent->queue))
+> +		return 0;
+> +
+> +	buffer_selected = !!ent->payload_buf.addr;
+> +	has_payload = fuse_uring_req_has_payload(req);
+> +
+> +	if (has_payload && !buffer_selected)
+> +		return fuse_uring_select_buffer(ent);
+> +
+> +	if (!has_payload && buffer_selected)
+> +		fuse_uring_recycle_buffer(ent);
+> +
+> +	return 0;
+> +}
+> +
+> +static int fuse_uring_prep_buffer(struct fuse_ring_ent *ent,
+> +				  struct fuse_req *req)
+> +{
+> +	if (!bufring_enabled(ent->queue))
+> +		return 0;
+> +
+> +	/* no payload to copy, can skip selecting a buffer */
+> +	if (!fuse_uring_req_has_payload(req))
+> +		return 0;
+> +
+> +	return fuse_uring_select_buffer(ent);
+> +}
+> +
+>  static int fuse_uring_prepare_send(struct fuse_ring_ent *ent,
+>  				   struct fuse_req *req)
+>  {
+> @@ -878,10 +1098,21 @@ static struct fuse_req *fuse_uring_ent_assign_req(struct fuse_ring_ent *ent)
+>  
+>  	/* get and assign the next entry while it is still holding the lock */
+>  	req = list_first_entry_or_null(req_queue, struct fuse_req, list);
+> -	if (req)
+> -		fuse_uring_add_req_to_ring_ent(ent, req);
+> +	if (req) {
+> +		int err = fuse_uring_next_req_update_buffer(ent, req);
+>  
+> -	return req;
+> +		if (!err) {
+> +			fuse_uring_add_req_to_ring_ent(ent, req);
+> +			return req;
+> +		}
+> +	}
+> +
+> +	/*
+> +	 * Buffer selection may fail if all the buffers are currently saturated.
+> +	 * The request will be serviced when a buffer is freed up.
+> +	 */
+> +	fuse_uring_recycle_buffer(ent);
+> +	return NULL;
 >  }
 >  
 >  /*
+> @@ -1041,6 +1272,12 @@ static int fuse_uring_commit_fetch(struct io_uring_cmd *cmd, int issue_flags,
+>  	 * fuse requests would otherwise not get processed - committing
+>  	 * and fetching is done in one step vs legacy fuse, which has separated
+>  	 * read (fetch request) and write (commit result).
+> +	 *
+> +	 * If the server is using bufrings and has populated the ring with less
+> +	 * payload buffers than ents, it is possible that there may not be an
+> +	 * available buffer for the next request. If so, then the fetch is a
+> +	 * no-op and the next request will be serviced when a buffer becomes
+> +	 * available.
+>  	 */
+>  	if (fuse_uring_get_next_fuse_req(ent, queue))
+>  		fuse_uring_send(ent, cmd, 0, issue_flags);
+> @@ -1120,30 +1357,38 @@ fuse_uring_create_ring_ent(struct io_uring_cmd *cmd,
+>  
+>  	ent->queue = queue;
+>  
+> -	err = fuse_uring_get_iovec_from_sqe(cmd->sqe, iov);
+> -	if (err) {
+> -		pr_info_ratelimited("Failed to get iovec from sqe, err=%d\n",
+> -				    err);
+> -		goto error;
+> -	}
+> +	if (bufring_enabled(queue)) {
+> +		ent->id = READ_ONCE(cmd->sqe->buf_index);
+> +		if (ent->id >= queue->bufring->queue_depth) {
+> +			err = -EINVAL;
+> +			goto error;
+> +		}
+> +	} else {
+> +		err = fuse_uring_get_iovec_from_sqe(cmd->sqe, iov);
+> +		if (err) {
+> +			pr_info_ratelimited("Failed to get iovec from sqe, err=%d\n",
+> +					    err);
+> +			goto error;
+> +		}
+>  
+> -	err = -EINVAL;
+> -	headers = &iov[FUSE_URING_IOV_HEADERS];
+> -	if (headers->iov_len < sizeof(struct fuse_uring_req_header)) {
+> -		pr_info_ratelimited("Invalid header len %zu\n", headers->iov_len);
+> -		goto error;
+> -	}
+> +		err = -EINVAL;
+> +		headers = &iov[FUSE_URING_IOV_HEADERS];
+> +		if (headers->iov_len < sizeof(struct fuse_uring_req_header)) {
+> +			pr_info_ratelimited("Invalid header len %zu\n",
+> +					    headers->iov_len);
+> +			goto error;
+> +		}
+>  
+> -	payload = &iov[FUSE_URING_IOV_PAYLOAD];
+> -	if (payload->iov_len < ring->max_payload_sz) {
+> -		pr_info_ratelimited("Invalid req payload len %zu\n",
+> -				    payload->iov_len);
+> -		goto error;
+> +		payload = &iov[FUSE_URING_IOV_PAYLOAD];
+> +		if (payload->iov_len < ring->max_payload_sz) {
+> +			pr_info_ratelimited("Invalid req payload len %zu\n",
+> +					    payload->iov_len);
+> +			goto error;
+> +		}
+> +		ent->headers = headers->iov_base;
+> +		ent->payload = payload->iov_base;
+>  	}
+>  
+> -	ent->headers = headers->iov_base;
+> -	ent->payload = payload->iov_base;
+> -
+>  	atomic_inc(&ring->queue_refs);
+>  	return ent;
+>  
+> @@ -1152,6 +1397,13 @@ fuse_uring_create_ring_ent(struct io_uring_cmd *cmd,
+>  	return ERR_PTR(err);
+>  }
+>  
+> +static bool init_flags_valid(u64 init_flags)
+> +{
+> +	u64 valid_flags = FUSE_URING_BUFRING;
+> +
+> +	return !(init_flags & ~valid_flags);
+> +}
+> +
+>  /*
+>   * Register header and payload buffer with the kernel and puts the
+>   * entry as "ready to get fuse requests" on the queue
+> @@ -1161,6 +1413,7 @@ static int fuse_uring_register(struct io_uring_cmd *cmd,
+>  {
+>  	const struct fuse_uring_cmd_req *cmd_req = io_uring_sqe128_cmd(cmd->sqe,
+>  								       struct fuse_uring_cmd_req);
+> +	u64 init_flags = READ_ONCE(cmd_req->flags);
+>  	struct fuse_ring *ring = smp_load_acquire(&fc->ring);
+>  	struct fuse_ring_queue *queue;
+>  	struct fuse_ring_ent *ent;
+> @@ -1179,11 +1432,16 @@ static int fuse_uring_register(struct io_uring_cmd *cmd,
+>  		return -EINVAL;
+>  	}
+>  
+> +	if (!init_flags_valid(init_flags))
+> +		return -EINVAL;
+> +
+>  	queue = ring->queues[qid];
+>  	if (!queue) {
+> -		queue = fuse_uring_create_queue(ring, qid);
+> -		if (!queue)
+> -			return err;
+> +		queue = fuse_uring_create_queue(cmd, ring, qid, init_flags);
+> +		if (IS_ERR(queue))
+> +			return PTR_ERR(queue);
+> +	} else if (!queue_init_flags_consistent(queue, init_flags)) {
+> +		return -EINVAL;
+>  	}
+>  
+>  	/*
+> @@ -1349,14 +1607,18 @@ void fuse_uring_queue_fuse_req(struct fuse_iqueue *fiq, struct fuse_req *req)
+>  	req->ring_queue = queue;
+>  	ent = list_first_entry_or_null(&queue->ent_avail_queue,
+>  				       struct fuse_ring_ent, list);
+> -	if (ent)
+> -		fuse_uring_add_req_to_ring_ent(ent, req);
+> -	else
+> -		list_add_tail(&req->list, &queue->fuse_req_queue);
+> -	spin_unlock(&queue->lock);
+> +	if (ent) {
+> +		err = fuse_uring_prep_buffer(ent, req);
+> +		if (!err) {
+> +			fuse_uring_add_req_to_ring_ent(ent, req);
+> +			spin_unlock(&queue->lock);
+> +			fuse_uring_dispatch_ent(ent);
+> +			return;
+> +		}
+> +	}
+>  
+> -	if (ent)
+> -		fuse_uring_dispatch_ent(ent);
+> +	list_add_tail(&req->list, &queue->fuse_req_queue);
+> +	spin_unlock(&queue->lock);
+>  
+>  	return;
+>  
+> @@ -1406,14 +1668,17 @@ bool fuse_uring_queue_bq_req(struct fuse_req *req)
+>  	req = list_first_entry_or_null(&queue->fuse_req_queue, struct fuse_req,
+>  				       list);
+>  	if (ent && req) {
+> -		fuse_uring_add_req_to_ring_ent(ent, req);
+> -		spin_unlock(&queue->lock);
+> +		int err = fuse_uring_prep_buffer(ent, req);
+>  
+> -		fuse_uring_dispatch_ent(ent);
+> -	} else {
+> -		spin_unlock(&queue->lock);
+> +		if (!err) {
+> +			fuse_uring_add_req_to_ring_ent(ent, req);
+> +			spin_unlock(&queue->lock);
+> +			fuse_uring_dispatch_ent(ent);
+> +			return true;
+> +		}
+>  	}
+>  
+> +	spin_unlock(&queue->lock);
+>  	return true;
+>  }
+>  
+> diff --git a/fs/fuse/dev_uring_i.h b/fs/fuse/dev_uring_i.h
+> index 349418db3374..66d5d5f8dc3f 100644
+> --- a/fs/fuse/dev_uring_i.h
+> +++ b/fs/fuse/dev_uring_i.h
+> @@ -36,11 +36,47 @@ enum fuse_ring_req_state {
+>  	FRRS_RELEASED,
+>  };
+>  
+> +struct fuse_bufring_buf {
+> +	uintptr_t addr;
+> +	unsigned int len;
+> +	unsigned int id;
+> +};
+> +
+> +struct fuse_bufring {
+> +	/* pointer to the headers buffer */
+> +	void __user *headers;
+> +
+> +	unsigned int queue_depth;
 
-Hmm, goal was to first do the checks and then to allocate, but if the
-change is useful for future commits, fine with me.
+Could we call this 'max_queue_depth'? I still think that it might be
+useful to register ring entries dynamically when needed at some point.
+And then this would become a 'max' value and not the actual value.
 
-Reviewed-by: Bernd Schubert <bernd@bsbernd.com>
+> +
+> +	/* metadata tracking state of the bufring */
+> +	unsigned int nbufs;
+> +	unsigned int head;
+> +	unsigned int tail;
+> +
+> +	/* the buffers backing the ring */
+> +	__DECLARE_FLEX_ARRAY(struct fuse_bufring_buf, bufs);
+> +};
+> +
+>  /** A fuse ring entry, part of the ring queue */
+>  struct fuse_ring_ent {
+> -	/* userspace buffer */
+> -	struct fuse_uring_req_header __user *headers;
+> -	void __user *payload;
+> +	union {
+> +		/* if bufrings are not used */
+> +		struct {
+> +			/* userspace buffers */
+> +			struct fuse_uring_req_header __user *headers;
+> +			void __user *payload;
+> +		};
+> +		/* if bufrings are used */
+> +		struct {
+> +			/*
+> +			 * unique fixed id for the ent. used by kernel/server to
+> +			 * locate where in the headers buffer the data for this
+> +			 * ent resides
+> +			 */
+> +			unsigned int id;
+> +			struct fuse_bufring_buf payload_buf;
+> +		};
+> +	};
+>  
+>  	/* the ring queue that owns the request */
+>  	struct fuse_ring_queue *queue;
+> @@ -99,6 +135,9 @@ struct fuse_ring_queue {
+>  	unsigned int active_background;
+>  
+>  	bool stopped;
+> +
+> +	/* only allocated if the server uses bufrings */
+> +	struct fuse_bufring *bufring;
+>  };
+>  
+>  /**
+> diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
+> index c13e1f9a2f12..8753de7eb189 100644
+> --- a/include/uapi/linux/fuse.h
+> +++ b/include/uapi/linux/fuse.h
+> @@ -240,6 +240,10 @@
+>   *  - add FUSE_COPY_FILE_RANGE_64
+>   *  - add struct fuse_copy_file_range_out
+>   *  - add FUSE_NOTIFY_PRUNE
+> + *
+> + *  7.46
+> + *  - add FUSE_URING_BUFRING flag
+> + *  - add fuse_uring_cmd_req init struct
+>   */
+>  
+>  #ifndef _LINUX_FUSE_H
+> @@ -1263,7 +1267,13 @@ struct fuse_uring_ent_in_out {
+>  
+>  	/* size of user payload buffer */
+>  	uint32_t payload_sz;
+> -	uint32_t padding;
+> +
+> +	/*
+> +	 * if using bufrings, this is the id of the selected buffer.
+> +	 * the selected buffer holds the request payload
+> +	 */
+> +	uint16_t buf_id;
+> +	uint16_t padding;
+>  
+>  	uint64_t reserved;
+>  };
+> @@ -1294,6 +1304,9 @@ enum fuse_uring_cmd {
+>  	FUSE_IO_URING_CMD_COMMIT_AND_FETCH = 2,
+>  };
+>  
+> +/* fuse_uring_cmd_req flags */
+> +#define FUSE_URING_BUFRING		(1 << 0)
+> +
+>  /**
+>   * In the 80B command area of the SQE.
+>   */
+> @@ -1305,7 +1318,17 @@ struct fuse_uring_cmd_req {
+>  
+>  	/* queue the command is for (queue index) */
+>  	uint16_t qid;
+> -	uint8_t padding[6];
+> +	uint16_t padding;
+> +
+> +	union {
+> +		struct {
+> +			/* size of the bufring's backing buffers */
+> +			uint32_t buf_size;
+> +			/* number of entries in the queue */
+> +			uint16_t queue_depth;
+
+If you agree to change, also needs to be changed here
+
+> +			uint16_t padding;
+> +		} init;
+> +	};
+>  };
+>  
+>  #endif /* _LINUX_FUSE_H */
 
 
+Thanks,
+Bernd
