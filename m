@@ -1,176 +1,115 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out203-205-221-239.mail.qq.com (out203-205-221-239.mail.qq.com [203.205.221.239])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B76853CF678
-	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 08:28:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D07132DEA6B;
+	Wed, 15 Apr 2026 08:30:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776241688; cv=none; b=D5v8J8AL86WlKhN8asmquTGaBYlv6I9Vih4TMkMlB6zZDnO+/EpEPYelOBf6AsQLO+Hc/qCq1NJ4H7Ul8U0fhkV2cA1A5x4hKsBGBaZdmMgiP5PK6H5OmWWdM5TqX2AAjK2d+ieI9vhOBqOjNOah8Tta+MqrzyfbKl4UnKMW9gE=
+	t=1776241832; cv=none; b=OkaBph/YXrWAJ7PYjPug9FEF9Ej+O39meCPiBRd4DIG0HMrB2TuYh34DjKGOKsERKs87iOcU8soqkhLpH9eY/ISgqjvZjx3lri10MqmN6FAorAt7TV0djq59ZqFPvv1QEecnDRyFwQOzQf/xRlsQ3wrjyrhrewMoLTq2FMa+dkc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776241688; c=relaxed/simple;
-	bh=KZ31+iVuJ3hjGiVu2o5PRH1lxsvTWH4MQ3mopx32FA4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=K5Ix4uFWPxRF//EgiLYy50L5mGuocrsWYShpY8uxlzcNJQo7CTycSxGCI9v1ZY+Ti3WlERrqsb2Wes7TRg3heaWXIiw1fhK5FNrlKpCnmZOfDA0rtBjF7iD+DCWwi+E11ly3C7B2hYvkxBUJdoZtT7ks904wZC9obxTgIB4wGUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VJFpsSxf; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776241832; c=relaxed/simple;
+	bh=JDCKQawlr1qJCSQAQTDvLng2XETSmvFI27J4/TDQrqs=;
+	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
+	 MIME-Version; b=flr4s+AfE3tpld3VcQGWrvNcgSHbnKM2XBepfsWbWmczaoGQTjua3xMywQ++yyPzuS9tPnxPhvhv3+L7JM8qBM6AL/FBnXVyHvoP2A8o2h7btCuPwPE2BlXJz5MFFxL8fsaK3I+5wYGF8NixTxIDOO8lQkKYKsKH/eMS7e9WemY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=p1ewSIZE; arc=none smtp.client-ip=203.205.221.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VJFpsSxf"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-43cfac48bc7so4488445f8f.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 01:28:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776241685; x=1776846485; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0MPHkT8FkNcBtLY+Pw7K92GBLHfnQFXFDeYyX4HYwxI=;
-        b=VJFpsSxfRwLVLraetQXuPhCXJ/73WCQRviZS2LD/YvMRtWLauyQGXyp7chBzw5o/BP
-         j3sTArpIOvAeh/AG7QtkNU89seNBN/oyMgVxRbNK0veSNfOdF9dzaITomy1niersAG8K
-         1IOL8tKldhEl5E83l6KS2DT3CfxGMQbb2WMKtS3HRoCCHqOItQ/vZmGNSvY9y2rng3m7
-         5Sqf2yjGYtExqrYvXW10+YJ6z7eKwD90uUsfzkTXdl9rkysXQS5IQy1IC4eAo/cSGjee
-         NIjeAFkelaFuwPD8LElF2e+4qpZINq3Rl44O0IyK44wj3FSAIqDlVoQcZx6GhiHIqPzE
-         x/6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776241685; x=1776846485;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=0MPHkT8FkNcBtLY+Pw7K92GBLHfnQFXFDeYyX4HYwxI=;
-        b=I5h2b2ofcT6oFZSGRtAFXFVUzcA2FbWE3Sga8d4dkdts0z8rUXvpbyGa3y1cWdEQuc
-         vRcB4Ib/laXPwiF52XgHgTqmK7y0nj6TcQdGuKM8/H4PneW2dJe5wWIMG7Nj/aMYCqMX
-         BxCGt9Z1x9OjmqWCkeeD2r7+PnEwJKU0u4cbBVZuOGzY8Pu7n27oixYHeI9ohZBg1TxU
-         YLLhAiEPLr9KgG7ml4w1VRWV1obVHS1CYWAAjfRamgCLGb/fSROTfn9i1fToNC+o6haF
-         BUxqXH9DXAPFGhlrGU1+vyTEgFRmVcIbyA2jVf7QNui3HWxblIiW9Tsug2xn6yQZHvIJ
-         GJTw==
-X-Forwarded-Encrypted: i=1; AFNElJ/ba/p6xcKFEUNMAB+YeKpDCgYNYFxIZVQr4nEFk4C/GXpb62buGdUfm69UKsl9QTiAXcZiQpXXYukQJoJQ@vger.kernel.org
-X-Gm-Message-State: AOJu0YyXeUEMI8Elj8YjsJvCrWLzcTfqtWg0SUR1t2VhFJ9oQfjkZt2Y
-	fnh0XOoY2LgEnX/oA9AoRGYI5/1Qizx1wKHuh+4KnP9UohR1/Vqv1Bme
-X-Gm-Gg: AeBDietkr1i7L0FkJ/lPYVScPtnRC7NPXwt2DLfO6lIw7fGqY1BfCqy4wiQx5fmTcp1
-	GhFBjD3dmUJJHvoeJqLkmGyfMlikXGNddhkZid2ZtaaaYNQcQk3csaXYxaxA2odf245UlBe9XT1
-	1ynv5bOGpbEzLd4EqdrZM/JrHaQAdpuLVO89IJ8uhXl/lZ4B1vSnwYhv58RkhUlP/890yI0waE6
-	OboXt40gHbRknFS6U5DDn7Wbt10LZoGD1vqlQS6WyPL5ZPg5XuBQ3CwVRtfHe5/KZ5VeXH9Tw+V
-	kSvjP6CBCvIAIEXj7+LPP/j5PqaiGwkcKkmZoGly9UFTTtnc04cWKg3ptrgsKqrTB9W3RG7Zc0I
-	gH7SZBqGgU/btQvS4eJK6b2+or4zXP+ngKLsBJH/1i7l+hYec5W8J+16iJyXqlGyCusKKJl+1A7
-	SVmmwDtnJMvUBNB/XmoMudewU7qzWHAUqjZ2kzLEGSv9oVhzz0tS8mbchl7P3dFGmo
-X-Received: by 2002:a05:6000:268a:b0:43d:7403:4b60 with SMTP id ffacd0b85a97d-43d74034c72mr20655235f8f.3.1776241684906;
-        Wed, 15 Apr 2026 01:28:04 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43ead3564d8sm3573210f8f.10.2026.04.15.01.28.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Apr 2026 01:28:04 -0700 (PDT)
-Date: Wed, 15 Apr 2026 09:28:02 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Dave Chinner <dgc@kernel.org>
-Cc: Gao Xiang <hsiangkao@linux.alibaba.com>, Christoph Hellwig <hch@lst.de>,
- Tal Zussman <tz2294@columbia.edu>, Jens Axboe <axboe@kernel.dk>, "Matthew
- Wilcox (Oracle)" <willy@infradead.org>, Christian Brauner
- <brauner@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>, Carlos
- Maiolino <cem@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, Jan Kara
- <jack@suse.cz>, Bart Van Assche <bvanassche@acm.org>,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org, Sandeep Dhavale <dhavale@google.com>
-Subject: Re: [PATCH 8/8] RFC: use a TASK_FIFO kthread for read completion
- support
-Message-ID: <20260415092802.5864c457@pumpkin>
-In-Reply-To: <ad2RKNo2FGhpzJQp@dread>
-References: <20260409160243.1008358-1-hch@lst.de>
-	<20260409160243.1008358-9-hch@lst.de>
-	<adl1iqhldFvJwSw-@dread>
-	<7f0d072b-97a7-405f-bff5-d3819de2e3dd@linux.alibaba.com>
-	<ad2RKNo2FGhpzJQp@dread>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="p1ewSIZE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1776241821; bh=kmm8vQAUOrT1UHWaLFb9fXAUDG3jO4piAShky1s/kIo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=p1ewSIZEDBYA9kN9EEFwa0AE6PiB+oyGfJm+KZBlr4+J3VGqh3/D1qL4E3kA4eFJE
+	 iTHUbZBKojzrK2PPMimktTe6WJ/xPmCPScbqAjUakz2iJWwbR9yMp06R6OqGJsjSyY
+	 iTzmaJeTnGMYNjryGNAVUQcnBZEr5PVFe+UVdhUI=
+Received: from lxu-ped-host.. ([111.198.231.89])
+	by newxmesmtplogicsvrszc43-0.qq.com (NewEsmtp) with SMTP
+	id 749182DC; Wed, 15 Apr 2026 16:29:09 +0800
+X-QQ-mid: xmsmtpt1776241749t5gy9jg17
+Message-ID: <tencent_1E9E3B1B234BA11B762595BA40BBFE33C608@qq.com>
+X-QQ-XMAILINFO: NdB5/PuY7PjGLMpsxQP7z7wPTqpU3DRqf/UXjrzZgIgButyNrE9ebDVqQUdNNe
+	 fK2f29MEhvtXElH4t+NVkypoafN8Vz+O/R69UIk4vA3khV0oHvOCGBN+7Yp/fq1TjPFg1oWRF9JT
+	 F/rzpEglFdnLRmWx+HMqhQSYxpfc5v5yU2mVGiiXY0kbj4N0TgWrFap8xxYJQ8xc85aF7UpxNLlD
+	 QmC3F3N6yIBKLfhb4XLtgu51yTqicATlT7PD8Wc9FM80QLqCtrYDVpCnXiFgtTRTEtnkx8/1JsM4
+	 uYkIqFGYPAoOIR3n4gSZiJqCAh0CUR/D6vD4me/GryZcjhoqbGbze7vcLsEpIZ6dP8u/AlRs2sLx
+	 +S5YoNGS4S1YXZdGYGdoFnCkLuTBBZfurxOF5+GTmIuIOEtYRXxnNubL34/ulFFi3yuvJ7jedJWi
+	 BVKfHgsN0Ab7FkQbsxar3RT8jpMnCsUovVZHY1RW/1FmT8cDfYs4BLyq39ap4cc8rr2lZt6UdRJI
+	 Q5DD3pufs+52iP0hEuT23bHMBOcObR/dQod0MmgN5tSWMV1xaVT74YcdfAnLV5fqNrqQ+Dh3s0F3
+	 O8zWWDbmuGWV3KXWR/k4T8gnox4qkCohMqMYfgQ+dMCk6IrnP0JD+0Dn3JJccsvbl/u6C+UuxFLK
+	 LcmvJ8QYzoAO1kzyHZTQ93D+FVYhizdlvjLKp5T/Z43O7+9qVcP6NzNIIyw19ONXNj5ju0KfV3Sr
+	 fAaUjZvCwJ4vxDbYmT4XXCyqByhbqeyxwDYwYt+X1wjtDhLVtCxsZrHMtcMHmJAkA36FMaj7o/h0
+	 xNYoqxjyNcnm0mWN86hG00gEsPwtFDO64IPe7zKZiwnZbZTWXNtqEjyM2IwloVVhhY8ddySOApZo
+	 NUfL+n7umDUq/XgoIAPHGWhBH7FZMIR9R2u3Z20M8S6ftqnU3KxRvSw+uL7Bd/sFoP52pIOVeFTt
+	 a0Rsy9NRDvF0pboqKG9CjS6CkYBxsfzuO62hnt4J6SXhJhHJHb8wCNVpquQUTbC3MFoDlgfjDxBP
+	 EKmQnUqg==
+X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
+From: Edward Adam Davis <eadavis@qq.com>
+To: syzbot+217eb327242d08197efb@syzkaller.appspotmail.com
+Cc: frank.li@vivo.com,
+	glaubitz@physik.fu-berlin.de,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	slava@dubeyko.com,
+	syzkaller-bugs@googlegroups.com
+Subject: [PATCH] hfsplus: Add a sanity check for catalog btree node size
+Date: Wed, 15 Apr 2026 16:29:09 +0800
+X-OQ-MSGID: <20260415082908.313880-2-eadavis@qq.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <69decbd0.a00a0220.468cb.006b.GAE@google.com>
+References: <69decbd0.a00a0220.468cb.006b.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Tue, 14 Apr 2026 10:58:16 +1000
-Dave Chinner <dgc@kernel.org> wrote:
+Syzbot reported a uninit-value bug in [1], during the file system mounting
+process, specifically while loading the catalog, a corrupted node_size
+value of 1 caused the rec_off argument passed to hfs_bnode_read_u16()
+(within hfs_bnode_find()) to be excessively large. Consequently, the
+function failed to return a valid value to initialize the off variable,
+triggering the bug [1].
 
-> On Sat, Apr 11, 2026 at 07:44:43AM +0800, Gao Xiang wrote:
-> > 
-> > 
-> > On 2026/4/11 06:11, Dave Chinner wrote:  
-> > > On Thu, Apr 09, 2026 at 06:02:21PM +0200, Christoph Hellwig wrote:  
-> > > > Commit 3fffb589b9a6 ("erofs: add per-cpu threads for decompression as an
-> > > > option") explains why workqueue aren't great for low-latency completion
-> > > > handling.  Switch to a per-cpu kthread to handle it instead.  This code
-> > > > is based on the erofs code in the above commit, but further simplified
-> > > > by directly using a kthread instead of a kthread_work.
-> > > > 
-> > > > Signed-off-by: Christoph Hellwig <hch@lst.de>  
-> > > 
-> > > Can we please not go back to the (bad) old days of individual
-> > > subsystems needing their own set of per-cpu kernel tasks just
-> > > sitting around idle most of of the time?  The whole point of the
-> > > workqueue infrastructure was to get rid of this widely repeated
-> > > anti-pattern.
-> > > 
-> > > If there's a latency problem with workqueue scheduling, then we
-> > > should be fixing that problem rather than working around it in every
-> > > subsystem that thinkgs it has a workqueue scheduling latency
-> > > issue...  
-> > 
-> > It has been "fixed" but never actually get fixed:
-> > https://lore.kernel.org/r/CAB=BE-QaNBn1cVK6c7LM2cLpH_Ck_9SYw-YDYEnNrtwfoyu81Q@mail.gmail.com
-> > 
-> > and workqueues don't have any plan to introduce RT threads;  
-> 
-> They don't need to (or should) introduce RT threads. Per-cpu kernel
-> threads already get priority over normal user tasks on scheduling
-> decisions.  However, they do not pre-empt running kernel tasks of
-> the same priority.
-> 
-> In general, kernel threads should not use RT scheduling at all - if
-> the kernel uses RT prioprity tasks then that can interfere with user
-> scheduled RT tasks. This is especially true in this case where a
-> non-RT tasks issue the IO, and the IO completion is then scheduled
-> with RT priority. IOWs, any unprivileged user can now impact the
-> processing time available to, and the response latency of, other
-> RT scheduled tasks the system is running.
+To prevent similar issues, a check for the catalog btree node size has
+been added within the hfsplus_btree_open() function.
 
-But might not an IO for a use RT task be sat behind it in the
-completion queue?
-To avoid priority inversion you need to process the completions.
-The non-RT task won't be rescheduled to issue a later request.
-The only other way is to force that completion work be done in
-the context of the thread that issued the request.
+[1]
+BUG: KMSAN: uninit-value in hfsplus_bnode_find+0x141c/0x1600 fs/hfsplus/bnode.c:584
+ hfsplus_bnode_find+0x141c/0x1600 fs/hfsplus/bnode.c:584
+ hfsplus_btree_open+0x169a/0x1e40 fs/hfsplus/btree.c:382
+ hfsplus_fill_super+0x111f/0x2770 fs/hfsplus/super.c:553
+ get_tree_bdev_flags+0x6e6/0x920 fs/super.c:1694
+ get_tree_bdev+0x38/0x50 fs/super.c:1717
+ hfsplus_get_tree+0x35/0x40 fs/hfsplus/super.c:709
+ vfs_get_tree+0xb3/0x5d0 fs/super.c:1754
+ fc_mount fs/namespace.c:1193 [inline]
 
-> 
-> Tejun asked Sandeep if setting the workqueue thread priority to
-> -19 through sysfs (i.e. making them higher priority than normal
-> kernel threads) had the same effect on latency as using a dedicated
-> per-cpu RT task thread. THere was no followup.
-> 
-> In theory, this should provide the same benefit, because what RT
-> scheduling is doing is pre-empting any user and kernel task that was
-> running when the interrupt was delivered to execute the completion
-> task immediately.
-> 
-> Setting the workqueue to use kernel threads of a higher scheduler
-> prioirty should do the same thing, without the need to use dedicated
-> per-cpu RT threads.
+Fixes: 8ad2c6a36ac4 ("hfsplus: validate b-tree node 0 bitmap at mount time")
+Reported-by: syzbot+217eb327242d08197efb@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=217eb327242d08197efb
+Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+---
+ fs/hfsplus/btree.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-We had a related issue with the network stack's use of softint and
-threaded napi when trying to receive very high packet rate UDP traffic.
-(IIRC something like 500000 200byte RTP audio packets every second.)
-There is an absolute requirement to run the ethernet rx processing
-in order to avoid dropping packets.
-Now normally the code runs as 'softint' making it higher priority
-that any user process, but under load it switches to using 'normal
-priority' kernel threads which are basically low priority.
-Similarly 'threaded napi' uses 'normal priority' threads.
-The only we made it work was to manually change the threads to be
-a low 'RT FIFO' priority so they got scheduled in preference to
-all user processes.
-A system may need some user RT threads with a lower priority than
-these kernel threads and others with a higher priority.
-So defaulting to a middling RT priority may be best.
-
-	David
+diff --git a/fs/hfsplus/btree.c b/fs/hfsplus/btree.c
+index 761c74ccd653..61050ffe425e 100644
+--- a/fs/hfsplus/btree.c
++++ b/fs/hfsplus/btree.c
+@@ -337,6 +337,11 @@ struct hfs_btree *hfs_btree_open(struct super_block *sb, u32 id)
+ 			pr_err("invalid catalog btree flag\n");
+ 			goto fail_page;
+ 		}
++		if (tree->node_size < 2) {
++			pr_err("invalid catalog btree node size %u\n",
++				tree->node_size);
++			goto fail_page;
++		}
+ 
+ 		if (test_bit(HFSPLUS_SB_HFSX, &HFSPLUS_SB(sb)->flags) &&
+ 		    (head->key_type == HFSPLUS_KEY_BINARY))
+-- 
+2.43.0
 
