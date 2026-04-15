@@ -1,94 +1,133 @@
-Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com [91.218.175.173])
+Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5A27224AF7
-	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 00:48:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96FA528BAB9
+	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 00:51:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776214128; cv=none; b=FQOA6klne6OARoAvnUEA2wlPuHHaMt+qPSl/E9o4Y9ydCR4pfzekFSe6IUzdC3ZXnrGGieTxoLJ5bzRgNoGamQqBBrd8JySVH7kk2qrezgCRf51mxIBAWEllgEKF3fpxjvAznnP96rz9JwdH2df320IVJLRX5R+rWH0mwrbCL/8=
+	t=1776214283; cv=none; b=IvikFOpAplkz/baje1RXCfaZFEIPOXEfQ9CI3uA5GH7RDgfisN7jAfeVVj1uhnto9caPdzHv8jBATbj7kbdfb5bWNRRytNpl5Q5nSyzyHFgqLR+Ck2MKLycKMAlimarPFgXhESWFbrTgXSPWdQrOQu1z+x882AN0yVGtgzrxv/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776214128; c=relaxed/simple;
-	bh=/9OMEHbVj5Watn1GKdn2+Z3KYWZeTuxWsegikZA1a/Y=;
+	s=arc-20240116; t=1776214283; c=relaxed/simple;
+	bh=EWTn4M9BJF+za/T+/mJOFb4HtEHc0IBJUVKLa1AIRis=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ToJlZEOAVi30Rd98AifQ6SyUJlscUxsss8HnOdbKApw4Btoh+DiiZdVUJtI/QBUb20Lvdu3Cf6QKLpdhInLKfa+KiAbCxWHF7drSXveSa8I2DH1Bhn3ZqQTbLsnpx+RIU2QN72x18Vwng2+4LXZeeohSY2cu8cKPT70w2/r1aVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Wt9j8PlX; arc=none smtp.client-ip=91.218.175.173
+	 In-Reply-To:Content-Type; b=p9ueZcj6amKO3yEOsdriVaSohzOhcv1ZRhaTh3PFLIyKZgQ1pMJADuHWmJRSwFM/atK5kuC9q0bN8O/jWQUZnmX9hEnG1JHQitqM7UTBYxRKoZBAoXauG+3vpfCuYf94+7gOGqgPiFaVSgc8692iHbRBhoBxU6MzsqWg/j4mvoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=J8YU0AlS; arc=none smtp.client-ip=95.215.58.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Wt9j8PlX"
-Message-ID: <7388e265-ccb3-4938-90d0-4b503198ddd4@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="J8YU0AlS"
+Message-ID: <9a852e74-1499-4a5a-8e98-56a33c67d639@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1776214124;
+	t=1776214278;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4dOLQgMFIc5WUqLkqCJZGmnuCCvn5m/W7yOiMCxXGac=;
-	b=Wt9j8PlXjKFscfm8IaE/7fE32DTbPJEridqhLxVM6uhZW+xqalaHoT9Tt8/Vfn23ji9k45
-	CBYPlUoobc9vIvtFyDSUZ995PPzra2KnDqphha67t9ihj9dhj9KvKloVCF2praJbRY++id
-	XxDS1vNDRy1nl3tFSewQ91fuGreoRaA=
-Date: Wed, 15 Apr 2026 08:48:30 +0800
+	bh=4mzC9E+DlpUUGq46xAvgFHlJHte5hw9EwrSfNtsp0mE=;
+	b=J8YU0AlS5C5k/kXq7rlFACUywmi7oGfW7YBS4Bq+IlpZTYRixEXAT3hqtLFusz3FxsXs6B
+	rD8AsY97471H0gKZlgTZq1ZtamhUSPOnl8FSJVkIFg+jDSjB0vMtLRP3uLZDLFDplN4CFi
+	027XHKDxVHXTl5dh7RIN1ZMbHGu5Pj0=
+Date: Wed, 15 Apr 2026 08:50:54 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/4] mm/vmstat: use node_stat_add_folio/sub_folio for
- folio_nr_pages operations
-To: "David Hildenbrand (Arm)" <david@kernel.org>,
- Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Vlastimil Babka <vbabka@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Chris Li
- <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>
-Cc: Ye Liu <liuye@kylinos.cn>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Brendan Jackman <jackmanb@google.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
- Peter Xu <peterx@redhat.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
- Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
- Ying Huang <ying.huang@linux.alibaba.com>,
- Alistair Popple <apopple@nvidia.com>, Kemeng Shi
- <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>,
- Baoquan He <bhe@redhat.com>, Youngjun Park <youngjun.park@lge.com>,
- linux-nfs@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org
-References: <20260414091527.2970844-1-ye.liu@linux.dev>
- <20260414091527.2970844-2-ye.liu@linux.dev>
- <fa26f2c4-a755-4ed7-b835-465c8c5fe0e2@kernel.org>
+Subject: Re: [PATCH 3/4] mm/vmstat: remove unused __node_stat_* wrappers
+To: Joshua Hahn <joshua.hahnjy@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Ye Liu <liuye@kylinos.cn>,
+ Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett"
+ <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+References: <20260414150001.3262806-1-joshua.hahnjy@gmail.com>
 Content-Language: en-US
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Ye Liu <ye.liu@linux.dev>
-In-Reply-To: <fa26f2c4-a755-4ed7-b835-465c8c5fe0e2@kernel.org>
+In-Reply-To: <20260414150001.3262806-1-joshua.hahnjy@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
 
 
-在 2026/4/15 01:52, David Hildenbrand (Arm) 写道:
-> On 4/14/26 11:15, Ye Liu wrote:
+在 2026/4/14 22:59, Joshua Hahn 写道:
+> On Tue, 14 Apr 2026 17:15:20 +0800 Ye Liu <ye.liu@linux.dev> wrote:
+> 
 >> From: Ye Liu <liuye@kylinos.cn>
 >>
->> Replace node_stat_mod_folio() calls that pass folio_nr_pages(folio) or
->> -folio_nr_pages(folio) as the third argument with the more concise
->> node_stat_add_folio() and node_stat_sub_folio() functions respectively.
+>> Replace the single call to __node_stat_mod_folio()
+>> with node_stat_mod_folio(), and remove the dead inline __node_stat_*
+>> wrapper definitions from include/linux/vmstat.h.
 >>
->> This makes the code more readable and reduces the number of arguments
->> passed to these functions.
+>> Signed-off-by: Ye Liu <liuye@kylinos.cn>
+>> ---
+>>  include/linux/vmstat.h | 18 ------------------
+>>  mm/page-writeback.c    |  2 +-
+>>  2 files changed, 1 insertion(+), 19 deletions(-)
+>>
+>> diff --git a/include/linux/vmstat.h b/include/linux/vmstat.h
+>> index 3c9c266cf782..54da7d820f78 100644
+>> --- a/include/linux/vmstat.h
+>> +++ b/include/linux/vmstat.h
+>> @@ -440,24 +440,6 @@ static inline void zone_stat_sub_folio(struct folio *folio,
+>>  	mod_zone_page_state(folio_zone(folio), item, -folio_nr_pages(folio));
+>>  }
+>>  
+>> -static inline void __node_stat_mod_folio(struct folio *folio,
+>> -		enum node_stat_item item, long nr)
+>> -{
+>> -	__mod_node_page_state(folio_pgdat(folio), item, nr);
+>> -}
+>> -
+>> -static inline void __node_stat_add_folio(struct folio *folio,
+>> -		enum node_stat_item item)
+>> -{
+>> -	__mod_node_page_state(folio_pgdat(folio), item, folio_nr_pages(folio));
+>> -}
+>> -
+>> -static inline void __node_stat_sub_folio(struct folio *folio,
+>> -		enum node_stat_item item)
+>> -{
+>> -	__mod_node_page_state(folio_pgdat(folio), item, -folio_nr_pages(folio));
+>> -}
+>> -
+>>  static inline void node_stat_mod_folio(struct folio *folio,
+>>  		enum node_stat_item item, long nr)
+>>  {
+>> diff --git a/mm/page-writeback.c b/mm/page-writeback.c
+>> index 6f9b7b081ab7..ed3301753e89 100644
+>> --- a/mm/page-writeback.c
+>> +++ b/mm/page-writeback.c
+>> @@ -2627,7 +2627,7 @@ static void folio_account_dirtied(struct folio *folio,
+>>  
+>>  		lruvec_stat_mod_folio(folio, NR_FILE_DIRTY, nr);
+>>  		__zone_stat_mod_folio(folio, NR_ZONE_WRITE_PENDING, nr);
+>> -		__node_stat_mod_folio(folio, NR_DIRTIED, nr);
+>> +		node_stat_mod_folio(folio, NR_DIRTIED, nr);
 > 
-> Also, that makes it clearer that we always account the full folio, never
-> parts of it.
+> Hi Ye, thank you for the patch,
 > 
+> In addition to what Matthew has pointed out, I also wanted to note that this
+> substitution isn't trivial; there are differences between the __ prefixed
+> version of node_stat_mod_folio and the one without. Even though the correctness
+> of the two versions might be the same, I think that a change like this should
+> be supplemented by a description of what side effects this change has
+> (i.e. introducing additional overhead from the cmpxchg loop).
+> 
+> Thank you, I hope you have a great day!
+> Joshua
 
-Thank you, David, for your support. I agree that the new functions make
-the intent more explicit.
+Thank you for your review, Joshua. Regarding the difference between
+__node_stat_mod_folio and node_stat_mod_folio: in the current implementation,
+both functions ultimately use __mod_node_page_state, as mod_node_page_state
+is defined as __mod_node_page_state. There is no functional difference
+between them in terms of atomicity or overhead. The __ prefixed versions
+were wrappers that are now unused, which is why we're removing them.
 
 -- 
 Thanks,
