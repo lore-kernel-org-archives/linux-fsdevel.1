@@ -1,162 +1,110 @@
-Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com [95.215.58.179])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9DE83016F7
-	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 05:51:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 430773016F7;
+	Wed, 15 Apr 2026 05:55:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776232283; cv=none; b=ullHvkWRBOuXOXKryKIpP+fUL09yv6YEtju3zFGd2/AmMox6kTW5kj3f8ujp0VQoivLSTOPo7G+5oOmFHDM4gBa+N6vaoyqPfX3Ymkeu0xPyOirKZOQLOiurq0NQohBRvRsrJfyShI2eOuXDSFY/iKGQJyfHYKtniegweXGCzY0=
+	t=1776232558; cv=none; b=JNImpd4QsUriyziWL5rLZkRHp6u2QKZa7SRWz+k6m3hfdfD+ev988JiniiYOKdUzQYqOOuq4D8kHqSgTv6udgUxVM2ucjulfXXPDv7tmssBbRIqspW1Z84D9cgptCz/svXLaLSeSfx1rmc7Sp340/138eMg81EXOcQeSas69ii4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776232283; c=relaxed/simple;
-	bh=tSBmTsoI0oOODYCBbVRX6vyNBx7IroBhfOGW97xiOWQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UQn6GpnnSQWUVu5XA7H/8BmIXUX5hdPeo0fJ9yLVO+DoBMdnD/8LCSgjkiS5qRf1l2UiuXwykY76vn9Ur4+5eG1eyARz40VCwzo+Ulx1n80wGsXSbw6dKFjR7ccEaiCjLRVeopY+ulc/09qesRVsthpKYTZG9Rqcmrw5yuKAv+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=O1wBKG9X; arc=none smtp.client-ip=95.215.58.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="O1wBKG9X"
-Message-ID: <c55c49d7-642b-4b99-a2c7-053cb88541d0@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1776232277;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Fk7YcQ6QKf5fLUVsvamkPBjeLdGsl9ofX5zFjUfyoj4=;
-	b=O1wBKG9X40Zk2mMmuCRqGjMgiGlRuDC+q7N47GfqkXQg8WL8pshpe1HRLc8NEm4jemSF8b
-	KgwkiMqtYJtlqorV/PWC5OtuPCGZ7kX+05rXeX6JYXYBzdYL9Afx3DUG7G1ez7TRaZOpgH
-	dMOzuM1aV4jv9sXiJ1KcbwLPMnmhQWY=
-Date: Wed, 15 Apr 2026 13:51:02 +0800
+	s=arc-20240116; t=1776232558; c=relaxed/simple;
+	bh=jJ06Qr9PZTdYxGHH4AdFUydk+z3O9xo1Jo8slIVdB5w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dARRt3jOx32U4FctikeUYCeIvuBNrOi0kAxJH2G1F0DyEfU4Q2kRsc947pgj26nseYF4x49p/EzOSUrbMstnC1MO7zYiWmidmXr17QTY1IzVhGR3FeOPbEWWocstHTuLquZXvR/XRDvDSuBDFDpxmsmNEkdgeOPbbq7zchvER5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id A55CA68BFE; Wed, 15 Apr 2026 07:55:52 +0200 (CEST)
+Date: Wed, 15 Apr 2026 07:55:52 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Gao Xiang <hsiangkao@linux.alibaba.com>
+Cc: Dave Chinner <dgc@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Tal Zussman <tz2294@columbia.edu>, Jens Axboe <axboe@kernel.dk>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Christian Brauner <brauner@kernel.org>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Carlos Maiolino <cem@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>, Bart Van Assche <bvanassche@acm.org>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, Sandeep Dhavale <dhavale@google.com>,
+	Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Anuj Gupta <anuj20.g@samsung.com>
+Subject: Re: [PATCH 8/8] RFC: use a TASK_FIFO kthread for read completion
+ support
+Message-ID: <20260415055552.GD26893@lst.de>
+References: <20260409160243.1008358-1-hch@lst.de> <20260409160243.1008358-9-hch@lst.de> <adl1iqhldFvJwSw-@dread> <7f0d072b-97a7-405f-bff5-d3819de2e3dd@linux.alibaba.com> <ad2RKNo2FGhpzJQp@dread> <a7a74185-df02-4906-a0ec-f87e2394aa5f@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 3/4] mm/vmstat: remove unused __node_stat_* wrappers
-To: Joshua Hahn <joshua.hahnjy@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Ye Liu <liuye@kylinos.cn>,
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett"
- <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-References: <20260415022910.1890050-1-joshua.hahnjy@gmail.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Ye Liu <ye.liu@linux.dev>
-In-Reply-To: <20260415022910.1890050-1-joshua.hahnjy@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a7a74185-df02-4906-a0ec-f87e2394aa5f@linux.alibaba.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
+On Tue, Apr 14, 2026 at 10:23:13AM +0800, Gao Xiang wrote:
+> All softirq IO completion already works like this although
+> softirq tasks are not strictly called "RT tasks" (i.e. a non-RT
+> task issues the IO, and the softirq IO completion will interrupt
+> all ongoing tasks).
+>
+> Basically what we want is to get a non-atomic context instead of
+> using the current softirq context for read post-processing and
+> switch to the task context immediately as you said, because:
+>
+>  - Our post-processing needs to work in task contexts since
+>    advanced features like compression deduplication need it;
+>
+>  - Even regardless of our specific requirement needing task
+>    contexts, using a dedicated task context for read
+>    post-processing is much better than run in the original
+>    softirq context:
+>
+>    - Algorithmic work could take extra time (especially slow
+>      LZMA algorithm could take milliseconds on low devices
+>      (however, we need a common workflow for all algorithms,
+>      including fast algorithms like lz4) and verify work for
+>      example); and long processing time will interfere with
+>      other remaining softirq tasks like sound-playback
+>      / network softirqs;
+>
+>    - If it is then deferred to softirqd, it just makes this
+>      latency issue _worse_.
 
+Yes, and the same applies to a lot of other things.  A very similar
+algorithmic issue is the checksum validation, be that T10-PI or
+file system native checksums.  We don't want to run them from
+soft/hardirq context obviously, but we really need them to preempt
+other work on the cpu, and avoid scheduling latency.  The case
+that started this is a bit different - folio invalidation mostly
+needs user context to take sleeping locks, but those are usually
+uncontented.  Again, getting this work done ASAP as readers
+are synchronously waiting is important.
 
-在 2026/4/15 10:29, Joshua Hahn 写道:
-> On Wed, 15 Apr 2026 08:50:54 +0800 Ye Liu <ye.liu@linux.dev> wrote:
-> 
->>
->>
->> 在 2026/4/14 22:59, Joshua Hahn 写道:
->>> On Tue, 14 Apr 2026 17:15:20 +0800 Ye Liu <ye.liu@linux.dev> wrote:
->>>
->>>> From: Ye Liu <liuye@kylinos.cn>
->>>>
->>>> Replace the single call to __node_stat_mod_folio()
->>>> with node_stat_mod_folio(), and remove the dead inline __node_stat_*
->>>> wrapper definitions from include/linux/vmstat.h.
->>>>
->>>> Signed-off-by: Ye Liu <liuye@kylinos.cn>
->>>> ---
->>>>  include/linux/vmstat.h | 18 ------------------
->>>>  mm/page-writeback.c    |  2 +-
->>>>  2 files changed, 1 insertion(+), 19 deletions(-)
->>>>
->>>> diff --git a/include/linux/vmstat.h b/include/linux/vmstat.h
->>>> index 3c9c266cf782..54da7d820f78 100644
->>>> --- a/include/linux/vmstat.h
->>>> +++ b/include/linux/vmstat.h
->>>> @@ -440,24 +440,6 @@ static inline void zone_stat_sub_folio(struct folio *folio,
->>>>  	mod_zone_page_state(folio_zone(folio), item, -folio_nr_pages(folio));
->>>>  }
->>>>  
->>>> -static inline void __node_stat_mod_folio(struct folio *folio,
->>>> -		enum node_stat_item item, long nr)
->>>> -{
->>>> -	__mod_node_page_state(folio_pgdat(folio), item, nr);
->>>> -}
->>>> -
->>>> -static inline void __node_stat_add_folio(struct folio *folio,
->>>> -		enum node_stat_item item)
->>>> -{
->>>> -	__mod_node_page_state(folio_pgdat(folio), item, folio_nr_pages(folio));
->>>> -}
->>>> -
->>>> -static inline void __node_stat_sub_folio(struct folio *folio,
->>>> -		enum node_stat_item item)
->>>> -{
->>>> -	__mod_node_page_state(folio_pgdat(folio), item, -folio_nr_pages(folio));
->>>> -}
->>>> -
->>>>  static inline void node_stat_mod_folio(struct folio *folio,
->>>>  		enum node_stat_item item, long nr)
->>>>  {
->>>> diff --git a/mm/page-writeback.c b/mm/page-writeback.c
->>>> index 6f9b7b081ab7..ed3301753e89 100644
->>>> --- a/mm/page-writeback.c
->>>> +++ b/mm/page-writeback.c
->>>> @@ -2627,7 +2627,7 @@ static void folio_account_dirtied(struct folio *folio,
->>>>  
->>>>  		lruvec_stat_mod_folio(folio, NR_FILE_DIRTY, nr);
->>>>  		__zone_stat_mod_folio(folio, NR_ZONE_WRITE_PENDING, nr);
->>>> -		__node_stat_mod_folio(folio, NR_DIRTIED, nr);
->>>> +		node_stat_mod_folio(folio, NR_DIRTIED, nr);
->>>
->>> Hi Ye, thank you for the patch,
->>>
->>> In addition to what Matthew has pointed out, I also wanted to note that this
->>> substitution isn't trivial; there are differences between the __ prefixed
->>> version of node_stat_mod_folio and the one without. Even though the correctness
->>> of the two versions might be the same, I think that a change like this should
->>> be supplemented by a description of what side effects this change has
->>> (i.e. introducing additional overhead from the cmpxchg loop).
->>>
->>> Thank you, I hope you have a great day!
->>> Joshua
->>
->> Thank you for your review, Joshua. Regarding the difference between
->> __node_stat_mod_folio and node_stat_mod_folio: in the current implementation,
->> both functions ultimately use __mod_node_page_state, as mod_node_page_state
->> is defined as __mod_node_page_state. There is no functional difference
->> between them in terms of atomicity or overhead. The __ prefixed versions
->> were wrappers that are now unused, which is why we're removing them.
-> 
-> Hello Ye,
-> 
-> Thanks for the quick response. However, I'm not sure that's true.
-> For #ifdef CONFIG_HAVE_CMPXCHG_LOCAL in mm/vmstat.c, I can see that
-> mod_node_page_state calls mod_node_state, which includes the cmpxchg loop.
-> I think many users enalbe this config, including x86. IMHO, we should document
-> this effect of the changes.
-> 
-> Thank you, I hope you have a great day!
-> Joshua
+>> Tejun asked Sandeep if setting the workqueue thread priority to
+>> -19 through sysfs (i.e. making them higher priority than normal
+>> kernel threads) had the same effect on latency as using a dedicated
+>> per-cpu RT task thread. THere was no followup.
+>
+> I think the issue is that people are not already working on the
+> same topic:
+>
+>  - Unlike large subsystems like XFS, people don't already work on
+>    EROFS unless they have new requirements or urgent production
+>    issues;
+>
+>  - The original latency issue was already considered as "done" in
+>    2023, and I'm not sure if Sandeep could have the bandwidth to
+>    pause his current work and test more setups according to this
+>    ongoing discussion in 2026.
 
-Thank you for your review, Joshua. You are correct that there is a difference.
-The __node_stat_mod_folio call goes directly to __mod_node_page_state, which
-assumes the caller already has the necessary serialization. By contrast,
-node_stat_mod_folio goes through mod_node_page_state, which on systems with
-CONFIG_HAVE_CMPXCHG_LOCAL uses a this_cpu_try_cmpxchg() loop and on other
-systems serializes via local_irq_save/restore.
-
-That means the wrapper removal is not purely cosmetic: it changes the
-update path from a direct per-cpu diff update to a serializing update
-path, and therefore incurs extra overhead.
-
--- 
-Thanks,
-Ye Liu
+Which unfortunately might explain the sad state of Android.  You
+really need dedicated people around and help to improve core
+infrastructure, instead of adding random Kconfig choices.
 
