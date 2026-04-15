@@ -1,136 +1,231 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BD6D21CA13
-	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 00:40:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9560D1AB6F1
+	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 00:48:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.53
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776213605; cv=pass; b=iuE+zyhVLVFGm1ERw7e8SpjG2w5hxnhkLkmO19fUZ793fLk4tsn5VUKBXkb+zvpUAJzmmt/dAln8CZlJ3poheQ5GRuQ7t8GXYu1qL8rgPVK3j0RMA+PQ9r/XA0FnQohkNsN5oP435dCg2bPz6Vj0mArg4JRDk9vkwaqRVryOsGc=
+	t=1776214113; cv=pass; b=O+JDvF32tPVJ7M+HQ9jTHpimNhTFGuLhWo4SOOW6/rpqwGyD+A1Mp9OrQp1PQw8skcs+V5zZByM2VbOG4YaY8/X7elIqJvjqlwVOeH22VuDUy9NNNAxjs6wVply9MUEgnL9GaQf8kCDWgRYxsn4KCFz8CVjsZilXntoKC6b7RIc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776213605; c=relaxed/simple;
-	bh=CDyfaVUGzZpc+vQYHS9Ivprbt7YHf207dxxCKRNX2s4=;
+	s=arc-20240116; t=1776214113; c=relaxed/simple;
+	bh=sZe/g577bm9MRlLA8DY2OXlBYp7yYlBjKvWRHF5WXsM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bMrOjZaobLnqLAdZTVpMZFhm/8OkfrqWcOygWNrjIjw9djIAQGrseLOUxt/Gs8g/Hesb15OeoRomRQpwO01vwOlg2+leYGe7Bj9M5iqXSP3L4NHkdro31v3z8m8cewBKIabatTz984eHh8kLD5B6OwQGkubzv6xDf/xTxLcM080=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ni0g8Nym; arc=pass smtp.client-ip=209.85.221.45
+	 To:Cc:Content-Type; b=q8rN0ufF0lzW1Y6xEYUw/8axy3lMMXYyjlAPJu5VjXJy7k3/lpNAcj6HMVUKFfVwj/Ngf6rXyfY78z/eiC15ft5lHsOziTbSOdT0LNhC+Gc+ban4CNR1DyST0hqe4OOhSouGq1bchPsiDVLfWj863dydnKSQcjFOuPXywmtrWV4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NXvO2v2v; arc=pass smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ni0g8Nym"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-43d7650202fso2201792f8f.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 17:40:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776213601; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NXvO2v2v"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-43cfde3c3f3so6220939f8f.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 17:48:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776214110; cv=none;
         d=google.com; s=arc-20240605;
-        b=XgeLcIwFHTMZKVgKGhLOjoyICbGnzwWWy0BX7LkK9QLBRzvG5lsFvcJOCP3hATDpK3
-         bcWG0PlwtOWgZcAfnLWU14wMdgAdGdQVb9l3p1MHXE6hGl1sxrdtxRSFwSyU/m6Rmmy4
-         lkXO984T5whCsqGDPH5dnM4eAt5gHEQaKmD89MBMyTGicQrQzBBM22fD0n/5zGVZlYFM
-         rRnhwqYv3FPkX5e4OKHal2xc+7be/+lSAoIIuSQc9hFlIqnr8uWZtP//WB64HDKtlptC
-         nTxkAv6OvMTa3+JkwijYnvAnCA7dD2IEz7ae9wUET51gDSbQ3zlgfw3AuL4DLqjqp75z
-         nYlA==
+        b=aRknoiG4Y/dIWnjNi6DPGQvWqPqMZinrDAwXIriMXM0Yh8i7tsyTTqe8ksfoaiDYgr
+         UiBlzZv5rO9eOiH88Eh6X9rt5V2D74asOhVCHHR8b9hbHSZFuvY/zG09so9bFY7pkEv6
+         +MYcTBQPj8gyxL/KKXsyC1I8Eld9PGtx8Lk60Py6ozS8itj5RDjUGsHQaek4s913vsAj
+         muLaauczFPBZFK12CpQrivCgvOXdwSzXGKwcu2PsUjRkhe7SOTEZEGosKhS1jhyYRyLg
+         PbByA1iL0hix3eMzHhZx34RmUQCr2NVwB3XQ9LRhW/iQfNmBkjGANlnLkrShk1JqYKd2
+         ajGw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=xDF5hd94gi41sBgsV8b3i2x12XxD7MEttCA2Ebev224=;
-        fh=s+BGW+Bjm3YU4i1nFHBQ1alZ+schWzmggpT8IL+YWTY=;
-        b=jUGMTWbBl5oAIdQ29ySmZhTacWaSO5jOoO9FF1y/meI0b5u+TaCcB1yI0KeTr0pQN5
-         mgH+LNHPyz10l4QS1kyKu/MrESkvdcfOopFGeR4hjwscGxgOLd9MluDUVxtC0smqJAg0
-         nDIA69tQRxVqj3K9pkfXl2WU42cyLi2V2WWKqBzlTBedcExruFfuPuhw/Boo6OFFQHLl
-         pT7ZBkKJKoSc8FYQpmASM5bXYYIrJkoZUxOycEGbN9rome+pkYMZm6raKq83MD/Awq87
-         7Y8ZYezaqaFG8nMRJv5HFr0gJhqELTuK1b8h9mr6ZksM67AhjInxu/g35KtZDjM3fnoI
-         skdA==;
+        bh=InDBjGNkCwCEmS0XXFKkIgswrokKUpV4YQmuF6nvZAY=;
+        fh=FNP899pOMq0fdFbBzk700MVitZNQyomCiYLgmmHRkfE=;
+        b=DVmHfpE1UjzB+z5W6J65Ql9whfgFSVcLnP5ZeUJHdNMw+VKM1DWaMNSgaFxAldvZ/E
+         UIDjnaIK53RUzSAZSSCmdBc4zceEJvuveAO/aRPlWmwXoq6qiV8Q0dS2gaSTPDt3HPif
+         LZ3dp11CoNyoS2tvpKBikpIEsLEtQ1uk0MMhksdyvjtKmoYvreXWkAs5q6OyXDkblat5
+         z4+lOjC+SFk1OaZ57UyiotCc/FBlHeXxdcq4XztkukZn9m9l3/YbEGf6UVFiNWyUaLu0
+         u7VTfYPci8ShCZiOt9rqqIIbWH84FHg0BXKEuELtg0Gtx+yjye6vyumlsY3KKZ8ALwK0
+         BEsw==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776213601; x=1776818401; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1776214110; x=1776818910; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xDF5hd94gi41sBgsV8b3i2x12XxD7MEttCA2Ebev224=;
-        b=Ni0g8Nym7MjpfnsTZQcakEdWWByHnpvoXu/eEt4Zbreco7dyigz2ZxpLaVgDqVYazO
-         OdtVAHKvzU0olknT4+cs0KjeGcHjEp6W4+6okrjT2Dx5CUaJx+2V2MdmgSRgbn0zYR7X
-         01PqapNLE8XwtAZv73saV6stgLYFlqMUhAcXe18feGrIektS0hBiDd1vYtCPvaML/Pdk
-         9w6iok51mRD+QKQS2IppbnpikqSLGQ23pzWXdvVf9ZhlzPU4DuajnRVuPj8/kX/o6Mka
-         KdwsQFwWHj4kpq2schOdLjV8quB9kTOFdLcQgcZSfbK855V8aQOZz6vli6fpyOk4UR9n
-         BvWw==
+        bh=InDBjGNkCwCEmS0XXFKkIgswrokKUpV4YQmuF6nvZAY=;
+        b=NXvO2v2vcu9akstWuWp2FJ+ra+5yV6VVD9inloSON+ndBmNfRv3OTkAd4nXhS2ou5f
+         ILyN+R4RL2OUL8OstW+hkLf86E1UXnBw0y3+ufC+ou+bYFTZPW8rfmuvzpaf8WeSsiQz
+         IjLqO1sHeWg1w+fB2HcYrovrkikuA9M2Tr8fr1/RB1OLDHE+KtGdj1db6DsN3XmrRj5H
+         UQKtEop76OO7mBh1T5Zo/qqyPyBJg8SrW62SA6JEs6NFDXddKcSHlf+74eJHOc+FiZ3T
+         wNWKOzeZxLZvHa1NBnHgMe7KKlsVoL9WMwr8U9fLUhGGgT8QvI1rvijTdpeFHwA216ZO
+         DC9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776213601; x=1776818401;
+        d=1e100.net; s=20251104; t=1776214110; x=1776818910;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=xDF5hd94gi41sBgsV8b3i2x12XxD7MEttCA2Ebev224=;
-        b=UtLbAdfb7QrxopOzttKKCYgjPpmKwhaU7f840H9+56g/dWwpK0YZbYNNYMQdaBK4AV
-         J5gbPhswdsdxI5h5BDwmZMAb2SHr0uc7lOBwOJ4EERphKqdXjfiH/NzfhGqMGaWo/gRB
-         6/k/xZeR0qQCJ9Cnsbr/EPG1lfuXSvXSG7RdSDAjbsdVeIWfAIeFSAwjw2LT9xWKkDDO
-         E8HWrZXeSb6ojYVn+PberJTPs+mfVaxAHMRmbgiQiUBpm5PzuSKekjbL0Y937dnQENU7
-         MgUuOap5F69RhsCoSdU4LsuPJV6X3e4pDnFfUFJmbji0FhOz9PyG32VjGslICuqkuPgh
-         E+NQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8jeufKPyFwgFhgCIk0b0123i9qAJnR7ztguUug/jx8ThJQoAhs3/GD+wCaQ1RSlyOy7UNWPlrX39Wv78u8@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz7QEsO2Hj4vs55ajwJb/pRu/yQyYiuekDdB5/2sNWau7PK2SVH
-	uSE/EAtdL22djnYFdl4MnT+8yrTbbOGPMzxrlZXksiATzqMZrsS5uwiutt72tWLMDVQbh7gapAn
-	EX5Vie/wdjgT3Vz/SsZDx4TetPhJly6U=
-X-Gm-Gg: AeBDievdU7fTiXOg3gIHycnQIJpkM3quIQi3y0y2gca0JFag0lMHeLF19Wdmr+yTl9W
-	wKbIE+RY6MWiCyb1P7RAUCXNoM2dQv8Dr4nVWd4WvojzZmxBR+PYbvR7CTUq3rcCYdhVoq6BF/j
-	zDsWxdg7wWgAi8af9fh1cDM+Sw8Zw7b9nbB5mRZbb2AebK12a2IAFau7MX4mjrDr3a9xMa4pSkJ
-	qftgMq0psNup77dro+ql57NmTy2gUsglKNCoNcqaWz9mwkKPN+31tyNvLK5+/dx4wbiXLoXSeur
-	CSnAr8SPgPOFDtUV
-X-Received: by 2002:a05:6000:2211:b0:43d:1deb:a5db with SMTP id
- ffacd0b85a97d-43d642008bcmr25548116f8f.0.1776213600463; Tue, 14 Apr 2026
- 17:40:00 -0700 (PDT)
+        bh=InDBjGNkCwCEmS0XXFKkIgswrokKUpV4YQmuF6nvZAY=;
+        b=YGmLvJsI3XFUHJ6rWCbHtt0nrZWgYpCO49viGTqRUhHByzwtlRDgTxeLbc27Hkvi/E
+         XAPRasbAadtNk49FcT0qumQNYjO6rsN0/h+7DBw3sv5WNn1dXWkhVfSnDp5Vt05hVADM
+         ZIdDHUe49XJXk3O9/u+BPznonGGTxpoMKuJ12I9t9X4NDjOaBEyB07pgDMIUx8aIyWmD
+         zBxcOyNDPWHyN6ila5JkJcSmvOHbJFCr+iNObNL+ZJet3VsheAEkPjIQLy41sC6R4ccN
+         p6AWbQHKxRQnKd4LgiNagvvY56X5hJwOUtln+JHCO1aYkTTXaVcF1anlERXWISIhveBq
+         e3hw==
+X-Forwarded-Encrypted: i=1; AFNElJ/GoLQCJMeX9z31DjZQsmllCNc6pK9BSxfA8xteuybOjyNQGSvXUZadKzEvhPPpdhKd1rexVfDdItY1x6n5@vger.kernel.org
+X-Gm-Message-State: AOJu0YxU22Pk41+n+z9r4ln4iyVEJmZ82VebMyd0OLDWipJ75VQTJFgx
+	X0cttjY7kVAWkN1zIKTDKOCvQd5cmQigm+n0oxXfNGjlNgXOLlYJePjxO6TEqtgyOay/HF0ELGE
+	xLbCPYbmKJ2jNc4XGcnfhRbwPYZ04KBk=
+X-Gm-Gg: AeBDiesIBlQ0uN806TzEzkoPLSiSP1WEBLEEFTlDBiT++XuycLZr90xZVh58KKDT2wJ
+	Sx+j4V9/1XKc9ruRPu5NSWZuhg5/p/VyvHJIFHBGXiC2xWgVr5+7gp/4FUcmknJZxr0y95WITzM
+	6Jfdpjn4lg65OcP9OeE2VFotJp+86AEyJVn2T0AHW39w43tgngXfzZE5dQkTRXvslKkfleakvWs
+	zSCoNslh+eNQWNucwSeEbRvHiPduhGdoWuvrJsBOMmJZQKae/wv4xp2urY1DkpzXjnM9gQEz8mE
+	2/LchN3VukP1U4/ggBRucfueMJo=
+X-Received: by 2002:a05:6000:2586:b0:43c:f925:8fc0 with SMTP id
+ ffacd0b85a97d-43d642dd84fmr29487281f8f.50.1776214109913; Tue, 14 Apr 2026
+ 17:48:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260409030457.4632-1-liwang@kylinos.cn> <20260410023433.18969-1-liwang@kylinos.cn>
-In-Reply-To: <20260410023433.18969-1-liwang@kylinos.cn>
+References: <20260402162840.2989717-1-joannelkoong@gmail.com>
+ <20260402162840.2989717-12-joannelkoong@gmail.com> <81b7ce30-50c3-4148-b0dc-fbf0a870f76e@bsbernd.com>
+In-Reply-To: <81b7ce30-50c3-4148-b0dc-fbf0a870f76e@bsbernd.com>
 From: Joanne Koong <joannelkoong@gmail.com>
-Date: Tue, 14 Apr 2026 17:39:48 -0700
-X-Gm-Features: AQROBzDY0FJ2G1alviJPztTGfPRpeL4eaJfwqcRounsKQxzsGBGYJdcnoWKwlIA
-Message-ID: <CAJnrk1Z7hmvuoG6yoeEKMieLJJA55_vdG48=-ktxVEhoFmN-6A@mail.gmail.com>
-Subject: Re: [PATCH v2] fuse: drop redundant err assignment in fuse_create_open()
-To: Li Wang <liwang@kylinos.cn>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Bernd Schubert <bernd@bsbernd.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+Date: Tue, 14 Apr 2026 17:48:18 -0700
+X-Gm-Features: AQROBzBeRsSGk_mDMRutxCEEtwpb_O9o1CjHSEYy97JU4o8ioDtqefhQ_LpppbM
+Message-ID: <CAJnrk1bTdqEGdNkJ1tod62ovRXjam3GDj_g_M23YtxwYv_srqg@mail.gmail.com>
+Subject: Re: [PATCH v2 11/14] fuse: add pinned headers capability for io-uring
+ buffer rings
+To: Bernd Schubert <bernd@bsbernd.com>
+Cc: miklos@szeredi.hu, axboe@kernel.dk, linux-fsdevel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 9, 2026 at 7:35=E2=80=AFPM Li Wang <liwang@kylinos.cn> wrote:
+On Tue, Apr 14, 2026 at 5:47=E2=80=AFAM Bernd Schubert <bernd@bsbernd.com> =
+wrote:
 >
-> In fuse_create_open(), err is initialized to -ENOMEM immediately before
-> the fuse_alloc_forget() NULL check. If forget allocation fails,
-> it branches to out_err with that value. If it succeeds, it falls through
-> without modifying err, so err is still -ENOMEM at the point where
-> fuse_file_alloc() is called. The second err =3D -ENOMEM before
-> fuse_file_alloc() therefore is redundant.
 >
-> Signed-off-by: Li Wang <liwang@kylinos.cn>
+>
+> On 4/2/26 18:28, Joanne Koong wrote:
+> > Allow fuse servers to pin their header buffers by setting the
+> > FUSE_URING_PINNED_HEADERS flag alongside FUSE_URING_BUFRING on REGISTER
+> > sqes. When set, the kernel pins the header pages, vmaps them for a
+> > kernel virtual address, and uses direct memcpy for copying. This avoids
+> > the per-request overhead of having to pin/unpin user pages and translat=
+e
+> > virtual addresses.
+> >
+> > Buffers must be page-aligned. The kernel accounts pinned pages against
+> > RLIMIT_MEMLOCK (bypassed with CAP_IPC_LOCK) and tracks mm->pinned_vm.
+> > Unpinning is done in process context during connection abort, since vma=
+p
+> > cannot run in softirq (where final destruction occurs via RCU).
+> >
+> > Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+> > ---
+> >  fs/fuse/dev_uring.c       | 228 ++++++++++++++++++++++++++++++++++++--
+> >  fs/fuse/dev_uring_i.h     |  23 +++-
+> >  include/uapi/linux/fuse.h |   2 +
+> >  3 files changed, 243 insertions(+), 10 deletions(-)
+> >
+> > diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
+> > index 9f14a2bcde3f..79736b02cf9f 100644
+> > --- a/fs/fuse/dev_uring.c
+> > +++ b/fs/fuse/dev_uring.c
+> > @@ -11,6 +11,7 @@
+> >
+> >  #include <linux/fs.h>
+> >  #include <linux/io_uring/cmd.h>
+> > +#include <linux/vmalloc.h>
+> >
+> >  static bool __read_mostly enable_uring;
+> >  module_param(enable_uring, bool, 0644);
+> > @@ -46,6 +47,11 @@ static inline bool bufring_enabled(struct fuse_ring_=
+queue *queue)
+> >       return queue->bufring !=3D NULL;
+> >  }
+> >
+> > +static inline bool bufring_pinned_headers(struct fuse_ring_queue *queu=
+e)
+> > +{
+> > +     return queue->bufring->use_pinned_headers;
+> > +}
+> > +
+> >  static void uring_cmd_set_ring_ent(struct io_uring_cmd *cmd,
+> >                                  struct fuse_ring_ent *ring_ent)
+> >  {
+> > @@ -200,6 +206,37 @@ bool fuse_uring_request_expired(struct fuse_conn *=
+fc)
+> >       return false;
+> >  }
+> >
+> > +static void fuse_bufring_unpin_mem(struct fuse_bufring_pinned *mem)
+> > +{
+> > +     struct page **pages =3D mem->pages;
+> > +     unsigned int nr_pages =3D mem->nr_pages;
+> > +     struct user_struct *user =3D mem->user;
+> > +     struct mm_struct *mm_account =3D mem->mm_account;
+> > +
+> > +     vunmap(mem->addr);
+> > +     unpin_user_pages(pages, nr_pages);
+> > +
+> > +     if (user) {
+> > +             atomic_long_sub(nr_pages, &user->locked_vm);
+> > +             free_uid(user);
+> > +     }
+> > +
+> > +     atomic64_sub(nr_pages, &mm_account->pinned_vm);
+> > +     mmdrop(mm_account);
+> > +
+> > +     kvfree(mem->pages);
+> > +}
+> > +
+> > +static void fuse_uring_bufring_unpin(struct fuse_ring_queue *queue)
+> > +{
+> > +     struct fuse_bufring *br =3D queue->bufring;
+> > +
+> > +     if (bufring_pinned_headers(queue)) {
+> > +             fuse_bufring_unpin_mem(&br->pinned_headers);
+> > +             br->use_pinned_headers =3D false;
+> > +     }
+> > +}
+> > +
+> >  void fuse_uring_destruct(struct fuse_conn *fc)
+> >  {
+> >       struct fuse_ring *ring =3D fc->ring;
+> > @@ -227,7 +264,10 @@ void fuse_uring_destruct(struct fuse_conn *fc)
+> >               }
+> >
+> >               kfree(queue->fpq.processing);
+> > -             kfree(queue->bufring);
+> > +             if (bufring_enabled(queue)) {
+> > +                     fuse_uring_bufring_unpin(queue);
+> > +                     kfree(queue->bufring);
+> > +             }
+> >               kfree(queue);
+> >               ring->queues[qid] =3D NULL;
+> >       }
+> > @@ -309,14 +349,131 @@ static int fuse_uring_get_iovec_from_sqe(const s=
+truct io_uring_sqe *sqe,
+> >       return 0;
+> >  }
+> >
+> > +static struct page **fuse_uring_pin_user_pages(void __user *uaddr,
+> > +                                            unsigned long len, int *np=
+ages)
+>
+> I think this is a duplicate of io_pin_pages(), can we just export that
+> and use here? I'm basically going to propose to use the same technique
+> in ublk - would be another duplicate.
+>
 
-Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
+Tbh I think this is generic logic that makes more sense to live in the
+mm layer instead of fuse calling this as an exported io-uring
+function. The memory it's passing in is not related to io-uring, so
+that was my hesitation. For your ublk use case, is the memory you're
+passing into this user-allocated memory that's not part of io-uring?
+If so, then maybe it's best to move io_pin_pages() out of io-uring and
+into generic mm.
 
-Thanks for making the change to the commit message.
-
-> ---
-> Changes since v1:
-> - Per review, removed the second paragraph of the commit message.
+Thanks,
+Joanne
+>
+> (Not a complete a review yet, just something I just noticed).
 >
 >
->  fs/fuse/dir.c | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
-> index f7443ca37e35..b118cf23d41a 100644
-> --- a/fs/fuse/dir.c
-> +++ b/fs/fuse/dir.c
-> @@ -838,7 +838,6 @@ static int fuse_create_open(struct mnt_idmap *idmap, =
-struct inode *dir,
->         if (!forget)
->                 goto out_err;
->
-> -       err =3D -ENOMEM;
->         ff =3D fuse_file_alloc(fm, true);
->         if (!ff)
->                 goto out_put_forget_req;
-> --
-> 2.34.1
->
->
+> Thanks,
+> Bernd
