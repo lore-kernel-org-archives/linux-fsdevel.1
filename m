@@ -1,207 +1,158 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 280A440DFC9
-	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 01:10:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 335D42F9998
+	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 01:40:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.182
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776215416; cv=pass; b=OZp0DJJ1SaA22dOWrtinWhkddU7w67dcZfrOhTtocb2oG4CC2fjEv5SImjVX3O/FtCSXDK/JjXUi5PH16CUqXpGTA08B2X2Nzy5UA5V/AkQCBMh9o9yT6Mr43D9hnxs02jX8ki0abbYDsbjXKLywUEziRn+wBhTXbazQd000F/w=
+	t=1776217236; cv=pass; b=Qqh8VviAChpTAyTblFquhyRHofxWIg0g8CT0ftfI7Nhz1G6ykXJIaGIWVoI6UwqRwt1ErJeyy7nseLz7raKgXvBsGxddQrlJsT+sFX7cVHRNRRT1DWilldtylIvhPPn74f4y1nJUowGNMfDRR0Ix+NKplTjf4ENgRoQM1TFq1X4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776215416; c=relaxed/simple;
-	bh=cY8cgTRa1DZsqsE7RCYEtBwElKC6XPGbK65mYX3c4+w=;
+	s=arc-20240116; t=1776217236; c=relaxed/simple;
+	bh=3Hz9gfF5LejhLhxzApt7VdQmu/8gvCbPs9+G6vnIzoM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ag1kqilGlhvib9//fFZT605ycYMyLI6ax9DDnspWCxlg2ZNmSRvqT0WyIi3egGMqYTnaKKQ/lMg8gliT3SBb8qs4CmPinKxLLK3eZPUnETeRCBAMLkDBw0RZhbPKyhaoUiBltC/9QXpF1ZmNRSuOcHLSOx8lxijLJ8SIbb+isvg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HVuXr6HM; arc=pass smtp.client-ip=209.85.128.48
+	 To:Cc:Content-Type; b=s/oEuebq+UZ7ZFwh+9jH+/hMQlGA1+xHlCScPgXS84Tq/333aNfWOq2yM+rn/EXI4NAeLv6Q2ESfZlTkZnw8eROqr/O9raJUNSVoXR+ZHgAtFnNE0WwlW2XTz7E8U3NMno4ZDpNNw6AnPwCRwMoIZsrc5QwgdBGtilmC9whNu74=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=reu3ep46; arc=pass smtp.client-ip=209.85.128.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HVuXr6HM"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-48374014a77so83772455e9.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 18:10:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776215413; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="reu3ep46"
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-7b37d84a6b3so28125277b3.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 14 Apr 2026 18:40:35 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776217234; cv=none;
         d=google.com; s=arc-20240605;
-        b=RTZ+h3guihQJrEINs0NgD5UqunIK36/RdkvFOAj8CyMJBxSke0gQjky3fAs1ZqrBdF
-         tfV6o8lWtB68Nw23EOMXvckJC0iIgBEd626dhciGCnXb08iXnvggORWso5OWkUT+LK+L
-         7WOEZeLjibLz9BX/zxoswESlhUF9tQDgR0HYbIyYwWdIrO/wGDxb0dshNuoBOp+q+NP4
-         UJlKCmPHVaRmVRWnlFYkd9k3XUXcnC7HAmXJ5PnkUiVZmXzdTF04LzwcsDJ6x0NVBJhu
-         SwH04gPG21lSb6mq6it9yV7mcYSK7PZbVjCwzqm9hc/598NJZhivUEKr8bIJC9PyalLb
-         sk9w==
+        b=N635tgKw23tElwQX/VZKZqVmUVNMNKCExZh1YhN7ZMd5OLYgXHG3imF/7awEQ79Jyo
+         vbpT6fZZrN1ULt4/R1gdE1lggH/ZcyStke3pkM0qkzvWDOxJC9IUEzl86nfUH+cnHPr5
+         zxr/BHGMlCuwaMVp1hmCI6+4hW97nX99PImvUhtTetS6LTksn6JldeSKsTdU7xhBs+CG
+         MH2EdkkR/nx5RywiicF6NA68iAPWKIvUpx7Q/zos/3HiCKM8ghudSPkLH2wNINESiF6w
+         pQCyQOTByBR99pAEIvQ1eTfZkP8xTeE+T4kUGWFYN4U/GKnIjftp4BH7RlTg41gzZxA6
+         tdCA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=OJXb0g/1M8z17Wugtz2qq1lTdAnbqiUmqW3S/Cf/DWk=;
-        fh=znXMIfQ+KGuEkQ/pkKqploLnOvLBZUKwM4n0ajFwho0=;
-        b=TZXn0eagNbu+mu9QbKe+6fNPNJh0e2phpZ7qw15+6AXpHzG+UwOWuk043grAXmYQS7
-         3VX7Y4+X4ujSBZ3RnhdwoGJAIzHSWiLo4KLncqWLf8R3OKwqgqhyXr+lFlBS4ecnbum1
-         axXG+gUGTvhDkbtELDZuAg7ajGACOkczXEGf3eQPpFz8xcy4fPoXSt80zdG99fkjiu+O
-         /5erE+Lxt2gO4TQsij4YcylbXpsBMlhOLvXoL22LsiA7bOfLNsaD+IohyViaZzS9ApjF
-         p47M3K8NyTZthQZWDnEHwWXJl3We8mFtdbCcdOEXx+IbIAvi98xbnJHlyCwmBFCF7qoy
-         qwdA==;
+        bh=goTPEgRJW7kjllxvNENoc627OwL7aMfLFKaQL3tBuAE=;
+        fh=47JmSDBf32hfI8H4J0oeUeBLVwCQQKM81M/CSTcwTPU=;
+        b=XlCt/YLiewoIMGQ3Yan/wYgvgB/D6LoeZwYuumgw5PESTVdpy0iVywY14rKUP0ilEj
+         YJZW/Tla5MRPuQwzz5N1/AsJC96h7XZ/lRcupXE0mUNAgOHa+5T7qRlj1sZsPcsU6EWM
+         ST+IDKolhRsJh6Kx02uaEF3DUwiWu8hepBc9y7SkecJ++4Bht399btHp/CZhS88yahSn
+         DzqPf6mDRQWsVjp0L38BWPkzqYZ5FHJa+t1mYB5pHZqG6V05pEaUoLpvTAXA9vBBaw5B
+         KqfTHuEbjUBuOXgyWS0UWBY8UsoM5kURTGS1cF1oCSucyiWrvKTUN2SEndKePq9lvqYl
+         uYfw==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776215413; x=1776820213; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1776217234; x=1776822034; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OJXb0g/1M8z17Wugtz2qq1lTdAnbqiUmqW3S/Cf/DWk=;
-        b=HVuXr6HMJj4QvAfD/5bBx+HXXXCCw/jIZj1BJkCh7Ppc9EMY3DtVNjv0iolULhHLvR
-         PP4W37WzJtop3ObibIuzZ31hqvQYzz5Gnq1nYB7OYYBKETT17xCOSpZTJz0oMWr0/e23
-         NcfHSQeEkryEZu8aixFjm2MAjgcconPFvzOu8cdddEEyqfrAtG3QqurBKPOj8GcBmRfD
-         d71OoVaDZD8pZFJ/Bowd7uUuVv1jYHzcV2rvxIYXitAy4jj1HD4XFucIH1rZ/L9OH1td
-         6J6bOrWRJwQ9O88PEUrdzPgRgIcR0hA7RjjsVYsXJBTt5t9ai5Heu5YRD6yBCfmiQju7
-         oKvA==
+        bh=goTPEgRJW7kjllxvNENoc627OwL7aMfLFKaQL3tBuAE=;
+        b=reu3ep46HgqD/j4noIws6VpWYlVknXa8Q9VyNB0emC4R+024KPsR/eITNJXdXn6qbq
+         ZKFDSerT4Y3lFHj7wSIsxYL3UeM8N4eZeKa6yeO1FqtdwXnaj5qBG6h1SsLjFqlcQ4r0
+         vpzhl7H4FK0m/4ypcGTKTaMFqkFkyUuFYhLBT+Y8hO16T3bEe0QUKTI9PMsD881Tz9CW
+         LZTE2OWPhjPvUiqAMW3eIwl4VhRbKJ2ZwpAD6CyT+cYq+kn2lKg6ymCDxmLfTDHgrdQk
+         gILmejFqQjYSj8HSM1YXjb7+1PnYUW+b6ubAPO1Ts0snzy6Ycil8IH39C+1Pnl+xR0No
+         jA0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776215413; x=1776820213;
+        d=1e100.net; s=20251104; t=1776217234; x=1776822034;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=OJXb0g/1M8z17Wugtz2qq1lTdAnbqiUmqW3S/Cf/DWk=;
-        b=LpnpiKqGZ39MhjqZQmel4lbdAN/lPez5GWlsZ7A3gd/7xWAFd0+61bKl5IkzJZLJV5
-         UV6hnJ+3lJaaACIQsSWXzQDdkzhudWbRg3xbZPGPeqlEggyqU/t0FncGt39gkRb9quOO
-         jZNSBTMqxSk3ONQxkVRVTtXn+ffn3L+Lab2XS0P9KiXhDeQ2NGwLWcyGnoywvBEda0Ef
-         HvHKXDYikYtc/mfbe+FAnuQbYy5tTLnQ7WpznliMEOdOtv/Kkva56QRXr/AazttMvOXG
-         4BasUIf/En74BeGbhM+Jbxef3WCe1gWoUH7g1iuZUZ6fmakdUkrveLrsthW2DytmYqFL
-         VkSQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/7AayloTRukqSDonWxWKLaimJhveoqs18kZan0QWs5aSt6t7TRfjAYf5uTLG0ehhzyifl2a2JWhqVWpOuN@vger.kernel.org
-X-Gm-Message-State: AOJu0YwZpWgPUWwlVtPEHIfErNrUPJTDbUns90ej6RgVgPSjglEucjzr
-	utFHKPDyyYyOmIt18j2qmdPVR+qtXHFS0EI4ggP6hYmP71RiPjld3zk+mhufN3NlernVE0bwagS
-	aL8wnKNxyKM4dKv2T70vARdRlSDnAwRw=
-X-Gm-Gg: AeBDieu0prjd5HOI5LMiDA8N05u6umkzSmLhKnPX3C+TQiRHYNwruLT6Z4wP8+abeOy
-	Z254wN+MO+J+9FGgCFB3bEDb/h7AmTFxLw7VkENL1dqPAtaGFY0+RNnJZmgqzY0PNLxd/CAK9ej
-	p9F/K+EbKCn6+il8cKqJzNGvOO06SPQVev4SnLZIWHRZMVf/2zbQp4tieHxdo9EPJtCk24/pcJp
-	ktzHX4eFPL/qWjrokIyDu9pHf9DL7yifOrlE/RPGvr5EGKahCGzEIDDFlUUYVQBsRGjAg3o00Zw
-	6I0idlNcEFXR7rNm
-X-Received: by 2002:a05:600c:a11c:b0:485:303b:c50a with SMTP id
- 5b1f17b1804b1-488d6804721mr201462735e9.13.1776215413430; Tue, 14 Apr 2026
- 18:10:13 -0700 (PDT)
+        bh=goTPEgRJW7kjllxvNENoc627OwL7aMfLFKaQL3tBuAE=;
+        b=nuC128my9IhmW8pOa9huVS2NsAeY417i3Ul0CR+aPbTPkHcPYhx/g9qSsw/LxGrs9/
+         qHKRetawEks50pYY+G3swHhVqcVXF1KEs63Tbegr1xdByBh7KUFjU0Vu1eH/UQ+ZlZIy
+         /8rxJM473LcWJnjwYKnLe7hJrWB+GsL8/FZ6za6H1MPrN0/OzufACW/mh/gSiEX7zv3T
+         lw8GjTuQBW7PM1D0Tg5p2Q9iqzWyGDrZ6kaE98Ooa5ha+3dAdj7f6WaKhf8MP/gepPxB
+         dDyxPW9ApUm2zAwYlIq5M6vGXKNHOyt+n+ADNRmqLPPu5V7+kkRy/Cl8l1Dm5wrr1cNr
+         yBhQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9n84+lKzKc2MXzZ/l4/C2SKSuCu+SfjKPPY+UoVDz6LCTWsfHnY2GjwHjXa3eZIRT15O4u3/hKlZ1dcf2h@vger.kernel.org
+X-Gm-Message-State: AOJu0YzlIjS3lEyQOIJrcBhm5+ou7wBw9AXIMM9r7MnJ2hUF6tudeDgI
+	9rJ2HjpkkyFGkjxbUI0pVqnpDYrqpbPKjCHMpBvzZISpCc2iauhIwEbNhFpnSTriQl2yBXTZOxO
+	beORUZGGtjzAttpx7VrU6rmE/mpJbBlI=
+X-Gm-Gg: AeBDietI455mYUYNESKHRdGe2sZASavinI+8rXvbtc/1/qSWvM/vCvkmI+/uiUvqeGU
+	HrCeUoEWwNOM1d/aU3bAinfULpMMoWnh17o5PUczDw1llYVgMrKzjT1yE/sM6GHZDO/eMkUe19T
+	+PaYHKlKqr8au6A9CFhdNhohb2Izv+yMzlRHMDBBmLPb9dxzjz23aDClhc0nB2nT3vUW9H7zNvh
+	QhfWjQPnntKuEkcP7Cmtq2ino7v9oiJc4+HQziTCX5j/GvMpkis1YZkYpJuVdYDDotGVGzng+uj
+	JNVBNAyTdt6GB3jY1qLIXgSsS4/29LCTxRMo8VdkAvFZk547cZ8+zWJr2XIaxA9NiMaDeX9sNPf
+	NmPxv9g==
+X-Received: by 2002:a05:690c:c14d:b0:7b4:f43f:1a34 with SMTP id
+ 00721157ae682-7b4f43f1cd0mr52160117b3.36.1776217234212; Tue, 14 Apr 2026
+ 18:40:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260402162840.2989717-1-joannelkoong@gmail.com>
- <20260402162840.2989717-15-joannelkoong@gmail.com> <0f2b87c5-2c98-4463-9a9c-bfca91e83cfc@bsbernd.com>
-In-Reply-To: <0f2b87c5-2c98-4463-9a9c-bfca91e83cfc@bsbernd.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Tue, 14 Apr 2026 18:10:01 -0700
-X-Gm-Features: AQROBzC6nH-PRX3zi6u4ymmkOu7XdP8C4KEYAgDLShVZx_OAg0NBvvVDPD8I21k
-Message-ID: <CAJnrk1ZAcbYkewWz=CbxgzkvXnk2-QKLjSk-oA0hywbnVUSM9A@mail.gmail.com>
-Subject: Re: [PATCH v2 14/14] docs: fuse: add io-uring bufring and zero-copy documentation
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: miklos@szeredi.hu, axboe@kernel.dk, linux-fsdevel@vger.kernel.org
+References: <20260414015630.65081-1-kartikey406@gmail.com> <f2707a743d06df045daa314bcd1564257b4f83a5.camel@redhat.com>
+In-Reply-To: <f2707a743d06df045daa314bcd1564257b4f83a5.camel@redhat.com>
+From: Deepanshu Kartikey <kartikey406@gmail.com>
+Date: Wed, 15 Apr 2026 07:10:21 +0530
+X-Gm-Features: AQROBzAUDlMZCd3MTpQBrfvXM7IfD723UBC9eBtExnNAjinV0MJ3eoj2tDM5wGk
+Message-ID: <CADhLXY5WHSrh=6ifSYE3xWJ7PcvVFyLL4HC=QB_AoMo5zqY65g@mail.gmail.com>
+Subject: Re: [PATCH v2] hfsplus: fix ignored error return in hfsplus_delete_cat
+To: Viacheslav Dubeyko <vdubeyko@redhat.com>
+Cc: slava@dubeyko.com, glaubitz@physik.fu-berlin.de, frank.li@vivo.com, 
+	akpm@linux-foundation.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	syzbot+c0ba772a362e70937dfb@syzkaller.appspotmail.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 14, 2026 at 2:05=E2=80=AFPM Bernd Schubert <bernd@bsbernd.com> =
-wrote:
+On Wed, Apr 15, 2026 at 12:59=E2=80=AFAM Viacheslav Dubeyko <vdubeyko@redha=
+t.com> wrote:
 >
-> On 4/2/26 18:28, Joanne Koong wrote:
-> > Add documentation for fuse over io-uring usage of buffer rings and
-> > zero-copy.
-> >
-> > Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
-> > ---
-> >  .../filesystems/fuse/fuse-io-uring.rst        | 189 ++++++++++++++++++
-> >  1 file changed, 189 insertions(+)
-> >
-> > diff --git a/Documentation/filesystems/fuse/fuse-io-uring.rst b/Documen=
-tation/filesystems/fuse/fuse-io-uring.rst
-> > index d73dd0dbd238..bc47686c023f 100644
-> > --- a/Documentation/filesystems/fuse/fuse-io-uring.rst
-> > +++ b/Documentation/filesystems/fuse/fuse-io-uring.rst
-> > @@ -95,5 +95,194 @@ Sending requests with CQEs
-> >   |    <fuse_unlink()                         |
-> >   |  <sys_unlink()                            |
-> >
-> > +Buffer rings
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >
-> > +Buffer rings have two main advantages:
-> >
-> > +* Reduced memory usage: payload buffers are pooled and selected on dem=
-and
-> > +  rather than dedicated per-entry, allowing fewer buffers than entries=
-. This
-> > +  infrastructure also allows for future optimizations like incremental=
- buffer
-> > +  consumption where non-overlapping parts of a buffer may be used acro=
-ss
-> > +  concurrent requests.
-> > +* Foundation for pinned buffers: contiguous buffer allocations allow t=
-he
-> > +  kernel to pin and vmap the entire region, avoiding per-request page
-> > +  resolution overhead
-> > +
-> > +At a high-level, this is how fuse uses buffer rings:
-> > +
-> > +* The first REGISTER SQE for a queue creates the queue and sets up the
-> > +  buffer ring. The server provides two iovecs: one for headers and one=
- for
-> > +  payload buffers. Each entry gets a fixed ID (sqe->buf_index) that ma=
-ps
-> > +  to a specific header slot.
+> Frankly speaking, I don't quite follow how your fix relates to the initia=
+l
+> problem?
 >
-> Hi Joanne,
+> vfs_unlink+0x272/0x6d0 fs/namei.c:5476
 >
-> thanks a lot for this document! Could we discuss if we could just hook
-> in here and allow SQEs with different iovecs for the payload buffer?
-> Let's say fuse-server wants multiple IO sizes - it could easily do that
-> via different pBufs and just needs to specify the dedicated IO size per
-> pBuf. Those buffers could then get sorted into an array - we could
-> define either via FUSE init the number of buf sizes or use a fixed size
-> array. Fuse requests then would just need to pick the right array.
-> This is basically what I'm currently working on for ublk.
+> error =3D dir->i_op->unlink(dir, dentry);
 >
-> I think it would be good to agree on the design before it gets merged so
-> that uapi doesn't change.
-
-Hi Bernd,
-
-I'm not certain I fully see the use case for a fuse server preferring
-a static preallocation of multiple IO sizes over using incremental
-buffer consumption, but in my mind to support multiple IO size
-payloads, I was thinking something like this might work best:
-
-* iov[0] for the headers stays the same. no matter how many IO size
-payloads there are, the ent always maps to a header and the headers
-are a fixed size
-* iov[1...x] are the payload buffers. From the uapi perspective, in
-the fues_uring_cmd_req init struct, there would need to be an array of
-uint32_t buf_sizes. Each index in the array would correspond to index
-+ 1 in the iov[] payloads passed
-* on the fuse side, each of the buffer pools has its own ring. I think
-this makes managing the different buffers a lot easier and gets rid of
-having to do any array sorting, and makes buffer selection/recycling
-O(1).
-
-From the uapi perspective, right now this patchset adds this to the
-struct fuse_uring_cmd_req [1]:
-
-union {
-    struct {
-        /* size of the bufring's backing buffers */
-        uint32_t buf_size;
-        /* number of entries in the queue */
-        uint16_t queue_depth;
-        uint16_t padding;
-      } init;
-};
-
-To accommodate multiple io size payloads, the buf_size should probably
-be the last field in the struct so it can be extended. How many
-different payload sizes do you envision needing?
-
-Does this align with what you had in mind?
-
-Thanks,
-Joanne
-
-[1] https://lore.kernel.org/linux-fsdevel/20260402162840.2989717-11-joannel=
-koong@gmail.com/
-
+> hfsplus_unlink+0x57a/0x930 fs/hfsplus/dir.c:435
 >
-> Thanks,
-> Bernd
+> res =3D hfsplus_cat_write_inode(sbi->hidden_dir);
 >
+> RIP: 0010:hfsplus_cat_write_inode+0xbe/0x8f0 fs/hfsplus/inode.c:637
+>
+> struct hfs_btree *tree =3D HFSPLUS_SB(inode->i_sb)->cat_tree;
+>
+> It looks like that sbi->hidden_dir is NULL and this is why crash here.
+>
+> But how have it happened at first place?
+>
+
+Hi Vyacheslav,
+
+Thank you for the review and for pushing back on the commit message.
+
+Let me explain my initial approach. When I saw "hfsplus: xattr search
+failed" in the crash log, I traced it to hfsplus_delete_all_attrs()
+in hfsplus_delete_cat(). I noticed the return value was completely
+ignored and thought that was the root cause =E2=80=94 that the ignored erro=
+r
+was allowing execution to continue into hfsplus_cat_write_inode()
+with the filesystem in a bad state.
+
+However after your feedback I looked more carefully at the actual
+crash site:
+
+    hfsplus_unlink+0x57a/0x930 fs/hfsplus/dir.c:435
+    res =3D hfsplus_cat_write_inode(sbi->hidden_dir);
+
+You are right =E2=80=94 sbi->hidden_dir is NULL here. When a corrupt image
+is mounted where the hidden directory is absent.
+
+hfsplus_link() and hfsplus_unlink() then call
+hfsplus_cat_write_inode(sbi->hidden_dir) unconditionally without
+checking for NULL. Other call sites in dir.c already guard against
+this; these two were simply missed.
+
+I will send v3 with the correct fix in dir.c.
+
+I also want to be transparent =E2=80=94 I used Claude AI as a learning tool
+while working through this bug, and used it to help generate the
+commit message. I should have verified the root cause more carefully
+before sending. I apologize for the noise.
+
+Regards,
+Deeanshu Kartikey
