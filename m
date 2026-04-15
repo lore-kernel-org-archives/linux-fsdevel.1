@@ -1,125 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D7DA358367;
-	Wed, 15 Apr 2026 14:34:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89C91346AFB
+	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 14:48:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776263693; cv=none; b=kJZD2uY8q+ZZBXAQeoat3rK7iEy0cXCU/GAiZWV6foYb7003P+dUMEsC3j/2hs05lRfPrwA+AAkbTalQ5279foE/iRIfIWHbrJrrRRAET4x9V6NDmAleJE9TPlkWXmXUmqjVyWO7FvoSUUmLPuphYWktzvSfkjeDoz7kXn3mgwU=
+	t=1776264540; cv=none; b=UynO2AjPQkixQlZe68+buxLWczC4t44rlTDisq/yQZHjgyWH6llnPYIL+FnWL29W6BaFcFt4rSN2EV7thMdg3bqhYNKXDG79Yvru8QhvF93b/AIbmWWd3AXpSX75ONqLven2IMUYKYaE9r/H0jgmEQlwL2NU9NP0LpgghTaB8jA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776263693; c=relaxed/simple;
-	bh=8B3JEnHtc26ea94Qf12pLpgUQm3OGM/HkIcKv8RtGRQ=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=WG6MK1waFaVathWyPHIwXPQVKksiDwDcQuDsLARPfv9D5L/vc5tHJI0hCQTMUt3f6K0ulBEjO/UQWZmt//ZP/ISSXAkxZTfAa+g0evojWa8gT4IS7qiowjg+gGgyOAezMg/nWtXMFDPK+/RZE0dE3/ChlCbadCXxpCTBolHb9Cc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pGRxvm/X; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776264540; c=relaxed/simple;
+	bh=TZ2rjMDvbYb0Wwm5w+OOA0I+5751rFJbPJIRxMLyqLk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sdCJooqFXeCNTxTmold+6dKA6i6HuyTBP39bXy/sspCxAKhX9VJuL4SGFm0kXmaOwAA9uILyUp1yA++JzxZEa9wGtarDpH4MzD5oXn2NAxIvjisFgfgML189mndV1oTjqEvmgiqWO3A1NsGGSNNWmwP+OXOOxRu9VzWzblPWALY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=G2nVIilv; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pGRxvm/X"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEF1EC4AF0B;
-	Wed, 15 Apr 2026 14:34:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776263693;
-	bh=8B3JEnHtc26ea94Qf12pLpgUQm3OGM/HkIcKv8RtGRQ=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=pGRxvm/XD/Fq5IK9vY3jJaw08hZd7eyEB+b5JYDHsJ4W+0cSa24g0pTts4RUDDPvM
-	 4JxIblqK06IOoUrUiJS1uKhK499v7ZAuBsfIpQshaYifb5iSb2NgKoTFU3T5StYVX+
-	 QCzvV+mIvs6DVSrvQUa1UJ53+zt3HHuJv8FiSz1g58QQnFpEbkc6Axs/4Igmvz5+OC
-	 qvycua9zJo8E0IP8aizVtxbIKwuYosdaHoxqzYIlh6xkmBqU4JX4P4O4jkHH66qcT/
-	 Smhzyl3el3oPtBH8M5fj+cCz5yn223vZnDRmm1oOJ5cx0tOkf8+OWvqrgn22vUYVos
-	 R7l/SEaLWBU7w==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 97337F4006F;
-	Wed, 15 Apr 2026 10:34:51 -0400 (EDT)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Wed, 15 Apr 2026 10:34:51 -0400
-X-ME-Sender: <xms:C6LfaYd7VLfQ3ekkky0J9aTErhecBsipsXemgMNMSstmGe5XmPrqfQ>
-    <xme:C6LfaVC29sOVFFe6Hx9cqUJExJHUW09Ed44bLEjvvGkf0H_Q_Na45EUnoc7Qx3Dgs
-    400skqYN6HNxprarAS6k6uKwhLBlhoRerAexw2O7V8HDhl4tusRfuUH>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeggeefgecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdevhhhutghk
-    ucfnvghvvghrfdcuoegtvghlsehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvghrnh
-    ephfffkefffedtgfehieevkeduuefhvdejvdefvdeuuddvgeelkeegtefgudfhfeelnecu
-    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheptghhuhgtkh
-    hlvghvvghrodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieefgeelleel
-    heelqdefvdelkeeggedvfedqtggvlheppehkvghrnhgvlhdrohhrghesfhgrshhtmhgrih
-    hlrdgtohhmpdhnsggprhgtphhtthhopeduvddpmhhouggvpehsmhhtphhouhhtpdhrtghp
-    thhtohepnhgvihhlsegsrhhofihnrdhnrghmvgdprhgtphhtthhopegrmhhirhejfehilh
-    esghhmrghilhdrtghomhdprhgtphhtthhopegsrhgruhhnvghrsehkvghrnhgvlhdrohhr
-    ghdprhgtphhtthhopehjlhgrhihtohhnsehkvghrnhgvlhdrohhrghdprhgtphhtthhope
-    htohhrvhgrlhgusheslhhinhhugidqfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthht
-    ohephhgthheslhhsthdruggvpdhrtghpthhtohepuggrihdrnhhgohesohhrrggtlhgvrd
-    gtohhmpdhrtghpthhtoheptghhuhgtkhdrlhgvvhgvrhesohhrrggtlhgvrdgtohhmpdhr
-    tghpthhtohepohhkohhrnhhivghvsehrvgguhhgrthdrtghomh
-X-ME-Proxy: <xmx:C6LfaTPej6W1qEA32psXtWIAu6dTfmkFfZwiffXo1foywhCDe8V4Fg>
-    <xmx:C6LfaYZ7gJoaYOoAMMsDJE-sh1r1tYJzajYNfy8rP2RVL-qymA4-7w>
-    <xmx:C6LfaZx6oZ0qBSuXcJqy93FHQW1p0L2XApjN3ZNobyuUmx6kcoqgaQ>
-    <xmx:C6LfafN9qf5sZOQJkjuvNYfbx3O78hSB5lwbwTpxEavsJ3TC-ejrmA>
-    <xmx:C6LfaQeSxPB7EcCzsSQZhh0BPhJu2vsyj1qNXq3H7Xn8F7h_5ZltEv7o>
-Feedback-ID: ifa6e4810:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 6314A780070; Wed, 15 Apr 2026 10:34:51 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="G2nVIilv"
+Received: from macsyma.thunk.org (pool-173-48-114-3.bstnma.fios.verizon.net [173.48.114.3])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 63FEmNYA014717
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 15 Apr 2026 10:48:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1776264506; bh=nQ9glAGkVLTsHcEX6jYMIwYpN+dE9n1KzADOVYBlM3M=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=G2nVIilv8Iol8KbQOdellaDmC/Jej42z8Kb42pHV3smGimTOn3EB++isjiGYAOlRB
+	 kTSF2Z7yTmmVIh3nV2wI+dyBrErhQjhcXljgpH32lnv4vislr9r3xRTqS72994AJ6/
+	 fmhamq6xA91V1JfFtQgny4WRfaVfOlgPCj0DgpHQ2n51Qu1ALXNay4LtU7FnOQOLyf
+	 YiiG77iyVi1RsPX+eYvkX2D+oUJ29wjg0n4SAuK5bgW1H93lFi8bksxsTDsPc61Z3l
+	 EE3r2wznCBMZbye46qjc893WV+L9qUyS+nR7yot2CoQp8rFw3ETt3yG5DwMrnXlnh8
+	 XIpfwLyELc+oA==
+Received: by macsyma.thunk.org (Postfix, from userid 15806)
+	id CCEBE631AF6B; Wed, 15 Apr 2026 10:47:22 -0400 (EDT)
+Date: Wed, 15 Apr 2026 10:47:22 -0400
+From: "Theodore Tso" <tytso@mit.edu>
+To: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Cc: Jeff Layton <jlayton@kernel.org>, lsf-pc@lists.linux-foundation.org,
+        linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
+        Christoph Hellwig <hch@lst.de>, Jan Kara <jack@suse.cz>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        linux-m68k <linux-m68k@vger.kernel.org>,
+        linux-sh <linux-sh@vger.kernel.org>
+Subject: Re: [LSF/MM/BPF TOPIC] Should we make inode->i_ino a u64?
+Message-ID: <20260415144722.GB74178@macsyma-wired.lan>
+References: <08f8444c7237566ffb4ba8c9eb0ab4b4a5f14440.camel@kernel.org>
+ <1b340c4e635dcab3bed8c52d6381b4c341c0741a.camel@physik.fu-berlin.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AwBntrSeBB7R
-Date: Wed, 15 Apr 2026 07:34:31 -0700
-From: "Chuck Lever" <cel@kernel.org>
-To: "Christoph Hellwig" <hch@lst.de>, "Christian Brauner" <brauner@kernel.org>
-Cc: NeilBrown <neil@brown.name>, "Olga Kornievskaia" <okorniev@redhat.com>,
- "Dai Ngo" <Dai.Ngo@oracle.com>, "Tom Talpey" <tom@talpey.com>,
- linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- "Chuck Lever" <chuck.lever@oracle.com>, "Jeff Layton" <jlayton@kernel.org>,
- "Amir Goldstein" <amir73il@gmail.com>,
- "Linus Torvalds" <torvalds@linux-foundation.org>
-Message-Id: <217438cb-63ff-41d2-8f3c-fbdb1945a670@app.fastmail.com>
-In-Reply-To: <20260415052925.GC26559@lst.de>
-References: <20260401144059.160746-1-hch@lst.de>
- <8bef4d4e-1c0d-451d-8854-ed0cba27ee1f@app.fastmail.com>
- <20260409-schwalben-neutralisieren-fb5a184e5049@brauner>
- <20260410111007.GA10292@lst.de>
- <20260414-ausbrechen-gemixt-ff09f46bdad2@brauner>
- <20260415052925.GC26559@lst.de>
-Subject: Re: cleanup block-style layouts exports v2
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1b340c4e635dcab3bed8c52d6381b4c341c0741a.camel@physik.fu-berlin.de>
 
-
-On Tue, Apr 14, 2026, at 10:29 PM, Christoph Hellwig wrote:
-> On Tue, Apr 14, 2026 at 12:01:39PM +0200, Christian Brauner wrote:
->> On Fri, Apr 10, 2026 at 01:10:07PM +0200, Christoph Hellwig wrote:
->> > On Thu, Apr 09, 2026 at 03:26:09PM +0200, Christian Brauner wrote:
->> > > > Christian, are you OK if I take this series through the NFSD tree?
->> > > 
->> > > Hm, I generally prefer infrastructure to go through the VFS tree.
->> > > You can get a stable branch ofc.
->> > 
->> > Communicating this earlier would be helpful.  If we switch to a new
->> > tree base we're going to miss this merge window.
->> 
->> The series was sent on April 1 so with about 2 weeks before the merge
->> window... If your series isn't ready by -rc5 what is it doing being
->> merged for the coming merge window is the other side of the question. So
->> afaict, there's no hurry.
+On Wed, Apr 15, 2026 at 11:11:32AM +0200, John Paul Adrian Glaubitz wrote:
 >
-> That's a very weird generic standard.  I know a lot of subsystem don't
-> take complex core changes until a bit before the cutoff, but killing
-> 3 weeks of the merge window for everything is odd.
->
-> Even more I'm not even why we're having that discussion - exportfs
-> has it's own maintainers, one of whom ACKed this including the whole
-> tree discussion.
+> So, this went just over Phoronix [1] and as someone who is still invested
+> in 32-bit architectures, I'm only notified about the performance impact on
+> these systems now as the pull request has already been sent to Linus.
+> 
+> I'm frustrated by this poor communication style. If your change
+> affects certain users negatively, it should be openly communicated
+> to them on the appropriate mailing lists so that they at least get
+> to raise concerns. Disclosing these news to a limited set of mailing
+> lists only is not okay.
 
-In this case, pNFS is the only consumer that will notice or use the
-new "infrastructure" and us NFS experts are the only ones who can test
-and review it properly. And, the likelihood of conflicts with patches
-in nfsd-testing is high (in fact we've already had at least one). It
-makes sense to me to take this series through NFSD.
+Adrian,
 
+I note that you are a Debian Maintainer.  Like Debian, the Linux
+kernel development community is very much a do-ocracy --- only more
+so.  If the 32-bit community really cares about Linux support, they
+need to be providing volunteer labor to kernel development, instead of
+demanding that everyone else pay the overhead tax of supporting 32-bit
+platforms which are rapidly disappearing.  I will note that Debian
+itself has made the decision to stop supporting the Debian Installer
+for i386 and the 32-bit armel platform in Debian Trixie.
 
--- 
-Chuck Lever
+Best regards,
+
+					- Ted
