@@ -1,137 +1,129 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A8483806AB
-	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 20:08:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776283716; cv=pass; b=XpUOSjW1M3zI2LUjPIC1IRZnZNb2z2j56LzRBA7h4dTAb+mL8HZ7FKnzzeXvNmNN20t5X3rdEg1LOco73WHdoVLyHbjikqzzTfKUyzUDUNNKiPKzU0bYwJs+YUP58SHsNGxZNBsDNZemVlW9X262Q35sFY5iRbwq0ALgA1BFmK0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776283716; c=relaxed/simple;
-	bh=8O9DUC+x1xbhPY+/2GlgrsCgg33RrtyqBoHTeTqpEFY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nA8lBSc1pKROnlVC8W5C1jZH8AqYOhnMwbtGImhLAJkb0u/Qc0mF3WKyPpxpb1ObGB+zHFby2BUBclU7/QhL9VRxaudXGRi7MaH2gK+hgN7IxiqtPmiTunVh04cKsofx4W/eVVBzwLG3Z608pvmcjBheAzcOMSEE5xCwHFa6fZM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J+yUtCHi; arc=pass smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A69E18460
+	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 21:20:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776288029; cv=none; b=O0yhmm4mdmc3t4zrFSjWakInl85c01ZGN7CWr98DXcrqABLzV9rxPvrnLSbrpgs37jOhODn/Lih4yLMBY1LIfwec5DEBWx/u1LG+8j3osgvUXZfPbigXRcAJ1T6weH7AGQvPhMdt4/Re45EAeLkPE5EBu31RcUAHgRQj9B47HkQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776288029; c=relaxed/simple;
+	bh=bN3KHImaiFYsQjtChNvw2352TttDJoisQDkMJqBvHZc=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=g58p2fOJ80d0Ss9ASXOgonmhD+1JJvWigUyzdRUuNPJYqRpRUWf3nr80GzzYTXMmgfx6O0vWv8oi5joRQoNafNfby9nCuBVm9/+oORwrJ81j5tDXdF1hTPS2k9E0sC0JkXho2pgxjcDl+A+x9gzQdaN4qYgztn0JAXBwG3mSnds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=E482SHI3; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=H1TGaAXF; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J+yUtCHi"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-671fe205535so3436270a12.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 13:08:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776283713; cv=none;
-        d=google.com; s=arc-20240605;
-        b=VIA6UtJyDvmU8KvfRhptS9ClaMx228E91+TLGtnVRJiU2OlmYTb5rgpFHw9sQ5G/Ck
-         qZSVxup74iP1Ic1zEiERYimwBU9GKv6jvZ0apq8yENt6IsttVkESy39j+Mqwq4AWwmCO
-         262O4+zjn74g35JRkNBcNZrtiDr18z2sRYqPWKNzp9s5LxbbaS3ao3f9kpJv7PVB/8Ac
-         ZK/paN7EwbEl08m+uNTdPWIqg+UQg02RUqw4GbfKwqlOvgqeGYwYgiooJsa3emDkmn0d
-         lZnvqPyZpITzuPs1G9DAJm7wll1k7GDFd3CUI0y7b8fjT/xsivg4sMRHaiM5zvkLpzWj
-         lljg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=8O9DUC+x1xbhPY+/2GlgrsCgg33RrtyqBoHTeTqpEFY=;
-        fh=dGRhfwRGENnd2BK/FrGFS24INXa8GDAzGsQFuS/P1zk=;
-        b=LbURkhQref/OKl65kcGllcnh1COWId1ddW/bmjsjeDyoXTr/o0EhcBwbrGYrx1gBbc
-         Hteu5PWBm0jfUFA2DqQI4babT4r85XxZ+6E+0/9FM6r4wkmEmqK5cHl4JbYgXLnpmXJU
-         34trQx8OvEuDjdx29g5hHmW8sXWBS2aD1GgVhaFnmxrg6kzhWq3MUIVGIARBywUpW0Yn
-         kMqTA2zqnBmoOEBzvmAZe1YlwmAa9HpVqRMlBwoXi/XWfacQrjk6JTDRfAI+7q04i7s0
-         Dql1bvxSieVOm8HSsKivdHvmSMbrneG8aCdI3xyA81JHj38lpfs714PVG8GBIl5l5wva
-         6KFQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="E482SHI3";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="H1TGaAXF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1776288026;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bN3KHImaiFYsQjtChNvw2352TttDJoisQDkMJqBvHZc=;
+	b=E482SHI3wZvHTTkWyfNc/DpCzH0lxYYpu8d9vTFTq74kgyUrsHkjYm2e3E/chLRJRgfyPY
+	HUDkXz0tU6zXjj+vdqvAGK19BaUf5pISMutVRvsfUiVtZllpO0bVvgHdgUpR7uDG5tUUcF
+	8uqjQJ8FMJs3mRpVbabkjDBBBwVpe9U=
+Received: from mail-yx1-f71.google.com (mail-yx1-f71.google.com
+ [74.125.224.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-378-bt091tnwPZeegKoYTDX6gw-1; Wed, 15 Apr 2026 17:20:25 -0400
+X-MC-Unique: bt091tnwPZeegKoYTDX6gw-1
+X-Mimecast-MFC-AGG-ID: bt091tnwPZeegKoYTDX6gw_1776288025
+Received: by mail-yx1-f71.google.com with SMTP id 956f58d0204a3-652ddb428beso4202921d50.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 14:20:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776283713; x=1776888513; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=8O9DUC+x1xbhPY+/2GlgrsCgg33RrtyqBoHTeTqpEFY=;
-        b=J+yUtCHiqgRHtn2q5Ixtg0/V9+aixYGF1grMAGd1+qNUdrG3pLfSgaNL6biKVnocPk
-         qqynmpZ9/bgnCgoIRguilNhfgLqV/pusUMK+I43wzY1ji9n3tn5g4njD+xQyJH1wpxEO
-         HlPbJY7WAXI8sdpcbKapR1BfsbztHTFyF42oIPEMzaTOhzcLgg3dT8JRxh1KwIesP8C6
-         /7YlIiSdrrgTgTvz8HAFJMqrcpnQy9nHbY8C6TBfP2JZhkIMeXcN8ufJHHzMImPOw2MN
-         ICJ6si9Xl/JJxap+lYGAJq32hedX+aFM0WjVryvrfeYi4AKlVrfzHWpSvbbXLl1WHJ4K
-         4XaA==
+        d=redhat.com; s=google; t=1776288024; x=1776892824; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=bN3KHImaiFYsQjtChNvw2352TttDJoisQDkMJqBvHZc=;
+        b=H1TGaAXF41JmEZv4yUmALCNPok+JkMbDcg490IYy6edWjn1dH6gUFlomVEzaLKN8O5
+         9sD8vq7Gp7KlsqgtnvVRK55+iRPpSfdkpYJfH3MasQvs1Q0s7XwDyE+DUZJEYI4ciZuF
+         FkEzx1iHYeqoJb6XMp/vtHKHiSIwrKlu7tE2ToejK/gRzuFQNsvFj1RqR+TmNvpXUnhn
+         aRzUMKf3nl/9qGuNY43rUaQ2FtCtlNW+a5CQaY9YxIC0Tlm4SJtE56HrjhYpWUhtcSHK
+         OVoghjqqjXausECDuhacIZie6jbl8H/dBXfs2PKfdkrCmHw2VWfi9HIyPnK9V9jzyEpz
+         IrCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776283713; x=1776888513;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8O9DUC+x1xbhPY+/2GlgrsCgg33RrtyqBoHTeTqpEFY=;
-        b=EEBRIhc1BcwwztqHleqdPA3wpGOaKQ6c2lxWi7w317f+ykZ9seLukV83HjNDXuDGGu
-         yA6HnWK0gnJTsNkb9IcPupgP+emhARjn9trakjQhFWG4t9GBeZJGbefFRwXgdKYUnCDk
-         c6+9zKnLnsIgbKAPYe/zG2gRjJESsmKtVdMstS/ZzJCZWfyovWM0FFtye4oUjWv6ZAQh
-         5kKOVyoMSGXuBtwVTWuTwiJFa+pSf93Z6FnO4nGkgSze/wgSUn37jceFgJ3vK0G+mj/6
-         VnLei+NJ0TxrKLoBbZX8llX7TuFtbxX95mHiJj79lAb3iCJxmTm+MfUDVUWnBi6bYrvL
-         u9uw==
-X-Gm-Message-State: AOJu0YzVlKo9Xm5VtRDPk5AGqHpeh6LSz3LtbWKLBNV/osjVV8UW5d8L
-	kTbmy+2dQ/HX1pin61b/NusAliKLCjOVmuMSJXeUFio+uXpf+OyhvHf7/uxd6BVC6IEDvEsjRgW
-	uwi+CvJrA4A586idDfwKpKBOlPKX3IMY=
-X-Gm-Gg: AeBDietleNCexXmGzf//lG6xSx2QNFeCVovYT6Po8xVHkAkl+Pg1Z8kyMbSjwS/AxMI
-	yv9F1Z36QA/mx+p3sBcBZtIWmJPwSVNkMpSoSb6IdejXG2cMbefSyh/8zFGhb0Zb7SKcoZJHZsl
-	02lW7DOETl7f+iO7IZNHSZvlHgmXLbVN+2I2lL7QxI+io3yTwqtMaJIAZgY+8Qe+krLv3KgCEso
-	q2iApe3Ffde7V64wvFrSHkmi0d7+4619famrSc5gvO9MIEcQf9SOvrJF8Vrg+TjGVU59jbCAfIL
-	U4xvBvC67viv82R7w0uKQ5tzwT+ti9DYKNYnLr3qoO6JVB1krh0LnhQLrF0r9tQEoOjNBBGV1gk
-	tOSnRYgwlZnc=
-X-Received: by 2002:a05:6402:4306:b0:670:a278:8993 with SMTP id
- 4fb4d7f45d1cf-670a2788cc1mr11009479a12.19.1776283712785; Wed, 15 Apr 2026
- 13:08:32 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1776288024; x=1776892824;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bN3KHImaiFYsQjtChNvw2352TttDJoisQDkMJqBvHZc=;
+        b=Rdhw71lFdqjrArfpIcOTvuWx94GVOAZY3ejVilwAQ9AOTzYpMFpAbG/jNSINOQqe7k
+         qBK4cklvsPsHWZn47mgiA7mDnn/k1rhhdnaduzA+trTs4cj6R3817tUdcTs6DNDFTMZX
+         l4zTbaFapGBrWB26uG/YV4DLfJpIMvXT7R5hs1lNGrHAAAetbfuI14d246lUZMBoG3Qd
+         elGyyNoyZxp+wAk2a9eovgVTsGA/0sdHB4A75yB7ljYzAbwkFXdyiT2CX/z2TzzgV5/A
+         HkJlpm1cDQ1Auk1nX9SrBiUR0z4gT6miFsv1GCniqHwLCrZsaQ1dF+4ZRfVXoIbp0Kmc
+         gA0g==
+X-Forwarded-Encrypted: i=1; AFNElJ+rWxTz0gJ8UEWIe8SdYpECCMuSW/zdpC0jyJ8VbBxWw/wjOAQCf8fZI2Bhe7o0NmgwZ8HkRS1HBrxrbkMx@vger.kernel.org
+X-Gm-Message-State: AOJu0YyY0O3QcVS9XjV73XptU4EBr7LBEkGYHBN7aSf21T8mjCafpMN9
+	/x9B/genwFrcF3dig63j4lVioglmUhyYbhsRTIFikt3SYm63+ZNTdTLVCzH5o1AtkuQ29utW9Sc
+	9LhSaFSZYwg4aghzjm6OZ9u6eOzrnBkwQzEmFdyca2RPc26Ak1QvdzllCbWdRQjRwPHI=
+X-Gm-Gg: AeBDies7rb0JfXgdsbyU1iP8HqtQTKJx+zJRNSGGEbFd9wT9D2ezFwBMRuwW4joCh1B
+	u1mNxkBEAed0Yw0wmwa5a8w/Ju29ltxz/gYiav3cqmZ1WvmEJFp5KBJKl6GZvClNxpD2Za7CUxR
+	XTWbsOm7jjpN9u00eOOEA6af9E5aG967/hAbwEhW2y/pb4YIgHM8sIuMgvflYS5MSDZ+Vm0LKzm
+	TheqjZqUQwWHdPr7kCHPS2iIIdrjN3LseQDKU2OpqHRGepxzH+Je/YvvqLXTge4rLva6/C0SPWF
+	6dNUbFg5bf+9hh6A03u5Ahoiu4E5Usy5AdUe4lz/KSKiBHFTkV6KVKcXg9fCDp2wqvqJJ+fO3VF
+	kG6JunlytsO+KlocZLdyvEI8Us+EfcH50zy+T1+J6bflwq9MMqxb2gtBnPMSnj4g=
+X-Received: by 2002:a53:e3cd:0:b0:650:2ff9:d66f with SMTP id 956f58d0204a3-65198aadbf1mr17418721d50.3.1776288024633;
+        Wed, 15 Apr 2026 14:20:24 -0700 (PDT)
+X-Received: by 2002:a53:e3cd:0:b0:650:2ff9:d66f with SMTP id 956f58d0204a3-65198aadbf1mr17418699d50.3.1776288024224;
+        Wed, 15 Apr 2026 14:20:24 -0700 (PDT)
+Received: from li-4c4c4544-0032-4210-804c-c3c04f423534.ibm.com ([2600:1700:6476:1430::29])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-652e47e640asm1275301d50.20.2026.04.15.14.20.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Apr 2026 14:20:23 -0700 (PDT)
+Message-ID: <7e0a41bd94d632d95da2fa50b216636f5eab7327.camel@redhat.com>
+Subject: Re: [PATCH v2] hfsplus: fix ignored error return in
+ hfsplus_delete_cat
+From: Viacheslav Dubeyko <vdubeyko@redhat.com>
+To: Deepanshu Kartikey <kartikey406@gmail.com>
+Cc: slava@dubeyko.com, glaubitz@physik.fu-berlin.de, frank.li@vivo.com, 
+	akpm@linux-foundation.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	syzbot+c0ba772a362e70937dfb@syzkaller.appspotmail.com
+Date: Wed, 15 Apr 2026 14:20:21 -0700
+In-Reply-To: <CADhLXY5WHSrh=6ifSYE3xWJ7PcvVFyLL4HC=QB_AoMo5zqY65g@mail.gmail.com>
+References: <20260414015630.65081-1-kartikey406@gmail.com>
+	 <f2707a743d06df045daa314bcd1564257b4f83a5.camel@redhat.com>
+	 <CADhLXY5WHSrh=6ifSYE3xWJ7PcvVFyLL4HC=QB_AoMo5zqY65g@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43app2) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260411151155.321214-1-adrianmcmenamin@gmail.com> <uamj3cggfd4fdvah6jjfbyqmffxaib7yj4upbnkxzudaos6ig6@xz4rhorxkufp>
-In-Reply-To: <uamj3cggfd4fdvah6jjfbyqmffxaib7yj4upbnkxzudaos6ig6@xz4rhorxkufp>
-From: Adrian McMenamin <adrianmcmenamin@gmail.com>
-Date: Wed, 15 Apr 2026 21:08:21 +0100
-X-Gm-Features: AQROBzBRRCjsQRZgqIGyabzSlOZsTdNR4owARY3w66rILxYg3XzmzRYcbGUYa-E
-Message-ID: <CACwZE5QpR-ZSk=cinLBuuPtLUMnEiEx7UArtZxpbPmGFccOEkw@mail.gmail.com>
-Subject: Re: [PATCH 0/5 -v2] Add support for VMUFAT filesystem
-To: Pedro Falcato <pfalcato@suse.de>
-Cc: Linux FS development <linux-fsdevel@vger.kernel.org>, 
-	Linux kernel mailing list <linux-kernel@vger.kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 13 Apr 2026 at 16:09, Pedro Falcato <pfalcato@suse.de> wrote:
->
-> On Sat, Apr 11, 2026 at 04:11:34PM +0100, Adrian McMenamin wrote:
-> > SEGA Dreamcasts come with a "visual memory unit" (VMU) which contains a slab
-> > of flash memory to save games playable on the VMU or data from Dreamcast games.
-> >
-...
-> >
-> > These patches implement VMUFAT as a Linux filesystem independent of hardware.
->
-> Isn't this filesystem a great target for FUSE? You definitely don't need
-> super high performance here.
->
-> Also, you're missing the fs maintainers. Adding them.
->
+On Wed, 2026-04-15 at 07:10 +0530, Deepanshu Kartikey wrote:
+> On Wed, Apr 15, 2026 at 12:59=E2=80=AFAM Viacheslav Dubeyko <vdubeyko@red=
+hat.com> wrote:
+> >=20
+> >=20
 
-Apologies for the long delay in replying - I was hoping that maybe
-someone else would have a view rather than my rather inevitable "can
-this go in mainline, please?".
+<skipped>
 
-I'm not saying you've done this, but in some online fora, this patch
-has been discussed solely as a Dreamcast add-on - when the key point
-is it is hardware independent. Dreamcast users who really want to can
-already get what's on their VMU via the VMU mtd layer code and then,
-again if they really wanted to, manipulate that at the byte level.
-Having a file system is about people on other platforms being able to
-access and manipulate VMU contents (easily) too.
+>=20
+> I also want to be transparent =E2=80=94 I used Claude AI as a learning to=
+ol
+> while working through this bug, and used it to help generate the
+> commit message. I should have verified the root cause more carefully
+> before sending. I apologize for the noise.
+>=20
 
-It's not a complex piece of code so the maintenance requirement is low
-and if it were to break in future it wouldn't drag anything else down,
-and nor is it an impediment to general kernel development (so the
-other comparison I've seen, with the i486 code) also seems misplaced
-to me.
+Don't get me wrong. I am not against of using the Claude AI. It helps me to=
+ be
+more efficient too. But we should check the Claude AI's output really caref=
+ully.
+Because, it generates workarounds but not the fixes very frequently. It is
+useful tool, anyway.
 
-My contribution to Linux is small - this is the first patch from me
-for over a decade but I'd hope the pioneering spirit of "because its
-there" still lives on.
+Thanks,
+Slava.
 
-> Pedro
-
-
-Adrian
