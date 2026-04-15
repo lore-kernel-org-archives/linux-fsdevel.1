@@ -1,167 +1,137 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE6C537E2FA
-	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 19:40:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776282056; cv=none; b=cghWUVSKLLF9GLmlbpSZjRZvBZBt1DzRTygly7almmGEI0s2qDxZ6qKHSq4KKryUXstnDA08DprV2pPujsu9Yhk5M/bmCq+T1wbAwNzkmEtPXQ7WAS4nSJW/rgk8/TJXHJq4sTtCGrtR7kcapSAoax6/FQioFoAarSdk3x4FuRM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776282056; c=relaxed/simple;
-	bh=Fbt5z3RlQX7uE5fPza9+n11jMRJS86/huzP2wYqLwxc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G14CKArjlUdTgvvDz0KIBwXdTVZ9bs/Pr4wopCASHHAjpvGLPnz6LoFyZd9JViJa/gR+533zBihCPDfmsz/rkfNBACfYIf6p/nFwIfgA/OD6WLDFXwe0DryssFPYVGP1BRerHbS45pinb8L/3LFDPmjiKkDUYTMxWa5vGG2Hcoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=HumXSn0p; arc=none smtp.client-ip=209.85.222.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A8483806AB
+	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 20:08:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776283716; cv=pass; b=XpUOSjW1M3zI2LUjPIC1IRZnZNb2z2j56LzRBA7h4dTAb+mL8HZ7FKnzzeXvNmNN20t5X3rdEg1LOco73WHdoVLyHbjikqzzTfKUyzUDUNNKiPKzU0bYwJs+YUP58SHsNGxZNBsDNZemVlW9X262Q35sFY5iRbwq0ALgA1BFmK0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776283716; c=relaxed/simple;
+	bh=8O9DUC+x1xbhPY+/2GlgrsCgg33RrtyqBoHTeTqpEFY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nA8lBSc1pKROnlVC8W5C1jZH8AqYOhnMwbtGImhLAJkb0u/Qc0mF3WKyPpxpb1ObGB+zHFby2BUBclU7/QhL9VRxaudXGRi7MaH2gK+hgN7IxiqtPmiTunVh04cKsofx4W/eVVBzwLG3Z608pvmcjBheAzcOMSEE5xCwHFa6fZM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J+yUtCHi; arc=pass smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="HumXSn0p"
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-8cb5c9ba82bso1106279285a.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 12:40:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J+yUtCHi"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-671fe205535so3436270a12.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 13:08:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776283713; cv=none;
+        d=google.com; s=arc-20240605;
+        b=VIA6UtJyDvmU8KvfRhptS9ClaMx228E91+TLGtnVRJiU2OlmYTb5rgpFHw9sQ5G/Ck
+         qZSVxup74iP1Ic1zEiERYimwBU9GKv6jvZ0apq8yENt6IsttVkESy39j+Mqwq4AWwmCO
+         262O4+zjn74g35JRkNBcNZrtiDr18z2sRYqPWKNzp9s5LxbbaS3ao3f9kpJv7PVB/8Ac
+         ZK/paN7EwbEl08m+uNTdPWIqg+UQg02RUqw4GbfKwqlOvgqeGYwYgiooJsa3emDkmn0d
+         lZnvqPyZpITzuPs1G9DAJm7wll1k7GDFd3CUI0y7b8fjT/xsivg4sMRHaiM5zvkLpzWj
+         lljg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=8O9DUC+x1xbhPY+/2GlgrsCgg33RrtyqBoHTeTqpEFY=;
+        fh=dGRhfwRGENnd2BK/FrGFS24INXa8GDAzGsQFuS/P1zk=;
+        b=LbURkhQref/OKl65kcGllcnh1COWId1ddW/bmjsjeDyoXTr/o0EhcBwbrGYrx1gBbc
+         Hteu5PWBm0jfUFA2DqQI4babT4r85XxZ+6E+0/9FM6r4wkmEmqK5cHl4JbYgXLnpmXJU
+         34trQx8OvEuDjdx29g5hHmW8sXWBS2aD1GgVhaFnmxrg6kzhWq3MUIVGIARBywUpW0Yn
+         kMqTA2zqnBmoOEBzvmAZe1YlwmAa9HpVqRMlBwoXi/XWfacQrjk6JTDRfAI+7q04i7s0
+         Dql1bvxSieVOm8HSsKivdHvmSMbrneG8aCdI3xyA81JHj38lpfs714PVG8GBIl5l5wva
+         6KFQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1776282054; x=1776886854; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=LDC8jcFDmTbSeuUhBTn6DAnyFWcoxjOsrPOPaR64HNI=;
-        b=HumXSn0p5TKMA4dEtoS52dpG/QTr9RxyA+2JcFbjKCkIHbCeVyKF7BG2cRaA0gAv77
-         aniIVEI052IH94Ow/wneSQyaHOMNe5DPmt/AdY3afhui4UEjuPcVxMXh1ku8nP6ChRSC
-         A5Zo/DSomNDx7cOn40hC0jeTXbNwrz3Us9w9uI+kCukbq4jIBt5D/V/yFqrYTPtyKPil
-         T34YLj6z7Ddyn6O9QJt9dwztda68l6XmnJyrFoD55dQOkyqlEX/A9wyPDp28XP0LTZc0
-         YdrZq3q3P1NJMnuS/C8rTZG3QyQub5c7wELXAxSVv1BW2uoN0SKs6rvi3keakzn8uqI0
-         iiUw==
+        d=gmail.com; s=20251104; t=1776283713; x=1776888513; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=8O9DUC+x1xbhPY+/2GlgrsCgg33RrtyqBoHTeTqpEFY=;
+        b=J+yUtCHiqgRHtn2q5Ixtg0/V9+aixYGF1grMAGd1+qNUdrG3pLfSgaNL6biKVnocPk
+         qqynmpZ9/bgnCgoIRguilNhfgLqV/pusUMK+I43wzY1ji9n3tn5g4njD+xQyJH1wpxEO
+         HlPbJY7WAXI8sdpcbKapR1BfsbztHTFyF42oIPEMzaTOhzcLgg3dT8JRxh1KwIesP8C6
+         /7YlIiSdrrgTgTvz8HAFJMqrcpnQy9nHbY8C6TBfP2JZhkIMeXcN8ufJHHzMImPOw2MN
+         ICJ6si9Xl/JJxap+lYGAJq32hedX+aFM0WjVryvrfeYi4AKlVrfzHWpSvbbXLl1WHJ4K
+         4XaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776282054; x=1776886854;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LDC8jcFDmTbSeuUhBTn6DAnyFWcoxjOsrPOPaR64HNI=;
-        b=MGKsEFkYV0g2hLdrzP7FgNDHe8vev/U6cGlwhyRIEuw0OjLcw1JSjtfwRSxciE+O0R
-         n8y6C1CeloBwJp+2X6+uD8ZFpf9H9r1CNLOZjA7fHh2Ih7gX0vU+BA2meAEBDkSKJfCT
-         BCEV3Yzq5VkRCLjcaOE/DsC+yMfdf47F0N/dqeDmEeUOGKLzz4h5TVcl8vPmb6tBUnn/
-         abGuwVVZzSy18TL5LnQbWDuq2IT+/lVqFmIOUZXLQvSoYOLE/2tJ9JscX4OBBqcVSWvx
-         9Y0MIPpXtEi0Wocg7UFzgx2peHBKINeg7Y80dW0WdTNeQELj2qyVSxLLXRCW5Zx5Brrc
-         pv8Q==
-X-Forwarded-Encrypted: i=1; AFNElJ9tvmgSCU6QMeUJ9cP3qPCBO/mUaanC265MjLYMoaf1Hj6NSbt1eYbMxXI8ThlzhI1QkPzhLC1v7xXRALBK@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzj6/2002W7JQomyzv93lvCJYIYb7FjLBLo/j97c2rPS/ykoj7H
-	YPxE9N+eqPSk+tV9M0/vbdmLp8Bw8sxO/K3+D9eDjMioQgaeCgIxGcHdLnpobS5TOc0=
-X-Gm-Gg: AeBDieuu0Xfh1GzxE+yjteiEL0zgBVeyKY3KKQ4DEW1xbWHL29TBjUUYjlaMZk6/+tR
-	XbIt/C5Mqgbk5pGoHfFGFKc/1TMPeMpkstv4RPHw7TZAAftmVjPiZoBw2zyGjA7gEtylitLDkhA
-	ywt1f6wUfC4UZxXXgaPdiF9RpQ3zNLpZfV9apNUfW5f+sgSmuBiqBg/DI/3NPFUF3pGip9QRguW
-	15yJSVP1owBYcX0Gj3X758F/gUKq8EfkgsJ16uZEJCQNZijUeQOOFCZf/OJyb93WtBxpoBhK3Ro
-	J/+ChS5WCErWn4bIE/AuiMBnn4Np97jUdGjZy8SSTLCy/m2mTStkY0A1MJk8Xg5Ye4jqOtUdPYw
-	1CEKh76KnOs/hR94Yhw+2/FECc3OcL1olWnPykqbJ45niVRVIv9YMNjjKK1M2dEysUs7vMXzDxM
-	IMmJkwUqWJ9VQzqYm4bZ7WMGnQPK/AXtZmyO1cPTr9unhCedR40skUR79Uefko7nqi4raFHAThk
-	b/hTX0x8IntMlKzwOGYso4=
-X-Received: by 2002:a05:620a:2849:b0:8c9:fb69:e708 with SMTP id af79cd13be357-8ddcd504c7emr3103848285a.25.1776282053498;
-        Wed, 15 Apr 2026 12:40:53 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-108-28-184-130.washdc.fios.verizon.net. [108.28.184.130])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8e4f2926001sm186837485a.34.2026.04.15.12.40.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Apr 2026 12:40:52 -0700 (PDT)
-Date: Wed, 15 Apr 2026 15:40:49 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Matthew Wilcox <willy@infradead.org>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	"David Hildenbrand (Arm)" <david@kernel.org>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	John Groves <John@groves.net>, Bernd Schubert <bernd@bsbernd.com>,
-	John Groves <john@jagalactic.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Bernd Schubert <bschubert@ddn.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>, Jan Kara <jack@suse.cz>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Stefan Hajnoczi <shajnocz@redhat.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Chen Linxuan <chenlinxuan@uniontech.com>,
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Shivank Garg <shivankg@amd.com>,
-	Ackerley Tng <ackerleytng@google.com>,
-	Aravind Ramesh <arramesh@micron.com>,
-	Ajay Joshi <ajayjoshi@micron.com>,
-	"venkataravis@micron.com" <venkataravis@micron.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	djbw@kernel.org
-Subject: Re: [PATCH V10 00/10] famfs: port into fuse
-Message-ID: <ad_pwaRORHRP5YMM@gourry-fedora-PF4VCD3F>
-References: <CAJfpegvVTcV89=q3L326aGQjhduBcv7PVg5QKftGLjNZmCLmaw@mail.gmail.com>
- <ad4_jFsR951c2Mtn@groves.net>
- <20260414185740.GA604658@frogsfrogsfrogs>
- <ad69tTnx5YkD4Y9K@gourry-fedora-PF4VCD3F>
- <f254f6fc-dc06-4612-82d7-35bb10dbd32e@kernel.org>
- <ad-UAMcALRubBcHk@gourry-fedora-PF4VCD3F>
- <CAJfpegsUVv0ziMSQiq9pKeXf6G-+LROPTW077hHMSmAirVCLQw@mail.gmail.com>
- <ad-qSB4oL5D3S-ht@casper.infradead.org>
- <ad-vnqRrUGs9n0N8@gourry-fedora-PF4VCD3F>
- <CAJnrk1Z+uNjn+BcmpciqPZhxYXEJ5Zgh=uNCxt17WTkdOubbog@mail.gmail.com>
+        d=1e100.net; s=20251104; t=1776283713; x=1776888513;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8O9DUC+x1xbhPY+/2GlgrsCgg33RrtyqBoHTeTqpEFY=;
+        b=EEBRIhc1BcwwztqHleqdPA3wpGOaKQ6c2lxWi7w317f+ykZ9seLukV83HjNDXuDGGu
+         yA6HnWK0gnJTsNkb9IcPupgP+emhARjn9trakjQhFWG4t9GBeZJGbefFRwXgdKYUnCDk
+         c6+9zKnLnsIgbKAPYe/zG2gRjJESsmKtVdMstS/ZzJCZWfyovWM0FFtye4oUjWv6ZAQh
+         5kKOVyoMSGXuBtwVTWuTwiJFa+pSf93Z6FnO4nGkgSze/wgSUn37jceFgJ3vK0G+mj/6
+         VnLei+NJ0TxrKLoBbZX8llX7TuFtbxX95mHiJj79lAb3iCJxmTm+MfUDVUWnBi6bYrvL
+         u9uw==
+X-Gm-Message-State: AOJu0YzVlKo9Xm5VtRDPk5AGqHpeh6LSz3LtbWKLBNV/osjVV8UW5d8L
+	kTbmy+2dQ/HX1pin61b/NusAliKLCjOVmuMSJXeUFio+uXpf+OyhvHf7/uxd6BVC6IEDvEsjRgW
+	uwi+CvJrA4A586idDfwKpKBOlPKX3IMY=
+X-Gm-Gg: AeBDietleNCexXmGzf//lG6xSx2QNFeCVovYT6Po8xVHkAkl+Pg1Z8kyMbSjwS/AxMI
+	yv9F1Z36QA/mx+p3sBcBZtIWmJPwSVNkMpSoSb6IdejXG2cMbefSyh/8zFGhb0Zb7SKcoZJHZsl
+	02lW7DOETl7f+iO7IZNHSZvlHgmXLbVN+2I2lL7QxI+io3yTwqtMaJIAZgY+8Qe+krLv3KgCEso
+	q2iApe3Ffde7V64wvFrSHkmi0d7+4619famrSc5gvO9MIEcQf9SOvrJF8Vrg+TjGVU59jbCAfIL
+	U4xvBvC67viv82R7w0uKQ5tzwT+ti9DYKNYnLr3qoO6JVB1krh0LnhQLrF0r9tQEoOjNBBGV1gk
+	tOSnRYgwlZnc=
+X-Received: by 2002:a05:6402:4306:b0:670:a278:8993 with SMTP id
+ 4fb4d7f45d1cf-670a2788cc1mr11009479a12.19.1776283712785; Wed, 15 Apr 2026
+ 13:08:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJnrk1Z+uNjn+BcmpciqPZhxYXEJ5Zgh=uNCxt17WTkdOubbog@mail.gmail.com>
+References: <20260411151155.321214-1-adrianmcmenamin@gmail.com> <uamj3cggfd4fdvah6jjfbyqmffxaib7yj4upbnkxzudaos6ig6@xz4rhorxkufp>
+In-Reply-To: <uamj3cggfd4fdvah6jjfbyqmffxaib7yj4upbnkxzudaos6ig6@xz4rhorxkufp>
+From: Adrian McMenamin <adrianmcmenamin@gmail.com>
+Date: Wed, 15 Apr 2026 21:08:21 +0100
+X-Gm-Features: AQROBzBRRCjsQRZgqIGyabzSlOZsTdNR4owARY3w66rILxYg3XzmzRYcbGUYa-E
+Message-ID: <CACwZE5QpR-ZSk=cinLBuuPtLUMnEiEx7UArtZxpbPmGFccOEkw@mail.gmail.com>
+Subject: Re: [PATCH 0/5 -v2] Add support for VMUFAT filesystem
+To: Pedro Falcato <pfalcato@suse.de>
+Cc: Linux FS development <linux-fsdevel@vger.kernel.org>, 
+	Linux kernel mailing list <linux-kernel@vger.kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Apr 15, 2026 at 10:12:54AM -0700, Joanne Koong wrote:
-> On Wed, Apr 15, 2026 at 8:32 AM Gregory Price <gourry@gourry.net> wrote:
+On Mon, 13 Apr 2026 at 16:09, Pedro Falcato <pfalcato@suse.de> wrote:
+>
+> On Sat, Apr 11, 2026 at 04:11:34PM +0100, Adrian McMenamin wrote:
+> > SEGA Dreamcasts come with a "visual memory unit" (VMU) which contains a slab
+> > of flash memory to save games playable on the VMU or data from Dreamcast games.
 > >
-> > My initial take is that it's a real concern a "bug" in a BPF program
-> > could let userland map arbitrary memory into userland page tables, and
-> > such an extension would not be a quick fix to the FAMFS problem.
-> 
-> If you're concerned about arbitrary addresses in the bpf path, you
-> should be equally concerned about the FUSE_GET_FMAP path that's in
-> this series, because they're functionally identical. The kernel trusts
-> userspace-provided addresses in both cases. If that's acceptable for
-> this series then it's acceptable for bpf too. You can't reject bpf on
-> security grounds without also rejecting the current approach.
-> 
+...
+> >
+> > These patches implement VMUFAT as a Linux filesystem independent of hardware.
+>
+> Isn't this filesystem a great target for FUSE? You definitely don't need
+> super high performance here.
+>
+> Also, you're missing the fs maintainers. Adding them.
+>
 
-To be clear, i'm not rejecting it.  I'm saying (!) that's something that
-needs a careful look.
+Apologies for the long delay in replying - I was hoping that maybe
+someone else would have a view rather than my rather inevitable "can
+this go in mainline, please?".
 
-It's a novel interaction and a new ops structure. I don't think it's in
-any way unfair to point out there will (and should) be questions outside
-the scope of FAMFS.
+I'm not saying you've done this, but in some online fora, this patch
+has been discussed solely as a Dreamcast add-on - when the key point
+is it is hardware independent. Dreamcast users who really want to can
+already get what's on their VMU via the VMU mtd layer code and then,
+again if they really wanted to, manipulate that at the byte level.
+Having a file system is about people on other platforms being able to
+access and manipulate VMU contents (easily) too.
 
-> Please take a look at the famfs bpf program [1] and compare that to
-> the logic in patch 6 in this series [2]. In both cases, iomap->addr
-> gets set to the address that was earlier specified by the userspace
-> famfs server. In the non-bpf path, the userspace server passes this
-> address through a FUSE_GET_FMAP request. In the bpf path, the
-> userspace server passes this address by updating the bpf hashmap from
-> userspace. There is no functional difference. Also btw, this is one of
-> the cases that I was referring to about the bpf path being more
-> helpful - in the bpf path, we avoid having to add a FUSE_FMAP opcode
-> to fuse (which will be used by no other server) and famfs gets to skip
-> 2 extra context-switches that the FUSE_FMAP path otherwise entails.
-> 
+It's not a complex piece of code so the maintenance requirement is low
+and if it were to break in future it wouldn't drag anything else down,
+and nor is it an impediment to general kernel development (so the
+other comparison I've seen, with the i486 code) also seems misplaced
+to me.
 
-The question isn't about the functional differences between the FAMFS
-static code or a BPF blob doing the same thing - the question is what
-the new ops structure introduces for the general case that wasn't
-there before.
+My contribution to Linux is small - this is the first patch from me
+for over a decade but I'd hope the pioneering spirit of "because its
+there" still lives on.
 
-We have to reason about the BPF extension separately from the context of
-FAMFS - as it's a general interface now (forever :P).
+> Pedro
 
-~Gregory
+
+Adrian
