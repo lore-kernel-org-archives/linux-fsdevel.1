@@ -1,33 +1,36 @@
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F38F318EF6;
-	Wed, 15 Apr 2026 05:23:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E1EE1F92E;
+	Wed, 15 Apr 2026 05:29:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776230587; cv=none; b=u4lCl/ile1WF4KFI/SPJuWOvzogbxH+cOtNPIrkidU/xrOjCr2Z4jiz74qgxLzAyRQbGqWIIe9RJ8gFBShydYkj7OFeuGFHmvfZSDkEPYiF3apjfwioAvvlRvdT+6+Cgl4XfipgT9uUtPUnJ9dT7aoI6tzCYxTXLlDXtRZqTfvU=
+	t=1776230970; cv=none; b=f9IWkRVVHvjWY0qG/blo8FH5yCASggo1Tn6nc/kAMVPD4ujTg9v4gAO/a4GRXhd243FKtnZguD0noe4EP0t/arENX97vJf5OKTYDdxUAfJL8pyQcwCBxB8KAl4ro7Ch5vD/I56bHkxBl7KeswSxX0I3f7qQJ7S7ridsLqmG7uCc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776230587; c=relaxed/simple;
-	bh=AodJYpRY5hpYGNt0PC1BgggDbf7R+tNeubAi3xnI3wY=;
+	s=arc-20240116; t=1776230970; c=relaxed/simple;
+	bh=A5ymAytPJqONoKE2CgJqhBX5EEV4sZwuOHV8kE2E2i4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Otgfsq/hSSs7nuF1mB5m7Hcm4oDl3ZT37nbZB1mZ1pIr+20jYY9LEJrta0bPjtBZl3XU6iKd7/ZY12oExw3tXj92dVWp5/G6Ot0v4LiFyRBuxoz7RrEmRIcQv0vQRDnPofqMQGy0W9tar21y3KZisoAwHWNEA/AP0KOgf2adakk=
+	 Content-Type:Content-Disposition:In-Reply-To; b=CVOedfdw7cTzBb825nchuT2hzIwHP1zlpTb82twelF47cC36O8B72BF98inv35e1UxKX8MA7Yc50Sa+muk81wJVhD8vggz6jyFnwZ0kgJHd4fuqIe5dZwRvr2NOGe8XSltYgVXHruPcxuJXjge+bEc7F6DugwjSFtlAkJxihI44=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 9D94F68C4E; Wed, 15 Apr 2026 07:23:03 +0200 (CEST)
-Date: Wed, 15 Apr 2026 07:23:03 +0200
+	id BBD0B68BFE; Wed, 15 Apr 2026 07:29:25 +0200 (CEST)
+Date: Wed, 15 Apr 2026 07:29:25 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Andrey Albershteyn <aalbersh@redhat.com>
-Cc: Christoph Hellwig <hch@lst.de>,
-	Andrey Albershteyn <aalbersh@kernel.org>, linux-xfs@vger.kernel.org,
-	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	ebiggers@kernel.org, linux-ext4@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net, linux-btrfs@vger.kernel.org,
-	djwong@kernel.org
-Subject: Re: [PATCH v7 03/22] ovl: use core fsverity ensure info interface
-Message-ID: <20260415052303.GB26559@lst.de>
-References: <20260409131404.1545834-1-aalbersh@kernel.org> <20260409131404.1545834-4-aalbersh@kernel.org> <20260414081301.GB11138@lst.de> <u3szxuhjrv7vyxwyrepuflwhzeucss7xj3cxj73mnpm5kal2da@jck24ig4oxxa>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Chuck Lever <cel@kernel.org>,
+	NeilBrown <neil@brown.name>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
+	linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Jeff Layton <jlayton@kernel.org>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: cleanup block-style layouts exports v2
+Message-ID: <20260415052925.GC26559@lst.de>
+References: <20260401144059.160746-1-hch@lst.de> <8bef4d4e-1c0d-451d-8854-ed0cba27ee1f@app.fastmail.com> <20260409-schwalben-neutralisieren-fb5a184e5049@brauner> <20260410111007.GA10292@lst.de> <20260414-ausbrechen-gemixt-ff09f46bdad2@brauner>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -36,18 +39,30 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <u3szxuhjrv7vyxwyrepuflwhzeucss7xj3cxj73mnpm5kal2da@jck24ig4oxxa>
+In-Reply-To: <20260414-ausbrechen-gemixt-ff09f46bdad2@brauner>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Tue, Apr 14, 2026 at 03:53:36PM +0200, Andrey Albershteyn wrote:
-> > > +	if (fsverity_active(inode))
-> > > +		fsverity_ensure_verity_info(inode);
+On Tue, Apr 14, 2026 at 12:01:39PM +0200, Christian Brauner wrote:
+> On Fri, Apr 10, 2026 at 01:10:07PM +0200, Christoph Hellwig wrote:
+> > On Thu, Apr 09, 2026 at 03:26:09PM +0200, Christian Brauner wrote:
+> > > > Christian, are you OK if I take this series through the NFSD tree?
+> > > 
+> > > Hm, I generally prefer infrastructure to go through the VFS tree.
+> > > You can get a stable branch ofc.
 > > 
-> > fsverity_ensure_verity_info already is a no-op for !fsverity_active,
-> > so the check could be remove.
+> > Communicating this earlier would be helpful.  If we switch to a new
+> > tree base we're going to miss this merge window.
 > 
-> I don't think it is. For non-fsverity inodes it will try to call into
-> descriptor reading callback and fail.
+> The series was sent on April 1 so with about 2 weeks before the merge
+> window... If your series isn't ready by -rc5 what is it doing being
+> merged for the coming merge window is the other side of the question. So
+> afaict, there's no hurry.
 
-You're right, sorry for the noise.
+That's a very weird generic standard.  I know a lot of subsystem don't
+take complex core changes until a bit before the cutoff, but killing
+3 weeks of the merge window for everything is odd.
+
+Even more I'm not even why we're having that discussion - exportfs
+has it's own maintainers, one of whom ACKed this including the whole
+tree discussion.
 
