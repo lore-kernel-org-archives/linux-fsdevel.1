@@ -1,126 +1,132 @@
-Received: from mail.ptr1337.dev (mail.ptr1337.dev [202.61.224.105])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 997333B3BFE;
-	Wed, 15 Apr 2026 13:51:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.61.224.105
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776261110; cv=none; b=DzkLmglOeZxReDPa9typrsiE2aT2CsFWpUI5nRNAtfclT1NU2yfqnMfiZpbrZmg91MPqawenDzIdTfL1uOwOQITN8r2h1h+TAA/e41+h1UF9dg1iMITa9mZ75ejgN70j/CWhK4LK3cpTJD3pkwWZ7t4MTtjRrqXswIT7nVk8Z48=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776261110; c=relaxed/simple;
-	bh=1KQV6DqB3E46shdSQ8zoRrX9PH4TABhATC7C3sT0pOY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jMBMgdGx54++fQKTUyunWNp3vLX049IScpbQicnEdm1ggUbnTjL3RvIX2nfThhn3a/Ryjz1HcnYnc0UqwM0eBpPIlkXxoH1w2+d2tVANi79lvqp1JQ+lKv2vrTISOSGTdiKCuVCNAF3/bcHVCEx+gNf9P2//b2HoNly8sF47bU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cachyos.org; spf=pass smtp.mailfrom=cachyos.org; dkim=pass (2048-bit key) header.d=cachyos.org header.i=@cachyos.org header.b=ZJLzIIWV; arc=none smtp.client-ip=202.61.224.105
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cachyos.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cachyos.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AD89331A65
+	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 14:05:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.173
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776261906; cv=pass; b=OjEta8z/2gbSqH3lwSHTEyjyEFVlvrDHQUYE1nZtoq/75YeyXTF5XF93CNe4sOGEBmpfp3BigoH8wKMGNSKHpxPMGUDNJ3ACMYNVxTerh1UPNtXbB7aJAdrhv8gPGZZXw+0Ln+oMwApKG8uAyk2tUPIS6ZXPCmJZC2Cz0GZy2lI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776261906; c=relaxed/simple;
+	bh=OuxoKfF1eIFYHXEVVTIuTwEbgi2RzLTEr5xC4F2+szE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RKrOn7Qm+iLSp0bZaTdFZNLbpe64aNuDwyu/277H3q6F7oivufcuq648NIRp9PLMLQUIiMeP7Nwa+wSXmviSIz6nMCdZKe572CNxc87Sv/elDI23PtXyoMOEMpGzCHVjs/ksgwonlD9B+mIW/yISpM2Y3SrvyFcOED+r33tAwdA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=ekVbcIdZ; arc=pass smtp.client-ip=209.85.160.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cachyos.org header.i=@cachyos.org header.b="ZJLzIIWV"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 83D792860DF;
-	Wed, 15 Apr 2026 15:51:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cachyos.org; s=dkim;
-	t=1776261104; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=cjL+4kTqmR79x407tHHUuU7PJnejCHLxK2FDjGKVSkg=;
-	b=ZJLzIIWVGcccF460uwPK3yiv8WlgQ2kV8g+Pp4QaZhFeDltUkgkX+yc8Mf5XKdPWl9FFbj
-	jkDoyDYvxyx8zZuQFYTkg8K2TmgwQURGjqpkoIBVNi9fMG120oQWQLpRZ3z8Z+g6uY1PXF
-	z3+XdjZjKvnshBsdEPJhzEO23rqiocg6eslY/9cO22tQptYtlA+Nb/g07B+UP7VZit6N2E
-	bn9QwiEySVtXoP28L3LhDLz28qVpm8otqykreJCfMkm9iGI7HB8OpAggnkkaEv5VL9aIpz
-	96c660bV36WKO5f+tH++CXBjIAnMwqDDQpmJ1MigVVl0IcQUWlSS76hwCy+DoA==
-Message-ID: <349d61ce-6a5c-48c7-a4b8-a554668dc75c@cachyos.org>
-Date: Wed, 15 Apr 2026 13:51:00 +0000
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="ekVbcIdZ"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-5062fc5d86aso53236621cf.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 07:05:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776261904; cv=none;
+        d=google.com; s=arc-20240605;
+        b=K33nrrHDY6h9cqsdZtFN5aV/cUW8Ci5mShOlML1OEpz+DMvyMBa5hY459QE2P1w4kG
+         r9kgATpZm1D/vui3a3QLh6sUDn+8axT7H6FgHHlfyT6wG90ZK4/4KRoRCZz4aorBmJ8S
+         ybniIy/376hJYY8BK9E+cPR0dafcoCUtcDRZ75iOWtEF8QmtOexuAnnoHuWPXnDfJirO
+         1/lje2jH/olI+Kj5qSbVRywH9qG8HAZMXuiQ45XcHpPC1l42wYnUmyStzjMDbgt8U/Cp
+         WAHe70snWeQIbR7lz1II38VdEYiujawMrpepb4dCVD/CfLwSjDJAE0L3Fk5sq4ZdHSLK
+         5W5Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=Nn6fMxeMg8FDWayAItzG5oIgCrdJaKGk/78HcE957DA=;
+        fh=QCOL172ZE1QAGjaDQxDrPI1h5zAkYIu8uUHovSaU/pQ=;
+        b=Yhq/OtbyqYInQ+tvshpC6skgeSVzg2fA5wddUUA8xD9QGoYBBuN6RBQcLuhefOaoCK
+         7Hc1VZA1dQHL9decNkwkBiaKWsWCg5fGsDxo3PPzC5GQYIAzsmMi8P/xJ+TWynvrem4d
+         J67bBbJ4EnFy0v4c6msXbyt47dpyLiJ2yRowLodq4TK670fzyHdoxtT6nXdHfgb6zHcy
+         /bhvJ6Bvm3gBGbu9xRtGFTiHTaGaHCxhvSQzYe2SCAke0TgSOHfUYyZyzdA6F05HjKs1
+         yaB/h0i86ZcfAeMQrOYWZfPyVBQd1RpjcefQvlAEOMp6MvQlN0ODUjCh5RoVwuGwNq2u
+         5OIA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1776261904; x=1776866704; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Nn6fMxeMg8FDWayAItzG5oIgCrdJaKGk/78HcE957DA=;
+        b=ekVbcIdZQI29b+3fJvGFFAIcMiRWw0JQnGl2jXt0eUF/NbJXxRCA6/0u4ZrPdPzn5C
+         hpopkgk1KEC7PJoE2+NCfBogXftvcBXM3EKMQnna5/JTG6FnQlSDzYB+R9tAyhP6JuBn
+         jEaev1RMbJw9SdD2+nFsnm6cRn2EoDaA3p42c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776261904; x=1776866704;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Nn6fMxeMg8FDWayAItzG5oIgCrdJaKGk/78HcE957DA=;
+        b=ecnQFdNd7kDfrX7txaYyqY2+rYCrk1diA/5OPs1TgBkivDssS0B3Bpo8TRf/Rb2g/E
+         gcqky5k3Ya6n07fHYQVGkt9k+xzQJMoqDNFdB+b8qCtv65/2REQEW09NNPenKCr+qYzJ
+         07V3HBf9EMXpFGc4eodfjef+FsSs1MqZXGupr60SsVe3MEUVZJjYTZUp1EtzeItoy7HS
+         UDaZKCFXgIRGHyDuOiAxfuz+6abh1HIQEG3lSwHv6ySt25Afyv0sWA8XUz4stFYYpRPg
+         7puXgfsZICTQdsEYjdeh1xxXvsFG9N4lYleAlzT77cm2O7wpdrJGtlZptzgv/UJiSVME
+         TSdg==
+X-Forwarded-Encrypted: i=1; AFNElJ9GUdST7+VJocLFLTgg06RQI7SLyAVvGcqUOhBQVPI9M6dYvHsPXZR8s5PGNlMdgIUQEIv5zqe8Zd5x7rww@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw3q6HMr+3qVlx3j7Wd/c4K9WulaIOdseKiUYuSlgMlrbZOKhgm
+	g5621ELBwDlu2n7l2Yx8f49TmT6Vcb1EQR2cGGBhXY51uvoG0gFLSuVpWf3j/TwH9c1p+gSyNmD
+	8AaP3ULKqQLuRUFoGFPKYX/eFalPP6+3ANTTKqN4l7A==
+X-Gm-Gg: AeBDieuBm98PzYlIC3QsC54n99xQPdphg5+3dBozo0beX00aN24nH0mitoO8PT82XZv
+	+xx/P/4csXo8JZRNIgROUNq2ylBpbdSU2lY1F36LK4I2qkD2z9wDLiq9RWtCIvtK6gaSykMoWWF
+	k/znYt9ck45EqVGTLkySyt40ln/Or9325y2Zo1pAvBNhcFjnahYkEsiNePj3DqYjwC84OOD9Yrm
+	G5g1yFzSmm0LY79aZT8VOP236RpnQDviCzUYqexlO8sETvaYUPehdMe1+TMF+IxytwVD16MvtSh
+	nuWQNLfe772cdlBdlkZiC7nA5kpMsMQRa5RU
+X-Received: by 2002:ac8:57d4:0:b0:50b:567a:e915 with SMTP id
+ d75a77b69052e-50dd5c10ad8mr322793641cf.64.1776261903663; Wed, 15 Apr 2026
+ 07:05:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: The "clockevents: Prevent timer interrupt starvation" patch
- causes lockups
-To: Hanabishi <i.r.e.c.c.a.k.u.n+kernel.org@gmail.com>,
- Thomas Gleixner <tglx@kernel.org>
-Cc: Frederic Weisbecker <frederic@kernel.org>,
- LKML <linux-kernel@vger.kernel.org>, Calvin Owens <calvin@wbinvd.org>,
- Peter Zijlstra <peterz@infradead.org>,
- Anna-Maria Behnsen <anna-maria@linutronix.de>, Ingo Molnar
- <mingo@kernel.org>, John Stultz <jstultz@google.com>,
- Stephen Boyd <sboyd@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- linux-fsdevel@vger.kernel.org, Sebastian Reichel <sre@kernel.org>,
- linux-pm@vger.kernel.org, Pablo Neira Ayuso <pablo@netfilter.org>,
- Florian Westphal <fw@strlen.de>, Phil Sutter <phil@nwl.cc>,
- netfilter-devel@vger.kernel.org, coreteam@netfilter.org
-References: <20260407083219.478203185@kernel.org>
- <20260407083247.562657657@kernel.org>
- <68d1e9ac-2780-4be3-8ee3-0788062dd3a4@gmail.com>
- <aeb848aa-404a-40fb-bd41-329644623b1d@cachyos.org>
- <ad6BtKRj1GyreNCS@localhost.localdomain>
- <a3ac856c-914c-4b39-949f-634bed501e7c@gmail.com> <87340xfeje.ffs@tglx>
- <e6d3dc64-1714-4105-8a38-3942c62d159a@gmail.com>
-From: Eric Naim <dnaim@cachyos.org>
-In-Reply-To: <e6d3dc64-1714-4105-8a38-3942c62d159a@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+References: <CAJnrk1ZRTGWjNzkMxS3UkeZMmrpadJDtWKontMx2=d-smXYq=w@mail.gmail.com>
+ <adkDq0m5Wt9YhJ8A@groves.net> <38744253-efa3-41c5-a491-b177a4a4c835@bsbernd.com>
+ <adlBcwJjLOQDAR65@groves.net> <CAJnrk1a06zkUmXW5EFiUmgAoFauwtzsYvnotaPH0ifVtyh7iDQ@mail.gmail.com>
+ <CAJfpegvVTcV89=q3L326aGQjhduBcv7PVg5QKftGLjNZmCLmaw@mail.gmail.com>
+ <ad4_jFsR951c2Mtn@groves.net> <20260414185740.GA604658@frogsfrogsfrogs>
+ <ad69tTnx5YkD4Y9K@gourry-fedora-PF4VCD3F> <f254f6fc-dc06-4612-82d7-35bb10dbd32e@kernel.org>
+ <ad-UAMcALRubBcHk@gourry-fedora-PF4VCD3F>
+In-Reply-To: <ad-UAMcALRubBcHk@gourry-fedora-PF4VCD3F>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Wed, 15 Apr 2026 16:04:50 +0200
+X-Gm-Features: AQROBzArU4_0DWulqMJjaZBbvqSvSBgOVsWveoXthohq7f36XvJ72ClRliOsfUQ
+Message-ID: <CAJfpegsUVv0ziMSQiq9pKeXf6G-+LROPTW077hHMSmAirVCLQw@mail.gmail.com>
+Subject: Re: [PATCH V10 00/10] famfs: port into fuse
+To: Gregory Price <gourry@gourry.net>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>, John Groves <John@groves.net>, 
+	Joanne Koong <joannelkoong@gmail.com>, Bernd Schubert <bernd@bsbernd.com>, 
+	John Groves <john@jagalactic.com>, Dan Williams <dan.j.williams@intel.com>, 
+	Bernd Schubert <bschubert@ddn.com>, Alison Schofield <alison.schofield@intel.com>, 
+	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
+	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+	Stefan Hajnoczi <shajnocz@redhat.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Aravind Ramesh <arramesh@micron.com>, 
+	Ajay Joshi <ajayjoshi@micron.com>, "venkataravis@micron.com" <venkataravis@micron.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, djbw@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 4/15/26 5:35 AM, Hanabishi wrote:
-> On 14/04/2026 20:55, Thomas Gleixner wrote:
->> The one below should cover all possible holes.
->>
->> Thanks,
->>
->>          tglx
->> ---
->> diff --git a/kernel/time/clockevents.c b/kernel/time/clockevents.c
->> index b4d730604972..5e22697b098d 100644
->> --- a/kernel/time/clockevents.c
->> +++ b/kernel/time/clockevents.c
->> @@ -94,6 +94,9 @@ static int __clockevents_switch_state(struct
->> clock_event_device *dev,
->>       if (dev->features & CLOCK_EVT_FEAT_DUMMY)
->>           return 0;
->>   +    /* On state transitions clear the forced flag unconditionally */
->> +    dev->next_event_forced = 0;
->> +
->>       /* Transition with new state-specific callbacks */
->>       switch (state) {
->>       case CLOCK_EVT_STATE_DETACHED:
->> @@ -366,8 +369,10 @@ int clockevents_program_event(struct clock_event_device
->> *dev, ktime_t expires, b
->>       if (delta > (int64_t)dev->min_delta_ns) {
->>           delta = min(delta, (int64_t) dev->max_delta_ns);
->>           cycles = ((u64)delta * dev->mult) >> dev->shift;
->> -        if (!dev->set_next_event((unsigned long) cycles, dev))
->> +        if (!dev->set_next_event((unsigned long) cycles, dev)) {
->> +            dev->next_event_forced = 0;
->>               return 0;
->> +        }
->>       }
->>         if (dev->next_event_forced)
->> diff --git a/kernel/time/tick-broadcast.c b/kernel/time/tick-broadcast.c
->> index 7e57fa31ee26..115e0bf01276 100644
->> --- a/kernel/time/tick-broadcast.c
->> +++ b/kernel/time/tick-broadcast.c
->> @@ -108,6 +108,7 @@ static struct clock_event_device
->> *tick_get_oneshot_wakeup_device(int cpu)
->>     static void tick_oneshot_wakeup_handler(struct clock_event_device *wd)
->>   {
->> +    wd->next_event_forced = 0;
->>       /*
->>        * If we woke up early and the tick was reprogrammed in the
->>        * meantime then this may be spurious but harmless.
-> 
-> Ok, it does fix the problem! Thank you.
-> The patch itself does not apply cleanly for 7.0 though and I had to adapt it a
-> bit.
-> 
+On Wed, 15 Apr 2026 at 15:35, Gregory Price <gourry@gourry.net> wrote:
 
-Sorry for the delay folks! This patch fixes the regression and a user recently
-confirmed it as well.
+> This was my first reaction when I realized the BPF program would be
+> controlling iomap return value in the fault path.  Big ol' (!)  popped
+> up over my head.
 
-Feel free to add:
-Tested-by: Eric Naim <dnaim@cachyos.org>
+I'm wondering which part of this triggers the big (!).
 
--- 
-Regards,
-  Eric
+BPF program being run in the fault path?
+
+Or that the return value from the BPF function is used as iomap?
+
+Or something else?
+
+Thanks,
+Miklos
