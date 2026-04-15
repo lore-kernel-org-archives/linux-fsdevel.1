@@ -1,144 +1,81 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 275A02853F8
-	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 14:14:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE17B22097;
+	Wed, 15 Apr 2026 14:30:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776262485; cv=none; b=r7qvnh6m1MIu4q+nLrDv9UcidAQ21EvwZxvd/5nCdSkgVUCRC54UF+zjmMdq3jmIwjBU7Bzh41wnu0Fdyup56hjJ01B97XtFibD7VEASOM8JREue6pK7PjKDeCC2BYzHO7eXj3SEPxLM1pP972cFv6oTJF2SYwIKnWyXzam2du0=
+	t=1776263453; cv=none; b=u35PENjowrm8RTuEIgisXZJ2dWTsU+C30cD6R9B3Ra8uZlht09Bj0GsoHBJ5iZ5FmTlBVEGcrZr4AlNGYLd7x7KH91VmE3T649/C9mL1VMHE6yBWET6gFGdiCKQncafqzSvoiqddUFqzDFC6Fai41eGPm4NOpdf/vrI9/bJMKjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776262485; c=relaxed/simple;
-	bh=oh2ZaD0YVIXH6z71ONW01jAr7uKpA09o3YgGZotFJA0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=F5GJ2KxYpBDqz4XVlar3hb+TSeNppreng1j5HK/CJpxZ79k9wXhCSgqXK28zmoXdidSIkDxfwmZcnbeDEls3vXsorpFQM8xmkdiQL6Kajd8Q1Fx/AJkNlB2bWzSkcW+v3IWxuAHvRDR5rn79Ylf03SrNI7n+6W36StkqzkdMEdk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ENtZJi8I; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZbunACQO; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1776263453; c=relaxed/simple;
+	bh=J0XDojRw/Mna3BVb3sFZO2YT5UKBAtP4uXxt8eW+m60=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n2RiboNNFfgYYPpIQOmI5gHs2soOpDHikUdYFiGpLhmURGHJ3O/fEvf1DRAUtsseO64fYFP2XrdwL8RuToKaqWw8QEhPka4RIoElT1OU7QJSKIPkHlZMqgSQqOo+GaZKNAavyzNknKdrwL8fUhd56FJpaLowlC98gN9MJ0tdzIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=EArKl0On; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ENtZJi8I";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZbunACQO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1776262483;
-	h=from:from:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7KRtbM5vRtC+90vFJ9CK7bzztdcwxjyK64to/dX/3L8=;
-	b=ENtZJi8IOXQ+IOy0RFICFEIyg/43p+3t8sgbu/C0peJI5CWlSVLh7m+C3yRJ/VW+aLGzAV
-	7bW9fZIwMIgKZS1WKxue0EHorm6AEGtXmdNFmDcBzWdpTg4vAde3es5gjuf1jL+TF8LD7C
-	Ggau/azNyS0ej1r4LE97B432OjoEUXE=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-617-QtvnGseKMIum0Z-NeTDfzw-1; Wed, 15 Apr 2026 10:14:41 -0400
-X-MC-Unique: QtvnGseKMIum0Z-NeTDfzw-1
-X-Mimecast-MFC-AGG-ID: QtvnGseKMIum0Z-NeTDfzw_1776262481
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-8d5d03ae893so1179409985a.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 07:14:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1776262481; x=1776867281; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:reply-to:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=7KRtbM5vRtC+90vFJ9CK7bzztdcwxjyK64to/dX/3L8=;
-        b=ZbunACQOfOMSjEzO6D/+YjdvPrS7HAcLgB98mMnIxmmnInA1l+PJzSmxcWCgnKr8dh
-         acl+aOjnl2r8uC3zOdQ4IcxzmpJuIX9KkyWjqW0Ah8sqO2xM2CEs7I0f6W5Q+7GxcIk0
-         t0y+LQ1eGIT1rKij+0IxdriK1mmqxORC0y7AxIv+OXXDQ78yDcwOw6HBbJdM/n8oqubn
-         FfOQOVSao6U7ri3wyGiXYOuRsr9b2pw8RPW6d9838iLdHj26FZ37yQIphweGSAO1kotb
-         JS05f0g+7DmANkyz72v/MdIEejwNUF590atBnoZ7Rjq/R29IHTYMN409CCog/SX1VU2/
-         zqwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776262481; x=1776867281;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:reply-to:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7KRtbM5vRtC+90vFJ9CK7bzztdcwxjyK64to/dX/3L8=;
-        b=mBs4FIflolJenpsf6asaOnj+8PKUTBt5S+dl37On5nySFiOYCrAJkrsdvivxUqYu2k
-         4CK4Ptb/ZP4lyLb5gIOeTILJD/yTEqIKFmw10I2ntM1mq4G2Nw5AFyH1qaHUWZgvMykk
-         PDtB+Ah6IVjBJq9iZNDPTLtx1ruqzpy0YnQmZwz2IouCmYJYkanoXbT52lOYpeW2VG6R
-         NIDaeD+lEvqxhP29eQ6lWic9DU/AOdPaHq+cRz58BDpG1ljy2nSeqLf125suxpYcGLiE
-         9u2MDnBFh8SC4n8tRzdTeG30Kz5nfvzvbo9QbOMwA/c79xDYqrb/7U3X84fKu5FPYlSc
-         X3vg==
-X-Forwarded-Encrypted: i=1; AFNElJ+X8Q5lq99hfl20fNU3qnlklGPsS40dJov7R8jT+F5U5yg7q2qS7GLodn12jxODpa6GLKKpBx59BBTd8PBq@vger.kernel.org
-X-Gm-Message-State: AOJu0YzT46iVBkhsnXJY7bnXZHGE1cOUZq5fE4l94HnqGl9V49FKIUTm
-	1JUuMZIMRNAYiL/57CW0nWTjReKWwZxqSG+eifENCMEdYUong9RA0DRbbs4ipFOrlCqE80Su8BP
-	pqXoMbVFtOKwv0UoTIM0U0oqDKbAgPIAHaFmrZ36OdttkD65D7ghsZHlRDsqeuKJo5Es=
-X-Gm-Gg: AeBDieuOwUo35J/7R+3VX2AH98YnexXhjRNtxv/1bdr6i8mw/YhVkYzHMPjiPJHpYP9
-	i0y6tlzwodfHSXA28O5x+802NmtVo52ADU6gNvM2FeNK7X9O87z+ACoQX6T5szEi7yWJB/ubZW2
-	uCWs5Gv9yvroV7xN//3qDXBld0xQEjFthaYCRWuZRQuGMcmqCvfI/8rGdryaKvoM9QMfIVrSr1m
-	AdRH74REOKPfLSb/LELDOuu6NNPMuYClGjPwC0nDTfU/OXId+IjFAmujg9k/RBgV/W7XYobwbHL
-	QoYw2zCdRYW53H9XYtTRvfMMMcXzUYk1hJbbwkq+tMoKVH+gR0xBw46TSNYnpKmZGzmy0C4RbPD
-	bzDBRskbRGG0z7kGU+mRhiKo/VNluFRag2XTjoG1b9/ZICo/xspO0Nsjp8lXhDYf2ZLpYnf8P
-X-Received: by 2002:a05:620a:29cd:b0:8cd:982d:411d with SMTP id af79cd13be357-8ddcf6b6995mr3111044385a.52.1776262481208;
-        Wed, 15 Apr 2026 07:14:41 -0700 (PDT)
-X-Received: by 2002:a05:620a:29cd:b0:8cd:982d:411d with SMTP id af79cd13be357-8ddcf6b6995mr3111037185a.52.1776262480611;
-        Wed, 15 Apr 2026 07:14:40 -0700 (PDT)
-Received: from [10.0.0.83] (97-127-66-40.mpls.qwest.net. [97.127.66.40])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8e4f31f95f9sm143932085a.43.2026.04.15.07.14.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Apr 2026 07:14:39 -0700 (PDT)
-Message-ID: <dc04b435-88c6-4b7e-802a-59734afe3184@redhat.com>
-Date: Wed, 15 Apr 2026 09:14:38 -0500
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="EArKl0On"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=Uk0JsMQf+CVFWDP/CsyX5sUtLObhpV7jtN+MOYTyvWk=; b=EArKl0OnAG9XoW3gQ9ptsyMcdE
+	b6gh6tQcpyIV8JguJZcbvXRbQ/wsJaYDXB0GU1SP7B1bOsZ8urKsRrJemFZjwxdWctEbvvyjCDbSR
+	wFnLNA7zNVO3RbjZQz7mIIO1dFwBX6AiXbK6oncdHs1kJrzufhytyiSparn7qGacnOTLFmsS066EX
+	wRDcF6P/59+TOksrTxfTvdBX4CgK94PB+IEe5dFi7H8mDyzKiFyd+LtwpF56AggnGniRVd1E/ZRCn
+	Tyn8MTq6BYcEE880k7ujkyDhl7loQbrS/8ZpnNAQx5QtXWHjwdUfXEkYawLopo9a7+JN7gOKd4Oud
+	uCcI9fOw==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1wD1GI-0000000004t-1aLk;
+	Wed, 15 Apr 2026 14:30:38 +0000
+Date: Wed, 15 Apr 2026 15:30:38 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Tal Zussman <tz2294@columbia.edu>, Jens Axboe <axboe@kernel.dk>,
+	Christian Brauner <brauner@kernel.org>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Carlos Maiolino <cem@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>, Dave Chinner <dgc@kernel.org>,
+	Bart Van Assche <bvanassche@acm.org>,
+	Gao Xiang <hsiangkao@linux.alibaba.com>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: Re: [PATCH 4/8] FOLD: block: change the defer in task context
+ interface to be procedural
+Message-ID: <ad-hDv8QoeTmlPW9@casper.infradead.org>
+References: <20260409160243.1008358-1-hch@lst.de>
+ <20260409160243.1008358-5-hch@lst.de>
+ <adgJqiA0vivaW7NA@casper.infradead.org>
+ <20260410061725.GA24667@lst.de>
+ <adj6iibxNot-yc9X@casper.infradead.org>
+ <20260415054407.GA26893@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Reply-To: sandeen@redhat.com
-Subject: Re: [PATCH] xfs: flush delalloc blocks on ENOSPC when creating
- symlinks
-To: Ravi Singh <ravising@redhat.com>, Christoph Hellwig <hch@infradead.org>
-Cc: linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- djwong@kernel.org, dchinner@redhat.com, cem@kernel.org
-References: <20260415071657.23412-1-ravising@redhat.com>
- <ad88TluB4FIP3yJV@infradead.org>
- <CAF-d4OvKZOsez5589KUYTjRz05PQHCQ-uRkXu-3iaO3tOjcavA@mail.gmail.com>
-Content-Language: en-US
-From: Eric Sandeen <esandeen@redhat.com>
-In-Reply-To: <CAF-d4OvKZOsez5589KUYTjRz05PQHCQ-uRkXu-3iaO3tOjcavA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260415054407.GA26893@lst.de>
 
-On 4/15/26 8:24 AM, Ravi Singh wrote:
-> On Wed, Apr 15, 2026 at 12:51 PM Christoph Hellwig <hch@infradead.org> wrote:
->>
->> On Wed, Apr 15, 2026 at 07:16:57AM +0000, Ravi Singh wrote:
->>> When creating symlinks on a nearly-full XFS filesystem,
->>> xfs_symlink() fails with ENOSPC even though space could be
->>> reclaimed from speculative preallocations. xfs_create() already
->>> handles this by flushing outstanding delalloc blocks via
->>> xfs_flush_inodes() and retrying the transaction allocation, but
->>> xfs_symlink() returns the error immediately.
->>>
->>> Add the same ENOSPC flush+retry logic to xfs_symlink() so that
->>> symlink creation behaves consistently with file creation.
->>
->> While we're at it - do we also want it for tempfiles and scrub?
->> i.e., should we move this logic into xfs_trans_alloc_icreate,
->> similar to the quota logic?
->>
-> tmpfiles and scrub tempfiles are created without
-> directory entries, so they don't need a new directory block
-> allocation and don't hit this ENOSPC path.
+On Wed, Apr 15, 2026 at 07:44:07AM +0200, Christoph Hellwig wrote:
+> On Fri, Apr 10, 2026 at 02:26:34PM +0100, Matthew Wilcox wrote:
+> > > Yes.  On the other hand we can actually use it when we don't know if
+> > > we need to offload beforehand, which enabls the two later conversions
+> > > and probably more.
+> > 
+> > I don't understand why we need to remove _this_ way to defer completions
+> > to take context in order to _add_ the ability to defer completions
+> > inside the bi_end_io handler.
 > 
-> As for moving the logic into xfs_trans_alloc_icreate(),
-> xfs_flush_inodes() is a heavier operation (sync_inodes_sb).
-> Pushing it down into xfs_trans_alloc_icreate() would make every
-> caller pay for that flush, including paths that don't need it.
-> 
-> I think keeping it in the callers that actually need it
-> (xfs_create and xfs_symlink) is the right scope.
+> I don't need to, but we'd better have very strong reasons for two ways
+> to do the same thing, and I don't really see it here.  But I can give it
+> a try if the consensus is that we want to way to do it, and we're not
+> worried about people getting the bio-flag one wrong as we could set it
+> from ->bi_end_io, but it would not do anything.
 
-I think that's correct. I had looked at this and came to the same
-conclusions after also thinking i.e. tmpfiles needed the same
-treatment, couldn't reproduce it, then realized it's because it's
-directory block allocation that needs the freed up space, something
-tmpfiles don't require.
-
-Thanks,
--Eric
-
+I want to make all writebacks complete in task context so we can change
+the i_pages.xa_lock from being irq-disabling to a plain spinlock.
