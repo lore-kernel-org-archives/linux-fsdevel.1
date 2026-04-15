@@ -1,144 +1,110 @@
-Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com [91.218.175.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AD0DFC0A
-	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 17:45:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C50B3264C0
+	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 17:52:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776275119; cv=none; b=S4aJrQxBelz/2nY+OctEn0Izo53FFndSS9hVBij+QpB2Rlz+KhVKGiM88LZrQ3/3EgCqpS4WbMrZ35rnNZt9OWxZzx00X5ml0RruMU+GNOeAS0vCeW2iXQ6cNBx8OP8OitgceI0tGHNLI4v9PxVMrm34ppQdKB/H+B8d3x2GXPs=
+	t=1776275557; cv=none; b=uqvKFznAu2BipBVAcx02WK9SVXeeiFXCMGm7oa47xMvUhkP75mWHJ+OIcZvo62aN9Lv59N5RQGvxUzNt5JF5ZSpgOwkgwhDCglbEuo+W8RcFb3wrFRAqZhRwI3TfdmKUH1lFE5z2X3BEyIvI5jcAwK7lo5S5Bn/sGTpnkesCfbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776275119; c=relaxed/simple;
-	bh=BfBe3zF+bUrR64vK3y/QmXyN05qfB60dgWlW0uKKIkc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B1SMQx1omdQ/X+FbRDF7Y1DZRjme2mGsZTvp5E2ORk+W1+KoqXXKWkcL7aM1+nq9xId0wXm/CUkfteLm24m4lTVIRQNXy64dZPrPDmWDWqBfTdgleXHF5PyupoHQfJMO+4a7RbvwrMyxPRG0Ih35qSnkO3HOUrSGU02XL0Vg9yQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=mlBO/mYu; arc=none smtp.client-ip=91.218.175.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1776275557; c=relaxed/simple;
+	bh=CEoIN4hbWHsWs2fIH831NCYDbaWcyrpV6r/hS58ZGD0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=h0OGSItQoUzIbbmHX+KAe8DqA46pKXYBVOTJA1QGeYpRUrZEH8mCA3V8U+akTHLyyw1mSYLwZ/+ifxDodMws8sq7xRCygm3345tQpIM+Dpm3cr2VlUJS75xs0QfhBLvFwO4sKAuTLLHU65vel/600QoLeKrBjUsagdJwTMxRlRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HT4gbV7x; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="mlBO/mYu"
-Date: Wed, 15 Apr 2026 10:45:11 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1776275115;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=C563PKmBwu9e720CGXp4gDf43TiENk08CsMILQPkock=;
-	b=mlBO/mYuSt24pu6Q9NZK+FQoFa5e4S7j8OhN8bkeo/zjADF19DoMR0UM8f5kCZ2NBTdlJn
-	lhoxYey87BzLhBhHyXroPE4h1+FGjCt3U2VTLIlHGFFy+46Rmi8ZFLviVVeitkNmIJ1hHK
-	5SJpHv0NShbHtCSghFl6+zFFd7imAiQ=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Shakeel Butt <shakeel.butt@linux.dev>
-To: Jan Kara <jack@suse.cz>
-Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	Matthew Wilcox <willy@infradead.org>, lsf-pc@lists.linux-foundation.org
-Subject: Re: [LSF/MM/BPF TOPIC] Filesystem inode reclaim
-Message-ID: <ad_Eo7iQVT-HUkx1@linux.dev>
-References: <m5v2s4fc6od2y2en5m62sr6fx57fdkhtqrn2kv47ngpcb65ump@4cfu4os3x5yy>
- <ad1QfUWEPSCDUDYv@linux.dev>
- <z6m4h2yamlckbyzh2ey2ixa7t7s6hlzg5jcle4qyebkopkvujw@pcrzrkuycg4g>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HT4gbV7x"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-43cfd832155so4936236f8f.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 10:52:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776275554; x=1776880354; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NdjcD7zkC4Ffs3/NLQJC4RJdZibISgd8Xa7t12qdRuE=;
+        b=HT4gbV7xNtxcyW3ba0gVogPQUOPnekDbPGLslkFNgkEIJNepk4bqUBKSei7OFlCUU7
+         rTSFM+U6OJDk9yghK5GijGXQxIdXtRSqcjzu1+/cZv9o868PRw1AnW/KArE3Bv1EDSDi
+         N1kIymOORTc5zMuYVJBt2mQkSlezn4fhDrFEzscqUXqVzNWTE+ZhZV0CXAMyGR4UzWEr
+         va7h+CI/B+aRYyN6feYFxuJyn/FkytuCfKl0FMWjuJaFeJVIS8ZFnsvs18MPRCrdkNZU
+         Qjh8yIgHaSk7Bk/tBbGebkbKkM/W2gfZemhnxTpCYwZUHHiuflPnSuU/l/AmtxMD2cHM
+         W5GQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776275554; x=1776880354;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NdjcD7zkC4Ffs3/NLQJC4RJdZibISgd8Xa7t12qdRuE=;
+        b=AfdIfe0583g8iqm5UUe1FhsDPaBFCEnkdu3YpFCCSB0h5LP+FqASVujCQJwcruckfU
+         2bcAVS3uS9NKpFsOVSz/ZVDWkMy/DtRf3APxPeZYbWOdA0cvwlNN4Vb6mLrnDOV9RGq2
+         24ljgaVhZD9cIuW63REseqrCohIqWtHSKTZj+F+ITavIQOHOJBAxfsewV4pbq0Nns6A5
+         H2J02+lgStl/BQ43f5uENo4mo5vJ0KoFAy9yAIlgvIPvguDoVagfM3mlg+vrfRIjylDi
+         MbEaMJy6SlKBD5b/Z50S0Uss53N2m/WDBcbPk5YOqfv461NaJhvicT41fsp9DQrz7Rje
+         JbWA==
+X-Forwarded-Encrypted: i=1; AFNElJ8FsHoPlM8Xp2P7x1sSaUDQlI4OsXshF3gaeST9UEPp8hoxW+hODxeHZpo/h41r+fL+VZbZSFugmVtSqWOl@vger.kernel.org
+X-Gm-Message-State: AOJu0YxS8PrFMsdC6gQlHfEh6EFBYBb8Pqiwd0G/3TK30rqqhs/pDWWR
+	64+g3XdpPFatuNx+thexME9dOAPcbRYdjlRebBDlhUtoTCjaGq422Pbd
+X-Gm-Gg: AeBDiet6Jhfpr4bBECw5LmjAMY3fyWH3lYqH8VPrKiOXX3Q87xxiksO2vc/SP+QCAWQ
+	xn39whU06CN350pvTsV4NsXreQEAXUue4YBFXsCD8JodrHgBgpFkDpU302lKvdsRFxMkU+P1AZR
+	o1hSQZTaLL4MwW5FQXGtD5s/BP6J/55e4WwbhRuvnUqk9lrqJSNqRjLIasHV1d7/Rn6S6XYc2Pz
+	9oztHXIlBbcscdbCcLa/D/bautvinv5yYgX0/zwniB+kHLcQRlVv4U9NcnYq6Gbbiqx5oBhC7qj
+	t/Es0GZKqjPeVQLGYr4sZtVfEWfkPnIgmHet8lbHYSt9GNEvXTkqQ+6QrntseLS5ObcoIQbSucO
+	XfNwEWzPdw9J18AFeyXkLPHuZkeSywygYff4xwse0DCmPt0RRlnNTAK8qon0Q/RnuwMf05wZzE4
+	5yqojfMbVlT7XSMkgp9apxdGqmXD1QcVDWNUv9SRWNxvW+dzXsesMTKMljumfZGmN4/r2+
+X-Received: by 2002:a05:6000:18a6:b0:43d:77c6:be6e with SMTP id ffacd0b85a97d-43d77c6c5demr21547074f8f.31.1776275553408;
+        Wed, 15 Apr 2026 10:52:33 -0700 (PDT)
+Received: from x250.speedport.ip (p5091f01d.dip0.t-ipconnect.de. [80.145.240.29])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43ead33d6d3sm7166741f8f.8.2026.04.15.10.52.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Apr 2026 10:52:32 -0700 (PDT)
+From: Myro <mirademche@gmail.com>
+X-Google-Original-From: Myro <myro@myromyro.com>
+To: corbet@lwn.net
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	Myro <myro@myromyro.com>
+Subject: [PATCH] docs: proc: fix minor grammar and formatting issues
+Date: Wed, 15 Apr 2026 19:52:30 +0200
+Message-ID: <20260415175230.46721-1-myro@myromyro.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <z6m4h2yamlckbyzh2ey2ixa7t7s6hlzg5jcle4qyebkopkvujw@pcrzrkuycg4g>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 14, 2026 at 11:15:48AM +0200, Jan Kara wrote:
-> Hi Shakeel!
-> 
-[...]
-> > Some of these allocations may have __GFP_ACCOUNT flag as well, right? Also are
-> > these just slab allocations or can be page allocations as well? And does the
-> > caller holds shared locks while performing these allocations?
-> 
-> Yes, some of these allocations may be __GFP_ACCOUNT - e.g. if we end up in
-> fs/buffer.c: grow_dev_folio() which needs to allocate folio to load
-> metadata into and allocate buffer_heads underlying that folio.
-> 
-> Regarding shared locks - it is fs dependent. I cannot currently remember
-> where __GFP_ACCOUNT allocation would be done under some wide-scale lock but
-> I cannot also completely rule that out. Definitely there are allocations
-> without __GFP_ACCOUNT under fs-wide locks.
+Fix missing "from" in "prevent <pid> --from-- being reused" and
+add spacing in vm_area_struct range notation for readability.
 
-Thanks for info and this is really important i.e. allocations under fs-wide
-locks.
+No functional changes. :)
+---
+ Documentation/filesystems/proc.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> 
-> > > I have been mulling over possible solutions since I don't think each
-> > > filesystem should be inventing a complex inode lifetime management scheme
-> > > as XFS has invented to solve these issues. Here's what I think we could do:
-> > > 
-> > > 1) Filesystems will be required to mark inodes that have non-trivial
-> > > cleanup work to do on reclaim with an inode flag I_RECLAIM_HARD (or
-> > > whatever :)). Usually I expect this to happen on first inode modification
-> > > or so. This will require some per-fs work but it shouldn't be that
-> > > difficult and filesystems can be adapted one-by-one as they decide to
-> > > address these warnings from reclaim.
-> > > 
-> > > 2) Inodes without I_RECLAIM_HARD will be reclaimed as usual directly from
-> > > kswapd / direct reclaim. I'm keeping this variant of inode reclaim for
-> > > performance reasons. I expect this to be a significant portion of inodes
-> > > on average and in particular for some workloads which scan a lot of inodes
-> > > (find through the whole fs or similar) the efficiency of inode reclaim is
-> > > one of the determining factors for their performance.
-> > > 
-> > > 3) Inodes with I_RECLAIM_HARD will be moved by the shrinker to a separate
-> > > per-sb list s_hard_reclaim_inodes and we'll queue work (per-sb work struct)
-> > > to process them.
-> > 
-> > This async worker is an interesting idea. I have been brain-storming for similar
-> > problems and I was going towards more kswapds or async/background reclaimers and
-> > such reclaimers can do more intensive cleanup work. Basically aim to avoid
-> > direct reclaimers as much as possible.
-> 
-> So similarly as we eventually moved direct page writeback from kswapd
-> reclaim, I think it makes sense to remove difficult inode reclaim from
-> kswapd as well. In particular because I think such separation makes it
-> clearer that while you do complex inode reclaim and allocate memory from
-> there, there's still kswapd that can free some memory for you to make
-> forward progress. And you better need to be sure that there's enough "easy
-> to free" memory to allow for forward progress of difficult reclaim.
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index 873761087f8d..d828006bd91c 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -118,7 +118,7 @@ PTRACE_MODE_ATTACH permissions; CAP_PERFMON capability does not grant access
+ to /proc/PID/mem for other processes.
+ 
+ Note that an open file descriptor to /proc/<pid> or to any of its
+-contained files or subdirectories does not prevent <pid> being reused
++contained files or subdirectories does not prevent <pid> from being reused
+ for some other process in the event that <pid> exits. Operations on
+ open /proc/<pid> file descriptors corresponding to dead processes
+ never act on any new process that the kernel may, through chance, have
+@@ -2199,7 +2199,7 @@ the process is maintaining.  Example output::
+      | lr-------- 1 root root 64 Jan 27 11:24 400000-41a000 -> /usr/bin/ls
+ 
+ The name of a link represents the virtual memory bounds of a mapping, i.e.
+-vm_area_struct::vm_start-vm_area_struct::vm_end.
++vm_area_struct::vm_start - vm_area_struct::vm_end.
+ 
+ The main purpose of the map_files is to retrieve a set of memory mapped
+ files in a fast way instead of parsing /proc/<pid>/maps or
+-- 
+2.53.0
 
-Another important point that we need memory guarantee for forward progress of
-the difficult reclaim.
-
-> 
-> > > 4) The work will walk s_hard_reclaim_inodes list and call evict() for each
-> > > inode, doing the hard work.
-> > > 
-> > > This way, kswapd / direct reclaim doesn't wait for hard to reclaim inodes
-> > > and they can work on freeing memory needed for freeing of hard to reclaim
-> > > inodes. So warnings about GFP_NOFAIL allocations aren't only papered over,
-> > > they should really be addressed.
-> > > 
-> > > One possible concern is that s_hard_reclaim_inodes list could grow out of
-> > > control for some workloads (in particular because there could be multiple
-> > > CPUs generating hard to reclaim inodes while the cleanup would be
-> > > single-threaded).
-> > 
-> > Why single-threaded? What will be the issue to have multiple such workers
-> > doing independent cleanups? Also these workers will need memory
-> > guarantees as well (something like PF_MEMALLOC) to not cause their
-> > allocations stuck in reclaim.
-> 
-> Well, single-threaded isn't a requirement but in the beginning I plan to do
-> it like that for simplicity similarly as currently there's only one flush
-> work doing writeback (although we are just discussing moving to more for
-> that). Also the inode cleanup will contend on fs-wide resources such as
-> journal so although some scaling can bring you benefits it will be
-> difficult to scale beyond certain limits (again heavily fs dependent).
-> 
-
-Difficult reclaim uses fs-wide resources (and locks) and thus we can not depend
-on it to be effective under extreme memory pressure, right? Or do we want it to
-be reliable under extreme memory pressure where we will need to provide memory
-and cpu guarantees to it?
-
-One more question, I assume it is fs-dependent but is it possible to avoid
-allocations (and thus reclaim) under fs-wide locks? One challenge/issue we at
-Meta are seeing is (btrfs) lock holders getting stuck in reclaim causing
-isolation issues.
