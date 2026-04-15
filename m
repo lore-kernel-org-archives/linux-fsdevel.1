@@ -1,141 +1,83 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C2E930ACF6
-	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Apr 2026 11:16:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FE5D33F37A;
+	Wed, 15 Apr 2026 11:46:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776251784; cv=none; b=tpr7JD3StFPnHCoeke2ihpM7F0fccrw+q20PRRnbbnizQrEIcqmpMfeor9gxIcE2HX0Cb7XJfiDuaW5alcd87cvR8OHRymZDHKOtj7ZdJ5VlK1EJ7DPwU+T361ZZmTrggbNK3COHHaYqZ+zk3XHGaAdXy8dov/K14OmUt/Fa0Ro=
+	t=1776253619; cv=none; b=VjAPPwjsa/FW2Qr1gg4m+fBW8YYKTa+MoofJSgU5EH4W+Nz/g/KgRuFkoma+ZdR8k6ML5CNB8Wei1uQb1IcDlo7bYk71KIXlLavX2TPqCTCggNNF/kLoHsPXKxdKK0sozh36Tkyiwunma8zv3UA3MnPogA+oIro8+afnIz8x7Dk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776251784; c=relaxed/simple;
-	bh=QvFkj94XYGJ047tpd5sGgOMH/mLcggwIb+6fRq6t5o4=;
-	h=From:To:Cc:Subject:MIME-Version:Content-Type:Date:Message-ID; b=pZeYqd8zu7Fc91S7j0GxqfbrrIc+usw/JIQvm7WXaz5iAxcnYHqqrPhWTpgDGYyisQUHzN2p6+maxwr+UULVfB86zRpWifz0DEEZ7X3s0qjd+KrUa2sbuLJc6RDj6y1RCzbPFIryEC/2xE1cWL0iVdRdxYWxQjQIoWTqSvgJNeg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TZY1gf1p; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TZY1gf1p"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1776251782;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=3dqApsnM+P4o09la4I1Tw9Wr5v2SnstRKsAAQ27vRWE=;
-	b=TZY1gf1paYj2Idugvli7NhmH+LuOYqtbcyCqpWZgavuVn3Kqf1E6juswIY5EQGo8BQoFTe
-	Ta8ck0LGwIhOu8istQ453xJgWa1R6MKqT9/W0mowfBhk2h8AjSn+NW2Zc/zRgsSvr+6Vou
-	NxSpDZbx1l6qWS1Nn98sIJMm5hcZ3oI=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-530-N87LYPymM8CIPtI7ZtY8Gw-1; Wed,
- 15 Apr 2026 07:16:19 -0400
-X-MC-Unique: N87LYPymM8CIPtI7ZtY8Gw-1
-X-Mimecast-MFC-AGG-ID: N87LYPymM8CIPtI7ZtY8Gw_1776251777
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D4C8B180057D;
-	Wed, 15 Apr 2026 11:16:16 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.44.34.160])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 62656180047F;
-	Wed, 15 Apr 2026 11:16:12 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-	Kingdom.
-	Registered in England and Wales under Company Registration No. 3798903
-From: David Howells <dhowells@redhat.com>
-To: Christian Brauner <christian@brauner.io>
-Cc: David Howells <dhowells@redhat.com>,
-    Paulo Alcantara <pc@manguebit.org>, netfs@lists.linux.dev,
-    linux-afs@lists.infradead.org, linux-cifs@vger.kernel.org,
-    ceph-devel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-    linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>
-Subject: [PATCH] netfs: Fix early put of sink folio in netfs_read_gaps()
+	s=arc-20240116; t=1776253619; c=relaxed/simple;
+	bh=4D2X8yOU8rGtrp3V4NAtTQ83/GooCriEzsAB5KmaFjo=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=P1ucGACaz6CM/T1M45BXzP36lHUmFZS9S3HiSioRfoU9R72ish20Gyad6xrZxrKmF+y9sCg6dDqDSMrRQb8R4ztWsuKs0Yk7meyj3Cs3qh30GeUiB1VMJ4/Ot13/+zMhZcGnOH33qyQ2Bwl8ZGygu0hXQ46mfOMuFOcH2oIMdMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.83])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fwfVW1cM4zJ46cZ;
+	Wed, 15 Apr 2026 19:46:11 +0800 (CST)
+Received: from mscpeml500003.china.huawei.com (unknown [7.188.49.51])
+	by mail.maildlp.com (Postfix) with ESMTPS id 480A640575;
+	Wed, 15 Apr 2026 19:46:54 +0800 (CST)
+Received: from localhost.localdomain (10.123.70.40) by
+ mscpeml500003.china.huawei.com (7.188.49.51) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Wed, 15 Apr 2026 14:46:53 +0300
+From: Anatoly Stepanov <stepanov.anatoly@huawei.com>
+To: <willy@infradead.org>, <akpm@linux-foundation.org>, <david@kernel.org>,
+	<ljs@kernel.org>, <Liam.Howlett@oracle.com>, <vbabka@kernel.org>,
+	<rppt@kernel.org>, <surenb@google.com>, <mhocko@suse.com>,
+	<wangkefeng.wang@huawei.com>, <yanquanmin1@huawei.com>, <zuoze1@huawei.com>,
+	<artem.kuzin@huawei.com>, <gutierrez.asier@huawei-partners.com>
+CC: <linux-fsdevel@vger.kernel.org>, <linux-mm@kvack.org>,
+	<linux-kernel@vger.kernel.org>, Anatoly Stepanov
+	<stepanov.anatoly@huawei.com>
+Subject: [RFC PATCH 0/2] Use high-order folios in mmap sync RA
+Date: Thu, 16 Apr 2026 03:28:51 +0800
+Message-ID: <20260415192853.3470423-1-stepanov.anatoly@huawei.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <261127.1776251770.1@warthog.procyon.org.uk>
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 15 Apr 2026 12:16:10 +0100
-Message-ID: <261128.1776251770@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: mscpeml500003.china.huawei.com (7.188.49.51) To
+ mscpeml500003.china.huawei.com (7.188.49.51)
 
-Fix netfs_read_gaps() to release the sink page it uses after waiting for
-the request to complete.  The way the sink page is used is that an
-ITER_BVEC-class iterator is created that has the gaps from the target foli=
-o
-at either end, but has the sink page tiled over the middle so that a singl=
-e
-read op can fill in both gaps.
+When "fault around" is enabled, 0-order folios might significantly
+slowdown filemap_map_pages().
 
-The bug was found by KASAN detecting a UAF on the generic/075 xfstest in
-the cifsd kernel thread that handles reception of data from the TCP socket=
-:
+For example when async RA won't be able to start,
+we might end up with a large mmap'ed file with 0-orders.
 
- BUG: KASAN: use-after-free in _copy_to_iter+0x48a/0xa20
- Write of size 885 at addr ffff888107f92000 by task cifsd/1285
- CPU: 2 UID: 0 PID: 1285 Comm: cifsd Not tainted 7.0.0 #6 PREEMPT(lazy)
- Call Trace:
-  dump_stack_lvl+0x5d/0x80
-  print_report+0x17f/0x4f1
-  kasan_report+0x100/0x1e0
-  kasan_check_range+0x10f/0x1e0
-  __asan_memcpy+0x3c/0x60
-  _copy_to_iter+0x48a/0xa20
-  __skb_datagram_iter+0x2c9/0x430
-  skb_copy_datagram_iter+0x6e/0x160
-  tcp_recvmsg_locked+0xce0/0x1130
-  tcp_recvmsg+0xeb/0x300
-  inet_recvmsg+0xcf/0x3a0
-  sock_recvmsg+0xea/0x100
-  cifs_readv_from_socket+0x3a6/0x4d0 [cifs]
-  cifs_read_iter_from_socket+0xdd/0x130 [cifs]
-  cifs_readv_receive+0xaad/0xb10 [cifs]
-  cifs_demultiplex_thread+0x1148/0x1740 [cifs]
-  kthread+0x1cf/0x210
+Imagine an access pattern, when we
+just access file chunk-by-chunk, where each chunk size equals to RA window,
+until every chunk of the file gets loaded into the page cache.
 
-Fixes: ee4cdf7ba857 ("netfs: Speed up buffered reading")
-Reported-by: Steve French <sfrench@samba.org>
-Signed-off-by: David Howells <dhowells@redhat.com>
-cc: Paulo Alcantara <pc@manguebit.org>
-cc: Matthew Wilcox <willy@infradead.org>
-cc: netfs@lists.linux.dev
-cc: linux-fsdevel@vger.kernel.org
----
- fs/netfs/buffered_read.c |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+In this case, we never touch RA-marked page, thus async RA wouldn't kick
+in, ending with 0-orders covering all the file.
 
-diff --git a/fs/netfs/buffered_read.c b/fs/netfs/buffered_read.c
-index c23173a061e8..dc50690fdd44 100644
---- a/fs/netfs/buffered_read.c
-+++ b/fs/netfs/buffered_read.c
-@@ -459,9 +459,6 @@ static int netfs_read_gaps(struct file *file, struct f=
-olio *folio)
- =
+Let's resolve this by starting sync RA with high-order.
 
- 	netfs_read_to_pagecache(rreq, NULL);
- =
+(procfs smaps patch is just for showing contpte coverage improvement for arm64)
 
--	if (sink)
--		folio_put(sink);
--
- 	ret =3D netfs_wait_for_read(rreq);
- 	if (ret >=3D 0) {
- 		folio_detach_private(folio);
-@@ -471,6 +468,9 @@ static int netfs_read_gaps(struct file *file, struct f=
-olio *folio)
- 		flush_dcache_folio(folio);
- 		folio_mark_uptodate(folio);
- 	}
-+
-+	if (sink)
-+		folio_put(sink);
- 	folio_unlock(folio);
- 	netfs_put_request(rreq, netfs_rreq_trace_put_return);
- 	return ret < 0 ? ret : 0;
+Based on linux-7.0-rc5
+
+Anatoly Stepanov (2):
+  procfs: add contpte info into smaps
+  filemap: use high-order folios in filemap sync RA
+
+ fs/proc/task_mmu.c      | 20 +++++++++++++++++---
+ include/linux/pagemap.h |  1 +
+ mm/filemap.c            |  1 +
+ mm/internal.h           |  1 +
+ mm/memory.c             |  2 +-
+ mm/readahead.c          |  5 +++--
+ 6 files changed, 24 insertions(+), 6 deletions(-)
+
+-- 
+2.34.1
 
