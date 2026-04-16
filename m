@@ -1,65 +1,102 @@
-Received: from out203-205-221-202.mail.qq.com (out203-205-221-202.mail.qq.com [203.205.221.202])
+Received: from esa3.hc1455-7.c3s2.iphmx.com (esa3.hc1455-7.c3s2.iphmx.com [207.54.90.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 414553750B9;
-	Thu, 16 Apr 2026 23:44:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AEFC242D6C;
+	Thu, 16 Apr 2026 23:45:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.54.90.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776383056; cv=none; b=RjK4E/9wkiVwRtMSVqqR6KGmIuxrXJVKfoXwLCBF/g7gxifd0unAtK/3VIdslF1gJjWkJoCCV7lvoWyFyRdsFOSlwwhlZkU23zTVVUmgAdiMom7iXmsXTr9rTJM1+xX9O7GXoegd/aCTIhWF013INSW7YDuqYeGhcxNX/qvda9w=
+	t=1776383146; cv=none; b=RQmgUuQPU51W7YcByhyDkGdniX9tZkfl5FU2Jh0cunVBxpCrqfmAhsJUq8if6XGnR5oWtWOMZsOrqJ5wEWFkFazkqaM75zegNLNiXcNgw6qvNyLLvnSn8JGVSi1pn89AbfLnDjtblVLzsTILa1QQnG2F7XsoIwS62hC6icPTaSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776383056; c=relaxed/simple;
-	bh=Kiymikq0X0+gkP8CuEaoY/Zfxpyhgd06S4r9aetmuvM=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=V/I4ISgVPL7grKpOBZ+8OqkMIt2/sug9Q/tDszq5ERfMgOzxUt7n2ZJI9mJ06BSEPeagO3VyBiGsy8pwhiDjHq2DSerNa/pDkeNgVJdS+/fI+lKArX871n37jLli1L0u9L27oFIPSq805EyeMFtBWHZv5QafSwHHR8WE/Fs4wjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=h0SS7OLx; arc=none smtp.client-ip=203.205.221.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1776383146; c=relaxed/simple;
+	bh=1Djc3gqyOJjAU0LA4LBGX7z8iBreDg3IeyA8Vm/2yGI=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=HaPN7X1OJ+HFMMMDtRAchHeEIpUu+DCfN9DtoRRJ7ATv/lmWdG0X9kXFYH8BcpFsxDQgC7Dmq+NOlnQK59c4EqfALcMDIATkBCkzUztGVqeY51ih+0Cj5D8th11GsqS/ixQtAuU1xwR9uH7AZIpHSSkgx13prvKfculL6Zvl4LQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com; spf=pass smtp.mailfrom=fujitsu.com; dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b=PqQFbobd; arc=none smtp.client-ip=207.54.90.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fujitsu.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="h0SS7OLx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1776383045; bh=5JZyq/d9oUdAxdYdjeN1RD8LEk2YpzfPinvpTPJaSOo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=h0SS7OLxoCx1p5cApXUZg4kBQE7/ysshB2M1C9HY0ipxVb/lMhwrsQJqh9wACWvkz
-	 2Agf7sqRuVWpE2amTqXrQuO8j+0diftSvaLhjUceFQw6tAfEan8eYHWp+ixbSelW+l
-	 iq4GTSGeGTzD2HlZo4+ITgl7sq0TiTvcyt90zcuU=
-Received: from lxu-ped-host.. ([111.198.231.89])
-	by newxmesmtplogicsvrszc43-0.qq.com (NewEsmtp) with SMTP
-	id B01A7465; Fri, 17 Apr 2026 07:44:01 +0800
-X-QQ-mid: xmsmtpt1776383041thph2xfa1
-Message-ID: <tencent_5ED373437A697F83A4A446B771577626CD05@qq.com>
-X-QQ-XMAILINFO: MlsYLnHA0UVj+A8RzaGJr4qpAZYRTSmYWn7blD2RFlarsLz1aq5Xru2cNUIYv9
-	 rGMVFC/Kqk/M0lRDxexPb69aVQ7XYDZdEJ9vk+B6SDjQIsxFkrp6UVzKoAQ26MTHkhbkWhGdc4rX
-	 erQXrejq2eHc0f8IZPces52zkjG5UmvueTtCGu0CGrRFDSSdY3Y3nI95NsXKSmsOuVvjXZLHNzXC
-	 SheKFipwPDhWSgBS4iOsg+C/hfDIQvSKNqKtdiO4b7XkkhKf20g07CY1pC4ypFL/RkYzIQqEtnwJ
-	 ZXk2t7l1eWtV5vJQBpxFDiza7Wc7QmzbUA+CAbLRyF0KJIaNgRLsfnOl5ms+z7n9J94sVh+hNcyQ
-	 7Ldwh9Wy38Mchf9TzedArp06P9njuRFBjm+TVH1FvlFfzPPydR7hCsjMm+SYEhk0jVIytg5bBGEV
-	 nOelrRnQAIXY9WGrzBEXMD717XEGwiYIKl9YIX0C4bltQEgmeJM4oKA5T1zlQ6bZTkbR0PZBWXGC
-	 nMDjuHiF34of9tyC9kSRAptIBgzdQkUgxUBxhqS15tC+oLJhnxUTyNWyB0Tx6nN0wLNkTLMbyE+l
-	 TJhzR7EGLM+4xTfNLtXRzZSrfBWq1vBm2wHwyoIO1n7sIJOJWgUTY29bA0GVoXpj3UbAmuTB12kt
-	 DGKFdqLNozV++SbiT+oRR0UrqG3xAykOvdNXJMTQfeJ3O238tIzp5Aa4p9jeJg+knjhSLUV/o/I2
-	 EMtITVB/kIybv/yY/L1tXGrvvgaS1rkNlCC4kRDTBM6xCiDg8ayProRLgT7GY2O+O2WaS4Dz/VKR
-	 /djLbhM9uB8w4nLLb9XbYkN8moyQcFkuW7wdyKGOV4ju7VSgyoCxeggAkjIDEcuQ1XSiWJbui2Fb
-	 HWij0cmGPk38p4bkBE8Lh1QffaPjtnCDgrVbQuJFqFkSDKHLhVgkcj8YATJWP58uBvCjwFr1qrr8
-	 RQz/MvTc0YAqcvxKa0qplgMe96nopGVb01zFXew6dVOfZ3gsb8dKJXyTKxv4ar+R+BZC6td5u7sL
-	 Rax3khshl0VOQcHTQY6+dVPWuLkuwzTJ6L7s6zJyHDg5rIi+Ghkd8uSOBvx3BSiokGT+D1Xz3rTT
-	 UMK8M+68zMYzykG3hxdAJYrKrV9EVPvzDGqNyABhhRqDMx/yQ=
-X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
-From: Edward Adam Davis <eadavis@qq.com>
-To: eadavis@qq.com
-Cc: frank.li@vivo.com,
-	glaubitz@physik.fu-berlin.de,
+	dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b="PqQFbobd"
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1776383143; x=1807919143;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=1Djc3gqyOJjAU0LA4LBGX7z8iBreDg3IeyA8Vm/2yGI=;
+  b=PqQFbobdQmE+xkU3REhiuOB0o3JeS3nV9Xs+4AzMafPQ+db5DiTx/s2B
+   5bCof+m4zt+sRYEmZ97yvMP/nhockGqjgodOKSD0V6csbsXgQzw+SlxEF
+   PO3qcJL0o0hnibskJ5f3wUwM3yRI7Hos9so9a2pXmjFdWTJlu6Ckb/HGC
+   +e8/jfME/kwhdJRtZ2cJIiq8idvCO2WLhKeyU4VWBT18Ze3VbSHH3Ci82
+   EVoNV7tY2CUT5kf5gv+lLw7GMx2hesbRJddlvVfzKd0lByXRoi+DQkmoZ
+   yJOxxYiVARwAqZBbATERQkck+D+XODS9DYKzChdhRWaZP/kJx6dKTp7X8
+   Q==;
+X-CSE-ConnectionGUID: yW43vTexQ+uGAOeKJEX+ZA==
+X-CSE-MsgGUID: /JE5XIH2SRy7k4YyP2IpGA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11761"; a="237192934"
+X-IronPort-AV: E=Sophos;i="6.23,183,1770562800"; 
+   d="scan'208";a="237192934"
+Received: from gmgwuk01.global.fujitsu.com ([172.187.114.235])
+  by esa3.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2026 08:44:32 +0900
+Received: from az2uksmgm4.o.css.fujitsu.com (unknown [10.151.22.201])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by gmgwuk01.global.fujitsu.com (Postfix) with ESMTPS id 670A2820C15;
+	Thu, 16 Apr 2026 23:44:33 +0000 (UTC)
+Received: from az2nlsmom3.fujitsu.com (az2nlsmom3.o.css.fujitsu.com [10.150.26.199])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2uksmgm4.o.css.fujitsu.com (Postfix) with ESMTPS id 1E144140124D;
+	Thu, 16 Apr 2026 23:44:33 +0000 (UTC)
+Received: from ubuntudhcp (unknown [10.172.107.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2nlsmom3.fujitsu.com (Postfix) with ESMTPS id 885DF101906C;
+	Thu, 16 Apr 2026 23:44:31 +0000 (UTC)
+Received: from isar2.ecs00.fujitsu.local (unknown [10.172.183.27])
+	by ubuntudhcp (Postfix) with ESMTP id B00EB2206C7;
+	Thu, 16 Apr 2026 23:44:30 +0000 (UTC)
+From: Tomasz Wolski <tomasz.wolski@fujitsu.com>
+To: tomasz.wolski@fujitsu.com
+Cc: alison.schofield@intel.com,
+	ardb@kernel.org,
+	benjamin.cheatham@amd.com,
+	bp@alien8.de,
+	dan.j.williams@intel.com,
+	dave.jiang@intel.com,
+	dave@stgolabs.net,
+	gregkh@linuxfoundation.org,
+	huang.ying.caritas@gmail.com,
+	ira.weiny@intel.com,
+	jack@suse.cz,
+	jeff.johnson@oss.qualcomm.com,
+	jonathan.cameron@huawei.com,
+	len.brown@intel.com,
+	linux-cxl@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	slava@dubeyko.com,
-	syzbot+217eb327242d08197efb@syzkaller.appspotmail.com,
-	syzkaller-bugs@googlegroups.com,
-	vdubeyko@redhat.com
-Subject: [PATCH v3] hfsplus: Add a sanity check for btree node size
-Date: Fri, 17 Apr 2026 07:44:02 +0800
-X-OQ-MSGID: <20260416234401.395203-2-eadavis@qq.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <tencent_B176296323B84453B767B76D66D513600305@qq.com>
-References: <tencent_B176296323B84453B767B76D66D513600305@qq.com>
+	linux-pm@vger.kernel.org,
+	lizhijian@fujitsu.com,
+	ming.li@zohomail.com,
+	nathan.fontenot@amd.com,
+	nvdimm@lists.linux.dev,
+	pavel@kernel.org,
+	peterz@infradead.org,
+	rafael@kernel.org,
+	rrichter@amd.com,
+	smita.koralahallichannabasappa@amd.com,
+	terry.bowman@amd.com,
+	vishal.l.verma@intel.com,
+	willy@infradead.org,
+	yaoxt.fnst@fujitsu.com,
+	yazen.ghannam@amd.com
+Subject: Re: [PATCH v8 0/9] dax/hmem, cxl: Coordinate Soft Reserved handling with CXL and HMEM
+Date: Fri, 17 Apr 2026 01:44:28 +0200
+Message-Id: <20260416234428.13623-1-tomasz.wolski@fujitsu.com>
+X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20260416224618.12987-1-tomasz.wolski@fujitsu.com>
+References: <20260416224618.12987-1-tomasz.wolski@fujitsu.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -68,67 +105,39 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Syzbot reported an uninit-value bug in [1] with a corrupted HFS+ image,
-during the file system mounting process, specifically while loading the
-catalog, a corrupted node_size value of 1 caused the rec_off argument
-passed to hfs_bnode_read_u16() (within hfs_bnode_find()) to be excessively
-large. Consequently, the function failed to return a valid value to
-initialize the off variable, triggering the bug [1].
+One additional remark:
+I observed one isue unrelated to this patch during tests
+on our AMD machine with two CXL physical cards installed.
+Region teardown with "destroy-region" fails with "Operation not permitted":
 
-Every node starts from BTree node descriptor: struct hfs_bnode_desc.
-So, the size of node cannot be lesser than that. However, technical
-specification declares that: "The node size (which is expressed in bytes)
-must be power of two, from 512 through 32,768, inclusive." Add a check
-for btree node size base on technical specification.
+cxl region: destroy_region: region1: failed to reset decode: Operation not permitted
+cxl region: decoder_region_action: region1: failed: Operation not permitted
+cxl region: region_action: one or more failures, last failure: Operation not permitted
+cxl region: cmd_destroy_region: destroyed 0 regions
 
-[1]
-BUG: KMSAN: uninit-value in hfsplus_bnode_find+0x141c/0x1600 fs/hfsplus/bnode.c:584
- hfsplus_bnode_find+0x141c/0x1600 fs/hfsplus/bnode.c:584
- hfsplus_btree_open+0x169a/0x1e40 fs/hfsplus/btree.c:382
- hfsplus_fill_super+0x111f/0x2770 fs/hfsplus/super.c:553
- get_tree_bdev_flags+0x6e6/0x920 fs/super.c:1694
- get_tree_bdev+0x38/0x50 fs/super.c:1717
- hfsplus_get_tree+0x35/0x40 fs/hfsplus/super.c:709
- vfs_get_tree+0xb3/0x5d0 fs/super.c:1754
- fc_mount fs/namespace.c:1193 [inline]
+Region lock is now correctly set by a fix "cxl: Test decoder flags as bitmasks" 
+(commit 0a70b7cd397e545e926c93715ff6366b67c716f6) but I cannot see any option
+how it can be unlocked to proceed with the teardown?
 
-Fixes: 8ad2c6a36ac4 ("hfsplus: validate b-tree node 0 bitmap at mount time")
-Reported-by: syzbot+217eb327242d08197efb@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=217eb327242d08197efb
-Signed-off-by: Edward Adam Davis <eadavis@qq.com>
----
-v1 -> v2: change check base on technical specification
-v2 -> v3: using const min size
+Without the lock I'm able to destroy regions:
 
- fs/hfsplus/btree.c         | 2 ++
- include/linux/hfs_common.h | 1 +
- 2 files changed, 3 insertions(+)
+>static void cxl_region_setup_flags(struct cxl_region *cxlr,
+>                                   struct cxl_decoder *cxld)
+>{
+>        if (cxld->flags & CXL_DECODER_F_LOCK) {
+>                dev_err(&cxlr->dev, "cxl_region_setup_flags: would lock, flags: %04lx\n", cxld->flags);
+>        }
+>        if (test_bit(CXL_DECODER_F_LOCK, &cxld->flags)) {
+>                dev_err(&cxlr->dev, "cxl_region_setup_flags: setting CXL_DECODER_F_LOCK, flags: %04lx\n", cxld->flags);
+>                set_bit(CXL_REGION_F_LOCK, &cxlr->flags);
+>                clear_bit(CXL_REGION_F_NEEDS_RESET, &cxlr->flags);
+>        }
+>
+>        if (cxld->flags & CXL_DECODER_F_NORMALIZED_ADDRESSING)
+>                set_bit(CXL_REGION_F_NORMALIZED_ADDRESSING, &cxlr->flags);
+>}
 
-diff --git a/fs/hfsplus/btree.c b/fs/hfsplus/btree.c
-index 761c74ccd653..394542a47e60 100644
---- a/fs/hfsplus/btree.c
-+++ b/fs/hfsplus/btree.c
-@@ -365,6 +365,8 @@ struct hfs_btree *hfs_btree_open(struct super_block *sb, u32 id)
- 	}
- 
- 	size = tree->node_size;
-+	if (size < HFSPLUS_NODE_MINSZ || size > HFSPLUS_NODE_MXSZ)
-+		goto fail_page;
- 	if (!is_power_of_2(size))
- 		goto fail_page;
- 	if (!tree->node_count)
-diff --git a/include/linux/hfs_common.h b/include/linux/hfs_common.h
-index 07dfc39630ab..45fb4c9ff9f5 100644
---- a/include/linux/hfs_common.h
-+++ b/include/linux/hfs_common.h
-@@ -513,6 +513,7 @@ struct hfs_btree_header_rec {
- /* HFS+ BTree misc info */
- #define HFSPLUS_TREE_HEAD			0
- #define HFSPLUS_NODE_MXSZ			32768
-+#define HFSPLUS_NODE_MINSZ			512
- #define HFSPLUS_ATTR_TREE_NODE_SIZE		8192
- #define HFSPLUS_BTREE_HDR_NODE_RECS_COUNT	3
- #define HFSPLUS_BTREE_HDR_MAP_REC_INDEX		2	/* Map (bitmap) record in Header node */
--- 
-2.43.0
 
+[    5.155997] [     T12] cxl region0: cxl_region_setup_flags: would lock, flags: 0030
+..
+[    5.130070] [     T12] cxl region1: cxl_region_setup_flags: would lock, flags: 0030
