@@ -1,178 +1,275 @@
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C11733B3BEF
-	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 11:59:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.217.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776340752; cv=pass; b=g63Ttkmf/fZSKpEV1FEd+U/VMzqgoRynF6vSNYSRzC/MzGLIJ/P5tMRnk+2ALtoUBSraEk0dxViQDIdwtsrT+zo5R4j/BWZV6QUXJlal6svkmYjZ3MjjFNu1QzJ+9smyS7jgcWiL2YBsqyRZMGt9f0TlaxVoa+5FBMJMqTCdI5s=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776340752; c=relaxed/simple;
-	bh=Bw7/eU46XNMmEAY5yaZoewjP327xtGOJwYlC+oEFeMA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=C4Qge5vc5wZCgGzv6gAmeXU0yIwoE+/eRs8/BDyNd6oETk+2T8jW9gmLCw6lH3n66UJajv0zTqUIwR4n1hBsuzoC1ViTGp3Upmmz3zQblFfsIihoFlvNDuRgJpTysFAKGIwal1sSddbjiqk70hW+b8l/dLbCx7ns4ZgQsejdGOc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Yv/iJipA; arc=pass smtp.client-ip=209.85.217.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AF8834F48D
+	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 12:05:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776341143; cv=none; b=scEecy+rzAKoA1/P06lsHlw+23vJCALP9+wGix5eISGiKC++BCK21S2gzkH0J+70XWy0BzSxWiHfdSySynGidjJBpcpbhR076ICJCzmVUQudSfswy1T4tUTQRNfvsEdHCD0p+0T3buznx8jr35aIxolo5HnaKrf9EUIkLScs7vs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776341143; c=relaxed/simple;
+	bh=9wHeWQsVrOKXVnqWzrSSyLovqDLP7du8ste6HflDmDc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AnOZxQ/s8uCxItEwov7Zp/aCtEjQF+AbOgmbi6DMZGgdIQkRZTjgox1MNOLnclsnpEYz2CH7expFvjspb/7aphWQxz+UMupLLd07ZrE9jgDvmPxc9vUVv7YkAhwyWd0Hkns5rqzK2TUPdKBwm4q4rXGyUhyHq996rPKM0NFfgE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=xfBPxdTo; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=T4/LdxVK; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=xfBPxdTo; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=T4/LdxVK; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yv/iJipA"
-Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-6058ac0ebceso5253838137.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 04:59:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776340749; cv=none;
-        d=google.com; s=arc-20240605;
-        b=VOqsVt0I3SgjTMYthohMSW000YKU8V3j6a4BcAVN3y3JcqHqLgX+KzmxtjvsYZKNbV
-         dUCkh3xoRzjAMvERR+5L2K5XT7O9fDCnf6JdFQHLVMDKkctA3rdWrYDjhWVhYpkdZ5N2
-         VvMJ11niuKfNPYT5QBD7wNIf492q1C7IcWU8Pr3m+fWzLvj8/NxD0yJhgqDXmEf6zAS4
-         mXzqcRdyl/WNYGO3jf2h+0mwSVwzw76cLPNlUiIiWWSQu8DA4jLGSWbFIwhtG6d+KHvZ
-         qihF+8F5OBqvbmk3q7VIwnQVnIHlY48FTe6y6HZ99BU5f9kSr0oKelFXqUivif8CLM6Q
-         sHMA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=JqYJ8R4iGWahwud4pP2JmsmCHvSHhoaPalUrCsDrudA=;
-        fh=1X0BEDqGUwDUVKL30CyDUXDvdpr0nUxnTxnen1LWMVs=;
-        b=A8eVzuJGONI5f5vH8PvLQFcBiNCMH6A9YNeAPDJxS9MBMiEvyKBrW6K0x917wp6kue
-         jTB5gVZWjFJAH8KWySPVc6q45saYXLYjaDrpdoK+AGr8lS8qFm9KmczRXSSCtS0Bqbaz
-         I56G0bdA5aTLI1ti2CFvmaFLcdco9XCgmRVNXpzGd2/vFahS1dqFifv2e3PQ4YzRSwV2
-         9S80Ttc8EkqShtcnI3azM/+8VYoF6Od+8bAwNcrex/AN5h1XnqzThoV6AuEsU48moIDi
-         aYw9KdUWnvPmHZro4b10g03y1l6YuDEyGdMjqTL/Glh0Y7apKrFfa5UDJBnBp9+wkyFG
-         ergQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776340749; x=1776945549; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JqYJ8R4iGWahwud4pP2JmsmCHvSHhoaPalUrCsDrudA=;
-        b=Yv/iJipAA+nhsL4hM00ueWwDagedY8BECDRzHx12spLwNgoS8ZakY4zrK2dkiR6l2J
-         mQ3pEXXlrCi9kMRBkZi2YHE6qORxLcsWe+D8l+wjDn8HWOrCtWjKCgf5gVQmenh2NByp
-         MCPNQ/tGjC/7AKKVlE3P3sIa6vn80p3d3lTSYo8ONK1oz6WoMzmPVNtYluTYxoNlq/gl
-         23amyKa5o+u6+Qji1591D7SZNcgKyeEHjHsrOnz+jlamox/cVrUC1NkqUB4QzAKYFrCI
-         XYiMktKmpNaISctvSp/Zchtq++MLrF/hVgPWAelzahh5Lq/eJ/sH7+6gxH0vD3vgUtNt
-         7D/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776340749; x=1776945549;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=JqYJ8R4iGWahwud4pP2JmsmCHvSHhoaPalUrCsDrudA=;
-        b=cvOPvlHr8KR2A/Kj3EILJ+cCTYGcQgzzhaTb0GvlSeJoDYrt0jc36EFOe5FE3LjRSW
-         DXri1c7UjrEQwKLI4UNw05cLoS7gaTudxNYmwrG94ULrELC4Zabl9EKpDkq/BckF56yR
-         Lv9hDLURPJ7fL08Uz69xYlGsmCpqzNT7z2o7yEpmx4PJQhV5X54bzM1Q4nLOPh2AwsDN
-         yVEMj2ZQnY9Eb12IgXAwOunWYXXA/n0+VjgFeMkvHU3TzVt5QE8DTNgyM1QaFmPTX1m3
-         gUR8JCZsmcuiOWq3amUa4On3elUxM9M37CuGZqYzZ6U35EReYBVvrKr6r0R95eIpAaGd
-         Ih0Q==
-X-Gm-Message-State: AOJu0YyGU+v6hcfn6L5IoYUcLkhMM8wBs2wCUcVx7tzHCpZMuIU8aT6V
-	tJ5WoPBEWhgW7gjbVCtGoJ19jqoItoBlPDKgHxW96pT5MYojH5X1F5vEQDcWhF7peb+DYOKnNum
-	9dIZPAOB7oZVlAVk/C+yDh82/qz4lbCg=
-X-Gm-Gg: AeBDieuVgGrnnd1CgPKuxO5SzeNTBa5I8qMI+qEMme6Ah6ZvyLepBiz+uSXaDOuJbxt
-	jfQ1ChZs8LNpfj5eoWSUeJm0Gs6IG4V6cMoCf9TRaarTdOvz2EUSo2GVMdH4jxedc0V77mAMcpI
-	qHGsBMSR6Aw6DVyKkk397yNpFABIY2Z8A2U+E4mp7JAmNH23YjOYpocfexaQAg7bLcx8YTlDWK4
-	wcF93lgmHqf9CAzWESjSYUFfosBJvt6pQzP3iHr887Futhws6qF4cW7wCzBm5l2iBIM1N/s77De
-	9TMHjx5v4C6cynsMEc0gO4uj9Nyx/Pkl5X15j5sLtg==
-X-Received: by 2002:a05:6102:6a94:b0:607:a3cb:4573 with SMTP id
- ada2fe7eead31-60a00c36c76mr12126981137.26.1776340748680; Thu, 16 Apr 2026
- 04:59:08 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="xfBPxdTo";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="T4/LdxVK";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="xfBPxdTo";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="T4/LdxVK"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 90A296A7F9;
+	Thu, 16 Apr 2026 12:05:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1776341139; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rzic6Sec5CbuqHmkHsjg0YroaADL07uS7ZD4kwHtxlc=;
+	b=xfBPxdToC5U8ErxBtunsRT59prlS+QPeDJbP8MISpIr85lpV8SNIAxskf3Z2TescqwqKRS
+	Mtnx52HZXpkrmMVmR72ez8LpqgrCT+qE7jcgSfOw+7K3PnsjPC1cBwLMpob+aIZ5mpNzJ7
+	EbiGqRohc65yUIINs9Bm8BE8S9K0leE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1776341139;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rzic6Sec5CbuqHmkHsjg0YroaADL07uS7ZD4kwHtxlc=;
+	b=T4/LdxVKWKFmDADmBO/WtToF+wVJa/EczIBvCy3ZlXL4Hio4qD/62bOiZV6/MmBly+pEZG
+	78MGpUi8qwmm57Dw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1776341139; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rzic6Sec5CbuqHmkHsjg0YroaADL07uS7ZD4kwHtxlc=;
+	b=xfBPxdToC5U8ErxBtunsRT59prlS+QPeDJbP8MISpIr85lpV8SNIAxskf3Z2TescqwqKRS
+	Mtnx52HZXpkrmMVmR72ez8LpqgrCT+qE7jcgSfOw+7K3PnsjPC1cBwLMpob+aIZ5mpNzJ7
+	EbiGqRohc65yUIINs9Bm8BE8S9K0leE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1776341139;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rzic6Sec5CbuqHmkHsjg0YroaADL07uS7ZD4kwHtxlc=;
+	b=T4/LdxVKWKFmDADmBO/WtToF+wVJa/EczIBvCy3ZlXL4Hio4qD/62bOiZV6/MmBly+pEZG
+	78MGpUi8qwmm57Dw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5CF22593A3;
+	Thu, 16 Apr 2026 12:05:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id IPOmFpPQ4GlRBgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 16 Apr 2026 12:05:39 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id DCB6FA0B67; Thu, 16 Apr 2026 14:05:34 +0200 (CEST)
+Date: Thu, 16 Apr 2026 14:05:34 +0200
+From: Jan Kara <jack@suse.cz>
+To: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+Cc: linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	djwong@kernel.org, john.g.garry@oracle.com, willy@infradead.org, hch@lst.de, 
+	ritesh.list@gmail.com, jack@suse.cz, Luis Chamberlain <mcgrof@kernel.org>, 
+	dgc@kernel.org, tytso@mit.edu, p.raghav@samsung.com, andres@anarazel.de, 
+	brauner@kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [RFC PATCH v2 2/5] iomap: Add initial support for buffered
+ RWF_WRITETHROUGH
+Message-ID: <5l2pnrwodwbey7lwmysjxldqpm2kbyi7kqp5tqg7xozvaoecuh@dcglcdr3ipnz>
+References: <cover.1775658795.git.ojaswin@linux.ibm.com>
+ <d44171d5a1ec783722019ad7d1a4ede0478cc914.1775658795.git.ojaswin@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260328172314.45807-1-dorjoychy111@gmail.com>
- <20260328172314.45807-2-dorjoychy111@gmail.com> <2026-04-16-selfless-milky-wasps-shin-p6liRL@cyphar.com>
-In-Reply-To: <2026-04-16-selfless-milky-wasps-shin-p6liRL@cyphar.com>
-From: Dorjoy Chowdhury <dorjoychy111@gmail.com>
-Date: Thu, 16 Apr 2026 17:58:57 +0600
-X-Gm-Features: AQROBzAEjiDzwaGAEKhFLRhObmxO2qMMzryZZhbLCURVPls0DvUuWHW8g_k7mMU
-Message-ID: <CAFfO_h5kWCYszymaY=tPAbpU=PjLFxsND+CWSYtypN4iuW+qPw@mail.gmail.com>
-Subject: Re: [PATCH v6 1/4] openat2: new OPENAT2_REGULAR flag support
-To: Aleksa Sarai <cyphar@cyphar.com>, jlayton@kernel.org
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-api@vger.kernel.org, ceph-devel@vger.kernel.org, gfs2@lists.linux.dev, 
-	linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org, v9fs@lists.linux.dev, 
-	linux-kselftest@vger.kernel.org, viro@zeniv.linux.org.uk, brauner@kernel.org, 
-	jack@suse.cz, chuck.lever@oracle.com, alex.aring@gmail.com, arnd@arndb.de, 
-	adilger@dilger.ca, mjguzik@gmail.com, smfrench@gmail.com, 
-	richard.henderson@linaro.org, mattst88@gmail.com, linmag7@gmail.com, 
-	tsbogend@alpha.franken.de, James.Bottomley@hansenpartnership.com, 
-	deller@gmx.de, davem@davemloft.net, andreas@gaisler.com, idryomov@gmail.com, 
-	amarkuze@redhat.com, slava@dubeyko.com, agruenba@redhat.com, 
-	trondmy@kernel.org, anna@kernel.org, sfrench@samba.org, pc@manguebit.org, 
-	ronniesahlberg@gmail.com, sprasad@microsoft.com, tom@talpey.com, 
-	bharathsm@microsoft.com, shuah@kernel.org, miklos@szeredi.hu, 
-	hansg@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d44171d5a1ec783722019ad7d1a4ede0478cc914.1775658795.git.ojaswin@linux.ibm.com>
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,oracle.com,infradead.org,lst.de,gmail.com,suse.cz,mit.edu,samsung.com,anarazel.de,kvack.org];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -2.30
+X-Spam-Level: 
 
-On Thu, Apr 16, 2026 at 5:41=E2=80=AFPM Aleksa Sarai <cyphar@cyphar.com> wr=
-ote:
->
-> On 2026-03-28, Dorjoy Chowdhury <dorjoychy111@gmail.com> wrote:
-> > This flag indicates the path should be opened if it's a regular file.
-> > This is useful to write secure programs that want to avoid being
-> > tricked into opening device nodes with special semantics while thinking
-> > they operate on regular files. This is a requested feature from the
-> > uapi-group[1].
-> >
-> > A corresponding error code EFTYPE has been introduced. For example, if
-> > openat2 is called on path /dev/null with OPENAT2_REGULAR in the flag
-> > param, it will return -EFTYPE. EFTYPE is already used in BSD systems
-> > like FreeBSD, macOS.
-> >
-> > When used in combination with O_CREAT, either the regular file is
-> > created, or if the path already exists, it is opened if it's a regular
-> > file. Otherwise, -EFTYPE is returned.
-> >
-> > When OPENAT2_REGULAR is combined with O_DIRECTORY, -EINVAL is returned
-> > as it doesn't make sense to open a path that is both a directory and a
-> > regular file.
-> >
-> > [1]: https://uapi-group.org/kernel-features/#ability-to-only-open-regul=
-ar-files
-> >
-> > Signed-off-by: Dorjoy Chowdhury <dorjoychy111@gmail.com>
-> > ---
->
-> Aside from the nit below, feel free to take a
->
-> Reviewed-by: Aleksa Sarai <aleksa@amutable.com>
->
+On Thu 09-04-26 00:15:43, Ojaswin Mujoo wrote:
+> This adds initial support for performing buffered non-aio
+> RWF_WRITETHROUGH write. The rough flow for a writethrough write is as
+> follows:
+> 
+> 1. Acquire inode lock
+> 2. initialize writethrough context (wt_ctx) and mark
+>    mapping as stable.
+> 3. Start the iomap_iter() loop. For each iomap:
+>   3.1. Acquire folio and folio_lock.
+>   3.2. perform memcpy from user buffer to the folio and mark it
+>        dirty
+>   3.3. Wait for any current writeback to complete and then call
+>        folio_mkclean() to prevent mmap writes from changing it.
+>   3.4. Start writeback on the folio
+>   3.5. Add the folio range under write to wt_ctx->bvec and folio_unlock()
+>   3.6. If bvec is full, submit the current bvecs for IO.
+>   3.7. Repeat 3.2 to 3.6 till the whole iomap is processed. Submit
+>        the final set of bvecs for IO.
+> 4. Repeat step 3 till we have no more data to write.
+> 5. Finally, sleep in the syscall thread till all the IOs are
+>    completed (refcount == 0). Once that happens, the end io handler will
+>    wake us up.
+> 6. Upon waking up, call fs ->end_io() callback (which updates inode
+>    size), record any errors and return.
+> 7. inode_unlock()
+> 
+> This design gives buffered writethrough the same semantics as dio and
+> any error in the IO is directly returned to the caller. The design has
+> delibrately open coded the IO submission and completion flow (inspired
+> by dio) rather than reusing the dio functions as accomodating buffered
+> writethrough logic in dio code was polluting it with too many if else
+> conditionals and special cases.
+> 
+> Suggested-by: Jan Kara <jack@suse.cz>
+> Suggested-by: Dave Chinner <dgc@kernel.org>
+> Co-developed-by: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
+> Signed-off-by: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
+> Signed-off-by: Ojaswin Mujoo <ojaswin@linux.ibm.com>
 
-Thanks for reviewing!
+Overall this looks good to me. Just a few smaller things below:
 
-> > diff --git a/fs/open.c b/fs/open.c
-> > index 681d405bc61e..a6f445f72181 100644
-> > --- a/fs/open.c
-> > +++ b/fs/open.c
-> > @@ -960,7 +960,7 @@ static int do_dentry_open(struct file *f,
-> >       if (f->f_mapping->a_ops && f->f_mapping->a_ops->direct_IO)
-> >               f->f_mode |=3D FMODE_CAN_ODIRECT;
-> >
-> > -     f->f_flags &=3D ~(O_CREAT | O_EXCL | O_NOCTTY | O_TRUNC);
-> > +     f->f_flags &=3D ~(O_CREAT | O_EXCL | O_NOCTTY | O_TRUNC | OPENAT2=
-_REGULAR);
->
-> It's not clear to me why you dropped this, I didn't see a review
-> mentioning it either. (General note: Ideally the cover letter changelog
-> would mention who suggested a change in brackets after the changelog
-> line so it's easier to track where a change might've come from.)
->
+> +static int iomap_writethrough_iter(struct iomap_writethrough_ctx *wt_ctx,
+> +				   struct iomap_iter *iter, struct iov_iter *i,
+> +				   const struct iomap_writethrough_ops *wt_ops)
+> +
+> +{
+> +	ssize_t total_written = 0;
+> +	int status = 0;
+> +	struct address_space *mapping = iter->inode->i_mapping;
+> +	size_t chunk = mapping_max_folio_size(mapping);
+> +	unsigned int bdp_flags = (iter->flags & IOMAP_NOWAIT) ? BDP_ASYNC : 0;
+> +	unsigned int bs = i_blocksize(iter->inode);
+> +
+> +	/* copied over based on DIO handles these flags */
+			       ^ missing 'how' here
 
-Thanks for the general note. I will keep that in mind.
+> +ssize_t iomap_file_writethrough_write(struct kiocb *iocb, struct iov_iter *i,
+> +				      const struct iomap_writethrough_ops *wt_ops,
+> +				      void *private)
+> +{
+> +	struct inode *inode = iocb->ki_filp->f_mapping->host;
+> +	struct iomap_iter iter = {
+> +		.inode		= inode,
+> +		.pos		= iocb->ki_pos,
+> +		.len		= iov_iter_count(i),
+> +		.flags		= IOMAP_WRITE | IOMAP_WRITETHROUGH,
+> +		.private	= private,
+> +	};
+> +	struct iomap_writethrough_ctx *wt_ctx;
+> +	unsigned int max_bvecs;
+> +	ssize_t ret;
+> +
+> +
+> +	/*
+> +	 * For now we don't support any other flag with WRITETHROUGH
+> +	 */
+> +	if (!(iocb->ki_flags & IOCB_WRITETHROUGH))
+> +		return -EINVAL;
+> +	if (iocb->ki_flags & (IOCB_NOWAIT | IOCB_DONTCACHE))
+> +		return -EINVAL;
+> +	if (iocb_is_dsync(iocb))
+> +		/* D_SYNC support not implemented yet */
+> +		return -EOPNOTSUPP;
+> +	if (!is_sync_kiocb(iocb))
+> +		/* aio support not implemented yet */
+> +		return -EOPNOTSUPP;
+> +
+> +	/*
+> +	 * +1 to max bvecs to account for unaligned write spanning multiple
+> +	 * folios
+> +	 */
+> +	max_bvecs = DIV_ROUND_UP(
+> +		iov_iter_count(i),
+> +		PAGE_SIZE << mapping_min_folio_order(inode->i_mapping)) + 1;
 
-The review was from Jeff Layton in v5
-https://lore.kernel.org/linux-fsdevel/5fcc2a6e6d92dae0601c6b3b8faa8b2f83981=
-afb.camel@kernel.org/
-" 1. OPENAT2_REGULAR leaks into f_flags - do_dentry_open() strips
-open-time-only flags (O_CREAT|O_EXCL|O_NOCTTY|O_TRUNC)
-  but does not strip OPENAT2_REGULAR. When a regular file is
-successfully opened via openat2() with this flag, the bit
-  persists in file->f_flags and will be returned by fcntl(fd, F_GETFL)."
+Can this overflow? iov_iter_count() returns size_t which is ulong.
 
-I think it makes sense to strip off as OPENAT2_REGULAR is an open time
-only flag (like O_CREAT and the others already), right?
+> +
+> +	if (max_bvecs > BIO_MAX_VECS)
+> +		max_bvecs = BIO_MAX_VECS;
+> +	if (!max_bvecs)
+> +		max_bvecs = 1;
 
-Regards,
-Dorjoy
+I don't think 0 is possible here since we do +1 in max_bvecs computation
+above.
+
+> +
+> +	wt_ctx = kzalloc(struct_size(wt_ctx, bvec, max_bvecs), GFP_NOFS);
+> +	if (!wt_ctx)
+> +		return -ENOMEM;
+> +
+> +	wt_ctx->iocb = iocb;
+> +	wt_ctx->inode = inode;
+> +	wt_ctx->dops = wt_ops->dops;
+> +	wt_ctx->pos = iocb->ki_pos;
+> +	wt_ctx->new_i_size = i_size_read(inode);
+> +	wt_ctx->max_bvecs = max_bvecs;
+> +	atomic_set(&wt_ctx->ref, 1);
+> +	wt_ctx->waiter = current;
+> +
+> +	mapping_set_stable_writes(inode->i_mapping);
+> +
+
+We should check if mapping is already marked as requiring stable pages
+avoid messing with (in particular clearing) the flag in that case.
+
+> +	while ((ret = iomap_iter(&iter, wt_ops->ops)) > 0) {
+> +		WARN_ON(iter.iomap.type != IOMAP_UNWRITTEN &&
+> +			iter.iomap.type != IOMAP_MAPPED);
+> +		iter.status = iomap_writethrough_iter(wt_ctx, &iter, i, wt_ops);
+> +	}
+> +	if (ret < 0)
+> +		cmpxchg(&wt_ctx->error, 0, ret);
+> +
+> +	if (!atomic_dec_and_test(&wt_ctx->ref)) {
+> +		for (;;) {
+> +			set_current_state(TASK_UNINTERRUPTIBLE);
+> +			if (!READ_ONCE(wt_ctx->waiter))
+> +				break;
+> +			blk_io_schedule();
+> +		}
+> +		__set_current_state(TASK_RUNNING);
+> +	}
+> +
+> +	return iomap_writethrough_complete(wt_ctx);
+> +}
+
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
