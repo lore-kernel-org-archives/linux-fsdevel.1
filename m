@@ -1,90 +1,89 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1501D38C2A3
-	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 09:17:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B66C399351
+	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 09:17:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776331030; cv=none; b=V4BOAh1uLXopXyArCgTBW4iEQe/wEel6Wpy00c6ptdlwRc6rj35CCjyKd37TcxJedkdoRRl2MVd/0WI3lWh6QSS6KTC9m/3ovdr22L0GqWw82sIahWjuO1IUlR1d8gGAFfuIgZbuBA97QjOoNmkapqSxre+ICixhZ47YNZC6k7g=
+	t=1776331032; cv=none; b=nY+yqaC1xfCQjkeFuTwLAOtriTYHG+jjQ55Hy3KYfGr9c0rj8ZwooDPolIRQiwx1s+RO+Xp4rO0xxMQjL3B4xM8IFCi1RrpSZvUT8mn5HSKpy6rgKixZpGEDij9DM0cVKofIBO0RhD3e06jUFi87bDjaUHpEy9hyEzhd8xThlHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776331030; c=relaxed/simple;
-	bh=tL5MxyhgKdQPEnYWXkY90yFm7j9GPJZG2GSBvkIyfvo=;
+	s=arc-20240116; t=1776331032; c=relaxed/simple;
+	bh=x/DSvtCyRipWNH91T3HbbeUOM89Uw//kQAjmllL4jPc=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=h8OCz4BoBhiPzXKClnpBoBFC7aSxHitbArpYfIYZ4+aOnfkGZm1tYAHH/K4ySGdpum4YQsRnLlorMvIPdsRYwJiHULg8/zEzEY9Sehlxj9VRVEkltPoUZPLNmnHPDp9cmSQff6bTETfKwvPjvWay6fqw5/bOEF/fJ9JLwyKOUAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PpPmCVnv; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=iyFUx1Yx; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=WPaBv0uqG+Kei25DyH1J0SoTAa3N6KihYPxNTHRAxWhvM4Rxrd7HJrb5RfqkcsDjwiLmQgXNX70wILOHSnNYZhR2u7PCmhMfdhqJS4Zw6RKlAnjgVaMyDpZXX31VjV8xKAYhvbHZrDplSDRZEOaKVdIzp+ZammLvnApEiQmZjF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JVYDib/N; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=OpnCgyfk; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PpPmCVnv";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="iyFUx1Yx"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JVYDib/N";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="OpnCgyfk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
 	s=mimecast20190719; t=1776331026;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7FAkHRdmnkBQcpKxRU1yEeGr27CWK7oxfI84jM0J6hw=;
-	b=PpPmCVnviM3W20frZ+xTLbSSnza6Ofdb6S5eWa3mCuw4VoO5+QSCfCPrhi3nMg5Aplj3zV
-	821v/gYnoRmeur4oeTxor7wYNGMMyG47CXxtJ9qWXfTpII7mqUnOmh+kU7lidamfAZJwx1
-	qjoA/a5bYbbG5XtnAZbtxoCrFXymJ04=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=xJEDd63xzRQVhGo4HSyO9OcLIgdMyTGFGR0O6k6LKrE=;
+	b=JVYDib/Ny9i+6Jk+HFoXgk5ZqA9s5nornbjzA6NGZMuko72wnW7xE1OXTrrL/cSQ0al3Tf
+	vJ1Lkr+SLzCb1wSE6pi73Dbv5BFWvDg/c4xOgCqIwT0RueGK4kHSHOLs3joMINMnurM4HS
+	G4uf5zh0klLWPpPaaem+vihDtiI0MBY=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-390-F85B3TOyMN2gwTcNGZb3qw-1; Thu, 16 Apr 2026 05:17:04 -0400
-X-MC-Unique: F85B3TOyMN2gwTcNGZb3qw-1
-X-Mimecast-MFC-AGG-ID: F85B3TOyMN2gwTcNGZb3qw_1776331023
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-488c2764f83so50883965e9.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 02:17:04 -0700 (PDT)
+ us-mta-422-NeCaxjpTPXuoSkiZpYZeWw-1; Thu, 16 Apr 2026 05:17:05 -0400
+X-MC-Unique: NeCaxjpTPXuoSkiZpYZeWw-1
+X-Mimecast-MFC-AGG-ID: NeCaxjpTPXuoSkiZpYZeWw_1776331024
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-43d7c6d58c8so4943056f8f.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 02:17:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1776331023; x=1776935823; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1776331024; x=1776935824; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=7FAkHRdmnkBQcpKxRU1yEeGr27CWK7oxfI84jM0J6hw=;
-        b=iyFUx1YxXnIY/uecN4rSUs3DEt/Kw7Cu61A9iiMhdq19qiMXTNWqTjB5T/7XxDKpQA
-         gfyFglnP8/KKaqDXsX7vfWfNopk2n8HnqtcpbvNSR6+nYQlOF7+EYD2L50KsBnHuDfAP
-         DgFi9sILMzEPTi+L3+9yNZ5ng07Ln7PneOiOm/2Pg5rvI9+gDKh1Vkke2/JYVBvMzjgC
-         KC4zbjmXAj6iOLusKcs7LKRS/+VOc9vjTJh4+9uPHm1Gw9Kxk5A8VusJHXbd+v6N8bzm
-         2iG+bFrRq1sguGuGDIJmRwm9TbvxXbTkVJ/AF95xVDB3FFlNU9JyA3I2Dr/ys2Mb2xSt
-         X8cA==
+        bh=xJEDd63xzRQVhGo4HSyO9OcLIgdMyTGFGR0O6k6LKrE=;
+        b=OpnCgyfkF5EZLU+6Y2bI3XvC1xbvd6BBqOMLufS3o7hXwvaPfAyFyLqTj0vGFC6K/Y
+         kxiAME76fQBoP1kylr7/FuI1mYGf9s1LC4ff9718hEahblrT/eBjTc+veWbugcoaDZM4
+         fjNeX4YltC7pxaAKu+lFwQy97RuWztfahrmeTFceKMcdY0Q8AX2EiVF/Uy5fLQ6wi2Ef
+         cVs3YEIU1EP3Hh3gG4h42eaXEO48psCUOqsvR9yX7MQ+OVQYUbqIKczOZHL+q6V+M+dV
+         Qo6D01NTHXeCxvnvFJAuBRcVbQP7+vxkdLDX6XProHIE4kBmUTbyC1ZNOUUwMGFc8CWA
+         q3GA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776331023; x=1776935823;
+        d=1e100.net; s=20251104; t=1776331024; x=1776935824;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=7FAkHRdmnkBQcpKxRU1yEeGr27CWK7oxfI84jM0J6hw=;
-        b=XfDA0DmjB7xHxWpybkNyxRehXrcnXGAGaQJvahxCJ6cQ49kefxWGgjGtr2J8Nr8E70
-         w1CRW9Wro+s7NA7f5Fqo/zxh6WWWPL8WGDlgjrs9j8UKtxRIsliRwczRGFpLPKWRAbxT
-         v2OCsecXjceQ2AmM4oWitR6TsV11giCz2CFGZxe/P8yeaielgR9RgAHA4ggmirVkYVtb
-         cPqXKxAItEh0u4Qhjg9U+RK8TkRYvuOcCCwgjCmSNfm6TVns4ztmmEcgWH1xz7kTRW5z
-         2vQ0hORKz9EWNLmfacrOOQEPy8AT8kuSlDxU3ZDYCg4tDq2/mxy/HjbbEyLIMmAe99io
-         t08A==
-X-Forwarded-Encrypted: i=1; AFNElJ/LTaYTLZP0HsfnoYLlREerF9gwEPByCPUjAfISFbQhCFZcYVaEUHtDggDaUP9IO5jkjnkoHKj1PLnwhtNL@vger.kernel.org
-X-Gm-Message-State: AOJu0YwEv4KViPqwSUlQx5YWTzHeoPJeBe7ac/1t8Mri1Zu5+02rhVYw
-	Smg640FqUU18o9CFkYP14zLuvu62l2QUdqt0uvDl7WqBXY6QL3njuKaH8bvIkmjpzHfKe1re+ls
-	kAzn1o9YxAhDmJgvrK6u+g21PZQ92RfxaNoJ2dhV0/6d+70VnqIK2HjxNsQb/nvc09sWQ7Yoee+
-	g=
-X-Gm-Gg: AeBDieuUlqr2p1DmLO2DmPHUc8b1nWP30hBYe9MlITWS4B3h6tSWVJBbcg3C1GaGpsc
-	l4WISrq3M6v4c1+ddKv8Si02m9+7EZFOiJrmiPXvDdVP8ROZ/x2DMJ6+Of3NSZcC4C4gDgVKvDF
-	nxCsFAl/12GyHXI2KN7Ta6H+s/TjH0jGmN04Tx5ouPz2FMeHd1nsi8MSN1wCtIsaQZaA03kI+h8
-	xatlfeTMD9HNZXCGyDSXIZV0UVIvcLgDW7WJtxrQSNA+vd1vVXW/m4H5OiftqPQyCnW6jlnOKKf
-	NW3oe9YvpWXcDpHBejUoE/mr+N6cDD6IRvYX5+m2M/8OiLjMqYZhSBK3iGt1Zi+Vpe2Tu//qz/l
-	RRBPgtoYZsd6UOOcaSolgrq27ELaIImpVn0ClJclF+cbAFdlzRcJbu9c1hq+JredaZGphvts8Od
-	Eh6pi7kQ==
-X-Received: by 2002:a05:600c:474c:b0:488:a2ac:a340 with SMTP id 5b1f17b1804b1-488d67e7212mr304714195e9.12.1776331022680;
-        Thu, 16 Apr 2026 02:17:02 -0700 (PDT)
-X-Received: by 2002:a05:600c:474c:b0:488:a2ac:a340 with SMTP id 5b1f17b1804b1-488d67e7212mr304713695e9.12.1776331022117;
-        Thu, 16 Apr 2026 02:17:02 -0700 (PDT)
+        bh=xJEDd63xzRQVhGo4HSyO9OcLIgdMyTGFGR0O6k6LKrE=;
+        b=kP8nuXwoHt48netQv7CagEzefPiDkPnXiEzxUFMXR2vKUBxVxXTwAmK0SGXRjaUeD8
+         Dsf3T7Ds677PYny7Hkd03pGlvFPp7PfYPj3Gh1XToZYGN0b3tGpK54cIE6gwYb4Gcasd
+         tlR7V4o8U5eNUN1UeOSw71u0oxJvSCbYG20E7r4B2GXDusC+Ye429cTWkJXIamDjVDN4
+         Rosmq6V2XFqa1RHuFj3rsdDoVBLVF3cuj+ZfNjulX8G1S9rVUdOcr1kYYfCCT/aqe13j
+         JZ86cb0dzHSTlC64xC10HognWGUPSTtoHGblswOwtsylNyLhgPtwBy/xVx+GoZLr/DzD
+         FJfg==
+X-Forwarded-Encrypted: i=1; AFNElJ/Ruv8DOpQjCHHYk8xUnVZEaG6Q428DVHqwGljSOpHM2wEbTl5dcIvI+e7yQVzYknzn4/9GqldUh2ThTCCs@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy3TT2UOISWE3Z5GsnQ8qqIHxIflzWZhYnK4URRQUwDx9fEt2w5
+	9O2NZLse33VGokR9kYFEVekq4TKNtHjWJxVPsH4vN4osEP0FOfFlwKirw+NwuuIGvMGN7UnnoUg
+	wS9RQsSKcahbuPB44OEkZRjPL6G3mLF98Ut8RukFNPewjzrGKMN1XTUplGTEQ6SCbBAg=
+X-Gm-Gg: AeBDievGGxO65Uu6Ttx2DBs8vdLC1m8eho5z5/TnEEeCWvVmc2VPa9X66tdIfr/Dmqa
+	955hZOjFUOKg+9VV4tYI/uMJgrvKPAdCJhe+5nGQqFi/0ymASlAR3O+fuoU1yylsy1NCJUWOSza
+	+iSqwgUWgm+fYZNcOgrTsnZEKheGsTltwXxSBOsiASI/nMwH/U9Tqxty5pAKlxxS418oHf/PFu2
+	8QjTonUeb/fRER4P8/orbHcftzndHOLFt/nCtplWx+9JPrHWdYDj+V/0+0elH5K0uUQ6Nf2p/xo
+	3Od3fZ/eIMHX4iNUvq3JUB8i86p/QZbVgJIW2crEc776a98eukstK0b5XVXAN38gdTSNnKjZrG8
+	fibYj769Ei1vNdoO+mJlEeOvRe6MhlnKcz8Watq/5tKpEUjpG4Zjgv14myrzqiS5/AGG1zaVv+8
+	36kF1+pw==
+X-Received: by 2002:a05:600c:3acf:b0:485:35a4:939f with SMTP id 5b1f17b1804b1-488d68a8275mr309195395e9.28.1776331023832;
+        Thu, 16 Apr 2026 02:17:03 -0700 (PDT)
+X-Received: by 2002:a05:600c:3acf:b0:485:35a4:939f with SMTP id 5b1f17b1804b1-488d68a8275mr309194905e9.28.1776331023283;
+        Thu, 16 Apr 2026 02:17:03 -0700 (PDT)
 Received: from maszat.piliscsaba.szeredi.hu (85-66-37-19.pool.digikabel.hu. [85.66.37.19])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f57d80d3sm38597975e9.0.2026.04.16.02.17.00
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f57d80d3sm38597975e9.0.2026.04.16.02.17.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Apr 2026 02:17:01 -0700 (PDT)
+        Thu, 16 Apr 2026 02:17:02 -0700 (PDT)
 From: Miklos Szeredi <mszeredi@redhat.com>
 To: fuse-devel@lists.linux.dev,
 	linux-fsdevel@vger.kernel.org
-Subject: [PATCH 01/32] fuse: move request timeout code to a new source file
-Date: Thu, 16 Apr 2026 11:16:25 +0200
-Message-ID: <20260416091658.462783-2-mszeredi@redhat.com>
+Subject: [PATCH 02/32] fuse: add struct fuse_chan
+Date: Thu, 16 Apr 2026 11:16:26 +0200
+Message-ID: <20260416091658.462783-3-mszeredi@redhat.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260416091658.462783-1-mszeredi@redhat.com>
 References: <20260416091658.462783-1-mszeredi@redhat.com>
@@ -96,453 +95,235 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This marks the first step in cleanly separating the transport layer from
-the filesystem layer.
+The goal is to separate transport layer stuff out from struct fuse_conn,
+leaving just the filesystem related members.
 
-Add "dev.h", which will contain the interface definition for the transport
-layer.
+Add a new object referenced from fuse_conn.  This patch just implements the
+allocation and freeing of this object.
+
+Following patches will move transport related members from fuse_conn to
+fuse_chan.
 
 Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
 ---
- fs/fuse/Makefile      |   2 +-
- fs/fuse/dev.c         |  94 --------------------------
- fs/fuse/dev.h         |  10 +++
- fs/fuse/fuse_i.h      |  19 ------
- fs/fuse/inode.c       |  33 +---------
- fs/fuse/req_timeout.c | 150 ++++++++++++++++++++++++++++++++++++++++++
- fs/fuse/sysctl.c      |   1 +
- fs/fuse/sysctl.h      |   9 +++
- 8 files changed, 173 insertions(+), 145 deletions(-)
- create mode 100644 fs/fuse/dev.h
- create mode 100644 fs/fuse/req_timeout.c
- create mode 100644 fs/fuse/sysctl.h
+ fs/fuse/cuse.c       |  7 ++++++-
+ fs/fuse/dev.c        | 13 +++++++++++++
+ fs/fuse/dev.h        |  7 +++++++
+ fs/fuse/fuse_dev_i.h |  4 ++++
+ fs/fuse/fuse_i.h     |  6 +++++-
+ fs/fuse/inode.c      | 10 ++++++++--
+ fs/fuse/virtio_fs.c  |  8 +++++++-
+ 7 files changed, 50 insertions(+), 5 deletions(-)
 
-diff --git a/fs/fuse/Makefile b/fs/fuse/Makefile
-index 22ad9538dfc4..30dd1bee931d 100644
---- a/fs/fuse/Makefile
-+++ b/fs/fuse/Makefile
-@@ -11,7 +11,7 @@ obj-$(CONFIG_CUSE) += cuse.o
- obj-$(CONFIG_VIRTIO_FS) += virtiofs.o
+diff --git a/fs/fuse/cuse.c b/fs/fuse/cuse.c
+index 174333633471..b135c3281a05 100644
+--- a/fs/fuse/cuse.c
++++ b/fs/fuse/cuse.c
+@@ -51,6 +51,7 @@
+ #include <linux/uio.h>
+ #include <linux/user_namespace.h>
  
- fuse-y := trace.o	# put trace.o first so we see ftrace errors sooner
--fuse-y += dev.o dir.o file.o inode.o control.o xattr.o acl.o readdir.o ioctl.o
-+fuse-y += dev.o dir.o file.o inode.o control.o xattr.o acl.o readdir.o ioctl.o req_timeout.o
- fuse-y += iomode.o
- fuse-$(CONFIG_FUSE_DAX) += dax.o
- fuse-$(CONFIG_FUSE_PASSTHROUGH) += passthrough.o backing.o
++#include "dev.h"
+ #include "fuse_i.h"
+ #include "fuse_dev_i.h"
+ 
+@@ -502,8 +503,12 @@ static int cuse_channel_open(struct inode *inode, struct file *file)
+ {
+ 	struct fuse_dev *fud;
+ 	struct cuse_conn *cc;
++	struct fuse_chan *fch __free(fuse_chan_free) = fuse_chan_new();
+ 	int rc;
+ 
++	if (!fch)
++		return -ENOMEM;
++
+ 	/* set up cuse_conn */
+ 	cc = kzalloc_obj(*cc);
+ 	if (!cc)
+@@ -514,7 +519,7 @@ static int cuse_channel_open(struct inode *inode, struct file *file)
+ 	 * be represented in file->f_cred->user_ns.
+ 	 */
+ 	fuse_conn_init(&cc->fc, &cc->fm, file->f_cred->user_ns,
+-		       &fuse_dev_fiq_ops, NULL);
++		       &fuse_dev_fiq_ops, NULL, no_free_ptr(fch));
+ 
+ 	cc->fc.release = cuse_fc_release;
+ 	fud = fuse_dev_alloc_install(&cc->fc);
 diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-index 5dda7080f4a9..eea85eaa5e77 100644
+index eea85eaa5e77..3e1e8ce83f1c 100644
 --- a/fs/fuse/dev.c
 +++ b/fs/fuse/dev.c
-@@ -32,100 +32,6 @@ MODULE_ALIAS("devname:fuse");
- 
- static struct kmem_cache *fuse_req_cachep;
- 
--const unsigned long fuse_timeout_timer_freq =
--	secs_to_jiffies(FUSE_TIMEOUT_TIMER_FREQ);
--
--bool fuse_request_expired(struct fuse_conn *fc, struct list_head *list)
--{
--	struct fuse_req *req;
--
--	req = list_first_entry_or_null(list, struct fuse_req, list);
--	if (!req)
--		return false;
--	return time_is_before_jiffies(req->create_time + fc->timeout.req_timeout);
--}
--
--static bool fuse_fpq_processing_expired(struct fuse_conn *fc, struct list_head *processing)
--{
--	int i;
--
--	for (i = 0; i < FUSE_PQ_HASH_SIZE; i++)
--		if (fuse_request_expired(fc, &processing[i]))
--			return true;
--
--	return false;
--}
--
--/*
-- * Check if any requests aren't being completed by the time the request timeout
-- * elapses. To do so, we:
-- * - check the fiq pending list
-- * - check the bg queue
-- * - check the fpq io and processing lists
-- *
-- * To make this fast, we only check against the head request on each list since
-- * these are generally queued in order of creation time (eg newer requests get
-- * queued to the tail). We might miss a few edge cases (eg requests transitioning
-- * between lists, re-sent requests at the head of the pending list having a
-- * later creation time than other requests on that list, etc.) but that is fine
-- * since if the request never gets fulfilled, it will eventually be caught.
-- */
--void fuse_check_timeout(struct work_struct *work)
--{
--	struct delayed_work *dwork = to_delayed_work(work);
--	struct fuse_conn *fc = container_of(dwork, struct fuse_conn,
--					    timeout.work);
--	struct fuse_iqueue *fiq = &fc->iq;
--	struct fuse_dev *fud;
--	struct fuse_pqueue *fpq;
--	bool expired = false;
--
--	if (!atomic_read(&fc->num_waiting))
--	    goto out;
--
--	spin_lock(&fiq->lock);
--	expired = fuse_request_expired(fc, &fiq->pending);
--	spin_unlock(&fiq->lock);
--	if (expired)
--		goto abort_conn;
--
--	spin_lock(&fc->bg_lock);
--	expired = fuse_request_expired(fc, &fc->bg_queue);
--	spin_unlock(&fc->bg_lock);
--	if (expired)
--		goto abort_conn;
--
--	spin_lock(&fc->lock);
--	if (!fc->connected) {
--		spin_unlock(&fc->lock);
--		return;
--	}
--	list_for_each_entry(fud, &fc->devices, entry) {
--		fpq = &fud->pq;
--		spin_lock(&fpq->lock);
--		if (fuse_request_expired(fc, &fpq->io) ||
--		    fuse_fpq_processing_expired(fc, fpq->processing)) {
--			spin_unlock(&fpq->lock);
--			spin_unlock(&fc->lock);
--			goto abort_conn;
--		}
--
--		spin_unlock(&fpq->lock);
--	}
--	spin_unlock(&fc->lock);
--
--	if (fuse_uring_request_expired(fc))
--	    goto abort_conn;
--
--out:
--	queue_delayed_work(system_percpu_wq, &fc->timeout.work,
--			   fuse_timeout_timer_freq);
--	return;
--
--abort_conn:
--	fuse_abort_conn(fc);
--}
--
- static void fuse_request_init(struct fuse_mount *fm, struct fuse_req *req)
- {
- 	INIT_LIST_HEAD(&req->list);
-diff --git a/fs/fuse/dev.h b/fs/fuse/dev.h
-new file mode 100644
-index 000000000000..f7db15c33cf9
---- /dev/null
-+++ b/fs/fuse/dev.h
-@@ -0,0 +1,10 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+#ifndef _FS_FUSE_DEV_H
-+#define _FS_FUSE_DEV_H
-+
-+struct fuse_conn;
-+
-+void fuse_init_server_timeout(struct fuse_conn *fc, unsigned int timeout);
-+
-+#endif /* _FS_FUSE_DEV_H */
-diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-index 17423d4e3cfa..111fb6f3ebc4 100644
---- a/fs/fuse/fuse_i.h
-+++ b/fs/fuse/fuse_i.h
-@@ -48,12 +48,6 @@
- /** Number of dentries for each connection in the control filesystem */
- #define FUSE_CTL_NUM_DENTRIES 5
- 
--/* Frequency (in seconds) of request timeout checks, if opted into */
--#define FUSE_TIMEOUT_TIMER_FREQ 15
--
--/** Frequency (in jiffies) of request timeout checks, if opted into */
--extern const unsigned long fuse_timeout_timer_freq;
--
- /*
-  * Dentries invalidation workqueue period, in seconds.  The value of this
-  * parameter shall be >= FUSE_DENTRY_INVAL_FREQ_MIN seconds, or 0 (zero), in
-@@ -63,16 +57,6 @@ extern unsigned inval_wq __read_mostly;
- 
- /** Maximum of max_pages received in init_out */
- extern unsigned int fuse_max_pages_limit;
--/*
-- * Default timeout (in seconds) for the server to reply to a request
-- * before the connection is aborted, if no timeout was specified on mount.
-- */
--extern unsigned int fuse_default_req_timeout;
--/*
-- * Max timeout (in seconds) for the server to reply to a request before
-- * the connection is aborted.
-- */
--extern unsigned int fuse_max_req_timeout;
- 
- /** List of active connections */
- extern struct list_head fuse_conn_list;
-@@ -1286,9 +1270,6 @@ void fuse_request_end(struct fuse_req *req);
- void fuse_abort_conn(struct fuse_conn *fc);
- void fuse_wait_aborted(struct fuse_conn *fc);
- 
--/* Check if any requests timed out */
--void fuse_check_timeout(struct work_struct *work);
--
- void fuse_dentry_tree_init(void);
- void fuse_dentry_tree_cleanup(void);
- 
-diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-index 702a1c619d36..db0ef19f4abe 100644
---- a/fs/fuse/inode.c
-+++ b/fs/fuse/inode.c
 @@ -6,6 +6,7 @@
    See the file COPYING.
  */
  
 +#include "dev.h"
+ #include "dev_uring_i.h"
  #include "fuse_i.h"
  #include "fuse_dev_i.h"
- #include "dev_uring_i.h"
-@@ -41,8 +42,6 @@ static int set_global_limit(const char *val, const struct kernel_param *kp);
+@@ -319,6 +320,18 @@ const struct fuse_iqueue_ops fuse_dev_fiq_ops = {
+ };
+ EXPORT_SYMBOL_GPL(fuse_dev_fiq_ops);
  
- unsigned int fuse_max_pages_limit = 256;
- /* default is no timeout */
--unsigned int fuse_default_req_timeout;
--unsigned int fuse_max_req_timeout;
++void fuse_chan_free(struct fuse_chan *fch)
++{
++	kfree(fch);
++}
++EXPORT_SYMBOL_GPL(fuse_chan_free);
++
++struct fuse_chan *fuse_chan_new(void)
++{
++	return kzalloc_obj(struct fuse_chan);
++}
++EXPORT_SYMBOL_GPL(fuse_chan_new);
++
+ static void fuse_send_one(struct fuse_iqueue *fiq, struct fuse_req *req)
+ {
+ 	req->in.h.len = sizeof(struct fuse_in_header) +
+diff --git a/fs/fuse/dev.h b/fs/fuse/dev.h
+index f7db15c33cf9..70e4a75e6942 100644
+--- a/fs/fuse/dev.h
++++ b/fs/fuse/dev.h
+@@ -3,7 +3,14 @@
+ #ifndef _FS_FUSE_DEV_H
+ #define _FS_FUSE_DEV_H
  
- unsigned int max_user_bgreq;
- module_param_call(max_user_bgreq, set_global_limit, param_get_uint,
-@@ -1311,34 +1310,6 @@ static void process_init_limits(struct fuse_conn *fc, struct fuse_init_out *arg)
- 	spin_unlock(&fc->bg_lock);
- }
++#include <linux/cleanup.h>
++
+ struct fuse_conn;
++struct fuse_chan;
++
++struct fuse_chan *fuse_chan_new(void);
++void fuse_chan_free(struct fuse_chan *fch);
++DEFINE_FREE(fuse_chan_free, struct fuse_chan *, if (_T) fuse_chan_free(_T))
  
--static void set_request_timeout(struct fuse_conn *fc, unsigned int timeout)
--{
--	fc->timeout.req_timeout = secs_to_jiffies(timeout);
--	INIT_DELAYED_WORK(&fc->timeout.work, fuse_check_timeout);
--	queue_delayed_work(system_percpu_wq, &fc->timeout.work,
--			   fuse_timeout_timer_freq);
--}
--
--static void init_server_timeout(struct fuse_conn *fc, unsigned int timeout)
--{
--	if (!timeout && !fuse_max_req_timeout && !fuse_default_req_timeout)
--		return;
--
--	if (!timeout)
--		timeout = fuse_default_req_timeout;
--
--	if (fuse_max_req_timeout) {
--		if (timeout)
--			timeout = min(fuse_max_req_timeout, timeout);
--		else
--			timeout = fuse_max_req_timeout;
--	}
--
--	timeout = max(FUSE_TIMEOUT_TIMER_FREQ, timeout);
--
--	set_request_timeout(fc, timeout);
--}
--
- struct fuse_init_args {
- 	struct fuse_args args;
- 	struct fuse_init_in in;
-@@ -1491,7 +1462,7 @@ static void process_init_reply(struct fuse_mount *fm, struct fuse_args *args,
- 			fc->no_flock = 1;
- 		}
+ void fuse_init_server_timeout(struct fuse_conn *fc, unsigned int timeout);
  
--		init_server_timeout(fc, timeout);
-+		fuse_init_server_timeout(fc, timeout);
+diff --git a/fs/fuse/fuse_dev_i.h b/fs/fuse/fuse_dev_i.h
+index 910f883cd090..8d69ea8761c5 100644
+--- a/fs/fuse/fuse_dev_i.h
++++ b/fs/fuse/fuse_dev_i.h
+@@ -21,6 +21,10 @@ struct fuse_req;
+ struct fuse_iqueue;
+ struct fuse_forget_link;
  
- 		fm->sb->s_bdi->ra_pages =
- 				min(fm->sb->s_bdi->ra_pages, ra_pages);
-diff --git a/fs/fuse/req_timeout.c b/fs/fuse/req_timeout.c
-new file mode 100644
-index 000000000000..64d9b503e6c5
---- /dev/null
-+++ b/fs/fuse/req_timeout.c
-@@ -0,0 +1,150 @@
-+// SPDX-License-Identifier: GPL-2.0-only
++struct fuse_chan {
++	/* will move stuff from struct fuse_conn */
++};
 +
-+#include "dev.h"
-+#include "sysctl.h"
-+#include "fuse_i.h"
-+#include "fuse_dev_i.h"
-+#include "dev_uring_i.h"
+ struct fuse_copy_state {
+ 	struct fuse_req *req;
+ 	struct iov_iter *iter;
+diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+index 111fb6f3ebc4..deaffe245284 100644
+--- a/fs/fuse/fuse_i.h
++++ b/fs/fuse/fuse_i.h
+@@ -668,6 +668,9 @@ struct fuse_conn {
+ 	/** Input queue */
+ 	struct fuse_iqueue iq;
+ 
++	/* transport layer object */
++	struct fuse_chan *chan;
 +
-+/* Frequency (in seconds) of request timeout checks, if opted into */
-+#define FUSE_TIMEOUT_TIMER_FREQ 15
-+
-+/* Frequency (in jiffies) of request timeout checks, if opted into */
-+static const unsigned long fuse_timeout_timer_freq =
-+	secs_to_jiffies(FUSE_TIMEOUT_TIMER_FREQ);
-+
-+/*
-+ * Default timeout (in seconds) for the server to reply to a request
-+ * before the connection is aborted, if no timeout was specified on mount.
-+ *
-+ * Exported via sysctl
-+ */
-+unsigned int fuse_default_req_timeout;
-+
-+/*
-+ * Max timeout (in seconds) for the server to reply to a request before
-+ * the connection is aborted.
-+ *
-+ * Exported via sysctl
-+ */
-+unsigned int fuse_max_req_timeout;
-+
-+bool fuse_request_expired(struct fuse_conn *fc, struct list_head *list)
-+{
-+	struct fuse_req *req;
-+
-+	req = list_first_entry_or_null(list, struct fuse_req, list);
-+	if (!req)
-+		return false;
-+	return time_is_before_jiffies(req->create_time + fc->timeout.req_timeout);
-+}
-+
-+static bool fuse_fpq_processing_expired(struct fuse_conn *fc, struct list_head *processing)
-+{
-+	int i;
-+
-+	for (i = 0; i < FUSE_PQ_HASH_SIZE; i++)
-+		if (fuse_request_expired(fc, &processing[i]))
-+			return true;
-+
-+	return false;
-+}
-+
-+/*
-+ * Check if any requests aren't being completed by the time the request timeout
-+ * elapses. To do so, we:
-+ * - check the fiq pending list
-+ * - check the bg queue
-+ * - check the fpq io and processing lists
-+ *
-+ * To make this fast, we only check against the head request on each list since
-+ * these are generally queued in order of creation time (eg newer requests get
-+ * queued to the tail). We might miss a few edge cases (eg requests transitioning
-+ * between lists, re-sent requests at the head of the pending list having a
-+ * later creation time than other requests on that list, etc.) but that is fine
-+ * since if the request never gets fulfilled, it will eventually be caught.
-+ */
-+static void fuse_check_timeout(struct work_struct *work)
-+{
-+	struct delayed_work *dwork = to_delayed_work(work);
-+	struct fuse_conn *fc = container_of(dwork, struct fuse_conn,
-+					    timeout.work);
-+	struct fuse_iqueue *fiq = &fc->iq;
-+	struct fuse_dev *fud;
-+	struct fuse_pqueue *fpq;
-+	bool expired = false;
-+
-+	if (!atomic_read(&fc->num_waiting))
-+		goto out;
-+
-+	spin_lock(&fiq->lock);
-+	expired = fuse_request_expired(fc, &fiq->pending);
-+	spin_unlock(&fiq->lock);
-+	if (expired)
-+		goto abort_conn;
-+
-+	spin_lock(&fc->bg_lock);
-+	expired = fuse_request_expired(fc, &fc->bg_queue);
-+	spin_unlock(&fc->bg_lock);
-+	if (expired)
-+		goto abort_conn;
-+
-+	spin_lock(&fc->lock);
-+	if (!fc->connected) {
-+		spin_unlock(&fc->lock);
-+		return;
-+	}
-+	list_for_each_entry(fud, &fc->devices, entry) {
-+		fpq = &fud->pq;
-+		spin_lock(&fpq->lock);
-+		if (fuse_request_expired(fc, &fpq->io) ||
-+		    fuse_fpq_processing_expired(fc, fpq->processing)) {
-+			spin_unlock(&fpq->lock);
-+			spin_unlock(&fc->lock);
-+			goto abort_conn;
-+		}
-+
-+		spin_unlock(&fpq->lock);
-+	}
-+	spin_unlock(&fc->lock);
-+
-+	if (fuse_uring_request_expired(fc))
-+		goto abort_conn;
-+
-+out:
-+	queue_delayed_work(system_percpu_wq, &fc->timeout.work,
-+			   fuse_timeout_timer_freq);
-+	return;
-+
-+abort_conn:
-+	fuse_abort_conn(fc);
-+}
-+
-+static void set_request_timeout(struct fuse_conn *fc, unsigned int timeout)
-+{
-+	fc->timeout.req_timeout = secs_to_jiffies(timeout);
-+	INIT_DELAYED_WORK(&fc->timeout.work, fuse_check_timeout);
-+	queue_delayed_work(system_percpu_wq, &fc->timeout.work,
-+			   fuse_timeout_timer_freq);
-+}
-+
-+void fuse_init_server_timeout(struct fuse_conn *fc, unsigned int timeout)
-+{
-+	if (!timeout && !fuse_max_req_timeout && !fuse_default_req_timeout)
-+		return;
-+
-+	if (!timeout)
-+		timeout = fuse_default_req_timeout;
-+
-+	if (fuse_max_req_timeout) {
-+		if (timeout)
-+			timeout = min(fuse_max_req_timeout, timeout);
-+		else
-+			timeout = fuse_max_req_timeout;
-+	}
-+
-+	timeout = max(FUSE_TIMEOUT_TIMER_FREQ, timeout);
-+
-+	set_request_timeout(fc, timeout);
-+}
-+
-diff --git a/fs/fuse/sysctl.c b/fs/fuse/sysctl.c
-index e2d921abcb88..74eca5ce9a2c 100644
---- a/fs/fuse/sysctl.c
-+++ b/fs/fuse/sysctl.c
-@@ -6,6 +6,7 @@
+ 	/** The next unique kernel file handle */
+ 	atomic64_t khctr;
+ 
+@@ -1313,7 +1316,8 @@ void fuse_pqueue_init(struct fuse_pqueue *fpq);
   */
- #include <linux/sysctl.h>
+ void fuse_conn_init(struct fuse_conn *fc, struct fuse_mount *fm,
+ 		    struct user_namespace *user_ns,
+-		    const struct fuse_iqueue_ops *fiq_ops, void *fiq_priv);
++		    const struct fuse_iqueue_ops *fiq_ops, void *fiq_priv,
++		    struct fuse_chan *fch);
  
-+#include "sysctl.h"
+ /**
+  * Release reference to fuse_conn
+diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+index db0ef19f4abe..758cefa9b9b6 100644
+--- a/fs/fuse/inode.c
++++ b/fs/fuse/inode.c
+@@ -997,7 +997,7 @@ void fuse_pqueue_init(struct fuse_pqueue *fpq)
+ 
+ void fuse_conn_init(struct fuse_conn *fc, struct fuse_mount *fm,
+ 		    struct user_namespace *user_ns,
+-		    const struct fuse_iqueue_ops *fiq_ops, void *fiq_priv)
++		    const struct fuse_iqueue_ops *fiq_ops, void *fiq_priv, struct fuse_chan *fch)
+ {
+ 	memset(fc, 0, sizeof(*fc));
+ 	spin_lock_init(&fc->lock);
+@@ -1035,6 +1035,7 @@ void fuse_conn_init(struct fuse_conn *fc, struct fuse_mount *fm,
+ 	INIT_LIST_HEAD(&fc->mounts);
+ 	list_add(&fm->fc_entry, &fc->mounts);
+ 	fm->fc = fc;
++	fc->chan = fch;
+ }
+ EXPORT_SYMBOL_GPL(fuse_conn_init);
+ 
+@@ -1043,6 +1044,7 @@ static void delayed_release(struct rcu_head *p)
+ 	struct fuse_conn *fc = container_of(p, struct fuse_conn, rcu);
+ 
+ 	fuse_uring_destruct(fc);
++	fuse_chan_free(fc->chan);
+ 
+ 	put_user_ns(fc->user_ns);
+ 	fc->release(fc);
+@@ -1982,8 +1984,12 @@ static int fuse_get_tree(struct fs_context *fsc)
+ 	struct fuse_conn *fc;
+ 	struct fuse_mount *fm;
+ 	struct super_block *sb;
++	struct fuse_chan *fch __free(fuse_chan_free) = fuse_chan_new();
+ 	int err;
+ 
++	if (!fch)
++		return -ENOMEM;
++
+ 	fc = kmalloc_obj(*fc);
+ 	if (!fc)
+ 		return -ENOMEM;
+@@ -1994,7 +2000,7 @@ static int fuse_get_tree(struct fs_context *fsc)
+ 		return -ENOMEM;
+ 	}
+ 
+-	fuse_conn_init(fc, fm, fsc->user_ns, &fuse_dev_fiq_ops, NULL);
++	fuse_conn_init(fc, fm, fsc->user_ns, &fuse_dev_fiq_ops, NULL, no_free_ptr(fch));
+ 	fc->release = fuse_free_conn;
+ 
+ 	fsc->s_fs_info = fm;
+diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
+index 12300651a0f1..f6d41b760210 100644
+--- a/fs/fuse/virtio_fs.c
++++ b/fs/fuse/virtio_fs.c
+@@ -19,6 +19,7 @@
+ #include <linux/highmem.h>
+ #include <linux/cleanup.h>
+ #include <linux/uio.h>
++#include "dev.h"
  #include "fuse_i.h"
+ #include "fuse_dev_i.h"
  
- static struct ctl_table_header *fuse_table_header;
-diff --git a/fs/fuse/sysctl.h b/fs/fuse/sysctl.h
-new file mode 100644
-index 000000000000..948d88417133
---- /dev/null
-+++ b/fs/fuse/sysctl.h
-@@ -0,0 +1,9 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
+@@ -1683,8 +1684,12 @@ static int virtio_fs_get_tree(struct fs_context *fsc)
+ 	struct fuse_conn *fc = NULL;
+ 	struct fuse_mount *fm;
+ 	unsigned int virtqueue_size;
++	struct fuse_chan *fch __free(fuse_chan_free) = fuse_chan_new();
+ 	int err = -EIO;
+ 
++	if (!fch)
++		return -ENOMEM;
 +
-+#ifndef _FS_FUSE_SYSCTL_H
-+#define _FS_FUSE_SYSCTL_H
+ 	if (!fsc->source)
+ 		return invalf(fsc, "No source specified");
+ 
+@@ -1711,7 +1716,8 @@ static int virtio_fs_get_tree(struct fs_context *fsc)
+ 	if (!fm)
+ 		goto out_err;
+ 
+-	fuse_conn_init(fc, fm, fsc->user_ns, &virtio_fs_fiq_ops, fs);
++	fuse_conn_init(fc, fm, fsc->user_ns, &virtio_fs_fiq_ops, fs, no_free_ptr(fch));
 +
-+extern unsigned int fuse_default_req_timeout;
-+extern unsigned int fuse_max_req_timeout;
-+
-+#endif /* _FS_FUSE_SYSCTL_H */
+ 	fc->release = fuse_free_conn;
+ 	fc->delete_stale = true;
+ 	fc->auto_submounts = true;
 -- 
 2.53.0
 
