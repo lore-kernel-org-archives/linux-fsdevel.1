@@ -1,169 +1,133 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1B3130EF9B
-	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 22:16:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6964935AC2F;
+	Thu, 16 Apr 2026 22:42:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776377782; cv=none; b=TXvDrlBI2HPXWKPOuHe1J/5b9OBfO026JJu2JEoMnx7P9p7RRqXyItY2nPX9a4P0UaFFTW7RMHjRRheRsyj8+7nnSiR8imjERorEUk3Ju4P2UJEf+B/+p56F4f4xXDUND4VKDHK8UxD9xTA4+eZJz1hKwMYEHcdbAqVqftVQTjc=
+	t=1776379336; cv=none; b=u6mbLVZSnRSunSui/JnzUDHtZF7mf8457ICv1sEu+TSiIAdlkHywWxAutzFUsYHZ4DwQXAHXejn2OFMmAeBUega8lXtzcFiPddqUit8mUtM6cVusmLay4cjtVMfgsDjU+dxatqmGJ/6/tpSYyME8hkHvC6J5tdYtcRHnsUgLMTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776377782; c=relaxed/simple;
-	bh=oPRDhwr/hOJvxg944xYcrkhTvL+eLFkPvhYmJB+XV0E=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=IOTuDoeiZcmi2chPf225flpElISx2i3W6WScT01w1CdDsT6L0ZoEZAJ6aHfc5S7A9eCsjih+map1/9z1BmzmXsHWKYzMGHXbf14qk8EJb5YiAsbyx8JDB/la2ZjfUCc/uAYRGF/TmzTd1YVK4a3Lw0pSbdsvRUGEFtnRbWnWnwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SqnQ/oyC; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=q9zPsta9; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1776379336; c=relaxed/simple;
+	bh=lapdISy5RqxJgrImNGTKA7C/+JI+0anxuZfW02LMH1U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jmb7kl0c8hORJI+hGcX0NHuhGCvX6NBsEK5uff8ShOjEj1lVb3RpKMtiaqEAG8ZloTy6Nqk0vewUb1zWNPkmCvVQmAPgszkeTD/piM4grwJ1O0ewDpvHhPMidgV2s7JNx02HAbu/yjMjbzRDfgCNI6mZ8+K5D/6eaPD8hMb12Qc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KoZyHhk8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SqnQ/oyC";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="q9zPsta9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1776377779;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Rg1Yde900dZnvA1zX8a1F5Y9dfGeYPsrAapj+wpUhx4=;
-	b=SqnQ/oyCoCVcroy6KY0ymYpDdM4DYhcSK5OED3WItvEf77SWUm7+lTFeMZR5V6jGYwqZ1j
-	LDkYtfxUTk9M/1KySu4R7pdV23Sc0QWZUFCOfAhCiMmM85/rJtXutwQbfJd0nQ2OFLYNWP
-	apGIOOkFvR2M6zB/7ZtZoFHne8HUZuI=
-Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
- [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-468-O7jC_zTmNVekoBX7qdfwJQ-1; Thu, 16 Apr 2026 18:16:18 -0400
-X-MC-Unique: O7jC_zTmNVekoBX7qdfwJQ-1
-X-Mimecast-MFC-AGG-ID: O7jC_zTmNVekoBX7qdfwJQ_1776377778
-Received: by mail-yw1-f200.google.com with SMTP id 00721157ae682-798656130b0so402327b3.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 15:16:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1776377778; x=1776982578; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Rg1Yde900dZnvA1zX8a1F5Y9dfGeYPsrAapj+wpUhx4=;
-        b=q9zPsta9/2y44CckUtKyNRrEbf6KGE8nOTXlOn5hrsHz2x1j8woEKlWvAvgWhCh1/J
-         UmZqd+wVdrpHAyEJMspJaGLKEVvERZyKEFoUOhWjmj0I5+RyYrqvvQyzroD7oYyqb3NE
-         Kzes3DpW0YgYX27zCdzsAJNARoFtO5uuIXhCV7DZQrL93i7BhXWHNXhPqC97Nk9CqVJL
-         oPn5w3z4FSBLpUl6UX857R0rMDwqY+EOkmWIy0HkpmDiVniUiGEEAQSvk0G4CxKlK/fs
-         MrfKaxajj+ywb3PzAoiFSjUdzPdmx+5r8Uw7UJIpzKqyChyxiDyisOB6n9TBzZB3muzD
-         MKOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776377778; x=1776982578;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Rg1Yde900dZnvA1zX8a1F5Y9dfGeYPsrAapj+wpUhx4=;
-        b=rw42au4XKKyn1TsZmEYAP8sHcZy34Pj2RZNHWVuqWIFp93z2ZLqH4X+6S/1U9a+8mK
-         ZERloU4oRiehXoAO15qWimGTtdNVwfUG8vC1d7cO1IFArMBk6r7a0plikefnsRJpxVNl
-         IFopXsH+FH7g8+N+16feEtk/ER2r9YRazxC4FT5T+FNXsSaqdjIFY3Lip4oyfq1GAeGS
-         LHMhNXP++daAdqD47ZADXl9kavsZZkN6FgQz4+430bKBE1lw0VWEBXdcfh8R6XN7H39V
-         5sdP6rFGIQ3cttTGmIIkOV9U1E/gcyZlB8tiHxR3qSGU9gICc+a2+/YhvihApml0oSCi
-         mOXA==
-X-Forwarded-Encrypted: i=1; AFNElJ+9ZN9zKwew6lFGXviylO2Y1+flzHiBx+r2wqZ3xqXgmo+cfQ5f6piwJuOrDqrtxpvi0iGw+jZ/gK7Eqbu8@vger.kernel.org
-X-Gm-Message-State: AOJu0YzeYKpdlavQs/VvxaDm0qGYhw3TXYwon7X+Ob+KrrxIoX2n7FFQ
-	c/Ac3YCRX4/XPvurpEe91hlWhEqFoEsDCvrK3mIVnX4OdsE/6aC6uUJoAUQOzRkTVNyb7h2ROPc
-	coVhl00lwo3J9Es9gL8jZIpPmJ8ks3JPwL+xpSzIh1IPF1BbUQyFTp5rzPKVYddl9W4E=
-X-Gm-Gg: AeBDiet4pLeS5JJUWDfSonpGCzYCqBoN2/Mgz03u5pS7yEIf0qnB4rumPMWAN3SBpsz
-	pICL/iKeZiXg5tv9HDhZiJGQpnyMs8Fxwomexv5sBIfyU5HE0FS8xrJgAhCN7oGiXLVRyAYenEo
-	YL3DqtUXFMZcsBNJmXMgFGFcUMGbIKSfogPhaAjfk3rF9gf6g9Pi2ulxOSgEC+2kw3gRZ2qaEZn
-	XYtMvQkQ+EY+94DeNoSIV+gbNfv1EWYcL1DMgF1jWqNChhYLG3OqfEkOB4jf94oWNskSdriQU+7
-	TKDE68POa3/DGwDRNxC5L5NuOwcUto05DwJByNkueYgCjDRjvo608GVS/nv6pNUz/eyf9nUbaZU
-	F5Ypsrq/Knnphtqtq5jVGRY117RwTibRd1vTX+V5CuK04xsBeOAPED+G+JwHLbqw=
-X-Received: by 2002:a05:690c:dc7:b0:7aa:451d:bf9f with SMTP id 00721157ae682-7b9ece752ffmr4550177b3.5.1776377777819;
-        Thu, 16 Apr 2026 15:16:17 -0700 (PDT)
-X-Received: by 2002:a05:690c:dc7:b0:7aa:451d:bf9f with SMTP id 00721157ae682-7b9ece752ffmr4549707b3.5.1776377777448;
-        Thu, 16 Apr 2026 15:16:17 -0700 (PDT)
-Received: from li-4c4c4544-0032-4210-804c-c3c04f423534.ibm.com ([2600:1700:6476:1430::29])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7b76621582fsm30771377b3.6.2026.04.16.15.16.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Apr 2026 15:16:16 -0700 (PDT)
-Message-ID: <691e1d088f6461ac639716951274ede51e6f6520.camel@redhat.com>
-Subject: Re: [PATCH v2] hfsplus: Add a sanity check for btree node size
-From: Viacheslav Dubeyko <vdubeyko@redhat.com>
-To: Edward Adam Davis <eadavis@qq.com>
-Cc: frank.li@vivo.com, glaubitz@physik.fu-berlin.de, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- slava@dubeyko.com, 	syzbot+217eb327242d08197efb@syzkaller.appspotmail.com, 
-	syzkaller-bugs@googlegroups.com
-Date: Thu, 16 Apr 2026 15:16:15 -0700
-In-Reply-To: <tencent_616EF42CB16F489418E932EFEACCB479460A@qq.com>
-References: <tencent_8ECE3364C36FE975C3A64444176177734605@qq.com>
-	 <tencent_616EF42CB16F489418E932EFEACCB479460A@qq.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43app2) 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KoZyHhk8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8994C2BCAF;
+	Thu, 16 Apr 2026 22:42:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776379336;
+	bh=lapdISy5RqxJgrImNGTKA7C/+JI+0anxuZfW02LMH1U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KoZyHhk8fCQGYDsMFMrFstPGBhyKqaz6hhSvWwqTtmllYak7w0Rv5jehwIh5+sQQi
+	 vUhTz4WwcSQPqsQq9wXo6nLSuWntQHd+iacia7NbM//BOhwWuPcktLjtycXn9pa+at
+	 UDj23839d7b1eFVy3u0bZ3PNZ2nxfTF9XRcGb9ZSUXKwlktVXy83usG2qm1AQM8paJ
+	 byMpPNc6bOSHivyW5CtEaG+ZExgKi1IX/5D88u0AmGLOV1TJEM7pN+jdWPWOs6LX6+
+	 GvyBdRWzAjaImNQiwDTj4laVfTZYlC4eMUHkvOw6mkteoXuIfCNK2Y9Nh+nQoWNFOa
+	 g/9lAexFRteoA==
+Date: Fri, 17 Apr 2026 08:42:05 +1000
+From: Dave Chinner <dgc@kernel.org>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Brian Foster <bfoster@redhat.com>,
+	Fengnan Chang <fengnanchang@gmail.com>, brauner@kernel.org,
+	hch@infradead.org, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+	lidiangang@bytedance.com,
+	Fengnan Chang <changfengnan@bytedance.com>
+Subject: Re: [PATCH] iomap: avoid memset iomap when iter is done
+Message-ID: <aeFlvXDShzIuOU9z@dread>
+References: <20260416030642.26744-1-changfengnan@bytedance.com>
+ <aeDjui2LGSidEHcJ@bfoster>
+ <20260416152705.GC114239@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260416152705.GC114239@frogsfrogsfrogs>
 
-On Thu, 2026-04-16 at 17:53 +0800, Edward Adam Davis wrote:
-> Syzbot reported an uninit-value bug in [1] with a corrupted HFS+ image,
-> during the file system mounting process, specifically while loading the
-> catalog, a corrupted node_size value of 1 caused the rec_off argument
-> passed to hfs_bnode_read_u16() (within hfs_bnode_find()) to be excessivel=
-y
-> large. Consequently, the function failed to return a valid value to
-> initialize the off variable, triggering the bug [1].
->=20
-> Every node starts from BTree node descriptor: struct hfs_bnode_desc.
-> So, the size of node cannot be lesser than that. However, technical
-> specification declares that: "The node size (which is expressed in bytes)
-> must be power of two, from 512 through 32,768, inclusive." Add a check
-> for btree node size base on technical specification.
->=20
-> [1]
-> BUG: KMSAN: uninit-value in hfsplus_bnode_find+0x141c/0x1600 fs/hfsplus/b=
-node.c:584
->  hfsplus_bnode_find+0x141c/0x1600 fs/hfsplus/bnode.c:584
->  hfsplus_btree_open+0x169a/0x1e40 fs/hfsplus/btree.c:382
->  hfsplus_fill_super+0x111f/0x2770 fs/hfsplus/super.c:553
->  get_tree_bdev_flags+0x6e6/0x920 fs/super.c:1694
->  get_tree_bdev+0x38/0x50 fs/super.c:1717
->  hfsplus_get_tree+0x35/0x40 fs/hfsplus/super.c:709
->  vfs_get_tree+0xb3/0x5d0 fs/super.c:1754
->  fc_mount fs/namespace.c:1193 [inline]
->=20
-> Fixes: 8ad2c6a36ac4 ("hfsplus: validate b-tree node 0 bitmap at mount tim=
-e")
-> Reported-by: syzbot+217eb327242d08197efb@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3D217eb327242d08197efb
-> Signed-off-by: Edward Adam Davis <eadavis@qq.com>
-> ---
-> v1 -> v2: change check base on technical specification
->=20
->  fs/hfsplus/btree.c | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/fs/hfsplus/btree.c b/fs/hfsplus/btree.c
-> index 761c74ccd653..857705c3fe0d 100644
-> --- a/fs/hfsplus/btree.c
-> +++ b/fs/hfsplus/btree.c
-> @@ -365,6 +365,8 @@ struct hfs_btree *hfs_btree_open(struct super_block *=
-sb, u32 id)
->  	}
-> =20
->  	size =3D tree->node_size;
-> +	if (size < sb->s_blocksize || size > HFSPLUS_NODE_MXSZ)
+On Thu, Apr 16, 2026 at 08:27:05AM -0700, Darrick J. Wong wrote:
+> On Thu, Apr 16, 2026 at 09:27:22AM -0400, Brian Foster wrote:
+> > On Thu, Apr 16, 2026 at 11:06:42AM +0800, Fengnan Chang wrote:
+> > > When iomap_iter() finishes its iteration (returns <= 0), it is no longer
+> > > necessary to memset the entire iomap and srcmap structures.
+> > > 
+> > > In high-IOPS scenarios (like 4k randread NVMe polling with io_uring),
+> > > where the majority of I/Os complete in a single extent map, this wasted
+> > > memory write bandwidth, as the caller will just discard the iterator.
+> > > 
+> > > Use this command to test:
+> > > taskset -c 30 ./t/io_uring -p1 -d512 -b4096 -s32 -c32 -F1 -B1 -R1 -X1
+> > > -n1 -P1 /mnt/testfile
+> > > IOPS improve about 5% on ext4 and XFS.
+> > > 
+> > > However, we MUST still call iomap_iter_reset_iomap() to release the
+> > > folio_batch if IOMAP_F_FOLIO_BATCH is set, otherwise we leak page
+> > > references. Therefore, split the cleanup logic: always release the
+> > > folio_batch, but skip the memset() when ret <= 0.
+> > > 
+> > > Signed-off-by: Fengnan Chang <changfengnan@bytedance.com>
+> > > ---
+> > >  fs/iomap/iter.c | 5 +++--
+> > >  1 file changed, 3 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/fs/iomap/iter.c b/fs/iomap/iter.c
+> > > index c04796f6e57f..91eb5e6165ff 100644
+> > > --- a/fs/iomap/iter.c
+> > > +++ b/fs/iomap/iter.c
+> > > @@ -15,8 +15,6 @@ static inline void iomap_iter_reset_iomap(struct iomap_iter *iter)
+> > >  	}
+> > >  
+> > >  	iter->status = 0;
+> > > -	memset(&iter->iomap, 0, sizeof(iter->iomap));
+> > > -	memset(&iter->srcmap, 0, sizeof(iter->srcmap));
+> > >  }
+> > >  
+> > >  /* Advance the current iterator position and decrement the remaining length */
+> > > @@ -106,6 +104,9 @@ int iomap_iter(struct iomap_iter *iter, const struct iomap_ops *ops)
+> > >  	if (ret <= 0)
+> > >  		return ret;
+> > >  
+> > > +	memset(&iter->iomap, 0, sizeof(iter->iomap));
+> > > +	memset(&iter->srcmap, 0, sizeof(iter->srcmap));
+> > > +
+> > 
+> > This seems reasonable to me in principle, but it feels a little odd to
+> > leave a reset helper that doesn't really do a "reset." I wonder if this
+> > should be refactored into an iomap_iter_complete() (i.e. "complete an
+> > iteration") helper that includes the ret assignment logic just above the
+> > reset call and returns it, and then maybe leave a oneline comment above
+> > the memset so somebody doesn't blindly fold it back in the future. So
+> > for example:
+> > 
+> > 	ret = iomap_iter_complete(iter);
+> > 	if (ret <= 0)
+> > 		return ret;
+> > 
+> > 	/* save cycles and only clear the mappings if we plan to iterate */
+> > 	memset(..);
+> > 	...
+> > 
+> > We'd probably have to recheck some of the iter state within the new
+> > helper, but that doesn't seem like a big deal to me. Thoughts?
+> 
+> What kind of computer is this where there's a 5% hit to iops from a
+> memset of ~150 bytes?
 
-Technically speaking, you are right that b-tree node size should be aligned=
- on
-logical block size. However, I am not sure that mkfs.hfsplus restricts the
-creation of volume with b-tree's node size smaller than logical block size =
-but
-still in the required range of sizes.
+Even small costs can have a big impact when you have to pay it many
+times.
 
-Maybe, we need to declare the constant of HFSPLUS_NODE_MINSZ (512) and to c=
-heck
-this constant instead of logical block size. What do you think?
+i.e. 2 million IOPS * 2 * 72 bytes per IO = 288MB/s of memory being
+zeroed unnecessarily in very small (inefficient) chunks.
 
-Thanks,
-Slava.=20
+That's definitely enough to cause a 5% drop in IOPS when the
+workload is CPU or memory bandwidth bound....
 
-> +		goto fail_page;
->  	if (!is_power_of_2(size))
->  		goto fail_page;
->  	if (!tree->node_count)
-
+-Dave.
+-- 
+Dave Chinner
+dgc@kernel.org
