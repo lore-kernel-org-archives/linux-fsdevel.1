@@ -1,218 +1,221 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F7B5381B1B
-	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 07:24:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776324260; cv=pass; b=SZQL5SKw5ft/ditxcRJ3eRjpbqxsC8CjKNc4i71Ek7e+wX94SCr7/alqlV6K+TyFTUzG/pTZmmYHBwr1PhQdTHmb50JEx4YWZYjS+y0ESaSWrH4mhJaWbXbo3GrizJa9pYjKulUB3CPTyHMNJV/FUqg9cjnDwZdn/zrPvRQYcVA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776324260; c=relaxed/simple;
-	bh=ECUB8q0aCg4XGcpUy/SQPED5RClE4jObeguFxKxFQU4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=co94X6IK+niEJc1RWatNmEFzwDcbih7BuGvG5K8fW+atZEaM+1KnFPE9opCKyK9L24ZUophlJ9T0PvNytb115DAVSU7/VV6dPPv3mM97ZqEISldGVg/BwRZ+XbaRL92faAS7GO5Ylfdbj12MYduOoWv0QytQxv0o0u7DUc65EIc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bxtfEe90; arc=pass smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5F4D277C9E;
+	Thu, 16 Apr 2026 08:47:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776329238; cv=none; b=lpdYerP9MKPzF8Sy8ApuISup0GdV78OMKjNXr1MPrNg74ySbo5EIbWfNn6I3bGu3BJSqbPTcbvxU87zwIwr6+64STWVKKBKzfNNSqrm6UnChv1te5sbTDq/KLaCzpjIkkUgiFS7H71Z8cnIfXfjJXBl/d3FR2e2Cp2Cp3z9LCw0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776329238; c=relaxed/simple;
+	bh=ljHxmoprfBQIb7mZOQd9Nqr851XmhOqAdzFFK3AVVB8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sqpZMslEXaaMIgtWhHZpdr1rsd/5lLulY7sPci+sxpwh3dlcRYGqgcPdOFvkFDsquHlZJ1sLioiIWu4fHSD3GzRObRz1TnBb30WmnaBGM6QxkuKhXn/b+DzGMPxwtt+cNJqVJIHuWX7KxOs+yAVOP8V4hjv9fmKGi6JoZghvW6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OoR+cLLp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bxtfEe90"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b9c3e2cf3c0so1194752166b.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 00:24:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776324257; cv=none;
-        d=google.com; s=arc-20240605;
-        b=g4ILDiOlxlYE/jYE90NH6ZhFCK5TjVToVqN+yHMsBWVBntd1ZqTTk8VZxeU5dXsu42
-         DDH11spqZkUtwtEaMO2PKolkyFjXpfbRcZ5pZghV7SHEe5XwzAPRigktd6JreEtWx5Gr
-         anGwS1vGf3oHvzZm010urBRUdV1TMa6hmP1P6bVnJja2BAWA2adPqSiFgZq4SBAPx9mK
-         2GvaMj96Mj7VPPZo0wHmn3eRX5FVM4v+myTnr0oiX13vP2wbLDns8zwxtixFQtPGQxuk
-         TEV8fiyT0XFPR54aJKZ4fCCULTb/9ipz0QVTkyjvjRZ7qO+9zktwpw08c47/FKjL8IuL
-         Ib9A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=u2C/qsShsmm3HWDhZkZLsQBlhGk6mz10/asru3tcxps=;
-        fh=ETp6GOZ/l2+JAZzoCnZwJNID8GrXr3fE/Ue2kR/Pw3M=;
-        b=HJLWTm4i6iFjgYvP9SV+CStqsNHXDTQhOnwtsWYLn9c/wX7oBcdNrbNjtmyge2ufia
-         VNMIzH1uD2x4c16pvzyfyqKUtZDj8mZ0dNcQFFF9kWuvA/YZY5Rv/+BXYGs+JtG+EFRU
-         p1n4Yvf61fvhoJnEVvrZlsn3BKvodicCre3Wb4fhDurB4S7THY20JWeYO8r/VYX/Xf3N
-         ggKtAhNEVWAzJy1WPH5WBP45ht5NOXGXAanyugx/ykzdyf2LyikLu7SEzCYJ5j6arVmx
-         jSw9KrSkoJX/g6I4aWeG1fGePnkupd93a6U4u/TnbhwXqnpJY1oVdKcRg56ClbOAMl9D
-         mwTg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776324257; x=1776929057; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=u2C/qsShsmm3HWDhZkZLsQBlhGk6mz10/asru3tcxps=;
-        b=bxtfEe90AsCSH0ML6DibsICLg2dbYPMGtCmxU8fX/XAts/SyAbWCp8WCRDQnDeOHjK
-         eQGtiuj1rl1dtnHwpOn5Jy8v2tzqZLkeB14HRJFqxbh5rcGsz+nNyZuCzmm4OChZQ4DP
-         3kOlGc9uybzi4BlEPphw+LP3+fexGVPaZSAYm4zyEm3gagmKCd2Yqiji+moBQcS+sCV8
-         ZOYIuGDpDXsdOQOmpzcNNGS4EhDUF3ijODcsynAuFy+gB+RjQj9ziIaxjT4Evy7MqMFo
-         06TMbPavmZ+o+/RhY4FxUML471J8/XeMZos3mkuZ6xbdw8lykKKx1GKV+WphbTXAOTpS
-         Haxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776324257; x=1776929057;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=u2C/qsShsmm3HWDhZkZLsQBlhGk6mz10/asru3tcxps=;
-        b=EJ/wrb+shS76QsA/5z6hpG4WYvL/yULoTZ8OR7kSxN+jbWHafYfZObMzDq1zw6MCNj
-         S381IG5t/c0b8dzYXxHtlGwEYhdkw51hbPit9+hlKKciYlehVQaRTg3KB0abdW6EkRxT
-         jmw+eVFdRTGq1YjiuF0bsHi9bBoWOTD41iP+xcSh4B/NgBjgoRH8A8nsTJF1y4xKBGu3
-         2A3iqm8u505SQrdarQkzEw5lMz9S6zUbn4dClWJVZkGboIieyNvrnXBAacXfr+qfPZn2
-         Wj96Oi4BW8e0uLIzMx6S4dxabwKowjgtwd+CExBVUXuILh1hsg/chT2kploNfueWWHVU
-         ebzw==
-X-Forwarded-Encrypted: i=1; AFNElJ8j2vqYusioxagW+hYtKh40DamagwIoc2wfShpKpCvlNh0ODFe6yAFmP52M9yvS9blv2+7oWGqU3TRp+KKK@vger.kernel.org
-X-Gm-Message-State: AOJu0YzFOs4J8PGXY7E3RswoOTBZ6mNrD5EQYaxSaAxiUj1i7tjLWkfR
-	KePlp41Ic/ouv7TwGcvNhYbzNB78xFjTstTz2pC3yatzMnv0ajlHqjqrQfdIXqnXwJOQTO5DUJ4
-	A5szIKncQqv2lm5j6+5P7DOS5KQAi1hg=
-X-Gm-Gg: AeBDieueFEI0bJZ3otu8O895G5Q90DjYiiraf7R/mvcKhAWp2ht1KV6BJsAfl6oci1Z
-	aIK0yzdUVk7GFsXmUBzbS3oBUPd4h5P4x7PtUtbKXinZ8WxEAxUSgjmLBbvJg+sSnYC+OnGSqA5
-	sXYetsYTq+IuiRNFgYVPx3BK0A3nw9AoAMQ8GJCFV673sgQT7ssPOx6nKOYvsffijIdksL7jWXn
-	WXKzvQH5c8S+zkZQPZtYQSnHTG9rQ9w+5z1L9DbILMCi+USks0ObOGd1wEQ0VgEkqoL74mMeqLJ
-	XVaT1vOhNzbJ+/KU7/c3VhTuKrgqcaffG6Ecj9VLAY2AlUYmdQWP
-X-Received: by 2002:a17:907:6ea7:b0:b9d:61c7:2343 with SMTP id
- a640c23a62f3a-b9d724ec21cmr1388021966b.10.1776324257065; Thu, 16 Apr 2026
- 00:24:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OoR+cLLp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 236FFC2BCAF;
+	Thu, 16 Apr 2026 08:47:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776329238;
+	bh=ljHxmoprfBQIb7mZOQd9Nqr851XmhOqAdzFFK3AVVB8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=OoR+cLLpx1ccGF8jHeCIEO2WG0KmtE7gfcMfcszVO2ap0qzWDPGRaOzUF7ry7egHn
+	 Nu9ZzjXLV5ep+/DQ7VRURFa0r6t8qXmr40PjYDKsdFcleR6S/Ws4j8UptbKPH5c/LW
+	 0l8bRYlXgZwLbncZ6FZfDX68tvs5tolPPvGxWyDo/5ZXO4HwtpyxV6IJnaVQAzyp7t
+	 oSlic8y4ay5jx+bjaoa1wnGln8rP/e65WEuRERPVXkvOmYR1CPz1S/A+aDNjjQSjSK
+	 8SqmC7DUl0w+XbDv78koqFD+ifY5f3Jy01Lz75H0f4/BYDTPM6tdVmlnL7t90HCPbS
+	 A1NUFh4DOZF/w==
+Message-ID: <8d95a9ad-4c85-4b8e-8724-af843e1b7859@kernel.org>
+Date: Thu, 16 Apr 2026 10:47:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <898a4e10-6193-4671-b3b1-7c7bc562a671@fmap.me>
-In-Reply-To: <898a4e10-6193-4671-b3b1-7c7bc562a671@fmap.me>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Thu, 16 Apr 2026 09:24:04 +0200
-X-Gm-Features: AQROBzDSrfDQcFz2WPHHHPGV1Lpy5R2aEp9xCRrhWW6cRqfeFGqFFuLTJbo-54U
-Message-ID: <CAOQ4uxjoS-PvnZ2poh0bx0C6ocTYwuEpfV0q5md15SjS620OMg@mail.gmail.com>
-Subject: Re: [fuse-devel] Debugging a stale kernel cache during file growth
-To: Nikolay Amiantov <ab@fmap.me>
-Cc: fuse-devel@lists.sourceforge.net, 
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>, fuse-devel@lists.linux.dev
-Content-Type: multipart/mixed; boundary="00000000000059860a064f8eb8c7"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 7.2 v2 05/12] mm/khugepaged: remove READ_ONLY_THP_FOR_FS
+ check in hugepage_pmd_enabled()
+To: Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Matthew Wilcox <willy@infradead.org>
+Cc: Nico Pache <npache@redhat.com>, Song Liu <songliubraving@fb.com>,
+ Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Shuah Khan <shuah@kernel.org>, linux-btrfs@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, linux-kselftest@vger.kernel.org
+References: <20260413192030.3275825-1-ziy@nvidia.com>
+ <20260413192030.3275825-6-ziy@nvidia.com>
+ <ad1TMjF1L3usYIC5@casper.infradead.org>
+ <05F00072-7E06-47C9-BC26-FE3736F557FC@nvidia.com>
+ <a4d477a8-71d8-4219-9cb3-153f2c01e184@kernel.org>
+ <84B8F641-A3DF-4219-AA57-6BA48E9B4998@nvidia.com>
+ <998c02b6-2612-42c1-8099-d65ae275d1a2@kernel.org>
+ <7468C68E-FB09-4714-94A3-4BED63453295@nvidia.com>
+ <b7aa5515-6908-4ec6-91e9-eb79d5ef70b4@linux.alibaba.com>
+ <afe0dfb9-feeb-4243-bc4b-305e5e33b581@kernel.org>
+ <38697379-cbba-4c64-ae65-6774b01021d9@linux.alibaba.com>
+ <68F85F77-8EFE-449D-B643-AEEB38CB50B2@nvidia.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <68F85F77-8EFE-449D-B643-AEEB38CB50B2@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---00000000000059860a064f8eb8c7
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 4/15/26 20:01, Zi Yan wrote:
+> On 15 Apr 2026, at 5:21, Baolin Wang wrote:
+> 
+>> On 4/15/26 4:00 PM, David Hildenbrand (Arm) wrote:
+>>
+>> My comments are in reply to Zi’s comment:
+>>
+>> "I think hugepage_global_enabled() should be enough to decide whether khugepaged should run or not. "
+>>
+>> I’m concerned that only relying on hugepage_global_enabled() to decide whether khugepaged should run would cause a regression for anonymous and shmem memory collapse, as it ignores per-size mTHP configuration.
+>>
+>>> The question is really which semantics we want.
+>>>
+>>> Right now, there is no way to disable khugepaged for anon pages, to just
+>>> get them during page faults.
+>>
+>> Right.
+>>
+>>> And we are now talking about the same problem for FS: to only get them
+>>> during page faults (like we did so far without CONFIG_READ_ONLY_THP_FOR_FS).
+>>
+>> OK. I’m fine with using hugepage_global_enabled() to determine whether khugepaged scans file folios.
+>>
+>> My concern is that for anonymous memory and shmem, the per-size mTHP settings should be considered.
+> 
+> OK, I misunderstood the meaning of hugepage_global_enabled(), since per-size
+> mTHP settings could also enable khugepaged if PMD_SIZE is set.
+> 
+> I will take willy’s original suggestion and make khugepaged on if the global
+> setting is enabled. The below is the new version of this patch. I moved anon
+> pmd huge page code to a separate anon_hpage_pmd_enabled() like
+> shmem_hpage_pmd_enabled() and cleaned up the comment. Let me know your thoughts.
+> 
+> Thanks.
+> 
+> From 92b92f2b2ab41c70b41dd304ce648786ee6a1603 Mon Sep 17 00:00:00 2001
+> From: Zi Yan <ziy@nvidia.com>
+> Date: Wed, 15 Apr 2026 13:52:50 -0400
+> Subject: [PATCH] mm/khugepaged: remove READ_ONLY_THP_FOR_FS check in
+>  hugepage_pmd_enabled()
+> 
+> Remove READ_ONLY_THP_FOR_FS and khugepaged for file-backed pmd-sized
+> hugepages are enabled by the global transparent hugepage control.
+> khugepaged can still be enabled by per-size control for anon and shmem when
+> the global control is off.
+> 
+> Signed-off-by: Zi Yan <ziy@nvidia.com>
+> ---
+>  mm/khugepaged.c | 26 +++++++++++++++-----------
+>  1 file changed, 15 insertions(+), 11 deletions(-)
+> 
+> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> index b8452dbdb043..586d27ce896e 100644
+> --- a/mm/khugepaged.c
+> +++ b/mm/khugepaged.c
+> @@ -406,18 +406,8 @@ static inline int collapse_test_exit_or_disable(struct mm_struct *mm)
+>  		mm_flags_test(MMF_DISABLE_THP_COMPLETELY, mm);
+>  }
+> 
+> -static bool hugepage_pmd_enabled(void)
+> +static inline bool anon_hpage_pmd_enabled()
+>  {
+> -	/*
+> -	 * We cover the anon, shmem and the file-backed case here; file-backed
+> -	 * hugepages, when configured in, are determined by the global control.
+> -	 * Anon pmd-sized hugepages are determined by the pmd-size control.
+> -	 * Shmem pmd-sized hugepages are also determined by its pmd-size control,
+> -	 * except when the global shmem_huge is set to SHMEM_HUGE_DENY.
+> -	 */
+> -	if (IS_ENABLED(CONFIG_READ_ONLY_THP_FOR_FS) &&
+> -	    hugepage_global_enabled())
+> -		return true;
+>  	if (test_bit(PMD_ORDER, &huge_anon_orders_always))
+>  		return true;
+>  	if (test_bit(PMD_ORDER, &huge_anon_orders_madvise))
+> @@ -425,6 +415,20 @@ static bool hugepage_pmd_enabled(void)
+>  	if (test_bit(PMD_ORDER, &huge_anon_orders_inherit) &&
+>  	    hugepage_global_enabled())
+>  		return true;
+> +	return false;
+> +}
+> +
 
-[CC new fuse-devel list and fsdevel]
+Works for me.
 
-On Wed, Apr 15, 2026 at 7:24=E2=80=AFPM Nikolay Amiantov via fuse-devel
-<fuse-devel@lists.sourceforge.net> wrote:
->
-> Hi everybody,
->
-> I've recently encountered a weird issue with JuiceFS [1], a network FS
-> which uses FUSE. tl;dr: when a file was being slowly appended, a reader
-> of the same file on another host would periodically read a block of zero
-> bytes instead of the actual data.
->
-> While researching it I've built an MRE; turns out, this issue can be
-> triggered on a fresh kernel and libfuse3 with:
-> * A test FUSE FS which exposes a slowly growing file containing only
-> 0xAA bytes, with disabled kernel stat cache and no handling of the read
-> cache (so, with automatic cache handling by the kernel);
-> * A script which reads the file sequentially checking for zeroes, while
-> also hammering `os.stat` on the same file from separate threads.
->
-> I couldn't find any prior discussion of this issue. I'm suspecting a
-> kernel bug; sadly, I have no prior experience with the kernel-side FUSE
-> subsystem, but with a lot of (disclosure) LLM help explaining the FUSE
-> module and the kernel read cache architecture, I think I understand what
-> happens and implemented a partial fix which, to me, makes sense.
->
-> If I understand correctly, a full fix is impossible without VFS-level
-> locking changes; I've actually managed to reproduce a similar issue in
-> NFS [2]; this may be applicable to any network FS which may increase an
-> inode size outside of `read`/`write`s.
->
-> All my code, experiments and a kernel patch which makes the issue less
-> frequent (but still existing) can be found at
-> https://github.com/abbradar/fuse_growtest
->
-> Any help checking my findings and pointing me in the right direction is
-> appreciated!
->
-> Thanks for your help,
-> Nikolay.
->
-> [1]: https://github.com/juicedata/juicefs/issues/5038
-> [2]: https://github.com/abbradar/nfs_stale_cache_test
->
->
+> +static bool hugepage_pmd_enabled(void)
+> +{
+> +	/*
+> +	 * Anon, shmem and file-backed pmd-sized hugepages are all determined by
+> +	 * the global control. If the global control is off, anon and shmem
+> +	 * pmd-sized hugepages are also determined by its per-size control.
+> +	 */
+> +	if (hugepage_global_enabled())
+> +		return true;
+> +	if (anon_hpage_pmd_enabled())
+> +		return true;
+>  	if (IS_ENABLED(CONFIG_SHMEM) && shmem_hpage_pmd_enabled())
 
-Hi Nikolay,
+BTW, can we please provide a stub for shmem_hpage_pmd_enabled() in
+shmem_fs.h such that we can remove the IS_ENABLED here?
 
-Your question is related to kernel filesystem and you also mention NFS,
-so added fsdevel list for attention of relevant developers which are
-not subscribed
-to the fuse-devel list.
+-- 
+Cheers,
 
-Also attaching your patch here for convenience.
-
-Thanks,
-Amir.
-
---00000000000059860a064f8eb8c7
-Content-Type: text/x-patch; charset="UTF-8"; 
-	name="0001-fuse-fix-stale-page-cache-data-race-on-file-growth.patch"
-Content-Disposition: attachment; 
-	filename="0001-fuse-fix-stale-page-cache-data-race-on-file-growth.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_mo15gofr0>
-X-Attachment-Id: f_mo15gofr0
-
-RnJvbSAwMDdjODUzMWMwNjQ0ZTI1OTMyMWI4ZTFiMTUxMDAzNDM5Zjc1ZWJmIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBOaWtvbGF5IEFtaWFudG92IDxhYkBmbWFwLm1lPgpEYXRlOiBX
-ZWQsIDE1IEFwciAyMDI2IDA3OjI4OjE5ICswMDAwClN1YmplY3Q6IFtQQVRDSF0gZnVzZTogZml4
-IHN0YWxlIHBhZ2UgY2FjaGUgZGF0YSByYWNlIG9uIGZpbGUgZ3Jvd3RoCgpXaGVuIGEgRlVTRSBz
-ZXJ2ZXIgcmVwb3J0cyBhIGxhcmdlciBmaWxlIHNpemUgdmlhIGxvb2t1cCBvciBnZXRhdHRyLApm
-dXNlX2NoYW5nZV9hdHRyaWJ1dGVzKCkgdXBkYXRlcyBpX3NpemUgYmVmb3JlIGludmFsaWRhdGlu
-ZyBzdGFsZSBwYWdlCmNhY2hlIGVudHJpZXMuIFRoZSBwYWdlIGJlZm9yZSB0aGUgRU9GIGNvbnRh
-aW5zIGtlcm5lbC1nZW5lcmF0ZWQKemVyby1maWxsIGJleW9uZCB0aGUgb2xkIGlfc2l6ZS4gT25j
-ZSBpX3NpemUgaXMgaW5jcmVhc2VkLCB0aGVzZSB6ZXJvZXMKYmVjb21lIHZpc2libGUgdG8gY29u
-Y3VycmVudCByZWFkZXJzIGJlZm9yZSB3ZSBpbnZhbGlkYXRlIHRoZSBjYWNoZQpsYXRlciBvbi4K
-CkZpeCB0aGlzIGJ5IGV2aWN0aW5nIHRoZSBhZmZlY3RlZCBwYWdlIGJlZm9yZSB1cGRhdGluZyBp
-X3NpemUuIFRoZSBmaS0+bG9jawpzcGlubG9jayBpcyBkcm9wcGVkIGJlZm9yZSB0aGUgaW52YWxp
-ZGF0aW9uICh3aGljaCBjYW4gc2xlZXApLCB0aGVuCnJlYWNxdWlyZWQgdG8gcmVjaGVjayBGVVNF
-X0lfU0laRV9VTlNUQUJMRSBiZWZvcmUgdXBkYXRpbmcgaV9zaXplLgotLS0KIGZzL2Z1c2UvaW5v
-ZGUuYyB8IDM4ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKy0tCiAxIGZpbGUg
-Y2hhbmdlZCwgMzYgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9m
-cy9mdXNlL2lub2RlLmMgYi9mcy9mdXNlL2lub2RlLmMKaW5kZXggNzM1YWJmNDI2YTA2Li42MWFl
-MGY5NGU0ZGMgMTAwNjQ0Ci0tLSBhL2ZzL2Z1c2UvaW5vZGUuYworKysgYi9mcy9mdXNlL2lub2Rl
-LmMKQEAgLTMzNCw4ICszMzQsNDIgQEAgdm9pZCBmdXNlX2NoYW5nZV9hdHRyaWJ1dGVzKHN0cnVj
-dCBpbm9kZSAqaW5vZGUsIHN0cnVjdCBmdXNlX2F0dHIgKmF0dHIsCiAJICogZXh0ZW5kIGxvY2Fs
-IGlfc2l6ZSB3aXRob3V0IGtlZXBpbmcgdXNlcnNwYWNlIHNlcnZlciBpbiBzeW5jLiBTbywKIAkg
-KiBhdHRyLT5zaXplIGNvbWluZyBmcm9tIHNlcnZlciBjYW4gYmUgc3RhbGUuIFdlIGNhbm5vdCB0
-cnVzdCBpdC4KIAkgKi8KLQlpZiAoIShjYWNoZV9tYXNrICYgU1RBVFhfU0laRSkpCi0JCWlfc2l6
-ZV93cml0ZShpbm9kZSwgYXR0ci0+c2l6ZSk7CisJaWYgKCEoY2FjaGVfbWFzayAmIFNUQVRYX1NJ
-WkUpKSB7CisJCS8qCisJCSAqIFdoZW4gYSBmaWxlIGdyb3dzIHJlbW90ZWx5LCB0aGUgcGFnZSBz
-dHJhZGRsaW5nIHRoZSBvbGQKKwkJICogRU9GIGNvbnRhaW5zIHplcm8tZmlsbCBiZXlvbmQgb2xk
-c2l6ZS4gIFRob3NlIHplcm9lcyBhcmUKKwkJICogdmFsaWQgd2hpbGUgaV9zaXplIGVxdWFscyBv
-bGRzaXplICh0aGV5IGFyZSBiZXlvbmQgRU9GKSwKKwkJICogYnV0IGJlY29tZSBzdGFsZSBvbmNl
-IGlfc2l6ZSBpcyBpbmNyZWFzZWQ6IGNvbmN1cnJlbnQKKwkJICogcmVhZGVycyB3b3VsZCBzZWUg
-emVyb2VzIGluc3RlYWQgb2YgdGhlIGRhdGEgd3JpdHRlbiBieQorCQkgKiB0aGUgcmVtb3RlIGhv
-c3QuIEV2aWN0IHRoZSBhZmZlY3RlZCBwYWdlKHMpIEJFRk9SRSB1cGRhdGluZworCQkgKiBpX3Np
-emUuICBBbnkgcmVhZGVyIHRoYXQgcmUtcG9wdWxhdGVzIHRoZSBjYWNoZSBiZXR3ZWVuIHRoZQor
-CQkgKiBpbnZhbGlkYXRpb24gYW5kIHRoZSBpX3NpemUgdXBkYXRlIHdpbGwgaXNzdWUgYSBmcmVz
-aAorCQkgKiBGVVNFX1JFQUQgd2l0aCB0aGUgbmV3IGRhdGEgdGhlcmUuCisJCSAqCisJCSAqIFRo
-ZXJlIGlzIGEgcmVzaWR1YWwgcmFjZTogYSByZWFkZXIgdGhhdCBoYXMKKwkJICogYWxyZWFkeSBv
-YnRhaW5lZCBhIGZvbGlvIHJlZmVyZW5jZSB2aWEgdGhlIGxvY2tsZXNzCisJCSAqIGZpbGVtYXBf
-Z2V0X3JlYWRfYmF0Y2goKSBidXQgaGFzIG5vdCB5ZXQgcmVhY2hlZCB0aGUKKwkJICogaV9zaXpl
-X3JlYWQoKSBpbiBmaWxlbWFwX3JlYWQoKSB3b3VsZCBob2xkIGEgcmVmIHRoYXQKKwkJICogcHJl
-dmVudHMgaW52YWxpZGF0ZV9pbm9kZV9wYWdlczJfcmFuZ2UoKSBmcm9tIGV2aWN0aW5nCisJCSAq
-IHRoZSBmb2xpby4gIFRoZSByZWFkZXIgd291bGQgdGhlbiB1c2UgdGhlIG5ldyBpX3NpemUKKwkJ
-ICogKHJlYWQgYWZ0ZXIgb3VyIGlfc2l6ZV93cml0ZSkgdG8gY29weSBzdGFsZSBkYXRhLgorCQkg
-Ki8KKwkJaWYgKFNfSVNSRUcoaW5vZGUtPmlfbW9kZSkgJiYgYXR0ci0+c2l6ZSA+IG9sZHNpemUp
-IHsKKwkJCXNwaW5fdW5sb2NrKCZmaS0+bG9jayk7CisJCQlpbnZhbGlkYXRlX2lub2RlX3BhZ2Vz
-Ml9yYW5nZShpbm9kZS0+aV9tYXBwaW5nLAorCQkJCQkJICAgICAgb2xkc2l6ZSA+PiBQQUdFX1NI
-SUZULAorCQkJCQkJICAgICAgKGF0dHItPnNpemUgLSAxKSA+PiBQQUdFX1NISUZUKTsKKwkJCXNw
-aW5fbG9jaygmZmktPmxvY2spOworCQkJLyoKKwkJCSAqIFJlY2hlY2sg4oCUIGEgd3JpdGUgb3Ig
-dHJ1bmNhdGUgbWF5IGhhdmUgc2V0CisJCQkgKiBGVVNFX0lfU0laRV9VTlNUQUJMRSB3aGlsZSB3
-ZSBkcm9wcGVkIHRoZSBsb2NrLgorCQkJICovCisJCQlpZiAoIXRlc3RfYml0KEZVU0VfSV9TSVpF
-X1VOU1RBQkxFLCAmZmktPnN0YXRlKSkKKwkJCQlpX3NpemVfd3JpdGUoaW5vZGUsIGF0dHItPnNp
-emUpOworCQl9IGVsc2UgeworCQkJaV9zaXplX3dyaXRlKGlub2RlLCBhdHRyLT5zaXplKTsKKwkJ
-fQorCX0KIAlzcGluX3VubG9jaygmZmktPmxvY2spOwogCiAJaWYgKCFjYWNoZV9tYXNrICYmIFNf
-SVNSRUcoaW5vZGUtPmlfbW9kZSkpIHsKLS0gCjIuNDcuMAoK
---00000000000059860a064f8eb8c7--
+David
