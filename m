@@ -1,110 +1,150 @@
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B4FE25A642
-	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 14:47:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776350877; cv=pass; b=Cx75CmCflclP58bP0F3WrKcSWW9T1QMof5tOpOLJMBi/1jybNwm7flhpQOK0nptKXBHJipegPvhJhwQoR0wiLEexUSLulMNmnoIHjgt6bIuAFTCOHm8doyO1G6cswtdP/fcbTkTc6HZJK30GA6wvf9HXiLbBPoK1T3cB4CnS8Sw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776350877; c=relaxed/simple;
-	bh=auL9+eH1IwmtO44xx/ePZJbRQVviMJtv1TC5P2gV/Nc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Sr4BVoLYNrK3a4pKy1RoIqTewANScWy7LSQKrorpF9CypuKzFCrZ5DFktnf/CrPwvZ/33k/dw06KPJjdRJ3i7QOsAyflhEYWFmh219s9fdMkyrQqEESIZetYASnx7hQ8vgtdZsvPwGeahEZawVIXGPJY4SzddFda4+U/4iJo82g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=K28Ptf/1; arc=pass smtp.client-ip=209.85.219.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECD1F3DEFE6;
+	Thu, 16 Apr 2026 14:54:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776351280; cv=none; b=SCxGk1sxPp+Wcke1gVTyFI90D9xnYhWDFh+OPx4NDx1qcOSOFkXAsqcXCvBuLU1JVwD+kMG4vqMV1GQ2MWqdMGiPuxwKsVKV2yd2p0SCzFEMXIJ8l+ajh74UR36zXP0WqnGqWcJ/7qt8ocZncA8rW63UJm7HoSTgxstv1xobMqA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776351280; c=relaxed/simple;
+	bh=iiIocqjLJf96QslIbH5YDrRaQ7PWHRvAXb/g66Y29ks=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IqvA8Hi6q9XD0OrIjY1Zc0MM8HCsYsHXXuHsr4TaKsKONKqL1FFVjT8ltFlno7/Oay03hGvfFXoiyR8wQpjjrv8xpwoo8OqY/VwO9qVzqtEGny/igDBRzcS2To+HjHSRt5IqTlxUjUJOyIsDX7cLTYwC2SXbDzdp383Nu6Kyxws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=MlRcvah2; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=DwRArtad; arc=none smtp.client-ip=103.168.172.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="K28Ptf/1"
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-8acb856a674so8679556d6.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 07:47:56 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776350876; cv=none;
-        d=google.com; s=arc-20240605;
-        b=TY7sstq3CbyVZBHzgyyVLj1qTE/62p2kMMqMliYdSUxaXWAqdjwsZoUe08CI6jhugq
-         b+gmyUDTap96gkByoiqWNUepfSeBNrsjb9eXJGTGCX+x6X0/nvM+Qf9sniY3fva0CssU
-         61VYK4tnkRNx6McV1LeZrwl6rxLnoLyuPbMQwGCipyTUlNK6KXte2OvaSCUwB4+RV2Aq
-         xPJYIBfC1tFhSJ46NFmTkOzV3EMGX0IV7S3jLfQD6au1pJv/oHgsWxFPuCScC7kupwyU
-         Go99HgfowCyZbjpwpUcSylnQyW9f1YdbeVMAWaNd84Bcu4GrHxU4vZcvkcr14JLEfzsD
-         GvYg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=C7bjyixnwyKu/NLnhmeFwrCQf1szr7CfKhuLlD7iQ9E=;
-        fh=Wj8z84DLc3RyBHIK2h1MYCqfaFTzMMbZr8/6yxMM6Sk=;
-        b=X45jjBZsBQByWDlocqMvtJvp7uphJ5bX126zmXLMlUFCm+oe/o56ja0Ewy4orlN9XI
-         qkaqOcUSZE+AGVmFRIx6BmnH5OGDvGPIEBK9nygqpGeLsontJs20Gozuebs8JgwIjW47
-         WlZfjNqu9ki5wCzanqHdTqGeKyO8uC2EpRuTDyXT+UX/hWvkb9FIKwlt1WGH7+nEL09W
-         1/QccY+Uoiu76wZaflFeCnsIfyTVvzjMW8L1XQgLsKiFiDgxkk4FBrgV/f0pNLrxx7T2
-         qwjUALmOUrMmSjYrYvnBfkjAl2rGdDRf5jne6a7OdUkTgPFvubckx27Xu+d/pbXAn4E7
-         CNDw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1776350876; x=1776955676; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=C7bjyixnwyKu/NLnhmeFwrCQf1szr7CfKhuLlD7iQ9E=;
-        b=K28Ptf/16gCk49O4lR0fgtkgt3hD8pYrxw6sa16/cOACTL80DYoKhmUkF4GtiZu+Cr
-         nHEfXg3x3WC46gHHq1z+4GHWQXisKZOWEIKcAD63ZhYfAv+ykVeSFz7zbPwxIRq6JiLK
-         H5WRMtPamV5iWIe+FtQzBGBZtvmPkDdTJo90Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776350876; x=1776955676;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=C7bjyixnwyKu/NLnhmeFwrCQf1szr7CfKhuLlD7iQ9E=;
-        b=BWiV0jSTNc3Q0CWWVyB6D7EwhFwCXd9GPBc4TKATbI9kd5mRCvo+33YGsll/EkFlub
-         DXPzm1pnvopnwNBUlJzAPJ6ENoy6Z8fESkJ5B1KGd2y5IE4L0Mk9+o6mwFx+AgV3wmFG
-         ndLbvTLg9rW11uZkrjLVQKVs9C12Ot4fCWJUhi1JODB54UR1+Wro6pCW+W5pOSc9ftgL
-         f08ycvmaMcExyt6fpqhUhE/rWcu5TgjQ0gpiL6bJ8CRdomfGX//mNu0/UEFGhO5mfrhE
-         58Qznie1Kzcx05GUxPpz/ONYQMvZmd9TTxqwrL6mBxzHv84yNB47wba9a/ZN84u8Lu7W
-         qvGQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/uVOeV9AxeD57u8KrFSDJGD2Q/C2HB9kZtbnR+UQ49aQ6yA6DivPETbp5xGFaH72MWuUyyTXb7L8w3dKek@vger.kernel.org
-X-Gm-Message-State: AOJu0YyPfnrL6Fr+G+WRyzvhmKxBOStL7cuO8TwQxb1q5WwBTnlXyZfY
-	XJShnOSlmdQJaZU0jq7E9uP9BDkVbdWJ6NPMP2DDtVXRaahbUI2Cb1oMqC0hOPPBH1TaCJM5TGA
-	roHZuZesjCXcM3VyXU2o4VfcbHxcBYyF+A9uDJs8UOg==
-X-Gm-Gg: AeBDievI9I4QTlUmEegJtvUaDwtYcHSY7YqlBlRzNbUeW6pvqlSyFHq4OTEK7M0VHUG
-	cKHIdoAdM1Wkbu6sNdklyHBMD+8ATwY4pMhP8Q81hNUFauAYd/hnoYhGf+7/9wXWvhTJ/LXcs/0
-	2BE8WxSJLQhDckKo1n8m+WoNgzgnsSYIIdJzB8Rl1UrUcyUnjYwii4b8xE5Q+gEoH9RLvrZytcV
-	k9/Ft5vN6+KIyiuTtXYANj+5i1eItFNIK0A6NApzzMpPMg7/GgP112jw/mNXQIih+dSTmb7Ps03
-	B+uSrGadS7qxPy8Stgg/gSo2H+zNQRbk41LL
-X-Received: by 2002:a05:6214:5693:b0:89c:869e:4972 with SMTP id
- 6a1803df08f44-8ae75ec1517mr55383536d6.10.1776350875628; Thu, 16 Apr 2026
- 07:47:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="MlRcvah2";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="DwRArtad"
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 08E4E1400079;
+	Thu, 16 Apr 2026 10:54:38 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Thu, 16 Apr 2026 10:54:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1776351278;
+	 x=1776437678; bh=h00I6gPnQkLMkP+06QB0pY1DDKiXZSecoTvAx5ju4Cg=; b=
+	MlRcvah29GsTUrj0Dn9rTTcKbwIwuwuTclusczfFTeJXPUJNUN59AVqiQNmMONTI
+	5kjwx2kHtPBcfLFkfJNl7bonMefQ4Cium0FS3osbfLRd49E7vjmHSlSLOyKqdBsC
+	RXYrkE2CQ66FQ2W5Fg0IjZ41Ksu9+L809zVIpbN+ZfzrcYD60XzELtOhw/55wzCZ
+	yZ7/NaBJvWGZ6Lc2+8p3xZ7KqyC+AAwWDo2zIiF9LP+RJWKiWsZIeA1BbcAkBety
+	0oSZ2Bv7U5mDa4K2DZidubxzZCOXA7IOZW9v5ZI7OtQzjD2cUQWBDSXBZbVWL08O
+	SjpCXiYzF4xmRAOqJLsdyw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1776351278; x=
+	1776437678; bh=h00I6gPnQkLMkP+06QB0pY1DDKiXZSecoTvAx5ju4Cg=; b=D
+	wRArtad7FfLLpyKntiGUKwLPQpV58UbSbDGeBT96OCkwt4eBh8fSqxYK3gSXMNh+
+	2FYDt74UH3H+n4Qy2VKXG9nb5MX4PhKCGv5CMgPqL/zQ/DO5ustcvFs1WqomV/lg
+	lc59x+UOkwvxChChEaqGO+54n/GqvaN0zP5M3ot4qjTYywiH6B18nTdJ19s86srt
+	a+LawyzvHo/h5wBgYrEecXiVRQvIsiBWUbH3SHfGLNLhzo7iWTx9rjkGcbSGF/9E
+	xwPxOv+oDApgDs6n1zuiAELq6Qahllk+AXBjVWiuyQxo4KxMZODqhklhQ7YbyFAY
+	d19hvIJQhz1APIIAhLspA==
+X-ME-Sender: <xms:LfjgaTRForaHx1BIkobSztMlQNOhdLMlWnIV8KrKiE4f8MESqFXSUQ>
+    <xme:LfjgaWRZ1faDQSQnd3iqEAdZdDbC-RWbnYeWuhM_Iz4b-vb0jqrWCRcv1_EESG--p
+    AVGZ71UuC__ZcV2bLk7NxtFdyf_a_lufu9yiHc61Po85Iv-Ad5g>
+X-ME-Received: <xmr:LfjgaY6kbBxmk2REeUXxoVbMKNAFLTfsT1DSyaCocPbfR6hgYuixszF4KZRGLSuDiA13UaTJE_yKqk03ZDHXSPTiSfS2RD1FQz9FsTNhbrbFhBHw2w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdegjedvlecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefkffggfgfuvfevfhfhjggtgfesthejredttddvjeenucfhrhhomhepuegvrhhnugcu
+    ufgthhhusggvrhhtuceosggvrhhnugessghssggvrhhnugdrtghomheqnecuggftrfgrth
+    htvghrnhephefhjeeujeelhedtheetfedvgfdtleffuedujefhheegudefvdfhheeuvedu
+    ueegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsg
+    gvrhhnugessghssggvrhhnugdrtghomhdpnhgspghrtghpthhtohephedpmhhouggvpehs
+    mhhtphhouhhtpdhrtghpthhtohepmhhikhhlohhssehsiigvrhgvughirdhhuhdprhgtph
+    htthhopehjohgrnhhnvghlkhhoohhnghesghhmrghilhdrtghomhdprhgtphhtthhopehh
+    sghirhhthhgvlhhmvghrseguughnrdgtohhmpdhrtghpthhtoheplhhinhhugidqfhhsug
+    gvvhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehsthgrsghlvges
+    vhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:LfjgaS3-_ZBXzw0USSNe4GIKexWNJyCk0qt7J6va9fJFAb95yVtgcw>
+    <xmx:LfjgaTDvNpyTzJdHiWvzB1c4NVaU2-LOK-YduqRF2bo-OWem5YvBMg>
+    <xmx:LfjgadM4-vWnY4Dgmhd05Quhk5zJrGueOIeDcOzvKqwA_xbQokO1nw>
+    <xmx:LfjgaYYe3y_Anrw-SWJidGYNhIpR07d2Rl43VwmPomCNmUPmiPxONw>
+    <xmx:LvjgaVy3E4TH3MLqCjDiM5YDAviLC7YDMe-QRWsmQNW_lsOE8YcvV1z4>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 16 Apr 2026 10:54:37 -0400 (EDT)
+Message-ID: <755d8408-6b1c-4e0b-9528-4769e8cf7fe1@bsbernd.com>
+Date: Thu, 16 Apr 2026 16:54:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260414082723.350538-1-ksztyber@nvidia.com>
-In-Reply-To: <20260414082723.350538-1-ksztyber@nvidia.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Thu, 16 Apr 2026 16:47:43 +0200
-X-Gm-Features: AQROBzDzu9FreDfOHSlvA_t2SUWXnsI5wW0V2gEy9hJhilqJ7kIc3lWiSU5YZfk
-Message-ID: <CAJfpegvCPRU4VoB2qorFkj1Ha4adeFLjTj49yAdSAogniATCPw@mail.gmail.com>
-Subject: Re: [PATCH] fuse: reduce attributes invalidated on directory change
-To: Konrad Sztyber <ksztyber@nvidia.com>
-Cc: Jim Harris <jim.harris@nvidia.com>, Max Gurtovoy <mgurtovoy@nvidia.com>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] fuse: fix io-uring background queue dispatch on
+ request completion
+To: Miklos Szeredi <miklos@szeredi.hu>, Joanne Koong <joannelkoong@gmail.com>
+Cc: hbirthelmer@ddn.com, linux-fsdevel@vger.kernel.org, stable@vger.kernel.org
+References: <20260408172510.52950-1-joannelkoong@gmail.com>
+ <CAJfpegungbDJ57MJnLACuzKEqCDOBgPH0WzZ+9Pt3FJHDaCBGQ@mail.gmail.com>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: fr, en-US
+In-Reply-To: <CAJfpegungbDJ57MJnLACuzKEqCDOBgPH0WzZ+9Pt3FJHDaCBGQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, 14 Apr 2026 at 10:27, Konrad Sztyber <ksztyber@nvidia.com> wrote:
->
-> When the contents of a directory is modified, some of its attributes may
-> also change, so they need to be invalidated.  But this isn't the case
-> for every attribute.  For instance, unlinking or creating a file doesn't
-> change the uid/gid of its parent directory.
->
-> This can cause unnecessary FUSE_GETATTRs to be sent to user-space.  For
-> example, fuse_permission() checks if mode, uid, and gid are valid and
-> will issue a FUSE_GETATTR if they're not, which results in an extra
-> FUSE_GETATTR request for every FUSE_UNLINK when removing files in the
-> same directory.
->
-> Signed-off-by: Konrad Sztyber <ksztyber@nvidia.com>
 
-Makes sense, applied.
+
+On 4/16/26 16:43, Miklos Szeredi wrote:
+> On Wed, 8 Apr 2026 at 19:28, Joanne Koong <joannelkoong@gmail.com> wrote:
+>>
+>> When a background request completes via the io_uring path, the
+>> background queue gets flushed to dispatch pending background requests,
+>> but this is done before the connection-level background counters
+>> (fc->num_background, fc->active_background) are properly accounted,
+>> which may reduce effective queue depth to one.
+>>
+>> The connection-level counters are decremented in fuse_request_end(), but
+>> flush_bg_queue() flushes the /dev/fuse path queue (fc->bg_queue), not
+>> the io_uring per-queue bg one, which means pending uring background
+>> requests on the queue are never dispatched in this path.
+>>
+>> Fix this by accounting the connection-level background counters first
+>> before flushing the queue's background queue. Since
+>> fuse_request_bg_finish() clears FR_BACKGROUND, fuse_request_end() will
+>> skip the background cleanup branch entirely, which avoids any
+>> double-decrements; it will call the wake_up(&req->waitq) branch but this
+>> is effectively a no-op as background requests have no waiters on
+>> req->waitq.
+> 
+> Does this guarantee progress if there are still requests on
+> fc->bg_queue at the point when ring becomes ready?
+
+Request allocation is still blocked until the ring is set to ready -
+there should be no background requests at all.
+There were a couple of issues with dynamic switching from /dev/fuse to
+fuse-io-uring, a really hard one was a lock order change. I think once
+we have reduced queues merged, I'm to create an additional patch set
+which allow allow distribution of requests between queues. The initial
+series had that, but Joanne had concerns. Anyway, once we have
+distribution between queues, we can avoid the global bg lock and global
+bg limit and set that per queue. If I remember right, that would solve
+the lock order issue. Although I forgot the exact details. Wish I would
+have creates notes or a blog - too late now :(
+
+> 
+> Seems so, because there must be at least one background request on the
+> regular request queues if bg_queue is non-empty, and when that is
+> finished, a new one will be put on the pending queue, and so on until
+> bg_queue becomes empty.
+
+Yeah, in order to avoid stalls, ring queues always allow one bg request,
+ignoring the global limit.
+
+> 
+> Maybe add a comment about this subtlety?
+
+Where should that comment be?
+
 
 Thanks,
-Miklos
+Bernd
