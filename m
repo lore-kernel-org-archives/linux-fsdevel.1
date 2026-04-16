@@ -1,150 +1,140 @@
-Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECD1F3DEFE6;
-	Thu, 16 Apr 2026 14:54:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB4B8346777
+	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 15:03:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776351280; cv=none; b=SCxGk1sxPp+Wcke1gVTyFI90D9xnYhWDFh+OPx4NDx1qcOSOFkXAsqcXCvBuLU1JVwD+kMG4vqMV1GQ2MWqdMGiPuxwKsVKV2yd2p0SCzFEMXIJ8l+ajh74UR36zXP0WqnGqWcJ/7qt8ocZncA8rW63UJm7HoSTgxstv1xobMqA=
+	t=1776351818; cv=none; b=QiUvC4hbkgfee+7mpYlu4tJhrPV6RpeZ7+PkkKnMMSDYfJvLkwYgIlxFJjdOC1kioGVx3jwA+CEhO363qry1cEo+aU7jQ0koQ6cjuMpW1bmdwLI6p9H982V8J37q+4gicMQwxmAPO8ilH7xXFRj96c++tzs4b0Yj8IiHGQqFu6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776351280; c=relaxed/simple;
-	bh=iiIocqjLJf96QslIbH5YDrRaQ7PWHRvAXb/g66Y29ks=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IqvA8Hi6q9XD0OrIjY1Zc0MM8HCsYsHXXuHsr4TaKsKONKqL1FFVjT8ltFlno7/Oay03hGvfFXoiyR8wQpjjrv8xpwoo8OqY/VwO9qVzqtEGny/igDBRzcS2To+HjHSRt5IqTlxUjUJOyIsDX7cLTYwC2SXbDzdp383Nu6Kyxws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=MlRcvah2; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=DwRArtad; arc=none smtp.client-ip=103.168.172.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	s=arc-20240116; t=1776351818; c=relaxed/simple;
+	bh=+mNJcrO6vmQsCpcnjmzq4O6ycexv38y/zgLqmb6G7RE=;
+	h=Date:From:To:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=dW+IRFZ4Iw53BIkHu79OC12dAGnfJKNgZA0bxAUKWFy/aHtZJ0WAfoG11FGj3FGfY6li4D4gXJ5hHxts3fjHWrUlH63R83zFPFUEMarDqUJlcSL37WWF2FTiMqGC+hWg3K79nTaRlMTwtMWimzvj7WH6UPaOGorMkk1WVy9T1M4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=AR89u9J7; arc=none smtp.client-ip=195.121.94.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="MlRcvah2";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="DwRArtad"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 08E4E1400079;
-	Thu, 16 Apr 2026 10:54:38 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Thu, 16 Apr 2026 10:54:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1776351278;
-	 x=1776437678; bh=h00I6gPnQkLMkP+06QB0pY1DDKiXZSecoTvAx5ju4Cg=; b=
-	MlRcvah29GsTUrj0Dn9rTTcKbwIwuwuTclusczfFTeJXPUJNUN59AVqiQNmMONTI
-	5kjwx2kHtPBcfLFkfJNl7bonMefQ4Cium0FS3osbfLRd49E7vjmHSlSLOyKqdBsC
-	RXYrkE2CQ66FQ2W5Fg0IjZ41Ksu9+L809zVIpbN+ZfzrcYD60XzELtOhw/55wzCZ
-	yZ7/NaBJvWGZ6Lc2+8p3xZ7KqyC+AAwWDo2zIiF9LP+RJWKiWsZIeA1BbcAkBety
-	0oSZ2Bv7U5mDa4K2DZidubxzZCOXA7IOZW9v5ZI7OtQzjD2cUQWBDSXBZbVWL08O
-	SjpCXiYzF4xmRAOqJLsdyw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1776351278; x=
-	1776437678; bh=h00I6gPnQkLMkP+06QB0pY1DDKiXZSecoTvAx5ju4Cg=; b=D
-	wRArtad7FfLLpyKntiGUKwLPQpV58UbSbDGeBT96OCkwt4eBh8fSqxYK3gSXMNh+
-	2FYDt74UH3H+n4Qy2VKXG9nb5MX4PhKCGv5CMgPqL/zQ/DO5ustcvFs1WqomV/lg
-	lc59x+UOkwvxChChEaqGO+54n/GqvaN0zP5M3ot4qjTYywiH6B18nTdJ19s86srt
-	a+LawyzvHo/h5wBgYrEecXiVRQvIsiBWUbH3SHfGLNLhzo7iWTx9rjkGcbSGF/9E
-	xwPxOv+oDApgDs6n1zuiAELq6Qahllk+AXBjVWiuyQxo4KxMZODqhklhQ7YbyFAY
-	d19hvIJQhz1APIIAhLspA==
-X-ME-Sender: <xms:LfjgaTRForaHx1BIkobSztMlQNOhdLMlWnIV8KrKiE4f8MESqFXSUQ>
-    <xme:LfjgaWRZ1faDQSQnd3iqEAdZdDbC-RWbnYeWuhM_Iz4b-vb0jqrWCRcv1_EESG--p
-    AVGZ71UuC__ZcV2bLk7NxtFdyf_a_lufu9yiHc61Po85Iv-Ad5g>
-X-ME-Received: <xmr:LfjgaY6kbBxmk2REeUXxoVbMKNAFLTfsT1DSyaCocPbfR6hgYuixszF4KZRGLSuDiA13UaTJE_yKqk03ZDHXSPTiSfS2RD1FQz9FsTNhbrbFhBHw2w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdegjedvlecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefkffggfgfuvfevfhfhjggtgfesthejredttddvjeenucfhrhhomhepuegvrhhnugcu
-    ufgthhhusggvrhhtuceosggvrhhnugessghssggvrhhnugdrtghomheqnecuggftrfgrth
-    htvghrnhephefhjeeujeelhedtheetfedvgfdtleffuedujefhheegudefvdfhheeuvedu
-    ueegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsg
-    gvrhhnugessghssggvrhhnugdrtghomhdpnhgspghrtghpthhtohephedpmhhouggvpehs
-    mhhtphhouhhtpdhrtghpthhtohepmhhikhhlohhssehsiigvrhgvughirdhhuhdprhgtph
-    htthhopehjohgrnhhnvghlkhhoohhnghesghhmrghilhdrtghomhdprhgtphhtthhopehh
-    sghirhhthhgvlhhmvghrseguughnrdgtohhmpdhrtghpthhtoheplhhinhhugidqfhhsug
-    gvvhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehsthgrsghlvges
-    vhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:LfjgaS3-_ZBXzw0USSNe4GIKexWNJyCk0qt7J6va9fJFAb95yVtgcw>
-    <xmx:LfjgaTDvNpyTzJdHiWvzB1c4NVaU2-LOK-YduqRF2bo-OWem5YvBMg>
-    <xmx:LfjgadM4-vWnY4Dgmhd05Quhk5zJrGueOIeDcOzvKqwA_xbQokO1nw>
-    <xmx:LfjgaYYe3y_Anrw-SWJidGYNhIpR07d2Rl43VwmPomCNmUPmiPxONw>
-    <xmx:LvjgaVy3E4TH3MLqCjDiM5YDAviLC7YDMe-QRWsmQNW_lsOE8YcvV1z4>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 16 Apr 2026 10:54:37 -0400 (EDT)
-Message-ID: <755d8408-6b1c-4e0b-9528-4769e8cf7fe1@bsbernd.com>
-Date: Thu, 16 Apr 2026 16:54:35 +0200
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="AR89u9J7"
+X-KPN-MessageId: 6b7bd890-39a5-11f1-bea8-005056992ed3
+Received: from mta.kpnmail.nl (unknown [10.31.161.188])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 6b7bd890-39a5-11f1-bea8-005056992ed3;
+	Thu, 16 Apr 2026 17:03:26 +0200 (CEST)
+Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
+	by mta.kpnmail.nl (Halon) with ESMTP
+	id 6b82696d-39a5-11f1-80f0-00505699693e;
+	Thu, 16 Apr 2026 17:03:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:subject:message-id:to:from:date;
+	bh=j+uVJmBOGkgDS0z3tsIW2Ds+Jzpa4897P/UEqyiLhFs=;
+	b=AR89u9J7Q6mqG/hdbsQT2sdW9o1iuPP93DpDyFbGxCpI8vKlFahRNTFIbjscMVjFR8PKSfsN7ftXN
+	 bV10BEqMu8dk5oSpGlfMj/M5NRspo5adBrbynfN18ijy8cBDdMLID783d5SK5mrRCErXO2WIXpN0u5
+	 qn01fYYFgcS5hkACWjXBMLgU8GhQk8LrutwYI5afGyE6PzKK4xida/auLEO0WUum7NOaUhOs/b7Wj0
+	 0k8l/qjYbkisJhXxwKUG00MIJQ8Bf1J4A9i75cPelvUsoOmBCEIDO2Z5GNwm/SQ64amwN0MymFfhRk
+	 8NeLDn9xlKhTen185TDM9M2QqNxUIXA==
+X-KPN-MID: 33|wJ0GzT1sPbVlbBcoabM91bC41dVb/Ga4nsWJ/EpxFrhuIQycwUMK4bxZuP5XZ3x
+ VOH9Gqe9wYt2+6vh4IzPTWcvdtVyILU3eLs2zqmoVg7U=
+X-CMASSUN: 33|ARgsuoLPyhASVApF6ob+ciCM+w5WX+1LWil0n1t+A21zqXv47hSkcgkJ4f9g4f4
+ rzBYBTDsNbq5Yl5TdU4Qq0w==
+X-KPN-VerifiedSender: Yes
+Received: from cpxoxapps-mh08 (cpxoxapps-mh08.personalcloud.so.kpn.org [10.128.135.214])
+	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
+	id 6b72fd5c-39a5-11f1-b8d7-005056995d6c;
+	Thu, 16 Apr 2026 17:03:26 +0200 (CEST)
+Date: Thu, 16 Apr 2026 17:03:26 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Dorjoy Chowdhury <dorjoychy111@gmail.com>, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+	ceph-devel@vger.kernel.org, gfs2@lists.linux.dev,
+	linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+	v9fs@lists.linux.dev, linux-kselftest@vger.kernel.org,
+	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz,
+	jlayton@kernel.org, chuck.lever@oracle.com, alex.aring@gmail.com,
+	arnd@arndb.de, adilger@dilger.ca, mjguzik@gmail.com,
+	smfrench@gmail.com, richard.henderson@linaro.org, mattst88@gmail.com,
+	linmag7@gmail.com, tsbogend@alpha.franken.de,
+	James.Bottomley@hansenpartnership.com, deller@gmx.de,
+	davem@davemloft.net, andreas@gaisler.com, idryomov@gmail.com,
+	amarkuze@redhat.com, slava@dubeyko.com, agruenba@redhat.com,
+	trondmy@kernel.org, anna@kernel.org, sfrench@samba.org,
+	pc@manguebit.org, ronniesahlberg@gmail.com, sprasad@microsoft.com,
+	tom@talpey.com, bharathsm@microsoft.com, shuah@kernel.org,
+	miklos@szeredi.hu, hansg@kernel.org,
+	Aleksa Sarai <cyphar@cyphar.com>
+Message-ID: <1714293523.333222.1776351806025@kpc.webmail.kpnmail.nl>
+In-Reply-To: <CAFfO_h6pkyX=uN5uoXda6toTtT6KsahfBNBLom9i21HdZ7JOmQ@mail.gmail.com>
+References: <20260328172314.45807-1-dorjoychy111@gmail.com>
+ <20260328172314.45807-2-dorjoychy111@gmail.com>
+ <aeDpIgfDaIKEaBcL@lt-jori.localdomain>
+ <CAFfO_h6pkyX=uN5uoXda6toTtT6KsahfBNBLom9i21HdZ7JOmQ@mail.gmail.com>
+Subject: Re: [PATCH v6 1/4] openat2: new OPENAT2_REGULAR flag support
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] fuse: fix io-uring background queue dispatch on
- request completion
-To: Miklos Szeredi <miklos@szeredi.hu>, Joanne Koong <joannelkoong@gmail.com>
-Cc: hbirthelmer@ddn.com, linux-fsdevel@vger.kernel.org, stable@vger.kernel.org
-References: <20260408172510.52950-1-joannelkoong@gmail.com>
- <CAJfpegungbDJ57MJnLACuzKEqCDOBgPH0WzZ+9Pt3FJHDaCBGQ@mail.gmail.com>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: fr, en-US
-In-Reply-To: <CAJfpegungbDJ57MJnLACuzKEqCDOBgPH0WzZ+9Pt3FJHDaCBGQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Priority: 3
+Importance: Normal
 
 
+> Op 16-04-2026 16:21 CEST schreef Dorjoy Chowdhury <dorjoychy111@gmail.com=
+>:
+>=20
+> =20
+> On Thu, Apr 16, 2026 at 7:52=E2=80=AFPM Jori Koolstra <jkoolstra@xs4all.n=
+l> wrote:
+> >
+> > On Sat, Mar 28, 2026 at 11:22:22PM +0600, Dorjoy Chowdhury wrote:
+> > > diff --git a/arch/alpha/include/uapi/asm/fcntl.h b/arch/alpha/include=
+/uapi/asm/fcntl.h
+> > > index 50bdc8e8a271..fe488bf7c18e 100644
+> > > --- a/arch/alpha/include/uapi/asm/fcntl.h
+> > > +++ b/arch/alpha/include/uapi/asm/fcntl.h
+> > > @@ -34,6 +34,7 @@
+> > >
+> > >  #define O_PATH               040000000
+> > >  #define __O_TMPFILE  0100000000
+> > > +#define OPENAT2_REGULAR      0200000000
+> > >
+> >
+> > I don't quite understand why we are adding OPENAT2_REGULAR inside the
+> > O_* flag range. Wasn't this supposed to be only supported for openat2()=
+?
+> > If so, I don't see the need to waste an O_* flag bit. But maybe I am
+> > missing something.
+> >
+>=20
+> Yes, OPENAT2_REGULAR is only supported for openat2. I am not sure if I
+> got a specific review to not add OPENAT2_REGULAR in the O_* flag 32
+> bit range. But as far as I understand, for the old open system calls
+> we can't easily add new O_* flags as the older codepaths don't strip
+> off unknown bits which openat2 does. It's not easy to add new O_*
+> flags for the old open system calls since that could break userspace
+> programs.
 
-On 4/16/26 16:43, Miklos Szeredi wrote:
-> On Wed, 8 Apr 2026 at 19:28, Joanne Koong <joannelkoong@gmail.com> wrote:
->>
->> When a background request completes via the io_uring path, the
->> background queue gets flushed to dispatch pending background requests,
->> but this is done before the connection-level background counters
->> (fc->num_background, fc->active_background) are properly accounted,
->> which may reduce effective queue depth to one.
->>
->> The connection-level counters are decremented in fuse_request_end(), but
->> flush_bg_queue() flushes the /dev/fuse path queue (fc->bg_queue), not
->> the io_uring per-queue bg one, which means pending uring background
->> requests on the queue are never dispatched in this path.
->>
->> Fix this by accounting the connection-level background counters first
->> before flushing the queue's background queue. Since
->> fuse_request_bg_finish() clears FR_BACKGROUND, fuse_request_end() will
->> skip the background cleanup branch entirely, which avoids any
->> double-decrements; it will call the wake_up(&req->waitq) branch but this
->> is effectively a no-op as background requests have no waiters on
->> req->waitq.
-> 
-> Does this guarantee progress if there are still requests on
-> fc->bg_queue at the point when ring becomes ready?
+If I recall correctly, Aleksa has suggested we might also want to add
+O_EMPTYPATH to openat() instead of only allowing this for openat2().
+I am waiting to see what Christian thinks of this.
 
-Request allocation is still blocked until the ring is set to ready -
-there should be no background requests at all.
-There were a couple of issues with dynamic switching from /dev/fuse to
-fuse-io-uring, a really hard one was a lock order change. I think once
-we have reduced queues merged, I'm to create an additional patch set
-which allow allow distribution of requests between queues. The initial
-series had that, but Joanne had concerns. Anyway, once we have
-distribution between queues, we can avoid the global bg lock and global
-bg limit and set that per queue. If I remember right, that would solve
-the lock order issue. Although I forgot the exact details. Wish I would
-have creates notes or a blog - too late now :(
+I guess in that case it is relatively harmless to change UAPI
+behavior because openat() with an empty path never works; so it
+would be silly if there are userspace programs that make
+this call, which always fails and does nothing, and somehow rely on
+that.
 
-> 
-> Seems so, because there must be at least one background request on the
-> regular request queues if bg_queue is non-empty, and when that is
-> finished, a new one will be put on the pending queue, and so on until
-> bg_queue becomes empty.
-
-Yeah, in order to avoid stalls, ring queues always allow one bg request,
-ignoring the global limit.
-
-> 
-> Maybe add a comment about this subtlety?
-
-Where should that comment be?
-
+> So I guess it's okay to add OPENAT2_REGULAR in the 32 bits
+> range anyway? (Also lots of code paths take 32bit flags param right
+> now and those would need changing to take uint64_t instead but this is
+> of course not a reason to not add the new flag outside of the 32
+> bits).
+>=20
+> Regards,
+> Dorjoy
 
 Thanks,
-Bernd
+Jori.
