@@ -1,102 +1,176 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02F32175A83
-	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 23:47:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F95336C5AE
+	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 23:52:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776383274; cv=none; b=CR8/0OLQqhr08ogCJar4Cubq6G1qNIpeb1hBij7givJ4lSFGgSRKXazw4yZLfQtGmLj0njUhgLPFWlHIIpMVhJYdNdJgTEtZKfgIajI5vTbj6J1yr372spzQmstTWe9KQO56Fvu5xCEBLk7yS7RSjjVyiySEi6OVgasjROSX4fk=
+	t=1776383578; cv=none; b=ePr33tLoZL3EvqpNXfdNMVIC2YO/SNgRtYPUi1xwi8iu4G1DvS3HQW9DVmL23qx2ZOxHlHYcrVfStF1EZKGDj6amUExk5H0BvPvm1uy++IcBh64IFOEmhQyDhi6MFGygd3URD/ityCeLAOT3l7uPCPlCs1l3HvwdRrzZh6fW2iU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776383274; c=relaxed/simple;
-	bh=C5WAELTVBhjyFEhNaeXPis1p6w2t0pIcbw7WfXDAdoU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=l6NqTQF2VKCAIerrWVKk8dbiyZRztHWVos/nLsqESBinRp2HBNId5F0YWu+jzZPwyLmd7mhamfd5kIxT0Vt5R5G9EWl4gBWa3ZnNinfEzmCXZd7jbVFdRI1OWsW/mJ5/IHnZp9k+uzZhmPpzlHhunGXjN+rykMRdZSMknlmyjB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zvvj0cVy; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776383578; c=relaxed/simple;
+	bh=ViI0JNalIqErtgMgi5n5c14HaDrw0KS9ExyHzdMK2yE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ocOuDYI3/tjZtbETKomFiv0TWla3oCebdaD4wY+Eh9ogoMKlZCVQ8pEEhBLKbG9nf/1UJVJ1j+Q7fFs+o7H2shh/o9pnU2D9UJn8EL4NqJvlk9QhCai2HF4iOtDNyr+ENEZFjdDiAeFUhUfDK6wZcmQswxhGmiaIaBagPT55fEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gqjNp8YU; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=svrE1ZQG; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zvvj0cVy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7736C2BCF4
-	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 23:47:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776383273;
-	bh=C5WAELTVBhjyFEhNaeXPis1p6w2t0pIcbw7WfXDAdoU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Zvvj0cVyQQ2wyzlLb4eaQt7rSG6HFVdmufSZfGIyXkPlP9bYZooQzVCqgx8+WRm5K
-	 vf+jsJYhh7T3Cm1wk2ycg91u4HCYj6HGXU0LGtUEOJglDsNuc5xyh7ntSywXVPbztw
-	 clQ9VKwIxEuWRedy5FPZsb8Ywb6yMudZFsdLPBSDglSooUGcKZw24ShDzcwK3yne0j
-	 j5wfnWKuwo7ywRgyUmZz0Pd9RsgrVoxp6H6gDcsBa8/bRcRKIuQ1+DyvfabVKDIzYX
-	 8zHGpXA4vD7gGtPLoRB9/iTk0dFMxOd1pg2XuN4SFY9Sd7MIB5CXc1Sp04GZjLGMOE
-	 r2IeAElTMW/uA==
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-8cfc5941028so14372285a.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 16:47:53 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ91pAfjSBVaHQ6iq+MMKAcNbDEdsSzHAhfn6QweD1uU6ixP6Hfiz/+IFRPozZDG5aQufEQryHbp735Bl8Xc@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz//u+lPLVdtXfmqnAUNzkgU+vtpPHTiOkiucWndBwKPgHbBQEf
-	+RWe5oAWS1u30TAL0bZXxkS5erZoXC+NqaujIWLEqbEE0EP4DzOMveEQOhH85NWKqvrRVOW7vBO
-	/lCCTy5dytdgnENE0XOxLSTL5iKMnj6E=
-X-Received: by 2002:a05:6214:590b:b0:89a:116b:e67d with SMTP id
- 6a1803df08f44-8b02816d14cmr11472166d6.37.1776383272731; Thu, 16 Apr 2026
- 16:47:52 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gqjNp8YU";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="svrE1ZQG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1776383575;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NlPn1ESBATCi14PPD7HWrz3LwYzcFB1bpvU3Z+LX7Zw=;
+	b=gqjNp8YU3nOXBHV9tFhGTI9oXcbgAIQJOTL1v/ZnCbto3l4jdjl47OWMc2KY/s96YxUy0u
+	SB48CBfMfVzyF8e9Nu9VbsCE2xuVU1Nrjm8DoVJnMLEI4mdAIaDpG7zyDDpxdmsmMvK1pS
+	pt06nbOX0XNiYWrWG8vYM9+nYPncR3A=
+Received: from mail-yx1-f72.google.com (mail-yx1-f72.google.com
+ [74.125.224.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-517-xQ2owhwXPW264VGfFGfiqQ-1; Thu, 16 Apr 2026 19:52:54 -0400
+X-MC-Unique: xQ2owhwXPW264VGfFGfiqQ-1
+X-Mimecast-MFC-AGG-ID: xQ2owhwXPW264VGfFGfiqQ_1776383574
+Received: by mail-yx1-f72.google.com with SMTP id 956f58d0204a3-649deeeb00fso326338d50.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 16:52:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1776383574; x=1776988374; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=NlPn1ESBATCi14PPD7HWrz3LwYzcFB1bpvU3Z+LX7Zw=;
+        b=svrE1ZQGljGzwPJV/33UwiDgTRkzyvQcrVom8zmKknWIr1L+Q6VX5W/sbahveFrQRt
+         uXcuQ0/gaZ+x6tEBcX5SkYiRJeUnMvKTWzdJuTM0YR4PO2y3LNa+vlypwfxuA/honxtJ
+         RWKfUxIEiQD8+W34sY0CvCftbXqTUPK84mYYdagX4V8w6Oi2WtDnUUSI7NzlgVQlDDnq
+         q19ovhAQzAWTKSc+uicSOcvSed/nf1cqxKt1B3S7gAfDqEKJYmpYexeq2tX0j+pPXhvK
+         xB0fa4mB7XD4k5lS7u0KxJl00sBNVNLAST2vxMHAq5y//Hyr5lRmvbxN+I8cceD8ohwi
+         zOQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776383574; x=1776988374;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NlPn1ESBATCi14PPD7HWrz3LwYzcFB1bpvU3Z+LX7Zw=;
+        b=ieVZ8k+BKFCvH81+2wymbc65TqjRube6nQslIail//n8AVD9epktmuHdMA/T7JLIks
+         Md1UOQmmww1ZXTqV9I3ZEgoQFRkOL4mQG8JnoXA0f+1Tpk2ZbOvB+RDxN/X1JXo6DjXV
+         GDNr2P1qmZze7UEejmgLBIym1pJDHCAl8itRaa9PE5WV4ugiNblYjmEh4jne7DAdoqPr
+         c5VWnkhnl0nfbvWlc8n7Bg4F575EZ8iDbpHS4ydvu3sgbTlvFQNfKqWNoTeBldhd5h8A
+         D2xR9zHwTKVPbMkojteHk2QJLQwn8KdR3m2I/dcrmtZvxfm9MN1dzQggi/sqHPdjsuA4
+         TZog==
+X-Forwarded-Encrypted: i=1; AFNElJ98a9Wg9ERVf0J2KDx8RJ8kRp8J8W6+HZgI/WA+qCWzYHEqCT5D+2g2sn1xQ+K8e4BXmTJLGXPZBJdZ1gZH@vger.kernel.org
+X-Gm-Message-State: AOJu0YzFz9jTZuolcAmkhFgOTw5pQky3zjnDb9S2p7ukfVX/1/vdd+8X
+	UFk9dX0PNOBe30ZjbtIl6mzR8Tabw0n7o79nycx3XmigsHBbhnlTu+QiTcp6jQujZLk9Hy3w88e
+	SryjtkbamjNwfSu/CIsOjGjRJdNAXD4+vK2g+nutzOENcJcnQq8ulp52Im71T3FQPIeI=
+X-Gm-Gg: AeBDieuCC7lpbYzAIobIOGdrpts/rJFkuUSZD0lHFhVu9yQzd8+x3XwpzU0wVd2/GRx
+	jFxFegFk/nlYo0IZ3B2TwM+Z+UTsqsKDhIJEXBynNH2vJfu2GDJTryv3Oui7B7gurWTg6LVUBZe
+	cyL7F8t59DIDwDakHkPv0wF6ehhwYfQX+jEiuw8dH20eh51EKnKyPtoACP8nGGaLPUKDu3SbYR/
+	6xfDS2elV0iqT2dgcN0Y4PaNBzJBcI2D+AZgaImv1CrBtD7pEgB5CvNdfknBj0AV88U+SY5G/6u
+	rNOJJ9YBOVgkBWyytVlo1QjKUKEf+CpzPC8v47mpviDgBHYECbZcuQrco8vwMHTMBUumM4rpKx5
+	XpE1fEtRKwgl6IZfLgTdMpZdebkVsPsN4nrxcEK6zBNRbxzVcbKcoWmRxS1ZI2Ls=
+X-Received: by 2002:a53:acd3:0:10b0:651:c71d:8a72 with SMTP id 956f58d0204a3-65310a696a8mr569801d50.49.1776383573965;
+        Thu, 16 Apr 2026 16:52:53 -0700 (PDT)
+X-Received: by 2002:a53:acd3:0:10b0:651:c71d:8a72 with SMTP id 956f58d0204a3-65310a696a8mr569786d50.49.1776383573567;
+        Thu, 16 Apr 2026 16:52:53 -0700 (PDT)
+Received: from li-4c4c4544-0032-4210-804c-c3c04f423534.ibm.com ([2600:1700:6476:1430::29])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-65312ffe990sm81508d50.2.2026.04.16.16.52.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Apr 2026 16:52:53 -0700 (PDT)
+Message-ID: <2fc9bc501da67eccf45533310812d7591a12d7b7.camel@redhat.com>
+Subject: Re: [PATCH v3] hfsplus: Add a sanity check for btree node size
+From: Viacheslav Dubeyko <vdubeyko@redhat.com>
+To: Edward Adam Davis <eadavis@qq.com>
+Cc: frank.li@vivo.com, glaubitz@physik.fu-berlin.de, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ slava@dubeyko.com, 	syzbot+217eb327242d08197efb@syzkaller.appspotmail.com, 
+	syzkaller-bugs@googlegroups.com
+Date: Thu, 16 Apr 2026 16:52:51 -0700
+In-Reply-To: <tencent_5ED373437A697F83A4A446B771577626CD05@qq.com>
+References: <tencent_B176296323B84453B767B76D66D513600305@qq.com>
+	 <tencent_5ED373437A697F83A4A446B771577626CD05@qq.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43app2) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260407200157.3874806-1-utilityemal77@gmail.com>
- <20260407200157.3874806-9-utilityemal77@gmail.com> <CAPhsuW7zzXXd6-d86B-rpGr-wfSzmEoCYNKhTMP_pXnybtA27A@mail.gmail.com>
- <aeFaQXkKNHFeE-oC@suesslenovo>
-In-Reply-To: <aeFaQXkKNHFeE-oC@suesslenovo>
-From: Song Liu <song@kernel.org>
-Date: Thu, 16 Apr 2026 16:47:40 -0700
-X-Gmail-Original-Message-ID: <CAPhsuW648HdcCbXWMHaJ4uirPWq2WX3Ggx3AGMU6CGzhNYUREg@mail.gmail.com>
-X-Gm-Features: AQROBzBjp2CZyNelxoIb8OGY5jbxiGMArE6FN8nqGrHbNb-DuxdjTnWhkFkE_iU
-Message-ID: <CAPhsuW648HdcCbXWMHaJ4uirPWq2WX3Ggx3AGMU6CGzhNYUREg@mail.gmail.com>
-Subject: Re: [RFC PATCH 08/20] bpf: Add Landlock ruleset map type
-To: Justin Suess <utilityemal77@gmail.com>
-Cc: ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, 
-	kpsingh@kernel.org, paul@paul-moore.com, mic@digikod.net, 
-	viro@zeniv.linux.org.uk, brauner@kernel.org, kees@kernel.org, 
-	gnoack@google.com, jack@suse.cz, jmorris@namei.org, serge@hallyn.com, 
-	yonghong.song@linux.dev, martin.lau@linux.dev, m@maowtm.org, 
-	eddyz87@gmail.com, john.fastabend@gmail.com, sdf@fomichev.me, 
-	skhan@linuxfoundation.org, bpf@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 16, 2026 at 2:53=E2=80=AFPM Justin Suess <utilityemal77@gmail.c=
-om> wrote:
-[...]
-> I don't think we can pass the FD number via a map, since the FD is
-> process specific. And it needs to be done in a way where we can lookup
-> the specific ruleset the FD points to safely.
->
-> So we'd need some other way to load the ruleset from a file descriptor,
-> either through a new userspace side BPF call or similar mechanism.
->
-> Is there some other common pattern for FDs --> kptr I can follow?
+On Fri, 2026-04-17 at 07:44 +0800, Edward Adam Davis wrote:
+> Syzbot reported an uninit-value bug in [1] with a corrupted HFS+ image,
+> during the file system mounting process, specifically while loading the
+> catalog, a corrupted node_size value of 1 caused the rec_off argument
+> passed to hfs_bnode_read_u16() (within hfs_bnode_find()) to be excessivel=
+y
+> large. Consequently, the function failed to return a valid value to
+> initialize the off variable, triggering the bug [1].
+>=20
+> Every node starts from BTree node descriptor: struct hfs_bnode_desc.
+> So, the size of node cannot be lesser than that. However, technical
+> specification declares that: "The node size (which is expressed in bytes)
+> must be power of two, from 512 through 32,768, inclusive." Add a check
+> for btree node size base on technical specification.
+>=20
+> [1]
+> BUG: KMSAN: uninit-value in hfsplus_bnode_find+0x141c/0x1600 fs/hfsplus/b=
+node.c:584
+>  hfsplus_bnode_find+0x141c/0x1600 fs/hfsplus/bnode.c:584
+>  hfsplus_btree_open+0x169a/0x1e40 fs/hfsplus/btree.c:382
+>  hfsplus_fill_super+0x111f/0x2770 fs/hfsplus/super.c:553
+>  get_tree_bdev_flags+0x6e6/0x920 fs/super.c:1694
+>  get_tree_bdev+0x38/0x50 fs/super.c:1717
+>  hfsplus_get_tree+0x35/0x40 fs/hfsplus/super.c:709
+>  vfs_get_tree+0xb3/0x5d0 fs/super.c:1754
+>  fc_mount fs/namespace.c:1193 [inline]
+>=20
+> Fixes: 8ad2c6a36ac4 ("hfsplus: validate b-tree node 0 bitmap at mount tim=
+e")
+> Reported-by: syzbot+217eb327242d08197efb@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=3D217eb327242d08197efb
+> Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+> ---
+> v1 -> v2: change check base on technical specification
+> v2 -> v3: using const min size
+>=20
+>  fs/hfsplus/btree.c         | 2 ++
+>  include/linux/hfs_common.h | 1 +
+>  2 files changed, 3 insertions(+)
+>=20
+> diff --git a/fs/hfsplus/btree.c b/fs/hfsplus/btree.c
+> index 761c74ccd653..394542a47e60 100644
+> --- a/fs/hfsplus/btree.c
+> +++ b/fs/hfsplus/btree.c
+> @@ -365,6 +365,8 @@ struct hfs_btree *hfs_btree_open(struct super_block *=
+sb, u32 id)
+>  	}
+> =20
+>  	size =3D tree->node_size;
+> +	if (size < HFSPLUS_NODE_MINSZ || size > HFSPLUS_NODE_MXSZ)
+> +		goto fail_page;
+>  	if (!is_power_of_2(size))
+>  		goto fail_page;
+>  	if (!tree->node_count)
+> diff --git a/include/linux/hfs_common.h b/include/linux/hfs_common.h
+> index 07dfc39630ab..45fb4c9ff9f5 100644
+> --- a/include/linux/hfs_common.h
+> +++ b/include/linux/hfs_common.h
+> @@ -513,6 +513,7 @@ struct hfs_btree_header_rec {
+>  /* HFS+ BTree misc info */
+>  #define HFSPLUS_TREE_HEAD			0
+>  #define HFSPLUS_NODE_MXSZ			32768
+> +#define HFSPLUS_NODE_MINSZ			512
+>  #define HFSPLUS_ATTR_TREE_NODE_SIZE		8192
+>  #define HFSPLUS_BTREE_HDR_NODE_RECS_COUNT	3
+>  #define HFSPLUS_BTREE_HDR_MAP_REC_INDEX		2	/* Map (bitmap) record in Hea=
+der node */
 
-I didn't find an exact example like this. There must be a way to achieve
-this. In the worst case, we can add a kfunc for this.
+Looks good. Thanks a lot for the fix.
 
-> Basically the pattern I need is userspace must create the file
-> descriptor, BPF converts that FD into a refcounted kernel object, and
-> even if userspace closes the FD BPF needs to hold a reference on the
-> underlying ruleset structure.
->
-> (In this patch this was accomplished through the map_ops)
->
-> Let me know what you think Song. I do understand the benefit of having a
-> __kptr instead, the refcounting is all there, and it would allow storing
-> rulesets in multiple map types. (and one less map type to maintain).
-
-A new type of map for each FD referenced kernel type is non-starter.
-It is impossible to add UAPI for a specific use case.
+Reviewed-by: Viacheslav Dubeyko <slava@dubeyko.com>
 
 Thanks,
-Song
+Slava.
 
-> Micka=C3=ABl, do you have any thoughts on this? I have v2 basically ready=
-,
-> although it uses the BPF_MAP_TYPE_LANDLOCK_RULESET it changes a lot on
-> the Landlock side.
