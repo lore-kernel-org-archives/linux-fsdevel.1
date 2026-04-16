@@ -1,107 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from submarine.notk.org (submarine.notk.org [62.210.214.84])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C33A1F94F;
-	Thu, 16 Apr 2026 01:19:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 489221643B
+	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 01:52:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.210.214.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776302349; cv=none; b=EdTnsDf9Ms0YVLQxqmomyPZpAaneczTkupXr7khz4KsuRoWbSya4cEfxtc0s0p5fwBJoBi6t6CUBXinYSgiEVadnAOgTP/Sy4jOAsdofUAZEHWHOuxPwFq0uQkblciNXa5U4GFs5xBXHyJNbxOYqtzYbAYgaZW8FaLbhB7f+FHs=
+	t=1776304338; cv=none; b=M8QVUjetgoUw0B6nGt/rx32bjV6qOoclVJm2jiviERzjOomibrheWzJQT083l6eFouXulxvl04RZDJYja8ly//PSWQoltLcMdAhGphvomw/5k7w0cmyb/Y3M1UNq1Lm5S9YVXCJP84cq+Xn7/965pVhAZeKu5pG4mEAW6IvRUlI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776302349; c=relaxed/simple;
-	bh=sGPVhh1PMoxtSRZpRrI3iao9xw5DxpR7NnDEs0o9Kgw=;
+	s=arc-20240116; t=1776304338; c=relaxed/simple;
+	bh=mSwl4u8HhjXZDns83uJQ0TQsHuRsmHDji46r5AoSykI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fOWyhueA/saPdYzG2n/FUkmmKH2WvhdTVLLqdr9pqL/270mOxo8XqjKHdgQSV0PzKZxSknuFK56HGcVdtCGttDeUIjXPFnhDmL7EWc98E/jzQv2c7GySXWIBJjZrYur7fLrwqpP/GDUsT2GkAV2Yk31X4e1BTGKO7qJ+AoEqJDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h4B7BqzB; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=XbIHNWKF8WSBWq5RIHfHin3k2lpmm9UwVC8RzpmM7T9CutOrhFve+joaXBG5w0yC5thEjc0X/lw/2ZhbF9t85JMceUYZkwdUhE7od9RTgsKNcncCdzxSqp5h6Iq8xN+Dqg0Aq+6X95l3WBA1ZwMvwZ5tis1RDyld/eQcQJ/H4XM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org; spf=pass smtp.mailfrom=codewreck.org; dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b=Z0lSBv92; arc=none smtp.client-ip=62.210.214.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codewreck.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h4B7BqzB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2CC3C19424;
-	Thu, 16 Apr 2026 01:19:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776302349;
-	bh=sGPVhh1PMoxtSRZpRrI3iao9xw5DxpR7NnDEs0o9Kgw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=h4B7BqzBdmwkiQP3eic2DNPc5SfwzxkiQTs6gPXXav+LObOeFH7nkioxT7SaepznJ
-	 tKeHtP/Q/R1rN+IYoojyUMD/9KImNkUeDlEZ5WlslsOlCvQ2KqZlW3coZcdxlw3RNz
-	 3mCV7tjMjQ2OqsxWlPvw1ydH4/JIGVkdDmVKz1KpUuDTB5O8MyYUvD27sG0B+C9qgU
-	 8jolvhM0TULMdqnl/LgRNrTYwCl5WgyWumi8qCF1q67v2K/cuqrhQNUhqaIazzxjtC
-	 Apa5NTA7awDPIth5oapqjqZwGGydEyX8hC8yE+ut1WrXAhm2X/Ni0qm5cQBQ819JSR
-	 jrW0S6CU0yzgQ==
-Date: Thu, 16 Apr 2026 01:19:07 +0000
-From: Jaegeuk Kim <jaegeuk@kernel.org>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Matthew Wilcox <willy@infradead.org>,
-	Christoph Hellwig <hch@infradead.org>, linux-kernel@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net,
-	Akilesh Kailash <akailash@google.com>,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-api@vger.kernel.org
-Subject: Re: [PATCH v2] f2fs: another way to set large folio by remembering
- inode number
-Message-ID: <aeA5C8byIpXWla7f@google.com>
-References: <20260409134538.3692605-1-jaegeuk@kernel.org>
- <adhPZxtbZxgU-37v@google.com>
- <ad30g9xMs9wNJhFb@infradead.org>
- <ad_AVHe7RMnGrGTb@google.com>
- <ad_HwhzlNPUEKQi6@casper.infradead.org>
- <aeAK8mFxzgMOepmZ@google.com>
- <20260415234950.GC114184@frogsfrogsfrogs>
+	dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b="Z0lSBv92"
+Received: from gaia.codewreck.org (localhost [127.0.0.1])
+	by submarine.notk.org (Postfix) with ESMTPS id A5EF914C2D6;
+	Thu, 16 Apr 2026 03:52:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org;
+	s=2; t=1776304335;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9d1whCYX3+76IRyfvmsAIlYlgS+rkVQnb15O/vm/Fv4=;
+	b=Z0lSBv921G4Of31k54izWzr3XhH6UnC7AxF51GLrOTnMbazTjACN14WN5ocnGQPxt5xfV8
+	VRO4t6kRXgdGMGd8cFuFpWZOBwkjXUKI2JiEuOYOR77tHKOsotac6DPQqXP9RR5Q/oK6zp
+	iyc6CYPRWRfut3IkQvLyp13aVnEIXofJOKwXEQ52okMoyMQkcdzcBlKn54spwlFqu7WTf0
+	bSk32gN/JUFGXb6qUf7djZfGANtXcu9GBaGHUhgrQetVekJ3SvqUz4zDyZM7h0hs4rVz5L
+	+PFEl9v9GMOrFuuX49nkoxTLDt6TbLRylZavrjiCVcRWmdUeTEHXBA6O1DpAEQ==
+Received: from localhost (gaia.codewreck.org [local])
+	by gaia.codewreck.org (OpenSMTPD) with ESMTPA id 50a6848c;
+	Thu, 16 Apr 2026 01:52:11 +0000 (UTC)
+Date: Thu, 16 Apr 2026 10:51:56 +0900
+From: Dominique Martinet <asmadeus@codewreck.org>
+To: Pierre Barre <pierre@barre.sh>
+Cc: v9fs@lists.linux.dev, linux-fsdevel@vger.kernel.org, ericvh@kernel.org,
+	lucho@ionkov.net, linux_oss@crudebyte.com
+Subject: Re: [RFC] net/9p: raise MAX_SOCK_BUF beyond 1 MiB for fd/tcp/unix
+ transports?
+Message-ID: <aeBAvOIZCbICnImG@codewreck.org>
+References: <c2c75b03-e95d-49f4-be9a-2429fde4b5fe@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260415234950.GC114184@frogsfrogsfrogs>
+In-Reply-To: <c2c75b03-e95d-49f4-be9a-2429fde4b5fe@app.fastmail.com>
 
-On 04/15, Darrick J. Wong wrote:
-> On Wed, Apr 15, 2026 at 10:02:26PM +0000, Jaegeuk Kim wrote:
-> > On 04/15, Matthew Wilcox wrote:
-> > > On Wed, Apr 15, 2026 at 04:44:04PM +0000, Jaegeuk Kim wrote:
-> > > > On 04/14, Christoph Hellwig wrote:
-> > > > > Please add the relevant mailing lists when adding new user interfaces.
-> > > > > 
-> > > > > And I'm not sure hacks working around the proper large folio
-> > > > > implementation are something that should be merged upstream.
-> > > > 
-> > > > Cc'ed linux-api and linux-fsdevel onto the patch thread with a proposal that
-> > > > I'm not sure it's acceptable or not. 
-> > > 
-> > > You haven't sent a proposal.  This is a reply to a reply to a reply of a
-> > > patch.  There's no justification for why f2fs is so special that it
-> > > needs this.  What the hell is going on?  You know this is not the way to
-> > > get code merged into Linux.
-> > 
-> > I added two ideas in that email. Have you even tried to understand?
+Pierre Barre wrote on Tue, Apr 14, 2026 at 04:26:36PM +0200:
+> MAX_SOCK_BUF in net/9p/trans_fd.c currently caps msize at 1 MiB for
+> the fd/tcp/unix transports. The commit that introduced this ceiling
+> (22bb3b79290e, "net/9p: increase tcp max msize to 1MB") noted that a
+> further bump would need the allocator moved off contiguous slab
+> chunks.
 > 
-> You want to establish "user.fadvise" as an extended attribute containing
-> a bitmask.  The sole bit defined in that attribute means "use large
-> folios", but you also have to change the file mode and set the IMMUTABLE
-> bit for it to actually do anything.
-
-Partly yes. This path has nothing to do with IMMUTABLE bit, since I used to
-activate the large folio with that bit, but hit a big pain which requires
-clearing the bit whenever just deleting the file.
-
-So, this gives a new way to activate the large folio by chmod(0400) and
-setxattr("user.fadvise") only while providing quick inode eviction in order
-to set mapping by iget, and allowing file deletion easily.
-
-I feel the arguable points would be 1) the path to evict inode by calling
-d_drop in release_file and returning 1 in drop_inode, 2) how to give the
-hint between fadvise(FADV_LARGE_FOLIO) or setxattr(user.fadvise) by individual
-file system.
-
+> That prerequisite appears to be met now: p9_fcall_init() in
+> net/9p/client.c uses kvmalloc() when the transport sets
+> supports_vmalloc = true, which fd/tcp/unix all do. So the original
+> slab fragmentation argument against raising the cap no longer applies
+> to these transports.
 > 
-> Meanwhile, you can't actually persist any of the fadvise(2) advice
-> flags, so the xattr name doesn't even make sense.  Maybe you meant to
-> call it "user.madvise" since the closest thing I can think of is
-> MADV_HUGEPAGE?
+> Before I put together a patch, I wanted to check:
 > 
-> I've understood enough.  YUCK.
+> 1. Are there other reasons that the 1 MiB cap should stay?
+> 2. If a bump is welcome, is there a target value you'd prefer (e.g. 16
+> MiB, 32 MiB)?
 
-Thank you for taking the time to take a look.
+I personally don't consider trans_fd to be performance sensitive so I
+don't care much here...
 
-> 
-> --D
+In theory it's possible to implement a zc operation for trans_fd as well
+(send/write directly from the bio provided by the vfs) but this has
+never been a priority as far as I know;
+using kvmalloc() does allow bigger buffers so I guess it'd be possible
+to allow larger buffers as an orthogonal step, but I'm honestly not sure
+how much performance gain you'll see here?
+
+Since commit 60ece0833b6c ("net/9p: allocate appropriate reduced message
+buffers") there shouldn't be many max size allocations but iirc there
+will still be some (e.g. readdir?), so a very high value will likely
+still somewhat impact performances, so if you do care, feel free to
+provide some quick benchmark that shows improvements in IO workload and
+not too much degradation for metadata and send a patch -- since it's
+something folks need to opt-in by setting the msize anyway I think it's
+fine.
+
+-- 
+Dominique
