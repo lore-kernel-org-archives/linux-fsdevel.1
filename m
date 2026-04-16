@@ -1,133 +1,200 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6964935AC2F;
-	Thu, 16 Apr 2026 22:42:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F262375ACF;
+	Thu, 16 Apr 2026 22:43:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776379336; cv=none; b=u6mbLVZSnRSunSui/JnzUDHtZF7mf8457ICv1sEu+TSiIAdlkHywWxAutzFUsYHZ4DwQXAHXejn2OFMmAeBUega8lXtzcFiPddqUit8mUtM6cVusmLay4cjtVMfgsDjU+dxatqmGJ/6/tpSYyME8hkHvC6J5tdYtcRHnsUgLMTQ=
+	t=1776379412; cv=none; b=kT2/Xdb5fPzh4MI0WY5JwPnsvH+XKMiKEjJYJjez1M4tUJt6F/Eff28t+Yb+6L7vCX7VApwiaJbVpBR/qVW5sck6W01BHxKkI4ST/5mblRFox8lzOxDQhhvbZ21vbdmvaaoU2N6JXUKjb1faDBtr1MnXSXoJMTQUSOCRQjR2cGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776379336; c=relaxed/simple;
-	bh=lapdISy5RqxJgrImNGTKA7C/+JI+0anxuZfW02LMH1U=;
+	s=arc-20240116; t=1776379412; c=relaxed/simple;
+	bh=qKUpqDrb9Ptsu5hc5LGE0mNm7b8T3hnjmauL6JvvBJQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jmb7kl0c8hORJI+hGcX0NHuhGCvX6NBsEK5uff8ShOjEj1lVb3RpKMtiaqEAG8ZloTy6Nqk0vewUb1zWNPkmCvVQmAPgszkeTD/piM4grwJ1O0ewDpvHhPMidgV2s7JNx02HAbu/yjMjbzRDfgCNI6mZ8+K5D/6eaPD8hMb12Qc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KoZyHhk8; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=n2Sr6CYu95vzsxHD4RQx2HXPrG7VUpsulJoZ/MzgUCFiQTPGT+mwBmkPUmWz+mgj4K5NjgFvasOupusXjJDrVXiBQiAByQy101LDrwSlXoRiNS83rppEestYQhwNH2Fy5LfG5ivwwk4Z9mI8wM63IMyHE2sbi7qx/UCH1yk0yvk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V+3srfUS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KoZyHhk8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8994C2BCAF;
-	Thu, 16 Apr 2026 22:42:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V+3srfUS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E01F9C2BCAF;
+	Thu, 16 Apr 2026 22:43:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776379336;
-	bh=lapdISy5RqxJgrImNGTKA7C/+JI+0anxuZfW02LMH1U=;
+	s=k20201202; t=1776379412;
+	bh=qKUpqDrb9Ptsu5hc5LGE0mNm7b8T3hnjmauL6JvvBJQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KoZyHhk8fCQGYDsMFMrFstPGBhyKqaz6hhSvWwqTtmllYak7w0Rv5jehwIh5+sQQi
-	 vUhTz4WwcSQPqsQq9wXo6nLSuWntQHd+iacia7NbM//BOhwWuPcktLjtycXn9pa+at
-	 UDj23839d7b1eFVy3u0bZ3PNZ2nxfTF9XRcGb9ZSUXKwlktVXy83usG2qm1AQM8paJ
-	 byMpPNc6bOSHivyW5CtEaG+ZExgKi1IX/5D88u0AmGLOV1TJEM7pN+jdWPWOs6LX6+
-	 GvyBdRWzAjaImNQiwDTj4laVfTZYlC4eMUHkvOw6mkteoXuIfCNK2Y9Nh+nQoWNFOa
-	 g/9lAexFRteoA==
-Date: Fri, 17 Apr 2026 08:42:05 +1000
-From: Dave Chinner <dgc@kernel.org>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Brian Foster <bfoster@redhat.com>,
-	Fengnan Chang <fengnanchang@gmail.com>, brauner@kernel.org,
-	hch@infradead.org, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
-	lidiangang@bytedance.com,
-	Fengnan Chang <changfengnan@bytedance.com>
-Subject: Re: [PATCH] iomap: avoid memset iomap when iter is done
-Message-ID: <aeFlvXDShzIuOU9z@dread>
-References: <20260416030642.26744-1-changfengnan@bytedance.com>
- <aeDjui2LGSidEHcJ@bfoster>
- <20260416152705.GC114239@frogsfrogsfrogs>
+	b=V+3srfUSnBdTShmnHUJ0+HYBHhLJolmNslN4MMY6F+lr2vtuizOwnhixs3OwcxfL5
+	 zMTIZoGEqxMJWonHpytQ8Q+fl3SBMrgr6zcsSHW9Lkxlx0IERmvhInsMQLqhWFrlex
+	 NPVFoWcf1LhAlJnZs9XST3nOmgPq8TFT+vFRPAykZeiU/qi/5S1pxwjji0HeN4IbtF
+	 ktDU8V85DZRT/HbiOEqtLIGwtM5zwq1coG6oyeXmy4FVWfqSfI+o/+aWFE1I8CxtDr
+	 dZN1opfhJeWjxxdudK3kIAhQNPFS8zUGgxtvxk42Sy+BlyQidwCsZnk/BoJwrKS7G7
+	 SxMz53uLvDrnQ==
+Date: Thu, 16 Apr 2026 15:43:31 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Dan Williams <djbw@kernel.org>
+Cc: Gregory Price <gourry@gourry.net>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	John Groves <John@groves.net>, Miklos Szeredi <miklos@szeredi.hu>,
+	Bernd Schubert <bernd@bsbernd.com>,
+	John Groves <john@jagalactic.com>,
+	Dan J Williams <dan.j.williams@intel.com>,
+	Bernd Schubert <bschubert@ddn.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	David Hildenbrand <david@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Stefan Hajnoczi <shajnocz@redhat.com>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Chen Linxuan <chenlinxuan@uniontech.com>,
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Shivank Garg <shivankg@amd.com>,
+	Ackerley Tng <ackerleytng@google.com>,
+	Aravind Ramesh <arramesh@micron.com>,
+	Ajay Joshi <ajayjoshi@micron.com>,
+	"venkataravis@micron.com" <venkataravis@micron.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH V10 00/10] famfs: port into fuse
+Message-ID: <20260416224331.GD114184@frogsfrogsfrogs>
+References: <adlBcwJjLOQDAR65@groves.net>
+ <CAJnrk1a06zkUmXW5EFiUmgAoFauwtzsYvnotaPH0ifVtyh7iDQ@mail.gmail.com>
+ <CAJfpegvVTcV89=q3L326aGQjhduBcv7PVg5QKftGLjNZmCLmaw@mail.gmail.com>
+ <ad4_jFsR951c2Mtn@groves.net>
+ <20260414185740.GA604658@frogsfrogsfrogs>
+ <CAJnrk1ZgcMuwfMpT1fXvUwBBiq9eWFHWVeOFQFFKiamGGe1RJg@mail.gmail.com>
+ <ad7Tps4tkNbndd9Z@groves.net>
+ <CAJnrk1ZWVsKW2dhAWdBkCQskoTE+hmOhPFDhyz4EtExn=GdXGA@mail.gmail.com>
+ <aeFDCeqZDPI3rm3s@gourry-fedora-PF4VCD3F>
+ <43d36427-4629-4712-a262-391e64006eb5@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260416152705.GC114239@frogsfrogsfrogs>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <43d36427-4629-4712-a262-391e64006eb5@app.fastmail.com>
 
-On Thu, Apr 16, 2026 at 08:27:05AM -0700, Darrick J. Wong wrote:
-> On Thu, Apr 16, 2026 at 09:27:22AM -0400, Brian Foster wrote:
-> > On Thu, Apr 16, 2026 at 11:06:42AM +0800, Fengnan Chang wrote:
-> > > When iomap_iter() finishes its iteration (returns <= 0), it is no longer
-> > > necessary to memset the entire iomap and srcmap structures.
-> > > 
-> > > In high-IOPS scenarios (like 4k randread NVMe polling with io_uring),
-> > > where the majority of I/Os complete in a single extent map, this wasted
-> > > memory write bandwidth, as the caller will just discard the iterator.
-> > > 
-> > > Use this command to test:
-> > > taskset -c 30 ./t/io_uring -p1 -d512 -b4096 -s32 -c32 -F1 -B1 -R1 -X1
-> > > -n1 -P1 /mnt/testfile
-> > > IOPS improve about 5% on ext4 and XFS.
-> > > 
-> > > However, we MUST still call iomap_iter_reset_iomap() to release the
-> > > folio_batch if IOMAP_F_FOLIO_BATCH is set, otherwise we leak page
-> > > references. Therefore, split the cleanup logic: always release the
-> > > folio_batch, but skip the memset() when ret <= 0.
-> > > 
-> > > Signed-off-by: Fengnan Chang <changfengnan@bytedance.com>
-> > > ---
-> > >  fs/iomap/iter.c | 5 +++--
-> > >  1 file changed, 3 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/fs/iomap/iter.c b/fs/iomap/iter.c
-> > > index c04796f6e57f..91eb5e6165ff 100644
-> > > --- a/fs/iomap/iter.c
-> > > +++ b/fs/iomap/iter.c
-> > > @@ -15,8 +15,6 @@ static inline void iomap_iter_reset_iomap(struct iomap_iter *iter)
-> > >  	}
-> > >  
-> > >  	iter->status = 0;
-> > > -	memset(&iter->iomap, 0, sizeof(iter->iomap));
-> > > -	memset(&iter->srcmap, 0, sizeof(iter->srcmap));
-> > >  }
-> > >  
-> > >  /* Advance the current iterator position and decrement the remaining length */
-> > > @@ -106,6 +104,9 @@ int iomap_iter(struct iomap_iter *iter, const struct iomap_ops *ops)
-> > >  	if (ret <= 0)
-> > >  		return ret;
-> > >  
-> > > +	memset(&iter->iomap, 0, sizeof(iter->iomap));
-> > > +	memset(&iter->srcmap, 0, sizeof(iter->srcmap));
-> > > +
-> > 
-> > This seems reasonable to me in principle, but it feels a little odd to
-> > leave a reset helper that doesn't really do a "reset." I wonder if this
-> > should be refactored into an iomap_iter_complete() (i.e. "complete an
-> > iteration") helper that includes the ret assignment logic just above the
-> > reset call and returns it, and then maybe leave a oneline comment above
-> > the memset so somebody doesn't blindly fold it back in the future. So
-> > for example:
-> > 
-> > 	ret = iomap_iter_complete(iter);
-> > 	if (ret <= 0)
-> > 		return ret;
-> > 
-> > 	/* save cycles and only clear the mappings if we plan to iterate */
-> > 	memset(..);
-> > 	...
-> > 
-> > We'd probably have to recheck some of the iter state within the new
-> > helper, but that doesn't seem like a big deal to me. Thoughts?
+On Thu, Apr 16, 2026 at 01:53:27PM -0700, Dan Williams wrote:
 > 
-> What kind of computer is this where there's a 5% hit to iops from a
-> memset of ~150 bytes?
+> 
+> On Thu, Apr 16, 2026, at 1:14 PM, Gregory Price wrote:
+> > On Thu, Apr 16, 2026 at 08:56:46AM -0700, Joanne Koong wrote:
+> >> On Tue, Apr 14, 2026 at 5:10 PM John Groves <John@groves.net> wrote:
+> >> >
+> >> > There is a FUSE_DAX_FMAP capability that the kernel may advertise or not
+> >> > at init time; this capability "is" the famfs GET_FMAP AND GET_DAXDEV
+> >> > commands. In the future, if we find a way to use BPF (or some other
+> >> > mechanism) to avoid needing those fuse messages, the kernel could be updated
+> >> > to NEVER advertise the FUSE_DAX_FMAP capability. All of the famfs-specific
+> >> > code could be taken out of kernels that never advertise that capability.
+> >> 
+> >> I’m not sure the capability bit can be used like that (though I am
+> >> hoping it can!). As I understand it, once the kernel advertises a
+> >> capability, it must continue supporting it in future kernels else
+> >> userspace programs that rely on it will break.
 
-Even small costs can have a big impact when you have to pay it many
-times.
+So don't break fuse servers.  If you wanted to (say) get rid of
+GET_FMAP in favor of IOMAP_BEGIN, you could alter libfuse to translate a
+fuse server's ->get_fmap implementation into the equivalent
+->iomap_begin, and eventually the kernel can stop making GET_FMAP calls
+to userspace.
 
-i.e. 2 million IOPS * 2 * 72 bytes per IO = 288MB/s of memory being
-zeroed unnecessarily in very small (inefficient) chunks.
+The trouble here is that I've also seen half a dozen projects vendoring
+libfuse so that's a nightmare that will have to be dealt with.  But
+maybe that doesn't even matter, because...
 
-That's definitely enough to cause a 5% drop in IOPS when the
-workload is CPU or memory bandwidth bound....
+> > FUSE_DAX_FMAP is already conditional on CONFIG_FUSE_DAX, the kernel is
+> > not required to continue advertising FUSE_DAX_FMAP in perpetuity.
+> >
+> > Setting CONFIG_FUSE_DAX=n does not mean userland "is broken", this would
+> > only be the case if FUSE_DAX_FMAP was advertised but not actually
+> > supported.
 
--Dave.
--- 
-Dave Chinner
-dgc@kernel.org
+...the memory interleaving is a rather interesting quality of famfs.
+There's no good way to express a formulaic meta-mapping in traditional
+iomap parlance, and famfs needs that to interleave across memory
+controllers/dimm boxen/whatever.  Throwing individual iomaps at the
+kernel is a very inefficient way to do that.  So I don't think there's a
+good reason to get rid of GET_FMAP at this time...
+
+> > If DAX were removed from the kernel (unlikely, but stick with me) this
+> > would be equivalent to permanently changing CONFIG_FUSE_DAX to always
+> > off, and there would be no squabbles over whether that particular
+> > change broke userland (there would be much strife over removing dax).
+
+...however the strongest case (IMO) would be if (having merged famfs) we
+then merge fuse-iomap after famfs.  Then we extend the existing
+fuse-iomap-bpf prototype to allow per-mount and per-inode iomap bpf ops.
+That enables us to analyze thoroughly the performance characteristics of:
+
+a) Using GET_FMAP as-is
+
+b) Uploading raw iomaps (HA)
+
+c) Uploading a single bpf program to make iomaps, exchanging fmap-style
+mapping data into a bpf map, and having the single bpf program walk
+through the map
+
+d) Uploading a custom bpf program per famfs file to make iomaps.  No
+bpfmap required, but the setup and compilation are now much more complex
+
+Then we'll finally know which approach is the best, having broken the
+Gordian Knot of how to merge famfs and fuse-iomap.
+
+If we decide that (c) or (d) are actually better, then guess what?  To
+get any of the iomap functionality, you have to set an inode flag, and
+that (FUSE_CAP_FAMFS && FUSE_CAP_IOMAP && FUSE_ATTR_IOMAP) is the signal
+for "don't call GET_FMAP".  FUSE_CAP_FAMFS && (!FUSE_CAP_IOMAP ||
+!FUSE_ATTR_IOMAP) means "call GET_FMAP".
+
+Yes, we burn a couple of fuse command values to find out, but that's all.
+
+(TBH I still dislike GET_DAXDEV, that really should just be another
+application of backing files, and the backing file id gets passed to
+GET_FMAP.)
+
+What do you all think of doing that?
+
+> > While not a deprecation method, this is what capability bits are
+> > designed for. Same as cpuid capability bits - just because the bit is
+> > there doesn't mean a processor is required to support it in perpetuity.
+> >
+> > They're only required to support it if the bit is turned on.
+> >
+> 
+> Right, if the protocol on day one is "user space must ask which method
+> is available", then userspace can not be surprised when one option
+> disappears. So to give time for the bpf approach to mature the kernel
+> can do something like "famfs and bpf  mapping support are available".
+> In some future kernel the famfs native option disappears after a
+> deprecation period.
+> 
+> When folks ask 10 years from now why this ever supported optionality
+> the explanation is "oh because famfs enjoyed first mover advantage to
+> prove out fs semantics layered on dax devices", or "turns out there
+> are some cases where bpf is not fast enough but it still stops the
+> proliferation of more in kernel mapping implementations".
+
+Yes.  We're not *capable* of determining the best mechanism unless we
+can start shipping these things to users to get their feedback.  Only
+then can we iterate and make real improvements.
+
+> Something like FUSE_DAX_FMAP is always available but the backend to
+> that is optionally native vs bpf. ...or some other arrangement to make
+> it clear that native might be gone someday.
+
+--D
