@@ -1,59 +1,116 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from smtpbguseast2.qq.com (smtpbguseast2.qq.com [54.204.34.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65B51361DAB;
-	Thu, 16 Apr 2026 05:33:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4EA43E47B;
+	Thu, 16 Apr 2026 06:21:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776317588; cv=none; b=QOdnNk+Bs3nVpYj2R5OQNrrncaqjhY8saTBkPPECcBw1pff/JVns0ebzCi+l/Wio5tWXl/quuc+zeRp1KzlFxBGWcEkw+y7ur+Y+nI4Oox+CBpb1S9jk2W5hcV25AueXfbfcNFhnIFfs1KUC+8nw+fnHWLWiMpB9da82K094b74=
+	t=1776320523; cv=none; b=ec32DAPIyAisCNePoUJmkBYMGITvKT0LlBKLJVKbwPSeE9t/BuMLw/3vVlmG+W4qBAbLGys5WiKZVs8h+aXx9sT7AmNeYohXArbx0Lic/Qs033Zb3Euk2jgwBW6fCXdUmhOI8lB+OPSoLTgyKL2wSaWpOzQXk9Z5m5LpZBqQXHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776317588; c=relaxed/simple;
-	bh=Zj053W2L6VYyb24EkKRhlQyzYxJS34mO9Zw3VVawDiI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N1SA704CjjJ6B7wMqT3TNp3USsuvWpFs+qLjFHHDjCZw7ueaMxS+RVqLW8Ti59H2KLYSrXgzBzwXgXnyVAhcO5L+yjytkcWrmXo9FozqjlqPinnK4cuHEwg5Al854cu2rnvHmyNO1fqEb115cyHewIXOzREr4bD6ryrJ8SiazpM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id C21E76732A; Thu, 16 Apr 2026 07:33:03 +0200 (CEST)
-Date: Thu, 16 Apr 2026 07:33:03 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Cc: Jeff Layton <jlayton@kernel.org>, lsf-pc@lists.linux-foundation.org,
-	linux-fsdevel@vger.kernel.org,
-	Christian Brauner <brauner@kernel.org>,
-	Christoph Hellwig <hch@lst.de>, Jan Kara <jack@suse.cz>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	linux-m68k <linux-m68k@vger.kernel.org>,
-	linux-sh <linux-sh@vger.kernel.org>
-Subject: Re: [LSF/MM/BPF TOPIC] Should we make inode->i_ino a u64?
-Message-ID: <20260416053303.GA15238@lst.de>
-References: <08f8444c7237566ffb4ba8c9eb0ab4b4a5f14440.camel@kernel.org> <1b340c4e635dcab3bed8c52d6381b4c341c0741a.camel@physik.fu-berlin.de>
+	s=arc-20240116; t=1776320523; c=relaxed/simple;
+	bh=+9yQFf35/VRsf+cuF8haa3rFDjPv9xGg41zieJHa+QA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rQxO7KxSTwAAXmllbDuwDLZMz1wiN0vjPO0ewPHL4QPGEWvM9Yn1nCuDvrffLRDRIx3WobvpxWvuKRGQNXFDOVX8Weoz7bcdX0SYQhDBi5OSh+re/FczRO0xzAjyN6ORcMlClm8neLLuVJ2WmILO5+xbVWudaxSac3wS7nNnvUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=baFUhw48; arc=none smtp.client-ip=54.204.34.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="baFUhw48"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1776320500;
+	bh=8ZMLyvbn2fgdu7Z3o9im5HijS6UBj0WeThNLqEENxqY=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=baFUhw48e0rBNLcNuZzE2oJqdfiTRnzyVXRWhYOHypqjNld1xaGXArxQ16ggGrfqR
+	 dQANQFYxrQGz+mIs9tK7EhAve012MszmPMoPSfHCM9J2lRSBsrEIBTi3YUsnk0bA0R
+	 0YQbxkbekRSkRy9l/QN2zpUm7imRTNsMzF7CoGns=
+X-QQ-mid: zesmtpip2t1776320494t052b9a3f
+X-QQ-Originating-IP: 6etNeGWsyHbe+jnxF4LjP9VfIIR64ylKlNl0/hIl3c0=
+Received: from uos-PC ( [localhost])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Thu, 16 Apr 2026 14:21:32 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 1443119381760885576
+EX-QQ-RecipientCnt: 6
+From: Morduan Zang <zhangdandan@uniontech.com>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzbot+a761f017e231803b82cd@syzkaller.appspotmail.com,
+	zhanjun@uniontech.com,
+	Morduan <zhangdandan@uniontech.com>
+Subject: [linux-next] fuse: avoid double pqueue allocation in fuse_dev_alloc_install
+Date: Thu, 16 Apr 2026 14:21:29 +0800
+Message-ID: <033E3BB729B194C4+20260416062129.408277-1-zhangdandan@uniontech.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1b340c4e635dcab3bed8c52d6381b4c341c0741a.camel@physik.fu-berlin.de>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
+X-QQ-XMAILINFO: MjSuC7PzPhnaS1Sb+o7nMfBk0rhb82pR03h9rBSbf7af4TRhGffljWfB
+	EOguRz+brImxRg0xQ0lCplHoSYvRKkZuBKYgI3/uETWMWfOQRPYGPFIMUy4mNoUBiEtV+yZ
+	RicSmiN1QKIogLY1lGO9nve/0XYNhdVLWhHxdfJ6YAod+vqIDEVVa+GsWuRUZPWp1eH8qhT
+	Xd2YVIpSaXG9lzSYCu2qKDjt2CIyHwk9LPuhLdZuIEMzZJWeYWqXkwC3E6Gd1suxPKE6IY4
+	YrqmNYUEVx2dh7MpxE9ImM+7T9oJbOOseqlyWN9h5RkYUlPZ9Hc18bZdQ3En570gAucRbQl
+	1m+DoW46NEoUeQsQdK5qWRb7X6DUkBPLs+Y0xq3UpqIfU+e5P+K/H93ZXkcw4epMoxspwYP
+	jONx73p+ZzPaeFSRVTGts8cXBSvB3lfOuKlDwoBlQr5aDZ5Bvnb8omDjQzFao8tCS85Oi7w
+	ez3AEVz8nhKWDUSok6QHVlnRaRQOGmc2ndC4omTUMr+3Y7QLU+gNKLI5TGibQJsfNCC+N0q
+	f6wC0qfCfj1+d0PWZ5kUOB9meJHFWdiArpRsxh8wycuqHxl9oxnFzArGyrhExQBEyFQjUdD
+	QhxBaAZypQBEz4Zu6nwqGwAMEduNSXV0CXjfHGKdMIiNaC1Ae2blmrnrKb+5iSMVNxbDhkM
+	hVFajAl2+kwy7j6wCHplAPtHYW02hErDBUNBp0E/m4sXOfCBWps2kJYqMvMDCXQjJZQQCQa
+	+tgrdSa/u5ATDWS70sAK3/qNbo3uRrFX8NjdUSCiXoQVC7wppIoUbB0zfZvtD0YtvpjEhg1
+	I3vXJ4L4gXs1EC35zCIns3yvLjjLXOX9G+fzld+5uzNxubdXeB4fGnhDWcvoO2fCQqdTw97
+	K4i6F804b6xs7889vXqtWVCG0Won0spU28EWc3p1Dp1SYXQeMHXf5Xakf0ogF4YK2zt+fKD
+	1UIh1ytXlM/Q2pvUxE1joVUTrvznbWjsPwJH/BA0qpzeGSavhJVHapFE1bZhRlB+J6SD6yf
+	/WiYmBh0CbvJqp2zlYtDJg6+kRlbfCUq+NvjDSOW3MlTU5NkEH887S7yc8bsEdPFGDxslpC
+	Q==
+X-QQ-XMRINFO: M/715EihBoGS47X28/vv4NpnfpeBLnr4Qg==
+X-QQ-RECHKSPAM: 0
 
-On Wed, Apr 15, 2026 at 11:11:32AM +0200, John Paul Adrian Glaubitz wrote:
-> So, this went just over Phoronix [1] and as someone who is still invested
-> in 32-bit architectures, I'm only notified about the performance impact on
-> these systems now as the pull request has already been sent to Linus.
+From: Morduan <zhangdandan@uniontech.com>
 
-What performance impact do you see?  When using modern file systems
-reducing the memory usage should eventually improve performance, although
-this change will require additional file system changes to get there.
-btrfs already has a series out, and I'm working on the XFS conversion
-to remove the duplicate 64-bit inode information.
+fuse_dev_chan_new() preallocates fch->pq_prealloc. After dca5bba8d17f,
+fuse_dev_install() transfers that queue to fuse_dev_install_with_pq(),
+which expects fud->pq.processing to still be NULL.
 
-Either way 7.0 will reduce the inode size already, as the shrinking
-mutex/rw_semaphore (and for the XFS inode semaphore) cuts a lot of space,
-which even on 32-bit by far overshadows the increased size of i_ino.
+The CUSE open path still goes through fuse_dev_alloc_install(), which
+unconditionally uses fuse_dev_alloc() and allocates fud->pq.processing a
+second time.  Opening /dev/cuse then triggers
+WARN_ON(fud->pq.processing) in fuse_dev_install_with_pq() and panics when
+panic_on_warn=1.
 
-I'm also not sure what personal notification you expect?  This has been
-discussion in-and-out on linux-fsdevel.
+If the channel already carries pq_prealloc, allocate the fuse_dev
+without a processing queue and let fuse_dev_install() transfer ownership
+of the preallocated queue.
+
+Fixes: dca5bba8d17f ("fuse: alloc pqueue before installing fch in fuse_dev")
+Reported-by: syzbot+a761f017e231803b82cd@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=a761f017e231803b82cd
+Signed-off-by: Zhan Jun <zhanjun@uniontech.com>
+---
+ fs/fuse/dev.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+index 87c0a6e60440..6001163db34e 100644
+--- a/fs/fuse/dev.c
++++ b/fs/fuse/dev.c
+@@ -501,7 +501,10 @@ struct fuse_dev *fuse_dev_alloc_install(struct fuse_chan *fch)
+ {
+ 	struct fuse_dev *fud;
+ 
+-	fud = fuse_dev_alloc();
++	if (fch->pq_prealloc)
++		fud = fuse_dev_alloc_no_pq();
++	else
++		fud = fuse_dev_alloc();
+ 	if (!fud)
+ 		return NULL;
+ 
+-- 
+2.50.1
+
