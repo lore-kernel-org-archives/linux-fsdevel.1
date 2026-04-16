@@ -1,88 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out162-62-57-137.mail.qq.com (out162-62-57-137.mail.qq.com [162.62.57.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ACC837C11C;
-	Thu, 16 Apr 2026 09:27:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E50DA381AE5;
+	Thu, 16 Apr 2026 09:55:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776331655; cv=none; b=CQXF2m7E8sVwALzutNqkdj21pZQEjruMnbO6/jTiVqfucTmuUu80PnuGSsJApDOcqZxLPpfXwdjP6xXKH5NeuwEfN0XSiFU8AEt/Znd/nsE16HXidztC1vtZPewnJQC2WF06E6qneone9oxC4UyxXJ1YmzibHGVVXiJPvFlfBls=
+	t=1776333306; cv=none; b=FMgqsSfKtgKfa9IvbkhXRkvsmZo42Vh67ANI27Q1yzc9FhftXjv5o4i2WkWlOpjX6o3TL3XfJb6sPvtgjnSRX8LKzgwgAVA7xN6+0ZcjF/g4lK8RNByhHadAEufXrwX95sDMOQxZeLfWiRwi0uiS5RcVG3urNzTqVfS+olyow/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776331655; c=relaxed/simple;
-	bh=Qid/cT/17BcNmWi1Xk3ku0DKb66l//g2unNZ3ZE7CVo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J/bJ0FIUVRlvEy6hyRPH0CPF3BUY4JmS7hl2iWBq5AmalTWCMIpGeqFjfdewcdzaiATF5wVqL5rsAd0J7g65yswDE+9ZFLR/Is7dbH5rE9A5uMxZoiE7m18U98ONvlrhZj9f0wwoWHHwsbQJzcKXqNwRZLtpFUY6yyixSMWquZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o96JAUra; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776333306; c=relaxed/simple;
+	bh=CipxoUSAZnj8AigpJqVo4PCtBcOv2QnIWvoQJ5Hgv/o=;
+	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
+	 MIME-Version; b=dalJjqVec2tTkHYcXcCc55/oN3WW/R+yhecWUwa4t1/p2mxoyPOHlEHxUkTI/9URn22xG+ebCB79w0KFNHMxs36H+bPVfyNICVW6Gyov/rg30E/GqX5QvihcSIRB/k5I1QMPT91cM93HTyCJM8a/yFI4cJPrz0IRPwt4XB5U06I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=Ujr1gffo; arc=none smtp.client-ip=162.62.57.137
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o96JAUra"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86052C2BCAF;
-	Thu, 16 Apr 2026 09:27:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776331655;
-	bh=Qid/cT/17BcNmWi1Xk3ku0DKb66l//g2unNZ3ZE7CVo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=o96JAUraVR3iNEJskCiQjvDO5ZY0OUbln4vGh/8J5j4J+/20kO1TDsflRPUhWhAef
-	 gXZ6iFlmT2U0k9btfDGGYIJnZ4TECTwOzJu2r8YVVnFDSaMvSFwcVeMMUefNxU8Wr5
-	 jOZi9sNonFH4cR8jKrOU7t78ehqu/WfidloLw+j9AGGCAUXr6qcQAvEzNE7DsgaXwD
-	 NzGKM3Q+7D3tR/N7JqygANUlJrHXuqDBe/lWdQ1pi8ckCj2pm3Gqx1l2u3K1T/m7BU
-	 xyR7iLEEFeAR+nG4OdWXJswOCGatmPxrF9MCXYyqpBS0jFRr9O+zbTYxwL//4ZaXwD
-	 IPvcfahU0uc2Q==
-Date: Thu, 16 Apr 2026 11:27:29 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Chuck Lever <cel@kernel.org>, NeilBrown <neil@brown.name>, 
-	Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
-	linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	Chuck Lever <chuck.lever@oracle.com>, Jeff Layton <jlayton@kernel.org>, 
-	Amir Goldstein <amir73il@gmail.com>, Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: cleanup block-style layouts exports v2
-Message-ID: <20260416-absuchen-ofenfrisch-6bdf094c6d7e@brauner>
-References: <20260401144059.160746-1-hch@lst.de>
- <8bef4d4e-1c0d-451d-8854-ed0cba27ee1f@app.fastmail.com>
- <20260409-schwalben-neutralisieren-fb5a184e5049@brauner>
- <20260410111007.GA10292@lst.de>
- <20260414-ausbrechen-gemixt-ff09f46bdad2@brauner>
- <20260415052925.GC26559@lst.de>
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="Ujr1gffo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1776333293; bh=bMqkCvlELOobU3pG1W/bsa/0Ps7U0ZQU32t2UHqS9m0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=Ujr1gffo86T25la+HFyqEcjVOAiOvlZt/V7LKszeHOcJ7pUQQJZadz/yQJr1AMahD
+	 cotmcthVANwvtTkd3ouW6fqLcEhIcKHSAt+g6Ml3sUFx1q7ez8vzJqN/ORbZKrsuOi
+	 gWOffPAyESnr6A34DaZb5+aAWXq6WNzMTNndg3qw=
+Received: from lxu-ped-host.. ([111.198.231.89])
+	by newxmesmtplogicsvrszc50-0.qq.com (NewEsmtp) with SMTP
+	id D633D08F; Thu, 16 Apr 2026 17:53:35 +0800
+X-QQ-mid: xmsmtpt1776333215tbmz58m8w
+Message-ID: <tencent_616EF42CB16F489418E932EFEACCB479460A@qq.com>
+X-QQ-XMAILINFO: NnYhxYSyuBnLJIJuGBs8ebKBXxWFi7YmUjZF/VfxqxyD4pEGFA0IuzWQM9SFl4
+	 vYbYDexrCFC4QKG0yEMIkMRkGzY6UiRNf5JFRPLGX4RdhWXztYUOvLaIt5ztTzd03m5Cn+q4Kwob
+	 Bz/8LGcvDtawjE2oznxppAUePmgvK4ay4OhHUtaWE5fsL3psohHU/qyuUa0hR+VIEZF6XBTw5ZK6
+	 1oFIqCARNdhFtdYLhOnurmxRGzTzVN1EgCGCgyC+VVvT67zLbZJx79kSkg8AnkGw2zKN8U3Efv2Z
+	 SiGBvAUZDVYa20TQoVOPXQIhv69tOSz+VlmIYBJMcwgZBD/ehVe1qzl+V0TIjyNY2DAUoW+ZOQct
+	 www/pPiNuzAXlNm+qzjkSuzx2/JNSZ9QhRNyUwNfzU/D5gBg4a72/hErLw8Jt17VNp+JDayz6cRZ
+	 FKmkISxCTiTh29YE1s8lm1jA/luU+2uVFjCmz4V5+xEYKal85C38Xn9M59oZ13kW4xsbe/5GkH29
+	 EScKDyEkLXweneoAXXKX3L2oaHYs+fZfR4Mjy43uBTlaUsVE/PVKzd6bPyPiMK+2EazXYQLOtO2u
+	 3HpvAFUactV5wCJdBA+fuT/2aRR7LsCVyXT2ZFKJpJzWmzcA39Fz+haufMgjGJPpWB4W/E7qyoUn
+	 EmCa1cIU0nb7Cd0mDzh+dZVhj0qyfbIxl00jKZnfjm4CqFs9S5V8DcpQ6mMpqucg5gMQlKnLRgo/
+	 Suhd5MAyqpNP7DA8KngsVMDTHK4+5Ltgrkw2K8ohmxzBMPT7VpBUm4VF8EJIBuLGiGNMwmUXFTU9
+	 TjcO+Zu0wUbK2De0AIyXBTWHaZLIma7Xly9EJrHjS3u3XwbwSHJQDX1pJsOcLk0WeWKMMXn8Xz46
+	 GtZThkjQ88tKaB6wDK9RiIfw7/Ak1prbJOCDEF74Y5wJGw3S4YiaInEX/unRqPgMkU4M565Pv8t/
+	 WcQn/0VzipG97G9Vs2x4H5GUzxlsMrirCCb1pC29Sa9hxoZYZrq3Ugfbmc8JvMH+o3lLfFoSnrwM
+	 Al0Lu2vc20JcMHl+Qr73gcxJtnF0qDw3XBw5cBz7CB+dQfBCe8b/JfpRC44Vtrnk715/UR4G/eZW
+	 AxxuE6
+X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
+From: Edward Adam Davis <eadavis@qq.com>
+To: eadavis@qq.com
+Cc: frank.li@vivo.com,
+	glaubitz@physik.fu-berlin.de,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	slava@dubeyko.com,
+	syzbot+217eb327242d08197efb@syzkaller.appspotmail.com,
+	syzkaller-bugs@googlegroups.com,
+	vdubeyko@redhat.com
+Subject: [PATCH v2] hfsplus: Add a sanity check for btree node size
+Date: Thu, 16 Apr 2026 17:53:35 +0800
+X-OQ-MSGID: <20260416095334.385114-2-eadavis@qq.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <tencent_8ECE3364C36FE975C3A64444176177734605@qq.com>
+References: <tencent_8ECE3364C36FE975C3A64444176177734605@qq.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260415052925.GC26559@lst.de>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 15, 2026 at 07:29:25AM +0200, Christoph Hellwig wrote:
-> On Tue, Apr 14, 2026 at 12:01:39PM +0200, Christian Brauner wrote:
-> > On Fri, Apr 10, 2026 at 01:10:07PM +0200, Christoph Hellwig wrote:
-> > > On Thu, Apr 09, 2026 at 03:26:09PM +0200, Christian Brauner wrote:
-> > > > > Christian, are you OK if I take this series through the NFSD tree?
-> > > > 
-> > > > Hm, I generally prefer infrastructure to go through the VFS tree.
-> > > > You can get a stable branch ofc.
-> > > 
-> > > Communicating this earlier would be helpful.  If we switch to a new
-> > > tree base we're going to miss this merge window.
-> > 
-> > The series was sent on April 1 so with about 2 weeks before the merge
-> > window... If your series isn't ready by -rc5 what is it doing being
-> > merged for the coming merge window is the other side of the question. So
-> > afaict, there's no hurry.
-> 
-> That's a very weird generic standard.  I know a lot of subsystem don't
-> take complex core changes until a bit before the cutoff, but killing
-> 3 weeks of the merge window for everything is odd.
+Syzbot reported an uninit-value bug in [1] with a corrupted HFS+ image,
+during the file system mounting process, specifically while loading the
+catalog, a corrupted node_size value of 1 caused the rec_off argument
+passed to hfs_bnode_read_u16() (within hfs_bnode_find()) to be excessively
+large. Consequently, the function failed to return a valid value to
+initialize the off variable, triggering the bug [1].
 
-I didn't NAK anything. You pushed urgency here by complaining I didn't
-communicate antyhing earlier. And I'm merely clarifying that 2 weeks
-before the merge window when stuff should've been stabilized there's
-other things to do then rush to reply to something that looks like it
-can't go in this merge window anymore.
+Every node starts from BTree node descriptor: struct hfs_bnode_desc.
+So, the size of node cannot be lesser than that. However, technical
+specification declares that: "The node size (which is expressed in bytes)
+must be power of two, from 512 through 32,768, inclusive." Add a check
+for btree node size base on technical specification.
 
-> Even more I'm not even why we're having that discussion - exportfs
-> has it's own maintainers, one of whom ACKed this including the whole
-> tree discussion.
+[1]
+BUG: KMSAN: uninit-value in hfsplus_bnode_find+0x141c/0x1600 fs/hfsplus/bnode.c:584
+ hfsplus_bnode_find+0x141c/0x1600 fs/hfsplus/bnode.c:584
+ hfsplus_btree_open+0x169a/0x1e40 fs/hfsplus/btree.c:382
+ hfsplus_fill_super+0x111f/0x2770 fs/hfsplus/super.c:553
+ get_tree_bdev_flags+0x6e6/0x920 fs/super.c:1694
+ get_tree_bdev+0x38/0x50 fs/super.c:1717
+ hfsplus_get_tree+0x35/0x40 fs/hfsplus/super.c:709
+ vfs_get_tree+0xb3/0x5d0 fs/super.c:1754
+ fc_mount fs/namespace.c:1193 [inline]
 
-If it's generic infra I generally want it centralized in one of the VFS
-tree. I have clarified this over and over. It's fine to make exceptions.
-It's not fine to pick and choose what currently best suits your needs.
+Fixes: 8ad2c6a36ac4 ("hfsplus: validate b-tree node 0 bitmap at mount time")
+Reported-by: syzbot+217eb327242d08197efb@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=217eb327242d08197efb
+Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+---
+v1 -> v2: change check base on technical specification
+
+ fs/hfsplus/btree.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/fs/hfsplus/btree.c b/fs/hfsplus/btree.c
+index 761c74ccd653..857705c3fe0d 100644
+--- a/fs/hfsplus/btree.c
++++ b/fs/hfsplus/btree.c
+@@ -365,6 +365,8 @@ struct hfs_btree *hfs_btree_open(struct super_block *sb, u32 id)
+ 	}
+ 
+ 	size = tree->node_size;
++	if (size < sb->s_blocksize || size > HFSPLUS_NODE_MXSZ)
++		goto fail_page;
+ 	if (!is_power_of_2(size))
+ 		goto fail_page;
+ 	if (!tree->node_count)
+-- 
+2.43.0
+
