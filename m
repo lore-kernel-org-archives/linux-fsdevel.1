@@ -1,108 +1,117 @@
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 057E537C907
-	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 12:12:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0900F39D6EC
+	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 12:16:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.48
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776341571; cv=pass; b=RHvwBD+kUs76DJUUozwA0VqDG44nV2NivXadq66EKyq+e9ZIwQqyHaq8O6BSIMqA1kf+YfG10fCnPflr6AhVGFUlArNKoH0FR+50aECLu/ERpqoDPvlmzWniKuDs11UZHpPqUwXkSwFlcFl2q6N6zCSly0BBq7AhOTNtUMh/b68=
+	t=1776341800; cv=pass; b=tHQVLCoYP0jVodUAD3gznraTzgoWdSYnCp6gJD/+nZRDIAKxVgrpIPlxgqCnzJ9QxXQEwH3bsPOInLp1PMl3qIE8zWUMVuWrsyAPe7i99JCmWPzs23y1rXLQ9F0ZBeT5ox0oPcX0VA8XD+vi/UqJAAYjvtZWM97lh6E82gdGucM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776341571; c=relaxed/simple;
-	bh=xs4hGlZiJqAV9QCGrkSslLomiSfE5gcr4xqzLhglwS4=;
+	s=arc-20240116; t=1776341800; c=relaxed/simple;
+	bh=YlQa3j1nRclliHVT43g7uYZff2wmfwHgeEAd8DL+JaU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sPQKX0fvy3wVoYqzMtXP5STvviC2fqTGziEuabrimoMZ0M4iovD/+AxEP9R7v2jp7fkMHm7Ll36QTw4tC8MHksaZBno1AgBjnZB865xujL/Qd3LNB43SwJ3lQPYsvoS3b8ll5kM3lAoEumUP2fiRopdl2e2AILOYDvpwR9kohhk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=RZ9WT29H; arc=pass smtp.client-ip=209.85.219.53
+	 To:Cc:Content-Type; b=ch9ltgw+YUlp5SYQ8jMMjOHDsFvcmTnFnQCnabSjfQSTW4rlquVxLExrzP2Qrt0NYZYEVcG1EssJK3DSDITu0DDK6Lw/9WE2bxT/TZ60yULAESRZ/3ewSdmzclg0t/dNbhkH2rYGAfSED5RJ1FR/Nb2c43NSeg3UcH4+ewYhqPM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=TFWUlXei; arc=pass smtp.client-ip=209.85.222.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="RZ9WT29H"
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-8a016799d2cso85057856d6.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 05:12:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776341569; cv=none;
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="TFWUlXei"
+Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-95673f7b5baso1475415241.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 05:16:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776341798; cv=none;
         d=google.com; s=arc-20240605;
-        b=gERHLxGlmzGzlMR0pfH0OwsaxACu4rpKPh9bSMe2dVx5sI0PfKl491bV5kdctpFweU
-         nV8V1KA32VGJtG14JyHvfDrF+IFXaMfhaAdYZvY+BpCeetglafQC5rQVCzqidlSXdxJF
-         Dcl7lnE0ftrkRVx3H6VfjTyVrb5MrlI1DHomCUKUw55GgM/SmP0qkXctuHkc8WKjRG2X
-         XC9rmxI+7PMy99q1DAKqxd9er/rytS+NmiTzRvQnaDHEquRp1xMDVeY3U7Oo2g4RaKnB
-         lMkOhfkaeVS7rJg9ljMa98rHdKB00nNy8m+N+WGzLoJ2u2ZryRBAOwCHD4wS8sC0BPiX
-         R6Ow==
+        b=VL+QbCMwk6eQyAElk8BtRseYTNsbgFJzN8B0b8j+Gz+0Emb+Uq0M4hkBNdPFjBigDe
+         EdfARGXBecMOFbzf+kuRXNvNUoxybs2NNW6x8SpnK9/5VPqHXXSs5x4wrx6dGlQhHFSn
+         NRXLQFHaAcUB8SRSdhj9zW+6vnaXCfO4Tw2bWFJgAVtZxtFR9gFxl1QAgdYik4zGAX5u
+         V2nR1lhvgbzqYd7MnzAM4FOROomvjNNGS3q3iq8VNQznR1Wmd21NrLMZv5m9LwJGPClc
+         4L/9duBBMm220jzv3jIebkSfy75MVWqAUgbi2hZ5/UAG5ZXIDTKq9MDsmWKClKFKLZJZ
+         YUpQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=xs4hGlZiJqAV9QCGrkSslLomiSfE5gcr4xqzLhglwS4=;
-        fh=ulS/a58fScvHw9iuY/0kz6ndByQebSMkzJRDY3Q6h90=;
-        b=IBEX7T0BDUveCsi+tSYImKfVohzp+d1SnDAyDHW7eO9Q/8Cb9mMkcE7hQuRAwMNG9M
-         D2lZrob9lPOH+ZhDabKidMJYmEkZvDrmZ/Umgw7GccyRo4XrRA3NH0gUsxh9CNY8m5Xb
-         TF+TUIFoa8hGjafxTZ0bKb0URbp8fM+BtpTGYPz4MmD8d20VC69Bc2b6Dfu6QFMmUSwZ
-         ygk6SuVXLMLTu37ZhMuFAwc8oRbtEOZBbr4he2EV/zAy7GZYU0uIkXSJ5/lydo4pABRU
-         15bIImG+j/wBjCgD2Lyk/wUfkGF8pW0koUyrr6Ab6+NeZN9XKNFRU2/KdhohzxV29Ulm
-         Tf/w==;
+        bh=jJFUuHCkiuowxKGXg+Febj6rEK64+GzygHvKm31JAxo=;
+        fh=t1yaCuzuauBaIo+SEKaT6gDF7PKK0fG2dlX0q2mf+Fc=;
+        b=FTWUCHbrPM3N9zylwGHTDTwM3YVG88gW8XVMRrB/kNhXnpF19011LDNM22DPkS8Qja
+         aYC831uihVhS3T9TPmJExeyKIkotQkQfyJ6/5SJX2iUts1Qi3FPX93UxDezZ447k2FcX
+         TlBwiY8gJURE+FeLU81uuKP1syom30lAjU7xDZJ+FophdSp73uuWulFrZ0rrHIf4acZ5
+         MiLVcR0fFEiKlMsLqtovarRTCosZx8lBt+NAf60h7/xwgFhKaODgOR6Jh7ToMKUyCpEk
+         ftJ+8EHerVxOfPjoEqya7Qml4gNyLmDipX3K39q/JB9TQo58gvN0wLeNbJcRhU7k7gbL
+         giQQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1776341569; x=1776946369; darn=vger.kernel.org;
+        d=szeredi.hu; s=google; t=1776341798; x=1776946598; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=xs4hGlZiJqAV9QCGrkSslLomiSfE5gcr4xqzLhglwS4=;
-        b=RZ9WT29HDnw0UKXOo5xuuSyTGSCO2J1bLX0/MF+H7dy2EH9cb+MPSaqJnC3i8V3S4/
-         UKoFvVUsrXNB/QMqMeDNUVTtkn2Kg0ROPi0/LeM6eDWEULZGlGzj4sLHNiCHXop5UeRs
-         sT9zJ0FdZOUTpeZLYpHQlaHU8/U5APl0PZ9V4=
+        bh=jJFUuHCkiuowxKGXg+Febj6rEK64+GzygHvKm31JAxo=;
+        b=TFWUlXeiyEhTEh1cpi0RdSJHcl+KhmN+9WJQIbsw9RYPfW8ghI0s+rFavHa+6+4Un0
+         vSaYmoarHqbNevUiDTU7wxiDGpLhUx6kl0vsUJbQ8fUKii/c6Qc4GIX3wG+92SDz14j9
+         o2/jVcP1VkFOhATJU4LVG6zJ9JkS3wFcmS1ZE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776341569; x=1776946369;
+        d=1e100.net; s=20251104; t=1776341798; x=1776946598;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xs4hGlZiJqAV9QCGrkSslLomiSfE5gcr4xqzLhglwS4=;
-        b=Vm2a4d3rr09T0JKPVtmd72pqyhw/uwvYQbm+1ph0gJXZHXGsXUWhRFWGMigxnxjAwE
-         XVpbLvxQ176Yz5Bkfn7cUUDWqdKjVKQCPgRmqEoqrjU6fACpE9NAJyAzN3XM8DaQtdnJ
-         ICt0fojB2oqcnKOzQ/I6tUCnA1oo14LmAtrUDG/qslC2wKQ4p8R4vNbBpo9uKUYTciZV
-         L0nUOttloc64okpE7CzBzfDQaMikH9rEFHV4LqV1pDaY59terH6An42+1VwFKtUZHBut
-         QjgSJJ2pC3PqxxkrcPzTWuEz/HYmx6P4ubCkph8JuJRlpOOt7doS/ViesLV2CgD473gw
-         osBQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+W1Wje9hUU8MKSWZitkVp6K9txJ1bHvi6VutwOiB4Wj7kwO5CVWR/1eONUOiQtWJWmAG/FtsuVcKgWWVYd@vger.kernel.org
-X-Gm-Message-State: AOJu0YzfOyLQTabqLE72UTiAqcpHI7lVgs63/8lWmMDhPgrxD/RsL70B
-	epuIY16pfOEa/W7kAPtTOQJyBKDSiWbD3hv90BY0DSAF4eRPDrVroeVKx/SWyVrcVr7mt5hHi4D
-	sKgOCNG/quF0sw/YVYEHPr3IqNIcHui7/bAwIePOvzrC7FVoORXIgmzM=
-X-Gm-Gg: AeBDievVRmvGhBKMnsABSe/TzhD9NDmRJtLlGI4sVTqtmODZtbh750aTxVg2pTzOIm3
-	lfxn1lKVerr6D8LoIhtIHZ43n1B7X3WTQqXB6wGFBPER5hcvEdhFam8YMi4o/DcbKOzMgg0Dwk4
-	E7ZOxO84UPAalpCaVfWlH22ufQZwoxQduFQTydnN3j7eVcOIEnr72+5UVtpQAk035l3dUNAnm9c
-	lY1+D2/8iASQDxh3xR0PWiffP7Jmxit2mjcS05GCfyAeuxvim4UMBj8K6Bi6eGYhmiFKoyRn2oK
-	Qs/5+4xwpPb3VcNpfa6Xeq0RdBjb/Jxo5JMd
-X-Received: by 2002:ad4:5e85:0:b0:8ac:bb62:fe5b with SMTP id
- 6a1803df08f44-8acbb630feemr194285446d6.12.1776341569011; Thu, 16 Apr 2026
- 05:12:49 -0700 (PDT)
+        bh=jJFUuHCkiuowxKGXg+Febj6rEK64+GzygHvKm31JAxo=;
+        b=U1/oSqXrAxXv8dwJekX+ka/MqftMTU2QaHBzwo6w18hW8WZDhFlk1TvFf3h1MVeq7K
+         hYuw+KOb4Q3F2AQwOa1/fCkiLLNIdPPpkHR4uFllHRL93O0DVw5yLhQ7RuaVGHQqUCz8
+         5TBZPJw3stF1O0kqoTfmLkav7pxJXbCTFgUtuWorQzTwx9b7f6xMKa/hYusd93MLubBM
+         Y1ToBTitho8+ECCfEzVuMomH8rmxqyVkM1EXpbORd9+n0jSYCJZSgwgXwwwwm4I01j5S
+         xH42R2aTf2KFnesxsIplf6OiLOsHfvb/RSNqWIgSGSxlw7Ie8dH5bowsN2C+8YLBVRP8
+         2LdQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/ih6WvVt+9zudkD4VsWGmfu3c94xOlohzVeJR0lLaKha3W3YPW3EN9L79sU2OTRO12QGcPzBO0qQ27LfAh@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz5v+SqPmygaVTX7SW1rvWfRqXsvJscCTSuIrpc1WkzoZ/r3D/r
+	ErQJPrgSsO5XeaFPRYB6KcNcVSy0uJWUqYRVo6Yb27HZbRYqDBllzfbDIOMygrPIKOZ4qxJXwy5
+	y+vBZWZW4ArREH/xYvjoXzA7BKs2JuNdsUikDVk7toA==
+X-Gm-Gg: AeBDieuShDQes5RQUjKimPxqeH/4P0wsG8mhW4qYlRjt2eltQhJ3cIEg5j2OXudTT4h
+	Ta3dbbND1EBm5tEJaqnYOX2ngHpK4rQAu5GUItl/FoP9KPUEZFevC75ID0/jA1TqRQFICUjw15s
+	ih34KeRmQt9wEZk32YM53DPVKAbyprhtwQnmyzjazQGb4F8VhR+qknUqipWzkKc94KfxGyBvAYI
+	HmGQWC0tYVRSjjXz+U4BkuMq/nbDm2zDncLy42zrpUrnuj51s/JNbHIjR/6CtQ7gbvEPnCpzy2T
+	SjzFO0Cp6UW/62nHWs0oIVYeBWxMylZMloLi
+X-Received: by 2002:a05:6102:800b:b0:602:aac7:b8bc with SMTP id
+ ada2fe7eead31-60a0168810bmr11857886137.30.1776341797905; Thu, 16 Apr 2026
+ 05:16:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <898a4e10-6193-4671-b3b1-7c7bc562a671@fmap.me> <CAOQ4uxjoS-PvnZ2poh0bx0C6ocTYwuEpfV0q5md15SjS620OMg@mail.gmail.com>
-In-Reply-To: <CAOQ4uxjoS-PvnZ2poh0bx0C6ocTYwuEpfV0q5md15SjS620OMg@mail.gmail.com>
+References: <ee4992b1-06ce-40f9-b554-bfcadd45cf97@I-love.SAKURA.ne.jp>
+ <CAJfpegs+8pcuQFBNB_0TfDh2Fo3_13pcpVNNzRdR=eZ-tvx35A@mail.gmail.com> <b7edb87d-8734-43ed-93e4-5be72294c3bc@I-love.SAKURA.ne.jp>
+In-Reply-To: <b7edb87d-8734-43ed-93e4-5be72294c3bc@I-love.SAKURA.ne.jp>
 From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Thu, 16 Apr 2026 14:12:37 +0200
-X-Gm-Features: AQROBzBX4a19crGk_XkETxKLhmewGXqK0FtKuy_vUEQL4x7MLk1p9L_bODNm4ek
-Message-ID: <CAJfpegvxF7F+XKFKokSH4eOgCA0V2RNm6B54MS9nr9wG=U66OA@mail.gmail.com>
-Subject: Re: [fuse-devel] Debugging a stale kernel cache during file growth
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Nikolay Amiantov <ab@fmap.me>, fuse-devel@lists.sourceforge.net, 
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
-	fuse-devel@lists.linux.dev, linux-mm <linux-mm@kvack.org>
+Date: Thu, 16 Apr 2026 14:16:26 +0200
+X-Gm-Features: AQROBzDL7ODMvLpBOmhgnqz3i6NKn5sq_bHAZTp72b00m4quFf7MMD94LNS03zM
+Message-ID: <CAJfpegvAwKR8Z8B+kp6kW1CDgN2TZYpbdp=kFSUuv6Ga=xY+jA@mail.gmail.com>
+Subject: Re: [linux-next] fuse: wrong usage of no_free_ptr() in cuse_channel_open()
+To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Cc: Miklos Szeredi <mszeredi@redhat.com>, linux-fsdevel <linux-fsdevel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 16 Apr 2026 at 09:24, Amir Goldstein <amir73il@gmail.com> wrote:
+On Wed, 15 Apr 2026 at 13:50, Tetsuo Handa
+<penguin-kernel@i-love.sakura.ne.jp> wrote:
+>
+> On 2026/04/13 18:49, Miklos Szeredi wrote:
+> > On Sun, 12 Apr 2026 at 09:05, Tetsuo Handa
+> > <penguin-kernel@i-love.sakura.ne.jp> wrote:
+> >>
+> >> syzbot is failing to test linux-next kernels since next-20260403, for
+> >> commit 288de43f7c73 ("fuse: change fud->fc to fud->chan") is causing
+> >> "cat /dev/cuse" to trigger NULL pointer dereference problem.
+> >>
+> >> The problem is that fch is NULL as of calling fuse_dev_alloc_install(), for
+> >> fuse_conn_init() uses no_free_ptr(fch) instead of plain fch; in other words,
+> >> you are calling no_free_ptr() too early.
+> >
+> > Thanks, fixed.
+>
+> "cat /dev/cuse" hits WARN_ON(fud->pq.processing) as of
+> commit fbe92cef04a4 (HEAD -> for-next, origin/for-next)
+> of mszeredi/fuse.git tree. Please check.
+>
+>   WARNING: fs/fuse/dev.c:482 at fuse_dev_install_with_pq+0x10e/0x120 [fuse], CPU#5: cat/1194
 
-> > I've recently encountered a weird issue with JuiceFS [1], a network FS
-> > which uses FUSE. tl;dr: when a file was being slowly appended, a reader
-> > of the same file on another host would periodically read a block of zero
-> > bytes instead of the actual data.
+Thanks again, fixed now (hopefully for real).
 
-Thanks for the report.
-
-I wonder if we could clear PG_uptodate on the page which had its zero
-bytes exposed by the i_size increase?
-
-Willy?
-
-Thanks,
 Miklos
