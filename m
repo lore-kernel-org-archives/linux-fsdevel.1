@@ -1,90 +1,90 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31ECC39B483
-	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 09:17:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E55B339B964
+	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 09:17:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776331054; cv=none; b=N1EFbRbwAsMBhBeeWXq5pEPY8a3W4a4F18wyiBTBp9vTE6rxPnBFxUDSIcD6k9AxIxHkPCaJTWU3GFbXrWpCNmZCJpqtetdH3wHogMef3CR0gc0HqCoosgo1XxZ+K8lAkY8XoDGzaPQF2jCQzuZ9wpj8uBevDuUAG+IauX1MiiA=
+	t=1776331055; cv=none; b=MgLyakXDHj3rGhT9vM3pKtCWWqvosy0bDuVTOvqQXLcNLYKdGfIJrwUTHtnxN178jaYaVekVWWFzGX6HGO2VFr+Z0Pt4fcSE4yvL/AGQDa7RBd0T7UvewOWdmyDkFr6XPOWOoUAQHjSf1WiefBN7NtReK2rLhvrOfoxNw128kY4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776331054; c=relaxed/simple;
-	bh=HVSJxOtwKFYvRwjnDlO+jnkg+JmABr9oU+j8w/idV7Q=;
+	s=arc-20240116; t=1776331055; c=relaxed/simple;
+	bh=cTPHIqUjfffPg1SbN9YU4EdCJN6MCkhvMu6sMd4a8LA=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=l9MG+PnaGeHY1cyxgaG85oNzfhGpIV/pQVF9KGLwJfaCk5aJ+um9lb+NkyGYlsCT8NfBsMJkOzwyo6WniW6wa5eCn7wzF9K+DR8rTy2O3miPx4f6VVbryrQD1nvHFjY9bETw9pEET4xbPWG9kxKKTmhnJV3/qyPsAHYnvvrqsMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OmJr7aeM; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=fEUMHKCe; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=CjLhQ4YXUfeY8zGkUns7YXm6roiWSJjq4dQF6sSFkE66Lmltb1G1gNDdu+YBaA1MPuqdeCm3EZWol8PGRyYjJA0xnmjNj8m7LQL89R0bIBaU1dSXaZXa3iRFBCB8YMmyA//gdARNyzvLEcGIicmVdfO1PAY0e0OwYRNleeSBUvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OaJiXrot; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=fIPHiclD; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OmJr7aeM";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="fEUMHKCe"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OaJiXrot";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="fIPHiclD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1776331049;
+	s=mimecast20190719; t=1776331050;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=p4dfb7ebiQqTklkwuTWUNTQNMxpyNspY9sJYDq8fi3Q=;
-	b=OmJr7aeM5tv1LoGg8hhcG3WjJZMK9RBUKqFiM62c8DmX52LTTpHnDZNUAfrUFn7uI04dC0
-	Dh/Wli6sVH3dSe9h193Src1bs5wxPtUtsboizkPZDF/u5sm5fMhuBbpr53K6fXncSODrLs
-	GM4lg8eeVEh27g7H5V7JTY6np3O8K+c=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=TPk/yeIL85CGNg1VihA0wb2dmd3GQ79PwQ6zGc6blQw=;
+	b=OaJiXrotrxRxRAkKpB53Eth2xZWGG8YYrvRwLzO0ajrscoRqey/AGZZBtQnBg3KmTSV07j
+	Lio3fK5jb+Ovy6nHjw1OeDVESu/AH++6UVtT1U/CXDK1Q+QDlzw2fTiHNpqazefoJKNjh8
+	PN1wuiGaARPAW+6SgjSzk9cOUEPSYao=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-394-n3qtGrwaNiKJ6pfNipwoxw-1; Thu, 16 Apr 2026 05:17:27 -0400
-X-MC-Unique: n3qtGrwaNiKJ6pfNipwoxw-1
-X-Mimecast-MFC-AGG-ID: n3qtGrwaNiKJ6pfNipwoxw_1776331047
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-488c213b485so55854215e9.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 02:17:27 -0700 (PDT)
+ us-mta-556-L_6AGBfnPgWyHvCnM5J1XQ-1; Thu, 16 Apr 2026 05:17:29 -0400
+X-MC-Unique: L_6AGBfnPgWyHvCnM5J1XQ-1
+X-Mimecast-MFC-AGG-ID: L_6AGBfnPgWyHvCnM5J1XQ_1776331048
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-488c2cc0cbaso44802705e9.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 02:17:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1776331046; x=1776935846; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1776331048; x=1776935848; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=p4dfb7ebiQqTklkwuTWUNTQNMxpyNspY9sJYDq8fi3Q=;
-        b=fEUMHKCeFo+RtVDARfPsy3ra+2DSeXUx2eh5pfQ3BIOB0avLbHICBCbd6Oy49UWvdD
-         il/ABE3UWPrcC/G/AyR6H7f3N3/kN2xNXAGJxzVcqyemEgcd6sHgnsMFkYGmjGQni8iz
-         2QYUHfVeoGKafJ4itQYvSnYhQgfd9WBLQ/bQjCv5qfLRwmI700Aur1n1zToj+QMJNS2L
-         LHqXBGinw9LNIHUo5hRajlxccn+ix3WhB+ICszg9ykVFGkMmT7dYxrQG8umsjMEjbfmq
-         zdlcZnuBEBPjhrVlUlGm9J0ENDR3jlZRJO+Fc2k2hafNF7+zdXaMp6FU8L9t90EtQcVZ
-         aT5Q==
+        bh=TPk/yeIL85CGNg1VihA0wb2dmd3GQ79PwQ6zGc6blQw=;
+        b=fIPHiclDokGFzskw5qlnKDirbYnSNA5pC6b0TuQ03zccv3+acAv0ubGh60rfHa0SV5
+         tpNphFOlAU8NJQQAqAJs23WKyxrH5fk9ceo0ORz6vrbrZanLzY+zJK7eW8+Nn/yxPYJp
+         plLyB+X/IpuP+HYsIFWlOm0xjF4Zut+tY1LPJ2jsaT929rJKG3S8ZknYZrPcXgnK61Gw
+         xNgN2HtO228xs88iIWFQW7mBVWDaDJpfV/3tRonCT/vikqSB7Biftl6XxXSLUi9Ix1HP
+         2WWFuSbeOhHrZtJUPjxobij5Br9xgAas3+cSUIeIDU69XxJsaJ2qGtHY0qHDiNgOxggL
+         RU3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776331046; x=1776935846;
+        d=1e100.net; s=20251104; t=1776331048; x=1776935848;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=p4dfb7ebiQqTklkwuTWUNTQNMxpyNspY9sJYDq8fi3Q=;
-        b=iNw+mO1vHmakKON/JdePafjnw2nmIRxvphTkW778JhnPlsHjA6HQIXdnWAujBmBTP2
-         MKi1JFSCQrHigPVXj1C+m30G8qxKafKSGWnlHESxE0MJeP4EGVv5r4u4Uc2Well1oWpq
-         DYatoXM3F6QOp9DCFOcdNIeNfWlh2hGqEoNFChRNs9lEqjtT5qJN6Id+Ed1Sm347RaQG
-         n1mIE3GNcd1eEAI5aMxiVTKMYGaZzgFbyVdgWs3KxOGM5bi6y3SUcFSBtGOv8LmI1TUk
-         qZZ8WfRrk0JYQsPQ1/DbK10x4o+boMWAXnM05bL4ydc73tVTkVplXGXO6LisWBc1TiW2
-         Jofg==
-X-Forwarded-Encrypted: i=1; AFNElJ8y3R+ExNdEpSGsV9cAJx98N7JUR2jlPTvm1xdgXwP0kJuEcbWn6b7vG3ptQqnIHHEFleRzoKqd8jQrgSet@vger.kernel.org
-X-Gm-Message-State: AOJu0YyRAcfx6jqBS1lAnx9mMtfwIB5TrN7P2RwFgrGAhROnNjXv4sA4
-	ZZawHnN2VSULy38j/+KoS/TqW7/Hxb7J0uu7zfZeR9A1OyMlSZcFirpS+EDJAXASdCdr68hFG0r
-	fhYUYttyTj7oYu3yneugMmlrE0ZAUrTg+MRqApGXYbcyqgdeJonDXi0/SRcpdh1tTPAZY0R6imC
-	Q=
-X-Gm-Gg: AeBDieuqS6s2DOe/eO7UaJ4eNUwEvF0Ojh97al5vzdN7zA1pOBB55OJH9Cn0BN95fvp
-	3E3V6bJFOG3mOu9Yg3N2mahgVicHJ8ZGsZx0sJnFOtkm8tiwxRpT1jqbOnJcnqnUsyc4JQ/zfAA
-	XShL9Vv09/oHq70WvUV8ueqVIC10DUbb8rJMSm83g9LqqZHlw2aXQ7L/fOwtybgUnP84MEbl3bo
-	t5xT6Fjxt/YklrRfSgkaZjUM+xN2WzozuWs7mWXqHYOR+6HNQRYIyPCdgwZ99Ovc0AR6PH479HC
-	pvPS/9x9/C1j04VR7ZcPdO1WYI2LoEgQNosxqyIW/d1JZ++Oq2bD9KSOnssYta0gIO88tCW4FTE
-	16WhXmvrMQ5sy7iorCOCh/X0+N4cyhtr8c8pLRzNlsgelatrD/71rOpQ13DXFG/K85S6IOd+cuo
-	NUpiTrIQ==
-X-Received: by 2002:a05:600c:c0dc:b0:47e:e076:c7a5 with SMTP id 5b1f17b1804b1-488d68105d2mr242801555e9.11.1776331046231;
-        Thu, 16 Apr 2026 02:17:26 -0700 (PDT)
-X-Received: by 2002:a05:600c:c0dc:b0:47e:e076:c7a5 with SMTP id 5b1f17b1804b1-488d68105d2mr242801285e9.11.1776331045739;
-        Thu, 16 Apr 2026 02:17:25 -0700 (PDT)
+        bh=TPk/yeIL85CGNg1VihA0wb2dmd3GQ79PwQ6zGc6blQw=;
+        b=sCQPiCPsOy1RLdU5Z9D0NfRVGeXKxchUVCJtgDmfUXMqPgqdq8cqyIFV5nREoTcXwu
+         OFwFyzoQ+pmuMYzXa5tGpgfv6/7UZV0gOntXb4XGOHy6LN2vD23InMKavTyJdTmIhOdJ
+         nRGGepbfqQNt36llRaWsety5z8cbg/PCct6EcIlSRnoD33qThRGzLGVblO9Bz8J7tN+S
+         EPa2ksMjO17uopH+IumJ4GTTkMPN0THVmkJ+n88fNrEmQmPvuoG5/3jqizWKLCJuflYD
+         ACZxwKiCXHwqsM/ogmkAuC/3XV7WE32VEkEFpc0/zufUDebcid8Ki8oC4SHnRPIJKkf1
+         YoeA==
+X-Forwarded-Encrypted: i=1; AFNElJ96RP6VHc0G4nhMvxTaOyDvLtEY2qmJDlGG3r5HXypmBelERomC5zzG0OvTAP6ISxhQYRq7h0K2IrH+pBW+@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxqz/i6s931ldViJ2Xdy67l5mmtr+X8gj0aTWHQXEq+IXKqv7nv
+	3ii+k1Oz+KfGw/1WpCWMw7+ThgjjRl43maDwtaNR7ADoaOxL81j6nA3p+XbPTmLaq7XUbbcJDN9
+	t0chkErWxtwlbM4eHRd4+RnQufDHyvBmeHbCKNx6u9bjV/Q7Qjznh+4GXvCUji7A3bLfFOQhA2R
+	0=
+X-Gm-Gg: AeBDiesfMvWUsP3IBisGWSaGSETSTZ+BfgmK6FWMIs69W7uQeG7RzTvpLv4bT67s16r
+	YO67j0ec7bkGa8PGCk/z9nxV3mDPyJ+OK9wIa8MFwqgMRFtI3478Vq6gNdaOuMy5cMcgJl6eoV/
+	XuIYa2DKesjRdW3IdzY5alCzMl/OjvH5DIBzN0WLzmw/JIY6LbpDB89j9E0ss+7d0zXovjInyCJ
+	nylUAPKegWAAsWvo3tRw9cDw+5ck3ucolt6H2huUU5KmRF6kUF3c4VgsCy36X2e28dyqQxycVxp
+	wiatHHOHl3GLVeoba6IuuplyE8d5lD/JYErzxKeolAIWFyWTGB9zZyiY2Y9Yz2LRKS1+OjX6w6o
+	fclfqWW+mBNwg6j5jliMTqfLtqL76i0+I+s7+W57uZF/QzpnlGFp3pYS0Y+z/ba4RirxclpuvJi
+	dOZQl0Ew==
+X-Received: by 2002:a05:600c:6994:b0:485:3eba:ab96 with SMTP id 5b1f17b1804b1-488d67bbcbamr354946705e9.3.1776331047739;
+        Thu, 16 Apr 2026 02:17:27 -0700 (PDT)
+X-Received: by 2002:a05:600c:6994:b0:485:3eba:ab96 with SMTP id 5b1f17b1804b1-488d67bbcbamr354946185e9.3.1776331047293;
+        Thu, 16 Apr 2026 02:17:27 -0700 (PDT)
 Received: from maszat.piliscsaba.szeredi.hu (85-66-37-19.pool.digikabel.hu. [85.66.37.19])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f57d80d3sm38597975e9.0.2026.04.16.02.17.24
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f57d80d3sm38597975e9.0.2026.04.16.02.17.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Apr 2026 02:17:24 -0700 (PDT)
+        Thu, 16 Apr 2026 02:17:26 -0700 (PDT)
 From: Miklos Szeredi <mszeredi@redhat.com>
 To: fuse-devel@lists.linux.dev,
 	linux-fsdevel@vger.kernel.org
-Subject: [PATCH 17/32] fuse: remove #include "fuse_i.h" from "dev_uring_i.h"
-Date: Thu, 16 Apr 2026 11:16:41 +0200
-Message-ID: <20260416091658.462783-18-mszeredi@redhat.com>
+Subject: [PATCH 18/32] fuse: remove #include "fuse_i.h" from "req_timeout.c"
+Date: Thu, 16 Apr 2026 11:16:42 +0200
+Message-ID: <20260416091658.462783-19-mszeredi@redhat.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260416091658.462783-1-mszeredi@redhat.com>
 References: <20260416091658.462783-1-mszeredi@redhat.com>
@@ -96,133 +96,54 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Start getting rid of fs layer stuff from transport layer files.
+Just need to move fuse_abort_conn().
 
 Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
 ---
- fs/fuse/dev.c         |  8 ++++----
- fs/fuse/dev_uring_i.h | 19 +++++++++----------
- fs/fuse/fuse_dev_i.h  |  4 ++++
- 3 files changed, 17 insertions(+), 14 deletions(-)
+ fs/fuse/dev.h         | 3 +++
+ fs/fuse/fuse_i.h      | 2 --
+ fs/fuse/req_timeout.c | 1 -
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-index 8096c861e853..fadad23e8369 100644
---- a/fs/fuse/dev.c
-+++ b/fs/fuse/dev.c
-@@ -82,7 +82,7 @@ void fuse_chan_set_initialized(struct fuse_chan *fch)
- static bool fuse_block_alloc(struct fuse_conn *fc, bool for_background)
- {
- 	return !fc->chan->initialized || (for_background && fc->chan->blocked) ||
--	       (fc->chan->io_uring && fc->chan->connected && !fuse_uring_ready(fc));
-+	       (fc->chan->io_uring && fc->chan->connected && !fuse_uring_ready(fc->chan));
- }
+diff --git a/fs/fuse/dev.h b/fs/fuse/dev.h
+index 1d3d2e0c9b91..efdaf0bf6f0f 100644
+--- a/fs/fuse/dev.h
++++ b/fs/fuse/dev.h
+@@ -41,6 +41,9 @@ struct fuse_dev *fuse_dev_grab(struct file *file);
  
- static void fuse_drop_waiting(struct fuse_conn *fc)
-@@ -876,7 +876,7 @@ static int fuse_request_queue_background(struct fuse_req *req)
- 	__set_bit(FR_ISREPLY, &req->flags);
+ void fuse_init_server_timeout(struct fuse_chan *fch, unsigned int timeout);
  
++/* Abort all requests */
++void fuse_abort_conn(struct fuse_conn *fc);
++
  #ifdef CONFIG_FUSE_IO_URING
--	if (fuse_uring_ready(fc))
-+	if (fuse_uring_ready(fc->chan))
- 		return fuse_request_queue_background_uring(fc, req);
- #endif
+ bool fuse_uring_enabled(void);
+ void fuse_uring_destruct(struct fuse_chan *fch);
+diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+index a0d120057ddb..af8e05a403e5 100644
+--- a/fs/fuse/fuse_i.h
++++ b/fs/fuse/fuse_i.h
+@@ -996,8 +996,6 @@ static inline ssize_t fuse_simple_idmap_request(struct mnt_idmap *idmap,
+ int fuse_simple_background(struct fuse_mount *fm, struct fuse_args *args,
+ 			   gfp_t gfp_flags);
  
-@@ -2660,7 +2660,7 @@ void fuse_abort_conn(struct fuse_conn *fc)
- 		 * fc->chan->lock must not be taken to avoid conflicts with io-uring
- 		 * locks
- 		 */
--		fuse_uring_abort(fc);
-+		fuse_uring_abort(fc->chan);
- 	} else {
- 		spin_unlock(&fc->chan->lock);
- 	}
-@@ -2673,7 +2673,7 @@ void fuse_wait_aborted(struct fuse_conn *fc)
- 	smp_mb();
- 	wait_event(fc->chan->blocked_waitq, fuse_chan_num_waiting(fc->chan) == 0);
+-/* Abort all requests */
+-void fuse_abort_conn(struct fuse_conn *fc);
+ void fuse_wait_aborted(struct fuse_conn *fc);
  
--	fuse_uring_wait_stopped_queues(fc);
-+	fuse_uring_wait_stopped_queues(fc->chan);
- }
+ void fuse_dentry_tree_init(void);
+diff --git a/fs/fuse/req_timeout.c b/fs/fuse/req_timeout.c
+index ef464bebc0b6..9c48789b941a 100644
+--- a/fs/fuse/req_timeout.c
++++ b/fs/fuse/req_timeout.c
+@@ -2,7 +2,6 @@
  
- int fuse_dev_release(struct inode *inode, struct file *file)
-diff --git a/fs/fuse/dev_uring_i.h b/fs/fuse/dev_uring_i.h
-index d14299eff1dd..741fdead2161 100644
---- a/fs/fuse/dev_uring_i.h
-+++ b/fs/fuse/dev_uring_i.h
-@@ -7,7 +7,6 @@
- #ifndef _FS_FUSE_DEV_URING_I_H
- #define _FS_FUSE_DEV_URING_I_H
- 
+ #include "dev.h"
+ #include "sysctl.h"
 -#include "fuse_i.h"
  #include "fuse_dev_i.h"
+ #include "dev_uring_i.h"
  
- #ifdef CONFIG_FUSE_IO_URING
-@@ -144,9 +143,9 @@ bool fuse_uring_queue_bq_req(struct fuse_req *req);
- bool fuse_uring_remove_pending_req(struct fuse_req *req);
- bool fuse_uring_request_expired(struct fuse_chan *fch);
- 
--static inline void fuse_uring_abort(struct fuse_conn *fc)
-+static inline void fuse_uring_abort(struct fuse_chan *fch)
- {
--	struct fuse_ring *ring = fc->chan->ring;
-+	struct fuse_ring *ring = fch->ring;
- 
- 	if (ring == NULL)
- 		return;
-@@ -157,31 +156,31 @@ static inline void fuse_uring_abort(struct fuse_conn *fc)
- 	}
- }
- 
--static inline void fuse_uring_wait_stopped_queues(struct fuse_conn *fc)
-+static inline void fuse_uring_wait_stopped_queues(struct fuse_chan *fch)
- {
--	struct fuse_ring *ring = fc->chan->ring;
-+	struct fuse_ring *ring = fch->ring;
- 
- 	if (ring)
- 		wait_event(ring->stop_waitq,
- 			   atomic_read(&ring->queue_refs) == 0);
- }
- 
--static inline bool fuse_uring_ready(struct fuse_conn *fc)
-+static inline bool fuse_uring_ready(struct fuse_chan *fch)
- {
--	return fc->chan->ring && fc->chan->ring->ready;
-+	return fch->ring && fch->ring->ready;
- }
- 
- #else /* CONFIG_FUSE_IO_URING */
- 
--static inline void fuse_uring_abort(struct fuse_conn *fc)
-+static inline void fuse_uring_abort(struct fuse_chan *fch)
- {
- }
- 
--static inline void fuse_uring_wait_stopped_queues(struct fuse_conn *fc)
-+static inline void fuse_uring_wait_stopped_queues(struct fuse_chan *fch)
- {
- }
- 
--static inline bool fuse_uring_ready(struct fuse_conn *fc)
-+static inline bool fuse_uring_ready(struct fuse_chan *fch)
- {
- 	return false;
- }
-diff --git a/fs/fuse/fuse_dev_i.h b/fs/fuse/fuse_dev_i.h
-index 2e1c251572ca..fd1ccc8df60d 100644
---- a/fs/fuse/fuse_dev_i.h
-+++ b/fs/fuse/fuse_dev_i.h
-@@ -8,6 +8,10 @@
- 
- #include <linux/fuse.h>
- #include <linux/types.h>
-+#include <linux/refcount.h>
-+#include <linux/wait.h>
-+#include <linux/workqueue.h>
-+#include <linux/fs.h>
- 
- /* Ordinary requests have even IDs, while interrupts IDs are odd */
- #define FUSE_INT_REQ_BIT (1ULL << 0)
 -- 
 2.53.0
 
