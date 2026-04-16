@@ -1,90 +1,89 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3688539B4AD
-	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 09:17:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42CBC39B946
+	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 09:17:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776331074; cv=none; b=eQcQ5wpwcqmJxWhQ1FxN41AYRDekI05xx/c48pvA5XDxKFqzFDGaRlUSfxPs0pvcL7dDszABoSFkELdw2rfMRsaZCaEisc3YWLsj0asE2SXOSkK7b5fopUNGsWk4YHznTXtfmjhdet9DTT+2tO9/vY/Yed5NJ0aEY/oM3EQ2MmY=
+	t=1776331077; cv=none; b=d487+n+DgxZvzn+buSNiGhZP1YRXHUw0t+IQ0xylYoNO1HJGSr2MDWAcZWCDIQr1zHklGapEmkCRatt9RPFT1HPEJBFxvE2u2eaN2D9HN5fpLODIoAFoEaY2iC1S4vk7xXXV+LN7RvDNy9d74iH51ZYCyuu/t/j+hXXR6E+wJCY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776331074; c=relaxed/simple;
-	bh=6aq+35aRrZ6QxuOOmIX52Xt9QkA2VAkLyDFJbLEmM3Y=;
+	s=arc-20240116; t=1776331077; c=relaxed/simple;
+	bh=+YTWH/lZVvfoLr0apXjAfpemYjGoHnEqjfudUq5/hSw=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jrptxat9PmZhpgEE4JxbSoLmB2q95NiZ8l7CDf557jJCvtrB6v+GaBYCd9W7DcrSj3IvQ8/fayKTedyvPTxZaxNZwr7arYjnIl1sdOtQiYs2U6VzP4FI0syPxV1iwrjwogknfudSUH42oXqqz2k3JIxk8+LQDiCiyaC6dtLWhVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OoQTbjV2; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=BA2YX4Am; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=AYyWLc8lJJ9ZWMBb0XeokPBaciiUKbOYieJa0CUlY+XiMS0ihsUuurf+8etY78ehpGraEzdzmntBIF5Bc6uToS72bXrx8XiZzMhjY3Radvzm0H7eSCRsEb0ut9BXp1lx7uwlwZIjUt4A4UXYOx12yYH07/91ofyTbJH53miWexY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Mlg4fboq; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=IRZFRK8E; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OoQTbjV2";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="BA2YX4Am"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Mlg4fboq";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="IRZFRK8E"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1776331066;
+	s=mimecast20190719; t=1776331071;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ymJZgpLwChgpXN8JIVAU1Eke+0GsP2IQmalxVfv/pfc=;
-	b=OoQTbjV2AGS6TMSEnQDyKjLvIx5TvEO/fo/hYEItxuoapORy1yY+BoaZ/9Gq9p/CHtMN5Y
-	J6nZFhbbvU/aQ4/KEhjb7wfYAgU3WyUsaUynsQnZLbTdm2ZZBX+CPnZV7CJk0oEJQUJ4XI
-	q8JM6QPWNHLykqBj0M2X3DYldtWvgpE=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=uzSqfcyXD4ximg6Y76NRYLAOye4Lg+D8CbgnM6EyGMI=;
+	b=Mlg4fboqkNYAEDsReEEWGxZL46Qd0G8BVPUcdICbwV5tQ8suwteVAoaww5uOujkbGFrFoS
+	E6eqblDPZAiEJHXQce6s94C4SMQWt+qNKs2HuURz9dS33eZWhAaA667QGpp/R3jzlnngr5
+	gCkDjYr0v1cnc1DK6UgEkvA4k64IOcI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-318-Vky5_mFqONasZ74UwhWUtA-1; Thu, 16 Apr 2026 05:17:44 -0400
-X-MC-Unique: Vky5_mFqONasZ74UwhWUtA-1
-X-Mimecast-MFC-AGG-ID: Vky5_mFqONasZ74UwhWUtA_1776331063
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-43d76eeb303so4506401f8f.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 02:17:44 -0700 (PDT)
+ us-mta-682-fnOtdXVjO0esAQ4-cXEYeA-1; Thu, 16 Apr 2026 05:17:45 -0400
+X-MC-Unique: fnOtdXVjO0esAQ4-cXEYeA-1
+X-Mimecast-MFC-AGG-ID: fnOtdXVjO0esAQ4-cXEYeA_1776331064
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-488dcff87b7so34578425e9.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 02:17:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1776331063; x=1776935863; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1776331064; x=1776935864; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ymJZgpLwChgpXN8JIVAU1Eke+0GsP2IQmalxVfv/pfc=;
-        b=BA2YX4AmdmjLj8C+2k03E4aASBTGOtazVJZbLpQNpbOIx/hpgwe9d569KXpcKEYdWI
-         PLYmkcNSXT2TCaHv7ocUdWPlROVI76CCBZJih4IFMcbDRZVXaI39EgtT8x8pFeg9qiQ6
-         +j2FNXcn3YAFXmX8czz5MPrxWPUpT9OQE6qWFkatvt+UPP/XfDfbqncLtWIUQ1wrSe1j
-         4yoOfDhIb75jOYWw2k0DKjn/gJwqZE1PDEA+C8ng1eBLkq2iDF302pcPjKvJtGyHGUOE
-         6mPyqYSe4ctXZ7eE24T84EJBRNyh1JURTQV/Y/xTVX8wlC1SyzxnghA1XBPHJoCR2DOl
-         cYDg==
+        bh=uzSqfcyXD4ximg6Y76NRYLAOye4Lg+D8CbgnM6EyGMI=;
+        b=IRZFRK8EjJXwZyeIuJxQ/tPHlRST16Z9hzsYblQniUuIeZjG49WdlwWXlKKFHB72V7
+         QWKK6tIzLqD/mX5Aoen4VjNKBiMG10CzUai3guiC492ptWX+sdvhQVQk+NNxg1Nl0FTm
+         xg4bGds0Lu+F1drqytmeSWS7FzXIOvR9wdBbvxgmAUdnyl5sLT4grTPYyb2z8m798Ysl
+         BELvtbdAgJK9gW9OE9V25Xilp3fqez6uSFIQ04HO1eVVWDza5dqXRdwJ7gAZuW86tWRQ
+         0DPYDgzU7udve8kV1MNTQerLCxUJDlOzaL3ULwbWsaWyNC7NwFSLOIEiFNVHwH54aUEq
+         X8TQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776331063; x=1776935863;
+        d=1e100.net; s=20251104; t=1776331064; x=1776935864;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=ymJZgpLwChgpXN8JIVAU1Eke+0GsP2IQmalxVfv/pfc=;
-        b=GkQRU1LJSvnys56KBxU3tQOhLpMPcRCqM6a5JdxzdqcQAETj1Om1pblfrX9hqv5qeQ
-         vux5VKMTpvThYrozrG6TUUalDfjjw3w/uf5T2z2QBnBqff02rNY/inj54UhKpiwx3Oqt
-         S/rLU/l18pD5bTX94obEa7bYT+JWGupyNhGQmQDdi4vWJW1b4AQmaGrqxhCH3qCERBMg
-         OY7LXdnJ0TMhKY4P5tfjoZ4phrJmfp8ysaLHKyXQac4PtNmKGoM9SM94/ru+yXmKY+RP
-         RUz51E37+dffyFea9mb0rWA6fu1WMiu7Sbxlw6IUkusWodLjSGHHjvT5uwZLPGFofBZX
-         WYGA==
-X-Forwarded-Encrypted: i=1; AFNElJ9k8X61uhNp67J3nWT4eWtYdy0yceRwzLvRu5mZUJX0XjC9dxD7QFD2wDCymCqgc7MwDRV24w0gPvyLwmKH@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz2kNhvt29NoxfiY6HMDkO2ppZcXEMUnDAYfHeoToDptkmgbX0E
-	Kiy7BEfdk2UiGFw6+3D490wE4Nx1ErZ/98CX5LFPl1H/oyo59X4f+X8RBVT9xOglAX5OADybnUI
-	EQ5212xxe1Cp99WF4Nc0zPU1khCOTFZREgOGXiHXLt56eL6BKo+zh5c2UmMXknyPT0ZXPFF5yfu
-	k=
-X-Gm-Gg: AeBDies3Zqv1puRYxEv1p1P0jjDYLxVGE2WX0TgSl51oTq9QOXhI7lORxPkQVN+wb55
-	9pMB9RQgVRtf+veQKSqUG/CklPv/xZKKOSRQrPH3ErY5Jp3rPR4qJlQKYogVbyx4r2b2jBQ4YwF
-	Ol+yziLOJ7B8wW/fmKFodL1XH/hrWhUXF34wuhuruwg18Zsc/xO0muAQmxA/qP17C6IFjYa5nJN
-	bisoakrgknwPr3s9OEsePRiuXDn4+HWRDuG+dvlM0TCb/oWmPDUK/aO1X6IMA4Fn0HcONMPk2Bp
-	kMDbhSVPZH7mYScIof/QG/Shlj4Z6VQmp/JG3mXb1gW5h/WEq0msYaFKUK97XzS/TGhzdsgGyvs
-	wREXrqbspah6P2/F9ZdeaCfa6RQjuKEsHWWDYa9gveQDlB09HEq6MT1tI7cZN9t3IwukbEhf6Ho
-	T+hVjmug==
-X-Received: by 2002:a05:600c:c0c8:b0:488:b749:8482 with SMTP id 5b1f17b1804b1-488d67bbc13mr260607925e9.4.1776331062908;
-        Thu, 16 Apr 2026 02:17:42 -0700 (PDT)
-X-Received: by 2002:a05:600c:c0c8:b0:488:b749:8482 with SMTP id 5b1f17b1804b1-488d67bbc13mr260607605e9.4.1776331062377;
-        Thu, 16 Apr 2026 02:17:42 -0700 (PDT)
+        bh=uzSqfcyXD4ximg6Y76NRYLAOye4Lg+D8CbgnM6EyGMI=;
+        b=R/hftZaI2uwysw4cRaxhF707+/M6htZiCJAJKRsWbqv9Mk6vvC+NsRSj6f/x+G3Pkp
+         1RJlMu9ZUnRE5SRhX6RxjRHgmRR2NgehuyK+sMWezTP7CQkFCaz0I/2JXHOtDYG79KhP
+         QAq1SG0roCG2V3Q5NYKpxYVKmYlHS1xOE78MFvxEIPZe1mYu7ATOUHX5SZNCl6nh5cP4
+         RJ6KKlZna5yIGIswPGZI3ixyshIbUIOli7azZpJSqDAZ2mQzZdEVD1kVdUEZHGM7oxpE
+         +w1sILjuhtQprcXVmM28w5CwSYDkmg/iyI5ZOcfXVbzrsGK49KdwCsr6Y1IDTq8G7OC0
+         Y2DA==
+X-Forwarded-Encrypted: i=1; AFNElJ/d/srfNi5Tm3Un3c7B6ZZ4VS1HDN2EiYl8KbshouaeJPhBoBwcZnKLkp+uBSvO2hm35YNbuaIMJ5IvJLwx@vger.kernel.org
+X-Gm-Message-State: AOJu0YyGXtGDI6S4GWTDo3IDE6uWegwWvS4aGarUMsi5TQziMe+7zQPo
+	LcfOO0FD7YKcUKS7vtkHQQ0nGoK3yTJPtssedMyGZKC3wM2QAbKcIHlNo7UBSiCxrKbVjthn21K
+	AJhEZx1BkdNAF4Gy1Ju9W1MpAEAC/kuhpuD2Af0+7zeNufmMcLeMsZUk1Q6ST3R1qHAk=
+X-Gm-Gg: AeBDieskCeVwVEgASBxra8TGex5Mc74X1xUWlX+xlssXoicnATugCVe8LZtN2LqZ8XL
+	jd9/qLBGfO1SKC2vIu9dJhr4DI0Qw2gUvrW0mxBJSuz57m0KogWE1GM4ILV/cej43RVlmvPW9TU
+	AF36Y8KvJKP6GAI/2Vs74V7fIs0XTFWY1yKALnshQ3z/nu0SUadmDYQ+5eQe/q2tuVc5x+mwZb3
+	rtHtJYkthE5GZJAOCeWyFnZnOlV6BUYkIMcAmyShRoEbaPdd81Vsbvc5tdEbPoVUdMu/9Pq2k6j
+	oZH2eOW47HiWFFLWAxGKajAzZkU12tWJ8UnSioe4RCS11XHB1VofkbZzcQRN8Ci4gCAtL0biGnF
+	t7aZLGYPX0KT/0PDprBRA33wp2wkatQtC8aqEDpulmenbkPix75hVImnxaJM27zAlw7XU0xeW4h
+	HVy0UBfg==
+X-Received: by 2002:a05:600c:45ce:b0:485:3e19:9e01 with SMTP id 5b1f17b1804b1-488d6890c9dmr345487115e9.28.1776331064048;
+        Thu, 16 Apr 2026 02:17:44 -0700 (PDT)
+X-Received: by 2002:a05:600c:45ce:b0:485:3e19:9e01 with SMTP id 5b1f17b1804b1-488d6890c9dmr345486675e9.28.1776331063538;
+        Thu, 16 Apr 2026 02:17:43 -0700 (PDT)
 Received: from maszat.piliscsaba.szeredi.hu (85-66-37-19.pool.digikabel.hu. [85.66.37.19])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f57d80d3sm38597975e9.0.2026.04.16.02.17.41
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f57d80d3sm38597975e9.0.2026.04.16.02.17.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Apr 2026 02:17:41 -0700 (PDT)
+        Thu, 16 Apr 2026 02:17:42 -0700 (PDT)
 From: Miklos Szeredi <mszeredi@redhat.com>
 To: fuse-devel@lists.linux.dev,
 	linux-fsdevel@vger.kernel.org
-Subject: [PATCH 30/32] fuse: remove #include "fuse_i.h" from dev.c and dev_uring.c
-Date: Thu, 16 Apr 2026 11:16:54 +0200
-Message-ID: <20260416091658.462783-31-mszeredi@redhat.com>
+Subject: [PATCH 31/32] fuse: alloc pqueue before installing fch in fuse_dev
+Date: Thu, 16 Apr 2026 11:16:55 +0200
+Message-ID: <20260416091658.462783-32-mszeredi@redhat.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260416091658.462783-1-mszeredi@redhat.com>
 References: <20260416091658.462783-1-mszeredi@redhat.com>
@@ -96,246 +95,205 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Move a couple of function declarations from fuse_i.h to dev.h and
-fuse_dev_i.h.
+Prior to this patchset, fuse_dev (containing fuse_pqueue) was allocated on
+mount.  But now fuse_dev is allocated when opening /dev/fuse, even though
+the queues are not needed at that time.
 
-Add fuse_conn_get_id() helper that retrieves the connection ID (s_dev) from
-fuse_conn.
+Delay allocation of the pqueue (4k worth of list_head) just before mounting
+or cloning a device.
 
-With the exception of cuse.c, virtio_fs.c and trace.c source files now
-either include fuse_i.h or fuse_dev_i/dev_uring_i.h but not both.
+Various distributions (e.g. Debian/Fedora) configure /dev/fuse as world
+writable, so the pqueue allocation should be deferred to a privileged
+operation (mount) to prevent unprivileged userspace from consuming pinned
+kernel memory.
 
 Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
 ---
- fs/fuse/backing.c    |  1 +
- fs/fuse/dev.c        |  5 ++---
- fs/fuse/dev.h        | 26 ++++++++++++++++++++++++++
- fs/fuse/dev_uring.c  |  3 +--
- fs/fuse/fuse_dev_i.h |  7 +++++++
- fs/fuse/fuse_i.h     | 28 ----------------------------
- fs/fuse/inode.c      |  5 +++++
- 7 files changed, 42 insertions(+), 33 deletions(-)
+ fs/fuse/dev.c        | 75 +++++++++++++++++++++++++++++++++-----------
+ fs/fuse/fuse_dev_i.h |  3 ++
+ 2 files changed, 59 insertions(+), 19 deletions(-)
 
-diff --git a/fs/fuse/backing.c b/fs/fuse/backing.c
-index d95dfa48483f..3d3f49c2dd42 100644
---- a/fs/fuse/backing.c
-+++ b/fs/fuse/backing.c
-@@ -5,6 +5,7 @@
-  * Copyright (c) 2023 CTERA Networks.
-  */
- 
-+#include "dev.h"
- #include "fuse_i.h"
- 
- #include <linux/file.h>
 diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-index 5ebd6f3e0fe4..d6cd066a3fff 100644
+index d6cd066a3fff..6fbe6084c5ae 100644
 --- a/fs/fuse/dev.c
 +++ b/fs/fuse/dev.c
-@@ -7,9 +7,8 @@
- */
- 
- #include "dev.h"
-+#include "args.h"
- #include "dev_uring_i.h"
--#include "fuse_i.h"
--#include "fuse_dev_i.h"
- 
- #include <linux/init.h>
- #include <linux/module.h>
-@@ -2336,7 +2335,7 @@ static void fuse_dev_show_fdinfo(struct seq_file *seq, struct file *file)
- 	if (!fud)
- 		return;
- 
--	seq_printf(seq, "fuse_connection:\t%u\n", fud->chan->conn->dev);
-+	seq_printf(seq, "fuse_connection:\t%u\n", fuse_conn_get_id(fud->chan->conn));
+@@ -328,6 +328,7 @@ void fuse_chan_release(struct fuse_chan *fch)
+ void fuse_chan_free(struct fuse_chan *fch)
+ {
+ 	WARN_ON(!list_empty(&fch->devices));
++	kfree(fch->pq_prealloc);
+ 	kfree(fch);
  }
- #endif
- 
-diff --git a/fs/fuse/dev.h b/fs/fuse/dev.h
-index 6437331058d9..aed69fd14c41 100644
---- a/fs/fuse/dev.h
-+++ b/fs/fuse/dev.h
-@@ -13,6 +13,7 @@ struct fuse_chan;
- struct fuse_dev;
- struct fuse_args;
- struct fuse_copy_state;
-+struct fuse_backing_map;
- struct file;
- struct folio;
- enum fuse_notify_code;
-@@ -45,6 +46,16 @@ void fuse_chan_queue_forget(struct fuse_chan *fch, struct fuse_forget_link *forg
- 
- DEFINE_FREE(fuse_chan_free, struct fuse_chan *, if (_T) fuse_chan_free(_T))
- 
-+/**
-+ * Initialize the client device
-+ */
-+int fuse_dev_init(void);
-+
-+/**
-+ * Cleanup the client device
-+ */
-+void fuse_dev_cleanup(void);
-+
- void fuse_dev_install(struct fuse_dev *fud, struct fuse_chan *fch);
- bool fuse_dev_verify(struct fuse_dev *fud, struct fuse_chan *fch);
- void fuse_dev_put(struct fuse_dev *fud);
-@@ -58,10 +69,25 @@ void fuse_init_server_timeout(struct fuse_chan *fch, unsigned int timeout);
- void fuse_chan_abort(struct fuse_chan *fch, bool abort_with_err);
- void fuse_chan_wait_aborted(struct fuse_chan *fch);
- 
-+/**
-+ * Acquire reference to fuse_conn
-+ */
-+struct fuse_conn *fuse_conn_get(struct fuse_conn *fc);
-+
-+/**
-+ * Release reference to fuse_conn
-+ */
-+void fuse_conn_put(struct fuse_conn *fc);
-+
-+dev_t fuse_conn_get_id(struct fuse_conn *fc);
-+
- void fuse_end_polls(struct fuse_conn *fc);
- int fuse_notify(struct fuse_conn *fc, enum fuse_notify_code code,
- 		unsigned int size, struct fuse_copy_state *cs);
- 
-+int fuse_backing_open(struct fuse_conn *fc, struct fuse_backing_map *map);
-+int fuse_backing_close(struct fuse_conn *fc, int backing_id);
-+
- int fuse_copy_one(struct fuse_copy_state *cs, void *val, unsigned size);
- int fuse_copy_folio(struct fuse_copy_state *cs, struct folio **foliop,
- 		    unsigned offset, unsigned count, int zeroing);
-diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-index 64883cf94ab4..5abf447e9710 100644
---- a/fs/fuse/dev_uring.c
-+++ b/fs/fuse/dev_uring.c
-@@ -5,9 +5,8 @@
-  */
- 
- #include "dev.h"
--#include "fuse_i.h"
-+#include "args.h"
- #include "dev_uring_i.h"
--#include "fuse_dev_i.h"
- #include "fuse_trace.h"
- 
- #include <linux/fs.h>
-diff --git a/fs/fuse/fuse_dev_i.h b/fs/fuse/fuse_dev_i.h
-index 3acf73be3990..3d945b20f8d5 100644
---- a/fs/fuse/fuse_dev_i.h
-+++ b/fs/fuse/fuse_dev_i.h
-@@ -364,6 +364,11 @@ void fuse_dev_end_requests(struct list_head *head);
- 
- void fuse_copy_init(struct fuse_copy_state *cs, bool write,
- 			   struct iov_iter *iter);
-+/**
-+ * Return the number of bytes in an arguments list
-+ */
-+unsigned int fuse_len_args(unsigned int numargs, struct fuse_arg *args);
-+
- int fuse_copy_args(struct fuse_copy_state *cs, unsigned int numargs,
- 		   unsigned int argpages, struct fuse_arg *args,
- 		   int zeroing);
-@@ -389,6 +394,8 @@ u64 fuse_get_unique(struct fuse_iqueue *fiq);
- struct fuse_dev *fuse_dev_alloc_install(struct fuse_chan *fch);
- struct fuse_dev *fuse_dev_alloc(void);
- 
-+int fuse_dev_release(struct inode *inode, struct file *file);
-+
- /**
-  * Initialize the fuse processing queue
-  */
-diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-index f7a9c7cedd39..8c58a030d296 100644
---- a/fs/fuse/fuse_i.h
-+++ b/fs/fuse/fuse_i.h
-@@ -907,16 +907,6 @@ void fuse_change_attributes_common(struct inode *inode, struct fuse_attr *attr,
- 
- u32 fuse_get_cache_mask(struct inode *inode);
- 
--/**
-- * Initialize the client device
-- */
--int fuse_dev_init(void);
--
--/**
-- * Cleanup the client device
-- */
--void fuse_dev_cleanup(void);
--
- int fuse_ctl_init(void);
- void __exit fuse_ctl_cleanup(void);
- 
-@@ -971,22 +961,12 @@ u64 fuse_time_to_jiffies(u64 sec, u32 nsec);
- 
- void fuse_change_entry_timeout(struct dentry *entry, struct fuse_entry_out *o);
- 
--/**
-- * Acquire reference to fuse_conn
-- */
--struct fuse_conn *fuse_conn_get(struct fuse_conn *fc);
--
- /**
-  * Initialize fuse_conn
-  */
- void fuse_conn_init(struct fuse_conn *fc, struct fuse_mount *fm,
- 		    struct user_namespace *user_ns, struct fuse_chan *fch);
- 
--/**
-- * Release reference to fuse_conn
-- */
--void fuse_conn_put(struct fuse_conn *fc);
--
- int fuse_send_init(struct fuse_mount *fm);
- 
- /**
-@@ -1105,7 +1085,6 @@ long fuse_do_ioctl(struct file *file, unsigned int cmd, unsigned long arg,
- long fuse_ioctl_common(struct file *file, unsigned int cmd,
- 		       unsigned long arg, unsigned int flags);
- __poll_t fuse_file_poll(struct file *file, poll_table *wait);
--int fuse_dev_release(struct inode *inode, struct file *file);
- 
- bool fuse_write_update_attr(struct inode *inode, loff_t pos, ssize_t written);
- 
-@@ -1136,11 +1115,6 @@ int fuse_set_acl(struct mnt_idmap *, struct dentry *dentry,
- /* readdir.c */
- int fuse_readdir(struct file *file, struct dir_context *ctx);
- 
--/**
-- * Return the number of bytes in an arguments list
-- */
--unsigned int fuse_len_args(unsigned int numargs, struct fuse_arg *args);
--
- void fuse_free_conn(struct fuse_conn *fc);
- 
- /* dax.c */
-@@ -1208,8 +1182,6 @@ static inline struct fuse_backing *fuse_backing_lookup(struct fuse_conn *fc,
- 
- void fuse_backing_files_init(struct fuse_conn *fc);
- void fuse_backing_files_free(struct fuse_conn *fc);
--int fuse_backing_open(struct fuse_conn *fc, struct fuse_backing_map *map);
--int fuse_backing_close(struct fuse_conn *fc, int backing_id);
- 
- /* passthrough.c */
- static inline struct fuse_backing *fuse_inode_backing(struct fuse_inode *fi)
-diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-index 38f379374067..33009227e91d 100644
---- a/fs/fuse/inode.c
-+++ b/fs/fuse/inode.c
-@@ -1031,6 +1031,11 @@ struct fuse_conn *fuse_conn_get(struct fuse_conn *fc)
+ EXPORT_SYMBOL_GPL(fuse_chan_free);
+@@ -354,15 +355,30 @@ struct fuse_chan *fuse_chan_new(void)
  }
- EXPORT_SYMBOL_GPL(fuse_conn_get);
+ EXPORT_SYMBOL_GPL(fuse_chan_new);
  
-+dev_t fuse_conn_get_id(struct fuse_conn *fc)
++static struct list_head *fuse_pqueue_alloc(void)
 +{
-+	return fc->dev;
++	struct list_head *pq = kzalloc_objs(struct list_head, FUSE_PQ_HASH_SIZE);
++
++	if (pq) {
++		for (int i = 0; i < FUSE_PQ_HASH_SIZE; i++)
++			INIT_LIST_HEAD(&pq[i]);
++	}
++	return pq;
 +}
 +
- static struct inode *fuse_get_root_inode(struct super_block *sb, unsigned int mode)
+ struct fuse_chan *fuse_dev_chan_new(void)
  {
- 	struct fuse_attr attr;
+-	struct fuse_chan *fch = fuse_chan_new();
++	struct fuse_chan *fch __free(kfree) = fuse_chan_new();
+ 	if (!fch)
+ 		return NULL;
+ 
++	fch->pq_prealloc = fuse_pqueue_alloc();
++	if (!fch->pq_prealloc)
++		return NULL;
++
+ 	fuse_iqueue_init(&fch->iq, &fuse_dev_fiq_ops, NULL);
+ 
+-	return fch;
++	return no_free_ptr(fch);
+ }
+ EXPORT_SYMBOL_GPL(fuse_dev_chan_new);
+ 
+@@ -403,39 +419,42 @@ void fuse_chan_io_uring_enable(struct fuse_chan *fch)
+ 
+ void fuse_pqueue_init(struct fuse_pqueue *fpq)
+ {
+-	unsigned int i;
+-
+ 	spin_lock_init(&fpq->lock);
+-	for (i = 0; i < FUSE_PQ_HASH_SIZE; i++)
+-		INIT_LIST_HEAD(&fpq->processing[i]);
+ 	INIT_LIST_HEAD(&fpq->io);
+ 	fpq->connected = 1;
++	fpq->processing = NULL;
+ }
+ 
+-struct fuse_dev *fuse_dev_alloc(void)
++static struct fuse_dev *fuse_dev_alloc_no_pq(void)
+ {
+ 	struct fuse_dev *fud;
+-	struct list_head *pq;
+ 
+ 	fud = kzalloc_obj(struct fuse_dev);
+ 	if (!fud)
+ 		return NULL;
+ 
+ 	refcount_set(&fud->ref, 1);
+-	pq = kzalloc_objs(struct list_head, FUSE_PQ_HASH_SIZE);
+-	if (!pq) {
+-		kfree(fud);
+-		return NULL;
+-	}
+-
+-	fud->pq.processing = pq;
+ 	fuse_pqueue_init(&fud->pq);
+ 
+ 	return fud;
+ }
++
++struct fuse_dev *fuse_dev_alloc(void)
++{
++	struct fuse_dev *fud __free(kfree) = fuse_dev_alloc_no_pq();
++	if (!fud)
++		return NULL;
++
++	fud->pq.processing = fuse_pqueue_alloc();
++	if (!fud->pq.processing)
++		return NULL;
++
++	return no_free_ptr(fud);
++}
+ EXPORT_SYMBOL_GPL(fuse_dev_alloc);
+ 
+-void fuse_dev_install(struct fuse_dev *fud, struct fuse_chan *fch)
++static void fuse_dev_install_with_pq(struct fuse_dev *fud, struct fuse_chan *fch,
++				     struct list_head *pq)
+ {
+ 	struct fuse_chan *old_fch;
+ 
+@@ -453,20 +472,33 @@ void fuse_dev_install(struct fuse_dev *fud, struct fuse_chan *fch)
+ 		 *  - it was set to disconneted
+ 		 */
+ 		fch->connected = 0;
++		kfree(pq);
+ 	} else {
++		if (pq) {
++			WARN_ON(fud->pq.processing);
++			fud->pq.processing = pq;
++		}
+ 		list_add_tail(&fud->entry, &fch->devices);
+ 		fuse_conn_get(fch->conn);
+ 		wake_up_all(&fuse_dev_waitq);
+ 	}
+ 	spin_unlock(&fch->lock);
+ }
++
++void fuse_dev_install(struct fuse_dev *fud, struct fuse_chan *fch)
++{
++	struct list_head *pq = fch->pq_prealloc;
++
++	fch->pq_prealloc = NULL;
++	fuse_dev_install_with_pq(fud, fch, pq);
++}
+ EXPORT_SYMBOL_GPL(fuse_dev_install);
+ 
+ struct fuse_dev *fuse_dev_alloc_install(struct fuse_chan *fch)
+ {
+ 	struct fuse_dev *fud;
+ 
+-	fud = fuse_dev_alloc();
++	fud = fuse_dev_alloc_no_pq();
+ 	if (!fud)
+ 		return NULL;
+ 
+@@ -1632,7 +1664,7 @@ static ssize_t fuse_dev_do_read(struct fuse_dev *fud, struct file *file,
+ 
+ static int fuse_dev_open(struct inode *inode, struct file *file)
+ {
+-	struct fuse_dev *fud = fuse_dev_alloc();
++	struct fuse_dev *fud = fuse_dev_alloc_no_pq();
+ 
+ 	if (!fud)
+ 		return -ENOMEM;
+@@ -2231,6 +2263,7 @@ static long fuse_dev_ioctl_clone(struct file *file, __u32 __user *argp)
+ {
+ 	int oldfd;
+ 	struct fuse_dev *fud, *new_fud;
++	struct list_head *pq;
+ 
+ 	if (get_user(oldfd, argp))
+ 		return -EFAULT;
+@@ -2254,7 +2287,11 @@ static long fuse_dev_ioctl_clone(struct file *file, __u32 __user *argp)
+ 	if (fuse_dev_chan_get(new_fud))
+ 		return -EINVAL;
+ 
+-	fuse_dev_install(new_fud, fud->chan);
++	pq = fuse_pqueue_alloc();
++	if (!pq)
++		return -ENOMEM;
++
++	fuse_dev_install_with_pq(new_fud, fud->chan, pq);
+ 
+ 	return 0;
+ }
+diff --git a/fs/fuse/fuse_dev_i.h b/fs/fuse/fuse_dev_i.h
+index 3d945b20f8d5..f9364d4103d4 100644
+--- a/fs/fuse/fuse_dev_i.h
++++ b/fs/fuse/fuse_dev_i.h
+@@ -248,6 +248,9 @@ struct fuse_chan {
+ 	/* Maximum number of pages that can be used in a single request */
+ 	unsigned int max_pages;
+ 
++	/* Before being installed into fud, contains the preallocated pq array*/
++	struct list_head *pq_prealloc;
++
+ 	/** Connection aborted via sysfs, respond with ECONNABORTED on device I/O */
+ 	bool abort_with_err;
+ 
 -- 
 2.53.0
 
