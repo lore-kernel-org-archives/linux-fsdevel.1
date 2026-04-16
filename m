@@ -1,106 +1,146 @@
-Received: from sg-3-112.ptr.tlmpb.com (sg-3-112.ptr.tlmpb.com [101.45.255.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out203-205-221-240.mail.qq.com (out203-205-221-240.mail.qq.com [203.205.221.240])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE2AA27AC4C
-	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 03:55:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.45.255.112
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE9252288D5;
+	Thu, 16 Apr 2026 04:11:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.240
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776311735; cv=none; b=m1eSQjXNC/zRr8l3sfrUViP4IOlnsujpevEVkbnzHgMFmuffAf0Jy2KjR1H9BBwvcysY9qd9mU7K3042L1cabTnBkKLz3ML4cUKqu1RWW9PoOF+AOW2Yf4SzcZ8sPsWGiOhNL333GVcsYdaXkvR8eSRkUK17toizOcbYe9Jt17Y=
+	t=1776312672; cv=none; b=eGloy3e1gyILqQpG41QpYdjn8TjHDoCgB+hzxsVzGxan/aoBAITZ9uL46QRAt1ov3+UCGuLAbu19fkOKBugXxNjebX2Ntf2Du3ODXIPxxOHNHbL2cJ7BwCdLBzNbsu1D8FaggUkk2hLrHwYQNuc1FOhCU1uQBSiAOAvT+qPJGE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776311735; c=relaxed/simple;
-	bh=FRtxye/7XATNQiRwvPJ7zj4jM5BiMBcNqlQXvVp6b6o=;
-	h=In-Reply-To:Content-Type:Cc:Subject:To:Mime-Version:Message-Id:
-	 References:From:Date; b=K33bUbJ9l4kXfi6kXhbs6apQZKe8xYUqCmFORoODAmSNecV/zqtfbDexlZRGmhSIL3d4aZEpEgE1mD24Kzw+zLMSYl33YVwzqXbIBWZaEA/udT3RX0TJElwuILteMoDPVLfU7wL51nIb/AamXuOPente458SpgvtsWkxFINMJ+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=UUhz64C3; arc=none smtp.client-ip=101.45.255.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1776312672; c=relaxed/simple;
+	bh=0GJsHIrKZtG3DpUG75PUeii1r0E6AtAFoSrFK0PrmJQ=;
+	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
+	 MIME-Version; b=uPyFR+BElSzCKzv2z9kHtwe2I4tcMkWwEZVeal4Uj5qRVR1okwFxEQHeVm+F8t2ZEXOofM21yXKJk6vZSaTflFJd8/9GJmjgkG1VIwGkABGQCwzLsFzovrqxxjnQwN757JD8d/QcKJDDo0uUSPiCyHDG+7T0jixA+325t8epPO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=LEMD7gYo; arc=none smtp.client-ip=203.205.221.240
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="UUhz64C3"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1776311683; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=XuUijCRU49VU51RPVF7QODH/tQoawFO7A52ugknXftA=;
- b=UUhz64C3WokIoUnig+6fdptc4C+Kd/RGQcaO66T8RcBXjfOHPQGySTTa+WBPP4avK86hkr
- IoBqFhbrtX4+nifDG8unDSvz1ezYd8rAicAK//9emZyNO47GYuInBHF9P83tM4r+VsALjF
- dc494e2xl4mvKPJhueZI46sExV5fi0ubN2j2iEb9tW8x0rFLZjQnX4gfcF8NciWpb8NQmv
- S0GaMTmaONXrIeS303bnpPA3Z8tA2P4Wrp9Vn2sUL1Pwq2VX4Fa5pbd1vytXNoystnRqwV
- C61QEJy5EWLhDf3e2TFkRS3R5IxK9T1tEbDgwEHjAXIkj4ddrVsKy2nbYb2F7Q==
-In-Reply-To: <20260413124703.GA20496@macsyma-wired.lan>
-X-Original-From: Diangang Li <lidiangang@bytedance.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Cc: <adilger.kernel@dilger.ca>, <linux-ext4@vger.kernel.org>, 
-	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
-	<changfengnan@bytedance.com>, <yizhang089@gmail.com>, 
-	<willy@infradead.org>
-Subject: Re: [RFC v2 0/1] ext4: fail fast on repeated buffer_head reads after IO failure
-User-Agent: Mozilla Thunderbird
-To: "Theodore Tso" <tytso@mit.edu>, "Diangang Li" <diangangli@gmail.com>
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="LEMD7gYo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1776312661; bh=nspGxetRB3zCpjzioWQZy4eR1aq8PwBNzWzXPEplagI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=LEMD7gYoZ0PCVTclSgXjt4kIM3DRrWzHbXQZ++Pg9aewjNAbwXAjjuvVO4IBA4cWl
+	 yDXZDU0Hqf5uh8cLrVX2gyhLQ5MU3pnKPsELbG3dgClDKxn7WVeCEuvUgp1M14Nqvx
+	 UJkHbCckGXKrosObJBIz2WrZN+5A0/FVpi2V+56k=
+Received: from lxu-ped-host.. ([111.198.231.89])
+	by newxmesmtplogicsvrszb51-0.qq.com (NewEsmtp) with SMTP
+	id 2709EA4A; Thu, 16 Apr 2026 12:09:48 +0800
+X-QQ-mid: xmsmtpt1776312588tegqyuwmr
+Message-ID: <tencent_8ECE3364C36FE975C3A64444176177734605@qq.com>
+X-QQ-XMAILINFO: NnYhxYSyuBnLftmDZm3FaHY93dWics0oECS4+6WUqQXln5nLuB5lorOH6wEhj0
+	 sRoUD1FskGTvOvYXYvrum+Akmvri3UKiUrS+B5UVju2Z8sB/rOAfhOOFu6ExYVHB4U2PYxiKMH2r
+	 TCmHWa5AVTL0HVp3APO4EHEj8gML/215IH9jVNJtsFV4++ItGgz4So8MOcVsMsDSfw5WljOJZLky
+	 qXnZTk5C5o0b6DPxxdn2lm+cHZeIT1pOm9bq1YsUDzHXdcpAOkBz2JENP2+zNCScrZWeDo9uEdYP
+	 faLyGWaeJlBYl2sXKqri4tl/PP0mJ4SOLEyZ2M/5BjvP9tcDl4nK9DJBDwmzeSXUF9/sa3K7mJMA
+	 hhOgAsN5NdqjeHGpKM0sduOm1vEvFdQq5xX7IfObWQpQLubmJidHDilpubamMlbGm3UEntxRmKNL
+	 h8wN8X7LIhN9m4QHTvy997CT/03dIEtaeXZs4bx3ONY4CWmX+twKJepoeFeSf96l4FoDoc6Qtxmb
+	 jolWkYBRzIeYnYGLT6L10BR6ASX9tas15VlJv3YKqvhmxmUmovLnxxo2QRNYeVDGjxgPpbcXsXOa
+	 KvOed5jr9kPDiZ2nQuuZxSBrZK6QHGkiGcmDP2GEoV3Qs4QMoIiOkUSwT62I1uMCnr1rFTjl4wWq
+	 WwGqPaUEVCuOQkqHGUtb47zkOE7xxR9z6X1esYmO5pwttiQvdNZE69hU1HMAK42HZvofgteOvxFW
+	 y1hKzEuDn29oOwQE26X/qYU6ZRS3z6dSL0TwiOUph+8PrCFzkne4PpGv3Ai28njxWy0zurjCRJKJ
+	 liLs37TgaQJAvp/P8boGUQOkBuW6ew2xzT6af1Vrigf5nL/rxC5Gw5F2xY7UMRCMcYsxHp28ZBKb
+	 AYwnfSMEfe6cFTBktbOE4JE4v4BpG63zVWEcT3SNVdKHHXLVV9YuHdEvoRxPKWDYsAlarIZE5p2r
+	 K3kkyBgAtYGncAIgoTUSE5abpbz+LPN0Wdcbukq4yQyV6ky7+fXJJ00y3G4hLS8jIhKdkw1jNZU3
+	 8DxT5kLmiYphw0sOSxeTgE1Alu0jLvqmROOeFXJA==
+X-QQ-XMRINFO: OD9hHCdaPRBwH5bRRRw8tsiH4UAatJqXfg==
+From: Edward Adam Davis <eadavis@qq.com>
+To: vdubeyko@redhat.com
+Cc: eadavis@qq.com,
+	frank.li@vivo.com,
+	glaubitz@physik.fu-berlin.de,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	slava@dubeyko.com,
+	syzbot+217eb327242d08197efb@syzkaller.appspotmail.com,
+	syzkaller-bugs@googlegroups.com
+Subject: Re: [PATCH] hfsplus: Add a sanity check for catalog btree node size
+Date: Thu, 16 Apr 2026 12:09:49 +0800
+X-OQ-MSGID: <20260416040948.363967-2-eadavis@qq.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <646f4e41c5b0ae14fa755f75fbe83837308ee35f.camel@redhat.com>
+References: <646f4e41c5b0ae14fa755f75fbe83837308ee35f.camel@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Message-Id: <03453fb3-0f3e-491d-ba12-e4208fe1c185@bytedance.com>
-References: <20260325093349.630193-1-diangangli@gmail.com> <20260413062500.1380307-1-diangangli@gmail.com> <20260413124703.GA20496@macsyma-wired.lan>
-Content-Language: en-US
-X-Lms-Return-Path: <lba+269e05d81+3eb8a5+vger.kernel.org+lidiangang@bytedance.com>
-From: "Diangang Li" <lidiangang@bytedance.com>
-Date: Thu, 16 Apr 2026 11:54:27 +0800
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On 4/13/26 8:47 PM, Theodore Tso wrote:
-> On Mon, Apr 13, 2026 at 02:24:59PM +0800, Diangang Li wrote:
->> From: Diangang Li <lidiangang@bytedance.com>
->>
->> A production system reported hung tasks blocked for 300s+ in ext4
->> buffer_head paths....
->>
->>    [Tue Mar 24 14:16:24 2026] blk_update_request: I/O error, dev sdi,
->>        sector 10704150288 op 0x0:(READ) flags 0x0 phys_seg 1 prio class 0
->>    [Tue Mar 24 14:16:25 2026] blk_update_request: I/O error, dev sdi,
->>        sector 10704488160 op 0x0:(READ) flags 0x0 phys_seg 1 prio class 0
->>    [Tue Mar 24 14:16:26 2026] blk_update_request: I/O error, dev sdi,
->>        sector 10704382912 op 0x0:(READ) flags 0x0 phys_seg 1 prio class 0
+On Wed, 15 Apr 2026 15:32:59 -0700, Viacheslav Dubeyko wrote:
+> > Syzbot reported a uninit-value bug in [1], during the file system mounting
+> > process, specifically while loading the catalog, a corrupted node_size
+> > value of 1 caused the rec_off argument passed to hfs_bnode_read_u16()
+> > (within hfs_bnode_find()) to be excessively large. Consequently, the
+> > function failed to return a valid value to initialize the off variable,
+> > triggering the bug [1].
+> >
+> > To prevent similar issues, a check for the catalog btree node size has
+> > been added within the hfsplus_btree_open() function.
+> >
+> > [1]
+> > BUG: KMSAN: uninit-value in hfsplus_bnode_find+0x141c/0x1600 fs/hfsplus/bnode.c:584
+> >  hfsplus_bnode_find+0x141c/0x1600 fs/hfsplus/bnode.c:584
+> >  hfsplus_btree_open+0x169a/0x1e40 fs/hfsplus/btree.c:382
+> >  hfsplus_fill_super+0x111f/0x2770 fs/hfsplus/super.c:553
+> >  get_tree_bdev_flags+0x6e6/0x920 fs/super.c:1694
+> >  get_tree_bdev+0x38/0x50 fs/super.c:1717
+> >  hfsplus_get_tree+0x35/0x40 fs/hfsplus/super.c:709
+> >  vfs_get_tree+0xb3/0x5d0 fs/super.c:1754
+> >  fc_mount fs/namespace.c:1193 [inline]
+> >
+> > Fixes: 8ad2c6a36ac4 ("hfsplus: validate b-tree node 0 bitmap at mount time")
+> > Reported-by: syzbot+217eb327242d08197efb@syzkaller.appspotmail.com
+> > Closes: https://syzkaller.appspot.com/bug?extid=217eb327242d08197efb
+> > Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+> > ---
+> >  fs/hfsplus/btree.c | 5 +++++
+> >  1 file changed, 5 insertions(+)
+> >
+> > diff --git a/fs/hfsplus/btree.c b/fs/hfsplus/btree.c
+> > index 761c74ccd653..61050ffe425e 100644
+> > --- a/fs/hfsplus/btree.c
+> > +++ b/fs/hfsplus/btree.c
+> > @@ -337,6 +337,11 @@ struct hfs_btree *hfs_btree_open(struct super_block *sb, u32 id)
+> >  			pr_err("invalid catalog btree flag\n");
+> >  			goto fail_page;
+> >  		}
+> > +		if (tree->node_size < 2) {
 > 
-> I wonder whether the ext4 layer is the right place to be handle this
-> sort of issue.  For example, it could be handled by having a subsystem
-> scanning dmesg (or by wiring up notifications so block device errors
-> get sent to a userspace daemon), and when certain criteria is met, the
-> machine is automatically sent to hardware operations to run
-> diagnostics and (most likey) replace the failing disk.
+> Every node starts from BTree node descriptor: struct hfs_bnode_desc. So, the
+> size of node cannot be lesser than that. However, technical specification
+> declares that: "The node size (which is expressed in bytes) must be power of
+> two, from 512 through 32,768, inclusive.". So, we can add more smart check here.
+Perhaps it could be adjusted as follows:
+diff --git a/fs/hfsplus/btree.c b/fs/hfsplus/btree.c
+index 61050ffe425e..287cef5b5c56 100644
+--- a/fs/hfsplus/btree.c
++++ b/fs/hfsplus/btree.c
+@@ -370,6 +370,8 @@ struct hfs_btree *hfs_btree_open(struct super_block *sb, u32 id)
+        }
+ 
+        size = tree->node_size;
++       if (size < sb->s_blocksize || size > HFSPLUS_NODE_MXSZ)
++               goto fail_page;
+        if (!is_power_of_2(size))
+                goto fail_page;
+        if (!tree->node_count)
+
 > 
-> It could also be handled in the driver or SCSI layer so the "fail
-> fast" semantics are handled there, so that it supports all file
-> systems, not just ext4.  The SCSI layer also has more information
-> about the type of error; you might want to handle things like media
-> errors differently from Fibre Channel or iSCSI timeouts (which might
-> be something where "fast fast" is not appropriate).
+> And, maybe, it makes sense to check the node size value at the places of using
+> it. What do you think?
 > 
-> By the time the error gets propagated up to the buffer head, we lose a
-> lot of detail about why the error took place.  Also, in the long term
-> we will hopefully be moving away from using buffer cache.
+> But we have this check of node_size in hfs_btree_open() [1]:
 > 
->     		     	    	      	    - Ted
+> 	size = tree->node_size;
+> 	if (!is_power_of_2(size))
+> 		goto fail_page;
+> 
+> If node size is 1, for example, then this check should fail to execute the
+> hfs_btree_open(). How, finally, do we have node_size == 1 during the
+> hfs_bnode_find()? I don't quite follow.
+You overlooked that 2 to the power of 0 is 1.
 
-Hi Ted,
+Edward
+BR
 
-What about moving the fail-fast check into the buffer-head path 
-(submit_bh_wbc) so it is not ext4-specific. We can update a BH_Read_EIO 
-bit in end_bio_bh_io_sync, and add a per-bdev/per-partition sysfs knob 
-for the retry window. That turns it into a generic guard for buffer-head 
-users, and it naturally goes away as buffer-head usage shrinks.
-
-We did think about doing this in the block layer (submit_bio) or in 
-SCSI/NVMe, but a generic solution there seems to need a per-device table 
-to cache the error LBAs. With buffer-head, we can keep the error state 
-on the bh itself.
-
-I also checked f2fs (no buffer-head). It tracks repeated EIOs on 
-metadata/node pages to avoid infinite retry loops. How do you see that 
-compared with a buffer-head retry window? Are either of these directions 
-worth exploring further?
-
-Thanks,
-Diangang
