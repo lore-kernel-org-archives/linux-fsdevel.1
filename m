@@ -1,105 +1,152 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.185])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC44E37AA78
-	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 21:42:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D54330EF63
+	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 21:52:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776375766; cv=none; b=SIwRewFjYGoz8P+1LkSKmlZj/o+7IXP04KVLfw5I0HvtAg24sSu/CkaZpOJ/JVHLYy83ii/KwObzJCOgs7z4+CEKk5RZ3beFPv7A8US0p4rn1vG2UV8yliaOWzTvfjK/PGZBcXi0FAiViXvUoyIFhCVkfD3sX87RPlclk5kq9zk=
+	t=1776376376; cv=none; b=RMkVi8+ZOpgFoO+4Jn4fcSroThF2K86S3fCg/66mmn17Y69WdmgV/66fO/tDCYEhzliyBDvKB9QFM+uk8yqfhZEuSOLo/qafC1QH1/Z0tujqRmXOrIuuFDo/msfTQgCiFXvrD/Yj0YUHutNHnkJ3MGe20vu+c06e+brDG5Yw2DY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776375766; c=relaxed/simple;
-	bh=IwAI1eaHkbzl2q25/fu93jl9Wz9VGjZ9ldalur0MsOw=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=LaFsVhyyKUxCX01xb0UIprpvHjEodOcZzav47zZxdO/4YGWCWoD78jy5XAJ058OVRZt7jRZ4IarWdUwxx5TVZ92CUr3VakCagx+cl0Y8OWjVStjkDYF7liYMA9C8pKuH5cCCzl8A5F6GWWz1dDQWf3QJNrO+03sfX/SOKoWiBng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=MUYIXaJy; arc=none smtp.client-ip=195.121.94.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1776376376; c=relaxed/simple;
+	bh=74wbVYw3bk/SlVyJvtnKHLStqq8FWhOqHbrE9chtJe0=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=dfaRymE7/LofnRDQ4VXHXdMEHfzlzCJwEVkqSF1XOhm3ITkO+EmQWdk+wBs8WCDISLUpiykrL6mJGmpjI4jAhTPlPoNaHVC6yxNRL40R/yEiD/QEOVjHG4uDqGGt6hZwzd/+Hohw41cHRHCMM7bzYu0UVLe46EatWtpCk1lKyUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WHobzV7T; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=BZOAm1VH; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="MUYIXaJy"
-X-KPN-MessageId: 32e0422c-39dd-11f1-8ff3-005056999439
-Received: from mta.kpnmail.nl (unknown [10.31.161.188])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 32e0422c-39dd-11f1-8ff3-005056999439;
-	Thu, 16 Apr 2026 23:42:42 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.189])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 32e07e84-39dd-11f1-80f0-00505699693e;
-	Thu, 16 Apr 2026 23:42:42 +0200 (CEST)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WHobzV7T";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="BZOAm1VH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1776376374;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yVW0a704vgQNQLDb2tuoO+3gdW557mnA3SO9ZLbQt0E=;
+	b=WHobzV7Th0Sq1bydXy0xkq+HZv8V496FNhZVbJYHuMiRy2W1Cw772CzmaDxa/dzEOTbXn2
+	0qh+zL29k6BJrr3r6+m0HIlCun3eJiAhKar5IQIkncHUTqrIwgjpRB/CGECptlMPafo1eG
+	NaMWdZg4UtcI1EVyDApOMV5RvQ4v2RI=
+Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
+ [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-684-ROKoCMRtN9Cv6kfpxFyBBg-1; Thu, 16 Apr 2026 17:52:53 -0400
+X-MC-Unique: ROKoCMRtN9Cv6kfpxFyBBg-1
+X-Mimecast-MFC-AGG-ID: ROKoCMRtN9Cv6kfpxFyBBg_1776376373
+Received: by mail-yw1-f198.google.com with SMTP id 00721157ae682-799003e8a77so279445997b3.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 14:52:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=FAFUNkukKmRTaQDP/ma8ntJhtsdj1vX5Rro9/2jNENo=;
-	b=MUYIXaJyQI/z3eS8we80k6cReqZOrGcNyJH+eOsM0PptZLrLaRasoV7obwF6je4Oo1F2Q53g1dTaC
-	 IqUymC6DxzUPabRDzcTQxVCljJljWBkrMoSqBMJL+mujYUqHhSNcOaF+OlB+O2yQFWLbNkbwkM62Zj
-	 QTFjvEiZvQSp9l9vCH5z1nOjxZEzUkv8SgpuJrFLYZVB8+8Amvb8f8a7CHidJFr9KB/0c/jl2Ro+YJ
-	 3EAFYuqHM0s2N/vB0gIaxS+hlOwiX48TqlzjMMe7LhmYtAcQfa4fDPkuGVhYzQgAYbekHDwRYfhrmB
-	 F5Mm/8EXhFl5j2TfObuqEdb6zzgWXLg==
-X-KPN-MID: 33|cxvwz6XIh+mQ5m5d80I6DfGs94zM1K2dlrRj5bchq6IoGGsUJF3RLVRm5g9uaXO
- 0Y2LlUpPPKVH+u9Ml0x0eZDNcQV0BtHa3qhSktN2o5wg=
-X-CMASSUN: 33|g5BgIBUMSqbIpNgwKf2oxyuAmj7HBGNP8+CYku9NjRFoxoUsKfnp9wSbpLST/jO
- DqmCC/FRLwMqigt+cG6u52A==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh02 (cpxoxapps-mh02.personalcloud.so.kpn.org [10.128.135.208])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 32d2c916-39dd-11f1-94b1-00505699eff2;
-	Thu, 16 Apr 2026 23:42:42 +0200 (CEST)
-Date: Thu, 16 Apr 2026 23:42:42 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Aleksa Sarai <cyphar@cyphar.com>,
-	Dorjoy Chowdhury <dorjoychy111@gmail.com>, brauner@kernel.org
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org, ceph-devel@vger.kernel.org,
-	gfs2@lists.linux.dev, linux-nfs@vger.kernel.org,
-	linux-cifs@vger.kernel.org, v9fs@lists.linux.dev,
-	linux-kselftest@vger.kernel.org, viro@zeniv.linux.org.uk,
-	jack@suse.cz, jlayton@kernel.org, chuck.lever@oracle.com,
-	alex.aring@gmail.com, arnd@arndb.de, adilger@dilger.ca,
-	mjguzik@gmail.com, smfrench@gmail.com, richard.henderson@linaro.org,
-	mattst88@gmail.com, linmag7@gmail.com, tsbogend@alpha.franken.de,
-	James.Bottomley@hansenpartnership.com, deller@gmx.de,
-	davem@davemloft.net, andreas@gaisler.com, idryomov@gmail.com,
-	amarkuze@redhat.com, slava@dubeyko.com, agruenba@redhat.com,
-	trondmy@kernel.org, anna@kernel.org, sfrench@samba.org,
-	pc@manguebit.org, ronniesahlberg@gmail.com, sprasad@microsoft.com,
-	tom@talpey.com, bharathsm@microsoft.com, shuah@kernel.org,
-	miklos@szeredi.hu, hansg@kernel.org
-Message-ID: <2059025134.378522.1776375762839@kpc.webmail.kpnmail.nl>
-In-Reply-To: <2026-04-16-upstate-capable-deacon-petals-0l25lH@cyphar.com>
-References: <20260328172314.45807-1-dorjoychy111@gmail.com>
- <20260328172314.45807-2-dorjoychy111@gmail.com>
- <aeDpIgfDaIKEaBcL@lt-jori.localdomain>
- <CAFfO_h6pkyX=uN5uoXda6toTtT6KsahfBNBLom9i21HdZ7JOmQ@mail.gmail.com>
- <2026-04-16-upstate-capable-deacon-petals-0l25lH@cyphar.com>
-Subject: Re: [PATCH v6 1/4] openat2: new OPENAT2_REGULAR flag support
+        d=redhat.com; s=google; t=1776376373; x=1776981173; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=yVW0a704vgQNQLDb2tuoO+3gdW557mnA3SO9ZLbQt0E=;
+        b=BZOAm1VHr1afGPxzIYKnM/A/aKc0JKzG05ESSMxbaJR27tQEFBisW+C08CdM9KiLU2
+         yu+yAxWiH0BqWUlooDm7J6BsJD6JupbVySAVW5ARfL+M3kZyvFhEnQJUh88UhXDAWdQH
+         wqJ6o/wuaaFFqcWur7TyKw8vYNtEGCV9DmtJFDkB4M8qEdxMjQKbfm/WF4FImLKEue0j
+         I3Vzx1us81AuOwnEaPzA9m0HguKEggmBAxWLTdF3+3D0WsvRuBYp4XixD8N2yX1YC03P
+         sVdZ9Zhx53Kx4Lp0lTHkKBBXKdP5Z+8+jCi/muyUvojqttR5DdHo1M0U0dhCaLUp+kE7
+         nGcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776376373; x=1776981173;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yVW0a704vgQNQLDb2tuoO+3gdW557mnA3SO9ZLbQt0E=;
+        b=JV8XkfoU8+h4fJsUsrpdCAYwjWvqELe0SX86tLavXDmaObGdQNx75E3+gsysn+8IoE
+         oDc+TNJaRik3a942gn1n/36lNrgQga0JbPBonUELR5MITO8OI0XpXbASRrn8F7bMXv9i
+         RY4z3aghhbjR6IFsPXQ3gqxVWLaQ/kkAimryJq7Dd8j7D3tzTUGS2tEdAfWOb4mC9Hd7
+         uDmAlyi3ZOxjSRxlACOg0YbsD7shKppq4qJVr/tfune3khgPEAmxuktFyoExH/oKjFTk
+         mF23zJqx1jNI9v64MJoIQHaZgrNmGzuhGzInowVkH72kzyh6xlVGWlzOFGvZvaSvbOkP
+         tOBA==
+X-Forwarded-Encrypted: i=1; AFNElJ9ghaR4s0NHSY0/5SVd0KWZnzt1bIj1kjQx1i161AnwfvTeefpJEhDqC07I58K/ISKjrRwVhb9K4VVVJZw0@vger.kernel.org
+X-Gm-Message-State: AOJu0YzbwSi1IAwNd99Czi3WASUXIfoCbEGwOSnkxEF1yj7XCDJAoWjm
+	66VZfkhTauCAyzXDEG7zZVEhNMHybW1au08pL2+p8XJNefwYy1ZTwVe38iSiWJqT7t3vsTxIwpQ
+	QOl2vngJJtkunF/fxXxzfuSun0pQgPmR3GuKjtf0jyzBgzCagiLRlXQafF3PQEwIdS2k=
+X-Gm-Gg: AeBDiesLMOng4QElqVtXtj0l31sW10mswDgL5diAO4678x3I8lXJhtU/hYPGYTF3snl
+	y4T0vd/Q8rl6TbxZMrs23nYLZVU6YeUbrtFnKl6WfXUUmBCsmItk0sCtkWBlw8TFnSvvfVwSrrm
+	X32407P7hRr0f4HJopIX2gk17BJUt8uoTx6RB/ahf2qUMYvFWzE26c5Wjz6XFDAcFuNa/vu87O0
+	hP2tIyZpwNMfaLbS/BllRsFTseuaPVNYJ2uG9AzaxWbGLk1rxLIh/UpA16LlqLwCoJcm+2ijwMG
+	txzVbZrFj/V9gmwoD47QVl01Tn/yKVTp+QU7Sl2TGVYpEYafodeEHpYSg1mNYij86Nl7iU1BvQs
+	4GHOJzkcMR7I5n6xs/3YmqgyAt/vqMPD3QNAmJkhJ5cq4UW6XXBmKs9dDk5s1SMM=
+X-Received: by 2002:a05:690c:110:b0:7b8:338d:7d80 with SMTP id 00721157ae682-7b9ecf86517mr3308667b3.31.1776376372803;
+        Thu, 16 Apr 2026 14:52:52 -0700 (PDT)
+X-Received: by 2002:a05:690c:110:b0:7b8:338d:7d80 with SMTP id 00721157ae682-7b9ecf86517mr3308477b3.31.1776376372420;
+        Thu, 16 Apr 2026 14:52:52 -0700 (PDT)
+Received: from li-4c4c4544-0032-4210-804c-c3c04f423534.ibm.com ([2600:1700:6476:1430::29])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7b7693176c4sm30238937b3.34.2026.04.16.14.52.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Apr 2026 14:52:51 -0700 (PDT)
+Message-ID: <6601b6ec0de087674f60566db950449c4e821bfc.camel@redhat.com>
+Subject: Re: [PATCH v2] hfsplus: Remove the duplicate attr inode dirty
+ marking action
+From: Viacheslav Dubeyko <vdubeyko@redhat.com>
+To: Edward Adam Davis <eadavis@qq.com>
+Cc: frank.li@vivo.com, glaubitz@physik.fu-berlin.de, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ slava@dubeyko.com, 	syzbot+bc70a12e438dadba4fb4@syzkaller.appspotmail.com, 
+	syzkaller-bugs@googlegroups.com
+Date: Thu, 16 Apr 2026 14:52:50 -0700
+In-Reply-To: <tencent_A8D47429765566CC3C8B378496D036664A09@qq.com>
+References: <4ca511af88f86e0b8bfb45ccc8e460ac773804e1.camel@redhat.com>
+	 <tencent_A8D47429765566CC3C8B378496D036664A09@qq.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43app2) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
 
+On Thu, 2026-04-16 at 11:37 +0800, Edward Adam Davis wrote:
+> Syzbot reported a null-ptr-deref in [1].
+> If the attributes file is not loaded during system mount, a trigger
+> occurs [1] when setxattr is executed in userspace.
+>=20
+> Remove the first mark attr inode dirty operation.
+>=20
+> [1]
+> KASAN: null-ptr-deref in range [0x0000000000000008-0x000000000000000f]
+> Call Trace:
+>  hfsplus_setxattr+0x124/0x340 fs/hfsplus/xattr.c:555
+>  hfsplus_trusted_setxattr+0x40/0x60 fs/hfsplus/xattr_trusted.c:30
+>  __vfs_setxattr+0x43c/0x480 fs/xattr.c:218
+>  __vfs_setxattr_noperm+0x12d/0x660 fs/xattr.c:252
+>  vfs_setxattr+0x163/0x360 fs/xattr.c:339
+>  do_setxattr fs/xattr.c:654 [inline]
+>=20
+> Reported-by: syzbot+bc70a12e438dadba4fb4@syzkaller.appspotmail.com
+> Fixes: ee8422d00b7c ("hfsplus: fix potential Allocation File corruption a=
+fter fsync")
+> Closes: https://syzkaller.appspot.com/bug?extid=3Dbc70a12e438dadba4fb4
+> Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+> ---
+> v1 -> v2: just remove first mark dirty
+>=20
+>  fs/hfsplus/xattr.c | 1 -
+>  1 file changed, 1 deletion(-)
+>=20
+> diff --git a/fs/hfsplus/xattr.c b/fs/hfsplus/xattr.c
+> index 452a1f9becb2..21a1c196c71f 100644
+> --- a/fs/hfsplus/xattr.c
+> +++ b/fs/hfsplus/xattr.c
+> @@ -317,7 +317,6 @@ static int hfsplus_create_attributes_file(struct supe=
+r_block *sb)
+>  		next_node++;
+>  	}
+> =20
+> -	hfsplus_mark_inode_dirty(HFSPLUS_ATTR_TREE_I(sb), HFSPLUS_I_ATTR_DIRTY)=
+;
+>  	hfsplus_mark_inode_dirty(attr_file, HFSPLUS_I_ATTR_DIRTY);
+> =20
+>  	sbi->attr_tree =3D hfs_btree_open(sb, HFSPLUS_ATTR_CNID);
 
-> Op 16-04-2026 17:15 CEST schreef Aleksa Sarai <cyphar@cyphar.com>:
-> 
-> 
-> Oh, I didn't notice that this wasn't mentioned here, we had a separate
-> discussion about it in a thread with Jori and I must've assumed we
-> discussed it in both. (My brain is also really not wired up to read
-> large octal values easily.)
-> 
-> While it is hard to add new O_* flags (hence OPENAT2_REGULAR), it's not
-> /impossible/ (Jori has a patch for OPENAT2_EMPTY_PATH that is safe to
-> add to O_* flags because of some fun historical coincidences).
+Looks good.
 
-But it would change userspace, at least in theory, right? If anyone for
-some reason decided to set whatever the bit will be for O_EMPTYPATH
-in a call to openat(), and pass an empty string, relying on this to fail,
-that will no longer be the case. But that is just really silly. Or are you
-hinting on something else?
+Reviewed-by: Viacheslav Dubeyko <slava@dubeyko.com>
 
 Thanks,
-Jori.
+Slava.
+
