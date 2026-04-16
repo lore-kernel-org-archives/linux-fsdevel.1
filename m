@@ -1,141 +1,327 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7911F3B637A;
-	Thu, 16 Apr 2026 12:31:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEDEC3890E9
+	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 12:34:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776342675; cv=none; b=g8Y07XDGA8FBQIFqlr5Qc+Xk03MuUAg8SqhJ8q1EGcTkiYzvMn35oyf9ttv/2OqIHORZYiQZ7GFpnNOkgYfzBkyBIjoz2Elk0vj8+lj3YQO+HkU6Ac0aKFHKb+Jq/82pRfu87PumyAik7HtbSRunplBE+2DcDkAZ6aifM/qsMwQ=
+	t=1776342864; cv=none; b=JyYb3kkNiPQ2SWKNv/Zev/ratpkmBxgnAqk1f+71T/2D4j88T9l+yB75pUMj6rAlzwUzvhAwLOWGkpJxu80SrupOo2V2yOD2YpNYWeXhYqAVF3b0qZX7TtodD8YtbFHE3FVGW2ot0DLhaRKAMhzTR6DrVD7g1ZwFfUNt0sPLNCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776342675; c=relaxed/simple;
-	bh=/snnYRfdSQJy8UosFtgCFOb9PsjiC59IF3hJ+Bhow6M=;
+	s=arc-20240116; t=1776342864; c=relaxed/simple;
+	bh=s71mqQoinwz1Nad3szTLRy+45Affj7FGnL/Omovd0mw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uWeD9izhmIwjTw1H5d529Q2ffwWrg6iSTWzQixU/XWoZmsO863+fGGOzXCT0HsKBasSDHRYlgSmA0oHlIqvavbRMnroToU/c7Tap7yQcov42EZIqWqWjw+NcwuB3NxRs2/KDMqSWN9T+VY/BePslI/ai7Al1PoRPTQE87hjNFnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=cR8a5fcc; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=WM8WTVCpnaRIkxhzLdOG9bMuTwt3NQCfsr6G7T3zwuFaL5JTo5nwW1dY7yQzJxxi5i/ChnfWjSkTV2Bh9kEZv0Z1CxSjKCZfa/hTypsaztRy1ERNvdwuUAFTWaaJuCe7yP5Zbvl4Sc3KT+HqVW1uNgkqEESHa4TzoLuCwHsypp4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=2lAvgDJA; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=TRzt6xZc; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=2lAvgDJA; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=TRzt6xZc; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="cR8a5fcc"
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="2lAvgDJA";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="TRzt6xZc";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="2lAvgDJA";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="TRzt6xZc"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4fxHRp1Yk1z9tmv;
-	Thu, 16 Apr 2026 14:31:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
-	t=1776342662;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 1B9866A7EC;
+	Thu, 16 Apr 2026 12:34:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1776342860; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=RSEdgIilWbKvnLVdzoCjHp1J8IPfemkvVPEJ2b6JJ3g=;
-	b=cR8a5fccImXvidbxSywHjm8yP9CBRXk28o55o/foQ6LWV4D/0XYb1naeFfu56g7GcGEQJe
-	LLYObe9DwrZUnDv3j6UkjZ8JSQ8zcPjc+JFvOHl55Dw8q1D5tC5VsiCsBnNYUJXf01WKG7
-	SzgMvwvSgzq7XB3iv0kswEpF0m86qO3Z8og0XhxJV2unxl36TJQ3ouovtonyeCHM5zQlwG
-	6UEHeq8DzzhJtvUvcyB/OX6a/x7lIqyir5/4o/NM3r1ceYyay7trE1hG1Sg6Q0H56tIO5x
-	+N5X6qIKzvhOHmef79Ypw0nq6+3Qd+3Ok0aBJIQi4+WnJKLoo/O8Xuu2q96fFA==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=none;
-	spf=pass (outgoing_mbo_mout: domain of cyphar@cyphar.com designates 2001:67c:2050:b231:465::1 as permitted sender) smtp.mailfrom=cyphar@cyphar.com
-Date: Thu, 16 Apr 2026 22:30:51 +1000
-From: Aleksa Sarai <cyphar@cyphar.com>
-To: Alexey Gladkov <legion@kernel.org>
-Cc: Christian Brauner <brauner@kernel.org>, 
-	Dan Klishch <danilklishch@gmail.com>, Al Viro <viro@zeniv.linux.org.uk>, 
-	"Eric W . Biederman" <ebiederm@xmission.com>, Kees Cook <keescook@chromium.org>, containers@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v9 4/5] proc: Skip the visibility check if subset=pid is
- used
-Message-ID: <2026-04-16-serious-inky-roach-visitors-SZzNqk@cyphar.com>
-References: <cover.1770979341.git.legion@kernel.org>
- <cover.1776079055.git.legion@kernel.org>
- <38572c1fb7cf55b4c27dd792adafa52f1216e3a3.1776079055.git.legion@kernel.org>
+	bh=VfRVQztVxZE1qlczIEiG+Di0cRaEaqEBpXbqpnycMEg=;
+	b=2lAvgDJAq/JoBGC7FwG9XFNG6323BkBaYk2YGa6y2Wg8d7U/VoNhv7l/kpUCDLGwn85Xmc
+	ENOpKOhp0HqlXQ/YdUQ8Z7Wyz128OW/zrrZvn24GDdtEdjm1ehJppkJn/MjHfMWONGzqvN
+	mRUjmYvrDKwjfJeBSaSpOtA3D9fmHZ8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1776342860;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VfRVQztVxZE1qlczIEiG+Di0cRaEaqEBpXbqpnycMEg=;
+	b=TRzt6xZc9OrfkCBcA7qKq99GsLISMToJjn4dVQlYzcKF8VIjubsyHlqCadtqpUpD8Un4UU
+	fqu2kzSHAKnwQcDQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=2lAvgDJA;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=TRzt6xZc
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1776342860; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VfRVQztVxZE1qlczIEiG+Di0cRaEaqEBpXbqpnycMEg=;
+	b=2lAvgDJAq/JoBGC7FwG9XFNG6323BkBaYk2YGa6y2Wg8d7U/VoNhv7l/kpUCDLGwn85Xmc
+	ENOpKOhp0HqlXQ/YdUQ8Z7Wyz128OW/zrrZvn24GDdtEdjm1ehJppkJn/MjHfMWONGzqvN
+	mRUjmYvrDKwjfJeBSaSpOtA3D9fmHZ8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1776342860;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VfRVQztVxZE1qlczIEiG+Di0cRaEaqEBpXbqpnycMEg=;
+	b=TRzt6xZc9OrfkCBcA7qKq99GsLISMToJjn4dVQlYzcKF8VIjubsyHlqCadtqpUpD8Un4UU
+	fqu2kzSHAKnwQcDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F409B593A3;
+	Thu, 16 Apr 2026 12:34:19 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id DSuOO0vX4GmxIgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 16 Apr 2026 12:34:19 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id B287FA0B67; Thu, 16 Apr 2026 14:34:15 +0200 (CEST)
+Date: Thu, 16 Apr 2026 14:34:15 +0200
+From: Jan Kara <jack@suse.cz>
+To: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+Cc: linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	djwong@kernel.org, john.g.garry@oracle.com, willy@infradead.org, hch@lst.de, 
+	ritesh.list@gmail.com, jack@suse.cz, Luis Chamberlain <mcgrof@kernel.org>, 
+	dgc@kernel.org, tytso@mit.edu, p.raghav@samsung.com, andres@anarazel.de, 
+	brauner@kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [RFC PATCH v2 2/5] iomap: Add initial support for buffered
+ RWF_WRITETHROUGH
+Message-ID: <52wsh6owrtmznt5xuks6ljwy4zbpyid45x5dbxo5xgssxm4zxy@iue2on3llpfb>
+References: <cover.1775658795.git.ojaswin@linux.ibm.com>
+ <d44171d5a1ec783722019ad7d1a4ede0478cc914.1775658795.git.ojaswin@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="g4e6jdjfuqjlg5v6"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <38572c1fb7cf55b4c27dd792adafa52f1216e3a3.1776079055.git.legion@kernel.org>
-X-Rspamd-Queue-Id: 4fxHRp1Yk1z9tmv
+In-Reply-To: <d44171d5a1ec783722019ad7d1a4ede0478cc914.1775658795.git.ojaswin@linux.ibm.com>
+X-Spamd-Result: default: False [-2.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	RCVD_TLS_LAST(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,oracle.com,infradead.org,lst.de,gmail.com,suse.cz,mit.edu,samsung.com,anarazel.de,kvack.org];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.com:email]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -2.51
+X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 1B9866A7EC
 
+Some more thoughs... :)
 
---g4e6jdjfuqjlg5v6
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v9 4/5] proc: Skip the visibility check if subset=pid is
- used
-MIME-Version: 1.0
-
-On 2026-04-13, Alexey Gladkov <legion@kernel.org> wrote:
-> When procfs is mounted with the subset=3Dpid option, all system files and
-> directories from the root of the filesystem are not accessible in
-> userspace. Only dynamic information about processes is available, which
-> cannot be hidden with overmount.
->=20
-> For this reason, checking for full visibility is not relevant if mounting
-> is performed with the subset=3Dpid option.
->=20
-> Signed-off-by: Alexey Gladkov <legion@kernel.org>
-> ---
-
-> -static bool mount_too_revealing(const struct super_block *sb, int *new_m=
-nt_flags)
-> +static bool mount_too_revealing(struct fs_context *fc, int *new_mnt_flag=
-s)
->  {
->  	const unsigned long required_iflags =3D SB_I_NOEXEC | SB_I_NODEV;
->  	struct mnt_namespace *ns =3D current->nsproxy->mnt_ns;
-> +	const struct super_block *sb =3D fc->root->d_sb;
->  	unsigned long s_iflags;
-> =20
->  	if (ns->user_ns =3D=3D &init_user_ns)
-> @@ -6388,7 +6387,7 @@ static bool mount_too_revealing(const struct super_=
-block *sb, int *new_mnt_flags
->  		return true;
->  	}
-> =20
-> -	return !mnt_already_visible(ns, sb, new_mnt_flags);
-> +	return (!fc->skip_visibility && !mnt_already_visible(ns, sb, new_mnt_fl=
-ags));
+> @@ -1096,6 +1097,276 @@ static bool iomap_write_end(struct iomap_iter *iter, size_t len, size_t copied,
+>  	return __iomap_write_end(iter->inode, pos, len, copied, folio);
 >  }
+>  
+> +static ssize_t iomap_writethrough_complete(struct iomap_writethrough_ctx *wt_ctx)
+> +{
+> +	struct kiocb *iocb	= wt_ctx->iocb;
+> +	struct inode *inode	= wt_ctx->inode;
+> +	ssize_t ret		= wt_ctx->error;
+> +
+> +	if (wt_ctx->dops && wt_ctx->dops->end_io) {
+> +		int err = wt_ctx->dops->end_io(iocb, wt_ctx->written,
+> +						wt_ctx->error,
+> +						wt_ctx->flags);
 
-Unless I'm missing something (I haven't tested this locally yet, sorry),
-this will allow you to bypass mount_too_revealing() even for
-non-subset=3Dpid mounts because once you create a subset=3Dpid mount then a
-regular procfs mount will see the subset=3Dpid mount and permit it.
+It's a bit odd to use only ->end_io from dops also because we don't really
+use direct IO submission path. So perhaps you can have just an end_io
+handler pointer in iomap_writethrough_ops similarly as you have a
+submission one?
 
-I think the solution is quite simple -- you can also skip super-blocks
-that have fc->skip_visibility set in mnt_already_visible().
+> +		if (err)
+> +			ret = err;
+> +	}
+> +
+> +	mapping_clear_stable_writes(inode->i_mapping);
+> +
+> +	if (!ret) {
+> +		ret = wt_ctx->written;
+> +		iocb->ki_pos = wt_ctx->pos + ret;
+> +	}
+> +
+> +	kfree(wt_ctx);
+> +	return ret;
+> +}
 
-Unfortunately, the fact that both subset=3Dpid and fully-loaded procfs
-look like the same type (procfs) to mnt_already_visible() is something
-people have already exploited in userspace. (The k8s workaround from a
-long time ago used subset=3Dpid from a dead pidns to stop the mount from
-being useful to an attacker while still bypassing mount_too_revealing().
-That being said, that workaround was removed a long time ago and I don't
-know how widespread this is.)
+...
 
-I'd be happy to give it a shot but if it breaks userspace we might need
-a new mount option to work around it...
+> +static int iomap_writethrough_iter(struct iomap_writethrough_ctx *wt_ctx,
+> +				   struct iomap_iter *iter, struct iov_iter *i,
+> +				   const struct iomap_writethrough_ops *wt_ops)
+> +
+> +{
+> +	ssize_t total_written = 0;
+> +	int status = 0;
+> +	struct address_space *mapping = iter->inode->i_mapping;
+> +	size_t chunk = mapping_max_folio_size(mapping);
+> +	unsigned int bdp_flags = (iter->flags & IOMAP_NOWAIT) ? BDP_ASYNC : 0;
+> +	unsigned int bs = i_blocksize(iter->inode);
+> +
+> +	/* copied over based on DIO handles these flags */
+> +	if (iter->iomap.type == IOMAP_UNWRITTEN)
+> +		wt_ctx->flags |= IOMAP_DIO_UNWRITTEN;
+> +	if (iter->iomap.flags & IOMAP_F_SHARED)
+> +		wt_ctx->flags |= IOMAP_DIO_COW;
+> +
+> +	if (!(iter->flags & IOMAP_WRITETHROUGH))
+> +		return -EINVAL;
+> +
+> +	do {
+> +		struct folio *folio;
+> +		size_t offset;		/* Offset into folio */
+> +		u64 bytes;		/* Bytes to write to folio */
+> +		size_t copied;		/* Bytes copied from user */
+> +		u64 written;		/* Bytes have been written */
+> +		loff_t pos;
+> +		size_t off_aligned, len_aligned;
+> +
+> +		bytes = iov_iter_count(i);
+> +retry:
+> +		offset = iter->pos & (chunk - 1);
+> +		bytes = min(chunk - offset, bytes);
+> +		status = balance_dirty_pages_ratelimited_flags(mapping,
+> +							       bdp_flags);
+> +		if (unlikely(status))
+> +			break;
+> +
+> +		/*
+> +		 * If completions already occurred and reported errors, give up
+> +		 * now and don't bother submitting more bios.
+> +		 */
+> +		if (unlikely(data_race(wt_ctx->error))) {
+> +			wt_ctx->nr_bvecs = 0;
+> +			break;
+> +		}
+> +
+> +		if (bytes > iomap_length(iter))
+> +			bytes = iomap_length(iter);
+> +
+> +		/*
+> +		 * Bring in the user page that we'll copy from _first_.
+> +		 * Otherwise there's a nasty deadlock on copying from the
+> +		 * same page as we're writing to, without it being marked
+> +		 * up-to-date.
+> +		 *
+> +		 * For async buffered writes the assumption is that the user
+> +		 * page has already been faulted in. This can be optimized by
+> +		 * faulting the user page.
+> +		 */
+> +		if (unlikely(fault_in_iov_iter_readable(i, bytes) == bytes)) {
+> +			status = -EFAULT;
+> +			break;
+> +		}
+> +
+> +		status = iomap_write_begin(iter, wt_ops->write_ops, &folio,
+> +					   &offset, &bytes);
+> +		if (unlikely(status)) {
+> +			iomap_write_failed(iter->inode, iter->pos, bytes);
+> +			break;
+> +		}
+> +		if (iter->iomap.flags & IOMAP_F_STALE)
+> +			break;
+> +
+> +		pos = iter->pos;
+> +
+> +		if (mapping_writably_mapped(mapping))
+> +			flush_dcache_folio(folio);
+> +
+> +		copied = copy_folio_from_iter_atomic(folio, offset, bytes, i);
+> +		written = iomap_write_end(iter, bytes, copied, folio) ?
+> +			  copied : 0;
+> +
+> +		if (!written)
+> +			goto put_folio;
+> +
+> +		off_aligned = round_down(offset, bs);
+> +		len_aligned = round_up(offset + written, bs) - off_aligned;
+> +
+> +		iomap_folio_prepare_writethrough(folio, off_aligned,
+> +						 len_aligned);
+> +
+> +		if (!wt_ctx->nr_bvecs)
+> +			wt_ctx->bio_pos = round_down(pos, bs);
+> +
+> +		bvec_set_folio(&wt_ctx->bvec[wt_ctx->nr_bvecs], folio,
+> +			       len_aligned, off_aligned);
 
---=20
-Aleksa Sarai
-https://www.cyphar.com/
+Shouldn't we zero out the tail of the folio if we are submitting partial
+folio for write?
 
---g4e6jdjfuqjlg5v6
-Content-Type: application/pgp-signature; name="signature.asc"
+> +		wt_ctx->nr_bvecs++;
+> +		wt_ctx->written += written;
+> +
+> +		if (pos + written > wt_ctx->new_i_size)
+> +			wt_ctx->new_i_size = pos + written;
 
------BEGIN PGP SIGNATURE-----
+I'm probably missing something here but where is i_size update handled? I
+don't see new_i_size used anywhere? Also why is it OK to not call
+pagecache_isize_extended() but that goes with the i_size update...
 
-iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCaeDWexsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMiwyLDIACgkQKJf60rfpRG90iAEA93c0gDehfxRlp75MhzTM
-v/MZsJzl3wFZ1PJGDwxu/F8A/2zAckjBOq/ekPcAbQB8/FQ10aToBdRsPiKD3Q7R
-MFMA
-=365J
------END PGP SIGNATURE-----
+> +
+> +		if (wt_ctx->nr_bvecs == wt_ctx->max_bvecs)
+> +			iomap_writethrough_submit_bio(wt_ctx, &iter->iomap, wt_ops);
+> +
+> +put_folio:
+> +		__iomap_put_folio(iter, wt_ops->write_ops, written, folio);
+> +
+> +		cond_resched();
+> +		if (unlikely(written == 0)) {
+> +			iomap_write_failed(iter->inode, pos, bytes);
+> +			iov_iter_revert(i, copied);
+> +
+> +			if (chunk > PAGE_SIZE)
+> +				chunk /= 2;
+> +			if (copied) {
+> +				bytes = copied;
+> +				goto retry;
+> +			}
+> +		} else {
+> +			total_written += written;
+> +			iomap_iter_advance(iter, written);
+> +		}
+> +	} while (iov_iter_count(i) && iomap_length(iter));
 
---g4e6jdjfuqjlg5v6--
+Overall the differences of this function from iomap_write_iter() seem
+relatively small so maybe it would be possible to just extend
+iomap_write_iter() to support writethrough IO as well? Basically once we've
+copied data into the folio and called iomap_write_end() we can have "if
+writethrough, call function to prepare & submit the folio for IO".
+
+> +
+> +	if (wt_ctx->nr_bvecs)
+> +		iomap_writethrough_submit_bio(wt_ctx, &iter->iomap, wt_ops);
+> +
+> +	return total_written ? 0 : status;
+> +}
+> +
+
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
