@@ -1,169 +1,108 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CD9227B357
-	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 10:36:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776335817; cv=none; b=iZqNaKxldSRR+/gQ93z4v2ukzeYMs6l11GoWBExxdLBKXlj6TNO5+MgJhuZw5R4Eo3gwdk6UEbLXuiZ0zS++OuvC+AyM9KXj/3Ve9xF4TE/caPi2IMzy+qN8mqolMoI6pU3NQSPfmsKanhfYwtrOPz7yZHf1oSBbnTMHycUDKF0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776335817; c=relaxed/simple;
-	bh=i35fMIjI+GJSvgr8Y+6o9mvnHTjvflBOOS+KOqACJB8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fz2BMVq36Aal563oICTytDwwrfByizPCdJ097rZYDtRN130sO4OtEDaJno03bblFUzOn2riII+LSCm5xDZJcbbLqEHW1KKxzTGfvppXaF/ZlPDVF1oCAHVqDiIC1g+KmIy9RviyaserzuvmMIQIoRhw2WV4V02HqUq9MGFWt9Wo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=aLYZN35a; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Ryu1iQoe; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=aLYZN35a; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Ryu1iQoe; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04B4337BE93
+	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 10:38:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776335920; cv=pass; b=rqPzdJYUAzf4elVS8dbMh5dZA7iFkvPOFUEh1PQOE77d1cRp1g23dx5j9qvqY0wP2SBctQmiMoTkS5FX/FNrVUUBjFMApomxc/sSmo61514BbIPCQHGUvtksn6EpO1AqfJhfv/SjyTLjtctXW1yC0gtPSG28VrN2j/+6BO+Z6Go=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776335920; c=relaxed/simple;
+	bh=2/kjDlwcFZVaYMX3Qmx8vbln/vywhoMM+fH4ioYnGNc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=L6Xj0HK0RbfrX2Tk9gpGopSFR0KWZrRUSLjwcC/eLyn1qvCVd4Se3JytYpnFxWLWaKzqeZTLOqoC68ISG/Tc8VWH3D33ZYYcfZBZwgxuifeFu7tXCJ0lqFB0C/ntqEr3wBrGsTstXmzgx4eBN8AVIi3WD0ZuNXGDeGY0zt6S83g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=oIucUARZ; arc=pass smtp.client-ip=209.85.219.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="aLYZN35a";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Ryu1iQoe";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="aLYZN35a";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Ryu1iQoe"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 7CD725BD03;
-	Thu, 16 Apr 2026 10:36:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1776335813; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=p3TNXGmv3XfCUlO2uv4IODT1dmjM17MB4GLCCa/pNFg=;
-	b=aLYZN35ahDPXwc+zUPwYWdFfyQdNk30JBk+Tf2Vo1p0iJyYPXOv3CM6s4exJ9ai28ekd2Z
-	fsGzW6owYx/CYyyDCma4aOS413C3vp98jSc122eP1X89dt9xPj0tZSh30jJN96mUQbinGv
-	PFGzFKW16eEPXSWfEH4YMXvEfxu1YwQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1776335813;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=p3TNXGmv3XfCUlO2uv4IODT1dmjM17MB4GLCCa/pNFg=;
-	b=Ryu1iQoe1zIj6ybMOtbybWNr9Wz9yE6oYT0VG35TA++i3FpiAsHPKffo+9gxlXA2qp0mSj
-	EGtF7gJlf+/s5MBw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=aLYZN35a;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=Ryu1iQoe
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1776335813; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=p3TNXGmv3XfCUlO2uv4IODT1dmjM17MB4GLCCa/pNFg=;
-	b=aLYZN35ahDPXwc+zUPwYWdFfyQdNk30JBk+Tf2Vo1p0iJyYPXOv3CM6s4exJ9ai28ekd2Z
-	fsGzW6owYx/CYyyDCma4aOS413C3vp98jSc122eP1X89dt9xPj0tZSh30jJN96mUQbinGv
-	PFGzFKW16eEPXSWfEH4YMXvEfxu1YwQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1776335813;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=p3TNXGmv3XfCUlO2uv4IODT1dmjM17MB4GLCCa/pNFg=;
-	b=Ryu1iQoe1zIj6ybMOtbybWNr9Wz9yE6oYT0VG35TA++i3FpiAsHPKffo+9gxlXA2qp0mSj
-	EGtF7gJlf+/s5MBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 71A574BEFB;
-	Thu, 16 Apr 2026 10:36:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id STG3G8W74Gl2LwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 16 Apr 2026 10:36:53 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 03CC1A0B30; Thu, 16 Apr 2026 12:36:48 +0200 (CEST)
-Date: Thu, 16 Apr 2026 12:36:48 +0200
-From: Jan Kara <jack@suse.cz>
-To: Adrian McMenamin <adrianmcmenamin@gmail.com>
-Cc: Pedro Falcato <pfalcato@suse.de>, 
-	Linux FS development <linux-fsdevel@vger.kernel.org>, Linux kernel mailing list <linux-kernel@vger.kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Subject: Re: [PATCH 0/5 -v2] Add support for VMUFAT filesystem
-Message-ID: <uvsbcmnyucl77ir3dvrwzt42kdw6saja2r67m7e4khw637e5hh@xe7dxerauc6k>
-References: <20260411151155.321214-1-adrianmcmenamin@gmail.com>
- <uamj3cggfd4fdvah6jjfbyqmffxaib7yj4upbnkxzudaos6ig6@xz4rhorxkufp>
- <CACwZE5QpR-ZSk=cinLBuuPtLUMnEiEx7UArtZxpbPmGFccOEkw@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="oIucUARZ"
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-8aca0469204so52003736d6.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 03:38:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776335918; cv=none;
+        d=google.com; s=arc-20240605;
+        b=MXAqJEXhE/yp7IaMUMF43xslVU13eQ1PLD5uIUMcnJPtF1xgMGziebg1hbgh96gcF/
+         gOhfkCcvHh0wfjuRnxRWWFuq+yKEGns3R6aGKcbkeA3Z43eC1VTawBXja6pl719XdIK0
+         xMk3/a3vf4eMEmr/C5EUtZMmHyvpCo3G7e8a1h8IWj35FrZnxdkdmMYo28N6s/Xyi26y
+         GvdIRVWDGxZSufydyC4SiT2WNOQYbM5uOPoVVroUzsog1p5uOvK+kbLNUR8S+l+NXrrb
+         a4sCQxxuiJpAS1O/sIzcZh2Zcst7nqp6OrJwF0n4vXGhc2dU7kZnsyXH6rNfiQtcHSpc
+         FGSQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=vkmG5E9vUTsiAEy3w3y6L7D9KdUbBli74u9esBd+as8=;
+        fh=XtZa6XvVFQYiLuLpf0AZm7LiHLpQqcG79bUnpcxLXkI=;
+        b=gvMhIUbwTgndDvFzTSJojz1Bl0+nLYI0nWtlajYkfhO50RAUw0qVM+1a0SI7Pet1Pe
+         m3A245ChYig47BqJb7QfEYSv4mNU8w/N9hkc1d6d0lSHJhXG9J65ayi4eFuNctqoOcRZ
+         qmrxAsOkCse40/foB2SmH8e8wG47rP69rEyNnojNh/58Le/OL3zQNlyuJVwUTRrEWn1X
+         6/vak5PrzqPUl7s0Dw88tnTE9qNWSEunQgUvkjtxVyK0SPBKa4vsv+K3uzS/30Yj0Iw5
+         U/h4sFf1xBG5/9iCtOsgQ6lli2gI6IKv9gM6dBvX+t/OfCpQI+MR3UmQWfnvqoYXSQqY
+         Rx5Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1776335918; x=1776940718; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=vkmG5E9vUTsiAEy3w3y6L7D9KdUbBli74u9esBd+as8=;
+        b=oIucUARZ1GqZQQkDERXQGRRsMem2CfW3DkZlZdWLjfpD6OBrdKc+1yXg5j3R9QKkPI
+         UuHNOdJLX2Ws4ZS0J2f57IAC+w7C5Nqa48tsZnbIHYImUoJNyJP4JlQANgdamfPkBhKf
+         zD0E8Oks03uAkovlrswudWi7ZfyuYT/bkonnQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776335918; x=1776940718;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vkmG5E9vUTsiAEy3w3y6L7D9KdUbBli74u9esBd+as8=;
+        b=iV7sa3fl+u5eGj7nYrjH2x8u+KDPJrIsmbb48UfhazGUUs0BHp+kp0Il8YfKa/t6KX
+         Aq6lOCkjyWauE4wmTakjJgNa/p7oy7UFuHMX8jg1/NqvaNktH2BqnfySeVs2kP4ivSuz
+         t5RQxWQWmAVMYjMLtn+J8qBerWO2Rp46GQmuLzaBhsfTrBlwmPtSU0xgrQdFeUGBDSls
+         iOAMjcYbukmyD9KFUiiOlxUAXcoQPBQ3KiO+6SaQpd2hY1yFwCa/ZjM1wzuVSwpff+16
+         QlEtHnZ80FSAZtxGZv6+yD6kL2SNRyfbwv9lNfEm5GjPCGQG2+NtTfacv1X9k9wK4hiF
+         SyEA==
+X-Forwarded-Encrypted: i=1; AFNElJ/LlhCE7P9lsAKYMsV9dOlmGSV3SwENNhcFd/edAwDykX2gwR+UT2//+1YnSyEsNRUdfsGXqcBA2SvEqzgn@vger.kernel.org
+X-Gm-Message-State: AOJu0YweHbg2BYT0qS+gW5O9L4Xya0qDGNpiU9TzPZ/RCHvFfzyNoout
+	CuYz1785SpS7DiV7cUQ5stqu9lbzARR1hrrbPFYpuUZV/zr0u3I0pBK4xkQPTLvgO7rv8XdiNzK
+	jn6WG2aW9o0Fs8Yq4FapWNyzSAoqJttP+aqzxUTwTTw==
+X-Gm-Gg: AeBDietEBH1HvdwdZW5PJ3xJNKObOvo9iYW2azyU31QQu/t0fb1H1V4tRrUTkHlp44C
+	UvkFwl0qMiElwziHgQJm3fUBiBi3t5I/6JqGg5YkDpwdrG/Fe+tPdBqzXGyO3+z6RSD1GEx+0Pe
+	ApJez1wi986rwF0McpjOrauAKfg/y4BfKDYSIlhHuZ+o3xOOqO4rpFNFHHK//CHhGE0hKtlZb7H
+	EOH41cTK43HAGbFXTIZlVvYFDMGPelbwUY6T+NaDTvKchAyTHLXxzxzfoq5sG5lWE8ap4q0+BMt
+	wTRViLpSSRtrtLEBXu7ClzfruUIDvg9T6VI1
+X-Received: by 2002:a05:6214:3285:b0:899:fb4e:47aa with SMTP id
+ 6a1803df08f44-8ac86297b6dmr410682816d6.39.1776335917973; Thu, 16 Apr 2026
+ 03:38:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACwZE5QpR-ZSk=cinLBuuPtLUMnEiEx7UArtZxpbPmGFccOEkw@mail.gmail.com>
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_ALL(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -4.01
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 7CD725BD03
+References: <20260309-xfstests-generic-451-v3-1-bb6ad2f59512@ddn.com>
+In-Reply-To: <20260309-xfstests-generic-451-v3-1-bb6ad2f59512@ddn.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Thu, 16 Apr 2026 12:38:27 +0200
+X-Gm-Features: AQROBzCbs-TSMS8vEENDnxou7iwTuZgF-roA4zUpO0hA1IlIZ2RLx8EM-L5JRjA
+Message-ID: <CAJfpegvBgxszeg02aQ1iCqxXrEMU0L1xx6UcoJfotCRPm71f2w@mail.gmail.com>
+Subject: Re: [PATCH v3] fuse: invalidate page cache after sync and async
+ direct writes
+To: cding@ddn.com
+Cc: Jingbo Xu <jefflexu@linux.alibaba.com>, Bernd Schubert <bschubert@ddn.com>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed 15-04-26 21:08:21, Adrian McMenamin wrote:
-> On Mon, 13 Apr 2026 at 16:09, Pedro Falcato <pfalcato@suse.de> wrote:
-> >
-> > On Sat, Apr 11, 2026 at 04:11:34PM +0100, Adrian McMenamin wrote:
-> > > SEGA Dreamcasts come with a "visual memory unit" (VMU) which contains a slab
-> > > of flash memory to save games playable on the VMU or data from Dreamcast games.
-> > >
-> ...
-> > >
-> > > These patches implement VMUFAT as a Linux filesystem independent of hardware.
-> >
-> > Isn't this filesystem a great target for FUSE? You definitely don't need
-> > super high performance here.
-> >
-> > Also, you're missing the fs maintainers. Adding them.
-> 
-> Apologies for the long delay in replying - I was hoping that maybe
-> someone else would have a view rather than my rather inevitable "can
-> this go in mainline, please?".
+On Mon, 9 Mar 2026 at 09:36, Cheng Ding via B4 Relay
+<devnull+cding.ddn.com@kernel.org> wrote:
+>
+> From: Cheng Ding <cding@ddn.com>
+>
+> Fixes xfstests generic/451, similar to how commit b359af8275a9 ("fuse:
+> Invalidate the page cache after FOPEN_DIRECT_IO write") fixes xfstests
+> generic/209.
 
-Thanks for your work and the filesystem driver but I have to say I agree
-with Pedro here. A FUSE driver is a much better way of providing access to
-a filesystem like this. Each filesystem in the kernel adds certain
-maintenance burden to treewide changes as it needs to be adapted as well
-and over the years the niche filesystems that have accumulated in the
-kernel make the treewide changes rather painful and we are rather slowly
-removing such filesystems from the kernel than adding more.
+This just tells what this fixes, but not how it's fixed.  Please elaborate.
 
-With a FUSE driver you get very similar user experience as with in-kernel
-driver - you can just mount the device and tinker with the content - while
-keeping your code in a userspace library which removes the maintenance
-burden for the kernel and frankly makes your life simpler as well. The
-performance is somewhat lower due to additional communication and process
-switching but for cases like your filesystem I don't expect it to matter.
+One aspect in particular: why is the invalidation done in a worker
+thread for async I/O?
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Thanks,
+Miklos
