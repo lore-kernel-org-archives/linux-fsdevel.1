@@ -1,200 +1,178 @@
-Received: from mailgw2.hygon.cn (unknown [101.204.27.37])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B593B25A357;
-	Thu, 16 Apr 2026 11:48:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.204.27.37
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776340131; cv=none; b=n7vztheC25PJ42u+XM3Vyu3vWQuPeliSPE+teGWXHhC46/4VfWORoeOJ6iP0yXFj5hmiCuqTQ0wck8Yu4cUf03SST5ZXjRBFECK8T6YkKd5LdtBc5Cb97TtIp0M+Mkoct4nD3SC5JOBRlA4lzmdU1A9ai2P/ptEPwTHfW9fTDi8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776340131; c=relaxed/simple;
-	bh=zyZe1jx0hO5jVoW7hrnjF3AvZ7XWdFK+r/bsC+RDY5w=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hvvqxOxm5zElrMjEgTeVVxYQMnp6Vj8j9jaxj24xlQEq6YVmPjuVNdXhASCrNwvB4FMuLfRZLJG0JfpHDck9hbIJK8zgUa+YkLDWmOT3S7Lrx2G7x3xYo/THOIxod1HKqBEoJb+YsxocKSbIn4kLP3CM9n3Zs+5EWea2wJafU7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn; spf=pass smtp.mailfrom=hygon.cn; arc=none smtp.client-ip=101.204.27.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hygon.cn
-Received: from maildlp2.hygon.cn (unknown [127.0.0.1])
-	by mailgw2.hygon.cn (Postfix) with ESMTP id 4fxGVj1kD1z1YQpmX;
-	Thu, 16 Apr 2026 19:48:29 +0800 (CST)
-Received: from maildlp2.hygon.cn (unknown [172.23.18.61])
-	by mailgw2.hygon.cn (Postfix) with ESMTP id 4fxGVh5pwfz1YQpmX;
-	Thu, 16 Apr 2026 19:48:28 +0800 (CST)
-Received: from cncheex04.Hygon.cn (unknown [172.23.18.114])
-	by maildlp2.hygon.cn (Postfix) with ESMTPS id CC695300D1F6;
-	Thu, 16 Apr 2026 19:46:31 +0800 (CST)
-Received: from SH-HV00110.Hygon.cn (172.19.26.208) by cncheex04.Hygon.cn
- (172.23.18.114) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Thu, 16 Apr
- 2026 19:48:27 +0800
-Date: Thu, 16 Apr 2026 19:48:24 +0800
-From: Huang Shijie <huangsj@hygon.cn>
-To: Mateusz Guzik <mjguzik@gmail.com>
-CC: <akpm@linux-foundation.org>, <viro@zeniv.linux.org.uk>,
-	<brauner@kernel.org>, <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-fsdevel@vger.kernel.org>,
-	<muchun.song@linux.dev>, <osalvador@suse.de>,
-	<linux-trace-kernel@vger.kernel.org>, <linux-perf-users@vger.kernel.org>,
-	<linux-parisc@vger.kernel.org>, <nvdimm@lists.linux.dev>,
-	<zhongyuan@hygon.cn>, <fangbaoshun@hygon.cn>, <yingzhiwei@hygon.cn>
-Subject: Re: [PATCH 0/3] mm: split the file's i_mmap tree for NUMA
-Message-ID: <aeDMiBqscm-CZA6D@SH-HV00110.Hygon.cn>
-References: <20260413062042.804-1-huangsj@hygon.cn>
- <76pfiwabdgsej6q2yxfh3efuqvsyg7mt7rvl5itzzjyhdrto5r@53viaxsackzv>
- <ad4EvoDcAKE2Sl4+@hsj-2U-Workstation>
- <CAGudoHGLaoc+CoBPNCvFRYojnj+6E_Lsdv7NaJWxFMoHezemMQ@mail.gmail.com>
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C11733B3BEF
+	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 11:59:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.217.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776340752; cv=pass; b=g63Ttkmf/fZSKpEV1FEd+U/VMzqgoRynF6vSNYSRzC/MzGLIJ/P5tMRnk+2ALtoUBSraEk0dxViQDIdwtsrT+zo5R4j/BWZV6QUXJlal6svkmYjZ3MjjFNu1QzJ+9smyS7jgcWiL2YBsqyRZMGt9f0TlaxVoa+5FBMJMqTCdI5s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776340752; c=relaxed/simple;
+	bh=Bw7/eU46XNMmEAY5yaZoewjP327xtGOJwYlC+oEFeMA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=C4Qge5vc5wZCgGzv6gAmeXU0yIwoE+/eRs8/BDyNd6oETk+2T8jW9gmLCw6lH3n66UJajv0zTqUIwR4n1hBsuzoC1ViTGp3Upmmz3zQblFfsIihoFlvNDuRgJpTysFAKGIwal1sSddbjiqk70hW+b8l/dLbCx7ns4ZgQsejdGOc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Yv/iJipA; arc=pass smtp.client-ip=209.85.217.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yv/iJipA"
+Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-6058ac0ebceso5253838137.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 04:59:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776340749; cv=none;
+        d=google.com; s=arc-20240605;
+        b=VOqsVt0I3SgjTMYthohMSW000YKU8V3j6a4BcAVN3y3JcqHqLgX+KzmxtjvsYZKNbV
+         dUCkh3xoRzjAMvERR+5L2K5XT7O9fDCnf6JdFQHLVMDKkctA3rdWrYDjhWVhYpkdZ5N2
+         VvMJ11niuKfNPYT5QBD7wNIf492q1C7IcWU8Pr3m+fWzLvj8/NxD0yJhgqDXmEf6zAS4
+         mXzqcRdyl/WNYGO3jf2h+0mwSVwzw76cLPNlUiIiWWSQu8DA4jLGSWbFIwhtG6d+KHvZ
+         qihF+8F5OBqvbmk3q7VIwnQVnIHlY48FTe6y6HZ99BU5f9kSr0oKelFXqUivif8CLM6Q
+         sHMA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=JqYJ8R4iGWahwud4pP2JmsmCHvSHhoaPalUrCsDrudA=;
+        fh=1X0BEDqGUwDUVKL30CyDUXDvdpr0nUxnTxnen1LWMVs=;
+        b=A8eVzuJGONI5f5vH8PvLQFcBiNCMH6A9YNeAPDJxS9MBMiEvyKBrW6K0x917wp6kue
+         jTB5gVZWjFJAH8KWySPVc6q45saYXLYjaDrpdoK+AGr8lS8qFm9KmczRXSSCtS0Bqbaz
+         I56G0bdA5aTLI1ti2CFvmaFLcdco9XCgmRVNXpzGd2/vFahS1dqFifv2e3PQ4YzRSwV2
+         9S80Ttc8EkqShtcnI3azM/+8VYoF6Od+8bAwNcrex/AN5h1XnqzThoV6AuEsU48moIDi
+         aYw9KdUWnvPmHZro4b10g03y1l6YuDEyGdMjqTL/Glh0Y7apKrFfa5UDJBnBp9+wkyFG
+         ergQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776340749; x=1776945549; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JqYJ8R4iGWahwud4pP2JmsmCHvSHhoaPalUrCsDrudA=;
+        b=Yv/iJipAA+nhsL4hM00ueWwDagedY8BECDRzHx12spLwNgoS8ZakY4zrK2dkiR6l2J
+         mQ3pEXXlrCi9kMRBkZi2YHE6qORxLcsWe+D8l+wjDn8HWOrCtWjKCgf5gVQmenh2NByp
+         MCPNQ/tGjC/7AKKVlE3P3sIa6vn80p3d3lTSYo8ONK1oz6WoMzmPVNtYluTYxoNlq/gl
+         23amyKa5o+u6+Qji1591D7SZNcgKyeEHjHsrOnz+jlamox/cVrUC1NkqUB4QzAKYFrCI
+         XYiMktKmpNaISctvSp/Zchtq++MLrF/hVgPWAelzahh5Lq/eJ/sH7+6gxH0vD3vgUtNt
+         7D/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776340749; x=1776945549;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=JqYJ8R4iGWahwud4pP2JmsmCHvSHhoaPalUrCsDrudA=;
+        b=cvOPvlHr8KR2A/Kj3EILJ+cCTYGcQgzzhaTb0GvlSeJoDYrt0jc36EFOe5FE3LjRSW
+         DXri1c7UjrEQwKLI4UNw05cLoS7gaTudxNYmwrG94ULrELC4Zabl9EKpDkq/BckF56yR
+         Lv9hDLURPJ7fL08Uz69xYlGsmCpqzNT7z2o7yEpmx4PJQhV5X54bzM1Q4nLOPh2AwsDN
+         yVEMj2ZQnY9Eb12IgXAwOunWYXXA/n0+VjgFeMkvHU3TzVt5QE8DTNgyM1QaFmPTX1m3
+         gUR8JCZsmcuiOWq3amUa4On3elUxM9M37CuGZqYzZ6U35EReYBVvrKr6r0R95eIpAaGd
+         Ih0Q==
+X-Gm-Message-State: AOJu0YyGU+v6hcfn6L5IoYUcLkhMM8wBs2wCUcVx7tzHCpZMuIU8aT6V
+	tJ5WoPBEWhgW7gjbVCtGoJ19jqoItoBlPDKgHxW96pT5MYojH5X1F5vEQDcWhF7peb+DYOKnNum
+	9dIZPAOB7oZVlAVk/C+yDh82/qz4lbCg=
+X-Gm-Gg: AeBDieuVgGrnnd1CgPKuxO5SzeNTBa5I8qMI+qEMme6Ah6ZvyLepBiz+uSXaDOuJbxt
+	jfQ1ChZs8LNpfj5eoWSUeJm0Gs6IG4V6cMoCf9TRaarTdOvz2EUSo2GVMdH4jxedc0V77mAMcpI
+	qHGsBMSR6Aw6DVyKkk397yNpFABIY2Z8A2U+E4mp7JAmNH23YjOYpocfexaQAg7bLcx8YTlDWK4
+	wcF93lgmHqf9CAzWESjSYUFfosBJvt6pQzP3iHr887Futhws6qF4cW7wCzBm5l2iBIM1N/s77De
+	9TMHjx5v4C6cynsMEc0gO4uj9Nyx/Pkl5X15j5sLtg==
+X-Received: by 2002:a05:6102:6a94:b0:607:a3cb:4573 with SMTP id
+ ada2fe7eead31-60a00c36c76mr12126981137.26.1776340748680; Thu, 16 Apr 2026
+ 04:59:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGudoHGLaoc+CoBPNCvFRYojnj+6E_Lsdv7NaJWxFMoHezemMQ@mail.gmail.com>
-X-ClientProxiedBy: cncheex06.Hygon.cn (172.23.18.116) To cncheex04.Hygon.cn
- (172.23.18.114)
+References: <20260328172314.45807-1-dorjoychy111@gmail.com>
+ <20260328172314.45807-2-dorjoychy111@gmail.com> <2026-04-16-selfless-milky-wasps-shin-p6liRL@cyphar.com>
+In-Reply-To: <2026-04-16-selfless-milky-wasps-shin-p6liRL@cyphar.com>
+From: Dorjoy Chowdhury <dorjoychy111@gmail.com>
+Date: Thu, 16 Apr 2026 17:58:57 +0600
+X-Gm-Features: AQROBzAEjiDzwaGAEKhFLRhObmxO2qMMzryZZhbLCURVPls0DvUuWHW8g_k7mMU
+Message-ID: <CAFfO_h5kWCYszymaY=tPAbpU=PjLFxsND+CWSYtypN4iuW+qPw@mail.gmail.com>
+Subject: Re: [PATCH v6 1/4] openat2: new OPENAT2_REGULAR flag support
+To: Aleksa Sarai <cyphar@cyphar.com>, jlayton@kernel.org
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-api@vger.kernel.org, ceph-devel@vger.kernel.org, gfs2@lists.linux.dev, 
+	linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org, v9fs@lists.linux.dev, 
+	linux-kselftest@vger.kernel.org, viro@zeniv.linux.org.uk, brauner@kernel.org, 
+	jack@suse.cz, chuck.lever@oracle.com, alex.aring@gmail.com, arnd@arndb.de, 
+	adilger@dilger.ca, mjguzik@gmail.com, smfrench@gmail.com, 
+	richard.henderson@linaro.org, mattst88@gmail.com, linmag7@gmail.com, 
+	tsbogend@alpha.franken.de, James.Bottomley@hansenpartnership.com, 
+	deller@gmx.de, davem@davemloft.net, andreas@gaisler.com, idryomov@gmail.com, 
+	amarkuze@redhat.com, slava@dubeyko.com, agruenba@redhat.com, 
+	trondmy@kernel.org, anna@kernel.org, sfrench@samba.org, pc@manguebit.org, 
+	ronniesahlberg@gmail.com, sprasad@microsoft.com, tom@talpey.com, 
+	bharathsm@microsoft.com, shuah@kernel.org, miklos@szeredi.hu, 
+	hansg@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 16, 2026 at 12:29:50PM +0200, Mateusz Guzik wrote:
-> On Tue, Apr 14, 2026 at 11:11 AM Huang Shijie <huangsj@hygon.cn> wrote:
+On Thu, Apr 16, 2026 at 5:41=E2=80=AFPM Aleksa Sarai <cyphar@cyphar.com> wr=
+ote:
+>
+> On 2026-03-28, Dorjoy Chowdhury <dorjoychy111@gmail.com> wrote:
+> > This flag indicates the path should be opened if it's a regular file.
+> > This is useful to write secure programs that want to avoid being
+> > tricked into opening device nodes with special semantics while thinking
+> > they operate on regular files. This is a requested feature from the
+> > uapi-group[1].
 > >
-> > On Mon, Apr 13, 2026 at 05:33:21PM +0200, Mateusz Guzik wrote:
-> > > On Mon, Apr 13, 2026 at 02:20:39PM +0800, Huang Shijie wrote:
-> > > >   In NUMA, there are maybe many NUMA nodes and many CPUs.
-> > > > For example, a Hygon's server has 12 NUMA nodes, and 384 CPUs.
-> > > > In the UnixBench tests, there is a test "execl" which tests
-> > > > the execve system call.
-> > > >
-> > > >   When we test our server with "./Run -c 384 execl",
-> > > > the test result is not good enough. The i_mmap locks contended heavily on
-> > > > "libc.so" and "ld.so". For example, the i_mmap tree for "libc.so" can have
-> > > > over 6000 VMAs, all the VMAs can be in different NUMA mode.
-> > > > The insert/remove operations do not run quickly enough.
-> > > >
-> > > > patch 1 & patch 2 are try to hide the direct access of i_mmap.
-> > > > patch 3 splits the i_mmap into sibling trees, and we can get better
-> > > > performance with this patch set:
-> > > >     we can get 77% performance improvement(10 times average)
-> > > >
-> > >
-> > > To my reading you kept the lock as-is and only distributed the protected
-> > > state.
-> > >
-> > > While I don't doubt the improvement, I'm confident should you take a
-> > > look at the profile you are going to find this still does not scale with
-> > > rwsem being one of the problems (there are other global locks, some of
-> > > which have experimental patches for).
-> > IMHO, when the number of VMAs in the i_mmap is very large, only optimise the rwsem
-> > lock does not help too much for our NUMA case.
+> > A corresponding error code EFTYPE has been introduced. For example, if
+> > openat2 is called on path /dev/null with OPENAT2_REGULAR in the flag
+> > param, it will return -EFTYPE. EFTYPE is already used in BSD systems
+> > like FreeBSD, macOS.
 > >
-> > In our NUMA server, the remote access could be the major issue.
+> > When used in combination with O_CREAT, either the regular file is
+> > created, or if the path already exists, it is opened if it's a regular
+> > file. Otherwise, -EFTYPE is returned.
 > >
-> 
-> I'm confused how this is not supposed to help. You moved your data to
-> be stored per-domain. With my proposal the lock itself will also get
-> that treatment.
-> 
-> Modulo the issue of what to do with code wanting to iterate the entire
-> thing, this is blatantly faster.
-> 
+> > When OPENAT2_REGULAR is combined with O_DIRECTORY, -EINVAL is returned
+> > as it doesn't make sense to open a path that is both a directory and a
+> > regular file.
+> >
+> > [1]: https://uapi-group.org/kernel-features/#ability-to-only-open-regul=
+ar-files
+> >
+> > Signed-off-by: Dorjoy Chowdhury <dorjoychy111@gmail.com>
+> > ---
+>
+> Aside from the nit below, feel free to take a
+>
+> Reviewed-by: Aleksa Sarai <aleksa@amutable.com>
+>
 
-I tested an old lock patch yesterday. It really helps a lot.
-The lock patch is from this link:
-  https://lkml.org/lkml/2024/9/14/280
+Thanks for reviewing!
 
-The test results:
-   v7.0-rc5 + (lock patch)                    : improve about %60%
-   v7.0-rc5 + (lock patch) + (this patch set) : improve about 130%			   
+> > diff --git a/fs/open.c b/fs/open.c
+> > index 681d405bc61e..a6f445f72181 100644
+> > --- a/fs/open.c
+> > +++ b/fs/open.c
+> > @@ -960,7 +960,7 @@ static int do_dentry_open(struct file *f,
+> >       if (f->f_mapping->a_ops && f->f_mapping->a_ops->direct_IO)
+> >               f->f_mode |=3D FMODE_CAN_ODIRECT;
+> >
+> > -     f->f_flags &=3D ~(O_CREAT | O_EXCL | O_NOCTTY | O_TRUNC);
+> > +     f->f_flags &=3D ~(O_CREAT | O_EXCL | O_NOCTTY | O_TRUNC | OPENAT2=
+_REGULAR);
+>
+> It's not clear to me why you dropped this, I didn't see a review
+> mentioning it either. (General note: Ideally the cover letter changelog
+> would mention who suggested a change in brackets after the changelog
+> line so it's easier to track where a change might've come from.)
+>
 
-						
-> >
-> > >
-> > > Apart from that this does nothing to help high core systems which are
-> > > all one node, which imo puts another question mark on this specific
-> > > proposal.
-> > Yes, this patch set only focus on the NUMA case.
-> > The one-node case should use the original i_mmap.
-> >
-> > Maybe I can add a new config, CONFIG_SPILT_I_MMAP. The config is disabled
-> > by default, and enabled when the NUMA node is not one.
-> >
-> > >
-> > > Of course one may question whether a RB tree is the right choice here,
-> > > it may be the lock-protected cost can go way down with merely a better
-> > > data structure.
-> > >
-> > > Regardless of that, for actual scalability, there will be no way around
-> > > decentralazing locking around this and partitioning per some core count
-> > > (not just by numa awareness).
-> > >
-> > > Decentralizing locking is definitely possible, but I have not looked
-> > > into specifics of how problematic it is. Best case scenario it will
-> > > merely with separate locks. Worst case scenario something needs a fully
-> > > stabilized state for traversal, in that case another rw lock can be
-> > Yes.
-> >
-> > The traversal may need to hold many locks.
-> >
-> 
-> The very paragraph you partially quoted answers what to do in that
-> case: wrap everything with a new rwsem taken for reading when
-> adding/removing entries and taken for writing when iterating the
-> entire thing. Then the iteration sticks to one lock.
-> 
-> The new rw lock puts an upper ceiling on scalability of the thing, but
-> it is way higher than the current state.
-Could you tell me the patch about it?
-Is this lock patch merged ? or not?
+Thanks for the general note. I will keep that in mind.
 
-I can test it.
+The review was from Jeff Layton in v5
+https://lore.kernel.org/linux-fsdevel/5fcc2a6e6d92dae0601c6b3b8faa8b2f83981=
+afb.camel@kernel.org/
+" 1. OPENAT2_REGULAR leaks into f_flags - do_dentry_open() strips
+open-time-only flags (O_CREAT|O_EXCL|O_NOCTTY|O_TRUNC)
+  but does not strip OPENAT2_REGULAR. When a regular file is
+successfully opened via openat2() with this flag, the bit
+  persists in file->f_flags and will be returned by fcntl(fd, F_GETFL)."
 
-> 
-> Given the extra overhead associated with it one could consider
-> sticking to one centralized state by default and switching to
-> distributed state if there is enough contention.
-> 
-> > > slapped around this, creating locking order read lock -> per-subset
-> > > write lock -- this will suffer scalability due to the read locking, but
-> > > it will still scale drastically better as apart from that there will be
-> > > no serialization. In this setting the problematic consumer will write
-> > > lock the new thing to stabilize the state.
-> > >
-> > > So my non-maintainer opinion is that the patchset is not worth it as it
-> > > fails to address anything for significantly more common and already
-> > > affected setups.
-> > This patch set is to reduce the remote access latency for insert/remove VMA
-> > in NUMA.
-> >
-> 
-> And I am saying the mmap semaphore is a significant problem already on
-> high-core no-numa setups. Addressing scalability in that case would
-> sort out the problem in your setup and to a significantly higher
-> extent.
-I am afraid even the lock patch resolves the scalability high-core no-numa setups,
-we still need to split the i_mmap for NUMA.
+I think it makes sense to strip off as OPENAT2_REGULAR is an open time
+only flag (like O_CREAT and the others already), right?
 
-> 
-> > >
-> > > Have you looked into splitting the lock?
-> > >
-> > I ever tried.
-> >
-> > But there are two disadvantages:
-> >   1.) The traversal may need to hold many locks which makes the
-> >       code very horrible.
-> >
-> 
-> I already above this is avoidable.
-> 
-> >   2.) Even we split the locks. Each lock protects a tree, when the tree becomes
-> >       big enough, the VMA insert/remove will also become slow in NUMA.
-> >       The reason is that the tree has VMAs in different NUMA nodes.
-> >
-> 
-> This is orthogonal to my proposal. In fact, if one is to pretend this
-> is never a factor with your patch, I would like to point out it will
-> remain not a factor if the per-numa struct gets its own lock.
-Yes. It is orthogonal to your proposal.
-
-Thanks
-Huang Shijie
-
+Regards,
+Dorjoy
