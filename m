@@ -1,178 +1,150 @@
-Received: from mx.fmap.me (fmap.me [51.75.121.85])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D31EF21256C
-	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 12:41:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.75.121.85
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B70471ADFE4;
+	Thu, 16 Apr 2026 12:47:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776343306; cv=none; b=G+RqT236ajvo/1stJqFSvLSKknikoj2HQ0xrlAujz7l+jdfuOzhpVgKOEVro7x9oS7QLzkwFD8KKWCeIMoHXif/McKbcK069NhppGf5vny+XHrML/qk1vjZDLnQ9WeuaLWbSZSmUADsaGg10wNsyEUUvhszpDgbaLcI19OqpPJE=
+	t=1776343636; cv=none; b=Kt2CbFsFw+agxCr4AdBszYplfuTU72x8Sgr0hNmCH8lzAVETFOcvNqYpOb4HCrKLaw6CTQ5V3KLTDx+L9SxRPGgedz6TtSBd+lyDrMs1HwwUhEoF7v8xzBT6KiiQlKHqK4pmjszX3ykYnsUXKg2M+LfZrmsB/EBMgo0ozvQICBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776343306; c=relaxed/simple;
-	bh=xgE/u8OXIYWm88UVDmVHjXacEE13SQd6bJfoP5mUiD0=;
-	h=Content-Type:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To; b=VjOIRNv8QxqzM2niy5J5RhKewhR33TNrFB+d3Ft4TBIXusOXeZ3/N1huQ2E1Vb+XPjRE22gMWxb15HWXbCgDAD8SvQI+QXLFYafF4wW3pn1evMy2EyH9mfDQygUh91H+5L6iA+F/GzHgbk6Cm1KTy2QK9b3uIaI0Nty6tP3mW1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fmap.me; spf=pass smtp.mailfrom=fmap.me; dkim=pass (1024-bit key) header.d=fmap.me header.i=@fmap.me header.b=J1J5BJtX; arc=none smtp.client-ip=51.75.121.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fmap.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fmap.me
+	s=arc-20240116; t=1776343636; c=relaxed/simple;
+	bh=0qVX/wN4c8Xs/ape8KUFAL8CHkuwcgD3HyiN2Ds19Bk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gZ950u7K3NIu+Ib5ZehmbcmQgK411N/DPogo8G/FnVYYVP4DSnlI2kydCXxW8gFYoEAGzv/HPaVNouTnAMou3QrhOxsVICcyeXti1LYhWmdSAW28zlIpZG+XLq9kvdf6FUCcfuEu+YtniFhafuV0DZOTgj2y0CifJmUuvQec1vg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=yNd/OrTs; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=fmap.me header.i=@fmap.me header.b="J1J5BJtX"
-Content-Type: multipart/mixed; boundary="------------PBWAN3Bbi1100Ta0o8JUsV1J"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fmap.me; s=mail;
-	t=1776343302;
+	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="yNd/OrTs"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4fxHpJ1HYBz9srp;
+	Thu, 16 Apr 2026 14:47:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
+	t=1776343624;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LpJDpjvd754lZqTJVTbKzY3+WbuscGrA+ZFXy3r6Kto=;
-	b=J1J5BJtXHWa1d4QPJyoCDsnBwpevNEU3KBLF2+Dqp0dZBWtzoXUUA+CERjGgfkGjV5zx+Q
-	G0CvVdo+Ow0eUyTRjmTB1q3VBQBTSWmaQEVPTO4Bo7TZFrGaKByzrSWkWXaSuUDPAQHK2w
-	tkNBLeV1iWbfcLfHijgiNpMUToVLZGA=
-Message-ID: <59ab54f6-680e-456e-91f4-0a26889844ef@fmap.me>
-Date: Thu, 16 Apr 2026 19:41:37 +0700
+	bh=tstWI7sprYPwL2F7G4BMlqW849+usc2YHc/H9Y3VOZc=;
+	b=yNd/OrTsQ2vjtbc5Qw7ivcDYqiomOaGWHyMXw6vlvMZh0LrU9m6S09s5r/QW1Z6epGsVNm
+	2WVgblhnU6BCHyF+vK2Uzdy62tOHLS/ikfq4vOSHF6ghS9dESDxjSTUz5Q4FpZLTTb0euG
+	ulxtZN6AVYS9lrUUZ9UAM4Br0Zwv/BhYI78c4Zlkh86KhVC0mkL/MiJ8dvxz9Ra64EUNft
+	QymU9XesbjWVop3tbklsmRqm+IplYelQWPh5BR83OJhR6CCC6tl2+I8xB9Dj+rBz4PtIRt
+	mMcDyXx1Swvpz6BwbojeQ1VRwv1zVH5+dCQCv6MysHEPM8YQA4y0g3iwUtQ0Sw==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=none;
+	spf=pass (outgoing_mbo_mout: domain of cyphar@cyphar.com designates 2001:67c:2050:b231:465::202 as permitted sender) smtp.mailfrom=cyphar@cyphar.com
+Date: Thu, 16 Apr 2026 22:46:50 +1000
+From: Aleksa Sarai <cyphar@cyphar.com>
+To: Alexey Gladkov <legion@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>, 
+	Dan Klishch <danilklishch@gmail.com>, Al Viro <viro@zeniv.linux.org.uk>, 
+	"Eric W . Biederman" <ebiederm@xmission.com>, Kees Cook <keescook@chromium.org>, containers@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v9 4/5] proc: Skip the visibility check if subset=pid is
+ used
+Message-ID: <2026-04-16-popular-long-bicep-bistros-8teEl3@cyphar.com>
+References: <cover.1770979341.git.legion@kernel.org>
+ <cover.1776079055.git.legion@kernel.org>
+ <38572c1fb7cf55b4c27dd792adafa52f1216e3a3.1776079055.git.legion@kernel.org>
+ <2026-04-16-serious-inky-roach-visitors-SZzNqk@cyphar.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [fuse-devel] Debugging a stale kernel cache during file growth
-To: Miklos Szeredi <miklos@szeredi.hu>, Matthew Wilcox <willy@infradead.org>
-Cc: fuse-devel@lists.sourceforge.net,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- Amir Goldstein <amir73il@gmail.com>, fuse-devel@lists.linux.dev,
- linux-mm <linux-mm@kvack.org>
-References: <898a4e10-6193-4671-b3b1-7c7bc562a671@fmap.me>
- <CAOQ4uxjoS-PvnZ2poh0bx0C6ocTYwuEpfV0q5md15SjS620OMg@mail.gmail.com>
- <CAJfpegvxF7F+XKFKokSH4eOgCA0V2RNm6B54MS9nr9wG=U66OA@mail.gmail.com>
-Content-Language: en-US
-From: Nikolay Amiantov <ab@fmap.me>
-In-Reply-To: <CAJfpegvxF7F+XKFKokSH4eOgCA0V2RNm6B54MS9nr9wG=U66OA@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="bv5tgnqdlabxgz4a"
+Content-Disposition: inline
+In-Reply-To: <2026-04-16-serious-inky-roach-visitors-SZzNqk@cyphar.com>
+X-Rspamd-Queue-Id: 4fxHpJ1HYBz9srp
 
-This is a multi-part message in MIME format.
---------------PBWAN3Bbi1100Ta0o8JUsV1J
-Content-Type: multipart/alternative;
- boundary="------------52NtMlTbHFL7c0NjiV8XF8Yj"
 
---------------52NtMlTbHFL7c0NjiV8XF8Yj
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+--bv5tgnqdlabxgz4a
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v9 4/5] proc: Skip the visibility check if subset=pid is
+ used
+MIME-Version: 1.0
 
-On 4/16/26 19:12, Miklos Szeredi wrote:
-> I wonder if we could clear PG_uptodate on the page which had its zero
-> bytes exposed by the i_size increase?
+On 2026-04-16, Aleksa Sarai <cyphar@cyphar.com> wrote:
+> On 2026-04-13, Alexey Gladkov <legion@kernel.org> wrote:
+> > When procfs is mounted with the subset=3Dpid option, all system files a=
+nd
+> > directories from the root of the filesystem are not accessible in
+> > userspace. Only dynamic information about processes is available, which
+> > cannot be hidden with overmount.
+> >=20
+> > For this reason, checking for full visibility is not relevant if mounti=
+ng
+> > is performed with the subset=3Dpid option.
+> >=20
+> > Signed-off-by: Alexey Gladkov <legion@kernel.org>
+> > ---
+>=20
+> > -static bool mount_too_revealing(const struct super_block *sb, int *new=
+_mnt_flags)
+> > +static bool mount_too_revealing(struct fs_context *fc, int *new_mnt_fl=
+ags)
+> >  {
+> >  	const unsigned long required_iflags =3D SB_I_NOEXEC | SB_I_NODEV;
+> >  	struct mnt_namespace *ns =3D current->nsproxy->mnt_ns;
+> > +	const struct super_block *sb =3D fc->root->d_sb;
+> >  	unsigned long s_iflags;
+> > =20
+> >  	if (ns->user_ns =3D=3D &init_user_ns)
+> > @@ -6388,7 +6387,7 @@ static bool mount_too_revealing(const struct supe=
+r_block *sb, int *new_mnt_flags
+> >  		return true;
+> >  	}
+> > =20
+> > -	return !mnt_already_visible(ns, sb, new_mnt_flags);
+> > +	return (!fc->skip_visibility && !mnt_already_visible(ns, sb, new_mnt_=
+flags));
+> >  }
+>=20
+> Unless I'm missing something (I haven't tested this locally yet, sorry),
+> this will allow you to bypass mount_too_revealing() even for
+> non-subset=3Dpid mounts because once you create a subset=3Dpid mount then=
+ a
+> regular procfs mount will see the subset=3Dpid mount and permit it.
+>=20
+> I think the solution is quite simple -- you can also skip super-blocks
+> that have fc->skip_visibility set in mnt_already_visible().
 
-I've actually tried that first. The idea was to get or create a new page 
-on the EOF boundary, lock it and poison it with an uptodate reset if we 
-need to. But this resulted in an instantaneous EIO in my test. If I 
-undestand correctly, this is because of another race condition:
+I now see that check was present in v8 but I guess its importance wasn't
+obvious. I guess this means we will need to reintroduce
+SB_I_USERNS_ALLOW_REVEALING. :/
 
-* A fresh page gets created and read by FUSE; uptodate is true;
-* The page is unlocked on return from `fuse_read_folio`;
-* Simultaneously, we run `getattr`. The page gets locked, uptodate is 
-reset, the page is unlocked;
-* Now back from `fuse_read_folio`, `filemap_read_folio` gets this page, 
-waits on `folio_wait_locked_killable` (waiting for the getattr to reset 
-uptodate), and then checks `folio_test_uptodate`;
-* The page is !uptodate, so an EIO is returned.
+> Unfortunately, the fact that both subset=3Dpid and fully-loaded procfs
+> look like the same type (procfs) to mnt_already_visible() is something
+> people have already exploited in userspace. (The k8s workaround from a
+> long time ago used subset=3Dpid from a dead pidns to stop the mount from
+> being useful to an attacker while still bypassing mount_too_revealing().
+> That being said, that workaround was removed a long time ago and I don't
+> know how widespread this is.)
+>=20
+> I'd be happy to give it a shot but if it breaks userspace we might need
+> a new mount option to work around it...
 
-So it effectively results in inability to have a successful `read` when 
-a `getattr` for a growing file happens simultaneously.
+--=20
+Aleksa Sarai
+https://www.cyphar.com/
 
-Finally, if I understand correctly, this also leaves a (much smaller) 
-theoretical race condition in `filemap_read` between checking uptodate 
-and getting the current inode size.
+--bv5tgnqdlabxgz4a
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Attached is the patch with this attempt; please check that it does what 
-you meant in case I misunderstood.
+-----BEGIN PGP SIGNATURE-----
 
-Cheers,
-Nikolay.
+iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCaeDaOhsUgAAAAAAEAA5t
+YW51MiwyLjUrMS4xMiwyLDIACgkQKJf60rfpRG+yTQD/dOdJmE6eRydxRawQeXBM
+jYb0iaA2T7Mu6WxQRMx8reYA/jHzQBeyi8J1/9e+dVKZQmoeZa0Lcmj48tCPUZ1V
+4IwE
+=7nDS
+-----END PGP SIGNATURE-----
 
---------------52NtMlTbHFL7c0NjiV8XF8Yj
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">On 4/16/26 19:12, Miklos Szeredi wrote:<span
-      style="white-space: pre-wrap">
-</span></div>
-    <blockquote type="cite"
-cite="mid:CAJfpegvxF7F+XKFKokSH4eOgCA0V2RNm6B54MS9nr9wG=U66OA@mail.gmail.com">
-      <pre wrap="" class="moz-quote-pre">I wonder if we could clear PG_uptodate on the page which had its zero
-bytes exposed by the i_size increase?
-</pre>
-    </blockquote>
-    <p>I've actually tried that first. The idea was to get or create a
-      new page on the EOF boundary, lock it and poison it with an
-      uptodate reset if we need to. But this resulted in an
-      instantaneous EIO in my test. If I undestand correctly, this is
-      because of another race condition:</p>
-    <p>* A fresh page gets created and read by FUSE; uptodate is true;<br>
-      * The page is unlocked on return from `fuse_read_folio`;<br>
-      * Simultaneously, we run `getattr`. The page gets locked, uptodate
-      is reset, the page is unlocked;<br>
-      * Now back from `fuse_read_folio`, `filemap_read_folio` gets this
-      page, waits on `folio_wait_locked_killable` (waiting for the
-      getattr to reset uptodate), and then checks `folio_test_uptodate`;<br>
-      * The page is !uptodate, so an EIO is returned.</p>
-    <p>So it effectively results in inability to have a successful
-      `read` when a `getattr` for a growing file happens simultaneously.</p>
-    <p>Finally, if I understand correctly, this also leaves a (much
-      smaller) theoretical race condition in `filemap_read` between
-      checking uptodate and getting the current inode size.</p>
-    <p>Attached is the patch with this attempt; please check that it
-      does what you meant in case I misunderstood.</p>
-    <p>Cheers,<br>
-      Nikolay.</p>
-  </body>
-</html>
-
---------------52NtMlTbHFL7c0NjiV8XF8Yj--
---------------PBWAN3Bbi1100Ta0o8JUsV1J
-Content-Type: text/x-patch; charset=UTF-8;
- name="0001-fuse-fix-stale-page-cache-data-race-on-file-growth.patch"
-Content-Disposition: attachment;
- filename*0="0001-fuse-fix-stale-page-cache-data-race-on-file-growth.patc";
- filename*1="h"
-Content-Transfer-Encoding: base64
-
-RnJvbSA1MTIxOTRiOTgyZmQwZWRiYzFkY2FhNTBmYWZhZDc1YjFiZTI2ZDQyIE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBOaWtvbGF5IEFtaWFudG92IDxhYkBmbWFwLm1lPgpE
-YXRlOiBXZWQsIDE1IEFwciAyMDI2IDA3OjI4OjE5ICswMDAwClN1YmplY3Q6IFtQQVRDSF0g
-ZnVzZTogZml4IHN0YWxlIHBhZ2UgY2FjaGUgZGF0YSByYWNlIG9uIGZpbGUgZ3Jvd3RoCgot
-LS0KIGZzL2Z1c2UvaW5vZGUuYyB8IDM2ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKystLQogMSBmaWxlIGNoYW5nZWQsIDM0IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25z
-KC0pCgpkaWZmIC0tZ2l0IGEvZnMvZnVzZS9pbm9kZS5jIGIvZnMvZnVzZS9pbm9kZS5jCmlu
-ZGV4IDczNWFiZjQyNmEwNi4uMjA3NDE4NjlhYzJmIDEwMDY0NAotLS0gYS9mcy9mdXNlL2lu
-b2RlLmMKKysrIGIvZnMvZnVzZS9pbm9kZS5jCkBAIC0zMzQsMTAgKzMzNCw0MiBAQCB2b2lk
-IGZ1c2VfY2hhbmdlX2F0dHJpYnV0ZXMoc3RydWN0IGlub2RlICppbm9kZSwgc3RydWN0IGZ1
-c2VfYXR0ciAqYXR0ciwKIAkgKiBleHRlbmQgbG9jYWwgaV9zaXplIHdpdGhvdXQga2VlcGlu
-ZyB1c2Vyc3BhY2Ugc2VydmVyIGluIHN5bmMuIFNvLAogCSAqIGF0dHItPnNpemUgY29taW5n
-IGZyb20gc2VydmVyIGNhbiBiZSBzdGFsZS4gV2UgY2Fubm90IHRydXN0IGl0LgogCSAqLwot
-CWlmICghKGNhY2hlX21hc2sgJiBTVEFUWF9TSVpFKSkKLQkJaV9zaXplX3dyaXRlKGlub2Rl
-LCBhdHRyLT5zaXplKTsKKwlpZiAoIShjYWNoZV9tYXNrICYgU1RBVFhfU0laRSkpIHsKKwkJ
-aWYgKFNfSVNSRUcoaW5vZGUtPmlfbW9kZSkgJiYgYXR0ci0+c2l6ZSA+IG9sZHNpemUpIHsK
-KwkJCXN0cnVjdCBmb2xpbyAqZm9saW87CisJCQlwZ29mZl90IGluZGV4ID0gb2xkc2l6ZSA+
-PiBQQUdFX1NISUZUOworCisJCQlzcGluX3VubG9jaygmZmktPmxvY2spOworCQkJZm9saW8g
-PSBfX2ZpbGVtYXBfZ2V0X2ZvbGlvKGlub2RlLT5pX21hcHBpbmcsIGluZGV4LAorCQkJCQkJ
-ICAgIEZHUF9MT0NLIHwgRkdQX0NSRUFULAorCQkJCQkJICAgIG1hcHBpbmdfZ2ZwX21hc2so
-aW5vZGUtPmlfbWFwcGluZykpOworCQkJaWYgKCFJU19FUlIoZm9saW8pKSB7CisJCQkJc3Bp
-bl9sb2NrKCZmaS0+bG9jayk7CisJCQkJaWYgKCF0ZXN0X2JpdChGVVNFX0lfU0laRV9VTlNU
-QUJMRSwgJmZpLT5zdGF0ZSkpIHsKKwkJCQkJZm9saW9fY2xlYXJfdXB0b2RhdGUoZm9saW8p
-OworCQkJCQlpX3NpemVfd3JpdGUoaW5vZGUsIGF0dHItPnNpemUpOworCQkJCX0KKwkJCQlz
-cGluX3VubG9jaygmZmktPmxvY2spOworCisJCQkJZm9saW9fdW5sb2NrKGZvbGlvKTsKKwkJ
-CQlmb2xpb19wdXQoZm9saW8pOworCQkJCWdvdG8gc2l6ZV91cGRhdGVkOworCQkJfQorCQkJ
-c3Bpbl9sb2NrKCZmaS0+bG9jayk7CisJCQkvKgorCQkJICogRm9saW8gYWxsb2MgZmFpbGVk
-IChFTk9NRU0pLiBSZWNoZWNrIGluIGNhc2UgYQorCQkJICogd3JpdGUvdHJ1bmNhdGUgc3Rh
-cnRlZCB3aGlsZSB3ZSBkcm9wcGVkIHRoZSBsb2NrLgorCQkJICovCisJCQlpZiAoIXRlc3Rf
-Yml0KEZVU0VfSV9TSVpFX1VOU1RBQkxFLCAmZmktPnN0YXRlKSkKKwkJCQlpX3NpemVfd3Jp
-dGUoaW5vZGUsIGF0dHItPnNpemUpOworCQl9IGVsc2UgeworCQkJaV9zaXplX3dyaXRlKGlu
-b2RlLCBhdHRyLT5zaXplKTsKKwkJfQorCX0KIAlzcGluX3VubG9jaygmZmktPmxvY2spOwog
-CitzaXplX3VwZGF0ZWQ6CisKIAlpZiAoIWNhY2hlX21hc2sgJiYgU19JU1JFRyhpbm9kZS0+
-aV9tb2RlKSkgewogCQlib29sIGludmFsID0gZmFsc2U7CiAKLS0gCjIuNDcuMAoK
-
---------------PBWAN3Bbi1100Ta0o8JUsV1J--
+--bv5tgnqdlabxgz4a--
