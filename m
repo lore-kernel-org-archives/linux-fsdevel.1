@@ -1,152 +1,142 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com [74.125.224.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D54330EF63
-	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 21:52:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FCCC36B042
+	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 21:53:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776376376; cv=none; b=RMkVi8+ZOpgFoO+4Jn4fcSroThF2K86S3fCg/66mmn17Y69WdmgV/66fO/tDCYEhzliyBDvKB9QFM+uk8yqfhZEuSOLo/qafC1QH1/Z0tujqRmXOrIuuFDo/msfTQgCiFXvrD/Yj0YUHutNHnkJ3MGe20vu+c06e+brDG5Yw2DY=
+	t=1776376390; cv=none; b=qzqKBrm5hMGSu84LXBLq2TlOyf+N8fpBOl1v2F9fHpvFHqwCjZdsTgXB4K1brDkamikyh2zXp9WK3fRAMVHKymHm/c9Bk339IEzL4AoMH+OU1Hcl1F+wuJ23brU/iZPPMTGNnxL2D+72VjXuKQyWhxFJFaxjfe4X76aLblivdMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776376376; c=relaxed/simple;
-	bh=74wbVYw3bk/SlVyJvtnKHLStqq8FWhOqHbrE9chtJe0=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=dfaRymE7/LofnRDQ4VXHXdMEHfzlzCJwEVkqSF1XOhm3ITkO+EmQWdk+wBs8WCDISLUpiykrL6mJGmpjI4jAhTPlPoNaHVC6yxNRL40R/yEiD/QEOVjHG4uDqGGt6hZwzd/+Hohw41cHRHCMM7bzYu0UVLe46EatWtpCk1lKyUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WHobzV7T; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=BZOAm1VH; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1776376390; c=relaxed/simple;
+	bh=fc57u1ib7joGvCNK5PYX6Wm4vwMtVJPQEZoKGdGJA14=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s7a/JvFqw+eP6KBy+BjCLjdnXKb5gUUfpZO9ED6J7iabUmbSq6AMvywJquprKfvqXZz+W8uofr8oM4xxFTqgPcUWr24egF+2AetNnfC1LxFUgLxYjfYXQ50pR9z9Emj3ge8DsYfXeBah0E4zpPketmnO0pn9zy1umkuKvsp+9gs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BtIO55Wh; arc=none smtp.client-ip=74.125.224.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WHobzV7T";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="BZOAm1VH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1776376374;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yVW0a704vgQNQLDb2tuoO+3gdW557mnA3SO9ZLbQt0E=;
-	b=WHobzV7Th0Sq1bydXy0xkq+HZv8V496FNhZVbJYHuMiRy2W1Cw772CzmaDxa/dzEOTbXn2
-	0qh+zL29k6BJrr3r6+m0HIlCun3eJiAhKar5IQIkncHUTqrIwgjpRB/CGECptlMPafo1eG
-	NaMWdZg4UtcI1EVyDApOMV5RvQ4v2RI=
-Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
- [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-684-ROKoCMRtN9Cv6kfpxFyBBg-1; Thu, 16 Apr 2026 17:52:53 -0400
-X-MC-Unique: ROKoCMRtN9Cv6kfpxFyBBg-1
-X-Mimecast-MFC-AGG-ID: ROKoCMRtN9Cv6kfpxFyBBg_1776376373
-Received: by mail-yw1-f198.google.com with SMTP id 00721157ae682-799003e8a77so279445997b3.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 14:52:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BtIO55Wh"
+Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-6501d242e3fso83925d50.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 14:53:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1776376373; x=1776981173; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=yVW0a704vgQNQLDb2tuoO+3gdW557mnA3SO9ZLbQt0E=;
-        b=BZOAm1VHr1afGPxzIYKnM/A/aKc0JKzG05ESSMxbaJR27tQEFBisW+C08CdM9KiLU2
-         yu+yAxWiH0BqWUlooDm7J6BsJD6JupbVySAVW5ARfL+M3kZyvFhEnQJUh88UhXDAWdQH
-         wqJ6o/wuaaFFqcWur7TyKw8vYNtEGCV9DmtJFDkB4M8qEdxMjQKbfm/WF4FImLKEue0j
-         I3Vzx1us81AuOwnEaPzA9m0HguKEggmBAxWLTdF3+3D0WsvRuBYp4XixD8N2yX1YC03P
-         sVdZ9Zhx53Kx4Lp0lTHkKBBXKdP5Z+8+jCi/muyUvojqttR5DdHo1M0U0dhCaLUp+kE7
-         nGcQ==
+        d=gmail.com; s=20251104; t=1776376387; x=1776981187; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=E9IBe90RbHchIfC+QQ+bgmf2ghgUb9RVdOaY6yEgPS8=;
+        b=BtIO55WhzA9HHFLI/Ew7CzQHJdbeQHcdgZWEKdIxLpeJuaKX8SHcuoTeOdFkx9R+pI
+         aLwIk3NuCjsmOi/BfqmIQTTWYfwiw5jtOBnxNvsQ8QROq8V5rER2Bp6ro1eCcK3DjLLU
+         ODNYwIc2LCd6AgOQQ8j4qpHc+pLoGFu8woG0ZMzK9kTTHATwsBBUOD0qbki6kcm5LC65
+         Lyr1m7meH1tICVKDUbzUpppvLIuseCdJMUbWIsDZKBDs2QbISF+ckg74FkvNjibmp5td
+         GWNbjLh9SlTTNDz19KGjFMAbWKsxZDZ813iCSlJ+9Wbj4lCldzY0qIBmc5lM+pgS8oT4
+         ZfSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776376373; x=1776981173;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+        d=1e100.net; s=20251104; t=1776376387; x=1776981187;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yVW0a704vgQNQLDb2tuoO+3gdW557mnA3SO9ZLbQt0E=;
-        b=JV8XkfoU8+h4fJsUsrpdCAYwjWvqELe0SX86tLavXDmaObGdQNx75E3+gsysn+8IoE
-         oDc+TNJaRik3a942gn1n/36lNrgQga0JbPBonUELR5MITO8OI0XpXbASRrn8F7bMXv9i
-         RY4z3aghhbjR6IFsPXQ3gqxVWLaQ/kkAimryJq7Dd8j7D3tzTUGS2tEdAfWOb4mC9Hd7
-         uDmAlyi3ZOxjSRxlACOg0YbsD7shKppq4qJVr/tfune3khgPEAmxuktFyoExH/oKjFTk
-         mF23zJqx1jNI9v64MJoIQHaZgrNmGzuhGzInowVkH72kzyh6xlVGWlzOFGvZvaSvbOkP
-         tOBA==
-X-Forwarded-Encrypted: i=1; AFNElJ9ghaR4s0NHSY0/5SVd0KWZnzt1bIj1kjQx1i161AnwfvTeefpJEhDqC07I58K/ISKjrRwVhb9K4VVVJZw0@vger.kernel.org
-X-Gm-Message-State: AOJu0YzbwSi1IAwNd99Czi3WASUXIfoCbEGwOSnkxEF1yj7XCDJAoWjm
-	66VZfkhTauCAyzXDEG7zZVEhNMHybW1au08pL2+p8XJNefwYy1ZTwVe38iSiWJqT7t3vsTxIwpQ
-	QOl2vngJJtkunF/fxXxzfuSun0pQgPmR3GuKjtf0jyzBgzCagiLRlXQafF3PQEwIdS2k=
-X-Gm-Gg: AeBDiesLMOng4QElqVtXtj0l31sW10mswDgL5diAO4678x3I8lXJhtU/hYPGYTF3snl
-	y4T0vd/Q8rl6TbxZMrs23nYLZVU6YeUbrtFnKl6WfXUUmBCsmItk0sCtkWBlw8TFnSvvfVwSrrm
-	X32407P7hRr0f4HJopIX2gk17BJUt8uoTx6RB/ahf2qUMYvFWzE26c5Wjz6XFDAcFuNa/vu87O0
-	hP2tIyZpwNMfaLbS/BllRsFTseuaPVNYJ2uG9AzaxWbGLk1rxLIh/UpA16LlqLwCoJcm+2ijwMG
-	txzVbZrFj/V9gmwoD47QVl01Tn/yKVTp+QU7Sl2TGVYpEYafodeEHpYSg1mNYij86Nl7iU1BvQs
-	4GHOJzkcMR7I5n6xs/3YmqgyAt/vqMPD3QNAmJkhJ5cq4UW6XXBmKs9dDk5s1SMM=
-X-Received: by 2002:a05:690c:110:b0:7b8:338d:7d80 with SMTP id 00721157ae682-7b9ecf86517mr3308667b3.31.1776376372803;
-        Thu, 16 Apr 2026 14:52:52 -0700 (PDT)
-X-Received: by 2002:a05:690c:110:b0:7b8:338d:7d80 with SMTP id 00721157ae682-7b9ecf86517mr3308477b3.31.1776376372420;
-        Thu, 16 Apr 2026 14:52:52 -0700 (PDT)
-Received: from li-4c4c4544-0032-4210-804c-c3c04f423534.ibm.com ([2600:1700:6476:1430::29])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7b7693176c4sm30238937b3.34.2026.04.16.14.52.51
+        bh=E9IBe90RbHchIfC+QQ+bgmf2ghgUb9RVdOaY6yEgPS8=;
+        b=Yzkeqa6n2Z6Nr24ocKZdKmqD44PTeGKBKwrJxeWzA2hs/Tmsx7QAGh/RqRZTQoNviz
+         sAtM/nINVlggwXKXX+INDknoqiS9TeIuZAblMlDDUlCgF0YXXExJYdxzo6Pq2RjmvkyT
+         Q1FEITZu84gMUHIJtnIcnVH3KG8tM50+nmQiH3ILw8FUK2ID52psA+2nQE1X4e13OeOs
+         xnunm+2KWeyz6C90J34qwGyRbwR+pZofMqU/2AnQ3QmobnZOr9mim9flHIpQSItkSRxn
+         YvDcQXyWNVAkYO4ojqUb6iyiblhPB5Dal4bENEoXN8RzjGhQpzoI3Tp6hc8Ncody1ZN9
+         HJ3g==
+X-Forwarded-Encrypted: i=1; AFNElJ8yFFw3CCBcBPG8tkmpZiykeWopDlIvsjIv6/YWPOpwg6hKXMzDzaV6f+GnRTaVSRYEe4gk+JSXnbEpyK97@vger.kernel.org
+X-Gm-Message-State: AOJu0YzRCAt4lJBbQYOvi0LaRUcCrqQKWi7GOaT+mcB2+8jaMwvf4Fyk
+	4I3me4co21oZZplro5nJbLm9f62D2EMlj/SMBE1ZVM8snrK2n8y/qg0M
+X-Gm-Gg: AeBDieteSG2dyM6sBNRSX1kb77LnhxMQsTFKIKRTxNDqtjRRitnfSCYF+Mp2VBe0Xga
+	AATKC7WOAHFyPmWBUOaxo2/6IlODcyuGapzHbBKHKR2eZ6povH4GLDdfSd6aJqgQNNn5dmq4qkk
+	DZF+Z+G5fjzOTaOCqciMlw8zUy/OofxPXj1dToaaCeDxQKAFgdz2bxvopD140IGfUIqti0dn/Q/
+	ahPSHonqGp1Ze9mqfosJTjkkszsPgz8xV4mBo9HfxTEK6PF5xfdPl6gy8jKYyQM+buBGWLb9KHY
+	toyleTOvKS3v19oZDzYJ/miSy7qJ+pngPcB5+qhfsvn1ybnTMrBDcneDt9Fz+BLZOlYsqH9TNxU
+	DD0O+sWZHaNK1sNgMuTUpk3lG7zEtg09QVTVcud+cj2ec/m35rXbKMVTlaHkWZFw/N68hqO4Mnm
+	zH8lwqZcAx8lFVBpd6VEsz1uE3wesNUor3RhoPScxD6lBP2o45MQs0P1v/evtVyqBs+V3Vk9iSD
+	90=
+X-Received: by 2002:a05:690e:140f:b0:652:541e:9689 with SMTP id 956f58d0204a3-653107c0003mr474357d50.13.1776376387423;
+        Thu, 16 Apr 2026 14:53:07 -0700 (PDT)
+Received: from suesslenovo ([2600:1700:18fb:6011:9b9d:98c5:f23d:1874])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-652e44c08a5sm2538380d50.1.2026.04.16.14.53.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Apr 2026 14:52:51 -0700 (PDT)
-Message-ID: <6601b6ec0de087674f60566db950449c4e821bfc.camel@redhat.com>
-Subject: Re: [PATCH v2] hfsplus: Remove the duplicate attr inode dirty
- marking action
-From: Viacheslav Dubeyko <vdubeyko@redhat.com>
-To: Edward Adam Davis <eadavis@qq.com>
-Cc: frank.li@vivo.com, glaubitz@physik.fu-berlin.de, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- slava@dubeyko.com, 	syzbot+bc70a12e438dadba4fb4@syzkaller.appspotmail.com, 
-	syzkaller-bugs@googlegroups.com
-Date: Thu, 16 Apr 2026 14:52:50 -0700
-In-Reply-To: <tencent_A8D47429765566CC3C8B378496D036664A09@qq.com>
-References: <4ca511af88f86e0b8bfb45ccc8e460ac773804e1.camel@redhat.com>
-	 <tencent_A8D47429765566CC3C8B378496D036664A09@qq.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43app2) 
+        Thu, 16 Apr 2026 14:53:06 -0700 (PDT)
+Date: Thu, 16 Apr 2026 17:53:05 -0400
+From: Justin Suess <utilityemal77@gmail.com>
+To: Song Liu <song@kernel.org>
+Cc: ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
+	kpsingh@kernel.org, paul@paul-moore.com, mic@digikod.net,
+	viro@zeniv.linux.org.uk, brauner@kernel.org, kees@kernel.org,
+	gnoack@google.com, jack@suse.cz, jmorris@namei.org,
+	serge@hallyn.com, yonghong.song@linux.dev, martin.lau@linux.dev,
+	m@maowtm.org, eddyz87@gmail.com, john.fastabend@gmail.com,
+	sdf@fomichev.me, skhan@linuxfoundation.org, bpf@vger.kernel.org,
+	linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [RFC PATCH 08/20] bpf: Add Landlock ruleset map type
+Message-ID: <aeFaQXkKNHFeE-oC@suesslenovo>
+References: <20260407200157.3874806-1-utilityemal77@gmail.com>
+ <20260407200157.3874806-9-utilityemal77@gmail.com>
+ <CAPhsuW7zzXXd6-d86B-rpGr-wfSzmEoCYNKhTMP_pXnybtA27A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAPhsuW7zzXXd6-d86B-rpGr-wfSzmEoCYNKhTMP_pXnybtA27A@mail.gmail.com>
 
-On Thu, 2026-04-16 at 11:37 +0800, Edward Adam Davis wrote:
-> Syzbot reported a null-ptr-deref in [1].
-> If the attributes file is not loaded during system mount, a trigger
-> occurs [1] when setxattr is executed in userspace.
->=20
-> Remove the first mark attr inode dirty operation.
->=20
-> [1]
-> KASAN: null-ptr-deref in range [0x0000000000000008-0x000000000000000f]
-> Call Trace:
->  hfsplus_setxattr+0x124/0x340 fs/hfsplus/xattr.c:555
->  hfsplus_trusted_setxattr+0x40/0x60 fs/hfsplus/xattr_trusted.c:30
->  __vfs_setxattr+0x43c/0x480 fs/xattr.c:218
->  __vfs_setxattr_noperm+0x12d/0x660 fs/xattr.c:252
->  vfs_setxattr+0x163/0x360 fs/xattr.c:339
->  do_setxattr fs/xattr.c:654 [inline]
->=20
-> Reported-by: syzbot+bc70a12e438dadba4fb4@syzkaller.appspotmail.com
-> Fixes: ee8422d00b7c ("hfsplus: fix potential Allocation File corruption a=
-fter fsync")
-> Closes: https://syzkaller.appspot.com/bug?extid=3Dbc70a12e438dadba4fb4
-> Signed-off-by: Edward Adam Davis <eadavis@qq.com>
-> ---
-> v1 -> v2: just remove first mark dirty
->=20
->  fs/hfsplus/xattr.c | 1 -
->  1 file changed, 1 deletion(-)
->=20
-> diff --git a/fs/hfsplus/xattr.c b/fs/hfsplus/xattr.c
-> index 452a1f9becb2..21a1c196c71f 100644
-> --- a/fs/hfsplus/xattr.c
-> +++ b/fs/hfsplus/xattr.c
-> @@ -317,7 +317,6 @@ static int hfsplus_create_attributes_file(struct supe=
-r_block *sb)
->  		next_node++;
->  	}
-> =20
-> -	hfsplus_mark_inode_dirty(HFSPLUS_ATTR_TREE_I(sb), HFSPLUS_I_ATTR_DIRTY)=
-;
->  	hfsplus_mark_inode_dirty(attr_file, HFSPLUS_I_ATTR_DIRTY);
-> =20
->  	sbi->attr_tree =3D hfs_btree_open(sb, HFSPLUS_ATTR_CNID);
+On Thu, Apr 16, 2026 at 02:12:11PM -0700, Song Liu wrote:
+> On Tue, Apr 7, 2026 at 1:02 PM Justin Suess <utilityemal77@gmail.com> wrote:
+> >
+> > Expose the new BPF_MAP_TYPE_LANDLOCK_RULESET via headers, allowing
+> > programs to utilize the map.
+> >
+> > Signed-off-by: Justin Suess <utilityemal77@gmail.com>
+> 
+> I don't think we can introduce a new map type for this. Instead, we should use
+> existing map with __kptr values.
+>
+> Thanks,
+> Song
 
-Looks good.
+Thanks Song,
 
-Reviewed-by: Viacheslav Dubeyko <slava@dubeyko.com>
+That was one initially considered approach.
 
-Thanks,
-Slava.
+I initially decided in favor of the dedicated map type in this RFC after
+seeing the other FD maps for cgroups and sockets. 
 
+The main complication is rulesets in Landlock are created as file
+descriptors backed by a kernel object. In the intended model of this
+series, creation of rulesets is is done in userspace to avoid
+redefining the entire landlock ruleset creation API in BPF.
+
+I don't think we can pass the FD number via a map, since the FD is
+process specific. And it needs to be done in a way where we can lookup 
+the specific ruleset the FD points to safely.
+
+So we'd need some other way to load the ruleset from a file descriptor,
+either through a new userspace side BPF call or similar mechanism.
+
+Is there some other common pattern for FDs --> kptr I can follow?
+
+Basically the pattern I need is userspace must create the file
+descriptor, BPF converts that FD into a refcounted kernel object, and
+even if userspace closes the FD BPF needs to hold a reference on the
+underlying ruleset structure.
+
+(In this patch this was accomplished through the map_ops)
+
+Let me know what you think Song. I do understand the benefit of having a
+__kptr instead, the refcounting is all there, and it would allow storing
+rulesets in multiple map types. (and one less map type to maintain).
+
+Mickaël, do you have any thoughts on this? I have v2 basically ready,
+although it uses the BPF_MAP_TYPE_LANDLOCK_RULESET it changes a lot on
+the Landlock side.
+
+I appreciate the feedback from both of you.
+
+Justin
