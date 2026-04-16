@@ -1,72 +1,63 @@
-Received: from submarine.notk.org (submarine.notk.org [62.210.214.84])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2BE83C1F;
-	Thu, 16 Apr 2026 02:15:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.210.214.84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A30221CA02;
+	Thu, 16 Apr 2026 02:53:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776305720; cv=none; b=LQfOG8dRHIhBsUNGkcgVkkzCpmlYEotox/K810LsOFP1KeI2Qg5GMDLxTu8hEWDbKUSoP39/Mc5PWcuJjLu4SHAQ3E5T5H9LdYX9K3X+0bPw1fFn3eXBMIzH4voKwX+Seynzu6Kwbhp9X351/F3YvGffn/x3D93hEfPPwNhqP7I=
+	t=1776308015; cv=none; b=HZFIhP51atwPyTu5WWIgPPHvyHwWIuzogDqa5Cb9qCrqA+F+tXjFRFY1lr7vG0FYZEGvf0/bbRXRSMtjJUpR9K4llyK1oxir2pWIs1bkjNzqJEOOQY4EkhM5BwHsd05LPUQ82dcs/jNVcbNkwd6ZXMc+zywrl/GWj5Fmlmk/1bE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776305720; c=relaxed/simple;
-	bh=3M9x4Wpaitxqa4NUY6ik4dbt5WDukItbvnuHbKMs8M8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S9BlWgZ/2tBzqKOSTnPDYzypbUvJO4ki+6i2F3M6oqyPn6V7rZpY2ETX+AVoBwTqaVwMAswdpueg+cFN4J6rNt0op6RenPubrsiGSIQvzCY0HCADoA+baSZW3vXCczkGGTxCCiVHcY2I0u1rg10lCfsEcQa4OEBs8u+UM96WXuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org; spf=pass smtp.mailfrom=codewreck.org; dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b=mP87qPgm; arc=none smtp.client-ip=62.210.214.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codewreck.org
+	s=arc-20240116; t=1776308015; c=relaxed/simple;
+	bh=o9YayQ4hcMLvFMxl2V39KKmPUbsuHiymstdwgdhKssI=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=K2CGfY5lAuKEHQLM/U6OXJcJIcmHqXYnYEJ3Sk4awtryIZzCjQ1fmKkmPuviJE4DZq18NVZHvv17Xoattr2aHSpCqRhQrInawrDDYERtNMiL5GSZM1MGTKuU9VYoNphzTenUBzyasdj5mCPMyd0pRH6Y5aBXsvUyDsTV1iyfOgc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WpHwZPor; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b="mP87qPgm"
-Received: from gaia.codewreck.org (localhost [127.0.0.1])
-	by submarine.notk.org (Postfix) with ESMTPS id 2916F14C2D6;
-	Thu, 16 Apr 2026 04:15:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org;
-	s=2; t=1776305717;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZUfJyO+B4NVQDlG68Pr9dSyQjk5jcqH8CJuvkJPJBqU=;
-	b=mP87qPgmOqpsTGXSQin/KpeRSSrdk+DrakZLYW2TIqcx7X4inIXcLlHBbhZIYcVCnK0wuH
-	l2+xEiEk+0/g3XCJ8T2wWZQ6TYxp/AzZ+ykNEgOlwtP+JoiNGVSNXeiHHphgwXu0AJdxFl
-	gDSTzJAj3TwhSQTn0EgeHpFBL/RLsfxcKrMh1tZsT8V7Kx39hV+C3LLWV8NBCUPQ/XFoNv
-	usgYpVm6OKxUCnoQN2RoG7AVWBuJiAgajpYG/ZChXKCmWEctfpfWhXM9ng05vlNxCBpIPQ
-	OxrFUgHwBh7HJVc1mzf6FN11vcXi5iyj4Gv54MNob1S/k+XLmhephYXAufEDfA==
-Received: from localhost (gaia.codewreck.org [local])
-	by gaia.codewreck.org (OpenSMTPD) with ESMTPA id 2d7f01e9;
-	Thu, 16 Apr 2026 02:15:13 +0000 (UTC)
-Date: Thu, 16 Apr 2026 11:14:58 +0900
-From: Dominique Martinet <asmadeus@codewreck.org>
-To: Remi Pommarel <repk@triplefau.lt>
-Cc: v9fs@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Eric Van Hensbergen <ericvh@kernel.org>,
-	Latchesar Ionkov <lucho@ionkov.net>,
-	Christian Schoenebeck <linux_oss@crudebyte.com>
-Subject: Re: [PATCH v4 0/4] 9p: Performance improvements for build workloads
-Message-ID: <aeBGIg9aEPFbzZuZ@codewreck.org>
-References: <cover.1774380535.git.repk@triplefau.lt>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WpHwZPor"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F6D7C19424;
+	Thu, 16 Apr 2026 02:53:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776308015;
+	bh=o9YayQ4hcMLvFMxl2V39KKmPUbsuHiymstdwgdhKssI=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=WpHwZPor766LpZ9PyrTE2OrMQuHAAx5/ycxTImsVxW/QogDRvAiJXUYdllyG5NLih
+	 HwCRfXucJd7ClTwRiumVZNXFnw/tIjhOd5zJD1Ug0cuhTh/I79OwQ15LqWuWetKbNI
+	 DVZSsq97aQ6ZWZ1WMoCU3FNt7MPlVau2T775/35LQw4+LhZRfCjL1Dzpx5UaQIM5Xz
+	 QR17O3KDnXXAbK2wffP28XXxwXT5Ykm/Pn+QeiQjXPM4vjppwoajX7Ya1s1nx00G4W
+	 5uU9xDSvcABlOd5K+OgDncxXbHf3Sa3hQ9/asG+hjgmR1+MXW2cDhNkgXBr2EDNN5G
+	 9xP0LWoPhojYg==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 7E29A380A964;
+	Thu, 16 Apr 2026 02:53:05 +0000 (UTC)
+Subject: Re: [GIT PULL] fuse update for 7.1
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAJfpegt4sD_u1Qv+NQcQdJa=b+Je7Z973J=Ztcad8YgmEQU8Gw@mail.gmail.com>
+References: <CAJfpegt4sD_u1Qv+NQcQdJa=b+Je7Z973J=Ztcad8YgmEQU8Gw@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-fsdevel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAJfpegt4sD_u1Qv+NQcQdJa=b+Je7Z973J=Ztcad8YgmEQU8Gw@mail.gmail.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git tags/fuse-update-7.1
+X-PR-Tracked-Commit-Id: 2339f9cc9f080eff40432c0343d358ead39a4988
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: acf6c670e476304c89b5e9320ca8f9d20c9e0aa8
+Message-Id: <177630798397.2583492.9504061938400140052.pr-tracker-bot@kernel.org>
+Date: Thu, 16 Apr 2026 02:53:03 +0000
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <cover.1774380535.git.repk@triplefau.lt>
 
-Remi Pommarel wrote on Tue, Mar 24, 2026 at 08:43:30PM +0100:
-> Also sorry for the long delay for v4, it's been quite busy lately.
+The pull request you sent on Tue, 14 Apr 2026 09:50:03 +0200:
 
-Thank you for this v4; I've been busy myself so can't complain...
+> git://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git tags/fuse-update-7.1
 
-I think we've iterated enough on this for now, so I'll tentatively pick
-this up for -next shortly, but there are a few fixes I'd like to get in
-first and we're a bit late to send this for 7.1, so this cache change
-will be for 7.2 in a couple of months
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/acf6c670e476304c89b5e9320ca8f9d20c9e0aa8
 
-Meanwhile if there are other comments etc we can always iterate (with
-either a v5 or pilling patches on top)
+Thank you!
 
-Thanks,
 -- 
-Dominique
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
