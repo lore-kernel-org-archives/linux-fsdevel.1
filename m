@@ -1,78 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7ADA35C197
-	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 21:12:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36A5F31F981
+	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 21:36:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776373943; cv=none; b=pI46xafQnQJlXJA470xFYELwmd9wSrwyWCVUQfNuAPi6To/+nbr956v2kuvkU+cYU+t2Si/GY8eezh1UTmi61h0OtqWFdSrEGXkc8X9i8hpvTW7aBPMfZD/7OYjYjMGUyLQld1MzflKEA03yLlA/iobXcBiAgzWZViVi09dChZU=
+	t=1776375397; cv=none; b=fNhVubtombck8ZLM7N9xQGdjP/U0zUyBMn1qIpFPwSzqpgiX/6/AdXOptFSYqD5u+v1/CNvCraUf02QsLF1wCtrkWzhiKj0WHJLm5PAHBATBARnWBAHzai7yl872/PQYFCiKsL9qmEtbxocswqgIRVNfK5e98xh+u2Az3c4WmHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776373943; c=relaxed/simple;
-	bh=IrYmcZF9hxAXNqt9zfpOlti0Oz+SLkvIJYPq35Swg/w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oPoiSK6DO0/gaa3aTA0xalZ6Y0ppKLOmj777GrUOFSQ3ql5LTx55T7tCSUX0roFbWFDnK9Ov+p3Tqh5GAYoNy48lNmPmhx9lQ8wEqgmjPWxpRpORLPkvhhQKDfarxD2Ocy2UJj7fWIXdc9kZlzV5B3zTmvJrUXTQtxUqqGjy63Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sAwCrrpy; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776375397; c=relaxed/simple;
+	bh=jKmGfrTxgv5Nzlz5bG0/V1+paVSZPlZlHvQ4Koh/BtY=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=TCuRjLavNtfhZ3bpNG3e09B5urcbJImbWt1gCCZcTm23Lxf8JgCCMUTyFr9ikQAIO+nsd3bgvrdGXryZgRwb3511wR5RriSa8fvny4cBZqvLBi3KBhus4/gayVYf3WtFBlrchOVvDLkW7RXD1XVxSiV8cqTJnL9skixM6O5qctg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=mVbaoHD6; arc=none smtp.client-ip=195.121.94.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sAwCrrpy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C39BC2BCC7
-	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 21:12:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776373943;
-	bh=IrYmcZF9hxAXNqt9zfpOlti0Oz+SLkvIJYPq35Swg/w=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=sAwCrrpyjCeuDIwYlOGb+qhfSW8IAuUv1b2XSTzcACcQFSqbD5WndiLXGFLDqUtb6
-	 1gLb0QMTTFdTbDJum4HUw+nZFDlDT0boBGY+n50w2HiqeWMKukR4W7yZN1Ba/3Ive0
-	 l4w+UZLV6FtegytSbRqGK/9UxUDvJJTPhIQUAmUTUQSOwCX2xNZwbISkvX+onWElR0
-	 Wy53pjyrIN965xKkiEgLFVIVQvOURzuMIxn40bn2NSWA4fq4LjoA1eoWzXd7YIeGZl
-	 47AG412prmljKPORIJvl+HvA8UxP+La8pXeT1mGIcnHd3njllNsBC5hGHKO5PlPXGw
-	 QA9i/zptvhU1Q==
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-506aa685d62so133421cf.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 14:12:23 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+mIrrHQtaMiT+EBEx1NF9K7iDGz+PjKu9gZHidPq6JdClCKH7a0X9Mu9bkUa+wFwpd0eniAOyZ8fhupQFp@vger.kernel.org
-X-Gm-Message-State: AOJu0YyV62zD6ufEnmK+mdT5KLVFtAnPQ8Ja56t/U/phQIF/EKZ014kJ
-	Kki4+dL9hN3ZmdkblAOQCnoIJ1h4OQzZPxCpJxFP546Bb3wN+i0NWgr3DG/nGfnF31YGRGT3ZSi
-	4EsI0VhvS8eaK0zgXKE9qLVS2B8ti7sE=
-X-Received: by 2002:a05:622a:a09:b0:50b:893f:7d93 with SMTP id
- d75a77b69052e-50e367feadbmr901151cf.2.1776373942596; Thu, 16 Apr 2026
- 14:12:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="mVbaoHD6"
+X-KPN-MessageId: 55b4a78a-39dc-11f1-89e1-00505699b430
+Received: from mta.kpnmail.nl (unknown [10.31.161.189])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 55b4a78a-39dc-11f1-89e1-00505699b430;
+	Thu, 16 Apr 2026 23:36:31 +0200 (CEST)
+Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
+	by mta.kpnmail.nl (Halon) with ESMTP
+	id 55b55afc-39dc-11f1-b5d0-0050569981f5;
+	Thu, 16 Apr 2026 23:36:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:subject:message-id:to:from:date;
+	bh=A0ZJnX7li7I6jRx+BpBjuz1TE53b3BpzgUYmmyhPmRQ=;
+	b=mVbaoHD6W3jBI/UR7fZd3Uc0n+R+d0DLz3ZSMxUxJsvb4EITVIFQkms9MZL3Db9BAVLS2o8cv/dTX
+	 /5ZSDNuwqcKbl9jWqEZJLZXzVC7tZQGTVAv8mXA6NqsVs3hgV1B6CWvZrgtedjx9vkg7PP0TlAgI/t
+	 Z51GHR+tgWMurXSkBtEO3yRDNnBdJju5yn1ENwMmI56ScwZICAhLHRPNqF9ohiZPG5o4riAYEd3Jgj
+	 S0bBHoQHG7rF5RcFRoyXEL9DbphtH/AwPBVqeERfrO87unuNMKdmp0TKLrXvWzCqqCqXyy80gwB894
+	 ajuAqtQ+aQj78lhLARGjaT+dGSCt4Yw==
+X-KPN-MID: 33|7vi6wAcTxLhnlcXV5bPS/elamfhtfRWYm/UV0z2B4o2PwwULSy0l0rmaam6eAl2
+ 1cwMwFHYd61Bx4F4EKfpDODrGcPs8rxAikHNnXDUzW5s=
+X-CMASSUN: 33|3/aJ3D2OCmHajC0ZevX+EDdRCOA+SKZCNjgTYgI7wSgzIfzE+LI8baffU3Xbeyv
+ Ny3c4duY5SQnT/0aED7RZFA==
+X-KPN-VerifiedSender: Yes
+Received: from cpxoxapps-mh02 (cpxoxapps-mh02.personalcloud.so.kpn.org [10.128.135.208])
+	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
+	id 55a756fa-39dc-11f1-b8d7-005056995d6c;
+	Thu, 16 Apr 2026 23:36:31 +0200 (CEST)
+Date: Thu, 16 Apr 2026 23:36:31 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Dorjoy Chowdhury <dorjoychy111@gmail.com>, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+	ceph-devel@vger.kernel.org, gfs2@lists.linux.dev,
+	linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+	v9fs@lists.linux.dev, linux-kselftest@vger.kernel.org,
+	viro@zeniv.linux.org.uk, jack@suse.cz, jlayton@kernel.org,
+	chuck.lever@oracle.com, alex.aring@gmail.com, arnd@arndb.de,
+	adilger@dilger.ca, mjguzik@gmail.com, smfrench@gmail.com,
+	richard.henderson@linaro.org, mattst88@gmail.com, linmag7@gmail.com,
+	tsbogend@alpha.franken.de, James.Bottomley@hansenpartnership.com,
+	deller@gmx.de, davem@davemloft.net, andreas@gaisler.com,
+	idryomov@gmail.com, amarkuze@redhat.com, slava@dubeyko.com,
+	agruenba@redhat.com, trondmy@kernel.org, anna@kernel.org,
+	sfrench@samba.org, pc@manguebit.org, ronniesahlberg@gmail.com,
+	sprasad@microsoft.com, tom@talpey.com, bharathsm@microsoft.com,
+	shuah@kernel.org, miklos@szeredi.hu, hansg@kernel.org,
+	Aleksa Sarai <cyphar@cyphar.com>
+Message-ID: <850388882.378351.1776375391778@kpc.webmail.kpnmail.nl>
+In-Reply-To: <20260416-aufbau-sorgenfrei-cfa87c9ddc11@brauner>
+References: <20260328172314.45807-1-dorjoychy111@gmail.com>
+ <20260328172314.45807-2-dorjoychy111@gmail.com>
+ <aeDpIgfDaIKEaBcL@lt-jori.localdomain>
+ <CAFfO_h6pkyX=uN5uoXda6toTtT6KsahfBNBLom9i21HdZ7JOmQ@mail.gmail.com>
+ <1714293523.333222.1776351806025@kpc.webmail.kpnmail.nl>
+ <20260416-aufbau-sorgenfrei-cfa87c9ddc11@brauner>
+Subject: Re: [PATCH v6 1/4] openat2: new OPENAT2_REGULAR flag support
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260407200157.3874806-1-utilityemal77@gmail.com> <20260407200157.3874806-9-utilityemal77@gmail.com>
-In-Reply-To: <20260407200157.3874806-9-utilityemal77@gmail.com>
-From: Song Liu <song@kernel.org>
-Date: Thu, 16 Apr 2026 14:12:11 -0700
-X-Gmail-Original-Message-ID: <CAPhsuW7zzXXd6-d86B-rpGr-wfSzmEoCYNKhTMP_pXnybtA27A@mail.gmail.com>
-X-Gm-Features: AQROBzDk-eOQnc3KIcDHr-rTAWlI-wv9602XvRcYDgzfGDKiclbye-SKGL6YBWU
-Message-ID: <CAPhsuW7zzXXd6-d86B-rpGr-wfSzmEoCYNKhTMP_pXnybtA27A@mail.gmail.com>
-Subject: Re: [RFC PATCH 08/20] bpf: Add Landlock ruleset map type
-To: Justin Suess <utilityemal77@gmail.com>
-Cc: ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, 
-	kpsingh@kernel.org, paul@paul-moore.com, mic@digikod.net, 
-	viro@zeniv.linux.org.uk, brauner@kernel.org, kees@kernel.org, 
-	gnoack@google.com, jack@suse.cz, jmorris@namei.org, serge@hallyn.com, 
-	yonghong.song@linux.dev, martin.lau@linux.dev, m@maowtm.org, 
-	eddyz87@gmail.com, john.fastabend@gmail.com, sdf@fomichev.me, 
-	skhan@linuxfoundation.org, bpf@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
 
-On Tue, Apr 7, 2026 at 1:02=E2=80=AFPM Justin Suess <utilityemal77@gmail.co=
-m> wrote:
->
-> Expose the new BPF_MAP_TYPE_LANDLOCK_RULESET via headers, allowing
-> programs to utilize the map.
->
-> Signed-off-by: Justin Suess <utilityemal77@gmail.com>
 
-I don't think we can introduce a new map type for this. Instead, we should =
-use
-existing map with __kptr values.
+> Op 16-04-2026 17:15 CEST schreef Christian Brauner <brauner@kernel.org>:
+> 
+>  
+> On Thu, Apr 16, 2026 at 05:03:26PM +0200, Jori Koolstra wrote:
+> > 
+> > If I recall correctly, Aleksa has suggested we might also want to add
+> > O_EMPTYPATH to openat() instead of only allowing this for openat2().
+> > I am waiting to see what Christian thinks of this.
+> 
+> We can do that, yes. For O_EMPTYPATH that is workable.
+
+All right, then I'll update the patch this weekend.
+
+> 
+> I don't mind too much if we leave OPENAT2_REGUALR in the 32-bit flag
+> space. It'll silently be ignored but the flag name should give it away.
+
+I would also prefer to have the bits separated. Although it is unlikely
+that we will add so many O_* that we will ever run out of space, it just
+seems cleaner, and at no cost. But it's not too important.
 
 Thanks,
-Song
+Jori.
