@@ -1,110 +1,106 @@
-Received: from out162-62-58-211.mail.qq.com (out162-62-58-211.mail.qq.com [162.62.58.211])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sg-3-112.ptr.tlmpb.com (sg-3-112.ptr.tlmpb.com [101.45.255.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EA9C2F8BF0;
-	Thu, 16 Apr 2026 03:38:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.58.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE2AA27AC4C
+	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 03:55:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.45.255.112
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776310689; cv=none; b=I11uSLZqai+S9xZe2ZgUBw9nBaAW0UfQ7MyD2gYhs2j7BahtD20dqCpQsphioNXXmWn63CBlW1FS55vkx/ioVOs+Mj/6yw0JXch7qbUUzigDQ8um1RiBmH1udlyHWe+4nmVF1kHgwk6VSQaUNBDjZuXDAMbgHQs7ZMzIu31MfW4=
+	t=1776311735; cv=none; b=m1eSQjXNC/zRr8l3sfrUViP4IOlnsujpevEVkbnzHgMFmuffAf0Jy2KjR1H9BBwvcysY9qd9mU7K3042L1cabTnBkKLz3ML4cUKqu1RWW9PoOF+AOW2Yf4SzcZ8sPsWGiOhNL333GVcsYdaXkvR8eSRkUK17toizOcbYe9Jt17Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776310689; c=relaxed/simple;
-	bh=8drU68S5e7kN6NcupLmyCchm9X2JiX3fnMF+qxbaVnw=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=Zfcw7TycuxUiVpLHdSEr0iOvRQfU8D7jltDKuTTR+263kchRvsPBfOqN/fdhePa+yJvuCF3gEjsAxTCEoCBDB7/j49bdAUXSfWxAQUlHfWJ5EyYHx80xCqP0jIk6TuG+VtGryjtixga7sX1ruB1MD2XNXirWixTqBesJPT0E04I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=i2U3HJR1; arc=none smtp.client-ip=162.62.58.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1776311735; c=relaxed/simple;
+	bh=FRtxye/7XATNQiRwvPJ7zj4jM5BiMBcNqlQXvVp6b6o=;
+	h=In-Reply-To:Content-Type:Cc:Subject:To:Mime-Version:Message-Id:
+	 References:From:Date; b=K33bUbJ9l4kXfi6kXhbs6apQZKe8xYUqCmFORoODAmSNecV/zqtfbDexlZRGmhSIL3d4aZEpEgE1mD24Kzw+zLMSYl33YVwzqXbIBWZaEA/udT3RX0TJElwuILteMoDPVLfU7wL51nIb/AamXuOPente458SpgvtsWkxFINMJ+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=UUhz64C3; arc=none smtp.client-ip=101.45.255.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="i2U3HJR1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1776310676; bh=JDTV4kgGdEpReWDkuOfM97Ibn8K5SexgtY9NeAKpzqI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=i2U3HJR11Fk1Rja9RsB1DhMxoPTy+v13wj20HIBu5L6Lt53BSDGqpWzzn2Ujxn7ev
-	 z1d9pfUZsdI7i6d1gDQAdeLxQ6urtjhdgLk/aqrEbfeQMIw/LYd5xo0t0ve44oqoA5
-	 +lc2cESpuiVzxUrsAAZGolWANxoT5Gv0nmZaXWuk=
-Received: from lxu-ped-host.. ([111.198.231.89])
-	by newxmesmtplogicsvrsza73-0.qq.com (NewEsmtp) with SMTP
-	id 974B5E4E; Thu, 16 Apr 2026 11:37:52 +0800
-X-QQ-mid: xmsmtpt1776310672trcvnw9ir
-Message-ID: <tencent_A8D47429765566CC3C8B378496D036664A09@qq.com>
-X-QQ-XMAILINFO: OATpkVjS499uxmiJg0BUIFzAr/6nipTGNkCe50HsNx+ZMsgRaOxCG8PZWKfZlb
-	 lwIAJ9T0clw4JLA5FyxNuJIOK/+PvJmbxS/VIw4BBd7c66nnsfEj4KStJSKfkW6coTjdhVnNaSWJ
-	 VcsFpKI70YrzayKBXApxmvks3v2Sf1BWwOqVc0ck7IE6EmiOOKAzw6CuN4+e5W/XfzpEMOoWsAJI
-	 C7kKr0VIGDStaLB/VMZXny9WPiY1epqFk34NqkPGRZROaybPk2Ybyw/L9OdArn+3BR9LJRTJG8DX
-	 Ool+cjMeanuEhyPYSQrIxjgcbXElGQ2vmcNYaioq+7ildZpF1fbmXhtQKWbtQZFAYotQpno/5lU3
-	 sOwIfC0r61ZX+IaUEQN7xXN1TmMJp0GvS7oOVIGsVf6fi4a21IPf+Jf+bC0JlCb5RGTbEoS8fBz0
-	 BFyltpIi2Advs1ADiQDCNeL3xxxTFnYuhLrGwGGS+enaymBolmEaz0H8mcFQ8RduhrDLcsqpCgjU
-	 oD5AdTSratoQ3R1ev0wEdnt3wS2XvxDYuux2c3oehLE1hlMRe8IDvuiYux6yLJnjIAU1wr1+P9y3
-	 2lVBTc1nH51usRp7D25OyqcMP48awrWbMUPBfxkuaJ+NWfL/E/tkb7ipJZ50YCuX5B0x/PKyGot1
-	 8UxO741FJZgg/kG60aRJX+MGCk2y+X0ytFGN68lYH0Sv8g3eD5q6xob0lhH5Ll6kA1bx4Htcjfso
-	 Rd9YbrGA6nyyNKDYKPv0Rt/JVDFfw8bTdaSCSp7AAfmkLMxMNdHgi6QRFo7M+Wgp5dYgbf5ZayST
-	 NFigX+YRfxnKuN7xHPGjfTkFsiq2qvJSkQedv0piPaXfHJ+kpnyr/Rv/piIFCM/R3hRdQLDQDjMG
-	 sfdnfvGaVAPoEfxVHxMweIMozEwfKvHom7UHGBgN8aUcyHTSEWuVAwQ0n1P7ff5MIxv3H3fRiYgj
-	 W/Ct2vJQKpQ/KDQvSfKOw/IFwChaZnYcSF5pECA8NoX4kyXasPR2mhiedWZXFrZ4TWq4Ez/JlI2s
-	 lvEVolFwf6xlzKcUYWZwsa6RSyfQTWo2z3+4z3NQ==
-X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
-From: Edward Adam Davis <eadavis@qq.com>
-To: vdubeyko@redhat.com
-Cc: eadavis@qq.com,
-	frank.li@vivo.com,
-	glaubitz@physik.fu-berlin.de,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	slava@dubeyko.com,
-	syzbot+bc70a12e438dadba4fb4@syzkaller.appspotmail.com,
-	syzkaller-bugs@googlegroups.com
-Subject: [PATCH v2] hfsplus: Remove the duplicate attr inode dirty marking action
-Date: Thu, 16 Apr 2026 11:37:53 +0800
-X-OQ-MSGID: <20260416033752.361039-2-eadavis@qq.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <4ca511af88f86e0b8bfb45ccc8e460ac773804e1.camel@redhat.com>
-References: <4ca511af88f86e0b8bfb45ccc8e460ac773804e1.camel@redhat.com>
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="UUhz64C3"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=2212171451; d=bytedance.com; t=1776311683; h=from:subject:
+ mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
+ mime-version:in-reply-to:message-id;
+ bh=XuUijCRU49VU51RPVF7QODH/tQoawFO7A52ugknXftA=;
+ b=UUhz64C3WokIoUnig+6fdptc4C+Kd/RGQcaO66T8RcBXjfOHPQGySTTa+WBPP4avK86hkr
+ IoBqFhbrtX4+nifDG8unDSvz1ezYd8rAicAK//9emZyNO47GYuInBHF9P83tM4r+VsALjF
+ dc494e2xl4mvKPJhueZI46sExV5fi0ubN2j2iEb9tW8x0rFLZjQnX4gfcF8NciWpb8NQmv
+ S0GaMTmaONXrIeS303bnpPA3Z8tA2P4Wrp9Vn2sUL1Pwq2VX4Fa5pbd1vytXNoystnRqwV
+ C61QEJy5EWLhDf3e2TFkRS3R5IxK9T1tEbDgwEHjAXIkj4ddrVsKy2nbYb2F7Q==
+In-Reply-To: <20260413124703.GA20496@macsyma-wired.lan>
+X-Original-From: Diangang Li <lidiangang@bytedance.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Cc: <adilger.kernel@dilger.ca>, <linux-ext4@vger.kernel.org>, 
+	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
+	<changfengnan@bytedance.com>, <yizhang089@gmail.com>, 
+	<willy@infradead.org>
+Subject: Re: [RFC v2 0/1] ext4: fail fast on repeated buffer_head reads after IO failure
+User-Agent: Mozilla Thunderbird
+To: "Theodore Tso" <tytso@mit.edu>, "Diangang Li" <diangangli@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Message-Id: <03453fb3-0f3e-491d-ba12-e4208fe1c185@bytedance.com>
+References: <20260325093349.630193-1-diangangli@gmail.com> <20260413062500.1380307-1-diangangli@gmail.com> <20260413124703.GA20496@macsyma-wired.lan>
+Content-Language: en-US
+X-Lms-Return-Path: <lba+269e05d81+3eb8a5+vger.kernel.org+lidiangang@bytedance.com>
+From: "Diangang Li" <lidiangang@bytedance.com>
+Date: Thu, 16 Apr 2026 11:54:27 +0800
 
-Syzbot reported a null-ptr-deref in [1].
-If the attributes file is not loaded during system mount, a trigger
-occurs [1] when setxattr is executed in userspace.
+On 4/13/26 8:47 PM, Theodore Tso wrote:
+> On Mon, Apr 13, 2026 at 02:24:59PM +0800, Diangang Li wrote:
+>> From: Diangang Li <lidiangang@bytedance.com>
+>>
+>> A production system reported hung tasks blocked for 300s+ in ext4
+>> buffer_head paths....
+>>
+>>    [Tue Mar 24 14:16:24 2026] blk_update_request: I/O error, dev sdi,
+>>        sector 10704150288 op 0x0:(READ) flags 0x0 phys_seg 1 prio class 0
+>>    [Tue Mar 24 14:16:25 2026] blk_update_request: I/O error, dev sdi,
+>>        sector 10704488160 op 0x0:(READ) flags 0x0 phys_seg 1 prio class 0
+>>    [Tue Mar 24 14:16:26 2026] blk_update_request: I/O error, dev sdi,
+>>        sector 10704382912 op 0x0:(READ) flags 0x0 phys_seg 1 prio class 0
+> 
+> I wonder whether the ext4 layer is the right place to be handle this
+> sort of issue.  For example, it could be handled by having a subsystem
+> scanning dmesg (or by wiring up notifications so block device errors
+> get sent to a userspace daemon), and when certain criteria is met, the
+> machine is automatically sent to hardware operations to run
+> diagnostics and (most likey) replace the failing disk.
+> 
+> It could also be handled in the driver or SCSI layer so the "fail
+> fast" semantics are handled there, so that it supports all file
+> systems, not just ext4.  The SCSI layer also has more information
+> about the type of error; you might want to handle things like media
+> errors differently from Fibre Channel or iSCSI timeouts (which might
+> be something where "fast fast" is not appropriate).
+> 
+> By the time the error gets propagated up to the buffer head, we lose a
+> lot of detail about why the error took place.  Also, in the long term
+> we will hopefully be moving away from using buffer cache.
+> 
+>     		     	    	      	    - Ted
 
-Remove the first mark attr inode dirty operation.
+Hi Ted,
 
-[1]
-KASAN: null-ptr-deref in range [0x0000000000000008-0x000000000000000f]
-Call Trace:
- hfsplus_setxattr+0x124/0x340 fs/hfsplus/xattr.c:555
- hfsplus_trusted_setxattr+0x40/0x60 fs/hfsplus/xattr_trusted.c:30
- __vfs_setxattr+0x43c/0x480 fs/xattr.c:218
- __vfs_setxattr_noperm+0x12d/0x660 fs/xattr.c:252
- vfs_setxattr+0x163/0x360 fs/xattr.c:339
- do_setxattr fs/xattr.c:654 [inline]
+What about moving the fail-fast check into the buffer-head path 
+(submit_bh_wbc) so it is not ext4-specific. We can update a BH_Read_EIO 
+bit in end_bio_bh_io_sync, and add a per-bdev/per-partition sysfs knob 
+for the retry window. That turns it into a generic guard for buffer-head 
+users, and it naturally goes away as buffer-head usage shrinks.
 
-Reported-by: syzbot+bc70a12e438dadba4fb4@syzkaller.appspotmail.com
-Fixes: ee8422d00b7c ("hfsplus: fix potential Allocation File corruption after fsync")
-Closes: https://syzkaller.appspot.com/bug?extid=bc70a12e438dadba4fb4
-Signed-off-by: Edward Adam Davis <eadavis@qq.com>
----
-v1 -> v2: just remove first mark dirty
+We did think about doing this in the block layer (submit_bio) or in 
+SCSI/NVMe, but a generic solution there seems to need a per-device table 
+to cache the error LBAs. With buffer-head, we can keep the error state 
+on the bh itself.
 
- fs/hfsplus/xattr.c | 1 -
- 1 file changed, 1 deletion(-)
+I also checked f2fs (no buffer-head). It tracks repeated EIOs on 
+metadata/node pages to avoid infinite retry loops. How do you see that 
+compared with a buffer-head retry window? Are either of these directions 
+worth exploring further?
 
-diff --git a/fs/hfsplus/xattr.c b/fs/hfsplus/xattr.c
-index 452a1f9becb2..21a1c196c71f 100644
---- a/fs/hfsplus/xattr.c
-+++ b/fs/hfsplus/xattr.c
-@@ -317,7 +317,6 @@ static int hfsplus_create_attributes_file(struct super_block *sb)
- 		next_node++;
- 	}
- 
--	hfsplus_mark_inode_dirty(HFSPLUS_ATTR_TREE_I(sb), HFSPLUS_I_ATTR_DIRTY);
- 	hfsplus_mark_inode_dirty(attr_file, HFSPLUS_I_ATTR_DIRTY);
- 
- 	sbi->attr_tree = hfs_btree_open(sb, HFSPLUS_ATTR_CNID);
--- 
-2.43.0
-
+Thanks,
+Diangang
