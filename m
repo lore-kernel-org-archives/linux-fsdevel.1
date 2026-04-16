@@ -1,256 +1,382 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B70043B1B3;
-	Thu, 16 Apr 2026 13:28:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E03563BE623;
+	Thu, 16 Apr 2026 13:30:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776346091; cv=none; b=juYRU6XRtTn5pWTGJtUDTr9WRmSMa7grtkSXPsMMHNHAkbJTNqlBK3ZvhIBmb5AeYvJsjf2r9bW+J6ZRFksHF49rIu9aN6Vrao4o6fB9+TP2eQkLt2EjdATk4hycztS2sBQ3VNKMt04dIYzz+FhE+0YYfPVPR1pIcLFkgKtGcWY=
+	t=1776346248; cv=none; b=QKvemG7Cnlopwt/E1+hvxC3dpJBVPSWD7x6wR9oT36eRxDR27Z/4k06k3OYn0he+kcXCXvlyYXmP5oQIu2cvkZi/QlJj67uF1Wfw2eXe9bQL71crhkb98QIc7r9VhsfFR5Z7pLhAhsSHSWCYmJVuQGkLTVFsT4G60QQGsUWKtrw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776346091; c=relaxed/simple;
-	bh=J12G5pzMTUvfefHA+A/ErGNi+UxZvMBPAb5e+FOj0Hk=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=dcB9tgmPn0FXwaWojcTe7av/GiuKSx6AmhF4aP0oHamMyK+2TSwTOzhrkBf7o2F74WvMHgqsRihJMyUiOvNyX6Pf1qlI9DsF2UYd/KAjEIpQ8to1tK6zvszr8J9Wk0HDqSCLkj9pcrhA9BOY/ADr+MtmpdQCDkxmfEDuYS123x8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VNITp2US; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776346248; c=relaxed/simple;
+	bh=EQ55YlF7GcAaCD2Yxr60QfxLvN+R0e7ao8Abz/pkFuI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A5MLQfdQRyauWrQTsCYuyUmhgP4qcYYX4QprES8phGuYPERhh+oRoHXLWfGGBj3w95fTd1IJmYRoh8Q6HUGFn1ZnpmgxDyWCzE+uizVj4zP7fGmz2aHyfVNHPmr16KbdMo9uXxGN+NLW4VjbDF12I/emAF6FC9XTOeaEQ2S8bJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qzGvKXmI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VNITp2US"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F28C0C2BCAF;
-	Thu, 16 Apr 2026 13:28:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qzGvKXmI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1738BC2BCAF;
+	Thu, 16 Apr 2026 13:30:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776346091;
-	bh=J12G5pzMTUvfefHA+A/ErGNi+UxZvMBPAb5e+FOj0Hk=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=VNITp2USm8xN92IVKtT3+Bm1/bo7k1/3Ai5Mbub5YTyQI4sLUyzogUBZUDB+Sg1Qr
-	 xOUGj6hRn+20kW6zfJViUk8cEXLUn6+v83HVLAOS64KeTf0p8UvXz1AadMfurbISg7
-	 ITwO5OCaw3lGxtGrLNH3oZiDNZyVHqC7KvnhkTn9d6GjmqaE5yUqMORfohU1MAs55p
-	 Sx+pC8m+/F85O6fxsTnVjvE2Loqs98Sak0hqle1cs81EtPWpjLCN/RQrx14DLlC3zM
-	 1YHudu8Ktsej3arbGg5n0I5zMTfo4uglwL7knPO1BM5xiGyt7odnDxP7rAEBhXwl8A
-	 Q7GAfPoJ+12QA==
-Message-ID: <9ce53137035dfca329aa5e49593154149be3ac49.camel@kernel.org>
-Subject: Re: [PATCH v6 1/4] openat2: new OPENAT2_REGULAR flag support
-From: Jeff Layton <jlayton@kernel.org>
-To: Aleksa Sarai <cyphar@cyphar.com>, Dorjoy Chowdhury
- <dorjoychy111@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, Linus Torvalds	
- <torvalds@linux-foundation.org>, linux-kernel@vger.kernel.org, 
-	linux-api@vger.kernel.org, ceph-devel@vger.kernel.org,
- gfs2@lists.linux.dev, 	linux-nfs@vger.kernel.org,
- linux-cifs@vger.kernel.org, v9fs@lists.linux.dev, 
-	linux-kselftest@vger.kernel.org, viro@zeniv.linux.org.uk,
- brauner@kernel.org, 	jack@suse.cz, chuck.lever@oracle.com,
- alex.aring@gmail.com, arnd@arndb.de, 	adilger@dilger.ca, mjguzik@gmail.com,
- smfrench@gmail.com, 	richard.henderson@linaro.org, mattst88@gmail.com,
- linmag7@gmail.com, 	tsbogend@alpha.franken.de,
- James.Bottomley@hansenpartnership.com, deller@gmx.de, 	davem@davemloft.net,
- andreas@gaisler.com, idryomov@gmail.com, amarkuze@redhat.com, 
-	slava@dubeyko.com, agruenba@redhat.com, trondmy@kernel.org,
- anna@kernel.org, 	sfrench@samba.org, pc@manguebit.org,
- ronniesahlberg@gmail.com, 	sprasad@microsoft.com, tom@talpey.com,
- bharathsm@microsoft.com, shuah@kernel.org, 	miklos@szeredi.hu,
- hansg@kernel.org
-Date: Thu, 16 Apr 2026 06:28:09 -0700
-In-Reply-To: <2026-04-16-raunchy-random-curfew-guide-GmtLJR@cyphar.com>
-References: <20260328172314.45807-1-dorjoychy111@gmail.com>
-	 <20260328172314.45807-2-dorjoychy111@gmail.com>
-	 <2026-04-16-selfless-milky-wasps-shin-p6liRL@cyphar.com>
-	 <CAFfO_h5kWCYszymaY=tPAbpU=PjLFxsND+CWSYtypN4iuW+qPw@mail.gmail.com>
-	 <2026-04-16-raunchy-random-curfew-guide-GmtLJR@cyphar.com>
-Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
- keydata=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
- QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+	s=k20201202; t=1776346247;
+	bh=EQ55YlF7GcAaCD2Yxr60QfxLvN+R0e7ao8Abz/pkFuI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qzGvKXmIeWgQ8NYBe2YlbJFEBXrM4et7OKJ0t0Hb4oeFtfqi6fQI6sC8ieg/E0Y0i
+	 HBKCx2yCcDaw6Icw/Y3aELMmXYfEKwai8lcKrayQUYkp5tc5bKsz4uerhRqXrROK7Y
+	 YlYMgYyG55UkWaqZApxsGSqg1bor24laaEpLFqquJ6zL7+7EQSjmbZYvFYgNHlJo+O
+	 YODyIe/1AZmv5xJOKQjoycVSfL6S3KzCXJUwvL4EBaiC4Ic4GmzehMyPY5k0xEg1V+
+	 iwdKrTih3j1gkYgBE4uo+55CuQ93WtQa+iAwUPhIsEIHgKGYWS551qvsVFlPmK5qYc
+	 nrAg1Ouc6euQg==
+Date: Thu, 16 Apr 2026 15:30:42 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Aleksa Sarai <cyphar@cyphar.com>
+Cc: Alexey Gladkov <legion@kernel.org>, 
+	Dan Klishch <danilklishch@gmail.com>, Al Viro <viro@zeniv.linux.org.uk>, 
+	"Eric W . Biederman" <ebiederm@xmission.com>, Kees Cook <keescook@chromium.org>, containers@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v9 4/5] proc: Skip the visibility check if subset=pid is
+ used
+Message-ID: <20260416-gewusel-dreck-63a7fc32a586@brauner>
+References: <cover.1770979341.git.legion@kernel.org>
+ <cover.1776079055.git.legion@kernel.org>
+ <38572c1fb7cf55b4c27dd792adafa52f1216e3a3.1776079055.git.legion@kernel.org>
+ <2026-04-16-serious-inky-roach-visitors-SZzNqk@cyphar.com>
+ <2026-04-16-popular-long-bicep-bistros-8teEl3@cyphar.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="nfsjwfyis4t5hlj3"
+Content-Disposition: inline
+In-Reply-To: <2026-04-16-popular-long-bicep-bistros-8teEl3@cyphar.com>
 
-On Thu, 2026-04-16 at 23:05 +1000, Aleksa Sarai wrote:
-> On 2026-04-16, Dorjoy Chowdhury <dorjoychy111@gmail.com> wrote:
-> > On Thu, Apr 16, 2026 at 5:41=E2=80=AFPM Aleksa Sarai <cyphar@cyphar.com=
-> wrote:
-> > >=20
-> > > On 2026-03-28, Dorjoy Chowdhury <dorjoychy111@gmail.com> wrote:
-> > > > This flag indicates the path should be opened if it's a regular fil=
-e.
-> > > > This is useful to write secure programs that want to avoid being
-> > > > tricked into opening device nodes with special semantics while thin=
-king
-> > > > they operate on regular files. This is a requested feature from the
-> > > > uapi-group[1].
-> > > >=20
-> > > > A corresponding error code EFTYPE has been introduced. For example,=
- if
-> > > > openat2 is called on path /dev/null with OPENAT2_REGULAR in the fla=
-g
-> > > > param, it will return -EFTYPE. EFTYPE is already used in BSD system=
-s
-> > > > like FreeBSD, macOS.
-> > > >=20
-> > > > When used in combination with O_CREAT, either the regular file is
-> > > > created, or if the path already exists, it is opened if it's a regu=
-lar
-> > > > file. Otherwise, -EFTYPE is returned.
-> > > >=20
-> > > > When OPENAT2_REGULAR is combined with O_DIRECTORY, -EINVAL is retur=
-ned
-> > > > as it doesn't make sense to open a path that is both a directory an=
-d a
-> > > > regular file.
-> > > >=20
-> > > > [1]: https://uapi-group.org/kernel-features/#ability-to-only-open-r=
-egular-files
-> > > >=20
-> > > > Signed-off-by: Dorjoy Chowdhury <dorjoychy111@gmail.com>
-> > > > ---
-> > >=20
-> > > Aside from the nit below, feel free to take a
-> > >=20
-> > > Reviewed-by: Aleksa Sarai <aleksa@amutable.com>
-> > >=20
-> >=20
-> > Thanks for reviewing!
-> >=20
-> > > > diff --git a/fs/open.c b/fs/open.c
-> > > > index 681d405bc61e..a6f445f72181 100644
-> > > > --- a/fs/open.c
-> > > > +++ b/fs/open.c
-> > > > @@ -960,7 +960,7 @@ static int do_dentry_open(struct file *f,
-> > > >       if (f->f_mapping->a_ops && f->f_mapping->a_ops->direct_IO)
-> > > >               f->f_mode |=3D FMODE_CAN_ODIRECT;
-> > > >=20
-> > > > -     f->f_flags &=3D ~(O_CREAT | O_EXCL | O_NOCTTY | O_TRUNC);
-> > > > +     f->f_flags &=3D ~(O_CREAT | O_EXCL | O_NOCTTY | O_TRUNC | OPE=
-NAT2_REGULAR);
-> > >=20
-> > > It's not clear to me why you dropped this, I didn't see a review
-> > > mentioning it either. (General note: Ideally the cover letter changel=
-og
-> > > would mention who suggested a change in brackets after the changelog
-> > > line so it's easier to track where a change might've come from.)
-> > >=20
-> >=20
-> > Thanks for the general note. I will keep that in mind.
-> >=20
-> > The review was from Jeff Layton in v5
-> > https://lore.kernel.org/linux-fsdevel/5fcc2a6e6d92dae0601c6b3b8faa8b2f8=
-3981afb.camel@kernel.org/
-> > " 1. OPENAT2_REGULAR leaks into f_flags - do_dentry_open() strips
-> > open-time-only flags (O_CREAT|O_EXCL|O_NOCTTY|O_TRUNC)
-> >   but does not strip OPENAT2_REGULAR. When a regular file is
-> > successfully opened via openat2() with this flag, the bit
-> >   persists in file->f_flags and will be returned by fcntl(fd, F_GETFL).=
-"
-> >=20
-> > I think it makes sense to strip off as OPENAT2_REGULAR is an open time
-> > only flag (like O_CREAT and the others already), right?
->=20
-> Well, O_DIRECTORY isn't stripped so if we want to mirror that behaviour
-> then it shouldn't be stripped either IMHO.
->=20
-> O_NOCTTY and O_TRUNC make sense to strip (they are not relevant to the
-> file after it was opened -- truncation only happens at open time and you
-> can always set your controlling TTY later).
->=20
-> The story with O_CREAT and O_EXCL is a bit more complicated. They are
-> stripped but the history there is unclear -- the line was added in Linux
-> 0.98.4(!) with no mention in the release note at the time. (Linus: I
-> wonder if you remember why this was changed at the time? Sorry for the
-> trip down memory lane...)
->=20
-> However, the existence of F_CREATED_QUERY kind of shows that these kinds
-> of checks are stuff that userspace can find handy (though FMODE_CREATED
-> is more useful than O_CREAT|O_EXCL anyway). O_EXCL is used internally
-> for stuff so it can be re-exposed, I'm just not sure it's a good
-> precedent to make a decision based on.
->=20
-> Then again, userspace can check with fstat(2) so it's not the end of the
-> world, but I don't really see a strong reason to hide information from
-> userspace. Since the mail was from Claude (and it tends to give silly
-> nits like that) I'm not sure whether Jeff would agree with my view or
-> not.
 
-I don't have a strong feeling either way, but it "feels" like O_REGULAR
-is not particularly useful to return in F_GETFL.
+--nfsjwfyis4t5hlj3
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Once the file is open, then O_REGULAR really doesn't matter anymore. We
-_know_ it's a regular file at that point or the open wouldn't have
-happened. F_GETFL is more useful for showing flags that actually affect
-how the file description works (e.g. O_DIRECT, O_ASYNC, etc.).
+On Thu, Apr 16, 2026 at 10:46:50PM +1000, Aleksa Sarai wrote:
+> On 2026-04-16, Aleksa Sarai <cyphar@cyphar.com> wrote:
+> > On 2026-04-13, Alexey Gladkov <legion@kernel.org> wrote:
+> > > When procfs is mounted with the subset=pid option, all system files and
+> > > directories from the root of the filesystem are not accessible in
+> > > userspace. Only dynamic information about processes is available, which
+> > > cannot be hidden with overmount.
+> > > 
+> > > For this reason, checking for full visibility is not relevant if mounting
+> > > is performed with the subset=pid option.
+> > > 
+> > > Signed-off-by: Alexey Gladkov <legion@kernel.org>
+> > > ---
+> > 
+> > > -static bool mount_too_revealing(const struct super_block *sb, int *new_mnt_flags)
+> > > +static bool mount_too_revealing(struct fs_context *fc, int *new_mnt_flags)
+> > >  {
+> > >  	const unsigned long required_iflags = SB_I_NOEXEC | SB_I_NODEV;
+> > >  	struct mnt_namespace *ns = current->nsproxy->mnt_ns;
+> > > +	const struct super_block *sb = fc->root->d_sb;
+> > >  	unsigned long s_iflags;
+> > >  
+> > >  	if (ns->user_ns == &init_user_ns)
+> > > @@ -6388,7 +6387,7 @@ static bool mount_too_revealing(const struct super_block *sb, int *new_mnt_flags
+> > >  		return true;
+> > >  	}
+> > >  
+> > > -	return !mnt_already_visible(ns, sb, new_mnt_flags);
+> > > +	return (!fc->skip_visibility && !mnt_already_visible(ns, sb, new_mnt_flags));
+> > >  }
+> > 
+> > Unless I'm missing something (I haven't tested this locally yet, sorry),
+> > this will allow you to bypass mount_too_revealing() even for
+> > non-subset=pid mounts because once you create a subset=pid mount then a
+> > regular procfs mount will see the subset=pid mount and permit it.
+> > 
+> > I think the solution is quite simple -- you can also skip super-blocks
+> > that have fc->skip_visibility set in mnt_already_visible().
+> 
+> I now see that check was present in v8 but I guess its importance wasn't
+> obvious. I guess this means we will need to reintroduce
+> SB_I_USERNS_ALLOW_REVEALING. :/
 
---=20
-Jeff Layton <jlayton@kernel.org>
+I've been playing with something else. So first we should move
+SB_I_USERNS_REVEALING to an fs_type flag. It's not an optional thing and
+always set and never removed. That also means we can simplify
+sysfs_get_tree() to just kernfs_get_tree().
+
+And then we raise SB_I_USERNS_RESTRICTED on all procfs mounts with
+pid_only and disallow using them for calculating mount permissions for
+unrestricted procfs mounts.
+
+Aleksa?
+
+--nfsjwfyis4t5hlj3
+Content-Type: text/x-diff; charset=utf-8
+Content-Disposition: attachment;
+	filename="0001-FOLD-Don-t-allow-to-abuse-restricted-procfs-mounts-t.patch"
+
+From 1041e9c62d74ffd03c7bfc748cc952714ab51f01 Mon Sep 17 00:00:00 2001
+From: Christian Brauner <brauner@kernel.org>
+Date: Thu, 16 Apr 2026 15:22:15 +0200
+Subject: [PATCH] [FOLD]: Don't allow to abuse restricted procfs mounts to
+ mount unrestricted ones
+
+Signed-off-by: Christian Brauner <brauner@kernel.org>
+---
+ fs/namespace.c                 | 11 ++++++++++-
+ fs/proc/root.c                 |  5 ++++-
+ include/linux/fs/super_types.h |  1 +
+ 3 files changed, 15 insertions(+), 2 deletions(-)
+
+diff --git a/fs/namespace.c b/fs/namespace.c
+index 7b171a67dd50..099ce44e46b5 100644
+--- a/fs/namespace.c
++++ b/fs/namespace.c
+@@ -6351,10 +6351,19 @@ static bool mnt_already_visible(struct mnt_namespace *ns,
+ 
+ 	guard(namespace_shared)();
+ 	hlist_for_each_entry(mnt, &ns->mnt_visible_mounts, mnt_ns_visible) {
++		const struct super_block *sb_visible = mnt->mnt.mnt_sb;
+ 		struct mount *child;
+ 		int mnt_flags;
+ 
+-		if (mnt->mnt.mnt_sb->s_type != sb->s_type)
++		if (sb_visible->s_type != sb->s_type)
++			continue;
++
++		/*
++		 * If the new superblock is not going to be restricted then any
++		 * mount that is restricted cannot be used to allow it.
++		 */
++		if (!(sb->s_iflags & SB_I_USERNS_RESTRICTED) &&
++		    (sb_visible->s_iflags & SB_I_USERNS_RESTRICTED))
+ 			continue;
+ 
+ 		/* A local view of the mount flags */
+diff --git a/fs/proc/root.c b/fs/proc/root.c
+index 350fc4f888ab..a035467b465b 100644
+--- a/fs/proc/root.c
++++ b/fs/proc/root.c
+@@ -267,8 +267,11 @@ static int proc_fill_super(struct super_block *s, struct fs_context *fc)
+ 	 * The dynamic part of procfs cannot be hidden using overmount.
+ 	 * Therefore, the check for "not fully visible" can be skipped.
+ 	 */
+-	if (fs_info->pidonly)
++	if (fs_info->pidonly) {
+ 		fc->skip_visibility = true;
++		/* Indicate that this procfs instance hides a bunch of files. */
++		s->s_iflags |= SB_I_USERNS_RESTRICTED;
++	}
+ 
+ 	/* User space would break if executables or devices appear on proc */
+ 	s->s_iflags |= SB_I_NOEXEC | SB_I_NODEV;
+diff --git a/include/linux/fs/super_types.h b/include/linux/fs/super_types.h
+index 182efbeb9520..4ae7d0c3d55b 100644
+--- a/include/linux/fs/super_types.h
++++ b/include/linux/fs/super_types.h
+@@ -326,6 +326,7 @@ struct super_block {
+ #define SB_I_STABLE_WRITES 0x00000008	/* don't modify blks until WB is done */
+ 
+ /* sb->s_iflags to limit user namespace mounts */
++#define SB_I_USERNS_RESTRICTED		0x00000010
+ #define SB_I_IMA_UNVERIFIABLE_SIGNATURE	0x00000020
+ #define SB_I_UNTRUSTED_MOUNTER		0x00000040
+ #define SB_I_EVM_HMAC_UNSUPPORTED	0x00000080
+-- 
+2.47.3
+
+
+--nfsjwfyis4t5hlj3
+Content-Type: text/x-diff; charset=utf-8
+Content-Disposition: attachment;
+	filename="0001-fs-move-SB_I_USERNS_VISIBLE-to-FS_USERNS_MOUNT_RESTR.patch"
+
+From bcb9e887619cbf5f2cd0a6a80b299e3a5fc2692a Mon Sep 17 00:00:00 2001
+From: Christian Brauner <brauner@kernel.org>
+Date: Thu, 16 Apr 2026 15:04:31 +0200
+Subject: [PATCH 1/2] fs: move SB_I_USERNS_VISIBLE to
+ FS_USERNS_MOUNT_RESTRICTED
+
+Whether a filesystem's mounts need to undergo a visibility check in user
+namespaces is a static property of the filesystem type, not a runtime
+property of each superblock instance. Both proc and sysfs always set
+SB_I_USERNS_VISIBLE on their superblocks unconditionally (sysfs does so
+on first creation, and subsequent mounts reuse the same superblock).
+
+Move this flag from sb->s_iflags (SB_I_USERNS_VISIBLE) to
+file_system_type->fs_flags (FS_USERNS_MOUNT_RESTRICTED) so the intent
+is expressed at the filesystem type level where it belongs.
+
+All check sites are updated to test sb->s_type->fs_flags instead of
+sb->s_iflags. The SB_I_NOEXEC and SB_I_NODEV flags remain on the
+superblock as they are runtime properties set during fill_super.
+
+Signed-off-by: Christian Brauner <brauner@kernel.org>
+---
+ fs/namespace.c                 | 4 ++--
+ fs/proc/root.c                 | 4 ++--
+ fs/sysfs/mount.c               | 4 +---
+ include/linux/fs.h             | 1 +
+ include/linux/fs/super_types.h | 1 -
+ kernel/acct.c                  | 2 +-
+ 6 files changed, 7 insertions(+), 9 deletions(-)
+
+diff --git a/fs/namespace.c b/fs/namespace.c
+index fe919abd2f01..a60ddfe71c7a 100644
+--- a/fs/namespace.c
++++ b/fs/namespace.c
+@@ -6405,10 +6405,10 @@ static bool mount_too_revealing(const struct super_block *sb, int *new_mnt_flags
+ 		return false;
+ 
+ 	/* Can this filesystem be too revealing? */
+-	s_iflags = sb->s_iflags;
+-	if (!(s_iflags & SB_I_USERNS_VISIBLE))
++	if (!(sb->s_type->fs_flags & FS_USERNS_MOUNT_RESTRICTED))
+ 		return false;
+ 
++	s_iflags = sb->s_iflags;
+ 	if ((s_iflags & required_iflags) != required_iflags) {
+ 		WARN_ONCE(1, "Expected s_iflags to contain 0x%lx\n",
+ 			  required_iflags);
+diff --git a/fs/proc/root.c b/fs/proc/root.c
+index 0f9100559471..b65053f9f046 100644
+--- a/fs/proc/root.c
++++ b/fs/proc/root.c
+@@ -257,7 +257,7 @@ static int proc_fill_super(struct super_block *s, struct fs_context *fc)
+ 	proc_apply_options(fs_info, fc, current_user_ns());
+ 
+ 	/* User space would break if executables or devices appear on proc */
+-	s->s_iflags |= SB_I_USERNS_VISIBLE | SB_I_NOEXEC | SB_I_NODEV;
++	s->s_iflags |= SB_I_NOEXEC | SB_I_NODEV;
+ 	s->s_flags |= SB_NODIRATIME | SB_NOSUID | SB_NOEXEC;
+ 	s->s_blocksize = 1024;
+ 	s->s_blocksize_bits = 10;
+@@ -359,7 +359,7 @@ static struct file_system_type proc_fs_type = {
+ 	.init_fs_context	= proc_init_fs_context,
+ 	.parameters		= proc_fs_parameters,
+ 	.kill_sb		= proc_kill_sb,
+-	.fs_flags		= FS_USERNS_MOUNT | FS_DISALLOW_NOTIFY_PERM,
++	.fs_flags		= FS_USERNS_MOUNT | FS_USERNS_MOUNT_RESTRICTED | FS_DISALLOW_NOTIFY_PERM,
+ };
+ 
+ void __init proc_root_init(void)
+diff --git a/fs/sysfs/mount.c b/fs/sysfs/mount.c
+index b199e8ff79b1..b45ea5d511e7 100644
+--- a/fs/sysfs/mount.c
++++ b/fs/sysfs/mount.c
+@@ -32,8 +32,6 @@ static int sysfs_get_tree(struct fs_context *fc)
+ 	if (ret)
+ 		return ret;
+ 
+-	if (kfc->new_sb_created)
+-		fc->root->d_sb->s_iflags |= SB_I_USERNS_VISIBLE;
+ 	return 0;
+ }
+ 
+@@ -93,7 +91,7 @@ static struct file_system_type sysfs_fs_type = {
+ 	.name			= "sysfs",
+ 	.init_fs_context	= sysfs_init_fs_context,
+ 	.kill_sb		= sysfs_kill_sb,
+-	.fs_flags		= FS_USERNS_MOUNT,
++	.fs_flags		= FS_USERNS_MOUNT | FS_USERNS_MOUNT_RESTRICTED,
+ };
+ 
+ int __init sysfs_init(void)
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index b5b01bb22d12..17a6baefb7d3 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -2280,6 +2280,7 @@ struct file_system_type {
+ #define FS_MGTIME		64	/* FS uses multigrain timestamps */
+ #define FS_LBS			128	/* FS supports LBS */
+ #define FS_POWER_FREEZE		256	/* Always freeze on suspend/hibernate */
++#define FS_USERNS_MOUNT_RESTRICTED 512	/* Restrict mount in userns if not already visible */
+ #define FS_RENAME_DOES_D_MOVE	32768	/* FS will handle d_move() during rename() internally. */
+ 	int (*init_fs_context)(struct fs_context *);
+ 	const struct fs_parameter_spec *parameters;
+diff --git a/include/linux/fs/super_types.h b/include/linux/fs/super_types.h
+index 383050e7fdf5..182efbeb9520 100644
+--- a/include/linux/fs/super_types.h
++++ b/include/linux/fs/super_types.h
+@@ -326,7 +326,6 @@ struct super_block {
+ #define SB_I_STABLE_WRITES 0x00000008	/* don't modify blks until WB is done */
+ 
+ /* sb->s_iflags to limit user namespace mounts */
+-#define SB_I_USERNS_VISIBLE		0x00000010 /* fstype already mounted */
+ #define SB_I_IMA_UNVERIFIABLE_SIGNATURE	0x00000020
+ #define SB_I_UNTRUSTED_MOUNTER		0x00000040
+ #define SB_I_EVM_HMAC_UNSUPPORTED	0x00000080
+diff --git a/kernel/acct.c b/kernel/acct.c
+index cbbf79d718cf..c440d43479ca 100644
+--- a/kernel/acct.c
++++ b/kernel/acct.c
+@@ -249,7 +249,7 @@ static int acct_on(const char __user *name)
+ 		return -EINVAL;
+ 
+ 	/* Exclude procfs and sysfs. */
+-	if (file_inode(file)->i_sb->s_iflags & SB_I_USERNS_VISIBLE)
++	if (file_inode(file)->i_sb->s_type->fs_flags & FS_USERNS_MOUNT_RESTRICTED)
+ 		return -EINVAL;
+ 
+ 	if (!(file->f_mode & FMODE_CAN_WRITE))
+-- 
+2.47.3
+
+
+--nfsjwfyis4t5hlj3
+Content-Type: text/x-diff; charset=utf-8
+Content-Disposition: attachment;
+	filename="0002-sysfs-remove-trivial-sysfs_get_tree-wrapper.patch"
+
+From b43adcafc42753065739a22a053417d43694d9ac Mon Sep 17 00:00:00 2001
+From: Christian Brauner <brauner@kernel.org>
+Date: Thu, 16 Apr 2026 15:04:47 +0200
+Subject: [PATCH 2/2] sysfs: remove trivial sysfs_get_tree() wrapper
+
+Now that FS_USERNS_MOUNT_RESTRICTED is a file_system_type flag,
+sysfs_get_tree() is a trivial wrapper around kernfs_get_tree() with no
+additional logic. Point sysfs_fs_context_ops.get_tree directly at
+kernfs_get_tree() and remove the wrapper.
+
+Signed-off-by: Christian Brauner <brauner@kernel.org>
+---
+ fs/sysfs/mount.c | 14 +-------------
+ 1 file changed, 1 insertion(+), 13 deletions(-)
+
+diff --git a/fs/sysfs/mount.c b/fs/sysfs/mount.c
+index b45ea5d511e7..88c10823fcaf 100644
+--- a/fs/sysfs/mount.c
++++ b/fs/sysfs/mount.c
+@@ -23,18 +23,6 @@
+ static struct kernfs_root *sysfs_root;
+ struct kernfs_node *sysfs_root_kn;
+ 
+-static int sysfs_get_tree(struct fs_context *fc)
+-{
+-	struct kernfs_fs_context *kfc = fc->fs_private;
+-	int ret;
+-
+-	ret = kernfs_get_tree(fc);
+-	if (ret)
+-		return ret;
+-
+-	return 0;
+-}
+-
+ static void sysfs_fs_context_free(struct fs_context *fc)
+ {
+ 	struct kernfs_fs_context *kfc = fc->fs_private;
+@@ -47,7 +35,7 @@ static void sysfs_fs_context_free(struct fs_context *fc)
+ 
+ static const struct fs_context_operations sysfs_fs_context_ops = {
+ 	.free		= sysfs_fs_context_free,
+-	.get_tree	= sysfs_get_tree,
++	.get_tree	= kernfs_get_tree,
+ };
+ 
+ static int sysfs_init_fs_context(struct fs_context *fc)
+-- 
+2.47.3
+
+
+--nfsjwfyis4t5hlj3--
