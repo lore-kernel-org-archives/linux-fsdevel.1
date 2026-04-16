@@ -1,90 +1,90 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AC2339A07D
-	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 09:17:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3A98399351
+	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 09:17:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776331068; cv=none; b=tJ/ZDcpu8Bb3hDC+ociuq+1IJcLqkX6scLnFiCscej6lhpJ3j/T45UN0jM5yPf4sArKc+mprR1rTmu3wz408MJhsfHNTGLBV5D6pxLgdwdVGjko9RwIo1a6EvcUj++soFr7LZnsF8jeV2X8W2VL6DgCbdPcOP684tbeUUkwIzAg=
+	t=1776331069; cv=none; b=jgwPhj5GNhN/mJZ/70l/1P0lbGxSqCR2yde+T1c+d4EAKL0IZYUYxCerXeD0Z5yRO1ISAYLO5tMX1M/fakJYoIW+nSexonGV6WYITu0pTs6QYPFtah/9OHkdIuV4u6x/I/XnvJYcYJaUbGG216TsM2pO73R3dUtov9DL87nx014=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776331068; c=relaxed/simple;
-	bh=QEYv1JyCIHd66D8a10UakWcyKxxHsU3W7wi/WtXwWuM=;
+	s=arc-20240116; t=1776331069; c=relaxed/simple;
+	bh=o2TRhL26L9NSfPeFRxX7OHidOHIrOe7kuKVF6GkfxQc=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=r+vZDWU1oeLBkW1kxkiVc0vkfCCm289o4eLiQJw2UxZ8C5E0PzFYGO77xC+iQx9XhyCQRTeKHA7FhSSQqVgfcGcpMrVg3H1llI6Gf3vm3fUWdrlc/eSUWZEZvgF5jBXRQgQBFejkC9C998alEspy7RMBH7gQ6duJGuGM5cAc6Jg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=X7pQRNJe; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=Q0O3d2XZ; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=Gt3twdRcNzH6Om5ND4cE1c2C0UX9pn5F2j2vnzbXkVNIVNOXtQOH4Vtdskc4FLffIYp9L8Gn1CARXKzDCVoQVbWaItH0Q68vKI+JMeW1+1zrFewy9bbncYX4fEEI7eOkyL59rBVCvwAw+D4YhXAIW/2L4ji6HhxgdyVLbVqQ16s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NMcgkAGo; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=CBhTrrGN; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="X7pQRNJe";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="Q0O3d2XZ"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NMcgkAGo";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="CBhTrrGN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1776331060;
+	s=mimecast20190719; t=1776331057;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=UYs2aH9cnC/FcYAafN5ozvPOzmP2OG0VJ1IJjySXv9g=;
-	b=X7pQRNJesqP7JDQIaact0CKiqrCPH5T4zz64liuZOnfhX5W/y1KumxqqiMcN4PIpbG+IwL
-	1nvEKDgpIo1Je4EEt9Fp/5IaMwzYjht/bgIcv6YU2idVzbl4NHo39akVFuMcP01Kh+pmFV
-	xqHYH01tgu5A76NIIETAcXyRgV3wABk=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=nbaJEA9MO6bqlLSOx8ZxcFBDBbtOdy+ISiZH/GSHqa8=;
+	b=NMcgkAGokzOT1lBqvmey0tiyf2BfxZJ8DLtAJGUvESldYh+NIMpZn8Usol0qIm5YhHeMw/
+	eeBr2soGD5obO6wCvpMp23kiEBoprKuVPwmwsnyz2uz6tvFfW9wtDFoF6vu/fspVCrBUEr
+	x3nP4xNqvENONqXW6C90jx6wDB62I14=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-615-1dGYzXCSNc-28R0-S44fMw-1; Thu, 16 Apr 2026 05:17:38 -0400
-X-MC-Unique: 1dGYzXCSNc-28R0-S44fMw-1
-X-Mimecast-MFC-AGG-ID: 1dGYzXCSNc-28R0-S44fMw_1776331057
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-488cc31ea57so50135105e9.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 02:17:38 -0700 (PDT)
+ us-mta-604-x8ruLn1jMQikCWOGhUnXHw-1; Thu, 16 Apr 2026 05:17:35 -0400
+X-MC-Unique: x8ruLn1jMQikCWOGhUnXHw-1
+X-Mimecast-MFC-AGG-ID: x8ruLn1jMQikCWOGhUnXHw_1776331055
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-483786a09b1so81822135e9.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 02:17:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1776331057; x=1776935857; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1776331054; x=1776935854; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=UYs2aH9cnC/FcYAafN5ozvPOzmP2OG0VJ1IJjySXv9g=;
-        b=Q0O3d2XZZ4OV7ngEIqbuehSyuR3zHRNAmmZX2Po53aANfK0cZDqEEtnl6eU2RrLkbc
-         KAlMd3MMmje4PJzLX/al2YdGz3vxqQ5EZ3ijRgFQu2d8Y8MZb4aTi5U7D/PpFbqZ6Atw
-         cA+qjY2kdlsG9dNHzROx8+ovVz6gMeIzeMP9STr5KmWvFTdrG6PMzwC9l+IwJYOkw5IJ
-         kPl6tJHcpOaULxY6Pvd0VOAfqT52dDzR4hnf+kbS9bY5PVEamNbKDMWKPnyppr8y+BY0
-         tMswpxbqKQKlZhz/3vBIUTc+m49S8KMa/SeN+wbt9hMofpMUGbe0YtGc79WHh5VbBryf
-         YvVw==
+        bh=nbaJEA9MO6bqlLSOx8ZxcFBDBbtOdy+ISiZH/GSHqa8=;
+        b=CBhTrrGN6b/f8Qh2R+KGnmUKIe/EobMd3P1sq9c5tBLltfHdOh9+8Am91vZHnkerv6
+         zJ2A36WC6JBfQbXRfhTFgkXomsMPXVQKBVpUXwGHrHHS/rAFcMHnv/W8poziOB2ZFsmd
+         cRCUEfkuNRgpBMNnzu+Uqf2BvQAFVJkXR5Xd4tVEfNbv626z3lOSy0jGWnOONc9JlTbJ
+         WIV3J8qBdxN1Eug1iHjOu9IrkzxtQZxym5DfHSlCR8izbcPaJxljo+DSZbysxLdjdTKN
+         BaCok/jNA/2NoQ6rmobVw2p+PlUiIFX7K81Wvr99OB/ISyycwihTgPJEa5sTtONvyUTW
+         do3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776331057; x=1776935857;
+        d=1e100.net; s=20251104; t=1776331054; x=1776935854;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=UYs2aH9cnC/FcYAafN5ozvPOzmP2OG0VJ1IJjySXv9g=;
-        b=M+uViw86L7nas3W1yQ3UOxhsiXVNZ5YIZKWXdXOuM6fA4kZ0LAqQtlGYW5qDgX63jG
-         VCRVU05lmUPx8VVTgEne6/HZvf8Ewfp39N55hp3Xw3Fe0cPoGaD2iQJPxvgY5l3KJeEa
-         +iCWXFR3VTiUsT7/z8bM7lcRd0wOWlTv3zNo9SpxX/bUHS8RpKtMLZLqSlNilL6FBJqv
-         R97qj7XjPal5MC0o3wOMve7Zs+r3hX3WQ3W2cqply+q3xbYH5E/eIepFEF/ArmMlDukw
-         gc8gISZ4wbha/zr6OY/38vDeId38RfauatwRZ9cGc5Rlr8dOGLL0QUo+Xcm7BpFZI1Sm
-         oEfg==
-X-Forwarded-Encrypted: i=1; AFNElJ+nuVEvcLPV2JczQYoIVrum6G/s04bGVrWJx5ROyEWnDP0jUjc68fMWwBD7psY32dWgScQ3v5rfeg7UepMj@vger.kernel.org
-X-Gm-Message-State: AOJu0YyRStJu9MUhSRICN6/tuAP5kV3JCKNeAX3wJ4OAARztpwcwSuUO
-	Ucvvj9Q9z3WwgBQ8GSD3T0oIae33qctayY750Z6LicRO4tbrwyC2qNHfXfFHqzLJ06DZnoqnD/d
-	pcf9BitvKYtPSm+eF2kbrXxUS2P1Kiwb8dkfEPYGMjwihmVVBiGdK/1vrCVLf+Dl5qOXCI0VAsK
-	Q=
-X-Gm-Gg: AeBDieuByMVheVHJx5xFdVrXsxh68qZ8pAJg4Q5VbBba0ITH/rn1shKmvsB8PEDQ1uE
-	dn9JP+QF8k2477Jv2DCI98uQnTpBIrDUDS0q3hMKkQZSFNpwX5doGrN+4L9PuAPaEQUIl34pxUM
-	xpczczm56Gp5w8lesPZkp9aAA1S0l0GzpPPJxDeunN4bSzaE7kEM55ZiS5QPnIk8UvKpAOVlRrp
-	+9yErNSWAHxJ4fDO955zKYDxx5cboodKzhnDQK6ZN6eJEEz0nYfrRp1+Dem9cP3soMlG4Mptm4K
-	iRjgjQO1FlAlg6h12sa8Yzq2p1cLEi2p5BIOL/mCPRNWhtL/29iDkDyL5BZFL1wjy0R0c18aSuP
-	SujqmYsnTH+MLfIKKgyYvNUeh37kbH12st7osHRkK+YMvwMO4x4/WJRIbBjutCDp5j+0+cq1RDS
-	HL4IVMzw==
-X-Received: by 2002:a05:600c:3546:b0:488:a82f:bbb6 with SMTP id 5b1f17b1804b1-488d6890a46mr348061315e9.27.1776331056869;
-        Thu, 16 Apr 2026 02:17:36 -0700 (PDT)
-X-Received: by 2002:a05:600c:3546:b0:488:a82f:bbb6 with SMTP id 5b1f17b1804b1-488d6890a46mr348060825e9.27.1776331056288;
-        Thu, 16 Apr 2026 02:17:36 -0700 (PDT)
+        bh=nbaJEA9MO6bqlLSOx8ZxcFBDBbtOdy+ISiZH/GSHqa8=;
+        b=hkcAUoao+fINtup/FdjWn9P/rbnAHgvg46imj1Iiw3wPCiGvKrzjyo6pdytQNKpcIY
+         ehU8xZalarFPbulWnMi7IPPgOtH8XOgn1NkKGrK08Wb/4Uvbjuqo6O2npNMnzKBdKt/P
+         jt4yeDoNJ/mCVxfIWhKQPbN1qkxez4gV13WsKDX7EslF4ScxjtZORf5QHrLKAXA6lgqW
+         vE8YUsEHUM8cZm2ZnQOQkE7EsIVqEjSK8GMaOZGXy6CE+mzzAQJk7Url8kcfrY2zgCU3
+         NnxD55eAVPb2BWnevEaOIj9R8MAtV4zckl+4Gi5YTpRJvxWMR+n8aK9ZWgsYwn54v/K9
+         PFNA==
+X-Forwarded-Encrypted: i=1; AFNElJ9Qh/QoP+nZssE+Wy20e2m4slmN3tHnktDEWcTF6oW86MNKMd2/hvtzm8vCKiE82WDKPodjjVFjYR/3bH6C@vger.kernel.org
+X-Gm-Message-State: AOJu0YxD/Z6nzzrOEPMMYDFj8472kCz9E4GIuIawVxVQMoltiPghT8q5
+	sDY/uWV3X+FceqwlnNA4/l7hRoxLO6MYTdiBCun9Xr+SyJge+zep8PM0OeeTu+rdF0DGMkqLu6y
+	8cKmts12YiA0be3vOeXnlg6emnTxDmGJay+5oNXtJbQ2M1mvOB7lHuGhP4s9xFGTSLRyNpnsx15
+	0=
+X-Gm-Gg: AeBDieuKsxOrf7cK8xC8PXHTzZptnYoqXMs0FN42Tsxi409R5k2EeudcSkOTflozJ1P
+	uu/I0aDzj2LPfW3zN7uzRyTTD5htwQ6ZsHdBcjtZ+H4mbFKJ1INUXv3LfSjoXpc4yZSm2gvicHc
+	ojKuBGsvOxFT07UAk/8AMPXYZ3UPV2pVUZ/wg34Sx8BltQwVzFogqi5f+P1zcW3ivB2mh3YtYZP
+	DDSskgBpi1TLUPffmRyUoFeefLJPqUOzMvkhUmr9qEPNIyoiHInaIu1frzFeco7dcAi4hvsKJxc
+	wjBPs2XIO8ksozsHmAZVOduvsxGSocm6U2w896j7Q08gDR1ZMyR3PCJjOQaHtW0STr9GvN592Oo
+	a+kO+wJcK0JNPuGqEyNP69OqkNRj23BSx+VL2JAR+rm8IMy/WzJjmxfwHCt6Lnxu9s3LHCgLosy
+	mW6ckbjA==
+X-Received: by 2002:a05:600c:c16d:b0:488:be21:54ae with SMTP id 5b1f17b1804b1-488d66504bfmr377433155e9.0.1776331054131;
+        Thu, 16 Apr 2026 02:17:34 -0700 (PDT)
+X-Received: by 2002:a05:600c:c16d:b0:488:be21:54ae with SMTP id 5b1f17b1804b1-488d66504bfmr377432455e9.0.1776331053557;
+        Thu, 16 Apr 2026 02:17:33 -0700 (PDT)
 Received: from maszat.piliscsaba.szeredi.hu (85-66-37-19.pool.digikabel.hu. [85.66.37.19])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f57d80d3sm38597975e9.0.2026.04.16.02.17.35
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f57d80d3sm38597975e9.0.2026.04.16.02.17.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Apr 2026 02:17:35 -0700 (PDT)
+        Thu, 16 Apr 2026 02:17:33 -0700 (PDT)
 From: Miklos Szeredi <mszeredi@redhat.com>
 To: fuse-devel@lists.linux.dev,
 	linux-fsdevel@vger.kernel.org
-Subject: [PATCH 25/32] fuse: create poll.c
-Date: Thu, 16 Apr 2026 11:16:49 +0200
-Message-ID: <20260416091658.462783-26-mszeredi@redhat.com>
+Subject: [PATCH 23/32] fuse: split out filesystem part of request sending
+Date: Thu, 16 Apr 2026 11:16:47 +0200
+Message-ID: <20260416091658.462783-24-mszeredi@redhat.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260416091658.462783-1-mszeredi@redhat.com>
 References: <20260416091658.462783-1-mszeredi@redhat.com>
@@ -96,430 +96,388 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Move f_op->poll related functions to the new source file.
+Create a new source file: req.c and add the request sending entry
+functions:
+
+  __fuse_simple_request()
+  fuse_simple_background()
+  fuse_simple_notify_reply()
+
+Introduce transport layer sending functions that are called by the
+respective fs layer function:
+
+  fuse_chan_send()
+  fuse_chan_send_bg()
+  fuse_chan_send_notify_reply()
+
+Move calculation of request header fields uid, gid and pid from
+fuse_get_req() and fuse_force_creads() to a new helper: fuse_fill_creds().
+
+These fileds are now passed to the transport layer via struct fuse_args.
 
 Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
 ---
- fs/fuse/Makefile |   1 +
- fs/fuse/dev.c    |  45 +++++----------
- fs/fuse/dev.h    |   2 +
- fs/fuse/file.c   | 119 ---------------------------------------
- fs/fuse/poll.c   | 141 +++++++++++++++++++++++++++++++++++++++++++++++
- 5 files changed, 158 insertions(+), 150 deletions(-)
- create mode 100644 fs/fuse/poll.c
+ fs/fuse/Makefile |   2 +-
+ fs/fuse/dev.c    | 103 +++++++++++------------------------------------
+ fs/fuse/dev.h    |   4 ++
+ fs/fuse/fuse_i.h |   1 +
+ fs/fuse/req.c    |  99 +++++++++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 129 insertions(+), 80 deletions(-)
+ create mode 100644 fs/fuse/req.c
 
 diff --git a/fs/fuse/Makefile b/fs/fuse/Makefile
-index 08be6817a1cc..26086bf5b494 100644
+index 30dd1bee931d..08be6817a1cc 100644
 --- a/fs/fuse/Makefile
 +++ b/fs/fuse/Makefile
-@@ -12,6 +12,7 @@ obj-$(CONFIG_VIRTIO_FS) += virtiofs.o
+@@ -11,7 +11,7 @@ obj-$(CONFIG_CUSE) += cuse.o
+ obj-$(CONFIG_VIRTIO_FS) += virtiofs.o
  
  fuse-y := trace.o	# put trace.o first so we see ftrace errors sooner
- fuse-y += dev.o dir.o file.o inode.o control.o xattr.o acl.o readdir.o ioctl.o req_timeout.o req.o
-+fuse-y += poll.o
+-fuse-y += dev.o dir.o file.o inode.o control.o xattr.o acl.o readdir.o ioctl.o req_timeout.o
++fuse-y += dev.o dir.o file.o inode.o control.o xattr.o acl.o readdir.o ioctl.o req_timeout.o req.o
  fuse-y += iomode.o
  fuse-$(CONFIG_FUSE_DAX) += dax.o
  fuse-$(CONFIG_FUSE_PASSTHROUGH) += passthrough.o backing.o
 diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-index f3d16a224df7..a76822bd81c2 100644
+index 5b74bd4d7cc3..95b8de20542a 100644
 --- a/fs/fuse/dev.c
 +++ b/fs/fuse/dev.c
-@@ -79,10 +79,10 @@ void fuse_chan_set_initialized(struct fuse_chan *fch)
- 	wake_up_all(&fch->blocked_waitq);
- }
+@@ -101,75 +101,44 @@ static void fuse_drop_waiting(struct fuse_chan *fch)
  
--static bool fuse_block_alloc(struct fuse_conn *fc, bool for_background)
-+static bool fuse_block_alloc(struct fuse_chan *fch, bool for_background)
+ static void fuse_put_request(struct fuse_req *req);
+ 
+-static struct fuse_req *fuse_get_req(struct mnt_idmap *idmap,
+-				     struct fuse_mount *fm,
+-				     bool for_background)
++static struct fuse_req *fuse_get_req(struct fuse_chan *fch, bool for_background)
  {
--	return !fc->chan->initialized || (for_background && fc->chan->blocked) ||
--	       (fc->chan->io_uring && fc->chan->connected && !fuse_uring_ready(fc->chan));
-+	return !fch->initialized || (for_background && fch->blocked) ||
-+	       (fch->io_uring && fch->connected && !fuse_uring_ready(fch));
- }
+-	struct fuse_conn *fc = fm->fc;
+ 	struct fuse_req *req;
+-	bool no_idmap = !fm->sb || (fm->sb->s_iflags & SB_I_NOIDMAP);
+-	kuid_t fsuid;
+-	kgid_t fsgid;
+ 	int err;
  
- static void fuse_drop_waiting(struct fuse_chan *fch)
-@@ -108,10 +108,10 @@ static struct fuse_req *fuse_get_req(struct fuse_chan *fch, bool for_background)
+-	atomic_inc(&fc->chan->num_waiting);
++	atomic_inc(&fch->num_waiting);
  
- 	atomic_inc(&fch->num_waiting);
- 
--	if (fuse_block_alloc(fch->conn, for_background)) {
-+	if (fuse_block_alloc(fch, for_background)) {
+-	if (fuse_block_alloc(fc, for_background)) {
++	if (fuse_block_alloc(fch->conn, for_background)) {
  		err = -EINTR;
- 		if (wait_event_state_exclusive(fch->blocked_waitq,
--				!fuse_block_alloc(fch->conn, for_background),
-+				!fuse_block_alloc(fch, for_background),
+-		if (wait_event_state_exclusive(fc->chan->blocked_waitq,
+-				!fuse_block_alloc(fc, for_background),
++		if (wait_event_state_exclusive(fch->blocked_waitq,
++				!fuse_block_alloc(fch->conn, for_background),
  				(TASK_KILLABLE | TASK_FREEZABLE)))
  			goto out;
  	}
-@@ -2065,21 +2065,21 @@ static int fuse_notify_retrieve(struct fuse_conn *fc, unsigned int size,
-  * if the FUSE daemon takes careful measures to avoid processing duplicated
-  * non-idempotent requests.
-  */
--static void fuse_resend(struct fuse_conn *fc)
-+static void fuse_resend(struct fuse_chan *fch)
- {
- 	struct fuse_dev *fud;
- 	struct fuse_req *req, *next;
--	struct fuse_iqueue *fiq = &fc->chan->iq;
-+	struct fuse_iqueue *fiq = &fch->iq;
- 	LIST_HEAD(to_queue);
- 	unsigned int i;
++
+ 	/* Matches smp_wmb() in fuse_chan_set_initialized() */
+ 	smp_rmb();
  
--	spin_lock(&fc->chan->lock);
--	if (!fc->chan->connected) {
--		spin_unlock(&fc->chan->lock);
-+	spin_lock(&fch->lock);
-+	if (!fch->connected) {
-+		spin_unlock(&fch->lock);
- 		return;
+ 	err = -ENOTCONN;
+-	if (!fc->chan->connected)
+-		goto out;
+-
+-	err = -ECONNREFUSED;
+-	if (fc->conn_error)
++	if (!fch->connected)
+ 		goto out;
+ 
+-	req = fuse_request_alloc(fc->chan, GFP_KERNEL);
++	req = fuse_request_alloc(fch, GFP_KERNEL);
+ 	err = -ENOMEM;
+ 	if (!req) {
+ 		if (for_background)
+-			wake_up(&fc->chan->blocked_waitq);
++			wake_up(&fch->blocked_waitq);
+ 		goto out;
  	}
  
--	list_for_each_entry(fud, &fc->chan->devices, entry) {
-+	list_for_each_entry(fud, &fch->devices, entry) {
- 		struct fuse_pqueue *fpq = &fud->pq;
+-	req->in.h.pid = pid_nr_ns(task_pid(current), fc->pid_ns);
+-
+ 	__set_bit(FR_WAITING, &req->flags);
+ 	if (for_background)
+ 		__set_bit(FR_BACKGROUND, &req->flags);
  
- 		spin_lock(&fpq->lock);
-@@ -2087,7 +2087,7 @@ static void fuse_resend(struct fuse_conn *fc)
- 			list_splice_tail_init(&fpq->processing[i], &to_queue);
- 		spin_unlock(&fpq->lock);
+-	/*
+-	 * Keep the old behavior when idmappings support was not
+-	 * declared by a FUSE server.
+-	 *
+-	 * For those FUSE servers who support idmapped mounts,
+-	 * we send UID/GID only along with "inode creation"
+-	 * fuse requests, otherwise idmap == &invalid_mnt_idmap and
+-	 * req->in.h.{u,g}id will be equal to FUSE_INVALID_UIDGID.
+-	 */
+-	fsuid = no_idmap ? current_fsuid() : mapped_fsuid(idmap, fc->user_ns);
+-	fsgid = no_idmap ? current_fsgid() : mapped_fsgid(idmap, fc->user_ns);
+-	req->in.h.uid = from_kuid(fc->user_ns, fsuid);
+-	req->in.h.gid = from_kgid(fc->user_ns, fsgid);
+-
+-	if (no_idmap && unlikely(req->in.h.uid == ((uid_t)-1) ||
+-				 req->in.h.gid == ((gid_t)-1))) {
+-		fuse_put_request(req);
+-		return ERR_PTR(-EOVERFLOW);
+-	}
+-
+ 	return req;
+ 
+  out:
+-	fuse_drop_waiting(fc->chan);
++	fuse_drop_waiting(fch);
+ 	return ERR_PTR(err);
+ }
+ 
+@@ -775,25 +744,13 @@ static void fuse_adjust_compat(struct fuse_conn *fc, struct fuse_args *args)
  	}
--	spin_unlock(&fc->chan->lock);
-+	spin_unlock(&fch->lock);
+ }
  
- 	list_for_each_entry_safe(req, next, &to_queue, list) {
- 		set_bit(FR_PENDING, &req->flags);
-@@ -2111,7 +2111,7 @@ static void fuse_resend(struct fuse_conn *fc)
- 
- static int fuse_notify_resend(struct fuse_conn *fc)
+-static void fuse_force_creds(struct fuse_mount *fm, struct fuse_req *req)
+-{
+-	struct fuse_conn *fc = fm->fc;
+-
+-	if (!fm->sb || fm->sb->s_iflags & SB_I_NOIDMAP) {
+-		req->in.h.uid = from_kuid_munged(fc->user_ns, current_fsuid());
+-		req->in.h.gid = from_kgid_munged(fc->user_ns, current_fsgid());
+-	} else {
+-		req->in.h.uid = FUSE_INVALID_UIDGID;
+-		req->in.h.gid = FUSE_INVALID_UIDGID;
+-	}
+-
+-	req->in.h.pid = pid_nr_ns(task_pid(current), fc->pid_ns);
+-}
+-
+ static void fuse_args_to_req(struct fuse_req *req, struct fuse_args *args)
  {
--	fuse_resend(fc);
-+	fuse_resend(fc->chan);
+ 	req->in.h.opcode = args->opcode;
+ 	req->in.h.nodeid = args->nodeid;
++	req->in.h.uid = args->uid;
++	req->in.h.gid = args->gid;
++	req->in.h.pid = args->pid;
+ 	req->args = args;
+ 	if (args->is_ext)
+ 		req->in.h.total_extlen = args->in_args[args->ext_idx].size / 8;
+@@ -801,33 +758,26 @@ static void fuse_args_to_req(struct fuse_req *req, struct fuse_args *args)
+ 		__set_bit(FR_ASYNC, &req->flags);
+ }
+ 
+-ssize_t __fuse_simple_request(struct mnt_idmap *idmap,
+-			      struct fuse_mount *fm,
+-			      struct fuse_args *args)
++ssize_t fuse_chan_send(struct fuse_chan *fch, struct fuse_args *args)
+ {
+-	struct fuse_conn *fc = fm->fc;
+ 	struct fuse_req *req;
+ 	ssize_t ret;
+ 
+ 	if (args->force) {
+-		atomic_inc(&fc->chan->num_waiting);
+-		req = fuse_request_alloc(fc->chan, GFP_KERNEL | __GFP_NOFAIL);
+-
+-		if (!args->nocreds)
+-			fuse_force_creds(fm, req);
++		atomic_inc(&fch->num_waiting);
++		req = fuse_request_alloc(fch, GFP_KERNEL | __GFP_NOFAIL);
+ 
+ 		__set_bit(FR_WAITING, &req->flags);
+ 		if (!args->abort_on_kill)
+ 			__set_bit(FR_FORCE, &req->flags);
+ 	} else {
+-		WARN_ON(args->nocreds);
+-		req = fuse_get_req(idmap, fm, false);
++		req = fuse_get_req(fch, false);
+ 		if (IS_ERR(req))
+ 			return PTR_ERR(req);
+ 	}
+ 
+ 	/* Needs to be done after fuse_get_req() so that fc->minor is valid */
+-	fuse_adjust_compat(fc, args);
++	fuse_adjust_compat(fch->conn, args);
+ 	fuse_args_to_req(req, args);
+ 
+ 	if (!args->noreply)
+@@ -891,20 +841,17 @@ static int fuse_request_queue_background(struct fuse_req *req)
+ 	return queued;
+ }
+ 
+-int fuse_simple_background(struct fuse_mount *fm, struct fuse_args *args,
+-			    gfp_t gfp_flags)
++int fuse_chan_send_bg(struct fuse_chan *fch, struct fuse_args *args, gfp_t gfp_flags)
+ {
+ 	struct fuse_req *req;
+ 
+ 	if (args->force) {
+-		WARN_ON(!args->nocreds);
+-		req = fuse_request_alloc(fm->fc->chan, gfp_flags);
++		req = fuse_request_alloc(fch, gfp_flags);
+ 		if (!req)
+ 			return -ENOMEM;
+ 		__set_bit(FR_BACKGROUND, &req->flags);
+ 	} else {
+-		WARN_ON(args->nocreds);
+-		req = fuse_get_req(&invalid_mnt_idmap, fm, true);
++		req = fuse_get_req(fch, true);
+ 		if (IS_ERR(req))
+ 			return PTR_ERR(req);
+ 	}
+@@ -918,15 +865,13 @@ int fuse_simple_background(struct fuse_mount *fm, struct fuse_args *args,
+ 
  	return 0;
  }
+-EXPORT_SYMBOL_GPL(fuse_simple_background);
  
-@@ -2499,23 +2499,6 @@ void fuse_dev_end_requests(struct list_head *head)
- 	}
- }
+-static int fuse_simple_notify_reply(struct fuse_mount *fm,
+-				    struct fuse_args *args, u64 unique)
++int fuse_chan_send_notify_reply(struct fuse_chan *fch, struct fuse_args *args, u64 unique)
+ {
+ 	struct fuse_req *req;
+-	struct fuse_iqueue *fiq = &fm->fc->chan->iq;
++	struct fuse_iqueue *fiq = &fch->iq;
  
--static void end_polls(struct fuse_conn *fc)
--{
--	struct rb_node *p;
--
--	spin_lock(&fc->lock);
--	p = rb_first(&fc->polled_files);
--
--	while (p) {
--		struct fuse_file *ff;
--		ff = rb_entry(p, struct fuse_file, polled_node);
--		wake_up_interruptible_all(&ff->poll_wait);
--
--		p = rb_next(p);
--	}
--	spin_unlock(&fc->lock);
--}
--
- /*
-  * Abort all requests.
-  *
-@@ -2593,7 +2576,7 @@ void fuse_chan_abort(struct fuse_chan *fch, bool abort_with_err)
- 		wake_up_all(&fiq->waitq);
- 		spin_unlock(&fiq->lock);
- 		kill_fasync(&fiq->fasync, SIGIO, POLL_IN);
--		end_polls(fch->conn);
-+		fuse_end_polls(fch->conn);
- 		wake_up_all(&fch->blocked_waitq);
- 		spin_unlock(&fch->lock);
+-	req = fuse_get_req(&invalid_mnt_idmap, fm, false);
++	req = fuse_get_req(fch, false);
+ 	if (IS_ERR(req))
+ 		return PTR_ERR(req);
  
 diff --git a/fs/fuse/dev.h b/fs/fuse/dev.h
-index 9a1f79b130bd..2c4d0c53ffbb 100644
+index a0c1212573d6..fb814a0b6782 100644
 --- a/fs/fuse/dev.h
 +++ b/fs/fuse/dev.h
-@@ -49,6 +49,8 @@ void fuse_init_server_timeout(struct fuse_chan *fch, unsigned int timeout);
- void fuse_chan_abort(struct fuse_chan *fch, bool abort_with_err);
- void fuse_chan_wait_aborted(struct fuse_chan *fch);
+@@ -11,6 +11,7 @@
+ struct fuse_conn;
+ struct fuse_chan;
+ struct fuse_dev;
++struct fuse_args;
+ struct file;
  
-+void fuse_end_polls(struct fuse_conn *fc);
-+
- #ifdef CONFIG_FUSE_IO_URING
- bool fuse_uring_enabled(void);
- void fuse_uring_destruct(struct fuse_chan *fch);
-diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-index d549f47170d6..b8fd148dc109 100644
---- a/fs/fuse/file.c
-+++ b/fs/fuse/file.c
-@@ -2676,125 +2676,6 @@ static loff_t fuse_file_llseek(struct file *file, loff_t offset, int whence)
- 	return retval;
- }
+ struct fuse_chan *fuse_chan_new(void);
+@@ -24,6 +25,9 @@ unsigned int fuse_chan_num_waiting(struct fuse_chan *fch);
+ void fuse_chan_set_fc(struct fuse_chan *fch, struct fuse_conn *fc);
+ void fuse_chan_set_initialized(struct fuse_chan *fch);
+ void fuse_chan_io_uring_enable(struct fuse_chan *fch);
++ssize_t fuse_chan_send(struct fuse_chan *fch, struct fuse_args *args);
++int fuse_chan_send_bg(struct fuse_chan *fch, struct fuse_args *args, gfp_t gfp_flags);
++int fuse_chan_send_notify_reply(struct fuse_chan *fch, struct fuse_args *args, u64 unique);
  
--/*
-- * All files which have been polled are linked to RB tree
-- * fuse_conn->polled_files which is indexed by kh.  Walk the tree and
-- * find the matching one.
-- */
--static struct rb_node **fuse_find_polled_node(struct fuse_conn *fc, u64 kh,
--					      struct rb_node **parent_out)
--{
--	struct rb_node **link = &fc->polled_files.rb_node;
--	struct rb_node *last = NULL;
--
--	while (*link) {
--		struct fuse_file *ff;
--
--		last = *link;
--		ff = rb_entry(last, struct fuse_file, polled_node);
--
--		if (kh < ff->kh)
--			link = &last->rb_left;
--		else if (kh > ff->kh)
--			link = &last->rb_right;
--		else
--			return link;
--	}
--
--	if (parent_out)
--		*parent_out = last;
--	return link;
--}
--
--/*
-- * The file is about to be polled.  Make sure it's on the polled_files
-- * RB tree.  Note that files once added to the polled_files tree are
-- * not removed before the file is released.  This is because a file
-- * polled once is likely to be polled again.
-- */
--static void fuse_register_polled_file(struct fuse_conn *fc,
--				      struct fuse_file *ff)
--{
--	spin_lock(&fc->lock);
--	if (RB_EMPTY_NODE(&ff->polled_node)) {
--		struct rb_node **link, *parent;
--
--		link = fuse_find_polled_node(fc, ff->kh, &parent);
--		BUG_ON(*link);
--		rb_link_node(&ff->polled_node, parent, link);
--		rb_insert_color(&ff->polled_node, &fc->polled_files);
--	}
--	spin_unlock(&fc->lock);
--}
--
--__poll_t fuse_file_poll(struct file *file, poll_table *wait)
--{
--	struct fuse_file *ff = file->private_data;
--	struct fuse_mount *fm = ff->fm;
--	struct fuse_poll_in inarg = { .fh = ff->fh, .kh = ff->kh };
--	struct fuse_poll_out outarg;
--	FUSE_ARGS(args);
--	int err;
--
--	if (fm->fc->no_poll)
--		return DEFAULT_POLLMASK;
--
--	poll_wait(file, &ff->poll_wait, wait);
--	inarg.events = mangle_poll(poll_requested_events(wait));
--
--	/*
--	 * Ask for notification iff there's someone waiting for it.
--	 * The client may ignore the flag and always notify.
--	 */
--	if (waitqueue_active(&ff->poll_wait)) {
--		inarg.flags |= FUSE_POLL_SCHEDULE_NOTIFY;
--		fuse_register_polled_file(fm->fc, ff);
--	}
--
--	args.opcode = FUSE_POLL;
--	args.nodeid = ff->nodeid;
--	args.in_numargs = 1;
--	args.in_args[0].size = sizeof(inarg);
--	args.in_args[0].value = &inarg;
--	args.out_numargs = 1;
--	args.out_args[0].size = sizeof(outarg);
--	args.out_args[0].value = &outarg;
--	err = fuse_simple_request(fm, &args);
--
--	if (!err)
--		return demangle_poll(outarg.revents);
--	if (err == -ENOSYS) {
--		fm->fc->no_poll = 1;
--		return DEFAULT_POLLMASK;
--	}
--	return EPOLLERR;
--}
--EXPORT_SYMBOL_GPL(fuse_file_poll);
--
--/*
-- * This is called from fuse_handle_notify() on FUSE_NOTIFY_POLL and
-- * wakes up the poll waiters.
-- */
--int fuse_notify_poll_wakeup(struct fuse_conn *fc,
--			    struct fuse_notify_poll_wakeup_out *outarg)
--{
--	u64 kh = outarg->kh;
--	struct rb_node **link;
--
--	spin_lock(&fc->lock);
--
--	link = fuse_find_polled_node(fc, kh, NULL);
--	if (*link) {
--		struct fuse_file *ff;
--
--		ff = rb_entry(*link, struct fuse_file, polled_node);
--		wake_up_interruptible_sync(&ff->poll_wait);
--	}
--
--	spin_unlock(&fc->lock);
--	return 0;
--}
--
- static void fuse_do_truncate(struct file *file)
- {
- 	struct inode *inode = file->f_mapping->host;
-diff --git a/fs/fuse/poll.c b/fs/fuse/poll.c
+ struct fuse_forget_link *fuse_alloc_forget(void);
+ void fuse_chan_queue_forget(struct fuse_chan *fch, struct fuse_forget_link *forget,
+diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+index 22a6d58678ad..f7a9c7cedd39 100644
+--- a/fs/fuse/fuse_i.h
++++ b/fs/fuse/fuse_i.h
+@@ -941,6 +941,7 @@ static inline ssize_t fuse_simple_idmap_request(struct mnt_idmap *idmap,
+ 
+ int fuse_simple_background(struct fuse_mount *fm, struct fuse_args *args,
+ 			   gfp_t gfp_flags);
++int fuse_simple_notify_reply(struct fuse_mount *fm, struct fuse_args *args, u64 unique);
+ 
+ void fuse_dentry_tree_init(void);
+ void fuse_dentry_tree_cleanup(void);
+diff --git a/fs/fuse/req.c b/fs/fuse/req.c
 new file mode 100644
-index 000000000000..bce3ee2e861e
+index 000000000000..a01ee743d31e
 --- /dev/null
-+++ b/fs/fuse/poll.c
-@@ -0,0 +1,141 @@
++++ b/fs/fuse/req.c
+@@ -0,0 +1,99 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +
 +#include "dev.h"
 +#include "fuse_i.h"
 +
-+void fuse_end_polls(struct fuse_conn *fc)
++static int fuse_fill_creds(struct fuse_mount *fm, struct fuse_args *args, struct mnt_idmap *idmap)
 +{
-+	struct rb_node *p;
++	struct fuse_conn *fc = fm->fc;
++	bool no_idmap = !fm->sb || (fm->sb->s_iflags & SB_I_NOIDMAP);
++	kuid_t fsuid = mapped_fsuid(idmap, fc->user_ns);
++	kgid_t fsgid = mapped_fsgid(idmap, fc->user_ns);
 +
-+	spin_lock(&fc->lock);
-+	p = rb_first(&fc->polled_files);
++	args->pid = pid_nr_ns(task_pid(current), fc->pid_ns);
 +
-+	while (p) {
-+		struct fuse_file *ff;
-+		ff = rb_entry(p, struct fuse_file, polled_node);
-+		wake_up_interruptible_all(&ff->poll_wait);
++	if (args->force) {
++		if (args->nocreds)
++			return 0;
 +
-+		p = rb_next(p);
-+	}
-+	spin_unlock(&fc->lock);
-+}
-+
-+/*
-+ * All files which have been polled are linked to RB tree
-+ * fuse_conn->polled_files which is indexed by kh.  Walk the tree and
-+ * find the matching one.
-+ */
-+static struct rb_node **fuse_find_polled_node(struct fuse_conn *fc, u64 kh,
-+					      struct rb_node **parent_out)
-+{
-+	struct rb_node **link = &fc->polled_files.rb_node;
-+	struct rb_node *last = NULL;
-+
-+	while (*link) {
-+		struct fuse_file *ff;
-+
-+		last = *link;
-+		ff = rb_entry(last, struct fuse_file, polled_node);
-+
-+		if (kh < ff->kh)
-+			link = &last->rb_left;
-+		else if (kh > ff->kh)
-+			link = &last->rb_right;
-+		else
-+			return link;
++		if (no_idmap) {
++			args->uid = from_kuid_munged(fc->user_ns, current_fsuid());
++			args->gid = from_kgid_munged(fc->user_ns, current_fsgid());
++		} else {
++			args->uid = FUSE_INVALID_UIDGID;
++			args->gid = FUSE_INVALID_UIDGID;
++		}
++		return 0;
 +	}
 +
-+	if (parent_out)
-+		*parent_out = last;
-+	return link;
-+}
-+
-+/*
-+ * The file is about to be polled.  Make sure it's on the polled_files
-+ * RB tree.  Note that files once added to the polled_files tree are
-+ * not removed before the file is released.  This is because a file
-+ * polled once is likely to be polled again.
-+ */
-+static void fuse_register_polled_file(struct fuse_conn *fc,
-+				      struct fuse_file *ff)
-+{
-+	spin_lock(&fc->lock);
-+	if (RB_EMPTY_NODE(&ff->polled_node)) {
-+		struct rb_node **link, *parent;
-+
-+		link = fuse_find_polled_node(fc, ff->kh, &parent);
-+		BUG_ON(*link);
-+		rb_link_node(&ff->polled_node, parent, link);
-+		rb_insert_color(&ff->polled_node, &fc->polled_files);
-+	}
-+	spin_unlock(&fc->lock);
-+}
-+
-+__poll_t fuse_file_poll(struct file *file, poll_table *wait)
-+{
-+	struct fuse_file *ff = file->private_data;
-+	struct fuse_mount *fm = ff->fm;
-+	struct fuse_poll_in inarg = { .fh = ff->fh, .kh = ff->kh };
-+	struct fuse_poll_out outarg;
-+	FUSE_ARGS(args);
-+	int err;
-+
-+	if (fm->fc->no_poll)
-+		return DEFAULT_POLLMASK;
-+
-+	poll_wait(file, &ff->poll_wait, wait);
-+	inarg.events = mangle_poll(poll_requested_events(wait));
-+
++	WARN_ON(args->nocreds);
 +	/*
-+	 * Ask for notification iff there's someone waiting for it.
-+	 * The client may ignore the flag and always notify.
++	 * Keep the old behavior when idmappings support was not
++	 * declared by a FUSE server.
++	 *
++	 * For those FUSE servers who support idmapped mounts, we send UID/GID
++	 * only along with "inode creation" fuse requests, otherwise idmap ==
++	 * &invalid_mnt_idmap and req->in.h.{u,g}id will be equal to
++	 * FUSE_INVALID_UIDGID.
 +	 */
-+	if (waitqueue_active(&ff->poll_wait)) {
-+		inarg.flags |= FUSE_POLL_SCHEDULE_NOTIFY;
-+		fuse_register_polled_file(fm->fc, ff);
++	if (no_idmap) {
++		fsuid = current_fsuid();
++		fsgid = current_fsgid();
 +	}
++	args->uid = from_kuid(fc->user_ns, fsuid);
++	args->gid = from_kgid(fc->user_ns, fsgid);
 +
-+	args.opcode = FUSE_POLL;
-+	args.nodeid = ff->nodeid;
-+	args.in_numargs = 1;
-+	args.in_args[0].size = sizeof(inarg);
-+	args.in_args[0].value = &inarg;
-+	args.out_numargs = 1;
-+	args.out_args[0].size = sizeof(outarg);
-+	args.out_args[0].value = &outarg;
-+	err = fuse_simple_request(fm, &args);
++	if (no_idmap && unlikely(args->uid == ((uid_t)-1) || args->gid == ((gid_t)-1)))
++		return -EOVERFLOW;
 +
-+	if (!err)
-+		return demangle_poll(outarg.revents);
-+	if (err == -ENOSYS) {
-+		fm->fc->no_poll = 1;
-+		return DEFAULT_POLLMASK;
-+	}
-+	return EPOLLERR;
-+}
-+EXPORT_SYMBOL_GPL(fuse_file_poll);
-+
-+/*
-+ * This is called from fuse_handle_notify() on FUSE_NOTIFY_POLL and
-+ * wakes up the poll waiters.
-+ */
-+int fuse_notify_poll_wakeup(struct fuse_conn *fc,
-+			    struct fuse_notify_poll_wakeup_out *outarg)
-+{
-+	u64 kh = outarg->kh;
-+	struct rb_node **link;
-+
-+	spin_lock(&fc->lock);
-+
-+	link = fuse_find_polled_node(fc, kh, NULL);
-+	if (*link) {
-+		struct fuse_file *ff;
-+
-+		ff = rb_entry(*link, struct fuse_file, polled_node);
-+		wake_up_interruptible_sync(&ff->poll_wait);
-+	}
-+
-+	spin_unlock(&fc->lock);
 +	return 0;
 +}
 +
++static int fuse_req_prep(struct fuse_mount *fm, struct fuse_args *args, struct mnt_idmap *idmap)
++{
++	if (!args->force && fm->fc->conn_error)
++		return -ECONNREFUSED;
++
++	return fuse_fill_creds(fm, args, idmap);
++}
++
++ssize_t __fuse_simple_request(struct mnt_idmap *idmap, struct fuse_mount *fm,
++			      struct fuse_args *args)
++{
++	struct fuse_conn *fc = fm->fc;
++	int err = fuse_req_prep(fm, args, idmap);
++
++	if (err)
++		return err;
++
++	return fuse_chan_send(fc->chan, args);
++}
++
++int fuse_simple_background(struct fuse_mount *fm, struct fuse_args *args, gfp_t gfp_flags)
++{
++	struct fuse_conn *fc = fm->fc;
++	int err;
++
++	WARN_ON(args->force && !args->nocreds);
++
++	err = fuse_req_prep(fm, args, &invalid_mnt_idmap);
++	if (err)
++		return err;
++
++	return fuse_chan_send_bg(fc->chan, args, gfp_flags);
++}
++EXPORT_SYMBOL_GPL(fuse_simple_background);
++
++int fuse_simple_notify_reply(struct fuse_mount *fm, struct fuse_args *args, u64 unique)
++{
++	struct fuse_conn *fc = fm->fc;
++	int err;
++
++	WARN_ON(args->force && !args->nocreds);
++
++	err = fuse_req_prep(fm, args, &invalid_mnt_idmap);
++	if (err)
++		return err;
++
++	return fuse_chan_send_notify_reply(fc->chan, args, unique);
++}
 -- 
 2.53.0
 
