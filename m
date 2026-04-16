@@ -1,108 +1,146 @@
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04B4337BE93
-	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 10:38:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776335920; cv=pass; b=rqPzdJYUAzf4elVS8dbMh5dZA7iFkvPOFUEh1PQOE77d1cRp1g23dx5j9qvqY0wP2SBctQmiMoTkS5FX/FNrVUUBjFMApomxc/sSmo61514BbIPCQHGUvtksn6EpO1AqfJhfv/SjyTLjtctXW1yC0gtPSG28VrN2j/+6BO+Z6Go=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776335920; c=relaxed/simple;
-	bh=2/kjDlwcFZVaYMX3Qmx8vbln/vywhoMM+fH4ioYnGNc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=L6Xj0HK0RbfrX2Tk9gpGopSFR0KWZrRUSLjwcC/eLyn1qvCVd4Se3JytYpnFxWLWaKzqeZTLOqoC68ISG/Tc8VWH3D33ZYYcfZBZwgxuifeFu7tXCJ0lqFB0C/ntqEr3wBrGsTstXmzgx4eBN8AVIi3WD0ZuNXGDeGY0zt6S83g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=oIucUARZ; arc=pass smtp.client-ip=209.85.219.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFF82399345;
+	Thu, 16 Apr 2026 11:41:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776339727; cv=none; b=lWXfl1iRl/zo47RoV1YDVJ87FVMzxVfdiG+cGOBtA+AfCulkUud5hG1NFYl6q0IwDlWPH1dzYp6OoRiBmHS9nqFESGbBnbrzzlqRGk9IAeURNcSyUnGGwYP6qzIdj9miDeMQUiUkk6tTs6Li0XVWHyN/6PQapTnm4UfafmcOe6Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776339727; c=relaxed/simple;
+	bh=q3t+BJxkXr+ZxgM2h5B9CO/tSr/WWi4WVN5HEqQFxqg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=I5HEB6lQ7gl1BQXQEaqKxoypOXkLHkQLugnkGz5Zt0UcZ68osx5jNvXoi+sgHtXcD/fC/bjv9chZdqhYYSjrdskHQeHO06V4CKCQ9QlVZhIFwzKqTFUQBthu4CDkpGAq/Pun3+2ijjj+MwwITYSJhxS3DM8RIQqTdf3vUD/CLVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=Efx22gDg; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="oIucUARZ"
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-8aca0469204so52003736d6.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 03:38:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776335918; cv=none;
-        d=google.com; s=arc-20240605;
-        b=MXAqJEXhE/yp7IaMUMF43xslVU13eQ1PLD5uIUMcnJPtF1xgMGziebg1hbgh96gcF/
-         gOhfkCcvHh0wfjuRnxRWWFuq+yKEGns3R6aGKcbkeA3Z43eC1VTawBXja6pl719XdIK0
-         xMk3/a3vf4eMEmr/C5EUtZMmHyvpCo3G7e8a1h8IWj35FrZnxdkdmMYo28N6s/Xyi26y
-         GvdIRVWDGxZSufydyC4SiT2WNOQYbM5uOPoVVroUzsog1p5uOvK+kbLNUR8S+l+NXrrb
-         a4sCQxxuiJpAS1O/sIzcZh2Zcst7nqp6OrJwF0n4vXGhc2dU7kZnsyXH6rNfiQtcHSpc
-         FGSQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=vkmG5E9vUTsiAEy3w3y6L7D9KdUbBli74u9esBd+as8=;
-        fh=XtZa6XvVFQYiLuLpf0AZm7LiHLpQqcG79bUnpcxLXkI=;
-        b=gvMhIUbwTgndDvFzTSJojz1Bl0+nLYI0nWtlajYkfhO50RAUw0qVM+1a0SI7Pet1Pe
-         m3A245ChYig47BqJb7QfEYSv4mNU8w/N9hkc1d6d0lSHJhXG9J65ayi4eFuNctqoOcRZ
-         qmrxAsOkCse40/foB2SmH8e8wG47rP69rEyNnojNh/58Le/OL3zQNlyuJVwUTRrEWn1X
-         6/vak5PrzqPUl7s0Dw88tnTE9qNWSEunQgUvkjtxVyK0SPBKa4vsv+K3uzS/30Yj0Iw5
-         U/h4sFf1xBG5/9iCtOsgQ6lli2gI6IKv9gM6dBvX+t/OfCpQI+MR3UmQWfnvqoYXSQqY
-         Rx5Q==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1776335918; x=1776940718; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=vkmG5E9vUTsiAEy3w3y6L7D9KdUbBli74u9esBd+as8=;
-        b=oIucUARZ1GqZQQkDERXQGRRsMem2CfW3DkZlZdWLjfpD6OBrdKc+1yXg5j3R9QKkPI
-         UuHNOdJLX2Ws4ZS0J2f57IAC+w7C5Nqa48tsZnbIHYImUoJNyJP4JlQANgdamfPkBhKf
-         zD0E8Oks03uAkovlrswudWi7ZfyuYT/bkonnQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776335918; x=1776940718;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vkmG5E9vUTsiAEy3w3y6L7D9KdUbBli74u9esBd+as8=;
-        b=iV7sa3fl+u5eGj7nYrjH2x8u+KDPJrIsmbb48UfhazGUUs0BHp+kp0Il8YfKa/t6KX
-         Aq6lOCkjyWauE4wmTakjJgNa/p7oy7UFuHMX8jg1/NqvaNktH2BqnfySeVs2kP4ivSuz
-         t5RQxWQWmAVMYjMLtn+J8qBerWO2Rp46GQmuLzaBhsfTrBlwmPtSU0xgrQdFeUGBDSls
-         iOAMjcYbukmyD9KFUiiOlxUAXcoQPBQ3KiO+6SaQpd2hY1yFwCa/ZjM1wzuVSwpff+16
-         QlEtHnZ80FSAZtxGZv6+yD6kL2SNRyfbwv9lNfEm5GjPCGQG2+NtTfacv1X9k9wK4hiF
-         SyEA==
-X-Forwarded-Encrypted: i=1; AFNElJ/LlhCE7P9lsAKYMsV9dOlmGSV3SwENNhcFd/edAwDykX2gwR+UT2//+1YnSyEsNRUdfsGXqcBA2SvEqzgn@vger.kernel.org
-X-Gm-Message-State: AOJu0YweHbg2BYT0qS+gW5O9L4Xya0qDGNpiU9TzPZ/RCHvFfzyNoout
-	CuYz1785SpS7DiV7cUQ5stqu9lbzARR1hrrbPFYpuUZV/zr0u3I0pBK4xkQPTLvgO7rv8XdiNzK
-	jn6WG2aW9o0Fs8Yq4FapWNyzSAoqJttP+aqzxUTwTTw==
-X-Gm-Gg: AeBDietEBH1HvdwdZW5PJ3xJNKObOvo9iYW2azyU31QQu/t0fb1H1V4tRrUTkHlp44C
-	UvkFwl0qMiElwziHgQJm3fUBiBi3t5I/6JqGg5YkDpwdrG/Fe+tPdBqzXGyO3+z6RSD1GEx+0Pe
-	ApJez1wi986rwF0McpjOrauAKfg/y4BfKDYSIlhHuZ+o3xOOqO4rpFNFHHK//CHhGE0hKtlZb7H
-	EOH41cTK43HAGbFXTIZlVvYFDMGPelbwUY6T+NaDTvKchAyTHLXxzxzfoq5sG5lWE8ap4q0+BMt
-	wTRViLpSSRtrtLEBXu7ClzfruUIDvg9T6VI1
-X-Received: by 2002:a05:6214:3285:b0:899:fb4e:47aa with SMTP id
- 6a1803df08f44-8ac86297b6dmr410682816d6.39.1776335917973; Thu, 16 Apr 2026
- 03:38:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="Efx22gDg"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4fxGLy35gqz9tyP;
+	Thu, 16 Apr 2026 13:41:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
+	t=1776339706;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ocUUntbXmmQloQOXTxlmrYLQwvM7r/1WClhRvHiQMzY=;
+	b=Efx22gDgWgUgExobnRTIo2/TOPPsFYpyR/DVqOSJxLXMmaecgjnJzVRQNXGvXflS3JlEh0
+	J90GgNUiRvKnF4cZBjoNRpEbwkr7AjObQbuAcNa2tUava0LpXKgBmZValW7dKFaNdpntBw
+	jNN+VKwK6FopkuwCTKzWQ6wcbQ4XreY1j0dwRo4pm/P49DLtWqX0wQ3ml0rbjC3bXl2ixi
+	rz5fSaMDElFxmYbgJf1Dc2jznngbuD8ooYL/bjprO8mI/xIbL7I2Yp0+F0OBRq2gXweuSD
+	D/RwW2sT9gDXafGYsS1HSCmdvWMAMAbxv1QuMhgEY6ffcE+0a1qiS9KpgjWBLA==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=none;
+	spf=pass (outgoing_mbo_mout: domain of cyphar@cyphar.com designates 2001:67c:2050:b231:465::1 as permitted sender) smtp.mailfrom=cyphar@cyphar.com
+Date: Thu, 16 Apr 2026 21:41:12 +1000
+From: Aleksa Sarai <cyphar@cyphar.com>
+To: Dorjoy Chowdhury <dorjoychy111@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-api@vger.kernel.org, ceph-devel@vger.kernel.org, gfs2@lists.linux.dev, 
+	linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org, v9fs@lists.linux.dev, 
+	linux-kselftest@vger.kernel.org, viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, 
+	jlayton@kernel.org, chuck.lever@oracle.com, alex.aring@gmail.com, arnd@arndb.de, 
+	adilger@dilger.ca, mjguzik@gmail.com, smfrench@gmail.com, 
+	richard.henderson@linaro.org, mattst88@gmail.com, linmag7@gmail.com, tsbogend@alpha.franken.de, 
+	James.Bottomley@hansenpartnership.com, deller@gmx.de, davem@davemloft.net, andreas@gaisler.com, 
+	idryomov@gmail.com, amarkuze@redhat.com, slava@dubeyko.com, agruenba@redhat.com, 
+	trondmy@kernel.org, anna@kernel.org, sfrench@samba.org, pc@manguebit.org, 
+	ronniesahlberg@gmail.com, sprasad@microsoft.com, tom@talpey.com, bharathsm@microsoft.com, 
+	shuah@kernel.org, miklos@szeredi.hu, hansg@kernel.org
+Subject: Re: [PATCH v6 1/4] openat2: new OPENAT2_REGULAR flag support
+Message-ID: <2026-04-16-selfless-milky-wasps-shin-p6liRL@cyphar.com>
+References: <20260328172314.45807-1-dorjoychy111@gmail.com>
+ <20260328172314.45807-2-dorjoychy111@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260309-xfstests-generic-451-v3-1-bb6ad2f59512@ddn.com>
-In-Reply-To: <20260309-xfstests-generic-451-v3-1-bb6ad2f59512@ddn.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Thu, 16 Apr 2026 12:38:27 +0200
-X-Gm-Features: AQROBzCbs-TSMS8vEENDnxou7iwTuZgF-roA4zUpO0hA1IlIZ2RLx8EM-L5JRjA
-Message-ID: <CAJfpegvBgxszeg02aQ1iCqxXrEMU0L1xx6UcoJfotCRPm71f2w@mail.gmail.com>
-Subject: Re: [PATCH v3] fuse: invalidate page cache after sync and async
- direct writes
-To: cding@ddn.com
-Cc: Jingbo Xu <jefflexu@linux.alibaba.com>, Bernd Schubert <bschubert@ddn.com>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="y4sat5dvbvjuuxwb"
+Content-Disposition: inline
+In-Reply-To: <20260328172314.45807-2-dorjoychy111@gmail.com>
+X-Rspamd-Queue-Id: 4fxGLy35gqz9tyP
 
-On Mon, 9 Mar 2026 at 09:36, Cheng Ding via B4 Relay
-<devnull+cding.ddn.com@kernel.org> wrote:
->
-> From: Cheng Ding <cding@ddn.com>
->
-> Fixes xfstests generic/451, similar to how commit b359af8275a9 ("fuse:
-> Invalidate the page cache after FOPEN_DIRECT_IO write") fixes xfstests
-> generic/209.
 
-This just tells what this fixes, but not how it's fixed.  Please elaborate.
+--y4sat5dvbvjuuxwb
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v6 1/4] openat2: new OPENAT2_REGULAR flag support
+MIME-Version: 1.0
 
-One aspect in particular: why is the invalidation done in a worker
-thread for async I/O?
+On 2026-03-28, Dorjoy Chowdhury <dorjoychy111@gmail.com> wrote:
+> This flag indicates the path should be opened if it's a regular file.
+> This is useful to write secure programs that want to avoid being
+> tricked into opening device nodes with special semantics while thinking
+> they operate on regular files. This is a requested feature from the
+> uapi-group[1].
+>=20
+> A corresponding error code EFTYPE has been introduced. For example, if
+> openat2 is called on path /dev/null with OPENAT2_REGULAR in the flag
+> param, it will return -EFTYPE. EFTYPE is already used in BSD systems
+> like FreeBSD, macOS.
+>=20
+> When used in combination with O_CREAT, either the regular file is
+> created, or if the path already exists, it is opened if it's a regular
+> file. Otherwise, -EFTYPE is returned.
+>=20
+> When OPENAT2_REGULAR is combined with O_DIRECTORY, -EINVAL is returned
+> as it doesn't make sense to open a path that is both a directory and a
+> regular file.
+>=20
+> [1]: https://uapi-group.org/kernel-features/#ability-to-only-open-regular=
+-files
+>=20
+> Signed-off-by: Dorjoy Chowdhury <dorjoychy111@gmail.com>
+> ---
 
-Thanks,
-Miklos
+Aside from the nit below, feel free to take a
+
+Reviewed-by: Aleksa Sarai <aleksa@amutable.com>
+
+> diff --git a/fs/open.c b/fs/open.c
+> index 681d405bc61e..a6f445f72181 100644
+> --- a/fs/open.c
+> +++ b/fs/open.c
+> @@ -960,7 +960,7 @@ static int do_dentry_open(struct file *f,
+>  	if (f->f_mapping->a_ops && f->f_mapping->a_ops->direct_IO)
+>  		f->f_mode |=3D FMODE_CAN_ODIRECT;
+> =20
+> -	f->f_flags &=3D ~(O_CREAT | O_EXCL | O_NOCTTY | O_TRUNC);
+> +	f->f_flags &=3D ~(O_CREAT | O_EXCL | O_NOCTTY | O_TRUNC | OPENAT2_REGUL=
+AR);
+
+It's not clear to me why you dropped this, I didn't see a review
+mentioning it either. (General note: Ideally the cover letter changelog
+would mention who suggested a change in brackets after the changelog
+line so it's easier to track where a change might've come from.)
+
+I would personally keep it since O_DIRECTORY is not dropped (I do find
+it interesting that O_EXCL is dropped too -- you could imagine a
+userspace program wanting to know that the file was opened with O_EXCL,
+though it provides you very little information).
+
+--=20
+Aleksa Sarai
+https://www.cyphar.com/
+
+--y4sat5dvbvjuuxwb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCaeDK2BsUgAAAAAAEAA5t
+YW51MiwyLjUrMS4xMiwyLDIACgkQKJf60rfpRG+0aQEAmwzPPQPnvabbHhUf0fph
+pJ6P46S5QXpATvNGjZyCr+8BAJ6lJf8lp5gf9hbdzip1EZghre/B+AfvsiTxQSXn
+uF4A
+=Z/uP
+-----END PGP SIGNATURE-----
+
+--y4sat5dvbvjuuxwb--
