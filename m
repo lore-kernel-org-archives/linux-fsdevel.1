@@ -1,117 +1,105 @@
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0900F39D6EC
-	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 12:16:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 698D737997E
+	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 12:19:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.176
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776341800; cv=pass; b=tHQVLCoYP0jVodUAD3gznraTzgoWdSYnCp6gJD/+nZRDIAKxVgrpIPlxgqCnzJ9QxXQEwH3bsPOInLp1PMl3qIE8zWUMVuWrsyAPe7i99JCmWPzs23y1rXLQ9F0ZBeT5ox0oPcX0VA8XD+vi/UqJAAYjvtZWM97lh6E82gdGucM=
+	t=1776341960; cv=pass; b=G0hyhs5lwDViYNL2GTNO7a5gIc5gMgDGc5EBcWjKl5pEfq3YTVvSUGsaujai6702Mo2qaAmo27v5OmctwXF4LwPW7R6tOSsESbFxWN3QDPPwKN/+Rx9dIqDLF2RWckljzHnc8jXxr5zKjt0qAt7uI61g2M0DEMGcrUf9dMEAjRY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776341800; c=relaxed/simple;
-	bh=YlQa3j1nRclliHVT43g7uYZff2wmfwHgeEAd8DL+JaU=;
+	s=arc-20240116; t=1776341960; c=relaxed/simple;
+	bh=gyQTUb9OJbxBVF3f8APeqWgjZlIGeOOoE25FOhzZ3WY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ch9ltgw+YUlp5SYQ8jMMjOHDsFvcmTnFnQCnabSjfQSTW4rlquVxLExrzP2Qrt0NYZYEVcG1EssJK3DSDITu0DDK6Lw/9WE2bxT/TZ60yULAESRZ/3ewSdmzclg0t/dNbhkH2rYGAfSED5RJ1FR/Nb2c43NSeg3UcH4+ewYhqPM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=TFWUlXei; arc=pass smtp.client-ip=209.85.222.48
+	 To:Cc:Content-Type; b=XF6YdgWaJC4sti3XmPCeSuRvojmExHIvSM8jmVJNyyArg3qI1kJSt1FxjeoclwawBFG3EIvnkKZ/NfPPQhcVMOews6dwOi+uWk6tGIhBVeesApu8HjdoV03NXVtMHXpxwx3PfciKOKf8EG3OfJRJccqyreP3wHKDTO624cp9W4A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=ZhMbWZsL; arc=pass smtp.client-ip=209.85.160.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="TFWUlXei"
-Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-95673f7b5baso1475415241.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 05:16:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776341798; cv=none;
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="ZhMbWZsL"
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-50d876329bbso80916451cf.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 05:19:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776341958; cv=none;
         d=google.com; s=arc-20240605;
-        b=VL+QbCMwk6eQyAElk8BtRseYTNsbgFJzN8B0b8j+Gz+0Emb+Uq0M4hkBNdPFjBigDe
-         EdfARGXBecMOFbzf+kuRXNvNUoxybs2NNW6x8SpnK9/5VPqHXXSs5x4wrx6dGlQhHFSn
-         NRXLQFHaAcUB8SRSdhj9zW+6vnaXCfO4Tw2bWFJgAVtZxtFR9gFxl1QAgdYik4zGAX5u
-         V2nR1lhvgbzqYd7MnzAM4FOROomvjNNGS3q3iq8VNQznR1Wmd21NrLMZv5m9LwJGPClc
-         4L/9duBBMm220jzv3jIebkSfy75MVWqAUgbi2hZ5/UAG5ZXIDTKq9MDsmWKClKFKLZJZ
-         YUpQ==
+        b=Ac4IX9YUzaNMP3LAU3D15hrMNDDNjim4bdxbM0Ph1vEO/xmPxSMae7nxI8XPGQt8a3
+         Tld6ocCfm+P4EgVc53PCRl2lzqBPqvSgegl1JVMN2v45wNigg9R64ryQJNg5WTlf0dn/
+         B+f1PT140sd503IK9z3mVdSolCXo8FR7zQqRVpMernPgCLrMUr+kDHcXFuAXpSCT4nvK
+         G6rn3KCoBbwCjy1SOYLs38FiMfYs5/8I9jn7tjC5MVUr4rsyzWx5NoVOLuyBosbH4Jng
+         7oeCtpsGlxrxdpGu1xgBDm0wNkqWEJEOuLdbaJcctikWLlPqa3VpNGAEYmTUJBIWa7rF
+         AOYw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=jJFUuHCkiuowxKGXg+Febj6rEK64+GzygHvKm31JAxo=;
-        fh=t1yaCuzuauBaIo+SEKaT6gDF7PKK0fG2dlX0q2mf+Fc=;
-        b=FTWUCHbrPM3N9zylwGHTDTwM3YVG88gW8XVMRrB/kNhXnpF19011LDNM22DPkS8Qja
-         aYC831uihVhS3T9TPmJExeyKIkotQkQfyJ6/5SJX2iUts1Qi3FPX93UxDezZ447k2FcX
-         TlBwiY8gJURE+FeLU81uuKP1syom30lAjU7xDZJ+FophdSp73uuWulFrZ0rrHIf4acZ5
-         MiLVcR0fFEiKlMsLqtovarRTCosZx8lBt+NAf60h7/xwgFhKaODgOR6Jh7ToMKUyCpEk
-         ftJ+8EHerVxOfPjoEqya7Qml4gNyLmDipX3K39q/JB9TQo58gvN0wLeNbJcRhU7k7gbL
-         giQQ==;
+        bh=gyQTUb9OJbxBVF3f8APeqWgjZlIGeOOoE25FOhzZ3WY=;
+        fh=5z/M8i2NgjEKliduc43XAQVHumR01AwkTr3rxibKtoI=;
+        b=fhL0drDf61XDayGAuOQdJKuDoddc4ke1YLe4Wpe1phFTB+U0jb+jBGLtqRo2p/Fxoz
+         xyhnJjy7N8kocJm8gEIS2C1kTedOb0CZursy7dpOLSx9yG3yD51+zI34Wq1HRXUTmT5s
+         7LvYkA5w6btRMAPAd0oAt7CV8WJmfIly+e5WvUBFIxvSXdxDusxtiVpUxnFjW/dNQZGb
+         bbwDNOH0L7KKwhxTGYtB+9Avb90KCDQ4p46d6F3+x0oxWXygruK3Eg0m4Eg+jVsa+h3H
+         SSCjf29DTrUUt7b79bS9ziMuKNf4R0+PXjKzXm/PmFyoSJqjwgPJkd8yKzCR7LxN/ys2
+         XKlA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1776341798; x=1776946598; darn=vger.kernel.org;
+        d=szeredi.hu; s=google; t=1776341958; x=1776946758; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=jJFUuHCkiuowxKGXg+Febj6rEK64+GzygHvKm31JAxo=;
-        b=TFWUlXeiyEhTEh1cpi0RdSJHcl+KhmN+9WJQIbsw9RYPfW8ghI0s+rFavHa+6+4Un0
-         vSaYmoarHqbNevUiDTU7wxiDGpLhUx6kl0vsUJbQ8fUKii/c6Qc4GIX3wG+92SDz14j9
-         o2/jVcP1VkFOhATJU4LVG6zJ9JkS3wFcmS1ZE=
+        bh=gyQTUb9OJbxBVF3f8APeqWgjZlIGeOOoE25FOhzZ3WY=;
+        b=ZhMbWZsLgS3QtBgLeTMjivQtdGlpZHOhWqXbJpFXRpi+UEm7NunNDx1oaPlr9akwGW
+         CjDLZqiTTcaoTcOzwiXBkyEfTTA2n5YZVawQYdimjEWVkN2f31biYysXl8n74S5yMl7c
+         CkVLRGY9RCHZiEUaOJh6n9O1/EQylUZ//5Rhc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776341798; x=1776946598;
+        d=1e100.net; s=20251104; t=1776341958; x=1776946758;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jJFUuHCkiuowxKGXg+Febj6rEK64+GzygHvKm31JAxo=;
-        b=U1/oSqXrAxXv8dwJekX+ka/MqftMTU2QaHBzwo6w18hW8WZDhFlk1TvFf3h1MVeq7K
-         hYuw+KOb4Q3F2AQwOa1/fCkiLLNIdPPpkHR4uFllHRL93O0DVw5yLhQ7RuaVGHQqUCz8
-         5TBZPJw3stF1O0kqoTfmLkav7pxJXbCTFgUtuWorQzTwx9b7f6xMKa/hYusd93MLubBM
-         Y1ToBTitho8+ECCfEzVuMomH8rmxqyVkM1EXpbORd9+n0jSYCJZSgwgXwwwwm4I01j5S
-         xH42R2aTf2KFnesxsIplf6OiLOsHfvb/RSNqWIgSGSxlw7Ie8dH5bowsN2C+8YLBVRP8
-         2LdQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/ih6WvVt+9zudkD4VsWGmfu3c94xOlohzVeJR0lLaKha3W3YPW3EN9L79sU2OTRO12QGcPzBO0qQ27LfAh@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz5v+SqPmygaVTX7SW1rvWfRqXsvJscCTSuIrpc1WkzoZ/r3D/r
-	ErQJPrgSsO5XeaFPRYB6KcNcVSy0uJWUqYRVo6Yb27HZbRYqDBllzfbDIOMygrPIKOZ4qxJXwy5
-	y+vBZWZW4ArREH/xYvjoXzA7BKs2JuNdsUikDVk7toA==
-X-Gm-Gg: AeBDieuShDQes5RQUjKimPxqeH/4P0wsG8mhW4qYlRjt2eltQhJ3cIEg5j2OXudTT4h
-	Ta3dbbND1EBm5tEJaqnYOX2ngHpK4rQAu5GUItl/FoP9KPUEZFevC75ID0/jA1TqRQFICUjw15s
-	ih34KeRmQt9wEZk32YM53DPVKAbyprhtwQnmyzjazQGb4F8VhR+qknUqipWzkKc94KfxGyBvAYI
-	HmGQWC0tYVRSjjXz+U4BkuMq/nbDm2zDncLy42zrpUrnuj51s/JNbHIjR/6CtQ7gbvEPnCpzy2T
-	SjzFO0Cp6UW/62nHWs0oIVYeBWxMylZMloLi
-X-Received: by 2002:a05:6102:800b:b0:602:aac7:b8bc with SMTP id
- ada2fe7eead31-60a0168810bmr11857886137.30.1776341797905; Thu, 16 Apr 2026
- 05:16:37 -0700 (PDT)
+        bh=gyQTUb9OJbxBVF3f8APeqWgjZlIGeOOoE25FOhzZ3WY=;
+        b=GvrzZxgScGCr+UvWAzIiggSms2B48h3F58QntYfXB8ASa+PhpggMTj/Uevu/EVNEsJ
+         OIsVOIAHM15C9SpM+TevCMOCXxRKby45J9LXp5miZbVuUs8HlYBBublxDASEGem+QwK/
+         huIPrlFjPHrI3C8axlNWJ4nto8PefZh0TUPuFCfQaZfkqsc1UaCnC8Q4DUi+VrFRlZ5m
+         GJncFZr+4P8EA59jlNjjofFD3crrB386adLoUyOjTGMn1ihR3kBFvvwKEbCZRnBlxADr
+         ulfunKyOfTzsYjIsUUSaSdOvWK1UXBrC/5NnY/zJsoOIv5+sQKA3QPa9riE4NGD+HRQe
+         5VIQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8la/tl/Sc3pTc46tAjldUkWyTSP5IQCAAmzvXb4n5UC6bkHqObUjufP9UvnRQkyagQaABAEJsM7N91ne/m@vger.kernel.org
+X-Gm-Message-State: AOJu0YygL33hYiqIvaXSswjOv1nnMUW5YEnT2AOwwvUTOmq/wmubxbjQ
+	Je1UlS4AW60NbI40i6c2h7Z7hWdcFvUpBTZgQW8QWF1JtOceA/5pNDc6cHLkdukdjyd6nNmI1j2
+	F1qOVTBz5psccmZLjdlItN4d2C3soYmB9AyGhCrsYzg==
+X-Gm-Gg: AeBDievlsEVDwEJFR568dapE+C0cFvz0QBK5ANr9zU1eFUNmdxAvd6S6MSyRSoaZekx
+	i4rf6S9+0GgfZJwW/R69zVZZU9AaJHesp1yrAa+AH/qch8DO6N1zFwHxLKmZhoK+n5tG8FV+UCf
+	VvaO7ZLhMIAXnd4puHZTX8Em6XJPDOFyxqrJRCgYxUObN3IeyCQE1UvpA7Y2jvt/xgUSaQEWtCm
+	HKeDrysElpS0N8uQBUreozllI/xT/XRUWka6M/wrM3Gq3/WYgP1LiLD2XgH7AzWfZz1TCcL2jq8
+	g1T/OltXw+pVkvqe4uFd5gh+E5U191/oXxLK
+X-Received: by 2002:a05:622a:4ccb:b0:50d:8b23:4948 with SMTP id
+ d75a77b69052e-50dd5bc09fdmr392505811cf.46.1776341958345; Thu, 16 Apr 2026
+ 05:19:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <ee4992b1-06ce-40f9-b554-bfcadd45cf97@I-love.SAKURA.ne.jp>
- <CAJfpegs+8pcuQFBNB_0TfDh2Fo3_13pcpVNNzRdR=eZ-tvx35A@mail.gmail.com> <b7edb87d-8734-43ed-93e4-5be72294c3bc@I-love.SAKURA.ne.jp>
-In-Reply-To: <b7edb87d-8734-43ed-93e4-5be72294c3bc@I-love.SAKURA.ne.jp>
+References: <20260409030457.4632-1-liwang@kylinos.cn> <20260410023433.18969-1-liwang@kylinos.cn>
+In-Reply-To: <20260410023433.18969-1-liwang@kylinos.cn>
 From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Thu, 16 Apr 2026 14:16:26 +0200
-X-Gm-Features: AQROBzDL7ODMvLpBOmhgnqz3i6NKn5sq_bHAZTp72b00m4quFf7MMD94LNS03zM
-Message-ID: <CAJfpegvAwKR8Z8B+kp6kW1CDgN2TZYpbdp=kFSUuv6Ga=xY+jA@mail.gmail.com>
-Subject: Re: [linux-next] fuse: wrong usage of no_free_ptr() in cuse_channel_open()
-To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Cc: Miklos Szeredi <mszeredi@redhat.com>, linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Date: Thu, 16 Apr 2026 14:19:07 +0200
+X-Gm-Features: AQROBzBpOUONEf1aVKwKvd-Terqs46gEArDxiPIKQFCV8vs5Lollco6EWbK43qs
+Message-ID: <CAJfpegsMcfp9xZMdT6LVCmvr34GGk0rvJwZs9brnEg-xV09bvQ@mail.gmail.com>
+Subject: Re: [PATCH v2] fuse: drop redundant err assignment in fuse_create_open()
+To: Li Wang <liwang@kylinos.cn>
+Cc: Bernd Schubert <bernd@bsbernd.com>, Joanne Koong <joannelkoong@gmail.com>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 15 Apr 2026 at 13:50, Tetsuo Handa
-<penguin-kernel@i-love.sakura.ne.jp> wrote:
+On Fri, 10 Apr 2026 at 04:35, Li Wang <liwang@kylinos.cn> wrote:
 >
-> On 2026/04/13 18:49, Miklos Szeredi wrote:
-> > On Sun, 12 Apr 2026 at 09:05, Tetsuo Handa
-> > <penguin-kernel@i-love.sakura.ne.jp> wrote:
-> >>
-> >> syzbot is failing to test linux-next kernels since next-20260403, for
-> >> commit 288de43f7c73 ("fuse: change fud->fc to fud->chan") is causing
-> >> "cat /dev/cuse" to trigger NULL pointer dereference problem.
-> >>
-> >> The problem is that fch is NULL as of calling fuse_dev_alloc_install(), for
-> >> fuse_conn_init() uses no_free_ptr(fch) instead of plain fch; in other words,
-> >> you are calling no_free_ptr() too early.
-> >
-> > Thanks, fixed.
+> In fuse_create_open(), err is initialized to -ENOMEM immediately before
+> the fuse_alloc_forget() NULL check. If forget allocation fails,
+> it branches to out_err with that value. If it succeeds, it falls through
+> without modifying err, so err is still -ENOMEM at the point where
+> fuse_file_alloc() is called. The second err = -ENOMEM before
+> fuse_file_alloc() therefore is redundant.
 >
-> "cat /dev/cuse" hits WARN_ON(fud->pq.processing) as of
-> commit fbe92cef04a4 (HEAD -> for-next, origin/for-next)
-> of mszeredi/fuse.git tree. Please check.
->
->   WARNING: fs/fuse/dev.c:482 at fuse_dev_install_with_pq+0x10e/0x120 [fuse], CPU#5: cat/1194
+> Signed-off-by: Li Wang <liwang@kylinos.cn>
 
-Thanks again, fixed now (hopefully for real).
+Applied, thanks.
 
 Miklos
