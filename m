@@ -1,41 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBABD2BEC45
-	for <linux-fsdevel@vger.kernel.org>; Fri, 17 Apr 2026 21:56:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 738EA37CD37
+	for <linux-fsdevel@vger.kernel.org>; Fri, 17 Apr 2026 22:01:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776462980; cv=none; b=I7KQlFmMtjonVStU/0dkSwT1zf9COvkQWhQk5JDAxuOWerbz2fhKWV0+0GGklc+nEq+6At+OYrRg9dHgkrmUbXtG9wBFChpJOcHPBW6WMo8ZtgDhMJqjRHDLsJ7irfsMFFThj7RMxMJDgSfNp1AMKmZRs0CpLllolDLKE8/FZPg=
+	t=1776463290; cv=none; b=VDDRtNTIfYN7PKtGJ6QP2WBU3NzMuGqhcrRI7WcWB/ad6wLcbNXc/XUVZMZpQP0YSv6pNC5kWdewfaLg6KTtPy8KM9Uu9DDNkLQ9bhGkbGsv/0vGccBeDaL+X4+JW0O0Tj4eSAhMl19taoYgB2y/SvEn0GXOnarD1zpGitihkto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776462980; c=relaxed/simple;
-	bh=gqVkuPnVKR3Gtq2sxAsTHpUPCbAtM0mOllX667ajYn8=;
+	s=arc-20240116; t=1776463290; c=relaxed/simple;
+	bh=4IgM/OtxcynYQr/4gMnkRKMCB81IU+mIpLNwY3WyA/0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c9wxkNftEMxmizQD3dzndLIXY27UhUNSv/zCYzaDAQ/zIPXoboCoofbi24LB0FGpUww/dxf0OCkEKs3Pgdwbg4uyOY0dAcWvxvlhJsJ9S/Thp9fb65wtKTuZftvHe3WQJuWRNjbCexYaSH0MNJ/RJz97wk2/LC2Tm5CGUANdxbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AyggIxZB; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=hsr3XL/2TF+wyU2gs1WsyWbMoHGBsj2p4Vun9Og5U/RhuNZUqM3s4iFbh/3FWiN/PA/sIJ9pTIyIFx9sn+nDEAxEFdfweD+tMak1HyO5VIsxvfuHxiNrVkp6qsfqdRq4MkdPrqDbGh8CgXQ3idUGKRz7prVMdUZgbkHHuUa1TGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KintLX4B; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AyggIxZB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CBAEC19425;
-	Fri, 17 Apr 2026 21:56:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KintLX4B"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3302AC19425;
+	Fri, 17 Apr 2026 22:01:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776462979;
-	bh=gqVkuPnVKR3Gtq2sxAsTHpUPCbAtM0mOllX667ajYn8=;
+	s=k20201202; t=1776463290;
+	bh=4IgM/OtxcynYQr/4gMnkRKMCB81IU+mIpLNwY3WyA/0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AyggIxZBBPVoBA6qLRzAiRk2ViDzmKFqnrj/6tvWY9lhtdjhLZLMrAQ8UOctzKk8D
-	 p6w2tQv9dFZkFeb8HYUtSjh9BEQAwtgnDUeYEmzTujGnYQ5E0lBXBoy85wAJ9/a8Zj
-	 U1Q0KfbmFIeujvCUzCVc/g6BmzSWYF0H4R3Ru+CxTAArpsb1ZJni2lT+m3GMcFNNo4
-	 bSoBrUwFfLB73HIPMkcMG98xSENPrWLAle+XYaxP9vqLBWZbzkmfo+cFWZws5EQrIH
-	 valC/sAZk5rq68VbqXFRR1twXbXS9c2ZpIP65kVeNe4c9YA9isA5R8fZNeq5Thkr43
-	 mVmfVtr1gxPYg==
-Date: Fri, 17 Apr 2026 14:56:18 -0700
+	b=KintLX4ByQoryQ7Ql36bmtUCdPPiuMTinILzi+IC+zIFVtyfM3yMkgY3FLrlmzjf2
+	 Ll1aQMGUXhniMvL8+TMOjQGSMUT57EqnLTXE2HSHovm/g6ovJhoG2Ia1ezNJDqL3xo
+	 jqiLw5m22mVc27/CRYgVl30BeOBf5ZWkSdAoodSuOSpLqGRdsUWw+H6PXqvF1UQcUf
+	 0uIU1U/6KSP2qcg4Qme1M5YUzrJs75XpdiGCatQlsKxadbJEtUIgThWm8O4e+ve0sZ
+	 pN8j66bilW2C/4XO/6kBLTZZoO70yovulv/3bbNSVGf5mhqM5SxGbgrEo7Z/3ntPZK
+	 h+1Jbwx0HwyDA==
+Date: Fri, 17 Apr 2026 15:01:27 -0700
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: bschubert@ddn.com
 Cc: miklos@szeredi.hu, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
 	bernd@bsbernd.com, joannelkoong@gmail.com
-Subject: Re: [PATCH 11/13] example/service_ll: create a sample systemd
- service fuse server
-Message-ID: <20260417215618.GD7727@frogsfrogsfrogs>
+Subject: Re: [PATCH 08/13] mount_service: enable unprivileged users in the
+ same manner as fusermount
+Message-ID: <20260417220127.GE7727@frogsfrogsfrogs>
 References: <177577270167.2064074.16504004857564657756.stgit@frogsfrogsfrogs>
- <177577270412.2064074.6178076333925029149.stgit@frogsfrogsfrogs>
+ <177577270359.2064074.2765615359461460085.stgit@frogsfrogsfrogs>
+ <20260414235349.GE604658@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -44,1432 +45,329 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <177577270412.2064074.6178076333925029149.stgit@frogsfrogsfrogs>
+In-Reply-To: <20260414235349.GE604658@frogsfrogsfrogs>
 
-On Thu, Apr 09, 2026 at 03:23:24PM -0700, Darrick J. Wong wrote:
-> From: Darrick J. Wong <djwong@kernel.org>
-> 
-> Create a simple fuse server that can be run as a systemd service.
-> I plan to create some more single-file fuse server examples, so most of
-> the boilerplate code goes in a separate file.
-> 
-> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-> ---
->  example/single_file.h        |  149 ++++++++++
->  lib/util.h                   |   35 ++
->  example/meson.build          |   14 +
->  example/service_ll.c         |  308 ++++++++++++++++++++
->  example/service_ll.socket.in |   15 +
->  example/service_ll@.service  |  102 +++++++
->  example/single_file.c        |  646 ++++++++++++++++++++++++++++++++++++++++++
->  meson.build                  |    1 
->  8 files changed, 1270 insertions(+)
->  create mode 100644 example/single_file.h
->  create mode 100644 example/service_ll.c
->  create mode 100644 example/service_ll.socket.in
->  create mode 100644 example/service_ll@.service
->  create mode 100644 example/single_file.c
-> 
-> 
-> diff --git a/example/single_file.h b/example/single_file.h
-> new file mode 100644
-> index 00000000000000..af91ea8196a408
-> --- /dev/null
-> +++ b/example/single_file.h
-> @@ -0,0 +1,149 @@
-> +/*
-> + * FUSE: Filesystem in Userspace
-> + * Copyright (C) 2026 Oracle.
-> + *
-> + * This program can be distributed under the terms of the GNU GPLv2.
-> + * See the file GPL2.txt.
-> + */
-> +#ifndef FUSE_SINGLE_FILE_H_
-> +#define FUSE_SINGLE_FILE_H_
-> +
-> +static inline uint64_t round_up(uint64_t b, unsigned int align)
-> +{
-> +	unsigned int m;
-> +
-> +	if (align == 0)
-> +		return b;
-> +	m = b % align;
-> +	if (m)
-> +		b += align - m;
-> +	return b;
-> +}
-> +
-> +static inline uint64_t round_down(uint64_t b, unsigned int align)
-> +{
-> +	unsigned int m;
-> +
-> +	if (align == 0)
-> +		return b;
-> +	m = b % align;
-> +	return b - m;
-> +}
-> +
-> +static inline uint64_t howmany(uint64_t b, unsigned int align)
-> +{
-> +	unsigned int m;
-> +
-> +	if (align == 0)
-> +		return b;
-> +	m = (b % align) ? 1 : 0;
-> +	return (b / align) + m;
-> +}
-> +
-> +struct single_file {
-> +	int backing_fd;
-> +
-> +	int64_t isize;
-> +	uint64_t blocks;
-> +
-> +	mode_t mode;
-> +
-> +	bool ro;
-> +	bool allow_dio;
-> +	bool sync;
-> +	bool require_bdev;
-> +
-> +	unsigned int blocksize;
-> +
-> +	struct timespec atime;
-> +	struct timespec mtime;
-> +
-> +	pthread_mutex_t lock;
-> +};
-> +
-> +extern struct single_file single_file;
-> +
-> +static inline uint64_t b_to_fsbt(uint64_t off)
-> +{
-> +	return off / single_file.blocksize;
-> +}
-> +
-> +static inline uint64_t b_to_fsb(uint64_t off)
-> +{
-> +	return (off + single_file.blocksize - 1) / single_file.blocksize;
-> +}
-> +
-> +static inline uint64_t fsb_to_b(uint64_t fsb)
-> +{
-> +	return fsb * single_file.blocksize;
-> +}
-> +
-> +enum single_file_opt_keys {
-> +	SINGLE_FILE_RO = 171717, /* how many options could we possibly have? */
-> +	SINGLE_FILE_RW,
-> +	SINGLE_FILE_REQUIRE_BDEV,
-> +	SINGLE_FILE_DIO,
-> +	SINGLE_FILE_NODIO,
-> +	SINGLE_FILE_SYNC,
-> +	SINGLE_FILE_NOSYNC,
-> +	SINGLE_FILE_SIZE,
-> +	SINGLE_FILE_BLOCKSIZE,
-> +
-> +	SINGLE_FILE_NR_KEYS,
-> +};
-> +
-> +#define SINGLE_FILE_OPT_KEYS \
-> +	FUSE_OPT_KEY("ro",		SINGLE_FILE_RO), \
-> +	FUSE_OPT_KEY("rw",		SINGLE_FILE_RW), \
-> +	FUSE_OPT_KEY("require_bdev",	SINGLE_FILE_REQUIRE_BDEV), \
-> +	FUSE_OPT_KEY("dio",		SINGLE_FILE_DIO), \
-> +	FUSE_OPT_KEY("nodio",		SINGLE_FILE_NODIO), \
-> +	FUSE_OPT_KEY("sync",		SINGLE_FILE_SYNC), \
-> +	FUSE_OPT_KEY("nosync",		SINGLE_FILE_NOSYNC), \
-> +	FUSE_OPT_KEY("size=%s",		SINGLE_FILE_SIZE), \
-> +	FUSE_OPT_KEY("blocksize=%s",	SINGLE_FILE_BLOCKSIZE)
-> +
-> +int single_file_opt_proc(void *data, const char *arg, int key,
-> +			 struct fuse_args *outargs);
-> +
-> +unsigned long long parse_num_blocks(const char *arg, int log_block_size);
-> +
-> +struct fuse_service;
-> +int single_file_service_open(struct fuse_service *sf, const char *path);
-> +
-> +void single_file_check_read(off_t pos, size_t *count);
-> +int single_file_check_write(off_t pos, size_t *count);
-> +
-> +int single_file_configure(const char *device, const char *filename);
-> +int single_file_configure_simple(const char *filename);
-> +void single_file_close(void);
-> +
-> +/* low-level fuse operation handlers */
-> +
-> +bool is_single_file_child(fuse_ino_t parent, const char *name);
-> +bool is_single_file_ino(fuse_ino_t ino);
-> +
-> +void single_file_ll_readdir(fuse_req_t req, fuse_ino_t ino, size_t size,
-> +				off_t off, struct fuse_file_info *fi);
-> +
-> +void single_file_ll_statfs(fuse_req_t req, fuse_ino_t ino);
-> +
-> +void single_file_ll_statx(fuse_req_t req, fuse_ino_t ino, int flags, int mask,
-> +		       struct fuse_file_info *fi);
-> +
-> +void single_file_ll_getattr(fuse_req_t req, fuse_ino_t ino,
-> +			    struct fuse_file_info *fi);
-> +void single_file_ll_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
-> +			 int to_set, struct fuse_file_info *fi);
-> +
-> +void single_file_ll_lookup(fuse_req_t req, fuse_ino_t parent, const char *name);
-> +void single_file_ll_open(fuse_req_t req, fuse_ino_t ino,
-> +			 struct fuse_file_info *fi);
-> +
-> +void single_file_ll_fsync(fuse_req_t req, fuse_ino_t ino, int datasync,
-> +			  struct fuse_file_info *fi);
-> +
-> +int reply_buf_limited(fuse_req_t req, const char *buf, size_t bufsize,
-> +		      off_t off, size_t maxsize);
-> +
-> +#endif /* FUSE_SINGLE_FILE_H_ */
-> diff --git a/lib/util.h b/lib/util.h
-> index 107a2bfdd6105b..6ec6604fb74caf 100644
-> --- a/lib/util.h
-> +++ b/lib/util.h
-> @@ -4,6 +4,9 @@
->  #include <stdint.h>
->  #include <stdbool.h>
->  
-> +#define max(x, y) ((x) > (y) ? (x) : (y))
-> +#define min(x, y) ((x) < (y) ? (x) : (y))
-> +
->  #define ROUND_UP(val, round_to) (((val) + (round_to - 1)) & ~(round_to - 1))
->  
->  #define likely(x) __builtin_expect(!!(x), 1)
-> @@ -46,4 +49,36 @@ static inline uint64_t fuse_higher_32_bits(uint64_t nr)
->  #define fallthrough do {} while (0)
->  #endif
->  
-> +static inline uint64_t round_up(uint64_t b, unsigned int align)
-> +{
-> +	unsigned int m;
-> +
-> +	if (align == 0)
-> +		return b;
-> +	m = b % align;
-> +	if (m)
-> +		b += align - m;
-> +	return b;
-> +}
-> +
-> +static inline uint64_t round_down(uint64_t b, unsigned int align)
-> +{
-> +	unsigned int m;
-> +
-> +	if (align == 0)
-> +		return b;
-> +	m = b % align;
-> +	return b - m;
-> +}
-> +
-> +static inline uint64_t howmany(uint64_t b, unsigned int align)
-> +{
-> +	unsigned int m;
-> +
-> +	if (align == 0)
-> +		return b;
-> +	m = (b % align) ? 1 : 0;
-> +	return (b / align) + m;
-> +}
-> +
->  #endif /* FUSE_UTIL_H_ */
-> diff --git a/example/meson.build b/example/meson.build
-> index 76cf2d96db0349..e948f6ba74fdfa 100644
-> --- a/example/meson.build
-> +++ b/example/meson.build
-> @@ -12,6 +12,15 @@ if not platform.endswith('bsd') and platform != 'dragonfly'
->      examples += [ 'null' ]
->  endif
->  
-> +single_file_examples = [ ]
-> +
-> +if platform.endswith('linux')
-> +    single_file_examples += [ 'service_ll' ]
-> +    configure_file(input: 'service_ll.socket.in',
-> +                   output: 'service_ll.socket',
-> +                   configuration: private_cfg)
-> +endif
-> +
->  threaded_examples = [ 'notify_inval_inode',
->                        'invalidate_path',
->                        'notify_store_retrieve',
-> @@ -25,6 +34,11 @@ foreach ex : examples
->                 install: false)
->  endforeach
->  
-> +foreach ex : single_file_examples
-> +    executable(ex, [ex + '.c', 'single_file.c'],
-> +               dependencies: [ libfuse_dep ],
-> +               install: false)
-> +endforeach
->  
->  foreach ex : threaded_examples
->      executable(ex, ex + '.c',
-> diff --git a/example/service_ll.c b/example/service_ll.c
-> new file mode 100644
-> index 00000000000000..da1d64f03be5f2
-> --- /dev/null
-> +++ b/example/service_ll.c
-> @@ -0,0 +1,308 @@
-> +/*
-> + * FUSE: Filesystem in Userspace
-> + * Copyright (C) 2026 Oracle.
-> + *
-> + * This program can be distributed under the terms of the GNU GPLv2.
-> + * See the file GPL2.txt.
-> + */
-> +
-> +/** @file
-> + *
-> + * minimal example filesystem using low-level API and systemd service api
-> + *
-> + * Compile with:
-> + *
-> + *     gcc -Wall single_file.c service_ll.c `pkg-config fuse3 --cflags --libs` -o service_ll
-> + *
-> + * Note: If the pkg-config command fails due to the absence of the fuse3.pc
-> + *     file, you should configure the path to the fuse3.pc file in the
-> + *     PKG_CONFIG_PATH variable.
-> + *
-> + * Change the ExecStart line in service_ll@.service:
-> + *
-> + *     ExecStart=/path/to/service_ll
-> + *
-> + * to point to the actual path of the service_ll binary.
-> + *
-> + * Finally, install the service_ll@.service and service_ll.socket files to the
-> + * systemd service directory, usually /run/systemd/system.
-> + *
-> + * ## Source code ##
-> + * \include service_ll.c
-> + * \include service_ll.socket
-> + * \include service_ll@.service
-> + * \include single_file.c
-> + * \include single_file.h
-> + */
-> +
-> +#define FUSE_USE_VERSION FUSE_MAKE_VERSION(3, 19)
-> +
-> +#ifndef _GNU_SOURCE
-> +#define _GNU_SOURCE
-> +#endif
-> +
-> +#include <fuse_lowlevel.h>
-> +#include <fuse_service.h>
-> +#include <stdio.h>
-> +#include <stdlib.h>
-> +#include <string.h>
-> +#include <errno.h>
-> +#include <fcntl.h>
-> +#include <unistd.h>
-> +#include <assert.h>
-> +#include <pthread.h>
-> +#include "single_file.h"
-> +
-> +struct service_ll {
-> +	struct fuse_session *se;
-> +	char *device;
-> +	struct fuse_service *service;
-> +
-> +	/* really booleans */
-> +	int debug;
-> +};
-> +
-> +static struct service_ll ll = { };
-> +
-> +static void service_ll_init(void *userdata, struct fuse_conn_info *conn)
-> +{
-> +	(void)userdata;
-> +
-> +	conn->time_gran = 1;
-> +}
-> +
-> +static void service_ll_read(fuse_req_t req, fuse_ino_t ino, size_t count,
-> +			    off_t pos, struct fuse_file_info *fi)
-> +{
-> +	void *buf = NULL;
-> +	ssize_t got;
-> +	int ret;
-> +
-> +	if (!is_single_file_ino(ino)) {
-> +		ret = EIO;
-> +		goto out_reply;
-> +	}
-> +
-> +	if (ll.debug)
-> +		fprintf(stderr, "%s: pos 0x%llx count 0x%llx\n",
-> +			__func__,
-> +			(unsigned long long)pos,
-> +			(unsigned long long)count);
-> +
-> +	if (!single_file.allow_dio && fi->direct_io) {
-> +		ret = ENOSYS;
-> +		goto out_reply;
-> +	}
-> +
-> +	single_file_check_read(pos, &count);
-> +
-> +	if (!count) {
-> +		fuse_reply_buf(req, buf, 0);
-> +		return;
-> +	}
-> +
-> +	buf = malloc(count);
-> +	if (!buf) {
-> +		ret = ENOMEM;
-> +		goto out_reply;
-> +	}
-> +
-> +	got = pread(single_file.backing_fd, buf, count, pos);
-> +	if (got < 0) {
-> +		ret = errno;
-> +		goto out_reply;
-> +	}
-> +
-> +	fuse_reply_buf(req, buf, got);
-> +	goto out_buf;
-> +
-> +out_reply:
-> +	fuse_reply_err(req, ret);
-> +out_buf:
-> +	free(buf);
-> +}
-> +
-> +static void service_ll_write(fuse_req_t req, fuse_ino_t ino, const char *buf,
-> +			     size_t count, off_t pos,
-> +			     struct fuse_file_info *fi)
-> +{
-> +	ssize_t got;
-> +	int ret;
-> +
-> +	if (!is_single_file_ino(ino)) {
-> +		ret = EIO;
-> +		goto out_reply;
-> +	}
-> +
-> +	if (ll.debug)
-> +		fprintf(stderr, "%s: pos 0x%llx count 0x%llx\n",
-> +			__func__,
-> +			(unsigned long long)pos,
-> +			(unsigned long long)count);
-> +
-> +	if (!single_file.allow_dio && fi->direct_io) {
-> +		ret = ENOSYS;
-> +		goto out_reply;
-> +	}
-> +
-> +	ret = -single_file_check_write(pos, &count);
-> +	if (ret)
-> +		goto out_reply;
-> +
-> +	got = pwrite(single_file.backing_fd, buf, count, pos);
-> +	if (got < 0) {
-> +		ret = errno;
-> +		goto out_reply;
-> +	}
-> +
-> +	if (single_file.sync) {
-> +		ret = fsync(single_file.backing_fd);
-> +		if (ret < 0) {
-> +			ret = errno;
-> +			goto out_reply;
-> +		}
-> +	}
+On Tue, Apr 14, 2026 at 04:53:49PM -0700, Darrick J. Wong wrote:
+> On Thu, Apr 09, 2026 at 03:22:38PM -0700, Darrick J. Wong wrote:
+> > From: Darrick J. Wong <djwong@kernel.org>
+> > 
+> > Some Linux distributions allow unprivileged users to mount fuse
+> > filesystems through the use of the setuid fusermount helper program.  It
+> > would be useful to provide similar functionality when mounting a
+> > filesystem that runs as a systemd service.
+> > 
+> > Therefore, read the fuse config file and implement the same checks as
+> > fusermount.
+> > 
+> > Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
+> > ---
+> >  util/mount_service.c |  150 +++++++++++++++++++++++++++++++++++++++++++++++++-
+> >  1 file changed, 147 insertions(+), 3 deletions(-)
+> > 
+> > 
+> > diff --git a/util/mount_service.c b/util/mount_service.c
+> > index 8e9c721a56fd2a..0f7eae94ada377 100644
+> > --- a/util/mount_service.c
+> > +++ b/util/mount_service.c
+> > @@ -33,6 +33,7 @@
+> >  #include "fuse_i.h"
+> >  #include "fuse_service_priv.h"
+> >  #include "mount_service.h"
+> > +#include "fuser_conf.h"
+> >  
+> >  struct mount_service {
+> >  	/* prefix for printing error messages */
+> > @@ -166,7 +167,9 @@ static int mount_service_connect(struct mount_service *mo)
+> >  		return -1;
+> >  	}
+> >  
+> > +	drop_privs();
+> >  	ret = connect(sockfd, (const struct sockaddr *)&name, sizeof(name));
+> > +	restore_privs();
+> >  	if (ret && (errno == ENOENT || errno == ECONNREFUSED)) {
 
-Technically speaking, pread and pwrite can return partial results, which
-means that they should be run in a loop until @count==0.  The resulting
-similar code in this patch and the next one could be refactored into
-helpers:
+Oops, here I missed that the syscalls under restore_privs() could fail,
+thereby blowing away errno.  This should of course be:
 
-
-ssize_t single_file_pwrite(const void *buf, size_t count, off_t pos)
-{
-	ssize_t processed = 0;
-	ssize_t got;
-
-	while ((got = pwrite(single_file.backing_fd, buf, count, pos)) > 0) {
-		processed += got;
-		pos += got;
-		buf += got;
-		count -= got;
+	drop_privs();
+	ret = connect(...);
+	if (ret && (errno == ENOENT || errno == ECONNREFUSED)) {
+		restore_privs();
+		/* rest of error stuff */
 	}
 
-	if (processed > 0) {
-		if (single_file.sync) {
-			int ret = fsync(single_file.backing_fd);
-			if (ret < 0)
-				return -errno;
-		}
 
-		return processed;
-	}
+> >  		fprintf(stderr, "%s: no safe filesystem driver for %s available.\n",
+> >  			mo->msgtag, mo->subtype);
+> > @@ -208,7 +211,7 @@ static int mount_service_send_hello(struct mount_service *mo)
+> >  	};
+> >  	ssize_t size;
+> >  
+> > -	if (getuid() == 0)
+> > +	if (getuid() == 0 || user_allow_other)
+> >  		hello.flags |= htonl(FUSE_SERVICE_FLAG_ALLOW_OTHER);
+> >  
+> >  	size = sendmsg(mo->sockfd, &msg, MSG_EOR | MSG_NOSIGNAL);
+> > @@ -490,7 +493,9 @@ static int mount_service_send_required_files(struct mount_service *mo,
+> >  {
+> >  	int ret;
+> >  
+> > +	drop_privs();
+> >  	mo->fusedevfd = open(fusedev, O_RDWR | O_CLOEXEC);
+> > +	restore_privs();
 
-	if (got < 0)
-		return -errno;
-	return 0;
-}
+Here too.
 
-ssize_t single_file_pread(void *buf, size_t count, off_t pos)
-{
-	ssize_t processed = 0;
-	ssize_t got;
+> >  	if (mo->fusedevfd < 0) {
+> >  		fprintf(stderr, "%s: %s: %s\n",
+> >  			mo->msgtag, fusedev, strerror(errno));
+> > @@ -628,7 +633,9 @@ static int prepare_bdev(struct mount_service *mo,
+> >  	if (oc->block_size) {
+> >  		int block_size = ntohl(oc->block_size);
+> >  
+> > +		drop_privs();
+> >  		ret = ioctl(fd, BLKBSZSET, &block_size);
+> > +		restore_privs();
+> >  		if (ret) {
+> >  			int error = errno;
+> >  
+> > @@ -675,7 +682,9 @@ static int mount_service_open_path(struct mount_service *mo,
+> >  		return mount_service_send_file_error(mo, EINVAL, oc->path);
+> >  	}
+> >  
+> > -	fd = open(oc->path, ntohl(oc->open_flags), ntohl(oc->create_mode));
+> > +	drop_privs();
+> > +	fd = open(oc->path, ntohl(oc->open_flags) | O_CLOEXEC, ntohl(oc->create_mode));
+> > +	restore_privs();
 
-	while ((got = pread(single_file.backing_fd, buf, count, pos)) > 0) {
-		processed += got;
-		pos += got;
-		buf += got;
-		count -= got;
-	}
+And here.
 
-	if (processed)
-		return processed;
-	if (got < 0)
-		return -errno;
-	return 0;
-}
+> >  	if (fd < 0) {
+> >  		int error = errno;
+> >  
+> > @@ -908,6 +917,20 @@ static int mount_service_handle_mntopts_cmd(struct mount_service *mo,
+
+mount_service_handle_mntopts_cmd and mount_service_handle_source_cmd
+ought only to set mo->mntopts and mo->source at the very end, if
+everything that before it succeeded.
+
+> >  			*equals = 0;
+> >  		}
+> >  
+> > +		if (getuid() != 0 && !user_allow_other &&
+> > +		    (!strcmp(tok, "allow_other") ||
+> > +		     !strcmp(tok, "allow_root"))) {
+> > +			fprintf(stderr,
+> > +"%s: option %s only allowed if 'user_allow_other' is set in %s\n",
+> > +				mo->msgtag, tok, FUSE_CONF);
+> > +			return mount_service_send_reply(mo, EPERM);
+> > +		}
+> > +		if (!strcmp(tok, "blkdev") && getuid() != 0) {
+> 
+> blkdev is an internal mount option that libfuse never sends to the
+> kernel, so there's no need to check it here either.  Sending "blkdev" to
+> the kernel will just cause mount() EINVAL failures.
+> 
+> 
+> > +			fprintf(stderr, "%s: option blkdev is privileged\n",
+> > +				mo->msgtag);
+> > +			return mount_service_send_reply(mo, EPERM);
+> > +		}
+> > +
+> >  #ifdef HAVE_NEW_MOUNT_API
+> >  		if (mo->fsopenfd >= 0) {
+> >  			int ret;
+> > @@ -985,10 +1008,16 @@ static int attach_to_mountpoint(struct mount_service *mo, char *mntpt)
+> >  	int error;
+> >  	int ret;
+> >  
+> > +	drop_privs();
+> > +
+> >  	/*
+> >  	 * Open the alleged mountpoint, make sure it's a dir or a file.
+> > +	 * For unprivileged callers, we only allow mounting on paths that the
+> > +	 * user can write to.
+> >  	 */
+> > -	mountfd = open(mntpt, O_RDONLY | O_CLOEXEC);
+> > +	mountfd = open(mntpt, (getuid() == 0 ? O_RDONLY : O_WRONLY) | O_CLOEXEC);
+> > +	if (mountfd < 0 && errno == EISDIR)
+> > +		mountfd = open(mntpt, O_RDONLY | O_CLOEXEC);
+> 
+> This mess!
+> 
+> This might add a new requirement that the unprivileged caller has to
+> have read access to the mountpoint.  This isn't explicitly checked in
+> fusermount, but I'm pretty sure that the lstat in fusermount will fail
+> with EACCESS.
+> 
+> That said, if we're unprivileged and fall back to opening readonly, then
+> we should require that the fd point to a directory.  Note that the
+> access check just prior to mount()/fsmount() will confirm that the
+> unprivileged caller could (at least in theory) create a new child entry.
+> 
+> --D
+> 
+> >  	if (mountfd < 0) {
+> >  		error = errno;
+> >  		fprintf(stderr, "%s: %s: %s\n", mo->msgtag, mntpt,
+> > @@ -1067,6 +1096,7 @@ static int attach_to_mountpoint(struct mount_service *mo, char *mntpt)
+> >  	mo->mountfd = mountfd;
+> >  	mo->resv_mountpoint = res_mntpt;
+> >  
+> > +	restore_privs();
+> >  	return mount_service_send_reply(mo, 0);
+> >  
+> >  out_res_mntpt:
+> > @@ -1075,6 +1105,7 @@ static int attach_to_mountpoint(struct mount_service *mo, char *mntpt)
+> >  	close(mountfd);
+> >  out_error:
+> >  	free(mntpt);
+> > +	restore_privs();
+> >  	return mount_service_send_reply(mo, error);
+> >  }
+> >  
+> > @@ -1399,6 +1430,77 @@ static int mount_service_fsopen_mount(struct mount_service *mo,
+> >  # define mount_service_fsopen_mount(...)	(FUSE_MOUNT_FALLBACK_NEEDED)
+> >  #endif
+> >  
+> > +static int check_nonroot_file_access(struct mount_service *mo)
+> > +{
+> > +	struct stat sb1, sb2;
+> > +	int fd;
+> > +	int ret;
+> > +
+> > +	/*
+> > +	 * If we already succeeded in opening the file with write access, then
+> > +	 * we're good.
+> > +	 */
+> > +	ret = fcntl(mo->mountfd, F_GETFL);
+> > +	if (ret < 0) {
+> > +		int error = errno;
+> > +
+> > +		fprintf(stderr, "%s: %s: %s\n", mo->msgtag, mo->mountpoint,
+> > +			strerror(error));
+> > +		return -1;
+> > +	}
+> > +
+> > +	if ((ret & O_ACCMODE) != O_RDONLY)
+> > +		return 0;
+> > +
+> > +	ret = fstat(mo->mountfd, &sb1);
+> > +	if (ret) {
+> > +		int error = errno;
+> > +
+> > +		fprintf(stderr, "%s: %s: %s\n",
+> > +			mo->msgtag, mo->mountpoint, strerror(error));
+> > +		return -1;
+> > +	}
+> > +
+> > +	/* Try to reopen the file with write access this time. */
+> > +	fd = open(mo->real_mountpoint, O_WRONLY | O_CLOEXEC);
+> > +	if (fd < 0) {
+> > +		int error = errno;
+> > +
+> > +		fprintf(stderr, "%s: %s: %s\n",
+> > +			mo->msgtag, mo->mountpoint, strerror(error));
+> > +		return -1;
+> > +	}
+> > +
+> > +	/* Is this the same file? */
+> > +	ret = fstat(fd, &sb2);
+> > +	if (ret) {
+> > +		int error = errno;
+> > +
+> > +		fprintf(stderr, "%s: %s: %s\n",
+> > +			mo->msgtag, mo->mountpoint, strerror(error));
+> > +		goto out_fd;
+> > +	}
+> > +
+> > +	if (sb1.st_dev != sb2.st_dev || sb1.st_ino != sb2.st_ino) {
+> > +		fprintf(stderr, "%s: %s: Mount point moved during fuse startup.\n",
+> > +			mo->msgtag, mo->mountpoint);
+> > +		ret = -1;
+> > +		goto out_fd;
+> > +	}
+> > +
+> > +	/*
+> > +	 * We reopened the same file with write access, everything is ok.  Swap
+> > +	 * the two file descriptors so that we retain our write access.
+> > +	 */
+> > +	ret = mo->mountfd;
+> > +	mo->mountfd = fd;
+> > +	fd = ret;
+> > +	ret = 0;
+> > +out_fd:
+> > +	close(fd);
+> > +	return ret;
+> > +}
+> > +
+> >  static int mount_service_handle_mount_cmd(struct mount_service *mo,
+> >  					  struct fuse_service_packet *p,
+> >  					  size_t psz)
+> > @@ -1471,6 +1573,44 @@ static int mount_service_handle_mount_cmd(struct mount_service *mo,
+> >  		return mount_service_send_reply(mo, EINVAL);
+> >  	}
+> >  
+> > +	/*
+> > +	 * fuse.conf can limit the number of unprivileged fuse mounts.
+> > +	 * For unprivileged mounts (via setuid) we also require write access
+> > +	 * to the mountpoint, and we'll only accept certain underlying
+> > +	 * filesystems.
+> > +	 */
+> > +	if (getuid() != 0) {
+> > +		struct statfs fs_buf;
+> > +
+> > +		ret = check_nonroot_mount_count(mo->msgtag);
+> > +		if (ret)
+> > +			return mount_service_send_reply(mo, EUSERS);
+> > +
+> > +		ret = fstatfs(mo->mountfd, &fs_buf);
+> > +		if (ret) {
+> > +			int error = errno;
+> > +
+> > +			fprintf(stderr, "%s: %s: %s\n",
+> > +				mo->msgtag, mo->mountpoint, strerror(error));
+> > +			return mount_service_send_reply(mo, error);
+> > +		}
+> > +
+> > +		drop_privs();
+> > +		if (S_ISDIR(stbuf.st_mode))
+> > +			ret = check_nonroot_dir_access(mo->msgtag,
+> > +						       mo->mountpoint,
+> > +						       mo->real_mountpoint,
+> > +						       &stbuf);
+> > +		else
+> > +			ret = check_nonroot_file_access(mo);
+> > +		if (!ret)
+> > +			ret = check_nonroot_fstype(mo->msgtag, &fs_buf);
+> > +		restore_privs();
+> > +
+> > +		if (ret)
+> > +			return mount_service_send_reply(mo, EPERM);
+
+Codex points out that fusermount grumps and sets MS_NOSUID|MS_NODEV
+unconditionally, so we should do that too.  I see that there's a
+"mount_flags" table in fusermount.c, so I'll use that as the basis for
+forcing flags.
 
 --D
 
-> +
-> +	fuse_reply_write(req, got);
-> +	return;
-> +
-> +out_reply:
-> +	fuse_reply_err(req, ret);
-> +}
-> +
-> +static const struct fuse_lowlevel_ops service_ll_oper = {
-> +	.lookup		= single_file_ll_lookup,
-> +	.getattr	= single_file_ll_getattr,
-> +	.setattr	= single_file_ll_setattr,
-> +	.readdir	= single_file_ll_readdir,
-> +	.open		= single_file_ll_open,
-> +	.statfs		= single_file_ll_statfs,
-> +	.statx		= single_file_ll_statx,
-> +	.fsync		= single_file_ll_fsync,
-> +
-> +	.init		= service_ll_init,
-> +	.read		= service_ll_read,
-> +	.write		= service_ll_write,
-> +};
-> +
-> +#define SERVICE_LL_OPT(t, p, v) { t, offsetof(struct service_ll, p), v }
-> +
-> +static struct fuse_opt service_ll_opts[] = {
-> +	SERVICE_LL_OPT("debug",		debug,			1),
-> +	SINGLE_FILE_OPT_KEYS,
-> +	FUSE_OPT_END
-> +};
-> +
-> +static int service_ll_opt_proc(void *data, const char *arg, int key,
-> +				 struct fuse_args *outargs)
-> +{
-> +	int ret = single_file_opt_proc(data, arg, key, outargs);
-> +
-> +	if (ret < 1)
-> +		return ret;
-> +
-> +	switch (key) {
-> +	case FUSE_OPT_KEY_NONOPT:
-> +		if (!ll.device) {
-> +			ll.device = strdup(arg);
-> +			return 0;
-> +		}
-> +		return 1;
-> +	}
-> +
-> +	return 1;
-> +}
-> +
-> +int main(int argc, char *argv[])
-> +{
-> +	struct fuse_args args = FUSE_ARGS_INIT(argc, argv);
-> +	struct fuse_cmdline_opts opts = { };
-> +	int ret = 1;
-> +
-> +	if (fuse_service_accept(&ll.service))
-> +		goto err_args;
-> +
-> +	if (!fuse_service_accepted(ll.service))
-> +		goto err_args;
-> +
-> +	if (fuse_service_append_args(ll.service, &args))
-> +		goto err_service;
-> +
-> +	if (fuse_opt_parse(&args, &ll, service_ll_opts, service_ll_opt_proc))
-> +		goto err_service;
-> +
-> +	if (fuse_service_parse_cmdline_opts(&args, &opts))
-> +		goto err_service;
-> +
-> +	if (opts.show_help) {
-> +		printf("usage: %s [options] <device> <mountpoint>\n\n", argv[0]);
-> +		fuse_cmdline_help();
-> +		fuse_lowlevel_help();
-> +		ret = 0;
-> +		goto err_service;
-> +	} else if (opts.show_version) {
-> +		printf("FUSE library version %s\n", fuse_pkgversion());
-> +		fuse_lowlevel_version();
-> +		ret = 0;
-> +		goto err_service;
-> +	}
-> +
-> +	if (!opts.mountpoint || !ll.device) {
-> +		printf("usage: %s [options] <device> <mountpoint>\n", argv[0]);
-> +		printf("       %s --help\n", argv[0]);
-> +		goto err_service;
-> +	}
-> +
-> +	if (single_file_service_open(ll.service, ll.device))
-> +		goto err_service;
-> +
-> +	if (fuse_service_finish_file_requests(ll.service))
-> +		goto err_singlefile;
-> +
-> +	if (single_file_configure(ll.device, NULL))
-> +		goto err_singlefile;
-> +
-> +	ll.se = fuse_session_new(&args, &service_ll_oper,
-> +				 sizeof(service_ll_oper), NULL);
-> +	if (ll.se == NULL)
-> +		goto err_singlefile;
-> +
-> +	if (fuse_set_signal_handlers(ll.se))
-> +		goto err_session;
-> +
-> +	if (fuse_service_session_mount(ll.service, ll.se, S_IFDIR, &opts))
-> +		goto err_signals;
-> +
-> +	fuse_service_send_goodbye(ll.service, 0);
-> +	fuse_service_release(ll.service);
-> +
-> +	fuse_daemonize(opts.foreground);
-> +
-> +	/* Block until ctrl+c or fusermount -u */
-> +	if (opts.singlethread) {
-> +		ret = fuse_session_loop(ll.se);
-> +	} else {
-> +		struct fuse_loop_config *config = fuse_loop_cfg_create();
-> +
-> +		fuse_loop_cfg_set_clone_fd(config, opts.clone_fd);
-> +		fuse_loop_cfg_set_max_threads(config, opts.max_threads);
-> +		ret = fuse_session_loop_mt(ll.se, config);
-> +		fuse_loop_cfg_destroy(config);
-> +	}
-> +
-> +	fuse_session_unmount(ll.se);
-> +err_signals:
-> +	fuse_remove_signal_handlers(ll.se);
-> +err_session:
-> +	fuse_session_destroy(ll.se);
-> +err_singlefile:
-> +	single_file_close();
-> +err_service:
-> +	free(opts.mountpoint);
-> +	free(ll.device);
-> +	fuse_service_send_goodbye(ll.service, ret);
-> +	fuse_service_destroy(&ll.service);
-> +err_args:
-> +	fuse_opt_free_args(&args);
-> +	return fuse_service_exit(ret);
-> +}
-> diff --git a/example/service_ll.socket.in b/example/service_ll.socket.in
-> new file mode 100644
-> index 00000000000000..c41c382878a0cd
-> --- /dev/null
-> +++ b/example/service_ll.socket.in
-> @@ -0,0 +1,15 @@
-> +# SPDX-License-Identifier: GPL-2.0-or-later
-> +#
-> +# Copyright (C) 2026 Oracle.  All Rights Reserved.
-> +# Author: Darrick J. Wong <djwong@kernel.org>
-> +[Unit]
-> +Description=Socket for service_ll Service
-> +
-> +[Socket]
-> +ListenSequentialPacket=@FUSE_SERVICE_SOCKET_DIR_RAW@/service_ll
-> +Accept=yes
-> +SocketMode=@FUSE_SERVICE_SOCKET_PERMS@
-> +RemoveOnStop=yes
-> +
-> +[Install]
-> +WantedBy=sockets.target
-> diff --git a/example/service_ll@.service b/example/service_ll@.service
-> new file mode 100644
-> index 00000000000000..016d839babe3cc
-> --- /dev/null
-> +++ b/example/service_ll@.service
-> @@ -0,0 +1,102 @@
-> +# SPDX-License-Identifier: GPL-2.0-or-later
-> +#
-> +# Copyright (C) 2026 Oracle.  All Rights Reserved.
-> +# Author: Darrick J. Wong <djwong@kernel.org>
-> +[Unit]
-> +Description=service_ll Sample Fuse Service
-> +
-> +# Don't leave failed units behind, systemd does not clean them up!
-> +CollectMode=inactive-or-failed
-> +
-> +[Service]
-> +Type=exec
-> +ExecStart=/path/to/service_ll
-> +
-> +# Try to capture core dumps
-> +LimitCORE=infinity
-> +
-> +SyslogIdentifier=%N
-> +
-> +# No realtime CPU scheduling
-> +RestrictRealtime=true
-> +
-> +# Don't let us see anything in the regular system, and don't run as root
-> +DynamicUser=true
-> +ProtectSystem=strict
-> +ProtectHome=true
-> +PrivateTmp=true
-> +PrivateDevices=true
-> +PrivateUsers=true
-> +
-> +# No network access
-> +PrivateNetwork=true
-> +ProtectHostname=true
-> +RestrictAddressFamilies=none
-> +IPAddressDeny=any
-> +
-> +# Don't let the program mess with the kernel configuration at all
-> +ProtectKernelLogs=true
-> +ProtectKernelModules=true
-> +ProtectKernelTunables=true
-> +ProtectControlGroups=true
-> +ProtectProc=invisible
-> +RestrictNamespaces=true
-> +RestrictFileSystems=
-> +
-> +# Hide everything in /proc, even /proc/mounts
-> +ProcSubset=pid
-> +
-> +# Only allow the default personality Linux
-> +LockPersonality=true
-> +
-> +# No writable memory pages
-> +MemoryDenyWriteExecute=true
-> +
-> +# Don't let our mounts leak out to the host
-> +PrivateMounts=true
-> +
-> +# Restrict system calls to the native arch and only enough to get things going
-> +SystemCallArchitectures=native
-> +SystemCallFilter=@system-service
-> +SystemCallFilter=~@privileged
-> +SystemCallFilter=~@resources
-> +
-> +SystemCallFilter=~@clock
-> +SystemCallFilter=~@cpu-emulation
-> +SystemCallFilter=~@debug
-> +SystemCallFilter=~@module
-> +SystemCallFilter=~@reboot
-> +SystemCallFilter=~@swap
-> +
-> +SystemCallFilter=~@mount
-> +
-> +# libfuse io_uring wants to pin cores and memory
-> +SystemCallFilter=mbind
-> +SystemCallFilter=sched_setaffinity
-> +
-> +# Leave a breadcrumb if we get whacked by the system call filter
-> +SystemCallErrorNumber=EL3RST
-> +
-> +# Log to the kernel dmesg, just like an in-kernel filesystem driver
-> +StandardOutput=append:/dev/ttyprintk
-> +StandardError=append:/dev/ttyprintk
-> +
-> +# Run with no capabilities at all
-> +CapabilityBoundingSet=
-> +AmbientCapabilities=
-> +NoNewPrivileges=true
-> +
-> +# We don't create files
-> +UMask=7777
-> +
-> +# No access to hardware /dev files at all
-> +ProtectClock=true
-> +DevicePolicy=closed
-> +
-> +# Don't mess with set[ug]id anything.
-> +RestrictSUIDSGID=true
-> +
-> +# Don't let OOM kills of processes in this containment group kill the whole
-> +# service, because we don't want filesystem drivers to go down.
-> +OOMPolicy=continue
-> +OOMScoreAdjust=-1000
-> diff --git a/example/single_file.c b/example/single_file.c
-> new file mode 100644
-> index 00000000000000..b2dedf59de9552
-> --- /dev/null
-> +++ b/example/single_file.c
-> @@ -0,0 +1,646 @@
-> +/*
-> + * FUSE: Filesystem in Userspace
-> + * Copyright (C) 2026 Oracle.
-> + *
-> + * This program can be distributed under the terms of the GNU GPLv2.
-> + * See the file GPL2.txt.
-> + */
-> +#define _GNU_SOURCE
-> +#include <pthread.h>
-> +#include <errno.h>
-> +#include <stdlib.h>
-> +#include <errno.h>
-> +#include <stdio.h>
-> +#include <string.h>
-> +#include <unistd.h>
-> +#include <sys/ioctl.h>
-> +#include <sys/stat.h>
-> +#ifdef __linux__
-> +#include <linux/fs.h>
-> +#include <linux/stat.h>
-> +#endif
-> +
-> +#define FUSE_USE_VERSION (FUSE_MAKE_VERSION(3, 19))
-> +
-> +#include "fuse_lowlevel.h"
-> +#include "fuse_service.h"
-> +#include "single_file.h"
-> +
-> +#define min(x, y) ((x) < (y) ? (x) : (y))
-> +
-> +#if __has_attribute(__fallthrough__)
-> +#define fallthrough __attribute__((__fallthrough__))
-> +#else
-> +#define fallthrough do {} while (0)
-> +#endif
-> +
-> +struct dirbuf {
-> +	char *p;
-> +	size_t size;
-> +};
-> +
-> +struct single_file_stat {
-> +	struct fuse_entry_param entry;
-> +};
-> +
-> +#define SINGLE_FILE_INO		(FUSE_ROOT_ID + 1)
-> +
-> +static const char *single_file_name = "single_file";
-> +static bool single_file_name_set;
-> +
-> +struct single_file single_file = {
-> +	.backing_fd = -1,
-> +	.allow_dio = true,
-> +	.mode = S_IFREG | 0444,
-> +	.lock = PTHREAD_MUTEX_INITIALIZER,
-> +};
-> +
-> +static void dirbuf_add(fuse_req_t req, struct dirbuf *b, const char *name,
-> +		       fuse_ino_t ino)
-> +{
-> +	struct stat stbuf;
-> +	size_t oldsize = b->size;
-> +
-> +	b->size += fuse_add_direntry(req, NULL, 0, name, NULL, 0);
-> +	b->p = (char *) realloc(b->p, b->size);
-> +	memset(&stbuf, 0, sizeof(stbuf));
-> +	stbuf.st_ino = ino;
-> +	fuse_add_direntry(req, b->p + oldsize, b->size - oldsize, name, &stbuf,
-> +			  b->size);
-> +}
-> +
-> +int reply_buf_limited(fuse_req_t req, const char *buf, size_t bufsize,
-> +		      off_t off, size_t maxsize)
-> +{
-> +	if (off < bufsize)
-> +		return fuse_reply_buf(req, buf + off,
-> +				      min(bufsize - off, maxsize));
-> +	else
-> +		return fuse_reply_buf(req, NULL, 0);
-> +}
-> +
-> +bool is_single_file_child(fuse_ino_t parent, const char *name)
-> +{
-> +	return  parent == FUSE_ROOT_ID &&
-> +		strcmp(name, single_file_name) == 0;
-> +}
-> +
-> +bool is_single_file_ino(fuse_ino_t ino)
-> +{
-> +	return ino == SINGLE_FILE_INO;
-> +}
-> +
-> +void single_file_ll_readdir(fuse_req_t req, fuse_ino_t ino, size_t size,
-> +			    off_t off, struct fuse_file_info *fi)
-> +{
-> +	struct dirbuf b;
-> +
-> +	(void) fi;
-> +
-> +	switch (ino) {
-> +	case FUSE_ROOT_ID:
-> +		break;
-> +	case SINGLE_FILE_INO:
-> +		fuse_reply_err(req, ENOTDIR);
-> +		return;
-> +	default:
-> +		fuse_reply_err(req, ENOENT);
-> +		return;
-> +	}
-> +
-> +	memset(&b, 0, sizeof(b));
-> +	dirbuf_add(req, &b, ".", FUSE_ROOT_ID);
-> +	dirbuf_add(req, &b, "..", FUSE_ROOT_ID);
-> +	dirbuf_add(req, &b, single_file_name, SINGLE_FILE_INO);
-> +	reply_buf_limited(req, b.p, b.size, off, size);
-> +	free(b.p);
-> +}
-> +
-> +static bool sf_stat(fuse_ino_t ino, struct single_file_stat *llstat)
-> +{
-> +	struct fuse_entry_param *entry = &llstat->entry;
-> +	struct stat *stbuf = &entry->attr;
-> +
-> +	if (ino == FUSE_ROOT_ID) {
-> +		stbuf->st_mode = S_IFDIR | 0755;
-> +		stbuf->st_nlink = 2;
-> +	} else if (ino == SINGLE_FILE_INO) {
-> +		stbuf->st_mode = single_file.mode;
-> +		stbuf->st_nlink = 1;
-> +		stbuf->st_size = single_file.isize;
-> +		stbuf->st_blksize = single_file.blocksize;
-> +		stbuf->st_blocks = howmany(single_file.isize, 512);
-> +		stbuf->st_atim = single_file.atime;
-> +		stbuf->st_mtim = single_file.mtime;
-> +	} else {
-> +		return false;
-> +	}
-> +	stbuf->st_ino = ino;
-> +
-> +	entry->generation = ino + 1;
-> +	entry->attr_timeout = 0.0;
-> +	entry->entry_timeout = 0.0;
-> +	entry->ino = ino;
-> +
-> +	return true;
-> +}
-> +
-> +#if defined(STATX_BASIC_STATS)
-> +static inline void sf_set_statx_attr(struct statx *stx,
-> +				     uint64_t statx_flag, int set)
-> +{
-> +	if (set)
-> +		stx->stx_attributes |= statx_flag;
-> +	stx->stx_attributes_mask |= statx_flag;
-> +}
-> +
-> +static void sf_statx_directio(struct statx *stx)
-> +{
-> +	struct statx devx;
-> +	int ret;
-> +
-> +	ret = statx(single_file.backing_fd, "", AT_EMPTY_PATH, STATX_DIOALIGN,
-> +		    &devx);
-> +	if (ret)
-> +		return;
-> +	if (!(devx.stx_mask & STATX_DIOALIGN))
-> +		return;
-> +
-> +	stx->stx_mask |= STATX_DIOALIGN;
-> +	stx->stx_dio_mem_align = devx.stx_dio_mem_align;
-> +	stx->stx_dio_offset_align = devx.stx_dio_offset_align;
-> +}
-> +
-> +static bool sf_statx(fuse_ino_t ino, int statx_mask, struct statx *stx)
-> +{
-> +	(void)statx_mask;
-> +
-> +	if (ino == FUSE_ROOT_ID) {
-> +		stx->stx_mode = S_IFDIR | 0755;
-> +		stx->stx_nlink = 2;
-> +	} else if (ino == SINGLE_FILE_INO) {
-> +		stx->stx_mode = single_file.mode;
-> +		stx->stx_nlink = 1;
-> +		stx->stx_size = single_file.isize;
-> +		stx->stx_blksize = single_file.blocksize;
-> +		stx->stx_blocks = howmany(single_file.isize, 512);
-> +		stx->stx_atime.tv_sec = single_file.atime.tv_sec;
-> +		stx->stx_atime.tv_nsec = single_file.atime.tv_nsec;
-> +		stx->stx_mtime.tv_sec = single_file.mtime.tv_sec;
-> +		stx->stx_mtime.tv_nsec = single_file.mtime.tv_nsec;
-> +	} else {
-> +		return false;
-> +	}
-> +	stx->stx_mask = STATX_BASIC_STATS;
-> +	stx->stx_ino = ino;
-> +
-> +	sf_set_statx_attr(stx, STATX_ATTR_IMMUTABLE, single_file.ro);
-> +	sf_statx_directio(stx);
-> +
-> +	return true;
-> +}
-> +
-> +void single_file_ll_statx(fuse_req_t req, fuse_ino_t ino, int flags, int mask,
-> +			  struct fuse_file_info *fi)
-> +{
-> +	struct statx stx = { };
-> +	bool filled;
-> +
-> +	(void)flags;
-> +	(void)fi;
-> +
-> +	pthread_mutex_lock(&single_file.lock);
-> +	filled = sf_statx(ino, mask, &stx);
-> +	pthread_mutex_unlock(&single_file.lock);
-> +	if (!filled)
-> +		fuse_reply_err(req, ENOENT);
-> +	else
-> +		fuse_reply_statx(req, 0, &stx, 0.0);
-> +}
-> +#else
-> +void single_file_ll_statx(fuse_req_t req, fuse_ino_t ino, int flags, int mask,
-> +			  struct fuse_file_info *fi)
-> +{
-> +	fuse_reply_err(req, ENOSYS);
-> +}
-> +#endif /* STATX_BASIC_STATS */
-> +
-> +void single_file_ll_statfs(fuse_req_t req, fuse_ino_t ino)
-> +{
-> +	struct statvfs buf;
-> +
-> +	(void)ino;
-> +
-> +	pthread_mutex_lock(&single_file.lock);
-> +	buf.f_bsize = single_file.blocksize;
-> +	buf.f_frsize = 0;
-> +
-> +	buf.f_blocks = single_file.blocks;
-> +	buf.f_bfree = 0;
-> +	buf.f_bavail = 0;
-> +	buf.f_files = 1;
-> +	buf.f_ffree = 0;
-> +	buf.f_favail = 0;
-> +	buf.f_fsid = 0x50C00L;
-> +	buf.f_flag = 0;
-> +	if (single_file.ro)
-> +		buf.f_flag |= ST_RDONLY;
-> +	buf.f_namemax = 255;
-> +	pthread_mutex_unlock(&single_file.lock);
-> +
-> +	fuse_reply_statfs(req, &buf);
-> +}
-> +
-> +void single_file_ll_getattr(fuse_req_t req, fuse_ino_t ino,
-> +			    struct fuse_file_info *fi)
-> +{
-> +	struct single_file_stat llstat;
-> +	bool filled;
-> +
-> +	(void) fi;
-> +
-> +	memset(&llstat, 0, sizeof(llstat));
-> +	pthread_mutex_lock(&single_file.lock);
-> +	filled = sf_stat(ino, &llstat);
-> +	pthread_mutex_unlock(&single_file.lock);
-> +	if (!filled)
-> +		fuse_reply_err(req, ENOENT);
-> +	else
-> +		fuse_reply_attr(req, &llstat.entry.attr,
-> +				llstat.entry.attr_timeout);
-> +}
-> +
-> +static void get_now(struct timespec *now)
-> +{
-> +#ifdef CLOCK_REALTIME
-> +	if (!clock_gettime(CLOCK_REALTIME, now))
-> +		return;
-> +#endif
-> +
-> +	now->tv_sec = time(NULL);
-> +	now->tv_nsec = 0;
-> +}
-> +
-> +void single_file_ll_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
-> +			    int to_set, struct fuse_file_info *fi)
-> +{
-> +	struct timespec now;
-> +
-> +	if (ino != SINGLE_FILE_INO)
-> +		goto deny;
-> +	if (to_set & (FUSE_SET_ATTR_UID | FUSE_SET_ATTR_GID |
-> +		      FUSE_SET_ATTR_SIZE))
-> +		goto deny;
-> +
-> +	get_now(&now);
-> +
-> +	pthread_mutex_lock(&single_file.lock);
-> +	if (to_set & FUSE_SET_ATTR_MODE)
-> +		single_file.mode = (single_file.mode & S_IFMT) |
-> +				   (attr->st_mode & ~S_IFMT);
-> +	if (to_set & FUSE_SET_ATTR_ATIME) {
-> +		if (to_set & FUSE_SET_ATTR_ATIME_NOW)
-> +			single_file.atime = now;
-> +		else
-> +			single_file.atime = attr->st_atim;
-> +	}
-> +	if (to_set & FUSE_SET_ATTR_MTIME) {
-> +		if (to_set & FUSE_SET_ATTR_MTIME_NOW)
-> +			single_file.mtime = now;
-> +		else
-> +			single_file.mtime = attr->st_mtim;
-> +	}
-> +	pthread_mutex_unlock(&single_file.lock);
-> +
-> +	single_file_ll_getattr(req, ino, fi);
-> +	return;
-> +deny:
-> +	fuse_reply_err(req, EPERM);
-> +}
-> +
-> +void single_file_ll_lookup(fuse_req_t req, fuse_ino_t parent, const char *name)
-> +{
-> +	struct single_file_stat llstat;
-> +	bool filled;
-> +
-> +	if (!is_single_file_child(parent, name)) {
-> +		fuse_reply_err(req, ENOENT);
-> +		return;
-> +	}
-> +
-> +	memset(&llstat, 0, sizeof(llstat));
-> +	pthread_mutex_lock(&single_file.lock);
-> +	filled = sf_stat(SINGLE_FILE_INO, &llstat);
-> +	pthread_mutex_unlock(&single_file.lock);
-> +	if (!filled)
-> +		fuse_reply_err(req, ENOENT);
-> +	else
-> +		fuse_reply_entry(req, &llstat.entry);
-> +}
-> +
-> +void single_file_ll_open(fuse_req_t req, fuse_ino_t ino,
-> +			 struct fuse_file_info *fi)
-> +{
-> +	if (ino != SINGLE_FILE_INO)
-> +		fuse_reply_err(req, EISDIR);
-> +	else if (single_file.ro && (fi->flags & O_ACCMODE) != O_RDONLY)
-> +		fuse_reply_err(req, EACCES);
-> +	else
-> +		fuse_reply_open(req, fi);
-> +}
-> +
-> +void single_file_ll_fsync(fuse_req_t req, fuse_ino_t ino, int datasync,
-> +			  struct fuse_file_info *fi)
-> +{
-> +	int ret = 0;
-> +
-> +	(void)datasync;
-> +	(void)fi;
-> +
-> +	if (ino == SINGLE_FILE_INO) {
-> +		ret = fsync(single_file.backing_fd);
-> +		if (ret)
-> +			ret = errno;
-> +	}
-> +
-> +	fuse_reply_err(req, ret);
-> +}
-> +
-> +unsigned long long parse_num_blocks(const char *arg, int log_block_size)
-> +{
-> +	char *p;
-> +	unsigned long long num;
-> +
-> +	num = strtoull(arg, &p, 0);
-> +
-> +	if (p[0] && p[1])
-> +		return 0;
-> +
-> +	switch (*p) {
-> +	case 'T': case 't':
-> +		num <<= 10;
-> +		fallthrough;
-> +	case 'G': case 'g':
-> +		num <<= 10;
-> +		fallthrough;
-> +	case 'M': case 'm':
-> +		num <<= 10;
-> +		fallthrough;
-> +	case 'K': case 'k':
-> +		if (log_block_size < 0)
-> +			num <<= 10;
-> +		else
-> +			num >>= log_block_size;
-> +		break;
-> +	case 's':
-> +		if (log_block_size < 0)
-> +			num <<= 9;
-> +		else
-> +			num >>= (1+log_block_size);
-> +		break;
-> +	case '\0':
-> +		break;
-> +	default:
-> +		return 0;
-> +	}
-> +	return num;
-> +}
-> +
-> +static int single_file_set_blocksize(const char *arg)
-> +{
-> +	unsigned long long l = parse_num_blocks(arg, -1);
-> +
-> +	if (l < 512 || l > INT32_MAX || (l & (l - 1)) != 0) {
-> +		fprintf(stderr, "%s: block size must be power of two between 512 and 2G.\n",
-> +			arg);
-> +		return -1;
-> +	}
-> +
-> +	/* do not pass through to libfuse */
-> +	single_file.blocksize = l;
-> +	return 0;
-> +}
-> +
-> +static int single_file_set_size(const char *arg)
-> +{
-> +	unsigned long long l = parse_num_blocks(arg, -1);
-> +
-> +	if (l < 1 || (l & 511) != 0 || l > INT64_MAX) {
-> +		fprintf(stderr, "%s: size must be multiple of 512 and larger than zero.\n",
-> +			arg);
-> +		return -1;
-> +	}
-> +
-> +	/* do not pass through to libfuse */
-> +	single_file.isize = l;
-> +	return 0;
-> +}
-> +
-> +int single_file_opt_proc(void *data, const char *arg, int key,
-> +			 struct fuse_args *outargs)
-> +{
-> +	(void)data;
-> +	(void)outargs;
-> +
-> +	switch (key) {
-> +	case SINGLE_FILE_RO:
-> +		/* pass through to libfuse */
-> +		single_file.ro = true;
-> +		return 1;
-> +	case SINGLE_FILE_RW:
-> +		/* pass through to libfuse */
-> +		single_file.ro = false;
-> +		return 1;
-> +	case SINGLE_FILE_REQUIRE_BDEV:
-> +		single_file.require_bdev = true;
-> +		return 0;
-> +	case SINGLE_FILE_DIO:
-> +		single_file.allow_dio = true;
-> +		return 0;
-> +	case SINGLE_FILE_NODIO:
-> +		single_file.allow_dio = false;
-> +		return 0;
-> +	case SINGLE_FILE_SYNC:
-> +		single_file.sync = true;
-> +		return 0;
-> +	case SINGLE_FILE_NOSYNC:
-> +		single_file.sync = false;
-> +		return 0;
-> +	case SINGLE_FILE_BLOCKSIZE:
-> +		return single_file_set_blocksize(arg + 10);
-> +	case SINGLE_FILE_SIZE:
-> +		return single_file_set_size(arg + 5);
-> +	}
-> +
-> +	return 1;
-> +}
-> +
-> +int single_file_service_open(struct fuse_service *sf, const char *path)
-> +{
-> +	int open_flags = single_file.ro ? O_RDONLY : O_RDWR;
-> +	int fd;
-> +	int ret;
-> +
-> +again:
-> +	if (single_file.require_bdev)
-> +		ret = fuse_service_request_blockdev(sf, path,
-> +						    open_flags | O_EXCL, 0, 0,
-> +						    single_file.blocksize);
-> +	else
-> +		ret = fuse_service_request_file(sf, path, open_flags | O_EXCL,
-> +						0, 0);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (!single_file.ro && open_flags == O_RDONLY)
-> +		single_file.ro = true;
-> +
-> +	ret = fuse_service_receive_file(sf, path, &fd);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* downgrade from rw to ro if necessary */
-> +	if ((fd == -EPERM || fd == -EACCES) && open_flags == O_RDWR) {
-> +		open_flags = O_RDONLY;
-> +		goto again;
-> +	}
-> +
-> +	if (fd < 0) {
-> +		fprintf(stderr, "%s: opening file: %s.\n",
-> +			path, strerror(-fd));
-> +		return -1;
-> +	}
-> +
-> +	single_file.backing_fd = fd;
-> +	return 0;
-> +}
-> +
-> +int single_file_check_write(off_t pos, size_t *count)
-> +{
-> +	if (pos >= single_file.isize)
-> +		return -EFBIG;
-> +
-> +	if (*count > single_file.isize)
-> +		*count = single_file.isize;
-> +	if (pos >= single_file.isize - *count)
-> +		*count = single_file.isize - pos;
-> +
-> +	return 0;
-> +}
-> +
-> +void single_file_check_read(off_t pos, size_t *count)
-> +{
-> +	int ret = single_file_check_write(pos, count);
-> +
-> +	if (ret)
-> +		*count = 0;
-> +}
-> +
-> +int single_file_configure(const char *device, const char *filename)
-> +{
-> +	struct stat statbuf;
-> +	unsigned long long backing_size;
-> +	unsigned int proposed_blocksize;
-> +	int lbasize;
-> +	int ret;
-> +
-> +	ret = fstat(single_file.backing_fd, &statbuf);
-> +	if (ret) {
-> +		perror(device);
-> +		return -1;
-> +	}
-> +	lbasize = statbuf.st_blksize;
-> +	backing_size = statbuf.st_size;
-> +
-> +	if (S_ISBLK(statbuf.st_mode)) {
-> +#ifdef BLKSSZGET
-> +		ret = ioctl(single_file.backing_fd, BLKSSZGET, &lbasize);
-> +		if (ret) {
-> +			perror(device);
-> +			return -1;
-> +		}
-> +#endif
-> +
-> +#ifdef BLKGETSIZE64
-> +		ret = ioctl(single_file.backing_fd, BLKGETSIZE64, &backing_size);
-> +		if (ret) {
-> +			perror(device);
-> +			return -1;
-> +		}
-> +#endif
-> +	}
-> +
-> +	if (backing_size == 0) {
-> +		fprintf(stderr, "%s: backing file size zero?\n", device);
-> +		return -1;
-> +	}
-> +
-> +	if (lbasize == 0) {
-> +		fprintf(stderr, "%s: blocksize zero?\n", device);
-> +		return -1;
-> +	}
-> +
-> +	proposed_blocksize = single_file.blocksize ? single_file.blocksize :
-> +						     sysconf(_SC_PAGESIZE);
-> +	if (lbasize > proposed_blocksize) {
-> +		fprintf(stderr, "%s: lba size %u smaller than blocksize %u\n",
-> +			device, lbasize, proposed_blocksize);
-> +		return -1;
-> +	}
-> +
-> +	if (single_file.isize % proposed_blocksize > 0) {
-> +		fprintf(stderr, "%s: size parameter %llu not congruent with blocksize %u\n",
-> +			device, (unsigned long long)single_file.isize,
-> +			proposed_blocksize);
-> +		return -1;
-> +	}
-> +
-> +	if (single_file.isize > backing_size) {
-> +		fprintf(stderr, "%s: file size %llu smaller than size param %llu\n",
-> +			device, backing_size,
-> +			(unsigned long long)single_file.isize);
-> +		return -1;
-> +	}
-> +
-> +	if (!single_file.blocksize)
-> +		single_file.blocksize = proposed_blocksize;
-> +	if (!single_file.isize)
-> +		single_file.isize = backing_size;
-> +
-> +	single_file.isize = round_down(single_file.isize, single_file.blocksize);
-> +	single_file.blocks = single_file.isize / single_file.blocksize;
-> +
-> +	return single_file_configure_simple(filename);
-> +}
-> +
-> +int single_file_configure_simple(const char *filename)
-> +{
-> +	if (!single_file.blocksize)
-> +		single_file.blocksize = sysconf(_SC_PAGESIZE);
-> +
-> +	if (filename) {
-> +		char *n = strdup(filename);
-> +
-> +		if (!n) {
-> +			perror(filename);
-> +			return -1;
-> +		}
-> +
-> +		if (single_file_name_set)
-> +			free((void *)single_file_name);
-> +		single_file_name = n;
-> +		single_file_name_set = true;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +void single_file_close(void)
-> +{
-> +	close(single_file.backing_fd);
-> +	single_file.backing_fd = -1;
-> +
-> +	if (single_file_name_set)
-> +		free((void *)single_file_name);
-> +	single_file_name_set = false;
-> +}
-> diff --git a/meson.build b/meson.build
-> index 827ec45ad3ad75..de038df8d92071 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -77,6 +77,7 @@ endif
->  if service_socket_perms == ''
->    service_socket_perms = '0220'
->  endif
-> +private_cfg.set('FUSE_SERVICE_SOCKET_DIR_RAW', service_socket_dir)
->  private_cfg.set_quoted('FUSE_SERVICE_SOCKET_DIR', service_socket_dir)
->  private_cfg.set('FUSE_SERVICE_SOCKET_PERMS', service_socket_perms)
->  
-> 
+> > +	}
+> > +
+> >  	if (mo->fsopenfd >= 0) {
+> >  		ret = mount_service_fsopen_mount(mo, oc, &stbuf);
+> >  		if (ret != FUSE_MOUNT_FALLBACK_NEEDED)
+> > @@ -1601,6 +1741,10 @@ int mount_service_main(int argc, char *argv[])
+> >  	else
+> >  		mo.msgtag = "mount.service";
+> >  
+> > +	drop_privs();
+> > +	read_conf(mo.msgtag);
+> > +	restore_privs();
+> > +
+> >  	ret = mount_service_init(&mo, argc, argv);
+> >  	if (ret)
+> >  		return EXIT_FAILURE;
+> > 
+> > 
 > 
