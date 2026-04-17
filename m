@@ -1,460 +1,161 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C9CB2475D0
-	for <linux-fsdevel@vger.kernel.org>; Fri, 17 Apr 2026 22:41:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16B5237F00A
+	for <linux-fsdevel@vger.kernel.org>; Fri, 17 Apr 2026 22:57:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776465704; cv=none; b=jq1q2AWeUvo6iKksF2oJoJSOmWQHdsMGmwb50Ld4Yrqiyzvrx99DIenascALOfNUFETL3Mm6PC2WGdbfI+71grIMGrF1abHw/dNwmVfKV0CkfRZUsOm19xjCz8Sjb2G2x0sruz5slFMWgfaVl0OY7TS7OxVwz9NvmQukY/EGiyc=
+	t=1776466650; cv=none; b=YMfFd+9VUFykY3zg1CVqxx1DYQYwa1iHvpWUWz9G0E0VHrQlwg6WCzrQOOCsXbg6/fIbuvZTdJWe8p9rgukMOgvyT0UfLjpnyf9sBZWnpXGCLkNNrdnR0wLRKmC+U95pfZlhr9Bb3nKyE5Ke60BAxttN2vJdgpXZBHS+F6lkQpo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776465704; c=relaxed/simple;
-	bh=AVCs4Wgo+T19ErXz4U1ern996vRI3Zo7nfwGahX89PY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Cki1/jUaw0jcWRBEjUR7ozcuBy2ROtKi8LRHr5te6cPUw513gRvOBZF/1gHCcu4LvpMInhUhWbyihbtsjhRkD7gTtjrknC/Hdb2B3wXeHMeSj+uzDOTZBQVLLqED6S1eWyVwd0yEVGfrmT5V/CiiGY8ndYxzFkyEfjZAzhz3RaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QfOaj2cS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776466650; c=relaxed/simple;
+	bh=sPqyP5bAWRLVQUQ1xHjl8LHnserzJPjwHB0RoAyAe1A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gKjyuCOY95rkD3GOqNGAK5ubRnBmOzICIpVZ2ARg5tfqo+WfBEA5h67uwzMOG5WgstiUt5elS2DmE5GwYsOXseNCj5zNKgQusVakUox2fC/HGHgjfsJcqOvCHn1rSXYq1KPVp6guyJFMt2akt7VgRxmn6GL6VF8X7paW7bZi7NQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L1gAGGYT; arc=none smtp.client-ip=209.85.219.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QfOaj2cS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17A39C19425;
-	Fri, 17 Apr 2026 22:41:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776465704;
-	bh=AVCs4Wgo+T19ErXz4U1ern996vRI3Zo7nfwGahX89PY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QfOaj2cS1WuzaFHiHxjWC1kglmuqewVUad/hQshnbLPttJzTSdXzkIMPuF0JqrIbe
-	 S2LyYWwyeRcMUujZ9u6INLnlSaNeQnAYSikNyw5+7LK2VbUuNwNu7D6fev7TRiybyo
-	 hRujfxhvQ1oVO9dgzAiUOiLLfc1hz9gwXCLfiTn+3KTMrkmh5+YuvEbfDy11rC4R5+
-	 VTGq5QuWs+KK55gSRqsiJ5GrAmk4L5Xorxhqibkpf+hRtk4R6EJlzVSGjZV6Kmto2e
-	 zqcQc0m0cT+94S9r29KCTzjXdnfhdpGuXZpmpfQ8pcAU6rYHNkd8i5k7B5Dy7y8WlK
-	 E3IJXGeV+5AEg==
-Date: Fri, 17 Apr 2026 15:41:43 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: bschubert@ddn.com
-Cc: miklos@szeredi.hu, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
-	bernd@bsbernd.com, joannelkoong@gmail.com
-Subject: Re: [PATCH 09/13] mount.fuse3: integrate systemd service startup
-Message-ID: <20260417224143.GG7727@frogsfrogsfrogs>
-References: <177577270167.2064074.16504004857564657756.stgit@frogsfrogsfrogs>
- <177577270377.2064074.11749808216143618873.stgit@frogsfrogsfrogs>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L1gAGGYT"
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-8acb7f2586bso12792626d6.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 17 Apr 2026 15:57:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776466646; x=1777071446; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=F8lfDYWV8wgoMG9u/N/hKMSAzR1cznOubbXPV8IlRC8=;
+        b=L1gAGGYTSJDa7OHzBmSP6td0m8QVMYBxKLit49AgRe/Lygh6VnIzDO8/FcCBX22KYl
+         e2n3MdTj/QCXe0XqW+xoruoIKqk8OHwrk/1uO4bQJDFIwyMBN5V5mjjvvtYGx1bTCNTW
+         PaVmZdvR8hh+WkQ9VJ4zepCJ3yFUubMxhD+jv9RKqMe2p6kcQNvoWnaGfOvt6Gf0GMq4
+         +IRN3Ar2nlEh4ER7y/wBbUTpZD4Lpd8LINbSNbqqUY79ISS5P4IWPE7S51h/oOgfkoY9
+         lrzTWtNVk3s4qV8huBE6Aw00h5nH2iWM9r0UlVne/3+HEoX7a4+t9HRPKYGQwDS5EdAu
+         1FnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776466646; x=1777071446;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=F8lfDYWV8wgoMG9u/N/hKMSAzR1cznOubbXPV8IlRC8=;
+        b=KXIB04XYQaOH5EHbASaGA6HityXhmm0DlvUKBAinf80yjC+xLE40ptQm58OoJQzbhX
+         8h6DFQI2xdGPtqSMofivHWHQvAXpXlF0rvsIRqsxVgqx5fkJnlcasKAG9jeZnC6kZzb/
+         3iEicJlPZC8VqjR6BtqiCsqYtZVx6Lem1ZiWT4PVS0iNjXjXKO9Go2XwYu6VIaiThVGS
+         vt45LlKYB9fCd3qfAuh3rlLkE89gWysQK+W8wlt+8wh+s6hr80BL+pioMEvWFkJeQ20X
+         p1AgcdpsTkJ1XIfkDzBua8RIPsNv1VjGguitTMKzEKPInVn5Sebej2qqkY+y3hItOEum
+         y4wg==
+X-Forwarded-Encrypted: i=1; AFNElJ8Bk/6u7AcTfr9m6LzMlFYtBnmZzm4w1+HSAA+BpYL7XRw+o2Heo6WW161JbMze7ivfrHsfcnajrR1COCBM@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywqo8EGgzIBPntWAncYWifI7SnUJ4DOIiavwHla/bGnqf1PJYSd
+	VPhBNOqAD70K424R2wtNbXSTYsJom/e19w7/keVkabHfLjchE/r7ghJp
+X-Gm-Gg: AeBDieuf1Pt028koKsi5kdsLumuafQVFr5iFNku09uQ2H+OPnyfRa8NbyoLrl35sTzU
+	eztJQu+NYdG2aep9z6EZp++ucoe0qlOhVHRZrNt2w3GxIEGLZX8lheaXnpjsHc/66ayuM0xoo6s
+	VVMaqTfq4YJn2nRqzHuHDL1DNBcjHFytAXyIpNw93++mvuYsGtIaNv8M0ZrSIhyJ3vYKnXfBtep
+	uz+GzkUammYyHRsfd8wTOCae/Ur0nmgP2UKFH2FkyuY1MM6U5XS/ayM6cm3pr29iur3x51t1LCU
+	jal5acBfKzrbYvZ8f5mAHuud8xNX/Yp7ELOiWVfAkE8wDara6gr7pjpWblfxI/tf2K37kNKO6rI
+	IKTG5f41FIxDpfpkA+IXT2Sh9nZXs6CuoPdN7HpL5CCLzRkwfn0A/7Y4X1bKHwZO+EE9ZVvub8t
+	gLLN3z4exEgDzfJZffNpmB+ethk18dhmyCg/nHtuNMoVcClFoQk8Q4laZeCaoAM5I7NA3lY/uob
+	w1QkLPS58mM2FAKCENLoz6lXa66fyvEuAP9qSkBEJEQsXVKptS9Yq4v8Q7cM6m+
+X-Received: by 2002:a05:6214:4019:b0:89c:da2b:4903 with SMTP id 6a1803df08f44-8b02822c9cfmr76690446d6.46.1776466645910;
+        Fri, 17 Apr 2026 15:57:25 -0700 (PDT)
+Received: from server0.tail6e7dd.ts.net (c-68-48-65-54.hsd1.mi.comcast.net. [68.48.65.54])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8b02ae5c4b9sm28948896d6.28.2026.04.17.15.57.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Apr 2026 15:57:25 -0700 (PDT)
+From: Michael Bommarito <michael.bommarito@gmail.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH] ntfs3: validate split-point offset in indx_insert_into_buffer
+Date: Fri, 17 Apr 2026 18:57:12 -0400
+Message-ID: <20260417225712.1736320-1-michael.bommarito@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <177577270377.2064074.11749808216143618873.stgit@frogsfrogsfrogs>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Apr 09, 2026 at 03:22:53PM -0700, Darrick J. Wong wrote:
-> From: Darrick J. Wong <djwong@kernel.org>
-> 
-> Teach mount.fuse3 how to start fuse via systemd service, if present.
-> 
-> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-> ---
->  util/mount_service.h  |    8 +++
->  doc/fuservicemount3.8 |   10 +++-
->  meson.build           |    3 +
->  util/fuservicemount.c |   48 +++++++++++++++++
->  util/meson.build      |   14 ++++-
->  util/mount.fuse.c     |  135 +++++++++++++++++++++++++++++++++++++++++--------
->  util/mount_service.c  |   28 ++++++++++
->  7 files changed, 219 insertions(+), 27 deletions(-)
-> 
-> 
-> diff --git a/util/mount_service.h b/util/mount_service.h
-> index f1f95e67ee1afe..993414ea3422e9 100644
-> --- a/util/mount_service.h
-> +++ b/util/mount_service.h
-> @@ -36,4 +36,12 @@ int mount_service_main(int argc, char *argv[]);
->   */
->  const char *mount_service_subtype(const char *fstype);
->  
-> +/**
-> + * Discover if there is a fuse service socket for the given fuse subtype.
-> + *
-> + * @param subtype the subtype of a fuse filesystem type (e.g. Y from fuse.Y)
-> + * @return true if available, false if not
-> + */
-> +bool mount_service_present(const char *subtype);
-> +
->  #endif /* MOUNT_SERVICE_H_ */
-> diff --git a/doc/fuservicemount3.8 b/doc/fuservicemount3.8
-> index e45d6a89c8b81a..aa2167cb4872c6 100644
-> --- a/doc/fuservicemount3.8
-> +++ b/doc/fuservicemount3.8
-> @@ -7,12 +7,20 @@ .SH SYNOPSIS
->  .B mountpoint
->  .BI -t " fstype"
->  [
-> -.I options
-> +.BI -o " options"
->  ]
-> +
-> +.B fuservicemount3
-> +.BI -t " fstype"
-> +.B --check
-> +
->  .SH DESCRIPTION
->  Mount a filesystem using a FUSE server that runs as a socket service.
->  These servers can be contained using the platform's service management
->  framework.
-> +
-> +The second form checks if there is a FUSE service available for the given
-> +filesystem type.
->  .SH "AUTHORS"
->  .LP
->  The author of the fuse socket service code is Darrick J. Wong <djwong@kernel.org>.
-> diff --git a/meson.build b/meson.build
-> index c8326b79fcee8f..827ec45ad3ad75 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -83,7 +83,8 @@ private_cfg.set('FUSE_SERVICE_SOCKET_PERMS', service_socket_perms)
->  # Test for presence of some functions
->  test_funcs = [ 'fork', 'fstatat', 'openat', 'readlinkat', 'pipe2',
->                 'splice', 'vmsplice', 'posix_fallocate', 'fdatasync',
-> -               'utimensat', 'copy_file_range', 'fallocate', 'fspacectl' ]
-> +               'utimensat', 'copy_file_range', 'fallocate', 'fspacectl',
-> +               'faccessat' ]
->  foreach func : test_funcs
->      private_cfg.set('HAVE_' + func.to_upper(),
->          cc.has_function(func, prefix: include_default, args: args_default))
-> diff --git a/util/fuservicemount.c b/util/fuservicemount.c
-> index 9c694a4290f94e..d39d9c486c8997 100644
-> --- a/util/fuservicemount.c
-> +++ b/util/fuservicemount.c
-> @@ -9,10 +9,58 @@
->   * This program wraps the mounting of FUSE filesystems that run in systemd
->   */
->  #define _GNU_SOURCE
-> +#include <stdbool.h>
-> +#include <stdio.h>
-> +#include <string.h>
-> +#include <stdlib.h>
->  #include "fuse_config.h"
->  #include "mount_service.h"
->  
-> +static int check_service(const char *fstype)
-> +{
-> +	const char *subtype;
-> +
-> +	if (!fstype) {
-> +		fprintf(stderr,
-> +			"fuservicemount: expected fs type for --check\n");
-> +		return EXIT_FAILURE;
-> +	}
-> +
-> +	subtype = mount_service_subtype(fstype);
-> +	return mount_service_present(subtype) ? EXIT_SUCCESS : EXIT_FAILURE;
-> +}
-> +
->  int main(int argc, char *argv[])
->  {
-> +	char *fstype = NULL;
-> +	bool check = false;
-> +	int i;
-> +
-> +	/*
-> +	 * If the user passes us exactly the args -t FSTYPE --check then
-> +	 * we'll just check if there's a service for the FSTYPE fuse server.
-> +	 */
-> +	for (i = 1; i < argc; i++) {
-> +		if (!strcmp(argv[i], "--check")) {
-> +			if (check) {
-> +				check = false;
-> +				break;
-> +			}
-> +			check = true;
-> +		} else if (!strcmp(argv[i], "-t") && i + 1 < argc) {
-> +			if (fstype) {
-> +				check = false;
-> +				break;
-> +			}
-> +			fstype = argv[i + 1];
-> +			i++;
-> +		} else {
-> +			check = false;
-> +			break;
-> +		}
-> +	}
-> +	if (check)
-> +		return check_service(fstype);
-> +
->  	return mount_service_main(argc, argv);
->  }
-> diff --git a/util/meson.build b/util/meson.build
-> index aa646ef3c77d16..85b54d5d322dcb 100644
-> --- a/util/meson.build
-> +++ b/util/meson.build
-> @@ -6,21 +6,27 @@ executable('fusermount3', ['fusermount.c', '../lib/mount_util.c', '../lib/util.c
->             install_dir: get_option('bindir'),
->             c_args: '-DFUSE_CONF="@0@"'.format(fuseconf_path))
->  
-> +mount_service_sources = []
-> +mount_service_cflags = []
->  if private_cfg.get('HAVE_SERVICEMOUNT', false)
-> -  executable('fuservicemount3', ['mount_service.c', 'fuservicemount.c', '../lib/mount_util.c', 'fuser_conf.c'],
-> +  mount_service_sources += ['mount_service.c', '../lib/mount_util.c', 'fuser_conf.c']
-> +  mount_service_cflags += ['-DFUSE_CONF="@0@"'.format(fuseconf_path)]
-> +  fuservicemount_path = join_paths(get_option('prefix'), get_option('sbindir'))
-> +  mount_service_cflags += ['-DFUSERVICEMOUNT_DIR="@0@"'.format(fuservicemount_path)]
-> +  executable('fuservicemount3', ['fuservicemount.c'] + mount_service_sources,
->               include_directories: include_dirs,
->               link_with: [ libfuse ],
->               install: true,
->               install_dir: get_option('sbindir'),
-> -             c_args: ['-DFUSE_USE_VERSION=319', '-DFUSE_CONF="@0@"'.format(fuseconf_path)])
-> +             c_args: ['-DFUSE_USE_VERSION=319'] + mount_service_cflags)
->  endif
->  
-> -executable('mount.fuse3', ['mount.fuse.c'],
-> +executable('mount.fuse3', ['mount.fuse.c'] + mount_service_sources,
->             include_directories: include_dirs,
->             link_with: [ libfuse ],
->             install: true,
->             install_dir: get_option('sbindir'),
-> -           c_args: '-DFUSE_USE_VERSION=317')
-> +           c_args: ['-DFUSE_USE_VERSION=319'] + mount_service_cflags)
->  
->  
->  udevrulesdir = get_option('udevrulesdir')
-> diff --git a/util/mount.fuse.c b/util/mount.fuse.c
-> index ec56198ccc1cf0..8836eba8502fd1 100644
-> --- a/util/mount.fuse.c
-> +++ b/util/mount.fuse.c
-> @@ -49,6 +49,9 @@
->  #endif
->  
->  #include "fuse.h"
-> +#ifdef HAVE_SERVICEMOUNT
-> +# include "mount_service.h"
-> +#endif
->  
->  static char *progname;
->  
-> @@ -233,6 +236,77 @@ static void drop_and_lock_capabilities(void)
->  }
->  #endif
->  
-> +#ifdef HAVE_SERVICEMOUNT
-> +#define FUSERVICEMOUNT_PROG	"fuservicemount3"
-> +
-> +static int try_service_main(char *argv0, char *type, char *source,
-> +			    const char *mountpoint, char *options)
-> +{
-> +	const char *full_path = FUSERVICEMOUNT_DIR "/" FUSERVICEMOUNT_PROG;
-> +	char **argv;
-> +	char dash_o[] = "-o";
-> +	char dash_t[] = "-t";
-> +	char *mntpt = strdup(mountpoint);
-> +	int argc = 5; /* argv[0], -t type, mountpoint, and trailing NULL */
-> +	int i = 0;
-> +	int ret;
-> +
-> +	if (!mount_service_present(type))
-> +		return MOUNT_SERVICE_FALLBACK_NEEDED;
-> +
-> +	if (!mntpt) {
-> +		perror("mountpoint allocation");
-> +		return -1;
-> +	}
-> +
-> +	if (source)
-> +		argc++;
-> +	if (options)
-> +		argc += 2;
-> +
-> +	argv = calloc(argc, sizeof(char *));
-> +	if (!argv) {
-> +		perror("argv allocation");
-> +		free(mntpt);
-> +		return -1;
-> +	}
-> +
-> +	argv[i++] = argv0;
-> +	if (source)
-> +		argv[i++] = source;
+indx_insert_into_buffer() computes
 
-Codex noted that some fuse servers actually don't have a "source"
-argument.  If you invoke mount.fuse3 like so:
+    used = used1 - to_copy - sp_size;
+    memmove(de_t, Add2Ptr(sp, sp_size), used - le32_to_cpu(hdr1->de_off));
 
-$ mount.fuse3 null# /tmp/mnt
+where sp and sp_size come from hdr_find_split().  hdr_find_split()
+walks entries by le16_to_cpu(e->size) without validating that each
+step stays within hdr->used or that the size field is at least
+sizeof(struct NTFS_DE).  index_hdr_check(), the on-load gatekeeper,
+only validates header-level fields (used, total, de_off) and does
+not walk per-entry sizes.
 
-Then the service activation fails because source is set to the null
-terminator just pass the '#' in "null#", and then gets included in argv.
+A crafted NTFS image whose leaf INDEX_HDR reports used == total but
+contains one interior NTFS_DE with size = 0xFFF0 therefore passes
+validation, descends to indx_insert_into_buffer() through the
+ntfs_create() -> indx_insert_entry() path, and makes hdr_find_split()
+return an sp whose sp_size (0xFFF0) greatly exceeds the remaining
+bytes in the buffer.  The u32 subtraction underflows and the memmove
+count becomes a near-4-GiB value, producing an out-of-bounds kernel
+write that corrupts adjacent allocations and panics the kernel.
 
-> +	argv[i++] = mntpt;
-> +	argv[i++] = dash_t;
-> +	argv[i++] = type;
-> +	if (options) {
-> +		argv[i++] = dash_o;
-> +		argv[i++] = options;
-> +	}
-> +	argv[i] = 0;
-> +
-> +	if (getuid() != 0) {
-> +		/*
-> +		 * First try the install path, then a system install, just like
-> +		 * we do for fusermount.
-> +		 */
-> +		ret = execvp(full_path, argv);
+Reproduced on 7.0.0-rc7 with UML + KASAN via a crafted image and a
+single 'touch' inside the mounted directory; crash site resolves to
+fs/ntfs3/index.c at the memmove.  Trigger requires only local mount
+of an attacker-supplied filesystem image (USB, loopback, or removable
+media auto-mount).
 
-No need for the $PATH enabled version of execv if we're providing an
-absolute path.
+Reject the split whenever the chosen sp plus its declared size
+already extends past hdr1->used.  This is the minimal fix; it
+preserves the existing hdr_find_split() contract and relies on the
+same out: cleanup path as the pre-existing error returns.
 
-> +		if (ret)
-> +			ret = execvp(FUSERVICEMOUNT_PROG, argv);
+A prior OOB read in the very same indx_insert_into_buffer() memmove
+was fixed in commit b8c44949044e ("fs/ntfs3: Fix OOB read in
+indx_insert_into_buffer") by tightening hdr_find_e(), but that fix
+does not cover the split-point size field path addressed here: sp is
+returned by hdr_find_split(), not hdr_find_e(), and the underflow is
+driven by sp->size rather than hdr->used exceeding hdr->total.
 
-We shouldn't execvp directly here, because it's possible that the helper
-will fail to connect to the service, in which case we could fall back to
-the weird sh invocation code below.  Since posix_spawn() is already used
-elsewhere, let's do that too.
+Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
+Cc: stable@vger.kernel.org
+Reported-by: Michael Bommarito <michael.bommarito@gmail.com>
+Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
+Assisted-by: Claude:claude-opus-4-7
+---
 
---D
+ - FYI, I have a larger refactor variant that migrates
+   hdr_find_split() to the validated hdr_next_de() helper and closes
+   the whole per-entry size-read class for that walker.  Happy to
+   send it as v2 if you prefer the wider change; otherwise this
+   minimal guard is scoped to the actual memmove underflow site and
+   is easier to backport.
 
-> +		if (ret) {
-> +			fprintf(stderr, "%s: could not start %s helper: %s\n",
-> +				argv[0], FUSERVICEMOUNT_PROG,
-> +				strerror(errno));
-> +			ret = MOUNT_SERVICE_FALLBACK_NEEDED;
-> +		}
-> +	} else {
-> +		/* We're root, just do the mount directly. */
-> +		ret = mount_service_main(argc - 1, argv);
-> +	}
-> +	free(argv);
-> +	free(mntpt);
-> +	return ret;
-> +}
-> +#endif
-> +
->  int main(int argc, char *argv[])
->  {
->  	char *type = NULL;
-> @@ -280,9 +354,7 @@ int main(int argc, char *argv[])
->  	mountpoint = argv[2];
->  
->  	for (i = 3; i < argc; i++) {
-> -		if (strcmp(argv[i], "-v") == 0) {
-> -			continue;
-> -		} else if (strcmp(argv[i], "-t") == 0) {
-> +		if (strcmp(argv[i], "-t") == 0) {
->  			i++;
->  
->  			if (i == argc) {
-> @@ -303,6 +375,30 @@ int main(int argc, char *argv[])
->  					progname);
->  				exit(1);
->  			}
-> +		}
-> +	}
-> +
-> +	if (!type) {
-> +		if (source) {
-> +			dup_source = xstrdup(source);
-> +			type = dup_source;
-> +			source = strchr(type, '#');
-> +			if (source)
-> +				*source++ = '\0';
-> +			if (!type[0]) {
-> +				fprintf(stderr, "%s: empty filesystem type\n",
-> +					progname);
-> +				exit(1);
-> +			}
-> +		} else {
-> +			fprintf(stderr, "%s: empty source\n", progname);
-> +			exit(1);
-> +		}
-> +	}
-> +
-> +	for (i = 3; i < argc; i++) {
-> +		if (strcmp(argv[i], "-v") == 0) {
-> +			continue;
->  		} else	if (strcmp(argv[i], "-o") == 0) {
->  			char *opts;
->  			const char *opt;
-> @@ -366,24 +462,6 @@ int main(int argc, char *argv[])
->  	if (suid)
->  		options = add_option("suid", options);
->  
-> -	if (!type) {
-> -		if (source) {
-> -			dup_source = xstrdup(source);
-> -			type = dup_source;
-> -			source = strchr(type, '#');
-> -			if (source)
-> -				*source++ = '\0';
-> -			if (!type[0]) {
-> -				fprintf(stderr, "%s: empty filesystem type\n",
-> -					progname);
-> -				exit(1);
-> -			}
-> -		} else {
-> -			fprintf(stderr, "%s: empty source\n", progname);
-> -			exit(1);
-> -		}
-> -	}
-> -
->  	if (setuid_name && setuid_name[0]) {
->  #ifdef linux
->  		if (drop_privileges) {
-> @@ -429,6 +507,21 @@ int main(int argc, char *argv[])
->  		drop_and_lock_capabilities();
->  	}
->  #endif
-> +
-> +#ifdef HAVE_SERVICEMOUNT
-> +	/*
-> +	 * Now that we know the desired filesystem type, see if we can find
-> +	 * a socket service implementing that, if we haven't selected any weird
-> +	 * options that would prevent that.
-> +	 */
-> +	if (!pass_fuse_fd && !(setuid_name && setuid_name[0])) {
-> +		int ret = try_service_main(argv[0], type, source, mountpoint,
-> +					   options);
-> +		if (ret != MOUNT_SERVICE_FALLBACK_NEEDED)
-> +			return ret;
-> +	}
-> +#endif
-> +
->  	add_arg(&command, type);
->  	if (source)
->  		add_arg(&command, source);
-> diff --git a/util/mount_service.c b/util/mount_service.c
-> index 0f7eae94ada377..f837595078f2d1 100644
-> --- a/util/mount_service.c
-> +++ b/util/mount_service.c
-> @@ -1836,3 +1836,31 @@ int mount_service_main(int argc, char *argv[])
->  	mount_service_destroy(&mo);
->  	return ret;
->  }
-> +
-> +bool mount_service_present(const char *fstype)
-> +{
-> +	struct stat stbuf;
-> +	char path[PATH_MAX];
-> +	int ret;
-> +
-> +	snprintf(path, sizeof(path), FUSE_SERVICE_SOCKET_DIR "/%s", fstype);
-> +	ret = stat(path, &stbuf);
-> +	if (ret)
-> +		return false;
-> +
-> +	if (!S_ISSOCK(stbuf.st_mode))
-> +		return false;
-> +
-> +#ifdef HAVE_FACCESSAT
-> +	/*
-> +	 * Can we write to the service socket with the real uid?  This accounts
-> +	 * for setuid and ACLs on the socket.  Note that we connect() to the
-> +	 * socket having dropped setuid privileges.
-> +	 */
-> +	ret = faccessat(AT_FDCWD, path, W_OK, 0);
-> +#else
-> +	/* Can we write to the service socket with the real uid? */
-> +	ret = access(path, W_OK);
-> +#endif
-> +	return ret == 0;
-> +}
-> 
-> 
+ fs/ntfs3/index.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
+index 2c43e7c27861..24add048b4b5 100644
+--- a/fs/ntfs3/index.c
++++ b/fs/ntfs3/index.c
+@@ -1844,6 +1844,20 @@ indx_insert_into_buffer(struct ntfs_index *indx, struct ntfs_inode *ni,
+ 	memcpy(up_e, sp, sp_size);
+ 
+ 	used1 = le32_to_cpu(hdr1->used);
++
++	/*
++	 * hdr_find_split does not validate per-entry sizes, so a crafted
++	 * NTFS_DE whose le16 size field is out of range can place sp such
++	 * that (PtrOffset(hdr1, sp) + sp_size) exceeds used1. Without this
++	 * guard the u32 'used = used1 - to_copy - sp_size' underflows and
++	 * the subsequent memmove count becomes a near-4-GiB value,
++	 * triggering an out-of-bounds kernel write.
++	 */
++	if (PtrOffset(hdr1, sp) + sp_size > used1) {
++		err = -EINVAL;
++		goto out;
++	}
++
+ 	hdr1_saved = kmemdup(hdr1, used1, GFP_NOFS);
+ 	if (!hdr1_saved) {
+ 		err = -ENOMEM;
+-- 
+2.53.0
+
