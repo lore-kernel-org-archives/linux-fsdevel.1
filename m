@@ -1,81 +1,76 @@
-Received: from va-1-114.ptr.blmpb.com (va-1-114.ptr.blmpb.com [209.127.230.114])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com [91.218.175.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E87063B3C0C
-	for <linux-fsdevel@vger.kernel.org>; Fri, 17 Apr 2026 09:15:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.230.114
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 541273A4F20
+	for <linux-fsdevel@vger.kernel.org>; Fri, 17 Apr 2026 09:43:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776417318; cv=none; b=Hf0ilphGhVjCvF4R+JG+n5RQEs520uSi1HHotg0khBn2wOaKiyWzKV9E1RUDfV0zsGCwJZr9GezePauGMHobN3ti4DGaCFUbFzIGvQwxe4DMJTbORigt+vR0JecGR8CUyMe5RitZTJSCUSbWVjg/MHJgkQWpRxIUlfqLlyL2a3s=
+	t=1776419007; cv=none; b=jrw9aNkdKjDMfIhH05AiSRCyqhsYTfxrZqb+yd/3ssZPfLFpeSPpuNTCHe9KFAcjM2I2y/56KScUchMubZzk7wBVITWlS0637GbJT1OZYI/E2sVrH2lydgQyjoI8e9Iaayk1fAj9QDRdAAObs7nXTmGQNS+C1hJbkS8hrQjXq7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776417318; c=relaxed/simple;
-	bh=CqshMXJjuIbz2v7/b24OZQcMbf5U1FYx6B8PTiLWvmc=;
-	h=To:From:References:Mime-Version:In-Reply-To:Content-Type:Date:
-	 Message-Id:Cc:Subject; b=gyJMvZUehImnaoyBDPreM6dn3ZOTWUjD53UA3p98GQCMKrBJ9fOBGDexO0bN++OsDQKBhPj5NTisPKsMvYcpFzE3xuk8JILDFeOOHlEtc/NFiuHvyrboVEOaJpMaObDtMv2tw85ifwGdqbqt4OyTV5441ci4au9Vy1isYwGtOgs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=YudM9mG/; arc=none smtp.client-ip=209.127.230.114
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1776419007; c=relaxed/simple;
+	bh=q9KcB0Uy8JGV1LbiEUMInoLiBAuOysu+6swjA3zeq0c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=i9IaUr+9a7TdLRmW5EMhm4h/bnH0oZeBzlohMaz+lGm8HRltQ/59mlzkGCEIaRQbIikGQWiPc91LiGmtCyQ04KGOEOs8k2zQf3Zf2npM3XYVZEjTMLTmI5g5/DxOothL2bLPzwISl0+ozasQJWLYnzxKetZCBn43eadySZud6Qo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=dx2b9O0P; arc=none smtp.client-ip=91.218.175.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="YudM9mG/"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1776417311; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=CqshMXJjuIbz2v7/b24OZQcMbf5U1FYx6B8PTiLWvmc=;
- b=YudM9mG/nt44XotOro2JbRCryULVPUkvb4oWsOXKRawvXbO+JH4LOMO3ZbzeQedoEYWphS
- dG5+ZyWiks9fDl+biByWZILRn8k91Q834vaKco7DRHHNe61dx1bzKAQzfoViSLBswTUv9y
- hazQ4zkw4BXk+ike5nG3hpPTfIaWxIznEy6B+2I0aQm97dtBjV0v9ShvyU7YDYQgOwdZ8+
- 8FYOkCSOvWa2laAIXseEK2mnnZ2MjnAfk8NHvopszWI6GvLdabHa9jxeTJ81PmqREpIvz8
- jhCaSm/gFroUXTTbofewvyr5tVeHfKpwhwHXfHOHV9pwrDzLfpLD1F3u5JtVvg==
-To: "Christoph Hellwig" <hch@infradead.org>
-From: "changfengnan" <changfengnan@bytedance.com>
-References: <20260416030642.26744-1-changfengnan@bytedance.com> <aeDjui2LGSidEHcJ@bfoster>
-	<aeHg4hUsVTxzm66I@infradead.org>
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="dx2b9O0P"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1776419003;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=xRccNVm5iXUQ7MuRJQJ6cTe2QjHqq6YXhq0GkmucxPA=;
+	b=dx2b9O0PPAVsqEZw8X/CGhoX6orRK/UoqMFa8CrDe3gV9rh2wEsg1oVOu91Tsfh3Fs0vwU
+	syUHQ13nw6nSdbZFqjfjcM8MBzuBrlv3Qo7d97mxqbAki9zXSmIdG+gMmmvJ/0fF8pJhik
+	1E7C8uUJ6K1GE2B61hmLvvnKO0jI7+o=
+From: Thorsten Blum <thorsten.blum@linux.dev>
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>
+Cc: Thorsten Blum <thorsten.blum@linux.dev>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] dcache: use kmalloc_flex() in __d_alloc
+Date: Fri, 17 Apr 2026 11:42:40 +0200
+Message-ID: <20260417094238.551114-3-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-In-Reply-To: <aeHg4hUsVTxzm66I@infradead.org>
-X-Lms-Return-Path: <lba+169e1fa1d+f4f600+vger.kernel.org+changfengnan@bytedance.com>
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 17 Apr 2026 17:15:06 +0800
-Message-Id: <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.d8707dd1.2ba2.4aae.83a0.8f7870c373ec@bytedance.com>
-Cc: "Brian Foster" <bfoster@redhat.com>, 
-	"Fengnan Chang" <fengnanchang@gmail.com>, <brauner@kernel.org>, 
-	<djwong@kernel.org>, <hch@infradead.org>, <linux-xfs@vger.kernel.org>, 
-	<linux-fsdevel@vger.kernel.org>, <linux-ext4@vger.kernel.org>, 
-	<lidiangang@bytedance.com>
-Subject: Re: [PATCH] iomap: avoid memset iomap when iter is done
+MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1030; i=thorsten.blum@linux.dev; h=from:subject; bh=q9KcB0Uy8JGV1LbiEUMInoLiBAuOysu+6swjA3zeq0c=; b=owGbwMvMwCUWt7pQ4caZUj3G02pJDJmPGPrMLBNDd1qsuXMmxmjr4ZCT4v+1JB/KqvVoTJ4/L /if+Kv4jlIWBjEuBlkxRZYHs37M8C2tqdxkErETZg4rE8gQBi5OAZjIwQWMDLN02tqdo+M1br1s yC/NzmsJXvnvxErWal/X3a/n9K1z2MHwi0l7x/EJ6a9nW85o/KnBbFBxdLamaWZ9qZbZyofHEvl CeQA=
+X-Developer-Key: i=thorsten.blum@linux.dev; a=openpgp; fpr=1D60735E8AEF3BE473B69D84733678FD8DFEEAD4
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
+Use kmalloc_flex() when allocating a new 'struct external_name' in
+__d_alloc() to replace offsetof() and the open-coded size arithmetic,
+and to keep the size type-safe.
 
-> From: "Christoph Hellwig"<hch@infradead.org>
-> Date:=C2=A0 Fri, Apr 17, 2026, 15:27
-> Subject:=C2=A0 Re: [PATCH] iomap: avoid memset iomap when iter is done
-> To: "Brian Foster"<bfoster@redhat.com>
-> Cc: "Fengnan Chang"<fengnanchang@gmail.com>, <brauner@kernel.org>, <djwon=
-g@kernel.org>, <hch@infradead.org>, <linux-xfs@vger.kernel.org>, <linux-fsd=
-evel@vger.kernel.org>, <linux-ext4@vger.kernel.org>, <lidiangang@bytedance.=
-com>, "Fengnan Chang"<changfengnan@bytedance.com>
-> On Thu, Apr 16, 2026 at 09:27:22AM -0400, Brian Foster wrote:
-> > This seems reasonable to me in principle, but it feels a little odd to
-> > leave a reset helper that doesn't really do a "reset."
->=C2=A0
-> Agreed.
->=C2=A0
-> > I wonder if this
-> > should be refactored into an iomap_iter_complete() (i.e. "complete an
-> > iteration") helper that includes the ret assignment logic just above th=
-e
-> > reset call and returns it, and then maybe leave a oneline comment above
-> > the memset so somebody doesn't blindly fold it back in the future. So
-> > for example:
->=C2=A0
-> What about just killing iomap_iter_reset_iomap in it's current form
-> instead? =C2=A0Move the batch reset logic into a little helper if we care=
-,
-> and just inline the rest into the only claler to side-step the issue.
-Sounds good, move iter->status out, and then rename=C2=A0
-iomap_iter_reset_iomap to iomap_iter_clean_folio_batch.
->=C2=A0
+Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+---
+ fs/dcache.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/fs/dcache.c b/fs/dcache.c
+index dbcbd0affb26..4568f9530166 100644
+--- a/fs/dcache.c
++++ b/fs/dcache.c
+@@ -1753,10 +1753,10 @@ static struct dentry *__d_alloc(struct super_block *sb, const struct qstr *name)
+ 		name = &slash_name;
+ 		dname = dentry->d_shortname.string;
+ 	} else if (name->len > DNAME_INLINE_LEN-1) {
+-		size_t size = offsetof(struct external_name, name[1]);
+-		struct external_name *p = kmalloc(size + name->len,
+-						  GFP_KERNEL_ACCOUNT |
+-						  __GFP_RECLAIMABLE);
++		struct external_name *p;
++
++		p = kmalloc_flex(*p, name, name->len + 1,
++				 GFP_KERNEL_ACCOUNT | __GFP_RECLAIMABLE);
+ 		if (!p) {
+ 			kmem_cache_free(dentry_cache, dentry); 
+ 			return NULL;
