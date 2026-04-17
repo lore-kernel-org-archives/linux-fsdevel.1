@@ -1,257 +1,337 @@
-Received: from out203-205-221-250.mail.qq.com (out203-205-221-250.mail.qq.com [203.205.221.250])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 441DE3A16A7;
-	Fri, 17 Apr 2026 14:23:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.250
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67DFE29B20A
+	for <linux-fsdevel@vger.kernel.org>; Fri, 17 Apr 2026 14:25:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776435843; cv=none; b=PH9xThejdykWXd12Kdmg9KwKVmA4ZpyYcqEfhd3kKjmSBQM8FSvIHJZmNXAT+yZxDkeN5CQk5OoKsaOqL/oQXDOFYbtT2NO3QHmamYGZ2KzZhBudve9t4Kb0l+CQT1Ry5+tf6TPp9p1TLfat3FuFJxM/gIqlq3S6RMCAkmASkq8=
+	t=1776435909; cv=none; b=M3zk+5KHRx7vRXGrOSx32lcHknLlAGVRpPoMpCpoPh911Jq+H4E95CsVhnGsyMGusJbxiO6K05LS2UmcH23FeDI0CiOrLwa7afzO8rKfmn8P3JXee418tAoTMhtUNeyo1dOCn+3+euQtyF5I8Iy1/4CxvAhKzyRb1DQQIJii848=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776435843; c=relaxed/simple;
-	bh=RDW7Ov+1FiIofFLagMpe+5hwb/O+wZObs8lbYoFHEeM=;
-	h=Message-ID:Content-Type:MIME-Version:From:To:Cc:Subject:Date; b=BAV4CqlCLtwC7J7hGRJjHm95zTQWbUipKP8MQATMGGSV4Jg2mjGQNhKogTtBOJlJNheXoOjQp4GTj0EdOdFBEY2qm/jKF3u2x+qggF/L2OBc66p987qvE14yqAS8KX3iwMZCd2DF4oHJVmCWPtvxFaoQHUc2i0/h52gPe81W2QM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=qYbPxHdr; arc=none smtp.client-ip=203.205.221.250
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1776435909; c=relaxed/simple;
+	bh=Es3tkDnuB+2bPX0Y21qZtqfihnBDUkocN4i6Ikk/71U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cmLUhRS4MB+pSwdZoq+vtCPjvW6ripTBoNx4YO0zbgoqx1dW7a/+EqECsiMmQfqCLTESNl5ebKD8L7Fw9nEJuFsP1qlmPMwvxlWV1XlhCc91paMDV7MsJqlHpCDI+vh45AYImQqCW+mTJdT97TJwZ2/Q70gwAqfFpfucVYDWzVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dco8c5fR; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="qYbPxHdr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1776435828; bh=SnPuI25BLFSoHT2AszlZDOD+3XaqxWgIhS/ZO8/eOtY=;
-	h=From:To:Cc:Subject:Date;
-	b=qYbPxHdrCC7xJvUeCFZbFcuiYly3lZavXEY9CgGFHFzGj8XHDFlgQA9K/1LimPo2e
-	 Yj/BGI+xGkF8tpQh49bU6gshzQevkE5bZ8A/Sq6suUz+3Lj1+geJP+8c1UMZ8BMd93
-	 hPnuHdmWPuBaVTp8K5S86SAkrq/4yvckOTxYFFHY=
-Received: from 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa ([2409:8a20:c5c:cba1:3d42:74b5:efa1:925c])
-	by newxmesmtplogicsvrszc50-0.qq.com (NewEsmtp) with SMTP
-	id 5EEA645F; Fri, 17 Apr 2026 22:23:46 +0800
-X-QQ-mid: xmsmtpt1776435826te17mu5ry
-Message-ID: <tencent_4BACE37ED72C80152F8C6A8C585893505A05@qq.com>
-X-QQ-XMAILINFO: NmRjDopJZVxOflmNXhuTwPdj5jy6tJ6t92GWRvLv+vhlCFw4HVswyMAvCS7qQn
-	 KSgF7sYiXEapcsHkFMMHhuYQm3qNUzMLYyfZbToluzKC/3dcUHcWNsjQrS0VtZXSyskNQ5GpqLhJ
-	 CwDC9E//gHVQpcxzrw17YWiUi3CwacGzjja7ZqpMsY+8yjQGX8faLYyCP4wIK5/LlCHqQhKf1Dlo
-	 GleX0B3PYSJv4pjuF6qS2DIMQDz5LNL4kyvSAsBiJ0waEgSDuVx9Y/IvOFNsvZvcihSI91yZwv7a
-	 H82DlZxVOsOunWWobDTBvvueFKs5ihLfTJF/RbrDSjiin/SQy+aCQMAbS3Mp3Iav2rFNDzEqcHLb
-	 R3qow8ZWbwgUSrfrwC8jGzwpph8HlTnmHAyLZCxl5HDZRr0ZZMoBMF10IG7LroKp9xfEEJsO6XwP
-	 MA+yACMNCpp+zH89yhNFG38UkYZKk+9D/rLqjBhpMI26/U0jul9EqsXknykyxV+JoRwLsLAst8hk
-	 Wz7n9rKNmuYuTTy8Z37ohzr3xsh9KDI9/9kYjGedWbefYTcuk7LOag5kb5IoZilEKsXGigRkBUVy
-	 7WLdixUtDzSz5yL8/OOUW+hO3+a49Zc9vVOTAUMWSX3bighm9ZqEKV+lrurtu+XuaxPSL7S1pfaE
-	 +26MuvHmqkGdW/WH9TgLreB7BnDWOKrPSUKSCW5u0vWJswZFuQ/MXq6mwzyq7Ry1Ya/gF091c/sA
-	 asQNvDGshD+fy9SLwreyx73K9YytYGO0Vz/niGphEWAbgPGgPXbpwwife1iTMBx/qf9gNAWdhPi9
-	 wQPc6tYQR5UXpZ1VY3t+vjEqUArp0zp4B8ZxFY2NiEOvbK0WulB8PPbrUNcufiX1BCBYbjOCc5GX
-	 Wcp6Y86Hxp+SYQpG9BnBkWahHx8toTWq2rL3a0vKqWNCebI/VI7A9sDly2W4uDFCP3n9PWC9ZZOp
-	 UfVVC7YKvWCR5SL1p/OmwTEdvewpuGf6mDPqPSVwdUkCJlty6ADeofw+RlyBxGMuFx7P5JioZVye
-	 Aj75oYHWW50MGB+PryXRlcYgHEnVnb9gQrbdaHNg==
-X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
-Content-Type: text/plain; charset="us-ascii"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dco8c5fR"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b886fc047d5so130352466b.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 17 Apr 2026 07:25:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776435906; x=1777040706; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bBmZWGOD/sJVwym7pO+5jLllkAblMaVOnMbyA5A1f0I=;
+        b=Dco8c5fRLepq3lqZ3Ud7NYRcoCN6iWUMTHomv8dc0cnLPnDD1Slq9Gmpk5b/RjJfbU
+         upTSMnZDgF6JQpjnnWUqEBgRswq6Bi/eGXXXsryZZQM6PAJbYnD8ZUZABppPBWPqSicO
+         9C9n6XvFJLaBzzL3liSD5E5bWzy7iF3G1WL7ZI6/cZRv3DXFc42zOIryO6fPYuLhRY9+
+         pKIqbRI5nfCg/Ij9ZiybseQA/bHdGTmWKc+0aZVTDSK4uKuwg/tStt2Rlyv31Qt4vCxb
+         bxKFAEVFK1Ivi2Ptx2UJNk2F1BGXwNRe9g/eD47VrR+n+QTtI90BDf9Box0x4hvpZktV
+         kN4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776435906; x=1777040706;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bBmZWGOD/sJVwym7pO+5jLllkAblMaVOnMbyA5A1f0I=;
+        b=JgF286fu+WlLxuoiRumXqg2b+WCh0cfKaqhcj31kCSybfgTMZ5lbfXsf30QpLWYjFm
+         xjcO26sTH4YhDaRwlc6VFpqeoXlUrXDQyghTe9YoCYDWeMcGP8Up6zkiKQKvCtvX7Aye
+         rBR4EpvhzPWlfmtllBpaGGdUx3zOGE78Gi/84XiKlHtT/4KUBZeOvTPBlFzxjfF7bA/L
+         7dSIn1s+zaAvm1UqZ5IF1uXX9qecX87XoApdIq3+KFURQpFLAuOj5eq5uJPwGzikHW1N
+         yTuGPcKk2S3j+GffIEffcJ2cB2IREu2waHjrAdJKNDTqxatxh0XRgilPeXKyqHUUpq1l
+         DDHQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8PGHCPMiFKlEML2y0LuGcizfEF+q3Qum47H25fZjo9A8kAl+8g2nyuyf2bwXKnztsb2RCe9sO6mFdxrNVN@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx6iVQR/yRIf2KLGqTcD+2RIYDDODPEDPYcWBFBIMez9beyUHE3
+	8Os4xu/GgMZew+mec8oovo984muk7BAN6aKtpjKLZEtDXecfbR8U95J1
+X-Gm-Gg: AeBDietcwf6V3hmjEYcRbhca7BgZQ8g0Tou1px9oQv7v2XtpKHtfnG9z/6Os1FucTMK
+	bA/BCvLYyZjiRlTWLfOotRMbmyYRhOvkxq2jA8N6zxjct1B/4nxTVg2kgcV0gCsXp/3spvoimRG
+	32YOHfzmsKUoFEb8Lep98qJs57qdB5DO8cD0KfGYu70YoveceV7DsU/6LLf6xoCBaKEJvTbJowu
+	r23d5/4CgWEf94TV46qF17+uAKb6rrT1xYJ0/oFg0kLXVb3xJNpa7CbLDxNAM5LE8yrb6KuPGX4
+	QAnSOc3RTFxeuJzKf67PWi2KRlMIbBjvp6ihUfIuuZ6DE2GMqzyzMYluybvRke8LKQads/GdoO1
+	o9SCLGpl6AT/cQY+W8Yr7pHRFT9ymtzYaQUtgM1jECJBU2TboxXD/M2Ymq3kMZ2IOwk/jWbYZow
+	zAkVNSiSRRzVdhIsxuyblbFaqeX7j9MRKiqKLqZ0z2cn8u25R/ev6giJvKLHhNO+SX/lZVq5NLD
+	a3qNeu25AzJ3MN8yAtHAo8OyjP+JrKiwd0NY4U=
+X-Received: by 2002:a17:907:1c96:b0:b87:173f:61b with SMTP id a640c23a62f3a-ba41bacff3fmr150465066b.9.1776435905012;
+        Fri, 17 Apr 2026 07:25:05 -0700 (PDT)
+Received: from localhost (2001-1c00-570d-ee00-1973-6fc5-941a-7905.cable.dynamic.v6.ziggo.nl. [2001:1c00:570d:ee00:1973:6fc5:941a:7905])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ba45121109csm59251766b.6.2026.04.17.07.25.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Apr 2026 07:25:04 -0700 (PDT)
+From: Amir Goldstein <amir73il@gmail.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	linux-fsdevel@vger.kernel.org,
+	Theodore Tso <tytso@mit.edu>,
+	Christoph Hellwig <hch@lst.de>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Matthew Wilcox <willy@infradead.org>
+Subject: [PATCH] docs: add guidelines for submitting new filesystems
+Date: Fri, 17 Apr 2026 16:25:03 +0200
+Message-ID: <20260417142503.1436446-1-amir73il@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-From: wooridge <1063373698@qq.com>
-To: Kees Cook <keescook@chromium.org>, Joel Granados <j.granados@samsung.com>, Petr Mladek <pmladek@suse.com>, Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: [PATCH] sysctl: add CAP_SYS_ADMIN check to panic/ctrl-alt-del sysctls
-Date: Fri, 17 Apr 2026 22:23:46 +0800
+Content-Transfer-Encoding: 8bit
 
-From f5ff7a45f093ebdf4d1db0f3dad244d2c5065943 Mon Sep 17 00:00:00 2001
-From: wooridge <yurenwang152@gmail.com>
-Date: Fri, 17 Apr 2026 20:59:09 +0800
-Subject: [PATCH] sysctl: add CAP_SYS_ADMIN check to panic/ctrl-alt-del sysctls
+This document is motivated by the ongoing maintenance burden that
+abandoned and untestable filesystems impose on VFS developers, blocking
+infrastructure changes such as folio conversions and iomap migration.
 
-Several kernel sysctls that control critical system behavior use proc_dointvec() as their handler with mode 0644, but proc_dointvec() does not perform any capability checks. In a user namespace where a process has uid 0, the VFS layer allows writes based on the file permission bits (0644), enabling unprivileged modification of critical kernel parameters.
+This week alone, two new filesystems were proposed on linux-fsdevel
+(VMUFAT and FTRFS), highlighting the need for documented guidelines
+that new filesystem authors can refer to before submission.
 
-Affected sysctls: kernel/panic, kernel/panic_on_oops, kernel/panic_on_warn, kernel/ctrl-alt-del
+Multiple recent discussions on linux-fsdevel have touched on the
+criteria for merging new filesystems and for deprecating old ones,
+covering topics such as modern VFS interface adoption, testability,
+userspace utilities, maintainer commitment, and user base viability.
 
-Fix by adding proc_dointvec_sysadmin() and proc_dointvec_minmax_sysadmin() as generic wrappers that check capable(CAP_SYS_ADMIN) on writes, then delegate to proc_dointvec()/proc_dointvec_minmax(). Also remove the existing static proc_dointvec_minmax_sysadmin() from kernel/printk/sysctl.c in favor of the new shared implementation.
+Add Documentation/filesystems/adding-new-filesystems.rst describing
+the technical requirements and community expectations for merging a
+new filesystem into the kernel.  The guidelines cover:
+- Alternatives to consider before proposing a new in-kernel filesystem
+- Technical requirements: modern VFS interfaces (iomap, folios,
+  fs_context mount API), testability, and userspace utilities
+- Community expectations: identified maintainers, demonstrated
+  commitment, sustained backing, and a clear user base
+- Ongoing obligations after merging, including the risk of deprecation
+  for unmaintained filesystems
 
-Signed-off-by: wooridge <yurenwang152@gmail.com>
+Link: https://lore.kernel.org/linux-fsdevel/20260411151155.321214-1-adrianmcmenamin@gmail.com/
+Link: https://lore.kernel.org/linux-fsdevel/20260413142357.515792-1-aurelien@hackers.camp/
+Link: https://lore.kernel.org/linux-fsdevel/yndtg2jbj55fzd2kkhsmel4pp5ll5xfvfiaqh24tdct3jiqosd@jzbfzf3rrxrd/
+Link: https://lore.kernel.org/linux-fsdevel/20260124091742.GA43313@macsyma.local/
+Link: https://lore.kernel.org/lkml/20260111140345.3866-1-linkinjeon@kernel.org/
+Cc: Christian Brauner <brauner@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: Jan Kara <jack@suse.cz>
+Cc: Theodore Tso <tytso@mit.edu>
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: Darrick J. Wong <djwong@kernel.org>
+Cc: Matthew Wilcox <willy@infradead.org>
+Assisted-by: Cursor:claude-4-opus
+Signed-off-by: Amir Goldstein <amir73il@gmail.com>
 ---
- include/linux/sysctl.h |  3 +++
- kernel/panic.c         |  6 ++---
- kernel/printk/sysctl.c | 10 +-------
- kernel/reboot.c        |  3 ++-
- kernel/sysctl.c        | 58 ++++++++++++++++++++++++++++++++++++++++++
- 5 files changed, 67 insertions(+), 13 deletions(-)
 
-diff --git a/include/linux/sysctl.h b/include/linux/sysctl.h
-index 2886fbceb5d6..6322822206a7 100644
---- a/include/linux/sysctl.h
-+++ b/include/linux/sysctl.h
-@@ -82,8 +82,11 @@ int proc_dobool(const struct ctl_table *table, int write, void *buffer,
- 		size_t *lenp, loff_t *ppos);
- 
- int proc_dointvec(const struct ctl_table *, int, void *, size_t *, loff_t *);
-+int proc_dointvec_sysadmin(const struct ctl_table *, int, void *, size_t *, loff_t *);
- int proc_dointvec_minmax(const struct ctl_table *table, int dir, void *buffer,
- 			 size_t *lenp, loff_t *ppos);
-+int proc_dointvec_minmax_sysadmin(const struct ctl_table *table, int dir, void *buffer,
-+				  size_t *lenp, loff_t *ppos);
- int proc_dointvec_conv(const struct ctl_table *table, int dir, void *buffer,
- 		       size_t *lenp, loff_t *ppos,
- 		       int (*conv)(bool *negp, unsigned long *u_ptr, int *k_ptr,
-diff --git a/kernel/panic.c b/kernel/panic.c
-index c78600212b6c..a966a4c81473 100644
---- a/kernel/panic.c
-+++ b/kernel/panic.c
-@@ -162,14 +162,14 @@ static const struct ctl_table kern_panic_table[] = {
- 		.data		= &panic_timeout,
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
--		.proc_handler	= proc_dointvec,
-+		.proc_handler	= proc_dointvec_sysadmin,
- 	},
- 	{
- 		.procname	= "panic_on_oops",
- 		.data		= &panic_on_oops,
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
--		.proc_handler	= proc_dointvec,
-+		.proc_handler	= proc_dointvec_sysadmin,
- 	},
- 	{
- 		.procname	= "panic_print",
-@@ -183,7 +183,7 @@ static const struct ctl_table kern_panic_table[] = {
- 		.data		= &panic_on_warn,
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
--		.proc_handler	= proc_dointvec_minmax,
-+		.proc_handler	= proc_dointvec_minmax_sysadmin,
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= SYSCTL_ONE,
- 	},
-diff --git a/kernel/printk/sysctl.c b/kernel/printk/sysctl.c
-index f15732e93c2e..c48694739fee 100644
---- a/kernel/printk/sysctl.c
-+++ b/kernel/printk/sysctl.c
-@@ -5,20 +5,12 @@
- 
- #include <linux/printk.h>
- #include <linux/capability.h>
-+#include <linux/sysctl.h>
- #include <linux/ratelimit.h>
- #include "internal.h"
- 
- static const int ten_thousand = 10000;
- 
--static int proc_dointvec_minmax_sysadmin(const struct ctl_table *table, int write,
--				void *buffer, size_t *lenp, loff_t *ppos)
--{
--	if (write && !capable(CAP_SYS_ADMIN))
--		return -EPERM;
--
--	return proc_dointvec_minmax(table, write, buffer, lenp, ppos);
--}
--
- static const struct ctl_table printk_sysctls[] = {
- 	{
- 		.procname	= "printk",
-diff --git a/kernel/reboot.c b/kernel/reboot.c
-index 695c33e75efd..47055fedabbc 100644
---- a/kernel/reboot.c
-+++ b/kernel/reboot.c
-@@ -16,6 +16,7 @@
- #include <linux/reboot.h>
- #include <linux/suspend.h>
- #include <linux/syscalls.h>
-+#include <linux/sysctl.h>
- #include <linux/syscore_ops.h>
- #include <linux/uaccess.h>
- 
-@@ -1379,7 +1380,7 @@ static const struct ctl_table kern_reboot_table[] = {
- 		.data           = &C_A_D,
- 		.maxlen         = sizeof(int),
- 		.mode           = 0644,
--		.proc_handler   = proc_dointvec,
-+		.proc_handler   = proc_dointvec_sysadmin,
- 	},
- };
- 
-diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-index 9d3a666ffde1..4e0bc095ffeb 100644
---- a/kernel/sysctl.c
-+++ b/kernel/sysctl.c
-@@ -843,6 +843,52 @@ int proc_dointvec(const struct ctl_table *table, int dir, void *buffer,
- 	return do_proc_dointvec(table, dir, buffer, lenp, ppos, NULL);
- }
- 
-+/**
-+ * proc_dointvec_sysadmin - read/write a vector of integers with CAP_SYS_ADMIN check
-+ * @table: the sysctl table
-+ * @dir: %TRUE if this is a write to the sysctl file
-+ * @buffer: the user buffer
-+ * @lenp: the size of the user buffer
-+ * @ppos: file position
-+ *
-+ * Same as proc_dointvec, but writes require CAP_SYS_ADMIN.
-+ * This prevents unprivileged writes from user namespaces where
-+ * the process has uid 0 and thus passes VFS permission checks.
-+ *
-+ * Returns 0 on success, -EPERM if a write lacks CAP_SYS_ADMIN.
-+ */
-+int proc_dointvec_sysadmin(const struct ctl_table *table, int dir, void *buffer,
-+			   size_t *lenp, loff_t *ppos)
-+{
-+	if (dir && !capable(CAP_SYS_ADMIN))
-+		return -EPERM;
+Hi folks,
+
+I am posting this patch as a placeholder for a TOPIC discussion at LSFMM.
+This is a reoccurring topic on fsdevel and in LSFMM, but I think it is
+worth having, because I do not think we have made a significant progress
+in solving the vfs maintenance burden problem.
+
+As much as I hate manifests and even more so discussions about
+manifests, I think that having a document like this will at least save
+us some time in writing the bounce emails.
+
+Please try not to make this a discussion about a legal document!
+
+Note that LLM has helped me collect the relevant discussions and
+articulate our collective feedbacks into a summary.
+
+Note that same LLM makes it much easier for random people to
+submit new filesystems, so we may need to work harder in the near
+future on push backs...
+
+Thanks,
+Amir.
+
+
+ .../filesystems/adding-new-filesystems.rst    | 167 ++++++++++++++++++
+ Documentation/filesystems/index.rst           |   1 +
+ 2 files changed, 168 insertions(+)
+ create mode 100644 Documentation/filesystems/adding-new-filesystems.rst
+
+diff --git a/Documentation/filesystems/adding-new-filesystems.rst b/Documentation/filesystems/adding-new-filesystems.rst
+new file mode 100644
+index 0000000000000..2e59b7127c05f
+--- /dev/null
++++ b/Documentation/filesystems/adding-new-filesystems.rst
+@@ -0,0 +1,167 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
-+	return proc_dointvec(table, dir, buffer, lenp, ppos);
-+}
-+EXPORT_SYMBOL_GPL(proc_dointvec_sysadmin);
++.. _adding_new_filesystems:
 +
-+/**
-+ * proc_dointvec_minmax_sysadmin - read/write a vector of integers with range and CAP_SYS_ADMIN check
-+ * @table: the sysctl table
-+ * @dir: %TRUE if this is a write to the sysctl file
-+ * @buffer: the user buffer
-+ * @lenp: the size of the user buffer
-+ * @ppos: file position
-+ *
-+ * Same as proc_dointvec_minmax, but writes require CAP_SYS_ADMIN.
-+ *
-+ * Returns 0 on success, -EPERM if a write lacks CAP_SYS_ADMIN.
-+ */
-+int proc_dointvec_minmax_sysadmin(const struct ctl_table *table, int dir,
-+				  void *buffer, size_t *lenp, loff_t *ppos)
-+{
-+	if (dir && !capable(CAP_SYS_ADMIN))
-+		return -EPERM;
++Adding New Filesystems
++======================
 +
-+	return proc_dointvec_minmax(table, dir, buffer, lenp, ppos);
-+}
-+EXPORT_SYMBOL_GPL(proc_dointvec_minmax_sysadmin);
++This document describes what is involved in adding a new filesystem to the
++Linux kernel, over and above the normal submission advice in
++:ref:`Documentation/process/submitting-patches.rst <submittingpatches>` and
++:ref:`Documentation/process/submit-checklist.rst <submitchecklist>`.
 +
- /**
-  * proc_douintvec - read a vector of unsigned integers
-  * @table: the sysctl table
-@@ -1260,6 +1306,12 @@ int proc_dointvec(const struct ctl_table *table, int dir,
- 	return -ENOSYS;
- }
++Every filesystem merged into the kernel becomes the collective responsibility
++of the VFS maintainers and the wider filesystem development community.
++Experience has shown that filesystems which become unmaintained impose a
++significant and ongoing burden: they are hard or impossible to test, they
++block infrastructure changes because someone must update or preserve old APIs
++for code that nobody is actively looking after, and they accumulate unfixed
++bugs.  The requirements and expectations described here are informed by this
++experience and are intended to ensure that new filesystems enter the kernel
++on a sustainable footing.
++
++
++Do You Need a New In-Kernel Filesystem?
++---------------------------------------
++
++Before proposing a new in-kernel filesystem, consider whether one of the
++alternatives might be more appropriate.
++
++ - If an existing in-kernel filesystem covers the same use case, improving it
++   is generally preferred over adding a new implementation.  The kernel
++   community favors incremental improvement over parallel implementations.
++
++ - If the filesystem serves a niche audience or has a small user base, a FUSE
++   (Filesystem in Userspace) implementation may be a better fit.  FUSE
++   filesystems avoid the long-term kernel maintenance commitment and can be
++   developed and released on their own schedule.
++
++ - If kernel-level performance, reliability, or integration is genuinely
++   required, make the case explicitly.  Explain who the users are, what the
++   use case is, and why a FUSE implementation would not be sufficient.
++
++
++Technical Requirements
++----------------------
++
++New filesystems are expected to use current kernel interfaces and practices.
++Submitting a filesystem built on outdated APIs creates an immediate
++maintenance debt and is likely to face pushback during review.
++
++Use modern VFS interfaces
++  New filesystems should use iomap rather than buffer heads for block mapping
++  and I/O, folios rather than raw page operations for page cache management,
++  and the filesystem context API (``fs_context``) for the mount path.  See
++  ``Documentation/filesystems/iomap/index.rst`` for iomap documentation and
++  ``Documentation/filesystems/mount_api.rst`` for the mount API.
++
++Avoid deprecated interfaces
++  Do not use interfaces listed in
++  :ref:`Documentation/process/deprecated.rst <deprecated>`.  If the
++  filesystem depends on an interface that is being phased out, plan for
++  conversion before submission.
++
++Provide userspace utilities
++  A ``mkfs`` tool is expected so that the filesystem can be created and used
++  by testers and users.  A ``fsck`` tool is strongly recommended; while not
++  strictly required for every filesystem type, the ability to verify
++  consistency and repair corruption is an important part of a mature
++  filesystem.
++
++Be testable
++  The filesystem must be testable in a meaningful way.  The
++  `fstests <https://git.kernel.org/pub/scm/fs/xfs/xfstests-dev.git>`_
++  framework (also known as xfstests) is the standard testing infrastructure
++  for Linux filesystems and its use is highly recommended.  At a minimum,
++  there must be a credible and documented way to test the filesystem and
++  detect regressions.  When submitting, include a summary of test results
++  indicating which tests pass, fail, or are not applicable.
++
++Provide documentation
++  A documentation file under ``Documentation/filesystems/`` describing the
++  filesystem, its on-disk format, mount options, and any notable design
++  decisions is recommended.
++
++
++Community and Maintainership Expectations
++-----------------------------------------
++
++Merging a filesystem is a long-term commitment.  The kernel community
++needs confidence that the filesystem will be actively maintained after it
++is merged.
++
++Identified maintainer
++  The submission must include a ``MAINTAINERS`` entry with at least one
++  maintainer (``M:``), a mailing list (``L:``), and a git tree (``T:``).
++  The maintainer is expected to be the primary point of contact for the
++  filesystem going forward.
++
++Demonstrated commitment
++  A track record of maintaining kernel code -- for example, in other
++  subsystems -- significantly strengthens the case for a new filesystem.
++  Maintainers who are already known and trusted within the community face
++  less friction during review.
++
++Sustained backing
++  Major filesystems in Linux have organizational or corporate support behind
++  their development.  Filesystems that depend entirely on volunteer effort
++  face higher scrutiny about their long-term viability.
++
++Responsiveness
++  The maintainer is expected to respond to bug reports, address review
++  feedback, and adapt the filesystem to VFS infrastructure changes such as
++  folio conversions, iomap migration, and mount API updates.  Unresponsive
++  maintainership is one of the primary reasons filesystems end up on the
++  path to deprecation.
++
++User base
++  Clearly describe who the users of this filesystem are and the scale of the
++  user base.  Filesystems with a very small or unclear user base face a
++  harder path to acceptance and a higher risk of future deprecation.
++
++A practical way to demonstrate many of the qualities above is to maintain the
++filesystem out-of-tree for a period before requesting a merge.  This shows
++sustained commitment, builds a visible user base, and gives reviewers
++confidence that the code and its maintainer will persist after merging.
++That said, it is recognized that for some filesystems the user base grows
++significantly only after upstreaming, so a compelling case for expected
++adoption can substitute for a large existing user base.
++
++
++Submission Process
++------------------
++
++Send patches to the linux-fsdevel mailing list
++(``linux-fsdevel@vger.kernel.org``).  CC the relevant VFS maintainers as
++listed in the ``MAINTAINERS`` file under ``FILESYSTEMS (VFS and infrastructure)``.
++
++Expect thorough review.  Filesystem code interacts deeply with the VFS, memory
++management, and block layers, so reviewers will examine the code carefully.
++Address all review feedback and be prepared for multiple revision cycles.
++
++It may be appropriate to mark the filesystem as experimental in its Kconfig
++help text for the first few releases to set expectations while the code
++stabilizes in-tree.
++
++
++Ongoing Obligations
++-------------------
++
++Merging is not the finish line.  Maintaining a filesystem in the kernel is an
++ongoing commitment.
++
++ - Adapt to VFS infrastructure changes.  The VFS layer evolves continuously;
++   maintainers are expected to keep up with conversions such as folio
++   migration, iomap adoption, and mount API updates.
++
++ - Maintain test coverage.  As test suites evolve, the filesystem's test
++   results should be kept current.
++
++ - Handle security issues promptly.  Filesystems parse complex on-disk
++   structures from potentially untrusted media and must treat security
++   reports with urgency.
++
++ - Filesystems that become unmaintained -- where the maintainer stops
++   responding, infrastructure changes go unadapted, and testing becomes
++   impossible -- are candidates for deprecation and eventual removal from
++   the kernel.
+diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
+index f4873197587df..10e40cc9cbc9d 100644
+--- a/Documentation/filesystems/index.rst
++++ b/Documentation/filesystems/index.rst
+@@ -42,6 +42,7 @@ algorithms work.
+    caching/index
  
-+int proc_dointvec_sysadmin(const struct ctl_table *table, int dir,
-+			   void *buffer, size_t *lenp, loff_t *ppos)
-+{
-+	return -ENOSYS;
-+}
-+
- int proc_douintvec(const struct ctl_table *table, int dir,
- 		  void *buffer, size_t *lenp, loff_t *ppos)
- {
-@@ -1272,6 +1324,12 @@ int proc_dointvec_minmax(const struct ctl_table *table, int dir,
- 	return -ENOSYS;
- }
+    porting
++   adding-new-filesystems
  
-+int proc_dointvec_minmax_sysadmin(const struct ctl_table *table, int dir,
-+				  void *buffer, size_t *lenp, loff_t *ppos)
-+{
-+	return -ENOSYS;
-+}
-+
- int proc_douintvec_minmax(const struct ctl_table *table, int dir,
- 			  void *buffer, size_t *lenp, loff_t *ppos)
- {
+ Filesystem support layers
+ =========================
 -- 
-2.50.1 (Apple Git-155)
+2.53.0
 
