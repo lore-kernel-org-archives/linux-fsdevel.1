@@ -1,107 +1,99 @@
-Received: from mailgw1.hygon.cn (unknown [101.204.27.37])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 890FD2F531F;
-	Fri, 17 Apr 2026 06:59:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.204.27.37
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13D381C6FF5;
+	Fri, 17 Apr 2026 07:30:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776409212; cv=none; b=oIErM8NQlAHMHHmywx87z+z5B/yo9yzjHYDALqj1Ntkm4d55tGMNs6VIyRf7wcrbI2Rx7xAK/se/B39GHqlzeEfMYP2+aua9pCkbpStf6qa5i0PeroXhNGzVivjl27LmYlyrCKlpZ6B/aT4WaQZGLIKxCdT2RWq0tY3YoLlayDM=
+	t=1776411058; cv=none; b=PBxgZTikpoXlFJQ0R0cH+KXK9hgncID8VcEI8oynaZvI7OwAFUzSRDw7eYM+8iwG3mGaqpjWHfkqhDHfT6zYSKGNApP+DTZfR56mT5DsbAhoMZFia9wa1l8TmzH3SmOvnG6KTq1mgveBZFnMkFmR0tjyMMuirTO96ctFSizfjgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776409212; c=relaxed/simple;
-	bh=2Qm1k46QeaCwP3PmXiD2vvdZ0MLoC5zsmI9lok6yqpc=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iGB/uIFGXUWHW9hc9gS2JChprkghtXCkPpNsa1dep87wvKvfkq0C2n4XNyEp6H7tE7VcLb909cLsn4N4BZno9xgC4kbSE0VsPFSA2h0F4I0Wp3zUupXuRM75OREanuJ7veTECWNqHzVY5dFaJrIMUWRFFjnVWPyYdGqq6zbeueo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn; spf=pass smtp.mailfrom=hygon.cn; arc=none smtp.client-ip=101.204.27.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hygon.cn
-Received: from maildlp1.hygon.cn (unknown [127.0.0.1])
-	by mailgw1.hygon.cn (Postfix) with ESMTP id 4fxm355c3TzwvXZ;
-	Fri, 17 Apr 2026 14:59:45 +0800 (CST)
-Received: from maildlp1.hygon.cn (unknown [172.23.18.60])
-	by mailgw1.hygon.cn (Postfix) with ESMTP id 4fxm342Yk4zvkdy;
-	Fri, 17 Apr 2026 14:59:44 +0800 (CST)
-Received: from cncheex04.Hygon.cn (unknown [172.23.18.114])
-	by maildlp1.hygon.cn (Postfix) with ESMTPS id 1F23A16E2;
-	Fri, 17 Apr 2026 14:59:44 +0800 (CST)
-Received: from hsj-2U-Workstation (172.19.20.61) by cncheex04.Hygon.cn
- (172.23.18.114) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Fri, 17 Apr
- 2026 14:59:42 +0800
-Date: Fri, 17 Apr 2026 14:59:41 +0800
-From: Huang Shijie <huangsj@hygon.cn>
-To: Mateusz Guzik <mjguzik@gmail.com>
-CC: <akpm@linux-foundation.org>, <viro@zeniv.linux.org.uk>,
-	<brauner@kernel.org>, <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-fsdevel@vger.kernel.org>,
-	<muchun.song@linux.dev>, <osalvador@suse.de>,
-	<linux-trace-kernel@vger.kernel.org>, <linux-perf-users@vger.kernel.org>,
-	<linux-parisc@vger.kernel.org>, <nvdimm@lists.linux.dev>,
-	<zhongyuan@hygon.cn>, <fangbaoshun@hygon.cn>, <yingzhiwei@hygon.cn>
-Subject: Re: [PATCH 0/3] mm: split the file's i_mmap tree for NUMA
-Message-ID: <aeHaXXB2+mla7u2F@hsj-2U-Workstation>
-References: <20260413062042.804-1-huangsj@hygon.cn>
- <76pfiwabdgsej6q2yxfh3efuqvsyg7mt7rvl5itzzjyhdrto5r@53viaxsackzv>
+	s=arc-20240116; t=1776411058; c=relaxed/simple;
+	bh=aodTMjFDDLH0XqR5x0JMN+7jrIXJsaPFvb1NeWpriGc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gjvhz51SnZYIOFwO1nXQb6VtTNiMgqcZMCFOOysfmDjgSrQw/TkGq9KNrzhdHXPmDkb/Pj911nQINaGlTCg0I9vnFlEolDz6VkeQ18sDFXVbW6olLgZs8PVR32EVnMlX8pCKBpwExdMZN1qVLL52jInP4RqxWO8zaV4N85ardms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=sh0191ye; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="sh0191ye"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Transfer-Encoding
+	:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=/l71e/ER/+VQEChh8Dmezn6S3hUrL+BwD90ojgmYkI0=; b=sh0191yeR65OL4SdSNMFvWgXMd
+	vxwiL06OE7gqXpS8Cdb6nXvra9TNaXTFQvPSJ0fpa7juw73mRzf422X1RMlSJP17H+BZBqWPm9BGL
+	hil2T9cCAkmDoAWqVzlTOVu8fxKGBJ9OQM1ifn64JQmgAweB44W85oZ6UZcOKu57djS6qwq8blyPP
+	VEG77Js1CqxzaKHNud6Aio21CNFC5xSsBm2CxuqnYxSf8Rejsr5A5PthV5Vx2KmeGFs5jfTxPm4pH
+	pyewxrnN0n6N9YqxFxYa4k3TRFsg36qaFsIZHdonXcfQNc9sAsk7f8Y5ZsmWp1qIRVbkCYbZmDQpJ
+	pogLEkZg==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1wDdfC-00000003aW0-0FEU;
+	Fri, 17 Apr 2026 07:30:54 +0000
+Date: Fri, 17 Apr 2026 00:30:54 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: changfengnan <changfengnan@bytedance.com>
+Cc: Christoph Hellwig <hch@infradead.org>,
+	Fengnan Chang <fengnanchang@gmail.com>,
+	brauner <brauner@kernel.org>, djwong <djwong@kernel.org>,
+	linux-xfs <linux-xfs@vger.kernel.org>,
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+	linux-ext4 <linux-ext4@vger.kernel.org>, lidiangang@bytedance.com
+Subject: Re: [RFC PATCH] iomap: add fast read path for small direct I/O
+Message-ID: <aeHhrsGtJRhP521d@infradead.org>
+References: <20260414122647.15686-1-changfengnan@bytedance.com>
+ <ad867C8dlaQGLS97@infradead.org>
+ <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.eee197c0.e67e.40c8.bd15.8fab5bbb42db@bytedance.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <76pfiwabdgsej6q2yxfh3efuqvsyg7mt7rvl5itzzjyhdrto5r@53viaxsackzv>
-X-ClientProxiedBy: cncheex06.Hygon.cn (172.23.18.116) To cncheex04.Hygon.cn
- (172.23.18.114)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.eee197c0.e67e.40c8.bd15.8fab5bbb42db@bytedance.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Mon, Apr 13, 2026 at 05:33:21PM +0200, Mateusz Guzik wrote:
-> On Mon, Apr 13, 2026 at 02:20:39PM +0800, Huang Shijie wrote:
-> >   In NUMA, there are maybe many NUMA nodes and many CPUs.
-> > For example, a Hygon's server has 12 NUMA nodes, and 384 CPUs.
-> > In the UnixBench tests, there is a test "execl" which tests
-> > the execve system call.
-> > 
-> >   When we test our server with "./Run -c 384 execl",
-> > the test result is not good enough. The i_mmap locks contended heavily on
-> > "libc.so" and "ld.so". For example, the i_mmap tree for "libc.so" can have 
-> > over 6000 VMAs, all the VMAs can be in different NUMA mode.
-> > The insert/remove operations do not run quickly enough.
-> > 
-> > patch 1 & patch 2 are try to hide the direct access of i_mmap.
-> > patch 3 splits the i_mmap into sibling trees, and we can get better 
-> > performance with this patch set:
-> >     we can get 77% performance improvement(10 times average)
-> > 
-> 
-> To my reading you kept the lock as-is and only distributed the protected
-> state.
-> 
-> While I don't doubt the improvement, I'm confident should you take a
-> look at the profile you are going to find this still does not scale with
-> rwsem being one of the problems (there are other global locks, some of
-> which have experimental patches for).
-> 
-> Apart from that this does nothing to help high core systems which are
-> all one node, which imo puts another question mark on this specific
-> proposal.
-> 
-> Of course one may question whether a RB tree is the right choice here,
-> it may be the lock-protected cost can go way down with merely a better
-> data structure.
-> 
-> Regardless of that, for actual scalability, there will be no way around
-> decentralazing locking around this and partitioning per some core count
-> (not just by numa awareness).
-> 
-> Decentralizing locking is definitely possible, but I have not looked
-> into specifics of how problematic it is. Best case scenario it will
-> merely with separate locks. Worst case scenario something needs a fully
-> stabilized state for traversal, in that case another rw lock can be
-> slapped around this, creating locking order read lock -> per-subset
-> write lock -- this will suffer scalability due to the read locking, but
-> it will still scale drastically better as apart from that there will be
-> no serialization. In this setting the problematic consumer will write
-> lock the new thing to stabilize the state.
-For your proposal in no-numa, I hope you can create a patch set for it.
-I can test it in our machine.
+On Thu, Apr 16, 2026 at 11:16:23AM +0800, changfengnan wrote:
+> > But it already is a major improvement, and one that would apply outside
+> > of narrow special cases.  So I'd really like to see that patch.
+> You can see this in:
+> https://lore.kernel.org/linux-fsdevel/20260416030642.26744-1-changfengnan@bytedance.com/T/#u
 
-Thanks
-Huang Shijie
+Thanks!
+
+> > All direct I/O requires this.
+> > 
+> > > - No bounce buffering, fscrypt, or fsverity involved.
+> > > - No custom `iomap_dio_ops` (dops) registered by the filesystem.
+> > 
+> > I'm really curious at what difference this makes.  It removes a few
+> > branches, but should not have much of an effect while limiting the
+> > applicability a lot.
+> Yes, the impact shouldn’t be significant. 
+> Since this is just a RFC version to confirm that I’m on the right path, there
+> are many aspects that haven’t been fully thought through yet. I haven’t
+> tested these scenarios yet, but I’ll add support for them later to
+> check  exactly what the impact is.
+
+Sure.  It might also make sense to skip some of this if it brings a big
+enough benefit.
+
+> > > +struct iomap_dio_fast_read {
+> > > +        struct kiocb        *iocb;
+> > > +        size_t                size;
+> > > +        bool                should_dirty;
+> > > +        struct work_struct        work;
+> > > +        struct bio        bio ____cacheline_aligned_in_smp;
+> > 
+> > Does the cache line alignment matter here?  If yes, can you explain why
+> > in a comment?
+> 
+> I copy this from struct blkdev_dio , I'll do some test to verfiy. 
+
+Thanks.  Btw, another thing that might be worth is to drop the
+work_struct and reuse iomap_fail_reads or something similar to it.
+This would be a pretty big size reduction.  Additionally we should
+be able to kill should_dirty and just rely on bio or kiocb flags.
 
