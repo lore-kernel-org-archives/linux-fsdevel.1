@@ -1,161 +1,134 @@
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out203-205-221-190.mail.qq.com (out203-205-221-190.mail.qq.com [203.205.221.190])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F277A30EF9A
-	for <linux-fsdevel@vger.kernel.org>; Fri, 17 Apr 2026 06:46:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2B292F531F;
+	Fri, 17 Apr 2026 06:58:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.190
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776408394; cv=none; b=KHCQ/s5eqjTqhP/9/Ul+j4iU0OV7KE2seqdPgWDB/iDv5RbJNzhLvs3SVSdRP2jY0TxcriqBceh6T3kumHnYoqWRT3uNSQcTzSjsr/u0qALC7JzO6duzM6IrEZBSRYnh5fjUM7NWZ7RB7vb5KAAb6JvUrS0bxA4YZJOP1NxWJh8=
+	t=1776409143; cv=none; b=t0CVTeaXHdi35HiCSpb995MPWI9B54L5Iy2p7dESPYFYmHLHkPpFzkohqKgMTLGyn85n2XpPpNKIlR8qSg0RWU+I/fjFOQxReb7nys+ifgn9A+2Ba01brfvz0Tu3cCVBW/DGw6raGucTGWkdHlGJhnU0/7jJfochRdRkAgVk4lE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776408394; c=relaxed/simple;
-	bh=d4PpKCk3+cY+Ia63Uy2Vt+eoNLKg4rm4l23ANxaSUh8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=laTxqn5T4OEAKyZFc3524fQc1qktFdvjQiPEfXJvpBMa1/zZg4mUF0UyaOGxVEZrZIkiM/lAMP9tq+TSC1cRIjafvSFzTn+28iD3zHzKKZA54kMtl+6V54WH5t9dQhSxQu9OzPbwsVIy8ecgLeMlTZHQcs4JHHNTMvrH1GBQew0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=G6TWVyi7; arc=none smtp.client-ip=209.85.222.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1776409143; c=relaxed/simple;
+	bh=50U2zfv9PeuZPa0JCzbAB7DsNVLlBqHVp6nagMTSm0M=;
+	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
+	 MIME-Version; b=Ff6bUACK54IKF3RYuddkCpNvOEJrVXAdUEGo2Slh7IDxSWKNyOUDZ9uFVFvqx4YnuhXp6Wfd2EiACjP6M/ynqiA7cwdd/gX5VD5MSM6QZLU1EB4r34BqFoZOLTwVxLNc62rdKNykDHZeJLBhSo3GBJ/sQh1QS5Nb4c4OzZMjAFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=VEYGAgoH; arc=none smtp.client-ip=203.205.221.190
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="G6TWVyi7"
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-8d67a483d3eso37256285a.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 23:46:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1776408392; x=1777013192; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=hhIjuJ3A3M20AFrPa5BfGVCAhbvvigIUz2GsEPa7gR8=;
-        b=G6TWVyi7A+bojIeIPu6SwEfEYSmy3x7RRUApMxRyyuVrRZ1cHPp+Ni1hEoNJF7O4G5
-         BVaj81i+xGeRdkhdmTeChTdi/FzS8fK+wTz1W18hSpNyTc/FBIGpU60ilWXAPVtPuZ8R
-         P2ruTgGTk+Zo0DZdo9wZBo330WAdwdhBt/4xUpWzvBu/BH7Sd5FiWESWJiAZu3ibSl7v
-         KqB7jbhVuKjavGYk9zC2EebvCD4GoJDHEwBI+kB0V0CNlviVK0UXgIDHvNaQTRqKhihX
-         1aZJHYnG0lnlEGhH8HgAT7aHfRc6mB/rA2CSza3Kr+gTiz7OsROULxfSS46qC7ZsG2SS
-         lpOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776408392; x=1777013192;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hhIjuJ3A3M20AFrPa5BfGVCAhbvvigIUz2GsEPa7gR8=;
-        b=RonkoaoS3qxQEp5mf1AJgp1O7IoTfiSxejvO90WJQ+Mo4zkd1xV++9DhXYgjwm4Fy3
-         iXeatCa/hkmuXm26wGbs5JHuPnCrWo04qhHKrwBWffPxUm32UVs+ByyuaV0+FldKuot5
-         +RixbxhqP1JjTlMg9zN1IcVneEamK9vHZi8xihuNN4BApeOiIacDg/j7jTQ65dBQniHN
-         j/Debysz/7xLTocYOJk/EQm6dlzRN7YfVpl9xc/nY/7I8UrwRNMURnQuO0Tfr1opVKdO
-         Y7PQEYABcvs0aHQorHSCgsqRAi/BnZC05BH8g/CwI0Etgl7QdeYCp6e2cKPIMGpCVqHl
-         52jA==
-X-Forwarded-Encrypted: i=1; AFNElJ/+oLBSHGwLF1nUt6W70i4akB+ytD4Y075oqY9AwbW4B2egvYR8Cvh+Om/yVtDK2CLrnVF0psBS6oBmob+Y@vger.kernel.org
-X-Gm-Message-State: AOJu0YxMRf1vSGfyATM2UdAwFdDcykYViOCxY+Lu45mGO3Kvd5DFknWg
-	Z38dz5VLQ++x+R4gvc6louhgVQSz1oNOsekD1v3JBAHYtXQ9JSVpAHsJgXj72AFjd9c=
-X-Gm-Gg: AeBDietoABcDtmgpGBli7TxM/8xn7esBkZ9jbLC6u/JC8oeWPma6EO/zP5K5IDswIHn
-	iIvCTUNaWjlLRG+6PFv+uai46MdrAsdYVEU2ci01iR1KUrTwUDFHnCMNmycpvcEsCK9U8GV/qXi
-	PLh8LOYVsVhc2UrwNLoVMPLndpCmDc42B13/Iz5E6ba4gGbdFw7YR1QQYxyUeqLMwK/R/zvqFuB
-	jlptiWKrxEFzIxIXd9YF2FdezGTrCEehi52G4InQ571XXmL51VJYhHeMe8GyAq1uNsNqfBMKTSN
-	ZEbJ/dJ7a9X+NJCcex8CMP8I59UkA0U86al4ZICNxL6kauWRzxTC2lsEXbR9DhI3B6FUqvwOuIV
-	C6COuTl6jCpudzng4FY10wpZ4jLlliPO/g2xkwpMdyU2OeYaNmjWQUNns+norJl7yE3wsg7lnq1
-	biKARKDpBL4EllqjHI2h1iDimy/6F28WwK49pPT1sJPfafOT8oxb65ekdzx51Xk2oT9YFDsXYtR
-	CuW4nQbsAN6cPGg3EK8wOl1f0YiBms=
-X-Received: by 2002:a05:620a:4690:b0:8cd:92c5:b3e7 with SMTP id af79cd13be357-8e790407b72mr203408385a.18.1776408391906;
-        Thu, 16 Apr 2026 23:46:31 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-108-18-109-80.washdc.ftas.verizon.net. [108.18.109.80])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8e7d93c2fffsm42616985a.36.2026.04.16.23.46.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Apr 2026 23:46:30 -0700 (PDT)
-Date: Fri, 17 Apr 2026 02:46:27 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: John Groves <John@groves.net>, "Darrick J. Wong" <djwong@kernel.org>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Bernd Schubert <bernd@bsbernd.com>,
-	John Groves <john@jagalactic.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Bernd Schubert <bschubert@ddn.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	David Hildenbrand <david@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Stefan Hajnoczi <shajnocz@redhat.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Chen Linxuan <chenlinxuan@uniontech.com>,
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Shivank Garg <shivankg@amd.com>,
-	Ackerley Tng <ackerleytng@google.com>,
-	Aravind Ramesh <arramesh@micron.com>,
-	Ajay Joshi <ajayjoshi@micron.com>,
-	"venkataravis@micron.com" <venkataravis@micron.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	djbw@kernel.org
-Subject: Re: [PATCH V10 00/10] famfs: port into fuse
-Message-ID: <aeHXQ2EW2ivlLb_N@gourry-fedora-PF4VCD3F>
-References: <adlBcwJjLOQDAR65@groves.net>
- <CAJnrk1a06zkUmXW5EFiUmgAoFauwtzsYvnotaPH0ifVtyh7iDQ@mail.gmail.com>
- <CAJfpegvVTcV89=q3L326aGQjhduBcv7PVg5QKftGLjNZmCLmaw@mail.gmail.com>
- <ad4_jFsR951c2Mtn@groves.net>
- <20260414185740.GA604658@frogsfrogsfrogs>
- <CAJnrk1ZgcMuwfMpT1fXvUwBBiq9eWFHWVeOFQFFKiamGGe1RJg@mail.gmail.com>
- <ad7Tps4tkNbndd9Z@groves.net>
- <CAJnrk1ZWVsKW2dhAWdBkCQskoTE+hmOhPFDhyz4EtExn=GdXGA@mail.gmail.com>
- <aeFDCeqZDPI3rm3s@gourry-fedora-PF4VCD3F>
- <CAJnrk1ad6t6CJV+xnXwhoNHrHYA3htuaVdDq47FeT60cPBzj7g@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="VEYGAgoH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1776409131; bh=HRcsKAm0HC9xuo5jH0cSLPq761DEVJInNP3n9DAoRPw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=VEYGAgoHhUVIkaLaAqn0IEEhbKZskMn2WTCN2k/QCxVAK3COBAfwR30upxn27rUS2
+	 gRBJm/XNTCuNKKfYpE7HAF1YVtAIVQAjGJnYW+vDYge6sYYoWxL4RxZp/aCHFaATHD
+	 s0e+JlWPnvutbc+9G2puikBCAvzfCH/wGxzUApL4=
+Received: from lxu-ped-host.. ([111.198.231.89])
+	by newxmesmtplogicsvrsza73-0.qq.com (NewEsmtp) with SMTP
+	id EB0B3056; Fri, 17 Apr 2026 14:58:48 +0800
+X-QQ-mid: xmsmtpt1776409128t6ck4j4da
+Message-ID: <tencent_C4F16CD096B0EAEAEE5ACDB07A266E382C0A@qq.com>
+X-QQ-XMAILINFO: OOyEews/EdUgIxj2LcK15XYl/c7ZUvXYsaO/amZ4rhmi19nXt38hG53Y1WgCr1
+	 FZNRON6wh8Zka44fs86WFMO5HFGX3mb2Eq5HV2LUOGpYL6UL2AyBiAXYDyg5UqdjHnhdXKNMMHpb
+	 UzL6KdshhjGz8YRTixB5KXva99uJ7yorJCdV00xfKg8XFYKHaTcoI5j0oE5ooqrMAJNB8fTOkKy4
+	 q05U1s/LK/4NY2AqIfaeYxP5Dr74llDAFBqFlfz6aScRBXc7/jISoHgD2nKgFhkBmwfC2oeDXZSd
+	 iKZSSmeoycUFBGH05V43g4mnHXFAw51wn4DXBI2epBj7O2NrG7SGk1H+ZM4P30TZweobMP93tYOe
+	 +2KlLm7T1jVhkrXKnvXOmMObSFDVHADP4PwqYQxQhYykX8WLXQiYM/e1MVfi8Z5gSK6yXpBJQNxW
+	 fL/UB2PLhGsll/anFx4un3EOKovWScX+lvTykVN1uB1stp32IAMZBhUuqkxjupP9R+1RopVpVV4t
+	 FrC+n9yV6IBBR0DPGVbVg2q6uKClzjXPV0Bw9Rgi3qLrJqpDTz7ImS0R6smfMAbNttLl4MVklIEI
+	 ekvZGbh7wVRw/4a5KEMTgA89hxA1ckbIUMeslecJsX6kfGdncfbt2xJGUaO56ewu4V9r30KA6wAk
+	 uG/fElTr2YbciVyhTj0RYnvBa7oBD62x/xMQV1XIV7tAVhlhlFBUy6ocve42TxF16YxOIucN4lJR
+	 EJ1VaSGbO3QSOjH1kafZy487hJZ8OP69GPsFZwjWu5tDMjPDrfoM6ZudUSHyyB+W6eETM5LG+rU6
+	 Kge2ohdsWCKviznKLtgFJZppNt7Knkmgf+FX6aF3FhvpH+P93cy07IGgb0THzI5MSir9nngNDLdt
+	 hI0JUbsg+VvA7n2paiY/nmoAvd1S4az3VvrASNde/Yf6n8IgaX1O7HB4IumWhOqCVPU8uX8FVoDt
+	 ZHq2wjybbQZMLX8AsCKDqkUsNxK1daBXwwFW3MoYpgv0rzUSFq0cEL0VA3CkQZ87Xbg+nR0Wm+o2
+	 PS3UXbHTkS9Ung7www
+X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
+From: Edward Adam Davis <eadavis@qq.com>
+To: syzbot+98547b0428b6a6a3467c@syzkaller.appspotmail.com
+Cc: frank.li@vivo.com,
+	glaubitz@physik.fu-berlin.de,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	slava@dubeyko.com,
+	syzkaller-bugs@googlegroups.com
+Subject: [PATCH] hfsplus: Supports freeing newly created tree head
+Date: Fri, 17 Apr 2026 14:58:49 +0800
+X-OQ-MSGID: <20260417065848.415593-2-eadavis@qq.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <69e1934c.a70a0220.7229.0011.GAE@google.com>
+References: <69e1934c.a70a0220.7229.0011.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJnrk1ad6t6CJV+xnXwhoNHrHYA3htuaVdDq47FeT60cPBzj7g@mail.gmail.com>
 
-On Thu, Apr 16, 2026 at 06:24:02PM -0700, Joanne Koong wrote:
-> On Thu, Apr 16, 2026 at 1:14 PM Gregory Price <gourry@gourry.net> wrote:
-> >
-> > I worry that this discussion is going to turn towards implementing a
-> > solution grounded in parsing arbitrary formats and how to store them,
-> > and that is completely detached from why FAMFS went this route in the
-> > first place.
-> >
-> > I question whether the actual issue here lies in the interface APPEARING
-> > more general purpose than it actually is - and therefore inviting
-> > attempts to over-genericize it.
-> 
-> Would you mind clarifying this part? Are you saying that the interface
-> and logic is *already* generic and usable for other dax-backed
-> servers, just that everything is *named* famfs but it's not really
-> famfs specific? 
+hfs_bnode_put() does not support deallocating a newly created btree
+head node; therefore, regardless of whether hfsplus_bnode_find() succeeds
+or fails, it cannot effectively reclaim the memory allocated for a newly
+created head node.
 
-Yes.
+When finding a head node, if the node is a newly created one, we can use
+hfs_bnode_free() to reclaim its memory.
 
-If you just find/replace "famfs" with "dax_iomap", the structures
-here don't really seem all *that* crazy specific - they're just
-optimized for memory speeds instead of I/O.
+[1]
+BUG: memory leak
+unreferenced object 0xffff88811cabc840 (size 96):
+  backtrace (crc 3e2dadb7):
+    __hfs_bnode_create+0x59/0x310 fs/hfsplus/bnode.c:469
+    hfsplus_bnode_find+0x13e/0x580 fs/hfsplus/bnode.c:547
+    hfsplus_btree_open+0x2fa/0x6d0 fs/hfsplus/btree.c:382
+    hfsplus_fill_super+0x272/0x880 fs/hfsplus/super.c:548
 
-There is a circular nature to this - FAMFS figured it out first, in
-what we think is a reasonably generic way, but we can't know for sure.
+Fixes: 8ad2c6a36ac4 ("hfsplus: validate b-tree node 0 bitmap at mount time")
+Reported-by: syzbot+98547b0428b6a6a3467c@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=98547b0428b6a6a3467c
+Tested-by: syzbot+98547b0428b6a6a3467c@syzkaller.appspotmail.com
+Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+---
+ fs/hfsplus/bnode.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
-John, Dan, and Darrick have all proposed reasonable ways to hedge
-against the obvious fact the interface will not be perfect - which
-incorporates your BPF proposal along with a reasonably straight forward
-deprecation path that's not always possible in other arenas.
+diff --git a/fs/hfsplus/bnode.c b/fs/hfsplus/bnode.c
+index f8b5a8ae58ff..65902104882a 100644
+--- a/fs/hfsplus/bnode.c
++++ b/fs/hfsplus/bnode.c
+@@ -598,14 +598,18 @@ struct hfs_bnode *hfs_bnode_find(struct hfs_btree *tree, u32 num)
+ 		if (key_size >= entry_size || key_size & 1)
+ 			goto node_error;
+ 	}
+-	clear_bit(HFS_BNODE_NEW, &node->flags);
+-	wake_up(&node->lock_wq);
++	if (num != HFSPLUS_TREE_HEAD) {
++		clear_bit(HFS_BNODE_NEW, &node->flags);
++		wake_up(&node->lock_wq);
++	}
+ 	return node;
+ 
+ node_error:
+ 	set_bit(HFS_BNODE_ERROR, &node->flags);
+-	clear_bit(HFS_BNODE_NEW, &node->flags);
+-	wake_up(&node->lock_wq);
++	if (num != HFSPLUS_TREE_HEAD) {
++		clear_bit(HFS_BNODE_NEW, &node->flags);
++		wake_up(&node->lock_wq);
++	}
+ 	hfs_bnode_put(node);
+ 	return ERR_PTR(-EIO);
+ }
+@@ -694,6 +698,10 @@ void hfs_bnode_put(struct hfs_bnode *node)
+ 			hfs_bnode_free(node);
+ 			return;
+ 		}
++		if (test_bit(HFS_BNODE_NEW, &node->flags)) {
++			hfs_bnode_unhash(node);
++			hfs_bnode_free(node);
++		}
+ 		spin_unlock(&tree->hash_lock);
+ 	}
+ }
+-- 
+2.43.0
 
-All that while solving a real (and novel) problem.
-
-That's actually pretty damn cool.
-
-I would urge you to consider these proposals earnestly.
-
-~Gregory
