@@ -1,137 +1,120 @@
-Received: from mail-oi1-f208.google.com (mail-oi1-f208.google.com [209.85.167.208])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4E143B4EB4
-	for <linux-fsdevel@vger.kernel.org>; Fri, 17 Apr 2026 14:31:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.208
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6641815B0EC;
+	Fri, 17 Apr 2026 14:52:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776436283; cv=none; b=iIG3Lh/+l8qG4WLQpEtFkemUhP9/wZG6wooRzdqsLI2P/Fn4i90IgeyFPyyWS7iVVtNgWcFrFmWNcaSAiimlYdJ0lqjhXz8l1iSHq5eoHknevF8YM5L/geojrAMS/gB+GG+cijEnLkU1T03HJFwVFAycxY+cK4sHP3bD1nNXgto=
+	t=1776437562; cv=none; b=nI9rJ2Vtv/eI6C/7jWKXVnwNpiBgvUakvM1OD1wuM3Fale1k/Nv72KaJtRfQX3d4M+pSh6SAR4Cw/Hzez93b9qpv0Rw7OV3WzUT0Ug2wV+NtpDTcjx8wWIr9m7xsrVtRnvw2dSMP2MLyoPiCPEGnZMaWepvo9e6LLJ6umvlEVVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776436283; c=relaxed/simple;
-	bh=gHpiF0mfwMTwb7tHUIPjUX/iW8lC2YhsGCHq1i5DDbY=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=a8BD69XrPmwIt+rAEIJI5J6YibKkIUBtQuKkcupAfCqFT3SdEQ7nXMuh1Cuqj0GlORyIKt+reuXUO7JNM7sz+XQuAV1g7bKPfPQoHobf4mOcDWaUQsOFg1uR2VvQEw6zFNeg7/dLEvXI3gBbVqrnJ7I5t0CHEJSm5QatqB4JkMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.208
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f208.google.com with SMTP id 5614622812f47-46f85ce99f8so600514b6e.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 17 Apr 2026 07:31:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776436280; x=1777041080;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1tGUFsQbNc7BeWKnVkN7vdgw4XK2T7pn5JC6Wsy8LS8=;
-        b=dXUwldTKvH0ndr4sSkiZjBTNMvPLmsvn0fTkg8ubnx4KvqjsNVBxRkr/0m7l6IyC+8
-         fjLEvLYaRthCVmxQBIOmR9gZtJNrXQvIGNx+qRnU00UG8541dQo+999LG2Cw3otSl0AE
-         ypyl/Ftr2PP8Ka2lzXSxBMyeQyH8mVbsBrDzWBYfRqGWYPvrpchS4voaxeUgRz2TSzWz
-         +Sf8U74y0mVVUtKyExe4M1NwAqzXxBzqVRcmgANOkiEbzFrT3kE/i4BhL6OW+SqMGI1e
-         d5c/uq7ZbeN0VKJ++DG9qPdsN8Dvz3gV2x1neYQRQZoSOLmgtMRMZ1ZfrCXYir5wjzNv
-         1TNg==
-X-Forwarded-Encrypted: i=1; AFNElJ+sh+RraTzmQAGlbQYFJg/siWHjBkIL43XzWR1fX9g2aGcXSRbsyTJGQfmypIi/yBB/IiMgMwh1BJrxxzXJ@vger.kernel.org
-X-Gm-Message-State: AOJu0YyRJCZzSUWAe87mf2XbhhjhjPFkTTTqm0gAeZv6zGVxPDf3sqh2
-	76MW3NOGhj9xsTGBrCx+6bfI6JHu1cNaJ7k5DLzQdagEk83Pfe7POLpQm6gRZEUsPZCLL6q46er
-	qyTiqpNavxzxFsZRDuaJkbO/ADFf4zRrC95NYAr3YIR91e7w8h1F6C4mPPJU=
+	s=arc-20240116; t=1776437562; c=relaxed/simple;
+	bh=lfrjWIzNAYCrM2lWTr0FWFwq1uXRS+QxBAQ0lAvMkRE=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=bu0464/w7fWIY8zVcGrnKjNBX2W5ey5hgxIbNKFTexdjwbHrufGx0fAh05O1Sh1qScw6B/d5JKK5P/fzUtF+/7JpPVB0aVgvyGDljvikKJfvkVhqfGDPSjaF8uNtbWibj/y5q1vASp2Q2zA3TtPnV3p4be5iJixp1JEkOdhIHLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b7HKoZF7; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b7HKoZF7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE5F2C2BCB6;
+	Fri, 17 Apr 2026 14:52:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776437562;
+	bh=lfrjWIzNAYCrM2lWTr0FWFwq1uXRS+QxBAQ0lAvMkRE=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=b7HKoZF7ricTXLqJpA/kjX4zgRwMxymUcf66qeUQ2rI7UM+n7qC69yp228dlzvTMi
+	 TiaFSMi+OCutykENXpNv5Y7HFCw4A8vupRw/tDcYfln5v4qeT5QNtQH8rZYoi3QF1d
+	 lvzWoCV516VFnm6ZhfoFxaXZpyfpM4YwbaGOgP6wJaXxDwoZM602xMgmMKRQXcpGvP
+	 kzjdYaE/++4T+0ISVFATwQ44yH7G5VZ58wmbWCJf0I02Yp2Q/dLKKK9Tpwt4jTkdEm
+	 qzoZFmEkPljRnFOpE+ejmzhCbypek4FLZqAFsGoLpv1G6zilzpA0YuRZudvSIHyE6o
+	 pmwaA1MQtqlsQ==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 9398EF4006A;
+	Fri, 17 Apr 2026 10:52:40 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Fri, 17 Apr 2026 10:52:40 -0400
+X-ME-Sender: <xms:OEniaZplPH5iM5LrYLhTB_ISxzBexpLJjrFgNjTlNPz9hC5AHFYsyg>
+    <xme:OEniaWdyhhT4fGXm7jRJQor78qB36LM2Jx1eh20hTp1yW8PBYDQhKf-3BO64B53F8
+    h1Du9UK70W3mcFKyY9TRCTD-4vzGbuEPuT9_qNXAAa-Gz8RK_0khw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdehtdduiecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdevhhhutghk
+    ucfnvghvvghrfdcuoegtvghlsehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvghrnh
+    ephfffkefffedtgfehieevkeduuefhvdejvdefvdeuuddvgeelkeegtefgudfhfeelnecu
+    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheptghhuhgtkh
+    hlvghvvghrodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieefgeelleel
+    heelqdefvdelkeeggedvfedqtggvlheppehkvghrnhgvlhdrohhrghesfhgrshhtmhgrih
+    hlrdgtohhmpdhnsggprhgtphhtthhopeduvddpmhhouggvpehsmhhtphhouhhtpdhrtghp
+    thhtohepnhgvihhlsegsrhhofihnrdhnrghmvgdprhgtphhtthhopegrmhhirhejfehilh
+    esghhmrghilhdrtghomhdprhgtphhtthhopegsrhgruhhnvghrsehkvghrnhgvlhdrohhr
+    ghdprhgtphhtthhopehjlhgrhihtohhnsehkvghrnhgvlhdrohhrghdprhgtphhtthhope
+    htohhrvhgrlhgusheslhhinhhugidqfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthht
+    ohephhgthheslhhsthdruggvpdhrtghpthhtohepuggrihdrnhhgohesohhrrggtlhgvrd
+    gtohhmpdhrtghpthhtoheptghhuhgtkhdrlhgvvhgvrhesohhrrggtlhgvrdgtohhmpdhr
+    tghpthhtohepohhkohhrnhhivghvsehrvgguhhgrthdrtghomh
+X-ME-Proxy: <xmx:OEniaeiV8HKJ2Q9OLCJixsteAOCsWBwnYVmOFV_6g8vZulgzDUWRHg>
+    <xmx:OEniaXIV_aNIdDNBBhrZdGRrGn73-yb7IC4_Y3B2AN1zmXDUqIhJRw>
+    <xmx:OEniaVmbt57WrrOg4i0SQ02RvHS5wuY5tAvSxLDCoj0Tap_KxQGdWA>
+    <xmx:OEniaXOZNUC7RzLKTTS4gBKwlK8mvMNUULMHiOMyIZGdwcUdfKs8Mw>
+    <xmx:OEniaX7Joyv9f-QmzVp2IANUXwPpp600LwDb-dCVZPYcdCOxvwUYoSCJ>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 675DC780075; Fri, 17 Apr 2026 10:52:40 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:1511:b0:468:776:1ec3 with SMTP id
- 5614622812f47-4799ca8c122mr1348686b6e.24.1776436280352; Fri, 17 Apr 2026
- 07:31:20 -0700 (PDT)
-Date: Fri, 17 Apr 2026 07:31:20 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <69e24438.050a0220.1de265.0026.GAE@google.com>
-Subject: [syzbot] [iomap?] WARNING in iomap_zero_range
-From: syzbot <syzbot+9a51b5f7b9b484c57dd1@syzkaller.appspotmail.com>
-To: brauner@kernel.org, djwong@kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-
-Hello,
-
-syzbot found the following issue on:
-
-HEAD commit:    028ef9c96e96 Linux 7.0
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=11db9036580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=d46eab0cfd31c214
-dashboard link: https://syzkaller.appspot.com/bug?extid=9a51b5f7b9b484c57dd1
-compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
-
-Unfortunately, I don't have any reproducer for this issue yet.
-
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-028ef9c9.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/f7fbf6f85efa/vmlinux-028ef9c9.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/2bc3ef5a9e1b/bzImage-028ef9c9.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+9a51b5f7b9b484c57dd1@syzkaller.appspotmail.com
-
-loop0: detected capacity change from 0 to 4096
-ntfs3(loop0): Different NTFS sector size (1024) and media sector size (512).
-------------[ cut here ]------------
-folio_pos(folio) > iter->inode->i_size
-WARNING: fs/iomap/buffered-io.c:1561 at iomap_zero_iter fs/iomap/buffered-io.c:1561 [inline], CPU#0: syz.0.0/5326
-WARNING: fs/iomap/buffered-io.c:1561 at iomap_zero_range+0x8cf/0xd00 fs/iomap/buffered-io.c:1669, CPU#0: syz.0.0/5326
-Modules linked in:
-CPU: 0 UID: 0 PID: 5326 Comm: syz.0.0 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-RIP: 0010:iomap_zero_iter fs/iomap/buffered-io.c:1561 [inline]
-RIP: 0010:iomap_zero_range+0x8cf/0xd00 fs/iomap/buffered-io.c:1669
-Code: 5d ff 4d 29 e6 4d 39 f7 4d 0f 42 f7 4c 89 74 24 78 4d 85 f6 0f 84 5a 02 00 00 e8 ec ee 5d ff e9 78 fc ff ff e8 e2 ee 5d ff 90 <0f> 0b 90 e9 41 fd ff ff e8 d4 ee 5d ff 90 0f 0b 90 e9 97 fd ff ff
-RSP: 0018:ffffc9000e05f8e0 EFLAGS: 00010287
-RAX: ffffffff8267f47e RBX: ffffea00015643c0 RCX: 0000000000100000
-RDX: ffffc9000eb52000 RSI: 000000000000021a RDI: 000000000000021b
-RBP: ffffc9000e05fc28 R08: ffffea00015643c7 R09: 1ffffd40002ac878
-R10: dffffc0000000000 R11: fffff940002ac879 R12: 0000000000000008
-R13: 1ffffd40002ac87c R14: ffffea00015643e0 R15: 0000000000001000
-FS:  00007f1ef11d66c0(0000) GS:ffff88808ca49000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f1ef05ec2e0 CR3: 0000000044745000 CR4: 0000000000352ef0
-Call Trace:
- <TASK>
- ntfs_extend_initialized_size+0xcc/0x170 fs/ntfs3/file.c:236
- ntfs_fallocate+0xf21/0x1220 fs/ntfs3/file.c:668
- vfs_fallocate+0x669/0x7e0 fs/open.c:340
- ksys_fallocate fs/open.c:364 [inline]
- __do_sys_fallocate fs/open.c:369 [inline]
- __se_sys_fallocate fs/open.c:367 [inline]
- __x64_sys_fallocate+0xc0/0x110 fs/open.c:367
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x14d/0xf80 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f1ef039c819
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f1ef11d5fe8 EFLAGS: 00000246 ORIG_RAX: 000000000000011d
-RAX: ffffffffffffffda RBX: 00007f1ef0615fa0 RCX: 00007f1ef039c819
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000005
-RBP: 00007f1ef0432c91 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000002 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f1ef0616038 R14: 00007f1ef0615fa0 R15: 00007ffdb8222ed8
- </TASK>
+X-ThreadId: AwBntrSeBB7R
+Date: Fri, 17 Apr 2026 07:52:20 -0700
+From: "Chuck Lever" <cel@kernel.org>
+To: "Christoph Hellwig" <hch@lst.de>, "Christian Brauner" <brauner@kernel.org>
+Cc: NeilBrown <neil@brown.name>, "Olga Kornievskaia" <okorniev@redhat.com>,
+ "Dai Ngo" <Dai.Ngo@oracle.com>, "Tom Talpey" <tom@talpey.com>,
+ linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ "Chuck Lever" <chuck.lever@oracle.com>, "Jeff Layton" <jlayton@kernel.org>,
+ "Amir Goldstein" <amir73il@gmail.com>,
+ "Linus Torvalds" <torvalds@linux-foundation.org>
+Message-Id: <683650ce-0585-4607-8d93-9704b179fbd3@app.fastmail.com>
+In-Reply-To: <217438cb-63ff-41d2-8f3c-fbdb1945a670@app.fastmail.com>
+References: <20260401144059.160746-1-hch@lst.de>
+ <8bef4d4e-1c0d-451d-8854-ed0cba27ee1f@app.fastmail.com>
+ <20260409-schwalben-neutralisieren-fb5a184e5049@brauner>
+ <20260410111007.GA10292@lst.de>
+ <20260414-ausbrechen-gemixt-ff09f46bdad2@brauner>
+ <20260415052925.GC26559@lst.de>
+ <217438cb-63ff-41d2-8f3c-fbdb1945a670@app.fastmail.com>
+Subject: Re: cleanup block-style layouts exports v2
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+On Wed, Apr 15, 2026, at 7:34 AM, Chuck Lever wrote:
+> On Tue, Apr 14, 2026, at 10:29 PM, Christoph Hellwig wrote:
+>> On Tue, Apr 14, 2026 at 12:01:39PM +0200, Christian Brauner wrote:
+>>> On Fri, Apr 10, 2026 at 01:10:07PM +0200, Christoph Hellwig wrote:
+>>> > On Thu, Apr 09, 2026 at 03:26:09PM +0200, Christian Brauner wrote:
+>>> > > > Christian, are you OK if I take this series through the NFSD tree?
+>>> > > 
+>>> > > Hm, I generally prefer infrastructure to go through the VFS tree.
+>>> > > You can get a stable branch ofc.
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+> In this case, pNFS is the only consumer that will notice or use the
+> new "infrastructure" and us NFS experts are the only ones who can test
+> and review it properly. And, the likelihood of conflicts with patches
+> in nfsd-testing is high (in fact we've already had at least one). It
+> makes sense to me to take this series through NFSD.
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+I see that Jeff has posted a series that modifies the fs_notify API surface
+to support the NFSv4 CB_NOTIFY operation. That likely counts as an
+infrastructure change.
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
+To meet you halfway, Christian, you could take Christoph's series and
+Jeff's series into a "vfs.nfsd" tree and I can base my nfsd-next branch
+on that for the NFSD PR 7.2. Building the NFSD PR on that should avoid
+merge conflicts with significant changes I have planned.
 
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
 
-If you want to undo deduplication, reply with:
-#syz undup
+-- 
+Chuck Lever
