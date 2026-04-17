@@ -1,334 +1,207 @@
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 984B73451A7
-	for <linux-fsdevel@vger.kernel.org>; Fri, 17 Apr 2026 16:51:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E86ED355F2B
+	for <linux-fsdevel@vger.kernel.org>; Fri, 17 Apr 2026 17:20:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776444706; cv=none; b=Xg0bhMBwdExIIOGOaL0FS1NnvH415t7ITHdBSKJjVWn/gbTMCGTKYdIvRTddlmDTuSiVbL1bciFp6fNrIpDrUEQWCiG1ch4rD4ZHjrACESmYpiwygNza7Y/PvVNos5Uc8OSxKhDJZ8Yn7zmg4W5JaYktZqYgENAAOzNGwOd6CWo=
+	t=1776446452; cv=none; b=KZ2sNYtdy/nBvxub84BZPJNy6+e7oersa2acScw6vVuNyUIFNN4TP+esV9hB1ALY9SW1L+Q+e9iYe31ZqrTEBzL4eANCU8Vnk2IdB02Gd+KGQ+xGl/GLWwi+aYyF6Cvclqp9GyY1jld45PvDOAlD5hSOsNxVDZJHNSDaHyIAdjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776444706; c=relaxed/simple;
-	bh=XQPvDOUBqGL5yLrbPZgix+AzB7PlZi0qZZ57sPKCqh0=;
+	s=arc-20240116; t=1776446452; c=relaxed/simple;
+	bh=Y68bzh3ru9RJOLNTZFL/m/31kOJyNutXT8R7zBnAuGE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BzXLfX9x1LkNDEdXZT3cadV6kj96l+ljDyWoYN9/OgJp2EeGbQjyrltJwUfFIZAZJ4QdW77mGM6eqGp9pt6BEX3yVoP1re7CFGZq313GUboAPfG1HPSyjBw545quuF6yo6slzqHCF8l4si+jkwGIHjj3sVINDDDdApaw5819EfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iK/QAaUW; arc=none smtp.client-ip=209.85.128.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=WiD9MLptA5kkiJSfWN4xYZsKN1Bkd3HyuLHLWq35RsCxEXepRtoCAQPgiho8E9Bba9XX7EwEjj+9lJSk6hanRq3RafruAGUOixpVp3sBCVujF7WLntzuawL4tG8FG+MGSXTLAV5CYXpz6QguC52G12/cVqYSoI1BLt+DMLDH3+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L4gVhVT8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iK/QAaUW"
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-79ea87af213so29602717b3.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 17 Apr 2026 09:51:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776444703; x=1777049503; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=1mthWbvJo8IBMcus1WaUcDoRStgqS1tIgAGD3vbm8lg=;
-        b=iK/QAaUWyE51ITaxDsZRqBs8saimtkvfYnXoy33HzFrRI0O2t3xMkkLfFSNomVgqKf
-         4lI9avgV46WZ+9pngLLtyuS4TqfQU+Xb8GNHQIMYuLFU1AONqneCfAemzlMHt0L2b3YG
-         BHLdRM4aN9CY92OsOnCQ0/uaffCdafmFoV3sINboOuU2SKieN3AuYZeaDZHv8E92L2O1
-         hmnoIOUX6jA14MKWDfJXJjB5qcv3EWNUyzWzRhaO+Q2mSEelNF8PoWpdJdyAon1tSY9U
-         8M3HUk4DbDlADCHLaFu0bT3o5CzN2I9b6WnL3hqIKcyAcu4RY9V5pFJlNoYWRzULuLXO
-         Hukw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776444703; x=1777049503;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1mthWbvJo8IBMcus1WaUcDoRStgqS1tIgAGD3vbm8lg=;
-        b=GCoYAqYFDMxpiEc5VW6h5jECqr2K6/ntmChk5961Ibm6Wj+FKB4qdabgyEe2yL3dJd
-         K3wYxJdNSZKOsMm5ur5a3CMBlNO4ronbWQVjJKS77TVg6kr/1x+CxKmmL922iN0DEBBq
-         Yquf+LIcVa1hwAhQKNvHojcIOBhyqosh+cNdztQ8gGaXERAXXzk8CkLwyfAsuw4+jCHd
-         vgrgrbzNWq70dDALUDr5VqGT6/PYzx03CNHCS2iiyISnQvOKh2WZjOfrTvV10EY0HoIm
-         CHJuxyvNwCpOKEf4B8CVyEwwq/WcCTq7pIPh7jPA+gzMzIMC1EHb66Yv9uoodB/laPkp
-         ruWw==
-X-Forwarded-Encrypted: i=1; AFNElJ+vGA9sSRHHupDUY6ELt9X79nAjqyq75DeektRgkhCBYZBO4lkjPdUCEMBwyO7GBIAWn78aHaWGdbFMQnuu@vger.kernel.org
-X-Gm-Message-State: AOJu0YzO1ba4PPp9At21jlxoNJ8O84BGqgvLFd3Okn1gzxALc80Ctj2c
-	CpZ9wPv4qz8tEqewAPsoPkB9AV8oxcO+rIbr6PT5xzg/KRqYHamyLpHj
-X-Gm-Gg: AeBDievtG6QizmSrs3x4rcvtYClcPDTWzK55mNpZrYGTkPQUjBKB677BFRvXVSjBzfg
-	xolfukFJObWb2hP2caeWOQKkmBaDtsVoNeGeZIlS9M/Bj2kftuGZ6sAAapw4EM75nGT64xnHiRw
-	hmjmU+MsE3XtiUdQxrNMpaKGbwI5uMhuKmbOrNalSe0eZDmRmdVXastp+TfGLD0LSuKLOUwt1Ke
-	WVv8WmOAZL4CwS/7aaYPTVVg4x+PLzoVHEDLmhe3J/iE+39rZbfw8GPKJm35Kb6V2t8TnR7armz
-	TvwKH8HKBehI2UzZM+MuOX5aWVMDHHYocZr2ZiIJAwVnaZuhCF8NCRk4J17DnNMVSokqdYT1iAW
-	APTlErPRdPFJQIc3pP4nbCau24A9kNH9PF3Iy0HeakhnI43osSz5PEhlzCmUzOtDKPoAtLi76Sq
-	xUtIWSiu52TRMrLr1am23Rup282J+8xr8t8QoOAc3rbIVVOnHPIoM1srbO9ZK0hAtI9zvN
-X-Received: by 2002:a05:690c:9990:b0:7b9:f136:56d8 with SMTP id 00721157ae682-7b9f1365e67mr19384947b3.30.1776444703340;
-        Fri, 17 Apr 2026 09:51:43 -0700 (PDT)
-Received: from suesslenovo ([129.222.87.6])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7b9ee99bb32sm8723277b3.30.2026.04.17.09.51.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Apr 2026 09:51:42 -0700 (PDT)
-Date: Fri, 17 Apr 2026 12:51:40 -0400
-From: Justin Suess <utilityemal77@gmail.com>
-To: =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
-Cc: Song Liu <song@kernel.org>, ast@kernel.org, daniel@iogearbox.net,
-	andrii@kernel.org, kpsingh@kernel.org, paul@paul-moore.com,
-	viro@zeniv.linux.org.uk, brauner@kernel.org, kees@kernel.org,
-	gnoack@google.com, jack@suse.cz, jmorris@namei.org,
-	serge@hallyn.com, yonghong.song@linux.dev, martin.lau@linux.dev,
-	m@maowtm.org, eddyz87@gmail.com, john.fastabend@gmail.com,
-	sdf@fomichev.me, skhan@linuxfoundation.org, bpf@vger.kernel.org,
-	linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [RFC PATCH 08/20] bpf: Add Landlock ruleset map type
-Message-ID: <aeJlHIoSjVPmccDx@suesslenovo>
-References: <20260407200157.3874806-1-utilityemal77@gmail.com>
- <20260407200157.3874806-9-utilityemal77@gmail.com>
- <CAPhsuW7zzXXd6-d86B-rpGr-wfSzmEoCYNKhTMP_pXnybtA27A@mail.gmail.com>
- <aeFaQXkKNHFeE-oC@suesslenovo>
- <CAPhsuW648HdcCbXWMHaJ4uirPWq2WX3Ggx3AGMU6CGzhNYUREg@mail.gmail.com>
- <aeI_CXj6F-nI_DCL@suesslenovo>
- <20260417.ohgoh0Eecome@digikod.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L4gVhVT8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBEF8C19425;
+	Fri, 17 Apr 2026 17:20:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776446451;
+	bh=Y68bzh3ru9RJOLNTZFL/m/31kOJyNutXT8R7zBnAuGE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=L4gVhVT8RJ4pZJ0cvRPB0YhJP0zveOLziviUn3TEULZQqGZTQSiybbeo/yo9gAMOt
+	 Tkguott30mVE0PhVRUQEmoLkPlhUs0KxMXvlIPK1oeo3Ed9oHYpP0CxgrZWOsIX3t+
+	 qkX0leSNuElXi12jCeJdUVoyvcRdU/1FmUKvzvlToQKLYAMrbgaOG6CgUa+w0CDEIG
+	 eNK+0u1arlOXzSkLhMU7FlKJPPT+4z8yVnlpxGX8RCTjHz9HmNCgFThgm+uw/YCqd6
+	 oUkrG1TriklAQmm0Z78GTXGUo3C85onuJ0Vitn9NQDzQvUr+4PEkkQ+oIhrtd1xc6k
+	 nFPOSpmiy89bA==
+Date: Fri, 17 Apr 2026 17:20:49 +0000
+From: Jaegeuk Kim <jaegeuk@kernel.org>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Amir Goldstein <amir73il@gmail.com>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Al Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org,
+	Theodore Tso <tytso@mit.edu>, Christoph Hellwig <hch@lst.de>,
+	"Darrick J. Wong" <djwong@kernel.org>
+Subject: Re: [PATCH] docs: add guidelines for submitting new filesystems
+Message-ID: <aeJr8Wq3qmpGk6m9@google.com>
+References: <20260417142503.1436446-1-amir73il@gmail.com>
+ <aeJTecsykkHMSvNh@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260417.ohgoh0Eecome@digikod.net>
+In-Reply-To: <aeJTecsykkHMSvNh@casper.infradead.org>
 
-On Fri, Apr 17, 2026 at 05:18:05PM +0200, Mickaël Salaün wrote:
-> On Fri, Apr 17, 2026 at 10:09:13AM -0400, Justin Suess wrote:
-> > On Thu, Apr 16, 2026 at 04:47:40PM -0700, Song Liu wrote:
-> > > On Thu, Apr 16, 2026 at 2:53 PM Justin Suess <utilityemal77@gmail.com> wrote:
-> > > [...]
-> > > > I don't think we can pass the FD number via a map, since the FD is
-> > > > process specific. And it needs to be done in a way where we can lookup
-> > > > the specific ruleset the FD points to safely.
-> > > >
-> > > > So we'd need some other way to load the ruleset from a file descriptor,
-> > > > either through a new userspace side BPF call or similar mechanism.
-> > > >
-> > > > Is there some other common pattern for FDs --> kptr I can follow?
-> > > 
-> > > I didn't find an exact example like this. There must be a way to achieve
-> > > this. In the worst case, we can add a kfunc for this.
-> > >
-> > 
-> > I think new kfunc is a doable approach. I could make a kfunc taking a struct
-> > *task_struct and an FD that looks up a landlock ruleset within a given
-> > task that returns a trusted kptr.
-> > 
-> > Something like:
-> > 
-> > struct bpf_landlock_ruleset* bpf_landlock_get_ruleset_from_fd(struct
-> > task_struct* task, int fd)
-
-Thanks Mickaël and Song,
-
-There are definitely pros and cons to both approaches.
-
-I think it would be OK to have a dedicated map and indeed cleaner from
-the userspace side since there would be no intermediate step to find the
-task and lookup the fd since that would be handled by the map_ops.
-
-Cons of the new map type:
-
-The main issue is with the new map type is then we are limited to the
-specific data structure we define in the map. For instance if we want
-to use a hash or other data structure instead of an array to store
-rulesets, we'd need to define variants of the landlock map type for
-all data structures.
-
-So this kind of bungles the "data structure" and "data type" layers.
-
-Pros of the new map type:
-
-The ruleset_fd conversion would be implicitly handled by the map_ops.
-Userspace could insert the fd and bpf would not have to deal with it at
-all.
-
-Cons of bpf_landlock_get_ruleset_from_fd:
-
-Awkward conversion step. We need to find the task of the original
-ruleset creator and recieve the fd before looking it up and converting
-it to a kptr to the bpf_landlock_ruleset.
-
-Pros of bpf_landlock_get_ruleset_from_fd:
-
-We can use any existing map data structure to store our kptrs.
-
-Not having a dedicated map type simplifies implementation.
-
-...
-
-Appreciate the feedback from both of you.
+On 04/17, Matthew Wilcox wrote:
 > 
-> That looks like a hack that would not handle FD's (object) lifetime
-> (e.g. what happen when the task is gone?).
->
-
-If we take an underlying reference on the ruleset backing the fd, then the fd
-being closed shouldn't matter right?
-
-This is how the lifetime management works for that
-bpf_landlock_get_ruleset_from fd, in my draft implementation prior to
-the RFC:
-
-  /**
-   * bpf_landlock_get_ruleset_from_fd - acquire a Landlock ruleset from a task FD
-   * @task: task owning the file descriptor table to look up
-   * @fd: Landlock ruleset file descriptor in @task
-   *
-   * Returns: a referenced opaque Landlock ruleset, or NULL if the FD lookup or
-   * validation fails.
-   */
-  __bpf_kfunc struct bpf_landlock_ruleset *
-  bpf_landlock_get_ruleset_from_fd(struct task_struct *task, int fd)
-  {
-  	struct landlock_ruleset *ruleset;
-    /* does landlock_get_ruleset and increments refcount */
-  	ruleset = landlock_get_task_ruleset_from_fd(task, fd, FMODE_CAN_READ);
-  	if (IS_ERR(ruleset))
-  		return NULL;
-  
-  	return (struct bpf_landlock_ruleset *)ruleset;
-  }
-
-The landlock_get_task_ruleset_from_fd increments the usage with
-landlock_get_ruleset. (This may sleep, so it must be tagged with
-KF_SLEEPABLE)
-
-If the fd is closed before landlock_get_ruleset_from_fd, then null is returned.
-The verifier will force the program to do the null check b/c of KF_RET_NULL.
-
-__kptr also have destructor kfuncs. So if we get the reference in
-bpf_landlock_get_ruleset_from_fd with landlock_get_ruleset_from_fd, and
-put the reference to the ruleset.
-
-The destructor path looks like this:
-
-  /* Define ID for destructor * /
-  BTF_ID_LIST(bpf_landlock_dtor_ids)
-  BTF_ID(struct, bpf_landlock_ruleset)
-  BTF_ID(func, bpf_landlock_put_ruleset_dtor)
-  ...
-  /**
-  * bpf_landlock_put_ruleset - put a Landlock ruleset
-  * @ruleset: Landlock ruleset to put
-  */
-  __bpf_kfunc void
-  bpf_landlock_put_ruleset(const struct bpf_landlock_ruleset *ruleset)
-  {
-	  landlock_put_ruleset((struct landlock_ruleset *)ruleset);
-  }
-
-  __bpf_kfunc void bpf_landlock_put_ruleset_dtor(void *ruleset)
-  {
-	  bpf_landlock_put_ruleset(ruleset);
-  }
-
-  static int __init bpf_landlock_kfunc_init(void)
-  {
-  	const struct btf_id_dtor_kfunc bpf_landlock_dtors[] = {
-  		{
-  			.btf_id = bpf_landlock_dtor_ids[0],
-  			.kfunc_btf_id = bpf_landlock_dtor_ids[1],
-  		},
-  	};
-  	int ret;
-  
-  	ret = register_btf_kfunc_id_set(BPF_PROG_TYPE_LSM,
-  					&bpf_landlock_kfunc_set);
-  	if (ret)
-  		return ret;
-  
-  	return register_btf_id_dtor_kfuncs(bpf_landlock_dtors,
-  					   ARRAY_SIZE(bpf_landlock_dtors),
-  					   THIS_MODULE);
-  }
-
-Good reminder I need to include a test making sure the ruleset
-remains valid after the FD and/or task is closed. :)
-
-> Why not using proper typing with a dedicated map?
+> Thanks for getting this discussion started.  Some thoughts inline ...
 > 
-
-I may be misunderstanding, but from what I see, a __kptr DOES give
-proper typing, __kptr is an annotation not a type.
-
-This is what it would look like in an BPF_MAP_TYPE_ARRAY.
-
-    struct ruleset_kptr_value {
-	    struct bpf_landlock_ruleset __kptr * ruleset;
-    };
-
-    struct {
-	      __uint(type, BPF_MAP_TYPE_ARRAY);
-	      __uint(max_entries, 1);
-	      __type(key, __u32);
-	      __type(value, struct ruleset_kptr_value);
-    } ruleset_kptr_map SEC(".maps");
-
-So we get proper typing from what I see. (It's not like a __kptr is a
-special void*, it has a type)
-
-> > 
-> > And tagging it with KF_ACQUIRE + KF_RET_NULL.
-> > 
-> > Then keep the existing kfunc for putting the ruleset and enforcing it on
-> > a struct linux_binprm.
-> > 
-> > The BPF program would need to get a reference to a task struct
-> > of the program creating the rulesets with bpf_task_from_pid for
-> > instance. Then they could use the task_struct with another plain integer
-> > map to store FD numbers and then use the rulesets or store them in a map
-> > of __kptr objects for later usage.
-> > 
-> > Would this be more acceptable?
-> > > > Basically the pattern I need is userspace must create the file
-> > > > descriptor, BPF converts that FD into a refcounted kernel object, and
-> > > > even if userspace closes the FD BPF needs to hold a reference on the
-> > > > underlying ruleset structure.
-> > > >
-> > > > (In this patch this was accomplished through the map_ops)
-> > > >
-> > > > Let me know what you think Song. I do understand the benefit of having a
-> > > > __kptr instead, the refcounting is all there, and it would allow storing
-> > > > rulesets in multiple map types. (and one less map type to maintain).
-> > > 
-> > > A new type of map for each FD referenced kernel type is non-starter.
-> > > It is impossible to add UAPI for a specific use case.
+> On Fri, Apr 17, 2026 at 04:25:03PM +0200, Amir Goldstein wrote:
+> > +Do You Need a New In-Kernel Filesystem?
+> > +---------------------------------------
+> > +
+> > +Before proposing a new in-kernel filesystem, consider whether one of the
+> > +alternatives might be more appropriate.
+> > +
+> > + - If an existing in-kernel filesystem covers the same use case, improving it
+> > +   is generally preferred over adding a new implementation.  The kernel
+> > +   community favors incremental improvement over parallel implementations.
+> > +
+> > + - If the filesystem serves a niche audience or has a small user base, a FUSE
+> > +   (Filesystem in Userspace) implementation may be a better fit.  FUSE
+> > +   filesystems avoid the long-term kernel maintenance commitment and can be
+> > +   developed and released on their own schedule.
+> > +
+> > + - If kernel-level performance, reliability, or integration is genuinely
+> > +   required, make the case explicitly.  Explain who the users are, what the
+> > +   use case is, and why a FUSE implementation would not be sufficient.
 > 
-> This new map type is only about one file descriptor type, similarly to
-> socket FDs.  From a UAPI point of view, it looks clean and safe,
-> especially to deal with underlying object lifetime (e.g. reference
-> tracking).
+> It may also be worth linking to
+> https://en.wikipedia.org/wiki/GVfs as an alternative to writing
+> an in-kernel filesystem or a FUSE filesystem.  Very much depends what
+> one's goals are.
 > 
-> > >
-> > You've convinced me. I could see a lot of problems if everyone wanting
-> > to add their specialized maps, it would be difficult to maintain.
+> > +Technical Requirements
+> > +----------------------
+> > +
+> > +New filesystems are expected to use current kernel interfaces and practices.
+> > +Submitting a filesystem built on outdated APIs creates an immediate
+> > +maintenance debt and is likely to face pushback during review.
+> > +
+> > +Use modern VFS interfaces
+> > +  New filesystems should use iomap rather than buffer heads for block mapping
+> > +  and I/O, folios rather than raw page operations for page cache management,
+> > +  and the filesystem context API (``fs_context``) for the mount path.  See
+> > +  ``Documentation/filesystems/iomap/index.rst`` for iomap documentation and
+> > +  ``Documentation/filesystems/mount_api.rst`` for the mount API.
+> > +
+> > +Avoid deprecated interfaces
+> > +  Do not use interfaces listed in
+> > +  :ref:`Documentation/process/deprecated.rst <deprecated>`.  If the
+> > +  filesystem depends on an interface that is being phased out, plan for
+> > +  conversion before submission.
 > 
-> Is there another way to properly handle kernel object lifetime (not tied
+> Maybe these are one section rather than two?
+> 
+> I'd add "If it's a network filesystem, consider using netfs, or be
+> prepared to explain why it's a bad fit for you".
+> 
+> Similarly if you have a block filesystem, and need functionality not
+> provided by iomap, be prepared to explain why adding that functionality
+> to iomap is infeasible.
+> 
+> > +Provide userspace utilities
+> > +  A ``mkfs`` tool is expected so that the filesystem can be created and used
+> > +  by testers and users.  A ``fsck`` tool is strongly recommended; while not
+> > +  strictly required for every filesystem type, the ability to verify
+> > +  consistency and repair corruption is an important part of a mature
+> > +  filesystem.
+> > +
+> > +Be testable
+> > +  The filesystem must be testable in a meaningful way.  The
+> > +  `fstests <https://git.kernel.org/pub/scm/fs/xfs/xfstests-dev.git>`_
+> > +  framework (also known as xfstests) is the standard testing infrastructure
+> > +  for Linux filesystems and its use is highly recommended.  At a minimum,
+> > +  there must be a credible and documented way to test the filesystem and
+> > +  detect regressions.  When submitting, include a summary of test results
+> > +  indicating which tests pass, fail, or are not applicable.
+> > +
+> > +Provide documentation
+> > +  A documentation file under ``Documentation/filesystems/`` describing the
+> > +  filesystem, its on-disk format, mount options, and any notable design
+> > +  decisions is recommended.
+> 
+> I kind of want a section on "no weird ioctls".  Anything you want to
+> implement beyond ioctls already implemented by other filesystems,
+> you need to bring to linux-fsdevel as a separate proposal from "please
+> merge my filesystem".  Almost anything implemented by f2fs is a good
+> example here.
 
-The answer the the lifetime part is yes.
+I disagree to this. As a filesystem developer, I belive ioctl provides a way
+to tune the filesystem-specific features which are not supported by all the
+other filesystems.
 
-The kptr destructors and the landlock ruleset refcounting give us that
-abstraction. (along with the KF_ACQUIRE/KF_RELEASE annotations and
-destructor implementation)
-
-> to the caller) and pass them as file descriptor?
-This "pass them as a file descriptor" is the tricky part. It would be
-very convenient if we could send the fd to bpf from userspace and have
-it be implicitly converted (like in the BPF_MAP_TYPE_LANDLOCK_RULESET
-implementation) in one step, but I just don't see a way to do that with
-the bpf_landlock_get_ruleset_from_fd kfunc approach.
 > 
-> > 
-> > It's probably best to keep the specialized map types to core kernel
-> > interfaces only that are unlikely to change.
+> > +Community and Maintainership Expectations
+> > +-----------------------------------------
+> > +
+> > +Merging a filesystem is a long-term commitment.  The kernel community
+> > +needs confidence that the filesystem will be actively maintained after it
+> > +is merged.
+> > +
+> > +Identified maintainer
+> > +  The submission must include a ``MAINTAINERS`` entry with at least one
+> > +  maintainer (``M:``), a mailing list (``L:``), and a git tree (``T:``).
+> > +  The maintainer is expected to be the primary point of contact for the
+> > +  filesystem going forward.
 > 
-> File descriptors are a stable interface.
->
-No that's correct. I cede that point :)
-> > 
-> > > Thanks,
-> > > Song
-> > > 
-> > > > Mickaël, do you have any thoughts on this? I have v2 basically ready,
-> > > > although it uses the BPF_MAP_TYPE_LANDLOCK_RULESET it changes a lot on
-> > > > the Landlock side.
-> > 
+> Preferably two maintainers, although even that wasn't enough to save
+> bcachefs.
+> 
+> > +Submission Process
+> > +------------------
+> > +
+> > +Send patches to the linux-fsdevel mailing list
+> > +(``linux-fsdevel@vger.kernel.org``).  CC the relevant VFS maintainers as
+> > +listed in the ``MAINTAINERS`` file under ``FILESYSTEMS (VFS and infrastructure)``.
+> > +
+> > +Expect thorough review.  Filesystem code interacts deeply with the VFS, memory
+> > +management, and block layers, so reviewers will examine the code carefully.
+> > +Address all review feedback and be prepared for multiple revision cycles.
+> > +
+> > +It may be appropriate to mark the filesystem as experimental in its Kconfig
+> > +help text for the first few releases to set expectations while the code
+> > +stabilizes in-tree.
+> 
+> I'd like something here about how to structure a submission.  It's
+> neither acceptable to send one big patch containing your entire
+> filesystem, nor do we want to see the entire history of development over
+> the last eight years.
+> 
+> Instead split it up by topic.  Superblock, inode, directory handling,
+> address_space, ...
+> 
+> > +Ongoing Obligations
+> > +-------------------
+> > +
+> > +Merging is not the finish line.  Maintaining a filesystem in the kernel is an
+> > +ongoing commitment.
+> > +
+> > + - Adapt to VFS infrastructure changes.  The VFS layer evolves continuously;
+> > +   maintainers are expected to keep up with conversions such as folio
+> > +   migration, iomap adoption, and mount API updates.
+> > +
+> > + - Maintain test coverage.  As test suites evolve, the filesystem's test
+> > +   results should be kept current.
+> > +
+> > + - Handle security issues promptly.  Filesystems parse complex on-disk
+> > +   structures from potentially untrusted media and must treat security
+> > +   reports with urgency.
+> > +
+> > + - Filesystems that become unmaintained -- where the maintainer stops
+> > +   responding, infrastructure changes go unadapted, and testing becomes
+> > +   impossible -- are candidates for deprecation and eventual removal from
+> > +   the kernel.
+> 
+> Interact with other filesystem maintainers.  They are not your enemy
+> although they may compete with you for users.  There are opportunities
+> to share code, share approaches to fixing problems and share features.
+> It's inappropriate to hide away on your own filesystem list and pop up
+> once per kernel cycle with a set of patches that nobody's seen before.
+> 
