@@ -1,76 +1,114 @@
-Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com [91.218.175.177])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 541273A4F20
-	for <linux-fsdevel@vger.kernel.org>; Fri, 17 Apr 2026 09:43:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03165372EED;
+	Fri, 17 Apr 2026 09:48:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776419007; cv=none; b=jrw9aNkdKjDMfIhH05AiSRCyqhsYTfxrZqb+yd/3ssZPfLFpeSPpuNTCHe9KFAcjM2I2y/56KScUchMubZzk7wBVITWlS0637GbJT1OZYI/E2sVrH2lydgQyjoI8e9Iaayk1fAj9QDRdAAObs7nXTmGQNS+C1hJbkS8hrQjXq7Y=
+	t=1776419335; cv=none; b=atf81vILsOW863b1AwlZeObXabqRJdeDmdk4xdMzVxk555bsTfJqUSGuPRX53t42F8UNEJJK+Knq0tn7eKng1NjnTv5/PmfGRZhufHdRpdBumkElxX6rb2e+fQ3A8H8YAYqsUPQfE7RHm1MjfyIL1XE5D8R5xbl9TK2k7zKLSFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776419007; c=relaxed/simple;
-	bh=q9KcB0Uy8JGV1LbiEUMInoLiBAuOysu+6swjA3zeq0c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=i9IaUr+9a7TdLRmW5EMhm4h/bnH0oZeBzlohMaz+lGm8HRltQ/59mlzkGCEIaRQbIikGQWiPc91LiGmtCyQ04KGOEOs8k2zQf3Zf2npM3XYVZEjTMLTmI5g5/DxOothL2bLPzwISl0+ozasQJWLYnzxKetZCBn43eadySZud6Qo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=dx2b9O0P; arc=none smtp.client-ip=91.218.175.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1776419335; c=relaxed/simple;
+	bh=9F0BRnvxc+jJ5hlIqJG45SlclSG49XGo/QgxY6f+UIE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dHBHpzZ1nn1zkGmtW65vUyu2/oHNepYqSyPxEcRUuiJ8xg0TL02dPJvE3Xx42NVj3Vf0cCrJ0PM6nYC+e18Fk08EyABiDWNaPoB68n5ig4yMWpVoz/uV+JPUDVwGS4z/4aW+Wo73dJ9DXZ4hbB5Y3n+r+FC/cu2iMLi1GwbVgTg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PBC9UT/Q; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="dx2b9O0P"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1776419003;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=xRccNVm5iXUQ7MuRJQJ6cTe2QjHqq6YXhq0GkmucxPA=;
-	b=dx2b9O0PPAVsqEZw8X/CGhoX6orRK/UoqMFa8CrDe3gV9rh2wEsg1oVOu91Tsfh3Fs0vwU
-	syUHQ13nw6nSdbZFqjfjcM8MBzuBrlv3Qo7d97mxqbAki9zXSmIdG+gMmmvJ/0fF8pJhik
-	1E7C8uUJ6K1GE2B61hmLvvnKO0jI7+o=
-From: Thorsten Blum <thorsten.blum@linux.dev>
-To: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>
-Cc: Thorsten Blum <thorsten.blum@linux.dev>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] dcache: use kmalloc_flex() in __d_alloc
-Date: Fri, 17 Apr 2026 11:42:40 +0200
-Message-ID: <20260417094238.551114-3-thorsten.blum@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PBC9UT/Q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34E56C19425;
+	Fri, 17 Apr 2026 09:48:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776419334;
+	bh=9F0BRnvxc+jJ5hlIqJG45SlclSG49XGo/QgxY6f+UIE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PBC9UT/QaDmIIMx/mxkNAbtgLdfkWVOdzDZJw2KI8JMlKQWjjIFfmedpjFx0lOHaC
+	 vVBbCbCdpExMD3W3NKOY9VlfOO4bMCAY+ONjxr6UXVol5Tmnn9W5pPo7ZKpKyzo7HA
+	 noIAgv1Dz3UikCt+60Lf74qDJwSGDXbXEB8Eploe1B9a9srlCHaoJj7520zoSjMiry
+	 sQfar/VT2G+Tml9+KOJTLakz0oTndhVgNDgWMaO+ocLbV4G/ZmqwcyjqRfjFHgtVU9
+	 M68HgjkVdEcMKR7BJ4biQdPKK8MUqWACFIlT+kYil1Xr9lVCC1E6THWYI/jKWaQhxm
+	 OWmx39WtyLSbQ==
+Date: Fri, 17 Apr 2026 11:48:49 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Cc: Jeff Layton <jlayton@kernel.org>, lsf-pc@lists.linux-foundation.org, 
+	linux-fsdevel@vger.kernel.org, Christoph Hellwig <hch@lst.de>, Jan Kara <jack@suse.cz>, 
+	Al Viro <viro@zeniv.linux.org.uk>, linux-m68k <linux-m68k@vger.kernel.org>, 
+	linux-sh <linux-sh@vger.kernel.org>
+Subject: Re: [LSF/MM/BPF TOPIC] Should we make inode->i_ino a u64?
+Message-ID: <20260417-anmeldung-vorbehalt-858250959b84@brauner>
+References: <08f8444c7237566ffb4ba8c9eb0ab4b4a5f14440.camel@kernel.org>
+ <1b340c4e635dcab3bed8c52d6381b4c341c0741a.camel@physik.fu-berlin.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1030; i=thorsten.blum@linux.dev; h=from:subject; bh=q9KcB0Uy8JGV1LbiEUMInoLiBAuOysu+6swjA3zeq0c=; b=owGbwMvMwCUWt7pQ4caZUj3G02pJDJmPGPrMLBNDd1qsuXMmxmjr4ZCT4v+1JB/KqvVoTJ4/L /if+Kv4jlIWBjEuBlkxRZYHs37M8C2tqdxkErETZg4rE8gQBi5OAZjIwQWMDLN02tqdo+M1br1s yC/NzmsJXvnvxErWal/X3a/n9K1z2MHwi0l7x/EJ6a9nW85o/KnBbFBxdLamaWZ9qZbZyofHEvl CeQA=
-X-Developer-Key: i=thorsten.blum@linux.dev; a=openpgp; fpr=1D60735E8AEF3BE473B69D84733678FD8DFEEAD4
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1b340c4e635dcab3bed8c52d6381b4c341c0741a.camel@physik.fu-berlin.de>
 
-Use kmalloc_flex() when allocating a new 'struct external_name' in
-__d_alloc() to replace offsetof() and the open-coded size arithmetic,
-and to keep the size type-safe.
+On Wed, Apr 15, 2026 at 11:11:32AM +0200, John Paul Adrian Glaubitz wrote:
+> Hello,
+> 
+> On Wed, 2026-02-18 at 10:36 -0500, Jeff Layton wrote:
+> > For historical reasons, the inode->i_ino field is an unsigned long.
+> > Because it's only 32 bits on 32-bit CPUs, this has caused a lot of fs-
+> > specific hacks on filesystems that have native 64-bit inode numbers
+> > when running a 32-bit arch.
+> > 
+> > It would be a lot simpler if we just converted i_ino to be 64-bits and
+> > dealt with the conversion at the kernel's edges. This would be a non-
+> > event for the most part on 64-bit arches since unsigned long is already
+> > 64 bits there.
+> > 
+> > The kernel itself doesn't deal much with i_ino, so the internal changes
+> > look fairly straightforward. The bulk of the patches will be to format
+> > strings and to tracepoints.
+> > 
+> > I think that the biggest problem will be that this will grow struct
+> > inode on 32-bit arches by at least 4 bytes. That may have cacheline
+> > alignment and slab sizing implications. We're actively talking about
+> > deprecating 32-bit arches in the future however, so maybe we can
+> > rationalize that away.
+> > 
+> > FWIW, I had Claude spin up a plan to do this (attached). It's not bad.
+> > I'm tempted to tell it generate patches for this, since this is mostly
+> > a mechanical change, but I'm curious whether anyone else might have
+> > reasons that we shouldn't go ahead and do it.
+> 
+> So, this went just over Phoronix [1] and as someone who is still invested
+> in 32-bit architectures, I'm only notified about the performance impact on
+> these systems now as the pull request has already been sent to Linus.
+> 
+> I'm frustrated by this poor communication style. If your change affects certain
+> users negatively, it should be openly communicated to them on the appropriate
+> mailing lists so that they at least get to raise concerns. Disclosing these
+> news to a limited set of mailing lists only is not okay.
 
-Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
----
- fs/dcache.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+* You're linking to a Phoronix article as prove that there's a
+  performance impact.
 
-diff --git a/fs/dcache.c b/fs/dcache.c
-index dbcbd0affb26..4568f9530166 100644
---- a/fs/dcache.c
-+++ b/fs/dcache.c
-@@ -1753,10 +1753,10 @@ static struct dentry *__d_alloc(struct super_block *sb, const struct qstr *name)
- 		name = &slash_name;
- 		dname = dentry->d_shortname.string;
- 	} else if (name->len > DNAME_INLINE_LEN-1) {
--		size_t size = offsetof(struct external_name, name[1]);
--		struct external_name *p = kmalloc(size + name->len,
--						  GFP_KERNEL_ACCOUNT |
--						  __GFP_RECLAIMABLE);
-+		struct external_name *p;
-+
-+		p = kmalloc_flex(*p, name, name->len + 1,
-+				 GFP_KERNEL_ACCOUNT | __GFP_RECLAIMABLE);
- 		if (!p) {
- 			kmem_cache_free(dentry_cache, dentry); 
- 			return NULL;
+* You're complaining that you haven't been Cced even though you
+  seemingly maintain mutliple filesystems that have their ML set to
+  fsdevel.
+
+* You're trying to mandate what very valuable internal VFS changes we
+  get to make based on 32-bit concerns.
+
+I don't see a single coherent argument in this list worth engaging with
+- especially with that lamenting tone.
+
+Suggestions for next time:
+
+"I just read this article on Phoronix that mentions a potential
+performance impact on 32-bit systems. Is that valid or do you think this
+is going to not be an issue?"
+
+I get that you care about 32-bit and legacy hardware a lot. But upstream
+Linux has clarified multiple times that we don't jump through any extra
+hoops for 32-bit anymore. This is especially true if the claimed perf
+regressions so far are purely theoretical.
+
+I don't think there's anything actionable for us here at all. Thanks
+again, @Jeff for doing this work we've been talking about for multiple
+years. It was about time.
