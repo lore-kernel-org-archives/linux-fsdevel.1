@@ -1,158 +1,460 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C13933DEE1
-	for <linux-fsdevel@vger.kernel.org>; Fri, 17 Apr 2026 22:28:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C9CB2475D0
+	for <linux-fsdevel@vger.kernel.org>; Fri, 17 Apr 2026 22:41:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776464931; cv=none; b=hHZGEJuEh1QEmjo5nAsr9xeOjMbOH/U2YWL6XTsZ8OupqO5SFkQLUCzMd6iQSMFip7BYHCoHuw6qFOfGBgRxIHIPsxfcP7pqovj3eD/4E4W5trx/9KW2VJhvCeSBQIen7E9AyjWCvBxnp8dJpeZeLagARvtCAlyki7sSBojS+Iw=
+	t=1776465704; cv=none; b=jq1q2AWeUvo6iKksF2oJoJSOmWQHdsMGmwb50Ld4Yrqiyzvrx99DIenascALOfNUFETL3Mm6PC2WGdbfI+71grIMGrF1abHw/dNwmVfKV0CkfRZUsOm19xjCz8Sjb2G2x0sruz5slFMWgfaVl0OY7TS7OxVwz9NvmQukY/EGiyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776464931; c=relaxed/simple;
-	bh=CUSSV5p2YNglH8yPy1E8JDrOG79TDiAp+XCyWPGEBX4=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=pzOxTzaNHgjkmF8VF8c2yqSMRitRcnJkMGAKYlZ82KQUH0xZm1Xr8pCcJZhXB4daDnjC7ArV6V7PEnlKJJlQE0mfxNwmKi1JAEtNlWadTI3hI3CTwAwjvsCsFz7YZ5E2qgWZkGdnERD7cmVk++6qkBxuB2LP2jur6YMCfzDRnN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WpDOKCKX; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=RldPmhHS; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1776465704; c=relaxed/simple;
+	bh=AVCs4Wgo+T19ErXz4U1ern996vRI3Zo7nfwGahX89PY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cki1/jUaw0jcWRBEjUR7ozcuBy2ROtKi8LRHr5te6cPUw513gRvOBZF/1gHCcu4LvpMInhUhWbyihbtsjhRkD7gTtjrknC/Hdb2B3wXeHMeSj+uzDOTZBQVLLqED6S1eWyVwd0yEVGfrmT5V/CiiGY8ndYxzFkyEfjZAzhz3RaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QfOaj2cS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WpDOKCKX";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="RldPmhHS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1776464929;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zPGF7Ew89bjaKVcHHIJ03y3YXUs4N+R29ZKBHaopb5o=;
-	b=WpDOKCKXSmAJhnZApx7rQb9Ehn/P6ZSFiMXsRCq1e5wwqxKHHBvlj5e1mF3d2oMNBTo7IM
-	lWLRWSK/RYdtbeWZE9EH6WqZZIDPRSmrsAEZSH6DS8K8xHnelirLPAFAoXHSjN0AVb5kL2
-	qJul7Gqph6tgcatjFfpnCHnEnmrzh6s=
-Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
- [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-417-izzB_lB2MBqn_Y_AjjShuQ-1; Fri, 17 Apr 2026 18:28:44 -0400
-X-MC-Unique: izzB_lB2MBqn_Y_AjjShuQ-1
-X-Mimecast-MFC-AGG-ID: izzB_lB2MBqn_Y_AjjShuQ_1776464924
-Received: by mail-yw1-f200.google.com with SMTP id 00721157ae682-79ca1772ce3so49413067b3.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 17 Apr 2026 15:28:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1776464924; x=1777069724; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=zPGF7Ew89bjaKVcHHIJ03y3YXUs4N+R29ZKBHaopb5o=;
-        b=RldPmhHSi9XdhZexy0uYqXcuBaMCt2+wy66czE9K5rya09/Gz9okmAZ6Nw40C7uHZ4
-         fqNceZcjlG67SgpW93YJyGSWY/O0DXlPFpJyePEQhDoqkfRwPAJrulNOFvpgedJw0tHt
-         pYZReKQqvgYEMpHmqIZOngul/P950cnOUM8a3rgLkyc36/PeDFIJ81nvBq16WvnB8qru
-         PwRk8cA03AhFEYCESwaWreVSFlGkkBC+s5XQgmWpln+jj4uxmWQ23CTaHTem95809O0k
-         t0Q9/MxZdXoSmcKEQNB32lqN1T3FOXJ53j5PbDSQOsDSvYBKdv25vhuGaXyesvJqYooS
-         dkSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776464924; x=1777069724;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zPGF7Ew89bjaKVcHHIJ03y3YXUs4N+R29ZKBHaopb5o=;
-        b=WwWHaW8C5wo/KX1T1x4JVh9xQ294gECCHK5DdW6DrinrhEdI8dN8K7GXwGkZXC/shl
-         9/pgF9am3JbDoXVFFFRt6HTi0Zu7hAdStHxcSdQWRJt2RMppKR43R5q8kEFRg1tmLfWy
-         CWJHj9tpfvb4amfEq857RksLBdsYfRbFhAQj6iH2QEhYnxaSDbka6V2nVXyBdUJupjKA
-         JR/DVWkN0HglR+cR/GxOO7bTUx9PB8eFo22LeNUHjSzw+b4wUbyeswWld0xsmrrFo3zO
-         sKujfry3WCNC7ByJWGkoUkZ2bJXlOXWhkasx+4p3REShmDWH6SGO2fzxnqodCbtAsQF6
-         oZew==
-X-Gm-Message-State: AOJu0Yxfqm7Axp0KIKcTOpL26HxejqSRW59yvRD5tGyJ6w0J+b5yZBQP
-	QzwRZSEm1m3+/K8KqMYLAD8Y+5efu2vPUNJmTIBMCYpHvpNeYgy+HLn5P6jN6Fz2dDtW5Mbv9IQ
-	WAg/aRFyl0qyY8M6fLE8IiJYt/XS69ZvLGZhi0KC3nZOhntaEcYjWTxBIMJ0vwcBPf10=
-X-Gm-Gg: AeBDievZvbsJKpzPQov9DEirUKUZXYlwR6gkwFyXr+PCkMFhL/QFCBqH4nWYimi/CdV
-	vF8ZCtpCxrxOkDqyDBtrlaiiF1cP84ljHEBrCo5GDYQ8am//RYUiEtXynav9ANUpkvI9uDsKV0b
-	+9GTfmUgo6S0hU2AKL7e+qkDPwbswg2gQJGEcWUZpi2tBn3AYt3w8gOTsvZvwNJaB/uWS5PW8gC
-	T6UAWN0DmsLNeAV62gzk5g1ZuOeLcwN+1Z7UFx0/pnv9wE/ppiTQpgkODeoQxPZfdAzemeA5P5a
-	V1vZzBUkKiXTbEmBLYVVxo+XYskeNrVFTZQzgiAhuFLjqOgJdZPPFoTzpqhfV8zLn4gutep1Nw0
-	Hohbv8YLFafxFcQEJyQ1vNHPGPA6KYL7tUS74GubvFWA1XLQr7qb8BFSFaVJ03F4=
-X-Received: by 2002:a05:690e:43c7:b0:653:1b50:4ffd with SMTP id 956f58d0204a3-6531b505654mr1366079d50.26.1776464924233;
-        Fri, 17 Apr 2026 15:28:44 -0700 (PDT)
-X-Received: by 2002:a05:690e:43c7:b0:653:1b50:4ffd with SMTP id 956f58d0204a3-6531b505654mr1366067d50.26.1776464923830;
-        Fri, 17 Apr 2026 15:28:43 -0700 (PDT)
-Received: from li-4c4c4544-0032-4210-804c-c3c04f423534.ibm.com ([2600:1700:6476:1430::29])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-65314ea3ee2sm1338811d50.16.2026.04.17.15.28.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Apr 2026 15:28:43 -0700 (PDT)
-Message-ID: <c60b92d963294d97e5e02b52d05d5854edc4bf8b.camel@redhat.com>
-Subject: Re: [PATCH] hfsplus: zero-initialize data buffer in
- hfs_bnode_read_u16 and hfs_bnode_read_u8
-From: Viacheslav Dubeyko <vdubeyko@redhat.com>
-To: Tristan Madani <tristmd@gmail.com>, Andrew Morton
-	 <akpm@linux-foundation.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	syzbot+217eb327242d08197efb@syzkaller.appspotmail.com,
- stable@vger.kernel.org,  Tristan Madani <tristan@talencesecurity.com>,
- Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
-Date: Fri, 17 Apr 2026 15:28:41 -0700
-In-Reply-To: <20260417193913.338982-1-tristan@talencesecurity.com>
-References: <20260417193913.338982-1-tristan@talencesecurity.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43app2) 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QfOaj2cS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17A39C19425;
+	Fri, 17 Apr 2026 22:41:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776465704;
+	bh=AVCs4Wgo+T19ErXz4U1ern996vRI3Zo7nfwGahX89PY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QfOaj2cS1WuzaFHiHxjWC1kglmuqewVUad/hQshnbLPttJzTSdXzkIMPuF0JqrIbe
+	 S2LyYWwyeRcMUujZ9u6INLnlSaNeQnAYSikNyw5+7LK2VbUuNwNu7D6fev7TRiybyo
+	 hRujfxhvQ1oVO9dgzAiUOiLLfc1hz9gwXCLfiTn+3KTMrkmh5+YuvEbfDy11rC4R5+
+	 VTGq5QuWs+KK55gSRqsiJ5GrAmk4L5Xorxhqibkpf+hRtk4R6EJlzVSGjZV6Kmto2e
+	 zqcQc0m0cT+94S9r29KCTzjXdnfhdpGuXZpmpfQ8pcAU6rYHNkd8i5k7B5Dy7y8WlK
+	 E3IJXGeV+5AEg==
+Date: Fri, 17 Apr 2026 15:41:43 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: bschubert@ddn.com
+Cc: miklos@szeredi.hu, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
+	bernd@bsbernd.com, joannelkoong@gmail.com
+Subject: Re: [PATCH 09/13] mount.fuse3: integrate systemd service startup
+Message-ID: <20260417224143.GG7727@frogsfrogsfrogs>
+References: <177577270167.2064074.16504004857564657756.stgit@frogsfrogsfrogs>
+ <177577270377.2064074.11749808216143618873.stgit@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <177577270377.2064074.11749808216143618873.stgit@frogsfrogsfrogs>
 
-On Fri, 2026-04-17 at 19:39 +0000, Tristan Madani wrote:
-> hfs_bnode_read_u16() and hfs_bnode_read_u8() declare local data
-> variables without initialization, then pass them to hfs_bnode_read().
->=20
-> When hfs_bnode_read() returns early due to an invalid offset on a
-> corrupted HFS+ image (the is_bnode_offset_valid() check), the data
-> buffer is never written and the functions return uninitialized stack
-> data.  KMSAN flags this as a use of uninitialized memory.
->=20
-> Zero-initialize both data variables so that an early return from
-> hfs_bnode_read() produces a deterministic zero value instead of
-> stack garbage.
->=20
-> Reported-by: syzbot+217eb327242d08197efb@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3D217eb327242d08197efb
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Tristan Madani <tristan@talencesecurity.com>
+On Thu, Apr 09, 2026 at 03:22:53PM -0700, Darrick J. Wong wrote:
+> From: Darrick J. Wong <djwong@kernel.org>
+> 
+> Teach mount.fuse3 how to start fuse via systemd service, if present.
+> 
+> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 > ---
->  fs/hfsplus/bnode.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/fs/hfsplus/bnode.c b/fs/hfsplus/bnode.c
-> index 14f4995588ff..4404cd35c192 100644
-> --- a/fs/hfsplus/bnode.c
-> +++ b/fs/hfsplus/bnode.c
-> @@ -96,7 +96,7 @@ void hfs_bnode_read(struct hfs_bnode *node, void *buf, =
-int off, int len)
-> =20
->  u16 hfs_bnode_read_u16(struct hfs_bnode *node, int off)
+>  util/mount_service.h  |    8 +++
+>  doc/fuservicemount3.8 |   10 +++-
+>  meson.build           |    3 +
+>  util/fuservicemount.c |   48 +++++++++++++++++
+>  util/meson.build      |   14 ++++-
+>  util/mount.fuse.c     |  135 +++++++++++++++++++++++++++++++++++++++++--------
+>  util/mount_service.c  |   28 ++++++++++
+>  7 files changed, 219 insertions(+), 27 deletions(-)
+> 
+> 
+> diff --git a/util/mount_service.h b/util/mount_service.h
+> index f1f95e67ee1afe..993414ea3422e9 100644
+> --- a/util/mount_service.h
+> +++ b/util/mount_service.h
+> @@ -36,4 +36,12 @@ int mount_service_main(int argc, char *argv[]);
+>   */
+>  const char *mount_service_subtype(const char *fstype);
+>  
+> +/**
+> + * Discover if there is a fuse service socket for the given fuse subtype.
+> + *
+> + * @param subtype the subtype of a fuse filesystem type (e.g. Y from fuse.Y)
+> + * @return true if available, false if not
+> + */
+> +bool mount_service_present(const char *subtype);
+> +
+>  #endif /* MOUNT_SERVICE_H_ */
+> diff --git a/doc/fuservicemount3.8 b/doc/fuservicemount3.8
+> index e45d6a89c8b81a..aa2167cb4872c6 100644
+> --- a/doc/fuservicemount3.8
+> +++ b/doc/fuservicemount3.8
+> @@ -7,12 +7,20 @@ .SH SYNOPSIS
+>  .B mountpoint
+>  .BI -t " fstype"
+>  [
+> -.I options
+> +.BI -o " options"
+>  ]
+> +
+> +.B fuservicemount3
+> +.BI -t " fstype"
+> +.B --check
+> +
+>  .SH DESCRIPTION
+>  Mount a filesystem using a FUSE server that runs as a socket service.
+>  These servers can be contained using the platform's service management
+>  framework.
+> +
+> +The second form checks if there is a FUSE service available for the given
+> +filesystem type.
+>  .SH "AUTHORS"
+>  .LP
+>  The author of the fuse socket service code is Darrick J. Wong <djwong@kernel.org>.
+> diff --git a/meson.build b/meson.build
+> index c8326b79fcee8f..827ec45ad3ad75 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -83,7 +83,8 @@ private_cfg.set('FUSE_SERVICE_SOCKET_PERMS', service_socket_perms)
+>  # Test for presence of some functions
+>  test_funcs = [ 'fork', 'fstatat', 'openat', 'readlinkat', 'pipe2',
+>                 'splice', 'vmsplice', 'posix_fallocate', 'fdatasync',
+> -               'utimensat', 'copy_file_range', 'fallocate', 'fspacectl' ]
+> +               'utimensat', 'copy_file_range', 'fallocate', 'fspacectl',
+> +               'faccessat' ]
+>  foreach func : test_funcs
+>      private_cfg.set('HAVE_' + func.to_upper(),
+>          cc.has_function(func, prefix: include_default, args: args_default))
+> diff --git a/util/fuservicemount.c b/util/fuservicemount.c
+> index 9c694a4290f94e..d39d9c486c8997 100644
+> --- a/util/fuservicemount.c
+> +++ b/util/fuservicemount.c
+> @@ -9,10 +9,58 @@
+>   * This program wraps the mounting of FUSE filesystems that run in systemd
+>   */
+>  #define _GNU_SOURCE
+> +#include <stdbool.h>
+> +#include <stdio.h>
+> +#include <string.h>
+> +#include <stdlib.h>
+>  #include "fuse_config.h"
+>  #include "mount_service.h"
+>  
+> +static int check_service(const char *fstype)
+> +{
+> +	const char *subtype;
+> +
+> +	if (!fstype) {
+> +		fprintf(stderr,
+> +			"fuservicemount: expected fs type for --check\n");
+> +		return EXIT_FAILURE;
+> +	}
+> +
+> +	subtype = mount_service_subtype(fstype);
+> +	return mount_service_present(subtype) ? EXIT_SUCCESS : EXIT_FAILURE;
+> +}
+> +
+>  int main(int argc, char *argv[])
 >  {
-> -	__be16 data;
-> +	__be16 data =3D 0;
->  	/* TODO: optimize later... */
->  	hfs_bnode_read(node, &data, off, 2);
->  	return be16_to_cpu(data);
-> @@ -104,7 +104,7 @@ u16 hfs_bnode_read_u16(struct hfs_bnode *node, int of=
-f)
-> =20
->  u8 hfs_bnode_read_u8(struct hfs_bnode *node, int off)
+> +	char *fstype = NULL;
+> +	bool check = false;
+> +	int i;
+> +
+> +	/*
+> +	 * If the user passes us exactly the args -t FSTYPE --check then
+> +	 * we'll just check if there's a service for the FSTYPE fuse server.
+> +	 */
+> +	for (i = 1; i < argc; i++) {
+> +		if (!strcmp(argv[i], "--check")) {
+> +			if (check) {
+> +				check = false;
+> +				break;
+> +			}
+> +			check = true;
+> +		} else if (!strcmp(argv[i], "-t") && i + 1 < argc) {
+> +			if (fstype) {
+> +				check = false;
+> +				break;
+> +			}
+> +			fstype = argv[i + 1];
+> +			i++;
+> +		} else {
+> +			check = false;
+> +			break;
+> +		}
+> +	}
+> +	if (check)
+> +		return check_service(fstype);
+> +
+>  	return mount_service_main(argc, argv);
+>  }
+> diff --git a/util/meson.build b/util/meson.build
+> index aa646ef3c77d16..85b54d5d322dcb 100644
+> --- a/util/meson.build
+> +++ b/util/meson.build
+> @@ -6,21 +6,27 @@ executable('fusermount3', ['fusermount.c', '../lib/mount_util.c', '../lib/util.c
+>             install_dir: get_option('bindir'),
+>             c_args: '-DFUSE_CONF="@0@"'.format(fuseconf_path))
+>  
+> +mount_service_sources = []
+> +mount_service_cflags = []
+>  if private_cfg.get('HAVE_SERVICEMOUNT', false)
+> -  executable('fuservicemount3', ['mount_service.c', 'fuservicemount.c', '../lib/mount_util.c', 'fuser_conf.c'],
+> +  mount_service_sources += ['mount_service.c', '../lib/mount_util.c', 'fuser_conf.c']
+> +  mount_service_cflags += ['-DFUSE_CONF="@0@"'.format(fuseconf_path)]
+> +  fuservicemount_path = join_paths(get_option('prefix'), get_option('sbindir'))
+> +  mount_service_cflags += ['-DFUSERVICEMOUNT_DIR="@0@"'.format(fuservicemount_path)]
+> +  executable('fuservicemount3', ['fuservicemount.c'] + mount_service_sources,
+>               include_directories: include_dirs,
+>               link_with: [ libfuse ],
+>               install: true,
+>               install_dir: get_option('sbindir'),
+> -             c_args: ['-DFUSE_USE_VERSION=319', '-DFUSE_CONF="@0@"'.format(fuseconf_path)])
+> +             c_args: ['-DFUSE_USE_VERSION=319'] + mount_service_cflags)
+>  endif
+>  
+> -executable('mount.fuse3', ['mount.fuse.c'],
+> +executable('mount.fuse3', ['mount.fuse.c'] + mount_service_sources,
+>             include_directories: include_dirs,
+>             link_with: [ libfuse ],
+>             install: true,
+>             install_dir: get_option('sbindir'),
+> -           c_args: '-DFUSE_USE_VERSION=317')
+> +           c_args: ['-DFUSE_USE_VERSION=319'] + mount_service_cflags)
+>  
+>  
+>  udevrulesdir = get_option('udevrulesdir')
+> diff --git a/util/mount.fuse.c b/util/mount.fuse.c
+> index ec56198ccc1cf0..8836eba8502fd1 100644
+> --- a/util/mount.fuse.c
+> +++ b/util/mount.fuse.c
+> @@ -49,6 +49,9 @@
+>  #endif
+>  
+>  #include "fuse.h"
+> +#ifdef HAVE_SERVICEMOUNT
+> +# include "mount_service.h"
+> +#endif
+>  
+>  static char *progname;
+>  
+> @@ -233,6 +236,77 @@ static void drop_and_lock_capabilities(void)
+>  }
+>  #endif
+>  
+> +#ifdef HAVE_SERVICEMOUNT
+> +#define FUSERVICEMOUNT_PROG	"fuservicemount3"
+> +
+> +static int try_service_main(char *argv0, char *type, char *source,
+> +			    const char *mountpoint, char *options)
+> +{
+> +	const char *full_path = FUSERVICEMOUNT_DIR "/" FUSERVICEMOUNT_PROG;
+> +	char **argv;
+> +	char dash_o[] = "-o";
+> +	char dash_t[] = "-t";
+> +	char *mntpt = strdup(mountpoint);
+> +	int argc = 5; /* argv[0], -t type, mountpoint, and trailing NULL */
+> +	int i = 0;
+> +	int ret;
+> +
+> +	if (!mount_service_present(type))
+> +		return MOUNT_SERVICE_FALLBACK_NEEDED;
+> +
+> +	if (!mntpt) {
+> +		perror("mountpoint allocation");
+> +		return -1;
+> +	}
+> +
+> +	if (source)
+> +		argc++;
+> +	if (options)
+> +		argc += 2;
+> +
+> +	argv = calloc(argc, sizeof(char *));
+> +	if (!argv) {
+> +		perror("argv allocation");
+> +		free(mntpt);
+> +		return -1;
+> +	}
+> +
+> +	argv[i++] = argv0;
+> +	if (source)
+> +		argv[i++] = source;
+
+Codex noted that some fuse servers actually don't have a "source"
+argument.  If you invoke mount.fuse3 like so:
+
+$ mount.fuse3 null# /tmp/mnt
+
+Then the service activation fails because source is set to the null
+terminator just pass the '#' in "null#", and then gets included in argv.
+
+> +	argv[i++] = mntpt;
+> +	argv[i++] = dash_t;
+> +	argv[i++] = type;
+> +	if (options) {
+> +		argv[i++] = dash_o;
+> +		argv[i++] = options;
+> +	}
+> +	argv[i] = 0;
+> +
+> +	if (getuid() != 0) {
+> +		/*
+> +		 * First try the install path, then a system install, just like
+> +		 * we do for fusermount.
+> +		 */
+> +		ret = execvp(full_path, argv);
+
+No need for the $PATH enabled version of execv if we're providing an
+absolute path.
+
+> +		if (ret)
+> +			ret = execvp(FUSERVICEMOUNT_PROG, argv);
+
+We shouldn't execvp directly here, because it's possible that the helper
+will fail to connect to the service, in which case we could fall back to
+the weird sh invocation code below.  Since posix_spawn() is already used
+elsewhere, let's do that too.
+
+--D
+
+> +		if (ret) {
+> +			fprintf(stderr, "%s: could not start %s helper: %s\n",
+> +				argv[0], FUSERVICEMOUNT_PROG,
+> +				strerror(errno));
+> +			ret = MOUNT_SERVICE_FALLBACK_NEEDED;
+> +		}
+> +	} else {
+> +		/* We're root, just do the mount directly. */
+> +		ret = mount_service_main(argc - 1, argv);
+> +	}
+> +	free(argv);
+> +	free(mntpt);
+> +	return ret;
+> +}
+> +#endif
+> +
+>  int main(int argc, char *argv[])
 >  {
-> -	u8 data;
-> +	u8 data =3D 0;
->  	/* TODO: optimize later... */
->  	hfs_bnode_read(node, &data, off, 1);
->  	return data;
-
-Both methods hfs_bnode_read_u16() and hfs_bnode_read_u8() call the
-hfs_bnode_read(). And it is widely used method. We need to make initializat=
-ion
-at all places where hfs_bnode_read() is called. Oppositely, we can initiali=
-ze
-buffer in hfs_bnode_read() itself.
-
-Thanks,
-Slava.
-
+>  	char *type = NULL;
+> @@ -280,9 +354,7 @@ int main(int argc, char *argv[])
+>  	mountpoint = argv[2];
+>  
+>  	for (i = 3; i < argc; i++) {
+> -		if (strcmp(argv[i], "-v") == 0) {
+> -			continue;
+> -		} else if (strcmp(argv[i], "-t") == 0) {
+> +		if (strcmp(argv[i], "-t") == 0) {
+>  			i++;
+>  
+>  			if (i == argc) {
+> @@ -303,6 +375,30 @@ int main(int argc, char *argv[])
+>  					progname);
+>  				exit(1);
+>  			}
+> +		}
+> +	}
+> +
+> +	if (!type) {
+> +		if (source) {
+> +			dup_source = xstrdup(source);
+> +			type = dup_source;
+> +			source = strchr(type, '#');
+> +			if (source)
+> +				*source++ = '\0';
+> +			if (!type[0]) {
+> +				fprintf(stderr, "%s: empty filesystem type\n",
+> +					progname);
+> +				exit(1);
+> +			}
+> +		} else {
+> +			fprintf(stderr, "%s: empty source\n", progname);
+> +			exit(1);
+> +		}
+> +	}
+> +
+> +	for (i = 3; i < argc; i++) {
+> +		if (strcmp(argv[i], "-v") == 0) {
+> +			continue;
+>  		} else	if (strcmp(argv[i], "-o") == 0) {
+>  			char *opts;
+>  			const char *opt;
+> @@ -366,24 +462,6 @@ int main(int argc, char *argv[])
+>  	if (suid)
+>  		options = add_option("suid", options);
+>  
+> -	if (!type) {
+> -		if (source) {
+> -			dup_source = xstrdup(source);
+> -			type = dup_source;
+> -			source = strchr(type, '#');
+> -			if (source)
+> -				*source++ = '\0';
+> -			if (!type[0]) {
+> -				fprintf(stderr, "%s: empty filesystem type\n",
+> -					progname);
+> -				exit(1);
+> -			}
+> -		} else {
+> -			fprintf(stderr, "%s: empty source\n", progname);
+> -			exit(1);
+> -		}
+> -	}
+> -
+>  	if (setuid_name && setuid_name[0]) {
+>  #ifdef linux
+>  		if (drop_privileges) {
+> @@ -429,6 +507,21 @@ int main(int argc, char *argv[])
+>  		drop_and_lock_capabilities();
+>  	}
+>  #endif
+> +
+> +#ifdef HAVE_SERVICEMOUNT
+> +	/*
+> +	 * Now that we know the desired filesystem type, see if we can find
+> +	 * a socket service implementing that, if we haven't selected any weird
+> +	 * options that would prevent that.
+> +	 */
+> +	if (!pass_fuse_fd && !(setuid_name && setuid_name[0])) {
+> +		int ret = try_service_main(argv[0], type, source, mountpoint,
+> +					   options);
+> +		if (ret != MOUNT_SERVICE_FALLBACK_NEEDED)
+> +			return ret;
+> +	}
+> +#endif
+> +
+>  	add_arg(&command, type);
+>  	if (source)
+>  		add_arg(&command, source);
+> diff --git a/util/mount_service.c b/util/mount_service.c
+> index 0f7eae94ada377..f837595078f2d1 100644
+> --- a/util/mount_service.c
+> +++ b/util/mount_service.c
+> @@ -1836,3 +1836,31 @@ int mount_service_main(int argc, char *argv[])
+>  	mount_service_destroy(&mo);
+>  	return ret;
+>  }
+> +
+> +bool mount_service_present(const char *fstype)
+> +{
+> +	struct stat stbuf;
+> +	char path[PATH_MAX];
+> +	int ret;
+> +
+> +	snprintf(path, sizeof(path), FUSE_SERVICE_SOCKET_DIR "/%s", fstype);
+> +	ret = stat(path, &stbuf);
+> +	if (ret)
+> +		return false;
+> +
+> +	if (!S_ISSOCK(stbuf.st_mode))
+> +		return false;
+> +
+> +#ifdef HAVE_FACCESSAT
+> +	/*
+> +	 * Can we write to the service socket with the real uid?  This accounts
+> +	 * for setuid and ACLs on the socket.  Note that we connect() to the
+> +	 * socket having dropped setuid privileges.
+> +	 */
+> +	ret = faccessat(AT_FDCWD, path, W_OK, 0);
+> +#else
+> +	/* Can we write to the service socket with the real uid? */
+> +	ret = access(path, W_OK);
+> +#endif
+> +	return ret == 0;
+> +}
+> 
+> 
