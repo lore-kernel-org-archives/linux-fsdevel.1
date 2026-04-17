@@ -1,120 +1,144 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp-42aa.mail.infomaniak.ch (smtp-42aa.mail.infomaniak.ch [84.16.66.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6641815B0EC;
-	Fri, 17 Apr 2026 14:52:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0BED2FFDE1
+	for <linux-fsdevel@vger.kernel.org>; Fri, 17 Apr 2026 15:18:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.66.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776437562; cv=none; b=nI9rJ2Vtv/eI6C/7jWKXVnwNpiBgvUakvM1OD1wuM3Fale1k/Nv72KaJtRfQX3d4M+pSh6SAR4Cw/Hzez93b9qpv0Rw7OV3WzUT0Ug2wV+NtpDTcjx8wWIr9m7xsrVtRnvw2dSMP2MLyoPiCPEGnZMaWepvo9e6LLJ6umvlEVVI=
+	t=1776439106; cv=none; b=EkJy0zxmduw8gkDVrEQvvm78772063SDVSzjlfoLNceqYMy4ECuBwdSO+09F59V7PoAOBNdTfjVhvNPmBrgpsTuJmcDV/wseQV79HhbAUEA/v+W09Xs7uH4Hi5KWvi+GTjVY1Gf5YqurLsKssx8nacci274D471ym1ynDJzKPBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776437562; c=relaxed/simple;
-	bh=lfrjWIzNAYCrM2lWTr0FWFwq1uXRS+QxBAQ0lAvMkRE=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=bu0464/w7fWIY8zVcGrnKjNBX2W5ey5hgxIbNKFTexdjwbHrufGx0fAh05O1Sh1qScw6B/d5JKK5P/fzUtF+/7JpPVB0aVgvyGDljvikKJfvkVhqfGDPSjaF8uNtbWibj/y5q1vASp2Q2zA3TtPnV3p4be5iJixp1JEkOdhIHLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b7HKoZF7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776439106; c=relaxed/simple;
+	bh=WUoIk2YrUtGxyINUDnF36G5a2VmwxFchcmghsjAdP54=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MtllNJ/7kU9FA5Iykr2JzWcoSMIaH4BhWIaTsSNZX6peMwzhMJNwBKk3TXQh+jyhFIIi8NMdGl7wS5cpCUcvlPSRSwPJP+pIyXRx9c5xy6Jeycmf3UT+gYZPRzOtXMXOXDNtBty3T0VWuiY8bx/iiJfrKMdA3QxCYzN9XBGNIrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=cm5NGpNp; arc=none smtp.client-ip=84.16.66.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b7HKoZF7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE5F2C2BCB6;
-	Fri, 17 Apr 2026 14:52:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776437562;
-	bh=lfrjWIzNAYCrM2lWTr0FWFwq1uXRS+QxBAQ0lAvMkRE=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=b7HKoZF7ricTXLqJpA/kjX4zgRwMxymUcf66qeUQ2rI7UM+n7qC69yp228dlzvTMi
-	 TiaFSMi+OCutykENXpNv5Y7HFCw4A8vupRw/tDcYfln5v4qeT5QNtQH8rZYoi3QF1d
-	 lvzWoCV516VFnm6ZhfoFxaXZpyfpM4YwbaGOgP6wJaXxDwoZM602xMgmMKRQXcpGvP
-	 kzjdYaE/++4T+0ISVFATwQ44yH7G5VZ58wmbWCJf0I02Yp2Q/dLKKK9Tpwt4jTkdEm
-	 qzoZFmEkPljRnFOpE+ejmzhCbypek4FLZqAFsGoLpv1G6zilzpA0YuRZudvSIHyE6o
-	 pmwaA1MQtqlsQ==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 9398EF4006A;
-	Fri, 17 Apr 2026 10:52:40 -0400 (EDT)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Fri, 17 Apr 2026 10:52:40 -0400
-X-ME-Sender: <xms:OEniaZplPH5iM5LrYLhTB_ISxzBexpLJjrFgNjTlNPz9hC5AHFYsyg>
-    <xme:OEniaWdyhhT4fGXm7jRJQor78qB36LM2Jx1eh20hTp1yW8PBYDQhKf-3BO64B53F8
-    h1Du9UK70W3mcFKyY9TRCTD-4vzGbuEPuT9_qNXAAa-Gz8RK_0khw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdehtdduiecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdevhhhutghk
-    ucfnvghvvghrfdcuoegtvghlsehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvghrnh
-    ephfffkefffedtgfehieevkeduuefhvdejvdefvdeuuddvgeelkeegtefgudfhfeelnecu
-    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheptghhuhgtkh
-    hlvghvvghrodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieefgeelleel
-    heelqdefvdelkeeggedvfedqtggvlheppehkvghrnhgvlhdrohhrghesfhgrshhtmhgrih
-    hlrdgtohhmpdhnsggprhgtphhtthhopeduvddpmhhouggvpehsmhhtphhouhhtpdhrtghp
-    thhtohepnhgvihhlsegsrhhofihnrdhnrghmvgdprhgtphhtthhopegrmhhirhejfehilh
-    esghhmrghilhdrtghomhdprhgtphhtthhopegsrhgruhhnvghrsehkvghrnhgvlhdrohhr
-    ghdprhgtphhtthhopehjlhgrhihtohhnsehkvghrnhgvlhdrohhrghdprhgtphhtthhope
-    htohhrvhgrlhgusheslhhinhhugidqfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthht
-    ohephhgthheslhhsthdruggvpdhrtghpthhtohepuggrihdrnhhgohesohhrrggtlhgvrd
-    gtohhmpdhrtghpthhtoheptghhuhgtkhdrlhgvvhgvrhesohhrrggtlhgvrdgtohhmpdhr
-    tghpthhtohepohhkohhrnhhivghvsehrvgguhhgrthdrtghomh
-X-ME-Proxy: <xmx:OEniaeiV8HKJ2Q9OLCJixsteAOCsWBwnYVmOFV_6g8vZulgzDUWRHg>
-    <xmx:OEniaXIV_aNIdDNBBhrZdGRrGn73-yb7IC4_Y3B2AN1zmXDUqIhJRw>
-    <xmx:OEniaVmbt57WrrOg4i0SQ02RvHS5wuY5tAvSxLDCoj0Tap_KxQGdWA>
-    <xmx:OEniaXOZNUC7RzLKTTS4gBKwlK8mvMNUULMHiOMyIZGdwcUdfKs8Mw>
-    <xmx:OEniaX7Joyv9f-QmzVp2IANUXwPpp600LwDb-dCVZPYcdCOxvwUYoSCJ>
-Feedback-ID: ifa6e4810:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 675DC780075; Fri, 17 Apr 2026 10:52:40 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="cm5NGpNp"
+Received: from smtp-3-0000.mail.infomaniak.ch (unknown [IPv6:2001:1600:4:17::246b])
+	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4fxz6D1VT1zMhp;
+	Fri, 17 Apr 2026 17:18:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
+	s=20191114; t=1776439091;
+	bh=fBTJ6d+x4OlIr1oVwOfzUtW9SrmNkEZwqchmlYFYgSw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cm5NGpNpzxUwuAf8Vg+rCleQaZxv8svbEblwFBlJQyCNBeb12A/X+Ts/7ZYiwqCSy
+	 /Z689+YK8ZdAP5FMwpVHeDwl+rpm0M4tyaNinzoqJlgPxP+HWXH9Ya/TLPKIo4RWn7
+	 LEQEOfhLJzVE++rDXp1k8+HPvPOgwnfR2DH9+4eY=
+Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4fxz6B13VWz9Tb;
+	Fri, 17 Apr 2026 17:18:10 +0200 (CEST)
+Date: Fri, 17 Apr 2026 17:18:05 +0200
+From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+To: Justin Suess <utilityemal77@gmail.com>
+Cc: Song Liu <song@kernel.org>, ast@kernel.org, daniel@iogearbox.net, 
+	andrii@kernel.org, kpsingh@kernel.org, paul@paul-moore.com, viro@zeniv.linux.org.uk, 
+	brauner@kernel.org, kees@kernel.org, gnoack@google.com, jack@suse.cz, 
+	jmorris@namei.org, serge@hallyn.com, yonghong.song@linux.dev, martin.lau@linux.dev, 
+	m@maowtm.org, eddyz87@gmail.com, john.fastabend@gmail.com, sdf@fomichev.me, 
+	skhan@linuxfoundation.org, bpf@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [RFC PATCH 08/20] bpf: Add Landlock ruleset map type
+Message-ID: <20260417.ohgoh0Eecome@digikod.net>
+References: <20260407200157.3874806-1-utilityemal77@gmail.com>
+ <20260407200157.3874806-9-utilityemal77@gmail.com>
+ <CAPhsuW7zzXXd6-d86B-rpGr-wfSzmEoCYNKhTMP_pXnybtA27A@mail.gmail.com>
+ <aeFaQXkKNHFeE-oC@suesslenovo>
+ <CAPhsuW648HdcCbXWMHaJ4uirPWq2WX3Ggx3AGMU6CGzhNYUREg@mail.gmail.com>
+ <aeI_CXj6F-nI_DCL@suesslenovo>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AwBntrSeBB7R
-Date: Fri, 17 Apr 2026 07:52:20 -0700
-From: "Chuck Lever" <cel@kernel.org>
-To: "Christoph Hellwig" <hch@lst.de>, "Christian Brauner" <brauner@kernel.org>
-Cc: NeilBrown <neil@brown.name>, "Olga Kornievskaia" <okorniev@redhat.com>,
- "Dai Ngo" <Dai.Ngo@oracle.com>, "Tom Talpey" <tom@talpey.com>,
- linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- "Chuck Lever" <chuck.lever@oracle.com>, "Jeff Layton" <jlayton@kernel.org>,
- "Amir Goldstein" <amir73il@gmail.com>,
- "Linus Torvalds" <torvalds@linux-foundation.org>
-Message-Id: <683650ce-0585-4607-8d93-9704b179fbd3@app.fastmail.com>
-In-Reply-To: <217438cb-63ff-41d2-8f3c-fbdb1945a670@app.fastmail.com>
-References: <20260401144059.160746-1-hch@lst.de>
- <8bef4d4e-1c0d-451d-8854-ed0cba27ee1f@app.fastmail.com>
- <20260409-schwalben-neutralisieren-fb5a184e5049@brauner>
- <20260410111007.GA10292@lst.de>
- <20260414-ausbrechen-gemixt-ff09f46bdad2@brauner>
- <20260415052925.GC26559@lst.de>
- <217438cb-63ff-41d2-8f3c-fbdb1945a670@app.fastmail.com>
-Subject: Re: cleanup block-style layouts exports v2
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aeI_CXj6F-nI_DCL@suesslenovo>
+X-Infomaniak-Routing: alpha
 
+On Fri, Apr 17, 2026 at 10:09:13AM -0400, Justin Suess wrote:
+> On Thu, Apr 16, 2026 at 04:47:40PM -0700, Song Liu wrote:
+> > On Thu, Apr 16, 2026 at 2:53 PM Justin Suess <utilityemal77@gmail.com> wrote:
+> > [...]
+> > > I don't think we can pass the FD number via a map, since the FD is
+> > > process specific. And it needs to be done in a way where we can lookup
+> > > the specific ruleset the FD points to safely.
+> > >
+> > > So we'd need some other way to load the ruleset from a file descriptor,
+> > > either through a new userspace side BPF call or similar mechanism.
+> > >
+> > > Is there some other common pattern for FDs --> kptr I can follow?
+> > 
+> > I didn't find an exact example like this. There must be a way to achieve
+> > this. In the worst case, we can add a kfunc for this.
+> >
+> 
+> I think new kfunc is a doable approach. I could make a kfunc taking a struct
+> *task_struct and an FD that looks up a landlock ruleset within a given
+> task that returns a trusted kptr.
+> 
+> Something like:
+> 
+> struct bpf_landlock_ruleset* bpf_landlock_get_ruleset_from_fd(struct
+> task_struct* task, int fd)
 
-On Wed, Apr 15, 2026, at 7:34 AM, Chuck Lever wrote:
-> On Tue, Apr 14, 2026, at 10:29 PM, Christoph Hellwig wrote:
->> On Tue, Apr 14, 2026 at 12:01:39PM +0200, Christian Brauner wrote:
->>> On Fri, Apr 10, 2026 at 01:10:07PM +0200, Christoph Hellwig wrote:
->>> > On Thu, Apr 09, 2026 at 03:26:09PM +0200, Christian Brauner wrote:
->>> > > > Christian, are you OK if I take this series through the NFSD tree?
->>> > > 
->>> > > Hm, I generally prefer infrastructure to go through the VFS tree.
->>> > > You can get a stable branch ofc.
+That looks like a hack that would not handle FD's (object) lifetime
+(e.g. what happen when the task is gone?).
 
-> In this case, pNFS is the only consumer that will notice or use the
-> new "infrastructure" and us NFS experts are the only ones who can test
-> and review it properly. And, the likelihood of conflicts with patches
-> in nfsd-testing is high (in fact we've already had at least one). It
-> makes sense to me to take this series through NFSD.
+Why not using proper typing with a dedicated map?
 
-I see that Jeff has posted a series that modifies the fs_notify API surface
-to support the NFSv4 CB_NOTIFY operation. That likely counts as an
-infrastructure change.
+> 
+> And tagging it with KF_ACQUIRE + KF_RET_NULL.
+> 
+> Then keep the existing kfunc for putting the ruleset and enforcing it on
+> a struct linux_binprm.
+> 
+> The BPF program would need to get a reference to a task struct
+> of the program creating the rulesets with bpf_task_from_pid for
+> instance. Then they could use the task_struct with another plain integer
+> map to store FD numbers and then use the rulesets or store them in a map
+> of __kptr objects for later usage.
+> 
+> Would this be more acceptable?
+> > > Basically the pattern I need is userspace must create the file
+> > > descriptor, BPF converts that FD into a refcounted kernel object, and
+> > > even if userspace closes the FD BPF needs to hold a reference on the
+> > > underlying ruleset structure.
+> > >
+> > > (In this patch this was accomplished through the map_ops)
+> > >
+> > > Let me know what you think Song. I do understand the benefit of having a
+> > > __kptr instead, the refcounting is all there, and it would allow storing
+> > > rulesets in multiple map types. (and one less map type to maintain).
+> > 
+> > A new type of map for each FD referenced kernel type is non-starter.
+> > It is impossible to add UAPI for a specific use case.
 
-To meet you halfway, Christian, you could take Christoph's series and
-Jeff's series into a "vfs.nfsd" tree and I can base my nfsd-next branch
-on that for the NFSD PR 7.2. Building the NFSD PR on that should avoid
-merge conflicts with significant changes I have planned.
+This new map type is only about one file descriptor type, similarly to
+socket FDs.  From a UAPI point of view, it looks clean and safe,
+especially to deal with underlying object lifetime (e.g. reference
+tracking).
 
+> >
+> You've convinced me. I could see a lot of problems if everyone wanting
+> to add their specialized maps, it would be difficult to maintain.
 
--- 
-Chuck Lever
+Is there another way to properly handle kernel object lifetime (not tied
+to the caller) and pass them as file descriptor?
+
+> 
+> It's probably best to keep the specialized map types to core kernel
+> interfaces only that are unlikely to change.
+
+File descriptors are a stable interface.
+
+> 
+> > Thanks,
+> > Song
+> > 
+> > > Mickaël, do you have any thoughts on this? I have v2 basically ready,
+> > > although it uses the BPF_MAP_TYPE_LANDLOCK_RULESET it changes a lot on
+> > > the Landlock side.
+> 
