@@ -1,279 +1,274 @@
-Received: from mail-oo1-f79.google.com (mail-oo1-f79.google.com [209.85.161.79])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013067.outbound.protection.outlook.com [40.93.201.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20E25274B32
-	for <linux-fsdevel@vger.kernel.org>; Fri, 17 Apr 2026 01:56:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.79
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776390990; cv=none; b=RCqLFRE5qAjTxQq/C6oZmbUubFrhqnetDC5uP8RHnbkW8P9b6H1H0dXofz2XuUBqyR7hbDDwFEfx1ZBcCm+8ts+Kcm/Q8/Ynx7sftMQXWE1yKKqk4tHMRmJGteS87qvY3F7zRiJ5taMipm/qNbjQ3MBzvmNlIm1D8Ytj0qBOs9s=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776390990; c=relaxed/simple;
-	bh=KSSBaItgMn5b9Qwd8CC1RrhcoYbEb3pFn3AOwrE0W24=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=W2PO464NWL7GP/lUaCY6Huqc1Uo9vEgaHdXOYqCukmp8xBbi5GwqF4skZGlLNeqwDuVKPb+GuJsX3/uJvFoEmXv9ixE+nU+xMairiwFRZJPELl3wqyAuPTN6r5YzdcnLZOP3pAxTrYVXlWU7LL5BSHvOE3uSHjJM/upk5jag40U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f79.google.com with SMTP id 006d021491bc7-68d5974b947so554049eaf.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 16 Apr 2026 18:56:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776390988; x=1776995788;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=FCxuCub1D7ttXCG7zWQTsc584W2Cjv1TTg9VDU9y5R8=;
-        b=mp4lhJ/VNrP1Cad6jDHFfV1BBXbK6bb9QISRV9y0CqRO6geoBOWlXevFz49+RWRFza
-         Ras/MVpIhlsFff+sb1Pob4vYhlQ7yEDZqD0blq2Gjh4k6QnAudKbgaVeMxsJ8uaxpjS/
-         Vcre5i600FQlt2tZlBBr/KImqDP4dipWMtiKt+oz/ZoJITNo0Zs6APfUkVqwNmx2/iFn
-         Xc2bSRL2TLb3cV3S4notfll/VizK2GDsJQAMNie+P4YaBgFdrXXcSf5W0nP0NJUIb3EX
-         MMj0PSjea/0UHwAqHa3V0Kz1v79PSV4DRhfCXVKBCsaGd19AW+6EQtoTBXnu06Eb5pBV
-         Rg+g==
-X-Gm-Message-State: AOJu0YxgFuV8IHcecdxEdhQwCu0hPufbdUKnCQRA322uOh5dubdjkenB
-	pPSZ2/Nf0ivT3XSG+5N+dDVuv94Bl4mXava3T53lA8TJ762Nsq5iemleEoMcdleCvYnzi13dC6g
-	4w58RZQGSp0eN+ijlMizFKc3gWt7HT9fJ9ugrsjvvn4hW5p3FQ/YYpb/3Csba1w==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE82224336D;
+	Fri, 17 Apr 2026 02:09:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.67
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776391757; cv=fail; b=hNsnJyrEvBIyAsr+TxwftpFaBZB06vTOtwE4geNDoZXJfeSeL6Tywn9vu/hBhqAqL7hSguCOJEo6Q3QrY6DTr+fspjCMvElZOGDqlrnmKa8kJogfNhyYI3/sAQYkyNsz85a8kwSVpw9NtItQO42y8dayWogmy6Cyl0Z58gXdwvk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776391757; c=relaxed/simple;
+	bh=SDj7xpOno3N7P9iZQlJdp4HDKOxiT1bAQp4gi/0FYac=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=MWasamm+SOtVvhQ7az5OGqDZeestlheo5YmMxKLU+lLah7SPAxWMBrXNaUAUb0Pc+J0V13NSMY/qHkEnyFIti274JP7jT/H+1KtIGpNVMeO27QrydWOizFg95ogPSmfk4vqZFAWOvUf/SaLFd/sTdbV6GFaGv86C9zuOw0YUiRI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=RYpLmHdV; arc=fail smtp.client-ip=40.93.201.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="RYpLmHdV"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jPF0Gr7GLc0khua1GN7gyDw0L1ghGGn9e750buAcn55RM8ilYgIIZjuHIFnABNqTRGFwYw9F7pY0arjf3PgdIX1API8ved4a+jDlCtWwcvLuiBSN4TMKm1aqzWIdyWLVcdu0n0djpyeBS3fXvS4sR8X/bZX46JVRa2qfrE2C6U/lJyWJltW5TivzJY8Nd4DX73TToo4RGM63aj7Xewbq+CYuECQFx9rJt4Q3npkl1f65mnLIC+yYpK6MsfZr88AnqXF9aPqF0bw9Am4jkoKYc2R1BNOPtlkuZTmvroC4RhrZ+H8O3AnHlKRC5fZLnH8Zfj/zHBpRR1b4XzwiYRJi2Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hV6RCifodAOigvYXlOey0D5Qr4Qq7j7sfSsz1qimd6E=;
+ b=iU9nC3KvaogY4xtWAU31pxdGmVrDARExf4ZBPV5NsNywSMERlhp0IX+YcJWaxRJT/+oi7BLXkmKx9jjc6/uGpo291Of1xK3Plh8Z625JDKfu/ura+YOh3JAIIhAyFwa/6uu38abkA9/FL7Y5zXgf2PIOs+SxM2dv0Rwf1N4OwtDfS6Tzmu8GFngHQ0U8toXfAy6d8gVxS/HwsPSvPyfkUP3Sa4SliPrHpmfLMctlKb1myb4O3ooCq1CLfbYZfmug9DEZRlaWgbq4FJFdq5oB5AMZn7YrKv1ZkIjWI5wZH0WmsjqFETh+42nRUgBvGW7mVIJwAVtNK12RVvUw49BjNg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hV6RCifodAOigvYXlOey0D5Qr4Qq7j7sfSsz1qimd6E=;
+ b=RYpLmHdV6Fzk2xvfsNZ1evI1HMjHKX0Zmc+jLBUiN6znjpt4nvLnfNhNgPODKfUgk9Vun6c9R1P7ALe3sn5Bgh0atuc4sDaUkyYFnC0uqIqLHRliMdgq08pcGG+CcYG2hKUuXjDc4Mc9Onle1ojfymOGIzLVHeABlV8upLfYroNttsliMr0Q4yoWufDMFW6Dn3ScQ40ZG1B84hkDQQ81pZchCAwe+IDIdSjkN1vKOY3xVbOxrJa6zK2oin0rJOJxG6cWwliIusDabrHHSPBel0RHcGVzvxOlq/bbRJoWdhqiVUt6iEagsADgEclxkxZ15n8fdtJFgNxoncQIS/B+qA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
+ MW4PR12MB7165.namprd12.prod.outlook.com (2603:10b6:303:21b::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.20; Fri, 17 Apr
+ 2026 02:09:09 +0000
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::f01d:73d2:2dda:c7b2]) by DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::f01d:73d2:2dda:c7b2%4]) with mapi id 15.20.9818.017; Fri, 17 Apr 2026
+ 02:09:08 +0000
+From: Zi Yan <ziy@nvidia.com>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Song Liu <songliubraving@fb.com>, Chris Mason <clm@fb.com>,
+ David Sterba <dsterba@suse.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Shuah Khan <shuah@kernel.org>, <linux-btrfs@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+ <linux-mm@kvack.org>, <linux-kselftest@vger.kernel.org>
+Subject: Re: [PATCH 7.2 v2 02/12] mm/khugepaged: add folio dirty check after
+ try_to_unmap_flush()
+Date: Thu, 16 Apr 2026 22:09:05 -0400
+X-Mailer: MailMate (2.0r6290)
+Message-ID: <C83282EC-F3C3-44FB-A8A4-615F67F9CEEC@nvidia.com>
+In-Reply-To: <842D3AD2-32A0-41E1-AC09-08EC793EAF7F@nvidia.com>
+References: <20260413192030.3275825-1-ziy@nvidia.com>
+ <20260413192030.3275825-3-ziy@nvidia.com>
+ <10aadfeb-86c6-47b2-b6ab-b86657aafb88@kernel.org>
+ <842D3AD2-32A0-41E1-AC09-08EC793EAF7F@nvidia.com>
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: BL1PR13CA0383.namprd13.prod.outlook.com
+ (2603:10b6:208:2c0::28) To DS7PR12MB9473.namprd12.prod.outlook.com
+ (2603:10b6:8:252::5)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:3108:b0:68b:990a:8eb3 with SMTP id
- 006d021491bc7-69462ef238cmr526743eaf.34.1776390988084; Thu, 16 Apr 2026
- 18:56:28 -0700 (PDT)
-Date: Thu, 16 Apr 2026 18:56:28 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <69e1934c.a70a0220.7229.0010.GAE@google.com>
-Subject: [syzbot] [fuse?] INFO: task hung in fuse_conn_destroy (2)
-From: syzbot <syzbot+eede1fb91fb15bbbd5f2@syzkaller.appspotmail.com>
-To: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	miklos@szeredi.hu, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|MW4PR12MB7165:EE_
+X-MS-Office365-Filtering-Correlation-Id: d3e48bdf-11c1-4fd9-0747-08de9c264f51
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|1800799024|7416014|22082099003|18002099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	CNFKmMKJZfINIIRWxF+ZNk52ZmseP3yKvqYsTmKdDDI8MBm4RTWdhCqmAMECuqo8wlRBzmeQ47Ra7mHD12TbumeiFu418R1OFiHxKXn55aR1tBgPcRecrSGlrQ7w8mYWnM/Ia+7dKEmMRfArV8M3f+a9IrP1GE3j36XKqGoN+hYXq6I+f+OD0/rgxPvqfUOrFjcWYLixQeZuR3AKzFJ1QfO+q6CHSoGnIh99j2H4lD9kSLeMIK1sXwRBj49+XNLF6nD9c1zj9jfmdekrynVLwXzJETh88Y6+f+TCfT5x5oX0ZT27XR3Tui6reFXsP/vbbcalNHIUhWGaQpVWSZKRGSu1D+T6PDBBtyiLN5OZVWTzrsgXUonIQjnZx+s4z+FBVTSM0r4SToO1GBBPUiXkXDIJcaguVPiOw+SUpcyaDmrBMjftEw+0Navyrkq4b+2AZnFB/5wNTN/jKwOh28YuA8Ac7fc/LAOtFkQe2gTQfwlZl2RRxBhG1yklr7TPSszNv1QWoXOp1WSNTkefPlebC4AOvdGGy5ZYBqxdN2y6m16IZCVXRS3e+UxzXKlZJO+zpEg2e3BGA2Qz1E+YqMGuAlZFVpY8vGdT0rkBW9DTJYAqby8DoND8iKuW3QlfRIdQakHh1En+GB+RltUa7cOeQ8VxlgVdkc4llykV5wUx7cRXdyXXTmm9Q21Cudem8piK8Kf/j26WCRyAKz9t9XWYZq8ZQJ/t96I51ST8LjaENp8=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(7416014)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?lIaV24uWW4xv+O3h9TwXVp1lOLl7CeDFc61s2X/m3FM8PcveCk7WGUgEp4/T?=
+ =?us-ascii?Q?0D1amvpABXdkglHBEH7cmxz+/qOkGpipmiBLPC413Y8rjYRanSro3EnsnQQN?=
+ =?us-ascii?Q?IdIpeGHkOiXuS/+NJO/kv61uxzsdx7ON9p3mg1QJQVyWVTc7+wNDEksXJhXe?=
+ =?us-ascii?Q?1BBBgkNJfb9/1EzbDjJrAMsSKk1OH6Rul71f4yu09K7CLkJxc9gS/WCsNy4w?=
+ =?us-ascii?Q?8bpEC5dJiSoJk8FjrOUrpARx4wttZ2Znt2KqRB1eZW66voBGHCpq661exAgM?=
+ =?us-ascii?Q?u70zjf+QR+lKcCXdOToFD7bb6B1me0b2wUr90JDGLMEqrzJVrjm8RA5CBwwq?=
+ =?us-ascii?Q?9Uas5cf/VShwOtu8Qxv5y23UnapY/XYu4RNwu9p3XmAer1WkJOX/d1gj9pNY?=
+ =?us-ascii?Q?5aXSJn+YUjH080YvFWThgDlix0zKhuyJbsVajyLidV4PiJY9+7txO7vzEeG0?=
+ =?us-ascii?Q?f72eFmfrIhvTzZ4Y+FTEutnzFFfN8BT0EDlKhUd7LDKRiHe4wdGu3DCfedav?=
+ =?us-ascii?Q?TgpZXLwPj1oH7pZd1ELtxXoJZkAp0l2ZYkf404Ha6I6T6aWIfjy1nssk9FZq?=
+ =?us-ascii?Q?LYHHFghfhshK6ojF8QzJ5nx5CLshkQXoCyQVhtzaLx1fp/8EquGQux0GeFV2?=
+ =?us-ascii?Q?9meCyrMseVdSKh//gqy1QGHxTbJ7p0IZQswiUbze0zdd35PzCJTALu0TyNkz?=
+ =?us-ascii?Q?n5mQXynbk3ex59heLuFPQKYOksZ8CUqtHn3lxlz9ZJ+DPYx4fvSVGw+i1VoV?=
+ =?us-ascii?Q?ufYCeBPq/HNJ/Z4U/wx7zN3kQl1WPaBIsClbwTnBRxj3/omcsgfL+eL6ecEi?=
+ =?us-ascii?Q?OwqGS92uXB53JIQPz5S3YIcsJZXsMOrWS9AiCtf28W6IGYhxmDc4ski07Pl2?=
+ =?us-ascii?Q?llQFaCkjnVEZfzM9p7Se+iqLDR6B0KUYkhl3JNRYdpkXt15SXSG2IY8fPSdm?=
+ =?us-ascii?Q?lpTCs1s+f0ePsRI8pqZ5ts/QiodABHjkltSzrs6NuLcIVAFUIM+qvXj+tedL?=
+ =?us-ascii?Q?Ge1C+LPT7OdpxGDUV/ftCsu+xz1WusSMATt6rBUneITBBrWAAG2Zm6TGZMCy?=
+ =?us-ascii?Q?jBJGc5Hx44aOfyR7A+hhWh+YxQKgJpSLISUNlqvO1rNeHI9PO9Javzm1XePZ?=
+ =?us-ascii?Q?prdRvmf6tIztWF6KtR3067GtW1Zp9M7B65Y2jsrbNCV1Q10zEgLa7P3hQKke?=
+ =?us-ascii?Q?xwoyFMmrkvyjpabMPeGpV8oRmbhV+qADQexduDAtCFpU8aW8uphhZhNI3M1v?=
+ =?us-ascii?Q?H9RMweu2XH+9wvBWvfyyvte4O5YWhZrIYoBWNflgboC+Kp7eGFzDn+CNR5xd?=
+ =?us-ascii?Q?Lp6SD102tnDlNvf1AfhpMq8QOCwkcW4e0JirWbMOF6nxyGLldcsR+rpL/YkZ?=
+ =?us-ascii?Q?RApZXvun7ub4iN9pzf0TGtzOsnzd3L7ZzhBYT9ssXx6VeRz3mIr/Xc2l737T?=
+ =?us-ascii?Q?QR4CXrASZZFNPTthHl76wFpJzLiW1JOin5WXD2v80bGrgdlZlinDKpEI0KSf?=
+ =?us-ascii?Q?ipjW34km4NAzQkzHCpWvjXhustVgNN0Ufy/cJ1TFAftPvV8Ri1cT1Tza6BcN?=
+ =?us-ascii?Q?HZa8IoYLbK2PIcu3ByRFDUW453kPjjqNdw5rXLTI2VLhZFcsD9bkhy+azCLt?=
+ =?us-ascii?Q?0ghECAypghv1AcAe0MmsGYwIOzk+oAcPF5f346jNjD6Bp46ktglgsPFFZEtT?=
+ =?us-ascii?Q?+6RWBKeGw7E5Jpzl3CrqJhBEsFbF7UiZswObL3tY0iPkpxxi?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d3e48bdf-11c1-4fd9-0747-08de9c264f51
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Apr 2026 02:09:08.8122
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: y4fav+8fdYiwg1lWXkggn4AQfQ7LjC+tHDInr50rWZ5CCmnf293c0ncNQhfM6/6a
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7165
 
-Hello,
+On 14 Apr 2026, at 11:55, Zi Yan wrote:
 
-syzbot found the following issue on:
+> On 14 Apr 2026, at 6:38, David Hildenbrand (Arm) wrote:
+>
+>> On 4/13/26 21:20, Zi Yan wrote:
+>>> This check ensures the correctness of collapse read-only THPs for FSe=
+s
+>>> after READ_ONLY_THP_FOR_FS is enabled by default for all FSes support=
+ing
+>>> PMD THP pagecache.
+>>>
+>>> READ_ONLY_THP_FOR_FS only supports read-only fd and uses mapping->nr_=
+thps
+>>> and inode->i_writecount to prevent any write to read-only to-be-colla=
+psed
+>>> folios. In upcoming commits, READ_ONLY_THP_FOR_FS will be removed and=
+ the
+>>> aforementioned mechanism will go away too. To ensure khugepaged funct=
+ions
+>>> as expected after the changes, rollback if any folio is dirty after
+>>> try_to_unmap_flush() to , since a dirty folio means this read-only fo=
+lio
+>>> got some writes via mmap can happen between try_to_unmap() and
+>>> try_to_unmap_flush() via cached TLB entries and khugepaged does not s=
+upport
+>>> collapse writable pagecache folios.
+>>>
+>>> Signed-off-by: Zi Yan <ziy@nvidia.com>
+>>> ---
+>>>  mm/khugepaged.c | 18 ++++++++++++++++++
+>>>  1 file changed, 18 insertions(+)
+>>>
+>>> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+>>> index d2f0acd2dac2..ec609e53082e 100644
+>>> --- a/mm/khugepaged.c
+>>> +++ b/mm/khugepaged.c
+>>> @@ -2121,6 +2121,24 @@ static enum scan_result collapse_file(struct m=
+m_struct *mm, unsigned long addr,
+>>>  	 */
+>>>  	try_to_unmap_flush();
+>>>
+>>> +	/*
+>>> +	 * At this point, all folios are locked, unmapped, and all cached
+>>> +	 * mappings in TLBs are flushed. No one else is able to write to th=
+ese
+>>> +	 * folios, since
+>>> +	 * 1. writes via FS ops require folio locks (see write_begin_get_fo=
+lio());
+>>> +	 * 2. writes via mmap require taking a fault and locking folio lock=
+s.
+>>> +	 *
+>>
+>> maybe simplify to "folios, since that would require taking the folio l=
+ock first."
+>
+> Sure.
+>
+>>
+>>> +	 * khugepaged only works for read-only fd, make sure all folios are=
 
-HEAD commit:    1c7cc4904160 Add linux-next specific files for 20260413
-git tree:       linux-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=174dd8ce580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=f5ee3699e4b6706d
-dashboard link: https://syzkaller.appspot.com/bug?extid=eede1fb91fb15bbbd5f2
-compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13997b02580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13a304ce580000
+>>> +	 * clean, since writes via mmap can happen between try_to_unmap() a=
+nd
+>>> +	 * try_to_unmap_flush() via cached TLB entries.
+>>
+>>
+>> IIRC, after successful try_to_unmap() the PTE dirty bit would be synce=
+d to the
+>> folio. That's what you care about, not about any stale TLB entries.
+>
+> Right. I missed the PTE dirty bit to folio dirtiness part.
+>
+>>
+>> The important part is that the
+>>
+>> So can't we simply test for dirty folios after the refcount check (whe=
+re
+>> we made sure the folio is no longer mapped)?
+>>
+>
+> I think so.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/4627c340a79d/disk-1c7cc490.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/b1c9e5b70193/vmlinux-1c7cc490.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/8c2cc41fa3d8/bzImage-1c7cc490.xz
+After more thoughts, this still works but the reasoning is more complicat=
+ed.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+eede1fb91fb15bbbd5f2@syzkaller.appspotmail.com
+After try_to_unmap(), PTE dirty bit is transferred to folio dirty flag if=
+ exists.
+The code bails out if the folio is dirty. A clean folio means the removed=
 
-INFO: task syz-executor:5986 blocked for more than 143 seconds.
-      Not tainted syzkaller #0
-"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-task:syz-executor    state:D stack:22464 pid:5986  tgid:5986  ppid:1      task_flags:0x400140 flags:0x00080002
-Call Trace:
- <TASK>
- context_switch kernel/sched/core.c:5387 [inline]
- __schedule+0x169e/0x54f0 kernel/sched/core.c:7188
- __schedule_loop kernel/sched/core.c:7267 [inline]
- schedule+0x164/0x360 kernel/sched/core.c:7282
- fuse_chan_wait_aborted+0x15b/0x250 fs/fuse/dev.c:2212
- fuse_conn_destroy+0x1e7/0x3e0 fs/fuse/inode.c:1969
- fuse_sb_destroy fs/fuse/inode.c:1988 [inline]
- fuse_kill_sb_anon+0x1ef/0x270 fs/fuse/inode.c:2001
- deactivate_locked_super+0xbc/0x130 fs/super.c:476
- cleanup_mnt+0x437/0x4d0 fs/namespace.c:1312
- task_work_run+0x1d9/0x270 kernel/task_work.c:233
- resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
- __exit_to_user_mode_loop kernel/entry/common.c:67 [inline]
- exit_to_user_mode_loop+0xed/0x480 kernel/entry/common.c:98
- __exit_to_user_mode_prepare include/linux/irq-entry-common.h:207 [inline]
- syscall_exit_to_user_mode_prepare include/linux/irq-entry-common.h:238 [inline]
- syscall_exit_to_user_mode include/linux/entry-common.h:328 [inline]
- do_syscall_64+0x33e/0xf80 arch/x86/entry/syscall_64.c:100
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fae40e2da57
-RSP: 002b:00007ffd60ecf0e8 EFLAGS: 00000246 ORIG_RAX: 00000000000000a6
-RAX: 0000000000000000 RBX: 00007fae40ec2048 RCX: 00007fae40e2da57
-RDX: 0000000000000000 RSI: 0000000000000009 RDI: 00007ffd60ecf1a0
-RBP: 00007ffd60ecf1a0 R08: 00007ffd60ed01a0 R09: 00000000ffffffff
-R10: 0000000000000000 R11: 0000000000000246 R12: 00007ffd60ed0230
-R13: 00007fae40ec2048 R14: 000000000002a4a8 R15: 00007ffd60ed0270
- </TASK>
+PTEs were clean, thus TLB entries caching these PTEs have dirty bit not s=
+et.
+Any write to the folio after try_to_unmap() causes a page table walk and
+a page fault due to invalid PTEs, and they cannot proceed since collapse_=
+file()
+is holding the folio lock. As a result, we can skip marking folio dirty
+after the collapse.
 
-Showing all locks held in the system:
-1 lock held by khungtaskd/39:
- #0: ffffffff8e3c80c0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #0: ffffffff8e3c80c0 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:838 [inline]
- #0: ffffffff8e3c80c0 (rcu_read_lock){....}-{1:3}, at: debug_show_all_locks+0x2e/0x180 kernel/locking/lockdep.c:6777
-2 locks held by kworker/u8:5/144:
- #0: ffff88803379c138 ((wq_completion)bat_events){+.+.}-{0:0}, at: process_one_work kernel/workqueue.c:3280 [inline]
- #0: ffff88803379c138 ((wq_completion)bat_events){+.+.}-{0:0}, at: process_scheduled_works+0xa2e/0x1910 kernel/workqueue.c:3399
- #1: ffffc90003907c40 ((work_completion)(&(&bat_priv->dat.work)->work)){+.+.}-{0:0}, at: process_one_work kernel/workqueue.c:3281 [inline]
- #1: ffffc90003907c40 ((work_completion)(&(&bat_priv->dat.work)->work)){+.+.}-{0:0}, at: process_scheduled_works+0xa69/0x1910 kernel/workqueue.c:3399
-2 locks held by getty/5578:
- #0: ffff88803278d0a0 (&tty->ldisc_sem){++++}-{0:0}, at: tty_ldisc_ref_wait+0x25/0x70 drivers/tty/tty_ldisc.c:243
- #1: ffffc90003cbe2e0 (&ldata->atomic_read_lock){+.+.}-{4:4}, at: n_tty_read+0x462/0x13a0 drivers/tty/n_tty.c:2211
-4 locks held by kworker/u9:2/5947:
- #0: ffff888056aab138 ((wq_completion)hci2#2){+.+.}-{0:0}, at: process_one_work kernel/workqueue.c:3280 [inline]
- #0: ffff888056aab138 ((wq_completion)hci2#2){+.+.}-{0:0}, at: process_scheduled_works+0xa2e/0x1910 kernel/workqueue.c:3399
- #1: ffffc90003dd7c40 ((work_completion)(&(&conn->disc_work)->work)){+.+.}-{0:0}, at: process_one_work kernel/workqueue.c:3281 [inline]
- #1: ffffc90003dd7c40 ((work_completion)(&(&conn->disc_work)->work)){+.+.}-{0:0}, at: process_scheduled_works+0xa69/0x1910 kernel/workqueue.c:3399
- #2: ffff88801157c870 (&hdev->unregister_lock){+.+.}-{4:4}, at: hci_cmd_sync_submit+0x3f/0x2b0 net/bluetooth/hci_sync.c:708
- #3: ffffffff8e50c0f0 (remove_cache_srcu){.+.+}-{0:0}, at: srcu_lock_acquire include/linux/srcu.h:187 [inline]
- #3: ffffffff8e50c0f0 (remove_cache_srcu){.+.+}-{0:0}, at: srcu_read_lock+0x27/0x60 include/linux/srcu.h:294
-1 lock held by syz-executor/5986:
- #0: ffff8880365ea0d0 (&type->s_umount_key#55){+.+.}-{4:4}, at: __super_lock fs/super.c:58 [inline]
- #0: ffff8880365ea0d0 (&type->s_umount_key#55){+.+.}-{4:4}, at: __super_lock_excl fs/super.c:73 [inline]
- #0: ffff8880365ea0d0 (&type->s_umount_key#55){+.+.}-{4:4}, at: deactivate_super+0xa9/0xe0 fs/super.c:508
-1 lock held by syz-executor/6108:
- #0: ffff88804d0b20d0 (&type->s_umount_key#55){+.+.}-{4:4}, at: __super_lock fs/super.c:58 [inline]
- #0: ffff88804d0b20d0 (&type->s_umount_key#55){+.+.}-{4:4}, at: __super_lock_excl fs/super.c:73 [inline]
- #0: ffff88804d0b20d0 (&type->s_umount_key#55){+.+.}-{4:4}, at: deactivate_super+0xa9/0xe0 fs/super.c:508
-1 lock held by syz-executor/6129:
- #0: ffff88802e6300d0 (&type->s_umount_key#55){+.+.}-{4:4}, at: __super_lock fs/super.c:58 [inline]
- #0: ffff88802e6300d0 (&type->s_umount_key#55){+.+.}-{4:4}, at: __super_lock_excl fs/super.c:73 [inline]
- #0: ffff88802e6300d0 (&type->s_umount_key#55){+.+.}-{4:4}, at: deactivate_super+0xa9/0xe0 fs/super.c:508
-1 lock held by syz-executor/6151:
- #0: ffff888039c9c0d0 (&type->s_umount_key#55){+.+.}-{4:4}, at: __super_lock fs/super.c:58 [inline]
- #0: ffff888039c9c0d0 (&type->s_umount_key#55){+.+.}-{4:4}, at: __super_lock_excl fs/super.c:73 [inline]
- #0: ffff888039c9c0d0 (&type->s_umount_key#55){+.+.}-{4:4}, at: deactivate_super+0xa9/0xe0 fs/super.c:508
-1 lock held by syz-executor/6175:
- #0: ffff888032fe00d0 (&type->s_umount_key#55){+.+.}-{4:4}, at: __super_lock fs/super.c:58 [inline]
- #0: ffff888032fe00d0 (&type->s_umount_key#55){+.+.}-{4:4}, at: __super_lock_excl fs/super.c:73 [inline]
- #0: ffff888032fe00d0 (&type->s_umount_key#55){+.+.}-{4:4}, at: deactivate_super+0xa9/0xe0 fs/super.c:508
-1 lock held by syz-executor/6208:
- #0: ffff88805ea080d0 (&type->s_umount_key#55){+.+.}-{4:4}, at: __super_lock fs/super.c:58 [inline]
- #0: ffff88805ea080d0 (&type->s_umount_key#55){+.+.}-{4:4}, at: __super_lock_excl fs/super.c:73 [inline]
- #0: ffff88805ea080d0 (&type->s_umount_key#55){+.+.}-{4:4}, at: deactivate_super+0xa9/0xe0 fs/super.c:508
-1 lock held by syz-executor/6236:
- #0: ffff8880396d60d0 (&type->s_umount_key#55){+.+.}-{4:4}, at: __super_lock fs/super.c:58 [inline]
- #0: ffff8880396d60d0 (&type->s_umount_key#55){+.+.}-{4:4}, at: __super_lock_excl fs/super.c:73 [inline]
- #0: ffff8880396d60d0 (&type->s_umount_key#55){+.+.}-{4:4}, at: deactivate_super+0xa9/0xe0 fs/super.c:508
-1 lock held by syz-executor/6264:
- #0: ffff88803865c0d0 (&type->s_umount_key#55){+.+.}-{4:4}, at: __super_lock fs/super.c:58 [inline]
- #0: ffff88803865c0d0 (&type->s_umount_key#55){+.+.}-{4:4}, at: __super_lock_excl fs/super.c:73 [inline]
- #0: ffff88803865c0d0 (&type->s_umount_key#55){+.+.}-{4:4}, at: deactivate_super+0xa9/0xe0 fs/super.c:508
-3 locks held by kworker/0:7/6290:
- #0: ffff88813ff5e538 ((wq_completion)events_power_efficient){+.+.}-{0:0}, at: process_one_work kernel/workqueue.c:3280 [inline]
- #0: ffff88813ff5e538 ((wq_completion)events_power_efficient){+.+.}-{0:0}, at: process_scheduled_works+0xa2e/0x1910 kernel/workqueue.c:3399
- #1: ffffc90004617c40 ((work_completion)(&(&gc_work->dwork)->work)){+.+.}-{0:0}, at: process_one_work kernel/workqueue.c:3281 [inline]
- #1: ffffc90004617c40 ((work_completion)(&(&gc_work->dwork)->work)){+.+.}-{0:0}, at: process_scheduled_works+0xa69/0x1910 kernel/workqueue.c:3399
- #2: ffffffff8e3c80c0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #2: ffffffff8e3c80c0 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:838 [inline]
- #2: ffffffff8e3c80c0 (rcu_read_lock){....}-{1:3}, at: gc_worker+0x265/0x12e0 net/netfilter/nf_conntrack_core.c:1543
-1 lock held by syz-executor/6300:
- #0: ffff888035c5a0d0 (&type->s_umount_key#55){+.+.}-{4:4}, at: __super_lock fs/super.c:58 [inline]
- #0: ffff888035c5a0d0 (&type->s_umount_key#55){+.+.}-{4:4}, at: __super_lock_excl fs/super.c:73 [inline]
- #0: ffff888035c5a0d0 (&type->s_umount_key#55){+.+.}-{4:4}, at: deactivate_super+0xa9/0xe0 fs/super.c:508
+If we allow a dirty folio after try_to_unmap(), we need to mark the folio=
+ dirty
+after the collapse like shmem. And a potential optimization is that we on=
+ly
+mark the after-collapse folio dirty if any old folio is dirty after try_t=
+o_unmap().
 
-=============================================
-
-NMI backtrace for cpu 1
-CPU: 1 UID: 0 PID: 39 Comm: khungtaskd Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 03/18/2026
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- nmi_cpu_backtrace+0x274/0x2d0 lib/nmi_backtrace.c:113
- nmi_trigger_cpumask_backtrace+0x17a/0x300 lib/nmi_backtrace.c:62
- trigger_all_cpu_backtrace include/linux/nmi.h:162 [inline]
- __sys_info lib/sys_info.c:157 [inline]
- sys_info+0x135/0x170 lib/sys_info.c:165
- check_hung_uninterruptible_tasks kernel/hung_task.c:353 [inline]
- watchdog+0xfd3/0x1030 kernel/hung_task.c:561
- kthread+0x388/0x470 kernel/kthread.c:436
- ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-Sending NMI from CPU 1 to CPUs 0:
-NMI backtrace for cpu 0
-CPU: 0 UID: 0 PID: 5947 Comm: kworker/u9:2 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 03/18/2026
-Workqueue: hci2 hci_conn_timeout
-RIP: 0010:__bfs kernel/locking/lockdep.c:1817 [inline]
-RIP: 0010:__bfs_backwards kernel/locking/lockdep.c:1862 [inline]
-RIP: 0010:check_irq_usage kernel/locking/lockdep.c:2798 [inline]
-RIP: 0010:check_prev_add kernel/locking/lockdep.c:3171 [inline]
-RIP: 0010:check_prevs_add kernel/locking/lockdep.c:3286 [inline]
-RIP: 0010:validate_chain kernel/locking/lockdep.c:3910 [inline]
-RIP: 0010:__lock_acquire+0x197b/0x2cf0 kernel/locking/lockdep.c:5239
-Code: 14 25 ff 0f 00 00 39 05 cf 55 22 12 73 06 89 05 c7 55 22 12 48 8b 02 48 89 df 4c 39 e8 0f 84 2c fe ff ff 4c 89 60 30 48 8b 00 <4c> 39 e8 75 f4 48 89 df e9 18 fe ff ff 48 89 fb 48 c7 c7 d0 53 29
-RSP: 0018:ffffc90003dd7260 EFLAGS: 00000002
-RAX: ffffffff964d7b78 RBX: 00000000000003cd RCX: 0000000000000069
-RDX: ffffffff964d2078 RSI: ffff888027a98cc0 RDI: 00000000000003cd
-RBP: 6fe64282abbcb09d R08: ffffc90003dd7228 R09: 0000000000000020
-R10: 0000000000000100 R11: ffffffff81a12310 R12: ffffffff964db308
-R13: ffffffff9367ab48 R14: ffff888027a98000 R15: 0000000000000068
-FS:  0000000000000000(0000) GS:ffff888125a6b000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007ffd66e1ed84 CR3: 000000000e1b6000 CR4: 00000000003526f0
-Call Trace:
- <TASK>
- lock_acquire+0x106/0x350 kernel/locking/lockdep.c:5870
- seqcount_lockdep_reader_access+0x55/0x100 include/linux/seqlock.h:73
- ktime_get+0x45/0x220 kernel/time/timekeeping.c:965
- clockevents_program_event+0x290/0x5f0 kernel/time/clockevents.c:360
- hrtimer_rearm kernel/time/hrtimer.c:2039 [inline]
- __hrtimer_rearm_deferred+0x273/0x460 kernel/time/hrtimer.c:2059
- irqentry_exit_to_kernel_mode include/linux/irq-entry-common.h:547 [inline]
- irqentry_exit+0x14f/0x680 kernel/entry/common.c:164
- asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:697
-RIP: 0010:__raw_spin_unlock_irqrestore include/linux/spinlock_api_smp.h:179 [inline]
-RIP: 0010:_raw_spin_unlock_irqrestore+0x47/0x80 kernel/locking/spinlock.c:198
-Code: f7 e8 4d 96 5d f6 f7 c3 00 02 00 00 74 05 e8 50 42 89 f6 9c 58 a9 00 02 00 00 75 27 f7 c3 00 02 00 00 74 01 fb bf 01 00 00 00 <e8> 94 25 50 f6 65 8b 05 6d 74 77 07 85 c0 74 18 5b 41 5e e9 11 3c
-RSP: 0018:ffffc90003dd76a8 EFLAGS: 00000206
-RAX: 0000000000000006 RBX: 0000000000000246 RCX: 0000000080000001
-RDX: 0000000000000007 RSI: ffffffff8d99491e RDI: 0000000000000001
-RBP: ffffc90003dd77b0 R08: ffffffff8fcf0bf7 R09: 1ffffffff1f9e17e
-R10: dffffc0000000000 R11: fffffbfff1f9e17f R12: dffffc0000000000
-R13: 1ffff920007baee0 R14: ffff8880b8642d40 R15: ffff8880b8642d40
- unlock_rt_mutex_safe kernel/locking/rtmutex.c:350 [inline]
- rt_mutex_slowunlock+0x4a7/0x8b0 kernel/locking/rtmutex.c:1463
- spin_unlock include/linux/spinlock_rt.h:109 [inline]
- __free_frozen_pages+0x825/0x10f0 mm/page_alloc.c:2973
- __slab_free+0x252/0x2a0 mm/slub.c:5608
- qlink_free mm/kasan/quarantine.c:163 [inline]
- qlist_free_all+0x99/0x100 mm/kasan/quarantine.c:179
- kasan_quarantine_reduce+0x148/0x160 mm/kasan/quarantine.c:286
- __kasan_kmalloc+0x22/0xb0 mm/kasan/common.c:406
- kasan_kmalloc include/linux/kasan.h:263 [inline]
- __kmalloc_cache_noprof+0x3a6/0x690 mm/slub.c:5415
- kmalloc_noprof include/linux/slab.h:950 [inline]
- hci_cmd_sync_submit+0xcb/0x2b0 net/bluetooth/hci_sync.c:714
- hci_abort_conn+0x1f5/0x380 net/bluetooth/hci_conn.c:3123
- process_one_work kernel/workqueue.c:3308 [inline]
- process_scheduled_works+0xb68/0x1910 kernel/workqueue.c:3399
- worker_thread+0xa90/0x1040 kernel/workqueue.c:3485
- kthread+0x388/0x470 kernel/kthread.c:436
- ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
+>
+>>
+>> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+>> index b2ac28ddd480..920e16067134 100644
+>> --- a/mm/khugepaged.c
+>> +++ b/mm/khugepaged.c
+>> @@ -2089,6 +2089,14 @@ static enum scan_result collapse_file(struct mm=
+_struct *mm, unsigned long addr,
+>>                         goto out_unlock;
+>>                 }
+>>
+>> +               /* ... */
+>> +               if (!is_shmem && folio_test_dirty(folio)) {
+>> +                       result =3D SCAN_PAGE_DIRTY_OR_WRITEBACK;
+>> +                       xas_unlock_irq(&xas);
+>> +                       folio_putback_lru(folio);
+>> +                       goto out_unlock;
+>> +               }
+>> +
+>>                 /*
+>>                  * Accumulate the folios that are being collapsed.
+>>
+>>
+>> I guess we don't have to recheck folio_test_writeback() ?
+>
+> Right, writeback needs to take folio lock and we are holding it, so
+> others can only dirty the folio but are not able to initiate write back=
+s.
+>
+> Best Regards,
+> Yan, Zi
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+--
+Best Regards,
+Yan, Zi
