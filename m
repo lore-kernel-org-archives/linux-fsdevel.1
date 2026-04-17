@@ -1,142 +1,107 @@
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0B1A30EF84
-	for <linux-fsdevel@vger.kernel.org>; Fri, 17 Apr 2026 13:30:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776432632; cv=none; b=KapBeAB4bNj8ehyTSWKuVpIP2db7y39xQ86fOW1utd/udnBdqL+CR9ooz0GEL0A6ULWiqI4WonnzIN2N0lQywtVSZ0DT0on7M46VZFm5S8P5gFUPe+y4rxjnA5ppuhVwDL5dw+9vALm/vf9u+nTObo7w5mXqb9aSzjB3a7+ouvU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776432632; c=relaxed/simple;
-	bh=hkpNLJ3ybawOIa1fkGOwYhoNiDG571CgTvN9uVT7u+s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=vEA2VXvM9/TwbbwbI3FqYPu6PcrDQ9DYnEpl8gj+ykyvudmZuoIKZ/FzRNGQuSOkDdbONB7ZhO6ddoIkJb3lOY//1XcQ8c5UHp/GdJXO4yXSWPTREQUPoiM9ilH7cdJ2YBSZQuJ2Ym+zQqPCpmrlal+SEB2H5m9mw0vxUnXrnjM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=fwqU9rc9; arc=none smtp.client-ip=209.85.160.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14975315D46
+	for <linux-fsdevel@vger.kernel.org>; Fri, 17 Apr 2026 13:48:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776433708; cv=pass; b=lg7DKMxC759EbUvjWCNbJPDHbeBN2vsYT9hTbI1OddPCqrqpGUwC3/cPkS2vACWRQDbFVPLX6XtyvGm36XPEmOqJ9JXzF3vytOfmo2JN8IrJKKbWg+B2dD4lfFN0Ga2YDSW077b+eOcEaZtUGp7/0n0ZBhDwEJC69yE+ohS+KWg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776433708; c=relaxed/simple;
+	bh=epdooTCjdaaQWNQbHPFoui8Z7BrwSCiFwvDv3fwddmc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JWm1Drvw2QT+GQkIXrTm8Yq/wltbeQL3RR7OKiiuj0Om4T1yLOqC/A67SQfckXwnkoaSxASKMH1Ap1dJGY1LJrWDR+6Dcel2Kvu7bWqbmd91cX0objSKBF2GVQgkV5PH/JXl7pFOhuMngr0NCeiGWR7kgOVmMGNVFm8kKcuEmVQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=Jh3fhUFQ; arc=pass smtp.client-ip=209.85.219.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="fwqU9rc9"
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-505a1789a27so3368201cf.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 17 Apr 2026 06:30:30 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="Jh3fhUFQ"
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-8a3970f1a0eso8284266d6.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 17 Apr 2026 06:48:25 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776433705; cv=none;
+        d=google.com; s=arc-20240605;
+        b=WXuN5aZG4Vw/XkO4eyRsuWB19KjpY55oss1D2S4FMRhDrvt/zag/Tp1lrp39KRZUWJ
+         LlOSRPUl/9+Fbotpy0aXOwZhfT3HnpXkRAb0Q30ka+PWwA5rOJZ32MKWLoYLGAzFvYin
+         ko5PKU0xzPMomIMqd94FRmvGx+R+ms4OKWFNV6c6tjs298Ccu8WkrCTo9OVJY8WV0V+X
+         1pgRf9M7Os6QsGahbTiq07As2WS6wppFIQknJQavYbW8MYf1C0rnYYz4puUzFPke2VKR
+         vvxQpbInsHM2Cz4Z4hP903gxIhB9gtm8uAk5Fd+9RKoKyRoLvPCtZ6Sejukh+IOt0SRa
+         kTCg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=RaBVFY7AnNSnD9b2BentSR20VU988SdCAvqd5GAeFSk=;
+        fh=e52Y3u1bc6pUMMIgkdFHbQDRkmGHX73n+MSXSyV3ceM=;
+        b=kVhsaZJKQP2PUnFoAzZRkhDCQNvQejHeiChTBD9g1WlEA2xgQix3FlGGWurrmtTJQG
+         Iw1aBjITVQqAtmJArhRQEGtSeTfhNDgcDUPcBljdlbE7+nxUZSZC6aYAuCCoS+3RFtKr
+         GEdlIteSHIbHZsYXxA1mA8YTl/Ord9pO6YYKQLAyPUxdPWX2gezGLYuAvs2K76smmIF6
+         zKSSKyvIlkSr1i3rSiwT5zCpmV2KRP4J5OZxAxg8VNk9DSII+9jDotNoaX/DoPS+ZvU4
+         duf1yLCdEX2TB83ib3MHX35rTKEHb4kFOGd+rWLEc4e8OSkasEtcOR4HrmAkWBeCigJr
+         g18Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1776432629; x=1777037429; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xgTqv4J4Fl9HXQyBvnfY8cYHtSEuC0puU/+LlJmiu7o=;
-        b=fwqU9rc95o1LTxXbeM3xVzr/YEF6qQLLwnIhwMCPZzaaEAl6BjYzd9K4SMG+IkvcuM
-         6mF3iufDqSliJDpuDd/qFSvj6sge9Bl6ut1WQEhwxX0NgfPVSWBt/NIEhoSvE9LQky4a
-         ziPucVpAOTXZqRs1IfU6TcWSLjQa1gWhvYBhb+gLbuOTkswwRsbepenvXxOBM0cVOhdU
-         kJ8LZl5X0d7GiOhsaUPmwijnaf6SX7xQfBrOoXP+sYNxndqV9EygIoLTQephxZOm6Me6
-         iEJgTv8oYwCldLJ0rlD116HeN2ahjql2pDnql+FNBAYlDIyU7quduG/rVTPQVc1ZAxVX
-         WNEQ==
+        d=szeredi.hu; s=google; t=1776433705; x=1777038505; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=RaBVFY7AnNSnD9b2BentSR20VU988SdCAvqd5GAeFSk=;
+        b=Jh3fhUFQU6LAKZSkpnfTxYmfTWZ1owhxYqJ1O/ajRaTmsroHAcC10GCOg87MG7L8Lw
+         5fd+EN+i5fmsie+k7uI07x4daqc+5+uX1UbWAaIzxMnSkx13epsaZ9vbU5oTux6HDCP8
+         Tk8CP4DVITv5LqtGYGRJQPuOfil3AMIS0b87A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776432629; x=1777037429;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xgTqv4J4Fl9HXQyBvnfY8cYHtSEuC0puU/+LlJmiu7o=;
-        b=Fw0QV5j2m9erpZRAkOjQacVyFex840c3Dh16Fgacq0Doas7y0nIPT1/AJb21M2vMwF
-         DYU4Leu0X46KVbdJYJG+BUKdmxBLko044xeFX6GSYOA49MphRyzvLu8Av8hejzaAhde6
-         g24ZWxVHsEG8M7UdF7FSA56LyRbrholwMODDPdvW3f67wDMBNO+Y0FgzYNgybY2VHI5a
-         /R5Cv5Q18ihf8c44H8dIfX9ESxH4FJLb+jphDRAVkkJ4XGb5/7VqCUfQCj3uJatjYIyA
-         RKz70bJc++blvmpcaVTmYc5t1WVzIimfkab6/1vkG3TREArjKEOcd73AtnndwFJQgrzk
-         FJwQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8XBh3FoKqiCREXLCp8My6aHO/21MxOtE8JIOGcAduhxF8mivc9jnT4vOOvHGGvcQygV4ohWuGyE2xosUKy@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz09g+3YPBJfQL+gxM22976ku15ccUej04F3MGJvzSO/gOl4UJA
-	yjizERynTViwF4ypzswJ1DyLTwYfNJ/BcGYVD5AI0itNac8BHI5Ofq+3g2rhkYoIJ+4=
-X-Gm-Gg: AeBDieuJQTpznGEQJt8xCyGA4KYeSHtAAwRtA1f095Nbxr59Zg0qieVWQbQCsmXe+RE
-	dn9I3D3mNjli19rK3hT1yNxX4eZaJh5NzIUnSwsiyZfgWSjCvz6P1dmEXZAJ2C7kWzXApl5rCCw
-	ZxlPPu8OxDjRnGGz5u+3MpEwJeANFq4yf+xK3r0in6+YQg1FS2LGN/J+J9QvZVyhLCAx9ppYoCs
-	WblB2PJhJde6o87WSliZ+a04wwe2x+Ywy3D3J7sf8kb1BZT2VgYkVxcRONMVSieySyuRMxzXl/n
-	OEHob6EsbDfKKgpt8ErfvS6rMitYMSe5SYO2Q7bqheVU2GRb8haWJPFKKiuZOPDvsUM+1dwvE4M
-	pYCM5YwPbpFRpQDVpjCSm4iHaaGEoSOBHQZ346sB8aEwYv7yohoVyDc9Z+1IBYEvVBabopWerfW
-	0irnRuAf0rvPF+4YgEo8XnS2tymyRBkIlIxchdta1XpOrdDAwsNT3npNqgp1ritQCZ+4csTLaEd
-	QS6VftSLxByGnwltkZV
-X-Received: by 2002:a05:622a:1f17:b0:50d:80ee:3962 with SMTP id d75a77b69052e-50e3683091dmr40533621cf.17.1776432629479;
-        Fri, 17 Apr 2026 06:30:29 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-108-18-109-80.washdc.ftas.verizon.net. [108.18.109.80])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50e3bf260fbsm9752291cf.10.2026.04.17.06.30.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Apr 2026 06:30:28 -0700 (PDT)
-Date: Fri, 17 Apr 2026 09:30:25 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: "Darrick J. Wong" <djwong@kernel.org>, Dan Williams <djbw@kernel.org>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	John Groves <John@groves.net>, Miklos Szeredi <miklos@szeredi.hu>,
-	Bernd Schubert <bernd@bsbernd.com>,
-	John Groves <john@jagalactic.com>,
-	Dan J Williams <dan.j.williams@intel.com>,
-	Bernd Schubert <bschubert@ddn.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	David Hildenbrand <david@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Stefan Hajnoczi <shajnocz@redhat.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Chen Linxuan <chenlinxuan@uniontech.com>,
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Shivank Garg <shivankg@amd.com>,
-	Ackerley Tng <ackerleytng@google.com>,
-	Aravind Ramesh <arramesh@micron.com>,
-	Ajay Joshi <ajayjoshi@micron.com>,
-	"venkataravis@micron.com" <venkataravis@micron.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH V10 00/10] famfs: port into fuse
-Message-ID: <aeI18Q2lcxZLw-1V@gourry-fedora-PF4VCD3F>
-References: <CAJfpegvVTcV89=q3L326aGQjhduBcv7PVg5QKftGLjNZmCLmaw@mail.gmail.com>
- <ad4_jFsR951c2Mtn@groves.net>
- <20260414185740.GA604658@frogsfrogsfrogs>
- <CAJnrk1ZgcMuwfMpT1fXvUwBBiq9eWFHWVeOFQFFKiamGGe1RJg@mail.gmail.com>
- <ad7Tps4tkNbndd9Z@groves.net>
- <CAJnrk1ZWVsKW2dhAWdBkCQskoTE+hmOhPFDhyz4EtExn=GdXGA@mail.gmail.com>
- <aeFDCeqZDPI3rm3s@gourry-fedora-PF4VCD3F>
- <43d36427-4629-4712-a262-391e64006eb5@app.fastmail.com>
- <20260416224331.GD114184@frogsfrogsfrogs>
- <aeHrsIGagdmZJ1Fw@infradead.org>
+        d=1e100.net; s=20251104; t=1776433705; x=1777038505;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RaBVFY7AnNSnD9b2BentSR20VU988SdCAvqd5GAeFSk=;
+        b=FKCYDtnKhptK/0FRQsIpPBqrb/XbSXDnaw0SrUfvKhqkMadyxfwGji076jArCl9o+g
+         N4d/+7HxaTWqqNCLOaotwja9HBWYZ3WhI9AZ0qzroOxd7HbUlKSXnq5xLZf+Xu9zyuYQ
+         Bnfyq0hPlw+LDCHL+y1s0kC1AEd6SY9FiS5YndvHF3tkzQ7A0/G7Vqphl3Z7J3DR6VO+
+         YsMAbkbuVEIy9VUDiZOcEShb2RIT4rstYS08QqS3OG2VIhlXcXKFK6AQp60QqHZNG8L9
+         1HnM644WuqSAtg/Wso8dyKgfPykhQe8mTz5rlMFyTz4JtwpHAdPPfIsiK/vBgBi6uMiD
+         2Bag==
+X-Forwarded-Encrypted: i=1; AFNElJ9GiTeg5RxBDsmFIdOZME2mReQ5UMK3PcYaJh+1KaPPJp6snv7GaA6CAN5nADxcmVBQe4h1qCFNz9XpmePO@vger.kernel.org
+X-Gm-Message-State: AOJu0YwcDZmD06skb4InBJUv6dlGSny0ZlhtmC4dnz+dSL1GPTG55nvE
+	mROWstcoxSgJ6jgUQPNH+Hq+iKqIPXqiX4KFngAU04Tn7V8ohpkqJmP2Xsp0baVlSaBucXfpPEI
+	+o5d7lpT5mwFzIy282jC29BNsLhBznsewjGJfpcORtw==
+X-Gm-Gg: AeBDiet6iultDWOcX9L6yHzmiIagwkIR0ikr1EqyymblYF7xoHSMz7GXdlwfPaGkSXD
+	H/k1AN2Bv8ADZREKAv7l2CCXx7vS689E5gduRQISOeZihhIwDMZUPiHtSSvpsvPG2agpjlkhVoY
+	BbmKVGOv8+qzA62wuqgtlGq/SlpVC2dDE2oRyIdxpsQFDpA7RHzWhuTsD7PBiHB7/QBMvF3UxFR
+	gZoj4SQBoB+oRms19NQDcXvas3I5mWQujxVlzOS8HVkyQhvDWNmlKYjtCHFqEk4VWJ+RXcbL3d5
+	1xxT3wiYxjO1Ngkyz59uVxhaZplYkRwDTgcBLLr0TXi7/gI=
+X-Received: by 2002:a05:6214:470c:b0:8a5:104b:e361 with SMTP id
+ 6a1803df08f44-8b0281693c3mr37122346d6.50.1776433704794; Fri, 17 Apr 2026
+ 06:48:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aeHrsIGagdmZJ1Fw@infradead.org>
+References: <898a4e10-6193-4671-b3b1-7c7bc562a671@fmap.me> <CAOQ4uxjoS-PvnZ2poh0bx0C6ocTYwuEpfV0q5md15SjS620OMg@mail.gmail.com>
+ <CAJfpegvxF7F+XKFKokSH4eOgCA0V2RNm6B54MS9nr9wG=U66OA@mail.gmail.com>
+ <59ab54f6-680e-456e-91f4-0a26889844ef@fmap.me> <aeFuarTL7xBbut0F@casper.infradead.org>
+In-Reply-To: <aeFuarTL7xBbut0F@casper.infradead.org>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Fri, 17 Apr 2026 15:48:13 +0200
+X-Gm-Features: AQROBzAW7iBVOcbWzWDl5jliPnjlXzb1RPsfJkPFfxAumnXuWNvcGTGMUJbuMrQ
+Message-ID: <CAJfpegtAeyMRENdneJkJrMKu8Uwnyk9LYBThjvTrFjHmPr6O_g@mail.gmail.com>
+Subject: Re: [fuse-devel] Debugging a stale kernel cache during file growth
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Nikolay Amiantov <ab@fmap.me>, fuse-devel@lists.sourceforge.net, 
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
+	fuse-devel@lists.linux.dev, linux-mm <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Apr 17, 2026 at 01:13:36AM -0700, Christoph Hellwig wrote:
-> On Thu, Apr 16, 2026 at 03:43:31PM -0700, Darrick J. Wong wrote:
-> 
-> > ...however the strongest case (IMO) would be if (having merged famfs) we
-> > then merge fuse-iomap after famfs.  Then we extend the existing
-> > fuse-iomap-bpf prototype to allow per-mount and per-inode iomap bpf ops.
-> > That enables us to analyze thoroughly the performance characteristics of:
-> 
-> Don't go there.  I think that you two are comining up with two
-> interfaces for roughly the same thing is a pretty clear indicator
-> that this needs to be fully hashed out as a single interface first,
-> and any kind of preliminary merging is just going to create problems.
->
+On Fri, 17 Apr 2026 at 01:19, Matthew Wilcox <willy@infradead.org> wrote:
+> What you could do, rather than unlock the folio here is to initiate a
+> read of the folio and allow the read to unlock the folio.  But I don't
+> think this is a good idea, I like the idea of invalidating the folio
+> much better.
 
-We're not sure how deep this rathole goes, and John's work has been
-in the rathole for a few years now.  Hence the desire to hedge.
+There's still a race window if the page is invalidated after being
+ref-ed by filemap_read() and before i_size is read.
 
-But it's obvious no decisions will be made before LSFMM - so we can
-take a breath and chew on it. Maybe we'll get there in person.
+Should that code check for a truncated page and retry?
 
-~Gregory
+Thanks,
+Miklos
