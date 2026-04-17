@@ -1,139 +1,121 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9907063CB;
-	Fri, 17 Apr 2026 15:58:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4776313E10
+	for <linux-fsdevel@vger.kernel.org>; Fri, 17 Apr 2026 16:01:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776441506; cv=none; b=uk1JS5rXYHBGwiZMLgGxTo5LvEK5SmSLu4FbEXa9INibkIr/1y0LwvOD92yg4+N/Id4wlr0Rvnhyg+qFWYx4sfp4aI9lGEoesdCkHemPwvSk7v1h8F5hwkysgF4xe3sbKoreGwgWV67XO642zkKhL1HOtsfp0XO05hZObiqRv0w=
+	t=1776441691; cv=none; b=pWYfx2XIeUsAIn/TWBCM+N8D9tGg3S1iqDDQlnADiokWkCFW1S3OaCg53ivcBXF0Sq4Q1nbXnev8GHH0DzUsZVa/9DSKb+PHn1Jc07BkjDoXD5oHfEIPmGNuNYzBMklluZxXzhVjp2r1j6eD8fIkR1uaFFKONV3qMUlL1ETlRpo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776441506; c=relaxed/simple;
-	bh=RWwR6uXkMPCg3c+IP0E47phCQB0xWxT+MTd7hLknM8E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QChHfhniS1l+TVcCoiqfL8hsaDIgVfNaRiWIXEgZ1B+JBTINMfiAOkEd4UUlQj0oT1oKZtLtSStgyXrIXeG1QLqkx3TTe59UP8cl4pvAH7qWnuDe03OZSmEAsJEmGSE96Aaw4C7GGMHXD+kJvptdVVaTnVH9y3kChEvPoh2kRNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nSj4pF6p; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776441691; c=relaxed/simple;
+	bh=MN9ukJ7sbOLNOd6kQgcy+yDM0fT1YKyxdtcXRjq2DYA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uiQRBmCC360zr3c5GiEh8MD06/MFZnOsVwKXnnXnFeG78idYPDwLrZE3h/Qc2U5LlRRBsgsvv0xKWYIIRbc2AcTNIm3pxdHxJ4GBm1U9toeb/x3oUB9pMsXHHoH4/G3NLI54enqpgVrXYA6nSUnO6PvT0fOP99PgdSGjLPA12G4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dHrdgBW9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nSj4pF6p"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C01BC19425;
-	Fri, 17 Apr 2026 15:58:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dHrdgBW9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91D17C2BCB8
+	for <linux-fsdevel@vger.kernel.org>; Fri, 17 Apr 2026 16:01:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776441506;
-	bh=RWwR6uXkMPCg3c+IP0E47phCQB0xWxT+MTd7hLknM8E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nSj4pF6pEStATHHvFcao6ZgutHlzZxxYiSQhkIF/ihZWLfl6b4BDIePrGypwc7Y7n
-	 S0a1+GnAmfAW2K8RVhcgrbF5swCfcbZ/lOb1TUeszgAHRhtQWYerJrVjOF3x75xnus
-	 8kJ0/qbcVjX8K39nLIY2Z7xIELn6xkJtXz3mrWuiYA90f5aXbVpTE27oRWn2xxL081
-	 t7qEbuBJgcDa+4ArZDaBXZ9npbd6fNPOi7HD4tB2IvRoLnp8Qb4+8JFA049U0CVayA
-	 a+sriPOflWJqt2aB3F2008TF2jG+h0vx0RCAc+Jo3efVH80ny6o+ypycLQM3C1AFhf
-	 sSFXvg8kbKlfQ==
-Date: Fri, 17 Apr 2026 08:58:25 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Joanne Koong <joannelkoong@gmail.com>, Dan Williams <djbw@kernel.org>,
-	Gregory Price <gourry@gourry.net>, John Groves <John@groves.net>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Bernd Schubert <bernd@bsbernd.com>,
-	John Groves <john@jagalactic.com>,
-	Dan J Williams <dan.j.williams@intel.com>,
-	Bernd Schubert <bschubert@ddn.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	David Hildenbrand <david@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Stefan Hajnoczi <shajnocz@redhat.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Chen Linxuan <chenlinxuan@uniontech.com>,
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Shivank Garg <shivankg@amd.com>,
-	Ackerley Tng <ackerleytng@google.com>,
-	Aravind Ramesh <arramesh@micron.com>,
-	Ajay Joshi <ajayjoshi@micron.com>,
-	"venkataravis@micron.com" <venkataravis@micron.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH V10 00/10] famfs: port into fuse
-Message-ID: <20260417155825.GB7727@frogsfrogsfrogs>
-References: <20260414185740.GA604658@frogsfrogsfrogs>
- <CAJnrk1ZgcMuwfMpT1fXvUwBBiq9eWFHWVeOFQFFKiamGGe1RJg@mail.gmail.com>
- <ad7Tps4tkNbndd9Z@groves.net>
- <CAJnrk1ZWVsKW2dhAWdBkCQskoTE+hmOhPFDhyz4EtExn=GdXGA@mail.gmail.com>
- <aeFDCeqZDPI3rm3s@gourry-fedora-PF4VCD3F>
- <43d36427-4629-4712-a262-391e64006eb5@app.fastmail.com>
- <20260416224331.GD114184@frogsfrogsfrogs>
- <CAJnrk1Y78UGLyAGVjiQ10PERTz1d2qcimok6bqCquy7jQYaXag@mail.gmail.com>
- <20260417054031.GA7727@frogsfrogsfrogs>
- <aeHsh3swBp2IZ4cX@infradead.org>
+	s=k20201202; t=1776441691;
+	bh=MN9ukJ7sbOLNOd6kQgcy+yDM0fT1YKyxdtcXRjq2DYA=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=dHrdgBW9Ui4yGV/tFWHkhsAmhn7p98/vopfYgyN1v/7bCv1K6KsiU3lSeN5O9zdXg
+	 782jQsbgrIZ4BJ3Ouroz6cHDQ91bmJ3HWtbLV20lKvSP8gP6G4vjcwKX5APUm9UCWK
+	 7zO/xMNa6/6nQmQAD1ohGhfB/Ov2PU9CJxf+73QekwQtaRUzE/rHheIoXA6yLIMVtF
+	 tjcRLNyWbnNsv30cZMfRP/ExzeOVoTk9PVuxP1v+ehD5YPEU4wTzl6cFQJiELGBDmZ
+	 CyF2tmN/rhKbcs8jbCv7U210sZm8mFAV3T/fGauNatoN0kLy5mzTQevK9CcXUmvSXQ
+	 OGcXbv32b6pUA==
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-8a4b8c3a30bso8160276d6.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 17 Apr 2026 09:01:31 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ890nM2SMLoWsuurxtm6lfOcqpiX8NVFl/7eo4BBXL6XMn6EH0U3DaHMUWTKRl6gZCElNKQeUsNkfdJEssB@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDtXxnGx6nygFZIzk8u1weD0WflT6YK0hHnE+Y66yxiTaxKA8r
+	K22nSOx7w93N2TiBRyg2Nq+fPakp0Fbo9O7rVz0Pd59Jd9L81tH4bpAoiXtp0Wk/9putZ+OPTLy
+	Z0kgvZClJ0RT1DZtPFxEL8jfo5zQiGFg=
+X-Received: by 2002:a05:6214:e4e:b0:89c:ac1f:8d86 with SMTP id
+ 6a1803df08f44-8b0281210b4mr51796826d6.19.1776441690675; Fri, 17 Apr 2026
+ 09:01:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aeHsh3swBp2IZ4cX@infradead.org>
+References: <20260407200157.3874806-1-utilityemal77@gmail.com>
+ <20260407200157.3874806-9-utilityemal77@gmail.com> <CAPhsuW7zzXXd6-d86B-rpGr-wfSzmEoCYNKhTMP_pXnybtA27A@mail.gmail.com>
+ <aeFaQXkKNHFeE-oC@suesslenovo> <CAPhsuW648HdcCbXWMHaJ4uirPWq2WX3Ggx3AGMU6CGzhNYUREg@mail.gmail.com>
+ <aeI_CXj6F-nI_DCL@suesslenovo>
+In-Reply-To: <aeI_CXj6F-nI_DCL@suesslenovo>
+From: Song Liu <song@kernel.org>
+Date: Fri, 17 Apr 2026 09:01:17 -0700
+X-Gmail-Original-Message-ID: <CAPhsuW5Dzf6-nX4t6Wq_+q6j=fHnpWTQCEY_NS-8d1Z0B+QeTg@mail.gmail.com>
+X-Gm-Features: AQROBzBvGU9zbBLMBzHROKZ4Fu1wZJFg6S9v6mWviyTKM2qb_YceCdIYyWnmZg4
+Message-ID: <CAPhsuW5Dzf6-nX4t6Wq_+q6j=fHnpWTQCEY_NS-8d1Z0B+QeTg@mail.gmail.com>
+Subject: Re: [RFC PATCH 08/20] bpf: Add Landlock ruleset map type
+To: Justin Suess <utilityemal77@gmail.com>
+Cc: ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, 
+	kpsingh@kernel.org, paul@paul-moore.com, mic@digikod.net, 
+	viro@zeniv.linux.org.uk, brauner@kernel.org, kees@kernel.org, 
+	gnoack@google.com, jack@suse.cz, jmorris@namei.org, serge@hallyn.com, 
+	yonghong.song@linux.dev, martin.lau@linux.dev, m@maowtm.org, 
+	eddyz87@gmail.com, john.fastabend@gmail.com, sdf@fomichev.me, 
+	skhan@linuxfoundation.org, bpf@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 17, 2026 at 01:17:11AM -0700, Christoph Hellwig wrote:
-> On Thu, Apr 16, 2026 at 10:40:31PM -0700, Darrick J. Wong wrote:
-> > > > ...the memory interleaving is a rather interesting quality of famfs.
-> > > > There's no good way to express a formulaic meta-mapping in traditional
-> > > > iomap parlance, and famfs needs that to interleave across memory
-> > > > controllers/dimm boxen/whatever.  Throwing individual iomaps at the
-> > > > kernel is a very inefficient way to do that.  So I don't think there's a
-> > > > good reason to get rid of GET_FMAP at this time...
-> > > 
-> > > So could we make the interleaving part generic then? Striped /
-> > > interleaved layouts are used elsewhere (eg RAID-0, md-stripe, etc.) -
-> > > could we add a generic interleave descriptor to the uapi and use that
-> > > for what famfs needs?
-> > 
-> > I doubt it.  md-raid presents a unified LBA address space, which means
-> > that the filesystem doesn't have to know anything about whatever
-> > translations might happen underneath it.
-> 
-> Unless that translation happens in the file system.  It does for btrfs
-> right now, and it does for pNFS blocklayout.  The former is using iomap
-> for direct I/O (and has old code and vague plans for using it for
-> buffered I/O maybe eventually), the latter does not currently but would
-> benefit a lot, although wiring it through the NFS code will be painful.
+On Fri, Apr 17, 2026 at 7:09=E2=80=AFAM Justin Suess <utilityemal77@gmail.c=
+om> wrote:
+>
+> On Thu, Apr 16, 2026 at 04:47:40PM -0700, Song Liu wrote:
+> > On Thu, Apr 16, 2026 at 2:53=E2=80=AFPM Justin Suess <utilityemal77@gma=
+il.com> wrote:
+> > [...]
+> > > I don't think we can pass the FD number via a map, since the FD is
+> > > process specific. And it needs to be done in a way where we can looku=
+p
+> > > the specific ruleset the FD points to safely.
+> > >
+> > > So we'd need some other way to load the ruleset from a file descripto=
+r,
+> > > either through a new userspace side BPF call or similar mechanism.
+> > >
+> > > Is there some other common pattern for FDs --> kptr I can follow?
+> >
+> > I didn't find an exact example like this. There must be a way to achiev=
+e
+> > this. In the worst case, we can add a kfunc for this.
+> >
+>
+> I think new kfunc is a doable approach. I could make a kfunc taking a str=
+uct
+> *task_struct and an FD that looks up a landlock ruleset within a given
+> task that returns a trusted kptr.
+>
+> Something like:
+>
+> struct bpf_landlock_ruleset* bpf_landlock_get_ruleset_from_fd(struct
+> task_struct* task, int fd)
+>
+> And tagging it with KF_ACQUIRE + KF_RET_NULL.
+>
+> Then keep the existing kfunc for putting the ruleset and enforcing it on
+> a struct linux_binprm.
+>
+> The BPF program would need to get a reference to a task struct
+> of the program creating the rulesets with bpf_task_from_pid for
+> instance. Then they could use the task_struct with another plain integer
+> map to store FD numbers and then use the rulesets or store them in a map
+> of __kptr objects for later usage.
+>
+> Would this be more acceptable?
 
-Not to mention a huge layering violation unless you're doing xraid. ;)
+Maybe we don't need bpf_task_from_pid(), as we only need to work
+with current task?
 
-That said, the fuse-iomap patches have been waiting for a review since
-October, and I'd really prefer to get the base enablement of iomap
-merged before we start asking about things that existing fuse servers
-and iomap client filesystems don't do, like in-filesystem raid.
+I will need to read landlock code more give a better recommendation
+on this.
 
-> > Most filesystems that implement striping themselves don't restrict
-> > themselves to monotonically increasing LBA ranges rotored across each
-> > device like md-raid0 does.
-> 
-> Mappings can be more flexible, but they usually would not in a single
-> iomap iteration.
-> 
-> > But for whatever reason, pmem/dax don't have remapping layers like
-> > md/dm so filesystems have to do that on their own if the hardware
-> > doesn't do it for them.
-> 
-> DM actually supports DAX.  I don't think that's a very good way as it
-> adds a lot of overhead for little gain for striping.
-
-Aha, it has long been my suspicion that looping through mapping layers
-is a real performance pit for memory-based file stores.  Thanks for
-saying that explicitly.
-
---D
+Thanks,
+Song
