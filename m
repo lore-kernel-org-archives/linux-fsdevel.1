@@ -1,104 +1,158 @@
-Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com [91.218.175.173])
+Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C3AF35F8C9
-	for <linux-fsdevel@vger.kernel.org>; Fri, 17 Apr 2026 04:13:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FC781E531;
+	Fri, 17 Apr 2026 04:34:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.171.160.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776399234; cv=none; b=ipch0Ri5lw4za3W82X6YmDXZ67IuDrn8bfekqY2Vi2T5Kd3vlAcZvhb3utZbuHtnNAYzEQw+dgW6gKZm2+t6TtePx6O9ci1ECM42iFmnElf+xmp87js+9XYe5EUEG3i7FdAUxl7Tg3oLzNK/R+JWiGrwTSHs8w9ECLy4aULyq5s=
+	t=1776400480; cv=none; b=i8Ar9qTJbXM9Vjhte76CQql/6walzh2qlOOy52Nls/7QUzdY3aCJKc8NhgXVSpJ3qbPhXHxRo2Naxcqo6gTTATm6Larm5ZH/QrUZ0aBEVB1iqcriNUpWttd2PCmpk+ebKB3gUl4BcGgnxyGUziurc4UAJXq2eMl+5j+0FI+1yaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776399234; c=relaxed/simple;
-	bh=iyC6BdIQ+Z0rGRKdVAoI98gkiW4mKjtU5oJBqXDRaOA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D1seawVj6KhfDHYA/aglE4w9gn9eFJ7ykZcmTzz5FQPnY2/jWIhlL2npPtAGJkJz+YapADFxIF/OrXGKGU5Foi14IWRZKz/+330G5rlc3DZqPUwSXN6WuL/9fALEOkmqMbhKpt6/CVSPcJzN9nlwl2rVuMn/b23TtNDmo3HXihs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=mETVZEOu; arc=none smtp.client-ip=91.218.175.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1776400480; c=relaxed/simple;
+	bh=dagQ6S0i1yQpLfDpdyFmyhlqwf1damBZTtng4/dDEuA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=mnquaw5OrCNrpEO7R5Hv1sjLbUy06kRsdplXPwMGzZW2whpUQSVKCtrDtt2Rhn7dybrxQj5PlYPIHPUHm3g5UOK0JdQpvQRn9gdWUgSfNqo/yLbfPid966xqjwgC9PraKOIfwe8CGl2sBm7gk8ADL+TBuZ3WSpXJeLEtxMGF+8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp; spf=pass smtp.mailfrom=parknet.co.jp; dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=AvFLHdiw; dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=m8BJwqw/; arc=none smtp.client-ip=210.171.160.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="mETVZEOu"
-Date: Fri, 17 Apr 2026 06:13:31 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1776399220;
+	dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="AvFLHdiw";
+	dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="m8BJwqw/"
+Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
+	by mail.parknet.co.jp (Postfix) with ESMTPSA id 8E5FF26F7658;
+	Fri, 17 Apr 2026 13:34:25 +0900 (JST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
+	s=20250114; t=1776400465;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=XUaK1uP+6uJO3z8Fwm4PBPbv5RYUn9z279QbRwk1wDE=;
-	b=mETVZEOuB6FUvW28gEH2W7joKSOQVVwk9uQHP8vGpER0/3RF6zLF0Fh02TiaJ9+zynry00
-	064wsNt5G4t0VMJBo81UcDM0aj0XeAuIPxPQLhU0TBul1ZV7tCB097AWL9XRcKyz0+E0Wn
-	vnc8A8/LBLEIihoRIRj5Pcq+dRP/1Pg=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Pankaj Raghav (Samsung)" <pankaj.raghav@linux.dev>
-To: Ojaswin Mujoo <ojaswin@linux.ibm.com>
-Cc: linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	djwong@kernel.org, john.g.garry@oracle.com, willy@infradead.org, hch@lst.de, 
-	ritesh.list@gmail.com, jack@suse.cz, Luis Chamberlain <mcgrof@kernel.org>, 
-	dgc@kernel.org, tytso@mit.edu, p.raghav@samsung.com, andres@anarazel.de, 
-	brauner@kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [RFC PATCH v2 2/5] iomap: Add initial support for buffered
- RWF_WRITETHROUGH
-Message-ID: <2dmo4my5rml4ymfuw5afc2fnbcxn2l3w3bz2boj4eevognilni@vgy4vwlikqx7>
-References: <cover.1775658795.git.ojaswin@linux.ibm.com>
- <d44171d5a1ec783722019ad7d1a4ede0478cc914.1775658795.git.ojaswin@linux.ibm.com>
+	bh=QO3qfsoJUEfYPew2T8tSjN/8FJWVNRZPRU2EQd0KMow=;
+	b=AvFLHdiwoBVyY7DDEimPUgqEWgozouCgnexXW8ceo0km0mOxOwFvKfqpZ2MT3ST/GZ+osG
+	/fbpeucKJxhR7d1iIxvHAHNXM9vwYz0eZIKNk7JhZhOrGyzsATAq/J0uTp3bKRE69tA1rV
+	tbi6rF5BewF35KiZdEmQD1gkUvnzIGC8wiI0Vv88oegCpj2AZulVpCgNRqGztEfNfcxWdM
+	T7cL+tetN31oNMZIJRqcSXff/MtGSdzykfGzbOT+wkq+TqLx7MmXMb/vEoBuHIjnl57Yqr
+	Xre4LT2YUfqs+J3PvkDL+TFW4DW4T3SrfRy5TArtvgzAQJhi5AVw1XFFzHeQGQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
+	s=20250114-ed25519; t=1776400465;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QO3qfsoJUEfYPew2T8tSjN/8FJWVNRZPRU2EQd0KMow=;
+	b=m8BJwqw/cwFVZGnzXhSccfQW8zggc0/x9NmAK6UBdn2wFvhWJkyvQ4/G/evQPDEnvAn2Lj
+	W5Du3Wsf1emu7eDA==
+Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
+	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id 9E527E00187;
+	Fri, 17 Apr 2026 13:34:24 +0900 (JST)
+Received: by devron.myhome.or.jp (Postfix, from userid 1000)
+	id 8FC1F22001B2; Fri, 17 Apr 2026 13:34:24 +0900 (JST)
+From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Christian Brauner <brauner@kernel.org>, Adi Nata
+ <adinata.softwareengineer@gmail.com>,  linux-kernel@vger.kernel.org,
+  linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] kunit: fat: test cluster and directory i_pos layout
+ helpers
+In-Reply-To: <877bq9lyk7.fsf@mail.parknet.co.jp>
+References: <20260405011920.28622-1-adinata.softwareengineer@gmail.com>
+	<87y0j2m1d0.fsf@mail.parknet.co.jp>
+	<877bqbeez4.fsf@mail.parknet.co.jp>
+	<877bq9lyk7.fsf@mail.parknet.co.jp>
+Date: Fri, 17 Apr 2026 13:34:24 +0900
+Message-ID: <87mrz25hnz.fsf@mail.parknet.co.jp>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d44171d5a1ec783722019ad7d1a4ede0478cc914.1775658795.git.ojaswin@linux.ibm.com>
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain
 
-<snip>
->   3.3. Wait for any current writeback to complete and then call
->        folio_mkclean() to prevent mmap writes from changing it.
->   3.4. Start writeback on the folio
-<snip>
-> +
-> +/**
-> + * iomap_writethrough_begin - prepare the various structures for writethrough
-> + * @folio: folio to prepare for writethrough
-> + * @off: offset of write within folio
-> + * @len: len of write within folio
-> + *
-> + * This function does the major preparation work needed before starting the
-> + * writethrough. The main task is to prepare folio for writeththrough by blocking
-> + * mmap writes and setting writeback on it. Further, we must clear the write range
-> + * to non-dirty. If this results in the complete folio becoming non-dirty, then we
-> + * need to clear the master dirty bit.
-> + */
-> +static void iomap_folio_prepare_writethrough(struct folio *folio, size_t off,
-> +					     size_t len)
-> +{
-> +	bool fully_written;
-> +	u64 zero = 0;
-> +
-> +	if (folio_test_writeback(folio))
-> +		folio_wait_writeback(folio);
-> +
-> +	if (folio_mkclean(folio))
-> +		folio_mark_dirty(folio);
-> +
-> +	/*
-> +	 * We might either write through the complete folio or a partial folio
-> +	 * writethrough might result in all blocks becoming non-dirty, so we need to
-> +	 * check and mark the folio clean if that is the case.
-> +	 */
-> +	fully_written = (off == 0 && len == folio_size(folio));
-> +	iomap_clear_range_dirty(folio, off, len);
-> +	if (fully_written ||
-> +	    !iomap_find_dirty_range(folio, &zero, folio_size(folio)))
-> +		folio_clear_dirty_for_writethrough(folio);
+OGAWA Hirofumi <hirofumi@mail.parknet.co.jp> writes:
 
-I get the point where you want to prevent mmap writes before the current
-writeback completes. It is not very obvious to me why folio_mkclean
-and folio_mark_dirty had to be moved out and then we call the
-folio_clear_dirty_for_writethrough wrapper. Anyway those calls are made
-after we do folio_wait_writeback right? 
-Is to cover the cases where we do partial write in which case we don't
-end up calling folio_clear_dirty_for_io? If that is the case, then a small
-comment on top of folio_mkclean would make it a bit more clear.
+Hi, Andrew
 
---
-Pankaj
+Could you pick fat patches again? Christian's path didn't work for fat
+(no response for 10 days).
+
+Thanks.
+
+> OGAWA Hirofumi <hirofumi@mail.parknet.co.jp> writes:
+>
+> ping?
+>
+>> OGAWA Hirofumi <hirofumi@mail.parknet.co.jp> writes:
+>>
+>> Hi, Christian. ping?
+>>
+>>> Adi Nata <adinata.softwareengineer@gmail.com> writes:
+>>>
+>>>> Add KUnit coverage for fat_clus_to_blknr() and fat_get_blknr_offset()
+>>>> using stub msdos_sb_info values so cluster-to-sector and i_pos split
+>>>> math stays correct.
+>>>>
+>>>> Signed-off-by: Adi Nata <adinata.softwareengineer@gmail.com>
+>>>
+>>> Looks good.
+>>>
+>>> Acked-by: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+>>>
+>>> Thanks.
+>>>
+>>>> ---
+>>>>  fs/fat/fat_test.c | 33 +++++++++++++++++++++++++++++++++
+>>>>  1 file changed, 33 insertions(+)
+>>>>
+>>>> diff --git a/fs/fat/fat_test.c b/fs/fat/fat_test.c
+>>>> index 1f0062659067..add44178f28e 100644
+>>>> --- a/fs/fat/fat_test.c
+>>>> +++ b/fs/fat/fat_test.c
+>>>> @@ -20,6 +20,37 @@ static void fat_checksum_test(struct kunit *test)
+>>>>  	KUNIT_EXPECT_EQ(test, fat_checksum("ABCDEFGHA  "), (u8)98);
+>>>>  }
+>>>>  
+>>>> +static void fat_clus_to_blknr_test(struct kunit *test)
+>>>> +{
+>>>> +	struct msdos_sb_info sbi = {
+>>>> +		.sec_per_clus = 4,
+>>>> +		.data_start = 100,
+>>>> +	};
+>>>> +
+>>>> +	KUNIT_EXPECT_EQ(test, (sector_t)100,
+>>>> +			fat_clus_to_blknr(&sbi, FAT_START_ENT));
+>>>> +	KUNIT_EXPECT_EQ(test, (sector_t)112, fat_clus_to_blknr(&sbi, 5));
+>>>> +}
+>>>> +
+>>>> +static void fat_get_blknr_offset_test(struct kunit *test)
+>>>> +{
+>>>> +	struct msdos_sb_info sbi = {
+>>>> +		.dir_per_block = 16,
+>>>> +		.dir_per_block_bits = 4,
+>>>> +	};
+>>>> +
+>>>> +	sector_t blknr;
+>>>> +	int offset;
+>>>> +
+>>>> +	fat_get_blknr_offset(&sbi, 0, &blknr, &offset);
+>>>> +	KUNIT_EXPECT_EQ(test, (sector_t)0, blknr);
+>>>> +	KUNIT_EXPECT_EQ(test, 0, offset);
+>>>> +
+>>>> +	fat_get_blknr_offset(&sbi, (10 << 4) | 7, &blknr, &offset);
+>>>> +	KUNIT_EXPECT_EQ(test, (sector_t)10, blknr);
+>>>> +	KUNIT_EXPECT_EQ(test, 7, offset);
+>>>> +}
+>>>> +
+>>>>  struct fat_timestamp_testcase {
+>>>>  	const char *name;
+>>>>  	struct timespec64 ts;
+>>>> @@ -181,6 +212,8 @@ static void fat_time_unix2fat_test(struct kunit *test)
+>>>>  
+>>>>  static struct kunit_case fat_test_cases[] = {
+>>>>  	KUNIT_CASE(fat_checksum_test),
+>>>> +	KUNIT_CASE(fat_clus_to_blknr_test),
+>>>> +	KUNIT_CASE(fat_get_blknr_offset_test),
+>>>>  	KUNIT_CASE_PARAM(fat_time_fat2unix_test, fat_time_gen_params),
+>>>>  	KUNIT_CASE_PARAM(fat_time_unix2fat_test, fat_time_gen_params),
+>>>>  	{},
+
+-- 
+OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
