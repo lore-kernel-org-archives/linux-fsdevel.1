@@ -1,134 +1,107 @@
-Received: from out203-205-221-190.mail.qq.com (out203-205-221-190.mail.qq.com [203.205.221.190])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2B292F531F;
-	Fri, 17 Apr 2026 06:58:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.190
+Received: from mailgw1.hygon.cn (unknown [101.204.27.37])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 890FD2F531F;
+	Fri, 17 Apr 2026 06:59:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.204.27.37
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776409143; cv=none; b=t0CVTeaXHdi35HiCSpb995MPWI9B54L5Iy2p7dESPYFYmHLHkPpFzkohqKgMTLGyn85n2XpPpNKIlR8qSg0RWU+I/fjFOQxReb7nys+ifgn9A+2Ba01brfvz0Tu3cCVBW/DGw6raGucTGWkdHlGJhnU0/7jJfochRdRkAgVk4lE=
+	t=1776409212; cv=none; b=oIErM8NQlAHMHHmywx87z+z5B/yo9yzjHYDALqj1Ntkm4d55tGMNs6VIyRf7wcrbI2Rx7xAK/se/B39GHqlzeEfMYP2+aua9pCkbpStf6qa5i0PeroXhNGzVivjl27LmYlyrCKlpZ6B/aT4WaQZGLIKxCdT2RWq0tY3YoLlayDM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776409143; c=relaxed/simple;
-	bh=50U2zfv9PeuZPa0JCzbAB7DsNVLlBqHVp6nagMTSm0M=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=Ff6bUACK54IKF3RYuddkCpNvOEJrVXAdUEGo2Slh7IDxSWKNyOUDZ9uFVFvqx4YnuhXp6Wfd2EiACjP6M/ynqiA7cwdd/gX5VD5MSM6QZLU1EB4r34BqFoZOLTwVxLNc62rdKNykDHZeJLBhSo3GBJ/sQh1QS5Nb4c4OzZMjAFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=VEYGAgoH; arc=none smtp.client-ip=203.205.221.190
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="VEYGAgoH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1776409131; bh=HRcsKAm0HC9xuo5jH0cSLPq761DEVJInNP3n9DAoRPw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=VEYGAgoHhUVIkaLaAqn0IEEhbKZskMn2WTCN2k/QCxVAK3COBAfwR30upxn27rUS2
-	 gRBJm/XNTCuNKKfYpE7HAF1YVtAIVQAjGJnYW+vDYge6sYYoWxL4RxZp/aCHFaATHD
-	 s0e+JlWPnvutbc+9G2puikBCAvzfCH/wGxzUApL4=
-Received: from lxu-ped-host.. ([111.198.231.89])
-	by newxmesmtplogicsvrsza73-0.qq.com (NewEsmtp) with SMTP
-	id EB0B3056; Fri, 17 Apr 2026 14:58:48 +0800
-X-QQ-mid: xmsmtpt1776409128t6ck4j4da
-Message-ID: <tencent_C4F16CD096B0EAEAEE5ACDB07A266E382C0A@qq.com>
-X-QQ-XMAILINFO: OOyEews/EdUgIxj2LcK15XYl/c7ZUvXYsaO/amZ4rhmi19nXt38hG53Y1WgCr1
-	 FZNRON6wh8Zka44fs86WFMO5HFGX3mb2Eq5HV2LUOGpYL6UL2AyBiAXYDyg5UqdjHnhdXKNMMHpb
-	 UzL6KdshhjGz8YRTixB5KXva99uJ7yorJCdV00xfKg8XFYKHaTcoI5j0oE5ooqrMAJNB8fTOkKy4
-	 q05U1s/LK/4NY2AqIfaeYxP5Dr74llDAFBqFlfz6aScRBXc7/jISoHgD2nKgFhkBmwfC2oeDXZSd
-	 iKZSSmeoycUFBGH05V43g4mnHXFAw51wn4DXBI2epBj7O2NrG7SGk1H+ZM4P30TZweobMP93tYOe
-	 +2KlLm7T1jVhkrXKnvXOmMObSFDVHADP4PwqYQxQhYykX8WLXQiYM/e1MVfi8Z5gSK6yXpBJQNxW
-	 fL/UB2PLhGsll/anFx4un3EOKovWScX+lvTykVN1uB1stp32IAMZBhUuqkxjupP9R+1RopVpVV4t
-	 FrC+n9yV6IBBR0DPGVbVg2q6uKClzjXPV0Bw9Rgi3qLrJqpDTz7ImS0R6smfMAbNttLl4MVklIEI
-	 ekvZGbh7wVRw/4a5KEMTgA89hxA1ckbIUMeslecJsX6kfGdncfbt2xJGUaO56ewu4V9r30KA6wAk
-	 uG/fElTr2YbciVyhTj0RYnvBa7oBD62x/xMQV1XIV7tAVhlhlFBUy6ocve42TxF16YxOIucN4lJR
-	 EJ1VaSGbO3QSOjH1kafZy487hJZ8OP69GPsFZwjWu5tDMjPDrfoM6ZudUSHyyB+W6eETM5LG+rU6
-	 Kge2ohdsWCKviznKLtgFJZppNt7Knkmgf+FX6aF3FhvpH+P93cy07IGgb0THzI5MSir9nngNDLdt
-	 hI0JUbsg+VvA7n2paiY/nmoAvd1S4az3VvrASNde/Yf6n8IgaX1O7HB4IumWhOqCVPU8uX8FVoDt
-	 ZHq2wjybbQZMLX8AsCKDqkUsNxK1daBXwwFW3MoYpgv0rzUSFq0cEL0VA3CkQZ87Xbg+nR0Wm+o2
-	 PS3UXbHTkS9Ung7www
-X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
-From: Edward Adam Davis <eadavis@qq.com>
-To: syzbot+98547b0428b6a6a3467c@syzkaller.appspotmail.com
-Cc: frank.li@vivo.com,
-	glaubitz@physik.fu-berlin.de,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	slava@dubeyko.com,
-	syzkaller-bugs@googlegroups.com
-Subject: [PATCH] hfsplus: Supports freeing newly created tree head
-Date: Fri, 17 Apr 2026 14:58:49 +0800
-X-OQ-MSGID: <20260417065848.415593-2-eadavis@qq.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <69e1934c.a70a0220.7229.0011.GAE@google.com>
-References: <69e1934c.a70a0220.7229.0011.GAE@google.com>
+	s=arc-20240116; t=1776409212; c=relaxed/simple;
+	bh=2Qm1k46QeaCwP3PmXiD2vvdZ0MLoC5zsmI9lok6yqpc=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iGB/uIFGXUWHW9hc9gS2JChprkghtXCkPpNsa1dep87wvKvfkq0C2n4XNyEp6H7tE7VcLb909cLsn4N4BZno9xgC4kbSE0VsPFSA2h0F4I0Wp3zUupXuRM75OREanuJ7veTECWNqHzVY5dFaJrIMUWRFFjnVWPyYdGqq6zbeueo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn; spf=pass smtp.mailfrom=hygon.cn; arc=none smtp.client-ip=101.204.27.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hygon.cn
+Received: from maildlp1.hygon.cn (unknown [127.0.0.1])
+	by mailgw1.hygon.cn (Postfix) with ESMTP id 4fxm355c3TzwvXZ;
+	Fri, 17 Apr 2026 14:59:45 +0800 (CST)
+Received: from maildlp1.hygon.cn (unknown [172.23.18.60])
+	by mailgw1.hygon.cn (Postfix) with ESMTP id 4fxm342Yk4zvkdy;
+	Fri, 17 Apr 2026 14:59:44 +0800 (CST)
+Received: from cncheex04.Hygon.cn (unknown [172.23.18.114])
+	by maildlp1.hygon.cn (Postfix) with ESMTPS id 1F23A16E2;
+	Fri, 17 Apr 2026 14:59:44 +0800 (CST)
+Received: from hsj-2U-Workstation (172.19.20.61) by cncheex04.Hygon.cn
+ (172.23.18.114) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Fri, 17 Apr
+ 2026 14:59:42 +0800
+Date: Fri, 17 Apr 2026 14:59:41 +0800
+From: Huang Shijie <huangsj@hygon.cn>
+To: Mateusz Guzik <mjguzik@gmail.com>
+CC: <akpm@linux-foundation.org>, <viro@zeniv.linux.org.uk>,
+	<brauner@kernel.org>, <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-fsdevel@vger.kernel.org>,
+	<muchun.song@linux.dev>, <osalvador@suse.de>,
+	<linux-trace-kernel@vger.kernel.org>, <linux-perf-users@vger.kernel.org>,
+	<linux-parisc@vger.kernel.org>, <nvdimm@lists.linux.dev>,
+	<zhongyuan@hygon.cn>, <fangbaoshun@hygon.cn>, <yingzhiwei@hygon.cn>
+Subject: Re: [PATCH 0/3] mm: split the file's i_mmap tree for NUMA
+Message-ID: <aeHaXXB2+mla7u2F@hsj-2U-Workstation>
+References: <20260413062042.804-1-huangsj@hygon.cn>
+ <76pfiwabdgsej6q2yxfh3efuqvsyg7mt7rvl5itzzjyhdrto5r@53viaxsackzv>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <76pfiwabdgsej6q2yxfh3efuqvsyg7mt7rvl5itzzjyhdrto5r@53viaxsackzv>
+X-ClientProxiedBy: cncheex06.Hygon.cn (172.23.18.116) To cncheex04.Hygon.cn
+ (172.23.18.114)
 
-hfs_bnode_put() does not support deallocating a newly created btree
-head node; therefore, regardless of whether hfsplus_bnode_find() succeeds
-or fails, it cannot effectively reclaim the memory allocated for a newly
-created head node.
+On Mon, Apr 13, 2026 at 05:33:21PM +0200, Mateusz Guzik wrote:
+> On Mon, Apr 13, 2026 at 02:20:39PM +0800, Huang Shijie wrote:
+> >   In NUMA, there are maybe many NUMA nodes and many CPUs.
+> > For example, a Hygon's server has 12 NUMA nodes, and 384 CPUs.
+> > In the UnixBench tests, there is a test "execl" which tests
+> > the execve system call.
+> > 
+> >   When we test our server with "./Run -c 384 execl",
+> > the test result is not good enough. The i_mmap locks contended heavily on
+> > "libc.so" and "ld.so". For example, the i_mmap tree for "libc.so" can have 
+> > over 6000 VMAs, all the VMAs can be in different NUMA mode.
+> > The insert/remove operations do not run quickly enough.
+> > 
+> > patch 1 & patch 2 are try to hide the direct access of i_mmap.
+> > patch 3 splits the i_mmap into sibling trees, and we can get better 
+> > performance with this patch set:
+> >     we can get 77% performance improvement(10 times average)
+> > 
+> 
+> To my reading you kept the lock as-is and only distributed the protected
+> state.
+> 
+> While I don't doubt the improvement, I'm confident should you take a
+> look at the profile you are going to find this still does not scale with
+> rwsem being one of the problems (there are other global locks, some of
+> which have experimental patches for).
+> 
+> Apart from that this does nothing to help high core systems which are
+> all one node, which imo puts another question mark on this specific
+> proposal.
+> 
+> Of course one may question whether a RB tree is the right choice here,
+> it may be the lock-protected cost can go way down with merely a better
+> data structure.
+> 
+> Regardless of that, for actual scalability, there will be no way around
+> decentralazing locking around this and partitioning per some core count
+> (not just by numa awareness).
+> 
+> Decentralizing locking is definitely possible, but I have not looked
+> into specifics of how problematic it is. Best case scenario it will
+> merely with separate locks. Worst case scenario something needs a fully
+> stabilized state for traversal, in that case another rw lock can be
+> slapped around this, creating locking order read lock -> per-subset
+> write lock -- this will suffer scalability due to the read locking, but
+> it will still scale drastically better as apart from that there will be
+> no serialization. In this setting the problematic consumer will write
+> lock the new thing to stabilize the state.
+For your proposal in no-numa, I hope you can create a patch set for it.
+I can test it in our machine.
 
-When finding a head node, if the node is a newly created one, we can use
-hfs_bnode_free() to reclaim its memory.
-
-[1]
-BUG: memory leak
-unreferenced object 0xffff88811cabc840 (size 96):
-  backtrace (crc 3e2dadb7):
-    __hfs_bnode_create+0x59/0x310 fs/hfsplus/bnode.c:469
-    hfsplus_bnode_find+0x13e/0x580 fs/hfsplus/bnode.c:547
-    hfsplus_btree_open+0x2fa/0x6d0 fs/hfsplus/btree.c:382
-    hfsplus_fill_super+0x272/0x880 fs/hfsplus/super.c:548
-
-Fixes: 8ad2c6a36ac4 ("hfsplus: validate b-tree node 0 bitmap at mount time")
-Reported-by: syzbot+98547b0428b6a6a3467c@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=98547b0428b6a6a3467c
-Tested-by: syzbot+98547b0428b6a6a3467c@syzkaller.appspotmail.com
-Signed-off-by: Edward Adam Davis <eadavis@qq.com>
----
- fs/hfsplus/bnode.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
-
-diff --git a/fs/hfsplus/bnode.c b/fs/hfsplus/bnode.c
-index f8b5a8ae58ff..65902104882a 100644
---- a/fs/hfsplus/bnode.c
-+++ b/fs/hfsplus/bnode.c
-@@ -598,14 +598,18 @@ struct hfs_bnode *hfs_bnode_find(struct hfs_btree *tree, u32 num)
- 		if (key_size >= entry_size || key_size & 1)
- 			goto node_error;
- 	}
--	clear_bit(HFS_BNODE_NEW, &node->flags);
--	wake_up(&node->lock_wq);
-+	if (num != HFSPLUS_TREE_HEAD) {
-+		clear_bit(HFS_BNODE_NEW, &node->flags);
-+		wake_up(&node->lock_wq);
-+	}
- 	return node;
- 
- node_error:
- 	set_bit(HFS_BNODE_ERROR, &node->flags);
--	clear_bit(HFS_BNODE_NEW, &node->flags);
--	wake_up(&node->lock_wq);
-+	if (num != HFSPLUS_TREE_HEAD) {
-+		clear_bit(HFS_BNODE_NEW, &node->flags);
-+		wake_up(&node->lock_wq);
-+	}
- 	hfs_bnode_put(node);
- 	return ERR_PTR(-EIO);
- }
-@@ -694,6 +698,10 @@ void hfs_bnode_put(struct hfs_bnode *node)
- 			hfs_bnode_free(node);
- 			return;
- 		}
-+		if (test_bit(HFS_BNODE_NEW, &node->flags)) {
-+			hfs_bnode_unhash(node);
-+			hfs_bnode_free(node);
-+		}
- 		spin_unlock(&tree->hash_lock);
- 	}
- }
--- 
-2.43.0
+Thanks
+Huang Shijie
 
