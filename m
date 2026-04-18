@@ -1,244 +1,249 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0190E28686
-	for <linux-fsdevel@vger.kernel.org>; Sat, 18 Apr 2026 12:32:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776515577; cv=pass; b=Gg+4X1OMkRnaNJJy+qBnYKkjn9Vx6XI7w3EOa11M4cqXwDGpy/YMBQnhhj0Cg5ursb/ammNLbPn2E6oDED2i5dFtn/JxzMnHO8kCMNLOlQLNindh2X6zH7604ZeqHv1bxFTWaZwHGg+lR6RKoXrAGHHu4nOQeXxbFozkiYtG5wU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776515577; c=relaxed/simple;
-	bh=VUfg80/qDsHtBz/vbTk75VigV3mrNEJhj952T03WlJA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mk+WE2v5Wj9zuMHr8YEdWZMoYPpyQpkIuVQVK0sWg3JxGvnUNzCzfvmhNkwt3cjLFZPHRyMEahyEClZRIqLUvsfV9xWlsqU8RssC8fKxxd+gEBOeIA96c04M1jyjO4ooyP5bf3iQcH5T2k/L28/9Eeh5/z2RZ79LfhbI89Lenos=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ic5sVwHa; arc=pass smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7775E37D12E
+	for <linux-fsdevel@vger.kernel.org>; Sat, 18 Apr 2026 13:39:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776519594; cv=none; b=TBjIwXyqdeYgyvekrinZ4HTLa5ZWu/gjch8tQ6ECbgxUt7oFW/3xPgxLhAj2hkSdW5LzThVboGI6ZLzCCNb58YHRxQ+bc0mJXCjvpbBS6zdV5comGFk1rFHxDj8o9YOFndjcs/T4KlZK12+2IIEh48Lmm+Hm7jPtCeTrIdc60CU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776519594; c=relaxed/simple;
+	bh=1f6nG6admbT1hTed5lqeiJcXQUkVRDolHMiHMqRxswM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=r4Z7U+HCnpDFJwORWofj/8/vrfcj46aZz4GxLfQacv4/MzngYKtBdbIG1SA3cA2Py9wti6zU2KMaxX6qPOXbAZmyazqUQPwrxCMCnrI/EMHsQmFKQOo4GtHT7JTbTfr9aEJacG8rEyqZCzRFX5QwJRHLktLUKIuZVftOXz2wTk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B+CmtZqq; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ic5sVwHa"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-671c5eb7fb0so1959650a12.3
-        for <linux-fsdevel@vger.kernel.org>; Sat, 18 Apr 2026 05:32:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776515574; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Zuj0FbkuVXNk6yG6hCPDX+3pCp0hU/dj2l/NTcZfn9Rb9tfCFAfF4X9qBW0b50GTYG
-         mGSqgQBlCnBBN4xWYzF7qdh2nnel8w7Ytu4AVNXD06vmMU/PbILv9hhVkNqim5QF6agT
-         W/PTm2ijKHGWpD9BEZ0TmyCdSdsOSTsz19U5HuTdcUUsu02zjdQsYQHuwv+WwmaBmvps
-         FUuiBr3GlBSxeYDuQTd12pzJ6BnbzreP/Bs6GtBy3gisWpdiXK2DnA5seC8SLMeFvxos
-         o2SupUaO6NPf/SLmk6uUTO68muiXLks0NgXA/XL1bsCL2QiMwX+U1FPy3ZZ8AZJCGB8X
-         ytHA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=d6w/P6ZJbl3BJESmOMpcqgt3YFOdt6ADhQkFceDWbPo=;
-        fh=aFszcoOcRs6jdtt5x8IMLfS+WoBUaj6bq3VdywnX40o=;
-        b=IdiL7gb03zS3Yk2vyDzcZ28ply7ckTk9U+D3L63EWJdFHUZJ9vV6Ye0S8GvxdeBF5g
-         MRtxx4YhNDC1SbmT/A1ipuNLArVDnK7ZaGhNDyPHjR+tEASqRdqtczAu/vLQ6/7tkKJC
-         lq2d1F1bOmtvwFTrXwv6mqiRS9YQkkt/mHBjeKjwDftnXnLQsIKs9tla6lPLX0Zk5I9g
-         Hi8hGJfHT3y4mICkPoUSJ8Mejhv8pFL6enfPkcTi4aYtX4F+OZ7YmiqoQoW1TxpOwmLR
-         VBiYqbmIRVoQTjSPn9vcKp5kmwfAWWi1u0QV/bkNL0CLHp12H+iYhqCDWLrNCKPjPT0Y
-         f1mQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B+CmtZqq"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-488c2690057so15147995e9.0
+        for <linux-fsdevel@vger.kernel.org>; Sat, 18 Apr 2026 06:39:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776515574; x=1777120374; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=d6w/P6ZJbl3BJESmOMpcqgt3YFOdt6ADhQkFceDWbPo=;
-        b=ic5sVwHan7FuJbK+HnhGhWs2xOXiLEgDKt34QBZrWQNpxME4vzui/f6zzJuaLMSJa6
-         tq6JdA+h0Wtt9NA6Rt+DeZ1IXpRsnLX4itAF/kb6t4xMbZtjixDvheZ+btjQs+ZNwHap
-         A9YXWMxrNmNUSKMSUGO5NM59ACIYY0nezas7Rp+jl8Sr1LDW+ywhBS79Hm0tpnkLHPX4
-         R+inJpzH5tC247CIR0G3sNuotnI9HHHkypqtta7/9YZ2stkUdfDvskCjJxWxtwME0o7k
-         87977xROcu6KWdQZcc/9GOkGbu5IvSGRncFqG5ibiKFMJApFOC9CSnAGtmBkvOLXvrow
-         iiKg==
+        d=gmail.com; s=20251104; t=1776519591; x=1777124391; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ykLQ37lVo2XTzU7ACqvXY0l0gwcbJX9ZLKIe6Ak88bQ=;
+        b=B+CmtZqqO23QoU8z+NuSK7sGzhzJKv10oppNHISrQ/vtUhivwO3oBLiqltJgNDMtnw
+         32GdLRCBJ6KnDnNCxPthPEmV9xH4bd5yqVK64RdHq5JlczBM0fNbE3j371hFHOokUby1
+         PduzG+bD23m0nhMRZqBlvwk0hYepcsVpVKM6Z/XsH24uKwOR0OT30ZddU2rt+gKFixVl
+         7u9vOgeoS4uW+Q/v2c0zyfAZtRvyGalKzQjQf8fvmXw8+feiAVEecr/In3KB+jN2MiSx
+         7uVXygbFjwQBuQpm1+L+xyjLE395O3WL+sD/FukbApxTNM53nmdQPlndRwk/gCEjBrb8
+         Mn6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776515574; x=1777120374;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=d6w/P6ZJbl3BJESmOMpcqgt3YFOdt6ADhQkFceDWbPo=;
-        b=DSmtlIQNt3t1tYCFZYVfL2WIt8Shwtf8Zdb/CZFPsJ7FTqNsGZfuj3akclUrxCzfSQ
-         1izC26tZHr39Qqh4jfqPCWCUyRgi2RPMw00M+VgVAEdH/yopdQkwMRS1o1RMf6M3039Z
-         ++0kCi0okpsT7NIo5mvFO3fjN/I2Rrp9HM8Q46YyvDTAmkDoc9TS9IFcX+gTe+wa6YJp
-         MfyWYhu9cf+gpO0I619cxsorsUY+yGWcUEPWRnLYGSe8+Eqdzlon86GS0n4IYqn0b+A0
-         g4//ERSW2fl9EuNnGAWC5OHoFRtetaaRRoOH5XxJLftIgukk875aUfjF+2KKPmCIvzKn
-         0o0g==
-X-Forwarded-Encrypted: i=1; AFNElJ+k67qv+trlx0cRDaswtIKOxwF68AnMRr8sdi519HdecJNvYel7C9JHn0SlyC58LZy1CYGwgNrgqJpbNWhK@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw8Hv9qwFD2ZNnBYt+3qrrdfPNGdQHesSomNIYEgMxaGoZQbEVF
-	yxzB+r/fY8CSig8KH+Mnj36KReDj+r28o5sRO3AUeG6flMeNZYIJy9ocGLweo1pQ576saCX8nyy
-	qhLWro2i8PDpVEe0fEwR2Th72pK5IuMU=
-X-Gm-Gg: AeBDiesYPIs+rwVkOaLCkywO7NxJ2WMME6a73qIv6oqBU4Bf1zEidkojD1vdOc38XCI
-	eE3g3XBtJWq2BOiAmVDF2W+pel9QsJ0bGES8q26pOeN+nhuxjpX0L4IXgACEq7BFzyZGUjt16Ul
-	djNy2Z5OQhW+sJ+eIMK/zmnh42pWsX2UAObSYXn04RujQsxngcKcce1YTKjAdKIJB3+1/Y7BFJV
-	/oPhP3nTeELGvtCsR0se1hWK2aQnoz3EnN4MgcCm8k72jtb3/gUs0AXY//YVtycb8cCVe15+Vkh
-	WV8UrxxImYi0S8XVZ2VIc7AJoC0LW/npj3JDOt32BhwgvCpAzyC2O3m5e/bU
-X-Received: by 2002:a05:6402:21d8:b0:66b:3cb7:f638 with SMTP id
- 4fb4d7f45d1cf-672bfd855cemr2362478a12.10.1776515574049; Sat, 18 Apr 2026
- 05:32:54 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1776519591; x=1777124391;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ykLQ37lVo2XTzU7ACqvXY0l0gwcbJX9ZLKIe6Ak88bQ=;
+        b=QOhKcgvjI8jO8H0Jrqqlzw1dBRp5/A40EF36ao1cXBcnr3vHdBKxjDohjsSK4oKMaJ
+         3et18eZolNM0Bho1NySf19GZmsQU0isvYb4+hbZSm1sVTm2DPBpFBbi8sjOy6tBRu+2F
+         ztrvs+9QWK6hTXNS4T9/vAKfehPAOzi7CAtGfBHaNDbQtpVgZA51eu9qdoOfQTsO1U4N
+         AA705pt2chX8/aByczW+F4P/gHf3Ev0pxT/jiEn5qHbLiT1pQ0VtFV9Py/mvpKWSj7te
+         zC1RRj9DdkMbGU6BlVhqZuTRacdaCfXuSdAxgDRqO1yKTjV/cFGkSZuaiH8x94ZTftJ0
+         6aGw==
+X-Gm-Message-State: AOJu0Yz14DYTHzLr614UvmcMqNjhbdqvK/AUBVUW21zN/MjIC5nEQTkq
+	8pCBRAQRBdsDLS4W4rfUUSYaE/bQ97vmFkf/BbwL2BSzhdWeEY049y6P9Pnu1f0=
+X-Gm-Gg: AeBDiesqRMHDyw/RmDMg7sI6VRm2vIOkMEASk3AtAd5IwMO4l5O7P6bQf+heTV9HTOL
+	PK/pBROBf0waUo+QH02wYbMp0SaiUG8QfDErCy3Al1ellvl24X+lVVASp+7nA6BpPgEaHHcWPdI
+	Y6qlPk3SqqBkuV8mNp07EZJvz0D+xo/qjQB6DGwikRjLh/PgaKi006dpUNANVBvp2BD8lNI7WIK
+	IRcS475Mu4YK2JC9V1HBza2fejpjFBTIYeyslPTiDwzp7Ofko1MUJV5N759mEZyzCq1yTbz+WFf
+	IhCcGwmoZ2T2SrRyMHMJGS5MJZOABbA+e6cajHhH31lMFctMTO/V5ssV5W+LufA463Vsa/ubUar
+	cLZxp1xbkyzfOo7g7XMpimqwAH2mTmxnfaqMA+OlklE3z4WQEonTpt3frWJ3NAMT/d/bOTXMHZA
+	TD9/SYMPzNlQOneZac
+X-Received: by 2002:a05:600c:8183:b0:486:fd5c:2b35 with SMTP id 5b1f17b1804b1-488fb750809mr100708065e9.13.1776519590572;
+        Sat, 18 Apr 2026 06:39:50 -0700 (PDT)
+Received: from debian.. ([2001:41d0:303:db6b::])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4cb135asm14644971f8f.6.2026.04.18.06.39.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 18 Apr 2026 06:39:50 -0700 (PDT)
+From: Tristan Madani <tristmd@gmail.com>
+X-Google-Original-From: Tristan Madani <tristan@talencesecurity.com>
+To: slava@dubeyko.com,
+	glaubitz@physik.fu-berlin.de,
+	frank.li@vivo.com
+Cc: linux-fsdevel@vger.kernel.org,
+	akpm@linux-foundation.org,
+	stable@vger.kernel.org,
+	syzbot+a19ca73b21fe8bc69101@syzkaller.appspotmail.com,
+	Tristan Madani <tristan@talencesecurity.com>
+Subject: [PATCH] hfs: validate bitmap record offset in hfs_bmap_alloc
+Date: Sat, 18 Apr 2026 13:39:49 +0000
+Message-ID: <20260418133949.1713416-1-tristan@talencesecurity.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260331160851.3854954-1-mjguzik@gmail.com> <20260331160851.3854954-5-mjguzik@gmail.com>
- <4fhhn57gzilze4bgkwinanbfovd3iez2s7ajujiob3kkpu6kcy@ic55f5utqogs>
-In-Reply-To: <4fhhn57gzilze4bgkwinanbfovd3iez2s7ajujiob3kkpu6kcy@ic55f5utqogs>
-From: Mateusz Guzik <mjguzik@gmail.com>
-Date: Sat, 18 Apr 2026 14:32:42 +0200
-X-Gm-Features: AQROBzDr-OV5oGSyFxQiHP4FztLnzgvk_FWT43e9457m9EZ-xAPg_lAsp3-eRbQ
-Message-ID: <CAGudoHFLT3qDQ703Ttmu6ZgPAiSeaXpEtND12+8tdVa=RYqAag@mail.gmail.com>
-Subject: Re: [PATCH v5 4/4] fs: allow lockless ->i_count bumps as long as it
- does not transition 0->1
-To: Jan Kara <jack@suse.cz>
-Cc: brauner@kernel.org, viro@zeniv.linux.org.uk, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 8, 2026 at 7:01=E2=80=AFPM Jan Kara <jack@suse.cz> wrote:
->
-> On Tue 31-03-26 18:08:51, Mateusz Guzik wrote:
-> > With this change only 0->1 and 1->0 transitions need the lock.
-> >
-> > I verified all places which look at the refcount either only care about
-> > it staying 0 (and have the lock enforce it) or don't hold the inode loc=
-k
-> > to begin with (making the above change irrelevant to their correcness o=
-r
-> > lack thereof).
-> >
-> > I also confirmed nfs and btrfs like to call into these a lot and now
-> > avoid the lock in the common case, shaving off some atomics.
-> >
-> > Signed-off-by: Mateusz Guzik <mjguzik@gmail.com>
->
-> Nice!
->
-> > diff --git a/fs/dcache.c b/fs/dcache.c
-> > index 9ceab142896f..b63450ebb85c 100644
-> > --- a/fs/dcache.c
-> > +++ b/fs/dcache.c
-> > @@ -2033,6 +2033,10 @@ void d_instantiate_new(struct dentry *entry, str=
-uct inode *inode)
-> >       __d_instantiate(entry, inode);
-> >       spin_unlock(&entry->d_lock);
-> >       WARN_ON(!(inode_state_read(inode) & I_NEW));
-> > +     /*
-> > +      * Paired with igrab_try_lockless()
-> > +      */
-> > +     smp_wmb();
-> >       inode_state_clear(inode, I_NEW | I_CREATING);
-> >       inode_wake_up_bit(inode, __I_NEW);
-> >       spin_unlock(&inode->i_lock);
->
-> It's a bit sad you're reintroducing part of the barries you've removed in
-> a27628f43634 ("fs: rework I_NEW handling to operate without fences") but =
-I
-> guess it's worth it.
->
+hfs_bmap_alloc() retrieves the bitmap record from the header node
+using hfs_brec_lenoff() but does not validate the returned offset
+and length before using them to compute page pointers.  On a crafted
+HFS image with corrupted B-tree data, the offset can exceed the node
+size, causing an out-of-bounds page access.
 
-Note the most problematic full fence is still gone, so not a big deal imo.
+Additionally, when the bitmap has node 0 bit incorrectly unset,
+hfs_bmap_alloc() calls hfs_bnode_create(tree, 0) for the already-
+hashed header node, triggering a WARN_ON and returning the existing
+node without incrementing its reference count.
 
-> > +/*
-> > + * igrab_try_lockless - special inode refcount acquire primitive for t=
-he inode hash
-> > + * (don't use elsewhere!)
->
-> Why is this special for inode hash? Because of I_NEW & I_CREATING checks?
-> Then I'd call this function igrab_from_hash() or something like that and
-> integrate there also all the i_state checking and waiting common between
-> find_inode() and find_inode_fast().
->
+Port the fixes already applied to HFS+ (commits d8a73cc46c84 and
+738d5a51864e) to the HFS side:
 
-I was looking at deduplicating find_inode stuff and doing other clean
-ups (notably pulling in waiting on I_NEW inodes into it), I don't like
-the idea of making churn changes in this area with this patchset
-though -- the hash code has proven itself to be weirdly eroror-prone,
-so I want to keep everything incremental and submit further rework
-later.
+1. Move is_bnode_offset_valid() and check_and_correct_requested_length()
+   from bnode.c to btree.h so they can be used by btree.c.
 
+2. Validate the record offset and length in hfs_bmap_alloc() before
+   computing page pointers, preventing out-of-bounds access.
 
+3. Return ERR_PTR(-EEXIST) from hfs_bnode_create() when the node is
+   already hashed, properly signaling filesystem corruption to callers.
 
+Reported-by: syzbot+a19ca73b21fe8bc69101@syzkaller.appspotmail.com
+Tested-by: syzbot+a19ca73b21fe8bc69101@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=a19ca73b21fe8bc69101
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Cc: stable@vger.kernel.org
+Signed-off-by: Tristan Madani <tristan@talencesecurity.com>
+---
+ fs/hfs/bnode.c | 44 +-------------------------------------------
+ fs/hfs/btree.c |  6 ++++++
+ fs/hfs/btree.h | 42 ++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 49 insertions(+), 43 deletions(-)
 
->
->                                                                 Honza
->
-> > + *
-> > + * It provides lockless refcount acquire in the common case of no prob=
-lematic
-> > + * flags being set and the count being > 0.
-> > + *
-> > + * There are 4 state flags to worry about and the routine makes sure t=
-o not bump the
-> > + * ref if any of them is present.
-> > + *
-> > + * I_NEW and I_CREATING can only legally get set *before* the inode be=
-comes visible
-> > + * during lookup. Thus if the flags are not spotted, they are guarante=
-ed to not be
-> > + * a factor. However, we need an acquire fence before returning the in=
-ode just
-> > + * in case we raced against clearing the state to make sure our consum=
-er picks up
-> > + * any other changes made prior. atomic_add_unless provides a full fen=
-ce, which
-> > + * takes care of it.
-> > + *
-> > + * I_FREEING and I_WILL_FREE can only legally get set if ->i_count =3D=
-=3D 0 and it is
-> > + * illegal to bump the ref if either is present. Consequently if atomi=
-c_add_unless
-> > + * managed to replace a non-0 value with a bigger one, we have a guara=
-ntee neither
-> > + * of these flags is set. Note this means explicitly checking of these=
- flags below
-> > + * is not necessary, it is only done because it does not cost anything=
- on top of the
-> > + * load which already needs to be done to handle the other flags.
-> > + */
-> > +static bool igrab_try_lockless(struct inode *inode)
-> > +{
-> > +     if (inode_state_read_once(inode) & (I_NEW | I_CREATING | I_FREEIN=
-G | I_WILL_FREE))
-> > +             return false;
-> > +     /*
-> > +      * Paired with routines clearing I_NEW
-> > +      */
-> > +     if (atomic_add_unless(&inode->i_count, 1, 0)) {
-> > +             VFS_BUG_ON_INODE(inode_state_read_once(inode) & (I_FREEIN=
-G | I_WILL_FREE), inode);
-> > +             return true;
-> > +     }
-> > +     return false;
-> > +}
-> > +
-> >  /**
-> >   * ilookup5_nowait - search for an inode in the inode cache
-> >   * @sb:              super block of file system to search
-> > diff --git a/include/linux/fs.h b/include/linux/fs.h
-> > index 07363fce4406..119e0a3d2f42 100644
-> > --- a/include/linux/fs.h
-> > +++ b/include/linux/fs.h
-> > @@ -2234,8 +2234,8 @@ static inline int icount_read_once(const struct i=
-node *inode)
-> >  }
-> >
-> >  /*
-> > - * returns the refcount on the inode. The lock guarantees no new refer=
-ences
-> > - * are added, but references can be dropped as long as the result is >=
- 0.
-> > + * returns the refcount on the inode. The lock guarantees no 0->1 or 1=
-->0 transitions
-> > + * of the count are going to take place, otherwise it changes arbitrar=
-ily.
-> >   */
-> >  static inline int icount_read(const struct inode *inode)
-> >  {
-> > --
-> > 2.48.1
-> >
-> --
-> Jan Kara <jack@suse.com>
-> SUSE Labs, CR
+diff --git a/fs/hfs/bnode.c b/fs/hfs/bnode.c
+index 13d58c51fc46b..26c2e65ab5935 100644
+--- a/fs/hfs/bnode.c
++++ b/fs/hfs/bnode.c
+@@ -15,48 +15,6 @@
+ 
+ #include "btree.h"
+ 
+-static inline
+-bool is_bnode_offset_valid(struct hfs_bnode *node, u32 off)
+-{
+-	bool is_valid = off < node->tree->node_size;
+-
+-	if (!is_valid) {
+-		pr_err("requested invalid offset: "
+-		       "NODE: id %u, type %#x, height %u, "
+-		       "node_size %u, offset %u\n",
+-		       node->this, node->type, node->height,
+-		       node->tree->node_size, off);
+-	}
+-
+-	return is_valid;
+-}
+-
+-static inline
+-u32 check_and_correct_requested_length(struct hfs_bnode *node, u32 off, u32 len)
+-{
+-	unsigned int node_size;
+-
+-	if (!is_bnode_offset_valid(node, off))
+-		return 0;
+-
+-	node_size = node->tree->node_size;
+-
+-	if ((off + len) > node_size) {
+-		u32 new_len = node_size - off;
+-
+-		pr_err("requested length has been corrected: "
+-		       "NODE: id %u, type %#x, height %u, "
+-		       "node_size %u, offset %u, "
+-		       "requested_len %u, corrected_len %u\n",
+-		       node->this, node->type, node->height,
+-		       node->tree->node_size, off, len, new_len);
+-
+-		return new_len;
+-	}
+-
+-	return len;
+-}
+-
+ void hfs_bnode_read(struct hfs_bnode *node, void *buf, u32 off, u32 len)
+ {
+ 	struct page *page;
+@@ -518,7 +476,7 @@ struct hfs_bnode *hfs_bnode_create(struct hfs_btree *tree, u32 num)
+ 	if (node) {
+ 		pr_crit("new node %u already hashed?\n", num);
+ 		WARN_ON(1);
+-		return node;
++		return ERR_PTR(-EEXIST);
+ 	}
+ 	node = __hfs_bnode_create(tree, num);
+ 	if (!node)
+diff --git a/fs/hfs/btree.c b/fs/hfs/btree.c
+index 2eb37a2f64e86..e8bc24c8baf1a 100644
+--- a/fs/hfs/btree.c
++++ b/fs/hfs/btree.c
+@@ -304,6 +304,12 @@ struct hfs_bnode *hfs_bmap_alloc(struct hfs_btree *tree)
+ 	len = hfs_brec_lenoff(node, 2, &off16);
+ 	off = off16;
+ 
++	if (!is_bnode_offset_valid(node, off)) {
++		hfs_bnode_put(node);
++		return ERR_PTR(-EIO);
++	}
++	len = check_and_correct_requested_length(node, off, len);
++
+ 	off += node->page_offset;
+ 	pagep = node->page + (off >> PAGE_SHIFT);
+ 	data = kmap_local_page(*pagep);
+diff --git a/fs/hfs/btree.h b/fs/hfs/btree.h
+index 99be858b24465..6032b14b1639d 100644
+--- a/fs/hfs/btree.h
++++ b/fs/hfs/btree.h
+@@ -85,6 +85,48 @@ struct hfs_find_data {
+ };
+ 
+ 
++static inline
++bool is_bnode_offset_valid(struct hfs_bnode *node, u32 off)
++{
++	bool is_valid = off < node->tree->node_size;
++
++	if (!is_valid) {
++		pr_err("requested invalid offset: "
++		       "NODE: id %u, type %#x, height %u, "
++		       "node_size %u, offset %u\n",
++		       node->this, node->type, node->height,
++		       node->tree->node_size, off);
++	}
++
++	return is_valid;
++}
++
++static inline
++u32 check_and_correct_requested_length(struct hfs_bnode *node, u32 off, u32 len)
++{
++	unsigned int node_size;
++
++	if (!is_bnode_offset_valid(node, off))
++		return 0;
++
++	node_size = node->tree->node_size;
++
++	if ((off + len) > node_size) {
++		u32 new_len = node_size - off;
++
++		pr_err("requested length has been corrected: "
++		       "NODE: id %u, type %#x, height %u, "
++		       "node_size %u, offset %u, "
++		       "requested_len %u, corrected_len %u\n",
++		       node->this, node->type, node->height,
++		       node->tree->node_size, off, len, new_len);
++
++		return new_len;
++	}
++
++	return len;
++}
++
+ /* btree.c */
+ extern struct hfs_btree *hfs_btree_open(struct super_block *sb, u32 id,
+ 					btree_keycmp keycmp);
+-- 
+2.47.3
+
