@@ -1,122 +1,161 @@
-Received: from out203-205-221-242.mail.qq.com (out203-205-221-242.mail.qq.com [203.205.221.242])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A4312D2397;
-	Sat, 18 Apr 2026 09:37:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.242
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7544344D9D
+	for <linux-fsdevel@vger.kernel.org>; Sat, 18 Apr 2026 10:30:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776505075; cv=none; b=r88AgsqMN0Rf6ZYub+2LJiJABp+79tkQVU0oLGDzGR6wd1c1QvC0FoB/TIIUjmbu372PPsi1SI+mCPR++qJSpvjF4931mtyT+3JtXN7RP0l7tbVRfE8comUbk58L6tJ5byG4pK8wIitGBoPUdELhPOiornwhPwV4M+tC2wy5Vuc=
+	t=1776508240; cv=none; b=X2xH849ODcQvSRyRLQRFEKs3S2FQFj/mFA5imWkDJApdrQwCCywww1uLNRoUIFb6UrBsHMSHYFjFmN39AQhh9BKFFo5jmS3xqAr1jp5UvrpK4jvVG2+nHDWb1jhMzD53FoUv7zVm/F99WMVxS7nl0R4HpYIxRjWpP4+QHwK9/g4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776505075; c=relaxed/simple;
-	bh=2gNCOAMl8rUdDl7dVR3JJfTLo7eh0LnZjDbBTWAHwfw=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=Dv/OGlRp1l3PiXKPtvrZXCiA9hWnNw3JarK0eZbgmqurz9KxeOItVHHlbsHnmdTXOfp7vL6Hm2gOplHlcxdpbhyprHjU2xGgJt6Bpu/G3L4f7wrs0f8Sy4x7pbFoGf6IqRWLrqYxZb/WJtLLvQK/qT4tjYJZTLj/6+nEYdC+djc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=oUPqqhZH; arc=none smtp.client-ip=203.205.221.242
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1776508240; c=relaxed/simple;
+	bh=rBloWKDWgYPzre+W5AlpJe79+C5VF9VexWZPi3ZTRfA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=miUvqNODl/OZtqGMamxGxy7n3xy1dSLEhSz4T55IGA18ljzb12QBP4lwrZP/xgVzsUwujcUiKEDIgt3p/d9oLhXVO4Od9xq5/0MzEawAOjNCGUj9B8et9T1qZQalGOWDiDvK66ucGbtygxSaUX0X7bEb3cdu8U3uuolR7UZgKLk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=JSyIjTdB; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=G/UfXae9; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=JSyIjTdB; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=G/UfXae9; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="oUPqqhZH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1776505062; bh=8qBbTia1kqDM3j/n8GXQa67jqWAvqO43BAHpS4mJOxE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=oUPqqhZHFBDHJY6txbgO2QG/dJsZLvZHYEewn7H1TFkvBGMLgpTO/vmnXMS4jrJTq
-	 pfJTX4vVNVMvWt+2fO72VZbbjvHGuHr3l1MHM8osac+/yjOwyCuzWeMEtB2bpviZJ1
-	 HGof32Vw0CXHCRrN+54v2dEnlDHiv34UV7sbi+kk=
-Received: from lxu-ped-host.. ([111.198.231.89])
-	by newxmesmtplogicsvrszc56-0.qq.com (NewEsmtp) with SMTP
-	id 9678C638; Sat, 18 Apr 2026 17:37:39 +0800
-X-QQ-mid: xmsmtpt1776505059t6qnqg7uv
-Message-ID: <tencent_B50525C2BA56BB53331B9E5A1B444B281B08@qq.com>
-X-QQ-XMAILINFO: OVFdYp27KdlJP/zUB5xGgLJwlYcLJxncrrMnea7N3g1EImA3hJf41h8RfB9RFg
-	 wk1dJBf4iUL49NUxfKPIYyh9Rgauy2CmpUCraK3cIk596oVoRLlOzMr9+agSSaXBao9oVUHmPIMU
-	 yC4OvlGBrD9Ac+4viZ9j9j/Zb6O8da2gH85eg/Jj4K9Z4x5I1l57tMB/+8+t7X9pUCCovYrhbmIK
-	 svE8aNEV/gkaOF9BpYByf6L4sqBuFuSQhydUMXG55gtTdpLkPaIPCEezImZUpdqdXjizJAaYsnN7
-	 mrK26vmSsv2qoEwIBvO84JpdVUCeuXRylK0k1dG5Le5ZlHbDZqGd0psTR6YAeQecC+BKf8Yu9C94
-	 esl80PLnreFP9B0DdctQ+PvsoUrsnnIRaCnkry5TcHdjVPXjEOxkfOb3se5Pyo4OhW4L7k5t0Ymy
-	 8xPFyrOZyGN48QJy/KZNLk+oeZzxCQpqyX6+F4Q80cU8gWPxSkMiBUnMiQfrNMODE2kb38THLH04
-	 RXydQ/jbjWVnUmNLCpytqqGPiUqWUJyd2oXmEG1Qw5T5vVdfLvGBtK6gyQrlEVto8ocjk9m7CZZk
-	 ZZo7hsmnNJHXMapBhBF67gE+v4ONvqHhzCCEmLjK/4rQYObVt808cnixLLDvk3zPa08qzFHsQq2t
-	 ruFcXKg9tTE9xli/ibPoSZsiwCdLmkmAhSaR3HY5hKBmVGzGTsdzoKQaNpR8yQ/AklFYHdMlWyNi
-	 CLL/tyzhVMtHx6mLtGsWfzabnMw3yO8GrS3GiQVfq1wUeyfdbiNx19FfyMRfHLOwksJRIlx5xVtI
-	 G+sQBlBnjMT+meMPDRntABv+vCydJ+9bWRVinBf6XlM7Zl0vqksEQ5pKr3jheXqxrYamxUY8l26n
-	 42LGK+cfDp8pypCNrdADtn/jikQJ0/7KNPE3pdu7rHz4eVwpsuvqPrtXOevwBMRFuzCsHPY2geGI
-	 0ScQy6Wk3SMqT0FWUkH5MNKrlD8O3U+JhSpJNgZFev7wx0516lxDV5N1+FPxA8+mAWdhY+2yYWqP
-	 j+d/0hvw==
-X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
-From: Edward Adam Davis <eadavis@qq.com>
-To: vdubeyko@redhat.com
-Cc: eadavis@qq.com,
-	frank.li@vivo.com,
-	glaubitz@physik.fu-berlin.de,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	slava@dubeyko.com,
-	syzbot+98547b0428b6a6a3467c@syzkaller.appspotmail.com,
-	syzkaller-bugs@googlegroups.com
-Subject: [PATCH] hfsplus: Supports freeing newly created tree head
-Date: Sat, 18 Apr 2026 17:37:40 +0800
-X-OQ-MSGID: <20260418093739.471318-2-eadavis@qq.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <60605973b66496b04c6847ceb6fa46dfada6a628.camel@redhat.com>
-References: <60605973b66496b04c6847ceb6fa46dfada6a628.camel@redhat.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="JSyIjTdB";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="G/UfXae9";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="JSyIjTdB";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="G/UfXae9"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 3E5325BD77;
+	Sat, 18 Apr 2026 10:30:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1776508229; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZdKG/KmJpak/xxnBuBjYgqMCvpf5rsslxsUnd4fHZII=;
+	b=JSyIjTdBdNbHVH1E3bvEcVquoy5Z8ytzV+BXiM9JUvmJkp1TkFTJW2DswPhWBAkAQJCHEg
+	PvbiR/gwSq8I1+1J4mqpyX9s7CL5mDqT0/KtvPr/cC3O+TMPgItEVj9B9YAAau5YvELRLY
+	zN2xhu84P5YXZbZ5Kxs8W8kSLELPvEw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1776508229;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZdKG/KmJpak/xxnBuBjYgqMCvpf5rsslxsUnd4fHZII=;
+	b=G/UfXae9u1Bd3AUIU8Otuyrv08UV3aIOwgPn0hscT0IYSZVjJF4ijolyRGT2J6lC2EH1S0
+	mJIvIdSXVFUUKPAw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=JSyIjTdB;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="G/UfXae9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1776508229; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZdKG/KmJpak/xxnBuBjYgqMCvpf5rsslxsUnd4fHZII=;
+	b=JSyIjTdBdNbHVH1E3bvEcVquoy5Z8ytzV+BXiM9JUvmJkp1TkFTJW2DswPhWBAkAQJCHEg
+	PvbiR/gwSq8I1+1J4mqpyX9s7CL5mDqT0/KtvPr/cC3O+TMPgItEVj9B9YAAau5YvELRLY
+	zN2xhu84P5YXZbZ5Kxs8W8kSLELPvEw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1776508229;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZdKG/KmJpak/xxnBuBjYgqMCvpf5rsslxsUnd4fHZII=;
+	b=G/UfXae9u1Bd3AUIU8Otuyrv08UV3aIOwgPn0hscT0IYSZVjJF4ijolyRGT2J6lC2EH1S0
+	mJIvIdSXVFUUKPAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2F400593A3;
+	Sat, 18 Apr 2026 10:30:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Xrf0CkVd42nrHgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Sat, 18 Apr 2026 10:30:29 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id C1BABA0B59; Sat, 18 Apr 2026 12:30:20 +0200 (CEST)
+Date: Sat, 18 Apr 2026 12:30:20 +0200
+From: Jan Kara <jack@suse.cz>
+To: Thorsten Blum <thorsten.blum@linux.dev>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] dcache: use kmalloc_flex() in __d_alloc
+Message-ID: <574rawzolpt6nsivt5esobahydjata5t2bryw7nbgz3sbzfnhc@7js5cjjcurq5>
+References: <20260417094238.551114-3-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260417094238.551114-3-thorsten.blum@linux.dev>
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	ARC_NA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Rspamd-Queue-Id: 3E5325BD77
+X-Spam-Flag: NO
+X-Spam-Score: -4.01
+X-Spam-Level: 
 
-On Fri, 17 Apr 2026 15:03:17 -0700, Viacheslav Dubeyko wrote:
-> > hfs_bnode_put() does not support deallocating a newly created btree
-> > head node; therefore, regardless of whether hfsplus_bnode_find() succeeds
-> > or fails, it cannot effectively reclaim the memory allocated for a newly
-> > created head node.
-> > 
-> > When finding a head node, if the node is a newly created one, we can use
-> > hfs_bnode_free() to reclaim its memory.
-> > 
-> > [1]
-> > BUG: memory leak
-> > unreferenced object 0xffff88811cabc840 (size 96):
-> >   backtrace (crc 3e2dadb7):
-> >     __hfs_bnode_create+0x59/0x310 fs/hfsplus/bnode.c:469
-> >     hfsplus_bnode_find+0x13e/0x580 fs/hfsplus/bnode.c:547
-> >     hfsplus_btree_open+0x2fa/0x6d0 fs/hfsplus/btree.c:382
-> >     hfsplus_fill_super+0x272/0x880 fs/hfsplus/super.c:548
+On Fri 17-04-26 11:42:40, Thorsten Blum wrote:
+> Use kmalloc_flex() when allocating a new 'struct external_name' in
+> __d_alloc() to replace offsetof() and the open-coded size arithmetic,
+> and to keep the size type-safe.
 > 
-> I need slightly more detailed and clear explanation how the issue has been
-> happened and why we need to fix it in a such way. Currently, I don't have the
-> complete picture how this happened. I am sure that you have the complete
-> picture. :) Could you please share what you have in your mind? :) Don't hide the
-> wisdom. ;)
-    fc_mount()
-     vfs_get_tree()
-      get_tree_bdev_flags()
-       hfsplus_fill_super() 
-        hfsplus_btree_open() 
-         hfsplus_bnode_find(tree, HFSPLUS_TREE_HEAD) 
-          __hfs_bnode_create()
-	   ...
-	   node->this = cnid; // cnid is HFSPLUS_TREE_HEAD, it is 0
-	   ...
-	  ...
-	  desc = (struct hfs_bnode_desc *)(kmap_local_page(node->page[0])
-	  node->type = desc->type;
-	  switch (node->type) {
-	  ...
-	  default:  // because node->type is 127, so run here
-	  	goto node_error;
-	  ...
-	  hfs_bnode_put()
-	   ...
-	   if (test_bit(HFS_BNODE_DELETED, &node->flags)) { /* head node not set HFS_BNODE_DELETED flag
-							     * so, the node will never be freed.
-							     * Furthermore, even if the node were marked
-							     * with the HFS_BNODE_DELETED flag, hfs_bmap_free()
-							     * would still trigger BUG_ON(!node->this).
-	   						     */
+> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
 
-Edward
-BR
+Looks good. Feel free to add:
 
+Reviewed-by: Jan Kara <jack@suse.cz>
+
+								Honza
+
+> ---
+>  fs/dcache.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/fs/dcache.c b/fs/dcache.c
+> index dbcbd0affb26..4568f9530166 100644
+> --- a/fs/dcache.c
+> +++ b/fs/dcache.c
+> @@ -1753,10 +1753,10 @@ static struct dentry *__d_alloc(struct super_block *sb, const struct qstr *name)
+>  		name = &slash_name;
+>  		dname = dentry->d_shortname.string;
+>  	} else if (name->len > DNAME_INLINE_LEN-1) {
+> -		size_t size = offsetof(struct external_name, name[1]);
+> -		struct external_name *p = kmalloc(size + name->len,
+> -						  GFP_KERNEL_ACCOUNT |
+> -						  __GFP_RECLAIMABLE);
+> +		struct external_name *p;
+> +
+> +		p = kmalloc_flex(*p, name, name->len + 1,
+> +				 GFP_KERNEL_ACCOUNT | __GFP_RECLAIMABLE);
+>  		if (!p) {
+>  			kmem_cache_free(dentry_cache, dentry); 
+>  			return NULL;
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
