@@ -1,74 +1,179 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97AFC40DFBD
-	for <linux-fsdevel@vger.kernel.org>; Sat, 18 Apr 2026 21:32:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F20CF14E2F2
+	for <linux-fsdevel@vger.kernel.org>; Sat, 18 Apr 2026 21:50:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776547980; cv=none; b=SA0yRl9ELm9ERKCIKVsS3JWY4aEO/ieZJ4HcTmyD7zgOKW0gN+8iCbOZ8gBYF75+bYWLqL65WHMpT/Er4BtZhVUd69/0FqerUuhswcwosE+0arVxNTsHwj+OoqSwJ4OL26aU2QR/Ab1yc2lTR2ndHGHl28lwayfzyhUlF2FU9yk=
+	t=1776549014; cv=none; b=P2bm1WNjeEW6k5LP31pemoYV+L/KwXNdPTjf0f8dV3ihnshLFHPs/GyTLuAQ/WJjuUh7r+kdTNyYfpxr3mvZaWRHmsD5Qb2rQD9FmWrP1z5ytNTuTu8p+ZkDlIf7d5GpCsvjzwMpY8W8Cen9DUBerADFK4+yXERkRWkoDTxnPJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776547980; c=relaxed/simple;
-	bh=bRWAr1sHm3FI6Lj331+ZxY01lFHEhqUNpzdkBK6spCc=;
+	s=arc-20240116; t=1776549014; c=relaxed/simple;
+	bh=3t3O3sUz87huz0M+miAOXIZUv7RqPxu3nH6k1jR28j0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fYYoJXhwLQqalOoDByncfcNWA4kdUZjWBOYpkEfMlCtOe4g4f7SJVBWZomkLB9XXBZhTDuvHcFKWFco9qvE15Uvqgk404XpLtE6boWYIaCbvkYzyQHV7pqX8jvaCWAKSOQOtclmAsrWFnOnCoYYJzu7ev4COgZ04RUfFR2LSZUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=AvpOkjgR; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=XtudoxV4h8heYPEXR0YafVQAFHI/K8sKLlU20DWNfQQHr+1uj2Yd4x/Y7G++sfQKGrd8BGBPMIyGLzt5ZhXpX4oiPgcI+ehZAsKSN3D9yXWKJ2qQ5cgP3fhxvDrpdUUywkG1pER6B4n27qH5j6bAUeZJgXITakpagXwFOfS7LXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fEIRqRep; arc=none smtp.client-ip=209.85.128.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="AvpOkjgR"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=SklTkomoz6BngvqaTC/W/jtZITRWybZJVeL0/xrM3d4=; b=AvpOkjgRmIrblvbjDY/bU0Ugnl
-	lpWKGs0xt+RTICUyysNAxrrRejsNvE2RIQO++xE0rHQ3Wo/AJDXiy1OFlSDQOJQ/Qf6R0JvawTw+w
-	zzUXNwGcdVOTK4+O4X6p6XGbZLG4qeVqWejGjhwo9vr+twJd3DVj8roDgRA+8ZWltDvQ3FyYxW0i+
-	Lxtz+yv/aCTUdLASxJAFIhsiszr+E2knVa6LJMtgjvNsIDZJZQFWFkpzW4ZG2NOV4wH7vH5Bv2+Rq
-	gKB1BjmQnaA1WPxtrrbG3Wr95B0qUz0bZG43JTM7tB+HTlmJNHZJW5ZL/xBRTRjSRIMsqYaekZMX/
-	ZhAQFl3Q==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wEDHV-000000061vY-1rVS;
-	Sat, 18 Apr 2026 21:32:49 +0000
-Date: Sat, 18 Apr 2026 22:32:49 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Al Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org,
-	Theodore Tso <tytso@mit.edu>, Christoph Hellwig <hch@lst.de>,
-	"Darrick J. Wong" <djwong@kernel.org>
-Subject: Re: [PATCH] docs: add guidelines for submitting new filesystems
-Message-ID: <aeP4gT5T69izWj-m@casper.infradead.org>
-References: <20260417142503.1436446-1-amir73il@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fEIRqRep"
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-79a60975dc5so18665407b3.0
+        for <linux-fsdevel@vger.kernel.org>; Sat, 18 Apr 2026 14:50:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776549012; x=1777153812; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=36X19zjYQyKBdMHD9gCjle7K5J8JMLJfZmqliCGv0kA=;
+        b=fEIRqRepCGZHHwDeYcQPuGgeVTaflRQq5+lBchI27/BfrZgSyaafzb8AOwkwE1Stfb
+         Nin0EPW+Vw8I4M2su6BmCfrShrHJZgdSiO5qpdSzJSEI5sc5mSYWTHaSK2UQXvv3+RJN
+         SpD8WvbvafSjgZRK22N7msCzhjEc3r+iXKTvNPAfE22tEYgPqmha2EGmh78/Lh+MFiUk
+         zoTxpDvuxUu22vKYSm5sJxB0VlVWXAVmIQ+OKxPYzvQHACZRohRJO21zROlY/CV0GiZf
+         wWq+ZAxjBKTrMT8dO6AEbG6Abo4p2q9k5Uyy7lQ/VkwwzaV+FE1s9pPc5bd0EaVToJWc
+         48Rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776549012; x=1777153812;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=36X19zjYQyKBdMHD9gCjle7K5J8JMLJfZmqliCGv0kA=;
+        b=IZ49+hCLlvXgFNQlN2sorvQvXr/M6nK0ikylpul7twJa+12tt3Isd4V6c8CYMfBX0c
+         X0oAcfKvKTfik7vhLtnUWds4SqG/VM+M8uLPIll/hvLvRRrRx6dMevnsYi3fNptETRyc
+         ACgXagNBHOIXDL9/YjjSTqI1LKDyYbEdMCXOsHT2wuJHzNA0byBWusnHErPGIoFlsSDD
+         qgQqRNYbJN7bSkvm+QoJJR2sxr77Emx0cTxg/zLE2D6L5nmXVHOaSGSfJ0bxjt3kpDrD
+         WMKVVK/Pummi1AgQAZtp64X7k2ET00cTgq8WFHSkRICO/TSzPIRQHCJoXWrpYb/2H0DQ
+         vXnA==
+X-Forwarded-Encrypted: i=1; AFNElJ/IZD5spP+K4iyZXH5rH6vCHzXrBw6D0k6WyDWdZIkJefHpaufPneda54g18QYOKla7A46ulSID3f3hzDMi@vger.kernel.org
+X-Gm-Message-State: AOJu0YzucFqwOMppZFWXhCWqHIw6yrxDoNXIe+5LeqKfD67XF90IKPMe
+	xAEdveKz9JJbjUeWNCdO6YgC/4RLopsGNIT3WwxAzoygFb5WYq48U7x3
+X-Gm-Gg: AeBDievU44/qNwkwvSLsauFVE34nOV0JDcb7JKHWQmw4vGFQEOJ9VA7+K02+RynlQnM
+	xwyJWzeibPhNAJBVPrGQpkGu4bANP2D9RkYXiK3PfWORytxS6I9zcynp1WHrbKdxrjWRUemnJ8t
+	YkscnLJOHcrpeD3N8+hUnbwgknfbpPd39DU83JW9Axr3XUc+xgyubSV5aWE43DiPK/UtMZ1LaBi
+	ziUFv2bRGeQAhliUeTLr2RmLlCPhmd6TW9wPWmoxl1b7ojyCJK+6JsPfzsX9EFYin+KlMp1LBNi
+	JGEUsQ6pZbyvWfubRS7eW5iYpQIjqhfmH9d0cvSOkEKrgwURqXNA63NPuuwTwu/23qVXhs4zWPa
+	3+i25QC//W1d/QeBOQHQeFLYCnC/r6xhkiAJ9PHc6dEkmRo4NE7WWTI/k+mECUYGHl+FPb/EwQe
+	iAZzTKueIFObuwNIiZe4KKtkQ7mi6+dSZSYIeZlB51P6PQGiaZjM/c/XKyMX0w9bOF4f632uxJh
+	mY=
+X-Received: by 2002:a05:690c:1b:b0:7ac:ff2:4603 with SMTP id 00721157ae682-7b9ecf0fee4mr87792467b3.20.1776549012081;
+        Sat, 18 Apr 2026 14:50:12 -0700 (PDT)
+Received: from suesslenovo ([2600:1700:18fb:6011:3699:d8a1:7856:daf4])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7b9ee9ce88dsm24935397b3.48.2026.04.18.14.50.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 18 Apr 2026 14:50:11 -0700 (PDT)
+Date: Sat, 18 Apr 2026 17:50:09 -0400
+From: Justin Suess <utilityemal77@gmail.com>
+To: Song Liu <song@kernel.org>
+Cc: =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>, ast@kernel.org,
+	daniel@iogearbox.net, andrii@kernel.org, kpsingh@kernel.org,
+	paul@paul-moore.com, viro@zeniv.linux.org.uk, brauner@kernel.org,
+	kees@kernel.org, gnoack@google.com, jack@suse.cz, jmorris@namei.org,
+	serge@hallyn.com, yonghong.song@linux.dev, martin.lau@linux.dev,
+	m@maowtm.org, eddyz87@gmail.com, john.fastabend@gmail.com,
+	sdf@fomichev.me, skhan@linuxfoundation.org, bpf@vger.kernel.org,
+	linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [RFC PATCH 08/20] bpf: Add Landlock ruleset map type
+Message-ID: <aeP8kWX2POlBBjlm@suesslenovo>
+References: <20260407200157.3874806-9-utilityemal77@gmail.com>
+ <CAPhsuW7zzXXd6-d86B-rpGr-wfSzmEoCYNKhTMP_pXnybtA27A@mail.gmail.com>
+ <aeFaQXkKNHFeE-oC@suesslenovo>
+ <CAPhsuW648HdcCbXWMHaJ4uirPWq2WX3Ggx3AGMU6CGzhNYUREg@mail.gmail.com>
+ <aeI_CXj6F-nI_DCL@suesslenovo>
+ <20260417.ohgoh0Eecome@digikod.net>
+ <aeJlHIoSjVPmccDx@suesslenovo>
+ <20260417.aPh1ooQu8esh@digikod.net>
+ <aeKY_QUge4okHjrW@suesslenovo>
+ <CAPhsuW4CoskfaqEE5yS2LU_mFvNBDsKc5OX1+f=Lkduc2ykSdQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260417142503.1436446-1-amir73il@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAPhsuW4CoskfaqEE5yS2LU_mFvNBDsKc5OX1+f=Lkduc2ykSdQ@mail.gmail.com>
 
-On Fri, Apr 17, 2026 at 04:25:03PM +0200, Amir Goldstein wrote:
-> +Be testable
-> +  The filesystem must be testable in a meaningful way.  The
-> +  `fstests <https://git.kernel.org/pub/scm/fs/xfs/xfstests-dev.git>`_
-> +  framework (also known as xfstests) is the standard testing infrastructure
-> +  for Linux filesystems and its use is highly recommended.  At a minimum,
-> +  there must be a credible and documented way to test the filesystem and
-> +  detect regressions.  When submitting, include a summary of test results
-> +  indicating which tests pass, fail, or are not applicable.
+On Fri, Apr 17, 2026 at 01:42:02PM -0700, Song Liu wrote:
+> On Fri, Apr 17, 2026 at 1:33 PM Justin Suess <utilityemal77@gmail.com> wrote:
+> [...]
+> > > > > to the caller) and pass them as file descriptor?
+> > > > This "pass them as a file descriptor" is the tricky part. It would be
+> > > > very convenient if we could send the fd to bpf from userspace and have
+> > > > it be implicitly converted (like in the BPF_MAP_TYPE_LANDLOCK_RULESET
+> > > > implementation) in one step, but I just don't see a way to do that with
+> > > > the bpf_landlock_get_ruleset_from_fd kfunc approach.
+> > >
+> > > Song's idea to have a generic FD map looks promising.
+> > >
+> >
+> > I agree the generic FD map sounds like a good fit.
+> 
+> Well, I am not 100% sure a generic FD map adds enough value
+> on top of current __kptr solutions. This will be more tricky if we
+> have to touch file_operations.
+> 
+> > So this would be three parts like:
+> >
+> > 1. The new point-of-no-return flags for NNP and staging domain to
+> > execution time in Landlock. Selftests and doc updates.
+> > 2. The generic FD map implementation for bpf. Selftests and doc updates.
+> > 3. The BPF kfunc implementations for Landlock using the same point-of-no
+> > return staging. Selftests and doc updates.
+> >
+> > The scope of which is probably too big for one series.
+> >
+> > Luckily part 1 is pretty close to being done as part of my work for v2
+> > of this series, and can standalone as a preparatory series for Landlock,
+> > since it adds flags and features that have utility outside of BPF.
+> >
+> > Open for ideas on how to split this up (or even better, for some help in
+> > implementation or prior works).
+> >
+> > I'd like to get some feedback and figue out what this generic fd map
+> > should look like and get some more eyes on that idea to avoid wasting
+> > reviewer time on an unsuitable implementation.
+> 
+> I will think more about 2. If it indeed adds good value, the upcoming
+> LSF/MM/BPF is a good opportunity to move this forward.
+> 
+> In the meanwhile, we still need kfuncs to access landlock ruleset.
+> Therefore, any work on that front should be useful.
+>
+Instead of a new map type, could the same usecase be fulfilled as a
+flag for bpf_map__update_elem? (BPF_FROM_FD?)
 
-Perhaps we need a section on fuzzing?  Maybe something like this:
+  int bpf_map__update_elem(
+    map,
+    &key, 
+    sizeof(key),
+    &fd,
+    sizeof(fd), 
+    BPF_FROM_FD);
 
-Fuzzing
-  Filesystems in the Linux kernel are subjected to various fuzzing
-  activities, by academic researchers, syzbot and malicious actors.
-  Your filesystem will need to be robust against not just random
-  syscalls but also fuzzed (corrupted) filesystem images (for block
-  based filesystems) and crafted hostile network messages (for network
-  filesystems).  It should react appropriately to such attacks,
-  by repairing or reporting a corrupted filesystem, but not hanging
-  executing BUG() or WARN() statements or otherwise corrupting the kernel.
+We could register an operation at the BTF type level to acquire a
+reference to an underlying kernel object from a struct file* to a
+specific BTF type, like how destructors are registered.
 
-Happy for you to reword that.
+Something like void* bpf_kptr_acquire_from_file_t(struct file*)
+
+(adding it to btf_field_kptr).
+
+Then this would get a reference on the kernel object for the underlying
+file and insert it as a kptr into the map if the file indeed points to
+the correct type.
+
+This would be valid only for a map holding a supported __kptr type
+implementing the bpf_kptr_acquire_from_file operation.
+
+This flag would allow inserting __kptr from userspace (previously
+impossible) with a file descriptor.
+
+This wouldn't need any new file_operations changes nor any new map
+types.
+
+This could be implemented for specific kernel object backed FDs as
+appropriate.
+
+> Thanks,
+> Song
