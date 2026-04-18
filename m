@@ -1,94 +1,153 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 521142367B5
-	for <linux-fsdevel@vger.kernel.org>; Sat, 18 Apr 2026 06:16:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 972D933AD8B;
+	Sat, 18 Apr 2026 06:19:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776492999; cv=none; b=Tl6b3fhFU5w8C0NwM051FWMaU++17IIx8OPIAdoBg1yq7PGvywBmwvhkBbEGom8sWKp98pEluMai2PaB5puUmpDo0UEEgzOB6gPtwbqQamN9bMytyKf+73JwhvWInrGz65ywiFVicXrRI7E/y3QMSdVkErBrzNe8cadSEGFRLrc=
+	t=1776493162; cv=none; b=QjLbiSKWJs5y7j9Xjn+2NWzA9x2WB3UIZA5MEpUzcavJbR6NFt/jHyghFArOLii9BJQhn8fj6A9Wgz+A6Rpd5Z0vgkkqq7vABiSDUZUKhTgSWyGuW8NcRfwinnEmUBIeOqCOKO+LoBsQv3MOyotqxgqNC2N/p0ro+nE4TZzNI9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776492999; c=relaxed/simple;
-	bh=CQNapxLOS6PFADmEUnHs+eXVpPDfi0eLdJ7ithaYetg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fzrFV1XcBvpWslGy9xUwr8it1hqCxA9mk59M97zwqBEKM3m9REMrxiaUrTbXKqsOkRRb3YB3J+LtTNBfMNTvBua2Gi1RDqzjXjXnOKjRJVhfphaIwq1YD5gZpctbZR3zuNZymP6GxAz3zGddlXAXxvjKsCuLmCHDdKWhf1560qk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hackers.camp; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hackers.camp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-43cf7258875so151549f8f.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 17 Apr 2026 23:16:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776492997; x=1777097797;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=cL9/O/PAg3wzAE4bDYDZOv/EHFkcw+FmE+GDn+dyams=;
-        b=VKuTGBs8WwxY75t48D8x0iET1yjUQkaBFuJQMp0c7dOuMwILx64r1/E2v9Fe3/iio+
-         OQj4uG68yV90nRGK1LQ+m9fQdBsWqOuu9eDtNDBpyktyotxAHa7gLUVISg7eZeT6sA3C
-         PJrSuttsjxi2XIPm+3uNTBZUdTgDJSNw/Z5GVpEvu9lBVFka2+ESgljq4WqY82e14wuV
-         L4bq7LG4akEzQKegCPyOAVPwHw6wz2e36S6AwQGlptiROohLxU/+LsJLHaSSCMf+UdeH
-         4huOT9HRklXl1iP4FAzKt1MLKwaEkYYsER1jnQEEPyjckaD502GUsabfVrygeoNP/e+5
-         Jvxg==
-X-Gm-Message-State: AOJu0YzvK4ViELp+h/3BpqnaZxu+/+FHtAb1Vp6yf25Hsf6oSG9jeNA3
-	hOxvf6yTqQ8lQWwAecZpuPkwjZs5OSV24SkqmqwTbRsMDipJjrbTl/1/4GoQdkss
-X-Gm-Gg: AeBDiev0EiXgN7WUhZBuCimpnBrDdMN580nroKPL8H3j0OHnaKDBS5LTy3SrXWrTfXu
-	NxIJSsWph0BvVmj3S8gRZxlOsiRtpfR+3MdLeFQoWwf/enlDv1LNM7A9bLUO/x7WSdjAsBIkMYJ
-	B9diXp1bHdjmVEIi9iBo1O5P0rAqg8FEqqNfpgaDf+rIYChWxmyncbJMC3q+IosEpFPR6xnMwkA
-	uCxVox6LmSLjiJXlgBxrQIG56oE5FGrC7gguf/P9eqEeG0YjRKvlBpiXmMG/0zzt4wyc3W5A9Xv
-	iF+a+iJX9cWteUBJPlodiPswqx+rPG2ksbr5gzRLtzGnEg4q9z8CLi+y4IG6WcBpCe/3nFv4Mlu
-	JUi31OPl0ZaretU7/IJQibrAyQ/Xt4zvfZgo/MMiJyJlA+nKC0KDhWFA1qJGMbAUBpdNdA62h8Z
-	Yh8Fs56Y5wTVfc7uDfLCB/AKOBEnfM8lwF16wPKB+5YNcSdJaGjELq9MhY4Ga4lqXIAmai7JP2M
-	hk=
-X-Received: by 2002:a05:600c:5252:b0:487:575:5e3 with SMTP id 5b1f17b1804b1-488fb78bfe0mr47240145e9.5.1776492996461;
-        Fri, 17 Apr 2026 23:16:36 -0700 (PDT)
-Received: from spartian-1.home ([2a01:cb1c:784:2f00:708:2805:7128:7a75])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488fc1c96b4sm166248705e9.13.2026.04.17.23.16.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Apr 2026 23:16:36 -0700 (PDT)
-From: Aurelien DESBRIERES <aurelien@hackers.camp>
-To: ebiggers@kernel.org
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	viro@zeniv.linux.org.uk,
+	s=arc-20240116; t=1776493162; c=relaxed/simple;
+	bh=iSrVP99yfbGx5vvoO4Vcxpy3Ufy+R5BC2IcalLfv/T4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=RMH7ciuxZtBlqoR/wUHiqP/Q5qq5vqny2LBB9PQsVt71kmgonmLq0q4h4Glh0s7BtP69cxF64Oy5KmDdN1tUfbYeMOoMPfZjfRLN/e5QKEdGFz1AYVHqTphvJnnSDgREidU4Y2WuMw6JMxK8snu44Jp/3BtbrRO+qB751E1b2aM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=none smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.198])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4fyM5W1rhyzKHMK6;
+	Sat, 18 Apr 2026 14:18:55 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.252])
+	by mail.maildlp.com (Postfix) with ESMTP id 40AE440601;
+	Sat, 18 Apr 2026 14:19:09 +0800 (CST)
+Received: from huaweicloud.com (unknown [10.50.87.129])
+	by APP3 (Coremail) with SMTP id _Ch0CgAHtL1aIuNpBjFHAw--.47133S4;
+	Sat, 18 Apr 2026 14:19:07 +0800 (CST)
+From: Zizhi Wo <wozizhi@huaweicloud.com>
+To: viro@zeniv.linux.org.uk,
+	jack@suse.com,
 	brauner@kernel.org,
-	willy@infradead.org,
-	djwong@kernel.org,
-	adilger@dilger.ca,
-	pfalcato@suse.de,
-	Aurelien DESBRIERES <aurelien@hackers.camp>
-Subject: Re: [PATCH v2 08/11] ftrfs: add CRC32 checksumming and Reed-Solomon FEC skeleton
-Date: Sat, 18 Apr 2026 10:16:26 +0200
-Message-ID: <20260418081625.2265166-2-aurelien@hackers.camp>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260414173423.GA24456@quark>
-References: <20260413230601.525400-1-aurelien@hackers.camp> <20260413230601.525400-9-aurelien@hackers.camp> <20260414173423.GA24456@quark>
+	bcrl@kvack.org,
+	axboe@kernel.dk,
+	linux-fsdevel@vger.kernel.org,
+	linux-aio@kvack.org,
+	linux-kernel@vger.kernel.org
+Cc: wozizhi@huawei.com,
+	yangerkun@huawei.com,
+	chengzhihao1@huawei.com
+Subject: [PATCH] fs: aio: reject partial mremap to avoid Null-pointer-dereference error
+Date: Sat, 18 Apr 2026 14:06:34 +0800
+Message-Id: <20260418060634.3713620-1-wozizhi@huaweicloud.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_Ch0CgAHtL1aIuNpBjFHAw--.47133S4
+X-Coremail-Antispam: 1UD129KBjvJXoWxArWDAryxXrWkAw1DKw1UAwb_yoW5tF1UpF
+	WfKF13KF1kXr17uF4DXF4UJFW0vFs3Ja15Grn5Gw1fZws8ZF1UKrWfKFW8ZryUArykJr10
+	qr4UAa4YvF15Jw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvIb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I
+	0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+	x7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVW8Jr0_Cr1UMcvjeVCFs4
+	IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACI402YVCY1x02628vn2kIc2xKxwCY1x02
+	62kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s
+	026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_
+	Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20x
+	vEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE
+	14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf
+	9x07ULdbbUUUUU=
+X-CM-SenderInfo: pzr2x6tkl6x35dzhxuhorxvhhfrp/
 
-On Tue, Apr 14, 2026 at 10:34:23AM -0700, Eric Biggers wrote:
-> Is there a reason why the kernel's existing Reed-Solomon
-> encoding/decoding library isn't being used?
+From: Zizhi Wo <wozizhi@huawei.com>
 
-No good reason. v2 had a custom GF(2^8) implementation - rolling our
-own RS arithmetic when lib/reed_solomon exists is not justifiable.
+[BUG]
+Recently, our internal syzkaller testing uncovered a null pointer
+dereference issue:
+BUG: kernel NULL pointer dereference, address: 0000000000000000
+...
+[   51.111664]  filemap_read_folio+0x25/0xe0
+[   51.112410]  filemap_fault+0xad7/0x1250
+[   51.113112]  __do_fault+0x4b/0x460
+[   51.113699]  do_pte_missing+0x5bc/0x1db0
+[   51.114250]  ? __pte_offset_map+0x23/0x170
+[   51.114822]  __handle_mm_fault+0x9f8/0x1680
+...
+Crash analysis showed the file involved was an AIO ring file. The
+phenomenon triggered is the same as the issue described in [1].
 
-v3 (<20260414120726.5713-1-aurelien@hackers.camp>) replaces the custom
-code entirely. The codec is initialized at module load via:
+[CAUSE]
+Consider the following scenario: userspace sets up an AIO context via
+io_setup(), which creates a VMA covering the entire ring buffer. Then
+userspace calls mremap() with the AIO ring address as the source, a smaller
+old_len (less than the full ring size), MREMAP_MAYMOVE set, and without
+MREMAP_DONTUNMAP. The kernel will relocate the requested portion to a new
+destination address.
 
-  init_rs(8, 0x187, 0, 1, 16)
+During this move, __split_vma() splits the original AIO ring VMA. The
+requested portion is unmapped from the source and re-established at the
+destination, while the remainder stays at the original source address as
+an orphan VMA. The aio_ring_mremap() callback fires on the new destination
+VMA, updating ctx->mmap_base to the destination address. But the callback
+is unaware that only a partial region was moved and that an orphan VMA
+still exists at the source:
 
-encode_rs8/decode_rs8 are used for all RS operations. The custom
-GF tables and encoder are gone.
+  source(AIO):
+  +-------------------+---------------------+
+  |  moved to dest    |  orphan VMA (AIO)   |
+  +-------------------+---------------------+
+  A                 A+partial_len        A+ctx->mmap_size
 
-The v2 custom encoder was also incorrect - it did not produce codewords
-compatible with lib/reed_solomon. This would have caused silent
-corruption on RS-protected blocks written by mkfs and read by the
-kernel. Fixed in v3 and validated: mkfs parity matches lib/reed_solomon
-byte-for-byte on arm64 kernel 7.0.
+  dest:
+  +-------------------+
+  |  moved VMA (AIO)  |
+  +-------------------+
+  B                 B+partial_len
 
-Aurelien DESBRIERES <aurelien@hackers.camp>
+Later, io_destroy() calls vm_munmap(ctx->mmap_base, ctx->mmap_size), which
+unmaps the destination. This not only fails to unmap the orphan VMA at the
+source, but also overshoots the destination VMA and may unmap unrelated
+mappings adjacent to it! After put_aio_ring_file() calls truncate_setsize()
+to remove all pages from the pagecache, any subsequent access to the orphan
+VMA triggers filemap_fault(), which calls a_ops->read_folio(). Since aio
+does not implement read_folio, this results in a NULL pointer dereference.
+
+[FIX]
+Note that expanding mremap (new_len > old_len) is already rejected because
+AIO ring VMAs are created with VM_DONTEXPAND. The only problematic case is
+a partial move where "old_len == new_len" but both are smaller than the
+full ring size.
+
+Fix this by checking in aio_ring_mremap() that the new VMA covers the
+entire ring. This ensures the AIO ring is always moved as a whole,
+preventing orphan VMAs and the subsequent crash.
+
+[1]: https://lore.kernel.org/all/20260413010814.548568-1-wozizhi@huawei.com/
+
+Signed-off-by: Zizhi Wo <wozizhi@huaweicloud.com>
+---
+ fs/aio.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/fs/aio.c b/fs/aio.c
+index a07bdd1aaaa6..48d049ff5267 100644
+--- a/fs/aio.c
++++ b/fs/aio.c
+@@ -369,7 +369,8 @@ static int aio_ring_mremap(struct vm_area_struct *vma)
+ 
+ 		ctx = rcu_dereference(table->table[i]);
+ 		if (ctx && ctx->aio_ring_file == file) {
+-			if (!atomic_read(&ctx->dead)) {
++			if (!atomic_read(&ctx->dead) &&
++			    (ctx->mmap_size == (vma->vm_end - vma->vm_start))) {
+ 				ctx->user_id = ctx->mmap_base = vma->vm_start;
+ 				res = 0;
+ 			}
+-- 
+2.39.2
+
