@@ -1,88 +1,45 @@
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F20CF14E2F2
-	for <linux-fsdevel@vger.kernel.org>; Sat, 18 Apr 2026 21:50:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B1523BB48
+	for <linux-fsdevel@vger.kernel.org>; Sat, 18 Apr 2026 22:18:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776549014; cv=none; b=P2bm1WNjeEW6k5LP31pemoYV+L/KwXNdPTjf0f8dV3ihnshLFHPs/GyTLuAQ/WJjuUh7r+kdTNyYfpxr3mvZaWRHmsD5Qb2rQD9FmWrP1z5ytNTuTu8p+ZkDlIf7d5GpCsvjzwMpY8W8Cen9DUBerADFK4+yXERkRWkoDTxnPJs=
+	t=1776550739; cv=none; b=N2uE0atb53lXsqbqDWnRbwcauL1bWcKsvhw+SvmPdNbbWOI5lx4zHRk42+3VzJMH7vWUOXq0m+qrlXIsMIsihkrF19E43VOG/PJtPKAX78wIKEm8XQirOTztSEhT+Q3HDAssud4fgRWLaA0bQ3CuQsnjeMaAKNqhAjyfeLRikcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776549014; c=relaxed/simple;
-	bh=3t3O3sUz87huz0M+miAOXIZUv7RqPxu3nH6k1jR28j0=;
+	s=arc-20240116; t=1776550739; c=relaxed/simple;
+	bh=GY9s5G+l2f1sZVgIL40eKhrxCPHTgtR02kS600LK4f8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XtudoxV4h8heYPEXR0YafVQAFHI/K8sKLlU20DWNfQQHr+1uj2Yd4x/Y7G++sfQKGrd8BGBPMIyGLzt5ZhXpX4oiPgcI+ehZAsKSN3D9yXWKJ2qQ5cgP3fhxvDrpdUUywkG1pER6B4n27qH5j6bAUeZJgXITakpagXwFOfS7LXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fEIRqRep; arc=none smtp.client-ip=209.85.128.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=bf48nAAW4/bHtp1+NoLrFsIIp8Ext8LmO0jyN+Ci/gj8aHAAHx7rgxmKgYbGXKs5b2mz0JH0RK9o8tuRicbBl/kwhjhQ7Jr2/F/g4QMclsL0Msb6PkjmMHqIXcAoJKXuC8CPTn7MhsjzOFRTiXFtrTKa77UmAQ0wNKPzs0dk1QA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A0tl8o43; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fEIRqRep"
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-79a60975dc5so18665407b3.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 18 Apr 2026 14:50:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776549012; x=1777153812; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=36X19zjYQyKBdMHD9gCjle7K5J8JMLJfZmqliCGv0kA=;
-        b=fEIRqRepCGZHHwDeYcQPuGgeVTaflRQq5+lBchI27/BfrZgSyaafzb8AOwkwE1Stfb
-         Nin0EPW+Vw8I4M2su6BmCfrShrHJZgdSiO5qpdSzJSEI5sc5mSYWTHaSK2UQXvv3+RJN
-         SpD8WvbvafSjgZRK22N7msCzhjEc3r+iXKTvNPAfE22tEYgPqmha2EGmh78/Lh+MFiUk
-         zoTxpDvuxUu22vKYSm5sJxB0VlVWXAVmIQ+OKxPYzvQHACZRohRJO21zROlY/CV0GiZf
-         wWq+ZAxjBKTrMT8dO6AEbG6Abo4p2q9k5Uyy7lQ/VkwwzaV+FE1s9pPc5bd0EaVToJWc
-         48Rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776549012; x=1777153812;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=36X19zjYQyKBdMHD9gCjle7K5J8JMLJfZmqliCGv0kA=;
-        b=IZ49+hCLlvXgFNQlN2sorvQvXr/M6nK0ikylpul7twJa+12tt3Isd4V6c8CYMfBX0c
-         X0oAcfKvKTfik7vhLtnUWds4SqG/VM+M8uLPIll/hvLvRRrRx6dMevnsYi3fNptETRyc
-         ACgXagNBHOIXDL9/YjjSTqI1LKDyYbEdMCXOsHT2wuJHzNA0byBWusnHErPGIoFlsSDD
-         qgQqRNYbJN7bSkvm+QoJJR2sxr77Emx0cTxg/zLE2D6L5nmXVHOaSGSfJ0bxjt3kpDrD
-         WMKVVK/Pummi1AgQAZtp64X7k2ET00cTgq8WFHSkRICO/TSzPIRQHCJoXWrpYb/2H0DQ
-         vXnA==
-X-Forwarded-Encrypted: i=1; AFNElJ/IZD5spP+K4iyZXH5rH6vCHzXrBw6D0k6WyDWdZIkJefHpaufPneda54g18QYOKla7A46ulSID3f3hzDMi@vger.kernel.org
-X-Gm-Message-State: AOJu0YzucFqwOMppZFWXhCWqHIw6yrxDoNXIe+5LeqKfD67XF90IKPMe
-	xAEdveKz9JJbjUeWNCdO6YgC/4RLopsGNIT3WwxAzoygFb5WYq48U7x3
-X-Gm-Gg: AeBDievU44/qNwkwvSLsauFVE34nOV0JDcb7JKHWQmw4vGFQEOJ9VA7+K02+RynlQnM
-	xwyJWzeibPhNAJBVPrGQpkGu4bANP2D9RkYXiK3PfWORytxS6I9zcynp1WHrbKdxrjWRUemnJ8t
-	YkscnLJOHcrpeD3N8+hUnbwgknfbpPd39DU83JW9Axr3XUc+xgyubSV5aWE43DiPK/UtMZ1LaBi
-	ziUFv2bRGeQAhliUeTLr2RmLlCPhmd6TW9wPWmoxl1b7ojyCJK+6JsPfzsX9EFYin+KlMp1LBNi
-	JGEUsQ6pZbyvWfubRS7eW5iYpQIjqhfmH9d0cvSOkEKrgwURqXNA63NPuuwTwu/23qVXhs4zWPa
-	3+i25QC//W1d/QeBOQHQeFLYCnC/r6xhkiAJ9PHc6dEkmRo4NE7WWTI/k+mECUYGHl+FPb/EwQe
-	iAZzTKueIFObuwNIiZe4KKtkQ7mi6+dSZSYIeZlB51P6PQGiaZjM/c/XKyMX0w9bOF4f632uxJh
-	mY=
-X-Received: by 2002:a05:690c:1b:b0:7ac:ff2:4603 with SMTP id 00721157ae682-7b9ecf0fee4mr87792467b3.20.1776549012081;
-        Sat, 18 Apr 2026 14:50:12 -0700 (PDT)
-Received: from suesslenovo ([2600:1700:18fb:6011:3699:d8a1:7856:daf4])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7b9ee9ce88dsm24935397b3.48.2026.04.18.14.50.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Apr 2026 14:50:11 -0700 (PDT)
-Date: Sat, 18 Apr 2026 17:50:09 -0400
-From: Justin Suess <utilityemal77@gmail.com>
-To: Song Liu <song@kernel.org>
-Cc: =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>, ast@kernel.org,
-	daniel@iogearbox.net, andrii@kernel.org, kpsingh@kernel.org,
-	paul@paul-moore.com, viro@zeniv.linux.org.uk, brauner@kernel.org,
-	kees@kernel.org, gnoack@google.com, jack@suse.cz, jmorris@namei.org,
-	serge@hallyn.com, yonghong.song@linux.dev, martin.lau@linux.dev,
-	m@maowtm.org, eddyz87@gmail.com, john.fastabend@gmail.com,
-	sdf@fomichev.me, skhan@linuxfoundation.org, bpf@vger.kernel.org,
-	linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [RFC PATCH 08/20] bpf: Add Landlock ruleset map type
-Message-ID: <aeP8kWX2POlBBjlm@suesslenovo>
-References: <20260407200157.3874806-9-utilityemal77@gmail.com>
- <CAPhsuW7zzXXd6-d86B-rpGr-wfSzmEoCYNKhTMP_pXnybtA27A@mail.gmail.com>
- <aeFaQXkKNHFeE-oC@suesslenovo>
- <CAPhsuW648HdcCbXWMHaJ4uirPWq2WX3Ggx3AGMU6CGzhNYUREg@mail.gmail.com>
- <aeI_CXj6F-nI_DCL@suesslenovo>
- <20260417.ohgoh0Eecome@digikod.net>
- <aeJlHIoSjVPmccDx@suesslenovo>
- <20260417.aPh1ooQu8esh@digikod.net>
- <aeKY_QUge4okHjrW@suesslenovo>
- <CAPhsuW4CoskfaqEE5yS2LU_mFvNBDsKc5OX1+f=Lkduc2ykSdQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A0tl8o43"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D923C2BCB7;
+	Sat, 18 Apr 2026 22:18:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776550738;
+	bh=GY9s5G+l2f1sZVgIL40eKhrxCPHTgtR02kS600LK4f8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=A0tl8o43MDiC1s6ySDM43KN7Z6NR9+dSzPwAXEBN60XK8D350YPKotHln+Y35t7Nv
+	 LXj7mqn9eB9aSrwKYPltnwiDocN93kJJ1OYidpRrnlxvr55GdASVdJE8ootxNPUb7A
+	 yGKiuxsaCLIZvmnrwyzJSnswpzZeVlRrbqDUSFmiJt/qBqsLLZ/En2Rfg8wHU2GlVC
+	 WFxPVRUrBn2HCGtJynQRs6Hk2crQ74hRFc4UF33KFIl8jMBRugm8jShpOuZNKCa9X8
+	 OaK+sXHQL8fddGLHKkLd7EupGD5ZA5+jkN/W8ECFsjQZYkhqZYyJ7wxoz4282PauwG
+	 NNu7Anzjv2iaw==
+Date: Sat, 18 Apr 2026 22:18:56 +0000
+From: Jaegeuk Kim <jaegeuk@kernel.org>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Matthew Wilcox <willy@infradead.org>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Al Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org,
+	Theodore Tso <tytso@mit.edu>, Christoph Hellwig <hch@lst.de>,
+	"Darrick J. Wong" <djwong@kernel.org>
+Subject: Re: [PATCH] docs: add guidelines for submitting new filesystems
+Message-ID: <aeQDUIaxc5qBvLA4@google.com>
+References: <20260417142503.1436446-1-amir73il@gmail.com>
+ <aeJTecsykkHMSvNh@casper.infradead.org>
+ <aeJr8Wq3qmpGk6m9@google.com>
+ <CAOQ4uxhG0wgTAfn-XQz2Kkosh=upeE4x5r_PuYmc_H2X9snogQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -92,88 +49,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAPhsuW4CoskfaqEE5yS2LU_mFvNBDsKc5OX1+f=Lkduc2ykSdQ@mail.gmail.com>
+In-Reply-To: <CAOQ4uxhG0wgTAfn-XQz2Kkosh=upeE4x5r_PuYmc_H2X9snogQ@mail.gmail.com>
 
-On Fri, Apr 17, 2026 at 01:42:02PM -0700, Song Liu wrote:
-> On Fri, Apr 17, 2026 at 1:33 PM Justin Suess <utilityemal77@gmail.com> wrote:
-> [...]
-> > > > > to the caller) and pass them as file descriptor?
-> > > > This "pass them as a file descriptor" is the tricky part. It would be
-> > > > very convenient if we could send the fd to bpf from userspace and have
-> > > > it be implicitly converted (like in the BPF_MAP_TYPE_LANDLOCK_RULESET
-> > > > implementation) in one step, but I just don't see a way to do that with
-> > > > the bpf_landlock_get_ruleset_from_fd kfunc approach.
+On 04/18, Amir Goldstein wrote:
+> On Fri, Apr 17, 2026 at 7:20 PM Jaegeuk Kim <jaegeuk@kernel.org> wrote:
+> >
+> > On 04/17, Matthew Wilcox wrote:
 > > >
-> > > Song's idea to have a generic FD map looks promising.
-> > >
+> ...
+> > > I kind of want a section on "no weird ioctls".  Anything you want to
+> > > implement beyond ioctls already implemented by other filesystems,
+> > > you need to bring to linux-fsdevel as a separate proposal from "please
+> > > merge my filesystem".  Almost anything implemented by f2fs is a good
+> > > example here.
 > >
-> > I agree the generic FD map sounds like a good fit.
+> > I disagree to this. As a filesystem developer, I belive ioctl provides a way
+> > to tune the filesystem-specific features which are not supported by all the
+> > other filesystems.
+> >
 > 
-> Well, I am not 100% sure a generic FD map adds enough value
-> on top of current __kptr solutions. This will be more tricky if we
-> have to touch file_operations.
+> Jaegeuk,
 > 
-> > So this would be three parts like:
-> >
-> > 1. The new point-of-no-return flags for NNP and staging domain to
-> > execution time in Landlock. Selftests and doc updates.
-> > 2. The generic FD map implementation for bpf. Selftests and doc updates.
-> > 3. The BPF kfunc implementations for Landlock using the same point-of-no
-> > return staging. Selftests and doc updates.
-> >
-> > The scope of which is probably too big for one series.
-> >
-> > Luckily part 1 is pretty close to being done as part of my work for v2
-> > of this series, and can standalone as a preparatory series for Landlock,
-> > since it adds flags and features that have utility outside of BPF.
-> >
-> > Open for ideas on how to split this up (or even better, for some help in
-> > implementation or prior works).
-> >
-> > I'd like to get some feedback and figue out what this generic fd map
-> > should look like and get some more eyes on that idea to avoid wasting
-> > reviewer time on an unsuitable implementation.
+> Note that, despite Matthew's unhidden opinion about "weird ioctls",
+> the proposed clause does not say that they are not allowed.
 > 
-> I will think more about 2. If it indeed adds good value, the upcoming
-> LSF/MM/BPF is a good opportunity to move this forward.
+> The section refers to the way to submit a new filesystem for review
+> and requests that special ioctls will be clearly submitted separately.
+> Here is how I have added it in my work branch:
 > 
-> In the meanwhile, we still need kfuncs to access landlock ruleset.
-> Therefore, any work on that front should be useful.
->
-Instead of a new map type, could the same usecase be fulfilled as a
-flag for bpf_map__update_elem? (BPF_FROM_FD?)
+>  - Structure the submission logically.  It is neither acceptable to send one
+>    large patch containing the entire filesystem, nor is a replay of the full
+>    development history helpful to reviewers.  Instead, split the series by
+>    topic -- for example: superblock and mount handling, inode operations,
+>    directory operations, address space operations, and so on -- so that each
+>    patch is reviewable in isolation.
+> 
+>  - Separate any filesystem-specific ioctls into their own patches with
+>    dedicated justification.  Interfaces beyond those already common across
+>    other filesystems will receive additional scrutiny because they are hard
+>    to maintain and may conflict with future generic interfaces.
+> 
+>  - Expect thorough review.  Filesystem code interacts deeply with the VFS,
+>    memory management, and block layers, so reviewers will examine the code
+>    carefully.  Address all review feedback and be prepared for multiple
+>    revision cycles.
 
-  int bpf_map__update_elem(
-    map,
-    &key, 
-    sizeof(key),
-    &fd,
-    sizeof(fd), 
-    BPF_FROM_FD);
+Thanks, those are all reasonable to me, as I did quite similarly in 2012,
+https://lwn.net/Articles/518718/.
 
-We could register an operation at the BTF type level to acquire a
-reference to an underlying kernel object from a struct file* to a
-specific BTF type, like how destructors are registered.
+Some useful tips before submission might be helpful:
+1) find a company sponsorship for long-term maintenance support
+2) present key differentiating features to filesystem/kernel leads (e.g., Ted)
+3) check any patent/copyright violation
+4) share the results of xfstests/fsstress/power-off recovery test/code coverage
 
-Something like void* bpf_kptr_acquire_from_file_t(struct file*)
+Thanks,
 
-(adding it to btf_field_kptr).
-
-Then this would get a reference on the kernel object for the underlying
-file and insert it as a kptr into the map if the file indeed points to
-the correct type.
-
-This would be valid only for a map holding a supported __kptr type
-implementing the bpf_kptr_acquire_from_file operation.
-
-This flag would allow inserting __kptr from userspace (previously
-impossible) with a file descriptor.
-
-This wouldn't need any new file_operations changes nor any new map
-types.
-
-This could be implemented for specific kernel object backed FDs as
-appropriate.
-
+> 
 > Thanks,
-> Song
+> Amir.
