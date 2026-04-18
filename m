@@ -1,241 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out203-205-221-242.mail.qq.com (out203-205-221-242.mail.qq.com [203.205.221.242])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 346D727FD49;
-	Sat, 18 Apr 2026 09:27:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A4312D2397;
+	Sat, 18 Apr 2026 09:37:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.242
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776504433; cv=none; b=DTSi9Rx8bsKTkmhYpU1C+4q0ZUz7YJ0Rj1c3buHaPOpKriBNyGz8X4q57rCt0u73JQsRgxZvbGh5mVROHhWx5545O1ps7ZamBPnn794gFICQjk0ulsqKskWHAJ7X4u7Y9ganAZbBGDBDsnTsDEb/nmFL15CssLLpZRT+tcs+mkg=
+	t=1776505075; cv=none; b=r88AgsqMN0Rf6ZYub+2LJiJABp+79tkQVU0oLGDzGR6wd1c1QvC0FoB/TIIUjmbu372PPsi1SI+mCPR++qJSpvjF4931mtyT+3JtXN7RP0l7tbVRfE8comUbk58L6tJ5byG4pK8wIitGBoPUdELhPOiornwhPwV4M+tC2wy5Vuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776504433; c=relaxed/simple;
-	bh=qQK1tXEC3bQP9DZ7GFPDMCN0K1t29slMgrLD0yyfeZ4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RxGcu/qLdDmHJWsbjYg6waZ/PjqHBskssVR1IJmZgaho/v2RXRBJVHC3Ivvis6leSSF36GyvJLEMASD/EUfvcvTzQdhE8lpVbNPu5B0ksWXM6tjyZRUhpelHxBwQ62pzYqbarsJBVOVlGbQZbV2xbNRKipf2GimrCqqlxd8OSag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ikWmHtfu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776505075; c=relaxed/simple;
+	bh=2gNCOAMl8rUdDl7dVR3JJfTLo7eh0LnZjDbBTWAHwfw=;
+	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
+	 MIME-Version; b=Dv/OGlRp1l3PiXKPtvrZXCiA9hWnNw3JarK0eZbgmqurz9KxeOItVHHlbsHnmdTXOfp7vL6Hm2gOplHlcxdpbhyprHjU2xGgJt6Bpu/G3L4f7wrs0f8Sy4x7pbFoGf6IqRWLrqYxZb/WJtLLvQK/qT4tjYJZTLj/6+nEYdC+djc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=oUPqqhZH; arc=none smtp.client-ip=203.205.221.242
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ikWmHtfu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCC7BC19424;
-	Sat, 18 Apr 2026 09:27:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776504432;
-	bh=qQK1tXEC3bQP9DZ7GFPDMCN0K1t29slMgrLD0yyfeZ4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ikWmHtfu7pVAnscldTDWmT2dkebMotrLIBQE8B3cj/NJm+LMOdJQ1+SicHCaJzh2j
-	 hvQDrQkhkcCi9Gs9VMZ+zu/zKq2plSfI+RnUQ2AKfDN0ePzK/cddQUoOimK4WLSszf
-	 73s7zVs5pDX8IJ1ORCYFd+4yIo+u+omrpvxuhh0vbNwiJSdalDH28uKWpTGEVH3tOm
-	 jyy0UKIxK3Db8Tw+PQ4t/LhdfbHTtt1XgMdnZxUteaIAUPqDeMUzwIoq2wRqAysxrN
-	 /iuPRwQi1pEE1O52z35J4YmZ5J/y1R47cZAbeZXVPqXz4SmGwgdUhgQxYkzqAzQNjx
-	 3cpLn0aRJZ1mQ==
-Date: Sat, 18 Apr 2026 10:27:04 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: Zi Yan <ziy@nvidia.com>
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Song Liu <songliubraving@fb.com>, Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
-	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>, 
-	linux-btrfs@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH 7.2 v3 00/12] Remove read-only THP support for FSes
- without large folio support
-Message-ID: <aeNNjgD09VqwI0jo@lucifer>
-References: <20260418024429.4055056-1-ziy@nvidia.com>
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="oUPqqhZH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1776505062; bh=8qBbTia1kqDM3j/n8GXQa67jqWAvqO43BAHpS4mJOxE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=oUPqqhZHFBDHJY6txbgO2QG/dJsZLvZHYEewn7H1TFkvBGMLgpTO/vmnXMS4jrJTq
+	 pfJTX4vVNVMvWt+2fO72VZbbjvHGuHr3l1MHM8osac+/yjOwyCuzWeMEtB2bpviZJ1
+	 HGof32Vw0CXHCRrN+54v2dEnlDHiv34UV7sbi+kk=
+Received: from lxu-ped-host.. ([111.198.231.89])
+	by newxmesmtplogicsvrszc56-0.qq.com (NewEsmtp) with SMTP
+	id 9678C638; Sat, 18 Apr 2026 17:37:39 +0800
+X-QQ-mid: xmsmtpt1776505059t6qnqg7uv
+Message-ID: <tencent_B50525C2BA56BB53331B9E5A1B444B281B08@qq.com>
+X-QQ-XMAILINFO: OVFdYp27KdlJP/zUB5xGgLJwlYcLJxncrrMnea7N3g1EImA3hJf41h8RfB9RFg
+	 wk1dJBf4iUL49NUxfKPIYyh9Rgauy2CmpUCraK3cIk596oVoRLlOzMr9+agSSaXBao9oVUHmPIMU
+	 yC4OvlGBrD9Ac+4viZ9j9j/Zb6O8da2gH85eg/Jj4K9Z4x5I1l57tMB/+8+t7X9pUCCovYrhbmIK
+	 svE8aNEV/gkaOF9BpYByf6L4sqBuFuSQhydUMXG55gtTdpLkPaIPCEezImZUpdqdXjizJAaYsnN7
+	 mrK26vmSsv2qoEwIBvO84JpdVUCeuXRylK0k1dG5Le5ZlHbDZqGd0psTR6YAeQecC+BKf8Yu9C94
+	 esl80PLnreFP9B0DdctQ+PvsoUrsnnIRaCnkry5TcHdjVPXjEOxkfOb3se5Pyo4OhW4L7k5t0Ymy
+	 8xPFyrOZyGN48QJy/KZNLk+oeZzxCQpqyX6+F4Q80cU8gWPxSkMiBUnMiQfrNMODE2kb38THLH04
+	 RXydQ/jbjWVnUmNLCpytqqGPiUqWUJyd2oXmEG1Qw5T5vVdfLvGBtK6gyQrlEVto8ocjk9m7CZZk
+	 ZZo7hsmnNJHXMapBhBF67gE+v4ONvqHhzCCEmLjK/4rQYObVt808cnixLLDvk3zPa08qzFHsQq2t
+	 ruFcXKg9tTE9xli/ibPoSZsiwCdLmkmAhSaR3HY5hKBmVGzGTsdzoKQaNpR8yQ/AklFYHdMlWyNi
+	 CLL/tyzhVMtHx6mLtGsWfzabnMw3yO8GrS3GiQVfq1wUeyfdbiNx19FfyMRfHLOwksJRIlx5xVtI
+	 G+sQBlBnjMT+meMPDRntABv+vCydJ+9bWRVinBf6XlM7Zl0vqksEQ5pKr3jheXqxrYamxUY8l26n
+	 42LGK+cfDp8pypCNrdADtn/jikQJ0/7KNPE3pdu7rHz4eVwpsuvqPrtXOevwBMRFuzCsHPY2geGI
+	 0ScQy6Wk3SMqT0FWUkH5MNKrlD8O3U+JhSpJNgZFev7wx0516lxDV5N1+FPxA8+mAWdhY+2yYWqP
+	 j+d/0hvw==
+X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
+From: Edward Adam Davis <eadavis@qq.com>
+To: vdubeyko@redhat.com
+Cc: eadavis@qq.com,
+	frank.li@vivo.com,
+	glaubitz@physik.fu-berlin.de,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	slava@dubeyko.com,
+	syzbot+98547b0428b6a6a3467c@syzkaller.appspotmail.com,
+	syzkaller-bugs@googlegroups.com
+Subject: [PATCH] hfsplus: Supports freeing newly created tree head
+Date: Sat, 18 Apr 2026 17:37:40 +0800
+X-OQ-MSGID: <20260418093739.471318-2-eadavis@qq.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <60605973b66496b04c6847ceb6fa46dfada6a628.camel@redhat.com>
+References: <60605973b66496b04c6847ceb6fa46dfada6a628.camel@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260418024429.4055056-1-ziy@nvidia.com>
 
-On Fri, Apr 17, 2026 at 10:44:17PM -0400, Zi Yan wrote:
-> Hi all,
->
-> This patchset removes READ_ONLY_THP_FOR_FS Kconfig and enables creating
-> read-only THPs for FSes with large folio support (the supported orders
-> need to include PMD_ORDER) by default.
->
-> Before the patchset, the status of creating read-only THPs is below:
+On Fri, 17 Apr 2026 15:03:17 -0700, Viacheslav Dubeyko wrote:
+> > hfs_bnode_put() does not support deallocating a newly created btree
+> > head node; therefore, regardless of whether hfsplus_bnode_find() succeeds
+> > or fails, it cannot effectively reclaim the memory allocated for a newly
+> > created head node.
+> > 
+> > When finding a head node, if the node is a newly created one, we can use
+> > hfs_bnode_free() to reclaim its memory.
+> > 
+> > [1]
+> > BUG: memory leak
+> > unreferenced object 0xffff88811cabc840 (size 96):
+> >   backtrace (crc 3e2dadb7):
+> >     __hfs_bnode_create+0x59/0x310 fs/hfsplus/bnode.c:469
+> >     hfsplus_bnode_find+0x13e/0x580 fs/hfsplus/bnode.c:547
+> >     hfsplus_btree_open+0x2fa/0x6d0 fs/hfsplus/btree.c:382
+> >     hfsplus_fill_super+0x272/0x880 fs/hfsplus/super.c:548
+> 
+> I need slightly more detailed and clear explanation how the issue has been
+> happened and why we need to fix it in a such way. Currently, I don't have the
+> complete picture how this happened. I am sure that you have the complete
+> picture. :) Could you please share what you have in your mind? :) Don't hide the
+> wisdom. ;)
+    fc_mount()
+     vfs_get_tree()
+      get_tree_bdev_flags()
+       hfsplus_fill_super() 
+        hfsplus_btree_open() 
+         hfsplus_bnode_find(tree, HFSPLUS_TREE_HEAD) 
+          __hfs_bnode_create()
+	   ...
+	   node->this = cnid; // cnid is HFSPLUS_TREE_HEAD, it is 0
+	   ...
+	  ...
+	  desc = (struct hfs_bnode_desc *)(kmap_local_page(node->page[0])
+	  node->type = desc->type;
+	  switch (node->type) {
+	  ...
+	  default:  // because node->type is 127, so run here
+	  	goto node_error;
+	  ...
+	  hfs_bnode_put()
+	   ...
+	   if (test_bit(HFS_BNODE_DELETED, &node->flags)) { /* head node not set HFS_BNODE_DELETED flag
+							     * so, the node will never be freed.
+							     * Furthermore, even if the node were marked
+							     * with the HFS_BNODE_DELETED flag, hfs_bmap_free()
+							     * would still trigger BUG_ON(!node->this).
+	   						     */
 
-Good to specify the read-only bit up front!
+Edward
+BR
 
->
->                             |    PF     | MADV_COLLAPSE | khugepaged |
->                             |-----------|---------------|------------|
->  large folio FSes only      |     ✓     |       x       |      x     |
->  READ_ONLY_THP_FOR_FS only  |     x     |       ✓       |      ✓     |
->  both                       |     ✓     |       ✓       |      ✓     |
-
-This diagrams seem familiar :P but very nice, thanks!
-
-And since we include cover letter in series in mm this should be some nice
-documentation in the commit msg also.
-
->
-> where READ_ONLY_THP_FOR_FS implies no large folio FSes.
->
->
-> Now without READ_ONLY_THP_FOR_FS:
->
->                            |    PF     | MADV_COLLAPSE | khugepaged |
->                            |-----------|---------------|------------|
->  large folio FSes          |     ✓     |       ✓       |      ✓     |
->  no large folio FSes       |     x     |       x       |      x     |
-
-This is really nice and clear thanks!
-
->
-> This means no large folio FSes need to add large folio support (the
-> supported orders need to include PMD_ORDER), so that they can leverage
-> read-only THP creation function.
->
-> To prevent breaking read-only THP support for large folio FSes,
-> 1. first 4 patches enables the support, so that without READ_ONLY_THP_FOR_FS,
->    read-only THP still works for large folio FSes,
-
-I guess this introduces what was previously supported by
-CONFIG_READ_ONLY_THP_FOR_FS to large folios as part of that before removal of
-the config option?
-
-> 2. Patch 5 removes READ_ONLY_THP_FOR_FS Kconfig,
-> 3. the rest of patches remove code related to READ_ONLY_THP_FOR_FS.
-
-Makes sense thanks!
-
->
->
-> The overview of the changes is:
->
-> 1. collapse_file() checks for to-be-collapsed folio dirtiness after they
->    are locked, unmapped to make sure no new write happens. Before,
->    mapping->nr_thps and inode->i_writecount are used to cause read-only
->    THP truncation before a fd becomes writable.
->
-> 2. hugepage_pmd_enabled() is true for anon, shmem, and file-backed cases
->    if the global khugepaged control is on, otherwise, khugepaged for
->    file-backed case is turned off and anon and shmem depend on per-size
->    control knobs.
->
-> 3. collapse_file() from mm/khugepaged.c, instead of checking
->    CONFIG_READ_ONLY_THP_FOR_FS, makes sure the mapping_max_folio_order()
->    of struct address_space of the file is at least PMD_ORDER.
->
-> 4. file_thp_enabled() also checks mapping_max_folio_order() instead and
->    no longer checks if the input file is opened as read-only (Change 1
->    handles read-write files).
->
-> 5. truncate_inode_partial_folio() calls folio_split() directly instead
->    of the removed try_folio_split_to_order(), since large folios can
->    only show up on a FS with large folio support.
->
-> 6. nr_thps is removed from struct address_space, since it is no longer
->    needed to drop all read-only THPs from a FS without large folio
->    support when the fd becomes writable. Its related filemap_nr_thps*()
->    are removed too.
->
-> 7. folio_check_splittable() no longer checks READ_ONLY_THP_FOR_FS.
->
-> 8. Updated comments in various places.
->
->
-> Changelog
-> ===
-> From V2[3]:
-> 1. removed unnecessary check in collapse_scan_file().
->
-> 2. removed inode_is_open_for_write() check in file_thp_enabled().
->
-> 3. changed hugepage_pmd_enabled() to return true if khugepaged global
->    control is on instead of false. cleaned up anon and shmem code in the
->    function.
->
-> 4. moved folio dirtiness check after try_to_unmap() but before
->    try_to_unmap_flush(), since that is sufficient to prevent new writes.
->
-> 5. reordered patch 4 and 5, so that khugepaged behavior does not change
->    after READ_ONLY_THP_FOR_FS is removed.
->
-> 6. added read-write file test in khugepaged selftest.
->
-> 7. removed the read-only file restriction from guard-region selftest.
->
-> From V1[2]:
-> 1. removed inode_is_open_for_write() check in collapse_file(), since the
->    added folio dirtiness check after try_to_unmap_flush() should be
->    sufficient to prevent writes to candidate folios.
->
-> 2. removed READ_ONLY_THP_FOR_FS check in hugepage_pmd_enabled(), please
->    see Patch 5 and item 2 in the overview for more details.
->
-> 3. moved the patch removing READ_ONLY_THP_FOR_FS Kconfig after enabling
->    khugepaged and MADV_COLLAPSE to create read-only THPs.
->
-> 4. added mapping_pmd_thp_support() helper function.
->
-> 5. used VM_WARN_ON_ONCE() in collapse_file() for mapping eligibility check
->    and address alignment check instead of if + return error code. Always
->    allow shmem, since MADV_COLLAPSE ignore shmem huge config.
->
-> 6. added mapping eligibility check in collapse_scan_file().
->
-> 7. removed trailing ; for folio_split() in the !CONFIG_TRANSPARENT_HUGEPAGE.
->
-> 8. simplified code in folio_check_splittable() after removing
->    READ_ONLY_THP_FOR_FS code.
->
-> 9. clarified that read-only THP works for FSes with PMD THP support by
->    default.
->
-> From RFC[1]:
-> 1. instead of removing READ_ONLY_THP_FOR_FS function entirely, turn it
->    on by default for all FSes with large folio support and the supported
->    orders includes PMD_ORDER.
->
-> Suggestions and comments are welcome.
->
-> Link: https://lore.kernel.org/all/20260323190644.1714379-1-ziy@nvidia.com/ [1]
-> Link: https://lore.kernel.org/all/20260327014255.2058916-1-ziy@nvidia.com/ [2]
-> Link: https://lore.kernel.org/all/20260413192030.3275825-1-ziy@nvidia.com/ [3]
->
-> Zi Yan (12):
->   mm/khugepaged: remove READ_ONLY_THP_FOR_FS check
->   mm/khugepaged: add folio dirty check after try_to_unmap()
->   mm/huge_memory: remove READ_ONLY_THP_FOR_FS from file_thp_enabled()
->   mm/khugepaged: remove READ_ONLY_THP_FOR_FS check in
->     hugepage_pmd_enabled()
->   mm: remove READ_ONLY_THP_FOR_FS Kconfig option
->   mm: fs: remove filemap_nr_thps*() functions and their users
->   fs: remove nr_thps from struct address_space
->   mm/huge_memory: remove folio split check for READ_ONLY_THP_FOR_FS
->   mm/truncate: use folio_split() in truncate_inode_partial_folio()
->   fs/btrfs: remove a comment referring to READ_ONLY_THP_FOR_FS
->   selftests/mm: remove READ_ONLY_THP_FOR_FS in khugepaged
->   selftests/mm: remove READ_ONLY_THP_FOR_FS code from guard-regions
->
->  fs/btrfs/defrag.c                          |   3 -
->  fs/inode.c                                 |   3 -
->  fs/open.c                                  |  27 -----
->  include/linux/fs.h                         |   5 -
->  include/linux/huge_mm.h                    |  25 +----
->  include/linux/pagemap.h                    |  35 ++-----
->  include/linux/shmem_fs.h                   |   2 +-
->  mm/Kconfig                                 |  11 ---
->  mm/filemap.c                               |   1 -
->  mm/huge_memory.c                           |  39 ++------
->  mm/khugepaged.c                            |  86 ++++++++--------
->  mm/truncate.c                              |   8 +-
->  tools/testing/selftests/mm/guard-regions.c |  18 +---
->  tools/testing/selftests/mm/khugepaged.c    | 110 +++++++++++++++------
->  tools/testing/selftests/mm/run_vmtests.sh  |  12 ++-
->  15 files changed, 156 insertions(+), 229 deletions(-)
->
-> --
-> 2.43.0
->
