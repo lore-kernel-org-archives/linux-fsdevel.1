@@ -1,186 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C6CE2EB856;
-	Sun, 19 Apr 2026 18:53:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D83921D3E4;
+	Sun, 19 Apr 2026 20:36:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776624806; cv=none; b=u0JX3d0aHWrWZ82IgXHW56qD5SOsEYdho6zXk8EInHj//YFiYFpY4Zlx7Sfs7uIb3FNnnI0erIhbvOf8VEXz6T85KVBbMYQ0ayzuAUIj2X9Je6jblvUBfOkDm8lD5zHTLYpj0eZkqxjaAiht96eCMyqm9PYzBBzzKp14l8GA+zk=
+	t=1776631020; cv=none; b=BfeTJZoxSFr/+LqYl94NbzsNzvTFQjNhlgfoVo7mqeFF1/PMbF4ZsRRGEgrqZ8zIgXEofohRJ9TzKNm+c9fnthlWuJjrUHPNOwO/+2xYlaRsHq1EeCYx1anf4e2iOMeBc7bpYvPCHJ42bU0HtCOTFb8CsRQeTfVW2E9DA9gAO+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776624806; c=relaxed/simple;
-	bh=QV16RRTroR60pYIPNpVr2u935zYJuhq0gQLQqu9lLvc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=MWPzGtCfm+tI4lv8Y+2Rio36Dp/AjlPzWmEpIujx8xuCCLeNgxtLzmS9IMxkzhk6Nsq+SI8VFud5IP/Zl8bi/fdJT+FVywa3SgB38dgGtZ8Rpziao39sMM94Bl7oImryBZeB8PgZ4C72DPdAT7/RIwVurCtCvCxXrzY0K6CumVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=biVVlvmv; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="biVVlvmv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCAA5C2BCB8;
-	Sun, 19 Apr 2026 18:53:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776624806;
-	bh=QV16RRTroR60pYIPNpVr2u935zYJuhq0gQLQqu9lLvc=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=biVVlvmv8KAqXiFxT4ZJkMNI09Q3lWyxDtCbWk+9xxvc272tQIcQjjhcQWusmJiNU
-	 t5EIwS4tLOgZA0YX+ouYc/p0Ws4/SGuu50zqfBIPtG7nudYfcsV5oeVNXv+7i3Embl
-	 YIg+2ClZEYSIzuT0ietVfn2iezi+UI3+rXdbvaiDU8KsOaSbwNDD20o5ND8GBDNnA6
-	 1XaK9+pDklkJ8RII3BrLIzTpO4sN6fZ6aKVm0L8ALf+m95apoCiE8XsRsQsy9p0iiR
-	 i5UufFf5Q3KnkYb2Jn662JOTlISweE2TAzeNYqYqKI1ZaZ4V7q2ASIoti3yMH+HQzC
-	 EqyLK8eNZ8itQ==
-From: Chuck Lever <cel@kernel.org>
-Date: Sun, 19 Apr 2026 14:53:07 -0400
-Subject: [PATCH v9 9/9] NFSD: Close cached file handles when revoking
- export state
+	s=arc-20240116; t=1776631020; c=relaxed/simple;
+	bh=PL4WUHDuO2XDvYw/1SiTDHlRV1uxOuaOS5Dr6aCsj4Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KnJYojinij6wJbns7ZndFONF4GkLuNbr2Etxhy2qOIXjiMY9bYRXIl/OFw9AkigIoOCFS1jgfu1zIcBjpprX/TX4KAFxM3u5Rj0hO/jXGilMWO3+LMkU69dW23qlIDnfTO85pAg25TxqD7hiwmSTZJZ06ll5DAazWhpulkdKtGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
+Received: from omf13.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay08.hostedemail.com (Postfix) with ESMTP id 0A5FF140817;
+	Sun, 19 Apr 2026 20:36:47 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf13.hostedemail.com (Postfix) with ESMTPA id 3EC6220013;
+	Sun, 19 Apr 2026 20:36:37 +0000 (UTC)
+Date: Sun, 19 Apr 2026 15:36:30 -0500
+From: John Groves <John@groves.net>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Gregory Price <gourry@gourry.net>, 
+	"Darrick J. Wong" <djwong@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Joanne Koong <joannelkoong@gmail.com>, Bernd Schubert <bernd@bsbernd.com>, 
+	John Groves <john@jagalactic.com>, Dan Williams <dan.j.williams@intel.com>, 
+	Bernd Schubert <bschubert@ddn.com>, Alison Schofield <alison.schofield@intel.com>, 
+	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
+	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+	Stefan Hajnoczi <shajnocz@redhat.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Aravind Ramesh <arramesh@micron.com>, 
+	Ajay Joshi <ajayjoshi@micron.com>, "venkataravis@micron.com" <venkataravis@micron.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, djbw@kernel.org
+Subject: Re: [PATCH V10 00/10] famfs: port into fuse
+Message-ID: <aeUU8hMwPij2WvfF@groves.net>
+References: <CAJnrk1ZRTGWjNzkMxS3UkeZMmrpadJDtWKontMx2=d-smXYq=w@mail.gmail.com>
+ <adkDq0m5Wt9YhJ8A@groves.net>
+ <38744253-efa3-41c5-a491-b177a4a4c835@bsbernd.com>
+ <adlBcwJjLOQDAR65@groves.net>
+ <CAJnrk1a06zkUmXW5EFiUmgAoFauwtzsYvnotaPH0ifVtyh7iDQ@mail.gmail.com>
+ <CAJfpegvVTcV89=q3L326aGQjhduBcv7PVg5QKftGLjNZmCLmaw@mail.gmail.com>
+ <ad4_jFsR951c2Mtn@groves.net>
+ <20260414185740.GA604658@frogsfrogsfrogs>
+ <ad69tTnx5YkD4Y9K@gourry-fedora-PF4VCD3F>
+ <f254f6fc-dc06-4612-82d7-35bb10dbd32e@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260419-umount-kills-nfsv4-state-v9-9-0660bd06d2b6@oracle.com>
-References: <20260419-umount-kills-nfsv4-state-v9-0-0660bd06d2b6@oracle.com>
-In-Reply-To: <20260419-umount-kills-nfsv4-state-v9-0-0660bd06d2b6@oracle.com>
-To: NeilBrown <neil@brown.name>, Jeff Layton <jlayton@kernel.org>, 
- Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, 
- Tom Talpey <tom@talpey.com>
-Cc: linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- Chuck Lever <chuck.lever@oracle.com>
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4360;
- i=chuck.lever@oracle.com; h=from:subject:message-id;
- bh=x0TdrtltMY1YuvVdaaPef/iF+vzHaDIQXyUSoJA5eh8=;
- b=owEBbQKS/ZANAwAKATNqszNvZn+XAcsmYgBp5SSe6xZrpbBSMwQ8lX1fx55ZJawolGYNUBn/5
- xjC2MS4FxWJAjMEAAEKAB0WIQQosuWwEobfJDzyPv4zarMzb2Z/lwUCaeUkngAKCRAzarMzb2Z/
- l33DD/9ax5Bjp/QuHBrqLBJiiA7+UTDClTTlhdDM4VeUgaUeUZVXhqd1en1Ug27JGPHKeYwVNaS
- fqqOR8F+iVVczw0HK7ew8KW0EpKSmEOwvG+JEKemDZOAOwS8p/nusTgvztsf1AIuFMitEKp7uuZ
- pngMwsq+t+v0I7xxX2WH6Q6hFucB8CXuUMdEVxc99UF2O3UK4x4E5Hs0mCl4LCiMzYaKMfRCT/v
- baClY3YVwf2OHImLRy0sq021NGxNdw065iEq6t+ebaX7aYfOjNcnVwu2wCx/UFke6n+s5q5lOMZ
- DaAQbYCmoiaCizqlzVu/Dpd1wcfUcUo8VEOzCsdusI6rKtv8u3l2WYRVY2LJd1gNM1c508sm+E9
- gFov+hd9Nr0ZFhQhGOB6kAJ2SUxNXhgRiHfsd8WXQM3ylO5bOOQRqPnn8IjiRuRav2P1twQzPQw
- 2TSl34hOgh1OuznpuMUSSIyT4bUgPuTjR+RULdcG/DNdqQsmUBj5a4Udp6ghLT16FSp2kFGqOE+
- 34rI18k99CZpWyaj6K4eo3wGPgPyFaOc5gdGjC0/QY8Sb5aV5iLoKE4JUY/pl0OygyoilnPrFSw
- vXM8p0NFeR8lc7ZUi20ZdoDiQFVm8jze/ZwxP5WMjdw2uz6lvMlf7Gcl4mqs+jIRtmmdaeH6meV
- XNs98HzZw2yaV6Q==
-X-Developer-Key: i=chuck.lever@oracle.com; a=openpgp;
- fpr=28B2E5B01286DF243CF23EFE336AB3336F667F97
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f254f6fc-dc06-4612-82d7-35bb10dbd32e@kernel.org>
+X-Rspamd-Queue-Id: 3EC6220013
+X-Stat-Signature: jyrwpu48m896o9xunm3es93gxwmuzu3b
+X-Rspamd-Server: rspamout03
+X-Session-Marker: 6A6F686E4067726F7665732E6E6574
+X-Session-ID: U2FsdGVkX1/+B/koa7/BHl08i+zDSxwL6oICIJTnqmk=
+X-HE-Tag: 1776630997-811227
+X-HE-Meta: U2FsdGVkX18WkNiRoGCXrg1FJlRo7G2CwhvPBa+180EBmhjtaNDGUrdVGCiYO4Moozc87bNQvYo=
 
-From: Chuck Lever <chuck.lever@oracle.com>
+On 26/04/15 10:16AM, David Hildenbrand (Arm) wrote:
+> On 4/15/26 00:20, Gregory Price wrote:
+> > On Tue, Apr 14, 2026 at 11:57:40AM -0700, Darrick J. Wong wrote:
+> >>>
+> >>> I very strongly object to making this a prerequisite to merging. This
+> >>> is an untested idea that will certainly delay us by at least a couple
+> >>> of merge windows when products are shipping now, and the existing approach
+> >>> has been in circulation for a long time. It is TOO LATE!!!!!!
+> >>
+> > ...
+> >>
+> >> That said, you're clearly pissed at the goalposts changing yet again,
+> >> and that's really not fair that we collectively keep moving them.
+> >>
+> > 
+> > This seems a bit more than moving a goalpost.
+> > 
+> > We're now gating working software, for real working hardware, on a novel,
+> > unproven BPF ops structure that controls page table mappings on page table
+> > faults which would be used by exactly 1 user : FAMFS.
+> 
+> Are MM people on board with even letting BPF do that? Honest question,
+> if someone has a pointer to how that should work, that would be appreciated.
 
-When NFSD_CMD_UNLOCK_EXPORT revokes NFSv4 state for an export path,
-GC-managed nfsd_file entries for files under that path may remain
-in the file cache.  These cached handles hold the underlying
-filesystem busy, preventing a subsequent unmount.
+David, that question is pivotal!! How can we get at least a preliminary
+answer sooner rather than later? If the answer is "Hell No", a lot of 
+this thread (but not all) becomes moot.
 
-Add nfsd_file_close_export(), which walks the nfsd_file hash table
-and closes GC-eligible entries whose underlying file resides on the
-same filesystem and is a descendant of the export path.  Because
-nfsd_file entries do not carry an export reference, the ancestry
-check uses is_subdir() on the file's dentry.  False positives --
-closing a cached handle that did not originate from the target
-export -- are harmless; the handle is simply reopened on the next
-access.
+Prior to today this entire discussion has happened in the absence, to my
+knowledge, of anybody actually hooking famfs for BPF-based fault handling. 
+But today Gregory has shared some code with me that does that. However,
+the code doesn't build for me so I guess I'll have to debug that as soon 
+as I can. 
 
-The handler calls nfsd_file_close_export() before revoking NFSv4
-state, mirroring the order used by NFSD_CMD_UNLOCK_FILESYSTEM
-(which cancels copies and releases NLM locks before revoking
-state).  Both calls run under nfsd_mutex.
+Gregory's code, in the current form, still uses two new fuse messages,
+GET_FMAP and GET_DAXDEV, but it makes the fmap message format opaque by
+removing fmap format structs from the uapi. It also uses two BPF programs.
+One BPF program parses and validates the GET_FMAP payload for every file,
+and hangs it from a 'void *' in each fuse_inode (just like the current famfs
+code). The other BPF program is called during vma faults and reads the 
+fuse_inode->'void *' in order to handle faults the same way famfs-fuse does
+today, but via BPF instead.
 
-Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
-Reviewed-by: Jeff Layton <jlayton@kernel.org>
----
- fs/nfsd/filecache.c | 46 ++++++++++++++++++++++++++++++++++++++++++++++
- fs/nfsd/filecache.h |  1 +
- fs/nfsd/nfsctl.c    |  5 +++--
- 3 files changed, 50 insertions(+), 2 deletions(-)
+As with all vma "providers", famfs services zillions of faults. But famfs
+faults never involve blocking or retrieving from storage, so we don't 
+have that to amortize a less efficient fault handling code path over. 
+As I've said many times, we're enabling memory and it must run at
+"memory speeds". Gregory's code includes a BPF invocation to resolve 
+each vma fault, but does avoid the BPF hashmap lookup that would be 
+required with a generalized implementation of Joanne's ideas.
 
-diff --git a/fs/nfsd/filecache.c b/fs/nfsd/filecache.c
-index 1e2b38ed1d35..24511c3208db 100644
---- a/fs/nfsd/filecache.c
-+++ b/fs/nfsd/filecache.c
-@@ -724,6 +724,52 @@ nfsd_file_close_inode_sync(struct inode *inode)
- 	nfsd_file_dispose_list(&dispose);
- }
- 
-+/**
-+ * nfsd_file_close_export - close cached file handles for an export
-+ * @net: net namespace in which to operate
-+ * @path: export path whose cached files should be closed
-+ *
-+ * Close out GC-managed nfsd_file entries whose underlying file is on
-+ * the same filesystem as, and a descendant of, @path.  nfsd_file
-+ * entries do not carry an export reference, so the check uses the
-+ * file's dentry ancestry.  False positives (closing a cached handle
-+ * that did not originate from the target export) are harmless -- the
-+ * handle is simply reopened on the next access.
-+ *
-+ * Called from the NFSD_CMD_UNLOCK_EXPORT handler before revoking
-+ * NFSv4 state, to ensure that cached file handles do not hold the
-+ * filesystem busy.
-+ */
-+void nfsd_file_close_export(struct net *net, const struct path *path)
-+{
-+	struct rhashtable_iter iter;
-+	struct nfsd_file *nf;
-+	LIST_HEAD(dispose);
-+
-+	rhltable_walk_enter(&nfsd_file_rhltable, &iter);
-+	do {
-+		rhashtable_walk_start(&iter);
-+
-+		nf = rhashtable_walk_next(&iter);
-+		while (!IS_ERR_OR_NULL(nf)) {
-+			if (nf->nf_net == net &&
-+			    test_bit(NFSD_FILE_GC, &nf->nf_flags) &&
-+			    nf->nf_file &&
-+			    file_inode(nf->nf_file)->i_sb ==
-+					path->dentry->d_sb &&
-+			    is_subdir(nf->nf_file->f_path.dentry,
-+				      path->dentry))
-+				nfsd_file_cond_queue(nf, &dispose);
-+			nf = rhashtable_walk_next(&iter);
-+		}
-+
-+		rhashtable_walk_stop(&iter);
-+	} while (nf == ERR_PTR(-EAGAIN));
-+	rhashtable_walk_exit(&iter);
-+
-+	nfsd_file_dispose_list(&dispose);
-+}
-+
- static int
- nfsd_file_lease_notifier_call(struct notifier_block *nb, unsigned long arg,
- 			    void *data)
-diff --git a/fs/nfsd/filecache.h b/fs/nfsd/filecache.h
-index b383dbc5b921..683b6437cacc 100644
---- a/fs/nfsd/filecache.h
-+++ b/fs/nfsd/filecache.h
-@@ -70,6 +70,7 @@ struct net *nfsd_file_put_local(struct nfsd_file __rcu **nf);
- struct nfsd_file *nfsd_file_get(struct nfsd_file *nf);
- struct file *nfsd_file_file(struct nfsd_file *nf);
- void nfsd_file_close_inode_sync(struct inode *inode);
-+void nfsd_file_close_export(struct net *net, const struct path *path);
- void nfsd_file_net_dispose(struct nfsd_net *nn);
- bool nfsd_file_is_cached(struct inode *inode);
- __be32 nfsd_file_acquire_gc(struct svc_rqst *rqstp, struct svc_fh *fhp,
-diff --git a/fs/nfsd/nfsctl.c b/fs/nfsd/nfsctl.c
-index 65f4c757a0f4..c76849f316f7 100644
---- a/fs/nfsd/nfsctl.c
-+++ b/fs/nfsd/nfsctl.c
-@@ -2392,9 +2392,10 @@ int nfsd_nl_unlock_export_doit(struct sk_buff *skb, struct genl_info *info)
- 		return error;
- 
- 	mutex_lock(&nfsd_mutex);
--	if (nn->nfsd_serv)
-+	if (nn->nfsd_serv) {
-+		nfsd_file_close_export(net, &path);
- 		nfsd4_revoke_export_states(nn, &path);
--	else
-+	} else
- 		error = -EINVAL;
- 	mutex_unlock(&nfsd_mutex);
- 
+The first question (very much unanswered) is whether a BPF fault handler 
+can resolve vma faults with performance equivalent to hugetlbfs or 
+anonymous mmap performance. If not, the famfs community will assert that 
+BPF would defeat or degrade the purpose of famfs. Added 
+overhead/latency/cache misses in a fault handler will serialize into the 
+stall time that software sees for a virtual address to be resolved - 
+it really is performance critical. If BPF is slower, we'll be able to 
+measure it, but one benchmark or test case does not fit all, so this
+won't be a one-and-done test...
 
--- 
-2.53.0
+I'll share performance measurements as soon as I can build Gregory's code, 
+test, get time on a proper big-memory cluster, and measure something that 
+makes sense. This will take some days, but I'm working it.
+
+Hopefully Monday I plan to try to do a substantial on-list reply that
+attempts to summarize the various objections to my current famfs fuse 
+implementation as well as the open questions and my specific performance
+and complexity concerns.
+
+Thanks,
+John
 
