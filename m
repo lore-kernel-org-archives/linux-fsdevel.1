@@ -1,120 +1,162 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37B328834
-	for <linux-fsdevel@vger.kernel.org>; Sun, 19 Apr 2026 11:38:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776598728; cv=pass; b=PfXmE7yvzc+4acGdVSNTPuXfADJPo5VOllWhK2DjRvszsda+2XTi56AzsKcQNkHUUdJVlTCELQPRGsSYPP12gFgGlFVlqtJ2C5T/lQxdhq3JBFGEr9Yg/I8j0Nn1r8lse/pFCjMVMrGuLh/uoDgBgaIoKHQWGDjGukPy93S7w9Y=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776598728; c=relaxed/simple;
-	bh=qbQHTXma8wIRNuZGSeTXqTSf6TBje7WdfA3xxklNbpc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=t9ZcYJ0XJqf//UVa/gC5152XBK/2NOHGkarkBd/HzmP6azZqDHMXDGm7skxargRm7C9x7DKntZnvBbh6UF9+VPhMBjUe4gQc5cFsHfvLpedpy+9MXDmeq/GH/LDtiuNtoZrtO9hInnk0yGscqEkBJvQFKcK7Ya94ja9F1eT7ILI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e37w93W7; arc=pass smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7E7C36923F
+	for <linux-fsdevel@vger.kernel.org>; Sun, 19 Apr 2026 13:19:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.186
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776604772; cv=none; b=s3GOk4JZK+rwPH8vdkCOx6gaNt/RcHioxWG1hR9hGWxfANfSHWjTTzkYyThUWJed17BiAJ4Klo7vTERAE/KBkQRTIKhaxQYkftu7dYLUqiEGEzsSuCeo4SbboZ5DFUt980OlUDkdPotKp123EgiN7kexqwX9CmYctLxpsRIzBRQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776604772; c=relaxed/simple;
+	bh=piegtrwAfQlcJ1gJnKFobGmCxa1L/mtr52ScpX88psE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YNiJpgTADTjoXJ+cVHEuCPo9fbAwZ501Lox0cvuSVYOVhWMplG53DTdiEg9Ji6+NJVq3+A3tNtdh15hATR0ii3bP/R1aZbMdx1bRhkVj2ZDVB8xWioyLef2XQarU24016qrr/8h2+8Q4aqbpHFsHxmGtJ4R3MeAwsBr0LqHx05g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=jf4IpW7D; arc=none smtp.client-ip=195.121.94.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e37w93W7"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-672c23aa064so3893406a12.2
-        for <linux-fsdevel@vger.kernel.org>; Sun, 19 Apr 2026 04:38:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776598725; cv=none;
-        d=google.com; s=arc-20240605;
-        b=SExcQnecBzVhmIGvvwhYBDjrp2pT2jEjg5yoTZ5+M404+6fK+ml8zc4t7xQhTlVKzf
-         zwQUCfwHL2cpHLQWg85nykuHOwdW8N4DxZniJkyq8UqEduTKdAPBkN5YxLwwfWby5HZe
-         vl8jEoxC5W5p2r/aKqEkiaKZmj+GzZSGRl7U3YMOsbOjy9DBMi82qKUCK7vm2MuzwEkT
-         Kr8/xjMSw2FQiIBVNOUAJDtpDdC61U+zZlx1lKtGFeDCCjIWJjRqJ3k+pcAHY4aJ1qPF
-         hMfUm07OAHNWIv2MtWQx7o7PCht0CMPCXQPi1h0FEbd81w+wgB38NEOnDVfZKoh5XBLD
-         snBQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=qbQHTXma8wIRNuZGSeTXqTSf6TBje7WdfA3xxklNbpc=;
-        fh=eCKz6FgqJtPRX/3bZYpdlW3zUa/S5uqkF2fBCkbcZfA=;
-        b=Ef5YBTzHSO5wLd0svBcfsWM5tgkawDlql2ptr1k1QUb1Q7/tiaQXRmMlVdy9oYd6PV
-         s80TQguJozDiqdtpa3TsZU7v1psLED7OwuZZlE9rJStm+zGEut4RaLqx+eL3UrBFDHYP
-         sBDCjKVcs2K4EbSLpGdHbZTwy5nKO0Hn9CfL9YUg2rImyFowaO4jQirRQrtJj7JcimIv
-         o03+t7hInIjPa4vT+SYamGnabwoeuK09Rj46d0t4Efz8P0jjhr0KMa33VHf6uVfIRTBX
-         SsY2D74DqXBKDzbSl6Xlp7JqaBWYVjrzjjVGSdmQYuEtZSv0LSxHvSM0ZpkZkAsmaMQl
-         I5HQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="jf4IpW7D"
+X-KPN-MessageId: 3b35c853-3bf2-11f1-89e1-00505699b430
+Received: from smtp.kpnmail.nl (unknown [10.31.155.6])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 3b35c853-3bf2-11f1-89e1-00505699b430;
+	Sun, 19 Apr 2026 15:18:18 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776598725; x=1777203525; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=qbQHTXma8wIRNuZGSeTXqTSf6TBje7WdfA3xxklNbpc=;
-        b=e37w93W7dAzZmiyEb08o1DtLIx53XqkA8rn3kBHNuPMOwhP9DRPwjtevndK1E21m6d
-         fEHE+gAowoAx0xld+Yq+ZJo+SvyKWrcYi4I7TRUQAQsoIglU1mZeNWOsRLH3YcspPhJh
-         LkwbTtcip3tRGQAHlUvtNjyzK78Vjv8iQcMjPm6ARfMPp8rgTCkPNc5DTBTlenskYPjd
-         QQ/BC5JHEUQDyr2AAtqxUsTKHSv6O4mirWkh/XUKHO3ttouG8xqZ2en3G7JKtjQ20ig8
-         uq0TLrIpjmIVViJPlQzez7OkXza+1E1FkhssXscDtw/SfRtd8RZEXBMxJ70gDntyIhG7
-         YY4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776598725; x=1777203525;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qbQHTXma8wIRNuZGSeTXqTSf6TBje7WdfA3xxklNbpc=;
-        b=YIFQUctZyAR87NICT4N8S21dUhVykY5p5+GPGX0KMeEWnAKQjs383nCdWluAUQTRea
-         6l+eUNOJvKvxPHfCGlQR34SRvu7oHCzbDwbumP82fUiys7+CoaAY/HO6LXAlmjM8faIW
-         DBJ9xQpluBZ+vN/LaRGtqLlkED+TaHsRqB3n78XCgUupOBv1d66Bo8Xqpqb0EGdoqR00
-         NrFzokXUdlXQpVlJeM/lD8VfwIpNdX9qTIreGU+PL8vz1VpXfe+z2evAtA/s/RXfbWjq
-         oe61J+7z/H9zNWe+EVaFRG3QjTfhxZ2w32v8NMbj+AiTJW6zqiUC5hqJkFsj34WWtWJR
-         b0HA==
-X-Forwarded-Encrypted: i=1; AFNElJ8SfWw9VkhTZQnygZ1fRe8A9rq4g6cB4z+S34fnzFZaXxpfnZDnrTpYYFMcZJjwE6j9WRUL2X2hfxbYqaA8@vger.kernel.org
-X-Gm-Message-State: AOJu0YykJTONgQMXb9lhUTnYlehmtJv4V9rgxUsbtAfuPvCO0LQDOtFg
-	tWWVhBCwVumSo0mrHv61MXW+nBS5l9YjMpMJcyqSHz/cYc/zUlmTARdcsggo8Nfg2gxFghaU7WM
-	yZ9a3hv62L9+D5JcNf+F/AqFKf9olhVsyaOMe
-X-Gm-Gg: AeBDietgplaHgCVqWlMUfI6q9NPQtAUDeznrowMX6KWx6dcEFi1KSl6lxP+fzzUFJcH
-	7mS+qfaoB9OKfaj9txXMBeVsFxcegoa7nq7i0rAJU0+flVPa9IK2p4VfEesPH8E1Ck4MF96VTfc
-	B0erPWw/17dGaUQTDcFv4XA68+n0w3Vwth4WuQpoxY5yIX20L5W13ae6WDbpD93jIaPFpAA5ZuD
-	nTRqFZYA1YLctag89pSOsV25yx6MKh+ZdpG20I/Q3AEKT5C52miCTlWdt9PffPY0f48a8NsAi8c
-	q/wJ4DURbMgWDiN56uhlxSgdkiLs1R+KCqNPVLe+rkCdnMUed9WcvFfTYtAqR8kKbMsVtQnFGf/
-	VhDrhjTGRN3QdUMh55Q9QiQ==
-X-Received: by 2002:a05:6402:24cd:b0:66b:aa56:ee5c with SMTP id
- 4fb4d7f45d1cf-672bffd3a22mr3784260a12.28.1776598725415; Sun, 19 Apr 2026
- 04:38:45 -0700 (PDT)
+	d=xs4all.nl; s=xs4all01;
+	h=mime-version:message-id:date:subject:to:from;
+	bh=OT/GmjwXVW710Q03NOsNHKFOk0z6sXD8EMuD3Rgu+mE=;
+	b=jf4IpW7Dq6M7kiS3Jltqt5KsCq3G02WqGhkJe01vsCMqMcdUt1rd3ybjrj3bmS1q8KN7NtS03oeo7
+	 rvwKLKlLhpSdla08xa0vI96pyOtQQ3+LoqM7z2mRV7rrclbCM+sPy6UOBh8k10nlBALywQa37Hx91B
+	 DbmbILwxr7vV7Fd459R36EWoUDuzA6BKNXAoDejmp5Zny+I8vKd/n/OVT759GHMk1qs8lVWvzsUqVP
+	 fqcZbC2k+ovNt/tduw2OhOmcf57slU4fQJ/UTZu5W1CNELfs3ANLpldaJ5hlaspiSm7xcoCTKqusFj
+	 En/l8mgOwXF+WgyM356YhKmlA3qrGaw==
+X-KPN-MID: 33|KECJPZpwAPBwREkfSmhmhI4z6SLDCh66BenYizqxZuiZd4BLt5dsS3AXsr+yh82
+ QVXBAxC6zLsY6WHQRh6ISD4RInYfCFVnNNeo+RTc5xxM=
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|+bl3p0rh67ASnUGE2BSIbL7nI4HOQCYDvl6xyRmsRW4iCQLXQVL1SYM9E19QXw9
+ j8gDyKxz0Hbp1dcUpCjkH9A==
+Received: from daedalus.home (unknown [178.227.25.188])
+	by smtp.xs4all.nl (Halon) with ESMTPSA
+	id 361c9105-3bf2-11f1-bffa-00505699772e;
+	Sun, 19 Apr 2026 15:18:18 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Aleksa Sarai <cyphar@cyphar.com>,
+	cmirabil@redhat.com,
+	Jeff Layton <jlayton@kernel.org>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Alexander Aring <alex.aring@gmail.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Arnd Bergmann <arnd@arndb.de>
+Cc: Jori Koolstra <jkoolstra@xs4all.nl>,
+	linux-fsdevel@vger.kernel.org (open list:FILE LOCKING (flock() and fcntl()/lockf())),
+	linux-kernel@vger.kernel.org (open list),
+	linux-arch@vger.kernel.org (open list:GENERIC INCLUDE/ASM HEADER FILES)
+Subject: [PATCH v4 1/2] vfs: add O_EMPTYPATH to openat(2)/openat2(2)
+Date: Sun, 19 Apr 2026 15:17:49 +0200
+Message-ID: <20260419131800.486788-1-jkoolstra@xs4all.nl>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260411151155.321214-1-adrianmcmenamin@gmail.com>
- <uamj3cggfd4fdvah6jjfbyqmffxaib7yj4upbnkxzudaos6ig6@xz4rhorxkufp>
- <CACwZE5QpR-ZSk=cinLBuuPtLUMnEiEx7UArtZxpbPmGFccOEkw@mail.gmail.com> <uvsbcmnyucl77ir3dvrwzt42kdw6saja2r67m7e4khw637e5hh@xe7dxerauc6k>
-In-Reply-To: <uvsbcmnyucl77ir3dvrwzt42kdw6saja2r67m7e4khw637e5hh@xe7dxerauc6k>
-From: Adrian McMenamin <adrianmcmenamin@gmail.com>
-Date: Sun, 19 Apr 2026 12:38:34 +0100
-X-Gm-Features: AQROBzCB4duZUM275tOJwA3ZHnpstMOrw_7BOrXWkG4ex59fhzXctFR3TjdA2MI
-Message-ID: <CACwZE5Qax30FGqXAqiLecu2jcBhNbPmvKhLt6C2iE=f5jk+3Fw@mail.gmail.com>
-Subject: Re: [PATCH 0/5 -v2] Add support for VMUFAT filesystem
-To: Jan Kara <jack@suse.cz>
-Cc: Pedro Falcato <pfalcato@suse.de>, Linux FS development <linux-fsdevel@vger.kernel.org>, 
-	Linux kernel mailing list <linux-kernel@vger.kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Thu, 16 Apr 2026 at 11:36, Jan Kara <jack@suse.cz> wrote:
->
->
-> With a FUSE driver you get very similar user experience as with in-kernel
-> driver - you can just mount the device and tinker with the content - while
-> keeping your code in a userspace library which removes the maintenance
-> burden for the kernel and frankly makes your life simpler as well. The
-> performance is somewhat lower due to additional communication and process
-> switching but for cases like your filesystem I don't expect it to matter.
+To get an operable version of an O_PATH file descriptor, it is possible
+to use openat(fd, ".", O_DIRECTORY) for directories, but other files
+currently require going through open("/proc/<pid>/fd/<nr>"), which
+depends on a functioning procfs.
 
+This patch adds the O_EMPTYPATH flag to openat(2)/openat2(2). If passed,
+LOOKUP_EMPTY is set at path resolution time.
 
+Note: This implies that you cannot rely anymore on disabling procfs from
+being mounted (e.g. inside a container without procfs mounted and with
+CAP_SYS_ADMIN dropped) to prevent O_PATH fds from being re-opened
+read-write.
 
-Well, I have to admit defeat.
+Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
+---
+ fs/fcntl.c                       | 2 +-
+ fs/open.c                        | 6 ++++--
+ include/linux/fcntl.h            | 2 +-
+ include/uapi/asm-generic/fcntl.h | 4 ++++
+ 4 files changed, 10 insertions(+), 4 deletions(-)
 
-I have discovered there is already a FUSE implementation -
-https://github.com/RossMeikleham/FUSE-VMU (I've not tested it but have
-no reason to think it doesn't work)
+diff --git a/fs/fcntl.c b/fs/fcntl.c
+index beab8080badf..7d2165855a9c 100644
+--- a/fs/fcntl.c
++++ b/fs/fcntl.c
+@@ -1169,7 +1169,7 @@ static int __init fcntl_init(void)
+ 	 * Exceptions: O_NONBLOCK is a two bit define on parisc; O_NDELAY
+ 	 * is defined as O_NONBLOCK on some platforms and not on others.
+ 	 */
+-	BUILD_BUG_ON(20 - 1 /* for O_RDONLY being 0 */ !=
++	BUILD_BUG_ON(21 - 1 /* for O_RDONLY being 0 */ !=
+ 		HWEIGHT32(
+ 			(VALID_OPEN_FLAGS & ~(O_NONBLOCK | O_NDELAY)) |
+ 			__FMODE_EXEC));
+diff --git a/fs/open.c b/fs/open.c
+index 681d405bc61e..9e0164a8c1fb 100644
+--- a/fs/open.c
++++ b/fs/open.c
+@@ -1158,7 +1158,7 @@ struct file *kernel_file_open(const struct path *path, int flags,
+ EXPORT_SYMBOL_GPL(kernel_file_open);
+ 
+ #define WILL_CREATE(flags)	(flags & (O_CREAT | __O_TMPFILE))
+-#define O_PATH_FLAGS		(O_DIRECTORY | O_NOFOLLOW | O_PATH | O_CLOEXEC)
++#define O_PATH_FLAGS		(O_DIRECTORY | O_NOFOLLOW | O_PATH | O_CLOEXEC | O_EMPTYPATH)
+ 
+ inline struct open_how build_open_how(int flags, umode_t mode)
+ {
+@@ -1279,6 +1279,8 @@ inline int build_open_flags(const struct open_how *how, struct open_flags *op)
+ 		lookup_flags |= LOOKUP_DIRECTORY;
+ 	if (!(flags & O_NOFOLLOW))
+ 		lookup_flags |= LOOKUP_FOLLOW;
++	if (flags & O_EMPTYPATH)
++		lookup_flags |= LOOKUP_EMPTY;
+ 
+ 	if (how->resolve & RESOLVE_NO_XDEV)
+ 		lookup_flags |= LOOKUP_NO_XDEV;
+@@ -1360,7 +1362,7 @@ static int do_sys_openat2(int dfd, const char __user *filename,
+ 	if (unlikely(err))
+ 		return err;
+ 
+-	CLASS(filename, name)(filename);
++	CLASS(filename_flags, name)(filename, op.lookup_flags);
+ 	return FD_ADD(how->flags, do_file_open(dfd, name, &op));
+ }
+ 
+diff --git a/include/linux/fcntl.h b/include/linux/fcntl.h
+index a332e79b3207..c65c5c73d362 100644
+--- a/include/linux/fcntl.h
++++ b/include/linux/fcntl.h
+@@ -10,7 +10,7 @@
+ 	(O_RDONLY | O_WRONLY | O_RDWR | O_CREAT | O_EXCL | O_NOCTTY | O_TRUNC | \
+ 	 O_APPEND | O_NDELAY | O_NONBLOCK | __O_SYNC | O_DSYNC | \
+ 	 FASYNC	| O_DIRECT | O_LARGEFILE | O_DIRECTORY | O_NOFOLLOW | \
+-	 O_NOATIME | O_CLOEXEC | O_PATH | __O_TMPFILE)
++	 O_NOATIME | O_CLOEXEC | O_PATH | __O_TMPFILE | O_EMPTYPATH)
+ 
+ /* List of all valid flags for the how->resolve argument: */
+ #define VALID_RESOLVE_FLAGS \
+diff --git a/include/uapi/asm-generic/fcntl.h b/include/uapi/asm-generic/fcntl.h
+index 613475285643..db144851f57b 100644
+--- a/include/uapi/asm-generic/fcntl.h
++++ b/include/uapi/asm-generic/fcntl.h
+@@ -88,6 +88,10 @@
+ #define __O_TMPFILE	020000000
+ #endif
+ 
++#ifndef O_EMPTYPATH
++#define O_EMPTYPATH	040000000	/* allow empty path */
++#endif
++
+ /* a horrid kludge trying to make sure that this will fail on old kernels */
+ #define O_TMPFILE (__O_TMPFILE | O_DIRECTORY)
+ 
+-- 
+2.53.0
 
-I will be keeping my code as an out of tree kernel option for now
-though/therefore.
-
-Adrian
