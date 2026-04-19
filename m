@@ -1,137 +1,113 @@
-Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
+Received: from xmbghk7.mail.qq.com (xmbghk7.mail.qq.com [43.163.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B25B410F1;
-	Sun, 19 Apr 2026 00:42:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E6E3212B2F;
+	Sun, 19 Apr 2026 05:27:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=43.163.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776559358; cv=none; b=lCjCLQ6DahYUTyKwPEdS9ttfXgSfnE2jzCGOSpD8GLW6Qq096l/WA5z3RnWnMi6ZnpgJtGHsdhxqNLQYJET8N/DDyBS2XX9poTW4iNd9HeoGgszXk8tOwuVTsb6kf9WGPALiMYy+2JMhbTq/UqkGwxq5ATrV3XXIq3h8nKDLW7o=
+	t=1776576431; cv=none; b=cfhnjwSG0Q8ekGyE0qhAIWOEGQtjNPnCxbb/UGA1wGKHL53fnB+32BVjwdqJ1DS9as+JQG1cU/bqUl8cI7mzkpaP5CahLo6+Fg4sd8pMbfJwJc3fnVJ1oJggI/JUmHax6H/sy0+bd7F5arJ0m4hn4Gab26ZzCIhnCYVNykRA+8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776559358; c=relaxed/simple;
-	bh=iPW/y5pADXITXht7iP58B8qisYZQ9v+e7ratS9msR28=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=IyCZ4ac9VFplX0o1DRKuWIdxJKiAumZXFHURvzoG/5ZPnUYlciHA63KlcD06aNZNXrhHs5wTOMSicYYmKmKh/dVk+uOeXbulankGEBXKlgQlxrqlSRVmwbs905P2vs8Qp0EqrbppN1uvea0MBBFqYk7oVYVY/Cklrfa2HXTlaxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ethancedwards.com; spf=pass smtp.mailfrom=ethancedwards.com; dkim=pass (2048-bit key) header.d=ethancedwards.com header.i=@ethancedwards.com header.b=InDvC6q2; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=T70Sc35r; arc=none smtp.client-ip=202.12.124.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ethancedwards.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ethancedwards.com
+	s=arc-20240116; t=1776576431; c=relaxed/simple;
+	bh=PSSI6Le2HLDnJbLBlDeLUo+geEcd7KbRX8BD0ZX0Yeo=;
+	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
+	 MIME-Version; b=N4qFKpnKFDQLPJ6fWWz6r448+R/NxIlT8iAlHHb1ALrRv6PwcKfyIBlYO+LvDLpxVvCM66lb6rOjnDewZMihTjhIG7Dd6eMpUGu+I3i2lR1Jv93uw+smE1bNjSbOC14S7yqkiLjg/ITU129PtOnsR81gkIqGIThmq4r7kiO6pIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=LU7nb4bx; arc=none smtp.client-ip=43.163.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ethancedwards.com header.i=@ethancedwards.com header.b="InDvC6q2";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="T70Sc35r"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id B85D17A0050;
-	Sat, 18 Apr 2026 20:42:34 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Sat, 18 Apr 2026 20:42:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	ethancedwards.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:from:from:in-reply-to
-	:message-id:mime-version:reply-to:subject:subject:to:to; s=fm1;
-	 t=1776559354; x=1776645754; bh=FlzxNUPIr/LWDRd9Mv/A76w6SCSznvhL
-	IpTZq1Wlc/Q=; b=InDvC6q2BNsZI+hzzjyFI6soE0gAH2umc8iokMkU6odFCzPN
-	KjRj+RytvS84Pc10X+INmmWZPVes6sc/XyJQSi4BCIC3j3s3YhNJbcaw7sYbX5GC
-	YnzOKfTWkMiMEl7VVNmUiAc3+DqURowkDIZ1x8vSARKUnLCZ2TO3FocF0E26uufe
-	HG8ByZa5waoBWxBJhfUvFbA/+Q47mxOd3aSevoTMjKDxlCtTKR2YxKtoboK0R9Pl
-	z+OU7bB9227LzODRiLo0+Og9U1YUTlySsvtEtBurXopDeZyWa2i1DLr5zb9os0Pp
-	KgK6aRhdL1bqji7vOHvjmndc8S4RJVNS2vC2jw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1776559354; x=1776645754; bh=FlzxNUPIr/LWDRd9Mv/A76w6SCSz
-	nvhLIpTZq1Wlc/Q=; b=T70Sc35rn/5uK6WItPTxRtugoJdQaKQx7wnEuP7rbSTB
-	8H6XjjoHSU7eaErJtpqBXwLQdNtkLrKv22FxlizcFt45iTh4eXfeDJUHaGhm5vCz
-	TnyzfQlLNcwDmPvWzVpESB4Z+9zDCUlaMPGNpgl9l7+xvPCtJArV+PlKqoj1i+ke
-	BnanXNnvez+qq0qSW0YkR1N0a+aP+RrMPT1agjjjQcgrGxZNpVzUw3u0Ups0pAX3
-	rcOQ22AsTsJl1I20ld7/eRZ/q2mT+OTQejelbzxvlIIY+vVuaD3PXXs4BVdQMwKh
-	n6qrFh9uPpnTjGO1qGtSmhfhlgGQdBL17kqJyhNyPw==
-X-ME-Sender: <xms:-iTkacKjOsZ-hf8MOvs_97HtwejvahJXQe85SNvgySa5mPnYuekxmw>
-    <xme:-iTkaWNlPZup8RrB_k15VERAiRzPdNHRbvX62VnKuYwtSjXlVQWarxx0b9ARXkFPs
-    unock4MYftwzKCjy_Qvnxgd7S0w4VaX1UxeIR4im8PoSe6sv802S8M>
-X-ME-Received: <xmr:-iTkacl4WQemBDKDLn6a-zflGyN4pZ6BQu_N2U-q-fpXhOIP_ysaOD2J7y2j>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdehgedvfecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecunecujfgurhephfffufggtgfgkffvvefosehtjeertdertd
-    ejnecuhfhrohhmpefgthhhrghnucevrghrthgvrhcugfgufigrrhgushcuoegvthhhrghn
-    segvthhhrghntggvugifrghrughsrdgtohhmqeenucggtffrrghtthgvrhhnpeeiuefhue
-    fhgfeuhfffkeffgfetgfejgefhudekledvudeiuddtffffgeehtdeivdenucevlhhushht
-    vghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegvthhhrghnsegvthhhrg
-    hntggvugifrghrughsrdgtohhmpdhnsggprhgtphhtthhopeejpdhmohguvgepshhmthhp
-    ohhuthdprhgtphhtthhopehrvghpnhhophesghhoohhglhgvrdgtohhmpdhrtghpthhtoh
-    epkhgvrhhnvghlqdhjrghnihhtohhrshesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgt
-    phhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpd
-    hrtghpthhtohepjhgrtghksehsuhhsvgdrtgiipdhrtghpthhtoheplhhinhhugidqkhgv
-    rhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghmihhrjeefih
-    hlsehgmhgrihhlrdgtohhmpdhrtghpthhtohepvghthhgrnhesvghthhgrnhgtvggufigr
-    rhgushdrtghomh
-X-ME-Proxy: <xmx:-iTkaa7-Ubl5opRNbK6qOSMY1YLVw4C8Anada2Btg-1B9gHT1w94rw>
-    <xmx:-iTkaQ2CrtJayRBTaHJt94VU-ThxhMwHh-fWnAQ880u4sQ3NrExBiQ>
-    <xmx:-iTkaVErChxdLfUCCn3lr5c6cq7vshLXyMvsuzSlWG7uagJjYCddXA>
-    <xmx:-iTkafjFKWi3r5bthbdXwd4GDx0E8Ssf628mb4P33ftogFvhsiijPw>
-    <xmx:-iTkafXnYtF6nWOoHF3kIK_5HrjXIBOReiZNLzawCyeTzsRGHkES6NOY>
-Feedback-ID: ibf9e487c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 18 Apr 2026 20:42:33 -0400 (EDT)
-From: Ethan Carter Edwards <ethan@ethancedwards.com>
-Date: Sat, 18 Apr 2026 20:42:30 -0400
-Subject: [PATCH] fanotify: Fix spelling mistake "enforecement" ->
- "enforcement"
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="LU7nb4bx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1776576418; bh=epI6OFlB7icFocyhzO1+lcpTbkBk2nDn6pEBo0JawSM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=LU7nb4bxm7wto8rIbPpfIv7NYyspKgVEUcdep2708DKNX6WtnfvziUgNst99U7Q+F
+	 31AksNniq5y2kx+DqJwaGBYpnZJy1thHKL30byBslp0efJOpawFxfqDd0dNqp2vb3x
+	 ygJ3AflnH+5spxXK9yJ2qxByTn06q8x8TxVKn6Po=
+Received: from lxu-ped-host.. ([111.198.231.89])
+	by newxmesmtplogicsvrszb43-0.qq.com (NewEsmtp) with SMTP
+	id 6B723677; Sun, 19 Apr 2026 13:26:55 +0800
+X-QQ-mid: xmsmtpt1776576415tqhe0ecpp
+Message-ID: <tencent_B2A5880DD99212DDDF5D9E9915CFAC8D8607@qq.com>
+X-QQ-XMAILINFO: NCJFlKxSknUZplNoNFIOVwqHMUyJ7u84KRjrvtdqcjZ8XuGm8L1JFEjaeQiQhB
+	 LGLsr0ps4f1VsQhwLJbXwhGVBJSF1M59JmfMC2R5cwV/dGn3NLAFb5I0LEsa7qc7yKt2ZG/a2i4h
+	 op7IqBQRxxEADiyXSpDNla0w+kbOoeNj+DI3R/Gkh860L0w4CxJhxZTQR1MhQT1L8N1CeHQtEArn
+	 lUJ8GhkpKRT4aHFsgLvfDKvcMT+Rt03BbIgHIgySXw0j+wVimBzz3GYmbBUORlw6RtnrtDgE3YCx
+	 JIt9J1/Ug4C9vPBW0+t0hfV2C0p08WNpxJaWYLxUSyJaLBylT00a0BUXLWTyosRJxQPLpVkc6DVY
+	 veuSrPvgsZsUcidP6IFSL3O22uuH42U7FY4xvl/bx2BmpW6w1/xSsbUoywLSZC3CkQvwxaGXkv8n
+	 OkaawdRVI2wWR/HH7CTwbgBuZScj+RzrWRe5KAWhZ7/rF6HafUtPg3vci+xrad7yo2waF9/Ilcv0
+	 aK/G/M0VcHYb6jObXNiqJOC2n4jCJF+HGaJa77g6W/9pPIXHCTQt/W4ZAXRATCG7tEVhVPFhx3PT
+	 sMPcnvEAIFD3BsggqnTfDEnGrbd2MrhR5MF1de3afH7JR+SPHdBGNXemS8d1/E8GlBLG7Oas/ay6
+	 QNMTNxgEY4HFnHPItwZqXT3bodRA8sYKraUa/fl9NwFyXs/jOdEntxh335Byg1n1a+CIkoYTwfLw
+	 71Z5mO1KS7EG2OXg9EBgD9tAyHwd0nOtEvhEL6GeRtiVuqzAUHFD3din0pf64kfmZdqKnDzMZoP0
+	 tazKgGK/9jgI/bs/+3XvZYynwfBqAljiYiueaFwpDgZkMdrlK8YzuS5QP+74BQmO9sRXG2RXLLuo
+	 lcGAFnKcmMzHUt0rADOfjELyFHEW0z71J6vbUfeftc5DxYDSjcB7+R6RLWo7Reu9AFG6ePcsmDT2
+	 XcdOPfpx1UTf43Z2eqIcp40aZLsb+Rbt69iCzR/+mKcQRVRTH7rErxzdKHeviLbkBn/gqHmHkDya
+	 EsbmbPQBFfpP9vPh7D
+X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
+From: Edward Adam Davis <eadavis@qq.com>
+To: syzbot+eede1fb91fb15bbbd5f2@syzkaller.appspotmail.com
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	miklos@szeredi.hu,
+	syzkaller-bugs@googlegroups.com
+Subject: [PATCH next] fuse: avoid using the same file descriptor when cloning
+Date: Sun, 19 Apr 2026 13:26:56 +0800
+X-OQ-MSGID: <20260419052655.496929-2-eadavis@qq.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <69e1934c.a70a0220.7229.0010.GAE@google.com>
+References: <69e1934c.a70a0220.7229.0010.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260418-fanotify-typo-v1-1-03ea48cb44ba@ethancedwards.com>
-X-B4-Tracking: v=1; b=H4sIAPUk5GkC/x3MQQqAIBBA0avIrBsws4iuEi3ExpqNhkoU4t2Tl
- m/xf4FEkSnBIgpEujlx8A19J8Cexh+EvDeDkmqSup/RGR8yuxfzewW0mqwy+6BGJ6E1VyTHz/9
- bt1o/6dDFFF8AAAA=
-X-Change-ID: 20260418-fanotify-typo-c4ec2ad325f0
-To: Jan Kara <jack@suse.cz>, Amir Goldstein <amir73il@gmail.com>, 
- Matthew Bobrowski <repnop@google.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
- kernel-janitors@vger.kernel.org, 
- Ethan Carter Edwards <ethan@ethancedwards.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1044;
- i=ethan@ethancedwards.com; h=from:subject:message-id;
- bh=iPW/y5pADXITXht7iP58B8qisYZQ9v+e7ratS9msR28=;
- b=LS0tLS1CRUdJTiBQR1AgTUVTU0FHRS0tLS0tCgpvd0o0bkp2QXk4ekFKWGJEOXFoNThlVGp6e
- GhQcXlVeFpENVIrZGxYUEhWRFNHcjc3YmQvTXVwajF1eHUxSnZ2CndKUHg2MTFBK2U0WFJYb3o1
- bTdyS0dWaEVPTmlrQlZUWlBtZm81ejJVSE9Hd3M2L0xrMHdjMWlaUUlZd2NIRUsKd0VTRVl4bit
- DbnFVUGZtVCsrbkdKcHRhdlhrNW9tbkZ1ZHBYVERSTmVEK3NuVkw1M0hIVlJZWi8ycWR6cFpNRg
- paM2xlSzZ4bjNyZnMrNFVQZHNzMGJsMEt2eCt3Y2ttRTl4dHpGZ0QrL1ZFawo9dFZVcAotLS0tL
- UVORCBQR1AgTUVTU0FHRS0tLS0tCg==
-X-Developer-Key: i=ethan@ethancedwards.com; a=openpgp;
- fpr=2E51F61839D1FA947A7300C234C04305D581DBFE
+Content-Transfer-Encoding: 8bit
 
-There is a spelling mistake in a comment. Fix it.
+In fuse_dev_install_with_pq(), after updating the chan for the new device,
+the fch->connected value for the old device is set to 0. This logic is
+fundamentally flawed in cases where the new fd passed during a clone
+operation is identical to the device file's fd; specifically, during
+an unmount operation, this prevents fuse_conn_destroy() and subsequently
+fuse_chan_abort() from terminating pending requests, and the wake-up of
+the blocked_waitq is also consequently skipped. This triggers a timeout
+in fuse_chan_wait_aborted() [1].
 
-Signed-off-by: Ethan Carter Edwards <ethan@ethancedwards.com>
+The original conditional logic has been restored to correctly identify
+the new device file.
+
+[1]
+INFO: task syz-executor:5986 blocked for more than 143 seconds.
+Call Trace:
+ fuse_chan_wait_aborted+0x15b/0x250 fs/fuse/dev.c:2212
+ fuse_conn_destroy+0x1e7/0x3e0 fs/fuse/inode.c:1969
+ fuse_sb_destroy fs/fuse/inode.c:1988 [inline]
+ fuse_kill_sb_anon+0x1ef/0x270 fs/fuse/inode.c:2001
+ deactivate_locked_super+0xbc/0x130 fs/super.c:476
+ cleanup_mnt+0x437/0x4d0 fs/namespace.c:1312
+
+Fixes: 88bf1f670f99 ("fuse: simplify fuse_dev_ioctl_clone()")
+Reported-by: syzbot+eede1fb91fb15bbbd5f2@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=eede1fb91fb15bbbd5f2
+Tested-by: syzbot+eede1fb91fb15bbbd5f2@syzkaller.appspotmail.com
+Signed-off-by: Edward Adam Davis <eadavis@qq.com>
 ---
- fs/notify/fanotify/fanotify.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ fs/fuse/dev.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/fs/notify/fanotify/fanotify.c b/fs/notify/fanotify/fanotify.c
-index bfe884d624e7..38290b9c07f7 100644
---- a/fs/notify/fanotify/fanotify.c
-+++ b/fs/notify/fanotify/fanotify.c
-@@ -457,7 +457,7 @@ static int fanotify_encode_fh(struct fanotify_fh *fh, struct inode *inode,
- 	/*
- 	 * Unlike file_handle, type and len of struct fanotify_fh are u8.
- 	 * Traditionally, filesystem return handle_type < 0xff, but there
--	 * is no enforecement for that in vfs.
-+	 * is no enforcement for that in vfs.
- 	 */
- 	BUILD_BUG_ON(MAX_HANDLE_SZ > 0xff || FILEID_INVALID > 0xff);
- 	if (type <= 0 || type >= FILEID_INVALID || fh_len != dwords << 2)
-
----
-base-commit: c7275b05bc428c7373d97aa2da02d3a7fa6b9f66
-change-id: 20260418-fanotify-typo-c4ec2ad325f0
-
-Best regards,
+diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+index 25c5c853a791..7c130656c4f6 100644
+--- a/fs/fuse/dev.c
++++ b/fs/fuse/dev.c
+@@ -2291,6 +2291,9 @@ static long fuse_dev_ioctl_clone(struct file *file, __u32 __user *argp)
+ 		return -ENOMEM;
+ 
+ 	new_fud = fuse_file_to_fud(file);
++	if (fuse_dev_chan_get(new_fud))
++		return -EINVAL;
++
+ 	if (!fuse_dev_install_with_pq(new_fud, fud->chan, pq))
+ 		return -EINVAL;
+ 
 -- 
-Ethan Carter Edwards <ethan@ethancedwards.com>
+2.43.0
 
