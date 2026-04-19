@@ -1,130 +1,137 @@
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A7F33976B4
-	for <linux-fsdevel@vger.kernel.org>; Sat, 18 Apr 2026 23:08:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B25B410F1;
+	Sun, 19 Apr 2026 00:42:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776553719; cv=none; b=DanDHt60LAyoPHZPahssA+Ule2DHzwXfSvvWb8YJCPamsAg4Ecvg93s+hk/S6cQzbptsMLYeFLJDcaaJQ0skwirf1BtIFQfGHaCQRqDyNqzXn2DaTBS88VG8oi95MZhFGpLdY4FouzE48saXjcFCZ71PV/jtI7ksL4gwcpSBaTM=
+	t=1776559358; cv=none; b=lCjCLQ6DahYUTyKwPEdS9ttfXgSfnE2jzCGOSpD8GLW6Qq096l/WA5z3RnWnMi6ZnpgJtGHsdhxqNLQYJET8N/DDyBS2XX9poTW4iNd9HeoGgszXk8tOwuVTsb6kf9WGPALiMYy+2JMhbTq/UqkGwxq5ATrV3XXIq3h8nKDLW7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776553719; c=relaxed/simple;
-	bh=Xar4WmIgCE2sEueWRogWtI/LcIsN6hYef9Fkw6uWnIQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jt1YMR6rbemkDVQCn2p+//4kpUAJ+1aKzFUPXeaXOJi4iGoCFfTH2Kg20a5hM4eD3nG6gpOowWiN46y26GI9xt7iS6okAD/sUhTHP4Vka0uucLCQiMv0A3v0H6iqksu7hg6IyrJdUD1w6Yt/hA4Li+sg8/TUvVVqRt57Ejoub24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Nc8x+fkL; arc=none smtp.client-ip=209.85.128.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776559358; c=relaxed/simple;
+	bh=iPW/y5pADXITXht7iP58B8qisYZQ9v+e7ratS9msR28=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=IyCZ4ac9VFplX0o1DRKuWIdxJKiAumZXFHURvzoG/5ZPnUYlciHA63KlcD06aNZNXrhHs5wTOMSicYYmKmKh/dVk+uOeXbulankGEBXKlgQlxrqlSRVmwbs905P2vs8Qp0EqrbppN1uvea0MBBFqYk7oVYVY/Cklrfa2HXTlaxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ethancedwards.com; spf=pass smtp.mailfrom=ethancedwards.com; dkim=pass (2048-bit key) header.d=ethancedwards.com header.i=@ethancedwards.com header.b=InDvC6q2; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=T70Sc35r; arc=none smtp.client-ip=202.12.124.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ethancedwards.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ethancedwards.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Nc8x+fkL"
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-79885f4a8ffso18500147b3.3
-        for <linux-fsdevel@vger.kernel.org>; Sat, 18 Apr 2026 16:08:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776553716; x=1777158516; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=QDLBwLu2Osjs067OAPxTWdOsEiACtCr2ZJS7OWNSDmU=;
-        b=Nc8x+fkL9qtiX9YPOgvJ7Z+Bb36HJhLdTNZe7s5v5bpawRLtP+8JQ9G0CluZ1eYzCz
-         G3k4VD5z3g97Ceiz9imYe3gJ2XVrsGRvbHL4p8M0RNRgiRph6DM5Cokg5qkmBDNcLCBc
-         06IAIDvXrIT4J3CNjIUXIVrDnLJ78Wm83PSwwjf4KOVGG4VPSauquGiW5gFX1u+vIe+4
-         Lj3TXNgT/ABfbMQi4/dRYv+PAv8DLZG8yLdwax6vHXfsmURhva2MeMqMbwfTh1a9yK/+
-         6teqOhn7fdqUz34CGqsDqPpQXMBzGZWwCOXTo/uzrYy2CeXQnd0S2reo3YNZ1HcBZKN8
-         2WWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776553716; x=1777158516;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QDLBwLu2Osjs067OAPxTWdOsEiACtCr2ZJS7OWNSDmU=;
-        b=SobDPVc+p1hb/GA3B3llAWeXENA5DOKwM9fj6qk+KGxa1o6ZpzjHzcAl5VUv9AGTYl
-         ejKist8u3tNVTXxPE3sLMzIG+7t3SRpySbxBmwSQIHCBlQhcYFQQxGCe9Aw3zmqWjj+S
-         AuGm33KJ/9YjGHBbGcZDcDckN/ldGQPPbRWNInG+Mqey2wDteliHVoHTrGjjyRTOqmLQ
-         KNfgq9vBv2rJHT+EKkdMnVz0TyXI/67LhU/Zx40QjPWarbhqJOHnPb7KcRfK3kXeJfZ8
-         dP2IIzZKK35D4yMDDt7ItbEuEZau22/ywEQQlGTkaqCDm91pAlHGTjVabeQp90yjKYPq
-         CUlg==
-X-Forwarded-Encrypted: i=1; AFNElJ/3yt2CvQqDs5hvPlAysPQFJ7ZUuIxj7okTVzXF50oWWZ9nQJM+fpx4owmUoh6Qqaqiz21haIRK30Uz5gT4@vger.kernel.org
-X-Gm-Message-State: AOJu0YyOpR82zwbvWKoV+R4C/CyNHRpzU7Rpw8kWu+i7aU0Jrwq8dEvd
-	VvpQmg3N4LwzXggkYJPvnnK1yTeOk+NkacR1VFnS35ORUu8aj/KM4FES
-X-Gm-Gg: AeBDietik4iC+0W5GVL1AxkUtrSGnRFS6Rzn+6RykmuqFsm577Z9m4zJ5+G+wGSGlxh
-	UBcw8omuRqhWnveOYfHmWCuly5ZRPbsO0GTqIKROjjabWM7V/PXY3eUVoo7pp+J4n/qCEypbOKn
-	rJCkdAyF2k/csOdpnyWJIJUAHli7rGJHOM9PIelrIJATUkB0wlnhp/djSYZ8iGgy4LXOKw6HzJt
-	mloWFX6J2y3s/p6LwPucbIVbYh+543lajf0qTq0tLbUiluWPKUR9UCKOj0xqLS8/Gnvh7p6S04b
-	Y6gBDS/3VcIdPp1iK+a1diWbW28iBqC4EITJikm2NH0+AEi23EfuDXonJKZZbsDa+7olNPNptpY
-	2YkiHB5SQHZPch9jIYslD9tGM9Nwn3HTr7VMiGOWfdlfXvoK1+SPJphnsGIVQQnWvwdLgw7aY+p
-	17UrrUbO7mCQ/fS6qv4TTVGfxdppnTk3SBAQ398V6LUWQnl1G6oSGCZYYgn/TOTZzUlYxvyBeZJ
-	guqYno5ezxszg==
-X-Received: by 2002:a05:690c:399:b0:79c:c51c:7f4a with SMTP id 00721157ae682-7b9ed002905mr87916127b3.46.1776553716465;
-        Sat, 18 Apr 2026 16:08:36 -0700 (PDT)
-Received: from suesslenovo ([2600:1700:18fb:6011:3b24:58f5:5e89:7648])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7b9ee99bc3bsm24805917b3.27.2026.04.18.16.08.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Apr 2026 16:08:36 -0700 (PDT)
-Date: Sat, 18 Apr 2026 19:08:34 -0400
-From: Justin Suess <utilityemal77@gmail.com>
-To: =?utf-8?B?546L5b+X?= <23009200614@stu.xidian.edu.cn>
-Cc: linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, paul@paul-moore.com
-Subject: Re: [BUG] landlock: warning in collect_domain_accesses via renameat2
- path rename
-Message-ID: <aeQO8plVsM4dg9jL@suesslenovo>
-References: <25536ce2.4391.19d9b3484ff.Coremail.23009200614@stu.xidian.edu.cn>
+	dkim=pass (2048-bit key) header.d=ethancedwards.com header.i=@ethancedwards.com header.b="InDvC6q2";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="T70Sc35r"
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id B85D17A0050;
+	Sat, 18 Apr 2026 20:42:34 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-06.internal (MEProxy); Sat, 18 Apr 2026 20:42:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	ethancedwards.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:subject:subject:to:to; s=fm1;
+	 t=1776559354; x=1776645754; bh=FlzxNUPIr/LWDRd9Mv/A76w6SCSznvhL
+	IpTZq1Wlc/Q=; b=InDvC6q2BNsZI+hzzjyFI6soE0gAH2umc8iokMkU6odFCzPN
+	KjRj+RytvS84Pc10X+INmmWZPVes6sc/XyJQSi4BCIC3j3s3YhNJbcaw7sYbX5GC
+	YnzOKfTWkMiMEl7VVNmUiAc3+DqURowkDIZ1x8vSARKUnLCZ2TO3FocF0E26uufe
+	HG8ByZa5waoBWxBJhfUvFbA/+Q47mxOd3aSevoTMjKDxlCtTKR2YxKtoboK0R9Pl
+	z+OU7bB9227LzODRiLo0+Og9U1YUTlySsvtEtBurXopDeZyWa2i1DLr5zb9os0Pp
+	KgK6aRhdL1bqji7vOHvjmndc8S4RJVNS2vC2jw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1776559354; x=1776645754; bh=FlzxNUPIr/LWDRd9Mv/A76w6SCSz
+	nvhLIpTZq1Wlc/Q=; b=T70Sc35rn/5uK6WItPTxRtugoJdQaKQx7wnEuP7rbSTB
+	8H6XjjoHSU7eaErJtpqBXwLQdNtkLrKv22FxlizcFt45iTh4eXfeDJUHaGhm5vCz
+	TnyzfQlLNcwDmPvWzVpESB4Z+9zDCUlaMPGNpgl9l7+xvPCtJArV+PlKqoj1i+ke
+	BnanXNnvez+qq0qSW0YkR1N0a+aP+RrMPT1agjjjQcgrGxZNpVzUw3u0Ups0pAX3
+	rcOQ22AsTsJl1I20ld7/eRZ/q2mT+OTQejelbzxvlIIY+vVuaD3PXXs4BVdQMwKh
+	n6qrFh9uPpnTjGO1qGtSmhfhlgGQdBL17kqJyhNyPw==
+X-ME-Sender: <xms:-iTkacKjOsZ-hf8MOvs_97HtwejvahJXQe85SNvgySa5mPnYuekxmw>
+    <xme:-iTkaWNlPZup8RrB_k15VERAiRzPdNHRbvX62VnKuYwtSjXlVQWarxx0b9ARXkFPs
+    unock4MYftwzKCjy_Qvnxgd7S0w4VaX1UxeIR4im8PoSe6sv802S8M>
+X-ME-Received: <xmr:-iTkacl4WQemBDKDLn6a-zflGyN4pZ6BQu_N2U-q-fpXhOIP_ysaOD2J7y2j>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdehgedvfecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecunecujfgurhephfffufggtgfgkffvvefosehtjeertdertd
+    ejnecuhfhrohhmpefgthhhrghnucevrghrthgvrhcugfgufigrrhgushcuoegvthhhrghn
+    segvthhhrghntggvugifrghrughsrdgtohhmqeenucggtffrrghtthgvrhhnpeeiuefhue
+    fhgfeuhfffkeffgfetgfejgefhudekledvudeiuddtffffgeehtdeivdenucevlhhushht
+    vghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegvthhhrghnsegvthhhrg
+    hntggvugifrghrughsrdgtohhmpdhnsggprhgtphhtthhopeejpdhmohguvgepshhmthhp
+    ohhuthdprhgtphhtthhopehrvghpnhhophesghhoohhglhgvrdgtohhmpdhrtghpthhtoh
+    epkhgvrhhnvghlqdhjrghnihhtohhrshesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgt
+    phhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpd
+    hrtghpthhtohepjhgrtghksehsuhhsvgdrtgiipdhrtghpthhtoheplhhinhhugidqkhgv
+    rhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghmihhrjeefih
+    hlsehgmhgrihhlrdgtohhmpdhrtghpthhtohepvghthhgrnhesvghthhgrnhgtvggufigr
+    rhgushdrtghomh
+X-ME-Proxy: <xmx:-iTkaa7-Ubl5opRNbK6qOSMY1YLVw4C8Anada2Btg-1B9gHT1w94rw>
+    <xmx:-iTkaQ2CrtJayRBTaHJt94VU-ThxhMwHh-fWnAQ880u4sQ3NrExBiQ>
+    <xmx:-iTkaVErChxdLfUCCn3lr5c6cq7vshLXyMvsuzSlWG7uagJjYCddXA>
+    <xmx:-iTkafjFKWi3r5bthbdXwd4GDx0E8Ssf628mb4P33ftogFvhsiijPw>
+    <xmx:-iTkafXnYtF6nWOoHF3kIK_5HrjXIBOReiZNLzawCyeTzsRGHkES6NOY>
+Feedback-ID: ibf9e487c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 18 Apr 2026 20:42:33 -0400 (EDT)
+From: Ethan Carter Edwards <ethan@ethancedwards.com>
+Date: Sat, 18 Apr 2026 20:42:30 -0400
+Subject: [PATCH] fanotify: Fix spelling mistake "enforecement" ->
+ "enforcement"
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <25536ce2.4391.19d9b3484ff.Coremail.23009200614@stu.xidian.edu.cn>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260418-fanotify-typo-v1-1-03ea48cb44ba@ethancedwards.com>
+X-B4-Tracking: v=1; b=H4sIAPUk5GkC/x3MQQqAIBBA0avIrBsws4iuEi3ExpqNhkoU4t2Tl
+ m/xf4FEkSnBIgpEujlx8A19J8Cexh+EvDeDkmqSup/RGR8yuxfzewW0mqwy+6BGJ6E1VyTHz/9
+ bt1o/6dDFFF8AAAA=
+X-Change-ID: 20260418-fanotify-typo-c4ec2ad325f0
+To: Jan Kara <jack@suse.cz>, Amir Goldstein <amir73il@gmail.com>, 
+ Matthew Bobrowski <repnop@google.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ kernel-janitors@vger.kernel.org, 
+ Ethan Carter Edwards <ethan@ethancedwards.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1044;
+ i=ethan@ethancedwards.com; h=from:subject:message-id;
+ bh=iPW/y5pADXITXht7iP58B8qisYZQ9v+e7ratS9msR28=;
+ b=LS0tLS1CRUdJTiBQR1AgTUVTU0FHRS0tLS0tCgpvd0o0bkp2QXk4ekFKWGJEOXFoNThlVGp6e
+ GhQcXlVeFpENVIrZGxYUEhWRFNHcjc3YmQvTXVwajF1eHUxSnZ2CndKUHg2MTFBK2U0WFJYb3o1
+ bTdyS0dWaEVPTmlrQlZUWlBtZm81ejJVSE9Hd3M2L0xrMHdjMWlaUUlZd2NIRUsKd0VTRVl4bit
+ DbnFVUGZtVCsrbkdKcHRhdlhrNW9tbkZ1ZHBYVERSTmVEK3NuVkw1M0hIVlJZWi8ycWR6cFpNRg
+ paM2xlSzZ4bjNyZnMrNFVQZHNzMGJsMEt2eCt3Y2ttRTl4dHpGZ0QrL1ZFawo9dFZVcAotLS0tL
+ UVORCBQR1AgTUVTU0FHRS0tLS0tCg==
+X-Developer-Key: i=ethan@ethancedwards.com; a=openpgp;
+ fpr=2E51F61839D1FA947A7300C234C04305D581DBFE
 
-On Fri, Apr 17, 2026 at 07:30:03PM +0800, 王志 wrote:
-> Dear Maintainers,
-> 
-> When using our customized Syzkaller to fuzz the latest Linux kernel, we discovered a crash related to Landlock during a path rename operation.
-> 
-> HEAD commit: 7d0a66e4bb9081d75c82ec4957c50034cb0ea449
+There is a spelling mistake in a comment. Fix it.
 
-This is the initial 6.18 release, without the stable backported fixes.
+Signed-off-by: Ethan Carter Edwards <ethan@ethancedwards.com>
+---
+ fs/notify/fanotify/fanotify.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> git tree: upstream
-> 
-> Reproducer and logs:
-> Output: https://github.com/manual0/crash/blob/main/cebd27007e806e16cf15cb1e0214c24054e8998e/report1
-> Kernel config: https://github.com/manual0/crash/blob/main/6.18-syzbot.config
-> C reproducer: https://github.com/manual0/crash/blob/main/cebd27007e806e16cf15cb1e0214c24054e8998e/repro.c
-> 
-> ----------------------------------------
-> 
-> Analysis:
-> 
-> The crash is triggered through the following path:
-> 
-> renameat2
->   → security_path_rename
->   → current_check_refer_path
->   → collect_domain_accesses
-> 
-> This indicates that a path rename operation triggers Landlock's path access control checks. The crash occurs inside collect_domain_accesses(), which is responsible for collecting the current process's domain access rights.
-> 
-> The bug is caused by collect_domain_accesses() traversing inconsistent or invalid Landlock ruleset data during rename path permission checks, leading to unsafe memory access.
-> ----------------------------------------
-> 
-> If you fix this issue, please add the following tag to the commit:
-> 
-> Reported-by: Zhi Wang <wangzhi@stu.xidian.edu.cn>
->
-This was fixed in 6.18.2 with
-cadb28f8b3fd6908e3051e86158c65c3a8e1c907 (landlock: Fix handling of
-disconnected directories) [1]
+diff --git a/fs/notify/fanotify/fanotify.c b/fs/notify/fanotify/fanotify.c
+index bfe884d624e7..38290b9c07f7 100644
+--- a/fs/notify/fanotify/fanotify.c
++++ b/fs/notify/fanotify/fanotify.c
+@@ -457,7 +457,7 @@ static int fanotify_encode_fh(struct fanotify_fh *fh, struct inode *inode,
+ 	/*
+ 	 * Unlike file_handle, type and len of struct fanotify_fh are u8.
+ 	 * Traditionally, filesystem return handle_type < 0xff, but there
+-	 * is no enforecement for that in vfs.
++	 * is no enforcement for that in vfs.
+ 	 */
+ 	BUILD_BUG_ON(MAX_HANDLE_SZ > 0xff || FILEID_INVALID > 0xff);
+ 	if (type <= 0 || type >= FILEID_INVALID || fh_len != dwords << 2)
 
-So this has been fixed upstream and backported already.
+---
+base-commit: c7275b05bc428c7373d97aa2da02d3a7fa6b9f66
+change-id: 20260418-fanotify-typo-c4ec2ad325f0
 
-Please target fuzzing against a supported tag.
+Best regards,
+-- 
+Ethan Carter Edwards <ethan@ethancedwards.com>
 
-[1]: https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?h=linux-6.18.y&id=cadb28f8b3fd6908e3051e86158c65c3a8e1c907
-
-Justin
-> Thanks,
-> Zhi Wang
