@@ -1,43 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7E523E7166;
-	Mon, 20 Apr 2026 13:24:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FEF03CF678;
+	Mon, 20 Apr 2026 13:29:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776691498; cv=none; b=aKctecLGXKjKB+iqAaVfuIkdzqalKppXmT6Lc0hzDopfJ7w4ERogTIKq+9gPIRJKUvIaVf8NSDwMkv6/RCoBtDHMDI51aHjgfDReyzfFBa80Ow2ee+zxY7OrJ2zRPrrBghuzasMPFThrwDX0y3QIZDjH82EVkYF/A3yzqV5AD+o=
+	t=1776691772; cv=none; b=FLFYkYlZRvc7huyylXy9Rh5QCEVUBZ+qoaq/LwqFxdBvin0PdTyB38TonYTJH0BApQ+9oTX5c0yKnFhakTLwlqb/FM5Eu7lsASw4+nG7YxOFBYYTdtyxthWu7sAw1TRhRpZcspnScjfkYVP3oqoGFAoR1HrLnYFYNR3qxOyLCow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776691498; c=relaxed/simple;
-	bh=D/KY3CXEA4uS9ZMY1EoHy6Ds7GIOb+DiXDkig6qzfpA=;
+	s=arc-20240116; t=1776691772; c=relaxed/simple;
+	bh=2tbCt5PKW497EPg5cqoGISqq56tyKFCjtX16J8VVbYk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sb3g7gZCi+3dlkaUGebTfKg8LmLooz/gecMEYFaEfAte08S/HssHmVB3DV4RVNSYoajmlMfBIkLxvYERjnf6gX2e9iO3GCxZ3caKnSlKXpItiXaCvzAQLk++xwUvwQY9TMDN+7CdioVJL8J4zQdDO3jkwXrZ81PxtQBY2n+PhG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MpLoVcsz; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=YR1RoQBg11TYGE5KFq9Powqwrux1PhiNzQAIyS4Lxpwz9An/S6AeKByRspelc6FJAq8Nf4xWIrzgVpomZmNP5qlv8TKJyuutxCd7j2XsizaxiWlsy5ljjJHWTXcPsD5PCh93Fr8vJbA554lO82j0mTt2T6FYg3pTFm+0CHtNFTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=upFpAI+A; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MpLoVcsz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CDC3C19425;
-	Mon, 20 Apr 2026 13:24:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="upFpAI+A"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8B1BC19425;
+	Mon, 20 Apr 2026 13:29:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776691498;
-	bh=D/KY3CXEA4uS9ZMY1EoHy6Ds7GIOb+DiXDkig6qzfpA=;
+	s=k20201202; t=1776691771;
+	bh=2tbCt5PKW497EPg5cqoGISqq56tyKFCjtX16J8VVbYk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=MpLoVcszkqSYm8D80yN+Z1Jq/+rI2S6Y0uVGYBBid96SV0VuYzY+SKvMLJO/cc52m
-	 EniPyThtYAMM1ju3Qr3bL4fcKHDZpBTP2Kxwk1MamHYHxMTGSO7sUuPtxKgbA3ec94
-	 nCDpCN8I3YEbF0x2sFIwzZJqI2PPwaWzxXcojYPhk+51o/M0cY8nAR5kxcrLpFGg29
-	 l2ZVa6c93pymqGcg1iT5aciS+2i/1bmD/Vcen7cu4z94HhV8XV1zGv0faDWhRloRVc
-	 T7/74bzpJfDLIlhgSv0voEBZTcw9MdIC6Za/cNUr/bZ0J7QTFv1VMu6N9UvpcFVhDQ
-	 F5Jh9aMRkZKLw==
+	b=upFpAI+ApYkbuEaTXVS6OHdPUOc9BLsDFlB1laeyomBqEY36t4UOOxW8ttw8TZBy0
+	 fGDiTuvSKJNzK2WUfRifQ6tFo7rm+YoujeiwIgbKaftrSEmQRzCkJzgVSEfR5AtMMC
+	 QHZ5ggDPEZUALOB0QI9uwwmMWX6PViI8QD3+IUF6gQzxoh5cWo+Lult+E2OlcdZLOA
+	 tQlraxL5v50aCeKGhorqlU36qBcORHX1cMPU8kg9cKKPk9zRwPzz4/MIR110Gmiv58
+	 RKBrbKi27L1EKl2C9dZ0h+zEvX0bBIWIX7qmrFNuH5vCsal2PyEhIrK5WuOrGoVWvR
+	 eK1HkIT2uTAFg==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Philipp Hahn <phahn-oss@avm.de>,
-	Namjae Jeon <linkinjeon@kernel.org>,
+Cc: Joanne Koong <joannelkoong@gmail.com>,
+	Miklos Szeredi <mszeredi@redhat.com>,
 	Sasha Levin <sashal@kernel.org>,
-	sj1557.seo@samsung.com,
+	miklos@szeredi.hu,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 7.0-5.10] exfat: Fix bitwise operation having different size
-Date: Mon, 20 Apr 2026 09:17:39 -0400
-Message-ID: <20260420132314.1023554-65-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 7.0-6.1] fuse: validate outarg offset and size in notify store/retrieve
+Date: Mon, 20 Apr 2026 09:19:38 -0400
+Message-ID: <20260420132314.1023554-184-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260420132314.1023554-1-sashal@kernel.org>
 References: <20260420132314.1023554-1-sashal@kernel.org>
@@ -52,385 +52,445 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 7.0
 Content-Transfer-Encoding: 8bit
 
-From: Philipp Hahn <phahn-oss@avm.de>
+From: Joanne Koong <joannelkoong@gmail.com>
 
-[ Upstream commit 3dce5bb82c97fc2ac28d80d496120a6525ce3fb7 ]
+[ Upstream commit 65161470f95bb579a72673bf303ecf0800b9054b ]
 
-cpos has type loff_t (long long), while s_blocksize has type u32. The
-inversion wil happen on u32, the coercion to s64 happens afterwards and
-will do 0-left-paddding, resulting in the upper bits getting masked out.
+Add validation checking for outarg offset and outarg size values passed
+in by the server. MAX_LFS_FILESIZE is the maximum file size supported.
+The fuse_notify_store_out and fuse_notify_retrieve_out structs take in
+a uint64_t offset.
 
-Cast s_blocksize to loff_t before negating it.
+Add logic to ensure:
+* outarg.offset is less than MAX_LFS_FILESIZE
+* outarg.offset + outarg.size cannot exceed MAX_LFS_FILESIZE
+* potential uint64_t overflow is fixed when adding outarg.offset and
+  outarg.size.
 
-Found by static code analysis using Klocwork.
-
-Signed-off-by: Philipp Hahn <phahn-oss@avm.de>
-Signed-off-by: Namjae Jeon <linkinjeon@kernel.org>
+Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-Good. Now I have all the information needed for the complete analysis.
+Now I have all the information needed for a comprehensive analysis. Let
+me compile my findings.
 
 ---
 
 ## PHASE 1: COMMIT MESSAGE FORENSICS
 
 ### Step 1.1: PARSE THE SUBJECT LINE
-Record: [subsystem: exfat (fs/exfat)] [action verb: Fix] [summary: Fix a
-type mismatch in bitwise operation where `~(sb->s_blocksize - 1)`
-operates at `unsigned long` width, clearing upper bits of 64-bit `cpos`]
+- **Subsystem**: fuse (filesystem in userspace)
+- **Action verb**: "validate" - indicates adding missing input
+  validation (a bug fix pattern)
+- **Summary**: Adds bounds checking for `outarg.offset` and
+  `outarg.size` in FUSE notify store/retrieve paths
+
+Record: [fuse] [validate] [Add missing bounds/overflow checks on server-
+supplied offset and size]
 
 ### Step 1.2: PARSE ALL COMMIT MESSAGE TAGS
-- **Signed-off-by: Philipp Hahn <phahn-oss@avm.de>** - author from AVM
-  (router/embedded device vendor, makes Fritz!Box etc.)
-- **Signed-off-by: Namjae Jeon <linkinjeon@kernel.org>** - exfat
-  subsystem maintainer accepted the patch
-- No Fixes: tag (expected for candidates under review)
-- No Cc: stable tag (expected)
-- No Reported-by: (found by static analysis)
-- No Link: tag
+- **Signed-off-by: Joanne Koong** - Author, active FUSE contributor (12+
+  fuse commits in tree)
+- **Signed-off-by: Miklos Szeredi** - FUSE subsystem maintainer (commits
+  the patch)
+- No Fixes: tag (expected for manual review candidates)
+- No Reported-by, no Link, no Cc: stable
 
-Record: Minimal tags. Author is from an embedded device company.
-Maintainer signed off.
+Record: No bug reporter or explicit stable nomination, but authored by a
+known contributor and committed by the subsystem maintainer.
 
 ### Step 1.3: ANALYZE THE COMMIT BODY TEXT
-The commit describes:
-- `cpos` is `loff_t` (long long, 64-bit)
-- `s_blocksize` is `unsigned long` (32-bit on 32-bit platforms)
-- The `~` (bitwise NOT) operates at `unsigned long` width
-- When the result is coerced to `loff_t`, zero-extension clears upper 32
-  bits
-- Fix: cast `s_blocksize` to `loff_t` before negation
+The commit explicitly describes three bugs:
+1. `outarg.offset` can exceed `MAX_LFS_FILESIZE` (the maximum file size)
+2. `outarg.offset + outarg.size` can overflow `uint64_t` (integer
+   overflow)
+3. Both structs use `uint64_t offset` and values come from the FUSE
+   server (userspace)
 
-Record: Bug mechanism is clearly explained. Found by Klocwork static
-analysis. This is a C integer promotion/type width bug on 32-bit
-platforms.
+The failure mode is integer overflow on server-controlled data leading
+to incorrect computation, potentially corrupting inode metadata or
+causing out-of-bounds page cache access.
+
+Record: [Bug: Integer overflow and missing bounds checks on userspace-
+supplied values] [Failure mode: incorrect computation leading to
+potential data corruption or OOB access] [All kernel versions since
+v2.6.36 affected] [Root cause: untrusted uint64_t values not validated
+before arithmetic]
 
 ### Step 1.4: DETECT HIDDEN BUG FIXES
-Record: This is an explicitly stated bug fix, not hidden. The word "Fix"
-is in the subject.
+This is explicitly a validation/input sanitization fix. The word
+"validate" directly indicates a missing safety check. This is clearly a
+bug fix.
+
+Record: [Clearly a bug fix - adds missing input validation on untrusted
+data from userspace FUSE server]
 
 ---
 
 ## PHASE 2: DIFF ANALYSIS - LINE BY LINE
 
 ### Step 2.1: INVENTORY THE CHANGES
-- **File:** `fs/exfat/dir.c`
-- **Change:** 1 line modified (replace `~(sb->s_blocksize - 1)` with
-  `~(loff_t)(sb->s_blocksize - 1)`)
-- **Function modified:** `exfat_iterate()` (line 252)
-- **Scope:** Single-file, single-line surgical fix
+- **File**: `fs/fuse/dev.c` - 1 file changed
+- **Functions modified**: `fuse_notify_store()`, `fuse_retrieve()`,
+  `fuse_notify_retrieve()`
+- **Scope**: ~15 lines changed (very small, surgical fix)
 
-Record: Minimal change. One file, one line, one cast added.
+Record: [1 file, 3 functions, ~15 lines changed - single-file surgical
+fix]
 
 ### Step 2.2: UNDERSTAND THE CODE FLOW CHANGE
-The changed line is in `exfat_iterate()` at the error recovery path when
-`exfat_readdir()` returns `-EIO`:
 
-```c
-if (err == -EIO) {
-    cpos += 1 << (sb->s_blocksize_bits);
-    cpos &= ~(loff_t)(sb->s_blocksize - 1);  // <-- fix here
-}
-```
+**Hunk 1 - `fuse_notify_store()`**:
+- BEFORE: `end = outarg.offset + outarg.size` with no overflow
+  protection; `num = outarg.size` with no cap
+- AFTER: Adds `outarg.offset >= MAX_LFS_FILESIZE` check, caps `num =
+  min(outarg.size, MAX_LFS_FILESIZE - outarg.offset)`, uses `num`
+  instead of `outarg.size` for `end` and `fuse_write_update_attr()`
 
-**Before:** `~(sb->s_blocksize - 1)` operates at `unsigned long` width.
-On 32-bit: produces 32-bit mask, zero-extended to 64 bits, clearing
-upper 32 bits of `cpos`.
-**After:** `~(loff_t)(sb->s_blocksize - 1)` operates at 64-bit width.
-Upper 32 bits of `cpos` are preserved.
+**Hunk 2 - `fuse_retrieve()`**:
+- BEFORE: `else if (outarg->offset + num > file_size)` - addition can
+  overflow
+- AFTER: `else if (num > file_size - outarg->offset)` - safe since
+  `outarg->offset <= file_size` at this point
 
-Record: Error recovery path. Before: incorrect masking on 32-bit. After:
-correct 64-bit masking.
+**Hunk 3 - `fuse_notify_retrieve()`**:
+- BEFORE: No offset validation before passing to `fuse_retrieve()`
+- AFTER: Adds `outarg.offset >= MAX_LFS_FILESIZE` check, returns -EINVAL
 
 ### Step 2.3: IDENTIFY THE BUG MECHANISM
-Category: **Type / endianness bug** (specifically, integer
-promotion/width bug)
-
-On 32-bit systems, `sb->s_blocksize` is `unsigned long` = 32 bits:
-- `sb->s_blocksize - 1` = 0x00000FFF (for 4K blocks)
-- `~(sb->s_blocksize - 1)` = 0xFFFFF000 (32-bit unsigned)
-- When AND'd with 64-bit `cpos`, this zero-extends to 0x00000000FFFFF000
-- Bits 32-63 of `cpos` are incorrectly cleared
-
-Record: Type width mismatch bug on 32-bit platforms. Incorrect zero-
-extension of unsigned 32-bit mask when used with 64-bit value.
+Category: **Memory safety / Logic correctness** - specifically:
+1. **Integer overflow**: `outarg.offset + outarg.size` wraps around
+   uint64_t when offset is near UINT64_MAX, causing `end` to be a small
+   value. This leads to incorrect file size update via
+   `fuse_write_update_attr()`.
+2. **Missing bounds check**: Without MAX_LFS_FILESIZE validation,
+   `outarg.offset >> PAGE_SHIFT` produces an enormous page index,
+   causing potentially dangerous page cache operations.
+3. **Integer overflow in retrieve**: `outarg->offset + num` can
+   overflow, skipping the cap on `num`, potentially reading beyond file
+   bounds.
 
 ### Step 2.4: ASSESS THE FIX QUALITY
-- **Obviously correct?** YES - the cast ensures the negation operates at
-  64-bit width
-- **Minimal?** YES - one cast addition
-- **Regression risk?** ZERO - identical behavior on 64-bit systems
-  (where `unsigned long` is already 64-bit), and correct behavior on
-  32-bit
-- **Red flags?** None
+- **Obviously correct**: Standard overflow prevention patterns (check
+  before add, rearrange subtraction)
+- **Minimal/surgical**: Only adds validation checks, no behavioral
+  changes for valid inputs
+- **Regression risk**: Extremely low - only rejects previously-invalid
+  inputs (offset >= MAX_LFS_FILESIZE) or changes arithmetic to prevent
+  overflow
+- **No red flags**: Single file, well-contained
 
-Record: Perfect fix quality. Zero regression risk.
+Record: [Fix is obviously correct, minimal, and cannot cause regression
+for valid FUSE operations]
 
 ---
 
 ## PHASE 3: GIT HISTORY INVESTIGATION
 
 ### Step 3.1: BLAME THE CHANGED LINES
-The buggy code was introduced in commit `ca06197382bde0` by Namjae Jeon
-on 2020-03-02, titled "exfat: add directory operations." This was part
-of the initial exfat merge into the kernel for Linux 5.7.
+- `fuse_notify_store()` core code from commit `a1d75f258230b7` (Miklos
+  Szeredi, 2010-07-12) - "fuse: add store request" - first appeared in
+  **v2.6.36**
+- `fuse_retrieve()` overflow-prone line from commit `4d53dc99baf139`
+  (Maxim Patlasov, 2012-10-26) - "fuse: rework fuse_retrieve()" - first
+  appeared in **v3.9**
+- `fuse_notify_retrieve()` from `2d45ba381a74a7` (Miklos Szeredi,
+  2010-07-12) - "fuse: add retrieve request" - first appeared in
+  **v2.6.36**
 
-Record: Bug present since initial exfat creation (v5.7, 2020). Affects
-all stable trees that contain exfat (5.10+, 5.15+, 6.1+, 6.6+, 6.12+,
-7.0).
+Record: [Buggy code introduced in v2.6.36 (2010) and v3.9 (2013).
+Present in ALL active stable trees.]
 
 ### Step 3.2: FOLLOW THE FIXES TAG
-No Fixes: tag present. The implicit fix target is `ca06197382bde0`.
-
-Record: N/A (no explicit Fixes: tag, which is expected).
+No Fixes: tag present (expected).
 
 ### Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES
-55 commits to `fs/exfat/dir.c` since the initial creation. The file has
-been actively developed. Notable: commit `6b151eb5df78d` was a recent
-cleanup of `exfat_readdir()` but did not touch the buggy line.
+Recent changes to `fs/fuse/dev.c` include folio conversions, io-uring
+support, and the related `9d81ba6d49a74` "fuse: Block access to folio
+overlimit" syzbot fix. The file has 78+ changes since v6.6. The fix is
+independent of all of these.
 
-Record: Active file history. The buggy line has been untouched since
-initial creation. No prerequisites needed.
+Record: [Standalone fix, no prerequisites needed]
 
 ### Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS
-Philipp Hahn (phahn-oss@avm.de) has 5 commits in the tree, mostly
-documentation and quirk-related. AVM is a German embedded device company
-(Fritz!Box routers). Not the exfat maintainer, but the maintainer
-(Namjae Jeon) signed off on this fix.
+Joanne Koong has 12+ commits to `fs/fuse/dev.c`, including the large
+folio support series. She is a regular and significant FUSE contributor.
+The fix was reviewed and committed by Miklos Szeredi, the FUSE
+maintainer.
 
-Record: External contributor from embedded device company. Maintainer
-accepted.
+Record: [Author is a major FUSE contributor; patch committed by
+subsystem maintainer]
 
 ### Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS
-The fix is a single cast to an existing line. No dependencies on other
-commits.
+The fix only adds new validation checks and rearranges arithmetic. It
+does not depend on any other commits. The context differs slightly in
+stable trees (pages vs folios, different error handling style), but the
+core logic is identical.
 
-Record: Fully standalone. No dependencies.
+Record: [No dependencies. Will need minor context adjustments for
+backport to stable trees using pages instead of folios]
 
 ---
 
 ## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 
-### Step 4.1-4.5: MAILING LIST INVESTIGATION
-b4 dig could not find the commit (it may be very recent).
-lore.kernel.org was behind Anubis anti-scraping protection. Web searches
-didn't return the specific lore thread.
+### Step 4.1-4.5: MAILING LIST
+I was unable to find the specific mailing list thread for this commit on
+lore.kernel.org (the site is protected by anti-bot measures and the
+commit may be very recent/not yet indexed). However:
+- The commit is signed-off by the FUSE maintainer Miklos Szeredi
+- Joanne Koong is a well-known FUSE contributor
+- The fix is technically straightforward and self-explanatory
 
-Record: Could not access lore discussion. The commit was signed off by
-the exfat maintainer Namjae Jeon, confirming acceptance.
+Record: [Unable to verify lore discussion due to anti-bot protection.
+Commit signed by maintainer Miklos Szeredi.]
 
 ---
 
 ## PHASE 5: CODE SEMANTIC ANALYSIS
 
-### Step 5.1: IDENTIFY KEY FUNCTIONS
-Modified function: `exfat_iterate()` - the VFS directory iteration
-callback for exfat.
+### Step 5.1-5.4: CALL CHAIN ANALYSIS
+The call chain is:
+```
+fuse_dev_write() / fuse_dev_splice_write()  [userspace writes to
+/dev/fuse]
+  -> fuse_dev_do_write()
+    -> fuse_notify()  [when oh.unique == 0, notification message]
+      -> fuse_notify_store()   [FUSE_NOTIFY_STORE]
+      -> fuse_notify_retrieve()  [FUSE_NOTIFY_RETRIEVE]
+        -> fuse_retrieve()
+```
 
-### Step 5.2: TRACE CALLERS
-`exfat_iterate` is wrapped by `WRAP_DIR_ITER(exfat_iterate)` and used as
-`.iterate_shared` in `exfat_dir_operations`. It's called by the VFS when
-userspace reads a directory (e.g., `ls`, `readdir()`). This is a very
-common operation.
+The path is **directly reachable from userspace** - the FUSE server
+writes to `/dev/fuse` with crafted notification messages. The `outarg`
+values (offset, size) come directly from this userspace write.
 
-### Step 5.3-5.4: CALL CHAIN
-Userspace `getdents64()` syscall -> VFS `iterate_dir()` ->
-`exfat_iterate()`. The buggy path is triggered when `exfat_readdir()`
-returns `-EIO`.
+### Step 5.5: SIMILAR PATTERNS
+Verified that the same three overflow patterns exist in v5.15, v6.1, and
+v6.6 stable trees at the exact same lines.
 
-Record: Reachable from common syscalls. Error path triggered by I/O
-errors on storage media.
-
-### Step 5.5: SEARCH FOR SIMILAR PATTERNS
-The same pattern `& ~(sb->s_blocksize - 1)` with `loff_t` or `ctx->pos`
-variables exists in:
-- `fs/ext4/dir.c` (line 255) - same type mismatch with `ctx->pos`
-- `fs/ocfs2/dir.c` (line 1912) - same pattern
-- `fs/jfs/xattr.c` (multiple places)
-- `fs/ntfs3/ntfs_fs.h` (line 1109) - **already fixed** with
-  `~(u64)(sb->s_blocksize - 1)` cast
-
-The ntfs3 code already has this fix, confirming this is a known bug
-pattern.
-
-Record: Similar bug exists in ext4, ocfs2, jfs. ntfs3 already fixed it.
+Record: [Bug is reachable from userspace via /dev/fuse writes. All
+active stable trees contain the vulnerable code.]
 
 ---
 
 ## PHASE 6: CROSS-REFERENCING AND STABLE TREE ANALYSIS
 
-### Step 6.1: DOES THE BUGGY CODE EXIST IN STABLE TREES?
-The buggy code was introduced in `ca06197382bde0` (v5.7). exfat exists
-in all active stable trees (5.10, 5.15, 6.1, 6.6, 6.12, 7.0). The
-specific buggy line at line 252 has been untouched since creation.
+### Step 6.1: BUGGY CODE IN STABLE TREES
+Confirmed the exact buggy patterns exist in:
+- **v6.6**: lines 1602, 1608, 1684
+- **v6.1**: lines 1599, 1605, 1681
+- **v5.15**: lines 1591, 1597, 1673
 
-Record: Bug present in ALL active stable trees.
+Record: [Bug exists in ALL active stable trees going back to v2.6.36]
 
-### Step 6.2: CHECK FOR BACKPORT COMPLICATIONS
-The surrounding code context is clean and unchanged since the initial
-creation. The patch should apply cleanly to all stable trees.
+### Step 6.2: BACKPORT COMPLICATIONS
+The file has undergone significant changes (78+ commits since v6.6),
+primarily folio conversions. The stable trees still use pages. However:
+- The validation checks (MAX_LFS_FILESIZE) are context-independent
+- The `num` capping logic is purely arithmetic
+- The overflow rearrangement in `fuse_retrieve()` is a one-line change
 
-Record: Clean apply expected for all stable trees.
+The patch will need minor context adjustments (different error handling
+style with `goto copy_finish` vs `return` in v6.6, and `outarg.size`
+instead of `num` for the `while` loop). But the core logic applies
+cleanly.
+
+Record: [Minor context conflicts expected. Core fix logic applies
+unchanged.]
 
 ### Step 6.3: RELATED FIXES IN STABLE
-A similar exfat overflow fix (`2e9ceb6728f1d` "exfat: fix overflow for
-large capacity partition") was explicitly tagged with `Cc:
-stable@vger.kernel.org # v5.19+`, establishing precedent for
-type/overflow fixes in exfat going to stable.
-
-Record: Precedent exists for similar exfat type fixes going to stable.
+No prior fixes for this specific integer overflow/bounds checking issue
+were found.
 
 ---
 
 ## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 
 ### Step 7.1: SUBSYSTEM CRITICALITY
-**Subsystem:** fs/exfat - exFAT filesystem
-**Criticality:** IMPORTANT - exFAT is used on SD cards, USB drives, and
-external storage across millions of devices, especially embedded/IoT
-devices that run 32-bit ARM.
+- **Subsystem**: fs/fuse - filesystems (IMPORTANT)
+- FUSE is widely used: Docker/containers, virtiofs, SSHFS, Android,
+  embedded systems
+- Bugs in FUSE notification paths affect all FUSE users
 
 ### Step 7.2: SUBSYSTEM ACTIVITY
-Very active - 55+ commits to this file, 20+ recent exfat commits.
-Actively maintained by Namjae Jeon.
+Very active subsystem - 78+ changes since v6.6. The fix addresses bugs
+present since initial implementation.
 
-Record: Important subsystem, actively maintained.
+Record: [FUSE is IMPORTANT subsystem, widely used across containers,
+VMs, and embedded systems]
 
 ---
 
 ## PHASE 8: IMPACT AND RISK ASSESSMENT
 
-### Step 8.1: DETERMINE WHO IS AFFECTED
-Users of exFAT filesystems on **32-bit systems** (ARM, MIPS). This
-includes many embedded devices, IoT systems, and older hardware. 64-bit
-systems are unaffected.
+### Step 8.1: WHO IS AFFECTED
+All systems using FUSE with notify_store or notify_retrieve
+functionality. This includes virtiofs (QEMU/KVM VMs), container
+filesystems, and any FUSE server using cache management notifications.
 
-### Step 8.2: DETERMINE THE TRIGGER CONDITIONS
-- **Platform:** 32-bit systems only
-- **Trigger:** Reading a directory on an exFAT filesystem where
-  `exfat_readdir()` returns `-EIO` AND `cpos` > 2^32 (>4GB directory
-  position)
-- **Likelihood:** LOW - requires very large directory + I/O error +
-  32-bit system
-- **Unprivileged trigger:** Yes, any user can `ls` a directory
+### Step 8.2: TRIGGER CONDITIONS
+- Triggered when a FUSE server sends a NOTIFY_STORE or NOTIFY_RETRIEVE
+  with large offset values
+- Can be triggered by a buggy FUSE server, or a malicious/compromised
+  one
+- In virtiofs scenarios, the host-side FUSE server could send crafted
+  values
 
 ### Step 8.3: FAILURE MODE SEVERITY
-When triggered, the upper 32 bits of `cpos` are zeroed, causing the
-directory position to jump backward, potentially causing:
-- Incorrect directory listing
-- Potential infinite loop in directory iteration
-- Severity: MEDIUM (incorrect behavior, potential loop)
+- **Integer overflow in store**: `end = outarg.offset + outarg.size`
+  wraps to small value -> `fuse_write_update_attr()` called with wrong
+  file_size -> **inode metadata corruption (CRITICAL)**
+- **Missing MAX_LFS_FILESIZE check**: Enormous page index in
+  `filemap_grab_folio()` -> potential page cache corruption or kernel
+  crash -> **CRITICAL**
+- **Overflow in retrieve**: `outarg->offset + num` wraps -> num not
+  capped correctly -> potential OOB read -> **HIGH**
+
+Record: [Failure modes: data corruption, potential crash. Severity:
+CRITICAL]
 
 ### Step 8.4: RISK-BENEFIT RATIO
-- **Benefit:** LOW-MEDIUM (fixes correctness bug on 32-bit, rare
-  trigger)
-- **Risk:** EXTREMELY LOW (one cast addition, provably correct, zero
-  regression risk on 64-bit)
-- **Ratio:** Strongly favorable - near-zero risk for a provable
-  correctness fix
-
-Record: Benefit is low-medium, risk is near-zero. Ratio strongly favors
-backporting.
+- **BENEFIT**: HIGH - prevents integer overflow leading to data
+  corruption and potential crashes in a widely-used filesystem subsystem
+- **RISK**: VERY LOW - adds simple validation checks, ~15 lines,
+  obviously correct, cannot affect valid operations
+- **Ratio**: Strongly favorable for backporting
 
 ---
 
 ## PHASE 9: FINAL SYNTHESIS
 
-### Step 9.1: COMPILE THE EVIDENCE
+### Step 9.1: EVIDENCE COMPILATION
 
 **FOR backporting:**
-- Provably correct fix for a real C type promotion bug
-- One-line change with zero regression risk
-- Bug present in all stable trees since v5.7
-- Similar fixes in exfat have been backported before (Cc: stable)
-- ntfs3 already has the same fix applied, confirming the pattern is
-  recognized
-- exFAT is widely used on 32-bit embedded systems (SD cards, USB drives)
-- Signed off by the exfat maintainer
-- Clean apply expected for all stable trees
-- Author is from embedded device company (AVM) - directly affected use
-  case
+- Fixes real integer overflow bugs reachable from userspace
+- Prevents potential data corruption (inode metadata) and OOB access
+- Bug exists since v2.6.36 (2010) - affects ALL stable trees
+- Fix is small (~15 lines), surgical, obviously correct
+- Authored by major FUSE contributor, committed by FUSE maintainer
+- FUSE is widely deployed (containers, VMs, embedded)
+- Zero risk of regression for valid operations
 
 **AGAINST backporting:**
-- Very low probability trigger (32-bit + huge directory + I/O error)
-- Found by static analysis, no user reports
-- No Fixes: tag, no Cc: stable (expected for candidates)
+- No explicit Cc: stable or Fixes: tag (expected - that's why we're
+  reviewing)
+- Minor context adjustments needed for backport (folio vs page)
+- No syzbot report or explicit bug report mentioned
 
 ### Step 9.2: STABLE RULES CHECKLIST
-1. **Obviously correct and tested?** YES - trivially correct cast,
-   signed off by maintainer
-2. **Fixes a real bug?** YES - provable type width bug on 32-bit
-   platforms
-3. **Important issue?** BORDERLINE - low probability but real
-   correctness issue
-4. **Small and contained?** YES - one line, one file
-5. **No new features or APIs?** YES
-6. **Can apply to stable trees?** YES - untouched line since initial
-   creation
+1. Obviously correct and tested? **YES** - standard overflow prevention
+   patterns
+2. Fixes a real bug? **YES** - integer overflow on user-controlled data
+3. Important issue? **YES** - potential data corruption and OOB access
+4. Small and contained? **YES** - ~15 lines in 1 file, 3 functions
+5. No new features or APIs? **YES** - pure validation
+6. Can apply to stable? **YES** - with minor context adjustments
 
-### Step 9.3: CHECK FOR EXCEPTION CATEGORIES
-No exception category applies. This is a standard correctness fix.
-
-### Step 9.4: DECISION
-The fix has essentially zero regression risk (a single type cast that is
-provably correct) and fixes a real, if unlikely to trigger, bug. The
-risk-benefit ratio overwhelmingly favors backporting. Similar
-type/overflow fixes in exfat have been backported before. The code
-exists unchanged in all stable trees.
+### Step 9.3: EXCEPTION CATEGORIES
+Not an exception category - this is a straightforward bug fix.
 
 ---
 
 ## Verification
 
-- [Phase 1] Parsed tags: Signed-off-by from author (AVM) and maintainer
-  (Namjae Jeon). No Fixes/Cc:stable (expected).
-- [Phase 2] Diff analysis: Single line change in `exfat_iterate()`, adds
-  `(loff_t)` cast to ensure 64-bit mask width.
-- [Phase 3] git blame: Buggy code introduced in ca06197382bde0 (v5.7,
-  2020-03-02), "exfat: add directory operations"
-- [Phase 3] git log: 55 commits to file since creation; buggy line
-  untouched since initial creation
-- [Phase 3] Author check: Philipp Hahn has 5 commits, external
-  contributor from AVM (embedded device company)
-- [Phase 4] b4 dig: Could not find the commit (may be too recent). Lore
-  blocked by anti-scraping.
-- [Phase 5] Callers: `exfat_iterate()` is the VFS `.iterate_shared`
-  callback, reached via `getdents64()` syscall
-- [Phase 5] Similar patterns: Same bug exists in ext4/dir.c,
-  ocfs2/dir.c, jfs/xattr.c. ntfs3 already fixed with `~(u64)` cast.
-- [Phase 6] Code exists in all active stable trees (5.10, 5.15, 6.1,
-  6.6, 6.12, 7.0) - verified via git history
-- [Phase 6] Precedent: commit 2e9ceb6728f1d ("exfat: fix overflow for
-  large capacity partition") was tagged Cc: stable
-- [Phase 6] Clean apply expected - buggy line unchanged since v5.7
-- [Phase 7] `s_blocksize` type verified as `unsigned long` in
-  `include/linux/fs/super_types.h:136`
-- [Phase 8] Failure mode: incorrect directory position on 32-bit,
-  potential loop - severity MEDIUM
-- UNVERIFIED: Could not verify lore discussion or reviewer comments due
-  to anti-scraping protection
+- [Phase 1] Parsed tags: SOB from Joanne Koong (author) and Miklos
+  Szeredi (maintainer)
+- [Phase 2] Diff analysis: 3 hunks adding MAX_LFS_FILESIZE bounds checks
+  and overflow prevention
+- [Phase 2] Confirmed struct types: `fuse_notify_store_out.offset` is
+  uint64_t, `.size` is uint32_t
+- [Phase 3] git blame: buggy code introduced in a1d75f258230b7 (v2.6.36,
+  2010) and 4d53dc99baf139 (v3.9, 2013)
+- [Phase 3] git log --author: Joanne Koong has 12+ commits to
+  fs/fuse/dev.c
+- [Phase 4] b4 dig: could not match exact commit (not yet in tree). Web
+  search unable to find lore thread.
+- [Phase 5] Call chain traced: fuse_dev_write() -> fuse_dev_do_write()
+  -> fuse_notify() -> fuse_notify_store()/fuse_notify_retrieve() -
+  directly reachable from userspace /dev/fuse writes
+- [Phase 6] Confirmed buggy patterns in v5.15 (lines 1591,1597,1673),
+  v6.1 (lines 1599,1605,1681), v6.6 (lines 1602,1608,1684)
+- [Phase 6] Confirmed MAX_LFS_FILESIZE defined in include/linux/fs.h,
+  used in fs/fuse/inode.c for s_maxbytes
+- [Phase 7] FUSE is important subsystem, very active (78+ changes since
+  v6.6)
+- [Phase 8] Failure mode: integer overflow -> data corruption (inode
+  metadata) and potential OOB page cache access; severity CRITICAL
+- [Phase 8] fuse_write_update_attr() confirmed: sets inode->i_size based
+  on computed `pos` value - overflow leads to wrong i_size
+- UNVERIFIED: Exact lore.kernel.org discussion thread for this commit
+  (anti-bot protection blocked access)
+
+---
+
+The fix addresses real integer overflow and missing bounds checking bugs
+in FUSE notification store/retrieve paths. The bugs have existed since
+2010, affect all stable trees, are reachable from userspace, and can
+lead to data corruption or out-of-bounds access. The fix is small (~15
+lines), obviously correct, authored by a regular contributor, and
+committed by the subsystem maintainer. The risk-benefit ratio strongly
+favors backporting.
 
 **YES**
 
- fs/exfat/dir.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ fs/fuse/dev.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/fs/exfat/dir.c b/fs/exfat/dir.c
-index 3a4853693d8bf..e710dd196e2f0 100644
---- a/fs/exfat/dir.c
-+++ b/fs/exfat/dir.c
-@@ -249,7 +249,7 @@ static int exfat_iterate(struct file *file, struct dir_context *ctx)
- 		 */
- 		if (err == -EIO) {
- 			cpos += 1 << (sb->s_blocksize_bits);
--			cpos &= ~(sb->s_blocksize - 1);
-+			cpos &= ~(loff_t)(sb->s_blocksize - 1);
- 		}
+diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+index 0b0241f47170d..4a791ff12d009 100644
+--- a/fs/fuse/dev.c
++++ b/fs/fuse/dev.c
+@@ -1780,7 +1780,11 @@ static int fuse_notify_store(struct fuse_conn *fc, unsigned int size,
+ 	if (size - sizeof(outarg) != outarg.size)
+ 		return -EINVAL;
  
- 		err = -EIO;
++	if (outarg.offset >= MAX_LFS_FILESIZE)
++		return -EINVAL;
++
+ 	nodeid = outarg.nodeid;
++	num = min(outarg.size, MAX_LFS_FILESIZE - outarg.offset);
+ 
+ 	down_read(&fc->killsb);
+ 
+@@ -1793,13 +1797,12 @@ static int fuse_notify_store(struct fuse_conn *fc, unsigned int size,
+ 	index = outarg.offset >> PAGE_SHIFT;
+ 	offset = outarg.offset & ~PAGE_MASK;
+ 	file_size = i_size_read(inode);
+-	end = outarg.offset + outarg.size;
++	end = outarg.offset + num;
+ 	if (end > file_size) {
+ 		file_size = end;
+-		fuse_write_update_attr(inode, file_size, outarg.size);
++		fuse_write_update_attr(inode, file_size, num);
+ 	}
+ 
+-	num = outarg.size;
+ 	while (num) {
+ 		struct folio *folio;
+ 		unsigned int folio_offset;
+@@ -1879,7 +1882,7 @@ static int fuse_retrieve(struct fuse_mount *fm, struct inode *inode,
+ 	num = min(outarg->size, fc->max_write);
+ 	if (outarg->offset > file_size)
+ 		num = 0;
+-	else if (outarg->offset + num > file_size)
++	else if (num > file_size - outarg->offset)
+ 		num = file_size - outarg->offset;
+ 
+ 	num_pages = (num + offset + PAGE_SIZE - 1) >> PAGE_SHIFT;
+@@ -1961,6 +1964,9 @@ static int fuse_notify_retrieve(struct fuse_conn *fc, unsigned int size,
+ 
+ 	fuse_copy_finish(cs);
+ 
++	if (outarg.offset >= MAX_LFS_FILESIZE)
++		return -EINVAL;
++
+ 	down_read(&fc->killsb);
+ 	err = -ENOENT;
+ 	nodeid = outarg.nodeid;
 -- 
 2.53.0
 
