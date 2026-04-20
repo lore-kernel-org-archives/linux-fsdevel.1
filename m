@@ -1,143 +1,82 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-132.freemail.mail.aliyun.com (out30-132.freemail.mail.aliyun.com [115.124.30.132])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5355B2D9EDC
-	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Apr 2026 06:16:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C363438236A;
+	Mon, 20 Apr 2026 06:28:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.132
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776665800; cv=none; b=X6TxrnNdVJopX37MEBX81lmPLa2Y2a4V1hmL639hRwPO5hWizXDFaDMYZxVPrWSTHO50RMzZ4O5uG6H4tu17ICTmQQyXqPGKKHbItKUb5SGgmf7zefJEQtZsoEdK0thIpHnvZOSme2R8s8McKVJ00bB5S8Zn5J37aa1sRQXNhQk=
+	t=1776666539; cv=none; b=A1Qq81X53MFKIDa8qaH/uJP34Q0XjicE6mt1tET20evgFs0lXfAIV4naS13xywgbw434sXdbo2719kGJx1sBQi0Mz0RUdjouOEleIk5IQUtCPOAXu8I4rE/LFsehBFW7MnYVT6u8tTgyt8Ni/kKoLQl7Nv/z2xag8/2i+PJkKqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776665800; c=relaxed/simple;
-	bh=l3l5LStnrkBdnCMkbwCq/lTh+1cpa2xztmlxm2P6lrg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Lzo0bVmsacNUJ1q6LIifOYAXUUievN/6ulDAhv8oPxZ4AY+YfvuG+4Cr7QRs5j3rsaXI4pDYR6s6O8sKw7ukpEhOZ9nEFlBlAJ5YfPOPznpMuffAPPc86m8ImcuFvCGGIgI15oCmWf/GyVLXsWcda42jsvvSjFKUCO8E2Zh3BWU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LnZ4j5QA; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776666539; c=relaxed/simple;
+	bh=OdWyKFIb5pu7/v7CzaMNErLs/PS+/JzianHuO70VLCE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Bf1OKE16lJMU7sidnKI5JRvhfv5ox5Ks3Z8lDaxIjJFv7hBYFfEL8rWihr+DkchgYkNhXv3NaaLqqbWSgHlIbbSwhSlbqbr39wIdMH7geMLESMY7MdGOK2d7fHwukBQeNvqDZIiZAvcve72vxow4f7RRVIlPtmHClHe+FA4jeSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=p38bcaUh; arc=none smtp.client-ip=115.124.30.132
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LnZ4j5QA"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2b24fede2acso15934375ad.3
-        for <linux-fsdevel@vger.kernel.org>; Sun, 19 Apr 2026 23:16:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776665798; x=1777270598; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sq8jVjaQsEQ037YnID8m/bdOr18FV4DJuvGfBEXqq74=;
-        b=LnZ4j5QAGU9lxr4ThzR3NWilS8l0d1Wxnb87+ltQeGp4VmTGkP9gN5//CoaAKoYHHx
-         XhEfKa9+5jkhV6TNEd694cXefTyv+YmpYxugD9Xwjv2RnS7ukKlYBJNDOr/UfyNlC9nD
-         FuUsTjt+39epxCjHPmNEd3I/E4gXyQczOhNluibtmjKLAU9UFa786+XIk+t/AmHJNfzD
-         aenFiA/2iNIXVLBnJ/gb2WyLQu/5vk/Hphz2rHR0VGQ+H877Y5ylntnby9RvMuFoNU0J
-         5NiSSFzO4ZI6lgWhNOVGfjQoME97zbyDkusHX2HJh216v663dW51mL2Q03c5TnQmv38A
-         6jPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776665798; x=1777270598;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sq8jVjaQsEQ037YnID8m/bdOr18FV4DJuvGfBEXqq74=;
-        b=PBm913ImjYtKZizMjhWlr3eJ2HrJKABS3+h9trVtuenXJbGl43boLToW3XX4+G6LZt
-         XQICGMrT0W0tEDbIDTkZ26UsW6lHFMAucHsZADisr+BMnSYCsBuMVZpvjp924dTSIXPc
-         V4yxIDr059o2A8+oo22nkjrQXhZLCgc7+gQ0uCF6qQC73rOJEsJsV3DY63lIbArTRa7S
-         Kmf8xVvzkxQrY9TkIYy48BI9uwAjOMqrXWO4DR5PNTF4TEaxznx30TQDe4Iho2oJKcZj
-         kmTw0qcJ/7QCSxaMXnpyTMEfv9UHd4t+RRIMOsAovA/GpV2T6JFL+MOUQ6Gjd8H0K92F
-         M5pQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9gN7Xl7VZxd/G6dsmuOxm+3+FtZR/Fl9rD9/jGzFxFZL0xR4FnJnyk5ldBPVSYGAHrsjQMbQn+uAAyxZV6@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw0hN2Ko4+23nK+Fp9jrwhxzIgQzMgIciZDzTRDOopLZGe+apht
-	DxD2ua2DntVo6x9LMGv4BclFPHKoZZOhBEw5ury6QcAvWYyK/vk8mQ3Ckpo/89xmnJg=
-X-Gm-Gg: AeBDietSLPBeXqyaCPwZ0TmGn2uQhqVu33VGmI8MPYchczZ5qbmt3imppMDZDg3L2IQ
-	7St4fBEEHP4Q+pno98E0D2giLUT00tgrgZCWUsTbVUwAT6N42qL4CDZifPcY571+bBf0U8mK58Y
-	6yZCvIS2YJ1HlMjXlOxKd5wN16KtH4Y5gUtzd5yeTxmj8+FjisCy+KHS7oVNEBmb6eKr2AvGJk+
-	Bmrb2o2JDCAY4cizV+LEzkIaPlBr7YHYJXM5rtsMqJhIIj2w5eSdX5umRVo/bBU1FHBtHDWNlVe
-	5vVRpslCL5fCf++wQ3x+TVFklIbxRx1vh/MRIYQOQA8tR1ZUJICtV8uAkyOYWg8RbOUhLRsamBm
-	la9jYTf38CDGPmBmWa89fTpLFjKAQ8Amiok7TqhuMOazLM/JEu3IpfBNVykWxyhNaf1ehjCX/Y2
-	1eqrhTJLThaWgE7Jb8R60Hp8MgW9nij0TB1Vba+CDfiFa8RWlpeGHYU5NOeeM5Iux70A==
-X-Received: by 2002:a17:902:d590:b0:2b0:608d:d8a8 with SMTP id d9443c01a7336-2b5f9e8e4a9mr122014005ad.1.1776665798486;
-        Sun, 19 Apr 2026 23:16:38 -0700 (PDT)
-Received: from localhost.localdomain ([2408:8740:c4ff:1::4])
-        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-2b5fa9ff8d6sm88586055ad.1.2026.04.19.23.16.35
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 19 Apr 2026 23:16:37 -0700 (PDT)
-From: Fengnan Chang <fengnanchang@gmail.com>
-X-Google-Original-From: Fengnan Chang <changfengnan@bytedance.com>
-To: brauner@kernel.org,
-	djwong@kernel.org,
-	hch@infradead.org,
-	linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-ext4@vger.kernel.org
-Cc: lidiangang@bytedance.com,
-	Fengnan Chang <changfengnan@bytedance.com>
-Subject: [PATCH v2] iomap: avoid memset iomap when iter is done
-Date: Mon, 20 Apr 2026 14:16:30 +0800
-Message-Id: <20260420061630.62077-1-changfengnan@bytedance.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="p38bcaUh"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1776666528; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=TnJNP5Zf8rEkIUqerK5GYr5N8IvbRMuI+6hpj6QnM5w=;
+	b=p38bcaUhgMWqkddM9RWWJyS8C+mR0DeDj4yF5EVgaTUxWFxOrAXfZgjsBxlyMO9EWXRZBYUwopcZw7kR+jGl7VC1OGTHJ+m+uEdbvlhTT42ttySwKz2/LieLhhED6xsAi0efWuOn6dUmeXNdqmngvuO5bdtwNfm3qy1ZyF+HwHk=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R721e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037033178;MF=baolin.wang@linux.alibaba.com;NM=1;PH=DS;RN=27;SR=0;TI=SMTPD_---0X1I6o8n_1776666524;
+Received: from 30.74.144.127(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0X1I6o8n_1776666524 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Mon, 20 Apr 2026 14:28:46 +0800
+Message-ID: <78a05609-05f3-4b2f-861c-30dab49083c1@linux.alibaba.com>
+Date: Mon, 20 Apr 2026 14:28:44 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 7.2 v3 02/12] mm/khugepaged: add folio dirty check after
+ try_to_unmap()
+To: Zi Yan <ziy@nvidia.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Song Liu <songliubraving@fb.com>
+Cc: Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Shuah Khan <shuah@kernel.org>, linux-btrfs@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, linux-kselftest@vger.kernel.org
+References: <20260418024429.4055056-1-ziy@nvidia.com>
+ <20260418024429.4055056-3-ziy@nvidia.com>
+From: Baolin Wang <baolin.wang@linux.alibaba.com>
+In-Reply-To: <20260418024429.4055056-3-ziy@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-When iomap_iter() finishes its iteration (returns <= 0), it is no longer
-necessary to memset the entire iomap and srcmap structures.
 
-In high-IOPS scenarios (like 4k randread NVMe polling with io_uring),
-where the majority of I/Os complete in a single extent map, this wasted
-memory write bandwidth, as the caller will just discard the iterator.
-Use this command to test:
-taskset -c 30 ./t/io_uring -p1 -d512 -b4096 -s32 -c32 -F1 -B1 -R1 -X1
--n1 -P1 /mnt/testfile
-IOPS improve about 5% on ext4 and XFS.
 
-However, we MUST still call iomap_iter_reset_iomap() to release the
-folio_batch if IOMAP_F_FOLIO_BATCH is set, otherwise we leak page
-references. Therefore, split the cleanup logic: always release the
-folio_batch, but skip the memset() when ret <= 0.
+On 4/18/26 10:44 AM, Zi Yan wrote:
+> This check ensures the correctness of collapse read-only THPs for FSes
+> after READ_ONLY_THP_FOR_FS is enabled by default for all FSes supporting
+> PMD THP pagecache.
+> 
+> READ_ONLY_THP_FOR_FS only supports read-only fd and uses mapping->nr_thps
+> and inode->i_writecount to prevent any write to read-only to-be-collapsed
+> folios. In upcoming commits, READ_ONLY_THP_FOR_FS will be removed and the
+> aforementioned mechanism will go away too. To ensure khugepaged functions
+> as expected after the changes, skip if any folio is dirty after
+> try_to_unmap(), since a dirty folio means this read-only folio
+> got some writes via mmap can happen between try_to_unmap() and
+> try_to_unmap_flush() via cached TLB entries and khugepaged does not support
+> writable pagecache folio collapse yet.
+> 
+> Signed-off-by: Zi Yan <ziy@nvidia.com>
+> ---
 
-Signed-off-by: Fengnan Chang <changfengnan@bytedance.com>
----
- fs/iomap/iter.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/fs/iomap/iter.c b/fs/iomap/iter.c
-index c04796f6e57f..e4a29829591a 100644
---- a/fs/iomap/iter.c
-+++ b/fs/iomap/iter.c
-@@ -6,17 +6,13 @@
- #include <linux/iomap.h>
- #include "trace.h"
- 
--static inline void iomap_iter_reset_iomap(struct iomap_iter *iter)
-+static inline void iomap_iter_clean_fbatch(struct iomap_iter *iter)
- {
- 	if (iter->iomap.flags & IOMAP_F_FOLIO_BATCH) {
- 		folio_batch_release(iter->fbatch);
- 		folio_batch_reinit(iter->fbatch);
- 		iter->iomap.flags &= ~IOMAP_F_FOLIO_BATCH;
- 	}
--
--	iter->status = 0;
--	memset(&iter->iomap, 0, sizeof(iter->iomap));
--	memset(&iter->srcmap, 0, sizeof(iter->srcmap));
- }
- 
- /* Advance the current iterator position and decrement the remaining length */
-@@ -102,10 +98,14 @@ int iomap_iter(struct iomap_iter *iter, const struct iomap_ops *ops)
- 		ret = 0;
- 	else
- 		ret = 1;
--	iomap_iter_reset_iomap(iter);
-+	iomap_iter_clean_fbatch(iter);
-+	iter->status = 0;
- 	if (ret <= 0)
- 		return ret;
- 
-+	memset(&iter->iomap, 0, sizeof(iter->iomap));
-+	memset(&iter->srcmap, 0, sizeof(iter->srcmap));
-+
- begin:
- 	ret = ops->iomap_begin(iter->inode, iter->pos, iter->len, iter->flags,
- 			       &iter->iomap, &iter->srcmap);
--- 
-2.39.5 (Apple Git-154)
-
+LGTM.
+Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
