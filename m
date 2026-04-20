@@ -1,255 +1,345 @@
-Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010017.outbound.protection.outlook.com [52.101.61.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6106633C52F;
-	Mon, 20 Apr 2026 14:58:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.61.17
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776697089; cv=fail; b=O7vkmhiSeuLujb9UcuN1QJipOH8fbjmsNX9DGqr4bq5I7amZ7MA10o6pqQoZfKriZ3FFQ5L+5m/TVgzDc5JTcZrDi07RHx0s94ZEgaCTRudVUjQ2MlcE8IgQ0UkBj0+oUAlSCotpNUAReoQ7UU2vl/KYm4wsU+GExNzcP2cnUdE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776697089; c=relaxed/simple;
-	bh=JVBYiGlyO9kZjFf+7YgZ9NB+fsedMh0KqtyScdgZ4iE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=PCjKkXmQcRc9RFe0Kc3FZ8AEjmYGVH/5dTSNFUwetDEMZ/vGWBCJUbd3E6eKA4u20J/N63FlwbaAmR11GRg8Zb+23/V0Mg4pgUlqVpE2CzkZxeh/sxhB3c5ToWnbryQB+4iq/tuSlyZz23K7XUnCz25nXJKa/kpQzHzpSYUO2b0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=eaAgl3op; arc=fail smtp.client-ip=52.101.61.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29EEF1A6831
+	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Apr 2026 15:06:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776697603; cv=none; b=OkshVa/ixQLfEj5ypcVxjhxC2B+T7IDYaBL0qBLfKJhxwvqBhR5StCPBoqCE7A20eE7odeWYhRcKDdbJvNAiIiE+fkIKG21zTjae8iCzQrd7KTmjVt6ojtP1ZMgDQ+lxAc8i4fS/8he5AOc+FOYcDL0NvV25uHrhBPwxxNZRvm0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776697603; c=relaxed/simple;
+	bh=LRjEwHW7zD5Q32957gtwpXILq8M118wzPW1fnBTCSZg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iz23dWwGCOrn8PERmVPBGsmwkV/Yet8KbHLV45qODed1lUAZ7DxfBU26m0gsRjVLIVxOH+10tTyivudMFuPOb6QQ3H69oIu1GL1pYRzrocsyD/6bKJA7ewn8WmS5jMsmj9JrEimA1D7Q99ORmPs9YE3LZ/Z2Yt7MaI7U3mN75+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YGklSX5C; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="eaAgl3op"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tp38ERwawBYzQmFGHwj9QCY2efsnu1AKpOAGi7JwjRi+dozvIudbujlETlYlzgiH5ukewLzjbjP5Ys62FUloLcNcoQsuhlvshUrl8yATjWS+EsuCu4t63BAMibTTy/w0+ucVLto4LuMc/vNrZpWD5CZQlsUIUhNKuTApXqMomRTvLNIAWqw1biY0fytO951s9sL4xCfbcfhMxGkUsOwFWtYYZgem9CpMxjerYy9aBKkYq8pvnrmmNXg22377nlNGFP5V0o587HL6KxQWT8mrBL8L25a2GGhrKCNMFqEMpkteYjkGFyz0Ubu33/YqG5p3P5n3k2mgOjPZoXuWoeyzFg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rV2ui5RiwbqnqhAG/H2cKfmgsW9iYVPlP17qHeTumio=;
- b=V3HKJoUVI5rX9mUPiwA/RGSUrxTqPaMatf4D3MduI+ahDcIUndHXTLXQEPkORM4sKP4bu/qMYKbc5iCc6swR3lIfZ8rPXi3sGcGy7ozx+bdvd7vu0b3POTVILZ5rX+yJebDnnzyVRfx7VGoMybWyRMEt/peVJSqgR1ckNqCl//JiWmHqfKuSFMLvR6hAxeh5SJjkmFgeUzopYZNkfsXd7Js+i/t6V/YlS1tf+Ls/JXEK5WCO95Ucewwrf2no2VYrypQD4PpnkDbH+BumbaqeZjQa5ul2cbnR7dsyuVig8d/vD67Hxeegld//jdRW9o0hxfAoQ76+eRizSZzhNjHZuw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rV2ui5RiwbqnqhAG/H2cKfmgsW9iYVPlP17qHeTumio=;
- b=eaAgl3op++ngnocs5RRBy0PYUEyirCCgtU8WhUS+XoGAewgf1Fwpx9p++qiy8Zn/+QuYeh5kZhVMxutjdTBeLWP7F2eE/IauuS3F/xwfMUE4Zow65CjkFDr5qmuMS2Reeaxs3UuPQ27DhieNa8GBs/l9iQGh7AVtTsbHFI3qaKXDIODBP5FdofRj9LEs5FDyCn7OE/BH3fSDM7gbaP8dyvcLe6mqzB1uixb1I25Kp69ubXdonN+HNW9wk0KVAdxPEKwrmTO+Ycm90NUf6w6bwbn0ZgYiA2nCNmB+jdfIv/1hpKPBoXCSGbt6gokK0MmYWGLnUvfoun+peDCEOmVDNw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
- CY8PR12MB8065.namprd12.prod.outlook.com (2603:10b6:930:73::16) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9846.15; Mon, 20 Apr 2026 14:58:00 +0000
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::f01d:73d2:2dda:c7b2]) by DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::f01d:73d2:2dda:c7b2%4]) with mapi id 15.20.9846.014; Mon, 20 Apr 2026
- 14:58:00 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: Baolin Wang <baolin.wang@linux.alibaba.com>
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Song Liu <songliubraving@fb.com>, Chris Mason <clm@fb.com>,
- David Sterba <dsterba@suse.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Shuah Khan <shuah@kernel.org>, linux-btrfs@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH 7.2 v3 04/12] mm/khugepaged: remove READ_ONLY_THP_FOR_FS
- check in hugepage_pmd_enabled()
-Date: Mon, 20 Apr 2026 10:57:29 -0400
-X-Mailer: MailMate (2.0r6290)
-Message-ID: <E7EBC528-C511-4166-89F3-654171383646@nvidia.com>
-In-Reply-To: <b228baf2-0dcd-4135-bab9-04d979b6e617@linux.alibaba.com>
-References: <20260418024429.4055056-1-ziy@nvidia.com>
- <20260418024429.4055056-5-ziy@nvidia.com>
- <b228baf2-0dcd-4135-bab9-04d979b6e617@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: BL1PR13CA0412.namprd13.prod.outlook.com
- (2603:10b6:208:2c2::27) To DS7PR12MB9473.namprd12.prod.outlook.com
- (2603:10b6:8:252::5)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YGklSX5C"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-ba545100a13so379652366b.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 20 Apr 2026 08:06:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776697599; x=1777302399; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=yhdlhUK19Vk8JRVgTy/e3sNLolS2Bic7wgwwPDzPJt4=;
+        b=YGklSX5CQ8blxNa4fTpy+bo+DwV6cV0JM+mVQK8k5Qb7CuklKTGdLdT2pa5/sYu2PL
+         yzh9nB3gsDHEV+my0ezNnV5GJ7Uw2zmJYBzNqhjMECWvnEQWS96W2LbZCBUQWuzcHFmi
+         QzyHd1WozEwJlhrUzjDHA5K36BQPToZ1Etzc5tM0/TYvAilXLij8on7xV42g26vfLRa+
+         8dfjzcFODcxQLruJdh5vphcz1mbK4GBzMMPlCvUFyt0E6Whn3o0JUCWFQiIf4Tj4ruOo
+         2dnvCFT9V2vd5qaJbdqc9kamKuHQorGIknuJh2v2uo0uR4+k866yLWMqWDNjrifd+3m3
+         DpUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776697599; x=1777302399;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yhdlhUK19Vk8JRVgTy/e3sNLolS2Bic7wgwwPDzPJt4=;
+        b=ZjeGNA7Q3bJTASGnOAQd7JxC5+M/ASFjSCemyuq4uOkDICGppevcZ1ml6CgWdgvAN6
+         gia21C3UJfhLvJpmOlCIm92EetI+KeOqrXVMd3h3UvhHB3mnPfFpuO/5K6JkGxMpJae1
+         M1Wfut/SEQvdidSAPq9IGDnx3dseaFU6zOYxYNI28ig6PsIfLAaK/6D75JXBpAQjw0Wj
+         NmLTKswLIYFcx9aYUBPWz+aUfag59FW/9HvAQJ4VOZWTr8QowQvCOtGluOwMTMiNutck
+         U4Ygpu9Fx9doyLZSQEgKmzZsyw5bron2tUfCRDpKbZZ5/oLYwIE8HfnC/OhgvTLo8U39
+         QeoA==
+X-Forwarded-Encrypted: i=1; AFNElJ8uQVUmG0jYmUvNR8+4FaF/1orsHC5WsWYC/XRr/CT0gM89LsoYWDhTw8MtxfSlFFYlcQErxAdm/qAoj3hB@vger.kernel.org
+X-Gm-Message-State: AOJu0YwLQrXfWvFx9c3zAlIjMNDXfxF0uN7hHcFGLFQHpkNtTgfZfNxT
+	eOz1xbGn2xJQbDVfsLfGhaFVH+bmAjGN0En+sHXsU+D5h/Uxwya1JDUy
+X-Gm-Gg: AeBDieuJOwZv9lsGp7Lv10AcASyc3DF1Q5tOmrlxken0J6k9h+oiGx1LLpX1j6xS452
+	1pFLp9SsHJl9VS1ITxd7z+wYpSNY6Jfz6yEp0cYiB9BEsz+Zc0IEuWBSFT2LxhKX1Ho0+p7iJU5
+	AlfFC7HABffKfq3/jeYXDuxOblAR8jVeVbs6miS9qgkwYkxJ9W96cFXoNm6ylGeYbLV9ImpYlOH
+	4s9uS5jH/t3FDAM7/1veP7x3Sy9Jd1fJJXakTXg5yAg6sdJXwwDaSbfEycehQ7aaOF2Dr6dEQly
+	W3nHK+KMLzt6c6Idbal8hVGYcVYDC5kHdcvqd1u2xyAQ+JTy9Uj5TeClIfRuSVWfwT7xl4mcYfg
+	DJ4BpblRa6/le9+MXbGS0cmT7jtS4FF7ESzSkb46kfU27su+PEgu/BQ0fJVN0dKgOhx+cw4vJ/V
+	pgoGQyvjFl1T6XHQ1a4a0T7DHgtEBAHMltByFA9FMI1qbAAHhtQfUwCiwx8Bs=
+X-Received: by 2002:a17:907:b815:b0:b9d:3b68:954c with SMTP id a640c23a62f3a-ba41a044056mr632325066b.24.1776697598916;
+        Mon, 20 Apr 2026 08:06:38 -0700 (PDT)
+Received: from localhost (ip87-106-108-193.pbiaas.com. [87.106.108.193])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4e4d112sm33337490f8f.29.2026.04.20.08.06.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Apr 2026 08:06:38 -0700 (PDT)
+Date: Mon, 20 Apr 2026 17:06:32 +0200
+From: =?iso-8859-1?Q?G=FCnther?= Noack <gnoack3000@gmail.com>
+To: =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
+Cc: Christian Brauner <brauner@kernel.org>,
+	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
+	Paul Moore <paul@paul-moore.com>,
+	"Serge E . Hallyn" <serge@hallyn.com>,
+	Justin Suess <utilityemal77@gmail.com>,
+	Lennart Poettering <lennart@poettering.net>,
+	Mikhail Ivanov <ivanov.mikhail1@huawei-partners.com>,
+	Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>,
+	Shervin Oloumi <enlightened@google.com>,
+	Tingmao Wang <m@maowtm.org>, kernel-team@cloudflare.com,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-security-module@vger.kernel.org
+Subject: Re: [RFC PATCH v1 00/11] Landlock: Namespace and capability control
+Message-ID: <20260420.aaab9bf39ef8@gnoack.org>
+References: <20260312100444.2609563-1-mic@digikod.net>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|CY8PR12MB8065:EE_
-X-MS-Office365-Filtering-Correlation-Id: 739a8025-12cf-4cec-64d7-08de9eed36d9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|366016|1800799024|18002099003|22082099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	1zx3+u5OeTfU7z5v9ZNQGQITBtUPTwvtFVEgNuojQg2bT7GEmfUCgRPrBmQ32LxY7Q91v2xp5JxbBO2cvIGRajbcSHvl+QK80FkmKjqrCXlikBbXcfsbbB1sfzPRh7nLVAVns5eT2niSAYBTbg6mY/8gCUyird0dzzkQYCWan2sqWeYgBOFNS3GV+NaNvEGLPR11/Kf8CmyERNCRYZLDGFF2dktxWk6ZJaB5F88a5rMKbiNdCO6anqZvwgRXaP7ERZKmZla3p+MBOLo7vg+kDD4xZNrh76IA8xRYuYU2HqfWYT/r7vpqROukhxRFayRLQgZ0AYI4Me8m0adEPDwpl6jYdgr9cSecU4nVDoRxOFFLBoiLEDzOlRMGmdxtAarJkZAekdWa4uxq41kYgIv6CEfXzQyQxmdJXI2cpQiCtTIHAxPyKkFUPO6W6enN8BuWiCmdvomtqXrqAkfJHl3ro/R0juQlII2+Am+HxHitZjWkZ6g1QAUIotZrkx7g+2LgZk8NVC/pOjH7t13ySu3ccagDWZokgBD6sxBCZTuaMIgrgIJ/Gq584h1FuP6GtRn6E97WanKka7PIZ78QBpcS+PPxUBRBRffYh4ilHTrcJsLjSB0Mxl7DffvQoxz8ysCQrFnlrxFGQwXW4mVErf4F3G6NNTbYSbjpFNqXVx0bqabdW0mXrHHqU+m2VBTg3RqO0Nui5cn5HU2PT1Xgm9FNwGaSNIHB+51yvpoio55v2YA=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?K2pUSGNLdjh1QzNUMVJvTDk0WHBZbUpmSldiVVArUDMzL1lXNDN5a0N5NHlH?=
- =?utf-8?B?clg3VHdnUDlwT05EZWoxNDJnelROWlpZeUF0a3FtbE9XYVV2OVBMYXVub0xl?=
- =?utf-8?B?ZUQrRnE1SThDOFA1WDF4djFSMjR6UTNHbXE2K3lKQ1UwOUJzNU54M2wwemc1?=
- =?utf-8?B?bDBnWnFYZjIxbC9hUnpZM1R6cEd5eHdiQmY4WWhKN0VkSDRYWXlYMGIxVEZa?=
- =?utf-8?B?blNUYUZJUjFQSi9aSmdaR3BEYUo1QS9CdjhtSEo1OWFMU0g5SEx6R20xaDhL?=
- =?utf-8?B?VHgwdHlSZzIxUzQ1VW8vZ1lYTnhxZjZuTlJhVnF0YndqYStENndSd2t0WUpu?=
- =?utf-8?B?SWg5cEJLRlpFYmFCaVQzWFlNU09pQ2QzelVNUmVLQzg5V05PSnRxYTkweXhR?=
- =?utf-8?B?N3NtMnJzY21lTk1CcTZmVGV5OE4ybTRaa1dYNWNPK1d2KzVUVTBLdUhMSHRm?=
- =?utf-8?B?QUt2SW1ncVE2Q0d2R3lva3l3NkptTTkwRzQ3UDVPSVMzVnNvdlVmQ2J0UzFm?=
- =?utf-8?B?OGdwQ2M4dmhFTHJkN3V3a1RiYUlxeXZPVFYwN2FyaFNoSmJtaWZSc0dHQTlJ?=
- =?utf-8?B?UE45R2tTSVFsbDFWaTJnUmhwcmVzLzlhWVhMNUhld29jN3ozRXU0YStXQXlP?=
- =?utf-8?B?SG02WmtHMlVCK0kzYzh6UzgyeFE5cGk2ZDFyQVlxMjYrdDcxTDRtZ0pJM3BG?=
- =?utf-8?B?c3d1TGhXcWZ6YWVXeUdveHRydnNCby9nQi80NHZUcjNqTWkwRWdIQmdlbmpH?=
- =?utf-8?B?NjRJWW5hdDZycFJ1dHZmM1BjOVhMYmlqZnVxK0dGcXNYc01mUDhVUUwzcXhl?=
- =?utf-8?B?RlBHc29xWHB6MFA2WG9wK2xHUmxXa3JmVGlxQ21DeHJLMzZzNWJ4WVA1WUlF?=
- =?utf-8?B?MnpTYXRrYUhxR1phd1B6RGs5NTJ6V2NyKzZvOTdSVGFZYkVlV2RaVHN0eHZ3?=
- =?utf-8?B?QmdpRElHeDczc1dGRUVOUkhFYUVVeEo3YUVJUHRsa2d2NitKNFBmeEdvWEZF?=
- =?utf-8?B?aDRsT3dTdHpjb081Y2JSZFV1VnJoNCszMi82bEpQTkJZUDkrTUpuUUNMVU5R?=
- =?utf-8?B?NGhodzVyRFRlNHJwbHhaYk5IdlAxNlhKaUgwMWNHZzBSbCtLNkdpY3huNGdv?=
- =?utf-8?B?NmM1Z0JmT2I0bm0wcWQ2NmE5eW1VbjdzRXl2TmZvV3RYOEFTekVmY05Ea0U3?=
- =?utf-8?B?R25qYytqTnliSUhnSHdCUEtuZVlsemQzUXlaY2ZkdFFsL0cvTStPSUpoSEpS?=
- =?utf-8?B?dWg3UlhMaEFwVmk4N0J5YzM0RXd5RHBhZGQxUnZEQS9UTG5RR0RJRHFEYjFi?=
- =?utf-8?B?bjNKN2dWN21JNU8xRGFXUnNhSDUwM0RLVDlMVFZackRLVjRJZGU3YUYzbW1E?=
- =?utf-8?B?RnpacnZqL2tsRndIejE1VCtsMm5KbGE0Tzc2WlJGN1oxRFlBTyt6ZzVxbEs0?=
- =?utf-8?B?NnRIZTZQSHVWTjZXTW1JaVA4Wk0xanBMZzNkWkcya3hFeVU3VzRBa3RITkRz?=
- =?utf-8?B?ZXBGZmc3eWFyUGFzektuTzVNNXIySmd1bXA3L2VkM2FnVHV2RXIwaFA4dEI0?=
- =?utf-8?B?Slc0aFBLZE9ZUW1QS282VFk0SXhHbHdDYVdyRFh1Mm9kaUhpWUJueU5LY25m?=
- =?utf-8?B?SVc1THpNbFRKVVpFL0NkeHZqdzdIREk2cW1yaUIxWWRWOUhMa0NPZHplaGZI?=
- =?utf-8?B?UjF2WG16Vmo4L09yOVlqQm1DeTdjaE0ySVNrL0xzeUoyaUQ4eDU1QlVneFlo?=
- =?utf-8?B?MTR1bXpBWDhwVXczaFBmbDZKelNHUHNGdFR0dEJnU3FBTVdsdy80Y1dWK0JB?=
- =?utf-8?B?bzZycm5JNHFManI0Uy9WbDFUNzdDeGkrcm5GVElpaWNld2R3TFVwQVRiM1lz?=
- =?utf-8?B?RWNXeDYrbzZoelJNbHBuTnlZR1FNeWtMWElxY2pjZ09ta0prQWVoamxnajUr?=
- =?utf-8?B?R2hmaGVzR0xyS2NYS3R2T1RqQ090RlNxQVR6OXFKOXlxc3Y3OFFZZjg3ZWZY?=
- =?utf-8?B?d3Y2NStxcThFZEdXSURzdjEwWExrVVNma0V6VHR2bXk5azFPbmhocUZTZ0F2?=
- =?utf-8?B?Q1lLUUZCTkk0QUJFeUJrVFRLOWNseGFaZU9yUXYySFZLRzhMSXplN0R4OWhw?=
- =?utf-8?B?Vy80eS9HbHRhWWRRUW90dTdoVlNPa1FUN0hHNXBCL1ZBWnpyN2xoS084S0pq?=
- =?utf-8?B?OFpYMU9zc3pvRitzYXJhckhLdE56S3NnaGwzVlVSZjNMU2hpTTh0SnJPaU52?=
- =?utf-8?B?STc3MGJDbFpSM2g0TWR2WVJ2anZyOTVseTVPZVlMMVBMYmdIa3h1MFF2ei9H?=
- =?utf-8?Q?PrjBiEVHWDiYn34YCP?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 739a8025-12cf-4cec-64d7-08de9eed36d9
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2026 14:57:59.9889
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jOwWt+nwr1Zvu6eSNsWyU4NHYWW5tf401AU2djEYznYR05953FvZxjlS8RCW+T7N
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB8065
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260312100444.2609563-1-mic@digikod.net>
 
-On 20 Apr 2026, at 2:55, Baolin Wang wrote:
+Hello!
 
-> On 4/18/26 10:44 AM, Zi Yan wrote:
->> Remove READ_ONLY_THP_FOR_FS and khugepaged for file-backed pmd-sized
->> hugepages are enabled by the global transparent hugepage control.
->> khugepaged can still be enabled by per-size control for anon and shmem w=
-hen
->> the global control is off.
->>
->> Add shmem_hpage_pmd_enabled() stub for !CONFIG_SHMEM to remove
->> IS_ENABLED(SHMEM) in hugepage_pmd_enabled().
->>
->> Signed-off-by: Zi Yan <ziy@nvidia.com>
->> ---
->>   include/linux/shmem_fs.h |  2 +-
->>   mm/khugepaged.c          | 28 ++++++++++++++++------------
->>   2 files changed, 17 insertions(+), 13 deletions(-)
->>
->> diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
->> index 1a345142af7d..dff8fb6ddac0 100644
->> --- a/include/linux/shmem_fs.h
->> +++ b/include/linux/shmem_fs.h
->> @@ -127,7 +127,7 @@ int shmem_writeout(struct folio *folio, struct swap_=
-iocb **plug,
->>   void shmem_truncate_range(struct inode *inode, loff_t start, uoff_t en=
-d);
->>   int shmem_unuse(unsigned int type);
->>  -#ifdef CONFIG_TRANSPARENT_HUGEPAGE
->> +#if defined(CONFIG_TRANSPARENT_HUGEPAGE) && defined(CONFIG_SHMEM)
->>   unsigned long shmem_allowable_huge_orders(struct inode *inode,
->>   				struct vm_area_struct *vma, pgoff_t index,
->>   				loff_t write_end, bool shmem_huge_force);
->> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
->> index 1c0fdc81d276..718a2d06d1e6 100644
->> --- a/mm/khugepaged.c
->> +++ b/mm/khugepaged.c
->> @@ -406,18 +406,8 @@ static inline int collapse_test_exit_or_disable(str=
-uct mm_struct *mm)
->>   		mm_flags_test(MMF_DISABLE_THP_COMPLETELY, mm);
->>   }
->>  -static bool hugepage_pmd_enabled(void)
->> +static inline bool anon_hpage_pmd_enabled(void)
->>   {
->> -	/*
->> -	 * We cover the anon, shmem and the file-backed case here; file-backed
->> -	 * hugepages, when configured in, are determined by the global control=
-.
->> -	 * Anon pmd-sized hugepages are determined by the pmd-size control.
->> -	 * Shmem pmd-sized hugepages are also determined by its pmd-size contr=
-ol,
->> -	 * except when the global shmem_huge is set to SHMEM_HUGE_DENY.
->> -	 */
->> -	if (IS_ENABLED(CONFIG_READ_ONLY_THP_FOR_FS) &&
->> -	    hugepage_global_enabled())
->> -		return true;
->>   	if (test_bit(PMD_ORDER, &huge_anon_orders_always))
->>   		return true;
->>   	if (test_bit(PMD_ORDER, &huge_anon_orders_madvise))
->> @@ -425,7 +415,21 @@ static bool hugepage_pmd_enabled(void)
->>   	if (test_bit(PMD_ORDER, &huge_anon_orders_inherit) &&
->>   	    hugepage_global_enabled())
->>   		return true;
->> -	if (IS_ENABLED(CONFIG_SHMEM) && shmem_hpage_pmd_enabled())
->> +	return false;
->> +}
->> +
->> +static bool hugepage_pmd_enabled(void)
->> +{
->> +	/*
->> +	 * Anon, shmem and file-backed pmd-size hugepages are all determined b=
-y
->> +	 * the global control. If the global control is off, anon and shmem
->> +	 * pmd-sized hugepages are also determined by its per-size control.
->> +	 */
->
-> Personally, I found the previous comments clearer to me. The statement "A=
-non, shmem pmd-size hugepages are all determined by the global control" see=
-ms somewhat confusing. For example, if hugepage_global_enabled() returns tr=
-ue but the pmd-sized sub-control is set to 'never', that means anon pmd-siz=
-e hugepages are not allowed.
+On Thu, Mar 12, 2026 at 11:04:33AM +0100, Mickaël Salaün wrote:
+> Namespaces are a fundamental building block for containers and
+> application sandboxes, but user namespace creation significantly widens
+> the kernel attack surface.  CVE-2022-0185 (filesystem mount parsing),
+> CVE-2022-25636 and CVE-2023-32233 (netfilter), and CVE-2022-0492 (cgroup
+> v1 release_agent) all demonstrate vulnerabilities exploitable only
+> through capabilities gained via user namespaces.  Some distributions
+> block user namespace creation entirely, but this removes a useful
+> isolation primitive.  Fine-grained control allows trusted programs to
+> use namespaces while preventing unnecessary exposure for programs that
+> do not need them.
+> 
+> Existing mechanisms (user.max_*_namespaces sysctls, userns_create LSM
+> hook, PR_SET_NO_NEW_PRIVS, and capset) each address part of this threat
+> but none provides per-process, fine-grained control over both namespace
+> types and capabilities.  Container runtimes resort to seccomp-based
+> clone/unshare filtering, but seccomp cannot dereference clone3's flag
+> structure, forcing runtimes to block clone3 entirely.
+> 
+> Landlock's composable layer model enables several patterns: a user
+> session manager can restrict namespace types and capabilities broadly
+> while allowing trusted programs to create the namespaces they need, and
+> each deeper layer can further restrict the allowed set.  Container
+> runtimes can similarly deny namespace creation inside managed
+> containers.
 
-You are right.
-
-I will revert back to the old comment without =E2=80=9Cwhen configured in=
-=E2=80=9D like below.
-
-	/*
-	 * We cover the anon, shmem and the file-backed case here; file-backed
-	 * hugepages are determined by the global control.
-	 * Anon pmd-sized hugepages are determined by the pmd-size control.
-	 * Shmem pmd-sized hugepages are also determined by its pmd-size control,
-	 * except when the global shmem_huge is set to SHMEM_HUGE_DENY.
-	 */
-
->
-> The code changes LGTM.
-
-Thanks.
-
->
->> +	if (hugepage_global_enabled())
->> +		return true;
->> +	if (anon_hpage_pmd_enabled())
->> +		return true;
->> +	if (shmem_hpage_pmd_enabled())
->>   		return true;
->>   	return false;
->>   }
+I assume we are talking about an unrestricted systemd user session
+manager, which would not itself be restricted?  (If the entire user
+session were running under Landlock, users couldn't change their
+passwords with "passwd" any more, because of the no_new_privs
+requirement.)
 
 
-Best Regards,
-Yan, Zi
+> This series adds two new permission categories to Landlock:
+> 
+> - LANDLOCK_PERM_NAMESPACE_ENTER: Restricts which namespace types a
+>   sandboxed process can acquire: both creation (unshare/clone) and entry
+>   (setns).  User namespace creation has no capability check in the
+>   kernel, so this is the only enforcement mechanism for that entry
+>   point.
+> 
+> - LANDLOCK_PERM_CAPABILITY_USE: Restricts which Linux capabilities a
+>   sandboxed process can use, regardless of how they were obtained
+>   (including through user namespace creation).
+
+Given that you already went through multiple iterations here, I fully
+expect that I am overlooking something here, but based on the
+explanation, it's not clear to me why the capability control is needed
+in addition to the namespace control, to reduce the kernel attack
+surface.
+
+In my understanding the "attack surface" problem with user namespaces
+is that they allow unprivileged processes to gain CAP_SYS_ADMIN within
+that namespace, which unlocks access to code paths which were
+traditionally reserved for the (top level) root user.
+
+But then, to prevent that from happening, it seems that restricting
+access to user namespace creation would be sufficient?
+
+(Also, in some cases, I suspect it might be possible to break
+assumptions that more privileged processes make about filesystem
+layout if the user can change the mount layout.  But that is not an
+issue with Landlock, as we forbid changes to mounts and also require
+no_new_privs.)
+
+
+> Both use new handled_perm and LANDLOCK_RULE_* constants following the
+> existing allow-list model.  The UAPI uses raw CAP_* and CLONE_NEW*
+> values directly; unknown values are silently accepted for forward
+> compatibility (the allow-list denies them by default).  The Landlock ABI
+> version is bumped from 8 to 9.
+
+Compatibility question:
+
+For both permission categories, when they are "handled" in the
+ruleset, they default to denying *all* types of namespaces, and *all*
+types of capabilities.
+
+This is different to the handled_access_* rights, where we are
+requiring users to explicitly list all restricted rights as "handled",
+because the full list of available operations might be a moving
+target.
+
+Why is this not a problem for capabilities and for namespaces?  Both
+the list of capabilities and the list of namespaces has been expanded
+in the past.  What happens if a new capability or namespace is
+invented?  If these are evolved, is that backwards compatible for the
+existing users of these Landlock permission categories?
+
+
+> The handled_perm infrastructure is designed to be reusable by future
+> permission categories.  The last patch documents the design rationale
+> for the permission model and the criteria for choosing between
+> handled_access_*, handled_perm, and scoped.  A patch series to add
+> socket creation control is under review [2]; it could benefit from the
+> same permission model to achieve complete deny-by-default coverage of
+> socket creation.
+> 
+> This series builds on Christian Brauner's namespace LSM blob RFC [1],
+> included as patch 1.
+> 
+> Christian, could you please review patch 3?  It adds a FOR_EACH_NS_TYPE
+> X-macro to ns_common_types.h and derives CLONE_NS_ALL, replacing inline
+> CLONE_NEW* flag enumerations in nsproxy.c and fork.c.
+> 
+> Paul, could you please review patch 2?  It adds LSM_AUDIT_DATA_NS, a new
+> audit record type that logs namespace_type and inum for
+> namespace-related LSM denials.
+> 
+> All four example vulnerabilities follow the same pattern: an
+> unprivileged user creates a user namespace to obtain capabilities, then
+> creates a second namespace to exercise them against vulnerable code.
+> LANDLOCK_PERM_NAMESPACE_ENTER prevents this by denying the user
+> namespace (eliminating the capability grant) or the specific namespace
+> type needed to exercise it.  LANDLOCK_PERM_CAPABILITY_USE independently
+> prevents it by denying the required capability.
+
+Here, it is also not clear to me why LANDLOCK_PERM_CAPABILITY_USE is
+needed in addition to LANDLOCK_PERM_NAMESPACE_ENTER.
+
+Looking at capabilities(7), my understanding is that capabilities can
+only be acquired through:
+
+(1) user namespaces (prevented with LANDLOCK_PERM_NAMESPACE_ENTER)
+(2) execve (setuid or individual capabilities, prevented using
+    PR_SET_NO_NEW_PRIVS)
+
+...so if a process were to start out with no such capabilities,
+wouldn't that be enough to prevent it from gaining more?  Am I
+overlooking another way through which these can be acquired?
+
+The Landlock capability support adds a "filter" for the use of
+capabilities, but my understanding of the capability system was that
+it already *is* that filter.  As long as we prevent the acquisition of
+new capabilities, shouldn't that be sufficient?
+
+
+> Namespace restriction is enforced at two hook sites: namespace_alloc
+> (unshare/clone) and namespace_install (setns).  Together, these ensure a
+> process denied a namespace type cannot circumvent the restriction by
+> entering a pre-existing namespace via setns() on an inherited or passed
+> file descriptor.  When a domain handles both permissions, both must
+> independently allow the operation (e.g., unshare(CLONE_NEWNET) requires
+> both CAP_SYS_ADMIN to be allowed and CLONE_NEWNET to be allowed).
+> 
+> Design evolution:
+> 
+> The first approach added CAP_OPT flags to security_capable() to
+> distinguish namespace creation contexts.  This was too invasive and
+> would have required capability splitting (a dedicated CAP_NAMESPACE)
+> which does not help because the CAP_SYS_ADMIN fallback for backward
+> compatibility undermines the distinction.
+> 
+> The second stored the namespace creator's domain in the LSM blob and
+> used domain ancestry comparison in hook_capable() to bypass capability
+> checks for namespace management operations.  A SCOPE_NAMESPACE flag
+> restricted setns() by the namespace creator's domain, like SCOPE_SIGNAL.
+> Both were dropped: scopes should only concern Landlock properties
+> (domain relationships), not kernel namespace state; and the
+> cross-namespace heuristic (ns != cred->user_ns) did not accurately
+> identify namespace management operations.
+> 
+> The final design drops all of this.  The key insight is that
+> capabilities gained through user namespace creation are only exercisable
+> against namespaces of a specific type: creating a network namespace is
+> what makes CAP_NET_ADMIN exercisable.  LANDLOCK_PERM_NAMESPACE_ENTER
+> controls where capabilities are exercisable by restricting which
+> namespace types can be acquired.  LANDLOCK_PERM_CAPABILITY_USE controls
+> which capabilities are available, as a pure per-layer bitmask check with
+> no namespace awareness.  The two are independently enforced at their own
+> hook sites, with no interaction in hook_capable().  No scope flag is
+> added in this series.
+> 
+> Note that when Landlock filesystem restrictions are in use, mount
+> namespace creation has an inherent limitation: all mount topology
+> changes are denied when any filesystem right is handled, which is
+> optional.  A dedicated mount access control type is left for future work
+> [3].
+> 
+> https://lore.kernel.org/r/20260216-work-security-namespace-v1-1-075c28758e1f@kernel.org [1]
+> https://lore.kernel.org/r/20251118134639.3314803-1-ivanov.mikhail1@huawei-partners.com [2]
+> https://github.com/landlock-lsm/linux/issues/14 [3]
+> 
+> Christian Brauner (1):
+>   security: add LSM blob and hooks for namespaces
+> 
+> Mickaël Salaün (10):
+>   security: Add LSM_AUDIT_DATA_NS for namespace audit records
+>   nsproxy: Add FOR_EACH_NS_TYPE() X-macro and CLONE_NS_ALL
+>   landlock: Wrap per-layer access masks in struct layer_rights
+>   landlock: Enforce namespace entry restrictions
+>   landlock: Enforce capability restrictions
+>   selftests/landlock: Drain stale audit records on init
+>   selftests/landlock: Add namespace restriction tests
+>   selftests/landlock: Add capability restriction tests
+>   samples/landlock: Add capability and namespace restriction support
+>   landlock: Add documentation for capability and namespace restrictions
+> 
+>  Documentation/admin-guide/LSM/landlock.rst    |   19 +-
+>  Documentation/security/landlock.rst           |   80 +-
+>  Documentation/userspace-api/landlock.rst      |  156 +-
+>  include/linux/lsm_audit.h                     |    5 +
+>  include/linux/lsm_hook_defs.h                 |    3 +
+>  include/linux/lsm_hooks.h                     |    1 +
+>  include/linux/ns/ns_common_types.h            |   47 +-
+>  include/linux/security.h                      |   20 +
+>  include/uapi/linux/landlock.h                 |   89 +-
+>  kernel/fork.c                                 |    7 +-
+>  kernel/nscommon.c                             |   12 +
+>  kernel/nsproxy.c                              |   21 +-
+>  samples/landlock/sandboxer.c                  |  164 +-
+>  security/landlock/Makefile                    |    2 +
+>  security/landlock/access.h                    |   72 +-
+>  security/landlock/audit.c                     |    8 +
+>  security/landlock/audit.h                     |    2 +
+>  security/landlock/cap.c                       |  142 ++
+>  security/landlock/cap.h                       |   49 +
+>  security/landlock/cred.h                      |   47 +-
+>  security/landlock/limits.h                    |    9 +
+>  security/landlock/ns.c                        |  188 +++
+>  security/landlock/ns.h                        |   74 +
+>  security/landlock/ruleset.c                   |   23 +-
+>  security/landlock/ruleset.h                   |   53 +-
+>  security/landlock/setup.c                     |    4 +
+>  security/landlock/syscalls.c                  |  124 +-
+>  security/lsm_audit.c                          |    4 +
+>  security/lsm_init.c                           |    2 +
+>  security/security.c                           |   76 +
+>  tools/testing/selftests/landlock/audit.h      |   29 +-
+>  tools/testing/selftests/landlock/audit_test.c |    2 -
+>  tools/testing/selftests/landlock/base_test.c  |   20 +-
+>  tools/testing/selftests/landlock/cap_test.c   |  614 ++++++++
+>  tools/testing/selftests/landlock/common.h     |   23 +
+>  tools/testing/selftests/landlock/config       |    5 +
+>  tools/testing/selftests/landlock/ns_test.c    | 1379 +++++++++++++++++
+>  tools/testing/selftests/landlock/wrappers.h   |    6 +
+>  38 files changed, 3487 insertions(+), 94 deletions(-)
+>  create mode 100644 security/landlock/cap.c
+>  create mode 100644 security/landlock/cap.h
+>  create mode 100644 security/landlock/ns.c
+>  create mode 100644 security/landlock/ns.h
+>  create mode 100644 tools/testing/selftests/landlock/cap_test.c
+>  create mode 100644 tools/testing/selftests/landlock/ns_test.c
+> 
+> 
+> base-commit: 5dfb8077be2bbe2c3b9477da759e80fa9f98da42
+> -- 
+> 2.53.0
+> 
+
+FWIW, I have also skimmed through some of the code and documentation
+and the code seemed very clean so far.
+
+–Günther
