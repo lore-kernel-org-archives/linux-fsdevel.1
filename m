@@ -1,413 +1,449 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FBBF2BE05F;
-	Mon, 20 Apr 2026 23:17:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.10
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776727051; cv=fail; b=vC3KdNrHqCbFK3LtRsfVi4Kjs+pOi22r/I1emYA7lA4lpvLRksH6YUZDYVwNLkqaAyxIKZ6wnH4V7HSfsrQT+Qxff2xjhOneZXKTv96LQ8W2dCK4PQ6lj3Q9TaQj/ikNJNZ0Jqb6QX5WFQGUJ26hKTPD5gXhoQNRUvaNHv4mKAM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776727051; c=relaxed/simple;
-	bh=TB/BCMK7N+fjr4DWUUwLTAOIfoOl4M1JdG9PZUwo/Bg=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=ffscqjX1CVZGf8ljmRIP8nlIj2ew8H3nnbx5m3Z4S+T9lCM6K9MQEfwqK1aSfeDISMVnAMYV5e/1SXh36PIYAi1cl4QStaoiGo45m49eX7n6a2qQZ8nFNBIfpkMpICCPmMRIJEiUqrRzwYU6uNph97mklRfOo5bAIsGDuXCu53Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ACX7NoZ7; arc=fail smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4085813D539
+	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Apr 2026 23:41:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776728509; cv=none; b=ocEE4QTwXm3FGlT+m5kX/WoIha17onIuoUD1ju8URdzpkhGY1mYcqWnfrigFgwjZ3AAMcJYEeiDrO66v2YCjXtJ0uksnyBZp+AGI1WyPcgI/oSHSIsFRl74dq/yAISGvCauSBlmuqOCy/+uD4jAD8MVbZ4U9cZgMwX+i0LBzRGk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776728509; c=relaxed/simple;
+	bh=SMxla0uk/OMNMfq7ReUy4nda1nJ6w/OK/RxIdqCrYN4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KbiLNUwe3EyqEgVGIR5INuNJvTP1JnkaTgi3hwf3yYdN0cM5JvD0YdD0F8Pv3Xau5wGd9XXPluSbspuXCTTGTuC2JT9g4g2lKn9XMtMh257+UJAm0jv8s8KosMjXOE5BafBwJ/pcBEQ2G6OlG0G7D8XKmLAwRbDxf8GzRMUbRYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EYBEursB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ACX7NoZ7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776727049; x=1808263049;
-  h=date:from:to:cc:subject:message-id:references:
-   content-transfer-encoding:in-reply-to:mime-version;
-  bh=TB/BCMK7N+fjr4DWUUwLTAOIfoOl4M1JdG9PZUwo/Bg=;
-  b=ACX7NoZ7kDUzcZIWblUTSVsX9DE3WMPXf9lSGGtQw4WDcePz7Y2SxKjT
-   UvsQLHOJajBEMZXRK+nLNSWoxKFT7jW1fa58hnc0JI8XMcFL38tpjEydM
-   jDAgtexCRtDuPX0CYzDJXs6Q1cEtwEzOi5jglNhq+b5B8bibf1CTXdFer
-   eXnR1P+48nB0FrpIGTyZ2sx1F3lVETA86KaM727FFAdFhaoPaf+z3jj+B
-   CEJif8fQLT9t4uOK7O8/YF5HlM4Y7m1mbZZYKzzgsIdOfLLvyX8c+Ww2/
-   0vM0BsrGEdpgg2pErknMBnyXopsVpQioPbNVKNsyZu18dbYWwNajRoojf
-   w==;
-X-CSE-ConnectionGUID: UtXshJOBRqOg3NPP4cq7rA==
-X-CSE-MsgGUID: qtKLpJeIQnue/8Uqumfc6g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="89029629"
-X-IronPort-AV: E=Sophos;i="6.23,190,1770624000"; 
-   d="scan'208";a="89029629"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2026 16:17:27 -0700
-X-CSE-ConnectionGUID: q998My9/S/KBvp5Musw5fA==
-X-CSE-MsgGUID: HkIPCggqRgWop6fUdujYAg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,190,1770624000"; 
-   d="scan'208";a="227525986"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
-  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2026 16:17:26 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Mon, 20 Apr 2026 16:17:25 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Mon, 20 Apr 2026 16:17:25 -0700
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (40.93.195.57)
- by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Mon, 20 Apr 2026 16:17:25 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ep23xy0UU6RQlGkJNRJVJ0PN7WWaLsUczDFGsFEf6riTpbOn7BRd6jWxqoHSW1XQyytF6BN9mZRHAdFiuwN3b/BKTJCwMc/FUO7OrwF+P3dk8IgUAbcn13Rzce062gzfHm3TpOuIffffzgVJFq277hzZ+CX7mqEMXArxNxOkpPIG0lHZwfWzbjfhUa3nyVrMSl9MS6mvXvU0qbS2m/22gRJ7wGef+dG8eOSZLdD5ANP/GhspJVH7v00+XL8ZYP1Iouz18nZ5zspClERFtn/CcvQ+1qn0axDHDlH6xnojSLzpWGPXSjxU1RxhE5d6Hi91+Ffix++WnZZK8JoZwYwb4w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=siJfWTPpgxMjJVfRib7JItNFHzHigA0puEOA1LJjIHU=;
- b=ltN+yMv5u7qEgVqXdnk+zuWWelPwh2YLV5V838uCbWbbPVecwjJj8l1+Tqp3As86bCJUEpHJEgRPHaB+iMWnkIdbwTsveq9yiTYBV7eTWnwHsr0Kmm7OHqgt0cmO85RxRFQd0rioIGyAVJxoyU23dWbPEJ7o7bB7nhQvXdpvlquK49JCZHmP8DSs0mQL76qu1td2oPmMo/bvrXGWNP5g/BlVqKqunBAj3vUTtGn7GHBtqmjqAe55YUcgiep8tZvEb+/O+ENZk75KXAUA9yLAl1SHHwBIbBg5kqrYEwXURXyHpI1OsgGxH5+iUryET58l0gqEDTnOWTtasG9mCOc1Wg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS4PPF0BAC23327.namprd11.prod.outlook.com (2603:10b6:f:fc02::9)
- by SJ1PR11MB6180.namprd11.prod.outlook.com (2603:10b6:a03:459::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.8; Mon, 20 Apr
- 2026 23:17:21 +0000
-Received: from DS4PPF0BAC23327.namprd11.prod.outlook.com
- ([fe80::a195:49d4:38c5:3891]) by DS4PPF0BAC23327.namprd11.prod.outlook.com
- ([fe80::a195:49d4:38c5:3891%8]) with mapi id 15.20.9846.014; Mon, 20 Apr 2026
- 23:17:21 +0000
-Date: Mon, 20 Apr 2026 16:17:09 -0700
-From: Alison Schofield <alison.schofield@intel.com>
-To: John Groves <john@jagalactic.com>
-CC: John Groves <John@groves.net>, Miklos Szeredi <miklos@szeredi.hu>, "Dan
- Williams" <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>,
-	"John Groves" <jgroves@micron.com>, John Groves <jgroves@fastmail.com>,
-	"Jonathan Corbet" <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan
- Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, David
- Hildenbrand <david@kernel.org>, Christian Brauner <brauner@kernel.org>,
-	"Darrick J . Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Stefan Hajnoczi
-	<shajnocz@redhat.com>, "Joanne Koong" <joannelkoong@gmail.com>, Josef Bacik
-	<josef@toxicpanda.com>, "Bagas Sanjaya" <bagasdotme@gmail.com>, James Morse
-	<james.morse@arm.com>, Fuad Tabba <tabba@google.com>, Sean Christopherson
-	<seanjc@google.com>, Shivank Garg <shivankg@amd.com>, Ackerley Tng
-	<ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, Aravind Ramesh
-	<arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>,
-	"venkataravis@micron.com" <venkataravis@micron.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH V4 1/2] daxctl: Add support for famfs mode
-Message-ID: <aeaz9TecrINXaHcR@aschofie-mobl2.lan>
-References: <0100019bd34040d9-0b6e9e4c-ecd4-464d-ab9d-88a251215442-000000@email.amazonses.com>
- <20260118223629.92852-1-john@jagalactic.com>
- <0100019bd340cdd5-89036a70-3ef5-4c34-abf8-07a3ea4d9f92-000000@email.amazonses.com>
- <aaD6yQLiyZznfAxr@aschofie-mobl2.lan>
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aaD6yQLiyZznfAxr@aschofie-mobl2.lan>
-X-ClientProxiedBy: SJ0PR03CA0292.namprd03.prod.outlook.com
- (2603:10b6:a03:39e::27) To DS4PPF0BAC23327.namprd11.prod.outlook.com
- (2603:10b6:f:fc02::9)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EYBEursB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C16EBC19425;
+	Mon, 20 Apr 2026 23:41:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776728508;
+	bh=SMxla0uk/OMNMfq7ReUy4nda1nJ6w/OK/RxIdqCrYN4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EYBEursBkNKycBMHHxdyCjpWuvhm/FxTs6RMoPz2Js5Ul3QNct/P2lSmnhdNHCHsN
+	 n58fyYV8Gh9r7JJ8eIzF0nKOOf0UoHfKrCo2FeRTCb1npDZx5mOHiqLHKlLvj+OHZV
+	 XU0T25D2RsJJH52Q4sYYFHW3B3BjpjMtlnTFY+u8T79iRNvMsZe4nXBtD0CI+m517G
+	 KEaOBliyYhHVLgOB8Z9HKzVwXYbSOvaFB7SvTwKjulNYF5mMGCNOZK76NruJbXYHf4
+	 sP+JbFMrXl+bwaH7z2eMOPWXljocnwq+XLPXWUwk47qVgKLdTtH7ZZgVK5OqWtbyXe
+	 p+Wosrvgk4j/Q==
+Date: Mon, 20 Apr 2026 16:41:48 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: bschubert@ddn.com
+Cc: miklos@szeredi.hu, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
+	bernd@bsbernd.com, joannelkoong@gmail.com
+Subject: Re: [PATCH 09/13] mount.fuse3: integrate systemd service startup
+Message-ID: <20260420234148.GQ7727@frogsfrogsfrogs>
+References: <177577270167.2064074.16504004857564657756.stgit@frogsfrogsfrogs>
+ <177577270377.2064074.11749808216143618873.stgit@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS4PPF0BAC23327:EE_|SJ1PR11MB6180:EE_
-X-MS-Office365-Filtering-Correlation-Id: 46b628ec-9ce0-4673-9021-08de9f32f8fd
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|366016|376014|1800799024|56012099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: Jnjpg5vqNiE3bq3JOULO8nq5frXw86E7ttudNrWwWzyjbUtQ6dRV8p/EitpsyiihkhsbXFx8qlOTW4EsFI3sYwJJUHf453hy/PvHGZASXC/UNHAhhA02MH/JfU7fr2gHMYQAgU9FbZKLcp6xuCZquQZtdfLA8k1L0htCEbemUhBlXclIlmDwc59sg3Wwizj6UgaB9joEp09MMfD0GWjk/rmZ3q8BABpDRPHxXAz4C4zjOkV5nmqidWYJSfdOBTitr+BXV8sMQIVLjL1NHcw82bMCFKxA8lZ5CVrUCJU/g6F7t8n+S3v/T/+6b0XRcgn3BRiHNlU5f31Q9tnLZ76SouLx7M5YlZ1cIkDJLjjfVoKKkAZsJ2p/lCLRlyB8MtfNZnTwyycIYMpKAuA+Mqy/2SXQHqXtT4qMgPc58iKoVsD1CAgoyhM2i91KvEubqiXlRtsw762uBfP6NKnKFJ8WIOoNMfqAL6T86skNXAeGSp2iemXUMRIVG7hZ4rLRDlyhYxjp++JkyrkM7JxcGXiixnKZ4IIEHVKWDZOByWDaqduPTQBoIROZgXH5X29iuhw13Bvs9FFZc5QtYSVzufSWcj8Tdshr2zpKO/inKj65bQ+OCf0JGjmgL4mXadOSqPU001B0fjVKRamzR28cwlB4Zw6HVsd/dcjJs124okEMG590A2jZXW4f7sWAcsI1fEZKAk+ilgdTg3IT/a0GeqDgeyopexIysUAl57ePrP+UdtSa9l8rKnUq7KYdb3BNTle9
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPF0BAC23327.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(376014)(1800799024)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R3NqMnZmKzYzU0p6MzJYclB3R2VkMVI5Wmd6U1h0TWxlK3ZuT3lCTnRqTEo2?=
- =?utf-8?B?Z3BZZ09wV3N0NTdHY0VqNGZvQ2RJTkFmRnp3WlRqS0oxaCtERjlTODBwTWhC?=
- =?utf-8?B?Sm5GZW80TjdXbzVuWVAxZE91TUVFODFVTlBIN2ViSVcxQVZoVEVEOUxTdWVt?=
- =?utf-8?B?eGkwR0FtK2dEUDdvVVArVWs4QUNWZjRQQVo1YkRONkQzVGI3TGhreVd3bmtn?=
- =?utf-8?B?anMvU2dBMUpLUGgxZGR6UURJRHBqM2lUWVVYMVFzVDYvNWpVa005dXFrWFFj?=
- =?utf-8?B?OHRKZ1FwY2xnMlBtWVJJdERLUTBndEFaNGhRYlorL0V4ZHI3bzg0Q216dzJi?=
- =?utf-8?B?YW9aOGNTMHErYkI4Qm52UFVhdEZ5YkV5K2hmbzlPMWpaTWhxaXh2SEFzOElp?=
- =?utf-8?B?UUZuYW1qclpQK1JGS1E5SFVWT2lvS0ZuNTh1UU1rTklaZXp4czVBcFVjWXM0?=
- =?utf-8?B?eTN2dGFkZ1Awd1B3OFZJa1B4cVdydWloYWpKdE5zZkdiNlp6NWloWGdURVAr?=
- =?utf-8?B?THZTK1liYnVQblR1Y1hyZ0FmNlZ2eHU4Q0h3VnZGTWpwQk5IZmFCWnJFM2pM?=
- =?utf-8?B?clNBSDBCdUlMY0c4eDBLUm5Qa3l5UTM2UnZ0TTJ6aVBXTzhsSFNPY0hpYmZn?=
- =?utf-8?B?QytJZ2EzYUUwWWxzdEtjRytWMlBRRTNOZ0ZtZkpCd3N1djdVdEFpRm5udkF2?=
- =?utf-8?B?SHVxQW1kWjNJSlRrWkJ0M1Z1T3MyN29MTEtGRGpvWVdSY1kvRUk0Rjh4UmtU?=
- =?utf-8?B?OHp5OCtWZEdjdnFjVWFuckZCVGNiMEcwOVR2TVRuVEJEVlg0VEpSQVhFUGJI?=
- =?utf-8?B?T01YZmVSanFzMnJXVlF2UmhjcTFoYlZmUmlqbURtM0ZjcE8vVXlJVWd5ZnA5?=
- =?utf-8?B?cWdyTVgwY29oNzhnSWdPNXhEWTh6WkZETk0yUFMzM0h5Y09ic3Y4aWpwYVph?=
- =?utf-8?B?aG96cjdPbHNUekF3bkFuSFNJSUY1ZlNBSXZMb3lwZjV5N042dXVIL0VHTUkw?=
- =?utf-8?B?cG1oamlyemVJSlVVZXFIY3B6QW1WUDIvWXBnb3NzQjNlQUg5b3JVL0Y5eGJi?=
- =?utf-8?B?QW9WVlNRd2E1dWhFLzZPb0g5STIrNEZuOEdsVXhwT1lxUEhlM2VuWk9rSXcv?=
- =?utf-8?B?ZWNWa2FVZFVUTjVyT25wcnJWM0cyZmlGbVlVR0NqZFhTNk5ncGtTMTVZZ203?=
- =?utf-8?B?NXZuOXdGTGlMd2dBTVVvNmkrWWI2cHlUOGtQV1M2NVh5OWdnMkNoWWl0ZXRo?=
- =?utf-8?B?eTZENjB2V2svTVU2Z3hLcE9CSlU4NHFQMTZLcFZ2L042SWhkUmc0RXVNTGp0?=
- =?utf-8?B?S2lLLzdYUE9xSUlVcXhIWGMrYjRPc01zNUlZc1puS3hSU2VkR3AwL042ejU2?=
- =?utf-8?B?NVJSbXhVN0tUSVROVVJLclMrVUpTM3VMbXdnWFNIdURGQ1N3Rkc2WWkycWl4?=
- =?utf-8?B?Y1FsRUs0bTFBRzgyZlN2SkVqYnAva2xSNHF6SmJLVTUrRzNCRjNCdy96K1VP?=
- =?utf-8?B?WWNWT2s2MEpQVXVCaHVPdHVEaHNCcTNaVzFSMUh0Tm9tQ3FGRmxzODUydzQ5?=
- =?utf-8?B?RUFpK1lUUVBZbG93K3dBaHFsMUNhc3VFUjYrc1JJRkMyNHFCcUQ0ODU0bmI3?=
- =?utf-8?B?L3NPWUFHeEJUeXJRN3U2WlhaTGladm5xam01bnIzZS9hWkFHSkU0bk04UXJY?=
- =?utf-8?B?RThjUlBlc2dUZEhaWGcySXlSOTVxMWNMZGVBa1V0b2tNN1RsbnBUNWc3VXVn?=
- =?utf-8?B?R3BuMHUzSks0eHd4bVNRbGUrKzRuZlhZVTdhSzlhOTl2SHMyTDk0N25Fb3dJ?=
- =?utf-8?B?UnRVT2tDZWtXNFpDNlhvRFYvUXN2R0QrUmJ1ZDFPQWdnTXZQSG9SL2hxUHYy?=
- =?utf-8?B?Y2JicWdDVlNVbXVpb3BkWlBhM0g3YXVuekNGTGZPeHg0YS8vTEFXajExSSsr?=
- =?utf-8?B?dG9QR0xxQXl1elIxRFlHKzREUmhMUjd4bnVBN0ZvV3dSM3k4Z0ZlUkxTQ3lk?=
- =?utf-8?B?V1NEU00zTDlIdU8rQXo3YXMyVmpnRkRSNGdiWHp0MVFwVEhCUVlNT04zSjFt?=
- =?utf-8?B?a09HK3FYKzBVNUtsbENobWtxc0VhT1NSOEM4ZXZONXZ3YzdWck5VbVVER0lO?=
- =?utf-8?B?Q2tPSnZCNGlsUzg4N3pRbWdHbWxEejdjVEVRWWtVbTh2d1NGdVhOU2tOL1E4?=
- =?utf-8?B?ZzZxdDRscWllRHJNeGNLZENVYnIrL1dQYWdoeEZZS0V6azBuS0wxYnZ6endG?=
- =?utf-8?B?YmxQS2RKUUNJTjdqa1JoR0JLcTJ2N0diVXVBeTh1Z3ExR0VlZjVEazUybXVP?=
- =?utf-8?B?VjlZZ2R3L2g5SWtUZ0h4TjZ4RmZUbk0xVlQxWjNWK0JLb3FPYVI1T0tVbFZo?=
- =?utf-8?Q?j9kherq7JTOqiNsA=3D?=
-X-Exchange-RoutingPolicyChecked: UtQukaajIKhYeCRfEccz1whIE89gjOtTg1YW2/5VIHGQ0rtQEUSVgl++KR8yFZINoRYaexSeBi1csWZAguCvW8Y6XzTeoF3/0Wz/MMysPaVyJfOpaJrOGTLVR1OUvve2cBgSXvs3vuNjEedgWQy3YieyXyuPxzESHeAFLQpcCkn9fmrPa6nZai7ZrxEzu/JOvfe5m8YWulPpFOgDwS1wIG8i080U91QS2yDDEWGJTlwNjhuxN7ZvWpzpDzaVXc5H1TOuqjpvkHrViUqO34n4Y1GlngvLTuQCk/A7WfdOmtnLJHu3+hrK+IAqCWPiapTArk/SBOP0CZ+ohS+B+rCSGA==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 46b628ec-9ce0-4673-9021-08de9f32f8fd
-X-MS-Exchange-CrossTenant-AuthSource: DS4PPF0BAC23327.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2026 23:17:21.0867
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jCL5AtockpYWWK1zwQ6mfitaWUnj4mwHAIrj7iA06kYF2HcWyxVSK02S+Srivr5jc20rV2fkRSWr47oSGgQf9k1ZFWB0/RpHWttzeqsbltk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR11MB6180
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <177577270377.2064074.11749808216143618873.stgit@frogsfrogsfrogs>
 
-On Thu, Feb 26, 2026 at 06:00:41PM -0800, Alison Schofield wrote:
-> On Sun, Jan 18, 2026 at 10:36:38PM +0000, John Groves wrote:
-> > From: John Groves <John@Groves.net>
-> > 
+On Thu, Apr 09, 2026 at 03:22:53PM -0700, Darrick J. Wong wrote:
+> From: Darrick J. Wong <djwong@kernel.org>
+> 
+> Teach mount.fuse3 how to start fuse via systemd service, if present.
+> 
+> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
+> ---
+>  util/mount_service.h  |    8 +++
+>  doc/fuservicemount3.8 |   10 +++-
+>  meson.build           |    3 +
+>  util/fuservicemount.c |   48 +++++++++++++++++
+>  util/meson.build      |   14 ++++-
+>  util/mount.fuse.c     |  135 +++++++++++++++++++++++++++++++++++++++++--------
+>  util/mount_service.c  |   28 ++++++++++
+>  7 files changed, 219 insertions(+), 27 deletions(-)
+> 
+> 
+> diff --git a/util/mount_service.h b/util/mount_service.h
+> index f1f95e67ee1afe..993414ea3422e9 100644
+> --- a/util/mount_service.h
+> +++ b/util/mount_service.h
+> @@ -36,4 +36,12 @@ int mount_service_main(int argc, char *argv[]);
+>   */
+>  const char *mount_service_subtype(const char *fstype);
+>  
+> +/**
+> + * Discover if there is a fuse service socket for the given fuse subtype.
+> + *
+> + * @param subtype the subtype of a fuse filesystem type (e.g. Y from fuse.Y)
+> + * @return true if available, false if not
+> + */
+> +bool mount_service_present(const char *subtype);
+> +
+>  #endif /* MOUNT_SERVICE_H_ */
+> diff --git a/doc/fuservicemount3.8 b/doc/fuservicemount3.8
+> index e45d6a89c8b81a..aa2167cb4872c6 100644
+> --- a/doc/fuservicemount3.8
+> +++ b/doc/fuservicemount3.8
+> @@ -7,12 +7,20 @@ .SH SYNOPSIS
+>  .B mountpoint
+>  .BI -t " fstype"
+>  [
+> -.I options
+> +.BI -o " options"
+>  ]
+> +
+> +.B fuservicemount3
+> +.BI -t " fstype"
+> +.B --check
+> +
+>  .SH DESCRIPTION
+>  Mount a filesystem using a FUSE server that runs as a socket service.
+>  These servers can be contained using the platform's service management
+>  framework.
+> +
+> +The second form checks if there is a FUSE service available for the given
+> +filesystem type.
+>  .SH "AUTHORS"
+>  .LP
+>  The author of the fuse socket service code is Darrick J. Wong <djwong@kernel.org>.
+> diff --git a/meson.build b/meson.build
+> index c8326b79fcee8f..827ec45ad3ad75 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -83,7 +83,8 @@ private_cfg.set('FUSE_SERVICE_SOCKET_PERMS', service_socket_perms)
+>  # Test for presence of some functions
+>  test_funcs = [ 'fork', 'fstatat', 'openat', 'readlinkat', 'pipe2',
+>                 'splice', 'vmsplice', 'posix_fallocate', 'fdatasync',
+> -               'utimensat', 'copy_file_range', 'fallocate', 'fspacectl' ]
+> +               'utimensat', 'copy_file_range', 'fallocate', 'fspacectl',
+> +               'faccessat' ]
+>  foreach func : test_funcs
+>      private_cfg.set('HAVE_' + func.to_upper(),
+>          cc.has_function(func, prefix: include_default, args: args_default))
+> diff --git a/util/fuservicemount.c b/util/fuservicemount.c
+> index 9c694a4290f94e..d39d9c486c8997 100644
+> --- a/util/fuservicemount.c
+> +++ b/util/fuservicemount.c
+> @@ -9,10 +9,58 @@
+>   * This program wraps the mounting of FUSE filesystems that run in systemd
+>   */
+>  #define _GNU_SOURCE
+> +#include <stdbool.h>
+> +#include <stdio.h>
+> +#include <string.h>
+> +#include <stdlib.h>
+>  #include "fuse_config.h"
+>  #include "mount_service.h"
+>  
+> +static int check_service(const char *fstype)
+> +{
+> +	const char *subtype;
+> +
+> +	if (!fstype) {
+> +		fprintf(stderr,
+> +			"fuservicemount: expected fs type for --check\n");
+> +		return EXIT_FAILURE;
+> +	}
+> +
+> +	subtype = mount_service_subtype(fstype);
+> +	return mount_service_present(subtype) ? EXIT_SUCCESS : EXIT_FAILURE;
+> +}
+> +
+>  int main(int argc, char *argv[])
+>  {
+> +	char *fstype = NULL;
+> +	bool check = false;
+> +	int i;
+> +
+> +	/*
+> +	 * If the user passes us exactly the args -t FSTYPE --check then
+> +	 * we'll just check if there's a service for the FSTYPE fuse server.
+> +	 */
+> +	for (i = 1; i < argc; i++) {
+> +		if (!strcmp(argv[i], "--check")) {
+> +			if (check) {
+> +				check = false;
+> +				break;
+> +			}
+> +			check = true;
+> +		} else if (!strcmp(argv[i], "-t") && i + 1 < argc) {
+> +			if (fstype) {
+> +				check = false;
+> +				break;
+> +			}
+> +			fstype = argv[i + 1];
+> +			i++;
+> +		} else {
+> +			check = false;
+> +			break;
+> +		}
+> +	}
+> +	if (check)
+> +		return check_service(fstype);
+> +
+>  	return mount_service_main(argc, argv);
+>  }
+> diff --git a/util/meson.build b/util/meson.build
+> index aa646ef3c77d16..85b54d5d322dcb 100644
+> --- a/util/meson.build
+> +++ b/util/meson.build
+> @@ -6,21 +6,27 @@ executable('fusermount3', ['fusermount.c', '../lib/mount_util.c', '../lib/util.c
+>             install_dir: get_option('bindir'),
+>             c_args: '-DFUSE_CONF="@0@"'.format(fuseconf_path))
+>  
+> +mount_service_sources = []
+> +mount_service_cflags = []
+>  if private_cfg.get('HAVE_SERVICEMOUNT', false)
+> -  executable('fuservicemount3', ['mount_service.c', 'fuservicemount.c', '../lib/mount_util.c', 'fuser_conf.c'],
+> +  mount_service_sources += ['mount_service.c', '../lib/mount_util.c', 'fuser_conf.c']
+> +  mount_service_cflags += ['-DFUSE_CONF="@0@"'.format(fuseconf_path)]
+> +  fuservicemount_path = join_paths(get_option('prefix'), get_option('sbindir'))
+> +  mount_service_cflags += ['-DFUSERVICEMOUNT_DIR="@0@"'.format(fuservicemount_path)]
+> +  executable('fuservicemount3', ['fuservicemount.c'] + mount_service_sources,
+>               include_directories: include_dirs,
+>               link_with: [ libfuse ],
+>               install: true,
+>               install_dir: get_option('sbindir'),
+> -             c_args: ['-DFUSE_USE_VERSION=319', '-DFUSE_CONF="@0@"'.format(fuseconf_path)])
+> +             c_args: ['-DFUSE_USE_VERSION=319'] + mount_service_cflags)
+>  endif
+>  
+> -executable('mount.fuse3', ['mount.fuse.c'],
+> +executable('mount.fuse3', ['mount.fuse.c'] + mount_service_sources,
+>             include_directories: include_dirs,
+>             link_with: [ libfuse ],
+>             install: true,
+>             install_dir: get_option('sbindir'),
+> -           c_args: '-DFUSE_USE_VERSION=317')
+> +           c_args: ['-DFUSE_USE_VERSION=319'] + mount_service_cflags)
+>  
+>  
+>  udevrulesdir = get_option('udevrulesdir')
+> diff --git a/util/mount.fuse.c b/util/mount.fuse.c
+> index ec56198ccc1cf0..8836eba8502fd1 100644
+> --- a/util/mount.fuse.c
+> +++ b/util/mount.fuse.c
+> @@ -49,6 +49,9 @@
+>  #endif
+>  
+>  #include "fuse.h"
+> +#ifdef HAVE_SERVICEMOUNT
+> +# include "mount_service.h"
+> +#endif
+>  
+>  static char *progname;
+>  
+> @@ -233,6 +236,77 @@ static void drop_and_lock_capabilities(void)
+>  }
+>  #endif
+>  
+> +#ifdef HAVE_SERVICEMOUNT
+> +#define FUSERVICEMOUNT_PROG	"fuservicemount3"
+> +
+> +static int try_service_main(char *argv0, char *type, char *source,
+> +			    const char *mountpoint, char *options)
+> +{
+> +	const char *full_path = FUSERVICEMOUNT_DIR "/" FUSERVICEMOUNT_PROG;
+> +	char **argv;
+> +	char dash_o[] = "-o";
+> +	char dash_t[] = "-t";
+> +	char *mntpt = strdup(mountpoint);
+> +	int argc = 5; /* argv[0], -t type, mountpoint, and trailing NULL */
+> +	int i = 0;
+> +	int ret;
+> +
+> +	if (!mount_service_present(type))
+> +		return MOUNT_SERVICE_FALLBACK_NEEDED;
+> +
+> +	if (!mntpt) {
+> +		perror("mountpoint allocation");
+> +		return -1;
+> +	}
+> +
+> +	if (source)
+> +		argc++;
+> +	if (options)
+> +		argc += 2;
+> +
+> +	argv = calloc(argc, sizeof(char *));
+> +	if (!argv) {
+> +		perror("argv allocation");
+> +		free(mntpt);
+> +		return -1;
+> +	}
+> +
+> +	argv[i++] = argv0;
+> +	if (source)
+> +		argv[i++] = source;
+> +	argv[i++] = mntpt;
+> +	argv[i++] = dash_t;
+> +	argv[i++] = type;
+> +	if (options) {
+> +		argv[i++] = dash_o;
+> +		argv[i++] = options;
+> +	}
+> +	argv[i] = 0;
+> +
+> +	if (getuid() != 0) {
+> +		/*
+> +		 * First try the install path, then a system install, just like
+> +		 * we do for fusermount.
+> +		 */
+> +		ret = execvp(full_path, argv);
+> +		if (ret)
+> +			ret = execvp(FUSERVICEMOUNT_PROG, argv);
+> +		if (ret) {
+> +			fprintf(stderr, "%s: could not start %s helper: %s\n",
+> +				argv[0], FUSERVICEMOUNT_PROG,
+> +				strerror(errno));
+> +			ret = MOUNT_SERVICE_FALLBACK_NEEDED;
+> +		}
+> +	} else {
+> +		/* We're root, just do the mount directly. */
+> +		ret = mount_service_main(argc - 1, argv);
+> +	}
+> +	free(argv);
+> +	free(mntpt);
+> +	return ret;
+> +}
+> +#endif
+> +
+>  int main(int argc, char *argv[])
+>  {
+>  	char *type = NULL;
+> @@ -280,9 +354,7 @@ int main(int argc, char *argv[])
+>  	mountpoint = argv[2];
+>  
+>  	for (i = 3; i < argc; i++) {
+> -		if (strcmp(argv[i], "-v") == 0) {
+> -			continue;
+> -		} else if (strcmp(argv[i], "-t") == 0) {
+> +		if (strcmp(argv[i], "-t") == 0) {
+>  			i++;
+>  
+>  			if (i == argc) {
+> @@ -303,6 +375,30 @@ int main(int argc, char *argv[])
+>  					progname);
+>  				exit(1);
+>  			}
+> +		}
+> +	}
+> +
+> +	if (!type) {
+> +		if (source) {
+> +			dup_source = xstrdup(source);
+> +			type = dup_source;
+> +			source = strchr(type, '#');
+> +			if (source)
+> +				*source++ = '\0';
+> +			if (!type[0]) {
+> +				fprintf(stderr, "%s: empty filesystem type\n",
+> +					progname);
+> +				exit(1);
+> +			}
+> +		} else {
+> +			fprintf(stderr, "%s: empty source\n", progname);
+> +			exit(1);
+> +		}
+> +	}
+> +
+> +	for (i = 3; i < argc; i++) {
+> +		if (strcmp(argv[i], "-v") == 0) {
+> +			continue;
+>  		} else	if (strcmp(argv[i], "-o") == 0) {
+>  			char *opts;
+>  			const char *opt;
+> @@ -366,24 +462,6 @@ int main(int argc, char *argv[])
+>  	if (suid)
+>  		options = add_option("suid", options);
+>  
+> -	if (!type) {
+> -		if (source) {
+> -			dup_source = xstrdup(source);
+> -			type = dup_source;
+> -			source = strchr(type, '#');
+> -			if (source)
+> -				*source++ = '\0';
+> -			if (!type[0]) {
+> -				fprintf(stderr, "%s: empty filesystem type\n",
+> -					progname);
+> -				exit(1);
+> -			}
+> -		} else {
+> -			fprintf(stderr, "%s: empty source\n", progname);
+> -			exit(1);
+> -		}
+> -	}
+> -
+>  	if (setuid_name && setuid_name[0]) {
+>  #ifdef linux
+>  		if (drop_privileges) {
+> @@ -429,6 +507,21 @@ int main(int argc, char *argv[])
+>  		drop_and_lock_capabilities();
+>  	}
+>  #endif
+> +
+> +#ifdef HAVE_SERVICEMOUNT
+> +	/*
+> +	 * Now that we know the desired filesystem type, see if we can find
+> +	 * a socket service implementing that, if we haven't selected any weird
+> +	 * options that would prevent that.
+> +	 */
+> +	if (!pass_fuse_fd && !(setuid_name && setuid_name[0])) {
+> +		int ret = try_service_main(argv[0], type, source, mountpoint,
+> +					   options);
+> +		if (ret != MOUNT_SERVICE_FALLBACK_NEEDED)
+> +			return ret;
+> +	}
+> +#endif
+> +
+>  	add_arg(&command, type);
+>  	if (source)
+>  		add_arg(&command, source);
+> diff --git a/util/mount_service.c b/util/mount_service.c
+> index 0f7eae94ada377..f837595078f2d1 100644
+> --- a/util/mount_service.c
+> +++ b/util/mount_service.c
+> @@ -1836,3 +1836,31 @@ int mount_service_main(int argc, char *argv[])
+>  	mount_service_destroy(&mo);
+>  	return ret;
+>  }
+> +
+> +bool mount_service_present(const char *fstype)
+> +{
+> +	struct stat stbuf;
+> +	char path[PATH_MAX];
+> +	int ret;
+> +
+> +	snprintf(path, sizeof(path), FUSE_SERVICE_SOCKET_DIR "/%s", fstype);
 
-Hi John,
+The maximum length of a path to a Unix socket is dictated (horrifyingly)
+by sockaddr_un::sun_path, which is 112 bytes(!!)
 
-This is where I left off with the actual changes to "daxctl" for FAMFS.
-We need a new rev of this ndctl set that includes both patches rebased
-on ndctl pending and addressing the review comments below for daxctl.
-(Although I've used more recent branches, I haven't looked at whether
-these issues were addressed in the code.)
+Therefore, the return value of snprintf should be checked by the that
+size because otherwise we could trick the --check predicate into
+checking for the existence of the wrong socket.
 
-With a new rev, I'll take another look at ensuring a dax device is
-available for the unit test.
+--D
 
-Thanks!
-
---Alison
-
-
-> > Putting a daxdev in famfs mode means binding it to fsdev_dax.ko
-> > (drivers/dax/fsdev.c). Finding a daxdev bound to fsdev_dax means
-> > it is in famfs mode.
-> > 
-> > The test is added to the destructive test suite since it
-> > modifies device modes.
-> 
-> Make it clear that it is added in a separate patch. (and assume you
-> can drop the destructive part too.)
-> 
-> > 
-> > With devdax, famfs, and system-ram modes, the previous logic that assumed
-> > 'not in mode X means in mode Y' needed to get slightly more complicated
-> > 
-> > Add explicit mode detection functions:
-> > - daxctl_dev_is_famfs_mode(): check if bound to fsdev_dax driver
-> > - daxctl_dev_is_devdax_mode(): check if bound to device_dax driver
+> +	ret = stat(path, &stbuf);
+> +	if (ret)
+> +		return false;
+> +
+> +	if (!S_ISSOCK(stbuf.st_mode))
+> +		return false;
+> +
+> +#ifdef HAVE_FACCESSAT
+> +	/*
+> +	 * Can we write to the service socket with the real uid?  This accounts
+> +	 * for setuid and ACLs on the socket.  Note that we connect() to the
+> +	 * socket having dropped setuid privileges.
+> +	 */
+> +	ret = faccessat(AT_FDCWD, path, W_OK, 0);
+> +#else
+> +	/* Can we write to the service socket with the real uid? */
+> +	ret = access(path, W_OK);
+> +#endif
+> +	return ret == 0;
+> +}
 > 
 > 
-> The precedence check (ram->famfs->devdax->unknown) now happens in multiple
-> places. How about adding a daxctl_dev_get_mode() helper to centralize that.
-> It could be private for now, unless you expect external users to need it.
-> 
-> daxctl_dev_is_famfs_mode() and _is_devdax_mode() are nearly identical aside
-> from the module name. Refactoring the shared part into a single helper will
-> also make it easier to add a daxctl_dev_get_mode() without duplicating the
-> precedence logic.
-> 
-> > 
-> > Fix mode transition logic in device.c:
-> > - disable_devdax_device(): verify device is actually in devdax mode
-> > - disable_famfs_device(): verify device is actually in famfs mode
-> > - All reconfig_mode_*() functions now explicitly check each mode
-> > - Handle unknown mode with error instead of wrong assumption
-> 
-> Wondering about 'Fix' mode transition logic. Was prior logic broken and
-> should any of these changes be in a precursor patch that is a 'fix'.
-> 
-> 
-> > 
-> > Modify json.c to show 'unknown' if device is not in a recognized mode.
-> 
-> I think this means disabled devices will always look unknown even when
-> the intended mode is devdax or famfs, but disabled. This seems to
-> change the meaning of mode from 'configured' to 'active' personality.
-> Can you detect the configured mode even when disabled?
-> Perhaps a man page change about this new behavior?
-> 
-> snip
-> 
-> 
-> >  
-> > @@ -724,11 +767,21 @@ static int reconfig_mode_system_ram(struct daxctl_dev *dev)
-> >  	}
-> >  
-> >  	if (daxctl_dev_is_enabled(dev)) {
-> > -		rc = disable_devdax_device(dev);
-> > -		if (rc < 0)
-> > -			return rc;
-> > -		if (rc > 0)
-> 
-> Please check the return code semantics.
-> This gets rid of the <0 vs >0 distinction. That means a '1' skip
-> becomes an error return to the caller. Is that what you want?
-> 
-> Previously, we had a return 1 from disable_devdax_device for
-> “not applicable / already in other mode” and I think that is now
-> gone.
-> 
-> 
-> > +		if (mem) {
-> > +			/* already in system-ram mode */
-> >  			skip_enable = 1;
-> > +		} else if (daxctl_dev_is_famfs_mode(dev)) {
-> > +			rc = disable_famfs_device(dev);
-> > +			if (rc)
-> > +				return rc;
-> > +		} else if (daxctl_dev_is_devdax_mode(dev)) {
-> > +			rc = disable_devdax_device(dev);
-> > +			if (rc)
-> > +				return rc;
-> > +		} else {
-> > +			fprintf(stderr, "%s: unknown mode\n", devname);
-> > +			return -EINVAL;
-> > +		}
-> >  	}
-> >  
-> 
-> snip
-> 
-> >  static int reconfig_mode_devdax(struct daxctl_dev *dev)
-> >  {
-> > +	struct daxctl_memory *mem = daxctl_dev_get_memory(dev);
-> > +	const char *devname = daxctl_dev_get_devname(dev);
-> >  	int rc;
-> >  
-> >  	if (daxctl_dev_is_enabled(dev)) {
-> > -		rc = disable_system_ram_device(dev);
-> > -		if (rc)
-> > -			return rc;
-> > +		if (mem) {
-> > +			rc = disable_system_ram_device(dev);
-> > +			if (rc)
-> > +				return rc;
-> > +		} else if (daxctl_dev_is_famfs_mode(dev)) {
-> > +			rc = disable_famfs_device(dev);
-> > +			if (rc)
-> > +				return rc;
-> > +		} else if (daxctl_dev_is_devdax_mode(dev)) {
-> > +			/* already in devdax mode, just re-enable */
-> > +			rc = daxctl_dev_disable(dev);
-> > +			if (rc)
-> 
-> disable_* helpers print an error message on disable failure.
-> Seems this should too.
-> 
-> 
-> > +				return rc;
-> > +		} else {
-> > +			fprintf(stderr, "%s: unknown mode\n", devname);
-> > +			return -EINVAL;
-> > +		}
-> >  	}
-> >  
-> >  	rc = daxctl_dev_enable_devdax(dev);
-> > @@ -801,6 +870,40 @@ static int reconfig_mode_devdax(struct daxctl_dev *dev)
-> >  	return 0;
-> >  }
-> >  
-> > +static int reconfig_mode_famfs(struct daxctl_dev *dev)
-> > +{
-> > +	struct daxctl_memory *mem = daxctl_dev_get_memory(dev);
-> > +	const char *devname = daxctl_dev_get_devname(dev);
-> > +	int rc;
-> > +
-> > +	if (daxctl_dev_is_enabled(dev)) {
-> > +		if (mem) {
-> > +			fprintf(stderr,
-> > +				"%s is in system-ram mode, must be in devdax mode to convert to famfs\n",
-> > +				devname);
-> > +			return -EINVAL;
-> > +		} else if (daxctl_dev_is_famfs_mode(dev)) {
-> > +			/* already in famfs mode, just re-enable */
-> > +			rc = daxctl_dev_disable(dev);
-> > +			if (rc)
-> > +				return rc;
-> > +		} else if (daxctl_dev_is_devdax_mode(dev)) {
-> > +			rc = disable_devdax_device(dev);
-> > +			if (rc)
-> 
-> and here too...the disable error message.
-> 
-> 
-> > +				return rc;
-> > +		} else {
-> > +			fprintf(stderr, "%s: unknown mode\n", devname);
-> > +			return -EINVAL;
-> > +		}
-> > +	}
-> > +
-> > +	rc = daxctl_dev_enable_famfs(dev);
-> > +	if (rc)
-> > +		return rc;
-> > +
-> > +	return 0;
-> > +}
-> 
-> snip
-> 
-> > +DAXCTL_EXPORT int daxctl_dev_is_famfs_mode(struct daxctl_dev *dev)
-> > +{
-> > +	const char *devname = daxctl_dev_get_devname(dev);
-> > +	struct daxctl_ctx *ctx = daxctl_dev_get_ctx(dev);
-> > +	char *mod_path, *mod_base;
-> > +	char path[200];
-> 
-> We have PATH_MAX for the above.
-> 
-> > +	const int len = sizeof(path);
-> > +
-> > +	if (!device_model_is_dax_bus(dev))
-> > +		return false;
-> > +
-> > +	if (!daxctl_dev_is_enabled(dev))
-> > +		return false;
-> > +
-> > +	if (snprintf(path, len, "%s/driver", dev->dev_path) >= len) {
-> > +		err(ctx, "%s: buffer too small!\n", devname);
-> > +		return false;
-> > +	}
-> > +
-> > +	mod_path = realpath(path, NULL);
-> > +	if (!mod_path)
-> 
-> Maybe a dbg() level err msg here
-> 
-> > +		return false;
-> > +
-> > +	mod_base = basename(mod_path);
-> 
-> Please use path_basename() because of this:
-> https://lore.kernel.org/all/20260116043056.542346-1-alison.schofield@intel.com/
-> 
-> Give me a minute ;) to push that to the pending branch and you can
-> work from there: https://github.com/pmem/ndctl/commits/pending/
-> 
-> snip to end.
