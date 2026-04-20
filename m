@@ -1,43 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFC9D44B683;
-	Mon, 20 Apr 2026 13:30:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FEFB44DB68;
+	Mon, 20 Apr 2026 13:30:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776691812; cv=none; b=r+IwmZSC2fiNQgicgWd/Wvd8Q0g2uZjHQG5A/L9WOPyPH4C1fXroT+C08PsTHIhEnQlb9MwEtUn5RbQtkJDpp6WME9po/KBwiPtiMv0PAk/96GFUigOgM1tikE5uQVMnQEBlMcwre8TT+Y10rrAsvyiI00hi1AArBfzKOsseXsU=
+	t=1776691826; cv=none; b=PO7WIR0DZH7ZJt1UjzudemeeMtfHk26qFaLDAJ+LmoeMg2Fe5EGR5TeXj4G9soY+X68tlYyi7XHX06pB8uscy62cnjUTXBu9oRm2uTn4xxj6JQhayqgMNNjuBg4zKdfHjFzvTlN73l/hhs+eFr5A0TMFVK3X7llI+R3GbF3SwUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776691812; c=relaxed/simple;
-	bh=YiA0Fxr6zIQMlNB4F93jq52OlcC6xrj3s5JwzMSri9k=;
+	s=arc-20240116; t=1776691826; c=relaxed/simple;
+	bh=qidpnksWH8YCgvNCmhvq/DCXQiiTWg4VFcR0Pg+sVQI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=alUzWD4bAB1IMqC3LYno7JtbKyDdDtDS6edsy+Sj9uQOUMGQfWn27lAIlG9QOY3mVOUc5boSva4pz8KgXlx60G8dacsnQ5jJhfPKs3oEkfrHLUoSx17Jd/MtZ6/q7WKNhL9TfyMuYCMsdQS9AlBehMYRMld8ZH6KC6+d956iocU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M2iKRqSY; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=JKoajvNw42fsic2X3OWyP/2bXwKSuKbJZXwJ84P1OV1V6udQSBSPny0TPyySEwlpLN2nxDDiO3B9rdIfulJ2sqZCcm0WHzr13FeB4/w2Pw3mGOZW1aql7ug8YI2rr/1KacXHsXKWHa1NN1J8PpjQvpVSgq9hpnR595ICoHRP8PM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Flak9/wH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M2iKRqSY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3940FC2BCC4;
-	Mon, 20 Apr 2026 13:30:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Flak9/wH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 174D0C2BCB6;
+	Mon, 20 Apr 2026 13:30:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776691812;
-	bh=YiA0Fxr6zIQMlNB4F93jq52OlcC6xrj3s5JwzMSri9k=;
+	s=k20201202; t=1776691826;
+	bh=qidpnksWH8YCgvNCmhvq/DCXQiiTWg4VFcR0Pg+sVQI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=M2iKRqSYFvIsc7Z3glR04GW/eTqxYPUlOaqfs11C3ipfv2NlaCVFf5vimTHQJqFRm
-	 GkZwO0eNJwYF9A6EdEx8zfB1Ygo2JOY3SeqXzgnICim8wsVF2NH1+aHYnUGnd2TkSU
-	 0MdqNc/mGlx0l5R0zBV6GrBSpFaC2+U8zq11kSbPMa62ztiqbLeJcMJedtex1mmesR
-	 gAdAS/EAQxoYFQ1418tk8EUcDjEGLYxxBBUdfBOKrYSzX2txSKD7xw7GEdwTUmq0HR
-	 B6Gifp6Ne9GF+e6d9P/dzQdzwoPVP3OopgNtrND7SLme0wsNm12FRUr4IVTM1+6ehU
-	 7E0NlVPkoNNcw==
+	b=Flak9/wHQzuekj31x9Y94yO+iB24xsaBvFQbJFoCz1yQD/9iiZG7//EkBzq+3KC6t
+	 faoX0Xbh6XbjKUFWClPZI/TE0wxTgXrY4ic/acBD0u5pYoyuHVMG3ITRaqrCyIGScD
+	 TS7BA1CfjlkkJ7+wqjhnLvT9pFZ52I6dalVXBy32hwuO/BwOjkyIjXkvMivdfEl3Pr
+	 wgx3cBHtpta/OwzEpfXavMk0Rx/iKI8oGKGXPmLxbIl7vl0DvVkPc9BOKwAVQnk4Ew
+	 5Y+kYV0VHUlI44lsWrk8o3jal+go6qKmw5MhNVzP7RQg/T68pmQR98ZCHK64SA7Njc
+	 bmvX5mgP4tlCQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Yang Wen <anmuxixixi@gmail.com>,
-	Namjae Jeon <linkinjeon@kernel.org>,
+Cc: Hyungjung Joo <jhj140711@gmail.com>,
+	David Sterba <dsterba@suse.com>,
 	Sasha Levin <sashal@kernel.org>,
-	sj1557.seo@samsung.com,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 7.0-5.10] exfat: use truncate_inode_pages_final() at evict_inode()
-Date: Mon, 20 Apr 2026 09:20:03 -0400
-Message-ID: <20260420132314.1023554-209-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 7.0-5.10] affs: bound hash_pos before table lookup in affs_readdir
+Date: Mon, 20 Apr 2026 09:20:11 -0400
+Message-ID: <20260420132314.1023554-217-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260420132314.1023554-1-sashal@kernel.org>
 References: <20260420132314.1023554-1-sashal@kernel.org>
@@ -53,317 +52,424 @@ X-stable-base: Linux 7.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Yang Wen <anmuxixixi@gmail.com>
+From: Hyungjung Joo <jhj140711@gmail.com>
 
-[ Upstream commit 4637b4cdd7aebfa2e38fa39f4db91fa089b809c5 ]
+[ Upstream commit 6fa253b38b9b293a0de2a361de400557ca7666ca ]
 
-Currently, exfat uses truncate_inode_pages() in exfat_evict_inode().
-However, truncate_inode_pages() does not mark the mapping as exiting,
-so reclaim may still install shadow entries for the mapping until
-the inode teardown completes.
+affs_readdir() decodes ctx->pos into hash_pos and chain_pos and then
+dereferences AFFS_HEAD(dir_bh)->table[hash_pos] before validating
+that hash_pos is within the runtime table bound. Treat out-of-range
+positions as end-of-directory before the first table lookup.
 
-In older kernels like Linux 5.10, if shadow entries are present
-at that point,clear_inode() can hit
-
-    BUG_ON(inode->i_data.nrexceptional);
-
-To align with VFS eviction semantics and prevent this situation,
-switch to truncate_inode_pages_final() in ->evict_inode().
-
-Other filesystems were updated to use truncate_inode_pages_final()
-in ->evict_inode() by commit 91b0abe36a7b ("mm + fs: store shadow
-entries in page cache")'.
-
-Signed-off-by: Yang Wen <anmuxixixi@gmail.com>
-Signed-off-by: Namjae Jeon <linkinjeon@kernel.org>
+Signed-off-by: Hyungjung Joo <jhj140711@gmail.com>
+Reviewed-by: David Sterba <dsterba@suse.com>
+Signed-off-by: David Sterba <dsterba@suse.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-Now I have enough information for a comprehensive analysis. Let me
-compile the full assessment.
+Now I have all the information needed for a thorough analysis.
 
 ---
 
 ## PHASE 1: COMMIT MESSAGE FORENSICS
 
-**Step 1.1: Subject Line**
-- Subsystem: `exfat` (filesystem)
-- Action verb: "use" — implies correcting an incorrect API usage
-- Summary: Switch from `truncate_inode_pages()` to
-  `truncate_inode_pages_final()` in `evict_inode()`
-- Record: [exfat] [use/correct] [Switch to correct VFS eviction API]
+### Step 1.1: PARSE THE SUBJECT LINE
+- **Subsystem**: `affs` (Amiga Fast File System)
+- **Action verb**: "bound" — implies adding a missing bounds check
+- **Summary**: Bound `hash_pos` before using it as an array index into
+  `AFFS_HEAD(dir_bh)->table[]` in `affs_readdir()`
 
-**Step 1.2: Tags**
-- Signed-off-by: Yang Wen <anmuxixixi@gmail.com> (author)
-- Signed-off-by: Namjae Jeon <linkinjeon@kernel.org> (exfat maintainer —
-  approval)
-- No Fixes: tag, no Cc: stable — expected for this review pipeline
-- No Reported-by, Link, or Tested-by tags
-- Record: Maintainer (Namjae Jeon) signed off — strong quality signal.
+Record: [affs] [bound/validate] [Add missing bounds check on hash_pos
+before table array lookup in readdir]
 
-**Step 1.3: Commit Body**
-The commit explains:
-1. exfat uses `truncate_inode_pages()` in `evict_inode()`, which doesn't
-   set `AS_EXITING`
-2. Without `AS_EXITING`, reclaim can install shadow entries into the
-   page cache after truncation
-3. On Linux 5.10, leftover shadow entries trigger
-   `BUG_ON(inode->i_data.nrexceptional)` in `clear_inode()` — a kernel
-   crash
-4. Other filesystems were already converted by commit 91b0abe36a7b
-   (2014), but exfat was added later (2020) and missed this
-- Record: Bug = incorrect VFS API usage allowing race with reclaim;
-  Symptom = BUG_ON crash on 5.10, semantic incorrectness on all
-  versions; Root cause = exfat added after the 91b0abe36a7b mass
-  conversion and missed the pattern.
+### Step 1.2: PARSE ALL COMMIT MESSAGE TAGS
+- **Signed-off-by**: Hyungjung Joo <jhj140711@gmail.com> — the author
+- **Reviewed-by**: David Sterba <dsterba@suse.com> — the AFFS maintainer
+- **Signed-off-by**: David Sterba <dsterba@suse.com> — the AFFS
+  maintainer applied it
+- No Fixes: tag, no Reported-by:, no Link:, no Cc: stable — all expected
+  for autosel candidates.
 
-**Step 1.4: Hidden Bug Fix?**
-This is an explicit bug fix, not hidden. The commit clearly describes
-incorrect VFS semantics that can cause a kernel crash.
+Record: Patch was reviewed AND applied by the subsystem maintainer
+(David Sterba is listed as AFFS maintainer in MAINTAINERS). Strong
+quality signal.
 
-## PHASE 2: DIFF ANALYSIS
+### Step 1.3: ANALYZE THE COMMIT BODY TEXT
+The message explains:
+1. `affs_readdir()` decodes `ctx->pos` into `hash_pos` and `chain_pos`.
+2. It then dereferences `AFFS_HEAD(dir_bh)->table[hash_pos]` **before**
+   validating that `hash_pos` is within the runtime bound
+   (`s_hashsize`).
+3. The fix treats out-of-range positions as end-of-directory before the
+   first table lookup.
 
-**Step 2.1: Inventory**
-- Single file: `fs/exfat/inode.c`
-- Single line changed: `-1 / +1`
-- Function modified: `exfat_evict_inode()`
-- Scope: Minimal surgical fix — a single API call replacement
-- Record: [fs/exfat/inode.c: +1/-1] [exfat_evict_inode] [single-file
-  surgical fix]
+Record: Bug = out-of-bounds array access. Symptom = potential read
+beyond buffer. The author clearly understands the bug mechanism.
 
-**Step 2.2: Code Flow Change**
-- BEFORE: `truncate_inode_pages(&inode->i_data, 0)` — truncates pages
-  but does NOT set `AS_EXITING` flag
-- AFTER: `truncate_inode_pages_final(&inode->i_data)` — sets
-  `AS_EXITING` flag, cycles the xarray lock, then truncates pages
+### Step 1.4: DETECT HIDDEN BUG FIXES
+This is NOT hidden — it's explicitly a missing bounds check (a real out-
+of-bounds access fix).
 
-Looking at the implementation of `truncate_inode_pages_final()`:
+Record: This is a direct bug fix adding a missing safety check.
 
-```495:521:mm/truncate.c
- - Filesystems have to use this in the .evict_inode path to inform the
- - VM that this is the final truncate and the inode is going away.
- */
-void truncate_inode_pages_final(struct address_space *mapping)
-{
-        mapping_set_exiting(mapping);
-        // ... lock cycling for memory ordering ...
-        truncate_inode_pages(mapping, 0);
-}
+---
+
+## PHASE 2: DIFF ANALYSIS - LINE BY LINE
+
+### Step 2.1: INVENTORY THE CHANGES
+- **Files changed**: 1 (`fs/affs/dir.c`)
+- **Lines added**: 2
+- **Lines removed**: 0
+- **Function modified**: `affs_readdir()`
+- **Scope**: Single-file, single-function, 2-line surgical fix.
+
+Record: Extremely minimal change — 2 lines added in one function in one
+file.
+
+### Step 2.2: UNDERSTAND THE CODE FLOW CHANGE
+
+The fix adds this check between lines 121 and 123 (before the first
+array dereference):
+
+```c
+if (hash_pos >= AFFS_SB(sb)->s_hashsize)
+    goto done;
 ```
 
-The function literally just adds `mapping_set_exiting()` + a lock cycle,
-then calls `truncate_inode_pages(mapping, 0)` — the exact same call
-being replaced.
+**BEFORE**: `hash_pos` derived from `(ctx->pos - 2) >> 16` is used
+directly as an index into `table[]` with no validation. The only bounds
+check is in the later `for` loop at line 139.
 
-**Step 2.3: Bug Mechanism**
-- Category: Race condition / incorrect VFS API usage
-- Without `AS_EXITING`, page reclaim can race with inode teardown and
-  install shadow entries into the address space mapping after truncation
-  but before `clear_inode()`. On 5.10 kernels, `clear_inode()` had
-  `BUG_ON(inode->i_data.nrexceptional)` which would fire.
-- Record: [Race condition] [Reclaim installs shadow entries during inode
-  teardown; BUG_ON crash on 5.10]
+**AFTER**: If `hash_pos >= s_hashsize`, we jump to `done` which cleanly
+saves state and returns (end-of-directory).
 
-**Step 2.4: Fix Quality**
-- Obviously correct — `truncate_inode_pages_final()` is the documented
-  mandatory API for `.evict_inode` paths
-- The VFS default path already uses it (line 848 of `fs/inode.c`)
-- All 40+ other filesystems use it
-- FAT (exfat's closest relative) uses it
-- Zero regression risk — `truncate_inode_pages_final()` is a strict
-  superset of `truncate_inode_pages(mapping, 0)`
-- Record: [Obviously correct, zero regression risk]
+### Step 2.3: IDENTIFY THE BUG MECHANISM
+
+This is a **buffer overflow / out-of-bounds read** (category g -
+logic/correctness + category d - memory safety):
+
+- `struct affs_head` has a flexible array member `__be32 table[]` (from
+  `amigaffs.h` line 84)
+- `table` occupies space within the disk block buffer. Its valid size is
+  `s_hashsize = blocksize / 4 - 56` entries (set in `super.c` line 401)
+- `hash_pos` comes from `(ctx->pos - 2) >> 16`. Since `ctx->pos` is a
+  `loff_t` and can be set via `lseek()` on the directory file
+  descriptor, a user can set it to any value
+- An out-of-range `hash_pos` reads past the allocated block buffer,
+  which is a heap buffer overread
+
+Contrast with other callers: `affs_hash_name()` (used in `namei.c` and
+`amigaffs.c`) returns `hash % AFFS_SB(sb)->s_hashsize` — always bounded.
+But `affs_readdir()` is the ONLY place where `hash_pos` comes from user-
+controlled `ctx->pos` without bounds validation.
+
+Record: Out-of-bounds array read. `hash_pos` from user-controlled
+`ctx->pos` used as index into `table[]` without bounds check. Fix adds
+the check before the first dereference.
+
+### Step 2.4: ASSESS THE FIX QUALITY
+- **Obviously correct**: Yes. The check `hash_pos >= s_hashsize` is the
+  exact same condition used in the `for` loop at line 139. The `goto
+  done` label already exists and is the correct cleanup path.
+- **Minimal/surgical**: Yes. 2 lines, single function, no side effects.
+- **Regression risk**: Essentially zero. For valid `hash_pos` values,
+  behavior is unchanged. For invalid values that previously caused OOB
+  access, we now cleanly return end-of-directory.
+
+Record: Fix is trivially correct, minimal, and carries no regression
+risk.
+
+---
 
 ## PHASE 3: GIT HISTORY INVESTIGATION
 
-**Step 3.1: Blame**
-The buggy line was introduced in commit `5f2aa075070cf5` ("exfat: add
-inode operations") by Namjae Jeon, dated 2020-03-02, merged for v5.7.
-The `truncate_inode_pages()` call has been present since the first
-commit of exfat.
+### Step 3.1: BLAME THE CHANGED LINES
+From git blame, line 123 (`ino =
+be32_to_cpu(AFFS_HEAD(dir_bh)->table[hash_pos]);`) is attributed to
+`^1da177e4c3f41` — Linus Torvalds, 2005-04-16 — the initial Linux
+2.6.12-rc2 commit.
 
-**Step 3.2: Fixes Tag**
-No Fixes: tag present. The bug was introduced when exfat was added
-(5f2aa075070cf5). The referenced commit 91b0abe36a7b from 2014 converted
-most filesystems but exfat didn't exist yet.
+Record: The buggy code has been present since **Linux 2.6.12-rc2
+(2005)**. This means the bug exists in **every stable tree ever**.
 
-**Step 3.3: File History**
-Recent changes to `fs/exfat/inode.c` are mostly cleanups and multi-
-cluster support — none touching `evict_inode()`. This fix is standalone
-with no dependencies.
+### Step 3.2: FOLLOW THE FIXES TAG
+No Fixes: tag present. However, the bug effectively traces back to
+`1da177e4c3f41` (Linux 2.6.12-rc2).
 
-**Step 3.4: Author**
-Yang Wen (anmuxixixi@gmail.com) appears to be a contributor to exfat.
-The fix is signed off by Namjae Jeon, the exfat maintainer.
+Record: Bug predates all current stable trees.
 
-**Step 3.5: Dependencies**
-None. The fix uses `truncate_inode_pages_final()` which has existed
-since 2014 (v3.15+). It's available in every stable tree.
+### Step 3.3: CHECK FILE HISTORY
+The file `fs/affs/dir.c` has been remarkably stable. Between v5.15 and
+v6.6, there were **zero changes**. The only change between v6.6 and v7.0
+was `bad74142a04bf` (affs: store cookie in private data, 2024-08-30)
+which refactored how the iversion cookie is stored. The core readdir
+logic including the buggy lines hasn't changed since 2005.
 
-## PHASE 4: MAILING LIST RESEARCH
+Record: Very stable file. No prerequisites needed. The fix is
+standalone.
 
-Could not access lore.kernel.org directly due to Anubis protection. Web
-search found other patches by Yang Wen for exfat but not this specific
-patch. The commit is likely very recent and may not be fully indexed
-yet. The maintainer sign-off by Namjae Jeon indicates proper review.
+### Step 3.4: CHECK THE AUTHOR
+Hyungjung Joo doesn't appear to have other commits in this tree (not a
+regular contributor). However, the patch was reviewed and applied by
+David Sterba, who is the AFFS maintainer per MAINTAINERS.
+
+Record: External contributor, but vetted by the subsystem maintainer.
+
+### Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS
+The fix adds a simple check using `AFFS_SB(sb)->s_hashsize` and the
+existing `done` label — both present in all kernel versions since 6.6+
+(and much earlier). No dependencies.
+
+Record: Completely standalone. No prerequisites.
+
+---
+
+## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
+
+### Steps 4.1-4.5
+Lore.kernel.org was not accessible due to bot protection. b4 dig could
+not find the commit hash (the commit isn't in this tree). However:
+
+- The patch was reviewed by the AFFS maintainer David Sterba (`Reviewed-
+  by:`)
+- David Sterba also applied it (`Signed-off-by:` as committer)
+- The "Odd Fixes" maintenance status in MAINTAINERS means this subsystem
+  only gets bug fixes, which is consistent with this patch being a fix.
+
+Record: Could not fetch lore discussion due to bot protection. The
+maintainer's review and sign-off provide sufficient confidence.
+
+---
 
 ## PHASE 5: CODE SEMANTIC ANALYSIS
 
-**Step 5.1: Key Function**
-Modified function: `exfat_evict_inode()`
+### Step 5.1: IDENTIFY KEY FUNCTIONS
+Modified function: `affs_readdir()`
 
-**Step 5.2: Callers**
-`exfat_evict_inode` is the `.evict_inode` callback in exfat's
-super_operations. It's called by the VFS `evict()` function in
-`fs/inode.c` (line 846) during inode teardown — a very common operation
-triggered by:
-- File deletion (`unlink` -> last `iput`)
-- Cache eviction (memory pressure)
-- Unmounting filesystems
+### Step 5.2: TRACE CALLERS
+`affs_readdir` is registered as `.iterate_shared` in
+`affs_dir_operations`. It is called by the VFS `getdents`/`readdir`
+syscall path when reading entries from an AFFS directory. This is
+directly reachable from userspace by any user who can mount and read
+AFFS filesystems.
 
-**Step 5.3-5.4: Call chain**
-The VFS default itself uses `truncate_inode_pages_final()` when no
-`.evict_inode` is defined (line 848). This confirms exfat MUST use it
-too.
+### Step 5.3-5.4: CALL CHAIN
+Userspace path: `getdents64()` syscall -> `iterate_dir()` ->
+`affs_readdir()` -> `AFFS_HEAD(dir_bh)->table[hash_pos]` (OOB access)
 
-**Step 5.5: Similar Patterns**
-Only exfat still uses `truncate_inode_pages()` in an evict_inode
-context. All other filesystems (fat, ext4, btrfs, xfs, f2fs, ntfs3,
-etc.) already use `truncate_inode_pages_final()`. The gfs2 commits
-`a9dd945ccef07` and `ee1e2c773e4f4` fixed similar missing calls and were
-considered important bug fixes.
+The user controls `ctx->pos` via `lseek()` on the directory fd. Setting
+it to a large value produces a large `hash_pos` that triggers the OOB
+read.
 
-## PHASE 6: STABLE TREE ANALYSIS
+Record: Directly reachable from userspace. Any user with access to an
+AFFS mount can trigger this.
 
-**Step 6.1: Buggy Code in Stable?**
-The buggy code exists in ALL active stable trees since v5.7. exfat was
-added in v5.7 (commit 5f2aa075070cf5). Active LTS trees affected:
-5.10.y, 5.15.y, 6.1.y, 6.6.y, 6.12.y.
+### Step 5.5: SEARCH FOR SIMILAR PATTERNS
+Other AFFS table accesses (in `namei.c`, `amigaffs.c`) use
+`affs_hash_name()` which returns `hash % s_hashsize` — always bounded.
+The `readdir` path is the only one that computes `hash_pos` from user-
+controlled input without bounds checking.
 
-Critical: On **5.10.y**, `clear_inode()` still contains
-`BUG_ON(inode->i_data.nrexceptional)` — the nrexceptional BUG_ON removal
-(commit 786b31121a2ce) was merged in v5.13. So on 5.10 LTS, this bug can
-cause a kernel crash.
+Record: This is the only vulnerable access pattern; other paths are
+properly bounded.
 
-**Step 6.2: Backport Complications**
-None. The fix is a single-line change to a function that hasn't been
-modified since its creation. Will apply cleanly to all stable trees.
+---
 
-**Step 6.3: Related Fixes Already in Stable?**
-No. No other fix for this issue exists.
+## PHASE 6: CROSS-REFERENCING AND STABLE TREE ANALYSIS
+
+### Step 6.1: DOES THE BUGGY CODE EXIST IN STABLE TREES?
+Yes. The buggy line (line 123) is from the original 2005 commit. It
+exists in **all** stable trees. Verified that `fs/affs/dir.c` had zero
+changes between v5.15 and v6.6, and only one minor refactor
+(`bad74142a04bf`) between v6.6 and v7.0.
+
+Record: Bug exists in all active stable trees.
+
+### Step 6.2: BACKPORT COMPLICATIONS
+The patch context differs slightly between v7.0 (where `data->ino` and
+`data->cookie` are used) and v6.6 and older (where `file->private_data`
+and `file->f_version` are used). However, the fix inserts between the
+iversion check and the table lookup, and the critical line `ino =
+be32_to_cpu(AFFS_HEAD(dir_bh)->table[hash_pos])` is identical across all
+versions. The patch may need minor context adjustment for trees before
+v6.12, but the fix itself is trivially portable.
+
+Record: Clean apply on v6.12+; may need minor context fixup for v6.6 and
+older. Trivially adaptable.
+
+### Step 6.3: RELATED FIXES ALREADY IN STABLE
+No related fixes found. This specific OOB access has never been patched
+before.
+
+Record: No duplicate fix exists.
+
+---
 
 ## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 
-**Step 7.1: Subsystem Criticality**
-exfat is an IMPORTANT filesystem — widely used for USB flash drives, SD
-cards, and Windows/Linux interoperability. It's the default filesystem
-for SDXC cards (64GB+) and is used on Android devices.
+### Step 7.1: IDENTIFY SUBSYSTEM AND CRITICALITY
+- **Subsystem**: `fs/affs/` — Amiga Fast File System
+- **Criticality**: PERIPHERAL — niche filesystem, but used for Amiga
+  disk image access and retro-computing communities
+- **Maintenance status**: "Odd Fixes" — only bug fixes accepted,
+  consistent with this patch
 
-**Step 7.2: Activity**
-exfat is actively maintained by Namjae Jeon. Regular bug fixes and
-improvements flow through.
+Record: Peripheral subsystem. However, filesystem bugs can cause data
+corruption or security issues, and the fix is trivially safe.
+
+### Step 7.2: SUBSYSTEM ACTIVITY
+Very low activity — a handful of commits over years. This is a mature,
+stable codebase. The bug has been latent for 20 years.
+
+Record: Mature subsystem. Bug has been present since the beginning.
+
+---
 
 ## PHASE 8: IMPACT AND RISK ASSESSMENT
 
-**Step 8.1: Affected Users**
-All exfat users on all stable kernel versions.
+### Step 8.1: AFFECTED USERS
+Users who mount AFFS filesystems (Amiga-format media). This is niche but
+real — retro-computing, disk image forensics, embedded systems with
+Amiga hardware.
 
-**Step 8.2: Trigger Conditions**
-Inode eviction — extremely common operation. Triggered by: deleting
-files, dropping caches, memory pressure, unmounting. The race with
-reclaim requires memory pressure during inode eviction, which is
-realistic on systems with limited memory (embedded, mobile).
+Record: Niche filesystem users, but any system that processes AFFS
+images is affected.
 
-**Step 8.3: Failure Mode Severity**
-- On 5.10.y: `BUG_ON` -> kernel crash -> **CRITICAL**
-- On 5.13+: Semantic incorrectness, potential for reclaim to interact
-  incorrectly with dying inodes -> **MEDIUM-HIGH**
+### Step 8.2: TRIGGER CONDITIONS
+- Mount an AFFS filesystem
+- Open a directory
+- `lseek()` the directory fd to a position where `(pos - 2) >> 16 >=
+  s_hashsize`
+- Call `getdents()` (or any readdir)
 
-**Step 8.4: Risk-Benefit Ratio**
-- BENEFIT: Prevents kernel crashes on 5.10.y; fixes incorrect VFS
-  semantics on all versions; aligns with all other filesystems
-- RISK: Effectively ZERO — `truncate_inode_pages_final()` is a strict
-  superset that adds `AS_EXITING` before doing exactly the same thing
-- Ratio: Extremely favorable
+This is **trivially triggerable by an unprivileged local user** with
+access to the mount, or by a **crafted disk image** (e.g., automounted
+removable media).
+
+Record: Easily triggered. Unprivileged user can trigger via lseek +
+getdents. Also triggerable via crafted disk images.
+
+### Step 8.3: FAILURE MODE SEVERITY
+The OOB read on `AFFS_HEAD(dir_bh)->table[hash_pos]` reads beyond the
+block buffer (`dir_bh->b_data`). This can:
+- **Read garbage data** from adjacent slab objects → potential
+  **information leak**
+- **Trigger KASAN** reports (slab-out-of-bounds)
+- **Crash** if the read hits an unmapped page
+- Use the garbage value as a block number for `affs_bread()`, leading to
+  further **unpredictable behavior**
+
+Record: Severity = **HIGH**. Out-of-bounds heap read with potential for
+crash, information leak, or cascading corruption.
+
+### Step 8.4: RISK-BENEFIT RATIO
+- **BENEFIT**: Fixes an OOB read reachable from userspace, present in
+  all stable trees for 20 years. Prevents potential crash/info-leak.
+- **RISK**: 2 lines, uses existing check pattern and existing `done`
+  label. Effectively zero regression risk.
+- **Ratio**: Very high benefit, near-zero risk.
+
+Record: Excellent risk/benefit ratio.
+
+---
 
 ## PHASE 9: FINAL SYNTHESIS
 
+### Step 9.1: COMPILE THE EVIDENCE
+
 **Evidence FOR backporting:**
-1. Fixes a real bug: race between reclaim and inode teardown
-2. On 5.10 LTS: can trigger `BUG_ON` crash (CRITICAL severity)
-3. Single-line change — absolute minimum risk
-4. Obviously correct — documented VFS requirement ("Filesystems have to
-   use this in the .evict_inode path")
-5. All other filesystems already use the correct API
-6. FAT filesystem (exfat's closest relative) already uses it
-7. Approved by exfat maintainer (Namjae Jeon)
-8. Applies cleanly to all stable trees
-9. No dependencies — uses an API available since v3.15
-10. exfat is a widely-used filesystem (USB, SD cards, cross-platform)
+- Fixes a real out-of-bounds array read bug
+- Directly reachable from unprivileged userspace (lseek + getdents)
+- Also triggerable by crafted disk images
+- Bug exists since Linux 2.6.12-rc2 (2005) — present in ALL stable trees
+- Fix is 2 lines, obviously correct, and uses existing patterns
+- Reviewed and applied by the AFFS maintainer (David Sterba)
+- Zero regression risk
+- No dependencies on other patches
 
 **Evidence AGAINST backporting:**
-- None identified
+- AFFS is a niche filesystem (low user population)
+- Minor context adjustment may be needed for pre-6.12 stable trees
+- No syzbot report or Reported-by (but the bug is clearly real from code
+  inspection)
 
-**Stable Rules Checklist:**
-1. Obviously correct and tested? **YES** — trivial API replacement,
-   maintainer-approved
-2. Fixes a real bug? **YES** — crash on 5.10, incorrect semantics on all
-   versions
-3. Important issue? **YES** — kernel crash (CRITICAL)
-4. Small and contained? **YES** — single line change, one file
-5. No new features or APIs? **YES** — uses existing API
-6. Can apply to stable? **YES** — no dependencies, clean apply expected
+**Unresolved:**
+- Could not access lore discussion due to bot protection (not impactful
+  — maintainer review provides sufficient confidence)
+
+### Step 9.2: STABLE RULES CHECKLIST
+1. **Obviously correct and tested?** YES — trivial bounds check,
+   reviewed by maintainer
+2. **Fixes a real bug?** YES — out-of-bounds array read from user-
+   controlled input
+3. **Important issue?** YES — potential crash, info leak, or undefined
+   behavior from userspace
+4. **Small and contained?** YES — 2 lines in one function in one file
+5. **No new features or APIs?** CORRECT — purely a safety check
+6. **Can apply to stable trees?** YES — clean or near-clean apply across
+   all active stable trees
+
+### Step 9.3: EXCEPTION CATEGORIES
+Not an exception category — this is a standard bug fix.
+
+### Step 9.4: DECISION
+This is a small, obviously correct bounds check that prevents an out-of-
+bounds array access reachable from unprivileged userspace. It has been
+reviewed and applied by the subsystem maintainer, carries no regression
+risk, and applies to all stable trees. This is a textbook stable
+backport candidate.
+
+---
 
 ## Verification
 
-- [Phase 1] Parsed tags: Signed-off-by from author (Yang Wen) and
-  maintainer (Namjae Jeon)
-- [Phase 2] Diff analysis: 1 line changed in `exfat_evict_inode()`,
-  replaces `truncate_inode_pages()` with `truncate_inode_pages_final()`
-- [Phase 3] git blame: buggy code from commit `5f2aa075070cf5` (v5.7,
-  2020-03-02), present in all stable trees since v5.7
-- [Phase 3] git show `91b0abe36a7b`: confirmed this 2014 commit
-  converted other filesystems but predates exfat
-- [Phase 3] git show `786b31121a2ce`: confirmed BUG_ON(nrexceptional)
-  was removed in v5.13 — still present in 5.10.y
-- [Phase 5] Read `mm/truncate.c:489-522`: Confirmed documentation says
-  "Filesystems have to use this in the .evict_inode path"
-- [Phase 5] Read `fs/inode.c:845-850`: VFS default uses
-  `truncate_inode_pages_final()`, confirming it's mandatory
-- [Phase 5] Grep: Confirmed all other filesystems (fat, ext4, btrfs,
-  xfs, etc.) use `truncate_inode_pages_final()`; only exfat still uses
-  the wrong function in evict_inode
-- [Phase 6] git log v5.7 -- fs/exfat/inode.c: Confirmed exfat exists
-  since v5.7, present in 5.10.y+
-- [Phase 6] No conflicting changes to `exfat_evict_inode()` — function
-  unchanged since creation
-- [Phase 7] Namjae Jeon confirmed as exfat maintainer via git log
-- [Phase 8] Risk: zero — `truncate_inode_pages_final()` is a strict
-  superset of `truncate_inode_pages(mapping, 0)`
-- UNVERIFIED: Could not access lore.kernel.org discussion thread due to
-  Anubis protection (does not affect decision — the technical merit is
-  clear)
+- [Phase 1] Parsed tags: Reviewed-by David Sterba (AFFS maintainer), SOB
+  from David Sterba as committer
+- [Phase 2] Diff analysis: 2 lines added in `affs_readdir()`, adds
+  bounds check `if (hash_pos >= s_hashsize) goto done;` before first
+  `table[hash_pos]` access
+- [Phase 2] Verified `struct affs_head` has `__be32 table[]` flexible
+  array member (`amigaffs.h:77-85`)
+- [Phase 2] Verified `s_hashsize = blocksize / 4 - 56` (`super.c:401`)
+- [Phase 2] Verified `hash_pos = (ctx->pos - 2) >> 16` derived from
+  user-controllable file position
+- [Phase 3] git blame: buggy line 123 from commit `1da177e4c3f41` (Linux
+  2.6.12-rc2, 2005), present in all stable trees
+- [Phase 3] git log: zero changes to dir.c between v5.15 and v6.6; one
+  unrelated refactor `bad74142a04bf` between v6.6 and v7.0
+- [Phase 3] MAINTAINERS: David Sterba listed as AFFS maintainer, status
+  "Odd Fixes"
+- [Phase 5] Verified `affs_hash_name()` returns `hash % s_hashsize`
+  (bounded), but `affs_readdir` computes hash_pos from unchecked user
+  input
+- [Phase 5] Verified `affs_readdir` is called via `.iterate_shared` in
+  VFS readdir path — directly reachable from getdents syscall
+- [Phase 6] Verified v6.6 `fs/affs/dir.c` has identical buggy code at
+  the same location
+- [Phase 6] No duplicate fix found in any stable tree
+- UNVERIFIED: Could not access lore discussion due to bot protection
+  (does not affect decision — maintainer review confirmed via tags)
 
 **YES**
 
- fs/exfat/inode.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ fs/affs/dir.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/fs/exfat/inode.c b/fs/exfat/inode.c
-index 2fb2d2d5d503a..567308aff726a 100644
---- a/fs/exfat/inode.c
-+++ b/fs/exfat/inode.c
-@@ -686,7 +686,7 @@ struct inode *exfat_build_inode(struct super_block *sb,
+diff --git a/fs/affs/dir.c b/fs/affs/dir.c
+index 5c8d83387a394..075c18c4ccde6 100644
+--- a/fs/affs/dir.c
++++ b/fs/affs/dir.c
+@@ -119,6 +119,8 @@ affs_readdir(struct file *file, struct dir_context *ctx)
+ 		pr_debug("readdir() left off=%d\n", ino);
+ 		goto inside;
+ 	}
++	if (hash_pos >= AFFS_SB(sb)->s_hashsize)
++		goto done;
  
- void exfat_evict_inode(struct inode *inode)
- {
--	truncate_inode_pages(&inode->i_data, 0);
-+	truncate_inode_pages_final(&inode->i_data);
- 
- 	if (!inode->i_nlink) {
- 		i_size_write(inode, 0);
+ 	ino = be32_to_cpu(AFFS_HEAD(dir_bh)->table[hash_pos]);
+ 	for (i = 0; ino && i < chain_pos; i++) {
 -- 
 2.53.0
 
