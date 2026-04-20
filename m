@@ -1,43 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFBF833DEDF
-	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Apr 2026 15:48:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 808A5313547
+	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Apr 2026 15:50:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776700106; cv=none; b=iBAmygPMW8LL87+XGQvxPYUTbfxmhxuF85p6aRVyv8jq/yijawbiyU3oOWJob8UjZlsUbcjgR4fpm6E9MGj7wvciaYtbb9X9/SoREE3csKqTGHmS2x4/gK2YPs/P/FiDW9gsVajvN1O81ubCATGF7/v29m7vexHfsxtLnd6q3pc=
+	t=1776700215; cv=none; b=VnXxkgZcFg2w92VxpWj/WDlk/OU+oMwicToObPuJwu9CiOe3a6Ml0UO/2VJj6KdC/azx0CcPsKCt8f6ZbfxGbvJlkaQkNC26wCtGrCFc2Y8w8h/MUPpKhGfJNeqCoQNafGAi9On0UQnAIvvHvbmHucUJyj5moV8nFFEQcjv6UwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776700106; c=relaxed/simple;
-	bh=2ZOuC26EFCFGlw8dxFdxDxRnwRkvdA98P/FL6tA+chQ=;
+	s=arc-20240116; t=1776700215; c=relaxed/simple;
+	bh=pJHPkbj0zGIGILC4VBGPq85dh5ZmfSFQrNTBCbMwCDs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LyxEgBU+keJZT9EumlclQgJ7vwaDELjbbHgWmzGqw5zSGWMzj0NfOy8aq4HNZE9dzv0uGtCwFY22vU9Of+AuBj1FVYPZiGhvogtioVKDeLZhT1mzUXE81enrLqd9kPd+QDeEDdzdwakx+dR5KqQzs8dwj3nT/53YgOuX4n0WJwk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fpAshdRr; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=LP63ez0Dx5nPGh73OXp+/ITwBszkTJuqR2xx5AS7g74cHP9pMWUVhd/CrVF6y4xBEcR9A6Y/inMapCVgWpucKEyP3I4DhKxgBPVJwzpcyBWU1U262wlMQ0V4bcWfcPah4sDmldhKSwsoxmsW57EmKcvtufNep4Ca6jJHRT42TH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=yrALJMBO; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=6ZMNMdnI; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=yrALJMBO; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=6ZMNMdnI; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fpAshdRr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CB2AC2BCB4;
-	Mon, 20 Apr 2026 15:48:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776700106;
-	bh=2ZOuC26EFCFGlw8dxFdxDxRnwRkvdA98P/FL6tA+chQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fpAshdRrhbAWZ6DfrkVcbst3/goxNsH+3TGbt3sYXot6njDGzkC35YXB9RurK8vEi
-	 7FZjMd78f/6stA6dBaXi6b5QgW2ETg9O+1GnXfVq70H4HZjGjmIgf+UQHqsgyov8VC
-	 Gt93VBMad9GjBOB3gji2VRMJW+FHlFXNH0LLNIWICF+ExFJZ4hwR7jrFu8gSkFnVmL
-	 7qodQq5xY4AF9xKkkWG0p+lwcVMnxFHg9V6I1VAQb3zxKNh23GdbjUuGUyKFciaNga
-	 1MQSeSbfhiGRdZc166ZY59WjhRqoGZB7hgAm8RW8/46jCOV2Os9W1T9C2sPhMgFP3/
-	 12G2aeH5hMUnA==
-Date: Mon, 20 Apr 2026 08:48:26 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: linux-fsdevel@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
-	Joanne Koong <joannelkoong@gmail.com>, Kevin Chen <kchen@ddn.com>,
-	Bernd Schubert <bschubert@ddn.com>
-Subject: Re: [PATCH v2 13/25] Add support for the new linux mount API
-Message-ID: <20260420154826.GJ7727@frogsfrogsfrogs>
-References: <20260326-fuse-init-before-mount-v2-0-b1ca8fcbf60f@bsbernd.com>
- <20260326-fuse-init-before-mount-v2-13-b1ca8fcbf60f@bsbernd.com>
- <20260330182731.GW6202@frogsfrogsfrogs>
- <a83cb254-2b7f-4957-9e88-6f5d1dbc716a@bsbernd.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="yrALJMBO";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="6ZMNMdnI";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="yrALJMBO";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="6ZMNMdnI"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id AD0A55BCD7;
+	Mon, 20 Apr 2026 15:50:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1776700212; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+O8jLVIvmydo3KfeUb97tJo2DVzie5fDGrI2KYfTX1E=;
+	b=yrALJMBOSJcsDojeTuzaIhGzHbJwY8noXzo9mNpBOjjeg1FX77+hccLxzxY4Otx2ymvXQh
+	bXGVl1AuFFQZVFA6yYbN8K4TyHPoal6s7oCtKlva7ek96a4OmCp/GdhW8FYlyVrL1pMcAo
+	5PAWznFBCXvhPC4aaq6cihqIi0LpX4s=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1776700212;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+O8jLVIvmydo3KfeUb97tJo2DVzie5fDGrI2KYfTX1E=;
+	b=6ZMNMdnICkGNn2O8u/PzmcDmexmZjmS8MI4XaKf5RJv/9rUMLM1142iuyfU4j/EDUOfBa5
+	tFO+IHHJ/OSrtNBw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=yrALJMBO;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=6ZMNMdnI
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1776700212; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+O8jLVIvmydo3KfeUb97tJo2DVzie5fDGrI2KYfTX1E=;
+	b=yrALJMBOSJcsDojeTuzaIhGzHbJwY8noXzo9mNpBOjjeg1FX77+hccLxzxY4Otx2ymvXQh
+	bXGVl1AuFFQZVFA6yYbN8K4TyHPoal6s7oCtKlva7ek96a4OmCp/GdhW8FYlyVrL1pMcAo
+	5PAWznFBCXvhPC4aaq6cihqIi0LpX4s=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1776700212;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+O8jLVIvmydo3KfeUb97tJo2DVzie5fDGrI2KYfTX1E=;
+	b=6ZMNMdnICkGNn2O8u/PzmcDmexmZjmS8MI4XaKf5RJv/9rUMLM1142iuyfU4j/EDUOfBa5
+	tFO+IHHJ/OSrtNBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9E459593AE;
+	Mon, 20 Apr 2026 15:50:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id wSqlJjRL5mmROQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 20 Apr 2026 15:50:12 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 6B668A0AFF; Mon, 20 Apr 2026 17:50:07 +0200 (CEST)
+Date: Mon, 20 Apr 2026 17:50:07 +0200
+From: Jan Kara <jack@suse.cz>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] pidfs: don't report pidfd_info fields that won't fit
+ in the user buffer
+Message-ID: <uw4l3eotcpg2xu6db5ti6g7bf63hrxmrquxzpxxii5xi6z5cjk@2tmuzej7kons>
+References: <20260420-work-pidfs-v1-0-4bd614e1cb33@kernel.org>
+ <20260420-work-pidfs-v1-3-4bd614e1cb33@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -46,250 +90,85 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a83cb254-2b7f-4957-9e88-6f5d1dbc716a@bsbernd.com>
+In-Reply-To: <20260420-work-pidfs-v1-3-4bd614e1cb33@kernel.org>
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Rspamd-Queue-Id: AD0A55BCD7
+X-Spam-Flag: NO
+X-Spam-Score: -4.01
+X-Spam-Level: 
 
-On Sun, Apr 19, 2026 at 07:45:39PM +0200, Bernd Schubert wrote:
+On Mon 20-04-26 15:32:37, Christian Brauner wrote:
+> The UAPI documentation for struct pidfd_info promises that if the
+> structure provided by userspace is too small to contain a field, the
+> kernel will not set the corresponding bit in the returned mask.
 > 
+> The kernel violates this contract: it sets PIDFD_INFO_COREDUMP and
+> PIDFD_INFO_COREDUMP_SIGNAL in the returned mask without checking that
+> usize >= PIDFD_INFO_SIZE_VER1 (the coredump fields start at offset 64,
+> beyond a VER0 buffer). Similarly, PIDFD_INFO_SUPPORTED_MASK is set
+> without checking usize >= PIDFD_INFO_SIZE_VER2.
 > 
-> On 3/30/26 20:27, Darrick J. Wong wrote:
-> > On Thu, Mar 26, 2026 at 10:34:46PM +0100, Bernd Schubert wrote:
-> >> From: Bernd Schubert <bschubert@ddn.com>
-> >>
-> >> So far only supported for fuse_session_mount(), which is called
-> >> from high and low level API, but not yet supported for
-> >> fuse_open_channel(), which used for privilege drop through
-> >> mount.fuse. Main goal for the new API is support for synchronous
-> >> FUSE_INIT and I don't think that is going to work with
-> >> fuse_open_channel(). At least not with io-uring support as long
-> >> as it is started from FUSE_INIT.
-> >>
-> >> Signed-off-by: Bernd Schubert <bschubert@ddn.com>
+> While copy_struct_to_user() correctly only copies min(usize, ksize)
+> bytes (so no kernel memory leaks), userspace that trusts the mask bits
+> as documented may read its own uninitialized buffer and interpret it as
+> valid data.
+> 
+> Gate each set of mask bits on the user-provided struct being large
+> enough to actually deliver the corresponding fields.
+> 
+> Fixes: 9e77e4882bae ("pidfs: support retrieving supported pidfd_info flags")
+> Signed-off-by: Christian Brauner <brauner@kernel.org>
+> ---
+>  fs/pidfs.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/fs/pidfs.c b/fs/pidfs.c
+> index 2ab8fd2646f0..4c24d2eb7e41 100644
+> --- a/fs/pidfs.c
+> +++ b/fs/pidfs.c
+> @@ -375,7 +375,7 @@ static long pidfd_info(struct file *file, unsigned int cmd, unsigned long arg)
+>  		}
+>  	}
+>  
+> -	if (mask & PIDFD_INFO_COREDUMP) {
+> +	if ((mask & PIDFD_INFO_COREDUMP) && usize >= PIDFD_INFO_SIZE_VER1) {
+>  		if (test_bit(PIDFS_ATTR_BIT_COREDUMP, &attr->attr_mask)) {
+>  			smp_rmb();
+>  			kinfo.mask |= PIDFD_INFO_COREDUMP | PIDFD_INFO_COREDUMP_SIGNAL;
 
-<snip>
+This sets also PIDFD_INFO_COREDUMP_CODE which only fits for VER2? I'm not
+sure what's expected to happen for usize == VER1...
 
-> >> +/*
-> >> + * Apply VFS superblock flags to the filesystem context.
-> >> + * Only handles flags that are filesystem parameters (ro, sync, dirsync).
-> >> + * Mount attributes (nosuid, nodev, etc.) are handled separately via fsmount().
-> >> + */
-> >> +static int apply_mount_flags(int fsfd, unsigned long flags)
-> >> +{
-> >> +	int res, save_errno;
-> >> +
-> >> +	/* Handle read-only flag */
-> >> +	if (flags & MS_RDONLY) {
-> >> +		const char *flag = "ro";
-> >> +
-> >> +		res = fsconfig(fsfd, FSCONFIG_SET_FLAG, flag, NULL, 0);
-> >> +		if (res == -1) {
-> >> +			save_errno = errno;
-> >> +			fprintf(stderr, "fuse: fsconfig SET_FLAG %s failed:", flag);
-> >> +			log_fsconfig_kmsg(fsfd);
-> >> +			return -save_errno;
-> >> +		}
-> >> +	}
-> >> +
-> >> +	/* Handle sync flag */
-> >> +	if (flags & MS_SYNCHRONOUS) {
-> >> +		const char *flag = "sync";
-> >> +
-> >> +		res = fsconfig(fsfd, FSCONFIG_SET_FLAG, flag, NULL, 0);
-> >> +		if (res == -1) {
-> >> +			save_errno = errno;
-> >> +			fprintf(stderr, "fuse: fsconfig SET_FLAG %s failed:", flag);
-> >> +			log_fsconfig_kmsg(fsfd);
-> >> +			return -save_errno;
-> >> +		}
-> >> +	}
-> >> +
-> >> +#ifndef __NetBSD__
-> > 
-> > This is always true, right?  Only Linux has fsmount.
-> > 
-> >> +	/* Handle dirsync flag */
-> >> +	if (flags & MS_DIRSYNC) {
-> >> +		const char *flag = "dirsync";
-> >> +
-> >> +		res = fsconfig(fsfd, FSCONFIG_SET_FLAG, flag, NULL, 0);
-> >> +		if (res == -1) {
-> >> +			save_errno = errno;
-> >> +			fprintf(stderr, "fuse: fsconfig SET_FLAG %s failed:", flag);
-> >> +			log_fsconfig_kmsg(fsfd);
-> >> +			return -save_errno;
-> >> +		}
-> >> +	}
-> >> +#endif
-> >> +
-> >> +	return 0;
-> > 
-> > I did this a bit differently:
-> > 
-> > 
-> > static const struct ms_to_str_map strflags[] = {
-> > 	{ MS_SYNCHRONOUS,	"sync" },
-> > 	{ MS_DIRSYNC,		"dirsync" },
-> > 	{ MS_LAZYTIME,		"lazytime" },
-> > 	{ 0, 0 },
-> > };
-> > 
-> > static int set_ms_flags(struct mount_service *mo, unsigned long ms_flags)
-> > {
-> > 	const struct ms_to_str_map *i;
-> > 	int ret;
-> > 
-> > 	for (i = strflags; i->ms_flag != 0; i++) {
-> > 		if (!(ms_flags & i->ms_flag))
-> > 			continue;
-> > 
-> > 		ret = fsconfig(mo->fsopenfd, FSCONFIG_SET_FLAG, i->string,
-> > 			       NULL, 0);
-> > 		if (ret) {
-> > 			int error = errno;
-> > 
-> > 			fprintf(stderr, "%s: set %s option: %s\n",
-> > 				mo->msgtag, i->string, strerror(error));
-> > 			emit_fsconfig_messages(mo);
-> > 
-> > 			errno = error;
-> > 			return -1;
-> > 		}
-> > 		ms_flags &= ~i->ms_flag;
-> > 	}
-> > 
-> > 	/*
-> > 	 * We can't translate all the supplied MS_ flags into MOUNT_ATTR_ flags
-> > 	 * or string flags!  Return a magic code so the caller will fall back
-> > 	 * to regular mount(2).
-> > 	 */
-> > 	return ms_flags ? -2 : 0;
-> > }
-> > 
-> > That way you can always fall back to classic mount() instead of quietly
-> > dropping an MS_ flag here if one ever gets added without a corresponding
-> > MOUNT_ATTR_ flag.  AFAICT there aren't any that *would* get dropped and
-> > you can verify via code inspection, but why not avoid the logic bomb?
-> 
-> I took your function, just slightly modified it, like we can always fall
-> back from new mount api to classic.
+Otherwise the patch looks good.
 
-How does that work?  If we fail midway through setting parameters with
-fsconfig, then the user will see a bunch of error messages from that,
-followed by a successful old-school mount(2)?
-
-> > 
-> >> +}
-> >> +
-> >> +static int apply_opt_fd(int fsfd, const char *value)
-> >> +{
-> >> +	int res, save_errno;
-> >> +
-> >> +	/* The fd parameter is a u32 value, not a file descriptor to pass */
-> >> +	res = fsconfig(fsfd, FSCONFIG_SET_STRING, "fd", value, 0);
-> >> +	if (res == -1) {
-> >> +		save_errno = errno;
-> >> +		fprintf(stderr, "fuse: fsconfig SET_STRING fd=%s failed:",
-> >> +			value);
-> >> +		log_fsconfig_kmsg(fsfd);
-> >> +		return -save_errno;
-> >> +	}
-> >> +	return 0;
-> >> +}
-> >> +
-> >> +static int apply_opt_string(int fsfd, const char *key, const char *value)
-> >> +{
-> >> +	int res, save_errno;
-> >> +
-> >> +	res = fsconfig(fsfd, FSCONFIG_SET_STRING, key, value, 0);
-> >> +	save_errno = errno;
-> >> +	if (res == -1) {
-> >> +		log_fsconfig_kmsg(fsfd);
-> >> +		fprintf(stderr, "fuse: fsconfig SET_STRING %s=%s failed: ",
-> >> +			key, value);
-> >> +		return -save_errno;
-> > 
-> > I think this function should call fprintf and log_fsconfig_kmsg in the
-> > same order as the other two apply_opt_* functions.
-> > 
-> >> +	}
-> >> +	return 0;
-> >> +}
-> >> +
-> >> +static int apply_opt_flag(int fsfd, const char *opt)
-> >> +{
-> >> +	int res, save_errno;
-> >> +
-> >> +	res = fsconfig(fsfd, FSCONFIG_SET_FLAG, opt, NULL, 0);
-> >> +	if (res == -1) {
-> >> +		save_errno = errno;
-> >> +		fprintf(stderr, "fuse: fsconfig SET_FLAG %s failed:", opt);
-> >> +		log_fsconfig_kmsg(fsfd);
-> >> +		return -save_errno;
-> >> +	}
-> >> +	return 0;
-> >> +}
-> >> +
-> >> +static int apply_opt_key_value(int fsfd, char *opt)
-> >> +{
-> >> +	char *eq;
-> >> +	const char *key;
-> >> +	const char *value;
-> >> +
-> >> +	eq = strchr(opt, '=');
-> >> +	if (!eq)
-> >> +		return apply_opt_flag(fsfd, opt);
-> >> +
-> >> +	*eq = '\0';
-> >> +	key = opt;
-> >> +	value = eq + 1;
-> >> +
-> >> +	if (strcmp(key, "fd") == 0)
-> >> +		return apply_opt_fd(fsfd, value);
-> >> +
-> >> +	return apply_opt_string(fsfd, key, value);
-> >> +}
-> >> +
-> >> +/**
-> >> + * Check if an option is a mount attribute (handled by fsmount, not fsconfig)
-> >> + */
-> >> +static int is_mount_attr_opt(const char *opt)
-> >> +{
-> >> +	/* These options are mount attributes passed to fsmount(), not fsconfig() */
-> >> +	return strcmp(opt, "nosuid") == 0 ||
-> >> +	       strcmp(opt, "suid") == 0 ||
-> >> +	       strcmp(opt, "nodev") == 0 ||
-> >> +	       strcmp(opt, "dev") == 0 ||
-> >> +	       strcmp(opt, "noexec") == 0 ||
-> >> +	       strcmp(opt, "exec") == 0 ||
-> >> +	       strcmp(opt, "noatime") == 0 ||
-> >> +	       strcmp(opt, "atime") == 0 ||
-> >> +	       strcmp(opt, "nodiratime") == 0 ||
-> >> +	       strcmp(opt, "diratime") == 0 ||
-> >> +	       strcmp(opt, "relatime") == 0 ||
-> >> +	       strcmp(opt, "norelatime") == 0 ||
-> >> +	       strcmp(opt, "strictatime") == 0 ||
-> >> +	       strcmp(opt, "nostrictatime") == 0 ||
-> >> +	       strcmp(opt, "nosymfollow") == 0 ||
-> >> +	       strcmp(opt, "symfollow") == 0;
-> > 
-> > /me wonders if this should be walking the mount_flags array instead of
-> > opencoding the strings here?
-> 
-> Yes, much better, encoded into
-> 
-> const struct mount_flags mount_flags[] = {
-> 	/*   opt              flag        on  safe  fsconfig/fsmount */
-> 	{"rw",           MS_RDONLY,        0,  1,    0},  /* fsconfig */
-> 	{"ro",           MS_RDONLY,        1,  1,    0},  /* fsconfig */
-> 	{"suid",         MS_NOSUID,        0,  0,    1},  /* fsmount  */
-> ...
-> 
-> as preparation patch.
-
-Nice!
-
---D
-
-> 
-> Thanks,
-> Bernd
-> 
+									Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
