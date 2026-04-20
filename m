@@ -1,138 +1,178 @@
-Received: from pdx-out-002.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-002.esa.us-west-2.outbound.mail-perimeter.amazon.com [44.246.1.125])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BC8E2BD11;
-	Mon, 20 Apr 2026 16:14:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.246.1.125
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED28135C1AD
+	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Apr 2026 16:31:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776701669; cv=none; b=ZUs3iLCcEb+ReQeXNUkcfgGLntAOdaR2Mm/5K2IrYXhzSbNiWSUS71t5XMCnj1MX9W96cHfAi8icib+YhQWU4mMTzT6M26F2jNXpaRxX8oFqzEv3ZSa3TqaBocAGKW49GI0osfF8xqXHQ3fITxmAF7E2j6BOshuAi7Y94gR1+sA=
+	t=1776702680; cv=none; b=UwGXjsUrxpJa673HnTyvm/vO7ZxgjGDShXNiVuEoT4peEp3BitzF6kOPOX2gSA8LJ0u7umOmKFcw3CdInCAUR2tK6ZEPK8Uu/vPBf4lxgoQr9vqeVnMe31gz1sLOxad4xiyl/62d9pi/G9fDb6jwl3lplZf5WWSI0HHzEyXPHAc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776701669; c=relaxed/simple;
-	bh=IxT1LCOphsr/axVCQFZQgJDOzZ5ZGnLfGZfIgVmWzYo=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=TWRTllb0GXI+C3RmkiecbrhtJfw3dbRtQmuSzX/JAFdDK3rdqN6ARe3zjerFSeb642MCS6o6D6gkSythwkJxG/8/JIoL4V/Ua8tHnsa4NuHZ8gkRee9gcRs57qTFYzPgOyIWvQGdJIQequbQJt4wyYDpybUvAMjD0F6E22U9u7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.it; spf=pass smtp.mailfrom=amazon.it; dkim=pass (2048-bit key) header.d=amazon.it header.i=@amazon.it header.b=Fvx9EM4L; arc=none smtp.client-ip=44.246.1.125
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.it
+	s=arc-20240116; t=1776702680; c=relaxed/simple;
+	bh=qGsy+K98etOu7JxFdxbYmP0/V7i+s4sSjLvJLDhk/lQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ix/kVkpWaYZj7bBVdh4MPtX5nFgWN3UCYh7BxtPvyG7Q1H9IWeDxbIJ29+awbK9uQNjZV4LrOE8H5PvOyzXmknWE0/mjegdbkKbMhjauUeq78/A2zPsUH3A7D+b6lS1ATis4iFLGB3hcrJjeLWjPZR8etIObb82E5klI7pSssOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gfp35hSc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.it header.i=@amazon.it header.b="Fvx9EM4L"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.it; i=@amazon.it; q=dns/txt; s=amazoncorp2;
-  t=1776701667; x=1808237667;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=4O++pW9Xbgus6i0sqISNyUGab6AsMHTSYNj1rQkW9es=;
-  b=Fvx9EM4LCKhnJKyORTFEvof8XQbqS66CJYl9BN6ec9LemJNBQLpWUa5d
-   yGSn30o13Byp6813v7AeYsqS36N8OH3zJ9Y2nX+fpE6kJ2gDhNC+Wa93r
-   xiqHDDGWh05RR6bA13QbmBf3bXP1iZD1w7c6RlODyMY7IDlE6eOmjT6b4
-   MgDTq0rkCpnRx1f2OyncTNOeVNwtL8sHuI7KuML0qrkTd14XhbOx48Hni
-   HYH7QjgeKtcBRqLs30z8SSGO4WsF7BZUEx2Y8ud/CVyDvPgPp0MYZuo2d
-   mY/9aRF/SOj2aNiv98CG+pvxp3XUM5lxd6Gzj1M/mG3xgZcPJ3b4EkgEE
-   w==;
-X-CSE-ConnectionGUID: fItFHySZTnKCgGaNsgSP0w==
-X-CSE-MsgGUID: M5YpE+EUQMKeBZiFi0AZ1Q==
-X-IronPort-AV: E=Sophos;i="6.23,190,1770595200"; 
-   d="scan'208";a="17744120"
-Received: from ip-10-5-12-219.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.12.219])
-  by internal-pdx-out-002.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2026 16:14:24 +0000
-Received: from EX19MTAUWC001.ant.amazon.com [205.251.233.105:15252]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.54.92:2525] with esmtp (Farcaster)
- id 0fb7fa6e-3822-49ea-b8c0-62c3590e6f16; Mon, 20 Apr 2026 16:14:24 +0000 (UTC)
-X-Farcaster-Flow-ID: 0fb7fa6e-3822-49ea-b8c0-62c3590e6f16
-Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWC001.ant.amazon.com (10.250.64.174) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
- Mon, 20 Apr 2026 16:14:24 +0000
-Received: from dev-dsk-dipiets-2b-fa1865ee.us-west-2.amazon.com
- (172.22.139.101) by EX19D001UWA001.ant.amazon.com (10.13.138.214) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37; Mon, 20 Apr 2026
- 16:14:23 +0000
-From: Salvatore Dipietro <dipiets@amazon.it>
-To: <linux-kernel@vger.kernel.org>
-CC: <ritesh.list@gmail.com>, <abuehaze@amazon.com>, <alisaidi@amazon.com>,
-	<blakgeof@amazon.com>, <brauner@kernel.org>, <dipietro.salvatore@gmail.com>,
-	<dipiets@amazon.it>, <djwong@kernel.org>, <linux-fsdevel@vger.kernel.org>,
-	<linux-mm@kvack.org>, <linux-xfs@vger.kernel.org>, <stable@vger.kernel.org>,
-	<willy@infradead.org>, Jan Kara <jack@suse.cz>, Andrew Morton
-	<akpm@linux-foundation.org>
-Subject: [PATCH v2] mm/filemap: avoid costly reclaim for high-order folio allocations
-Date: Mon, 20 Apr 2026 16:14:03 +0000
-Message-ID: <20260420161404.642-1-dipiets@amazon.it>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gfp35hSc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FB17C19425;
+	Mon, 20 Apr 2026 16:31:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776702679;
+	bh=qGsy+K98etOu7JxFdxbYmP0/V7i+s4sSjLvJLDhk/lQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Gfp35hSch1nVScAW9LRZiWM9Ao8uXKq2n5WHhpZrs/MV+YJCRx18tZQt22+LYfjH8
+	 MCm8VyXiaV4zRxCs5OrDxm+d5A/jJ+SdCMdgnTI/mZvuY/Y12hcnWGEmR0HzMQBuNR
+	 WDMLs/h7d/NOvucmSYzez9XQX9N14NI2KB6ERjwf2gPc4Vp9+Js2Gek1N7XvCOA5iX
+	 hUHuT3i+dM5WukLY93xI/pR7QBfCVZsffoHesLT3kDQFWQrbpOrgOt35iJ4QiErCRm
+	 Qp1dLQ5AHckk/FkCz5hbY5vRVUK3qvTY+YOWnMnmNGTXutQKv+DSgFIsBY0hyKekxy
+	 a0qb5FwI5SiIA==
+Date: Mon, 20 Apr 2026 09:31:18 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Bernd Schubert <bernd@bsbernd.com>
+Cc: linux-fsdevel@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
+	Joanne Koong <joannelkoong@gmail.com>, Kevin Chen <kchen@ddn.com>,
+	Bernd Schubert <bschubert@ddn.com>
+Subject: Re: [PATCH v2 22/25] Add support for sync-init of unprivileged
+ daemons
+Message-ID: <20260420163118.GM7727@frogsfrogsfrogs>
+References: <20260326-fuse-init-before-mount-v2-0-b1ca8fcbf60f@bsbernd.com>
+ <20260326-fuse-init-before-mount-v2-22-b1ca8fcbf60f@bsbernd.com>
+ <20260331005425.GI6202@frogsfrogsfrogs>
+ <ff90a513-c7e6-4227-b605-b055d0e28247@bsbernd.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ClientProxiedBy: EX19D040UWB003.ant.amazon.com (10.13.138.8) To
- EX19D001UWA001.ant.amazon.com (10.13.138.214)
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ff90a513-c7e6-4227-b605-b055d0e28247@bsbernd.com>
 
-Commit 5d8edfb900d5 ("iomap: Copy larger chunks from userspace")
-introduced high-order folio allocations in the buffered write path.
-When memory is fragmented, each failed allocation above
-PAGE_ALLOC_COSTLY_ORDER triggers compaction and drain_all_pages() via
-__alloc_pages_slowpath(), causing a 0.75x throughput drop on pgbench
-(simple-update) with  1024 clients on a 96-vCPU arm64 system.
+On Mon, Apr 20, 2026 at 02:02:45AM +0200, Bernd Schubert wrote:
+> 
+> 
+> On 3/31/26 02:54, Darrick J. Wong wrote:
+> > On Thu, Mar 26, 2026 at 10:34:55PM +0100, Bernd Schubert wrote:
+> >> From: Bernd Schubert <bschubert@ddn.com>
+> >>
+> >> This makes use of the bidirectional fusermount. Added is
+> >> doc/README.mount, which explains the new bidirectional
+> >> communication with fusermount.
+> >>
+> >> Signed-off-by: Bernd Schubert <bschubert@ddn.com>
 
-In __filemap_get_folio(), for orders above min_order, split the
-allocation behavior by cost:
+<snip>
 
- - For orders above PAGE_ALLOC_COSTLY_ORDER: strip
-   __GFP_DIRECT_RECLAIM, making them purely opportunistic. The
-   allocator tries the freelists only and returns NULL immediately if
-   pages are not available.
+> >> + * On success, *sock_fd_out contains the socket fd for signaling fusermount3
+> >> + */
+> >> +int mount_fusermount_obtain_fd(const char *mountpoint, struct mount_opts *mo,
+> >> +			       const char *opts, int *sock_fd_out,
+> >> +			       pid_t *pid_out)
+> >> +{
+> >> +	int fds[2];
+> >> +	pid_t pid;
+> >> +	int res;
+> >> +	char arg_fd_entry[ARG_FD_ENTRY_SIZE];
+> >> +	posix_spawn_file_actions_t action;
+> >> +	int fd, status;
+> >> +
+> >> +	(void)mo;
+> >> +
+> >> +	if (!mountpoint) {
+> >> +		fuse_log(FUSE_LOG_ERR, "fuse: missing mountpoint parameter\n");
+> >> +		return -1;
+> >> +	}
+> >> +
+> >> +	res = socketpair(PF_UNIX, SOCK_STREAM, 0, fds);
+> >> +	if (res == -1) {
+> >> +		fuse_log(FUSE_LOG_ERR, "Running %s: socketpair() failed: %s\n",
+> >> +			 FUSERMOUNT_PROG, strerror(errno));
+> >> +		return -1;
+> >> +	}
+> >> +
+> >> +	snprintf(arg_fd_entry, sizeof(arg_fd_entry), "%i", fds[0]);
+> >> +	setenv(FUSE_COMMFD_ENV, arg_fd_entry, 1);
+> >> +	snprintf(arg_fd_entry, sizeof(arg_fd_entry), "%i", fds[1]);
+> >> +	setenv(FUSE_COMMFD2_ENV, arg_fd_entry, 1);
+> >> +
+> >> +	char const *const argv[] = {
+> >> +		FUSERMOUNT_PROG,
+> >> +		"--sync-init",
+> >> +		"-o", opts ? opts : "",
+> >> +		"--",
+> >> +		mountpoint,
+> >> +		NULL,
+> >> +	};
+> >> +
+> >> +	posix_spawn_file_actions_init(&action);
+> >> +	posix_spawn_file_actions_addclose(&action, fds[1]);
+> >> +	status = fusermount_posix_spawn(&action, argv, &pid);
+> >> +	posix_spawn_file_actions_destroy(&action);
+> > 
+> > Huh.  Would have been nice to have known about posix_spawn when I was
+> > writing xfs_healer.
+> 
+> Could be still updated to that?
 
- - For non-costly orders (between min_order and
-   PAGE_ALLOC_COSTLY_ORDER): use __GFP_NORETRY to allow lightweight
-   direct reclaim without expensive compaction retries.
+Yeah, it's possible.
 
-With this patch, pgbench throughput recovers to 148k TPS (+67% vs
-regressed baseline), stable across all iterations.
+> > 
+> >> +
+> >> +	if (status != 0) {
+> >> +		close(fds[0]);
+> >> +		close(fds[1]);
+> >> +		return -1;
+> >> +	}
+> >> +
+> >> +	close(fds[0]);
+> >> +
+> >> +	fd = receive_fd(fds[1]);
+> >> +	if (fd < 0) {
+> >> +		close(fds[1]);
+> >> +		waitpid(pid, NULL, 0);
+> >> +		return -1;
+> >> +	}
+> >> +
+> >> +	fcntl(fd, F_SETFD, FD_CLOEXEC);
+> >> +
+> >> +	/* Return socket fd for later signaling */
+> >> +	*sock_fd_out = fds[1];
+> >> +	*pid_out = pid;
+> >> +
+> >> +	return fd;
+> >> +}
+> >> +
+> >> +/*
+> >> + * Send proceed signal to fusermount3 and wait for mount result
+> >> + * Returns: 0 on success, -1 on failure
+> >> + */
+> >> +int fuse_fusermount_proceed_mnt(int sock_fd)
+> >> +{
+> >> +	char buf = '\0';
+> >> +	ssize_t res;
+> >> +
+> >> +	/* Send proceed signal */
+> >> +	do {
+> >> +		res = send(sock_fd, &buf, 1, 0);
+> >> +	} while (res == -1 && errno == EINTR);
+> > 
+> > Hrmm, I probably need to wrap the sendmsg/recvmsg calls in my own
+> > patches to do this loop, don't I?
 
-v2: 
-- strip __GFP_DIRECT_RECLAIM to avoid costly reclaim for high-order
-  folio allocations
-- Moved fix from iomap to mm/filemap layer
+Nope.  Sequential packet sockets preserve boundaries between records
+sent with MSG_EOR, and reads are required to provide a buffer large
+enough to read the entire record.  Undersized read buffers result in the
+rest of the record being dropped silently.
 
-Fixes: 5d8edfb900d5 ("iomap: Copy larger chunks from userspace")
-Cc: stable@vger.kernel.org
-Signed-off-by: Salvatore Dipietro <dipiets@amazon.it>
----
- mm/filemap.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+IOWs, there's no possibility of a short read or a short write.  But
+perhaps I should be checking SO_SNDBUF (aka the maximum record size).
 
-diff --git a/mm/filemap.c b/mm/filemap.c
-index 4e636647100c..f2343c26dd63 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -2007,8 +2007,13 @@ struct folio *__filemap_get_folio_mpol(struct address_space *mapping,
- 			gfp_t alloc_gfp = gfp;
- 
- 			err = -ENOMEM;
--			if (order > min_order)
--				alloc_gfp |= __GFP_NORETRY | __GFP_NOWARN;
-+			if (order > min_order) {
-+				alloc_gfp |= __GFP_NOWARN;
-+				if (order > PAGE_ALLOC_COSTLY_ORDER)
-+					alloc_gfp &= ~__GFP_DIRECT_RECLAIM;
-+				else
-+					alloc_gfp |= __GFP_NORETRY;
-+			}
- 			folio = filemap_alloc_folio(alloc_gfp, order, policy);
- 			if (!folio)
- 				continue;
+> I guess so, I will try to eventually look into your series later. Go
+> painfully late (or early) to update code with all your review comments
+> (and with family couldn't work through entirely in peace...).
 
-base-commit: c7275b05bc428c7373d97aa2da02d3a7fa6b9f66
--- 
-2.47.3
+<nod> I'll do a new posting to the new list before I depart for
+LinuxFest on Thursday.
 
-
-
-
-AMAZON DEVELOPMENT CENTER ITALY SRL, viale Monte Grappa 3/5, 20124 Milano, Italia, Registro delle Imprese di Milano Monza Brianza Lodi REA n. 2504859, Capitale Sociale: 10.000 EUR i.v., Cod. Fisc. e P.IVA 10100050961, Societa con Socio Unico
-
-
-
+--D
