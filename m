@@ -1,150 +1,147 @@
-Received: from sg-3-112.ptr.tlmpb.com (sg-3-112.ptr.tlmpb.com [101.45.255.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-97.freemail.mail.aliyun.com (out30-97.freemail.mail.aliyun.com [115.124.30.97])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 118BE383C6F
-	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Apr 2026 06:52:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.45.255.112
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63DBF33B6D3;
+	Mon, 20 Apr 2026 06:55:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.97
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776667973; cv=none; b=AKdmfX8LcPFM4zkE7FKdv1Ale6E5IaX9dljpYdHRljJwHvkJRJ09hBrJiP75EEjiR8w076LE8Z7uz+Sd/1RRPmHeHuqkzcArqje4pA3G2SrBp7GhVJsAjk7blSJoGqthXBbbn4nqEX3lDWcbOizE216nFb7+RwWsdTR8nytqss0=
+	t=1776668116; cv=none; b=eaWbeSj4+VPh8QCO+TtUi9PAfusyNwZppXos78tri/+4AVUGm9zREfjflbXhF569bqMzU2N5dsUpP5T4uUsB96KJhUatmAm/u8fV7K+1WQbDp8axKXmnZtuG5eZI1Wxb+VrflBYUqO/Ovm6MGvqxvOzp5753xZFQzRjl2/dGhA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776667973; c=relaxed/simple;
-	bh=pavoO37i1SKmjdbOAE0iftAZavH7SSQTPrORawD4nxQ=;
-	h=To:Content-Type:Message-Id:Mime-Version:Cc:From:Subject:Date; b=PdZ61E6ZH9g4TrkNJJA+zogkdRrQFobiCk8VGb4wWLBSbcTGZEa6P2l1hoLJcVdvoRJLRc/WOWiBX3tDkIBj6XoUglhrBTw22tCQlPZseWSYFtRzELRiYgI73iHnp1FNuuNyajS9u0qlXqg6dBF5KdGFlrOw0nimEqW9aODL9fU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=hyxA7gvS; arc=none smtp.client-ip=101.45.255.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1776668116; c=relaxed/simple;
+	bh=WgSenpZPR5BbOhR/mz5LFDVo7DMeo1niph9T9+tPKcM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ob9R/WYk67RZI3VG0me1xjj1sEQLfEET93NWe6WQKtoSyB0D67bMUXiIA2Q9qNndo+3DBZWPiSa92lNSEINUKgoj9l1kUaHThT0BnB2f4OiyTWTy5Pq6aUjLeidg8e/gSr+9qVw5JV/Lx1JF/sJQRZWAFf98EKfHFsoKYKIuwdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=SPjAJ/9Y; arc=none smtp.client-ip=115.124.30.97
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="hyxA7gvS"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1776667919; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=ln230kM4eq7LG2lL4bouy4pz9BbnkdyPfzGh/zRUZks=;
- b=hyxA7gvSC4UmMcoyMMX3YU3o9+9y1FK4RQu5MYxU9axMJ9u4+EC9nKYnTDxmVdaFBEPprD
- bkw31x81J775g1iAqm2qrDB2QI5R9fIFk1afEoUNzL9fzfsZXgRhXTEr2tkgVFjmeGB4eO
- sEM9VIjFnaN2h9xrZv/wvdzihNv3xdfzZ9W0mMmS/ltA6xGX3CJ+OfvD/+RVnZCar8Otjf
- ohGLdZWuUtoXCqpsaU7/LfxRPflWjoXcYFySudYdIYRJAVDuPOU7mAnQ8Yty7K2YxDRy8K
- F0o9ZhPa9ltWhvhfARr8pYImmrV6lHfU4lop8+KE8WtOWlO52JeFFlnM8ZNNNA==
-X-Original-From: Xin Yin <yinxin.x@bytedance.com>
-To: <jan@kara.cz>, <amir73il@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Message-Id: <20260420064727.1760604-1-yinxin.x@bytedance.com>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="SPjAJ/9Y"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1776668104; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=4wwaB5GIadZhT3WNLdwXoaV7zc2xYRrQwirl3loMrXg=;
+	b=SPjAJ/9Y2Exz47Df+Yy3mndrCMPj3N/2AimrLBaXATc7sTc7d7+yqGV8gUElP6BmrHsAJ5qsAtIpF4Ni1STDMdTIb/Rrl69+aesKFo8VymF2eqgYeHUm7rRAOH0f9Z6rZXiyAeBHK6UyDVBrtdlFeRCgIEn9mE6P+Jk88+YEEeY=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R651e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037009110;MF=baolin.wang@linux.alibaba.com;NM=1;PH=DS;RN=27;SR=0;TI=SMTPD_---0X1IKCmb_1776668101;
+Received: from 30.74.144.127(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0X1IKCmb_1776668101 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Mon, 20 Apr 2026 14:55:02 +0800
+Message-ID: <b228baf2-0dcd-4135-bab9-04d979b6e617@linux.alibaba.com>
+Date: Mon, 20 Apr 2026 14:55:00 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Cc: <linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
-	"Xin Yin" <yinxin.x@bytedance.com>
-From: "Xin Yin" <yinxin.x@bytedance.com>
-Content-Transfer-Encoding: quoted-printable
-X-Lms-Return-Path: <lba+269e5cd0d+153485+vger.kernel.org+yinxin.x@bytedance.com>
-X-Mailer: git-send-email 2.20.1
-Subject: [PATCH] fsnotify: fix inode reference leak in fsnotify_recalc_mask()
-Date: Mon, 20 Apr 2026 14:47:27 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 7.2 v3 04/12] mm/khugepaged: remove READ_ONLY_THP_FOR_FS
+ check in hugepage_pmd_enabled()
+To: Zi Yan <ziy@nvidia.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Song Liu <songliubraving@fb.com>
+Cc: Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Shuah Khan <shuah@kernel.org>, linux-btrfs@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, linux-kselftest@vger.kernel.org
+References: <20260418024429.4055056-1-ziy@nvidia.com>
+ <20260418024429.4055056-5-ziy@nvidia.com>
+From: Baolin Wang <baolin.wang@linux.alibaba.com>
+In-Reply-To: <20260418024429.4055056-5-ziy@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-fsnotify_recalc_mask() fails to handle the return value of
-__fsnotify_recalc_mask(), which may return an inode pointer that needs
-to be released via fsnotify_drop_object() when the connector's HAS_IREF
-flag transitions from set to cleared.
 
-This manifests as a hung task with the following call trace:
 
-  INFO: task umount:1234 blocked for more than 120 seconds.
-  Call Trace:
-   __schedule
-   schedule
-   fsnotify_sb_delete
-   generic_shutdown_super
-   kill_anon_super
-   cleanup_mnt
-   task_work_run
-   do_exit
-   do_group_exit
+On 4/18/26 10:44 AM, Zi Yan wrote:
+> Remove READ_ONLY_THP_FOR_FS and khugepaged for file-backed pmd-sized
+> hugepages are enabled by the global transparent hugepage control.
+> khugepaged can still be enabled by per-size control for anon and shmem when
+> the global control is off.
+> 
+> Add shmem_hpage_pmd_enabled() stub for !CONFIG_SHMEM to remove
+> IS_ENABLED(SHMEM) in hugepage_pmd_enabled().
+> 
+> Signed-off-by: Zi Yan <ziy@nvidia.com>
+> ---
+>   include/linux/shmem_fs.h |  2 +-
+>   mm/khugepaged.c          | 28 ++++++++++++++++------------
+>   2 files changed, 17 insertions(+), 13 deletions(-)
+> 
+> diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
+> index 1a345142af7d..dff8fb6ddac0 100644
+> --- a/include/linux/shmem_fs.h
+> +++ b/include/linux/shmem_fs.h
+> @@ -127,7 +127,7 @@ int shmem_writeout(struct folio *folio, struct swap_iocb **plug,
+>   void shmem_truncate_range(struct inode *inode, loff_t start, uoff_t end);
+>   int shmem_unuse(unsigned int type);
+>   
+> -#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> +#if defined(CONFIG_TRANSPARENT_HUGEPAGE) && defined(CONFIG_SHMEM)
+>   unsigned long shmem_allowable_huge_orders(struct inode *inode,
+>   				struct vm_area_struct *vma, pgoff_t index,
+>   				loff_t write_end, bool shmem_huge_force);
+> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> index 1c0fdc81d276..718a2d06d1e6 100644
+> --- a/mm/khugepaged.c
+> +++ b/mm/khugepaged.c
+> @@ -406,18 +406,8 @@ static inline int collapse_test_exit_or_disable(struct mm_struct *mm)
+>   		mm_flags_test(MMF_DISABLE_THP_COMPLETELY, mm);
+>   }
+>   
+> -static bool hugepage_pmd_enabled(void)
+> +static inline bool anon_hpage_pmd_enabled(void)
+>   {
+> -	/*
+> -	 * We cover the anon, shmem and the file-backed case here; file-backed
+> -	 * hugepages, when configured in, are determined by the global control.
+> -	 * Anon pmd-sized hugepages are determined by the pmd-size control.
+> -	 * Shmem pmd-sized hugepages are also determined by its pmd-size control,
+> -	 * except when the global shmem_huge is set to SHMEM_HUGE_DENY.
+> -	 */
+> -	if (IS_ENABLED(CONFIG_READ_ONLY_THP_FOR_FS) &&
+> -	    hugepage_global_enabled())
+> -		return true;
+>   	if (test_bit(PMD_ORDER, &huge_anon_orders_always))
+>   		return true;
+>   	if (test_bit(PMD_ORDER, &huge_anon_orders_madvise))
+> @@ -425,7 +415,21 @@ static bool hugepage_pmd_enabled(void)
+>   	if (test_bit(PMD_ORDER, &huge_anon_orders_inherit) &&
+>   	    hugepage_global_enabled())
+>   		return true;
+> -	if (IS_ENABLED(CONFIG_SHMEM) && shmem_hpage_pmd_enabled())
+> +	return false;
+> +}
+> +
+> +static bool hugepage_pmd_enabled(void)
+> +{
+> +	/*
+> +	 * Anon, shmem and file-backed pmd-size hugepages are all determined by
+> +	 * the global control. If the global control is off, anon and shmem
+> +	 * pmd-sized hugepages are also determined by its per-size control.
+> +	 */
 
-The race window that triggers the iref leak:
+Personally, I found the previous comments clearer to me. The statement 
+"Anon, shmem pmd-size hugepages are all determined by the global 
+control" seems somewhat confusing. For example, if 
+hugepage_global_enabled() returns true but the pmd-sized sub-control is 
+set to 'never', that means anon pmd-size hugepages are not allowed.
 
-  Thread A (adding mark)              Thread B (removing mark)
-  =E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80              =E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80
-  fsnotify_add_mark_locked():
-    fsnotify_add_mark_list():
-      spin_lock(conn->lock)
-      add mark_B(evictable) to list
-      spin_unlock(conn->lock)
-    return
+The code changes LGTM.
 
-    /* ---- gap: no lock held ---- */
+> +	if (hugepage_global_enabled())
+> +		return true;
+> +	if (anon_hpage_pmd_enabled())
+> +		return true;
+> +	if (shmem_hpage_pmd_enabled())
+>   		return true;
+>   	return false;
+>   }
 
-                                      fsnotify_detach_mark(mark_A):
-                                        spin_lock(mark_A->lock)
-                                        clear ATTACHED flag on mark_A
-                                        spin_unlock(mark_A->lock)
-
-    fsnotify_recalc_mask():
-      spin_lock(conn->lock)
-      __fsnotify_recalc_mask():
-        /* mark_A skipped: ATTACHED cleared */
-        /* only mark_B(evictable) remains */
-        want_iref =3D false
-        has_iref =3D true  /* not yet cleared */
-        -> HAS_IREF transitions true -> false
-        -> returns inode pointer
-      spin_unlock(conn->lock)
-      /* BUG: return value discarded!
-       * iput() and fsnotify_put_sb_watched_objects()
-       * are never called */
-
-Fix this by capturing the return value of __fsnotify_recalc_mask() and
-passing it to fsnotify_drop_object() after releasing the spinlock, which
-is the same pattern used in fsnotify_put_mark().
-
-Fixes: c3638b5b1374 ("fsnotify: allow adding an inode mark without pinning =
-inode")
-Signed-off-by: Xin Yin <yinxin.x@bytedance.com>
----
- fs/notify/mark.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/fs/notify/mark.c b/fs/notify/mark.c
-index c2ed5b11b0fe6..cc93fcc2c5a9c 100644
---- a/fs/notify/mark.c
-+++ b/fs/notify/mark.c
-@@ -283,6 +283,8 @@ static void fsnotify_conn_set_children_dentry_flags(
- 	fsnotify_set_children_dentry_flags(fsnotify_conn_inode(conn));
- }
-=20
-+static void fsnotify_drop_object(unsigned int type, void *objp);
-+
- /*
-  * Calculate mask of events for a list of marks. The caller must make sure
-  * connector and connector->obj cannot disappear under us.  Callers achiev=
-e
-@@ -292,15 +294,19 @@ static void fsnotify_conn_set_children_dentry_flags(
- void fsnotify_recalc_mask(struct fsnotify_mark_connector *conn)
- {
- 	bool update_children;
-+	unsigned int type;
-+	void *objp;
-=20
- 	if (!conn)
- 		return;
-=20
- 	spin_lock(&conn->lock);
- 	update_children =3D !fsnotify_conn_watches_children(conn);
--	__fsnotify_recalc_mask(conn);
-+	objp =3D __fsnotify_recalc_mask(conn);
-+	type =3D conn->type;
- 	update_children &=3D fsnotify_conn_watches_children(conn);
- 	spin_unlock(&conn->lock);
-+	fsnotify_drop_object(type, objp);
- 	/*
- 	 * Set children's PARENT_WATCHED flags only if parent started watching.
- 	 * When parent stops watching, we clear false positive PARENT_WATCHED
---=20
-2.20.1
