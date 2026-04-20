@@ -1,181 +1,108 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB154392838
-	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Apr 2026 10:06:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776679609; cv=none; b=GKMPNg+t3FiUmWARQcr9w02hh9OtDd0DInZZrazpv+etSGngXKFJocwXv20TpIQe7wHqmbRDbxKoWaTzDRgcCx5XBkJFMVjbKH0IsSfV6zSFUsIVu8hli/ZAnz1JzO67YpXidGwl5wRvMUjX9sjT7cGzXbrD+QSSI8G88gyOfD0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776679609; c=relaxed/simple;
-	bh=qJIM3jxOWQuyl4KxyZW5vyAnvUOthNi6voO6ikcpLqM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NullQzuut4VIGszGTv8aV9Pl8lp6XKvBow6q1vu7vnYzUV+xjAzq8xG3fWUKEm7GCMYQkBboY0W0nWTF0tjn23oaL3OMJBf7ANw5jW5ldCFY6hIwVDCudSyXRmnUTDmREciet+v800HFtNrha7r0Ftv5XIvi5Kpqw0hW64jbQ5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=O2nXAp7m; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=i6TIXHe7; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B22D338238A
+	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Apr 2026 10:14:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.174
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776680075; cv=pass; b=Il9C0ghwonqW7LFB3zbisbMuuWNZsjLI/HRQCCkbb9393ilYUFvQu0cQ/8nNWPN1pCGp80vqidj1EYSiGPUeTJEOE/0VTqYmxmYW7OCFgFrp2DaXnTv5AJ5+PzvMFMD9T/9ReOaEl3KCE6hi8m5pOl4iabuq0wCpxMMDVEqq+uo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776680075; c=relaxed/simple;
+	bh=8lgmDExFcXpY7s3eAFFcs7uqszUfPLz6vN1ZC8pE900=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=muCXa7XhcOQrNWc0WzPuizA5E0rkaj+5rNKWkrb7xt/BmNHesdanu7tWeTyTaODEMu8OhpmJpEdP0MUTn+QzncKDm49AHHZMOGEsAkubY+/J6lCBjoCHecQHkmYp8GzM1QOcjUFxMoPERr9Pt/P09ZEmyCb+nsk6TqE0lKfLBo4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=V8h7J3VI; arc=pass smtp.client-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="O2nXAp7m";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="i6TIXHe7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1776679606;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dEGLFj4ClIrjd7MZC91OS4EkTEnUoAhP7Kztkq+Ge68=;
-	b=O2nXAp7mqUABuUFKQu2UQS6VkDlqxaxn/cWY3uAj7cq6Xo+AQkg2qOOp6/wvDqNn1W+P1h
-	/zP/tfo/pu76F8zF17dMiQOE2Hfqceyg1HK5ZfjYqwg701dNM9AL2sG2p/PJWPGmxKMJty
-	hEw+vObT6DPSUXQAkgKLni2FVFw5nak=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-126-3mNZBEQrPMqq-G7Y2yU1Gw-1; Mon, 20 Apr 2026 06:06:45 -0400
-X-MC-Unique: 3mNZBEQrPMqq-G7Y2yU1Gw-1
-X-Mimecast-MFC-AGG-ID: 3mNZBEQrPMqq-G7Y2yU1Gw_1776679605
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8eacc2008b2so130598985a.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 20 Apr 2026 03:06:45 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="V8h7J3VI"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-50e63771d91so4894271cf.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 20 Apr 2026 03:14:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776680072; cv=none;
+        d=google.com; s=arc-20240605;
+        b=fhKIOLJmA/VyGpABldY5wau7KKAILykI4qK7ZcMALijs4knM822Ut2Pupo/D5ihA0F
+         7ntsbrRH8WiTOvJpJdA2rU5HIktLCAC9z3peny6oJN6/EuQExgG95QiXmTINaor3YwH+
+         ecvXCKq0BnLcOJ1yXp2q7Bn8J8SGYYIZuDi6sZYCf68GyG55XwH7pChrGcEfDUFl/bGP
+         U/wmvqSOTJCquxowS6AN7eRixt8/uKmNSbnjmdGXBGmMqyRDiiGi4lX3XzuOMliNPzXN
+         HMqOol8weblj8mTQ4ZUk+gXC0I3zbCmVKXZW5XUW/Jq6RoqKxyl+lA+DhyyJCnuP9scp
+         rccg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=4yQrDGDk/wcFrASZmcYEDDh4Yv75Vu53tanwvJ4+ZkY=;
+        fh=tGcpEzPXu8pjtfuRYLeXAmim7bVW0yAgmrQ97rhXDiY=;
+        b=RYaBVzWTEAk0W8O+f9fZz6SprAM04hmMK+9v7L6CaYE+mj6gbPsi8ZKzSdEBdvijLU
+         iYnEJ9CYj85QZoo2sNP9gNAImU2mOofhHqsecH9c8wz0AJdaCbHGTdpMW4p+VgEtmsIA
+         zVZ798vfqoHgg4Ejvu1BoP9Qbd/ke2/OlIwLsANh94pSuoV2uLy4wwzc/Zy+GdHCe0vm
+         tx0LEySNPgH4lmn4Ltj0DW4GxlUZTgd3o/gmXypR3N1yS5OZvXzMRB6JhL9+raTSCZLx
+         MZpohiLtJGohBKw+VQRAHNhGID8xyteaVevcevMxRCrqVYpMI8GlWEu/UmAgerkWJ3/F
+         dRXA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1776679605; x=1777284405; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=szeredi.hu; s=google; t=1776680072; x=1777284872; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dEGLFj4ClIrjd7MZC91OS4EkTEnUoAhP7Kztkq+Ge68=;
-        b=i6TIXHe7qdX/nXBIJQoWThlr15RoKL0CdjCfrjHLSTu6DrqX8GBdV6oVNBuQJ0StwH
-         sJzWX0GM2kf6jQoFt2n/TgDTQkt3pFgwHHzgLPWxXRwCAJTzWaf1U/U9zDipdAQEzRhq
-         dIlvNhP3nj4XY71ciqdGMCfZD/cZ+3zLKURqQ28OsnPDwWRkLFPFmfvk9rcANMaShKR8
-         VHUHcViNU4TjCwP4skzOgvSdhepN5v9xInksml+w+tgVk7h2pwW6tPi09JKO0ZdQBlgQ
-         RNJTv/l5tp7IepduK31lnd5GW8oMg06AJxE/XAmccd1aKVbnPY4P92MasM+B38lDtkCN
-         LAbw==
+        bh=4yQrDGDk/wcFrASZmcYEDDh4Yv75Vu53tanwvJ4+ZkY=;
+        b=V8h7J3VIGpaoQcdgfjoNo7/2Nt37TKtJRJ/6B93IfELb/f1PEsmThMwjg4UAw21pXQ
+         0H/i4Az79uxXbmlhkPcPEpOzNzHwSG27PibpCFgdd3r8DCqcIB2AIY5YHe2xqtxSrzJh
+         9WUIK1NIp1fBjT7Ics8m0K0NzKd0wt4/6HgrY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776679605; x=1777284405;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1776680072; x=1777284872;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=dEGLFj4ClIrjd7MZC91OS4EkTEnUoAhP7Kztkq+Ge68=;
-        b=QcZuaj3EMNxxUMkz32IwrYpajJhmLVfi/wD2+19gBQURPqHPFfWq/9A0VYsCLLcycC
-         b3p2CJXWrLqEY8dI+CU1dmF1qrS1r0+zbdw/WAhhRedHTp207xG1UxAa86rrXgDRElUC
-         yG+kCZqPz1O32HupMrafBywlqufp6PokJ26jhKTc7tksD3QPD2mubPDRoDZrmKay7ALM
-         hM6JzZ0otGUN11K/zB+wfVKDl1SL85VNSgpM8YrQR/2Fd1LUkwxoP+J/lqAcdAH60z6z
-         JuL0U37gTsyOjS9fcwmj1QltmUqrVKl69bc1hf201OxVBMJtl1GjhqB3H8Tcyok4US9n
-         k9sw==
-X-Forwarded-Encrypted: i=1; AFNElJ8hk7NSMXHnFh9EvAxApn+Vh5LyCIi1G2PkQFZT/OCiQ57yBEbo6LEjkV85UyY0VeKag3D+B6roe7YjrQjG@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywp0hnIumlQ3XDaj81j9nV7wWb0Saku9/oQO8vEzPSJ4MfMqMCc
-	VWCXhaSI6I7PgRQ+QykuVc5Lc7uJ6APTAX0qJj6bz9oRLdOqfT76hSlJmDSUsGFQfPWzaopY/Dx
-	3vecTY8UMwsX5+pvLQgVZ44LdcwfckkRq0mjdAP2oZc0qC2I8aXY+LZkCb6xCsjtkTn8=
-X-Gm-Gg: AeBDies+5ZHbmPSd4shbZZ887qiHc+DQDQQ1D0jMMMn6THqCL3e8r0dpjF5cJ18l35R
-	EbF1/h0fh3QBWdatPoVQDLvQSBr8AfweOVu4qrofjl7cLVygc7JI/Uffg1AOxTBDwZOeVaUqHG0
-	jKYy+h2b4bX3sc77DYe+hi8ujDiHjPfBMEgJv8x8CP4PnpN9nQaaDurC5Mdoki4x2oEpDWJg9BW
-	vD4cxZFx6705lb0HH0n6oSg1fax6splaciombEV1jkvZvzZ49T+ExyYM2VLnjRf8seS02sIZvW1
-	o2qv6SkeDpbgENKyDGfJvFyIjTcBoUg1+m6c/ZQNSmiIlpaQYa1blqgO6oZw9ZYNtj2mGwB3idU
-	1eJ6xU8YVsHiP1BrBiLi93N5c2lzOzpMzqwVIk4894M5Gig==
-X-Received: by 2002:a05:620a:27c1:b0:8ea:aa10:7b3f with SMTP id af79cd13be357-8eaaa107d0amr556256085a.1.1776679605033;
-        Mon, 20 Apr 2026 03:06:45 -0700 (PDT)
-X-Received: by 2002:a05:620a:27c1:b0:8ea:aa10:7b3f with SMTP id af79cd13be357-8eaaa107d0amr556252385a.1.1776679604523;
-        Mon, 20 Apr 2026 03:06:44 -0700 (PDT)
-Received: from fedora43-upstream-dev ([66.187.232.140])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8eb19632130sm247061485a.41.2026.04.20.03.06.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Apr 2026 03:06:44 -0700 (PDT)
-From: Ravi Singh <ravising@redhat.com>
-To: linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Cc: djwong@kernel.org,
-	dchinner@redhat.com,
-	esandeen@redhat.com,
-	cem@kernel.org
-Subject: [PATCH v2] xfs: flush delalloc blocks on ENOSPC in xfs_trans_alloc_icreate
-Date: Mon, 20 Apr 2026 10:06:37 +0000
-Message-ID: <20260420100637.3584-1-ravising@redhat.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <aeBv_xvDTmuzEhV1@infradead.org>
-References: <aeBv_xvDTmuzEhV1@infradead.org>
+        bh=4yQrDGDk/wcFrASZmcYEDDh4Yv75Vu53tanwvJ4+ZkY=;
+        b=tNRUaXwwylKOYGScJ2IhNz1NuzBKXPsDInASt/vm7DRjDewMykI0y8i4l20DCHQoPl
+         zcJhEj/wbhlImQ8Q/zeoljulqUUqYj7JDftoSu2jp7t5udygCVinory3P2vXvczNyomP
+         w0YSlDvBG+OMIBGyohuQ9wWFxP8iHRh3c1cDYOtXAFy8YjmWaN/nk01RNw2Lkgoh3yJO
+         72ReBwpR8KYvgI8nVHsOV+IN1vlX+ltdzV8rgmQmajOwOcYa/8/sIbssAHjMq5tDrlsE
+         ytlF7qhpKpLXY/ZksPB7DqmDqRGyj4R5rSEwNmn4Ze+MvtFERysgur7RZgwK640UKHv/
+         diuQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+gsSAn/9/mnGBl3p9YyKJVyGH1+m5kpeZUQFMQ1XSqi0gcnSzjrMPzx2itLgDVF2F6xtFbtL3hYjVAmeYe@vger.kernel.org
+X-Gm-Message-State: AOJu0YzztUYubl9YNjrreq6ZW4BVROij1XpXcvPP84kHZ+EDWiuh6CG8
+	yWDljzAuRkPRHwZmvk1CftTiSNF7erXlBKo1On2jcnxRX99HAlulAo3/3U4tmgIhmBZfNKmkZo8
+	Vbl0kogqPFLCuLQslEFCjf//gJWyhhAvbYnYi1iaqAQ==
+X-Gm-Gg: AeBDieswucrxhru4u9mtRGodQFqXOtp/jdgGhFolNLQXcG7Vs5gsO4FMiCcH9bFi0CO
+	7+BK7oEKdeNhSFR4zAz0a3pTHy53PwW54fxLKuKAIE5Y/4VH/nslf136fvh98qVvXEh+cNMrd8I
+	3FCOwBLh5yaEObF7KNEHnYhxGu5Ke/H2LcO6enEucn8wBct7Tmc3chXH9dX5fx1mii/8wBKTGQF
+	UfWRe7B9mmteYjPZNxlklZhNZ0b6NPiHewKbBGKL/jjwP7EfMy2hGyw+1Yg2xJqUzgEUhX3y6oE
+	O1bS4tIrs2TKSNMiPqBEooLG13qwxCmwerI7b2z8mqw+64BtrKI=
+X-Received: by 2002:a05:622a:1110:b0:50d:a8f5:d51f with SMTP id
+ d75a77b69052e-50e36c5861dmr193555201cf.45.1776680072432; Mon, 20 Apr 2026
+ 03:14:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260416091658.462783-1-mszeredi@redhat.com> <20260416091658.462783-21-mszeredi@redhat.com>
+ <CAJnrk1Z7cgKGM6s5CaOg9t+qQ206otDop6YdzGmV1dFw9M3KSA@mail.gmail.com>
+In-Reply-To: <CAJnrk1Z7cgKGM6s5CaOg9t+qQ206otDop6YdzGmV1dFw9M3KSA@mail.gmail.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Mon, 20 Apr 2026 12:14:21 +0200
+X-Gm-Features: AQROBzDLy1_pOJ6hHmsMyUpa8Kx0Z3MNs-rLkzH3sHWUW9SpUyLFstJGJgCljbk
+Message-ID: <CAJfpegtMBZeM_f=KhNym5fW6HCXvU5ydMtmeZS4q8h5Fneu9jw@mail.gmail.com>
+Subject: Re: [PATCH 20/32] fuse: split off fuse_args and related definitions
+ into a separate header
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Miklos Szeredi <mszeredi@redhat.com>, fuse-devel@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-xfs_trans_alloc_icreate() can fail with ENOSPC when delalloc
-reservations have consumed most of the available block count
-(fdblocks).  xfs_trans_alloc() already retries internally with
-xfs_blockgc_flush_all(), but that only trims post-EOF speculative
-preallocation and may not free enough space for the transaction
-reservation.
+On Fri, 17 Apr 2026 at 23:53, Joanne Koong <joannelkoong@gmail.com> wrote:
+>
+> On Thu, Apr 16, 2026 at 2:19=E2=80=AFAM Miklos Szeredi <mszeredi@redhat.c=
+om> wrote:
 
-Add a retry with xfs_flush_inodes() when xfs_trans_alloc() returns
-ENOSPC.  This forces writeback of all dirty inodes via
-sync_inodes_sb(), converting delalloc reservations to real
-allocations and freeing the over-reserved portion back to fdblocks.
+> > +       void (*end)(struct fuse_args *args, int error);
+>
+> I think you accidentally dropped the first arg (struct fuse_mount *fm)
+> when moving this over?
 
-This fixes all callers of xfs_trans_alloc_icreate() and removes
-the existing caller-level retry from xfs_create(), which is now
-handled centrally.
+Fixed, thanks.
 
-Signed-off-by: Ravi Singh <ravising@redhat.com>
----
-
-v2:
- - Moved xfs_flush_inodes() retry into xfs_trans_alloc_icreate()
-   instead of xfs_symlink() (Christoph)
- - Removed caller-level retry from xfs_create()
- - All callers now covered: xfs_create, xfs_symlink,
-   xfs_create_tmpfile, xcrep_tempfile_create
-
- fs/xfs/xfs_inode.c | 6 ------
- fs/xfs/xfs_trans.c | 9 +++++++++
- 2 files changed, 9 insertions(+), 6 deletions(-)
-
-diff --git a/fs/xfs/xfs_inode.c b/fs/xfs/xfs_inode.c
-index beaa26ec62da..9978ac1422fc 100644
---- a/fs/xfs/xfs_inode.c
-+++ b/fs/xfs/xfs_inode.c
-@@ -699,12 +699,6 @@ xfs_create(
- 	 */
- 	error = xfs_trans_alloc_icreate(mp, tres, udqp, gdqp, pdqp, resblks,
- 			&tp);
--	if (error == -ENOSPC) {
--		/* flush outstanding delalloc blocks and retry */
--		xfs_flush_inodes(mp);
--		error = xfs_trans_alloc_icreate(mp, tres, udqp, gdqp, pdqp,
--				resblks, &tp);
--	}
- 	if (error)
- 		goto out_parent;
- 
-diff --git a/fs/xfs/xfs_trans.c b/fs/xfs/xfs_trans.c
-index bcc470f56e46..2796634b7d2b 100644
---- a/fs/xfs/xfs_trans.c
-+++ b/fs/xfs/xfs_trans.c
-@@ -1186,6 +1186,9 @@ xfs_trans_reserve_more_inode(
- /*
-  * Allocate an transaction in preparation for inode creation by reserving quota
-  * against the given dquots.  Callers are not required to hold any inode locks.
-+ * If the block reservation fails with ENOSPC, flush all delalloc blocks to
-+ * reclaim space from speculative preallocation and retry.  This is similar to
-+ * the quota retry but targets FS-wide ENOSPC.
-  */
- int
- xfs_trans_alloc_icreate(
-@@ -1199,10 +1202,16 @@ xfs_trans_alloc_icreate(
- {
- 	struct xfs_trans	*tp;
- 	bool			retried = false;
-+	bool			flushed = false;
- 	int			error;
- 
- retry:
- 	error = xfs_trans_alloc(mp, resv, dblocks, 0, 0, &tp);
-+	if (error == -ENOSPC && !flushed) {
-+		xfs_flush_inodes(mp);
-+		flushed = true;
-+		goto retry;
-+	}
- 	if (error)
- 		return error;
- 
--- 
-2.53.0
-
+Miklos
