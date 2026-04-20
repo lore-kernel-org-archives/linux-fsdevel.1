@@ -1,274 +1,141 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFE4C38945D;
-	Mon, 20 Apr 2026 08:39:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C31F378D85
+	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Apr 2026 09:01:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776674384; cv=none; b=GnF0mWgGmFoxBls8OsxUM9QM4j1opRKCHInoN9M9pdLdKTDfIXrjBQFVzLufS0rkbWeP4PjRTZ6PFbsi0rf4y52ONZjSs32i3drSje81KYmwRB+XlMLjyrM5vwDbiffvRIfYIjB3oixr/Jw1bMUapwPW4bU7IFORoV428ZIJ46w=
+	t=1776675707; cv=none; b=AztjnrZKgwlovaRbrO1kJe9DYHTMQzyFXg01YQYWtXXGP04hMqjTjk3/N07RkIGjWnExdfAZ0aDkkUlO5uR4ooIJL6nAZ47WTdsprSc2mbBKoh3Sz3dB2FOK+dQGBHElfo3UFfJVAHGx5PovSb0CKrkqClh+h0PztJZahWYlfQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776674384; c=relaxed/simple;
-	bh=zpZdZY5IblUR64ldg4Lr/vEXA8B2WknFa4YzO4pxZdE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Yur03zVUGKCm4H+TBHTexJhCjN/wx/VbJUX6kCADEpbHuhCicuoeQI8VQVoVW2vvcQG4w8su1sm94Q23ZJXGjWVZMEwGEylQfKD9e20dT89Q99GXqszzEbrOI3H+W1/rNJ/mWlillCm0abLQLOlAuYdfumCzKjoglMqvtNz+a1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XM/Tj6gP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776675707; c=relaxed/simple;
+	bh=V/Jtl//8CLGHqFrgZDH2CVGljpJr2maDlNy9JvCsxZY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gl/eYB+xtVK/+cbFlh9SB1wkOcdfXB5z7p45IwSfs5o71IF6Jpa41GUB5knnPJXcInYS6XOerI6MGudUr8nSOLZZx08DB9jvTlhlbQC002EIJgNB54O9bqEltZQNN39dNwljSzJRRwI/yj2mFxpwlWgUpRSAcrgLQrEJ2LLdJzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=e8XPhyDJ; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=tInwUF9D; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XM/Tj6gP"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 969BCC19425;
-	Mon, 20 Apr 2026 08:39:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776674383;
-	bh=zpZdZY5IblUR64ldg4Lr/vEXA8B2WknFa4YzO4pxZdE=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=XM/Tj6gP9WzwAS8LhBntsF3/BvEZO+ob6few2CRKNBAe4NTQ2dksvUV4RdjcgVWvc
-	 InXR5egs3jaMKRNCu8Py3Xgas8rE2PzR5HyDcV4gVj+JJdxDE44b4d08Ohk5pEDjBb
-	 DDzQVT0jzu6RDXzJJ4twaUHF0UxcY4kljG7Tg0zj3u1Pxho0AFh6X9rtEfsciZthul
-	 yPv0tDGEcRicvXtTf1NUsSwHss1VupC3Vg6w4FwqWcfxv1rcCRT8DjATpT7GOoGHvu
-	 lYlR2ix/sO5EovBATnQOXBlMfNuZij8j/uGHVqSzk3GTzTS1TaKj+ZN3o2bfRPp/17
-	 8M7q20lkTzzCw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CB71F557E6;
-	Mon, 20 Apr 2026 08:39:43 +0000 (UTC)
-From: Cheng Ding via B4 Relay <devnull+cding.ddn.com@kernel.org>
-Date: Mon, 20 Apr 2026 16:39:34 +0800
-Subject: [PATCH] fuse: invalidate page cache after DIO and async DIO writes
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="e8XPhyDJ";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="tInwUF9D"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1776675704;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=gqkbOMppUZI/mnfihhZglDkygJ5RC7Zg7E8StFuzWbk=;
+	b=e8XPhyDJElufNhEJlyQjxt++MvWNs2fy+QusNHRDxMWS/3KEPFUhRxDgez06sZCQdonBaF
+	GqiHySL5fJVWl0Ly8SizL8vDw0Sy5ioUYgXaN2gLmzaIF8qZyzoH75dZQvdMiNMRzUwTny
+	YAnPewGQI7Rnv3lgmfMLD7jzlM5kQd4=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-225-f-eRUxxLP7-b6f3hbdt-HQ-1; Mon, 20 Apr 2026 05:01:43 -0400
+X-MC-Unique: f-eRUxxLP7-b6f3hbdt-HQ-1
+X-Mimecast-MFC-AGG-ID: f-eRUxxLP7-b6f3hbdt-HQ_1776675702
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-43d780757eeso1595470f8f.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 20 Apr 2026 02:01:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1776675702; x=1777280502; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=gqkbOMppUZI/mnfihhZglDkygJ5RC7Zg7E8StFuzWbk=;
+        b=tInwUF9DnFS3hUP1aF33jy2LVyxIYXi/eLobNbz25QAk5laufqe+gMrxzsgcZmF4DR
+         xwPuoypzZVYn3/sguqGwRddhNER6POekbkqqsnRiGMKmEunmoGOEDE6cbUfPho1FO3GY
+         tSwCp4z5NSKPCm3Cb/OlRibqOpoaro7YOR5kcaBEharNvCDv3Y1rJ31DwV09oSl9QfGu
+         rX+5AYyFB8++kKSMvQ8kXukxhWTouS0crrucW6esJj1Yz8vMgMfu2Jt2c5nZZZewPq/s
+         +BQZSAJQY//UexTXi1+3ZtPVcxqVhpPrkIK10ccnFCg53L80aJ4HeJyx6riQqdl2ELZW
+         Lekw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776675702; x=1777280502;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gqkbOMppUZI/mnfihhZglDkygJ5RC7Zg7E8StFuzWbk=;
+        b=Y5Vc0yifbP6/pU90Q5PQMkZ5Wy1emveZl5dB4BOUP6toa2b6mzaHO7pUNjNw839uNH
+         CyRF9+4pIeDhiicLSUl7ZlW3gssVJGdMERQBPp5xTUUxJEytLLqOH3TNQz1nctVX6GjK
+         bUT5VRI7Yy5Z8ZHYcR/yO46O9q9ZAUiGOBR+q0wJE6EmHKCFdXSHReQDmUayOkWKoRcl
+         f/JrxsO2O0H2aOqdtXSGjVos6u43YvzJJV57/9CLq/XoqTxV6hd91QStvI/AAHkqrIQz
+         08RpwFQ7SobS38x4oOn7Wbm9FNaCHOdMH55OPUOlNOkTcvVlEo8dXkRwUDHC60vjJrwh
+         Sqig==
+X-Forwarded-Encrypted: i=1; AFNElJ/yHwKAt8g9Hg5ZxogAhHY133BJ2vCQSA0ieVqm56vyqSPHUTKhRfJuNLiCfF8QnxpAVuFKKt9N6z5OvLYw@vger.kernel.org
+X-Gm-Message-State: AOJu0YwzqwE16No0ZBOhEcBY9daqUPSiBMBhba3HdXqj2HmOwCJDjWoy
+	9R/3Bk9FhP1vjhBSP2nfvysXrJB9XlX39RKFsxZEnKXWqRtzt+zOith5ST0OzA1I5P5fBmO0mJQ
+	j6PNpnT5+iqnUosk8AZm/2anRT6QO8pcS22Aj9xz/8D2yiVhUrqDgkOhA5UXZmZK1HvE=
+X-Gm-Gg: AeBDiesMwwPkcGXLXQyk2yEd5S+SwX1UQEH4xB4sZEHzBIFwEa2+gMpAI5euBa7x8st
+	oGpfIcNwduk/MtoWlOv+mk8LKaMOntctmAieX6nuRSUosdbb8kXDJwYoxiH15Bkzk+mi0jkp6CC
+	vfzE5XAN7+8l6fFSk3G0Cbxsjv+1fb7gmi7RAA5xXPXJy5CAHESY2Lp0BHBnD8fCKuRfI8N6TKq
+	7lF+v8/P4694R0DxLWR7sEYq+p6/ZFqfZuA+5h37oQTaQ3u8GX2f0T9uUfA4t14vIdB/+g9IZSU
+	L7tkWy4vV5XgtATOWUAdhIkJx2iVokGJ5icuC70lcKjr0PLGtitHfDZABH8ipqI4TXM+RIecIZ+
+	636GudY5CUGKLKWp0/3gYQwFVNgVbNTH9bchq/TuCRX7q4oMUuF1Jcdh6KV7nHEGt5+r9tbOBHj
+	ZCjzbi2xO9GFKgcQ==
+X-Received: by 2002:a05:6000:2a0d:b0:43d:7a5e:8162 with SMTP id ffacd0b85a97d-43fe407df74mr12676660f8f.15.1776675701696;
+        Mon, 20 Apr 2026 02:01:41 -0700 (PDT)
+X-Received: by 2002:a05:6000:2a0d:b0:43d:7a5e:8162 with SMTP id ffacd0b85a97d-43fe407df74mr12676605f8f.15.1776675700918;
+        Mon, 20 Apr 2026 02:01:40 -0700 (PDT)
+Received: from maszat.piliscsaba.szeredi.hu (188-142-153-35.pool.digikabel.hu. [188.142.153.35])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4e3a18csm31153195f8f.20.2026.04.20.02.01.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Apr 2026 02:01:40 -0700 (PDT)
+From: Miklos Szeredi <mszeredi@redhat.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Samuel Page <sam@bynar.io>,
+	linux-fsdevel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Qi Tang <tpluszz77@gmail.com>,
+	Zijun Hu <nightu@northwestern.edu>
+Subject: [PATCH] fuse: reject oversized dirents in page cache
+Date: Mon, 20 Apr 2026 11:01:37 +0200
+Message-ID: <20260420090139.662772-1-mszeredi@redhat.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260420-b4-new-451-v1-1-1808fa758695@ddn.com>
-X-B4-Tracking: v=1; b=H4sIAEbm5WkC/x3MQQqAIBBG4avErBtQsYSuEi3Kfms2FgoVhHdPW
- n6L917KSIJMQ/NSwiVZjlih24b8PscNLGs1GWV6ZY3ixXLEzbbTDA/vfHBWG1ANzoQgzz8bp1I
- +5L0R7lwAAAA=
-X-Change-ID: 20260420-b4-new-451-ecec7cf7412e
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Jingbo Xu <jefflexu@linux.alibaba.com>, 
- Bernd Schubert <bschubert@ddn.com>, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Cheng Ding <cding@ddn.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1776674382; l=7501;
- i=cding@ddn.com; s=20260306; h=from:subject:message-id;
- bh=To22O5pFeN05dCS/voHf7CPHVsv+7HOSFw5xW4h5XQE=;
- b=ccQskVCH6SLYOGnVI7YN/slXlDpn1Bmx0H6KnNYHbrRHpf1jOW9v0IgQEnLfq0BctSTsbY9am
- dfM0z2VGVlLB9gp+dSCYHhaOHt2RGGOUUBDToRDNsdE3uSzxxnooR92
-X-Developer-Key: i=cding@ddn.com; a=ed25519;
- pk=dzzlP8PhiZl3jtcAzbjIIv0kgtoA95fHdILVyjaeePk=
-X-Endpoint-Received: by B4 Relay for cding@ddn.com/20260306 with
- auth_id=667
-X-Original-From: Cheng Ding <cding@ddn.com>
-Reply-To: cding@ddn.com
+Content-Transfer-Encoding: 8bit
 
-From: Cheng Ding <cding@ddn.com>
+From: Samuel Page <sam@bynar.io>
 
-This fixe does page cache invalidation after DIO and async DIO writes for
-both O_DIRECT and FOPEN_DIRECT_IO cases.
+fuse_add_dirent_to_cache() computes a serialized dirent size from the
+server-controlled namelen field and copies the dirent into a single
+page-cache page. The existing logic only checks whether the dirent fits
+in the remaining space of the current page and advances to a fresh page
+if not. It never checks whether the dirent itself exceeds PAGE_SIZE.
 
-Commit b359af8275a9 ("fuse: Invalidate the page cache after FOPEN_DIRECT_IO
-write") fixed xfstests generic/209 for DIO writes in the FOPEN_DIRECT_IO
-path. DIO writes without FOPEN_DIRECT_IO are already handled by
-generic_file_direct_write().
-However, async DIO writes (xfstests generic/451) remain unhandled.
+As a result, a malicious FUSE server can return a dirent with
+namelen=4095, producing a serialized record size of 4120 bytes. On 4 KiB
+page systems this causes memcpy() to overflow the cache page by 24 bytes
+into the following kernel page.
 
-After this fix:
-- Async write with FUSE_ASYNC_DIO:
-    invalidate in fuse_aio_invalidate_worker()
+Reject dirents that cannot fit in a single page before copying them into
+the readdir cache.
 
-- Otherwise (Sync or async write without FUSE_ASYNC_DIO):
-    - With FOPEN_DIRECT_IO:
-        invalidate in fuse_direct_write_iter()
-    - Without FOPEN_DIRECT_IO:
-        invalidate in generic_file_direct_write()
-
-Workqueue is required for async write invalidation to prevent deadlock:
-calling it directly in the I/O end routine (which is in fuse worker thread
-context) can block on a folio lock held by a buffered I/O thread waiting
-for the same fuse worker thread.
-
-Co-developed-by: Jingbo Xu <jefflexu@linux.alibaba.com>
-Signed-off-by: Jingbo Xu <jefflexu@linux.alibaba.com>
-Signed-off-by: Cheng Ding <cding@ddn.com>
+Fixes: 69e34551152a ("fuse: allow caching readdir")
+Cc: stable@vger.kernel.org # v6.16+
+Assisted-by: Bynario AI
+Signed-off-by: Samuel Page <sam@bynar.io>
+Reported-by: Qi Tang <tpluszz77@gmail.com>
+Reported-by: Zijun Hu <nightu@northwestern.edu>
+Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
 ---
-Changes in v4:
-- Add Jingbo as co-developer (with Jingbo's agreement).
-- Adopt Jingbo's commit message from
-  https://lore.kernel.org/linux-fsdevel/20260111073701.6071-1-jefflexu@linux.alibaba.com/,
-  modified to explain why async DIO invalidation needs a workqueue.
-- Link to v3: https://lore.kernel.org/r/20260309-xfstests-generic-451-v3-1-bb6ad2f59512@ddn.com
+ fs/fuse/readdir.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Changes in v3:
-- Address review comments: fix typo
-- Address review comments: move sb_init_dio_done_wq() to fuse_direct_IO()
-  Note: We could skip sb_init_dio_done_wq() when io->blocking is true, but
-  I opted to keep the change simpler.
-- Link to v2: https://lore.kernel.org/r/20260306-xfstests-generic-451-v2-1-93b2d540304b@ddn.com
-
-Changes in v2:
-- Address review comments: move invalidation from fuse_direct_io() to
-  fuse_direct_write_iter()
-- Link to v1: https://lore.kernel.org/r/20260303-async-dio-aio-cache-invalidation-v1-1-fba0fd0426c3@ddn.com
----
- fs/fuse/file.c   | 59 +++++++++++++++++++++++++++++++++++++++++++++-----------
- fs/fuse/fuse_i.h |  1 +
- 2 files changed, 49 insertions(+), 11 deletions(-)
-
-diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-index b1bb7153cb78..c43fe74cdd46 100644
---- a/fs/fuse/file.c
-+++ b/fs/fuse/file.c
-@@ -23,6 +23,8 @@
- #include <linux/task_io_accounting_ops.h>
- #include <linux/iomap.h>
+diff --git a/fs/fuse/readdir.c b/fs/fuse/readdir.c
+index c88194e52d18..db5ae8ec1030 100644
+--- a/fs/fuse/readdir.c
++++ b/fs/fuse/readdir.c
+@@ -41,6 +41,10 @@ static void fuse_add_dirent_to_cache(struct file *file,
+ 	unsigned int offset;
+ 	void *addr;
  
-+int sb_init_dio_done_wq(struct super_block *sb);
++	/* Dirent doesn't fit in readdir cache page?  Skip caching. */
++	if (reclen > PAGE_SIZE)
++		return;
 +
- static int fuse_send_open(struct fuse_mount *fm, u64 nodeid,
- 			  unsigned int open_flags, int opcode,
- 			  struct fuse_open_out *outargp)
-@@ -629,6 +631,19 @@ static ssize_t fuse_get_res_by_io(struct fuse_io_priv *io)
- 	return io->bytes < 0 ? io->size : io->bytes;
- }
- 
-+static void fuse_aio_invalidate_worker(struct work_struct *work)
-+{
-+	struct fuse_io_priv *io = container_of(work, struct fuse_io_priv, work);
-+	struct address_space *mapping = io->iocb->ki_filp->f_mapping;
-+	ssize_t res = fuse_get_res_by_io(io);
-+	pgoff_t start = io->offset >> PAGE_SHIFT;
-+	pgoff_t end = (io->offset + res - 1) >> PAGE_SHIFT;
-+
-+	invalidate_inode_pages2_range(mapping, start, end);
-+	io->iocb->ki_complete(io->iocb, res);
-+	kref_put(&io->refcnt, fuse_io_release);
-+}
-+
- /*
-  * In case of short read, the caller sets 'pos' to the position of
-  * actual end of fuse request in IO request. Otherwise, if bytes_requested
-@@ -661,10 +676,11 @@ static void fuse_aio_complete(struct fuse_io_priv *io, int err, ssize_t pos)
- 	spin_unlock(&io->lock);
- 
- 	if (!left && !io->blocking) {
-+		struct inode *inode = file_inode(io->iocb->ki_filp);
-+		struct address_space *mapping = io->iocb->ki_filp->f_mapping;
- 		ssize_t res = fuse_get_res_by_io(io);
- 
- 		if (res >= 0) {
--			struct inode *inode = file_inode(io->iocb->ki_filp);
- 			struct fuse_conn *fc = get_fuse_conn(inode);
- 			struct fuse_inode *fi = get_fuse_inode(inode);
- 
-@@ -673,6 +689,17 @@ static void fuse_aio_complete(struct fuse_io_priv *io, int err, ssize_t pos)
- 			spin_unlock(&fi->lock);
- 		}
- 
-+		if (io->write && res > 0 && mapping->nrpages) {
-+			/*
-+			 * As in generic_file_direct_write(), invalidate after the
-+			 * write, to invalidate read-ahead cache that may have competed
-+			 * with the write.
-+			 */
-+			INIT_WORK(&io->work, fuse_aio_invalidate_worker);
-+			queue_work(inode->i_sb->s_dio_done_wq, &io->work);
-+			return;
-+		}
-+
- 		io->iocb->ki_complete(io->iocb, res);
- 	}
- 
-@@ -1738,15 +1765,6 @@ ssize_t fuse_direct_io(struct fuse_io_priv *io, struct iov_iter *iter,
- 	if (res > 0)
- 		*ppos = pos;
- 
--	if (res > 0 && write && fopen_direct_io) {
--		/*
--		 * As in generic_file_direct_write(), invalidate after the
--		 * write, to invalidate read-ahead cache that may have competed
--		 * with the write.
--		 */
--		invalidate_inode_pages2_range(mapping, idx_from, idx_to);
--	}
--
- 	return res > 0 ? res : err;
- }
- EXPORT_SYMBOL_GPL(fuse_direct_io);
-@@ -1785,6 +1803,8 @@ static ssize_t fuse_direct_read_iter(struct kiocb *iocb, struct iov_iter *to)
- static ssize_t fuse_direct_write_iter(struct kiocb *iocb, struct iov_iter *from)
- {
- 	struct inode *inode = file_inode(iocb->ki_filp);
-+	struct address_space *mapping = inode->i_mapping;
-+	loff_t pos = iocb->ki_pos;
- 	ssize_t res;
- 	bool exclusive;
- 
-@@ -1801,6 +1821,16 @@ static ssize_t fuse_direct_write_iter(struct kiocb *iocb, struct iov_iter *from)
- 					     FUSE_DIO_WRITE);
- 			fuse_write_update_attr(inode, iocb->ki_pos, res);
- 		}
-+		if (res > 0 && mapping->nrpages) {
-+			/*
-+			 * As in generic_file_direct_write(), invalidate after
-+			 * write, to invalidate read-ahead cache that may have
-+			 * with the write.
-+			 */
-+			invalidate_inode_pages2_range(mapping,
-+				pos >> PAGE_SHIFT,
-+				(pos + res - 1) >> PAGE_SHIFT);
-+		}
- 	}
- 	fuse_dio_unlock(iocb, exclusive);
- 
-@@ -2826,6 +2856,7 @@ fuse_direct_IO(struct kiocb *iocb, struct iov_iter *iter)
- 	size_t count = iov_iter_count(iter), shortened = 0;
- 	loff_t offset = iocb->ki_pos;
- 	struct fuse_io_priv *io;
-+	bool async = ff->fm->fc->async_dio;
- 
- 	pos = offset;
- 	inode = file->f_mapping->host;
-@@ -2834,6 +2865,12 @@ fuse_direct_IO(struct kiocb *iocb, struct iov_iter *iter)
- 	if ((iov_iter_rw(iter) == READ) && (offset >= i_size))
- 		return 0;
- 
-+	if ((iov_iter_rw(iter) == WRITE) && async && !inode->i_sb->s_dio_done_wq) {
-+		ret = sb_init_dio_done_wq(inode->i_sb);
-+		if (ret < 0)
-+			return ret;
-+	}
-+
- 	io = kmalloc_obj(struct fuse_io_priv);
- 	if (!io)
- 		return -ENOMEM;
-@@ -2849,7 +2886,7 @@ fuse_direct_IO(struct kiocb *iocb, struct iov_iter *iter)
- 	 * By default, we want to optimize all I/Os with async request
- 	 * submission to the client filesystem if supported.
- 	 */
--	io->async = ff->fm->fc->async_dio;
-+	io->async = async;
- 	io->iocb = iocb;
- 	io->blocking = is_sync_kiocb(iocb);
- 
-diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-index 7f16049387d1..6e8c8cf6b2c8 100644
---- a/fs/fuse/fuse_i.h
-+++ b/fs/fuse/fuse_i.h
-@@ -377,6 +377,7 @@ union fuse_file_args {
- /** The request IO state (for asynchronous processing) */
- struct fuse_io_priv {
- 	struct kref refcnt;
-+	struct work_struct work;
- 	int async;
- 	spinlock_t lock;
- 	unsigned reqs;
-
----
-base-commit: b29fb8829bff243512bb8c8908fd39406f9fd4c3
-change-id: 20260420-b4-new-451-ecec7cf7412e
-
-Best regards,
+ 	spin_lock(&fi->rdc.lock);
+ 	/*
+ 	 * Is cache already completed?  Or this entry does not go at the end of
 -- 
-Cheng Ding <cding@ddn.com>
-
+2.53.0
 
