@@ -1,114 +1,99 @@
-Received: from mailgw2.hygon.cn (unknown [101.204.27.37])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1797140DFC7;
-	Mon, 20 Apr 2026 02:10:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.204.27.37
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42E5137FF7B;
+	Mon, 20 Apr 2026 03:09:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776651061; cv=none; b=VQsDpwkxDHrwrOOtqGxyXYMFm8Jdedc+wIz6bJAbDETWVz1n7o6uYTeM1h5HGoEFjWPBzyJmDGPRg2IkTtq7Tr7A8mjuA2Godd88Lb7aBPAiGls0G8A0sUKXRhchGQD94ToD7m94Kg1RXUk0kku4yaRXFTzDFpTK83jC6TUHN2E=
+	t=1776654587; cv=none; b=Zh4RRBlNyz/WQNME4zK3Rs0Xw4JLEZ2q273vhTj5nCPw70c207hllrYBaAhRpAHgs1O3riDk6FGIwjajpQBqpF9+rVjG1uouq1g4+XlWb+d6QEvg1EHiqzhczT+9KCkqxAw6MH3eCof7HK0SPSq+jp+TcLhwISYeeyW1f8N0n8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776651061; c=relaxed/simple;
-	bh=XZMDY39SIKnjgr9AwOz4guH12QSe5xlaKf0Q6+yWohc=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qeXaFwLQNaepgAnoSOwzn1tIGaAqquX4ZisCGD4MlGIz59T97GtwiNlg6CS2hf++rjXLtQh6TaqhV6bI5HneZbNK4e2b8Noo1BYO+qVmrxZxHghFxBRnzJo15WMImPC4DcEHXqKwRoqZ951OrTdWdi3mjfNaGJXdF+aU2FYP078=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn; spf=pass smtp.mailfrom=hygon.cn; arc=none smtp.client-ip=101.204.27.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hygon.cn
-Received: from maildlp1.hygon.cn (unknown [127.0.0.1])
-	by mailgw2.hygon.cn (Postfix) with ESMTP id 4fzTTx2xMWz1YQpmD;
-	Mon, 20 Apr 2026 10:10:29 +0800 (CST)
-Received: from maildlp1.hygon.cn (unknown [172.23.18.60])
-	by mailgw2.hygon.cn (Postfix) with ESMTP id 4fzTTw3BqFz1YQpmD;
-	Mon, 20 Apr 2026 10:10:28 +0800 (CST)
-Received: from cncheex04.Hygon.cn (unknown [172.23.18.114])
-	by maildlp1.hygon.cn (Postfix) with ESMTPS id 29C42B53C;
-	Mon, 20 Apr 2026 10:10:25 +0800 (CST)
-Received: from SH-HV00110.Hygon.cn (172.19.26.208) by cncheex04.Hygon.cn
- (172.23.18.114) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Mon, 20 Apr
- 2026 10:10:17 +0800
-Date: Mon, 20 Apr 2026 10:10:19 +0800
-From: Huang Shijie <huangsj@hygon.cn>
-To: Mateusz Guzik <mjguzik@gmail.com>
-CC: <akpm@linux-foundation.org>, <viro@zeniv.linux.org.uk>,
-	<brauner@kernel.org>, <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-fsdevel@vger.kernel.org>,
-	<muchun.song@linux.dev>, <osalvador@suse.de>,
-	<linux-trace-kernel@vger.kernel.org>, <linux-perf-users@vger.kernel.org>,
-	<linux-parisc@vger.kernel.org>, <nvdimm@lists.linux.dev>,
-	<zhongyuan@hygon.cn>, <fangbaoshun@hygon.cn>, <yingzhiwei@hygon.cn>
-Subject: Re: [PATCH 0/3] mm: split the file's i_mmap tree for NUMA
-Message-ID: <aeWLCxru6cLWsxvQ@SH-HV00110.Hygon.cn>
-References: <20260413062042.804-1-huangsj@hygon.cn>
- <76pfiwabdgsej6q2yxfh3efuqvsyg7mt7rvl5itzzjyhdrto5r@53viaxsackzv>
+	s=arc-20240116; t=1776654587; c=relaxed/simple;
+	bh=dy4N6TGQJWD6tnl0B/E2R/g5apTeDjbZP8aIdYHCVsg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=OZq7CRkUdFtsD3qKVjj4/y/fXz7QBO6+H2/2XVTQoi1B/MiL+3DkNQQgr0XL2VM8n7nQY4ycbTAD9KjDeSntuK3BfQuQeTg2rGtWh9ghww0oxdjqas0MWJK+qeLU8bHElpD4+xEDbfbIR/tlc4rYB5E+3DoS6vyZ4PCvayIXMs0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 5d8f1cc03c6611f1aa26b74ffac11d73-20260420
+X-CTIC-Tags:
+	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
+	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
+	HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM, HR_SJ_PHRASE
+	HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT, HR_TO_NAME
+	IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_TRUSTED, SA_EXISTED
+	SN_TRUSTED, SN_EXISTED, SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS
+	CIE_BAD, CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS, GTI_RG_INFO
+	GTI_C_BU, AMN_GOOD, ABX_MISS_RDNS
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:a8d281f0-31a0-43f8-b0e6-db6f1420addd,IP:15,
+	URL:0,TC:0,Content:0,EDM:25,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTI
+	ON:release,TS:35
+X-CID-INFO: VERSION:1.3.12,REQID:a8d281f0-31a0-43f8-b0e6-db6f1420addd,IP:15,UR
+	L:0,TC:0,Content:0,EDM:25,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:35
+X-CID-META: VersionHash:e7bac3a,CLOUDID:a2256f6e5add7f916926163279390ec3,BulkI
+	D:260420110939KEUEHNOD,BulkQuantity:0,Recheck:0,SF:17|19|66|78|102|127|898
+	,TC:nil,Content:0|15|50,EDM:5,IP:-2,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,
+	BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 5d8f1cc03c6611f1aa26b74ffac11d73-20260420
+X-User: liwang@kylinos.cn
+Received: from computer.. [(116.128.244.171)] by mailgw.kylinos.cn
+	(envelope-from <liwang@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1913366724; Mon, 20 Apr 2026 11:09:37 +0800
+From: Li Wang <liwang@kylinos.cn>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Joanne Koong <joannelkoong@gmail.com>,
+	Bernd Schubert <bernd@bsbernd.com>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Li Wang <liwang@kylinos.cn>
+Subject: [PATCH] fuse: drop redundant check in fuse_sync_bucket_alloc()
+Date: Mon, 20 Apr 2026 11:09:00 +0800
+Message-Id: <20260420030900.4944-1-liwang@kylinos.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <76pfiwabdgsej6q2yxfh3efuqvsyg7mt7rvl5itzzjyhdrto5r@53viaxsackzv>
-X-ClientProxiedBy: cncheex05.Hygon.cn (172.23.18.115) To cncheex04.Hygon.cn
- (172.23.18.114)
+Content-Transfer-Encoding: 8bit
 
-On Mon, Apr 13, 2026 at 05:33:21PM +0200, Mateusz Guzik wrote:
-> On Mon, Apr 13, 2026 at 02:20:39PM +0800, Huang Shijie wrote:
-> >   In NUMA, there are maybe many NUMA nodes and many CPUs.
-> > For example, a Hygon's server has 12 NUMA nodes, and 384 CPUs.
-> > In the UnixBench tests, there is a test "execl" which tests
-> > the execve system call.
-> > 
-> >   When we test our server with "./Run -c 384 execl",
-> > the test result is not good enough. The i_mmap locks contended heavily on
-> > "libc.so" and "ld.so". For example, the i_mmap tree for "libc.so" can have 
-> > over 6000 VMAs, all the VMAs can be in different NUMA mode.
-> > The insert/remove operations do not run quickly enough.
-> > 
-> > patch 1 & patch 2 are try to hide the direct access of i_mmap.
-> > patch 3 splits the i_mmap into sibling trees, and we can get better 
-> > performance with this patch set:
-> >     we can get 77% performance improvement(10 times average)
-> > 
-> 
-> To my reading you kept the lock as-is and only distributed the protected
-> state.
-> 
-> While I don't doubt the improvement, I'm confident should you take a
-> look at the profile you are going to find this still does not scale with
-> rwsem being one of the problems (there are other global locks, some of
-> which have experimental patches for).
-> 
-> Apart from that this does nothing to help high core systems which are
-> all one node, which imo puts another question mark on this specific
-> proposal.
-> 
-> Of course one may question whether a RB tree is the right choice here,
-> it may be the lock-protected cost can go way down with merely a better
-> data structure.
-> 
-> Regardless of that, for actual scalability, there will be no way around
-> decentralazing locking around this and partitioning per some core count
-> (not just by numa awareness).
-> 
-> Decentralizing locking is definitely possible, but I have not looked
-> into specifics of how problematic it is. Best case scenario it will
-> merely with separate locks. Worst case scenario something needs a fully
-> stabilized state for traversal, in that case another rw lock can be
-> slapped around this, creating locking order read lock -> per-subset
-> write lock -- this will suffer scalability due to the read locking, but
-> it will still scale drastically better as apart from that there will be
-> no serialization. In this setting the problematic consumer will write
-> lock the new thing to stabilize the state.
-> 
-I thought over again.
-I can change this patch set to support the non-NUMA case by:
-  1.) Still use one rw lock.
-  2.) For NUMA, keep the patch set as it is.
-  3.) For non-NUMA case, split the i_mmap tree to several subtrees.
-      For example, if a machine has 192 CPUs, split the 32 CPUs as a tree.
+kzalloc_obj with __GFP_NOFAIL is documented to never return failure,
+and checking for NULL is redundant (__GFP_NOFAIL in gfp_types.h).
+Besides, its caller fuse_sync_fs_writes() uses it without a
+NULL check (atomic_inc on new_bucket, rcu_assign_pointer).
+fuse_fill_super_common() passes fuse_sync_bucket_alloc() directly to
+rcu_assign_pointer() without NULL check either.
 
-So extend the patch set to support both the NUMA and non-NUMA machines.
+Signed-off-by: Li Wang <liwang@kylinos.cn>
+---
+ fs/fuse/inode.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-Thanks
-Huang Shijie
+diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+index 33009227e91d..e5069d2f8e90 100644
+--- a/fs/fuse/inode.c
++++ b/fs/fuse/inode.c
+@@ -676,11 +676,9 @@ static struct fuse_sync_bucket *fuse_sync_bucket_alloc(void)
+ 	struct fuse_sync_bucket *bucket;
+ 
+ 	bucket = kzalloc_obj(*bucket, GFP_KERNEL | __GFP_NOFAIL);
+-	if (bucket) {
+-		init_waitqueue_head(&bucket->waitq);
+-		/* Initial active count */
+-		atomic_set(&bucket->count, 1);
+-	}
++	init_waitqueue_head(&bucket->waitq);
++	/* Initial active count */
++	atomic_set(&bucket->count, 1);
+ 	return bucket;
+ }
+ 
+-- 
+2.34.1
 
