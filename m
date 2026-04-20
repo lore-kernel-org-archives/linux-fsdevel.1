@@ -1,85 +1,92 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 942A73DC4A5
-	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Apr 2026 14:37:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D7DD3DBD7F
+	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Apr 2026 14:37:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776695857; cv=none; b=jJbpfDEmLOBi0X2tFCQzN99AnZiyR1ylu576B9RHz+dCM/VlTrH8oZ5P/WWlJ3rgqBB2/kAMxWoFP2LhNEB7Uhizc6umqmfEKxudj9yXrp3kc4POk7iko9fW2B/WTBfzr7HKVhLX17AXBTZmGWIjp1se602AzMny76Lq0geI8jg=
+	t=1776695863; cv=none; b=g6o4c1Mc2eWiRyBl06CstRBL4+hCuF+erj1eCp5aqqCIXKSR2Ht33gVtmYPkGk3yVSk6dEziY8zNuAIbw/63q1MXzscH3++I/9pEujL4ocaLgrlCQN1zPZcAdXOfFX2DzHZMtox2BZiePNPlb/aTfg8AKcakNotaHbzrgKsg0D0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776695857; c=relaxed/simple;
-	bh=8f8r9D05z66yFZB8PlwZx7bRvvR5EVuh5ioPmSvk434=;
+	s=arc-20240116; t=1776695863; c=relaxed/simple;
+	bh=cVUJzQAMtXVZv+iwhHekIciw1AK5pnHkTqgA5eRcR9E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=URp6Vooi2clJSoK0oA2gkojVBmVv9FYKRzwxzbsaeh0XXxndW5UWj+QJr3GfXv0covZ3sSd1WOZEyTOXymUEEIuh9uJQET0rj07yII6XjtZPqc7IR8p0T9z2ISqbXcdOReN3w3rZSNPUNJuancyfhjtGfV8NnGByY6skJ+zt2eE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=vNNH7lv6; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=s62krNrz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=vNNH7lv6; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=s62krNrz; arc=none smtp.client-ip=195.135.223.130
+	 Content-Type:Content-Disposition:In-Reply-To; b=R9y3fIjK/kl/6QsQp7zfVU5RBa4PchBd8LFAULL8O5AF4ldxiSd90g2Be5OAZ6MEFf89pEHfeg4AEslZF5nI0zyvdGxwpaJsy3kuoXml9zN3oiqddgs+Jo8fVHWZnuxWO5MfhG6Z8yL2lDBLsLbV8WGsuuQXn3glML0iPm+gDl0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=q4yNSEiY; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=n5v8NFJL; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=q4yNSEiY; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=n5v8NFJL; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="vNNH7lv6";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="s62krNrz";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="vNNH7lv6";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="s62krNrz"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="q4yNSEiY";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="n5v8NFJL";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="q4yNSEiY";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="n5v8NFJL"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3CC4A6A7E9;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 200656A7E4;
 	Mon, 20 Apr 2026 14:37:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
 	t=1776695842; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=B9Sht0RCpDykUHgnBn+MnpiaegOoYQYhSjnmhhz/xxs=;
-	b=vNNH7lv6wPVdqjELgxKd2J3shedILPRp4cGeGy4TCaMUXE1kw17UGUMKeEIAC4cqZMSnrR
-	kxNYaluacrI9938dLYW81SfzRSZWE3mPgCznnnDKxpi/2E+q0SnbXlwTkIWElSfyOmS3xT
-	yvXxXc63AKzDdo5M9shhMPXU1HQ21Wc=
+	bh=tq/qTYhc7J99BTb81QiREOxnOQu2KPLsbOcnX3tU/Ak=;
+	b=q4yNSEiYxtVmWifg6hkkuZBbAxQk27Jc36P0w2PLFNCP8pYAMjBTF2l5r7vu2IX49Q4cMf
+	jQBNFW7JFQEEEB2t6JzB5XuinTQa/mOexKYPEP0t8vePcuhFfietDkstN27e++1RhvWjj1
+	goZlzvLFNTovxg75Aws3kRXECcEWjz4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
 	s=susede2_ed25519; t=1776695842;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=B9Sht0RCpDykUHgnBn+MnpiaegOoYQYhSjnmhhz/xxs=;
-	b=s62krNrzHGWeeFpPGkwrNBM4GrPHz7SNMkrOU52/cOQdlwWIDJIndgH9bjFMnZdkh1YSPC
-	Y4P+sL9nWfgRJrBg==
+	bh=tq/qTYhc7J99BTb81QiREOxnOQu2KPLsbOcnX3tU/Ak=;
+	b=n5v8NFJLalpN8aCtps8nQjNn143pFUK+sg3nUDFXYvbeADZElBnF0+aUCJ+bWjuP41iE0j
+	zsQgp/5upyIs6GCA==
 Authentication-Results: smtp-out1.suse.de;
-	none
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=q4yNSEiY;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=n5v8NFJL
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
 	t=1776695842; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=B9Sht0RCpDykUHgnBn+MnpiaegOoYQYhSjnmhhz/xxs=;
-	b=vNNH7lv6wPVdqjELgxKd2J3shedILPRp4cGeGy4TCaMUXE1kw17UGUMKeEIAC4cqZMSnrR
-	kxNYaluacrI9938dLYW81SfzRSZWE3mPgCznnnDKxpi/2E+q0SnbXlwTkIWElSfyOmS3xT
-	yvXxXc63AKzDdo5M9shhMPXU1HQ21Wc=
+	bh=tq/qTYhc7J99BTb81QiREOxnOQu2KPLsbOcnX3tU/Ak=;
+	b=q4yNSEiYxtVmWifg6hkkuZBbAxQk27Jc36P0w2PLFNCP8pYAMjBTF2l5r7vu2IX49Q4cMf
+	jQBNFW7JFQEEEB2t6JzB5XuinTQa/mOexKYPEP0t8vePcuhFfietDkstN27e++1RhvWjj1
+	goZlzvLFNTovxg75Aws3kRXECcEWjz4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
 	s=susede2_ed25519; t=1776695842;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=B9Sht0RCpDykUHgnBn+MnpiaegOoYQYhSjnmhhz/xxs=;
-	b=s62krNrzHGWeeFpPGkwrNBM4GrPHz7SNMkrOU52/cOQdlwWIDJIndgH9bjFMnZdkh1YSPC
-	Y4P+sL9nWfgRJrBg==
+	bh=tq/qTYhc7J99BTb81QiREOxnOQu2KPLsbOcnX3tU/Ak=;
+	b=n5v8NFJLalpN8aCtps8nQjNn143pFUK+sg3nUDFXYvbeADZElBnF0+aUCJ+bWjuP41iE0j
+	zsQgp/5upyIs6GCA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2F581593B0;
-	Mon, 20 Apr 2026 14:37:22 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 91B8D593AF;
+	Mon, 20 Apr 2026 14:37:21 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id DcqECyI65mm2cgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 20 Apr 2026 14:37:22 +0000
+	id sbiKIyE65mmecgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 20 Apr 2026 14:37:21 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 1D560A0C02; Mon, 20 Apr 2026 12:49:49 +0200 (CEST)
-Date: Mon, 20 Apr 2026 12:49:49 +0200
+	id 7B668A0BEE; Mon, 20 Apr 2026 13:28:18 +0200 (CEST)
+Date: Mon, 20 Apr 2026 13:28:18 +0200
 From: Jan Kara <jack@suse.cz>
-To: Ibrahim Jirdeh <ibrahimjirdeh@meta.com>
-Cc: jack@suse.cz, amir73il@gmail.com, josef@toxicpanda.com, lesha@meta.com, 
-	linux-fsdevel@vger.kernel.org, sargun@meta.com
-Subject: Re: [PATCH v3 2/2] fanotify: introduce restartable permission events
-Message-ID: <bcodsu6plppnwotjuisi7kvwkftpennowemslxur33qhtmd4qp@wc536gzxu53m>
-References: <20260416194844.3874004-1-ibrahimjirdeh@meta.com>
- <20260416194844.3874004-3-ibrahimjirdeh@meta.com>
+To: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+Cc: Jan Kara <jack@suse.cz>, linux-xfs@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, djwong@kernel.org, john.g.garry@oracle.com, willy@infradead.org, 
+	hch@lst.de, ritesh.list@gmail.com, Luis Chamberlain <mcgrof@kernel.org>, 
+	dgc@kernel.org, tytso@mit.edu, p.raghav@samsung.com, andres@anarazel.de, 
+	brauner@kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [RFC PATCH v2 2/5] iomap: Add initial support for buffered
+ RWF_WRITETHROUGH
+Message-ID: <laegs2jt5ifqmfmdlsl7gsrc64z4nrnwbxazewbr7jk27emdej@l6vhj7pjh3dy>
+References: <cover.1775658795.git.ojaswin@linux.ibm.com>
+ <d44171d5a1ec783722019ad7d1a4ede0478cc914.1775658795.git.ojaswin@linux.ibm.com>
+ <52wsh6owrtmznt5xuks6ljwy4zbpyid45x5dbxo5xgssxm4zxy@iue2on3llpfb>
+ <aeKNHi8GloNgch7X@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -88,335 +95,228 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260416194844.3874004-3-ibrahimjirdeh@meta.com>
-X-Spam-Score: -3.80
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.80 / 50.00];
+In-Reply-To: <aeKNHi8GloNgch7X@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-2.51 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	RCVD_COUNT_THREE(0.00)[3];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	URIBL_BLOCKED(0.00)[suse.com:email,suse.cz:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	ARC_NA(0.00)[];
-	URIBL_BLOCKED(0.00)[meta.com:email,suse.com:email,imap1.dmz-prg2.suse.org:helo];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_RCPT(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_CC(0.00)[suse.cz,gmail.com,toxicpanda.com,meta.com,vger.kernel.org];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email]
+	FREEMAIL_CC(0.00)[suse.cz,vger.kernel.org,kernel.org,oracle.com,infradead.org,lst.de,gmail.com,mit.edu,samsung.com,anarazel.de,kvack.org];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:dkim]
+X-Rspamd-Queue-Id: 200656A7E4
 X-Spam-Flag: NO
+X-Spam-Score: -2.51
+X-Spam-Level: 
 
-On Thu 16-04-26 12:48:44, Ibrahim Jirdeh wrote:
-> This adds support for restarting permission events. The main goal of
-> the change is to provide better handling for pending events for lazy
-> file loading use cases which may back fanotify events by a long-lived
-> daemon. For prior discussion of approaches see [1][2].
+On Sat 18-04-26 01:12:22, Ojaswin Mujoo wrote:
+> On Thu, Apr 16, 2026 at 02:34:15PM +0200, Jan Kara wrote:
+> > > @@ -1096,6 +1097,276 @@ static bool iomap_write_end(struct iomap_iter *iter, size_t len, size_t copied,
+> > > +static int iomap_writethrough_iter(struct iomap_writethrough_ctx *wt_ctx,
+> > > +				   struct iomap_iter *iter, struct iov_iter *i,
+> > > +				   const struct iomap_writethrough_ops *wt_ops)
+> > > +
+> > > +{
+> > > +	ssize_t total_written = 0;
+> > > +	int status = 0;
+> > > +	struct address_space *mapping = iter->inode->i_mapping;
+> > > +	size_t chunk = mapping_max_folio_size(mapping);
+> > > +	unsigned int bdp_flags = (iter->flags & IOMAP_NOWAIT) ? BDP_ASYNC : 0;
+> > > +	unsigned int bs = i_blocksize(iter->inode);
+> > > +
+> > > +	/* copied over based on DIO handles these flags */
+> > > +	if (iter->iomap.type == IOMAP_UNWRITTEN)
+> > > +		wt_ctx->flags |= IOMAP_DIO_UNWRITTEN;
+> > > +	if (iter->iomap.flags & IOMAP_F_SHARED)
+> > > +		wt_ctx->flags |= IOMAP_DIO_COW;
+> > > +
+> > > +	if (!(iter->flags & IOMAP_WRITETHROUGH))
+> > > +		return -EINVAL;
+> > > +
+> > > +	do {
+> > > +		struct folio *folio;
+> > > +		size_t offset;		/* Offset into folio */
+> > > +		u64 bytes;		/* Bytes to write to folio */
+> > > +		size_t copied;		/* Bytes copied from user */
+> > > +		u64 written;		/* Bytes have been written */
+> > > +		loff_t pos;
+> > > +		size_t off_aligned, len_aligned;
+> > > +
+> > > +		bytes = iov_iter_count(i);
+> > > +retry:
+> > > +		offset = iter->pos & (chunk - 1);
+> > > +		bytes = min(chunk - offset, bytes);
+> > > +		status = balance_dirty_pages_ratelimited_flags(mapping,
+> > > +							       bdp_flags);
+> > > +		if (unlikely(status))
+> > > +			break;
+> > > +
+> > > +		/*
+> > > +		 * If completions already occurred and reported errors, give up
+> > > +		 * now and don't bother submitting more bios.
+> > > +		 */
+> > > +		if (unlikely(data_race(wt_ctx->error))) {
+> > > +			wt_ctx->nr_bvecs = 0;
+> > > +			break;
+> > > +		}
+> > > +
+> > > +		if (bytes > iomap_length(iter))
+> > > +			bytes = iomap_length(iter);
+> > > +
+> > > +		/*
+> > > +		 * Bring in the user page that we'll copy from _first_.
+> > > +		 * Otherwise there's a nasty deadlock on copying from the
+> > > +		 * same page as we're writing to, without it being marked
+> > > +		 * up-to-date.
+> > > +		 *
+> > > +		 * For async buffered writes the assumption is that the user
+> > > +		 * page has already been faulted in. This can be optimized by
+> > > +		 * faulting the user page.
+> > > +		 */
+> > > +		if (unlikely(fault_in_iov_iter_readable(i, bytes) == bytes)) {
+> > > +			status = -EFAULT;
+> > > +			break;
+> > > +		}
+> > > +
+> > > +		status = iomap_write_begin(iter, wt_ops->write_ops, &folio,
+> > > +					   &offset, &bytes);
+> > > +		if (unlikely(status)) {
+> > > +			iomap_write_failed(iter->inode, iter->pos, bytes);
+> > > +			break;
+> > > +		}
+> > > +		if (iter->iomap.flags & IOMAP_F_STALE)
+> > > +			break;
+> > > +
+> > > +		pos = iter->pos;
+> > > +
+> > > +		if (mapping_writably_mapped(mapping))
+> > > +			flush_dcache_folio(folio);
+> > > +
+> > > +		copied = copy_folio_from_iter_atomic(folio, offset, bytes, i);
+> > > +		written = iomap_write_end(iter, bytes, copied, folio) ?
+> > > +			  copied : 0;
+> > > +
+> > > +		if (!written)
+> > > +			goto put_folio;
+> > > +
+> > > +		off_aligned = round_down(offset, bs);
+> > > +		len_aligned = round_up(offset + written, bs) - off_aligned;
+> > > +
+> > > +		iomap_folio_prepare_writethrough(folio, off_aligned,
+> > > +						 len_aligned);
+> > > +
+> > > +		if (!wt_ctx->nr_bvecs)
+> > > +			wt_ctx->bio_pos = round_down(pos, bs);
+> > > +
+> > > +		bvec_set_folio(&wt_ctx->bvec[wt_ctx->nr_bvecs], folio,
+> > > +			       len_aligned, off_aligned);
+> > 
+> > Shouldn't we zero out the tail of the folio if we are submitting partial
+> > folio for write?
 > 
-> In terms of implementation, we add a new control-fd/queue-fd api.
-> Control fd returned by fanotify_init keeps fanotify group alive and
-> supports operations like fanotify_mark as well as a new ioctl
-> FAN_IOC_OPEN_QUEUE_FD to open a queue fd. Queue fd is used
-> for reading events and writing back responses. Upon release of
-> queue fd, pending permission events are reinserted back into
-> notification queue for reprocessing.
+> Hmm, so for the folio range we zeroout if needed in
+> __iomap_write_begin(). I think that should take care of this right? 
+
+Yeah, right, that seems to do it.
+
+> > > +		wt_ctx->nr_bvecs++;
+> > > +		wt_ctx->written += written;
+> > > +
+> > > +		if (pos + written > wt_ctx->new_i_size)
+> > > +			wt_ctx->new_i_size = pos + written;
+> > 
+> > I'm probably missing something here but where is i_size update handled? I
+> > don't see new_i_size used anywhere? 
 > 
-> Control-fd/queue-fd api is guarded by FAN_RESTARTABLE_EVENTS flag.
-> In addition FAN_RESTARTABLE_EVENTS can only be used in conjunction
-> with FAN_CLASS_CONTENT or FAN_CLASS_PRE_CONTENT, and only permission
-> events can be added to the mark mask if a group is initialized with
-> FAN_RESTARTABLE_EVENTS.
+> So the i_size update happens in endio(), similar to dio. We initially
+> had the update in iomap_writethrough_iter in v1 however based on Dave's
+> feedback [1], moved it to the endio. The idea is for writethrough
+> semantics to be closer to dio hence we either update isize when we
+> succeffuly write, or return an error to user without update isize.
 > 
-> [1] https://lore.kernel.org/linux-fsdevel/6za2mngeqslmqjg3icoubz37hbbxi6bi44canfsg2aajgkialt@c3ujlrjzkppr
-> [2] https://lore.kernel.org/linux-fsdevel/20250623192503.2673076-1-ibrahimjirdeh@meta.com
+> [1] https://lore.kernel.org/linux-fsdevel/aa--rBKQG7ck5nuM@dread/
 > 
-> Suggested-by: Amir Goldstein <amir73il@gmail.com>
-> Link: https://lore.kernel.org/linux-fsdevel/CAOQ4uxhN6ok6BCBGbxeUt9ULq6g=qL6=_2_QGi8MqTHv5ZN7Vg@mail.gmail.com
-> Signed-off-by: Ibrahim Jirdeh <ibrahimjirdeh@meta.com>
+> > Also why is it OK to not call pagecache_isize_extended() but that goes
+> > with the i_size update...
+> 
+> As for pagecache_isize_extended(), (this might be a bit tangential from
+> your comment but) after this email, I started diggin a bit more into why
+> it is needed.  As per my understanding, it tackles 2 things:
+> 
+> Problem 1. mkclean's the old EOF folio so that the FS can fault again. This
+> allows us to allocate new blocks which previously might not be allocated
+> if bs < ps.
+> 
+> Problem 2. Since mmap writes can dirty data beyond EOF, we zero the range from
+> old EOF to end of that folio so that readers dont read junk data after
+> isize extension.
 
-Thanks for the patch. Some comments below...
+Correct.
 
-> diff --git a/fs/notify/fanotify/fanotify.h b/fs/notify/fanotify/fanotify.h
-> index 39e60218df7c..dd64af8313a9 100644
-> --- a/fs/notify/fanotify/fanotify.h
-> +++ b/fs/notify/fanotify/fanotify.h
-> @@ -552,3 +552,7 @@ static inline u32 fanotify_get_response_errno(int res)
->  {
->  	return (res >> FAN_ERRNO_SHIFT) & FAN_ERRNO_MASK;
->  }
-> +
-> +extern const struct file_operations fanotify_fops;
-> +extern const struct file_operations fanotify_control_fops;
-> +extern const struct file_operations fanotify_queue_fops;
+> Another thing I noticed is that most users of
+> iomap_file_buffered_write() do their own eof zeroing in the FS layer
+> (eg, xfs_file_write_zero_eof(), ext4's new changes,
+> ntfs_extend_initialized_size() etc). 
+> I think this FS level zerooing should take care of mkcleaning the eof
+> folio (problem 1), as they call iomap_zero_range() which would flush the
+> eof range anyways. So am I right in assuming that for FSes that do their
+> own zeroing, 1. is already taken care of?
 
-Why cannot the ops remain static? I didn't find anything in this patch that
-would require them to be extern...
+Well, I don't see anything that would writeprotect the old tail page in
+iomap_zero_range(). I think iomap_zero_range() calls are there mostly to
+address 2. Not only due to mmap but also possibly to clear whatever junk
+there can be in the blocks after EOF.
 
-> diff --git a/fs/notify/fanotify/fanotify_user.c b/fs/notify/fanotify/fanotify_user.c
-> index 787e57a00466..b4610c49daab 100644
-> --- a/fs/notify/fanotify/fanotify_user.c
-> +++ b/fs/notify/fanotify/fanotify_user.c
-> @@ -1018,6 +1018,15 @@ static ssize_t fanotify_read(struct file *file, char __user *buf,
->  			if (file->f_flags & O_NONBLOCK)
->  				break;
->  
-> +			/*
-> +			 * With FAN_RESTARTABLE_EVENTS, queue fd may
-> +			 * outlive control fd. Return EOF if group
-> +			 * is shut down.
-> +			 */
-> +			ret = 0;
-> +			if (group->shutdown)
-> +				break;
-> +
->  			ret = -ERESTARTSYS;
->  			if (signal_pending(current))
->  				break;
-> @@ -1101,6 +1110,7 @@ static ssize_t fanotify_write(struct file *file, const char __user *buf, size_t
->   */
->  static void fanotify_restart_pending_events(struct fsnotify_group *group)
->  {
-> +	mutex_lock(&group->fanotify_data.queue_mutex);
->  	spin_lock(&group->notification_lock);
->  	while (!list_empty(&group->fanotify_data.access_list)) {
->  		struct fanotify_perm_event *event;
-> @@ -1121,10 +1131,21 @@ static void fanotify_restart_pending_events(struct fsnotify_group *group)
->  		}
->  	}
->  	spin_unlock(&group->notification_lock);
-> +	group->fanotify_data.queue_opened = false;
-> +	mutex_unlock(&group->fanotify_data.queue_mutex);
->  
->  	wake_up(&group->notification_waitq);
->  }
->  
-> +static int fanotify_queue_release(struct inode *ignored, struct file *file)
-> +{
-> +	struct fsnotify_group *group = file->private_data;
-> +
-> +	fanotify_restart_pending_events(group);
+> As for 2, I think after the EOF zeroing of the FS, there might be a
+> window before iomap_write_iter() where an mmap writer can still dirty
+> EOF blocks, hence the pagecache_isize_extended() would be needed here.
+> But doesn't that then make the eof zeroing in the FS layer redundant? Am
+> I missing something here?
 
-I think fanotify_restart_pending_events() can run without the mutex, cannot
-it? The queue fd is closing, new cannot be created until we clear
-queue_opened. Then we can just lock the mutex here, clear queue_opened, and
-drop it. It looks a bit cleaner if handling of queue_opened isn't hidden in
-fanotify_restart_pending_events(). Also given how trivial
-fanotify_restart_pending_events() ended up being, I'd just squash that
-commit with this one.
+Hmm, I agree the zeroing looks duplicit (for some users of
+pagecache_isize_extended()). And yes, doing the zeroing from
+xfs_file_write_zero_eof() is somewhat racy (mmap writer can still come and
+write non-zeros before we update i_size) but I'd have hard time to argue it
+really practically matters - you are racing mmap writes with buffered
+writes so any kind of write atomicity guarantees are not there. 
 
-> +	fsnotify_put_group(group);
-> +	return 0;
-> +}
-> +
->  static int fanotify_release(struct inode *ignored, struct file *file)
->  {
->  	struct fsnotify_group *group = file->private_data;
-> @@ -1182,6 +1203,44 @@ static int fanotify_release(struct inode *ignored, struct file *file)
->  	return 0;
->  }
->  
-> +static int fanotify_open_queue_fd(struct file *file)
-> +{
-> +	struct fsnotify_group *group = file->private_data;
-> +	int f_flags, fd;
-> +	struct file *queue_file;
-> +
-> +	if (!FAN_GROUP_FLAG(group, FAN_RESTARTABLE_EVENTS))
-> +		return -EINVAL;
-> +
-> +	guard(mutex)(&group->fanotify_data.queue_mutex);
+> Regardless, for our case I think we will also need to do the
+> pagecache_isize_extended(), mainly to take care of problem 2, but where
+> exactly should we do it now?  We currently change the isize in endio()
+> but for aio, it can run outside inode or folio lock. I think this
+> function needs to be called under inode lock(). Hmm.. its a bit late here so
+> I'll revisit this tomorrow with a fresh mind :)
 
-Do we really need a new mutex for this? AFAICS it is used only to serialize
-fanotify_open_queue_fd() calls and fanotify_queue_release() calls. I think
-we can happily use fsnotify_group_lock() / fsnotify_group_unlock() for
-this?
+I think mainly to take care of problem 1... You are correct about
+inode_lock but since we are updating i_size, we should be better holding
+it, shouldn't we?
 
-> +
-> +	if (group->fanotify_data.queue_opened)
-> +		return -EBUSY;
-> +
-> +	f_flags = O_RDWR;
-> +	if (group->fanotify_data.flags & FAN_CLOEXEC)
-> +		f_flags |= O_CLOEXEC;
-> +	if (group->fanotify_data.flags & FAN_NONBLOCK)
-> +		f_flags |= O_NONBLOCK;
-> +
-> +	fd = get_unused_fd_flags(f_flags);
-> +	if (fd < 0)
-> +		return fd;
-> +
-> +	queue_file = anon_inode_getfile_fmode("[fanotify-queue]",
-> +					      &fanotify_queue_fops, group,
-> +					      f_flags, FMODE_NONOTIFY);
-
-Please use new FD_ADD() infrastructure for this. fanotify_init() already
-uses it.
-
-> +	if (IS_ERR(queue_file)) {
-> +		put_unused_fd(fd);
-> +		return PTR_ERR(queue_file);
-> +	}
-> +	fsnotify_get_group(group);
-> +	fd_install(fd, queue_file);
-> +	group->fanotify_data.queue_opened = true;
-> +
-> +	return fd;
-> +}
-> +
->  static long fanotify_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
->  {
->  	struct fsnotify_group *group;
-> @@ -1207,7 +1266,21 @@ static long fanotify_ioctl(struct file *file, unsigned int cmd, unsigned long ar
->  	return ret;
->  }
->  
-> -static const struct file_operations fanotify_fops = {
-> +static long fanotify_control_ioctl(struct file *file, unsigned int cmd,
-> +				   unsigned long arg)
-> +{
-> +	int ret = -ENOTTY;
-> +
-> +	switch (cmd) {
-> +	case FAN_IOC_OPEN_QUEUE_FD:
-> +		ret = fanotify_open_queue_fd(file);
-> +		break;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +const struct file_operations fanotify_fops = {
->  	.show_fdinfo	= fanotify_show_fdinfo,
->  	.poll		= fanotify_poll,
->  	.read		= fanotify_read,
-> @@ -1219,6 +1292,23 @@ static const struct file_operations fanotify_fops = {
->  	.llseek		= noop_llseek,
->  };
->  
-> +const struct file_operations fanotify_control_fops = {
-> +	.show_fdinfo	= fanotify_show_fdinfo,
-> +	.release	= fanotify_release,
-> +	.unlocked_ioctl	= fanotify_control_ioctl,
-> +	.llseek		= noop_llseek,
-> +};
-> +
-> +const struct file_operations fanotify_queue_fops = {
-> +	.poll		= fanotify_poll,
-> +	.read		= fanotify_read,
-> +	.write		= fanotify_write,
-> +	.release	= fanotify_queue_release,
-> +	.unlocked_ioctl	= fanotify_ioctl,
-> +	.compat_ioctl	= compat_ptr_ioctl,
-> +	.llseek		= noop_llseek,
-> +};
-
-The new scheme with queue fd & control fd opens up an interesting new set
-of races which needs a deeper thought I think. As it is currently
-implemented for example if there's a task waiting for event on queue fd, it
-will never wake up if control fd is closed. Similar problem is there for
-fanotify_poll(). So we need to carefully define how operations on queue fd
-synchronize with operations on control fd and closing of it in particular.
-Besides dealing with the hung waits (which can be dealt with by just waking
-the notification_waitq from fanotify_release()) we also need to deal with
-fanotify_read() moving events from notification list to access list. I'm a
-bit unhappy with how ad hoc and fragile this looks but so far don't have an
-idea for a cleaner solution.
-
-> +
->  static int fanotify_find_path(int dfd, const char __user *filename,
->  			      struct path *path, unsigned int flags, __u64 mask,
->  			      unsigned int obj_type)
-> @@ -1640,6 +1730,7 @@ SYSCALL_DEFINE2(fanotify_init, unsigned int, flags, unsigned int, event_f_flags)
->  	int f_flags, fd;
->  	unsigned int fid_mode = flags & FANOTIFY_FID_BITS;
->  	unsigned int class = flags & FANOTIFY_CLASS_BITS;
-> +	unsigned int restartable_events = flags & FAN_RESTARTABLE_EVENTS;
-						  ^^^ Can we perhaps call
-this FAN_EVENT_FD or something like that? Because I can forsee we will find
-other interesting ways how to use the scheme with two fds and not all of
-them tied to restarting of permission events. So FAN_RESTARTABLE_EVENTS
-will become confusing at that point.
-
->  	unsigned int internal_flags = 0;
->  
->  	pr_debug("%s: flags=%x event_f_flags=%x\n",
-> @@ -1718,10 +1809,17 @@ SYSCALL_DEFINE2(fanotify_init, unsigned int, flags, unsigned int, event_f_flags)
->  	    (!(fid_mode & FAN_REPORT_NAME) || !(fid_mode & FAN_REPORT_FID)))
->  		return -EINVAL;
->  
-> -	f_flags = O_RDWR;
-> +	/*
-> +	 * FAN_RESTARTABLE_EVENTS requires FAN_CLASS_CONTENT or
-> +	 * FAN_CLASS_PRE_CONTENT
-> +	 */
-> +	if (restartable_events && class == FAN_CLASS_NOTIF)
-> +		return -EINVAL;
-> +
-> +	f_flags = restartable_events ? O_RDONLY : O_RDWR;
-
-I don't think we really need to differentiate control vs queue fd with
-O_RDONLY / O_RDWR. I'd just leave it with O_RDWR. Without implemented ops
-any attempt to read / write will fail with EINVAL anyway.
-
->  	if (flags & FAN_CLOEXEC)
->  		f_flags |= O_CLOEXEC;
-> -	if (flags & FAN_NONBLOCK)
-> +	if (!restartable_events && (flags & FAN_NONBLOCK))
->  		f_flags |= O_NONBLOCK;
->  
->  	CLASS(fsnotify_group, group)(&fanotify_fsnotify_ops,
-> @@ -1781,7 +1880,9 @@ SYSCALL_DEFINE2(fanotify_init, unsigned int, flags, unsigned int, event_f_flags)
->  	}
->  
->  	fd = FD_ADD(f_flags,
-> -		    anon_inode_getfile_fmode("[fanotify]", &fanotify_fops,
-> +		    anon_inode_getfile_fmode("[fanotify]",
-> +					     (restartable_events ? &fanotify_control_fops :
-> +					     &fanotify_fops),
->  					     group, f_flags, FMODE_NONOTIFY));
->  	if (fd >= 0)
->  		retain_and_null_ptr(group);
-> @@ -1999,7 +2100,8 @@ static int do_fanotify_mark(int fanotify_fd, unsigned int flags, __u64 mask,
->  		return -EBADF;
->  
->  	/* verify that this is indeed an fanotify instance */
-> -	if (unlikely(fd_file(f)->f_op != &fanotify_fops))
-> +	if (unlikely(fd_file(f)->f_op != &fanotify_fops &&
-> +		fd_file(f)->f_op != &fanotify_control_fops))
-
-Please indent like:
-
-	if (unlikely(fd_file(f)->f_op != &fanotify_fops &&
-		     fd_file(f)->f_op != &fanotify_control_fops))
-
->  		return -EINVAL;
->  	group = fd_file(f)->private_data;
->  
-> @@ -2035,6 +2137,15 @@ static int do_fanotify_mark(int fanotify_fd, unsigned int flags, __u64 mask,
->  		 group->priority == FSNOTIFY_PRIO_CONTENT)
->  		return -EINVAL;
->  
-> +	/*
-> +	 * With FAN_RESTARTABLE_EVENTS, a user is only allowed to setup
-> +	 * permission events and modify event flags.
-> +	 */
-> +	if (FAN_GROUP_FLAG(group, FAN_RESTARTABLE_EVENTS) &&
-> +	    (mask & ~(FANOTIFY_FD_EVENTS | FANOTIFY_MOUNT_EVENTS |
-> +		      FANOTIFY_EVENT_FLAGS)))
-> +		return -EINVAL;
-> +
-
-Amir already commented this is wrong...
-
+								Honza
 -- 
 Jan Kara <jack@suse.com>
 SUSE Labs, CR
