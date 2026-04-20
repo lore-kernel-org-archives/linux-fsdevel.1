@@ -1,155 +1,100 @@
-Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9DDB39D6F7
-	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Apr 2026 11:56:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 516313A3810;
+	Mon, 20 Apr 2026 13:20:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776686193; cv=none; b=Nex611s6GMdK4MwXOJ1d6NVfhmhKvkJb84Daf9L43EwSQNvwfeajt90qqRxqGwU4B2MRaAAmGbfGXxkkYnlAwYUDwrpZJC63aUwbh7Rp1U9es8y4xH1spS3iz87Y9HUDkZR5gZ0SonrpnJeRYjwI6dzVjvpBtpbYgLYN700RO/M=
+	t=1776691227; cv=none; b=NyG28+6LOXzj1uRNIYKpImFIWfmXVyrsAbcqLsugoY/Bso4GHy1B9ZvUm1HWhRPWthsQPs4seatHvYW+ux4DlKogFviIGEyoGmR8sX448TBVf4//QN7BGeQ+pPMlygYFIsoiomcxXKYYoN0dNBQOFuqeTtLXxFSh7d85pZO9jpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776686193; c=relaxed/simple;
-	bh=yYQeHhDuKYxwvEjukQGyDVXUJRhIRZuHKhyF+MSycyU=;
+	s=arc-20240116; t=1776691227; c=relaxed/simple;
+	bh=kRWmMUrKQhCcXsNj5gvf2DeCpyxg39zc5I1mOBXFzBI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YLJDTE9ropRnDFHr5mVfhFsDyVBK3DgqP2rlZ/HSf/wxIOpEE+1F0cmT0U7mebUcvpuVmnW7pxCsiRhsOe3BTW0zxfm60BsoE/iWW6wbEYzYVCSYnM0/Sag8Cg/HQd/Yi1Gnwx5C+XgloKW56TpQaf8WGAjDSJviePLvBN2gTR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=BOO3af0g; arc=none smtp.client-ip=95.215.58.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 Content-Type:Content-Disposition:In-Reply-To; b=WXDy0vtPSoCtdVkI++1zn26J3u9Ot7Piw3dMmFUftAaLWFlsm/a1Nkj7QXI5jti/Vd8xV3Jw4gA3/HOLvV2N3Y6iV9InNBmGOeRNBslJzBbI0smzhmsHC9t6LMnbiLfIeVF7Cf7ZQJt41hPg1bpPs0jc+G83YRAmtwu5/zoG340=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KhpJLaE/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="BOO3af0g"
-Date: Mon, 20 Apr 2026 13:56:02 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1776686180;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uAqAKYkhN6D96c96Mv9PAQs6rNA7+9Ka0YDLN+X5iC4=;
-	b=BOO3af0gd3cgHZ6BarDqfWQl4LroCnTbHD7ZxIa8ukzF4qfyDvi5w9ObOE+3H9L6f284ws
-	MyPfwi3MypvbroQc88CJMHlPh2BxedJNolYfQO4EqQdCoh7AotS0k7bMMjnzBOcD9LXa8j
-	GBifeO6xiuzr5WPOIEakFm1d8dj/ljY=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Pankaj Raghav (Samsung)" <pankaj.raghav@linux.dev>
-To: Ojaswin Mujoo <ojaswin@linux.ibm.com>
-Cc: linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	djwong@kernel.org, john.g.garry@oracle.com, willy@infradead.org, hch@lst.de, 
-	ritesh.list@gmail.com, jack@suse.cz, Luis Chamberlain <mcgrof@kernel.org>, 
-	dgc@kernel.org, tytso@mit.edu, p.raghav@samsung.com, andres@anarazel.de, 
-	brauner@kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [RFC PATCH v2 2/5] iomap: Add initial support for buffered
- RWF_WRITETHROUGH
-Message-ID: <kvxvy26jblhx6sijbhxbpzzwltfoskwkv2suqhop5dq742fn5y@5tlws6pzaol3>
-References: <cover.1775658795.git.ojaswin@linux.ibm.com>
- <d44171d5a1ec783722019ad7d1a4ede0478cc914.1775658795.git.ojaswin@linux.ibm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KhpJLaE/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B117C2BCB4;
+	Mon, 20 Apr 2026 13:20:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776691227;
+	bh=kRWmMUrKQhCcXsNj5gvf2DeCpyxg39zc5I1mOBXFzBI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KhpJLaE/kYJkAk598rwPEJ5O6S/vqTqpLxnnHSXxnk9Cri0j4gy7bMyYG8F49O2va
+	 Bxeixi62jf25y9uRkCSdmpa5jTioC3fHCxLWCsLN/Kg02M6dwhf2+Xaa37H9OQ5AQF
+	 FCOQ+xLc8bBprPWT5Q4yrBIK049tr5JtOJFv7g3IeVYYHrT26LMeOCG760Uh6qt0vD
+	 jMPBv1LODhtZwfMICOgq5W2jtc5kdps7YgYVfTMghk/iM5u5/5jr7SNliMR1qc1Ruh
+	 O/s7NJvHFQxaCz8IgjwEfGrGKjbY5d3kJtS3KQF+2YL2aIiMLBnWiZBaJEBZ8Zzfs3
+	 bK5BJuuS2b4QQ==
+Date: Mon, 20 Apr 2026 15:20:14 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Dorjoy Chowdhury <dorjoychy111@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-api@vger.kernel.org, ceph-devel@vger.kernel.org, gfs2@lists.linux.dev, 
+	linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org, v9fs@lists.linux.dev, 
+	linux-kselftest@vger.kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz, jlayton@kernel.org, 
+	chuck.lever@oracle.com, alex.aring@gmail.com, arnd@arndb.de, adilger@dilger.ca, 
+	mjguzik@gmail.com, smfrench@gmail.com, richard.henderson@linaro.org, 
+	mattst88@gmail.com, linmag7@gmail.com, tsbogend@alpha.franken.de, 
+	James.Bottomley@hansenpartnership.com, deller@gmx.de, davem@davemloft.net, andreas@gaisler.com, 
+	idryomov@gmail.com, amarkuze@redhat.com, slava@dubeyko.com, agruenba@redhat.com, 
+	trondmy@kernel.org, anna@kernel.org, sfrench@samba.org, pc@manguebit.org, 
+	ronniesahlberg@gmail.com, sprasad@microsoft.com, tom@talpey.com, bharathsm@microsoft.com, 
+	shuah@kernel.org, miklos@szeredi.hu, hansg@kernel.org
+Subject: Re: [PATCH v6 0/4] OPENAT2_REGULAR flag support for openat2
+Message-ID: <20260420-laufen-einzeln-4cf4bb364a5d@brauner>
+References: <20260328172314.45807-1-dorjoychy111@gmail.com>
+ <20260416-abgraben-seeweg-a44ce660957f@brauner>
+ <CAFfO_h5mORm0OuK-d4thzBWWySmyvLSVeVa7phZc4Df-8D=1Cg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <d44171d5a1ec783722019ad7d1a4ede0478cc914.1775658795.git.ojaswin@linux.ibm.com>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFfO_h5mORm0OuK-d4thzBWWySmyvLSVeVa7phZc4Df-8D=1Cg@mail.gmail.com>
 
-> +
-> +	if (wt_ops->writethrough_submit)
-> +		wt_ops->writethrough_submit(wt_ctx->inode, iomap, wt_ctx->bio_pos,
-> +					    len);
-> +
-> +	bio = bio_alloc(iomap->bdev, wt_ctx->nr_bvecs, REQ_OP_WRITE, GFP_NOFS);
+On Thu, Apr 16, 2026 at 09:22:03PM +0600, Dorjoy Chowdhury wrote:
+> On Thu, Apr 16, 2026 at 7:07 PM Christian Brauner <brauner@kernel.org> wrote:
+> >
+> > On Sat, 28 Mar 2026 23:22:21 +0600, Dorjoy Chowdhury wrote:
+> > > I came upon this "Ability to only open regular files" uapi feature suggestion
+> > > from https://uapi-group.org/kernel-features/#ability-to-only-open-regular-files
+> > > and thought it would be something I could do as a first patch and get to
+> > > know the kernel code a bit better.
+> > >
+> > > The following filesystems have been tested by building and booting the kernel
+> > > x86 bzImage in a Fedora 43 VM in QEMU. I have tested with OPENAT2_REGULAR that
+> > > regular files can be successfully opened and non-regular files (directory, fifo etc)
+> > > return -EFTYPE.
+> > > - btrfs
+> > > - NFS (loopback)
+> > > - SMB (loopback)
+> > >
+> > > [...]
+> >
+> > - I've added an explanation why OPENAT2_REGULAR is only needed for some
+> >   ->atomic_open() implementers but not others. What I don't like is that
+> >   we need all that custom handling in there but it's managable.
+> >
+> > - I dropped the topmost style conversions. They really don't belong
+> >   there and if we switch to something better we should use (1 << <nr>).
+> >
+> > - I split the EFTYPE errno introduction into a separate patch.
+> >
+> > ---
+> 
+> Thanks for fixing up and picking this one up!
+> 
+> >
+> > Applied to the vfs-7.2.openat.regular branch of the vfs/vfs.git tree.
+> > Patches in the vfs-7.2.openat.regular branch should appear in linux-next soon.
+> >
+> 
+> I don't see a vfs-7.2.openat.regular branch in vfs/vfs.git tree in
+> git.kernel.org.  Maybe this hasn't been pushed yet?
 
-We might want to check if bio_alloc succeeded here.
-
-> +	bio->bi_iter.bi_sector	= iomap_sector(iomap, wt_ctx->bio_pos);
-> +	bio->bi_end_io		= iomap_writethrough_bio_end_io;
-> +	bio->bi_private		= wt_ctx;
-> +
-> +	for (i = 0; i < wt_ctx->nr_bvecs; i++)
-> +		__bio_add_page(bio, wt_ctx->bvec[i].bv_page,
-> +				wt_ctx->bvec[i].bv_len,
-> +				wt_ctx->bvec[i].bv_offset);
-> +
-> +	atomic_inc(&wt_ctx->ref);
-> +	submit_bio(bio);
-> +	wt_ctx->nr_bvecs = 0;
-> +}
-> +
-<snip>
-> +
-> +/**
-> + * iomap_writethrough_iter - perform RWF_WRITETHROUGH buffered write
-> + * @wt_ctx: writethrough context
-> + * @iter: iomap iter holding mapping information
-> + * @i: iov_iter for write
-> + * @wt_ops: the fs callbacks needed for writethrough
-> + *
-> + * This function copies the user buffer to folio similar to usual buffered
-> + * IO path, with the difference that we immediately issue the IO. For this we
-> + * utilize IO submission and completion mechanism that is inspired by dio.
-> + *
-> + * Folio handling note: We might be writing through a partial folio so we need
-> + * to be careful to not clear the folio dirty bit unless there are no dirty blocks
-> + * in the folio after the writethrough.
-> + */
-> +static int iomap_writethrough_iter(struct iomap_writethrough_ctx *wt_ctx,
-> +				   struct iomap_iter *iter, struct iov_iter *i,
-> +				   const struct iomap_writethrough_ops *wt_ops)
-> +
-> +{
-> +	ssize_t total_written = 0;
-> +	int status = 0;
-> +	struct address_space *mapping = iter->inode->i_mapping;
-> +	size_t chunk = mapping_max_folio_size(mapping);
-> +	unsigned int bdp_flags = (iter->flags & IOMAP_NOWAIT) ? BDP_ASYNC : 0;
-> +	unsigned int bs = i_blocksize(iter->inode);
-> +
-> +	/* copied over based on DIO handles these flags */
-> +	if (iter->iomap.type == IOMAP_UNWRITTEN)
-> +		wt_ctx->flags |= IOMAP_DIO_UNWRITTEN;
-> +	if (iter->iomap.flags & IOMAP_F_SHARED)
-> +		wt_ctx->flags |= IOMAP_DIO_COW;
-> +
-> +	if (!(iter->flags & IOMAP_WRITETHROUGH))
-> +		return -EINVAL;
-> +
-> +	do {
-> +		struct folio *folio;
-> +		size_t offset;		/* Offset into folio */
-> +		u64 bytes;		/* Bytes to write to folio */
-> +		size_t copied;		/* Bytes copied from user */
-> +		u64 written;		/* Bytes have been written */
-> +		loff_t pos;
-> +		size_t off_aligned, len_aligned;
-> +
-> +		bytes = iov_iter_count(i);
-> +retry:
-> +		offset = iter->pos & (chunk - 1);
-> +		bytes = min(chunk - offset, bytes);
-> +		status = balance_dirty_pages_ratelimited_flags(mapping,
-> +							       bdp_flags);
-> +		if (unlikely(status))
-> +			break;
-> +
-> +		/*
-> +		 * If completions already occurred and reported errors, give up
-> +		 * now and don't bother submitting more bios.
-> +		 */
-> +		if (unlikely(data_race(wt_ctx->error))) {
-
-In the unlikely scenario where we encounter an error, do we have to also
-clear the writeback flag on all the folios that is part of this
-bvec until now?
-
-Something like explicitly iterate over wt_ctx->bvec[0] through 
-wt_ctx->bvec[nr_bvecs - 1], manually call folio_end_writeback(bvec[i].bv_page)
-on them, and then discard the bvecs by setting the nr_bvecs = 0;
-
-I am wondering if the folios that were processed until now will be in
-PG_WRITEBACK state which can affect reclaim as we never clear the flag.
-
-> +			wt_ctx->nr_bvecs = 0;
-> +			break;
-> +		}
-> +
-
---
-Pankaj
+Nothing will get pushed prior to -rc1 which is due this Sunday.
