@@ -1,386 +1,326 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA0404D8D98;
-	Mon, 20 Apr 2026 13:33:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776692009; cv=none; b=esryWscuuRx1+55a5w+Z3+MImGIqQysp8kEwmUlpC7MwOcfE3O397pEbICCxV0J91q0zfBoLsed/XkxxNiqXiZB8F1zGeN92AGU3G/O0gihT62DrR+OnXJRkr8782QrBFRq4Q5DyrI4yjRV20yJBTY6bIjbnJD7xJrJGye8cwyM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776692009; c=relaxed/simple;
-	bh=dHAmhZks5wq6gGmCRgQQFtQcmWxQnoTOM5kp8zBG1ps=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AMtc7mOK3KhNdXvnstZ62Buw1+Q39UGHtNMNacJPl38HcM0q0Z+PwTXLfoVpUC/sVUV7Utbc6eayC/lYxl/Y9RP4PCeo0CfVAALUIm3B7T0HsoC6mg1cPQeWXxDO70W/gAAQ4brxcP51NuqrhYB5eWHH/pAGOh0ITZmPQqoJUQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GniJVXAL; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 302B34DB54D
+	for <linux-fsdevel@vger.kernel.org>; Mon, 20 Apr 2026 13:33:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776692026; cv=pass; b=a4Qq7sG3h/l26nJCqBJ0wOIFevABgKIlCiVC75VJjHczbKbRqKmrVN5n1e6Q/vPZ06WshMdR6Qo6bPOm50RgQ8JIC1Om4vRgxeFJwegnzusXboATqZWck/KHjtNVFuRuJ0FySceDErnXZXMZBDcwLQbmgqii7DyE+yvX+jvk0Dk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776692026; c=relaxed/simple;
+	bh=vzXvqs00qeR5FQnhgl7o4h9HkFil1ktVmjkSoY9sIt8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JtcGdM8rSn2ZaSKfi39Q+VlWLAKXpr9CcL36DgkNXBvHTAatQbWstpODLJippwgcwfG6+rUGwAIBDyLQ4KmAjKY2lQCGGTG66v2Pzqa/xn9dN8LEa+L9DwDNxsIlh2DnShVZYD/m5/V8KqfzYkhh7LvSzwQQIBtJMmIW04Gh4M8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W+6tN0m9; arc=pass smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GniJVXAL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69C12C19425;
-	Mon, 20 Apr 2026 13:33:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776692008;
-	bh=dHAmhZks5wq6gGmCRgQQFtQcmWxQnoTOM5kp8zBG1ps=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=GniJVXAL2LHbLwtughI/M9kZPZTe53ld6/wl4cA1tjGSr3S5GjjQymRTd9t/xzc1s
-	 eLpz1MxUvjG1DEL2Ft5W2JDik1DRICdmFY2cdbbFwgd9lPVpWuvpesOMh89cgGphJT
-	 8vUg1u3romNOUDTi/pc8m33gxIYP4+eaohoHkVdTLdq+x93jnd5KinHNQ+T6UpXyxt
-	 PvvY5tnWySpXV2p750VHRDabGlmOQ9uMPTLUtyQLQOV59pkc6ak7e93wpTdKE/lkho
-	 jWTZuIgRdzFWJByA90UGL8hyxDuWdC3CKeSZ+Cd0r7DexUtUgBryPa56CeZBmK3OQC
-	 QbKW7b/Zt1zaw==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Chi Zhiling <chizhiling@kylinos.cn>,
-	Sungjong Seo <sj1557.seo@samsung.com>,
-	Yuezhang Mo <Yuezhang.Mo@sony.com>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 7.0-6.12] exfat: fix incorrect directory checksum after rename to shorter name
-Date: Mon, 20 Apr 2026 09:21:53 -0400
-Message-ID: <20260420132314.1023554-319-sashal@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260420132314.1023554-1-sashal@kernel.org>
-References: <20260420132314.1023554-1-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W+6tN0m9"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-675ab6221c4so1899214a12.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 20 Apr 2026 06:33:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776692022; cv=none;
+        d=google.com; s=arc-20240605;
+        b=SZ6xBauDP3ORDxxKyOLbmYyYJGo8B1wPN9Qr/w0u+iEz2PENd//hTk+EKtll2yDmYC
+         HhUF1POgxYMdE6oQS9NJrKzzP0IlgwWwJw5zvYu3ESqGcUYcObZh842H0qOj4jiJiaf+
+         pHz7MSxR58gsALnaz7JS5X6YZptdzb2UD5NuOGNOq7SaqYh/df28AVYmd7/LQLgtqHkK
+         Yu4emrmBKlGLqY1A36lq7K2txGMOsJNWmCv0HiNP0jvP6BfjWVbadEbMVMACkR3d+9v9
+         mhbojUxWaVQ8iqoBniRaP39kQNXzoSUI87HvZzcZe7e7fhMHx1eoWpdfJRcxTi/Prh43
+         CReg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=LIQRT4mwUvztUs6xloPa+5GlT4+1fhJHuAJ1sXslZU4=;
+        fh=frRtPloZ34CtrYa4THo4RjhJQN25ujNdVI59QSfektE=;
+        b=ClUZvvEXLfkVBUZ0SATSZedIKbf/uefO2XBUZ+SFS+tujNV0pjZJPurswqAJ1xJi0N
+         pZ8G7T2z3dW6n/3KQQRCqd+iLT62I7QIhzouHy7RvS5+VCmiJtaNio12l+wLfgdw5erf
+         x6g0FYiKS/ETMA+gDXSThV0HaFRvUnBnnbegJAPlaT5ePk3CWob4glg7EIm1AJW/MiLa
+         euBuYb75hDGqdK0eCyWfoK4g2Oxl0N4qzmdqyIgXZvlu08fD0SvKz0qF1296IqK8GJAF
+         tC8elyOe7GMqzEdxA+8aGb9lfabPsCF6PuIAYNPLMZkmlMCTnCztR9uDO5aC5nnVMPB9
+         Y0Ng==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776692022; x=1777296822; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=LIQRT4mwUvztUs6xloPa+5GlT4+1fhJHuAJ1sXslZU4=;
+        b=W+6tN0m9hsAjlBZUXkcDOKPSyDFW/eYf3pego7gG+IIR4DaceOb3AsviHb+xJpjNYJ
+         e+jveLmPuT3RlCeNW7UwJn9jJLziRVYw5YjxTf6rAFoA1YCfzfE9dGMsQkuPsUyq7V6m
+         sSfz7AFjNZTFtmDZqBFIQvnbMgvpFXHhNhfrj2sPFG7m1AgTPuVa/W+5p/wFtMg+btHp
+         i173KLfYPN5yBMj3aANgJQB5syTccEXQ0qZjth+zcBgmWyQ3Ir31vYz5Zi1VpSMQn9or
+         /SOGDMi99gD3kD8XWTIzTwx3p0h1Q2hmfzxqTFkVCJvuvQgdeEL2pg7dSV1eAr//Wfdj
+         Phjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776692022; x=1777296822;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LIQRT4mwUvztUs6xloPa+5GlT4+1fhJHuAJ1sXslZU4=;
+        b=R7jf3fTT9qAsLhu/rljgRNgIOBpfvNUleGGou9Ce1dyv1XUSw9KWsvXJnAZVdUVKqM
+         SkH95NDmb9GcUDNkh3rkjr45BPqzoicHx+6SgbWP0OMBKc3Jy3dVvWeW9lnucumaJOcF
+         /U1UqO8x6H3/dMLrcFEeNZ0SJe+K6yptP2E42Jqc5QqJ9aT+8S1+DkpMy+iW8SOWewvZ
+         F8OjalomFkHs3NQu9bodyW2PWGaeCPj3v/t+mS3QulOA7ldHJArxkj7YqFTzqFAmymED
+         feTIyRQK4buW833XRHCdodozjRnUx8s1wH8Sl4HEZDyms7Ylya1l/inFu9X/aq/AI1Ie
+         hvdw==
+X-Forwarded-Encrypted: i=1; AFNElJ/QezXjPYFHB+6GYKb6S+yB9LSaRh46XKUMnb2Wvv/I/x/+NGP1eFdloKvALagR/N+EZxsrackHlZXsxZrK@vger.kernel.org
+X-Gm-Message-State: AOJu0YxvRSI4We1woXjJRQIc06kOEUBePdkIT/uk4D8xCh7qA2vU1OiD
+	OPw9JFTPIArmfowqgInEvHdFTD4XFkXSi3kxb7LsIAJu0hXobcX9FIuXhko/o4U9kHlK0XEVbhb
+	13BPyTaBkNrNSJ3fMpC2FEOzzw9YiG3A=
+X-Gm-Gg: AeBDievlgUe+ADqi25D/z+TuAp0uacs9rkWVoWXtUSxpQ0uGqsCjBsqYKmLREe2DUMS
+	/YwjDtRKYB5G7GO2JId+4QzejwHHwC5+tbkLg0QBpIHhmYu+T0RKlR3g6wrnLPipPDkrU+yvXeo
+	XUX0FRVr+VLgVjtXbWYITU3zpGZ8EKCi1lODsS1ljFNH/bwxt9kW/Nmf7ImpDO+gVD89nPOeSuw
+	8kKowkUTBHEyZjN117hBOM5tWP2BSbLJeC5jgCxaQsFk2sUu3fW0XY3oobTxzxfbnpRtwGpDWBa
+	WpYMwIpWIlzQ9tELDg==
+X-Received: by 2002:a17:907:7b93:b0:b98:7e30:8129 with SMTP id
+ a640c23a62f3a-ba41a825cd1mr601883166b.32.1776692022187; Mon, 20 Apr 2026
+ 06:33:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 7.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20260420064727.1760604-1-yinxin.x@bytedance.com>
+In-Reply-To: <20260420064727.1760604-1-yinxin.x@bytedance.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Mon, 20 Apr 2026 15:33:30 +0200
+X-Gm-Features: AQROBzD5aET_i-UKze6l-ixfbYqxD7Tlnkscdo07kgsEh-WpLoPy-XoInocvbDQ
+Message-ID: <CAOQ4uxiPsbHb0o5voUKyPFMvBsDkG914FYDcs4C5UpBMNm0Vcg@mail.gmail.com>
+Subject: Re: [PATCH] fsnotify: fix inode reference leak in fsnotify_recalc_mask()
+To: Xin Yin <yinxin.x@bytedance.com>
+Cc: jan@kara.cz, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: multipart/mixed; boundary="000000000000dc3c7e064fe458fc"
 
-From: Chi Zhiling <chizhiling@kylinos.cn>
+--000000000000dc3c7e064fe458fc
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-[ Upstream commit ff37797badd831797b8a27830fe5046d7e23fdc3 ]
+On Mon, Apr 20, 2026 at 8:52=E2=80=AFAM Xin Yin <yinxin.x@bytedance.com> wr=
+ote:
+>
+> fsnotify_recalc_mask() fails to handle the return value of
+> __fsnotify_recalc_mask(), which may return an inode pointer that needs
+> to be released via fsnotify_drop_object() when the connector's HAS_IREF
+> flag transitions from set to cleared.
+>
+> This manifests as a hung task with the following call trace:
+>
+>   INFO: task umount:1234 blocked for more than 120 seconds.
+>   Call Trace:
+>    __schedule
+>    schedule
+>    fsnotify_sb_delete
+>    generic_shutdown_super
+>    kill_anon_super
+>    cleanup_mnt
+>    task_work_run
+>    do_exit
+>    do_group_exit
+>
+> The race window that triggers the iref leak:
+>
+>   Thread A (adding mark)              Thread B (removing mark)
+>   =E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80              =E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80
+>   fsnotify_add_mark_locked():
+>     fsnotify_add_mark_list():
+>       spin_lock(conn->lock)
+>       add mark_B(evictable) to list
+>       spin_unlock(conn->lock)
+>     return
+>
+>     /* ---- gap: no lock held ---- */
+>
+>                                       fsnotify_detach_mark(mark_A):
+>                                         spin_lock(mark_A->lock)
+>                                         clear ATTACHED flag on mark_A
+>                                         spin_unlock(mark_A->lock)
+>
+>     fsnotify_recalc_mask():
+>       spin_lock(conn->lock)
+>       __fsnotify_recalc_mask():
+>         /* mark_A skipped: ATTACHED cleared */
+>         /* only mark_B(evictable) remains */
+>         want_iref =3D false
+>         has_iref =3D true  /* not yet cleared */
+>         -> HAS_IREF transitions true -> false
+>         -> returns inode pointer
+>       spin_unlock(conn->lock)
+>       /* BUG: return value discarded!
+>        * iput() and fsnotify_put_sb_watched_objects()
+>        * are never called */
+>
 
-When renaming a file in-place to a shorter name, exfat_remove_entries
-marks excess entries as DELETED, but es->num_entries is not updated
-accordingly. As a result, exfat_update_dir_chksum iterates over the
-deleted entries and computes an incorrect checksum.
+Hi Xin!
 
-This does not lead to persistent corruption because mark_inode_dirty()
-is called afterward, and __exfat_write_inode later recomputes the
-checksum using the correct num_entries value.
+Ouch! nasty one.
+Very good analysis.
+Do you also have a reproducer?
 
-Fix by setting es->num_entries = num_entries in exfat_init_ext_entry.
 
-Signed-off-by: Chi Zhiling <chizhiling@kylinos.cn>
-Reviewed-by: Sungjong Seo <sj1557.seo@samsung.com>
-Reviewed-by: Yuezhang Mo <Yuezhang.Mo@sony.com>
-Signed-off-by: Namjae Jeon <linkinjeon@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
+> Fix this by capturing the return value of __fsnotify_recalc_mask() and
+> passing it to fsnotify_drop_object() after releasing the spinlock, which
+> is the same pattern used in fsnotify_put_mark().
 
-LLM Generated explanations, may be completely bogus:
+The fix looks correct, but I prefer for my mental model to keep
+fsnotify_drop_object() in one place at the end of fsnotify_put_mark().
 
-Now I have all the information needed. Let me compile the complete
-analysis.
+Please see the suggested (only sanity tested) patch.
 
----
+Thanks,
+Amir.
 
-## PHASE 1: COMMIT MESSAGE FORENSICS
 
-**Step 1.1: Subject Line**
-- Subsystem: `exfat` (filesystem)
-- Action verb: "fix"
-- Summary: Fix incorrect directory checksum computed after in-place
-  rename to a shorter filename.
+>
+> Fixes: c3638b5b1374 ("fsnotify: allow adding an inode mark without pinnin=
+g inode")
+> Signed-off-by: Xin Yin <yinxin.x@bytedance.com>
+> ---
+>  fs/notify/mark.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+>
+> diff --git a/fs/notify/mark.c b/fs/notify/mark.c
+> index c2ed5b11b0fe6..cc93fcc2c5a9c 100644
+> --- a/fs/notify/mark.c
+> +++ b/fs/notify/mark.c
+> @@ -283,6 +283,8 @@ static void fsnotify_conn_set_children_dentry_flags(
+>         fsnotify_set_children_dentry_flags(fsnotify_conn_inode(conn));
+>  }
+>
+> +static void fsnotify_drop_object(unsigned int type, void *objp);
+> +
+>  /*
+>   * Calculate mask of events for a list of marks. The caller must make su=
+re
+>   * connector and connector->obj cannot disappear under us.  Callers achi=
+eve
+> @@ -292,15 +294,19 @@ static void fsnotify_conn_set_children_dentry_flags=
+(
+>  void fsnotify_recalc_mask(struct fsnotify_mark_connector *conn)
+>  {
+>         bool update_children;
+> +       unsigned int type;
+> +       void *objp;
+>
+>         if (!conn)
+>                 return;
+>
+>         spin_lock(&conn->lock);
+>         update_children =3D !fsnotify_conn_watches_children(conn);
+> -       __fsnotify_recalc_mask(conn);
+> +       objp =3D __fsnotify_recalc_mask(conn);
+> +       type =3D conn->type;
+>         update_children &=3D fsnotify_conn_watches_children(conn);
+>         spin_unlock(&conn->lock);
+> +       fsnotify_drop_object(type, objp);
+>         /*
+>          * Set children's PARENT_WATCHED flags only if parent started wat=
+ching.
+>          * When parent stops watching, we clear false positive PARENT_WAT=
+CHED
+> --
+> 2.20.1
 
-**Step 1.2: Tags**
-- `Signed-off-by: Chi Zhiling <chizhiling@kylinos.cn>` - author, KylinOS
-  developer
-- `Reviewed-by: Sungjong Seo <sj1557.seo@samsung.com>` - Samsung, known
-  exfat maintainer
-- `Reviewed-by: Yuezhang Mo <Yuezhang.Mo@sony.com>` - Sony, major exfat
-  contributor (authored the dentry cache conversion)
-- `Signed-off-by: Namjae Jeon <linkinjeon@kernel.org>` - exfat subsystem
-  maintainer, committed the patch
-- No Fixes: tag, no Cc: stable, no Reported-by (expected for manual
-  review candidates)
+--000000000000dc3c7e064fe458fc
+Content-Type: text/x-patch; charset="UTF-8"; 
+	name="v2-0001-fsnotify-fix-inode-reference-leak-in-fsnotify_rec.patch"
+Content-Disposition: attachment; 
+	filename="v2-0001-fsnotify-fix-inode-reference-leak-in-fsnotify_rec.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_mo7851ac0>
+X-Attachment-Id: f_mo7851ac0
 
-**Step 1.3: Commit Body**
-- Bug: When renaming in-place to a shorter name, `exfat_remove_entries`
-  marks excess entries as DELETED, but `es->num_entries` is NOT updated.
-  Then `exfat_update_dir_chksum` iterates over the stale (larger) count,
-  including DELETED entries in the checksum calculation.
-- The author states this does NOT lead to persistent corruption under
-  normal operation because `__exfat_write_inode` later recomputes the
-  checksum correctly.
-- Fix: Set `es->num_entries = num_entries` in `exfat_init_ext_entry`.
-
-**Step 1.4: Hidden Bug Fix Detection**
-This is explicitly labeled as a "fix" - no disguise needed. It's a clear
-correctness fix.
-
-## PHASE 2: DIFF ANALYSIS
-
-**Step 2.1: Inventory**
-- Single file changed: `fs/exfat/dir.c`
-- 1 line added: `es->num_entries = num_entries;`
-- Function modified: `exfat_init_ext_entry()`
-- Scope: single-file, single-line surgical fix
-
-**Step 2.2: Code Flow Change**
-In `exfat_init_ext_entry` (line 486-507):
-- BEFORE: The function updates `file.num_ext`, stream entry, and name
-  entries, then calls `exfat_update_dir_chksum(es)` which uses
-  `es->num_entries` (which may be stale/larger).
-- AFTER: The function first sets `es->num_entries = num_entries`,
-  ensuring `exfat_update_dir_chksum` uses the correct count.
-
-**Step 2.3: Bug Mechanism**
-Category: **Logic/correctness fix** - stale state variable leading to
-incorrect checksum computation.
-
-The chain of events:
-1. `exfat_rename_file()` calls `exfat_remove_entries(&old_es,
-   ES_IDX_FIRST_FILENAME + 1)` which marks entries 3..old_num-1 as
-   DELETED
-2. `exfat_init_ext_entry(&old_es, num_new_entries, ...)` sets
-   `file.num_ext = num_new_entries - 1` but doesn't update
-   `es->num_entries`
-3. `exfat_update_dir_chksum(es)` iterates `i = 0..es->num_entries-1` -
-   this includes DELETED entries
-4. Wrong checksum stored in file entry's `checksum` field
-5. Written to disk via `exfat_put_dentry_set`
-
-**Step 2.4: Fix Quality**
-- Obviously correct: the function takes `num_entries` parameter and
-  already uses it for loop bounds and `num_ext`; syncing
-  `es->num_entries` is clearly the right thing.
-- Minimal: 1 line.
-- No regression risk: For all callers where `es->num_entries` already
-  equals `num_entries`, this is a harmless no-op. Only the buggy rename-
-  to-shorter path gets different behavior.
-
-## PHASE 3: GIT HISTORY INVESTIGATION
-
-**Step 3.1: Blame**
-- `exfat_init_ext_entry` was created in `ca06197382bde0` (v5.7-rc1,
-  Namjae Jeon, 2020-03-02) when exfat was first added.
-- Converted to dentry cache in `d97e060673906d` (v6.9-rc1, Yuezhang Mo,
-  2022-08-05).
-- `exfat_update_dir_chksum(es)` added inside the function by
-  `4d71455976891` (v6.9-rc1, Yuezhang Mo, 2022-08-05) - THIS is the
-  commit that introduced the bug.
-
-**Step 3.2: Bug Introduction**
-The bug was introduced in commit `4d71455976891` ("exfat: remove unused
-functions"), first in v6.9-rc1. Before this, `exfat_update_dir_chksum`
-was called separately where the correct `num_entries` was used. After
-this commit, the checksum computation moved into `exfat_init_ext_entry`
-but relied on `es->num_entries` being correct, which isn't always the
-case.
-
-**Step 3.3: Affected Stable Trees**
-- `4d71455976891` IS in v6.12: **YES** (verified with `git merge-base
-  --is-ancestor`)
-- `4d71455976891` is NOT in v6.6: **YES** (verified)
-- `4d71455976891` is NOT in v6.1: **YES** (verified)
-- So only v6.12.y and later are affected.
-
-**Step 3.4: Author Context**
-Chi Zhiling has other exfat contributions (cache improvements). Yuezhang
-Mo is the author of the original dentry cache conversion that
-contributed to this bug, and reviewed this fix. The fix was applied by
-Namjae Jeon, the exfat maintainer.
-
-**Step 3.5: Dependencies**
-None. The fix is self-contained - it adds one line to an existing
-function. No prerequisites needed.
-
-## PHASE 4: MAILING LIST RESEARCH
-
-Lore.kernel.org is currently behind anti-bot protection, preventing
-direct access. Unable to fetch mailing list discussion.
-
-Record: Could not verify mailing list discussion due to lore access
-restrictions.
-
-## PHASE 5: CODE SEMANTIC ANALYSIS
-
-**Step 5.1: Key Function**
-`exfat_init_ext_entry()` is modified.
-
-**Step 5.2: Callers**
-Four call sites found:
-1. `namei.c:512` - `exfat_add_entry()` (new file/dir creation) - `es` is
-   freshly created, `num_entries` matches. Safe.
-2. `namei.c:1057` - `exfat_rename_file()`, new entry path (rename to
-   longer name) - `new_es` freshly created. Safe.
-3. `namei.c:1073` - `exfat_rename_file()`, in-place path (rename to
-   shorter name) - **THIS IS THE BUGGY CALLER**. `old_es.num_entries` is
-   stale.
-4. `namei.c:1117` - `exfat_move_file()` - `new_es` freshly created.
-   Safe.
-
-**Step 5.3: Callees**
-`exfat_init_ext_entry` calls `exfat_update_dir_chksum(es)` which
-iterates `es->num_entries` entries. This is where the wrong checksum is
-computed.
-
-**Step 5.4: Reachability**
-The buggy path is reached via: `rename(2)` → `exfat_rename()` →
-`__exfat_rename()` → `exfat_rename_file()` (else branch when
-`old_es.num_entries >= num_new_entries`). This is triggered by any user
-renaming a file to a shorter name on an exfat filesystem. **Directly
-reachable from userspace.**
-
-## PHASE 6: STABLE TREE ANALYSIS
-
-**Step 6.1: Buggy Code in Stable**
-The bug (commit `4d71455976891`) exists in v6.12.y but NOT in v6.6.y or
-v6.1.y.
-
-**Step 6.2: Backport Complications**
-The patch is a single-line addition. The `exfat_init_ext_entry` function
-exists with the same structure in all affected stable trees. Should
-apply cleanly.
-
-**Step 6.3: Related Fixes Already in Stable**
-No related fixes found.
-
-## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
-
-**Step 7.1: Subsystem**
-- Filesystem: exfat (`fs/exfat/`)
-- Criticality: IMPORTANT. exfat is the standard filesystem for SDXC
-  cards, USB drives >32GB, and cross-platform file exchange. Very widely
-  used.
-
-**Step 7.2: Activity**
-Active subsystem with regular contributions from Samsung and Sony
-engineers. Stable with well-maintained code.
-
-## PHASE 8: IMPACT AND RISK ASSESSMENT
-
-**Step 8.1: Who Is Affected**
-All users of exfat filesystems who rename files to shorter names. This
-includes USB drive users, SD card users, and any system mounting exfat
-volumes.
-
-**Step 8.2: Trigger Conditions**
-- Trigger: Renaming a file where the new name requires fewer directory
-  entries (shorter name).
-- Frequency: Common operation - users rename files regularly.
-- Reachable from unprivileged user: Yes (any user with write access to
-  the filesystem).
-
-**Step 8.3: Failure Mode**
-- Under normal operation: Transient incorrect checksum, corrected by
-  inode writeback within ~30 seconds. Severity: LOW.
-- Under crash (USB yank, power loss): On-disk checksum mismatch
-  persists. Other OS (Windows, macOS) that validate exfat checksums may
-  refuse to read the file. fsck.exfat tools will report corruption.
-  Severity: MEDIUM.
-- The Linux exfat driver does NOT validate checksums on read (confirmed
-  by code review of `exfat_get_dentry_set`), so Linux itself would still
-  read the entry, but cross-platform compatibility is compromised.
-
-**Step 8.4: Risk-Benefit Ratio**
-- BENEFIT: HIGH for crash resilience and cross-platform correctness.
-  exfat is designed for removable media where surprise removal is
-  common.
-- RISK: VERY LOW. Single line, no-op for all callers except the buggy
-  one, reviewed by two domain experts.
-
-## PHASE 9: FINAL SYNTHESIS
-
-**Step 9.1: Evidence Summary**
-
-FOR backporting:
-- Fixes a real filesystem correctness bug (incorrect on-disk checksum)
-- Single line fix, obviously correct, minimal risk
-- Reviewed by Sungjong Seo (Samsung) and Yuezhang Mo (Sony) - the two
-  primary exfat reviewers
-- Applied by the subsystem maintainer (Namjae Jeon)
-- Triggered by common user operation (rename) reachable from userspace
-- exfat is widely used on removable media where crash/surprise removal
-  is common
-- Crash during the window leaves persistent checksum corruption visible
-  to other OS
-
-AGAINST backporting:
-- Author states no persistent corruption under normal operation
-  (writeback corrects it)
-- Linux exfat driver doesn't validate checksums on read (so Linux users
-  won't notice)
-- Impact only manifests on crash during rename + subsequent read by
-  another OS or fsck
-
-**Step 9.2: Stable Rules Checklist**
-1. Obviously correct and tested? **YES** - single line, reviewed by two
-   experts
-2. Fixes a real bug? **YES** - incorrect checksum written to disk
-3. Important issue? **YES** - filesystem data integrity (checksum
-   corruption on crash)
-4. Small and contained? **YES** - 1 line in 1 file
-5. No new features or APIs? **YES** - pure bug fix
-6. Can apply to stable? **YES** - should apply cleanly
-
-**Step 9.3: Exception Categories**
-Not applicable - this is a standard bug fix.
-
-**Verification:**
-- [Phase 1] Parsed tags: Reviewed-by from two key exfat contributors
-  (Seo, Mo), applied by maintainer (Jeon)
-- [Phase 2] Diff analysis: 1 line added (`es->num_entries =
-  num_entries;`) in `exfat_init_ext_entry()`
-- [Phase 3] git blame: `exfat_update_dir_chksum(es)` added to the
-  function by commit `4d71455976891` (v6.9-rc1)
-- [Phase 3] git describe --contains: bug commit `4d71455976891` first in
-  v6.9-rc1
-- [Phase 3] git merge-base: confirmed present in v6.12, NOT in v6.6 or
-  v6.1
-- [Phase 5] Grep for callers: 4 call sites, only `namei.c:1073` (rename-
-  in-place to shorter name) is affected
-- [Phase 5] Code review of `exfat_update_dir_chksum`: confirmed it uses
-  `es->num_entries` for loop bound
-- [Phase 5] Code review of `exfat_remove_entries`: confirmed it does NOT
-  update `es->num_entries`
-- [Phase 5] Code review of `exfat_get_dentry_set`: confirmed Linux
-  driver doesn't validate checksums on read
-- [Phase 6] Verified `exfat_rename_file` rename path at
-  namei.c:1066-1075 shows the sequence: remove_entries then
-  init_ext_entry
-- [Phase 6] Verified `__exfat_write_inode` at inode.c:20-98 re-reads
-  dentry set with correct count and recomputes checksum
-- [Phase 8] Verified `exfat_rename()` at namei.c:1282-1285 calls
-  `mark_inode_dirty(old_inode)` after rename, confirming eventual
-  writeback
-- UNVERIFIED: Could not access lore.kernel.org to read mailing list
-  discussion (anti-bot protection)
-
-The fix is a minimal, obviously correct single-line change that fixes a
-real filesystem correctness bug (incorrect checksum written to disk
-during rename-to-shorter-name). The incorrect checksum creates a crash-
-vulnerability window where surprise removal or power loss can leave
-persistent corruption visible to other operating systems and filesystem
-checkers. The fix was reviewed by two exfat domain experts and applied
-by the subsystem maintainer.
-
-**YES**
-
- fs/exfat/dir.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/fs/exfat/dir.c b/fs/exfat/dir.c
-index e710dd196e2f0..2a4f6a131fbe7 100644
---- a/fs/exfat/dir.c
-+++ b/fs/exfat/dir.c
-@@ -490,6 +490,7 @@ void exfat_init_ext_entry(struct exfat_entry_set_cache *es, int num_entries,
- 	unsigned short *uniname = p_uniname->name;
- 	struct exfat_dentry *ep;
- 
-+	es->num_entries = num_entries;
- 	ep = exfat_get_dentry_cached(es, ES_IDX_FILE);
- 	ep->dentry.file.num_ext = (unsigned char)(num_entries - 1);
- 
--- 
-2.53.0
-
+RnJvbSA4Y2MzZTdlMmU3NWY1YzkzODc1YmZmY2U2YmY4Mzk4ZDk0Mzk4YzMzIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBBbWlyIEdvbGRzdGVpbiA8YW1pcjczaWxAZ21haWwuY29tPgpE
+YXRlOiBNb24sIDIwIEFwciAyMDI2IDE0OjU4OjAwICswMjAwClN1YmplY3Q6IFtQQVRDSCB2Ml0g
+ZnNub3RpZnk6IGZpeCBpbm9kZSByZWZlcmVuY2UgbGVhayBpbgogZnNub3RpZnlfcmVjYWxjX21h
+c2soKQpNSU1FLVZlcnNpb246IDEuMApDb250ZW50LVR5cGU6IHRleHQvcGxhaW47IGNoYXJzZXQ9
+VVRGLTgKQ29udGVudC1UcmFuc2Zlci1FbmNvZGluZzogOGJpdAoKZnNub3RpZnlfcmVjYWxjX21h
+c2soKSBmYWlscyB0byBoYW5kbGUgdGhlIHJldHVybiB2YWx1ZSBvZgpfX2Zzbm90aWZ5X3JlY2Fs
+Y19tYXNrKCksIHdoaWNoIG1heSByZXR1cm4gYW4gaW5vZGUgcG9pbnRlciB0aGF0IG5lZWRzCnRv
+IGJlIHJlbGVhc2VkIHZpYSBmc25vdGlmeV9kcm9wX29iamVjdCgpIHdoZW4gdGhlIGNvbm5lY3Rv
+cidzIEhBU19JUkVGCmZsYWcgdHJhbnNpdGlvbnMgZnJvbSBzZXQgdG8gY2xlYXJlZC4KClRoaXMg
+bWFuaWZlc3RzIGFzIGEgaHVuZyB0YXNrIHdpdGggdGhlIGZvbGxvd2luZyBjYWxsIHRyYWNlOgoK
+ICBJTkZPOiB0YXNrIHVtb3VudDoxMjM0IGJsb2NrZWQgZm9yIG1vcmUgdGhhbiAxMjAgc2Vjb25k
+cy4KICBDYWxsIFRyYWNlOgogICBfX3NjaGVkdWxlCiAgIHNjaGVkdWxlCiAgIGZzbm90aWZ5X3Ni
+X2RlbGV0ZQogICBnZW5lcmljX3NodXRkb3duX3N1cGVyCiAgIGtpbGxfYW5vbl9zdXBlcgogICBj
+bGVhbnVwX21udAogICB0YXNrX3dvcmtfcnVuCiAgIGRvX2V4aXQKICAgZG9fZ3JvdXBfZXhpdAoK
+VGhlIHJhY2Ugd2luZG93IHRoYXQgdHJpZ2dlcnMgdGhlIGlyZWYgbGVhazoKCiAgVGhyZWFkIEEg
+KGFkZGluZyBtYXJrKSAgICAgICAgICAgICAgVGhyZWFkIEIgKHJlbW92aW5nIG1hcmspCiAg4pSA
+4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA
+4pSA4pSAICAgICAgICAgICAgICDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDi
+lIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIAKICBmc25vdGlmeV9hZGRfbWFya19s
+b2NrZWQoKToKICAgIGZzbm90aWZ5X2FkZF9tYXJrX2xpc3QoKToKICAgICAgc3Bpbl9sb2NrKGNv
+bm4tPmxvY2spCiAgICAgIGFkZCBtYXJrX0IoZXZpY3RhYmxlKSB0byBsaXN0CiAgICAgIHNwaW5f
+dW5sb2NrKGNvbm4tPmxvY2spCiAgICByZXR1cm4KCiAgICAvKiAtLS0tIGdhcDogbm8gbG9jayBo
+ZWxkIC0tLS0gKi8KCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZnNub3Rp
+ZnlfZGV0YWNoX21hcmsobWFya19BKToKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIHNwaW5fbG9jayhtYXJrX0EtPmxvY2spCiAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICBjbGVhciBBVFRBQ0hFRCBmbGFnIG9uIG1hcmtfQQogICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgc3Bpbl91bmxvY2sobWFya19BLT5sb2NrKQogICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZnNub3RpZnlfcHV0X21hcmsobWFy
+a19BKQoKICAgIGZzbm90aWZ5X3JlY2FsY19tYXNrKCk6CiAgICAgIHNwaW5fbG9jayhjb25uLT5s
+b2NrKQogICAgICBfX2Zzbm90aWZ5X3JlY2FsY19tYXNrKCk6CiAgICAgICAgLyogbWFya19BIHNr
+aXBwZWQ6IEFUVEFDSEVEIGNsZWFyZWQgKi8KICAgICAgICAvKiBvbmx5IG1hcmtfQihldmljdGFi
+bGUpIHJlbWFpbnMgKi8KICAgICAgICB3YW50X2lyZWYgPSBmYWxzZQogICAgICAgIGhhc19pcmVm
+ID0gdHJ1ZSAgLyogbm90IHlldCBjbGVhcmVkICovCiAgICAgICAgLT4gSEFTX0lSRUYgdHJhbnNp
+dGlvbnMgdHJ1ZSAtPiBmYWxzZQogICAgICAgIC0+IHJldHVybnMgaW5vZGUgcG9pbnRlcgogICAg
+ICBzcGluX3VubG9jayhjb25uLT5sb2NrKQogICAgICAvKiBCVUc6IHJldHVybiB2YWx1ZSBkaXNj
+YXJkZWQhCiAgICAgICAqIGlwdXQoKSBhbmQgZnNub3RpZnlfcHV0X3NiX3dhdGNoZWRfb2JqZWN0
+cygpCiAgICAgICAqIGFyZSBuZXZlciBjYWxsZWQgKi8KCkZpeCB0aGlzIGJ5IGRlZmVycmluZyB0
+aGUgdHJhbnNpdGlvbiB0cnVlIC0+IGZhbHNlIG9mIEhBU19JUkVGIGZsYWcgZnJvbQpmc25vdGlm
+eV9yZWNhbGNfbWFzaygpIChUaHJlYWQgQSkgdG8gZnNub3RpZnlfcHV0X21hcmsoKSAodGhyZWFk
+IEIpLgoKRml4ZXM6IGMzNjM4YjViMTM3NCAoImZzbm90aWZ5OiBhbGxvdyBhZGRpbmcgYW4gaW5v
+ZGUgbWFyayB3aXRob3V0IHBpbm5pbmcgaW5vZGUiKQpTaWduZWQtb2ZmLWJ5OiBYaW4gWWluIDx5
+aW54aW4ueEBieXRlZGFuY2UuY29tPgpTaWduZWQtb2ZmLWJ5OiBBbWlyIEdvbGRzdGVpbiA8YW1p
+cjczaWxAZ21haWwuY29tPgotLS0KIGZzL25vdGlmeS9tYXJrLmMgfCAzOSArKysrKysrKysrKysr
+KysrKysrKysrKysrKysrKysrKysrKystLS0KIDEgZmlsZSBjaGFuZ2VkLCAzNiBpbnNlcnRpb25z
+KCspLCAzIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2ZzL25vdGlmeS9tYXJrLmMgYi9mcy9u
+b3RpZnkvbWFyay5jCmluZGV4IDYyMmYwNTk3N2Y4NmEuLmUyNTZiNDIwMTAwZGMgMTAwNjQ0Ci0t
+LSBhL2ZzL25vdGlmeS9tYXJrLmMKKysrIGIvZnMvbm90aWZ5L21hcmsuYwpAQCAtMjM4LDcgKzIz
+OCwxMiBAQCBzdGF0aWMgc3RydWN0IGlub2RlICpmc25vdGlmeV91cGRhdGVfaXJlZihzdHJ1Y3Qg
+ZnNub3RpZnlfbWFya19jb25uZWN0b3IgKmNvbm4sCiAJcmV0dXJuIGlub2RlOwogfQogCi1zdGF0
+aWMgdm9pZCAqX19mc25vdGlmeV9yZWNhbGNfbWFzayhzdHJ1Y3QgZnNub3RpZnlfbWFya19jb25u
+ZWN0b3IgKmNvbm4pCisvKgorICogQ2FsY3VsYXRlIG1hc2sgb2YgZXZlbnRzIGZvciBhIGxpc3Qg
+b2YgbWFya3MuCisgKgorICogUmV0dXJuIHRydWUgaWYgYW55IG9mIHRoZSBhdHRhY2hlZCBtYXJr
+cyB3YW50IHRvIGhvbGQgYW4gaW5vZGUgcmVmZXJlbmNlLgorICovCitzdGF0aWMgYm9vbCBfX2Zz
+bm90aWZ5X3JlY2FsY19tYXNrKHN0cnVjdCBmc25vdGlmeV9tYXJrX2Nvbm5lY3RvciAqY29ubikK
+IHsKIAl1MzIgbmV3X21hc2sgPSAwOwogCWJvb2wgd2FudF9pcmVmID0gZmFsc2U7CkBAIC0yNjIs
+NiArMjY3LDM0IEBAIHN0YXRpYyB2b2lkICpfX2Zzbm90aWZ5X3JlY2FsY19tYXNrKHN0cnVjdCBm
+c25vdGlmeV9tYXJrX2Nvbm5lY3RvciAqY29ubikKIAkgKi8KIAlXUklURV9PTkNFKCpmc25vdGlm
+eV9jb25uX21hc2tfcChjb25uKSwgbmV3X21hc2spOwogCisJcmV0dXJuIHdhbnRfaXJlZjsKK30K
+KworLyoKKyAqIENhbGN1bGF0ZSBtYXNrIG9mIGV2ZW50cyBmb3IgYSBsaXN0IG9mIG1hcmtzIGFm
+dGVyIGF0dGFjaC9tb2RpZnkgbWFyaworICogYW5kIGdldCBhbiBpbm9kZSByZWZlcmVuY2UgZm9y
+IHRoZSBjb25uZWN0b3IgaWYgbmVlZGVkLgorICoKKyAqIEEgY29uY3VycmVudCBhZGQgb2YgZXZp
+Y3RhYmxlIG1hcmsgYW5kIGRldGFjaCBvZiBub24tZXZpY3RhYmxlIG1hcmsgY2FuCisgKiBsZWFk
+IHRvIF9fZnNub3RpZnlfcmVjYWxjX21hc2soKSByZXR1cm5pbmcgZmFsc2Ugd2FudF9pcmVmLCBi
+dXQgaW4gdGhpcworICogY2FzZSB3ZSBkZWZlciBjbGVhcmluZyBpcmVmIHRvIGZzbm90aWZ5X3Jl
+Y2FsY19tYXNrX2NsZWFyX2lyZWYoKSBjYWxsZWQKKyAqIGZyb20gZnNub3RpZnlfcHV0X21hcmso
+KS4KKyAqLworc3RhdGljIHZvaWQgZnNub3RpZnlfcmVjYWxjX21hc2tfc2V0X2lyZWYoc3RydWN0
+IGZzbm90aWZ5X21hcmtfY29ubmVjdG9yICpjb25uKQoreworCWJvb2wgaGFzX2lyZWYgPSBjb25u
+LT5mbGFncyAmIEZTTk9USUZZX0NPTk5fRkxBR19IQVNfSVJFRjsKKwlib29sIHdhbnRfaXJlZiA9
+IF9fZnNub3RpZnlfcmVjYWxjX21hc2soY29ubikgfHwgaGFzX2lyZWY7CisKKwkodm9pZCkgZnNu
+b3RpZnlfdXBkYXRlX2lyZWYoY29ubiwgd2FudF9pcmVmKTsKK30KKworLyoKKyAqIENhbGN1bGF0
+ZSBtYXNrIG9mIGV2ZW50cyBmb3IgYSBsaXN0IG9mIG1hcmtzIGFmdGVyIGRldGFjaCBtYXJrCisg
+KiBhbmQgcmV0dXJuIHRoZSBpbm9kZSBvYmplY3QgaWYgaXRzIHJlZmVyZW5jZSBpcyBubyBsb25n
+ZXIgbmVlZGVkLgorICovCitzdGF0aWMgdm9pZCAqZnNub3RpZnlfcmVjYWxjX21hc2tfY2xlYXJf
+aXJlZihzdHJ1Y3QgZnNub3RpZnlfbWFya19jb25uZWN0b3IgKmNvbm4pCit7CisJYm9vbCB3YW50
+X2lyZWYgPSBfX2Zzbm90aWZ5X3JlY2FsY19tYXNrKGNvbm4pOworCiAJcmV0dXJuIGZzbm90aWZ5
+X3VwZGF0ZV9pcmVmKGNvbm4sIHdhbnRfaXJlZik7CiB9CiAKQEAgLTI5OCw3ICszMzEsNyBAQCB2
+b2lkIGZzbm90aWZ5X3JlY2FsY19tYXNrKHN0cnVjdCBmc25vdGlmeV9tYXJrX2Nvbm5lY3RvciAq
+Y29ubikKIAogCXNwaW5fbG9jaygmY29ubi0+bG9jayk7CiAJdXBkYXRlX2NoaWxkcmVuID0gIWZz
+bm90aWZ5X2Nvbm5fd2F0Y2hlc19jaGlsZHJlbihjb25uKTsKLQlfX2Zzbm90aWZ5X3JlY2FsY19t
+YXNrKGNvbm4pOworCWZzbm90aWZ5X3JlY2FsY19tYXNrX3NldF9pcmVmKGNvbm4pOwogCXVwZGF0
+ZV9jaGlsZHJlbiAmPSBmc25vdGlmeV9jb25uX3dhdGNoZXNfY2hpbGRyZW4oY29ubik7CiAJc3Bp
+bl91bmxvY2soJmNvbm4tPmxvY2spOwogCS8qCkBAIC00MTksNyArNDUyLDcgQEAgdm9pZCBmc25v
+dGlmeV9wdXRfbWFyayhzdHJ1Y3QgZnNub3RpZnlfbWFyayAqbWFyaykKIAkJLyogVXBkYXRlIHdh
+dGNoZWQgb2JqZWN0cyBhZnRlciBkZXRhY2hpbmcgbWFyayAqLwogCQlpZiAoc2IpCiAJCQlmc25v
+dGlmeV91cGRhdGVfc2Jfd2F0Y2hlcnMoc2IsIGNvbm4pOwotCQlvYmpwID0gX19mc25vdGlmeV9y
+ZWNhbGNfbWFzayhjb25uKTsKKwkJb2JqcCA9IGZzbm90aWZ5X3JlY2FsY19tYXNrX2NsZWFyX2ly
+ZWYoY29ubik7CiAJCXR5cGUgPSBjb25uLT50eXBlOwogCX0KIAlXUklURV9PTkNFKG1hcmstPmNv
+bm5lY3RvciwgTlVMTCk7Ci0tIAoyLjUzLjAKCg==
+--000000000000dc3c7e064fe458fc--
