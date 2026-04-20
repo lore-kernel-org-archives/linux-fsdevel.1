@@ -1,99 +1,77 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from out30-130.freemail.mail.aliyun.com (out30-130.freemail.mail.aliyun.com [115.124.30.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42E5137FF7B;
-	Mon, 20 Apr 2026 03:09:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9BBF25D53B;
+	Mon, 20 Apr 2026 06:07:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776654587; cv=none; b=Zh4RRBlNyz/WQNME4zK3Rs0Xw4JLEZ2q273vhTj5nCPw70c207hllrYBaAhRpAHgs1O3riDk6FGIwjajpQBqpF9+rVjG1uouq1g4+XlWb+d6QEvg1EHiqzhczT+9KCkqxAw6MH3eCof7HK0SPSq+jp+TcLhwISYeeyW1f8N0n8U=
+	t=1776665255; cv=none; b=Pn7ssI0HpgZqosYftJFGS67vdaqEcwz7t0HN89FtSHUCSKTmEsBZyDJ4/EEovUIFtZGSqxLHYG/iYLGrWdz19KbB9g9He7nj4UabwH6LEzWZerH9eDSq5U1JMwtk4zOJWfmQTulyyCCCst4im91GZvcj4G7pvO4dA97WpIAdbic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776654587; c=relaxed/simple;
-	bh=dy4N6TGQJWD6tnl0B/E2R/g5apTeDjbZP8aIdYHCVsg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=OZq7CRkUdFtsD3qKVjj4/y/fXz7QBO6+H2/2XVTQoi1B/MiL+3DkNQQgr0XL2VM8n7nQY4ycbTAD9KjDeSntuK3BfQuQeTg2rGtWh9ghww0oxdjqas0MWJK+qeLU8bHElpD4+xEDbfbIR/tlc4rYB5E+3DoS6vyZ4PCvayIXMs0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 5d8f1cc03c6611f1aa26b74ffac11d73-20260420
-X-CTIC-Tags:
-	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
-	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
-	HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM, HR_SJ_PHRASE
-	HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT, HR_TO_NAME
-	IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_TRUSTED, SA_EXISTED
-	SN_TRUSTED, SN_EXISTED, SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS
-	CIE_BAD, CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS, GTI_RG_INFO
-	GTI_C_BU, AMN_GOOD, ABX_MISS_RDNS
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:a8d281f0-31a0-43f8-b0e6-db6f1420addd,IP:15,
-	URL:0,TC:0,Content:0,EDM:25,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTI
-	ON:release,TS:35
-X-CID-INFO: VERSION:1.3.12,REQID:a8d281f0-31a0-43f8-b0e6-db6f1420addd,IP:15,UR
-	L:0,TC:0,Content:0,EDM:25,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:35
-X-CID-META: VersionHash:e7bac3a,CLOUDID:a2256f6e5add7f916926163279390ec3,BulkI
-	D:260420110939KEUEHNOD,BulkQuantity:0,Recheck:0,SF:17|19|66|78|102|127|898
-	,TC:nil,Content:0|15|50,EDM:5,IP:-2,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,
-	BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 5d8f1cc03c6611f1aa26b74ffac11d73-20260420
-X-User: liwang@kylinos.cn
-Received: from computer.. [(116.128.244.171)] by mailgw.kylinos.cn
-	(envelope-from <liwang@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1913366724; Mon, 20 Apr 2026 11:09:37 +0800
-From: Li Wang <liwang@kylinos.cn>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Joanne Koong <joannelkoong@gmail.com>,
-	Bernd Schubert <bernd@bsbernd.com>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Li Wang <liwang@kylinos.cn>
-Subject: [PATCH] fuse: drop redundant check in fuse_sync_bucket_alloc()
-Date: Mon, 20 Apr 2026 11:09:00 +0800
-Message-Id: <20260420030900.4944-1-liwang@kylinos.cn>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1776665255; c=relaxed/simple;
+	bh=/V3Lviby6LuoMIdNEQHBuwGR8SAWyAkzpYfJ4x52X/k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pjkpksN0kXmZiibcNHyliyvTxBFyv9K0aBTO9qTNY1HVKwEzuBifEqJ9lYByZhR2rD9uGsLRGLUxDIQLpH8VEUI7H1eoso/WxuyVngWXr+AEXUVIzn7cY0O+5l/7KI7X5HeUINT/hBhoKNWwjgJFAyTK4195j6QtW4noZhBufKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=wsg0uLPQ; arc=none smtp.client-ip=115.124.30.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="wsg0uLPQ"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1776665243; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=jlXoyWfT+08BHayF7RT9Vylznnk/5A39eUeopQdgDu4=;
+	b=wsg0uLPQN03uyaFRH7U2SqCA/6Ih12JBtrp+H+vWMT21pu4EK/wPqPSF3ydyKubskBie7RRZQCIqE5pm76ZL+wLaoO67RLvZIVF0p7xBa8o/JQTeHSjPM72srpxBXVIKijFWqrwlvDMQ66TfY1y2L40yL3/gqr2mI/TaALulWrA=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R151e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037026112;MF=baolin.wang@linux.alibaba.com;NM=1;PH=DS;RN=27;SR=0;TI=SMTPD_---0X1I7RdU_1776665239;
+Received: from 30.74.144.127(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0X1I7RdU_1776665239 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Mon, 20 Apr 2026 14:07:20 +0800
+Message-ID: <7fa885ca-d074-4e75-842a-6fe7e48cb298@linux.alibaba.com>
+Date: Mon, 20 Apr 2026 14:07:18 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 7.2 v3 01/12] mm/khugepaged: remove READ_ONLY_THP_FOR_FS
+ check
+To: Zi Yan <ziy@nvidia.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Song Liu <songliubraving@fb.com>
+Cc: Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Shuah Khan <shuah@kernel.org>, linux-btrfs@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, linux-kselftest@vger.kernel.org
+References: <20260418024429.4055056-1-ziy@nvidia.com>
+ <20260418024429.4055056-2-ziy@nvidia.com>
+From: Baolin Wang <baolin.wang@linux.alibaba.com>
+In-Reply-To: <20260418024429.4055056-2-ziy@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-kzalloc_obj with __GFP_NOFAIL is documented to never return failure,
-and checking for NULL is redundant (__GFP_NOFAIL in gfp_types.h).
-Besides, its caller fuse_sync_fs_writes() uses it without a
-NULL check (atomic_inc on new_bucket, rcu_assign_pointer).
-fuse_fill_super_common() passes fuse_sync_bucket_alloc() directly to
-rcu_assign_pointer() without NULL check either.
 
-Signed-off-by: Li Wang <liwang@kylinos.cn>
----
- fs/fuse/inode.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-index 33009227e91d..e5069d2f8e90 100644
---- a/fs/fuse/inode.c
-+++ b/fs/fuse/inode.c
-@@ -676,11 +676,9 @@ static struct fuse_sync_bucket *fuse_sync_bucket_alloc(void)
- 	struct fuse_sync_bucket *bucket;
- 
- 	bucket = kzalloc_obj(*bucket, GFP_KERNEL | __GFP_NOFAIL);
--	if (bucket) {
--		init_waitqueue_head(&bucket->waitq);
--		/* Initial active count */
--		atomic_set(&bucket->count, 1);
--	}
-+	init_waitqueue_head(&bucket->waitq);
-+	/* Initial active count */
-+	atomic_set(&bucket->count, 1);
- 	return bucket;
- }
- 
--- 
-2.34.1
+On 4/18/26 10:44 AM, Zi Yan wrote:
+> collapse_file() requires FSes supporting large folio with at least
+> PMD_ORDER, so replace the READ_ONLY_THP_FOR_FS check with that.
+> MADV_COLLAPSE ignores shmem huge config, so exclude the check for shmem.
+> 
+> While at it, replace VM_BUG_ON with VM_WARN_ON_ONCE.
+> 
+> Add a helper function mapping_pmd_thp_support() for FSes supporting large
+> folio with at least PMD_ORDER.
+> 
+> Signed-off-by: Zi Yan <ziy@nvidia.com>
+> ---
 
+LGTM.
+Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
