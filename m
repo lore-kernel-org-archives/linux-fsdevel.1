@@ -1,32 +1,32 @@
-Received: from out30-132.freemail.mail.aliyun.com (out30-132.freemail.mail.aliyun.com [115.124.30.132])
+Received: from out30-119.freemail.mail.aliyun.com (out30-119.freemail.mail.aliyun.com [115.124.30.119])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C363438236A;
-	Mon, 20 Apr 2026 06:28:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.132
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6148B15746F;
+	Mon, 20 Apr 2026 06:31:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.119
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776666539; cv=none; b=A1Qq81X53MFKIDa8qaH/uJP34Q0XjicE6mt1tET20evgFs0lXfAIV4naS13xywgbw434sXdbo2719kGJx1sBQi0Mz0RUdjouOEleIk5IQUtCPOAXu8I4rE/LFsehBFW7MnYVT6u8tTgyt8Ni/kKoLQl7Nv/z2xag8/2i+PJkKqU=
+	t=1776666717; cv=none; b=ZfmoTs1yw4uHb5QO0q6KTpgG/hatf5sQ5YYhUZCi7vw/954lZ+i3HA+Qlo6oygBZjFRXmKm99rQjeUaNjHKJX9xrIZmeXCmnl4KZ8la0O26BG3wAXtZiGC/34eMlYfzHSsrubOnOAICh6cSxv4SZS5pQSNZCPrc6TDE/5TKddpY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776666539; c=relaxed/simple;
-	bh=OdWyKFIb5pu7/v7CzaMNErLs/PS+/JzianHuO70VLCE=;
+	s=arc-20240116; t=1776666717; c=relaxed/simple;
+	bh=6xQihWuAN6X0vR6c7iGH60kQRSbU7gLnWjXt5CdwF4Q=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Bf1OKE16lJMU7sidnKI5JRvhfv5ox5Ks3Z8lDaxIjJFv7hBYFfEL8rWihr+DkchgYkNhXv3NaaLqqbWSgHlIbbSwhSlbqbr39wIdMH7geMLESMY7MdGOK2d7fHwukBQeNvqDZIiZAvcve72vxow4f7RRVIlPtmHClHe+FA4jeSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=p38bcaUh; arc=none smtp.client-ip=115.124.30.132
+	 In-Reply-To:Content-Type; b=f/+8eLM9sF3UTrklQLYlw9ywWJ8Xk04FZMZ03t36u7e/6v+oAZOgnIUBR/Yzdlj3+rS+wx5CYkchyNFErAEhneYwNnCqCNc7tntq2WtjmCUf8isgzwZ7Azok1JkzFSCH5s61YKZL4fdx+uvK6tTPb3iakMoY+tcWrBHrxiBQmI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=ixvvzp3Q; arc=none smtp.client-ip=115.124.30.119
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="p38bcaUh"
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="ixvvzp3Q"
 DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1776666528; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=TnJNP5Zf8rEkIUqerK5GYr5N8IvbRMuI+6hpj6QnM5w=;
-	b=p38bcaUhgMWqkddM9RWWJyS8C+mR0DeDj4yF5EVgaTUxWFxOrAXfZgjsBxlyMO9EWXRZBYUwopcZw7kR+jGl7VC1OGTHJ+m+uEdbvlhTT42ttySwKz2/LieLhhED6xsAi0efWuOn6dUmeXNdqmngvuO5bdtwNfm3qy1ZyF+HwHk=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R721e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037033178;MF=baolin.wang@linux.alibaba.com;NM=1;PH=DS;RN=27;SR=0;TI=SMTPD_---0X1I6o8n_1776666524;
-Received: from 30.74.144.127(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0X1I6o8n_1776666524 cluster:ay36)
+	t=1776666707; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=Fl4jBlNrsLzHQOt9Xuwu05ZRkyi97MaFfuf5gBZ/Gy4=;
+	b=ixvvzp3QD2U+5ew2BdEu2oLxz2167csNGMu9AKWvlYR0HAfyaR4PNrvJIyJ2vQDmPb852FOacMeFGRI3O+Eg+I7JoZX5DpOo6JSMvlslMi3DAEpfULqFOGlPALs5dHesiDbOYGTh0IMwpBQU2Qj5EJsXsiFTgIG0gyYRGu+sljg=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R681e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033032089153;MF=baolin.wang@linux.alibaba.com;NM=1;PH=DS;RN=27;SR=0;TI=SMTPD_---0X1I6p8D_1776666704;
+Received: from 30.74.144.127(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0X1I6p8D_1776666704 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Mon, 20 Apr 2026 14:28:46 +0800
-Message-ID: <78a05609-05f3-4b2f-861c-30dab49083c1@linux.alibaba.com>
-Date: Mon, 20 Apr 2026 14:28:44 +0800
+          Mon, 20 Apr 2026 14:31:45 +0800
+Message-ID: <6797d16b-5db9-4bbf-a7d9-314cd98ac95e@linux.alibaba.com>
+Date: Mon, 20 Apr 2026 14:31:43 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -34,8 +34,8 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 7.2 v3 02/12] mm/khugepaged: add folio dirty check after
- try_to_unmap()
+Subject: Re: [PATCH 7.2 v3 03/12] mm/huge_memory: remove READ_ONLY_THP_FOR_FS
+ from file_thp_enabled()
 To: Zi Yan <ziy@nvidia.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>,
  Song Liu <songliubraving@fb.com>
 Cc: Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
@@ -52,28 +52,19 @@ Cc: Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
  linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
  linux-mm@kvack.org, linux-kselftest@vger.kernel.org
 References: <20260418024429.4055056-1-ziy@nvidia.com>
- <20260418024429.4055056-3-ziy@nvidia.com>
+ <20260418024429.4055056-4-ziy@nvidia.com>
 From: Baolin Wang <baolin.wang@linux.alibaba.com>
-In-Reply-To: <20260418024429.4055056-3-ziy@nvidia.com>
+In-Reply-To: <20260418024429.4055056-4-ziy@nvidia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
 On 4/18/26 10:44 AM, Zi Yan wrote:
-> This check ensures the correctness of collapse read-only THPs for FSes
-> after READ_ONLY_THP_FOR_FS is enabled by default for all FSes supporting
-> PMD THP pagecache.
-> 
-> READ_ONLY_THP_FOR_FS only supports read-only fd and uses mapping->nr_thps
-> and inode->i_writecount to prevent any write to read-only to-be-collapsed
-> folios. In upcoming commits, READ_ONLY_THP_FOR_FS will be removed and the
-> aforementioned mechanism will go away too. To ensure khugepaged functions
-> as expected after the changes, skip if any folio is dirty after
-> try_to_unmap(), since a dirty folio means this read-only folio
-> got some writes via mmap can happen between try_to_unmap() and
-> try_to_unmap_flush() via cached TLB entries and khugepaged does not support
-> writable pagecache folio collapse yet.
+> Replace it with a check on the max folio order of the file's address space
+> mapping, making sure PMD THP is supported. Also remove the read-only fd
+> check, since collapse_file() now makes sure all to-be-collapsed folios are
+> clean and the created PMD file THP can be handled by FSes properly.
 > 
 > Signed-off-by: Zi Yan <ziy@nvidia.com>
 > ---
