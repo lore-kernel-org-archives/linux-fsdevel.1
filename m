@@ -1,34 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10AC73AC0E9;
-	Mon, 20 Apr 2026 13:32:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7E0A4A33F9;
+	Mon, 20 Apr 2026 13:32:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776691965; cv=none; b=BZ7alHeCDpvlGciXWgG6CnvhbGzTmxHIq3hCCRkkpfGwNQ238dKggybeuallLRVGM5mYCEw3JDkHr4JQ6HUDD/c97gNnT8VKeolPsdVe0FDykBr05NqZNmIr6X6oZ2ZP/9Ox/m2Zpi8CWhPNBsacaSWJjI5QI4izc3strFGS9u8=
+	t=1776691966; cv=none; b=EjQjFgBYRNsefQouzYIqzqiwPJ402FKOAYODNo/t+6+pzIQW1eiJ94Ly4BfqbHZU660/PH8CIXYr5zE67hS5gS3PikJx7KUeEfVHPVrv7jV1fz3uzM5ehMIlYWOSIJcBdmV/nFwySL9BkS87Nh46Yu1SvUVimBguy3Qy+RVuwFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776691965; c=relaxed/simple;
-	bh=iGKUrAWyqAzRf4aYmyWkH/uQRw9E60UxprO7RB5zYwE=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=DU55g7zXfc8UiF/noDpoQ6pYB/SFQvINNrOQl1YPwDPJWmoeQoee6UwPamwXpMwQXElOjLvSSbNe4l9HHx0eIwtOc5QeDJnN4ZY06ePgjJFGxBnRnVmB3kWZGvrmLP/8webgc7tEGb/ZKPbgky5m14GZtIbkR6sMlQTzuqS2Feo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nittEY/c; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776691966; c=relaxed/simple;
+	bh=gyXi7Wuu5MP4FEFcZJMgcVPb0NAvr7dTrU/QX0T4Gsg=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=hbXTXQEnoan1u/L08jXVBVI5N9Ftlf6mvWGu8ZM+NXx2F7gPZFCavTXUu9DrKZmaF99s+uYZpeCRkXmQMnnwV+oEmCh2zSbTuENbKHMK8b89sAgqJVJzIvUPjB+1LEQwAKIRgVIMmuRy6SJZi8VvtSPElmj1d/ICEe20mHjihSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r0OQMdEg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nittEY/c"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7237C19425;
-	Mon, 20 Apr 2026 13:32:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r0OQMdEg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 515AFC19425;
+	Mon, 20 Apr 2026 13:32:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776691964;
-	bh=iGKUrAWyqAzRf4aYmyWkH/uQRw9E60UxprO7RB5zYwE=;
-	h=From:Subject:Date:To:Cc:From;
-	b=nittEY/c+VSluIreEAfYfv9NCL+EmNqWWNblT4T+rFGdamBUai9afDvQ66KTSjiZY
-	 hYE9IHOnhZzi3WkGT5EmZvtX2MpEM7cHRcDnlHlpsqqqyy6w3TbdkFvqXPQaRqp39q
-	 xeCV1J1xsB1+5pIzbMFAIBreC3mUip2QcKA7S7emyRM2l2+eZUaNwG6sCyCG5hbWMj
-	 sP/Ee3Dq33bLzkViWHXwoRzJQctFHn9Cukm81Gci9u+SQwScKTeV+f0AKfHSVpZWGS
-	 mKU85NZlbB+8pvVga2q/GUOhZe3lPcHTqjBHPgbJ2NIh0hqj0DNjngv0j27B/wSGW+
-	 /celYI0WJd+FA==
+	s=k20201202; t=1776691966;
+	bh=gyXi7Wuu5MP4FEFcZJMgcVPb0NAvr7dTrU/QX0T4Gsg=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=r0OQMdEgh7amMOCw1wRY/70I4tb0MmUD3a1N7c9Lm0qEtp69OD0/7DbxddYGaN00g
+	 yjq6QO0Ph0GpfXlXskkAKKOCP9G152v4Gcb4iIa8hkNAMnjJznjNCT+4xN+rDUvHvK
+	 ErAJFITXhyuFmfsUWIthDZyQUeJ6KeNVhk3MW2FzLczvs7mk6hR41HBE5M7WgGcN6P
+	 5kXNGvNM4mq3WjvwUV9M+Na0fj+mKqH38GVteN7tCRWnrzRb3pmf3Y7Zq6KjH8fb+r
+	 Ezk9Le8cF5HnjmDlhxk7CUccu+TIXz5+R4GHXGIpmq3lLDH/bhDugqktYlcWogk9VB
+	 vjXEHFoJNE3iQ==
 From: Christian Brauner <brauner@kernel.org>
-Subject: [PATCH 0/3] pidfs: small fixes
-Date: Mon, 20 Apr 2026 15:32:34 +0200
-Message-Id: <20260420-work-pidfs-v1-0-4bd614e1cb33@kernel.org>
+Date: Mon, 20 Apr 2026 15:32:35 +0200
+Subject: [PATCH 1/3] pidfs: fix PIDFD_THREAD flag loss when opening pidfds
+ via file handles
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -37,63 +38,104 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAPMq5mkC/yWMyw6CMBBFf4XM2ppS+xj4FeOiLVOpRiAdfCSEf
- xd0eW7uOQswlUwMbbVAoVfmPA4b1IcKYu+HK4ncbQxKKiu1kuI9lruYcpdY2NoodE1q9EnDJky
- FUv78YufLn/kZbhTnvbA/gmcSofgh9vv08DxTOZJzujOpDlE5jyahwRDJWUQjG0JrExJ6TbCuX
- wGY59iwAAAA
-X-Change-ID: 20260420-work-pidfs-6152879f9434
+Message-Id: <20260420-work-pidfs-v1-1-4bd614e1cb33@kernel.org>
+References: <20260420-work-pidfs-v1-0-4bd614e1cb33@kernel.org>
+In-Reply-To: <20260420-work-pidfs-v1-0-4bd614e1cb33@kernel.org>
 To: linux-fsdevel@vger.kernel.org
 Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
  linux-kernel@vger.kernel.org, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2034; i=brauner@kernel.org;
- h=from:subject:message-id; bh=iGKUrAWyqAzRf4aYmyWkH/uQRw9E60UxprO7RB5zYwE=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQ+0/qVWvE95e/BEn8J1nCeeJ8TXt91mLrXZN3bc+x0i
- t4dwVXxHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABNZ/4CR4dh7x7wpHhxcDXdj
- 5Jrqll5krtikn76ds8FC6Xq/uOW0Z4wMzQeb/Bd7vUu5+n6q4cO+F/ee5JblO181efx89WYb/up
- PbAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2810; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=gyXi7Wuu5MP4FEFcZJMgcVPb0NAvr7dTrU/QX0T4Gsg=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQ+0/qlIjm/kP3B/29L3u3b7j3vxrsUtqSZXl867vNdN
+ dhTv3/q1I5SFgYxLgZZMUUWh3aTcLnlPBWbjTI1YOawMoEMYeDiFICJ1Egw/LM6fO8pt7mwzMqN
+ jhc2bX7zIn+L1I0i58tM/3/J117dGB3H8L9C+FTtRaNtbSuT3fs+L2f0XK17oXVn6A5fS7PATo2
+ uxdwA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Three independent pidfs bug fixes, each with a Fixes: tag.
+pidfs_export_open() calls dentry_open() which internally calls
+do_dentry_open() that strips O_EXCL from f_flags. Since PIDFD_THREAD is
+defined as O_EXCL, thread pidfds opened via open_by_handle_at() silently
+lose their thread-specific scope.
 
-Patch 1 fixes PIDFD_THREAD flag loss when pidfds are opened via file
-handles. PIDFD_THREAD is defined as O_EXCL, and do_dentry_open() strips
-O_EXCL from f_flags, so thread pidfds obtained via open_by_handle_at()
-silently end up with PIDTYPE_TGID scope. pidfs_alloc_file() already
-restored the flag after dentry_open(); factor that into a shared
-pidfs_open_file() helper and use it from pidfs_export_open() too.
-Without this, pidfd_send_signal() on a thread pidfd reopened from a
-file handle delivers to the entire thread group instead of the
-specific thread.
+pidfs_alloc_file() already handles this by explicitly restoring the
+PIDFD_THREAD flag after dentry_open() returns. Factor the common
+dentry_open() + flag restoration into a shared pidfs_open_file() helper
+and use it from both call sites.
 
-Patch 2 fixes pidfs_xattr_get() returning 0 when no xattrs have ever
-been set (attr->xattrs == NULL). The VFS interprets 0 as "xattr exists
-with a zero-length value", so getxattr() on a pidfd reports success
-for non-existent xattrs. Return -ENODATA instead, matching
-simple_xattr_get().
+Without this fix, a pidfd obtained via open_by_handle_at() with O_EXCL
+will have PIDTYPE_TGID scope instead of PIDTYPE_PID scope, causing
+pidfd_send_signal() to deliver signals to the entire thread group
+instead of the specific thread.
 
-Patch 3 enforces the documented PIDFD_GET_INFO contract that the
-kernel must not set a mask bit unless the user buffer is large enough
-to carry the corresponding field. Today PIDFD_INFO_COREDUMP,
-PIDFD_INFO_COREDUMP_SIGNAL and PIDFD_INFO_SUPPORTED_MASK are returned
-in the mask without checking usize against PIDFD_INFO_SIZE_VER1/VER2.
-copy_struct_to_user() stops at min(usize, ksize) so no kernel memory
-leaks, but userspace that trusts the mask as documented will read its
-own uninitialized buffer as if it were valid data. Gate the mask bits
-on usize.
-
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+Fixes: 30915e955528 ("pidfs: convert to path_from_stashed() helper")
+Signed-off-by: Christian Brauner <brauner@kernel.org>
 ---
-Christian Brauner (3):
-      pidfs: fix PIDFD_THREAD flag loss when opening pidfds via file handles
-      pidfs: return -ENODATA from pidfs_xattr_get() when no xattrs exist
-      pidfs: don't report pidfd_info fields that won't fit in the user buffer
+ fs/pidfs.c | 29 ++++++++++++++++++-----------
+ 1 file changed, 18 insertions(+), 11 deletions(-)
 
- fs/pidfs.c | 38 +++++++++++++++++++++++---------------
- 1 file changed, 23 insertions(+), 15 deletions(-)
----
-base-commit: e774d5f1bc27a85f858bce7688509e866f8e8a4e
-change-id: 20260420-work-pidfs-6152879f9434
+diff --git a/fs/pidfs.c b/fs/pidfs.c
+index e3825ee246be..11eb53f3e50a 100644
+--- a/fs/pidfs.c
++++ b/fs/pidfs.c
+@@ -897,14 +897,28 @@ static int pidfs_export_permission(struct handle_to_path_ctx *ctx,
+ 	return 0;
+ }
+ 
++/*
++ * Open a pidfs dentry. Pidfds are always O_RDWR and PIDFD_THREAD (O_EXCL)
++ * must be restored after dentry_open() as do_dentry_open() strips it.
++ */
++static struct file *pidfs_open_file(const struct path *path, unsigned int flags)
++{
++	struct file *f;
++
++	flags |= O_RDWR;
++	f = dentry_open(path, flags, current_cred());
++	if (!IS_ERR(f))
++		f->f_flags |= (flags & PIDFD_THREAD);
++	return f;
++}
++
+ static struct file *pidfs_export_open(const struct path *path, unsigned int oflags)
+ {
+ 	/*
+-	 * Clear O_LARGEFILE as open_by_handle_at() forces it and raise
+-	 * O_RDWR as pidfds always are.
++	 * Clear O_LARGEFILE as open_by_handle_at() forces it.
+ 	 */
+ 	oflags &= ~O_LARGEFILE;
+-	return dentry_open(path, oflags | O_RDWR, current_cred());
++	return pidfs_open_file(path, oflags);
+ }
+ 
+ static const struct export_operations pidfs_export_operations = {
+@@ -1086,7 +1100,6 @@ static struct file_system_type pidfs_type = {
+ 
+ struct file *pidfs_alloc_file(struct pid *pid, unsigned int flags)
+ {
+-	struct file *pidfd_file;
+ 	struct path path __free(path_put) = {};
+ 	int ret;
+ 
+@@ -1104,13 +1117,7 @@ struct file *pidfs_alloc_file(struct pid *pid, unsigned int flags)
+ 	VFS_WARN_ON_ONCE(!pid->attr);
+ 
+ 	flags &= ~PIDFD_STALE;
+-	flags |= O_RDWR;
+-	pidfd_file = dentry_open(&path, flags, current_cred());
+-	/* Raise PIDFD_THREAD explicitly as do_dentry_open() strips it. */
+-	if (!IS_ERR(pidfd_file))
+-		pidfd_file->f_flags |= (flags & PIDFD_THREAD);
+-
+-	return pidfd_file;
++	return pidfs_open_file(&path, flags);
+ }
+ 
+ void __init pidfs_init(void)
+
+-- 
+2.47.3
 
