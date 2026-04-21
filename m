@@ -1,169 +1,177 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52779346E46
-	for <linux-fsdevel@vger.kernel.org>; Tue, 21 Apr 2026 12:08:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5DCC3C277F;
+	Tue, 21 Apr 2026 12:24:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776773304; cv=none; b=THivh0TwnFR050wQtKPAciLqTAPP6AjFRy9njdsivteIAIC1Lxi9zWuaxSxXW+iIWNB2tVYBxwQ69vLlJKws74M/UHKrqknKgwtUYfZip8tRcA+wmj/FZMUC3AjGF5fT8+DINTRbrfJPDNU6engVJUPMEdR03hzkP2D9CYQbaj4=
+	t=1776774254; cv=none; b=RXR53soR/PGv0YskXJO9rmgf2ZCFdcWcFB55rCYBEFc5rAeD/E7jaqUxDTGxqBcIAix5i0DTfkJiJr2xdo6eBKnmGciIZNd/gH6f7DFAyRM0VodXwFF6sB0b286TLomyL/6aSdX0Ed++4bnURMiR+eTUvSbiSbbJ9YamiMuY/wc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776773304; c=relaxed/simple;
-	bh=eGEQRv+/QX+ysm/YxEjInQa7Qyp0V80s/mrF6Nm3CJI=;
+	s=arc-20240116; t=1776774254; c=relaxed/simple;
+	bh=zI7ESWr65A1AmIdFGMnVytAaNpUyRk5TU1a5ceJIsPk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p7yXhR/5Mf9cQayTAeRq9L2GgTBNC5mnshPK77vwPRQgamOICwzt9BMDiii+3UxJH8K2hud4O+paFQsbxpxuBs5tq4rA38snreCzpjPTP24AUfxydVNrhLyzzgXfpnoOVjo/IKvSzFG0E9un4BfM0xRuaJUCJxxpBNkkaPQnaTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=vcIc1q3h; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=7bRFtGJt; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=vcIc1q3h; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=7bRFtGJt; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=lh7cpmYdVFTS7MdbnNX8ubPistfZo82kvLNyE45aFwlNPF3FewQrBkSaaWXjFRsZ0L/cQ7vaKZJsfG6jGiElwTMhB04oSUDnfBY+Ff4YxcYmf0Og/qj/L+DpnYCYKI2Lip13+/02WIhy08X7qbds0pQnlc1kNwBR5yoAyMn2wlo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gNKWzqI1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="vcIc1q3h";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="7bRFtGJt";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="vcIc1q3h";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="7bRFtGJt"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 67F436A856;
-	Tue, 21 Apr 2026 12:08:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1776773301; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1yMxLBaOga7g7HLsT7YiFc7j1uBKf4AofNjGYGINGqA=;
-	b=vcIc1q3hQG1qlEJdYBTs1vkiJKqUHT6ziXFvRBhwVIfDOe5QHjFSC3m6PZZ8NeA3G7c67O
-	nfQt/kn1ToTOnF32dbhh2sZzfYEazSD2L53PVMcgFgsNkst9R3zF4ZIqTW1vIjkOtKoL6x
-	+WeUP/xFrCMGC2WXUOAlHJa7hb+g/Bs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1776773301;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1yMxLBaOga7g7HLsT7YiFc7j1uBKf4AofNjGYGINGqA=;
-	b=7bRFtGJtxg9BAqG6SylI9GpPZpAwdOF2Xx14L4q2PIs1SrSqpWuGnSEm21yRnhnq83HCu5
-	Ekpf0YcrFREkN1Aw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=vcIc1q3h;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=7bRFtGJt
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1776773301; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1yMxLBaOga7g7HLsT7YiFc7j1uBKf4AofNjGYGINGqA=;
-	b=vcIc1q3hQG1qlEJdYBTs1vkiJKqUHT6ziXFvRBhwVIfDOe5QHjFSC3m6PZZ8NeA3G7c67O
-	nfQt/kn1ToTOnF32dbhh2sZzfYEazSD2L53PVMcgFgsNkst9R3zF4ZIqTW1vIjkOtKoL6x
-	+WeUP/xFrCMGC2WXUOAlHJa7hb+g/Bs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1776773301;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1yMxLBaOga7g7HLsT7YiFc7j1uBKf4AofNjGYGINGqA=;
-	b=7bRFtGJtxg9BAqG6SylI9GpPZpAwdOF2Xx14L4q2PIs1SrSqpWuGnSEm21yRnhnq83HCu5
-	Ekpf0YcrFREkN1Aw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5DD94593AF;
-	Tue, 21 Apr 2026 12:08:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ZBXnFrVo52mbPgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 21 Apr 2026 12:08:21 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 1984BA0AE1; Tue, 21 Apr 2026 14:08:13 +0200 (CEST)
-Date: Tue, 21 Apr 2026 14:08:13 +0200
-From: Jan Kara <jack@suse.cz>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>, 
-	Al Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, Theodore Tso <tytso@mit.edu>, 
-	Christoph Hellwig <hch@lst.de>, "Darrick J. Wong" <djwong@kernel.org>, 
-	Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH] docs: add guidelines for submitting new filesystems
-Message-ID: <fe5uzacwrsuabvxp7xrsz3biiellrebtbmkoeus57xottgp5c7@wssdohk22lvr>
-References: <20260417142503.1436446-1-amir73il@gmail.com>
- <u2scvjd522tdhb35r7ge2fqclt2qo3y4x5nxwprwcritxir2wj@5u4zhohrv6aw>
- <CAOQ4uxj1guVDXNrSmWUVS+6_meYPGBe8kBSDjfe8PkopTd79fA@mail.gmail.com>
- <5zc4j4nrfvxr56rvtgazaxojbpnd54ok2bx46xvhe3swn5g7dv@lzbnm44acpbn>
- <CAOQ4uxhUU0D89P_ZfOyDPpvGD5wy8VoU-o2i8iBjU-HmJyWuDA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gNKWzqI1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD683C2BCB0;
+	Tue, 21 Apr 2026 12:24:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776774253;
+	bh=zI7ESWr65A1AmIdFGMnVytAaNpUyRk5TU1a5ceJIsPk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gNKWzqI19EZBNey5fOeIbTSlvM1dX3hEqbS5AtNFTbKJ46tCtBeG+90I/5rlztiKJ
+	 j7H/FW3R4jt9GTCNc0XFCpHJs764Oj/YZYKN4lNkZ6RUaU/ggIKQxokSCc2KGW0UdY
+	 Xh14c5kLRybH0I0W9THmU8KLtm7jCsqwQQC82DJrWSzJpcKb+hjA7X28uP/5IHavIW
+	 a2Y6EME8cq6bwuOJGVAnxtatdCJtrN3e5TpHwfiZtOoWHZxHn8R12Sfab4OEYelWE2
+	 wKad+qgqHNBcJHW6KfR6m+fGzCh9C3YQOInmq125ZCueTF2rpmrPiDlR1LpmoWEgV7
+	 rtGZPn+ArSf6w==
+Date: Tue, 21 Apr 2026 14:24:08 +0200
+From: Alexey Gladkov <legion@kernel.org>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Aleksa Sarai <cyphar@cyphar.com>, Dan Klishch <danilklishch@gmail.com>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	"Eric W . Biederman" <ebiederm@xmission.com>,
+	Kees Cook <keescook@chromium.org>, containers@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v9 4/5] proc: Skip the visibility check if subset=pid is
+ used
+Message-ID: <aedsaAYi48NKWg_0@example.org>
+References: <cover.1770979341.git.legion@kernel.org>
+ <cover.1776079055.git.legion@kernel.org>
+ <38572c1fb7cf55b4c27dd792adafa52f1216e3a3.1776079055.git.legion@kernel.org>
+ <2026-04-16-serious-inky-roach-visitors-SZzNqk@cyphar.com>
+ <2026-04-16-popular-long-bicep-bistros-8teEl3@cyphar.com>
+ <20260416-gewusel-dreck-63a7fc32a586@brauner>
+ <2026-04-16-jaded-sour-find-end-6LhEP4@cyphar.com>
+ <20260421-duzen-laugenbrezel-e1d1138ff5ae@brauner>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAOQ4uxhUU0D89P_ZfOyDPpvGD5wy8VoU-o2i8iBjU-HmJyWuDA@mail.gmail.com>
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:email]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -4.01
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 67F436A856
+In-Reply-To: <20260421-duzen-laugenbrezel-e1d1138ff5ae@brauner>
 
-On Tue 21-04-26 13:17:34, Amir Goldstein wrote:
-> On Tue, Apr 21, 2026 at 12:16 PM Jan Kara <jack@suse.cz> wrote:
-> > I definitely want to keep a clause like this. Maybe I'd just reformulate it
-> > like:
-> >
-> >   - Handle security issues promptly.  Both those reported by ordinary users
-> >     as well as those reported by fuzzing tools. Expect that your filesystem
-> >     will be subject to syscall fuzzing as well as filesystem image fuzzing.
-> >     Dealing with maliciously corrupted filesystem images is not generally
-> >     considered a high severity security issue but still it is considered a
-> >     quality-of-implementation issue that should be fixed.
-> >
+On Tue, Apr 21, 2026 at 01:51:47PM +0200, Christian Brauner wrote:
+> On Fri, Apr 17, 2026 at 01:03:46AM +1000, Aleksa Sarai wrote:
+> > On 2026-04-16, Christian Brauner <brauner@kernel.org> wrote:
+> > > On Thu, Apr 16, 2026 at 10:46:50PM +1000, Aleksa Sarai wrote:
+> > > > On 2026-04-16, Aleksa Sarai <cyphar@cyphar.com> wrote:
+> > > > > On 2026-04-13, Alexey Gladkov <legion@kernel.org> wrote:
+> > > > > > When procfs is mounted with the subset=pid option, all system files and
+> > > > > > directories from the root of the filesystem are not accessible in
+> > > > > > userspace. Only dynamic information about processes is available, which
+> > > > > > cannot be hidden with overmount.
+> > > > > > 
+> > > > > > For this reason, checking for full visibility is not relevant if mounting
+> > > > > > is performed with the subset=pid option.
+> > > > > > 
+> > > > > > Signed-off-by: Alexey Gladkov <legion@kernel.org>
+> > > > > > ---
+> > > > > 
+> > > > > > -static bool mount_too_revealing(const struct super_block *sb, int *new_mnt_flags)
+> > > > > > +static bool mount_too_revealing(struct fs_context *fc, int *new_mnt_flags)
+> > > > > >  {
+> > > > > >  	const unsigned long required_iflags = SB_I_NOEXEC | SB_I_NODEV;
+> > > > > >  	struct mnt_namespace *ns = current->nsproxy->mnt_ns;
+> > > > > > +	const struct super_block *sb = fc->root->d_sb;
+> > > > > >  	unsigned long s_iflags;
+> > > > > >  
+> > > > > >  	if (ns->user_ns == &init_user_ns)
+> > > > > > @@ -6388,7 +6387,7 @@ static bool mount_too_revealing(const struct super_block *sb, int *new_mnt_flags
+> > > > > >  		return true;
+> > > > > >  	}
+> > > > > >  
+> > > > > > -	return !mnt_already_visible(ns, sb, new_mnt_flags);
+> > > > > > +	return (!fc->skip_visibility && !mnt_already_visible(ns, sb, new_mnt_flags));
+> > > > > >  }
+> > > > > 
+> > > > > Unless I'm missing something (I haven't tested this locally yet, sorry),
+> > > > > this will allow you to bypass mount_too_revealing() even for
+> > > > > non-subset=pid mounts because once you create a subset=pid mount then a
+> > > > > regular procfs mount will see the subset=pid mount and permit it.
+> > > > > 
+> > > > > I think the solution is quite simple -- you can also skip super-blocks
+> > > > > that have fc->skip_visibility set in mnt_already_visible().
+> > > > 
+> > > > I now see that check was present in v8 but I guess its importance wasn't
+> > > > obvious. I guess this means we will need to reintroduce
+> > > > SB_I_USERNS_ALLOW_REVEALING. :/
+> > > 
+> > > I've been playing with something else. So first we should move
+> > > SB_I_USERNS_REVEALING to an fs_type flag. It's not an optional thing and
+> > > always set and never removed. That also means we can simplify
+> > > sysfs_get_tree() to just kernfs_get_tree().
+> > 
+> > Seems quite reasonable to me.
+> > 
+> > > And then we raise SB_I_USERNS_RESTRICTED on all procfs mounts with
+> > > pid_only and disallow using them for calculating mount permissions for
+> > > unrestricted procfs mounts.
+> > 
+> > I think that's fine here and is probably all we need for now (though I
+> > think that the name is a little confusing especially given my next
+> > comment), but I think there is a bit of a deeper problem here that
+> > deserves to be mentioned if only for posterity.
+> > 
+> > The core issue really is that we actually have two versions of procfs
+> > now, and they are effectively distinguished by fs_context flags instead
+> > of fs_type. Back when subset=pid was merged there was a discussion about
+> > a hypothetical proc2 -- while that got dropped, we are kind of
+> > reinventing this split in an ad-hoc way.
+> > 
+> > Conceptually considering them as two distinct fs_types would be the more
+> > semantically correct thing to do, though I think it would be overkill to
+> > come up with some framework for that. (I also really hope we don't have
+> > any other filesystems where this is also the case.)
 > 
-> I can take this version, but tbh feels like debating this clause misses
-> the main goal of the doc, so I'd rather go with something a lot shorter:
-> 
-> - Handle security issues and regression promptly.  Both those reported
->   by ordinary users as well as those reported by test bots.
-> 
-> IMO, getting into more details doesn't really add much value to the
-> prospect reader of the doc before submitting a new filesystem nor to
-> the filesystem reviewer.
+> Doing this is almost trivial. The problem really is that we'd expose
+> "procfs2" or whatever as a new mount option to userspace without
+> actually having fundamentally revamped what we would like procfs2 to do.
 
-Agreed. Your shorter version conveys the idea and the details aren't that
-useful. So the short version is fine.
+Agree.
 
-								Honza
+The new procfs2 should not have the issues present in procfs.
+
+> IOW, it would elevate a security hack that got added a while ago to a
+> new filesystem type. I think that would just be sad. So I'm not so
+> excited about doing this.
+> 
+> > This is why I think the name is a little weird, since it isn't an issue
+> > about one procfs being restricted in a userns, it's that they are
+> > conceptually unrelated filesystem types. A very lightweight version of
+> 
+> I somewhat disagree because it's unclear where you draw the line. If you
+> use the hidepid= stuff at its most restrictive where it only shows tasks
+> your user owns you could also argue that it's very close to a separate
+> filesystem type. It's strictly subtractive and so is pidonly. There's
+> just nothing that's better or novel.
+> 
+> > this would be making it something like SB_I_RESTRICTED_VARIANT that
+> > would be more a little more strict than what you have now --
+> > SB_I_RESTRICTED_VARIANT would not be treated as compatible with anything
+> > (even another SB_I_RESTRICTED_VARIANT mount) so that if we add more
+> > variants in the future we don't treat them the same either. (Again, I
+> > don't think we need this now?) Of course this would still allow
+> > subset=pid without a procfs mount because of the other special casing
+> > for it in mount_too_revealing().
+> 
+> It's not a problem today. I think we can simply treat
+> SB_I_RESTRICTED_VARIANT as not allowing other restricted variants. And
+> we'd need a more elaborate mechanism anyway once we'd have "compatible"
+> subsets.
+> 
+> > We are also limited in what semantics we can change here too (and I'm a
+> > little worried that even this bit for SB_I_USERNS_RESTRICTED is at risk
+> > of breaking something) so maybe that isn't needed today.
+> 
+> So I think yes, SB_I_RESTRICTED_VARIANT is fine by me for now.
+
+Should I create a new version and add this to my patchset?
 
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Rgrds, legion
+
