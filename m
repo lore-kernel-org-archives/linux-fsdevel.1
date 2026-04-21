@@ -1,136 +1,199 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3F42367F23
-	for <linux-fsdevel@vger.kernel.org>; Tue, 21 Apr 2026 18:26:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776795979; cv=none; b=VnrkbVJmUfqa9on2WxBBXgkUZrsjIPX/8w7bXKc2OL8aQ85oP+1TzqEvUOlQQN9Uzp3p/nBcoUEkDOZ9TgQCloNumSrsqLZVr150fDGXEjGidbspvFMrOJwsd2gg5ZkMp9pUPfqD8ZW2Vxhp/+NdAPSVhl/d3Ef6xTt+Cw6uYGQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776795979; c=relaxed/simple;
-	bh=z5eXgCfkQiBbuzBvjsC/+er1CqGE0uZNle1S/+mRCoY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=a9+ZQE9UhmN/N90TEOSzvC31W2aAcVCNDi/YwnX/s+PXbWDM9j90XqXeaBRqtcExqRpg0TgDYiNbwXiCtoFGIEc5TZOVStYlf6bwgiqsPHCmLjjRbh5tA06rfXFNtDBrJ1YRFX1NaXKtvflMaStNbkmLtyJkyc1y04HWAwIrpU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tGV+7Jwk; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 258163DC4D1
+	for <linux-fsdevel@vger.kernel.org>; Tue, 21 Apr 2026 18:59:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776797972; cv=pass; b=nWgkUUsmw+nZzPZdPXRLFWHdGm1w05LrHSkkTxnMFpK99Xpf5F+p/L/WvFljf9tM6dogwZ1klImMUZLeQSkYXQmlWFxnXwqkA9/XoZ/00Ghw2nKAGGjvN51upACrFHdsh5YX4SIpBBLkpRbtCzYQ0A7h2V3wYWzVNbjBZ366ByI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776797972; c=relaxed/simple;
+	bh=XjAQR1r0lQrKkLZCrbGbS8NnZb6P2lNtC6R50SuCzPI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=IFCmR6OyVvbhUpeAT3EZRTbA60o3XAzZCs9gFSG4fKQ4lDB2enURY4DZvDOYxOGwYOxofJhWz19nE+MEUsh584xGXMPhDa/1c6kYQ8uqs5FbkAUiYqov1FNjKTV1/X4HZ3dgOKsZ25UnXB5PaLpLL8N2Cmz8w0Is8dP+OQ7oig8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UGP77B0W; arc=pass smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tGV+7Jwk"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-43d7650202fso3583651f8f.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 21 Apr 2026 11:26:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UGP77B0W"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4896c22fcbaso20564055e9.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 21 Apr 2026 11:59:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776797968; cv=none;
+        d=google.com; s=arc-20240605;
+        b=denol9Hglh5Mlo7e0Mg7FFyJDq/MPZsgq6pLqEQWdk7dMyLo2zeSqNuc4lDIwQlbnT
+         MNo6HnUb77nTpXEmJMqKUyCCz4PDjkOUmC2N36z9bM+QA+Ju2wMHfhm0gsX4safpcziY
+         369WXAIXujCHdWIIxM1lQ79Qn+M6OKEkSXg/i4FfO4p3saSrCZqSvduNgF5julo3aYA7
+         +76+fE+j7bsamrUuiwUfW7iznycTj/jDbLzuOHRfHLV3OMK123iB4iuu6IrUDpA8tgJB
+         82+0w3DKf4gBwBY20zjoRg8ne+ZkD67jVQpdDKirxcfppr3DdnNxWrFq6e5iumTtuJM7
+         xMmw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=0dzmsSkPtY/sR6K+ga+B+dYMUbxHjr7AOGboORaA1jw=;
+        fh=u4hekN0fZitkxVZX+kVQFlICnyoNFm55clRTxyqp/bo=;
+        b=CJUUEexxUrU7bSD0c0PD1eykDgJEgR4PdqEpG5Q69Oa7EsWJBLMHaXgdNjGGKFhXvg
+         WJ3WIxj869hrAimVtutZjPRnxkuA0+3tMSgpQuTZ3KtOBRQyne+jc2K8+4x7OY+r29r0
+         NO0ie6BTiTXWxEf4ZmsemzI3fm7AI8qWOlbxRzCewAatt7W2RM0zdwiMfb6WgW66yy9X
+         kj/0Hhupg7yIZCfKt0iCzc9ABj3kc+Xuzu6jov0mxdGulVFNVIFvDaWY40OYRtEZMgvo
+         4Von2X61zGD6km76byE8xfdVwi8zawbjLgyloJNBaUGdH0FCXChkBC8d2oWqMyt2bPK9
+         AmTQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776795957; x=1777400757; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1776797968; x=1777402768; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YnjJZ3XipIhaoF0C2hZTVVvUz0isi+klnbzN+QxytNU=;
-        b=tGV+7JwkO2D3t9YbIUzZFc5MMo1JpjpRyjQjwh3TplvH+LRdLPDOOy+18FX2wtltAm
-         7b1PVG2jPwql/KJUP3IDCF3gXqssoZMumhw28VkbulIauuJw9v4xXEGx9RMXNOs6bcZm
-         /NYCQnTEZKTXbJYUhppr67PvIwWjT6KEvQ3/CmyyiE1gyY6lot6m7P9u7RXER+WQMW0z
-         fo6v3s4rv2sukkq9kiRDZ0bbikdkSvTaJsaOUcrAX3+hWZ+xM2TBT5DxaZH+6t4hpXN0
-         Be5LhmZHjgzq5d4QEZMnkDkaTVsPNmltCwKxMKf/1KMCORzFd0kBfI7Dz3d1e4KTG96C
-         YENA==
+        bh=0dzmsSkPtY/sR6K+ga+B+dYMUbxHjr7AOGboORaA1jw=;
+        b=UGP77B0WCjeXQkNfQO2Aliq+nSQP6BIn7pkDdIHTPQbqZDGZYepSAiVINA1L7zam0o
+         HzNVuMnbVfEfYmvhA4CuLuzfaDNYKpN/wncm7WdAmRgnkb0/i9yTMuH+0MC7HggX9IBf
+         8cyQBoIDex9BlOpOJb1MlfB5E0l2+OvYjutrryeGxwFcVMBEktKKWJw4Tttztcf+Is4R
+         Qx6GVyx/afJv2bl/TlRTaRitgSYT4JLFuOGsNRJ8GyVwgEo0jlSImiz+k/Rsp0QSkodq
+         wL/FeqYFHZyNE++pFUQS58XuZpyxxVK4/EyKlFouU4/HcKduuLV28KlJ6ESvTXlr361W
+         AFZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776795957; x=1777400757;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1776797968; x=1777402768;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=YnjJZ3XipIhaoF0C2hZTVVvUz0isi+klnbzN+QxytNU=;
-        b=M8f9VSpidxXATV6ShwTFH+v23LWCksCpkKZk2At2oQ/oYbDGX2k92Eo3mTKS2y6KWc
-         2Q5LlpNsmnP39g20qI38DBzw+PW5lG8iXuQ+7I20vJHpRWSIlUGZ8ehRU/HOx4rSsRxT
-         okYtcCFZWt9YvgEy5vljGF6uB7oK4KoscBzRXT83Tp/ClhXj5/AN/ErUdRj9YuLJQbfX
-         FlEl/Ed2xvQ4MwGncgY0t6B1CB3SjD8UJwVgSkJmCJYCdeo/EA6N/E0KvzkqpSk9sU/U
-         GMmW++RlGnd0MLc1Hh8aELOoDN/im9IMHuXyY5KCsnQXfxAwuOrlc4GuqLRfXc7C6C0c
-         XpWQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+ACu+9UWKv/ZYD/RYlyPJX84LisbgS5an85eDHd2kz1+Yk1S5COZh6RVDWsqrlJy5h6iPbeB4HivAICcwA@vger.kernel.org
-X-Gm-Message-State: AOJu0YwMeZHVFGk5vzIjMcHYh2UJ3w0nzBEJnvgkONFVt8f8AKN1vLpA
-	qtvvO0Sao1YgRxXXw9xnWkDAwGDzMeLLcTl+jwEShesqto2Q2zYeehDE
-X-Gm-Gg: AeBDietIiAPSnpFh6X3LtKNZ4275qoYD1TuLPt6ui0jBZ2GGjaMRJJEn8z9j7KPPX40
-	runKfxfzZgpnYtphnlqRxtspTmBQ3PcUejWI//IiGip8h63ufF54zH9qg4eoCzZYKUAhlhAppIZ
-	7mO7/DxuZ6UzUaDMYwSiADSLd+j4BOVQlUXmRImYOO7Fc/oTX9Bh/voPeosRHaEnM85aw1UOpWe
-	PI+7kMdFGlcJ/N7IfPpbDmPFlF8t+vV+Ag0o3KcH0FXp4wuCBvamXIlxuJLC8yoCk7QbAB311OS
-	djZ4ZcvHi8GAeRWQw5YvNwVz74M/lo5ksM+FjRTRo4S+9W+eJN3EwbNaB0DQZLmyFx/u433hSpv
-	3D8Nf9UzwlPZbyZSeNIolVAgrL5diZK5UVohXpKGaqjSu0dqllIVoZtiKNSHKFs98x+6rIe6s5I
-	6aP2Vj2zeAVTfScbwN7zNHQuuFHToO/A1NKkNuEuGpEj5/c5QQMu7zvDELhAS4JitcIfq3QCBnh
-	GOCW7D8cg==
-X-Received: by 2002:a05:6000:24c3:b0:43d:dd:8ca4 with SMTP id ffacd0b85a97d-43fe3dd33d4mr30768726f8f.14.1776795956948;
-        Tue, 21 Apr 2026 11:25:56 -0700 (PDT)
-Received: from f.. (cst-prg-4-152.cust.vodafone.cz. [46.135.4.152])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4cb1405sm38694053f8f.4.2026.04.21.11.25.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Apr 2026 11:25:56 -0700 (PDT)
-From: Mateusz Guzik <mjguzik@gmail.com>
-To: brauner@kernel.org
-Cc: viro@zeniv.linux.org.uk,
-	jack@suse.cz,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	Mateusz Guzik <mjguzik@gmail.com>
-Subject: [PATCH v6 2/3] fs: relocate and tidy up ihold()
-Date: Tue, 21 Apr 2026 20:25:37 +0200
-Message-ID: <20260421182538.1215894-3-mjguzik@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260421182538.1215894-1-mjguzik@gmail.com>
-References: <20260421182538.1215894-1-mjguzik@gmail.com>
+        bh=0dzmsSkPtY/sR6K+ga+B+dYMUbxHjr7AOGboORaA1jw=;
+        b=XJwWlwQfPxA7dWnQCYn4vobstTh5SHar4NxsSq5CoIpSh8TXl5IFm6M6esmJK+0gER
+         9d//pu9h9W6iDfjz9dIwuaVgLsL88Jjo0sD16limosIJnxr6ifX8Ky0Jd5Erw308hH36
+         +tx+9535WCWbumUMVai3YmnLJMM5utYMtjcDw9Hor0x6i8pXWF9LUHy6WTMW0LAH9B2G
+         Oskdouuaq2JP47X4b9ehGRpwyB5USzWt8y7kTiOUoKZaDU2qNsXre9F3DQCIlOmvDxPD
+         l8qIJE2sd7h6DTk+D70+6PKfG7nw1Nl0ZUKu1LoL9Z/zR8sd88aTiK74ZtQI823tVF+3
+         hvwA==
+X-Forwarded-Encrypted: i=1; AFNElJ9Elsl+A5xPlZ5+zeH/nyH0NnCu5yW6KUKAi1nH2v7x5GvXhiQ64pcpZGaloTc2HtSfyt9A/fqM9Czm5ng+@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy/+FCcx8uXzmNg72e/D5OsH6tqbxFzvxc2VjecuOITGoxW4f5m
+	hIKls6hlDyphlfWzRmP/cF4wfmD7Hc2922xF6FKq3FQfHiiQQRdk28H0AXccoy2QwlMEM8uS67A
+	0eur7NaTci4Jg3xkZcKl0N+oYL1z/nj0=
+X-Gm-Gg: AeBDietC9FTZGvqZn8PduOm1fH3srrZ6OmFjYXx+dwwzn2IqnoMgudbVlYtrRs7X4ab
+	rkCgj/UQD0lCrocUKsySJ42PBjyDHwh/bquedVHRSK6mVONsF9bDnYxou3viLRJyHvN3s38Jskm
+	Per8iDSXiDuNwYrSnt7NK+ATLzhS7QKzYTqt2Pw16iP30S+KNCaYTGbbwzIIHa+QTjceVU3sTaQ
+	VP1h7eHMYvGGpWGBr92bx4vPGBT1zMzdXExQ7Apz9nv+DGxqAX+vdPhH22XEdrGsew5yOc1TIdW
+	XCCiLc5EBZ3BwXqZNU10ACAq4Bs=
+X-Received: by 2002:a05:600c:4fd1:b0:488:a824:fdff with SMTP id
+ 5b1f17b1804b1-488fb782a04mr281702235e9.22.1776797968112; Tue, 21 Apr 2026
+ 11:59:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <adlBcwJjLOQDAR65@groves.net> <CAJnrk1a06zkUmXW5EFiUmgAoFauwtzsYvnotaPH0ifVtyh7iDQ@mail.gmail.com>
+ <CAJfpegvVTcV89=q3L326aGQjhduBcv7PVg5QKftGLjNZmCLmaw@mail.gmail.com>
+ <ad4_jFsR951c2Mtn@groves.net> <20260414185740.GA604658@frogsfrogsfrogs>
+ <ad69tTnx5YkD4Y9K@gourry-fedora-PF4VCD3F> <f254f6fc-dc06-4612-82d7-35bb10dbd32e@kernel.org>
+ <aeUU8hMwPij2WvfF@groves.net> <aeVy2MzucnrLlOQx@gourry-fedora-PF4VCD3F>
+ <CAJnrk1ZpPS9rOoBqOBRsqTu0Zgk=aoYzpYZ0mAVDCoeewtLhcg@mail.gmail.com> <aeeJ8Lgg2z0X-NC_@gourry-fedora-PF4VCD3F>
+In-Reply-To: <aeeJ8Lgg2z0X-NC_@gourry-fedora-PF4VCD3F>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Tue, 21 Apr 2026 11:59:15 -0700
+X-Gm-Features: AQROBzCRxuv-Mo8vTeVJtIkciXT2taj5PigvXEDVcF1XUKUHVIX85BjGabelR_0
+Message-ID: <CAJnrk1Zd2RFE=z=sPRCHaBdqK40+23Vv_owS=7OfxYF1TtPomg@mail.gmail.com>
+Subject: Re: [PATCH V10 00/10] famfs: port into fuse
+To: Gregory Price <gourry@gourry.net>
+Cc: John Groves <John@groves.net>, "David Hildenbrand (Arm)" <david@kernel.org>, 
+	"Darrick J. Wong" <djwong@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Bernd Schubert <bernd@bsbernd.com>, John Groves <john@jagalactic.com>, 
+	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
+	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+	Stefan Hajnoczi <shajnocz@redhat.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Aravind Ramesh <arramesh@micron.com>, 
+	Ajay Joshi <ajayjoshi@micron.com>, "venkataravis@micron.com" <venkataravis@micron.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, djbw@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The placement was illogical, move it next to igrab().
+On Tue, Apr 21, 2026 at 7:30=E2=80=AFAM Gregory Price <gourry@gourry.net> w=
+rote:
+>
+> On Mon, Apr 20, 2026 at 08:12:17PM -0700, Joanne Koong wrote:
+> > On Sun, Apr 19, 2026 at 5:27=E2=80=AFPM Gregory Price <gourry@gourry.ne=
+t> wrote:
+> > >
+> > >   struct fuse_dax_fmap_ops {
+> > >       char name[FUSE_DAX_FMAP_OPS_NAME_LEN];   // 16 bytes
+> > >       int (*dax_fmap_parse)(struct fuse_dax_fmap_parse_ctx *ctx);
+> >
+> > Just a note for later, if the bpf approach gets pursued further:
+> > instead of making this a dax specific ops, I think this needs to be
+> > integrated interface-wise with Darrick's fuse-iomap work since he does
+> > the same thing. I think dax_fmap_parse() could be renamed to something
+> > like iomap_setup(), where userspace can use this to do any sort of
+> > generic setup, whether that's mapping related or dax related or not.
+> > In my mind, the dax vs non dax distinction is handled by the fuse
+> > iomap plumbing that chooses which iomap entry points to call,  but
+> > beyond that,  the callbacks and struct ops themselves should be
+> > generic enough to be shared between the two.
+> >
+>
+> I think this is reasonable.  I'm not a FUSE wizard either, but I would
+> presume the iomap_setup() process would just essentially be John's
+> existing GET_FMAP / GET_DAXDEV code bundled.
+>
+> GET_DAXDEV happens lazily to save him the round-trips to userland if the
+> DAXDEVs have already been seen previously.  I think your proposal does
+> in fact save him further round trips, and it would probably solve the
+> performance impact he saw from porting to FUSE.
+>
+> > > And otherwise, imap_begin() works exactly as Joanne proposed, but wit=
+h
+> > > in-kernel cached data instead of the bpfmap.
+> > >
+> > >   const struct dax_simple_meta *meta =3D (const struct dax_simple_met=
+a *)
+> > >                    bpf_fuse_dax_resolve_get_meta(ctx, 0, sizeof(*meta=
+));
+> >
+> > another note for later, if the benchmarks prove promising and after
+> > the LSF discussions we decide to go with this approach: imo we
+> > could/should repurpose this into a generic
+> > bpf_fuse_iomap_get_inode_meta() that returns a bounded pointer into
+> > whatever opaque blob was cached on the inode during iomap_setup(),
+> > where it'd be a generic kfunc serving both the dax and non-dax case
+> > for any kind of mapping layout
+> >
+>
+> Note that Christian Brauner just said he preferred not having dedicated
+> bpf storage in struct inode [1].
+>
+> sans BPF, is there value in such a metadata blob existing?
+>
+> If there was a generic format, then I suppose the blob storage would not
+> be BPF specific, it would just overload it (simple union).
 
-Take this opportunity to add docs and an assert on the refcount. While
-its modification remains gated with a WARN_ON, the new assert will also
-dump the inode state which might aid debugging.
+I'm not sure if this addresses Christian's concerns or not, but the
+blob would reside within struct fuse_inode not struct inode. I
+definitely agree with him that this should not touch or add any infra
+outside fuse.
 
-No functional changes.
+I hadn't heard of bpf arenas until his comment. If the hashmap
+overhead is too high for famfs, having a custom in-arena hash table
+would be much faster I think, as it could be designed to require less
+pointer chasing and avoid other overhead in the bpf hashmap
+implementation, though now famfs would have to manage the data
+structure and complexity itself.
 
-Signed-off-by: Mateusz Guzik <mjguzik@gmail.com>
----
- fs/inode.c | 20 +++++++++++---------
- 1 file changed, 11 insertions(+), 9 deletions(-)
+Thanks,
+Joanne
 
-diff --git a/fs/inode.c b/fs/inode.c
-index e57873136093..17f0804b429c 100644
---- a/fs/inode.c
-+++ b/fs/inode.c
-@@ -518,15 +518,6 @@ static void init_once(void *foo)
- 	inode_init_once(inode);
- }
- 
--/*
-- * get additional reference to inode; caller must already hold one.
-- */
--void ihold(struct inode *inode)
--{
--	WARN_ON(atomic_inc_return(&inode->i_count) < 2);
--}
--EXPORT_SYMBOL(ihold);
--
- struct wait_queue_head *inode_bit_waitqueue(struct wait_bit_queue_entry *wqe,
- 					    struct inode *inode, u32 bit)
- {
-@@ -1572,6 +1563,17 @@ ino_t iunique(struct super_block *sb, ino_t max_reserved)
- }
- EXPORT_SYMBOL(iunique);
- 
-+/**
-+ * ihold - get a reference on the inode, provided you already have one
-+ * @inode:	inode to operate on
-+ */
-+void ihold(struct inode *inode)
-+{
-+	VFS_BUG_ON_INODE(icount_read_once(inode) < 1, inode);
-+	WARN_ON(atomic_inc_return(&inode->i_count) < 2);
-+}
-+EXPORT_SYMBOL(ihold);
-+
- struct inode *igrab(struct inode *inode)
- {
- 	spin_lock(&inode->i_lock);
--- 
-2.48.1
-
+>
+> [1] https://lore.kernel.org/linux-fsdevel/20260421-arsch-gelernt-e0b5bcd8=
+a7ff@brauner/T/#m8fea90f5ed4a1b23bdc2563d978948b263b2030b
+>
+> ~Gregory
