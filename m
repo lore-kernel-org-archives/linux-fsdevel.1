@@ -1,170 +1,160 @@
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-b6-smtp.messagingengine.com (fhigh-b6-smtp.messagingengine.com [202.12.124.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09561156F45
-	for <linux-fsdevel@vger.kernel.org>; Tue, 21 Apr 2026 01:44:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.182
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776735882; cv=pass; b=ceS6KVoIbcnDyc5vz2wUILgszcAuJF5H54DLPuJFZHYfEek9me1zaS4NkF0n+6JEIB0UwtAJ8cqn763ag654DrEEG5Kwkr7gG57bJA4vbI9+jfxzeGWvNNm7UqHXh80MB03RFjwSWB+F94YEuK+8ks3bTdfEK0SH4T0GFMLmSA4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776735882; c=relaxed/simple;
-	bh=LSO/W9B/fiVpT/IpbxZJw6EyJvPkcQ3Jvl14tcN3xgg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uA/TA54V8C3keshSRbnfhlVZkxSuFcgdP9vNX+jfWklx2Uuv0iAGTlq/mHAUcIy7CDzBtVwDNuS6vd+eFytljPJklnUlsIJLroFROGy2BzZZ6R7LtKYgBE59g6R2uzBcKspwWcXPdKVpp+yEWPJZeC7o6t1/i8xAmfeXHQA5Zhs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TJHWM+K0; arc=pass smtp.client-ip=209.85.128.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A0561A9FA4;
+	Tue, 21 Apr 2026 01:47:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.157
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776736070; cv=none; b=WiQ+igBuxYQjwGugTHud5JCRW41psjXHFkuflHzqGvLrwa/ScZWF8kA1dY9b5KOFWBXpuqh5SUl4IfiUWS1r/3QpYaZvErZNdTtDcQt7NsUVlhRaM5qvuiTnJPTzLY3KGFfjGydTAnAaCqlhFXZ529bv5dtopqO8gURo5M1nF5w=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776736070; c=relaxed/simple;
+	bh=XRNzMUANARx7i2tP7LZttyDGWCCIr/CYGKEOruFdzcY=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=GBaJ7nsBUL2b2QLLGXnFm+wXEOw+rhionfm3nicnTk2uG3ZxZ6riC3FRLUteOfR2LobLdja87FolFadjAg5OSYOMCn5Z0GTyA6nZwUB6W5yIh9KSCe9Cj/4dpmInXaUiWiDpt+xPz5wP91jKgzPUzvBpfgsy/Ns6WeoxfXKLKYY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.com; spf=pass smtp.mailfrom=fastmail.com; dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b=Z6q3rYO7; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=VSEVasRG; arc=none smtp.client-ip=202.12.124.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TJHWM+K0"
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-794719afcd4so38717947b3.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 20 Apr 2026 18:44:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776735880; cv=none;
-        d=google.com; s=arc-20240605;
-        b=FJWsYPLVLh60hc7k2sAvizAJ6j+OTK+pGSDIiuAG6ZrmQZggPHrt2UvtaVlHTQFp9a
-         EOwOqKE3nR8Twlu29M3CFz+jul6dJ2QCm18bxy/+JcKdXJ5eyNP8l/UrjDy8l2KsPDp2
-         +CcS6orsr1iYvkC1ZkCEYiCmvhezSexAArT1E6tkLLGTCtWrUMvVh0/rG4eF3vG/wgJU
-         VVGF5vshr8H7EXztiTOxBC1eDldUt3oxuF35QwqIZU7sTZmfqNVbysFfS3HUD5hkeAmV
-         A/SF3kj4srbROVZsS2MgND+KKjJ67sVUvXVVtSQvAeCnJVlikgnlKOudD5LU0G2QQblV
-         /Otw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=8hkIDXWOhgGvNZ6tIHX64E5jT0I9qdQrs/3aIYXMtoA=;
-        fh=GKQGhKXzfoWqSyvyNaGxobw38i6fkJDckNY3OIlYBg0=;
-        b=LC2ft/57s9ydATQaNO6xkAzFl/Ya2GAJfDE0GBK5gn2mId0PrLJtUtKRNMF/y6AQej
-         SI6zoEv0yk0tqR3oEpdUlgC4APljqjias3S0bFXcaOH7nRfDrdKpULZh9Yke57gJduSr
-         VJrEuO0A94C3vwWViZnZLtqIphlRlEEiZUsNquPsVlY+VlVXYmqmKO+ugZ9CTxOTJgTP
-         vTa0jGz6j0kws3eoQZ6MYEhl8I38tgzebYZTfhrjsYx6pSaHVs6C0KF18mI2bkbCaUNO
-         MQk0ZnPGh6qos8NXWJHAd21XTwWx5lKQ/quDX0F+KScn07z7gbZPjIAoNWx9kH2/K62w
-         V25w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776735880; x=1777340680; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8hkIDXWOhgGvNZ6tIHX64E5jT0I9qdQrs/3aIYXMtoA=;
-        b=TJHWM+K0ASGhu/aVpyylnYlWkZtii6QCf1RhnfyqZpTPzDDHxEV1xuuG2W3U2Mw5gZ
-         xVuWislINU7QAk0AC1fXI1p6cVyHQPDJJMt8yVK9UDgLhkrShB/vAEBciROt4YaddJu2
-         kgklAkL2bKoDfueD5JySoStBJVGz8V/8ib2ON2OSHOUCQadI1Hgvg9MOMFYmaanOwFP5
-         C0PUdHJ6jFmaN1krCOwwmJdV5i2HsAbi5lH0XPXlpEyRv46uOOFMcAxqSLRM5w8t71Lh
-         ObnMxx6knHFFGYpsIT4n9NrqogkgqgRHlJFb9ZkkY51C2c96Jvt27Am8wU+KeUdhoFnp
-         X0KQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776735880; x=1777340680;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=8hkIDXWOhgGvNZ6tIHX64E5jT0I9qdQrs/3aIYXMtoA=;
-        b=pRRXw+27uC7mHCAtuztd1iuOQRMAWTKGRCODyUY9rLs1PsUQISYGwchKZQJuTXTDTz
-         cHLQsJ9AyBGmzWBc/5h9cbKyN9JK4+rZ1eAGcEak1Qs7Qsj6bwkkFdBodG47UIwG3yw3
-         pXsKkZ3vAJKcM7DupmBqySrCTre0qDcLrBCrfhK1qa7e2qdghzBnzioogdv3iFBqme/E
-         o/G/PtTod+4eDpMfockS9xzlJUK1D2iDA1vT1hdSTLSDEadI0n0+Wo/axJHPC/7F5naP
-         wQBNCI0If+DZPwybui8UeMa3kuNYNbxUMHpvy8KX7iSquu+M35vjCVJ/uAGNmGAWql7b
-         Gypw==
-X-Forwarded-Encrypted: i=1; AFNElJ+/Iw8d+bl1ZbL5iThho5b19XR+AA6z7337Ah9KDM20FcJWbJ4Nwai9mbcvGL3gC/hBSfSJwY/pPN/+aDF5@vger.kernel.org
-X-Gm-Message-State: AOJu0YxQ84OPmVuDORO1yn91/o7xcvv3HeaY7sp3e6llvaLkf39B7PpI
-	MvFQkq3pCONiFhjlfR7nk2cilf5Axh6SMku8yvDOFgUCasZKCaq7GwoXdSS2ibYiFCgiS89d9Zh
-	3nXgOZao+WPwgKEoo/Ls+YnD8gEeMv8E=
-X-Gm-Gg: AeBDiesrNqaC+Hd5G98ySuo9yZnz+ApQwdUZz1f/G27Y5CauflPncSLcJjV2EjUX9vF
-	JzQAARkBAdwfd3dfFVgQ7WsponX8h9ooPjmj3vr8obr9GDB4Me2hxGXoqLybwzNkUKvqxBqOpa5
-	zVUfRrL/RbIoAKaqxpXJmyqzTrZx0v59SZ2Z6d9rag7++YRxwSKLpFqC/up+XFo/WeJLvLNKD5w
-	Vtw++vZxgH0BJoWLV2rjJNmruasw5FYKjIdFZcjh7P9qsYygBqnOiC3otA8dxmQhITC46xM9lZl
-	ZfQwm2yu7+OqAk08ovy4MgH205I2UguPk1i3ckY3QBistfz/F8SO/O7oILis19igycREkVUcl55
-	BkOsH
-X-Received: by 2002:a05:690c:6d81:b0:7ba:f414:cd18 with SMTP id
- 00721157ae682-7baf414d18cmr52660297b3.41.1776735879937; Mon, 20 Apr 2026
- 18:44:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b="Z6q3rYO7";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="VSEVasRG"
+Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 04B957A01ED;
+	Mon, 20 Apr 2026 21:47:45 -0400 (EDT)
+Received: from phl-imap-14 ([10.202.2.87])
+  by phl-compute-09.internal (MEProxy); Mon, 20 Apr 2026 21:47:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1776736065;
+	 x=1776822465; bh=C2CcoEjRgB77iNSGBMM+LE/roPS/F2NbUpqKDbEVoog=; b=
+	Z6q3rYO7koq8TYUNOlFt1Ti6FWBX08oeCzfXQ7zgmt4wilY1KTNjFcNt4DM9eqlG
+	nfteTrGdgWjKJ0dHxtUc7Dpyz1ME/9IVvdqyiBgYRHa51xR5jKlGLShdqExcdpSV
+	4COKcALC27rR8VsNivOjcunRBDGl+xi5Gp5cT6eHjqM6pRkauLmUr8GOfLdxBW7s
+	GeplGK4fKl7gF+i3TJjT+p+8RHSGpVLm4fV9fsoWRoZHcub06vSBn+uTZAoaSWo9
+	loMJBUJgd7YVXJO4KePBehaHxg/e1vpaRs3x77wVr86MCSKpD5bU1Bk2bMqBHA9K
+	eHJPWg4GYUzRID64qwvGRQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1776736065; x=
+	1776822465; bh=C2CcoEjRgB77iNSGBMM+LE/roPS/F2NbUpqKDbEVoog=; b=V
+	SEVasRGyTRH+7VVLN98yvK78bZkDoh+ihCw0xE3VlkrT/Aa+E6zIUB9QrXUbddys
+	FgFD1Q+Fg/Pn2P8Ti0XVGsRKisPNSIJoTFQs4JSIakkoJ4XPeMfTsdFRlCtsakf7
+	Vm+c5yvL6SMHz9xRMDbX3uYBZBaYWdDB6+qYNlj8uaPeW7+a+xDr35AqlQVwqLw/
+	Z5PiegLVfI0UjoNYhhgKg6yMaQimEsq5gJGeb+tN8unSN/+K22mfZ82JYCf+6ShI
+	9+JyQW60ddOaOoSsJ2Y5dp0deFKWIQ5g0ddZGJaHYRYROgp9gcZtzQ6LrPttB7lm
+	ssPLKuK6ShjqnCnR4WbEg==
+X-ME-Sender: <xms:P9fmaYyuBleDVlXHpV6xdZ8a6dJgc-cdAN4YWABbO4lFkIw6hNFmBw>
+    <xme:P9fmaXHtSDsyDOgYhvQ8ySBKvVF6yJ5cp_7PrEjI4HAoUOS4qGxlTMLTa95KJUAOE
+    ElTYnqojgimQ9eGzDrMxcbNMEWOtfDii5ds4mJrLnZcrXm6IeqQMvA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeitdduvdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdflohhhnhcu
+    ifhrohhvvghsfdcuoehjghhrohhvvghssehfrghsthhmrghilhdrtghomheqnecuggftrf
+    grthhtvghrnhepveduieelvedutddvvddvkeeuvefhieefieelfeekiedtkedutdeiteeu
+    tefhteegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epjhhgrhhovhgvshesfhgrshhtmhgrihhlrdgtohhmpdhnsggprhgtphhtthhopeefkedp
+    mhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepshhhihhvrghnkhhgsegrmhgurdgtoh
+    hmpdhrtghpthhtohepjhgrmhgvshdrmhhorhhsvgesrghrmhdrtghomhdprhgtphhtthho
+    pegsshgthhhusggvrhhtseguughnrdgtohhmpdhrtghpthhtoheprghmihhrjeefihhlse
+    hgmhgrihhlrdgtohhmpdhrtghpthhtohepsggrghgrshguohhtmhgvsehgmhgrihhlrdgt
+    ohhmpdhrtghpthhtohepjhhorghnnhgvlhhkohhonhhgsehgmhgrihhlrdgtohhmpdhrtg
+    hpthhtoheprggtkhgvrhhlvgihthhnghesghhoohhglhgvrdgtohhmpdhrtghpthhtohep
+    shgvrghnjhgtsehgohhoghhlvgdrtghomhdprhgtphhtthhopehtrggssggrsehgohhogh
+    hlvgdrtghomh
+X-ME-Proxy: <xmx:QNfmaZFcKeeB4rNV_hpHJhfq65xKNb4S5aaZXnaw-m179t7nqVPv1Q>
+    <xmx:QNfmaRqeBKDw9FXqYySh8A-EXscqIHdVXJO68DCZms9xNHBooyW0OQ>
+    <xmx:QNfmafNWMqJOwmAEkLEpez1fD9uj5yQZvRAKfBLk4-OFcSSIzu0ZQg>
+    <xmx:QNfmaVehYGCXsKO7eXXQ9wCUguwrmCx7tn3ZdtO5Q9-VmJ7jc95tjQ>
+    <xmx:QdfmadqSo-QJhbNj4Nd3gL7MECBTH3QoBASC7x-CWBpSyHYrnZ6IUPQY>
+Feedback-ID: if7ae487a:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id CFDEEC4006E; Mon, 20 Apr 2026 21:47:43 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260415014345.77796-1-kartikey406@gmail.com> <1929bc40bee602937aac95a3d338614b5fe7e082.camel@redhat.com>
-In-Reply-To: <1929bc40bee602937aac95a3d338614b5fe7e082.camel@redhat.com>
-From: Deepanshu Kartikey <kartikey406@gmail.com>
-Date: Tue, 21 Apr 2026 07:14:22 +0530
-X-Gm-Features: AQROBzCya7j51EmP5yuZ8W6ofb8ECUBaCAhELmu_L169vi2MmF38YzB5vcZyRHM
-Message-ID: <CADhLXY7iAzy98LVpRuO92asNqyw6B7iCAt31-U0iy2G1+qLMDQ@mail.gmail.com>
-Subject: Re: [PATCH v3] hfsplus: fix null-ptr-deref in hfsplus_cat_write_inode
-To: Viacheslav Dubeyko <vdubeyko@redhat.com>
-Cc: slava@dubeyko.com, glaubitz@physik.fu-berlin.de, frank.li@vivo.com, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	syzbot+c0ba772a362e70937dfb@syzkaller.appspotmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Date: Mon, 20 Apr 2026 20:47:23 -0500
+From: "John Groves" <jgroves@fastmail.com>
+To: "Alison Schofield" <alison.schofield@intel.com>,
+ "John Groves" <john@jagalactic.com>
+Cc: "John Groves" <John@groves.net>, "Miklos Szeredi" <miklos@szeredi.hu>,
+ "Dan Williams" <dan.j.williams@intel.com>,
+ "Bernd Schubert" <bschubert@ddn.com>,
+ "John Groves (jgroves)" <jgroves@micron.com>,
+ "Jonathan Corbet" <corbet@lwn.net>,
+ "Vishal Verma" <vishal.l.verma@intel.com>,
+ "Dave Jiang" <dave.jiang@intel.com>,
+ "Matthew Wilcox" <willy@infradead.org>, "Jan Kara" <jack@suse.cz>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "David Hildenbrand" <david@kernel.org>,
+ "Christian Brauner" <brauner@kernel.org>,
+ "Darrick J . Wong" <djwong@kernel.org>,
+ "Randy Dunlap" <rdunlap@infradead.org>,
+ "Jeff Layton" <jlayton@kernel.org>,
+ "Amir Goldstein" <amir73il@gmail.com>,
+ "Jonathan Cameron" <Jonathan.Cameron@huawei.com>,
+ "Stefan Hajnoczi" <shajnocz@redhat.com>,
+ "Joanne Koong" <joannelkoong@gmail.com>,
+ "Josef Bacik" <josef@toxicpanda.com>,
+ "Bagas Sanjaya" <bagasdotme@gmail.com>,
+ "James Morse" <james.morse@arm.com>, "Fuad Tabba" <tabba@google.com>,
+ "Sean Christopherson" <seanjc@google.com>,
+ "Shivank Garg" <shivankg@amd.com>,
+ "Ackerley Tng" <ackerleytng@google.com>,
+ "Gregory Price" <gourry@gourry.net>,
+ "Aravind Ramesh" <arramesh@micron.com>,
+ "Ajay Joshi" <ajayjoshi@micron.com>,
+ "venkataravis@micron.com" <venkataravis@micron.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
+ "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Message-Id: <497e9e6f-6770-48d7-929b-8543a25172f2@app.fastmail.com>
+In-Reply-To: <aeaz9TecrINXaHcR@aschofie-mobl2.lan>
+References: 
+ <0100019bd34040d9-0b6e9e4c-ecd4-464d-ab9d-88a251215442-000000@email.amazonses.com>
+ <20260118223629.92852-1-john@jagalactic.com>
+ <0100019bd340cdd5-89036a70-3ef5-4c34-abf8-07a3ea4d9f92-000000@email.amazonses.com>
+ <aaD6yQLiyZznfAxr@aschofie-mobl2.lan> <aeaz9TecrINXaHcR@aschofie-mobl2.lan>
+Subject: Re: [PATCH V4 1/2] daxctl: Add support for famfs mode
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Thu, Apr 16, 2026 at 3:18=E2=80=AFAM Viacheslav Dubeyko <vdubeyko@redhat=
-.com> wrote:
->
-> As far as I can see, we have such logic in hfsplus_fill_super() [1]:
->
-> if (!sb_rdonly(sb)) {
-> <skipped>
->     if (!sbi->hidden_dir) {
->         <create hidden dir>
->     }
-> <skipped>
-> }
->
-> So, I have two questions:
-> (1) If we mounted volume in READ-ONLY mode initially and we re-mount it i=
-nto
-> READ-WRITE mode, then we skip hidden directory creation. Should we proces=
-s this
-> in hfsplus_reconfigure()?
-> (2) Should we create hidden directory if corrupted volume hasn't hidden
-> directory?
->
-> If we don't create the hidden dir, then we could have troubles in multipl=
-e
-> places: hfsplus_rename_cat() [2,3], hfsplus_delete_cat() [4,5]. It looks =
-like
-> that we need to create the hidden dir. Otherwise, we could trigger the ke=
-rnel
-> crash in multiple places.
->
-> Thanks,
-> Slava.
->
-> [1] https://elixir.bootlin.com/linux/v7.0/source/fs/hfsplus/super.c#L589
-> [2] https://elixir.bootlin.com/linux/v7.0/source/fs/hfsplus/dir.c#L326
-> [3] https://elixir.bootlin.com/linux/v7.0/source/fs/hfsplus/dir.c#L397
-> [4] https://elixir.bootlin.com/linux/v7.0/source/fs/hfsplus/dir.c#L418
-> [5] https://elixir.bootlin.com/linux/v7.0/source/fs/hfsplus/inode.c#L257
->
 
-Hi Vyacheslav,
 
-Thank you for the detailed feedback and for pointing out the deeper
-design issue.
+On Mon, Apr 20, 2026, at 6:17 PM, Alison Schofield wrote:
+> On Thu, Feb 26, 2026 at 06:00:41PM -0800, Alison Schofield wrote:
+> > On Sun, Jan 18, 2026 at 10:36:38PM +0000, John Groves wrote:
+> > > From: John Groves <John@Groves.net>
+> > > 
+> 
+> Hi John,
+> 
+> This is where I left off with the actual changes to "daxctl" for FAMFS.
+> We need a new rev of this ndctl set that includes both patches rebased
+> on ndctl pending and addressing the review comments below for daxctl.
+> (Although I've used more recent branches, I haven't looked at whether
+> these issues were addressed in the code.)
+> 
+> With a new rev, I'll take another look at ensuring a dax device is
+> available for the unit test.
+> 
+> Thanks!
+> 
+> --Alison
+> 
 
-You are absolutely right on both counts.
+Will you be on the DAX call tomorrow? If so, let's work out a plan and assign
+my action items as necessary. Not that I need any more action items :D
 
-(1) hfsplus_reconfigure() does not create the hidden directory when
-remounting from read-only to read-write. This means sbi->hidden_dir
-can be NULL on a writable mount even if the volume is otherwise
-healthy. This needs to be fixed in hfsplus_reconfigure().
+Thanks!
+John
 
-(2) The correct approach is not to add NULL checks at individual
-call sites =E2=80=94 that is a band-aid. The real fix is to ensure
-sbi->hidden_dir is always valid on any read-write mount, enforcing
-this invariant at mount and remount time.
-
-My plan for v4:
-- Extract the hidden directory creation logic from hfsplus_fill_super()
-  into a helper function hfsplus_create_hidden_dir().
-- Call it from hfsplus_fill_super() as before.
-- Also call it from hfsplus_reconfigure() when switching from
-  read-only to read-write and hidden_dir is NULL.
-
-This way hidden_dir is guaranteed valid for all write operations
-and the individual call sites in dir.c and inode.c are safe
-without needing NULL guards.
-
-I will send v4 shortly.
-
-Regards,
-Deeanshu Kartikey
