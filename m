@@ -1,72 +1,86 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09A86317143;
-	Tue, 21 Apr 2026 12:01:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70E2E347514;
+	Tue, 21 Apr 2026 12:04:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776772869; cv=none; b=OZKZvRZOLgUnJhAGMO+7bAhwStVP23ZBLOZTLnMKkD0t0ipodIYM3BPumuweb+K7sCqs/68T36thvOiwB5CUeXjvXU399FXcSZgO5bAhcXSqrykiFhmwQLDr3x7DFzLkRf5NAZ64pORZyV8z10P/ijqpQK6j+W/xSt1cJPuBi/4=
+	t=1776773079; cv=none; b=QdzD/fSgdxf29zIgsQM5V9YSAdbsiL3rmcCXNVvxm2d5f0ACAD4TNO8fnXZtQu/qBwuxM5w+SS8hY9PhOblgzo4CwieeFRH1wyGfPi8oZ60syk73Bq3+ci7wYSJqQ5Iq1c1yjrAef6pVpQRv45Ut7ZUJUsvRezinK4SNFPvkyR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776772869; c=relaxed/simple;
-	bh=Q0cn4gfQNdtqAez/VVKu4LkIWz0ZXbDINvgq7DEkwHI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=M/l7NO0bNXv1OECt3nBZLBhlgE02HH4GRv7mPUaPoSuaqaGbUnpyUjG3RD1nNLwAXEEZKOxR8QqII/MVeutIGPqBPsbwSMNwHoS9Rut0t4cPsFzvKm8pdXiBAu45ThWtm8NHnntncCEpJ9yi7ZhanjXr1PgA9qR95tEtdFaGP1s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VtRZMM/0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776773079; c=relaxed/simple;
+	bh=w/LosulEMEyDaZmorxeK+3YoV8+pW6oIbTUUsPOfKvU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CD4qobsl4HqnAzmq4BKVbGyqk7upKwTe146+QMyRTIblKtE4ROvpVG7f3EkfGpPQy4Tpd/Ly+0jDL33DJlQUHJH4NyKvXUp96DxSjeDcInVLnuVM7SxhsaUsCbM6O88KkgEd+LSrsEsAi/HNzoVHr6W0PVnBJ6nU/7c0nvw5hWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hSd3Iq3p; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VtRZMM/0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32C74C2BCB0;
-	Tue, 21 Apr 2026 12:01:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hSd3Iq3p"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B33DC2BCB0;
+	Tue, 21 Apr 2026 12:04:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776772868;
-	bh=Q0cn4gfQNdtqAez/VVKu4LkIWz0ZXbDINvgq7DEkwHI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=VtRZMM/0Ms4vptAuDL5tWQ76GYA2a1iwneXVREAiyBB+IthNr09Vq+HQrRi/EB42N
-	 xGF3ol5RwRlJd9bORsTG5FJBuuMBYfZZezof6p25qhSJJsIzLXpsXk5b5DV3hOCiNz
-	 VKNBGRU/zAXxcsVLOUf86hGQ7fp87A+C8VwHngfyndecT7Vw0t7F97ggSPAnd7eAsE
-	 RpVW0QNaunw9l0OfUvwo6uNLd2/+il4uEes7qtn6OgimKFSMwOeZ67CFM4EZPy+SND
-	 NPGqrsxh/JYVGGRFqcFQUoBlpLXYa0H82DvoTLf9mG4PGSGWd1hKqcPDJinwVRXoMk
-	 ThlL1W4J/x0xA==
+	s=k20201202; t=1776773079;
+	bh=w/LosulEMEyDaZmorxeK+3YoV8+pW6oIbTUUsPOfKvU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hSd3Iq3pqVy2V9Y25BAbKL7pHoFcIYzltNr1A0GzmaphPED8IYMASJ3ngECH3v/vk
+	 yfFa4DU/CU5kMCKoVIgurs8/dOv0Plz6vRgDB+Oz6I2K02NTSnemTRssaW/Y4Fyzc5
+	 mEoMdZo3qcnlM6xBlie+i8anDoH/XpoWltZegJH5Iw64blIA9p2PhIcUAWIQJ4UUKD
+	 wg22K9yxSpz3fL4dTJI+aWRg813T54dFugx3jiRohwrf34Mo9TqywP2uHUz1Q8Y/qt
+	 4Vu+hAWMxL0UL6JPcVMQ9OgI/MkBdIs0kDx+pX0gE5AdUSGA6OT/UfpyiHkr7VoSoI
+	 ybDrFVrKcoFqA==
+Date: Tue, 21 Apr 2026 14:04:33 +0200
 From: Christian Brauner <brauner@kernel.org>
-To: tahsina13 <tahsinahmed217@gmail.com>
-Cc: Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	viro@zeniv.linux.org.uk
-Subject: Re: [PATCH] dcache: fix typos in comments in dcache.h
-Date: Tue, 21 Apr 2026 14:00:58 +0200
-Message-ID: <20260421-mahnung-ebenfalls-6fea5afaa38f@brauner>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260418184704.8040-1-tahsinahmed217@gmail.com>
-References: <20260418184704.8040-1-tahsinahmed217@gmail.com>
+To: Chuck Lever <cel@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, NeilBrown <neil@brown.name>, 
+	Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
+	linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	Chuck Lever <chuck.lever@oracle.com>, Jeff Layton <jlayton@kernel.org>, 
+	Amir Goldstein <amir73il@gmail.com>, Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: cleanup block-style layouts exports v2
+Message-ID: <20260421-schusselig-proklamieren-23839cd64bca@brauner>
+References: <20260401144059.160746-1-hch@lst.de>
+ <8bef4d4e-1c0d-451d-8854-ed0cba27ee1f@app.fastmail.com>
+ <20260409-schwalben-neutralisieren-fb5a184e5049@brauner>
+ <20260410111007.GA10292@lst.de>
+ <20260414-ausbrechen-gemixt-ff09f46bdad2@brauner>
+ <20260415052925.GC26559@lst.de>
+ <217438cb-63ff-41d2-8f3c-fbdb1945a670@app.fastmail.com>
+ <683650ce-0585-4607-8d93-9704b179fbd3@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=825; i=brauner@kernel.org; h=from:subject:message-id; bh=Q0cn4gfQNdtqAez/VVKu4LkIWz0ZXbDINvgq7DEkwHI=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQ+T/ufPi3jaPW2lD9blXK+xP699HxXxy0fxnLfVzNMH Ka1qHBv7yhlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZgIRxvDX+lr29fcVHh860Nv /lLbxR93qW/bsUzh2qUZwgm+JXbeBcaMDMfkjzRd6mli44v8d1DM7s/rsKQvr4/zGx7YttAjpEk hjgsA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <683650ce-0585-4607-8d93-9704b179fbd3@app.fastmail.com>
 
-On Sat, 18 Apr 2026 14:47:04 -0400, tahsina13 wrote:
+On Fri, Apr 17, 2026 at 07:52:20AM -0700, Chuck Lever wrote:
 > 
+> On Wed, Apr 15, 2026, at 7:34 AM, Chuck Lever wrote:
+> > On Tue, Apr 14, 2026, at 10:29 PM, Christoph Hellwig wrote:
+> >> On Tue, Apr 14, 2026 at 12:01:39PM +0200, Christian Brauner wrote:
+> >>> On Fri, Apr 10, 2026 at 01:10:07PM +0200, Christoph Hellwig wrote:
+> >>> > On Thu, Apr 09, 2026 at 03:26:09PM +0200, Christian Brauner wrote:
+> >>> > > > Christian, are you OK if I take this series through the NFSD tree?
+> >>> > > 
+> >>> > > Hm, I generally prefer infrastructure to go through the VFS tree.
+> >>> > > You can get a stable branch ofc.
+> 
+> > In this case, pNFS is the only consumer that will notice or use the
+> > new "infrastructure" and us NFS experts are the only ones who can test
+> > and review it properly. And, the likelihood of conflicts with patches
+> > in nfsd-testing is high (in fact we've already had at least one). It
+> > makes sense to me to take this series through NFSD.
+> 
+> I see that Jeff has posted a series that modifies the fs_notify API surface
+> to support the NFSv4 CB_NOTIFY operation. That likely counts as an
+> infrastructure change.
+> 
+> To meet you halfway, Christian, you could take Christoph's series and
+> Jeff's series into a "vfs.nfsd" tree and I can base my nfsd-next branch
+> on that for the NFSD PR 7.2. Building the NFSD PR on that should avoid
+> merge conflicts with significant changes I have planned.
 
-
-Applied to the vfs-7.2.misc branch of the vfs/vfs.git tree.
-Patches in the vfs-7.2.misc branch should appear in linux-next soon.
-
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
-
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.2.misc
-
-[1/1] dcache: fix typos in comments in dcache.h
-      https://git.kernel.org/vfs/vfs/c/66814af18595
+Sounds perfect. I don't rebase branches unless there's something really
+really gnarly to handle and I would ping you in advance if anything like
+that were to happen.
