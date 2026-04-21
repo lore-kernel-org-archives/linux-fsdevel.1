@@ -1,91 +1,171 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 045333B47FE
-	for <linux-fsdevel@vger.kernel.org>; Tue, 21 Apr 2026 10:00:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78B7836AB56
+	for <linux-fsdevel@vger.kernel.org>; Tue, 21 Apr 2026 10:16:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776765602; cv=none; b=TcPz5uaNi/ComSvTKWg5G4xhrh3a2/9y4HYRGoz0OeiZQlFM+jYV0o74j8B46+3vA/zw7HgCOBvbaJ/QLGJ4zN9Ut8HZL+iD/ifVShN6mxz1BKjxB9J0F00dHDCmQWfRCj8gkPWBTkXsp3EB92KHjE8GRRq/FNhT6zfj0Md1PAM=
+	t=1776766620; cv=none; b=qwfpO4LRcRVpSdx8to+Tj2u8YjRmCkALbxK1GCmHFjygbzzd0SXQ1PHpK/dDE4nNl9g8WMCDC3HLrRtIv6g2L0hfNCYutwvWeIUkV9FKyGCUC+DY9QYnLij1mZBTXXhJFBvUmzptdWeldvN0sMF1GcfOVDYGJxvxQN9IJCOH/cA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776765602; c=relaxed/simple;
-	bh=Nex3Wzzunb7UXMzbR7xgZt88xAYhrk1zgVSz4g82Hj4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dWeGIhVXLsyAYUZVlTCuCKUym9iT2CmKxn4E0CtgG5e+nZSnAHEdWcm7Bxj+DLdrqQX4WBK0RetAZxkEiCSyW9dhkTHJdy2U0Zgf+UmaL2yofEcQYcnc27xggt2KU+bQ3y4ppRc8K1309tx1snq3jL6XGDcQXk9XS6CuX8UN6UE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-82f69a286dbso3167872b3a.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 21 Apr 2026 03:00:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776765600; x=1777370400;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=85cXzQytwFHmpSCqAs3VMCmr28zB/NcpYs8dAHfANdg=;
-        b=R7Z4oKjOhP9SR2j0LKtDtPGOomxnvpdykBD9XtsrljxB8eawMKenyFSwzA6RnhfpVU
-         rCxHWqXTxZCEU5AgYjDcn2RVak3s9c5rkywI31C3RTm34AhsnWQMcmmm+Rcbg+n/AN88
-         1lHcYx8Cf09vRfI0hsDTsDZpGa3SlXDtTdZpwDpJ85H8luYq0bUNuM5zr1pwyIa4gO6C
-         /6nEADaAfXxyems8PZeKWVHghgvGG6uPiIjdCHgzIR0WNKFG5ab2PDNuYaNRKyemjrpk
-         AK83/4c9fHhRzXUUWT2XWGyNgZ6ClK4oHtfZ0K5XAS7I7+pg4XQNQCDs778w3VfSiW5S
-         j49w==
-X-Gm-Message-State: AOJu0Yyp4aLsaAElAyn2r6yEbBu2m+Lc6bnbzrt6tGLiRC1v5T+03+c2
-	DWkNoCgaN9HYEoe9TvSYvQL3GmHn3VIHooWqisOGTOAxjTBL7/VFi+6T
-X-Gm-Gg: AeBDiev4Y9FSSTmqZjfIOzA+zAnw94Mjd2Ed15bVWjBpLD5We4duuGq63lms+Pgh4Sb
-	42XvVphcxATXQ5bHc3aEdVPAFB63n83Z1dGFeFF44FbOQHAAoJOG8VKMjTeWAYNuYC/aOygh8cs
-	oow6m0wXnGewrAiF7Q/+M4wuytUnW0E38YMHaTQH9FHxrA7b9Clc1T9pmd1sS01t+kjrXBUyrtU
-	NX88IHHOf2uLvDLHXUxpto5dK2vU/Ky7Zng/ZrgMfASmK6GNyGy6dkptw1edDpcRieNrvdhQgho
-	L8G9kn/aRLMV7z/prLOsL8peureD7jMv5jPnaxN9+fAMCpUE3314bJ1gMBa7iLTefAdr3pVuj1v
-	DVFFzzl0+IVi6yM1cyMoKnKbBPKwmFPCaWWNbYoEC6EAnhByzAggputT1qXECAg0pVXzjtORIDm
-	1wpU4xK3iU4AkpOR6TgoiEnxhDMATifQOWigPlYyx3DZS/FKe6
-X-Received: by 2002:a05:6a00:1f09:b0:82f:3828:a009 with SMTP id d2e1a72fcca58-82f8c7dd504mr16999144b3a.3.1776765600223;
-        Tue, 21 Apr 2026 03:00:00 -0700 (PDT)
-Received: from localhost.localdomain ([1.227.206.162])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f8ebb3f31sm16276662b3a.37.2026.04.21.02.59.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Apr 2026 02:59:59 -0700 (PDT)
-From: Namjae Jeon <linkinjeon@kernel.org>
-To: hyc.lee@gmail.com
-Cc: linux-fsdevel@vger.kernel.org,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>
-Subject: [PATCH] ntfs: fix mmap_prepare writable check for shared mappings
-Date: Tue, 21 Apr 2026 18:59:16 +0900
-Message-Id: <20260421095916.6496-1-linkinjeon@kernel.org>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1776766620; c=relaxed/simple;
+	bh=ANmEUFvPCXH6mWPZ0LxVhffG7NQxZVX6X5qJMO6LBbM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MXG7jKzWuZkx1+jP5MEHgFH36rKQfvyGq1JLktMLta+rwbaZWQ+5dsoBsjc/IuX3OUvmM7t6Rdn94eLasUm/0zZHMBTWtLPw9MGBwXBR8opT4VvHTrzNTLdQmNeX7/c2xQ6vdpyy8Y5Pbh9L/tDHKKY8PgonlcLQ5ICvmGjUOyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=N5SgD/7B; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=HELLyNJV; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=N5SgD/7B; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=HELLyNJV; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="N5SgD/7B";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="HELLyNJV";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="N5SgD/7B";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="HELLyNJV"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A88CA6A7F6;
+	Tue, 21 Apr 2026 10:16:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1776766617; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MhT/9IBBHYZUHLEtYrK68N6VA9yzBN7ZGJGZR+AiCX0=;
+	b=N5SgD/7BHushhC4+xJKnNI7olPFIixTtR42lphRitXI7WSQa8dv2g2yE0kuTTUyvtQnJth
+	Ov2OvoxlbdnxAuR5GazLTzK/0eLVkwDFYk6aLvOYZdyb8j+2WMo/VFH91PpLumEtZ0ZPP5
+	9EbqvIfAeBGnQ1bgumE/gqSQiXrdQ7k=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1776766617;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MhT/9IBBHYZUHLEtYrK68N6VA9yzBN7ZGJGZR+AiCX0=;
+	b=HELLyNJVHqQFjMMgLU5ajkWHrdq+CY4pJHXhETS707TIlWl63POc7ddxsImYzbSP+BMhSn
+	MSV0cK1ZL3NYauDw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1776766617; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MhT/9IBBHYZUHLEtYrK68N6VA9yzBN7ZGJGZR+AiCX0=;
+	b=N5SgD/7BHushhC4+xJKnNI7olPFIixTtR42lphRitXI7WSQa8dv2g2yE0kuTTUyvtQnJth
+	Ov2OvoxlbdnxAuR5GazLTzK/0eLVkwDFYk6aLvOYZdyb8j+2WMo/VFH91PpLumEtZ0ZPP5
+	9EbqvIfAeBGnQ1bgumE/gqSQiXrdQ7k=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1776766617;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MhT/9IBBHYZUHLEtYrK68N6VA9yzBN7ZGJGZR+AiCX0=;
+	b=HELLyNJVHqQFjMMgLU5ajkWHrdq+CY4pJHXhETS707TIlWl63POc7ddxsImYzbSP+BMhSn
+	MSV0cK1ZL3NYauDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9EF2B593AF;
+	Tue, 21 Apr 2026 10:16:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id n03OJplO52ncTwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 21 Apr 2026 10:16:57 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 63209A0AE1; Tue, 21 Apr 2026 12:16:49 +0200 (CEST)
+Date: Tue, 21 Apr 2026 12:16:49 +0200
+From: Jan Kara <jack@suse.cz>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>, 
+	Al Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, Theodore Tso <tytso@mit.edu>, 
+	Christoph Hellwig <hch@lst.de>, "Darrick J. Wong" <djwong@kernel.org>, 
+	Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH] docs: add guidelines for submitting new filesystems
+Message-ID: <5zc4j4nrfvxr56rvtgazaxojbpnd54ok2bx46xvhe3swn5g7dv@lzbnm44acpbn>
+References: <20260417142503.1436446-1-amir73il@gmail.com>
+ <u2scvjd522tdhb35r7ge2fqclt2qo3y4x5nxwprwcritxir2wj@5u4zhohrv6aw>
+ <CAOQ4uxj1guVDXNrSmWUVS+6_meYPGBe8kBSDjfe8PkopTd79fA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAOQ4uxj1guVDXNrSmWUVS+6_meYPGBe8kBSDjfe8PkopTd79fA@mail.gmail.com>
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MISSING_XM_UA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.com:email]
+X-Spam-Flag: NO
+X-Spam-Score: -3.80
+X-Spam-Level: 
 
-Linus pointed out that checking only VMA_WRITE_BIT is incorrect.
-Private writable mappings (MAP_PRIVATE) set VM_WRITE but do not
-write back to the filesystem. Also, mappings that can become
-writable via mprotect() (VM_MAYWRITE) must be handled.
+On Mon 20-04-26 20:14:58, Amir Goldstein wrote:
+> On Mon, Apr 20, 2026 at 4:37 PM Jan Kara <jack@suse.cz> wrote:
+> >
+> > On Fri 17-04-26 16:25:03, Amir Goldstein wrote:
+> > > + - Handle security issues promptly.  Filesystems parse complex on-disk
+> > > +   structures from potentially untrusted media and must treat security
+> > > +   reports with urgency.
+> >
+> > I've commented on this in reply to Matthew. I agree syzbot results must be
+> > reviewed and identified security issues treated in a timely manner. However
+> > dealing with maliciously corrupted on-disk data isn't (IMO) a serious
+> > attack vector. Even current well maintained filesystems (e.g. ext4 and
+> > others) have some issues in this area so it seems unfair to ask this from a
+> > new filesystem.
+> >
+> 
+> This is what I posted in v2:
+> 
+>  - Handle security issues promptly.  Filesystems parse complex on-disk
+>    structures from potentially untrusted media and must treat security
+>    reports with urgency.  Expect the filesystem to be subjected to fuzzing
+>    of both syscalls and filesystem images.  The filesystem must handle
+>    corrupted input gracefully without hanging or crashing the kernel.
+> 
+> Are you saying that ext4 and others do not react to crash reports from
+> image fuzzing which result in crash/hang?
 
-Use vma_desc_test_all(VMA_SHARED_BIT, VMA_MAYWRITE_BIT) instead,
-which matches what other filesystems do.
+We are reacting to them, but not with such an urgency this paragraph seems
+to suggest :).
 
-Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
-Signed-off-by: Namjae Jeon <linkinjeon@kernel.org>
----
- fs/ntfs/file.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> Can you suggest a more relaxed clause or should I remove it altogether?
 
-diff --git a/fs/ntfs/file.c b/fs/ntfs/file.c
-index f55f55d4ca9a..e0265a8825f2 100644
---- a/fs/ntfs/file.c
-+++ b/fs/ntfs/file.c
-@@ -650,7 +650,7 @@ static int ntfs_file_mmap_prepare(struct vm_area_desc *desc)
- 	if (NInoCompressed(NTFS_I(inode)))
- 		return -EOPNOTSUPP;
- 
--	if (vma_desc_test(desc, VMA_WRITE_BIT)) {
-+	if (vma_desc_test_all(desc, VMA_SHARED_BIT, VMA_MAYWRITE_BIT)) {
- 		struct inode *inode = file_inode(file);
- 		loff_t from, to;
- 		int err;
+I definitely want to keep a clause like this. Maybe I'd just reformulate it
+like:
+
+  - Handle security issues promptly.  Both those reported by ordinary users
+    as well as those reported by fuzzing tools. Expect that your filesystem
+    will be subject to syscall fuzzing as well as filesystem image fuzzing.
+    Dealing with maliciously corrupted filesystem images is not generally
+    considered a high severity security issue but still it is considered a
+    quality-of-implementation issue that should be fixed.
+
+								Honza
 -- 
-2.25.1
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
