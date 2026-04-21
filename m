@@ -1,218 +1,168 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 540193BC66A
-	for <linux-fsdevel@vger.kernel.org>; Tue, 21 Apr 2026 10:43:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776768194; cv=none; b=CK08n4DoH6EJxTv6kJgSY9bwR9AUmrxuzEn8k2fptthnG/NzntVf2YUXhr5NnGuA0zA3Yh4WpcEzwdtT8KMEzQ6IOv/t9tppYQCzc2zEUYdiAquXPOCxVUelfWcsk9PZyE0JKosCDOTktzyvTohy1isAuSeUQN75N5ajKjTV2uw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776768194; c=relaxed/simple;
-	bh=E9X0f0Zt0XT3F6rE5+VWP6xB4FbmyaGtt3R3o8TunPA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tkyeck9Bd1ILgJggV0zA1/c6q5gt0PRD2YrUuIogT5+Y7D5VGRz5oUUgt3VYBGHzeUk8s7FqM6TP00BN+wENmQftxQVDOFmrbYbuSjk2cFvSd7Z0tin063KMZJfMG3foNuJo22oqphslxU6hO3NIVyvS2K9qCiSmUjxSsJI2C34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=bNj2QZgm; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=8F3wRE2O; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=HRL4bvDq; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ObSXzi9h; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6B01399345
+	for <linux-fsdevel@vger.kernel.org>; Tue, 21 Apr 2026 11:17:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776770269; cv=pass; b=utktCE4aPyVgjIAHv6bo8nNmJ+fCS0KW8wyJCpoZIyEuMA/jm4Q4tJBI2LWEqip6jEos1nUeTe1TE34cciWJrPvRrV9Rea7pmhkRQVrZvtzX0q7h9grAF5H19dgw82i9jwoH5zFLgmdKAMK0a0WiXIG9Y5TPvSKjiOzw/YPtYYQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776770269; c=relaxed/simple;
+	bh=ePy+65LwHtpadmQB8IRLTSgwYKUeWXNIN+sEiEUTMhM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MKt0ulOGfdOuUsJl0K2OEKxjqHh1TXzDPH35c4K7AlswpEVH3IVof4PWwGEvGP5v08XhMbTs6NUZ/oPM4GmW8VWVlnMoIcbm+5x5SxmEnY096eh/glFF+cJJywFTnLblC79orbTwWAi+X4SUHeLEqDqKARbaUudBL1PFciJ+G7M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GFXZ5xp+; arc=pass smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="bNj2QZgm";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="8F3wRE2O";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="HRL4bvDq";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ObSXzi9h"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B5E325BD36;
-	Tue, 21 Apr 2026 10:43:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1776768191; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AQK12VyTJh/9j4wXAj1sM4zUaOZJVx0UPefA9W/hqMo=;
-	b=bNj2QZgmdn7zM+NPctB6jRi7Ixl2+YB59NPkvcRodjWDQi4DgrRWztx0TgHts/SspZbslX
-	n/0gdF/+P/2vLDyQbxfrNonBzxqOU05mJS3pcjtbiC3qaTZRkmKi4zbDKWr2ShTM0vLw2i
-	BOMHjqFPNmIVWU/VH2dNZyzMmLDZKfs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1776768191;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AQK12VyTJh/9j4wXAj1sM4zUaOZJVx0UPefA9W/hqMo=;
-	b=8F3wRE2OEMzYFMExwVVTfkiSONxiKhXRbEApedpE0rWS6g+9F2PKXYOuIAUpICkJQfwFgM
-	Ej4ORV5Wf4WP6cAQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=HRL4bvDq;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=ObSXzi9h
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1776768190; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AQK12VyTJh/9j4wXAj1sM4zUaOZJVx0UPefA9W/hqMo=;
-	b=HRL4bvDq7fnaTQMaJWhiGC3e+CgAZt0kRZKPCvXY1aaqdQQamQqSxWPbug50v1fSJ0VE9a
-	O14/bnyHqXH2xGxLsY2zlzmbu6j3KAnzYEK7g4bnT8aecm6suRAzXiZfc+DPdK+MLO5r8h
-	lBcziGuHGQssIfwZisGdNCKeaY1EHe0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1776768190;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AQK12VyTJh/9j4wXAj1sM4zUaOZJVx0UPefA9W/hqMo=;
-	b=ObSXzi9hptV9sMpeDQxFOXwg4YgieujZyA2sDcbpHF5tLOD6KfgHvq/zM9YwOsc3P3Dz0b
-	6+MpEwcD83yOZfDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AA26E593AF;
-	Tue, 21 Apr 2026 10:43:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id CFOFKb5U52mEaQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 21 Apr 2026 10:43:10 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 6BE1DA0AE1; Tue, 21 Apr 2026 12:43:06 +0200 (CEST)
-Date: Tue, 21 Apr 2026 12:43:06 +0200
-From: Jan Kara <jack@suse.cz>
-To: Jori Koolstra <jkoolstra@xs4all.nl>
-Cc: gregkh@linuxfoundation.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, cmirabil@redhat.com, 
-	"open list:FILESYSTEMS (VFS and infrastructure)" <linux-fsdevel@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] vfs: remove always taken if-branch in find_next_fd()
-Message-ID: <shj22v3ehlhlp4vuay3idkqpu7j5mhn3skqfkcluu52vngiol4@wmfte3r6xz3r>
-References: <20260420101801.806785-1-jkoolstra@xs4all.nl>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GFXZ5xp+"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-66e8cf72a93so4887798a12.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 21 Apr 2026 04:17:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776770266; cv=none;
+        d=google.com; s=arc-20240605;
+        b=HDwKCmGOWwmLJgS5ZGgtp9+ttRFheLLgwrx4XwNy341dhkm752WHjHy4PCaKvLAfFb
+         0kgDBhgOCUvbDJQSihNc33zFSlDLD1quUp5YLx1vqLTv8SLGF9UoLqlO5zZmEDid20BO
+         jFByZCsEia3eF0sCTPkFP6A/JEdj/tW9SUAu1joE6/cPMWAkSD+g/st+Td8P6OdgycP1
+         BAIz3h4ERqZxaJ80XaPFweuridQmNXsS6sVUj58k3mdbsaNougtH3KQVGuVI8cqG4S6g
+         qc/sI/L8jQ4RCsha6WNJjZ6qYaukKn97gHnsKUDaXY0sSERR7kT2wt8CzxT5qlR5QOyI
+         Nefg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=hgYesHF911J8oYm/LCuiWDmIFhG8PZk/XtlS4JH5Njw=;
+        fh=f16hpU4LTCDGXypSBKY0qhDhLQzTOB7CS56wscDEys4=;
+        b=JxUa73pzumj7bIl4eoXmyehsqhF0nYnbJ6uwZ/+RBT+Ah22uK+jqcXz0USd2ca56vs
+         nO7PMNow6Px3+o+Lhm7ZjU+3qkSv5VcYy7tVRPLOHWO+hmY1qBhrwGsCerzWuaxMdZwa
+         GNZ8b92PA7GTKq0KJNl0faijb0xGjYvrSgIQ4SG8PrVwOX8oscgABP6eyP6gGQ7onagW
+         ireT4HGAYKqlqFbt/YqpvCj6GvP+DCC6/0BGsiYz1oZx7F7oanP1a/k8QW6rX5Ep1nJ+
+         tTBqirEa38HmL65PdVpqjUZ2XnGnHcxrKsCeXcdJKepVG4I84kROQsnXJw5pVqig8BjK
+         +R5w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776770266; x=1777375066; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hgYesHF911J8oYm/LCuiWDmIFhG8PZk/XtlS4JH5Njw=;
+        b=GFXZ5xp+bDGZVld/coLr/fu+N/e2/Yg1fLIFICyKUwu1hAYt4PTKgvy0eGTa07Skpv
+         svNZvEO4zidcH/3yQkDLBec/yA2S6QZy2eH8w5OdxWna8/Zl9wqvWA5isBBp5PkEQM/m
+         UCAYL9A4L6AeYYtOaM0hKQBm5oXF00oBJ4A324Nd6FOJTeDKgvX4Iub1l+Qc4Ih+JPXX
+         g/8LDA6HpKx8rAE8bHpqHTaLmpDjiF9Do05kqg202Nz2DoTfIiPWCiUnas5o/1FM3Jhc
+         DwDmJ/SjbHSn/Z3u4wSXxkrPG4TH5eVCrHjktvzMxUeKzPjvLaXG36sFwUl17aygc75m
+         d6Eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776770266; x=1777375066;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=hgYesHF911J8oYm/LCuiWDmIFhG8PZk/XtlS4JH5Njw=;
+        b=XKGMBbEqBEIbUit/OgJEwXbrFaDTKy6LlVhK3Fa4IoU4Z19AAS1g/COHbs2e1n6mdT
+         r2TPR5osrlxmcAW7NDZd+TWu0p4THHpWpDserLe0tMC/61B38UHK2duQpBc2Ekff43Ol
+         PlsiKcDhuYXX1woTJaMBLdVz2Vo5BSF1lg4OaIWWa7eR0lwwuQRUzHPrtOnhtqMdXsA1
+         dpouKsSXD8GdnIgyBd+ceuARGoRwdausdv1bA1g299lKknoV3ajaRfKLG7SBBgYCBj+X
+         OADGRneIUWjm+RWdK77Kkhy3ljdLf/RS7fCbrkRwu/CeLM0Th4hObrHqx9TGczRhjjKh
+         0H5Q==
+X-Forwarded-Encrypted: i=1; AFNElJ/Mg5Qi2QZ3++E/+EYEFrasgoG8QyUmupj4xiiGijqpRl9WKKVTJ9NCAhqv3YpfZr0DTa9ZlCZhQSDkgsaA@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzcw7OBN3kOXfc45+68NXyzaBA9gB74siKyJ4JBASaLt1J9yNXm
+	6hWIVnY+wKXYKyXNhs6NSYmiFnBBAolntQDYYgCfcTR/vfKhO1x3SvV0+NUluqKnzPbGlR1E6fZ
+	11rcZi4db4D70TlPkMc2fz86XnTbg3Ltie/toSzo=
+X-Gm-Gg: AeBDietD16DxrD9Q9gwon+OFlh9IiM/bRulhMRNi64QB4wcihz/joWJdJTtKM6KnI5Y
+	DqUZTej25LiWxzh74Daz9gbS5ZhFtUURsegwLHYwSMnbzomGeKPZyK7IGpIlEmuguZJ1JtLyC5v
+	1SK5vWGRtXgxpimQVX9o4tnpnXJ04n1QaPfvn4wrc0yz8ttaJhLY2+PMkruaV7UjIYu1l+SVUiN
+	c9ydq5DvmDQzE6Bn41FL8YL7nPNthJujTGo+5YS6zMnpSURqm8cvfdJrq5tMo0iFEcU4Tn9q3AV
+	EJbZF30nqDEtlroftae78+FkLNw96QQYyeT3eXFfADiWh4VYCy5o
+X-Received: by 2002:a17:907:7ba7:b0:b98:5648:e68a with SMTP id
+ a640c23a62f3a-ba41adfb426mr848138166b.36.1776770265885; Tue, 21 Apr 2026
+ 04:17:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260420101801.806785-1-jkoolstra@xs4all.nl>
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[xs4all.nl];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[xs4all.nl];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DWL_DNSWL_BLOCKED(0.00)[suse.cz:dkim];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:dkim,suse.cz:email,xs4all.nl:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Queue-Id: B5E325BD36
-X-Spam-Flag: NO
-X-Spam-Score: -4.01
-X-Spam-Level: 
+References: <20260417142503.1436446-1-amir73il@gmail.com> <u2scvjd522tdhb35r7ge2fqclt2qo3y4x5nxwprwcritxir2wj@5u4zhohrv6aw>
+ <CAOQ4uxj1guVDXNrSmWUVS+6_meYPGBe8kBSDjfe8PkopTd79fA@mail.gmail.com> <5zc4j4nrfvxr56rvtgazaxojbpnd54ok2bx46xvhe3swn5g7dv@lzbnm44acpbn>
+In-Reply-To: <5zc4j4nrfvxr56rvtgazaxojbpnd54ok2bx46xvhe3swn5g7dv@lzbnm44acpbn>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Tue, 21 Apr 2026 13:17:34 +0200
+X-Gm-Features: AQROBzDjNvEX7pawaNVVkNW06dgdan83CjIfBTGn9yYdfHV25a77VpfHWJRLLxk
+Message-ID: <CAOQ4uxhUU0D89P_ZfOyDPpvGD5wy8VoU-o2i8iBjU-HmJyWuDA@mail.gmail.com>
+Subject: Re: [PATCH] docs: add guidelines for submitting new filesystems
+To: Jan Kara <jack@suse.cz>
+Cc: Christian Brauner <brauner@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
+	linux-fsdevel@vger.kernel.org, Theodore Tso <tytso@mit.edu>, 
+	Christoph Hellwig <hch@lst.de>, "Darrick J. Wong" <djwong@kernel.org>, Matthew Wilcox <willy@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon 20-04-26 12:18:01, Jori Koolstra wrote:
-> find_next_fd() finds the next free fd slot in the passed fdtable's
-> bitmap. It does so in two steps: first it checks whether the bitmap
-> has a free entry in the word containing start. If not, it looks at
-> second level bitmap that registers which words in the first level bitmap
-> are full and then looks at the first level bitmap at the first non-full
-> word.
-> 
-> In the current code the second level lookup is done by:
-> 
->   bitbit = find_next_zero_bit(fdt->full_fds_bits, maxbit, bitbit) *
->     BITS_PER_LONG;
-> 
-> where bitbit = start / BITS_PER_LONG. However, in the fast path (first
-> step) we already checked the word at bitbit, so we can skip that word bit
-> and start at bitbit+1. This also means that we can get rid of the branch
-> 
->   if (bitbit > start)
->     start = bitbit;
-> 
-> since if we set
-> 
->   bitbit = find_next_zero_bit(fdt->full_fds_bits, maxbit, bitbit+1) *
->     BITS_PER_LONG;
-> 
-> the reassigned bitbit can never be less than
-> 
->   ((start/BITS_PER_LONG)+1) * BITS_PER_LONG > start
-> 
-> So the branch is always taken.
-> 
-> Obviously the reuse of the variable name bitbit (and the name itself) is
-> quite confusing, so change that as well.
-> 
-> Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
+On Tue, Apr 21, 2026 at 12:16=E2=80=AFPM Jan Kara <jack@suse.cz> wrote:
+>
+> On Mon 20-04-26 20:14:58, Amir Goldstein wrote:
+> > On Mon, Apr 20, 2026 at 4:37=E2=80=AFPM Jan Kara <jack@suse.cz> wrote:
+> > >
+> > > On Fri 17-04-26 16:25:03, Amir Goldstein wrote:
+> > > > + - Handle security issues promptly.  Filesystems parse complex on-=
+disk
+> > > > +   structures from potentially untrusted media and must treat secu=
+rity
+> > > > +   reports with urgency.
+> > >
+> > > I've commented on this in reply to Matthew. I agree syzbot results mu=
+st be
+> > > reviewed and identified security issues treated in a timely manner. H=
+owever
+> > > dealing with maliciously corrupted on-disk data isn't (IMO) a serious
+> > > attack vector. Even current well maintained filesystems (e.g. ext4 an=
+d
+> > > others) have some issues in this area so it seems unfair to ask this =
+from a
+> > > new filesystem.
+> > >
+> >
+> > This is what I posted in v2:
+> >
+> >  - Handle security issues promptly.  Filesystems parse complex on-disk
+> >    structures from potentially untrusted media and must treat security
+> >    reports with urgency.  Expect the filesystem to be subjected to fuzz=
+ing
+> >    of both syscalls and filesystem images.  The filesystem must handle
+> >    corrupted input gracefully without hanging or crashing the kernel.
+> >
+> > Are you saying that ext4 and others do not react to crash reports from
+> > image fuzzing which result in crash/hang?
+>
+> We are reacting to them, but not with such an urgency this paragraph seem=
+s
+> to suggest :).
+>
+> > Can you suggest a more relaxed clause or should I remove it altogether?
+>
+> I definitely want to keep a clause like this. Maybe I'd just reformulate =
+it
+> like:
+>
+>   - Handle security issues promptly.  Both those reported by ordinary use=
+rs
+>     as well as those reported by fuzzing tools. Expect that your filesyst=
+em
+>     will be subject to syscall fuzzing as well as filesystem image fuzzin=
+g.
+>     Dealing with maliciously corrupted filesystem images is not generally
+>     considered a high severity security issue but still it is considered =
+a
+>     quality-of-implementation issue that should be fixed.
+>
 
-Nice. Looks good to me. Feel free to add:
+I can take this version, but tbh feels like debating this clause misses
+the main goal of the doc, so I'd rather go with something a lot shorter:
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+- Handle security issues and regression promptly.  Both those reported
+  by ordinary users as well as those reported by test bots.
 
-								Honza
+IMO, getting into more details doesn't really add much value to the
+prospect reader of the doc before submitting a new filesystem nor to
+the filesystem reviewer.
 
-> ---
->  fs/file.c | 17 ++++++++---------
->  1 file changed, 8 insertions(+), 9 deletions(-)
-> 
-> diff --git a/fs/file.c b/fs/file.c
-> index 384c83ce768d..b7b78efcb0d1 100644
-> --- a/fs/file.c
-> +++ b/fs/file.c
-> @@ -544,24 +544,23 @@ struct files_struct init_files = {
->  static unsigned int find_next_fd(struct fdtable *fdt, unsigned int start)
->  {
->  	unsigned int maxfd = fdt->max_fds; /* always multiple of BITS_PER_LONG */
-> -	unsigned int maxbit = maxfd / BITS_PER_LONG;
-> -	unsigned int bitbit = start / BITS_PER_LONG;
-> +	unsigned int max_fds_words = maxfd / BITS_PER_LONG;
-> +	unsigned int fds_word_idx = start / BITS_PER_LONG;
->  	unsigned int bit;
->  
->  	/*
->  	 * Try to avoid looking at the second level bitmap
->  	 */
-> -	bit = find_next_zero_bit(&fdt->open_fds[bitbit], BITS_PER_LONG,
-> +	bit = find_next_zero_bit(&fdt->open_fds[fds_word_idx], BITS_PER_LONG,
->  				 start & (BITS_PER_LONG - 1));
->  	if (bit < BITS_PER_LONG)
-> -		return bit + bitbit * BITS_PER_LONG;
-> +		return bit + (fds_word_idx * BITS_PER_LONG);
->  
-> -	bitbit = find_next_zero_bit(fdt->full_fds_bits, maxbit, bitbit) * BITS_PER_LONG;
-> -	if (bitbit >= maxfd)
-> +	bit = BITS_PER_LONG *
-> +		find_next_zero_bit(fdt->full_fds_bits, max_fds_words, fds_word_idx + 1);
-> +	if (bit >= maxfd)
->  		return maxfd;
-> -	if (bitbit > start)
-> -		start = bitbit;
-> -	return find_next_zero_bit(fdt->open_fds, maxfd, start);
-> +	return find_next_zero_bit(fdt->open_fds, maxfd, bit);
->  }
->  
->  /*
-> -- 
-> 2.53.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Thanks,
+Amir.
