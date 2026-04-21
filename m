@@ -1,116 +1,46 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C75993563FA
-	for <linux-fsdevel@vger.kernel.org>; Tue, 21 Apr 2026 22:14:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DC133A63EB;
+	Tue, 21 Apr 2026 22:36:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776809644; cv=none; b=jDkh7217OKJ0CtG0SfdP35Skm2sFGpWLgG1jZbkwfB6pziCJv+gBfeL1ZgEn7IOaFaH4dgz80gHwR3nEV/wEu++qTRSAwcN9nS8Xr9J02RAmjZl9yn9HMvvjbTJOFAkQvTuSeS/KZhxpzFQKFyKo09/t31zNEZQzvqdAdho4WW8=
+	t=1776811004; cv=none; b=hIgLYYx928DAoToeLVYLcgqNZPOJ0SXNJ6AJXz2aoydMFQOVvxGFnkJB0utS9+ircbnV/p4qk9m8+d3dryTZHJ2AcJ2S41EqAjhAitSFKO3xudFWNnoaU2+Z1Cm/PKvli4dFHkf7SrMLboVwMNF94gv+8VxR918kgEtR2N+TeoY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776809644; c=relaxed/simple;
-	bh=Iu5XAN4ycbBpopEF1eWkcWzsBYF1UWk4/bNXchE4nLw=;
+	s=arc-20240116; t=1776811004; c=relaxed/simple;
+	bh=rYR0EGH23chj/ciflhN3Y7j6+4nUJvtKtjJgmfOTNCM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=isEXRfO5wEDN6GGx2BHaf3BolWT/axLus0l/TLUeOr0X85DBRsxUtY64pNcpQo7XlPSmLC0/wkKefolWKS0ecNm2Nwoa39dCy7S4vmb7lc+XINf+5RB8hvStGx2WmSyl8JykJMjFS4LpL48Xo2D7bUvyC0P4LLXReEyIxNwJ5KA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=mGAipuk+; arc=none smtp.client-ip=209.85.222.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=eD47B7FicTFXIEsSxQee9iCNkhPHfDBws17oFekYw/B8s6xqivpOoAIPP09S2N3VRkSYfzNRWTwZ7TPXKvJOrtyPi3ZdOCEMnzhrNKvFU5zE/Wz7ykPekSezZ5+Pam2rfKHDbpPYFBMf1NRkw/FHYHU3N/1wYwB8EyVvYM0c6wE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NZeqVzWu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="mGAipuk+"
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-8d67a483d3eso530402585a.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 21 Apr 2026 15:14:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1776809642; x=1777414442; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=wrGysjxDZE2kLSR6t5QtYa+yFecZADsz4QmGJDAHoGE=;
-        b=mGAipuk+GvJ0tVEw1KrJcm4c9gIJEBY6AMtokHH1bDWWDj1/2PT3DiH8B7oSJGeQ8b
-         QqakMNx9rBgnezQr+8UPdorqMYCCL7KLyIEjciyyEB5L1UrzRZ8ZOuFv1CKvbDK+0DAK
-         x/FpvCPK/7Q57igcdl+LQEoyG7+tLK9m209sdftTGLTLyzoG+9kuXGCVHAPfbOVys9tH
-         9fGN3r31xcB8nPPWOqi4PSJd+sr5a+5nBbEX49lKbitrD6tKdiGgslHXXYir1ZNuxd/V
-         ksnrxsQOKNYhn3TY9948F02CiF1jCsn83EV5C15HpVK8HTDMHF+B3MrwuFR3ODoRlB+0
-         M+bw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776809642; x=1777414442;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wrGysjxDZE2kLSR6t5QtYa+yFecZADsz4QmGJDAHoGE=;
-        b=QsUnYVxFOnqr3XbbiYiE1QHdmABcZ44iDRml1F3V/NNaddewocNZwORJ3q3+f2IAfE
-         jqBjF4FVLDRJuv5272kinGys9U620R0hPTmAq5Lstet96DMJZd6/5aSWKsGesKUa+Lh6
-         fnOr9XjdQy/d4jDxsZ6jmdbtdFnUaiT108S4UbGhdCbfoGPvXaGTvIJXK4Bq3gqNJgtU
-         0ecY1MqYROGqeXfGEXrn87jw6FShP0H/epuYS/Yss7sf2XBTwOmMCrLFO+/YK0A/PnKn
-         iWk7LYewkvECXSPhMvb9dbuxTt3YCK9D/Lac4sFRkDUnyAPxrF7ZYWjV0yPwUr0Qzmcc
-         6dZA==
-X-Forwarded-Encrypted: i=1; AFNElJ+O3L/3Dej4UktxSw02oJWoXPzJp+L6jbawXpWqj3hmpw6a33zmRujXUsTDEw/8i4YGAU/OHLhyaSwnae4h@vger.kernel.org
-X-Gm-Message-State: AOJu0YyFMKvuFPDqXlAoH9GSsyWP+rWnWts3XIyJca1ozZ5cXmJbXEqR
-	duVOyAx7wcPe9ZLd/H3rUXbL8qqO5C7XNCYrsw95RFkh/CGQxuC4xKi7JmxyocewsaQ=
-X-Gm-Gg: AeBDietQHhyWQH67p4y1myjRGEW3BHfIB5t7aiNWgq9OB5xryvXrZ9fCz23tKXZ9AXr
-	YNjCuqvh3ESGMJk6nlEtV/80aZWsVyUT2C3s/XVgw43LvzOT0AyFyNUsXNCjqUI5d700Z1dKQyF
-	7rTV6kpUiaI7GGY8kxtm60K7lnXv0aJA2pgfrNgfacnbTmjMuiYDamNOCsOGDrLZe6EffN730vp
-	tjUliXxVRXguykrbeQkfqVZHJ0z68IMH4S31PLZ3SqbMpWlhrf+4A5CN/F+0Nb9xitjEPGmjBXS
-	mAHz5GzOFynfEgy3aq8sVW+eBNc3akpSkek+UWAxBDnhYr37k4ngzQKeB4fkbnlPo/IvKsenYkv
-	pU1F/VXfkKGJUi5RTuDF/nDKOO5ZmNpE1agX8RkFg6HFlGzBQ3BXxiKMHj/yXIum/vcwFZ4oRU5
-	aAGdzGhm5bDeBuSsP/ahL3NcYcqodYhmIV01q9cB/xfVf5GmgDVweSgLCd0iwPw7Dmr5LAscGgx
-	2VV71p7NHpkUh8Y9UBx
-X-Received: by 2002:a05:620a:2844:b0:8cf:c1c2:90f with SMTP id af79cd13be357-8e78fa1ebc4mr2786943085a.7.1776809641667;
-        Tue, 21 Apr 2026 15:14:01 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-71-246-228-50.washdc.fios.verizon.net. [71.246.228.50])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8ebce6ef86dsm515161085a.30.2026.04.21.15.14.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Apr 2026 15:14:00 -0700 (PDT)
-Date: Tue, 21 Apr 2026 18:13:58 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: John Groves <John@groves.net>,
-	"David Hildenbrand (Arm)" <david@kernel.org>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Bernd Schubert <bernd@bsbernd.com>,
-	John Groves <john@jagalactic.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Bernd Schubert <bschubert@ddn.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Stefan Hajnoczi <shajnocz@redhat.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Chen Linxuan <chenlinxuan@uniontech.com>,
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Shivank Garg <shivankg@amd.com>,
-	Ackerley Tng <ackerleytng@google.com>,
-	Aravind Ramesh <arramesh@micron.com>,
-	Ajay Joshi <ajayjoshi@micron.com>,
-	"venkataravis@micron.com" <venkataravis@micron.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	djbw@kernel.org
-Subject: Re: [PATCH V10 00/10] famfs: port into fuse
-Message-ID: <aef2pvhIEdvvgfDF@gourry-fedora-PF4VCD3F>
-References: <CAJfpegvVTcV89=q3L326aGQjhduBcv7PVg5QKftGLjNZmCLmaw@mail.gmail.com>
- <ad4_jFsR951c2Mtn@groves.net>
- <20260414185740.GA604658@frogsfrogsfrogs>
- <ad69tTnx5YkD4Y9K@gourry-fedora-PF4VCD3F>
- <f254f6fc-dc06-4612-82d7-35bb10dbd32e@kernel.org>
- <aeUU8hMwPij2WvfF@groves.net>
- <aeVy2MzucnrLlOQx@gourry-fedora-PF4VCD3F>
- <CAJnrk1ZpPS9rOoBqOBRsqTu0Zgk=aoYzpYZ0mAVDCoeewtLhcg@mail.gmail.com>
- <aeeJ8Lgg2z0X-NC_@gourry-fedora-PF4VCD3F>
- <CAJnrk1Zd2RFE=z=sPRCHaBdqK40+23Vv_owS=7OfxYF1TtPomg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NZeqVzWu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20101C2BCB0;
+	Tue, 21 Apr 2026 22:36:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776811004;
+	bh=rYR0EGH23chj/ciflhN3Y7j6+4nUJvtKtjJgmfOTNCM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NZeqVzWuq4Rdqk0BR09Dntk1fNswuCIsSupoE3qSDO7moEPj23S2jCqAC9WkNjAJr
+	 /hbqtMhhqkjbJkwDnPDyvQyowhWR0TIeq8HbK5gve2asVK9iNKtjefbho/OHys3DUV
+	 ZDKsQtubKlSSMPKeF+qzXF49C9zCY//xARTn6zqpq7qJPIwo0Cj8JPgBpMX4LP0D4J
+	 dU9Dw1breSgV4xDOmoqkdBh/pkSDM1MHlnkvlAP/cmKHoDm6f8D7QUOyD05p+9h2fC
+	 Akp6sj66DpNOm/6dk4D95m0a9uUxLmgNO+B33dRS08X3EqlDdylHxJ9tJMYY6gS9I1
+	 Ro0mv57Kd9myg==
+Date: Wed, 22 Apr 2026 08:36:37 +1000
+From: Dave Chinner <dgc@kernel.org>
+To: Fengnan <changfengnan@bytedance.com>
+Cc: Ojaswin Mujoo <ojaswin@linux.ibm.com>,
+	Fengnan Chang <fengnanchang@gmail.com>, brauner@kernel.org,
+	djwong@kernel.org, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+	lidiangang@bytedance.com
+Subject: Re: [RFC PATCH] iomap: add fast read path for small direct I/O
+Message-ID: <aef79R24wFemmUdN@dread>
+References: <20260414122647.15686-1-changfengnan@bytedance.com>
+ <ad_h0JMX2Jo-QODG@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+ <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.bd12b07f.c444.4fe0.8460.b6fed4af7332@bytedance.com>
+ <aea96YRt2aHJsM96@dread>
+ <87674d63-c8cb-4135-8d76-84f52e90ac2e@bytedance.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -120,27 +50,39 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJnrk1Zd2RFE=z=sPRCHaBdqK40+23Vv_owS=7OfxYF1TtPomg@mail.gmail.com>
+In-Reply-To: <87674d63-c8cb-4135-8d76-84f52e90ac2e@bytedance.com>
 
-On Tue, Apr 21, 2026 at 11:59:15AM -0700, Joanne Koong wrote:
-> On Tue, Apr 21, 2026 at 7:30 AM Gregory Price <gourry@gourry.net> wrote:
-> 
-> I'm not sure if this addresses Christian's concerns or not, but the
-> blob would reside within struct fuse_inode not struct inode. I
-> definitely agree with him that this should not touch or add any infra
-> outside fuse.
-> 
-> I hadn't heard of bpf arenas until his comment. If the hashmap
-> overhead is too high for famfs, having a custom in-arena hash table
-> would be much faster I think, as it could be designed to require less
-> pointer chasing and avoid other overhead in the bpf hashmap
-> implementation, though now famfs would have to manage the data
-> structure and complexity itself.
-> 
+On Tue, Apr 21, 2026 at 11:19:31AM +0800, Fengnan wrote:
+> 在 2026/4/21 07:59, Dave Chinner 写道:
+> > I'm clearly missing something here. I'm trying to work out why the
+> > profiles show what they do, but there's differences between them
+> > that do make obvious sense to me.
+> >
+> > It would also be useful to have XFS profiles, because it has a
+> > larger CPU cache footprint than ext4. If what the profiles are
+> > showing is a result of CPU cache residency artifacts, then we'll see
+> > different profile (and, potentially, performance) artifacts with
+> > XFS...
+> The XFS flame graph is also attached now.
+> IOPS: 1.92M->2.3M.
 
-I think if the fuse-inode blob is acceptable, that's highly preferable -
-and it wouldn't necessarily need to stay specific to bpf.  If there was
-some generic format that folks agreed on as a baseline, that could
-obviously be worked into the interface.
+The callchains in both XFS flame graphs are completely bogus:
 
-~Gregory
+<io_uring entry>
+....
+io_read
+__io_read
+xfs_inode_free_eofblocks
+xfs_prep_free_cowblocks
+iomap_dio_rw
+iomap_dio_simple_read
+xfs_mountfs
+....
+
+Can you regenerate the profiles, please, and this time check that
+they make sense before posting them?
+
+-Dave.
+-- 
+Dave Chinner
+dgc@kernel.org
