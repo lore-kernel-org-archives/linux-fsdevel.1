@@ -1,102 +1,84 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A0321B4F09;
-	Tue, 21 Apr 2026 11:56:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 893A13451C8;
+	Tue, 21 Apr 2026 12:00:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776772601; cv=none; b=ikV4GcrYzGkWRIjQd15ch6qBJdgh8FBzLR9CWLrONUreVsigodMORZ983O1EzlowlyoaxjgrBKOWEjxWl1yFEfsGW93bs99oRFKy0+MVxRqkxQ6hgkVBvxUtXfb6e1tKMzGhd8fvw2/x+eis8iPyiY0aQrirXiiYr/NFuDb/tnE=
+	t=1776772816; cv=none; b=qSa6ulipueEp2CWcQVzW9JWTZSF9Mac1e3P5Gp6lgbht+W8NF+UvY3m41uD/Fj3TdHEkcJhyXcAljBfQ3iKia2v22IriDHlih3seF9cNnLdTltO0L6VSynt/hBScfkgEFE2aEsNlfNPDQCtz31W8Q/Kg4+Hzo3GJ0+k9GrBLXE4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776772601; c=relaxed/simple;
-	bh=MNJPO7cGXFv8GlOOyNtbzfLCDQRkPcX6aOvPd5gkUcU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gJkXPGEwe7OvU7NSrZpJo4yNj8h1wDRIjvOfo+V3a9WlG+NOgAFZPvV4lY/SE/dafXBDvf7RFz53qoYwpNzZR39+Z/foS9Kfts2s334oukXrwBheIKU/kL0R7LCaqEh7gnMgnPT9YdMuFXG3rcz79+bEh8MDDUtMsUL4tSKVrjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fGlM0WG0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776772816; c=relaxed/simple;
+	bh=rvTZOGrgOnJwvVLFR1SKkX8PAeXFBe3lTVdvMYttPWE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JxeKjiDN7o/E2tLf4I2gKfxWS81CEXN4cUUCVFruGIQRVY+iZ8CfhoKFSZCow/EeSr7QaLuITCnnqHaGwm77F9CkvY8ZRoIKsBU6K8aaiGX47mzq06QDy6Gfd0LKjvcjpkT+29sBO5r1NrpXv//+RTPEEvWbB5/J19kvgefswTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KkFY9759; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fGlM0WG0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98459C2BCB0;
-	Tue, 21 Apr 2026 11:56:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KkFY9759"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0FC3C2BCB0;
+	Tue, 21 Apr 2026 12:00:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776772600;
-	bh=MNJPO7cGXFv8GlOOyNtbzfLCDQRkPcX6aOvPd5gkUcU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fGlM0WG0IV1Y2AfP8OIhIwO55cOroMm7l6xyg00zRkIx1i1ezI2am9p1um0kY6ln6
-	 jBjVBuv3bGOm0XWAkq9s9Su3N47zXkTPCsGTqpcT2LqVZYUsJSTmb1C44tEkTE3PRp
-	 6Pf4QW1sknOFR1OgRp0LtRlsvX2OahM1OQfBFBVVh1/1OAoW7FB0sK7OrdIWCtutJr
-	 eQIZVNMJCXNBk6Ja5duuH7UHZ8HmL56Vs12bp2goPj6MWwmWQupMVaIvJW5qq/yiNw
-	 MqFJLKsa+EjwKUbkpadlIqkkfHifbteYaEEJh9UIv3ZerehHtcaDWxOnss78HDP4GU
-	 dGYRde56ItGuQ==
+	s=k20201202; t=1776772816;
+	bh=rvTZOGrgOnJwvVLFR1SKkX8PAeXFBe3lTVdvMYttPWE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KkFY9759Ha/ehKq3RQrycGG/vz1fmypzVZHSrSssD4pb2YRUnTLm4cS8H4IVRZe2h
+	 RA4mTkygPaFaCJvGV0rqnFSH4WBrH6BJdfQehxWj8sSp+eamF+Ra3O8V9eEY4Nvs5o
+	 ntIGiJ/rnAku+wORCq5eRFEQxmQIfjG3vKdU7wVtRsQJEjSX+w8FzwRs02Gihu6ngb
+	 g1/ELhjtV9dfP1ZmEJ1xS9obT3YCTsZDCPTZbsQ/CRS4cBAB00ClcRfQJ6+zLeAx2Q
+	 Vepy8wtY8Imgx82wi8XaraosQh0L6DK9tOqb1/8N1b9O323LDYAvb5ubKmNRXdGDwx
+	 Hogrh9qvNa8ow==
+Date: Tue, 21 Apr 2026 14:00:11 +0200
 From: Christian Brauner <brauner@kernel.org>
-To: Christian Brauner <brauner@kernel.org>,
-	David Howells <dhowells@redhat.com>
-Cc: Paulo Alcantara <pc@manguebit.org>,
-	netfs@lists.linux.dev,
-	linux-afs@lists.infradead.org,
-	linux-cifs@vger.kernel.org,
-	ceph-devel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/11] netfs: Further miscellaneous fixes
-Date: Tue, 21 Apr 2026 13:56:32 +0200
-Message-ID: <20260421-matschen-esskultur-6ff56a239132@brauner>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260420083705.1009074-1-dhowells@redhat.com>
-References: <20260420083705.1009074-1-dhowells@redhat.com>
+To: Chuck Lever <cel@kernel.org>
+Cc: NeilBrown <neil@brown.name>, Jeff Layton <jlayton@kernel.org>, 
+	Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
+	linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	Chuck Lever <chuck.lever@oracle.com>
+Subject: Re: [PATCH v9 0/9] Automatic NFSv4 state revocation on filesystem
+ unmount
+Message-ID: <20260421-aufpassen-erfuhren-93a4238cb71b@brauner>
+References: <20260419-umount-kills-nfsv4-state-v9-0-0660bd06d2b6@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2421; i=brauner@kernel.org; h=from:subject:message-id; bh=MNJPO7cGXFv8GlOOyNtbzfLCDQRkPcX6aOvPd5gkUcU=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQ+T/20TeLYXq2kFW/eXImKej8/Od+73EpPMMXl9LUfL HfmMuqEdpSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEykXYWRYcXuI2cnZlt6/Fwm byR6Oe3gHLbala8+eF7mjJdb0LR9azcjw6ymo2KzpvOcaGtsWR9+/uTPoN8Tdu56VZehasC6iv9 XMwsA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260419-umount-kills-nfsv4-state-v9-0-0660bd06d2b6@oracle.com>
 
-On Mon, 20 Apr 2026 09:36:51 +0100, David Howells wrote:
-> Here are some more miscellaneous fixes for netfslib, found by Sashiko.dev's
-> AI review[1] in response to the previous miscellaneous fix posting[2], plus
-> a repeat of another patch you haven't picked up yet:
+On Sun, Apr 19, 2026 at 02:52:58PM -0400, Chuck Lever wrote:
+> When an NFS server exports a filesystem and clients hold NFSv4
+> state (opens, locks, delegations), unmounting the underlying
+> filesystem fails with EBUSY. The /proc/fs/nfsd/unlock_ip and
+> /proc/fs/nfsd/unlock_fs procfs interfaces handle this, but have
+> no netlink equivalents, and unlock_fs operates at whole-superblock
+> granularity.
 > 
->  (1) Fix an early put of the sink page used in netfs_read_gaps(), before
->      the request has completed.
+> This series adds three new NFSD netlink commands, each with its own
+> attribute set:
 > 
-> [...]
+>  - NFSD_CMD_UNLOCK_IP releases NLM locks held by a client IP
+>    address. Netlink equivalent of write_unlock_ip.
+> 
+>  - NFSD_CMD_UNLOCK_FILESYSTEM revokes all NFS state on a
+>    superblock. Netlink equivalent of write_unlock_fs.
+> 
+>  - NFSD_CMD_UNLOCK_EXPORT revokes NFSv4 state acquired through
+>    exports of a specific path, regardless of client.
+> 
+> UNLOCK_FILESYSTEM and UNLOCK_EXPORT serve different intents.
+> UNLOCK_FILESYSTEM means "unmounting /data, release everything
+> on this superblock." UNLOCK_EXPORT means "no clients remain for
+> /data/projectA, release only the state acquired through exports
+> of that path." Userspace (exportfs -u) sends UNLOCK_EXPORT after
+> removing the last client for a given path, enabling the underlying
+> filesystem to be unmounted.
+> 
+> The path-only design for UNLOCK_EXPORT avoids the auth_domain
+> naming complexity (use_ipaddr vs hostname-based domains) by not
+> requiring the caller to identify a specific client. Since this
+> mechanism is to be used to enable umount, this seemed like a
+> reasonable compromise.
 
-Applied to the vfs.fixes branch of the vfs/vfs.git tree.
-Patches in the vfs.fixes branch should appear in linux-next soon.
-
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
-
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs.fixes
-
-[01/11] netfs: Fix early put of sink folio in netfs_read_gaps()
-        https://git.kernel.org/vfs/vfs/c/9d17365ee50d
-[02/11] netfs: Fix leak of request in netfs_write_begin() error handling
-        https://git.kernel.org/vfs/vfs/c/453f1cc34a8f
-[03/11] netfs: Fix potential UAF in netfs_unlock_abandoned_read_pages()
-        https://git.kernel.org/vfs/vfs/c/b712de212717
-[04/11] netfs: Fix potential uninitialised var in netfs_extract_user_iter()
-        https://git.kernel.org/vfs/vfs/c/3a6ca6bbb857
-[05/11] netfs: Fix partial invalidation of streaming-write folio
-        https://git.kernel.org/vfs/vfs/c/6fe333abf07d
-[06/11] netfs: Fix the trace displayed for the total overwrite of a streamed write
-        https://git.kernel.org/vfs/vfs/c/b7a4cdd022c4
-[07/11] netfs: Fix folio->private handling in netfs_perform_write()
-        https://git.kernel.org/vfs/vfs/c/49f3b040e222
-[08/11] netfs: Fix group handling in netfs_read_gaps()
-        https://git.kernel.org/vfs/vfs/c/ab763d6514d4
-[09/11] netfs: Fix potential for tearing in ->remote_i_size and ->zero_point
-        https://git.kernel.org/vfs/vfs/c/756f72b6d8db
-[10/11] netfs: Fix comment about write-streaming avoidance
-        https://git.kernel.org/vfs/vfs/c/f81dc0987b3c
-[11/11] netfs: Fix netfs_read_folio() to wait on writeback
-        https://git.kernel.org/vfs/vfs/c/c721f7b7992c
+Thanks for moving this into nfsd itself. That's great to see.
