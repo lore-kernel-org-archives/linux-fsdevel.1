@@ -1,74 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 298D921C16A;
-	Tue, 21 Apr 2026 11:35:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AC7F279334
+	for <linux-fsdevel@vger.kernel.org>; Tue, 21 Apr 2026 11:37:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776771343; cv=none; b=LzSKzHoAVIFAtXgC1OBjwpR+FvB+5u8qwPDETaPOUca+a0MKB9BkmFLmhnHE6XK2oCVU/wsZkqFo8uD3HE+o4Guu63rFmVR1v3u6YWHSn1py3FCPqz21zBe70xNvflxMq+JEoisisRRshJKRcV/+jkDCgf1bQPzvqP9ojda3Bhw=
+	t=1776771475; cv=none; b=FHIP14ZMede/CHqguV46xB5raWSzZHUYbzzfECbvXJ9onfI+vXYwjzii2KEq643PqmZUtOGc0Gy/6WLAzaY5RY7TsB27gOHZwWLDgegY6PLtmoYH7zR10ZzPu6OER0uBORY3qSKMiy4Yc/su4wLyYIYSrV+X91Migl8+7wUwbmM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776771343; c=relaxed/simple;
-	bh=TUdRjokcQfFGyE2LkzyPJjmUUQri3UC6MzBwVN+Nlmg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tQxtBLs4/Gd3xdHW1uYPfD14ruR6NldhCtHxfEVH7L3zfHdKGO6btSzAGEqAPvMJV3wGhC4WHTTAlliVttfjsk86J402UxtLanqc6WiTU2js/jXOAYZgqa8JW66dPm4ckIIyOZVO6KbdVGlVvRXcvq4MBmG9tWk+byvoRhMxQUs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oyswKJQd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776771475; c=relaxed/simple;
+	bh=/exTN5wiUC2j5pqnUurj9cDv0IrG2xTfHt8VPW7n66o=;
+	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc:
+	 In-Reply-To:References; b=BkHL41awIJkLUG+KiT9o/nn2TTu0cdrr41XfcqoDtjjra5VcTa0XsuVprdMk6gdvAH8t3KvdhP09TXo12w89CyyvyqpPoBYP49HRhXl4BIkUx4j9CVwiEOL2ycoChgzmH4ShQMjDV23sSOZgw3Vt6VlnyCy81/4MISs1gTeQ6GQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=EResvGfP; arc=none smtp.client-ip=95.215.58.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oyswKJQd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17DADC2BCB0;
-	Tue, 21 Apr 2026 11:35:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776771342;
-	bh=TUdRjokcQfFGyE2LkzyPJjmUUQri3UC6MzBwVN+Nlmg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=oyswKJQdZ4w6WhOwqNvl/ewdeiVPwaknlLSPBskkSrsrcn6cPKC6/xca+EK5sbWgV
-	 ZSUxIuigWXhVF5k98H9Bf/J0zRqtuJZdYOtSHSYZ4+p4wZtibAp8ctV1Zs34PzX90S
-	 IeBoDKeb7qTea4IpHdfixsKaLjxweOj8a4+vUGWpdvGTCfwo5XQsEntsLnjFAMNAph
-	 KptrHcVMxFFZ7Nbu+XA1IQVsoxxzT7pVJu93teDUHMeLb7XQKIi0LVZQepu4IK7MF2
-	 GRvhDTUTxSkteYifPMqyi3lefGvVAJhwRvUJF17i6cQYfnCtEjTTpyLVgr774suL7d
-	 KdAxwoNQlOx3A==
-From: Christian Brauner <brauner@kernel.org>
-To: Thorsten Blum <thorsten.blum@linux.dev>
-Cc: Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>
-Subject: Re: [PATCH] dcache: use kmalloc_flex() in __d_alloc
-Date: Tue, 21 Apr 2026 13:35:28 +0200
-Message-ID: <20260421-zucchini-kelch-6d9bf152ce29@brauner>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260417094238.551114-3-thorsten.blum@linux.dev>
-References: <20260417094238.551114-3-thorsten.blum@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="EResvGfP"
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1776771461;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Tr2GYwfict5w9aqZ8nyTIO+i6SQ/ei6r3dqDIg+s7Po=;
+	b=EResvGfPRq5M8XMNs80B8oiLRxCnDcReCjYooDhXcxDSmP/UAG5LWYm4B9yplrm49EVeIr
+	xDGSqhLpm/JGEmoi9AMfQma4VxWe3V2UNZSsoh2AAFEPjKv7chQa6MYgU2j+kU1Vnco81D
+	E4plbm+z/hNWp23OW8IoMlqgJPbL2nw=
+Date: Tue, 21 Apr 2026 11:37:39 +0000
 Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=999; i=brauner@kernel.org; h=from:subject:message-id; bh=TUdRjokcQfFGyE2LkzyPJjmUUQri3UC6MzBwVN+Nlmg=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQ+T+TMFFvSU3Zt6na5LfnGtlPXcNc/mep0wUL0+1/+z Q/r7imv6ChlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZjI1GeMDBPVWGfUx10QyWKO bL8YU/bN88VX9fVn5N+c7c9iX9WiUc/wz4b9g1ple8nBBAMpq77OA7eT5stGGEt8FP7+xCvGpdO EEQA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: sunliming@linux.dev
+Message-ID: <954eb7a48488c6bc548e1a8a72070e743dae19dd@linux.dev>
+TLS-Required: No
+Subject: Re: [PATCH] ovl: Fix possible NULL pointer dereference in
+ ovl_destroy_inode
+To: "Amir Goldstein" <amir73il@gmail.com>
+Cc: miklos@szeredi.hu, linux-unionfs@vger.kernel.org,
+ linux-kernel@vger.kernel.org, "sunliming" <sunliming@kylinos.cn>,
+ "linux-fsdevel" <linux-fsdevel@vger.kernel.org>
+In-Reply-To: <CAOQ4uxg8TdvtqE69cmizFh1OV-EBJYcJ9PMxDkYFXEPWZd_=JQ@mail.gmail.com>
+References: <20260421092349.148002-1-sunliming@linux.dev>
+ <CAOQ4uxg8TdvtqE69cmizFh1OV-EBJYcJ9PMxDkYFXEPWZd_=JQ@mail.gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Fri, 17 Apr 2026 11:42:40 +0200, Thorsten Blum wrote:
-> Use kmalloc_flex() when allocating a new 'struct external_name' in
-> __d_alloc() to replace offsetof() and the open-coded size arithmetic,
-> and to keep the size type-safe.
+2026=E5=B9=B44=E6=9C=8821=E6=97=A5 17:45, "Amir Goldstein" <amir73il@gmai=
+l.com mailto:amir73il@gmail.com?to=3D%22Amir%20Goldstein%22%20%3Camir73il=
+%40gmail.com%3E > =E5=86=99=E5=88=B0:
 
-Applied to the vfs-7.2.misc branch of the vfs/vfs.git tree.
-Patches in the vfs-7.2.misc branch should appear in linux-next soon.
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+>=20
+>=20On Tue, Apr 21, 2026 at 11:24 AM <sunliming@linux.dev> wrote:
+>=20
+>=20>=20
+>=20> From: sunliming <sunliming@kylinos.cn>
+> >=20
+>=20>  In the ovl_destroy_inode function, a variable reference oi->lowerd=
+ata_redirect
+> >  that might be NULL is directly freed. Add a non-null check, and only=
+ free
+> >  the space when it is not NULL.
+> >=20
+>=20Sunliming,
+>=20
+>=20This is nonsense.
+> kfree() is not a dereference and kfree(NULL) is allowed.
+>=20
+>=20Please be more considerate of my time and the time of other
+> volunteer maintainers and do not post patches that you do not
+> understand yourself.
+>=20
+>=20Thanks,
+> Amir.
+>=20
+I=20understand, I apologize for this patch, thank you.
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.2.misc
-
-[1/1] dcache: use kmalloc_flex() in __d_alloc
-      https://git.kernel.org/vfs/vfs/c/4f521e4554a7
+> >=20
+>=20> Signed-off-by: sunliming <sunliming@kylinos.cn>
+> >  ---
+> >  fs/overlayfs/super.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+>=20>  diff --git a/fs/overlayfs/super.c b/fs/overlayfs/super.c
+> >  index 60f0b7ceef0a..4b8b5fd4ab59 100644
+> >  --- a/fs/overlayfs/super.c
+> >  +++ b/fs/overlayfs/super.c
+> >  @@ -218,7 +218,7 @@ static void ovl_destroy_inode(struct inode *inod=
+e)
+> >  ovl_stack_put(ovl_lowerstack(oi->oe), ovl_numlower(oi->oe));
+> >  if (S_ISDIR(inode->i_mode))
+> >  ovl_dir_cache_free(inode);
+> >  - else
+> >  + else if (oi->lowerdata_redirect)
+> >  kfree(oi->lowerdata_redirect);
+> >  }
+> >=20
+>=20>  --
+> >  2.25.1
+> >
+>
