@@ -1,168 +1,325 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6B01399345
-	for <linux-fsdevel@vger.kernel.org>; Tue, 21 Apr 2026 11:17:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776770269; cv=pass; b=utktCE4aPyVgjIAHv6bo8nNmJ+fCS0KW8wyJCpoZIyEuMA/jm4Q4tJBI2LWEqip6jEos1nUeTe1TE34cciWJrPvRrV9Rea7pmhkRQVrZvtzX0q7h9grAF5H19dgw82i9jwoH5zFLgmdKAMK0a0WiXIG9Y5TPvSKjiOzw/YPtYYQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776770269; c=relaxed/simple;
-	bh=ePy+65LwHtpadmQB8IRLTSgwYKUeWXNIN+sEiEUTMhM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MKt0ulOGfdOuUsJl0K2OEKxjqHh1TXzDPH35c4K7AlswpEVH3IVof4PWwGEvGP5v08XhMbTs6NUZ/oPM4GmW8VWVlnMoIcbm+5x5SxmEnY096eh/glFF+cJJywFTnLblC79orbTwWAi+X4SUHeLEqDqKARbaUudBL1PFciJ+G7M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GFXZ5xp+; arc=pass smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83AB2231832
+	for <linux-fsdevel@vger.kernel.org>; Tue, 21 Apr 2026 11:27:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776770860; cv=none; b=XqdXsDwBXncaml+uaZHtPMo80TLd7korB93kI5qfVtN9uTfbu+KrWK1WLgWD+NCbn1rwcajLQnCEtlPF7qL6xjX9hvp+rlokK9vADTnKuzFdG0Ur3BO5nPKlk+zfyO2AgrRWvn4IrlB0CDtAhzCvh6/7Vu1TORjrogYZJeHOVAc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776770860; c=relaxed/simple;
+	bh=AXZs8K35rJACRuxjKrTNrsxYaA3nqKe4gurdsjbdkEU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eRCQX7LjqZcLn3hNtJ8hYncKmnfJGWqwlF3zhEPnjYEa6YTzY3RnIEmWmLYPi+UTI8vyr05RKRA7glzYM7WRGKJAWBRw1xni5GYSflt5hTEhnlN8cn/XgEtUrSMRd0CCP+wWSabKoE8KV1/X0vREMa6yRYUdzg6tie9nT3AuE7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vL0fTSZU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GFXZ5xp+"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-66e8cf72a93so4887798a12.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 21 Apr 2026 04:17:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776770266; cv=none;
-        d=google.com; s=arc-20240605;
-        b=HDwKCmGOWwmLJgS5ZGgtp9+ttRFheLLgwrx4XwNy341dhkm752WHjHy4PCaKvLAfFb
-         0kgDBhgOCUvbDJQSihNc33zFSlDLD1quUp5YLx1vqLTv8SLGF9UoLqlO5zZmEDid20BO
-         jFByZCsEia3eF0sCTPkFP6A/JEdj/tW9SUAu1joE6/cPMWAkSD+g/st+Td8P6OdgycP1
-         BAIz3h4ERqZxaJ80XaPFweuridQmNXsS6sVUj58k3mdbsaNougtH3KQVGuVI8cqG4S6g
-         qc/sI/L8jQ4RCsha6WNJjZ6qYaukKn97gHnsKUDaXY0sSERR7kT2wt8CzxT5qlR5QOyI
-         Nefg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=hgYesHF911J8oYm/LCuiWDmIFhG8PZk/XtlS4JH5Njw=;
-        fh=f16hpU4LTCDGXypSBKY0qhDhLQzTOB7CS56wscDEys4=;
-        b=JxUa73pzumj7bIl4eoXmyehsqhF0nYnbJ6uwZ/+RBT+Ah22uK+jqcXz0USd2ca56vs
-         nO7PMNow6Px3+o+Lhm7ZjU+3qkSv5VcYy7tVRPLOHWO+hmY1qBhrwGsCerzWuaxMdZwa
-         GNZ8b92PA7GTKq0KJNl0faijb0xGjYvrSgIQ4SG8PrVwOX8oscgABP6eyP6gGQ7onagW
-         ireT4HGAYKqlqFbt/YqpvCj6GvP+DCC6/0BGsiYz1oZx7F7oanP1a/k8QW6rX5Ep1nJ+
-         tTBqirEa38HmL65PdVpqjUZ2XnGnHcxrKsCeXcdJKepVG4I84kROQsnXJw5pVqig8BjK
-         +R5w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776770266; x=1777375066; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hgYesHF911J8oYm/LCuiWDmIFhG8PZk/XtlS4JH5Njw=;
-        b=GFXZ5xp+bDGZVld/coLr/fu+N/e2/Yg1fLIFICyKUwu1hAYt4PTKgvy0eGTa07Skpv
-         svNZvEO4zidcH/3yQkDLBec/yA2S6QZy2eH8w5OdxWna8/Zl9wqvWA5isBBp5PkEQM/m
-         UCAYL9A4L6AeYYtOaM0hKQBm5oXF00oBJ4A324Nd6FOJTeDKgvX4Iub1l+Qc4Ih+JPXX
-         g/8LDA6HpKx8rAE8bHpqHTaLmpDjiF9Do05kqg202Nz2DoTfIiPWCiUnas5o/1FM3Jhc
-         DwDmJ/SjbHSn/Z3u4wSXxkrPG4TH5eVCrHjktvzMxUeKzPjvLaXG36sFwUl17aygc75m
-         d6Eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776770266; x=1777375066;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=hgYesHF911J8oYm/LCuiWDmIFhG8PZk/XtlS4JH5Njw=;
-        b=XKGMBbEqBEIbUit/OgJEwXbrFaDTKy6LlVhK3Fa4IoU4Z19AAS1g/COHbs2e1n6mdT
-         r2TPR5osrlxmcAW7NDZd+TWu0p4THHpWpDserLe0tMC/61B38UHK2duQpBc2Ekff43Ol
-         PlsiKcDhuYXX1woTJaMBLdVz2Vo5BSF1lg4OaIWWa7eR0lwwuQRUzHPrtOnhtqMdXsA1
-         dpouKsSXD8GdnIgyBd+ceuARGoRwdausdv1bA1g299lKknoV3ajaRfKLG7SBBgYCBj+X
-         OADGRneIUWjm+RWdK77Kkhy3ljdLf/RS7fCbrkRwu/CeLM0Th4hObrHqx9TGczRhjjKh
-         0H5Q==
-X-Forwarded-Encrypted: i=1; AFNElJ/Mg5Qi2QZ3++E/+EYEFrasgoG8QyUmupj4xiiGijqpRl9WKKVTJ9NCAhqv3YpfZr0DTa9ZlCZhQSDkgsaA@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzcw7OBN3kOXfc45+68NXyzaBA9gB74siKyJ4JBASaLt1J9yNXm
-	6hWIVnY+wKXYKyXNhs6NSYmiFnBBAolntQDYYgCfcTR/vfKhO1x3SvV0+NUluqKnzPbGlR1E6fZ
-	11rcZi4db4D70TlPkMc2fz86XnTbg3Ltie/toSzo=
-X-Gm-Gg: AeBDietD16DxrD9Q9gwon+OFlh9IiM/bRulhMRNi64QB4wcihz/joWJdJTtKM6KnI5Y
-	DqUZTej25LiWxzh74Daz9gbS5ZhFtUURsegwLHYwSMnbzomGeKPZyK7IGpIlEmuguZJ1JtLyC5v
-	1SK5vWGRtXgxpimQVX9o4tnpnXJ04n1QaPfvn4wrc0yz8ttaJhLY2+PMkruaV7UjIYu1l+SVUiN
-	c9ydq5DvmDQzE6Bn41FL8YL7nPNthJujTGo+5YS6zMnpSURqm8cvfdJrq5tMo0iFEcU4Tn9q3AV
-	EJbZF30nqDEtlroftae78+FkLNw96QQYyeT3eXFfADiWh4VYCy5o
-X-Received: by 2002:a17:907:7ba7:b0:b98:5648:e68a with SMTP id
- a640c23a62f3a-ba41adfb426mr848138166b.36.1776770265885; Tue, 21 Apr 2026
- 04:17:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vL0fTSZU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED492C2BCB0;
+	Tue, 21 Apr 2026 11:27:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776770860;
+	bh=AXZs8K35rJACRuxjKrTNrsxYaA3nqKe4gurdsjbdkEU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vL0fTSZU+ii/Ac3yRtIoC9f/NctbvERWbOOdH/bh5fgfoqxuj5DoEmXshL7wllXed
+	 VXwiFXDpzW+iioSrsLg4I/d2HvvGc8FNafcoRNwYCDEVf2VfvWb+1cCGevziOVdAmN
+	 RNgpKYRaXjwouSwW3aqwvgsD+0q+f1Iea0xhVbQcwSvQmMOrbIB9qc02xZ5QreillD
+	 go+HmkURz+hNm1IoNfR2CyY1Eq11jeeZq2vguR3b3lmDe4z1bUG3eTl+CGHmCWiTNh
+	 tflSP3BKcYt10wCe+/jbY55c2qa2wmiwweIOi9vydDTjgPYWEuVlAh9I+k9v2C4dng
+	 DnErn4hwwbcZQ==
+Date: Tue, 21 Apr 2026 13:27:35 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Jan Kara <jack@suse.cz>, Al Viro <viro@zeniv.linux.org.uk>, 
+	linux-fsdevel@vger.kernel.org, Theodore Tso <tytso@mit.edu>, Christoph Hellwig <hch@lst.de>, 
+	"Darrick J. Wong" <djwong@kernel.org>, Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH] docs: add guidelines for submitting new filesystems
+Message-ID: <20260420-zuruf-haare-988a63f85290@brauner>
+References: <20260417142503.1436446-1-amir73il@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260417142503.1436446-1-amir73il@gmail.com> <u2scvjd522tdhb35r7ge2fqclt2qo3y4x5nxwprwcritxir2wj@5u4zhohrv6aw>
- <CAOQ4uxj1guVDXNrSmWUVS+6_meYPGBe8kBSDjfe8PkopTd79fA@mail.gmail.com> <5zc4j4nrfvxr56rvtgazaxojbpnd54ok2bx46xvhe3swn5g7dv@lzbnm44acpbn>
-In-Reply-To: <5zc4j4nrfvxr56rvtgazaxojbpnd54ok2bx46xvhe3swn5g7dv@lzbnm44acpbn>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Tue, 21 Apr 2026 13:17:34 +0200
-X-Gm-Features: AQROBzDjNvEX7pawaNVVkNW06dgdan83CjIfBTGn9yYdfHV25a77VpfHWJRLLxk
-Message-ID: <CAOQ4uxhUU0D89P_ZfOyDPpvGD5wy8VoU-o2i8iBjU-HmJyWuDA@mail.gmail.com>
-Subject: Re: [PATCH] docs: add guidelines for submitting new filesystems
-To: Jan Kara <jack@suse.cz>
-Cc: Christian Brauner <brauner@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
-	linux-fsdevel@vger.kernel.org, Theodore Tso <tytso@mit.edu>, 
-	Christoph Hellwig <hch@lst.de>, "Darrick J. Wong" <djwong@kernel.org>, Matthew Wilcox <willy@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260417142503.1436446-1-amir73il@gmail.com>
 
-On Tue, Apr 21, 2026 at 12:16=E2=80=AFPM Jan Kara <jack@suse.cz> wrote:
->
-> On Mon 20-04-26 20:14:58, Amir Goldstein wrote:
-> > On Mon, Apr 20, 2026 at 4:37=E2=80=AFPM Jan Kara <jack@suse.cz> wrote:
-> > >
-> > > On Fri 17-04-26 16:25:03, Amir Goldstein wrote:
-> > > > + - Handle security issues promptly.  Filesystems parse complex on-=
-disk
-> > > > +   structures from potentially untrusted media and must treat secu=
-rity
-> > > > +   reports with urgency.
-> > >
-> > > I've commented on this in reply to Matthew. I agree syzbot results mu=
-st be
-> > > reviewed and identified security issues treated in a timely manner. H=
-owever
-> > > dealing with maliciously corrupted on-disk data isn't (IMO) a serious
-> > > attack vector. Even current well maintained filesystems (e.g. ext4 an=
-d
-> > > others) have some issues in this area so it seems unfair to ask this =
-from a
-> > > new filesystem.
-> > >
-> >
-> > This is what I posted in v2:
-> >
-> >  - Handle security issues promptly.  Filesystems parse complex on-disk
-> >    structures from potentially untrusted media and must treat security
-> >    reports with urgency.  Expect the filesystem to be subjected to fuzz=
-ing
-> >    of both syscalls and filesystem images.  The filesystem must handle
-> >    corrupted input gracefully without hanging or crashing the kernel.
-> >
-> > Are you saying that ext4 and others do not react to crash reports from
-> > image fuzzing which result in crash/hang?
->
-> We are reacting to them, but not with such an urgency this paragraph seem=
-s
-> to suggest :).
->
-> > Can you suggest a more relaxed clause or should I remove it altogether?
->
-> I definitely want to keep a clause like this. Maybe I'd just reformulate =
-it
-> like:
->
->   - Handle security issues promptly.  Both those reported by ordinary use=
-rs
->     as well as those reported by fuzzing tools. Expect that your filesyst=
-em
->     will be subject to syscall fuzzing as well as filesystem image fuzzin=
-g.
->     Dealing with maliciously corrupted filesystem images is not generally
->     considered a high severity security issue but still it is considered =
-a
->     quality-of-implementation issue that should be fixed.
->
+On Fri, Apr 17, 2026 at 04:25:03PM +0200, Amir Goldstein wrote:
+> This document is motivated by the ongoing maintenance burden that
+> abandoned and untestable filesystems impose on VFS developers, blocking
+> infrastructure changes such as folio conversions and iomap migration.
+> 
+> This week alone, two new filesystems were proposed on linux-fsdevel
+> (VMUFAT and FTRFS), highlighting the need for documented guidelines
+> that new filesystem authors can refer to before submission.
+> 
+> Multiple recent discussions on linux-fsdevel have touched on the
+> criteria for merging new filesystems and for deprecating old ones,
+> covering topics such as modern VFS interface adoption, testability,
+> userspace utilities, maintainer commitment, and user base viability.
+> 
+> Add Documentation/filesystems/adding-new-filesystems.rst describing
+> the technical requirements and community expectations for merging a
+> new filesystem into the kernel.  The guidelines cover:
+> - Alternatives to consider before proposing a new in-kernel filesystem
+> - Technical requirements: modern VFS interfaces (iomap, folios,
+>   fs_context mount API), testability, and userspace utilities
+> - Community expectations: identified maintainers, demonstrated
+>   commitment, sustained backing, and a clear user base
+> - Ongoing obligations after merging, including the risk of deprecation
+>   for unmaintained filesystems
+> 
+> Link: https://lore.kernel.org/linux-fsdevel/20260411151155.321214-1-adrianmcmenamin@gmail.com/
+> Link: https://lore.kernel.org/linux-fsdevel/20260413142357.515792-1-aurelien@hackers.camp/
+> Link: https://lore.kernel.org/linux-fsdevel/yndtg2jbj55fzd2kkhsmel4pp5ll5xfvfiaqh24tdct3jiqosd@jzbfzf3rrxrd/
+> Link: https://lore.kernel.org/linux-fsdevel/20260124091742.GA43313@macsyma.local/
+> Link: https://lore.kernel.org/lkml/20260111140345.3866-1-linkinjeon@kernel.org/
+> Cc: Christian Brauner <brauner@kernel.org>
+> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+> Cc: Jan Kara <jack@suse.cz>
+> Cc: Theodore Tso <tytso@mit.edu>
+> Cc: Christoph Hellwig <hch@lst.de>
+> Cc: Darrick J. Wong <djwong@kernel.org>
+> Cc: Matthew Wilcox <willy@infradead.org>
+> Assisted-by: Cursor:claude-4-opus
+> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+> ---
 
-I can take this version, but tbh feels like debating this clause misses
-the main goal of the doc, so I'd rather go with something a lot shorter:
+I'm all on board with this. I think this is worth doing and I think we
+need a better process than the "just send it and see what sticks" model
+and throw the whole community off the cliff at the same time.
 
-- Handle security issues and regression promptly.  Both those reported
-  by ordinary users as well as those reported by test bots.
+> Hi folks,
+> 
+> I am posting this patch as a placeholder for a TOPIC discussion at LSFMM.
+> This is a reoccurring topic on fsdevel and in LSFMM, but I think it is
+> worth having, because I do not think we have made a significant progress
+> in solving the vfs maintenance burden problem.
+> 
+> As much as I hate manifests and even more so discussions about
+> manifests, I think that having a document like this will at least save
+> us some time in writing the bounce emails.
+> 
+> Please try not to make this a discussion about a legal document!
+> 
+> Note that LLM has helped me collect the relevant discussions and
+> articulate our collective feedbacks into a summary.
+> 
+> Note that same LLM makes it much easier for random people to
+> submit new filesystems, so we may need to work harder in the near
+> future on push backs...
+> 
+> Thanks,
+> Amir.
+> 
+> 
+>  .../filesystems/adding-new-filesystems.rst    | 167 ++++++++++++++++++
+>  Documentation/filesystems/index.rst           |   1 +
+>  2 files changed, 168 insertions(+)
+>  create mode 100644 Documentation/filesystems/adding-new-filesystems.rst
+> 
+> diff --git a/Documentation/filesystems/adding-new-filesystems.rst b/Documentation/filesystems/adding-new-filesystems.rst
+> new file mode 100644
+> index 0000000000000..2e59b7127c05f
+> --- /dev/null
+> +++ b/Documentation/filesystems/adding-new-filesystems.rst
+> @@ -0,0 +1,167 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +.. _adding_new_filesystems:
+> +
+> +Adding New Filesystems
+> +======================
+> +
+> +This document describes what is involved in adding a new filesystem to the
+> +Linux kernel, over and above the normal submission advice in
+> +:ref:`Documentation/process/submitting-patches.rst <submittingpatches>` and
+> +:ref:`Documentation/process/submit-checklist.rst <submitchecklist>`.
+> +
+> +Every filesystem merged into the kernel becomes the collective responsibility
+> +of the VFS maintainers and the wider filesystem development community.
+> +Experience has shown that filesystems which become unmaintained impose a
+> +significant and ongoing burden: they are hard or impossible to test, they
+> +block infrastructure changes because someone must update or preserve old APIs
+> +for code that nobody is actively looking after, and they accumulate unfixed
+> +bugs.  The requirements and expectations described here are informed by this
+> +experience and are intended to ensure that new filesystems enter the kernel
+> +on a sustainable footing.
+> +
+> +
+> +Do You Need a New In-Kernel Filesystem?
+> +---------------------------------------
+> +
+> +Before proposing a new in-kernel filesystem, consider whether one of the
+> +alternatives might be more appropriate.
+> +
+> + - If an existing in-kernel filesystem covers the same use case, improving it
+> +   is generally preferred over adding a new implementation.  The kernel
+> +   community favors incremental improvement over parallel implementations.
+> +
+> + - If the filesystem serves a niche audience or has a small user base, a FUSE
+> +   (Filesystem in Userspace) implementation may be a better fit.  FUSE
+> +   filesystems avoid the long-term kernel maintenance commitment and can be
+> +   developed and released on their own schedule.
+> +
+> + - If kernel-level performance, reliability, or integration is genuinely
+> +   required, make the case explicitly.  Explain who the users are, what the
+> +   use case is, and why a FUSE implementation would not be sufficient.
+> +
+> +
+> +Technical Requirements
+> +----------------------
+> +
+> +New filesystems are expected to use current kernel interfaces and practices.
 
-IMO, getting into more details doesn't really add much value to the
-prospect reader of the doc before submitting a new filesystem nor to
-the filesystem reviewer.
+We can be stronger here and use "must" use current kernel interfaces and
+practices. There's no need to accept a new filesystem if it would in any
+way needlessly prolong the existency of legacy internal apis.
 
-Thanks,
-Amir.
+> +Submitting a filesystem built on outdated APIs creates an immediate
+> +maintenance debt and is likely to face pushback during review.
+
+"Submitting a filesystem built on outdated APIs creates an unacceptable
+maintenance debt."
+
+> +
+> +Use modern VFS interfaces
+> +  New filesystems should use iomap rather than buffer heads for block mapping
+> +  and I/O, folios rather than raw page operations for page cache management,
+> +  and the filesystem context API (``fs_context``) for the mount path.  See
+> +  ``Documentation/filesystems/iomap/index.rst`` for iomap documentation and
+> +  ``Documentation/filesystems/mount_api.rst`` for the mount API.
+
+I think we can compile a list of must-haves.
+
+> +
+> +Avoid deprecated interfaces
+> +  Do not use interfaces listed in
+> +  :ref:`Documentation/process/deprecated.rst <deprecated>`.  If the
+> +  filesystem depends on an interface that is being phased out, plan for
+> +  conversion before submission.
+> +
+> +Provide userspace utilities
+> +  A ``mkfs`` tool is expected so that the filesystem can be created and used
+> +  by testers and users.  A ``fsck`` tool is strongly recommended; while not
+> +  strictly required for every filesystem type, the ability to verify
+> +  consistency and repair corruption is an important part of a mature
+> +  filesystem.
+> +
+> +Be testable
+> +  The filesystem must be testable in a meaningful way.  The
+> +  `fstests <https://git.kernel.org/pub/scm/fs/xfs/xfstests-dev.git>`_
+> +  framework (also known as xfstests) is the standard testing infrastructure
+> +  for Linux filesystems and its use is highly recommended.  At a minimum,
+> +  there must be a credible and documented way to test the filesystem and
+> +  detect regressions.  When submitting, include a summary of test results
+> +  indicating which tests pass, fail, or are not applicable.
+> +
+> +Provide documentation
+> +  A documentation file under ``Documentation/filesystems/`` describing the
+> +  filesystem, its on-disk format, mount options, and any notable design
+> +  decisions is recommended.
+> +
+> +
+> +Community and Maintainership Expectations
+> +-----------------------------------------
+> +
+> +Merging a filesystem is a long-term commitment.  The kernel community
+> +needs confidence that the filesystem will be actively maintained after it
+> +is merged.
+> +
+> +Identified maintainer
+> +  The submission must include a ``MAINTAINERS`` entry with at least one
+> +  maintainer (``M:``), a mailing list (``L:``), and a git tree (``T:``).
+> +  The maintainer is expected to be the primary point of contact for the
+> +  filesystem going forward.
+
+Tbh, I'd rather have at least two but given past experiences but
+probably not something we need to consistently enforce here.
+
+> +
+> +Demonstrated commitment
+> +  A track record of maintaining kernel code -- for example, in other
+> +  subsystems -- significantly strengthens the case for a new filesystem.
+> +  Maintainers who are already known and trusted within the community face
+> +  less friction during review.
+> +
+> +Sustained backing
+> +  Major filesystems in Linux have organizational or corporate support behind
+> +  their development.  Filesystems that depend entirely on volunteer effort
+> +  face higher scrutiny about their long-term viability.
+> +
+> +Responsiveness
+> +  The maintainer is expected to respond to bug reports, address review
+> +  feedback, and adapt the filesystem to VFS infrastructure changes such as
+> +  folio conversions, iomap migration, and mount API updates.  Unresponsive
+> +  maintainership is one of the primary reasons filesystems end up on the
+> +  path to deprecation.
+> +
+> +User base
+> +  Clearly describe who the users of this filesystem are and the scale of the
+> +  user base.  Filesystems with a very small or unclear user base face a
+> +  harder path to acceptance and a higher risk of future deprecation.
+> +
+> +A practical way to demonstrate many of the qualities above is to maintain the
+> +filesystem out-of-tree for a period before requesting a merge.  This shows
+> +sustained commitment, builds a visible user base, and gives reviewers
+> +confidence that the code and its maintainer will persist after merging.
+> +That said, it is recognized that for some filesystems the user base grows
+> +significantly only after upstreaming, so a compelling case for expected
+> +adoption can substitute for a large existing user base.
+> +
+> +
+> +Submission Process
+> +------------------
+> +
+> +Send patches to the linux-fsdevel mailing list
+> +(``linux-fsdevel@vger.kernel.org``).  CC the relevant VFS maintainers as
+> +listed in the ``MAINTAINERS`` file under ``FILESYSTEMS (VFS and infrastructure)``.
+> +
+> +Expect thorough review.  Filesystem code interacts deeply with the VFS, memory
+> +management, and block layers, so reviewers will examine the code carefully.
+> +Address all review feedback and be prepared for multiple revision cycles.
+> +
+> +It may be appropriate to mark the filesystem as experimental in its Kconfig
+> +help text for the first few releases to set expectations while the code
+> +stabilizes in-tree.
+> +
+> +
+> +Ongoing Obligations
+> +-------------------
+> +
+> +Merging is not the finish line.  Maintaining a filesystem in the kernel is an
+> +ongoing commitment.
+> +
+> + - Adapt to VFS infrastructure changes.  The VFS layer evolves continuously;
+> +   maintainers are expected to keep up with conversions such as folio
+> +   migration, iomap adoption, and mount API updates.
+> +
+> + - Maintain test coverage.  As test suites evolve, the filesystem's test
+> +   results should be kept current.
+> +
+> + - Handle security issues promptly.  Filesystems parse complex on-disk
+> +   structures from potentially untrusted media and must treat security
+> +   reports with urgency.
+> +
+> + - Filesystems that become unmaintained -- where the maintainer stops
+> +   responding, infrastructure changes go unadapted, and testing becomes
+> +   impossible -- are candidates for deprecation and eventual removal from
+> +   the kernel.
+> diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
+> index f4873197587df..10e40cc9cbc9d 100644
+> --- a/Documentation/filesystems/index.rst
+> +++ b/Documentation/filesystems/index.rst
+> @@ -42,6 +42,7 @@ algorithms work.
+>     caching/index
+>  
+>     porting
+> +   adding-new-filesystems
+>  
+>  Filesystem support layers
+>  =========================
+> -- 
+> 2.53.0
+> 
