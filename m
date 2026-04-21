@@ -1,115 +1,243 @@
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63A4F3BC695
-	for <linux-fsdevel@vger.kernel.org>; Tue, 21 Apr 2026 13:00:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A3163A4F58;
+	Tue, 21 Apr 2026 13:40:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776776422; cv=none; b=BJH2PD7oUPB2S3fFBqc4IwyjDO/PlJfS7x/giYLssn+nWcrkjfyiswmlUdWz2IhXpJJGOrLB2hl0vRGkGF0FM/ciCOUG3f3hHarg8s971MNnZ0O4a0ltOnvHBQIHm7dAbS/LhuJZYOT74F3HW61tZsJOZADPxjwplunVy403O2w=
+	t=1776778824; cv=none; b=t7bYCdQVU4MzJhOYezzxYO+HX9elO2omd1rDJja04s/0HzfFhCQ4+/6aMB03SQxMcLgPCBtBLFtvQfrEpGi9PPxmrrHBMvrtmOUpFD1qj9E2qaF3tRb+4FXjbXaExF79mE0z+Y3ZSGOOU5i9d01wMMI4ehooxx5RGfyCXLvPDqA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776776422; c=relaxed/simple;
-	bh=X7yqPotbiLP3hmcoreTzAxwZf8JJuC/uXJUvNDKuOQI=;
+	s=arc-20240116; t=1776778824; c=relaxed/simple;
+	bh=vIZhXnlC6WemEIo1i/UKx7MP0mQPp/95QfMD/4Qm33E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cV3fYbThxr9bzlcEdKjdWiuaqBvszerngUrgPHyyt8NKl4zpU13Ck6DchBe8QdFOuVAw90l1JOmoOUjSWkAATug7UwphmMRTv4f15RVVMnNUojzfA9FAv5nKhi5FG1FlTRsVL2MoQO5FhsMxErppClKjNeTbtRE8WPHAwguwl8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cCpdTRSh; arc=none smtp.client-ip=209.85.208.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=u+NCJEhwuOZKazJsoKgJ4rliVIYXE9/uGalNrXHFGaU87tDiwQSkNe+bDFUyPRu+/3JNwOjmvgNjvFiwDFNC/5xSfHCHC+F+AzujqulG1O1VcegxJ77WneXpGhIhitgfFhQMnDTmj1N62qBelraR1p/stsINQ301YZ4pqlwhQZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mM9M+cAM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cCpdTRSh"
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-38e936caafeso42177461fa.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 21 Apr 2026 06:00:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776776417; x=1777381217; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=fHcpARBD+WBEWOxUHd0dbjlxtFt9jhg3lz7vuIXHzEo=;
-        b=cCpdTRShr+sMmihxE1SZUS8D22dZec7wFqYT56gyAIsxH6n15gtjBX4nooXPDNG+tl
-         2nyJevN+Q/z1dH9rTckZ3dR+fnibHRNxtvZNNBPkQJiKiFKLfAvIQ3RhQlYGVEIt84wd
-         /iP+YAODBhr4XsKSHPDns6tjvnT5bgOLTs+/cocnkaXnhe2cxZUkcOJi9qto3pruGSjm
-         gkVwRk6Gqdz/0Gylccz6P6/EcFvp43vgfxetkGsM1Pv95dzo+fyzUEHjwYmt89AEZ5/4
-         itYZGQVm4DPSKaMIg+iWHA1VOBwM4Ue8wA3usqJkI7ltYVPUmGoehSS6M93wron4Mfk3
-         nSlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776776417; x=1777381217;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fHcpARBD+WBEWOxUHd0dbjlxtFt9jhg3lz7vuIXHzEo=;
-        b=X081KdBU+SgG1awFisqJb9pw+3IN34iN8Sv9v2gfzHZvSUnLRdT0fhyFmhP65BYwwn
-         /2Ioa+IddWxGK57SgDoaZwP/4vyY/KWCFYo5M6pAcfxTD9eFEJqZ+LOJVF13VYjwbzHe
-         7lNri7wqNFDcCLTwR1OPeeGsqliOYZWI5mRBSLc+f2y/PXTJ6vHOukZAZxbVwGQkNDrm
-         PNsusaKZX1kaC96lNGCrx5rM1UbUNrJLhawl8xrAnR5ycj2Ovf1PifJGVIzzP61nJStD
-         nsFDeY4W+ITWOa1c8NWjeJSXKjbZ8K6EN63Crhu16p8gFkf1FDLYRrThU/nzU289TcMu
-         Lgpw==
-X-Forwarded-Encrypted: i=1; AFNElJ8LElyE7WptfeU4fHiGT8CzlUaUjLjWrNdvuL5yoYWW7+tI8D0cu3Z/udahRtqGqCKQv57OzKYYf7PCG/dX@vger.kernel.org
-X-Gm-Message-State: AOJu0YwHXZWb/NgeCquyHsGaafUtF4sww2wGJekGDpBzi+X9Nm0u783M
-	NoGtgsatLNIfMB0TFl9MEanyiQbW2BOCtlQhZLG4jkj0yMyJ7IsNWGA=
-X-Gm-Gg: AeBDietuQr6b7HMybspqVH5ZHQgOxpSGzwERGdygW3QcitgChO6+YE3PHA3sBHlCck9
-	JpQdthFkYREBWOsXNHSRKbLeFZ8tD18nxttK+G7Ge6USkKasSxP2UHb+MVpc48UQxM3yEsLj9rC
-	5rnXpI2iXAhGnSZw+5ICQUdI+HokD3JBAt7V6NEU8UmKWroSgd8Nmsl1NcukiRTilIZ2D3Lr5I/
-	J+Byr6n/eek/UK3xnKMexVncN1qvTLxHkY+KvrO6jUxbPdCc5agQl1yVuhutufIB+rqrsnxssnn
-	QLD+9+6N1p9jUkGWXrNmUdt/OSumrF4m14sRnHGr3R+2+39Gn6QcMdpRWUGYt0A/I1quv3V6OxZ
-	EdYbpZY8dsfMtaMh2ZzDsE69sBTzFBKplqMKkb0MXQbS2k/0XrIAEIwSbcqSwyin3oOUybI7SJ4
-	ne/PFStRQsPSwKPQsYAz+Uj1YrLA/1M/JcYgJp4uO+ORtBaXRCl36vY6b95wOpj03FB9lUxCpcy
-	D8=
-X-Received: by 2002:a05:651c:154c:b0:38e:33ba:51c2 with SMTP id 38308e7fff4ca-38ec7b4ed43mr50748521fa.29.1776776417032;
-        Tue, 21 Apr 2026 06:00:17 -0700 (PDT)
-Received: from p183 (dynamic-vpdn-brest-46-53-134-59.brest.telecom.by. [46.53.134.59])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38ecb5f652asm28640821fa.12.2026.04.21.06.00.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Apr 2026 06:00:16 -0700 (PDT)
-Date: Tue, 21 Apr 2026 16:02:24 +0300
-From: Alexey Dobriyan <adobriyan@gmail.com>
-To: Thorsten Blum <thorsten.blum@linux.dev>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	wangzijie <wangzijie1@honor.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Wei Yang <albinwyang@tencent.com>, Jan Kara <jack@suse.cz>,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] proc: use strnlen() for name validation in __proc_create
-Message-ID: <40e8e922-7962-4ab2-a0ee-8475701b1110@p183>
-References: <20260421122648.56723-2-thorsten.blum@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mM9M+cAM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 960EEC2BCB0;
+	Tue, 21 Apr 2026 13:40:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776778823;
+	bh=vIZhXnlC6WemEIo1i/UKx7MP0mQPp/95QfMD/4Qm33E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mM9M+cAMwYtyZ/A/5TpgIRwCop4cQGETyptMq9v/u2ZyABhJIYqmVqEGj6kj7c0mc
+	 xVYYEi62APJ5T0XXKihQl9hGTj5ZtXlke6J/Oqhu0yujsLCZlQ35h7lYIiUHPsp3/Q
+	 MEGMsjCnycG6EP/nstht7LFTGqTG5E3lf4DO2oXz1tQIJHkLI9zm985r40lziN5vJt
+	 ZX6DHRJOKSx9g6w9ICOHxWviHfREB7F9Q1M+sqOjSAaoY8J/F7drcEQGW9bPd+LvjL
+	 hT5ZNQlmw5CPWPkFI+zi0Y6WHB3LXv5kYwCB41ifJu8Dl1sVO7dWr012VlzGKaZwZ4
+	 MXoEiOoy31ijA==
+Date: Tue, 21 Apr 2026 14:40:21 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: "Kalyazin, Nikita" <kalyazin@amazon.co.uk>
+Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
+	"bpf@vger.kernel.org" <bpf@vger.kernel.org>, 
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, "kernel@xen0n.name" <kernel@xen0n.name>, 
+	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>, "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>, 
+	"loongarch@lists.linux.dev" <loongarch@lists.linux.dev>, "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>, 
+	"pbonzini@redhat.com" <pbonzini@redhat.com>, "corbet@lwn.net" <corbet@lwn.net>, 
+	"maz@kernel.org" <maz@kernel.org>, "oupton@kernel.org" <oupton@kernel.org>, 
+	"joey.gouly@arm.com" <joey.gouly@arm.com>, "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>, 
+	"yuzenghui@huawei.com" <yuzenghui@huawei.com>, "catalin.marinas@arm.com" <catalin.marinas@arm.com>, 
+	"will@kernel.org" <will@kernel.org>, "seanjc@google.com" <seanjc@google.com>, 
+	"tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>, 
+	"bp@alien8.de" <bp@alien8.de>, "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, 
+	"x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>, 
+	"luto@kernel.org" <luto@kernel.org>, "peterz@infradead.org" <peterz@infradead.org>, 
+	"willy@infradead.org" <willy@infradead.org>, "akpm@linux-foundation.org" <akpm@linux-foundation.org>, 
+	"david@kernel.org" <david@kernel.org>, "lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>, 
+	"vbabka@kernel.org" <vbabka@kernel.org>, "rppt@kernel.org" <rppt@kernel.org>, 
+	"surenb@google.com" <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>, 
+	"ast@kernel.org" <ast@kernel.org>, "daniel@iogearbox.net" <daniel@iogearbox.net>, 
+	"andrii@kernel.org" <andrii@kernel.org>, "martin.lau@linux.dev" <martin.lau@linux.dev>, 
+	"eddyz87@gmail.com" <eddyz87@gmail.com>, "song@kernel.org" <song@kernel.org>, 
+	"yonghong.song@linux.dev" <yonghong.song@linux.dev>, "john.fastabend@gmail.com" <john.fastabend@gmail.com>, 
+	"kpsingh@kernel.org" <kpsingh@kernel.org>, "sdf@fomichev.me" <sdf@fomichev.me>, 
+	"haoluo@google.com" <haoluo@google.com>, "jolsa@kernel.org" <jolsa@kernel.org>, 
+	"jgg@ziepe.ca" <jgg@ziepe.ca>, "jhubbard@nvidia.com" <jhubbard@nvidia.com>, 
+	"peterx@redhat.com" <peterx@redhat.com>, "jannh@google.com" <jannh@google.com>, 
+	"pfalcato@suse.de" <pfalcato@suse.de>, "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>, 
+	"riel@surriel.com" <riel@surriel.com>, "ryan.roberts@arm.com" <ryan.roberts@arm.com>, 
+	"jgross@suse.com" <jgross@suse.com>, "yu-cheng.yu@intel.com" <yu-cheng.yu@intel.com>, 
+	"kas@kernel.org" <kas@kernel.org>, "coxu@redhat.com" <coxu@redhat.com>, 
+	"ackerleytng@google.com" <ackerleytng@google.com>, "yosry@kernel.org" <yosry@kernel.org>, 
+	"ajones@ventanamicro.com" <ajones@ventanamicro.com>, "maobibo@loongson.cn" <maobibo@loongson.cn>, 
+	"tabba@google.com" <tabba@google.com>, "prsampat@amd.com" <prsampat@amd.com>, 
+	"wu.fei9@sanechips.com.cn" <wu.fei9@sanechips.com.cn>, "mlevitsk@redhat.com" <mlevitsk@redhat.com>, 
+	"jmattson@google.com" <jmattson@google.com>, "jthoughton@google.com" <jthoughton@google.com>, 
+	"agordeev@linux.ibm.com" <agordeev@linux.ibm.com>, "alex@ghiti.fr" <alex@ghiti.fr>, 
+	"aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>, "borntraeger@linux.ibm.com" <borntraeger@linux.ibm.com>, 
+	"chenhuacai@kernel.org" <chenhuacai@kernel.org>, "baolu.lu@linux.intel.com" <baolu.lu@linux.intel.com>, 
+	"dev.jain@arm.com" <dev.jain@arm.com>, "gor@linux.ibm.com" <gor@linux.ibm.com>, 
+	"hca@linux.ibm.com" <hca@linux.ibm.com>, "palmer@dabbelt.com" <palmer@dabbelt.com>, 
+	"pjw@kernel.org" <pjw@kernel.org>, "shijie@os.amperecomputing.com" <shijie@os.amperecomputing.com>, 
+	"svens@linux.ibm.com" <svens@linux.ibm.com>, "thuth@redhat.com" <thuth@redhat.com>, 
+	"yang@os.amperecomputing.com" <yang@os.amperecomputing.com>, "Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>, 
+	"urezki@gmail.com" <urezki@gmail.com>, "zhengqi.arch@bytedance.com" <zhengqi.arch@bytedance.com>, 
+	"gerald.schaefer@linux.ibm.com" <gerald.schaefer@linux.ibm.com>, "jiayuan.chen@shopee.com" <jiayuan.chen@shopee.com>, 
+	"lenb@kernel.org" <lenb@kernel.org>, "pavel@kernel.org" <pavel@kernel.org>, 
+	"rafael@kernel.org" <rafael@kernel.org>, "yangyicong@hisilicon.com" <yangyicong@hisilicon.com>, 
+	"vannapurve@google.com" <vannapurve@google.com>, "jackmanb@google.com" <jackmanb@google.com>, 
+	"patrick.roy@linux.dev" <patrick.roy@linux.dev>, "Thomson, Jack" <jackabt@amazon.co.uk>, 
+	"Itazuri, Takahiro" <itazur@amazon.co.uk>, "Manwaring, Derek" <derekmn@amazon.com>, 
+	Nikita Kalyazin <nikita.kalyazin@linux.dev>
+Subject: Re: [PATCH v12 00/16] Direct Map Removal Support for guest_memfd
+Message-ID: <aed88qcV6PjEIHnd@lucifer>
+References: <20260410151746.61150-1-kalyazin@amazon.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260421122648.56723-2-thorsten.blum@linux.dev>
+In-Reply-To: <20260410151746.61150-1-kalyazin@amazon.com>
 
-On Tue, Apr 21, 2026 at 02:26:47PM +0200, Thorsten Blum wrote:
-> Replace strlen(fn) with strnlen(fn, NAME_MAX + 1) when validating the
-> final path component in __proc_create().
-> 
-> This preserves the existing name limit while bounding the length scan to
-> one byte past the maximum name length. Handle empty names separately,
-> and treat names longer than NAME_MAX as too long.
+On Fri, Apr 10, 2026 at 03:17:47PM +0000, Kalyazin, Nikita wrote:
+> From: Nikita Kalyazin <nikita.kalyazin@linux.dev>
+>
+> [ based on kvm/next ]
 
-256 in the code is really U8_MAX+1 (see proc_dir_entry.namelen).
+Hm, given this touches a fair bit of mm, I wonder if we shouldn't try to do this
+through the mm tree?
 
-The fact that NAME_MAX is also 255 is a coincidence. I didn't thought
-about NAME_MAX when writing this code.
+In any case, we definitely need a rebase on something not-next :) if not mm then
+Linus's tree at least maybe?
 
-Can you just change 256 to NAME_MAX?
+I'm seeing a lot of conflicts against mm-unstable, it can't b4 shazam even patch
+1 and in Linus's tree it's failing at an mm patch (mm: introduce
+AS_NO_DIRECT_MAP).
 
-	/proc/alexey
+That and 'KVM: selftests: Add guest_memfd based vm_mem_backing_src_types' won't
+apply, but that one's trivial at least.
 
-> --- a/fs/proc/generic.c
-> +++ b/fs/proc/generic.c
-> @@ -427,9 +427,13 @@ static struct proc_dir_entry *__proc_create(struct proc_dir_entry **parent,
->  	if (xlate_proc_name(name, parent, &fn) != 0)
->  		goto out;
->  	qstr.name = fn;
-> -	qstr.len = strlen(fn);
-> -	if (qstr.len == 0 || qstr.len >= 256) {
-> -		WARN(1, "name len %u\n", qstr.len);
-> +	qstr.len = strnlen(fn, NAME_MAX + 1);
-> +	if (qstr.len == 0) {
-> +		WARN(1, "empty name\n");
-> +		return NULL;
-> +	}
-> +	if (qstr.len > NAME_MAX) {
-> +		WARN(1, "name too long\n");
+Obviously we're in the merge window right now so maybe best to do any rebasing a
+little after 7.1-rc1?
+
+Cheers, Lorenzo
+
+>
+> Unmapping virtual machine guest memory from the host kernel's direct map
+> is a successful mitigation against Spectre-style transient execution
+> issues: if the kernel page tables do not contain entries pointing to
+> guest memory, then any attempted speculative read through the direct map
+> will necessarily be blocked by the MMU before any observable
+> microarchitectural side-effects happen.  This means that Spectre-gadgets
+> and similar cannot be used to target virtual machine memory.  Roughly
+> 60% of speculative execution issues fall into this category [1, Table
+> 1].
+>
+> This patch series extends guest_memfd with the ability to remove its
+> memory from the host kernel's direct map, to be able to attain the above
+> protection for KVM guests running inside guest_memfd.
+>
+> Additionally, a Firecracker branch with support for these VMs can be
+> found on GitHub [2].
+>
+> For more details, please refer to the v5 cover letter.  No substantial
+> changes in design have taken place since.
+>
+> See also related write() syscall support in guest_memfd [3] where
+> the interoperation between the two features is described.
+>
+> Changes since v11:
+>  - Ackerley/Sashiko: fix previously missed __set_pages_* argument update
+>    in __kernel_map_pages (patch 1)
+>  - David: disallow large folios in folio_zap_direct_map (patch 2)
+>  - David/Sashiko: check for folio_is_zone_device if mapping is NULL in
+>    gup_fast_folio_allowed (patch 4)
+>  - Ackerley/Sashiko: kvm_arch_gmem_supports_no_direct_map to return
+>    false for SEV-SNP (patch 8).
+>  - David: replace a redundant check for GUEST_MEMFD_FLAG_NO_DIRECT_MAP
+>    with a WARN_ON_ONCE (patch 10)
+>  - David: assert the folio is locked when zapping direct map (patch 10)
+>  - Ackerley/Sashiko: reorder operations to "zap then prepare" and
+>    "invalidate then restore" (patch 10)
+>
+> v11: https://lore.kernel.org/kvm/20260317141031.514-1-kalyazin@amazon.com
+> v10: https://lore.kernel.org/kvm/20260126164445.11867-1-kalyazin@amazon.com
+> v9: https://lore.kernel.org/kvm/20260114134510.1835-1-kalyazin@amazon.com
+> v8: https://lore.kernel.org/kvm/20251205165743.9341-1-kalyazin@amazon.com
+> v7: https://lore.kernel.org/kvm/20250924151101.2225820-1-patrick.roy@campus.lmu.de
+> v6: https://lore.kernel.org/kvm/20250912091708.17502-1-roypat@amazon.co.uk
+> v5: https://lore.kernel.org/kvm/20250828093902.2719-1-roypat@amazon.co.uk
+> v4: https://lore.kernel.org/kvm/20250221160728.1584559-1-roypat@amazon.co.uk
+> RFCv3: https://lore.kernel.org/kvm/20241030134912.515725-1-roypat@amazon.co.uk
+> RFCv2: https://lore.kernel.org/kvm/20240910163038.1298452-1-roypat@amazon.co.uk
+> RFCv1: https://lore.kernel.org/kvm/20240709132041.3625501-1-roypat@amazon.co.uk
+>
+> [1] https://download.vusec.net/papers/quarantine_raid23.pdf
+> [2] https://github.com/firecracker-microvm/firecracker/tree/feature/secret-hiding
+> [3] https://lore.kernel.org/kvm/20251114151828.98165-1-kalyazin@amazon.com
+>
+> Nikita Kalyazin (4):
+>   set_memory: set_direct_map_* to take address
+>   set_memory: add folio_{zap,restore}_direct_map helpers
+>   mm/secretmem: make use of folio_{zap,restore}_direct_map
+>   mm/gup: drop local variable in gup_fast_folio_allowed
+>
+> Patrick Roy (12):
+>   mm/gup: drop secretmem optimization from gup_fast_folio_allowed
+>   mm: introduce AS_NO_DIRECT_MAP
+>   KVM: guest_memfd: Add stub for kvm_arch_gmem_invalidate
+>   KVM: x86: define kvm_arch_gmem_supports_no_direct_map()
+>   KVM: arm64: define kvm_arch_gmem_supports_no_direct_map()
+>   KVM: guest_memfd: Add flag to remove from direct map
+>   KVM: selftests: load elf via bounce buffer
+>   KVM: selftests: set KVM_MEM_GUEST_MEMFD in vm_mem_add() if guest_memfd
+>     != -1
+>   KVM: selftests: Add guest_memfd based vm_mem_backing_src_types
+>   KVM: selftests: cover GUEST_MEMFD_FLAG_NO_DIRECT_MAP in existing
+>     selftests
+>   KVM: selftests: stuff vm_mem_backing_src_type into vm_shape
+>   KVM: selftests: Test guest execution from direct map removed gmem
+>
+>  Documentation/virt/kvm/api.rst                | 21 +++---
+>  arch/arm64/include/asm/kvm_host.h             | 13 ++++
+>  arch/arm64/include/asm/set_memory.h           |  7 +-
+>  arch/arm64/mm/pageattr.c                      | 19 +++--
+>  arch/loongarch/include/asm/set_memory.h       |  7 +-
+>  arch/loongarch/mm/pageattr.c                  | 25 +++----
+>  arch/riscv/include/asm/set_memory.h           |  7 +-
+>  arch/riscv/mm/pageattr.c                      | 17 +++--
+>  arch/s390/include/asm/set_memory.h            |  7 +-
+>  arch/s390/mm/pageattr.c                       | 13 ++--
+>  arch/x86/include/asm/kvm_host.h               |  6 ++
+>  arch/x86/include/asm/set_memory.h             |  7 +-
+>  arch/x86/kvm/x86.c                            |  7 ++
+>  arch/x86/mm/pat/set_memory.c                  | 27 +++----
+>  include/linux/kvm_host.h                      | 14 ++++
+>  include/linux/pagemap.h                       | 16 ++++
+>  include/linux/secretmem.h                     | 18 -----
+>  include/linux/set_memory.h                    | 22 +++++-
+>  include/uapi/linux/kvm.h                      |  1 +
+>  kernel/power/snapshot.c                       |  4 +-
+>  lib/buildid.c                                 |  8 +-
+>  mm/execmem.c                                  |  6 +-
+>  mm/gup.c                                      | 47 ++++++------
+>  mm/memory.c                                   | 45 +++++++++++
+>  mm/mlock.c                                    |  2 +-
+>  mm/secretmem.c                                | 18 ++---
+>  mm/vmalloc.c                                  | 11 ++-
+>  .../testing/selftests/kvm/guest_memfd_test.c  | 17 ++++-
+>  .../testing/selftests/kvm/include/kvm_util.h  | 37 ++++++---
+>  .../testing/selftests/kvm/include/test_util.h |  8 ++
+>  tools/testing/selftests/kvm/lib/elf.c         |  8 +-
+>  tools/testing/selftests/kvm/lib/io.c          | 23 ++++++
+>  tools/testing/selftests/kvm/lib/kvm_util.c    | 59 ++++++++-------
+>  tools/testing/selftests/kvm/lib/test_util.c   |  8 ++
+>  tools/testing/selftests/kvm/lib/x86/sev.c     |  1 +
+>  .../selftests/kvm/pre_fault_memory_test.c     |  1 +
+>  .../selftests/kvm/set_memory_region_test.c    | 52 ++++++++++++-
+>  .../kvm/x86/private_mem_conversions_test.c    |  7 +-
+>  virt/kvm/guest_memfd.c                        | 75 +++++++++++++++++--
+>  39 files changed, 489 insertions(+), 202 deletions(-)
+>
+>
+> base-commit: 24f9515de8778410e4b84c85b196c9850d2c1e18
+> --
+> 2.50.1
+>
