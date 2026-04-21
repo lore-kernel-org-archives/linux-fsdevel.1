@@ -1,86 +1,74 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23DA42C21E6
-	for <linux-fsdevel@vger.kernel.org>; Tue, 21 Apr 2026 12:39:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63A4F3BC695
+	for <linux-fsdevel@vger.kernel.org>; Tue, 21 Apr 2026 13:00:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776775195; cv=none; b=b3Y+5ky8GhKfIVZqREhiGFuF9+2MoMXIg+RM+/LhIwGqBuYaai9bIAnvQR/qHjdrOCwOFmx0QgNsiSz8PlLJiK+OqbWgoLDUzq3atLQ8Oxtm12ZWQgT4o0hpHVsKZlLlBIHNZDippGuH7KUouOe3icFcqCcDzY5vS1x1zri8Yqw=
+	t=1776776422; cv=none; b=BJH2PD7oUPB2S3fFBqc4IwyjDO/PlJfS7x/giYLssn+nWcrkjfyiswmlUdWz2IhXpJJGOrLB2hl0vRGkGF0FM/ciCOUG3f3hHarg8s971MNnZ0O4a0ltOnvHBQIHm7dAbS/LhuJZYOT74F3HW61tZsJOZADPxjwplunVy403O2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776775195; c=relaxed/simple;
-	bh=3CsHYJGOKqUYI+3eDeFyz0UwHJ3I7Ycs2PSGiu8I4+4=;
+	s=arc-20240116; t=1776776422; c=relaxed/simple;
+	bh=X7yqPotbiLP3hmcoreTzAxwZf8JJuC/uXJUvNDKuOQI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a1p+JCLi2pX/KCltLGCuV6Wpcd1WCODt/MOYqiluhmFvDE8/3ho7trSiaxfILVVTVLKUThwDcYOEFGzSigyo2XUqLYV+80jIxByYgIjdj2/dOiKOO8OlRptEz6bzW1yawW9qW6zaT1yN3H2Skgx2V4a/09ONNdWLJdbQVlphyLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=TdR1nGCr; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=1vLTrLMl; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=TdR1nGCr; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=1vLTrLMl; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=cV3fYbThxr9bzlcEdKjdWiuaqBvszerngUrgPHyyt8NKl4zpU13Ck6DchBe8QdFOuVAw90l1JOmoOUjSWkAATug7UwphmMRTv4f15RVVMnNUojzfA9FAv5nKhi5FG1FlTRsVL2MoQO5FhsMxErppClKjNeTbtRE8WPHAwguwl8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cCpdTRSh; arc=none smtp.client-ip=209.85.208.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="TdR1nGCr";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="1vLTrLMl";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="TdR1nGCr";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="1vLTrLMl"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 78D0E6A943;
-	Tue, 21 Apr 2026 12:39:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1776775192; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4I8eBJx2YL10N5OSAsEn6AKQhjRgrdzCILMfTm2hVtM=;
-	b=TdR1nGCrybitImmPRmZgTQC+bS6yteFktTXZfBb2HemDBCoJHqgWrMoZWu35e6CHbwthrL
-	MI7xqe281Ws2Q8nJo5KqYvK9rOchAYr2BGRMZEvVpIB9m9sBJhuMrrqF2LivfGDKtoNHL7
-	5NFhrMbGRu3eDGHC5Si9GrgYJLeBmRo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1776775192;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4I8eBJx2YL10N5OSAsEn6AKQhjRgrdzCILMfTm2hVtM=;
-	b=1vLTrLMlyftIHEYOuDfCl7PBMqjovCDEGeZa69Qs2EFWYRTgCnqaeoPK+cnC5wy/dM/JT3
-	OSGF2P3ToSYe7OCg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1776775192; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4I8eBJx2YL10N5OSAsEn6AKQhjRgrdzCILMfTm2hVtM=;
-	b=TdR1nGCrybitImmPRmZgTQC+bS6yteFktTXZfBb2HemDBCoJHqgWrMoZWu35e6CHbwthrL
-	MI7xqe281Ws2Q8nJo5KqYvK9rOchAYr2BGRMZEvVpIB9m9sBJhuMrrqF2LivfGDKtoNHL7
-	5NFhrMbGRu3eDGHC5Si9GrgYJLeBmRo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1776775192;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4I8eBJx2YL10N5OSAsEn6AKQhjRgrdzCILMfTm2hVtM=;
-	b=1vLTrLMlyftIHEYOuDfCl7PBMqjovCDEGeZa69Qs2EFWYRTgCnqaeoPK+cnC5wy/dM/JT3
-	OSGF2P3ToSYe7OCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6F3F7593AF;
-	Tue, 21 Apr 2026 12:39:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id mmIkGxhw52lwXgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 21 Apr 2026 12:39:52 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 27E58A0AE1; Tue, 21 Apr 2026 14:39:52 +0200 (CEST)
-Date: Tue, 21 Apr 2026 14:39:52 +0200
-From: Jan Kara <jack@suse.cz>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cCpdTRSh"
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-38e936caafeso42177461fa.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 21 Apr 2026 06:00:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776776417; x=1777381217; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=fHcpARBD+WBEWOxUHd0dbjlxtFt9jhg3lz7vuIXHzEo=;
+        b=cCpdTRShr+sMmihxE1SZUS8D22dZec7wFqYT56gyAIsxH6n15gtjBX4nooXPDNG+tl
+         2nyJevN+Q/z1dH9rTckZ3dR+fnibHRNxtvZNNBPkQJiKiFKLfAvIQ3RhQlYGVEIt84wd
+         /iP+YAODBhr4XsKSHPDns6tjvnT5bgOLTs+/cocnkaXnhe2cxZUkcOJi9qto3pruGSjm
+         gkVwRk6Gqdz/0Gylccz6P6/EcFvp43vgfxetkGsM1Pv95dzo+fyzUEHjwYmt89AEZ5/4
+         itYZGQVm4DPSKaMIg+iWHA1VOBwM4Ue8wA3usqJkI7ltYVPUmGoehSS6M93wron4Mfk3
+         nSlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776776417; x=1777381217;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fHcpARBD+WBEWOxUHd0dbjlxtFt9jhg3lz7vuIXHzEo=;
+        b=X081KdBU+SgG1awFisqJb9pw+3IN34iN8Sv9v2gfzHZvSUnLRdT0fhyFmhP65BYwwn
+         /2Ioa+IddWxGK57SgDoaZwP/4vyY/KWCFYo5M6pAcfxTD9eFEJqZ+LOJVF13VYjwbzHe
+         7lNri7wqNFDcCLTwR1OPeeGsqliOYZWI5mRBSLc+f2y/PXTJ6vHOukZAZxbVwGQkNDrm
+         PNsusaKZX1kaC96lNGCrx5rM1UbUNrJLhawl8xrAnR5ycj2Ovf1PifJGVIzzP61nJStD
+         nsFDeY4W+ITWOa1c8NWjeJSXKjbZ8K6EN63Crhu16p8gFkf1FDLYRrThU/nzU289TcMu
+         Lgpw==
+X-Forwarded-Encrypted: i=1; AFNElJ8LElyE7WptfeU4fHiGT8CzlUaUjLjWrNdvuL5yoYWW7+tI8D0cu3Z/udahRtqGqCKQv57OzKYYf7PCG/dX@vger.kernel.org
+X-Gm-Message-State: AOJu0YwHXZWb/NgeCquyHsGaafUtF4sww2wGJekGDpBzi+X9Nm0u783M
+	NoGtgsatLNIfMB0TFl9MEanyiQbW2BOCtlQhZLG4jkj0yMyJ7IsNWGA=
+X-Gm-Gg: AeBDietuQr6b7HMybspqVH5ZHQgOxpSGzwERGdygW3QcitgChO6+YE3PHA3sBHlCck9
+	JpQdthFkYREBWOsXNHSRKbLeFZ8tD18nxttK+G7Ge6USkKasSxP2UHb+MVpc48UQxM3yEsLj9rC
+	5rnXpI2iXAhGnSZw+5ICQUdI+HokD3JBAt7V6NEU8UmKWroSgd8Nmsl1NcukiRTilIZ2D3Lr5I/
+	J+Byr6n/eek/UK3xnKMexVncN1qvTLxHkY+KvrO6jUxbPdCc5agQl1yVuhutufIB+rqrsnxssnn
+	QLD+9+6N1p9jUkGWXrNmUdt/OSumrF4m14sRnHGr3R+2+39Gn6QcMdpRWUGYt0A/I1quv3V6OxZ
+	EdYbpZY8dsfMtaMh2ZzDsE69sBTzFBKplqMKkb0MXQbS2k/0XrIAEIwSbcqSwyin3oOUybI7SJ4
+	ne/PFStRQsPSwKPQsYAz+Uj1YrLA/1M/JcYgJp4uO+ORtBaXRCl36vY6b95wOpj03FB9lUxCpcy
+	D8=
+X-Received: by 2002:a05:651c:154c:b0:38e:33ba:51c2 with SMTP id 38308e7fff4ca-38ec7b4ed43mr50748521fa.29.1776776417032;
+        Tue, 21 Apr 2026 06:00:17 -0700 (PDT)
+Received: from p183 (dynamic-vpdn-brest-46-53-134-59.brest.telecom.by. [46.53.134.59])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38ecb5f652asm28640821fa.12.2026.04.21.06.00.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Apr 2026 06:00:16 -0700 (PDT)
+Date: Tue, 21 Apr 2026 16:02:24 +0300
+From: Alexey Dobriyan <adobriyan@gmail.com>
 To: Thorsten Blum <thorsten.blum@linux.dev>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	wangzijie <wangzijie1@honor.com>, Christian Brauner <brauner@kernel.org>, 
-	Al Viro <viro@zeniv.linux.org.uk>, Alexey Dobriyan <adobriyan@gmail.com>, 
-	Wei Yang <albinwyang@tencent.com>, Jan Kara <jack@suse.cz>, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	wangzijie <wangzijie1@honor.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Wei Yang <albinwyang@tencent.com>, Jan Kara <jack@suse.cz>,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
 Subject: Re: [PATCH] proc: use strnlen() for name validation in __proc_create
-Message-ID: <qhgpi6dwnbk2o2j2fwxpqq6ptmzge2ilymxtxxsyfg77zgfzmc@ckvtoqq2b6yu>
+Message-ID: <40e8e922-7962-4ab2-a0ee-8475701b1110@p183>
 References: <20260421122648.56723-2-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -88,57 +76,27 @@ List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 In-Reply-To: <20260421122648.56723-2-thorsten.blum@linux.dev>
-X-Spam-Score: -3.80
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.989];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[linux-foundation.org,honor.com,kernel.org,zeniv.linux.org.uk,gmail.com,tencent.com,suse.cz,vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
 
-On Tue 21-04-26 14:26:47, Thorsten Blum wrote:
+On Tue, Apr 21, 2026 at 02:26:47PM +0200, Thorsten Blum wrote:
 > Replace strlen(fn) with strnlen(fn, NAME_MAX + 1) when validating the
 > final path component in __proc_create().
 > 
 > This preserves the existing name limit while bounding the length scan to
 > one byte past the maximum name length. Handle empty names separately,
 > and treat names longer than NAME_MAX as too long.
-> 
-> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
 
-Looks good. Feel free to add:
+256 in the code is really U8_MAX+1 (see proc_dir_entry.namelen).
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+The fact that NAME_MAX is also 255 is a coincidence. I didn't thought
+about NAME_MAX when writing this code.
 
-								Honza
+Can you just change 256 to NAME_MAX?
 
-> ---
->  fs/proc/generic.c | 10 +++++++---
->  1 file changed, 7 insertions(+), 3 deletions(-)
-> 
-> diff --git a/fs/proc/generic.c b/fs/proc/generic.c
-> index 8bb81e58c9d8..3063080f3bb2 100644
+	/proc/alexey
+
 > --- a/fs/proc/generic.c
 > +++ b/fs/proc/generic.c
 > @@ -427,9 +427,13 @@ static struct proc_dir_entry *__proc_create(struct proc_dir_entry **parent,
@@ -155,9 +113,3 @@ Reviewed-by: Jan Kara <jack@suse.cz>
 > +	}
 > +	if (qstr.len > NAME_MAX) {
 > +		WARN(1, "name too long\n");
->  		return NULL;
->  	}
->  	if (qstr.len == 1 && fn[0] == '.') {
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
