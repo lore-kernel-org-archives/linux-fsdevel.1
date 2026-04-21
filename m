@@ -1,357 +1,182 @@
-Received: from smtp-190a.mail.infomaniak.ch (smtp-190a.mail.infomaniak.ch [185.125.25.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02BDD38757F
-	for <linux-fsdevel@vger.kernel.org>; Tue, 21 Apr 2026 08:24:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.25.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E77F03A4523
+	for <linux-fsdevel@vger.kernel.org>; Tue, 21 Apr 2026 09:02:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776759866; cv=none; b=ZccjlZv6k3eR/xxk1vlACfOuPK4liLaStplsn7RVk/BwCxC+m4WiK2sEWBZBDUhbTyEOTXGfiGZS3q4iuUIJD0Iz7JwU/kyPeFWxwnuyLLrFOsfgUDmiMOztTZ/UfFX9CRuazaxzrQ8CPOj5rrvVAZcZadC42VoRU5lJjWVwLKI=
+	t=1776762171; cv=none; b=uuf2fYEnyaVB6LwVZC9T1yn05l6fE8txtk++Q8bovEv2Ymx3x31n+Nric+PvNqLsaQMwXXs48P/XIzhIY8G/RHCwF9LtQewWCy8u5CpYvP/1CzWZRD6BrfOLSW3P7ZAEyBr1ySemnNNexni7prjOsJyGaKgjYzJPxXRLc+Lr7mw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776759866; c=relaxed/simple;
-	bh=6OcCsGW/4AYee9XvQu937Wo0uqz9thUTHdNylDAfwAQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fga822OVzay0FLYbozQQvQHD+iUEt+dtrzNy/F2X6n7wdeHIqNo8ViupJao1o2b0uzCCk/jjGZn8gwuAQoFJHoGIM0PiIQB87N/qWqthYOJNDt9WLSyf52Ey0zMwdiMYmwY/inp+X177g57O77QHc9TuU2QZ4NpHIMfrFSifEg0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=wlpSowOU; arc=none smtp.client-ip=185.125.25.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
+	s=arc-20240116; t=1776762171; c=relaxed/simple;
+	bh=PtUQkhF8ODo+uUc8J4/pGSkHu0QMqX1x2kVB2oV6dAg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tRDPJgU709SoP3CiXfJNIMldha6mi4JCf287KvWves/40xp7sNC5uT9D3EZVZbG2WPYne6Cak0au52KS2BqQwagYB5Lo5357ueuxu7oXWx4wuEtBbnrxxRlvKgQCpGnvT7xFY6kmj1HVVYKAiPtId7x8rVkOzfFhgHx+1IiEi1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=YxtO80Py; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="wlpSowOU"
-Received: from smtp-3-0000.mail.infomaniak.ch (smtp-3-0000.mail.infomaniak.ch [10.4.36.107])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4g0Fkh524hz137x;
-	Tue, 21 Apr 2026 10:24:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
-	s=20191114; t=1776759852;
-	bh=GBvgDAkVH+H0U98i5KWK9OIkaaPdGLOurm4qqQF8MoY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=wlpSowOUTJtXIVt0QZhMLCoAUI6onmsviLjpyLFU6Euqo5/zrkhzDv9ggylzVpbLv
-	 gaUScm+mZTN9VzrK2zbTuOR4jensc0u+j72KW62KGbuW6XTwOWDaYI57UyMbGW5Vk8
-	 Q1FBnmafZmXPfeSy/u7nB+4nTWDwbWhgvOEA3Q9c=
-Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4g0FkY36T5z5gT;
-	Tue, 21 Apr 2026 10:24:05 +0200 (CEST)
-Date: Tue, 21 Apr 2026 10:24:00 +0200
-From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-To: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>
-Cc: Christian Brauner <brauner@kernel.org>, 
-	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, Paul Moore <paul@paul-moore.com>, 
-	"Serge E . Hallyn" <serge@hallyn.com>, Justin Suess <utilityemal77@gmail.com>, 
-	Lennart Poettering <lennart@poettering.net>, Mikhail Ivanov <ivanov.mikhail1@huawei-partners.com>, 
-	Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>, Shervin Oloumi <enlightened@google.com>, 
-	Tingmao Wang <m@maowtm.org>, kernel-team@cloudflare.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org
-Subject: Re: [RFC PATCH v1 00/11] Landlock: Namespace and capability control
-Message-ID: <20260421.aen9Pheishah@digikod.net>
-References: <20260312100444.2609563-1-mic@digikod.net>
- <20260420.aaab9bf39ef8@gnoack.org>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="YxtO80Py"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-43d7dab87e1so318672f8f.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 21 Apr 2026 02:02:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1776762168; x=1777366968; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=D1tUMNKsUka20XG67YhLFUj+hBxuaCOCgy+TNZlHY/s=;
+        b=YxtO80Py/n3gxmHgHjs6Eh2Bk/cI921/+YOfcAx40aw+LmhohQLDFN1GIT4Wp077ua
+         Y4jmQInmJHK8GCoDFgXDFcH+vwSsEUjI5gHcJU0ZgC2MfQSZkQGp1rWISfvGxl7W3yny
+         fVXbiZNfhKawTeLkjmeRLfPw5dOJ2lmBbtU4hPu8MtuY984kNYJBjzvHXOK5mFej75ue
+         w1lnfg0a+JuRFDsl/Vo3f5dJcvMOc4S9hTN+B1+ODqq4paqSR39Q9BNAYnvXuWxE3blK
+         0kGKgYXhct+6Td08nRtNpfWJ8E0Tdu8IV2PPtP+hqfaComPktR3Qfw008gI8uOJWS8kq
+         PUQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776762168; x=1777366968;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=D1tUMNKsUka20XG67YhLFUj+hBxuaCOCgy+TNZlHY/s=;
+        b=qWzPxfU3/mqL/DSl9owbTSY3nYPLq3DHvnMQ9EGixuRV/fFVnfL1bYLBDdrlqbuXcw
+         c6Kz49G6y2XkMEauSPkBPUxrQ0JVtIq1dOZ+5rfAJ5Vr+f1tHtKtkPZXKhJm+kRKxkiI
+         N/tPyW8NGF957EUx4wBfI8cTXhrYGJyY5B/fSmNc9ldq5U0oKw1hARifjwE/DTDy5cLx
+         wapT0pUcFy25iJ+vjQTItRZOWCm7A50d4lEY70dTUKZh+Vx/R15Ar9deW4c62pguJ/Dz
+         MrBma7XzSgXjU5ZyrqK8baR1OZnNCWrvQuhRi3dxoiC7QCRntqDoRCbvpd/Ag7R8ysaJ
+         Lj4w==
+X-Forwarded-Encrypted: i=1; AFNElJ9gt9D9rg3Wv2yXkt6N0uV+m1bINo36tfqb18kQesTXSJCbzTP0OX59QSoJLZ07G1Etu5ZX+VOnl0jml5Ej@vger.kernel.org
+X-Gm-Message-State: AOJu0YyKt/DKyh1wUBYFrikznmV+qJfNkXXhbZ71zs7+QstUCd5NcgHm
+	k9xP1TG988zQoZJdx1Zh3yKK2mut2ZNVmk+bSubG+KwWvU43rjf2WbkZxFbvTugqkLM=
+X-Gm-Gg: AeBDieshLi7X3TObuEGzSdb0sj+2tV9Qf8+KqQ9cX5kCvlXi2SjxTflFSOAgLsr1a/q
+	NOKRbMPD8RPUKllLTsDcsHrcpW06CBduU7SuWBVMCi0FeKfy8KWR2kGnY0LQAA1UeObcblrZinf
+	59YQRGWeVdiwdoR7IKptshXurnbvye7TUKXCfB3owMQt5LGRwuEkqCR+p9j8u5RmAv8YVAwKQ6Q
+	yelgnnT6ave2/sd7AxSNLzvbBavzjDkJNUYM9/JY6XI4PWydHNuVTTUdjNJsujOvP4NP1Tgbrg1
+	qka7CAOuTOJRcb63NQxMLqVm0qQLhIW2zXZ31v/3q2A2gn2ojSgkzJpnRpEzT7t8hxf/uslACVa
+	OGS6WP1/KGDBz+hj+VuMMIyVcl9cbQdLLEUoNWsaLSpNW7Za2VAGd4qVUL5k7kW8Hatp4FcxJib
+	hbBY+L1LA54twrBObR7U6/m3E2HtCDqnA3K69xM4uSf1CeUkVRfl63+zlkH4oXUiYyKuGX
+X-Received: by 2002:a05:600c:4746:b0:488:ac4b:59d1 with SMTP id 5b1f17b1804b1-488fb7ab49cmr115940905e9.8.1776762168051;
+        Tue, 21 Apr 2026 02:02:48 -0700 (PDT)
+Received: from ?IPV6:2001:1a48:8:903:1ed6:4f73:ce38:f9d4? ([2001:1a48:8:903:1ed6:4f73:ce38:f9d4])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4891c08faffsm269654935e9.1.2026.04.21.02.02.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Apr 2026 02:02:47 -0700 (PDT)
+Message-ID: <1f50ce04-20e6-46a0-9d8a-00a5f7a74967@suse.com>
+Date: Tue, 21 Apr 2026 11:02:45 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260420.aaab9bf39ef8@gnoack.org>
-X-Infomaniak-Routing: alpha
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] iomap: avoid compaction for costly folio order
+ allocation
+Content-Language: en-US
+To: Dave Chinner <dgc@kernel.org>, Salvatore Dipietro <dipiets@amazon.it>
+Cc: linux-kernel@vger.kernel.org, alisaidi@amazon.com, blakgeof@amazon.com,
+ abuehaze@amazon.de, dipietro.salvatore@gmail.com, willy@infradead.org,
+ stable@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
+ "Darrick J. Wong" <djwong@kernel.org>, linux-xfs@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, "Ritesh Harjani (IBM)"
+ <ritesh.list@gmail.com>, Christoph Hellwig <hch@infradead.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>, Michal Hocko <mhocko@suse.com>,
+ "David Hildenbrand (Red Hat)" <david@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>
+References: <20260403193535.9970-1-dipiets@amazon.it>
+ <20260403193535.9970-2-dipiets@amazon.it> <adLlrSZ5oRAa_Hfd@dread>
+From: Vlastimil Babka <vbabka@suse.com>
+In-Reply-To: <adLlrSZ5oRAa_Hfd@dread>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Apr 20, 2026 at 05:06:32PM +0200, Günther Noack wrote:
-> Hello!
-> 
-> On Thu, Mar 12, 2026 at 11:04:33AM +0100, Mickaël Salaün wrote:
-> > Namespaces are a fundamental building block for containers and
-> > application sandboxes, but user namespace creation significantly widens
-> > the kernel attack surface.  CVE-2022-0185 (filesystem mount parsing),
-> > CVE-2022-25636 and CVE-2023-32233 (netfilter), and CVE-2022-0492 (cgroup
-> > v1 release_agent) all demonstrate vulnerabilities exploitable only
-> > through capabilities gained via user namespaces.  Some distributions
-> > block user namespace creation entirely, but this removes a useful
-> > isolation primitive.  Fine-grained control allows trusted programs to
-> > use namespaces while preventing unnecessary exposure for programs that
-> > do not need them.
-> > 
-> > Existing mechanisms (user.max_*_namespaces sysctls, userns_create LSM
-> > hook, PR_SET_NO_NEW_PRIVS, and capset) each address part of this threat
-> > but none provides per-process, fine-grained control over both namespace
-> > types and capabilities.  Container runtimes resort to seccomp-based
-> > clone/unshare filtering, but seccomp cannot dereference clone3's flag
-> > structure, forcing runtimes to block clone3 entirely.
-> > 
-> > Landlock's composable layer model enables several patterns: a user
-> > session manager can restrict namespace types and capabilities broadly
-> > while allowing trusted programs to create the namespaces they need, and
-> > each deeper layer can further restrict the allowed set.  Container
-> > runtimes can similarly deny namespace creation inside managed
-> > containers.
-> 
-> I assume we are talking about an unrestricted systemd user session
-> manager, which would not itself be restricted?  (If the entire user
-> session were running under Landlock, users couldn't change their
-> passwords with "passwd" any more, because of the no_new_privs
-> requirement.)
+On 4/6/26 00:43, Dave Chinner wrote:
+> On Fri, Apr 03, 2026 at 07:35:34PM +0000, Salvatore Dipietro wrote:
+>> Commit 5d8edfb900d5 ("iomap: Copy larger chunks from userspace")
+>> introduced high-order folio allocations in the buffered write
+>> path. When memory is fragmented, each failed allocation triggers
+>> compaction and drain_all_pages() via __alloc_pages_slowpath(),
+>> causing a 0.75x throughput drop on pgbench (simple-update) with 
+>> 1024 clients on a 96-vCPU arm64 system.
+>> 
+>> Strip __GFP_DIRECT_RECLAIM from folio allocations in
+>> iomap_get_folio() when the order exceeds PAGE_ALLOC_COSTLY_ORDER,
+>> making them purely opportunistic.
+>> 
+>> Fixes: 5d8edfb900d5 ("iomap: Copy larger chunks from userspace")
+>> Cc: stable@vger.kernel.org
+>> Signed-off-by: Salvatore Dipietro <dipiets@amazon.it>
 
-systemd can be use to create such session, as other init systems.
-If no_new_privs is set, commands such as passwd would indeed not work,
-but:
-1. The process applying the Landlock restrictions (e.g. creating the
-   user session) doesn't need to set no_new_privs if it has
-   CAP_SYS_ADMIN in the current user namespace.
-2. SUID programs can (and should probably) be replaced with proper
-   client/server interfaces (i.e. for the client to not be privileged),
-   see DBus services (e.g. Account) or homectl for instance.
+BTW, backporting perf regressions fixes to 6.6, when they are only reported
+at the time 7.0 is released, might be too risky. There will likely be a
+different workload that will regress as a result, no matter what we do.
 
+>> ---
+>>  fs/iomap/buffered-io.c | 15 ++++++++++++++-
+>>  1 file changed, 14 insertions(+), 1 deletion(-)
+>> 
+>> diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
+>> index 92a831cf4bf1..cb843d54b4d9 100644
+>> --- a/fs/iomap/buffered-io.c
+>> +++ b/fs/iomap/buffered-io.c
+>> @@ -715,6 +715,7 @@ EXPORT_SYMBOL_GPL(iomap_is_partially_uptodate);
+>>  struct folio *iomap_get_folio(struct iomap_iter *iter, loff_t pos, size_t len)
+>>  {
+>>  	fgf_t fgp = FGP_WRITEBEGIN | FGP_NOFS;
+>> +	gfp_t gfp;
+>>  
+>>  	if (iter->flags & IOMAP_NOWAIT)
+>>  		fgp |= FGP_NOWAIT;
+>> @@ -722,8 +723,20 @@ struct folio *iomap_get_folio(struct iomap_iter *iter, loff_t pos, size_t len)
+>>  		fgp |= FGP_DONTCACHE;
+>>  	fgp |= fgf_set_order(len);
+>>  
+>> +	gfp = mapping_gfp_mask(iter->inode->i_mapping);
+>> +
+>> +	/*
+>> +	 * If the folio order hint exceeds PAGE_ALLOC_COSTLY_ORDER,
+>> +	 * strip __GFP_DIRECT_RECLAIM to make the allocation purely
+>> +	 * opportunistic.  This avoids compaction + drain_all_pages()
+>> +	 * in __alloc_pages_slowpath() that devastate throughput
+>> +	 * on large systems during buffered writes.
+>> +	 */
+>> +	if (FGF_GET_ORDER(fgp) > PAGE_ALLOC_COSTLY_ORDER)
+>> +		gfp &= ~__GFP_DIRECT_RECLAIM;
+> 
+> Adding these "gfp &= ~__GFP_DIRECT_RECLAIM" hacks everywhere
+> we need to do high order folio allocation is getting out of hand.
+> 
+> Compaction improves long term system performance, so we don't really
+> just want to turn it off whenever we have demand for high order
+> folios.
+> 
+> We should be doing is getting rid of compaction out of the direct
+> reclaim path - it is -clearly- way too costly for hot paths that use
+> large allocations, especially those with fallbacks to smaller
+> allocations or vmalloc.
+> 
+> Instead, memory reclaim should kick background compaction and let it
+> do the work. If the allocation path really, really needs high order
+> allocation to succeed, then it can direct the allocation to retry
+> until it succeeds and the allocator itself can wait for background
+> compaction to make progress.
+> 
+> For code that has fallbacks to smaller allocations, then there is no
+> need to wait for compaction - we can attempt fast smaller allocations
+> and continue that way until an allocation succeeds....
 
-> 
-> 
-> > This series adds two new permission categories to Landlock:
-> > 
-> > - LANDLOCK_PERM_NAMESPACE_ENTER: Restricts which namespace types a
-> >   sandboxed process can acquire: both creation (unshare/clone) and entry
-> >   (setns).  User namespace creation has no capability check in the
-> >   kernel, so this is the only enforcement mechanism for that entry
-> >   point.
-> > 
-> > - LANDLOCK_PERM_CAPABILITY_USE: Restricts which Linux capabilities a
-> >   sandboxed process can use, regardless of how they were obtained
-> >   (including through user namespace creation).
-> 
-> Given that you already went through multiple iterations here, I fully
+So, should we do a LSF/MM session?
 
-It's the first public one, but it's well advanced.
+But I think in any case, the page allocator needs to know which allocations
+do have the fallback. __GFP_NORETRY exists for this. Here it wasn't tried at
+all, in v2 [1] it was, but not alone. I'd start from __GFP_NORETRY alone,
+and then we can look at tweaking what it does if it's currently insufficient.
 
-> expect that I am overlooking something here, but based on the
-> explanation, it's not clear to me why the capability control is needed
-> in addition to the namespace control, to reduce the kernel attack
-> surface.
-> 
-> In my understanding the "attack surface" problem with user namespaces
-> is that they allow unprivileged processes to gain CAP_SYS_ADMIN within
-> that namespace, which unlocks access to code paths which were
-> traditionally reserved for the (top level) root user.
+We could have a helper to encapsulate this "turn this allocation to a
+lightweight fallbackable one", which would add __GFP_NORETRY. It probably
+already exists somewhere but not gfp.h. But I'm not sure we can simply
+change GFP_KERNEL to start failing more for non-costly orders. We've
+discussed that a lot in the past :)
 
-This capability and others.
+[1] https://lore.kernel.org/all/20260420161404.642-1-dipiets@amazon.it/
 
-> 
-> But then, to prevent that from happening, it seems that restricting
-> access to user namespace creation would be sufficient?
+> -Dave.
 
-It would be sufficient to limit the kernel attack surface, but it would
-make all the related features unusable.  As explained in this cover
-letter, there are already several ways to block everything, but this
-doesn't help for a lot of use cases and this Landlock feature proposes a
-new fine-grained and unprivileged way to properly restrict some
-capabilities.
-
-> 
-> (Also, in some cases, I suspect it might be possible to break
-> assumptions that more privileged processes make about filesystem
-> layout if the user can change the mount layout.  But that is not an
-> issue with Landlock, as we forbid changes to mounts and also require
-> no_new_privs.)
-> 
-> 
-> > Both use new handled_perm and LANDLOCK_RULE_* constants following the
-> > existing allow-list model.  The UAPI uses raw CAP_* and CLONE_NEW*
-> > values directly; unknown values are silently accepted for forward
-> > compatibility (the allow-list denies them by default).  The Landlock ABI
-> > version is bumped from 8 to 9.
-> 
-> Compatibility question:
-> 
-> For both permission categories, when they are "handled" in the
-> ruleset, they default to denying *all* types of namespaces, and *all*
-> types of capabilities.
-> 
-> This is different to the handled_access_* rights, where we are
-> requiring users to explicitly list all restricted rights as "handled",
-> because the full list of available operations might be a moving
-> target.
-> 
-> Why is this not a problem for capabilities and for namespaces?  Both
-> the list of capabilities and the list of namespaces has been expanded
-> in the past.  What happens if a new capability or namespace is
-> invented?  If these are evolved, is that backwards compatible for the
-> existing users of these Landlock permission categories?
-
-This question is answered is the documentation (and the commit
-messages), and that's the main difference between handled_access_* and
-handled_perm.  In a nutshell, the permission rules uses non-Landlock
-bits that naturally evolve without any Landlock-specific changes.
-
-> 
-> 
-> > The handled_perm infrastructure is designed to be reusable by future
-> > permission categories.  The last patch documents the design rationale
-> > for the permission model and the criteria for choosing between
-> > handled_access_*, handled_perm, and scoped.  A patch series to add
-> > socket creation control is under review [2]; it could benefit from the
-> > same permission model to achieve complete deny-by-default coverage of
-> > socket creation.
-
-See here ^
-
-> > 
-> > This series builds on Christian Brauner's namespace LSM blob RFC [1],
-> > included as patch 1.
-> > 
-> > Christian, could you please review patch 3?  It adds a FOR_EACH_NS_TYPE
-> > X-macro to ns_common_types.h and derives CLONE_NS_ALL, replacing inline
-> > CLONE_NEW* flag enumerations in nsproxy.c and fork.c.
-> > 
-> > Paul, could you please review patch 2?  It adds LSM_AUDIT_DATA_NS, a new
-> > audit record type that logs namespace_type and inum for
-> > namespace-related LSM denials.
-> > 
-> > All four example vulnerabilities follow the same pattern: an
-> > unprivileged user creates a user namespace to obtain capabilities, then
-> > creates a second namespace to exercise them against vulnerable code.
-> > LANDLOCK_PERM_NAMESPACE_ENTER prevents this by denying the user
-> > namespace (eliminating the capability grant) or the specific namespace
-> > type needed to exercise it.  LANDLOCK_PERM_CAPABILITY_USE independently
-> > prevents it by denying the required capability.
-> 
-> Here, it is also not clear to me why LANDLOCK_PERM_CAPABILITY_USE is
-> needed in addition to LANDLOCK_PERM_NAMESPACE_ENTER.
-
-This is also explained in the documentation.
-
-> 
-> Looking at capabilities(7), my understanding is that capabilities can
-> only be acquired through:
-> 
-> (1) user namespaces (prevented with LANDLOCK_PERM_NAMESPACE_ENTER)
-> (2) execve (setuid or individual capabilities, prevented using
->     PR_SET_NO_NEW_PRIVS)
-> 
-> ...so if a process were to start out with no such capabilities,
-> wouldn't that be enough to prevent it from gaining more?  Am I
-> overlooking another way through which these can be acquired?
-> 
-> The Landlock capability support adds a "filter" for the use of
-> capabilities, but my understanding of the capability system was that
-> it already *is* that filter.  As long as we prevent the acquisition of
-> new capabilities, shouldn't that be sufficient?
-
-In a nutshell, capabilities applies to namespaces (and their type), so
-it makes sense to be able to control them together, see the chroot
-example.  Please take a look at the documentation.
-
-> 
-> 
-> > Namespace restriction is enforced at two hook sites: namespace_alloc
-> > (unshare/clone) and namespace_install (setns).  Together, these ensure a
-> > process denied a namespace type cannot circumvent the restriction by
-> > entering a pre-existing namespace via setns() on an inherited or passed
-> > file descriptor.  When a domain handles both permissions, both must
-> > independently allow the operation (e.g., unshare(CLONE_NEWNET) requires
-> > both CAP_SYS_ADMIN to be allowed and CLONE_NEWNET to be allowed).
-> > 
-> > Design evolution:
-> > 
-> > The first approach added CAP_OPT flags to security_capable() to
-> > distinguish namespace creation contexts.  This was too invasive and
-> > would have required capability splitting (a dedicated CAP_NAMESPACE)
-> > which does not help because the CAP_SYS_ADMIN fallback for backward
-> > compatibility undermines the distinction.
-> > 
-> > The second stored the namespace creator's domain in the LSM blob and
-> > used domain ancestry comparison in hook_capable() to bypass capability
-> > checks for namespace management operations.  A SCOPE_NAMESPACE flag
-> > restricted setns() by the namespace creator's domain, like SCOPE_SIGNAL.
-> > Both were dropped: scopes should only concern Landlock properties
-> > (domain relationships), not kernel namespace state; and the
-> > cross-namespace heuristic (ns != cred->user_ns) did not accurately
-> > identify namespace management operations.
-> > 
-> > The final design drops all of this.  The key insight is that
-> > capabilities gained through user namespace creation are only exercisable
-> > against namespaces of a specific type: creating a network namespace is
-> > what makes CAP_NET_ADMIN exercisable.  LANDLOCK_PERM_NAMESPACE_ENTER
-> > controls where capabilities are exercisable by restricting which
-> > namespace types can be acquired.  LANDLOCK_PERM_CAPABILITY_USE controls
-> > which capabilities are available, as a pure per-layer bitmask check with
-> > no namespace awareness.  The two are independently enforced at their own
-> > hook sites, with no interaction in hook_capable().  No scope flag is
-> > added in this series.
-> > 
-> > Note that when Landlock filesystem restrictions are in use, mount
-> > namespace creation has an inherent limitation: all mount topology
-> > changes are denied when any filesystem right is handled, which is
-> > optional.  A dedicated mount access control type is left for future work
-> > [3].
-> > 
-> > https://lore.kernel.org/r/20260216-work-security-namespace-v1-1-075c28758e1f@kernel.org [1]
-> > https://lore.kernel.org/r/20251118134639.3314803-1-ivanov.mikhail1@huawei-partners.com [2]
-> > https://github.com/landlock-lsm/linux/issues/14 [3]
-> > 
-> > Christian Brauner (1):
-> >   security: add LSM blob and hooks for namespaces
-> > 
-> > Mickaël Salaün (10):
-> >   security: Add LSM_AUDIT_DATA_NS for namespace audit records
-> >   nsproxy: Add FOR_EACH_NS_TYPE() X-macro and CLONE_NS_ALL
-> >   landlock: Wrap per-layer access masks in struct layer_rights
-> >   landlock: Enforce namespace entry restrictions
-> >   landlock: Enforce capability restrictions
-> >   selftests/landlock: Drain stale audit records on init
-> >   selftests/landlock: Add namespace restriction tests
-> >   selftests/landlock: Add capability restriction tests
-> >   samples/landlock: Add capability and namespace restriction support
-> >   landlock: Add documentation for capability and namespace restrictions
-> > 
-> >  Documentation/admin-guide/LSM/landlock.rst    |   19 +-
-> >  Documentation/security/landlock.rst           |   80 +-
-> >  Documentation/userspace-api/landlock.rst      |  156 +-
-> >  include/linux/lsm_audit.h                     |    5 +
-> >  include/linux/lsm_hook_defs.h                 |    3 +
-> >  include/linux/lsm_hooks.h                     |    1 +
-> >  include/linux/ns/ns_common_types.h            |   47 +-
-> >  include/linux/security.h                      |   20 +
-> >  include/uapi/linux/landlock.h                 |   89 +-
-> >  kernel/fork.c                                 |    7 +-
-> >  kernel/nscommon.c                             |   12 +
-> >  kernel/nsproxy.c                              |   21 +-
-> >  samples/landlock/sandboxer.c                  |  164 +-
-> >  security/landlock/Makefile                    |    2 +
-> >  security/landlock/access.h                    |   72 +-
-> >  security/landlock/audit.c                     |    8 +
-> >  security/landlock/audit.h                     |    2 +
-> >  security/landlock/cap.c                       |  142 ++
-> >  security/landlock/cap.h                       |   49 +
-> >  security/landlock/cred.h                      |   47 +-
-> >  security/landlock/limits.h                    |    9 +
-> >  security/landlock/ns.c                        |  188 +++
-> >  security/landlock/ns.h                        |   74 +
-> >  security/landlock/ruleset.c                   |   23 +-
-> >  security/landlock/ruleset.h                   |   53 +-
-> >  security/landlock/setup.c                     |    4 +
-> >  security/landlock/syscalls.c                  |  124 +-
-> >  security/lsm_audit.c                          |    4 +
-> >  security/lsm_init.c                           |    2 +
-> >  security/security.c                           |   76 +
-> >  tools/testing/selftests/landlock/audit.h      |   29 +-
-> >  tools/testing/selftests/landlock/audit_test.c |    2 -
-> >  tools/testing/selftests/landlock/base_test.c  |   20 +-
-> >  tools/testing/selftests/landlock/cap_test.c   |  614 ++++++++
-> >  tools/testing/selftests/landlock/common.h     |   23 +
-> >  tools/testing/selftests/landlock/config       |    5 +
-> >  tools/testing/selftests/landlock/ns_test.c    | 1379 +++++++++++++++++
-> >  tools/testing/selftests/landlock/wrappers.h   |    6 +
-> >  38 files changed, 3487 insertions(+), 94 deletions(-)
-> >  create mode 100644 security/landlock/cap.c
-> >  create mode 100644 security/landlock/cap.h
-> >  create mode 100644 security/landlock/ns.c
-> >  create mode 100644 security/landlock/ns.h
-> >  create mode 100644 tools/testing/selftests/landlock/cap_test.c
-> >  create mode 100644 tools/testing/selftests/landlock/ns_test.c
-> > 
-> > 
-> > base-commit: 5dfb8077be2bbe2c3b9477da759e80fa9f98da42
-> > -- 
-> > 2.53.0
-> > 
-> 
-> FWIW, I have also skimmed through some of the code and documentation
-> and the code seemed very clean so far.
-> 
-> –Günther
-> 
