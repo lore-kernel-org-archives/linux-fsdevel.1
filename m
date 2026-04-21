@@ -1,107 +1,77 @@
-Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AC7F279334
-	for <linux-fsdevel@vger.kernel.org>; Tue, 21 Apr 2026 11:37:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFB6C30FC34;
+	Tue, 21 Apr 2026 11:39:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776771475; cv=none; b=FHIP14ZMede/CHqguV46xB5raWSzZHUYbzzfECbvXJ9onfI+vXYwjzii2KEq643PqmZUtOGc0Gy/6WLAzaY5RY7TsB27gOHZwWLDgegY6PLtmoYH7zR10ZzPu6OER0uBORY3qSKMiy4Yc/su4wLyYIYSrV+X91Migl8+7wUwbmM=
+	t=1776771543; cv=none; b=mG+Djnpg1C0LOqweUii37fAEeAawVLJqH1fEV+5xR0KSn7u9lTnD9kdaPLJM1zgCPBksPQJhn+akdEr1yfLPEl6REor9FAttR2toAimoUP6pFS0hBHSo06Q++0BtJkoYhSJw45w51k9Utnuvd+PXwuVN4IylbNcesnfax5WM6cg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776771475; c=relaxed/simple;
-	bh=/exTN5wiUC2j5pqnUurj9cDv0IrG2xTfHt8VPW7n66o=;
-	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc:
-	 In-Reply-To:References; b=BkHL41awIJkLUG+KiT9o/nn2TTu0cdrr41XfcqoDtjjra5VcTa0XsuVprdMk6gdvAH8t3KvdhP09TXo12w89CyyvyqpPoBYP49HRhXl4BIkUx4j9CVwiEOL2ycoChgzmH4ShQMjDV23sSOZgw3Vt6VlnyCy81/4MISs1gTeQ6GQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=EResvGfP; arc=none smtp.client-ip=95.215.58.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1776771543; c=relaxed/simple;
+	bh=hoR7q1rzFrJjiImN6LPDzH4HQGIwfYa3vpYeXLs4FNY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VdjdPfVXlSyJgZvk77uE29ta3jBjLoCchwi/B2qVqXhOw949JipiiVNMD/duheJ0r0T6ulpDGJ5J7FCdp7GRp6Myi88lljXl1XietDpejqUEB2t8cErUYXHgrTBNSfxDjPlmAOcnVWwtE0Sk2TDBboyrxV6Eta15Jx0nKwhXnXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IUFZaUT4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="EResvGfP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IUFZaUT4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F110C2BCB0;
+	Tue, 21 Apr 2026 11:39:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776771542;
+	bh=hoR7q1rzFrJjiImN6LPDzH4HQGIwfYa3vpYeXLs4FNY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=IUFZaUT4XcR7sLlucQoFBgtAjdXNdrD3tPyXRRpNad2CPIBFMawApE3pRi2s5j/YR
+	 wjaHs1xSsYzyW90p5LXqmrUcz5zIl4WsAPI/9o6meZ8ymEsagard7DYrDQaIHi3z7j
+	 04pdhW8gdR6llZMvhxL6XZ/LVdqQNSOlS+M4jr1dlFxO/8eaVLY+DZM+fvTR7u+AhS
+	 Br4aSTLGLOf+h4eGjG7fuXqHXwMSlcTCbyOAxnnp25z/V1eo4oNqhHzAse3Mjdi8Zs
+	 fFfpWLD3M9qcet5jiIYXNuDnkVLoIEmJI7TsE9ozElqLqqvpKhV79uxIVL+ONSlJoZ
+	 EUJNBAntya2bg==
+From: Christian Brauner <brauner@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	Randy Dunlap <rdunlap@infradead.org>
+Cc: Christian Brauner <brauner@kernel.org>,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v2] nstree: fix func. parameter kernel-doc warnings
+Date: Tue, 21 Apr 2026 13:38:58 +0200
+Message-ID: <20260421-aushilfen-emsig-a6dc6609a91e@brauner>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260416215429.948898-1-rdunlap@infradead.org>
+References: <20260416215429.948898-1-rdunlap@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1776771461;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Tr2GYwfict5w9aqZ8nyTIO+i6SQ/ei6r3dqDIg+s7Po=;
-	b=EResvGfPRq5M8XMNs80B8oiLRxCnDcReCjYooDhXcxDSmP/UAG5LWYm4B9yplrm49EVeIr
-	xDGSqhLpm/JGEmoi9AMfQma4VxWe3V2UNZSsoh2AAFEPjKv7chQa6MYgU2j+kU1Vnco81D
-	E4plbm+z/hNWp23OW8IoMlqgJPbL2nw=
-Date: Tue, 21 Apr 2026 11:37:39 +0000
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: sunliming@linux.dev
-Message-ID: <954eb7a48488c6bc548e1a8a72070e743dae19dd@linux.dev>
-TLS-Required: No
-Subject: Re: [PATCH] ovl: Fix possible NULL pointer dereference in
- ovl_destroy_inode
-To: "Amir Goldstein" <amir73il@gmail.com>
-Cc: miklos@szeredi.hu, linux-unionfs@vger.kernel.org,
- linux-kernel@vger.kernel.org, "sunliming" <sunliming@kylinos.cn>,
- "linux-fsdevel" <linux-fsdevel@vger.kernel.org>
-In-Reply-To: <CAOQ4uxg8TdvtqE69cmizFh1OV-EBJYcJ9PMxDkYFXEPWZd_=JQ@mail.gmail.com>
-References: <20260421092349.148002-1-sunliming@linux.dev>
- <CAOQ4uxg8TdvtqE69cmizFh1OV-EBJYcJ9PMxDkYFXEPWZd_=JQ@mail.gmail.com>
-X-Migadu-Flow: FLOW_OUT
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1229; i=brauner@kernel.org; h=from:subject:message-id; bh=hoR7q1rzFrJjiImN6LPDzH4HQGIwfYa3vpYeXLs4FNY=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQ+T7yU9JHt6SPmW8U7/jqyHTCrNpzum9v/hycoQfXur Vv7jx0M7ihlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZhIRAIjw0bGrP53Ba+n5p24 eElom/EecZss7Yu6m6dZLszcyLrxbz0jw9xlbte+5n+y+//rvnkpw765Zk+uSrS7Sp+pXJd6KLZ nDjcA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-2026=E5=B9=B44=E6=9C=8821=E6=97=A5 17:45, "Amir Goldstein" <amir73il@gmai=
-l.com mailto:amir73il@gmail.com?to=3D%22Amir%20Goldstein%22%20%3Camir73il=
-%40gmail.com%3E > =E5=86=99=E5=88=B0:
+On Thu, 16 Apr 2026 14:54:29 -0700, Randy Dunlap wrote:
+> Use the correct parameter name ("__ns") for function parameter kernel-doc
+> to avoid 3 warnings:
+> 
+> Warning: include/linux/nstree.h:68 function parameter '__ns' not described in 'ns_tree_add_raw'
+> Warning: include/linux/nstree.h:77 function parameter '__ns' not described in 'ns_tree_add'
+> Warning: include/linux/nstree.h:88 function parameter '__ns' not described in 'ns_tree_remove'
+> 
+> [...]
 
+Applied to the vfs.fixes branch of the vfs/vfs.git tree.
+Patches in the vfs.fixes branch should appear in linux-next soon.
 
->=20
->=20On Tue, Apr 21, 2026 at 11:24 AM <sunliming@linux.dev> wrote:
->=20
->=20>=20
->=20> From: sunliming <sunliming@kylinos.cn>
-> >=20
->=20>  In the ovl_destroy_inode function, a variable reference oi->lowerd=
-ata_redirect
-> >  that might be NULL is directly freed. Add a non-null check, and only=
- free
-> >  the space when it is not NULL.
-> >=20
->=20Sunliming,
->=20
->=20This is nonsense.
-> kfree() is not a dereference and kfree(NULL) is allowed.
->=20
->=20Please be more considerate of my time and the time of other
-> volunteer maintainers and do not post patches that you do not
-> understand yourself.
->=20
->=20Thanks,
-> Amir.
->=20
-I=20understand, I apologize for this patch, thank you.
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
-> >=20
->=20> Signed-off-by: sunliming <sunliming@kylinos.cn>
-> >  ---
-> >  fs/overlayfs/super.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
->=20>  diff --git a/fs/overlayfs/super.c b/fs/overlayfs/super.c
-> >  index 60f0b7ceef0a..4b8b5fd4ab59 100644
-> >  --- a/fs/overlayfs/super.c
-> >  +++ b/fs/overlayfs/super.c
-> >  @@ -218,7 +218,7 @@ static void ovl_destroy_inode(struct inode *inod=
-e)
-> >  ovl_stack_put(ovl_lowerstack(oi->oe), ovl_numlower(oi->oe));
-> >  if (S_ISDIR(inode->i_mode))
-> >  ovl_dir_cache_free(inode);
-> >  - else
-> >  + else if (oi->lowerdata_redirect)
-> >  kfree(oi->lowerdata_redirect);
-> >  }
-> >=20
->=20>  --
-> >  2.25.1
-> >
->
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs.fixes
+
+[1/1] nstree: fix func. parameter kernel-doc warnings
+      https://git.kernel.org/vfs/vfs/c/957762b9d1e0
