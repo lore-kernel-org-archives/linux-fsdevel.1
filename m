@@ -1,163 +1,102 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54B81292B44;
-	Tue, 21 Apr 2026 11:51:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A0321B4F09;
+	Tue, 21 Apr 2026 11:56:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776772312; cv=none; b=qQ30ls8hAFz+ZyBHe++MgyV7ScEvUrq34IeUAQabhmv4ovBanxNSw4lxcqssLh1tSiceNYLBdrTmegpDVJAlj9Y8m5yEmhWGEIbog45PixKChJTP9ASA7dcf+e12d8tdHYM+WEJ822m98HmzVn7n5/rrcyGOCvN8tXWR6DhDSRQ=
+	t=1776772601; cv=none; b=ikV4GcrYzGkWRIjQd15ch6qBJdgh8FBzLR9CWLrONUreVsigodMORZ983O1EzlowlyoaxjgrBKOWEjxWl1yFEfsGW93bs99oRFKy0+MVxRqkxQ6hgkVBvxUtXfb6e1tKMzGhd8fvw2/x+eis8iPyiY0aQrirXiiYr/NFuDb/tnE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776772312; c=relaxed/simple;
-	bh=BiJqx3p6KyvOtSCwJPXMTrLvvakz5EUdpfsvRt5N3M4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t3/FW7K8ciK05uTWtBc54JiSKCf3Kfike4MFqiY1KUnRq3ei9QPsfBUj2DrOzExD0x4G/i61YCSOuMrpT+5WlmqDGEBlfre8+rODBq9xkL5m08Dg/hVl+3o8IWfaj/MMWDnmbaLdEL1cvqm+V1A/n4nTfuclC8rsXtiH8uLJpKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RErNTygW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776772601; c=relaxed/simple;
+	bh=MNJPO7cGXFv8GlOOyNtbzfLCDQRkPcX6aOvPd5gkUcU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=gJkXPGEwe7OvU7NSrZpJo4yNj8h1wDRIjvOfo+V3a9WlG+NOgAFZPvV4lY/SE/dafXBDvf7RFz53qoYwpNzZR39+Z/foS9Kfts2s334oukXrwBheIKU/kL0R7LCaqEh7gnMgnPT9YdMuFXG3rcz79+bEh8MDDUtMsUL4tSKVrjk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fGlM0WG0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RErNTygW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0D81C2BCB0;
-	Tue, 21 Apr 2026 11:51:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fGlM0WG0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98459C2BCB0;
+	Tue, 21 Apr 2026 11:56:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776772312;
-	bh=BiJqx3p6KyvOtSCwJPXMTrLvvakz5EUdpfsvRt5N3M4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RErNTygWUOgBId+Iqcw6AgaHOws+luQiNo0WcX94rry0rlZ1wXzR7opHUHwY9g9Gw
-	 0VIsTvSqhe3Nj+fd8g5Y6JBwUSo0XHU/ybyxDKRbKR4PDSCrbvl0JYL6i1naPXgfGJ
-	 PgQzP19BLPJwL+SCfxOPTqFGB0flTPCQ7OdZgPgkfemkIMLOb8yqT5m8uf+XeerDkf
-	 c2fhYjbYBbXukZ0PqibiSaqVl00dC1ADKboyffFKRdgOusC/0ie4mS80cp03Wjgdaz
-	 b5ZV9MRLRouKgwFLR8wuunuRUrwu+ClfOpUFic5MHU3cm3LpHA/JWQYMAks+3cNlV3
-	 MAx+Mg2RR0tsw==
-Date: Tue, 21 Apr 2026 13:51:47 +0200
+	s=k20201202; t=1776772600;
+	bh=MNJPO7cGXFv8GlOOyNtbzfLCDQRkPcX6aOvPd5gkUcU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=fGlM0WG0IV1Y2AfP8OIhIwO55cOroMm7l6xyg00zRkIx1i1ezI2am9p1um0kY6ln6
+	 jBjVBuv3bGOm0XWAkq9s9Su3N47zXkTPCsGTqpcT2LqVZYUsJSTmb1C44tEkTE3PRp
+	 6Pf4QW1sknOFR1OgRp0LtRlsvX2OahM1OQfBFBVVh1/1OAoW7FB0sK7OrdIWCtutJr
+	 eQIZVNMJCXNBk6Ja5duuH7UHZ8HmL56Vs12bp2goPj6MWwmWQupMVaIvJW5qq/yiNw
+	 MqFJLKsa+EjwKUbkpadlIqkkfHifbteYaEEJh9UIv3ZerehHtcaDWxOnss78HDP4GU
+	 dGYRde56ItGuQ==
 From: Christian Brauner <brauner@kernel.org>
-To: Aleksa Sarai <cyphar@cyphar.com>
-Cc: Alexey Gladkov <legion@kernel.org>, 
-	Dan Klishch <danilklishch@gmail.com>, Al Viro <viro@zeniv.linux.org.uk>, 
-	"Eric W . Biederman" <ebiederm@xmission.com>, Kees Cook <keescook@chromium.org>, containers@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v9 4/5] proc: Skip the visibility check if subset=pid is
- used
-Message-ID: <20260421-duzen-laugenbrezel-e1d1138ff5ae@brauner>
-References: <cover.1770979341.git.legion@kernel.org>
- <cover.1776079055.git.legion@kernel.org>
- <38572c1fb7cf55b4c27dd792adafa52f1216e3a3.1776079055.git.legion@kernel.org>
- <2026-04-16-serious-inky-roach-visitors-SZzNqk@cyphar.com>
- <2026-04-16-popular-long-bicep-bistros-8teEl3@cyphar.com>
- <20260416-gewusel-dreck-63a7fc32a586@brauner>
- <2026-04-16-jaded-sour-find-end-6LhEP4@cyphar.com>
+To: Christian Brauner <brauner@kernel.org>,
+	David Howells <dhowells@redhat.com>
+Cc: Paulo Alcantara <pc@manguebit.org>,
+	netfs@lists.linux.dev,
+	linux-afs@lists.infradead.org,
+	linux-cifs@vger.kernel.org,
+	ceph-devel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/11] netfs: Further miscellaneous fixes
+Date: Tue, 21 Apr 2026 13:56:32 +0200
+Message-ID: <20260421-matschen-esskultur-6ff56a239132@brauner>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260420083705.1009074-1-dhowells@redhat.com>
+References: <20260420083705.1009074-1-dhowells@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <2026-04-16-jaded-sour-find-end-6LhEP4@cyphar.com>
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2421; i=brauner@kernel.org; h=from:subject:message-id; bh=MNJPO7cGXFv8GlOOyNtbzfLCDQRkPcX6aOvPd5gkUcU=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQ+T/20TeLYXq2kFW/eXImKej8/Od+73EpPMMXl9LUfL HfmMuqEdpSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEykXYWRYcXuI2cnZlt6/Fwm byR6Oe3gHLbala8+eF7mjJdb0LR9azcjw6ymo2KzpvOcaGtsWR9+/uTPoN8Tdu56VZehasC6iv9 XMwsA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-On Fri, Apr 17, 2026 at 01:03:46AM +1000, Aleksa Sarai wrote:
-> On 2026-04-16, Christian Brauner <brauner@kernel.org> wrote:
-> > On Thu, Apr 16, 2026 at 10:46:50PM +1000, Aleksa Sarai wrote:
-> > > On 2026-04-16, Aleksa Sarai <cyphar@cyphar.com> wrote:
-> > > > On 2026-04-13, Alexey Gladkov <legion@kernel.org> wrote:
-> > > > > When procfs is mounted with the subset=pid option, all system files and
-> > > > > directories from the root of the filesystem are not accessible in
-> > > > > userspace. Only dynamic information about processes is available, which
-> > > > > cannot be hidden with overmount.
-> > > > > 
-> > > > > For this reason, checking for full visibility is not relevant if mounting
-> > > > > is performed with the subset=pid option.
-> > > > > 
-> > > > > Signed-off-by: Alexey Gladkov <legion@kernel.org>
-> > > > > ---
-> > > > 
-> > > > > -static bool mount_too_revealing(const struct super_block *sb, int *new_mnt_flags)
-> > > > > +static bool mount_too_revealing(struct fs_context *fc, int *new_mnt_flags)
-> > > > >  {
-> > > > >  	const unsigned long required_iflags = SB_I_NOEXEC | SB_I_NODEV;
-> > > > >  	struct mnt_namespace *ns = current->nsproxy->mnt_ns;
-> > > > > +	const struct super_block *sb = fc->root->d_sb;
-> > > > >  	unsigned long s_iflags;
-> > > > >  
-> > > > >  	if (ns->user_ns == &init_user_ns)
-> > > > > @@ -6388,7 +6387,7 @@ static bool mount_too_revealing(const struct super_block *sb, int *new_mnt_flags
-> > > > >  		return true;
-> > > > >  	}
-> > > > >  
-> > > > > -	return !mnt_already_visible(ns, sb, new_mnt_flags);
-> > > > > +	return (!fc->skip_visibility && !mnt_already_visible(ns, sb, new_mnt_flags));
-> > > > >  }
-> > > > 
-> > > > Unless I'm missing something (I haven't tested this locally yet, sorry),
-> > > > this will allow you to bypass mount_too_revealing() even for
-> > > > non-subset=pid mounts because once you create a subset=pid mount then a
-> > > > regular procfs mount will see the subset=pid mount and permit it.
-> > > > 
-> > > > I think the solution is quite simple -- you can also skip super-blocks
-> > > > that have fc->skip_visibility set in mnt_already_visible().
-> > > 
-> > > I now see that check was present in v8 but I guess its importance wasn't
-> > > obvious. I guess this means we will need to reintroduce
-> > > SB_I_USERNS_ALLOW_REVEALING. :/
-> > 
-> > I've been playing with something else. So first we should move
-> > SB_I_USERNS_REVEALING to an fs_type flag. It's not an optional thing and
-> > always set and never removed. That also means we can simplify
-> > sysfs_get_tree() to just kernfs_get_tree().
+On Mon, 20 Apr 2026 09:36:51 +0100, David Howells wrote:
+> Here are some more miscellaneous fixes for netfslib, found by Sashiko.dev's
+> AI review[1] in response to the previous miscellaneous fix posting[2], plus
+> a repeat of another patch you haven't picked up yet:
 > 
-> Seems quite reasonable to me.
+>  (1) Fix an early put of the sink page used in netfs_read_gaps(), before
+>      the request has completed.
 > 
-> > And then we raise SB_I_USERNS_RESTRICTED on all procfs mounts with
-> > pid_only and disallow using them for calculating mount permissions for
-> > unrestricted procfs mounts.
-> 
-> I think that's fine here and is probably all we need for now (though I
-> think that the name is a little confusing especially given my next
-> comment), but I think there is a bit of a deeper problem here that
-> deserves to be mentioned if only for posterity.
-> 
-> The core issue really is that we actually have two versions of procfs
-> now, and they are effectively distinguished by fs_context flags instead
-> of fs_type. Back when subset=pid was merged there was a discussion about
-> a hypothetical proc2 -- while that got dropped, we are kind of
-> reinventing this split in an ad-hoc way.
-> 
-> Conceptually considering them as two distinct fs_types would be the more
-> semantically correct thing to do, though I think it would be overkill to
-> come up with some framework for that. (I also really hope we don't have
-> any other filesystems where this is also the case.)
+> [...]
 
-Doing this is almost trivial. The problem really is that we'd expose
-"procfs2" or whatever as a new mount option to userspace without
-actually having fundamentally revamped what we would like procfs2 to do.
-IOW, it would elevate a security hack that got added a while ago to a
-new filesystem type. I think that would just be sad. So I'm not so
-excited about doing this.
+Applied to the vfs.fixes branch of the vfs/vfs.git tree.
+Patches in the vfs.fixes branch should appear in linux-next soon.
 
-> This is why I think the name is a little weird, since it isn't an issue
-> about one procfs being restricted in a userns, it's that they are
-> conceptually unrelated filesystem types. A very lightweight version of
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
-I somewhat disagree because it's unclear where you draw the line. If you
-use the hidepid= stuff at its most restrictive where it only shows tasks
-your user owns you could also argue that it's very close to a separate
-filesystem type. It's strictly subtractive and so is pidonly. There's
-just nothing that's better or novel.
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
 
-> this would be making it something like SB_I_RESTRICTED_VARIANT that
-> would be more a little more strict than what you have now --
-> SB_I_RESTRICTED_VARIANT would not be treated as compatible with anything
-> (even another SB_I_RESTRICTED_VARIANT mount) so that if we add more
-> variants in the future we don't treat them the same either. (Again, I
-> don't think we need this now?) Of course this would still allow
-> subset=pid without a procfs mount because of the other special casing
-> for it in mount_too_revealing().
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
 
-It's not a problem today. I think we can simply treat
-SB_I_RESTRICTED_VARIANT as not allowing other restricted variants. And
-we'd need a more elaborate mechanism anyway once we'd have "compatible"
-subsets.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs.fixes
 
-> We are also limited in what semantics we can change here too (and I'm a
-> little worried that even this bit for SB_I_USERNS_RESTRICTED is at risk
-> of breaking something) so maybe that isn't needed today.
-
-So I think yes, SB_I_RESTRICTED_VARIANT is fine by me for now.
+[01/11] netfs: Fix early put of sink folio in netfs_read_gaps()
+        https://git.kernel.org/vfs/vfs/c/9d17365ee50d
+[02/11] netfs: Fix leak of request in netfs_write_begin() error handling
+        https://git.kernel.org/vfs/vfs/c/453f1cc34a8f
+[03/11] netfs: Fix potential UAF in netfs_unlock_abandoned_read_pages()
+        https://git.kernel.org/vfs/vfs/c/b712de212717
+[04/11] netfs: Fix potential uninitialised var in netfs_extract_user_iter()
+        https://git.kernel.org/vfs/vfs/c/3a6ca6bbb857
+[05/11] netfs: Fix partial invalidation of streaming-write folio
+        https://git.kernel.org/vfs/vfs/c/6fe333abf07d
+[06/11] netfs: Fix the trace displayed for the total overwrite of a streamed write
+        https://git.kernel.org/vfs/vfs/c/b7a4cdd022c4
+[07/11] netfs: Fix folio->private handling in netfs_perform_write()
+        https://git.kernel.org/vfs/vfs/c/49f3b040e222
+[08/11] netfs: Fix group handling in netfs_read_gaps()
+        https://git.kernel.org/vfs/vfs/c/ab763d6514d4
+[09/11] netfs: Fix potential for tearing in ->remote_i_size and ->zero_point
+        https://git.kernel.org/vfs/vfs/c/756f72b6d8db
+[10/11] netfs: Fix comment about write-streaming avoidance
+        https://git.kernel.org/vfs/vfs/c/f81dc0987b3c
+[11/11] netfs: Fix netfs_read_folio() to wait on writeback
+        https://git.kernel.org/vfs/vfs/c/c721f7b7992c
