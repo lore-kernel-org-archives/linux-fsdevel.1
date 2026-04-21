@@ -1,149 +1,106 @@
-Received: from out30-111.freemail.mail.aliyun.com (out30-111.freemail.mail.aliyun.com [115.124.30.111])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBEE81D7E41;
-	Tue, 21 Apr 2026 02:13:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.111
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D0901459FA
+	for <linux-fsdevel@vger.kernel.org>; Tue, 21 Apr 2026 02:23:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776737591; cv=none; b=C3W4jNm8WDB1XM9qiRvn0yEldoquLBypOh/a8a4Hl+vJbNbayVKJ3h5y4hu94beuKftwPtmwD37V5CdP3fvOSP2zvi56lp3UEm2M5PzfWP6d6G27qdM8snjV3eCCItIOmyfQCNThzd6qIjUouQ2BRToXpFRK5545vtnfaani4Zo=
+	t=1776738206; cv=none; b=C9MUCBigjL6+GGUlkZ07FgqThoPksOHqDktmNmIrb6VwBQS+9meqrpAKN8KLiHOZLCcSlDaT/jKQkUjXry6p4NFJNuVMoWrcCm1R+x9k8SmiutbI9kKTzCx9I+lR4ukDiooM/eKd4KWzqamBxyINJH1mh7adxJWFh5818OxhCm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776737591; c=relaxed/simple;
-	bh=g6PNdNEfS2mYEysdHv5nrnFZGx9/WN9a3gjeMLIlvYw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=T3zkBiHXeWct4JHGizyvzdpAFthHbJ/mhZVxfmO932moYmluZEs0xgyHt4DC1MFLCfURukBZPnzfx2i6fVp2/xJyBcTMEfivtkD0lKj5dYYeEex7I7mqqgUcWTv90/vwxWz9CAC7vbjLrPPMu+9tKYXZaq2bOegqdvH3b/vZJDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=KCsRuJmV; arc=none smtp.client-ip=115.124.30.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1776738206; c=relaxed/simple;
+	bh=uoen5uZfm0FLPZXGe7hnQh3SX3X9FNKPB8zTYJUEWWM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OjRS7tg4qp6g4vw36D5mNPAuaMt5DrCy7Qp5krywIVnJjS13aTtd/xwo0R1xgRiUFzftfLMTVOwukRywdy6heDxMyn0u9mCp9BJxj7VNfvGgvOodPRylnnhLPL+6JnfrxD9ZXOvkxWEAdg/YVOF61LThAKsaUWnxni3/J4vO4GE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UewE2Vl3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="KCsRuJmV"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1776737579; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=hA0i3udkMiNuPIN+N6Va5cEC1S96vQmqUF4aWxz/iKc=;
-	b=KCsRuJmVJUe55QV3bR5cJze3j3GvAJjqaw1n+kTop9PzbxDMDP2iI/NaE9sWxsmz7S+ZYG1dCbIoJ8gSBsyAErGu+el3Ah3IJmJ8iJBjBSlPhVzm0OkngbfV9rIdII75C76mHjFSFjUkm8XrGODTfKyb/l0d1yf7Sk1sICjtfL8=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R341e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037009110;MF=baolin.wang@linux.alibaba.com;NM=1;PH=DS;RN=27;SR=0;TI=SMTPD_---0X1RNv9w_1776737575;
-Received: from 30.74.144.134(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0X1RNv9w_1776737575 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Tue, 21 Apr 2026 10:12:56 +0800
-Message-ID: <2c88f810-5c5c-4c26-af34-49e90ca2ba93@linux.alibaba.com>
-Date: Tue, 21 Apr 2026 10:12:55 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UewE2Vl3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24D94C4AF09
+	for <linux-fsdevel@vger.kernel.org>; Tue, 21 Apr 2026 02:23:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776738206;
+	bh=uoen5uZfm0FLPZXGe7hnQh3SX3X9FNKPB8zTYJUEWWM=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=UewE2Vl37v7mehoxQNg0Tl3HRzIOHftgKsZFv/LzAYXowFZ7i5YN0rDQDshMCvcBd
+	 zU9wvU81ChMfeWp/OQU6/PJTshPG+rfv4AN5czle6ZfoeC/wEwum66BHAbsT1toI7g
+	 niY5akRkZnugHwOs2Aydo6zC+ZYwARFColkJm2pUUhzBXCQZb5LswdAPrAbzjBRcBA
+	 JtwcQ0smJErt4AZAMPClCvhK8tFOwAT1NH3SicngO0iuiE3cROkPzFMCHx0PYzkYDQ
+	 YBQuFLOxKchmmki+eEVBntWB6mfrHUDUWXC9SHm9/pgp1oMgEQuttiDYj5c0O76z0n
+	 1WyP52dIqBEaA==
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-ba9ad0fbc3aso16425266b.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 20 Apr 2026 19:23:26 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9cMePrz6Pt6kOwfVrztCAJlEeVbIpB7EHQEfS003GuAwwE8KNqS/QI5JU584fL9Y7hk9oaPoqPtTmKabq1@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzej2DViPnmstTpT0fRupxo3MKTsg4+CV9FAXaJ3Dr2Bdattnnm
+	sRCv0a3uko85ttLf0pOv/RW1u3GIW19ugTWmf6cjd4/HoiMgSARkMNYlDNa7rUkhfmfTbRlEN/a
+	RF+HuJZ+W9Qd+eASYT/p1QKBW+AUPZB8=
+X-Received: by 2002:a17:907:d40e:b0:ba2:e022:c146 with SMTP id
+ a640c23a62f3a-ba41b3e451amr812505166b.43.1776738204631; Mon, 20 Apr 2026
+ 19:23:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 7.2 v3 04/12] mm/khugepaged: remove READ_ONLY_THP_FOR_FS
- check in hugepage_pmd_enabled()
-To: Zi Yan <ziy@nvidia.com>
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Song Liu <songliubraving@fb.com>, Chris Mason <clm@fb.com>,
- David Sterba <dsterba@suse.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Shuah Khan <shuah@kernel.org>, linux-btrfs@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-References: <20260418024429.4055056-1-ziy@nvidia.com>
- <20260418024429.4055056-5-ziy@nvidia.com>
- <b228baf2-0dcd-4135-bab9-04d979b6e617@linux.alibaba.com>
- <E7EBC528-C511-4166-89F3-654171383646@nvidia.com>
-From: Baolin Wang <baolin.wang@linux.alibaba.com>
-In-Reply-To: <E7EBC528-C511-4166-89F3-654171383646@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20260414055643.1833401-1-dxdt@dev.snart.me> <20260414055643.1833401-3-dxdt@dev.snart.me>
+ <a6fe6a13-f46f-453c-a56a-925dffaec825@dev.snart.me>
+In-Reply-To: <a6fe6a13-f46f-453c-a56a-925dffaec825@dev.snart.me>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Tue, 21 Apr 2026 11:23:10 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd8HdPJBkpWi4SNLCwW0-5G+xMiLXvQmNhNjF28M4r8BTQ@mail.gmail.com>
+X-Gm-Features: AQROBzCiOi_JpnV38_VDhqgxDoHat_oKev-ixETGzr3edbiWaoz0fZgkzDJs_NM
+Message-ID: <CAKYAXd8HdPJBkpWi4SNLCwW0-5G+xMiLXvQmNhNjF28M4r8BTQ@mail.gmail.com>
+Subject: Re: [PATCH v0 2/4] exfat: use upcase_ptable and upcase_range_info to
+ reduce memory footprint
+To: David Timber <dxdt@dev.snart.me>
+Cc: Sungjong Seo <sj1557.seo@samsung.com>, Yuezhang Mo <yuezhang.mo@sony.com>, 
+	linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-
-
-On 4/20/26 10:57 PM, Zi Yan wrote:
-> On 20 Apr 2026, at 2:55, Baolin Wang wrote:
-> 
->> On 4/18/26 10:44 AM, Zi Yan wrote:
->>> Remove READ_ONLY_THP_FOR_FS and khugepaged for file-backed pmd-sized
->>> hugepages are enabled by the global transparent hugepage control.
->>> khugepaged can still be enabled by per-size control for anon and shmem when
->>> the global control is off.
->>>
->>> Add shmem_hpage_pmd_enabled() stub for !CONFIG_SHMEM to remove
->>> IS_ENABLED(SHMEM) in hugepage_pmd_enabled().
->>>
->>> Signed-off-by: Zi Yan <ziy@nvidia.com>
->>> ---
->>>    include/linux/shmem_fs.h |  2 +-
->>>    mm/khugepaged.c          | 28 ++++++++++++++++------------
->>>    2 files changed, 17 insertions(+), 13 deletions(-)
->>>
->>> diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
->>> index 1a345142af7d..dff8fb6ddac0 100644
->>> --- a/include/linux/shmem_fs.h
->>> +++ b/include/linux/shmem_fs.h
->>> @@ -127,7 +127,7 @@ int shmem_writeout(struct folio *folio, struct swap_iocb **plug,
->>>    void shmem_truncate_range(struct inode *inode, loff_t start, uoff_t end);
->>>    int shmem_unuse(unsigned int type);
->>>   -#ifdef CONFIG_TRANSPARENT_HUGEPAGE
->>> +#if defined(CONFIG_TRANSPARENT_HUGEPAGE) && defined(CONFIG_SHMEM)
->>>    unsigned long shmem_allowable_huge_orders(struct inode *inode,
->>>    				struct vm_area_struct *vma, pgoff_t index,
->>>    				loff_t write_end, bool shmem_huge_force);
->>> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
->>> index 1c0fdc81d276..718a2d06d1e6 100644
->>> --- a/mm/khugepaged.c
->>> +++ b/mm/khugepaged.c
->>> @@ -406,18 +406,8 @@ static inline int collapse_test_exit_or_disable(struct mm_struct *mm)
->>>    		mm_flags_test(MMF_DISABLE_THP_COMPLETELY, mm);
->>>    }
->>>   -static bool hugepage_pmd_enabled(void)
->>> +static inline bool anon_hpage_pmd_enabled(void)
->>>    {
->>> -	/*
->>> -	 * We cover the anon, shmem and the file-backed case here; file-backed
->>> -	 * hugepages, when configured in, are determined by the global control.
->>> -	 * Anon pmd-sized hugepages are determined by the pmd-size control.
->>> -	 * Shmem pmd-sized hugepages are also determined by its pmd-size control,
->>> -	 * except when the global shmem_huge is set to SHMEM_HUGE_DENY.
->>> -	 */
->>> -	if (IS_ENABLED(CONFIG_READ_ONLY_THP_FOR_FS) &&
->>> -	    hugepage_global_enabled())
->>> -		return true;
->>>    	if (test_bit(PMD_ORDER, &huge_anon_orders_always))
->>>    		return true;
->>>    	if (test_bit(PMD_ORDER, &huge_anon_orders_madvise))
->>> @@ -425,7 +415,21 @@ static bool hugepage_pmd_enabled(void)
->>>    	if (test_bit(PMD_ORDER, &huge_anon_orders_inherit) &&
->>>    	    hugepage_global_enabled())
->>>    		return true;
->>> -	if (IS_ENABLED(CONFIG_SHMEM) && shmem_hpage_pmd_enabled())
->>> +	return false;
->>> +}
->>> +
->>> +static bool hugepage_pmd_enabled(void)
->>> +{
->>> +	/*
->>> +	 * Anon, shmem and file-backed pmd-size hugepages are all determined by
->>> +	 * the global control. If the global control is off, anon and shmem
->>> +	 * pmd-sized hugepages are also determined by its per-size control.
->>> +	 */
->>
->> Personally, I found the previous comments clearer to me. The statement "Anon, shmem pmd-size hugepages are all determined by the global control" seems somewhat confusing. For example, if hugepage_global_enabled() returns true but the pmd-sized sub-control is set to 'never', that means anon pmd-size hugepages are not allowed.
-> 
-> You are right.
-> 
-> I will revert back to the old comment without “when configured in” like below.
-> 
-> 	/*
-> 	 * We cover the anon, shmem and the file-backed case here; file-backed
-> 	 * hugepages are determined by the global control.
-> 	 * Anon pmd-sized hugepages are determined by the pmd-size control.
-> 	 * Shmem pmd-sized hugepages are also determined by its pmd-size control,
-> 	 * except when the global shmem_huge is set to SHMEM_HUGE_DENY.
-> 	 */
-
-Thanks. With that, feel free to add:
-Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+On Wed, Apr 15, 2026 at 6:54=E2=80=AFAM David Timber <dxdt@dev.snart.me> wr=
+ote:
+>
+> Just self-reviewed the patches I submitted with a cool head and found
+> some obvious mistakes I made along with some comments I'd like to add.
+>
+> On 4/14/26 14:56, David Timber wrote:
+> > @@ -301,48 +321,32 @@ static int exfat_load_upcase_table(struct super_b=
+lock *sb,
+> >               brelse(bh);
+> >       }
+> >
+> > -     if (index >=3D 0xFFFF && utbl_checksum =3D=3D chksum)
+> > +     if (index >=3D 0xFFFF && utbl_checksum =3D=3D chksum) {
+> > +             /*
+> > +              * is_default being set does not necessarily mean the con=
+tents are exact same as the
+> > +              * upcase table loaded from the volume may be missing som=
+e entries. The checksum
+> > +              * matching should be enough to cover that case.
+> > +              */
+> > +             if (is_default && utbl_checksum =3D=3D EXFAT_DEF_UTBL_CHK=
+SUM) {
+> > +                     exfat_free_upcase_ptable(upcase_table);
+> > +                     kvfree(upcase_table);
+> > +             } else {
+> > +                     sbi->vol_utbl =3D sbi->vol_utbl_own =3D upcase_ta=
+ble;
+> > +                     exfat_info(sb, "using non-default upcase table (c=
+hksum: 0x%08x, entries: %u, memsize: %zu+)",
+> > +                                chksum, entries, upcase_table->cnt * E=
+XFAT_UPTBL_PAGESIZE);
+> > +             }
+> > +
+> >               return 0;
+> > +     }
+> >
+> >       exfat_err(sb, "failed to load upcase table (idx : 0x%08x, chksum =
+: 0x%08x, utbl_chksum : 0x%08x)",
+> >                 index, chksum, utbl_checksum);
+> I think exfat_fs_error() should be used here so that the volume
+> continues to operate in rw mode to prevent further the damage. That's
+> what other implementations(FUSE and MS Windows) do. I just didn't dare
+> to change the behaviour without consulting the maintainers first.
+I agree with your thoughts. Please send the v2 patchset including your
+self-review points.
+Thanks.
