@@ -1,57 +1,42 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E6CF282F3A
-	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 14:11:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16E183EBF01;
+	Wed, 22 Apr 2026 14:30:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776867074; cv=none; b=b9SWWTzDdhEsdbBN82Pg1Kj2EFq/iQzSSSjdzWIMx/dN6/w7Q2mL/tS6Wcgt4fKU0bfpXkIeiO5yVpj09lyvKZwmRGGG7dZFlEic6ZQPH0Zrn3dAXTNB1Pm2y2KTL/79PCF64kmaCjAeQ5EBVUdIYPz2NxmE5sJigPvEBY3Lg9o=
+	t=1776868235; cv=none; b=Wd8Mck8hs7sChcaFrsd885fuFPY6hJjCirITOhLQYOvevj9hV7oNVX8Y4kHR3a4/bynSmiwwrcXC+MRunW0V/Xq5xb06BFNHc6d3fKnp2F4VQ44d9VF+9rMHPNbAgKdcZH3pK7nqnFKu5tynIFN+yH+rYHKEYaHSKzhyE/bxDhQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776867074; c=relaxed/simple;
-	bh=/fLAKdqWIyUt/N7fD2f63/Vf3/Y8y6Hw/yj8M0lOoYo=;
+	s=arc-20240116; t=1776868235; c=relaxed/simple;
+	bh=6+hkK4dELGRl7N/ynlWhhxFfAPU2T2jlVJQo1lZVYrY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DxiQVvcARubaHODivwN+oLggtVmJi/JFjF91YFbYkcuev+wUJrpX1XR9cR5GWomYHcMfpwuu48r2WDRyeoKiQl4bH9+EcW+E0vESsaYd0Svgipwd++oMSA/t+1cS0supFMunh1ekdycMElryTwKJ8qqFQAtUjXuiMlMiqbs/CY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=m2F9blQa; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	 Content-Type:Content-Disposition:In-Reply-To; b=rk6jt0Z/CzezYbkU4rbUIwwB9oxuSAPQ92Xeh2t7zCPRkL3GZYL65rCHvDYosUpIFi/fmg4PKhHfRgtw5KIQP2f1h69RDx6NutK19KG0ONLJ4c0wVM/UOYc3T39ZuRS0xbvg1CZc74QsiSu6DuYjtylz3mgeDbv8cKnbSGhIKsc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=kKPwfiAR; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="m2F9blQa"
-Received: from macsyma.thunk.org (pool-173-48-114-3.bstnma.fios.verizon.net [173.48.114.3])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 63MEAONS031823
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 22 Apr 2026 10:10:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1776867027; bh=uXS2L3aNQ1hAH4CjrqlOWJw/+8QHLB05BccYZpF4XYk=;
-	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-	b=m2F9blQapShFA+/fj61hq4ZvxnPiHqPF4bRsVvVaf9XSNJ5rpolFSC+HaIT0gXWXp
-	 hLZjm9wAE8coZ7luv+cfG1fr0kA8K1kILuUDwFtQi8fucfVt264dbuhEIW3wHsA2hy
-	 iAyVpmjgZSxHqA72Xkca61KBg0UV5IjIh0NfCQnQukPiy7c9BJDuqT2z00jhpGs20P
-	 ydZzcmcsBZimXBFOUbA8uzqrNd/j+JFaeQG2eBbQ8BvgFXudngKoh+SIdLpoSzdGw6
-	 xIs0k4CEDYIk25+2xPfKgJIz+JNVsMFiqPLTfvVf5ZVq+tFJ/NpYqKg1D1rPQx7lXr
-	 nclBMmvjrArxw==
-Received: by macsyma.thunk.org (Postfix, from userid 15806)
-	id D1B1C648BE1F; Wed, 22 Apr 2026 10:09:23 -0400 (EDT)
-Date: Wed, 22 Apr 2026 10:09:23 -0400
-From: "Theodore Tso" <tytso@mit.edu>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: "Darrick J. Wong" <djwong@kernel.org>, Jan Kara <jack@suse.cz>,
-        Christian Brauner <brauner@kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org,
-        Christoph Hellwig <hch@lst.de>, Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH] docs: add guidelines for submitting new filesystems
-Message-ID: <20260422140923.GA11127@macsyma-wired.lan>
-References: <20260417142503.1436446-1-amir73il@gmail.com>
- <u2scvjd522tdhb35r7ge2fqclt2qo3y4x5nxwprwcritxir2wj@5u4zhohrv6aw>
- <CAOQ4uxj1guVDXNrSmWUVS+6_meYPGBe8kBSDjfe8PkopTd79fA@mail.gmail.com>
- <5zc4j4nrfvxr56rvtgazaxojbpnd54ok2bx46xvhe3swn5g7dv@lzbnm44acpbn>
- <CAOQ4uxhUU0D89P_ZfOyDPpvGD5wy8VoU-o2i8iBjU-HmJyWuDA@mail.gmail.com>
- <fe5uzacwrsuabvxp7xrsz3biiellrebtbmkoeus57xottgp5c7@wssdohk22lvr>
- <20260421181026.GG7765@frogsfrogsfrogs>
- <CAOQ4uxhq4J+t+6-qhGOoaZn0Fdh9Q05RkX-CRYm+huJSPUJHjw@mail.gmail.com>
- <20260421201502.GH7765@frogsfrogsfrogs>
- <CAOQ4uxg4S=1jBGusNSHDH20+AHdFucFfWie9wqBU9V=LUWqwUg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="kKPwfiAR"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=G6d/iTV4Ks6K6raHYP6aGnGGem0iUyqT81rwrNmh+9k=; b=kKPwfiARJk/NlxqJwtlLEGrJ/t
+	aLAJGqRCsNDj+eccZNBaOattsKDHkbx0jk9fXiZfPBBAE1aHj80GVWyTXvzBOPls5HeBY4F0kezT5
+	SWdUBgT3pk3d2KvVDxY2RpfituzDRrLsVb32cM7yeMkDaOWtGSANbEfVlcs8os3/EWX//NnWxRV3R
+	FLV2ixt0+p6lc0vCTFcLi8+kOpwwGrwinYKOozRr5yjYYS/chA+VlzDM9vLodpj5l9jy57PFAUIOp
+	q1Qz+COKuJrHYl6PfCopbAvi1hGSaXKeXYdvyVEFDRh6l2PfJFLNCgugNQWTyodbMB73+QWSXRjpJ
+	4FNWFzLw==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wFYez-00000006B75-0r5E;
+	Wed, 22 Apr 2026 14:34:37 +0000
+Date: Wed, 22 Apr 2026 15:34:37 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Thorsten Blum <thorsten.blum@linux.dev>
+Cc: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] dcache: use QSTR() instead of QSTR_INIT()
+Message-ID: <20260422143437.GI3518998@ZenIV>
+References: <20260422123345.100436-2-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -60,37 +45,22 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAOQ4uxg4S=1jBGusNSHDH20+AHdFucFfWie9wqBU9V=LUWqwUg@mail.gmail.com>
+In-Reply-To: <20260422123345.100436-2-thorsten.blum@linux.dev>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-> > >  - Handle security issues and regression promptly.  Both those reported
-> > >    by ordinary users and those reported by test bots and fuzzing tools.
-> > >    The filesystem must handle corrupted input gracefully without hanging
-> > >    or crashing the kernel.
-> >
-> > How about
-> > "...without corrupting memory, hanging, or crashing the kernel."
+On Wed, Apr 22, 2026 at 02:33:46PM +0200, Thorsten Blum wrote:
+> Drop the hard-coded length arguments and use the simpler QSTR().
 
-I will note that security@kernel.org does not consider maliciously
-fuzzed file systems as a security issue.  And a long-standing position
-by both ext4 and xfs has been that distributions configuring
-automounters to blindly mount USB sticks dropped in the parking lot by
-the KGB, MSS, or NSA is a Bad Idea.
+... which is not a constant expression.  NAK.
 
-I'm a bit nervous about stating this as an expectation, especially
-given denial of service attacks on maintainer time with a large number
-of random academics which fork syzkaller, and send security reports
-that mostly duplicate upstream syzkaller reports and don't support the
-web site allowing developers to test syzkaller exports which don't
-reproduce locally.
+QSTR_INIT() is an initializer list for struct qstr; QSTR() is a
+compound literal for the same.  IOW, its value is an anonymous
+local variable with given contents.
 
-It's certainly an ideal, but I'm not sure it's one we can expect or
-guarantee.  It's also certainly not the case on most file systems
-in-tree today, to a varying degrees, but outside of the most highly
-maintained file systems, if we were to state this, (a) I'd be
-concerned that we would be setting expectations that will disappoint
-Linux users, or worse, class-action lawyers (well, they would be
-rubbing their hands with glee), and (b) if we actually enforced it,
-would probably result in 90% of the current in-tree file systems
-getting removed.
-
-						- Ted
+C grammar allows both
+	struct foo x = {.bar = y};
+and
+	struct foo x = (struct foo){.bar = y};
+for auto variables, and compiler is able to figure out that they
+are equivalent.  But the second form is not legal for the static-duration
+variables.
