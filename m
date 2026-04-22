@@ -1,162 +1,81 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5DCA328B7A
-	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 21:21:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A97435BDCE
+	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 21:28:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776892900; cv=none; b=HdVfTnEx3XHB2gC8eJAYVmhWJ8HEkyCfv9RpO6rs2CJWbU8nGQ86fK8q4M9QRTNl9mTjO7Rmu4RRTsyEzCxywy4hAisuB0aiUa0t73aJP4H4845wKxFES2EXJ+QSgXzUfDK6IhhdFrRRxfkmEK5ztwKzunM27Eonu1qISFzBLPc=
+	t=1776893326; cv=none; b=ThWwxyriL74Ej0QNSeAHsgBuw6pByrZFt15jz+PNcf0duB0dtB6eXSFwBEsQTeBWgdtHETzBnSg+//TV8nAyZpIR2myl9AvwXaO6tFLpgLTkEv61aCUlLTDthm5TEdPM0gNHTOt+S/IugXwudhj2/oGEz9zURXGu4pnsdgZHv7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776892900; c=relaxed/simple;
-	bh=KPRY0fkxHMLTF3O/yj9zF8b/7ZTyEnmsZn+VdomZ93Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SNWzXTFOQF+IUAGTggvSK75yCQzCM7UIrA4SVP+rLrgg5etiVzqbAfjv9P792y0sfomTyfV8Ojbwn3RTaokYL2g8I0flg4w8isO335039p+Fh9MExRjCSjVrTqREFxrrCWKDNJGhRHL2tnVKCqrodcdjbG269Mo6V5TGh47FWBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QQpD0gAV; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776893326; c=relaxed/simple;
+	bh=CquhhgFGSv6ftFYUJJC2CdtpiGXTjxEJ9Q/L2qjH8iU=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=BtjieEC3YAJ+3sjuXMvQ00GRbFU2ycyldHlvY1ULnLGXBMGRF52OvZh82p7n8UxH1NZ1ltnTJ6PpBu3q7STFH1RYGZT8+uxk9pU4kJW8+s+OENq6flORS3OVOM2Cy/0WxyL5u+jdcTaH05gvQI+FTf6AxpzUFHcHIvqJY8YAVoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=daA1nv4E; arc=none smtp.client-ip=91.218.175.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QQpD0gAV"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-43d572f7437so3949785f8f.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 14:21:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776892897; x=1777497697; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=VIqhSvTbP9eYNsUt9ndTviLgqiJ7f2q8IuPj176SOag=;
-        b=QQpD0gAV4cWy8DAhArbx0owXs7JAx5bYtbEg3WutWGLC3e7fnRnh4R9xooMr2P6kNu
-         VK490X2QqCvPSSRjJdZRhRbIvP6ykH0bDn4RVVB8yJOj4Z+iMotNr73MdsiFdlYYyE8O
-         c6XX2Bvf7jwZzgxyDQRhR+gBoLR6FRZfDO3m+9r8VLtS3Mc42CsENQPLoVOc2DgwqVve
-         T5CgFRnC6p2rcYDGnGbD3PKI6rhgqJMvWJjOKl07W4TIEXChcHls6l9KKsA2Xmk5fFAx
-         jnT8+/gSGHs2fxgUYmbkVtlNW8eUw2mtQJUDWqXvxOiaja7i5O8y8T8hFlKhYBQAcC0j
-         o3XA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776892897; x=1777497697;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VIqhSvTbP9eYNsUt9ndTviLgqiJ7f2q8IuPj176SOag=;
-        b=GjF8NvoQVP5Wo45d4qfnQRoM6THx3nwYs/qTzU6X/gV/J1ISTzoHYZzCaKAjn9ZouK
-         jECXLAJgXvfW+/ByMQFTe6T0Y5zwWUvzH83w2IN/l4GeD1BhOtGrD6fGGDMGUitHpFba
-         OkTjn8CK+1L8CR/NhNrnXTILIi5wm/OpKX5oEhISmqbYaUW29cslehRFxajk6M11D5O/
-         iJ1m4FE1CMFJGpZ5hAZuIihS5x8J8PkiubAcOE92XXCUZwUE5N4SWBCnstWurSjyQ5SR
-         L/bn5QMTO8J443BH3ktJIJHzlkcQBWQsCkZ4h9PSYQ/1AKlnzQmJvLgfceSse4Rtp5Ri
-         sYig==
-X-Forwarded-Encrypted: i=1; AFNElJ8UvRv9qyWgQda93HOVQ/g5VLhrqiiuL7mhm1fruHt04Ud8oY+Q2nSvuYYKjCsEzoMc8YBMEqEYeLF01sBX@vger.kernel.org
-X-Gm-Message-State: AOJu0Yylrb3M6TqkD622io8s4LVTp2s24BUccJupX/xIyumdWM+BKjdv
-	YiYqknJcqlPGRQ0NdJxBeQ17ake0q3ARmdYBtxqLqj7RIwV7UhIMtuYD
-X-Gm-Gg: AeBDietoG1ZLErqZNwgOKH2Ny0ZdIu53zpic/r56IUk04W7PDKKTmROVgSlO3dQVOr/
-	5DH6VJs5+Eq9X1Z5Yfq0Z+47me7ywLhLUm1Bjs7PFoWa7otmr4Jo33YCPsO1VeYyDeGRsCpnOHy
-	4/UIYYXx7c5gOfMDVdip2WFCvXuJQY1acirfe4mTZBePQEH7BWHBmfZ9CNCU8mz8X8yRbsT2vCz
-	iC1sadndvTen/yZqMyoW/oKbuj8n1sKd+0vr3ynPjIN6squh1iM378x95GiI8U8V5J3TdA2F22b
-	4uh9iqKIOf4teEQ+ZUSZ21QYk1ydn4SDmLCic/QJpi0c2/qMo85/+OxAQ4b+6waMa0OeKTfM+S8
-	YMAOo1m+74DIdfr3AqJddSMOHJ6hRbcy3vhwolPLIHzNKf86ACqdbhdvwvQ99y4gdIf0V0AuYCy
-	hDZv33AACuZR6HsUzwtYscVDuFzO1G5B2zWwqmjhkUE+q1/m/TtoG8972vO/M=
-X-Received: by 2002:a5d:5d88:0:b0:43d:7d6f:f535 with SMTP id ffacd0b85a97d-43fe3e10c0dmr36737857f8f.35.1776892896995;
-        Wed, 22 Apr 2026 14:21:36 -0700 (PDT)
-Received: from localhost (ip87-106-108-193.pbiaas.com. [87.106.108.193])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4e4d6casm43578892f8f.32.2026.04.22.14.21.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Apr 2026 14:21:36 -0700 (PDT)
-Date: Wed, 22 Apr 2026 23:21:35 +0200
-From: =?iso-8859-1?Q?G=FCnther?= Noack <gnoack3000@gmail.com>
-To: =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
-Cc: Christian Brauner <brauner@kernel.org>,
-	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
-	Paul Moore <paul@paul-moore.com>,
-	"Serge E . Hallyn" <serge@hallyn.com>,
-	Justin Suess <utilityemal77@gmail.com>,
-	Lennart Poettering <lennart@poettering.net>,
-	Mikhail Ivanov <ivanov.mikhail1@huawei-partners.com>,
-	Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>,
-	Shervin Oloumi <enlightened@google.com>,
-	Tingmao Wang <m@maowtm.org>, kernel-team@cloudflare.com,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-security-module@vger.kernel.org
-Subject: Re: [RFC PATCH v1 02/11] security: Add LSM_AUDIT_DATA_NS for
- namespace audit records
-Message-ID: <20260422.1136d63ef1ab@gnoack.org>
-References: <20260312100444.2609563-1-mic@digikod.net>
- <20260312100444.2609563-3-mic@digikod.net>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="daA1nv4E"
+Content-Type: text/plain; charset=utf-8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1776893313;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Cgpza/ygVqVA9S3quWs8Q35TCmfB+GLC9CQWXkpoesk=;
+	b=daA1nv4EjYnSQLIE7dEMjIdoIMZC+orNAQvKRf1ByycCi4bPaBGaW2hGTdZwDfyOdXa2qb
+	0glFoOF2Dq6n0hpicGLRRDEUCYyZl+PTLFy5IJHVTiLMpzuAZq8Q2iKR/VLZKTaJzprZpO
+	1cwVSZV6Ayy/jV1maIfiGf0YJyB+YWs=
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260312100444.2609563-3-mic@digikod.net>
+Mime-Version: 1.0 (1.0)
+Subject: Re: LSF/MM/BPF: 2026: Call for Proposals
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Roman Gushchin <roman.gushchin@linux.dev>
+In-Reply-To: <81033e57-99e5-43f1-a6c3-c363e96f9c9f@acm.org>
+Date: Wed, 22 Apr 2026 14:28:17 -0700
+Cc: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, linux-block@vger.kernel.org, linux-ide@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-nvme@lists.infradead.org,
+ bpf@vger.kernel.org, lsf-pc@lists.linux-foundation.org,
+ linux-kernel@vger.kernel.org
+Message-Id: <32CD853E-921D-4EEA-B1D0-4E4A7537861A@linux.dev>
+References: <81033e57-99e5-43f1-a6c3-c363e96f9c9f@acm.org>
+To: Bart Van Assche <bvanassche@acm.org>
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, Mar 12, 2026 at 11:04:35AM +0100, Mickaël Salaün wrote:
-> Add a new LSM audit data type LSM_AUDIT_DATA_NS that logs namespace
-> information in audit records.  Two fields are provided, matching the
-> field names of struct ns_common:
-> 
-> - ns_type: the CLONE_NEW* flag identifying the namespace type, logged in
->   hexadecimal.
-> 
-> - inum: the proc inode number identifying a specific namespace instance.
->   Namespace inode numbers are allocated by proc_alloc_inum() via
->   ida_alloc_max() bounded to UINT_MAX, so the value always fits in 32
->   bits.
-> 
-> A new audit data type is needed because no existing LSM_AUDIT_DATA_*
-> type carries namespace information.  The closest alternatives (e.g.
-> LSM_AUDIT_DATA_TASK or LSM_AUDIT_DATA_NONE with custom strings) would
-> either lose the namespace type or require ad-hoc formatting that
-> bypasses the structured audit data union.
-> 
-> Cc: Christian Brauner <brauner@kernel.org>
-> Cc: Günther Noack <gnoack@google.com>
-> Cc: Paul Moore <paul@paul-moore.com>
-> Signed-off-by: Mickaël Salaün <mic@digikod.net>
-> ---
->  include/linux/lsm_audit.h | 5 +++++
->  security/lsm_audit.c      | 4 ++++
->  2 files changed, 9 insertions(+)
-> 
-> diff --git a/include/linux/lsm_audit.h b/include/linux/lsm_audit.h
-> index 382c56a97bba..6e20a56b8c22 100644
-> --- a/include/linux/lsm_audit.h
-> +++ b/include/linux/lsm_audit.h
-> @@ -78,6 +78,7 @@ struct common_audit_data {
->  #define LSM_AUDIT_DATA_NOTIFICATION 16
->  #define LSM_AUDIT_DATA_ANONINODE	17
->  #define LSM_AUDIT_DATA_NLMSGTYPE	18
-> +#define LSM_AUDIT_DATA_NS		19
->  	union 	{
->  		struct path path;
->  		struct dentry *dentry;
-> @@ -100,6 +101,10 @@ struct common_audit_data {
->  		int reason;
->  		const char *anonclass;
->  		u16 nlmsg_type;
-> +		struct {
-> +			u32 ns_type;
-> +			unsigned int inum;
-> +		} ns;
->  	} u;
->  	/* this union contains LSM specific data */
->  	union {
-> diff --git a/security/lsm_audit.c b/security/lsm_audit.c
-> index 7d623b00495c..7f71a77c1c12 100644
-> --- a/security/lsm_audit.c
-> +++ b/security/lsm_audit.c
-> @@ -403,6 +403,10 @@ void audit_log_lsm_data(struct audit_buffer *ab,
->  	case LSM_AUDIT_DATA_NLMSGTYPE:
->  		audit_log_format(ab, " nl-msgtype=%hu", a->u.nlmsg_type);
->  		break;
-> +	case LSM_AUDIT_DATA_NS:
-> +		audit_log_format(ab, " namespace_type=0x%x namespace_inum=%u",
-> +				 a->u.ns.ns_type, a->u.ns.inum);
-> +		break;
->  	} /* switch (a->type) */
->  }
->  
-> -- 
-> 2.53.0
-> 
+I suggest LSFMMBPFLLM :)
 
-Reviewed-by: Günther Noack <gnoack3000@gmail.com>
+> On Apr 22, 2026, at 1:30=E2=80=AFPM, Bart Van Assche <bvanassche@acm.org> w=
+rote:
+>=20
+> =EF=BB=BFOn 1/10/26 5:24 AM, Christian Brauner wrote:
+>> The annual Linux Storage, Filesystem, Memory Management, and BPF
+>> (LSF/MM/BPF) Summit for 2026 will be held May 4=E2=80=936, 2026 in Zagreb=
+,
+>> Croatia.
+>> LSF/MM/BPF is an invitation-only technical workshop to map out
+>> improvements to the Linux storage, filesystem, BPF, and memory
+>> management subsystems that will make their way into the mainline
+>> kernel within the coming years.
+>> LSF/MM/BPF 2026 will be a three-day, stand-alone conference with four
+>> subsystem-specific tracks, cross-track discussions, as well as BoF and
+>> hacking sessions. Please check out:
+>>           https://events.linuxfoundation.org/lsfmmbpf/
+>> for further details on the venue and hotels.
+>=20
+> Thank you Christian for being one of the organizers of the
+> LSF/MM/BPF summit. Will a schedule be made available before the summit
+> starts? A link to the 2024 schedule is available at
+> https://lore.kernel.org/all/20240510212132.83346-1-sj@kernel.org/.
+>=20
+> Thanks,
+>=20
+> Bart.
+>=20
+>=20
