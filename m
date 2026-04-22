@@ -1,117 +1,153 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACD96370D6F
-	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 09:03:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C0493C0626
+	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 09:04:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.129.124
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776848593; cv=pass; b=lnALmhMjiHpufnquSypYa2C7uJzoK0Bl1Sy8X+CBNbyUwcx6X/Ti0unt6/TSAkI2K+VA+OWOtzzvk3SNt60QhfUzprbXHBiDip2F9203+WnwcLO31l+aNTkMrbww4hjSjUAZ4cuum3f30KeGkWB2cwao0YLU2epHRzOz52xLaqs=
+	t=1776848700; cv=pass; b=e/7X7kahP3g0gC+h/XpbNSAvuaO2Vt3VoECnfGRssiyHYWi/yrbDJcTEThzDIPEI9/aEDCNg4k989bfT5Mt7uRjTpaMW/qdtC7rJmPWJeAlqApwaXW9uYqVogQra8nSK9AWsmiES/4q43Y9gfsKImhWehx4xW22rhS3ese10UQk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776848593; c=relaxed/simple;
-	bh=OnSqMpn50OnD/GS3xCMbVy0x7R1KvCBf5vcHImLyZO0=;
+	s=arc-20240116; t=1776848700; c=relaxed/simple;
+	bh=yopdmqBE9rGg8lfe4NNn7CFqmGFhMk+gNA3NGrMi2iM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Qy/6wx86OrMeNBJ9mPAYUsOWxIP2Q0YHuXXoWVr49+dtAX/KeB4S1dkWsbjWP7cXeAw+y1LpkDPwTjmOEWQMfDRUdxMTP0VY5sQ13Nhs3WZpWEgcYq66Ms84qnvUYR/iMQTpu0csukqpOlWinRpE8o6ayc/WR51FmjQLFGLwOD4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SUgtk9X9; arc=pass smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=sPkBzkKSGXxxLH0AFXXWLOyr6+4mHgrtYKSH3VPtbReDQ5G/d0ixGFG6TGlpJ02T2FyZgN1vtjJm7eHdVmSQ1o4TPrH9VFiuUL78iv/iORz2CTHNQjIkeu0323L/pyJKptkw/I9jWT6YAjcp8lq1/szmkhlFLusDXTflG59jxh0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gW8fnxxh; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ge0MTibS; arc=pass smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SUgtk9X9"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-ba67b332bbaso516625266b.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 02:03:11 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776848590; cv=none;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gW8fnxxh";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ge0MTibS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1776848698;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mb+dSk03jWD+Ger/ZHg5m1EM3AaS+gaxlt98VLk9/sE=;
+	b=gW8fnxxhox5eGomK2rV+xZMcrhL/9GH81B6pPwz2LHi8pTxwYm5NEexGoCHp5U7zzLOXsj
+	b3Fs0Gz2zusHd2mqAmUbLy1dVnIRRFL3/JrygQngA7VAbery7QNgPxONbLX8wIiIJOLmGn
+	VHhYPeRX9v+YUFbCzTM8ASpQCjh8BVk=
+Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
+ [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-629-DmYcDTnYPYGQQjExVzTSbw-1; Wed, 22 Apr 2026 05:04:56 -0400
+X-MC-Unique: DmYcDTnYPYGQQjExVzTSbw-1
+X-Mimecast-MFC-AGG-ID: DmYcDTnYPYGQQjExVzTSbw_1776848696
+Received: by mail-yw1-f198.google.com with SMTP id 00721157ae682-7982c466ee1so115409617b3.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 02:04:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776848696; cv=none;
         d=google.com; s=arc-20240605;
-        b=M29nb6r2r3lhAkuJAJnyhTEW9CR0xGi+bFRrDFcO5exYLtl6QAULu8N4AIzi97Fljx
-         AGYOr0lWOB7HnNM+z5pnEY035ze/KJPxV0rMQGfwxsmzv2u0ApW2lL1Dh58c57/DKv1c
-         b1dKCB5bRSRjWlFmkgU7TenFUB+asaZM1P/uAU2spwRXRC9G/j9pMqNeNq2DTR/2K8k8
-         KwjfDHhm0zepgFQvfIHCcStr2WNBeh3RS8Ze6CEPKIfvnxQtcj5xJGRBTEkWr6NAnaTa
-         47kYiCxe31c/b/LXH/YSWFHBKAQKUL8ljdOk+TzmSr+2apsJPTbMjOSp/+9xcYL5asRp
-         9r/A==
+        b=JOI04zVb4rLvM6yCiW3i6JwmAdbaGC+Aix82Z9l+hk/2aDI+lTrgum57ICGV8NHno8
+         /s23hIJD/uacv1TIS8Bcw2Z+ue6x3qTLleIvzAHCBO9koAN2GvjkN861gachBqVxel6N
+         u/0nKpNAKVTa7quEuY00ufyovz1yv7n2yfNYRbnv4A+9fh0WF+X8F+DXpksqteUx9yFp
+         NJMGz7QOHa7RC3JOyfLeBzdjb0paFisDIu67r3m69vkY9MKayfUpxJUa1L5p0NsL9QHT
+         fJzbA+SJzlOpkD1z+r+5YB4vBqDlQ1xMROETQDauy5HglY7ugGJyKji0DHh/FcMMVLww
+         8D/w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=/zmrzhJ82hqsZYSfFtPL0nnBqq6Ni7welpDOg1+muwU=;
-        fh=CyiOmM7AN2J2T84Xc6ByO9voQDZEP82H4fj0yxVv4Vc=;
-        b=HMz0+5fSsnNRU4RMMADKNDxnJuCz0QuUwfyfp/9KdQZQ8oRVJQvmzLA3XBvw5nuMtV
-         z/KHr2YbZtC/Cekk2JgfDKuiSp5zYOAG0nt7U92N+AoPwOzz8fubnkv3WOCXg5pbOCzL
-         j8R7Im8Y+x68jyIzstgt6nHYSOlLcHMp046enrJpJSYSNymFmhDK9Pp/Oy3HrxgZdj3F
-         PwGlcZfjpusJq0BjwTP9HvY1XLyKCzyy7n14ZD/cN2G2oetm/Jq7WGnsjI/c2mSjQGjr
-         wbEpOjKM/bvsFvPSTzltr51ki9XDAs2vrnKVkivY9E/nJyFQfY/JPcclLZQTKTNmbOon
-         Nqhw==;
+        bh=mb+dSk03jWD+Ger/ZHg5m1EM3AaS+gaxlt98VLk9/sE=;
+        fh=GhmYlox/NR6YwjGOhj380Jd+K36XxUy+zsAviJR1MNc=;
+        b=BzNgWAGxB4t4LHLUwiMJgPyQlvEaNAO/KA9EpXyaQQQZYJDbILbxLiEESscQbdMkcn
+         HexFNqcWssGyGUcLySZ5czkrty4NfYp7OPNXI9YMwsQ84mQjADB7je/U9wX2PwxamP0F
+         pJbYM8py662EVNb6+tCwzJbhTgG7oldCXCSpZR/Qq9ljiBDSx0mOFKj5cHxyBd9t1XiD
+         umBrV/cK1dVELzK1je1gqlI901B/VOP62v7lBm83Bj2ybW/39ItITHfaEWzeEs6hVM2b
+         wUj/llCCwa2PkHnGYEUMe33Vo/9FnMVG4wm343aJNaKoycNtC37ms0144venWinja4Aq
+         IC7w==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776848590; x=1777453390; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1776848696; x=1777453496; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/zmrzhJ82hqsZYSfFtPL0nnBqq6Ni7welpDOg1+muwU=;
-        b=SUgtk9X9zH82Z3wBouIqDS4ua29KsRBHdZNRiXPyigXbWREMDGAq7pic8OBsUp9Bpx
-         cWZf3pe3q5IAeOx7weMwkp0I3oxFGSPgW/jx1zIkhGYcJoeGgY4RSOXynqvxeO1SMla1
-         3LfS1VSFdiT9KgLjX65/E9XiZ5zmQkoTH/YDCKQ0zLqMlWsacTfyici30fSFISc54jOt
-         UH7iqm7UNqdFu1vZ0i8o5hA91v3Ux5ED7bEXLvcE8yrO2qDXG51/CrolfV49xiVNJUhJ
-         ZKHrLQOD1gO4E3P5MYaOyU5JB+WjtRLS9RGTGqan0lf9AwCwky+lDO1bX7Tw71AH9Vb0
-         uhMQ==
+        bh=mb+dSk03jWD+Ger/ZHg5m1EM3AaS+gaxlt98VLk9/sE=;
+        b=Ge0MTibSOLmEOFo3o+gPT7UwZ5m+Q2rCJZRnaAEZNLXa3BcJoTKC7WM29PYDdISjjt
+         SFow+8/K1KHBXklWteMn6jgHQvVQ4RutAdkUtbeEXuGC3St5A9++Im7WsSMwiTUmefTs
+         a5Kmaoevwok1JeHY7rCwFs2wXjkbLsjl0E/a8SrozsSztPvMMka4pF3r/rVa7n/Fl01W
+         xp3pv1cgjG/9uk5UVfB525ejursMtOZRbrT5/tTNxotbMPSQ34o5CZzG6RzuKviOMVFz
+         45I+DfDDnyY3uRma9c2FL/pHzc5A0rfgWQDmm7s6cVkP0E45HORONGAbQ64xlksROlFY
+         sX/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776848590; x=1777453390;
+        d=1e100.net; s=20251104; t=1776848696; x=1777453496;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=/zmrzhJ82hqsZYSfFtPL0nnBqq6Ni7welpDOg1+muwU=;
-        b=E0DAuEcXQZvAm4BeHs78tzLEVThwkTKsXxzF4Yx10/106VS82jf4Emb1yeyQR4AjjG
-         9meDKEuuvUy2a+POir70p6TxuNYKxI/6e7kUzugTjxXRapRXIZKHyF7ZmmvHiyPD5EPQ
-         A2/bEuab3lMFgrgT9OQf9/7pCTNqlOFLUSAu2Qm2r9VcykQRhEPEzx3Y7YClBW2GHMrr
-         wU6IfD8aiBhBq3ucvDM236JknLwSZ0P+30dAVWnvt7xh9JzlpVAErjwr6PdYUKVcIUZ6
-         6sxRTGPIM638IInqdcjs3RNWmNygwbF+ckD70RlCyYg9c9fg8+DWT6dImil1ShPRSsvs
-         zUzw==
-X-Forwarded-Encrypted: i=1; AFNElJ8P1+Ob2IuBYaRIGOijIbY+lmYqHqVcgBYRa8PYlW8X05LsEz7wZZWnbDcfdE8sTilx27fy99Y/zAqUF5aD@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw6atETYEBtJHFfPFx3RhaAtI2FTjeBEbv5mr907le3GcRJkV1M
-	xkxsu2IaMlRgs2bYlEAoqhKTYLiZzEHq33fqG5ttAYUReiEyLAh45e4rczw6TOkYRlYJcJwj8q8
-	EfY7lpXU4w5EHDfMdcx92w0ohkELrreA=
-X-Gm-Gg: AeBDieuZkKaTe04eVa+Mph/lcFQtweoWCeLMkkx7JwUf0w60GTmA5vgw3VuenQQBukF
-	wFPn53yr0NSn7gyoGDJQOFNDnFlGbw/bboolxsQIz5ORxzOzekJKDMG0uyBRIhm7Q/moEl9f+DK
-	gtvocNu/xnVMT+VL/chtyVK1se9Wf9XrgTEqzR9T7WAg4jct4E2NPAJ688EAbGJ6D8i7hZDc1vm
-	ciB6Sfvtj0RVibNFt6HW7WAYo/oTt8xC22HVyb3IJ+z9MxnCNYUJJlOnD3rD2wtBP1im7c1iyxt
-	YCLRKNn7m69cHkfESK2uCrMHDtgZ0tTTrtiVIjbCad3c0Q9FWpAa
-X-Received: by 2002:a17:907:3c89:b0:ba8:8094:f7af with SMTP id
- a640c23a62f3a-ba88094fbc4mr521856266b.18.1776848589508; Wed, 22 Apr 2026
- 02:03:09 -0700 (PDT)
+        bh=mb+dSk03jWD+Ger/ZHg5m1EM3AaS+gaxlt98VLk9/sE=;
+        b=M5xI0j/GCwf3nOpzkpie7KU6vWKdZAH0dPabQI1gC7Vp5PXcS++fhwzCtDB3sV6bhR
+         sfTQ4hL4i2UrGJFEhAIF0lYIYNn5rD1G1a/Whjl8h1aZ11EmdpTytVtuECSCoJMiDZLM
+         uFn5OYyLSt+bXpjbLDS1HTRzLIi5mIdX8RYiS8u7MesbM3R54K5JmFWFoiFflEuGq4iV
+         lnSl+ishd/fDjdTC1k6RIApl9Xh9q8b7AIr7qlcIqzPbJelr/OLkzefSXTpjOCe61sfc
+         4Uty2e9RqLon6QKALEiV/NAcARDtcoTV1p2X5jf67ywke+QVmVgwTvPjeG8Sv66hWt3D
+         np/Q==
+X-Forwarded-Encrypted: i=1; AFNElJ9Tbm00Qzn1ggLWAh7gQvSrFRu+hPXyNus8ge8iFFXpYhWonKRs6ZCT0zvyLcCfOf/NJvN/6SJ/zyRv7rK3@vger.kernel.org
+X-Gm-Message-State: AOJu0YzwVB48SEqUF+T8p51bMq+hY2lXp8fCkYx+OhtWjSf3rhprGv12
+	hstsvwZ7k0OBELWmauICu5hwEv2F9f1seZSjT7Ir1AEbQTdeYmhhGdnal9z7rHstPO4elgtSKkf
+	F+lay6bxMJPoRAT4pQ/uX2zPBkZ676Od4U4VHXISjNPxb2bTXoVYFdBa38Mempljvdo+D3U1beX
+	PyMrdVwUxGxd2uNSQ9dG6en0AQbJgDKbKgLQ/xet4kuGJsb7lz5A==
+X-Gm-Gg: AeBDiesCtZTX4ZmEqC3tvJZfW3/0/gC9UKNcr27yYJLMK5RQGVFt4Ljl3S4pUDte2UR
+	2vssS+x8p5J9b+MwhLpy3wt8U5GUT13WSBQU3j+V351ggkzPVyJMy+BG94HVHF7pcjqOPscqC8P
+	GSw4hDDnd4FGnRW96vP4dPEdL0zDMgwoZzcpTgYJwoIffQi2DeRzo/FMP9X3LYpyz3gm3+L69vo
+	wvzMAE+3npcsUkpiA==
+X-Received: by 2002:a05:690c:e572:b0:7b8:4f2c:a5f7 with SMTP id 00721157ae682-7b9ecefdfa8mr169042087b3.19.1776848695953;
+        Wed, 22 Apr 2026 02:04:55 -0700 (PDT)
+X-Received: by 2002:a05:690c:e572:b0:7b8:4f2c:a5f7 with SMTP id
+ 00721157ae682-7b9ecefdfa8mr169041797b3.19.1776848695509; Wed, 22 Apr 2026
+ 02:04:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260417142503.1436446-1-amir73il@gmail.com> <20260422085044.339428-1-safinaskar@gmail.com>
-In-Reply-To: <20260422085044.339428-1-safinaskar@gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Wed, 22 Apr 2026 11:02:56 +0200
-X-Gm-Features: AQROBzAdC7X3wBRekJz-9eMdze2JR8zkisUispMnc6Noh5P0f4e19FgjiAv0JkQ
-Message-ID: <CAOQ4uxgd9wgdYXOH-gGnagqbD-GVs3ck2bA-8OGSgD+kCaS1tg@mail.gmail.com>
-Subject: Re: [PATCH] docs: add guidelines for submitting new filesystems
-To: Askar Safin <safinaskar@gmail.com>, brauner@kernel.org
-Cc: djwong@kernel.org, hch@lst.de, jack@suse.cz, linux-fsdevel@vger.kernel.org, 
-	tytso@mit.edu, viro@zeniv.linux.org.uk, willy@infradead.org
+References: <20260312194019.3077902-1-mszeredi@redhat.com> <20260312194019.3077902-2-mszeredi@redhat.com>
+ <3c9f8396-41f4-4c88-b883-34bede72b427@sirena.org.uk> <e3ad44f0-0a3e-4ef5-ab6e-c346814c0104@sirena.org.uk>
+ <CAJnrk1Y1JzKJ=RCLBt592EZ+0=hPzaLWuHve_umxtUMOSH76dQ@mail.gmail.com>
+In-Reply-To: <CAJnrk1Y1JzKJ=RCLBt592EZ+0=hPzaLWuHve_umxtUMOSH76dQ@mail.gmail.com>
+From: Miklos Szeredi <mszeredi@redhat.com>
+Date: Wed, 22 Apr 2026 11:04:44 +0200
+X-Gm-Features: AQROBzDQWvCF2XCZrXKaGoo9SXAP94vL7ArHBIjedzp25a7X6i5nZ9ZX1Ji6gaA
+Message-ID: <CAOssrKfVKvJeriSm7zeRd8xd6mMgRqc3YkpY6rehBtGSy=JVbA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/6] fuse: create fuse_dev on /dev/fuse open instead of mount
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Mark Brown <broonie@kernel.org>, torvalds@linux-foundation.org, 
+	linux-fsdevel@vger.kernel.org, Bernd Schubert <bernd@bsbernd.com>, Aishwarya.TCV@arm.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 22, 2026 at 10:51=E2=80=AFAM Askar Safin <safinaskar@gmail.com>=
- wrote:
+On Wed, Apr 22, 2026 at 12:49=E2=80=AFAM Joanne Koong <joannelkoong@gmail.c=
+om> wrote:
+
+> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+> index 5dda7080f4a9..d48c10db62e3 100644
+> --- a/fs/fuse/dev.c
+> +++ b/fs/fuse/dev.c
+> @@ -1562,9 +1562,15 @@ struct fuse_dev *fuse_get_dev(struct file *file)
+>         struct fuse_dev *fud =3D fuse_file_to_fud(file);
+>         int err;
 >
-> Amir Goldstein <amir73il@gmail.com>:
-> > +  and the filesystem context API (``fs_context``) for the mount path. =
- See
+> -       err =3D wait_event_interruptible(fuse_dev_waitq,
+> fuse_dev_fc_get(fud) !=3D NULL);
+> -       if (err)
+> -               return ERR_PTR(err);
+> +       if (!fuse_dev_fc_get(fud)) {
+> +               /* only block waiting for mount if sync init was requeste=
+d */
+> +               if (!fud->sync_init)
+> +                       return ERR_PTR(-EPERM);
+> +
+> +               err =3D wait_event_interruptible(fuse_dev_waitq,
+> fuse_dev_fc_get(fud) !=3D NULL);
+> +               if (err)
+> +                       return ERR_PTR(err);
+> +       }
 >
-> There is no need to say this, because there is no other code paths since
-> this commit: https://lore.kernel.org/all/20251212174403.2882183-1-sandeen=
-@redhat.com/
+>         return fud;
+>  }
 
-Right, I forgot that :)
-
-Christian,
-
-Do you want to leave something else in place of this?
-Did you have anything in mind when you wrote
-"I think we can compile a list of must-haves."?
+Ack.   Do you want to send a proper patch?  Or I can just add a header
+and your SoB.
 
 Thanks,
-Amir.
+Miklos
+
