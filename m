@@ -1,127 +1,98 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AFE036F437
-	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 19:30:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776886243; cv=pass; b=hWjXu3T5lCiCnMoVndLZXRVHjGxNLBXwfIj6NYg8xaT2rN1gAhpW6klf5uVAK7SNl+eUSRZz2Kc18jbghc5xHTh2Qs202LrzWbb8t7yZO/BZvEBJmIQWiSFTG3TVfFvT8W0wl9G4MSUkDsLMzX/5jzpxrFRtWx5ri+RfpumlSLM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776886243; c=relaxed/simple;
-	bh=fhuwujzJsQ1txOxmh/iVbjDo+gW3V7o1wpkYVb2eB2U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PD7+AdWYJ+GZ+KK777JQ+D3jIo7Il+/KKB65fs2Ja0aWpnU4RlLOwxgkzU4WuYdspSCpK2WoyBImZaMV711F5mwQy8WyGHm1uwImx3BKeTCTeBoGdJP1dqHh4cw4JNZH+VXdaU32+yQswLfRCWZ3idVmSfboEVYh6J6zPBqAnrI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F38/XNJW; arc=pass smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FA554C6C
+	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 19:41:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776886902; cv=none; b=p9u3CQPAmzBRtF9ffwCMCyNb8rRDkaEzXxAa2w+fljHQb6hA4Qx7w1RM3uw6zsJDNsEUM6vQGtCGyXdts+R8D3lo4s3+yLNuUMnLsRpSFPH+kUSppr1p/dWppBZGvFXo9Llk4SY95ma/CKmHoMJfezpmMULHroKTCdM/XG6hRaU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776886902; c=relaxed/simple;
+	bh=0bUVDZjBSy1jt+cpHOnoQFety2wC1OyrSugPpRXxcWo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=j/lwDrw4scovtJNucmVD0Sre9K4fpK4zq5XvPxCS8V5lJChCwgNiYkxwJtJ1Ro714C7YPe9GMzm+O/CgF5+egoK+3+DoYtOOvWmQ470IdglE8VnJKzLa5Ai+XwsSGP1l+FIzYYnMTHfjOfnmc0XfQ3/Y1/bukWMjYz60Dan6BQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fTCp+BZt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F38/XNJW"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-43d03db7f87so4005321f8f.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 12:30:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776886239; cv=none;
-        d=google.com; s=arc-20240605;
-        b=PBdNBYkSG2sSVMAuh20iklART80PPxCNe0GgjT+MA9ewZTT+IeTxPj0PbiHrjN11nd
-         1CpW4595+frXZ9V00pjAR6R60l03YGVYlo5vvXjEFq+Jv0GK61/JFmqOQAoKy6RBTDHx
-         GUK4jiagT38Efx4EpAATFY0VVlREA0HT0dtcak8iM5iLsDyS5/Fe4Ivf2yYHD9GqZMti
-         dCHZ/tpqdPw+/KR+U5Ruw1lOwz74968bCWGfTNtKHhkm7Zx/y+dxkTaTMjmeCjzHxBR/
-         33cBsP+uGt8u1X+Y96MCZ1bxWXS7mQiI9yEz5Uu/E46Lg6wlfGRQaep0EN+dhNwa+bH6
-         S1eA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Aw3yaK4icnRFqcoPcDXx3ykLe9iB5O1jMvtRXhuzNFo=;
-        fh=cyIqqUUg5binJ2W8WDDokVxsYGMm3t60pzmXyRXp7j8=;
-        b=SHj+K0w+JfYtlocWacmqkKA26jjXxxegHl+wFWukCYJmXdorZ+F8b7zML2p31vGrzY
-         kR9KjlgqDn5suWdA8RjZ1wafRglUMvzEhJYRw3+szCmE1vaMtIsxrB0Bd+5JdJKh3GdF
-         XtAoxZLfYjRp89ycnOmVf16Hdxm9j3zDbm9qRGmmVx87tlBfv1Uk6K3hiyKoiw93/z32
-         r3Napo6oDLj7FV2Odt2H0izON8Fl2/WCVUB1+PCzjKNOwPCloqJ9P52vDXBd5TB3oGzx
-         u6pBk0kRSnvWt2y56WJTS8slHKv4Kz0wpXKSyWndHphxlBmJEyyLAYpNs/gjRsIqse+T
-         E7cA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776886239; x=1777491039; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Aw3yaK4icnRFqcoPcDXx3ykLe9iB5O1jMvtRXhuzNFo=;
-        b=F38/XNJWowHgiphsHG3lUFg6QgJr7r4hZ6lNFsCzzDQxaG5K5YRRbmNItUB0DHqPu8
-         CliyqOcOKfGJC8CMmnUqLA4bNz+SUBdsyxyrI2s1twmcMrwDNyUuVPHAZyYPGvtYQfDd
-         Bp4SLsOYz52i6H3umpUhcC0JbWdrY/zi/52JchA0ds9pS5dSlXzDx/ENJAmZKZx4ObGo
-         SpVvPGRgifj7J9x9+Shtw6vupe2hNpx4dwswdffsw3F0AbuGU2JcvimHmL1+Y7zIPQrF
-         w8QUip5uS2VHUxHhjCBehomYBPhgCFWM/aoJEej1iqrXGPVAXQNb28xAzu6rjwfNdTef
-         NGkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776886239; x=1777491039;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Aw3yaK4icnRFqcoPcDXx3ykLe9iB5O1jMvtRXhuzNFo=;
-        b=AoEo3tnFzrRfbBPqiJp+yvHg7cVwtWwUkGbf7k/EDXgdfZ09VclN+Sa2u5NywE71/s
-         x2abwPedMmuZIUDhFx5CWUXAnhyXO1nknx5XAAYPlLUFmKe6cT6FZv5JsdAtIAtQXPz3
-         myWUbLVKnW/aEa1NDQ8QWO4gQEALYJ+4ZDzEHGvHLXdh6z3HNEwJXoCVy/l1wwwEQB2N
-         sN/5uXUDxVCXPwVKpLqejkjnDdGitUznwBIgN+YxNY7XcwiN1XTcQ7dfRbjPyhI6r7yq
-         Cnewr7M8JwvSkUIMBq/wbztYluFgphrjM1OuV0Wjju4z841+L6G/d+S4Un0DlRiJm79x
-         8alA==
-X-Forwarded-Encrypted: i=1; AFNElJ+Ht+4a0N+o1pdD0n2liirOHk3XFjsVIc2ASQx0R12vWT43IDVm4rOY0hZoL33jSCjRqX1eiDZeJ4er38V4@vger.kernel.org
-X-Gm-Message-State: AOJu0YzOrwTiDXkOZ0wWSZG9ePsvZ6g/Xs+FXfgBIOPll8+mFEF7XY/g
-	8kAqoaDf50VadEYwmzibPctTsiF5UhbUx6PwlA3qY9HdSJsiYDQD3YAhN4F054sB7ZVVnzlxXHZ
-	xJtbK1ZeaPDqeY3QoMnQW10HAAkPdqgI=
-X-Gm-Gg: AeBDiescMx3Ku98MzZOMMfL4WVMnRtJS8hMsAlSCwZrQ+rT5PNyqfeE47iii8A9aUWv
-	BvZWiqU74ZUVE6Jkb8USgo/tV+JJyzCUqeiIr3NSt4OO8ninVknsNYPo7cLVBgE/2uRnMoK19bt
-	QdTQdLjYVyVio987Z9lR2eOtFiDoc97IdCuXNyewV3rOo5mC50/VQeS1wLJxPoTbGPU7yKbrtgA
-	Bpg18VwZfVMkzqNjdJPF5Ni4VLJlnGaoMwoXaDL8GQhpwAU1W5EQV3gzbizlx8hIAsyfYYvsz1M
-	2roXkjNber5WPB9FaBvavifP2ks3QgyXig==
-X-Received: by 2002:a5d:6751:0:b0:43e:a69b:d805 with SMTP id
- ffacd0b85a97d-43fe3dfbd18mr23709448f8f.27.1776886238591; Wed, 22 Apr 2026
- 12:30:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fTCp+BZt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9FE4C19425;
+	Wed, 22 Apr 2026 19:41:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776886902;
+	bh=0bUVDZjBSy1jt+cpHOnoQFety2wC1OyrSugPpRXxcWo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fTCp+BZtAXaWerSG1TLHoQjW4rx986RrkjIWzXXJDkgY6mV007ReWpRQj7hqsSpjF
+	 xvde2LE0n0mz8+WWwfvj/QnM3pazYyfU4HHkfOIpfFcdqztH5lbzkrtqBw0uzeG21D
+	 J60w84KX834pQ7r3xPUkqBj/aNAOwW73cXYVrLd+sL5Tnh7Y0GqaTX4BguFZYEUBWw
+	 Kcm3hLp0LepkPdi+SWD2uORQfVUAXLjynxgyOnzN7DskwQ7Rme7punSbThFmPgUPd1
+	 WgIvjN5w43FJjfQH/hZDhb+sjmRJjgCWILW07mzyFzK9DnwmRnDm5ENk3VtVKr3JYe
+	 LFvgFU5WsIqlQ==
+Date: Wed, 22 Apr 2026 20:41:37 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Miklos Szeredi <mszeredi@redhat.com>, torvalds@linux-foundation.org,
+	linux-fsdevel@vger.kernel.org, Bernd Schubert <bernd@bsbernd.com>,
+	Aishwarya.TCV@arm.com
+Subject: Re: [PATCH v2 1/6] fuse: create fuse_dev on /dev/fuse open instead
+ of mount
+Message-ID: <13f8c804-b614-4158-a30d-f2bc6aa5b851@sirena.org.uk>
+References: <20260312194019.3077902-1-mszeredi@redhat.com>
+ <20260312194019.3077902-2-mszeredi@redhat.com>
+ <3c9f8396-41f4-4c88-b883-34bede72b427@sirena.org.uk>
+ <e3ad44f0-0a3e-4ef5-ab6e-c346814c0104@sirena.org.uk>
+ <CAJnrk1Y1JzKJ=RCLBt592EZ+0=hPzaLWuHve_umxtUMOSH76dQ@mail.gmail.com>
+ <CAOssrKfVKvJeriSm7zeRd8xd6mMgRqc3YkpY6rehBtGSy=JVbA@mail.gmail.com>
+ <CAJnrk1aC7za1COhMOKe6abhjCPhV-OsNN5v_-dY=qs8ROsG6tA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260416091658.462783-1-mszeredi@redhat.com> <20260416091658.462783-32-mszeredi@redhat.com>
-In-Reply-To: <20260416091658.462783-32-mszeredi@redhat.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Wed, 22 Apr 2026 12:30:26 -0700
-X-Gm-Features: AQROBzC4T0OXo8eu49n2bjtCoR4nay2xnC6t3bxqb1p-jTESdmvWeXfGntCMeHY
-Message-ID: <CAJnrk1br9Vc_zRgqoBuO-meyPW2=n6p9PKizEiba2oT=+YX+zw@mail.gmail.com>
-Subject: Re: [PATCH 31/32] fuse: alloc pqueue before installing fch in fuse_dev
-To: Miklos Szeredi <mszeredi@redhat.com>
-Cc: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
-	Li Wang <liwang@kylinos.cn>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="vTm3Yo2+IyY0U27a"
+Content-Disposition: inline
+In-Reply-To: <CAJnrk1aC7za1COhMOKe6abhjCPhV-OsNN5v_-dY=qs8ROsG6tA@mail.gmail.com>
+X-Cookie: I'm definitely not in Omaha!
+
+
+--vTm3Yo2+IyY0U27a
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 16, 2026 at 2:21=E2=80=AFAM Miklos Szeredi <mszeredi@redhat.com=
-> wrote:
->
-> Prior to this patchset, fuse_dev (containing fuse_pqueue) was allocated o=
-n
-> mount.  But now fuse_dev is allocated when opening /dev/fuse, even though
-> the queues are not needed at that time.
->
-> Delay allocation of the pqueue (4k worth of list_head) just before mounti=
-ng
-> or cloning a device.
->
-> Various distributions (e.g. Debian/Fedora) configure /dev/fuse as world
-> writable, so the pqueue allocation should be deferred to a privileged
-> operation (mount) to prevent unprivileged userspace from consuming pinned
-> kernel memory.
->
-> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
-> ---
->  fs/fuse/dev.c        | 75 +++++++++++++++++++++++++++++++++-----------
->  fs/fuse/fuse_dev_i.h |  3 ++
->  2 files changed, 59 insertions(+), 19 deletions(-)
->
+On Wed, Apr 22, 2026 at 09:54:10AM -0700, Joanne Koong wrote:
+> On Wed, Apr 22, 2026 at 2:04=E2=80=AFAM Miklos Szeredi <mszeredi@redhat.c=
+om> wrote:
 
-Li reported [1] some missing uring side changes
+> From e434521edf44596239a07838a1a8b37c5f0464cb Mon Sep 17 00:00:00 2001
+> From: Joanne Koong <joannelkoong@gmail.com>
+> Date: Wed, 22 Apr 2026 09:31:23 -0700
+> Subject: [PATCH] fuse: don't block in fuse_get_dev() for non-sync_init ca=
+se
+>=20
+> Commit a8dd5f1b73bc ("fuse: create fuse_dev on /dev/fuse open instead of
+> mount") changed behavior so that fuse_get_dev() now unconditionally
+> blocks waiting for a connection, even in the case where sync_init was
+> not set. Previously, non-sync_init opens returned -EPERM immediately.
 
-Thanks,
-Joanne
+Just a heads up that the patch is corrupted - it's word wrapped and has
+tabs converted to spaces at least.  It does the job though:
 
-[1] https://lore.kernel.org/fuse-devel/20260422103603.4554-1-liwang@kylinos=
-.cn/T/#u
+Tested-by: Mark Brown <broonie@kernel.org>
+
+--vTm3Yo2+IyY0U27a
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnpJHAACgkQJNaLcl1U
+h9B5qQf/VroE5yxxzbuTPJdaUWzR0MWPJ5tXzHdAlG2IpLswxZX763+rgp57daQG
+/0yk29dncE9E/f8Q4D7cxSozzH9S2TAkxTYCrPaQFq6aiQI5xWTBAd43hum77mUx
+1pJgbkaTe5bkhZIJcwha5tgpqPdZF3KjBR/5ySVqGTCcxL4tVcvjaVtrhxaHZnY+
+bRNA45NLQNByAkUKdsekst+8kfqlAajNR0vfmMuCdIAuY0x4CcBH4WSJPzX//6Uy
+U6LLJAMC8vwrHwBuUrdI4zUiaPJiIQXZGLABjaUz8dAk6ecx+ycaGnCkbvDk5atE
+7GxpfKIlWFMC0wXv6i4bLTGtit6VlQ==
+=MLiR
+-----END PGP SIGNATURE-----
+
+--vTm3Yo2+IyY0U27a--
