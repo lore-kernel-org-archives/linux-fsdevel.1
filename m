@@ -1,121 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06E5423D291
-	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 15:50:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776873045; cv=none; b=tYZssCY4mo1OSxziUsrErUwYC+zFscmkVbbu/tmdxypVDe5ETP81u2fR1VxiN0lf6QwsJhIyggXJriYa/qdJwlNCt3+vX2R/ErVQFIJMoTW5Q2kCkTkosoyxaPDcSuWsSHdIFFRvPgWi8gmQMSiH8oZgncl0d7LfbjabTctQbog=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776873045; c=relaxed/simple;
-	bh=u5tQApB1Z3DHRYx08elGKPxdniTD7pYoDfe+wNVJWdE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ly+y1ZP3d9Xyg98y+MinXuwlnhJPjnAPF9kGGyF8mFIx6bXxgTkIuLyfuwgp6+bb0DEcfNmXdTCpYCgXs8it3ZjtFtoj6s6agPqmRRsajfsQPV+qxEbs4KHB/N5drriX3LDocyp7WKr/+v67BrbIl57qTGzbFoI4C9fZHwH1pgA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V14+dRPy; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B1ED2E2840
+	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 15:51:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.180
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776873089; cv=pass; b=fC9TJEMt4EvXmQj3/aChloLJzRp5q5uGpMBPqS8OEnKvx8QrXPAVTL2nfgsv907uhT79J4xWTYz9hMvq+fZRpaVU2pr4nNEVEkk614uzw2KBPYcb2JzNbxwynPftSP3wGzhtUkDmTa5gMB57JZuHpil6YdtDs8dCIWJlCwqeCuY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776873089; c=relaxed/simple;
+	bh=aFeoC8lzxo7yNh4+5NpJ+4/MJMN2RzuA2RxQg8zUxdY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RIdzvJeSGuFQk0Gq4UsWASXbwOPkeGX20kWZoAIpeutssj7JsmW9vcm4fY211cFhaJOy5LQYMlmSiuA3GKF+OrHBLVnem5M/tdHK7Dari9yodN9ia8ZTii+mpUPcWLaEs2XkSvOMxMvJn1US2gUcRh/MSvGdzkgRJCJTmH4agsQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=PaS8kR/t; arc=pass smtp.client-ip=209.85.160.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V14+dRPy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AFCDC2BCAF;
-	Wed, 22 Apr 2026 15:50:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776873044;
-	bh=u5tQApB1Z3DHRYx08elGKPxdniTD7pYoDfe+wNVJWdE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=V14+dRPyGzu1M7nNjtNLf7RzAyEizRp4hGGb8UplqGzHR8Q2RebE4RRBwQFJfa+FT
-	 7W3q2eXLMGT/slfJNqz/G/+QgeNnO2u3MndykUeXqNYnzekIPetG01ufoKZN6BEt2H
-	 o1q6AyavxEOCgrVMxDxlyHoG/J5Dh5ZCPJKaVXcY/IY9ic75bnpkO3KnJYo6dvgOJ/
-	 2/gf3oDQjOjJMDrD796ZPHK06psCRsj+9NgaTOTpuEfBWYz81Kg8JdB1wi+9zmQ08P
-	 AixZmyQZJ8GkyTLb/8mMU5Qq12GucwWxi4SG0LfQBp9XAtlNwEwnfS3/KL27RqmsgA
-	 0kQGtfbuzw26Q==
-Date: Wed, 22 Apr 2026 08:50:44 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Theodore Tso <tytso@mit.edu>, Jan Kara <jack@suse.cz>,
-	Christian Brauner <brauner@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org,
-	Christoph Hellwig <hch@lst.de>,
-	Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH] docs: add guidelines for submitting new filesystems
-Message-ID: <20260422155044.GS7727@frogsfrogsfrogs>
-References: <CAOQ4uxj1guVDXNrSmWUVS+6_meYPGBe8kBSDjfe8PkopTd79fA@mail.gmail.com>
- <5zc4j4nrfvxr56rvtgazaxojbpnd54ok2bx46xvhe3swn5g7dv@lzbnm44acpbn>
- <CAOQ4uxhUU0D89P_ZfOyDPpvGD5wy8VoU-o2i8iBjU-HmJyWuDA@mail.gmail.com>
- <fe5uzacwrsuabvxp7xrsz3biiellrebtbmkoeus57xottgp5c7@wssdohk22lvr>
- <20260421181026.GG7765@frogsfrogsfrogs>
- <CAOQ4uxhq4J+t+6-qhGOoaZn0Fdh9Q05RkX-CRYm+huJSPUJHjw@mail.gmail.com>
- <20260421201502.GH7765@frogsfrogsfrogs>
- <CAOQ4uxg4S=1jBGusNSHDH20+AHdFucFfWie9wqBU9V=LUWqwUg@mail.gmail.com>
- <20260422140923.GA11127@macsyma-wired.lan>
- <CAOQ4uxgaKsFqZYemhS_iKzOAK2ZKJ623FUm5ysFiTvK3idnG6Q@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="PaS8kR/t"
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-505a1789a27so27853741cf.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 08:51:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776873086; cv=none;
+        d=google.com; s=arc-20240605;
+        b=dAb7ygFsrzUAhMaa3NO8OVqSoUjlJpzucTQlbx5ofwwIfRUzqOkJbz+hGEV6m3ljBg
+         yNCJ6ry810ASaogWLDNdvLeZIxSJNIFpahuzfH5DiooAqKAVjTzOtHvO/XkhDxHsb2NA
+         bT250ZyS0cXHvNbnRGJFtUDD2oOOtYcDj4w0Kg/U3Lgy/srCU127ugI53xChZ5MbyFQT
+         +riTxbSeVHUr3xM7qgJqiVQpSbtrnHeKQa+lA3w0Ch2CiVoJn6e5YF1/M3JX8okZtPAX
+         lhMi49YYTKqj0qy3Dr96uYRXIXXiWkIS4mviscZ0eFjh1zGQkBMbw/Lj3sHDD7VRET0e
+         XReQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=aFeoC8lzxo7yNh4+5NpJ+4/MJMN2RzuA2RxQg8zUxdY=;
+        fh=JyeOEjbbcYaihdnT4H2WF+9QB2RnTYPSW2Rcjt9V184=;
+        b=W2WKFQxFbCzJD9AZ3y51LBEKbscUli42J1UolODArkD7pcI345g8rTmjh9OGlj9oxo
+         TITJtpE9FPjLvb/diOgMY11CtbDXiWlNZ7/kuVH5zr+PhXPOJ8GjBRnJQhj0kCiuDO8I
+         bnqhJbr3mSsKRrWVYTpHOqana1mzQFYry5+AYnfrRuk5g1oiJ2wnGm7wvtm+OFU2XC3k
+         k/svynyHlNQ1eKgiC+7cjdf4dAprNVt2idPlr1fd3LKVWDhq6h6d8bwn8Rs0ku61EcE9
+         7o6353b51yK+ujSLwnh0BnZB+lo51+kBqhYsLYes39aoY+id6HNyGGxx6HmJ4Ff9hUBb
+         zRuQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1776873086; x=1777477886; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=aFeoC8lzxo7yNh4+5NpJ+4/MJMN2RzuA2RxQg8zUxdY=;
+        b=PaS8kR/tJLQdPNVTA5mIkoq6Rr8qv7nmJJ1jibCfiLeemeJtKVtKgyB/bItakcp0GV
+         DBwAjdStGAGlsKGUb3S6GFgSeRm5IKLs5+J/rel+ImrPPHEVmqZ2wJLwokTwUBiBQNOD
+         JpwOIDa5l7/lSIDHeeB1zTKGzRG/OaNIM27+o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776873086; x=1777477886;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aFeoC8lzxo7yNh4+5NpJ+4/MJMN2RzuA2RxQg8zUxdY=;
+        b=e9fpWE7nqMRiQqFe5+LXPUZYcg4nVWfKhRLDNgMKO81SYm8X2sDeYk/AEf7BqnRh2Y
+         Ww5OOEfE7eQqI3XShzseVVrhtkg7yTTgAATUbWpyZiH/XR89aZQg8I55m8/u7IL8IFvi
+         eQa7ffF+njkJ9WYQ62OFnIuVpcE/VLuy0fP3TJCmEUbzQGDOQ8teRdkC9FnvhWaMNVGg
+         +ceS04rv+DfchExdD+X82/Atv590bUGb9Fgd59R/7Juvae86q3KezNLFD1EjCdu0v43P
+         qOpAsNWll/LnhBV4cScF1v+G3yxibG1KrWNje6sWjbQKJ69dV5DgtaI0uhDNhWUYovXF
+         GMPg==
+X-Gm-Message-State: AOJu0YyWPKiWW2mo6UGYzZyuMXn8MO9zphznCfhMxoaJdrGGXcqMbxpR
+	PF7Y2iazbOTxOPizMb4IxBl0XFFoKTi/gvw4XZNiqg3vXZSHgNUc/WED2+7e15ce3PAfUsxAzVE
+	wWqwrmyhA8TOseaXN1hYBwTv6DjmOXZkZmjNA2Wc64A==
+X-Gm-Gg: AeBDieshLh+nP5rPRwH00WowRGFS5uPTnnRxtrB1wobzPYYNK4S0IEtwuzjtDioyq+u
+	0nZaqznCXP573zMLagjS/3tYc8CvxUeFKUvbM7maE4IMO7E6TMVtGvMSF3SZXr4uARuCs/nHQ8Y
+	nDujy11gSwk1fY2wEO/wNLGn65tGYsDYKN4Yl4EAbgSi68u8ChSpG86OG1eFLCbGyL39D/DElL3
+	LtUyRHSokc/0mC2AUsCouOXBn8J/yZpWzA+CfMQSkL2txbwmbcAw7ToYCf8OxkTpm6ilLwcKUSe
+	qYFXnuuuNv6PldRkv29EkjnFzdDVI4TbkbZ2khB9IN18hMujgqWFRfR8vOQS8Q==
+X-Received: by 2002:a05:622a:1dc4:b0:50d:6b13:bb14 with SMTP id
+ d75a77b69052e-50e36bd4eb0mr321070431cf.34.1776873085761; Wed, 22 Apr 2026
+ 08:51:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAOQ4uxgaKsFqZYemhS_iKzOAK2ZKJ623FUm5ysFiTvK3idnG6Q@mail.gmail.com>
+References: <CAOQ4uxgcYCOE4uWE1tAaVUPLNqmbp88_0MvM=gqiDtH=jBiW_A@mail.gmail.com>
+In-Reply-To: <CAOQ4uxgcYCOE4uWE1tAaVUPLNqmbp88_0MvM=gqiDtH=jBiW_A@mail.gmail.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Wed, 22 Apr 2026 17:51:14 +0200
+X-Gm-Features: AQROBzCUfj-d8JdNK06jOEsx3iWCL2QHTcnka3lBvoT2DbBteiHX1BjYlxXITXI
+Message-ID: <CAJfpegtMV7gG8w=+8Jza2QnV7o+4tCkg2oObE5BXZwaOXOGP8w@mail.gmail.com>
+Subject: Re: [LSF/MM/BPF TOPIC] Filesystem breakout sessions
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: linux-fsdevel <linux-fsdevel@vger.kernel.org>, Christian Brauner <brauner@kernel.org>, 
+	Jan Kara <jack@suse.cz>, lsf-pc <lsf-pc@lists.linux-foundation.org>, 
+	Ian Kent <raven@themaw.net>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Apr 22, 2026 at 04:35:15PM +0200, Amir Goldstein wrote:
-> On Wed, Apr 22, 2026 at 4:10 PM Theodore Tso <tytso@mit.edu> wrote:
-> >
-> > > > >  - Handle security issues and regression promptly.  Both those reported
-> > > > >    by ordinary users and those reported by test bots and fuzzing tools.
-> > > > >    The filesystem must handle corrupted input gracefully without hanging
-> > > > >    or crashing the kernel.
-> > > >
-> > > > How about
-> > > > "...without corrupting memory, hanging, or crashing the kernel."
-> >
-> > I will note that security@kernel.org does not consider maliciously
-> > fuzzed file systems as a security issue.  And a long-standing position
-> > by both ext4 and xfs has been that distributions configuring
-> > automounters to blindly mount USB sticks dropped in the parking lot by
-> > the KGB, MSS, or NSA is a Bad Idea.
-> >
-> > I'm a bit nervous about stating this as an expectation, especially
-> > given denial of service attacks on maintainer time with a large number
-> > of random academics which fork syzkaller, and send security reports
-> > that mostly duplicate upstream syzkaller reports and don't support the
-> > web site allowing developers to test syzkaller exports which don't
-> > reproduce locally.
-> >
-> > It's certainly an ideal, but I'm not sure it's one we can expect or
-> > guarantee.  It's also certainly not the case on most file systems
-> > in-tree today, to a varying degrees, but outside of the most highly
-> > maintained file systems, if we were to state this, (a) I'd be
-> > concerned that we would be setting expectations that will disappoint
-> > Linux users, or worse, class-action lawyers (well, they would be
-> > rubbing their hands with glee), and (b) if we actually enforced it,
-> > would probably result in 90% of the current in-tree file systems
-> > getting removed.
+On Wed, 22 Apr 2026 at 10:58, Amir Goldstein <amir73il@gmail.com> wrote:
 
-Is that such a bad thing?  Reducing the kernel attack surface by that
-much would be a blessing, because any missteps in the kernel means it's
-game over for the entire running system.
+> No need to reply with specific topics now unless you want to.
+> Just keep this in mind and think of things that you may want to
+> bring up during these breakout sessions.
 
-It's also a blessing for anyone trying to do core code changes ala
-willy's folio conversion project.
+I think these warrant discussion:
 
-> This is a sentence that I removed and Darrick asked me to
-> add it back, because "Not screwing over a running system is
-> important, The guidelines ought to make that explicit."
-> 
-> "The filesystem must handle corrupted input gracefully
->  without corrupting memory, hanging or crashing the kernel."
-> 
-> Please suggest a variant which you are comfortable with and
-> captures the sentiment that Darrick wished to express.
+- too many negative dentries on d_children (causing e.g. soft lockup
+in fsnotify_set_children_dentry_flags())
 
-I'm willing to relax on the "not hanging" part since it /is/ difficult
-to detect inter-fsblock loops, and the solution that I thought I had
-found (attach xfs_bufs to empty xfs transaction, look for obvious
-clues in xfs_buf) is apparently no longer viewed favorably by dchinner.
+- and the related issue of d_count overflow
 
-https://lore.kernel.org/linux-xfs/Zw8ulrPaeXw8bUnd@dread.disaster.area/
+https://lore.kernel.org/all/20260331012925.74840-2-raven@themaw.net/
 
-Implementing a full-on cycle detector in xfs_btree *would* be a fun
-project for someone who really wants to dig in to btrees, however.
-
---D
+Thanks,
+Miklos
