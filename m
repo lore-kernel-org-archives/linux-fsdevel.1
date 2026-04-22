@@ -1,61 +1,38 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C2AF3B27E2;
-	Wed, 22 Apr 2026 10:37:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EE393CD8C3
+	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 10:46:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776854250; cv=none; b=Dnym/On8tjDN+NvmtMgVQGDnUPXksnXSP0M2LT1E/eC9NIW+a0fGLUsY7fS1HNef7d8Q69JuYC9FdL9PH00QU0alwLLULN/gO5KKppw5vtJqxiXg2APSwQfRgxPoqTVMgnd0Up3VoSn5tEN1mU+GcCjlKdS+TC9Z4g9EeIiMsxk=
+	t=1776854802; cv=none; b=J9AqEv5Fnx/JwxASPAliGOLGbZbki6IypxdHF5lMLizTF+JOuPrZdpTdR0QinFi64UtqSLB6dh/iFMqxyIQspvrXF1olPYztFx2NYYAnxuyla60pUSa4kjsCAq3kfAq/G5y1HvJ33x5cw6tKKiKTpoYN56e1Y7tN/rs8ZI5KdGs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776854250; c=relaxed/simple;
-	bh=Hsn56gQl8OLUgVaCHZwSNyXcpBAS0FnqDgFBa3Sivf4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=KCe4vOCkcsDXGJgdpSPRualpC/H3+SzyhgJnilc9ySVAu2he6ay9XqUlP0FbVm71q+CxztHwE6XaTVH4HwYw5eSdGPxzF1BR8+ovQuVD4JxlliNNLo2CTRzaCIsD5NP2C7/eV0+NVVw7RFRDw7BLdD2TuB9w5Yf4IJGU5fWzCok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 3dcf3f0a3e3711f1aa26b74ffac11d73-20260422
-X-CTIC-Tags:
-	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
-	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
-	HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM, HR_SJ_PHRASE
-	HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT, HR_TO_NAME
-	IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_TRUSTED, SA_EXISTED
-	SN_TRUSTED, SN_EXISTED, SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS
-	CIE_BAD, CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS, GTI_RG_INFO
-	GTI_C_BU, AMN_GOOD, ABX_MISS_RDNS
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:137653ef-4fec-44df-9657-d2a6a04fa10d,IP:15,
-	URL:0,TC:0,Content:0,EDM:25,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTI
-	ON:release,TS:35
-X-CID-INFO: VERSION:1.3.12,REQID:137653ef-4fec-44df-9657-d2a6a04fa10d,IP:15,UR
-	L:0,TC:0,Content:0,EDM:25,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:35
-X-CID-META: VersionHash:e7bac3a,CLOUDID:2c7f83b62d76a36bf9a570ab185a9832,BulkI
-	D:2604221837235NKR3L9U,BulkQuantity:0,Recheck:0,SF:17|19|66|78|102|127|898
-	,TC:nil,Content:0|15|50,EDM:5,IP:-2,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,
-	BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 3dcf3f0a3e3711f1aa26b74ffac11d73-20260422
-X-User: liwang@kylinos.cn
-Received: from computer.. [(116.128.244.171)] by mailgw.kylinos.cn
-	(envelope-from <liwang@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 131166995; Wed, 22 Apr 2026 18:37:20 +0800
-From: Li Wang <liwang@kylinos.cn>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Joanne Koong <joannelkoong@gmail.com>,
-	Bernd Schubert <bernd@bsbernd.com>,
-	fuse-devel@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Li Wang <liwang@kylinos.cn>
-Subject: [PATCH] fuse: fix kernel NULL pointer dereference in fuse_uring_add_to_pq()
-Date: Wed, 22 Apr 2026 18:36:03 +0800
-Message-Id: <20260422103603.4554-1-liwang@kylinos.cn>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1776854802; c=relaxed/simple;
+	bh=5lbpARbOkT3OQP+km4Ha3rgfNOdk4eo6s+8n598ed6I=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=JgRKacyaEselKLbq8E7TAFcYoFh+7o2urROdvsNQ0gK92Yh4ShNsvUmR5V3Dp1nHi07Y8h8TXN+gmNrSL29Ow7jmISQ8NRGMPc4SbMIaE7O/MpccwB9GuINcRyqI1G7NhrTwsb088da+Bm3a23RftEN0oe191DNnYC5oO7cNpXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FDnT5HMN; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FDnT5HMN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F879C2BCB3;
+	Wed, 22 Apr 2026 10:46:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776854802;
+	bh=5lbpARbOkT3OQP+km4Ha3rgfNOdk4eo6s+8n598ed6I=;
+	h=From:To:Cc:Subject:Date:From;
+	b=FDnT5HMNT58c4dpPtak1l/+TeWY0ReiRLZBphStlwWybMXTJG9jk50XDGt4FHOKhH
+	 c5JP0XTp9rkmC5VLlSZVxe6QB+yRkv4qV19gACXlDAFHSk4wZbiWXIPEouR9q4MxRQ
+	 2ynV/4xip+gRWmKTTxCE9tYKiSLU92BjhxR41LODRN9dCIsNARo7NYw5SJR/awFlY4
+	 YR7oOlNd+JjNjop7IMeOtnBsNtGQdzL2CX1aIdepE9UJQnuxfHUZI8h09DmGT3dEHy
+	 TEDqDXE620fE1WHjrKaSAzdy9TqHg0EyZTY3IMopM3RE/k6is6JtxYTOuSSRZHucuP
+	 jTK5XhJbFn5bw==
+From: Namjae Jeon <linkinjeon@kernel.org>
+To: hyc.lee@gmail.com
+Cc: linux-fsdevel@vger.kernel.org,
+	Namjae Jeon <linkinjeon@kernel.org>
+Subject: [PATCH] ntfs: use page allocation for resident attribute inline data
+Date: Wed, 22 Apr 2026 19:46:27 +0900
+Message-Id: <20260422104627.8193-1-linkinjeon@kernel.org>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -64,62 +41,119 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-A kernel NULL pointer dereference was triggered when testing the
-'fuse over io_uring' feature with passthrough_ll. The call trace
-is as follows:
-  BUG: kernel NULL pointer dereference, address: 0000000000000878
-  RIP: 0010:fuse_uring_add_req_to_ring_ent+0x89/0xd0 [fuse]
-  Call Trace:
-  <TASK>
-  fuse_uring_queue_fuse_req+0x82/0x100 [fuse]
-  fuse_chan_send+0xe6/0x180 [fuse]
-  fuse_lookup_name+0x131/0x2b0 [fuse]
-  fuse_lookup+0x78/0x1a0 [fuse]
-  fuse_atomic_open+0xfc/0x140 [fuse]
-  atomic_open+0x4b/0xf0
-  path_openat+0x746/0x1080
-  do_file_open+0xc9/0x180
+The current kmemdup() based allocation for IOMAP_INLINE can result in
+inline_data pointer having a non-zero page offset. This causes
+iomap_inline_data_valid() to fail the check:
 
-fuse_uring_create_queue() must initialize struct fuse_pqueue before assigning
-the per-hash processing table:
+    iomap->length <= PAGE_SIZE - offset_in_page(iomap->inline_data)
 
-- Call fuse_pqueue_init() before setting fpq.processing. fuse_pqueue_init()
-  clears fpq.processing; assigning the kcalloc'd bucket array must happen
-  afterwards.
+and triggers the kernel BUG at fs/iomap/buffered-io.c:1061.
 
-- After allocating the processing bucket array with kzalloc_objs(), initialize
-  each list head with INIT_LIST_HEAD(), matching fuse_pqueue_alloc() in dev.c.
-  Zeroed list_head values are not valid empty lists; list_move_tail() would
-  dereference NULL prev/next.
+This particularly affects workloads with frequent small file access
+(e.g. Firefox Nightly profile on NTFS with bind mount) when using the
+new ntfs. This fix this by allocating a full page with alloc_page() so that
+page_address() always returns a page-aligned address.
 
-Signed-off-by: Li Wang <liwang@kylinos.cn>
+Reviewed-by: Hyunchul Lee <hyc.lee@gmail.com>
+Signed-off-by: Namjae Jeon <linkinjeon@kernel.org>
 ---
- fs/fuse/dev_uring.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ fs/ntfs/iomap.c | 26 +++++++++++++++++++-------
+ 1 file changed, 19 insertions(+), 7 deletions(-)
 
-diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-index d6d75e024b35..b765c1ff5e2d 100644
---- a/fs/fuse/dev_uring.c
-+++ b/fs/fuse/dev_uring.c
-@@ -282,6 +282,8 @@ static struct fuse_ring_queue *fuse_uring_create_queue(struct fuse_ring *ring,
- 		kfree(queue);
- 		return NULL;
+diff --git a/fs/ntfs/iomap.c b/fs/ntfs/iomap.c
+index 3d1458dea90f..74a4d3e971f4 100644
+--- a/fs/ntfs/iomap.c
++++ b/fs/ntfs/iomap.c
+@@ -89,6 +89,7 @@ static int ntfs_read_iomap_begin_resident(struct inode *inode, loff_t offset, lo
+ 	u32 attr_len;
+ 	int err = 0;
+ 	char *kattr;
++	struct page *ipage;
+ 
+ 	if (NInoAttr(ni))
+ 		base_ni = ni->ext.base_ntfs_ino;
+@@ -129,15 +130,18 @@ static int ntfs_read_iomap_begin_resident(struct inode *inode, loff_t offset, lo
+ 
+ 	kattr = (u8 *)ctx->attr + le16_to_cpu(ctx->attr->data.resident.value_offset);
+ 
+-	iomap->inline_data = kmemdup(kattr, attr_len, GFP_KERNEL);
+-	if (!iomap->inline_data) {
++	ipage = alloc_page(GFP_NOFS | __GFP_ZERO);
++	if (!ipage) {
+ 		err = -ENOMEM;
+ 		goto out;
  	}
-+	for (int i = 0; i < FUSE_PQ_HASH_SIZE; i++)
-+		INIT_LIST_HEAD(&pq[i]);
  
- 	queue->qid = qid;
- 	queue->ring = ring;
-@@ -295,8 +297,8 @@ static struct fuse_ring_queue *fuse_uring_create_queue(struct fuse_ring *ring,
- 	INIT_LIST_HEAD(&queue->fuse_req_bg_queue);
- 	INIT_LIST_HEAD(&queue->ent_released);
++	memcpy(page_address(ipage), kattr, attr_len);
+ 	iomap->type = IOMAP_INLINE;
++	iomap->inline_data = page_address(ipage);
+ 	iomap->offset = 0;
+ 	iomap->length = attr_len;
++	iomap->private = ipage;
  
--	queue->fpq.processing = pq;
- 	fuse_pqueue_init(&queue->fpq);
-+	queue->fpq.processing = pq;
+ out:
+ 	if (ctx)
+@@ -285,8 +289,11 @@ static int ntfs_read_iomap_begin(struct inode *inode, loff_t offset, loff_t leng
+ static int ntfs_read_iomap_end(struct inode *inode, loff_t pos, loff_t length,
+ 		ssize_t written, unsigned int flags, struct iomap *iomap)
+ {
+-	if (iomap->type == IOMAP_INLINE)
+-		kfree(iomap->inline_data);
++	if (iomap->type == IOMAP_INLINE) {
++		struct page *ipage = iomap->private;
++
++		put_page(ipage);
++	}
  
- 	spin_lock(&fch->lock);
- 	if (ring->queues[qid]) {
+ 	return written;
+ }
+@@ -652,6 +659,7 @@ static int ntfs_write_iomap_begin_resident(struct inode *inode, loff_t offset,
+ 	u32 attr_len;
+ 	int err = 0;
+ 	char *kattr;
++	struct page *ipage;
+ 
+ 	ctx = ntfs_attr_get_search_ctx(ni, NULL);
+ 	if (!ctx) {
+@@ -672,16 +680,19 @@ static int ntfs_write_iomap_begin_resident(struct inode *inode, loff_t offset,
+ 	attr_len = le32_to_cpu(a->data.resident.value_length);
+ 	kattr = (u8 *)a + le16_to_cpu(a->data.resident.value_offset);
+ 
+-	iomap->inline_data = kmemdup(kattr, attr_len, GFP_KERNEL);
+-	if (!iomap->inline_data) {
++	ipage = alloc_page(GFP_NOFS | __GFP_ZERO);
++	if (!ipage) {
+ 		err = -ENOMEM;
+ 		goto out;
+ 	}
+ 
++	memcpy(page_address(ipage), kattr, attr_len);
+ 	iomap->type = IOMAP_INLINE;
++	iomap->inline_data = page_address(ipage);
+ 	iomap->offset = 0;
+ 	/* iomap requires there is only one INLINE_DATA extent */
+ 	iomap->length = attr_len;
++	iomap->private = ipage;
+ 
+ out:
+ 	if (ctx)
+@@ -771,6 +782,7 @@ static int ntfs_write_iomap_end_resident(struct inode *inode, loff_t pos,
+ 	u32 attr_len;
+ 	int err;
+ 	char *kattr;
++	struct page *ipage = iomap->private;
+ 
+ 	mutex_lock(&ni->mrec_lock);
+ 	ctx = ntfs_attr_get_search_ctx(ni, NULL);
+@@ -799,7 +811,7 @@ static int ntfs_write_iomap_end_resident(struct inode *inode, loff_t pos,
+ 	mark_mft_record_dirty(ctx->ntfs_ino);
+ err_out:
+ 	ntfs_attr_put_search_ctx(ctx);
+-	kfree(iomap->inline_data);
++	put_page(ipage);
+ 	mutex_unlock(&ni->mrec_lock);
+ 	return written;
+ 
 -- 
-2.34.1
+2.25.1
 
