@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C2ED34029E;
-	Wed, 22 Apr 2026 23:19:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA5D83451DA;
+	Wed, 22 Apr 2026 23:19:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776899962; cv=none; b=kqew8zts122F0Y8J8v22A9/EOKqNMta5vBSD6Wq29HDvs/CFSynr27E2YrnCbADbQ2qUuLD4Cmh+kFLRgvqXrEAo8BcyM4kzaBmdAWUCr9MTgsV76GCb7ZvNIb3DwFwR+MmFQefNnfgY5BuVyJkrBTLjcwyAjZ34KTNoimpicj4=
+	t=1776899978; cv=none; b=WscfFhyAm7QC8tbFfsZ1pFZ9IpUAXS/Y2TBQF5lpP4hSynTM152x0u1lWNvd88Xbic1wN/o64anxSjw1kDpc9T3szR0tXGD9e5ruEk382ivgQu2680W0CslnBW80DFC6X7V7GS8tYLX+nnLlhJ1Ej7+H/DJzaB4K6yP3YjtzEjE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776899962; c=relaxed/simple;
-	bh=l2JE0T6zXy6gkxMiCpRlTkBn2TeOTu+CcOr7KhtVTA0=;
+	s=arc-20240116; t=1776899978; c=relaxed/simple;
+	bh=9aClgfIzTyDWATm5hxBUvNqiCnTKbw+8YQ2NUUC/djI=;
 	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CgsguEfVkUPunA6MO3318wpS05iIrpeQGlIEUvolMtcUHHgHwqfDIxVx1LHHwt+Asmqsd7fSirqqSPatZWN8FyMqbxlNCzc/s/iXKNKD/JD09TfZp9IhwPE41WrFZrJBlesSC5ALACA09WeTzXDDYkjdPIwPC3uWE89Qnekj+MI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TT8P94rh; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=t+dYkufbBFGa9LGwiMkK6bFZy2FeUxGfTPNt/H/JaV79Ptk/hgju5mHcgLd1BKW/+rNbi2E6GlJfVYTt5N0OxZd5Iv6Ellq8G8cdyLtkTKVuzRTnQD8h+9ceg/VLRO5YM54db02RQQZ/1HfTyd2UprPEl0WxXP42F8RP9h16GtM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AV1pTiIk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TT8P94rh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCBE6C19425;
-	Wed, 22 Apr 2026 23:19:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AV1pTiIk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F490C19425;
+	Wed, 22 Apr 2026 23:19:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776899961;
-	bh=l2JE0T6zXy6gkxMiCpRlTkBn2TeOTu+CcOr7KhtVTA0=;
+	s=k20201202; t=1776899977;
+	bh=9aClgfIzTyDWATm5hxBUvNqiCnTKbw+8YQ2NUUC/djI=;
 	h=Date:Subject:From:To:Cc:In-Reply-To:References:From;
-	b=TT8P94rhEo3Viu2qolnC/ypCjIaJrcZHPRq78S89u5+suFgkD4G5FWUkK6cJtD5l3
-	 HRDrFARRYsNlDyKRY2engO++N4liXpGmGRSdCJNUmnZNf7+8yNF8wfVY8pALKfwkbi
-	 wOfUlFfUpyMYO7xPrXoQSXlJhD9cHXoq7VxhtvbJCRu1NbIu5DYT+F0q68Iq4Ke9Kp
-	 0OOM7pBFs/NjvVchbku69nSHgG8n1gwasSCdkSqLWXvr3A7GiejWmd9WZwAbxVZqhk
-	 SyjVLN2sNZtJToc5lvnvVyteLntJaXfwiPqM+b7K91DoLbW09fJXZVWkEgfoJekOVF
-	 3t51ixjsWOTxA==
-Date: Wed, 22 Apr 2026 16:19:21 -0700
-Subject: [PATCHSET v5 2/2] fuse4fs: run servers as a contained service
+	b=AV1pTiIkaoMo/9JB5chHTzX6Ns4VwYfwVnY3Dtms2TaWumaflZWUBS25ohKlN4oPe
+	 257Hw1pRMT8bO/PfLqVXKxbqzPQ8/PrajEmzfO4vD6qkfSZN4jTJtbvIdBfHfzmfwY
+	 QfKZl0DA+EGl3YV1dqhe89RplRMIZugr3JlmRs/Z6SVBxY1jvj/7YyJNOkk3veO8+G
+	 iwTsutZUnGh6Nr7EOWqV930bnQpMa3c7px3LX1a1E40Jfyz9a+Dque7thQWzE8Ydgb
+	 fUSn0EU8kKgWHZsj0jamxAy0NbF4JykHy3/wCBM9J53s2PjRAvxfGctWCw0BWiFeHK
+	 vzbugZ/0LUJcQ==
+Date: Wed, 22 Apr 2026 16:19:37 -0700
+Subject: [PATCH 01/13] Refactor mount code / move common functions to
+ mount_util.c
 From: "Darrick J. Wong" <djwong@kernel.org>
-To: tytso@mit.edu
-Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- fuse-devel@lists.linux.dev, linux-ext4@vger.kernel.org, neal@gompa.dev,
- joannelkoong@gmail.com, miklos@szeredi.hu, bernd@bsbernd.com
-Message-ID: <177689989498.3821326.15497525132012299039.stgit@frogsfrogsfrogs>
-In-Reply-To: <20260422231518.GA7717@frogsfrogsfrogs>
-References: <20260422231518.GA7717@frogsfrogsfrogs>
+To: djwong@kernel.org, bernd@bsbernd.com
+Cc: bschubert@ddn.com, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
+ joannelkoong@gmail.com, miklos@szeredi.hu, fuse-devel@lists.linux.dev
+Message-ID: <177689988559.3820166.11667865108948741546.stgit@frogsfrogsfrogs>
+In-Reply-To: <177689988489.3820166.4979104167640003535.stgit@frogsfrogsfrogs>
+References: <177689988489.3820166.4979104167640003535.stgit@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -45,54 +45,210 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-Hi all,
+From: Bernd Schubert <bschubert@ddn.com>
 
-This series packages the newly created fuse4fs server into a systemd
-socket service.  This service can be used by the "mount.service" helper
-in libfuse to implement untrusted unprivileged mounts.
+Also create the new "mount_i.h", which is independent of the
+the rest of libfuse.
 
-If you're going to start using this code, I strongly recommend pulling
-from my git trees, which are linked below.
+This is preparation for the new mount API, which goes into a new file.
 
-Comments and questions are, as always, welcome.
+This is to allow fusermount to use the code from mount_fsmount.c.
+I.e. avoid code dup and add just re-use the new linux api mount
+functions from that file for fusermount.
 
-e2fsprogs git tree:
-https://git.kernel.org/cgit/linux/kernel/git/djwong/e2fsprogs.git/log/?h=fuse4fs-service-container
+Signed-off-by: Bernd Schubert <bschubert@ddn.com>
+[djwong: extract only the parts we need for mount services]
+Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
+Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 ---
-Commits in this patchset:
- * libext2fs: make it possible to extract the fd from an IO manager
- * libext2fs: fix checking for valid fds in mmp.c
- * unix_io: allow passing /dev/fd/XXX paths to the unixfd IO manager
- * libext2fs: fix MMP code to work with unixfd IO manager
- * libext2fs: bump libfuse API version to 3.19
- * fuse4fs: hoist some code out of fuse4fs_main
- * fuse4fs: enable safe service mode
- * fuse4fs: set proc title when in fuse service mode
- * fuse4fs: make MMP work correctly in safe service mode
- * debian: update packaging for fuse4fs service
----
- lib/ext2fs/ext2_io.h         |    4 
- lib/ext2fs/ext2fs.h          |    1 
- lib/ext2fs/ext2fsP.h         |    4 
- MCONFIG.in                   |    2 
- configure                    |  303 +++++++++++++++++++++++++++
- configure.ac                 |  131 +++++++++++-
- debian/e2fsprogs.install     |    7 +
- debian/fuse4fs.install       |    3 
- debian/libext2fs2t64.symbols |    1 
- debian/rules                 |    3 
- fuse4fs/Makefile.in          |   42 +++-
- fuse4fs/fuse4fs.c            |  466 +++++++++++++++++++++++++++++++++++-------
- fuse4fs/fuse4fs.socket.in    |   17 ++
- fuse4fs/fuse4fs@.service.in  |  102 +++++++++
- lib/config.h.in              |   12 +
- lib/ext2fs/io_manager.c      |    8 +
- lib/ext2fs/mmp.c             |  101 +++++++++
- lib/ext2fs/openfs.c          |    1 
- lib/ext2fs/unix_io.c         |   50 ++++-
- util/subst.conf.in           |    3 
- 20 files changed, 1164 insertions(+), 97 deletions(-)
- mode change 100644 => 100755 debian/fuse4fs.install
- create mode 100644 fuse4fs/fuse4fs.socket.in
- create mode 100644 fuse4fs/fuse4fs@.service.in
+ lib/mount_common_i.h |   18 +++++++++++++++++
+ lib/mount_util.h     |    8 ++++++++
+ lib/mount.c          |   53 ++++++++++++++++++++++++++++++++++++--------------
+ lib/mount_util.c     |    9 ++++++++
+ util/fusermount.c    |    5 +----
+ 5 files changed, 74 insertions(+), 19 deletions(-)
+ create mode 100644 lib/mount_common_i.h
+
+
+diff --git a/lib/mount_common_i.h b/lib/mount_common_i.h
+new file mode 100644
+index 00000000000000..6bcb055ff1c23f
+--- /dev/null
++++ b/lib/mount_common_i.h
+@@ -0,0 +1,18 @@
++/*
++ *  FUSE: Filesystem in Userspace
++ *  Copyright (C) 2001-2007  Miklos Szeredi <miklos@szeredi.hu>
++ *                2026 Bernd Schubert <bernd@bsbernd.com>
++ *
++ *  This program can be distributed under the terms of the GNU LGPLv2.
++ *  See the file LGPL2.txt
++ */
++
++#ifndef FUSE_MOUNT_COMMON_I_H_
++#define FUSE_MOUNT_COMMON_I_H_
++
++struct mount_opts;
++
++char *fuse_mnt_build_source(const struct mount_opts *mo);
++char *fuse_mnt_build_type(const struct mount_opts *mo);
++
++#endif /* FUSE_MOUNT_COMMON_I_H_ */
+diff --git a/lib/mount_util.h b/lib/mount_util.h
+index 9cb9077dd17738..b54392abb8b07d 100644
+--- a/lib/mount_util.h
++++ b/lib/mount_util.h
+@@ -6,6 +6,9 @@
+   See the file LGPL2.txt.
+ */
+ 
++#ifndef FUSE_MOUNT_UTIL_H_
++#define FUSE_MOUNT_UTIL_H_
++
+ #include <sys/types.h>
+ 
+ int fuse_mnt_add_mount(const char *progname, const char *fsname,
+@@ -16,3 +19,8 @@ int fuse_mnt_umount(const char *progname, const char *abs_mnt,
+ char *fuse_mnt_resolve_path(const char *progname, const char *orig);
+ int fuse_mnt_check_fuseblk(void);
+ int fuse_mnt_parse_fuse_fd(const char *mountpoint);
++
++/* Helper functions for mount operations */
++const char *fuse_mnt_get_devname(void);
++
++#endif /* FUSE_MOUNT_UTIL_H_ */
+diff --git a/lib/mount.c b/lib/mount.c
+index c56a9da1fe8014..2397c3fb2aa26b 100644
+--- a/lib/mount.c
++++ b/lib/mount.c
+@@ -31,6 +31,7 @@
+ #include <sys/wait.h>
+ 
+ #include "fuse_mount_compat.h"
++#include "mount_common_i.h"
+ 
+ #ifdef __NetBSD__
+ #include <perfuse.h>
+@@ -49,7 +50,6 @@
+ #define FUSERMOUNT_PROG		"fusermount3"
+ #define FUSE_COMMFD_ENV		"_FUSE_COMMFD"
+ #define FUSE_COMMFD2_ENV	"_FUSE_COMMFD2"
+-#define FUSE_KERN_DEVICE_ENV	"FUSE_KERN_DEVICE"
+ 
+ #ifndef MS_DIRSYNC
+ #define MS_DIRSYNC 128
+@@ -510,7 +510,7 @@ static int fuse_mount_sys(const char *mnt, struct mount_opts *mo,
+ 			  const char *mnt_opts)
+ {
+ 	char tmp[128];
+-	const char *devname = getenv(FUSE_KERN_DEVICE_ENV) ?: "/dev/fuse";
++	const char *devname = fuse_mnt_get_devname();
+ 	char *source = NULL;
+ 	char *type = NULL;
+ 	struct stat stbuf;
+@@ -550,24 +550,13 @@ static int fuse_mount_sys(const char *mnt, struct mount_opts *mo,
+ 	if (res == -1)
+ 		goto out_close;
+ 
+-	source = malloc((mo->fsname ? strlen(mo->fsname) : 0) +
+-			(mo->subtype ? strlen(mo->subtype) : 0) +
+-			strlen(devname) + 32);
+-
+-	type = malloc((mo->subtype ? strlen(mo->subtype) : 0) + 32);
++	source = fuse_mnt_build_source(mo);
++	type = fuse_mnt_build_type(mo);
+ 	if (!type || !source) {
+ 		fuse_log(FUSE_LOG_ERR, "fuse: failed to allocate memory\n");
+ 		goto out_close;
+ 	}
+ 
+-	strcpy(type, mo->blkdev ? "fuseblk" : "fuse");
+-	if (mo->subtype) {
+-		strcat(type, ".");
+-		strcat(type, mo->subtype);
+-	}
+-	strcpy(source,
+-	       mo->fsname ? mo->fsname : (mo->subtype ? mo->subtype : devname));
+-
+ 	res = mount(source, mnt, type, mo->flags, mo->kernel_opts);
+ 	if (res == -1 && errno == ENODEV && mo->subtype) {
+ 		/* Probably missing subtype support */
+@@ -727,3 +716,37 @@ int fuse_kern_mount(const char *mountpoint, struct mount_opts *mo)
+ 	free(mnt_opts);
+ 	return res;
+ }
++
++char *fuse_mnt_build_source(const struct mount_opts *mo)
++{
++	const char *devname = fuse_mnt_get_devname();
++	char *source;
++
++	source = malloc((mo->fsname ? strlen(mo->fsname) : 0) +
++			(mo->subtype ? strlen(mo->subtype) : 0) +
++			strlen(devname) + 32);
++	if (!source)
++		return NULL;
++
++	strcpy(source,
++	       mo->fsname ? mo->fsname : (mo->subtype ? mo->subtype : devname));
++
++	return source;
++}
++
++char *fuse_mnt_build_type(const struct mount_opts *mo)
++{
++	char *type;
++
++	type = malloc((mo->subtype ? strlen(mo->subtype) : 0) + 32);
++	if (!type)
++		return NULL;
++
++	strcpy(type, mo->blkdev ? "fuseblk" : "fuse");
++	if (mo->subtype) {
++		strcat(type, ".");
++		strcat(type, mo->subtype);
++	}
++
++	return type;
++}
+diff --git a/lib/mount_util.c b/lib/mount_util.c
+index 5746e8ed06b736..bdafeda7567fbd 100644
+--- a/lib/mount_util.c
++++ b/lib/mount_util.c
+@@ -377,3 +377,12 @@ int fuse_mnt_parse_fuse_fd(const char *mountpoint)
+ 
+ 	return -1;
+ }
++
++#define FUSE_KERN_DEVICE_ENV	"FUSE_KERN_DEVICE"
++
++const char *fuse_mnt_get_devname(void)
++{
++	const char *devname = getenv(FUSE_KERN_DEVICE_ENV);
++
++	return devname ? devname : "/dev/fuse";
++}
+diff --git a/util/fusermount.c b/util/fusermount.c
+index a5ed4d26dd4d27..68370468140a59 100644
+--- a/util/fusermount.c
++++ b/util/fusermount.c
+@@ -47,9 +47,6 @@
+ #endif
+ 
+ #define FUSE_COMMFD_ENV		"_FUSE_COMMFD"
+-#define FUSE_KERN_DEVICE_ENV	"FUSE_KERN_DEVICE"
+-
+-#define FUSE_DEV "/dev/fuse"
+ 
+ static const char *progname;
+ 
+@@ -1262,7 +1259,7 @@ static int mount_fuse(const char *mnt, const char *opts, const char **type)
+ {
+ 	int res;
+ 	int fd;
+-	const char *dev = getenv(FUSE_KERN_DEVICE_ENV) ?: FUSE_DEV;
++	const char *dev = fuse_mnt_get_devname();
+ 	struct stat stbuf;
+ 	char *source = NULL;
+ 	char *mnt_opts = NULL;
 
