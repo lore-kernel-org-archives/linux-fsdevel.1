@@ -1,173 +1,106 @@
-Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FF433D171A;
-	Wed, 22 Apr 2026 11:39:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ADC43D1CB6
+	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 12:09:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776857994; cv=none; b=ETuptH0GDyVwmWjrhkc7mqg2AWg7GR2n1tLDalmVA1JMlK4xPdRMKlSY//Rtt/+f3DFH77xT1w8rEUMA34YnxL0hVhoqj8H7LS4quH7HJH+OTi6L5khlCUmsuXP6tlzHBD6WACTsMeGcAcDOL8vDuMCuAdFDADxjAMyMZRber2w=
+	t=1776859751; cv=none; b=o/Y01KqnZOcYUxBC8q28i+pe72omWQgneg05CEkDAwpjgxhOTjHnh7fTSZ/i982TtOWbAeP9cC5hjMbgl+HGJVnSGBOyFmtRHZvMzYrvJd2SYu2w9hRvdv37o305lBEFKM4qnmkqvYewAhJPxrqQdiFMh9f/fvbjvO5GrSJ4iwk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776857994; c=relaxed/simple;
-	bh=tC5wF27MBmw+fRne7GCRZMNjLzjpd8iLsJmhdq8zPrM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gC5FtWs5xqEr7HRbC/VhIXmn0bDPEowdfrdkIIpDFJl7Kls/9Gj8SkAsb9ldJkKR2GsSqm+49+qDs1Gbg/PjqLxKnakkFRDENveFNEkHZYw/eORXP0QwKDuGQrn0CPaAHv3IlFugyuAbm4PDwq2gzysd/ShZdhtBw7aPykMp7Lo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=tRsB682z; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=nr6ZgTlG; arc=none smtp.client-ip=103.168.172.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	s=arc-20240116; t=1776859751; c=relaxed/simple;
+	bh=afDepP8KOaeIJWN1IDrEhyDitQLVzbnoZPs+gSTfGPQ=;
+	h=Date:From:To:Cc:Message-ID:Subject:MIME-Version:Content-Type; b=R9CavVOswLxN91NnKHm6W8C7PZIube978E/pW9HQoYrBYirbP3Lc6GfwgGpK8fvEq6WM5GOOiun52bVV0toytSoHiffczn9j8j+NPZh/46OKnaAs6zyZg85VKX7hC6TjDNV8XQuTchK6ojyi7tbqW+ghGACdJobHlcpEyC7BD5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=LbgtVUv5; arc=none smtp.client-ip=195.121.94.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="tRsB682z";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="nr6ZgTlG"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfout.phl.internal (Postfix) with ESMTP id CF333EC0653;
-	Wed, 22 Apr 2026 07:39:46 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Wed, 22 Apr 2026 07:39:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1776857986;
-	 x=1776944386; bh=M1ez79K/phZCLQ4wfmXX44So8lZrAJRQzqxObznauYc=; b=
-	tRsB682zACvjYPsEKNMrhY5UiPdrkwvaM9IN+fPU8FeQbsPkC9hoqZap0VCroxzv
-	i75vRwzgfJKVamkYe97hcjobbuJxQQEtqO03ZHmWsf//Wezy+3VYPycyMYwUXFVn
-	aBQLmX0iWrGU/2tI1/pVww3c46nxuH5Ntxn1r+tx4TL8wLkmEExGg+kqbR80gcN5
-	vpexPSvX9UWfcHYFuO2+M/ldpMVC1Dx92dSsP9/VVJon3QQSUyBMRDR81vM5uaBA
-	cefebD2jzWWJ1FW4/XI8hyVsWVnnVEJJn8c2lzT4+aUEm24qbaaW+U4ImmQgJO+z
-	MCs3EWVapLgiDd5g/LaRVw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1776857986; x=
-	1776944386; bh=M1ez79K/phZCLQ4wfmXX44So8lZrAJRQzqxObznauYc=; b=n
-	r6ZgTlGD1QCoWptoXTYesIep3vgEd23Vb1bKUI/JOj8kWAhARa122dyf+GF8trIc
-	1aTz7SOsL8uOVlnFcb74PQUdeg7M3P+xy4Gct4ec/aZkQHvgYo5g9gn5z4Nr1/tb
-	pJnzz3L/UfOBLU2wGlaSJXViq/5FM/CVzsgKA0YQh6i57zUpzr2V7XcvR7TDuOBM
-	X9TF9v+hHnMZxqZ9+x6HyxXT3H9C8YhQ3q81ADnNsWcOtYBTszev8yfnu4mt5KWS
-	ZV0pmQlK4BHdMAyuhEBdiRXeelQvBIZMn04DG+h99Tz1dp5JXCabKe+98TIQu1he
-	ljaJdsCGcAH/yDQXwe2/w==
-X-ME-Sender: <xms:grPoaWNtvL974zMO5BRGGpmeexFyWoHOJJVwmErLp7j2ljBqEIH-Zw>
-    <xme:grPoaf6j9S3kPa-FijLh30vjldU8f_t2xR0bHGsFzs-VTRfy6xssMQf3yJInn0_qZ
-    kC2vQxVjAcKuksdwZ2Gof-uf7Vp5d20kSmceaTpvksZsWo8yefG>
-X-ME-Received: <xmr:grPoacR9HcOYWF79lbWPpdphVh8JCr3EDF4i-UuUG1xmpPAh0hn-GR66h_cfQSA-3gODseQ0LfQm-lcJ-W1MfzhzYJT8JZuIMeL3mEICjsGWLWtm6g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeigedujecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefkffggfgfuvfevfhfhjggtgfesthejredttddvjeenucfhrhhomhepuegvrhhnugcu
-    ufgthhhusggvrhhtuceosggvrhhnugessghssggvrhhnugdrtghomheqnecuggftrfgrth
-    htvghrnhephefhjeeujeelhedtheetfedvgfdtleffuedujefhheegudefvdfhheeuvedu
-    ueegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsg
-    gvrhhnugessghssggvrhhnugdrtghomhdpnhgspghrtghpthhtohepiedpmhhouggvpehs
-    mhhtphhouhhtpdhrtghpthhtoheplhhifigrnhhgsehkhihlihhnohhsrdgtnhdprhgtph
-    htthhopehmihhklhhoshesshiivghrvgguihdrhhhupdhrtghpthhtohepjhhorghnnhgv
-    lhhkohhonhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtohepfhhushgvqdguvghvvghlse
-    hlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheplhhinhhugidqfhhsuggvvhgv
-    lhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnh
-    gvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:grPoacCoCnqlq364CSXNiY-kvLMwB_4f74TmYVpAxIWRyb5-NmMWwg>
-    <xmx:grPoacE1aoZKI_xErkAMgluciyE3yaDCDP3Lsn7vJiOmUuUmQgU-tQ>
-    <xmx:grPoaWC3HyKNuknR_MO7rf4HDnHMRtuzQXhXclzYiG_801ClaPO1Yw>
-    <xmx:grPoaUUodprDXhrdch7YmPXbngACsToI4jf8j_Pjm1gEn7EYb71Z8g>
-    <xmx:grPoaXtGFqcIlcPbClprKGxSerLldAJS4P7rlBpmvfe2VpUm3RHADZ6p>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 22 Apr 2026 07:39:45 -0400 (EDT)
-Message-ID: <4ff484d8-c1a3-4828-b500-796f4fb8790c@bsbernd.com>
-Date: Wed, 22 Apr 2026 13:39:43 +0200
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="LbgtVUv5"
+X-KPN-MessageId: 0f81c15a-3e44-11f1-bea8-005056992ed3
+Received: from mta.kpnmail.nl (unknown [10.31.161.188])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 0f81c15a-3e44-11f1-bea8-005056992ed3;
+	Wed, 22 Apr 2026 14:09:06 +0200 (CEST)
+Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
+	by mta.kpnmail.nl (Halon) with ESMTP
+	id 0f942ac4-3e44-11f1-80f3-00505699693e;
+	Wed, 22 Apr 2026 14:09:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:subject:message-id:to:from:date;
+	bh=Wwle9PGUhoUuAfsPYjcKmM7CUaVVCG+krx3i0HEGB1s=;
+	b=LbgtVUv5ooREapLvaZzjX2NLIgh/2NR9NJ3U8ENhV/2M+0KK09a7l9EoUUaS42ZDvcPYtlhYemCYc
+	 Hi6I/BnYKmsJA+6z5ieC8iF4uXrSJ6tKZdlmHhZtHdqs8PbrFxADvIMYQVzUQZOFfUJpX6LdjlqN+B
+	 HvfSZl/Xe5TWp8WNi4lyns++/EniCEQcixPx/GqMgl38EIDXcDbn85gBMmgp5xnkhs8Wqhy6lz2E14
+	 NQAsGQOBGtFgGdJweQuSqhrpf+p0R4MiZdbJoiMOAiYpx4IRPMO2np//q9GkSzLyKAkjzpvuFdFo7G
+	 HF1tojm8olvrmDY4x3g4xgpMPQlnm+g==
+X-KPN-MID: 33|4UrUhFud/UdfJesfnwWrLYZUNkepteBtOQ5YqTUaPe0uJEZabz2/z1wbCa0g07N
+ Wv91XibbzYxS1L85YWowaUQ==
+X-CMASSUN: 33|AsvmB9GMf1A8lX8vhYwyz4QvBZTViCaK12YJLkIrfwfhQjHeHIngynkN3jZkfZS
+ bQxyh6yMRTQGDC2iet8eq1Q==
+X-KPN-VerifiedSender: Yes
+Received: from cpxoxapps-mh01 (cpxoxapps-mh01.personalcloud.so.kpn.org [10.128.135.207])
+	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
+	id 0f8267a1-3e44-11f1-b8d7-005056995d6c;
+	Wed, 22 Apr 2026 14:09:06 +0200 (CEST)
+Date: Wed, 22 Apr 2026 14:09:06 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	lsf-pc <lsf-pc@lists.linux-foundation.org>
+Message-ID: <1270238484.1040011.1776859746395@kpc.webmail.kpnmail.nl>
+Subject: Re: [LSF/MM/BPF TOPIC] Filesystem breakout sessions
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fuse: fix kernel NULL pointer dereference in
- fuse_uring_add_to_pq()
-To: Li Wang <liwang@kylinos.cn>, Miklos Szeredi <miklos@szeredi.hu>
-Cc: Joanne Koong <joannelkoong@gmail.com>, fuse-devel@lists.linux.dev,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260422103603.4554-1-liwang@kylinos.cn>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: fr
-In-Reply-To: <20260422103603.4554-1-liwang@kylinos.cn>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
 
-
-
-On 4/22/26 12:36, Li Wang wrote:
-> A kernel NULL pointer dereference was triggered when testing the
-> 'fuse over io_uring' feature with passthrough_ll. The call trace
-> is as follows:
->   BUG: kernel NULL pointer dereference, address: 0000000000000878
->   RIP: 0010:fuse_uring_add_req_to_ring_ent+0x89/0xd0 [fuse]
->   Call Trace:
->   <TASK>
->   fuse_uring_queue_fuse_req+0x82/0x100 [fuse]
->   fuse_chan_send+0xe6/0x180 [fuse]
-
-Is this linux-next?
-
->   fuse_lookup_name+0x131/0x2b0 [fuse]
->   fuse_lookup+0x78/0x1a0 [fuse]
->   fuse_atomic_open+0xfc/0x140 [fuse]
->   atomic_open+0x4b/0xf0
->   path_openat+0x746/0x1080
->   do_file_open+0xc9/0x180
+On Wed, Apr 22, 2026 at 10:58:25AM +0200, Amir Goldstein wrote:
 > 
-> fuse_uring_create_queue() must initialize struct fuse_pqueue before assigning
-> the per-hash processing table:
+> In this setting, I would like to open the stage for people to talk
+> about whichever topic they like -
+> An idea they have been toying with,
+> An item on their TODO lists they never get to
+> A WIP branch that is bit-rotting on their work station.
+> We could of course use this time for FS specific BoFs and
+> Ask Me Anything sessions with fs/subsystems maintainers.
 > 
-> - Call fuse_pqueue_init() before setting fpq.processing. fuse_pqueue_init()
->   clears fpq.processing; assigning the kcalloc'd bucket array must happen
->   afterwards.
-> 
-> - After allocating the processing bucket array with kzalloc_objs(), initialize
->   each list head with INIT_LIST_HEAD(), matching fuse_pqueue_alloc() in dev.c.
->   Zeroed list_head values are not valid empty lists; list_move_tail() would
->   dereference NULL prev/next.
-> 
-> Signed-off-by: Li Wang <liwang@kylinos.cn>
-> ---
->  fs/fuse/dev_uring.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-> index d6d75e024b35..b765c1ff5e2d 100644
-> --- a/fs/fuse/dev_uring.c
-> +++ b/fs/fuse/dev_uring.c
-> @@ -282,6 +282,8 @@ static struct fuse_ring_queue *fuse_uring_create_queue(struct fuse_ring *ring,
->  		kfree(queue);
->  		return NULL;
->  	}
-> +	for (int i = 0; i < FUSE_PQ_HASH_SIZE; i++)
-> +		INIT_LIST_HEAD(&pq[i]);
->  
->  	queue->qid = qid;
->  	queue->ring = ring;
-> @@ -295,8 +297,8 @@ static struct fuse_ring_queue *fuse_uring_create_queue(struct fuse_ring *ring,
->  	INIT_LIST_HEAD(&queue->fuse_req_bg_queue);
->  	INIT_LIST_HEAD(&queue->ent_released);
->  
-> -	queue->fpq.processing = pq;
->  	fuse_pqueue_init(&queue->fpq);
-> +	queue->fpq.processing = pq;
->  
->  	spin_lock(&fch->lock);
->  	if (ring->queues[qid]) {
 
-I don't think this patch is right. The existing order is
+Not sure whether I may bring up a topic, otherwise just tell me to GFTO.
 
-	queue = kzalloc_obj(*queue, GFP_KERNEL_ACCOUNT);
-	pq = kzalloc_objs(struct list_head, FUSE_PQ_HASH_SIZE);
-	queue->fpq.processing = pq;
-	fuse_pqueue_init(&queue->fpq); =====> INIT_LIST_HEAD() of pg
+In relation to the doc changes you've proposed over the last week, there
+is another gnarly topic. Namely, what to do with the "kind of deprecated"
+filesystems like minix, efs, jfs, etc.
 
+Months ago I contributed some patches to minix and in the ensuing
+discussion the idea was floated to maybe replace it with a FUSE
+driver (perhaps in-tree under /tools or something). I am quite familiar
+with minix, so I suggested I was OK with doing that. However, naturally,
+other (more interesting) things came in-between and I haven't moved a
+lot on that.
 
-I need to look at Miklos' patches, I guess it sends to fuse-io-uring,
-although that is not ready yet.
+One of the reasons is, I wonder if this strategy makes sense. minix is
+not too difficult to port, but what about jfs for instance? Who is going
+to spend time on that? And if I remember well, Linus has been quite
+outspoken against just removing them.
 
+Some questions I have:
+
+1) Is the FUSE driver thing the way forward with old filesystems?
+2) If so, do we want to maintain them in-tree?
+3) If so, will we accept for instance a Rust implementation? Or do we
+want to stick to C?
+4) In the mean time, what is the policy with regard to unmaintained
+filesystems? Are we looking for maintainers or does this come onto the
+vfs people? efs is listed orphaned in MAINTAINERS, minix has no entry at
+all. jfs is odd-fixes, but I remember David Kleikamp rather get rid of
+it.
 
 Thanks,
-Bernd
-
+Jori.
