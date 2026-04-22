@@ -1,199 +1,624 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87880946A
-	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 20:32:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 528DF34753C
+	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 20:38:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776889976; cv=none; b=mLKlsqSkojqUUNFL71rI2PI7eBa3VkIYlyXv8VTlmvnW6MKNZvBHtO26LsArItYAO2F+bNzBEf8yJK+EMmgLkz/Vm9QEuf7yokVsBVlBg6RsVyfCzgKc/W4sNZ2uVGfR/tZBA4XwwUhFKay9FKqlayiIoqiGul2VtrtFwgMWVFM=
+	t=1776890325; cv=none; b=TX9aLRfRvJXspBVZ+fwl+akeXlqAQRTt603/QvaHIuELX3eRV2jaMyUynil+ndCQxNyVh9C2KKWXGAIsGDQEzDHgGOhMzaT5+1VKNC7LLzEbxB9h5yaY5UxISOkP0AkMP9/fn3vJcKpwR0MBKO/txmF+i27ZbAbAEbFMLynws+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776889976; c=relaxed/simple;
-	bh=txBDlyu1ezieQzyXS9C8BF2vzT0DIUhYErYLWe5Ihlo=;
+	s=arc-20240116; t=1776890325; c=relaxed/simple;
+	bh=+am++xO56Km62uKBVftf47sMQS/Oq7AOim2hRrTOVg4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hE923AyzOfB7wpA1yZ0T/CR9D2zYlZvBKw2f7qUVxokjS3FnPTni/+MLh0bX4YNeXQXqFpZEJVNwKvP/J2ptk9J4UvYmySRZHYdjgYQhL8qTzV6VMI6XvXqbdux56XvBogQ6gIFUBbx3u3MGmW9qd0NGaVBfvWW2db2zQTWWkFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Plv3JKxb; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=VgjqpQwE; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=cHzg8IISBPmIr/BwX2nsQPXiqgAYLHAl6BYqoOoaTKEwF3RTHOYiJp89yO+QgibgAkimlhFUAQHim+5wBHyg+TV6EIgVTETyRekRh7iwAtAWHtIT+0CHZd2lBpoTePK9qBlQR4dKVeJ8suYWX8QetoQqT2OwgmEdGTAls/JR5gA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H2OI6TT7; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Plv3JKxb";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="VgjqpQwE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1776889973;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=j2mexCWnAXHTuyUVY4iwTSyRl6JB6J5POTCYS/bdHQE=;
-	b=Plv3JKxbNUmu1D4FYf8cdnWpZ1gG4PeRzQftv9HjFj65ZOLdjPyhg8PZjTvskgiN2bhwQW
-	EujrNcsZy0N6mlN5QRf3Lw2OKpJZ2ILRu0oYPl2mL3RdWyVTZ47QKDWdfaWikO1si4oBGC
-	uhTy0QIiadR2St0hhMD5YMbcePNZ/dg=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-562-nxeHg1X4OgeucA3s5TMFGQ-1; Wed, 22 Apr 2026 16:32:52 -0400
-X-MC-Unique: nxeHg1X4OgeucA3s5TMFGQ-1
-X-Mimecast-MFC-AGG-ID: nxeHg1X4OgeucA3s5TMFGQ_1776889971
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-48378df3469so40426065e9.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 13:32:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H2OI6TT7"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-488a88aeec9so76998205e9.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 13:38:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1776889971; x=1777494771; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=j2mexCWnAXHTuyUVY4iwTSyRl6JB6J5POTCYS/bdHQE=;
-        b=VgjqpQwEUcg7ziT9lsINYALmg9nXTMYK01ddE4O3qpdJE++q/S3AqO7grZ4228nUYY
-         zjMp3k2nzqwlEqwSF7Hgk1GGxL+MA0CiOwuETmxo7RnMTiI5nxHbdgW2MNfR9yBEAgvK
-         MZ66ucUYKIQmsWX5HnZwzzvcIbA4w0lhmgVJqxY7aDLV+kM7NBvHgdnFGxBLYy1y7HrM
-         v6LUAQk2Wg1TiI83fcwiA0Plp3VLxdbRmzXY0t/5iP0/mzl+FdTCedjwv4CeLJnODQfq
-         PZquUfmmB9KOzd4CTwzGwRkyGHj8yJuhnmiIAYoer2yoyBFnTpO98ukWrh9pfV8VDdYB
-         5eDA==
+        d=gmail.com; s=20251104; t=1776890320; x=1777495120; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=DoS6548PZf394bHSox2I4L9ALhlullO8hO6qd6Hagxw=;
+        b=H2OI6TT79CEzoRLYEQNvMsQ2LXSdji4D1whxIj4p9f5Ko2bYRZaMGL4ll3qKTIu6PR
+         WOGKZYu77dWTwarIOy2HaHHuqrBPlFdJZ4LLV3a+zYNLDMvDhFsdXMnVWbMJHM3nJ73R
+         CAUV+9S23pdJIkmbeKk061nX/49h1t8RHahZZJVtOCeIAfRW1Dzsvtn61zRArt6PpKjt
+         Mo89EI2aDvziFO/g3beNY/AVVDw7+wVy16VKbKd8iTs++mXRz2dkjKQ8AbQCfxR+9Wxj
+         KncUWtbZ4Us0ZKjfbUVORns42nynPgAO9fe7A2yAg5+aCk6yTzYnJmaqQzkrB/cWelJU
+         5/Dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776889971; x=1777494771;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=j2mexCWnAXHTuyUVY4iwTSyRl6JB6J5POTCYS/bdHQE=;
-        b=GT0zrh0Thkfpu0YZqrdfIL19hY119e7T8gQgSncyW3AhlP2j1k1crJOCYwlnhGUgnU
-         zBo7PH8QFxiDd+FDKKs6pvRZLnge1tSAXd3VfZc9LmZoUIcj/M/3NojMVD/YgaP1AB7B
-         dF081QZc1uN1yW6r3Xq1VA+sMHFxSAapfY+px+k9vD2/waGLtFdAyM6Fgqu2/5GEZWNn
-         BbX3lUVR+w49S59hv9D0v9frrZ0Au1S9RUni07sHTCsoMfAcAEzbVOIiOshLBnMlJ6ak
-         pbLEztBlk74N7toM2p2kuVu/ls3YFDh2eyEJJFGTDFBsSvqHs6njaG5sPapmHMonDPez
-         fiBQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+KyOIkXR5DC8qfpAUvMwyOkkQ7E58FWVubzqbYJdio8m7C8O1bUhNTvtUx6aToaid53GFJSaWGeaP/HZ0p@vger.kernel.org
-X-Gm-Message-State: AOJu0YzeqgpS/04mb1o+GWov2vFq9Rg44EdCezYhSG1Vqbs86ixzZbhw
-	OieVg3HRejywsrQaPlsRTVTKafJsjjubVEnZOb0vPu5hv+aQJo78kS2kU7P2D+WFJPbLJbRJyUA
-	gKL9SdwCUGzSuAOytAWYCFHKHrtQ2DKzn+4JI0On5ukoW0DfMl0odczzuqciQBAk+Q0w=
-X-Gm-Gg: AeBDievudo1IVyNvSyEl4/7XOTzxpPS0pyedlRjcDkA0slETPHGNsac238CAbWtFx9L
-	RvEhIHf0H/IS+/bYTgLIo/+7gv5wCND9zIQkuSAq9CQcVpgK0bXh/2y0LwTINr9NYS0CzQ15UJR
-	hw3O0TBQArn8cwQr5bpDPIzQ3rLBDEQ82K9i4DLc7GBmL6HlxWp2YeNyzsClsnuHJcZhI/vWQCm
-	dYuqHTrTO4xTvAn/xSXUsBhKiIbtakrijQnr+Qm+rOeYsve6TSRt8yrppM8XjgE59a3eZakCGca
-	d39ad83L9g7hhYLArX0YW28EMt5pKab4QyiDjKQT0MiKg9y1IqaYRj8mDYeVAEXmRGLB74GJ6pA
-	OKmAteb5BmelhSwU9pmxu/GeA9/vsh1zqfXXDyV0N7NjgCgFPe1XxVg==
-X-Received: by 2002:a05:600c:2288:b0:47d:52ef:c572 with SMTP id 5b1f17b1804b1-488fb881ee2mr228774785e9.1.1776889971060;
-        Wed, 22 Apr 2026 13:32:51 -0700 (PDT)
-X-Received: by 2002:a05:600c:2288:b0:47d:52ef:c572 with SMTP id 5b1f17b1804b1-488fb881ee2mr228774125e9.1.1776889970331;
-        Wed, 22 Apr 2026 13:32:50 -0700 (PDT)
-Received: from redhat.com (IGLD-80-230-25-21.inter.net.il. [80.230.25.21])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4e4ffa8sm49363292f8f.35.2026.04.22.13.32.46
+        d=1e100.net; s=20251104; t=1776890320; x=1777495120;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DoS6548PZf394bHSox2I4L9ALhlullO8hO6qd6Hagxw=;
+        b=Tbn1B9GhDXLEh+OkcoWkHY+qju4IgE0w8TL0VLZcHhOmK2aDAroDFF6HWPlwm8XW7w
+         NI8X5luI7RlFVEnZGrB2k7Fk4gsjlkZZ0roRDjFvYwIJbxkW7q2jub3KBRqmk7XuQwrm
+         GPYqGjP9WLNuRrNCAAnu9TTyxY2fFsTky0esCDsD9V9Ine8Oy7ODhMmWNTzdLFIEdAMH
+         ybY2XVB/fyUEocB+OTLH/Q+XGIfNTjUQliJUFHfDhtSPk3MJjtiFiGZV42Iir9wTGIHt
+         +Hj9bLyNFfBkuzg4wIT4SLA9jsJg3LOO3es5YB1XBq8JWgMygF5Jw4jIr0fP0YTOUh63
+         sL5w==
+X-Forwarded-Encrypted: i=1; AFNElJ84wzcIYb1AnqNNjqi4KUDgJDbJtHIiNNwQ2kdQx+7rusaGNP72bJhvZhQqidd/gZukRVkD1TDVA+rSLgPi@vger.kernel.org
+X-Gm-Message-State: AOJu0Yww29QRuNtK0dc7bT/9nLbvPbikCM7Y108yvgG8f/srqp+Hje/1
+	RoHHr7kuWo8R5jw29PZAeOr50nWPkwL8ikGdXSsdHnn+O3mmLIY/0VwX
+X-Gm-Gg: AeBDievwU2xdGmFIBwmuTkFZdofwi9CX7BwAV91jiThEtRr/YcChn1ggoxO4OIdIt6O
+	KpjdtswFqF+bbblQJN/7F1yWg8iqpnLe47bOSJO6wPorgX8eqIYHezfqNcykIfHKeu3lCSsmVgb
+	VzqVUbneT0qmtwLQgax1qhcUep11Gvjj10ogc38spn7VPmZ9/yJYxi5cmoPVIetMpJaCg7Cegou
+	08tqjogF1yp3U99YsLsulVfpAM28gw2SHcCa6Ruv5pZlhDgS0hvSm/ViNDZ48Ld+IxK8Sxa7vzF
+	aRMAyAbgIg59AP1pKZMJziKEqIfYKA+b+4PsBAXRzyurzMwOdqQh+qSGGVpw3uB46DaiJZtz/qw
+	usJuQMSPctUrIOx0JdrtmcZbCK5GRJGwp+aI2c8KkQEr0sju3wucgVL7W0vzYzNUOPaLP036w6M
+	emaPcFytZVg46t596Al4HGvQkn0aC/Pa688pRF7xtPjozT6pRwAEOVcfAX2De7PIIdxVnRIQ==
+X-Received: by 2002:a05:600c:8183:b0:488:b187:d898 with SMTP id 5b1f17b1804b1-488fb771445mr290552725e9.14.1776890319304;
+        Wed, 22 Apr 2026 13:38:39 -0700 (PDT)
+Received: from localhost (ip87-106-108-193.pbiaas.com. [87.106.108.193])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4e3a341sm52052558f8f.24.2026.04.22.13.38.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Apr 2026 13:32:49 -0700 (PDT)
-Date: Wed, 22 Apr 2026 16:32:44 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Gregory Price <gourry@gourry.net>
-Cc: linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Brendan Jackman <jackmanb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Andrea Arcangeli <aarcange@redhat.com>, linux-mm@kvack.org,
-	virtualization@lists.linux.dev,
-	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
-	Lance Yang <lance.yang@linux.dev>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
-	Byungchul Park <byungchul@sk.com>,
-	Ying Huang <ying.huang@linux.alibaba.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Hugh Dickins <hughd@google.com>, Christoph Lameter <cl@gentwo.org>,
-	David Rientjes <rientjes@google.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Harry Yoo <harry.yoo@oracle.com>, Chris Li <chrisl@kernel.org>,
-	Kairui Song <kasong@tencent.com>,
-	Kemeng Shi <shikemeng@huaweicloud.com>,
-	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH RFC v3 01/19] mm: thread user_addr through page allocator
- for cache-friendly zeroing
-Message-ID: <20260422162811-mutt-send-email-mst@kernel.org>
-References: <cover.1776808209.git.mst@redhat.com>
- <9dd9deabd42801f3c344326991d1431c3d8db39d.1776808210.git.mst@redhat.com>
- <aekluxNPxF8CN8fL@gourry-fedora-PF4VCD3F>
+        Wed, 22 Apr 2026 13:38:38 -0700 (PDT)
+Date: Wed, 22 Apr 2026 22:38:33 +0200
+From: =?iso-8859-1?Q?G=FCnther?= Noack <gnoack3000@gmail.com>
+To: =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
+Cc: Christian Brauner <brauner@kernel.org>,
+	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
+	Paul Moore <paul@paul-moore.com>,
+	"Serge E . Hallyn" <serge@hallyn.com>,
+	Justin Suess <utilityemal77@gmail.com>,
+	Lennart Poettering <lennart@poettering.net>,
+	Mikhail Ivanov <ivanov.mikhail1@huawei-partners.com>,
+	Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>,
+	Shervin Oloumi <enlightened@google.com>,
+	Tingmao Wang <m@maowtm.org>, kernel-team@cloudflare.com,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-security-module@vger.kernel.org
+Subject: Re: [RFC PATCH v1 11/11] landlock: Add documentation for capability
+ and namespace restrictions
+Message-ID: <20260422.5a7059c06fb0@gnoack.org>
+References: <20260312100444.2609563-1-mic@digikod.net>
+ <20260312100444.2609563-12-mic@digikod.net>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <aekluxNPxF8CN8fL@gourry-fedora-PF4VCD3F>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260312100444.2609563-12-mic@digikod.net>
 
-On Wed, Apr 22, 2026 at 03:47:07PM -0400, Gregory Price wrote:
-> On Tue, Apr 21, 2026 at 06:01:10PM -0400, Michael S. Tsirkin wrote:
-> > Thread a user virtual address from vma_alloc_folio() down through
-> > the page allocator to post_alloc_hook().  This is plumbing preparation
-> > for a subsequent patch that will use user_addr to call folio_zero_user()
-> > for cache-friendly zeroing of user pages.
-> > 
-> > The user_addr is stored in struct alloc_context and flows through:
-> >   vma_alloc_folio -> folio_alloc_mpol -> __alloc_pages_mpol ->
-> >   __alloc_frozen_pages -> get_page_from_freelist -> prep_new_page ->
-> >   post_alloc_hook
-> > 
-> > Public APIs (__alloc_pages, __folio_alloc, folio_alloc_mpol) gain a
-> > user_addr parameter directly.  Callers that do not need user_addr
-> > pass USER_ADDR_NONE ((unsigned long)-1), since
-> > address 0 is a valid user mapping.
-> > 
+Hello!
+
+On Thu, Mar 12, 2026 at 11:04:44AM +0100, Mickaël Salaün wrote:
+> Document the two new Landlock permission categories in the userspace
+> API guide, admin guide, and kernel security documentation.
 > 
-> Question: rather than churning the entirety of the existing interfaces,
-> is there a possibility of adding an explicit interface for this
-> interaction that amounts to:
+> The userspace API guide adds sections on capability restriction
+> (LANDLOCK_PERM_CAPABILITY_USE with LANDLOCK_RULE_CAPABILITY), namespace
+> restriction (LANDLOCK_PERM_NAMESPACE_ENTER with LANDLOCK_RULE_NAMESPACE
+> covering creation via unshare/clone and entry via setns), and the
+> backward-compatible degradation pattern for ABI < 9.  A table documents
+> the per-namespace-type capability requirements for both creation and
+> entry.
 > 
-> __alloc_user_pages(..., gfp_t gfp, user_addr)
-> {
->     BUG_ON(!(gfp & __GFP_ZERO));
+> The admin guide adds the new perm.namespace_enter and
+> perm.capability_use audit blocker names with their object identification
+> fields (namespace_type, namespace_inum, capability).
 > 
->     /* post_alloc_hook implements the already-zeroed skip */
->     page = alloc_page(..., gfp, ...); /* existing interface */
+> The kernel security documentation adds a "Ruleset restriction models"
+> section defining the three models (handled_access_*, handled_perm,
+> scoped), their coverage and compatibility properties, and the criteria
+> for choosing between them for future features.  It also documents
+> composability with user namespaces and adds kernel-doc references for
+> the new capability and namespace headers.
 > 
->     /* Do the cacheline stuff here instead of in the core */
->     cacheline_nonsense(page, user_addr);
+> Cc: Christian Brauner <brauner@kernel.org>
+> Cc: Günther Noack <gnoack@google.com>
+> Cc: Paul Moore <paul@paul-moore.com>
+> Cc: Serge E. Hallyn <serge@hallyn.com>
+> Signed-off-by: Mickaël Salaün <mic@digikod.net>
+> ---
+>  Documentation/admin-guide/LSM/landlock.rst |  19 ++-
+>  Documentation/security/landlock.rst        |  80 ++++++++++-
+>  Documentation/userspace-api/landlock.rst   | 156 ++++++++++++++++++++-
+>  3 files changed, 245 insertions(+), 10 deletions(-)
 > 
->     return page; /* user doesn't need to do explicit zeroing */
-> }
-> 
-> Then rather than leaking information out of the buddy, we just need to
-> get the zeroed information *into* the buddy.
-> 
-> the users that want zeroing but need the explicit user_addr step just
-> defer the zeroing to outside post_alloc_hook().
-> 
-> That's just my immediate gut reaction to all this churn on the existing
-> interfaces.
-> 
-> Existing users can continue using the buddy as-is, and enlightened users
-> can optimize for this specific kind of __GFP_ZERO interaction.
-> 
-> ~Gregory
+> diff --git a/Documentation/admin-guide/LSM/landlock.rst b/Documentation/admin-guide/LSM/landlock.rst
+> index 9923874e2156..99c6a599ce9e 100644
+> --- a/Documentation/admin-guide/LSM/landlock.rst
+> +++ b/Documentation/admin-guide/LSM/landlock.rst
+> @@ -6,7 +6,7 @@ Landlock: system-wide management
+>  ================================
+>  
+>  :Author: Mickaël Salaün
+> -:Date: January 2026
+> +:Date: March 2026
+>  
+>  Landlock can leverage the audit framework to log events.
+>  
+> @@ -59,14 +59,25 @@ AUDIT_LANDLOCK_ACCESS
+>          - scope.abstract_unix_socket - Abstract UNIX socket connection denied
+>          - scope.signal - Signal sending denied
+>  
+> +    **perm.*** - Permission restrictions (ABI 9+):
+> +        - perm.namespace_enter - Namespace entry was denied (creation via
+> +          :manpage:`unshare(2)` / :manpage:`clone(2)` or joining via
+> +          :manpage:`setns(2)`);
+> +          ``namespace_type`` indicates the type (hex CLONE_NEW* bitmask),
+> +          ``namespace_inum`` identifies the target namespace for
+> +          :manpage:`setns(2)` operations
+> +        - perm.capability_use - Capability use was denied;
+> +          ``capability`` indicates the capability number
+> +
+>      Multiple blockers can appear in a single event (comma-separated) when
+>      multiple access rights are missing. For example, creating a regular file
+>      in a directory that lacks both ``make_reg`` and ``refer`` rights would show
+>      ``blockers=fs.make_reg,fs.refer``.
+>  
+> -    The object identification fields (path, dev, ino for filesystem; opid,
+> -    ocomm for signals) depend on the type of access being blocked and provide
+> -    context about what resource was involved in the denial.
+> +    The object identification fields depend on the type of access being blocked:
+> +    ``path``, ``dev``, ``ino`` for filesystem; ``opid``, ``ocomm`` for signals;
+> +    ``namespace_type`` and ``namespace_inum`` for namespace operations;
+> +    ``capability`` for capability use.
+>  
+>  
+>  AUDIT_LANDLOCK_DOMAIN
+> diff --git a/Documentation/security/landlock.rst b/Documentation/security/landlock.rst
+> index 3e4d4d04cfae..cd3d640ca5c9 100644
+> --- a/Documentation/security/landlock.rst
+> +++ b/Documentation/security/landlock.rst
+> @@ -7,7 +7,7 @@ Landlock LSM: kernel documentation
+>  ==================================
+>  
+>  :Author: Mickaël Salaün
+> -:Date: September 2025
+> +:Date: March 2026
+>  
+>  Landlock's goal is to create scoped access-control (i.e. sandboxing).  To
+>  harden a whole system, this feature should be available to any process,
+> @@ -89,6 +89,72 @@ this is required to keep access controls consistent over the whole system, and
+>  this avoids unattended bypasses through file descriptor passing (i.e. confused
+>  deputy attack).
+>  
+> +Composability with user namespaces
+> +----------------------------------
+> +
+> +Landlock domain-based scoping and the kernel's user namespace-based capability
+> +scoping enforce isolation over independent hierarchies.  Landlock checks domain
+> +ancestry; the kernel's ``ns_capable()`` checks user namespace ancestry.  These
+> +hierarchies are orthogonal: Landlock enforcement is deterministic with respect
+> +to its own configuration, regardless of namespace or capability state, and vice
+> +versa.  This orthogonality is a design invariant that must hold for all new
+> +scoped features.
+> +
+> +Ruleset restriction models
+> +--------------------------
+
+I have to second Justin, it's a good idea to introduce this explanation.
+
+> +
+> +Landlock provides three restriction models, each with different coverage
+> +and compatibility properties.
+> +
+> +Access rights (``handled_access_*``)
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +Access rights control **enumerated operations on kernel objects**
+> +identified by a rule key (a file hierarchy or a network port).  Each
+> +``handled_access_*`` field declares a set of access rights that the
+> +ruleset restricts.  Multiple access rights share a single rule type.
+> +Operations for which no access right exists yet remain uncontrolled;
+> +new rights are added incrementally across ABI versions.
+> +
+> +Permissions (``handled_perm``)
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +Permissions control **broad operations enforced at single kernel
+> +chokepoints**, achieving complete deny-by-default coverage.  Each
+> +``LANDLOCK_PERM_*`` flag maps to its own rule type.  When a ruleset
+> +handles a permission, all instances of that operation are denied unless
+> +explicitly allowed by a rule.  New kernel values (new ``CAP_*``
+> +capabilities, new ``CLONE_NEW*`` namespace types) are automatically
+> +denied without any Landlock update.
+
+I find the terminology of "chokepoints" and "gateways" in this and the
+header documentation a bit vague; you could argue that opening a file
+for reading is also a chokepoint/gateway for using read() later on;
+it's not immediately clear to me how that's delineated.
+
+In my mind, the handled_* groups of access rights are usually defined
+by the "namespace" of the objects they are protecting, more than
+anything else: handled_access_fs: file paths, handled_access_net:
+struct sockaddr (which we only expose as "port" for now).
+
+To play the devil's advocate, a possible alternative would have been
+to introduce:
+
+  handled_access_ns with values LANDLOCK_ACCESS_NS_FOO_ENTER,
+  LANDLOCK_ACCESS_NS_BAR_ENTER, etc. (and documenting somewhere that
+  these are guaranteed to stay in sync; a static assert is enough to
+  make sure they do).
+
+  handled_access_caps with values LANDLOCK_ACCESS_CAPS_USE_FOO,
+  LANDLOCK_ACCESS_CAPS_USE_BAR, etc., also guaranteed to stay in sync.
+
+That way the blocked accesses would still be "operations", and we
+would not need to have rules for them because the "object" being
+protected are the processes within the Landlock domain, so to say.
+
+Arguably, the LANDLOCK_ACCESS_FS_MAKE_* rights already follow a
+similar pattern.
+
+To be clear, I am myself only 50% convinced whether the API would be
+better.  The implementation would be easier (but that doesn't count
+much in comparison).
 
 
-I am sorry i do not understand. Users have no idea if they need
-"user_addr step" - it is an arch thing.
+> +Each permission flag names a single gateway operation whose control
+> +transitively covers an open-ended set of downstream operations: for
+> +example, exercising a capability enables privileged operations across
+> +many subsystems; entering a namespace enables gaining capabilities in a
+> +new context.
+> +
+> +Permission rules identify what to allow using constants defined by other
+> +kernel subsystems (``CAP_*``, ``CLONE_NEW*``).  Unknown values are
+> +silently ignored because deny-by-default ensures they are denied anyway.
+> +In contrast, unknown ``LANDLOCK_PERM_*`` flags in ``handled_perm`` are
+> +rejected (``-EINVAL``), since Landlock owns that namespace.
 
-the places that pass USER_ADDR_NONE can avoid being changed.
+OK I played through the compatibility scenarios which puzzled me in my
+reply to the cover letter, for both namespaces and capabilities.
+Namespaces are OK, so I'm just including that for completeness and for
+comparison, but I think the capabilities might be tricky?
 
-*However* without this change it is easy to miss someone who
-has to pass the address and simply forgot to, and this
-someone gets GFP_ZERO from the caller.
 
-It took me forever to find all places as it is, at least
-every change is explicit.
+Case A: Namespaces
 
-Because no testing on x86 will show the issue, and it is a subtle
-corruption even on other arches.
+In the scenario where a caller restricts
+LANDLOCK_PERM_NAMESPACE_ENTER, but then adds a rule to allow a
+non-existent namespace number like 1<<63.
 
-I think churn is better than a risk of silent corruption...
+Landlock ABI v9:
+* The rule is accepted and the unknown value for the namespace type
+  silently ignored
+* It is not possible to enter the namespace because the namespace API
+  doesn't exist for it.  (But that's appropriate.)
 
--- 
-MST
+Landlock ABI v_future (the namespace type 1<<63 exists now):
+* The rule continues to be accepted.
+* When trying to exercise the namespace type, it works.
 
+It seems that this scenario works fine.  In the earlier version,
+entering the namespace already doesn't work because the kernel doesn't
+have support for it.
+
+
+Case B: Capabilities
+
+Whne new capabilities are introduced, I see that people have used the
+pattern where these capabilities are split off from operations which
+were previously controlled by CAP_SYS_ADMIN.  An example is commit
+a17b53c4a4b5 ("bpf, capability: Introduce CAP_BPF"), which states:
+
+  Split BPF operations that are allowed under CAP_SYS_ADMIN into
+  combination of CAP_BPF, CAP_PERFMON, CAP_NET_ADMIN.  For backward
+  compatibility include them in CAP_SYS_ADMIN as well.
+
+(The same pattern was also used in the introduction of
+CAP_CHECKPOINT_RESTORE and CAP_PERFMON.  CAP_AUDIT_READ is older and
+did it differently.)
+
+Let's say there is a frobnicate() syscall guarded by CAP_SYS_ADMIN.  A
+future kernel introduces CAP_FOO and then checks for frobnicate() that
+either one of CAP_FOO or CAP_SYS_ADMIN are present.
+
+A caller creates a ruleset restricting capability use with Landlock,
+and adds a rule to allow CAP_FOO but not CAP_SYS_ADMIN (e.g.,
+^CAP_SYS_ADMIN)
+
+Landlock ABI v9:  (CAP_FOO doesn't exist)
+* The rule for CAP_FOO is accepted and the unknown value for the
+  capability silently ignored.
+* The call to frobnicate() fails because the use of the capability is
+  forbidden
+
+Landlock ABI v10:  (CAP_FOO starts to exist)
+* The rule continues to be accepted
+* The call to frobnicate() **succeeds now**, because the new kernel guards
+  the operation by either one of those capabilities.
+
+
+So... for capabilities, it seems to be slightly incompatible if users
+allow capabilities with a rule which are not known yet?  The reason
+for that is the way how capabilities "fork off" from CAP_SYS_ADMIN.
+
+I mean, I can see that it's a pretty fringe scenario if users pass
+capabilities that don't exist yet, but it *is* strictly speaking an
+incompatibiliy.  Should we check the range of the passed capabilities?
+Am I overlooking any downsides to this if we force users to stay
+between 0 and CAP_LAST_CAP?
+
+
+> +
+> +Scopes (``scoped``)
+> +~~~~~~~~~~~~~~~~~~~~
+> +
+> +Scopes restrict **cross-domain interactions** categorically, without
+> +rules.  Setting a scope flag (e.g. ``LANDLOCK_SCOPE_SIGNAL``) denies the
+> +operation to targets outside the Landlock domain or its children.  Like
+> +permissions, scopes provide complete coverage of the controlled
+> +operation.
+> +
+> +When adding new Landlock features, new operations on existing rule types
+> +extend the corresponding ``handled_access_*`` field (e.g. a new
+> +filesystem operation extends ``handled_access_fs``).  A new object
+> +category with multiple fine-grained operations would use a new
+> +``handled_access_*`` field.  New rule types that control a single
+> +chokepoint operation use ``handled_perm``.
+> +
+>  Tests
+>  =====
+>  
+> @@ -110,6 +176,18 @@ Filesystem
+>  .. kernel-doc:: security/landlock/fs.h
+>      :identifiers:
+>  
+> +Namespace
+> +---------
+> +
+> +.. kernel-doc:: security/landlock/ns.h
+> +    :identifiers:
+> +
+> +Capability
+> +----------
+> +
+> +.. kernel-doc:: security/landlock/cap.h
+> +    :identifiers:
+> +
+>  Process credential
+>  ------------------
+>  
+> diff --git a/Documentation/userspace-api/landlock.rst b/Documentation/userspace-api/landlock.rst
+> index 13134bccdd39..238d30a18162 100644
+> --- a/Documentation/userspace-api/landlock.rst
+> +++ b/Documentation/userspace-api/landlock.rst
+> @@ -8,7 +8,7 @@ Landlock: unprivileged access control
+>  =====================================
+>  
+>  :Author: Mickaël Salaün
+> -:Date: January 2026
+> +:Date: March 2026
+>  
+>  The goal of Landlock is to enable restriction of ambient rights (e.g. global
+>  filesystem or network access) for a set of processes.  Because Landlock
+> @@ -33,7 +33,7 @@ A Landlock rule describes an action on an object which the process intends to
+>  perform.  A set of rules is aggregated in a ruleset, which can then restrict
+>  the thread enforcing it, and its future children.
+>  
+> -The two existing types of rules are:
+> +The existing types of rules are:
+>  
+>  Filesystem rules
+>      For these rules, the object is a file hierarchy,
+> @@ -44,6 +44,14 @@ Network rules (since ABI v4)
+>      For these rules, the object is a TCP port,
+>      and the related actions are defined with `network access rights`.
+>  
+> +Capability rules (since ABI v9)
+> +    For these rules, the object is a set of Linux capabilities,
+> +    and the related actions are defined with `permission flags`.
+> +
+> +Namespace rules (since ABI v9)
+> +    For these rules, the object is a set of namespace types,
+> +    and the related actions are defined with `permission flags`.
+> +
+>  Defining and enforcing a security policy
+>  ----------------------------------------
+>  
+> @@ -84,6 +92,9 @@ to be explicit about the denied-by-default access rights.
+>          .scoped =
+>              LANDLOCK_SCOPE_ABSTRACT_UNIX_SOCKET |
+>              LANDLOCK_SCOPE_SIGNAL,
+> +        .handled_perm =
+> +            LANDLOCK_PERM_CAPABILITY_USE |
+> +            LANDLOCK_PERM_NAMESPACE_ENTER,
+>      };
+>  
+>  Because we may not know which kernel version an application will be executed
+> @@ -127,6 +138,12 @@ version, and only use the available subset of access rights:
+>          /* Removes LANDLOCK_SCOPE_* for ABI < 6 */
+>          ruleset_attr.scoped &= ~(LANDLOCK_SCOPE_ABSTRACT_UNIX_SOCKET |
+>                                   LANDLOCK_SCOPE_SIGNAL);
+> +        __attribute__((fallthrough));
+> +    case 6:
+> +    case 7:
+> +    case 8:
+> +        /* Removes permission support for ABI < 9 */
+> +        ruleset_attr.handled_perm = 0;
+>      }
+>  
+>  This enables the creation of an inclusive ruleset that will contain our rules.
+> @@ -191,6 +208,42 @@ number for a specific action: HTTPS connections.
+>      err = landlock_add_rule(ruleset_fd, LANDLOCK_RULE_NET_PORT,
+>                              &net_port, 0);
+>  
+> +For capability access-control, we can add rules that allow specific
+> +capabilities.  For instance, to allow ``CAP_SYS_CHROOT`` (so the sandboxed
+> +process can call :manpage:`chroot(2)` inside a user namespace):
+> +
+> +.. code-block:: c
+> +
+> +    struct landlock_capability_attr cap_attr = {
+> +        .allowed_perm = LANDLOCK_PERM_CAPABILITY_USE,
+> +        .capabilities = (1ULL << CAP_SYS_CHROOT),
+> +    };
+> +
+> +    err = landlock_add_rule(ruleset_fd, LANDLOCK_RULE_CAPABILITY,
+> +                            &cap_attr, 0);
+> +
+> +For namespace access-control, we can add rules that allow entering specific
+> +namespace types (creating them via :manpage:`unshare(2)` / :manpage:`clone(2)`
+> +or joining them via :manpage:`setns(2)`).  For instance, to allow creating user
+> +namespaces (which grants all capabilities inside the new namespace):
+> +
+> +.. code-block:: c
+> +
+> +    struct landlock_namespace_attr ns_attr = {
+> +        .allowed_perm = LANDLOCK_PERM_NAMESPACE_ENTER,
+> +        .namespace_types = CLONE_NEWUSER,
+> +    };
+> +
+> +    err = landlock_add_rule(ruleset_fd, LANDLOCK_RULE_NAMESPACE,
+> +                            &ns_attr, 0);
+> +
+> +Together, these two rules allow an unprivileged process to create a user
+> +namespace and call :manpage:`chroot(2)` inside it, while denying all other
+> +capabilities and namespace types.  User namespace creation is the one operation
+> +that does not require ``CAP_SYS_ADMIN``, so no capability rule is needed for it.
+> +See `Capability and namespace restrictions`_ for details on capability
+> +requirements.
+> +
+>  When passing a non-zero ``flags`` argument to ``landlock_restrict_self()``, a
+>  similar backwards compatibility check is needed for the restrict flags
+>  (see sys_landlock_restrict_self() documentation for available flags):
+> @@ -354,10 +407,87 @@ The operations which can be scoped are:
+>      A :manpage:`sendto(2)` on a socket which was previously connected will not
+>      be restricted.  This works for both datagram and stream sockets.
+>  
+> -IPC scoping does not support exceptions via :manpage:`landlock_add_rule(2)`.
+> +Scoping does not support exceptions via :manpage:`landlock_add_rule(2)`.
+>  If an operation is scoped within a domain, no rules can be added to allow access
+>  to resources or processes outside of the scope.
+>  
+> +Capability and namespace restrictions
+> +-------------------------------------
+> +
+> +See Documentation/security/landlock.rst for the design rationale behind
+> +the permission model (``handled_perm``) and how it differs from access
+> +rights (``handled_access_*``) and scopes (``scoped``).
+> +When a process creates a user namespace, the kernel grants all capabilities
+> +within that namespace.  While these capabilities cannot directly bypass Landlock
+> +restrictions (Landlock enforces access controls independently of capability
+> +checks), they open kernel code paths that are normally unreachable to
+> +unprivileged users and may contain exploitable bugs.
+> +
+> +Landlock provides two complementary permissions to address this.
+> +``LANDLOCK_PERM_CAPABILITY_USE`` restricts which capabilities a process can use,
+> +even when it holds them.  ``LANDLOCK_PERM_NAMESPACE_ENTER`` restricts which
+> +namespace types a process can create (via :manpage:`unshare(2)` or
+> +:manpage:`clone(2)`) or join (via :manpage:`setns(2)`).  After creating a user
+> +namespace, the granted capabilities are scoped to namespaces owned by that user
+> +namespace or its descendants; to exercise a capability such as
+> +``CAP_NET_ADMIN``, the process must create a namespace of the corresponding type
+> +(e.g., a network namespace).  Configuring both permissions together provides
+> +full coverage: ``LANDLOCK_PERM_CAPABILITY_USE`` restricts which capabilities are
+> +available, while ``LANDLOCK_PERM_NAMESPACE_ENTER`` restricts the namespaces in
+> +which they can be used.
+> +
+> +When a Landlock domain handles ``LANDLOCK_PERM_CAPABILITY_USE``, all Linux
+> +:manpage:`capabilities(7)` are denied by default unless a rule explicitly allows
+> +them.  This is purely restrictive: Landlock can only deny capabilities that the
+> +traditional capability mechanism would have allowed, never grant additional ones.
+> +Rules are added with ``LANDLOCK_RULE_CAPABILITY`` using a
+> +&struct landlock_capability_attr.  Each rule specifies a set of ``CAP_*`` values
+> +(as a bitmask) to allow.  Capabilities above ``CAP_LAST_CAP`` are silently
+> +accepted but have no effect since the kernel never checks them; this means new
+> +capabilities introduced by future kernels are automatically denied.
+
+(See example above.)
+
+
+> +
+> +When a Landlock domain handles ``LANDLOCK_PERM_NAMESPACE_ENTER``, namespace
+> +creation and entry are denied by default unless a rule explicitly allows them.
+> +Rules are added with ``LANDLOCK_RULE_NAMESPACE`` using a
+> +&struct landlock_namespace_attr.  Each rule specifies a set of ``CLONE_NEW*``
+> +flags to allow.
+> +
+> +In practice, unprivileged processes first create a user namespace (which requires
+> +no capability and grants all capabilities within it), then use those capabilities
+> +to create other namespace types.  All non-user namespace types require
+> +``CAP_SYS_ADMIN`` for both creation and :manpage:`setns(2)` entry; mount
+> +namespace entry additionally requires ``CAP_SYS_CHROOT``.  For
+> +:manpage:`setns(2)`, capabilities are checked relative to the target namespace,
+> +so a process in an ancestor user namespace naturally satisfies them; this
+> +includes joining user namespaces, which requires ``CAP_SYS_ADMIN``.  When
+> +``LANDLOCK_PERM_CAPABILITY_USE`` is also handled, each of these capabilities
+> +must be explicitly allowed by a rule.
+> +
+> +When combining ``CLONE_NEWUSER`` with other ``CLONE_NEW*`` flags in a single
+> +:manpage:`unshare(2)` call, the ``CAP_SYS_ADMIN`` check targets the newly
+> +created user namespace, which is handled by ``LANDLOCK_PERM_NAMESPACE_ENTER``
+> +independently from ``LANDLOCK_PERM_CAPABILITY_USE``.  Performing the user
+> +namespace creation and the additional namespace creation in two separate
+> +:manpage:`unshare(2)` calls requires a rule allowing ``CAP_SYS_ADMIN`` if the
+> +domain also handles ``LANDLOCK_PERM_CAPABILITY_USE``.
+> +
+> +More generally, Landlock domains and user namespaces form independent
+> +hierarchies: Landlock domains restrict what actions are allowed (each stacked
+> +layer narrows the permitted set), while user namespaces restrict where
+> +capabilities take effect (only within the process's own namespace and its
+> +descendants).  Landlock access controls are fully determined by the domain
+> +configuration, regardless of the process's position in the user namespace
+> +hierarchy.  When creating child user namespaces, it is recommended to also
+> +create a dedicated Landlock domain with restrictions relevant to each namespace
+> +context.
+> +
+> +Note that ``LANDLOCK_PERM_CAPABILITY_USE`` restricts the *use* of capabilities,
+> +not their presence in the process's credential.  Capability sets can change
+> +after a domain is enforced through user namespace entry, :manpage:`execve(2)` of
+> +binaries with file capabilities, or :manpage:`capset(2)`.  In all cases,
+> +:manpage:`capget(2)` will report the credential's capability sets, but any
+> +denied capability will fail with ``EPERM`` when exercised.
+> +
+>  Truncating files
+>  ----------------
+>  
+> @@ -515,7 +645,7 @@ Access rights
+>  -------------
+>  
+>  .. kernel-doc:: include/uapi/linux/landlock.h
+> -    :identifiers: fs_access net_access scope
+> +    :identifiers: fs_access net_access scope perm
+>  
+>  Creating a new ruleset
+>  ----------------------
+> @@ -534,7 +664,8 @@ Extending a ruleset
+>  
+>  .. kernel-doc:: include/uapi/linux/landlock.h
+>      :identifiers: landlock_rule_type landlock_path_beneath_attr
+> -                  landlock_net_port_attr
+> +                  landlock_net_port_attr landlock_capability_attr
+> +                  landlock_namespace_attr
+>  
+>  Enforcing a ruleset
+>  -------------------
+> @@ -685,6 +816,21 @@ enforce Landlock rulesets across all threads of the calling process
+>  using the ``LANDLOCK_RESTRICT_SELF_TSYNC`` flag passed to
+>  sys_landlock_restrict_self().
+>  
+> +Capability restriction (ABI < 9)
+> +--------------------------------
+> +
+> +Starting with the Landlock ABI version 9, it is possible to restrict
+> +:manpage:`capabilities(7)` with the new ``LANDLOCK_PERM_CAPABILITY_USE``
+> +permission flag and ``LANDLOCK_RULE_CAPABILITY`` rule type.
+> +
+> +Namespace restriction (ABI < 9)
+> +-------------------------------
+> +
+> +Starting with the Landlock ABI version 9, it is possible to restrict
+> +namespace creation (:manpage:`unshare(2)`, :manpage:`clone(2)`) and entry
+> +(:manpage:`setns(2)`) with the new ``LANDLOCK_PERM_NAMESPACE_ENTER`` permission
+> +flag and ``LANDLOCK_RULE_NAMESPACE`` rule type.
+> +
+>  .. _kernel_support:
+>  
+>  Kernel support
+> -- 
+> 2.53.0
+> 
