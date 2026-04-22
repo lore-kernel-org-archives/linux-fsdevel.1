@@ -1,61 +1,63 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2664376BD9
-	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 21:33:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFF36377554
+	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 21:34:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776893639; cv=none; b=n8YsDIte3ZMVlDJhCJlGdV8n8tMZDO+RPw6CYL+LSBvrTKdYL1+CD6vZshF8ehW/YI+gGsgvTLlI7Ps5xyfC2hcZQy+NT17i2W8E00uEBX6Q6w8TOD2Aqbf9TCgQ6tKqntc6Rf0631fQmiKwYNtMBP1q6EKOZUaq6/1q0uO/BBs=
+	t=1776893660; cv=none; b=o1p5psAHLhZii7w+E6AIkvyaZ/PURI3IMx24LdhZQdOuF3Z2Nbi7BchVcYimy3Kdo276heW+lRnEBiHV4nRK+GStzopQq+xRqazD9FYQV4Y4qYYY3pEX5gNM1A3x1SGpFG+5j5dWjWd2N9J/EQf/C/piUSKESYkb0/XtPKSKL2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776893639; c=relaxed/simple;
-	bh=bu0ezSg3eXSHAn4od+sePxTgFrnLMGA7X7vvdBY4CqA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cdC6SqiSy4gm4A0lWxYQj3HHcuhXsM2bQeiCsRBhng3geBRXTgPIo6IntzSNaYwQGG9HmIdXQcB7kfa+aC4DQLC4hGkhV/KMEVxDBEN7qmVl1uXvu500UFb4mFB2/hgsehP2710g0U4TTMuu04czsWucbmVZutpUK+lagbLCT68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N2F+if5d; arc=none smtp.client-ip=209.85.167.53
+	s=arc-20240116; t=1776893660; c=relaxed/simple;
+	bh=u03zceiMBD8ZhrGPsxTutINU5prgwCZvEu2eM4b8oAE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=imHR7/G8QZhj/B3hsHVrncbDixIVLCCWwNh0WzyZZzy4t3Fq7+Ey0BDj9px60o3UXT9N0zkRRIt924ILnkP4idHz/zVduNO8Y7EWS35seJfshswiJfZtY3UVtajMw1MD+hqmH+em2AIZ2SIShjUj05lIuswhOcyUA0QMeK6kl0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q2RNvvoy; arc=none smtp.client-ip=209.85.167.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N2F+if5d"
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5a2c9c5ff87so6674296e87.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 14:33:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q2RNvvoy"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5a1307438ddso5447746e87.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 14:34:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776893636; x=1777498436; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dpp/pvEccJSCs2aYmYF/uD58hQ1rAlm0k4dG4FOoPeI=;
-        b=N2F+if5docbWjNhKevq4MTY/v6tDoWIsLnFfXZrEzKiwFP2pq5MBHHP/lY7DsAqg/d
-         HMegnPScTlmiMvyHY8OO9D17FdDLfdsdj29VROaG7WluT9Gt69pvCh+dYeqUc6oKcs70
-         Qx89Hna1md369LPnl1SFqCsGgXCprc+wJCGYcCNOpg4+870dePKvgktZ9lTpifYMOJYq
-         JxCzDMh+E04KwKJNpq9jYAGYa71pNuLYVovIBsjjVAo9X/ruoA1GG1awMsFzgUnKteER
-         GGErIBE/sU7PxrRvPe3m1rxvKHrxzNbc76b96+x0OqM67qptDWN8v8Hpnr6qAlV/WQRD
-         aPlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776893636; x=1777498436;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1776893657; x=1777498457; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dpp/pvEccJSCs2aYmYF/uD58hQ1rAlm0k4dG4FOoPeI=;
-        b=ccpsqXLkgssBEW4Ydz6IQ88k3n0CY0CQo8MKhlx8u1EScPb8bgoLMnLL6Rp+pcuYag
-         PxZPbrxfPq5P7um9wWjkOJf7X402a5Lep1baS3z8yi4w/da3qHU8sCG5n3E37o0Mjc+v
-         zC9er+gBG+SLMzJi3gAe0iNRrR2i+HxVFH7UB9hx+/Ie9llFmRjsjpTlaB4tDUdRwNPM
-         HMikcRRtkQkHFXMjdvSeVpKOBwmGZxOE9X2mCtjJUOSAVgZKVcN7FtBq4GX9A/F3h5wv
-         gv3E+eH9y3a7hMcMBJHpQWAbpgHhBIPfDHRo/c0EXzRpCfg/z3upCq4/gbgXxUIfdYEp
-         qHJg==
-X-Forwarded-Encrypted: i=1; AFNElJ/Fc2lX8yirhFAVN53zy/5UqMLyXG+8OM3pLoEQ2DRorI3xZXAJW4kICTUMEVHFW4ByyNs/X+0J7laCMQDo@vger.kernel.org
-X-Gm-Message-State: AOJu0YzRMEJ3i5rF6mwvKdYWAve3hEs2zYYxSQ8g0qIfost0Iy+u4NaY
-	6WGe1Qes53Xvx6TcdWBYsKw/16MEAWF8DsRXLX5sJZnzQkseEHxku5rx
-X-Gm-Gg: AeBDievWne++6kZt6BAQ+tvksHW3rbYWrFx26zV2wZ6cPihrpL7cl3m4yy/RA5Catff
-	kVs4OhIdt8iRwDr2GGVuIXIA2q1HGRouIWGOj/4Irj17S9oUHwyIGV0UFdmzMV59MVv3dae3zuQ
-	rB3Dj9E1HkDCx7suqyaBFEvvFxz/pj7FzdFDO8z4UlExCUW5EUghMonb9jjJCp3Chsw3XYJ3abf
-	S/zCMSF116HEvmZnY4a/aNIuwpzX9/GO9KkJxrBeR4rbxbJkRzLTi8Ve75NNuk4gOuGcSeuhVe7
-	R4rzqs6c9as2rqjGFqBf686Mk/yRxwQCUItePLzh9nbAL/O77NcC5jZ1ZMWnMBMI+eefoe4gnhb
-	KSmsm+UVkqQsULjZPuZA4zSxmW4HpcEsyxvaV5znVBovngmK4lgbbUBxshX6HmYaaRzp/XxeAcE
-	3xuoGTftoGvOkLAUt85uIJNp7Vi7ld7DBeGoqbKAci98OK
-X-Received: by 2002:a05:6512:1109:b0:5a3:fd71:2781 with SMTP id 2adb3069b0e04-5a4172e7c37mr7632660e87.34.1776893635715;
-        Wed, 22 Apr 2026 14:33:55 -0700 (PDT)
+        bh=TzWMajBXvkLZjAEK67wsPjVPED1S/mYSZin3Li/Mn0k=;
+        b=Q2RNvvoynDSPvu8xOWL1R9w9Bm6o59Wq7rtZMzeUbUR+Old+QkaF5VStcPJfmfR9J8
+         dZ39ljZrTP9+Uc+qHjpqFAGw3izigxevglRbDRcsnDIUS9lLVLh9NkMhdbbnvq8tQZmK
+         9rEdRF22prPXlUZOjIxdfl6MeSp4kLRy1NFmy7Uyf8A+KIt9gDRApVMJHvuWp2OppWp6
+         2NL+56s8RAzwVqZlyF0heoHFs4slNR54StsIgaQPpkgmCQ7q0ixHJiFuk3AeDaEV37rb
+         T35r/J0vLIHce/w44Yil0pQn30E00yzQ3ykQFUS8LD8S6lc8ykWvJun3oLblHKZKGch7
+         YFjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776893657; x=1777498457;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=TzWMajBXvkLZjAEK67wsPjVPED1S/mYSZin3Li/Mn0k=;
+        b=OVS3sucOEHhjUpnB0C3WaLWoPOBgWJf1G1a2VN7y/OiAMECwew/HtYT7Ir/HoFHjYG
+         LKJ6x+hSGZsLdedbdO7ZGy2py9cgBxjZoV5YBm2LPHgAxZzGrvOsYtP0R/QeDkRniJr2
+         xqhlkfHd0G6/ZD43LMQ/7qzw47vceDaoZr8/crozvnl56GUJdqE511FLl0fgb5hevhan
+         dPTQ4H12ZaYNs8pzaGZ+iqI8BvZ8JhGqbTLz1oiba8JCSIAE+kx1pwqG4b6Jg6v2C0NP
+         CJ46uPgBDc4SFG+F8Kmhq4sKAYFVO8EW6vfpnzUrbkfUVuNsm14V7GeW605BzKZb2Cz1
+         MD6Q==
+X-Forwarded-Encrypted: i=1; AFNElJ+i9bW1CES2XHpl8gr3VNf9UBGNUJK4XQGxiMWPvsvMPcAobCLAzbPfw7QLCkGHVWjnFQZr5S3tCFxhf0m8@vger.kernel.org
+X-Gm-Message-State: AOJu0YyX/UsI5reWg3onZi6OmB/WRv/mpvABHmVe5PWp5uZL7EUL6y98
+	hlOMWlq6fObrFOqlzDjmM1Kd0/PrfRaqSpSSTwpxWA8BVKYVFgT0GTPa
+X-Gm-Gg: AeBDieuCKtB+Zd8NhNKn3e9V39sH3AsmlvOxYgsQHJweA/48JDVjTEj+XZPsa7tsEcY
+	gVka+ZZ8SRuLe1qxEUVavsZD8f0CHSM/4b3yE83puSa+McuKCSQWVtEM1hMjwiU7dS80qObLTEh
+	25EtKivscc8Q86eNiSE21vHEly3OISm5eTg8y5GJqYwIx0to42FJ/7wwbMjT1yuf1+bEvQWteF5
+	Tt83VoUiuYPY/nrCH7ue2FrLb9DPeOH5sY7zm4vhZJ+uWXikoKpB5q8MXyZOuOfDdKuhiRbYAus
+	FEFyauxweq3HgLcD0o75+CoFzomRPeuAKV6IZOu/DhNJW4QS/TYZutgFZb+3tVZm0tVjNQDUSgP
+	WQFr72IcSx6WZSXVA7yqkzavJU++o4RzL9cg394h8Eyd9E7OQnmN7lN2riymxcuXO/6qG5g7+27
+	HAVV61N7KkBeWZRB5Kn46vOvkDLam2OpoBPQUYkaatuQPv
+X-Received: by 2002:a05:6512:40c3:b0:5a3:e5d7:e37f with SMTP id 2adb3069b0e04-5a4172ebe6cmr6504298e87.41.1776893656564;
+        Wed, 22 Apr 2026 14:34:16 -0700 (PDT)
 Received: from localhost ([188.234.148.119])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a4185ad343sm4697828e87.2.2026.04.22.14.33.52
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a4185ad343sm4697828e87.2.2026.04.22.14.34.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Apr 2026 14:33:54 -0700 (PDT)
+        Wed, 22 Apr 2026 14:34:15 -0700 (PDT)
 From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
 To: Thomas Graf <tgraf@suug.ch>,
 	Herbert Xu <herbert@gondor.apana.org.au>
@@ -67,10 +69,12 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
 	linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Subject: [PATCH 0/1] rhashtable: fix fs_reclaim circular dep in free_and_destroy
-Date: Thu, 23 Apr 2026 02:33:48 +0500
-Message-ID: <20260422213349.1345098-1-mikhail.v.gavrilov@gmail.com>
+Subject: [PATCH 1/1] rhashtable: drop ht->mutex in rhashtable_free_and_destroy()
+Date: Thu, 23 Apr 2026 02:33:49 +0500
+Message-ID: <20260422213349.1345098-2-mikhail.v.gavrilov@gmail.com>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260422213349.1345098-1-mikhail.v.gavrilov@gmail.com>
+References: <20260422213349.1345098-1-mikhail.v.gavrilov@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -79,57 +83,203 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi all,
+rhashtable_free_and_destroy() is a single-shot teardown routine:
+cancel_work_sync() has already quiesced the deferred rehash worker, and
+the function's documented contract requires the caller to guarantee no
+other concurrent access to the rhashtable. Under those conditions
+ht->mutex is not protecting anything -- taking it is a leftover from
+the original teardown path.
 
-This fixes a lockdep "possible circular locking dependency detected"
-between fs_reclaim and the rhashtable &ht->mutex class that surfaces
-on kernels built from vfs-7.1-rc1.xattr or later. The cycle is created
-by the simple_xattrs rhashtable conversion (commit b32c4a213698
-"xattr: add rhashtable-based simple_xattr infrastructure") and its
-per-subsystem adaptations in shmem (52b364fed6e1), kernfs (5bd97f5c5f24),
-and pidfs (50704c391fbf), which made rhashtable_free_and_destroy()
-reachable from evict() under the dcache shrinker. The deferred rehash
-worker provides the forward edge (&ht->mutex -> fs_reclaim), and the
-teardown path under fs_reclaim provides the reverse edge
-(fs_reclaim -> &ht->mutex). Full splat and analysis are in the patch's
-commit message.
+That leftover is actively harmful: it closes a circular lock-class
+dependency with fs_reclaim. The deferred rehash worker takes ht->mutex
+and then allocates GFP_KERNEL memory in bucket_table_alloc(),
+establishing
 
-The fix is in rhashtable_free_and_destroy() rather than in the three
-simple_xattrs callers because:
+    &ht->mutex  ->  fs_reclaim
 
- (a) three callers are affected, a library fix closes all of them at
-     once;
+After commit b32c4a213698 ("xattr: add rhashtable-based simple_xattr
+infrastructure") introduced simple_xattr_ht_free(), which calls
+rhashtable_free_and_destroy(), the simple_xattrs teardown became
+reachable from evict() under the dcache shrinker. The subsequent
+per-subsystem adaptations made the reverse edge concrete in three
+independent code paths:
 
- (b) after cancel_work_sync() returns, the rehash worker is quiesced
-     and the function's documented contract already requires the
-     caller to guarantee no concurrent operations -- so the mutex
-     protects nothing and can just be removed.
+  * commit 52b364fed6e1 ("shmem: adapt to rhashtable-based simple_xattrs with lazy allocation")
+  * commit 5bd97f5c5f24 ("kernfs: adapt to rhashtable-based simple_xattrs with lazy allocation")
+  * commit 50704c391fbf ("pidfs: adapt to rhashtable-based simple_xattrs")
 
-A review of lib/rhashtable.c confirms that this is the only site
-where &ht->mutex is acquired from a path reachable under fs_reclaim;
-the deferred worker is the only other acquisition site and it is the
-forward edge. Removing the acquisition therefore eliminates the class
-cycle entirely.
+Any of the three closes the cycle
 
-The splat was observed organically on my workstation at ~35h uptime
-under normal mixed workload with CONFIG_PROVE_LOCKING=y. Attempts at
-synthetic reproduction within a few-minute window (tmpfs and kernfs
-zombies, ~60k reclaim-path executions of simple_xattr_ht_free()) did
-not trip lockdep, consistent with the rare coincidence-of-edges
-profile of the bug; the forward edge is already present in
-/proc/lockdep on idle systems via rht_deferred_worker, so verification
-of the fix is by absence of the splat on a patched kernel under
-extended normal workload.
+    fs_reclaim  ->  &ht->mutex
 
-Thanks,
-Mikhail
+which lockdep reports as follows. This particular splat was observed
+organically on a workstation kernel built from vfs-7.1-rc1.xattr at
+~35h uptime under normal mixed workload, with CONFIG_PROVE_LOCKING=y.
+The path happens to go through kernfs:
 
-Mikhail Gavrilov (1):
-  rhashtable: drop ht->mutex in rhashtable_free_and_destroy()
+  WARNING: possible circular locking dependency detected
+  7.0.0-faeab166167f-with-fixes-v1+ #191 Tainted: G     U
+  kswapd0/243 is trying to acquire lock:
+  ffff8882e475c0f8 (&ht->mutex){+.+.}-{4:4},
+    at: rhashtable_free_and_destroy+0x36/0x740
+  but task is already holding lock:
+  ffffffffa8ad1d00 (fs_reclaim){+.+.}-{0:0},
+    at: balance_pgdat+0x995/0x1600
 
+  the existing dependency chain (in reverse order) is:
+
+  -> #1 (fs_reclaim){+.+.}-{0:0}:
+         __lock_acquire+0x506/0xbf0
+         lock_acquire.part.0+0xc7/0x280
+         fs_reclaim_acquire+0xd9/0x130
+         __kvmalloc_node_noprof+0xcd/0xb40
+         bucket_table_alloc.isra.0+0x5a/0x440
+         rhashtable_rehash_alloc+0x4e/0xd0
+         rht_deferred_worker+0x14b/0x440
+         process_one_work+0x8fd/0x16a0
+         worker_thread+0x601/0xff0
+         kthread+0x36b/0x470
+         ret_from_fork+0x5bf/0x910
+         ret_from_fork_asm+0x1a/0x30
+
+  -> #0 (&ht->mutex){+.+.}-{4:4}:
+         check_prev_add+0xdb/0xce0
+         validate_chain+0x554/0x780
+         __lock_acquire+0x506/0xbf0
+         lock_acquire.part.0+0xc7/0x280
+         __mutex_lock+0x1b2/0x2550
+         rhashtable_free_and_destroy+0x36/0x740
+         kernfs_put.part.0+0x119/0x570
+         evict+0x3b6/0x9c0
+         __dentry_kill+0x181/0x540
+         shrink_dentry_list+0x135/0x440
+         prune_dcache_sb+0xdb/0x150
+         super_cache_scan+0x2ff/0x520
+         do_shrink_slab+0x35a/0xee0
+         shrink_slab_memcg+0x457/0x950
+         shrink_slab+0x43b/0x550
+         shrink_one+0x31a/0x6f0
+         shrink_many+0x31e/0xc80
+         shrink_node+0xeb3/0x14a0
+         balance_pgdat+0x8ed/0x1600
+         kswapd+0x2f3/0x530
+         kthread+0x36b/0x470
+         ret_from_fork+0x5bf/0x910
+         ret_from_fork_asm+0x1a/0x30
+
+   Possible unsafe locking scenario:
+
+         CPU0                    CPU1
+         ----                    ----
+    lock(fs_reclaim);
+                                 lock(&ht->mutex);
+                                 lock(fs_reclaim);
+    lock(&ht->mutex);
+
+Note that lockdep tracks lock classes, not instances: the two
+&ht->mutex sites are on different rhashtable objects (the deferred
+worker was triggered by some unrelated rhashtable growth), but because
+rhashtable_init() uses a single static lockdep key for all rhashtables,
+this is a real class-level cycle. Once reported, lockdep disables
+itself for the remainder of the boot, masking any subsequent locking
+bugs.
+
+Drop the mutex. After cancel_work_sync() the rehash worker is quiesced
+and, per this function's contract, no other concurrent access is
+possible; the tables are therefore owned exclusively by this function
+and can be walked without any lock held.
+
+Switch the table walks from rht_dereference() (which requires
+ht->mutex to be held under CONFIG_PROVE_RCU) to rcu_dereference_raw(),
+which has no lockdep annotation. rht_ptr_exclusive() already uses
+rcu_dereference_protected(p, 1) and needs no change.
+
+This is the only place in lib/rhashtable.c where &ht->mutex is
+acquired from a path reachable under fs_reclaim; the deferred worker
+is the only other site and it is the forward edge. Removing the
+acquisition here therefore eliminates the class cycle for all three
+subsystems that use simple_xattrs, not just the one in the splat
+above. No locking-semantics change is introduced for correct users;
+incorrect users would already be racing with rehash worker completion
+regardless of the mutex.
+
+Synthetic reproduction of the splat within a few-minute window was
+unsuccessful across several attempts (tmpfs and kernfs zombies via
+cgroupfs with open-fd-through-rmdir, with and without swap, up to
+~60k reclaim-path executions of simple_xattr_ht_free() in a single
+run), consistent with the rare coincidence-of-edges profile of the
+bug: the forward edge is already registered in /proc/lockdep on any
+idle system via rht_deferred_worker, but the reverse edge requires
+evict() to complete kernfs_put()'s final release inside the fs_reclaim
+critical section, which in my attempts was ordered against rather than
+interleaved with the worker.
+
+Fixes: b32c4a213698 ("xattr: add rhashtable-based simple_xattr infrastructure")
+Signed-off-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+---
  lib/rhashtable.c | 23 +++++++++++++++++------
  1 file changed, 17 insertions(+), 6 deletions(-)
 
+diff --git a/lib/rhashtable.c b/lib/rhashtable.c
+index 6074ed5f66f3..81de7a274b43 100644
+--- a/lib/rhashtable.c
++++ b/lib/rhashtable.c
+@@ -1141,6 +1141,11 @@ static void rhashtable_free_one(struct rhashtable *ht, struct rhash_head *obj,
+  * This function will eventually sleep to wait for an async resize
+  * to complete. The caller is responsible that no further write operations
+  * occurs in parallel.
++ *
++ * After cancel_work_sync() has returned, the deferred rehash worker is
++ * quiesced and, per the contract above, no other concurrent access to the
++ * rhashtable is possible. The tables are therefore owned exclusively by
++ * this function and can be walked without ht->mutex held.
+  */
+ void rhashtable_free_and_destroy(struct rhashtable *ht,
+ 				 void (*free_fn)(void *ptr, void *arg),
+@@ -1151,8 +1156,15 @@ void rhashtable_free_and_destroy(struct rhashtable *ht,
+ 
+ 	cancel_work_sync(&ht->run_work);
+ 
+-	mutex_lock(&ht->mutex);
+-	tbl = rht_dereference(ht->tbl, ht);
++	/*
++	 * Do NOT take ht->mutex here. The rehash worker establishes
++	 * ht->mutex -> fs_reclaim via GFP_KERNEL bucket allocation under
++	 * the mutex; callers on the reclaim path (e.g. simple_xattr_ht_free()
++	 * from evict() under the dcache shrinker for shmem/kernfs/pidfs
++	 * inodes) would otherwise close a circular dependency
++	 * fs_reclaim -> ht->mutex.
++	 */
++	tbl = rcu_dereference_raw(ht->tbl);
+ restart:
+ 	if (free_fn) {
+ 		for (i = 0; i < tbl->size; i++) {
+@@ -1161,22 +1173,21 @@ void rhashtable_free_and_destroy(struct rhashtable *ht,
+ 			cond_resched();
+ 			for (pos = rht_ptr_exclusive(rht_bucket(tbl, i)),
+ 			     next = !rht_is_a_nulls(pos) ?
+-					rht_dereference(pos->next, ht) : NULL;
++					rcu_dereference_raw(pos->next) : NULL;
+ 			     !rht_is_a_nulls(pos);
+ 			     pos = next,
+ 			     next = !rht_is_a_nulls(pos) ?
+-					rht_dereference(pos->next, ht) : NULL)
++					rcu_dereference_raw(pos->next) : NULL)
+ 				rhashtable_free_one(ht, pos, free_fn, arg);
+ 		}
+ 	}
+ 
+-	next_tbl = rht_dereference(tbl->future_tbl, ht);
++	next_tbl = rcu_dereference_raw(tbl->future_tbl);
+ 	bucket_table_free(tbl);
+ 	if (next_tbl) {
+ 		tbl = next_tbl;
+ 		goto restart;
+ 	}
+-	mutex_unlock(&ht->mutex);
+ }
+ EXPORT_SYMBOL_GPL(rhashtable_free_and_destroy);
+ 
 -- 
 2.54.0
 
