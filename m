@@ -1,42 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0497221F0C;
-	Wed, 22 Apr 2026 13:53:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7BC61B4F2C;
+	Wed, 22 Apr 2026 14:05:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776865997; cv=none; b=LBhbq2ZGDn4Nx5uLIvJo7g9sU4vAoSQX7wZ8w9XBQFPfGeMTV4tUHPzks3HI5hWlXlB2MGmMkTgNcuW7CueONJ1UQgdwmxYjGRvFP7yvE/HHCWqJiSm4DWZ3wYPe3wVGwjnCUuCV5Rm9ML7aYTY3ODX1iKHprt/4DakoD7hrxpQ=
+	t=1776866710; cv=none; b=gmjvdZQFQgea8HIz2bE5VFvdOwIDyfzMnxyVevuLX9ygpQCPPU5b1SBXu3qEpcmoxjNnt4Sl+fDXI5BjyollJ8hBzr3m9OdVlzpEn1672MO8lXgqDfsVxpXngqnRemwBebodwkxTJxDkpH67756d65DxN9SEz8EJ18yPoMsdyn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776865997; c=relaxed/simple;
-	bh=f731euZ2EtUVYOgMIc+I62fa7aPVsHsehkyWpb5iIqM=;
+	s=arc-20240116; t=1776866710; c=relaxed/simple;
+	bh=NbjZnhjiAQ8jZ9S7U3OSMPwxS22ZcyAHCJqm7H8UFDE=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Z+s6Oqx+HVaPyeRttMoWXdCBhAWFql+6hlNIvcAi8/GMbnBgyjhS6/F0hBBANd/GjJu8hS71R4UazO8NQMwOEjkKzWJrG70x2OHovKx5yUGnisQupUVAFWSMnKI1793WVS6zwY6+zWyN9EHHGGJFd3vQq5kHKnH2lVq1gH6ZNA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iGxcaGbq; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=EvTGLcnHpU+Yyhx83fK/v8SG8VwJ6Rp3R6whlnK67TcVI5xQrbLGpKgRiTR653lVLIcHQ3M7LodkFEZrSLOHXviCO3bYzV5Tku7EqrPO5WMFiLLX7G0GPLzLmWhKYNkmakh55SEe7ayyuKm0xM+jfTsDnASCeqg/52bRDpXijMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gjuizzAU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iGxcaGbq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0482C2BCAF;
-	Wed, 22 Apr 2026 13:53:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gjuizzAU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CCFEC19425;
+	Wed, 22 Apr 2026 14:05:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776865997;
-	bh=f731euZ2EtUVYOgMIc+I62fa7aPVsHsehkyWpb5iIqM=;
+	s=k20201202; t=1776866710;
+	bh=NbjZnhjiAQ8jZ9S7U3OSMPwxS22ZcyAHCJqm7H8UFDE=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=iGxcaGbqG+OIWJs/m2iDy+nJ4h00kZ+/aS6/g0qS1Tt2w8n6U9ObeKRbTEc8yEGyn
-	 lYGlKZ2wy2O40AiDg2rJPIXboChl9Y6MntyCeFVZN8kfsqprttFI/yd3oEhGu7nelB
-	 XK9Ilw3tsWQLnSjO7dd3FHFK/SH5D97wKiu6UIXtOFjLM3urSPuAzmo35w3443x88X
-	 /qEg3NQstzcye8QgjMOpX3Ek13PVZmvg9+cqHbyL49oBTb/h7dIY29wyqbw8mx06MJ
-	 sPYUgYLqHqteSNl2u/zJmCxuhvu/3HHa8JIc8D0uinCmCxCvjchwsLarhuvdBK64mf
-	 5xn0pv3w0UwuQ==
-Message-ID: <a38f6cac4a7b310cec298c00030cc5e93a6e7c25.camel@kernel.org>
+	b=gjuizzAUqMwHw0IAKx0buSzuEX+GQz8g31mPDUWgr42Y//SYyafq0zu/H9rnSaivC
+	 UoSiBcuQw5ssyNlNsJ0OdhESdjuLuKW10ty1TlwMAkW+w2c3/oYsF3AVTgnBCBK/8/
+	 qNfR0IFm7/GDj7X44Hu8sCnOkwfeT7sL92dN/KyR29thBbOd+C08/eyeTR7lRF/B4b
+	 JgzgE+yRFjU0MaWSuAN0r0LVe+UhvbKRl01QVF951TrFokuI6xMZVB7KAYyh42iNvF
+	 VuW36GtVj0faPByDsTse06PCK/v4Z8t9ou5bmukbHZFMAMSXRCzjFbFZbebtku8xVe
+	 85sJ7i2aIklbA==
+Message-ID: <4ed24d78ed22224b8eee03fbe72a604f534c1509.camel@kernel.org>
 Subject: Re: [PATCH] dcache: add extra sanity checks of the dentry in
  dentry_free()
 From: Jeff Layton <jlayton@kernel.org>
-To: Jori Koolstra <jkoolstra@xs4all.nl>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner	
- <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- linux-fsdevel@vger.kernel.org, 	linux-kernel@vger.kernel.org
-Date: Wed, 22 Apr 2026 09:53:14 -0400
-In-Reply-To: <1541900656.1049330.1776863765767@kpc.webmail.kpnmail.nl>
-References: <1541900656.1049330.1776863765767@kpc.webmail.kpnmail.nl>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Wed, 22 Apr 2026 10:05:07 -0400
+In-Reply-To: <20260422-modebranche-vierundzwanzig-f4e000dee32c@brauner>
+References: <20260422-dcache-warn-v1-1-50155e1b40b6@kernel.org>
+	 <20260422-modebranche-vierundzwanzig-f4e000dee32c@brauner>
 Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
  keydata=mQINBE6V0TwBEADXhJg7s8wFDwBMEvn0qyhAnzFLTOCHooMZyx7XO7dAiIhDSi7G1NPxw
  n8jdFUQMCR/GlpozMFlSFiZXiObE7sef9rTtM68ukUyZM4pJ9l0KjQNgDJ6Fr342Htkjxu/kFV1Wv
@@ -121,19 +121,54 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-On Wed, 2026-04-22 at 15:16 +0200, Jori Koolstra wrote:
+On Wed, 2026-04-22 at 15:06 +0200, Christian Brauner wrote:
 > On Wed, Apr 22, 2026 at 07:29:48AM -0400, Jeff Layton wrote:
+> > If d_flags isn't what we expect, then it's good to display it. Add a ne=
+w
+> > DENTRY_WARN_ONCE() macro that also displays d_flags for the dentry.
+> > Change D_FLAG_VERIFY() to call that instead of a generic WARN_ON_ONCE()=
+.
+> >=20
+> > Change the existing hlist_unhashed() check in dentry_free() to use the
+> > new macro, and add checks for other invariants of a dead dentry. Notabl=
+y:
+> >=20
+> > 1) Ensure that DCACHE_LRU_LIST and DCACHE_SHRINK_LIST are not set.
+> >=20
+> > 2) Ensure that d_lockref is negative
+> >=20
+> > Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> > ---
+> > While chatting with Al about this elusive UAF problem, we both noted
+> > that it would be nice to know what d_flags are when these warnings pop.
+> > This adds that, and checks for some other invariants in dentry_free().
+> > ---
+> >  fs/dcache.c | 10 ++++++++--
+> >  1 file changed, 8 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/fs/dcache.c b/fs/dcache.c
+> > index 2c61aeea41f4..210df5c0a1f0 100644
+> > --- a/fs/dcache.c
+> > +++ b/fs/dcache.c
+> > @@ -426,9 +426,16 @@ static inline void __d_clear_type_and_inode(struct=
+ dentry *dentry)
+> >  		this_cpu_inc(nr_dentry_negative);
+> >  }
 > > =20
 > > +#define DENTRY_WARN_ONCE(condition, dentry) \
 > > +	WARN_ONCE((condition), "dentry=3D%p d_flags=3D0x%x\n", (dentry), (den=
 try)->d_flags)
-> >=20
+> > +#define D_FLAG_VERIFY(dentry, x) \
+> > +	DENTRY_WARN_ONCE(((dentry)->d_flags & (DCACHE_LRU_LIST | DCACHE_SHRIN=
+K_LIST)) !=3D (x), (dentry))
 >=20
-> I guess this is one of those instances where using %p is acceptable?
-> Maybe Documentation/process/deprecated.rst is worded a bit too harshly.
+> Would be nice if we had a bunch of dentry debug assert macros in
+> vfsdebug.h like we have for VFS_BUG_ON_INODE()/VFS_WARN_ON_INODE() in
+> general imo.
 
-I'm not opposed to using something different, but I think the hashed
-pointer value is fine here. Mostly I just want some way to tell whether
-different warnings might have been triggered by the same dentry.
+Good point. I guess I should have called this VFS_WARN_ON_DENTRY().
+
+There are some other existing warnings in dcache.c that could be
+converted to use this too.
 --=20
 Jeff Layton <jlayton@kernel.org>
