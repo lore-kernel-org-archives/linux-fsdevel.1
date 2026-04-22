@@ -1,306 +1,236 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68A9F382F20
-	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 18:17:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 329343C552C
+	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 18:19:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776881842; cv=none; b=izWrssEN3EK8QcZ1wIP/TZc3oT+WSSYn0AJg71v45Vvl8dlTFfUjcfkIJIxM+uZ3lvzl4RyPU/9eHzIpSPxxdW8AKgyG7bSxkh8b79wvC4N04UhO2gz30vgdXxG4NsYppVtnUNzCDuKyKCZ8otbDfjOW8IAjUv7sanQZPDWjKZI=
+	t=1776881959; cv=none; b=LwR+yA9FD0oCom5CC88EDGrNmuoKEHKik7ToSQQjiTolX5OY0RVAhsrtIRn/4riFz7uKUJH6ms2RuM+Uc1ftD7WWJd7FFtzGPRpVyIk/Br5QkOAUjRJwOoT+jIC+msbYs0pErKR+T3kRZA57PmDgU09KNtanMBSiAYxclXP4rtw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776881842; c=relaxed/simple;
-	bh=sPBTQoBEri8VbQ2Sl1S8YcqDLdFDE3pIu5OVrcMCct0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PNvW9eXIqb8ZELzKwU4i0RtAzXo8lSH6sJp+6FqoYZEBoWO9vooV7CXl/WUjqkm7Uai+o7lA14YpwDK3bIKjvtc405lAYSsio3jQ/8hTkYEqcKnLc0LZ0kZbcoQHF/6vGEV6wLUSBnPdwikGKbSEgcsmVBX/Z8AtXgLJg4KsMds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BCh/wIlE; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776881959; c=relaxed/simple;
+	bh=yg0aZU4ZgB3Ms/fU0AljMIkWk9fNOyv4/FX4qzwrF/E=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=bxGKDiZQMXNMMNlu/Jmaets3c3jPOyGYo9hZ+HXM6LFPbNYXeOiPa1x2b8rqEd9pdtEF8px4UjPqY85HfqSljs/5WHBAKO7A28uIjNRMwVjz2a9KXBOw4KE91BPatU4NHrCMXeeYi37suSOjZ+hN7xYq/YY+LG3V38souAr/auM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZKd4MqPH; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=giwJ05CT; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BCh/wIlE"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4891b0786beso33773585e9.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 11:17:21 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZKd4MqPH";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="giwJ05CT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1776881957;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wwU+V0ShYDgZN9VQw7mFGwyGa9GtIvXJwbt6oc94MqI=;
+	b=ZKd4MqPH28oln1hqjswuAUN7AeYVBI92gPgngwhq7FulcC0cU7bqlfEwC/zGZiQQTAOebC
+	z4a3k+fjQHe4J8XPzSuPEdjZCtz6JyotWzZ7HocIsZqzn0lrFq75y1aRlX2J+QSPwMkIN+
+	y9knE9Dp1FGqms3WR/J3Q5sAXSubm+E=
+Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
+ [209.85.210.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-605-lNwShSpHMySnOTEszVvuTg-1; Wed, 22 Apr 2026 14:19:14 -0400
+X-MC-Unique: lNwShSpHMySnOTEszVvuTg-1
+X-Mimecast-MFC-AGG-ID: lNwShSpHMySnOTEszVvuTg_1776881953
+Received: by mail-ot1-f72.google.com with SMTP id 46e09a7af769-7dcc9e6b772so8277412a34.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 11:19:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776881840; x=1777486640; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=CoE8/aU1Q2Pt/SSX/JgDYwue2hZuMxMlpCEhsaWxqag=;
-        b=BCh/wIlEGA5LZVU2xESda2A5BilKPisaPFH2NI3ha76ZJUw5OkEkucidI7wm7Fvfj6
-         tPtq8+zH7eBH/U/cwylv2BoXo87ZT2pVkgDmTQCpZ7hM+fOO2LCzU7hLBE0mQOkkKRGz
-         ttKjx/7SbB4aYa9D5ypIqFeAaN2+C0gN9Da7xqkIFo+oKxxk8dNRfWOsD2oE41Pm9Tq5
-         LZ70xpdji9X/y9BEyCKBq9nRz7LSM0QTE69lgcYdzPmEgrTV8L/aKU952iHH+vfEjD5a
-         5eoaW6vWbD5NixInOQ5KCnuA49uTVokvY63URx0EwFcfh2KUFzGtXb2ORFYos3WC3WrC
-         kHRA==
+        d=redhat.com; s=google; t=1776881953; x=1777486753; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=wwU+V0ShYDgZN9VQw7mFGwyGa9GtIvXJwbt6oc94MqI=;
+        b=giwJ05CTXeQ+6Lvdoj0jCKRZ6g8SoL1Kw2LVsiJ2cBgvl5iPD4jW0MPATx4dgFKxBH
+         1DUz//xxEKU93zODQGO8QlIBpsjyy/tSXYh5gL4FTOC+roRFFwblIFDqoAXsBSm4u1dQ
+         /sOZdDZEYZwrcB3A8+lM/o9u2MviNRuvCys3QC7Q1QjjVRN+1YwRHDQ86vP6sE++H6dg
+         3PfX2LyIMdvWTy+knzCKMKpuC0dudNm/MxEtvvL6wuE3scUXOV9jbM5dmtibM830uIDq
+         MLJO1vFHf++Gk/E08FJiIZy3F9Fuw1QTijeKUO9jiBxU2r9w4YyH5yCv5IvhmTwA5ygI
+         v09w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776881840; x=1777486640;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CoE8/aU1Q2Pt/SSX/JgDYwue2hZuMxMlpCEhsaWxqag=;
-        b=FG/qzmdBMNGbce9OTwOlrd+MxIPVhfkjjh3vSViuzwwYw+C0wg0g4G32Y18L4mYVHo
-         cO2wh+QEQJs/ns7bC16LN10I194Vz3m1weDXsGcplwqbbDPLBNPEj61wOcNm4CWM7MVh
-         0Hg7Evy4D7pZGNMW1A0uVxW2WGH1eAwylmfXZMGgtTqg/3/EK8TTjfPN05qs9eFNDRmi
-         rXdo5UIdNgS9el+35YAKC81778ujx43kYHoMDCO5KKdLfOLuoKOFvEI8Sx9dEQJoCbNW
-         0YMt7wOfXkDEQn3gWiRxLfm2A5lordB5uI2hfod2AOekavWv3G8RU0uElqgP1QeSm2Qd
-         O13w==
-X-Forwarded-Encrypted: i=1; AFNElJ/S46DIVaAw098UXoc8Yd7Q+VxX+r64qs8Wu7UyqTa/Z3dod96pFLTmj09SIBG5L3dV3B7lXr5usGB6AL2U@vger.kernel.org
-X-Gm-Message-State: AOJu0YwcKFuI8L5iREmAFkhiyYPBeKtAdGSzzbpuw7D7wZICZ8aXI/V5
-	oq4mIF1xLW4uidrO909y78ePqiYu0nPFe4uzvVNRbDvKYClrD6TgYubc
-X-Gm-Gg: AeBDieu+p/BFwg3zXF4GW8x2dcQVYBzchJjgP50h6xhmLGwPfKRtDnxXbhFD/L0XwTo
-	ww+43Kbvm7kZECS2FAiK4tKf0T/6T2MhpecyrUGlNGih3uZ+KweXpNDwt5Kow/daLd/Zqxf3ug8
-	Z8stOU3wKNq2EzAe5iPzSMxCsl+Klhwh0VizCnYt7gK6RA1qIAKz0WF/m5mXzvqClGjiY/FB76/
-	7LusdfbYQT7WoOFYm5JHAcq8UCe1sxL8DeJka0G7MlomMAZyLEkgCqeIubVMVXNqlDAhqe3AJ0S
-	M+6gwOi3xtvvY1oNrrTDyvSnMcbBoor3VXkkKMtbpbuBTlvHYN1+hV2B9T05q/pLSRxOuh31LfN
-	3VafTSTpUNBUQ7FXuMi/qABv1WMXNRE5BOQDH5+0GJc69RZw2M0zNn2/CmWeA40BKQ2XGM3JR5f
-	5ueCALcI4VJO9Uv4jk0s5WsqUqKOOEAACITjWcr344lEcLHK6f6F0yQJuOyABGp3wJPORXpIpkI
-	6u9mXbEnl6C
-X-Received: by 2002:a05:600c:3110:b0:487:2439:b7be with SMTP id 5b1f17b1804b1-488fb7389dfmr352035605e9.6.1776881839492;
-        Wed, 22 Apr 2026 11:17:19 -0700 (PDT)
-Received: from f.. (cst-prg-93-232.cust.vodafone.cz. [46.135.93.232])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488fb74c68asm145316335e9.3.2026.04.22.11.17.17
+        d=1e100.net; s=20251104; t=1776881953; x=1777486753;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wwU+V0ShYDgZN9VQw7mFGwyGa9GtIvXJwbt6oc94MqI=;
+        b=E89zh8VMiIVJ7wq3dESuyTMPahjPOd2PEYE5TvYyE3x5khWdpMrYAZg6eudYW1jwjR
+         RC5neByn5qMVUGTm6sZnkYy3+e1Qjxb6OGwVLYg08GmLE4oVA0zaHGB9Ip0pBMj/Fly6
+         y7x+NRkm/La4FqOyLN3FswJOtD6rSHfZbSuiQBm+XvsS9LjyClTA0FQPU439kxmX2O0x
+         s+XIYo9yY4h/r8lXhmEhtW9pN2XXBe73432uQaYVxGpVQm62EhCKR52R/EmQWsEoJg4u
+         AfJYl6mWDJ4ARvSei11aKMohL2anYthJUGQF9YtmLujRVEryEmtcrS61pZ4LgAh27IHf
+         p7Aw==
+X-Forwarded-Encrypted: i=1; AFNElJ93CVUIhEJco8exNls26qcmxHTAdAaJQD6IklXqLm3zUrnyPy4NE129se+wMJqHZyBYT/FfYstYnMcAoLhG@vger.kernel.org
+X-Gm-Message-State: AOJu0YwkXz/6E6Ow7UMIbSVeXomWrpXaKNLqye8rOnFE1DFkwLOlCDns
+	/SL574Yty8nFYcIuJhBuWH8EdJ9DGsOLUSO0vCPHQ6aSQO0dEUBf5P98LXnQx+wvtlvrwdDIuYS
+	9t4grqrGNBNwsOtC1KoDaww6zzoWxjUfZbnXEj/gAzptV4I/2iezkU05kuzJhTrZm6vs=
+X-Gm-Gg: AeBDies/QhiIUpjP59B+oMaiZvY1RmXX/w8EiOLwTlNupv1AyhG9cIarIH4i9cFHRzK
+	N0cZBbQ8zJ87DDjlnyGT+lE2zll2LVBkph2aCW+849hWsWeFCkeqK3qat7TY4HtIEhH9CDqSthm
+	pbgkwKB/kW3XpG/YtVQwBUCnLG4nNFrXJLx6HoJw24tMOjB+0Pq4vFUGg7AnfRVR6M7QnwxGYdI
+	pGA2bXHRwuk+iP5LTbeV+mW3oO5N/LbPVwwJ3Ep9ZeqTiue1oMPZwhvBUAmeZ5VdSUAw7zXVAxE
+	SFPoBdxG7dw05B0OqGQSfQt4eelJEziWoy/YPIDn6HdeclWhNcfbEywituOkm/D2EAhJjktTZ3G
+	HJ8CZQ9TrsB3VhQUd6VxqB3JvxHDoaDdBtVtsjK0aFbGVdt6R+mMd5JlK5+N8BGQ=
+X-Received: by 2002:a9d:7155:0:b0:7dc:e43f:4b31 with SMTP id 46e09a7af769-7dce43f602fmr2227418a34.12.1776881953020;
+        Wed, 22 Apr 2026 11:19:13 -0700 (PDT)
+X-Received: by 2002:a9d:7155:0:b0:7dc:e43f:4b31 with SMTP id 46e09a7af769-7dce43f602fmr2227400a34.12.1776881952535;
+        Wed, 22 Apr 2026 11:19:12 -0700 (PDT)
+Received: from li-4c4c4544-0032-4210-804c-c3c04f423534.ibm.com ([2600:1700:6476:1430::29])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7dc975b0591sm14423408a34.19.2026.04.22.11.19.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Apr 2026 11:17:18 -0700 (PDT)
-From: Mateusz Guzik <mjguzik@gmail.com>
-To: brauner@kernel.org
-Cc: viro@zeniv.linux.org.uk,
-	jack@suse.cz,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	Mateusz Guzik <mjguzik@gmail.com>
-Subject: [PATCH v2] fs: cache the string generated by reading /proc/filesystems
-Date: Wed, 22 Apr 2026 20:17:11 +0200
-Message-ID: <20260422181711.1340269-1-mjguzik@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Wed, 22 Apr 2026 11:19:12 -0700 (PDT)
+Message-ID: <39b283f4e3fe75a8b9ee324e5906c6635aafed40.camel@redhat.com>
+Subject: Re: [PATCH] hfsplus: Supports freeing newly created tree head
+From: Viacheslav Dubeyko <vdubeyko@redhat.com>
+To: Edward Adam Davis <eadavis@qq.com>
+Cc: frank.li@vivo.com, glaubitz@physik.fu-berlin.de, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ slava@dubeyko.com, 	syzbot+98547b0428b6a6a3467c@syzkaller.appspotmail.com, 
+	syzkaller-bugs@googlegroups.com
+Date: Wed, 22 Apr 2026 11:19:10 -0700
+In-Reply-To: <tencent_B50525C2BA56BB53331B9E5A1B444B281B08@qq.com>
+References: <60605973b66496b04c6847ceb6fa46dfada6a628.camel@redhat.com>
+	 <tencent_B50525C2BA56BB53331B9E5A1B444B281B08@qq.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43app2) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-It is being read surprisingly often (e.g., by mkdir, ls and even sed!).
+On Sat, 2026-04-18 at 17:37 +0800, Edward Adam Davis wrote:
+> On Fri, 17 Apr 2026 15:03:17 -0700, Viacheslav Dubeyko wrote:
+> > > hfs_bnode_put() does not support deallocating a newly created btree
+> > > head node; therefore, regardless of whether hfsplus_bnode_find() succ=
+eeds
+> > > or fails, it cannot effectively reclaim the memory allocated for a ne=
+wly
+> > > created head node.
+> > >=20
+> > > When finding a head node, if the node is a newly created one, we can =
+use
+> > > hfs_bnode_free() to reclaim its memory.
+> > >=20
+> > > [1]
+> > > BUG: memory leak
+> > > unreferenced object 0xffff88811cabc840 (size 96):
+> > >   backtrace (crc 3e2dadb7):
+> > >     __hfs_bnode_create+0x59/0x310 fs/hfsplus/bnode.c:469
+> > >     hfsplus_bnode_find+0x13e/0x580 fs/hfsplus/bnode.c:547
+> > >     hfsplus_btree_open+0x2fa/0x6d0 fs/hfsplus/btree.c:382
+> > >     hfsplus_fill_super+0x272/0x880 fs/hfsplus/super.c:548
+> >=20
+> > I need slightly more detailed and clear explanation how the issue has b=
+een
+> > happened and why we need to fix it in a such way. Currently, I don't ha=
+ve the
+> > complete picture how this happened. I am sure that you have the complet=
+e
+> > picture. :) Could you please share what you have in your mind? :) Don't=
+ hide the
+> > wisdom. ;)
+>     fc_mount()
+>      vfs_get_tree()
+>       get_tree_bdev_flags()
+>        hfsplus_fill_super()=20
 
-This is lock-protected pointer chasing over a linked list to pay for
-sprintf for every fs (32 on my boxen).
+We have multiple calls of hfsplus_btree_open(). Which particular b-tree do =
+you
+mean here?
 
-Instead cache the result.
+>         hfsplus_btree_open()=20
 
-open+read+close cycle single-threaded (ops/s):
-before:	442732
-after:	1063462 (+140%)
+I assume that you mean hfs_btree_open().
 
-Here the main bottleneck is memcg.
+>          hfsplus_bnode_find(tree, HFSPLUS_TREE_HEAD)
+>=20
 
-Scalability-wise problems are avoidable lockref trip on open and ref
-management for the file on procfs side.
+We call hfs_bnode_find() here.
 
-The file looks like a sterotypical C from the 90s, right down to an
-open-coded and slightly obfuscated linked list. I intentionally did not
-clean up any of it -- I think the file will be best served by a Rust
-rewrite when the time comes.
+> =20
+>           __hfs_bnode_create()
+> 	   ...
+> 	   node->this =3D cnid; // cnid is HFSPLUS_TREE_HEAD, it is 0
+> 	   ...
+> 	  ...
+> 	  desc =3D (struct hfs_bnode_desc *)(kmap_local_page(node->page[0])
+> 	  node->type =3D desc->type;
+> 	  switch (node->type) {
+> 	  ...
+> 	  default:  // because node->type is 127, so run here
+> 	  	goto node_error;
 
-Signed-off-by: Mateusz Guzik <mjguzik@gmail.com>
----
+I think, maybe, we need to add some error message(s) when some error is
+happened. What do you think?
 
-v2:
-- drop the procfs bits
-- touch up some comments
+> 	  ...
+> 	  hfs_bnode_put()
+> 	   ...
+> 	   if (test_bit(HFS_BNODE_DELETED, &node->flags)) { /* head node not set=
+ HFS_BNODE_DELETED flag
+> 							     * so, the node will never be freed.
+> 							     * Furthermore, even if the node were marked
+> 							     * with the HFS_BNODE_DELETED flag, hfs_bmap_free()
+> 							     * would still trigger BUG_ON(!node->this).
+> 	   						     */
 
-I posted v1 last year https://lore.kernel.org/linux-fsdevel/20250329192821.822253-1-mjguzik@gmail.com/
+ node_error:
+ 	set_bit(HFS_BNODE_ERROR, &node->flags);
+-	clear_bit(HFS_BNODE_NEW, &node->flags);
+-	wake_up(&node->lock_wq);
++	if (num !=3D HFSPLUS_TREE_HEAD) {
 
-but that ran into some procfs issues. the thing can be sped up
-regardless of the procfs problem.
+Why do we need to distinguish is it HFSPLUS_TREE_HEAD or not? I don't see a=
+ny
+difference in node processing.
 
- fs/filesystems.c | 144 ++++++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 137 insertions(+), 7 deletions(-)
++		clear_bit(HFS_BNODE_NEW, &node->flags);
 
-diff --git a/fs/filesystems.c b/fs/filesystems.c
-index 0c7d2b7ac26c..704fc6d49f80 100644
---- a/fs/filesystems.c
-+++ b/fs/filesystems.c
-@@ -34,6 +34,23 @@
- static struct file_system_type *file_systems;
- static DEFINE_RWLOCK(file_systems_lock);
- 
-+#ifdef CONFIG_PROC_FS
-+static unsigned long file_systems_gen;
-+
-+struct file_systems_string {
-+	struct rcu_head rcufree;
-+	unsigned long gen;
-+	size_t len;
-+	char string[];
-+};
-+static struct file_systems_string *file_systems_string;
-+static void invalidate_filesystems_string(void);
-+#else
-+static void invalidate_filesystems_string(void)
-+{
-+}
-+#endif
-+
- /* WARNING: This can be used only if we _already_ own a reference */
- struct file_system_type *get_filesystem(struct file_system_type *fs)
- {
-@@ -83,10 +100,12 @@ int register_filesystem(struct file_system_type * fs)
- 		return -EBUSY;
- 	write_lock(&file_systems_lock);
- 	p = find_filesystem(fs->name, strlen(fs->name));
--	if (*p)
-+	if (*p) {
- 		res = -EBUSY;
--	else
-+	} else {
- 		*p = fs;
-+		invalidate_filesystems_string();
+I think that we don't need to clear the HFS_BNODE_NEW. Because, we need to
+analyze HFS_BNODE_ERROR in hfs_bnode_put().
+
++		wake_up(&node->lock_wq);
+
+I assume that wake_up() should be called anyway. Why have you removed this =
+call
+for HFSPLUS_TREE_HEAD case?
+
 +	}
- 	write_unlock(&file_systems_lock);
- 	return res;
- }
-@@ -115,6 +134,7 @@ int unregister_filesystem(struct file_system_type * fs)
- 		if (fs == *tmp) {
- 			*tmp = fs->next;
- 			fs->next = NULL;
-+			invalidate_filesystems_string();
- 			write_unlock(&file_systems_lock);
- 			synchronize_rcu();
- 			return 0;
-@@ -235,22 +255,132 @@ int __init list_bdev_fs_names(char *buf, size_t size)
- }
- 
- #ifdef CONFIG_PROC_FS
--static int filesystems_proc_show(struct seq_file *m, void *v)
-+/*
-+ * The fs list gets queried a lot by userspace because of libselinux, including
-+ * rather surprising programs (would you guess *sed* is on the list?). In order
-+ * to reduce the overhead we cache the resulting string, which normally hangs
-+ * around below 512 bytes in size.
-+ *
-+ * As the list almost never changes, its creation is not particularly optimized
-+ * for simplicity.
-+ *
-+ * We sort it out on read in order to not introduce a failure point for fs
-+ * registration (in principle we may be unable to alloc memory for the list).
-+ */
-+static void invalidate_filesystems_string(void)
- {
--	struct file_system_type * tmp;
-+	struct file_systems_string *fss;
- 
--	read_lock(&file_systems_lock);
-+	lockdep_assert_held_write(&file_systems_lock);
-+	file_systems_gen++;
-+	fss = file_systems_string;
-+	WRITE_ONCE(file_systems_string, NULL);
-+	kfree_rcu(fss, rcufree);
-+}
-+
-+static noinline int regen_filesystems_string(void)
-+{
-+	struct file_system_type *tmp;
-+	struct file_systems_string *old, *new;
-+	size_t newlen, usedlen;
-+	unsigned long gen;
-+
-+retry:
-+	lockdep_assert_not_held(&file_systems_lock);
-+
-+	newlen = 0;
-+	write_lock(&file_systems_lock);
-+	gen = file_systems_gen;
-+	tmp = file_systems;
-+
-+	/* pre-calc space for "%s\t%s\n" for each fs */
-+	while (tmp) {
-+		if (!(tmp->fs_flags & FS_REQUIRES_DEV))
-+			newlen += strlen("nodev");
-+		newlen += strlen("\t");
-+		newlen += strlen(tmp->name);
-+		newlen += strlen("\n");
-+		tmp = tmp->next;
-+	}
-+	write_unlock(&file_systems_lock);
-+
-+	new = kmalloc(offsetof(struct file_systems_string, string) + newlen + 1,
-+		      GFP_KERNEL);
-+	if (!new)
-+		return -ENOMEM;
-+
-+	new->gen = gen;
-+	new->len = newlen;
-+	new->string[newlen] = '\0';
-+	write_lock(&file_systems_lock);
-+	old = file_systems_string;
-+
-+	/*
-+	 * Did someone beat us to it?
-+	 */
-+	if (old && old->gen == file_systems_gen) {
-+		write_unlock(&file_systems_lock);
-+		kfree(new);
-+		return 0;
-+	}
-+
-+	/*
-+	 * Did the list change in the meantime?
-+	 */
-+	if (gen != file_systems_gen) {
-+		write_unlock(&file_systems_lock);
-+		kfree(new);
-+		goto retry;
-+	}
-+
-+	/*
-+	 * Populate the string.
-+	 *
-+	 * We know we have just enough space because we calculated the right
-+	 * size the previous time we had the lock and confirmed the list has
-+	 * not changed after reacquiring it.
-+	 */
-+	usedlen = 0;
- 	tmp = file_systems;
- 	while (tmp) {
--		seq_printf(m, "%s\t%s\n",
-+		usedlen += sprintf(&new->string[usedlen], "%s\t%s\n",
- 			(tmp->fs_flags & FS_REQUIRES_DEV) ? "" : "nodev",
- 			tmp->name);
- 		tmp = tmp->next;
- 	}
--	read_unlock(&file_systems_lock);
-+	BUG_ON(new->len != strlen(new->string));
-+
-+	/*
-+	 * Paired with consume fence in READ_ONCE() in filesystems_proc_show()
-+	 */
-+	smp_store_release(&file_systems_string, new);
-+	write_unlock(&file_systems_lock);
-+	kfree_rcu(old, rcufree);
- 	return 0;
- }
- 
-+static int filesystems_proc_show(struct seq_file *m, void *v)
-+{
-+	struct file_systems_string *fss;
-+
-+	for (;;) {
-+		scoped_guard(rcu) {
-+			/*
-+			 * Paired with smp_store_release() in regen_filesystems_string()
-+			 */
-+			fss = READ_ONCE(file_systems_string);
-+			if (likely(fss)) {
-+				seq_write(m, fss->string, fss->len);
-+				return 0;
-+			}
+ 	hfs_bnode_put(node);
+ 	return ERR_PTR(-EIO);
+
+@@ -694,6 +698,10 @@ void hfs_bnode_put(struct hfs_bnode *node)
+ 			hfs_bnode_free(node);
+ 			return;
+ 		}
++		if (test_bit(HFS_BNODE_NEW, &node->flags)) {
+
+I suggest to analyze HFS_BNODE_ERROR here.
+
++			hfs_bnode_unhash(node);
++			hfs_bnode_free(node);
 +		}
-+
-+		int err = regen_filesystems_string();
-+		if (unlikely(err))
-+			return err;
+
+@@ -598,14 +598,18 @@ struct hfs_bnode *hfs_bnode_find(struct hfs_btree *tr=
+ee,
+u32 num)
+ 		if (key_size >=3D entry_size || key_size & 1)
+ 			goto node_error;
+ 	}
+-	clear_bit(HFS_BNODE_NEW, &node->flags);
+-	wake_up(&node->lock_wq);
++	if (num !=3D HFSPLUS_TREE_HEAD) {
++		clear_bit(HFS_BNODE_NEW, &node->flags);
++		wake_up(&node->lock_wq);
+
+What the point in this code? Why have you change the logic here?
+
 +	}
-+}
-+
- static int __init proc_filesystems_init(void)
- {
- 	proc_create_single("filesystems", 0, NULL, filesystems_proc_show);
--- 
-2.48.1
+ 	return node;
+
+And, could you please add these new details into the commit message?
+
+Thanks,
+Slava.
 
