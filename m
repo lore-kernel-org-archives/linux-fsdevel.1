@@ -1,153 +1,208 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11023076.outbound.protection.outlook.com [52.101.72.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C0493C0626
-	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 09:04:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87CCC35A399
+	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 09:20:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.76
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776848700; cv=pass; b=e/7X7kahP3g0gC+h/XpbNSAvuaO2Vt3VoECnfGRssiyHYWi/yrbDJcTEThzDIPEI9/aEDCNg4k989bfT5Mt7uRjTpaMW/qdtC7rJmPWJeAlqApwaXW9uYqVogQra8nSK9AWsmiES/4q43Y9gfsKImhWehx4xW22rhS3ese10UQk=
+	t=1776849632; cv=fail; b=T1dkuNaRcr/sJbF5we93COBPC+ET5/kbDRIW8NCRICvdwqwaLO1MJNPIQBen3BYVuXCOmHPLHzTfhveFZ4Y0826wwHfaTmsM7JNJxiJMgpCuWILTtPcfN0suF6nss7hPwB1RjeYe1eD6UcO2bDf3lZ6/Ub+3kfofR/o86yKK8CA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776848700; c=relaxed/simple;
-	bh=yopdmqBE9rGg8lfe4NNn7CFqmGFhMk+gNA3NGrMi2iM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sPkBzkKSGXxxLH0AFXXWLOyr6+4mHgrtYKSH3VPtbReDQ5G/d0ixGFG6TGlpJ02T2FyZgN1vtjJm7eHdVmSQ1o4TPrH9VFiuUL78iv/iORz2CTHNQjIkeu0323L/pyJKptkw/I9jWT6YAjcp8lq1/szmkhlFLusDXTflG59jxh0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gW8fnxxh; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ge0MTibS; arc=pass smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1776849632; c=relaxed/simple;
+	bh=NzTuWvMjDiGO071xkjO6sShYy3BrtX+cO4ng4sKeel4=;
+	h=Message-ID:Date:From:Subject:To:Content-Type:MIME-Version; b=h2/y+CgcN295CR6cghREwUYEcbqQImx1DmJ0j3XdtfMpXxOlJOYQMyNWtNsLSPgzHMlzpz8u+NYINEeLiB6phz1+r8Te+RdUHX1B0kOdPL8TjxcZzQoF912LgOJTE0MwqYM3RMwGyHYNPaSJgvWUgbly2Yio90zUQwg3+FGIOa8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxera.com; spf=pass smtp.mailfrom=tuxera.com; dkim=pass (2048-bit key) header.d=tuxera.com header.i=@tuxera.com header.b=DqVyK9iQ; arc=fail smtp.client-ip=52.101.72.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxera.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxera.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gW8fnxxh";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ge0MTibS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1776848698;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mb+dSk03jWD+Ger/ZHg5m1EM3AaS+gaxlt98VLk9/sE=;
-	b=gW8fnxxhox5eGomK2rV+xZMcrhL/9GH81B6pPwz2LHi8pTxwYm5NEexGoCHp5U7zzLOXsj
-	b3Fs0Gz2zusHd2mqAmUbLy1dVnIRRFL3/JrygQngA7VAbery7QNgPxONbLX8wIiIJOLmGn
-	VHhYPeRX9v+YUFbCzTM8ASpQCjh8BVk=
-Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
- [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-629-DmYcDTnYPYGQQjExVzTSbw-1; Wed, 22 Apr 2026 05:04:56 -0400
-X-MC-Unique: DmYcDTnYPYGQQjExVzTSbw-1
-X-Mimecast-MFC-AGG-ID: DmYcDTnYPYGQQjExVzTSbw_1776848696
-Received: by mail-yw1-f198.google.com with SMTP id 00721157ae682-7982c466ee1so115409617b3.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 02:04:56 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776848696; cv=none;
-        d=google.com; s=arc-20240605;
-        b=JOI04zVb4rLvM6yCiW3i6JwmAdbaGC+Aix82Z9l+hk/2aDI+lTrgum57ICGV8NHno8
-         /s23hIJD/uacv1TIS8Bcw2Z+ue6x3qTLleIvzAHCBO9koAN2GvjkN861gachBqVxel6N
-         u/0nKpNAKVTa7quEuY00ufyovz1yv7n2yfNYRbnv4A+9fh0WF+X8F+DXpksqteUx9yFp
-         NJMGz7QOHa7RC3JOyfLeBzdjb0paFisDIu67r3m69vkY9MKayfUpxJUa1L5p0NsL9QHT
-         fJzbA+SJzlOpkD1z+r+5YB4vBqDlQ1xMROETQDauy5HglY7ugGJyKji0DHh/FcMMVLww
-         8D/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=mb+dSk03jWD+Ger/ZHg5m1EM3AaS+gaxlt98VLk9/sE=;
-        fh=GhmYlox/NR6YwjGOhj380Jd+K36XxUy+zsAviJR1MNc=;
-        b=BzNgWAGxB4t4LHLUwiMJgPyQlvEaNAO/KA9EpXyaQQQZYJDbILbxLiEESscQbdMkcn
-         HexFNqcWssGyGUcLySZ5czkrty4NfYp7OPNXI9YMwsQ84mQjADB7je/U9wX2PwxamP0F
-         pJbYM8py662EVNb6+tCwzJbhTgG7oldCXCSpZR/Qq9ljiBDSx0mOFKj5cHxyBd9t1XiD
-         umBrV/cK1dVELzK1je1gqlI901B/VOP62v7lBm83Bj2ybW/39ItITHfaEWzeEs6hVM2b
-         wUj/llCCwa2PkHnGYEUMe33Vo/9FnMVG4wm343aJNaKoycNtC37ms0144venWinja4Aq
-         IC7w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1776848696; x=1777453496; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mb+dSk03jWD+Ger/ZHg5m1EM3AaS+gaxlt98VLk9/sE=;
-        b=Ge0MTibSOLmEOFo3o+gPT7UwZ5m+Q2rCJZRnaAEZNLXa3BcJoTKC7WM29PYDdISjjt
-         SFow+8/K1KHBXklWteMn6jgHQvVQ4RutAdkUtbeEXuGC3St5A9++Im7WsSMwiTUmefTs
-         a5Kmaoevwok1JeHY7rCwFs2wXjkbLsjl0E/a8SrozsSztPvMMka4pF3r/rVa7n/Fl01W
-         xp3pv1cgjG/9uk5UVfB525ejursMtOZRbrT5/tTNxotbMPSQ34o5CZzG6RzuKviOMVFz
-         45I+DfDDnyY3uRma9c2FL/pHzc5A0rfgWQDmm7s6cVkP0E45HORONGAbQ64xlksROlFY
-         sX/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776848696; x=1777453496;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=mb+dSk03jWD+Ger/ZHg5m1EM3AaS+gaxlt98VLk9/sE=;
-        b=M5xI0j/GCwf3nOpzkpie7KU6vWKdZAH0dPabQI1gC7Vp5PXcS++fhwzCtDB3sV6bhR
-         sfTQ4hL4i2UrGJFEhAIF0lYIYNn5rD1G1a/Whjl8h1aZ11EmdpTytVtuECSCoJMiDZLM
-         uFn5OYyLSt+bXpjbLDS1HTRzLIi5mIdX8RYiS8u7MesbM3R54K5JmFWFoiFflEuGq4iV
-         lnSl+ishd/fDjdTC1k6RIApl9Xh9q8b7AIr7qlcIqzPbJelr/OLkzefSXTpjOCe61sfc
-         4Uty2e9RqLon6QKALEiV/NAcARDtcoTV1p2X5jf67ywke+QVmVgwTvPjeG8Sv66hWt3D
-         np/Q==
-X-Forwarded-Encrypted: i=1; AFNElJ9Tbm00Qzn1ggLWAh7gQvSrFRu+hPXyNus8ge8iFFXpYhWonKRs6ZCT0zvyLcCfOf/NJvN/6SJ/zyRv7rK3@vger.kernel.org
-X-Gm-Message-State: AOJu0YzwVB48SEqUF+T8p51bMq+hY2lXp8fCkYx+OhtWjSf3rhprGv12
-	hstsvwZ7k0OBELWmauICu5hwEv2F9f1seZSjT7Ir1AEbQTdeYmhhGdnal9z7rHstPO4elgtSKkf
-	F+lay6bxMJPoRAT4pQ/uX2zPBkZ676Od4U4VHXISjNPxb2bTXoVYFdBa38Mempljvdo+D3U1beX
-	PyMrdVwUxGxd2uNSQ9dG6en0AQbJgDKbKgLQ/xet4kuGJsb7lz5A==
-X-Gm-Gg: AeBDiesCtZTX4ZmEqC3tvJZfW3/0/gC9UKNcr27yYJLMK5RQGVFt4Ljl3S4pUDte2UR
-	2vssS+x8p5J9b+MwhLpy3wt8U5GUT13WSBQU3j+V351ggkzPVyJMy+BG94HVHF7pcjqOPscqC8P
-	GSw4hDDnd4FGnRW96vP4dPEdL0zDMgwoZzcpTgYJwoIffQi2DeRzo/FMP9X3LYpyz3gm3+L69vo
-	wvzMAE+3npcsUkpiA==
-X-Received: by 2002:a05:690c:e572:b0:7b8:4f2c:a5f7 with SMTP id 00721157ae682-7b9ecefdfa8mr169042087b3.19.1776848695953;
-        Wed, 22 Apr 2026 02:04:55 -0700 (PDT)
-X-Received: by 2002:a05:690c:e572:b0:7b8:4f2c:a5f7 with SMTP id
- 00721157ae682-7b9ecefdfa8mr169041797b3.19.1776848695509; Wed, 22 Apr 2026
- 02:04:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=tuxera.com header.i=@tuxera.com header.b="DqVyK9iQ"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=yans1KzMkONn3w5ammPViwQosqt8YYtHP8mFuFdoL6PZhsKMllILMLzmeStJoIhQAOT2cM0Foj8/Fdo6BSxMFXO3DuzBPbkKWZjcQVRvPyNK9ZbAWq4AO1GYzlhYWDOnl0fXQ70LC3E+GFFTKjdatXIQ94Mnw8X2fDTM/GjO0y0YC+6AvCUtq9FO5QTIJObkgofVKK+DU/6PAhaiMSr4fgDlIf9QNjdhCNvkjf5xAlVMUgYq/l+2P1qP0yf2aAMefs5ruPqaaoqcamXQs5uguW0UaBB+h0G/OeTL0InvGOifsXexBCy73lV9kblfyXlPnB3EEHDQVmT6MwpKYrATzQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eoMLhE7tVLSJVc2qQLYsDajG4UjRG3QglVCzoN05J64=;
+ b=R6wAV4gKyDRbmeGxPJhiL3RVSuJPtoL1UcRTtaMhJGMQJi4DyzWvSTjaWu6LdXOD0Auu8OhipjKLH4fcu98rtFCjzmTHqGPFutFzFMAyb1sTBBmbvBBeeT+NyyIrqr+//MIHvk0gN+MG02rmpv2yVrfo+IlopPmeAdKdlKEPJazbspjCwcI49FLd7wnB8In7YZHk5JnRfkQ0cJtqJZgOhEOPqpisXBDW4/1Ig8U+KMOCNxf1709DmeE+fv/3kxi6rzmestRjal+sOOMJNj5DJ620AcRMV3M5C37tURKN0CHuKyClsQQWjsq9a77Pg1+X3arQBu1ouZFnttRuortd2Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=tuxera.com; dmarc=pass action=none header.from=tuxera.com;
+ dkim=pass header.d=tuxera.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxera.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eoMLhE7tVLSJVc2qQLYsDajG4UjRG3QglVCzoN05J64=;
+ b=DqVyK9iQVGxqMJzbtOSvEx7wzYVVbObQGw4DWpphGT9Xj0KSreLYPYs/6EqcmXNPg1IxkmC15JcBZy25gzINNDp2nxaq+unCsoTrutb3ryv7PoeKA1CpR3wHbACpO+/F4QPNtAr2qEicNgyhF4WPYnlhTXbpw7PGyb6fTi8pVJKq/SH6QLoWBXnL/CZ2TYt/BgRtslO6KKPPQ8IqXiyrCVQq3LJba5P/0V5hQL5mmZAS5Lh4J8zVDMOzLPUjSNDGZQei2VBbXX2pYyYL9z27q/dKHczMqQ+FtQJItcXenanDKog6dcZMY8zyRTyxb7cJqiTBckDMaPgEigQeuHFjPA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=tuxera.com;
+Received: from AM8PR06MB7108.eurprd06.prod.outlook.com (2603:10a6:20b:1d0::10)
+ by VI0PR06MB10829.eurprd06.prod.outlook.com (2603:10a6:800:2f2::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.25; Wed, 22 Apr
+ 2026 09:20:26 +0000
+Received: from AM8PR06MB7108.eurprd06.prod.outlook.com
+ ([fe80::a59c:f3ac:4097:9c5e]) by AM8PR06MB7108.eurprd06.prod.outlook.com
+ ([fe80::a59c:f3ac:4097:9c5e%6]) with mapi id 15.20.9846.017; Wed, 22 Apr 2026
+ 09:20:25 +0000
+Message-ID: <b9aa6ed5-0141-4ccb-a883-b9f0d8b95c21@tuxera.com>
+Date: Wed, 22 Apr 2026 12:20:24 +0300
+User-Agent: Mozilla Thunderbird
+From: Erik Larsson <erik@tuxera.com>
+Subject: Stable NTFS-3G + NTFSPROGS 2026.2.25 Released
+To: linux-fsdevel@vger.kernel.org, ntfs-3g-devel@lists.sourceforge.net,
+ ntfs-3g-news@lists.sourceforge.net
+Content-Language: en-GB
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: GVZP280CA0055.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:150:271::12) To AM8PR06MB7108.eurprd06.prod.outlook.com
+ (2603:10a6:20b:1d0::10)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260312194019.3077902-1-mszeredi@redhat.com> <20260312194019.3077902-2-mszeredi@redhat.com>
- <3c9f8396-41f4-4c88-b883-34bede72b427@sirena.org.uk> <e3ad44f0-0a3e-4ef5-ab6e-c346814c0104@sirena.org.uk>
- <CAJnrk1Y1JzKJ=RCLBt592EZ+0=hPzaLWuHve_umxtUMOSH76dQ@mail.gmail.com>
-In-Reply-To: <CAJnrk1Y1JzKJ=RCLBt592EZ+0=hPzaLWuHve_umxtUMOSH76dQ@mail.gmail.com>
-From: Miklos Szeredi <mszeredi@redhat.com>
-Date: Wed, 22 Apr 2026 11:04:44 +0200
-X-Gm-Features: AQROBzDQWvCF2XCZrXKaGoo9SXAP94vL7ArHBIjedzp25a7X6i5nZ9ZX1Ji6gaA
-Message-ID: <CAOssrKfVKvJeriSm7zeRd8xd6mMgRqc3YkpY6rehBtGSy=JVbA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/6] fuse: create fuse_dev on /dev/fuse open instead of mount
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Mark Brown <broonie@kernel.org>, torvalds@linux-foundation.org, 
-	linux-fsdevel@vger.kernel.org, Bernd Schubert <bernd@bsbernd.com>, Aishwarya.TCV@arm.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM8PR06MB7108:EE_|VI0PR06MB10829:EE_
+X-MS-Office365-Filtering-Correlation-Id: 138a91e8-53a2-409d-5168-08dea0506359
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|366016|1800799024|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	NV4Axd0J/YFIGYwS0oxcTq7cjhyeetKgHzgM/Jqr5sHiSd1E4MJTCz2ycI4JBYfXuxfgzq1a5ZLJhIrdhPeEDW0fgiIDVZ/OBK8ww187lkQV7OeMQgu4V+hYHQNYYBbFqUKqgsGRJIvFVOyYiUVSBT1AjraXWh7DEllXB5PFc4Vv6b2OW1T4sF21zBOjvGdnDnIy59kegaExNGL4tlURNwM/hiOR6Spqc2QbJ7opIhT6sk0k0LlFpLQiDIbmiSVqp1dQ6XrQzz+pin1U7KHgV9Od/Mok3gyBMFdfdkeToGH0wxn+WesiKVFrSuX3SlYuE1gUceDO9c9eNbkxCizf4v/qnK0o9C0GPLibz8ydTU5H0vAmWLC8ploQY5FrcUsILIKRlhewSeS0VznENfSkWvmZDvzpm8fVj8OnQ7Kpt252nLxmIU0ymI1CXb44gp/QguYgkDCb1pZSjanIXfNmzseQq5EtSmt1y6uGwKiP/1HcckPICwsqCKptQKbIn+bWPcvbW/MiZXLQwrgVU7wAe4Si4r9VTEE4vyRMlvq9+svCVR2x2eWyyuVEmhur5VRMzSB26v6zkS13SPpiCzFMGG7L6xLDSjVgzOCTL1IkqSzqB0MF92O6daGj8VyweB0HUBqkwuWlsk8G5z+EAiNONElGis2bV2oRNPQ+bq/u9J/bcxuRtOWR0B2jOopPnaqt
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM8PR06MB7108.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(56012099003)(18002099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?bUlLNlFNUEMvWmlqci9BVFNBdG9HbDc4NHA2QkovdFpzRXllQmRCdDhrc0sr?=
+ =?utf-8?B?ekNqcEJycW5NdmlpYkhaOFlOcEozTElaY3NieUZpSnNFbDRjNnhsY0pKNTV0?=
+ =?utf-8?B?ZllaUi9kZ1cyVlQxOHg2NVhjalhqamIvQ3c3bGFSUGdtaXlVa0x5N0lUdzFs?=
+ =?utf-8?B?YTJsNFFxbkdLcXNwSEp2WXlZVmp1RG9tb2RIWFdtT2I4dkU2ZTQwWHNNc0NQ?=
+ =?utf-8?B?NkhvK3JPSk5SU0NSYUpaZFJLdTJpbUJGazZPRFhEWVpETFZBaTBYSUlFS2Nl?=
+ =?utf-8?B?bFc4ajVXenJxYzZDRm5uQlVTMGFlU3hpcDBJQWxPbU92S0p6YWxZd1JpK01S?=
+ =?utf-8?B?eHhpWCt4Y1RLL1gyTUlkcVBEeEtVajJ6dnJ4ZWlMRGJmSXFpc0lERzI3U3Fm?=
+ =?utf-8?B?OXVmeTV0NTZzVENvWlhFNHlLNktVNXpUY3luOFlveGJ5ZTVXbko3V0MrZ3p1?=
+ =?utf-8?B?MVNjb1RueGpkM0J1TTUyUzVXNlhPYkh6NjJqL2ZMVFJvNnFXNlVJd0NNQ0xs?=
+ =?utf-8?B?UCtDOWZLZ0gwaDViME1EQzJBNlcrYnRRa3p4elBXOTFuSmpka3g2WFkvM3l0?=
+ =?utf-8?B?bXpLbmt1MGU4bHRwZXA1VnRIYi9hb1NjZ0l6S1BnRlpzQ3Z1a1M3NmVsSFVT?=
+ =?utf-8?B?VXEwemhTQ1REbHdhT0FFMDB2Ulhka3M3WjZjQzRkSjRkY1hRcEdEWlNqaFJC?=
+ =?utf-8?B?WWRSVmVCbWYyeXJFNWdYNlEzQVBGRU5Jbm1hR1NpQWhzR0o2Y2xONmNwajNJ?=
+ =?utf-8?B?Si9QUUsvWXFuZUJmaHJ3a05JN08ydE1OTElXVnRIVHQxd0sxT3VONFFIOHoy?=
+ =?utf-8?B?RmM2REZVOFZsN3JXSHc1UWxua0laaHpndldseXc2eXV2WXpDcS9yNTRVVVhK?=
+ =?utf-8?B?S3VaeTVxWHlHTmNvYUlVMDNBSEVaKzJBc2MxMGRhZDhkODBxK3luc0IyRURy?=
+ =?utf-8?B?MUVOdE5IRXZxcXhFUDN4bVc4R1E0QlpyY1FoS3p1eEtFcXdpOWF0aVRjYWFl?=
+ =?utf-8?B?ZTBWRUNiN044Z1o5dUxGa3o2QmJLMGkwZktPMmp1NHJCdjhaTEtESENFUTcy?=
+ =?utf-8?B?WENzd1JyVVNTZjZsRHF1Z0tPeVJmcDBSeTFzWENPU3NibmxkMUYzQnJWQy9E?=
+ =?utf-8?B?OUZJM1diekNOZythNnN5MmhMRU1TNFY4ZklwNktWVFQvaiswOXd6SVdiSWV5?=
+ =?utf-8?B?aEZqbjRsakUzckpyRnRuR0ZSRk11RmtxNXJza3F3K3pzOFdCOEMwYVVRUVp0?=
+ =?utf-8?B?d1laamk5NTZPcWlFMGZ1RzgybDhWd3Uza3kzNmhlL3JTN1hHcURWelI0QVNM?=
+ =?utf-8?B?bWp0Zzg5RVFFNHBQTzRBS0dPT1VuYTV1bGI0SjFJRDRHMk56NlJWQWRrRnd4?=
+ =?utf-8?B?ekJiSytyV0RWc2kxWUhtTzdvdnFZWjh2eUIzdmtFZEF6MDNEU01ldmhsemNi?=
+ =?utf-8?B?akViQzd6UXVRSlJkTzYwTk5MVFlNOEJEOHYvREc1SHFBenkzcjYxbGNsQVJs?=
+ =?utf-8?B?NkNIVUVxanlBZWhLVU1mbGVVYUZNeWJZdkowV2tDdndDYVJCWGxVMHNwZFM3?=
+ =?utf-8?B?cjY0NWhwMmEvNll4Z3psMEI0M21FbEZLc0xCamNoS3BWS1JlN1hGN013VGVY?=
+ =?utf-8?B?cEUxN0lSVml4cjlXS3pxeVZnUThNQjN6MitWNmIyTUx1NENwV29zQWR0bHZz?=
+ =?utf-8?B?QTZ3Vkxvc0tqUzZNQXFXaUNpK2FHZE1taVFVMExkbVRTM0FIR3NUTkFQY1Ns?=
+ =?utf-8?B?NmFGaldycjVyOEt4cVZVbFI0M3UzRWNxUThVUXNzWnBmZEhnVjlUelhQYjBG?=
+ =?utf-8?B?QXdSOElWbXllRWhrTm5iUk04SW1CUjNsYW1CTTl1ZEVQZjdEZmpCNm1hN0F4?=
+ =?utf-8?B?ay9taDM4Qmc0UmNrTWRKSDJDV3JUc0FnSWs0Y1lQdlRRVERVK2d4alZoTVNG?=
+ =?utf-8?B?aGE4QTVCcUZRYTB6Z3Vkb2czOXRndUdiQ3l3MSt0U09FbjBmYU02Q0YyRi9D?=
+ =?utf-8?B?aDVyTS9ubzd5cktQQkVwSnFmblVIMW04M3RiMFZnZjJGWkQyK3MvbVJsK1Ex?=
+ =?utf-8?B?UkZBQXgyTk5lOFhJejRzOXg2SjNUaGpKbXdGNGt2S2dJUmtaVEQ4bW1aYzFQ?=
+ =?utf-8?B?RFF6MTE4UWxQenpiaTgxN3VEZ01wNEF0d01pNFBOYTRMRFE4ZTNQYkQraUhZ?=
+ =?utf-8?B?aERqMS9xWHRuU0tscVNQcjBnV2x1QXQ5akRYZWJ5bUZPNzd2cUxERWRjRE1W?=
+ =?utf-8?B?Q0xydUNuOElFcXFqZGtGOVphWGo4RlBLTXoyOTF2dEVkTjhENEJIVWJoNFhx?=
+ =?utf-8?Q?OrwAM0D40V96QtWTVX?=
+X-OriginatorOrg: tuxera.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 138a91e8-53a2-409d-5168-08dea0506359
+X-MS-Exchange-CrossTenant-AuthSource: AM8PR06MB7108.eurprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2026 09:20:25.8868
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e7fd1de3-6111-47e9-bf5d-4c1ca2ed0b84
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YI8DIuykqKjki49bwX3y7FXokeb4M31xxoVf/mQzaz9TuxY8St/TmyB9lltKrxmD
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR06MB10829
 
-On Wed, Apr 22, 2026 at 12:49=E2=80=AFAM Joanne Koong <joannelkoong@gmail.c=
-om> wrote:
+Tuxera's NTFS-3G team are happy to announce that a new stable NTFS-3G 
+release is out, version 2026.2.25.
 
-> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-> index 5dda7080f4a9..d48c10db62e3 100644
-> --- a/fs/fuse/dev.c
-> +++ b/fs/fuse/dev.c
-> @@ -1562,9 +1562,15 @@ struct fuse_dev *fuse_get_dev(struct file *file)
->         struct fuse_dev *fud =3D fuse_file_to_fud(file);
->         int err;
->
-> -       err =3D wait_event_interruptible(fuse_dev_waitq,
-> fuse_dev_fc_get(fud) !=3D NULL);
-> -       if (err)
-> -               return ERR_PTR(err);
-> +       if (!fuse_dev_fc_get(fud)) {
-> +               /* only block waiting for mount if sync init was requeste=
-d */
-> +               if (!fud->sync_init)
-> +                       return ERR_PTR(-EPERM);
-> +
-> +               err =3D wait_event_interruptible(fuse_dev_waitq,
-> fuse_dev_fc_get(fud) !=3D NULL);
-> +               if (err)
-> +                       return ERR_PTR(err);
-> +       }
->
->         return fud;
->  }
+The new stable release of NTFS-3G includes important security fixes, and 
+users using POSIX ACLs are urged to upgrade as soon as possible. The 
+security advisory is available at:
 
-Ack.   Do you want to send a proper patch?  Or I can just add a header
-and your SoB.
+https://github.com/tuxera/ntfs-3g/security/advisories/GHSA-4cwv-5285-63v9
 
-Thanks,
-Miklos
+This release also adds support for mounting devices with commas in the 
+device name, improves precision for volume creation timestamps, allows 
+adjusting the NTFS hard coded sector size when restoring ntfsclone 
+images, and includes many more smaller fixes.
+The full changelog is available at:
+
+     https://github.com/tuxera/ntfs-3g/wiki/NTFS-3G-Release-History
+
+The new release can be downloaded from:
+
+     https://tuxera.com/opensource/ntfs-3g_ntfsprogs-2026.2.25.tgz
+     SHA-256: 
+7754f3b32e8baf9c472459b4e9c981e3ae0f5039107cdd8d8201aed0a949008a
+     SHA-512: 
+c4f537ea45a6ebb21ddf21fbf4d71ab336fdf9cb1d55a062a6376f90480cf6992b11ad93b4b2bbd8a96e26f97d7c15948d4f6cc71d713e9deb78e3a6cad7438c
+
+The source code is available on github:
+
+     https://github.com/tuxera/ntfs-3g/releases/tag/2026.2.25
+
+Many thanks to Jean-Pierre André, Rakesh Pandit, Rostislav Skudnov, Eva 
+Rio, Szabolcs Szakacsits and many Tuxerians for their contributions to 
+this release.
+
+We also want to add special thanks to Andrea Bocchetti for the analysis 
+leading to fixing the security issue when building POSIX ACLs.
+
+With best regards,
+
+Erik & Tuxera's Open Source Team
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- 
+_________________________________________________________________
+    | Erik Larsson
+    | Senior File System Developer
+    | Tuxera Inc.                           Fax:  +358-98-565-7002
+    | Westendintie 1                        Email: erik@tuxera.com
+    | 02160 Espoo, Finland                  https://www.tuxera.com
+
+TUXERA - MAKE IT WORK
+
+______________________________________________
+This e-mail message, including any attachments, is confidential and may contain information which is privileged or otherwise protected against unauthorised disclosure or communication. It is also for the sole use of the intended recipient(s). If you are not the intended recipient, please notify the sender and delete all copies of the original message including any attachments without producing, distributing or retaining copies thereof.
+
 
