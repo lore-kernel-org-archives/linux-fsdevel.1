@@ -1,208 +1,216 @@
-Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11023076.outbound.protection.outlook.com [52.101.72.76])
+Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87CCC35A399
-	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 09:20:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE3D13C2787
+	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 09:23:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=67.231.145.42
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776849632; cv=fail; b=T1dkuNaRcr/sJbF5we93COBPC+ET5/kbDRIW8NCRICvdwqwaLO1MJNPIQBen3BYVuXCOmHPLHzTfhveFZ4Y0826wwHfaTmsM7JNJxiJMgpCuWILTtPcfN0suF6nss7hPwB1RjeYe1eD6UcO2bDf3lZ6/Ub+3kfofR/o86yKK8CA=
+	t=1776849835; cv=pass; b=Ixsj0GM7KiKYm0I9txpWmls+Hf1XL34e6iblKEuXoOZNGJCuOhm6TmWg0q5wAnCvrN0nlnP9FXRj7lIFVKtGx+YS5JFg6GEcGAVfQaLUvyz1ptZXaUQolmy6YHmnxI6aFWeUY5LDSgKhnAhQe1nGvp69UERGLfM1DlyZXWt00r0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776849632; c=relaxed/simple;
-	bh=NzTuWvMjDiGO071xkjO6sShYy3BrtX+cO4ng4sKeel4=;
-	h=Message-ID:Date:From:Subject:To:Content-Type:MIME-Version; b=h2/y+CgcN295CR6cghREwUYEcbqQImx1DmJ0j3XdtfMpXxOlJOYQMyNWtNsLSPgzHMlzpz8u+NYINEeLiB6phz1+r8Te+RdUHX1B0kOdPL8TjxcZzQoF912LgOJTE0MwqYM3RMwGyHYNPaSJgvWUgbly2Yio90zUQwg3+FGIOa8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxera.com; spf=pass smtp.mailfrom=tuxera.com; dkim=pass (2048-bit key) header.d=tuxera.com header.i=@tuxera.com header.b=DqVyK9iQ; arc=fail smtp.client-ip=52.101.72.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxera.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxera.com
+	s=arc-20240116; t=1776849835; c=relaxed/simple;
+	bh=cQoHCKzYjcCiNteIHsJR+Z1nezlA4uLUs01FXJmiS4E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UJpaB1UDwB9f50ktCNV1e2VXnCszAfnXeMuoFXWbxDWTXpUKIY7SugVspjJJZHNrmSEML+XKFqQnUXmq17Jr74AP8L4Az7L8ir9qeNIRR01J72ApfAFu4aZO9KmRT9gJWpb88qhLZjsZ0lOea+Mb+0TXJgkN6d2DefMP7aafrWU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b=YsZqWwix; arc=pass smtp.client-ip=67.231.145.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxera.com header.i=@tuxera.com header.b="DqVyK9iQ"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yans1KzMkONn3w5ammPViwQosqt8YYtHP8mFuFdoL6PZhsKMllILMLzmeStJoIhQAOT2cM0Foj8/Fdo6BSxMFXO3DuzBPbkKWZjcQVRvPyNK9ZbAWq4AO1GYzlhYWDOnl0fXQ70LC3E+GFFTKjdatXIQ94Mnw8X2fDTM/GjO0y0YC+6AvCUtq9FO5QTIJObkgofVKK+DU/6PAhaiMSr4fgDlIf9QNjdhCNvkjf5xAlVMUgYq/l+2P1qP0yf2aAMefs5ruPqaaoqcamXQs5uguW0UaBB+h0G/OeTL0InvGOifsXexBCy73lV9kblfyXlPnB3EEHDQVmT6MwpKYrATzQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eoMLhE7tVLSJVc2qQLYsDajG4UjRG3QglVCzoN05J64=;
- b=R6wAV4gKyDRbmeGxPJhiL3RVSuJPtoL1UcRTtaMhJGMQJi4DyzWvSTjaWu6LdXOD0Auu8OhipjKLH4fcu98rtFCjzmTHqGPFutFzFMAyb1sTBBmbvBBeeT+NyyIrqr+//MIHvk0gN+MG02rmpv2yVrfo+IlopPmeAdKdlKEPJazbspjCwcI49FLd7wnB8In7YZHk5JnRfkQ0cJtqJZgOhEOPqpisXBDW4/1Ig8U+KMOCNxf1709DmeE+fv/3kxi6rzmestRjal+sOOMJNj5DJ620AcRMV3M5C37tURKN0CHuKyClsQQWjsq9a77Pg1+X3arQBu1ouZFnttRuortd2Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=tuxera.com; dmarc=pass action=none header.from=tuxera.com;
- dkim=pass header.d=tuxera.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxera.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eoMLhE7tVLSJVc2qQLYsDajG4UjRG3QglVCzoN05J64=;
- b=DqVyK9iQVGxqMJzbtOSvEx7wzYVVbObQGw4DWpphGT9Xj0KSreLYPYs/6EqcmXNPg1IxkmC15JcBZy25gzINNDp2nxaq+unCsoTrutb3ryv7PoeKA1CpR3wHbACpO+/F4QPNtAr2qEicNgyhF4WPYnlhTXbpw7PGyb6fTi8pVJKq/SH6QLoWBXnL/CZ2TYt/BgRtslO6KKPPQ8IqXiyrCVQq3LJba5P/0V5hQL5mmZAS5Lh4J8zVDMOzLPUjSNDGZQei2VBbXX2pYyYL9z27q/dKHczMqQ+FtQJItcXenanDKog6dcZMY8zyRTyxb7cJqiTBckDMaPgEigQeuHFjPA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=tuxera.com;
-Received: from AM8PR06MB7108.eurprd06.prod.outlook.com (2603:10a6:20b:1d0::10)
- by VI0PR06MB10829.eurprd06.prod.outlook.com (2603:10a6:800:2f2::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.25; Wed, 22 Apr
- 2026 09:20:26 +0000
-Received: from AM8PR06MB7108.eurprd06.prod.outlook.com
- ([fe80::a59c:f3ac:4097:9c5e]) by AM8PR06MB7108.eurprd06.prod.outlook.com
- ([fe80::a59c:f3ac:4097:9c5e%6]) with mapi id 15.20.9846.017; Wed, 22 Apr 2026
- 09:20:25 +0000
-Message-ID: <b9aa6ed5-0141-4ccb-a883-b9f0d8b95c21@tuxera.com>
-Date: Wed, 22 Apr 2026 12:20:24 +0300
-User-Agent: Mozilla Thunderbird
-From: Erik Larsson <erik@tuxera.com>
-Subject: Stable NTFS-3G + NTFSPROGS 2026.2.25 Released
-To: linux-fsdevel@vger.kernel.org, ntfs-3g-devel@lists.sourceforge.net,
- ntfs-3g-news@lists.sourceforge.net
-Content-Language: en-GB
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: GVZP280CA0055.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:150:271::12) To AM8PR06MB7108.eurprd06.prod.outlook.com
- (2603:10a6:20b:1d0::10)
+	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b="YsZqWwix"
+Received: from pps.filterd (m0528008.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63M3QBJ51817883
+	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 02:23:53 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=s2048-2025-q2;
+	 bh=rCdHKJtUH/6uNx95rmjdixd67FgMgcTnO9DVgp0yYKw=; b=YsZqWwixPqXp
+	J7Tg7QAlDJMSw2IT09fe6Y65yftLRhRB/8332RtA7Ib6NR7hpNa7o93mzTMtnwew
+	q18IlqsrWDV/g3gozJ2b6RBzemwc0e3fFKlgXcoikdxSGRVFyliH3c6ujaskeSFh
+	kCtinS4UQAvVaoRshdXbq8jxKz7gqRRWswA4+IBaFJddMuxkVu9NowSuw5J5ZjYi
+	rrIwdc2LJQsfVOCi3V7wIl/IP8E5GCUgesJeRBavkSGWDnwtdC1nrDGcx7KMmeqD
+	/2TwlWo+7quCkeArj4RgCTPC5o+LwIP9qt2jAg7wK0fqMCewjRpNz1yUjfYSoLNA
+	eXtGuKGK3g==
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com [209.85.218.72])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4dpepbm52m-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 02:23:52 -0700 (PDT)
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-b8f5bce308dso475891166b.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 02:23:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776849831; cv=none;
+        d=google.com; s=arc-20240605;
+        b=NhZ9P4soUHGf97imhYae4Nkphhj9O/kJj341Q3B4pxGFFQ+vC5AfUBEmuB4K40CDs9
+         OnsR62989SWWl4O7QwlNMnjgomEA1SEF2WfDEME0pNINrLktkcRR+PBNit2LQ+h+LKMt
+         T8fBq6QVWztdjk0M9vKGIr4999LwLAjlwJL5mSPF1Q3/8XhFVXq4ElwtNREgk8cEnoe5
+         UFb16vjrxSbeitnKyUhPiKl7xsIjW2UJGfDyEzXRjvD/7XAP7u0rzVP3S0EPrgGfngM4
+         kV+UKUhwqUy4uh1JMd4PmItSkctTWlU8tmAnucyN3TUVDs/sU+phfuTc4VWsytYI+gMf
+         HIfA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version;
+        bh=rCdHKJtUH/6uNx95rmjdixd67FgMgcTnO9DVgp0yYKw=;
+        fh=c1ptjNVnOxgdSSoxL/cMUQsyqVUZ1D1Iz9LyovwEkZQ=;
+        b=Qu7vjYxqfocpxw3xQmMhmnL79m5UXhYHi4FE9uz/Rm9LmOM3HDjRzQImJGMnnGLNdn
+         Ih5ccf09uH3zM2ssCHn6kQR+ZeGfZggOOsRx7QnsOuAQ/yToyO7ZnHO9XCi4CKTKRNfx
+         gygMLzTNe0lZfgeOnKueK+6nUs4lWWyZCU9sDXDt/t+OeCi/O9aDmjvuNSKeWR6lk26Z
+         WOtM5LAeIsbnNkzeTceD3H08zy7GrZ+IhTEDKj6iiO/sQ3QFJgJK2eUORHtV3XaycVAs
+         KoIzsOcbHzjR9H9oh9eIzJm5WgeDMFTDeuaS8CBAyNWnXd1un7vZDDQJNHA8JNY+luOF
+         2jQg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776849831; x=1777454631;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=rCdHKJtUH/6uNx95rmjdixd67FgMgcTnO9DVgp0yYKw=;
+        b=r1BaSZrGiHKQN6Lx9CELLRKjAtCWav3G+WUtS0c+lv0XZ89qwmvDhOfsxZp+CGccGx
+         2VZwuR15Vord7QThCem0O+I+8VmxlmtJxsiz51v3Fu6qV7dFBm/8Q7v2DyOjkPAHFQe0
+         SgSVhkgel7TWcLekazfZ4Dccvvsv/6cXM3lbdQY5ebtOoNNYnG3xDcJpM6wvLtEQBkk1
+         pIQPrjZTHuK3OOsW+XvqPK4XCxJHG+qKuWsbGPTvGwpQ+dmeUGWcg2a8PE0N24NR927X
+         TxzjQKKKeqIxpQK8abAvUjIHB+vEHRpkA2uI3MzJmF0R3mPNzBZwClGvb1vsO+FGYlBu
+         wcxw==
+X-Forwarded-Encrypted: i=1; AFNElJ8srtpUbpMsNpm2ERkCBmqPoV2UIGgtK9y34DCbvATKWftbwVJaPqcYkFaOvvzd0HcBskGUGZndq1WIPnXV@vger.kernel.org
+X-Gm-Message-State: AOJu0YwsCQ3/XQSCaIFXUzQpQVaQOH1atAlovCrudWvmxoUBOVeA1K4l
+	rvAu1qJkVDQ/zLIaZBNhopmfKmUxU5Xu0H/m1JNlsb4jIHzUwS+oJ/9C/LyexIIZZMgCfB6TlHM
+	u9HXC+WHSVXkcn+o94v5/0FYP7fq38/lvrlWtH22Wx4atmGtQ/V+mpofkUTB7lap+lXScql+pw3
+	wKLHrOzzkkDlYNQN4RorI0+oRuTdGA+D2l5F52ANtzMLs25Ldz
+X-Gm-Gg: AeBDiev3/iU8eAaeIqBpjsIgA9aevxFErZfTFVAgC5XUQZZtG/EeQ7HLtSmNrbM4PWG
+	6hTpB2PWDS8rEtRH3vHxfHxiKPbG8cDlrM3iDYSEBzRKPjQCqfFziFCCuHkFzn5veYBu/Flranx
+	2OgftyLgJb8IuPbDgu9yAeQpRcmI+9XAmNOceIoy+6HBANiuM60tBt0B5Yjw/FQAdIEpH4aTs/w
+	oY39N5KyZR2koHE
+X-Received: by 2002:a17:907:3e99:b0:b9d:1673:9994 with SMTP id a640c23a62f3a-ba41e4fd159mr1052445466b.39.1776849830824;
+        Wed, 22 Apr 2026 02:23:50 -0700 (PDT)
+X-Received: by 2002:a17:907:3e99:b0:b9d:1673:9994 with SMTP id
+ a640c23a62f3a-ba41e4fd159mr1052443366b.39.1776849830233; Wed, 22 Apr 2026
+ 02:23:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM8PR06MB7108:EE_|VI0PR06MB10829:EE_
-X-MS-Office365-Filtering-Correlation-Id: 138a91e8-53a2-409d-5168-08dea0506359
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|366016|1800799024|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	NV4Axd0J/YFIGYwS0oxcTq7cjhyeetKgHzgM/Jqr5sHiSd1E4MJTCz2ycI4JBYfXuxfgzq1a5ZLJhIrdhPeEDW0fgiIDVZ/OBK8ww187lkQV7OeMQgu4V+hYHQNYYBbFqUKqgsGRJIvFVOyYiUVSBT1AjraXWh7DEllXB5PFc4Vv6b2OW1T4sF21zBOjvGdnDnIy59kegaExNGL4tlURNwM/hiOR6Spqc2QbJ7opIhT6sk0k0LlFpLQiDIbmiSVqp1dQ6XrQzz+pin1U7KHgV9Od/Mok3gyBMFdfdkeToGH0wxn+WesiKVFrSuX3SlYuE1gUceDO9c9eNbkxCizf4v/qnK0o9C0GPLibz8ydTU5H0vAmWLC8ploQY5FrcUsILIKRlhewSeS0VznENfSkWvmZDvzpm8fVj8OnQ7Kpt252nLxmIU0ymI1CXb44gp/QguYgkDCb1pZSjanIXfNmzseQq5EtSmt1y6uGwKiP/1HcckPICwsqCKptQKbIn+bWPcvbW/MiZXLQwrgVU7wAe4Si4r9VTEE4vyRMlvq9+svCVR2x2eWyyuVEmhur5VRMzSB26v6zkS13SPpiCzFMGG7L6xLDSjVgzOCTL1IkqSzqB0MF92O6daGj8VyweB0HUBqkwuWlsk8G5z+EAiNONElGis2bV2oRNPQ+bq/u9J/bcxuRtOWR0B2jOopPnaqt
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM8PR06MB7108.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(56012099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?bUlLNlFNUEMvWmlqci9BVFNBdG9HbDc4NHA2QkovdFpzRXllQmRCdDhrc0sr?=
- =?utf-8?B?ekNqcEJycW5NdmlpYkhaOFlOcEozTElaY3NieUZpSnNFbDRjNnhsY0pKNTV0?=
- =?utf-8?B?ZllaUi9kZ1cyVlQxOHg2NVhjalhqamIvQ3c3bGFSUGdtaXlVa0x5N0lUdzFs?=
- =?utf-8?B?YTJsNFFxbkdLcXNwSEp2WXlZVmp1RG9tb2RIWFdtT2I4dkU2ZTQwWHNNc0NQ?=
- =?utf-8?B?NkhvK3JPSk5SU0NSYUpaZFJLdTJpbUJGazZPRFhEWVpETFZBaTBYSUlFS2Nl?=
- =?utf-8?B?bFc4ajVXenJxYzZDRm5uQlVTMGFlU3hpcDBJQWxPbU92S0p6YWxZd1JpK01S?=
- =?utf-8?B?eHhpWCt4Y1RLL1gyTUlkcVBEeEtVajJ6dnJ4ZWlMRGJmSXFpc0lERzI3U3Fm?=
- =?utf-8?B?OXVmeTV0NTZzVENvWlhFNHlLNktVNXpUY3luOFlveGJ5ZTVXbko3V0MrZ3p1?=
- =?utf-8?B?MVNjb1RueGpkM0J1TTUyUzVXNlhPYkh6NjJqL2ZMVFJvNnFXNlVJd0NNQ0xs?=
- =?utf-8?B?UCtDOWZLZ0gwaDViME1EQzJBNlcrYnRRa3p4elBXOTFuSmpka3g2WFkvM3l0?=
- =?utf-8?B?bXpLbmt1MGU4bHRwZXA1VnRIYi9hb1NjZ0l6S1BnRlpzQ3Z1a1M3NmVsSFVT?=
- =?utf-8?B?VXEwemhTQ1REbHdhT0FFMDB2Ulhka3M3WjZjQzRkSjRkY1hRcEdEWlNqaFJC?=
- =?utf-8?B?WWRSVmVCbWYyeXJFNWdYNlEzQVBGRU5Jbm1hR1NpQWhzR0o2Y2xONmNwajNJ?=
- =?utf-8?B?Si9QUUsvWXFuZUJmaHJ3a05JN08ydE1OTElXVnRIVHQxd0sxT3VONFFIOHoy?=
- =?utf-8?B?RmM2REZVOFZsN3JXSHc1UWxua0laaHpndldseXc2eXV2WXpDcS9yNTRVVVhK?=
- =?utf-8?B?S3VaeTVxWHlHTmNvYUlVMDNBSEVaKzJBc2MxMGRhZDhkODBxK3luc0IyRURy?=
- =?utf-8?B?MUVOdE5IRXZxcXhFUDN4bVc4R1E0QlpyY1FoS3p1eEtFcXdpOWF0aVRjYWFl?=
- =?utf-8?B?ZTBWRUNiN044Z1o5dUxGa3o2QmJLMGkwZktPMmp1NHJCdjhaTEtESENFUTcy?=
- =?utf-8?B?WENzd1JyVVNTZjZsRHF1Z0tPeVJmcDBSeTFzWENPU3NibmxkMUYzQnJWQy9E?=
- =?utf-8?B?OUZJM1diekNOZythNnN5MmhMRU1TNFY4ZklwNktWVFQvaiswOXd6SVdiSWV5?=
- =?utf-8?B?aEZqbjRsakUzckpyRnRuR0ZSRk11RmtxNXJza3F3K3pzOFdCOEMwYVVRUVp0?=
- =?utf-8?B?d1laamk5NTZPcWlFMGZ1RzgybDhWd3Uza3kzNmhlL3JTN1hHcURWelI0QVNM?=
- =?utf-8?B?bWp0Zzg5RVFFNHBQTzRBS0dPT1VuYTV1bGI0SjFJRDRHMk56NlJWQWRrRnd4?=
- =?utf-8?B?ekJiSytyV0RWc2kxWUhtTzdvdnFZWjh2eUIzdmtFZEF6MDNEU01ldmhsemNi?=
- =?utf-8?B?akViQzd6UXVRSlJkTzYwTk5MVFlNOEJEOHYvREc1SHFBenkzcjYxbGNsQVJs?=
- =?utf-8?B?NkNIVUVxanlBZWhLVU1mbGVVYUZNeWJZdkowV2tDdndDYVJCWGxVMHNwZFM3?=
- =?utf-8?B?cjY0NWhwMmEvNll4Z3psMEI0M21FbEZLc0xCamNoS3BWS1JlN1hGN013VGVY?=
- =?utf-8?B?cEUxN0lSVml4cjlXS3pxeVZnUThNQjN6MitWNmIyTUx1NENwV29zQWR0bHZz?=
- =?utf-8?B?QTZ3Vkxvc0tqUzZNQXFXaUNpK2FHZE1taVFVMExkbVRTM0FIR3NUTkFQY1Ns?=
- =?utf-8?B?NmFGaldycjVyOEt4cVZVbFI0M3UzRWNxUThVUXNzWnBmZEhnVjlUelhQYjBG?=
- =?utf-8?B?QXdSOElWbXllRWhrTm5iUk04SW1CUjNsYW1CTTl1ZEVQZjdEZmpCNm1hN0F4?=
- =?utf-8?B?ay9taDM4Qmc0UmNrTWRKSDJDV3JUc0FnSWs0Y1lQdlRRVERVK2d4alZoTVNG?=
- =?utf-8?B?aGE4QTVCcUZRYTB6Z3Vkb2czOXRndUdiQ3l3MSt0U09FbjBmYU02Q0YyRi9D?=
- =?utf-8?B?aDVyTS9ubzd5cktQQkVwSnFmblVIMW04M3RiMFZnZjJGWkQyK3MvbVJsK1Ex?=
- =?utf-8?B?UkZBQXgyTk5lOFhJejRzOXg2SjNUaGpKbXdGNGt2S2dJUmtaVEQ4bW1aYzFQ?=
- =?utf-8?B?RFF6MTE4UWxQenpiaTgxN3VEZ01wNEF0d01pNFBOYTRMRFE4ZTNQYkQraUhZ?=
- =?utf-8?B?aERqMS9xWHRuU0tscVNQcjBnV2x1QXQ5akRYZWJ5bUZPNzd2cUxERWRjRE1W?=
- =?utf-8?B?Q0xydUNuOElFcXFqZGtGOVphWGo4RlBLTXoyOTF2dEVkTjhENEJIVWJoNFhx?=
- =?utf-8?Q?OrwAM0D40V96QtWTVX?=
-X-OriginatorOrg: tuxera.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 138a91e8-53a2-409d-5168-08dea0506359
-X-MS-Exchange-CrossTenant-AuthSource: AM8PR06MB7108.eurprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2026 09:20:25.8868
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e7fd1de3-6111-47e9-bf5d-4c1ca2ed0b84
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YI8DIuykqKjki49bwX3y7FXokeb4M31xxoVf/mQzaz9TuxY8St/TmyB9lltKrxmD
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR06MB10829
+References: <20260416194844.3874004-1-ibrahimjirdeh@meta.com>
+ <20260416194844.3874004-2-ibrahimjirdeh@meta.com> <CAOQ4uxg=z5im3rOw6JXrNY6-ynBEoj_tF=Fsiu81xqiCBRfOjQ@mail.gmail.com>
+ <g5rw56zfcrt5zzimyskj7tcrmnc3q4mfpuxx5hy3wnup627kkk@fmvp76xxc2ca>
+In-Reply-To: <g5rw56zfcrt5zzimyskj7tcrmnc3q4mfpuxx5hy3wnup627kkk@fmvp76xxc2ca>
+From: Ibrahim Jirdeh <ibrahimjirdeh@meta.com>
+Date: Wed, 22 Apr 2026 02:23:38 -0700
+X-Gm-Features: AQROBzAXbZPIpFrmpd9_1tx1mAv_hatdOUcbh-mJvkYQt7NBjt-DJ6nomWAet-o
+Message-ID: <CAAwtZY55zVVqQDe1bdPpD1A5fa_mLOWzm0VPHha2b6KAXDq_Hg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] fanotify: add restart infrastructure for pending
+ permission events
+To: Jan Kara <jack@suse.cz>
+Cc: Amir Goldstein <amir73il@gmail.com>, josef@toxicpanda.com, lesha@meta.com,
+        linux-fsdevel@vger.kernel.org, sargun@meta.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-GUID: WWn7Fdlj_NmkBUcOkrydBTraRIGQXAXi
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDIyMDA4OSBTYWx0ZWRfXxDmNGipiWaxE
+ 4ocRzj8cQ2vuwmSv8tyk6YSRhVMxdfvYGZeefSutmbEDYD46xXsSs519nDTQZ/qgfl1z7iLFn5Y
+ mDxfSvmMDC7HVFYajhh3hJohRolFkLRHKlhAEmtUaFAm6vZGeUjPbn5JnSmU7eQ+LFg3litDoxL
+ S9r8tL3gBFHt5fLkrFOdujofiVLHUMSrUauKcWMM4vJqZxkpu7GybCyIiRjgIWwGn9QIuImtGwL
+ Ci4oyG4WgtVkT64uBIuH57LZcr0VqrEwLLI7gaOmuXrqjG6+Sd65p7ZX62ATrM5DUQGvrI6J/KU
+ CdtOBDHZgcRQw9BcV76rG4LWfGB1QzxLrr+LLYrzxJ2d96VIy3VepnEP7x/rQWDmv3QPE2s1a95
+ 5cBXW/00k1V8UAA4h+eXdmqpqCb6fBec4BfLeltLrvReAQqhZxqfBeVHfQs8y8AtbfJGB/Sq40x
+ h9Q7Lc8jxVrLdxEhp2Q==
+X-Proofpoint-ORIG-GUID: WWn7Fdlj_NmkBUcOkrydBTraRIGQXAXi
+X-Authority-Analysis: v=2.4 cv=ap6CzyZV c=1 sm=1 tr=0 ts=69e893a8 cx=c_pps
+ a=D+UBI74RbQA8i2EYnbuvxw==:117 a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22 a=_1IyUuN4QrATX339ibzo:22
+ a=VwQbUJbxAAAA:8 a=VabnemYjAAAA:8 a=-RQnKF-ij6X3QrI-krYA:9 a=QEXdDO2ut3YA:10
+ a=PsfoTyiJ_72bb7xyA04f:22 a=gKebqoRLp9LExxC7YDUY:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-22_01,2026-04-21_02,2025-10-01_01
 
-Tuxera's NTFS-3G team are happy to announce that a new stable NTFS-3G 
-release is out, version 2026.2.25.
+On Mon, Apr 20, 2026 at 7:37=E2=80=AFAM Jan Kara <jack@suse.cz> wrote:
+>
+> On Fri 17-04-26 13:09:59, Amir Goldstein wrote:
+> > On Thu, Apr 16, 2026 at 9:49=E2=80=AFPM Ibrahim Jirdeh <ibrahimjirdeh@m=
+eta.com> wrote:
+> > >
+> > > Add fanotify_restart_pending_events() helper that walks the
+> > > access_list and reinserts each pending permission event back into
+> > > the notification queue for reprocessing. Events are reinserted at
+> > > the head of the notification queue without merge or overflow handling=
+.
+> > >
+> > > Suggested-by: Jan Kara <jack@suse.cz>
+> > > Link: https://lore.kernel.org/linux-fsdevel/sx5g7pmkchjqucfbzi77xh7wx=
+4wua5nteqi5bsa2hfqgxua2a2@v7x6ja3gsirn/
+> > > Signed-off-by: Ibrahim Jirdeh <ibrahimjirdeh@meta.com>
+> > > ---
+> > >  fs/notify/fanotify/fanotify_user.c | 30 ++++++++++++++++++++++++++++=
+++
+> > >  1 file changed, 30 insertions(+)
+> > >
+> > > diff --git a/fs/notify/fanotify/fanotify_user.c b/fs/notify/fanotify/=
+fanotify_user.c
+> > > index d0b9b984002f..787e57a00466 100644
+> > > --- a/fs/notify/fanotify/fanotify_user.c
+> > > +++ b/fs/notify/fanotify/fanotify_user.c
+> > > @@ -1095,6 +1095,36 @@ static ssize_t fanotify_write(struct file *fil=
+e, const char __user *buf, size_t
+> > >         return count;
+> > >  }
+> > >
+> > > +/*
+> > > + * Reinsert pending permission events at the head of the notificatio=
+n
+> > > + * queue for reprocessing. No merge or overflow handling.
+> > > + */
+> > > +static void fanotify_restart_pending_events(struct fsnotify_group *g=
+roup)
+> > > +{
+> > > +       spin_lock(&group->notification_lock);
+> > > +       while (!list_empty(&group->fanotify_data.access_list)) {
+> > > +               struct fanotify_perm_event *event;
+> > > +
+> > > +               event =3D list_first_entry(&group->fanotify_data.acce=
+ss_list,
+> > > +                                        struct fanotify_perm_event,
+> > > +                                        fae.fse.list);
+> > > +               list_del_init(&event->fae.fse.list);
+> > > +
+> > > +               if (group->shutdown) {
+> > > +                       /* Group is being shut down. Reply ALLOW for =
+the event. */
+> > > +                       finish_permission_event(group, event, FAN_ALL=
+OW, NULL);
+> > > +                       spin_lock(&group->notification_lock);
+> >
+> > This looks very awkward.
+> >
+> > We are holding the notification lock for the non-shutdown case
+> > throughout moving the events back into the notification_list
+> > (could possibly do that with list_move() if we keep a count
+> > of in-progress events).
+> >
+> > Seems more reasonable to also finish all events in a single batch
+> > if the group is shutdown and then maybe use the same helper in
+> > fanotify_release().
+> >
+> > But Ibrahim, please wait for Jan's input on this before sending v4.
+> >
+> > There are many ways to do this, and reusing the existing
+> > finish_permission_event() locking semantics in this loop may be
+> > fine for simplicity.
+> >
+> > It is also a matter of taste, so please wait for Jan to chime in.
+>
+> So I wouldn't overcomplicate and just go for something like:
+>
+>         spin_lock(&group->notification_lock);
+>         /* Group is exiting, fanotify_release() will remove pending event=
+s */
+>         if (group->shutdown) {
+>                 spin_unlock(&group->notification_lock);
+>                 return;
+>         }
+>         group->q_len +=3D list_count_nodes(&group->fanotify_data.access_l=
+ist);
+>         list_splice_init(&group->fanotify_data.access_list,
+>                          &group->notification_list);
+>         spin_unlock(&group->notification_lock);
+>
 
-The new stable release of NTFS-3G includes important security fixes, and 
-users using POSIX ACLs are urged to upgrade as soon as possible. The 
-security advisory is available at:
-
-https://github.com/tuxera/ntfs-3g/security/advisories/GHSA-4cwv-5285-63v9
-
-This release also adds support for mounting devices with commas in the 
-device name, improves precision for volume creation timestamps, allows 
-adjusting the NTFS hard coded sector size when restoring ntfsclone 
-images, and includes many more smaller fixes.
-The full changelog is available at:
-
-     https://github.com/tuxera/ntfs-3g/wiki/NTFS-3G-Release-History
-
-The new release can be downloaded from:
-
-     https://tuxera.com/opensource/ntfs-3g_ntfsprogs-2026.2.25.tgz
-     SHA-256: 
-7754f3b32e8baf9c472459b4e9c981e3ae0f5039107cdd8d8201aed0a949008a
-     SHA-512: 
-c4f537ea45a6ebb21ddf21fbf4d71ab336fdf9cb1d55a062a6376f90480cf6992b11ad93b4b2bbd8a96e26f97d7c15948d4f6cc71d713e9deb78e3a6cad7438c
-
-The source code is available on github:
-
-     https://github.com/tuxera/ntfs-3g/releases/tag/2026.2.25
-
-Many thanks to Jean-Pierre André, Rakesh Pandit, Rostislav Skudnov, Eva 
-Rio, Szabolcs Szakacsits and many Tuxerians for their contributions to 
-this release.
-
-We also want to add special thanks to Andrea Bocchetti for the analysis 
-leading to fixing the security issue when building POSIX ACLs.
-
-With best regards,
-
-Erik & Tuxera's Open Source Team
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
--- 
-_________________________________________________________________
-    | Erik Larsson
-    | Senior File System Developer
-    | Tuxera Inc.                           Fax:  +358-98-565-7002
-    | Westendintie 1                        Email: erik@tuxera.com
-    | 02160 Espoo, Finland                  https://www.tuxera.com
-
-TUXERA - MAKE IT WORK
-
-______________________________________________
-This e-mail message, including any attachments, is confidential and may contain information which is privileged or otherwise protected against unauthorised disclosure or communication. It is also for the sole use of the intended recipient(s). If you are not the intended recipient, please notify the sender and delete all copies of the original message including any attachments without producing, distributing or retaining copies thereof.
-
-
+Thanks this is much simpler. I will update it.
