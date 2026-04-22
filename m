@@ -1,108 +1,161 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B1ED2E2840
-	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 15:51:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.180
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776873089; cv=pass; b=fC9TJEMt4EvXmQj3/aChloLJzRp5q5uGpMBPqS8OEnKvx8QrXPAVTL2nfgsv907uhT79J4xWTYz9hMvq+fZRpaVU2pr4nNEVEkk614uzw2KBPYcb2JzNbxwynPftSP3wGzhtUkDmTa5gMB57JZuHpil6YdtDs8dCIWJlCwqeCuY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776873089; c=relaxed/simple;
-	bh=aFeoC8lzxo7yNh4+5NpJ+4/MJMN2RzuA2RxQg8zUxdY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RIdzvJeSGuFQk0Gq4UsWASXbwOPkeGX20kWZoAIpeutssj7JsmW9vcm4fY211cFhaJOy5LQYMlmSiuA3GKF+OrHBLVnem5M/tdHK7Dari9yodN9ia8ZTii+mpUPcWLaEs2XkSvOMxMvJn1US2gUcRh/MSvGdzkgRJCJTmH4agsQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=PaS8kR/t; arc=pass smtp.client-ip=209.85.160.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F347728A1E6
+	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 15:59:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776873543; cv=none; b=ApVb5x7jBXXWCZ98VPNigj5NkXcfjwBTLZjKC2hstScQQx/6yo3jTf8wGwv9b/ln0U30CGdiiR2e85Yiw5bKspXW7CQMYKN6vja5u48j6R6NnwdpQp82Zsomlp5M5g+NyEAazzlN/VpgbbYNiuHvai4jeVI5qHnr9K8NgX8OPkQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776873543; c=relaxed/simple;
+	bh=1EyxcKO/nUApGhARmp1AedGru9RgJuydJVerpTfmZPY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lHcwbswlnwQBujMYecUIxMsu+1BjVCQZOzdBXoJ99faQk3mCbCgkzCLs2cSHY/QyLdYmezLnPP+XAmhpvCb38p3JVODINS+DxzGjIVHtnYlA3sKeqY/0hiHLHAdBTEo6tN8gGH5ZybTPA6DeEkhzPln3TReSzzmLTSkx4JWWUBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kAi5i+VD; arc=none smtp.client-ip=209.85.222.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="PaS8kR/t"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-505a1789a27so27853741cf.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 08:51:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776873086; cv=none;
-        d=google.com; s=arc-20240605;
-        b=dAb7ygFsrzUAhMaa3NO8OVqSoUjlJpzucTQlbx5ofwwIfRUzqOkJbz+hGEV6m3ljBg
-         yNCJ6ry810ASaogWLDNdvLeZIxSJNIFpahuzfH5DiooAqKAVjTzOtHvO/XkhDxHsb2NA
-         bT250ZyS0cXHvNbnRGJFtUDD2oOOtYcDj4w0Kg/U3Lgy/srCU127ugI53xChZ5MbyFQT
-         +riTxbSeVHUr3xM7qgJqiVQpSbtrnHeKQa+lA3w0Ch2CiVoJn6e5YF1/M3JX8okZtPAX
-         lhMi49YYTKqj0qy3Dr96uYRXIXXiWkIS4mviscZ0eFjh1zGQkBMbw/Lj3sHDD7VRET0e
-         XReQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=aFeoC8lzxo7yNh4+5NpJ+4/MJMN2RzuA2RxQg8zUxdY=;
-        fh=JyeOEjbbcYaihdnT4H2WF+9QB2RnTYPSW2Rcjt9V184=;
-        b=W2WKFQxFbCzJD9AZ3y51LBEKbscUli42J1UolODArkD7pcI345g8rTmjh9OGlj9oxo
-         TITJtpE9FPjLvb/diOgMY11CtbDXiWlNZ7/kuVH5zr+PhXPOJ8GjBRnJQhj0kCiuDO8I
-         bnqhJbr3mSsKRrWVYTpHOqana1mzQFYry5+AYnfrRuk5g1oiJ2wnGm7wvtm+OFU2XC3k
-         k/svynyHlNQ1eKgiC+7cjdf4dAprNVt2idPlr1fd3LKVWDhq6h6d8bwn8Rs0ku61EcE9
-         7o6353b51yK+ujSLwnh0BnZB+lo51+kBqhYsLYes39aoY+id6HNyGGxx6HmJ4Ff9hUBb
-         zRuQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kAi5i+VD"
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-8ef0ba61d46so175930485a.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 08:59:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1776873086; x=1777477886; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=aFeoC8lzxo7yNh4+5NpJ+4/MJMN2RzuA2RxQg8zUxdY=;
-        b=PaS8kR/tJLQdPNVTA5mIkoq6Rr8qv7nmJJ1jibCfiLeemeJtKVtKgyB/bItakcp0GV
-         DBwAjdStGAGlsKGUb3S6GFgSeRm5IKLs5+J/rel+ImrPPHEVmqZ2wJLwokTwUBiBQNOD
-         JpwOIDa5l7/lSIDHeeB1zTKGzRG/OaNIM27+o=
+        d=gmail.com; s=20251104; t=1776873541; x=1777478341; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hkTj2C9YliubRyWKE8nCInm/VBiYVrnMT7BPVcl4dBw=;
+        b=kAi5i+VDkwGNcovTuJR8aeog2qupFbdR30y0/17VxvEhBhkQkmbR16cipYs+AmUXTk
+         o/mh98OgmkDY0dmJ45tGP84t0Sz8pDaMK2U/9R6h/sbKq5sHXx1jfbB8OPjBMxSAZa+i
+         eQJiPatNL6ZaR/SnoXYJuq4liGsvVGCxME0vFoNghcl4hIt2YcbBHtK4RXF4mSueQNy/
+         0aKmTgAVjInAaIoiAoYkTMk9hiVk/9CJzNrXD2khBejk3tHxSKS35S1Q6c4mqeGn5gBw
+         +4rprbkwt42M9jF8akFgHwpuX9qd71sY0OTySsA6B4VHcdBqrl4nQKNPzJ/CV5KdCS2C
+         LkmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776873086; x=1777477886;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1776873541; x=1777478341;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=aFeoC8lzxo7yNh4+5NpJ+4/MJMN2RzuA2RxQg8zUxdY=;
-        b=e9fpWE7nqMRiQqFe5+LXPUZYcg4nVWfKhRLDNgMKO81SYm8X2sDeYk/AEf7BqnRh2Y
-         Ww5OOEfE7eQqI3XShzseVVrhtkg7yTTgAATUbWpyZiH/XR89aZQg8I55m8/u7IL8IFvi
-         eQa7ffF+njkJ9WYQ62OFnIuVpcE/VLuy0fP3TJCmEUbzQGDOQ8teRdkC9FnvhWaMNVGg
-         +ceS04rv+DfchExdD+X82/Atv590bUGb9Fgd59R/7Juvae86q3KezNLFD1EjCdu0v43P
-         qOpAsNWll/LnhBV4cScF1v+G3yxibG1KrWNje6sWjbQKJ69dV5DgtaI0uhDNhWUYovXF
-         GMPg==
-X-Gm-Message-State: AOJu0YyWPKiWW2mo6UGYzZyuMXn8MO9zphznCfhMxoaJdrGGXcqMbxpR
-	PF7Y2iazbOTxOPizMb4IxBl0XFFoKTi/gvw4XZNiqg3vXZSHgNUc/WED2+7e15ce3PAfUsxAzVE
-	wWqwrmyhA8TOseaXN1hYBwTv6DjmOXZkZmjNA2Wc64A==
-X-Gm-Gg: AeBDieshLh+nP5rPRwH00WowRGFS5uPTnnRxtrB1wobzPYYNK4S0IEtwuzjtDioyq+u
-	0nZaqznCXP573zMLagjS/3tYc8CvxUeFKUvbM7maE4IMO7E6TMVtGvMSF3SZXr4uARuCs/nHQ8Y
-	nDujy11gSwk1fY2wEO/wNLGn65tGYsDYKN4Yl4EAbgSi68u8ChSpG86OG1eFLCbGyL39D/DElL3
-	LtUyRHSokc/0mC2AUsCouOXBn8J/yZpWzA+CfMQSkL2txbwmbcAw7ToYCf8OxkTpm6ilLwcKUSe
-	qYFXnuuuNv6PldRkv29EkjnFzdDVI4TbkbZ2khB9IN18hMujgqWFRfR8vOQS8Q==
-X-Received: by 2002:a05:622a:1dc4:b0:50d:6b13:bb14 with SMTP id
- d75a77b69052e-50e36bd4eb0mr321070431cf.34.1776873085761; Wed, 22 Apr 2026
- 08:51:25 -0700 (PDT)
+        bh=hkTj2C9YliubRyWKE8nCInm/VBiYVrnMT7BPVcl4dBw=;
+        b=H+aZSiyQ4dlAUDbRrNimsqOdzLCU31WUZemaLYh+ht8+o876fKXgEAsqFAICTLedMT
+         Cz3jEn8bCsFhhzLEW5xhKb/f6Aaz64zHQoa3oRuXgalFRzBAJHqkGWCZZ1/3nFoBckt+
+         PR+0r2Q1T5L55zG8o3d2/I3gvkJNeVeHBEgFeOzzF72YG7962fJ77qxAaAiQPLM6Icq5
+         12ns5CBVDmCYq/AwEteqJyyStVqZlFrtE2ma+9VeB9XzBTa52825XLV+KeYbtuLpBR+E
+         pb2TlGKiph5jZSc03/kF16T0KBl0qN5gZ+xKQfA22DDZQaLbZkWNH/s+QhxgtAdl1H6i
+         1lRw==
+X-Gm-Message-State: AOJu0YxdzX3OAtDko1/1G6WjygysNbeOQakbToG/dSVDLTxg54Pa+Bdx
+	ybUQXdDahdMm3mN1QwT55yxBy93xsxyYpazkopKws5VZqangFX9UXFUC5k7nEp7Q
+X-Gm-Gg: AeBDievscA1mCWYKBR5fura0wMB5jIdTKiG3m3xQlRBEu6QOg1vnk+1jzm/0OGjbGmL
+	Nt3EnuzV08pxBZyWXXfvx4XvzBmYkoEhg9WEHx+2rITZdKJT4dD4LB57lIaqQjO7Wiy6ktMXR+k
+	v1Wf3N2JNibDWJAzWNE5GC+Vg14khATLazBmBKQZ3vxYkNhjEG4V4rkuQz04Fjwa8AavDLqE79k
+	7+qVuwIRdOFjPaKWWWc7cY+S88Pm76SzXmohIBiQzFP36XcpPIXQuFcx1Dbm9Asr7jINL8RQzNY
+	0k/YS2ltIiYVsi0w9vfecuwg30+zTSdGlGX6CXhDF6fqX/4OqKM6KL9Qd4W1NhX3ny3QNKMIDo3
+	p3HadGByZjNW0wTthDmf1QSfMLtKx97FuizBZxXhG8gcYM680elpwAMoVJftLsV13JSsmmYhAB8
+	cWwZ/yFZrzsEKgIj7ku+1rDrUXMBEnGuF7FbMjDzDqwMzp50w3HuY2ly47QzS4AhFRUd2L9kKKm
+	y2ghsOqwaOVVzEJCevD5Z13f5OAN9M=
+X-Received: by 2002:a05:620a:46a9:b0:8cf:d70d:cf0e with SMTP id af79cd13be357-8e79236d606mr3376452385a.47.1776873540726;
+        Wed, 22 Apr 2026 08:59:00 -0700 (PDT)
+Received: from server0 (c-68-48-65-54.hsd1.mi.comcast.net. [68.48.65.54])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8ee585e9fcdsm496696885a.16.2026.04.22.08.58.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Apr 2026 08:59:00 -0700 (PDT)
+From: Michael Bommarito <michael.bommarito@gmail.com>
+To: Namjae Jeon <linkinjeon@kernel.org>,
+	Sungjong Seo <sj1557.seo@samsung.com>,
+	Yuezhang Mo <yuezhang.mo@sony.com>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH] exfat: fix potential use-after-free in exfat_find_dir_entry()
+Date: Wed, 22 Apr 2026 11:58:44 -0400
+Message-ID: <20260422155844.1967148-1-michael.bommarito@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAOQ4uxgcYCOE4uWE1tAaVUPLNqmbp88_0MvM=gqiDtH=jBiW_A@mail.gmail.com>
-In-Reply-To: <CAOQ4uxgcYCOE4uWE1tAaVUPLNqmbp88_0MvM=gqiDtH=jBiW_A@mail.gmail.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Wed, 22 Apr 2026 17:51:14 +0200
-X-Gm-Features: AQROBzCUfj-d8JdNK06jOEsx3iWCL2QHTcnka3lBvoT2DbBteiHX1BjYlxXITXI
-Message-ID: <CAJfpegtMV7gG8w=+8Jza2QnV7o+4tCkg2oObE5BXZwaOXOGP8w@mail.gmail.com>
-Subject: Re: [LSF/MM/BPF TOPIC] Filesystem breakout sessions
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: linux-fsdevel <linux-fsdevel@vger.kernel.org>, Christian Brauner <brauner@kernel.org>, 
-	Jan Kara <jack@suse.cz>, lsf-pc <lsf-pc@lists.linux-foundation.org>, 
-	Ian Kent <raven@themaw.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, 22 Apr 2026 at 10:58, Amir Goldstein <amir73il@gmail.com> wrote:
+In exfat_find_dir_entry(), the buffer_head obtained from
+exfat_get_dentry() is released with brelse(bh) before the fall-through
+TYPE_EXTEND branch reads the directory entry through ep (which points
+into bh->b_data):
 
-> No need to reply with specific topics now unless you want to.
-> Just keep this in mind and think of things that you may want to
-> bring up during these breakout sessions.
+	brelse(bh);
+	if (entry_type == TYPE_EXTEND) {
+		...
+		len = exfat_extract_uni_name(ep, entry_uniname);
+		...
+	}
 
-I think these warrant discussion:
+After brelse() drops our reference, nothing guarantees that the
+underlying page backing bh->b_data remains valid for the subsequent
+exfat_extract_uni_name() read. This is the same pattern fixed in
+commit fc961522ddbd ("exfat: Fix potential use after free in
+exfat_load_upcase_table()").
 
-- too many negative dentries on d_children (causing e.g. soft lockup
-in fsnotify_set_children_dentry_flags())
+Move brelse(bh) so it runs after ep is no longer dereferenced on
+each branch.
 
-- and the related issue of d_count overflow
+Confirmed on QEMU x86_64 with CONFIG_KASAN=y + CONFIG_DEBUG_PAGEALLOC=y
++ CONFIG_PAGE_POISONING=y on linux-next, using a crafted exFAT image
+(long filename with same-hash collisions forcing the TYPE_EXTEND path).
+With a debug-only invalidate_bdev() inserted between brelse(bh) and
+the ep read to make the stale-deref window deterministic, the
+unpatched kernel faults:
 
-https://lore.kernel.org/all/20260331012925.74840-2-raven@themaw.net/
+  BUG: KASAN: use-after-free in exfat_find_dir_entry+0x133b/0x15a0
+  BUG: unable to handle page fault for address: ffff88801a5fa0c2
+  Oops: 0000 [#1] SMP DEBUG_PAGEALLOC KASAN NOPTI
+  RIP: 0010:exfat_find_dir_entry+0x1188/0x15a0
 
-Thanks,
-Miklos
+With this patch applied, the same instrumented harness completes
+cleanly under the same sanitizer stack. I have not reproduced a
+crash on an uninstrumented kernel under ordinary reclaim; the
+instrumented A/B establishes the lifetime violation and that the
+patch closes it, not an unaided triggerability claim.
+
+Fixes: ca06197382bd ("exfat: add directory operations")
+Cc: stable@vger.kernel.org
+Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
+Assisted-by: Claude:claude-opus-4-7
+---
+ fs/exfat/dir.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/fs/exfat/dir.c b/fs/exfat/dir.c
+index ac008ccaa97d..561fd2349218 100644
+--- a/fs/exfat/dir.c
++++ b/fs/exfat/dir.c
+@@ -1027,12 +1027,12 @@ int exfat_find_dir_entry(struct super_block *sb, struct exfat_inode_info *ei,
+ 				continue;
+ 			}
+ 
+-			brelse(bh);
+ 			if (entry_type == TYPE_EXTEND) {
+ 				unsigned short entry_uniname[16], unichar;
+ 
+ 				if (step != DIRENT_STEP_NAME ||
+ 				    name_len >= MAX_NAME_LENGTH) {
++					brelse(bh);
+ 					step = DIRENT_STEP_FILE;
+ 					continue;
+ 				}
+@@ -1043,6 +1043,7 @@ int exfat_find_dir_entry(struct super_block *sb, struct exfat_inode_info *ei,
+ 					uniname += EXFAT_FILE_NAME_LEN;
+ 
+ 				len = exfat_extract_uni_name(ep, entry_uniname);
++				brelse(bh);
+ 				name_len += len;
+ 
+ 				unichar = *(uniname+len);
+@@ -1061,6 +1062,7 @@ int exfat_find_dir_entry(struct super_block *sb, struct exfat_inode_info *ei,
+ 				continue;
+ 			}
+ 
++			brelse(bh);
+ 			if (entry_type &
+ 					(TYPE_CRITICAL_SEC | TYPE_BENIGN_SEC)) {
+ 				if (step == DIRENT_STEP_SECD) {
+-- 
+2.53.0
+
