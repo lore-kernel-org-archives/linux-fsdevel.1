@@ -1,59 +1,56 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7D6833F58C
-	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 13:10:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9290227713
+	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 13:16:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776863437; cv=none; b=cq6A6y3vfNUUgme8a0YVE6BqDAiQ4bPmMRTBNBTPWotcys/9No77c0b4XKpydRFHG5SxkI3wzAatPaJ+cqeg+5DOgyoVSUaFGRnd9sa9w0EezJOPHGlttO0x7rH34vPifmB3j5RpSJzY+h6mk3JWIovVIwyxbAH4qYouC2MksQc=
+	t=1776863769; cv=none; b=agaQq9ZDitlCcouh5Cqlxy4b65m4DiOQ4x1LX8nlhKFunVVJdpDQho9SMgpTDwe53fuFYdviZ0r4jIEjgVl7sf6qqWdyysJux+P1p+qSkTbaHRePVw6t2W00Y3XAIEArQa3J2mVk7UWtWDWWbsdVh+Z69rRwFKAHOdH48g78o8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776863437; c=relaxed/simple;
-	bh=xSmMWtZMRIuA1d3MrxXL2LWQRBpwyuvIuiPISMDv/6g=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=i/hPVQ623wm6+ng6gI5vp9somemuC5TWQu4rYC//vlMlrMn4E/0/NMCwPQYKLud0xT6R5jHLoFw6Z6E4mzPdxOKcaW3j9m6uKj5UqjdY51q4vy2dPORym0G8DKZ30eLGS1/J4RMuK70dI8qAWBorULht0UYQU1uVOhjS9RusxUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=e8cj//B4; arc=none smtp.client-ip=195.121.94.183
+	s=arc-20240116; t=1776863769; c=relaxed/simple;
+	bh=D+7Qrc8KyXRVGOlJCdSzwWfcS6nzplwyIzz6lt2KmU8=;
+	h=Date:From:To:Cc:Message-ID:Subject:MIME-Version:Content-Type; b=OxpzraPTVt8L0mnImxQ+UbiewDttKFUxywPnMhbowlL7ZLxECazu6dleCso9Efwpuao7OEM1txe01/KLXNrYXls6oDFkKqzeoVlkJ7DLPzhcL9G2fHJht2NWbzs+PjqIBt4gn11jXR9cdIJGdR64WLgqKFZi1/SER3ie647CHy8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=e9qcYft2; arc=none smtp.client-ip=195.121.94.184
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="e8cj//B4"
-X-KPN-MessageId: a4071891-3e4c-11f1-bea8-005056992ed3
-Received: from mta.kpnmail.nl (unknown [10.31.161.190])
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="e9qcYft2"
+X-KPN-MessageId: 6b47211e-3e4d-11f1-afdd-005056994fde
+Received: from mta.kpnmail.nl (unknown [10.31.161.188])
 	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id a4071891-3e4c-11f1-bea8-005056992ed3;
-	Wed, 22 Apr 2026 15:10:31 +0200 (CEST)
+	id 6b47211e-3e4d-11f1-afdd-005056994fde;
+	Wed, 22 Apr 2026 15:16:05 +0200 (CEST)
 Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
 	by mta.kpnmail.nl (Halon) with ESMTP
-	id a40a80cc-3e4c-11f1-99cc-0050569977a2;
-	Wed, 22 Apr 2026 15:10:31 +0200 (CEST)
+	id 6b4aaa88-3e4d-11f1-80f3-00505699693e;
+	Wed, 22 Apr 2026 15:16:05 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=xs4all.nl; s=xs4all01;
 	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=Dx/sDtmmb50t48JeHm9zQ6EvJ6SFiB/CnXHXyhIljik=;
-	b=e8cj//B4nkUAHVupm6Rp57huvQYiGuwDlkmK5jb1+KU2yU8PIWTS7oRGriJcblXBJ+gNuw4+QVyFL
-	 z6kHfM5b2k8xPAipu/PgI9EF1TnOUWtnUVqmjvdmOY5BtMoxmqrdntiR1YGsDWo4sZIfyb7d9tuum2
-	 bmNrFpWaNq9Ev048zpy7nss7q42NoChvRnrgDBZBMXBL1lEOB4p04xTpYvThq0MZ46ozoiIWaLmYja
-	 wOAJvbKRO19LfdgGEWaQtmXBcO4gFQxDcHo+P1S1/m/2rUbEOzk+D4yEf/vAwBuPTkHllkGuQDav9T
-	 J8b9pxCnwQ9Xc1FZxoyIc9ZxhX/nCGA==
-X-KPN-MID: 33|twhhOJgmYOYZOAgN87jVzGRunFnZbETB9tlcYVzTKsEh3r3CiNqr+x1bE2g/e4e
- edisJ522n40vtwtA2XCBcInxkb79gNnjqlAm61nEgwa8=
-X-CMASSUN: 33|ql9khzKYL5Tjjg6/XXkgnqG/iUUyb6dEvXUxW7IdEl2YkapLToRcy5v8vOJf2kU
- j/ckb/8UqZewacyQnkcckYA==
+	bh=YaQLI1w9S7igyIPfPXcpsDSMfq3qDY0lbvi2JdQ/HLM=;
+	b=e9qcYft2c0qd06PvhCksXOqHNTvLYgcgD9wOAw7gDsZ7BIshZfeNlWF5Zl6UlmijKMrbWzKwL4rsx
+	 fzm1Hj6N5rorhvwqhhILFrAMoq9QiPR1PBLCXCV7YeK2nOLhiN7w1FqSzhR17YendtGPBR55VkAn6W
+	 XNH/S+khubLoLXNUyo9vNGOc0hx0A5NOaIswBopd6XnF+sVXMirZ82jwaKs0PnlqgtohkXY8idYQFr
+	 nJgbX8Jrl0j2tXrl9eG4zX30IhbGcl0zfKn8aIg8zsUdtVxuVczg3MsC29D1gZPICi76AIm01pb/TU
+	 mtQivOBQsovVJRKKidzRFqr1Muk69xg==
+X-KPN-MID: 33|YBuL0E7nWf3Qqq6L2ut9y1GE+Yv4tLrNyaZVZiYY2RNBRqT/lnAKX7N3u4fdWx2
+ dx5m8ekXtePGMFEqzXt4bppAoePTLoHoSK4qHcd9UGt0=
+X-CMASSUN: 33|lI1io673IgehM9p2f9ALP4GJwZMOVtg/B4l6uKdiAjQ53ZdGKAUBGD5ZaJ8qo9P
+ H+fkMV3W8Vm5MkOEt/YvgjA==
 X-KPN-VerifiedSender: Yes
 Received: from cpxoxapps-mh03 (cpxoxapps-mh03.personalcloud.so.kpn.org [10.128.135.209])
 	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id a3fa6966-3e4c-11f1-b8d7-005056995d6c;
-	Wed, 22 Apr 2026 15:10:31 +0200 (CEST)
-Date: Wed, 22 Apr 2026 15:10:31 +0200 (CEST)
+	id 6b3d7a33-3e4d-11f1-b8d7-005056995d6c;
+	Wed, 22 Apr 2026 15:16:05 +0200 (CEST)
+Date: Wed, 22 Apr 2026 15:16:05 +0200 (CEST)
 From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Amir Goldstein <amir73il@gmail.com>,
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-	Jan Kara <jack@suse.cz>, lsf-pc <lsf-pc@lists.linux-foundation.org>
-Message-ID: <1810988015.1048487.1776863431462@kpc.webmail.kpnmail.nl>
-In-Reply-To: <20260422-unzeit-gepachtet-8632ca58584d@brauner>
-References: <1270238484.1040011.1776859746395@kpc.webmail.kpnmail.nl>
- <20260422-unzeit-gepachtet-8632ca58584d@brauner>
-Subject: Re: [LSF/MM/BPF TOPIC] Filesystem breakout sessions
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Message-ID: <1541900656.1049330.1776863765767@kpc.webmail.kpnmail.nl>
+Subject: Re: [PATCH] dcache: add extra sanity checks of the dentry in
+ dentry_free()
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -65,27 +62,11 @@ Content-Transfer-Encoding: 7bit
 X-Priority: 3
 Importance: Normal
 
-
-> Op 22-04-2026 14:34 CEST schreef Christian Brauner <brauner@kernel.org>:
-> 
-> > 2) If so, do we want to maintain them in-tree?
-> 
-> No. Then we're back to square one.
+On Wed, Apr 22, 2026 at 07:29:48AM -0400, Jeff Layton wrote:
+>  
+> +#define DENTRY_WARN_ONCE(condition, dentry) \
+> +	WARN_ONCE((condition), "dentry=%p d_flags=0x%x\n", (dentry), (dentry)->d_flags)
 > 
 
-Really? FUSE and libfuse need to have a stable user API anyway.
-They can't just deprecate stuff and remove support, whereas we would
-like that for internal filesystem API.
-
-> 
-> It falls onto the VFS maintainers and we pick up bugfixes but don't
-> actively spend time on deprecated filesystems ourselves. We port them to
-> new APIs where it's required but otherwise they bitrot - that's the
-> reality. Ultimately they will be removed as we did with things such as
-> reiserfs.
-
-Do we have a list of filesystems that we do not need new maintainers for
-and let just bitrot?
-
-Best,
-Jori.
+I guess this is one of those instances where using %p is acceptable?
+Maybe Documentation/process/deprecated.rst is worded a bit too harshly.
