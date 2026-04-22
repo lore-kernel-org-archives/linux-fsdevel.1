@@ -1,27 +1,27 @@
 Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E491B2AF00;
-	Wed, 22 Apr 2026 02:16:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ACBA2FFFA4;
+	Wed, 22 Apr 2026 02:16:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776824220; cv=none; b=Kl7fYPQlsoJWfeXni/nAXejogHg1AngBECLPaWaKS9j1wPxGm0WIbFZPIxbTdkRMQbfKbwK64XFsmcq/VCMuWzxOLpq/IqkTsjjQQliDbBauWBdfM5RZlCxVYkiqOtgMMha6HIE5KKVNHulvTpwxFxlLBaVumLGgOK6zHw4fMRI=
+	t=1776824220; cv=none; b=KfJw4GFr3GoDVWr5X7PeKSACa/GtGTaFrVu4TRa6/WzXuLub0p0s9BQAv+LFZVU4Vhm1gS2chf6NNSYb/sZ8+65oIB50ZnNXtP3ivRQpY3R/Re5KOQOR1Y06dcCQkM/RwSP4e2goB5cWNBhIrktiOKGfL3HQJS4KhPta0sY6A9k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1776824220; c=relaxed/simple;
-	bh=93eZt22IW3rOXyfSLbbHOlMyViJusbp8Qbt+GwEybTY=;
+	bh=2GLqOrJzpWznwh/KQhRAwJU+dvoOKIfi+7HjpC9I4vQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pFR94sXWvdHQm2vJIf/qmr6JfbXszlWNBrr8P9g1yDcMtOOeq3AvFlDqxTaEIRrqT108XsuSjBY28n0Vl+kyUzAoRNqt6OFfZJsD84dJQ0PncAi0W02L5dN4mJQSCh8A5ANGTvAPX9ASwOBJEfnf6WXrTPSu5B3CDbcpMqhOCsY=
+	 MIME-Version; b=SVnBhKAxhuW+KELN/zeDecq4QwHVPIFLgBbdVy+bHfYkadFA1O6suiCFzDzCj4CkhegKR36qgDAdx8Yh3t3Z21hYclZuwicH71UvurtwfqE1LCoCnrAw/qYBTdXVNTXnWjM5Q5HW5ZXcD88O171tjCA+6lZQNCbMcKEoenb7FsY=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.177])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4g0jWL5jyrzYQtqG;
+Received: from mail.maildlp.com (unknown [172.19.163.170])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4g0jWL3M0pzYQtpd;
 	Wed, 22 Apr 2026 10:15:58 +0800 (CST)
 Received: from mail02.huawei.com (unknown [10.116.40.252])
-	by mail.maildlp.com (Postfix) with ESMTP id EF765405FA;
+	by mail.maildlp.com (Postfix) with ESMTP id A6843405D6;
 	Wed, 22 Apr 2026 10:16:55 +0800 (CST)
 Received: from huaweicloud.com (unknown [10.50.85.155])
-	by APP3 (Coremail) with SMTP id _Ch0CgB3JL6PL+hpqkgUBQ--.2635S8;
+	by APP3 (Coremail) with SMTP id _Ch0CgB3JL6PL+hpqkgUBQ--.2635S5;
 	Wed, 22 Apr 2026 10:16:55 +0800 (CST)
 From: Zhang Yi <yi.zhang@huaweicloud.com>
 To: linux-ext4@vger.kernel.org,
@@ -40,9 +40,9 @@ Cc: linux-kernel@vger.kernel.org,
 	yizhang089@gmail.com,
 	yangerkun@huawei.com,
 	yukuai@fnnas.com
-Subject: [PATCH v3 04/22] ext4: add iomap address space operations for buffered I/O
-Date: Wed, 22 Apr 2026 10:10:24 +0800
-Message-ID: <20260422021042.4157510-5-yi.zhang@huaweicloud.com>
+Subject: [PATCH v3 01/22] ext4: simplify size updating in ext4_setattr()
+Date: Wed, 22 Apr 2026 10:10:21 +0800
+Message-ID: <20260422021042.4157510-2-yi.zhang@huaweicloud.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260422021042.4157510-1-yi.zhang@huaweicloud.com>
 References: <20260422021042.4157510-1-yi.zhang@huaweicloud.com>
@@ -53,129 +53,90 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_Ch0CgB3JL6PL+hpqkgUBQ--.2635S8
-X-Coremail-Antispam: 1UD129KBjvJXoWxXF1DuryDWryrtF4rGryfZwb_yoW5Kw45pF
-	98Kas8Gr18XF9rua1Sqa9rZF4Yka4fJw4UKFW3W3Wa9Fy5G3y7KFW0k3WYkFy5K3y8Ar42
-	qF4j9rW7WF17CrDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUmI14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
-	kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
-	z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F
-	4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq
-	3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7
-	IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4U
-	M4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2
-	kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkE
-	bVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67
-	AF67kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI
-	42IY6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCw
-	CI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnI
-	WIevJa73UjIFyTuYvjfUriihUUUUU
+X-CM-TRANSID:_Ch0CgB3JL6PL+hpqkgUBQ--.2635S5
+X-Coremail-Antispam: 1UD129KBjvJXoW7Aw4rtrW5Xr4DZr1kJr4ruFg_yoW8tryxpF
+	yakw1vkw10gF1q9rs2gF1UZa40qa1093yUJFWjkw4IqF1DC3ZaqF17tay3uFW8trWDWw4Y
+	qFWkKr4rJ34UGrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUm014x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jr4l82xGYIkIc2
+	x26xkF7I0E14v26r4j6ryUM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+	Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJw
+	A2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS
+	0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2
+	IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0
+	Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2
+	xKxwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWU
+	JVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67
+	kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY
+	6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0x
+	vEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVj
+	vjDU0xZFpf9x0JUfKs8UUUUU=
 X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
 From: Zhang Yi <yi.zhang@huawei.com>
 
-Introduce initial support for iomap in the buffered I/O path for regular
-files on ext4.
-
-  - Add a new inode state flag EXT4_STATE_BUFFERED_IOMAP to indicate the
-    inode uses iomap instead of buffer_head for buffered I/O
-  - Add helper ext4_inode_buffered_iomap() to check the flag
-  - Add new address space operations ext4_iomap_aops with callbacks that
-    will use generic iomap implementations
-  - Add ext4_iomap_aops to ext4_set_aops() when the flag is set
-
-The following callbacks(read_folio(), readahead(), writepages()) are
-provided as placeholders and will be implemented in later patches.
+The logic for updating the file size in ext4_setattr() is currently
+somewhat messy. By directly entering the error-handling path after
+failing to add an orphan inode, the unnecessary recovery process
+involving old_disksize and the file size can be avoided.
 
 Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
 ---
- fs/ext4/ext4.h  |  7 +++++++
- fs/ext4/inode.c | 32 ++++++++++++++++++++++++++++++++
- 2 files changed, 39 insertions(+)
+ fs/ext4/inode.c | 22 +++++++++-------------
+ 1 file changed, 9 insertions(+), 13 deletions(-)
 
-diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
-index 9e4353432325..fe3491ad2129 100644
---- a/fs/ext4/ext4.h
-+++ b/fs/ext4/ext4.h
-@@ -1972,6 +1972,7 @@ enum {
- 	EXT4_STATE_FC_COMMITTING,	/* Fast commit ongoing */
- 	EXT4_STATE_FC_FLUSHING_DATA,	/* Fast commit flushing data */
- 	EXT4_STATE_ORPHAN_FILE,		/* Inode orphaned in orphan file */
-+	EXT4_STATE_BUFFERED_IOMAP,	/* Inode use iomap for buffered IO */
- };
- 
- #define EXT4_INODE_BIT_FNS(name, field, offset)				\
-@@ -2040,6 +2041,12 @@ static inline bool ext4_inode_orphan_tracked(struct inode *inode)
- 		!list_empty(&EXT4_I(inode)->i_orphan);
- }
- 
-+/* Whether the inode pass through the iomap infrastructure for buffered I/O */
-+static inline bool ext4_inode_buffered_iomap(struct inode *inode)
-+{
-+	return ext4_test_inode_state(inode, EXT4_STATE_BUFFERED_IOMAP);
-+}
-+
- /*
-  * Codes for operating systems
-  */
 diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
-index 59405a95ecfc..9e9f421888ed 100644
+index c2c2d6ac7f3d..0751dc55e94f 100644
 --- a/fs/ext4/inode.c
 +++ b/fs/ext4/inode.c
-@@ -3908,6 +3908,22 @@ const struct iomap_ops ext4_iomap_report_ops = {
- 	.iomap_begin = ext4_iomap_begin_report,
- };
+@@ -5953,7 +5953,6 @@ int ext4_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+ 	if (attr->ia_valid & ATTR_SIZE) {
+ 		handle_t *handle;
+ 		loff_t oldsize = inode->i_size;
+-		loff_t old_disksize;
+ 		int shrink = (attr->ia_size < inode->i_size);
  
-+static int ext4_iomap_read_folio(struct file *file, struct folio *folio)
-+{
-+	return 0;
-+}
-+
-+static void ext4_iomap_readahead(struct readahead_control *rac)
-+{
-+
-+}
-+
-+static int ext4_iomap_writepages(struct address_space *mapping,
-+				 struct writeback_control *wbc)
-+{
-+	return 0;
-+}
-+
- /*
-  * For data=journal mode, folio should be marked dirty only when it was
-  * writeably mapped. When that happens, it was already attached to the
-@@ -3994,6 +4010,20 @@ static const struct address_space_operations ext4_da_aops = {
- 	.swap_activate		= ext4_iomap_swap_activate,
- };
+ 		if (!(ext4_test_inode_flag(inode, EXT4_INODE_EXTENTS))) {
+@@ -6037,6 +6036,8 @@ int ext4_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+ 			if (ext4_handle_valid(handle) && shrink) {
+ 				error = ext4_orphan_add(handle, inode);
+ 				orphan = 1;
++				if (error)
++					goto out_handle;
+ 			}
  
-+static const struct address_space_operations ext4_iomap_aops = {
-+	.read_folio		= ext4_iomap_read_folio,
-+	.readahead		= ext4_iomap_readahead,
-+	.writepages		= ext4_iomap_writepages,
-+	.dirty_folio		= iomap_dirty_folio,
-+	.bmap			= ext4_bmap,
-+	.invalidate_folio	= iomap_invalidate_folio,
-+	.release_folio		= iomap_release_folio,
-+	.migrate_folio		= filemap_migrate_folio,
-+	.is_partially_uptodate  = iomap_is_partially_uptodate,
-+	.error_remove_folio	= generic_error_remove_folio,
-+	.swap_activate		= ext4_iomap_swap_activate,
-+};
+ 			if (shrink)
+@@ -6052,23 +6053,18 @@ int ext4_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+ 					(attr->ia_size > 0 ? attr->ia_size - 1 : 0) >>
+ 					inode->i_sb->s_blocksize_bits);
+ 
+-			down_write(&EXT4_I(inode)->i_data_sem);
+-			old_disksize = EXT4_I(inode)->i_disksize;
+-			EXT4_I(inode)->i_disksize = attr->ia_size;
+-
+ 			/*
+ 			 * We have to update i_size under i_data_sem together
+ 			 * with i_disksize to avoid races with writeback code
+-			 * running ext4_wb_update_i_disksize().
++			 * updating disksize in mpage_map_and_submit_extent().
+ 			 */
+-			if (!error)
+-				i_size_write(inode, attr->ia_size);
+-			else
+-				EXT4_I(inode)->i_disksize = old_disksize;
++			down_write(&EXT4_I(inode)->i_data_sem);
++			i_size_write(inode, attr->ia_size);
++			EXT4_I(inode)->i_disksize = attr->ia_size;
+ 			up_write(&EXT4_I(inode)->i_data_sem);
+-			rc = ext4_mark_inode_dirty(handle, inode);
+-			if (!error)
+-				error = rc;
 +
- static const struct address_space_operations ext4_dax_aops = {
- 	.writepages		= ext4_dax_writepages,
- 	.dirty_folio		= noop_dirty_folio,
-@@ -4015,6 +4045,8 @@ void ext4_set_aops(struct inode *inode)
- 	}
- 	if (IS_DAX(inode))
- 		inode->i_mapping->a_ops = &ext4_dax_aops;
-+	else if (ext4_inode_buffered_iomap(inode))
-+		inode->i_mapping->a_ops = &ext4_iomap_aops;
- 	else if (test_opt(inode->i_sb, DELALLOC))
- 		inode->i_mapping->a_ops = &ext4_da_aops;
- 	else
++			error = ext4_mark_inode_dirty(handle, inode);
++out_handle:
+ 			ext4_journal_stop(handle);
+ 			if (error)
+ 				goto out_mmap_sem;
 -- 
 2.52.0
 
