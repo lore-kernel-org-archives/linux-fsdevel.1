@@ -1,139 +1,281 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B26335AC38;
-	Wed, 22 Apr 2026 22:48:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99A452D8DB0
+	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 23:05:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776898106; cv=none; b=sUEpzzdl088dgET2+Cx/6RvPZcf+qSjQJWtSCfdiLjnvhpw77LPR+6AjyPv0eOx0LCWNiaQLISxwf/lOLFS0898j5+iA+Dg8LXO3jJFBPpgUmogtTcw6CEnv7do0AX/nt3NbCuHFmL4dbCte14qxUPHD6jNqbPEs4muTL0+D8dM=
+	t=1776899115; cv=none; b=LBZk6rkGLh32tCtyESUvXJq26oeEXoBij5y3Uca7+Q17Y6K1CM0gm/sSiHulrRy1cQrYAQUAcOIt0e8IqjKQBlJiyXzoPJmQLb/kkZv3Zd/i+37+cpPZYg20DUaxvdfQYSjroU2etkiSTFokAXm2y7eO5fb/bJWLB9Y7HzrR3sc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776898106; c=relaxed/simple;
-	bh=LFIU/T5U/PR06CRpKO50PK8cgzNijD6HxlVIv3Oaq4g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=szSPBdRPX1T9x39iHhv1uFDhBWKZ8+bFlfnojHrIgeX0mj1qRf4u/CENTFCZWLQOuNurr5wIuyocyFtCy8OKy2vJQx3K1ajbnJ7xgQ4RcULr3mGAt7tEryAyyjhHSh0Y8CqVHSIxS7JkBIBWeWHDQaTN61S0AvziFz7eXSr6iCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=fn27O568; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
+	s=arc-20240116; t=1776899115; c=relaxed/simple;
+	bh=thLiyIcNke4TCPMCu3CUKpsUc5eDoR3oMMoAXIyJAkE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Y8B/QLPJ65JyH7FCFsPJQzsIfr5LjzAqDE+4+YGQTsk2L6/tgELMb38VymxnQcYfF3SbPxHdTY/iDgwSFu3QXGa6VTkjfj7XIs0OxMqwyZDE1Pb+SSmWHIuyHAVSUOrQmNifNMabAvLLO5Nz4VJDZM3VmsJ52qVfybKvr19XivQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YmDyoeAq; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=bGao34y8; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="fn27O568"
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4g1DsJ62bWz9v14;
-	Thu, 23 Apr 2026 00:48:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
-	t=1776898100;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YmDyoeAq";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="bGao34y8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1776899112;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=CshAdHIdOhegAGZ/ibJiR0j5quQNmPDAP31FwRxDM0w=;
-	b=fn27O568TzvlQeUqybJAnanyvL6VTQyudgz8GGS0tTvXA0fnHeA6ZfvoRWsmVHyIOeL5uI
-	qqkR3Fz2rekK3F9znrulAvkkPX7IsozumvQkojE8KkqXjTfSuxH/D23h39/8YYevsX9WGl
-	JI0oQ0ybE09VV7MyNjUMoUu9gYFuEojgQ6UFXyqRdSQw2zgOqZwa9cS2Oj//SKlj2JeRy5
-	kOv7gj5iVZ25Scfe/dTzYfVwzROU/LZ4np5BoCVG/krDoEMwPovZoip+7QJ2YecYajvhLS
-	baMIAjkDYhCgL8tH7sCf8tAiSxe2XWrM127Rcffs21xGD3DxUpX/N/U8ETyTWA==
-Date: Thu, 23 Apr 2026 08:48:09 +1000
-From: Aleksa Sarai <cyphar@cyphar.com>
-To: Jori Koolstra <jkoolstra@xs4all.nl>
-Cc: cmirabil@redhat.com, Jeff Layton <jlayton@kernel.org>, 
-	Chuck Lever <chuck.lever@oracle.com>, Alexander Aring <alex.aring@gmail.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Arnd Bergmann <arnd@arndb.de>, 
-	"open list:FILE LOCKING (flock() and fcntl()/lockf())" <linux-fsdevel@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, 
-	"open list:GENERIC INCLUDE/ASM HEADER FILES" <linux-arch@vger.kernel.org>
-Subject: Re: [PATCH v4 1/2] vfs: add O_EMPTYPATH to openat(2)/openat2(2)
-Message-ID: <2026-04-22-thirsty-saggy-stat-spouts-6ywYYB@cyphar.com>
-References: <20260419131800.486788-1-jkoolstra@xs4all.nl>
+	bh=z/Yb5z7akaYaPjtq31YYTPejINDkMWFksvY9tqU2bIs=;
+	b=YmDyoeAqf1YFktXbXsWDhk43FJld1XVB+Qp9YG37GnuRARyCiSflzhfqoj0vPKOQhpx2jj
+	RHRsjOf9X23S45oFUwh9P7b1qe+56brTaS4SGNwe1knQZnFiR8Wb5WZL0OLuwVkRBgrJvl
+	m/jFHXZ3dVNL64dRCjOcx6zAQx7HUCA=
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
+ [209.85.167.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-482-YwubxidwOgKSOhlm38L4MQ-1; Wed, 22 Apr 2026 19:05:11 -0400
+X-MC-Unique: YwubxidwOgKSOhlm38L4MQ-1
+X-Mimecast-MFC-AGG-ID: YwubxidwOgKSOhlm38L4MQ_1776899111
+Received: by mail-oi1-f200.google.com with SMTP id 5614622812f47-45a8cdc7e01so7991184b6e.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 16:05:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1776899110; x=1777503910; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=z/Yb5z7akaYaPjtq31YYTPejINDkMWFksvY9tqU2bIs=;
+        b=bGao34y88xn4p47FpPfzGbGOHz7KrsQTxak2k9QkW7YcIDmIbPVt+6ih+m1cXDmRfr
+         F2zI/u9NY+gbFYs8cMrXGio5Lhl6/Ax+7L2ugzcgtS0uru2wp+nghIeWwJ85/dEEq3iU
+         gUJ4p2m7EdSEI4gc852NklokUDLjZM/X8hh30/NhqokR/H3/jNGpOZSl0mXZrxCrbV+7
+         J/BWRFkSH2/JcAqko9G5k8jk1nZJyTgTKSCuxQ75fmnFqZ33hyWo0DV8Dtp0K979Ge9r
+         VcagC9IrBMLzySoT5omQaLBU+BaIde7mk4ghui/4woS7owflOjewOhGz12HZLBlv4uDs
+         D6yA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776899110; x=1777503910;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=z/Yb5z7akaYaPjtq31YYTPejINDkMWFksvY9tqU2bIs=;
+        b=nQeUDDrrS27N1ZHGcotQyYebFAD6rngs1yNAT5jhDMv0rVFH+eFXUK59CoXZxCwUPu
+         clggWJIpCr2Entn4SCgLZbyeD2dVroT6I4OwzO9MnHVe8oD0pBip9LCzDDXEfSij2d1+
+         S/Rzv69TYNvNYDf44o6LbLrUolbNyBUXGmvjaISU3T++gYpxweyqq7Pqk1aMVrgp7d5Z
+         8pqdVMsLZ4xwFfxjgBG2XoFcf2NdyNDHGK5qz8ZfEZq/EfrgIgctGwL1Ky28Fc5NAKfS
+         UPRNsnt8kQj+1y3RCh1Wixgp4nlA2F45j/GK0zAlz8uHYL93zBFdReOJF4UKIfKPRqUX
+         BFjw==
+X-Gm-Message-State: AOJu0YyY+av6G6DsRtLu42lD+muzxC5+lHgltI1TZCnWUM1a9X34N2aA
+	r+jYRs/RKwgVHKgAPqdE412QJ9tI5PRPvRwVOh9nQao9hqRnvud5xcuHwB+pXLhxP9Ou+VrgfGd
+	vnBuIR+c93XZoKHjX5L4U8dbG9MlyE/RplSlQCQg4s4mwd2UGtRd5+Dwq3+i5LtA9zho=
+X-Gm-Gg: AeBDies6yMkZ8PcZfUrzJsffEuF2QuNXoDyI+nC3HcQZTuN2exABvwue+gAlZguBobr
+	fiBWzsJ2kKGxGUAlKz16ragqpenKHosXsKUDxKmRi0ESoM1xvOB+2e04PB2zcMi2ubdsWmD7SKv
+	xDClpk6kZusBSKlMu78DNIPvLq9EZ8fEYSbJ/dJNP2tiuawTK5i2hKjfg1IUKe+NB+rvYK3gGRl
+	kgZC9W+EIRCiEIn5FhHui59cKiCXwkqjCWpA4XKR3N1fOqZ7qtYaBZIImXGP6d1H3Ct/qCh+/3Z
+	0nJaZ/smDh70ZpC1nvJy/eD/4JEtuUYdr08vrCTsMFs454o+D9ubFnz2ue2BpHPzT8mEvLEbh6l
+	aBjVwofMBqTaVFl8BPQCYhn1Y686CAMcMJ+kCuuMkE6iKz/wasL6I91/uamOAuEQ=
+X-Received: by 2002:a05:6808:8888:b0:479:d57b:839e with SMTP id 5614622812f47-479d57b8c70mr5326078b6e.24.1776899110573;
+        Wed, 22 Apr 2026 16:05:10 -0700 (PDT)
+X-Received: by 2002:a05:6808:8888:b0:479:d57b:839e with SMTP id 5614622812f47-479d57b8c70mr5326071b6e.24.1776899110107;
+        Wed, 22 Apr 2026 16:05:10 -0700 (PDT)
+Received: from li-4c4c4544-0032-4210-804c-c3c04f423534.ibm.com ([2600:1700:6476:1430::29])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-4799ff36814sm12431712b6e.7.2026.04.22.16.05.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Apr 2026 16:05:09 -0700 (PDT)
+Message-ID: <a274aafb30abfee53d81525028ae64ebe9316620.camel@redhat.com>
+Subject: Re: [PATCH] hfs: validate bitmap record offset in hfs_bmap_alloc
+From: Viacheslav Dubeyko <vdubeyko@redhat.com>
+To: Tristan Madani <tristmd@gmail.com>, slava@dubeyko.com, 
+	glaubitz@physik.fu-berlin.de, frank.li@vivo.com
+Cc: linux-fsdevel@vger.kernel.org, akpm@linux-foundation.org, 
+	stable@vger.kernel.org,
+ syzbot+a19ca73b21fe8bc69101@syzkaller.appspotmail.com,  Tristan Madani
+ <tristan@talencesecurity.com>
+Date: Wed, 22 Apr 2026 16:05:08 -0700
+In-Reply-To: <20260418133949.1713416-1-tristan@talencesecurity.com>
+References: <20260418133949.1713416-1-tristan@talencesecurity.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43app2) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="micvknu33javk6a5"
-Content-Disposition: inline
-In-Reply-To: <20260419131800.486788-1-jkoolstra@xs4all.nl>
 
-
---micvknu33javk6a5
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v4 1/2] vfs: add O_EMPTYPATH to openat(2)/openat2(2)
-MIME-Version: 1.0
-
-On 2026-04-19, Jori Koolstra <jkoolstra@xs4all.nl> wrote:
-> To get an operable version of an O_PATH file descriptor, it is possible
-> to use openat(fd, ".", O_DIRECTORY) for directories, but other files
-> currently require going through open("/proc/<pid>/fd/<nr>"), which
-> depends on a functioning procfs.
+On Sat, 2026-04-18 at 13:39 +0000, Tristan Madani wrote:
+> hfs_bmap_alloc() retrieves the bitmap record from the header node
+> using hfs_brec_lenoff() but does not validate the returned offset
+> and length before using them to compute page pointers.  On a crafted
+> HFS image with corrupted B-tree data, the offset can exceed the node
+> size, causing an out-of-bounds page access.
 >=20
-> This patch adds the O_EMPTYPATH flag to openat(2)/openat2(2). If passed,
-> LOOKUP_EMPTY is set at path resolution time.
+> Additionally, when the bitmap has node 0 bit incorrectly unset,
+> hfs_bmap_alloc() calls hfs_bnode_create(tree, 0) for the already-
+> hashed header node, triggering a WARN_ON and returning the existing
+> node without incrementing its reference count.
 >=20
-> Note: This implies that you cannot rely anymore on disabling procfs from
-> being mounted (e.g. inside a container without procfs mounted and with
-> CAP_SYS_ADMIN dropped) to prevent O_PATH fds from being re-opened
-> read-write.
+> Port the fixes already applied to HFS+ (commits d8a73cc46c84 and
+> 738d5a51864e) to the HFS side:
+>=20
+> 1. Move is_bnode_offset_valid() and check_and_correct_requested_length()
+>    from bnode.c to btree.h so they can be used by btree.c.
+>=20
+> 2. Validate the record offset and length in hfs_bmap_alloc() before
+>    computing page pointers, preventing out-of-bounds access.
+>=20
+> 3. Return ERR_PTR(-EEXIST) from hfs_bnode_create() when the node is
+>    already hashed, properly signaling filesystem corruption to callers.
 
-Well, you could just block O_EMPTYPATH with seccomp (yes, it'll give you
-an unexpected error but people using strict sandboxes are usually fine
-with that). You can't block it with openat2(2) but most people block
-openat2(2) precisely because you cannot block individual flags with
-seccomp (*yet* -- it's on my TODO list!)
+I assume that we have the second version of the patch again. Am I correct?
 
-I also suspect very few people are actually blocking this correctly in
-general. Sadly, most programs don't work without access to /proc (even
-glibc implicitly requires it for a lot of compatibility shims).
-
-> Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
+> Reported-by: syzbot+a19ca73b21fe8bc69101@syzkaller.appspotmail.com
+> Tested-by: syzbot+a19ca73b21fe8bc69101@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=3Da19ca73b21fe8bc69101
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Tristan Madani <tristan@talencesecurity.com>
 > ---
->  fs/fcntl.c                       | 2 +-
->  fs/open.c                        | 6 ++++--
->  include/linux/fcntl.h            | 2 +-
->  include/uapi/asm-generic/fcntl.h | 4 ++++
->  4 files changed, 10 insertions(+), 4 deletions(-)
-
-> diff --git a/include/uapi/asm-generic/fcntl.h b/include/uapi/asm-generic/=
-fcntl.h
-> index 613475285643..db144851f57b 100644
-> --- a/include/uapi/asm-generic/fcntl.h
-> +++ b/include/uapi/asm-generic/fcntl.h
-> @@ -88,6 +88,10 @@
->  #define __O_TMPFILE	020000000
->  #endif
+>  fs/hfs/bnode.c | 44 +-------------------------------------------
+>  fs/hfs/btree.c |  6 ++++++
+>  fs/hfs/btree.h | 42 ++++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 49 insertions(+), 43 deletions(-)
+>=20
+> diff --git a/fs/hfs/bnode.c b/fs/hfs/bnode.c
+> index 13d58c51fc46b..26c2e65ab5935 100644
+> --- a/fs/hfs/bnode.c
+> +++ b/fs/hfs/bnode.c
+> @@ -15,48 +15,6 @@
 > =20
-> +#ifndef O_EMPTYPATH
-> +#define O_EMPTYPATH	040000000	/* allow empty path */
-> +#endif
+>  #include "btree.h"
+> =20
+> -static inline
+> -bool is_bnode_offset_valid(struct hfs_bnode *node, u32 off)
+> -{
+> -	bool is_valid =3D off < node->tree->node_size;
+> -
+> -	if (!is_valid) {
+> -		pr_err("requested invalid offset: "
+> -		       "NODE: id %u, type %#x, height %u, "
+> -		       "node_size %u, offset %u\n",
+> -		       node->this, node->type, node->height,
+> -		       node->tree->node_size, off);
+> -	}
+> -
+> -	return is_valid;
+> -}
+> -
+> -static inline
+> -u32 check_and_correct_requested_length(struct hfs_bnode *node, u32 off, =
+u32 len)
+> -{
+> -	unsigned int node_size;
+> -
+> -	if (!is_bnode_offset_valid(node, off))
+> -		return 0;
+> -
+> -	node_size =3D node->tree->node_size;
+> -
+> -	if ((off + len) > node_size) {
+> -		u32 new_len =3D node_size - off;
+> -
+> -		pr_err("requested length has been corrected: "
+> -		       "NODE: id %u, type %#x, height %u, "
+> -		       "node_size %u, offset %u, "
+> -		       "requested_len %u, corrected_len %u\n",
+> -		       node->this, node->type, node->height,
+> -		       node->tree->node_size, off, len, new_len);
+> -
+> -		return new_len;
+> -	}
+> -
+> -	return len;
+> -}
+> -
+>  void hfs_bnode_read(struct hfs_bnode *node, void *buf, u32 off, u32 len)
+>  {
+>  	struct page *page;
+> @@ -518,7 +476,7 @@ struct hfs_bnode *hfs_bnode_create(struct hfs_btree *=
+tree, u32 num)
+>  	if (node) {
+>  		pr_crit("new node %u already hashed?\n", num);
+>  		WARN_ON(1);
+> -		return node;
+> +		return ERR_PTR(-EEXIST);
+>  	}
+>  	node =3D __hfs_bnode_create(tree, num);
+>  	if (!node)
+> diff --git a/fs/hfs/btree.c b/fs/hfs/btree.c
+> index 2eb37a2f64e86..e8bc24c8baf1a 100644
+> --- a/fs/hfs/btree.c
+> +++ b/fs/hfs/btree.c
+> @@ -304,6 +304,12 @@ struct hfs_bnode *hfs_bmap_alloc(struct hfs_btree *t=
+ree)
+>  	len =3D hfs_brec_lenoff(node, 2, &off16);
+>  	off =3D off16;
+> =20
+> +	if (!is_bnode_offset_valid(node, off)) {
+> +		hfs_bnode_put(node);
+> +		return ERR_PTR(-EIO);
+> +	}
+> +	len =3D check_and_correct_requested_length(node, off, len);
 > +
+>  	off +=3D node->page_offset;
+>  	pagep =3D node->page + (off >> PAGE_SHIFT);
+>  	data =3D kmap_local_page(*pagep);
+> diff --git a/fs/hfs/btree.h b/fs/hfs/btree.h
+> index 99be858b24465..6032b14b1639d 100644
+> --- a/fs/hfs/btree.h
+> +++ b/fs/hfs/btree.h
+> @@ -85,6 +85,48 @@ struct hfs_find_data {
+>  };
+> =20
+> =20
+> +static inline
+> +bool is_bnode_offset_valid(struct hfs_bnode *node, u32 off)
+> +{
+> +	bool is_valid =3D off < node->tree->node_size;
+> +
+> +	if (!is_valid) {
+> +		pr_err("requested invalid offset: "
+> +		       "NODE: id %u, type %#x, height %u, "
+> +		       "node_size %u, offset %u\n",
+> +		       node->this, node->type, node->height,
+> +		       node->tree->node_size, off);
+> +	}
+> +
+> +	return is_valid;
+> +}
+> +
+> +static inline
+> +u32 check_and_correct_requested_length(struct hfs_bnode *node, u32 off, =
+u32 len)
+> +{
+> +	unsigned int node_size;
+> +
+> +	if (!is_bnode_offset_valid(node, off))
+> +		return 0;
+> +
+> +	node_size =3D node->tree->node_size;
+> +
+> +	if ((off + len) > node_size) {
+> +		u32 new_len =3D node_size - off;
+> +
+> +		pr_err("requested length has been corrected: "
+> +		       "NODE: id %u, type %#x, height %u, "
+> +		       "node_size %u, offset %u, "
+> +		       "requested_len %u, corrected_len %u\n",
+> +		       node->this, node->type, node->height,
+> +		       node->tree->node_size, off, len, new_len);
+> +
+> +		return new_len;
+> +	}
+> +
+> +	return len;
+> +}
+> +
+>  /* btree.c */
+>  extern struct hfs_btree *hfs_btree_open(struct super_block *sb, u32 id,
+>  					btree_keycmp keycmp);
 
-This value clashes with values on alpha (O_PATH), sparc (__O_TMPFILE),
-and parisc (O_SYNC) so you will need to add per-arch definitions for
-those as well. You should eventually get a mail because of compilation
-errors (thanks to the BUILD_BUG_ON in fs/fcntl.c that was added
-specifically to detect this unfortunate quirk of O_* flags).
+This modification makes sense but I mean the porting of slightly different
+functionality. Are you working on it? Or have you missed my point?
 
-Actually, it might be nice to try to do what we did with syscall numbers
-and just pick 1<<26 as the next bit, but we're getting quite close to
-running out of bits. :/
+Thanks,
+Slava.
 
---=20
-Aleksa Sarai
-https://www.cyphar.com/
-
---micvknu33javk6a5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCaelQKRsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMiwyLDIACgkQKJf60rfpRG+bFAEA6ptJs6AGW7xWwpsvZF2w
-Ykv4i2GzCRA0ujEdI83TfDsBAMhfv5dhefcFSoEJF/ck0anNl520XCeY9JNo9ZG4
-nrMO
-=no7M
------END PGP SIGNATURE-----
-
---micvknu33javk6a5--
