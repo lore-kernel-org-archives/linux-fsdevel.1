@@ -1,40 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 862FA1D6DA9;
-	Wed, 22 Apr 2026 23:22:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B93FA1D6DA9;
+	Wed, 22 Apr 2026 23:23:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776900165; cv=none; b=LOPPy4BzONRUw0ZGzPRxvhQGpk9+8/Df69E25Dk0GH/pQlus0c/AS5ygXe/dYdEp53JNraqJMG8llmw7Gii9f++uoUu2XA+JwgIpBfPNIgqXK/5jOTUo1hF31TqMbGRjUwGK6+vbgqQ63orFgk9rwf//lzrEpFyC3rszCZirVuE=
+	t=1776900227; cv=none; b=dzQnURHTigZH7Clvc2G5T6XNeM7mapQdAr4Emx9KBg8bCVMiOVPm0NesG2BpiPR4W6fRLhbrtSrJqLKasutQLTAClX6x09TQVR2FXhf8wtncr56LxVEsyE4ghj1mNxzA4GfmjdnbqdUjx5DgRVWuE6xy5aKGNAZgTjqe2cL/Q1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776900165; c=relaxed/simple;
-	bh=XMfQWfN1ZSoga89cy7a4ogwETMr/FjARcc0gHZC2BPU=;
+	s=arc-20240116; t=1776900227; c=relaxed/simple;
+	bh=A1DRXP6WgoRkW+uXzPhMWN8lF2qZ/i34lqWXZGtaFLY=;
 	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uXI4eYpJEJ+JrIwoAYBVbrlm/mUxPVw+qE/e8/7lad6tprn+rLXDReA3neM+ys+szqtR+YQaW4Zm41TZ5LJoRzyf84llCrmJq+v+WhoIdoWyBjvDq/TJIIXhKAnk9FZceOQQWxLBhI2ZYHKSjj2i50uOC+jfPen59dpR3G4Zyes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PjoolwuX; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=nNRdAowRx7ZcbNArHLRi0rR88V6PY9F1of4Wp/EAgSVZvNkzc1pyn7YtRCaq8qEVcMDwLMCY36vO63aUEm0cqGt09CBdxB23bQao5RngNwEzIIXGxPHV052YjanLoUOGcrG/V9DqxpRnGZu9OsN0O7TXY57MR0wvfqXgdnFad24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rAOSrP1G; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PjoolwuX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20D06C19425;
-	Wed, 22 Apr 2026 23:22:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rAOSrP1G"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9561BC2BCAF;
+	Wed, 22 Apr 2026 23:23:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776900165;
-	bh=XMfQWfN1ZSoga89cy7a4ogwETMr/FjARcc0gHZC2BPU=;
+	s=k20201202; t=1776900227;
+	bh=A1DRXP6WgoRkW+uXzPhMWN8lF2qZ/i34lqWXZGtaFLY=;
 	h=Date:Subject:From:To:Cc:In-Reply-To:References:From;
-	b=PjoolwuXVM3RoDRnZgrAAnawAH1x/LIOaLeVN9+FplQwiljSFj6llGa8Mpz0sYq1z
-	 rFYpB5Ruzg3xSydaJ41VXwa+DwIyIx6loJ4jivO9STLvG9mIG+n4QDR3MiweIm5k9y
-	 gMolNR6xYyybBmbRVkQJYvqb3cKS6iqlxrW0UZXrkNO3lEdcI0VTBI1FaTPTlmOty0
-	 m1F7eoAB2HmyCJmpF7jw6zGFYziuaLGQ9C09GJPiFm9TybiN/MUWtyKR/F/v42bsHt
-	 xtjgrokb78aChl11SgKNI9ObayXILi81r1aJeuh9kdF24L9lJdA+bYrMRq7x1cP0Ad
-	 Yt3gEfg6LTcvQ==
-Date: Wed, 22 Apr 2026 16:22:44 -0700
-Subject: [PATCH 13/13] nullfs: support fuse systemd service mode
+	b=rAOSrP1G4TpH1vYOoMFYlAw5kJzlDFL2ZneWF1J8AR5qU2K1VuTu1qmIB02wNj70c
+	 nouLuD33e7TB34se6SLYATZ+ZQ/avRfdCYyV/GO+aYhy0sR98tDQ6JnPX/Oogbe31C
+	 LpdvwBHjtq5/3CPuvlmpKvnlC4OidXPDGf3UWgUT4ojrzc/J+EW/FlcCgxdSW6Jux6
+	 hYazt9c0qhNguLF034TC+GdsMMzTELCcpSSRuLjKJoO/rGVOZDnP4eCXRZN9zuH/zr
+	 SHLi+tN1CFCCiJAP1WMN0oTw9b/uag7hek+9ESkLXZNzIjsyjFcez/wWt8sKjlDfMJ
+	 y3PTETCsgPdnA==
+Date: Wed, 22 Apr 2026 16:23:47 -0700
+Subject: [PATCH 01/10] libext2fs: make it possible to extract the fd from an
+ IO manager
 From: "Darrick J. Wong" <djwong@kernel.org>
-To: djwong@kernel.org, bernd@bsbernd.com
-Cc: neal@gompa.dev, linux-fsdevel@vger.kernel.org, joannelkoong@gmail.com,
- miklos@szeredi.hu, fuse-devel@lists.linux.dev
-Message-ID: <177689988773.3820166.9593794920623514618.stgit@frogsfrogsfrogs>
-In-Reply-To: <177689988489.3820166.4979104167640003535.stgit@frogsfrogsfrogs>
-References: <177689988489.3820166.4979104167640003535.stgit@frogsfrogsfrogs>
+To: tytso@mit.edu
+Cc: linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev,
+ linux-ext4@vger.kernel.org, neal@gompa.dev, joannelkoong@gmail.com,
+ miklos@szeredi.hu, bernd@bsbernd.com
+Message-ID: <177689989558.3821326.5811207681918955860.stgit@frogsfrogsfrogs>
+In-Reply-To: <177689989498.3821326.15497525132012299039.stgit@frogsfrogsfrogs>
+References: <177689989498.3821326.15497525132012299039.stgit@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -46,260 +48,112 @@ Content-Transfer-Encoding: 7bit
 
 From: Darrick J. Wong <djwong@kernel.org>
 
-This is the only example fuse server that exports a regular file instead
-of a directory tree.  Port it to be usable as a systemd fuse service so
-that we can test that capability.
+Make it so that we can extract the fd from an open IO manager.  This
+will be used in subsequent patches to register the open block device
+with the fuse iomap kernel driver.
 
-Signed-off-by: Darrick J. Wong <djwong@kernel.org>
+Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 ---
- example/meson.build    |    6 +++
- example/null.c         |   51 +++++++++++++++++++++++-
- example/null.socket.in |   15 +++++++
- example/null@.service  |  102 ++++++++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 171 insertions(+), 3 deletions(-)
- create mode 100644 example/null.socket.in
- create mode 100644 example/null@.service
+ lib/ext2fs/ext2_io.h         |    4 +++-
+ debian/libext2fs2t64.symbols |    1 +
+ lib/ext2fs/io_manager.c      |    8 ++++++++
+ lib/ext2fs/unix_io.c         |   20 ++++++++++++++++++++
+ 4 files changed, 32 insertions(+), 1 deletion(-)
 
 
-diff --git a/example/meson.build b/example/meson.build
-index 19a383f7cd2c74..45dbf26eb355a7 100644
---- a/example/meson.build
-+++ b/example/meson.build
-@@ -10,6 +10,12 @@ if not platform.endswith('bsd') and platform != 'dragonfly'
-     # support mounting files, This is enforced in vfs_domount_first()
-     # with the v_type != VDIR check.
-     examples += [ 'null' ]
-+
-+    if platform.endswith('linux')
-+        configure_file(input: 'null.socket.in',
-+                       output: 'null.socket',
-+                       configuration: private_cfg)
-+    endif
- endif
- 
- single_file_examples = [ ]
-diff --git a/example/null.c b/example/null.c
-index ec41def40ed5c5..43135cde39713e 100644
---- a/example/null.c
-+++ b/example/null.c
-@@ -17,15 +17,24 @@
-  *
-  *     gcc -Wall null.c `pkg-config fuse3 --cflags --libs` -o null
-  *
-+ * Change the ExecStart line in nullfile@.service:
-+ *
-+ *     ExecStart=/path/to/null
-+ *
-+ * to point to the actual path of the null binary.
-+ *
-+ * Finally, install the null@.service and null.socket files to the
-+ * systemd service directory, usually /run/systemd/system.
-+ *
-  * ## Source code ##
-  * \include passthrough_fh.c
-  */
- 
--
--#define FUSE_USE_VERSION 31
-+#define FUSE_USE_VERSION FUSE_MAKE_VERSION(3, 19)
- 
- #include <fuse.h>
- #include <fuse_lowlevel.h>
-+#include <fuse_service.h>
- #include <stdio.h>
- #include <stdlib.h>
- #include <string.h>
-@@ -33,6 +42,8 @@
- #include <time.h>
- #include <errno.h>
- 
-+static mode_t mode = 0644;
-+
- static int null_getattr(const char *path, struct stat *stbuf,
- 			struct fuse_file_info *fi)
- {
-@@ -41,7 +52,7 @@ static int null_getattr(const char *path, struct stat *stbuf,
- 	if(strcmp(path, "/") != 0)
- 		return -ENOENT;
- 
--	stbuf->st_mode = S_IFREG | 0644;
-+	stbuf->st_mode = S_IFREG | mode;
- 	stbuf->st_nlink = 1;
- 	stbuf->st_uid = getuid();
- 	stbuf->st_gid = getgid();
-@@ -112,11 +123,45 @@ static const struct fuse_operations null_oper = {
- 	.write		= null_write,
+diff --git a/lib/ext2fs/ext2_io.h b/lib/ext2fs/ext2_io.h
+index 61865d54d82490..c880ea2524f248 100644
+--- a/lib/ext2fs/ext2_io.h
++++ b/lib/ext2fs/ext2_io.h
+@@ -103,7 +103,8 @@ struct struct_io_manager {
+ 	errcode_t (*zeroout)(io_channel channel, unsigned long long block,
+ 			     unsigned long long count);
+ 	errcode_t (*flock)(io_channel channel, unsigned int flock_flags);
+-	long	reserved[13];
++	errcode_t (*get_fd)(io_channel channel, int *fd);
++	long	reserved[12];
  };
  
-+static int null_service(struct fuse_service *service, struct fuse_args *args)
+ #define IO_FLAG_RW		0x0001
+@@ -155,6 +156,7 @@ extern errcode_t io_channel_cache_readahead(io_channel io,
+ 					    unsigned long long count);
+ extern errcode_t io_channel_flock(io_channel io, unsigned int flock_flags);
+ extern errcode_t io_channel_funlock(io_channel io);
++extern errcode_t io_channel_get_fd(io_channel io, int *fd);
+ 
+ #ifdef _WIN32
+ /* windows_io.c */
+diff --git a/debian/libext2fs2t64.symbols b/debian/libext2fs2t64.symbols
+index affe4c27d4e791..555fbbb0c98878 100644
+--- a/debian/libext2fs2t64.symbols
++++ b/debian/libext2fs2t64.symbols
+@@ -701,6 +701,7 @@ libext2fs.so.2 libext2fs2t64 #MINVER#
+  io_channel_discard@Base 1.42
+  io_channel_flock@Base 1.47.99
+  io_channel_funlock@Base 1.47.99
++ io_channel_get_fd@Base 1.47.99
+  io_channel_read_blk64@Base 1.41.1
+  io_channel_set_options@Base 1.37
+  io_channel_write_blk64@Base 1.41.1
+diff --git a/lib/ext2fs/io_manager.c b/lib/ext2fs/io_manager.c
+index 791ec7d14adbba..dff3d73552827f 100644
+--- a/lib/ext2fs/io_manager.c
++++ b/lib/ext2fs/io_manager.c
+@@ -166,3 +166,11 @@ errcode_t io_channel_funlock(io_channel io)
+ 
+ 	return io->manager->flock(io, 0);
+ }
++
++errcode_t io_channel_get_fd(io_channel io, int *fd)
 +{
-+	int ret = 1;
++	if (!io->manager->get_fd)
++		return EXT2_ET_OP_NOT_SUPPORTED;
 +
-+	if (fuse_service_append_args(service, args))
-+		goto err_service;
++	return io->manager->get_fd(io, fd);
++}
+diff --git a/lib/ext2fs/unix_io.c b/lib/ext2fs/unix_io.c
+index f4307db0fb2b05..79bc9219f9515b 100644
+--- a/lib/ext2fs/unix_io.c
++++ b/lib/ext2fs/unix_io.c
+@@ -1786,6 +1786,24 @@ static errcode_t unix_zeroout(io_channel channel, unsigned long long block,
+ unimplemented:
+ 	return EXT2_ET_UNIMPLEMENTED;
+ }
 +
-+	if (fuse_service_finish_file_requests(service))
-+		goto err_service;
++static errcode_t unix_get_fd(io_channel channel, int *fd)
++{
++	struct unix_private_data *data;
 +
-+	fuse_service_expect_mount_format(service, S_IFREG);
++	EXT2_CHECK_MAGIC(channel, EXT2_ET_MAGIC_IO_CHANNEL);
++	data = (struct unix_private_data *) channel->private_data;
++	EXT2_CHECK_MAGIC(data, EXT2_ET_MAGIC_UNIX_IO_CHANNEL);
 +
-+	/*
-+	 * In non-service mode, we set up the file to be owned and writable
-+	 * by the same user that starts the fuse server.  When running in a
-+	 * container as a dynamic user, we just grant world write access.
-+	 */
-+	mode = 0666;
-+	ret = fuse_service_main(service, args, &null_oper, NULL);
++	if (data->offset) {
++		*fd = -1;
++		return EINVAL;
++	}
 +
-+err_service:
-+	fuse_service_send_goodbye(service, ret);
-+	fuse_service_destroy(&service);
-+	fuse_opt_free_args(args);
-+	return fuse_service_exit(ret);
++	*fd = data->dev;
++	return 0;
 +}
 +
- int main(int argc, char *argv[])
- {
- 	struct fuse_args args = FUSE_ARGS_INIT(argc, argv);
- 	struct fuse_cmdline_opts opts;
- 	struct stat stbuf;
-+	struct fuse_service *service = NULL;
-+
-+	if (fuse_service_accept(&service) != 0)
-+		return 1;
-+
-+	if (fuse_service_accepted(service))
-+		return null_service(service, &args);
+ #if __GNUC_PREREQ (4, 6)
+ #pragma GCC diagnostic pop
+ #endif
+@@ -1808,6 +1826,7 @@ static struct struct_io_manager struct_unix_manager = {
+ 	.cache_readahead	= unix_cache_readahead,
+ 	.zeroout	= unix_zeroout,
+ 	.flock		= unix_flock,
++	.get_fd		= unix_get_fd,
+ };
  
- 	if (fuse_parse_cmdline(&args, &opts) != 0)
- 		return 1;
-diff --git a/example/null.socket.in b/example/null.socket.in
-new file mode 100644
-index 00000000000000..865e739561a45e
---- /dev/null
-+++ b/example/null.socket.in
-@@ -0,0 +1,15 @@
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+#
-+# Copyright (C) 2026 Oracle.  All Rights Reserved.
-+# Author: Darrick J. Wong <djwong@kernel.org>
-+[Unit]
-+Description=Socket for null Service
-+
-+[Socket]
-+ListenSequentialPacket=@FUSE_SERVICE_SOCKET_DIR_RAW@/null
-+Accept=yes
-+SocketMode=@FUSE_SERVICE_SOCKET_PERMS@
-+RemoveOnStop=yes
-+
-+[Install]
-+WantedBy=sockets.target
-diff --git a/example/null@.service b/example/null@.service
-new file mode 100644
-index 00000000000000..f77fbe927217cf
---- /dev/null
-+++ b/example/null@.service
-@@ -0,0 +1,102 @@
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+#
-+# Copyright (C) 2026 Oracle.  All Rights Reserved.
-+# Author: Darrick J. Wong <djwong@kernel.org>
-+[Unit]
-+Description=null Sample Fuse Service
-+
-+# Don't leave failed units behind, systemd does not clean them up!
-+CollectMode=inactive-or-failed
-+
-+[Service]
-+Type=exec
-+ExecStart=/path/to/null
-+
-+# Try to capture core dumps
-+LimitCORE=infinity
-+
-+SyslogIdentifier=%N
-+
-+# No realtime CPU scheduling
-+RestrictRealtime=true
-+
-+# Don't let us see anything in the regular system, and don't run as root
-+DynamicUser=true
-+ProtectSystem=strict
-+ProtectHome=true
-+PrivateTmp=true
-+PrivateDevices=true
-+PrivateUsers=true
-+
-+# No network access
-+PrivateNetwork=true
-+ProtectHostname=true
-+RestrictAddressFamilies=none
-+IPAddressDeny=any
-+
-+# Don't let the program mess with the kernel configuration at all
-+ProtectKernelLogs=true
-+ProtectKernelModules=true
-+ProtectKernelTunables=true
-+ProtectControlGroups=true
-+ProtectProc=invisible
-+RestrictNamespaces=true
-+RestrictFileSystems=
-+
-+# Hide everything in /proc, even /proc/mounts
-+ProcSubset=pid
-+
-+# Only allow the default personality Linux
-+LockPersonality=true
-+
-+# No writable memory pages
-+MemoryDenyWriteExecute=true
-+
-+# Don't let our mounts leak out to the host
-+PrivateMounts=true
-+
-+# Restrict system calls to the native arch and only enough to get things going
-+SystemCallArchitectures=native
-+SystemCallFilter=@system-service
-+SystemCallFilter=~@privileged
-+SystemCallFilter=~@resources
-+
-+SystemCallFilter=~@clock
-+SystemCallFilter=~@cpu-emulation
-+SystemCallFilter=~@debug
-+SystemCallFilter=~@module
-+SystemCallFilter=~@reboot
-+SystemCallFilter=~@swap
-+
-+SystemCallFilter=~@mount
-+
-+# libfuse io_uring wants to pin cores and memory
-+SystemCallFilter=mbind
-+SystemCallFilter=sched_setaffinity
-+
-+# Leave a breadcrumb if we get whacked by the system call filter
-+SystemCallErrorNumber=EL3RST
-+
-+# Log to the kernel dmesg, just like an in-kernel filesystem driver
-+StandardOutput=append:/dev/ttyprintk
-+StandardError=append:/dev/ttyprintk
-+
-+# Run with no capabilities at all
-+CapabilityBoundingSet=
-+AmbientCapabilities=
-+NoNewPrivileges=true
-+
-+# We don't create files
-+UMask=7777
-+
-+# No access to hardware /dev files at all
-+ProtectClock=true
-+DevicePolicy=closed
-+
-+# Don't mess with set[ug]id anything.
-+RestrictSUIDSGID=true
-+
-+# Don't let OOM kills of processes in this containment group kill the whole
-+# service, because we don't want filesystem drivers to go down.
-+OOMPolicy=continue
-+OOMScoreAdjust=-1000
+ io_manager unix_io_manager = &struct_unix_manager;
+@@ -1830,6 +1849,7 @@ static struct struct_io_manager struct_unixfd_manager = {
+ 	.cache_readahead	= unix_cache_readahead,
+ 	.zeroout	= unix_zeroout,
+ 	.flock		= unix_flock,
++	.get_fd		= unix_get_fd,
+ };
+ 
+ io_manager unixfd_io_manager = &struct_unixfd_manager;
 
