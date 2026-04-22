@@ -1,107 +1,100 @@
-Received: from out30-100.freemail.mail.aliyun.com (out30-100.freemail.mail.aliyun.com [115.124.30.100])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 744661DE4EF;
-	Wed, 22 Apr 2026 15:36:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F0232D2483;
+	Wed, 22 Apr 2026 15:37:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776872213; cv=none; b=IQqc0J7RuUgtKn1NL/f5g/aDXXBV00sByuwFff6PtN+6eJS1krQH5XkAOAcihcURQVSveBwpUb8obxbAPPVTbFDHDJ797+ZelzsmsbSkw54yaCLtMj+yzw7EW3DEO/7APj1QcfYN69/5ELtHyM2lfmCat6EKIKi7nien3HKFE0c=
+	t=1776872236; cv=none; b=O38yNtB0Udtr4wSBcq00T0TgJ+hBrPF01fZ4T0NOqeCV1EUxQ74riCaqnAkhfTDuhoO4XreyWNj1AkXN8C1ZQ9DhqYYxB8VXPGc0CAg1hK6ImfEcAD9UfRgLyzidy3VAQetTg/He0trudISXV65C87BcV9xKjY5oyAej7N14Ljg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776872213; c=relaxed/simple;
-	bh=kmUKYb8MFCqt5uXcUuwJcuYa4P2fTBpw7tKKXZnL4kc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KLoBz+MaZoteeaZXqSGrg9WEZN2FhXFeE6ZFZk3V+90P5aLDH9duPSECV3TneG7F2Ki7zfFfscyRpUtFYOzpjmgUTHBX1LZ1KpDmHID5yPXNNpumT1jdXuP92IFgqwl9NwctlAiO2ro7/i2re/2cSc/s4YaOH5ZPeCzPjoVfX6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=cAW4zwvv; arc=none smtp.client-ip=115.124.30.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1776872236; c=relaxed/simple;
+	bh=/0wyBpUEBBh2p2qkATVS0PbriGNmv5fYWRKZAXfD8MI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HK7HK2915ffyeMZgoSGeDlhFWwXZKI4tuFoWXIXZOxGgQVzX02KRrP+/zp4dSWQkWg8btj+sGcjqJmvnqGsnyTSag92a88AL3ZXMcTW19M45vydF//de1rfeP1vKU+exZ3sIhZViET3/LSxNcgP5joa2TqYRz8ryPQ7aATP2NnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=q/BP5LzK; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="cAW4zwvv"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1776872200; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=hmz8+ozhZT7Y96RleM7to1oRBKc9JsyWKfv1hctCHIU=;
-	b=cAW4zwvvQ3GBAICEwY8O+1I7Wlo3ZuLF6/J0WS9R2OusTxCT3gC2Vz1ZAu3KbuzFZGm78uAg85IRHY21A8HKzMCgv4rySmsAEErd0L055XxphUVJGW+dlfylhAPx5R/xxY63tt8SvkSXpyuRfglKd1Wtmh2HW60RN018c8L/Bto=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R561e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037026112;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0X1Wf71d_1776872198;
-Received: from 30.41.54.139(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X1Wf71d_1776872198 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Wed, 22 Apr 2026 23:36:39 +0800
-Message-ID: <bd33abf2-5024-4a1d-bb75-a0359d64da1b@linux.alibaba.com>
-Date: Wed, 22 Apr 2026 23:36:38 +0800
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="q/BP5LzK"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=rMwGOpg2qFivUbvbsyYkOBdD4gVWL+AYmW30nprkaQg=; b=q/BP5LzK66l7izIicvhvAyM/tP
+	Rb+kvhTV2VdgnXRFGJAp/BK9h4RBPCn9X47mZtyD8utcmKcbHsXMPWCFWbO4J1mGNGjjD7Z1sQdJK
+	gHg30yOV/Qv06Ti4dql0qm+SdHCD6tnlN0Duuaw/Z4G5s7no9HgbtkfPwLmrGFsHEngVCInOe1n9q
+	aWpN+NYqcZjbJfx40DhsN1MKW1E7MuwJdYUgkHJ7Lrg6R+UD3M9m7r/Pg1Yddp3X+HI8eNSGV8QoE
+	AHxN7S6LXsvT81BSgmRRrLWA7VplDlCcRQEsBnObR1IsWHRH2+946RiH5mrqvw6I4y9zYvmcn2Y7x
+	qrg/ExxA==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wFZhZ-00000006Mhy-1tsJ;
+	Wed, 22 Apr 2026 15:41:21 +0000
+Date: Wed, 22 Apr 2026 16:41:21 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Jan Kara <jack@suse.cz>
+Cc: Thorsten Blum <thorsten.blum@linux.dev>,
+	Christian Brauner <brauner@kernel.org>,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] dcache: use QSTR() instead of QSTR_INIT()
+Message-ID: <20260422154121.GL3518998@ZenIV>
+References: <20260422123345.100436-2-thorsten.blum@linux.dev>
+ <20260422143437.GI3518998@ZenIV>
+ <6kjrb7mchttfnh6cx2av3aqk3y24346rrl462psfrhjwgle7n3@l77coamhara6>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ntfs: use page allocation for resident attribute inline
- data
-To: "Darrick J. Wong" <djwong@kernel.org>, Namjae Jeon <linkinjeon@kernel.org>
-Cc: Matthew Wilcox <willy@infradead.org>, hyc.lee@gmail.com,
- linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
- linux-xfs@vger.kernel.org, Gao Xiang <xiang@kernel.org>
-References: <20260422104627.8193-1-linkinjeon@kernel.org>
- <aejFTDGOnDbQ3OJK@casper.infradead.org>
- <CAKYAXd-RQrrpXH0R_Y87r53h0-KCDGVOtm5RaqTGETMEq-LYpg@mail.gmail.com>
- <20260422152832.GR7727@frogsfrogsfrogs>
-From: Gao Xiang <hsiangkao@linux.alibaba.com>
-In-Reply-To: <20260422152832.GR7727@frogsfrogsfrogs>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6kjrb7mchttfnh6cx2av3aqk3y24346rrl462psfrhjwgle7n3@l77coamhara6>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-Hi,
-
-On 2026/4/22 23:28, Darrick J. Wong wrote:
-> On Wed, Apr 22, 2026 at 11:35:32PM +0900, Namjae Jeon wrote:
->> On Wed, Apr 22, 2026 at 9:55 PM Matthew Wilcox <willy@infradead.org> wrote:
->>>
->>> On Wed, Apr 22, 2026 at 07:46:27PM +0900, Namjae Jeon wrote:
->>>> The current kmemdup() based allocation for IOMAP_INLINE can result in
->>>> inline_data pointer having a non-zero page offset. This causes
->>>> iomap_inline_data_valid() to fail the check:
->>>>
->>>>      iomap->length <= PAGE_SIZE - offset_in_page(iomap->inline_data)
->>>>
->>>> and triggers the kernel BUG at fs/iomap/buffered-io.c:1061.
->>>
->>> Hang on, hang on, hang on.
->>>
->>> First, maybe this check is too strict.  I'm sure it's true for EROFS,
->>> but I don't see why it should be true for everybody.  Perhaps we should
->>> delete this check or relax it?
->> I agree that the current check might be unnecessarily strict for
->> general cases. So I will prepare another patch to remove this trap for
->> further discussion with iomap maintainers.
->>>
->>> Second, why are you calling kmemdup() to begin with?  This seems
->>> entirely pointless; the iomap code is going to call memcpy() on it.
->>> You're supposed to just be pointing into your data structures.
->> In the initial implementation of NTFS with iomap, I pointed directly
->> to the internal data structures. However, I encountered this BUG_ON
->> trap during testing, so I switched to page allocation to avoid it.
->> Then, during the review process for the NTFS series, I changed it to
->> kmemdup() without much thought. If this BUG_ON trap can be removed, I
->> could have simply pointed to the internal data structures as you said.
+On Wed, Apr 22, 2026 at 05:04:54PM +0200, Jan Kara wrote:
+> On Wed 22-04-26 15:34:37, Al Viro wrote:
+> > On Wed, Apr 22, 2026 at 02:33:46PM +0200, Thorsten Blum wrote:
+> > > Drop the hard-coded length arguments and use the simpler QSTR().
+> > 
+> > ... which is not a constant expression.  NAK.
+> > 
+> > QSTR_INIT() is an initializer list for struct qstr; QSTR() is a
+> > compound literal for the same.  IOW, its value is an anonymous
+> > local variable with given contents.
+> > 
+> > C grammar allows both
+> > 	struct foo x = {.bar = y};
+> > and
+> > 	struct foo x = (struct foo){.bar = y};
+> > for auto variables, and compiler is able to figure out that they
+> > are equivalent.  But the second form is not legal for the static-duration
+> > variables.
 > 
-> I think the check is wrong.  We rely on the filesystem to point
-> iomap::inline_data to kernel memory that is at least iomap::length bytes
-> in size.  If that crosses a PAGE_SIZE boundary that's fine, so long as
-> the caller actually mapped that much memory.  IOWs, if you have an
-> iomap:
-> 
-> {pos = 0, inline_data = 0xB0000, length = 32768, ...}
-> 
-> then we trust that you really did map all of the MDA text mode memory
-> and that memcpy'ing 100 bytes to pos 4090 is ok.
-> 
-> (Perhaps this is a relic of the bs<=ps days?)
+> Hum, I understand your reasoning but if it isn't legal, I'd expect the
+> compiler to complain. Which it doesn't and the generated binary of a sample
+> test program with both constructs is exactly the same...
 
-Anyway, as said before, I think that particular assertion
-can be removed too.
+gcc is treating that as an extension, without having clearly documented it.  
 
-Thanks,
-Gao Xiang
+Again, compound literal is *not* a fancier way to spell the initializer list;
+it's equivalent to having an anonymous local variable with initializer list.
+It's an l-value, which quite a few uses of QSTR rely upon (and which the
+same patch series misses in several places, keeping useless named locals
+for no reason).
 
-> 
-> --D
+It really makes no sense for static storage-duration objects; optimization
+I've mentioned above is basically a compiler seeing that
+	struct foo anon = <initializer>
+	struct foo x = anon;
+with no uses of anon anywhere else and figuring out that anon can be eliminated.
+Doing something similar for global variables is insane - would you expect
 
+static int __x = 1;
+int x = __x;
+<no other uses of __x>
+
+to be valid C?  Sure, you can prove that the value of __x will be 1 all along -
+no stores to it anywhere, so the value of expression used to initialize x could
+be deduced at compile time.  Currently gcc doesn't have that (that's *not*
+a suggestion for another extension), but if that changed I'd still recommend
+not to make use of such.
