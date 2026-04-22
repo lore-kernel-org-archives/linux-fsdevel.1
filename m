@@ -1,143 +1,161 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BCEA29D26E
-	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 07:42:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55635372EC0
+	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 07:45:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.50
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776843771; cv=pass; b=LCAMaV1Q1r6zmabNrXoUm7fq3RlFpHQFriFC+blrpcZQ7/0VGpJMfOg6cMp6/EqHlnOvo/iAya8SFbxIkjgdo3xq2mDMWqRZM1q/yPf+6KoLpxTUphykSxfz9xNpkYDswF6iJQCg8fyi21zHbmzJEUjoyFo5XFBHGp7twl4L5dg=
+	t=1776843940; cv=pass; b=erDACaV7wIHFomni9JJe2CZmZF+GWhcgZQEtd/zojKKtQvj9xrLUqRj8Uvo5oBuuJ6fVXYuYyww6Nkv2ISO0ebxV4pt8Dif+qXOTpApe0d4uehf9rjBtlGumcNCLC/+Edfona4P8k4Pm8sdcW/kVIfN03DzpiMGydAM/GDjZQX8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776843771; c=relaxed/simple;
-	bh=vF7GFQjFiLQixPDnP5Oed+7TTmdjzfIGex6cBPqoVjA=;
+	s=arc-20240116; t=1776843940; c=relaxed/simple;
+	bh=ZAAxhN8SKNjKA3Up6YyHYbskKLZJ/46kGXKUZ+PsJGw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rvHutTiArpbHPu8X9TwK5M5Z2EcT5MoS1yGwcIgwYRTF6LVoDZ9n5nIN1jDVszsR8K0+uHseY5vReOAddUx/U7Abm8Pwx4KgeSonzntNnv1L1ZPcDSiaGxGJ2TnXZBHmEJcyXcLPnUMeHOzeOrYBuAQi/w5dvGoGl1uf84n1l1Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FfiuHZ8h; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=ddVENzxx; arc=pass smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 To:Cc:Content-Type; b=mnqa3VWFK62UyOB2FIDp0LUCZ902iOH3dfMn9i0pOmpVRSV1vArDzBX7yHsH4PRhnlFXQiuo7D3OVnzH7aYJ2/JfFIc6VGCCbxHwrreGuKY0wXw2V6BC/J/8ScfQ1e4q5aHLq7BWq1rL2n0E7GSVUlfJ67sod2bnuBqIrF3xy8o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ga1v68Ct; arc=pass smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FfiuHZ8h";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="ddVENzxx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1776843769;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=R7pqyOAjUCUgv3uLiehuAJiB25itYZP57ABnNLwlQcg=;
-	b=FfiuHZ8hroVl/7xg7HIRncUoVdgH/HJ2Sq9lCQnKMtsxzzi53bPvZcWDbe4Z4VSf9WJwkx
-	v4kfGWig+qOvnTJ7wXI8o059FQy96zf+afBwEBofRmHLf7WbJRLHJIshje2CgiOUZC1jud
-	Akieg0evBpu5pdUScqQwJYVzx0bIn7M=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-7-3mCx1H6bNWS3z1DnIwu67A-1; Wed, 22 Apr 2026 03:42:48 -0400
-X-MC-Unique: 3mCx1H6bNWS3z1DnIwu67A-1
-X-Mimecast-MFC-AGG-ID: 3mCx1H6bNWS3z1DnIwu67A_1776843767
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-ba7eadca2f1so213483866b.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 00:42:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776843767; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ga1v68Ct"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5a3d42263e4so4961134e87.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 00:45:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776843936; cv=none;
         d=google.com; s=arc-20240605;
-        b=i6jk9QAD73PE7HggRNw7cW2cRo3/8k2E2Q+OBkc+tDOAqgTJyQTwBx8D1A29x7Qori
-         g3bHXGzoswQ9c00qLrW6xgRO6r9s4gn4l/VRf9zR0AvRNMg70uWttWAFHjLmrJelV2sz
-         KDUmpxMcvsQ+UVWnhWAzjKtCHpgAnyEOGy0Luib6m8R8y9tnFCIGFzn7aIDXMTwN3PLS
-         H57nvY/Dl28aE7mzPX3OeRHlvSCdWfTzdR1W+APbbyGeTIr+nytFI/kUL8NcYnbWPXNF
-         rREpf8sv1s86TB5xWaLLRkTSb0AfBe8A5ZOY1U5y1roAVq+DrKs3P6aIFeq/uVvts+2X
-         ZAfg==
+        b=ZGCedzcMNWkTFGBCjZeSzjgyfXM6JP8Ez20wRvyiI+VLFSWUK0OW+WgZz8UniLXFr0
+         QWzXs30+4A59jJz/8P952IfJpeYDb3gpYo2iRCbxlYC41Cd0iK8tfPGBPxp2Ww22Rt55
+         ttdTFE4PbWWUcQoyvJ87jHlq2Euhdc3clTUAXGguVEkAKw3NdjSbUIxoI+b+E3+S/M0l
+         Ub+2wbiV2NhyFQZXhqgzKeUy2Zac46qElG0757JcFfpaoo75aNVybb6ZZmJX+tI2TCZr
+         3kH2NEkTNAFfSP2Yh2Z2AiW95nf31g3F+PBKaSNJMZYGH8hWXwa7/J4Cnnk0WTPnjoc3
+         uxbg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=R7pqyOAjUCUgv3uLiehuAJiB25itYZP57ABnNLwlQcg=;
-        fh=sdOms8qvMH23ar21FsJt0poJ5ahLFmwtxdStC+a5FYQ=;
-        b=JXy3CkVrpUmtgIFGcQU9HVkKWY9dPgJqx4t75y0UEuiw2CaEZEOaYJjiTGjOP0UUFZ
-         Q6QFG+Q2JuPklZL2JLQEki9EUIYdMwmY1ybrJNW7qN+I7NR4Ot1OT20PiuoFA31cUBPr
-         qzg6adc7yHak8s+CNXdqVGpeCmxgxGkTdw6Qr3xEAJQ9XwhfJ2NeiKCI2Z6HRT1efKyq
-         DwmVPTHzO7qSZATbeah5e2dmhH9DeJ+k+fxEJHmt7gy/lsBgBZ5LF/BDzC3jnseV6c31
-         3JgG+YQ2iGg1n/zJd5NVbp7tNTMHgbk7NcdZrWsMrkNYNv8K0nvROingoRuQRGnHwZMc
-         1Hlw==;
+        bh=BVPcvxthxBvBAubnIyiJIG2jV89teRldW0ikd9cKYwA=;
+        fh=yGslsiDY4NdeJLKk027fJJMnNkmmN3xNj/+tL/Jc8wc=;
+        b=QLaatjtQUNM3ze+hpzHCwB2PCHC+lrfy9hkbKnVHKVoh5X1d3V7DzrESb1AfLYl/zS
+         vtDZsiLM3N2NgwjzvmUgvbUVDMtBzc0C8TYr2EViJZ5oOa/1tWolL8opltpwux1T9sx7
+         IN4Cj1DqduwwthyyxkMAOx5+l4CJbgx7H9n8o/hNYMlFrgMv5F0evukUt0DKOXEqIVwW
+         sJKmspb3Oxya3arOXqHcWeUKEPLmZU676X/jdWeVzn81ksMFeFI13YEvUwUUx8Nlq9yx
+         IgvGHSa+aX93uhVcABUt9kepiA//NlsYkEgjQBeCii3f34THG/XREeVQizEaIoL5z5BZ
+         1ndg==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1776843767; x=1777448567; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1776843936; x=1777448736; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=R7pqyOAjUCUgv3uLiehuAJiB25itYZP57ABnNLwlQcg=;
-        b=ddVENzxxGxYbqxcxIgSTm2xCQNjhOvRNCBnpUjSlbCr6zjbATCfmTUDhS5szHSSJw5
-         m3V7Z3M5Y1tyOjIhazJSbwtRzJTH3EgE1Lk29ZoyVnEmixWp9oaLedrYfETAHpzFl644
-         txJBwyWtcI54D87d7Anu80lii/Qb732xDrC8Jy5tO6Y1FH41KxirLwXl89YBhJSvPiIg
-         hfjYxh1qRpVFtgP1RR1/hbKzDM9NIVEbx5AOP8tsurxfcDY3IR18csEA3EdT71vPWIl6
-         Z+1H5WLjZ/Wd4AyjQUo5wPRQQOdnyQl5b0w4VfHvgFeLweuUvTxI665cUwI6mbrFHInq
-         +4Tg==
+        bh=BVPcvxthxBvBAubnIyiJIG2jV89teRldW0ikd9cKYwA=;
+        b=ga1v68CtOvVy66oh4kSc36GNkmPnfnq6O1GEDeP/5+9gIn2H+aicO+KeBfc72nvidE
+         EFR2iyrFfB3ittnL1i707cZnG+nGQK4n/RqA1d4cddRSuv9uwmZ/q5L8MjSB6w1n/jio
+         HhU865g+EJX7FMFNPrYfwCVsXpv5CU8fHQVUxptVGgKx+l/zxiizPsG2bU04kJTH3w/v
+         9WmMguQw3p+gEscLOkc5s0/oAw9N2f5VxoDMuI083h1C0RvKK3y+7q/8Q+D1+Zu0VCX2
+         DzUjA/i3Mvdms8o0w8mBOn9lpMpnWLnDgxORLKB/yPm6VsKRKdZs1KHITMAD5fG0qpRQ
+         plZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776843767; x=1777448567;
+        d=1e100.net; s=20251104; t=1776843936; x=1777448736;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=R7pqyOAjUCUgv3uLiehuAJiB25itYZP57ABnNLwlQcg=;
-        b=cpOsiBiCkC90i2V0IVBVDpb2qFELufgz9ABFVep3dz7C4fq+UUd5cg3L07kypP7OCc
-         MP6E8RZTEqcBc/Ham9KU6EoLgwa++MYJy1zcN/IVxs+L+vcBdXNos+woJa1T7MCQrYYY
-         M3OMkqlGloN99wIOjf7hoJwZ+l9XnlpZZSxHQkj2No3PLKZAqV6C3SgHN1xD6ZyW0ocO
-         /imqrXw2dgBiX74wbFobGbKItVX3+12Mzy7vbkZdocBPEs0lCnGkCEN1CLtyB35DElVU
-         V8Lg460XFJX5cXPcmRz4agLGNR44Yk9WNaNDhPtDXahpm9ikNOmWKJbDgo0/N3SUIBTL
-         UPAA==
-X-Forwarded-Encrypted: i=1; AFNElJ9xR79Ye1p2Wl2Df6Rf1kSQccYOjM9ecKhre7zBPoDWBRwmhQwU18ch3yMmcQn8RTWwPBQ3oY3c4i4+Az94@vger.kernel.org
-X-Gm-Message-State: AOJu0YyP7t8+EhPZqLmK2JnAcaDcGaPSUTrMC1MfqD3LLIgLTBun4sQd
-	ztb/gQwodINcWNZ4CTyiEfUjxo/0p0qlLqo5Oo0D+XLhzrEEx7yHQLiqBrtVFc/hFhlkCLIDdhz
-	uvNQrRo40O9Xb3h1hGJIx9yi0+QB+AEsFYNZHbXa19W6kzBMsMG/d3rcetKtk27M+U2wNSy9zTt
-	erJhSo70cfcpkj/kOc3MO61IEtL846+L2N+ONE7/1ETg==
-X-Gm-Gg: AeBDietVzM92OLjW49jL9pkesLwGf2eE4hkluK4ijRgrHrE31NpFCOdsl8QW5OQjLIG
-	DoppyZZWRIh7mD5ARsZirE0fzfgifxlxrS7tBLuaMGzz9InT+WHMffXVuKBR/gI0ji4m1sK48Ql
-	g4TdHycl7/f5eoMeNSw1YM3jp4y8WrhKQX1GLk3m1iWNyaWMGkV7An0bDLGism3Els4ygYcIMDD
-	mLrB3kDybV17YV3+yHsLz0qLEhlkNDkJbT/cjyoLkM1tJzzYQ==
-X-Received: by 2002:a17:907:2d9f:b0:bab:9151:62a1 with SMTP id a640c23a62f3a-bab91516324mr5609866b.23.1776843766830;
-        Wed, 22 Apr 2026 00:42:46 -0700 (PDT)
-X-Received: by 2002:a17:907:2d9f:b0:bab:9151:62a1 with SMTP id
- a640c23a62f3a-bab91516324mr5607666b.23.1776843766284; Wed, 22 Apr 2026
- 00:42:46 -0700 (PDT)
+        bh=BVPcvxthxBvBAubnIyiJIG2jV89teRldW0ikd9cKYwA=;
+        b=VnTvNFr3RkTAxMp1pxPWDXaCYjFU+g+T9MJNkuz4iHteA56nd60tITGSYJ4zBkBxIS
+         EGuO4tNH0Xa16X6is6cUXimepbBko9Lt4C4UQi0Y5o1LzURZ6s6b/LQbFLtKgb/naqK2
+         YPxvE4Wn38vI31aN6V1a3Fvx7XvPQdPPeWHp60o61mje1NWqnhltF4WC8VKuFAZ7/nX4
+         X/67M3NG7wB6gQV8xJ90d5uGy6U2WXacTAuB9l3hvrvNzzmKQwIhyawk5ws2W0BfwfwB
+         XP7ozNTTFNJt9UkbSriBTMOH1AM3hm4DXEohRCxqlasdNgZrI4ACNbbEUsYFN2mK4fho
+         R9Ng==
+X-Forwarded-Encrypted: i=1; AFNElJ9sj6BdeL9D36iBBfJ4rKxPdAEaa2oUSplyCgWsvO5Mju+eneDjId7kZjWbVNcNms9/Pnjwoz+MZ38BZY+y@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywta/hwNXuBEMapZ97ZOh4UFzsS/ujosVuRj0RXq0qFrRQU8NZw
+	u7jG6H7QnnbjACwVjovINsL2albE1GJS1SeFTDEZO+s5d0saVIga6pXeYJ1MsE83OvhF3Lr18K7
+	G7L5CMqNJFXEiaY5nmIoNhNZVlyjYg4A=
+X-Gm-Gg: AeBDietI9RjkLhB+/OgmchrNXeXj3BpaS//9C02xPHHt1YiR0a47HtJklrrB0H93QZA
+	M7YKc9r5i6taw7ToP0z8S4qlggTXxECCsmS1pml/5KRFaixS92aHJe2SdUlxzga/kfSnKDOhKqJ
+	pdNAd9BdndWgZOWBEifsROl/Otn6apVFHXnBATEhhAbYNbejTE0MMZcXTBP43iWCssiF64/1xai
+	znNZ5DW7jUzi8q1yFHhxQxjIK05Sw9ynwfNYGiDFEuQGfnt1wv7zdPH0Gw3FCsZW/cRTq9eAZMo
+	tNbg0+sKnmrxBdHNeoa6y46RX+C3
+X-Received: by 2002:a05:6512:1086:b0:5a1:1b06:7e81 with SMTP id
+ 2adb3069b0e04-5a4172eac71mr6549450e87.42.1776843935222; Wed, 22 Apr 2026
+ 00:45:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <aeBv_xvDTmuzEhV1@infradead.org> <20260420100637.3584-1-ravising@redhat.com>
- <aehqUzvOHUoyLqvc@infradead.org>
-In-Reply-To: <aehqUzvOHUoyLqvc@infradead.org>
-From: Ravi Singh <ravising@redhat.com>
-Date: Wed, 22 Apr 2026 13:12:34 +0530
-X-Gm-Features: AQROBzAP74E-Qp-aIgk3t7Xdv4nHz2B53Q0bjR2_vTiec7DIITxhSJ5YPw7woRw
-Message-ID: <CAF-d4OvKr103QWZDwN-d2jdgZN9KpO7E5UOHo30zwP3in3vZZQ@mail.gmail.com>
-Subject: Re: [PATCH v2] xfs: flush delalloc blocks on ENOSPC in xfs_trans_alloc_icreate
-To: Christoph Hellwig <hch@infradead.org>
-Cc: linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	djwong@kernel.org, dchinner@redhat.com, esandeen@redhat.com, cem@kernel.org
+References: <20260422030543.125743-1-zhanxusheng@xiaomi.com>
+In-Reply-To: <20260422030543.125743-1-zhanxusheng@xiaomi.com>
+From: Hyunchul Lee <hyc.lee@gmail.com>
+Date: Wed, 22 Apr 2026 16:45:23 +0900
+X-Gm-Features: AQROBzA9uud6i02KQjrblJbQnrOxy7-FdhIl0HlLi08M8YZ_StAC_-z9HLdDHzI
+Message-ID: <CANFS6bY5KfZ34dAw8StDnXkrr59r883ETB2enZr++Ny++B6H=g@mail.gmail.com>
+Subject: Re: [PATCH] ntfs: fix s64 overflow in ntfs_mapping_pairs_decompress()
+To: Zhan Xusheng <zhanxusheng1024@gmail.com>
+Cc: Namjae Jeon <linkinjeon@kernel.org>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Zhan Xusheng <zhanxusheng@xiaomi.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 22, 2026 at 12:02=E2=80=AFPM Christoph Hellwig <hch@infradead.o=
-rg> wrote:
+Hello Zhan,
+
+2026=EB=85=84 4=EC=9B=94 22=EC=9D=BC (=EC=88=98) =EC=98=A4=ED=9B=84 12:08, =
+Zhan Xusheng <zhanxusheng1024@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=
+=B1:
 >
-> Note: posting the v2 as a reply is a good way to lose track of it,
-> don't do that.
+> In ntfs_mapping_pairs_decompress(), deltaxcn is decoded from the
+> on-disk mapping pairs array and negative values are rejected, but
+> large positive values up to S64_MAX pass through unchecked.  The
+> subsequent `vcn +=3D deltaxcn` can then wrap the s64 accumulator to a
+> negative value, breaking the monotonically-increasing VCN invariant
+> that ntfs_rl_vcn_to_lcn() and related helpers rely on.
+>
+> A crafted NTFS image with a single 8-byte run-length of S64_MAX
+> triggers this when lowest_vcn > 0, leading to incorrect LCN lookups
+> and potential reads/writes to wrong disk sectors.
+>
+> Add an overflow check before the addition and treat the on-disk data
+> as corrupt (-EIO) when the result would exceed S64_MAX.
+>
+> Signed-off-by: Zhan Xusheng <zhanxusheng@xiaomi.com>
+> ---
+>  fs/ntfs/runlist.c | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
+>
+> diff --git a/fs/ntfs/runlist.c b/fs/ntfs/runlist.c
+> index b213b4976d2b..a32affb57d29 100644
+> --- a/fs/ntfs/runlist.c
+> +++ b/fs/ntfs/runlist.c
+> @@ -823,7 +823,16 @@ struct runlist_element *ntfs_mapping_pairs_decompres=
+s(const struct ntfs_volume *
+>                  * element.
+>                  */
+>                 rl[rlpos].length =3D deltaxcn;
+> -               /* Increment the current vcn by the current run length. *=
+/
+> +               /*
+> +                * Increment the current vcn by the current run length.
+> +                * Both are non-negative here; guard against s64 overflow
+> +                * from a crafted mapping pairs array to preserve the
+> +                * monotonically-increasing vcn invariant.
+> +                */
+> +               if (unlikely(deltaxcn > S64_MAX - vcn)) {
+> +                       ntfs_error(vol->sb, "VCN overflow in mapping pair=
+s array.");
+> +                       goto err_out;
+> +               }
+>                 vcn +=3D deltaxcn;
+
+Could you use check_add_overflow() here?
+In addition, attr->data.non_resident.lowest_vcn also needs to be
+validated with overflows_type().
+
+>                 /*
+>                  * There might be no lcn change at all, as is the case fo=
+r
+> --
+> 2.43.0
+>
 >
 
-Understood, will post v3 as a new thread.
 
-
-> > + * If the block reservation fails with ENOSPC, flush all delalloc bloc=
-ks to
-> > + * reclaim space from speculative preallocation and retry.  This is si=
-milar to
-> > + * the quota retry but targets FS-wide ENOSPC.
->
-> Can you move this code to sit above the code that implements the
-> logic?  It is much more helpful there than at the top of the file.
->
-> Otherwise this looks good.
->
->
-Thanks. v3 coming shortly with the comment moved.
-
+--=20
 Thanks,
-Ravi
-
+Hyunchul
