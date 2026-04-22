@@ -1,120 +1,127 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72B5F3B27F3
-	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 08:58:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776848288; cv=none; b=ARl0Z7I3a8YBcdhgbL8bSx1EUWcOcG4iXI4Uj4YTPeQOVov8qHNQgvmVuiHeC6YH43LI8a6LGiLGjivZ+81jHVknOC6zZPHygbdu2WMakfx9yWEmzifh1RH9b/tXnUAF9q21UfWYk2snU0gGIm8LpfIVeDjFh16ZdIxboT7JY4E=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776848288; c=relaxed/simple;
-	bh=uF63Ms8AACR/oFWxgd+uFy3hlr2NIcQ7At05T0KyQug=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V9F4vXq71lfSDhOrFNpXCKf8GpEA4TvCgI7ln3mUvNYuWkJdghx0TJcENc8q3Z05SbqikbABMDhUSibt+CWz7wca+L/gIqanDR7zoNGjE/i6ro0Ivr07L6bYwddG+SOIYIZarZAjXyxXcYzAdXdpmckqld4wy6LcMmqZkI3FCYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cHQHEGn4; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=cxPgpXd1; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 388793246EF
+	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 08:58:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776848320; cv=pass; b=FV78w28PAuYOevwoukaNYksaJDdvw8VIR6FmP0rbFVINzhsJVZolwgJyvEDa6UyRJlsFmgd2s0IuT9aPEO3H0aKDucVJP4oqEia+jsQYpQlbba7M/YkE0/MYUhXGBhJCA4veb8HzHxQDxQPHaV6LfLTBt01i1s+bQ6mEpeBmz/k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776848320; c=relaxed/simple;
+	bh=GutvYltsxYYZRaOn67+yNsu7DUxLCxH3hhGl+I27cCg=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=XPvQwDEl82xBfUjbYl4vGGMtM57TvlnblXxchFkxBPorYvSB12P1pafzhbaFfUhxdAryklAWRJLLSchCk93mEtGPSBPMV3JCMSwJ0VRK4pUjtZgrUWq/+/YAihiWOa4n3IYbqMCZXgP7bbtOZdYQk2xklEbfs/WxXHf/y1NmgD8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mutFZNyr; arc=pass smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cHQHEGn4";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="cxPgpXd1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1776848286;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FFaygBUBXXsgixj3eSOd6CMo0lj7K6zPcakxuhrDzd4=;
-	b=cHQHEGn4d65uGcHveSIfcaCYX+F8OuoMacUm1MAOmqirZSK4FaBJJv5JD4WXXd/psgrLV4
-	AyeNE1L6dGikldh6xPKHp9tapFPxBEeg5jZczq2A419pFkp0K5EdnG6cEGSDAAe63btKjy
-	0tAeHahRUjaQ4pK45Cde+QMyNuzt6lE=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-533-57LO25L2O6qJLK7aOmeCGg-1; Wed, 22 Apr 2026 04:58:05 -0400
-X-MC-Unique: 57LO25L2O6qJLK7aOmeCGg-1
-X-Mimecast-MFC-AGG-ID: 57LO25L2O6qJLK7aOmeCGg_1776848284
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-4411a215f17so2336836f8f.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 01:58:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mutFZNyr"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-ba699316b42so555572166b.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 01:58:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776848317; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ZgVvYS6cdL/WU9BVz1rhjQ3/lruY0c/Lx7reY5nMvLYpENeUnSkLPgaMghVLoyQR+H
+         ZeMzzM5r1e/Fnr4lQ8+3GV3xBbW4SOlHBgkeDW/V8rbz/uv2xMzsVp/S0nW1sxMAY775
+         /aiwhYsZbXOCzSF8YYWDfW8zTyjTEa1it1N+mEhZOfZUN9E5ySm8IA7/axcmC0dkTXcI
+         HoWX4nI4CNchIjaqq4CFRDzlHZJ9tRLn6qdsZNoVALU59EiOHXDxXUq+IinE0N54Rsyw
+         vVJ164g82zc5yrFzws9oij58tjVqLzhav5+8tnuBzKXhbJCwdeZmZt5Fa0L7fm/lih14
+         QuEg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=GutvYltsxYYZRaOn67+yNsu7DUxLCxH3hhGl+I27cCg=;
+        fh=K9x524UIiRk5R5AoZq5CXtTX+dc5QwH+ZGr4IhcRVs0=;
+        b=PENISxIl7CRO/OLpS2mFnIjEJ/o92D0fEwMNtwkVWOrnh/6WmEypFrdYS7SpPsFRUP
+         1qmiENG9e/bSMqyYO2NroEV2NS+D6BQ/Ojr3ypoXu0g1IOKCgIobtvUcwF25h8lPYZzt
+         VxK5kBPx3adSobW+JoEpFlHc6+JPsBIkVx5C79x28E5cE4hUZPovSLcNc+xe9oJOxNiq
+         EzeMqXxJ5ANx4pen5ZY8QMAt7nxbPeF+G6x6Rp9QyWBhVUug2GjCAp80rGnbQfNecH7W
+         Sq/OWnBxExuNQD3jyM4qw/mOTiq3JVqXOQgZX/iOCLBbpDUBo5DYvj6SUCaUK3Kdu9En
+         fnOg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1776848284; x=1777453084; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FFaygBUBXXsgixj3eSOd6CMo0lj7K6zPcakxuhrDzd4=;
-        b=cxPgpXd1U2be8oz6XUshGUwOibc9axYIPHrFBQMSuZiwknsMCpp4TPaR8V7HmHlTAY
-         /dCsgZVFDwyccB3y60KfRvoGnvNlg2iIqUs25ma3UOS+vz/Zsg2LlbyetF/NjsQvTjys
-         aJuVv7sS9y+rpV64vhwHsfrlc4dqmdxrJWV1l4wJrJpAQhYrfJcu/hMHFG5ggFE775LB
-         W+UX1yNE383mH/kP7SWPY7TcZmnlXH43S7rc0l7ZvA4bsx2363D3RxTy9WLYClkKW2eM
-         LCp79CUbrLb03Zm4ngKEbKKygpkSgf9aAmySoGIq7OXDFIImQGBZnG2jEb8jKTcln3vQ
-         Z9vQ==
+        d=gmail.com; s=20251104; t=1776848317; x=1777453117; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=GutvYltsxYYZRaOn67+yNsu7DUxLCxH3hhGl+I27cCg=;
+        b=mutFZNyrFVv2noqtPTh0eNz8gQIZhxw+OhT0apsWpOm55eVSbyCJsKDQPhVFMf9blm
+         ly/pd+JD4OyX9Y55daCpYID4WPg5WNBbUBjwe7pccS9LxOHQvL3iN9jX2ZA6+pLUWg7T
+         UPkFEucElQLl6kojEq48lJnfZ8rJiJOLXWHHo51BA98nOJheC09edtHGz9rvfTqPNTwJ
+         IILV0IMpa/56qF5ZaR+qU+89dBqUtQbKlgxaxrxvbKX+tRuEiDHIqRW9f3RFbUlX6INB
+         NCjtRttnY0o7q1vm9663FrusT0gt6Neo2RVY0Dx7ur4WWrn2WavXEUz/tcqvUCWgYU5X
+         Vn3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776848284; x=1777453084;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FFaygBUBXXsgixj3eSOd6CMo0lj7K6zPcakxuhrDzd4=;
-        b=EY+OU9j8O4HgMnK5tkDZ67nPVtRUSKb06LFyVR4HxU6UhJa89LXO1UFMFueGwrVnUX
-         xyKCApm+lkDk9aTby1/FA+XqqUIfk1zHYGZGHC8Qh5T8wEKlPysWawwVm9TecVcxLZFC
-         pyXbpooqADWCwmKiUKnJT0IeLUqbg1IUxEZn5naTUOnSSetD1pkmLQ+g6dO3eZZtSm+o
-         2cvOf5qhS60ZjTs3ScwtFYfwB1H9/pTpI7TpyRc1TXy8qSua12Pc9y0iD2H3YqwOzKmA
-         /dwEOlEY02i/Mmp7oPrjhq3f9stVhlkE91echL64T1IR0RiOxo+Q2JXi+ZnnJuUrw3Rl
-         sfPQ==
-X-Forwarded-Encrypted: i=1; AFNElJ91dYDz7HB5FRDtAreN1VlBNnYxq09+On7vOTmxOsdYOBI/bOkBqGS/6YNA+O507ykFEpAqX+AeiuCffBSB@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzoq4W//88wFIqjDG6gO+awpN+tHKcwCpskolLBuvLNyl9A7C85
-	r0lyshvmJxgRN09WwYrMW4mzaqcgHd6bzNciUNRZsQyKqYh8kCTA0IEsO5hqaG06/DzIaxb1ksA
-	uyOuFs1nyZItelqA6HLS6tdBJ7bT6mki7NP4PoEnH2dmLzBD/ZaViiGmQc3QJc1gxeA==
-X-Gm-Gg: AeBDievXQH1xs0Fw7BnmMusF4IdV+z8XPJ3+SCzZriRKd10KFlQ6oldF63gNBFUPoNp
-	yYtyZf0Vj/I5V0Wwfy+b0267d0wU3JyMA/Eih1Oz1zaTn1NIAK1UuNW7eqNIyGbwK2Gnk1m55+C
-	9dln2Q3mmiFo5KAzeP6oAQJCOzwhyqRfRaa8yZJhxJWEAWZw4I71t7FxKOVxoN9MmWoJmpDKa5K
-	zevGEc/crBXq3IqsFmjcbpEQkGaxzptsCu/pgj8YcjRCfOXskjZTHz1l7SxzwoJYYEoVD7/Jxzn
-	afgXsvMjbTbVHnWfCM7zgVqCpRA6Qv0RArQtytfeoZPSIw3NQN+QKGpbKXEIyDdgPDX6gUHbSAO
-	Dsk7H74Ujfy9W0BlGIXRMIw==
-X-Received: by 2002:a05:6000:4022:b0:441:2439:bef2 with SMTP id ffacd0b85a97d-4412439befdmr4594398f8f.24.1776848283847;
-        Wed, 22 Apr 2026 01:58:03 -0700 (PDT)
-X-Received: by 2002:a05:6000:4022:b0:441:2439:bef2 with SMTP id ffacd0b85a97d-4412439befdmr4594342f8f.24.1776848283286;
-        Wed, 22 Apr 2026 01:58:03 -0700 (PDT)
-Received: from thinky ([217.30.74.39])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4e3a341sm47712138f8f.24.2026.04.22.01.58.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Apr 2026 01:58:02 -0700 (PDT)
-Date: Wed, 22 Apr 2026 10:58:02 +0200
-From: Andrey Albershteyn <aalbersh@redhat.com>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: Andrey Albershteyn <aalbersh@kernel.org>, linux-xfs@vger.kernel.org, 
-	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org, hch@lst.de, 
-	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
-	linux-btrfs@vger.kernel.org, linux-unionfs@vger.kernel.org, djwong@kernel.org, 
-	david@fromorbit.com
-Subject: Re: [PATCH v8 00/22] fs-verity support for XFS with post EOF merkle
- tree
-Message-ID: <iads77qkk2wjkqfezd4vtqsga6btlkqdyephqojyv76herp6by@l24e2hm2ebas>
-References: <20260420114714.1621982-1-aalbersh@kernel.org>
- <20260421214316.GB37143@quark>
+        d=1e100.net; s=20251104; t=1776848317; x=1777453117;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GutvYltsxYYZRaOn67+yNsu7DUxLCxH3hhGl+I27cCg=;
+        b=sI0BYhPd/JlWSlyqnFfa9xYCJe8Sro5E0pyI2V6A1dwNCcVvfqbvIkq8zJdOxveSaT
+         ur9I8Lc4uIdP4o3HYeA2GEZgyOJyAAZTj4eLZPdqFkVwWw760uk4zIKHMpe8QcKC1ea4
+         QXYHhKnXXUVOOSWF37WTg+RUNMBNdMVLnSMzsg6hDTU/93oz404ivcky87BXC+soH3vb
+         gh18aQ7rl1zPxOv9+IBaQGelf/VuecQlHC0/+h8d6iCkXpgjHsp8xkS1ZBGCzxYqB7H/
+         RuNcNWLZdmSWM48XXtHg2OLLxBLkQi4NbiRdwH9qDk7Mts69hHclekIhb5zCmUL/0/Mt
+         FGQQ==
+X-Gm-Message-State: AOJu0YyXYpPG3ACkDfFmR8RX+JC8G0rGA+duz+rQBRK/o83EJoarxOQd
+	oHaOEIXdGWSUPFoIsXrnXC4l5Rgxp5CMsBS//BnRJ4PMiL3hzJ268kPIl38/VowxoJwryVKGGm3
+	/48N9zUJmDCtX9di5MA/qz1Cd/or/x+jG+GFF2Xk=
+X-Gm-Gg: AeBDieuqTVpA5dUVrJMKJl8iObszsvNwnFtCAHyzAJY5M6x23d15IerURnIV1wopMFU
+	hcK3UxtPicjXYfEJ5mx7xjF/3tUWzZckhBW09tSpCUEcDXqYQWZzRwi0Bl7Je+dVpGn5qFCOqPS
+	/Fn4D10n67KMu/rBNDBi08WL7lg9Ek1rpbvCkUZ4IiZHKpWS32trfgCjTfJs93n2krB627b/dqB
+	ccHjJ6lWzkPUaxcoqM5GauCxlKkGebEQvZk6z3mhsXDK1TW5HOirwtPnjNdbT9lkfdFsLA95Div
+	2IfywFZl/Ns9cDCE125XJuZjYJdhRrdRScgmEZaoAZtPe1T+4qgZ
+X-Received: by 2002:a17:907:6d0a:b0:ba4:a7a3:d03f with SMTP id
+ a640c23a62f3a-ba4a7a3d86cmr1035584466b.27.1776848316967; Wed, 22 Apr 2026
+ 01:58:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260421214316.GB37143@quark>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Wed, 22 Apr 2026 10:58:25 +0200
+X-Gm-Features: AQROBzDarWzthyM27N8zDtaxRNMeUx6kQQoysPRclCDNeiPxu1ycUQL82SzW3C0
+Message-ID: <CAOQ4uxgcYCOE4uWE1tAaVUPLNqmbp88_0MvM=gqiDtH=jBiW_A@mail.gmail.com>
+Subject: [LSF/MM/BPF TOPIC] Filesystem breakout sessions
+To: linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	lsf-pc <lsf-pc@lists.linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On 2026-04-21 14:43:16, Eric Biggers wrote:
-> On Mon, Apr 20, 2026 at 01:46:47PM +0200, Andrey Albershteyn wrote:
-> > This series based on v7.0 with Christoph's read ioends patchset [1].
-> > 
-> > kernel:
-> > https://git.kernel.org/pub/scm/linux/kernel/git/aalbersh/xfs-linux.git/log/?h=b4/fsverity
-> 
-> FYI: the git repository doesn't match what was actually sent out.  For
-> example the patch "ovl: use core fsverity ensure info interface" is a
-> bit different.  The version in git (incorrectly, I think) ignores the
-> error code, while the patch returns it.
-> 
-> - Eric
-> 
+Hi folks,
 
-Thanks, you're right, I forgot to push
+This is not a topic per se, more of a meta topic.
 
--- 
-- Andrey
+We did not get a huge amount of FS TOPIC proposals this year,
+so we still have room in the agenda for more topics.
 
+From my own personal experience, I am aware that people can refrain
+from posting TOPIC proposals for half baked ideas or for topics that they
+feel are too specific for the wider FS crowd and that is understandable.
+
+As in previous years, FS track will be located in the large ballroom
+(Emerald) which is also going to host the cross track and plenary sessions.
+
+FS track has a stretch of time slots on Tuesday where we will be
+relocated to the MM track's smaller room (Venice) to make room
+for MM-IO and MM-BPF sessions.
+
+In this setting, I would like to open the stage for people to talk
+about whichever topic they like -
+An idea they have been toying with,
+An item on their TODO lists they never get to
+A WIP branch that is bit-rotting on their work station.
+We could of course use this time for FS specific BoFs and
+Ask Me Anything sessions with fs/subsystems maintainers.
+
+There will be no video recording of those sessions and we can ask
+for LWN opt-out for any topic discussed therein.
+
+IOW, bring the Hallway session into the room, so that other people
+can participate and we can use the hallway time for gossip and
+stuffing our faces.
+
+No need to reply with specific topics now unless you want to.
+Just keep this in mind and think of things that you may want to
+bring up during these breakout sessions.
+
+Thanks,
+Amir.
