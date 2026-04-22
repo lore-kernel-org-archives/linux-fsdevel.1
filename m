@@ -1,94 +1,93 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 329343C552C
-	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 18:19:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4799233DED5
+	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 19:05:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776881959; cv=none; b=LwR+yA9FD0oCom5CC88EDGrNmuoKEHKik7ToSQQjiTolX5OY0RVAhsrtIRn/4riFz7uKUJH6ms2RuM+Uc1ftD7WWJd7FFtzGPRpVyIk/Br5QkOAUjRJwOoT+jIC+msbYs0pErKR+T3kRZA57PmDgU09KNtanMBSiAYxclXP4rtw=
+	t=1776884733; cv=none; b=Xi2hbQIZ3fD41pwqolZ2jAMlwDVYwBmQ6tDuiWl3TeSWPB8eDz1Rz3dmGInE8dM9AlLqF62n39/UAaLxmyHwLBTdibP+XMSm1cAohIQAN75Yq+7BwPh5lH7hsLUDESteP+buNbHP9aM5TKHu12M70JWsoUZG/EeFJcWkxtkojJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776881959; c=relaxed/simple;
-	bh=yg0aZU4ZgB3Ms/fU0AljMIkWk9fNOyv4/FX4qzwrF/E=;
+	s=arc-20240116; t=1776884733; c=relaxed/simple;
+	bh=Tz3hhX5x+6vq9gkHGTZMedq2MVdkGKiJWeelP5fat0c=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=bxGKDiZQMXNMMNlu/Jmaets3c3jPOyGYo9hZ+HXM6LFPbNYXeOiPa1x2b8rqEd9pdtEF8px4UjPqY85HfqSljs/5WHBAKO7A28uIjNRMwVjz2a9KXBOw4KE91BPatU4NHrCMXeeYi37suSOjZ+hN7xYq/YY+LG3V38souAr/auM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZKd4MqPH; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=giwJ05CT; arc=none smtp.client-ip=170.10.129.124
+	 Content-Type:MIME-Version; b=a6pFf9LJKENXN2196AKFpcCVL2VAv5q7VPknMy2MgIRadpC6QTZ6mXdMrOUOYL7ekd4O0g9ma5tOsRkbIAYrGM44Ium7T0+BrKZK81s4Y//pccQVHJH6dvxwGs364eawS+WT/c2U9r7IcmRr+uF01m+Qcyaz2fKx++fOtPW21UY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=H4P8N4vs; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=IOSd9Eig; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZKd4MqPH";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="giwJ05CT"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="H4P8N4vs";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="IOSd9Eig"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1776881957;
+	s=mimecast20190719; t=1776884715;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=wwU+V0ShYDgZN9VQw7mFGwyGa9GtIvXJwbt6oc94MqI=;
-	b=ZKd4MqPH28oln1hqjswuAUN7AeYVBI92gPgngwhq7FulcC0cU7bqlfEwC/zGZiQQTAOebC
-	z4a3k+fjQHe4J8XPzSuPEdjZCtz6JyotWzZ7HocIsZqzn0lrFq75y1aRlX2J+QSPwMkIN+
-	y9knE9Dp1FGqms3WR/J3Q5sAXSubm+E=
-Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
- [209.85.210.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=qdmwawli/VQb0uXVhY3lVbW18VGZ4FsWwRRf0cqAFUQ=;
+	b=H4P8N4vsSxEL1yGbdwe/UTWyyrfI7OYqI+sLIcUqm2hZ32+mn1AJbxJVXJC440r2SgiHJX
+	PsymYtBkaru8I5RSLG5Xp/3XhKYx2t52IyIaswGZ07LkUebCqa2zyml9B0yJV7Dt2tR82c
+	ERxGKPuilhd/ln1cicq2+m7gTD9VreY=
+Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
+ [209.85.167.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-605-lNwShSpHMySnOTEszVvuTg-1; Wed, 22 Apr 2026 14:19:14 -0400
-X-MC-Unique: lNwShSpHMySnOTEszVvuTg-1
-X-Mimecast-MFC-AGG-ID: lNwShSpHMySnOTEszVvuTg_1776881953
-Received: by mail-ot1-f72.google.com with SMTP id 46e09a7af769-7dcc9e6b772so8277412a34.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 11:19:13 -0700 (PDT)
+ us-mta-645-3FhVIARQOYmsbybeCsoRMw-1; Wed, 22 Apr 2026 15:05:12 -0400
+X-MC-Unique: 3FhVIARQOYmsbybeCsoRMw-1
+X-Mimecast-MFC-AGG-ID: 3FhVIARQOYmsbybeCsoRMw_1776884712
+Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-46335278e7bso11648368b6e.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 12:05:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1776881953; x=1777486753; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1776884712; x=1777489512; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=wwU+V0ShYDgZN9VQw7mFGwyGa9GtIvXJwbt6oc94MqI=;
-        b=giwJ05CTXeQ+6Lvdoj0jCKRZ6g8SoL1Kw2LVsiJ2cBgvl5iPD4jW0MPATx4dgFKxBH
-         1DUz//xxEKU93zODQGO8QlIBpsjyy/tSXYh5gL4FTOC+roRFFwblIFDqoAXsBSm4u1dQ
-         /sOZdDZEYZwrcB3A8+lM/o9u2MviNRuvCys3QC7Q1QjjVRN+1YwRHDQ86vP6sE++H6dg
-         3PfX2LyIMdvWTy+knzCKMKpuC0dudNm/MxEtvvL6wuE3scUXOV9jbM5dmtibM830uIDq
-         MLJO1vFHf++Gk/E08FJiIZy3F9Fuw1QTijeKUO9jiBxU2r9w4YyH5yCv5IvhmTwA5ygI
-         v09w==
+        bh=qdmwawli/VQb0uXVhY3lVbW18VGZ4FsWwRRf0cqAFUQ=;
+        b=IOSd9EigKPcZ1clLdaXJHrlMLwWAOVmHCz55mDHh8kioJAYYB5OumqGF4K8hkttG+D
+         DDu+H7gO0krhwYhWPVdrlAngyqrNAx9A77O4pCv1WIAACD1cjYFwKsqBwUMBoGGUKEkd
+         DVGtTgUdy1jTb8pFxwO7Ou3mvn4InAIorDTMBKYmk7RSXqhoX/y1he8Kl6AItIF6COlM
+         DswE1iQ7TS70cOsHmMF1SIySR/9v333W/dY62eGmFZQmFe1p2bxDF+G2Zrjr05n5Ervl
+         n8bQNZvIMXK8dXgiybtNQWQBRlT5aBiZftjgl915NeeQxlRf/+WkZ2miNDjvC6uKBP+m
+         XfYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776881953; x=1777486753;
+        d=1e100.net; s=20251104; t=1776884712; x=1777489512;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wwU+V0ShYDgZN9VQw7mFGwyGa9GtIvXJwbt6oc94MqI=;
-        b=E89zh8VMiIVJ7wq3dESuyTMPahjPOd2PEYE5TvYyE3x5khWdpMrYAZg6eudYW1jwjR
-         RC5neByn5qMVUGTm6sZnkYy3+e1Qjxb6OGwVLYg08GmLE4oVA0zaHGB9Ip0pBMj/Fly6
-         y7x+NRkm/La4FqOyLN3FswJOtD6rSHfZbSuiQBm+XvsS9LjyClTA0FQPU439kxmX2O0x
-         s+XIYo9yY4h/r8lXhmEhtW9pN2XXBe73432uQaYVxGpVQm62EhCKR52R/EmQWsEoJg4u
-         AfJYl6mWDJ4ARvSei11aKMohL2anYthJUGQF9YtmLujRVEryEmtcrS61pZ4LgAh27IHf
-         p7Aw==
-X-Forwarded-Encrypted: i=1; AFNElJ93CVUIhEJco8exNls26qcmxHTAdAaJQD6IklXqLm3zUrnyPy4NE129se+wMJqHZyBYT/FfYstYnMcAoLhG@vger.kernel.org
-X-Gm-Message-State: AOJu0YwkXz/6E6Ow7UMIbSVeXomWrpXaKNLqye8rOnFE1DFkwLOlCDns
-	/SL574Yty8nFYcIuJhBuWH8EdJ9DGsOLUSO0vCPHQ6aSQO0dEUBf5P98LXnQx+wvtlvrwdDIuYS
-	9t4grqrGNBNwsOtC1KoDaww6zzoWxjUfZbnXEj/gAzptV4I/2iezkU05kuzJhTrZm6vs=
-X-Gm-Gg: AeBDies/QhiIUpjP59B+oMaiZvY1RmXX/w8EiOLwTlNupv1AyhG9cIarIH4i9cFHRzK
-	N0cZBbQ8zJ87DDjlnyGT+lE2zll2LVBkph2aCW+849hWsWeFCkeqK3qat7TY4HtIEhH9CDqSthm
-	pbgkwKB/kW3XpG/YtVQwBUCnLG4nNFrXJLx6HoJw24tMOjB+0Pq4vFUGg7AnfRVR6M7QnwxGYdI
-	pGA2bXHRwuk+iP5LTbeV+mW3oO5N/LbPVwwJ3Ep9ZeqTiue1oMPZwhvBUAmeZ5VdSUAw7zXVAxE
-	SFPoBdxG7dw05B0OqGQSfQt4eelJEziWoy/YPIDn6HdeclWhNcfbEywituOkm/D2EAhJjktTZ3G
-	HJ8CZQ9TrsB3VhQUd6VxqB3JvxHDoaDdBtVtsjK0aFbGVdt6R+mMd5JlK5+N8BGQ=
-X-Received: by 2002:a9d:7155:0:b0:7dc:e43f:4b31 with SMTP id 46e09a7af769-7dce43f602fmr2227418a34.12.1776881953020;
-        Wed, 22 Apr 2026 11:19:13 -0700 (PDT)
-X-Received: by 2002:a9d:7155:0:b0:7dc:e43f:4b31 with SMTP id 46e09a7af769-7dce43f602fmr2227400a34.12.1776881952535;
-        Wed, 22 Apr 2026 11:19:12 -0700 (PDT)
+        bh=qdmwawli/VQb0uXVhY3lVbW18VGZ4FsWwRRf0cqAFUQ=;
+        b=oywHuNnn3bFl81Q3MKyfamCHS13OgrGSUaTJoci9j/VoQqwe/MBCFyW4/2lU55UwGR
+         +OQRxZ7+DYbKHLnJYte3RpaYKaT6CBAyVpu46E0XtnqF8aaeGGiQcSwRfVj8taq5acj/
+         BRxrGWMaL51A/VcX3Qo4sgo3g7uiPnFSe2uQ/Z+2lSCLQcnoDgX/1qMf+VDwfI/1Sn9Q
+         IGtLCSl24YWLYYAa5qqh78sJW9CxSk7HqdeOenB0DrzhD2+ODpXNueg9mn8DnA62DWCp
+         CYdAf7I35puOilWaDlB1QzKx8v4+J2WdS9Erg6kh94EtXPxn31na/WNAQAkhAWYRr8c5
+         bAgA==
+X-Gm-Message-State: AOJu0Yyd/yCBQiq5Zw/VqPz7VOPJApiXkp1+EwZVwAa6Gv53dIy4sctV
+	uVUHtzins+eWn0wEDv7V8im4z1AtJpMGfWhC0c3jPtOU12QfcHB8AwqlbHwOceRWfpcEFgi2NOr
+	nN2eaP7/RSwksI7pwuBEaWKDRDdxqcT/4t3KC6wVqkwny1Awu6fx0P9b3juSjqLcQtr4=
+X-Gm-Gg: AeBDieuGBi/WOySUng116HDKf4XlHpHDE3NDpgb4gPFLR0yxXoeUQx8SFZu495LR13F
+	KsgdM4nQ/7M7NRv8eX3SaFwDSYtrlBnitJ7/B+zYiGsqMmZDiYDQlCvL5UATrfaZO7t7d+CjGrK
+	ofGZ7Hr+E6s1pTA8EojmdL2ndKXTftrjJY5RmtCdQ97ZRH13G5XIbNA1FxLdv+xEZ8r56u2i/z+
+	2KJv05zrU6FWL7kChFWECPmjgTijiICReP0fgFzQuk3QURolqpnSW0myEa9AiFz1pYYzDRzeBIj
+	L9p66Yq8tjAsF4QdeMRVfklZx5xBtPs6AJ9ZqTjs/BqoVPFkyAEhU2lv0Jl6J5O4ibiE1DXrYCC
+	yZ5wgdYz2rM4YLUliflPXroKU/wBF7dyMgsEYy05YnESzw9gobbXpjrJ/RE+Rroc=
+X-Received: by 2002:a05:6808:158f:b0:479:ec96:f4de with SMTP id 5614622812f47-479ec97413amr4506892b6e.2.1776884712035;
+        Wed, 22 Apr 2026 12:05:12 -0700 (PDT)
+X-Received: by 2002:a05:6808:158f:b0:479:ec96:f4de with SMTP id 5614622812f47-479ec97413amr4506875b6e.2.1776884711604;
+        Wed, 22 Apr 2026 12:05:11 -0700 (PDT)
 Received: from li-4c4c4544-0032-4210-804c-c3c04f423534.ibm.com ([2600:1700:6476:1430::29])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7dc975b0591sm14423408a34.19.2026.04.22.11.19.11
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-42c05ca16e2sm7973157fac.15.2026.04.22.12.05.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Apr 2026 11:19:12 -0700 (PDT)
-Message-ID: <39b283f4e3fe75a8b9ee324e5906c6635aafed40.camel@redhat.com>
-Subject: Re: [PATCH] hfsplus: Supports freeing newly created tree head
+        Wed, 22 Apr 2026 12:05:11 -0700 (PDT)
+Message-ID: <44cc78470b0b550d24bba9d159ebe1e07e2ef9c5.camel@redhat.com>
+Subject: Re: [PATCH] hfsplus: zero-initialize buffer in hfs_bnode_read
 From: Viacheslav Dubeyko <vdubeyko@redhat.com>
-To: Edward Adam Davis <eadavis@qq.com>
-Cc: frank.li@vivo.com, glaubitz@physik.fu-berlin.de, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- slava@dubeyko.com, 	syzbot+98547b0428b6a6a3467c@syzkaller.appspotmail.com, 
-	syzkaller-bugs@googlegroups.com
-Date: Wed, 22 Apr 2026 11:19:10 -0700
-In-Reply-To: <tencent_B50525C2BA56BB53331B9E5A1B444B281B08@qq.com>
-References: <60605973b66496b04c6847ceb6fa46dfada6a628.camel@redhat.com>
-	 <tencent_B50525C2BA56BB53331B9E5A1B444B281B08@qq.com>
+To: Tristan Madani <tristmd@gmail.com>, slava@dubeyko.com, 
+	glaubitz@physik.fu-berlin.de, frank.li@vivo.com
+Cc: linux-fsdevel@vger.kernel.org, akpm@linux-foundation.org, 
+	stable@vger.kernel.org,
+ syzbot+217eb327242d08197efb@syzkaller.appspotmail.com,  Tristan Madani
+ <tristan@talencesecurity.com>
+Date: Wed, 22 Apr 2026 12:05:10 -0700
+In-Reply-To: <20260418134003.1719393-1-tristan@talencesecurity.com>
+References: <20260418134003.1719393-1-tristan@talencesecurity.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.58.3 (3.58.3-1.fc43app2) 
@@ -99,137 +98,57 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-On Sat, 2026-04-18 at 17:37 +0800, Edward Adam Davis wrote:
-> On Fri, 17 Apr 2026 15:03:17 -0700, Viacheslav Dubeyko wrote:
-> > > hfs_bnode_put() does not support deallocating a newly created btree
-> > > head node; therefore, regardless of whether hfsplus_bnode_find() succ=
-eeds
-> > > or fails, it cannot effectively reclaim the memory allocated for a ne=
-wly
-> > > created head node.
-> > >=20
-> > > When finding a head node, if the node is a newly created one, we can =
-use
-> > > hfs_bnode_free() to reclaim its memory.
-> > >=20
-> > > [1]
-> > > BUG: memory leak
-> > > unreferenced object 0xffff88811cabc840 (size 96):
-> > >   backtrace (crc 3e2dadb7):
-> > >     __hfs_bnode_create+0x59/0x310 fs/hfsplus/bnode.c:469
-> > >     hfsplus_bnode_find+0x13e/0x580 fs/hfsplus/bnode.c:547
-> > >     hfsplus_btree_open+0x2fa/0x6d0 fs/hfsplus/btree.c:382
-> > >     hfsplus_fill_super+0x272/0x880 fs/hfsplus/super.c:548
-> >=20
-> > I need slightly more detailed and clear explanation how the issue has b=
-een
-> > happened and why we need to fix it in a such way. Currently, I don't ha=
-ve the
-> > complete picture how this happened. I am sure that you have the complet=
-e
-> > picture. :) Could you please share what you have in your mind? :) Don't=
- hide the
-> > wisdom. ;)
->     fc_mount()
->      vfs_get_tree()
->       get_tree_bdev_flags()
->        hfsplus_fill_super()=20
-
-We have multiple calls of hfsplus_btree_open(). Which particular b-tree do =
-you
-mean here?
-
->         hfsplus_btree_open()=20
-
-I assume that you mean hfs_btree_open().
-
->          hfsplus_bnode_find(tree, HFSPLUS_TREE_HEAD)
+On Sat, 2026-04-18 at 13:40 +0000, Tristan Madani wrote:
+> hfs_bnode_read() can return early without initializing the output
+> buffer when the offset is invalid or the requested length is
+> corrected to zero by check_and_correct_requested_length().  Callers
+> such as hfs_bnode_read_u16() pass stack-allocated buffers and use the
+> result unconditionally, leading to KMSAN uninit-value reports.
 >=20
-
-We call hfs_bnode_find() here.
-
+> Rather than initializing at each individual call site, zero the buffer
+> at the start of hfs_bnode_read() before any validation checks.  This
+> ensures the buffer is always in a known state regardless of which
+> early-return path is taken.
+>=20
+> Reported-by: syzbot+217eb327242d08197efb@syzkaller.appspotmail.com
+> Tested-by: syzbot+217eb327242d08197efb@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=3D217eb327242d08197efb
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Tristan Madani <tristan@talencesecurity.com>
+> ---
+>  fs/hfsplus/bnode.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>=20
+> diff --git a/fs/hfsplus/bnode.c b/fs/hfsplus/bnode.c
+> index f8b5a8ae58ff5..14d1af2c7ba93 100644
+> --- a/fs/hfsplus/bnode.c
+> +++ b/fs/hfsplus/bnode.c
+> @@ -25,6 +25,8 @@ void hfs_bnode_read(struct hfs_bnode *node, void *buf, =
+u32 off, u32 len)
+>  	struct page **pagep;
+>  	u32 l;
 > =20
->           __hfs_bnode_create()
-> 	   ...
-> 	   node->this =3D cnid; // cnid is HFSPLUS_TREE_HEAD, it is 0
-> 	   ...
-> 	  ...
-> 	  desc =3D (struct hfs_bnode_desc *)(kmap_local_page(node->page[0])
-> 	  node->type =3D desc->type;
-> 	  switch (node->type) {
-> 	  ...
-> 	  default:  // because node->type is 127, so run here
-> 	  	goto node_error;
+> +	memset(buf, 0, len);
+> +
 
-I think, maybe, we need to add some error message(s) when some error is
-happened. What do you think?
+The patch looks good. However, I have this point in my mind. Let's imagine =
+that
+we receive a valid buf pointer but len is 0. It sounds to me that memset()
+simply will do nothing. But if buffer has not zero length, then it means th=
+at we
+have no initialization again. What do you think?
 
-> 	  ...
-> 	  hfs_bnode_put()
-> 	   ...
-> 	   if (test_bit(HFS_BNODE_DELETED, &node->flags)) { /* head node not set=
- HFS_BNODE_DELETED flag
-> 							     * so, the node will never be freed.
-> 							     * Furthermore, even if the node were marked
-> 							     * with the HFS_BNODE_DELETED flag, hfs_bmap_free()
-> 							     * would still trigger BUG_ON(!node->this).
-> 	   						     */
+>  	if (!is_bnode_offset_valid(node, off))
+>  		return;
+> =20
 
- node_error:
- 	set_bit(HFS_BNODE_ERROR, &node->flags);
--	clear_bit(HFS_BNODE_NEW, &node->flags);
--	wake_up(&node->lock_wq);
-+	if (num !=3D HFSPLUS_TREE_HEAD) {
-
-Why do we need to distinguish is it HFSPLUS_TREE_HEAD or not? I don't see a=
-ny
-difference in node processing.
-
-+		clear_bit(HFS_BNODE_NEW, &node->flags);
-
-I think that we don't need to clear the HFS_BNODE_NEW. Because, we need to
-analyze HFS_BNODE_ERROR in hfs_bnode_put().
-
-+		wake_up(&node->lock_wq);
-
-I assume that wake_up() should be called anyway. Why have you removed this =
-call
-for HFSPLUS_TREE_HEAD case?
-
-+	}
- 	hfs_bnode_put(node);
- 	return ERR_PTR(-EIO);
-
-@@ -694,6 +698,10 @@ void hfs_bnode_put(struct hfs_bnode *node)
- 			hfs_bnode_free(node);
- 			return;
- 		}
-+		if (test_bit(HFS_BNODE_NEW, &node->flags)) {
-
-I suggest to analyze HFS_BNODE_ERROR here.
-
-+			hfs_bnode_unhash(node);
-+			hfs_bnode_free(node);
-+		}
-
-@@ -598,14 +598,18 @@ struct hfs_bnode *hfs_bnode_find(struct hfs_btree *tr=
-ee,
-u32 num)
- 		if (key_size >=3D entry_size || key_size & 1)
- 			goto node_error;
- 	}
--	clear_bit(HFS_BNODE_NEW, &node->flags);
--	wake_up(&node->lock_wq);
-+	if (num !=3D HFSPLUS_TREE_HEAD) {
-+		clear_bit(HFS_BNODE_NEW, &node->flags);
-+		wake_up(&node->lock_wq);
-
-What the point in this code? Why have you change the logic here?
-
-+	}
- 	return node;
-
-And, could you please add these new details into the commit message?
+I assume that this is a second version of the patch. You can use this comma=
+nd to
+add version to the patch: 'git format-patch -v2 -1 HEAD', for example. Fran=
+kly
+speaking, the patch without version looks slightly confusing for my taste. =
+:)
 
 Thanks,
 Slava.
