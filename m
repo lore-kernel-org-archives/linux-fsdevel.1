@@ -1,190 +1,125 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D0863AE1A8
-	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 10:36:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C2AF3B27E2;
+	Wed, 22 Apr 2026 10:37:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776854220; cv=none; b=rn///TXMNiEJ6WTEpHErEBBJunTbM+WKqjNbUKSP8byMisdLGLiVxmP88eIAlemNXbQYuX1dWqttVXW+05AccBWzKxHpTIBgpftFbXDIlpklwTjMaPrIuyK9gPBCEPa2OEIQYvzCvGmnb4VnM50LWiwnRuZZ9HzV3UrJ/RkZHPI=
+	t=1776854250; cv=none; b=Dnym/On8tjDN+NvmtMgVQGDnUPXksnXSP0M2LT1E/eC9NIW+a0fGLUsY7fS1HNef7d8Q69JuYC9FdL9PH00QU0alwLLULN/gO5KKppw5vtJqxiXg2APSwQfRgxPoqTVMgnd0Up3VoSn5tEN1mU+GcCjlKdS+TC9Z4g9EeIiMsxk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776854220; c=relaxed/simple;
-	bh=T1ePDo45rc9N4zcvkWKyrjI7u9nV7rilHnyZlEo6Bj8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aQZcl673YaHx88scK7Z8cGDivKZvJutvWwpMocSnGTfN7tAPBU22h0hmUwvvyBAiGLIOyYV9fkFwdib+NvlBqYhwQUqWfCBRPDEckzPU3odD8ONq6OtEnGFyRD07X+Rn7+lFNf2IBVPZgxvfmFlRCCLmTsoHosNWwXiZ813tXYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=HvtUc5qx; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=br/Mt+Y/; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=HvtUc5qx; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=br/Mt+Y/; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="HvtUc5qx";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="br/Mt+Y/";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="HvtUc5qx";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="br/Mt+Y/"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 85AD36A825;
-	Wed, 22 Apr 2026 10:36:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1776854217; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SAJuLfqKpkwzhPTGmi1VsGlx5XNMVksFrskBjWmbhWs=;
-	b=HvtUc5qxT952swtej4NuUtHJQKFl2NpgJ8tPN0ApmROQGpz5HWZcJy8HYHjm2Ag7mGbdq+
-	QEI9nzm8NPKRdpMfiqYjJaD/Q53IzUEH8/e2N6Agrxl/McGzKuIPPTSY6Mv+gKO7IM4VTC
-	4g5Lp3uQWN0ajNAws3uiqFrpccwPXzE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1776854217;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SAJuLfqKpkwzhPTGmi1VsGlx5XNMVksFrskBjWmbhWs=;
-	b=br/Mt+Y/8zCVw9udM9DJsrsf1JZ79UDL5ejbLBzo2P4ahe6ZOCQmjb99c81F36DzkBX+xg
-	yf94OXJMtu5iTrCQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1776854217; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SAJuLfqKpkwzhPTGmi1VsGlx5XNMVksFrskBjWmbhWs=;
-	b=HvtUc5qxT952swtej4NuUtHJQKFl2NpgJ8tPN0ApmROQGpz5HWZcJy8HYHjm2Ag7mGbdq+
-	QEI9nzm8NPKRdpMfiqYjJaD/Q53IzUEH8/e2N6Agrxl/McGzKuIPPTSY6Mv+gKO7IM4VTC
-	4g5Lp3uQWN0ajNAws3uiqFrpccwPXzE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1776854217;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SAJuLfqKpkwzhPTGmi1VsGlx5XNMVksFrskBjWmbhWs=;
-	b=br/Mt+Y/8zCVw9udM9DJsrsf1JZ79UDL5ejbLBzo2P4ahe6ZOCQmjb99c81F36DzkBX+xg
-	yf94OXJMtu5iTrCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7D87A593AF;
-	Wed, 22 Apr 2026 10:36:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id E3ueHsmk6GlkewAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 22 Apr 2026 10:36:57 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 42095A0B60; Wed, 22 Apr 2026 12:36:57 +0200 (CEST)
-Date: Wed, 22 Apr 2026 12:36:57 +0200
-From: Jan Kara <jack@suse.cz>
-To: Ibrahim Jirdeh <ibrahimjirdeh@meta.com>
-Cc: Jan Kara <jack@suse.cz>, amir73il@gmail.com, josef@toxicpanda.com, 
-	lesha@meta.com, linux-fsdevel@vger.kernel.org, sargun@meta.com
-Subject: Re: [PATCH v3 2/2] fanotify: introduce restartable permission events
-Message-ID: <g2fx5drvoen4tkmnxe2mc44gihhtcwqhhvc7nbe4dbv6ay6idh@xc2zlk3s7q2g>
-References: <20260416194844.3874004-1-ibrahimjirdeh@meta.com>
- <20260416194844.3874004-3-ibrahimjirdeh@meta.com>
- <bcodsu6plppnwotjuisi7kvwkftpennowemslxur33qhtmd4qp@wc536gzxu53m>
- <CAAwtZY6Bas3jLQZ_GDhbjj4pekjhT6kxAQ+5_35mzwk5_HUKhg@mail.gmail.com>
+	s=arc-20240116; t=1776854250; c=relaxed/simple;
+	bh=Hsn56gQl8OLUgVaCHZwSNyXcpBAS0FnqDgFBa3Sivf4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=KCe4vOCkcsDXGJgdpSPRualpC/H3+SzyhgJnilc9ySVAu2he6ay9XqUlP0FbVm71q+CxztHwE6XaTVH4HwYw5eSdGPxzF1BR8+ovQuVD4JxlliNNLo2CTRzaCIsD5NP2C7/eV0+NVVw7RFRDw7BLdD2TuB9w5Yf4IJGU5fWzCok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 3dcf3f0a3e3711f1aa26b74ffac11d73-20260422
+X-CTIC-Tags:
+	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
+	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
+	HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM, HR_SJ_PHRASE
+	HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT, HR_TO_NAME
+	IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_TRUSTED, SA_EXISTED
+	SN_TRUSTED, SN_EXISTED, SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS
+	CIE_BAD, CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS, GTI_RG_INFO
+	GTI_C_BU, AMN_GOOD, ABX_MISS_RDNS
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:137653ef-4fec-44df-9657-d2a6a04fa10d,IP:15,
+	URL:0,TC:0,Content:0,EDM:25,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTI
+	ON:release,TS:35
+X-CID-INFO: VERSION:1.3.12,REQID:137653ef-4fec-44df-9657-d2a6a04fa10d,IP:15,UR
+	L:0,TC:0,Content:0,EDM:25,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:35
+X-CID-META: VersionHash:e7bac3a,CLOUDID:2c7f83b62d76a36bf9a570ab185a9832,BulkI
+	D:2604221837235NKR3L9U,BulkQuantity:0,Recheck:0,SF:17|19|66|78|102|127|898
+	,TC:nil,Content:0|15|50,EDM:5,IP:-2,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,
+	BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 3dcf3f0a3e3711f1aa26b74ffac11d73-20260422
+X-User: liwang@kylinos.cn
+Received: from computer.. [(116.128.244.171)] by mailgw.kylinos.cn
+	(envelope-from <liwang@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 131166995; Wed, 22 Apr 2026 18:37:20 +0800
+From: Li Wang <liwang@kylinos.cn>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Joanne Koong <joannelkoong@gmail.com>,
+	Bernd Schubert <bernd@bsbernd.com>,
+	fuse-devel@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Li Wang <liwang@kylinos.cn>
+Subject: [PATCH] fuse: fix kernel NULL pointer dereference in fuse_uring_add_to_pq()
+Date: Wed, 22 Apr 2026 18:36:03 +0800
+Message-Id: <20260422103603.4554-1-liwang@kylinos.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAAwtZY6Bas3jLQZ_GDhbjj4pekjhT6kxAQ+5_35mzwk5_HUKhg@mail.gmail.com>
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.cz,gmail.com,toxicpanda.com,meta.com,vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email]
-X-Spam-Flag: NO
-X-Spam-Score: -3.80
-X-Spam-Level: 
 
-On Wed 22-04-26 03:22:32, Ibrahim Jirdeh wrote:
-> On Mon, Apr 20, 2026 at 7:37 AM Jan Kara <jack@suse.cz> wrote:
-> > > +const struct file_operations fanotify_control_fops = {
-> > > +     .show_fdinfo    = fanotify_show_fdinfo,
-> > > +     .release        = fanotify_release,
-> > > +     .unlocked_ioctl = fanotify_control_ioctl,
-> > > +     .llseek         = noop_llseek,
-> > > +};
-> > > +
-> > > +const struct file_operations fanotify_queue_fops = {
-> > > +     .poll           = fanotify_poll,
-> > > +     .read           = fanotify_read,
-> > > +     .write          = fanotify_write,
-> > > +     .release        = fanotify_queue_release,
-> > > +     .unlocked_ioctl = fanotify_ioctl,
-> > > +     .compat_ioctl   = compat_ptr_ioctl,
-> > > +     .llseek         = noop_llseek,
-> > > +};
-> >
-> > The new scheme with queue fd & control fd opens up an interesting new set
-> > of races which needs a deeper thought I think. As it is currently
-> > implemented for example if there's a task waiting for event on queue fd, it
-> > will never wake up if control fd is closed. Similar problem is there for
-> > fanotify_poll(). So we need to carefully define how operations on queue fd
-> > synchronize with operations on control fd and closing of it in particular.
-> > Besides dealing with the hung waits (which can be dealt with by just waking
-> > the notification_waitq from fanotify_release()) we also need to deal with
-> > fanotify_read() moving events from notification list to access list. I'm a
-> > bit unhappy with how ad hoc and fragile this looks but so far don't have an
-> > idea for a cleaner solution.
-> >
-> 
-> I wanted to ask a few more questions here about the race conditions you are
-> outlining. Is it accurate that the main risk of races is primarily
-> related to early control fd shutdown with this new two fd case, or are
-> there other races to worry about?
+A kernel NULL pointer dereference was triggered when testing the
+'fuse over io_uring' feature with passthrough_ll. The call trace
+is as follows:
+  BUG: kernel NULL pointer dereference, address: 0000000000000878
+  RIP: 0010:fuse_uring_add_req_to_ring_ent+0x89/0xd0 [fuse]
+  Call Trace:
+  <TASK>
+  fuse_uring_queue_fuse_req+0x82/0x100 [fuse]
+  fuse_chan_send+0xe6/0x180 [fuse]
+  fuse_lookup_name+0x131/0x2b0 [fuse]
+  fuse_lookup+0x78/0x1a0 [fuse]
+  fuse_atomic_open+0xfc/0x140 [fuse]
+  atomic_open+0x4b/0xf0
+  path_openat+0x746/0x1080
+  do_file_open+0xc9/0x180
 
-No, this is my main concern.
+fuse_uring_create_queue() must initialize struct fuse_pqueue before assigning
+the per-hash processing table:
 
-> I added a few protections in this patch so far and wanted to check if
-> there are outsanding risks:
-> 1) Have queue fd also maintain a group reference as well
+- Call fuse_pqueue_init() before setting fpq.processing. fuse_pqueue_init()
+  clears fpq.processing; assigning the kcalloc'd bucket array must happen
+  afterwards.
 
-Yes, this is good and takes care that the group is not freed. But it still
-can be fully cleaned up even if you hold a reference.
+- After allocating the processing bucket array with kzalloc_objs(), initialize
+  each list head with INIT_LIST_HEAD(), matching fuse_pqueue_alloc() in dev.c.
+  Zeroed list_head values are not valid empty lists; list_move_tail() would
+  dereference NULL prev/next.
 
-> 2) Check for control fd close (group->shutdown) in fanotify_read. I will also
-> incorporate the wake up in fanotify_release you have suggested here.
+Signed-off-by: Li Wang <liwang@kylinos.cn>
+---
+ fs/fuse/dev_uring.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Yes, I've noticed that but that check is racy...
-
-> Regarding fanotify_read moving events from notification list to access list, do
-> we need to allow pending events in fanotify_restart_pending_events
-> after all to prevent potential hung waits stemming from race with shutdown?
-
-Thinking about this some more... Won't it be easier if the queue fd held a
-struct file reference of the control fd? That way the notification group
-couldn't be shut down until queue fd is also closed. That will deal with
-all the possible races, we don't even have to hold a notification group
-reference. I don't think this behavior would be surprising to userspace and
-I don't see any other possible downsides either. Amir, any opinion?
-
-								Honza
+diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
+index d6d75e024b35..b765c1ff5e2d 100644
+--- a/fs/fuse/dev_uring.c
++++ b/fs/fuse/dev_uring.c
+@@ -282,6 +282,8 @@ static struct fuse_ring_queue *fuse_uring_create_queue(struct fuse_ring *ring,
+ 		kfree(queue);
+ 		return NULL;
+ 	}
++	for (int i = 0; i < FUSE_PQ_HASH_SIZE; i++)
++		INIT_LIST_HEAD(&pq[i]);
+ 
+ 	queue->qid = qid;
+ 	queue->ring = ring;
+@@ -295,8 +297,8 @@ static struct fuse_ring_queue *fuse_uring_create_queue(struct fuse_ring *ring,
+ 	INIT_LIST_HEAD(&queue->fuse_req_bg_queue);
+ 	INIT_LIST_HEAD(&queue->ent_released);
+ 
+-	queue->fpq.processing = pq;
+ 	fuse_pqueue_init(&queue->fpq);
++	queue->fpq.processing = pq;
+ 
+ 	spin_lock(&fch->lock);
+ 	if (ring->queues[qid]) {
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.34.1
+
