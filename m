@@ -1,64 +1,64 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBD00372680
-	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 21:20:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 807225B1EB
+	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 21:21:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776892851; cv=none; b=irfFWLMAuAW7eqpYQzO+WEjlHKUCGmwe2qOmZiIYU3Yd26X5ik4MsLoaDcFQaCP2wzHHcCpo0S7yA5F0wG+EUIUtrRRPiqlvHHrpPjVP+qe57HGot9TN0weO4jJ4hXJa8YS8/397KhJY59W1gsprFlVYXe9EPi3nz7MTWa5Dsxc=
+	t=1776892882; cv=none; b=Hqk6DYw+4I3pP9hyQ6Pe6qsk3zCRmpn2KiA7lQwL2RE341rYjbAkRKDu6abQYaoA2Y8LIcF8w/N9IjT/U9MqThCVv6Htu60Gi4poGxo19rM28UqNQ5IrU+RCAzx+/cfvyWe9uFD4NQBOEzmN91Vng6xlYEPNy2Xy+DOXJy7/e8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776892851; c=relaxed/simple;
-	bh=zUdrYTV9E+/N8GN8YTqRKwMR9RqaTKInOdArx3jEKdw=;
+	s=arc-20240116; t=1776892882; c=relaxed/simple;
+	bh=r86yNoOlt6BZyF0XkxhlWCyN64IsU9je1cK+91LtuCk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HBvE6SYmorvNE+uOlC7q733SC28Qn6l8t6DcsaiiKskObYmh0bjB7mQe1CZU//AspPWJKD/r3F3b8PpmGGBBJAGE2Z96Oruoe9sKF5lwl1uMVgmBKpVmWcjAIaRN6/HkOR13GOmceErT/RkvVFBb2tAI+W+xnaKtOVNKuaN3G1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rMfG6H3+; arc=none smtp.client-ip=209.85.221.53
+	 Content-Type:Content-Disposition:In-Reply-To; b=r9qM6Yd8GU11AuX0KFA9LB0KuI0Cgif1wPddeywLTR/wJnEo2CMqsHu1T7kbaKDdySghvjT3sjsNUaYGjVjzy38HnHSsqYeGvQdm9KGrS4QprygDmXYad5uQAxju/3UUw+baWlW6CHUuOc1ACsC/kcwf/D8ZaEguYzsSEjpssYQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EOmQ8ExX; arc=none smtp.client-ip=209.85.221.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rMfG6H3+"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-43fe8bda8e9so3165050f8f.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 14:20:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EOmQ8ExX"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-43eb012ac4fso3628499f8f.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 14:21:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776892847; x=1777497647; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1776892879; x=1777497679; darn=vger.kernel.org;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=G1FxYB3JY2jCl3uwyPOOQ+11kmU8r0V3TYZNHka9I7s=;
-        b=rMfG6H3+La8ityomwoudN0aPxKtB/U3BgSdGymcDHFh6GqF1/mrTcwCrQTxJD650zQ
-         fYP27GvS/BKaDsSb+oyT+lNCFtTiH3/pbGYn2jS/e/8huUHdXiL46fVnbLk1ekXqLzit
-         smhMddDIrU0RQ/W+RN79SZ/+8MO3FkXjFy20TUlF6RyLgacpv9Q3dxzzJD+CcTxO26r/
-         g4OyibyzreTuzIVcDLTUMrJquNX6ha+4NMBPeI+sb7CPNha5mjcs9DUXv11yl5zhum+q
-         unLe7nCnU9gKsg33JISnc8FEWroqGaJiPoOsICfiybIDoyY58rMm0qT4i+0HvEeavf+t
-         frrA==
+        bh=az+5z1Ny2ESjbQT0bubQkyHk5FTmA2Ked5mKU6eBTLk=;
+        b=EOmQ8ExXmBOAh4RPzfk+XbXUW77DUVU/f5ftiDbVnn+MoO8MQcCsjZRGsIRc3yqj0D
+         UJ1fOpz+McXdV3wnuyHYZ/oQAyVExA9Ov+gXxSHMktxe0C0x8SOimVRQ7OEAWcpjkoeO
+         gaU5A/rRONJiODqahI8ZCk0qoW4NDLXkrc5S9lZuPxFMzkRCI4hqLOJfP21WHecpWdV0
+         Q3fklSbEAetxO9F5XUUNfO+xZ3hagcsxAUzoc31Eatp1VIWKd8iatSrDQwdFveX1i2eo
+         mLjNsO0N36N+qu+9OlzApOTnhjHE/3u/mg5iokhcrYG+cyI4BRLd+w8ow0SSOnu0GBQv
+         XU+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776892847; x=1777497647;
+        d=1e100.net; s=20251104; t=1776892879; x=1777497679;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=G1FxYB3JY2jCl3uwyPOOQ+11kmU8r0V3TYZNHka9I7s=;
-        b=XHUepzaOOiN8jbY+5fd1wb9dUoUIEgW7qzMy13e/M5Q9i94oiLN4J5zGZ7HcGPpU7e
-         xSzYu4+PfWtCGUQJkVT8jCCc5Ol/87N70KTMGowStQYbSjYVudHkvHAiSmrtC0HyHKdr
-         EjX7oWRNPKlO/C8TSpV2h/yLu51u3glLDB6ECYnA4ZwgFLGmua1pKfwzPIdSd/cJhPmr
-         s4Yr7KSl6vqo8kni+oeFIvSrnGmo19Xfw9PYCHRv3ZkT7d8moc4q2HYvs3JFs9PqEIl+
-         0U355jM/14kgopr0o6sW+jmuvW61aPUGqYrj3bbafwCBgyX7/r42yi1XZVyhMolaNrDT
-         72ig==
-X-Forwarded-Encrypted: i=1; AFNElJ8wSsuMyS2c0hA1bU1gNZukSL/GoIo6W6rFgxlfUUvDF3CwSHpn1FyhDNkAsYJvVh+An+PNz927ruaCI/HZ@vger.kernel.org
-X-Gm-Message-State: AOJu0YwjTxr1+0idktuonDjnGKvab6W1kEc0WVXXcq+nwHwgNwgYpKwk
-	LNmG8MmWcwiBZ4ycj71p6MVhw2028jiYPiBYMC/D1ymyVvhvhaZ9mGVY
-X-Gm-Gg: AeBDieuSEHIAbFAeJtUSMoaDI8Ck1WoiHUcC+tOHtgRwEwdofdtuxjXmw+zwK5yTDK/
-	BZ8Jb44S9IXExJ5jhV/KNvNLMqHvgLg+wBOs7S5jEKduUIHcfaD8eLmPlhLiLBfbhv7ir3zIiBd
-	zih1q5gMauuFDXelif+e3ApRmO02MCp4ZEg5PmM1wzXoC8FPziVwKu2bVz4aTldc9/jnK7q4/yH
-	xGYvyoqqn5rx6UPiP5WWx0Yn5QgqP2Up8Ui3LQjUuZ48JUUUZYqOZN3OUofa2lEQzVK/VQm3GnY
-	cDDHjBm9VBEN199+6X4sMrUrHXuI3YM5Rgrpf+ozwktdOdP53nICKKyJJUDg6ZB04Hjc5C600x5
-	I0xRJ06rngfZBD/F/waLCybp9mbJtasAJ2TWPKntgU9y7/t81UNO6hylnq2I02CVTpJpiQF5sz0
-	un1MuFNmjY60pPQtblw3u9GxoFWAgKr0FPrq55bfot5MZZEKiIISdzuOD6KxU=
-X-Received: by 2002:a05:6000:2dc6:b0:43f:dbbf:6d93 with SMTP id ffacd0b85a97d-43fe3dfd5bbmr36774695f8f.27.1776892847056;
-        Wed, 22 Apr 2026 14:20:47 -0700 (PDT)
+        bh=az+5z1Ny2ESjbQT0bubQkyHk5FTmA2Ked5mKU6eBTLk=;
+        b=EEKZxJXXpDnZweG9hSrxArRxFZkoixmqahUmNFO5ECONx9VDY3wgh8bRcw0nkTUeJ4
+         MIX39QJCrLVwIViVqhWDcZn2GWtvsE0KTHYunE7uziSmrNDo0XeWGk9BalBJKi8zM2O1
+         eEz6OXc3xsIcTDC5q2BYf0wxiQ5k5cIc4H+jF0M1kR6avT83YzLzJG8kF4nXI6Imtmnh
+         toLXvbxqKfeeqSKkyUpBEUzxtKXRGUPOa5agQGx4lza6z7w5lrLvbomhFJdEtKPRIePq
+         jtQHWT0bfC2P38Y7/ZSDqMemyfI8IfAMU3D5f89qp8xwhxRZ7pLg8Mglu/LAp/k96YOv
+         TogQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/Q9vkth3ah8y0d7TBI95KrNIdz1NwyCTWizxOhbS983HO6KmEgIkzKjWCtOq4Idq+Q1nspCED2NYO7s5CT@vger.kernel.org
+X-Gm-Message-State: AOJu0YxEXhZjEnwd4WL1AYh+CnjQIEDrASHk54LwhWrkD0w7iVRccmUk
+	kS+7/wv7pNRdSAdaRyJ/yO8PEBComL6POJ6deWp2AudYWNbAs87btpvq
+X-Gm-Gg: AeBDieu3xhpgjC6V6aGumHUxeo2ZrbpWATHEoAlDfShh3BxmtQ1GON74wivJ+6mRhTq
+	83OivbXa2cbVOHP3Ie/E8+tesj36L9YwAmk3xSluzFrYefk0eWBkN2bFBF14JrGfjxRvs2ETOSc
+	p8hHhBsZHGE15DMaQ1gILdeHDcgk92LAdEBkYECnDuXSkq+9RRKn+hOK6GKxeXzfzLvIulmIUkF
+	4fK+7Va6Z1+drPgyGg7nkhPpyw3NC4+APIrB4wstUXph5yPEtGtjn3RV8laS7VfMShkVAM1Mx3c
+	lJjk5gRxzmH50daWOYOvXSqZgm2UuPvx+A95WEKhmqd+264JSh1VGLRNDYO7dv2c4yuIOfBxObB
+	4cZS8IQAcFtFkdr013pf+62t8e7eBHv257ukuFv25c+bgPOnUG/mUJ9cIoyDOT94PtUCT8NzevQ
+	BFcY9l0J1WdGwbkOngjVSkFCeVarW45vXjrZOHyK8GAip6Rvcx7vpKhM/SqafLDuYwbIimdg==
+X-Received: by 2002:a05:6000:2c0c:b0:43e:a70d:763c with SMTP id ffacd0b85a97d-43fe3e1e0ccmr33731127f8f.42.1776892878755;
+        Wed, 22 Apr 2026 14:21:18 -0700 (PDT)
 Received: from localhost (ip87-106-108-193.pbiaas.com. [87.106.108.193])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4e59f97sm53467720f8f.37.2026.04.22.14.20.46
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4e4d5b1sm52064249f8f.30.2026.04.22.14.21.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Apr 2026 14:20:46 -0700 (PDT)
-Date: Wed, 22 Apr 2026 23:20:45 +0200
+        Wed, 22 Apr 2026 14:21:18 -0700 (PDT)
+Date: Wed, 22 Apr 2026 23:21:17 +0200
 From: =?iso-8859-1?Q?G=FCnther?= Noack <gnoack3000@gmail.com>
 To: =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
 Cc: Christian Brauner <brauner@kernel.org>,
@@ -73,11 +73,11 @@ Cc: Christian Brauner <brauner@kernel.org>,
 	Tingmao Wang <m@maowtm.org>, kernel-team@cloudflare.com,
 	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-security-module@vger.kernel.org
-Subject: Re: [RFC PATCH v1 10/11] samples/landlock: Add capability and
- namespace restriction support
-Message-ID: <20260422.cd00ad04e709@gnoack.org>
+Subject: Re: [RFC PATCH v1 01/11] security: add LSM blob and hooks for
+ namespaces
+Message-ID: <20260422.ed4f7fcdd9f3@gnoack.org>
 References: <20260312100444.2609563-1-mic@digikod.net>
- <20260312100444.2609563-11-mic@digikod.net>
+ <20260312100444.2609563-2-mic@digikod.net>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -87,320 +87,326 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260312100444.2609563-11-mic@digikod.net>
+In-Reply-To: <20260312100444.2609563-2-mic@digikod.net>
 
-On Thu, Mar 12, 2026 at 11:04:43AM +0100, Mickaël Salaün wrote:
-> Extend the sandboxer sample to demonstrate the new Landlock capability
-> and namespace restriction features.  The LL_CAPS environment variable
-> takes a colon-delimited list of allowed capability numbers (e.g. "18"
-> for CAP_SYS_CHROOT).  The LL_NS variable takes a colon-delimited list of
-> allowed namespace types by short name (e.g.  "user:uts:net").  Update
-> LANDLOCK_ABI_LAST to 9 and add best-effort degradation for older
-> kernels.
+On Thu, Mar 12, 2026 at 11:04:34AM +0100, Mickaël Salaün wrote:
+> From: Christian Brauner <brauner@kernel.org>
 > 
-> Allow creating user and UTS namespaces but deny network namespaces
-> (works as an unprivileged user).  All capabilities are available
-> (LL_CAPS is not set), but namespace creation is still restricted to the
-> types listed in LL_NS.  The first command succeeds because user and UTS
-> types are in the allowed set, and sets the hostname inside the new UTS
-> namespace.  The second command fails because the network namespace type
-> is not allowed by the LANDLOCK_PERM_NAMESPACE_ENTER rule:
+> All namespace types now share the same ns_common infrastructure. Extend
+> this to include a security blob so LSMs can start managing namespaces
+> uniformly without having to add one-off hooks or security fields to
+> every individual namespace type.
 > 
->   LL_FS_RO=/ LL_FS_RW=/proc LL_NS="user:uts" \
->     ./sandboxer /bin/sh -c \
->     "unshare --user --uts --map-root-user hostname sandbox \
->     && ! unshare --user --net true"
+> Add a ns_security pointer to ns_common and the corresponding lbs_ns
+> blob size to lsm_blob_sizes. Allocation and freeing hooks are called
+> from the common __ns_common_init() and __ns_common_free() paths so
+> every namespace type gets covered in one go. All information about the
+> namespace type and the appropriate casting helpers to get at the
+> containing namespace are available via ns_common making it
+> straightforward for LSMs to differentiate when they need to.
 > 
-> Allow only user namespace creation and CAP_SYS_CHROOT (18), denying all
-> other capabilities and namespace types (works as an unprivileged user).
-> An unprivileged process creates a user namespace (no capability
-> required) and calls chroot inside it using the CAP_SYS_CHROOT granted
-> within the new namespace:
+> A namespace_install hook is called from validate_ns() during setns(2)
+> giving LSMs a chance to enforce policy on namespace transitions.
 > 
->   LL_FS_RO=/ LL_FS_RW="" LL_NS="user" LL_CAPS="18" \
->     ./sandboxer /bin/sh -c \
->     "unshare --user --keep-caps chroot / true"
+> Individual namespace types can still have their own specialized security
+> hooks when needed. This is just the common baseline that makes it easy
+> to track and manage namespaces from the security side without requiring
+> every namespace type to reinvent the wheel.
 > 
-> Cc: Christian Brauner <brauner@kernel.org>
 > Cc: Günther Noack <gnoack@google.com>
 > Cc: Paul Moore <paul@paul-moore.com>
 > Cc: Serge E. Hallyn <serge@hallyn.com>
-> Signed-off-by: Mickaël Salaün <mic@digikod.net>
+> Signed-off-by: Christian Brauner <brauner@kernel.org>
+> Link: https://lore.kernel.org/r/20260216-work-security-namespace-v1-1-075c28758e1f@kernel.org
 > ---
->  samples/landlock/sandboxer.c | 164 +++++++++++++++++++++++++++++++++--
->  1 file changed, 155 insertions(+), 9 deletions(-)
+>  include/linux/lsm_hook_defs.h      |  3 ++
+>  include/linux/lsm_hooks.h          |  1 +
+>  include/linux/ns/ns_common_types.h |  3 ++
+>  include/linux/security.h           | 20 ++++++++
+>  kernel/nscommon.c                  | 12 +++++
+>  kernel/nsproxy.c                   |  8 +++-
+>  security/lsm_init.c                |  2 +
+>  security/security.c                | 76 ++++++++++++++++++++++++++++++
+>  8 files changed, 124 insertions(+), 1 deletion(-)
 > 
-> diff --git a/samples/landlock/sandboxer.c b/samples/landlock/sandboxer.c
-> index 9f21088c0855..09c499703835 100644
-> --- a/samples/landlock/sandboxer.c
-> +++ b/samples/landlock/sandboxer.c
-> @@ -14,6 +14,8 @@
->  #include <fcntl.h>
->  #include <linux/landlock.h>
->  #include <linux/socket.h>
-> +#include <sched.h>
-> +#include <stdbool.h>
->  #include <stddef.h>
->  #include <stdio.h>
->  #include <stdlib.h>
-> @@ -22,12 +24,16 @@
->  #include <sys/stat.h>
->  #include <sys/syscall.h>
->  #include <unistd.h>
-> -#include <stdbool.h>
->  
->  #if defined(__GLIBC__)
->  #include <linux/prctl.h>
->  #endif
->  
-> +/* From include/linux/bits.h, not available in userspace. */
-> +#ifndef BITS_PER_TYPE
-> +#define BITS_PER_TYPE(type) (sizeof(type) * 8)
+> diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.h
+> index 8c42b4bde09c..fefd3aa6d8f4 100644
+> --- a/include/linux/lsm_hook_defs.h
+> +++ b/include/linux/lsm_hook_defs.h
+> @@ -260,6 +260,9 @@ LSM_HOOK(int, -ENOSYS, task_prctl, int option, unsigned long arg2,
+>  LSM_HOOK(void, LSM_RET_VOID, task_to_inode, struct task_struct *p,
+>  	 struct inode *inode)
+>  LSM_HOOK(int, 0, userns_create, const struct cred *cred)
+> +LSM_HOOK(int, 0, namespace_alloc, struct ns_common *ns)
+> +LSM_HOOK(void, LSM_RET_VOID, namespace_free, struct ns_common *ns)
+> +LSM_HOOK(int, 0, namespace_install, const struct nsset *nsset, struct ns_common *ns)
+>  LSM_HOOK(int, 0, ipc_permission, struct kern_ipc_perm *ipcp, short flag)
+>  LSM_HOOK(void, LSM_RET_VOID, ipc_getlsmprop, struct kern_ipc_perm *ipcp,
+>  	 struct lsm_prop *prop)
+> diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
+> index d48bf0ad26f4..3e7afe76e86c 100644
+> --- a/include/linux/lsm_hooks.h
+> +++ b/include/linux/lsm_hooks.h
+> @@ -111,6 +111,7 @@ struct lsm_blob_sizes {
+>  	unsigned int lbs_ipc;
+>  	unsigned int lbs_key;
+>  	unsigned int lbs_msg_msg;
+> +	unsigned int lbs_ns;
+>  	unsigned int lbs_perf_event;
+>  	unsigned int lbs_task;
+>  	unsigned int lbs_xattr_count; /* num xattr slots in new_xattrs array */
+> diff --git a/include/linux/ns/ns_common_types.h b/include/linux/ns/ns_common_types.h
+> index 0014fbc1c626..170288e2e895 100644
+> --- a/include/linux/ns/ns_common_types.h
+> +++ b/include/linux/ns/ns_common_types.h
+> @@ -115,6 +115,9 @@ struct ns_common {
+>  	struct dentry *stashed;
+>  	const struct proc_ns_operations *ops;
+>  	unsigned int inum;
+> +#ifdef CONFIG_SECURITY
+> +	void *ns_security;
 > +#endif
-> +
->  #ifndef landlock_create_ruleset
->  static inline int
->  landlock_create_ruleset(const struct landlock_ruleset_attr *const attr,
-> @@ -60,6 +66,8 @@ static inline int landlock_restrict_self(const int ruleset_fd,
->  #define ENV_FS_RW_NAME "LL_FS_RW"
->  #define ENV_TCP_BIND_NAME "LL_TCP_BIND"
->  #define ENV_TCP_CONNECT_NAME "LL_TCP_CONNECT"
-> +#define ENV_CAPS_NAME "LL_CAPS"
-> +#define ENV_NS_NAME "LL_NS"
->  #define ENV_SCOPED_NAME "LL_SCOPED"
->  #define ENV_FORCE_LOG_NAME "LL_FORCE_LOG"
->  #define ENV_DELIMITER ":"
-> @@ -226,11 +234,125 @@ static int populate_ruleset_net(const char *const env_var, const int ruleset_fd,
->  	return ret;
+>  	union {
+>  		struct ns_tree;
+>  		struct rcu_head ns_rcu;
+> diff --git a/include/linux/security.h b/include/linux/security.h
+> index 83a646d72f6f..611b9098367d 100644
+> --- a/include/linux/security.h
+> +++ b/include/linux/security.h
+> @@ -67,6 +67,7 @@ enum fs_value_type;
+>  struct watch;
+>  struct watch_notification;
+>  struct lsm_ctx;
+> +struct nsset;
+>  
+>  /* Default (no) options for the capable function */
+>  #define CAP_OPT_NONE 0x0
+> @@ -80,6 +81,7 @@ struct lsm_ctx;
+>  
+>  struct ctl_table;
+>  struct audit_krule;
+> +struct ns_common;
+>  struct user_namespace;
+>  struct timezone;
+>  
+> @@ -533,6 +535,9 @@ int security_task_prctl(int option, unsigned long arg2, unsigned long arg3,
+>  			unsigned long arg4, unsigned long arg5);
+>  void security_task_to_inode(struct task_struct *p, struct inode *inode);
+>  int security_create_user_ns(const struct cred *cred);
+> +int security_namespace_alloc(struct ns_common *ns);
+> +void security_namespace_free(struct ns_common *ns);
+> +int security_namespace_install(const struct nsset *nsset, struct ns_common *ns);
+>  int security_ipc_permission(struct kern_ipc_perm *ipcp, short flag);
+>  void security_ipc_getlsmprop(struct kern_ipc_perm *ipcp, struct lsm_prop *prop);
+>  int security_msg_msg_alloc(struct msg_msg *msg);
+> @@ -1407,6 +1412,21 @@ static inline int security_create_user_ns(const struct cred *cred)
+>  	return 0;
 >  }
 >  
-> +static __u64 str2ns(const char *const name)
+> +static inline int security_namespace_alloc(struct ns_common *ns)
 > +{
-> +	static const struct {
-> +		const char *name;
-> +		__u64 value;
-> +	} ns_map[] = {
-> +		/* clang-format off */
-> +		{ "cgroup",	CLONE_NEWCGROUP },
-> +		{ "ipc",	CLONE_NEWIPC },
-> +		{ "mnt",	CLONE_NEWNS },
-> +		{ "net",	CLONE_NEWNET },
-> +		{ "pid",	CLONE_NEWPID },
-> +		{ "time",	CLONE_NEWTIME },
-> +		{ "user",	CLONE_NEWUSER },
-> +		{ "uts",	CLONE_NEWUTS },
-> +		/* clang-format on */
-> +	};
-> +	size_t i;
-> +
-> +	for (i = 0; i < sizeof(ns_map) / sizeof(ns_map[0]); i++) {
-> +		if (strcmp(name, ns_map[i].name) == 0)
-> +			return ns_map[i].value;
-> +	}
 > +	return 0;
 > +}
 > +
-> +static int populate_ruleset_caps(const char *const env_var,
-> +				 const int ruleset_fd)
+> +static inline void security_namespace_free(struct ns_common *ns)
 > +{
-> +	int ret = 1;
-> +	char *env_cap_name, *env_cap_name_next, *strcap;
-> +	struct landlock_capability_attr cap_attr = {
-> +		.allowed_perm = LANDLOCK_PERM_CAPABILITY_USE,
-> +	};
-> +
-> +	env_cap_name = getenv(env_var);
-> +	if (!env_cap_name)
-> +		return 0;
-> +	env_cap_name = strdup(env_cap_name);
-> +	unsetenv(env_var);
-> +
-> +	env_cap_name_next = env_cap_name;
-> +	while ((strcap = strsep(&env_cap_name_next, ENV_DELIMITER))) {
-> +		__u64 cap;
-> +
-> +		if (strcmp(strcap, "") == 0)
-> +			continue;
-> +
-> +		if (str2num(strcap, &cap) ||
-
-libcap has cap_from_name(3).  I believe we are linking with libcap
-already to drop them before tests.  (I have not used this function
-myself yet, but it sounds like it would address this case.)
-
-
-> +		    cap >= BITS_PER_TYPE(cap_attr.capabilities)) {
-> +			fprintf(stderr,
-> +				"Failed to parse capability at \"%s\"\n",
-> +				strcap);
-> +			goto out_free_name;
-> +		}
-> +		cap_attr.capabilities = 1ULL << cap;
-> +		if (landlock_add_rule(ruleset_fd, LANDLOCK_RULE_CAPABILITY,
-> +				      &cap_attr, 0)) {
-> +			fprintf(stderr,
-> +				"Failed to update the ruleset with capability \"%llu\": %s\n",
-> +				(unsigned long long)cap, strerror(errno));
-> +			goto out_free_name;
-> +		}
-> +	}
-> +	ret = 0;
-> +
-> +out_free_name:
-> +	free(env_cap_name);
-> +	return ret;
 > +}
 > +
-> +static int populate_ruleset_ns(const char *const env_var, const int ruleset_fd)
+> +static inline int security_namespace_install(const struct nsset *nsset,
+> +					     struct ns_common *ns)
 > +{
-> +	int ret = 1;
-> +	char *env_ns_name, *env_ns_name_next, *strns;
-> +	struct landlock_namespace_attr ns_attr = {
-> +		.allowed_perm = LANDLOCK_PERM_NAMESPACE_ENTER,
-> +	};
-> +
-> +	env_ns_name = getenv(env_var);
-> +	if (!env_ns_name)
-> +		return 0;
-> +	env_ns_name = strdup(env_ns_name);
-> +	unsetenv(env_var);
-> +
-> +	env_ns_name_next = env_ns_name;
-> +	while ((strns = strsep(&env_ns_name_next, ENV_DELIMITER))) {
-> +		__u64 ns_type;
-> +
-> +		if (strcmp(strns, "") == 0)
-> +			continue;
-> +
-> +		ns_type = str2ns(strns);
-> +		if (!ns_type) {
-> +			fprintf(stderr, "Unknown namespace type \"%s\"\n",
-> +				strns);
-> +			goto out_free_name;
-> +		}
-> +		ns_attr.namespace_types = ns_type;
-> +		if (landlock_add_rule(ruleset_fd, LANDLOCK_RULE_NAMESPACE,
-> +				      &ns_attr, 0)) {
-> +			fprintf(stderr,
-> +				"Failed to update the ruleset with namespace \"%s\": %s\n",
-> +				strns, strerror(errno));
-> +			goto out_free_name;
-> +		}
-> +	}
-> +	ret = 0;
-> +
-> +out_free_name:
-> +	free(env_ns_name);
-> +	return ret;
+> +	return 0;
 > +}
 > +
->  /* Returns true on error, false otherwise. */
->  static bool check_ruleset_scope(const char *const env_var,
->  				struct landlock_ruleset_attr *ruleset_attr)
+>  static inline int security_ipc_permission(struct kern_ipc_perm *ipcp,
+>  					  short flag)
 >  {
-> -	char *env_type_scope, *env_type_scope_next, *ipc_scoping_name;
-> +	char *env_type_scope, *env_type_scope_next, *scope_name;
->  	bool error = false;
->  	bool abstract_scoping = false;
->  	bool signal_scoping = false;
-> @@ -247,16 +369,14 @@ static bool check_ruleset_scope(const char *const env_var,
+> diff --git a/kernel/nscommon.c b/kernel/nscommon.c
+> index bdc3c86231d3..de774e374f9d 100644
+> --- a/kernel/nscommon.c
+> +++ b/kernel/nscommon.c
+> @@ -4,6 +4,7 @@
+>  #include <linux/ns_common.h>
+>  #include <linux/nstree.h>
+>  #include <linux/proc_ns.h>
+> +#include <linux/security.h>
+>  #include <linux/user_namespace.h>
+>  #include <linux/vfsdebug.h>
 >  
->  	env_type_scope = strdup(env_type_scope);
->  	env_type_scope_next = env_type_scope;
-> -	while ((ipc_scoping_name =
-> -			strsep(&env_type_scope_next, ENV_DELIMITER))) {
-> -		if (strcmp("a", ipc_scoping_name) == 0 && !abstract_scoping) {
-> +	while ((scope_name = strsep(&env_type_scope_next, ENV_DELIMITER))) {
-> +		if (strcmp("a", scope_name) == 0 && !abstract_scoping) {
->  			abstract_scoping = true;
-> -		} else if (strcmp("s", ipc_scoping_name) == 0 &&
-> -			   !signal_scoping) {
-> +		} else if (strcmp("s", scope_name) == 0 && !signal_scoping) {
->  			signal_scoping = true;
->  		} else {
->  			fprintf(stderr, "Unknown or duplicate scope \"%s\"\n",
-> -				ipc_scoping_name);
-> +				scope_name);
->  			error = true;
->  			goto out_free_name;
->  		}
-> @@ -299,7 +419,7 @@ static bool check_ruleset_scope(const char *const env_var,
+> @@ -59,6 +60,9 @@ int __ns_common_init(struct ns_common *ns, u32 ns_type, const struct proc_ns_ope
 >  
->  /* clang-format on */
->  
-> -#define LANDLOCK_ABI_LAST 8
-> +#define LANDLOCK_ABI_LAST 9
->  
->  #define XSTR(s) #s
->  #define STR(s) XSTR(s)
-> @@ -322,6 +442,10 @@ static const char help[] =
->  	"means an empty list):\n"
->  	"* " ENV_TCP_BIND_NAME ": ports allowed to bind (server)\n"
->  	"* " ENV_TCP_CONNECT_NAME ": ports allowed to connect (client)\n"
-> +	"* " ENV_CAPS_NAME ": capability numbers allowed to use "
-> +	"(e.g. 10 for CAP_NET_BIND_SERVICE, 21 for CAP_SYS_ADMIN)\n"
-> +	"* " ENV_NS_NAME ": namespace types allowed to enter "
-> +	"(cgroup, ipc, mnt, net, pid, time, user, uts)\n"
->  	"* " ENV_SCOPED_NAME ": actions denied on the outside of the landlock domain\n"
->  	"  - \"a\" to restrict opening abstract unix sockets\n"
->  	"  - \"s\" to restrict sending signals\n"
-> @@ -334,6 +458,8 @@ static const char help[] =
->  	ENV_FS_RW_NAME "=\"/dev/null:/dev/full:/dev/zero:/dev/pts:/tmp\" "
->  	ENV_TCP_BIND_NAME "=\"9418\" "
->  	ENV_TCP_CONNECT_NAME "=\"80:443\" "
-> +	ENV_CAPS_NAME "=\"21\" "
-> +	ENV_NS_NAME "=\"user:uts:net\" "
->  	ENV_SCOPED_NAME "=\"a:s\" "
->  	"%1$s bash -i\n"
->  	"\n"
-> @@ -357,6 +483,8 @@ int main(const int argc, char *const argv[], char *const *const envp)
->  				      LANDLOCK_ACCESS_NET_CONNECT_TCP,
->  		.scoped = LANDLOCK_SCOPE_ABSTRACT_UNIX_SOCKET |
->  			  LANDLOCK_SCOPE_SIGNAL,
-> +		.handled_perm = LANDLOCK_PERM_CAPABILITY_USE |
-> +				LANDLOCK_PERM_NAMESPACE_ENTER,
->  	};
->  	int supported_restrict_flags = LANDLOCK_RESTRICT_SELF_LOG_NEW_EXEC_ON;
->  	int set_restrict_flags = 0;
-> @@ -438,6 +566,10 @@ int main(const int argc, char *const argv[], char *const *const envp)
->  			~LANDLOCK_RESTRICT_SELF_LOG_NEW_EXEC_ON;
->  		__attribute__((fallthrough));
->  	case 7:
-> +		__attribute__((fallthrough));
-> +	case 8:
-> +		/* Removes permission support for ABI < 9 */
-> +		ruleset_attr.handled_perm = 0;
->  		/* Must be printed for any ABI < LANDLOCK_ABI_LAST. */
->  		fprintf(stderr,
->  			"Hint: You should update the running kernel "
-> @@ -470,6 +602,14 @@ int main(const int argc, char *const argv[], char *const *const envp)
->  			~LANDLOCK_ACCESS_NET_CONNECT_TCP;
->  	}
->  
-> +	/* Removes capability handling if not set by a user. */
-> +	if (!getenv(ENV_CAPS_NAME))
-> +		ruleset_attr.handled_perm &= ~LANDLOCK_PERM_CAPABILITY_USE;
+>  	refcount_set(&ns->__ns_ref, 1);
+>  	ns->stashed = NULL;
+> +#ifdef CONFIG_SECURITY
+> +	ns->ns_security = NULL;
+> +#endif
+>  	ns->ops = ops;
+>  	ns->ns_id = 0;
+>  	ns->ns_type = ns_type;
+> @@ -77,6 +81,13 @@ int __ns_common_init(struct ns_common *ns, u32 ns_type, const struct proc_ns_ope
+>  		ret = proc_alloc_inum(&ns->inum);
+>  	if (ret)
+>  		return ret;
 > +
-> +	/* Removes namespace handling if not set by a user. */
-> +	if (!getenv(ENV_NS_NAME))
-> +		ruleset_attr.handled_perm &= ~LANDLOCK_PERM_NAMESPACE_ENTER;
+> +	ret = security_namespace_alloc(ns);
+> +	if (ret) {
+> +		proc_free_inum(ns->inum);
+> +		return ret;
+> +	}
 > +
->  	if (check_ruleset_scope(ENV_SCOPED_NAME, &ruleset_attr))
->  		return 1;
+>  	/*
+>  	 * Tree ref starts at 0. It's incremented when namespace enters
+>  	 * active use (installed in nsproxy) and decremented when all
+> @@ -91,6 +102,7 @@ int __ns_common_init(struct ns_common *ns, u32 ns_type, const struct proc_ns_ope
 >  
-> @@ -514,6 +654,12 @@ int main(const int argc, char *const argv[], char *const *const envp)
->  		goto err_close_ruleset;
->  	}
+>  void __ns_common_free(struct ns_common *ns)
+>  {
+> +	security_namespace_free(ns);
+>  	proc_free_inum(ns->inum);
+>  }
 >  
-> +	if (populate_ruleset_caps(ENV_CAPS_NAME, ruleset_fd))
-> +		goto err_close_ruleset;
+> diff --git a/kernel/nsproxy.c b/kernel/nsproxy.c
+> index 259c4b4f1eeb..f0b30d1907e7 100644
+> --- a/kernel/nsproxy.c
+> +++ b/kernel/nsproxy.c
+> @@ -379,7 +379,13 @@ static int prepare_nsset(unsigned flags, struct nsset *nsset)
+>  
+>  static inline int validate_ns(struct nsset *nsset, struct ns_common *ns)
+>  {
+> -	return ns->ops->install(nsset, ns);
+> +	int ret;
 > +
-> +	if (populate_ruleset_ns(ENV_NS_NAME, ruleset_fd))
-> +		goto err_close_ruleset;
+> +	ret = ns->ops->install(nsset, ns);
+> +	if (ret)
+> +		return ret;
 > +
->  	if (prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0)) {
->  		perror("Failed to restrict privileges");
->  		goto err_close_ruleset;
+> +	return security_namespace_install(nsset, ns);
+>  }
+>  
+>  /*
+> diff --git a/security/lsm_init.c b/security/lsm_init.c
+> index 573e2a7250c4..637c2d65e131 100644
+> --- a/security/lsm_init.c
+> +++ b/security/lsm_init.c
+> @@ -301,6 +301,7 @@ static void __init lsm_prepare(struct lsm_info *lsm)
+>  	lsm_blob_size_update(&blobs->lbs_ipc, &blob_sizes.lbs_ipc);
+>  	lsm_blob_size_update(&blobs->lbs_key, &blob_sizes.lbs_key);
+>  	lsm_blob_size_update(&blobs->lbs_msg_msg, &blob_sizes.lbs_msg_msg);
+> +	lsm_blob_size_update(&blobs->lbs_ns, &blob_sizes.lbs_ns);
+>  	lsm_blob_size_update(&blobs->lbs_perf_event,
+>  			     &blob_sizes.lbs_perf_event);
+>  	lsm_blob_size_update(&blobs->lbs_sock, &blob_sizes.lbs_sock);
+> @@ -446,6 +447,7 @@ int __init security_init(void)
+>  		lsm_pr("blob(ipc) size %d\n", blob_sizes.lbs_ipc);
+>  		lsm_pr("blob(key) size %d\n", blob_sizes.lbs_key);
+>  		lsm_pr("blob(msg_msg)_size %d\n", blob_sizes.lbs_msg_msg);
+> +		lsm_pr("blob(ns) size %d\n", blob_sizes.lbs_ns);
+>  		lsm_pr("blob(sock) size %d\n", blob_sizes.lbs_sock);
+>  		lsm_pr("blob(superblock) size %d\n", blob_sizes.lbs_superblock);
+>  		lsm_pr("blob(perf_event) size %d\n", blob_sizes.lbs_perf_event);
+> diff --git a/security/security.c b/security/security.c
+> index 67af9228c4e9..dcf073cac848 100644
+> --- a/security/security.c
+> +++ b/security/security.c
+> @@ -26,6 +26,7 @@
+>  #include <linux/string.h>
+>  #include <linux/xattr.h>
+>  #include <linux/msg.h>
+> +#include <linux/ns_common.h>
+>  #include <linux/overflow.h>
+>  #include <linux/perf_event.h>
+>  #include <linux/fs.h>
+> @@ -355,6 +356,19 @@ static int lsm_superblock_alloc(struct super_block *sb)
+>  			      GFP_KERNEL);
+>  }
+>  
+> +/**
+> + * lsm_ns_alloc - allocate a composite namespace blob
+> + * @ns: the namespace that needs a blob
+> + *
+> + * Allocate the namespace blob for all the modules
+> + *
+> + * Returns 0, or -ENOMEM if memory can't be allocated.
+> + */
+> +static int lsm_ns_alloc(struct ns_common *ns)
+> +{
+> +	return lsm_blob_alloc(&ns->ns_security, blob_sizes.lbs_ns, GFP_KERNEL);
+> +}
+> +
+>  /**
+>   * lsm_fill_user_ctx - Fill a user space lsm_ctx structure
+>   * @uctx: a userspace LSM context to be filled
+> @@ -3255,6 +3269,68 @@ int security_create_user_ns(const struct cred *cred)
+>  	return call_int_hook(userns_create, cred);
+>  }
+>  
+> +/**
+> + * security_namespace_alloc() - Allocate LSM security data for a namespace
+> + * @ns: the namespace being allocated
+> + *
+> + * Allocate and attach security data to the namespace. The namespace type
+> + * is available via ns->ns_type, and the owning user namespace (if any)
+> + * via ns->ops->owner(ns).
+> + *
+> + * Return: Returns 0 if successful, otherwise < 0 error code.
+> + */
+> +int security_namespace_alloc(struct ns_common *ns)
+> +{
+> +	int rc;
+> +
+> +	rc = lsm_ns_alloc(ns);
+> +	if (unlikely(rc))
+> +		return rc;
+> +
+> +	rc = call_int_hook(namespace_alloc, ns);
+> +	if (unlikely(rc))
+> +		security_namespace_free(ns);
+> +
+> +	return rc;
+> +}
+> +
+> +/**
+> + * security_namespace_free() - Release LSM security data from a namespace
+> + * @ns: the namespace being freed
+> + *
+> + * Release security data attached to the namespace. Called before the
+> + * namespace structure is freed.
+> + *
+> + * Note: The namespace may be freed via kfree_rcu(). LSMs must use
+> + * RCU-safe freeing for any data that might be accessed by concurrent
+> + * RCU readers.
+> + */
+> +void security_namespace_free(struct ns_common *ns)
+> +{
+> +	if (!ns->ns_security)
+> +		return;
+> +
+> +	call_void_hook(namespace_free, ns);
+> +
+> +	kfree(ns->ns_security);
+> +	ns->ns_security = NULL;
+> +}
+> +
+> +/**
+> + * security_namespace_install() - Check permission to install a namespace
+> + * @nsset: the target nsset being configured
+> + * @ns: the namespace being installed
+> + *
+> + * Check permission before allowing a namespace to be installed into the
+> + * process's set of namespaces via setns(2).
+> + *
+> + * Return: Returns 0 if permission is granted, otherwise < 0 error code.
+> + */
+> +int security_namespace_install(const struct nsset *nsset, struct ns_common *ns)
+> +{
+> +	return call_int_hook(namespace_install, nsset, ns);
+> +}
+> +
+>  /**
+>   * security_ipc_permission() - Check if sysv ipc access is allowed
+>   * @ipcp: ipc permission structure
 > -- 
 > 2.53.0
 > 
+
+Reviewed-by: Günther Noack <gnoack3000@gmail.com>
