@@ -1,92 +1,120 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B90A376BCC
-	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 08:51:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72B5F3B27F3
+	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 08:58:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776847885; cv=none; b=sPh+H/NL4lO/02dEQlQU0Q098Gi9Id3qW8Hdv6EwTvgeM465izrshN5ZUFUn/Bl7tujxljnDHzmhJK+xTDF0KWlrfvW0HhF5Fo7dKvqbdMZbqvY4z1A6rQ3e0gT+bkWBNbhIzYZrnmiY/jn93OBRZVLr1Bm/eRsrwBDmWmuWRYI=
+	t=1776848288; cv=none; b=ARl0Z7I3a8YBcdhgbL8bSx1EUWcOcG4iXI4Uj4YTPeQOVov8qHNQgvmVuiHeC6YH43LI8a6LGiLGjivZ+81jHVknOC6zZPHygbdu2WMakfx9yWEmzifh1RH9b/tXnUAF9q21UfWYk2snU0gGIm8LpfIVeDjFh16ZdIxboT7JY4E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776847885; c=relaxed/simple;
-	bh=m8RPO+3IDkr3Iy0tNuGqC0k31LXCKZrz7983xYNXXVg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DvNVroilW7xQOEjUshQ8VpiU0bo1mZR1c1AtHj7BO3+KoNRzFIHu26w9Cwr96Q8O3O2lZCl7FzHOpCsISYffKmZOgXL6xigWpx0F6/Gq5doxA2R329nWAyXdnqPqr98UQkKQcMq7JqskqYAoj1rNWQ3mar+soDy7LKfe9lJitRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rL9srZ5Q; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776848288; c=relaxed/simple;
+	bh=uF63Ms8AACR/oFWxgd+uFy3hlr2NIcQ7At05T0KyQug=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=V9F4vXq71lfSDhOrFNpXCKf8GpEA4TvCgI7ln3mUvNYuWkJdghx0TJcENc8q3Z05SbqikbABMDhUSibt+CWz7wca+L/gIqanDR7zoNGjE/i6ro0Ivr07L6bYwddG+SOIYIZarZAjXyxXcYzAdXdpmckqld4wy6LcMmqZkI3FCYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cHQHEGn4; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=cxPgpXd1; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rL9srZ5Q"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4891cd41959so32593975e9.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 01:51:23 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cHQHEGn4";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="cxPgpXd1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1776848286;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FFaygBUBXXsgixj3eSOd6CMo0lj7K6zPcakxuhrDzd4=;
+	b=cHQHEGn4d65uGcHveSIfcaCYX+F8OuoMacUm1MAOmqirZSK4FaBJJv5JD4WXXd/psgrLV4
+	AyeNE1L6dGikldh6xPKHp9tapFPxBEeg5jZczq2A419pFkp0K5EdnG6cEGSDAAe63btKjy
+	0tAeHahRUjaQ4pK45Cde+QMyNuzt6lE=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-533-57LO25L2O6qJLK7aOmeCGg-1; Wed, 22 Apr 2026 04:58:05 -0400
+X-MC-Unique: 57LO25L2O6qJLK7aOmeCGg-1
+X-Mimecast-MFC-AGG-ID: 57LO25L2O6qJLK7aOmeCGg_1776848284
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-4411a215f17so2336836f8f.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 01:58:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776847882; x=1777452682; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VgUln5U7+dMee0Mhdvyj5jw6YLdxHm/vO79Sdqh8h40=;
-        b=rL9srZ5QOHqxggho05vkYJNNAu3qjOhhCppC4GBR5r1vmpwrA1Jg41gReYir27jcEF
-         TepHRDgMy/TnELwfckY09UE/pShZF98MMQEsjp5HRQ4ane7A+M2Wv9tMwH4TPUHyjDno
-         s6wUBgWnEK90ykAMDo3oHjlczLng1CdS6RYbYXGr9is2fcWtUxJsgAOL4ltBobgp10w4
-         aqxXzpgNcTX2cpnh0svvcGlU8tNXsOzaY9wYL4QGH+QUe3+NOtpbNw6rmFcptu5AcNCO
-         vm6BTYOX6s4L5GZ39IHoMQZ/nuMgMI7zieshjpJX1o5N/byD+PvdFJP5NmgTt8E+Xy5b
-         GGAg==
+        d=redhat.com; s=google; t=1776848284; x=1777453084; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=FFaygBUBXXsgixj3eSOd6CMo0lj7K6zPcakxuhrDzd4=;
+        b=cxPgpXd1U2be8oz6XUshGUwOibc9axYIPHrFBQMSuZiwknsMCpp4TPaR8V7HmHlTAY
+         /dCsgZVFDwyccB3y60KfRvoGnvNlg2iIqUs25ma3UOS+vz/Zsg2LlbyetF/NjsQvTjys
+         aJuVv7sS9y+rpV64vhwHsfrlc4dqmdxrJWV1l4wJrJpAQhYrfJcu/hMHFG5ggFE775LB
+         W+UX1yNE383mH/kP7SWPY7TcZmnlXH43S7rc0l7ZvA4bsx2363D3RxTy9WLYClkKW2eM
+         LCp79CUbrLb03Zm4ngKEbKKygpkSgf9aAmySoGIq7OXDFIImQGBZnG2jEb8jKTcln3vQ
+         Z9vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776847882; x=1777452682;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=VgUln5U7+dMee0Mhdvyj5jw6YLdxHm/vO79Sdqh8h40=;
-        b=f/9D+oWVCT6yTaDjNM0GMZ/kjrGr/ljUcsrre5UFZS3Y/AYRmWBzDkKk4owysHYF4x
-         0Zm6jOucik79z1gsmCFg6twCY5g6tfpC45/l7pkceHzwUCo4SXWRXeksRHGHMxgRdqxZ
-         +zhQ10eV/1a48aF9MwiFvHkskKBN5y6KZv+7xSrkg6EbT5TEEbunpx0wbFWWEi7Xo1B8
-         1NjO/MAcIFAjwvgxEZoJpIgjIOHm9Ropnc0vkF2EUnTqtkX+sBpvwTWX+gsbSyBGPz0p
-         ZruytW6lASbm/XRnfIluY0D1O8LIo51BPRZKgpV1+AW7mBueLlOifEQ0CuPBHzVl62Iv
-         1nhg==
-X-Forwarded-Encrypted: i=1; AFNElJ+FD6ZJK+V6HzTKeWz2lHyqLcwNCUOk7yPPK3jiARpxq7m+iexsYYDrfo/IW4iYdqdn1KeGrjZaeZWD/6Kf@vger.kernel.org
-X-Gm-Message-State: AOJu0YyyRS7hZwFpXS/yS3S/dyL+xurlaRsag77x5jPdNQbAhfGLshJ+
-	UV18pT+PPK9FXbeYfswE4uJkQQfZGvCZFFmhHQgeAzq4DDL73QA1WvzJ
-X-Gm-Gg: AeBDieuHZGlxyNvXbdFoVfWFCBHiRM+EQrfFI7iHmkbkRhNiy+Tx12bBFcV0eSqOdb5
-	q0g/veQrZpn1sCJlFOQnRUye4q2SWpmtZIT2hwjTJGzrkE8VCd69LX1pIBlj5VebGNSl45CVkIX
-	/6KpJWAhWgwpGgYeeW4WVEwBza5Tt5NFjTiH/nj2/HzHPeqH7/NrfIIxAbcsgkzIIbxWPEXIBMi
-	oqi2sX7xm/SHOwyEL67Esdn3fFcl9Pu+9plWHoApZOK3VPiiPPVPmfpPD2eguaKaFxl+Mj2R4iZ
-	QlEYg5Ru0Y9lJAd7rP32cliMTeLuXEMeZeD2EDTHespS9ApheQPdFpJ5iIc6D340fgxCO3vA0T0
-	kYG0A/JZKUQUljbpQVQrMkscvPdIrd2KR9Z7KLdQZQMdxdjlQnYulBUGi7m2COzSc1NsE5TP/8J
-	isAtHLSiM1gq0fps6Bw69f85SJNmAujw==
-X-Received: by 2002:a05:600c:797:b0:489:1a3a:9e45 with SMTP id 5b1f17b1804b1-4891a3a9f38mr116070245e9.26.1776847881916;
-        Wed, 22 Apr 2026 01:51:21 -0700 (PDT)
-Received: from localhost ([212.73.77.104])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-488fc10019bsm443179525e9.4.2026.04.22.01.51.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Apr 2026 01:51:21 -0700 (PDT)
-From: Askar Safin <safinaskar@gmail.com>
-To: amir73il@gmail.com
-Cc: brauner@kernel.org,
-	djwong@kernel.org,
-	hch@lst.de,
-	jack@suse.cz,
-	linux-fsdevel@vger.kernel.org,
-	tytso@mit.edu,
-	viro@zeniv.linux.org.uk,
-	willy@infradead.org
-Subject: Re: [PATCH] docs: add guidelines for submitting new filesystems
-Date: Wed, 22 Apr 2026 11:50:44 +0300
-Message-ID: <20260422085044.339428-1-safinaskar@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260417142503.1436446-1-amir73il@gmail.com>
-References: <20260417142503.1436446-1-amir73il@gmail.com>
+        d=1e100.net; s=20251104; t=1776848284; x=1777453084;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FFaygBUBXXsgixj3eSOd6CMo0lj7K6zPcakxuhrDzd4=;
+        b=EY+OU9j8O4HgMnK5tkDZ67nPVtRUSKb06LFyVR4HxU6UhJa89LXO1UFMFueGwrVnUX
+         xyKCApm+lkDk9aTby1/FA+XqqUIfk1zHYGZGHC8Qh5T8wEKlPysWawwVm9TecVcxLZFC
+         pyXbpooqADWCwmKiUKnJT0IeLUqbg1IUxEZn5naTUOnSSetD1pkmLQ+g6dO3eZZtSm+o
+         2cvOf5qhS60ZjTs3ScwtFYfwB1H9/pTpI7TpyRc1TXy8qSua12Pc9y0iD2H3YqwOzKmA
+         /dwEOlEY02i/Mmp7oPrjhq3f9stVhlkE91echL64T1IR0RiOxo+Q2JXi+ZnnJuUrw3Rl
+         sfPQ==
+X-Forwarded-Encrypted: i=1; AFNElJ91dYDz7HB5FRDtAreN1VlBNnYxq09+On7vOTmxOsdYOBI/bOkBqGS/6YNA+O507ykFEpAqX+AeiuCffBSB@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzoq4W//88wFIqjDG6gO+awpN+tHKcwCpskolLBuvLNyl9A7C85
+	r0lyshvmJxgRN09WwYrMW4mzaqcgHd6bzNciUNRZsQyKqYh8kCTA0IEsO5hqaG06/DzIaxb1ksA
+	uyOuFs1nyZItelqA6HLS6tdBJ7bT6mki7NP4PoEnH2dmLzBD/ZaViiGmQc3QJc1gxeA==
+X-Gm-Gg: AeBDievXQH1xs0Fw7BnmMusF4IdV+z8XPJ3+SCzZriRKd10KFlQ6oldF63gNBFUPoNp
+	yYtyZf0Vj/I5V0Wwfy+b0267d0wU3JyMA/Eih1Oz1zaTn1NIAK1UuNW7eqNIyGbwK2Gnk1m55+C
+	9dln2Q3mmiFo5KAzeP6oAQJCOzwhyqRfRaa8yZJhxJWEAWZw4I71t7FxKOVxoN9MmWoJmpDKa5K
+	zevGEc/crBXq3IqsFmjcbpEQkGaxzptsCu/pgj8YcjRCfOXskjZTHz1l7SxzwoJYYEoVD7/Jxzn
+	afgXsvMjbTbVHnWfCM7zgVqCpRA6Qv0RArQtytfeoZPSIw3NQN+QKGpbKXEIyDdgPDX6gUHbSAO
+	Dsk7H74Ujfy9W0BlGIXRMIw==
+X-Received: by 2002:a05:6000:4022:b0:441:2439:bef2 with SMTP id ffacd0b85a97d-4412439befdmr4594398f8f.24.1776848283847;
+        Wed, 22 Apr 2026 01:58:03 -0700 (PDT)
+X-Received: by 2002:a05:6000:4022:b0:441:2439:bef2 with SMTP id ffacd0b85a97d-4412439befdmr4594342f8f.24.1776848283286;
+        Wed, 22 Apr 2026 01:58:03 -0700 (PDT)
+Received: from thinky ([217.30.74.39])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4e3a341sm47712138f8f.24.2026.04.22.01.58.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Apr 2026 01:58:02 -0700 (PDT)
+Date: Wed, 22 Apr 2026 10:58:02 +0200
+From: Andrey Albershteyn <aalbersh@redhat.com>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: Andrey Albershteyn <aalbersh@kernel.org>, linux-xfs@vger.kernel.org, 
+	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org, hch@lst.de, 
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
+	linux-btrfs@vger.kernel.org, linux-unionfs@vger.kernel.org, djwong@kernel.org, 
+	david@fromorbit.com
+Subject: Re: [PATCH v8 00/22] fs-verity support for XFS with post EOF merkle
+ tree
+Message-ID: <iads77qkk2wjkqfezd4vtqsga6btlkqdyephqojyv76herp6by@l24e2hm2ebas>
+References: <20260420114714.1621982-1-aalbersh@kernel.org>
+ <20260421214316.GB37143@quark>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260421214316.GB37143@quark>
 
-Amir Goldstein <amir73il@gmail.com>:
-> +  and the filesystem context API (``fs_context``) for the mount path.  See
+On 2026-04-21 14:43:16, Eric Biggers wrote:
+> On Mon, Apr 20, 2026 at 01:46:47PM +0200, Andrey Albershteyn wrote:
+> > This series based on v7.0 with Christoph's read ioends patchset [1].
+> > 
+> > kernel:
+> > https://git.kernel.org/pub/scm/linux/kernel/git/aalbersh/xfs-linux.git/log/?h=b4/fsverity
+> 
+> FYI: the git repository doesn't match what was actually sent out.  For
+> example the patch "ovl: use core fsverity ensure info interface" is a
+> bit different.  The version in git (incorrectly, I think) ignores the
+> error code, while the patch returns it.
+> 
+> - Eric
+> 
 
-There is no need to say this, because there is no other code paths since
-this commit: https://lore.kernel.org/all/20251212174403.2882183-1-sandeen@redhat.com/
+Thanks, you're right, I forgot to push
 
 -- 
-Askar Safin
+- Andrey
+
