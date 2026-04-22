@@ -1,185 +1,190 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23A03391E73
-	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 17:50:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776880237; cv=none; b=WNZLLAdGO/582z4HzgX42QgXokbA6HHKZ6OWJ78RFBqbDuyta3C6+gkCfgkAWqvjYx6SBF9Z+VPcrH+2WOT7c0BqQh6E+VYADyO1t+iJJZP/iMOpCV9rsDnM9h/3BewfUMwjlLntbODfRqYXEkka0PzFL3J4MM32PB14y51MoM0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776880237; c=relaxed/simple;
-	bh=lCyAC0yS9GiNkxM4xhTPe9MOXTbsSITF477E6iLwGT0=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=rWqYeNaihjubRrltsQIGugDu8V94xnoCE4EsXFMAHGlTw7K/LWl0D2qNkEKXZqwix9Xz/pLz5YihjQ4jYVzshi98jkNP+liOnuakmn1mKJ+mTh3h81pDoX6Tt2URW2zIhFy84l5AwKja4hleNFYAvbNzDfYgADjj71DO0tzUso4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KcxgFRsF; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=K8jgYfkd; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B2EA391835
+	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 17:54:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776880442; cv=pass; b=XaWE9LWvNcOEDah2b0i6u46qDk6PP1sylKnKtAU8I5eGpL+9NXTCMtKqasJibJb93H1/3QLUP7IfUdCW4D/rX2lda32tRoPYFsMVowxzPoY7r3Doar08N5EQci0UXk3sGno6Wpxh5nVvxs8c0my6I+2v/a5D2sJPnh/BE1hCXzI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776880442; c=relaxed/simple;
+	bh=xy1B9rmgyFzMWJqr+hi7jhwQB2TmZLPGlpFyD0Hwn7A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nbqFcWiYS5WWn51O/2optRtAm67GeT3j8aH8EeL1eufg2XvHWIYwj9xnJZt8n2/YWGu9vRHu9DFr5bKwIoGQ52/hKOZqFxmPip0ZXX3zC/vXdl3WtgH8m6gjsbN6guLycBQpuqNVXLrpzZ84CZfXSEB+1RKWWMWvxLkBefLwvL4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CRM6TrQk; arc=pass smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KcxgFRsF";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="K8jgYfkd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1776880232;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ddF8/CPZBhhCoTMyfiMfDm8uotx7s8IuCAqy/kTZDwA=;
-	b=KcxgFRsF8FCiG/nHXTnNL0d1Q3pDgCvGk6TFbshVhQc+GmDmjFOWyU/ddPiuoZC4qeJxnk
-	i8oMOQ2ff3U9jdF0jfYIWbN598QxlZ0Z6IP+nc+BJVEAzfn0ntHYbHY805DH+wiKIuAU8g
-	2ucVGdTkrjji5uhj3tr3WrsfvI9dLaM=
-Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
- [209.85.167.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-479--PWiFU4gPwaXpsBTxTA3fQ-1; Wed, 22 Apr 2026 13:50:29 -0400
-X-MC-Unique: -PWiFU4gPwaXpsBTxTA3fQ-1
-X-Mimecast-MFC-AGG-ID: -PWiFU4gPwaXpsBTxTA3fQ_1776880228
-Received: by mail-oi1-f200.google.com with SMTP id 5614622812f47-4718a1723a5so8236993b6e.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 10:50:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CRM6TrQk"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-43d77f6092eso3976300f8f.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 10:54:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776880440; cv=none;
+        d=google.com; s=arc-20240605;
+        b=A6HivC/dsY5COhafhAnvuSSHtDkMkKGvIlagXmqpN/6WabeKIgjEcfft/GeCkemK+3
+         KuIG2qX6tk0dVW94gzRg4rSoyBujXvzFoDzjKnKPTzCZX0BNPRXRHUfnX2n6lPRsNEVz
+         zjAuXReW2vVoYY11Z91XB3UsDH0H2iS4gRGmQM9OTT2MtZMIH9SMOOB3Cj3STWXwrKmN
+         dIMFy7SENx/J9I3ZBayHkpP3lewXQCpjBI5KsbB0bXEh18ki6K3X/YzqHzUSr+d1Jr4Z
+         YcRAESN2P69S0pNMftKMViwxElXr2Wv06SHbVx9FJ3RFY0Ctl0Li0ZOkdveElfuTc0Cf
+         j3Rw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=y30SCp7FuLogLWh8oYupZiUPSYbwcxMLbbmd2lv3jDU=;
+        fh=qHlki8vVGqJz1NPJKG8t6VVvmWSTaq6kE8YAhUJTm3k=;
+        b=XOe2ByYS9EdxTMYC1t8HNV3AqFQ+lq88Uwc+1bQIDlINh9G2/b2DJkUArTADMermS/
+         ixcj0hRrhWFpwGzMWaWvRjVxrsrOVYxNDVuv+GxMRdQF5Vygknp/tHqTTi4YiGLbRQMd
+         3y/YPxTqJ64NmJQkfLR5aOaII44zmUo2vPbY4xWuEHLysi7kA66kCIFDLRxj9FEvKD1V
+         KRfOwmtLOyf+qJ6eV6sdm3Zx2Ybk70Gq15Gx+1D5R5rbUE6vEI1tq3QdEhZch7JRSRu8
+         il3HuiwqCpYWBNIB9yKULkzEoxzveXKSnZ72WkS8YYdUwVqj2hnzaQOrHqjwmcr4uhFX
+         4nIA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1776880228; x=1777485028; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=ddF8/CPZBhhCoTMyfiMfDm8uotx7s8IuCAqy/kTZDwA=;
-        b=K8jgYfkdCMAJ2ZwfiK7zyKEsPNkj04LDaZnY/Qvmq/vjbo2emfXydf4WIIqVB4ok3y
-         +5SOjCLaPFTolNlYGLtYyCufUK0qqW/3p2b4vRVjPNslaDOfMnfPxtep9givwD4bDdI4
-         KDedTnO2G4e5u4UdD0Jv3wNOxw63HI+Z+wlW3weosVSEweQ2y6XYlsY+hCLjRfPVYYr8
-         3qC1oqkCW2hpVdmxnb2QHSPgdJWZgSuDrP0ff6Z2fbTjYmNJe7CcB/KBCb6n/GS7SJtR
-         +PaEdAS6kDUU24mj7+qwSgzkImfs4Q6I6Rl2DY7Ter+2dfb8BoMtsJYKNBViVFRb+z9u
-         VrGg==
+        d=gmail.com; s=20251104; t=1776880440; x=1777485240; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=y30SCp7FuLogLWh8oYupZiUPSYbwcxMLbbmd2lv3jDU=;
+        b=CRM6TrQkp31lDuqqr2dYbYxz+glWmoLui8b6i1hpi4OmNqUii6OnSWBhF9RDGyMU9M
+         b9KpbFmMfilIoXAkYPfzYbSr0p3qVpitWG+yUX7ms1aKTzIh0KX2HniGMDOkSbVRMNBJ
+         SbR5jAwkRJV8praqmUZCqB+rZG2qI8341lC8baQjPe8EUyfG38nOL52+UGuQfDL9MaSO
+         1L8YwaDjKTeGfWWeXHbCEd1Wtlv0r9R2E1TONspnXsVXw6A9TtsPCspVtf1sRdV1N4wC
+         01CiTyJr3NHEF/NX3k6gZRCKqqwW5XQauyLJO6+4sn4CCd2ejIex6j+CMQskEXTiIY7O
+         fveg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776880228; x=1777485028;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ddF8/CPZBhhCoTMyfiMfDm8uotx7s8IuCAqy/kTZDwA=;
-        b=mUekIKWZAF3HRKZYysSpyv4yhDtGO1zEShWO5fTRngLyDpQ7Z5AekH5EtwTTc1y8MS
-         F3df8jF6Oui6rnefam01NcVfsrKWQe6UXjBUYJc5KEeNb79pd9LNoMGRW2B/UTjGVTCi
-         dFfGLlfM8r0b8jFgVBR/+kGp6QD5RA6GUVzPcbFmsmcLnRcvwzXgIE8zfk6dpJqCoUGT
-         SXDOgkZvVcrVFF8hj52reki1Ldl0LqzIw9eZrPyfUVnFF3MgCxh2TiKtg1FlcEflVyfB
-         A/nsUjFt4/iIW5f44pc1BDZ/750kS4j4mJYTPPJ9i8/6lMK/suMwFB7EZgir8eFi+O+6
-         D55g==
-X-Forwarded-Encrypted: i=1; AFNElJ8Gqyv68WhYQQLz6K/HJ80h4ak6oJ+5ECmNQTSN927t94meeh4oW6j1bHART91Eqj9r+Bvu9N1CsVkoYMi3@vger.kernel.org
-X-Gm-Message-State: AOJu0YxaNtSJJocMYOLHlPEDD15sFZWb69mzhfZL2/Edu/6lxm5wqFQY
-	HnKVgiUsCoNeEyymV+JeJZGgotXCji2HYGisWWMiQeiID8TQFGeaAOGeAFttnb8K1PqP+D6MeK2
-	gLshJKpDjZfk3tzmx6WNUg1c3Ft5kIUfsjkEWst2qp3kbZ7kUprtdL5sQQ9ZwgVU1gY4=
-X-Gm-Gg: AeBDiev9ehIOYzvfd1Au998LxKRizTiuW/Bk/UbubH5wlC4BXPMKL3BC2r6qzvHhQWN
-	lk/M9mVj5gAsnQAUhc1Lw2c/TOEKiMHeGphtxpOGijvqaqJXqcYKa8qcn7/SjB1kugPE2P3GWwF
-	LDEIqntpq2dulHuKqhlQdWbrQJ3VdPwhzc0pl2v4i78Gina2FTx0Pw6HIC3egpQ3zuo469Brm6s
-	GXtBAnr5RJACl+9u5LxambAu5/2urVkvB4bQlc+rhsR81Aa3esh+yLwAzvn7db0Ic7/tUfS8rEE
-	a1PN1fQK2LPmb85Dc1/BLRkZr4JYUm43Dn6n0HBC3KivNQ13R7vFxmsfuUe1YicVqUXuzmacZ4j
-	WY2/gtLG4jGhsuPG6cvvccZzOeaxNxLhhiObQ7Nr0sTPjiQPTnpcJLUH0T826aXc=
-X-Received: by 2002:a05:6808:4481:b0:479:f83e:bdb5 with SMTP id 5614622812f47-479f83ec62fmr3836369b6e.14.1776880228225;
-        Wed, 22 Apr 2026 10:50:28 -0700 (PDT)
-X-Received: by 2002:a05:6808:4481:b0:479:f83e:bdb5 with SMTP id 5614622812f47-479f83ec62fmr3836345b6e.14.1776880227731;
-        Wed, 22 Apr 2026 10:50:27 -0700 (PDT)
-Received: from li-4c4c4544-0032-4210-804c-c3c04f423534.ibm.com ([2600:1700:6476:1430::29])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-479fb5d5d9csm2592063b6e.13.2026.04.22.10.50.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Apr 2026 10:50:27 -0700 (PDT)
-Message-ID: <cf579d8c61215bb32fe6f641c06ab6631a0e5a22.camel@redhat.com>
-Subject: Re: [PATCH v3] hfsplus: fix null-ptr-deref in
- hfsplus_cat_write_inode
-From: Viacheslav Dubeyko <vdubeyko@redhat.com>
-To: Deepanshu Kartikey <kartikey406@gmail.com>
-Cc: slava@dubeyko.com, glaubitz@physik.fu-berlin.de, frank.li@vivo.com, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	syzbot+c0ba772a362e70937dfb@syzkaller.appspotmail.com
-Date: Wed, 22 Apr 2026 10:50:25 -0700
-In-Reply-To: <CADhLXY7iAzy98LVpRuO92asNqyw6B7iCAt31-U0iy2G1+qLMDQ@mail.gmail.com>
-References: <20260415014345.77796-1-kartikey406@gmail.com>
-	 <1929bc40bee602937aac95a3d338614b5fe7e082.camel@redhat.com>
-	 <CADhLXY7iAzy98LVpRuO92asNqyw6B7iCAt31-U0iy2G1+qLMDQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43app2) 
+        d=1e100.net; s=20251104; t=1776880440; x=1777485240;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=y30SCp7FuLogLWh8oYupZiUPSYbwcxMLbbmd2lv3jDU=;
+        b=agb+k7Tvb6mTkPdcTnPtWO/l5bTgpTJmzHMGoE9Dn7EZN8IweOs+CPHFEnbB8SIVT6
+         tvSr7/AJSP3PXNKcFSfXKA/J8pyQ4jT+sLEM7K2HjXiaVerZ4kpEb0qov/UhMAN1diGR
+         ojsF+291qgsFR4VSPDSoblyJumhJKTRGbHumph7ddhertKrFQD9VfHmksUfS8G9gaXTo
+         nr46cDDcIn0bOfgCzFxF+W4IyOg+p5AvaPBQ+TthW2kZIgNiKb9/UWTayjcN9F9h1Pi8
+         IckvvfvMe/gcnvsAyJ0H+0JKIc6+O/a6bdalz82+wrLcMnj4h1V/IBqoNOU95XecpZCg
+         6LVQ==
+X-Forwarded-Encrypted: i=1; AFNElJ89jUAGrs6Z4AZ5TtCJWDcuZw5bvJ7icnoowXAnpCCfrdHGf4fmvMnknBUD8Ua0Ujo1wiyXxriHu0SE+Wfz@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy3Pemy/tiLsiv/3n3fiXnI1kBqNzkYXibJAi+eeAUm/sjl7oFV
+	iYbWdEzdfR6o1q2RB4S9gubos0Fbq7QClaPCNoIz7PjyLY0TVkmh/9VbGxUrLlWoNhwD1f1KBIj
+	3Nj5bo83fbUNpLDC38Ba46dyzPxtP5AwrSHfG
+X-Gm-Gg: AeBDies2hLmCnZgDAk4n89Y/7jI6PMwDffoiRrDmxKN8jQ/4B23bX8jsW4iAIGI55yJ
+	ah4AW15RsXbP+fUFZp1CHri2LeyZJb84f4CzW4WHj81qc7+4r6KXrOa4c++ejjVbFrasRuWajnN
+	+V81SXi4SdB6RKxHWBBKaOFRLladEJWhwwrOTH1WzM1mE9QFi49/aVIgnHSPdpD+GVq8fqK0bbe
+	eXdy8HmKm/G38Wk38um+PSCYUF/ZTDcKyZ4ycALvyhC76azMTTHP0GuNRMBL67+HnuWrB+mf1mh
+	jCDpgoXE+Q2t9tbj
+X-Received: by 2002:a05:6000:2890:b0:43d:75ec:26f7 with SMTP id
+ ffacd0b85a97d-43fe3e08f96mr37017012f8f.29.1776880439620; Wed, 22 Apr 2026
+ 10:53:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20260416091658.462783-1-mszeredi@redhat.com> <20260416091658.462783-7-mszeredi@redhat.com>
+In-Reply-To: <20260416091658.462783-7-mszeredi@redhat.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Wed, 22 Apr 2026 10:53:47 -0700
+X-Gm-Features: AQROBzBjMac6YzBfh2mO4YHPH0rWTjIMw3YS_LPPCnXqypGc-Uq1LPnDyaTChgQ
+Message-ID: <CAJnrk1a+wEqZxgLDYJObfGiAiW=SgVvV4LgR6_PnwwW12t=1LQ@mail.gmail.com>
+Subject: Re: [PATCH 06/32] fuse: move background queuing related members to fuse_chan
+To: Miklos Szeredi <mszeredi@redhat.com>
+Cc: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2026-04-21 at 07:14 +0530, Deepanshu Kartikey wrote:
-> On Thu, Apr 16, 2026 at 3:18=E2=80=AFAM Viacheslav Dubeyko <vdubeyko@redh=
-at.com> wrote:
-> >=20
-> > As far as I can see, we have such logic in hfsplus_fill_super() [1]:
-> >=20
-> > if (!sb_rdonly(sb)) {
-> > <skipped>
-> >     if (!sbi->hidden_dir) {
-> >         <create hidden dir>
-> >     }
-> > <skipped>
-> > }
-> >=20
-> > So, I have two questions:
-> > (1) If we mounted volume in READ-ONLY mode initially and we re-mount it=
- into
-> > READ-WRITE mode, then we skip hidden directory creation. Should we proc=
-ess this
-> > in hfsplus_reconfigure()?
-> > (2) Should we create hidden directory if corrupted volume hasn't hidden
-> > directory?
-> >=20
-> > If we don't create the hidden dir, then we could have troubles in multi=
-ple
-> > places: hfsplus_rename_cat() [2,3], hfsplus_delete_cat() [4,5]. It look=
-s like
-> > that we need to create the hidden dir. Otherwise, we could trigger the =
-kernel
-> > crash in multiple places.
-> >=20
-> > Thanks,
-> > Slava.
-> >=20
-> > [1] https://elixir.bootlin.com/linux/v7.0/source/fs/hfsplus/super.c#L58=
-9
-> > [2] https://elixir.bootlin.com/linux/v7.0/source/fs/hfsplus/dir.c#L326
-> > [3] https://elixir.bootlin.com/linux/v7.0/source/fs/hfsplus/dir.c#L397
-> > [4] https://elixir.bootlin.com/linux/v7.0/source/fs/hfsplus/dir.c#L418
-> > [5] https://elixir.bootlin.com/linux/v7.0/source/fs/hfsplus/inode.c#L25=
-7
-> >=20
->=20
-> Hi Vyacheslav,
->=20
-> Thank you for the detailed feedback and for pointing out the deeper
-> design issue.
->=20
-> You are absolutely right on both counts.
->=20
-> (1) hfsplus_reconfigure() does not create the hidden directory when
-> remounting from read-only to read-write. This means sbi->hidden_dir
-> can be NULL on a writable mount even if the volume is otherwise
-> healthy. This needs to be fixed in hfsplus_reconfigure().
->=20
-> (2) The correct approach is not to add NULL checks at individual
-> call sites =E2=80=94 that is a band-aid. The real fix is to ensure
-> sbi->hidden_dir is always valid on any read-write mount, enforcing
-> this invariant at mount and remount time.
->=20
-> My plan for v4:
-> - Extract the hidden directory creation logic from hfsplus_fill_super()
->   into a helper function hfsplus_create_hidden_dir().
-> - Call it from hfsplus_fill_super() as before.
-> - Also call it from hfsplus_reconfigure() when switching from
->   read-only to read-write and hidden_dir is NULL.
->=20
-> This way hidden_dir is guaranteed valid for all write operations
-> and the individual call sites in dir.c and inode.c are safe
-> without needing NULL guards.
->=20
+On Thu, Apr 16, 2026 at 2:18=E2=80=AFAM Miklos Szeredi <mszeredi@redhat.com=
+> wrote:
+>
+> Move:
+>
+>  - max_background
+>  - num_background
+>  - active_background
+>  - bg_queue
+>  - bg_lock
+>
+> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
+> ---
+>  fs/fuse/control.c     | 11 ++++++-----
+>  fs/fuse/dev.c         | 45 +++++++++++++++++++++++--------------------
+>  fs/fuse/dev.h         |  3 +++
+>  fs/fuse/dev_uring.c   | 24 +++++++++++------------
+>  fs/fuse/file.c        |  5 +++--
+>  fs/fuse/fuse_dev_i.h  | 16 +++++++++++++++
+>  fs/fuse/fuse_i.h      | 16 ---------------
+>  fs/fuse/inode.c       | 16 +++++----------
+>  fs/fuse/req_timeout.c |  6 +++---
+>  fs/fuse/virtio_fs.c   |  2 +-
+>  10 files changed, 73 insertions(+), 71 deletions(-)
+>
+> diff --git a/fs/fuse/fuse_dev_i.h b/fs/fuse/fuse_dev_i.h
+> index 459f37ece46a..efc321b2bf5d 100644
+> --- a/fs/fuse/fuse_dev_i.h
+> +++ b/fs/fuse/fuse_dev_i.h
+> @@ -93,6 +93,22 @@ struct fuse_chan {
+>
+>         /** List of device instances belonging to this connection */
+>         struct list_head devices;
+> +
+> +       /** Maximum number of outstanding background requests */
+> +       unsigned max_background;
+> +
+> +       /** Number of requests currently in the background */
+> +       unsigned num_background;
+> +
+> +       /** Number of background requests currently queued for userspace =
+*/
+> +       unsigned active_background;
+> +
+> +       /** The list of background requests set aside for later queuing *=
+/
+> +       struct list_head bg_queue;
+> +
+> +       /** Protects: max_background, congestion_threshold, num_backgroun=
+d,
 
-Makes sense.
-
-> I will send v4 shortly.
->=20
->=20
-
-Sounds good.
+nit: should this comment be updated to remove "congestion_threshold"
+from the list? congestion threshold is accessed locklessly.
 
 Thanks,
-Slava.
+Joanne
 
+> +        * active_background, bg_queue, blocked */
+> +       spinlock_t bg_lock;
+>  };
+>
+>  #define FUSE_PQ_HASH_BITS 8
+> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+> index 6185b97df106..ccf0db3a4eeb 100644
+> --- a/fs/fuse/fuse_i.h
+> +++ b/fs/fuse/fuse_i.h
+> @@ -566,25 +566,9 @@ struct fuse_conn {
+>         /** rbtree of fuse_files waiting for poll events indexed by ph */
+>         struct rb_root polled_files;
+>
+> -       /** Maximum number of outstanding background requests */
+> -       unsigned max_background;
+> -
+>         /** Number of background requests at which congestion starts */
+>         unsigned congestion_threshold;
+>
+> -       /** Number of requests currently in the background */
+> -       unsigned num_background;
+> -
+> -       /** Number of background requests currently queued for userspace =
+*/
+> -       unsigned active_background;
+> -
+> -       /** The list of background requests set aside for later queuing *=
+/
+> -       struct list_head bg_queue;
+> -
+> -       /** Protects: max_background, congestion_threshold, num_backgroun=
+d,
+> -        * active_background, bg_queue, blocked */
+> -       spinlock_t bg_lock;
+> -
+>         /** Flag indicating that INIT reply has been received. Allocating
+>          * any fuse request will be suspended until the flag is set */
+>         int initialized;
