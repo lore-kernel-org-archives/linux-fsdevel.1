@@ -1,173 +1,379 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp-42ac.mail.infomaniak.ch (smtp-42ac.mail.infomaniak.ch [84.16.66.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9AD82C0285
-	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Apr 2026 13:42:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E182B29D260
+	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Apr 2026 13:51:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.66.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776951763; cv=none; b=MgVzFYNLASyy/9Sj+MVZzYWO+76CSl3P8mTu6sZS4s3R2HaLcSv2A/5St7u3PA5BEmQQI9vRugCmGn0MBVkiZDgcGMNEi6BH79hSiWg6rcGCIHNK5U1ztcL1h4wFgbptRUTDtUKazWoK9h9DblSdghKHD0OvTxEX8gAVSS9AzxU=
+	t=1776952290; cv=none; b=OrbOZDTV1nJQxejhMGz9BQnv/dP7O8C6gQM7CV+qntbeyswvemamTSm3uzAAyzP9owmREsF0FLHu3Lm5UV4ssk2Gq4gWW5CVSHuQ+wd+fGEC972xZxHXY7XRTMvqIMvOu8uUhrAM1EYff6PHPg3GLMHB1qy5c/XhrN3PqJhT73Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776951763; c=relaxed/simple;
-	bh=6KH/ThtXPOGPGdSUrvGlCAHA82rT3JIzigfXoEPge1k=;
+	s=arc-20240116; t=1776952290; c=relaxed/simple;
+	bh=x0u5EEeLspSe+f/Vf8Z1ttHV9945Ha5ZyxNdUQTIAJQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dgFGAyeLsZsG+9jp5lZzmh1W6qepHtcaB11+QGuBjXoVhTGvGr+NcKygdU6yISbtW99jTVCPsa42AUy5/D03yqj0XIATJ0DQVZzPoP9AgKYS1+dTiB8IDmGHRhKQQwuRt4aFCV+IBoYKkt+3lK+vOkP+sWeK0c6MxrvZHg0ow8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=NZRMmhEO; arc=none smtp.client-ip=209.85.222.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=bP1JOP3cKPxZM1cKJChQshtGJJrin3++RibtN0kMKfgHQdXrsPwpn/FMnam710xdX8OqGu0q0ixA/684dmH8z4inQoPUkTdQtTXnZIiwLqFk9lwLnK+mEqG5hfJcezr87/GSDuy7zIGr1bvKMU1DQjEvhgMAUaEuCboYW5IQUZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=jQENE99C; arc=none smtp.client-ip=84.16.66.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="NZRMmhEO"
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-8c70b5594f4so731507985a.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 23 Apr 2026 06:42:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1776951761; x=1777556561; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0SbK7jHzK0BibVPY47BIZzJ6hwGVNdmSnj/6qVo16wg=;
-        b=NZRMmhEOSc3sHpC2xhzJFB2KMnJ9WgWSDdxUSaw7HRsrFU74A+K77AWiywfDt0/yw4
-         3y76PXU5ujqubgdRc7EvTsHis4Mj6izR4fXihedsmMwbB3GonzLVvPqxJYmpZ/2tKALm
-         ZbxWvLF6OGiiCFoR/G78Un5pHWQiYOdaA9GmlR6Xj2hdonH7mnSedccBvH/ZyesvijSS
-         TW3juLgzwz11TUu2+SpduV0GnVeYpUIbCJJfRskq3JQjXlK5dz6hkGZfJWESH5KPbDb8
-         27dCzpG3JOlsGGzjdZL8jXCpwZ0Q9jZzWrhVQf3suL1lpRZrKzpNJHQqviJ7qkRuTsMy
-         jV8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776951761; x=1777556561;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0SbK7jHzK0BibVPY47BIZzJ6hwGVNdmSnj/6qVo16wg=;
-        b=HXbXzeruVbdHWCnWQbcoSjWjF7STwdMHb/0dMx34EpcmAidXftO3wTPjKWmv42k8T9
-         B1BhIeuPyL6BvhGbX1sWtKTgo0ycZC26qQgVcROoapnS0uuSK1Y4jfBiHDjY2iyHWzpm
-         jtOPkSA5JoCIQEr02EuN/mNHWy4oLknEqZEdcIpSKw4lC3221riaSQb2kQxSeJXoA/Nz
-         mr4Q52l7QtHarplpcN8c4PRku6yO4m1EJb29GYAMyF7ZoT9zVKdZuWRYlYA/EXwr732d
-         wgusTqxBsq3+2W+YeRYLMOaTITzL4pfxC9ZTSl0Zgq/ftsOdlHDqr5QK919pOS8C6iJN
-         AOgw==
-X-Forwarded-Encrypted: i=1; AFNElJ/vAnH/KkqvKO2q/l7kyhW4hFDKica233w7QIshmjNPqAC0EFeeiWiC2LzN1N3WuJ0GqQhMSdWb1puExBrx@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzyhv5YAWsC5MRna+jtHHV9bc3bEIJebRNHRPDiKJ5xw628CgBJ
-	9KYFBa/JYFSY0senSI12r1/kLHbf2RUdyM2M3o/QY2sSixc63UdkcblTxJFzO3IIm8U=
-X-Gm-Gg: AeBDiev68o/MSgv9tRvYToaG2YWOrIXwXKW3H299/Y9rTpvBe+wXQ0B4KKGSV86Kx5y
-	DpP/OfOTjfF7KIB2n1eqiIltT1fVeYIuDkIu1Mw12+q8x+GEg+RvtFqPRu1knfgpzG1ERzHZZ7j
-	Cdy2w6bEPOoe2x2Qidq/PV8wtXbdwZjgECtPyAO5i7oZFP6qnljYW1Rm8nB4FTcK652Nqmcueor
-	RMDpHLqdfNVnUVb+ggDZmA78Lc/3qjRAf+AEaPrm80svX7aXO1/4g5yNpiJdAGCJElTtK5eqsle
-	usI8wvfAKcbhJNUkz3911fEYahBTdFQd7wX2keoSlC10a5i7D8D83Pz2U3RvzqX8KxwD06Nesmd
-	Z+CFIZRsOqBMGTSwqejgnLogDg97VNnTMwa5cWxSdfXAwwnLQHpXJXfthnp6qaMpCBQX/5SlpdV
-	uJSdTdheGvCaQpAMqppiauGNjCRmymkeSuADJDqjNyvDOVS1w99DCs5M8gA13qwv1s8RX9Sq6hj
-	xbdCsmGrPp30hK3xjOt
-X-Received: by 2002:a05:620a:414b:b0:8d9:26ca:7e3 with SMTP id af79cd13be357-8e78d0a865emr3247854085a.41.1776951760527;
-        Thu, 23 Apr 2026 06:42:40 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-71-246-228-50.washdc.fios.verizon.net. [71.246.228.50])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8b02ac81a9dsm157783036d6.21.2026.04.23.06.42.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Apr 2026 06:42:40 -0700 (PDT)
-Date: Thu, 23 Apr 2026 09:42:37 -0400
-From: Gregory Price <gourry@gourry.net>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Brendan Jackman <jackmanb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Andrea Arcangeli <aarcange@redhat.com>, linux-mm@kvack.org,
-	virtualization@lists.linux.dev,
-	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
-	Lance Yang <lance.yang@linux.dev>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
-	Byungchul Park <byungchul@sk.com>,
-	Ying Huang <ying.huang@linux.alibaba.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Hugh Dickins <hughd@google.com>, Christoph Lameter <cl@gentwo.org>,
-	David Rientjes <rientjes@google.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Harry Yoo <harry.yoo@oracle.com>, Chris Li <chrisl@kernel.org>,
-	Kairui Song <kasong@tencent.com>,
-	Kemeng Shi <shikemeng@huaweicloud.com>,
-	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH RFC v3 01/19] mm: thread user_addr through page allocator
- for cache-friendly zeroing
-Message-ID: <aeohzbmhQAoOODPm@gourry-fedora-PF4VCD3F>
-References: <cover.1776808209.git.mst@redhat.com>
- <9dd9deabd42801f3c344326991d1431c3d8db39d.1776808210.git.mst@redhat.com>
- <aekluxNPxF8CN8fL@gourry-fedora-PF4VCD3F>
- <20260422171315-mutt-send-email-mst@kernel.org>
- <aemglPlcwFFHNj1A@gourry-fedora-PF4VCD3F>
- <c165d6af-4a35-4a41-9086-ee307640c044@kernel.org>
- <20260423074433-mutt-send-email-mst@kernel.org>
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="jQENE99C"
+Received: from smtp-3-0000.mail.infomaniak.ch (smtp-3-0000.mail.infomaniak.ch [10.4.36.107])
+	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4g1cvC4LV1z6n6;
+	Thu, 23 Apr 2026 15:51:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
+	s=20191114; t=1776952279;
+	bh=67+/ZUiFOWBZnkLWi87ewXuVnG/JSmG+1D8A+1mICIY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jQENE99C1TKyn85WRhFNdat/Bj8ruzkfpcDAozHVVMFXiSM6lFh+4IpObQ8afjXml
+	 vqVwS7nBYFmuVA+mcLdhZxMMHm8ZNTBTdBcbC387liifjXX9Cv3wkmlBf/jFqQ/ZEU
+	 KcnKw5l1FArEaKKDuIbJrQBlbj7UVuQPMcup90qo=
+Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4g1cvB4RMzzZSG;
+	Thu, 23 Apr 2026 15:51:18 +0200 (CEST)
+Date: Thu, 23 Apr 2026 15:51:17 +0200
+From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+To: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>, 
+	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, Paul Moore <paul@paul-moore.com>, 
+	"Serge E . Hallyn" <serge@hallyn.com>, Justin Suess <utilityemal77@gmail.com>, 
+	Lennart Poettering <lennart@poettering.net>, Mikhail Ivanov <ivanov.mikhail1@huawei-partners.com>, 
+	Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>, Shervin Oloumi <enlightened@google.com>, 
+	Tingmao Wang <m@maowtm.org>, kernel-team@cloudflare.com, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org
+Subject: Re: [RFC PATCH v1 10/11] samples/landlock: Add capability and
+ namespace restriction support
+Message-ID: <20260423.faiNgoo4yo5r@digikod.net>
+References: <20260312100444.2609563-1-mic@digikod.net>
+ <20260312100444.2609563-11-mic@digikod.net>
+ <20260422.cd00ad04e709@gnoack.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260423074433-mutt-send-email-mst@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260422.cd00ad04e709@gnoack.org>
+X-Infomaniak-Routing: alpha
 
-On Thu, Apr 23, 2026 at 07:57:01AM -0400, Michael S. Tsirkin wrote:
-> On Thu, Apr 23, 2026 at 11:46:56AM +0200, David Hildenbrand (Arm) wrote:
-> > On 4/23/26 06:31, Gregory Price wrote:
+On Wed, Apr 22, 2026 at 11:20:45PM +0200, Günther Noack wrote:
+> On Thu, Mar 12, 2026 at 11:04:43AM +0100, Mickaël Salaün wrote:
+> > Extend the sandboxer sample to demonstrate the new Landlock capability
+> > and namespace restriction features.  The LL_CAPS environment variable
+> > takes a colon-delimited list of allowed capability numbers (e.g. "18"
+> > for CAP_SYS_CHROOT).  The LL_NS variable takes a colon-delimited list of
+> > allowed namespace types by short name (e.g.  "user:uts:net").  Update
+> > LANDLOCK_ABI_LAST to 9 and add best-effort degradation for older
+> > kernels.
+> > 
+> > Allow creating user and UTS namespaces but deny network namespaces
+> > (works as an unprivileged user).  All capabilities are available
+> > (LL_CAPS is not set), but namespace creation is still restricted to the
+> > types listed in LL_NS.  The first command succeeds because user and UTS
+> > types are in the allowed set, and sets the hostname inside the new UTS
+> > namespace.  The second command fails because the network namespace type
+> > is not allowed by the LANDLOCK_PERM_NAMESPACE_ENTER rule:
+> > 
+> >   LL_FS_RO=/ LL_FS_RW=/proc LL_NS="user:uts" \
+> >     ./sandboxer /bin/sh -c \
+> >     "unshare --user --uts --map-root-user hostname sandbox \
+> >     && ! unshare --user --net true"
+> > 
+> > Allow only user namespace creation and CAP_SYS_CHROOT (18), denying all
+> > other capabilities and namespace types (works as an unprivileged user).
+> > An unprivileged process creates a user namespace (no capability
+> > required) and calls chroot inside it using the CAP_SYS_CHROOT granted
+> > within the new namespace:
+> > 
+> >   LL_FS_RO=/ LL_FS_RW="" LL_NS="user" LL_CAPS="18" \
+> >     ./sandboxer /bin/sh -c \
+> >     "unshare --user --keep-caps chroot / true"
+> > 
+> > Cc: Christian Brauner <brauner@kernel.org>
+> > Cc: Günther Noack <gnoack@google.com>
+> > Cc: Paul Moore <paul@paul-moore.com>
+> > Cc: Serge E. Hallyn <serge@hallyn.com>
+> > Signed-off-by: Mickaël Salaün <mic@digikod.net>
+> > ---
+> >  samples/landlock/sandboxer.c | 164 +++++++++++++++++++++++++++++++++--
+> >  1 file changed, 155 insertions(+), 9 deletions(-)
+> > 
+> > diff --git a/samples/landlock/sandboxer.c b/samples/landlock/sandboxer.c
+> > index 9f21088c0855..09c499703835 100644
+> > --- a/samples/landlock/sandboxer.c
+> > +++ b/samples/landlock/sandboxer.c
+> > @@ -14,6 +14,8 @@
+> >  #include <fcntl.h>
+> >  #include <linux/landlock.h>
+> >  #include <linux/socket.h>
+> > +#include <sched.h>
+> > +#include <stdbool.h>
+> >  #include <stddef.h>
+> >  #include <stdio.h>
+> >  #include <stdlib.h>
+> > @@ -22,12 +24,16 @@
+> >  #include <sys/stat.h>
+> >  #include <sys/syscall.h>
+> >  #include <unistd.h>
+> > -#include <stdbool.h>
+> >  
+> >  #if defined(__GLIBC__)
+> >  #include <linux/prctl.h>
+> >  #endif
+> >  
+> > +/* From include/linux/bits.h, not available in userspace. */
+> > +#ifndef BITS_PER_TYPE
+> > +#define BITS_PER_TYPE(type) (sizeof(type) * 8)
+> > +#endif
+> > +
+> >  #ifndef landlock_create_ruleset
+> >  static inline int
+> >  landlock_create_ruleset(const struct landlock_ruleset_attr *const attr,
+> > @@ -60,6 +66,8 @@ static inline int landlock_restrict_self(const int ruleset_fd,
+> >  #define ENV_FS_RW_NAME "LL_FS_RW"
+> >  #define ENV_TCP_BIND_NAME "LL_TCP_BIND"
+> >  #define ENV_TCP_CONNECT_NAME "LL_TCP_CONNECT"
+> > +#define ENV_CAPS_NAME "LL_CAPS"
+> > +#define ENV_NS_NAME "LL_NS"
+> >  #define ENV_SCOPED_NAME "LL_SCOPED"
+> >  #define ENV_FORCE_LOG_NAME "LL_FORCE_LOG"
+> >  #define ENV_DELIMITER ":"
+> > @@ -226,11 +234,125 @@ static int populate_ruleset_net(const char *const env_var, const int ruleset_fd,
+> >  	return ret;
+> >  }
+> >  
+> > +static __u64 str2ns(const char *const name)
+> > +{
+> > +	static const struct {
+> > +		const char *name;
+> > +		__u64 value;
+> > +	} ns_map[] = {
+> > +		/* clang-format off */
+> > +		{ "cgroup",	CLONE_NEWCGROUP },
+> > +		{ "ipc",	CLONE_NEWIPC },
+> > +		{ "mnt",	CLONE_NEWNS },
+> > +		{ "net",	CLONE_NEWNET },
+> > +		{ "pid",	CLONE_NEWPID },
+> > +		{ "time",	CLONE_NEWTIME },
+> > +		{ "user",	CLONE_NEWUSER },
+> > +		{ "uts",	CLONE_NEWUTS },
+> > +		/* clang-format on */
+> > +	};
+> > +	size_t i;
+> > +
+> > +	for (i = 0; i < sizeof(ns_map) / sizeof(ns_map[0]); i++) {
+> > +		if (strcmp(name, ns_map[i].name) == 0)
+> > +			return ns_map[i].value;
+> > +	}
+> > +	return 0;
+> > +}
+> > +
+> > +static int populate_ruleset_caps(const char *const env_var,
+> > +				 const int ruleset_fd)
+> > +{
+> > +	int ret = 1;
+> > +	char *env_cap_name, *env_cap_name_next, *strcap;
+> > +	struct landlock_capability_attr cap_attr = {
+> > +		.allowed_perm = LANDLOCK_PERM_CAPABILITY_USE,
+> > +	};
+> > +
+> > +	env_cap_name = getenv(env_var);
+> > +	if (!env_cap_name)
+> > +		return 0;
+> > +	env_cap_name = strdup(env_cap_name);
+> > +	unsetenv(env_var);
+> > +
+> > +	env_cap_name_next = env_cap_name;
+> > +	while ((strcap = strsep(&env_cap_name_next, ENV_DELIMITER))) {
+> > +		__u64 cap;
+> > +
+> > +		if (strcmp(strcap, "") == 0)
+> > +			continue;
+> > +
+> > +		if (str2num(strcap, &cap) ||
 > 
-> Changes we have to add: 8 changes
-> Rename 4 existing APIs adding _user: __alloc_pages,
-> __folio_alloc, folio_alloc_mpol, __alloc_frozen_pages + add
-> 4 wrapper macros/inlines in gfp.h that forward to the _user variants with
-> USER_ADDR_NONE. Roughly 6-8 lines of boilerplate per API.
->
+> libcap has cap_from_name(3).  I believe we are linking with libcap
+> already to drop them before tests.  (I have not used this function
+> myself yet, but it sounds like it would address this case.)
 
-This is essentially what i was proposing.
+libcap is only used for kselftests, not this sample, but yes, let's use
+libcap here too.
 
-The result would be more external surface to the buddy (at least 2 maybe
-more functions, plus all the _noprof stuff and a bunch of other things).
-
-And then all the callers have to be updated anywhere, and not make it
-any harder to mess up.  You either have
-
-    old_interface(..., user_addr);
-    /* Churn everything using the old interface */
-
-or
-
-    __internal(..., user_addr) { }
-
-    old_interface(...) {
-       __internal(..., NO_USER_ADDR);
-    }
-
-    new_interface(..., user_addr) {
-       __internal(..., user_addr);
-    }
-
-    /* 
-     * Update some callsites to use new_interface()
-     * mostly a bunch of _mpol() functions but some others
-     */
-
-but someone could still just as easily do
-
-    old_interface();
-    /* don't fall folio_zero_user() - Bug! */
-
-So it's not like this makes things any harder to mess up.
-
-There is no elegant fix here if we want to do this all inside the buddy.
-
-If the performance increase weren't so blatantly dramatic we could also
-consider just not doing this at all.
-
-There's maybe an alternative here in considering a change to the way the
-buddy manages zeroed pages - but there's no guarantees we find a pattern
-there either.
-
-~Gregory
+> 
+> 
+> > +		    cap >= BITS_PER_TYPE(cap_attr.capabilities)) {
+> > +			fprintf(stderr,
+> > +				"Failed to parse capability at \"%s\"\n",
+> > +				strcap);
+> > +			goto out_free_name;
+> > +		}
+> > +		cap_attr.capabilities = 1ULL << cap;
+> > +		if (landlock_add_rule(ruleset_fd, LANDLOCK_RULE_CAPABILITY,
+> > +				      &cap_attr, 0)) {
+> > +			fprintf(stderr,
+> > +				"Failed to update the ruleset with capability \"%llu\": %s\n",
+> > +				(unsigned long long)cap, strerror(errno));
+> > +			goto out_free_name;
+> > +		}
+> > +	}
+> > +	ret = 0;
+> > +
+> > +out_free_name:
+> > +	free(env_cap_name);
+> > +	return ret;
+> > +}
+> > +
+> > +static int populate_ruleset_ns(const char *const env_var, const int ruleset_fd)
+> > +{
+> > +	int ret = 1;
+> > +	char *env_ns_name, *env_ns_name_next, *strns;
+> > +	struct landlock_namespace_attr ns_attr = {
+> > +		.allowed_perm = LANDLOCK_PERM_NAMESPACE_ENTER,
+> > +	};
+> > +
+> > +	env_ns_name = getenv(env_var);
+> > +	if (!env_ns_name)
+> > +		return 0;
+> > +	env_ns_name = strdup(env_ns_name);
+> > +	unsetenv(env_var);
+> > +
+> > +	env_ns_name_next = env_ns_name;
+> > +	while ((strns = strsep(&env_ns_name_next, ENV_DELIMITER))) {
+> > +		__u64 ns_type;
+> > +
+> > +		if (strcmp(strns, "") == 0)
+> > +			continue;
+> > +
+> > +		ns_type = str2ns(strns);
+> > +		if (!ns_type) {
+> > +			fprintf(stderr, "Unknown namespace type \"%s\"\n",
+> > +				strns);
+> > +			goto out_free_name;
+> > +		}
+> > +		ns_attr.namespace_types = ns_type;
+> > +		if (landlock_add_rule(ruleset_fd, LANDLOCK_RULE_NAMESPACE,
+> > +				      &ns_attr, 0)) {
+> > +			fprintf(stderr,
+> > +				"Failed to update the ruleset with namespace \"%s\": %s\n",
+> > +				strns, strerror(errno));
+> > +			goto out_free_name;
+> > +		}
+> > +	}
+> > +	ret = 0;
+> > +
+> > +out_free_name:
+> > +	free(env_ns_name);
+> > +	return ret;
+> > +}
+> > +
+> >  /* Returns true on error, false otherwise. */
+> >  static bool check_ruleset_scope(const char *const env_var,
+> >  				struct landlock_ruleset_attr *ruleset_attr)
+> >  {
+> > -	char *env_type_scope, *env_type_scope_next, *ipc_scoping_name;
+> > +	char *env_type_scope, *env_type_scope_next, *scope_name;
+> >  	bool error = false;
+> >  	bool abstract_scoping = false;
+> >  	bool signal_scoping = false;
+> > @@ -247,16 +369,14 @@ static bool check_ruleset_scope(const char *const env_var,
+> >  
+> >  	env_type_scope = strdup(env_type_scope);
+> >  	env_type_scope_next = env_type_scope;
+> > -	while ((ipc_scoping_name =
+> > -			strsep(&env_type_scope_next, ENV_DELIMITER))) {
+> > -		if (strcmp("a", ipc_scoping_name) == 0 && !abstract_scoping) {
+> > +	while ((scope_name = strsep(&env_type_scope_next, ENV_DELIMITER))) {
+> > +		if (strcmp("a", scope_name) == 0 && !abstract_scoping) {
+> >  			abstract_scoping = true;
+> > -		} else if (strcmp("s", ipc_scoping_name) == 0 &&
+> > -			   !signal_scoping) {
+> > +		} else if (strcmp("s", scope_name) == 0 && !signal_scoping) {
+> >  			signal_scoping = true;
+> >  		} else {
+> >  			fprintf(stderr, "Unknown or duplicate scope \"%s\"\n",
+> > -				ipc_scoping_name);
+> > +				scope_name);
+> >  			error = true;
+> >  			goto out_free_name;
+> >  		}
+> > @@ -299,7 +419,7 @@ static bool check_ruleset_scope(const char *const env_var,
+> >  
+> >  /* clang-format on */
+> >  
+> > -#define LANDLOCK_ABI_LAST 8
+> > +#define LANDLOCK_ABI_LAST 9
+> >  
+> >  #define XSTR(s) #s
+> >  #define STR(s) XSTR(s)
+> > @@ -322,6 +442,10 @@ static const char help[] =
+> >  	"means an empty list):\n"
+> >  	"* " ENV_TCP_BIND_NAME ": ports allowed to bind (server)\n"
+> >  	"* " ENV_TCP_CONNECT_NAME ": ports allowed to connect (client)\n"
+> > +	"* " ENV_CAPS_NAME ": capability numbers allowed to use "
+> > +	"(e.g. 10 for CAP_NET_BIND_SERVICE, 21 for CAP_SYS_ADMIN)\n"
+> > +	"* " ENV_NS_NAME ": namespace types allowed to enter "
+> > +	"(cgroup, ipc, mnt, net, pid, time, user, uts)\n"
+> >  	"* " ENV_SCOPED_NAME ": actions denied on the outside of the landlock domain\n"
+> >  	"  - \"a\" to restrict opening abstract unix sockets\n"
+> >  	"  - \"s\" to restrict sending signals\n"
+> > @@ -334,6 +458,8 @@ static const char help[] =
+> >  	ENV_FS_RW_NAME "=\"/dev/null:/dev/full:/dev/zero:/dev/pts:/tmp\" "
+> >  	ENV_TCP_BIND_NAME "=\"9418\" "
+> >  	ENV_TCP_CONNECT_NAME "=\"80:443\" "
+> > +	ENV_CAPS_NAME "=\"21\" "
+> > +	ENV_NS_NAME "=\"user:uts:net\" "
+> >  	ENV_SCOPED_NAME "=\"a:s\" "
+> >  	"%1$s bash -i\n"
+> >  	"\n"
+> > @@ -357,6 +483,8 @@ int main(const int argc, char *const argv[], char *const *const envp)
+> >  				      LANDLOCK_ACCESS_NET_CONNECT_TCP,
+> >  		.scoped = LANDLOCK_SCOPE_ABSTRACT_UNIX_SOCKET |
+> >  			  LANDLOCK_SCOPE_SIGNAL,
+> > +		.handled_perm = LANDLOCK_PERM_CAPABILITY_USE |
+> > +				LANDLOCK_PERM_NAMESPACE_ENTER,
+> >  	};
+> >  	int supported_restrict_flags = LANDLOCK_RESTRICT_SELF_LOG_NEW_EXEC_ON;
+> >  	int set_restrict_flags = 0;
+> > @@ -438,6 +566,10 @@ int main(const int argc, char *const argv[], char *const *const envp)
+> >  			~LANDLOCK_RESTRICT_SELF_LOG_NEW_EXEC_ON;
+> >  		__attribute__((fallthrough));
+> >  	case 7:
+> > +		__attribute__((fallthrough));
+> > +	case 8:
+> > +		/* Removes permission support for ABI < 9 */
+> > +		ruleset_attr.handled_perm = 0;
+> >  		/* Must be printed for any ABI < LANDLOCK_ABI_LAST. */
+> >  		fprintf(stderr,
+> >  			"Hint: You should update the running kernel "
+> > @@ -470,6 +602,14 @@ int main(const int argc, char *const argv[], char *const *const envp)
+> >  			~LANDLOCK_ACCESS_NET_CONNECT_TCP;
+> >  	}
+> >  
+> > +	/* Removes capability handling if not set by a user. */
+> > +	if (!getenv(ENV_CAPS_NAME))
+> > +		ruleset_attr.handled_perm &= ~LANDLOCK_PERM_CAPABILITY_USE;
+> > +
+> > +	/* Removes namespace handling if not set by a user. */
+> > +	if (!getenv(ENV_NS_NAME))
+> > +		ruleset_attr.handled_perm &= ~LANDLOCK_PERM_NAMESPACE_ENTER;
+> > +
+> >  	if (check_ruleset_scope(ENV_SCOPED_NAME, &ruleset_attr))
+> >  		return 1;
+> >  
+> > @@ -514,6 +654,12 @@ int main(const int argc, char *const argv[], char *const *const envp)
+> >  		goto err_close_ruleset;
+> >  	}
+> >  
+> > +	if (populate_ruleset_caps(ENV_CAPS_NAME, ruleset_fd))
+> > +		goto err_close_ruleset;
+> > +
+> > +	if (populate_ruleset_ns(ENV_NS_NAME, ruleset_fd))
+> > +		goto err_close_ruleset;
+> > +
+> >  	if (prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0)) {
+> >  		perror("Failed to restrict privileges");
+> >  		goto err_close_ruleset;
+> > -- 
+> > 2.53.0
+> > 
+> 
