@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD9F629BD8C
-	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Apr 2026 21:33:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B44E934402B
+	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Apr 2026 21:33:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776980000; cv=none; b=Jy0qHgi6cIFPzmFupWTUQzL0f7Fz65ixWuj0/Sq4qX1zSdz9CD3HI26lbaiC6bUz95Fn5+dIQp3E6Lsq1tol0KirE8muuHwMCJT6z04hkaF8Bg+LCNiCgk1ZJ4e3e5WfKRgL4Sjv/JJdoD4234+vPvYGMsgHUldhRU+ITnR0ows=
+	t=1776980003; cv=none; b=AGJWJUeLWmGbDfs2yvTLvijtxj++ZqrFrkE78nkP6JJHitECAeeEujzs+9q1GeWLIuPGf7EtzJbO90YTpb34TpyoHYCQjUgKvN0vkLsYEHf5uWM+qtN2oVa33oGFz5MLayY72xKddld3QdLrzy8WdN7SUZSIgRDEJ/qCqU4qTHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776980000; c=relaxed/simple;
-	bh=EttDQQNTmZQv1L53l5I14KSTEbbRnCJzauJpudvu+tk=;
+	s=arc-20240116; t=1776980003; c=relaxed/simple;
+	bh=HgTsfrGj1nc3Wh+9GYc0GuJMVDjCiD0eCArem+m4sBg=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=PwpkX+WMGJ9xVuTT6NEVnyfMtt6jRENqgKveBArkbhQozRUSVUP9wzdMUFVhqzta8E7scM6kFA4v4IsTiMkDM0uIZdjOV34YVMjfhmxkHABt1+ANwXWGM51/uUEj7qXGANM6jOMxJJFSsSaAaCjK7IccGpTPz7EdZqWPU6I9PNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OMmzrGwi; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=M6643MAFK9UW5BsUzBPAPprfO4MqkFfTEjKh5LMZziXsPiktfvEN/oUuOmP6XfyZsxNcO2eCVVspZ01n4+FZhKd6LwrAw6fPgREvMygqTHvxJq3CoSsuaEBeYYXz1VfWi0/oODZvKAyq/98c/F5DOkGBFCp8OHnLO81R+MN/U1M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O48FIs+x; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OMmzrGwi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26CB1C2BCAF;
-	Thu, 23 Apr 2026 21:33:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O48FIs+x"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B78DC2BCAF;
+	Thu, 23 Apr 2026 21:33:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776980000;
-	bh=EttDQQNTmZQv1L53l5I14KSTEbbRnCJzauJpudvu+tk=;
+	s=k20201202; t=1776980003;
+	bh=HgTsfrGj1nc3Wh+9GYc0GuJMVDjCiD0eCArem+m4sBg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=OMmzrGwiD2QZtkyv1qTYc6npzFEyK7BjXN8olyR9BpaAMBjnIcS4A9OEwtCDJwLWE
-	 FKMMD9J/6uZAWhM1bJSW8ZmML5WAgnMPtnYR6rzvbV35VC8ID5pQU84YWf7HxX2nLA
-	 eO0XI9jjr9mzCwYKWymTOQP7NwwpPDg7MMkXIgbY300iD/VTIxzXzac5XWwSpuSdRk
-	 3DWDGl1FdnFC8dXzITEjGuXunhdhbXsGY6D3FxZpq/z8Rz/6pRCwLWRJ7gIfolS2cT
-	 W8RS2g7bs0bJ0ixiCABZjrJPQKiDwxMm0RkyLl9xiuSEcOoQaHH9AdCppHIQbl89Aa
-	 v+s8fkjoTfHSw==
+	b=O48FIs+x7lkdgkjoz4FJJV/No1MdgK5f7Ls0duJNIFnxKwP/kG6lz3MeyjteS/y5w
+	 DJhQJGA12sUW6vhc/fdOlFYdNtql7lk3SJHjdTRe9ODJeQtYVjWDRriWE4yflqv9pD
+	 oEBAmwG4Km9t3cvU4MoVRCyut3aQCbpXoayPbah11NdWAKC8xwfjn+FFOCKacblPWN
+	 hLb/gciS3ZQje3g2f9qvSLhK7tmfPCPVUkFQESkfmGszk8e+6b4Ml6BO5ErD4DymaV
+	 LnaGBNTGIirOrRe3XiFqoGSxKUrSWzxPFF/ibta2ZXTPS42pwQwWCdadnpOy78Q1gt
+	 v2w6+2kccQySg==
 From: Namjae Jeon <linkinjeon@kernel.org>
 To: brauner@kernel.org,
 	djwong@kernel.org,
@@ -35,9 +35,9 @@ Cc: willy@infradead.org,
 	hch@lst.de,
 	linux-fsdevel@vger.kernel.org,
 	Namjae Jeon <linkinjeon@kernel.org>
-Subject: [PATCH 1/2] iomap: remove over-strict inline data boundary check
-Date: Fri, 24 Apr 2026 06:32:02 +0900
-Message-Id: <20260423213203.5533-2-linkinjeon@kernel.org>
+Subject: [PATCH 2/2] ntfs: use direct pointer for inline data to avoid redundant allocation
+Date: Fri, 24 Apr 2026 06:32:03 +0900
+Message-Id: <20260423213203.5533-3-linkinjeon@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20260423213203.5533-1-linkinjeon@kernel.org>
 References: <20260423213203.5533-1-linkinjeon@kernel.org>
@@ -49,71 +49,165 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The current iomap_inline_data_valid() check ensures that inline data
-does not cross a PAGE_SIZE boundary. However, this is an unnecessarily
-strict constraint. If a filesystem provides a valid iomap::inline_data
-pointer and iomap::length, we should trust that the caller has mapped
-sufficient memory for the range, even if it spans across page boundaries.
-Removing this check allows filesystems to point directly to their
-internal data structures without forced page-alignment or additional
-redundant allocations. This remove iomap_inline_data_valid() and
-its callers in buffered and direct I/O paths.
+Previously, NTFS used page allocation for IOMAP_INLINE to ensure that
+the inline_data pointer was page-aligned, avoiding strict boundary checks
+in the iomap core. Since the previous patch has removed the over-strict
+PAGE_SIZE boundary check in iomap, NTFS can now safely point
+iomap::inline_data directly to the MFT record.
+This change eliminates redundant memory allocations and memcpy operations
+in both read and write paths. It also simplifies the iomap_ops by removing
+the need for a iomap_end callback that was previously used to free
+the temporary page.
 
-Suggested-by: Matthew Wilcox <willy@infradead.org>
 Signed-off-by: Namjae Jeon <linkinjeon@kernel.org>
 ---
- fs/iomap/buffered-io.c |  1 -
- fs/iomap/direct-io.c   |  3 ---
- include/linux/iomap.h  | 10 ----------
- 3 files changed, 14 deletions(-)
+ fs/ntfs/iomap.c | 76 ++++---------------------------------------------
+ 1 file changed, 6 insertions(+), 70 deletions(-)
 
-diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-index d7b648421a70..c4c5bddcbe3a 100644
---- a/fs/iomap/buffered-io.c
-+++ b/fs/iomap/buffered-io.c
-@@ -1058,7 +1058,6 @@ static bool iomap_write_end_inline(const struct iomap_iter *iter,
- 	void *addr;
+diff --git a/fs/ntfs/iomap.c b/fs/ntfs/iomap.c
+index 7a170df39e72..ca8e221e5b7b 100644
+--- a/fs/ntfs/iomap.c
++++ b/fs/ntfs/iomap.c
+@@ -89,7 +89,6 @@ static int ntfs_read_iomap_begin_resident(struct inode *inode, loff_t offset, lo
+ 	u32 attr_len;
+ 	int err = 0;
+ 	char *kattr;
+-	struct page *ipage;
  
- 	WARN_ON_ONCE(!folio_test_uptodate(folio));
--	BUG_ON(!iomap_inline_data_valid(iomap));
+ 	if (NInoAttr(ni))
+ 		base_ni = ni->ext.base_ntfs_ino;
+@@ -130,18 +129,10 @@ static int ntfs_read_iomap_begin_resident(struct inode *inode, loff_t offset, lo
  
- 	if (WARN_ON_ONCE(!iomap->inline_data))
- 		return false;
-diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
-index b0a6549b3848..a4459c5abb07 100644
---- a/fs/iomap/direct-io.c
-+++ b/fs/iomap/direct-io.c
-@@ -603,9 +603,6 @@ static int iomap_dio_inline_iter(struct iomap_iter *iomi, struct iomap_dio *dio)
- 	if (WARN_ON_ONCE(!inline_data))
- 		return -EIO;
+ 	kattr = (u8 *)ctx->attr + le16_to_cpu(ctx->attr->data.resident.value_offset);
  
--	if (WARN_ON_ONCE(!iomap_inline_data_valid(iomap)))
--		return -EIO;
+-	ipage = alloc_page(GFP_NOFS | __GFP_ZERO);
+-	if (!ipage) {
+-		err = -ENOMEM;
+-		goto out;
+-	}
 -
- 	if (dio->flags & IOMAP_DIO_WRITE) {
- 		loff_t size = iomi->inode->i_size;
+-	memcpy(page_address(ipage), kattr, attr_len);
+ 	iomap->type = IOMAP_INLINE;
+-	iomap->inline_data = page_address(ipage);
++	iomap->inline_data = kattr;
+ 	iomap->offset = 0;
+ 	iomap->length = attr_len;
+-	iomap->private = ipage;
  
-diff --git a/include/linux/iomap.h b/include/linux/iomap.h
-index 2c5685adf3a9..52bfd6783417 100644
---- a/include/linux/iomap.h
-+++ b/include/linux/iomap.h
-@@ -142,16 +142,6 @@ static inline void *iomap_inline_data(const struct iomap *iomap, loff_t pos)
- 	return iomap->inline_data + pos - iomap->offset;
+ out:
+ 	if (ctx)
+@@ -286,21 +277,8 @@ static int ntfs_read_iomap_begin(struct inode *inode, loff_t offset, loff_t leng
+ 			srcmap, true);
  }
  
--/*
-- * Check if the mapping's length is within the valid range for inline data.
-- * This is used to guard against accessing data beyond the page inline_data
-- * points at.
-- */
--static inline bool iomap_inline_data_valid(const struct iomap *iomap)
+-static int ntfs_read_iomap_end(struct inode *inode, loff_t pos, loff_t length,
+-		ssize_t written, unsigned int flags, struct iomap *iomap)
 -{
--	return iomap->length <= PAGE_SIZE - offset_in_page(iomap->inline_data);
+-	if (iomap->type == IOMAP_INLINE) {
+-		struct page *ipage = iomap->private;
+-
+-		put_page(ipage);
+-	}
+-
+-	return written;
 -}
 -
+ const struct iomap_ops ntfs_read_iomap_ops = {
+ 	.iomap_begin = ntfs_read_iomap_begin,
+-	.iomap_end = ntfs_read_iomap_end,
+ };
+ 
  /*
-  * When get_folio succeeds, put_folio will always be called to do any
-  * cleanup work necessary.  put_folio is responsible for unlocking and putting
+@@ -358,7 +336,6 @@ static const struct iomap_ops ntfs_zero_read_iomap_ops = {
+ 
+ const struct iomap_ops ntfs_seek_iomap_ops = {
+ 	.iomap_begin = ntfs_seek_iomap_begin,
+-	.iomap_end = ntfs_read_iomap_end,
+ };
+ 
+ int ntfs_dio_zero_range(struct inode *inode, loff_t offset, loff_t length)
+@@ -659,7 +636,6 @@ static int ntfs_write_iomap_begin_resident(struct inode *inode, loff_t offset,
+ 	u32 attr_len;
+ 	int err = 0;
+ 	char *kattr;
+-	struct page *ipage;
+ 
+ 	ctx = ntfs_attr_get_search_ctx(ni, NULL);
+ 	if (!ctx) {
+@@ -680,24 +656,18 @@ static int ntfs_write_iomap_begin_resident(struct inode *inode, loff_t offset,
+ 	attr_len = le32_to_cpu(a->data.resident.value_length);
+ 	kattr = (u8 *)a + le16_to_cpu(a->data.resident.value_offset);
+ 
+-	ipage = alloc_page(GFP_NOFS | __GFP_ZERO);
+-	if (!ipage) {
+-		err = -ENOMEM;
+-		goto out;
+-	}
+-
+-	memcpy(page_address(ipage), kattr, attr_len);
+ 	iomap->type = IOMAP_INLINE;
+-	iomap->inline_data = page_address(ipage);
++	iomap->inline_data = kattr;
+ 	iomap->offset = 0;
+-	/* iomap requires there is only one INLINE_DATA extent */
+ 	iomap->length = attr_len;
+-	iomap->private = ipage;
+ 
+ out:
+ 	if (ctx)
+ 		ntfs_attr_put_search_ctx(ctx);
+-	mutex_unlock(&ni->mrec_lock);
++
++	if (err)
++		mutex_unlock(&ni->mrec_lock);
++
+ 	return err;
+ }
+ 
+@@ -778,43 +748,9 @@ static int ntfs_write_iomap_end_resident(struct inode *inode, loff_t pos,
+ 					 unsigned int flags, struct iomap *iomap)
+ {
+ 	struct ntfs_inode *ni = NTFS_I(inode);
+-	struct ntfs_attr_search_ctx *ctx;
+-	u32 attr_len;
+-	int err;
+-	char *kattr;
+-	struct page *ipage = iomap->private;
+-
+-	mutex_lock(&ni->mrec_lock);
+-	ctx = ntfs_attr_get_search_ctx(ni, NULL);
+-	if (!ctx) {
+-		written = -ENOMEM;
+-		mutex_unlock(&ni->mrec_lock);
+-		return written;
+-	}
+-
+-	err = ntfs_attr_lookup(ni->type, ni->name, ni->name_len,
+-			       CASE_SENSITIVE, 0, NULL, 0, ctx);
+-	if (err) {
+-		if (err == -ENOENT)
+-			err = -EIO;
+-		written = err;
+-		goto err_out;
+-	}
+ 
+-	/* The total length of the attribute value. */
+-	attr_len = le32_to_cpu(ctx->attr->data.resident.value_length);
+-	if (pos >= attr_len || pos + written > attr_len)
+-		goto err_out;
+-
+-	kattr = (u8 *)ctx->attr + le16_to_cpu(ctx->attr->data.resident.value_offset);
+-	memcpy(kattr + pos, iomap_inline_data(iomap, pos), written);
+-	mark_mft_record_dirty(ctx->ntfs_ino);
+-err_out:
+-	ntfs_attr_put_search_ctx(ctx);
+-	put_page(ipage);
+ 	mutex_unlock(&ni->mrec_lock);
+ 	return written;
+-
+ }
+ 
+ static int ntfs_write_iomap_end(struct inode *inode, loff_t pos, loff_t length,
 -- 
 2.25.1
 
