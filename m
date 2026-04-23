@@ -1,93 +1,77 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1446D2AF00;
-	Thu, 23 Apr 2026 05:15:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB35635DA77
+	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Apr 2026 05:20:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776921319; cv=none; b=dWzFKNKsVtaqq8r5DYbMLJOBoTtDihirXgt6AYSP82iVSRH4r6c7d0rYe6mDcLnWuB1oEXVJGtj7XfzKFhZT4gOJxTm0jrS/pUP4lZud3w2prI+4Ml5q8BUhq2vtYzPZL6EY7Xy8fgkJZl70EHyiUci20yy1InnwKPnIxrOxm3I=
+	t=1776921644; cv=none; b=WqGmnPxLpp++iFlu7YmhmTd68r2Quda17i4U1ifW8wzoKSVWRFhIDmoCy+ni9BGbHQInpKrT95bu/Dnod1NYb6oGczlHCKSm1G8bHdiEKnfEoNh77wFiXeYcbsfYWarqWNcuU2sBqzvd7C2/qR37bEg/GEGt/ADYWeFKUtCSR/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776921319; c=relaxed/simple;
-	bh=MW0MYJnHl7iuJABLGZVfG0M1Uho8c6g+rl1kLBd02FI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c6wzxjgjyGtz1/peS58MJdjfEfsY+WegonsUwB8acTnta5WucJJ9JLaijtrYIuyQsZ6wiuuFNWaZQNsrxowZU6+Ion+QhiD2rOD08C7zkPSbEttGFMjK6j39YJlyo72QIapH1a2hSjRbPsFGCWg4nbwfb5mFy2J9E4kyFw8n8LA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=bscqkh6R; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	s=arc-20240116; t=1776921644; c=relaxed/simple;
+	bh=veocLgDgNUGiPFVbn5rQLuikntKrMSAnajySTD3BziU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fmrbMvH1/4YmoReiMC7kNQfHJYg85Zp3SZaBbe4MSbXvguJ7sNByEjyKIQxCEG9hYvasmN3U+q6yNbkA3YyDuGRalTNDxsMEvrqGciPj3YctOO1Vnpom1rJbLp/vr8pXB3r0EixTctgmFZG7bW6od6hxwGQlh9nKFKRjtc1BB24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=urGbQ1L1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="bscqkh6R"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=3D4ayL5VuO2TsLHF0NOdOb9MEp/M5m70O9sO/EoXii4=; b=bscqkh6RmaiJQG+tiBx9NscI5I
-	4KL0QLcwcwa6ZpOzbPQgeWZBjjHbhOulGUFnbQM49+4fKh0wN7XKyDmC6HbzRlrMmEiHLI5uoAijk
-	rH1zlf/VR12wV0OiDCfEUK5eP2+OxmLPwpv/CadylFGGDu6PnYW76YBjrR9bi0fqvWpOeQq5ll7dI
-	Lq+bLDoVq2E6/WEmERB+qsYTbKrpMZEykqEtGWlnm7OTVan1MPMqyJ6kI/ONbHpK+1fuAiqbcNLCm
-	eEditBUGIFSumSXxOdgDQtC3HKBjW1emGj63qAiZQeXcc4SMFJ1FS2LJGyQWIMqnGp3EAqq/KODOT
-	G248ISog==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wFmTF-00000008hVg-3ZzT;
-	Thu, 23 Apr 2026 05:19:25 +0000
-Date: Thu, 23 Apr 2026 06:19:25 +0100
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Eulgyu Kim <eulgyukim@snu.ac.kr>
-Cc: brauner@kernel.org, jack@suse.cz, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, byoungyoung@snu.ac.kr,
-	jjy600901@snu.ac.kr, Alexei Starovoitov <ast@kernel.org>,
-	KaFai Wan <kafai.wan@linux.dev>,
-	Yonghong Song <yonghong.song@linux.dev>, bpf@vger.kernel.org
-Subject: Re: [BUG] KASAN: slab-use-after-free in link_path_walk
-Message-ID: <20260423051925.GO3518998@ZenIV>
-References: <20260423013916.1589029-1-eulgyukim@snu.ac.kr>
- <20260423043906.GN3518998@ZenIV>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="urGbQ1L1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CA6AC2BCB9
+	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Apr 2026 05:20:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776921644;
+	bh=veocLgDgNUGiPFVbn5rQLuikntKrMSAnajySTD3BziU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=urGbQ1L1FtVrPVuHFKu2wUW+C2JojDLhdtfSXzCLMl19rFN/1lbaVeU16896z7aFS
+	 khlEHBXkB92Vh2i6hEkabJ7n5ttTeR/OTGs4duBc8mpLW9jADLeYppFgz+nLBoG/LF
+	 DCRy5TPREr7PVyN8mu1+VhsS9+pRTt9kYlPc2wlxeH+eIMRoQg/nnOq9YXau8gZwZh
+	 2k3YndH/UUpDooAKRmZ1dnIY4jWtf1kuAi6m+k5lFWYytQdfkkqmxVmEGoQ9xIY1IB
+	 tB1SJ1tf89cyhZlbG2Nhi4Of/Bq3E2JXhNMTDYRWvyFJvP5L9uiFalUUb8Wl5WhD8b
+	 DUfzj+TBl3WNA==
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-67389cf78b0so11181497a12.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 22:20:44 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/5HE4+5rF43iovi2UP322q7g+A8sJPi+cEM3rJB5jzmrjIx2cyQMNSHaYakYyyTS+JgYRkFBHtVLg2KZFg@vger.kernel.org
+X-Gm-Message-State: AOJu0YyrcsWz2Ti1023yhrG8TUSCnUdzb67Nbjs8uUCoV8KPuzg/+0L6
+	kwyPvNN5U95Z7CETYjtPx9k2OEF7dyIC8clFF0YGHGI6Vzd/5tAHRvY/xJ+vvZXxTijUF4ldld/
+	5TLTkBGhHbZBwXQcYDzAG0f7mxYSef4c=
+X-Received: by 2002:a05:6402:2b98:b0:672:a20b:3781 with SMTP id
+ 4fb4d7f45d1cf-672bfc12952mr10871100a12.0.1776921642902; Wed, 22 Apr 2026
+ 22:20:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260423043906.GN3518998@ZenIV>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+References: <20260422104627.8193-1-linkinjeon@kernel.org> <aejFTDGOnDbQ3OJK@casper.infradead.org>
+ <CAKYAXd-RQrrpXH0R_Y87r53h0-KCDGVOtm5RaqTGETMEq-LYpg@mail.gmail.com>
+ <20260422152832.GR7727@frogsfrogsfrogs> <bd33abf2-5024-4a1d-bb75-a0359d64da1b@linux.alibaba.com>
+In-Reply-To: <bd33abf2-5024-4a1d-bb75-a0359d64da1b@linux.alibaba.com>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Thu, 23 Apr 2026 14:20:30 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd8MioYXt9o6md2TaKrg4Y9KXycoDXZ5d1c2AYfbz0N-OQ@mail.gmail.com>
+X-Gm-Features: AQROBzDeQv8yh636X0aPpYEp31jfK00vlKvcX1GZPlNy2s3IjY2PSQaco_jqu7A
+Message-ID: <CAKYAXd8MioYXt9o6md2TaKrg4Y9KXycoDXZ5d1c2AYfbz0N-OQ@mail.gmail.com>
+Subject: Re: [PATCH] ntfs: use page allocation for resident attribute inline data
+To: Gao Xiang <hsiangkao@linux.alibaba.com>
+Cc: "Darrick J. Wong" <djwong@kernel.org>, Matthew Wilcox <willy@infradead.org>, hyc.lee@gmail.com, 
+	linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>, 
+	linux-xfs@vger.kernel.org, Gao Xiang <xiang@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Apr 23, 2026 at 05:39:06AM +0100, Al Viro wrote:
-> Folks, the rules are simple:
-> 	* anything that might be accessed in RCU mode (inode very much included
-> for objects that are visible in the tree) must be freed after RCU delay; that's
-> what ->free_inode() is for.
-> 	* anything that can't be freed in such context should either be
-> dealt with in ->destroy_inode() (if it isn't needed for RCU-exposed methods)
-> or, if it really is needed for those, done via schedule_work() or equivalent
-> done by ->destroy_inode().
-
-If you do ->destroy_inode() alone, you must use an explicit call_rcu() in there
-(or in ->evict_inode(), for that matter), with everything that must be RCU-delayed
-done via that callback; strongly discouraged, though, since it's easier to leave
-that to fs/inode.c by turning that callback into ->free_inode().
-
-> Seeing that bpffs has the grand total of zero RCU-exposed methods (no ->d_compare(),
-> no ->d_hash(), no ->permission(), no ->d_revalidate(), no ->get_link()) I would
-> guess that it's the case of "have your bpf_any_put() done promptly, leave freeing
-> the inode and cached symlink body RCU-delayed".
-
-Other than bpffs there are only two instances of super_operations that have non-NULL
-->destroy_inode() and NULL ->free_inode():
-static const struct super_operations pipefs_ops = {
-        .destroy_inode = free_inode_nonrcu,
-        .statfs = simple_statfs,
-};
-which is fine, since pipefs inodes are not exposed to RCU pathwalk at all and
-static const struct super_operations btrfs_test_super_ops = {
-        .alloc_inode    = btrfs_alloc_inode,
-        .destroy_inode  = btrfs_test_destroy_inode,
-};
-which is definitely not fine, but since that thing is not exposed to regular
-syscalls (only to odd internal selftests, what with not being user-mountable),
-presumably it gets away with that.  AFAICS, it may end up calling
-	cond_resched_rwlock_write(&tree->lock);
-from drop_all_extent_maps_fast(), from btrfs_drop_extent_map_range(), called
-in btrfs_test_destroy_inode(), so it probably needs to leave that call
-of btrfs_drop_extent_map_range() in ->destroy_inode() and use their
-regular btrfs_free_inode() for ->free_inode().
+> >
+> > I think the check is wrong.  We rely on the filesystem to point
+> > iomap::inline_data to kernel memory that is at least iomap::length bytes
+> > in size.  If that crosses a PAGE_SIZE boundary that's fine, so long as
+> > the caller actually mapped that much memory.  IOWs, if you have an
+> > iomap:
+> >
+> > {pos = 0, inline_data = 0xB0000, length = 32768, ...}
+> >
+> > then we trust that you really did map all of the MDA text mode memory
+> > and that memcpy'ing 100 bytes to pos 4090 is ok.
+> >
+> > (Perhaps this is a relic of the bs<=ps days?)
+>
+> Anyway, as said before, I think that particular assertion
+> can be removed too.
+Okay, I will submit the patch for this.
+Thanks!
