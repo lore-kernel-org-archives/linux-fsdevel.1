@@ -1,198 +1,166 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8EDF3128B0;
-	Thu, 23 Apr 2026 14:14:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776953641; cv=none; b=u7Xx9fCG0fn4ZVBfUdfRgpFAeS5jyDT1bGHA0erU4CGDXeN7TC6iEwjiLvficE35sxRItuEAMrQ5F8uzzvymWykrmjpjiGs0k8ZGLxon/RUicFnr+BIbq5weWcMRyEPef+qbvLgTRasrdydH63HAHt+DALhcntH0ZmhKBQdRnwE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776953641; c=relaxed/simple;
-	bh=EpBTTRg1rLtTK6bSRcJ/pm4319w6ghGNpdcZ0k4OSCg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UC4epb/94JVw/PfQZ8TwAFPyAOP31kjR2ATwLls6s6lI5H1mM2l8QXnS2Kcf9Q+90LTpIR/q3vLum/tZKLVbe4y/EdWHKjUEL3KOSdW9fXMUnBdX8EXK/v5JkEU80hcf9O3pckFd9P6hwZTmw7D+eosbgwyoqx6Mid/f9JCbZSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hdA87yds; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDF982DA75C
+	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Apr 2026 14:28:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776954509; cv=pass; b=ZNYwbu0d57NAlvMC5ndeOYoAa3bYQWq4N8kChgRM3jm4FLZRTfl6OaB8dJ4XNvmEkfijLZQjo7QdQRLZAEw2+ICon/3iMhFjywk0951UWey3dQoWdjDhWbTwOLcofqWXUGXdGvpvwq5mPeFF/RgWUex4CkPMj5CFLyxaiUcYXOM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776954509; c=relaxed/simple;
+	bh=t9zTS/h6965iid2oKWqVR3n+lPMpGBa+2PO82Wkk6+U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tjRE9IoKJUYynGr0lGUIQmgjQG1/XLzEnXz13vSz045YQbx1rfwL0av/DswzYtU0s+CH/egNvYEHilM7AtEF3e6bsG0pWMwHXzbc/p/RVjWCtjNUAYBUHivOdHyCFZLUtfP700x2qJV7SCUEdt7OhsdZTD+Rtdd8pv1b1G2GqMA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bAqlGReb; arc=pass smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hdA87yds"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 952A2C2BCAF;
-	Thu, 23 Apr 2026 14:13:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776953641;
-	bh=EpBTTRg1rLtTK6bSRcJ/pm4319w6ghGNpdcZ0k4OSCg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=hdA87ydsV5pc4MAndtcsCuNsC05FxkEo71aDamvg0Sn3MK6iJn6aTihkZinrUFWvK
-	 jRXGDUYUDqeUHkVfeHN/wZYfAomPbPiCBWnmiBA49CG5Xv7M3kXXJ4NlSbOzpmVIPY
-	 zuA74h3mUbHaz0eEefZgl4F2mYsLsp4d5Krn+/V9776lf0MRQ1/XhFCqNQthKhgJRN
-	 v8SXfPzMb9VIvJ2CVpVyUJdt55IEFvNtXdhCtcRZZ503MTinIPvo3ZIHPkwbxWCjv6
-	 fQmIxQ409UeodQVwxzGq2xy8vijJBwS1MYJ7Z3xLGvGuE47iAsndANwd7rzVEqIkSh
-	 LStO62t5OdNbA==
-Message-ID: <88b0765f-7cfc-4e44-83d2-c01a1755c842@kernel.org>
-Date: Thu, 23 Apr 2026 16:13:50 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bAqlGReb"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b8d7f22d405so1149963866b.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 23 Apr 2026 07:28:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776954506; cv=none;
+        d=google.com; s=arc-20240605;
+        b=LdQRqBiHVxYbrUC16HfiSfIpbyifumj9eBnAX/9Kr6x/gi22Rf20gw27gcBBuQNX6C
+         bziZVsIyLG+v1Ro3n72Ah5amC4dMk3DjLy1fluTMhKj5J5IxfCYybVVmtDBvhvP55MB0
+         Bgdzmaz8h6l4x5paBqy+8KZmdUrT+K635kiYouW7STKHoFPR/nKcrvTHah+kbeUSn/aZ
+         GysfBG1nfiumYQtWVK3dyzSdCgs6W1Ws95ho4vWtmBUi1a2BT4RqaCv8J6oiPuUl5QmW
+         4AJFIExRucjE4qKM04l/lH/9xCjnjaOmBduGgb17XC9i0Dnl8JAJSSLHPwhjxg92EDhY
+         793w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=UvV8I/r+MwMn6SZvHsaj4pMpjgtZOZ0sD2j9OtfR7hI=;
+        fh=Pdydlp7tE4a9GaYMjNMbQ9eW2mUFiy+pNrq9pIljWYw=;
+        b=Ed/IJ5Lghn4PxiQPLfICCGDxioHgEqm2WofYG1riI3aqq7SWc47S435jLgtAsl5yhJ
+         9tZP0s1SGEo4VTPb597YGXz4JAFZFUWMzt9YnLf3pViEE8F9x2OUP6E/Hdzu24tBe459
+         W085yFdKw0/Ox9ZBL3DPJcjx8R8PsW5R8PaDHjmssShZP+Ycxnu8fLO35oB60FEE77rv
+         xrJQ9Z7zombHx/w4sAIARW5gvE1HjkhaRmlnTEY8XfHq64VYdDrep0XmNKNHRWkcK7lm
+         0jeI5DLvcmbzm4+h3X1FiYb5L4OWz5GLtLenaHdDnN9V5q6y2fEoJi5HANyDGbOIrFRN
+         811g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776954506; x=1777559306; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UvV8I/r+MwMn6SZvHsaj4pMpjgtZOZ0sD2j9OtfR7hI=;
+        b=bAqlGRebPi38qcxZLQLPBgL7dkiMavuHBnY2688FE4VgJZa2SRlBd9ypPyCgYI7vnw
+         n4F1b4oWMEYMLXMf/Imee+ffXij+x7Ppd/O80+7OM0cechKMIZJMiChQbVkHHRSsi12Z
+         n3udabkU5YGJxjNHoHXFs9h4s8jMM2aMZKXBqtBirmw3U8aQK8M4tzY/Zzns0uIzTugm
+         V6aspSgBWDf1XCmTN3d/uHF94rKCZnFJfGSKbe/CQeg0u9WBnvP/zsPtVLThv8whw2sx
+         Kvyo+pT2A6waY3qUuibNqIDqu9YFmOMgVHnfkWmA347jqsTPVw+tJrrG3AvQBVqr/83z
+         hoGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776954506; x=1777559306;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=UvV8I/r+MwMn6SZvHsaj4pMpjgtZOZ0sD2j9OtfR7hI=;
+        b=g3ZBAQEmi3EFgy2OU1hYQu4WEh3GGJyLJrJ66BptEFh8tfsXXWZo7JlG53h7EzJlra
+         mebgepvTZDUCtbnvYrOWXjRtrGAzPFiHiUtbasvxiLBjS3kOV+Bbd6QflXrVJbVMGC5N
+         QxhhnDLRAHVmUofnMt16oD+coAzmhqloQiPdutg5U9fNwdCj8GKjVGCrpdk2fKuh+pVn
+         Vfaairb728Uvn0AMxVij2hTQtEQ+BkvokoOHn4udERuwIyZtGSrJqWNRWakGPusNZx5f
+         +mxOfb4mC46yBIusx+t9GKm35ufJnI7eCwnFMDuXssTUzMouw0TmYwjKAHH2Y5VEuPbj
+         FcXw==
+X-Forwarded-Encrypted: i=1; AFNElJ/1F/LDcLSXuTnd3kj18a4unAAc0DmAIb5dCwLWq9D790hPkeJCNVj8Fl+Q80bhY6ILCZGWeOaYyQqsmLey@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+8ki4m8BCuwHcCsd6PjBCm/c83EqwqlN+0FFLZg+BGM+SZAyv
+	wZW3V4oK3JWjh0Br9zvDZ6ZORWuF1VKq6/79DmLTjIO3FQrVsU1ErOEE/AOfRJKudnHyBon3tII
+	anPR6iOhUBzafbcOvi3/Y7IvRWWu8Vq8=
+X-Gm-Gg: AeBDiet4exS75lTfKLuqhU9lkb11yvFvI3bC7aulSGrJuVEk3VzWKKDAGYr8aRdbAX/
+	yr3Kk+bB23CQ+QMVAcAbinqf2UU8vr44xHr/8AfW/elyE3QvK8PnZsMAjkxalhD/RtFJzWltPq6
+	5wEbTB2bEeLtzJJfL3b5ruu3JEiXanksF9EDtO0q8Ih4uBMSLrVZdeVNe9qVV655HpkSuCS+IRK
+	Jaf6zcnRNqE/IuBS/4zLhVzWRlxRwXwrkmTffZ2PKwdct0Sa1p2kJkuFX3uoR5Kb1Ne881QlKp2
+	42Wp2Nrq1DbXXXhaUQVKpOdZcKxaKPw0gsZwNmwmqx/PWqoJcQ==
+X-Received: by 2002:a17:906:c112:b0:ba8:b416:6ebc with SMTP id
+ a640c23a62f3a-ba8b4167828mr822838666b.49.1776954505977; Thu, 23 Apr 2026
+ 07:28:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v3 01/19] mm: thread user_addr through page allocator
- for cache-friendly zeroing
-To: Gregory Price <gourry@gourry.net>, "Michael S. Tsirkin" <mst@redhat.com>
-Cc: linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- Vlastimil Babka <vbabka@kernel.org>, Brendan Jackman <jackmanb@google.com>,
- Michal Hocko <mhocko@suse.com>, Suren Baghdasaryan <surenb@google.com>,
- Jason Wang <jasowang@redhat.com>, Andrea Arcangeli <aarcange@redhat.com>,
- linux-mm@kvack.org, virtualization@lists.linux.dev,
- Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
- <rppt@kernel.org>, "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
- Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
- Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Ying Huang
- <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
- Hugh Dickins <hughd@google.com>, Christoph Lameter <cl@gentwo.org>,
- David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>, Harry Yoo <harry.yoo@oracle.com>,
- Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
- Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>,
- Baoquan He <bhe@redhat.com>, linux-fsdevel@vger.kernel.org
-References: <cover.1776808209.git.mst@redhat.com>
- <9dd9deabd42801f3c344326991d1431c3d8db39d.1776808210.git.mst@redhat.com>
- <aekluxNPxF8CN8fL@gourry-fedora-PF4VCD3F>
- <20260422171315-mutt-send-email-mst@kernel.org>
- <aemglPlcwFFHNj1A@gourry-fedora-PF4VCD3F>
- <c165d6af-4a35-4a41-9086-ee307640c044@kernel.org>
- <20260423074433-mutt-send-email-mst@kernel.org>
- <aeohzbmhQAoOODPm@gourry-fedora-PF4VCD3F>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <aeohzbmhQAoOODPm@gourry-fedora-PF4VCD3F>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260422181711.1340269-1-mjguzik@gmail.com> <AF9A814D-BABE-45FA-A6C4-2AAAD9CE2F21@dilger.ca>
+In-Reply-To: <AF9A814D-BABE-45FA-A6C4-2AAAD9CE2F21@dilger.ca>
+From: Mateusz Guzik <mjguzik@gmail.com>
+Date: Thu, 23 Apr 2026 16:28:12 +0200
+X-Gm-Features: AQROBzBNkghJCjChnEVSNRLehjqQ1ss-QKlyx18sasTsbvj3SGi4BMtZKJk5Gpk
+Message-ID: <CAGudoHFZHc+B+Oi9dce=uQ1L7UpTQJwi_M63aR01OC4=0Y6uMw@mail.gmail.com>
+Subject: Re: [PATCH v2] cache the string generated by reading /proc/filesystems
+To: Andreas Dilger <adilger@dilger.ca>
+Cc: brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 4/23/26 15:42, Gregory Price wrote:
-> On Thu, Apr 23, 2026 at 07:57:01AM -0400, Michael S. Tsirkin wrote:
->> On Thu, Apr 23, 2026 at 11:46:56AM +0200, David Hildenbrand (Arm) wrote:
->>
->> Changes we have to add: 8 changes
->> Rename 4 existing APIs adding _user: __alloc_pages,
->> __folio_alloc, folio_alloc_mpol, __alloc_frozen_pages + add
->> 4 wrapper macros/inlines in gfp.h that forward to the _user variants with
->> USER_ADDR_NONE. Roughly 6-8 lines of boilerplate per API.
->>
-> 
-> This is essentially what i was proposing.
-> 
-> The result would be more external surface to the buddy (at least 2 maybe
-> more functions, plus all the _noprof stuff and a bunch of other things).
+On Thu, Apr 23, 2026 at 12:07=E2=80=AFAM Andreas Dilger <adilger@dilger.ca>=
+ wrote:
+>
+> On Apr 22, 2026, at 12:17, Mateusz Guzik <mjguzik@gmail.com> wrote:
+> > +     new =3D kmalloc(offsetof(struct file_systems_string, string) + ne=
+wlen + 1,
+> > +                   GFP_KERNEL);
+> > +     if (!new)
+> > +             return -ENOMEM;
+>
+> This is introducing an error case where there was none before, in a
+> critical system file.  It would also be possible to fall back to
+> seq_printf() instead of sprinft() if no buffer is available.
+>
 
-We probably wouldn't need prof stuff if all we care about is vma_alloc_folio()
-that will only be calling _noprof internally.
+Fair, should be easy to do.
 
-> 
-> And then all the callers have to be updated anywhere, and not make it
-> any harder to mess up.  You either have
-> 
->     old_interface(..., user_addr);
->     /* Churn everything using the old interface */
-> 
-> or
-> 
->     __internal(..., user_addr) { }
-> 
->     old_interface(...) {
->        __internal(..., NO_USER_ADDR);
->     }
-> 
->     new_interface(..., user_addr) {
->        __internal(..., user_addr);
->     }
-> 
->     /* 
->      * Update some callsites to use new_interface()
->      * mostly a bunch of _mpol() functions but some others
->      */
-> 
-> but someone could still just as easily do
-> 
->     old_interface();
->     /* don't fall folio_zero_user() - Bug! */
-> 
-> So it's not like this makes things any harder to mess up.
+> > +     /*
+> > +      * Populate the string.
+> > +      *
+> > +      * We know we have just enough space because we calculated the ri=
+ght
+> > +      * size the previous time we had the lock and confirmed the list =
+has
+> > +      * not changed after reacquiring it.
+> > +      */
+>
+> It doesn't seem prudent to use raw sprintf() in a loop and justify this i=
+n
+> a comment, when the actual string generation is not performance critical.
+> This could use scnprintf() and be "safer" even if it "should just work" (=
+tm).
+>
 
-Right.
+I don't get how that's supposed help anything. I still have to call
+the routine in a loop, except this time I have to keep recalculating
+remaining size by hand on top of it.
 
-Looking at the patch, there would already be less churn if
+What this really wants is a string library which handles easy things
+like this one, FreeBSD has something like this in
+https://man.freebsd.org/cgi/man.cgi?sbuf(9) , but I certainly can't be
+bothered to work on an equivalent or porting it over.
 
-folio_alloc_mpol()
-__alloc_frozen_pages_noprof()
-__alloc_pages()
-post_alloc_hook()
+If one is to "overflow-proof this" with total disregard for
+performance, a series of strlcats would do it.
 
-Would have simple wrappers.
+> > +      usedlen =3D 0;
+> >       tmp =3D file_systems;
+> >       while (tmp) {
+> > -             seq_printf(m, "%s\t%s\n",
+> > +             usedlen +=3D sprintf(&new->string[usedlen], "%s\t%s\n",
+> >                       (tmp->fs_flags & FS_REQUIRES_DEV) ? "" : "nodev",
+> >                       tmp->name);
+> >               tmp =3D tmp->next;
+> >       }
+> > -     read_unlock(&file_systems_lock);
+> > +     BUG_ON(new->len !=3D strlen(new->string));
+>
+> Adding a BUG_ON() here seems gratuitous, when there are lots of other
+> options to handle this case, especially if sprintf() didn't just corrupt
+> memory for some reason.  It could allocate a larger buffer and retry,
+> or in the worst case return an error instead of crashing the system.
+>
 
-hugetlb calls  __alloc_frozen_pages(). That's rather nasty, given that
-it wants to allocate a frozen folio.
+Well nobody is supposed to get the splat, except maybe someone messing
+with how the string is generated, so I don't really see your point --
+it's purely a bug-catching measure.
 
-alloc_hugetlb_folio() already consumes vma+addr.
-alloc_buddy_hugetlb_folio_with_mpol() already consumes vma+addr.
-
-Maybe we could forward the vma+addr here and call a vma_alloc_froze_folio() if
-we have a VMA+addr to have a clean interface.
-
-But really, that hugetlb code is rather messy. I'd vote for leaving hugetlb
-alone on a v1, and focusing on non-hugetlb first.
-
--- 
-Cheers,
-
-David
+However, it can still just print a warn and fallback to the current
+pointer chasing.
