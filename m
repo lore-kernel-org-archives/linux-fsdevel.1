@@ -1,162 +1,248 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F17543C3BF7;
-	Thu, 23 Apr 2026 09:47:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2B2037882B;
+	Thu, 23 Apr 2026 10:08:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776937629; cv=none; b=fths4WXirR0pBPZHlqECrCp0eqmR/7rUh4CYqnYcz24V0lF0WX1nsKfPdcGxcQbj3oNxtL/ZkSJjndDlnZA9LnwCHEun8KP2AT5NN7OJOjfuLROzTVtbVVVBAapO8dMMXzfm2OLfIP5GE3vO36XyZ/3UV+raqj0TGizfoygP7Go=
+	t=1776938933; cv=none; b=KAQ4kwFZQM85yuG9yFNRhsrR8twEGncf2ibc1UCT5zU4e7dhqi1TRC7yP0PBsK1tTPA4OMNoJXpft4myDw/NiR0DYwtDy1dkRtxKUXPEnpeaUDmZrAW5ds7bmzTe8MG/Wf1C1m4NAhHX/Nd70AmOPHiOyn+pzIk9AXfJqoZyylg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776937629; c=relaxed/simple;
-	bh=1gG/tD8icbEhz/C6XUjdNu8513CmXACduy/IMdkfvDI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=h0vkf22zgnUI9t+V7KiAVkJz/90szlwBTVJI7eqjH0rzJpqfDhBg/e4y6GXTprGmOw26VQDvfmVZhxkd3R4ZEbK+NwpTsuemy+jb6IW75uUGQpJ6wIIV/n0tF6LvqqDminlKO5pQZeutzBy2iVuwb5WMqfXZY4boOI9CBcYyuGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sJWniS2o; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776938933; c=relaxed/simple;
+	bh=3r5gvZFpBi7zMnLQMSJEmQr0ZPho7pUwxZJeL6GftNg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PX8h6eUbsc0GCn4Xt2qW5nYaavI5gVCxDzwDfF2b/L8FdU0M9fB+CT/Q7AjX0wDOhedKWfJpjzyZhmY/7Mup2eo+NOqPCWrbGTABmg05TTd5E+qdAZmX5IFBOy81pUSu3RInE6BhQZpvSsEdZvW16C7t4d9256JIvIeiUhtyEK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=rP5rZayy; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sJWniS2o"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9ECE1C2BCAF;
-	Thu, 23 Apr 2026 09:46:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776937628;
-	bh=1gG/tD8icbEhz/C6XUjdNu8513CmXACduy/IMdkfvDI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=sJWniS2oH9fBwJkaEQXpdcQmmkCc1gSaRxtOj6utECaamX2LadShXpIrLmRIejpov
-	 3WGWNpzmdIQJnSEyrs9LyOzRV9Oj4VXGrrZ1FK69U/k0WFdtKJP7+yigYmB0VTHRVV
-	 qqHi9b3YkTALtu9gntOUDI5Hqx/+HMfmfUDRsT7RZlMkiRoIjcGfVRsrP2kmIpWOHy
-	 8yb/f4WkRIqA9D0mNIv0Rlf0chdIFBqd1grADEIz2cVlDhPkKkVIGILf5b5H/zpqI7
-	 KHppFUYdfPMuS2o7es2+wiqvKKdzelgQMOU8Oeh8sA5O5DhEGd+HBdEjiLoJSZOuRY
-	 y7LX7v2oJuSJw==
-Message-ID: <c165d6af-4a35-4a41-9086-ee307640c044@kernel.org>
-Date: Thu, 23 Apr 2026 11:46:56 +0200
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="rP5rZayy"
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63N894Zf3944516;
+	Thu, 23 Apr 2026 10:08:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=5IxktJseZTkju4U2M5faDB3wvvH5jv
+	SdDn7i3mvBckg=; b=rP5rZayylIkjv9F2O3s2doRp51/NLYmJ2hnI3ce7oc81yZ
+	KjXSYMjCehyU+VVZBtbIrXRZYlyMci1jzUN5yuaYWpwhnZdV8pEUEIB2j4QARxqK
+	ah8e+7e6BVKNTAqEsYoGT9EnSvLoM5D4FBQSq8HMOwjFMS9+L457GCirV0um45kP
+	52qGRSp/6mSGp9a6fz7GwQKy/OHGvqlcfH+emLzmB32LrbgVSdQhmIZZ6/w17q4n
+	12KMxNQ54yxYrONQ2YkpuJX7PTYU/oAjiHkd/KJxo595CEp37VFkuxknn23Li/cI
+	k7hKunvWkXtUfLM7Mqt79imHW+LVXgY5zkNOMQ0w==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4dpeu3qg18-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 23 Apr 2026 10:08:21 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 63NA5Ge6025799;
+	Thu, 23 Apr 2026 10:08:20 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4dpjkxx49t-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 23 Apr 2026 10:08:20 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 63NA8IVM16122232
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 23 Apr 2026 10:08:19 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id D12CB2006B;
+	Thu, 23 Apr 2026 10:08:18 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5A8C720067;
+	Thu, 23 Apr 2026 10:08:15 +0000 (GMT)
+Received: from li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com (unknown [9.123.13.2])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Thu, 23 Apr 2026 10:08:15 +0000 (GMT)
+Date: Thu, 23 Apr 2026 15:38:12 +0530
+From: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+To: Jan Kara <jack@suse.cz>
+Cc: linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        djwong@kernel.org, john.g.garry@oracle.com, willy@infradead.org,
+        hch@lst.de, ritesh.list@gmail.com,
+        Luis Chamberlain <mcgrof@kernel.org>, dgc@kernel.org, tytso@mit.edu,
+        p.raghav@samsung.com, andres@anarazel.de, brauner@kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [RFC PATCH v2 2/5] iomap: Add initial support for buffered
+ RWF_WRITETHROUGH
+Message-ID: <aenvjOFl9_yI0uTK@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+References: <cover.1775658795.git.ojaswin@linux.ibm.com>
+ <d44171d5a1ec783722019ad7d1a4ede0478cc914.1775658795.git.ojaswin@linux.ibm.com>
+ <52wsh6owrtmznt5xuks6ljwy4zbpyid45x5dbxo5xgssxm4zxy@iue2on3llpfb>
+ <aeKNHi8GloNgch7X@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+ <laegs2jt5ifqmfmdlsl7gsrc64z4nrnwbxazewbr7jk27emdej@l6vhj7pjh3dy>
+ <aee8xaz_5x-aQ5BK@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+ <eqbodkjxxg32ryxsdngx35yhv5fy4p44fmvlnlnoyib6bstlmf@4hzxnfwleynb>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v3 01/19] mm: thread user_addr through page allocator
- for cache-friendly zeroing
-To: Gregory Price <gourry@gourry.net>, "Michael S. Tsirkin" <mst@redhat.com>
-Cc: linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- Vlastimil Babka <vbabka@kernel.org>, Brendan Jackman <jackmanb@google.com>,
- Michal Hocko <mhocko@suse.com>, Suren Baghdasaryan <surenb@google.com>,
- Jason Wang <jasowang@redhat.com>, Andrea Arcangeli <aarcange@redhat.com>,
- linux-mm@kvack.org, virtualization@lists.linux.dev,
- Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
- <rppt@kernel.org>, "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
- Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
- Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Ying Huang
- <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
- Hugh Dickins <hughd@google.com>, Christoph Lameter <cl@gentwo.org>,
- David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>, Harry Yoo <harry.yoo@oracle.com>,
- Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
- Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>,
- Baoquan He <bhe@redhat.com>, linux-fsdevel@vger.kernel.org
-References: <cover.1776808209.git.mst@redhat.com>
- <9dd9deabd42801f3c344326991d1431c3d8db39d.1776808210.git.mst@redhat.com>
- <aekluxNPxF8CN8fL@gourry-fedora-PF4VCD3F>
- <20260422171315-mutt-send-email-mst@kernel.org>
- <aemglPlcwFFHNj1A@gourry-fedora-PF4VCD3F>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <aemglPlcwFFHNj1A@gourry-fedora-PF4VCD3F>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <eqbodkjxxg32ryxsdngx35yhv5fy4p44fmvlnlnoyib6bstlmf@4hzxnfwleynb>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-GUID: wFoHpIQzqG-mS04jKUbxXfeZHfvwcpjl
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDIzMDA5NSBTYWx0ZWRfX6mHJU6VhB4e6
+ tTDmZIglNbwUqqn+v0ALfQ8t7b7kvO1oTxPfcfzaxzu1SyloLpfDfNRJQCZdXH4YqmE24Jsrrvp
+ 8ripQzrIiKetvW/PiMOw4kYJN902zP1kNMqS9TLHmjcUAMlLGxF+yQt5ZxNz8gMqW35E3stvzjT
+ 3alyzOggA90nvPvSd4t99qAjMqMRz53NgQ/5vFmRWNtrLsJgrsYlyoCENIOD6yJ6Gp5G19npO1B
+ 8g3qakZTjBjIwIEOkBZXmRIQg0YY3tJw6FhwBRSYH0v5LsUgkRbFYUgWXwwHCbis+AYO8RXIfbw
+ Pc3xuIBH/M9MiUqaRQJWpAp797JogG2k6Xk+Bzmlg6qRH2Dr2oCPfW4kNsJilsvHNFCn/ITzLfJ
+ eY8Q88xstACTvnHukbvIZi9c541WcLcnmVwHgzJ+cCeAbNJkiZKzfZZoMR+E1Wqz2tVpjYgvXag
+ +FRh42uFQ9xhYMA3Azw==
+X-Authority-Analysis: v=2.4 cv=a6kAM0SF c=1 sm=1 tr=0 ts=69e9ef95 cx=c_pps
+ a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
+ a=kj9zAlcOel0A:10 a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=V8glGbnc2Ofi9Qvn3v5h:22 a=iox4zFpeAAAA:8
+ a=l9p49PqFwY51bxc8sbUA:9 a=CjuIK1q_8ugA:10 a=WzC6qhA0u3u7Ye7llzcV:22
+X-Proofpoint-ORIG-GUID: 96c5PUns6hySA_OuquvA_5hgy5bL7Q7Z
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-23_02,2026-04-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0 spamscore=0 adultscore=0 bulkscore=0
+ lowpriorityscore=0 impostorscore=0 clxscore=1015 phishscore=0
+ priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2604200000
+ definitions=main-2604230095
 
-On 4/23/26 06:31, Gregory Price wrote:
-> On Wed, Apr 22, 2026 at 05:20:27PM -0400, Michael S. Tsirkin wrote:
->> On Wed, Apr 22, 2026 at 03:47:07PM -0400, Gregory Price wrote:
->>>
->>> __alloc_user_pages(..., gfp_t gfp, user_addr)
->>
->> With a wrapper approach, looks like we'd need something like
->> __GFP_SKIP_ZERO so post_alloc_hook doesn't zero sequentially, then the
->> wrapper re-zeros with folio_zero_user().  But then the wrapper needs to
->> know whether the page was pre-zeroed (PG_zeroed), which is cleared by
->> post_alloc_hook before return.  So the information doesn't survive to
->> the wrapper.
->>
+On Wed, Apr 22, 2026 at 12:00:34PM +0200, Jan Kara wrote:
+> On Tue 21-04-26 23:37:01, Ojaswin Mujoo wrote:
+> > On Mon, Apr 20, 2026 at 01:28:18PM +0200, Jan Kara wrote:
+> > > On Sat 18-04-26 01:12:22, Ojaswin Mujoo wrote:
+> > > > On Thu, Apr 16, 2026 at 02:34:15PM +0200, Jan Kara wrote:
+> > > > > > @@ -1096,6 +1097,276 @@ static bool iomap_write_end(struct iomap_iter *iter, size_t len, size_t copied,
+> > > > > > +static int iomap_writethrough_iter(struct iomap_writethrough_ctx *wt_ctx,
+> > > > > > +				   struct iomap_iter *iter, struct iov_iter *i,
+> > > > > > +				   const struct iomap_writethrough_ops *wt_ops)
+> > > > > > +
+> > > > > > +{
+> > 
+> > <...>
+> > 
+> > > > your comment but) after this email, I started diggin a bit more into why
+> > > > it is needed.  As per my understanding, it tackles 2 things:
+> > > > 
+> > > > Problem 1. mkclean's the old EOF folio so that the FS can fault again. This
+> > > > allows us to allocate new blocks which previously might not be allocated
+> > > > if bs < ps.
+> > > > 
+> > > > Problem 2. Since mmap writes can dirty data beyond EOF, we zero the range from
+> > > > old EOF to end of that folio so that readers dont read junk data after
+> > > > isize extension.
+> > > 
+> > > Correct.
+> > > 
+> > > > Another thing I noticed is that most users of
+> > > > iomap_file_buffered_write() do their own eof zeroing in the FS layer
+> > > > (eg, xfs_file_write_zero_eof(), ext4's new changes,
+> > > > ntfs_extend_initialized_size() etc). 
+> > > > I think this FS level zerooing should take care of mkcleaning the eof
+> > > > folio (problem 1), as they call iomap_zero_range() which would flush the
+> > > > eof range anyways. So am I right in assuming that for FSes that do their
+> > > > own zeroing, 1. is already taken care of?
+> > > 
+> > > Well, I don't see anything that would writeprotect the old tail page in
+> > > iomap_zero_range(). I think iomap_zero_range() calls are there mostly to
+> > > address 2. Not only due to mmap but also possibly to clear whatever junk
+> > > there can be in the blocks after EOF.
+> > 
+> > Well I was thinking more like if the EOF page was mmap'd it would be
+> > dirty and blocks beyond EOF would be unmapped, so iomap_zero_range() will
+> > write it back which shall mkclean() the folio.
+> > 
+> > But I think the same race we discussed for problem 2 can also occur
+> > here.
+> > 
+> > Thread 1 (extending write)             Thread 2 (mmap writer)
+> > 
+> > iomap_zero_range()
+> > filemap_write_and_wait_range()
+> >                                        // mmaps & writes EOF range
+> > iomap_write_iter()
+> > isize = new_size
+> > // pagecache_isize_extended() is
+> >    needed to mkclean() old EOF page.
 > 
-> I was thinking more that internally you already have that information
-> you need to know to skip the zeroing - and so the wrapper can just pass
-> __GFP_ZERO and post_alloc_hook() would do the right thing regardless
+> Yes, this race exists and unlike in the case of zeroing where it is mostly
+> harmless not guranteeing calling page_mkwrite() with updated i_size can
+> lead to filesystem tripping on assertions, data loss or similar.
+
+Right.
+
 > 
-> Then on the way out, the new wrapper would take care of cacheline piece.
+> > > > As for 2, I think after the EOF zeroing of the FS, there might be a
+> > > > window before iomap_write_iter() where an mmap writer can still dirty
+> > > > EOF blocks, hence the pagecache_isize_extended() would be needed here.
+> > > > But doesn't that then make the eof zeroing in the FS layer redundant? Am
+> > > > I missing something here?
+> > > 
+> > > Hmm, I agree the zeroing looks duplicit (for some users of
+> > > pagecache_isize_extended()). And yes, doing the zeroing from
+> > > xfs_file_write_zero_eof() is somewhat racy (mmap writer can still come and
+> > > write non-zeros before we update i_size) but I'd have hard time to argue it
+> > > really practically matters - you are racing mmap writes with buffered
+> > > writes so any kind of write atomicity guarantees are not there. 
+> > 
+> > Yeah, seems like it is not enough to take care of either 1 or 2 and
+> > pagecache_isize_extended() should maybe be enough. I was just wondering
+> > if we could optimize it away even for normal extend path (no racing mmap),
+> > we can avoid the expensive folio_zero_range() calls.
+> > 
+> > Regardless, Ive not looked at this more closely and its a separate issue
+> > so we can revisit it later. For now I wanted some clarity around
+> > pagecache_isize_extended() so thanks for that.
 > 
-> However, i explored this a bit - and while it saves some churn on the
-> interface, it adds two paths into the buddy - and that increase in
-> surface might not be worth it.
+> Well, but pagecache_isize_extended() doesn't guarantee on disk blocks are
+> zeroed out as well as it doesn't dirty the page. Also
+> xfs_file_write_zero_eof() potentially handles zeroing of more than a tail
+> page. So you cannot simply drop one of these.
+
+Hmm yea true, xfs_file_write_zero_eof() does take of zeroing any mapped
+eof blocks on disk as well.
+
 > 
-> So I see the tradeoff here.  The churn is probably worth it.
+> > > > Regardless, for our case I think we will also need to do the
+> > > > pagecache_isize_extended(), mainly to take care of problem 2, but where
+> > > > exactly should we do it now?  We currently change the isize in endio()
+> > > > but for aio, it can run outside inode or folio lock. I think this
+> > > > function needs to be called under inode lock(). Hmm.. its a bit late here so
+> > > > I'll revisit this tomorrow with a fresh mind :)
+> > > 
+> > > I think mainly to take care of problem 1... You are correct about
+> > > inode_lock but since we are updating i_size, we should be better holding
+> > > it, shouldn't we?
+> > 
+> > Yes you are correct. In the aio writethrough codepath, the inode update
+> > is happening without the inode lock which is wrong. I overlooked the
+> > fact that even aio dio uses IOMAP_DIO_FORCE_WAIT to force isize update
+> > under inode lock, and we should do something similar as well.
+> 
+> Yes.
+> 
+> > So in v3, I make the change that for extending writes we shall always
+> > finish them in "sync" fashion so ->endio() runs under inode lock. Then,
+> > after ->endio() in iomap_dio_complete(), I will call
 
-In v2 I commented [1]
+( I meant iomap_writethrough_complete(), here)
 
-"
-For example, instead of changing all callers of post_alloc_hook() to
-pass USER_ADDR_NONE, can we make post_alloc_hook() a simple wrapper
-around a variant that consumes an address.
+> > pagecache_isize_extended() to take care of this. Just like isize update
+> > right now, the isize_extension only runs when the IO was successful
+> > otherwise we return an error to the user. This gives us semantics like
+> > dio while handling extension properly.
+> > 
+> > Does that sound okay?
+> 
+> Yep, sounds fine.
 
-So isn't there a way we can just keep the changes mostly to mm/page_alloc.c?
-"
+Got it, thanks for the review Jan!
 
-That should avoid most of the churn outside of page_alloc, no?
+Regards,
+ojaswin
 
-[1] https://lore.kernel.org/r/4bdc66f2-1469-4b91-9935-74c3d3ca0ed9@kernel.org
-
--- 
-Cheers,
-
-David
+> 
+> 								Honza
+> -- 
+> Jan Kara <jack@suse.com>
+> SUSE Labs, CR
