@@ -1,107 +1,97 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A05AD39182A;
-	Thu, 23 Apr 2026 06:44:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E8B22D238A;
+	Thu, 23 Apr 2026 07:03:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776926676; cv=none; b=fdWYOR0YyI//SD0Wm1xHzNLkomrJUU6Gh1WSyGuKPsHAeQDdRB1mdkKQAKa50O3/tTL2enqZ7pBUWolF2etyxex6GNshzMNq5zjZY257kGX0xZgKNvE8k5BKh97OHBeT4b3mQAtfXsXk2iB/1x0pf2K4A+34iHH3UgP21xGYiAY=
+	t=1776927835; cv=none; b=rF/qiqL4olVyRpmBf0TdYbvREgWA8Icpl65xk43WOxg6X+Zynn0JBI8fFWE1a6clb5B4EIh8rYYFr2rC9t+zn1gopAVQsYXSfax7HQH+RbGw1lmM7VRFwbduDa5Gzo1gpPbfzhWB96iLT5S8hAZRpVIqhmZehvMdOOjotYOeiT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776926676; c=relaxed/simple;
-	bh=a6QjDIcG+MNRslYuicUkt1Lo6d6Qm21OW4DL9DFKgo8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fr8AqYo32mltQIxG/7RB4DhQ4fMWC3L8m4UCkhGY0HEgXm8zPaWDqnVDgAhk9XdGeN2R/9NhI8o2/i+d6uM6aTOR37q8So5TK5+xId463Tefd0yGJ05oblwpdoVTCBha9m5A1zp/Cgw9/2LfngRtoqeRmX9QMwh9lOQaueYtNKI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: ddba2c2a3edf11f1aa26b74ffac11d73-20260423
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:4b837fcc-50c0-4736-ab4c-5077a8193eb0,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:e7bac3a,CLOUDID:565c0af75e520843594703ff107d84fe,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|898,TC:nil,Content:0|15|
-	50,EDM:-3,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OS
-	I:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_ULS,TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: ddba2c2a3edf11f1aa26b74ffac11d73-20260423
-X-User: liwang@kylinos.cn
-Received: from [10.42.16.85] [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <liwang@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
-	with ESMTP id 366083788; Thu, 23 Apr 2026 14:44:24 +0800
-Message-ID: <7f435631-931a-43a7-b1e5-e736c5527459@kylinos.cn>
-Date: Thu, 23 Apr 2026 14:44:21 +0800
+	s=arc-20240116; t=1776927835; c=relaxed/simple;
+	bh=YLYU8XfQw1ShZha/3LAE4XUUIXuxyEoIlVbIlIaxSrc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hwTjl1WOFKlsPEBY/0rAAxymOntAALfcQwz4m94hoYVkVlnrs8gmkOaBO898aS8wqZLaAd4q7vs2i/1AVSXOhidltPwkYyRmHn5P2kURv7IGwTmeSeBT5s8Q5f1ziuXQVmQfUfFB4F2EveY0AqzTFAWYi2RIKCBhvoWDwtV4TS8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=AiiMhJ+j; arc=none smtp.client-ip=117.135.210.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="AiiMhJ+j"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=jZ
+	DM/MPL4KN6SxEBTt3RvBNteI30ONR7LBkpXjDMaaU=; b=AiiMhJ+j81wG8sn4bM
+	4ZDGVAZgWngP+KlsjXQ7XrX+M05XmiiiJcVOR58ChQdRzSe4XzI/9U94gdOVzZmF
+	8qQ+VCg3M7EFg3XSpxSULncLe4zPXaCpIaPa+tAQA9u/ZNZJ3JXss2Ym0xSrWhkb
+	oB1Zrp/J72GkpPnu7oxqGR+qY=
+Received: from liubaolin-VMware-Virtual-Platform (unknown [])
+	by gzga-smtp-mtada-g0-1 (Coremail) with SMTP id _____wBX_3mswulp1DMzBQ--.23039S2;
+	Thu, 23 Apr 2026 14:56:45 +0800 (CST)
+From: Baolin Liu <liubaolin12138@163.com>
+To: corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	surenb@google.com,
+	cyphar@cyphar.com,
+	witcher@wiredspace.de
+Cc: linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	liubaolin12138@163.com,
+	wangguanyu@vivo.com,
+	Baolin Liu <liubaolin@kylinos.cn>
+Subject: [PATCH v1 v1] Documentation: proc: fix ext4 section numbering in table of contents
+Date: Thu, 23 Apr 2026 14:56:42 +0800
+Message-ID: <20260423065642.11218-1-liubaolin12138@163.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fuse: fix kernel NULL pointer dereference in
- fuse_uring_add_to_pq()
-Content-Language: en-GB
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Bernd Schubert <bernd@bsbernd.com>,
- fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260422103603.4554-1-liwang@kylinos.cn>
- <CAJnrk1bfCM3kF83mA5z4iPcw+w1_MHbrF4X2K7kLNRagtPD=XQ@mail.gmail.com>
-From: Li Wang <liwang@kylinos.cn>
-In-Reply-To: <CAJnrk1bfCM3kF83mA5z4iPcw+w1_MHbrF4X2K7kLNRagtPD=XQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wBX_3mswulp1DMzBQ--.23039S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7WFWfGF17KFyUur1xAw45Awb_yoW8Xry8pF
+	WrAr1agw18GF1UWw17Ar4xWrW7Aa4Ika1jqa9F9r1ftrn8Z3sa9w13t3W5AFy8GryrAayF
+	qFs7Kryavr47AF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pimhF7UUUUU=
+X-CM-SenderInfo: xolxutxrol0iasrtmqqrwthudrp/xtbC6Q2we2npwq28-AAA3A
 
-Hi Joanne,
+From: Baolin Liu <liubaolin@kylinos.cn>
 
-On 23/04/2026 03:18, Joanne Koong wrote:
+Commit e24ccaaf7ec4 ("block: remove last remaining traces of IDE
+documentation") removed the IDE section but left its table of
+contents entry behind.
+Fix the stale entry and renumber the following sections.
 
-> 
-> Thanks for testing/reporting this! This lgtm but afaict, the patches
-> in that patchset aren't finalized yet so imo it'd be cleaner if this
-> gets folded into the original patch [1] instead of being its own
-> separate commit.
-> 
-> I think using fuse_pqueue_alloc() ends up being a tad bit cleaner
-> 
+Fixes: e24ccaaf7ec4 ("block: remove last remaining traces of IDE documentation")
+Signed-off-by: Baolin Liu <liubaolin@kylinos.cn>
+---
+ Documentation/filesystems/proc.rst | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-Thanks for the feedback. I'm fine with either way (fold or split), 
-and I will follow your suggestions and send out a v2.
-
-Thanks,
-Li
-
-> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-> index 5abf447e9710..e467b23e6895 100644
-> --- a/fs/fuse/dev_uring.c
-> +++ b/fs/fuse/dev_uring.c
-> @@ -277,7 +277,7 @@ static struct fuse_ring_queue
-> *fuse_uring_create_queue(struct fuse_ring *ring,
->         queue = kzalloc_obj(*queue, GFP_KERNEL_ACCOUNT);
->         if (!queue)
->                 return NULL;
-> -       pq = kzalloc_objs(struct list_head, FUSE_PQ_HASH_SIZE);
-> +       pq = fuse_pqueue_alloc();
->         if (!pq) {
->                 kfree(queue);
->                 return NULL;
-> @@ -295,8 +295,8 @@ static struct fuse_ring_queue
-> *fuse_uring_create_queue(struct fuse_ring *ring,
->         INIT_LIST_HEAD(&queue->fuse_req_bg_queue);
->         INIT_LIST_HEAD(&queue->ent_released);
-> 
-> -       queue->fpq.processing = pq;
->         fuse_pqueue_init(&queue->fpq);
-> +       queue->fpq.processing = pq;
-> 
-> after exporting fuse_pqueue_alloc() into fuse_dev_i.h
-> 
-> Thanks,
-> Joanne
-> 
-> [1] https://lore.kernel.org/fuse-devel/20260416091658.462783-32-mszeredi@redhat.com/
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index 7ce02573a3d9..70db35987ee1 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -23,13 +23,13 @@ fixes/update part 1.1  Stefani Seibold <stefani@seibold.net>    June 9 2009
+   1	Collecting System Information
+   1.1	Process-Specific Subdirectories
+   1.2	Kernel data
+-  1.3	IDE devices in /proc/ide
+-  1.4	Networking info in /proc/net
+-  1.5	SCSI info
+-  1.6	Parallel port info in /proc/parport
+-  1.7	TTY info in /proc/tty
+-  1.8	Miscellaneous kernel statistics in /proc/stat
+-  1.9	Ext4 file system parameters
++  1.3	Networking info in /proc/net
++  1.4	SCSI info
++  1.5	Parallel port info in /proc/parport
++  1.6	TTY info in /proc/tty
++  1.7	Miscellaneous kernel statistics in /proc/stat
++  1.8	Ext4 file system parameters
++  1.9	/proc/consoles - Shows registered system consoles
+ 
+   2	Modifying System Parameters
+ 
+-- 
+2.51.0
 
