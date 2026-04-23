@@ -1,130 +1,170 @@
-Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76E2C2EC086
-	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Apr 2026 22:48:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776984520; cv=pass; b=UtHanMyfpS4myx+cDB15Iznc3SzSXQkvbS78doCW/UqC74WkqZtOEhKmNuw2hFC+nvnVNxR7cUrapVBWoNW+XnYYVSjicKrFmNW58vZ0HxNjcXLv/04NUL8NJT0apeGR2Nbg0VB773baKBMry75dYX1AIxqGrNGzFWZcufrwj1U=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776984520; c=relaxed/simple;
-	bh=PBzYzzed0a2OR9Q/3+hlr1GpG5Ca8dqomaAx33odVBg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OokEes/VjooPB0MpzG7YXcSuVx+Q6btEvX8dCpileFhLtSYwU6MVVsEAHbc3bejL16cj6Mmh8CWCeVH5/mouH9tAyyrdN7t1aXz8fxnph3yW4W09Wcg49Rrnmh/Y+mWYSzm0nK3jWg9MeVOQboaPZ+1eVOa5adtWUthas6Mu+XA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=JZKA2GuO; arc=pass smtp.client-ip=74.125.82.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E916637C0E2;
+	Thu, 23 Apr 2026 23:54:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776988486; cv=none; b=kjGPu0dhWSmhwSXBGAEWLGbcH1ABKdQ8D0aDgV+b7ROU3dn03qVqFc6GRVneYrY+L9C+eoXpo4KEN12eNPhpcpaNXHEzalP894kWhz8hjEa2+uSqT/6/POYH3e3PYDDujQbtNVbLek/tBS8BANMWoFBbYchOPzcVo94AKX9+fCI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776988486; c=relaxed/simple;
+	bh=nagBPIpdRQa10G3bzPDgD2eBKZdrwZkzTPtDAzYbtOQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LBqj3RO70se2xDb7RCI18XcGNGA28XsiljIYjk3dLhTMgmpqdxqxQgl8ZkgwwESlX09lWA/EDqPwfIRHfnb1oOixo09wGiT9UQcYqFHpVBBLEskGRc3RvRPu+BxSr4RAmwoY7Ht/4otqveEvf2VTYK4NHO20iKyRyjXSPL44LNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=BqBqBWtJ; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JZKA2GuO"
-Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-126ea4e9697so58172c88.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 23 Apr 2026 15:48:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776984518; cv=none;
-        d=google.com; s=arc-20240605;
-        b=aaJP5k/ULbs86v6dVY7JAVoOjSsUOGmbMFKp7wWcx2PFqYY9eKimcJ/NLCGVH7v5QU
-         dS2RJ9LPpTiAJQckQ95Olr911FCc2w0e1nhx3FyBHBnds1k+YRA0AcLaoKXPJWqGZRTp
-         kcNSycwp52169nYIeAeI+7Isig2syXNMmyrAgTDuBhP420+IatIs/eftEXs2+zL3gls4
-         jw97BI39YzDtjaiUpSfJgJz2rvlJ2aDPfpR4Wcg3KgWdU2D6SUaJg8Lbc5lAqxl6gRur
-         9vohLLmOmnG0grarMqLzNFsCqVMRV7QbSqjrli17bEWcaOWg39YlBxpM2vBihjdPlo2Z
-         3Scg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=zdpbEPr8sE7aTSdr+qiHK/yc7hLSV1LYoXL5XQUQfyE=;
-        fh=ZU/ZWQCXh9BqdR7wrgzhuv3Ysm2CfBCtRQIybfVcj9c=;
-        b=gUmAH+P42OycFq/YyYKVKCoN2jluY85qykKHu8qQzp8k/Lbw0E7C2rqGufGh+C0gsZ
-         YlBvjjlQ7m1OZRjq6b8xlau7GexpMGlU/B9mGOv0fApNbBwxt23lspu62DpDQlZ7l+gy
-         dnBXSCMubeu8sR4zZE2s5HAZPeTkWl45PBGssA/LKaQ7iTxcAFVqIN4WuPPuY7lFDcMu
-         tFmVDeqFVKa26cJ9Mcw2DpUy3XOOspmufKqqOfH3DnxJjPsLJ0IOU+jvJ9BSEri4tctl
-         204CHc6mqiG3savwYIlEIigSj1SvTSNcLPKgmrJkzkDuDR2+2ftg7uhjnGpqhw1srDJl
-         hBxQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1776984518; x=1777589318; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zdpbEPr8sE7aTSdr+qiHK/yc7hLSV1LYoXL5XQUQfyE=;
-        b=JZKA2GuOpdqkqOluxiB5Soy2AuCeE76DgnrsgFkfss7CRXJ4vQiYPtIDFLRrgQZPda
-         1oRfblFW/qXYw4JriL3BPHmOfpoxWfl8TEOQlwk5YZ8QvhMcUTimY5U2JLunFd/3eEdV
-         X2nIAmMK1PhUHl9pcTv/GwC5WAkF0DOV9Oi5d9sCDMt/aKGHl/OI9LLlbmI4SKGQ66r7
-         q3uNNYujF9XUrZzxmpxOBq4gbDTqM4FhtM917AF816zX/F3oI79OQcbPu+ZqeTl6wOXp
-         h6UqfW/dDF/XWDJfxl7YqQSRXCgKp5DhwCHXBvi6/fV9N+OONbFIMnYgDgm7qhH9tzNP
-         QcXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776984518; x=1777589318;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=zdpbEPr8sE7aTSdr+qiHK/yc7hLSV1LYoXL5XQUQfyE=;
-        b=ic9biJOH1nt4az0vfs0rkOVCr01yrHyyoYyQrvnKFW4tWaRmeAjyFEl0Ub4fKKvACI
-         oRKbt6EBlOFk2z+c7MpEdfYSZrYpSDMZ/J5HHkouROozjcSU46ZGCTPF+BJCzbJU6tZb
-         D2SxZjDfW5SYbMJhP012xDWW4efU+2lO5+ajqZ5EoC5GoIFK38G0fj4rGtNsoj6OtZ1X
-         g0oB7EzxkZ4v8stVBz9LDlyNcXph0U5VnHbO+wzcNeGO9YexqCkOimBj9N5qx/y3zckJ
-         Y8EoNPK13quCZmWQh/rSPWyQRcgksfAOMgIv1RJIiC5WoHWLG4qvJjmn5E0RhmvTrri1
-         SX/g==
-X-Forwarded-Encrypted: i=1; AFNElJ/P+IawzaR03cuEZ+uMofpR4hV4FYHFzgcwKR3YxV8QO0f8MjhaclFRY+qmaypW4/2nVv0x9HlIolSKB2TJ@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxg76HA/3GHRGJHtW+PaKa7REZY+zVcEd1122kHljg9tDtuvnF2
-	3zXlZAtc2oOYOJoPhBAZAJhOLgiiVZMOIY/DNwj5uJxE8rs/eitDguEunzgy3Tk2DKBB1kpKDIX
-	BHdfpzC+kfyoV3B3eXQct4rJx1MeyaVRMNTWHg3b5
-X-Gm-Gg: AeBDiet6lWJmUr2JxKU89Gh5MYyxLWsE/kVL+0wL3mVhDdgzbYEY26/BJUIKMiMX3L1
-	/ifqcJA7X/FixR3twdrPEKV4kH4/GjXSrkI/PhJC6EiqufLS6TfC4n8vb8lyyHtEoqFm0cEyw6/
-	omGPoTXhvL+OeQLYK0s62nlOIq6izpmZFT0/fb7RGbAaTBbnCHr9DK6vNoRhp+y932UDwft1V+2
-	+YIEzIL8UQ3rJz3G9/8PqYeWpFVZDH8XvVKxJ4s5CxgWkK6zzO3C8YjyXvo68xZV8gIl9VOO2Eo
-	y5KHk/de1xltUzHJhSHRQWNM+V8yBTDwPFY/72X26M9WswGh3x8Pp3qEink=
-X-Received: by 2002:a05:7022:6b9d:b0:12c:61fe:fb37 with SMTP id
- a92af1059eb24-12c7b258b49mr945598c88.17.1776984517927; Thu, 23 Apr 2026
- 15:48:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="BqBqBWtJ"
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63NILGAX3229030;
+	Thu, 23 Apr 2026 23:54:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=NyZUs9RcJWsPCXqiAFbbwt3NY3+KB5
+	ydyk2N2aDclQU=; b=BqBqBWtJ51aKRs1v1ejXoCLyzZgFsyCqN2peRL7cjd/J0c
+	rxnuxZgILW8vlzeRiigp1Y9kgbQhmcInD5fWdDx+43KAiXj1KIJzPE4OoEL6U3eO
+	b7Qqj9pOacGXuouO/Wy2hrH6I7L0sYdmMPUwr8KXI8KSTAipYBorE0u0NQg4149W
+	4x+HL7LGhnBybCjBt4UHM+Zd/cwG7INdnkjPHF9T90c4QzJn0YG/fpfEp5F8HceE
+	XDpjly+wE4fqyG4UlPs502Ax72WLIgeVsMpJDaJcJZXQxhsov99lT3X3HmYJfHLp
+	e8cMe7s2g1918VKiXuokZjo5G+gmF3EmGWivI/mQ==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4dpeu2b9cm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 23 Apr 2026 23:54:09 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 63NNoWoH006542;
+	Thu, 23 Apr 2026 23:54:08 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4dpjkyrpxx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 23 Apr 2026 23:54:07 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 63NNs54142533294
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 23 Apr 2026 23:54:06 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E2F4120043;
+	Thu, 23 Apr 2026 23:54:05 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id C0A0220040;
+	Thu, 23 Apr 2026 23:53:59 +0000 (GMT)
+Received: from li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com (unknown [9.124.219.54])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Thu, 23 Apr 2026 23:53:59 +0000 (GMT)
+Date: Fri, 24 Apr 2026 05:23:56 +0530
+From: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+To: "Pankaj Raghav (Samsung)" <pankaj.raghav@linux.dev>
+Cc: linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        djwong@kernel.org, john.g.garry@oracle.com, willy@infradead.org,
+        hch@lst.de, ritesh.list@gmail.com, jack@suse.cz,
+        Luis Chamberlain <mcgrof@kernel.org>, dgc@kernel.org, tytso@mit.edu,
+        p.raghav@samsung.com, andres@anarazel.de, brauner@kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [RFC PATCH v2 0/5] Add buffered write-through support to iomap &
+ xfs
+Message-ID: <aeqxFKaw1uOk1GuZ@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+References: <cover.1775658795.git.ojaswin@linux.ibm.com>
+ <4og3axdvzyfpfx4o2rhcnwdsggha2kfoerausxx52vd6jc2hzq@u72iwxrxxble>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260422005608.342028-1-fmayle@google.com> <aei_d5KMKmLhMx3S@casper.infradead.org>
- <qmojyvlsbjcgavnecbvfwax6o3d7edzifpxp7raxbevbfcxtbi@mox2z7njeodb>
-In-Reply-To: <qmojyvlsbjcgavnecbvfwax6o3d7edzifpxp7raxbevbfcxtbi@mox2z7njeodb>
-From: Frederick Mayle <fmayle@google.com>
-Date: Thu, 23 Apr 2026 15:48:26 -0700
-X-Gm-Features: AQROBzBKmc7DAAss2RftthMElY3qEGGKztQAKz3HOJbiVkmJ3gzR2XQMGvOzSpA
-Message-ID: <CAHCxdc6BUtT6Ozdpas0+7abksrR6hM17BNzz4=rsiTka0vxVGg@mail.gmail.com>
-Subject: Re: [PATCH] mm: limit filemap_fault readahead to VMA boundaries
-To: Jan Kara <jack@suse.cz>
-Cc: Matthew Wilcox <willy@infradead.org>, David Hildenbrand <david@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Kalesh Singh <kaleshsingh@google.com>, Suren Baghdasaryan <surenb@google.com>, android-mm@google.com, 
-	kernel-team@android.com, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4og3axdvzyfpfx4o2rhcnwdsggha2kfoerausxx52vd6jc2hzq@u72iwxrxxble>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-GUID: -nl9_K83Kzn9u7skxJWMWCIcGNgHNF2y
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDIzMDIzMiBTYWx0ZWRfX8PqZYRV+bedE
+ hsO8a0m/D+pucfImoyw014nW7oP3jzKYYaf/TJtc3eSY/OQDD2dHyzcMinGRcTvyx4AI/HscdrA
+ p6JdEScmepGWWYATYuSuYP5oAtI8JCrZljnfhdEr1SIR+24Ob+ukLdx467L3sCAU5A1avxqqahM
+ CIQTvlp8CHdZQz2r+Mpf9151cRifjBS19KhBBZQ8y3kuQelXKdcjebdPlU6+wJrIUZ2b7nPZid3
+ ykimUKZl+JP8dwj+rJhitIMXjgDWR9OChwNdNraC9nJn5ssDS463sEyEs9BlBGspEKmLLJdeXQ3
+ nNPlZfjYoGhblrIEJozMXrBt11OOVreHNqOPudQkkODpYFeFNwhp2Pf1kDYtZZ9QHzErdUIP7Df
+ 1tlNGeRk8vpIBTQ7A5tIMmEviO3GjF/QASiwui4MiNMan2zREeDVQSFV8ZhxSXMzQwH5OaU3v37
+ kV0SqKEpDdb/zb9x3mw==
+X-Authority-Analysis: v=2.4 cv=C8LZDwP+ c=1 sm=1 tr=0 ts=69eab121 cx=c_pps
+ a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+ a=kj9zAlcOel0A:10 a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=NEAV23lmAAAA:8
+ a=rsA8cc2tDGwubhWhQn0A:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-ORIG-GUID: id_LFKqk8OLTXWmlKq-3TLgzfsarewvz
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-23_03,2026-04-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 suspectscore=0 priorityscore=1501 malwarescore=0
+ lowpriorityscore=0 clxscore=1015 bulkscore=0 impostorscore=0 spamscore=0
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2604200000
+ definitions=main-2604230232
 
-On Wed, Apr 22, 2026 at 5:56=E2=80=AFAM Jan Kara <jack@suse.cz> wrote:
->
-> On Wed 22-04-26 13:30:47, Matthew Wilcox wrote:
-> > The problem is that we might (for example) use mprotect() to mark a
-> > portion of the file as being unmodifiable, but nevertheless still want
-> > to prefetch through it (since it will be read, just not written).  I'm
-> > sure this solves your problem, but I'm not sure it covers all use cases=
-.
->
-> Well, I'm not sure whether all the usecases are covered either but is wha=
-t
-> you describe above something you'd expect people to commonly do? In gener=
-al
-> sequential reading through mmap seems to be already relatively rare...
+On Thu, Apr 23, 2026 at 02:25:43PM +0200, Pankaj Raghav (Samsung) wrote:
+> > 
+> > 
+> > * Testing Notes (UPDATED) *
+> > 
+> > - I've added support for RWF_WRITETHROUGH to fsx and fsstress in
+> >   xfstests and these patches survive fsx with integrity verification as
+> >   well as fsstress parallel stressing.
+> > - -g quick with blocks size == page size and blocksize < pagesize shows
+> >   no new regressions.
+> 
+> I am hitting a very strange error in generic/127. I deconstructed it in
+> to two commands that can reproduce the issue:
+> 
+> ```
+> $ dd if=/dev/zero of=/media/test/fsx_lite_nommap bs=262144 count=1
+> 
+> $ /root/home/xfstests/ltp/fsx -l 262144 -o 65536 -S 191110531 -N 100000 -L -R -W /media/test/fsx_lite_nommap
+> mapped writes DISABLED
+> Seed set to 191110531
+> main: filesystem does not support exchange range, disabling!
+> main: atomic writes need O_DIRECT (-Z), disabling!
+> short read: 0x0 bytes instead of 0x6c7f
+> LOG DUMP (1 total operations):
+> 1(  1 mod 256): READ     0x39381 thru 0x3ffff   (0x6c7f bytes)
+> Log of operations saved to "/media/test/fsx_lite_nommap.fsxops"; replay with --replay-ops
+> fsx: save_buffer: .fsxgood file too short... will save 0x0 bytes instead of 0x40000
+> : Operation not supported
+> Correct content saved for comparison
+> (maybe hexdump "/media/test/fsx_lite_nommap" vs "/media/test/fsx_lite_nommap.fsxgood")
+> ```
+> 
+> This is on a bs == ps (4k block size) xfs filesystem.
+> ```
+> $ xfs_info /media/test/
+> meta-data=/dev/nvme1n1           isize=512    agcount=4, agsize=2097152 blks
+>          =                       sectsz=4096  attr=2, projid32bit=1
+>          =                       crc=1        finobt=1, sparse=1, rmapbt=0
+>          =                       reflink=1    bigtime=1 inobtcount=1 nrext64=0
+> data     =                       bsize=4096   blocks=8388608, imaxpct=25
+>          =                       sunit=0      swidth=0 blks
+> naming   =version 2              bsize=4096   ascii-ci=0, ftype=1
+> log      =internal log           bsize=4096   blocks=16384, version=2
+>          =                       sectsz=4096  sunit=1 blks, lazy-count=1
+> realtime =none                   extsz=4096   blocks=0, rtextents=0
+> ```
+> 
+> The same test passes if I pass `-G` to fsx parameters(disabling writethrough).
+> 
+> The error is coming when we do a read operation which feels very
+> strange. Could you run this in your setup and see if you can reproduce
+> them? I still do not know where the issue is coming from or it is
+> because of my test setup.
 
-I'm curious if anyone knows of a use case like this. I'd think that, if a u=
-ser
-is making heavy usage of mprotect, they'd be advance enough to be a step aw=
-ay
-(or a few steps beyond) wanting to manually trigger readahead with madvise =
-or
-similar.
+Hey Pankaj, I think the xfstests branch I shared might have been missing
+one small fix that can cause this issue. I've update the branch with the
+fix, can you give it a try:
 
-In recent history, commit 38b0ece6d763 ("mm/filemap: allow arch to request
-folio size for exec memory") disabled readahead for VM_EXEC mappings and th=
-ere
-doesn't seem to have been pushback yet. Of course, non-exec mappings almost
-certainly have more varied uses.
+https://github.com/OjaswinM/xfstests/tree/iomap-buf-writethrough2
+
+Regards,
+Ojaswin
+
+> 
+> --
+> Pankaj
