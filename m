@@ -1,83 +1,156 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 711731E89C;
-	Thu, 23 Apr 2026 02:04:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 021A83A7F61
+	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Apr 2026 02:43:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776909901; cv=none; b=rq3nobi6WJfN4lKSjrMAquDhfxri+/GGdLhJlpzVo0szlwni2bL/iAUQif0I6TTjSFmdOUBwI4jLb5PuSL4biIbr1PO2sAUjkra8vROUzfK7oA8g6mbd+eC75vQB6DjMLUopwlI1TRJtDPqiAiYzyZhsEzKRErX7daVJH9r86lo=
+	t=1776912234; cv=none; b=fZYhzgnTu1pqfZjvfjCSpw0hUFgB2Aa16wweFgWecXYLEG0Sw/xAF61ZaACz4JU92prF9b/zaQJJwcqvi+5NGcKEL1ho2qGwsoeec7gwdsZ+36ZdyteKrh4EyOTZh34qref25Y7zJdmLkDnYSERal/eARW8Wqz/pdt1uD9oYobc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776909901; c=relaxed/simple;
-	bh=KejzeyKLH/tRD9KJfKqVfAUqNjuhUZ4uz5vP1O5fZPs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=N2eLbVE8Sv7wBP04w14+uggiemVC6dsKTG+b8DLEPRfnUQzzEjGwcwnCb5COuBJH2OEQYiIVIhWL5qC/KUglzwJoTK+PzUlRlaoFElWnUrhG9JIhZ+MFcGGZYIsmooimnxm5xBXPBbIh3H/nh/6xlkle4damAx+Xkay8PlJHYis=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: d1c4cf463eb811f1aa26b74ffac11d73-20260423
-X-CID-CACHE: Type:Local,Time:202604230952+08,HitQuantity:1
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:7c4f08a1-bc88-4d97-b9c0-49e2f3e1a639,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:e7bac3a,CLOUDID:7b62465d7524e2479d0233267941e3d4,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|898,TC:nil,Content:0|15|
-	50,EDM:-3,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OS
-	I:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: d1c4cf463eb811f1aa26b74ffac11d73-20260423
-X-User: liwang@kylinos.cn
-Received: from [10.42.16.85] [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <liwang@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
-	with ESMTP id 884005677; Thu, 23 Apr 2026 10:04:53 +0800
-Message-ID: <2088c32d-e01f-4553-b4ab-eb69739878e5@kylinos.cn>
-Date: Thu, 23 Apr 2026 10:04:51 +0800
+	s=arc-20240116; t=1776912234; c=relaxed/simple;
+	bh=f5Ela3h3SmwpTpGrcI9Z0tlKA/R88o+MOdI07JVimvc=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=PVjLSwJ4KLJbCgzJm36kX/tqP0mfTks6WIAUWXHbac1Ip9d/7N9ss9njpgq5izc34egJAOyh69mP7dfp4MWulqTsJMlGD3g7LU1bc5KEPIpIzoEcX84Rnm32RY6Ui3r9ZO0Tl6jzSajCYcsauq3jmlwBU904a58ct2205vnrABQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=dbVPz/70; arc=none smtp.client-ip=91.218.175.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="dbVPz/70"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1776912219;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lMukq5Ux3ezv5Tyfl0FoaOXQcgnvMJcY/OsebFof9qE=;
+	b=dbVPz/70tYHnFMXxFY25JlFErOfD2J4+flnFzZWIC+GFQLAapotxsFxlAWVXDzN/3tqSgp
+	7ZkBqd9Q4CRT3BAfi8roSgJ3+PwfRM3RTMma7KOb7LXwjYwl89WkYLG6UjTE0BMSSNEtUh
+	o25vpDGVCfCldSri1nd6fxpGOgDUlW8=
+From: Lance Yang <lance.yang@linux.dev>
+To: ziy@nvidia.com
+Cc: willy@infradead.org,
+	songliubraving@fb.com,
+	clm@fb.com,
+	dsterba@suse.com,
+	viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	jack@suse.cz,
+	akpm@linux-foundation.org,
+	david@kernel.org,
+	ljs@kernel.org,
+	baolin.wang@linux.alibaba.com,
+	Liam.Howlett@oracle.com,
+	npache@redhat.com,
+	ryan.roberts@arm.com,
+	dev.jain@arm.com,
+	baohua@kernel.org,
+	lance.yang@linux.dev,
+	vbabka@kernel.org,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	shuah@kernel.org,
+	linux-btrfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH 7.2 v3 01/12] mm/khugepaged: remove READ_ONLY_THP_FOR_FS check
+Date: Thu, 23 Apr 2026 10:43:24 +0800
+Message-Id: <20260423024324.51588-1-lance.yang@linux.dev>
+In-Reply-To: <20260418024429.4055056-2-ziy@nvidia.com>
+References: <20260418024429.4055056-2-ziy@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fuse: fix kernel NULL pointer dereference in
- fuse_uring_add_to_pq()
-Content-Language: en-GB
-To: Bernd Schubert <bernd@bsbernd.com>, Miklos Szeredi <miklos@szeredi.hu>
-Cc: Joanne Koong <joannelkoong@gmail.com>, fuse-devel@lists.linux.dev,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260422103603.4554-1-liwang@kylinos.cn>
- <4ff484d8-c1a3-4828-b500-796f4fb8790c@bsbernd.com>
-From: Li Wang <liwang@kylinos.cn>
-In-Reply-To: <4ff484d8-c1a3-4828-b500-796f4fb8790c@bsbernd.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-Hi Bernd,
 
-On 22/04/2026 19:39, Bernd Schubert wrote:
+On Fri, Apr 17, 2026 at 10:44:18PM -0400, Zi Yan wrote:
+>collapse_file() requires FSes supporting large folio with at least
+>PMD_ORDER, so replace the READ_ONLY_THP_FOR_FS check with that.
+>MADV_COLLAPSE ignores shmem huge config, so exclude the check for shmem.
+>
+>While at it, replace VM_BUG_ON with VM_WARN_ON_ONCE.
+>
+>Add a helper function mapping_pmd_thp_support() for FSes supporting large
+>folio with at least PMD_ORDER.
+>
+>Signed-off-by: Zi Yan <ziy@nvidia.com>
+>---
+> include/linux/pagemap.h | 10 ++++++++++
+> mm/khugepaged.c         |  5 +++--
+> 2 files changed, 13 insertions(+), 2 deletions(-)
+>
+>diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
+>index ec442af3f886..c3cb1ec982cd 100644
+>--- a/include/linux/pagemap.h
+>+++ b/include/linux/pagemap.h
+>@@ -524,6 +524,16 @@ static inline bool mapping_large_folio_support(const struct address_space *mappi
+> 	return mapping_max_folio_order(mapping) > 0;
+> }
 > 
-> I don't think this patch is right. The existing order is
-> 
-> 	queue = kzalloc_obj(*queue, GFP_KERNEL_ACCOUNT);
-> 	pq = kzalloc_objs(struct list_head, FUSE_PQ_HASH_SIZE);
-> 	queue->fpq.processing = pq;
-> 	fuse_pqueue_init(&queue->fpq); =====> INIT_LIST_HEAD() of pg
-> 
-> 
-> I need to look at Miklos' patches, I guess it sends to fuse-io-uring,
-> although that is not ready yet.
-> 
-> 
-> Thanks,
-> Bernd
+>+static inline bool mapping_pmd_thp_support(const struct address_space *mapping)
+>+{
+>+	/* AS_FOLIO_ORDER is only reasonable for pagecache folios */
+>+	VM_WARN_ONCE((unsigned long)mapping & FOLIO_MAPPING_ANON,
+>+			"Anonymous mapping always supports PMD THP");
 
-The test is based on 
-git://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git#for-next
-It seems the code ordering has been changed.
+Nit: afraid not, at least when running on architectures without PMD leaf
+entries ...
 
-Thanks,
-Li
+Maybe better to say this helper is only meaningful for pagecache-backed
+mappings. Anonymous mappings should not reach here.
+
+>+
+>+	return mapping_max_folio_order(mapping) >= PMD_ORDER;
+>+}
+>+
+>+
+> /* Return the maximum folio size for this pagecache mapping, in bytes. */
+> static inline size_t mapping_max_folio_size(const struct address_space *mapping)
+> {
+>diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+>index b8452dbdb043..3eb5d982d3d3 100644
+>--- a/mm/khugepaged.c
+>+++ b/mm/khugepaged.c
+>@@ -1892,8 +1892,9 @@ static enum scan_result collapse_file(struct mm_struct *mm, unsigned long addr,
+> 	int nr_none = 0;
+> 	bool is_shmem = shmem_file(file);
+> 
+>-	VM_BUG_ON(!IS_ENABLED(CONFIG_READ_ONLY_THP_FOR_FS) && !is_shmem);
+>-	VM_BUG_ON(start & (HPAGE_PMD_NR - 1));
+>+	/* MADV_COLLAPSE ignores shmem huge config, so do not check shmem */
+>+	VM_WARN_ON_ONCE(!is_shmem && !mapping_pmd_thp_support(mapping));
+
+With [1], can we drop !is_shmem here as well? shmem would then always
+call mapping_set_large_folios(inode->i_mapping):
+
+---8<---
+diff --git a/mm/shmem.c b/mm/shmem.c
+index 4ecefe02881d..dafbea53b22d 100644
+--- a/mm/shmem.c
++++ b/mm/shmem.c
+@@ -3087,10 +3087,7 @@ static struct inode *__shmem_get_inode(struct mnt_idmap *idmap,
+ 	cache_no_acl(inode);
+ 	if (sbinfo->noswap)
+ 		mapping_set_unevictable(inode->i_mapping);
+-
+-	/* Don't consider 'deny' for emergencies and 'force' for testing */
+-	if (sbinfo->huge)
+-		mapping_set_large_folios(inode->i_mapping);
++	mapping_set_large_folios(inode->i_mapping);
+ 
+ 	switch (mode & S_IFMT) {
+ 	default:
+--
+
+But we can do that in a follow-up, once the revert lands :)
+
+[1] https://lore.kernel.org/linux-mm/b2c7deee259a94b0d00a7c320d8d24d2c421f761.1776908112.git.baolin.wang@linux.alibaba.com/
