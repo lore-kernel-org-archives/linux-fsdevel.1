@@ -1,79 +1,107 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DC6A2FD7BC;
-	Thu, 23 Apr 2026 11:47:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0120F37BE64
+	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Apr 2026 11:48:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776944820; cv=none; b=jEZRX4N6U4Of6T4Rqv85olCudXwtyMFkPk1+WsFAacB90zofwTwxo9yBmDdZUDQ2X7Lm9EmhOAE4iJqHnVFeJgib02MFVuQn9pXtbQd1dS0N6e2ocOFCVr9MANM0q4Ih2FpKalzGTDAeejJ+rXZ35py9XRwYitoRa0IefwrluC0=
+	t=1776944889; cv=none; b=TwM8onNc24u9HA2PSJ9po1AZpX5TiSdDHAu/fNCJ6it55S203bJh/y/Rjeda98XFqg+gZiBvwrCbK9cySM5SM+ROB0pX7seBUxmt1DAp8bEXdERAVA2iq3dk5XJkbwenNKiMhmO0InfDSltp3IM6Hc93ockjzcN/ar7BjjOcCZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776944820; c=relaxed/simple;
-	bh=lAH+tMgsReb5YVC0CmXAwj1oMmvhUfKDEdN5ypoXL7A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PbCfqZ58WYHmhxLKouG736JIRBhpFGj5+wMcqZJpowuSVRvm2X1VgZeMLwnYee2XKThyGcspD/fjKZYeK1BcSZhXAlv9I5xxx3Xq4YiKsaD+6N5UK2DUPPufoMYlKTJ9pKtJk588YObOR3XDnzh7OZUoqEuKFRcDaV6/cxtYoEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VR1KrBY9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776944889; c=relaxed/simple;
+	bh=dfV1rrtI1D6Nm0m/pMzTJGZWNlzOOBnfkkvWYkg2dsw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bcutolU2c4n3ystx/lXpnUG7LTzTbeuyTpZGeJy5O8O4lnHNZXqnNfOF6stJlJgqvUWUjvlVX+xU2WMd5/XK52+fcUPEIeL6veuep5AZmJRGehBjXGv5gLn6vsaCp6LMf+cIh0g2Kshp9r5dF6GLbklO5ooMhGIURsnXpYnIjco=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=muT0p7Jk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VR1KrBY9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DA02C2BCAF;
-	Thu, 23 Apr 2026 11:46:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="muT0p7Jk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8C83C2BCB5
+	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Apr 2026 11:48:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776944820;
-	bh=lAH+tMgsReb5YVC0CmXAwj1oMmvhUfKDEdN5ypoXL7A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VR1KrBY9S+BKA8k7jOQ4sG8OyVJgAf6WtmbQeHmDYORbAMCr5fh7SpjfbTE9eZZxN
-	 rzHKzoxMGlqJJ6utbOn/T4Sg/BVYFXnKlhovHu8Hnk7nwTRdzPnxczM8ncMLTxEa6I
-	 /wlmNFzw1+ZOcQ1W26d+BcC9P5CfcCJA+EMtq0sjeFT9AB9b0m6Iv/3V0CegpKOGx5
-	 1208mxBZFaUodfH8KMVxqvI0AsIzojqJrDysFUAKn835F3B5vL8ltK63r7S484cONZ
-	 uECR5DDXheZKCldg6TyodnS/qboWOInXZISKyaXrr7Qv9jezXVe3Vx6epCT3FOHNwp
-	 CU3ro1rSzVU1A==
-Date: Thu, 23 Apr 2026 13:46:54 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-block@vger.kernel.org, linux-ide@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, bpf@vger.kernel.org, lsf-pc@lists.linux-foundation.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: LSF/MM/BPF: 2026: Call for Proposals
-Message-ID: <20260423-auseinander-steigen-b80ee53079a8@brauner>
-References: <20260110-lsfmm-2026-cfp-ae970765d60e@brauner>
- <81033e57-99e5-43f1-a6c3-c363e96f9c9f@acm.org>
+	s=k20201202; t=1776944888;
+	bh=dfV1rrtI1D6Nm0m/pMzTJGZWNlzOOBnfkkvWYkg2dsw=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=muT0p7JkwZBo34rpNYI8I4ZpXA/hYDdcGBaT3jof4Sv7XfYKWsO8Oii8ZDErfvF9Q
+	 8dvpq5rUMqYQ/7h26BI3O/cYByc5b/yEo4QGfKV0sONQ3agDE87yI81YkbPNr0ReQR
+	 peGNjHL3xpXsphDZCKMtKE/0OJxT2YuoTDRSx+kJN2FjlbqCozc842azJvn6HtRWOd
+	 0wbCIlpEZ5S9HQh96/8+yMz13HkEEu+YAN0w0Rj9NC57ssbYTGVmu7PLfCOwU/5Nu7
+	 seYUCf/FAooCOPkWaRX+BKv1bSQqTbOFgS/9ie0Lg6HvQ3E3BLFEC//pPbDLG4/6cZ
+	 4uHqqwf7ECzRQ==
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-ba67b332bbaso717850766b.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 23 Apr 2026 04:48:08 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/IQJu53Xze5DEi7ZzqZH2IKOC/YhQbbjA6A95ZrKcmta3Kp/Z9q3rTGg/Zqj75Xzh+B1gsEXBBKas1fClr@vger.kernel.org
+X-Gm-Message-State: AOJu0YzRpSr7sd+u5YPKnBZCknYbf5NsCtLqo9FdCClMYP6wnb9uYWSN
+	gse/dqMX1EVXVEe+wYudHMUKDOjzaF6Exh/TgWAeHVlTXFkUewOUMyAc2DZG8zF/X+n5367INqu
+	0J/D2+vgJISnOT8LHijKw7f9ZcTuGMPI=
+X-Received: by 2002:a17:907:6d0a:b0:ba4:a7a3:d03f with SMTP id
+ a640c23a62f3a-ba4a7a3d86cmr1316318066b.27.1776944887210; Thu, 23 Apr 2026
+ 04:48:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <81033e57-99e5-43f1-a6c3-c363e96f9c9f@acm.org>
+References: <20260422155844.1967148-1-michael.bommarito@gmail.com>
+In-Reply-To: <20260422155844.1967148-1-michael.bommarito@gmail.com>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Thu, 23 Apr 2026 20:47:54 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd9GFFdZDJBCkLvSb-EW8dELg4GYZW-FruO9WSDhBkj2iA@mail.gmail.com>
+X-Gm-Features: AQROBzC50YfhNPLrjuJAOaDwGjUpW59yBc1BS_nazfXlUonCbdwgWi0lBiMF4AM
+Message-ID: <CAKYAXd9GFFdZDJBCkLvSb-EW8dELg4GYZW-FruO9WSDhBkj2iA@mail.gmail.com>
+Subject: Re: [PATCH] exfat: fix potential use-after-free in exfat_find_dir_entry()
+To: Michael Bommarito <michael.bommarito@gmail.com>
+Cc: Sungjong Seo <sj1557.seo@samsung.com>, Yuezhang Mo <yuezhang.mo@sony.com>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 22, 2026 at 01:29:56PM -0700, Bart Van Assche wrote:
-> On 1/10/26 5:24 AM, Christian Brauner wrote:
-> > The annual Linux Storage, Filesystem, Memory Management, and BPF
-> > (LSF/MM/BPF) Summit for 2026 will be held May 4–6, 2026 in Zagreb,
-> > Croatia.
-> > 
-> > LSF/MM/BPF is an invitation-only technical workshop to map out
-> > improvements to the Linux storage, filesystem, BPF, and memory
-> > management subsystems that will make their way into the mainline
-> > kernel within the coming years.
-> > 
-> > LSF/MM/BPF 2026 will be a three-day, stand-alone conference with four
-> > subsystem-specific tracks, cross-track discussions, as well as BoF and
-> > hacking sessions. Please check out:
-> > 
-> >            https://events.linuxfoundation.org/lsfmmbpf/
-> > 
-> > for further details on the venue and hotels.
-> 
-> Thank you Christian for being one of the organizers of the
-> LSF/MM/BPF summit. Will a schedule be made available before the summit
-> starts? A link to the 2024 schedule is available at
-> https://lore.kernel.org/all/20240510212132.83346-1-sj@kernel.org/.
-
-The preliminary schedule is accessible here:
-
-https://docs.google.com/spreadsheets/d/1mGEdDrWskp7Ua91jGXzquQGinorcD58DAVXhOiRp2Gg/edit?gid=1852749899#gid=1852749899
-
-It just hasn't been liked on the website yet.
+On Thu, Apr 23, 2026 at 12:59=E2=80=AFAM Michael Bommarito
+<michael.bommarito@gmail.com> wrote:
+>
+> In exfat_find_dir_entry(), the buffer_head obtained from
+> exfat_get_dentry() is released with brelse(bh) before the fall-through
+> TYPE_EXTEND branch reads the directory entry through ep (which points
+> into bh->b_data):
+>
+>         brelse(bh);
+>         if (entry_type =3D=3D TYPE_EXTEND) {
+>                 ...
+>                 len =3D exfat_extract_uni_name(ep, entry_uniname);
+>                 ...
+>         }
+>
+> After brelse() drops our reference, nothing guarantees that the
+> underlying page backing bh->b_data remains valid for the subsequent
+> exfat_extract_uni_name() read. This is the same pattern fixed in
+> commit fc961522ddbd ("exfat: Fix potential use after free in
+> exfat_load_upcase_table()").
+>
+> Move brelse(bh) so it runs after ep is no longer dereferenced on
+> each branch.
+>
+> Confirmed on QEMU x86_64 with CONFIG_KASAN=3Dy + CONFIG_DEBUG_PAGEALLOC=
+=3Dy
+> + CONFIG_PAGE_POISONING=3Dy on linux-next, using a crafted exFAT image
+> (long filename with same-hash collisions forcing the TYPE_EXTEND path).
+> With a debug-only invalidate_bdev() inserted between brelse(bh) and
+> the ep read to make the stale-deref window deterministic, the
+> unpatched kernel faults:
+>
+>   BUG: KASAN: use-after-free in exfat_find_dir_entry+0x133b/0x15a0
+>   BUG: unable to handle page fault for address: ffff88801a5fa0c2
+>   Oops: 0000 [#1] SMP DEBUG_PAGEALLOC KASAN NOPTI
+>   RIP: 0010:exfat_find_dir_entry+0x1188/0x15a0
+>
+> With this patch applied, the same instrumented harness completes
+> cleanly under the same sanitizer stack. I have not reproduced a
+> crash on an uninstrumented kernel under ordinary reclaim; the
+> instrumented A/B establishes the lifetime violation and that the
+> patch closes it, not an unaided triggerability claim.
+>
+> Fixes: ca06197382bd ("exfat: add directory operations")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
+> Assisted-by: Claude:claude-opus-4-7
+Applied it to #dev.
+Thanks!
