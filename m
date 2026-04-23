@@ -1,98 +1,75 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B3922F6931
-	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Apr 2026 21:09:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01F7829BD8C
+	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Apr 2026 21:33:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776978594; cv=none; b=nTfKwUokEm/um82tjUWom8IC6UnVt8o8X2BQN8vNFTWtqO3JhLUwomyGERGpCA2A5LQQnlQtjRSM/Y9CEszYZSV5OZLAefY+kInXhdejZXxPq5+z6kmE+iZZ+nsFRMoS0qvJRH4JYckYjR0m72MW2y2cms0wEX26b1RU7IanAxA=
+	t=1776979998; cv=none; b=Q7/StQyG5k0cfwevEVAf498K5e4V1yKaASmw0wgMBM01GiaqD0oS2Xjir+h89L/Dyp1dYnN0tuYC/g/BXdzc20heViwmuPuZu6AaOFGTFXue8MqawSDAxtGfNiebh9gMt/nujFsTYPLctcojy2KDhvKqdIXM2gDsorIDis3me7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776978594; c=relaxed/simple;
-	bh=QMhOAg1Tph5EIXJUZJGCuoxrD35G+YiX3fNBbCa1ks4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=C9D907gMuY9h/9KLS7QAabMoSpyi4K6rGxkD2j0zhRo2aOAa3LtAfFay+Dm8ancSoURKAY3BuB2XEAkSs5V7wx1QxKuG4xqpqibb3zd32mz6Zl5v4WLwPOPOyeqEVWgJIvpbxpFEdmEwPWcnDfu3HdswHtoJAnMGGwdLhaEeTqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=gMsUpl1d; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1776979998; c=relaxed/simple;
+	bh=20g2bmSb9uKCnTGwH62A6XR3YrA3EHfz0VGGQ3CAbhA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Rl7cKlaHFIa/IFW9AZN7JdsXXtyA/Pp9naur57S6I1mJBik5ppGJD6Xm98elXFSog5FC05A3sXRCOn0pQF2YYaM4rg+BTQe/n6mpXb9lvDzBulQD33OElNb/k8uWFfE5NHI+/gcZ2GMDCVpX0vu1Tv2ic5KLEuNT+9s0AzdWDGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oLQLH0m5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="gMsUpl1d"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-ba7a1cc0380so1051353466b.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 23 Apr 2026 14:09:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1776978591; x=1777583391; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=flvI8an6GbQNr76WjrirwCQpfSDzRfN4t1QXS7wLejY=;
-        b=gMsUpl1dc83dXJ3NveGDIAlmydHENdtW7Vco0QmyzdS0oWoZd5jfhl3sTwZtNfBoVD
-         mns+ZzCQUvT9pR+GWQsROwp22tAD8SuuSzRrlEA8EwMl7v3QS/aZ0PDQt5RheOQdTHT+
-         JsmFVXi7D3Z5Xp7Lo3Q68OPsWLF98QVXAoWNo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776978591; x=1777583391;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=flvI8an6GbQNr76WjrirwCQpfSDzRfN4t1QXS7wLejY=;
-        b=pI5RoiC1E0of9uFI1/RFxO2jQt3FKeyTEdC+emWPJDMRrTOno6+i3iJK6nfoerRxxh
-         whZcmQ0MKGfwo1NfB0H3o+3kJph9F+qwvKSbCwQomSmvqu9E/UosDyt50OEuA4TGBHub
-         z7cBSX7ZwCE3qR3GSQi6IcWIcIIyZFl83g2JLvmPnhNZb/ZJjUW/lfzPfWGdWM9j4UzU
-         tasxLtQEfisSqIBTjt1T3WIrJw6Gujcr4Jg+4e0FhmM3m75RyO97cvNSJjqEOpe1EgRy
-         aJEDmMU6UBlgbVVUPfeaZga45gL4g4kQiQS8qxfea9HEbZYzDgKidXx7qQBMhcYbw+xO
-         6SGA==
-X-Gm-Message-State: AOJu0Yyv34nBYvlhXwQ8BrAIERbV4p9k4S29rQMY7DmR/zP75eMb6Shk
-	0pWlDQ9ZUj7fSVhhgTe+qngqwAFM/QjJHHGmR3xR7icFV0PzCjVEeuyGri2+wcaEHUY8XR7lArs
-	7QwcTfc0C7g==
-X-Gm-Gg: AeBDiet0rCTw/5nFu0aNQn9TN2NSSU5DoEKVaUqMV6DSeqRgQTPXrG2Ik82NKklBnnp
-	vqC9XMhAA7W7cSVIkvLQmr3XbkVGXnSOEeXLcR1eKv36L5xITw1Tsp+c0wAyi7sqUP4ypWPKTl3
-	73QCzleAkhe9QHLncALgDu05rZcprcechBESSNIOekU+L5Yrg0o2gNf+fk932j1PtCjlX70sw7q
-	E8Llr3pDlgf9yTS96+wbL+hiX0+H//nPeq7f8M6nWiP+PaInm9xI3pcgdGlLAKbhaYUJvvEOtLu
-	ZhLgKJJRR33PNIRDs5VajfOR1bq+jnlX/jEHdxOqsWIxnrFnEKWkykBr23Jg6g26y1jeA3CnfHh
-	/bVZfiyf+9EezAA71VJUvcW/mfJD6b574gNr+CTcaKVOcKZ+eMYTZRuhFWI1R3MtSKNUzMIeaNt
-	5gKpdM6x4RnDWeptDYKSqvJNDfrU6dr+Lchdo/aDx2z8Y7pg847b0H2DQK4OoRo0MCk6g5jO6kH
-	4LrS03owq4=
-X-Received: by 2002:a17:907:d87:b0:ba6:cb4c:bd3 with SMTP id a640c23a62f3a-ba6cb4c0f80mr1131790366b.11.1776978590761;
-        Thu, 23 Apr 2026 14:09:50 -0700 (PDT)
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com. [209.85.208.52])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ba4517ee077sm713738166b.18.2026.04.23.14.09.49
-        for <linux-fsdevel@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Apr 2026 14:09:49 -0700 (PDT)
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-66e8cf72a93so8607561a12.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 23 Apr 2026 14:09:49 -0700 (PDT)
-X-Received: by 2002:a05:6402:159a:b0:66f:2ea5:c269 with SMTP id
- 4fb4d7f45d1cf-672bfdc97e3mr12090026a12.15.1776978589730; Thu, 23 Apr 2026
- 14:09:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oLQLH0m5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 482BFC2BCAF;
+	Thu, 23 Apr 2026 21:33:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776979997;
+	bh=20g2bmSb9uKCnTGwH62A6XR3YrA3EHfz0VGGQ3CAbhA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=oLQLH0m5/ZswSawLH4WSum8mDEbQR3IU3xuQ8YzCKxDjqWhN61osdB+bx6MgkIp3U
+	 rWmBAhygmXZMuhcvGLjXQ+hW4RbkjvkjI2idWIIUUn8vngspe6zaPp1RbZpbE1IV+D
+	 bPCOHrDufb4RCqus4plmdvIyACRSpFRjpQ3MAgRQm8NIjV5Euyfad6Zv7SGAwE3dMi
+	 yzvmU+U+rlYpBjttt9Wtd993kRP9kz6gduUDCzT/IlrbCixD+UOZQ3LJn0qytvA7U9
+	 Zs7b83aK5zwSFkZA9+vW7XAfgY6wekpl8OucR9CRvI9Kdr0AfZC1DrWPAyGrPcglPm
+	 nBu6CwIs5CRGg==
+From: Namjae Jeon <linkinjeon@kernel.org>
+To: brauner@kernel.org,
+	djwong@kernel.org,
+	hyc.lee@gmail.com
+Cc: willy@infradead.org,
+	xiang@kernel.org,
+	hch@lst.de,
+	linux-fsdevel@vger.kernel.org,
+	Namjae Jeon <linkinjeon@kernel.org>
+Subject: [PATCH 0/2] iomap/ntfs: remove over-strict inline data check and optimize ntfs
+Date: Fri, 24 Apr 2026 06:32:01 +0900
+Message-Id: <20260423213203.5533-1-linkinjeon@kernel.org>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260423182917.GP3518998@ZenIV>
-In-Reply-To: <20260423182917.GP3518998@ZenIV>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Thu, 23 Apr 2026 14:09:33 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wh_tDKXkzoS23NMtUW9JXTOLEKo73jNNP9hfWeisXZQOA@mail.gmail.com>
-X-Gm-Features: AQROBzDzlIaZlxmU_QlBSzGANzVBeJVsnj3yckgx3K6u6PaQDATDBETcwNw9MO8
-Message-ID: <CAHk-=wh_tDKXkzoS23NMtUW9JXTOLEKo73jNNP9hfWeisXZQOA@mail.gmail.com>
-Subject: Re: [RFC] shrinking rcu_read_lock() scope in d_alloc_parallel()
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: linux-fsdevel@vger.kernel.org, "Paul E. McKenney" <paulmck@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Thu, 23 Apr 2026 at 11:29, Al Viro <viro@zeniv.linux.org.uk> wrote:
->
->         Does anybody see any problems with something like the delta below
-> (on top of current mainline)?
+This patch series aims to remove an unnecessarily strict boundary
+check for IOMAP_INLINE data and, as a result, optimize the NTFS
+driver's handling of resident attributes. The first patch removes
+iomap_inline_data_valid() and its callers in the iomap core.
+Currently, this check prevents inline_data from crossing a PAGE_SIZE
+boundary. If the filesystem provides a valid mapping, iomap should trust
+it regardless of page boundaries.
 
-My only reaction was "why do we take the dentry lock for d_wait_lookup"?
+The second patch updates the NTFS driver to take advantage of this
+change. Previously, NTFS performed redundant page allocations and
+memcpy operations to ensure page-aligned inline data. By removing
+these steps, we simplify the NTFS iomap implementation and improve
+performance for resident file I/O.
 
-I think it's because d_wait aliases with d_lru, so we have to
-serialize that whole thing, but I wish that was a bit more obvious
-from the source.
+Namjae Jeon (2):
+  iomap: remove over-strict inline data boundary check
+  ntfs: use direct pointer for inline data to avoid redundant allocation
 
-So your patch looks sane to me, but maybe add a note about why that
-in-lookup wait really wants the d_lock (which is what then make that
-path no longe ruse the lockref_not_dead thing).
+ fs/iomap/buffered-io.c |  1 -
+ fs/iomap/direct-io.c   |  3 --
+ fs/ntfs/iomap.c        | 76 ++++--------------------------------------
+ include/linux/iomap.h  | 10 ------
+ 4 files changed, 6 insertions(+), 84 deletions(-)
 
-               Linus
+-- 
+2.25.1
+
