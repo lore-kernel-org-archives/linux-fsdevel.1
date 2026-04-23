@@ -1,119 +1,107 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE7D73C6A41;
-	Thu, 23 Apr 2026 06:10:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A05AD39182A;
+	Thu, 23 Apr 2026 06:44:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776924610; cv=none; b=tq6D3FYWQ+zAfZFgAKZD2joELSiPMyM2SR4kdBUQtH0k3tI9mtkzXbKYM2Ug5f1unDMLWoqrlBILv/hLKC72ikE2WKUjygDelqfNusdcDzGmP74rio3yXdcNwp+9PouBtyBaN/iy3jWK8eSvyzhCER+yQxI+tONZApLmb3E+9JE=
+	t=1776926676; cv=none; b=fdWYOR0YyI//SD0Wm1xHzNLkomrJUU6Gh1WSyGuKPsHAeQDdRB1mdkKQAKa50O3/tTL2enqZ7pBUWolF2etyxex6GNshzMNq5zjZY257kGX0xZgKNvE8k5BKh97OHBeT4b3mQAtfXsXk2iB/1x0pf2K4A+34iHH3UgP21xGYiAY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776924610; c=relaxed/simple;
-	bh=uLosDgdLGC+hCzjBv1fjJJICon9cNjB1X5tzjUczlvA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mz36qDXYK7rAgIs8w/Q6iWALbY69FW3Aa0oFiRlGxvlHqMK3ibXVnBL1BlXZQAKUVaw9HyxS7obqMh7jPCqx1/jaK70f6lUjm74v9VNUPSZKRj9f3GP4bjfN2ipgip14144qUEp/mKZKx00rTcXQRLZ00zSO++GjJxAYDAchhXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=ztgDFe2q; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="ztgDFe2q"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4g1Qfx1GRPz9sRl;
-	Thu, 23 Apr 2026 08:10:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
-	t=1776924601;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WQAxOcn+CbXJ0CO5eO1MI50csyPPK/QKuyLgBrgsTs8=;
-	b=ztgDFe2qz7Rlakao3tS3YXBXjT7nhuKXHsZXjQEIFOQlKOiD7C52D6dODoRG9z7QxeMg4p
-	9N7zEhr+BxJX0LHNz0g23JdCTw7ED+CTrbS9lmhJ24ANrrUjbvh2ypRBWkxva0Fta2NICw
-	RNxY6yRid668mr+z5wFwyorj9jIId5IILoU/OtCrfXLRE/8Ke7qWUG03RfOo2m+ffmBFhd
-	hkwf1XAbiKOvoAKgfgHij2/t4EI5alIr00uZVLCEZP8i/IPHs/w8rw19VpusBgA1rzN67W
-	LgJ4UmDwaWg4hxeCP+jUA27wkBdcX2WUGWB2se9n9nYfoM3NHe0TQVsPy796vA==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=none;
-	spf=pass (outgoing_mbo_mout: domain of cyphar@cyphar.com designates 2001:67c:2050:b231:465::202 as permitted sender) smtp.mailfrom=cyphar@cyphar.com
-Date: Thu, 23 Apr 2026 16:09:42 +1000
-From: Aleksa Sarai <cyphar@cyphar.com>
-To: Jori Koolstra <jkoolstra@xs4all.nl>
-Cc: cmirabil@redhat.com, Jeff Layton <jlayton@kernel.org>, 
-	Chuck Lever <chuck.lever@oracle.com>, Alexander Aring <alex.aring@gmail.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Arnd Bergmann <arnd@arndb.de>, Shuah Khan <shuah@kernel.org>, 
-	Bala-Vignesh-Reddy <reddybalavignesh9979@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Wei Yang <richard.weiyang@gmail.com>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v4 2/2] selftest: add tests for O_EMPTYPATH
-Message-ID: <2026-04-23-supreme-mellow-band-wounds-xFZ0uI@cyphar.com>
-References: <20260419132202.487612-1-jkoolstra@xs4all.nl>
+	s=arc-20240116; t=1776926676; c=relaxed/simple;
+	bh=a6QjDIcG+MNRslYuicUkt1Lo6d6Qm21OW4DL9DFKgo8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fr8AqYo32mltQIxG/7RB4DhQ4fMWC3L8m4UCkhGY0HEgXm8zPaWDqnVDgAhk9XdGeN2R/9NhI8o2/i+d6uM6aTOR37q8So5TK5+xId463Tefd0yGJ05oblwpdoVTCBha9m5A1zp/Cgw9/2LfngRtoqeRmX9QMwh9lOQaueYtNKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: ddba2c2a3edf11f1aa26b74ffac11d73-20260423
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:4b837fcc-50c0-4736-ab4c-5077a8193eb0,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:e7bac3a,CLOUDID:565c0af75e520843594703ff107d84fe,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|898,TC:nil,Content:0|15|
+	50,EDM:-3,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OS
+	I:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_ULS,TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: ddba2c2a3edf11f1aa26b74ffac11d73-20260423
+X-User: liwang@kylinos.cn
+Received: from [10.42.16.85] [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <liwang@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
+	with ESMTP id 366083788; Thu, 23 Apr 2026 14:44:24 +0800
+Message-ID: <7f435631-931a-43a7-b1e5-e736c5527459@kylinos.cn>
+Date: Thu, 23 Apr 2026 14:44:21 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="7lbdvdzc3omjjgc6"
-Content-Disposition: inline
-In-Reply-To: <20260419132202.487612-1-jkoolstra@xs4all.nl>
-X-Rspamd-Queue-Id: 4g1Qfx1GRPz9sRl
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fuse: fix kernel NULL pointer dereference in
+ fuse_uring_add_to_pq()
+Content-Language: en-GB
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Bernd Schubert <bernd@bsbernd.com>,
+ fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260422103603.4554-1-liwang@kylinos.cn>
+ <CAJnrk1bfCM3kF83mA5z4iPcw+w1_MHbrF4X2K7kLNRagtPD=XQ@mail.gmail.com>
+From: Li Wang <liwang@kylinos.cn>
+In-Reply-To: <CAJnrk1bfCM3kF83mA5z4iPcw+w1_MHbrF4X2K7kLNRagtPD=XQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+Hi Joanne,
 
---7lbdvdzc3omjjgc6
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v4 2/2] selftest: add tests for O_EMPTYPATH
-MIME-Version: 1.0
+On 23/04/2026 03:18, Joanne Koong wrote:
 
-On 2026-04-19, Jori Koolstra <jkoolstra@xs4all.nl> wrote:
-> Add tests for the new O_EMPTYPATH flag of openat(2)/openat2(2).
->=20
-> Also, the current openat2 tests include a helper header file that
-> defines the necessary structs and constants to use openat2(2), such as
-> struct open_how. This may result in conflicting definitions when the
-> system header openat2.h is present as well.
->=20
-> So add openat2.h generated by 'make headers' to the uapi header
-> files in ./tools/include and remove the helper file definitions of
-> the current openat2 selftests.
+> 
+> Thanks for testing/reporting this! This lgtm but afaict, the patches
+> in that patchset aren't finalized yet so imo it'd be cleaner if this
+> gets folded into the original patch [1] instead of being its own
+> separate commit.
+> 
+> I think using fuse_pqueue_alloc() ends up being a tad bit cleaner
+> 
 
-These tests were switched recently to use the kselftests harness[1], you
-might need to rework these tests and rebase on top of vfs-7.2.msic.
+Thanks for the feedback. I'm fine with either way (fold or split), 
+and I will follow your suggestions and send out a v2.
 
-Those patches also fixed the issue you had with a custom openat2.h --
-glibc has wrappers for openat2 now so we can just use them directly.
+Thanks,
+Li
 
-[1]: https://patch.msgid.link/20260401-openat2-selftests-kunit-v2-0-ad153a0=
-7da0c@amutable.com
+> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
+> index 5abf447e9710..e467b23e6895 100644
+> --- a/fs/fuse/dev_uring.c
+> +++ b/fs/fuse/dev_uring.c
+> @@ -277,7 +277,7 @@ static struct fuse_ring_queue
+> *fuse_uring_create_queue(struct fuse_ring *ring,
+>         queue = kzalloc_obj(*queue, GFP_KERNEL_ACCOUNT);
+>         if (!queue)
+>                 return NULL;
+> -       pq = kzalloc_objs(struct list_head, FUSE_PQ_HASH_SIZE);
+> +       pq = fuse_pqueue_alloc();
+>         if (!pq) {
+>                 kfree(queue);
+>                 return NULL;
+> @@ -295,8 +295,8 @@ static struct fuse_ring_queue
+> *fuse_uring_create_queue(struct fuse_ring *ring,
+>         INIT_LIST_HEAD(&queue->fuse_req_bg_queue);
+>         INIT_LIST_HEAD(&queue->ent_released);
+> 
+> -       queue->fpq.processing = pq;
+>         fuse_pqueue_init(&queue->fpq);
+> +       queue->fpq.processing = pq;
+> 
+> after exporting fuse_pqueue_alloc() into fuse_dev_i.h
+> 
+> Thanks,
+> Joanne
+> 
+> [1] https://lore.kernel.org/fuse-devel/20260416091658.462783-32-mszeredi@redhat.com/
 
-> Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
-> ---
->  tools/include/uapi/linux/openat2.h            | 43 +++++++++++++++
->  tools/testing/selftests/openat2/Makefile      |  4 +-
->  .../selftests/openat2/emptypath_test.c        | 55 +++++++++++++++++++
->  tools/testing/selftests/openat2/helpers.h     | 40 +-------------
->  4 files changed, 103 insertions(+), 39 deletions(-)
->  create mode 100644 tools/include/uapi/linux/openat2.h
->  create mode 100644 tools/testing/selftests/openat2/emptypath_test.c
-
---=20
-Aleksa Sarai
-https://www.cyphar.com/
-
---7lbdvdzc3omjjgc6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCaem3phsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMiwyLDIACgkQKJf60rfpRG+acAD+MzJ8gjBdS8OyyO3+k/eq
-O/rBn4e07cZucqT4Sts6sA0BAON36J4FYlGbvwnWj3alP4bHRGzoGb56Uapyf7Qc
-uFkD
-=v5du
------END PGP SIGNATURE-----
-
---7lbdvdzc3omjjgc6--
