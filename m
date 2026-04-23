@@ -1,162 +1,112 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A64DB3845BC
-	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Apr 2026 16:13:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776960799; cv=none; b=kwBVVtsZuK/Fnq3KY00R8/3FT6zw4zf391wMqB8VbIbbpWlLUXvwHG/wyaLKMZ6XbZgfuWcS/G7Q3GeCBVM+kgqsHjiE6Q4082FWhZsa5AiiNUwl2U5F9+9fVm9d75JRojQMwEeiWhAj3+jHCqpdfO1R8EXxtLEMpNt7oaq8IdI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776960799; c=relaxed/simple;
-	bh=fKB6gCyOLYLrhwAUsqBd+g5sVfW+71hhyWakIaqB8Vw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=omciyZAh6cwRv1REbbtqT6SGhpo+XheJ4X+pbdNPBHEKACPL4tnOzEKAKyoc504I58YMhuEFvqs2nZWxNxmwVH4j8wP/efAYdpFeeNMHY5+Jh14D9rU4AeRRyqmYuxfVeYeKVUqzmgyShAmqfzyMJ4ClCDL5oO4ULFuFL2Nhoi4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=h8Xfq2li; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=Z//OpV5u; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 930CC366800
+	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Apr 2026 16:21:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.181
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776961266; cv=pass; b=FHmyTcQtIqOZgCzEBuOz5zwCLcMCgr5CEQlyLZeT8nKcRnkIjav/mHePEXaTV68I5/7T2yk/kfuheyeOj1WJr88ml+/vI5A7ZJ/iwN4VEoKSzvjBkv/+hGHqZvBtkJ0rueGvv5AIrHzmiD9Kr8XOXP5fA2pmE0vI1tnoPaUFxI4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776961266; c=relaxed/simple;
+	bh=ZoSklbGcCkdQVQ7cKRrY2OEl2h0RV+ReTOxDyHsdoxg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=i1RAuVQ1lEL/w09H0N/jxEN8SpQNHEG2x0PJSJiwsykrt2TknFOt9ZnMaMSOSJjVPe9BhetUeb+I11JEQTOAfr14+Yno6YYurDYLvRuQuHCsdI/xIYB7mxNaxHFvYW/IB9Gzq7s1kbcwGnGk/Y5aps1Bw9anQji8tPfL6tD7rWg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=openresty.com; spf=pass smtp.mailfrom=openresty.com; dkim=pass (2048-bit key) header.d=openresty.com header.i=@openresty.com header.b=kHL9FjDx; arc=pass smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=openresty.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=openresty.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="h8Xfq2li";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="Z//OpV5u"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1776960796;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BPpcyNNw5A670ehN8KSLpk7tEoT3MHJiCv2Fb9unNrI=;
-	b=h8Xfq2liX4Xok7NL4MrP11tHYLoduTroi1Rw5cFy50R3Uaot6fyuxYnrUUTel+E/6eRSRS
-	7oZKHpjXuLwV70WFoWw6D0XA8wMhqseY0FJ4i3HhqFD5pLjpuwV1XB2Wkzrwq1J9tsNjls
-	IfAFVYEaoV6gNu9T9UGS1qyfvdmeVPI=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-572-iC_v7kjjPqu8Ig7cp7ghjQ-1; Thu, 23 Apr 2026 12:13:12 -0400
-X-MC-Unique: iC_v7kjjPqu8Ig7cp7ghjQ-1
-X-Mimecast-MFC-AGG-ID: iC_v7kjjPqu8Ig7cp7ghjQ_1776960791
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-488d2cd2674so53128635e9.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 23 Apr 2026 09:13:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=openresty.com header.i=@openresty.com header.b="kHL9FjDx"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2ad4d639db3so35320455ad.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 23 Apr 2026 09:21:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776961265; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ciBxu5cuRV4bV4EANW3n77FSyaAXzxqbkiK6GIC3U6f3DLvE1vUNv59lznrDqEIzP5
+         sBWx2Q0dUELc5i56PFAYDZzS61KoijfTW3tGTTzf9vUMeIdEpNY7CSfwU24i2pwVjUqw
+         ndgl3Gs2kwVafcuQFgGGtAcCbTvBT5nF749RvDnEfk+oqSJLtCGl3i1/8XFvy26YnYvG
+         NQy7IUBcMPd9ZpzrxGTZd7jf5DnA37/8NwJR9Wc5ek/cLabm0uMRLMRkInS957uUcR3x
+         +1N4YORij5BiB6hPbOK3+U3wVNUxSfZ9BPc0HaDMaxkhPZbgwWSccaPx8L0/nAGAj7oY
+         lWfA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ZoSklbGcCkdQVQ7cKRrY2OEl2h0RV+ReTOxDyHsdoxg=;
+        fh=zjjH8gsJrBgZmZWIehDmRr5jpFnuWIGS4gI1JkKtnv4=;
+        b=Bt/wgJSr7FR6eEZVNiKut020siordds2il7MOjhlGwUwlE8+Il9aKKcLsp1AZKRyYW
+         tW9XX5r/O9rpqKhY1g0oZC+H+YhfLGMznba0ou88MSuFzHXwummKyY0yVKJbygvc/Kzv
+         EWxY0g3sI0XuT3Eocff3UFXxW5jZ43EuHJGTbAS3beylHn34GruVDX4gObRx7oMw4xQF
+         wt+CeWdfcfFG9P9zr7o5Z4yCjcoyXsaz/erImm/Si3T5efBKyYK+3NeCYeuStJs+gBzZ
+         oGYvNtq9ucJh0wuL6xgj4XJegE2hlNsv5E8Vhbm3vvSeKo90HO8eyVSVAIwMMLnG+qAX
+         +qcg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1776960791; x=1777565591; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=BPpcyNNw5A670ehN8KSLpk7tEoT3MHJiCv2Fb9unNrI=;
-        b=Z//OpV5ul8B0izuI4FoJqtTgeB1AiLoZdrmCkLQxbTJ8Wb8pzg+wI5tRRXIe4x27Gk
-         2sdEkWU71jw5CqtcynvlgvckWFx1awofT0Aelm9PRYFYwAl3sLc/Z0UX9YfuNMRzJvw6
-         1Gz3QPNb5dD6g5kU9RGRh94Q8K27kYx9DpDkIsF0deDU5341sRecvXNiV5ulZRANaG1b
-         kSBP6W7z5OuQadOrG3q7Q9mfxkkj0zvOHd9Hbol4LH9f99RgnviFzWz5DTxH23IR5KRi
-         xsKu8W6w7in2u8iYeNmLCPcmYU5wmjJjFCvn+WlUAOsj826W73JpfsNwV86lyutPEJet
-         ujtg==
+        d=openresty.com; s=google; t=1776961265; x=1777566065; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZoSklbGcCkdQVQ7cKRrY2OEl2h0RV+ReTOxDyHsdoxg=;
+        b=kHL9FjDxdOmwo2TuAhfEN+aL8G0frLPMdQT/gR1+ot3vRR0D+gvfMpbOY75NxFbcQj
+         WFrMWlba8UxF9iHzYsuu+aUc68D5fGlgXY22IqGfd7JFnng9Jdba1mIvg7xjBiFa37P3
+         vo48IM/4nj93g9l32XwsCgViCXIfTRqxIa8hJ7Jbsam55DdLM6cEVG1IXOC+A5G6nC0v
+         Kiyn2nSJwaP9VzqkE9WnJmDFBQ7FGolLgtp1+QPH7WrdBSqKpWqPRllTFMCQ6DtVvGcx
+         xtZVVTFwcw9w/cQCeOTHNPD6RacoVLU38JZtmRGm+pAHosL4DCRdHT9CukQpPKlGTT5D
+         ZSog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776960791; x=1777565591;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BPpcyNNw5A670ehN8KSLpk7tEoT3MHJiCv2Fb9unNrI=;
-        b=a44+uB2R05njmm3rNXrRfAx/ELcjGkTcRNLmnm7Jmtsp8UjMvb6ysafRp4A5uDt+iy
-         3XcF8MqSsmEAbvq712/y6vfNHiUM0YQUjgSK3slqC1C4msgWPjMMkr8LctWpjIEN++9s
-         1iTXcfzCZVPuUpZ1hdktbTAfqiWi/y+iHx9przZ4Z4kkqzB+93aLtsZXZLo3ubS/xRXu
-         qfhOnr/M7Y5FnUJWJeqgUmCtj20b+QSkG8DFP4pVM3cXjMJWUmxW6BgIc9ci+TBK0yD6
-         4uJfM7RhmOOSaRfetH6jpWZS/lrpMT0QOPAVHspaWP6cf0I/b7RevhYWzTYXzBWC2Phy
-         V1KA==
-X-Forwarded-Encrypted: i=1; AFNElJ9N3a/upnFEVPRad9l+cIO0PvPRlr4nfNr5CQELvnAEsYCQoD/RYl2tbf9nCvNZi6rhXkzqcTZvuC6uM/Wh@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx2TBJBr1fKLJdBTQ0cBFX9xrmrqg0B97fvA1QfOqHNxvvAFYtz
-	5OIOJNXB9qXVapY9HR/5kj4SyBhL/0az1rPk5fGFGSt3j48fbXkRjaNSpd+Tx0X883S90iVcUYY
-	RTbRFwdf1Pdj2nXXnNaDltumpvB8fpAamdwGruc0eLwYuy7pP8Dy9p592HqnsvkrXKro=
-X-Gm-Gg: AeBDiesXq60/M5sHMopEA/CWELEFmjVtaZdRWNev21Taau9ESTa0GQ3c7NmCU8lDUW9
-	0SW2NtAoXFkfMc9bWaTcwGx/UffceXo10/V08+zIyDfWPNB9RbChnMk7lRXAecDMdOTDp8+gALv
-	MYhxBbRlIe8LNK2JiXm9B6SKhjsH9AjcJHKVSel9l3z9WubEZ8dVUoivfv5ZqbT2s8pvDJOesbY
-	Xz0tE70RFsviBDc8EuQICvWJ1w46Izpk2T80N0ifx71fcOrPxCx+tb/SWAmk90+EnXGfUErUw5E
-	7/lY2mURymqx44Z39w6NtmraRy1ruKFV/Ux6n43zo2PRJSfVwRjwM9gz4aidDqK4aL0RdB+E0Cm
-	4+TMuxdNUdv+Ybf1F/CJgBOqfYgvf5qVyLjjXqRsLiHCJPIYZuTlM8A==
-X-Received: by 2002:a05:600c:1da1:b0:488:f453:b976 with SMTP id 5b1f17b1804b1-488fb7844c5mr438077375e9.27.1776960790545;
-        Thu, 23 Apr 2026 09:13:10 -0700 (PDT)
-X-Received: by 2002:a05:600c:1da1:b0:488:f453:b976 with SMTP id 5b1f17b1804b1-488fb7844c5mr438076745e9.27.1776960789978;
-        Thu, 23 Apr 2026 09:13:09 -0700 (PDT)
-Received: from redhat.com (IGLD-80-230-25-21.inter.net.il. [80.230.25.21])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4891cdfcd50sm122342895e9.9.2026.04.23.09.13.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Apr 2026 09:13:09 -0700 (PDT)
-Date: Thu, 23 Apr 2026 12:13:03 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Gregory Price <gourry@gourry.net>, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Brendan Jackman <jackmanb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Andrea Arcangeli <aarcange@redhat.com>, linux-mm@kvack.org,
-	virtualization@lists.linux.dev,
-	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
-	Lance Yang <lance.yang@linux.dev>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
-	Byungchul Park <byungchul@sk.com>,
-	Ying Huang <ying.huang@linux.alibaba.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Hugh Dickins <hughd@google.com>, Christoph Lameter <cl@gentwo.org>,
-	David Rientjes <rientjes@google.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Harry Yoo <harry.yoo@oracle.com>, Chris Li <chrisl@kernel.org>,
-	Kairui Song <kasong@tencent.com>,
-	Kemeng Shi <shikemeng@huaweicloud.com>,
-	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH RFC v3 01/19] mm: thread user_addr through page allocator
- for cache-friendly zeroing
-Message-ID: <20260423121222-mutt-send-email-mst@kernel.org>
-References: <9dd9deabd42801f3c344326991d1431c3d8db39d.1776808210.git.mst@redhat.com>
- <aekluxNPxF8CN8fL@gourry-fedora-PF4VCD3F>
- <20260422171315-mutt-send-email-mst@kernel.org>
- <aemglPlcwFFHNj1A@gourry-fedora-PF4VCD3F>
- <c165d6af-4a35-4a41-9086-ee307640c044@kernel.org>
- <20260423074433-mutt-send-email-mst@kernel.org>
- <aeohzbmhQAoOODPm@gourry-fedora-PF4VCD3F>
- <88b0765f-7cfc-4e44-83d2-c01a1755c842@kernel.org>
- <20260423104120-mutt-send-email-mst@kernel.org>
- <1ab6e58f-d984-4bae-a343-1b0d3c973ad0@kernel.org>
+        d=1e100.net; s=20251104; t=1776961265; x=1777566065;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ZoSklbGcCkdQVQ7cKRrY2OEl2h0RV+ReTOxDyHsdoxg=;
+        b=f3IYiLPPBvIsF7X/VTypYjFE37QrqwzhROExaBrP46JptWRUvON2fBn+OmRjiTYqNG
+         tspd49klcWUvqgtiJKb0FLyJx0axdp8HcDlBHLTY7DCTRddyQlt30/h+sPkcBOTsKJUO
+         hjCiVGcFX/DVlFtvkfAULgx5Z1sVmM/mBmQRKMdt+JTfqS0TCxdbXxP11LSq3QlKfbFt
+         qsuYhYV5qwJweybMRp6f/ay0d/jEa929a3zOmhedynYl/UpK2ZCwCVNd070ZBwWguUBb
+         07sZag4Y3aV4vNxXoBobE9VJSTzx+nh792x9KH78JVXHszK5J6QaQytXzf7a/dghnjJy
+         7Hew==
+X-Forwarded-Encrypted: i=1; AFNElJ8PayXJg0XOmXUkKZeJ7+HJYUa3SReh/Lh6QWWXD18C9jrfe5HeZbTVTrDHHZyOx7O1LcwblVDv6qrGh2f7@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy3b1RI+xtS2lIDfaEc4jTPs4oB1Z2jDudot3vj0BpZVATS9O9e
+	pb+RZmKfWKRqsbtY74mOJJsnrOJZgldZnikzyIWdhdf3u3dhJzc2U7Omyb4FuePvDqueAFP9Svr
+	f4pdSKr/fx/S25nPj+IU/oxPFMPK+MmztXbFnDHOHhQ==
+X-Gm-Gg: AeBDiet3Lr/GgdRH4Ees2j9nGY/OAi3QJN5Dcmw2Jbgl0zUGK7YfFU3YgEA70Oq3nqg
+	I2ligwVhbO7lpO/SGrq6tY7qnXDKtl9WIuTdjYZ96lXHU/tPokgz2Dimo8OHPVeuWO15n03HDE8
+	HV+NYCliiNB+/GrxImfk2EP+U5jA0pmjURNtCrh3Z+hZhw5OGr/dVia/yml9M1IZcs299p47+pG
+	6WJIr7k9fuoWLag7brUtwr7sWoZV2gey/GYnZZKQ6t3E++Mg3Amh8wGSEdFtbnLSL3hD6Q89GC5
+	uZq/n6ZQAZi+tEAhAiOSvBsBeknWchTt+J0x3+JFnK4sKzea273H
+X-Received: by 2002:a17:902:74c2:b0:2b0:6d33:e7c0 with SMTP id
+ d9443c01a7336-2b5f9ecaea6mr223243735ad.1.1776961264697; Thu, 23 Apr 2026
+ 09:21:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1ab6e58f-d984-4bae-a343-1b0d3c973ad0@kernel.org>
+References: <20260422152505.818254-1-ammarfaizi2@openresty.com> <aek0-rq8zX-ta6aW@dread>
+In-Reply-To: <aek0-rq8zX-ta6aW@dread>
+From: Ammar Faizi <ammarfaizi2@openresty.com>
+Date: Thu, 23 Apr 2026 23:20:53 +0700
+X-Gm-Features: AQROBzAi2UsI-20jfUWrIvnJZC15-HYlrcUx6dTprYVhDUiwBCsh8jbvltFHGwU
+Message-ID: <CA+KFgX5vp4L-NrHKDBCy+FaVEO-p-D1ReSKDv_1_hk+5cEnFhQ@mail.gmail.com>
+Subject: Re: XFS Deadlock on Linux 6.12.82
+To: Dave Chinner <dgc@kernel.org>
+Cc: Linux XFS Mailing List <linux-xfs@vger.kernel.org>, 
+	Linux FSdevel Mailing List <linux-fsdevel@vger.kernel.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Yichun Zhang <yichun@openresty.com>, 
+	Junlong Li <lijunlong@openresty.com>, 
+	Alviro Iskandar Setiawan <alviro.iskandar@gnuweeb.org>, gwml@gnuweeb.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 23, 2026 at 05:54:26PM +0200, David Hildenbrand (Arm) wrote:
-> On 4/23/26 16:46, Michael S. Tsirkin wrote:
-> > On Thu, Apr 23, 2026 at 04:13:50PM +0200, David Hildenbrand (Arm) wrote:
-> >> But really, that hugetlb code is rather messy. I'd vote for leaving hugetlb
-> >> alone on a v1, and focusing on non-hugetlb first.
-> > 
-> > I just dislike it when things are non orthogonal.
-> > People are used to: hugetlb = same perf as THP but more predictable at the cost
-> > of being harder to use and using more resources.
-> > Here, suddenly, we have an optimization but only for THP.
-> 
-> Note that we also didn't care about user_alloc_needs_zeroing() with hugetlb so far.
+On Thu, Apr 23, 2026 at 3:52=E2=80=AFAM Dave Chinner wrote:
+> Well known false positive.
+>
+> Lockdep knows nothing about inode reference counts and how they
+> interact with memory reclaim. i.e. A referenced locked inode doing
+> memory allocation cannot be found by memory reclaim processing
+> unreferenced inodes, so reclaim cannot deadlock on inode locks held
+> by referenced inodes when doing memory allocation.
 
+I see, understandable. Thanks for the clarification!
 
-You mean, that it stays because of the reserved pool?
-
-> It's not that it cannot be done with hugetlb, it's just a question about how it
-> can be done more cleanly; and that requires more work to clean the hugetlb part up.
-> 
-> Best done separately.
-> 
-> -- 
-> Cheers,
-> 
-> David
-
+--=20
+Ammar Faizi
