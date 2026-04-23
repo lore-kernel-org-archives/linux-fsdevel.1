@@ -1,112 +1,108 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 930CC366800
-	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Apr 2026 16:21:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5605B37D137
+	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Apr 2026 17:01:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.49
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776961266; cv=pass; b=FHmyTcQtIqOZgCzEBuOz5zwCLcMCgr5CEQlyLZeT8nKcRnkIjav/mHePEXaTV68I5/7T2yk/kfuheyeOj1WJr88ml+/vI5A7ZJ/iwN4VEoKSzvjBkv/+hGHqZvBtkJ0rueGvv5AIrHzmiD9Kr8XOXP5fA2pmE0vI1tnoPaUFxI4=
+	t=1776963711; cv=pass; b=tRls3r2GcDgm+aY+Ddkd0dfuRB8DStQujOkMHKWWuplxbH6INzKXJ99BnryIEoppeSvK5VbKeH/gmCCyDcqvLQrU2BOuOCa/ZgZNmtC3OZzz5Yw5uYqO8LNIBhqWjHuXlA34c7r0invqw8mXKdoVtgXBVcg47X5LUHBCquKdC/w=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776961266; c=relaxed/simple;
-	bh=ZoSklbGcCkdQVQ7cKRrY2OEl2h0RV+ReTOxDyHsdoxg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=i1RAuVQ1lEL/w09H0N/jxEN8SpQNHEG2x0PJSJiwsykrt2TknFOt9ZnMaMSOSJjVPe9BhetUeb+I11JEQTOAfr14+Yno6YYurDYLvRuQuHCsdI/xIYB7mxNaxHFvYW/IB9Gzq7s1kbcwGnGk/Y5aps1Bw9anQji8tPfL6tD7rWg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=openresty.com; spf=pass smtp.mailfrom=openresty.com; dkim=pass (2048-bit key) header.d=openresty.com header.i=@openresty.com header.b=kHL9FjDx; arc=pass smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=openresty.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=openresty.com
+	s=arc-20240116; t=1776963711; c=relaxed/simple;
+	bh=TOn7OaufpVFnTCngKERiD7517EOajGuL0SqpRc86qfg=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=Ec3w0+gVHMev0kGZlCEfP0BQPcnznwfGGPMD6D63VI60CrDkkclSj7WV3jXSXkcjXCLykhy9q0VWJDKy1PXurKVB7Q+tRZYmvASc8Vf1uOtHIJbUn1ZoR69X/zEZsD4t3bTBqEiFZkMIgx61uUc/PAl7ZfX2fqOtR4fK8vanFxg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PdF1PzMo; arc=pass smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=openresty.com header.i=@openresty.com header.b="kHL9FjDx"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2ad4d639db3so35320455ad.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 23 Apr 2026 09:21:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776961265; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PdF1PzMo"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-b9c603ec2dfso924018866b.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 23 Apr 2026 10:01:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776963708; cv=none;
         d=google.com; s=arc-20240605;
-        b=ciBxu5cuRV4bV4EANW3n77FSyaAXzxqbkiK6GIC3U6f3DLvE1vUNv59lznrDqEIzP5
-         sBWx2Q0dUELc5i56PFAYDZzS61KoijfTW3tGTTzf9vUMeIdEpNY7CSfwU24i2pwVjUqw
-         ndgl3Gs2kwVafcuQFgGGtAcCbTvBT5nF749RvDnEfk+oqSJLtCGl3i1/8XFvy26YnYvG
-         NQy7IUBcMPd9ZpzrxGTZd7jf5DnA37/8NwJR9Wc5ek/cLabm0uMRLMRkInS957uUcR3x
-         +1N4YORij5BiB6hPbOK3+U3wVNUxSfZ9BPc0HaDMaxkhPZbgwWSccaPx8L0/nAGAj7oY
-         lWfA==
+        b=SCUrL2EDpd9YJnOO37ImZg3/NHDjZ9wDejFGexpfRu+YdA6brHYd7Pc3FHAMTEoSjo
+         fSkJHe3nNVoUjhAqvnJ1uUuJnILK4cMtjYp5/P+/8WJhOLFWK8I596HLS1ihHTk1CGi4
+         KziPQqYd/2Cbxxx5TDv1wYHFvhP2aqjKdZRfpEWKAKzUPqlCiphouKuVUQJFDXYtnExL
+         FwxVByipy4wR9cdL71y53V5xEGeOizB+819oI8ZvFjg4bxMuF2r1EDL/ZQksr2hOIQVU
+         M3qRpR/m1tLx0lKD4pmN7+dHHR8DHzwjOOBXx3a+7UPgvGTTWdGGAfsN2D905c2LGMFs
+         thYg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ZoSklbGcCkdQVQ7cKRrY2OEl2h0RV+ReTOxDyHsdoxg=;
-        fh=zjjH8gsJrBgZmZWIehDmRr5jpFnuWIGS4gI1JkKtnv4=;
-        b=Bt/wgJSr7FR6eEZVNiKut020siordds2il7MOjhlGwUwlE8+Il9aKKcLsp1AZKRyYW
-         tW9XX5r/O9rpqKhY1g0oZC+H+YhfLGMznba0ou88MSuFzHXwummKyY0yVKJbygvc/Kzv
-         EWxY0g3sI0XuT3Eocff3UFXxW5jZ43EuHJGTbAS3beylHn34GruVDX4gObRx7oMw4xQF
-         wt+CeWdfcfFG9P9zr7o5Z4yCjcoyXsaz/erImm/Si3T5efBKyYK+3NeCYeuStJs+gBzZ
-         oGYvNtq9ucJh0wuL6xgj4XJegE2hlNsv5E8Vhbm3vvSeKo90HO8eyVSVAIwMMLnG+qAX
-         +qcg==;
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=MR7Evo27Fb9n4uesCJvxrzmJyEK/vZpzgb8CmAsEAsY=;
+        fh=6ATvYK+24sV9IUAGjD/+d+AW3W9Mr/eOu+h73Eb0SAc=;
+        b=hX6UhB2hjUp0Mop0H97oFvkIbnsaaWL8t1k+EcmDYVRpk/dIkrjRT3GNxeL2It1Zxf
+         oygRGf1S9JofJmHM/aC7++V4lW3JUcM7TpHmUF26yW6S9QYZI4NfzErkbMDkcn/DNWMD
+         qoF+cvZGtdI6o0qEUXpHXviwOSj/O4noyxHlCeIDoMtsumSge7KBpyxE9rQNikBNwQim
+         ++QpYB7bLC8y9fHhOBb5hlisiWnfHl/wPDPqG3pg4IuBauO1lZROI7Fmq2Qs1feV2q6a
+         KksChv2Kff5atitw63fhDmIj1riXteIlEkifUB+F8BV2SajGb8JVNBNiPs3DOlfJvUkb
+         Dkeg==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=openresty.com; s=google; t=1776961265; x=1777566065; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZoSklbGcCkdQVQ7cKRrY2OEl2h0RV+ReTOxDyHsdoxg=;
-        b=kHL9FjDxdOmwo2TuAhfEN+aL8G0frLPMdQT/gR1+ot3vRR0D+gvfMpbOY75NxFbcQj
-         WFrMWlba8UxF9iHzYsuu+aUc68D5fGlgXY22IqGfd7JFnng9Jdba1mIvg7xjBiFa37P3
-         vo48IM/4nj93g9l32XwsCgViCXIfTRqxIa8hJ7Jbsam55DdLM6cEVG1IXOC+A5G6nC0v
-         Kiyn2nSJwaP9VzqkE9WnJmDFBQ7FGolLgtp1+QPH7WrdBSqKpWqPRllTFMCQ6DtVvGcx
-         xtZVVTFwcw9w/cQCeOTHNPD6RacoVLU38JZtmRGm+pAHosL4DCRdHT9CukQpPKlGTT5D
-         ZSog==
+        d=gmail.com; s=20251104; t=1776963708; x=1777568508; darn=vger.kernel.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=MR7Evo27Fb9n4uesCJvxrzmJyEK/vZpzgb8CmAsEAsY=;
+        b=PdF1PzMohNRn0isPMagJx9rrY/oepjF5joKh5Zol1v/7Yubwk47gLSdZK0Czm6GULO
+         pLOn93YoBenCX+K400L9WTJ53d+HxTuc2zm630KfpLiFwYOMezczStPEksFaCE1z6aPO
+         GSuvd0fJn7TY+bBUZBpFtRejchDJ3gRmkd8Gnsg+r3bVQIMQ3Wqt7WXENsUD8fLck773
+         85AWE9chzIs/auTrxMNobZEYiWW+7jy9Tm+sjp3d7LyCr2FSYzJtXATEdG1iFBqlX4O/
+         gE06LdyvSzfexIcQqrIw98lxjq1LHNVsO4bWGfVjfEvuhmQ5LYdLUoy8fgFJg1tuF7/3
+         bWZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776961265; x=1777566065;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ZoSklbGcCkdQVQ7cKRrY2OEl2h0RV+ReTOxDyHsdoxg=;
-        b=f3IYiLPPBvIsF7X/VTypYjFE37QrqwzhROExaBrP46JptWRUvON2fBn+OmRjiTYqNG
-         tspd49klcWUvqgtiJKb0FLyJx0axdp8HcDlBHLTY7DCTRddyQlt30/h+sPkcBOTsKJUO
-         hjCiVGcFX/DVlFtvkfAULgx5Z1sVmM/mBmQRKMdt+JTfqS0TCxdbXxP11LSq3QlKfbFt
-         qsuYhYV5qwJweybMRp6f/ay0d/jEa929a3zOmhedynYl/UpK2ZCwCVNd070ZBwWguUBb
-         07sZag4Y3aV4vNxXoBobE9VJSTzx+nh792x9KH78JVXHszK5J6QaQytXzf7a/dghnjJy
-         7Hew==
-X-Forwarded-Encrypted: i=1; AFNElJ8PayXJg0XOmXUkKZeJ7+HJYUa3SReh/Lh6QWWXD18C9jrfe5HeZbTVTrDHHZyOx7O1LcwblVDv6qrGh2f7@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy3b1RI+xtS2lIDfaEc4jTPs4oB1Z2jDudot3vj0BpZVATS9O9e
-	pb+RZmKfWKRqsbtY74mOJJsnrOJZgldZnikzyIWdhdf3u3dhJzc2U7Omyb4FuePvDqueAFP9Svr
-	f4pdSKr/fx/S25nPj+IU/oxPFMPK+MmztXbFnDHOHhQ==
-X-Gm-Gg: AeBDiet3Lr/GgdRH4Ees2j9nGY/OAi3QJN5Dcmw2Jbgl0zUGK7YfFU3YgEA70Oq3nqg
-	I2ligwVhbO7lpO/SGrq6tY7qnXDKtl9WIuTdjYZ96lXHU/tPokgz2Dimo8OHPVeuWO15n03HDE8
-	HV+NYCliiNB+/GrxImfk2EP+U5jA0pmjURNtCrh3Z+hZhw5OGr/dVia/yml9M1IZcs299p47+pG
-	6WJIr7k9fuoWLag7brUtwr7sWoZV2gey/GYnZZKQ6t3E++Mg3Amh8wGSEdFtbnLSL3hD6Q89GC5
-	uZq/n6ZQAZi+tEAhAiOSvBsBeknWchTt+J0x3+JFnK4sKzea273H
-X-Received: by 2002:a17:902:74c2:b0:2b0:6d33:e7c0 with SMTP id
- d9443c01a7336-2b5f9ecaea6mr223243735ad.1.1776961264697; Thu, 23 Apr 2026
- 09:21:04 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1776963708; x=1777568508;
+        h=to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MR7Evo27Fb9n4uesCJvxrzmJyEK/vZpzgb8CmAsEAsY=;
+        b=arv5XtKaBYCaxiwZtErtwktFHY5GpIiyR7KvBDvyw5NW0UElEfD/+k90ObOvEzMV+t
+         FAbBAINTMxMbK/vb1fi0vcXl0bS9eWACpJog5JXNNQiSt0Aq8RIwqq13t07LnF3BxmkH
+         uQKW1aysEbwbVtgfvZ6Vs4+wzpl++PQM87HkcTpzrhgUN8mEXUMI4d77cmQmEctIWgSq
+         nF/BBoB2lUi8+Iec40yfl621oNqOVrxYEj8yx50DykTQ7v+3iJAKIyyvJPJCPmjsebut
+         8iMxX4doOywh4bqpjDFISN6jbGagFUXA0bxZf3956r1yKOBTleS6EtvgXKc8fbN27+mV
+         FyJQ==
+X-Gm-Message-State: AOJu0YwrpsBaCesQlynMRq+ED/poLWJE6Z3pnIFQrZWTbhsjPfr5j89H
+	8dXkfXa6Xwe8gMjNgvnv5reP1RgMQTS+oEMM8X7fNBpaOZTIFXQa/753gRg1Pc/rM3Mf7HVOOHH
+	bNTM1uoxqhpOL378pDoFYl/JcNOXBoBKfvw==
+X-Gm-Gg: AeBDietShosU9USc+dqpqwMMLM8ZZsy2F4YnwjYYgMvAqgH+gRLVLBGa7+P4/GiG2+0
+	BKca25FJU0LlvXcW1bK7EbzUD5oFq/O78xpR8alaQ7eqzeIUkwZJP66vzVW1TyN079GTsvWNdHG
+	b34ZpMfTciLAy0ZVWaPcnwCSbW+RSbYY9P+kBb/Y+nazvywqw1T2wnmsqsRkt7tuCCr8JytJSOd
+	hnyZvy++p73Buq7CKmEFyZHma7DwKWgGodbxvB2gHGt/j2GEEhKLinNUGHRO+ag8gdqMwuo1y+H
+	C3AQEWN6cOevt9hC
+X-Received: by 2002:a17:907:da7:b0:ba6:4e0f:e396 with SMTP id
+ a640c23a62f3a-ba64e0fe8fdmr1021131966b.12.1776963708142; Thu, 23 Apr 2026
+ 10:01:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260422152505.818254-1-ammarfaizi2@openresty.com> <aek0-rq8zX-ta6aW@dread>
-In-Reply-To: <aek0-rq8zX-ta6aW@dread>
-From: Ammar Faizi <ammarfaizi2@openresty.com>
-Date: Thu, 23 Apr 2026 23:20:53 +0700
-X-Gm-Features: AQROBzAi2UsI-20jfUWrIvnJZC15-HYlrcUx6dTprYVhDUiwBCsh8jbvltFHGwU
-Message-ID: <CA+KFgX5vp4L-NrHKDBCy+FaVEO-p-D1ReSKDv_1_hk+5cEnFhQ@mail.gmail.com>
-Subject: Re: XFS Deadlock on Linux 6.12.82
-To: Dave Chinner <dgc@kernel.org>
-Cc: Linux XFS Mailing List <linux-xfs@vger.kernel.org>, 
-	Linux FSdevel Mailing List <linux-fsdevel@vger.kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Yichun Zhang <yichun@openresty.com>, 
-	Junlong Li <lijunlong@openresty.com>, 
-	Alviro Iskandar Setiawan <alviro.iskandar@gnuweeb.org>, gwml@gnuweeb.org
+From: Shyam Prasad N <nspmangalore@gmail.com>
+Date: Thu, 23 Apr 2026 22:31:37 +0530
+X-Gm-Features: AQROBzAXKGkL4wCrc7a7jqx_RwqEbMziZZLN-r7g3-kQL0OMGl7pH-QpRiQgpWw
+Message-ID: <CANT5p=oV8kcE6hXPoUVQAYGaiz+2OERoSRLAS6X+q9KJ_8w8YQ@mail.gmail.com>
+Subject: "Intent" of VFS lookups
+To: linux-fsdevel <linux-fsdevel@vger.kernel.org>, CIFS <linux-cifs@vger.kernel.org>, 
+	linux-nfs@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 23, 2026 at 3:52=E2=80=AFAM Dave Chinner wrote:
-> Well known false positive.
->
-> Lockdep knows nothing about inode reference counts and how they
-> interact with memory reclaim. i.e. A referenced locked inode doing
-> memory allocation cannot be found by memory reclaim processing
-> unreferenced inodes, so reclaim cannot deadlock on inode locks held
-> by referenced inodes when doing memory allocation.
+Hi all,
 
-I see, understandable. Thanks for the clarification!
+Wanted to understand if this is a problem for other filesystems or if
+it is specific to SMB protocol?
+SMB2+ protocol mandate that open call specifies if the file being
+opened is a directory or not (regular file).
 
---=20
-Ammar Faizi
+This means that during the VFS lookup callback, fs/smb/client needs to
+first try open as one type, check the return status and then possibly
+do the open as the other type.
+
+From SMB client POV, it would have been good to know from VFS lookup
+callback if the current dentry is intended to be a leaf or not. This
+would enable the SMB client to decide which type of open to make
+first.
+
+Or if there is a clever hack that I'm missing here, I'm open to ideas.
+
+-- 
+Regards,
+Shyam
