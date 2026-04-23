@@ -1,107 +1,149 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from hr2.samba.org (hr2.samba.org [144.76.82.148])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 202D738BF75
-	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Apr 2026 17:04:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAF503033DF;
+	Thu, 23 Apr 2026 17:43:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.76.82.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776963892; cv=none; b=QQ2j2tdf4P7g7gBVVWLAcnmdIySbLncmt/Wh+48H6AG+XAqz+J/JVO0fgLLuFEAK1gKfb6YQijJtyEB+XHjcseL25CsyrMA9inGjMR508pfnjduaSN1+nU7KfGDVlzihwyS5T0RIKVcUUqB+ykF78nT6A8IL/nYjP9V7MmBveg0=
+	t=1776966204; cv=none; b=Hk/ZDMDuck4rLZ8EyDvWsNSKfDGcoKacG+crEpwIrkC9L1JURBaSVwL2E4HIBysKiQRjUWJU8AVUi9bz8AXUfCH7EKS+5UKp55DHunbg3zqNg8fgcgrWzZQt4OE+AOfvmwO8tZ5XWW4HK2mTsDbP8tUTyWPwcxOdRYLHR11iwv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776963892; c=relaxed/simple;
-	bh=o0vVVbKW+jDUlcTz3sdug6sVMJWixD3rsgLZyWUxZdY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=n+x0DWynAO2DJS1gLzTDFeOaNOlQP3QAm5Oa7sEwd11mmvEUI5mKz+W0Naxn3mmX9u1B9s5eTMlKqK6XjX99cIyXUH/ut5ZW1YLQ7lCEqyuQza4nTGm4kYTxoaKXYG50KQIrRP3XRlkTlr/O+45kLnU1JjZBCE43K3HI4bjavMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N/yw+MSf; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776966204; c=relaxed/simple;
+	bh=vkq7YgCeDD1Bfr9M3vrmSOO1AM3+7u/K8BLnBhaW26s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=ag9H+bq1dHdyVjeKpzI3JBXSo1ObfWm0HM58OMUbUfp30GYImZtwoRYLI6a2TWy9v3CnsjxSev+d6wd/cCEltPxjCUx8IJGLkqlDdR6aiU1zArqI528sJfdiTKfMB0AGmyLRKSkLXYqCDPgkCZ6+gwR9CHXGuZlwqH7NiTsL2j0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=samba.org; spf=pass smtp.mailfrom=samba.org; dkim=pass (3072-bit key) header.d=samba.org header.i=@samba.org header.b=F7keYk36; arc=none smtp.client-ip=144.76.82.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=samba.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samba.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N/yw+MSf"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-4411e1eba51so3478218f8f.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 23 Apr 2026 10:04:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776963889; x=1777568689; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qjHGdHCM50FezTeVzBGsPptZsiDL3f4FvAkI24N2muI=;
-        b=N/yw+MSfbQmE9bd7Hm4nJQ9dgpmdtewPCpseNRjAFXm5Nvcoa7tTjKlvsSvZ4KQmvb
-         GMcI++jj8E467GEKskIBIqJgL5TDcTus46tXS14lTzkLUcDvndvmIltknr+G9dywzW5w
-         sQ4H8fhwbeaqWqVQ5vTBtN4AC5WZCSIYBgTEJulx07Y2QPGvl/6diSIlvN+rut6PnvZI
-         ULwWwtWPr5Jq8C9E+AOW2iUFGPcDXbl6Yz0h7tS0fJ579AOUIk3Udye26b+9ZdPpPfi7
-         oW/eUva75WWs122nXhP/ASXJTVNYUWKNTiX4kooqHQROkbvtoRaffGO/xjDmcYFRlVN3
-         atmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776963889; x=1777568689;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qjHGdHCM50FezTeVzBGsPptZsiDL3f4FvAkI24N2muI=;
-        b=EM7VunafEIhP2vKjpOl49g4RBezkiYUz/fLYTpPAySfLtJ0muofLadLa8AKs4cKKTc
-         pwpUZV6qbAraux3qsAqTy0I5Zd8j7/MpRYOkAGP41Wis4cdZtfkztLsp6KO/znZRBNgZ
-         Wt5GEkRnAO9OHypAQOW9mxfMXs5Y/vuJ9IyirFk2p91IXUIqeckR0UPoGTl/T1KA9D6F
-         f8Fo3nY7WD+lYlpelDmH6iIN1F7EY7rCZkbEWjVyOb7Hgipoe/V2WlUatyQ1UYGWCGIq
-         ZxYDKTHG6EMWexq9cbiv/7m09m9AGmj4eA4TeNk05vCc6fKuFS1WHPW3r06m7vdbH2rf
-         m/8Q==
-X-Forwarded-Encrypted: i=1; AFNElJ8DVj0VaPuHiNZ1BFa38+0w+C5PWQMQOoGT/fOLD05s88ltx1WXS4HcSh5JrsG0gvnLuFkCyEbyZbOBE6gR@vger.kernel.org
-X-Gm-Message-State: AOJu0YzF1Z6X81SxAylJohSYNhAssqFrDXq28E8YD15JX0AD6pWL3LNk
-	nVDByUkuO/8ezk129y3IUjMzZsOaUYOUvlUWMOQvw7GLllVOSY+Q9nZIYsuX0w==
-X-Gm-Gg: AeBDieshksAdAMuamZRD84nRoRCpg4hpHwttrOYrUvyjabuxYI9n0G6gKCQrwKfnnXx
-	+F8/bnBRWb08brPIVZ2D3zq5SfRHHXrKXO5Gmry9D7Yv1FBvmuTCDxCuuvg8WhPufuUKZMhWHUJ
-	cQxaBQK2A6cJJO2PjHjBpT0Ey4KrB5ozfTop4WMnlLtmwskc421WwvJJ97SmuH2O3PP7klJO9F2
-	NuBKRLsbVsOxzW7CERjuXEK2m+BP6Oer2fYnQWB1DdInPyhq1fYnA72BQ6VDJCJbWh7olmBFCVR
-	maZsZv2k7y0OgedH59vu6QCqI0yy5ZTAapOqFNxAd56lVJ9oohBD3jpN7k8Qi4/rzX+Cbv8MJR2
-	hj9f2EC2ytoFEwkvMzKn8LU+/b9uVgYmNtX9B6mMwJo/yPMjNDAHQOem0xjZ/gEEo64PwCOCaEb
-	X2LJ2sv4YFPEGNU7hkS6kdtim6dNGkIK1bWJvj9cFCtlo/C88BO0YwCt2QTXTmzCQmAH0/cKpmg
-	JjjBIskIDalBN20TqM8JUY=
-X-Received: by 2002:a05:6000:1a8d:b0:43c:f28b:8863 with SMTP id ffacd0b85a97d-43fe3dc7998mr44073406f8f.13.1776963888307;
-        Thu, 23 Apr 2026 10:04:48 -0700 (PDT)
-Received: from f.. (cst-prg-93-232.cust.vodafone.cz. [46.135.93.232])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4cc2cacsm54169240f8f.13.2026.04.23.10.04.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Apr 2026 10:04:47 -0700 (PDT)
-From: Mateusz Guzik <mjguzik@gmail.com>
-To: brauner@kernel.org
-Cc: viro@zeniv.linux.org.uk,
-	jack@suse.cz,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	Mateusz Guzik <mjguzik@gmail.com>
-Subject: [PATCH] fs: retire stale lock ordering annotations from inode hash
-Date: Thu, 23 Apr 2026 19:04:31 +0200
-Message-ID: <20260423170431.1483370-1-mjguzik@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (3072-bit key) header.d=samba.org header.i=@samba.org header.b="F7keYk36"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=samba.org;
+	s=42; h=From:To:Date:Message-ID:CC;
+	bh=vkq7YgCeDD1Bfr9M3vrmSOO1AM3+7u/K8BLnBhaW26s=; b=F7keYk369OjmEaXd1AxVnHYYbJ
+	cKUd5WB5yhCfsznQ8+W8MWmysFXK2/CECapJZLy4duVOShmjLl6OCzfP0GQGsxe413GUnwh7KcUNr
+	HrwrAtb4ibDFmLaRyFtrlbdXa2+TNjXDBMYSfdkFo8SdEAnIZ1ZK4pdhdVKPbuOAhgZCWlFN333sU
+	ukBqOjHcn11a72EEsAH2Qr8eNUWihhFN9QwRU6YtZzXGeDYF3rlrSHrBdUXkLQZipPqwN4ZRPOkeG
+	taYuqdcAbhBjKW6CqatBIfuHKtD4ZSl7u0nIw3Fz2/xRqJsf1Ldr3Ld8WPjHK1hRGg6taM2QJdqP6
+	sAMxlONoDOHTL+Uq07Ye94F2bitaPalqz1P9jgJc+gzvb2nagcUO7qOAO7AvVp+jvjZ+tyLn/5dVy
+	RUKrVb2oON+dNRcbfe5OmnZuwi8EpzjUg2UBo7zIx1YVzU5gY1amlrPp1bu5BkLk4XCLEuoTjdGFz
+	5tlERVmRq0rt/D/QtN4IIEzA;
+Received: from [127.0.0.2] (localhost [127.0.0.1])
+	by hr2.samba.org with esmtpsa (TLS1.3:ECDHE_SECP256R1__ECDSA_SECP256R1_SHA256__CHACHA20_POLY1305:256)
+	(Exim)
+	id 1wFy53-00000003cgH-44oa;
+	Thu, 23 Apr 2026 17:43:14 +0000
+Message-ID: <438478a7-c965-4a2a-9c4a-84b5f77d6dbe@samba.org>
+Date: Thu, 23 Apr 2026 19:43:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: "Intent" of VFS lookups
+To: Shyam Prasad N <nspmangalore@gmail.com>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ CIFS <linux-cifs@vger.kernel.org>, linux-nfs@vger.kernel.org
+References: <CANT5p=oV8kcE6hXPoUVQAYGaiz+2OERoSRLAS6X+q9KJ_8w8YQ@mail.gmail.com>
+From: Ralph Boehme <slow@samba.org>
+Content-Language: en-US, de-DE
+Autocrypt: addr=slow@samba.org; keydata=
+ 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
+ rb9LanmjmJltdkLDwbd58Q==
+In-Reply-To: <CANT5p=oV8kcE6hXPoUVQAYGaiz+2OERoSRLAS6X+q9KJ_8w8YQ@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------diU7aiJiSXkEUIabePlVv9Sy"
 
-1. iunique does not take the hash lock as of:
-3f19b2ab97a97b41 ("vfs, afs, ext4: Make the inode hash table RCU searchable")
-2. s_inode_list_lock is no longer taken under the hash lock as of:
-c918f15420e336a9 ("fs: call inode_sb_list_add() outside of inode hash lock")
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------diU7aiJiSXkEUIabePlVv9Sy
+Content-Type: multipart/mixed; boundary="------------CF5AvGltTlGTEaELMcV6HInJ";
+ protected-headers="v1"
+From: Ralph Boehme <slow@samba.org>
+To: Shyam Prasad N <nspmangalore@gmail.com>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ CIFS <linux-cifs@vger.kernel.org>, linux-nfs@vger.kernel.org
+Message-ID: <438478a7-c965-4a2a-9c4a-84b5f77d6dbe@samba.org>
+Subject: Re: "Intent" of VFS lookups
+References: <CANT5p=oV8kcE6hXPoUVQAYGaiz+2OERoSRLAS6X+q9KJ_8w8YQ@mail.gmail.com>
+In-Reply-To: <CANT5p=oV8kcE6hXPoUVQAYGaiz+2OERoSRLAS6X+q9KJ_8w8YQ@mail.gmail.com>
 
-Signed-off-by: Mateusz Guzik <mjguzik@gmail.com>
----
- fs/inode.c | 4 ----
- 1 file changed, 4 deletions(-)
+--------------CF5AvGltTlGTEaELMcV6HInJ
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-diff --git a/fs/inode.c b/fs/inode.c
-index 39cb22e63d5b..2ebc3eff64fb 100644
---- a/fs/inode.c
-+++ b/fs/inode.c
-@@ -53,11 +53,7 @@
-  *   inode->i_lock
-  *
-  * inode_hash_lock
-- *   inode->i_sb->s_inode_list_lock
-  *   inode->i_lock
-- *
-- * iunique_lock
-- *   inode_hash_lock
-  */
- 
- static unsigned int i_hash_mask __ro_after_init;
--- 
-2.48.1
+T24gNC8yMy8yNiA3OjAxIFBNLCBTaHlhbSBQcmFzYWQgTiB3cm90ZToNCj4gV2FudGVkIHRv
+IHVuZGVyc3RhbmQgaWYgdGhpcyBpcyBhIHByb2JsZW0gZm9yIG90aGVyIGZpbGVzeXN0ZW1z
+IG9yIGlmDQo+IGl0IGlzIHNwZWNpZmljIHRvIFNNQiBwcm90b2NvbD8NCj4gU01CMisgcHJv
+dG9jb2wgbWFuZGF0ZSB0aGF0IG9wZW4gY2FsbCBzcGVjaWZpZXMgaWYgdGhlIGZpbGUgYmVp
+bmcNCj4gb3BlbmVkIGlzIGEgZGlyZWN0b3J5IG9yIG5vdCAocmVndWxhciBmaWxlKS4NCnN1
+cmU/IEZyb20gbWVtb3J5ICh0aG91Z2ggdGhlIGxvZ2ljIGhhcyBhbHdheXMga2luZCBvZiBl
+c2NhcGVkIG1lKSBpZiANCnlvdSBuZWl0aGVyIHNwZWNpZnkgRklMRV9ESVJFQ1RPUllfRklM
+RSBub3IgRklMRV9OT05fRElSRUNUT1JZX0ZJTEUgdGhlIA0Kc2VydmVyIGlzIHN1cHBvc2Vk
+IHRvIG9wZW4gdGhlIG9iamVjdCByZWdhcmRsZXNzIG9mIHRoZSB0eXBlLg0K
 
+--------------CF5AvGltTlGTEaELMcV6HInJ--
+
+--------------diU7aiJiSXkEUIabePlVv9Sy
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEE+uLGCIokJSBRxVnkqh6bcSY5nkYFAmnqWjEFAwAAAAAACgkQqh6bcSY5nkbV
+3w//SJ3gtpbUX8Xn3DvIzvWF3DrIIe4Wvk6EDP8NMB9EvVgoAlaZXqtnaJkGS5Uohw+gTHcaae8R
+mgiHTh549i6B9hDxRvnCtzV7l4jN5jFHesN/+g9HzCU/mM7VZfZxPyRf832SGUAJa6iQBfzImk38
+OX4TngF3ekzeRshVwj24GWydnkz1DM4moRUBHxJwSBQ5zMFVTZHfWT3u1p2JrDI/MaVmZLlYmxjX
+Vh07X/KxiuVtws0o0nYtSj/cTtdz/2Sep+BbyPcsDPniFh+76bvjNq6Q2vdtQmJSvMBobzRQ/gj0
+Am1Dc6FKTSc98bVKuIE3f4VNxCLesM7Dro7lrJvWS6Bw2ZesOdLpTPy6eeIGeADIPOi/IpOSIHTG
+TLDZTMH6z2K+kb6vST31kGBodQ4vOzUDLhI7XAEaMUT9oSyPnYDiDhZtGr3LJ6uU+9urzICW6Osr
+p6FqbG2OpDk5a06EZfcQZzqkF4vfdPElFblnHPyigx/pb+BDqWmPEYGBAqJDPE1c5TEgc7CzwWL4
+m5F9o2w92OJHyf/7Kmu2QyB+qaDow56dLpAVKozWEjcqa/u45Z+QL+PwvU6iMKuPMB5jYvHSNSfV
+/0eU7u3BjuI4hndfm23s8LovCY4iF12STw1R5ad8lSHA4VkP0PBnUhgAx/RJgO9PHKkmVjdca6Sc
+bjA=
+=BsdN
+-----END PGP SIGNATURE-----
+
+--------------diU7aiJiSXkEUIabePlVv9Sy--
