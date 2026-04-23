@@ -1,46 +1,54 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-of-o54.zoho.com (sender4-of-o54.zoho.com [136.143.188.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B44E934402B
-	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Apr 2026 21:33:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776980003; cv=none; b=AGJWJUeLWmGbDfs2yvTLvijtxj++ZqrFrkE78nkP6JJHitECAeeEujzs+9q1GeWLIuPGf7EtzJbO90YTpb34TpyoHYCQjUgKvN0vkLsYEHf5uWM+qtN2oVa33oGFz5MLayY72xKddld3QdLrzy8WdN7SUZSIgRDEJ/qCqU4qTHo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776980003; c=relaxed/simple;
-	bh=HgTsfrGj1nc3Wh+9GYc0GuJMVDjCiD0eCArem+m4sBg=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=M6643MAFK9UW5BsUzBPAPprfO4MqkFfTEjKh5LMZziXsPiktfvEN/oUuOmP6XfyZsxNcO2eCVVspZ01n4+FZhKd6LwrAw6fPgREvMygqTHvxJq3CoSsuaEBeYYXz1VfWi0/oODZvKAyq/98c/F5DOkGBFCp8OHnLO81R+MN/U1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O48FIs+x; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FC863BED5C;
+	Thu, 23 Apr 2026 21:50:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776981021; cv=pass; b=subuTeom4Eo48jhoosWXcg9gYjx+ikRW6ekLuuGDz2ebjh2Wpf7GDgxT+aU7PE5c7iXq4HSP6rBemFx57wW76Q/Wg5UCt79TDhlyB13cww/NKFlQuEvBrvX8a/Sg/gmEm+85w0MCuVWQKcKWhtF7xkMJltv3LxQ33ZAcY2NaFE0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776981021; c=relaxed/simple;
+	bh=6bPqillUrQ9W/2OjJ6GN8GYLQMDYDK2i72yxcjdIorM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=aFHIMKu7gKyHjulSC1yrXhr0MjNS7UZzNQS9PrTAK/goRnfA+B9rGQbPaOaI0CNIoKAygbYrfMI6lJ4SBn1rcrGRXFnf15lK2n6BYAVOsNui3bGn2p6BcVvYl20PjFwaqE2KUBlGrFEHtA8muoFWd/1AKqH1A3vacNh3FEIfSJE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mpiricsoftware.com; spf=pass smtp.mailfrom=mpiricsoftware.com; dkim=pass (1024-bit key) header.d=mpiricsoftware.com header.i=shardul.b@mpiricsoftware.com header.b=LNmpl++/; arc=pass smtp.client-ip=136.143.188.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mpiricsoftware.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mpiricsoftware.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O48FIs+x"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B78DC2BCAF;
-	Thu, 23 Apr 2026 21:33:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776980003;
-	bh=HgTsfrGj1nc3Wh+9GYc0GuJMVDjCiD0eCArem+m4sBg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=O48FIs+x7lkdgkjoz4FJJV/No1MdgK5f7Ls0duJNIFnxKwP/kG6lz3MeyjteS/y5w
-	 DJhQJGA12sUW6vhc/fdOlFYdNtql7lk3SJHjdTRe9ODJeQtYVjWDRriWE4yflqv9pD
-	 oEBAmwG4Km9t3cvU4MoVRCyut3aQCbpXoayPbah11NdWAKC8xwfjn+FFOCKacblPWN
-	 hLb/gciS3ZQje3g2f9qvSLhK7tmfPCPVUkFQESkfmGszk8e+6b4Ml6BO5ErD4DymaV
-	 LnaGBNTGIirOrRe3XiFqoGSxKUrSWzxPFF/ibta2ZXTPS42pwQwWCdadnpOy78Q1gt
-	 v2w6+2kccQySg==
-From: Namjae Jeon <linkinjeon@kernel.org>
-To: brauner@kernel.org,
-	djwong@kernel.org,
-	hyc.lee@gmail.com
-Cc: willy@infradead.org,
-	xiang@kernel.org,
-	hch@lst.de,
-	linux-fsdevel@vger.kernel.org,
-	Namjae Jeon <linkinjeon@kernel.org>
-Subject: [PATCH 2/2] ntfs: use direct pointer for inline data to avoid redundant allocation
-Date: Fri, 24 Apr 2026 06:32:03 +0900
-Message-Id: <20260423213203.5533-3-linkinjeon@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260423213203.5533-1-linkinjeon@kernel.org>
-References: <20260423213203.5533-1-linkinjeon@kernel.org>
+	dkim=pass (1024-bit key) header.d=mpiricsoftware.com header.i=shardul.b@mpiricsoftware.com header.b="LNmpl++/"
+ARC-Seal: i=1; a=rsa-sha256; t=1776980988; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=QzSQBgkNjMcmiOiapYBWmlclZEoIjFihi9skefV42jtXPr/bSZABWwxl9Ca6RmJ2Mfk34/J/9UjK0Wr3tjNqy1s5lfhkIYcRzyHopBvWlpa/QyAyPkGPDiJQtjOpN5n84N5Y/ORH/DEARCUpcQzz+3uz7DplGWsjKhTwnb/C22U=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1776980988; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=c6RLRqS5WEZhXQfn0WoraRjQTpbBGxxcZmLEbqXwqUY=; 
+	b=RZlI60NbD5191ePiO3z0r6Qgl5qEV/E4z3MlIPOUfSLcjIK76DHx7xN29D73h0qqVxIvmzw149zR6W/C47fr8OifgmvTyaJY6QpxF/PPyy5hGyE4x9GbHDoHmIDkjxloKOx1ZEB12WEZAIPLF+gn913vw5O5Niw4C1kcWhJZGms=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=mpiricsoftware.com;
+	spf=pass  smtp.mailfrom=shardul.b@mpiricsoftware.com;
+	dmarc=pass header.from=<shardul.b@mpiricsoftware.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1776980988;
+	s=mpiric; d=mpiricsoftware.com; i=shardul.b@mpiricsoftware.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Transfer-Encoding:Reply-To;
+	bh=c6RLRqS5WEZhXQfn0WoraRjQTpbBGxxcZmLEbqXwqUY=;
+	b=LNmpl++//5+iF68MU+a5z6eWIPMrJngEcUYfEOxA39T/gfak1cnb487SFxQQG6ay
+	QhVLxsGZOlKH03jkJKdo5AECp81GEGFiOTmF6Ph685s9bXy2BMtFinpPiUB9tmgpo12
+	GcDZQTN3VlrksxS8THdcnU8xAT4MIinDAQ+/cnd4=
+Received: by mx.zohomail.com with SMTPS id 17769809853267.480022099607481;
+	Thu, 23 Apr 2026 14:49:45 -0700 (PDT)
+From: Shardul Bankar <shardul.b@mpiricsoftware.com>
+To: slava@dubeyko.com,
+	glaubitz@physik.fu-berlin.de,
+	frank.li@vivo.com
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	janak@mpiric.us,
+	kalpan.jani@mpiricsoftware.com,
+	shardulsb08@gmail.com,
+	Shardul Bankar <shardul.b@mpiricsoftware.com>
+Subject: [PATCH] hfsplus: fix hfs_bnode_split() failure on sparsely-filled nodes
+Date: Fri, 24 Apr 2026 03:19:36 +0530
+Message-Id: <20260423214936.444718-1-shardul.b@mpiricsoftware.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -48,166 +56,72 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-Previously, NTFS used page allocation for IOMAP_INLINE to ensure that
-the inline_data pointer was page-aligned, avoiding strict boundary checks
-in the iomap core. Since the previous patch has removed the over-strict
-PAGE_SIZE boundary check in iomap, NTFS can now safely point
-iomap::inline_data directly to the MFT record.
-This change eliminates redundant memory allocations and memcpy operations
-in both read and write paths. It also simplifies the iomap_ops by removing
-the need for a iomap_end callback that was previously used to free
-the temporary page.
+hfs_bnode_split() determines the split point by scanning the node's
+offset table for the first record whose data offset exceeds a threshold
+derived from node_size / 2. When all record data fits within the first
+half of the node, no record offset exceeds the threshold, the loop
+exhausts all records, and the function returns -ENOSPC even though the
+node can be validly split. This causes xattr insertions to fail
+silently.
 
-Signed-off-by: Namjae Jeon <linkinjeon@kernel.org>
+The failing code path is exercised by xfstests generic/070 and
+generic/642 during xattr stress operations.
+
+Fix this by re-scanning with a threshold based on the actual data
+midpoint when the position-based scan exhausts. If the re-scan also
+exhausts, fall back to splitting off the last record.
+
+Reported-by: Viacheslav Dubeyko <slava@dubeyko.com>
+Signed-off-by: Shardul Bankar <shardul.b@mpiricsoftware.com>
 ---
- fs/ntfs/iomap.c | 76 ++++---------------------------------------------
- 1 file changed, 6 insertions(+), 70 deletions(-)
+ fs/hfsplus/brec.c | 32 ++++++++++++++++++++++++++------
+ 1 file changed, 26 insertions(+), 6 deletions(-)
 
-diff --git a/fs/ntfs/iomap.c b/fs/ntfs/iomap.c
-index 7a170df39e72..ca8e221e5b7b 100644
---- a/fs/ntfs/iomap.c
-+++ b/fs/ntfs/iomap.c
-@@ -89,7 +89,6 @@ static int ntfs_read_iomap_begin_resident(struct inode *inode, loff_t offset, lo
- 	u32 attr_len;
- 	int err = 0;
- 	char *kattr;
--	struct page *ipage;
+diff --git a/fs/hfsplus/brec.c b/fs/hfsplus/brec.c
+index e3df89284079..cfc909c808a4 100644
+--- a/fs/hfsplus/brec.c
++++ b/fs/hfsplus/brec.c
+@@ -282,12 +282,32 @@ static struct hfs_bnode *hfs_bnode_split(struct hfs_find_data *fd)
+ 		old_rec_off -= rec_size;
+ 		if (++num_recs < node->num_recs)
+ 			continue;
+-		hfs_bnode_put(node);
+-		hfs_bnode_unlink(new_node);
+-		hfs_bnode_put(new_node);
+-		if (next_node)
+-			hfs_bnode_put(next_node);
+-		return ERR_PTR(-ENOSPC);
++		/*
++		 * All data fits within the node_size/2 threshold,
++		 * so re-scan using the actual data midpoint.
++		 */
++		size = hfs_bnode_read_u16(node, tree->node_size -
++			(node->num_recs + 1) * rec_size);
++		size = ((int)node_desc_size + size) / 2;
++		old_rec_off = tree->node_size - (2 * rec_size);
++		num_recs = 1;
++		for (;;) {
++			data_start = hfs_bnode_read_u16(node,
++							old_rec_off);
++			if (data_start > size)
++				break;
++			old_rec_off -= rec_size;
++			if (++num_recs < node->num_recs)
++				continue;
++			/* last record holds most of the data */
++			num_recs = node->num_recs - 1;
++			old_rec_off = tree->node_size -
++				(num_recs + 1) * rec_size;
++			data_start = hfs_bnode_read_u16(node,
++							old_rec_off);
++			break;
++		}
++		break;
+ 	}
  
- 	if (NInoAttr(ni))
- 		base_ni = ni->ext.base_ntfs_ino;
-@@ -130,18 +129,10 @@ static int ntfs_read_iomap_begin_resident(struct inode *inode, loff_t offset, lo
- 
- 	kattr = (u8 *)ctx->attr + le16_to_cpu(ctx->attr->data.resident.value_offset);
- 
--	ipage = alloc_page(GFP_NOFS | __GFP_ZERO);
--	if (!ipage) {
--		err = -ENOMEM;
--		goto out;
--	}
--
--	memcpy(page_address(ipage), kattr, attr_len);
- 	iomap->type = IOMAP_INLINE;
--	iomap->inline_data = page_address(ipage);
-+	iomap->inline_data = kattr;
- 	iomap->offset = 0;
- 	iomap->length = attr_len;
--	iomap->private = ipage;
- 
- out:
- 	if (ctx)
-@@ -286,21 +277,8 @@ static int ntfs_read_iomap_begin(struct inode *inode, loff_t offset, loff_t leng
- 			srcmap, true);
- }
- 
--static int ntfs_read_iomap_end(struct inode *inode, loff_t pos, loff_t length,
--		ssize_t written, unsigned int flags, struct iomap *iomap)
--{
--	if (iomap->type == IOMAP_INLINE) {
--		struct page *ipage = iomap->private;
--
--		put_page(ipage);
--	}
--
--	return written;
--}
--
- const struct iomap_ops ntfs_read_iomap_ops = {
- 	.iomap_begin = ntfs_read_iomap_begin,
--	.iomap_end = ntfs_read_iomap_end,
- };
- 
- /*
-@@ -358,7 +336,6 @@ static const struct iomap_ops ntfs_zero_read_iomap_ops = {
- 
- const struct iomap_ops ntfs_seek_iomap_ops = {
- 	.iomap_begin = ntfs_seek_iomap_begin,
--	.iomap_end = ntfs_read_iomap_end,
- };
- 
- int ntfs_dio_zero_range(struct inode *inode, loff_t offset, loff_t length)
-@@ -659,7 +636,6 @@ static int ntfs_write_iomap_begin_resident(struct inode *inode, loff_t offset,
- 	u32 attr_len;
- 	int err = 0;
- 	char *kattr;
--	struct page *ipage;
- 
- 	ctx = ntfs_attr_get_search_ctx(ni, NULL);
- 	if (!ctx) {
-@@ -680,24 +656,18 @@ static int ntfs_write_iomap_begin_resident(struct inode *inode, loff_t offset,
- 	attr_len = le32_to_cpu(a->data.resident.value_length);
- 	kattr = (u8 *)a + le16_to_cpu(a->data.resident.value_offset);
- 
--	ipage = alloc_page(GFP_NOFS | __GFP_ZERO);
--	if (!ipage) {
--		err = -ENOMEM;
--		goto out;
--	}
--
--	memcpy(page_address(ipage), kattr, attr_len);
- 	iomap->type = IOMAP_INLINE;
--	iomap->inline_data = page_address(ipage);
-+	iomap->inline_data = kattr;
- 	iomap->offset = 0;
--	/* iomap requires there is only one INLINE_DATA extent */
- 	iomap->length = attr_len;
--	iomap->private = ipage;
- 
- out:
- 	if (ctx)
- 		ntfs_attr_put_search_ctx(ctx);
--	mutex_unlock(&ni->mrec_lock);
-+
-+	if (err)
-+		mutex_unlock(&ni->mrec_lock);
-+
- 	return err;
- }
- 
-@@ -778,43 +748,9 @@ static int ntfs_write_iomap_end_resident(struct inode *inode, loff_t pos,
- 					 unsigned int flags, struct iomap *iomap)
- {
- 	struct ntfs_inode *ni = NTFS_I(inode);
--	struct ntfs_attr_search_ctx *ctx;
--	u32 attr_len;
--	int err;
--	char *kattr;
--	struct page *ipage = iomap->private;
--
--	mutex_lock(&ni->mrec_lock);
--	ctx = ntfs_attr_get_search_ctx(ni, NULL);
--	if (!ctx) {
--		written = -ENOMEM;
--		mutex_unlock(&ni->mrec_lock);
--		return written;
--	}
--
--	err = ntfs_attr_lookup(ni->type, ni->name, ni->name_len,
--			       CASE_SENSITIVE, 0, NULL, 0, ctx);
--	if (err) {
--		if (err == -ENOENT)
--			err = -EIO;
--		written = err;
--		goto err_out;
--	}
- 
--	/* The total length of the attribute value. */
--	attr_len = le32_to_cpu(ctx->attr->data.resident.value_length);
--	if (pos >= attr_len || pos + written > attr_len)
--		goto err_out;
--
--	kattr = (u8 *)ctx->attr + le16_to_cpu(ctx->attr->data.resident.value_offset);
--	memcpy(kattr + pos, iomap_inline_data(iomap, pos), written);
--	mark_mft_record_dirty(ctx->ntfs_ino);
--err_out:
--	ntfs_attr_put_search_ctx(ctx);
--	put_page(ipage);
- 	mutex_unlock(&ni->mrec_lock);
- 	return written;
--
- }
- 
- static int ntfs_write_iomap_end(struct inode *inode, loff_t pos, loff_t length,
+ 	if (fd->record + 1 < num_recs) {
 -- 
-2.25.1
+2.34.1
 
