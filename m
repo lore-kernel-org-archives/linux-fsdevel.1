@@ -1,231 +1,628 @@
-Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010052.outbound.protection.outlook.com [52.101.61.52])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92CB81A23A4;
-	Thu, 23 Apr 2026 13:15:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.61.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776950110; cv=fail; b=E2CmU2FrsB90I48nQzgo9iKWgiUVsEzJuTqjrVyw778M0FUOgXFw0Tb5CpDIzWaN5zuhhFfyuZmXoyLk0RS9goe92+xUZWeQzmnsoQr8qyyFeGLqq70F45+V5vEkJhQPQs59cRUwgNVk2kgYMmTi7nFiv0wETCwlMy+ACs1bbvs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776950110; c=relaxed/simple;
-	bh=sDcpkJP+DNse6Emmp+KUuCpJvnxxOPMdfrIiHeIx3LM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=j6I8jUoc3bZKDOq7ZeqD6vtz1JnKlcXAGQOYANYqAId4iTEMk9hQt+R75BL8NMyjMTNDiSn517ydqhdvZ4tH450QyuTEqhYkCnaicVEdeXUGJlppI2EtncecFzyQeAtvWrT3aLRBw89UfowH4H+Gj6UH8rDqDiwTIPsZlq5WIqM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=CaK/3ye3; arc=fail smtp.client-ip=52.101.61.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2E79194C96;
+	Thu, 23 Apr 2026 13:36:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776951416; cv=none; b=SR0fE7ecCjRZvFf4WNiY1cU/oAWQbGvh+fDypX3fE9yIyM99cyD6VgGQ0W/hTfjO2+bVQ/+O7OfFmeyhFPW+WxM4Fb/oglMp74dGc/OKovUw3KQzHgOlg2KX2RQ+PGFjDaXmRR/HHA8x091sO9wER6aFoO/k8TbRg0DxdRHYorQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776951416; c=relaxed/simple;
+	bh=zRfa/wHXrPAG1RMeQA1+swbr1XdQbtKxt5a8g68Enfk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=POSUfQQ1DY6h7hCzPrKIy+lVINMDN4o/gSxNDUb0I8/OGPS/pfdLJgvSbnSb1faWO6UJMonb6PHO2ZnbSD8Yt/G7x7T6jKhnUgGJ1JJEf4xEd7MGo5p93Lnul4h7j0yiJd7WngELyZIudvhwsXmVOP+zUo4LLyBcQJYS8vtifew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tnHRDgl/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="CaK/3ye3"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DU/dauDQ/OhxaWmh5PTRtHxhCE4+VYvwwKoR6dg8ZiyV/PYVyAM9QC/39GeTn+ICjhrHm1wunbtIpA5K9nEN373C3oLeQ9PeSYECQGJt5Ffr9I82AL+ynwQM3KdpzK1pHXwsRa3Ge5KEay5melL7S8mSBlgKN0z5K9SNay8eeNIFMs3zlvGBoFFWkg7FrxBsFteh/vMlLatakLJeXTmY6pnT+m0SLXcu4inZGED8EFa/LnpoFhtLKvqEcfcRqtHLSSSIgBBAU+5ZhEv7qHFvUwI4PQI4W5PHx/uut4EanPc4pn273EQ8LZH0KtJzm92Tp+aAS3b+U12souSVhnnnDA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gG4I47J/Bn8e5ZZJWzb1rpu7Wc7R3+XdnbHMkkrbrbc=;
- b=tC/YTKz4PZg1ber7OpJkc4ZSZ2t5KYtH/M+1KF5LqB+04DZJ+zpHvYHe5GlRDl4fdk3hqxthoTPbkwfKLib7FlZRyv9MLU8mMeqfTPWfeDxaHNgekXXDw1sBnCZRqaD4bzMI2RyE8RWi6Iaf8zLcPeMIAfEpMX29hr++G7Qv5bnn61ybodccXJ1DMoye30sDSwMATk2UgJc+456n8r5ch0Gb1EkSLsIMCrENiodz52k8ZQfJmJWW2z4X6Tiyrf2VThlr26l78fUXa5YvOWD3CRASTFOZipEqipBPa3ziX8WWFJUrTadf+uXDf7lSpJUv8liJfL0qr67s6zw0/mgdYg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gG4I47J/Bn8e5ZZJWzb1rpu7Wc7R3+XdnbHMkkrbrbc=;
- b=CaK/3ye3RzodMa41sed3u6UwmFcdWV+p/KDZa0xMe3UDNgg1KZ77vzzjtMLKtxjfTm5U/G9h4+vkWVE6rR0XyI0qUMDiskYZ/A1+rMmtkqVKEh24qELjmSleW0CNGkqYLd+hHC9przofc99L6BFj1aQYuBsX1R3jFgoilRvjsZIBm+h2SeD5OZQbEK1VoLdsA+UE1mJ6uQ7hIIYMX/e3gUDQPr+AuRCdD83qozLC0REaARhGyn7OoWZsSnVqSSTc9x9gUy/wYZUA4VRKcHzUGNskf3I8YFej1RHSs32ckxP0JlJqNBrXNox81xvmogZcPvt/6R4O/hQHIm0VaI+h6Q==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
- CH3PR12MB9196.namprd12.prod.outlook.com (2603:10b6:610:197::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9846.22; Thu, 23 Apr 2026 13:14:59 +0000
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::f01d:73d2:2dda:c7b2]) by DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::f01d:73d2:2dda:c7b2%4]) with mapi id 15.20.9846.021; Thu, 23 Apr 2026
- 13:14:58 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: Lance Yang <lance.yang@linux.dev>
-Cc: willy@infradead.org, songliubraving@fb.com, clm@fb.com, dsterba@suse.com,
- viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz,
- akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org,
- baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com, npache@redhat.com,
- ryan.roberts@arm.com, dev.jain@arm.com, baohua@kernel.org, vbabka@kernel.org,
- rppt@kernel.org, surenb@google.com, mhocko@suse.com, shuah@kernel.org,
- linux-btrfs@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH 7.2 v3 02/12] mm/khugepaged: add folio dirty check after
- try_to_unmap()
-Date: Thu, 23 Apr 2026 09:14:54 -0400
-X-Mailer: MailMate (2.0r6290)
-Message-ID: <966A0E3C-F483-4C99-B74D-5B74A1F966F0@nvidia.com>
-In-Reply-To: <20260423083050.68509-1-lance.yang@linux.dev>
-References: <20260418024429.4055056-3-ziy@nvidia.com>
- <20260423083050.68509-1-lance.yang@linux.dev>
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: BN0PR04CA0187.namprd04.prod.outlook.com
- (2603:10b6:408:e9::12) To DS7PR12MB9473.namprd12.prod.outlook.com
- (2603:10b6:8:252::5)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tnHRDgl/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46BC7C2BCAF;
+	Thu, 23 Apr 2026 13:36:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776951415;
+	bh=zRfa/wHXrPAG1RMeQA1+swbr1XdQbtKxt5a8g68Enfk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tnHRDgl/1Gv6xLp4UoQtVJydmPyjivC8e6SjiGOZpkQ3x4v8uSUGWOYCaxHjELlW7
+	 yzjCWunvCfdHyVjQnc4x1JbjiIGNyxH0vjm99/fFX0zN84iHOqKm0+1fpG90/QP0IJ
+	 3+7hp1wB4L5pcPmo+sA2C7IBCfPqcbcqlRDE11QR64nn5we1qqBIKGEMPGZmvz0dOE
+	 46MiDmSC4B/LQtWoiOQPXe/+hS5yPHO74sLoYDiQbqu4Ch68IC9gTFjrQFi75Cz2Df
+	 OpptqpEDwuuDG2hUnQYQP8LMlZjnUJQxilpJJRGd9yzmt9lV73wx8K5djokNvu5dgn
+	 fDCqdY42bPYqg==
+Date: Thu, 23 Apr 2026 15:36:51 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Mateusz Guzik <mjguzik@gmail.com>
+Cc: viro@zeniv.linux.org.uk, jack@suse.cz, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v2] fs: cache the string generated by reading
+ /proc/filesystems
+Message-ID: <20260423-flohmarkt-immun-9aedcbd5b60f@brauner>
+References: <20260422181711.1340269-1-mjguzik@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|CH3PR12MB9196:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0408b226-d2b9-434d-5985-08dea13a5188
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|7416014|366016|22082099003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	2l8oSeDjzd91smR+9qUWxs/3aDJuLtsV3pAAirL+lM6JbIXCJ3+IWJPYGr4axRPzHvT36J0MGMIIHD9GIyuYCIu/2NTFHnct41MkivbACzKUvFTuNXwOPjiW3KgD98lgSODGBJzbHDe+gxKhk+x5hJqKiDISix/8cMmu96ZDLdwR44nvd4g/57iGChQ/TShaub9t4By5PhLFfCze/mnx4KGodfDGGZKqnqL6FV+/PWm00pO46B94CTBFFc2OLYpzrD9w2r3U/a3FieD2fI3layWpPbRvxaxzIT7FHaE5f+7BKkMHnkeiebmhJlBCvtdPtztCoK+6Jrr6Oy71IoisX4Zs9dSXbhixb8gOrF6Mr/3Hwx3squRD2srB9wp95sGEP/2/0BjD9gthiP2CCLJqTQhYavg/AcztW4qhe2UizIs6mFO8tURu7cM+IIY7NmSPyY/srP0dLjoyKlliH040R2YhSRnl+NSfRDHqT/4XH6BubV1Gt4Ws8nk/NC2Jyav+eEqSK+luNDi8bCfNRblNxsnwdNWFm8KVSB/HGSYkQO9cmcgiuctCXSA/Q0EOFIfq6QsgmOQ4SK0iH85AWlpvJe7NLveArPTRfEfhyctis3SOSJ1lSV6wdOd4j2l/cmcyB7NN7RSZHGDZ252uggTeMV8NR1DVgO0BbEC2bXPWzNrsFWYwXFzl7FUE70iAjreSLzyS4n5hbfZCZk8v81tihtX7uJqsDUt6PKd1DZRDs10=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(366016)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?GlGQlSwE2wxO8D/89gB0xW72Ra8596ZCYLDvrwQd7rxRNTTzqFRBt6W/Cq3P?=
- =?us-ascii?Q?GGt7ZA4nsTKZmX3xmk46kbQMKJWzWRMW4mHh6oNWO8UeU73LzSYKTxCXDECJ?=
- =?us-ascii?Q?D3uWSsPiUx7mVPpjmks6q2zwNeu4WT3i7ET9WYIbAhKVyZTHlZ/FzpsyaNlH?=
- =?us-ascii?Q?AIUuyXGAk8fCRfjXC5P7krWSfg0SS+39fxjd0Fz2GzHSyFcB9sCCtUMMhtaV?=
- =?us-ascii?Q?WLGmsVoltNXpo6wHEu6n9auUyaJoKbQrrNbNhgeW15ij1ucX0T66FS7t5M5k?=
- =?us-ascii?Q?8g6+YfjsAu5y/tia2XWfkn3M5OepUKPg8dmVinw0wMoecb2ob27p87eic2Dx?=
- =?us-ascii?Q?L9kjCOitsyK3nbXa4KhEcxpa5vvkDQZIxT8jHtQUW6Asbq+iTZE9Hqxy2yuO?=
- =?us-ascii?Q?xu7gf1bkLUVTfaPRg0w403fqu/OVMZZGBxSM/4bCKckYv+qMZwx1eRXRULmM?=
- =?us-ascii?Q?cATz2lRkQqkzu9I3RZAqJG2c0ENUFyusOCD8/D6bwFMBvQjHezgbjlds1IYe?=
- =?us-ascii?Q?KVWGNXlQ0Ns18GnQBAwiltwZZ0qP0Ch4iretaeylEcbUij0REuzDUbguhHH8?=
- =?us-ascii?Q?EcV1vwZLjxJvtNwyvFOLzUVHr4fok0QUeGQMAzEhvG3ZW9xfBT7WUfjEB0UE?=
- =?us-ascii?Q?P3YWPH4mFOU65ezZOWkeLKUeE+SKF5oFbQnkW9VTmCnwysLs6JPp7eF79ttN?=
- =?us-ascii?Q?gAyQliSzJPVL/gaApMgVkPFxI8/65v4o6gGv3EaMzQuqnH3tlEuHJmaYY3Ek?=
- =?us-ascii?Q?hci2Vv6lTntalQ2H8IozwnWNopvWbwijaIS5IBljA+jA9HfVWwwCjpTfvrHE?=
- =?us-ascii?Q?tCew6UwGUWpyou2kA4vL3xGUPgDRuW/CRWk2ax0/veQcSGg18LoM1qXCRVPE?=
- =?us-ascii?Q?dG8RYfhe9+TK0YTzjs3agyND+qCuCCyuI3i3kq6282r69JoQYYJHJbrbaVAz?=
- =?us-ascii?Q?zoZuZLbvI97PTjfuKcfydzT72PC2fDw4hhpxAwMdx1qnaMzrs7FQKN/XvYt3?=
- =?us-ascii?Q?5uTgYV8mRixs997jPqdsTRbzJ94V9e+GMS2F6s3mBDUv3cfNrju9D57KmYwi?=
- =?us-ascii?Q?afJ+dd7+wi6TCJQS0WZXtIeIF4/cr0jaT2NIbqsyviHDAUKlLA1gqGK1EiDl?=
- =?us-ascii?Q?QzjlmYNV1DRvKnUv5c5BOcFyuL778E3ok7KTUXfc/R5abxOnwh8C3p6KM2HI?=
- =?us-ascii?Q?dkjM/vnnPEycfEMbJlTSjalWBBDh6scIfDDzAdojVcorJlaX4bEfCFn09pcC?=
- =?us-ascii?Q?di+JjIDLtLUY4CynJcMRCpw9RZ4fA3jtUiUuQoYXPWSxXbSOFiU0A8aifB3L?=
- =?us-ascii?Q?eHw+i4scttIACnVpa9ZYBtSqziRyVQq2N5fW6RErrhlKUi2SShyMQ804wxxe?=
- =?us-ascii?Q?hfDbcKcC8Dj1NhZVRcYi1jN0CcE/i3WhaqE6J/omFibtQaosT2KFCZ78X1pi?=
- =?us-ascii?Q?ME4VbrOFvK1cITSqRUHdDDztojXH7hXb1mdl/jTmOF17OUmN6/gRFh8lt9mX?=
- =?us-ascii?Q?cqE3jRfhu/sS1guRZDDRdlaX3uopW+ggeJsmVLThCPdbtcdwh+k9xp7TgF40?=
- =?us-ascii?Q?pJksM5whSFU2yNYRfS3VxwH/QhRNpTRTiBUrgW7yYwJFLiDZcE4Ud97p9fr/?=
- =?us-ascii?Q?PcIFpVggbwGZGxHLRLlwFAz0yZN8emG/OT/UCa6WWq7goCuVaW2cWu7o0d02?=
- =?us-ascii?Q?1nCeOWhmSji3YE5LJMyWj+xThw2SouvleS7Rvsdv18awfyCZ?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0408b226-d2b9-434d-5985-08dea13a5188
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2026 13:14:58.3336
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YguAnK3U1GPy7AniWjMGcCpfZvzckNDTyC4MYOYNEAplZSLGgLx230FbIABFWA5S
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9196
+Content-Type: multipart/mixed; boundary="i3j4kyexbd3qaxdc"
+Content-Disposition: inline
+In-Reply-To: <20260422181711.1340269-1-mjguzik@gmail.com>
 
-On 23 Apr 2026, at 4:30, Lance Yang wrote:
 
-> On Fri, Apr 17, 2026 at 10:44:19PM -0400, Zi Yan wrote:
->> This check ensures the correctness of collapse read-only THPs for FSes=
+--i3j4kyexbd3qaxdc
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
->> after READ_ONLY_THP_FOR_FS is enabled by default for all FSes supporti=
-ng
->> PMD THP pagecache.
->>
->> READ_ONLY_THP_FOR_FS only supports read-only fd and uses mapping->nr_t=
-hps
->> and inode->i_writecount to prevent any write to read-only to-be-collap=
-sed
->> folios. In upcoming commits, READ_ONLY_THP_FOR_FS will be removed and =
-the
->> aforementioned mechanism will go away too. To ensure khugepaged functi=
-ons
->> as expected after the changes, skip if any folio is dirty after
->> try_to_unmap(), since a dirty folio means this read-only folio
->> got some writes via mmap can happen between try_to_unmap() and
->> try_to_unmap_flush() via cached TLB entries and khugepaged does not su=
-pport
->> writable pagecache folio collapse yet.
->>
->> Signed-off-by: Zi Yan <ziy@nvidia.com>
->> ---
->> mm/khugepaged.c | 25 +++++++++++++++++++++----
->> 1 file changed, 21 insertions(+), 4 deletions(-)
->>
->> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
->> index 3eb5d982d3d3..1c0fdc81d276 100644
->> --- a/mm/khugepaged.c
->> +++ b/mm/khugepaged.c
->> @@ -1979,8 +1979,7 @@ static enum scan_result collapse_file(struct mm_=
-struct *mm, unsigned long addr,
->> 				}
->> 			} else if (folio_test_dirty(folio)) {
->> 				/*
->> -				 * khugepaged only works on read-only fd,
->> -				 * so this page is dirty because it hasn't
->> +				 * This page is dirty because it hasn't
->> 				 * been flushed since first write. There
->> 				 * won't be new dirty pages.
->> 				 *
->> @@ -2038,8 +2037,8 @@ static enum scan_result collapse_file(struct mm_=
-struct *mm, unsigned long addr,
->> 		if (!is_shmem && (folio_test_dirty(folio) ||
->> 				  folio_test_writeback(folio))) {
->> 			/*
->> -			 * khugepaged only works on read-only fd, so this
->> -			 * folio is dirty because it hasn't been flushed
->> +			 * khugepaged only works on clean file-backed folios,
->> +			 * so this folio is dirty because it hasn't been flushed
->> 			 * since first write.
->> 			 */
->> 			result =3D SCAN_PAGE_DIRTY_OR_WRITEBACK;
->> @@ -2083,6 +2082,24 @@ static enum scan_result collapse_file(struct mm=
-_struct *mm, unsigned long addr,
->> 			goto out_unlock;
->> 		}
->>
->> +		/*
->> +		 * At this point, the folio is locked, unmapped. Make sure the
->> +		 * folio is clean, so that no one else is able to write to it,
->> +		 * since that would require taking the folio lock first.
->> +		 * Otherwise that means the folio was pointed by a dirty PTE and
->> +		 * some CPU might have a valid TLB entry with dirty bit set
->> +		 * still pointing to this folio and writes can happen without
->> +		 * causing a page table walk and folio lock acquisition before
->> +		 * the try_to_unmap_flush() below is done. After the collapse,
->> +		 * file-backed folio is not set as dirty and can be discarded
->> +		 * before any new write marks the folio dirty, causing data
->> +		 * corruption.
->> +		 */
->> +		if (!is_shmem && folio_test_dirty(folio)) {
->> +			result =3D SCAN_PAGE_DIRTY_OR_WRITEBACK;
->> +			goto out_unlock;
->
-> Looks buggy :)
->
-> This runs after folio_isolate_lru() and after xas_lock_irq(&xas) ...
->
-> If not missing something, "goto out_unlock" would leave the xarray lock=
-
-> held and the folio off the LRU :)
->
-> Note that the block right above does call xas_unlock_irq(&xas), and it
-> also does call folio_putback_lru(folio):
->
-> ---8<---
-> 		if (folio_ref_count(folio) !=3D 2 + folio_nr_pages(folio)) {
-> 			result =3D SCAN_PAGE_COUNT;
-> 			xas_unlock_irq(&xas);     <-
-> 			folio_putback_lru(folio); <-
-> 			goto out_unlock;
-> 		}
+On Wed, Apr 22, 2026 at 08:17:11PM +0200, Mateusz Guzik wrote:
+> It is being read surprisingly often (e.g., by mkdir, ls and even sed!).
+> 
+> This is lock-protected pointer chasing over a linked list to pay for
+> sprintf for every fs (32 on my boxen).
+> 
+> Instead cache the result.
+> 
+> open+read+close cycle single-threaded (ops/s):
+> before:	442732
+> after:	1063462 (+140%)
+> 
+> Here the main bottleneck is memcg.
+> 
+> Scalability-wise problems are avoidable lockref trip on open and ref
+> management for the file on procfs side.
+> 
+> The file looks like a sterotypical C from the 90s, right down to an
+> open-coded and slightly obfuscated linked list. I intentionally did not
+> clean up any of it -- I think the file will be best served by a Rust
+> rewrite when the time comes.
+> 
+> Signed-off-by: Mateusz Guzik <mjguzik@gmail.com>
 > ---
->
-> So we should follow the same cleanup as that block here, right?
 
-You are right. Will fix it. Thank you.
+Ugh, can't we at least also get rid of the rwlock stuff?
+Something like the appended two (completely untested) patches.
 
-Best Regards,
-Yan, Zi
+--i3j4kyexbd3qaxdc
+Content-Type: text/x-diff; charset=utf-8
+Content-Disposition: attachment;
+	filename="0001-proc-add-a-helper-for-marking-files-as-permanent-by-.patch"
+
+From 148061e07d8dfc513df6d190791811ed98e21adc Mon Sep 17 00:00:00 2001
+From: Mateusz Guzik <mjguzik@gmail.com>
+Date: Sat, 29 Mar 2025 20:28:20 +0100
+Subject: [PATCH 1/2] proc: add a helper for marking files as permanent by
+ external consumers
+
+This avoids refing trips on use, added with VFS in mind but should be
+helpful elsewhere as well.
+
+Signed-off-by: Mateusz Guzik <mjguzik@gmail.com>
+Link: https://lore.kernel.org/r/20250329192821.822253-2-mjguzik@gmail.com
+Signed-off-by: Christian Brauner <brauner@kernel.org>
+---
+ fs/proc/generic.c       | 6 ++++++
+ include/linux/proc_fs.h | 1 +
+ 2 files changed, 7 insertions(+)
+
+diff --git a/fs/proc/generic.c b/fs/proc/generic.c
+index 8bb81e58c9d8..c9de1c95bbdc 100644
+--- a/fs/proc/generic.c
++++ b/fs/proc/generic.c
+@@ -677,6 +677,12 @@ struct proc_dir_entry *proc_create_single_data(const char *name, umode_t mode,
+ }
+ EXPORT_SYMBOL(proc_create_single_data);
+ 
++void proc_make_permanent(struct proc_dir_entry *de)
++{
++	pde_make_permanent(de);
++}
++EXPORT_SYMBOL(proc_make_permanent);
++
+ void proc_set_size(struct proc_dir_entry *de, loff_t size)
+ {
+ 	de->size = size;
+diff --git a/include/linux/proc_fs.h b/include/linux/proc_fs.h
+index 19d1c5e5f335..360c1b90b546 100644
+--- a/include/linux/proc_fs.h
++++ b/include/linux/proc_fs.h
+@@ -106,6 +106,7 @@ struct proc_dir_entry *proc_create_single_data(const char *name, umode_t mode,
+ 		int (*show)(struct seq_file *, void *), void *data);
+ #define proc_create_single(name, mode, parent, show) \
+ 	proc_create_single_data(name, mode, parent, show, NULL)
++void proc_make_permanent(struct proc_dir_entry *);
+  
+ extern struct proc_dir_entry *proc_create_data(const char *, umode_t,
+ 					       struct proc_dir_entry *,
+-- 
+2.47.3
+
+
+--i3j4kyexbd3qaxdc
+Content-Type: text/x-diff; charset=utf-8
+Content-Disposition: attachment;
+	filename="0002-fs-RCU-ify-filesystems-list-and-cache-proc-filesyste.patch"
+
+From 5c5a25c5ab66f666349e80f78b5168a9fb4eebd6 Mon Sep 17 00:00:00 2001
+From: Christian Brauner <brauner@kernel.org>
+Date: Thu, 23 Apr 2026 14:43:17 +0200
+Subject: [PATCH 2/2] fs: RCU-ify filesystems list and cache /proc/filesystems
+
+The drivers list was protected by an rwlock; every mount, every open
+of /proc/filesystems and the legacy sysfs(2) syscall walked a
+hand-rolled singly-linked list under it. /proc/filesystems is
+especially hot because libselinux causes programs as mundane as
+mkdir, ls and sed to open and read it on every invocation.
+
+Convert the list to an RCU-protected hlist and switch the writer side
+to a plain spinlock. Writers keep their existing non-sleeping
+section while readers walk under rcu_read_lock() with no lock traffic:
+
+  - register_filesystem()/unregister_filesystem() take
+    file_systems_lock, publish via hlist_{add_tail,del_init}_rcu()
+    and invalidate the cached /proc/filesystems string.
+    unregister_filesystem() keeps its synchronize_rcu() after
+    dropping the lock so in-flight readers are drained before the
+    module (and its embedded file_system_type) can go away.
+
+  - __get_fs_type(), list_bdev_fs_names() and the
+    fs_index()/fs_name()/fs_maxindex() helpers walk the list under
+    rcu_read_lock(). fs_name() continues to drop the read-side
+    lock after try_module_get() and accesses ->name outside the RCU
+    section; the module reference pins the embedded file_system_type
+    across the boundary.
+
+Additionally cache the pre-rendered "[nodev\t]<name>\n" blob so
+filesystems_proc_show() becomes a single seq_write() under
+rcu_read_lock(). On a cache miss regen_filesystems_string() sizes
+the buffer under RCU, allocates GFP_KERNEL and refills under the
+writer spinlock; a generation counter bumped under the spinlock lets
+it detect concurrent (un)register and retry the allocation.
+
+Finally mark /proc/filesystems as permanent so the per-open refcount
+bounce (which can degrade to a spinlock acquire) is removed; this
+was the dominant bottleneck once the list walk itself was off the
+critical path and is what lifts the multi-threaded numbers in
+Mateusz Guzik's measurements:
+
+  https://lore.kernel.org/linux-fsdevel/20260422181711.1340269-1-mjguzik@gmail.com/
+
+struct file_system_type::next becomes struct hlist_node list; no
+in-tree caller references the old ->next field outside
+fs/filesystems.c.
+
+Signed-off-by: Christian Brauner <brauner@kernel.org>
+---
+ fs/filesystems.c   | 282 +++++++++++++++++++++++++++++----------------
+ fs/ocfs2/super.c   |   1 -
+ include/linux/fs.h |   2 +-
+ 3 files changed, 181 insertions(+), 104 deletions(-)
+
+diff --git a/fs/filesystems.c b/fs/filesystems.c
+index 0c7d2b7ac26c..9b24c309f71e 100644
+--- a/fs/filesystems.c
++++ b/fs/filesystems.c
+@@ -17,22 +17,50 @@
+ #include <linux/slab.h>
+ #include <linux/uaccess.h>
+ #include <linux/fs_parser.h>
++#include <linux/rculist.h>
+ 
+ /*
+- * Handling of filesystem drivers list.
+- * Rules:
+- *	Inclusion to/removals from/scanning of list are protected by spinlock.
+- *	During the unload module must call unregister_filesystem().
+- *	We can access the fields of list element if:
+- *		1) spinlock is held or
+- *		2) we hold the reference to the module.
+- *	The latter can be guaranteed by call of try_module_get(); if it
+- *	returned 0 we must skip the element, otherwise we got the reference.
+- *	Once the reference is obtained we can drop the spinlock.
++ * Read-mostly filesystem drivers list.
++ *
++ * Readers walk under rcu_read_lock(); writers take file_systems_lock
++ * and publish via _rcu hlist primitives.  unregister_filesystem()
++ * synchronize_rcu()s after unlock so the embedded file_system_type
++ * can't go away under a reader.  To keep using a filesystem after
++ * the RCU section ends, take a module reference via try_module_get().
++ */
++static HLIST_HEAD(file_systems);
++static DEFINE_SPINLOCK(file_systems_lock);
++
++#ifdef CONFIG_PROC_FS
++/*
++ * Cache /proc/filesystems - libselinux has mkdir/ls/sed read it on
++ * every invocation.  file_systems_gen lets regen detect (un)register
++ * races against the cached generation and retry.
+  */
++struct file_systems_string {
++	struct rcu_head rcu;
++	unsigned long gen;
++	size_t len;
++	char string[];
++};
+ 
+-static struct file_system_type *file_systems;
+-static DEFINE_RWLOCK(file_systems_lock);
++static unsigned long file_systems_gen;
++static struct file_systems_string __rcu *file_systems_string;
++
++static void invalidate_filesystems_string(void)
++{
++	struct file_systems_string *old;
++
++	lockdep_assert_held(&file_systems_lock);
++	file_systems_gen++;
++	old = rcu_replace_pointer(file_systems_string, NULL,
++				  lockdep_is_held(&file_systems_lock));
++	if (old)
++		kfree_rcu(old, rcu);
++}
++#else
++static inline void invalidate_filesystems_string(void) { }
++#endif
+ 
+ /* WARNING: This can be used only if we _already_ own a reference */
+ struct file_system_type *get_filesystem(struct file_system_type *fs)
+@@ -46,14 +74,15 @@ void put_filesystem(struct file_system_type *fs)
+ 	module_put(fs->owner);
+ }
+ 
+-static struct file_system_type **find_filesystem(const char *name, unsigned len)
++static struct file_system_type *find_filesystem(const char *name, unsigned len)
+ {
+-	struct file_system_type **p;
+-	for (p = &file_systems; *p; p = &(*p)->next)
+-		if (strncmp((*p)->name, name, len) == 0 &&
+-		    !(*p)->name[len])
+-			break;
+-	return p;
++	struct file_system_type *fs;
++
++	hlist_for_each_entry_rcu(fs, &file_systems, list,
++				 lockdep_is_held(&file_systems_lock))
++		if (strncmp(fs->name, name, len) == 0 && !fs->name[len])
++			return fs;
++	return NULL;
+ }
+ 
+ /**
+@@ -64,33 +93,27 @@ static struct file_system_type **find_filesystem(const char *name, unsigned len)
+  *	is aware of for mount and other syscalls. Returns 0 on success,
+  *	or a negative errno code on an error.
+  *
+- *	The &struct file_system_type that is passed is linked into the kernel 
++ *	The &struct file_system_type that is passed is linked into the kernel
+  *	structures and must not be freed until the file system has been
+  *	unregistered.
+  */
+- 
+-int register_filesystem(struct file_system_type * fs)
++int register_filesystem(struct file_system_type *fs)
+ {
+-	int res = 0;
+-	struct file_system_type ** p;
+-
+ 	if (fs->parameters &&
+ 	    !fs_validate_description(fs->name, fs->parameters))
+ 		return -EINVAL;
+ 
+ 	BUG_ON(strchr(fs->name, '.'));
+-	if (fs->next)
++	if (!hlist_unhashed_lockless(&fs->list))
+ 		return -EBUSY;
+-	write_lock(&file_systems_lock);
+-	p = find_filesystem(fs->name, strlen(fs->name));
+-	if (*p)
+-		res = -EBUSY;
+-	else
+-		*p = fs;
+-	write_unlock(&file_systems_lock);
+-	return res;
+-}
+ 
++	guard(spinlock)(&file_systems_lock);
++	if (find_filesystem(fs->name, strlen(fs->name)))
++		return -EBUSY;
++	hlist_add_tail_rcu(&fs->list, &file_systems);
++	invalidate_filesystems_string();
++	return 0;
++}
+ EXPORT_SYMBOL(register_filesystem);
+ 
+ /**
+@@ -100,94 +123,79 @@ EXPORT_SYMBOL(register_filesystem);
+  *	Remove a file system that was previously successfully registered
+  *	with the kernel. An error is returned if the file system is not found.
+  *	Zero is returned on a success.
+- *	
++ *
+  *	Once this function has returned the &struct file_system_type structure
+  *	may be freed or reused.
+  */
+- 
+-int unregister_filesystem(struct file_system_type * fs)
++int unregister_filesystem(struct file_system_type *fs)
+ {
+-	struct file_system_type ** tmp;
+-
+-	write_lock(&file_systems_lock);
+-	tmp = &file_systems;
+-	while (*tmp) {
+-		if (fs == *tmp) {
+-			*tmp = fs->next;
+-			fs->next = NULL;
+-			write_unlock(&file_systems_lock);
+-			synchronize_rcu();
+-			return 0;
+-		}
+-		tmp = &(*tmp)->next;
++	scoped_guard(spinlock, &file_systems_lock) {
++		if (hlist_unhashed(&fs->list))
++			return -EINVAL;
++		hlist_del_init_rcu(&fs->list);
++		invalidate_filesystems_string();
+ 	}
+-	write_unlock(&file_systems_lock);
+-
+-	return -EINVAL;
++	synchronize_rcu();
++	return 0;
+ }
+-
+ EXPORT_SYMBOL(unregister_filesystem);
+ 
+ #ifdef CONFIG_SYSFS_SYSCALL
+-static int fs_index(const char __user * __name)
++static int fs_index(const char __user *__name)
+ {
+-	struct file_system_type * tmp;
++	struct file_system_type *tmp;
+ 	char *name __free(kfree) = strndup_user(__name, PATH_MAX);
+-	int err, index;
++	int index = 0;
+ 
+ 	if (IS_ERR(name))
+ 		return PTR_ERR(name);
+ 
+-	err = -EINVAL;
+-	read_lock(&file_systems_lock);
+-	for (tmp=file_systems, index=0 ; tmp ; tmp=tmp->next, index++) {
+-		if (strcmp(tmp->name, name) == 0) {
+-			err = index;
+-			break;
+-		}
++	guard(rcu)();
++	hlist_for_each_entry_rcu(tmp, &file_systems, list) {
++		if (strcmp(tmp->name, name) == 0)
++			return index;
++		index++;
+ 	}
+-	read_unlock(&file_systems_lock);
+-	return err;
++	return -EINVAL;
+ }
+ 
+-static int fs_name(unsigned int index, char __user * buf)
++static int fs_name(unsigned int index, char __user *buf)
+ {
+-	struct file_system_type * tmp;
+-	int len, res = -EINVAL;
++	struct file_system_type *tmp, *found = NULL;
++	int len, res;
+ 
+-	read_lock(&file_systems_lock);
+-	for (tmp = file_systems; tmp; tmp = tmp->next, index--) {
+-		if (index == 0) {
++	scoped_guard(rcu) {
++		hlist_for_each_entry_rcu(tmp, &file_systems, list) {
++			if (index--)
++				continue;
+ 			if (try_module_get(tmp->owner))
+-				res = 0;
++				found = tmp;
+ 			break;
+ 		}
+ 	}
+-	read_unlock(&file_systems_lock);
+-	if (res)
+-		return res;
++	if (!found)
++		return -EINVAL;
+ 
+ 	/* OK, we got the reference, so we can safely block */
+-	len = strlen(tmp->name) + 1;
+-	res = copy_to_user(buf, tmp->name, len) ? -EFAULT : 0;
+-	put_filesystem(tmp);
++	len = strlen(found->name) + 1;
++	res = copy_to_user(buf, found->name, len) ? -EFAULT : 0;
++	put_filesystem(found);
+ 	return res;
+ }
+ 
+ static int fs_maxindex(void)
+ {
+-	struct file_system_type * tmp;
+-	int index;
++	struct file_system_type *tmp;
++	int index = 0;
+ 
+-	read_lock(&file_systems_lock);
+-	for (tmp = file_systems, index = 0 ; tmp ; tmp = tmp->next, index++)
+-		;
+-	read_unlock(&file_systems_lock);
++	guard(rcu)();
++	hlist_for_each_entry_rcu(tmp, &file_systems, list)
++		index++;
+ 	return index;
+ }
+ 
+ /*
+- * Whee.. Weird sysv syscall. 
++ * Whee.. Weird sysv syscall.
+  */
+ SYSCALL_DEFINE3(sysfs, int, option, unsigned long, arg1, unsigned long, arg2)
+ {
+@@ -216,8 +224,8 @@ int __init list_bdev_fs_names(char *buf, size_t size)
+ 	size_t len;
+ 	int count = 0;
+ 
+-	read_lock(&file_systems_lock);
+-	for (p = file_systems; p; p = p->next) {
++	guard(rcu)();
++	hlist_for_each_entry_rcu(p, &file_systems, list) {
+ 		if (!(p->fs_flags & FS_REQUIRES_DEV))
+ 			continue;
+ 		len = strlen(p->name) + 1;
+@@ -230,30 +238,101 @@ int __init list_bdev_fs_names(char *buf, size_t size)
+ 		size -= len;
+ 		count++;
+ 	}
+-	read_unlock(&file_systems_lock);
+ 	return count;
+ }
+ 
+ #ifdef CONFIG_PROC_FS
+-static int filesystems_proc_show(struct seq_file *m, void *v)
++static __cold noinline int regen_filesystems_string(void)
+ {
+-	struct file_system_type * tmp;
++	struct file_system_type *tmp;
++	struct file_systems_string *old, *new;
++	size_t newlen, usedlen;
++	unsigned long gen;
++
++retry:
++	/*
++	 * Size under RCU; the spinlock below detects list mutation via
++	 * file_systems_gen and we retry.  Bounded by (un)register rate.
++	 */
++	newlen = 0;
++	scoped_guard(rcu) {
++		gen = READ_ONCE(file_systems_gen);
++		hlist_for_each_entry_rcu(tmp, &file_systems, list) {
++			if (!(tmp->fs_flags & FS_REQUIRES_DEV))
++				newlen += strlen("nodev");
++			newlen += strlen("\t") + strlen(tmp->name) +
++				  strlen("\n");
++		}
++	}
++
++	new = kmalloc(struct_size(new, string, newlen), GFP_KERNEL);
++	if (!new)
++		return -ENOMEM;
++	new->gen = gen;
++	new->len = newlen;
++
++	spin_lock(&file_systems_lock);
++	old = rcu_dereference_protected(file_systems_string,
++					lockdep_is_held(&file_systems_lock));
++
++	/* Someone regenerated for our generation already. */
++	if (old && old->gen == file_systems_gen) {
++		spin_unlock(&file_systems_lock);
++		kfree(new);
++		return 0;
++	}
+ 
+-	read_lock(&file_systems_lock);
+-	tmp = file_systems;
+-	while (tmp) {
+-		seq_printf(m, "%s\t%s\n",
++	/* List mutated between size-calc and here; retry. */
++	if (gen != file_systems_gen) {
++		spin_unlock(&file_systems_lock);
++		kfree(new);
++		goto retry;
++	}
++
++	/* Sized for this generation under the lock, so sprintf fits. */
++	usedlen = 0;
++	hlist_for_each_entry(tmp, &file_systems, list) {
++		usedlen += sprintf(&new->string[usedlen], "%s\t%s\n",
+ 			(tmp->fs_flags & FS_REQUIRES_DEV) ? "" : "nodev",
+ 			tmp->name);
+-		tmp = tmp->next;
+ 	}
+-	read_unlock(&file_systems_lock);
++	WARN_ON_ONCE(usedlen != newlen);
++
++	rcu_assign_pointer(file_systems_string, new);
++	spin_unlock(&file_systems_lock);
++	if (old)
++		kfree_rcu(old, rcu);
+ 	return 0;
+ }
+ 
++static int filesystems_proc_show(struct seq_file *m, void *v)
++{
++	struct file_systems_string *fss;
++	int err;
++
++	for (;;) {
++		scoped_guard(rcu) {
++			fss = rcu_dereference(file_systems_string);
++			if (likely(fss)) {
++				seq_write(m, fss->string, fss->len);
++				return 0;
++			}
++		}
++
++		err = regen_filesystems_string();
++		if (unlikely(err))
++			return err;
++	}
++}
++
+ static int __init proc_filesystems_init(void)
+ {
+-	proc_create_single("filesystems", 0, NULL, filesystems_proc_show);
++	struct proc_dir_entry *pde;
++
++	pde = proc_create_single("filesystems", 0, NULL, filesystems_proc_show);
++	if (!pde)
++		return -ENOMEM;
++	proc_make_permanent(pde);
+ 	return 0;
+ }
+ module_init(proc_filesystems_init);
+@@ -263,11 +342,10 @@ static struct file_system_type *__get_fs_type(const char *name, int len)
+ {
+ 	struct file_system_type *fs;
+ 
+-	read_lock(&file_systems_lock);
+-	fs = *(find_filesystem(name, len));
++	guard(rcu)();
++	fs = find_filesystem(name, len);
+ 	if (fs && !try_module_get(fs->owner))
+ 		fs = NULL;
+-	read_unlock(&file_systems_lock);
+ 	return fs;
+ }
+ 
+diff --git a/fs/ocfs2/super.c b/fs/ocfs2/super.c
+index b875f01c9756..4870e680c4e5 100644
+--- a/fs/ocfs2/super.c
++++ b/fs/ocfs2/super.c
+@@ -1224,7 +1224,6 @@ static struct file_system_type ocfs2_fs_type = {
+ 	.name           = "ocfs2",
+ 	.kill_sb        = kill_block_super,
+ 	.fs_flags       = FS_REQUIRES_DEV|FS_RENAME_DOES_D_MOVE,
+-	.next           = NULL,
+ 	.init_fs_context = ocfs2_init_fs_context,
+ 	.parameters	= ocfs2_param_spec,
+ };
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index 11559c513dfb..c37bb3c7de8b 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -2286,7 +2286,7 @@ struct file_system_type {
+ 	const struct fs_parameter_spec *parameters;
+ 	void (*kill_sb) (struct super_block *);
+ 	struct module *owner;
+-	struct file_system_type * next;
++	struct hlist_node list;
+ 	struct hlist_head fs_supers;
+ 
+ 	struct lock_class_key s_lock_key;
+-- 
+2.47.3
+
+
+--i3j4kyexbd3qaxdc--
