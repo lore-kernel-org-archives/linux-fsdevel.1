@@ -1,182 +1,236 @@
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0242B37E314
-	for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 23:57:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEA781E834B
+	for <linux-fsdevel@vger.kernel.org>; Thu, 23 Apr 2026 00:20:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.179
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776902252; cv=pass; b=Qjc1+NpYKH514De7YUYYNgwgS0r3V9vEvT2z9kYfIFqlhixP353RtP2adCgandU1tv+nn8Qg0G9wg1WEBnkeolB1/4oz+BT028wi4dzEOoBTJpy0lRLnaL85Nf4EtIHog8jvstagpO91+en8JJC32kt/xbwHZOrtyClPTLeK4cc=
+	t=1776903613; cv=pass; b=hpc5Jtt/8XFNv4TgfICbruwDySnBTxOWoQatoRfvy/bsCst5ULK41nkNE4WKfIEs3wcAfO8MeUDMRjVF2f4/0qsecfqpX5qpBGvfIOSPMeM4V6ILSXasO1G5wfiCYpA6nMP1Cc/qU16Vn8ui71oymUtexV20iouL+dtzRDksM3g=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776902252; c=relaxed/simple;
-	bh=zSelJba013/LeUm+1WTIOwf/Kq/3usipc4ByyYze3uY=;
+	s=arc-20240116; t=1776903613; c=relaxed/simple;
+	bh=2MilzRt8cmnGQ2F/kJxBuopP9nkbS4u7gug4FqwM93k=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Zm71X6tgDWIW0/chJ3C/ehIumwCL871hwUr80bo/J+cxkjsAa/oOa+TjiZB4KpBCbwWrFpnKnjASUeFEVo8hR+v4Vb7yGEbDvx982gflXt7zmkJnnyYAPUW9GHfMmyuXmT1AKAbkxlZ+VXbN1Yl5iWs4k0vO+nQf40avBMsO5Ts=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GhReD3PW; arc=pass smtp.client-ip=209.85.208.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=LvLBbX19LbX0x8xURumssYCuO4GC/8cUCxYqywAT2UAvG0fOuKwW8FtKn8k5r+FlyiRlp37aNcnWFu1ETefXfGkHvHox7HBMqJffWUeF9QHF7N6dlMM1Zq2bYuuJpUIQ0iIAAf/EPPqsv7GaXkdIbDtD4HxmPkLf/yUEi5OYZWg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=d3VEdHR6; arc=pass smtp.client-ip=209.85.215.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GhReD3PW"
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-38e800deae4so50878141fa.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 16:57:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776902249; cv=none;
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="d3VEdHR6"
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-c7b9f54d3deso328067a12.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 22 Apr 2026 17:20:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776903611; cv=none;
         d=google.com; s=arc-20240605;
-        b=RJIP1PpwvIt6L9Ufp0NTvbXTBWPpviYfvdV1SdoPlZQWyQkCV0fvLESKsa/5ROYcaP
-         cXLa7MqMUN63SfSXPZrpGKFALDb/tl+0clnjdh5vW8dJIo8p1V8Ts3hWeK/zWu3hTBgg
-         hE5kbh/6o2Jqdo7FD6hVJFNY69WWgEXVoV6ulMPLJBEKwujj0Z5PUYLXH2q8ZCMEEGnX
-         PUGEEkep/0nkz3/g56BrRS2Z8yTaK0NbWt0SLF51OvR+gcl45EvcvdYkEBF9VXaQWYak
-         B6f5sn95YKWnE9zF1F6Znc+tp2Ec1LdJE80TPTvYSSFdlNyPvsqQGZ9n9YVJ2APN28gt
-         iYCA==
+        b=jvHNHOjdKJTEP3KRgHSUQcya0Rhed0fkCnDHiiw71RQO3RrnvpQMgeKgEp9e6l8I4F
+         3LnTJoAJoI1dfbxkoK5EsEEbSYD8DgoP6JjCWnNIYgHlKNS5mkxEWJYcnztGKhtvS3D/
+         7CBXynrf+jP2TwkjEHr8n8JsqL69wOt6DerrMvANKKee+7Cj9kH97B3zDzGDuFETq6jB
+         1hSiKQTTmVfVFs7RjH3OkU2y3cE4FF2fe0fPXRvQ1dLVnhqWx0x8jNSDn+b9bQigY76o
+         nhZH3V8UwUra9jGJ5rLYqn1iWkVAZgtg77m1ED78ImPMZecA67hFpVCbjPhTQlg/qiIX
+         Q8gw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=BHnuZiaUwM6csQC1PiZuhYHpb1+v+59oA9r0wwRU46Y=;
-        fh=rhu6CrPHy+yHGDZJdU0/xvSgtPzh6mHbGvWXvn4Fvek=;
-        b=QhS8H+ExvPIzh4dP93aKmR0i38a9C5trgsJVbo8gqHaV1cgAjHmywK8cCBHLiKuT35
-         /nrSFyAZcQec2Yfp07dbxNRh0tIbXhkO9ZatBBrKFeqcT71fcEHt5NlB2mvPgfAsmSiN
-         WGXmYdQvaQMtc4C9/h3rwKxsq6tRk2tx11f02j1GV+KorqyL4qW08/LlVtbOyJe98CDT
-         sgs3JlRc+egR/jXFZ1yub9Ii2aU+NYgFkDfvkjo+wxRA0ztdPM7p1x+vwGmJIyUdS1wi
-         H47dmp8/gugnZ6Jg6XphWU60vPaW2JnxVLbGJk230BGzhyaugjBuq0QsCVIBT1XtLaXg
-         G2nw==;
+        bh=WWnOdG2Qc8EhlLJvMnlzyDWOPt+Zq7olkDLmxANGXE8=;
+        fh=LMVDFvLubNoH8Zd/SazFYv/G+uLqXcf0pmnIbtDpATg=;
+        b=URVPxz7EjxRJvupGWXIqdU0AJ32O1fA/ZCbfgcxKdzeAlCQ2HUryNDOKPhnd+whzwQ
+         cvYmlug9L1gMVfFApfar/lbyAUZi11rQEivdh0IRZFtGYE+dhZPFn3m0Xibre/vzbI8f
+         0S2bC760y8LxH5hmlkxWosqp+AZeF3SGCGl9IDWCy4Bt9i7yOoGaLz7VKdjXI6m0dEka
+         uHPe6aoAzBDFVuC3LF86Q3xKWlpzT2P+eOGNIXUR/9VCbrsVYTVyM0riDt0JUXOUxw5L
+         YYu49YylHAgn34wSeYas/KDYPwHsCX2gSMj84uSA2Imi6MxtLMXLvkcn99+jhe5nFtRg
+         +z1Q==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776902249; x=1777507049; darn=vger.kernel.org;
+        d=paul-moore.com; s=google; t=1776903611; x=1777508411; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BHnuZiaUwM6csQC1PiZuhYHpb1+v+59oA9r0wwRU46Y=;
-        b=GhReD3PWk5cML8zJt52WCySHyyarl3NjLOYqN7i4F47hjOxaF/nCWyviwaBV2YAkAw
-         h+fEI+fhhzEkdWmhytZEGy7tWYnR5Y0GnToTOLJlBjBHkmMNaJvUNKSVQU+k10b0wNCa
-         g4LrsgQHP7wyrnL+Syc0fXvvNo2RwrFdIakdPjMRH4MQ9gQYZUKoGhaqwLm37WiD8vMz
-         eGLuhqpWGGl2wth9Fpb0YTUYMz7Z6F8HTAwL/YHoyY0/caGDZBsowL1u9SjNC3lIbuMe
-         s6ghEOU+XmNkFmpkwPyCqE/JqB9wCnhzvS6KXI60J2fAxpR3hwYtZ3n3jG09UUrc6CTl
-         DB3w==
+        bh=WWnOdG2Qc8EhlLJvMnlzyDWOPt+Zq7olkDLmxANGXE8=;
+        b=d3VEdHR6RyGpsB9+8Jz3IPyIkUzdxKU18XKE91Y4PnVvVO8C9sLg0KJGmVYPI1Z2/s
+         0/N3sptOMmr9bziQT0VAVdZ4hcwDylqnzph1SWEgx3j4K3JgxvFe5Ixvss/oC4lpAo0y
+         PiUhLDz8gwzIUIYFrRLf7iAFXbofTefZecbmRuz8dIT73SoJvXnZ7RygNwi7u4vy4B4z
+         fDIV0bGcErZFTBixpKfx6i1GHMX92noCPyCHgXoXYD96+cKs/5U+h+DZk/qixpBJbB0O
+         BHL2UugxELqy3UiPUAQlaftCNErsbAK4dzHa/8a9PYhKOeyQkhUk03l7KxSjxQ2I4LgY
+         Yaog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776902249; x=1777507049;
+        d=1e100.net; s=20251104; t=1776903611; x=1777508411;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=BHnuZiaUwM6csQC1PiZuhYHpb1+v+59oA9r0wwRU46Y=;
-        b=Oc0e7BwRSS5YReCyAKWbvqz2X2v168Kgpq6DAUroIebmwgWgzlvUpSQqmx5Jud22qd
-         RuOTRJb4RPcoaqsusvadlUyWjn2dT3Lt0RbNuoZafqXWi1tzvAR9+S8/4Idk7ZsqI9uy
-         e7lB7kwuo89HseilwY1zWZgwpH357bY3FQrxoD4VDhv+tQNAfaEiP9VcRI03Mew+FKkN
-         aNPqV3WXUF/kmZCG/2xXC5WFRYVg2eSSZExfaRs3JN6KBOAFQ+4lRXTIP9o9RviYtUbD
-         Ls/cgjVGC9hzFtgSkfVLbPQHFP8x5vF6i+0of9UnOGnQXHHBgSskuqH3Ick8ighFFN0C
-         8L8g==
-X-Gm-Message-State: AOJu0YxL0m7ZDGEh7IDtg6rSPY9/vpLlPNLkGSpzhpoPoR8/iEv/TR9r
-	yxwKGlFzLKnPWmDJr5sGRqTRJQG2anfP6vCwT8faleV71CZXhQFn6EVFLc/m7X8hjpQWVP0elFx
-	HYpAQyVzz8Dlu4j44mnr4ef8PsuamTJQ=
-X-Gm-Gg: AeBDievO5qj/OO8mFfF/gKSHyTa4rjV7spm7miT83ULUEqgyC8ED0rn8HRuXu2l80Bd
-	Cv08yzizXmcvJMgUNwT6z7S4PzkAqTnxAvopcmSa/WIufmlgcXV5FGk/AmDEKnfqyy9FHa0jn+w
-	jFn2lB+6OLFJamEyPGUBLc5nkjJS+5fX4sb3sLCW91zgIStFUUUEzwfwf9RkFdvXvWDjkj9/nnD
-	dV/IP10+10gGUHTEFNZ/BB5Rse5lvfWtvWtcFwnyy2FPo69WimmT5B7On5ZlMBFzGvnal/wh2CQ
-	CRf14het0hLLjRrfmQ==
-X-Received: by 2002:a05:6512:3d25:b0:5a3:6d02:846e with SMTP id
- 2adb3069b0e04-5a4172e2d4amr8248205e87.36.1776902248613; Wed, 22 Apr 2026
- 16:57:28 -0700 (PDT)
+        bh=WWnOdG2Qc8EhlLJvMnlzyDWOPt+Zq7olkDLmxANGXE8=;
+        b=mEnUKwc71bPWsoZInks0fRgOaLJ6zIU6HKv4C3lw4XxZgvdGWjUjW54+8CGa7+LXJe
+         klXLlnqNLqs6l9VqOzOeeMuG5uHXgNO1VFYF++6a0F3asttWIqbD+jdPyKKVyI6jdwvO
+         rQOhCAURlEgY1YJ7hs8lGiGi2dGON/2KxRroEYDoaq7wd7nh9RyQwHAfFl+LFZ7IDzQF
+         HTfdpIkrnvVgk/y48dxSQ6cqfv4fprB532yvAmiyHynk5y223oJJN7g5ywDlg8TDpq/z
+         PKw7DaS0R4XGhL2AjPjPKzcyni7/ybl057rr5tFqZtXo35L/CjQGJDeFo60CI1X7OOEz
+         JIrA==
+X-Forwarded-Encrypted: i=1; AFNElJ+8+u+U2zXK7gQrZM8v8gPq/WMR6MdtObrJw5VnMeNowPdTqeBUQhR7R9CjJ62XFETsKKfiIGUFNqHkgtEy@vger.kernel.org
+X-Gm-Message-State: AOJu0YxemcvjrxOJ7UQELB613UFOXhIdmdZml4uC3uhHanMuTn7g676G
+	akqlgLJMuCoU6MDTO27jHtIhOmigwmuuP2ciFVQxCWM27qvsHVrguUrbh81wggbO7RVxkKiAPYK
+	trou6Y0n/fuhdelQjTaxaTzauW4OEVB2BOoALvFRe
+X-Gm-Gg: AeBDiesKJvHBlv8TpYzvA1ttnG9xv/QjkmgfEPiPMMrTikkwWgTyz632v4seErDuUx7
+	ZQoF/mCByPWWnhEjec6fuLh1x/R1XcF6Larvki+hAsurTwrZ5UxjxBFhqURw3Y3e6QTkCnjDQm0
+	t5n+E6fQjX+KZX/t/EbUicWIogHr7g3Z6gRQq1jC8sa+dgiPmuhkauYQSamY9Jp0AG8V7PMnXH1
+	l9sATP+MUQ1RVYwf9ozTtcF6n37+Kq9dTEomzuAcrA6R5rq4pv2Y/SuFDo+ddLcIhYXcmIVcqPT
+	syl056I+LEQ9ZgLmog==
+X-Received: by 2002:a05:6a21:6da1:b0:3a2:c685:f9b0 with SMTP id
+ adf61e73a8af0-3a2c6860b22mr18691201637.49.1776903611025; Wed, 22 Apr 2026
+ 17:20:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CANFS6bY5KfZ34dAw8StDnXkrr59r883ETB2enZr++Ny++B6H=g@mail.gmail.com>
- <20260422094737.194069-1-zhanxusheng@xiaomi.com>
-In-Reply-To: <20260422094737.194069-1-zhanxusheng@xiaomi.com>
-From: Hyunchul Lee <hyc.lee@gmail.com>
-Date: Thu, 23 Apr 2026 08:57:16 +0900
-X-Gm-Features: AQROBzDo8zse9uHCvKnHiDXsp462-F3pH042g-7UGXyMf-TWZiXrzFTJFyNy0SQ
-Message-ID: <CANFS6bYt4Byg=iqEmVV0ruLKgaBoPHotis-r4=PAwvYwkp8=TQ@mail.gmail.com>
-Subject: Re: [PATCH v2] ntfs: fix VCN overflow in ntfs_mapping_pairs_decompress()
-To: Zhan Xusheng <zhanxusheng1024@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Zhan Xusheng <zhanxusheng@xiaomi.com>
+References: <20260312100444.2609563-1-mic@digikod.net> <20260312100444.2609563-2-mic@digikod.net>
+In-Reply-To: <20260312100444.2609563-2-mic@digikod.net>
+From: Paul Moore <paul@paul-moore.com>
+Date: Wed, 22 Apr 2026 20:19:59 -0400
+X-Gm-Features: AQROBzA-RiP1h7rMGgAyQ5vVHw1O5KoNpY2Zr4y9YGn7VDWJmeZCA985VQDaF6Y
+Message-ID: <CAHC9VhT4Cd-FMYhaKgt6Gv-Suu7YJm7YbKZ-vdMwQV7EiWDryA@mail.gmail.com>
+Subject: Re: [RFC PATCH v1 01/11] security: add LSM blob and hooks for namespaces
+To: =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
+Cc: Christian Brauner <brauner@kernel.org>, =?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
+	"Serge E . Hallyn" <serge@hallyn.com>, Justin Suess <utilityemal77@gmail.com>, 
+	Lennart Poettering <lennart@poettering.net>, 
+	Mikhail Ivanov <ivanov.mikhail1@huawei-partners.com>, 
+	Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>, 
+	Shervin Oloumi <enlightened@google.com>, Tingmao Wang <m@maowtm.org>, kernel-team@cloudflare.com, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-2026=EB=85=84 4=EC=9B=94 22=EC=9D=BC (=EC=88=98) =EC=98=A4=ED=9B=84 6:47, Z=
-han Xusheng <zhanxusheng1024@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=
-=B1:
+On Thu, Mar 12, 2026 at 6:05=E2=80=AFAM Micka=C3=ABl Sala=C3=BCn <mic@digik=
+od.net> wrote:
 >
-> In ntfs_mapping_pairs_decompress(), lowest_vcn is read from
-> on-disk metadata and used as the initial vcn without validation.
-> A malformed value can introduce an invalid (e.g. negative) vcn,
-> corrupting the runlist from the start.
+> From: Christian Brauner <brauner@kernel.org>
 >
-> Additionally, the accumulation
->     vcn +=3D deltaxcn
+> All namespace types now share the same ns_common infrastructure. Extend
+> this to include a security blob so LSMs can start managing namespaces
+> uniformly without having to add one-off hooks or security fields to
+> every individual namespace type.
 >
-> does not check for s64 overflow. A crafted mapping pairs array
-> can wrap vcn to a negative value, breaking the monotonically-
-> increasing invariant relied upon by ntfs_rl_vcn_to_lcn() and
-> related helpers.
+> Add a ns_security pointer to ns_common and the corresponding lbs_ns
+> blob size to lsm_blob_sizes. Allocation and freeing hooks are called
+> from the common __ns_common_init() and __ns_common_free() paths so
+> every namespace type gets covered in one go. All information about the
+> namespace type and the appropriate casting helpers to get at the
+> containing namespace are available via ns_common making it
+> straightforward for LSMs to differentiate when they need to.
 >
-> Fix this by validating lowest_vcn and using check_add_overflow()
-> for vcn accumulation.
+> A namespace_install hook is called from validate_ns() during setns(2)
+> giving LSMs a chance to enforce policy on namespace transitions.
 >
-> Signed-off-by: Zhan Xusheng <zhanxusheng@xiaomi.com>
+> Individual namespace types can still have their own specialized security
+> hooks when needed. This is just the common baseline that makes it easy
+> to track and manage namespaces from the security side without requiring
+> every namespace type to reinvent the wheel.
+>
+> Cc: G=C3=BCnther Noack <gnoack@google.com>
+> Cc: Paul Moore <paul@paul-moore.com>
+> Cc: Serge E. Hallyn <serge@hallyn.com>
+> Signed-off-by: Christian Brauner <brauner@kernel.org>
+> Link: https://lore.kernel.org/r/20260216-work-security-namespace-v1-1-075=
+c28758e1f@kernel.org
 > ---
-> v2:
->  - Validate lowest_vcn from on-disk metadata
->  - Use check_add_overflow() for vcn accumulation
-> ---
->  fs/ntfs/runlist.c | 19 +++++++++++++++++--
->  1 file changed, 17 insertions(+), 2 deletions(-)
->
-> diff --git a/fs/ntfs/runlist.c b/fs/ntfs/runlist.c
-> index b213b4976d2b..ee68258ebffb 100644
-> --- a/fs/ntfs/runlist.c
-> +++ b/fs/ntfs/runlist.c
-> @@ -749,6 +749,12 @@ struct runlist_element *ntfs_mapping_pairs_decompres=
-s(const struct ntfs_volume *
->  #endif
->         /* Start at vcn =3D lowest_vcn and lcn 0. */
->         vcn =3D le64_to_cpu(attr->data.non_resident.lowest_vcn);
-> +       /* Validate lowest_vcn from on-disk metadata to ensure it is sane=
-. */
-> +       if (unlikely(vcn < 0)) {
-> +               ntfs_error(vol->sb, "Invalid lowest_vcn in mapping pairs.=
-");
-> +               goto err_out;
+>  include/linux/lsm_hook_defs.h      |  3 ++
+>  include/linux/lsm_hooks.h          |  1 +
+>  include/linux/ns/ns_common_types.h |  3 ++
+>  include/linux/security.h           | 20 ++++++++
+>  kernel/nscommon.c                  | 12 +++++
+>  kernel/nsproxy.c                   |  8 +++-
+>  security/lsm_init.c                |  2 +
+>  security/security.c                | 76 ++++++++++++++++++++++++++++++
+>  8 files changed, 124 insertions(+), 1 deletion(-)
+
+...
+
+> diff --git a/kernel/nscommon.c b/kernel/nscommon.c
+> index bdc3c86231d3..de774e374f9d 100644
+> --- a/kernel/nscommon.c
+> +++ b/kernel/nscommon.c
+> @@ -77,6 +81,13 @@ int __ns_common_init(struct ns_common *ns, u32 ns_type=
+, const struct proc_ns_ope
+>                 ret =3D proc_alloc_inum(&ns->inum);
+>         if (ret)
+>                 return ret;
+> +
+> +       ret =3D security_namespace_alloc(ns);
+> +       if (ret) {
+> +               proc_free_inum(ns->inum);
+> +               return ret;
 > +       }
 
-How about using overflows_type() ?
-And please include <linux/overflow.h>.
+Since this is an RFC, I'll make the nitpicky comment that it would be
+better if the LSM hook is called security_namespace_init() instead of
+security_namespace_alloc().  This fits better with the convention of
+aligning with the caller's name, as well as to helps to indicate that
+the LSMs will be initializing the LSM state associated with the
+ns_common instance.
 
-> +
->         lcn =3D 0;
->         /* Get start of the mapping pairs array. */
->         buf =3D (u8 *)attr +
-> @@ -823,8 +829,17 @@ struct runlist_element *ntfs_mapping_pairs_decompres=
-s(const struct ntfs_volume *
->                  * element.
->                  */
->                 rl[rlpos].length =3D deltaxcn;
-> -               /* Increment the current vcn by the current run length. *=
-/
-> -               vcn +=3D deltaxcn;
-> +               /*
-> +                * Increment the current vcn by the current run length.
-> +                * Guard against s64 overflow from a crafted mapping
-> +                * pairs array to preserve the monotonically-increasing
-> +                * vcn invariant.
-> +                */
-> +               if (unlikely(check_add_overflow(vcn, deltaxcn, &vcn))) {
-> +                       ntfs_error(vol->sb, "VCN overflow in mapping pair=
-s array.");
-> +                       goto err_out;
-> +               }
-> +
->                 /*
->                  * There might be no lcn change at all, as is the case fo=
-r
->                  * sparse clusters on NTFS 3.0+, in which case we set the=
- lcn
-> --
-> 2.43.0
+> diff --git a/kernel/nsproxy.c b/kernel/nsproxy.c
+> index 259c4b4f1eeb..f0b30d1907e7 100644
+> --- a/kernel/nsproxy.c
+> +++ b/kernel/nsproxy.c
+> @@ -379,7 +379,13 @@ static int prepare_nsset(unsigned flags, struct nsse=
+t *nsset)
 >
+>  static inline int validate_ns(struct nsset *nsset, struct ns_common *ns)
+>  {
+> -       return ns->ops->install(nsset, ns);
+> +       int ret;
+> +
+> +       ret =3D ns->ops->install(nsset, ns);
+> +       if (ret)
+> +               return ret;
+> +
+> +       return security_namespace_install(nsset, ns);
+>  }
 
+Do we also want a security_namespace_switch() called from within
+switch_task_namespaces()?  Of course LSMs would not be able to fail or
+return an error at that point, but it seems reasonable that LSMs might
+want to update LSM state associated with the current task once the
+namespaces have been changed.  This is similar to all the "_post_" LSM
+hooks we have for various operations in the VFS and network layers.
+
+I think we would want to pass both the task_struct and whichever
+nsproxy instance is not stored in the task_struct to the hook.  I
+prefer placing the hook after the task_struct has been updated, but if
+anyone feels strongly that it should be the other way that's okay with
+me.
+
+> diff --git a/security/security.c b/security/security.c
+> index 67af9228c4e9..dcf073cac848 100644
+> --- a/security/security.c
+> +++ b/security/security.c
+> +/**
+> + * security_namespace_free() - Release LSM security data from a namespac=
+e
+> + * @ns: the namespace being freed
+> + *
+> + * Release security data attached to the namespace. Called before the
+> + * namespace structure is freed.
+> + *
+> + * Note: The namespace may be freed via kfree_rcu(). LSMs must use
+> + * RCU-safe freeing for any data that might be accessed by concurrent
+> + * RCU readers.
+> + */
+> +void security_namespace_free(struct ns_common *ns)
+> +{
+> +       if (!ns->ns_security)
+> +               return;
+> +
+> +       call_void_hook(namespace_free, ns);
+> +
+> +       kfree(ns->ns_security);
+> +       ns->ns_security =3D NULL;
+> +}
+
+The "namespace may be freed via kfree_rcu()" comment in conjunction
+with the standard kfree() in the function above raises a red flag.  Do
+we need to take an approach similar to
+security_inode_free()/inode_free_by_rcu() here?
 
 --=20
-Thanks,
-Hyunchul
+paul-moore.com
