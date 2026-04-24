@@ -1,220 +1,142 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2807F3E1D01
-	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 20:06:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777061179; cv=none; b=WQAiC/jI5T61GUrtTXYgPw/YKYJv4Frt/va75WHl23TEOfgxNvIwSUF23hM9wspjAz8NO4KvtmJthyanOC4HRPzb4DI3+DoPhGBJxOiEx9yOvQbrw9k7X82Xb1qPoScFI+uHfKL4RnI7UWD+5RJ8JSDqak8R02GbxcBe2+H+zbE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777061179; c=relaxed/simple;
-	bh=6ZJTWCVexWgcOox0P9HFzxmkJ+aF96Ps9swed70VxHA=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=GjQ1Yg2KBwWgZPpZd0Wnq24m3+iQsFt4ccboFtbUsk7mkPujwXvIP2Q0f+TPS8VGEmNJMQ+ZLPR5cHzWAIOlrA2sjjt3qlFNGwPydLe1UDvWlaXvBNXKNqzk0AQFKES00IuJsrxPr7XimlR8jA1tUxZ1fRqUY9Yus1Z+54Mcr48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KkUMySmY; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=sl3+j2gp; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5B2C3FB7DC
+	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 20:38:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777063141; cv=pass; b=qTUGVQVrDN+7YUBSaf32dWUHEw+GZVQZAkF7Si70D2OJiXDIKbUSGtlGJfu5Ah7pU9rr0L6v0eICmR+lAGen/OukBV1LE3nmO+ZaEDvM7nWpFlp1/JZFokFi4i9E5O2WsUosHhfNlVAwzeNbITFzyAvzxSnhKv3Ey0GaPMp/DGU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777063141; c=relaxed/simple;
+	bh=KmBuB8MIulAJMakc5vosnN5ndLHe+vSUa09xbsYuhXc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BrWX6QTFa4zH/MIgo6W7WLXNR/syBdCWRk58wzxC5T06/jTn6Y+mHSVn6A5X0DouFaasVHwwWhGbv61uat5H3sGvZZJOCL/ZZWyTpg4MXv4w5458AomNXmpIvsc7mNvXmRFyPm41vBP/z1h7TjIEalKLnKSqFzYry+DJPXZ5psw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rY5Hd84P; arc=pass smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KkUMySmY";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="sl3+j2gp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1777061171;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QscVZOg4w8Rhqqko9LVNMW3RsXPDXzUVqjkIOP9vkUE=;
-	b=KkUMySmYBjLqIXi8en2KS2lFy38dN+jr8ciaqVo1EYwJItllss8wz/6co/cGAEVLpt+hnU
-	CWZCcGNWEP0cGRLL4kjNNDqIeM3BvXnuSErtCb6Q4AEeAHMFBGGTa5klfHJLZKwNIraB+V
-	02Rl849lozA6s3whFuTlO8DYFqsUJIE=
-Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
- [209.85.210.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-635-7ooEnehgPZ-57aijcMwE_g-1; Fri, 24 Apr 2026 16:06:08 -0400
-X-MC-Unique: 7ooEnehgPZ-57aijcMwE_g-1
-X-Mimecast-MFC-AGG-ID: 7ooEnehgPZ-57aijcMwE_g_1777061168
-Received: by mail-ot1-f70.google.com with SMTP id 46e09a7af769-7dbc56f5290so19698690a34.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 13:06:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rY5Hd84P"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4838c15e3cbso77428505e9.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 13:38:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777063137; cv=none;
+        d=google.com; s=arc-20240605;
+        b=hKTtNRlcHEyfBLDyUR3zReaKpeW5Ti203322Oi7AGVNk9jyuV8N0Y9yL7k2odB46IJ
+         fTex1i02DwnQOJqvMhxYM7NHrYCyALH1jkWteTDpqjRSWn+PochFSGp/CcIi67FM5EL0
+         ujpE/UGEsJN4MUBLR7Q2Z8lK3I/lwVV4xljcWJPM241MDbNOEK3Y4bkmtJzCCdlrqtyq
+         v3Xjhg7jwrdkopMvy5Qa2uh3o7pC2ZLYa4ePgNNNWOH/IwAdVsPo63P8e39UDM5WUn56
+         FuCKz4yzbYuuqvQ7bSFPjWL6AJTJhj6yh2ATdn/ABmaBtCKjYAYTdSHQbPsqgIxKzzeC
+         vLmQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=90/AaWsK84JF4RAxGyFXMf8dGYrGrq3WZ71pjIuxCD0=;
+        fh=+BHCaeqdUy530ISL2QGjuVSpJw1SjJmB+PXlc/dPaAE=;
+        b=IJBgeIn+uwjekmsRAMC7r6Cgx9jeBi3SsGhLs1Bfxk70SJ5kzD99dUTLA1C9kQbXYf
+         UZdHTPVhmL/MtxGy1MZwzCJviCVkxof25cCCOR3AMI9sIW9heePx2zR4jTm4Je/djn04
+         LlDa8Q8rp2Yv56zMFseZhCBeZHOUwLbDYg8+2ZZczo0jWR0E21rcerHwoimWLzlefE/m
+         uNhehNb8P7YkUh0NrFwVCYvzKwE0fUdDGoSgJUknJZsEnJBMJSFgckbunjoU3zVtyt8i
+         LKMKdz41pwViJODsg1HM40k+nPBoeACy12nkc1O7txdHC5uELjPMhYzGF9U/QtJeBWKP
+         FDBw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1777061168; x=1777665968; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=QscVZOg4w8Rhqqko9LVNMW3RsXPDXzUVqjkIOP9vkUE=;
-        b=sl3+j2gpR43DfNDsxLD/SrgLJLqVl8YLyllFnhv7mKKkILjUf8MWvqIoW7GJQr4umR
-         N4dnRnLOlSaDgamWJluhmUuqrCvbT0+O7xZa51aO9r2usWBxej1HZ2goSLRDSu4hGFRR
-         yWnvKvVbl4kMHbeTMsp3sEAYSNH1SJ+F4JoDR7BWoPtU4CqKoM05m7JheUHJCQudMMFo
-         JWHiLWd69nfIZfrpcfypJIB1f975R1yROpNN483EHGYRBtbF1y2PyWaUy6WTyKvmr4LG
-         LMYtCtHxcQEqy9YpEtpgfdSuyt30tKhqp9NKi91U+TdeXOJ+xopoE7kkkU3zfp7W0R4x
-         wHBw==
+        d=gmail.com; s=20251104; t=1777063137; x=1777667937; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=90/AaWsK84JF4RAxGyFXMf8dGYrGrq3WZ71pjIuxCD0=;
+        b=rY5Hd84PRWiRfzlfMrtMn1epIZVP/yy7/UWEwugulGrU6WDnPMxs8GO3mtydZai7WP
+         ffhcUZ1JNMpkh865y3ax2Tsv9mGLLYW9QFMXBDwrzIX0WaTQkYsPlmelG3y6b/NM0uZ0
+         Sxu6FWsjD4OANhdgjnaz4QU99LiuYAjn6b+gA+1cdxTUQmS2Khc5BcX30VmRc96QpmKa
+         XdQ5SfhxnTH7/mxbdX9+S3gzSQUmAGMsjG75QoI+NoKkam85CbJZ/Xnqv09rsV+0qjmw
+         aAA7P8UHZOMWyREyp8nDt2g48HA4C9FY7WAT7GYicNH2N11TphW1KT5+55onKVsxg2Xj
+         qxkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777061168; x=1777665968;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QscVZOg4w8Rhqqko9LVNMW3RsXPDXzUVqjkIOP9vkUE=;
-        b=OqRI4MuPIF8k3m32UhfGWPeJsyXejrZ7ArWJqCC9XsCS0VAe0FQ/UDYDYIhgVGIduH
-         WXYRwGu55zlQWwKTfWMLVPusganEbyIQk63nsBdgxgROrhC86GlkKW+sKja/IVANrxkQ
-         ZiLZ7UbUKSVOikn4P/DG6V6EDfPJxi2lGmAhG3AOBrnEWRVddftP3P82ZndV6tHILRqD
-         LcFM5/yLaxpzZ0yi8DfSJNWq+m1TxsqEq6Yi45ScuOe3IZdN2Kr+uHqmZMehravr+Xbq
-         HkbvSGgbtIZF/95+hj7LPSavegiAW95tQ1ILoH3ezxzCtKiU+ge3Th05vVYtEaGepqQV
-         e05A==
-X-Gm-Message-State: AOJu0Yw66z/BbDpZtfkRua4+BktZTdj/5ur+rubUO8r3t0A15cZZIuUW
-	0+7BGxeHjseYgoQVNDfJPWnuBY9xF9XWrZFqFilM83567Q6gVN5tttWBfyH43539i6lvuN7Kwh8
-	FOGId9RryDdwaQDfBCv4Jl3JZH1zscCDdmCiTByuxm0p3vvueKber6+qMtOMVyDlE2bg=
-X-Gm-Gg: AeBDievy1vIy5QkktRh3zgOvf/nm2RqnbK7hLcNgzw9zrnOgh3H3vI8wSy0+CpXRWVY
-	5rOwdHp5rI27Rsq6N3MFcAz8m7sfw43EuvsuqekV+x+b2iwrTnqpydGVtLOmbVGBHohKxVvJB7Q
-	jZSgh6LzDPm8JWAxKJ6WteI42CmQADHEfORPWuoj2WY4PbqilbC8xU1zwYTDIo3Z/iaC9TKUmLj
-	WmYlNAeD0UoaxFajSFoFquRTybsFcmeelvDGORMqv1EJZFPZp2HJGHvsSazP6l4ojs/VmObpkFT
-	kFmhutsZp/rq2i9oXI8mdYAqX1WLw3fvgq2IdRRrgEnjr+Jd5KcArzEa6QSYFD3vxGgPRKZeR04
-	Pkqd55cnVayVCrfA4ne3Nunx7uN5TgAzFxepZtljgvJ0kTSs394KsabdJlrQScHM=
-X-Received: by 2002:a05:6830:2b0a:b0:7d7:fd71:f2e4 with SMTP id 46e09a7af769-7dc9518becbmr20412778a34.14.1777061167772;
-        Fri, 24 Apr 2026 13:06:07 -0700 (PDT)
-X-Received: by 2002:a05:6830:2b0a:b0:7d7:fd71:f2e4 with SMTP id 46e09a7af769-7dc9518becbmr20412758a34.14.1777061167328;
-        Fri, 24 Apr 2026 13:06:07 -0700 (PDT)
-Received: from li-4c4c4544-0032-4210-804c-c3c04f423534.ibm.com ([2600:1700:6476:1430::29])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7dc9759bfa3sm20318100a34.13.2026.04.24.13.06.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Apr 2026 13:06:06 -0700 (PDT)
-Message-ID: <d6c14c73839aa899b4fa40a04e8d650c3c2c49f8.camel@redhat.com>
-Subject: Re: [PATCH] hfsplus: fix hfs_bnode_split() failure on
- sparsely-filled nodes
-From: Viacheslav Dubeyko <vdubeyko@redhat.com>
-To: Shardul Bankar <shardul.b@mpiricsoftware.com>, slava@dubeyko.com, 
-	glaubitz@physik.fu-berlin.de, frank.li@vivo.com
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	janak@mpiric.us, kalpan.jani@mpiricsoftware.com, shardulsb08@gmail.com
-Date: Fri, 24 Apr 2026 13:06:05 -0700
-In-Reply-To: <20260423214936.444718-1-shardul.b@mpiricsoftware.com>
-References: <20260423214936.444718-1-shardul.b@mpiricsoftware.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43app2) 
+        d=1e100.net; s=20251104; t=1777063137; x=1777667937;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=90/AaWsK84JF4RAxGyFXMf8dGYrGrq3WZ71pjIuxCD0=;
+        b=rl3SKlPXrX+iayiXIGZ+PEdCF4KAVK5vNs/cW/B4Xy2nas0mlUX/1w0IhRFGg0rLW6
+         M+ep62nV1pojuh2harQTmb23n4sJPW29TegIeOP0HvFN7xyYX8R8By4YHrFvRLJMMzXg
+         x8AK4pOzwVMfnnAHsMr/fv+EPWN8KsIJhmuUWFgMEZV1iXcDpdjgtI4RaSyLDImYJnBW
+         bq3UdWvxmpl/PgE4Zm9abTmXht3Ned0UG9EBZm01RPyvLv+2vtoLjnZpdulYGjY32mCu
+         2pyUopaDMgubQuguxFkKQOzY1FnNQIpjpchvDKaUzoOC4TAXZCOPqfpEmISBld0nNKTH
+         yvGA==
+X-Forwarded-Encrypted: i=1; AFNElJ9MG3eMG5luUMAR3VMAq9r5H8ACBS6jWntr1GUZqXlHwQIOWlxpFYEkSlR30xEO4QfBZBULqBEewORBeALp@vger.kernel.org
+X-Gm-Message-State: AOJu0YwUPfsBbuLicI2cN0CbIjgbw+drIImlBbB9cDlEJpzMUtyr+9kO
+	3lULS3GGISQTA+EUYlvzVGoMQGyQKZna77kB8YzD/JAG/2xG1e9Ai2w/+UTzYcEK3dLz6edYG7S
+	+lKkEVUmj1zDIeDPXNRHb49KysKD1O+TQNxQvR4M=
+X-Gm-Gg: AeBDiev2PUkPk7P8bkmR8L/CHNwzOVOoFLFeqfzay39Zmd58HrD2vtcGLGc/26aS5uK
+	Tv/c9ZMOxV2d6Vj0Ip1Xep1eXCpr3ThBEnSpIHbMtgle+XbxXxwj0nbSFEHXZS+XoYi60Sj/NNt
+	6QoXIMvRtmrMPzgAgTM6LoumuPd5MTP9PzwF6wW6OZxUhRvfmgFIfTHxQuXe4CHGNzgeNesr6dK
+	i9A8o58vGtjLtW7jbfCmCENgiw7JfDdMIZBrV8AOIO+GMIXMBWG6/kNEcQrwOLKs4EwtSprptk0
+	fDaLlr3mUeMqUK9P9UeA0zK6WUj9Wgb+fWSDJqLbSiVR
+X-Received: by 2002:a05:6000:610:b0:43d:7a97:78c0 with SMTP id
+ ffacd0b85a97d-43fe3e0c65dmr49146085f8f.36.1777063137031; Fri, 24 Apr 2026
+ 13:38:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20260403035752.20206-1-liwang@kylinos.cn> <20260423110954.2676-1-liwang@kylinos.cn>
+In-Reply-To: <20260423110954.2676-1-liwang@kylinos.cn>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Fri, 24 Apr 2026 13:38:44 -0700
+X-Gm-Features: AQROBzBsneter9kG69FavOfuB50o0T5qzVMpoATbkO_Hrxt0YjSek5nk_VPJc_I
+Message-ID: <CAJnrk1Zb=+syR_aOLVs4aXMTOUO7BRBi=MU-20xQOcDpf2iQ5g@mail.gmail.com>
+Subject: Re: [PATCH v3] fuse: optional FORGET delivery over io_uring
+To: Li Wang <liwang@kylinos.cn>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Bernd Schubert <bernd@bsbernd.com>, fuse-devel@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2026-04-24 at 03:19 +0530, Shardul Bankar wrote:
-> hfs_bnode_split() determines the split point by scanning the node's
-> offset table for the first record whose data offset exceeds a threshold
-> derived from node_size / 2. When all record data fits within the first
-> half of the node, no record offset exceeds the threshold, the loop
-> exhausts all records, and the function returns -ENOSPC even though the
-> node can be validly split. This causes xattr insertions to fail
-> silently.
->=20
-> The failing code path is exercised by xfstests generic/070 and
-> generic/642 during xattr stress operations.
->=20
-> Fix this by re-scanning with a threshold based on the actual data
-> midpoint when the position-based scan exhausts. If the re-scan also
-> exhausts, fall back to splitting off the last record.
->=20
-> Reported-by: Viacheslav Dubeyko <slava@dubeyko.com>
-> Signed-off-by: Shardul Bankar <shardul.b@mpiricsoftware.com>
-> ---
->  fs/hfsplus/brec.c | 32 ++++++++++++++++++++++++++------
->  1 file changed, 26 insertions(+), 6 deletions(-)
->=20
-> diff --git a/fs/hfsplus/brec.c b/fs/hfsplus/brec.c
-> index e3df89284079..cfc909c808a4 100644
-> --- a/fs/hfsplus/brec.c
-> +++ b/fs/hfsplus/brec.c
-> @@ -282,12 +282,32 @@ static struct hfs_bnode *hfs_bnode_split(struct hfs=
-_find_data *fd)
->  		old_rec_off -=3D rec_size;
->  		if (++num_recs < node->num_recs)
->  			continue;
-> -		hfs_bnode_put(node);
-> -		hfs_bnode_unlink(new_node);
-> -		hfs_bnode_put(new_node);
-> -		if (next_node)
-> -			hfs_bnode_put(next_node);
-> -		return ERR_PTR(-ENOSPC);
+On Thu, Apr 23, 2026 at 4:11=E2=80=AFAM Li Wang <liwang@kylinos.cn> wrote:
+>
+> Deliver FUSE_FORGET through fuse_uring_queue_fuse_req() when the io_uring
+> is ready and userspace has opted in by setting
+> FUSE_IO_URING_REGISTER_FORGET_COMMIT in fuse_uring_cmd_req.flags on
+> FUSE_IO_URING_CMD_REGISTER. Until any REGISTER
+> carries that bit, FORGET continues to use the legacy
+> fuse_dev_queue_forget() path even while io_uring is active, so unmodified
+> userspace (e.g. libfuse that does not issue a completion SQE for FORGET)
+> does not wedge ring entries.
+>
+> Benefits:
+> - FORGET can share the same commit/fetch loop as other opcodes.
+> - Reduces split transport for high-volume forgets when the ring is primar=
+y.
+> - Reuses existing per-queue io-uring machinery and noreply/force
+>   request setup.
+>
+> Signed-off-by: Li Wang <liwang@kylinos.cn>
 
-I don't quite follow why do we completely remove this logic? Potentially, i=
-t
-could be valid situation. No?
+Hi Li,
 
-Also, I think we need to add hfs_bnode_unlink(new_node) here [1]. Otherwise=
-,
-hfs_bnode_put() will be unable to destroy the node.
+Thanks for sending this. To be completely honest, I'm not convinced
+delivering forget over io-uring is worth the added complexity/cost. In
+the /dev/fuse path we rely on forget batching/amoritizing and explicit
+scheduling/fairness logic so forget processing makes progress and
+doesn't get drowned out by regular requests; I think we'd likely need
+something comparable for the io-uring path as well. Additionally,
+routing it through io-uring makes forget behave more like a "real"
+request on the ring (it needs per-request state to live until
+userspace completes and the entry can be recyycled) which introduces
+extra allocation/lifetime management on this path and it requires a
+uapi change and corresponding libfuse changes.
 
-> +		/*
-> +		 * All data fits within the node_size/2 threshold,
-> +		 * so re-scan using the actual data midpoint.
-> +		 */
+Forgets would consume ring entries but they're tiny one-way
+notifications and imo I don't think they benefit much from io-uring's
+main advantages (eg data-path/zero-copy). I worry theyy could contend
+with read-write heavy traffic where ring capacity is more valuable.
 
-First of all, I don't see the answer on question. Why we call this method f=
-or
-node that is not completely full (or near to be full). If we have half empt=
-y
-node, then, what's the point to execute node splitting? We have enough spac=
-e to
-add more items. Do we have the same issue for Catalog File and Extents file=
-?
-
-> +		size =3D hfs_bnode_read_u16(node, tree->node_size -
-> +			(node->num_recs + 1) * rec_size);
-
-I prefer to executes likewise calculation more carefully. We could have
-incorrect tree->node_size, weird node->num_recs value.
-
-Why do we need node->num_recs + 1?
-
-Potentially, we could have overflow here.
-
-> +		size =3D ((int)node_desc_size + size) / 2;
-
-How can we blindly rely on size that we received from hfs_bnode_read_u16()?=
- What
-if it was really huge or really small value?
-
-> +		old_rec_off =3D tree->node_size - (2 * rec_size);
-
-Why 2 was hardcoded here? What this value mean? Why do we need to multiple
-rec_size on 2?
-
-> +		num_recs =3D 1;
-> +		for (;;) {
-
-I slightly dislike infinite loop here. Why do we need to use infinite loop?=
- We
-have size or number of items estimation. What the point to use infinite loo=
-p? It
-is always bad coding style.
-
-> +			data_start =3D hfs_bnode_read_u16(node,
-> +							old_rec_off);
-> +			if (data_start > size)
-> +				break;
-> +			old_rec_off -=3D rec_size;
-> +			if (++num_recs < node->num_recs)
-
-This is can be used as for loop boundary. Why infinite loop has been used?
-
-> +				continue;
-> +			/* last record holds most of the data */
-> +			num_recs =3D node->num_recs - 1;
-> +			old_rec_off =3D tree->node_size -
-> +				(num_recs + 1) * rec_size;
-
-The same concerns related to calculation here.
+Given that, my preference would be to keep forget/interrupts on the
+legacy /dev/fuse path even when io-uring is enabled. Sorry for not
+bringing this up earlier in v2. Bernd, I=E2=80=99d also be curious to hear
+your perspective on this.
 
 Thanks,
-Slava.
-
-> +			data_start =3D hfs_bnode_read_u16(node,
-> +							old_rec_off);
-> +			break;
-> +		}
-> +		break;
->  	}
-> =20
->  	if (fd->record + 1 < num_recs) {
-
-[1] https://elixir.bootlin.com/linux/v7.0/source/fs/hfsplus/brec.c#L262
-
+Joanne
