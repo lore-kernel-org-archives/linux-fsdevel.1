@@ -1,643 +1,244 @@
-Received: from flow-a6-smtp.messagingengine.com (flow-a6-smtp.messagingengine.com [103.168.172.141])
+Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012023.outbound.protection.outlook.com [40.107.209.23])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3230E23C8AE;
-	Fri, 24 Apr 2026 14:46:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.141
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777041964; cv=none; b=Tp9ip24m+yh937e/+xNXlFIW35vKAnMN+pWW1958JwJYA+RChkNWhnBGVJYOFlaeJ8AXKIN4fogDXDJ6b4BQq+TNc2udZO3aQkbsQOXwjgRxbBnfK6YmGxXFjtbJNUJYGC8LS+jHzWds434ezkdUA2gvnedmMswB6EIVOS4MoAU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777041964; c=relaxed/simple;
-	bh=2nxeSb3OCxyfBIQRPsqYc3RpX1XY3TjU9u3r5uvzTZM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=C4H3o+QiffskkeMnT3ial/rlGvcqIGWOSmCcG4/50+0wpcIjZBsmnd4lXFL9KaV7poH0mg3vUtQcsE1/dKOGfnXQgYJ0rQHaRPN2GtsIee0jYadUy/Pov9EmTWk7/fhjynAjQljOAUc/qjlwe09c6MifEC2GsfcHQcLlmAbNv14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=matanco.space; spf=pass smtp.mailfrom=matanco.space; dkim=pass (2048-bit key) header.d=matanco.space header.i=@matanco.space header.b=rrN8Mc7Y; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=A9HsEAmI; arc=none smtp.client-ip=103.168.172.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=matanco.space
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=matanco.space
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2920E3BB9E5;
+	Fri, 24 Apr 2026 14:49:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.23
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777042188; cv=fail; b=eA0EVRuHuNoY8cKMXzdsVMpc/cGbSyLJKPjsFVrL2/jmZUJ7hbU0uy49kYOKfMJXCgZk616T2nzb7GYpq+/UU/bQ5pwULLkNI7CfZPF0+Iwm+6WrcrP/QFkndGgS+12K4Sm9UeaSHQxmgVGhcQpwzs8taUMFiTCcyBo2D4yAC5w=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777042188; c=relaxed/simple;
+	bh=qFML0YLJMyFBxYB3SWoMihetxSCs3gQreWXoO4ExEKI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Sd2atS/nKIHHuVmOWC0OSxeQkPUxu0dnqvPgohr3IbCIKm34Nau+iMelTMvCA2YDaBjI0W9+p8ABy6rv90fpGTYLr5SISu+ksR0wyjgSWH6C8tE9xXnOaEKQeTqRmnx48no6Ur3HehwPpfagUGTugtL9FrzZWJxZWcEB9qZUTB4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=fyBpAA1C; arc=fail smtp.client-ip=40.107.209.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=matanco.space header.i=@matanco.space header.b="rrN8Mc7Y";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="A9HsEAmI"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailflow.phl.internal (Postfix) with ESMTP id 5E8451380395;
-	Fri, 24 Apr 2026 10:46:01 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Fri, 24 Apr 2026 10:46:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=matanco.space;
-	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
-	:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to; s=fm1; t=1777041961; x=1777045561; bh=29EkYimwtX
-	Ere1CG5lJ/LdbfXuiXRyivV+3cw26x69M=; b=rrN8Mc7YctQs8WqozcdfHLdFY3
-	9nwFTb/0CHE3qkvHp3Z9HXYyHeaOREapyUF4y3IxEsrbJU4AEKWDbWyWbh44VKvq
-	T7EA+Nn3RdogMWeYaYoBLBkgQZs1IDjVPsh50cSJV8Rd713nPOeap2hdvhlgtf/9
-	siRRM51TV+IA72I5YxH4auljzZr/3gdyQ9ddPMEp40Ovh9GJh+ItIRFtn1TjjAEN
-	3gLZ9suzFQ2g/d1sBoMcpbRAYCG0M7+ViqLr5f47urT8+CeQW1wCyMemxmIkBYL/
-	qHkJQhjKxWXtML7A+wc25YHfgopa8MjFSz+zLXtnEm8TkMVgb8FvYXQPMCaQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1777041961; x=1777045561; bh=29EkYimwtXEre1CG5lJ/LdbfXuiXRyivV+3
-	cw26x69M=; b=A9HsEAmIhVKyxMvMPMYfTwQOs66USCAP1EuW21IEWzPrDyLW1VU
-	SDidU+49v1aEfcLVq3WxdofqdJPEammGlxE4fwG45wWykumy/L4yqHjCgoG7AqDM
-	c+tBqdtMr0hAKGgSAMypiyHL90rx2t+a682LLonSEc00lgppske2Q34r4qQeZoyo
-	+ipy57uYBtLqAEwx6vNBPcnL4alQfj+53N6iOISl101borudpjc3GTUOx4EUzAyk
-	w87CpIUSBwrmKRWJsY1DOey2QME2r8AlijDY2yAym0QYo+IYfrjer+gSoIWg2yz1
-	EZ7wUIQOAPsDv1KGwgqf/wjcw5kzUCTJmrw==
-X-ME-Sender: <xms:KILrafhWa-mmct2w64neZrB5Uz0FkGyUpojlLP4-HzhfF-VNc4yGcg>
-    <xme:KILraW_2pp618o6Ss-LEKy-8LfoPiAo3tv4YHG-jJw3t6BU1UsU2F9g6rPjUM99Sc
-    xcAhAvdGFhFL3Qi5T-Ue0gRHafnGhF4Pk_z3OpEjUQRCi1pEwzalTAN>
-X-ME-Received: <xmr:KILraeEd2wwIc6XspGXFiI4OZP13bxZABlTksfQZoPHbrhsJIIiN4JdiO1oC-KYeuNpcFOWbUhAu8njQ8lVk-xcce02SW2TGcjMFBA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdejtdefudcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeforghtrghnucevohhh
-    vghnuceomhgrthgrnhesmhgrthgrnhgtohdrshhprggtvgeqnecuggftrfgrthhtvghrnh
-    epfeekhfehheegvdeugfdvuefhgfeuvddvheekueegfeehgfdugeeiffetgeejjeetnecu
-    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrthgrnh
-    esmhgrthgrnhgtohdrshhprggtvgdpnhgspghrtghpthhtohepiedpmhhouggvpehsmhht
-    phhouhhtpdhrtghpthhtohepmhhikhhlohhssehsiigvrhgvughirdhhuhdprhgtphhtth
-    hopehshhhurghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhfshgu
-    vghvvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkh
-    hsvghlfhhtvghsthesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhn
-    uhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehmrg
-    htrghnsehmrghtrghntghordhsphgrtggv
-X-ME-Proxy: <xmx:KILraRnjXf47PrTHaKWuAfCmAKPsxAqkN5nWoval3NxW2fA70fwbPA>
-    <xmx:KILraaYDUpwFLurL7hO30zeqfKiQgl3vALXTo86OQqbqHctrQHYqJg>
-    <xmx:KILraeEf6h2nUQH4QjD15uiGvei3JAffHXxT5yvJX470JiS_7MzJ5A>
-    <xmx:KILraTKNdN4bCynTFuqSAU4Z-pZivZSd8TaPAdeJ6iN_uWcXUWTlIQ>
-    <xmx:KILraU4JPtyBdFl467mN_xDdRmGfnKQ3j-AGQJy0yziMAK9IbceK-bal>
-Feedback-ID: i07264b6d:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 24 Apr 2026 10:45:58 -0400 (EDT)
-From: Matan Cohen <matan@matanco.space>
-To: Miklos Szeredi <miklos@szeredi.hu>,
-	Shuah Khan <shuah@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Matan Cohen <matan@matanco.space>
-Subject: [PATCH] fuse: expose backing files in the daemon's fd table
-Date: Fri, 24 Apr 2026 14:45:53 +0000
-Message-ID: <20260424144553.6241-1-matan@matanco.space>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="fyBpAA1C"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=nuNnN5G7lxPBM/st92E2e1CF0XNvXYbh26rd9gCCXLOsdiuljyAwh//uVwWxcKbClVRe7ggiUn+ZiJrqgZ670oG+W3YV9o2noX3E4atSMskyfH2H9JEQAWv3zybcAEgoLJ2Wp+93bc/n5beh3lB8wMXTjAYwpmccGvQsuAzBGVil634NAKPefYOIqv1EmiRxCC4MJq/gWMzRNcEQSfdkWj+JWQTVpk9qTu8rGElqatKI5culj4/cft+vuMznWCoQzgQLX7RSmPBg2R+PPb+Zh2lviyLDHEcSGNjdPp2N2usBzJGKu0D8IvQXU0rLSknUMMYFCv6QgfPNgA0og+7dRw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=b1yFXpvOKp5h/UbECIU0Hjo44XD93tn2wcgMLsQ5AwI=;
+ b=Ss+yX3VqYpfmmqH0r3g1tX0kSQyLBgKKbOuRD/HgHoKKemn0oQINc0r3/IGN9WMyyFhwoiVkM54wDs7EJoCGHjVQFREwd8xE5YSR7sRdp7+S9k1Ubi7HS1XVbjYsHIKFcFWLU5Dbw7zb4pJ6rYkX7H1jMNyv8ag8GjvRBIRvKGaxgg+DN1sSk9aUE4gu8Aybv4HnrEZiLzpCd/8JQ77wiptvyNR8YPJkMTGV9Y1Bvx6jP9pHQmzcmhznG1pIb6c6w/nDqlcrLXfFGLgq5c7I1fJGN/rhopBbSKMX1w/oHQtqIcSKkjSPPW5EeYJoDG8QswrMVXtI9GWY5j5N+KWMJg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=b1yFXpvOKp5h/UbECIU0Hjo44XD93tn2wcgMLsQ5AwI=;
+ b=fyBpAA1C/967/r2mIEMhMtf9kqKEgMK6eYDpw/aY/YD4P2We9oNw+3DignkgvoFWQU+bD+rpfWN4kp/zqovXV3pjSzEV4R4rVWTkiWnATSJayceOA3w8ASMvDThy873HlQX0VacK+8iO6bFIKRdKR2/TW5cwM5ZXuAeg3MatGVsikcn6vtSN5GRWuTs9l+le2F5QKm/CrtiYpJql5O/rYUW1JbbCXvYXmaVY/RPhXq1NEXQx5C+qafgaQiYo+kCXdDRuP3Y9IAJQ7JOS0hCGqR2lqPbjHKprl0Hmq4NJ8Qu5cWVETDxUF3Wr3t4lDQ8JMUqU3MNsJm98sqPOMdpYIQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
+ SN7PR12MB6981.namprd12.prod.outlook.com (2603:10b6:806:263::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.21; Fri, 24 Apr
+ 2026 14:49:42 +0000
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::f01d:73d2:2dda:c7b2]) by DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::f01d:73d2:2dda:c7b2%4]) with mapi id 15.20.9846.021; Fri, 24 Apr 2026
+ 14:49:42 +0000
+From: Zi Yan <ziy@nvidia.com>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Song Liu <songliubraving@fb.com>, Chris Mason <clm@fb.com>,
+ David Sterba <dsterba@suse.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Lorenzo Stoakes <ljs@kernel.org>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Shuah Khan <shuah@kernel.org>, linux-btrfs@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH 7.2 v4 01/12] mm/khugepaged: remove READ_ONLY_THP_FOR_FS
+ check
+Date: Fri, 24 Apr 2026 10:49:38 -0400
+X-Mailer: MailMate (2.0r6290)
+Message-ID: <A4475926-92F4-4F1F-981D-01946A4BF3DF@nvidia.com>
+In-Reply-To: <f416ea70-fb70-434f-8807-6638c9787b57@kernel.org>
+References: <20260424024915.28758-1-ziy@nvidia.com>
+ <20260424024915.28758-2-ziy@nvidia.com>
+ <f416ea70-fb70-434f-8807-6638c9787b57@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: MN2PR22CA0014.namprd22.prod.outlook.com
+ (2603:10b6:208:238::19) To DS7PR12MB9473.namprd12.prod.outlook.com
+ (2603:10b6:8:252::5)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|SN7PR12MB6981:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8f9cf331-672a-4189-93dc-08dea210b7ee
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|376014|7416014|22082099003|18002099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	8OrKo4xbEKDh8Gi/w4zL2e+K9SD/LtW9bils0T+mKDcDexlDDfhLtkZm5g35PjzkDvqXNUHieclp3D13spZjpXNA18o3kmMR7i27wJMyo24iHQ3PyRPZv9hueb1meDmnWPPL5rRilddnBOhfoxeVE/I0c0x7RCVKX7u2X2MkFdIwdW3qwqpdCnHH5NI+K4d1jlwo+3/0WnM6dEyLod7D2QLsoLd+6z1J9PC2Ys3sTBEX8r8BQ0ZsfGmcKjGXuOVCiC62ZJpWc/+t4LVyqfavzffZGX3ZkyiYOcnqmfLTRHR0s2PETo9qmaz013xuTVHmJ+Im1T6XinhR3Y934mkR+xUU4TOS/nOWyMLB2w/McphCJysN1o+R0VdhNwMhvn/14KyLsRzwCoU5OhARaZL01yxbLSTjvbJQAyWtOziVQt3deZyBy2auM4ZtwQcUMsYRmuPWy5n8SfSuOjacX+QGPksu4+Qu8z0bJKI0c993OFSp6fLo+S9JKG7mQ8LbscdNb3ueNoFE6tUUBadWueEyZHzLNoOHsXmp+a1ET9L9C/X+31W6k4Y/TrH2WMWEZWs7tRBshBrnOmYkEhvFPpKBclTuQ3QfIrC4fTGWFGBlj4LB0g+AKAsOkJRQ6DaGyZXIeawuujK9UqlBGDWm4AiOqK3R8eCGKQ3/9tEwHSkwpWh7gFVOIcs7JS8iPeJ3bPbDm3m+2+L8xFH1bvco8L6K7n7CSpJwCjzpV962aRi9nQw=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?NUpGcjhmVkZUdzNNbTlKMXBTVmtBYkRKNW5XMUV0SldYbGIxVTZOTTRnaGxj?=
+ =?utf-8?B?aWlFbDJiRHhMWnhFc3ZrREVMcGMvWENaeURvRmhPVnVVcjMwcFBuWHdaZVBv?=
+ =?utf-8?B?K1NEeS9WUExkRWNRbzVvbm9jN09SZDZITXQ1NzJBY2VtVGtLRDVlNitpTi92?=
+ =?utf-8?B?QlpOMjJneFNmR0ZEaUJlRGRqZzJhVUtrcElIcTJ6SW5pbGRCK0xZNXFRekpO?=
+ =?utf-8?B?ZjFZWmFVMWN2RkxjYklJdzk3M3NCUng3OUhLWEljTGtxaWgzVlRPbCtJRklm?=
+ =?utf-8?B?MVEyVk8wd3NYMWVXV29KWmF1QUdCa3oxZ3pua0kyQkpoN2xFR3RYcW9CL2dh?=
+ =?utf-8?B?c1lVaHpwckorR3NQZFE2NTRtNkJLR0oxQklzTVYxa3lDMjhHY01wUUF0SGRy?=
+ =?utf-8?B?cW5aVkZ2QTdzQ2lTVGkwTHpodURvVTFCVXc1bVpwbnFzNHd1eCtka1dFYjNt?=
+ =?utf-8?B?MkJDZ3FqQlVPUVFrb1VKRURlU3h4d2c1a3dYdmtwSFV2eDduMG9HS2FQdUtH?=
+ =?utf-8?B?UEFSendXS0lpOWU1MEIxNzZ1dFE5aVQ2SmdoeGFoUSthWFhRMWJoUG9MN3B6?=
+ =?utf-8?B?TFZiSVJvK3NPaUZGTUp4dkphSzRQTUJGUTBsUERmdjFDRlkxUEltT3laSHNO?=
+ =?utf-8?B?azZZM0RtY3NWSHB4bDJWeEtCblo4eUIzVkh0Y0ZERjlqWEVKdnNScVlzdzVE?=
+ =?utf-8?B?MlRXbnhyYUxoUXBUb1lBOTJIS29hUnI2UnVITmM3ZndsRmo2RFBPZElraGlY?=
+ =?utf-8?B?c01Xdll3MEFsVmVYSXhlOFBhMy9pSUh4a01vWW94anRDL2ZjNkwwSmcwc3Fj?=
+ =?utf-8?B?QkJweWdKNkxPaU4wYWpPRk5Ea1M3ZE1KKzRiQVR1bmxudWVRbWpzMHJQK1R0?=
+ =?utf-8?B?SmRpdGxkVFdSNExRc1AxZ004WFFhZ21OdUM3YlZxdnZoblB5N2p3N0xCdzNk?=
+ =?utf-8?B?K3Vrbkh5NlgrSTU3eU5nOWlTMGNTWDI5cVUrT0dXV0dndEtJL05Zdk9SQzEx?=
+ =?utf-8?B?MW9ZQ3lkTDFWNU5la09MYVRCMWN2TnBLN0lXYWdLc0ZmWXBKbVhEaE9zN1lD?=
+ =?utf-8?B?aUxUVUJZcmg5bWxkdGwyU1F2YmlaeG1uSHJkU3VNcllCNmJXMkZUZStLMUts?=
+ =?utf-8?B?b2JBNHZ1K3pBeXBrVjdVUCtGQmlmcnlZT0prTC9MWVRFM24zK2tVaWZGb0wv?=
+ =?utf-8?B?ZTR0ck5yMkE1M1dNM0FpZnViRkdCWnR4ZjdiODJCUTlIcDFLbmZ3Y0RITjdy?=
+ =?utf-8?B?ek5jNWI1WlBPR0dEd2MwZUxrak5yZjZIMDUrUnB2Rk01aE5SQUltQURiRnNJ?=
+ =?utf-8?B?MnlHbGpDTllPYzc5RVM3MFB1YlJ2N0Z4d2xBcWg5T1pxUmovbGZvdGJNVmJz?=
+ =?utf-8?B?VHFWd0IzWWUrYk5ONEYxbWdFWEFJK1RjdUU3NXNyTW9LNjhlazFnM3NrajI5?=
+ =?utf-8?B?cmNtY1dKTEpRbG5WTWtVeTRVdjBPSHNWVWNIcVhuRjlyTFNwcjVHeDZvSnp1?=
+ =?utf-8?B?TEhiRkxtQ0VYSGQ2SXo3VlRKQ2lNYmdlVGFSM3h2K1B1MDdzT2s4Q1lVQnNH?=
+ =?utf-8?B?WUdMTW9NWWNZUkpYTUlOYUhQdDhVZXVkTzdBMWZaZTRnWjllWDkxcFhyc2pr?=
+ =?utf-8?B?NE8xMUtqNnZqRE1uN0lLWDBCd1Bsdy9FbEVjaXZIWXhRYU5PZEN6SjRTTmxS?=
+ =?utf-8?B?b1I1b09kTE0rWTZ4bW1hLytTcVRDbCtHUXBuWUZQU0NxbzVUd2NTWTNsV0pI?=
+ =?utf-8?B?YUFQWVZpMHZNREtZTVBCWXB0MXlPSVVJR0tPcUdpeTNZQTNvODBlZFZyYVE3?=
+ =?utf-8?B?RDdRNHRlbEx0bW01ckFCVkNRakgzUWhyZ2hGYytSbDJXTWdSMkhvSm8rcXNX?=
+ =?utf-8?B?djJDMzhhR2cwRmppbjdQWUcrWDFjQUdOZGlqZFFmNUdHNnNoeXlaSU1XY0pu?=
+ =?utf-8?B?dUZDZnVCQUpKdTA1eFA3clNKUzlVQjBhSGhmMzczYVpwK21PZXBXQ1pXT3hI?=
+ =?utf-8?B?ZlM2cE5ETmpvS3J3NmlqZjlBeFU0WFZoSS9sbXFjOFVRY05JbW5pUzd3T1Y3?=
+ =?utf-8?B?ZnJsRHFFdE1pazdwdnhEeUcveWNUWHZCK3hjWnRVbkp0eUJWTEdBSXlIUEhG?=
+ =?utf-8?B?bktUWGgveUtQR0ZXM1BSN1c3ZHIzUUY5dkVyWnhDZ1p4YTFIY2Rnbm1xRjhU?=
+ =?utf-8?B?YUwxT0pURGg4YXN2bHpVNHQ2K0dqSGVkTVlBV2MwSFkxNDVoZTh1Y2hzL1lI?=
+ =?utf-8?B?ejFac0ozYXM0bnNkcU5aV3JGZzFxT1llWkpRV1dpM0p5NW0vRkVIbzRMT0FG?=
+ =?utf-8?B?d3pOaFNCNEJiK2YrZWg2Yi93RHhDUGg5MlN1ZU4xMmYyV2FqVHM1UT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8f9cf331-672a-4189-93dc-08dea210b7ee
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2026 14:49:42.3910
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ByRcfxLPsUYMtsgfgBEs10kQHILtf6yBwXZ5D9gujzF75l7PbqizPmJ2uDDsCsr2
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6981
 
-FUSE passthrough backing files are currently not installed in the
-daemon's fd table, making them invisible to lsof(8) and /proc/<pid>/fd.
-This complicates debugging and is the reason passthrough currently
-requires CAP_SYS_ADMIN.
+On 24 Apr 2026, at 8:40, David Hildenbrand (Arm) wrote:
 
-Install each backing file into the daemon's fd table on BACKING_OPEN
-and close it on BACKING_CLOSE.  Add an fd field to struct fuse_backing
-to carry the installed fd number.
+> On 4/24/26 04:49, Zi Yan wrote:
+>> collapse_file() requires FSes supporting large folio with at least
+>> PMD_ORDER, so replace the READ_ONLY_THP_FOR_FS check with that.
+>> MADV_COLLAPSE ignores shmem huge config, so exclude the check for shmem.
+>>
+>> While at it, replace VM_BUG_ON with VM_WARN_ON_ONCE.
+>>
+>> Add a helper function mapping_pmd_thp_support() for FSes supporting larg=
+e
+>> folio with at least PMD_ORDER.
+>>
+>> Signed-off-by: Zi Yan <ziy@nvidia.com>
+>> Reviewed-by: Lance Yang <lance.yang@linux.dev>
+>> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+>> ---
+>>  include/linux/pagemap.h |  9 +++++++++
+>>  mm/khugepaged.c         | 10 ++++++++--
+>>  2 files changed, 17 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
+>> index 31a848485ad9..5b4313d91137 100644
+>> --- a/include/linux/pagemap.h
+>> +++ b/include/linux/pagemap.h
+>> @@ -513,6 +513,15 @@ static inline bool mapping_large_folio_support(cons=
+t struct address_space *mappi
+>>  	return mapping_max_folio_order(mapping) > 0;
+>>  }
+>>
+>> +static inline bool mapping_pmd_thp_support(const struct address_space *=
+mapping)
+>> +{
+>> +	/* AS_FOLIO_ORDER is only reasonable for pagecache folios */
+>> +	VM_WARN_ON_ONCE((unsigned long)mapping & FOLIO_MAPPING_ANON);
+>> +
+>> +	return mapping_max_folio_order(mapping) >=3D PMD_ORDER;
+>> +}
+>
+> Given mapping_large_folio_support(), I wonder whether we should call that
+> mapping_pmd_folio_support() ?
 
-BACKING_CLOSE always runs in the daemon's ioctl context, so close_fd()
-targets the correct fd table directly.
+OK, will rename it.
 
-To handle fds that remain open at connection teardown (e.g. on umount
-or connection abort without an explicit BACKING_CLOSE), store a
-reference to the daemon's task_struct in fc->daemon_task on the first
-BACKING_OPEN.  During teardown, fuse_backing_files_free() schedules a
-task_work callback on the daemon task that calls close_fd() from the
-daemon's own context.  If the daemon has already exited (task_work_add
-returns -ESRCH), its fd table was already cleaned up on exit.
+>
+>> +
+>> +
+>>  /* Return the maximum folio size for this pagecache mapping, in bytes. =
+*/
+>>  static inline size_t mapping_max_folio_size(const struct address_space =
+*mapping)
+>>  {
+>> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+>> index 7d48d4fbd5f3..79f051eb6195 100644
+>> --- a/mm/khugepaged.c
+>> +++ b/mm/khugepaged.c
+>> @@ -2235,8 +2235,14 @@ static enum scan_result collapse_file(struct mm_s=
+truct *mm, unsigned long addr,
+>>  	int nr_none =3D 0;
+>>  	bool is_shmem =3D shmem_file(file);
+>>
+>> -	VM_BUG_ON(!IS_ENABLED(CONFIG_READ_ONLY_THP_FOR_FS) && !is_shmem);
+>> -	VM_BUG_ON(start & (HPAGE_PMD_NR - 1));
+>> +	/*
+>> +	 * MADV_COLLAPSE ignores shmem huge config, so do not check shmem
+>> +	 *
+>> +	 * TODO: once shmem always calls mapping_set_large_folios() on its
+>> +	 * mapping, the shmem check can be removed.
+>> +	 */
+>> +	VM_WARN_ON_ONCE(!is_shmem && !mapping_pmd_thp_support(mapping));
+>
+>
+> When we always make shmem to set the mapping to enable large folios, can =
+we then
+> drop this special casing no?
 
-This is a prerequisite for relaxing the CAP_SYS_ADMIN requirement on
-FUSE passthrough; a follow-up patch will drop the capability check now
-that backing fds are accountable via /proc/<pid>/fd.
+Yes, I added the TODO above it to remind us. I have not changed the code
+here to avoid a dependency on Baolin=E2=80=99s patch[1]. I will do that onc=
+e
+Baolin=E2=80=99s patch gets into mm-stable.
 
-Signed-off-by: Matan Cohen <matan@matanco.space>
----
- fs/fuse/backing.c                             |  97 +++++-
- fs/fuse/fuse_i.h                              |  15 +
- .../selftests/filesystems/fuse/.gitignore     |   1 +
- .../selftests/filesystems/fuse/Makefile       |   2 +-
- .../filesystems/fuse/fuse_passthrough_test.c  | 297 ++++++++++++++++++
- 5 files changed, 405 insertions(+), 7 deletions(-)
- create mode 100644 tools/testing/selftests/filesystems/fuse/fuse_passthrough_test.c
+[1] https://lore.kernel.org/all/b2c7deee259a94b0d00a7c320d8d24d2c421f761.17=
+76908112.git.baolin.wang@linux.alibaba.com/
 
-diff --git a/fs/fuse/backing.c b/fs/fuse/backing.c
-index d95dfa48483f0..9c4ac0388491c 100644
---- a/fs/fuse/backing.c
-+++ b/fs/fuse/backing.c
-@@ -8,6 +8,8 @@
- #include "fuse_i.h"
- 
- #include <linux/file.h>
-+#include <linux/fdtable.h>
-+#include <linux/task_work.h>
- 
- struct fuse_backing *fuse_backing_get(struct fuse_backing *fb)
- {
-@@ -20,6 +22,7 @@ static void fuse_backing_free(struct fuse_backing *fb)
- {
- 	pr_debug("%s: fb=0x%p\n", __func__, fb);
- 
-+	WARN_ON_ONCE(fb->fd >= 0);
- 	if (fb->file)
- 		fput(fb->file);
- 	put_cred(fb->cred);
-@@ -64,19 +67,63 @@ static struct fuse_backing *fuse_backing_id_remove(struct fuse_conn *fc,
- 	return fb;
- }
- 
-+struct fuse_backing_close_work {
-+	struct callback_head cb;
-+	int fd;
-+};
-+
-+static void fuse_backing_close_fd(struct callback_head *cb)
-+{
-+	struct fuse_backing_close_work *w =
-+		container_of(cb, struct fuse_backing_close_work, cb);
-+	close_fd(w->fd);
-+	kfree(w);
-+}
-+
- static int fuse_backing_id_free(int id, void *p, void *data)
- {
-+	struct fuse_conn *fc = data;
- 	struct fuse_backing *fb = p;
- 
- 	WARN_ON_ONCE(refcount_read(&fb->count) != 1);
-+
-+	if (fb->fd >= 0 && fc->daemon_task) {
-+		struct fuse_backing_close_work *w;
-+
-+		w = kmalloc_obj(*w, GFP_ATOMIC);
-+		if (w) {
-+			init_task_work(&w->cb, fuse_backing_close_fd);
-+			w->fd = fb->fd;
-+			/*
-+			 * Schedule close_fd() to run in the daemon's context.
-+			 * TWA_RESUME fires on the daemon's next return to
-+			 * userspace -- in practice immediately after its
-+			 * blocked read() unblocks with an error at teardown.
-+			 * -ESRCH means the daemon already exited and closed
-+			 * all its fds; nothing to do.
-+			 */
-+			if (task_work_add(fc->daemon_task, &w->cb, TWA_RESUME))
-+				kfree(w);
-+		} else {
-+			pr_warn_ratelimited("fuse: failed to close backing fd %d on teardown\n",
-+					    fb->fd);
-+		}
-+		fb->fd = -1;
-+	}
-+
- 	fuse_backing_free(fb);
- 	return 0;
- }
- 
- void fuse_backing_files_free(struct fuse_conn *fc)
- {
--	idr_for_each(&fc->backing_files_map, fuse_backing_id_free, NULL);
-+	idr_for_each(&fc->backing_files_map, fuse_backing_id_free, fc);
- 	idr_destroy(&fc->backing_files_map);
-+
-+	if (fc->daemon_task) {
-+		put_task_struct(fc->daemon_task);
-+		fc->daemon_task = NULL;
-+	}
- }
- 
- int fuse_backing_open(struct fuse_conn *fc, struct fuse_backing_map *map)
-@@ -117,21 +164,50 @@ int fuse_backing_open(struct fuse_conn *fc, struct fuse_backing_map *map)
- 	if (!fb)
- 		goto out_fput;
- 
--	fb->file = file;
-+	/*
-+	 * Capture the daemon's task on the first BACKING_OPEN so that
-+	 * fuse_backing_files_free() can schedule fd closes via task_work
-+	 * during teardown, even when teardown runs outside daemon context.
-+	 */
-+	if (!fc->daemon_task) {
-+		spin_lock(&fc->lock);
-+		if (!fc->daemon_task)
-+			fc->daemon_task = get_task_struct(current);
-+		spin_unlock(&fc->lock);
-+	}
-+
-+	fb->file = file;	/* fget_raw ref transferred */
-+	fb->fd = -1;
- 	fb->cred = prepare_creds();
-+	if (!fb->cred) {
-+		res = -ENOMEM;
-+		goto out_free;
-+	}
- 	refcount_set(&fb->count, 1);
-+	fb->fd = get_unused_fd_flags(O_CLOEXEC);
-+	if (fb->fd < 0) {
-+		res = fb->fd;
-+		goto out_free;
-+	}
-+	get_file(file);
-+	fd_install(fb->fd, file);
- 
- 	res = fuse_backing_id_alloc(fc, fb);
--	if (res < 0) {
--		fuse_backing_free(fb);
--		fb = NULL;
--	}
-+	if (res < 0)
-+		goto out_close_fd;
- 
- out:
- 	pr_debug("%s: fb=0x%p, ret=%i\n", __func__, fb, res);
- 
- 	return res;
- 
-+out_close_fd:
-+	close_fd(fb->fd);
-+	fb->fd = -1;
-+out_free:
-+	fuse_backing_free(fb);
-+	fb = NULL;
-+	goto out;
- out_fput:
- 	fput(file);
- 	goto out;
-@@ -158,6 +234,15 @@ int fuse_backing_close(struct fuse_conn *fc, int backing_id)
- 	if (!fb)
- 		goto out;
- 
-+	/*
-+	 * Close the fd installed in the daemon's fd table on BACKING_OPEN.
-+	 * BACKING_CLOSE always runs in the daemon's ioctl context, so
-+	 * close_fd() targets the correct fd table.
-+	 */
-+	if (fb->fd >= 0) {
-+		close_fd(fb->fd);
-+		fb->fd = -1;
-+	}
- 	fuse_backing_put(fb);
- 	err = 0;
- out:
-diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-index 17423d4e3cfa6..0edda751747a2 100644
---- a/fs/fuse/fuse_i.h
-+++ b/fs/fuse/fuse_i.h
-@@ -107,6 +107,14 @@ struct fuse_submount_lookup {
- struct fuse_backing {
- 	struct file *file;
- 	struct cred *cred;
-+	/**
-+	 * fd: fd installed in the daemon's fd table on BACKING_OPEN, or -1.
-+	 * Valid only while this entry is in fc->backing_files_map.
-+	 * Closed by BACKING_CLOSE (daemon ioctl context) or by a task_work
-+	 * callback scheduled on fc->daemon_task during connection teardown.
-+	 * Must be -1 before fuse_backing_free() is called.
-+	 */
-+	int fd;
- 
- 	/** refcount */
- 	refcount_t count;
-@@ -979,6 +987,13 @@ struct fuse_conn {
- #ifdef CONFIG_FUSE_PASSTHROUGH
- 	/** IDR for backing files ids */
- 	struct idr backing_files_map;
-+	/**
-+	 * daemon_task: task_struct of the daemon, held with a reference.
-+	 * Used during connection teardown to schedule task_work that closes
-+	 * any remaining backing fds in the daemon's fd table.  Set on the
-+	 * first BACKING_OPEN ioctl; NULL if no backing files were registered.
-+	 */
-+	struct task_struct *daemon_task;
- #endif
- 
- #ifdef CONFIG_FUSE_IO_URING
-diff --git a/tools/testing/selftests/filesystems/fuse/.gitignore b/tools/testing/selftests/filesystems/fuse/.gitignore
-index 3e72e742d08e8..ef1ff428aa7a6 100644
---- a/tools/testing/selftests/filesystems/fuse/.gitignore
-+++ b/tools/testing/selftests/filesystems/fuse/.gitignore
-@@ -1,3 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0-only
- fuse_mnt
- fusectl_test
-+fuse_passthrough_test
-diff --git a/tools/testing/selftests/filesystems/fuse/Makefile b/tools/testing/selftests/filesystems/fuse/Makefile
-index 612aad69a93aa..494042ebc4f2c 100644
---- a/tools/testing/selftests/filesystems/fuse/Makefile
-+++ b/tools/testing/selftests/filesystems/fuse/Makefile
-@@ -2,7 +2,7 @@
- 
- CFLAGS += -Wall -O2 -g $(KHDR_INCLUDES)
- 
--TEST_GEN_PROGS := fusectl_test
-+TEST_GEN_PROGS := fusectl_test fuse_passthrough_test
- TEST_GEN_FILES := fuse_mnt
- 
- include ../../lib.mk
-diff --git a/tools/testing/selftests/filesystems/fuse/fuse_passthrough_test.c b/tools/testing/selftests/filesystems/fuse/fuse_passthrough_test.c
-new file mode 100644
-index 0000000000000..31cfced89ca8e
---- /dev/null
-+++ b/tools/testing/selftests/filesystems/fuse/fuse_passthrough_test.c
-@@ -0,0 +1,297 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Test that FUSE backing files are visible in /proc/self/fd
-+ *
-+ * When FUSE passthrough mode registers a backing file via
-+ * FUSE_DEV_IOC_BACKING_OPEN, that file should remain visible in
-+ * /proc/self/fd of the daemon process so that tools like lsof can
-+ * observe it. This test verifies that behavior.
-+ *
-+ * Requires: root (CAP_SYS_ADMIN), CONFIG_FUSE_PASSTHROUGH=y
-+ */
-+
-+#define _GNU_SOURCE
-+#include <dirent.h>
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <limits.h>
-+#include <linux/fuse.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <sys/ioctl.h>
-+#include <sys/mount.h>
-+#include <sys/stat.h>
-+#include <sys/types.h>
-+#include <sys/wait.h>
-+#include <unistd.h>
-+
-+#include "../../kselftest.h"
-+
-+#define FUSE_DEV	"/dev/fuse"
-+#define BUF_SIZE	131072
-+
-+/*
-+ * FUSE_PASSTHROUGH is bit 37.  The protocol splits flags across two
-+ * 32-bit fields: flags holds bits 0-31, flags2 holds bits 32-63
-+ * shifted right by 32.
-+ */
-+#define FUSE_PASSTHROUGH_FLAGS2	((uint32_t)(FUSE_PASSTHROUGH >> 32))
-+
-+/* Count /proc/self/fd symlinks that resolve to @path. */
-+static int count_proc_fd_refs(const char *path)
-+{
-+	DIR *dir;
-+	struct dirent *de;
-+	char link_target[PATH_MAX];
-+	char proc_entry[PATH_MAX];
-+	int count = 0;
-+
-+	dir = opendir("/proc/self/fd");
-+	if (!dir)
-+		return -1;
-+
-+	while ((de = readdir(dir)) != NULL) {
-+		ssize_t len;
-+
-+		if (de->d_name[0] == '.')
-+			continue;
-+
-+		snprintf(proc_entry, sizeof(proc_entry),
-+			 "/proc/self/fd/%s", de->d_name);
-+		len = readlink(proc_entry, link_target, sizeof(link_target) - 1);
-+		if (len < 0)
-+			continue;
-+		link_target[len] = '\0';
-+
-+		if (strcmp(link_target, path) == 0)
-+			count++;
-+	}
-+
-+	closedir(dir);
-+	return count;
-+}
-+
-+/*
-+ * Minimal FUSE daemon: performs the INIT handshake with FUSE_PASSTHROUGH
-+ * enabled, registers @backing_path as a backing file, writes the
-+ * /proc/self/fd ref counts before and after BACKING_CLOSE into
-+ * @result_pipe, then drains requests until the mount is torn down.
-+ */
-+static void run_daemon(int fuse_fd, const char *backing_path, int result_pipe)
-+{
-+	char buf[BUF_SIZE];
-+	struct fuse_in_header *in_hdr;
-+	struct {
-+		struct fuse_out_header	hdr;
-+		struct fuse_init_out	init;
-+	} init_reply;
-+	struct {
-+		struct fuse_out_header	hdr;
-+	} err_reply;
-+	struct fuse_backing_map map = {};
-+	ssize_t len;
-+	int backing_fd;
-+	int backing_id;
-+	uint32_t close_id;
-+	int fd_count_open = -1;
-+	int fd_count_close = -1;
-+
-+	len = read(fuse_fd, buf, sizeof(buf));
-+	if (len < 0) {
-+		ksft_print_msg("daemon: read INIT: %s\n", strerror(errno));
-+		goto out;
-+	}
-+
-+	in_hdr = (struct fuse_in_header *)buf;
-+	if (in_hdr->opcode != FUSE_INIT) {
-+		ksft_print_msg("daemon: expected FUSE_INIT, got %u\n",
-+			       in_hdr->opcode);
-+		goto out;
-+	}
-+
-+	memset(&init_reply, 0, sizeof(init_reply));
-+	init_reply.hdr.len	= sizeof(init_reply);
-+	init_reply.hdr.unique	= in_hdr->unique;
-+	init_reply.init.major		= FUSE_KERNEL_VERSION;
-+	init_reply.init.minor		= FUSE_KERNEL_MINOR_VERSION;
-+	init_reply.init.max_readahead	= 65536;
-+	init_reply.init.flags		= FUSE_INIT_EXT;
-+	init_reply.init.max_write	= 65536;
-+	init_reply.init.max_pages	= 256;
-+	init_reply.init.flags2		= FUSE_PASSTHROUGH_FLAGS2;
-+	init_reply.init.max_stack_depth	= 1;
-+
-+	if (write(fuse_fd, &init_reply, sizeof(init_reply)) < 0) {
-+		ksft_print_msg("daemon: write INIT reply: %s\n", strerror(errno));
-+		goto out;
-+	}
-+
-+	backing_fd = open(backing_path, O_RDWR);
-+	if (backing_fd < 0) {
-+		ksft_print_msg("daemon: open backing file: %s\n", strerror(errno));
-+		goto out;
-+	}
-+
-+	map.fd = backing_fd;
-+	backing_id = ioctl(fuse_fd, FUSE_DEV_IOC_BACKING_OPEN, &map);
-+	if (backing_id < 0) {
-+		ksft_print_msg("daemon: FUSE_DEV_IOC_BACKING_OPEN: %s\n",
-+			       strerror(errno));
-+		close(backing_fd);
-+		goto out;
-+	}
-+
-+	/*
-+	 * Close our own fd.  The kernel now holds the only reference via
-+	 * its backing_files_map.  Check whether the file is still visible
-+	 * in /proc/self/fd -- it should be, via the fd installed by the kernel.
-+	 */
-+	close(backing_fd);
-+	fd_count_open = count_proc_fd_refs(backing_path);
-+
-+	close_id = (uint32_t)backing_id;
-+	ioctl(fuse_fd, FUSE_DEV_IOC_BACKING_CLOSE, &close_id);
-+	fd_count_close = count_proc_fd_refs(backing_path);
-+
-+out:
-+	/* Signal results before draining so the parent can proceed to unmount. */
-+	if (write(result_pipe, &fd_count_open, sizeof(fd_count_open)) < 0 ||
-+	    write(result_pipe, &fd_count_close, sizeof(fd_count_close)) < 0)
-+		ksft_print_msg("daemon: write result pipe: %s\n", strerror(errno));
-+
-+	while (1) {
-+		len = read(fuse_fd, buf, sizeof(buf));
-+		if (len <= 0)
-+			break;
-+
-+		in_hdr = (struct fuse_in_header *)buf;
-+		memset(&err_reply, 0, sizeof(err_reply));
-+		err_reply.hdr.len    = sizeof(err_reply);
-+		err_reply.hdr.error  = -ENOSYS;
-+		err_reply.hdr.unique = in_hdr->unique;
-+		if (write(fuse_fd, &err_reply, sizeof(err_reply)) < 0)
-+			break;
-+	}
-+}
-+
-+int main(void)
-+{
-+	char tmpdir[] = "/tmp/fuse_backing_test_XXXXXX";
-+	char mntpoint[PATH_MAX];
-+	char backing_path[PATH_MAX];
-+	char mount_opts[64];
-+	int fuse_fd = -1;
-+	int pipe_fds[2] = {-1, -1};
-+	int tmp_fd;
-+	pid_t daemon_pid;
-+	int fd_count_open = -1;
-+	int fd_count_close = -1;
-+	int status;
-+
-+	ksft_print_header();
-+	ksft_set_plan(2);
-+
-+	if (geteuid() != 0)
-+		ksft_exit_skip("requires root (CAP_SYS_ADMIN)\n");
-+
-+	if (!mkdtemp(tmpdir))
-+		ksft_exit_fail_msg("mkdtemp: %s\n", strerror(errno));
-+
-+	snprintf(mntpoint, sizeof(mntpoint), "%s/mnt", tmpdir);
-+	snprintf(backing_path, sizeof(backing_path), "%s/backing_file", tmpdir);
-+
-+	if (mkdir(mntpoint, 0700) < 0) {
-+		ksft_print_msg("mkdir mntpoint: %s\n", strerror(errno));
-+		goto cleanup_tmpdir;
-+	}
-+
-+	tmp_fd = open(backing_path, O_CREAT | O_RDWR, 0600);
-+	if (tmp_fd < 0) {
-+		ksft_print_msg("create backing file: %s\n", strerror(errno));
-+		goto cleanup_dirs;
-+	}
-+	close(tmp_fd);
-+
-+	fuse_fd = open(FUSE_DEV, O_RDWR);
-+	if (fuse_fd < 0) {
-+		ksft_print_msg("open %s: %s\n", FUSE_DEV, strerror(errno));
-+		goto cleanup_files;
-+	}
-+
-+	if (pipe(pipe_fds) < 0) {
-+		ksft_print_msg("pipe: %s\n", strerror(errno));
-+		goto cleanup_fuse;
-+	}
-+
-+	daemon_pid = fork();
-+	if (daemon_pid < 0) {
-+		ksft_print_msg("fork: %s\n", strerror(errno));
-+		goto cleanup_pipe;
-+	}
-+
-+	if (daemon_pid == 0) {
-+		close(pipe_fds[0]);
-+		run_daemon(fuse_fd, backing_path, pipe_fds[1]);
-+		close(pipe_fds[1]);
-+		exit(0);
-+	}
-+
-+	close(pipe_fds[1]);
-+	pipe_fds[1] = -1;
-+
-+	snprintf(mount_opts, sizeof(mount_opts),
-+		 "fd=%d,rootmode=040000,user_id=0,group_id=0", fuse_fd);
-+
-+	if (mount("fuse.test", mntpoint, "fuse", MS_NOSUID | MS_NODEV,
-+		  mount_opts) < 0) {
-+		ksft_print_msg("mount: %s\n", strerror(errno));
-+		kill(daemon_pid, SIGTERM);
-+		waitpid(daemon_pid, &status, 0);
-+		goto cleanup_pipe;
-+	}
-+
-+	if (read(pipe_fds[0], &fd_count_open, sizeof(fd_count_open)) != sizeof(fd_count_open) ||
-+	    read(pipe_fds[0], &fd_count_close, sizeof(fd_count_close)) != sizeof(fd_count_close))
-+		ksft_print_msg("read result pipe: %s\n", strerror(errno));
-+
-+	umount2(mntpoint, MNT_DETACH);
-+	waitpid(daemon_pid, &status, 0);
-+
-+	if (fd_count_open == 1)
-+		ksft_test_result_pass(
-+			"backing file visible in /proc/self/fd after BACKING_OPEN\n");
-+	else if (fd_count_open == 0)
-+		ksft_test_result_fail(
-+			"backing file NOT visible in /proc/self/fd after BACKING_OPEN\n");
-+	else
-+		ksft_test_result_fail(
-+			"BACKING_OPEN: unexpected fd_count=%d\n", fd_count_open);
-+
-+	if (fd_count_close == 0)
-+		ksft_test_result_pass(
-+			"backing file removed from /proc/self/fd after BACKING_CLOSE\n");
-+	else if (fd_count_close == 1)
-+		ksft_test_result_fail(
-+			"backing file still visible in /proc/self/fd after BACKING_CLOSE\n");
-+	else
-+		ksft_test_result_fail(
-+			"BACKING_CLOSE: unexpected fd_count=%d\n", fd_count_close);
-+
-+cleanup_pipe:
-+	if (pipe_fds[0] >= 0)
-+		close(pipe_fds[0]);
-+	if (pipe_fds[1] >= 0)
-+		close(pipe_fds[1]);
-+cleanup_fuse:
-+	if (fuse_fd >= 0)
-+		close(fuse_fd);
-+cleanup_files:
-+	unlink(backing_path);
-+cleanup_dirs:
-+	rmdir(mntpoint);
-+cleanup_tmpdir:
-+	rmdir(tmpdir);
-+
-+	ksft_finished();
-+}
--- 
-2.43.0
+>
+>> +	VM_WARN_ON_ONCE(start & (HPAGE_PMD_NR - 1));
+>>
+>>  	result =3D alloc_charge_folio(&new_folio, mm, cc, HPAGE_PMD_ORDER);
+>>  	if (result !=3D SCAN_SUCCEED)
+>
+>
+> --=20
+> Cheers,
+>
+> David
 
+
+Best Regards,
+Yan, Zi
