@@ -1,166 +1,153 @@
-Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11023109.outbound.protection.outlook.com [40.107.201.109])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9216819A288;
-	Fri, 24 Apr 2026 13:41:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.201.109
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777038068; cv=fail; b=kQVMWX1H1vVjKES54mFzNQch/qoH0xeY9ojr5oVN7Ddf+BJTVg8C9Fe6um5W0Jpw0yFQmNMDZy/SsZ+vlCWF+W5bfyO3gOATuFGveyPcctieKD7sD8nN07gElIeeLIlikXE/VNVSa7N+z1dV9TeOJk6zHqwmc/s9jJGZVKTybCI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777038068; c=relaxed/simple;
-	bh=5TKTtGucEuy1kfK34Ed9TTy2BadII89sBzVilUr8WyE=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=RYO+UMQT8xBb3T+7ZWG6QPLAOEl6Q744vp3jknb3r8X9bruY1lcQSK49UB2EDRoEstq7mjWySinATQxWPJC8FYLaqTgE8HHivEslU9Qq1mTlnpBmMVepybH5XLMyhcFbVTNlmC7Ppx6El+fBI1AttYMUWLGRIRR95hmtxkONp9E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=talpey.com; spf=pass smtp.mailfrom=talpey.com; arc=fail smtp.client-ip=40.107.201.109
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=talpey.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=talpey.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DcnQfCkiw2DQWxbOhmYMDzTokXtgdhF8Nt8/sb5lgOCu5UomojV4XhZHIgKvhVs5isGdjM96AEBToUMJi/ttUVCwCZEuuZjXQWWwUvLbzgHLvh4TkDKFkgClH+hsY9SAKtk5iaCCSBb4Eo+Q+Wq0nJzCtImdpVG+bM0QbKFDXP8jFsYaQTkgL5T2obhQxonG1SHBDwXb2dl5rphhF+4wWZOIW3FlxMPVk1qnkSkKj2Dj7UhQTgFuuHNnr3UVlXx7zeZA2SoNZ2JagzLAoKHyQ8VHwUiwWgVr9K8jx7Yz3RczYs5phym5nrWkmmQAmu6wXSX0+hCEXu5Vz0uCtTH0Mg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=neoSVMDXw3f2dtrBsFsm/v++HDlmtoue1uMtOVD+1b0=;
- b=HjW/x5DRgd5Z/b5lqoAYt1OeCKKf/1KgwoPxd5B49jAWtZQyXPcv/I4e1OuNBEwucLIrYx7E+IzvV83QYaeH80CaExbaJ/mbaZ8LKedtsULwX+RNwZ8wx/SAjzPQmWXrN/DrtQVuQTfzSmKSug+kQ9fIr8fzbbf6o91zH9zKz3dEU+u7HGgX1LYhyTdww+5d6KiJ5RIZ7dH0WzU/qn54rYAKDr0q+7+4a4kS/RAbql0BUkjp7MKm8ncWaC81iihxXVU8VSebVGEkA/4QXZKp1tdVANfE2KTmp+qDz+bT6I/zua42SiuL2RuW7MW1/0ZlGFfZbz6wAoj6u0iEkwo3Pg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=talpey.com; dmarc=pass action=none header.from=talpey.com;
- dkim=pass header.d=talpey.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=talpey.com;
-Received: from MW4PR01MB6338.prod.exchangelabs.com (2603:10b6:303:7b::15) by
- SJ0PR01MB6320.prod.exchangelabs.com (2603:10b6:a03:291::10) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9846.22; Fri, 24 Apr 2026 13:41:04 +0000
-Received: from MW4PR01MB6338.prod.exchangelabs.com
- ([fe80::e7ad:d8fa:59db:4761]) by MW4PR01MB6338.prod.exchangelabs.com
- ([fe80::e7ad:d8fa:59db:4761%6]) with mapi id 15.20.9846.021; Fri, 24 Apr 2026
- 13:41:03 +0000
-Message-ID: <e248f3de-bbaf-48e3-9e86-0beb9a789556@talpey.com>
-Date: Fri, 24 Apr 2026 09:41:03 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: "Intent" of VFS lookups
-To: Shyam Prasad N <nspmangalore@gmail.com>, Ralph Boehme <slow@samba.org>
-Cc: linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- CIFS <linux-cifs@vger.kernel.org>, linux-nfs@vger.kernel.org
-References: <CANT5p=oV8kcE6hXPoUVQAYGaiz+2OERoSRLAS6X+q9KJ_8w8YQ@mail.gmail.com>
- <438478a7-c965-4a2a-9c4a-84b5f77d6dbe@samba.org>
- <CANT5p=ortwT7ensa+kKoCa=wMnGETpqaQuBnhDWMSNu82KsqFg@mail.gmail.com>
-Content-Language: en-US
-From: Tom Talpey <tom@talpey.com>
-In-Reply-To: <CANT5p=ortwT7ensa+kKoCa=wMnGETpqaQuBnhDWMSNu82KsqFg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MN2PR06CA0002.namprd06.prod.outlook.com
- (2603:10b6:208:23d::7) To MW4PR01MB6338.prod.exchangelabs.com
- (2603:10b6:303:7b::15)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FB003537DF
+	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 13:46:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777038410; cv=none; b=F1AQPTfehNjRrr40oebEbwCb33XDZ52xVx1kkv+JoO+xJ9Y0W8WfsCou0mLcOXP2k7pQWugDKjiTO3kPEntcUUaVwrEfh67paStu1P9tQF5zRnsmRQfB7snPX0ZP5VbU17sIrhErZs2ti6WrXln8kCrBHqA8sFSLQxitBa2VK1A=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777038410; c=relaxed/simple;
+	bh=hhhCJYSaJZTYNIZ6ttfeVVH02/GFHo91RRBI/hPKlvM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=W1uQaoJzfJ1yQybLp2d5GLGc+OBLoC1fRh6RbTcHFsvZpMEqxzxnvqnyBluG5Q73ZZfYxOvvwkoJO0eEo6HU3fNqOs8lME3R65FzKHCS1kngpr+T/A8CVqEShS0ZeSEb9thmIYx/c5tvN9bwJWkxjBg+kEIyls0LuyFM9dqAIAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tZ6Y4bDk; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tZ6Y4bDk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31499C19425;
+	Fri, 24 Apr 2026 13:46:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777038409;
+	bh=hhhCJYSaJZTYNIZ6ttfeVVH02/GFHo91RRBI/hPKlvM=;
+	h=From:Subject:Date:To:Cc:From;
+	b=tZ6Y4bDk0ku0ONYaBcSK9wPHPDmyYfTMaU8IPaZoxah/fgMesUVtpk8WvCMQwCPkt
+	 4bpIeofYgBAsbAby8HSlAs9LIjV1DlAFsRCxV4iySX6cjygXJLcDTHlZ+uTIWBZAcJ
+	 xzch7qL3hJCVgkyZ4sP8jxh2LhVT7s3P/PMSN+0lKi88VS7kwmX8Ba0Q+feV650qbq
+	 ljjbB9yZMmA3J5anFlhd2uEHcZWTn+fjKq0/OyKCJglN+YyG0DE2D73+D12E0ifw86
+	 bNvTIlUyYknd5IyMm2gzcUQmuKV7C5qJLKSi3hD9el4NQvgnkPFRi9Vrpx6G+0tlFy
+	 qLICnpnuI6Q2Q==
+From: Christian Brauner <brauner@kernel.org>
+Subject: [PATCH 00/17] eventpoll: clarity refactor
+Date: Fri, 24 Apr 2026 15:46:31 +0200
+Message-Id: <20260424-work-epoll-rework-v1-0-249ed00a20f3@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW4PR01MB6338:EE_|SJ0PR01MB6320:EE_
-X-MS-Office365-Filtering-Correlation-Id: aa3d3577-ff41-47af-df86-08dea2072122
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|366016|1800799024|56012099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	X528O3kCcwDXBbtn6RGvtxoqsFYTkG/wU/aeFDt8ro7p4Pr278Vw8N4oVon8l0wq/9KIScbmIPsTeZRs+yWAKx3buJdwxOrvvf5tmTuk01aXFw76IDGABI6eFBi9uSx7Ygy2igF0ZbU+F6TNv4b54bbqYDX67V+N1D2A2/XqUdE5v8XWXRLJ5+d8cuUs9JokWDfBZg1Rim85gJT7jjW7+PWhWLO1PJiuUzUJUmHAtEUUbE8RYD3GibHyNNgPuWYiCdZ6drXhMEAtiAqgBebUx/A/nCeDZU6QYIKIXtz/TgyTNjPz4m38VJ9OSyCeJqhjk2vEVJhzsudJ0C6sLtZDkn8tLFYjn7XT/Jha367jzeKx45KsAQYJWmxAMI3Dl5yev/rbcDPxT0/siXS6RSobkIDB/rvGBd3mkiW/OYF5v1XVBPIMkI6tRkLwHRa5agbOcSnNoD2T/LdFS2a4eurZwC9pHdyVe4xpggDflvZQQCZJaNHMxQ3mdTkuofLhGmbaFAtBfoxYnZrrvPZivls/7VhmBz8it0oiYoEjxvR4StQWKBYEDFGyAFoW8Bd4JMKaUwqw6CelCrK5BVtrRvzjM1n5waj7+rm4QSxAa5hRTLkurIU80/t8OW9eaWoWmaiAG2bS+BBq03bLS11HczxbbOFpdYdEWuf1lWk3yu4WtEYy3wF5UGlwea73ARoPuTBvDkPEsEHVoGN9kMZFjeIiNwTHc/WQspLpNT5uyOQcycQ=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR01MB6338.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?bzc0QS9VV1RYbjR1MVYydEI2cUF2dU5aa1A2ZmEwcFptYytmU09Na2ZmZTRj?=
- =?utf-8?B?VWtlSTBNV0c3RUhnbjRJSUlBL0NCZHV3a2U4UExmN1pPMTlDZ3lOZnEzR1dy?=
- =?utf-8?B?ZkdTaHF5NWhiVnFxL1lpWnR1aDZwL0Rpa1FLbkpwSXZaYS8ydUVleEwvRk9V?=
- =?utf-8?B?SEJ5VzJDbGFBZjBEYlZ4VkM4bVR1QjJzQ1Q0cFhWMjRvTTRFaDhvMU9wR0lZ?=
- =?utf-8?B?NlE0N05UdnhKVVFVRk9nWW04M1Z3N3FKUEtJM3RPUVdIVWVQbERWRzQxdDdh?=
- =?utf-8?B?SXNDU1BTMkljL3N5em16NzA0T2lJL2xHMGNHN3RDcHBGb0NFazFQTnNndVEz?=
- =?utf-8?B?dFBxbWNkeUg0VVNZNTgyWnAxd3NEUDlMdk1Qb3d5RmtiS2YrTG5KdGY5QlIz?=
- =?utf-8?B?ZS83cGhaMktrWmdIbkVDMVZQbTV3TGhCdktyRFRpRk5qa0FJRHRBU245OUg3?=
- =?utf-8?B?M2tSaGJsNkFqQ0NvRzdvcUVDNytXZmU5dnJ2MU8zek01UlYvSlV4eFdJbzRY?=
- =?utf-8?B?MWJHZGdPRklxZGEyYjB2MWY2MVdWeHd4V3I4c2dLQkxrdTJjNU5yN3ZJU1g0?=
- =?utf-8?B?c2FtRWh1ZnBNTDZvdU1vNGxtbFlDV1VUdEFQYmhjRE5jaUY4akVJOFZyUnFY?=
- =?utf-8?B?eSs3WjlIN253djU0SEVoMnpPbE44SThDMWpoaHlXeld0VW1iTGI4RHIwdlZk?=
- =?utf-8?B?cXExS3R4SVBGSndDNW5laE41ejJqRUxsYlQyazdoTVF0UlJxTTFFRVNoeDhQ?=
- =?utf-8?B?NHlaR1JLdGQ5TXdiZkwvUCtVVGtsSm5mcUVXdFlqOUZBSG80akJLcGJPakd2?=
- =?utf-8?B?anJRZVU5bkd6SjgrN2JCTUd0aDVpU1FKenhVam9VUk9kdzlBVk5TY01GQlpG?=
- =?utf-8?B?SVdWSDdjVXF5U1dLV1FyZzBXSVorSThDUVltTEp6eXYyclVhNE0zdEhqVTFD?=
- =?utf-8?B?cTQ4bSszejJucEUyM29zNUh0UEpUZExXamZaamdjOHZON3dhc0U1WTVhWjNC?=
- =?utf-8?B?dzNZNjBSZ3RUWmYrSXhaSjF3ZjY2SHdVZmdWNzZPWlBUUVpBTERmNjJyNlJi?=
- =?utf-8?B?aVN1Z0dwSk1HMXZNK01PckdmMmNiZ3hkQzE5M1ZYNE9HaW9lendaTTQyVHJI?=
- =?utf-8?B?VWdXd0hORW5PaXFraHFReUVBenVYUTVMNEs2a01mL1BndDZnZ2tzdC9UdFU0?=
- =?utf-8?B?TkdXWU1qa1FuQlpZOWxxVWJyZGp5VkhZNVY1Z0lQaVVJamd0QWNsTDlQMmJR?=
- =?utf-8?B?djg0YnM4OEZ2cndxTVJ5QkRYcDlTRmlnRmc3d241S093Y0ZmVXhxb3crUEtk?=
- =?utf-8?B?aWJQYXpwMmM0dFdRLzBUcHBvbzg1TU9UNkMxNit3S3o0U2l2RzdDeHNiNEdX?=
- =?utf-8?B?bVVPQlEzaWdDYkcxczZCczZhT09BRlcvVURrb0R1aXVoOVF5R3FJSUFHMjZh?=
- =?utf-8?B?MVRwMmdvSWlrS0E3WFZRVWhnMUVvV0ZTNlk0ejdjNHJTVW1VWXZBOWgvV2JY?=
- =?utf-8?B?OUhHUXQ3Z2NtaUFHdVZCZUl4TFJVcWk1SG5nLzA5Yy9CUXY2R1phc0dDNWE3?=
- =?utf-8?B?NENFbE9Wa25Fa1dtb1lKb1NNUEtXeUp2dlZ0UEl0Q00wZmx2c0VuWWRYUUlK?=
- =?utf-8?B?U3RRd1MwWVcxbjl1Zjlac0Zuajk0bWtyT0pjb1Y1WWlvV3VSWFk2YVB5ZXZI?=
- =?utf-8?B?RlZ4N1FQUC9GMGl3L3hVTUtkOWp5cXA1YUI3M2xTbk9NM2tta0hlbGhnSTJm?=
- =?utf-8?B?cXVocHhOam50dnVmalNXV2gyVHV4VXgvUWRkUVJrdHk3TEJHNFFZMVcvR0JO?=
- =?utf-8?B?QnBvN2lJUXYzc2gvV3BWU3daTUUwMHpaNHloL2FLVFVzMVRLM3VhQ1NuSVZS?=
- =?utf-8?B?NGpvNTQ2d2FjSSs1RUoyVFV3UzdwYXptRVlQU1RKelhSVWQ3MXhmS1VMWlBF?=
- =?utf-8?B?SGN1LzVseEZ1MVFqVWxVMGJoZmFUazFnVk11NmNPai82eDIycnNLdHBBTzN1?=
- =?utf-8?B?MU5CaHMyT2dXWWFicjJ3TVJPMzdxN3RucUhjbHpUMTlhWFRXbU1LWTg0M1RV?=
- =?utf-8?B?TkNsY0wzN0JjSmN6VDM2YWhvcG55NjB0RktoWlpVN2lBVjhLb0dHd1RoRDhU?=
- =?utf-8?B?RVVpdmcraHdPcVJzYWwxNTdGazlaNTEwNmpXNi9sdWVubW11SjV4ZlJnNHBC?=
- =?utf-8?B?cW04YjZTOStMZ3Fjc0lORi8xTHJpamRTSEFlZ2NUVkFPckpXUmVNd25BcjZ0?=
- =?utf-8?B?YXc4L0tjYmlLbWkrcFNHS012ZllVRUd0NThOM0VPK081SFAwdTkvY2MxUHEr?=
- =?utf-8?Q?kUOgSEPUQToyVz5J0L?=
-X-OriginatorOrg: talpey.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: aa3d3577-ff41-47af-df86-08dea2072122
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR01MB6338.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2026 13:41:03.9610
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 2b2dcae7-2555-4add-bc80-48756da031d5
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JzwZuik0Iy42NbmW1dM0FQqI4F9ZoaieIs1kYdF4XIrQJSyOrkYm+9kwNOxuUa4u
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR01MB6320
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADd062kC/yXM2w6CMBAE0F8h+2xNaReK/orxoZetVBHIFi8J4
+ d8FfDyTmZkhEyfKcC5mYHqnnIZ+RXkowLe2v5FIYTUoqWqJCsVn4Iegceg6wbTDSqW1NFgGhbD
+ uRqaYvvvn5fp3frk7+Wk72hrOZhKObe/bLXraPBEfQ6g96sZrqtFWMUpXBUOmiSaeHFVoGqkpl
+ g6W5QflCn10twAAAA==
+X-Change-ID: 20260424-work-epoll-rework-a02330741d24
+To: linux-fsdevel@vger.kernel.org
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Linus Torvalds <torvalds@linux-foundation.org>, 
+ Jens Axboe <axboe@kernel.dk>, 
+ "Christian Brauner (Amutable)" <brauner@kernel.org>
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5138; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=hhhCJYSaJZTYNIZ6ttfeVVH02/GFHo91RRBI/hPKlvM=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS+LnH7tf1I4Kf9Uae3xq9NY1oUtthMVP+ljKaf4T2Do
+ t1P0hbHdZSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEzkwFKG/+FbuTluZSRzpigz
+ rw9aEyv37SJbvhT3jxjuYy8lfz/y+M3IsH2+ipXuHFXN6Zd2NZ9bFtHAJWrTLblq+/+5P2TS3v7
+ 9xwAA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On 4/24/2026 9:20 AM, Shyam Prasad N wrote:
-> On Thu, Apr 23, 2026 at 11:13 PM Ralph Boehme <slow@samba.org> wrote:
->>
->> On 4/23/26 7:01 PM, Shyam Prasad N wrote:
->>> Wanted to understand if this is a problem for other filesystems or if
->>> it is specific to SMB protocol?
->>> SMB2+ protocol mandate that open call specifies if the file being
->>> opened is a directory or not (regular file).
->> sure? From memory (though the logic has always kind of escaped me) if
->> you neither specify FILE_DIRECTORY_FILE nor FILE_NON_DIRECTORY_FILE the
->> server is supposed to open the object regardless of the type.
-> 
-> Hi Ralph,
-> 
-> That's interesting. The spec does not seem to define this. Perhaps purposely?
-> Will try and prototype a change to verify.
+The recent UAF series (a6dc643c6931 and follow-ups) rode on
+invariants in fs/eventpoll.c that were nowhere documented and had
+to be reverse-engineered from the code: the lifetime relationships
+between struct eventpoll, struct epitem, and struct file, the three
+removal paths coordinating via epi_fget() pins and ep->mtx, the
+ovflist sentinel-encoded scan state machine, the POLLFREE
+release/acquire handshake, and the loop / path check globals
+serialized by epnested_mutex. The fix was correct but the next
+person to touch this code will hit the same learning curve.
 
-This would be filesystem behavior and therefore it would be in MS-FSA,
-not in the SMB2/3 protocol.
+This adds a bunch of documentation (a bunch of swearwords were removed
+by having an llm go over it) and refactors. The end goal is hopefully a
+bit more pallatable than what this is right now. No functional changes
+intended yet.
 
-MS-FSA does indeed specify that in certain conditions, an open must
-succeed on a directory even if both DIRECTORY_FILE and NON_DIRECTORY_FILE
-are false (page 60 section 2.1.5.1):
+This series codifies those invariants in source and tightens the
+surrounding structure.
 
-  If CreateOptions.FILE_DIRECTORY_FILE is TRUE then StreamTypeToOpen =
-DirectoryStream.
- Else if StreamTypeNameToOpen is "$INDEX_ALLOCATION" then 
-StreamTypeToOpen =
-DirectoryStream.
- Else if CreateOptions.FILE_NON_DIRECTORY_FILE is FALSE, 
-StreamNameToOpen is
-empty, StreamTypeNameToOpen is empty, Open.File is not NULL, and 
-Open.File.FileType is
-DirectoryFile then StreamTypeToOpen = DirectoryStream.
- Else StreamTypeToOpen = DataStream
+First there are a couple of pure documentation changes. A top-of-file
+overview with field-protection tables for struct eventpoll and struct
+epitem, a section gathering the loop-check / path-check globals next to
+their declarations, labelled comments on the two sides of the POLLFREE
+handshake, refreshed comments on epi_fget() and ep_remove_file() (whose
+contract the UAF fix re-shaped), and a docblock on
+ep_clear_and_put() that names its two-pass structure as load-bearing.
 
-There are a bunch of other cases involving trailing separators, etc.
+Next are a couple of mechanical naming cleanups.
+ep_refcount_dec_and_test() -> ep_put() to pair with ep_get(); the unused
+depth argument dropped from epoll_mutex_lock() (all three callers passed
+zero); attach_epitem() -> ep_attach_file() for ep_remove_file()
+symmetry; and the CONFIG_KCMP block relocated next to CONFIG_COMPAT so
+the hot-path code is contiguous.
 
-MS-FSA is, of course, not the only filesystem type which can be
-exported by SMB.
+Next are a couple of changes that extract long bodies into named
+helpers. ep_insert() splits into ep_alloc_epitem() and
+ep_register_epitem(); ep_clear_and_put()'s two passes become
+ep_drain_pollwaits() and ep_drain_tree() so the ordering invariant is
+enforced by the call sequence rather than convention; the per-event
+delivery loop body extracts from ep_send_events() as ep_deliver_event();
+and the ep->mtx + epnested_mutex acquisition dance lifts out of
+do_epoll_ctl() into ep_ctl_lock() / ep_ctl_unlock(), with a return value
+that doubles as the @full_check argument to ep_insert().
 
-Tom.
+Next are a couple of changes that address sentinel and predicate sprawl.
+The EP_UNACTIVE_PTR overload (meaning "no scan in progress" on
+ep->ovflist and "epi not on ovflist" on epi->next) is hidden behind
+named helpers (ep_is_scanning, epi_on_ovflist, ...); epi->next is
+renamed to epi->ovflist_next and the local txlist to scan_batch; and
+is_file_epoll(), ep_is_linked(), ep_events_available() are converted to
+return bool to match their already-boolean bodies.
+
+And last we move the per-CTL_ADD scratch state (tfile_check_list,
+path_count[], inserting_into) from file-scope globals into a
+stack-allocated struct ep_ctl_ctx plumbed through the loop / path check
+chain. loop_check_gen stays at file scope because the stamp it leaves on
+ep->gen across calls must not collide with a future walk.
+
+The load-bearing invariants the UAF series closed are preserved
+verbatim: the epi_fget() pin in ep_remove(), the ordering of
+ep_unregister_pollwait() before ep_remove_file() / ep_remove_epi()
+in all three removal paths, kfree_rcu(epi) and kfree_rcu(ep), the
+POLLFREE smp_store_release / smp_load_acquire pair on pwq->whead,
+ep->lock IRQ-safety, the mutex_lock_nested() subclass arithmetic
+in ep_insert (subclass 0 outer, 1 for tep) and __ep_eventpoll_poll
+/ ep_loop_check_proc (depth-based), and the WARN_ON_ONCE contract
+on ep_put() in ep_remove().
+
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+---
+Christian Brauner (17):
+      eventpoll: expand top-of-file overview / locking doc
+      eventpoll: document loop-check / path-check globals
+      eventpoll: clarify POLLFREE handshake comments
+      eventpoll: refresh epi_fget() / ep_remove_file() comments
+      eventpoll: document ep_clear_and_put() two-pass pattern
+      eventpoll: rename ep_refcount_dec_and_test() to ep_put()
+      eventpoll: drop unused depth argument from epoll_mutex_lock()
+      eventpoll: rename attach_epitem() to ep_attach_file()
+      eventpoll: relocate KCMP helpers near compat syscalls
+      eventpoll: split ep_insert() into alloc + register stages
+      eventpoll: split ep_clear_and_put() into drain helpers
+      eventpoll: extract ep_deliver_event() from ep_send_events()
+      eventpoll: extract lock dance from do_epoll_ctl() into ep_ctl_lock()
+      eventpoll: wrap EP_UNACTIVE_PTR in typed sentinel helpers
+      eventpoll: rename epi->next and txlist for clarity
+      eventpoll: use bool for predicate helpers
+      eventpoll: hoist CTL_ADD scratch state into struct ep_ctl_ctx
+
+ fs/eventpoll.c | 1183 +++++++++++++++++++++++++++++++++++++-------------------
+ 1 file changed, 778 insertions(+), 405 deletions(-)
+---
+base-commit: dd6c438c3e64a5ff0b5d7e78f7f9be547803ef1b
+change-id: 20260424-work-epoll-rework-a02330741d24
+
