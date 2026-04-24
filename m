@@ -1,88 +1,96 @@
-Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA8A9372698
-	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 09:07:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41F4038910E;
+	Fri, 24 Apr 2026 09:08:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777021627; cv=none; b=X3UtuTWgUkpe8+UOTvlPXnvPhzwlFobaugFa69wvM2gALs9oJTSGBPqD1FN6nNVlA7tn+j3eDHV0quCw0/+b5D+VPOfPE2nEZEQ6pyZSbTOWFQaVPqpyRYAAKEORtjCSAoMtM7h/fw8+Ez964JWmpceJ3PokwK2isL+0i6SzXdA=
+	t=1777021704; cv=none; b=ObS3T5f6QXqB0lqUsM8LqqWkb6IjnL3grsiRSXxQqeXBVXZZq75hlkVc/DUMheQyfoc+wTbz/06ffO1GwYAie72zUru5hlMRvHyLi5cpSV3trsxv91WpCg4alSL3rvcwd4t4dzgCMTgQ1xSKunMpOYfQfTsKF2MjGAUOLuf8fjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777021627; c=relaxed/simple;
-	bh=7jaURETtLtFcHeVwaJSIAJ76CiNIfv4Ct+qN4bIYrOE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XTKj30MTQWV0qbLqfE68O8iq3kgZBI89NBZpRa9GOT+9PDxWW5olJgzz9EfHTY9SZj5FnmjVcXpY0bddNEpZLEr7Y+nGOxqCa3kOt4Fmo8wgGOA2ZcyOO3QL+zIwGyEQfI3iRrqBVWO73RDiaBwbBJVKasjZRBc3JI+pLVWB/Aw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ZdfiXloR; arc=none smtp.client-ip=91.218.175.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1777021704; c=relaxed/simple;
+	bh=YLYU8XfQw1ShZha/3LAE4XUUIXuxyEoIlVbIlIaxSrc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JG2SVxMl38LDsiPyGt3if2ExptpygxXyT/9dnDSIwKWyKpHpua8YSiuSfDYfzddvXOCKZwrBMPn4zrSRJLhAVLuDS5bEfbpnCL/4Yb6AtT4ZfQEwtkSuyCCog/FV7vNLgGq/3pDPOcQhTJYqoJDSnojOK+B7UKtKT2xkVeUXrjA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=GXrWdr4R; arc=none smtp.client-ip=117.135.210.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ZdfiXloR"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1777021620;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=v5MHwtakqSyJO/3s/86DCgyAMl1f/M28OmbHQ7iCKV4=;
-	b=ZdfiXloRvG7Ogp0/lLtfgPqqgkVaElVepybdJI7gBlTKpwKazbFyQE2CBL5+jz8ggBnEhu
-	sVC4fzafkLTFT7RvaDYZEFg3TwLHVt2rUCI04a7d5E4BmphXohrXzv2dHRvWUyT5s2pceH
-	Otu4yLhtCKv+jcoDvx3etn3biN9oZow=
-From: Thorsten Blum <thorsten.blum@linux.dev>
-To: Viacheslav Dubeyko <slava@dubeyko.com>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Yangtao Li <frank.li@vivo.com>
-Cc: Thorsten Blum <thorsten.blum@linux.dev>,
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="GXrWdr4R"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=jZ
+	DM/MPL4KN6SxEBTt3RvBNteI30ONR7LBkpXjDMaaU=; b=GXrWdr4RuHBIn1547y
+	ovmOC82hUJe77xr5aNgsT8EJIysedKavU3IEohE9TCKywTlx4M2EkPftUeVf8bhP
+	2wxdTPEMW75WG2TkBTwboYVlxNn79ARMU4oAFFvHAV57HftEB9KZ8zjLTykOwICy
+	tbAFhjxa3wjNGjMGEU+T7t/io=
+Received: from liubaolin-VMware-Virtual-Platform (unknown [])
+	by gzga-smtp-mtada-g0-1 (Coremail) with SMTP id _____wA3fjuxMutpJmUNBg--.54442S2;
+	Fri, 24 Apr 2026 17:06:58 +0800 (CST)
+From: Baolin Liu <liubaolin12138@163.com>
+To: corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	cyphar@cyphar.com,
+	vbabka@kernel.org,
+	surenb@google.com,
+	rdunlap@infradead.org
+Cc: linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] hfsplus: replace unbounded sprintf() in hfsplus_{lookup,link,unlink}
-Date: Fri, 24 Apr 2026 11:06:34 +0200
-Message-ID: <20260424090633.307300-3-thorsten.blum@linux.dev>
+	linux-doc@vger.kernel.org,
+	Baolin Liu <liubaolin@kylinos.cn>
+Subject: [PATCH v2 v2] Documentation: proc: fix section numbering in table of contents
+Date: Fri, 24 Apr 2026 17:06:54 +0800
+Message-ID: <20260424090654.19229-1-liubaolin12138@163.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1761; i=thorsten.blum@linux.dev; h=from:subject; bh=7jaURETtLtFcHeVwaJSIAJ76CiNIfv4Ct+qN4bIYrOE=; b=owGbwMvMwCUWt7pQ4caZUj3G02pJDJmvjWZO2/W13+VPY/7EWHuBMIdN96yy/a+tUF9WtUJ55 8QD29/nd5SyMIhxMciKKbI8mPVjhm9pTeUmk4idMHNYmUCGMHBxCsBEjhkw/M+OK2j0zvmbM3PB M21NtV+nD4QwKDhfTf50wfSc6OkHy8IZGb4u3+X+zuOcwgVp660NPa851vP+3TS/hp17zmdP2SW buJgB
-X-Developer-Key: i=thorsten.blum@linux.dev; a=openpgp; fpr=1D60735E8AEF3BE473B69D84733678FD8DFEEAD4
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+X-CM-TRANSID:_____wA3fjuxMutpJmUNBg--.54442S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7WFWfGF17KFyUur1xAw45Awb_yoW8Xry8pF
+	WrAr1agw18GF1UWw17Ar4xWrW7Aa4Ika1jqa9F9r1ftrn8Z3sa9w13t3W5AFy8GryrAayF
+	qFs7Kryavr47AF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jbAwsUUUUU=
+X-CM-SenderInfo: xolxutxrol0iasrtmqqrwthudrp/xtbCwhIO2GnrMrK28wAA3B
 
-While the current code works correctly, replace unbounded sprintf()
-calls with the safer scnprintf() in hfsplus_lookup(), hfsplus_link(),
-and hfsplus_unlink() to follow secure coding best practices.
+From: Baolin Liu <liubaolin@kylinos.cn>
 
-Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+Commit e24ccaaf7ec4 ("block: remove last remaining traces of IDE
+documentation") removed the IDE section but left its table of
+contents entry behind.
+Fix the stale entry and renumber the following sections.
+
+Fixes: e24ccaaf7ec4 ("block: remove last remaining traces of IDE documentation")
+Signed-off-by: Baolin Liu <liubaolin@kylinos.cn>
 ---
- fs/hfsplus/dir.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ Documentation/filesystems/proc.rst | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/fs/hfsplus/dir.c b/fs/hfsplus/dir.c
-index 47194370c2c5..ff976995ef58 100644
---- a/fs/hfsplus/dir.c
-+++ b/fs/hfsplus/dir.c
-@@ -98,7 +98,7 @@ static struct dentry *hfsplus_lookup(struct inode *dir, struct dentry *dentry,
- 				dentry->d_fsdata = (void *)(unsigned long)cnid;
- 				linkid =
- 					be32_to_cpu(entry.file.permissions.dev);
--				str.len = sprintf(name, "iNode%d", linkid);
-+				str.len = scnprintf(name, sizeof(name), "iNode%d", linkid);
- 				str.name = name;
- 				err = hfsplus_cat_build_key(sb, fd.search_key,
- 					HFSPLUS_SB(sb)->hidden_dir->i_ino,
-@@ -322,7 +322,7 @@ static int hfsplus_link(struct dentry *src_dentry, struct inode *dst_dir,
- 			get_random_bytes(&id, sizeof(cnid));
- 			id &= 0x3fffffff;
- 			str.name = name;
--			str.len = sprintf(name, "iNode%d", id);
-+			str.len = scnprintf(name, sizeof(name), "iNode%d", id);
- 			res = hfsplus_rename_cat(inode->i_ino,
- 						 src_dir, &src_dentry->d_name,
- 						 sbi->hidden_dir, &str);
-@@ -393,7 +393,7 @@ static int hfsplus_unlink(struct inode *dir, struct dentry *dentry)
- 	if (inode->i_ino == cnid &&
- 	    atomic_read(&HFSPLUS_I(inode)->opencnt)) {
- 		str.name = name;
--		str.len = sprintf(name, "temp%llu", inode->i_ino);
-+		str.len = scnprintf(name, sizeof(name), "temp%llu", inode->i_ino);
- 		res = hfsplus_rename_cat(inode->i_ino,
- 					 dir, &dentry->d_name,
- 					 sbi->hidden_dir, &str);
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index 7ce02573a3d9..70db35987ee1 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -23,13 +23,13 @@ fixes/update part 1.1  Stefani Seibold <stefani@seibold.net>    June 9 2009
+   1	Collecting System Information
+   1.1	Process-Specific Subdirectories
+   1.2	Kernel data
+-  1.3	IDE devices in /proc/ide
+-  1.4	Networking info in /proc/net
+-  1.5	SCSI info
+-  1.6	Parallel port info in /proc/parport
+-  1.7	TTY info in /proc/tty
+-  1.8	Miscellaneous kernel statistics in /proc/stat
+-  1.9	Ext4 file system parameters
++  1.3	Networking info in /proc/net
++  1.4	SCSI info
++  1.5	Parallel port info in /proc/parport
++  1.6	TTY info in /proc/tty
++  1.7	Miscellaneous kernel statistics in /proc/stat
++  1.8	Ext4 file system parameters
++  1.9	/proc/consoles - Shows registered system consoles
+ 
+   2	Modifying System Parameters
+ 
+-- 
+2.51.0
+
