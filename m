@@ -1,344 +1,265 @@
-Received: from mail-dl1-f74.google.com (mail-dl1-f74.google.com [74.125.82.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E87C93376A9
-	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 07:03:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC3C42FFF8D
+	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 07:09:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777014188; cv=none; b=t44ME1Z9DSYK9tfaqs2zydtuokNbnp0ZUYgGT+yqsQqOsU+/2BB2gKUvoJFeFTBD00ZM/yRhdRCFXS437ItqZv1YblIo770obEub6/Y6E7Vl0TgE/ld74MwEgpDJu8iSW7jGJk5LapNlmkGGH5/jGBHFmTNP2htG9l8A9mY0zWY=
+	t=1777014598; cv=none; b=VVGORzcVmJCsAryOo7l/TmZSUYoNijAbRNgt2u3ZDlABnKQCH4oVJWwFr7oVQK3YEMWojNyAaxyyGCSyNvdZMAlZph/xrtg4w0Oc5RGdXkpGPvzsV88B50QNiUxLlMDKIF8sczm40nyzRF2UySwVmSqUd3HaJ9QdLivnUaIEVD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777014188; c=relaxed/simple;
-	bh=JtFAv6G2caNWJMReAzgreJ08mLrVeU8lSOVMG1xDGNY=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=rpWdK9U2m261XE1icS+BrZKzjKnVlXBNutI27eqoHrTPu1V7zj3ydri6qJYu2upP0gYXy9tQBm9wVsXJdoFARtXckDaJEqgX1JGJB75jcb0CwzTi7445uLTO3exOU9Wj1Wd3FWISch6/DHzZn3FIcibJ8ZyYs0QaJOW+K7Kxmqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=uIPIb6Q7; arc=none smtp.client-ip=74.125.82.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com
+	s=arc-20240116; t=1777014598; c=relaxed/simple;
+	bh=eEHUCBNB/FycCyuqsdYI9Zgu7Oul0+beHly87DVBPGU=;
+	h=From:To:Cc:In-Reply-To:Subject:Date:Message-ID:MIME-Version:
+	 Content-Type:References; b=Lj3vqS0xrjs0AgD73Y1lWASLSNrJk1gQrkhfGazb+kE+p/6HP1r0oWn3V8ox5FasFB61VhzCLPFpGAVcIIiF4wF/idCOkeB4revfRGVV9htizcbJFleIfS/S/5ssX+ZmQ3sOG30vRGPpbcK9TVJYY4c9z6XVZG3u0wjd1C8AzHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=NWecFLkM; arc=none smtp.client-ip=203.254.224.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uIPIb6Q7"
-Received: by mail-dl1-f74.google.com with SMTP id a92af1059eb24-12c66fdd4aeso11237667c88.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 00:03:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1777014182; x=1777618982; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0swTopRwFXSNiJeH+dx7Oyuq8zIyt+95DwEnqw+0GOE=;
-        b=uIPIb6Q7/l7WOfElUpvAkC6SnaR2yGU358M77Ejb+qQIWrH5iqeUre89GBGZDIg1La
-         2A/aM5F/dRoPNAl8yttx0bi84ycZFiV3V6FEyxnlFLMqNSXS6kEMIUeEz/LEYl69rfbT
-         mNufNzhYHxfDZgFYBfueZhmIyBcG4iKbInHIjg/QUQyTdDRU5xtxHkGMHZkzYpddMBMb
-         8F159s2D4wXlHa3oxEFl2SgQP7jHLN0PVm3z+huXqYdi29FwbCgRYPGtx3iVLjxJz9u+
-         zUIdETeO2wzlESob4jsAqrV1YZ9qNBL0dFWYeNX/RSThwhXAz9wVtejato/XTjKPZBxL
-         8okA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777014182; x=1777618982;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0swTopRwFXSNiJeH+dx7Oyuq8zIyt+95DwEnqw+0GOE=;
-        b=oG/v22eDOXcumCdiYv/xdK7abnmWGbjPm374Pe5YihxbGyicdEiyxwTeUpizX9L8/Q
-         6rhgYb3GQIKLM71Buyu+oNnX+//s81GP7kJ7AVwSGimk86w3e4Drr2gk3Ak3bCPCuaak
-         IamDsVOjzO/X5A3GL6ySpC3bVgE5u0EbWARkSwNihMrJHvvZpn/vCkEX2gdpn+EXrdqc
-         VpxxgmYa6qHsVH9MMNoZtoLBscmej/3G7j7i0X17GZcSbU5+7UHcOr+7ITmM+HPHS4Ua
-         EvlQjgrdyUTBp/Q6yG4HzT5lbay87hfHF/3nQPzILn6UMWMrJrSuqITyxaBD96Mgcv/o
-         H4AQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9i2Sf/z6IP0lX7PMmj8nBOP+JdJl32dk67ANJCv04rBVNn2N5QaLTcHySgQ9Mb1pG0OZimQtJSSj60157P@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw0518W9c6DYwwgOa2jSt1fx96nFXtBthxZW0lBEwg4gfDy7Pkh
-	hH5K/BDLx1EoUYWAFqTubCyNNGxdGRS7IzqJuxtUmBFK3GA0KWcAgQA2SfV4PMGvRKOppWaFJYY
-	3Ft7H+g==
-X-Received: from dlea14-n1.prod.google.com ([2002:a05:701b:420e:10b0:12c:49a5:e4a4])
- (user=surenb job=prod-delivery.src-stubby-dispatcher) by 2002:a05:7022:6b8d:b0:128:ca90:3301
- with SMTP id a92af1059eb24-12c73f71963mr16316333c88.11.1777014181789; Fri, 24
- Apr 2026 00:03:01 -0700 (PDT)
-Date: Fri, 24 Apr 2026 00:02:34 -0700
-In-Reply-To: <20260424070234.190145-1-surenb@google.com>
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="NWecFLkM"
+Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20260424070946epoutp01cba6e296dd0806ee0cfaca976a7e94e6~pOVn3DPkh0568505685epoutp01Q
+	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 07:09:46 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20260424070946epoutp01cba6e296dd0806ee0cfaca976a7e94e6~pOVn3DPkh0568505685epoutp01Q
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1777014586;
+	bh=YnKL+SiDAqnKZfULUW5kTyB2WwUoXJhZZlDSjiyPb14=;
+	h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
+	b=NWecFLkMeTviQGe8Rl4V32iMq7QJJPANYENmPSKP03oprfGeKgyyUJLhHcCVsOOWk
+	 mb05FYqCwj+08P6e+UusNoWmwXz9qKSR0aHK4GEw8t7eGgBJW2CEGV0Ltlq4rx/QXR
+	 gAqOCpCUGVLZy5PJ3y9gFCCwk8TFqfFtN2RxWK2Y=
+Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
+	epcas1p1.samsung.com (KnoxPortal) with ESMTPS id
+	20260424070946epcas1p1895e845d96113d40c8b5a455bea67c80~pOVnmEQN70564105641epcas1p1U;
+	Fri, 24 Apr 2026 07:09:46 +0000 (GMT)
+Received: from epcas1p3.samsung.com (unknown [182.195.38.195]) by
+	epsnrtp02.localdomain (Postfix) with ESMTP id 4g23xQ0Gptz2SSKj; Fri, 24 Apr
+	2026 07:09:46 +0000 (GMT)
+Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
+	epcas1p3.samsung.com (KnoxPortal) with ESMTPA id
+	20260424070945epcas1p39e7844d6355c6048a27c38083e55f6a0~pOVm5-H8v0160301603epcas1p3O;
+	Fri, 24 Apr 2026 07:09:45 +0000 (GMT)
+Received: from W11PB11713 (unknown [10.91.160.69]) by epsmtip2.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20260424070945epsmtip26b17c65bffc8aed090cf02c9094a8dbf~pOVm206921803118031epsmtip2R;
+	Fri, 24 Apr 2026 07:09:45 +0000 (GMT)
+From: "Sungjong Seo" <sj1557.seo@samsung.com>
+To: "'Al Viro'" <viro@zeniv.linux.org.uk>
+Cc: "'Namjae Jeon'" <linkinjeon@kernel.org>,
+	<linux-fsdevel@vger.kernel.org>, <sjdev.seo@gmail.com>, <cpgs@samsung.com>,
+	<sj1557.seo@samsung.com>, <sjdev.seo@gmail.com>
+In-Reply-To: 
+Subject: RE: [RFC] weird stuff in exfat_lookup()
+Date: Fri, 24 Apr 2026 16:09:45 +0900
+Message-ID: <21c1e01dcd3b9$546fb610$fd4f2230$@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260424070234.190145-1-surenb@google.com>
-X-Mailer: git-send-email 2.54.0.545.g6539524ca2-goog
-Message-ID: <20260424070234.190145-4-surenb@google.com>
-Subject: [PATCH 3/3] selftests/proc: add /proc/pid/smaps tearing tests
-From: Suren Baghdasaryan <surenb@google.com>
-To: akpm@linux-foundation.org
-Cc: liam@infradead.org, ljs@kernel.org, vbabka@kernel.org, david@redhat.com, 
-	willy@infradead.org, jannh@google.com, paulmck@kernel.org, pfalcato@suse.de, 
-	shuah@kernel.org, hsukrut3@gmail.com, richard.weiyang@gmail.com, 
-	reddybalavignesh9979@gmail.com, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, surenb@google.com
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQHvIU014N/xpMzfEtxh/QSbUZFfYAGOig5MAmhErlICcjrXqwInKJ+WAjN46ze1YYRmIIARje8g
+Content-Language: ko
+X-CMS-MailID: 20260424070945epcas1p39e7844d6355c6048a27c38083e55f6a0
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 101P
+X-CPGSPASS: Y
+cpgsPolicy: CPGSC10-711,N
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20250228160332epcas1p2b177def4195cedc4c122a5f09bb29d2a
+References: <20250227224826.GG2023217@ZenIV>
+	<CAKYAXd_-v601SX44WZ970LyZjsCH3L3HFjJXxZH960r1PXo+Bw@mail.gmail.com>
+	<CGME20250228160332epcas1p2b177def4195cedc4c122a5f09bb29d2a@epcas1p2.samsung.com>
+	<394ca686-a45a-e71c-bc45-33794463b5fc@samsung.com>
+	<29a2901db9414$fcacee50$f606caf0$@samsung.com>
+	<20260403195408.GM3836593@ZenIV> 
 
-Add MAPS_FILE environment variable to select whether the tests to be run
-for /proc/pid/maps or /proc/pid/smaps. Add support for testing smaps file
-by reusing the same logic as with maps file but skipping all the data
-except for the VMA addresses, which are the only part relevant for the
-tearing tests. Skip PROCMAP_QUERY parts of the tests because smaps does
-not implement that ioctl.
+Hi!
+> > [with apologies for very late reply]
+> That's okay, no problem.
+> 
+> >
+> > On Thu, Mar 13, 2025 at 09:39:39PM +0900, Sungjong Seo wrote:
+> > > - thread1: while(1) { mkdir(A) and rmdir(A) }
+> > > - thread2: while(1) { stat(A) }
+> > >
+> > > This is due to the characteristics of exfat allowing negative dentry
+> > > and considering CI in d_revalidate. As mentioned in the comment,
+> > > unhashed-positive dentry can exist in a situation where mkdir and
+> > > stat are competing, and it can be dropped, but exfat_lookup has been
+> > > implemented to reuse(rehash) this dentry.
+> >
+> > That's an interesting scenario, but I still don't see why would we
+> bother.
+> >
+> > Note that in your example we don't need to even look for aliases -
+> > it's a directory inode, so d_splice_alias() would do the right thing,
+> > no matter what.  And for non-directories you
+> > 	* already have d_move(alias, dentry) there, which would do the
+> right
+> > thing as well and
+> > 	* won't get an unhashed alias from d_find_alias() to start with.
+> >
+> > Frankly, I would skip the entire "look for aliases" thing in case of
+> > directory inodes - just let d_splice_alias() handle it.  That has
+> > another fun benefit - exfat_d_anon_disconn() check becomes completely
+> > pointless.  By the time we call it we have already verified that
+> > alias->d_parent == dentry->d_parent, so the only way to get
+> > exfat_d_anon_disconn(alias) to be true is to have IS_ROOT(alias), i.e.
+> > alias->d_parent == alias and thus alias == dentry->d_parent and at the
+> > very least the inode is a directory one.  We obvously want to have it
+> > fail with -ELOOP in such case and d_splice_alias() does just that, so
+> > if we bypass the entire "look for an alias"
+> > thing for directories, the check becomes identical to
+> > 	if (alias && alias->d_parent == dentry->d_parent) since the last
+> term
+> > in the current variant (!exfat_d_anon_disconn(...)) can be dropped,
+> > along with the helper itself.
+> >
+> > Does anybody have a problem with patch below?
+> 
+> Seems right!
+> In fact, exFAT does not support symlinks, shortname aliases, or
+export_ops.
+> So, all it has to do here is handle case insensitivity for the same name.
+> Later, it seems we might also need to check the exfat_d_revalidate().
+> 
+> I greatly appreciate your meticulous review of the exFAT lookup operation
+> and the patches you provided. I will check if there are any issues with
+> the existing scenario along with the patch review. However, I am currently
+> super busy with my main job, so it would take some time.
+> 
+> Thanks!
+> 
+> >
+> > [PATCH] simplify exfat_lookup()
+> >
+> > 1) d_splice_alias() handles ERR_PTR() for inode just fine
+> > 2) no need to even look for existing aliases in case of directory
+> > inodes; just punt to d_splice_alias(), it'll do the right thing
+> > 3) no need to bother with 'd_unhashed(alias)' case - d_find_alias()
+> > would've returned that only in case of a directory, and
+> > d_splice_alias() will handle that just fine on its own.
+> > 4) exfat_d_anon_disconn() is entirely pointless now - we only get to
+> > evaluating it in case dentry->d_parent == alias->d_parent and alias
+> > being a non-directory.  But in that case IS_ROOT(alias) can't possibly
+> > be true - that would've reqiured alias == alias->d_parent, i.e alias
+> > == dentry->d_parent and dentry->d_parent is guaranteed to be a
+> > directory.  So exfat_d_anon_disconn() would always return false when
+> > it's called, which makes && !exfat_d_anon_disconn(alias) a no-op.
+> >
+> > Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
 
-Signed-off-by: Suren Baghdasaryan <surenb@google.com>
----
- tools/testing/selftests/proc/proc-maps-race.c | 176 +++++++++++++-----
- 1 file changed, 132 insertions(+), 44 deletions(-)
+The patch looks good to me and seems to be working as intended.
+Thank you for your efforts!
 
-diff --git a/tools/testing/selftests/proc/proc-maps-race.c b/tools/testing/selftests/proc/proc-maps-race.c
-index c5031b0593b7..b677bc23cab9 100644
---- a/tools/testing/selftests/proc/proc-maps-race.c
-+++ b/tools/testing/selftests/proc/proc-maps-race.c
-@@ -17,8 +17,8 @@
-  */
- /*
-  * Fork a child that concurrently modifies address space while the main
-- * process is reading /proc/$PID/maps and verifying the results. Address
-- * space modifications include:
-+ * process is reading /proc/$PID/maps and /proc/$PID/smaps, verifying the
-+ * results. Address space modifications include:
-  *     VMA splitting and merging
-  *
-  */
-@@ -73,6 +73,11 @@ enum test_state {
- 	TEST_DONE,
- };
- 
-+enum maps_file {
-+	MAPS,
-+	SMAPS,
-+};
-+
- struct vma_modifier_info;
- 
- FIXTURE(proc_maps_race)
-@@ -83,6 +88,7 @@ FIXTURE(proc_maps_race)
- 	struct line_content last_line;
- 	struct line_content first_line;
- 	unsigned long duration_sec;
-+	enum maps_file maps_file;
- 	int shared_mem_size;
- 	int skip_pages;
- 	int page_size;
-@@ -199,6 +205,57 @@ static void copy_last_line(struct page_content *page, char *last_line)
- 	last_line[end - pos] = '\0';
- }
- 
-+static bool copy_first_entry(struct page_content *page, char *first_line)
-+{
-+	const char *start_pos = page->data;
-+
-+	while (start_pos < page->data + page->size) {
-+		unsigned long start_addr;
-+		unsigned long end_addr;
-+		char *end_pos;
-+
-+		end_pos = strchr(start_pos, '\n');
-+		if (!end_pos)
-+			break;
-+
-+		if (sscanf(start_pos, "%lx-%lx", &start_addr, &end_addr) == 2) {
-+			strncpy(first_line, start_pos, end_pos - start_pos);
-+			first_line[end_pos - start_pos] = '\0';
-+			return true;
-+		}
-+
-+		start_pos = end_pos + 1;
-+	}
-+
-+	return false;
-+}
-+
-+static bool copy_last_entry(struct page_content *page, char *last_line)
-+{
-+	const char *end_pos = page->data + page->size - 1;
-+	const char *start_pos;
-+
-+	while (end_pos > page->data) {
-+		unsigned long start_addr;
-+		unsigned long end_addr;
-+
-+		/* skip last newline */
-+		start_pos = end_pos - 1;
-+		/* search previous newline */
-+		while (start_pos > page->data && start_pos[-1] != '\n')
-+			start_pos--;
-+		if (sscanf(start_pos, "%lx-%lx", &start_addr, &end_addr) == 2) {
-+			strncpy(last_line, start_pos, end_pos - start_pos);
-+			last_line[end_pos - start_pos] = '\0';
-+			return true;
-+		}
-+
-+		end_pos = start_pos - 1;
-+	}
-+
-+	return false;
-+}
-+
- /* Read the last line of the first page and the first line of the second page */
- static bool read_boundary_lines(FIXTURE_DATA(proc_maps_race) *self,
- 				struct line_content *last_line,
-@@ -207,8 +264,16 @@ static bool read_boundary_lines(FIXTURE_DATA(proc_maps_race) *self,
- 	if (!read_two_pages(self))
- 		return false;
- 
--	copy_last_line(&self->page1, last_line->text);
--	copy_first_line(&self->page2, first_line->text);
-+	if (self->maps_file == MAPS) {
-+		copy_last_line(&self->page1, last_line->text);
-+		copy_first_line(&self->page2, first_line->text);
-+	} else if (self->maps_file == SMAPS) {
-+		if (!copy_last_entry(&self->page1, last_line->text) ||
-+		    !copy_first_entry(&self->page2, first_line->text))
-+			return false;
-+	} else {
-+		return false;
-+	}
- 
- 	return sscanf(last_line->text, "%lx-%lx", &last_line->start_addr,
- 		      &last_line->end_addr) == 2 &&
-@@ -464,6 +529,7 @@ FIXTURE_SETUP(proc_maps_race)
- {
- 	const char *verbose = getenv("VERBOSE");
- 	const char *duration = getenv("DURATION");
-+	const char *maps_file = getenv("MAPS_FILE");
- 	struct vma_modifier_info *mod_info;
- 	pthread_mutexattr_t mutex_attr;
- 	pthread_condattr_t cond_attr;
-@@ -474,6 +540,18 @@ FIXTURE_SETUP(proc_maps_race)
- 
- 	self->page_size = (unsigned long)sysconf(_SC_PAGESIZE);
- 	self->verbose = verbose && !strncmp(verbose, "1", 1);
-+	if (maps_file) {
-+		if (!strcmp(maps_file, "maps")) {
-+			self->maps_file = MAPS;
-+		} else if (!strcmp(maps_file, "smaps")) {
-+			self->maps_file = SMAPS;
-+		} else {
-+			ksft_print_msg("Unknown maps file %s\n", maps_file);
-+			ksft_exit_fail();
-+		}
-+	} else {
-+		self->maps_file = MAPS;
-+	}
- 	duration_sec = duration ? atol(duration) : 0;
- 	self->duration_sec = duration_sec ? duration_sec : 5UL;
- 
-@@ -540,7 +618,16 @@ FIXTURE_SETUP(proc_maps_race)
- 		exit(0);
- 	}
- 
--	sprintf(fname, "/proc/%d/maps", self->pid);
-+	switch (self->maps_file) {
-+	case MAPS:
-+		sprintf(fname, "/proc/%d/maps", self->pid);
-+		break;
-+	case SMAPS:
-+		sprintf(fname, "/proc/%d/smaps", self->pid);
-+		break;
-+	default:
-+		ksft_exit_fail();
-+	}
- 	self->maps_fd = open(fname, O_RDONLY);
- 	ASSERT_NE(self->maps_fd, -1);
- 
-@@ -675,20 +762,20 @@ TEST_F(proc_maps_race, test_maps_tearing_from_split)
- 		last_line_changed = strcmp(new_last_line.text, self->last_line.text) != 0;
- 		first_line_changed = strcmp(new_first_line.text, self->first_line.text) != 0;
- 		ASSERT_EQ(last_line_changed, first_line_changed);
--
--		/* Check if PROCMAP_QUERY ioclt() finds the right VMA */
--		ASSERT_TRUE(query_addr_at(self->maps_fd, mod_info->addr + self->page_size,
--					  &vma_start, &vma_end));
--		/*
--		 * The vma at the split address can be either the same as
--		 * original one (if read before the split) or the same as the
--		 * first line in the second page (if read after the split).
--		 */
--		ASSERT_TRUE((vma_start == self->last_line.start_addr &&
--			     vma_end == self->last_line.end_addr) ||
--			    (vma_start == split_first_line.start_addr &&
--			     vma_end == split_first_line.end_addr));
--
-+		if (self->maps_file == MAPS) {
-+			/* Check if PROCMAP_QUERY ioclt() finds the right VMA */
-+			ASSERT_TRUE(query_addr_at(self->maps_fd, mod_info->addr + self->page_size,
-+						  &vma_start, &vma_end));
-+			/*
-+			 * The vma at the split address can be either the same as
-+			 * original one (if read before the split) or the same as the
-+			 * first line in the second page (if read after the split).
-+			 */
-+			ASSERT_TRUE((vma_start == self->last_line.start_addr &&
-+				     vma_end == self->last_line.end_addr) ||
-+				    (vma_start == split_first_line.start_addr &&
-+				     vma_end == split_first_line.end_addr));
-+		}
- 		clock_gettime(CLOCK_MONOTONIC_COARSE, &end_ts);
- 		end_test_iteration(&end_ts, self->verbose);
- 	} while (end_ts.tv_sec - start_ts.tv_sec < self->duration_sec);
-@@ -758,17 +845,18 @@ TEST_F(proc_maps_race, test_maps_tearing_from_resize)
- 					strcmp(new_first_line.text, restored_first_line.text),
- 					"Expand result invalid", self));
- 		}
--
--		/* Check if PROCMAP_QUERY ioclt() finds the right VMA */
--		ASSERT_TRUE(query_addr_at(self->maps_fd, mod_info->addr, &vma_start, &vma_end));
--		/*
--		 * The vma should stay at the same address and have either the
--		 * original size of 3 pages or 1 page if read after shrinking.
--		 */
--		ASSERT_TRUE(vma_start == self->last_line.start_addr &&
--			    (vma_end - vma_start == self->page_size * 3 ||
--			     vma_end - vma_start == self->page_size));
--
-+		if (self->maps_file == MAPS) {
-+			/* Check if PROCMAP_QUERY ioclt() finds the right VMA */
-+			ASSERT_TRUE(query_addr_at(self->maps_fd, mod_info->addr,
-+						  &vma_start, &vma_end));
-+			/*
-+			 * The vma should stay at the same address and have either the
-+			 * original size of 3 pages or 1 page if read after shrinking.
-+			 */
-+			ASSERT_TRUE(vma_start == self->last_line.start_addr &&
-+				    (vma_end - vma_start == self->page_size * 3 ||
-+				     vma_end - vma_start == self->page_size));
-+		}
- 		clock_gettime(CLOCK_MONOTONIC_COARSE, &end_ts);
- 		end_test_iteration(&end_ts, self->verbose);
- 	} while (end_ts.tv_sec - start_ts.tv_sec < self->duration_sec);
-@@ -838,20 +926,20 @@ TEST_F(proc_maps_race, test_maps_tearing_from_remap)
- 					strcmp(new_first_line.text, restored_first_line.text),
- 					"Remap restore result invalid", self));
- 		}
--
--		/* Check if PROCMAP_QUERY ioclt() finds the right VMA */
--		ASSERT_TRUE(query_addr_at(self->maps_fd, mod_info->addr + self->page_size,
--					  &vma_start, &vma_end));
--		/*
--		 * The vma should either stay at the same address and have the
--		 * original size of 3 pages or we should find the remapped vma
--		 * at the remap destination address with size of 1 page.
--		 */
--		ASSERT_TRUE((vma_start == self->last_line.start_addr &&
--			     vma_end - vma_start == self->page_size * 3) ||
--			    (vma_start == self->last_line.start_addr + self->page_size &&
--			     vma_end - vma_start == self->page_size));
--
-+		if (self->maps_file == MAPS) {
-+			/* Check if PROCMAP_QUERY ioclt() finds the right VMA */
-+			ASSERT_TRUE(query_addr_at(self->maps_fd, mod_info->addr + self->page_size,
-+						  &vma_start, &vma_end));
-+			/*
-+			 * The vma should either stay at the same address and have the
-+			 * original size of 3 pages or we should find the remapped vma
-+			 * at the remap destination address with size of 1 page.
-+			 */
-+			ASSERT_TRUE((vma_start == self->last_line.start_addr &&
-+				     vma_end - vma_start == self->page_size * 3) ||
-+				    (vma_start == self->last_line.start_addr + self->page_size &&
-+				     vma_end - vma_start == self->page_size));
-+		}
- 		clock_gettime(CLOCK_MONOTONIC_COARSE, &end_ts);
- 		end_test_iteration(&end_ts, self->verbose);
- 	} while (end_ts.tv_sec - start_ts.tv_sec < self->duration_sec);
--- 
-2.54.0.545.g6539524ca2-goog
+Reviewed-by: Sungjong Seo <sj1557.seo@samsung.com>
+
+> > ---
+> > diff --git a/fs/exfat/namei.c b/fs/exfat/namei.c index
+> > 670116ae9ec8..8fac39f2bcb3 100644
+> > --- a/fs/exfat/namei.c
+> > +++ b/fs/exfat/namei.c
+> > @@ -711,71 +711,44 @@ static int exfat_find(struct inode *dir, const
+> > struct qstr *qname,
+> >  	return 0;
+> >  }
+> >
+> > -static int exfat_d_anon_disconn(struct dentry *dentry) -{
+> > -	return IS_ROOT(dentry) && (dentry->d_flags & DCACHE_DISCONNECTED);
+> > -}
+> > -
+> >  static struct dentry *exfat_lookup(struct inode *dir, struct dentry
+> > *dentry,
+> >  		unsigned int flags)
+> >  {
+> >  	struct super_block *sb = dir->i_sb;
+> > -	struct inode *inode;
+> > +	struct inode *inode = NULL;
+> >  	struct dentry *alias;
+> >  	struct exfat_dir_entry info;
+> >  	int err;
+> >  	loff_t i_pos;
+> > -	mode_t i_mode;
+> >
+> >  	mutex_lock(&EXFAT_SB(sb)->s_lock);
+> >  	err = exfat_find(dir, &dentry->d_name, &info);
+> >  	if (err) {
+> > -		if (err == -ENOENT) {
+> > -			inode = NULL;
+> > -			goto out;
+> > -		}
+> > -		goto unlock;
+> > +		if (unlikely(err != -ENOENT))
+> > +			inode = ERR_PTR(err);
+> > +		goto out;
+> >  	}
+> >
+> >  	i_pos = exfat_make_i_pos(&info);
+> >  	inode = exfat_build_inode(sb, &info, i_pos);
+> > -	err = PTR_ERR_OR_ZERO(inode);
+> > -	if (err)
+> > -		goto unlock;
+> > +	if (IS_ERR(inode) || S_ISDIR(inode->i_mode))
+> > +		goto out;
+> >
+> > -	i_mode = inode->i_mode;
+> >  	alias = d_find_alias(inode);
+> >
+> >  	/*
+> >  	 * Checking "alias->d_parent == dentry->d_parent" to make sure
+> >  	 * FS is not corrupted (especially double linked dir).
+> >  	 */
+> > -	if (alias && alias->d_parent == dentry->d_parent &&
+> > -			!exfat_d_anon_disconn(alias)) {
+> > -
+> > +	if (alias && alias->d_parent == dentry->d_parent) {
+> >  		/*
+> > -		 * Unhashed alias is able to exist because of revalidate()
+> > -		 * called by lookup_fast. You can easily make this status
+> > -		 * by calling create and lookup concurrently
+> > -		 * In such case, we reuse an alias instead of new dentry
+> > +		 * This inode has non anonymous-DCACHE_DISCONNECTED
+> > +		 * dentry. This means, the user did ->lookup() by an
+> > +		 * another name (longname vs 8.3 alias of it) in past.
+> > +		 *
+> > +		 * Switch to new one for reason of locality if possible.
+> >  		 */
+> > -		if (d_unhashed(alias)) {
+> > -			WARN_ON(alias->d_name.hash_len !=
+> > -				dentry->d_name.hash_len);
+> > -			exfat_info(sb, "rehashed a dentry(%p) in read
+lookup",
+> > -				   alias);
+> > -			d_drop(dentry);
+> > -			d_rehash(alias);
+> > -		} else if (!S_ISDIR(i_mode)) {
+> > -			/*
+> > -			 * This inode has non anonymous-DCACHE_DISCONNECTED
+> > -			 * dentry. This means, the user did ->lookup() by an
+> > -			 * another name (longname vs 8.3 alias of it) in
+past.
+> > -			 *
+> > -			 * Switch to new one for reason of locality if
+> > possible.
+> > -			 */
+> > -			d_move(alias, dentry);
+> > -		}
+> > +		d_move(alias, dentry);
+> >  		iput(inode);
+> >  		mutex_unlock(&EXFAT_SB(sb)->s_lock);
+> >  		return alias;
+> > @@ -787,9 +760,6 @@ static struct dentry *exfat_lookup(struct inode
+> > *dir, struct dentry *dentry,
+> >  		exfat_d_version_set(dentry, inode_query_iversion(dir));
+> >
+> >  	return d_splice_alias(inode, dentry);
+> > -unlock:
+> > -	mutex_unlock(&EXFAT_SB(sb)->s_lock);
+> > -	return ERR_PTR(err);
+> >  }
+> >
+> >  /* remove an entry, BUT don't truncate */
 
