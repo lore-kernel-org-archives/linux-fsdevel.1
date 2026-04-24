@@ -1,214 +1,140 @@
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C95118DB1F
-	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 01:06:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.174
+Received: from mailgw1.hygon.cn (unknown [101.204.27.37])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00B881E511;
+	Fri, 24 Apr 2026 01:08:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.204.27.37
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776992793; cv=none; b=EWlvegNZQauoRDOUS6HNFGxmbudmj/FlPHCoP90bU8UX3EM9sWxegfpjNumVY9VFHWp9aC7tuL+2bg2xYm9NoPQS81SUX789UDDDdo+Zsl4B3x7G0IwVa52l2BtEiiLLEaZyMuhxLK6UdUSIxjK8z+6YXEuHU8EIvvKwFVhBppc=
+	t=1776992951; cv=none; b=GZ0qhlIWQ2KLpP/lsey8aABw9RvP03CK9gRf8pD0s24MMmE48Cg7BcQ7CjhZ5igcuzK0PykwVS2hiskLB9ip0UqGAcHlqMfjUKDIMYNSql0t/30/f7xlwy2+bmFfgEvHXx2+OAMAaqhbwzZOi/ZnUZmueG/BrjPQR7bZdoJ+9Y4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776992793; c=relaxed/simple;
-	bh=7LMM95UMg7yP38DZK0skWWp8cJR2GRO6hI/cI7m0eOM=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=eHhd35fjQGADjr0XiKDcOwKQMk1+3c2mcH3aPf1sdiUXsE6PAnWNuVYmnYU1PCXozuA/jmwPEO1g9RDTNpcvsvan+82SdQuu8g2foF7Na9/YfPBkcV4u0jItQywffrvHTNC4B7uaNZw0WgAa49+pea6WiD2203wgGRsyXeIo37g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H/MRQZlh; arc=none smtp.client-ip=209.85.167.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H/MRQZlh"
-Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-4756e74f8edso5006857b6e.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 23 Apr 2026 18:06:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776992791; x=1777597591; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xh3t/bv0nfHgOMhcW4p/qplYnwzHag4a5ofsHvIRt9Q=;
-        b=H/MRQZlhZdxgZmS1uhYvIyrTsc/5ZZ4ueMxuW8CJKMQFlhxq5ZuB6rVV7exasUzdG2
-         atmaa0Zdhu0YzKin4nZz28Wer7V/BD4SOaU7O276MdkaSofkO0duHV+pTdUBb9mDahDv
-         kIPn3sDfADPnhCRHUCVuIKEsOxk4XPg0N/RzO24gUZsL/MIaI5emSqrHVORt2vrS5Cci
-         4WVgs9R2xQyAA6d32FeF1oaKBgCLG+xvaq6tucrRQDUzRRClshuMZj+d2u7SsC0yoDJu
-         a8SZfkTlnbDDEqFAY6KML738qHoEnzkh7FHVpB5+9plGlVjhd+hh5fmcAkBvExlmiWrL
-         e2uQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776992791; x=1777597591;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xh3t/bv0nfHgOMhcW4p/qplYnwzHag4a5ofsHvIRt9Q=;
-        b=hUOXWxfPMG9DQQCfoxwAMlTTUIUMOrMGHXjaQ5YwIYN/FzpuLHIqq+tzyFxOnJnVPd
-         MpoTEDzZzbA35cIB7Fok+dBk4HYWKZroFXpzu1R+4aHXE/euHHtAMeohCZDtO04zGrP3
-         UO1EF124g5K5MqajSFa39LPk7IFSZt2RMqOPF8kOiMaLkxWVEY+DQL4PT6xZygD6slFP
-         kDny40pVvuC0+tYwRDtlF1Q3G7p/Ch6ZfIsVZtHhw6icz3hE3yLOSK/YLf7cQajFZZSJ
-         d2ceoWdJH8nqQ+fJNCxzT5KiFNp5HREUEnm1IWDRO3Zostp8R1oJQNQzWxWP6+OvLOGW
-         X1Pg==
-X-Forwarded-Encrypted: i=1; AFNElJ/ZxDRiGAbWuVHKp/8aEtCtwS7wEcmF+hBsuxq+enH9SSiIEGyekm44mEqNa9v2XY0axQ8T/vQrocsbmUq6@vger.kernel.org
-X-Gm-Message-State: AOJu0YxcsnMbyiwelAA+7X7KaOlMhA5T39nTd99Kkd58S2tyjNOcmoIS
-	g9Qnji40XC6rCljB0KYW0+1VlhRYRAJRlrYVCHa5bwwZ7NsOl55mI2n3
-X-Gm-Gg: AeBDietQxgBaHcVComB1dG6PfHif95/qTAL2U/GG4LGFyv1v6hCJ2cbSi3soFLvY0Ra
-	4Wjlb+VCoJbI3CyF+9PsLrAMbfwJhHI1HCJvAAJV7552deRUs5J+3N6uLw8kQUhnVrfKaR7AfVJ
-	FCKfXlNNUZQaSyIixZ8FQ1t9SwfQuw+pSRwsstyKjUkL6g+gd3IV0Gqc6YX2PsfW9YT/Dbx54eP
-	C9DgcVOMBW/uWFrp7lu4aPJOLRYaj6akZ9roLfAuAGEFOXyasbCgEgbeTSkoJ2gTr6XwlkcOJHf
-	FSvQqDpAipD32ih7nf3tom25X+VvQge2oztu6TPm1O3b1shNXiVTuvIz5A/VkU+F2Ai0DfZtAjd
-	c1VgPGHUL+f9ZCllDoiqO1+yxPfY9W4be8QxTNvH9EUrPEpLy8UWdBCRYwoNSs+u7I7ieEDMebW
-	onHNCVGjdf0x5M4TvRrxnL/gbX5qNXGDWWCrCg053KBfZaZDVgGgqKoANuUTXkUJMwKy1i25li7
-	Phixz0+OH7ur2kkA7AoMYbWn5+4RUo0ZXW/6A==
-X-Received: by 2002:a05:6808:c151:b0:467:5f1:fc93 with SMTP id 5614622812f47-4799c91872fmr14412173b6e.9.1776992791471;
-        Thu, 23 Apr 2026 18:06:31 -0700 (PDT)
-Received: from localhost ([2a03:2880:10ff:1::])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-42f090b1de9sm8378833fac.6.2026.04.23.18.06.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Apr 2026 18:06:30 -0700 (PDT)
+	s=arc-20240116; t=1776992951; c=relaxed/simple;
+	bh=rnq4RWnsTy4lXDa/rQB6twwAVqU3G0R+DkIdM741GHA=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=WfWeAAkmJvX1POVUvA9LDOpGRTzIjdRjivnK8TRs97dcd7qYvZND4A1O37wAvO6eT04XhMp0eveLwxHXqHsq1Ms67O0OU0J16S1HKirOj8qhq46ekZ+RwShQZBlIlMCFLvGdZgwx9Pb9kNiZjavDgJ0cqg/6bN/vfi1BMdelcGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn; spf=pass smtp.mailfrom=hygon.cn; arc=none smtp.client-ip=101.204.27.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hygon.cn
+Received: from maildlp2.hygon.cn (unknown [127.0.0.1])
+	by mailgw1.hygon.cn (Postfix) with ESMTP id 4g1vwq6lpCz4r78b;
+	Fri, 24 Apr 2026 09:08:43 +0800 (CST)
+Received: from maildlp2.hygon.cn (unknown [172.23.18.61])
+	by mailgw1.hygon.cn (Postfix) with ESMTP id 4g1vwq243jz4r78b;
+	Fri, 24 Apr 2026 09:08:43 +0800 (CST)
+Received: from cncheex04.Hygon.cn (unknown [172.23.18.114])
+	by maildlp2.hygon.cn (Postfix) with ESMTPS id 03A6D3006724;
+	Fri, 24 Apr 2026 09:08:37 +0800 (CST)
+Received: from cncheex04.Hygon.cn (172.23.18.114) by cncheex04.Hygon.cn
+ (172.23.18.114) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Fri, 24 Apr
+ 2026 09:08:35 +0800
+Received: from cncheex04.Hygon.cn ([fe80::1b6f:6c58:58a4:430d]) by
+ cncheex04.Hygon.cn ([fe80::1b6f:6c58:58a4:430d%10]) with mapi id
+ 15.02.1544.036; Fri, 24 Apr 2026 09:08:35 +0800
+From: Yibin Liu <liuyibin@hygon.cn>
+To: Lorenzo Stoakes <ljs@kernel.org>
+CC: "linux-mm@kvack.org" <linux-mm@kvack.org>, "akpm@linux-foundation.org"
+	<akpm@linux-foundation.org>, "Liam.Howlett@oracle.com"
+	<Liam.Howlett@oracle.com>, "viro@zeniv.linux.org.uk"
+	<viro@zeniv.linux.org.uk>, "brauner@kernel.org" <brauner@kernel.org>,
+	"mjguzik@gmail.com" <mjguzik@gmail.com>, Jianyong Wu <wujianyong@hygon.cn>,
+	Huangsj <huangsj@hygon.cn>, Yuan Zhong <zhongyuan@hygon.cn>, "jack@suse.cz"
+	<jack@suse.cz>, "jlayton@kernel.org" <jlayton@kernel.org>,
+	"chuck.lever@oracle.com" <chuck.lever@oracle.com>, "alex.aring@gmail.com"
+	<alex.aring@gmail.com>, "vbabka@kernel.org" <vbabka@kernel.org>,
+	"jannh@google.com" <jannh@google.com>, "pfalcato@suse.de" <pfalcato@suse.de>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: =?utf-8?B?562U5aSNOiDnrZTlpI06IFtQQVRDSF0gbW06IEFkZCBSV0hfUk1BUF9FWENM?=
+ =?utf-8?Q?UDE_flag_to_exclude_files_from_rmap_sharing?=
+Thread-Topic: =?utf-8?B?562U5aSNOiBbUEFUQ0hdIG1tOiBBZGQgUldIX1JNQVBfRVhDTFVERSBmbGFn?=
+ =?utf-8?Q?_to_exclude_files_from_rmap_sharing?=
+Thread-Index: AQHc0kWjdlrDL8nbPE+Fpw0BQ/z5wrXrBF9Q//+3pQCAAqdBAA==
+Date: Fri, 24 Apr 2026 01:08:35 +0000
+Message-ID: <a96c20b74b874248bc0cdc2b926a43fe@hygon.cn>
+References: <20260421020932.3212532-1-liuyibin@hygon.cn>
+ <aeikm2e5Gh5reJ30@lucifer> <bc514883d6154420b3cfde4ab25a20c7@hygon.cn>
+ <aejzSsiXZBK1emv7@lucifer>
+In-Reply-To: <aejzSsiXZBK1emv7@lucifer>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 23 Apr 2026 18:06:28 -0700
-Message-Id: <DI0ZDDJQHSXI.2CMCJQ908T1KV@gmail.com>
-Cc: <brauner@kernel.org>, <jack@suse.cz>, <linux-fsdevel@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <byoungyoung@snu.ac.kr>,
- <jjy600901@snu.ac.kr>, "Alexei Starovoitov" <ast@kernel.org>, "KaFai Wan"
- <kafai.wan@linux.dev>, "Yonghong Song" <yonghong.song@linux.dev>,
- <bpf@vger.kernel.org>, "Al Viro" <viro@ftp.linux.org.uk>
-Subject: Re: [BUG] KASAN: slab-use-after-free in link_path_walk
-From: "Alexei Starovoitov" <alexei.starovoitov@gmail.com>
-To: "Al Viro" <viro@zeniv.linux.org.uk>, "Eulgyu Kim" <eulgyukim@snu.ac.kr>
-X-Mailer: aerc
-References: <20260423013916.1589029-1-eulgyukim@snu.ac.kr>
- <20260423043906.GN3518998@ZenIV>
-In-Reply-To: <20260423043906.GN3518998@ZenIV>
+MIME-Version: 1.0
 
-On Wed Apr 22, 2026 at 9:39 PM PDT, Al Viro wrote:
-> On Thu, Apr 23, 2026 at 10:39:16AM +0900, Eulgyu Kim wrote:
->
->> We suspect there is a race condition between vfs_rmdir() and may_lookup(=
-)
->> on the BPF pseudo filesystem. It seems that while link_path_walk() is wa=
-lking
->> a path, its call to may_lookup() checks permissions on the current direc=
-tory
->> inode through nd->inode, and vfs_rmdir() can remove that same directory =
-and
->> trigger inode destruction, leading to a use-after-free.
->
-> Not really.  What happens is that bpf does prompt freeing of struct inode=
-, instead
-> of having it done with RCU delay.  Everything else is a result of that.
->
-> What's going on there?  It used to be in ->free_inode(); who had moved th=
-at into
-> ->destroy_inode(), why had that been done, who had ACKed that and how hav=
-e I
-> missed the discussions on fsdevel?
->
-> <digs>
->
-> commit 4f375ade6aa9f37fd72d7a78682f639772089eed
-> Author: KaFai Wan <kafai.wan@linux.dev>
-> Date:   Wed Oct 8 18:26:26 2025 +0800
-> =20
->      bpf: Avoid RCU context warning when unpinning htab with internal str=
-ucts
->
-> [blocking stuff done from RCU-delayed callback, so let's make everything =
-prompt,
-> whaddya mean, what was the delay for?]
->
-> Reported-by: Le Chen <tom2cat@sjtu.edu.cn>
-> Closes: https://lore.kernel.org/all/1444123482.1827743.1750996347470.Java=
-Mail.zimbra@sjtu.edu.cn/
-> Fixes: 68134668c17f ("bpf: Add map side support for bpf timers.")
-> Suggested-by: Alexei Starovoitov <ast@kernel.org>
-> Signed-off-by: KaFai Wan <kafai.wan@linux.dev>
-> Acked-by: Yonghong Song <yonghong.song@linux.dev>
-> Link: https://lore.kernel.org/r/20251008102628.808045-2-kafai.wan@linux.d=
-ev
-> Signed-off-by: Alexei Starovoitov <ast@kernel.org>
->
-> OK, that answers some of that...  <looks the posting up>
-> To: ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
-> 	martin.lau@linux.dev, eddyz87@gmail.com, song@kernel.org,
-> 	yonghong.song@linux.dev, john.fastabend@gmail.com,
-> 	kpsingh@kernel.org, sdf@fomichev.me, haoluo@google.com,
-> 	jolsa@kernel.org, shuah@kernel.org, kafai.wan@linux.dev,
-> 	toke@redhat.com, linux-kernel@vger.kernel.org,
-> 	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org
->
-> ... right, that probably answers the last one.  Incidentally, that commit=
- has
-> brought back the old bug with cached symlink bodies getting freed without=
- RCU delay.
-> It is possible that it was discussed on fsdevel at some point and I'd mis=
-sed it
-> there, but...
->
-> Folks, the rules are simple:
-> 	* anything that might be accessed in RCU mode (inode very much included
-> for objects that are visible in the tree) must be freed after RCU delay; =
-that's
-> what ->free_inode() is for.
-> 	* anything that can't be freed in such context should either be
-> dealt with in ->destroy_inode() (if it isn't needed for RCU-exposed metho=
-ds)
-> or, if it really is needed for those, done via schedule_work() or equival=
-ent
-> done by ->destroy_inode().
->
-> Seeing that bpffs has the grand total of zero RCU-exposed methods (no ->d=
-_compare(),
-> no ->d_hash(), no ->permission(), no ->d_revalidate(), no ->get_link()) I=
- would
-> guess that it's the case of "have your bpf_any_put() done promptly, leave=
- freeing
-> the inode and cached symlink body RCU-delayed".  Something like the delta=
- below
-> (completely untested):
->
-> diff --git a/kernel/bpf/inode.c b/kernel/bpf/inode.c
-> index 25c06a011825..bd052a8e89a9 100644
-> --- a/kernel/bpf/inode.c
-> +++ b/kernel/bpf/inode.c
-> @@ -762,14 +762,26 @@ static int bpf_show_options(struct seq_file *m, str=
-uct dentry *root)
->  	return 0;
->  }
-> =20
-> +// this is done promptly
->  static void bpf_destroy_inode(struct inode *inode)
->  {
->  	enum bpf_type type;
-> =20
-> -	if (S_ISLNK(inode->i_mode))
-> -		kfree(inode->i_link);
-> +	// better done here, since it's blocking and we'd need
-> +	// to use something like schedule_work() to do it from
-> +	// ->free_inode(); since this stuff doesn't need to
-> +	// be delayed, doing it here is less headache.
->  	if (!bpf_inode_type(inode, &type))
->  		bpf_any_put(inode->i_private, type);
-> +}
-> +
-> +// ... and this is done with RCU delay; anything that might be accessed
-> +// by RCU pathwalk (like, you know, inode and symlink contents) should b=
-e
-> +// dealt with here
-> +static void bpf_free_inode(struct inode *inode)
-> +{
-> +	if (S_ISLNK(inode->i_mode))
-> +		kfree(inode->i_link);
->  	free_inode_nonrcu(inode);
->  }
-> =20
-> @@ -778,6 +790,7 @@ const struct super_operations bpf_super_ops =3D {
->  	.drop_inode	=3D inode_just_drop,
->  	.show_options	=3D bpf_show_options,
->  	.destroy_inode	=3D bpf_destroy_inode,
-> +	.free_inode	=3D bpf_free_inode,
->  };
+PiBPbiBXZWQsIEFwciAyMiwgMjAyNiBhdCAxMjo1MTowNlBNICswMDAwLCBZaWJpbiBMaXUgd3Jv
+dGU6DQo+ID4gRmlyc3Qgb2YgYWxsLCBJIGFtIHRydWx5IHNvcnJ5IGZvciBub3QgdXNpbmcgUkZD
+Lg0KPiA+IFNlY29uZGx5LCBJIG9taXR0ZWQgbWFueSBtYWludGFpbmVycyBiZWNhdXNlIEkgd2Fu
+dGVkIHRvIOKAnG5vdCBkaXN0dXJiIHRvbw0KPiBtYW55IHBlb3BsZeKAnSwNCj4gPiBhbmQgSSBh
+cG9sb2dpemUgZGVlcGx5IGZvciB0aGF0LiBJIHdpbGwgZnVsbHkgZm9sbG93IHRoZXNlIHR3byBy
+dWxlcyBmcm9tIG5vdyBvbi4NCj4gPg0KPiA+IEFzIGZvciB0aGlzIHBhdGNoLCBpbmRlZWQsIGFz
+IE1hdHRoZXcgc2FpZCwgdGhlIHRydW5jYXRlIHBhcnQgaXMgbm90IGZlYXNpYmxlLg0KPiA+IE15
+IG9yaWdpbmFsIGludGVudGlvbiB3YXMgdG8gYXBwbHkgdGhpcyB0byBmcmVxdWVudGx5IHVzZWQg
+bGlicmFyeSBmaWxlcyBsaWtlIGxpYmMNCj4gYW5kIGxkLg0KPiA+IENvbnRlbnRpb24gb24gdGhl
+IGlfbW1hcF9yd3NlbSBsb2NrICh3aGljaCBldmVudHVhbGx5IHR1cm5zIGludG8gb3NxX2xvY2sp
+DQo+IGNhdXNlZCBieQ0KPiA+IHRoZXNlIHR3byBmaWxlcyBhbG9uZSByZWFjaGVzIHVwIHRvIDcw
+JSBpbiB0aGUg4oCcMjU2LWNvcmUgZXhlY2zigJ0gY2FzZSwgYXMNCj4gb2JzZXJ2ZWQgZnJvbQ0K
+PiA+IGZsYW1lIGdyYXBocy4gQmVzaWRlcywgbm8gb25lIHBlcmZvcm1zIHRydW5jYXRlIG9wZXJh
+dGlvbnMgb24gbGliYyBhbmQgbGQNCj4gYW55d2F5Lg0KPiANCj4gSW50ZXJlc3RpbmcsIHdvdWxk
+IGJlIGdvb2QgdG8gc2VlIHRoZXNlPyBBbmQgbW9yZSBkZXRhaWxzIG9uIHRoZSBzY2VuYXJpbz8N
+Cj4gDQo+IFdoYXQgd29ya2xvYWRzIGFyZSBjb250ZW5kaW5nIHRoYXQgZXhhY3RseT8NCj4gDQoN
+Ckl0IGlzIGdvb2QgdG8gc2VlLg0KT24gYW4gSW50ZWwgRW1lcmFsZCBSYXBpZHMgc2VydmVyICgx
+MTIgY29yZXMpLCBydW4gdGhlIGV4ZWNsIGJlbmNobWFyayBmcm9tDQpVbml4QmVuY2ggd2l0aCB0
+aGUgY29tbWFuZDogLi9SdW4gLWMgMjIwIGV4ZWNsDQpUaGVuIHBlcmYgdG9wIHNob3dzOg0KDQog
+IDkxLjUzJSAgW2tlcm5lbF0gICAgICAgICAgICAgICAgICAgIFtrXSBvc3FfbG9jaw0KICAgMC41
+MCUgIFtrZXJuZWxdICAgICAgICAgICAgICAgICAgICBba10gcndzZW1fc3Bpbl9vbl9vd25lcg0K
+ICAgMC40NSUgIHBlcmYgICAgICAgICAgICAgICAgICAgICAgICBbLl0gcXVldWVfZXZlbnQNCiAg
+IDAuNDIlICBba2VybmVsXSAgICAgICAgICAgICAgICAgICAgW2tdIHZtYV9pbnRlcnZhbF90cmVl
+X2luc2VydA0KICAgMC4zNiUgIFtrZXJuZWxdICAgICAgICAgICAgICAgICAgICBba10gbmV4dF91
+cHRvZGF0ZV9mb2xpbw0KICAgMC4yNSUgIFtrZXJuZWxdICAgICAgICAgICAgICAgICAgICBba10g
+X196YXBfdm1hX3JhbmdlDQoNCkFsbCB0aGUgb3NxX2xvY2sgb3ZlcmhlYWQgaGVyZSBjb21lcyBm
+cm9tIHJ3c2VtX29wdGltaXN0aWNfc3BpbiwgYW5kDQpyd3NlbV9vcHRpbWlzdGljX3NwaW4gaGFz
+IG1hbnkgY2FsbCBzb3VyY2VzLg0KVGhlIGJyZWFrZG93biBpcyByb3VnaGx5IGFzIGZvbGxvd3M6
+DQoNCjYuMTMlICBfZGxfbWFpbi0tPm1wcm90ZWN0LS0+Li4uLS0+X19zcGxpdF92bWEtLT52bWFf
+cHJlcGFyZS0tPmRvd25fd3JpdGUoJm1hcHBpbmctPmlfbW1hcF9yd3NlbSkNCjYuMTUlICBicHJt
+X2V4ZWN2ZS0tPi4uLi0tPmV4aXRfbW1hcC0tPi4uLi0tPnVubGlua19maWxlX3ZtYV9iYXRjaF9w
+cm9jZXNzLS0+ZG93bl93cml0ZSgmbWFwcGluZy0+aV9tbWFwX3J3c2VtKQ0KMjQuNzElIHZtYV9s
+aW5rX2ZpbGUtLT4uLi4tLT5kb3duX3dyaXRlKCZtYXBwaW5nLT5pX21tYXBfcndzZW0pDQoyNC44
+MiUgbW1hcF9yZWdpb24tLT4uLi4tLT5mcmVlX3BndGFsYmVzLS0+dW5saW5rX2ZpbGVfdm1hX2Jh
+dGNoX3Byb2Nlc3MtLT5kb3duX3dyaXRlKCZtYXBwaW5nLT5pX21tYXBfcndzZW0pDQoxOC41JSAg
+bW1hcF9yZWdpb24tLT4uLi4tLT5fX3NwbGl0X3ZtYS0+dm1hX3ByZWFwcmUtLT5kb3duX3dyaXRl
+KCZtYXBwaW5nLT5pX21tYXBfcndzZW0pDQoxMi40NCUgX2RsX21hcF9wcm9qZWN0LS0+bXByb3Rl
+Y3QtLT4uLi4tLT5fX3NwbGl0X3ZtYS0tPnZtYV9wcmVwYXJlLS0+ZG93bl93cml0ZSgmbWFwcGlu
+Zy0+aV9tbWFwX3J3c2VtKQ0KDQpBbmQgQU1EIFplbjUoOTc1NSkgcGVyZm9ybXMgcHJldHR5IG11
+Y2ggdGhlIHNhbWUgd2F5ICh0ZXN0ZWQgd2l0aCAuL1J1biAtYyAyNTAgZXhlY2wpLg0KDQo+ID4N
+Cj4gPiBTbyBJIHdhbnRlZCB0byB0cnkgc2tpcHBpbmcgcm1hcCBmb3IgdGhlbS4gU2luY2UgdGhl
+eSBhcmUgc21hbGwsIGV2ZW4gaWYgdGhleQ0KPiBjYW5ub3QNCj4gPiBiZSByZWNsYWltZWQgb3Ig
+bWlncmF0ZWQsIEkgYXNzdW1lZCBpdCB3b3VsZCBub3QgY2F1c2UgbXVjaCB0cm91YmxlLiBPZg0K
+PiBjb3Vyc2UsDQo+ID4gdGhpcyBpZGVhIHdhcyB0b3RhbGx5IHdyb25nLCBhbmQgSSB3aWxsIGRl
+ZmluaXRlbHkgbWFyayBzdWNoIGluc2FuZSBwcm9wb3NhbHMNCj4gd2l0aCBSRkMgaW4gdGhlIGZ1
+dHVyZS4NCj4gPg0KPiA+IFRoZXNlIGlkZWFzIGFyZSBpbnNwaXJlZCBieSBNYXRldXN64oCZcyB3
+b3JrIGFuZCB0aG91Z2h0cw0KPiA+DQo+IChodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1t
+bS9DQUd1ZG9IRWZpT1BKMlZHRVYzZkRUOWNEc3VvSEItd2s4amctaw0KPiAtRUs2SmhXZ2lIa1d3
+QG1haWwuZ21haWwuY29tLyksDQo+ID4gc28gSSBzcGVjaWZpY2FsbHkgQ0PigJlkIGhpbSB0byBz
+ZWVrIG1vcmUgb3BpbmlvbnMgYW5kIGluc2lnaHRzLg0KPiANCj4gSSB0aGluayB0aGUgYmVzdCB0
+aGluZyBpbiBnZW5lcmFsIGdvaW5nIGZvcndhcmRzIGlzIHRvIGJyaW5nIHVwIHRoaXMgaXNzdWVz
+IGluDQo+IGFkdmFuY2UsIHdlJ3JlIG1vcmUgdGhhbiBoYXBweSB0byBsb29rIGludG8gdGhpbmdz
+IGFuZCB2ZXJ5IGludGVyZXN0ZWQgaW4gaXNzdWVzDQo+IHdpdGggbG9jayBjb250ZW50aW9uLCBs
+YXRlbmN5LCBldGMuDQo+IA0KPiBBbmQgdGhhdCB3YXkgeW91IGNhbiBkaXNjdXNzIGlkZWFzIHlv
+dSBtaWdodCBoYXZlIHRvIHRhY2tsZSB1cCBmcm9udCBhbmQgd2UgY2FuDQo+IGdpdmUgeW91IGVh
+cmx5IGZlZWRiYWNrLCB3aGljaCBzaG91bGQgc2F2ZSB0aW1lIGFsbCByb3VuZCBhbmQgaGVscCBn
+ZXQgdXMgdG8gYQ0KPiBnb29kIHNvbHV0aW9uIDopDQo+IA0KPiBKdXN0IHNlbmQgd2l0aCBhIFtE
+SVNDVVNTSU9OXSBwcmVmYWNlIGFuZCBjYy0gcGVvcGxlIHlvdSBmZWVsIGFyZSByZWxldmFudCAo
+dXNlDQo+IE1BSU5UQUlORVJTIHRvIGZpZ3VyZSBvdXQgZS5nLiBtYWludGFpbmVycyBvZiByZWxl
+dmFudCB0aGluZ3MsIGxpa2Ugcm1hcCwNCj4gbW1hcCwNCj4gZXRjLikNCj4gDQo+ID4NCj4gPiBM
+YXN0bHksIEkgc2luY2VyZWx5IGFwb2xvZ2l6ZSBmb3IgdGhlIHRyb3VibGUgSSBoYXZlIGNhdXNl
+ZCB0aGUgY29tbXVuaXR5Lg0KPiA+IEkgd2lsbCBzdHJpY3RseSBmb2xsb3cgY29tbXVuaXR5IGNv
+bnZlbnRpb25zIHdoZW4gc2VuZGluZyBwYXRjaGVzIGluIHRoZQ0KPiBmdXR1cmUuDQo+IA0KPiBJ
+dCdzIG5vIHByb2JsZW0sIGJldHRlciB0byBiZSBkaXJlY3QgYWJvdXQgdGhpcyAtIGl0J3MgbW9y
+ZSB1c2VmdWwgdG8gZGlzY3Vzcw0KPiByYXRoZXIgdGhhbiB0byBqdW1wIHRvIGEgc29sdXRpb24g
+d2l0aG91dCBjb21tdW5pdHkgaW52b2x2ZW1lbnQsIHdoaWNoIG1pZ2h0DQo+IG5vdA0KPiB3b3Jr
+IG91dC9jb25mbGljdCB3aXRoIG90aGVyIHN0dWZmIGV0Yy4NCj4gDQo+IFRoYW5rcywgTG9yZW56
+bw0KDQpUaGFua3MgZm9yIHRoZSBraW5kIGFkdmljZS4NCg0KSSB3aWxsIHN0YXJ0IGEgZGlzY3Vz
+c2lvbiBmaXJzdCB3aXRoIGEgW0RJU0NVU1NJT05dIHRhZyBhbmQgaW52b2x2ZSByZWxldmFudA0K
+bWFpbnRhaW5lcnMgZm9yIHNpbWlsYXIgaWRlYXMgaW4gdGhlIGZ1dHVyZS4NCg0KVGhhbmtzLCBZ
+aWJpbg0K
 
-Thanks for the fix.
-Feel free to take it into your tree directly.
