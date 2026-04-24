@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8110C3D904F
-	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 13:47:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF94F30ACF1
+	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 13:47:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777038434; cv=none; b=aEA5HpyxiIQZvNTjZaawD5PRR8B1Ct3hJ+7DPwFiQ/4KE7c7Mruj3f1XbQlf5eoWHvu+AqFQXA5/UEWlEFkHSKeT2oIvG2cYKxiH+x+LBVYQrFNRYpAI/Nu1GS+1c6sEcGS+L53kHIQezbefLGd2dqnk/P2Vq/Zip82h2KUs+dU=
+	t=1777038435; cv=none; b=l21y/tWosaxVzaAIlp4gNAMF+AyD99FJw0boPbUzs7bpQqvdSJgtVH/SLzobyRwqrM93YIFPzwSwH+/b9PoJfLO+DsPnJHY9cCsOSBSZE1zoJTTHnqFqs7GWKKiP1Cn95PFGA5z5GR4xY1WVfH/r9GxaA6KmftYoTQPrU3IRnv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777038434; c=relaxed/simple;
-	bh=eLxWYS2eBOgtytv9Rk3bRTpJL20RPQKjyCtixX8EBSY=;
+	s=arc-20240116; t=1777038435; c=relaxed/simple;
+	bh=QvnPh5L68AzzIytjFtvLu70zrXmvoWRCrpDoSsWj3ns=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=gzTB6L5Eq5VY0UncUhF3gImXbYjBpn0QQSo/EvrtI/ZfexRHho6xV6LJTG42qj+Uv/7UgSBuMNEdGXBhgenixZ/+nDDlVhFqu99olVNx2KEMwBcvlL4PrFJoFu/2wAE/ObEHTPgMf5vCh7GwHoO2Qv5bMdqZzoGgvTR6WZK9wR4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oiODQbMQ; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=qbN3rFn0o6Wi4G9l46XLcLPdUL4YQqj5WudihD6eGIts3SxmJ0M8xL3BpTf27oCl7fuN+LH6ZGjUd3/SgNK2cM+Xl5rSwy0Lhn5xPFsJsz3lyf2X+IOedC89Z3qsfjORheEwdSNOYWLDFAsM9jAicyA607/MWmQRw4dKrGItyNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DFGTs64P; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oiODQbMQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 149DDC2BCB5;
-	Fri, 24 Apr 2026 13:47:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DFGTs64P"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01990C19425;
+	Fri, 24 Apr 2026 13:47:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777038433;
-	bh=eLxWYS2eBOgtytv9Rk3bRTpJL20RPQKjyCtixX8EBSY=;
+	s=k20201202; t=1777038435;
+	bh=QvnPh5L68AzzIytjFtvLu70zrXmvoWRCrpDoSsWj3ns=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=oiODQbMQganbP8rFQz1KulnzkrDeLHxNSovEw9cghEZAH63X3yg+GnKCVi3nide8s
-	 vcKJORQoi7q0Qu3K0/Uu5L2/AvazmfP3A5XGIHaNZ+0B9JJAnrX6/M/RlTVaYgATXh
-	 IjreCLXzbM3cL76GvU3LHO/a0hMAnW65yQ82UqTtQ4+UeN26NWVpt4ap7EdjO3LEd7
-	 jY+QrGegJkVjaBPzVnGUmkHnIUV6cRz0kgSdmLziewrakz+FKbsnYRyFgtJb1loaFe
-	 R69LY/djAfDf+3kcVChs9byt6NOR0SP+EL7P9zwdPpfzPrtyyiBYnm8MS02hmbh/WV
-	 zP2xjcsV2+J4g==
+	b=DFGTs64PmkdRVxYwAFjRGaev7BDCMxO4XxB+E+poqgHPRaECmsubrqBjXvFRjNY9p
+	 AqjFjS3ITmKec59hHhpVrJI2sc9rgPfIvAseS5wy0ED0dJ+usUSuULX2TwVaOYFAGS
+	 HnowVfmU8JqpS5ck7lg77NnTGAMFUsgSyYzxCbZmpurxoZTne32IeVo953s11LwYjc
+	 Gw2hkqHPOnhr2JxHLME31eDUzXZWewyA9qLXsLDiP3WkH/wj9VXayglVpO5Petluxl
+	 clZGR1s95WnTGHuu0aZ1ZWiuz0bis3xn8KqFEFYHFr4FAgDbKPT2Hf2DaloYOfM2ky
+	 vZLcFGCl82thA==
 From: Christian Brauner <brauner@kernel.org>
-Date: Fri, 24 Apr 2026 15:46:44 +0200
-Subject: [PATCH 13/17] eventpoll: extract lock dance from do_epoll_ctl()
- into ep_ctl_lock()
+Date: Fri, 24 Apr 2026 15:46:45 +0200
+Subject: [PATCH 14/17] eventpoll: wrap EP_UNACTIVE_PTR in typed sentinel
+ helpers
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -38,7 +38,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260424-work-epoll-rework-v1-13-249ed00a20f3@kernel.org>
+Message-Id: <20260424-work-epoll-rework-v1-14-249ed00a20f3@kernel.org>
 References: <20260424-work-epoll-rework-v1-0-249ed00a20f3@kernel.org>
 In-Reply-To: <20260424-work-epoll-rework-v1-0-249ed00a20f3@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -47,265 +47,190 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
  Jens Axboe <axboe@kernel.dk>, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8423; i=brauner@kernel.org;
- h=from:subject:message-id; bh=eLxWYS2eBOgtytv9Rk3bRTpJL20RPQKjyCtixX8EBSY=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS+LnF/p3wrlqtVi2f+ZvVrilp3vgUtnNbgvTFN1+/oh
- NueMRxpHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABP5n87I8GPdbf/+Kb/+Rujv
- EwhnNFB/vmz984lhBxaz/mKVlJOeOJ+RYW6v0prgD99CTM1DWpRnpRu1HIl6M2Oz5ae7EXuEuht
- iWQA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6649; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=QvnPh5L68AzzIytjFtvLu70zrXmvoWRCrpDoSsWj3ns=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS+LnH/vfO/9KmHreFvZTy5ZJdtPjrzWmlIzQ2FgteXb
+ rNlmM750FHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRug+MDHf1UjgnPmks8V+1
+ 8ljZIcuq6duenVz9YdGTAo6TwR2vWzkYGS5/mbKu8XmEyg3daXfnvaqc4n3zgZhiG8PilpUbWi7
+ t6mEEAA==
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-do_epoll_ctl() interleaved three concerns in one body: input
-validation, the ep->mtx + epnested_mutex acquisition dance for
-EPOLL_CTL_ADD on potentially-nested topologies, and the op dispatch
-with final unlock. The middle concern is the error-prone one; the
-error_tgt_fput label existed mainly to orchestrate it.
+ep->ovflist and epi->next both use EP_UNACTIVE_PTR (a cast to
+(void *)-1) as a sentinel, with distinct meanings at each site:
 
-Extract the acquisition as ep_ctl_lock() and the release as
-ep_ctl_unlock(). ep_ctl_lock() always takes ep->mtx and, for
-EPOLL_CTL_ADD on a topology that can change, additionally runs the
-loop / path check under epnested_mutex. The return value is a
-ternary:
+  ep->ovflist == EP_UNACTIVE_PTR         no scan in progress
+  epi->next   == EP_UNACTIVE_PTR         epi not on ovflist
 
-   0        ep->mtx held.
-   1        ep->mtx AND epnested_mutex held (full-check mode).
-   -errno   failure, no locks held.
+Call sites had to know the sentinel's value and, by convention, what
+it meant in each context. Hide both behind inline helpers:
 
-The non-negative value doubles as the @full_check argument to
-ep_insert() and as the argument to ep_ctl_unlock(), so the caller
-neither needs an out-parameter nor a separate boolean:
+  ep_is_scanning(ep)       predicate for "scan in progress"
+  ep_enter_scan(ep)        WRITE_ONCE flip to NULL (scan start)
+  ep_exit_scan(ep)         WRITE_ONCE flip to sentinel (scan end)
+  epi_on_ovflist(epi)      predicate for "epi is on ovflist"
+  epi_clear_ovflist(epi)   clear epi's ovflist link slot
 
-   full_check = ep_ctl_lock(ep, op, epfile, tfile, nonblock);
-   if (full_check < 0)
-       return full_check;
-   ...
-   ep_ctl_unlock(ep, full_check);
+Convert ep_events_available(), ep_start_scan(), ep_done_scan(),
+ep_poll_callback(), and ep_alloc_epitem() to use the wrappers. The
+ovflist state-machine transitions are now named, not encoded in
+sentinel comparisons, and the top-of-file "Ready-list state machine"
+section is the single place that spells out the sentinel's meaning.
 
-ep_ctl_unlock() drops ep->mtx and, if full_check == 1, clears
-tfile_check_list, bumps loop_check_gen, and drops epnested_mutex --
-mirroring the old error_tgt_fput block.
+ep_alloc() keeps the raw "ep->ovflist = EP_UNACTIVE_PTR" init (no
+concurrent access at that point) with an inline "not scanning"
+comment, and the tfile_check_list sentinel is left alone -- it will
+disappear entirely when the loop-check globals move into a
+stack-allocated ep_ctl_ctx in a later commit.
 
-With that in place do_epoll_ctl()'s preconditions become direct
-returns (no locks held, nothing to clean up), the acquisition is a
-single call, the op dispatch is unchanged, and the epilogue is a
-single ep_ctl_unlock() before return. The error_tgt_fput label goes
-away.
-
-The two loop_check_gen bumps (one at the start of the full check,
-one after) are preserved inside ep_ctl_lock() / ep_ctl_unlock(),
-keeping the invariant that ep->gen stamps left on per-eventpoll
-caches never equal loop_check_gen after the check completes.
+Also rework ep_done_scan()'s for-loop: the combined initializer +
+update clause that advanced nepi AND cleared epi->next in one step
+was clever but hard to read; splitting the update into two
+statements inside the body makes the epi_clear_ovflist() call
+visible.
 
 No functional change.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/eventpoll.c | 152 ++++++++++++++++++++++++++++++++++-----------------------
- 1 file changed, 91 insertions(+), 61 deletions(-)
+ fs/eventpoll.c | 73 +++++++++++++++++++++++++++++++++++++++++-----------------
+ 1 file changed, 52 insertions(+), 21 deletions(-)
 
 diff --git a/fs/eventpoll.c b/fs/eventpoll.c
-index 6d4167a347ab..d49457dc8c7f 100644
+index d49457dc8c7f..4199ef8e42e5 100644
 --- a/fs/eventpoll.c
 +++ b/fs/eventpoll.c
-@@ -2479,14 +2479,92 @@ static inline int epoll_mutex_lock(struct mutex *mutex, bool nonblock)
- 	return mutex_trylock(mutex) ? 0 : -EAGAIN;
+@@ -541,6 +541,43 @@ static inline struct epitem *ep_item_from_wait(wait_queue_entry_t *p)
+ 	return container_of(p, struct eppoll_entry, wait)->base;
  }
  
 +/*
-+ * Acquire the locks required for do_epoll_ctl() on @ep for @op.
-+ *
-+ * Always takes ep->mtx. For EPOLL_CTL_ADD, additionally runs the
-+ * loop / path check under epnested_mutex when the topology can
-+ * change: @ep is already watched (epfile->f_ep non-NULL), @ep was
-+ * recently loop-checked (ep->gen == loop_check_gen), or @tfile is
-+ * itself an eventpoll.
-+ *
-+ * Return value encodes both outcome and lock state:
-+ *
-+ *   0        success; ep->mtx held.
-+ *   1        success; ep->mtx held AND the full check ran under
-+ *            epnested_mutex (which is also still held). The value
-+ *            doubles as the @full_check argument to ep_insert().
-+ *   -errno   failure; no locks held.
-+ *
-+ * The caller releases what was taken with ep_ctl_unlock(ep, ret).
-+ *
-+ * Holding epnested_mutex on add is what prevents two racing
-+ * EPOLL_CTL_ADDs on different eps from building a cycle without
-+ * either walker observing it.
++ * Ready-list / ovflist state (see "Ready-list state machine" in the
++ * top-of-file banner for the full state machine). EP_UNACTIVE_PTR is
++ * the sentinel; these wrappers name each transition and each test so
++ * call sites do not need to know the sentinel's value.
 + */
-+static int ep_ctl_lock(struct eventpoll *ep, int op,
-+		       struct file *epfile, struct file *tfile,
-+		       bool nonblock)
++
++/* True iff @ep is between ep_enter_scan() and ep_exit_scan(). */
++static inline bool ep_is_scanning(struct eventpoll *ep)
 +{
-+	struct eventpoll *tep;
-+	int error;
-+
-+	error = epoll_mutex_lock(&ep->mtx, nonblock);
-+	if (error)
-+		return error;
-+
-+	if (op != EPOLL_CTL_ADD)
-+		return 0;
-+	if (!READ_ONCE(epfile->f_ep) && ep->gen != loop_check_gen &&
-+	    !is_file_epoll(tfile))
-+		return 0;
-+
-+	/* Full check needed: drop ep->mtx so we can take epnested_mutex. */
-+	mutex_unlock(&ep->mtx);
-+	error = epoll_mutex_lock(&epnested_mutex, nonblock);
-+	if (error)
-+		return error;
-+
-+	loop_check_gen++;
-+
-+	if (is_file_epoll(tfile)) {
-+		tep = tfile->private_data;
-+		if (ep_loop_check(ep, tep) != 0) {
-+			error = -ELOOP;
-+			goto err_unlock_nested;
-+		}
-+	}
-+
-+	error = epoll_mutex_lock(&ep->mtx, nonblock);
-+	if (error)
-+		goto err_unlock_nested;
-+
-+	return 1;
-+
-+err_unlock_nested:
-+	clear_tfile_check_list();
-+	loop_check_gen++;
-+	mutex_unlock(&epnested_mutex);
-+	return error;
++	return READ_ONCE(ep->ovflist) != EP_UNACTIVE_PTR;
 +}
 +
-+static void ep_ctl_unlock(struct eventpoll *ep, int full_check)
++/* Called by ep_start_scan(): divert ep_poll_callback() to ovflist. */
++static inline void ep_enter_scan(struct eventpoll *ep)
 +{
-+	mutex_unlock(&ep->mtx);
-+	if (full_check) {
-+		clear_tfile_check_list();
-+		loop_check_gen++;
-+		mutex_unlock(&epnested_mutex);
-+	}
++	WRITE_ONCE(ep->ovflist, NULL);
 +}
 +
- int do_epoll_ctl(int epfd, int op, int fd, struct epoll_event *epds,
- 		 bool nonblock)
++/* Called by ep_done_scan(): redirect ep_poll_callback() back to rdllist. */
++static inline void ep_exit_scan(struct eventpoll *ep)
++{
++	WRITE_ONCE(ep->ovflist, EP_UNACTIVE_PTR);
++}
++
++/* True iff @epi is currently linked on its ep's ovflist. */
++static inline bool epi_on_ovflist(const struct epitem *epi)
++{
++	return epi->next != EP_UNACTIVE_PTR;
++}
++
++/* Mark @epi as not on any ovflist (init and post-drain). */
++static inline void epi_clear_ovflist(struct epitem *epi)
++{
++	epi->next = EP_UNACTIVE_PTR;
++}
++
+ /**
+  * ep_events_available - Checks if ready events might be available.
+  *
+@@ -551,8 +588,7 @@ static inline struct epitem *ep_item_from_wait(wait_queue_entry_t *p)
+  */
+ static inline int ep_events_available(struct eventpoll *ep)
  {
- 	int error;
--	int full_check = 0;
-+	int full_check;
- 	struct eventpoll *ep;
- 	struct epitem *epi;
--	struct eventpoll *tep = NULL;
- 
- 	CLASS(fd, f)(epfd);
- 	if (fd_empty(f))
-@@ -2506,76 +2584,34 @@ int do_epoll_ctl(int epfd, int op, int fd, struct epoll_event *epds,
- 		ep_take_care_of_epollwakeup(epds);
- 
- 	/*
--	 * We have to check that the file structure underneath the file descriptor
--	 * the user passed to us _is_ an eventpoll file. And also we do not permit
-+	 * The @epfd file must itself be an eventpoll, and we do not permit
- 	 * adding an epoll file descriptor inside itself.
- 	 */
--	error = -EINVAL;
- 	if (fd_file(f) == fd_file(tf) || !is_file_epoll(fd_file(f)))
--		goto error_tgt_fput;
-+		return -EINVAL;
- 
- 	/*
- 	 * epoll adds to the wakeup queue at EPOLL_CTL_ADD time only,
- 	 * so EPOLLEXCLUSIVE is not allowed for a EPOLL_CTL_MOD operation.
--	 * Also, we do not currently supported nested exclusive wakeups.
-+	 * Also, nested exclusive wakeups are not supported.
- 	 */
- 	if (ep_op_has_event(op) && (epds->events & EPOLLEXCLUSIVE)) {
- 		if (op == EPOLL_CTL_MOD)
--			goto error_tgt_fput;
-+			return -EINVAL;
- 		if (op == EPOLL_CTL_ADD && (is_file_epoll(fd_file(tf)) ||
- 				(epds->events & ~EPOLLEXCLUSIVE_OK_BITS)))
--			goto error_tgt_fput;
-+			return -EINVAL;
- 	}
- 
--	/*
--	 * At this point it is safe to assume that the "private_data" contains
--	 * our own data structure.
--	 */
- 	ep = fd_file(f)->private_data;
- 
--	/*
--	 * When we insert an epoll file descriptor inside another epoll file
--	 * descriptor, there is the chance of creating closed loops, which are
--	 * better be handled here, than in more critical paths. While we are
--	 * checking for loops we also determine the list of files reachable
--	 * and hang them on the tfile_check_list, so we can check that we
--	 * haven't created too many possible wakeup paths.
--	 *
--	 * We do not need to take the global 'epumutex' on EPOLL_CTL_ADD when
--	 * the epoll file descriptor is attaching directly to a wakeup source,
--	 * unless the epoll file descriptor is nested. The purpose of taking the
--	 * 'epnested_mutex' on add is to prevent complex toplogies such as loops and
--	 * deep wakeup paths from forming in parallel through multiple
--	 * EPOLL_CTL_ADD operations.
--	 */
--	error = epoll_mutex_lock(&ep->mtx, nonblock);
--	if (error)
--		goto error_tgt_fput;
--	if (op == EPOLL_CTL_ADD) {
--		if (READ_ONCE(fd_file(f)->f_ep) || ep->gen == loop_check_gen ||
--		    is_file_epoll(fd_file(tf))) {
--			mutex_unlock(&ep->mtx);
--			error = epoll_mutex_lock(&epnested_mutex, nonblock);
--			if (error)
--				goto error_tgt_fput;
--			loop_check_gen++;
--			full_check = 1;
--			if (is_file_epoll(fd_file(tf))) {
--				tep = fd_file(tf)->private_data;
--				error = -ELOOP;
--				if (ep_loop_check(ep, tep) != 0)
--					goto error_tgt_fput;
--			}
--			error = epoll_mutex_lock(&ep->mtx, nonblock);
--			if (error)
--				goto error_tgt_fput;
--		}
--	}
-+	full_check = ep_ctl_lock(ep, op, fd_file(f), fd_file(tf), nonblock);
-+	if (full_check < 0)
-+		return full_check;
- 
- 	/*
--	 * Try to lookup the file inside our RB tree. Since we grabbed "mtx"
--	 * above, we can be sure to be able to use the item looked up by
--	 * ep_find() till we release the mutex.
-+	 * Look the target up in ep's RB tree. We hold ep->mtx, so the
-+	 * item stays valid until we release.
- 	 */
- 	epi = ep_find(ep, fd_file(tf), fd);
- 
-@@ -2610,14 +2646,8 @@ int do_epoll_ctl(int epfd, int op, int fd, struct epoll_event *epds,
- 			error = -ENOENT;
- 		break;
- 	}
--	mutex_unlock(&ep->mtx);
- 
--error_tgt_fput:
--	if (full_check) {
--		clear_tfile_check_list();
--		loop_check_gen++;
--		mutex_unlock(&epnested_mutex);
--	}
-+	ep_ctl_unlock(ep, full_check);
- 	return error;
+-	return !list_empty_careful(&ep->rdllist) ||
+-		READ_ONCE(ep->ovflist) != EP_UNACTIVE_PTR;
++	return !list_empty_careful(&ep->rdllist) || ep_is_scanning(ep);
  }
  
+ #ifdef CONFIG_NET_RX_BUSY_POLL
+@@ -910,7 +946,7 @@ static void ep_start_scan(struct eventpoll *ep, struct list_head *txlist)
+ 	lockdep_assert_irqs_enabled();
+ 	spin_lock_irq(&ep->lock);
+ 	list_splice_init(&ep->rdllist, txlist);
+-	WRITE_ONCE(ep->ovflist, NULL);
++	ep_enter_scan(ep);
+ 	spin_unlock_irq(&ep->lock);
+ }
+ 
+@@ -925,29 +961,24 @@ static void ep_done_scan(struct eventpoll *ep,
+ 	 * other events might have been queued by the poll callback.
+ 	 * We re-insert them inside the main ready-list here.
+ 	 */
+-	for (nepi = READ_ONCE(ep->ovflist); (epi = nepi) != NULL;
+-	     nepi = epi->next, epi->next = EP_UNACTIVE_PTR) {
++	for (nepi = READ_ONCE(ep->ovflist); (epi = nepi) != NULL; ) {
++		nepi = epi->next;
++		epi_clear_ovflist(epi);
+ 		/*
+-		 * We need to check if the item is already in the list.
+-		 * During the "sproc" callback execution time, items are
+-		 * queued into ->ovflist but the "txlist" might already
+-		 * contain them, and the list_splice() below takes care of them.
++		 * Skip items that the caller already returned via @txlist
++		 * -- the list_splice() below takes care of those.
+ 		 */
+ 		if (!ep_is_linked(epi)) {
+ 			/*
+-			 * ->ovflist is LIFO, so we have to reverse it in order
+-			 * to keep in FIFO.
++			 * ovflist is LIFO; list_add() head-insert here
++			 * reverses the iteration order into FIFO.
+ 			 */
+ 			list_add(&epi->rdllink, &ep->rdllist);
+ 			ep_pm_stay_awake(epi);
+ 		}
+ 	}
+-	/*
+-	 * We need to set back ep->ovflist to EP_UNACTIVE_PTR, so that after
+-	 * releasing the lock, events will be queued in the normal way inside
+-	 * ep->rdllist.
+-	 */
+-	WRITE_ONCE(ep->ovflist, EP_UNACTIVE_PTR);
++	/* Back out of scan mode; callbacks target ep->rdllist again. */
++	ep_exit_scan(ep);
+ 
+ 	/*
+ 	 * Quickly re-inject items left on "txlist".
+@@ -1376,7 +1407,7 @@ static int ep_alloc(struct eventpoll **pep)
+ 	init_waitqueue_head(&ep->poll_wait);
+ 	INIT_LIST_HEAD(&ep->rdllist);
+ 	ep->rbr = RB_ROOT_CACHED;
+-	ep->ovflist = EP_UNACTIVE_PTR;
++	ep->ovflist = EP_UNACTIVE_PTR;	/* not scanning */
+ 	ep->user = get_current_user();
+ 	refcount_set(&ep->refcount, 1);
+ 
+@@ -1456,8 +1487,8 @@ static int ep_poll_callback(wait_queue_entry_t *wait, unsigned mode, int sync, v
+ 	 * semantics). All the events that happen during that period of time are
+ 	 * chained in ep->ovflist and requeued later on.
+ 	 */
+-	if (READ_ONCE(ep->ovflist) != EP_UNACTIVE_PTR) {
+-		if (epi->next == EP_UNACTIVE_PTR) {
++	if (ep_is_scanning(ep)) {
++		if (!epi_on_ovflist(epi)) {
+ 			epi->next = READ_ONCE(ep->ovflist);
+ 			WRITE_ONCE(ep->ovflist, epi);
+ 			ep_pm_stay_awake_rcu(epi);
+@@ -1771,7 +1802,7 @@ static struct epitem *ep_alloc_epitem(struct eventpoll *ep,
+ 	epi->ep = ep;
+ 	ep_set_ffd(&epi->ffd, tfile, fd);
+ 	epi->event = *event;
+-	epi->next = EP_UNACTIVE_PTR;
++	epi_clear_ovflist(epi);
+ 
+ 	return epi;
+ }
 
 -- 
 2.47.3
