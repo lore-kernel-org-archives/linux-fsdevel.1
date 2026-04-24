@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C7A23D903A
-	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 13:47:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC92A3D6CB6
+	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 13:47:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777038430; cv=none; b=qxmYDjDwyMixTbaloxM0dvkXedF+A0fPqOnLQy+/XYzACLCH1wnS1vuQ5DOv74BQekc5A8qjFjvGcY/oghZAtftQalaMKbLKdV42LB4v6N6i6ukTmBfNCgLYn8U2xXduS5JizktmUgExp4wbDKP7V+k+Wcr56Ky+cJeHdrddfaw=
+	t=1777038432; cv=none; b=Wkrbj29iqRXPm8vHFmfyx5VEcb/BX39BpCPamAojRW8OdvL++1qMpbVw3W88qUnQuumc8nK7GAKKAOV8z7/CTXTqWVPakKE/NIf0TSEyBRPVNoPNQaEWidPa35ZQOhy1yG9vtjSMSi5hDjzTEorz0E7sSa3yVTPn2za6fBue1nc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777038430; c=relaxed/simple;
-	bh=lTkLqKuFxe7xi2ys+Zu+Q7CrOnK4qjvrP2ElG9F19c8=;
+	s=arc-20240116; t=1777038432; c=relaxed/simple;
+	bh=sQdY0NNc/ItYqbEstfCnlNwXMq8G/hKYoaDHPXlf6ak=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Q0fDudnHaUnIJZkEFJMC1ttVqBKLSYRc+syJ787dSM+8oDOuSRoZXonK20qh9k3GEsPxSXhLYnSKnbR+qj0h/UnuRdO900Nebr0SUoqTw7nfqImBg5YhGlY16u/Lkswg88WrTkM0IKFkzP7f/m3wQBz30Eiq1jOVdnCEUEvchfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iqFWQoMu; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=kzC8NTPqW88zbdhfQyIayeR4mcNaxFSSS/8DkOjGCaYiNCORFtXVu+jZR/cFEfUyAPw2J/1GOSzpm/TCJLyIu/UmdDBqLu3FA9PV2ZlGQblrRKx8tgdngB13Do/Q8EXJlDVIrtRGRBb2BJlchML0/ytt0romtK4SHQaD0yJqvkE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uf1dDeZK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iqFWQoMu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52E1AC19425;
-	Fri, 24 Apr 2026 13:47:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uf1dDeZK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FB10C2BCB2;
+	Fri, 24 Apr 2026 13:47:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777038429;
-	bh=lTkLqKuFxe7xi2ys+Zu+Q7CrOnK4qjvrP2ElG9F19c8=;
+	s=k20201202; t=1777038431;
+	bh=sQdY0NNc/ItYqbEstfCnlNwXMq8G/hKYoaDHPXlf6ak=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=iqFWQoMuREc6iHBzCcobf3VDh2Fo/ckne0BYZfFULzMqkXwncXR9bWt/z6H8oOOl4
-	 zRug5AajzTnk/z25LVSyOVPW66qWBB5HKQu790yV/oNfFUYhRx3sYPCVd1BP9MZ/xI
-	 3yGAKmzyzQF79QVTcRca5lAW398YF64Cc0diAEKwFbkFbrwnFaXWHjUV6HgeIxlfR+
-	 eHVcvtT8c4MHb3/BjwLxDHX3byGSUf37MfaaBqn/iQfEGS2PsFcV1Lf8fyAjEXMUCj
-	 YA2fw55STaJ4g0REMEY9FcCRHrlQRgC0lipySWxNZWGzsauEpJ+blydwvBxYYlvfj7
-	 Q1upD7yYOhYJQ==
+	b=Uf1dDeZKa8YMidp6nNoTe6/bmYV4Hsgu40AGtXHWk9jcNd5h7UQjHlQijY9vvamfl
+	 yLYvdd/+G6iqevzu4/my2mWk80VKSAdAYZohAdmB2CrVNYpdGphLZMkQZjgTXGkzGy
+	 CHuke3p7421lEPRA/knbavArgM3KNmoxMQtwxIiFjC9ayGom/qMtCK33MrQVfwTOrr
+	 mUe3lCmFpjl5W1wZDqpAMuxX+UJoj3scLiuGI297aVKtgjZST+nPCbgSkmYvAlin+q
+	 At+F3pmk+vbuk1adw0OKg1WrQvXDssDU210CWe7eTGdDMu4fAZQdeDdc0CDJTCl/rA
+	 GnruzitdK5K0w==
 From: Christian Brauner <brauner@kernel.org>
-Date: Fri, 24 Apr 2026 15:46:42 +0200
-Subject: [PATCH 11/17] eventpoll: split ep_clear_and_put() into drain
- helpers
+Date: Fri, 24 Apr 2026 15:46:43 +0200
+Subject: [PATCH 12/17] eventpoll: extract ep_deliver_event() from
+ ep_send_events()
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -38,7 +38,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260424-work-epoll-rework-v1-11-249ed00a20f3@kernel.org>
+Message-Id: <20260424-work-epoll-rework-v1-12-249ed00a20f3@kernel.org>
 References: <20260424-work-epoll-rework-v1-0-249ed00a20f3@kernel.org>
 In-Reply-To: <20260424-work-epoll-rework-v1-0-249ed00a20f3@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -47,160 +47,212 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
  Jens Axboe <axboe@kernel.dk>, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5748; i=brauner@kernel.org;
- h=from:subject:message-id; bh=lTkLqKuFxe7xi2ys+Zu+Q7CrOnK4qjvrP2ElG9F19c8=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS+LnH32JrO63/g/Z6PR5fG2O/gDl52wPxa3AcxN5tl2
- kVttQEVHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABPJW8Lwv8p9M+PVFt+uV25x
- nLfnmu1Q9P4tVvSi+EX/GpXV31OishgZZtxOV6zwC9HyPF994g6n2h6WuXs4TYQeSex2WB3/wPw
- qMwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6641; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=sQdY0NNc/ItYqbEstfCnlNwXMq8G/hKYoaDHPXlf6ak=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS+LnHXUVtTOW2vQMoWzWbOs0IPVG44nWpQssl5NiNQ0
+ fqx3OeOjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIlMzGJk2DlF3fXtd7P8mQ+t
+ CzUWiF+Uu/j82cYLa77tXdDStnUVlwTDPzPLr+nBilfPhK64O5/rtfKRDD/BL2YNspUJBY9PvTh
+ 9mQcA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-ep_clear_and_put()'s two-pass walk is the main way an ep file close
-tears down its state, and the ordering between the passes is
-load-bearing (see previous commit's docblock). Give each pass its
-own function so the ordering is enforced by the call sequence in
-ep_clear_and_put() rather than by convention inside one body.
+ep_send_events()'s body covered two concerns: per-item work (PM
+wakeup-source bookkeeping, re-poll, copy_to_user, level-trigger
+re-queue, EPOLLONESHOT mask clear) and the scan-level accumulator
+(maxevents cap, EFAULT preservation, txlist/rdllist splice).
 
-ep_drain_pollwaits() carries out Pass 1: walk the rbtree and
-ep_unregister_pollwait() each epi. The function-level comment names
-it as Pass 1 and spells out the synchronization contract with
-ep_poll_callback().
+Extract the per-item work as ep_deliver_event(), which returns a
+tri-state int:
 
-ep_drain_tree() carries out Pass 2: walk the rbtree and ep_remove()
-each epi, capturing rb_next() before each erase. The comment names
-it as Pass 2 and documents the hand-off with a concurrent
-eventpoll_release_file() (removal path C).
+  1       one event was delivered; caller advances the counter,
+  0       re-poll produced no caller-requested events (item drops
+          out of the ready list; a future callback will re-queue),
+ -EFAULT  copy_to_user() faulted; item is already re-inserted at
+          the head of the txlist so ep_done_scan() splices it back
+          to rdllist.
 
-ep_clear_and_put() keeps the poll-on-ep wakeup, ep->mtx bracketing,
-and ep_put() + conditional ep_free(), and its docblock shrinks to
-the high-level summary; the per-pass detail moved into the helpers.
+The per-item comments (PM ordering, the "sole writer to rdllist"
+invariant for the LT re-queue, the EFAULT semantics) move into
+ep_deliver_event(). ep_send_events() reduces to the fatal-signal
+short-circuit, scan bracket, and a short txlist walk that accumulates
+the deliveries and preserves the "first error wins" EFAULT contract
+(res = delivered only if no event was previously delivered; otherwise
+the success count is returned and -EFAULT is reported on the next
+call).
 
 No functional change.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/eventpoll.c | 87 ++++++++++++++++++++++++++++++++++------------------------
- 1 file changed, 51 insertions(+), 36 deletions(-)
+ fs/eventpoll.c | 138 +++++++++++++++++++++++++++++++++++----------------------
+ 1 file changed, 84 insertions(+), 54 deletions(-)
 
 diff --git a/fs/eventpoll.c b/fs/eventpoll.c
-index e4a4e92d329f..eeddd05ba529 100644
+index eeddd05ba529..6d4167a347ab 100644
 --- a/fs/eventpoll.c
 +++ b/fs/eventpoll.c
-@@ -1105,62 +1105,77 @@ static void ep_remove(struct eventpoll *ep, struct epitem *epi)
+@@ -1979,6 +1979,82 @@ static int ep_modify(struct eventpoll *ep, struct epitem *epi,
+ 	return 0;
  }
  
- /*
-- * Removal path B (see "Removal paths" in the top-of-file banner):
-- * close of the epoll fd itself, reached via ep_eventpoll_release().
-- *
-- * Under ep->mtx we walk the rbtree twice:
-- *
-- *   Pass 1 drains each epi's pwqlist via ep_unregister_pollwait().
-- *          This takes each watched waitqueue head's lock and so
-- *          synchronizes with any in-flight ep_poll_callback(), so
-- *          after the pass ends no callback can still be holding or
-- *          about to dereference any epi on this ep.
-- *
-- *   Pass 2 runs ep_remove() on each epi. The per-epi pwqlist is
-- *          already empty, but the rest of ep_remove() still runs
-- *          (epi_fget() pin, f_ep clear under f_lock, rbtree erase,
-- *          rdllist unlink, kfree_rcu).
-- *
-- * Pass 1 must strictly precede Pass 2: fusing them would let a
-- * callback queued on epi_i still fire after epi_{i+k} was freed.
-- *
-- * A concurrent eventpoll_release_file() (path C) serializes against
-- * us on ep->mtx; in Pass 2, ep_remove() transparently hands off any
-- * epi whose watched file is in __fput() by bailing when epi_fget()
-- * returns NULL, and C will clean that epi up on its side.
-- *
-- * ep->refcount is held > 0 throughout by the ep file's own share;
-- * we drop that share after the walk and free the eventpoll if we
-- * were last.
-+ * Pass 1 of ep_clear_and_put(): drain every epi's pwqlist.
-+ * ep_unregister_pollwait() takes each watched wait-queue head's lock,
-+ * which synchronizes with any in-flight ep_poll_callback(); after
-+ * this returns no callback can still be about to dereference an epi
-+ * on this ep. Must strictly precede ep_drain_tree() -- fusing the
-+ * two walks would let a callback queued on epi_i still fire after
-+ * epi_{i+k} had already been freed.
-  */
--static void ep_clear_and_put(struct eventpoll *ep)
-+static void ep_drain_pollwaits(struct eventpoll *ep)
++/*
++ * Attempt to deliver one event for @epi into @*uevents.
++ *
++ * Returns 1 if an event was delivered (with *uevents advanced to the
++ * next slot), 0 if the re-poll reported no caller-requested events
++ * (@epi drops out of the ready list; a future callback will re-add
++ * it), or -EFAULT if copy_to_user() faulted (in which case @epi is
++ * re-inserted at the head of @txlist so ep_done_scan() merges it
++ * back to rdllist for the next attempt).
++ *
++ * PM bookkeeping and level-triggered re-queue are handled here.
++ * Caller holds ep->mtx and the scan is active.
++ */
++static int ep_deliver_event(struct eventpoll *ep, struct epitem *epi,
++			    poll_table *pt,
++			    struct epoll_event __user **uevents,
++			    struct list_head *txlist)
++{
++	struct epoll_event __user *next;
++	struct wakeup_source *ws;
++	__poll_t revents;
++
++	/*
++	 * Activate ep->ws before deactivating epi->ws to prevent
++	 * triggering auto-suspend here (in case we reactivate epi->ws
++	 * below).  Rearranging to delay the deactivation would let
++	 * epi->ws drift out of sync with ep_is_linked().
++	 */
++	ws = ep_wakeup_source(epi);
++	if (ws) {
++		if (ws->active)
++			__pm_stay_awake(ep->ws);
++		__pm_relax(ws);
++	}
++
++	list_del_init(&epi->rdllink);
++
++	/*
++	 * Re-poll under ep->mtx so userspace cannot change the item
++	 * out from under us. If no caller-requested events remain,
++	 * @epi stays off the ready list; the poll callback will
++	 * re-queue it when events next appear.
++	 */
++	revents = ep_item_poll(epi, pt, 1);
++	if (!revents)
++		return 0;
++
++	next = epoll_put_uevent(revents, epi->event.data, *uevents);
++	if (!next) {
++		/*
++		 * copy_to_user() faulted: put the item back so
++		 * ep_done_scan() splices it onto rdllist for the next
++		 * attempt.
++		 */
++		list_add(&epi->rdllink, txlist);
++		ep_pm_stay_awake(epi);
++		return -EFAULT;
++	}
++	*uevents = next;
++
++	if (epi->event.events & EPOLLONESHOT) {
++		epi->event.events &= EP_PRIVATE_BITS;
++	} else if (!(epi->event.events & EPOLLET)) {
++		/*
++		 * Level-triggered: re-queue so the next epoll_wait()
++		 * rechecks availability. We are the sole writer to
++		 * rdllist here -- epoll_ctl() callers are locked out
++		 * by ep->mtx, and the poll callback queues to ovflist
++		 * during scans.
++		 */
++		list_add_tail(&epi->rdllink, &ep->rdllist);
++		ep_pm_stay_awake(epi);
++	}
++	return 1;
++}
++
+ static int ep_send_events(struct eventpoll *ep,
+ 			  struct epoll_event __user *events, int maxevents)
  {
--	struct rb_node *rbp, *next;
-+	struct rb_node *rbp;
- 	struct epitem *epi;
+@@ -2001,70 +2077,24 @@ static int ep_send_events(struct eventpoll *ep,
+ 	ep_start_scan(ep, &txlist);
  
--	/* Release any threads blocked in poll-on-ep. */
--	if (waitqueue_active(&ep->poll_wait))
--		ep_poll_safewake(ep, NULL, 0);
+ 	/*
+-	 * We can loop without lock because we are passed a task private list.
+-	 * Items cannot vanish during the loop we are holding ep->mtx.
++	 * We can loop without lock because we are passed a task-private
++	 * txlist; items cannot vanish while we hold ep->mtx.
+ 	 */
+ 	list_for_each_entry_safe(epi, tmp, &txlist, rdllink) {
+-		struct wakeup_source *ws;
+-		__poll_t revents;
++		int delivered;
+ 
+ 		if (res >= maxevents)
+ 			break;
+ 
+-		/*
+-		 * Activate ep->ws before deactivating epi->ws to prevent
+-		 * triggering auto-suspend here (in case we reactive epi->ws
+-		 * below).
+-		 *
+-		 * This could be rearranged to delay the deactivation of epi->ws
+-		 * instead, but then epi->ws would temporarily be out of sync
+-		 * with ep_is_linked().
+-		 */
+-		ws = ep_wakeup_source(epi);
+-		if (ws) {
+-			if (ws->active)
+-				__pm_stay_awake(ep->ws);
+-			__pm_relax(ws);
+-		}
 -
--	mutex_lock(&ep->mtx);
-+	lockdep_assert_held(&ep->mtx);
- 
--	/* Pass 1: drain pwqlists; synchronizes with in-flight callbacks. */
- 	for (rbp = rb_first_cached(&ep->rbr); rbp; rbp = rb_next(rbp)) {
- 		epi = rb_entry(rbp, struct epitem, rbn);
- 
- 		ep_unregister_pollwait(ep, epi);
- 		cond_resched();
+-		list_del_init(&epi->rdllink);
+-
+-		/*
+-		 * If the event mask intersect the caller-requested one,
+-		 * deliver the event to userspace. Again, we are holding ep->mtx,
+-		 * so no operations coming from userspace can change the item.
+-		 */
+-		revents = ep_item_poll(epi, &pt, 1);
+-		if (!revents)
+-			continue;
+-
+-		events = epoll_put_uevent(revents, epi->event.data, events);
+-		if (!events) {
+-			list_add(&epi->rdllink, &txlist);
+-			ep_pm_stay_awake(epi);
++		delivered = ep_deliver_event(ep, epi, &pt, &events, &txlist);
++		if (delivered < 0) {
+ 			if (!res)
+-				res = -EFAULT;
++				res = delivered;
+ 			break;
+ 		}
+-		res++;
+-		if (epi->event.events & EPOLLONESHOT)
+-			epi->event.events &= EP_PRIVATE_BITS;
+-		else if (!(epi->event.events & EPOLLET)) {
+-			/*
+-			 * If this file has been added with Level
+-			 * Trigger mode, we need to insert back inside
+-			 * the ready list, so that the next call to
+-			 * epoll_wait() will check again the events
+-			 * availability. At this point, no one can insert
+-			 * into ep->rdllist besides us. The epoll_ctl()
+-			 * callers are locked out by
+-			 * ep_send_events() holding "mtx" and the
+-			 * poll callback will queue them in ep->ovflist.
+-			 */
+-			list_add_tail(&epi->rdllink, &ep->rdllist);
+-			ep_pm_stay_awake(epi);
+-		}
++		res += delivered;
  	}
-+}
 +
-+/*
-+ * Pass 2 of ep_clear_and_put(): ep_remove() every epi. The per-epi
-+ * pwqlist is already empty (ep_drain_pollwaits ran), but the rest of
-+ * ep_remove() still runs: epi_fget() pin, f_ep clear under f_lock,
-+ * rbtree erase, rdllist unlink, kfree_rcu(epi). rb_next() is captured
-+ * before each erase so the iteration is stable.
-+ *
-+ * A concurrent eventpoll_release_file() (removal path C) on a watched
-+ * file serializes with us via ep->mtx; ep_remove() transparently
-+ * hands off any epi whose file is in __fput() by bailing when
-+ * epi_fget() returns NULL, and path C will clean that epi up.
-+ */
-+static void ep_drain_tree(struct eventpoll *ep)
-+{
-+	struct rb_node *rbp, *next;
-+	struct epitem *epi;
-+
-+	lockdep_assert_held(&ep->mtx);
- 
--	/* Pass 2: remove each epi. rb_next() is captured before erase. */
- 	for (rbp = rb_first_cached(&ep->rbr); rbp; rbp = next) {
- 		next = rb_next(rbp);
- 		epi = rb_entry(rbp, struct epitem, rbn);
- 		ep_remove(ep, epi);
- 		cond_resched();
- 	}
-+}
-+
-+/*
-+ * Removal path B (see "Removal paths" in the top-of-file banner):
-+ * close of the epoll fd itself, reached via ep_eventpoll_release().
-+ *
-+ * Two passes under ep->mtx: first ep_drain_pollwaits() quiesces
-+ * in-flight callbacks, then ep_drain_tree() frees the epis. The
-+ * ep->refcount is kept > 0 across the walk by the ep file's own
-+ * share, which we drop below; ep_free() runs iff we were the last
-+ * holder after the tree drained.
-+ */
-+static void ep_clear_and_put(struct eventpoll *ep)
-+{
-+	/* Release any threads blocked in poll-on-ep. */
-+	if (waitqueue_active(&ep->poll_wait))
-+		ep_poll_safewake(ep, NULL, 0);
- 
-+	mutex_lock(&ep->mtx);
-+	ep_drain_pollwaits(ep);
-+	ep_drain_tree(ep);
+ 	ep_done_scan(ep, &txlist);
  	mutex_unlock(&ep->mtx);
-+
- 	if (ep_put(ep))
- 		ep_free(ep);
- }
+ 
 
 -- 
 2.47.3
