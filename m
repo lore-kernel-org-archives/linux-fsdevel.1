@@ -1,265 +1,156 @@
-Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC3C42FFF8D
-	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 07:09:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.24
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2F7D27FD74;
+	Fri, 24 Apr 2026 07:28:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777014598; cv=none; b=VVGORzcVmJCsAryOo7l/TmZSUYoNijAbRNgt2u3ZDlABnKQCH4oVJWwFr7oVQK3YEMWojNyAaxyyGCSyNvdZMAlZph/xrtg4w0Oc5RGdXkpGPvzsV88B50QNiUxLlMDKIF8sczm40nyzRF2UySwVmSqUd3HaJ9QdLivnUaIEVD4=
+	t=1777015730; cv=none; b=tpNeGk2rrRppJFYULtX7csXe4rXdM+TkgJAl2NDEpUc69uA38GBipiOTx74UHfMDCXOzfa84NPRFhM1AzbYsThDe11iyk97n1NWcoTl/+NEdYEBB+hfPQ65KR68SISmirSeaa7NhyR3HDvCQfiS/Rt2sf+vYsggOUq6nlifQxEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777014598; c=relaxed/simple;
-	bh=eEHUCBNB/FycCyuqsdYI9Zgu7Oul0+beHly87DVBPGU=;
-	h=From:To:Cc:In-Reply-To:Subject:Date:Message-ID:MIME-Version:
-	 Content-Type:References; b=Lj3vqS0xrjs0AgD73Y1lWASLSNrJk1gQrkhfGazb+kE+p/6HP1r0oWn3V8ox5FasFB61VhzCLPFpGAVcIIiF4wF/idCOkeB4revfRGVV9htizcbJFleIfS/S/5ssX+ZmQ3sOG30vRGPpbcK9TVJYY4c9z6XVZG3u0wjd1C8AzHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=NWecFLkM; arc=none smtp.client-ip=203.254.224.24
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1777015730; c=relaxed/simple;
+	bh=D5WTkAG67DCeRIXXL7QTaoWz4jtq3LR9v34sTXeVWX8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=n/nmRwamsU42eczeZLytkBpp5BHab4AndaMnUjC14+PzQb6imHSQ2/zZYuY6wWc0PhVAU7xi9s20N3McmfNTmaphC6cL0yRXNJSz62YVRlJs20BkAv+lJIrRwZZbMxto0hHkVUtLQO+BHS36mbFbR2zFQz5eICra/qq8hs8oTVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s3cWFCHb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="NWecFLkM"
-Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20260424070946epoutp01cba6e296dd0806ee0cfaca976a7e94e6~pOVn3DPkh0568505685epoutp01Q
-	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 07:09:46 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20260424070946epoutp01cba6e296dd0806ee0cfaca976a7e94e6~pOVn3DPkh0568505685epoutp01Q
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1777014586;
-	bh=YnKL+SiDAqnKZfULUW5kTyB2WwUoXJhZZlDSjiyPb14=;
-	h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
-	b=NWecFLkMeTviQGe8Rl4V32iMq7QJJPANYENmPSKP03oprfGeKgyyUJLhHcCVsOOWk
-	 mb05FYqCwj+08P6e+UusNoWmwXz9qKSR0aHK4GEw8t7eGgBJW2CEGV0Ltlq4rx/QXR
-	 gAqOCpCUGVLZy5PJ3y9gFCCwk8TFqfFtN2RxWK2Y=
-Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
-	epcas1p1.samsung.com (KnoxPortal) with ESMTPS id
-	20260424070946epcas1p1895e845d96113d40c8b5a455bea67c80~pOVnmEQN70564105641epcas1p1U;
-	Fri, 24 Apr 2026 07:09:46 +0000 (GMT)
-Received: from epcas1p3.samsung.com (unknown [182.195.38.195]) by
-	epsnrtp02.localdomain (Postfix) with ESMTP id 4g23xQ0Gptz2SSKj; Fri, 24 Apr
-	2026 07:09:46 +0000 (GMT)
-Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
-	epcas1p3.samsung.com (KnoxPortal) with ESMTPA id
-	20260424070945epcas1p39e7844d6355c6048a27c38083e55f6a0~pOVm5-H8v0160301603epcas1p3O;
-	Fri, 24 Apr 2026 07:09:45 +0000 (GMT)
-Received: from W11PB11713 (unknown [10.91.160.69]) by epsmtip2.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20260424070945epsmtip26b17c65bffc8aed090cf02c9094a8dbf~pOVm206921803118031epsmtip2R;
-	Fri, 24 Apr 2026 07:09:45 +0000 (GMT)
-From: "Sungjong Seo" <sj1557.seo@samsung.com>
-To: "'Al Viro'" <viro@zeniv.linux.org.uk>
-Cc: "'Namjae Jeon'" <linkinjeon@kernel.org>,
-	<linux-fsdevel@vger.kernel.org>, <sjdev.seo@gmail.com>, <cpgs@samsung.com>,
-	<sj1557.seo@samsung.com>, <sjdev.seo@gmail.com>
-In-Reply-To: 
-Subject: RE: [RFC] weird stuff in exfat_lookup()
-Date: Fri, 24 Apr 2026 16:09:45 +0900
-Message-ID: <21c1e01dcd3b9$546fb610$fd4f2230$@samsung.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s3cWFCHb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 449D1C19425;
+	Fri, 24 Apr 2026 07:28:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777015729;
+	bh=D5WTkAG67DCeRIXXL7QTaoWz4jtq3LR9v34sTXeVWX8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=s3cWFCHbvARap4MiTOiZhdctXelw9CweptCYFnW+h/atSINq5YTY3xRoxZwJKlbTM
+	 A6tmoD4Qb+0YU4vYTzSFsqwfLtKy1AQIF19Zgt+4qLLHblg4j/MdJrY4OyBkQmzgl+
+	 C/HUcHHz725Z4v7OIdL1eSqmQ9VtLWoMWOj44AgdQj85j+Hi2gGiWtkkkJx9Cnz3uM
+	 Go8Jk7fc+gcSdR53WBvrvLND0M9EA0NYDystm2T0ulfYZttqGKi8MgXFa4Ce6AQPeX
+	 2+piW6vCAARfbJ3PWJ8j4iXltKDT3qy+JFzCWsvynZX/7r16t8jYNrc1qaGxQxe9sy
+	 kMBAp8IQ2hOww==
+Message-ID: <016cc5e5-044c-46c6-a668-200f90a64d85@kernel.org>
+Date: Fri, 24 Apr 2026 09:28:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC v3 01/19] mm: thread user_addr through page allocator
+ for cache-friendly zeroing
+To: Gregory Price <gourry@gourry.net>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, linux-kernel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Brendan Jackman <jackmanb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Suren Baghdasaryan <surenb@google.com>,
+ Jason Wang <jasowang@redhat.com>, Andrea Arcangeli <aarcange@redhat.com>,
+ linux-mm@kvack.org, virtualization@lists.linux.dev,
+ Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
+ <rppt@kernel.org>, "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Ying Huang
+ <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
+ Hugh Dickins <hughd@google.com>, Christoph Lameter <cl@gentwo.org>,
+ David Rientjes <rientjes@google.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>, Harry Yoo <harry.yoo@oracle.com>,
+ Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
+ Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>,
+ Baoquan He <bhe@redhat.com>, linux-fsdevel@vger.kernel.org
+References: <cover.1776808209.git.mst@redhat.com>
+ <9dd9deabd42801f3c344326991d1431c3d8db39d.1776808210.git.mst@redhat.com>
+ <aekluxNPxF8CN8fL@gourry-fedora-PF4VCD3F>
+ <20260422171315-mutt-send-email-mst@kernel.org>
+ <aemglPlcwFFHNj1A@gourry-fedora-PF4VCD3F>
+ <c165d6af-4a35-4a41-9086-ee307640c044@kernel.org>
+ <20260423074433-mutt-send-email-mst@kernel.org>
+ <aeohzbmhQAoOODPm@gourry-fedora-PF4VCD3F>
+ <88b0765f-7cfc-4e44-83d2-c01a1755c842@kernel.org>
+ <aeozRZ9AvW2jTQkX@gourry-fedora-PF4VCD3F>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <aeozRZ9AvW2jTQkX@gourry-fedora-PF4VCD3F>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQHvIU014N/xpMzfEtxh/QSbUZFfYAGOig5MAmhErlICcjrXqwInKJ+WAjN46ze1YYRmIIARje8g
-Content-Language: ko
-X-CMS-MailID: 20260424070945epcas1p39e7844d6355c6048a27c38083e55f6a0
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 101P
-X-CPGSPASS: Y
-cpgsPolicy: CPGSC10-711,N
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20250228160332epcas1p2b177def4195cedc4c122a5f09bb29d2a
-References: <20250227224826.GG2023217@ZenIV>
-	<CAKYAXd_-v601SX44WZ970LyZjsCH3L3HFjJXxZH960r1PXo+Bw@mail.gmail.com>
-	<CGME20250228160332epcas1p2b177def4195cedc4c122a5f09bb29d2a@epcas1p2.samsung.com>
-	<394ca686-a45a-e71c-bc45-33794463b5fc@samsung.com>
-	<29a2901db9414$fcacee50$f606caf0$@samsung.com>
-	<20260403195408.GM3836593@ZenIV> 
 
-Hi!
-> > [with apologies for very late reply]
-> That's okay, no problem.
+On 4/23/26 16:57, Gregory Price wrote:
+> On Thu, Apr 23, 2026 at 04:13:50PM +0200, David Hildenbrand (Arm) wrote:
+>> On 4/23/26 15:42, Gregory Price wrote:
+>>
+>> Maybe we could forward the vma+addr here and call a vma_alloc_froze_folio() if
+>> we have a VMA+addr to have a clean interface.
+>>
+>> But really, that hugetlb code is rather messy. I'd vote for leaving hugetlb
+>> alone on a v1, and focusing on non-hugetlb first.
+>>
 > 
-> >
-> > On Thu, Mar 13, 2025 at 09:39:39PM +0900, Sungjong Seo wrote:
-> > > - thread1: while(1) { mkdir(A) and rmdir(A) }
-> > > - thread2: while(1) { stat(A) }
-> > >
-> > > This is due to the characteristics of exfat allowing negative dentry
-> > > and considering CI in d_revalidate. As mentioned in the comment,
-> > > unhashed-positive dentry can exist in a situation where mkdir and
-> > > stat are competing, and it can be dropped, but exfat_lookup has been
-> > > implemented to reuse(rehash) this dentry.
-> >
-> > That's an interesting scenario, but I still don't see why would we
-> bother.
-> >
-> > Note that in your example we don't need to even look for aliases -
-> > it's a directory inode, so d_splice_alias() would do the right thing,
-> > no matter what.  And for non-directories you
-> > 	* already have d_move(alias, dentry) there, which would do the
-> right
-> > thing as well and
-> > 	* won't get an unhashed alias from d_find_alias() to start with.
-> >
-> > Frankly, I would skip the entire "look for aliases" thing in case of
-> > directory inodes - just let d_splice_alias() handle it.  That has
-> > another fun benefit - exfat_d_anon_disconn() check becomes completely
-> > pointless.  By the time we call it we have already verified that
-> > alias->d_parent == dentry->d_parent, so the only way to get
-> > exfat_d_anon_disconn(alias) to be true is to have IS_ROOT(alias), i.e.
-> > alias->d_parent == alias and thus alias == dentry->d_parent and at the
-> > very least the inode is a directory one.  We obvously want to have it
-> > fail with -ELOOP in such case and d_splice_alias() does just that, so
-> > if we bypass the entire "look for an alias"
-> > thing for directories, the check becomes identical to
-> > 	if (alias && alias->d_parent == dentry->d_parent) since the last
-> term
-> > in the current variant (!exfat_d_anon_disconn(...)) can be dropped,
-> > along with the helper itself.
-> >
-> > Does anybody have a problem with patch below?
+> If we're ok increasing the buddy surface this way, then I'd vote for
+> only updating the exact interfaces that MST needs to update for his use
+> case in a base set of patches, and then have each additional updated
+> location (or logical set of locations) updated in follow-ups.
 > 
-> Seems right!
-> In fact, exFAT does not support symlinks, shortname aliases, or
-export_ops.
-> So, all it has to do here is handle case insensitivity for the same name.
-> Later, it seems we might also need to check the exfat_d_revalidate().
+> My initial go around with this - the patch was hard to read at best.
 > 
-> I greatly appreciate your meticulous review of the exFAT lookup operation
-> and the patches you provided. I will check if there are any issues with
-> the existing scenario along with the patch review. However, I am currently
-> super busy with my main job, so it would take some time.
-> 
-> Thanks!
-> 
-> >
-> > [PATCH] simplify exfat_lookup()
-> >
-> > 1) d_splice_alias() handles ERR_PTR() for inode just fine
-> > 2) no need to even look for existing aliases in case of directory
-> > inodes; just punt to d_splice_alias(), it'll do the right thing
-> > 3) no need to bother with 'd_unhashed(alias)' case - d_find_alias()
-> > would've returned that only in case of a directory, and
-> > d_splice_alias() will handle that just fine on its own.
-> > 4) exfat_d_anon_disconn() is entirely pointless now - we only get to
-> > evaluating it in case dentry->d_parent == alias->d_parent and alias
-> > being a non-directory.  But in that case IS_ROOT(alias) can't possibly
-> > be true - that would've reqiured alias == alias->d_parent, i.e alias
-> > == dentry->d_parent and dentry->d_parent is guaranteed to be a
-> > directory.  So exfat_d_anon_disconn() would always return false when
-> > it's called, which makes && !exfat_d_anon_disconn(alias) a no-op.
-> >
-> > Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+> But I also think we should also seriously consider not increasing the
+> surface of the buddy. 
 
-The patch looks good to me and seems to be working as intended.
-Thank you for your efforts!
+Exactly, that's why I am saying that vma_alloc_folio() is the only external
+interface people should be using with a user address. all other _noprof helpers
+are supposed to be internal.
 
-Reviewed-by: Sungjong Seo <sj1557.seo@samsung.com>
+For hugetlb, we might need another interface for frozen folios later, which is
+why I suggest to defer that.
 
-> > ---
-> > diff --git a/fs/exfat/namei.c b/fs/exfat/namei.c index
-> > 670116ae9ec8..8fac39f2bcb3 100644
-> > --- a/fs/exfat/namei.c
-> > +++ b/fs/exfat/namei.c
-> > @@ -711,71 +711,44 @@ static int exfat_find(struct inode *dir, const
-> > struct qstr *qname,
-> >  	return 0;
-> >  }
-> >
-> > -static int exfat_d_anon_disconn(struct dentry *dentry) -{
-> > -	return IS_ROOT(dentry) && (dentry->d_flags & DCACHE_DISCONNECTED);
-> > -}
-> > -
-> >  static struct dentry *exfat_lookup(struct inode *dir, struct dentry
-> > *dentry,
-> >  		unsigned int flags)
-> >  {
-> >  	struct super_block *sb = dir->i_sb;
-> > -	struct inode *inode;
-> > +	struct inode *inode = NULL;
-> >  	struct dentry *alias;
-> >  	struct exfat_dir_entry info;
-> >  	int err;
-> >  	loff_t i_pos;
-> > -	mode_t i_mode;
-> >
-> >  	mutex_lock(&EXFAT_SB(sb)->s_lock);
-> >  	err = exfat_find(dir, &dentry->d_name, &info);
-> >  	if (err) {
-> > -		if (err == -ENOENT) {
-> > -			inode = NULL;
-> > -			goto out;
-> > -		}
-> > -		goto unlock;
-> > +		if (unlikely(err != -ENOENT))
-> > +			inode = ERR_PTR(err);
-> > +		goto out;
-> >  	}
-> >
-> >  	i_pos = exfat_make_i_pos(&info);
-> >  	inode = exfat_build_inode(sb, &info, i_pos);
-> > -	err = PTR_ERR_OR_ZERO(inode);
-> > -	if (err)
-> > -		goto unlock;
-> > +	if (IS_ERR(inode) || S_ISDIR(inode->i_mode))
-> > +		goto out;
-> >
-> > -	i_mode = inode->i_mode;
-> >  	alias = d_find_alias(inode);
-> >
-> >  	/*
-> >  	 * Checking "alias->d_parent == dentry->d_parent" to make sure
-> >  	 * FS is not corrupted (especially double linked dir).
-> >  	 */
-> > -	if (alias && alias->d_parent == dentry->d_parent &&
-> > -			!exfat_d_anon_disconn(alias)) {
-> > -
-> > +	if (alias && alias->d_parent == dentry->d_parent) {
-> >  		/*
-> > -		 * Unhashed alias is able to exist because of revalidate()
-> > -		 * called by lookup_fast. You can easily make this status
-> > -		 * by calling create and lookup concurrently
-> > -		 * In such case, we reuse an alias instead of new dentry
-> > +		 * This inode has non anonymous-DCACHE_DISCONNECTED
-> > +		 * dentry. This means, the user did ->lookup() by an
-> > +		 * another name (longname vs 8.3 alias of it) in past.
-> > +		 *
-> > +		 * Switch to new one for reason of locality if possible.
-> >  		 */
-> > -		if (d_unhashed(alias)) {
-> > -			WARN_ON(alias->d_name.hash_len !=
-> > -				dentry->d_name.hash_len);
-> > -			exfat_info(sb, "rehashed a dentry(%p) in read
-lookup",
-> > -				   alias);
-> > -			d_drop(dentry);
-> > -			d_rehash(alias);
-> > -		} else if (!S_ISDIR(i_mode)) {
-> > -			/*
-> > -			 * This inode has non anonymous-DCACHE_DISCONNECTED
-> > -			 * dentry. This means, the user did ->lookup() by an
-> > -			 * another name (longname vs 8.3 alias of it) in
-past.
-> > -			 *
-> > -			 * Switch to new one for reason of locality if
-> > possible.
-> > -			 */
-> > -			d_move(alias, dentry);
-> > -		}
-> > +		d_move(alias, dentry);
-> >  		iput(inode);
-> >  		mutex_unlock(&EXFAT_SB(sb)->s_lock);
-> >  		return alias;
-> > @@ -787,9 +760,6 @@ static struct dentry *exfat_lookup(struct inode
-> > *dir, struct dentry *dentry,
-> >  		exfat_d_version_set(dentry, inode_query_iversion(dir));
-> >
-> >  	return d_splice_alias(inode, dentry);
-> > -unlock:
-> > -	mutex_unlock(&EXFAT_SB(sb)->s_lock);
-> > -	return ERR_PTR(err);
-> >  }
-> >
-> >  /* remove an entry, BUT don't truncate */
+-- 
+Cheers,
 
+David
