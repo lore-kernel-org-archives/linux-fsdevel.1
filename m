@@ -1,89 +1,417 @@
-Received: from va-2-26.ptr.blmpb.com (va-2-26.ptr.blmpb.com [209.127.231.26])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D2DC3E8C79
-	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 18:05:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.231.26
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E58617083C;
+	Fri, 24 Apr 2026 18:19:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777053948; cv=none; b=FUdBw+AX6GyqwhhXsEIT1uW7Lbk68S85hDaO4ymHwOzAAPxcRBdXANnG8EIfWXX16viJashy+FP7MHfN6GBB0qb5onLyLTyTtlTiFfkx7lO5tWh5qymDg/0fAXtFX6jMa2E2KRU5c+qfjgzT3VxyJNuNUB3kLD8hOhoHIk7yBEk=
+	t=1777054783; cv=none; b=QMdy6UR+dkIvD+HF3kWiOnTz49txZ0LliuRqmTU8mPpHshOb341uNH0+E+0LFlpIhytkFdZFa3O9xb0Tvl7Wl6kgKGz0c13JXoDlyWYnkdKZR88R0aWAXqwXZ0PE8FE8ZT7TPxK0LXK11U6lN80jnvLgmc2bsA3sjMmwjFjCyzQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777053948; c=relaxed/simple;
-	bh=HPysnfB0ZZ4K08cFmhgwZh+hL+nIlGlCEX569aLOEPQ=;
-	h=Subject:Content-Disposition:To:Mime-Version:References:
-	 In-Reply-To:Cc:From:Date:Message-Id:Content-Type; b=Z6p81KXzDHH7Nhlz2eVDVu/Om2a1RgqSfBlOs5UzapHhKUihFde5AvavwUR+4TRy0+MO4rZQKRpQWmUJF+ytmgb/jv/kqYqwDbZhoWxU6++szjVu48onli+foMEBSlLNcry5BCU7ixunk7GB6pj9MyzK9Rcd9q0HKL1XCyrIF70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cherr.cc; spf=pass smtp.mailfrom=cherr.cc; dkim=pass (2048-bit key) header.d=cherr.cc header.i=@cherr.cc header.b=tiwEkl/b; arc=none smtp.client-ip=209.127.231.26
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cherr.cc
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cherr.cc
+	s=arc-20240116; t=1777054783; c=relaxed/simple;
+	bh=vjSYRGJVWX7cA8jfdsr2qeRMClZB+3ZxUK2C65uUOrk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LVrhalGtpnZf4hnbYSGVeq3GHXHColwVt2HKj8pKjclzRtmitrv83lYk3OEb1QredbaG+BdgetWXLnnqPDc5x23ot3ms6I2LO/x9tGwyA+zcRcbQT5kV4/U+NcjncxK6G/FHQXa/KsuVhfkH8Mv/dAwPAmZq9nxCaZYK6cmuWMs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=q7TD2DdI; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cherr.cc header.i=@cherr.cc header.b="tiwEkl/b"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="q7TD2DdI"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=feishu2604220257; d=cherr.cc; t=1777053826; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=Ugwgs62IxNPablVdIXqbGoOJmPgtkIqzqLOaAOEODLE=;
- b=tiwEkl/bcSrn/obKTjWup16HDnkVAP2X5fGB7WemupXiixyR+bC/PzY7vpGDfmWv6o2HIf
- xgfltf+Eh5B6mAG/aXA/871RTKbafSyWgmi+piuFwAgXhXino6RgHHtabCcNt7Pc9ikxRd
- USJAEX4/p18SYthYQeqxo3RI9AKfgFVgG/PcJj9Fz30IC29OZnqLwi5WTBBF1v0U8y3zSS
- 2uBdKfOsOLGQMTPH3z/4vovA57yOVCfy/xrBa3cA+1PcKZF0Y1qtvc0uKOE9d+nv90WKvg
- gr2a1Lrm3bbnVIEUDm2NgIC02ss8vdI06KFJv/Tl/BdszZCLquUWiQ6Ozlun8Q==
-Subject: Re: [PATCH] proc: fix comm_write return value when truncated or error
-Received: from pve.cherr ([111.40.58.183]) by smtp.feishu.cn with ESMTPS; Sat, 25 Apr 2026 02:03:43 +0800
-Content-Disposition: inline
-To: "Alexey Dobriyan" <adobriyan@gmail.com>
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=J/iO+x+IMoHA/NVDXXg9T5xHjSKwvnY9J1SHxfja5uk=; b=q7TD2DdIlxw2OM/ULRaeZWVqVb
+	aesZ4iiHUn44KdP7DmQjoVa6j+Rp8jjiDb4vvJpuAXvop4WkVZFUln+jW8nZAI01qIen7XgGMm8ht
+	+Fcy4R2Kuk8LiWidr24V/kidK9uhvai+zDq2ucAb1Sty2QXc0rqamgg7zQTmM03EwG/bLLNwL2hKg
+	CpRUufnH0L/8m4ajiqs+j0SqQh163tmTjvH4II8Zus8qtgbVOOmeedPtje6yBar/Z25TyJ3s3PDY6
+	3rTCJMW4l4QeWtdhO97Ng3UQU84c6Neo7LsvwfpsjdRDTrt+v+f3BF94AMaMiBGtfSTpxzP+42UAJ
+	fu++U+Kg==;
+Received: from [38.23.173.23] (helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1wGL7m-0000000DdnB-3Eg2;
+	Fri, 24 Apr 2026 18:19:35 +0000
+Date: Fri, 24 Apr 2026 14:19:15 -0400
+From: "Liam R. Howlett" <liam@infradead.org>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: akpm@linux-foundation.org, ljs@kernel.org, vbabka@kernel.org, 
+	david@redhat.com, willy@infradead.org, jannh@google.com, paulmck@kernel.org, 
+	pfalcato@suse.de, shuah@kernel.org, hsukrut3@gmail.com, richard.weiyang@gmail.com, 
+	reddybalavignesh9979@gmail.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH 1/3] fs/proc/task_mmu: read proc/pid/{smaps|numa_maps}
+ under per-vma lock
+Message-ID: <ghgypt4u3etdbccgaxhrnrzjeylfqz257ky74sddvk372gmmg4@mganwyeibp4j>
+References: <20260424070234.190145-1-surenb@google.com>
+ <20260424070234.190145-2-surenb@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260424-fix_proc_write_return-v1-1-7a793c2aad32@cherr.cc> <20260424035028.a811dd6bc8248b640a9fd7c2@linux-foundation.org> <3f91ed95-b38e-4049-b69c-13335b13ae44@p183>
-In-Reply-To: <3f91ed95-b38e-4049-b69c-13335b13ae44@p183>
-Cc: "Andrew Morton" <akpm@linux-foundation.org>, 
-	"Shengzhuo Wei" <me@cherr.cc>, "John Stultz" <johnstul@us.ibm.com>, 
-	"Yao Zi" <me@ziyao.cc>, <linux-kernel@vger.kernel.org>, 
-	<linux-fsdevel@vger.kernel.org>
-From: "Shengzhuo Wei" <me@cherr.cc>
-Date: Sat, 25 Apr 2026 02:03:41 +0800
-Message-Id: <aeuwfe6xy74R2qm4@pve.cherr>
-Content-Type: text/plain; charset=UTF-8
-X-Original-From: Shengzhuo Wei <me@cherr.cc>
-X-Lms-Return-Path: <lba+269ebb080+ebb451+vger.kernel.org+me@cherr.cc>
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260424070234.190145-2-surenb@google.com>
 
-On 2026-04-24 16:28, Alexey Dobriyan wrote:
-> > > Fixes: 4614a696bd1c ("procfs: allow threads to rename siblings via /proc/pid/tasks/tid/comm")
-> > 
-> > December 2009.
-> > 
-> > Hopefully no userspace is depending on the broken return value of a
-> > write to /proc/pid/comm.
-> > 
-> > Arguably we should leave the code as-is and add an apologetic comment
-> > explaining the situation.
+On 26/04/24 12:02AM, Suren Baghdasaryan wrote:
+> proc/pid/{smaps|numa_maps} can be read using the combination of RCU and
+> VMA read locks, similar to proc/pid/maps. RCU is required to safely
+> traverse the VMA tree and VMA lock stabilizes the VMA being processed
+> and the pagetable walk.
 > 
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 
-First, there's a plain bug regardless: assigning -EINVAL to a size_t count and
-returning it as ssize_t produces a bogus positive value on the error path.
-Introducing a dedicated ssize_t ret fixes this without changing any
-success-path behavior, the change is on a permission failure path, so it's hard 
-to imagine anyone depending on the broken behavior, but worth mentioning
+Reviewed-by: Liam R. Howlett <liam@infradead.org>
 
-> Yes, this issue must all over virtual filesystems.
+> ---
+>  fs/proc/task_mmu.c | 193 ++++++++++++++++++++++++++++++++++++---------
+>  1 file changed, 154 insertions(+), 39 deletions(-)
 > 
-> Patch may break stuff in the other direction too:
+> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+> index 751b9ba160fb..96cfea252db6 100644
+> --- a/fs/proc/task_mmu.c
+> +++ b/fs/proc/task_mmu.c
+> @@ -132,6 +132,22 @@ static void release_task_mempolicy(struct proc_maps_private *priv)
+>  
+>  #ifdef CONFIG_PER_VMA_LOCK
+>  
+> +static inline int lock_ctx_mm(struct proc_maps_locking_ctx *lock_ctx)
+> +{
+> +	int ret = mmap_read_lock_killable(lock_ctx->mm);
+> +
+> +	if (!ret)
+> +		lock_ctx->mmap_locked = true;
+> +
+> +	return ret;
+> +}
+> +
+> +static inline void unlock_ctx_mm(struct proc_maps_locking_ctx *lock_ctx)
+> +{
+> +	mmap_read_unlock(lock_ctx->mm);
+> +	lock_ctx->mmap_locked = false;
+> +}
+> +
+>  static void reset_lock_ctx(struct proc_maps_locking_ctx *lock_ctx)
+>  {
+>  	lock_ctx->locked_vma = NULL;
+> @@ -146,25 +162,11 @@ static void unlock_ctx_vma(struct proc_maps_locking_ctx *lock_ctx)
+>  	}
+>  }
+>  
+> -static const struct seq_operations proc_pid_maps_op;
+> -
+>  static inline bool lock_vma_range(struct seq_file *m,
+>  				  struct proc_maps_locking_ctx *lock_ctx)
+>  {
+> -	/*
+> -	 * smaps and numa_maps perform page table walk, therefore require
+> -	 * mmap_lock but maps can be read with locking just the vma and
+> -	 * walking the vma tree under rcu read protection.
+> -	 */
+> -	if (m->op != &proc_pid_maps_op) {
+> -		if (mmap_read_lock_killable(lock_ctx->mm))
+> -			return false;
+> -
+> -		lock_ctx->mmap_locked = true;
+> -	} else {
+> -		rcu_read_lock();
+> -		reset_lock_ctx(lock_ctx);
+> -	}
+> +	rcu_read_lock();
+> +	reset_lock_ctx(lock_ctx);
+>  
+>  	return true;
+>  }
+> @@ -172,7 +174,7 @@ static inline bool lock_vma_range(struct seq_file *m,
+>  static inline void unlock_vma_range(struct proc_maps_locking_ctx *lock_ctx)
+>  {
+>  	if (lock_ctx->mmap_locked) {
+> -		mmap_read_unlock(lock_ctx->mm);
+> +		unlock_ctx_mm(lock_ctx);
+>  	} else {
+>  		unlock_ctx_vma(lock_ctx);
+>  		rcu_read_unlock();
+> @@ -213,17 +215,45 @@ static inline bool fallback_to_mmap_lock(struct proc_maps_private *priv,
+>  	return true;
+>  }
+>  
+> +static inline void drop_rcu(struct proc_maps_private *priv)
+> +{
+> +	if (priv->lock_ctx.mmap_locked)
+> +		return;
+> +
+> +	rcu_read_unlock();
+> +}
+> +
+> +static inline void reacquire_rcu(struct proc_maps_private *priv)
+> +{
+> +	if (priv->lock_ctx.mmap_locked)
+> +		return;
+> +
+> +	rcu_read_lock();
+> +	/* Reinitialize the iterator. */
+> +	vma_iter_set(&priv->iter, priv->lock_ctx.locked_vma->vm_end);
+> +}
+> +
+>  #else /* CONFIG_PER_VMA_LOCK */
+>  
+> +static inline int lock_ctx_mm(struct proc_maps_locking_ctx *lock_ctx)
+> +{
+> +	return mmap_read_lock_killable(lock_ctx->mm);
+> +}
+> +
+> +static inline void unlock_ctx_mm(struct proc_maps_locking_ctx *lock_ctx)
+> +{
+> +	mmap_read_unlock(lock_ctx->mm);
+> +}
+> +
+>  static inline bool lock_vma_range(struct seq_file *m,
+>  				  struct proc_maps_locking_ctx *lock_ctx)
+>  {
+> -	return mmap_read_lock_killable(lock_ctx->mm) == 0;
+> +	return lock_ctx_mm(lock_ctx) == 0;
+>  }
+>  
+>  static inline void unlock_vma_range(struct proc_maps_locking_ctx *lock_ctx)
+>  {
+> -	mmap_read_unlock(lock_ctx->mm);
+> +	unlock_ctx_mm(lock_ctx);
+>  }
+>  
+>  static struct vm_area_struct *get_next_vma(struct proc_maps_private *priv,
+> @@ -238,6 +268,9 @@ static inline bool fallback_to_mmap_lock(struct proc_maps_private *priv,
+>  	return false;
+>  }
+>  
+> +static inline void drop_rcu(struct proc_maps_private *priv) {}
+> +static inline void reacquire_rcu(struct proc_maps_private *priv) {}
+> +
+>  #endif /* CONFIG_PER_VMA_LOCK */
+>  
+>  static struct vm_area_struct *proc_get_vma(struct seq_file *m, loff_t *ppos)
+> @@ -538,12 +571,10 @@ static int query_vma_setup(struct proc_maps_locking_ctx *lock_ctx)
+>  
+>  static void query_vma_teardown(struct proc_maps_locking_ctx *lock_ctx)
+>  {
+> -	if (lock_ctx->mmap_locked) {
+> -		mmap_read_unlock(lock_ctx->mm);
+> -		lock_ctx->mmap_locked = false;
+> -	} else {
+> +	if (lock_ctx->mmap_locked)
+> +		unlock_ctx_mm(lock_ctx);
+> +	else
+>  		unlock_ctx_vma(lock_ctx);
+> -	}
+>  }
+>  
+>  static struct vm_area_struct *query_vma_find_by_addr(struct proc_maps_locking_ctx *lock_ctx,
+> @@ -1280,16 +1311,64 @@ static const struct mm_walk_ops smaps_shmem_walk_ops = {
+>  	.walk_lock		= PGWALK_RDLOCK,
+>  };
+>  
+> +#ifdef CONFIG_PER_VMA_LOCK
+> +
+> +static const struct mm_walk_ops smaps_walk_vma_lock_ops = {
+> +	.pmd_entry		= smaps_pte_range,
+> +	.hugetlb_entry		= smaps_hugetlb_range,
+> +	.walk_lock		= PGWALK_VMA_RDLOCK_VERIFY,
+> +};
+> +
+> +static const struct mm_walk_ops smaps_shmem_walk_vma_lock_ops = {
+> +	.pmd_entry		= smaps_pte_range,
+> +	.hugetlb_entry		= smaps_hugetlb_range,
+> +	.pte_hole		= smaps_pte_hole,
+> +	.walk_lock		= PGWALK_VMA_RDLOCK_VERIFY,
+> +};
+> +
+> +static inline const struct mm_walk_ops *
+> +get_smaps_walk_ops(struct proc_maps_private *priv)
+> +{
+> +	if (priv->lock_ctx.mmap_locked)
+> +		return &smaps_walk_ops;
+> +	return &smaps_walk_vma_lock_ops;
+> +}
+> +
+> +static inline const struct mm_walk_ops *
+> +get_smaps_shmem_walk_ops(struct proc_maps_private *priv)
+> +{
+> +	if (priv->lock_ctx.mmap_locked)
+> +		return  &smaps_shmem_walk_ops;
+> +	return &smaps_shmem_walk_vma_lock_ops;
+> +}
+> +
+> +#else /* CONFIG_PER_VMA_LOCK */
+> +
+> +static inline const struct mm_walk_ops *
+> +get_smaps_walk_ops(struct proc_maps_private *priv)
+> +{
+> +	return &smaps_walk_ops;
+> +}
+> +
+> +static inline const struct mm_walk_ops *
+> +get_smaps_shmem_walk_ops(struct proc_maps_private *priv)
+> +{
+> +	return &smaps_shmem_walk_ops;
+> +}
+> +
+> +#endif /* CONFIG_PER_VMA_LOCK */
+> +
+>  /*
+>   * Gather mem stats from @vma with the indicated beginning
+>   * address @start, and keep them in @mss.
+>   *
+>   * Use vm_start of @vma as the beginning address if @start is 0.
+>   */
+> -static void smap_gather_stats(struct vm_area_struct *vma,
+> -		struct mem_size_stats *mss, unsigned long start)
+> +static void smap_gather_stats(struct proc_maps_private *priv,
+> +			      struct vm_area_struct *vma,
+> +			      struct mem_size_stats *mss, unsigned long start)
+>  {
+> -	const struct mm_walk_ops *ops = &smaps_walk_ops;
+> +	const struct mm_walk_ops *ops = get_smaps_walk_ops(priv);
+>  
+>  	/* Invalid start */
+>  	if (start >= vma->vm_end)
+> @@ -1312,15 +1391,24 @@ static void smap_gather_stats(struct vm_area_struct *vma,
+>  					!(vma->vm_flags & VM_WRITE))) {
+>  			mss->swap += shmem_swapped;
+>  		} else {
+> -			ops = &smaps_shmem_walk_ops;
+> +			ops = get_smaps_shmem_walk_ops(priv);
+>  		}
+>  	}
+>  
+> -	/* mmap_lock is held in m_start */
+> +	/* Skip walking pages if gate VMA */
+> +	if (vma == get_gate_vma(priv->lock_ctx.mm))
+> +		return;
+> +
+> +	/*
+> +	 * Need to drop RCU read lock before the walk due to possibility of sleep.
+> +	 * Note that the VMA is still locked.
+> +	 */
+> +	drop_rcu(priv);
+>  	if (!start)
+>  		walk_page_vma(vma, ops, mss);
+>  	else
+>  		walk_page_range(vma->vm_mm, start, vma->vm_end, ops, mss);
+> +	reacquire_rcu(priv);
+>  }
+>  
+>  #define SEQ_PUT_DEC(str, val) \
+> @@ -1369,10 +1457,11 @@ static void __show_smap(struct seq_file *m, const struct mem_size_stats *mss,
+>  
+>  static int show_smap(struct seq_file *m, void *v)
+>  {
+> +	struct proc_maps_private *priv = m->private;
+>  	struct vm_area_struct *vma = v;
+>  	struct mem_size_stats mss = {};
+>  
+> -	smap_gather_stats(vma, &mss, 0);
+> +	smap_gather_stats(priv, vma, &mss, 0);
+>  
+>  	show_map_vma(m, vma);
+>  
+> @@ -1413,7 +1502,7 @@ static int show_smaps_rollup(struct seq_file *m, void *v)
+>  		goto out_put_task;
+>  	}
+>  
+> -	ret = mmap_read_lock_killable(mm);
+> +	ret = lock_ctx_mm(&priv->lock_ctx);
+>  	if (ret)
+>  		goto out_put_mm;
+>  
+> @@ -1425,7 +1514,7 @@ static int show_smaps_rollup(struct seq_file *m, void *v)
+>  
+>  	vma_start = vma->vm_start;
+>  	do {
+> -		smap_gather_stats(vma, &mss, 0);
+> +		smap_gather_stats(priv, vma, &mss, 0);
+>  		last_vma_end = vma->vm_end;
+>  
+>  		/*
+> @@ -1434,8 +1523,8 @@ static int show_smaps_rollup(struct seq_file *m, void *v)
+>  		 */
+>  		if (mmap_lock_is_contended(mm)) {
+>  			vma_iter_invalidate(&vmi);
+> -			mmap_read_unlock(mm);
+> -			ret = mmap_read_lock_killable(mm);
+> +			unlock_ctx_mm(&priv->lock_ctx);
+> +			ret = lock_ctx_mm(&priv->lock_ctx);
+>  			if (ret) {
+>  				release_task_mempolicy(priv);
+>  				goto out_put_mm;
+> @@ -1484,14 +1573,14 @@ static int show_smaps_rollup(struct seq_file *m, void *v)
+>  
+>  			/* Case 1 and 2 above */
+>  			if (vma->vm_start >= last_vma_end) {
+> -				smap_gather_stats(vma, &mss, 0);
+> +				smap_gather_stats(priv, vma, &mss, 0);
+>  				last_vma_end = vma->vm_end;
+>  				continue;
+>  			}
+>  
+>  			/* Case 4 above */
+>  			if (vma->vm_end > last_vma_end) {
+> -				smap_gather_stats(vma, &mss, last_vma_end);
+> +				smap_gather_stats(priv, vma, &mss, last_vma_end);
+>  				last_vma_end = vma->vm_end;
+>  			}
+>  		}
+> @@ -1505,7 +1594,7 @@ static int show_smaps_rollup(struct seq_file *m, void *v)
+>  	__show_smap(m, &mss, true);
+>  
+>  	release_task_mempolicy(priv);
+> -	mmap_read_unlock(mm);
+> +	unlock_ctx_mm(&priv->lock_ctx);
+>  
+>  out_put_mm:
+>  	mmput(mm);
+> @@ -3291,6 +3380,31 @@ static const struct mm_walk_ops show_numa_ops = {
+>  	.walk_lock = PGWALK_RDLOCK,
+>  };
+>  
+> +#ifdef CONFIG_PER_VMA_LOCK
+> +static const struct mm_walk_ops show_numa_vma_lock_ops = {
+> +	.hugetlb_entry = gather_hugetlb_stats,
+> +	.pmd_entry = gather_pte_stats,
+> +	.walk_lock = PGWALK_VMA_RDLOCK_VERIFY,
+> +};
+> +
+> +static inline const struct mm_walk_ops *
+> +get_show_numa_ops(struct proc_maps_private *priv)
+> +{
+> +	if (priv->lock_ctx.mmap_locked)
+> +		return &show_numa_ops;
+> +	return &show_numa_vma_lock_ops;
+> +}
+> +
+> +#else /* CONFIG_PER_VMA_LOCK */
+> +
+> +static inline const struct mm_walk_ops *
+> +get_show_numa_ops(struct proc_maps_private *priv)
+> +{
+> +	return &show_numa_ops;
+> +}
+> +
+> +#endif /* CONFIG_PER_VMA_LOCK */
+> +
+>  /*
+>   * Display pages allocated per node and memory policy via /proc.
+>   */
+> @@ -3335,8 +3449,9 @@ static int show_numa_map(struct seq_file *m, void *v)
+>  	if (is_vm_hugetlb_page(vma))
+>  		seq_puts(m, " huge");
+>  
+> -	/* mmap_lock is held by m_start */
+> -	walk_page_vma(vma, &show_numa_ops, md);
+> +	drop_rcu(proc_priv);
+> +	walk_page_vma(vma, get_show_numa_ops(proc_priv), md);
+> +	reacquire_rcu(proc_priv);
+>  
+>  	if (!md->pages)
+>  		goto out;
+> -- 
+> 2.54.0.545.g6539524ca2-goog
 > 
-> if process is doing "full write" loop, and write hook gets string
-> which is too long, then the last piece will be written, not truncated
-> first part.
-
-For the truncation case, I agree returning a short count breaks the
-full-write idiom. But sliently truncating isnt't great either. Maybe we
-should reject overlong writes and return -EINVAL instead? That's also an
-ABI change and breaks the userspace, so it needs discussion, but at
-least it fails loudly.
-
-> 
-> 	/proc/alexey
-
-Very happy to hear from your opinions and sorry for my poor English.
-Best regards.
