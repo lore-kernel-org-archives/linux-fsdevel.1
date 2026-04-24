@@ -1,102 +1,148 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D2D03F660E
-	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 18:50:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B0643F54BE;
+	Fri, 24 Apr 2026 18:51:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777056605; cv=none; b=L1qO2sW8MNZIB8eKOn7U3j7clEvZkYg2rVb80au7kTOXt+ET3XII6LWfZ4mfFulolyeUfRGwH+GlV7ee5beUYTL1Vy6XEKd/hdD70QBSyT8FjX5c1yHoN2M7AdyA1fkWAz/Fv3ZXMn1LJ8fs9PRRLCu92UCdG4N/gfleW4JONCI=
+	t=1777056698; cv=none; b=Yf8VtWrCgxeXNzRAKHxsOCCnaXuhh1+p/ESzIw831CTTjbhvGEhvR8cKPNl26J4I3Ft1Kxgvc5pxCfGWtps+xQoOElKm8+BjD51a23ec8yxNCEjqU9hjlWLjvX7vdlVwLBdpFE842CVTK9NMJUOcD+RHJWlIzbZW2srXHzIUfzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777056605; c=relaxed/simple;
-	bh=F0gcFbyNIeCxJf1KL1Z7gVb3Ii/er9bI52qbI3HrFB4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HHvA15XUBeBGW8fCXBCtKaZzJl+RxhtP/LIqvfJBWQLjqpVJdZyklY7KnSEYJ1ABSvenk8Hh9PhE+8LhQjFsBOCMgBho6QUDBYW/otJgZcScjRd+VpajgX1rjfgmDOr2Noh8POqh3jI1AOoNFeKVcpSUTCPcdCgiS/SfSnbym3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BpozKon0; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777056698; c=relaxed/simple;
+	bh=+gfjjzK2HjGlwyfcUBpjGFMM8VknhFJmUXv7rsRO1Tw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WRoOA4/HaEzOBrZJ/CSS63AxkkjeqlU9PJY82BCjA5E4zxZmkdD0/3Gb2embyyI8tbyl3uURbR3+Go+A/rkGaPJRlOoTA4cWtuJ43akUtcBugv1//sh+MBJmbyw3uHeeprrR42h/Mt27/Ck0Go+2WNyoeAQXH4Fnw9IyJUa3O5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I73QB/Yo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BpozKon0"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-59e4a04f059so9807595e87.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 11:50:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777056602; x=1777661402; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=k2hSohRjeGx5XTtLIeUKSBFxVdH32z1XvsX6sIeIBOk=;
-        b=BpozKon0wrOVs3b13BMsRR0rJqOEHsm/QtNf2yZCrjYcH2j3QMplhu9+KdGB2kbbkb
-         JVrDtzsHJlXiDMvVqehHNO667f4qx678bBAsebcrQioFMqhT0f/FbMOY7GwIspiEWElF
-         hDJ0XSPUKs9t5G8Evs7OjYuK8KMPGQ72yknpSDcK6SFsq3fk9fva3bhEMnWyQaHtW3g/
-         O2dzZsYymvfG+N+LS1xhqE4dt72VGKcIr9DCx99Nzl5nlZi1gQlnB/abczsaeLDJEzih
-         f0AOI0qAWi15bBguUJDWk4ZiEUKAqyYZ/CqUCCoHmiwHAtRn8vXhjogSEOPtIY6dUzOv
-         YwyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777056602; x=1777661402;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=k2hSohRjeGx5XTtLIeUKSBFxVdH32z1XvsX6sIeIBOk=;
-        b=gFm6hmKZT+xaeNko/1e4DAMAfzhZxHDB872jqBd6oD0mBeTq8n7D8SHN6b+dFvCJbj
-         TkGUcR34Y9KcI54hviIwZ59PynEuZSg/ulT2VE6IAYWxxO0QQAmsQSgBqYlHeaCEHqe7
-         ff2ZVLfig1clFXXq//bn2CreeZv6ZCwFywY8yqIGOq/MeyYiDEc5d/OPjOly5PZq499B
-         nMUD49lyQkSC1x/ElXqsiOtlPE+3Lk3EGFrR5+x4EKKpY3ioEnk8Pphkgpq6KHFZhhID
-         hj4871roDhRTUf0k7VewcS7X28TdWcKLHodYLzqgicKnJA3cKezYx4cXcrAOby2j+8ml
-         +b/w==
-X-Forwarded-Encrypted: i=1; AFNElJ+1i/lxU7zNoKKC90cy/BZD9+R8WXzb25TcrmVDVsgXHa0QBH7cGkc5ylMBqq13nMtuFeX6BGQEFX029om0@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw7HBqsAoxjE2ssPTWnbtjUnkPxLog00fzwI/sK7O6DMfMZzQZ+
-	WbWKfqcqMbGiCaeaLLtnJYQP/AJpJ01HnH9Dg523XlYMjAlx6j8TTApT9MBY
-X-Gm-Gg: AeBDietRTS7UuoNhzUGoGkwwjRTH1WS7eQo5s0JahvZgg45L2XJywvM153BxJO5/h81
-	vSucnF/RYBVM/AsoNZZ3YrjZRlqeglMtj89PzqnN2Y8GwT3htjkFTTU7cZZi36g3xSS21fVYAUT
-	bQc+OxCsA4ONJ+oAcMkUeE/LP5eMr6qPzifH/lyht4msALuHNeRtrGYGpqoFOoyLFdxQJOUtJDI
-	RiWSSSs/r0zcM+1m4jIIXkbjSTFPr33Y1/vxTZW/EWg9NptkW2zKNlEsl+URbRRJM09aRBDXMIP
-	4iGSZriazFByOvA4nmTTmXcWpW/DEXmbIsdb0scvAv0qMk0unf6gJgd8t7IczIjXQkHFC74YuFT
-	SMFSOLoDy508Wih4nzfP6duuFE+YqLP0oOxbRaSzxurR+457nQeZitXJ/YeU6YqnGynSg/enLzY
-	/KwUdb+gXd9yWb9qLiHvX2iM0=
-X-Received: by 2002:a05:6512:33c1:b0:5a2:b219:3ecb with SMTP id 2adb3069b0e04-5a4172ebf9emr9629778e87.42.1777056602322;
-        Fri, 24 Apr 2026 11:50:02 -0700 (PDT)
-Received: from p183 ([178.172.147.205])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a4185bc672sm6365408e87.34.2026.04.24.11.50.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Apr 2026 11:50:01 -0700 (PDT)
-Date: Fri, 24 Apr 2026 21:52:12 +0300
-From: Alexey Dobriyan <adobriyan@gmail.com>
-To: Shengzhuo Wei <me@cherr.cc>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	John Stultz <johnstul@us.ibm.com>, Yao Zi <me@ziyao.cc>,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] proc: fix comm_write return value when truncated or error
-Message-ID: <5587b10e-91a4-458b-a95b-025be31e1a84@p183>
-References: <20260424-fix_proc_write_return-v1-1-7a793c2aad32@cherr.cc>
- <20260424035028.a811dd6bc8248b640a9fd7c2@linux-foundation.org>
- <3f91ed95-b38e-4049-b69c-13335b13ae44@p183>
- <aeuwfe6xy74R2qm4@pve.cherr>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I73QB/Yo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07EC2C19425;
+	Fri, 24 Apr 2026 18:51:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777056697;
+	bh=+gfjjzK2HjGlwyfcUBpjGFMM8VknhFJmUXv7rsRO1Tw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=I73QB/YoKiHDxTJYDQAZJJqd6DpiWso0Fv34A29QLEdUDh4e/9DIMBxEx6bjkHaME
+	 eSOcJ/kr8JheEFprhBsRAIYwP8ui81DS4Ec2MhWcAb3LTduz/Mw0tHH74Ypekkq31f
+	 tWzmRP1hbVGBek3ZImYupzEnyAgFtJkj8scXdz6NeXJZg3Emc4SM0scKvVwyE5Yvn8
+	 q6eVKd8YZlneyt/S+2klo8xFuk/s+iumOQMZw7M0YDjTBpq/xwQiLotDxKofUq2cRB
+	 aBUac+XxaFCMgRvSsJ+dlJnmUsVyLaWjS4/TIqP4CQ5v7roQrj8+LPbMHANxYsjaaB
+	 wpq3Yb5wx3O0g==
+Message-ID: <b289b4f8-391b-4748-b8e6-0acb0b21b0c0@kernel.org>
+Date: Fri, 24 Apr 2026 20:51:25 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <aeuwfe6xy74R2qm4@pve.cherr>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC v3 01/19] mm: thread user_addr through page allocator
+ for cache-friendly zeroing
+To: Matthew Wilcox <willy@infradead.org>, "Michael S. Tsirkin"
+ <mst@redhat.com>
+Cc: linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Brendan Jackman <jackmanb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Suren Baghdasaryan <surenb@google.com>,
+ Jason Wang <jasowang@redhat.com>, Andrea Arcangeli <aarcange@redhat.com>,
+ Gregory Price <gourry@gourry.net>, linux-mm@kvack.org,
+ virtualization@lists.linux.dev, Johannes Weiner <hannes@cmpxchg.org>,
+ Zi Yan <ziy@nvidia.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
+ <rppt@kernel.org>, Muchun Song <muchun.song@linux.dev>,
+ Oscar Salvador <osalvador@suse.de>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Ying Huang
+ <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
+ Hugh Dickins <hughd@google.com>, Christoph Lameter <cl@gentwo.org>,
+ David Rientjes <rientjes@google.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>, Harry Yoo <harry.yoo@oracle.com>,
+ Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
+ Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>,
+ Baoquan He <bhe@redhat.com>, linux-fsdevel@vger.kernel.org
+References: <cover.1776808209.git.mst@redhat.com>
+ <9dd9deabd42801f3c344326991d1431c3d8db39d.1776808210.git.mst@redhat.com>
+ <aeu5P1bZW3yEH54t@casper.infradead.org>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <aeu5P1bZW3yEH54t@casper.infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, Apr 25, 2026 at 02:03:41AM +0800, Shengzhuo Wei wrote:
-> On 2026-04-24 16:28, Alexey Dobriyan wrote:
-> > > > Fixes: 4614a696bd1c ("procfs: allow threads to rename siblings via /proc/pid/tasks/tid/comm")
-> > > 
-> > > December 2009.
-> > > 
-> > > Hopefully no userspace is depending on the broken return value of a
-> > > write to /proc/pid/comm.
-> > > 
-> > > Arguably we should leave the code as-is and add an apologetic comment
-> > > explaining the situation.
-> > 
+On 4/24/26 20:41, Matthew Wilcox wrote:
+> On Tue, Apr 21, 2026 at 06:01:10PM -0400, Michael S. Tsirkin wrote:
+>> Thread a user virtual address from vma_alloc_folio() down through
+>> the page allocator to post_alloc_hook().  This is plumbing preparation
+>> for a subsequent patch that will use user_addr to call folio_zero_user()
+>> for cache-friendly zeroing of user pages.
+>>
+>> The user_addr is stored in struct alloc_context and flows through:
+>>   vma_alloc_folio -> folio_alloc_mpol -> __alloc_pages_mpol ->
+>>   __alloc_frozen_pages -> get_page_from_freelist -> prep_new_page ->
+>>   post_alloc_hook
 > 
-> First, there's a plain bug regardless: assigning -EINVAL to a size_t count and
-> returning it as ssize_t produces a bogus positive value on the error path.
+> I don't like this.  I think we should instead lift the zeroing from
+> post_alloc_hook() to the callers of __alloc_frozen_pages().
 
-There is no bug, write() will return -EINVAL as it should.
+I don't think so. In particular how zeroing optimizations are related to buddy
+details (tag zeroing, kasan unpoisoning, init_on_alloc/init_on_free, now
+pre-zeroing).
 
-> Introducing a dedicated ssize_t ret fixes this without changing any
-> success-path behavior, the change is on a permission failure path, so it's hard 
-> to imagine anyone depending on the broken behavior, but worth mentioning
+> 
+> I don't understand why you want to remove the double-zeroing of memory
+> when the user has asked for zero_on_alloc.  They asked for stupid things,
+> let them bear the cost.
+
+That's not how the world works :)
+
+
+-- 
+Cheers,
+
+David
