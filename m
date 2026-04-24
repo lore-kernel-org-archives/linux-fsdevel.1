@@ -1,156 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2F7D27FD74;
-	Fri, 24 Apr 2026 07:28:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA644214813
+	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 07:33:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777015730; cv=none; b=tpNeGk2rrRppJFYULtX7csXe4rXdM+TkgJAl2NDEpUc69uA38GBipiOTx74UHfMDCXOzfa84NPRFhM1AzbYsThDe11iyk97n1NWcoTl/+NEdYEBB+hfPQ65KR68SISmirSeaa7NhyR3HDvCQfiS/Rt2sf+vYsggOUq6nlifQxEQ=
+	t=1777015985; cv=none; b=TIXqJVBOSMsJl+g7VGx4mr9v7AeMYCKguktk6XLmNGfM2Bd9jZH04NByrT/Ux3coBZqvTjdKvBFSnwPZnMFOceGawAKkYzkgF3Vs3S3SDDdPgV079rtdk+ZY1gVK1/b4kTSaDJ7MvqsxYP3JerHJKP3Co5y/VD6OFf80b9pB4h8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777015730; c=relaxed/simple;
-	bh=D5WTkAG67DCeRIXXL7QTaoWz4jtq3LR9v34sTXeVWX8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=n/nmRwamsU42eczeZLytkBpp5BHab4AndaMnUjC14+PzQb6imHSQ2/zZYuY6wWc0PhVAU7xi9s20N3McmfNTmaphC6cL0yRXNJSz62YVRlJs20BkAv+lJIrRwZZbMxto0hHkVUtLQO+BHS36mbFbR2zFQz5eICra/qq8hs8oTVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s3cWFCHb; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s3cWFCHb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 449D1C19425;
-	Fri, 24 Apr 2026 07:28:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777015729;
-	bh=D5WTkAG67DCeRIXXL7QTaoWz4jtq3LR9v34sTXeVWX8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=s3cWFCHbvARap4MiTOiZhdctXelw9CweptCYFnW+h/atSINq5YTY3xRoxZwJKlbTM
-	 A6tmoD4Qb+0YU4vYTzSFsqwfLtKy1AQIF19Zgt+4qLLHblg4j/MdJrY4OyBkQmzgl+
-	 C/HUcHHz725Z4v7OIdL1eSqmQ9VtLWoMWOj44AgdQj85j+Hi2gGiWtkkkJx9Cnz3uM
-	 Go8Jk7fc+gcSdR53WBvrvLND0M9EA0NYDystm2T0ulfYZttqGKi8MgXFa4Ce6AQPeX
-	 2+piW6vCAARfbJ3PWJ8j4iXltKDT3qy+JFzCWsvynZX/7r16t8jYNrc1qaGxQxe9sy
-	 kMBAp8IQ2hOww==
-Message-ID: <016cc5e5-044c-46c6-a668-200f90a64d85@kernel.org>
-Date: Fri, 24 Apr 2026 09:28:36 +0200
+	s=arc-20240116; t=1777015985; c=relaxed/simple;
+	bh=OwiB5xL70HUG2XBD1Qstzuk6LTv1Ph8boI/7kSdoh18=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gNcQNFrKhryKWOooFZxbsjmALlj1B7XeUqdrJvqzpGDaDJwPC18SoXZTsmc3OH/KPld1m640uoFgGxguzoO/95AgQub5gTxG/fppKNYILh/e41VdLSyZzkesQ9bGhWy8dO9ZiuflwPdo41BUyhVm5U0hYUNvmX0tOgYe5pvOTrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-944168e8c5fso4607234241.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 00:33:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777015983; x=1777620783;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=NtsbXOcyL1ibQALxU6C+oQAYrNmZZMuQ00aeNmrTt40=;
+        b=HrDwPd0GiYHNu1km3QOBIEWF7tC50E0ql13LJlEHRYCtjHhR0xfUoWfDMgSvTq4vXI
+         TVph3M5YvwVGxSewtdtpIBliBXkubCB1pDHVl8UFC+iwLSmabo7+lj11oyAr1vZXwYQy
+         wHm31ZETuf4Y82hxuGCRXfHqR6MoyKCHjohsVxeEaNs17PIjfK0oCVRLa7K0V3UbwBj5
+         CKz3iEFSnNHfcl9EWwHNSWdnJPMFUs65fEH2+0+9q5iUyWmBkPtZdirxdmdFxrGqPzrs
+         NidR8ldXBTHCT9NHXwIJldXFkS9w2AktHMsUK6VNc+PExP4OIp/lFo/w2kL1yrdSK9sX
+         HT7Q==
+X-Forwarded-Encrypted: i=1; AFNElJ+SCVsGt5HJP/DD9r6Ly/pOTGRVkr4o6bDVGP6kW8DRYDB53BsOHWYWaoO6YALsfSIEGeRCivE+ZflG4nk7@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzc4Pkf0fJ1ntR9cUshCyxRokQVaI3hhEaVRTq2WpAp4HH6otzp
+	hbHsYbka7PciXxO0pzb1pp9LKPGYByprepB1TfbJCSApwiiyUiNEcQI/J3V/2V1MLMw=
+X-Gm-Gg: AeBDietUZGSkJj/s5ylY8CywYnUDjD7LrfkZMkLfd18VbV4Uqojp70qWWSWtc3+Ifkj
+	Y+JInULYotHw08MzdyYJUnXBA66hfsemp+D0w8yF36kaSJ/Wu2wmccsQozUnmlhr9JxazRt/TOC
+	1Tp9EmlBj2fh5ZzsHcn2Dl2+ex+TKDefq0lv/FsBhisV30HKoTAw6sU4t4CaOdQOGTIaizamX4P
+	eGXleEmHyD4iemWHn9Xh2QnWEX++irk3/a8B9e6RZ9Jp/cKry9PZe1RSgpYraE48FahjZZBA5SW
+	wt/x0npW2xmL62v4GFdAx9N254P3Dfj/K6ylXRnk0bWvGB1wYg8NfkHWLcTJf4umJu3v5OzWBZd
+	2AsJE1O2heuo3iq4cSMA0TbT7vaz0R1SmZx6JlmQ7r2/PniGGSJ6VnJpZKG0bLedE/1TMowzdcR
+	RPeJ+HKcdw/bo4W4TPQA0SfftYKxUJUZ5T1bXR+tX8X3Rahm8HS/kAOhpdwoVmRmAs2KLuQFw=
+X-Received: by 2002:a05:6102:c47:b0:602:ba51:5235 with SMTP id ada2fe7eead31-616f7c4b540mr15975614137.29.1777015983006;
+        Fri, 24 Apr 2026 00:33:03 -0700 (PDT)
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com. [209.85.222.52])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-6174272f752sm11002420137.0.2026.04.24.00.32.59
+        for <linux-fsdevel@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Apr 2026 00:33:00 -0700 (PDT)
+Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-94b07fddecbso4350803241.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 00:32:59 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+iQklv9ZRMrlPYi8n7eSyD7vrnNNJFMLXeZ/MGgX4TMNKtCbr9y9Wzx4dpXuNBZwKCmHxJHNNdKVozXglv@vger.kernel.org
+X-Received: by 2002:a05:6102:5801:b0:614:bef5:637c with SMTP id
+ ada2fe7eead31-616f142f347mr16348590137.0.1777015979297; Fri, 24 Apr 2026
+ 00:32:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v3 01/19] mm: thread user_addr through page allocator
- for cache-friendly zeroing
-To: Gregory Price <gourry@gourry.net>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, linux-kernel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>,
- Vlastimil Babka <vbabka@kernel.org>, Brendan Jackman <jackmanb@google.com>,
- Michal Hocko <mhocko@suse.com>, Suren Baghdasaryan <surenb@google.com>,
- Jason Wang <jasowang@redhat.com>, Andrea Arcangeli <aarcange@redhat.com>,
- linux-mm@kvack.org, virtualization@lists.linux.dev,
- Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
- <rppt@kernel.org>, "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
- Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
- Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Ying Huang
- <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
- Hugh Dickins <hughd@google.com>, Christoph Lameter <cl@gentwo.org>,
- David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>, Harry Yoo <harry.yoo@oracle.com>,
- Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
- Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>,
- Baoquan He <bhe@redhat.com>, linux-fsdevel@vger.kernel.org
-References: <cover.1776808209.git.mst@redhat.com>
- <9dd9deabd42801f3c344326991d1431c3d8db39d.1776808210.git.mst@redhat.com>
- <aekluxNPxF8CN8fL@gourry-fedora-PF4VCD3F>
- <20260422171315-mutt-send-email-mst@kernel.org>
- <aemglPlcwFFHNj1A@gourry-fedora-PF4VCD3F>
- <c165d6af-4a35-4a41-9086-ee307640c044@kernel.org>
- <20260423074433-mutt-send-email-mst@kernel.org>
- <aeohzbmhQAoOODPm@gourry-fedora-PF4VCD3F>
- <88b0765f-7cfc-4e44-83d2-c01a1755c842@kernel.org>
- <aeozRZ9AvW2jTQkX@gourry-fedora-PF4VCD3F>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <aeozRZ9AvW2jTQkX@gourry-fedora-PF4VCD3F>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <08f8444c7237566ffb4ba8c9eb0ab4b4a5f14440.camel@kernel.org>
+ <1b340c4e635dcab3bed8c52d6381b4c341c0741a.camel@physik.fu-berlin.de>
+ <20260415144722.GB74178@macsyma-wired.lan> <f48c40f6-ae26-d16b-5332-554042cd85fa@kolla.no>
+In-Reply-To: <f48c40f6-ae26-d16b-5332-554042cd85fa@kolla.no>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 24 Apr 2026 09:32:46 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVouMXAvV-7xqSyCGYGjecoXp0dbZJc71ydTk1ZVjQFAw@mail.gmail.com>
+X-Gm-Features: AQROBzCmvllIMxekOPEHB5GfKFLONKLmj3_0tjYr_UBw_DXckSWhX6-rJTkq5-Y
+Message-ID: <CAMuHMdVouMXAvV-7xqSyCGYGjecoXp0dbZJc71ydTk1ZVjQFAw@mail.gmail.com>
+Subject: Re: [LSF/MM/BPF TOPIC] Should we make inode->i_ino a u64?
+To: =?UTF-8?Q?Kolbj=C3=B8rn_Barmen?= <linux-m68k@kolla.no>
+Cc: Theodore Tso <tytso@mit.edu>, John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
+	Jeff Layton <jlayton@kernel.org>, lsf-pc@lists.linux-foundation.org, 
+	linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>, 
+	Christoph Hellwig <hch@lst.de>, Jan Kara <jack@suse.cz>, Al Viro <viro@zeniv.linux.org.uk>, 
+	linux-m68k <linux-m68k@vger.kernel.org>, linux-sh <linux-sh@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 4/23/26 16:57, Gregory Price wrote:
-> On Thu, Apr 23, 2026 at 04:13:50PM +0200, David Hildenbrand (Arm) wrote:
->> On 4/23/26 15:42, Gregory Price wrote:
->>
->> Maybe we could forward the vma+addr here and call a vma_alloc_froze_folio() if
->> we have a VMA+addr to have a clean interface.
->>
->> But really, that hugetlb code is rather messy. I'd vote for leaving hugetlb
->> alone on a v1, and focusing on non-hugetlb first.
->>
-> 
-> If we're ok increasing the buddy surface this way, then I'd vote for
-> only updating the exact interfaces that MST needs to update for his use
-> case in a base set of patches, and then have each additional updated
-> location (or logical set of locations) updated in follow-ups.
-> 
-> My initial go around with this - the patch was hard to read at best.
-> 
-> But I also think we should also seriously consider not increasing the
-> surface of the buddy. 
+Hi Kolbj=C3=B8rn,
 
-Exactly, that's why I am saying that vma_alloc_folio() is the only external
-interface people should be using with a user address. all other _noprof helpers
-are supposed to be internal.
+On Fri, 24 Apr 2026 at 08:46, Kolbj=C3=B8rn Barmen <linux-m68k@kolla.no> wr=
+ote:
+> On Wed, 15 Apr 2026, Theodore Tso wrote:
+> > Like Debian, the Linux kernel development community is very much a
+> > do-ocracy --- only more so.  If the 32-bit community really cares about
+> > Linux support, they need to be providing volunteer labor to kernel
+> > development, instead of demanding that everyone else pay the overhead
+> > tax of supporting 32-bit platforms which are rapidly disappearing.
+>
+> This tells me that it is time for "the 32-bit community" (wtf) to either
+> look elsewhere, or start thinking of forking the Linux kernel perhaps
+> sooner rather than later, so we don't bother "the 64-bit community" so
+> much.
+>
+> > I will note that Debian itself has made the decision to stop supporting
+> > the Debian Installer for i386 and the 32-bit armel platform in Debian T=
+rixie.
 
-For hugetlb, we might need another interface for frozen folios later, which is
-why I suggest to defer that.
+Note "armel", not "armhf".
 
--- 
-Cheers,
+> Which is why (for example) Raspberry Pi is maintaining their own Raspberr=
+y Pi OS,
+> as they have 32-bit systems that aren't EOL for another 3-4 years.
 
-David
+https://lwn.net/Articles/1051010/:
+"In 204x, support for the last 32-bit architectures would be removed."
+
+However, by then they will have all run out of memory.
+E.g. we recently got 64 (128 on 64-bit) KiB of "gaps", cfr.
+https://lore.kernel.org/all/20260415190454.2632348-1-geert@linux-m68k.org
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
