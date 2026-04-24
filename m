@@ -1,175 +1,203 @@
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CA743126CD
-	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 15:28:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F5653264F7
+	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 15:33:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777044494; cv=none; b=dQ7Cx/0uMcNLxknY794zzm1kLTyu+2uDbT9Q3jgOpuT6/DmVVXmIZ/CQKiz9IEUr+9QOwCw7cYGDmvfL7mEuCR1SlmAQ189kjvw/xr8A/m8oRazvAn1heqRCgaX81wMVeJwusJWP0zq+afVqKgp1tHRa0Bqcg3IYvLTctJM02BE=
+	t=1777044806; cv=none; b=RUNhmSsD9VuGjQMsR8nvyX7Caa7ba8mfrVci5ZPpTjg505cWJY8276icJ4FvlJpbSu41IH6gLXeVmHYYgwi4QFfoIOW6tcOQQGAlahNSM/lCcH1kEgTnC3JgA8upji+cnspXLFr2tDU4AaUuQl4yWrdo4NQvSa6GJu3GWbIfuEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777044494; c=relaxed/simple;
-	bh=9gTlJuYsEHsCEJaO5v7fYlCPufR8B84uOdxazbJdLCc=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ZGkVnlRov4JiAfFltY7+iBWajqVUb+duyD0zyazAdFu3VfIHER/lCh4v71aHz3ymuYVpKSr29aQkMh0rb0CJGP2SQFlAH2chhnRRKYLIC6r3egbzTvi7BqijVG/T9w0Aq0/Mmk+IBjeS1B8b0lPnv/o6aCM8Kj6NFRJMgIx/6oc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=JD+4LRmL; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	s=arc-20240116; t=1777044806; c=relaxed/simple;
+	bh=ITBLPrctCIKLjJ+a2Esa7/0b5w/8tCdXT+uVuFonZ7g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AZo4Suq6aG1+6+Y4xWPBZexfwNb+8ullEukEe0zzbMTGSadpyWQIF5OCfEWzTD20z88BZmmEdxf7tJKzv4vQA4oJxIuI9MGcmR8fgkyaJ060MCS7oPnzrhfkFALAc5UMyWcbW9aJuqonxivhZejVlGmGLI+4HDuflzvV/294S1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=brLHhuzy; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=oyUwW8K5; arc=none smtp.client-ip=202.12.124.153
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="JD+4LRmL"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
-	Date:References:In-Reply-To:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=pa1h7ac8qV0yPtNRiFA5vViA8G5T5/eh//+xoTvOEgM=; b=JD+4LRmLigFt2lGIpIbf8um6d8
-	nuERqqpHj+UTYl7FLITqWudppvw8VK1L+wEpdRbsMkLLhhYM2TJaQV1Axj3R1TjGTCUfXp87f49VU
-	G0VVX9iDFWy0NLdB6hw3gWFMqz+FYYD0NCNcfKuwkEc5xvtONmAa0t6UL3B0b2oZcMs+W7aQZrao/
-	1fehew2J1d0ZcRJe3LyI1jQL3fCZnkmXAmYNNPGof2k3d4Ap5ucz/YM/VzngVhsU/V+bN8f0ARK3X
-	EjFjcA7BO0mNA9WJy5In3A2W+6XRt+8hFpcoFBUTPreE2Bqau27Fdbhgb9oK+KFwOeEtwfl3RvhRc
-	LeFLZIvA==;
-Received: from bl16-24-16.dsl.telepac.pt ([188.81.24.16] helo=localhost)
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1wGIRq-001eW5-Vb; Fri, 24 Apr 2026 17:28:06 +0200
-From: Luis Henriques <luis@igalia.com>
-To: Bernd Schubert via B4 Relay <devnull+bernd.bsbernd.com@kernel.org>
-Cc: Miklos Szeredi <miklos@szeredi.hu>,  bernd@bsbernd.com,  Joanne Koong
- <joannelkoong@gmail.com>,  linux-fsdevel@vger.kernel.org,  Gang He
- <dchg2000@gmail.com>,  Bernd Schubert <bschubert@ddn.com>
-Subject: Re: [PATCH v4 7/8] fuse: Add retry attempts for numa local queues
- for load distribution
-In-Reply-To: <20260413-reduced-nr-ring-queues_3-v4-7-982b6414b723@bsbernd.com>
-	(Bernd Schubert via's message of "Mon, 13 Apr 2026 11:41:30 +0200")
-References: <20260413-reduced-nr-ring-queues_3-v4-0-982b6414b723@bsbernd.com>
-	<20260413-reduced-nr-ring-queues_3-v4-7-982b6414b723@bsbernd.com>
-Date: Fri, 24 Apr 2026 16:28:05 +0100
-Message-ID: <87tst0ml8a.fsf@igalia.com>
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="brLHhuzy";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="oyUwW8K5"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 304B07A0025;
+	Fri, 24 Apr 2026 11:33:23 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Fri, 24 Apr 2026 11:33:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1777044802;
+	 x=1777131202; bh=aLl7S0EyqH7LJ4gPdalN+JJtZ0uEYBnrsGkIeKaRyrE=; b=
+	brLHhuzyMMYtqy7xYKgJCS8n3j/alaJZ4q4WvaOpykDJ96C+gvZ/uLIQOftHLwgm
+	Nb+al0OU3p3qy5In5ro7nd6poS9fiXHsGwgqOuatPPl8q0fOOSfKG12DghIVt3KI
+	7nj93v+53AxfdG1xnEAm5e3f8WzjxacSuqw/JiVD0n5sPAfDh7XdhDPRl87JIsKS
+	44xg2P+bAW9DRHGEl4abG3OmGJxhpWB69fPpo4q5xXScOuB/c3+L6oEo90qPzz8c
+	J+0gCqmylOz5TlOctZdhdaHUZ5/XyVXdx0OOSv11HrWg0KLyOxe+ERh+D24ifC1E
+	IkBUjEBby2vy8iMLz5Q4mg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1777044802; x=
+	1777131202; bh=aLl7S0EyqH7LJ4gPdalN+JJtZ0uEYBnrsGkIeKaRyrE=; b=o
+	yUwW8K5nvLobzTib4gvWc8J179jFSCOnwDsGJZySn/oxVFzs4PsMTBmxDecmR/zw
+	wdMP9/3rvBRuBPeJlbdXX+KvBqHO/5CTZyk0jZFTvcZFmQivCx6HqYreHFJq6+Qc
+	2hVQSwwn/Yx7OQj/4ifnWxwhdCEpDhofOVJLbywiXxEbiyQaKU2964+DRB6v5guO
+	rcIwlMDPVSTE6livdUoYzmsjlNy3RFvOtYt3GQRoXH3UsTQn+m9rqw82BXSSgR95
+	WAyvXcDy1skPezXoPnCMo5zAQ1xCHzkcXbdCyW3TiIxIOrWOimxD+aoURGI6fcEy
+	tRiKQDip9+ERQwZ9LIFfA==
+X-ME-Sender: <xms:Qo3raf0CrBOBcrtv4TSWe76KeRYNK0U3_6hvzsOtHVvY5YekmYfmVQ>
+    <xme:Qo3raQWY9hDCkAGYwsTcK_zOR5jZ2VQdPFo0kF491SQhIxL45v92T_hL3U20xJS31
+    Nznm8PeI1Pgyf629IDu7PLTBhQ2-7GcfwxXu_xpXM1kCVjJTwDeLA>
+X-ME-Received: <xmr:Qo3raSIUcyuDeZ7eurpq_daZ2hLWZSlFhaKiF7a8681nnHtmKh2FE8hpEI6O81O-AsVlSa7M3_zn9Ny3Zq2Ajdd522yXMsibUyzifaWVG444fK9_hQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdejtdegtdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefkffggfgfuvfevfhfhjggtgfesthejredttddvjeenucfhrhhomhepuegvrhhnugcu
+    ufgthhhusggvrhhtuceosggvrhhnugessghssggvrhhnugdrtghomheqnecuggftrfgrth
+    htvghrnhephefhjeeujeelhedtheetfedvgfdtleffuedujefhheegudefvdfhheeuvedu
+    ueegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsg
+    gvrhhnugessghssggvrhhnugdrtghomhdpnhgspghrtghpthhtohepjedpmhhouggvpehs
+    mhhtphhouhhtpdhrtghpthhtoheplhhuihhssehighgrlhhirgdrtghomhdprhgtphhtth
+    hopeguvghvnhhulhhlodgsvghrnhgurdgsshgsvghrnhgurdgtohhmsehkvghrnhgvlhdr
+    ohhrghdprhgtphhtthhopehmihhklhhoshesshiivghrvgguihdrhhhupdhrtghpthhtoh
+    epjhhorghnnhgvlhhkohhonhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhu
+    gidqfhhsuggvvhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegutg
+    hhghdvtddttdesghhmrghilhdrtghomhdprhgtphhtthhopegsshgthhhusggvrhhtsegu
+    ughnrdgtohhm
+X-ME-Proxy: <xmx:Qo3raa2MHX5EuQ4otbxFcEBfidVYQxJz1gMEaTxIAl7TvxAWlTVSsA>
+    <xmx:Qo3raQ4oKTz4RF-7G2MvlnXAEp9yJ4sGnmLRT96IjqcmD1C6BP_F7g>
+    <xmx:Qo3rab8BuPr4Nnb7-W6UN-7YRajqh0mn4p089UL3AR7WZAYVBK3VPQ>
+    <xmx:Qo3rafWz2MN4U0DSxPDIibxeBukQDyTAzUHLO5fQJkBwyUjOESzbZA>
+    <xmx:Qo3raX7SIyMpZbCcxT38GMzDwZGjrPnoXApJ3Xt6Ow50Ur2MeT6WoBuo>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 24 Apr 2026 11:33:21 -0400 (EDT)
+Message-ID: <859fb89e-81b3-4b49-bd80-532bc7be1395@bsbernd.com>
+Date: Fri, 24 Apr 2026 17:33:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 3/8] fuse: {io-uring} Use bitmaps to track registered
+ queues
+To: Luis Henriques <luis@igalia.com>,
+ Bernd Schubert via B4 Relay <devnull+bernd.bsbernd.com@kernel.org>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Joanne Koong
+ <joannelkoong@gmail.com>, linux-fsdevel@vger.kernel.org,
+ Gang He <dchg2000@gmail.com>, Bernd Schubert <bschubert@ddn.com>
+References: <20260413-reduced-nr-ring-queues_3-v4-0-982b6414b723@bsbernd.com>
+ <20260413-reduced-nr-ring-queues_3-v4-3-982b6414b723@bsbernd.com>
+ <874il0o0wi.fsf@igalia.com>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: fr
+In-Reply-To: <874il0o0wi.fsf@igalia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Apr 13 2026, Bernd Schubert via B4 Relay wrote:
 
-> From: Bernd Schubert <bschubert@ddn.com>
->
-> This is to further improve performance.
->
-> fio --directory=3D/tmp/dest --name=3Diops.\$jobnum --rw=3Drandread \
-> --bs=3D4k --size=3D1G --numjobs=3D1 --iodepth=3D4 --time_based\
-> --runtime=3D30s --group_reporting --ioengine=3Dio_uring\
-> --direct=3D1
->
-> unpatched
->    READ: bw=3D650MiB/s (682MB/s)
-> patched:
->    READ: bw=3D995MiB/s (1043MB/s)
->
-> with --iodepth=3D8
->
-> unpatched
->    READ: bw=3D641MiB/s (672MB/s)
-> patched
->    READ: bw=3D966MiB/s (1012MB/s)
->
-> Reason is that with --iodepth=3Dx (x > 1) fio submits multiple async
-> requests and a single queue might become CPU limited. I.e. spreading
-> the load helps.
-> ---
->  fs/fuse/dev_uring.c | 30 ++++++++++++++++++++++++++++--
->  1 file changed, 28 insertions(+), 2 deletions(-)
->
-> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-> index ed061e239b8ed70ff36deb51dd6957fe1704ec87..e06d45b161d5000e24431314b=
-2222b66bdea58aa 100644
-> --- a/fs/fuse/dev_uring.c
-> +++ b/fs/fuse/dev_uring.c
-> @@ -19,6 +19,7 @@ MODULE_PARM_DESC(enable_uring,
->=20=20
->  #define FUSE_URING_IOV_SEGS 2 /* header and payload */
->=20=20
-> +#define FUSE_URING_Q_THRESHOLD 2
->=20=20
->  bool fuse_uring_enabled(void)
->  {
-> @@ -1310,9 +1311,10 @@ static struct fuse_ring_queue *fuse_uring_select_q=
-ueue(struct fuse_ring *ring,
->  						       bool background)
->  {
->  	unsigned int qid;
-> -	int node;
-> +	int node, retries =3D 0;
->  	unsigned int nr_queues;
->  	unsigned int cpu =3D task_cpu(current);
-> +	struct fuse_ring_queue *queue, *primary_queue =3D NULL;
->=20=20
->  	/*
->  	 *  Background requests result in better performance on a different
-> @@ -1321,6 +1323,7 @@ static struct fuse_ring_queue *fuse_uring_select_qu=
-eue(struct fuse_ring *ring,
->  	if (background)
->  		cpu++;
->=20=20
-> +retry:
->  	cpu =3D cpu % ring->max_nr_queues;
->=20=20
->  	/* numa local registered queue bitmap */
-> @@ -1336,12 +1339,35 @@ static struct fuse_ring_queue *fuse_uring_select_=
-queue(struct fuse_ring *ring,
->  		qid =3D ring->numa_q_map[node].cpu_to_qid[cpu];
->  		if (WARN_ON_ONCE(qid >=3D ring->max_nr_queues))
->  			return NULL;
-> -		return READ_ONCE(ring->queues[qid]);
-> +		queue =3D READ_ONCE(ring->queues[qid]);
-> +
-> +		/* Might happen on teardown */
-> +		if (unlikely(!queue))
-> +			return NULL;
-> +
-> +		if (queue->nr_reqs < FUSE_URING_Q_THRESHOLD)
-> +			return queue;
-> +
-> +		/* Retries help for load balancing */
-> +		if (retries < FUSE_URING_Q_THRESHOLD) {
-> +			if (!retries)
-> +				primary_queue =3D queue;
-> +
-> +			/* Increase cpu, assuming it will map to a differet qid*/
 
-nit: "different"
+On 4/24/26 17:04, Luis Henriques wrote:
+> On Mon, Apr 13 2026, Bernd Schubert via B4 Relay wrote:
+> 
+>> From: Bernd Schubert <bschubert@ddn.com>
+>>
+>> Add per-CPU and per-NUMA node bitmasks to track which
+>> io-uring queues are registered.
+>>
+>> Signed-off-by: Bernd Schubert <bschubert@ddn.com>
+>> ---
+>>  fs/fuse/dev_uring.c   | 73 +++++++++++++++++++++++++++++++++++++++++++++++++++
+>>  fs/fuse/dev_uring_i.h | 20 ++++++++++++++
+>>  2 files changed, 93 insertions(+)
+>>
+>> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
+>> index 08c49e5b65ee950a9749a034b1e9d0a8883e1d31..1d1305d38efa07641128a865aec1745d2e040b93 100644
+>> --- a/fs/fuse/dev_uring.c
+>> +++ b/fs/fuse/dev_uring.c
+>> @@ -186,6 +186,25 @@ bool fuse_uring_request_expired(struct fuse_conn *fc)
+>>  	return false;
+>>  }
+>>  
+>> +static void fuse_ring_destruct_q_map(struct fuse_queue_map *q_map)
+>> +{
+>> +	free_cpumask_var(q_map->registered_q_mask);
+>> +	kfree(q_map->cpu_to_qid);
+>> +}
+>> +
+>> +static void fuse_uring_destruct_q_masks(struct fuse_ring *ring)
+>> +{
+>> +	int node;
+>> +
+>> +	fuse_ring_destruct_q_map(&ring->q_map);
+>> +
+>> +	if (ring->numa_q_map) {
+>> +		for (node = 0; node < ring->nr_numa_nodes; node++)
+>> +			fuse_ring_destruct_q_map(&ring->numa_q_map[node]);
+>> +		kfree(ring->numa_q_map);
+>> +	}
+>> +}
+>> +
+>>  void fuse_uring_destruct(struct fuse_conn *fc)
+>>  {
+>>  	struct fuse_ring *ring = fc->ring;
+>> @@ -217,11 +236,44 @@ void fuse_uring_destruct(struct fuse_conn *fc)
+>>  		ring->queues[qid] = NULL;
+>>  	}
+>>  
+>> +	fuse_uring_destruct_q_masks(ring);
+>>  	kfree(ring->queues);
+>>  	kfree(ring);
+>>  	fc->ring = NULL;
+>>  }
+>>  
+>> +static int fuse_uring_init_q_map(struct fuse_queue_map *q_map, size_t nr_cpu)
+>> +{
+>> +	if (!zalloc_cpumask_var(&q_map->registered_q_mask, GFP_KERNEL_ACCOUNT))
+>> +		return -ENOMEM;
+>> +
+>> +	q_map->cpu_to_qid = kzalloc_objs(*q_map->cpu_to_qid, nr_cpu,
+>> +					 GFP_KERNEL_ACCOUNT);
+>> +
+> 
+> Missing NULL check here (and corresponding call to free_cpumask_var()).
+> 
+>>
+>> +	return 0;
+>> +}
+>> +
+>> +static int fuse_uring_create_q_masks(struct fuse_ring *ring)
+>> +{
+>> +	int err, node;
+>> +
+>> +	err = fuse_uring_init_q_map(&ring->q_map, ring->max_nr_queues);
+>> +	if (err)
+>> +		return err;
+>> +
+>> +	ring->numa_q_map = kzalloc_objs(*ring->numa_q_map, ring->nr_numa_nodes,
+>> +					GFP_KERNEL_ACCOUNT);
+>> +	if (!ring->numa_q_map)
+>> +		return -ENOMEM;
+> 
+> Missing call to fuse_ring_destruct_q_map().
+> 
+>> +	for (node = 0; node < ring->nr_numa_nodes; node++) {
+>> +		err = fuse_uring_init_q_map(&ring->numa_q_map[node],
+>> +					   ring->max_nr_queues);
+>> +		if (err)
+>> +			return err;
+> 
+> Cleanup also missing here.
 
-> +			cpu++;
-> +			retries++;
-> +			goto retry;
-> +		}
->  	}
->=20=20
-> +	/* Retries exceeded, take the primary target queue */
-> +	if (primary_queue)
-> +		return primary_queue;
-> +
->  	/* global registered queue bitmap */
->  	qid =3D ring->q_map.cpu_to_qid[cpu];
->  	if (WARN_ON_ONCE(qid >=3D ring->max_nr_queues))
-> +	/* Might happen on teardown */
+I don't think so, for either of both, see error handling in
+fuse_uring_create_q_masks().
 
-This comment should probably be in the line above the 'if' statement.
 
-Cheers,
---=20
-Lu=C3=ADs
+Thanks,
+Bernd
 
->  		return NULL;
->  	return READ_ONCE(ring->queues[qid]);
->  }
->
-> --=20
-> 2.43.0
->
->
+
 
