@@ -1,142 +1,110 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5B2C3FB7DC
-	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 20:38:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777063141; cv=pass; b=qTUGVQVrDN+7YUBSaf32dWUHEw+GZVQZAkF7Si70D2OJiXDIKbUSGtlGJfu5Ah7pU9rr0L6v0eICmR+lAGen/OukBV1LE3nmO+ZaEDvM7nWpFlp1/JZFokFi4i9E5O2WsUosHhfNlVAwzeNbITFzyAvzxSnhKv3Ey0GaPMp/DGU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777063141; c=relaxed/simple;
-	bh=KmBuB8MIulAJMakc5vosnN5ndLHe+vSUa09xbsYuhXc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BrWX6QTFa4zH/MIgo6W7WLXNR/syBdCWRk58wzxC5T06/jTn6Y+mHSVn6A5X0DouFaasVHwwWhGbv61uat5H3sGvZZJOCL/ZZWyTpg4MXv4w5458AomNXmpIvsc7mNvXmRFyPm41vBP/z1h7TjIEalKLnKSqFzYry+DJPXZ5psw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rY5Hd84P; arc=pass smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A35CE194C96;
+	Fri, 24 Apr 2026 21:12:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777065172; cv=none; b=TG3DcaMiM5lLgponEzmmznMwUvexdFDowhCXXGT8+l0ZMWMTlj4wlwxOF/s/FXINCE67540NS9In2clNRiEhMdJxbHIVvSY1R/8NkIJS0yJQuY4bsX5Nw8P0Q4Kxa3Q2q013IEKj1Kf9e/tC4THDYTbUN7ohJXp0eEXCrDGYcS0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777065172; c=relaxed/simple;
+	bh=NyikAh4tm5Tv7STEBSnCqg4DtovJNqyU4Fb7MI1sEhY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XH2KY9XYRsAm74SmxrkN/r3GZGRiPxnS/5TUx8RyJLf1D1L55JtBsfb2TPfflkisW1KDOKhNFH5WBPIe6SC84pj6eqSWOLym0+aTDlm9dRpVyFy1dWSzJE3P/PbCEBHMIyJXHa4g8d440zY/N/oWqL/1RG//vQgIOSW+IDPO9Zg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=TGDN99yu; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rY5Hd84P"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4838c15e3cbso77428505e9.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 13:38:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777063137; cv=none;
-        d=google.com; s=arc-20240605;
-        b=hKTtNRlcHEyfBLDyUR3zReaKpeW5Ti203322Oi7AGVNk9jyuV8N0Y9yL7k2odB46IJ
-         fTex1i02DwnQOJqvMhxYM7NHrYCyALH1jkWteTDpqjRSWn+PochFSGp/CcIi67FM5EL0
-         ujpE/UGEsJN4MUBLR7Q2Z8lK3I/lwVV4xljcWJPM241MDbNOEK3Y4bkmtJzCCdlrqtyq
-         v3Xjhg7jwrdkopMvy5Qa2uh3o7pC2ZLYa4ePgNNNWOH/IwAdVsPo63P8e39UDM5WUn56
-         FuCKz4yzbYuuqvQ7bSFPjWL6AJTJhj6yh2ATdn/ABmaBtCKjYAYTdSHQbPsqgIxKzzeC
-         vLmQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=90/AaWsK84JF4RAxGyFXMf8dGYrGrq3WZ71pjIuxCD0=;
-        fh=+BHCaeqdUy530ISL2QGjuVSpJw1SjJmB+PXlc/dPaAE=;
-        b=IJBgeIn+uwjekmsRAMC7r6Cgx9jeBi3SsGhLs1Bfxk70SJ5kzD99dUTLA1C9kQbXYf
-         UZdHTPVhmL/MtxGy1MZwzCJviCVkxof25cCCOR3AMI9sIW9heePx2zR4jTm4Je/djn04
-         LlDa8Q8rp2Yv56zMFseZhCBeZHOUwLbDYg8+2ZZczo0jWR0E21rcerHwoimWLzlefE/m
-         uNhehNb8P7YkUh0NrFwVCYvzKwE0fUdDGoSgJUknJZsEnJBMJSFgckbunjoU3zVtyt8i
-         LKMKdz41pwViJODsg1HM40k+nPBoeACy12nkc1O7txdHC5uELjPMhYzGF9U/QtJeBWKP
-         FDBw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777063137; x=1777667937; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=90/AaWsK84JF4RAxGyFXMf8dGYrGrq3WZ71pjIuxCD0=;
-        b=rY5Hd84PRWiRfzlfMrtMn1epIZVP/yy7/UWEwugulGrU6WDnPMxs8GO3mtydZai7WP
-         ffhcUZ1JNMpkh865y3ax2Tsv9mGLLYW9QFMXBDwrzIX0WaTQkYsPlmelG3y6b/NM0uZ0
-         Sxu6FWsjD4OANhdgjnaz4QU99LiuYAjn6b+gA+1cdxTUQmS2Khc5BcX30VmRc96QpmKa
-         XdQ5SfhxnTH7/mxbdX9+S3gzSQUmAGMsjG75QoI+NoKkam85CbJZ/Xnqv09rsV+0qjmw
-         aAA7P8UHZOMWyREyp8nDt2g48HA4C9FY7WAT7GYicNH2N11TphW1KT5+55onKVsxg2Xj
-         qxkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777063137; x=1777667937;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=90/AaWsK84JF4RAxGyFXMf8dGYrGrq3WZ71pjIuxCD0=;
-        b=rl3SKlPXrX+iayiXIGZ+PEdCF4KAVK5vNs/cW/B4Xy2nas0mlUX/1w0IhRFGg0rLW6
-         M+ep62nV1pojuh2harQTmb23n4sJPW29TegIeOP0HvFN7xyYX8R8By4YHrFvRLJMMzXg
-         x8AK4pOzwVMfnnAHsMr/fv+EPWN8KsIJhmuUWFgMEZV1iXcDpdjgtI4RaSyLDImYJnBW
-         bq3UdWvxmpl/PgE4Zm9abTmXht3Ned0UG9EBZm01RPyvLv+2vtoLjnZpdulYGjY32mCu
-         2pyUopaDMgubQuguxFkKQOzY1FnNQIpjpchvDKaUzoOC4TAXZCOPqfpEmISBld0nNKTH
-         yvGA==
-X-Forwarded-Encrypted: i=1; AFNElJ9MG3eMG5luUMAR3VMAq9r5H8ACBS6jWntr1GUZqXlHwQIOWlxpFYEkSlR30xEO4QfBZBULqBEewORBeALp@vger.kernel.org
-X-Gm-Message-State: AOJu0YwUPfsBbuLicI2cN0CbIjgbw+drIImlBbB9cDlEJpzMUtyr+9kO
-	3lULS3GGISQTA+EUYlvzVGoMQGyQKZna77kB8YzD/JAG/2xG1e9Ai2w/+UTzYcEK3dLz6edYG7S
-	+lKkEVUmj1zDIeDPXNRHb49KysKD1O+TQNxQvR4M=
-X-Gm-Gg: AeBDiev2PUkPk7P8bkmR8L/CHNwzOVOoFLFeqfzay39Zmd58HrD2vtcGLGc/26aS5uK
-	Tv/c9ZMOxV2d6Vj0Ip1Xep1eXCpr3ThBEnSpIHbMtgle+XbxXxwj0nbSFEHXZS+XoYi60Sj/NNt
-	6QoXIMvRtmrMPzgAgTM6LoumuPd5MTP9PzwF6wW6OZxUhRvfmgFIfTHxQuXe4CHGNzgeNesr6dK
-	i9A8o58vGtjLtW7jbfCmCENgiw7JfDdMIZBrV8AOIO+GMIXMBWG6/kNEcQrwOLKs4EwtSprptk0
-	fDaLlr3mUeMqUK9P9UeA0zK6WUj9Wgb+fWSDJqLbSiVR
-X-Received: by 2002:a05:6000:610:b0:43d:7a97:78c0 with SMTP id
- ffacd0b85a97d-43fe3e0c65dmr49146085f8f.36.1777063137031; Fri, 24 Apr 2026
- 13:38:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="TGDN99yu"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=8PzjeiGcbLPGB7W2FflvnqZlR4Sy4gQvM3bCbeF+Jhg=; b=TGDN99yuCtcPOl0JlU3sSfwcH5
+	fx8xtU2wwXHAkIvlXe4EEM0axMcUf7gpxYh7jqgLEG341rxCWjDY1gCmvqVoO6NZPdGbBEkLbQepf
+	obybtZz1s5IcBvQg1nvKOqKnNxkuZSjeJEGbQpTA+iviw5hQXYNoBK7ix1eGG4Xnhg+pF8OjTN6pf
+	x1cMpw0ZnsPCUCuw0HbtuxHigv0q+eHHa4kbrErhANRhf2tEWz8PRyZknBzctEOFSKSe6IFhZkIpC
+	6mTmliK8Xf5UV66+9v+HshTf+xQQ2Q7e8bDNq7e922ROggjX1EGMveLObwEWH/lrbpY72rLRLrpAU
+	QiPqlZaw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1wGNpM-0000000DlGf-1h8t;
+	Fri, 24 Apr 2026 21:12:44 +0000
+Message-ID: <df3b6729-ed3b-42e3-9a8a-f77ebf827dd7@infradead.org>
+Date: Fri, 24 Apr 2026 14:12:43 -0700
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260403035752.20206-1-liwang@kylinos.cn> <20260423110954.2676-1-liwang@kylinos.cn>
-In-Reply-To: <20260423110954.2676-1-liwang@kylinos.cn>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Fri, 24 Apr 2026 13:38:44 -0700
-X-Gm-Features: AQROBzBsneter9kG69FavOfuB50o0T5qzVMpoATbkO_Hrxt0YjSek5nk_VPJc_I
-Message-ID: <CAJnrk1Zb=+syR_aOLVs4aXMTOUO7BRBi=MU-20xQOcDpf2iQ5g@mail.gmail.com>
-Subject: Re: [PATCH v3] fuse: optional FORGET delivery over io_uring
-To: Li Wang <liwang@kylinos.cn>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Bernd Schubert <bernd@bsbernd.com>, fuse-devel@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 v2] Documentation: proc: fix section numbering in table
+ of contents
+To: Baolin Liu <liubaolin12138@163.com>, corbet@lwn.net,
+ skhan@linuxfoundation.org, cyphar@cyphar.com, vbabka@kernel.org,
+ surenb@google.com
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Baolin Liu <liubaolin@kylinos.cn>
+References: <20260424090654.19229-1-liubaolin12138@163.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260424090654.19229-1-liubaolin12138@163.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Apr 23, 2026 at 4:11=E2=80=AFAM Li Wang <liwang@kylinos.cn> wrote:
->
-> Deliver FUSE_FORGET through fuse_uring_queue_fuse_req() when the io_uring
-> is ready and userspace has opted in by setting
-> FUSE_IO_URING_REGISTER_FORGET_COMMIT in fuse_uring_cmd_req.flags on
-> FUSE_IO_URING_CMD_REGISTER. Until any REGISTER
-> carries that bit, FORGET continues to use the legacy
-> fuse_dev_queue_forget() path even while io_uring is active, so unmodified
-> userspace (e.g. libfuse that does not issue a completion SQE for FORGET)
-> does not wedge ring entries.
->
-> Benefits:
-> - FORGET can share the same commit/fetch loop as other opcodes.
-> - Reduces split transport for high-volume forgets when the ring is primar=
-y.
-> - Reuses existing per-queue io-uring machinery and noreply/force
->   request setup.
->
-> Signed-off-by: Li Wang <liwang@kylinos.cn>
 
-Hi Li,
 
-Thanks for sending this. To be completely honest, I'm not convinced
-delivering forget over io-uring is worth the added complexity/cost. In
-the /dev/fuse path we rely on forget batching/amoritizing and explicit
-scheduling/fairness logic so forget processing makes progress and
-doesn't get drowned out by regular requests; I think we'd likely need
-something comparable for the io-uring path as well. Additionally,
-routing it through io-uring makes forget behave more like a "real"
-request on the ring (it needs per-request state to live until
-userspace completes and the entry can be recyycled) which introduces
-extra allocation/lifetime management on this path and it requires a
-uapi change and corresponding libfuse changes.
+On 4/24/26 2:06 AM, Baolin Liu wrote:
+> From: Baolin Liu <liubaolin@kylinos.cn>
+> 
+> Commit e24ccaaf7ec4 ("block: remove last remaining traces of IDE
+> documentation") removed the IDE section but left its table of
+> contents entry behind.
+> Fix the stale entry and renumber the following sections.
+> 
+> Fixes: e24ccaaf7ec4 ("block: remove last remaining traces of IDE documentation")
+> Signed-off-by: Baolin Liu <liubaolin@kylinos.cn>
 
-Forgets would consume ring entries but they're tiny one-way
-notifications and imo I don't think they benefit much from io-uring's
-main advantages (eg data-path/zero-copy). I worry theyy could contend
-with read-write heavy traffic where ring capacity is more valuable.
+LGTM.
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
-Given that, my preference would be to keep forget/interrupts on the
-legacy /dev/fuse path even when io-uring is enabled. Sorry for not
-bringing this up earlier in v2. Bernd, I=E2=80=99d also be curious to hear
-your perspective on this.
+I note that the html-generated TOC is already correct;
+e.g., https://docs.kernel.org/filesystems/proc.html#networking-info-in-proc-net
+is already section 1.3.
 
-Thanks,
-Joanne
+AFAICT, this TOC is for users/readers who use an editor or pager
+to read this file, but the patch is useful in that setting.
+
+> ---
+>  Documentation/filesystems/proc.rst | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
+> 
+> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+> index 7ce02573a3d9..70db35987ee1 100644
+> --- a/Documentation/filesystems/proc.rst
+> +++ b/Documentation/filesystems/proc.rst
+> @@ -23,13 +23,13 @@ fixes/update part 1.1  Stefani Seibold <stefani@seibold.net>    June 9 2009
+>    1	Collecting System Information
+>    1.1	Process-Specific Subdirectories
+>    1.2	Kernel data
+> -  1.3	IDE devices in /proc/ide
+> -  1.4	Networking info in /proc/net
+> -  1.5	SCSI info
+> -  1.6	Parallel port info in /proc/parport
+> -  1.7	TTY info in /proc/tty
+> -  1.8	Miscellaneous kernel statistics in /proc/stat
+> -  1.9	Ext4 file system parameters
+> +  1.3	Networking info in /proc/net
+> +  1.4	SCSI info
+> +  1.5	Parallel port info in /proc/parport
+> +  1.6	TTY info in /proc/tty
+> +  1.7	Miscellaneous kernel statistics in /proc/stat
+> +  1.8	Ext4 file system parameters
+> +  1.9	/proc/consoles - Shows registered system consoles
+>  
+>    2	Modifying System Parameters
+>  
+
+-- 
+~Randy
