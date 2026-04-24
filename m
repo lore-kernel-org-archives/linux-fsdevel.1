@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3064D3E5EDC;
-	Fri, 24 Apr 2026 18:38:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC4C3E7174;
+	Fri, 24 Apr 2026 18:41:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777055913; cv=none; b=HVTRYf+ejXCMnb0wNeB9L3juXazPVWCPT4mn3FEXOvK2m9hR+Se67+5yZx7U2iw4/XjxG32+XgWI9o6c4taw2yPoQw6soXLVPN8kfeB7pC2XWe1EL+P7zAjVGk3ZvMz2uaQa1T9mqfwBhlG/FpFKgDp5MMSOhh/L3GLGY2qWgYI=
+	t=1777056080; cv=none; b=o3Kb1ILsCbIrQBHZ8WgXrQKXFvpyTLfgvGygHybr2RQOhhXdrc3yjqojqycJOBaJHFCFJRoh2//JOBGaYUS5mbHpgUl8gD2ZeBXcsWsxPsoLzZzi1dZ7QukqXxooNQC7KIgUimtpV0GtX0jomoLVCQsP+fXJGxOW4Kg6QTrGAbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777055913; c=relaxed/simple;
-	bh=vMUcWvWTCpvm7mG+W2fz7QA5t4BLYnr+tRdZEDVmxv0=;
+	s=arc-20240116; t=1777056080; c=relaxed/simple;
+	bh=9jgbGCX0l+tXGMYoVmmEhiQ7PQwAhpR9IpbImTMmYOs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nYRYFHRQDzOpL8l4ysjYxYdLB/cD8YS35tQj5dFL+2fVnO+KH/b/qhZCZeeUERBfE4otLlVgJK9jbaZ3EKbXZsbR0B+CRog46BwD4JVzy5Faj+NNMlDMwsc7EQM+NzYfcjrFwi4ng79rv5fF+UlT5a2oUF/2XUy6WJxr3M4V4UY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FWO3jI0d; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=OHY5/+xrz9SZXk2Xn/S169Myna11Svs28BjDMkP8VojeAjwDQCcr6ZUxTia8MN3OlCRmMZTEIviBrcQOHv0yZ0ZsNxoToyaE4lc26kvAGzPW7RjIS7LFXfGBX/HZ5KekEgbPjOOMK85Fr39ol4DKpAjDHKTCVxXKET5GYoMc+OI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H1GL4LOv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FWO3jI0d"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CC4FC19425;
-	Fri, 24 Apr 2026 18:38:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H1GL4LOv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A64FAC19425;
+	Fri, 24 Apr 2026 18:41:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777055913;
-	bh=vMUcWvWTCpvm7mG+W2fz7QA5t4BLYnr+tRdZEDVmxv0=;
+	s=k20201202; t=1777056079;
+	bh=9jgbGCX0l+tXGMYoVmmEhiQ7PQwAhpR9IpbImTMmYOs=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=FWO3jI0dMc8sHHEzltU3lN/H8kLSUgXPtEmi/n1dYgnQbcoRcQx5hpphV19Gr/he3
-	 9520OarauTYzHeRGGWLE0UNXPzHESvzWTX9vZZGAwWZiqjwCUuhMqeufnOuDEjWJMK
-	 IrkoiMwuWRK8QOPowMuXjo+jsCxx0uMNNrKt/8KcVJqVnuWqcq4xTV8aUaKTERBgDi
-	 /nbpuV2vXrNlW+v1+wIU7cJWUuesjQwLslZJXRCHHF0ekyHakfPGduRPC2o4FjNVyj
-	 6QzulWOZACYuuU1PY/U92s2ZJkLGv3JfsWY35EeAdMvws0KZ9tuD+BaUZXeBoipzA7
-	 UU+1nTra41yjQ==
-Message-ID: <72e54f57-9bda-495b-a11e-9cadeea0dfe7@kernel.org>
-Date: Fri, 24 Apr 2026 20:38:22 +0200
+	b=H1GL4LOv0emm/Qo6Jesr/Kn2+YFm43Q8HoR7nNTAjDkG03z4fkFcQ26VTmL5v6upR
+	 zzQ6h+/YO5TI4K8O6iwq38s4mA8zC7Hi+N1cO1c6XJjwqjqEGG2Zu2VjJyMtfMDfJV
+	 tXrGHnW06/Yj8/LK8vSed5PDjJTiUIC0LeD01SfauY+FwPmrZBU9B74gEoaP6274ws
+	 RVaxsAGL1h0I/RgS82JpkJ3rU7R5j1fhl7VTNpHnoBSNfw94JAh3j6jW5Ie+GbE3fQ
+	 psTMdwQL67PF7IAnbkmSFQmqA52EG8Mp8e97tiGxq8XxD8BvZbwi+WYbvHcQG+iFuZ
+	 haxyIMbJhJAjQ==
+Message-ID: <461fdb0d-4e00-4134-9130-120400b07b39@kernel.org>
+Date: Fri, 24 Apr 2026 20:41:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,29 +35,44 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 7.2 v4 09/12] mm/truncate: use folio_split() in
- truncate_inode_partial_folio()
-To: Zi Yan <ziy@nvidia.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Song Liu <songliubraving@fb.com>, Chris Mason <clm@fb.com>,
- David Sterba <dsterba@suse.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Lorenzo Stoakes <ljs@kernel.org>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, "Liam R. Howlett"
- <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
+Subject: Re: [PATCH RFC v3 01/19] mm: thread user_addr through page allocator
+ for cache-friendly zeroing
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Gregory Price <gourry@gourry.net>, linux-kernel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Brendan Jackman <jackmanb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Suren Baghdasaryan <surenb@google.com>,
+ Jason Wang <jasowang@redhat.com>, Andrea Arcangeli <aarcange@redhat.com>,
+ linux-mm@kvack.org, virtualization@lists.linux.dev,
+ Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
+ <rppt@kernel.org>, "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>,
  Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
  Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Shuah Khan <shuah@kernel.org>, linux-btrfs@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-References: <20260424024915.28758-1-ziy@nvidia.com>
- <20260424024915.28758-10-ziy@nvidia.com>
- <896b3956-3cdc-48b5-a0a0-a3ec35aefa07@kernel.org>
- <B2F4546B-F57D-4EF8-90E7-37879711877A@nvidia.com>
- <DD21736C-7EFC-4746-B926-54551B757785@nvidia.com>
+ Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Ying Huang
+ <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
+ Hugh Dickins <hughd@google.com>, Christoph Lameter <cl@gentwo.org>,
+ David Rientjes <rientjes@google.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>, Harry Yoo <harry.yoo@oracle.com>,
+ Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
+ Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>,
+ Baoquan He <bhe@redhat.com>, linux-fsdevel@vger.kernel.org
+References: <20260422171315-mutt-send-email-mst@kernel.org>
+ <aemglPlcwFFHNj1A@gourry-fedora-PF4VCD3F>
+ <c165d6af-4a35-4a41-9086-ee307640c044@kernel.org>
+ <20260423074433-mutt-send-email-mst@kernel.org>
+ <aeohzbmhQAoOODPm@gourry-fedora-PF4VCD3F>
+ <88b0765f-7cfc-4e44-83d2-c01a1755c842@kernel.org>
+ <20260423104120-mutt-send-email-mst@kernel.org>
+ <1ab6e58f-d984-4bae-a343-1b0d3c973ad0@kernel.org>
+ <20260423121222-mutt-send-email-mst@kernel.org>
+ <4e12d67b-60e3-4bf5-a229-43c0d2c62cfb@kernel.org>
+ <20260424143541-mutt-send-email-mst@kernel.org>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -104,33 +119,24 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <DD21736C-7EFC-4746-B926-54551B757785@nvidia.com>
+In-Reply-To: <20260424143541-mutt-send-email-mst@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 4/24/26 17:12, Zi Yan wrote:
-> On 24 Apr 2026, at 11:07, Zi Yan wrote:
+On 4/24/26 20:36, Michael S. Tsirkin wrote:
+> On Fri, Apr 24, 2026 at 08:33:45PM +0200, David Hildenbrand (Arm) wrote:
+>> On 4/23/26 18:13, Michael S. Tsirkin wrote:
+>>>
+>>>
+>>> You mean, that it stays because of the reserved pool?
+>>
+>> I meant, that if we are running with init_on_free or init_on_alloc, that we end
+>> up double-zeroing right now upstream. So nobody cared to optimize that part so far.
 > 
->> On 24 Apr 2026, at 8:54, David Hildenbrand (Arm) wrote:
->>
->>>
->>> In general looks good. Just one question:
->>>
->>> folio_check_splittable() also rejects SPLIT_TYPE_NON_UNIFORM / new_order for
->>> swapcache pages.
->>
->> Since swapcache only supports PMD order or 0 order yet.
->>
->>>
->>> It's confusing, but truncate would never stumble over such folios, correct?
->>
->> Right.
-> 
-> BTW, sashiko had a similar question when it reviewed v2[1]. It also complained
-> about when the split fails, the entire folio remains in memory. But that is the
-> consequence of failed split, unless we want to keep retrying the split.
+> on the aliasing arches you mean? that double zeroing?
 
-Retry isn't guaranteed to make progress, so it's the current expected behavior.
+Essentially where user_alloc_needs_zeroing() would have told you that there is
+no need to call folio_zero_user().
 
 -- 
 Cheers,
