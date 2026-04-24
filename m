@@ -1,71 +1,71 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A20B53CF66B
-	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 17:05:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56FEA33F5B6
+	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 17:05:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777050311; cv=none; b=Yl5l4jq1tQyMfPzTw9H3NoBcyLe5OGtTkhiN1Alai72QgWdsG3OP+Lr9EPW8+xnK7KRM7lwUibJzLfc78iDZWQihGZy6zO29Qxnp4bDd1I9aFJF7EBQJdNO7w3S6st4VMcsqRkf1lxizn5aAr45YNFktOeIj/HiDs9p4i0p8xPk=
+	t=1777050313; cv=none; b=iqc9LsPXYQN/rXv9TqzgZFNLcR5GILlOYJmAX+a+MfuDE44hmj0GOsiNWrX9GQjC/7Z2QO/vHvEC8+k5ZqalCstb04YvCY6m1SqDkUV5fACQFr8rJ+2VgpNk/sjQAw50eLMfSsk5MZV1D7caobhYQYzzGfd+SrR/9gbIX5vkoVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777050311; c=relaxed/simple;
-	bh=eD6hXvyLlR5ODl5pcGyPOMmZSoeIDYMPiLRHCAW95CE=;
+	s=arc-20240116; t=1777050313; c=relaxed/simple;
+	bh=mS2VQ/0HOOntzPq6tfUIDSzwkrTzRvjSpHAJ1VtRxgA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pJOI8iHE3EwHmymay2o3dhUD8Xf4O0Ygo7Za8iSSsou/y+e/f5ngzH3Q8z6nbfYE4556BaBD98saMEf/jO5l7NJKY6A4mmTPUUodMTbEyZuGqUGR7QYXGqekA86T32WIu9zl8p5f8adeJvsck68Sw9ckmeuufV2PzprYVfI0R6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P4bW+n+N; arc=none smtp.client-ip=209.85.208.51
+	 MIME-Version; b=urhBcf/57QIZs9cfga4hoq3w3yaaG/EzdQpVNpdc/wejvkHNI/uobtqoG109NPFf7jrRZRp1mVcE5MNDbxMigDT0dZCJjXcNDwj7OWZxRok+IQ7oFzi5k8LJW2zmYrvLffK482xxTEImNMrlIk+WKbcwfl3RT/MFzuXQwf/wnj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oUymFc2s; arc=none smtp.client-ip=209.85.218.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P4bW+n+N"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-670ab084a39so12283042a12.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 10:05:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oUymFc2s"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b9c01854477so322937366b.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 10:05:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777050308; x=1777655108; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1777050309; x=1777655109; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qAgz32e4hqVYh4ld+wzOijh+UAEjR1zg2Ib9i1oBFhY=;
-        b=P4bW+n+NfYMqYY+OFcEDml+Cjtu5kSvb6dbiFM4qrIvWKKYbyansnM5gaDpu/MKEjP
-         3qsNKWQLFXGwmhPTuAkUY/JhGmwz4Kh8lTjobMxN0dz5PkmL+m8JPgbf9FG+PooUNGDr
-         TXdIWCznf+LztUzsn6elJV5dR6xSeqVvVKp+IzMihmsZATmKJCaJcVI9mJC17oGsMwo4
-         67YdnlDxXkVN4g0Uiu5EJllCOaHn/NMWo0zHAVRJU/HGb77fk4hMOeCqDPpuDDNS3Hhi
-         GA89aCcG7mVU+bkkybO21WkNpIbjBXyfhU3krmykkoKWYweepFl9DQklfcKJcdgjGgTg
-         jEAg==
+        bh=3MG8kVoXcknoSvVGFT7c71jpQhq1kdmvgRmbzYwc1cA=;
+        b=oUymFc2shD+8zl/1jWzWyYTVbRpvWNKrwFhuGf/TjAdDcCWr5eziPDjM39i2eKzKhJ
+         DxBG0THiBuXbad8iZ8AF+Bz3M/x9C1tyP1s8R2PACVIqdHkaghFPo7pWj+JoyVgqe2NF
+         /eCif691fY0ScDEvwS2EcQVxmJAunuAMt3Od3Z+gezsOddEhpnkKl1YOLWAIqHqiJtQK
+         M64tegAfNUpomQXXpJGUk066JuYyDAcVhTrg08N/Jc6I5nGeU35F/6VTlsABaBjbJxNm
+         IYmYP+WZPOpjh/8EnyKqiQH/XcMyQI4yTrLz1Wbk5EcjAqfP9CWEumSWufBhaM8l5OfB
+         RjKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777050308; x=1777655108;
+        d=1e100.net; s=20251104; t=1777050309; x=1777655109;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=qAgz32e4hqVYh4ld+wzOijh+UAEjR1zg2Ib9i1oBFhY=;
-        b=ODmSrCwhewGwYoDcYnAABjv6OzK3ioO60LmiKO3uJKAD8MNsMILGc+PCojp+Zlpy9l
-         sl0sVbQ150OVs74Nf5K1xaXfYQBFYT+JuQOJN6fmJAg7MEAtG1CeAkdYe87TPDzyFpjm
-         31Ctc3ICGmDmiV/omt2n8SiJRohGA0f2OWxgrB626zkYdXU2TV4A5hYrSkn8XDbU4gos
-         KpApwCKC7/W+5Ii7mMAXQjr1doi8HBiFuBemSJ/ySEfJsawDY+QYZzL0XhnWhfBfcwSq
-         ohJAKZ1/3m9Le/inpPkPs4FCTyA7mPVOt1Mr/Io6iFe3KMgxO3WO8xGJiRWqdkxyU0MV
-         Mvsw==
-X-Forwarded-Encrypted: i=1; AFNElJ/e4JFUXD/59yoNS5fyWAEkIy9Ad2yy1sWWKhUSVxv6sipm8XEU0wSawcKqMAJN2/U/m+KLDoMAJp8qULRY@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw4VBH8YMDQAXf6RYGd6foQi7RSRNvcdtaFUE1YSYLm96dhvP0I
-	UM/RokZ6odp/NlxRBynz6JLQDLjFKaCWjf7fFPg2mmo+LARS5MWZbF/D4MAYhfCXpH8=
-X-Gm-Gg: AeBDiesxy9cptbyh0tYU7P30YXeMYyhfInCU72kaDI3lNDdGkGbA23UrWIkzpnGHsWN
-	rcqH+cyBbQ7Wd6Any1ruNciPT3K5lo7h6zZI8UJIw2zqoA+NhHafxe5rP9HefVVY0R32u8y20Mz
-	B6JB/DryNScWfHl3mb8PbX6BnY2HpAml9UvN0jL6ilFafXXXp8AlyZDnra84lwbDO2ff1zv+iy3
-	10mNx0knMQQ1BakFWMonbRh7XHgGpAo+SY8CZAbPvGpAkOFTLM/C4EkL5k7+ArEU0oNLbQPHL7X
-	yQFZEFQYxO7NljhxyJ2nLRtGb2jEBHBAmnJKBwBZoTSZydSlc6JIAxUdZqKdfrtvhvCKKSGFGIX
-	uSU7Wl4K6tnfk5dzcXlctXrW0Om9VYStYe225k7JFQD3Y34cep1mylAsJ3j7QlmGY/eZz7eADTh
-	6kgOVXR5DDU9wy/YTlDSs3y7xbzcPFhzKQBgti7Uw7oOmCzxvPpZzeaLndpXUX8aqLQ5tOgxZlS
-	gjHM57wMg5rs2XdXLRUC3dGujSx5hL3sdq5Dic=
-X-Received: by 2002:a17:907:c9a2:b0:b9c:ed9:50c8 with SMTP id a640c23a62f3a-ba41a91e1b9mr1240859466b.26.1777050307746;
-        Fri, 24 Apr 2026 10:05:07 -0700 (PDT)
+        bh=3MG8kVoXcknoSvVGFT7c71jpQhq1kdmvgRmbzYwc1cA=;
+        b=UqNTfzbRs0x7qxLpt2RgOJM1Ruc3l2nphx5hRhhIkgbgFtqvT4+YzdbEMFjhvzxh5/
+         oshqiAq8ccJE8bvM5ljJ688A4PR0KFN5xTcsIC86xsuKdiyO6QopcgTuuHiM27IDXnOu
+         Mswif39Uvz2zHvfwTT6lrC0Ge2QlcxFesLnr9nnx8oI6Wud/D3tIeohDwlW/bBGOC5EU
+         iltNtSBbble7B6zm9yLPSWW/1/1shIc8VIy15wfRWXNv9KapThflbnvOQV/00OPiNerA
+         I8DYmD0ysfC4EEYTQBxi5g/GYKcGJMDXN0B5YIVkRBV7V60wHMZeimOEozVX5Ry0sKxC
+         Ta6Q==
+X-Forwarded-Encrypted: i=1; AFNElJ9214h1OmBAimfHZqz8U+RUnR2QZZHvZNTkTsCZfJ9pcR9EXcK3SYj8OHn2fDsRwMXE2pZghInR4fXwyRn3@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw8ISt2lIJ6hrGczZdpl9z4F2jsgOTfZV20/kZTZcjoczbLfXap
+	gbjfW1ndyvxHI3IVViy7/YI3FEpX6m1P1XVhqTbmhSOzcqfFUAyWIe99
+X-Gm-Gg: AeBDievpkZ1bo/W+u3oj1HZFmFQMBdxXTRbLOI+Wrdk8INty+pNSbpd7sX6sN4E7Gri
+	6s9Cvg8Vccs2jQlzzeHNHNXpNoZP/6ndz7E8OAmw1vXG+TY4u1viWRR9Kogp8QsyWdssferrpGX
+	8PqxtWGBoPYwTEJHdnc4tIkHzMltiwZHTNWTllhZoVOpTLMY23Mo+52UgTEgitVGipJ8EQ9CmKN
+	8lnHfgHfWIVLNrVdQ54siym1W0a2csZyYm5DrCAlB8U1MEvG+HJBrCL24HLbZ2hbQSe7eikf5fj
+	HmckSKaXQz0YKjobZBsm4S8pZLZJQnnkI6j2pxE0bt6JUH8ngfCt6JZU+s97RrGqr2ETKnPwCOa
+	TLP0Z7BPe661I9yhMAhzpKxyd9pTmC7zdURgskkYuQcdlDj4nd3MLgzCtMpdGgWG7qCFFPIEDUb
+	p2edqeewAjdGK70n9hEirEOKYEgkZ8do/pY2PSTPFXDf5QjIKpm2w15G7/UqxB36pC3IafD69YF
+	faPKs4P88ZGPFUDXZnwsygYcRi/1Lpbxv9qWgc=
+X-Received: by 2002:a17:907:1c13:b0:ba7:d1e3:8b81 with SMTP id a640c23a62f3a-ba7d1e38c4amr1221458466b.48.1777050309077;
+        Fri, 24 Apr 2026 10:05:09 -0700 (PDT)
 Received: from localhost (2001-1c00-570d-ee00-4aab-734a-1928-df3f.cable.dynamic.v6.ziggo.nl. [2001:1c00:570d:ee00:4aab:734a:1928:df3f])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ba4555398f8sm796303766b.59.2026.04.24.10.05.07
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6771dfcf628sm1781784a12.24.2026.04.24.10.05.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Apr 2026 10:05:07 -0700 (PDT)
+        Fri, 24 Apr 2026 10:05:08 -0700 (PDT)
 From: Amir Goldstein <amir73il@gmail.com>
 To: Jan Kara <jack@suse.cz>
 Cc: Christian Brauner <brauner@kernel.org>,
 	linux-fsdevel@vger.kernel.org
-Subject: [PATCH v2 02/10] fsnotify: introduce fsnotify group types
-Date: Fri, 24 Apr 2026 19:04:55 +0200
-Message-ID: <20260424170503.2096847-3-amir73il@gmail.com>
+Subject: [PATCH v2 03/10] fsnotify: separate the events bitmask macros by group type
+Date: Fri, 24 Apr 2026 19:04:56 +0200
+Message-ID: <20260424170503.2096847-4-amir73il@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260424170503.2096847-1-amir73il@gmail.com>
 References: <20260424170503.2096847-1-amir73il@gmail.com>
@@ -77,291 +77,371 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Currently an fanotify group can subscribe to events FAN_MNT_ATTACH/DETACH
-only on mark type FAN_MARK_MNTNS and IFF the group was initialized with
-FAN_REPORT_MNT.
+Fork the macros ALL_FSNOTIFY_EVENTS and FANOTIFY_EVENTS to
+*_EVENTS_ON_{FS,NS} and use them to determine the valid mask for
+fanotify_mark() and the outgoing mask by the group type.
 
-Hence, mount events can not be mixed on the same group with filesystem
-events and mntns marks cannot be mixed with filesystem type marks.
-
-Define a new property for an fsnotify group called fsnotify_group_type
-which describes the category of events and mark types and use a distinct
-category FSNOTIFY_GROUP_TYPE_NS for the mount event groups.
-
-Create helpers fsnotify_is_{fs,ns}_watcher() and the macro
-FANOTIFY_NS_INIT_FLAGS and use them to generalize some code that was
-checking the FAN_REPORT_MNT flag.
+Use the fanotify_is_valid_mask() helepr to simplifies the check for
+reporting mount events IFF group was initialized with FAN_REPORT_MNT
+and IFF watching an mntns object.
 
 Signed-off-by: Amir Goldstein <amir73il@gmail.com>
 ---
- fs/notify/fanotify/fanotify.c      |  4 ++-
- fs/notify/fanotify/fanotify_user.c | 40 ++++++++++++++++++++++--------
- fs/notify/group.c                  | 10 +++++---
- include/linux/fanotify.h           |  8 ++++--
- include/linux/fsnotify_backend.h   | 24 ++++++++++++++++++
- 5 files changed, 68 insertions(+), 18 deletions(-)
+ fs/notify/fanotify/fanotify.c      |  3 +-
+ fs/notify/fanotify/fanotify_user.c | 68 ++++++++++++++++++++----------
+ fs/notify/fsnotify.c               |  6 +--
+ include/linux/fanotify.h           | 26 ++++++++----
+ include/linux/fsnotify_backend.h   | 42 ++++++++++++------
+ include/uapi/linux/fanotify.h      | 25 ++++++++---
+ 6 files changed, 113 insertions(+), 57 deletions(-)
 
 diff --git a/fs/notify/fanotify/fanotify.c b/fs/notify/fanotify/fanotify.c
-index 38290b9c07f7b..e768c25262e27 100644
+index e768c25262e27..494bba49634e1 100644
 --- a/fs/notify/fanotify/fanotify.c
 +++ b/fs/notify/fanotify/fanotify.c
-@@ -314,9 +314,11 @@ static u32 fanotify_group_event_mask(struct fsnotify_group *group,
- 	pr_debug("%s: report_mask=%x mask=%x data=%p data_type=%d\n",
+@@ -303,7 +303,7 @@ static u32 fanotify_group_event_mask(struct fsnotify_group *group,
+ 				     struct inode *dir)
+ {
+ 	__u32 marks_mask = 0, marks_ignore_mask = 0;
+-	__u32 test_mask, user_mask = FANOTIFY_OUTGOING_EVENTS |
++	__u32 test_mask, user_mask = FANOTIFY_OUTGOING_FS_EVENTS |
+ 				     FANOTIFY_EVENT_FLAGS;
+ 	const struct path *path = fsnotify_data_path(data, data_type);
+ 	unsigned int fid_mode = FAN_GROUP_FLAG(group, FANOTIFY_FID_BITS);
+@@ -315,6 +315,7 @@ static u32 fanotify_group_event_mask(struct fsnotify_group *group,
  		 __func__, iter_info->report_mask, event_mask, data, data_type);
  
--	if (FAN_GROUP_FLAG(group, FAN_REPORT_MNT)) {
-+	if (fsnotify_is_ns_watcher(group)) {
+ 	if (fsnotify_is_ns_watcher(group)) {
++		user_mask = FANOTIFY_OUTGOING_NS_EVENTS;
  		if (data_type != FSNOTIFY_EVENT_MNT)
  			return 0;
-+	} else if (WARN_ON_ONCE(!fsnotify_is_fs_watcher(group))) {
-+		return 0;
- 	} else if (!fid_mode) {
- 		/* Do we have path to open a file descriptor? */
- 		if (!path)
+ 	} else if (WARN_ON_ONCE(!fsnotify_is_fs_watcher(group))) {
 diff --git a/fs/notify/fanotify/fanotify_user.c b/fs/notify/fanotify/fanotify_user.c
-index 49531a4fe71de..95e7c24c70249 100644
+index 95e7c24c70249..7afb017d40f50 100644
 --- a/fs/notify/fanotify/fanotify_user.c
 +++ b/fs/notify/fanotify/fanotify_user.c
-@@ -1586,8 +1586,11 @@ static struct hlist_head *fanotify_alloc_merge_hash(void)
- DEFINE_CLASS(fsnotify_group,
- 	     struct fsnotify_group *,
- 	     if (!IS_ERR_OR_NULL(_T)) fsnotify_destroy_group(_T),
--	     fsnotify_alloc_group(ops, flags),
--	     const struct fsnotify_ops *ops, int flags)
-+	     __fsnotify_alloc_group(ops, type,
-+				    FSNOTIFY_GROUP_FLAG_USER,
-+				    GFP_KERNEL_ACCOUNT),
-+	     const struct fsnotify_ops *ops,
-+	     enum fsnotify_group_type type)
+@@ -830,6 +830,19 @@ static int copy_info_records_to_user(struct fanotify_event *event,
+ 	return total_bytes;
+ }
  
- /* fanotify syscalls */
- SYSCALL_DEFINE2(fanotify_init, unsigned int, flags, unsigned int, event_f_flags)
-@@ -1597,18 +1600,22 @@ SYSCALL_DEFINE2(fanotify_init, unsigned int, flags, unsigned int, event_f_flags)
- 	unsigned int fid_mode = flags & FANOTIFY_FID_BITS;
- 	unsigned int class = flags & FANOTIFY_CLASS_BITS;
- 	unsigned int internal_flags = 0;
-+	/* A group is either for watching filesystems or namespaces */
-+	enum fsnotify_group_type type = (flags & FANOTIFY_NS_INIT_FLAGS) ?
-+					FSNOTIFY_GROUP_TYPE_NS :
-+					FSNOTIFY_GROUP_TYPE_FS;
- 
- 	pr_debug("%s: flags=%x event_f_flags=%x\n",
- 		 __func__, flags, event_f_flags);
- 
++static __u64 fanotify_event_mask(struct fsnotify_group *group,
++				 struct fanotify_event *event)
++{
++	switch (group->type) {
++	case FSNOTIFY_GROUP_TYPE_FS:
++		return event->mask & FANOTIFY_OUTGOING_FS_EVENTS;
++	case FSNOTIFY_GROUP_TYPE_NS:
++		return event->mask & FANOTIFY_OUTGOING_NS_EVENTS;
++	}
++
++	return 0;
++}
++
+ static ssize_t copy_event_to_user(struct fsnotify_group *group,
+ 				  struct fanotify_event *event,
+ 				  char __user *buf, size_t count)
+@@ -848,7 +861,7 @@ static ssize_t copy_event_to_user(struct fsnotify_group *group,
+ 	metadata.metadata_len = FAN_EVENT_METADATA_LEN;
+ 	metadata.vers = FANOTIFY_METADATA_VERSION;
+ 	metadata.reserved = 0;
+-	metadata.mask = event->mask & FANOTIFY_OUTGOING_EVENTS;
++	metadata.mask = fanotify_event_mask(group, event);
+ 	metadata.pid = pid_vnr(event->pid);
  	/*
- 	 * An unprivileged user can setup an fanotify group with limited
--	 * functionality - an unprivileged group is limited to notification
--	 * events with file handles or mount ids and it cannot use unlimited
-+	 * functionality - an unprivileged group cannot receive filesystem
-+	 * notification events with file descriptors and cannot use unlimited
- 	 * queue/marks.
- 	 */
- 	if (((flags & FANOTIFY_ADMIN_INIT_FLAGS) ||
--	     !(flags & (FANOTIFY_FID_BITS | FAN_REPORT_MNT))) &&
-+	     !(flags & (FANOTIFY_FID_BITS | FANOTIFY_NS_INIT_FLAGS))) &&
- 	    !capable(CAP_SYS_ADMIN))
- 		return -EPERM;
+ 	 * For an unprivileged listener, event->pid can be used to identify the
+@@ -1881,6 +1894,35 @@ static int fanotify_events_supported(struct fsnotify_group *group,
+ 	return 0;
+ }
  
-@@ -1636,8 +1643,11 @@ SYSCALL_DEFINE2(fanotify_init, unsigned int, flags, unsigned int, event_f_flags)
- 	if ((flags & FAN_REPORT_PIDFD) && (flags & FAN_REPORT_TID))
- 		return -EINVAL;
- 
--	/* Don't allow mixing mnt events with inode events for now */
--	if (flags & FAN_REPORT_MNT) {
++static bool fanotify_is_valid_mask(struct fsnotify_group *group, int mark_type,
++				   __u64 mask)
++{
++	u32 valid_mask = 0;
++
 +	/*
-+	 * Namespace watchers do not support priority classes and do not
-+	 * support reporting file info event extensions.
++	 * Event bits for different group type may be overloaded but event
++	 * flags are common to all group types.
 +	 */
-+	if (type == FSNOTIFY_GROUP_TYPE_NS) {
- 		if (class != FAN_CLASS_NOTIF)
- 			return -EINVAL;
- 		if (flags & (FANOTIFY_FID_BITS | FAN_REPORT_FD_ERROR))
-@@ -1681,8 +1691,7 @@ SYSCALL_DEFINE2(fanotify_init, unsigned int, flags, unsigned int, event_f_flags)
- 	if (flags & FAN_NONBLOCK)
- 		f_flags |= O_NONBLOCK;
- 
--	CLASS(fsnotify_group, group)(&fanotify_fsnotify_ops,
--				     FSNOTIFY_GROUP_FLAG_USER);
-+	CLASS(fsnotify_group, group)(&fanotify_fsnotify_ops, type);
- 	/* fsnotify_alloc_group takes a ref.  Dropped in fanotify_release */
- 	if (IS_ERR(group))
- 		return PTR_ERR(group);
-@@ -1885,6 +1894,7 @@ static int do_fanotify_mark(int fanotify_fd, unsigned int flags, __u64 mask,
++	BUILD_BUG_ON(FANOTIFY_EVENTS_ON_FS & FANOTIFY_EVENT_FLAGS);
++	BUILD_BUG_ON(FANOTIFY_EVENTS_ON_NS & FANOTIFY_EVENT_FLAGS);
++
++	switch (group->type) {
++	case FSNOTIFY_GROUP_TYPE_FS:
++		valid_mask = FANOTIFY_EVENTS_ON_FS | FANOTIFY_EVENT_FLAGS;
++		if (!IS_ENABLED(CONFIG_FANOTIFY_ACCESS_PERMISSIONS))
++			valid_mask &= ~FANOTIFY_PERM_EVENTS;
++		break;
++	case FSNOTIFY_GROUP_TYPE_NS:
++		/* Only report mount events on mntns mark */
++		if (mark_type == FAN_MARK_MNTNS &&
++		    FAN_GROUP_FLAG(group, FAN_REPORT_MNT))
++			valid_mask = FANOTIFY_MOUNT_EVENTS;
++		break;
++	}
++
++	return !(mask & ~valid_mask);
++}
++
+ static int do_fanotify_mark(int fanotify_fd, unsigned int flags, __u64 mask,
+ 			    int dfd, const char  __user *pathname)
+ {
+@@ -1890,7 +1932,6 @@ static int do_fanotify_mark(int fanotify_fd, unsigned int flags, __u64 mask,
+ 	struct fan_fsid __fsid, *fsid = NULL;
+ 	struct user_namespace *user_ns = NULL;
+ 	struct mnt_namespace *mntns;
+-	u32 valid_mask = FANOTIFY_EVENTS | FANOTIFY_EVENT_FLAGS;
  	unsigned int mark_type = flags & FANOTIFY_MARK_TYPE_BITS;
  	unsigned int mark_cmd = flags & FANOTIFY_MARK_CMD_BITS;
  	unsigned int ignore = flags & FANOTIFY_MARK_IGNORE_BITS;
-+	enum fsnotify_group_type group_type;
- 	unsigned int obj_type, fid_mode;
- 	void *obj = NULL;
- 	u32 umask = 0;
-@@ -1903,15 +1913,19 @@ static int do_fanotify_mark(int fanotify_fd, unsigned int flags, __u64 mask,
- 	switch (mark_type) {
- 	case FAN_MARK_INODE:
- 		obj_type = FSNOTIFY_OBJ_TYPE_INODE;
-+		group_type = FSNOTIFY_GROUP_TYPE_FS;
- 		break;
- 	case FAN_MARK_MOUNT:
- 		obj_type = FSNOTIFY_OBJ_TYPE_VFSMOUNT;
-+		group_type = FSNOTIFY_GROUP_TYPE_FS;
- 		break;
- 	case FAN_MARK_FILESYSTEM:
- 		obj_type = FSNOTIFY_OBJ_TYPE_SB;
-+		group_type = FSNOTIFY_GROUP_TYPE_FS;
- 		break;
- 	case FAN_MARK_MNTNS:
- 		obj_type = FSNOTIFY_OBJ_TYPE_MNTNS;
-+		group_type = FSNOTIFY_GROUP_TYPE_NS;
- 		break;
- 	default:
+@@ -1945,13 +1986,6 @@ static int do_fanotify_mark(int fanotify_fd, unsigned int flags, __u64 mask,
  		return -EINVAL;
-@@ -1960,6 +1974,9 @@ static int do_fanotify_mark(int fanotify_fd, unsigned int flags, __u64 mask,
+ 	}
+ 
+-	if (IS_ENABLED(CONFIG_FANOTIFY_ACCESS_PERMISSIONS))
+-		valid_mask |= FANOTIFY_PERM_EVENTS;
+-
+-	if (mask & ~valid_mask)
+-		return -EINVAL;
+-
+-
+ 	/* We don't allow FAN_MARK_IGNORE & FAN_MARK_IGNORED_MASK together */
+ 	if (ignore == (FAN_MARK_IGNORE | FAN_MARK_IGNORED_MASK))
+ 		return -EINVAL;
+@@ -1974,22 +2008,10 @@ static int do_fanotify_mark(int fanotify_fd, unsigned int flags, __u64 mask,
  		return -EINVAL;
  	group = fd_file(f)->private_data;
  
-+	if (group->type != group_type)
-+		return -EINVAL;
-+
- 	/* Only report mount events on mnt namespace */
- 	if (FAN_GROUP_FLAG(group, FAN_REPORT_MNT)) {
- 		if (mask & ~FANOTIFY_MOUNT_EVENTS)
-@@ -2005,14 +2022,15 @@ static int do_fanotify_mark(int fanotify_fd, unsigned int flags, __u64 mask,
+-	if (group->type != group_type)
++	if (group->type != group_type ||
++	    !fanotify_is_valid_mask(group, mark_type, mask))
  		return -EINVAL;
  
+-	/* Only report mount events on mnt namespace */
+-	if (FAN_GROUP_FLAG(group, FAN_REPORT_MNT)) {
+-		if (mask & ~FANOTIFY_MOUNT_EVENTS)
+-			return -EINVAL;
+-		if (mark_type != FAN_MARK_MNTNS)
+-			return -EINVAL;
+-	} else {
+-		if (mask & FANOTIFY_MOUNT_EVENTS)
+-			return -EINVAL;
+-		if (mark_type == FAN_MARK_MNTNS)
+-			return -EINVAL;
+-	}
+-
  	/*
--	 * Events that do not carry enough information to report
-+	 * Filesystem events that do not carry enough information to report
- 	 * event->fd require a group that supports reporting fid.  Those
- 	 * events are not supported on a mount mark, because they do not
- 	 * carry enough information (i.e. path) to be filtered by mount
- 	 * point.
+ 	 * A user is allowed to setup sb/mount/mntns marks only if it is
+ 	 * capable in the user ns where the group was created.
+diff --git a/fs/notify/fsnotify.c b/fs/notify/fsnotify.c
+index b646a861a84c6..429ce614233ce 100644
+--- a/fs/notify/fsnotify.c
++++ b/fs/notify/fsnotify.c
+@@ -149,7 +149,7 @@ static inline __u32 fsnotify_object_watched(struct inode *inode, __u32 mnt_mask,
+ 	__u32 marks_mask = READ_ONCE(inode->i_fsnotify_mask) | mnt_mask |
+ 			   READ_ONCE(inode->i_sb->s_fsnotify_mask);
+ 
+-	return mask & marks_mask & ALL_FSNOTIFY_EVENTS;
++	return mask & marks_mask & FSNOTIFY_EVENTS_ON_FS;
+ }
+ 
+ /* Report pre-content event with optional range info */
+@@ -219,7 +219,7 @@ int __fsnotify_parent(struct dentry *dentry, __u32 mask, const void *data,
+ 	 * events can provide an undesirable side-channel for information
+ 	 * exfiltration.
  	 */
- 	fid_mode = FAN_GROUP_FLAG(group, FANOTIFY_FID_BITS);
--	if (mask & ~(FANOTIFY_FD_EVENTS|FANOTIFY_MOUNT_EVENTS|FANOTIFY_EVENT_FLAGS) &&
-+	if (fsnotify_is_fs_watcher(group) &&
-+	    mask & ~(FANOTIFY_FD_EVENTS|FANOTIFY_EVENT_FLAGS) &&
- 	    (!fid_mode || mark_type == FAN_MARK_MOUNT))
- 		return -EINVAL;
+-	parent_interested = mask & p_mask & ALL_FSNOTIFY_EVENTS &&
++	parent_interested = mask & p_mask & FSNOTIFY_EVENTS_ON_FS &&
+ 			    !(data_type == FSNOTIFY_EVENT_PATH &&
+ 			      d_is_special(dentry) &&
+ 			      (mask & (FS_ACCESS | FS_MODIFY)));
+@@ -266,7 +266,7 @@ static int fsnotify_handle_inode_event(struct fsnotify_group *group,
+ 		return 0;
  
-diff --git a/fs/notify/group.c b/fs/notify/group.c
-index cf445e270ba6a..754d87e3a0189 100644
---- a/fs/notify/group.c
-+++ b/fs/notify/group.c
-@@ -111,9 +111,9 @@ void fsnotify_put_group(struct fsnotify_group *group)
- }
- EXPORT_SYMBOL_GPL(fsnotify_put_group);
+ 	/* Check interest of this mark in case event was sent with two marks */
+-	if (!(mask & inode_mark->mask & ALL_FSNOTIFY_EVENTS))
++	if (!(mask & inode_mark->mask & FSNOTIFY_EVENTS_ON_FS))
+ 		return 0;
  
--static struct fsnotify_group *__fsnotify_alloc_group(
--				const struct fsnotify_ops *ops,
--				int flags, gfp_t gfp)
-+struct fsnotify_group *__fsnotify_alloc_group(const struct fsnotify_ops *ops,
-+					      enum fsnotify_group_type type,
-+					      int flags, gfp_t gfp)
- {
- 	struct fsnotify_group *group;
- 
-@@ -135,9 +135,11 @@ static struct fsnotify_group *__fsnotify_alloc_group(
- 
- 	group->ops = ops;
- 	group->flags = flags;
-+	group->type = type;
- 
- 	return group;
- }
-+EXPORT_SYMBOL_GPL(__fsnotify_alloc_group);
- 
- /*
-  * Create a new fsnotify_group and hold a reference for the group returned.
-@@ -148,7 +150,7 @@ struct fsnotify_group *fsnotify_alloc_group(const struct fsnotify_ops *ops,
- 	gfp_t gfp = (flags & FSNOTIFY_GROUP_FLAG_USER) ?
- 		    GFP_KERNEL_ACCOUNT : GFP_KERNEL;
- 
--	return __fsnotify_alloc_group(ops, flags, gfp);
-+	return __fsnotify_alloc_group(ops, FSNOTIFY_GROUP_TYPE_FS, flags, gfp);
- }
- EXPORT_SYMBOL_GPL(fsnotify_alloc_group);
- 
+ 	return ops->handle_inode_event(inode_mark, mask, inode, dir, name, cookie);
 diff --git a/include/linux/fanotify.h b/include/linux/fanotify.h
-index 879cff5eccd4e..1a09400b843b5 100644
+index 1a09400b843b5..224303a0c31e1 100644
 --- a/include/linux/fanotify.h
 +++ b/include/linux/fanotify.h
-@@ -25,7 +25,10 @@
+@@ -113,27 +113,35 @@
+ /* Events that can only be reported with data type FSNOTIFY_EVENT_ERROR */
+ #define FANOTIFY_ERROR_EVENTS	(FAN_FS_ERROR)
  
- #define FANOTIFY_FID_BITS	(FAN_REPORT_DFID_NAME_TARGET)
- 
--#define FANOTIFY_INFO_MODES	(FANOTIFY_FID_BITS | FAN_REPORT_PIDFD | FAN_REPORT_MNT)
-+#define FANOTIFY_INFO_MODES	(FANOTIFY_FID_BITS | FAN_REPORT_PIDFD)
++/* Events that user can request to be notified on filesystem watchers */
++#define FANOTIFY_EVENTS_ON_FS	(FANOTIFY_PATH_EVENTS | \
++				 FANOTIFY_PERM_EVENTS | \
++				 FANOTIFY_INODE_EVENTS | \
++				 FANOTIFY_ERROR_EVENTS)
 +
-+/* fanotify_init() flags to create a namepsace event watcher */
-+#define FANOTIFY_NS_INIT_FLAGS	(FAN_REPORT_MNT)
++/* Mount tree monitoring events */
+ #define FANOTIFY_MOUNT_EVENTS	(FAN_MNT_ATTACH | FAN_MNT_DETACH)
  
- /*
-  * fanotify_init() flags that require CAP_SYS_ADMIN.
-@@ -47,7 +50,8 @@
-  * so one of the flags for reporting file handles is required.
-  */
- #define FANOTIFY_USER_INIT_FLAGS	(FAN_CLASS_NOTIF | \
--					 FANOTIFY_FID_BITS | FAN_REPORT_MNT | \
-+					 FANOTIFY_FID_BITS | \
-+					 FANOTIFY_NS_INIT_FLAGS | \
- 					 FAN_CLOEXEC | FAN_NONBLOCK)
+-/* Events that user can request to be notified on */
+-#define FANOTIFY_EVENTS		(FANOTIFY_PATH_EVENTS | \
+-				 FANOTIFY_INODE_EVENTS | \
+-				 FANOTIFY_ERROR_EVENTS | \
+-				 FANOTIFY_MOUNT_EVENTS)
++/* Events that user can request to be notified on namepsace watchers */
++#define FANOTIFY_EVENTS_ON_NS	(FANOTIFY_MOUNT_EVENTS)
  
- #define FANOTIFY_INIT_FLAGS	(FANOTIFY_ADMIN_INIT_FLAGS | \
+ /* Extra flags that may be reported with event or control handling of events */
+ #define FANOTIFY_EVENT_FLAGS	(FAN_EVENT_ON_CHILD | FAN_ONDIR)
+ 
+-/* Events that may be reported to user */
+-#define FANOTIFY_OUTGOING_EVENTS	(FANOTIFY_EVENTS | \
+-					 FANOTIFY_PERM_EVENTS | \
++/* Events that may be reported to user on filesystem watchers */
++#define FANOTIFY_OUTGOING_FS_EVENTS	(FANOTIFY_EVENTS_ON_FS | \
+ 					 FAN_Q_OVERFLOW | FAN_ONDIR)
+ 
++/* Events that may be reported to user on namepsace watchers */
++#define FANOTIFY_OUTGOING_NS_EVENTS	(FANOTIFY_EVENTS_ON_NS | \
++					 FAN_Q_OVERFLOW)
++
+ /* Events and flags relevant only for directories */
+ #define FANOTIFY_DIRONLY_EVENT_BITS	(FANOTIFY_DIRENT_EVENTS | \
+ 					 FAN_EVENT_ON_CHILD | FAN_ONDIR)
+ 
+-#define ALL_FANOTIFY_EVENT_BITS		(FANOTIFY_OUTGOING_EVENTS | \
++#define ALL_FANOTIFY_EVENT_BITS		(FANOTIFY_OUTGOING_FS_EVENTS | \
++					 FANOTIFY_OUTGOING_NS_EVENTS | \
+ 					 FANOTIFY_EVENT_FLAGS)
+ 
+ /* These masks check for invalid bits in permission responses. */
 diff --git a/include/linux/fsnotify_backend.h b/include/linux/fsnotify_backend.h
-index 87524706792e7..698fc75b0b6d4 100644
+index 698fc75b0b6d4..8f2821735f068 100644
 --- a/include/linux/fsnotify_backend.h
 +++ b/include/linux/fsnotify_backend.h
-@@ -204,6 +204,15 @@ enum fsnotify_group_prio {
- 	__FSNOTIFY_PRIO_NUM
- };
+@@ -59,22 +59,30 @@
+ 
+ #define FS_PRE_ACCESS		0x00100000	/* Pre-content access hook */
+ 
+-#define FS_MNT_ATTACH		0x01000000	/* Mount was attached */
+-#define FS_MNT_DETACH		0x02000000	/* Mount was detached */
+-#define FS_MNT_MOVE		(FS_MNT_ATTACH | FS_MNT_DETACH)
++#define FS_RENAME		0x10000000	/* File was renamed */
++
++#define FS_MOVE			(FS_MOVED_FROM | FS_MOVED_TO)
+ 
+ /*
+- * Set on inode mark that cares about things that happen to its children.
+- * Always set for dnotify and inotify.
++ * Filter flags for watching filesystems
++ *
++ * NOTE: The ON_CHILD flag is set on inode mark that cares about things that
++ * happen to its children.  Always set for dnotify and inotify.
+  * Set on inode/sb/mount marks that care about parent/name info.
+  */
+ #define FS_EVENT_ON_CHILD	0x08000000
+-
+-#define FS_RENAME		0x10000000	/* File was renamed */
+ #define FS_DN_MULTISHOT		0x20000000	/* dnotify multishot */
+ #define FS_ISDIR		0x40000000	/* event occurred against dir */
+ 
+-#define FS_MOVE			(FS_MOVED_FROM | FS_MOVED_TO)
++/*
++ * Events that user-space can request when watching namespaces
++ *
++ * NOTE: These values may overload filesystem events, but not event flags
++ */
++#define FS_MNT_ATTACH		0x01000000	/* Mount was attached */
++#define FS_MNT_DETACH		0x02000000	/* Mount was detached */
++#define FS_MNT_MOVE		(FS_MNT_ATTACH | FS_MNT_DETACH)
++
+ 
+ /*
+  * Directory entry modification events - reported only to directory
+@@ -84,9 +92,6 @@
+  */
+ #define ALL_FSNOTIFY_DIRENT_EVENTS (FS_CREATE | FS_DELETE | FS_MOVE | FS_RENAME)
+ 
+-/* Mount namespace events */
+-#define FSNOTIFY_MNT_EVENTS (FS_MNT_ATTACH | FS_MNT_DETACH)
+-
+ /* Content events can be used to inspect file content */
+ #define FSNOTIFY_CONTENT_PERM_EVENTS (FS_OPEN_PERM | FS_OPEN_EXEC_PERM | \
+ 				      FS_ACCESS_PERM)
+@@ -113,14 +118,23 @@
+  */
+ #define FS_EVENTS_POSS_TO_PARENT (FS_EVENTS_POSS_ON_CHILD)
+ 
+-/* Events that can be reported to backends */
+-#define ALL_FSNOTIFY_EVENTS (ALL_FSNOTIFY_DIRENT_EVENTS | \
+-			     FSNOTIFY_MNT_EVENTS | \
++/* Events that can be reported to backends on filesystem watchers */
++#define FSNOTIFY_EVENTS_ON_FS (ALL_FSNOTIFY_DIRENT_EVENTS | \
+ 			     FS_EVENTS_POSS_ON_CHILD | \
+ 			     FS_DELETE_SELF | FS_MOVE_SELF | \
+ 			     FS_UNMOUNT | FS_Q_OVERFLOW | FS_IN_IGNORED | \
+ 			     FS_ERROR)
+ 
++/* Mount tree monitoring events */
++#define FSNOTIFY_MNT_EVENTS (FS_MNT_ATTACH | FS_MNT_DETACH)
++
++/* Events that can be reported to backends on namepsace watchers */
++#define FSNOTIFY_EVENTS_ON_NS (FSNOTIFY_MNT_EVENTS | \
++			       FS_Q_OVERFLOW)
++
++/* Events that can be reported to backends */
++#define ALL_FSNOTIFY_EVENTS (FSNOTIFY_EVENTS_ON_FS | FSNOTIFY_EVENTS_ON_NS)
++
+ /* Extra flags that may be reported with event or control handling of events */
+ #define ALL_FSNOTIFY_FLAGS  (FS_ISDIR | FS_EVENT_ON_CHILD | FS_DN_MULTISHOT)
+ 
+diff --git a/include/uapi/linux/fanotify.h b/include/uapi/linux/fanotify.h
+index e710967c7c263..cfcd193aee3e2 100644
+--- a/include/uapi/linux/fanotify.h
++++ b/include/uapi/linux/fanotify.h
+@@ -4,7 +4,9 @@
+ 
+ #include <linux/types.h>
+ 
+-/* the following events that user-space can register for */
++/*
++ * Events that user-space can request when watching filesystems
++ */
+ #define FAN_ACCESS		0x00000001	/* File was accessed */
+ #define FAN_MODIFY		0x00000002	/* File was modified */
+ #define FAN_ATTRIB		0x00000004	/* Metadata changed */
+@@ -28,19 +30,28 @@
+ /* #define FAN_DIR_MODIFY	0x00080000 */	/* Deprecated (reserved) */
+ 
+ #define FAN_PRE_ACCESS		0x00100000	/* Pre-content access hook */
+-#define FAN_MNT_ATTACH		0x01000000	/* Mount was attached */
+-#define FAN_MNT_DETACH		0x02000000	/* Mount was detached */
+-
+-#define FAN_EVENT_ON_CHILD	0x08000000	/* Interested in child events */
+ 
+ #define FAN_RENAME		0x10000000	/* File was renamed */
+ 
+-#define FAN_ONDIR		0x40000000	/* Event occurred against dir */
+-
+ /* helper events */
+ #define FAN_CLOSE		(FAN_CLOSE_WRITE | FAN_CLOSE_NOWRITE) /* close */
+ #define FAN_MOVE		(FAN_MOVED_FROM | FAN_MOVED_TO) /* moves */
  
 +/*
-+ * Category of kernel objects watched by this group.
-+ * Every category has its own mark types and event types.
++ * Filter flags for watching filesystems
 + */
-+enum fsnotify_group_type {
-+	FSNOTIFY_GROUP_TYPE_FS = 0,
-+	FSNOTIFY_GROUP_TYPE_NS,
-+};
++#define FAN_EVENT_ON_CHILD	0x08000000	/* Interested in child events */
++#define FAN_ONDIR		0x40000000	/* Event occurred against dir */
 +
- /*
-  * A group is a "thing" that wants to receive notification about filesystem
-  * events.  The mask holds the subset of event types this group cares about.
-@@ -230,6 +239,7 @@ struct fsnotify_group {
- 	unsigned int q_len;			/* events on the queue */
- 	unsigned int max_events;		/* maximum events allowed on the list */
- 	enum fsnotify_group_prio priority;	/* priority for sending events */
-+	enum fsnotify_group_type type;		/* category of watched objects */
- 	bool shutdown;		/* group is being shut down, don't queue more events */
- 
- #define FSNOTIFY_GROUP_FLAG_USER	0x01 /* user allocated group */
-@@ -280,6 +290,16 @@ struct fsnotify_group {
- 	};
- };
- 
-+static inline bool fsnotify_is_fs_watcher(const struct fsnotify_group *group)
-+{
-+	return group->type == FSNOTIFY_GROUP_TYPE_FS;
-+}
++/*
++ * Events that user-space can request when watching namespaces
++ *
++ * NOTE: These values may overload filesystem events, but not event flags
++ */
++#define FAN_MNT_ATTACH		0x01000000	/* Mount was attached */
++#define FAN_MNT_DETACH		0x02000000	/* Mount was detached */
 +
-+static inline bool fsnotify_is_ns_watcher(const struct fsnotify_group *group)
-+{
-+	return group->type == FSNOTIFY_GROUP_TYPE_NS;
-+}
 +
- /*
-  * These helpers are used to prevent deadlock when reclaiming inodes with
-  * evictable marks of the same group that is allocating a new mark.
-@@ -707,6 +727,10 @@ static inline void fsnotify_update_flags(struct dentry *dentry)
- /* called from fsnotify listeners, such as fanotify or dnotify */
- 
- /* create a new group */
-+extern struct fsnotify_group *__fsnotify_alloc_group(
-+				const struct fsnotify_ops *ops,
-+				enum fsnotify_group_type type,
-+				int flags, gfp_t gfp);
- extern struct fsnotify_group *fsnotify_alloc_group(
- 				const struct fsnotify_ops *ops,
- 				int flags);
+ /* flags used for fanotify_init() */
+ #define FAN_CLOEXEC		0x00000001
+ #define FAN_NONBLOCK		0x00000002
 -- 
 2.54.0
 
