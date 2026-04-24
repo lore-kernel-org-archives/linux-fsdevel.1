@@ -1,81 +1,119 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7021C224FA;
-	Fri, 24 Apr 2026 03:20:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E3AA325714
+	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 04:28:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777000855; cv=none; b=EjIHWlCpXI9mKW2aNKnbfpmgGesfD9tphvjgPKw47lSrjwH02vvgosKOJ/V//a5nKFZ+zY6pbFIFu96sQrSdeaK+hdTH3KfvkSv07JFwwEpXBlQSqTXT6o36G/roj3SP15LL+azfj0un2lQVFAMc/EO6/hH3zeHx/LEb4yllK34=
+	t=1777004919; cv=none; b=i7f1HAGR3JCIwZTlFD8mG4hhfkCkvc1XKaYG4bu66DgOj0HoDyEZcQUf8ggD0mjROTc6Ly873K/dJnaFuIBu70UhyG1npGNqvHGPI5upGRyfWKKrvMp7l1z6B9e5gZSjN+dstu79/NnsoQVBFeWw14fU2TMJFGxyapL393gSQ3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777000855; c=relaxed/simple;
-	bh=HnbcZuJRm5gwp5waDh2UgtplEn2VXuo2oozw9jzfTd0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s8q9uwBrgY1GNjrdyuzpniia9ftxlMqm5zkH8hu3BYEcvHetHkUEk5KHqmw5aBOIjhzK8xu2qVHYwfDfVeg0JKIpHdEPjCXIPKay37f0vpq/orzp5RuvYMz78ZapJNRd7k9GoXck7lWAxH+0cMUJAnn0wuB9+F8rLGraFlVoVVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=KgS2rpB5; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1777004919; c=relaxed/simple;
+	bh=deWB6UrI5bI99n3jNuoT5xgmAqlYj70Qfhs0/y0QX9M=;
+	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References; b=nwjmCmngd0e9dwtQM8yIAvSsG+REFRIl6RwqdM8TAAZPMbGEnFsRjIt3v7v6miU/gtR9rkR9KIXytLK0c2CGhSiWNGAmCptLdbe/bR3c+wJzvDPwfHMCzlwrJPsGMj75N9WdQlu3NCQAa3bWCKjGjiEly7YTuA2C/clP8KzY28k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cWIiTl8J; arc=none smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="KgS2rpB5"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=vF1AU0LXlnhIfmJBF/DVKC/jdqA8hAJ+qqGd+yTOFkg=; b=KgS2rpB5V/NgcXiZBzBut1nFMM
-	VXy6TDHg2uPCUyKs50GnvU925GmHjYdme9k93ETpkPAcMi4yGAcHfoloHON5royLGcfk8+E08UqPw
-	naQHxuP1Ae5cpfKVxnSmm3CrrlOmlG8Z5N2UpAfZUhfEQhojGoZ1YG4o9AYgbK/XNG1c7lR+QYFLS
-	uZVbeirmfMjaa+0naIO+FQir+qgxIig2+vN0cuJ+zvrC9eX/Dm2LJuul3conDsK9cZNJW92dW6eV7
-	C0LLBztiFOrzhZhwKq+Gv6w/0pBl7kmGRUdJhEs2thWxRXXuAoCXgq+y1/NEw8Tua6QB7h3wlsfUh
-	e8zCrlEg==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wG75r-0000000EUjd-3o1v;
-	Fri, 24 Apr 2026 03:20:40 +0000
-Date: Fri, 24 Apr 2026 04:20:39 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Yibin Liu <liuyibin@hygon.cn>
-Cc: Lorenzo Stoakes <ljs@kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
-	"viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-	"brauner@kernel.org" <brauner@kernel.org>,
-	"mjguzik@gmail.com" <mjguzik@gmail.com>,
-	Jianyong Wu <wujianyong@hygon.cn>, Huangsj <huangsj@hygon.cn>,
-	Yuan Zhong <zhongyuan@hygon.cn>, "jack@suse.cz" <jack@suse.cz>,
-	"jlayton@kernel.org" <jlayton@kernel.org>,
-	"chuck.lever@oracle.com" <chuck.lever@oracle.com>,
-	"alex.aring@gmail.com" <alex.aring@gmail.com>,
-	"vbabka@kernel.org" <vbabka@kernel.org>,
-	"jannh@google.com" <jannh@google.com>,
-	"pfalcato@suse.de" <pfalcato@suse.de>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: =?utf-8?B?562U5aSNOiDnrZTlpI06IFtQQVRD?=
- =?utf-8?B?SF0gbW06IEFk?= =?utf-8?Q?d?= RWH_RMAP_EXCLUDE flag to exclude
- files from rmap sharing
-Message-ID: <aerhh_tzSs5XapUz@casper.infradead.org>
-References: <20260421020932.3212532-1-liuyibin@hygon.cn>
- <aeikm2e5Gh5reJ30@lucifer>
- <bc514883d6154420b3cfde4ab25a20c7@hygon.cn>
- <aejzSsiXZBK1emv7@lucifer>
- <a96c20b74b874248bc0cdc2b926a43fe@hygon.cn>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cWIiTl8J"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-82cf636dac8so3164006b3a.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 23 Apr 2026 21:28:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777004917; x=1777609717; darn=vger.kernel.org;
+        h=references:message-id:date:in-reply-to:subject:cc:to:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=xij6ep2gWC7gef2Qky7OxxlHC1yt3hwCxCR56tcvUXc=;
+        b=cWIiTl8JHWvMEvypf/0To1/2JH1aepp8+jvD7bdYs37I9x7pjWckXi4ihZI+pyXN3H
+         arPNZVCvss0VVyu4ZHm5Mi3evPgMJ+S64SmpM908LkmJMaqCxPLSQ3CY9hDjJkRiILzP
+         EQhwnoqeYiR6XNhaCtWAeH8wtjkA5PRBQ7/wJdhYHorsc1vmZCc60pmxVF4y8QcmOrO8
+         K2cAn7j3JSbJgg6tnbi1lW5jbtsvDyYoinSR0th52s284jlZ1KQyOCOKLl8tM8wNvA/I
+         2sdmdqMVHDinwCV/FLBAff4/wzOfZllCZKCJyF4ETq05VGWe14oezZ8ibMjNuAnSD2Y1
+         dTeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777004917; x=1777609717;
+        h=references:message-id:date:in-reply-to:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xij6ep2gWC7gef2Qky7OxxlHC1yt3hwCxCR56tcvUXc=;
+        b=ZoDwNw8dA4lWMoOIanMiEQVcKrbxKvSIXfDr78D1iuZc7GGgDDRKxp/nw3iBAk9Jge
+         8Y4FCCifxK0SYFsqS6+63tDsS4/9MLDFnThtxoT6RHUccYeL2G6p7v+OlGVbTtiY/Rjv
+         ANSn26a6Igv524+kLqC2XV26eMycdt3ThkB6a2xFa83z4+vi/HUKZb5lyNNJMLcUh7Vj
+         gT0aWaMVSPVs7iKHo5ruTGv50YcpCu+Jw62aPVkDrYQZtVDEsGz/xAH6TwCaak30vZSx
+         FAzTDSubC7bZvbR/ZBoRc77elycxVpfpIjJp+4vRqYwaeThIjNSBw1M6NFpfbSu0CuAx
+         aWgg==
+X-Forwarded-Encrypted: i=1; AFNElJ/ljGi0hXQilcRM03YJkJeUQ5unsJpyIdSUOULYsv6Z42e+7tK3VmKS3XwPxUq6BT/HF/uCCjP7p2cosKnx@vger.kernel.org
+X-Gm-Message-State: AOJu0YxgcjuAk9CycR2Q6UCbMiUxhBMvTdKORr/V3s3WJhck/xOxFuHp
+	+vzsFsX/snoDXa+6AjMJ8B2Av/HLhyjWBhoko7jiRDZw74yNQ26OSiXBGN09AA==
+X-Gm-Gg: AeBDiet4+Yn7wqXhvHp7MT3yO2trKNY7zP4zNbH7kM8X3VQNYZI1Ol81FuZWWNyxr/r
+	mNuffrNwO55B6kdl5XRIyYlw8a2EYlDq09a3DNcwueH1XRsLZ2aqkuzxzH1EGyOy/ZzBdqkKJ9w
+	ba3jm0XZymsfRVJ/cgaW3S6dOPo883lXHfA01tfX9ks7opCRon97VfsMUxNTwSMNOi3/QLCXmcs
+	fGcxe3cinLgoghGYP58BnU/x8BTKUDZNY/2mzM/URZFLYjLW8XyC2TdG6p6443wKs352pf0v3/b
+	fPbGTw8UH8W44FPbGqYW9CctOgLu/YAh2B5gCmQJwgjZHbsI/XHvISIHf/S0tt0c68temHo3dzO
+	0niav+YyV4QL2+eHX0MHRXtTyB2fP+cSAHMQ7+Xgz/6X/4OwCzTdWHU8tPVZFaeGS+wFl2A/Nnb
+	j6aSLSfLJPf1JqQhtE1RJe0YgvCYjXuNP0KWafe0YuNK0=
+X-Received: by 2002:a05:6a00:cd6:b0:82c:eafa:8875 with SMTP id d2e1a72fcca58-82f8c82e889mr32885163b3a.2.1777004916865;
+        Thu, 23 Apr 2026 21:28:36 -0700 (PDT)
+Received: from pve-server ([49.205.216.49])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f8ebb33fcsm20983354b3a.33.2026.04.23.21.28.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Apr 2026 21:28:36 -0700 (PDT)
+From: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
+To: Christian Brauner <brauner@kernel.org>, lsf-pc@lists.linux-foundation.org, Jan Kara <jack@suse.cz>, Amir Goldstein <amir73il@gmail.com> 
+Cc: Ojaswin Mujoo <ojaswin@linux.ibm.com>, Pankaj Raghav <pankaj.raghav@linux.dev>, Andres Freund <andres@anarazel.de>, djwong@kernel.org, john.g.garry@oracle.com, willy@infradead.org, hch@lst.de, Luis Chamberlain <mcgrof@kernel.org>, dchinner@redhat.com, Javier Gonzalez <javier.gonz@samsung.com>, gost.dev@samsung.com, tytso@mit.edu, p.raghav@samsung.com, vi.shah@samsung.com, linux-xfs@vger.kernel.org, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [LSF/MM/BPF TOPIC] Buffered atomic writes
+In-Reply-To: <d0c4d95b-8064-4a7e-996d-7ad40eb4976b@linux.dev>
+Date: Fri, 24 Apr 2026 06:32:03 +0530
+Message-ID: <wlxxrx10.ritesh.list@gmail.com>
+References: <d0c4d95b-8064-4a7e-996d-7ad40eb4976b@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a96c20b74b874248bc0cdc2b926a43fe@hygon.cn>
 
-On Fri, Apr 24, 2026 at 01:08:35AM +0000, Yibin Liu wrote:
-> On an Intel Emerald Rapids server (112 cores), run the execl benchmark from
-> UnixBench with the command: ./Run -c 220 execl
-> Then perf top shows:
-> 
->   91.53%  [kernel]                    [k] osq_lock
->    0.50%  [kernel]                    [k] rwsem_spin_on_owner
 
-OK, but does this represent a realistic workload?  It's pretty easy to
-construct workloads that hammer on particular locks; the question is
-whether it's a relevant performance bottleneck that customers care about.
+Hi Christian / LSF committee,
+
+> The preliminary schedule is accessible here:
+> https://docs.google.com/spreadsheets/d/1mGEdDrWskp7Ua91jGXzquQGinorcD58DAVXhOiRp2Gg/edit?gid=1852749899#gid=1852749899
+> It just hasn't been liked on the website yet.
+
+Thanks for sharing the preliminary schedule. We had a discuss about this
+among us Me, Ojaswin, Pankaj and Andres too is on the same page.
+
+We were thinking if it is possible to extend the Buffered Atomic Write
+session into two "continuous" halves of 30mins each (total of 60mins)?
+Looks like in the past couple of months, there has been some good
+discussion & progress on this topic and we feel a 30min slot might not
+be enough to cover everything, since we want to give more time for
+QnA/Discussions.
+
+This is how we were thinking it might go:
+
+Buffered atomic write: Usecase & Discussion with Postgres
+I think in this slot Pankaj and Andres would like to cover:
+1. Buffered atomic write usecases
+2. How Postgres would like to use it and why is it important for them, ...
+3. Q&A/Discussion
+
+@Pankaj / Andres - please add and/or correct if I missed anything in above.
+
+Buffered atomic write: The writethrough approach 
+Ojaswin and I have been working on this and since a few approaches were
+tried, before we landed on the writethrough model, we think this may
+need a 30-minute slot of its own:
+
+So, I think Ojaswin can cover the following in this slot:
+
+1. Briefly cover the previous 2 approaches on buffered atomic writes and
+   what were the problems in those approaches.
+2. Design of writethrough and its use beyond just support of buffered atomic
+   writes.
+3. Performance concern with the current approach (not sure if we will be
+   able to get a thorough benchmarking numbers, but will try to share
+   some initial data at least)
+4. Q&A/Discussion 
+
+
+Do you think this is possible? It will be best to keep both back to back,
+so that buffered writethrough can be discussed in continuation.
+
+-ritesh
