@@ -1,166 +1,214 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E51DC1A2545
-	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 00:20:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C95118DB1F
+	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 01:06:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776990053; cv=none; b=GkRWN2C3i/cLAkT1vRVWjOHeAqdiZHAmxhgMJODcTvqq6KSISCZMr8OcIxhydNBZDXqeonBJy8muv0OgykCeWAI3GDvdG+Hc+9zkjnOShd4fHRPoRFDkKJqDSm+C5Ou3uWnkKZuhE3nk2kwVlz17QOFN4SI1tLqFOV1HpvFyZ8k=
+	t=1776992793; cv=none; b=EWlvegNZQauoRDOUS6HNFGxmbudmj/FlPHCoP90bU8UX3EM9sWxegfpjNumVY9VFHWp9aC7tuL+2bg2xYm9NoPQS81SUX789UDDDdo+Zsl4B3x7G0IwVa52l2BtEiiLLEaZyMuhxLK6UdUSIxjK8z+6YXEuHU8EIvvKwFVhBppc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776990053; c=relaxed/simple;
-	bh=ZsvTnr8rmneCg+vcDnTWrnIkur6DWp7wqWbXFJZanb0=;
-	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References; b=t9o4EWyul8gzH2MJlvvWGdfFCeNKQcHQDWha9U2bRf1cZmMwcurumr8T/MIWAunRHCGErbahQCu3TRXUGJtKB4mpusYjp3a5Nr3kesa95Ecq1Ea6TyifviPF2HIMl/6DrA3CAOSfXQ4ikJEGDfd/30IbIJH0j57ZlP8gn5uTBK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OLPw/nTE; arc=none smtp.client-ip=209.85.215.179
+	s=arc-20240116; t=1776992793; c=relaxed/simple;
+	bh=7LMM95UMg7yP38DZK0skWWp8cJR2GRO6hI/cI7m0eOM=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=eHhd35fjQGADjr0XiKDcOwKQMk1+3c2mcH3aPf1sdiUXsE6PAnWNuVYmnYU1PCXozuA/jmwPEO1g9RDTNpcvsvan+82SdQuu8g2foF7Na9/YfPBkcV4u0jItQywffrvHTNC4B7uaNZw0WgAa49+pea6WiD2203wgGRsyXeIo37g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H/MRQZlh; arc=none smtp.client-ip=209.85.167.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OLPw/nTE"
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-c6e2355739dso2937954a12.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 23 Apr 2026 17:20:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H/MRQZlh"
+Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-4756e74f8edso5006857b6e.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 23 Apr 2026 18:06:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776990051; x=1777594851; darn=vger.kernel.org;
-        h=references:message-id:date:in-reply-to:subject:cc:to:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=9prmMr/fIcHvT4Kdkrzhrvvq7KnrqsNR3KWHLAQJlTo=;
-        b=OLPw/nTEc4VV/fGl72Jh3oyWioMlTarv34Z7UVF5gv52vAnYgGs8KJ5jcPmq6Ukp6X
-         UiT/zy0J5ThhcHsSty1uGkPVKZZZ1lYQhP4fMZMunzwrkXkeg86EX0/TI24rpmlb8ugY
-         ps/2DlMVBHif1iTKhihZ3VGWgWNodOWSR9CZt8EDdXO9bq5+5lSsKYMATPL+RgnkaXLu
-         a9djnWakBlRJcxaswuZGzATNYw4pMZd+vnuULnRSZe3H+C49O3c3eHNNhJVAKAH7qmJA
-         Qi78eYu/E2GIm2lJAUAzE0ig4o+VFKQ00taRTNJBZoyFIkVVrNfv9zKgaSXJcBN68kZu
-         FDag==
+        d=gmail.com; s=20251104; t=1776992791; x=1777597591; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xh3t/bv0nfHgOMhcW4p/qplYnwzHag4a5ofsHvIRt9Q=;
+        b=H/MRQZlhZdxgZmS1uhYvIyrTsc/5ZZ4ueMxuW8CJKMQFlhxq5ZuB6rVV7exasUzdG2
+         atmaa0Zdhu0YzKin4nZz28Wer7V/BD4SOaU7O276MdkaSofkO0duHV+pTdUBb9mDahDv
+         kIPn3sDfADPnhCRHUCVuIKEsOxk4XPg0N/RzO24gUZsL/MIaI5emSqrHVORt2vrS5Cci
+         4WVgs9R2xQyAA6d32FeF1oaKBgCLG+xvaq6tucrRQDUzRRClshuMZj+d2u7SsC0yoDJu
+         a8SZfkTlnbDDEqFAY6KML738qHoEnzkh7FHVpB5+9plGlVjhd+hh5fmcAkBvExlmiWrL
+         e2uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776990051; x=1777594851;
-        h=references:message-id:date:in-reply-to:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9prmMr/fIcHvT4Kdkrzhrvvq7KnrqsNR3KWHLAQJlTo=;
-        b=sWTeuguBpxvGo1yy7yeETVoJfo+qvWjomrC1bCPDZtDBiMHqa7zWuNDnfpiHJuAqEn
-         S5yOV5JHl5LALF6oljXH50upVJNv4BgPKmlJIsgqhEd5Jiuv4pclVjABL0eypjNdeblt
-         8KNhHvhYxt4rLhblQgJ3DH5yHRbzUOSsj/yy81Q18h3jj4mEqZxNfRQZpYZ4aFYipxoA
-         RXsqG+SZ9lhOgwq7ONVkyJWBs/RB0hDGKU+wWhjR4oBnCqjkI0oAgqmv+gMqqOT18iAb
-         T58OHJgdnnkdsYC1hEU++iiuxb/sPTc/8FLPkVmkUXtp0xAXW8ahH0c7b09qYXuSKR4l
-         fNYA==
-X-Forwarded-Encrypted: i=1; AFNElJ9XNto4Tk3cPv0so52xtLeyOxguz6zDUso17QvcVRWudDJPP1+gpBSf+QRjR+8p60yW/g59bR8l5ogpP5/7@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy/7970IP5n01RWrwL7U3ElIMxyP7gd0vzA7N6FS4q05ELIJGh6
-	nYNxDa7L7WYdXlqxbqKfITRUns/4VTtSoAWxBQvhddKHSmLCTh8rOYdn
-X-Gm-Gg: AeBDietk1AhgZCH0eTZFVhhe7aQoI/SxdfP3B9jsvlIque4PSx0fpQmLvdaq+ZgIqc7
-	qqTEXeKjV9lKhxJJPt9MiaapIZqw8fx0WHh7XXtnR+pMZeVLPlRSxkReQ9h5bmpCRWhAv4Rwx9Q
-	S+qcJgZxZHkIiwDHhFu7Q34/naZPvyoy8yvOUM9wTnzNQaSw+Ge441d34MwdsOHu5b5tSj4gCtf
-	M2cId07NpBaFFUdWR1uXbNbZdfCg3224HDwcACoesUUvM2J72jFt9AlKXQdrHZReJSl3dQNk/2H
-	tVAcRY4uJu3ou48NFte8ZQLikCjxE4mPF10WI1M0HcAmgAgdYLkE9iobRUE8GjYFrRQylwJfL0j
-	n89kT7tQ9Xz3uXrU0U6kXRZVo38cgzW+VRKT5tQM4noiJmm7YqQiQ1ZweU/FDd8rbF2YNGU6KGJ
-	iu8GEGDRGuURQtZdCotQrsovRJ7ZyRIG/I
-X-Received: by 2002:a05:6a21:329b:b0:3a0:129a:9748 with SMTP id adf61e73a8af0-3a08d76d958mr31549415637.25.1776990051094;
-        Thu, 23 Apr 2026 17:20:51 -0700 (PDT)
-Received: from pve-server ([49.205.216.49])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c7976f92183sm15156744a12.3.2026.04.23.17.20.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Apr 2026 17:20:50 -0700 (PDT)
-From: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
-To: Ojaswin Mujoo <ojaswin@linux.ibm.com>, "Pankaj Raghav (Samsung)" <pankaj.raghav@linux.dev>
-Cc: linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, djwong@kernel.org, john.g.garry@oracle.com, willy@infradead.org, hch@lst.de, jack@suse.cz, Luis Chamberlain <mcgrof@kernel.org>, dgc@kernel.org, tytso@mit.edu, p.raghav@samsung.com, andres@anarazel.de, brauner@kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [RFC PATCH v2 0/5] Add buffered write-through support to iomap & xfs
-In-Reply-To: <aeqxFKaw1uOk1GuZ@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
-Date: Fri, 24 Apr 2026 05:47:17 +0530
-Message-ID: <1pg5tdo2.ritesh.list@gmail.com>
-References: <cover.1775658795.git.ojaswin@linux.ibm.com> <4og3axdvzyfpfx4o2rhcnwdsggha2kfoerausxx52vd6jc2hzq@u72iwxrxxble> <aeqxFKaw1uOk1GuZ@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+        d=1e100.net; s=20251104; t=1776992791; x=1777597591;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=xh3t/bv0nfHgOMhcW4p/qplYnwzHag4a5ofsHvIRt9Q=;
+        b=hUOXWxfPMG9DQQCfoxwAMlTTUIUMOrMGHXjaQ5YwIYN/FzpuLHIqq+tzyFxOnJnVPd
+         MpoTEDzZzbA35cIB7Fok+dBk4HYWKZroFXpzu1R+4aHXE/euHHtAMeohCZDtO04zGrP3
+         UO1EF124g5K5MqajSFa39LPk7IFSZt2RMqOPF8kOiMaLkxWVEY+DQL4PT6xZygD6slFP
+         kDny40pVvuC0+tYwRDtlF1Q3G7p/Ch6ZfIsVZtHhw6icz3hE3yLOSK/YLf7cQajFZZSJ
+         d2ceoWdJH8nqQ+fJNCxzT5KiFNp5HREUEnm1IWDRO3Zostp8R1oJQNQzWxWP6+OvLOGW
+         X1Pg==
+X-Forwarded-Encrypted: i=1; AFNElJ/ZxDRiGAbWuVHKp/8aEtCtwS7wEcmF+hBsuxq+enH9SSiIEGyekm44mEqNa9v2XY0axQ8T/vQrocsbmUq6@vger.kernel.org
+X-Gm-Message-State: AOJu0YxcsnMbyiwelAA+7X7KaOlMhA5T39nTd99Kkd58S2tyjNOcmoIS
+	g9Qnji40XC6rCljB0KYW0+1VlhRYRAJRlrYVCHa5bwwZ7NsOl55mI2n3
+X-Gm-Gg: AeBDietQxgBaHcVComB1dG6PfHif95/qTAL2U/GG4LGFyv1v6hCJ2cbSi3soFLvY0Ra
+	4Wjlb+VCoJbI3CyF+9PsLrAMbfwJhHI1HCJvAAJV7552deRUs5J+3N6uLw8kQUhnVrfKaR7AfVJ
+	FCKfXlNNUZQaSyIixZ8FQ1t9SwfQuw+pSRwsstyKjUkL6g+gd3IV0Gqc6YX2PsfW9YT/Dbx54eP
+	C9DgcVOMBW/uWFrp7lu4aPJOLRYaj6akZ9roLfAuAGEFOXyasbCgEgbeTSkoJ2gTr6XwlkcOJHf
+	FSvQqDpAipD32ih7nf3tom25X+VvQge2oztu6TPm1O3b1shNXiVTuvIz5A/VkU+F2Ai0DfZtAjd
+	c1VgPGHUL+f9ZCllDoiqO1+yxPfY9W4be8QxTNvH9EUrPEpLy8UWdBCRYwoNSs+u7I7ieEDMebW
+	onHNCVGjdf0x5M4TvRrxnL/gbX5qNXGDWWCrCg053KBfZaZDVgGgqKoANuUTXkUJMwKy1i25li7
+	Phixz0+OH7ur2kkA7AoMYbWn5+4RUo0ZXW/6A==
+X-Received: by 2002:a05:6808:c151:b0:467:5f1:fc93 with SMTP id 5614622812f47-4799c91872fmr14412173b6e.9.1776992791471;
+        Thu, 23 Apr 2026 18:06:31 -0700 (PDT)
+Received: from localhost ([2a03:2880:10ff:1::])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-42f090b1de9sm8378833fac.6.2026.04.23.18.06.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Apr 2026 18:06:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 23 Apr 2026 18:06:28 -0700
+Message-Id: <DI0ZDDJQHSXI.2CMCJQ908T1KV@gmail.com>
+Cc: <brauner@kernel.org>, <jack@suse.cz>, <linux-fsdevel@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <byoungyoung@snu.ac.kr>,
+ <jjy600901@snu.ac.kr>, "Alexei Starovoitov" <ast@kernel.org>, "KaFai Wan"
+ <kafai.wan@linux.dev>, "Yonghong Song" <yonghong.song@linux.dev>,
+ <bpf@vger.kernel.org>, "Al Viro" <viro@ftp.linux.org.uk>
+Subject: Re: [BUG] KASAN: slab-use-after-free in link_path_walk
+From: "Alexei Starovoitov" <alexei.starovoitov@gmail.com>
+To: "Al Viro" <viro@zeniv.linux.org.uk>, "Eulgyu Kim" <eulgyukim@snu.ac.kr>
+X-Mailer: aerc
+References: <20260423013916.1589029-1-eulgyukim@snu.ac.kr>
+ <20260423043906.GN3518998@ZenIV>
+In-Reply-To: <20260423043906.GN3518998@ZenIV>
 
-Ojaswin Mujoo <ojaswin@linux.ibm.com> writes:
-
-> On Thu, Apr 23, 2026 at 02:25:43PM +0200, Pankaj Raghav (Samsung) wrote:
->> > 
->> > 
->> > * Testing Notes (UPDATED) *
->> > 
->> > - I've added support for RWF_WRITETHROUGH to fsx and fsstress in
->> >   xfstests and these patches survive fsx with integrity verification as
->> >   well as fsstress parallel stressing.
->> > - -g quick with blocks size == page size and blocksize < pagesize shows
->> >   no new regressions.
->> 
->> I am hitting a very strange error in generic/127. I deconstructed it in
->> to two commands that can reproduce the issue:
->> 
->> ```
->> $ dd if=/dev/zero of=/media/test/fsx_lite_nommap bs=262144 count=1
->> 
->> $ /root/home/xfstests/ltp/fsx -l 262144 -o 65536 -S 191110531 -N 100000 -L -R -W /media/test/fsx_lite_nommap
->> mapped writes DISABLED
->> Seed set to 191110531
->> main: filesystem does not support exchange range, disabling!
->> main: atomic writes need O_DIRECT (-Z), disabling!
->> short read: 0x0 bytes instead of 0x6c7f
->> LOG DUMP (1 total operations):
->> 1(  1 mod 256): READ     0x39381 thru 0x3ffff   (0x6c7f bytes)
->> Log of operations saved to "/media/test/fsx_lite_nommap.fsxops"; replay with --replay-ops
->> fsx: save_buffer: .fsxgood file too short... will save 0x0 bytes instead of 0x40000
->> : Operation not supported
->> Correct content saved for comparison
->> (maybe hexdump "/media/test/fsx_lite_nommap" vs "/media/test/fsx_lite_nommap.fsxgood")
->> ```
->> 
->> This is on a bs == ps (4k block size) xfs filesystem.
->> ```
->> $ xfs_info /media/test/
->> meta-data=/dev/nvme1n1           isize=512    agcount=4, agsize=2097152 blks
->>          =                       sectsz=4096  attr=2, projid32bit=1
->>          =                       crc=1        finobt=1, sparse=1, rmapbt=0
->>          =                       reflink=1    bigtime=1 inobtcount=1 nrext64=0
->> data     =                       bsize=4096   blocks=8388608, imaxpct=25
->>          =                       sunit=0      swidth=0 blks
->> naming   =version 2              bsize=4096   ascii-ci=0, ftype=1
->> log      =internal log           bsize=4096   blocks=16384, version=2
->>          =                       sectsz=4096  sunit=1 blks, lazy-count=1
->> realtime =none                   extsz=4096   blocks=0, rtextents=0
->> ```
->> 
->> The same test passes if I pass `-G` to fsx parameters(disabling writethrough).
->> 
->> The error is coming when we do a read operation which feels very
->> strange. Could you run this in your setup and see if you can reproduce
->> them? I still do not know where the issue is coming from or it is
->> because of my test setup.
+On Wed Apr 22, 2026 at 9:39 PM PDT, Al Viro wrote:
+> On Thu, Apr 23, 2026 at 10:39:16AM +0900, Eulgyu Kim wrote:
 >
-> Hey Pankaj, I think the xfstests branch I shared might have been missing
-> one small fix that can cause this issue. I've update the branch with the
-> fix, can you give it a try:
+>> We suspect there is a race condition between vfs_rmdir() and may_lookup(=
+)
+>> on the BPF pseudo filesystem. It seems that while link_path_walk() is wa=
+lking
+>> a path, its call to may_lookup() checks permissions on the current direc=
+tory
+>> inode through nd->inode, and vfs_rmdir() can remove that same directory =
+and
+>> trigger inode destruction, leading to a use-after-free.
 >
-> https://github.com/OjaswinM/xfstests/tree/iomap-buf-writethrough2
+> Not really.  What happens is that bpf does prompt freeing of struct inode=
+, instead
+> of having it done with RCU delay.  Everything else is a result of that.
 >
-
-Ohk, just noticed your reply, after sending a response...
-
-Thinking it again, I agree we should just always ftruncate it back to
-the original file_size. Because we might have changed to file size while
-testing the writethrough support.
-
-Thanks for fixing it! This fix looks right to me.
-
-~# git diff
-diff --git a/ltp/fsx.c b/ltp/fsx.c
-index c9901f65..720bca83 100644
---- a/ltp/fsx.c
-+++ b/ltp/fsx.c
-@@ -2095,7 +2095,7 @@ test_writethrough_io(void)
-                return 0;
-        }
-
--       if (ftruncate(fd, 0) != 0) {
-+       if (ftruncate(fd, file_size) != 0) {
-                perror("test_writethrough_io: failed to ftruncate to 0\n");
-                exit(132);
-        }
-
--ritesh
-
-
-> Regards,
-> Ojaswin
+> What's going on there?  It used to be in ->free_inode(); who had moved th=
+at into
+> ->destroy_inode(), why had that been done, who had ACKed that and how hav=
+e I
+> missed the discussions on fsdevel?
 >
->> 
->> --
->> Pankaj
+> <digs>
+>
+> commit 4f375ade6aa9f37fd72d7a78682f639772089eed
+> Author: KaFai Wan <kafai.wan@linux.dev>
+> Date:   Wed Oct 8 18:26:26 2025 +0800
+> =20
+>      bpf: Avoid RCU context warning when unpinning htab with internal str=
+ucts
+>
+> [blocking stuff done from RCU-delayed callback, so let's make everything =
+prompt,
+> whaddya mean, what was the delay for?]
+>
+> Reported-by: Le Chen <tom2cat@sjtu.edu.cn>
+> Closes: https://lore.kernel.org/all/1444123482.1827743.1750996347470.Java=
+Mail.zimbra@sjtu.edu.cn/
+> Fixes: 68134668c17f ("bpf: Add map side support for bpf timers.")
+> Suggested-by: Alexei Starovoitov <ast@kernel.org>
+> Signed-off-by: KaFai Wan <kafai.wan@linux.dev>
+> Acked-by: Yonghong Song <yonghong.song@linux.dev>
+> Link: https://lore.kernel.org/r/20251008102628.808045-2-kafai.wan@linux.d=
+ev
+> Signed-off-by: Alexei Starovoitov <ast@kernel.org>
+>
+> OK, that answers some of that...  <looks the posting up>
+> To: ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
+> 	martin.lau@linux.dev, eddyz87@gmail.com, song@kernel.org,
+> 	yonghong.song@linux.dev, john.fastabend@gmail.com,
+> 	kpsingh@kernel.org, sdf@fomichev.me, haoluo@google.com,
+> 	jolsa@kernel.org, shuah@kernel.org, kafai.wan@linux.dev,
+> 	toke@redhat.com, linux-kernel@vger.kernel.org,
+> 	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org
+>
+> ... right, that probably answers the last one.  Incidentally, that commit=
+ has
+> brought back the old bug with cached symlink bodies getting freed without=
+ RCU delay.
+> It is possible that it was discussed on fsdevel at some point and I'd mis=
+sed it
+> there, but...
+>
+> Folks, the rules are simple:
+> 	* anything that might be accessed in RCU mode (inode very much included
+> for objects that are visible in the tree) must be freed after RCU delay; =
+that's
+> what ->free_inode() is for.
+> 	* anything that can't be freed in such context should either be
+> dealt with in ->destroy_inode() (if it isn't needed for RCU-exposed metho=
+ds)
+> or, if it really is needed for those, done via schedule_work() or equival=
+ent
+> done by ->destroy_inode().
+>
+> Seeing that bpffs has the grand total of zero RCU-exposed methods (no ->d=
+_compare(),
+> no ->d_hash(), no ->permission(), no ->d_revalidate(), no ->get_link()) I=
+ would
+> guess that it's the case of "have your bpf_any_put() done promptly, leave=
+ freeing
+> the inode and cached symlink body RCU-delayed".  Something like the delta=
+ below
+> (completely untested):
+>
+> diff --git a/kernel/bpf/inode.c b/kernel/bpf/inode.c
+> index 25c06a011825..bd052a8e89a9 100644
+> --- a/kernel/bpf/inode.c
+> +++ b/kernel/bpf/inode.c
+> @@ -762,14 +762,26 @@ static int bpf_show_options(struct seq_file *m, str=
+uct dentry *root)
+>  	return 0;
+>  }
+> =20
+> +// this is done promptly
+>  static void bpf_destroy_inode(struct inode *inode)
+>  {
+>  	enum bpf_type type;
+> =20
+> -	if (S_ISLNK(inode->i_mode))
+> -		kfree(inode->i_link);
+> +	// better done here, since it's blocking and we'd need
+> +	// to use something like schedule_work() to do it from
+> +	// ->free_inode(); since this stuff doesn't need to
+> +	// be delayed, doing it here is less headache.
+>  	if (!bpf_inode_type(inode, &type))
+>  		bpf_any_put(inode->i_private, type);
+> +}
+> +
+> +// ... and this is done with RCU delay; anything that might be accessed
+> +// by RCU pathwalk (like, you know, inode and symlink contents) should b=
+e
+> +// dealt with here
+> +static void bpf_free_inode(struct inode *inode)
+> +{
+> +	if (S_ISLNK(inode->i_mode))
+> +		kfree(inode->i_link);
+>  	free_inode_nonrcu(inode);
+>  }
+> =20
+> @@ -778,6 +790,7 @@ const struct super_operations bpf_super_ops =3D {
+>  	.drop_inode	=3D inode_just_drop,
+>  	.show_options	=3D bpf_show_options,
+>  	.destroy_inode	=3D bpf_destroy_inode,
+> +	.free_inode	=3D bpf_free_inode,
+>  };
+
+Thanks for the fix.
+Feel free to take it into your tree directly.
