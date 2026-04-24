@@ -1,99 +1,102 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62B7B2DF6E9;
-	Fri, 24 Apr 2026 18:41:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D2D03F660E
+	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 18:50:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777056082; cv=none; b=hoWyHJ5g7kjBMjtWrylPMY0BDJ2Fu4hvAiWMccjwR06+Ct8e9oUrJqvdpvKniuDzOvByAJBXnpbRmNbc37ycmHK8fvF/eF1R/8Dgtw7ZROSESjtrIpoC0ac9svcECXfTaIwukgTycbMvjjor+cLx0ymP1mRlstFvaqMJXQZF2lk=
+	t=1777056605; cv=none; b=L1qO2sW8MNZIB8eKOn7U3j7clEvZkYg2rVb80au7kTOXt+ET3XII6LWfZ4mfFulolyeUfRGwH+GlV7ee5beUYTL1Vy6XEKd/hdD70QBSyT8FjX5c1yHoN2M7AdyA1fkWAz/Fv3ZXMn1LJ8fs9PRRLCu92UCdG4N/gfleW4JONCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777056082; c=relaxed/simple;
-	bh=CBlRl+YpPrrcRVNfUoIocM7HYY5h0Ecdd85gOHI3Zxg=;
+	s=arc-20240116; t=1777056605; c=relaxed/simple;
+	bh=F0gcFbyNIeCxJf1KL1Z7gVb3Ii/er9bI52qbI3HrFB4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F1LmGdP2Fm05pkPiHOkoFQMXGLw4PThymMJAtlaXTCwYYOhwdVRcxkwz/Q/DqBo/A7cTuBdDDj1cyXMwtM5he3L8sLxhQWmK2Zo/Rjiwu2Rx/7R/sjgTrI7cpm5thebMq+QiqoU6fLhg+8jyXdE5yDYMDlp1DhUkeDSF4fJ0yy0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=FFGMzRxr; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=HHvA15XUBeBGW8fCXBCtKaZzJl+RxhtP/LIqvfJBWQLjqpVJdZyklY7KnSEYJ1ABSvenk8Hh9PhE+8LhQjFsBOCMgBho6QUDBYW/otJgZcScjRd+VpajgX1rjfgmDOr2Noh8POqh3jI1AOoNFeKVcpSUTCPcdCgiS/SfSnbym3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BpozKon0; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="FFGMzRxr"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=0jMwEKotAvq2OL4OEp6t+lhTaMljgnAVvfhivquqvtU=; b=FFGMzRxrQI3FU/6XH/nP3cw2bz
-	KTetZpzPQ/VUg6/QrjDvqOe4Kl13/C7miXnNFgHRjwkpTrCVViYOVdoKuZBRwmZ79YPuMUmz/XTU4
-	hyPOfm9emkeL8t66v2Lm5nrkl1xcHWvytvpkul29rd6HDaMa2wfaumz4p2fAV6kl2shEqmx8lHiG7
-	3yqDwh4QyR9k+SJ8mXKdWJ2/PYlkGtdcVclNsYhDUBPetd7muaRzLy2BtB0d9RhpKVsM5RTFS8e72
-	AbvElS65WHKkUDrBlyuJAuRDP4OZ0C72Xpve6Q9/yKqPVeDZFjqQ/v4dJEcI/iADLkpRqbxDYMsPy
-	nUzhEk/w==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wGLSZ-0000000FeLx-2qnt;
-	Fri, 24 Apr 2026 18:41:03 +0000
-Date: Fri, 24 Apr 2026 19:41:03 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Brendan Jackman <jackmanb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Andrea Arcangeli <aarcange@redhat.com>,
-	Gregory Price <gourry@gourry.net>, linux-mm@kvack.org,
-	virtualization@lists.linux.dev,
-	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
-	Lance Yang <lance.yang@linux.dev>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
-	Byungchul Park <byungchul@sk.com>,
-	Ying Huang <ying.huang@linux.alibaba.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Hugh Dickins <hughd@google.com>, Christoph Lameter <cl@gentwo.org>,
-	David Rientjes <rientjes@google.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Harry Yoo <harry.yoo@oracle.com>, Chris Li <chrisl@kernel.org>,
-	Kairui Song <kasong@tencent.com>,
-	Kemeng Shi <shikemeng@huaweicloud.com>,
-	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH RFC v3 01/19] mm: thread user_addr through page allocator
- for cache-friendly zeroing
-Message-ID: <aeu5P1bZW3yEH54t@casper.infradead.org>
-References: <cover.1776808209.git.mst@redhat.com>
- <9dd9deabd42801f3c344326991d1431c3d8db39d.1776808210.git.mst@redhat.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BpozKon0"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-59e4a04f059so9807595e87.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 11:50:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777056602; x=1777661402; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=k2hSohRjeGx5XTtLIeUKSBFxVdH32z1XvsX6sIeIBOk=;
+        b=BpozKon0wrOVs3b13BMsRR0rJqOEHsm/QtNf2yZCrjYcH2j3QMplhu9+KdGB2kbbkb
+         JVrDtzsHJlXiDMvVqehHNO667f4qx678bBAsebcrQioFMqhT0f/FbMOY7GwIspiEWElF
+         hDJ0XSPUKs9t5G8Evs7OjYuK8KMPGQ72yknpSDcK6SFsq3fk9fva3bhEMnWyQaHtW3g/
+         O2dzZsYymvfG+N+LS1xhqE4dt72VGKcIr9DCx99Nzl5nlZi1gQlnB/abczsaeLDJEzih
+         f0AOI0qAWi15bBguUJDWk4ZiEUKAqyYZ/CqUCCoHmiwHAtRn8vXhjogSEOPtIY6dUzOv
+         YwyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777056602; x=1777661402;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=k2hSohRjeGx5XTtLIeUKSBFxVdH32z1XvsX6sIeIBOk=;
+        b=gFm6hmKZT+xaeNko/1e4DAMAfzhZxHDB872jqBd6oD0mBeTq8n7D8SHN6b+dFvCJbj
+         TkGUcR34Y9KcI54hviIwZ59PynEuZSg/ulT2VE6IAYWxxO0QQAmsQSgBqYlHeaCEHqe7
+         ff2ZVLfig1clFXXq//bn2CreeZv6ZCwFywY8yqIGOq/MeyYiDEc5d/OPjOly5PZq499B
+         nMUD49lyQkSC1x/ElXqsiOtlPE+3Lk3EGFrR5+x4EKKpY3ioEnk8Pphkgpq6KHFZhhID
+         hj4871roDhRTUf0k7VewcS7X28TdWcKLHodYLzqgicKnJA3cKezYx4cXcrAOby2j+8ml
+         +b/w==
+X-Forwarded-Encrypted: i=1; AFNElJ+1i/lxU7zNoKKC90cy/BZD9+R8WXzb25TcrmVDVsgXHa0QBH7cGkc5ylMBqq13nMtuFeX6BGQEFX029om0@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw7HBqsAoxjE2ssPTWnbtjUnkPxLog00fzwI/sK7O6DMfMZzQZ+
+	WbWKfqcqMbGiCaeaLLtnJYQP/AJpJ01HnH9Dg523XlYMjAlx6j8TTApT9MBY
+X-Gm-Gg: AeBDietRTS7UuoNhzUGoGkwwjRTH1WS7eQo5s0JahvZgg45L2XJywvM153BxJO5/h81
+	vSucnF/RYBVM/AsoNZZ3YrjZRlqeglMtj89PzqnN2Y8GwT3htjkFTTU7cZZi36g3xSS21fVYAUT
+	bQc+OxCsA4ONJ+oAcMkUeE/LP5eMr6qPzifH/lyht4msALuHNeRtrGYGpqoFOoyLFdxQJOUtJDI
+	RiWSSSs/r0zcM+1m4jIIXkbjSTFPr33Y1/vxTZW/EWg9NptkW2zKNlEsl+URbRRJM09aRBDXMIP
+	4iGSZriazFByOvA4nmTTmXcWpW/DEXmbIsdb0scvAv0qMk0unf6gJgd8t7IczIjXQkHFC74YuFT
+	SMFSOLoDy508Wih4nzfP6duuFE+YqLP0oOxbRaSzxurR+457nQeZitXJ/YeU6YqnGynSg/enLzY
+	/KwUdb+gXd9yWb9qLiHvX2iM0=
+X-Received: by 2002:a05:6512:33c1:b0:5a2:b219:3ecb with SMTP id 2adb3069b0e04-5a4172ebf9emr9629778e87.42.1777056602322;
+        Fri, 24 Apr 2026 11:50:02 -0700 (PDT)
+Received: from p183 ([178.172.147.205])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a4185bc672sm6365408e87.34.2026.04.24.11.50.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Apr 2026 11:50:01 -0700 (PDT)
+Date: Fri, 24 Apr 2026 21:52:12 +0300
+From: Alexey Dobriyan <adobriyan@gmail.com>
+To: Shengzhuo Wei <me@cherr.cc>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	John Stultz <johnstul@us.ibm.com>, Yao Zi <me@ziyao.cc>,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] proc: fix comm_write return value when truncated or error
+Message-ID: <5587b10e-91a4-458b-a95b-025be31e1a84@p183>
+References: <20260424-fix_proc_write_return-v1-1-7a793c2aad32@cherr.cc>
+ <20260424035028.a811dd6bc8248b640a9fd7c2@linux-foundation.org>
+ <3f91ed95-b38e-4049-b69c-13335b13ae44@p183>
+ <aeuwfe6xy74R2qm4@pve.cherr>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <9dd9deabd42801f3c344326991d1431c3d8db39d.1776808210.git.mst@redhat.com>
+In-Reply-To: <aeuwfe6xy74R2qm4@pve.cherr>
 
-On Tue, Apr 21, 2026 at 06:01:10PM -0400, Michael S. Tsirkin wrote:
-> Thread a user virtual address from vma_alloc_folio() down through
-> the page allocator to post_alloc_hook().  This is plumbing preparation
-> for a subsequent patch that will use user_addr to call folio_zero_user()
-> for cache-friendly zeroing of user pages.
+On Sat, Apr 25, 2026 at 02:03:41AM +0800, Shengzhuo Wei wrote:
+> On 2026-04-24 16:28, Alexey Dobriyan wrote:
+> > > > Fixes: 4614a696bd1c ("procfs: allow threads to rename siblings via /proc/pid/tasks/tid/comm")
+> > > 
+> > > December 2009.
+> > > 
+> > > Hopefully no userspace is depending on the broken return value of a
+> > > write to /proc/pid/comm.
+> > > 
+> > > Arguably we should leave the code as-is and add an apologetic comment
+> > > explaining the situation.
+> > 
 > 
-> The user_addr is stored in struct alloc_context and flows through:
->   vma_alloc_folio -> folio_alloc_mpol -> __alloc_pages_mpol ->
->   __alloc_frozen_pages -> get_page_from_freelist -> prep_new_page ->
->   post_alloc_hook
+> First, there's a plain bug regardless: assigning -EINVAL to a size_t count and
+> returning it as ssize_t produces a bogus positive value on the error path.
 
-I don't like this.  I think we should instead lift the zeroing from
-post_alloc_hook() to the callers of __alloc_frozen_pages().
+There is no bug, write() will return -EINVAL as it should.
 
-I don't understand why you want to remove the double-zeroing of memory
-when the user has asked for zero_on_alloc.  They asked for stupid things,
-let them bear the cost.
+> Introducing a dedicated ssize_t ret fixes this without changing any
+> success-path behavior, the change is on a permission failure path, so it's hard 
+> to imagine anyone depending on the broken behavior, but worth mentioning
