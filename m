@@ -1,194 +1,220 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E606836921C
-	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 20:00:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2807F3E1D01
+	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 20:06:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777060812; cv=none; b=BnbXEpTSkGWBagpH4fxAu7g3R4lI7fcNxIlK+Re/Hd4u0JOe8D0t4BOyRPVS6u2KlYscw61bxsGKP7BiPkNmx8cWyq2yL6FaFLc821X8NMKbeiZ/w23V1D6ezXMAusepIRae0m+vLmWwsayORvpj0PR4WvTtTl4cVDd4XWpKcZg=
+	t=1777061179; cv=none; b=WQAiC/jI5T61GUrtTXYgPw/YKYJv4Frt/va75WHl23TEOfgxNvIwSUF23hM9wspjAz8NO4KvtmJthyanOC4HRPzb4DI3+DoPhGBJxOiEx9yOvQbrw9k7X82Xb1qPoScFI+uHfKL4RnI7UWD+5RJ8JSDqak8R02GbxcBe2+H+zbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777060812; c=relaxed/simple;
-	bh=SAH6DfdUPSmFa7qKfS14gWSdLrFa3eaySmOQ/dPeb/g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tL8TerbWW/z2FK65HhOdTXHVRtRc3orIceePiTq7c15OhQ228C5FzoIT5qtIdaKApZM/fDl8fsQRvEkuxoLCka9rMl6Uq8DL/tKWgrT4FTeIUdpjXxS0d2SixhVK19Peym36UX+D2hLg0VKTYOop212jhgfJfXO2JXaiFN7Af4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b=Z2cD4cqN; arc=none smtp.client-ip=209.85.160.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
+	s=arc-20240116; t=1777061179; c=relaxed/simple;
+	bh=6ZJTWCVexWgcOox0P9HFzxmkJ+aF96Ps9swed70VxHA=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=GjQ1Yg2KBwWgZPpZd0Wnq24m3+iQsFt4ccboFtbUsk7mkPujwXvIP2Q0f+TPS8VGEmNJMQ+ZLPR5cHzWAIOlrA2sjjt3qlFNGwPydLe1UDvWlaXvBNXKNqzk0AQFKES00IuJsrxPr7XimlR8jA1tUxZ1fRqUY9Yus1Z+54Mcr48=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KkUMySmY; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=sl3+j2gp; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b="Z2cD4cqN"
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-50fb1932b62so39382421cf.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 13:00:09 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KkUMySmY";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="sl3+j2gp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1777061171;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QscVZOg4w8Rhqqko9LVNMW3RsXPDXzUVqjkIOP9vkUE=;
+	b=KkUMySmYBjLqIXi8en2KS2lFy38dN+jr8ciaqVo1EYwJItllss8wz/6co/cGAEVLpt+hnU
+	CWZCcGNWEP0cGRLL4kjNNDqIeM3BvXnuSErtCb6Q4AEeAHMFBGGTa5klfHJLZKwNIraB+V
+	02Rl849lozA6s3whFuTlO8DYFqsUJIE=
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
+ [209.85.210.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-635-7ooEnehgPZ-57aijcMwE_g-1; Fri, 24 Apr 2026 16:06:08 -0400
+X-MC-Unique: 7ooEnehgPZ-57aijcMwE_g-1
+X-Mimecast-MFC-AGG-ID: 7ooEnehgPZ-57aijcMwE_g_1777061168
+Received: by mail-ot1-f70.google.com with SMTP id 46e09a7af769-7dbc56f5290so19698690a34.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 13:06:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg.org; s=google; t=1777060809; x=1777665609; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vKqBvQFy0haKdUtjK97pLXW69B86nqbjxH3fSUsXZ54=;
-        b=Z2cD4cqNQvPqiy3HbIMpBuIGkfdJZzeWCX9OwzT4r5j0QQ8fooqbgA9PEqN7q32uGD
-         LW4Rcz5WHyIHJcaoHvAKqTlVO+dN0mchRxPKwkPU7lC1Zxb5ixR7ctjCZ9FH1PSud5d7
-         M9bjDn2Uox5h6oKIKY7LqX3D2HONs5GKnMBLKEpBIirZ0SOBNf7f0vk6JeOGUB3tM76r
-         DUZjaTZahtrO3XDiPwW/sv8NxlMMcjEhguGhoPs/SC+OLV9x864LN0zyjAmbSe8NkCvm
-         +H20rM81qQV8y2qdn9XnBeBJyVwiiHeUUDgY2sY5MGKyjuR5mOqZaLiWPuZU5r22cK4k
-         fn7A==
+        d=redhat.com; s=google; t=1777061168; x=1777665968; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=QscVZOg4w8Rhqqko9LVNMW3RsXPDXzUVqjkIOP9vkUE=;
+        b=sl3+j2gpR43DfNDsxLD/SrgLJLqVl8YLyllFnhv7mKKkILjUf8MWvqIoW7GJQr4umR
+         N4dnRnLOlSaDgamWJluhmUuqrCvbT0+O7xZa51aO9r2usWBxej1HZ2goSLRDSu4hGFRR
+         yWnvKvVbl4kMHbeTMsp3sEAYSNH1SJ+F4JoDR7BWoPtU4CqKoM05m7JheUHJCQudMMFo
+         JWHiLWd69nfIZfrpcfypJIB1f975R1yROpNN483EHGYRBtbF1y2PyWaUy6WTyKvmr4LG
+         LMYtCtHxcQEqy9YpEtpgfdSuyt30tKhqp9NKi91U+TdeXOJ+xopoE7kkkU3zfp7W0R4x
+         wHBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777060809; x=1777665609;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vKqBvQFy0haKdUtjK97pLXW69B86nqbjxH3fSUsXZ54=;
-        b=L+UShcIp9VT632EFfIV1B9EO/DlGiFfj+IwrrO5CEovVrxVEQyhG5yxGj5GVLKV3mM
-         wRKu96f2lmC+LO6leDm1p3MlnvdIlc3sqKmjQB5hqtlR3t4Nc93RnebNuYHfFzQSkvfv
-         L4AK/1tDWCClD6UAUmxr4Nnwxe/8vtTHeOLYm1Y9WmT3/cnKIScHS1P9B2SNVZVRMOin
-         fmyWT/Chou1y8yaJuhjQQOHaO8WsHVxlCHq4F6d1h/yv/04mxOWRPpTuuOv16+6x9JbL
-         FxrO3+WJFtRTzqQe7xkDk18g6KYktxO/uXm2G8Kf1LbBfHgs9cRhNLIhKlEa8JGElc8s
-         nrPA==
-X-Forwarded-Encrypted: i=1; AFNElJ8hlzw2Iu49semeQ0wPM4+A7oSx857MxyEZsibprJI/t9s4IOyHCb9wXdCzlwC2GFHbFxHbsQXVOaBLKH4X@vger.kernel.org
-X-Gm-Message-State: AOJu0YweoM3fVx7W+2Q4e3JY62kB1/91IhzBdWF9PCb40Vxb4v5/uMMM
-	5DnVhK4yKcJqcxh7RYB7HJ8NOXly3olbk6iclokdCnZZ6t7UwGTu131bE5OHh9grJjA=
-X-Gm-Gg: AeBDietzlQURXnJ63W78TGYRhuz+gZ/TDVuH8vGo+VudP4pdoAICYiFXPmAVByWYKqG
-	vH1/azqBRLXRtABbVIe32NTSRDoS9E2tcY23FvSbR3EbM8Dj4FaybHhwJ1QZtlOeTcvtGaZwypq
-	164lKCqGvWdNB6LakcwVUPNBYvTV+AFDnBwfIJ0VIscZVCwjNei+JPSWvhM/g3Mh8Cd6ZKgAg3c
-	XJf/h39Z2OEoI6n1CM/eep9ocIo/7IzVeCgwDrkkBkaQTSvnIcOgmVa+zqmusUzUD3DfpIMEjL7
-	yHjK4XYT11NHi0R66G2SFlqdgJPN2D820aVRYIjpK+i2CdJfzGaSOMEEEXEmdj3vyf+S0mGt4Ik
-	HuH+8b534r9eTWvLvExcdNpZj8n+DBpEkDqSY+s28qFIDFzG/sNTF7p5ZcJboEE0hZFhauvIKZr
-	DIuu7Nzko9RhQx2TOfPgMavqRtzJq3sicX
-X-Received: by 2002:a05:622a:848e:b0:50e:5cc3:6f42 with SMTP id d75a77b69052e-50e5cc37bedmr276335431cf.59.1777060808338;
-        Fri, 24 Apr 2026 13:00:08 -0700 (PDT)
-Received: from localhost ([2603:7001:f100:500:365a:60ff:fe62:ff29])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50f13ba2509sm129707921cf.8.2026.04.24.13.00.07
+        d=1e100.net; s=20251104; t=1777061168; x=1777665968;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QscVZOg4w8Rhqqko9LVNMW3RsXPDXzUVqjkIOP9vkUE=;
+        b=OqRI4MuPIF8k3m32UhfGWPeJsyXejrZ7ArWJqCC9XsCS0VAe0FQ/UDYDYIhgVGIduH
+         WXYRwGu55zlQWwKTfWMLVPusganEbyIQk63nsBdgxgROrhC86GlkKW+sKja/IVANrxkQ
+         ZiLZ7UbUKSVOikn4P/DG6V6EDfPJxi2lGmAhG3AOBrnEWRVddftP3P82ZndV6tHILRqD
+         LcFM5/yLaxpzZ0yi8DfSJNWq+m1TxsqEq6Yi45ScuOe3IZdN2Kr+uHqmZMehravr+Xbq
+         HkbvSGgbtIZF/95+hj7LPSavegiAW95tQ1ILoH3ezxzCtKiU+ge3Th05vVYtEaGepqQV
+         e05A==
+X-Gm-Message-State: AOJu0Yw66z/BbDpZtfkRua4+BktZTdj/5ur+rubUO8r3t0A15cZZIuUW
+	0+7BGxeHjseYgoQVNDfJPWnuBY9xF9XWrZFqFilM83567Q6gVN5tttWBfyH43539i6lvuN7Kwh8
+	FOGId9RryDdwaQDfBCv4Jl3JZH1zscCDdmCiTByuxm0p3vvueKber6+qMtOMVyDlE2bg=
+X-Gm-Gg: AeBDievy1vIy5QkktRh3zgOvf/nm2RqnbK7hLcNgzw9zrnOgh3H3vI8wSy0+CpXRWVY
+	5rOwdHp5rI27Rsq6N3MFcAz8m7sfw43EuvsuqekV+x+b2iwrTnqpydGVtLOmbVGBHohKxVvJB7Q
+	jZSgh6LzDPm8JWAxKJ6WteI42CmQADHEfORPWuoj2WY4PbqilbC8xU1zwYTDIo3Z/iaC9TKUmLj
+	WmYlNAeD0UoaxFajSFoFquRTybsFcmeelvDGORMqv1EJZFPZp2HJGHvsSazP6l4ojs/VmObpkFT
+	kFmhutsZp/rq2i9oXI8mdYAqX1WLw3fvgq2IdRRrgEnjr+Jd5KcArzEa6QSYFD3vxGgPRKZeR04
+	Pkqd55cnVayVCrfA4ne3Nunx7uN5TgAzFxepZtljgvJ0kTSs394KsabdJlrQScHM=
+X-Received: by 2002:a05:6830:2b0a:b0:7d7:fd71:f2e4 with SMTP id 46e09a7af769-7dc9518becbmr20412778a34.14.1777061167772;
+        Fri, 24 Apr 2026 13:06:07 -0700 (PDT)
+X-Received: by 2002:a05:6830:2b0a:b0:7d7:fd71:f2e4 with SMTP id 46e09a7af769-7dc9518becbmr20412758a34.14.1777061167328;
+        Fri, 24 Apr 2026 13:06:07 -0700 (PDT)
+Received: from li-4c4c4544-0032-4210-804c-c3c04f423534.ibm.com ([2600:1700:6476:1430::29])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7dc9759bfa3sm20318100a34.13.2026.04.24.13.06.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Apr 2026 13:00:07 -0700 (PDT)
-Date: Fri, 24 Apr 2026 16:00:03 -0400
-From: Johannes Weiner <hannes@cmpxchg.org>
-To: "Liam R. Howlett" <liam@infradead.org>
-Cc: Matthew Wilcox <willy@infradead.org>, lsf-pc@lists.linux-foundation.org,
-	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-	David Hildenbrand <david@kernel.org>, Jan Kara <jack@suse.cz>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Christian Brauner <brauner@kernel.org>
-Subject: Re: [LSF/MM/BPF TOPIC] Page cache tracking with the Maple Tree
-Message-ID: <aevLw0DsPOEeRd-J@cmpxchg.org>
-References: <biynsvpcamct5fva5nxxdvc3q43dqi72jotpyasvrk3pumdz2w@7okprmuwznlo>
- <aeKO6bKupHa2bgWt@casper.infradead.org>
- <aeaKAxrAUtfwM9ns@cmpxchg.org>
- <oi2kit3a2qulr53c7j3h4g3cjjgbss4kd2djdqota2sriiaaov@7uewnraaq4gk>
+        Fri, 24 Apr 2026 13:06:06 -0700 (PDT)
+Message-ID: <d6c14c73839aa899b4fa40a04e8d650c3c2c49f8.camel@redhat.com>
+Subject: Re: [PATCH] hfsplus: fix hfs_bnode_split() failure on
+ sparsely-filled nodes
+From: Viacheslav Dubeyko <vdubeyko@redhat.com>
+To: Shardul Bankar <shardul.b@mpiricsoftware.com>, slava@dubeyko.com, 
+	glaubitz@physik.fu-berlin.de, frank.li@vivo.com
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	janak@mpiric.us, kalpan.jani@mpiricsoftware.com, shardulsb08@gmail.com
+Date: Fri, 24 Apr 2026 13:06:05 -0700
+In-Reply-To: <20260423214936.444718-1-shardul.b@mpiricsoftware.com>
+References: <20260423214936.444718-1-shardul.b@mpiricsoftware.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43app2) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <oi2kit3a2qulr53c7j3h4g3cjjgbss4kd2djdqota2sriiaaov@7uewnraaq4gk>
 
-On Fri, Apr 24, 2026 at 12:45:32PM -0400, Liam R. Howlett wrote:
-> On 26/04/20 04:18PM, Johannes Weiner wrote:
-> > On Fri, Apr 17, 2026 at 08:50:01PM +0100, Matthew Wilcox wrote:
-> > > On Tue, Feb 24, 2026 at 12:10:26PM -0500, Liam R. Howlett wrote:
-> > > > The Maple Tree needs some enhancements:
-> > > >  - Support for purging shadow entries from the page cache
-> > > 
-> > > Liam and I hd some preliminary discussions yesterday around this
-> > > and we'd like some feedback if anyone has time before LSFMM.
-> > > 
-> > > For those who aren't aware, when a folio falls off the end of the
-> > > LRU list, we store a shadow entry in the page cache in its place
-> > > so that if we access that page again, we know where to put its folio in
-> > > the LRU list.
-> > > 
-> > > But this creates a problem (documented in mm/workingset.c) where
-> > > we can fill up memory with shadow entries.  Currently, we embed a
-> > > list_head in xa_node and add nodes which contain only shadow entries
-> > > to a list which can be walked by a shrinker when we're low on memory.
-> > > Ideally we wouldn't do that with the maple tree.  There are a few
-> > > options.
-> > > 
-> > > The first question we have is whether it's best to keep nodes around to
-> > > wait for a shrinker to kick in.  Was any experimentation done to
-> > > see whether eagerly freeing a node that contains only shadow entries
-> > > has a bad effect on performance?
-> > 
-> > Hm, I'm not sure how that could work.
-> > 
-> > The LRU order created by readahead makes it highly likely that all the
-> > folios in a cache node are reclaimed/made non-resident at once. Going
-> > this route would destroy a large part of the non-resident cache the
-> > moment it is created.
-> 
-> Not the moment it is created, but the moment the entire node only has
-> NULLs or shadow entries.  Meaning it's removed the moment the last
-> entry becomes a shadow entry.
+On Fri, 2026-04-24 at 03:19 +0530, Shardul Bankar wrote:
+> hfs_bnode_split() determines the split point by scanning the node's
+> offset table for the first record whose data offset exceeds a threshold
+> derived from node_size / 2. When all record data fits within the first
+> half of the node, no record offset exceeds the threshold, the loop
+> exhausts all records, and the function returns -ENOSPC even though the
+> node can be validly split. This causes xattr insertions to fail
+> silently.
+>=20
+> The failing code path is exercised by xfstests generic/070 and
+> generic/642 during xattr stress operations.
+>=20
+> Fix this by re-scanning with a threshold based on the actual data
+> midpoint when the position-based scan exhausts. If the re-scan also
+> exhausts, fall back to splitting off the last record.
+>=20
+> Reported-by: Viacheslav Dubeyko <slava@dubeyko.com>
+> Signed-off-by: Shardul Bankar <shardul.b@mpiricsoftware.com>
+> ---
+>  fs/hfsplus/brec.c | 32 ++++++++++++++++++++++++++------
+>  1 file changed, 26 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/fs/hfsplus/brec.c b/fs/hfsplus/brec.c
+> index e3df89284079..cfc909c808a4 100644
+> --- a/fs/hfsplus/brec.c
+> +++ b/fs/hfsplus/brec.c
+> @@ -282,12 +282,32 @@ static struct hfs_bnode *hfs_bnode_split(struct hfs=
+_find_data *fd)
+>  		old_rec_off -=3D rec_size;
+>  		if (++num_recs < node->num_recs)
+>  			continue;
+> -		hfs_bnode_put(node);
+> -		hfs_bnode_unlink(new_node);
+> -		hfs_bnode_put(new_node);
+> -		if (next_node)
+> -			hfs_bnode_put(next_node);
+> -		return ERR_PTR(-ENOSPC);
 
-I'm saying they can be often the same event. Readahead means LRU order
-matches file index / node range order. So there is a good chance that
-reclaim batches will create all shadow entries in a node in one go.
+I don't quite follow why do we completely remove this logic? Potentially, i=
+t
+could be valid situation. No?
 
-> Still much sooner, but not as extreme as just dropping them immediately.
-> 
-> > 
-> > The goal is to garbage-collect the oldest shadow entries whose
-> > distances are too long to be actionable at this point. Specifically,
-> > their distance to lruvec->nonresident_age (per-cgroup, per-node).
-> > 
-> > In the current scheme, we just go in the order in which nodes became
-> > all-shadow - oldest first. And we only do so lazily when the
-> > non-resident cache is far into that territory (cache set vastly larger
-> > than available memory). That gives us confidence that we're mostly
-> > dropping very old entries without having to look at them one by one.
-> > 
-> > We don't have to stick with that design, but whatever replaces it
-> > should meet the goal, or approximate it well enough.
-> 
-> The goal of garbage collecting the oldest shadow entries based on the
-> nonresident_age.  That's a broad target, which I think is made more
-> specific within the implementation to 'groupings of 64 shadow entries',
-> which I bring up later.
-> 
-> Besides the locking improvements that we can bring, is there anything
-> that you have found doesn't work optimal in the current solution that
-> may be nice to fix?
-> 
-> > 
-> > > The second idea we talked about is that the maple tree is much more
-> > > flexible than the radix tree.  Having even a single folio in a node pins
-> > > the entire node, so it's "free" to keep the shadow entries in that node
-> > > around.  But with the maple tree, we can be much more granular and
-> > > delete shadow entries in arbitrary positions.  So we could (for example)
-> > > keep track of inodes which contain shadow entries and purge shadow
-> > > entries when they reach, say, 10% of the number of pages.  Or 1000
-> > > entries, or some other threshold.
-> > 
-> > It's not the volume or the concentration of shadows, it's their age
-> > that makes them good candidates for garbage collection.
-> 
-> Maybe I'm reading this wrong but it seems workingset_update_node() adds
-> nodes to the list that is composed of all shadow entries (or removes it
-> if we have changed one to resident).
-> 
-> Doesn't that mean there is a concentration of shadow entries since the
-> entries in the tree are in order?
-> 
-> That is, reclaim is at node level granularity, and the nodes are sorted
-> sets.  I think, sibling entries aside, it's fair to call that a grouping
-> of 64 shadow entries?
-> 
-> This also means that with today's code we are keeping older entries over
-> newer entries because the node has at least one resident entry.  But
-> that's fine, because we can't gain anything by removing them today.
+Also, I think we need to add hfs_bnode_unlink(new_node) here [1]. Otherwise=
+,
+hfs_bnode_put() will be unable to destroy the node.
 
-Yes that's a great catch.
+> +		/*
+> +		 * All data fits within the node_size/2 threshold,
+> +		 * so re-scan using the actual data midpoint.
+> +		 */
 
-It's the last eviction, i.e. the very youngest shadow entry at this
-point, that suddenly demotes the whole node to the "old" set. And
-there could be much older entries in circulation that just happen to
-still be next to a resident entry.
+First of all, I don't see the answer on question. Why we call this method f=
+or
+node that is not completely full (or near to be full). If we have half empt=
+y
+node, then, what's the point to execute node splitting? We have enough spac=
+e to
+add more items. Do we have the same issue for Catalog File and Extents file=
+?
 
-But I think this would require a pretty spectacular breakdown in
-access locality. More likely you get mixed nodes when individual
-entries refault. And yes, not much we can or need to do about it,
-since the resident entries pin the whole node anyway.
+> +		size =3D hfs_bnode_read_u16(node, tree->node_size -
+> +			(node->num_recs + 1) * rec_size);
 
-So the question, I think, is still: in what order do you reclaim a
-gazillion all-shadow nodes when the time comes. And the answer to
-that, IMO, is still best approximated by going in the order in which
-they became all-shadow.
+I prefer to executes likewise calculation more carefully. We could have
+incorrect tree->node_size, weird node->num_recs value.
+
+Why do we need node->num_recs + 1?
+
+Potentially, we could have overflow here.
+
+> +		size =3D ((int)node_desc_size + size) / 2;
+
+How can we blindly rely on size that we received from hfs_bnode_read_u16()?=
+ What
+if it was really huge or really small value?
+
+> +		old_rec_off =3D tree->node_size - (2 * rec_size);
+
+Why 2 was hardcoded here? What this value mean? Why do we need to multiple
+rec_size on 2?
+
+> +		num_recs =3D 1;
+> +		for (;;) {
+
+I slightly dislike infinite loop here. Why do we need to use infinite loop?=
+ We
+have size or number of items estimation. What the point to use infinite loo=
+p? It
+is always bad coding style.
+
+> +			data_start =3D hfs_bnode_read_u16(node,
+> +							old_rec_off);
+> +			if (data_start > size)
+> +				break;
+> +			old_rec_off -=3D rec_size;
+> +			if (++num_recs < node->num_recs)
+
+This is can be used as for loop boundary. Why infinite loop has been used?
+
+> +				continue;
+> +			/* last record holds most of the data */
+> +			num_recs =3D node->num_recs - 1;
+> +			old_rec_off =3D tree->node_size -
+> +				(num_recs + 1) * rec_size;
+
+The same concerns related to calculation here.
+
+Thanks,
+Slava.
+
+> +			data_start =3D hfs_bnode_read_u16(node,
+> +							old_rec_off);
+> +			break;
+> +		}
+> +		break;
+>  	}
+> =20
+>  	if (fd->record + 1 < num_recs) {
+
+[1] https://elixir.bootlin.com/linux/v7.0/source/fs/hfsplus/brec.c#L262
+
