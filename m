@@ -1,294 +1,146 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD7213ECBF7
-	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 18:28:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777055339; cv=pass; b=WyVhGCegtSP/SWvpH3PiKz9k9jIO/TaxWu61ziQHdJiXXuLTanL27T2e2mG1UhlFdlt1+sWIS2Bn4P+o6sV/EBE0yXgWMMbM7QJxzk+RoSPMs3Z/TARqhRpVgFSX724t89VG+uIcrPElG8zEom9u67i14DppTZ5631ef4FpJRiA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777055339; c=relaxed/simple;
-	bh=8rO2083aLBq61GOTbhsIrvySGv61xLrJsOS67lJka0k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=piTNMRYXQtyM9fZsXyKWhj2kUeXGiwNh3mlC1Nv/V9/0ONut6DoL7pHWR5eMnrOuHoiwAhTMU1lxL8OcS5w2SPzvMZmh7l6CsT2BdLGC9k4WVONpI8WGJiaMfaKJ2zzPsiEylOg7KOpMx/8wz9r+aD+u9aWSsVM8TL4RBaf/BNs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B3zAgnjk; arc=pass smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDE8E313550;
+	Fri, 24 Apr 2026 18:33:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777055639; cv=none; b=QrbcwPIilikxTDnbSLp5dlCXnEUeEGTRr99KoZJKFwdKrfWr1dt0wc4/ZrCkW+hLwMrBK6pv5x3BNQ55ZdgLyBKb/Is9mgck6vNpfbyqaZwKv/jA35V7NxPix62mISAdSdqX1wTxtNhyqIG0Sh3sdhHirkhn/mDblA38SIyAoJk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777055639; c=relaxed/simple;
+	bh=/eLx7kUbMNf35MbwljFoEAxjWli6DbZEA0fmcECuzY4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VVM683Vv57e8aKWNuGEZdvkF1EmNAgy+XPS7S2tmcshT1a6kB0KVP9E2rwy6/WM6XvhVNU8WnrT7YvYLHl4VXtaGLhnYGjtxjfIgjtrR7g9i0/We1ze9NR6/TY3wDalF6QQRaiKyw7Ug/K0yZe4NfT8gy2ml6gw31/8bs8Y6JhU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sKA0DITd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B3zAgnjk"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-441209fb77eso3181206f8f.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 11:28:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777055336; cv=none;
-        d=google.com; s=arc-20240605;
-        b=AoOagI8ZeVg+FprYJhw7dqxHtbNGGhzImoXdmk3u6gfIEIopqiktnHdUt+X/sE7jof
-         Nit2fNrLBa8Qe39otLoumeGJoB/AlOEjZswauD4umWTkiv6G/MsoFs0gn2asfmWrXuoJ
-         nJ+wcZDAryNY6LuTNYRT/dJKEBEPXQK1JJSKfkIzIWGaTVN13ik+adBujPcoqq/eR3Rv
-         /8Ys/mGssioLUUfSFNHejnrbHYAy1aUFHZHd8VRZD/Jm9UVvYOtKIDW+qiwHmGtbxqch
-         IZYY4mpcJIJavNpGQ/MGTj3NDgQ2PTUlr377gSuRwU0i2eskexBIL21ubEYeC2m7JWtM
-         Wgjg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=3RviMO2our0cPSaycktZix7+ios2n20gMA9XnhIUvbM=;
-        fh=dZjUQCmqVSbLJn/DvZl7dNxuM3Bfnz3oqCMXu6Gf+KY=;
-        b=OTcidAAnShIFNuzTN81A9LD8SH9VMCvN/sZdcg87DsutzuImXNN0GTB9P3dJql1AY9
-         gpYJmfBHepN5U8vqOtZ27lkhRtxYpSV5z6bxivOd3Dm7jihSeul0L8RfiPKXk2hUqJ1/
-         HdOtzZJf8sVqZcDWRDVhetT9fpnwzHXNyAlnyyQi88qOX55k/SXEXYnTyfuwbuT/TyIy
-         gejgZ59QOpqPYtnQaBIMerv54IewiP/x3ANo+q2xa4x8ALU5ZKmIHi67oLA8qfR1GTxS
-         6lcBDUf3PhOXjHeDQoVOzHcoJiGfhGR85dvhQifWptGjuMI8zWcHxcp7PIw/cl9WaEoX
-         L6fg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777055336; x=1777660136; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3RviMO2our0cPSaycktZix7+ios2n20gMA9XnhIUvbM=;
-        b=B3zAgnjkdCsmW4/FWAUdtqEnpH/TjrcyCGzdr94XViNZEgt9Wpqc/vTD3jxg0Od/TO
-         QdtV9KFZ6OFPgdki0H3fVWLpN4P7RDqkfzWKvfCcBGMdkCJn8UZjOS2oeSipLkLg0tRP
-         /pIaDFvGyIFNbWTyQyO4lmSH2TRNU0rhJBpqmnLrhUJ3g7zmLyM3zYw14g/HrgGjK8FK
-         w29tZiyUgjy5o9NQRprdbxwj8JL6FSzas4q5Uvvut/noq6/mvTriIjItOyhBuE2/n4yw
-         dz09CNdGXopcxiG+wK7bpKz6aAlCxhAS7O0oezQkMBa38KpxK0v0YBagf+WpvpXPh25y
-         iO0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777055336; x=1777660136;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=3RviMO2our0cPSaycktZix7+ios2n20gMA9XnhIUvbM=;
-        b=DkNkNkpyL085mu+kot4frTwt4n+O9o7HyqjMHGqZ57KQJ/I9gAn5sXLTysjt3j017k
-         kHU7gQz/FTD6TCmLteOhQDuhKU5xiW3yiHAqpQ/lPq7GFJkPgoRYSekVSlDvRZYaNZeV
-         UFLRhtQOvChLtBdURyQ5WAk47PwExCnsw5U+hksxuRXpdwW+CLVRUJ4l3zm4oPsV6E2q
-         ExVnl+B3Q7IWywhGotEib8JXtSEDrXbh2NF7qGsn9XdoNk/yA2NmxdG1mVFE1J3eLA9L
-         9nNGnECnhKPqJsFV6+LYsvd2HntLmwaqto11lJ00GlQGjrMzevtJsBigqPX5SXqzoXqb
-         koyw==
-X-Forwarded-Encrypted: i=1; AFNElJ89GEh+DaFZIB3cVglSJ0LAGa4XYKiTGbS96lud1HJjP9echLZDjL211jNaUg3+kz+sQAALzLWYzg4jpW2I@vger.kernel.org
-X-Gm-Message-State: AOJu0YwEzw0vFi9rkQ5H5/NK1Zl64Mjay0AG5sEvJ2vbN+oBqQDiim9d
-	Z2FbjU+KwOTcDM9UN7wMgEX7uJaGKeMINwcG1MLdOwa3+hbjllmjf14OMP7IYXBOpQ839+ZXniQ
-	WRKE9YdqyF9/Pa+AL5MyZ9KWlSYV1mko=
-X-Gm-Gg: AeBDietTQXHTD4cTdYuTNg7Bo/jNSt3DqseH11uOffu8VJGF68ZCnXv9aJqxWI3UfI1
-	S7mi5pnxy2BmgGbWUJr9IPSJCuJieOhJoQRPaoxr/YA6pPclEeEZkMewhyMBZI9BZPsS15x2D25
-	jzf4girHwixiosFso0OSWZ8oWNC7a2X4RUa7z90a/RrV2g9pTuy3IxW5a6ZQ5Dw5YNzAJg4LLWa
-	dm5pjAoTROT527KIRSEss1kmwjsajW2J0z5xwIZzqFq2INKUaMwPeL4sGu6qNhoj4ieBW1tNarm
-	vFciW6+MlIrr5wrRD0POQioqKcDEAFgCpbxfH7GVO0eJ
-X-Received: by 2002:a05:6000:480e:b0:43d:2ea7:df30 with SMTP id
- ffacd0b85a97d-43fe4043916mr45387860f8f.7.1777055336070; Fri, 24 Apr 2026
- 11:28:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sKA0DITd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2EC2C2BCB4;
+	Fri, 24 Apr 2026 18:33:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777055639;
+	bh=/eLx7kUbMNf35MbwljFoEAxjWli6DbZEA0fmcECuzY4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=sKA0DITdxCODM2VDwZATIZV/+2Q9QtqKKTgXbCegYwXkeCv1Azbn8CqIHxt8LfhH1
+	 HPKO1kqtZgmbjfcua6vhYps3h6FiKiz57KHM71R+jRGGgRREvijLUAvzgyNlQHwAGW
+	 AxV/pmaBrSrFt9O5MG2keZoVNWRyuuq6Xh0DxndarOEmyqixLwoG6+nL+q02jy7f3P
+	 6gX3e1fWep/QK11+v9C6S3lrPJ/83Pi1E8v18aFPl5mZBohsULf15WQtjc33bNgD5p
+	 Pyc97vZWzSErPc9V1VxAIwwBCF3/pHOm5qoy9jZcf72RKKtl49JIuIEexQiCFAAwgt
+	 Q592MfBIXnWWw==
+Message-ID: <4e12d67b-60e3-4bf5-a229-43c0d2c62cfb@kernel.org>
+Date: Fri, 24 Apr 2026 20:33:45 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260413-reduced-nr-ring-queues_3-v4-0-982b6414b723@bsbernd.com> <20260413-reduced-nr-ring-queues_3-v4-5-982b6414b723@bsbernd.com>
-In-Reply-To: <20260413-reduced-nr-ring-queues_3-v4-5-982b6414b723@bsbernd.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Fri, 24 Apr 2026 11:28:43 -0700
-X-Gm-Features: AQROBzBP56M81XBGe1nAOwMhyn7CmfemzOkuvHC9Tz5GMvZjtNu5e7HnvUvDrxU
-Message-ID: <CAJnrk1aYYSVU-AdxRoqC5H8xk+4rt9Tf=3BPphsw4vvNxjpEyA@mail.gmail.com>
-Subject: Re: [PATCH v4 5/8] fuse: {io-uring} Allow reduced number of ring queues
-To: bernd@bsbernd.com
-Cc: Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org, 
-	Luis Henriques <luis@igalia.com>, Gang He <dchg2000@gmail.com>, Bernd Schubert <bschubert@ddn.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC v3 01/19] mm: thread user_addr through page allocator
+ for cache-friendly zeroing
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Gregory Price <gourry@gourry.net>, linux-kernel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Brendan Jackman <jackmanb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Suren Baghdasaryan <surenb@google.com>,
+ Jason Wang <jasowang@redhat.com>, Andrea Arcangeli <aarcange@redhat.com>,
+ linux-mm@kvack.org, virtualization@lists.linux.dev,
+ Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
+ <rppt@kernel.org>, "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Ying Huang
+ <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
+ Hugh Dickins <hughd@google.com>, Christoph Lameter <cl@gentwo.org>,
+ David Rientjes <rientjes@google.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>, Harry Yoo <harry.yoo@oracle.com>,
+ Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
+ Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>,
+ Baoquan He <bhe@redhat.com>, linux-fsdevel@vger.kernel.org
+References: <9dd9deabd42801f3c344326991d1431c3d8db39d.1776808210.git.mst@redhat.com>
+ <aekluxNPxF8CN8fL@gourry-fedora-PF4VCD3F>
+ <20260422171315-mutt-send-email-mst@kernel.org>
+ <aemglPlcwFFHNj1A@gourry-fedora-PF4VCD3F>
+ <c165d6af-4a35-4a41-9086-ee307640c044@kernel.org>
+ <20260423074433-mutt-send-email-mst@kernel.org>
+ <aeohzbmhQAoOODPm@gourry-fedora-PF4VCD3F>
+ <88b0765f-7cfc-4e44-83d2-c01a1755c842@kernel.org>
+ <20260423104120-mutt-send-email-mst@kernel.org>
+ <1ab6e58f-d984-4bae-a343-1b0d3c973ad0@kernel.org>
+ <20260423121222-mutt-send-email-mst@kernel.org>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260423121222-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Apr 13, 2026 at 2:41=E2=80=AFAM Bernd Schubert via B4 Relay
-<devnull+bernd.bsbernd.com@kernel.org> wrote:
->
-> From: Bernd Schubert <bschubert@ddn.com>
->
-> Queues selection (fuse_uring_get_queue) can handle reduced number
-> queues - using io-uring is possible now even with a single
-> queue and entry.
->
-> The FUSE_URING_REDUCED_Q flag is being introduce tell fuse server that
-> reduced queues are possible, i.e. if the flag is set, fuse server
-> is free to reduce number queues.
->
-> Signed-off-by: Bernd Schubert <bschubert@ddn.com>
-> ---
->  fs/fuse/dev_uring.c       | 160 ++++++++++++++++++++++++----------------=
-------
->  fs/fuse/inode.c           |   2 +-
->  include/uapi/linux/fuse.h |   3 +
->  3 files changed, 88 insertions(+), 77 deletions(-)
->
-> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-> index 9dcbc39531f0e019e5abf58a29cdf6c75fafdca1..e68089babaf89fb81741e4a5e=
-605c6e36a137f9e 100644
-> --- a/fs/fuse/dev_uring.c
-> +++ b/fs/fuse/dev_uring.c
-> @@ -249,15 +249,17 @@ static int fuse_uring_init_q_map(struct fuse_queue_=
-map *q_map, size_t nr_cpu)
->
->         q_map->cpu_to_qid =3D kzalloc_objs(*q_map->cpu_to_qid, nr_cpu,
->                                          GFP_KERNEL_ACCOUNT);
-> +       if (!q_map->cpu_to_qid)
-> +               return -ENOMEM;
->
->         return 0;
->  }
->
-> -static int fuse_uring_create_q_masks(struct fuse_ring *ring)
-> +static int fuse_uring_create_q_masks(struct fuse_ring *ring, size_t nr_q=
-ueues)
->  {
->         int err, node;
->
-> -       err =3D fuse_uring_init_q_map(&ring->q_map, ring->max_nr_queues);
-> +       err =3D fuse_uring_init_q_map(&ring->q_map, nr_queues);
->         if (err)
->                 return err;
->
-> @@ -267,7 +269,7 @@ static int fuse_uring_create_q_masks(struct fuse_ring=
- *ring)
->                 return -ENOMEM;
->         for (node =3D 0; node < ring->nr_numa_nodes; node++) {
->                 err =3D fuse_uring_init_q_map(&ring->numa_q_map[node],
-> -                                          ring->max_nr_queues);
-> +                                           nr_queues);
->                 if (err)
->                         return err;
->         }
-> @@ -299,7 +301,7 @@ static struct fuse_ring *fuse_uring_create(struct fus=
-e_conn *fc)
->         max_payload_size =3D max(FUSE_MIN_READ_BUFFER, fc->max_write);
->         max_payload_size =3D max(max_payload_size, fc->max_pages * PAGE_S=
-IZE);
->
-> -       err =3D fuse_uring_create_q_masks(ring);
-> +       err =3D fuse_uring_create_q_masks(ring, nr_queues);
->         if (err)
->                 goto out_err;
->
-> @@ -328,12 +330,36 @@ static struct fuse_ring *fuse_uring_create(struct f=
-use_conn *fc)
->         return res;
->  }
->
-> +static void fuse_uring_cpu_qid_mapping(struct fuse_ring *ring, int qid,
-> +                                      struct fuse_queue_map *q_map,
-> +                                      int node)
-> +{
-> +       int cpu, qid_idx, mapping_count =3D 0;
-> +       size_t nr_queues;
-> +
-> +       cpumask_set_cpu(qid, q_map->registered_q_mask);
-> +       nr_queues =3D cpumask_weight(q_map->registered_q_mask);
-> +       for (cpu =3D 0; cpu < ring->max_nr_queues; cpu++) {
-> +               if (node !=3D -1 && cpu_to_node(cpu) !=3D node)
-> +                       continue;
-> +
-> +               qid_idx =3D mapping_count % nr_queues;
-> +               q_map->cpu_to_qid[cpu] =3D cpumask_nth(qid_idx,
-> +                                                    q_map->registered_q_=
-mask);
-> +               mapping_count++;
-> +               pr_debug("%s node=3D%d qid=3D%d qid_idx=3D%d nr_queues=3D=
-%zu %d->%d\n",
-> +                        __func__, node, qid, qid_idx, nr_queues, cpu,
-> +                        q_map->cpu_to_qid[cpu]);
-> +       }
-> +}
-> +
->
-> -static struct fuse_ring_queue *fuse_uring_task_to_queue(struct fuse_ring=
- *ring)
-> +static struct fuse_ring_queue *fuse_uring_select_queue(struct fuse_ring =
-*ring)
->  {
->         unsigned int qid;
-> -       struct fuse_ring_queue *queue;
-> +       int node;
-> +       unsigned int nr_queues;
-> +       unsigned int cpu =3D task_cpu(current);
->
-> -       qid =3D task_cpu(current);
-> +       cpu =3D cpu % ring->max_nr_queues;
->
-> -       if (WARN_ONCE(qid >=3D ring->max_nr_queues,
-> -                     "Core number (%u) exceeds nr queues (%zu)\n", qid,
-> -                     ring->max_nr_queues))
-> -               qid =3D 0;
-> +       /* numa local registered queue bitmap */
-> +       node =3D cpu_to_node(cpu);
-> +       if (WARN_ONCE(node >=3D ring->nr_numa_nodes,
-> +                     "Node number (%d) exceeds nr nodes (%d)\n",
-> +                     node, ring->nr_numa_nodes)) {
-> +               node =3D 0;
-> +       }
->
-> -       queue =3D ring->queues[qid];
-> -       WARN_ONCE(!queue, "Missing queue for qid %d\n", qid);
-> +       nr_queues =3D READ_ONCE(ring->numa_q_map[node].nr_queues);
-> +       if (nr_queues) {
-> +               qid =3D ring->numa_q_map[node].cpu_to_qid[cpu];
-> +               if (WARN_ON_ONCE(qid >=3D ring->max_nr_queues))
-> +                       return NULL;
-> +               return READ_ONCE(ring->queues[qid]);
-> +       }
+On 4/23/26 18:13, Michael S. Tsirkin wrote:
+> On Thu, Apr 23, 2026 at 05:54:26PM +0200, David Hildenbrand (Arm) wrote:
+>> On 4/23/26 16:46, Michael S. Tsirkin wrote:
+>>>
+>>> I just dislike it when things are non orthogonal.
+>>> People are used to: hugetlb = same perf as THP but more predictable at the cost
+>>> of being harder to use and using more resources.
+>>> Here, suddenly, we have an optimization but only for THP.
+>>
+>> Note that we also didn't care about user_alloc_needs_zeroing() with hugetlb so far.
+> 
+> 
+> You mean, that it stays because of the reserved pool?
 
-Hi Bernd,
+I meant, that if we are running with init_on_free or init_on_alloc, that we end
+up double-zeroing right now upstream. So nobody cared to optimize that part so far.
 
-Thanks for making the changes on this - I really like how much simpler
-the logic is now.
+-- 
+Cheers,
 
-I'm looking through how the block multiqueue code works
-(block/blk-mq.c and block/blk-mq-cpumap.c) because I think they
-basically have to do the same thing with figuring out which cpu to
-dispatch a request to.
-
-It looks like what they do is use group_cpus_evenly(), which as I
-understand it, will partition CPUs taking into account numa nodes (as
-well as clustering and SMT siblings). I think if we use this for fuse
-io-uring, it will make things a lot simpler and we could get rid of
-the per-numa state tracking (eg numa_q_map, registered_q_mask,
-nr_numa_nodes)  and simplify queue selection where now that can just
-be a cpu to qid lookup instead of a two-level
-numa-then-global-fallback lookup.
-
-Do you think something like this makes sense?
-
-Additionally, as I understand it, in this series, the ring->q_map
-mapping has to get rebuilt every time a new queue gets created. What
-do you think about just having the server declare the total queue
-count upfront and then the mapping can just get established at ring
-creation time? group_cpus_evenly() would only need to be called once,
-the cpu_to_qid map would only have to be built once, and we could
-avoid the rebuild-on-each-queue-creation complexity entirely. Do you
-think something like this makes sense?
-
-Thanks,
-Joanne
-
->
-> -       return queue;
-> +       /* global registered queue bitmap */
-> +       qid =3D ring->q_map.cpu_to_qid[cpu];
-> +       if (WARN_ON_ONCE(qid >=3D ring->max_nr_queues))
-> +               return NULL;
-> +       return READ_ONCE(ring->queues[qid]);
->  }
->
->  static void fuse_uring_dispatch_ent(struct fuse_ring_ent *ent)
-> @@ -1348,7 +1356,7 @@ void fuse_uring_queue_fuse_req(struct fuse_iqueue *=
-fiq, struct fuse_req *req)
->         int err;
->
->         err =3D -EINVAL;
-> -       queue =3D fuse_uring_task_to_queue(ring);
-> +       queue =3D fuse_uring_select_queue(ring);
->         if (!queue)
->                 goto err;
->
-> @@ -1392,7 +1400,7 @@ bool fuse_uring_queue_bq_req(struct fuse_req *req)
->         struct fuse_ring_queue *queue;
->         struct fuse_ring_ent *ent =3D NULL;
->
-> -       queue =3D fuse_uring_task_to_queue(ring);
-> +       queue =3D fuse_uring_select_queue(ring);
->         if (!queue)
->                 return false;
->
+David
