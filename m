@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F7CF3CFF60;
-	Fri, 24 Apr 2026 12:54:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2332E3D3D1E;
+	Fri, 24 Apr 2026 12:59:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777035262; cv=none; b=eAUIjH2QINngUk32PGAwQbEI3dAoqCLDdHPuC407YC6P0OqD63Rxq57l2hiT0MVWXhcZ2IoOTy/qKUqP2ZttHhKWvkUFMtQQ8tRAY3Q9G2UbratO4XGBRt0hPanfHVtWdByKEFwl/nqnNJq/iuGULLYylULoDLS1QjY3O2lkIzc=
+	t=1777035567; cv=none; b=PlbRbwtWTU5kTndrak7d1FY/LrPnKfRsPmEs5fhCaTK1icuJ19c93e1Bk5MboH9zBDoIroprcbH8gxDrsvdN/ovGzalEx08xgKRia/9lCjOyyDYOSQ/UbEibko0upDLcsamQJfudBhjQGzAZs1D6fE7mUJ+Fo+X0S1K7x059emw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777035262; c=relaxed/simple;
-	bh=4un0AvoUA+zLuhMb6+AyLNGwgmWdLWkPi6NVYswIZ80=;
+	s=arc-20240116; t=1777035567; c=relaxed/simple;
+	bh=KNJcDQF8Ts4X/HuTfNn5ZOh0jQmL3ALukE7ezDpGgZU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uFrT9C933UijQG9jEjhzgFqkvH4gv4jfqf7xOYyGBQgbTYVuQJtpqqeuOVmY9FokoSZoFLByGkmndQRGK+YFu4hFzrCSXP3SzhsjTRu1VjHe7SWP7NdlisndujSypHDc7YdTbApSm4EllLjAg8y58/Dk75g9slIXsL0jmmDMHOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tb+TBMi1; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=SKMYoRCWW64i+FF4xKgMFcxm3lJwNEnZ8fPRadPfUQ3RSu0bKHKW4kEu7PhIvrmg/1UKl7/3z+q8i4Ckyt9MbOQ9SsFT9Y4lWGLWQ12BxC0wu4iLawRy6s5Szu4YN3ZZutipziN9Wf+7MhCIB9ukq6xUlg3VZ94rpoayiAveAF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DNmYyg05; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tb+TBMi1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F4FBC19425;
-	Fri, 24 Apr 2026 12:54:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DNmYyg05"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AECBDC19425;
+	Fri, 24 Apr 2026 12:59:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777035260;
-	bh=4un0AvoUA+zLuhMb6+AyLNGwgmWdLWkPi6NVYswIZ80=;
+	s=k20201202; t=1777035563;
+	bh=KNJcDQF8Ts4X/HuTfNn5ZOh0jQmL3ALukE7ezDpGgZU=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=tb+TBMi1jFQtKruV0mazW23XvhWz95tKb+MHlI1XunrIZWMwTL6vFacr28CB/ZUBl
-	 Ku6DP5vY9utRnL7Kj2hWoZr12wMlYHV2faKXC2J16c7XmPT6JlnvhmrFOpnyI6wYFS
-	 LJ7S1J9dlVsIR4jL0eqz8w1e+GKtxC+Nr59+ynZH9S348LkkbJGM1RnPCgtUYmNhyI
-	 yeK5ZXSsQGgLw5JOYD+LZPWJoCs7Z29irMSDFfF3KI/MACi9Cu0ayo9e6mC+Dup/XH
-	 OQJq4UMuGKoWR/0Ax5FaMmfum2c2FQUNygcnGrQOMPiz0ZyncHrWHc3RivHAL7D1mR
-	 zQizA7rigd3hQ==
-Message-ID: <896b3956-3cdc-48b5-a0a0-a3ec35aefa07@kernel.org>
-Date: Fri, 24 Apr 2026 14:54:12 +0200
+	b=DNmYyg05xVJzFvK8CAIYDLpqGikMLhSkf9F3DyHzV/iOxDemR7t7t+xU+P7NXI8AV
+	 oj43RaU2xhiTRvRx+74e536bU4pCr/6+HW9Wg+WvsendzfEXnpE0J1MDYrDjKSlKYv
+	 b1TJEqebnJ+iienjWokf1e2uVKLC6XiG3TI6PSI/0U8J9Wb/VRjyi9SALQSG6Cz5Lk
+	 QewMo4iKv/XZXfT00UO+J6X7vNjBaWls9em6sWRDCA7O/EoaQrLJYN8ToQvoqYh+OU
+	 3hhNNQfYOF1ZePaRRleqPT+RQpWLrVazFl8RYrL1d9UsYuDHJxq5pQtQTyvIKeSz1h
+	 +x51Y7PaJX3Bg==
+Message-ID: <a7b30a6f-0fd8-489a-9623-912fd4d84fe3@kernel.org>
+Date: Fri, 24 Apr 2026 14:59:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,8 +35,8 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 7.2 v4 09/12] mm/truncate: use folio_split() in
- truncate_inode_partial_folio()
+Subject: Re: [PATCH 7.2 v4 12/12] selftests/mm: remove READ_ONLY_THP_FOR_FS
+ code from guard-regions
 To: Zi Yan <ziy@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>,
  "Matthew Wilcox (Oracle)" <willy@infradead.org>,
  Song Liu <songliubraving@fb.com>
@@ -54,7 +54,7 @@ Cc: Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
  linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
  linux-mm@kvack.org, linux-kselftest@vger.kernel.org
 References: <20260424024915.28758-1-ziy@nvidia.com>
- <20260424024915.28758-10-ziy@nvidia.com>
+ <20260424024915.28758-13-ziy@nvidia.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -101,34 +101,47 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260424024915.28758-10-ziy@nvidia.com>
+In-Reply-To: <20260424024915.28758-13-ziy@nvidia.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 4/24/26 04:49, Zi Yan wrote:
-> After READ_ONLY_THP_FOR_FS is removed, FS either supports large folio or
-> not. folio_split() can be used on a FS with large folio support without
-> worrying about getting a THP on a FS without large folio support.
+> Any file system with large folio support and the supported orders include
+> PMD_ORDER can be used. There is no need to open a file with read-only.
 > 
-> When READ_ONLY_THP_FOR_FS was present, a PMD large pagecache folio can
-> appear in a FS without large folio support after khugepaged or
-> madvise(MADV_COLLAPSE) creates it. During truncate_inode_partial_folio(),
-> such a PMD large pagecache folio is split and if the FS does not support
-> large folio, it needs to be split to order-0 ones and could not be split
-> non uniformly to ones with various orders. try_folio_split_to_order() was
-> added to handle this situation by checking folio_check_splittable(...,
-> SPLIT_TYPE_NON_UNIFORM) to detect if the large folio is created due to
-> READ_ONLY_THP_FOR_FS and the FS does not support large folio. Now
-> READ_ONLY_THP_FOR_FS is removed, all large pagecache folios are created
-> with FSes supporting large folio, this function is no longer needed and all
-> large pagecache folios can be split non uniformly.
+> Signed-off-by: Zi Yan <ziy@nvidia.com>
+> ---
+>  tools/testing/selftests/mm/guard-regions.c | 18 ++++--------------
+>  1 file changed, 4 insertions(+), 14 deletions(-)
+> 
+> diff --git a/tools/testing/selftests/mm/guard-regions.c b/tools/testing/selftests/mm/guard-regions.c
+> index 48e8b1539be3..117639891953 100644
+> --- a/tools/testing/selftests/mm/guard-regions.c
+> +++ b/tools/testing/selftests/mm/guard-regions.c
+> @@ -2203,17 +2203,6 @@ TEST_F(guard_regions, collapse)
+>  	if (variant->backing != ANON_BACKED)
+>  		ASSERT_EQ(ftruncate(self->fd, size), 0);
+>  
+> -	/*
+> -	 * We must close and re-open local-file backed as read-only for
+> -	 * CONFIG_READ_ONLY_THP_FOR_FS to work.
+> -	 */
+> -	if (variant->backing == LOCAL_FILE_BACKED) {
+> -		ASSERT_EQ(close(self->fd), 0);
+> -
+> -		self->fd = open(self->path, O_RDONLY);
+> -		ASSERT_GE(self->fd, 0);
+> -	}
 
-In general looks good. Just one question:
+What if someone runs this with a filesystem that does not support large folios?
 
-folio_check_splittable() also rejects SPLIT_TYPE_NON_UNIFORM / new_order for
-swapcache pages.
+Would we want an allowlist for known-good fs'es, similar to how we handle
+gup_longterm.c, and SKIP otherwise, because we know that MADV_COLLAPSE would
+always fail for a different reason?
 
-It's confusing, but truncate would never stumble over such folios, correct?
+In any case, the test would not misbehave if passed an unsupported FS, so LGTM
+
+Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
 -- 
 Cheers,
