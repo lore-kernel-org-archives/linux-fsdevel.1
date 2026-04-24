@@ -1,162 +1,138 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EBF93DA7E5
-	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 18:37:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3064D3E5EDC;
+	Fri, 24 Apr 2026 18:38:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777055823; cv=none; b=Fa36BgI5cf+ZIi4cMskvvhAEyxG75b/8Aury1/bHlIhoLb+e8Kdi/FbRqT/zOrptnESbl3ipuPuS3tpn9C81n2BE2OLfYN4ywdIiR7arOOJPtkdyKn7YExbfhZREQh0n9edNmXc+u120fVqSVb9+ypOErT4Buf1Kt2MRvrSHrus=
+	t=1777055913; cv=none; b=HVTRYf+ejXCMnb0wNeB9L3juXazPVWCPT4mn3FEXOvK2m9hR+Se67+5yZx7U2iw4/XjxG32+XgWI9o6c4taw2yPoQw6soXLVPN8kfeB7pC2XWe1EL+P7zAjVGk3ZvMz2uaQa1T9mqfwBhlG/FpFKgDp5MMSOhh/L3GLGY2qWgYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777055823; c=relaxed/simple;
-	bh=X3unbKjXkfIxpZgPYPCXBXdaO16pNyP21Y+UN+3Q6ys=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kGU10si2wYxO6d0VVutbne/QoxiEBAixyvaMIcpZmZyVTSntSSK0ZqLnIS5eZuK47A9THJ2Dyx8yM8Pxf/CrkhMbSX1MH4Ir8zrWFYXAWA7f3K0Lj6muHNh0oKRR9wB7HG46OFEZ5hMnLQ6O6vP1D/y3J9+yuTXYPFSVFhOykug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cMOERr44; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=VmoZwR+8; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1777055913; c=relaxed/simple;
+	bh=vMUcWvWTCpvm7mG+W2fz7QA5t4BLYnr+tRdZEDVmxv0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nYRYFHRQDzOpL8l4ysjYxYdLB/cD8YS35tQj5dFL+2fVnO+KH/b/qhZCZeeUERBfE4otLlVgJK9jbaZ3EKbXZsbR0B+CRog46BwD4JVzy5Faj+NNMlDMwsc7EQM+NzYfcjrFwi4ng79rv5fF+UlT5a2oUF/2XUy6WJxr3M4V4UY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FWO3jI0d; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cMOERr44";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="VmoZwR+8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1777055821;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EzZh79GGJvnyX3o1poX9T4TAY2qDXkiWPDaOxeNq0iQ=;
-	b=cMOERr44959ZKRtT3iBHg1lbI744oSBkdhPb6bH876rwyvwlcs/3sWkwSTuc/+Sc9Tbjua
-	7XyVT3aloxXpaUiu7bdJxud1uvsxqpAot++XlYyPHWaOyFArErNp3tIZr5xzVvfnA7CDdy
-	M/cPSaEQRt7/EUAA6fTXtAFUnW4EXF8=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-70-MUmPpBY_MH6X5rKY6NgZGg-1; Fri, 24 Apr 2026 14:37:00 -0400
-X-MC-Unique: MUmPpBY_MH6X5rKY6NgZGg-1
-X-Mimecast-MFC-AGG-ID: MUmPpBY_MH6X5rKY6NgZGg_1777055818
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4837bfcfe0dso88514845e9.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 11:36:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1777055818; x=1777660618; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=EzZh79GGJvnyX3o1poX9T4TAY2qDXkiWPDaOxeNq0iQ=;
-        b=VmoZwR+8qNCS5ayDiD8bEvlao+vNn22bv9z5IBWm0nX95FjA+oYnMLKlYgxJgEAWOs
-         0tCcUGfG/6OsH4yqKlJAYBVdObPA+wj0jlBOSaf+I6ei0RL8MlPbsWv4k3yeq6qRBX6m
-         jDwcaqF4+xbdKSEjRoBfl4CLwXYe7mcfuWnY+QKg4gCoAVMJJiR5qReIT/o3kE5oy0UC
-         rBuv/jr6Vzcz5C9bLTzeJHjAgPUVK8L6F6L5XvtV2Y4OoXCy/VBMKc9p5Xv21RpPbcrG
-         tGvIkzLhHiYxWPqA0x4V4td2KofSd0C8RqxJxVc1sZEFTvi3hSVvncl+JMb5deYw78BB
-         X26w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777055818; x=1777660618;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EzZh79GGJvnyX3o1poX9T4TAY2qDXkiWPDaOxeNq0iQ=;
-        b=eNAK2X2I1VzeuRwouNtDOAtBgz+42MgrJvbVfe3y8OIpB8RXw7WLls9gFfdINecqjU
-         VrHnxdcGOCQchDrl4HOCchgP6eSU5XWenb+2eJRi7dV6L05PPCgMUO8oixDBenu6fulD
-         Fo4LkpFXit3AQbF4TgKvUNJb5UpQ9drcx2AnpmLTyV8r6VPUXOzOBsHenFsXI+Bjc0Yb
-         CL/k6HOavZoYtdnOIluMHLcvkWRoY/7EwL3j/nDuD6kEdw0sN8mpMnUjw4s/pq4QyWG3
-         q+RlSPn0KifZ6lJGLQWZNnW7pY0iYC+tK22roEfKCJ75OIZvwJU6zo+rk96j2rAqJ6pV
-         jMMg==
-X-Forwarded-Encrypted: i=1; AFNElJ/eyM62PfzTEg3s1x1HEeL/4Ppcus+VgfNtsHC3RRc860XOrKKcGhbH/ujTmmUsjqMzbXEpY0ZzxxwN1+Hl@vger.kernel.org
-X-Gm-Message-State: AOJu0YxU7qrfgx9BX7LcGSudM4SqEpWxKENpJ70B/bzA/x757Z4/dHES
-	et1W2m6OGQAjD1c6qb7RCNHqhGxXyutvET5Hhdac/VdKI1uyRKJINyEoBN1FkPIxTQUisbt12PL
-	q978SptWgDlARtuZiBe57H4JO8CR7cqklHqcEtsr65ylVAZkb87cCP8R+F+4vrRhzFtE=
-X-Gm-Gg: AeBDieudAOlnXtQzNzeStk5zOJCgk7ND5OwE4oI5sxE9Uh5h8BY+ceJDvNRyjk6IiRl
-	7XQkKaG7tBmv/fIlcz8+9SVkja74h1eFk7l8nEnXRYWIG9LrZP86p+1hqLc2Ej0g32KfG8aVo0Z
-	XeVb1xb3wlwHYQYX34hPgZQKOQIBjVkZYh+V+0KNGDo1Ery9s0FCMxaUYqddJ1rOiJ4Y0leLmT1
-	hyORwXxbV7A2M/XOE3XJlUDofFg0FCBmz4mPbFbv+tlSrLbpnxtCotTDsXM58Yl+n+Lzczw+cCk
-	nELpl2TqLsvIuxz51YYmZyYBMMVlQRwtYkc9QlHHUTd7NHl0bz+rPMOrPk5T63HeKlR2ySFzJap
-	3IHx9oXNp/O8RTdAh+y1ZvWDcoEEjTPVuyZoHBMSIFSXPxMZMOys2O/cYECDz9HU=
-X-Received: by 2002:a05:600c:5295:b0:485:30d4:6b9e with SMTP id 5b1f17b1804b1-488fb77facemr466165675e9.21.1777055817632;
-        Fri, 24 Apr 2026 11:36:57 -0700 (PDT)
-X-Received: by 2002:a05:600c:5295:b0:485:30d4:6b9e with SMTP id 5b1f17b1804b1-488fb77facemr466165305e9.21.1777055817177;
-        Fri, 24 Apr 2026 11:36:57 -0700 (PDT)
-Received: from redhat.com (bzq-79-177-155-147.red.bezeqint.net. [79.177.155.147])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a55dc9f58sm607291535e9.6.2026.04.24.11.36.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Apr 2026 11:36:56 -0700 (PDT)
-Date: Fri, 24 Apr 2026 14:36:51 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Gregory Price <gourry@gourry.net>, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Brendan Jackman <jackmanb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Andrea Arcangeli <aarcange@redhat.com>, linux-mm@kvack.org,
-	virtualization@lists.linux.dev,
-	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
-	Lance Yang <lance.yang@linux.dev>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
-	Byungchul Park <byungchul@sk.com>,
-	Ying Huang <ying.huang@linux.alibaba.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Hugh Dickins <hughd@google.com>, Christoph Lameter <cl@gentwo.org>,
-	David Rientjes <rientjes@google.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Harry Yoo <harry.yoo@oracle.com>, Chris Li <chrisl@kernel.org>,
-	Kairui Song <kasong@tencent.com>,
-	Kemeng Shi <shikemeng@huaweicloud.com>,
-	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH RFC v3 01/19] mm: thread user_addr through page allocator
- for cache-friendly zeroing
-Message-ID: <20260424143541-mutt-send-email-mst@kernel.org>
-References: <20260422171315-mutt-send-email-mst@kernel.org>
- <aemglPlcwFFHNj1A@gourry-fedora-PF4VCD3F>
- <c165d6af-4a35-4a41-9086-ee307640c044@kernel.org>
- <20260423074433-mutt-send-email-mst@kernel.org>
- <aeohzbmhQAoOODPm@gourry-fedora-PF4VCD3F>
- <88b0765f-7cfc-4e44-83d2-c01a1755c842@kernel.org>
- <20260423104120-mutt-send-email-mst@kernel.org>
- <1ab6e58f-d984-4bae-a343-1b0d3c973ad0@kernel.org>
- <20260423121222-mutt-send-email-mst@kernel.org>
- <4e12d67b-60e3-4bf5-a229-43c0d2c62cfb@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FWO3jI0d"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CC4FC19425;
+	Fri, 24 Apr 2026 18:38:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777055913;
+	bh=vMUcWvWTCpvm7mG+W2fz7QA5t4BLYnr+tRdZEDVmxv0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=FWO3jI0dMc8sHHEzltU3lN/H8kLSUgXPtEmi/n1dYgnQbcoRcQx5hpphV19Gr/he3
+	 9520OarauTYzHeRGGWLE0UNXPzHESvzWTX9vZZGAwWZiqjwCUuhMqeufnOuDEjWJMK
+	 IrkoiMwuWRK8QOPowMuXjo+jsCxx0uMNNrKt/8KcVJqVnuWqcq4xTV8aUaKTERBgDi
+	 /nbpuV2vXrNlW+v1+wIU7cJWUuesjQwLslZJXRCHHF0ekyHakfPGduRPC2o4FjNVyj
+	 6QzulWOZACYuuU1PY/U92s2ZJkLGv3JfsWY35EeAdMvws0KZ9tuD+BaUZXeBoipzA7
+	 UU+1nTra41yjQ==
+Message-ID: <72e54f57-9bda-495b-a11e-9cadeea0dfe7@kernel.org>
+Date: Fri, 24 Apr 2026 20:38:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4e12d67b-60e3-4bf5-a229-43c0d2c62cfb@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 7.2 v4 09/12] mm/truncate: use folio_split() in
+ truncate_inode_partial_folio()
+To: Zi Yan <ziy@nvidia.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Song Liu <songliubraving@fb.com>, Chris Mason <clm@fb.com>,
+ David Sterba <dsterba@suse.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Lorenzo Stoakes <ljs@kernel.org>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, "Liam R. Howlett"
+ <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Shuah Khan <shuah@kernel.org>, linux-btrfs@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, linux-kselftest@vger.kernel.org
+References: <20260424024915.28758-1-ziy@nvidia.com>
+ <20260424024915.28758-10-ziy@nvidia.com>
+ <896b3956-3cdc-48b5-a0a0-a3ec35aefa07@kernel.org>
+ <B2F4546B-F57D-4EF8-90E7-37879711877A@nvidia.com>
+ <DD21736C-7EFC-4746-B926-54551B757785@nvidia.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <DD21736C-7EFC-4746-B926-54551B757785@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Apr 24, 2026 at 08:33:45PM +0200, David Hildenbrand (Arm) wrote:
-> On 4/23/26 18:13, Michael S. Tsirkin wrote:
-> > On Thu, Apr 23, 2026 at 05:54:26PM +0200, David Hildenbrand (Arm) wrote:
-> >> On 4/23/26 16:46, Michael S. Tsirkin wrote:
-> >>>
-> >>> I just dislike it when things are non orthogonal.
-> >>> People are used to: hugetlb = same perf as THP but more predictable at the cost
-> >>> of being harder to use and using more resources.
-> >>> Here, suddenly, we have an optimization but only for THP.
-> >>
-> >> Note that we also didn't care about user_alloc_needs_zeroing() with hugetlb so far.
-> > 
-> > 
-> > You mean, that it stays because of the reserved pool?
+On 4/24/26 17:12, Zi Yan wrote:
+> On 24 Apr 2026, at 11:07, Zi Yan wrote:
 > 
-> I meant, that if we are running with init_on_free or init_on_alloc, that we end
-> up double-zeroing right now upstream. So nobody cared to optimize that part so far.
-
-on the aliasing arches you mean? that double zeroing?
-
-
-> -- 
-> Cheers,
+>> On 24 Apr 2026, at 8:54, David Hildenbrand (Arm) wrote:
+>>
+>>>
+>>> In general looks good. Just one question:
+>>>
+>>> folio_check_splittable() also rejects SPLIT_TYPE_NON_UNIFORM / new_order for
+>>> swapcache pages.
+>>
+>> Since swapcache only supports PMD order or 0 order yet.
+>>
+>>>
+>>> It's confusing, but truncate would never stumble over such folios, correct?
+>>
+>> Right.
 > 
-> David
+> BTW, sashiko had a similar question when it reviewed v2[1]. It also complained
+> about when the split fails, the entire folio remains in memory. But that is the
+> consequence of failed split, unless we want to keep retrying the split.
 
+Retry isn't guaranteed to make progress, so it's the current expected behavior.
+
+-- 
+Cheers,
+
+David
