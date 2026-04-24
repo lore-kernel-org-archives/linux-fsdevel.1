@@ -1,118 +1,94 @@
-Received: from hr2.samba.org (hr2.samba.org [144.76.82.148])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A28543BED59;
-	Fri, 24 Apr 2026 11:39:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.76.82.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B85C2DCF45
+	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 11:46:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777030757; cv=none; b=GbOBf02PNtrlf6snmHX+qGQYNGZjbRWXNdpcIS0q2WUDve04BKLdD6KeFlDnF7vEqWy5/K6FL1yNXhQPhyFtN3AySO0dZZIMLKhwmRZIFixnh2eZ7eYrdSAFrUScE/qfCKv66JbbdxyQnKeHMgvwIUYKE1CK9Gkz4oGJa3J5uw4=
+	t=1777031192; cv=none; b=FL1UVvlUjfeD7v3Y7LxqCnpd+RGmAirvVBwd6Mvc/B2apUfN3UDS7M2qkUk9lvp6PmjJilUqkcHFB/zgQLlCgbNBVtlHcz/9KZZH/m7V2f5TbalJF8FlT3uupszAThKoFHjbJjDONOOry9PRJkwtM8wZXF6NW5b57nnsMmZMI0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777030757; c=relaxed/simple;
-	bh=Vbw15iUuGReYoDg74B4jVuwCsAm3eNad5N4/DaDRt24=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=smnQL6OqJrpLbg1a/3qUKIcBN5l15rIC86KrFO5MyivrsQWn6/kiYQZpNiUF46iWEB/GBzVa2M8budP4Gmc2uEApqAS2QtUeqC9foUPJPo8j+PeQFyxGPLEx0MnyHb7nrUMkmQ2XBCwugP04eYOV09OlKjDNvzr6+hExietqMg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=samba.org; spf=pass smtp.mailfrom=samba.org; dkim=pass (3072-bit key) header.d=samba.org header.i=@samba.org header.b=M+117sDc; arc=none smtp.client-ip=144.76.82.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=samba.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samba.org
+	s=arc-20240116; t=1777031192; c=relaxed/simple;
+	bh=V3YxaUW1sPWThpGWmjATD8lmnTcJhgQ9dTgnqCYXVXo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pLDuC7TReyiO9BPNZ32x+1wkjBHk3KR3HrbA8D/hx12KGoi8+JIMQgG71fzYPHnmJMgdcmj3uZoBPYnk+mb0lLJauV0ZAElG5vfmr3nBIkPHx1WY4lnnvssOPK0awoN+8UHup1pbiWpVf5XtRHqAb2muYMso11xWrWuZMRNVoDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=hQ+bPqb3; arc=none smtp.client-ip=195.121.94.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (3072-bit key) header.d=samba.org header.i=@samba.org header.b="M+117sDc"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=samba.org;
-	s=42; h=From:Cc:To:Date:Message-ID;
-	bh=vqWcSThc8pjY0oM9PCXkI0BSkRYzt+6om4JQ2IRTrkM=; b=M+117sDce9Z9GeWcvjlIK7G646
-	AFw6i7n4qtNKPYbT7vf0dZsmj68sxKBqeTTIpzxCXPeXQilmWw+aEi8YVSvkrVTTyufHZIvf7kfRz
-	U3i4aBqEeFs/aMCaErfktfPQGpWx7TaZMVnwMVaR1+sG0wRzXrbEFMVjIRYaWfpNasHn47JXLDKhf
-	G9SWpwBI/neGk4zS4CDmm5SaOMxae17LwBXmhIJ41OMiyo+c1+hpemO8MbP7+2NXz7pAxTK1O77dq
-	mrh7dzOzWU3xTN9JmQFMO56J1WCiNsJ+MM0qwRi+lGhBO+lXvADTHuPmv27eGAbJl0fOfTWKN/Zrc
-	ZqOwGgYlHYa06QrleGc17rClshzzuljGAilOCJdPUClfypeKeKuLlayyBgs5x2JYRZ75Ey0Aj2lJe
-	+M6k7Re1sqZ1c7oSvO10fGh9oWOczCac+857VtdnmPYhrxnrXcVHJfevl0LEW6m4k3zcp6UMcB8hm
-	+S8KcGP4Vcmu7G1L7So0g91y;
-Received: from [127.0.0.2] (localhost [127.0.0.1])
-	by hr2.samba.org with esmtpsa (TLS1.3:ECDHE_SECP256R1__ECDSA_SECP256R1_SHA256__CHACHA20_POLY1305:256)
-	(Exim)
-	id 1wGEsG-00000003nNq-2SmM;
-	Fri, 24 Apr 2026 11:39:11 +0000
-Message-ID: <966208b7-b77a-45b9-9dcb-3c8823429318@samba.org>
-Date: Fri, 24 Apr 2026 13:39:06 +0200
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="hQ+bPqb3"
+X-KPN-MessageId: 36d5bd61-3fd3-11f1-afde-005056994fde
+Received: from smtp.kpnmail.nl (unknown [10.31.155.8])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 36d5bd61-3fd3-11f1-afde-005056994fde;
+	Fri, 24 Apr 2026 13:46:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=mime-version:message-id:date:subject:to:from;
+	bh=SoRe13GzkUOhP39pwRBONFGVVtD44HR9B2fP/ByugbQ=;
+	b=hQ+bPqb3KS0y0d75Qi2aJ1QyCRg/2Gf9p83vTxI5q3ozuiVKYmGgCp4OiTAFGIdv24J1HCa5puNl5
+	 QXr4xovM7kOowvAaRs7Arvr7K1DBZLan6mv2maDrNr2YoauKs+wYM6cfN2XzPQDg2+cBCW4Mt191KO
+	 upQ2dtPnHiSMXoDLn51uy4EXtUY7YlFWkBGNcyCKTjThsj8oMN+ujzraGQrlH+CJws/KJ8CBoXFyR5
+	 8QMc/2lyfDLmrC87iux7Hp6mqfflMMlLvpjh7drraLiG322qU5tlDFX+ah9YuQvrtYASyD5UMhxYei
+	 MzmYXel1/3V4OqRHXWYzjXLS7w6jl+w==
+X-KPN-MID: 33|6WDnBHetWYt/e4CjV8eG2ox4rHsssm0taleyNcmskNRUfyEo5h1mGxchsSns5u0
+ 4RcjyqKiibs8HwZTt+hQplA==
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|cNwxFqpz41/vatA/UOyNsNQsfnksbEiEEsw7yn2DCwOdSFjMChQWxsZaSPRpZwG
+ fv2AhPYxC/738V3/KzWVJaQ==
+Received: from daedalus.home (unknown [178.227.109.146])
+	by smtp.xs4all.nl (Halon) with ESMTPSA
+	id 33f6f759-3fd3-11f1-9c0b-00505699d6e5;
+	Fri, 24 Apr 2026 13:46:21 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Christian Brauner <brauner@kernel.org>,
+	Aleksa Sarai <cyphar@cyphar.com>
+Cc: Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Jori Koolstra <jkoolstra@xs4all.nl>
+Subject: [PATCH v5 0/2] vfs: add O_EMPTYPATH to openat(2)/openat2(2)
+Date: Fri, 24 Apr 2026 13:46:01 +0200
+Message-ID: <20260424114611.1678641-1-jkoolstra@xs4all.nl>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] smb: client: Fix error cleanup in
- smb_extract_iter_to_rdma()
-To: Greg KH <gregkh@linuxfoundation.org>, David Howells <dhowells@redhat.com>
-Cc: Steve French <sfrench@samba.org>, Paulo Alcantara <pc@manguebit.org>,
- Tom Talpey <tom@talpey.com>, linux-cifs@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-References: <3418418.1777024571@warthog.procyon.org.uk>
- <2026042426-prance-each-273d@gregkh>
-Content-Language: en-US
-From: Stefan Metzmacher <metze@samba.org>
-In-Reply-To: <2026042426-prance-each-273d@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi David,
+Hi Christian,
 
->> Fix smb_extract_iter_to_rdma() to use pre-decrement, not post-decrement, so
->> that it cleans up the correct slots.
->>
->> Fixes: e5fbdde43017 ("cifs: Add a function to build an RDMA SGE list from an iterator")
->> Closes: https://sashiko.dev/#/patchset/20260326104544.509518-1-dhowells%40redhat.com
->> Signed-off-by: David Howells <dhowells@redhat.com>
->> cc: Steve French <sfrench@samba.org>
->> cc: Stefan Metzmacher <metze@samba.org>
->> cc: Paulo Alcantara <pc@manguebit.org>
->> cc: Tom Talpey <tom@talpey.com>
->> cc: linux-cifs@vger.kernel.org
->> cc: linux-fsdevel@vger.kernel.org
->> ---
->>   fs/smb/client/smbdirect.c |    2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/fs/smb/client/smbdirect.c b/fs/smb/client/smbdirect.c
->> index 7d5f66bdbb30..4978755c035c 100644
->> --- a/fs/smb/client/smbdirect.c
->> +++ b/fs/smb/client/smbdirect.c
->> @@ -3394,7 +3394,7 @@ static ssize_t smb_extract_iter_to_rdma(struct iov_iter *iter, size_t len,
->>   
->>   	if (ret < 0) {
->>   		while (rdma->nr_sge > before) {
->> -			struct ib_sge *sge = &rdma->sge[rdma->nr_sge--];
->> +			struct ib_sge *sge = &rdma->sge[--rdma->nr_sge];
+I've rebased this on vfs-7.2.misc as Aleksa suggested. Also moved the
+O_EMPTYPATH bit to 1<<26 to avoid conflict with non asm-generic O_*
+flags.
 
-Can you please use logic like this?
+---
 
--               while (state->num_sge > before) {
--                       struct ib_sge *sge = &state->sge[state->num_sge--];
-+               for (size_t i = before; i < state->num_sge; i++) {
-+                       struct ib_sge *sge = &state->sge[i];
+To get an operable version of an O_PATH file descriptor, it is possible
+to use openat(fd, ".", O_DIRECTORY) for directories, but other files
+currently require going through open("/proc/<pid>/fd/<nr>"), which
+depends on a functioning procfs.
 
-At least for me that is much easier to understand.
+This patch adds the O_EMPTYPATH flag to openat(2)/openat2(2). If passed,
+LOOKUP_EMPTY is set at path resolution time.
 
-And as Greg pointed out we first need a fix for upstream, there
-the function is smbdirect_map_sges_from_iter in fs/smb/smbdirect/connection.c
+Jori Koolstra (2):
+  vfs: add O_EMPTYPATH to openat(2)/openat2(2)
+  selftest: add tests for O_EMPTYPATH
 
-Also the commit message needs to be adjusted for the new name.
+ fs/fcntl.c                                    |  2 +-
+ fs/open.c                                     |  6 +-
+ include/linux/fcntl.h                         |  2 +-
+ include/uapi/asm-generic/fcntl.h              |  4 ++
+ tools/include/uapi/linux/openat2.h            | 43 +++++++++++++++
+ .../selftests/filesystems/openat2/Makefile    |  4 +-
+ .../filesystems/openat2/emptypath_test.c      | 55 +++++++++++++++++++
+ .../selftests/filesystems/openat2/helpers.h   | 35 +-----------
+ 8 files changed, 111 insertions(+), 40 deletions(-)
+ create mode 100644 tools/include/uapi/linux/openat2.h
+ create mode 100644 tools/testing/selftests/filesystems/openat2/emptypath_test.c
 
-Then we need a backportable fix for smb_extract_iter_to_rdma in
-fs/smb/client/smbdirect.c with the same logic.
+-- 
+2.54.0
 
-Thanks!
-metze
-
->>   			ib_dma_unmap_single(rdma->device, sge->addr, sge->length,
->>   					    rdma->direction);
->>
->>
-> <formletter>
-> 
-> This is not the correct way to submit patches for inclusion in the
-> stable kernel tree.  Please read:
->      https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
-> for how to do this properly.
-> 
-> </formletter>
