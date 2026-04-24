@@ -1,337 +1,294 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9846A3EF66C;
-	Fri, 24 Apr 2026 18:23:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777055030; cv=none; b=WUvotOg/7HHPYulzs8rKFNZ0h1g2dtorWZ2lvh/BL93Vx6/PrHn4OIBWWNTC1ftUDlkDE4NcrPuR5BSEFh17luf88w5XcnBjjl+LrQ26ZBlQ+tiOyJi0U8RXsV9IplLt/heWh+RpbRsQO3iGxT5jfar4CxtQkSviTUmQiRtDV+w=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777055030; c=relaxed/simple;
-	bh=eksREuEF1L2R/dEaQ5Om16FakRITjuu2CUNa5MZwSGc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=blVglSmyBdUObsUL3N6QIDn6h/EhT0J3b/ejUejsNIH+eWliPju85a4Bq+bVhnScgc7WdCUhoXq9+4aGZOO9z0YVz3HwHfWypxbEpHcFP2i7eDtHQ3oV6WSn6x2KoyOCLojcVl80+6/Q7+XhFitZCHSPPmcMa8jStj4aXDIXYC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=dHRi0OcS; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD7213ECBF7
+	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 18:28:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777055339; cv=pass; b=WyVhGCegtSP/SWvpH3PiKz9k9jIO/TaxWu61ziQHdJiXXuLTanL27T2e2mG1UhlFdlt1+sWIS2Bn4P+o6sV/EBE0yXgWMMbM7QJxzk+RoSPMs3Z/TARqhRpVgFSX724t89VG+uIcrPElG8zEom9u67i14DppTZ5631ef4FpJRiA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777055339; c=relaxed/simple;
+	bh=8rO2083aLBq61GOTbhsIrvySGv61xLrJsOS67lJka0k=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=piTNMRYXQtyM9fZsXyKWhj2kUeXGiwNh3mlC1Nv/V9/0ONut6DoL7pHWR5eMnrOuHoiwAhTMU1lxL8OcS5w2SPzvMZmh7l6CsT2BdLGC9k4WVONpI8WGJiaMfaKJ2zzPsiEylOg7KOpMx/8wz9r+aD+u9aWSsVM8TL4RBaf/BNs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B3zAgnjk; arc=pass smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dHRi0OcS"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=wHmkC1PpzrOj3aa7cR/k5HER8pUMmXZ13ybCvJpbXxY=; b=dHRi0OcS4B46i0eR7NtQPZMguw
-	F78uOcGHZcuruDxtl+pDS6qwIvrOirqySnnDqrM5t+7be/EQFHCVJeMumOJn4Bmy1/Unsc871qUpS
-	yBNgM1Hri0HxWY8nPIqia0IxU5YuIasZbaFti4R7h+T/SGjkGOtDinjzTtmYUUKOZb/vYOv2c0p05
-	S2YyF6M6GuljMjvXImLTc249o8bVObxvZ+i4CV+5UHBgC6VmL0w0NYtAAchhHEG0DmerIZtKtmwWS
-	Gpi1x9r0x80GWbElko6JZrsVyv+HutB79JrfoxVZbosGa2AUzNa2UCISnDC1y7NDKXFFvLMHD4qge
-	g0yHWDWw==;
-Received: from [38.23.173.23] (helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wGLBo-0000000DdxS-2GcF;
-	Fri, 24 Apr 2026 18:23:44 +0000
-Date: Fri, 24 Apr 2026 14:23:42 -0400
-From: "Liam R. Howlett" <liam@infradead.org>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: akpm@linux-foundation.org, ljs@kernel.org, vbabka@kernel.org, 
-	david@redhat.com, willy@infradead.org, jannh@google.com, paulmck@kernel.org, 
-	pfalcato@suse.de, shuah@kernel.org, hsukrut3@gmail.com, richard.weiyang@gmail.com, 
-	reddybalavignesh9979@gmail.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH 3/3] selftests/proc: add /proc/pid/smaps tearing tests
-Message-ID: <qxxhshfoe5tph4z324fzl74r532bxdrdvll2xvhaeken6bsdwb@q2wk2nbvxr3p>
-References: <20260424070234.190145-1-surenb@google.com>
- <20260424070234.190145-4-surenb@google.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B3zAgnjk"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-441209fb77eso3181206f8f.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 11:28:57 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777055336; cv=none;
+        d=google.com; s=arc-20240605;
+        b=AoOagI8ZeVg+FprYJhw7dqxHtbNGGhzImoXdmk3u6gfIEIopqiktnHdUt+X/sE7jof
+         Nit2fNrLBa8Qe39otLoumeGJoB/AlOEjZswauD4umWTkiv6G/MsoFs0gn2asfmWrXuoJ
+         nJ+wcZDAryNY6LuTNYRT/dJKEBEPXQK1JJSKfkIzIWGaTVN13ik+adBujPcoqq/eR3Rv
+         /8Ys/mGssioLUUfSFNHejnrbHYAy1aUFHZHd8VRZD/Jm9UVvYOtKIDW+qiwHmGtbxqch
+         IZYY4mpcJIJavNpGQ/MGTj3NDgQ2PTUlr377gSuRwU0i2eskexBIL21ubEYeC2m7JWtM
+         Wgjg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=3RviMO2our0cPSaycktZix7+ios2n20gMA9XnhIUvbM=;
+        fh=dZjUQCmqVSbLJn/DvZl7dNxuM3Bfnz3oqCMXu6Gf+KY=;
+        b=OTcidAAnShIFNuzTN81A9LD8SH9VMCvN/sZdcg87DsutzuImXNN0GTB9P3dJql1AY9
+         gpYJmfBHepN5U8vqOtZ27lkhRtxYpSV5z6bxivOd3Dm7jihSeul0L8RfiPKXk2hUqJ1/
+         HdOtzZJf8sVqZcDWRDVhetT9fpnwzHXNyAlnyyQi88qOX55k/SXEXYnTyfuwbuT/TyIy
+         gejgZ59QOpqPYtnQaBIMerv54IewiP/x3ANo+q2xa4x8ALU5ZKmIHi67oLA8qfR1GTxS
+         6lcBDUf3PhOXjHeDQoVOzHcoJiGfhGR85dvhQifWptGjuMI8zWcHxcp7PIw/cl9WaEoX
+         L6fg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777055336; x=1777660136; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3RviMO2our0cPSaycktZix7+ios2n20gMA9XnhIUvbM=;
+        b=B3zAgnjkdCsmW4/FWAUdtqEnpH/TjrcyCGzdr94XViNZEgt9Wpqc/vTD3jxg0Od/TO
+         QdtV9KFZ6OFPgdki0H3fVWLpN4P7RDqkfzWKvfCcBGMdkCJn8UZjOS2oeSipLkLg0tRP
+         /pIaDFvGyIFNbWTyQyO4lmSH2TRNU0rhJBpqmnLrhUJ3g7zmLyM3zYw14g/HrgGjK8FK
+         w29tZiyUgjy5o9NQRprdbxwj8JL6FSzas4q5Uvvut/noq6/mvTriIjItOyhBuE2/n4yw
+         dz09CNdGXopcxiG+wK7bpKz6aAlCxhAS7O0oezQkMBa38KpxK0v0YBagf+WpvpXPh25y
+         iO0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777055336; x=1777660136;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=3RviMO2our0cPSaycktZix7+ios2n20gMA9XnhIUvbM=;
+        b=DkNkNkpyL085mu+kot4frTwt4n+O9o7HyqjMHGqZ57KQJ/I9gAn5sXLTysjt3j017k
+         kHU7gQz/FTD6TCmLteOhQDuhKU5xiW3yiHAqpQ/lPq7GFJkPgoRYSekVSlDvRZYaNZeV
+         UFLRhtQOvChLtBdURyQ5WAk47PwExCnsw5U+hksxuRXpdwW+CLVRUJ4l3zm4oPsV6E2q
+         ExVnl+B3Q7IWywhGotEib8JXtSEDrXbh2NF7qGsn9XdoNk/yA2NmxdG1mVFE1J3eLA9L
+         9nNGnECnhKPqJsFV6+LYsvd2HntLmwaqto11lJ00GlQGjrMzevtJsBigqPX5SXqzoXqb
+         koyw==
+X-Forwarded-Encrypted: i=1; AFNElJ89GEh+DaFZIB3cVglSJ0LAGa4XYKiTGbS96lud1HJjP9echLZDjL211jNaUg3+kz+sQAALzLWYzg4jpW2I@vger.kernel.org
+X-Gm-Message-State: AOJu0YwEzw0vFi9rkQ5H5/NK1Zl64Mjay0AG5sEvJ2vbN+oBqQDiim9d
+	Z2FbjU+KwOTcDM9UN7wMgEX7uJaGKeMINwcG1MLdOwa3+hbjllmjf14OMP7IYXBOpQ839+ZXniQ
+	WRKE9YdqyF9/Pa+AL5MyZ9KWlSYV1mko=
+X-Gm-Gg: AeBDietTQXHTD4cTdYuTNg7Bo/jNSt3DqseH11uOffu8VJGF68ZCnXv9aJqxWI3UfI1
+	S7mi5pnxy2BmgGbWUJr9IPSJCuJieOhJoQRPaoxr/YA6pPclEeEZkMewhyMBZI9BZPsS15x2D25
+	jzf4girHwixiosFso0OSWZ8oWNC7a2X4RUa7z90a/RrV2g9pTuy3IxW5a6ZQ5Dw5YNzAJg4LLWa
+	dm5pjAoTROT527KIRSEss1kmwjsajW2J0z5xwIZzqFq2INKUaMwPeL4sGu6qNhoj4ieBW1tNarm
+	vFciW6+MlIrr5wrRD0POQioqKcDEAFgCpbxfH7GVO0eJ
+X-Received: by 2002:a05:6000:480e:b0:43d:2ea7:df30 with SMTP id
+ ffacd0b85a97d-43fe4043916mr45387860f8f.7.1777055336070; Fri, 24 Apr 2026
+ 11:28:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260424070234.190145-4-surenb@google.com>
+References: <20260413-reduced-nr-ring-queues_3-v4-0-982b6414b723@bsbernd.com> <20260413-reduced-nr-ring-queues_3-v4-5-982b6414b723@bsbernd.com>
+In-Reply-To: <20260413-reduced-nr-ring-queues_3-v4-5-982b6414b723@bsbernd.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Fri, 24 Apr 2026 11:28:43 -0700
+X-Gm-Features: AQROBzBP56M81XBGe1nAOwMhyn7CmfemzOkuvHC9Tz5GMvZjtNu5e7HnvUvDrxU
+Message-ID: <CAJnrk1aYYSVU-AdxRoqC5H8xk+4rt9Tf=3BPphsw4vvNxjpEyA@mail.gmail.com>
+Subject: Re: [PATCH v4 5/8] fuse: {io-uring} Allow reduced number of ring queues
+To: bernd@bsbernd.com
+Cc: Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org, 
+	Luis Henriques <luis@igalia.com>, Gang He <dchg2000@gmail.com>, Bernd Schubert <bschubert@ddn.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 26/04/24 12:02AM, Suren Baghdasaryan wrote:
-> Add MAPS_FILE environment variable to select whether the tests to be run
-> for /proc/pid/maps or /proc/pid/smaps. Add support for testing smaps file
-> by reusing the same logic as with maps file but skipping all the data
-> except for the VMA addresses, which are the only part relevant for the
-> tearing tests. Skip PROCMAP_QUERY parts of the tests because smaps does
-> not implement that ioctl.
-> 
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-
-One comment question, otherwise..
-
-Reviewed-by: Liam R. Howlett <liam@infradead.org>
-
+On Mon, Apr 13, 2026 at 2:41=E2=80=AFAM Bernd Schubert via B4 Relay
+<devnull+bernd.bsbernd.com@kernel.org> wrote:
+>
+> From: Bernd Schubert <bschubert@ddn.com>
+>
+> Queues selection (fuse_uring_get_queue) can handle reduced number
+> queues - using io-uring is possible now even with a single
+> queue and entry.
+>
+> The FUSE_URING_REDUCED_Q flag is being introduce tell fuse server that
+> reduced queues are possible, i.e. if the flag is set, fuse server
+> is free to reduce number queues.
+>
+> Signed-off-by: Bernd Schubert <bschubert@ddn.com>
 > ---
->  tools/testing/selftests/proc/proc-maps-race.c | 176 +++++++++++++-----
->  1 file changed, 132 insertions(+), 44 deletions(-)
-> 
-> diff --git a/tools/testing/selftests/proc/proc-maps-race.c b/tools/testing/selftests/proc/proc-maps-race.c
-> index c5031b0593b7..b677bc23cab9 100644
-> --- a/tools/testing/selftests/proc/proc-maps-race.c
-> +++ b/tools/testing/selftests/proc/proc-maps-race.c
-> @@ -17,8 +17,8 @@
->   */
->  /*
->   * Fork a child that concurrently modifies address space while the main
-> - * process is reading /proc/$PID/maps and verifying the results. Address
-> - * space modifications include:
-> + * process is reading /proc/$PID/maps and /proc/$PID/smaps, verifying the
-                                         ^^^ and? Should this be or?  It
-                                         doesn't match your commit
-                                         message.
-
-
-> + * results. Address space modifications include:
->   *     VMA splitting and merging
->   *
->   */
-> @@ -73,6 +73,11 @@ enum test_state {
->  	TEST_DONE,
->  };
->  
-> +enum maps_file {
-> +	MAPS,
-> +	SMAPS,
-> +};
-> +
->  struct vma_modifier_info;
->  
->  FIXTURE(proc_maps_race)
-> @@ -83,6 +88,7 @@ FIXTURE(proc_maps_race)
->  	struct line_content last_line;
->  	struct line_content first_line;
->  	unsigned long duration_sec;
-> +	enum maps_file maps_file;
->  	int shared_mem_size;
->  	int skip_pages;
->  	int page_size;
-> @@ -199,6 +205,57 @@ static void copy_last_line(struct page_content *page, char *last_line)
->  	last_line[end - pos] = '\0';
+>  fs/fuse/dev_uring.c       | 160 ++++++++++++++++++++++++----------------=
+------
+>  fs/fuse/inode.c           |   2 +-
+>  include/uapi/linux/fuse.h |   3 +
+>  3 files changed, 88 insertions(+), 77 deletions(-)
+>
+> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
+> index 9dcbc39531f0e019e5abf58a29cdf6c75fafdca1..e68089babaf89fb81741e4a5e=
+605c6e36a137f9e 100644
+> --- a/fs/fuse/dev_uring.c
+> +++ b/fs/fuse/dev_uring.c
+> @@ -249,15 +249,17 @@ static int fuse_uring_init_q_map(struct fuse_queue_=
+map *q_map, size_t nr_cpu)
+>
+>         q_map->cpu_to_qid =3D kzalloc_objs(*q_map->cpu_to_qid, nr_cpu,
+>                                          GFP_KERNEL_ACCOUNT);
+> +       if (!q_map->cpu_to_qid)
+> +               return -ENOMEM;
+>
+>         return 0;
 >  }
->  
-> +static bool copy_first_entry(struct page_content *page, char *first_line)
-> +{
-> +	const char *start_pos = page->data;
-> +
-> +	while (start_pos < page->data + page->size) {
-> +		unsigned long start_addr;
-> +		unsigned long end_addr;
-> +		char *end_pos;
-> +
-> +		end_pos = strchr(start_pos, '\n');
-> +		if (!end_pos)
-> +			break;
-> +
-> +		if (sscanf(start_pos, "%lx-%lx", &start_addr, &end_addr) == 2) {
-> +			strncpy(first_line, start_pos, end_pos - start_pos);
-> +			first_line[end_pos - start_pos] = '\0';
-> +			return true;
-> +		}
-> +
-> +		start_pos = end_pos + 1;
-> +	}
-> +
-> +	return false;
-> +}
-> +
-> +static bool copy_last_entry(struct page_content *page, char *last_line)
-> +{
-> +	const char *end_pos = page->data + page->size - 1;
-> +	const char *start_pos;
-> +
-> +	while (end_pos > page->data) {
-> +		unsigned long start_addr;
-> +		unsigned long end_addr;
-> +
-> +		/* skip last newline */
-> +		start_pos = end_pos - 1;
-> +		/* search previous newline */
-> +		while (start_pos > page->data && start_pos[-1] != '\n')
-> +			start_pos--;
-> +		if (sscanf(start_pos, "%lx-%lx", &start_addr, &end_addr) == 2) {
-> +			strncpy(last_line, start_pos, end_pos - start_pos);
-> +			last_line[end_pos - start_pos] = '\0';
-> +			return true;
-> +		}
-> +
-> +		end_pos = start_pos - 1;
-> +	}
-> +
-> +	return false;
-> +}
-> +
->  /* Read the last line of the first page and the first line of the second page */
->  static bool read_boundary_lines(FIXTURE_DATA(proc_maps_race) *self,
->  				struct line_content *last_line,
-> @@ -207,8 +264,16 @@ static bool read_boundary_lines(FIXTURE_DATA(proc_maps_race) *self,
->  	if (!read_two_pages(self))
->  		return false;
->  
-> -	copy_last_line(&self->page1, last_line->text);
-> -	copy_first_line(&self->page2, first_line->text);
-> +	if (self->maps_file == MAPS) {
-> +		copy_last_line(&self->page1, last_line->text);
-> +		copy_first_line(&self->page2, first_line->text);
-> +	} else if (self->maps_file == SMAPS) {
-> +		if (!copy_last_entry(&self->page1, last_line->text) ||
-> +		    !copy_first_entry(&self->page2, first_line->text))
-> +			return false;
-> +	} else {
-> +		return false;
-> +	}
->  
->  	return sscanf(last_line->text, "%lx-%lx", &last_line->start_addr,
->  		      &last_line->end_addr) == 2 &&
-> @@ -464,6 +529,7 @@ FIXTURE_SETUP(proc_maps_race)
+>
+> -static int fuse_uring_create_q_masks(struct fuse_ring *ring)
+> +static int fuse_uring_create_q_masks(struct fuse_ring *ring, size_t nr_q=
+ueues)
 >  {
->  	const char *verbose = getenv("VERBOSE");
->  	const char *duration = getenv("DURATION");
-> +	const char *maps_file = getenv("MAPS_FILE");
->  	struct vma_modifier_info *mod_info;
->  	pthread_mutexattr_t mutex_attr;
->  	pthread_condattr_t cond_attr;
-> @@ -474,6 +540,18 @@ FIXTURE_SETUP(proc_maps_race)
->  
->  	self->page_size = (unsigned long)sysconf(_SC_PAGESIZE);
->  	self->verbose = verbose && !strncmp(verbose, "1", 1);
-> +	if (maps_file) {
-> +		if (!strcmp(maps_file, "maps")) {
-> +			self->maps_file = MAPS;
-> +		} else if (!strcmp(maps_file, "smaps")) {
-> +			self->maps_file = SMAPS;
-> +		} else {
-> +			ksft_print_msg("Unknown maps file %s\n", maps_file);
-> +			ksft_exit_fail();
-> +		}
-> +	} else {
-> +		self->maps_file = MAPS;
-> +	}
->  	duration_sec = duration ? atol(duration) : 0;
->  	self->duration_sec = duration_sec ? duration_sec : 5UL;
->  
-> @@ -540,7 +618,16 @@ FIXTURE_SETUP(proc_maps_race)
->  		exit(0);
->  	}
->  
-> -	sprintf(fname, "/proc/%d/maps", self->pid);
-> +	switch (self->maps_file) {
-> +	case MAPS:
-> +		sprintf(fname, "/proc/%d/maps", self->pid);
-> +		break;
-> +	case SMAPS:
-> +		sprintf(fname, "/proc/%d/smaps", self->pid);
-> +		break;
-> +	default:
-> +		ksft_exit_fail();
-> +	}
->  	self->maps_fd = open(fname, O_RDONLY);
->  	ASSERT_NE(self->maps_fd, -1);
->  
-> @@ -675,20 +762,20 @@ TEST_F(proc_maps_race, test_maps_tearing_from_split)
->  		last_line_changed = strcmp(new_last_line.text, self->last_line.text) != 0;
->  		first_line_changed = strcmp(new_first_line.text, self->first_line.text) != 0;
->  		ASSERT_EQ(last_line_changed, first_line_changed);
-> -
-> -		/* Check if PROCMAP_QUERY ioclt() finds the right VMA */
-> -		ASSERT_TRUE(query_addr_at(self->maps_fd, mod_info->addr + self->page_size,
-> -					  &vma_start, &vma_end));
-> -		/*
-> -		 * The vma at the split address can be either the same as
-> -		 * original one (if read before the split) or the same as the
-> -		 * first line in the second page (if read after the split).
-> -		 */
-> -		ASSERT_TRUE((vma_start == self->last_line.start_addr &&
-> -			     vma_end == self->last_line.end_addr) ||
-> -			    (vma_start == split_first_line.start_addr &&
-> -			     vma_end == split_first_line.end_addr));
-> -
-> +		if (self->maps_file == MAPS) {
-> +			/* Check if PROCMAP_QUERY ioclt() finds the right VMA */
-> +			ASSERT_TRUE(query_addr_at(self->maps_fd, mod_info->addr + self->page_size,
-> +						  &vma_start, &vma_end));
-> +			/*
-> +			 * The vma at the split address can be either the same as
-> +			 * original one (if read before the split) or the same as the
-> +			 * first line in the second page (if read after the split).
-> +			 */
-> +			ASSERT_TRUE((vma_start == self->last_line.start_addr &&
-> +				     vma_end == self->last_line.end_addr) ||
-> +				    (vma_start == split_first_line.start_addr &&
-> +				     vma_end == split_first_line.end_addr));
-> +		}
->  		clock_gettime(CLOCK_MONOTONIC_COARSE, &end_ts);
->  		end_test_iteration(&end_ts, self->verbose);
->  	} while (end_ts.tv_sec - start_ts.tv_sec < self->duration_sec);
-> @@ -758,17 +845,18 @@ TEST_F(proc_maps_race, test_maps_tearing_from_resize)
->  					strcmp(new_first_line.text, restored_first_line.text),
->  					"Expand result invalid", self));
->  		}
-> -
-> -		/* Check if PROCMAP_QUERY ioclt() finds the right VMA */
-> -		ASSERT_TRUE(query_addr_at(self->maps_fd, mod_info->addr, &vma_start, &vma_end));
-> -		/*
-> -		 * The vma should stay at the same address and have either the
-> -		 * original size of 3 pages or 1 page if read after shrinking.
-> -		 */
-> -		ASSERT_TRUE(vma_start == self->last_line.start_addr &&
-> -			    (vma_end - vma_start == self->page_size * 3 ||
-> -			     vma_end - vma_start == self->page_size));
-> -
-> +		if (self->maps_file == MAPS) {
-> +			/* Check if PROCMAP_QUERY ioclt() finds the right VMA */
-> +			ASSERT_TRUE(query_addr_at(self->maps_fd, mod_info->addr,
-> +						  &vma_start, &vma_end));
-> +			/*
-> +			 * The vma should stay at the same address and have either the
-> +			 * original size of 3 pages or 1 page if read after shrinking.
-> +			 */
-> +			ASSERT_TRUE(vma_start == self->last_line.start_addr &&
-> +				    (vma_end - vma_start == self->page_size * 3 ||
-> +				     vma_end - vma_start == self->page_size));
-> +		}
->  		clock_gettime(CLOCK_MONOTONIC_COARSE, &end_ts);
->  		end_test_iteration(&end_ts, self->verbose);
->  	} while (end_ts.tv_sec - start_ts.tv_sec < self->duration_sec);
-> @@ -838,20 +926,20 @@ TEST_F(proc_maps_race, test_maps_tearing_from_remap)
->  					strcmp(new_first_line.text, restored_first_line.text),
->  					"Remap restore result invalid", self));
->  		}
-> -
-> -		/* Check if PROCMAP_QUERY ioclt() finds the right VMA */
-> -		ASSERT_TRUE(query_addr_at(self->maps_fd, mod_info->addr + self->page_size,
-> -					  &vma_start, &vma_end));
-> -		/*
-> -		 * The vma should either stay at the same address and have the
-> -		 * original size of 3 pages or we should find the remapped vma
-> -		 * at the remap destination address with size of 1 page.
-> -		 */
-> -		ASSERT_TRUE((vma_start == self->last_line.start_addr &&
-> -			     vma_end - vma_start == self->page_size * 3) ||
-> -			    (vma_start == self->last_line.start_addr + self->page_size &&
-> -			     vma_end - vma_start == self->page_size));
-> -
-> +		if (self->maps_file == MAPS) {
-> +			/* Check if PROCMAP_QUERY ioclt() finds the right VMA */
-> +			ASSERT_TRUE(query_addr_at(self->maps_fd, mod_info->addr + self->page_size,
-> +						  &vma_start, &vma_end));
-> +			/*
-> +			 * The vma should either stay at the same address and have the
-> +			 * original size of 3 pages or we should find the remapped vma
-> +			 * at the remap destination address with size of 1 page.
-> +			 */
-> +			ASSERT_TRUE((vma_start == self->last_line.start_addr &&
-> +				     vma_end - vma_start == self->page_size * 3) ||
-> +				    (vma_start == self->last_line.start_addr + self->page_size &&
-> +				     vma_end - vma_start == self->page_size));
-> +		}
->  		clock_gettime(CLOCK_MONOTONIC_COARSE, &end_ts);
->  		end_test_iteration(&end_ts, self->verbose);
->  	} while (end_ts.tv_sec - start_ts.tv_sec < self->duration_sec);
-> -- 
-> 2.54.0.545.g6539524ca2-goog
-> 
+>         int err, node;
+>
+> -       err =3D fuse_uring_init_q_map(&ring->q_map, ring->max_nr_queues);
+> +       err =3D fuse_uring_init_q_map(&ring->q_map, nr_queues);
+>         if (err)
+>                 return err;
+>
+> @@ -267,7 +269,7 @@ static int fuse_uring_create_q_masks(struct fuse_ring=
+ *ring)
+>                 return -ENOMEM;
+>         for (node =3D 0; node < ring->nr_numa_nodes; node++) {
+>                 err =3D fuse_uring_init_q_map(&ring->numa_q_map[node],
+> -                                          ring->max_nr_queues);
+> +                                           nr_queues);
+>                 if (err)
+>                         return err;
+>         }
+> @@ -299,7 +301,7 @@ static struct fuse_ring *fuse_uring_create(struct fus=
+e_conn *fc)
+>         max_payload_size =3D max(FUSE_MIN_READ_BUFFER, fc->max_write);
+>         max_payload_size =3D max(max_payload_size, fc->max_pages * PAGE_S=
+IZE);
+>
+> -       err =3D fuse_uring_create_q_masks(ring);
+> +       err =3D fuse_uring_create_q_masks(ring, nr_queues);
+>         if (err)
+>                 goto out_err;
+>
+> @@ -328,12 +330,36 @@ static struct fuse_ring *fuse_uring_create(struct f=
+use_conn *fc)
+>         return res;
+>  }
+>
+> +static void fuse_uring_cpu_qid_mapping(struct fuse_ring *ring, int qid,
+> +                                      struct fuse_queue_map *q_map,
+> +                                      int node)
+> +{
+> +       int cpu, qid_idx, mapping_count =3D 0;
+> +       size_t nr_queues;
+> +
+> +       cpumask_set_cpu(qid, q_map->registered_q_mask);
+> +       nr_queues =3D cpumask_weight(q_map->registered_q_mask);
+> +       for (cpu =3D 0; cpu < ring->max_nr_queues; cpu++) {
+> +               if (node !=3D -1 && cpu_to_node(cpu) !=3D node)
+> +                       continue;
+> +
+> +               qid_idx =3D mapping_count % nr_queues;
+> +               q_map->cpu_to_qid[cpu] =3D cpumask_nth(qid_idx,
+> +                                                    q_map->registered_q_=
+mask);
+> +               mapping_count++;
+> +               pr_debug("%s node=3D%d qid=3D%d qid_idx=3D%d nr_queues=3D=
+%zu %d->%d\n",
+> +                        __func__, node, qid, qid_idx, nr_queues, cpu,
+> +                        q_map->cpu_to_qid[cpu]);
+> +       }
+> +}
+> +
+>
+> -static struct fuse_ring_queue *fuse_uring_task_to_queue(struct fuse_ring=
+ *ring)
+> +static struct fuse_ring_queue *fuse_uring_select_queue(struct fuse_ring =
+*ring)
+>  {
+>         unsigned int qid;
+> -       struct fuse_ring_queue *queue;
+> +       int node;
+> +       unsigned int nr_queues;
+> +       unsigned int cpu =3D task_cpu(current);
+>
+> -       qid =3D task_cpu(current);
+> +       cpu =3D cpu % ring->max_nr_queues;
+>
+> -       if (WARN_ONCE(qid >=3D ring->max_nr_queues,
+> -                     "Core number (%u) exceeds nr queues (%zu)\n", qid,
+> -                     ring->max_nr_queues))
+> -               qid =3D 0;
+> +       /* numa local registered queue bitmap */
+> +       node =3D cpu_to_node(cpu);
+> +       if (WARN_ONCE(node >=3D ring->nr_numa_nodes,
+> +                     "Node number (%d) exceeds nr nodes (%d)\n",
+> +                     node, ring->nr_numa_nodes)) {
+> +               node =3D 0;
+> +       }
+>
+> -       queue =3D ring->queues[qid];
+> -       WARN_ONCE(!queue, "Missing queue for qid %d\n", qid);
+> +       nr_queues =3D READ_ONCE(ring->numa_q_map[node].nr_queues);
+> +       if (nr_queues) {
+> +               qid =3D ring->numa_q_map[node].cpu_to_qid[cpu];
+> +               if (WARN_ON_ONCE(qid >=3D ring->max_nr_queues))
+> +                       return NULL;
+> +               return READ_ONCE(ring->queues[qid]);
+> +       }
+
+Hi Bernd,
+
+Thanks for making the changes on this - I really like how much simpler
+the logic is now.
+
+I'm looking through how the block multiqueue code works
+(block/blk-mq.c and block/blk-mq-cpumap.c) because I think they
+basically have to do the same thing with figuring out which cpu to
+dispatch a request to.
+
+It looks like what they do is use group_cpus_evenly(), which as I
+understand it, will partition CPUs taking into account numa nodes (as
+well as clustering and SMT siblings). I think if we use this for fuse
+io-uring, it will make things a lot simpler and we could get rid of
+the per-numa state tracking (eg numa_q_map, registered_q_mask,
+nr_numa_nodes)  and simplify queue selection where now that can just
+be a cpu to qid lookup instead of a two-level
+numa-then-global-fallback lookup.
+
+Do you think something like this makes sense?
+
+Additionally, as I understand it, in this series, the ring->q_map
+mapping has to get rebuilt every time a new queue gets created. What
+do you think about just having the server declare the total queue
+count upfront and then the mapping can just get established at ring
+creation time? group_cpus_evenly() would only need to be called once,
+the cpu_to_qid map would only have to be built once, and we could
+avoid the rebuild-on-each-queue-creation complexity entirely. Do you
+think something like this makes sense?
+
+Thanks,
+Joanne
+
+>
+> -       return queue;
+> +       /* global registered queue bitmap */
+> +       qid =3D ring->q_map.cpu_to_qid[cpu];
+> +       if (WARN_ON_ONCE(qid >=3D ring->max_nr_queues))
+> +               return NULL;
+> +       return READ_ONCE(ring->queues[qid]);
+>  }
+>
+>  static void fuse_uring_dispatch_ent(struct fuse_ring_ent *ent)
+> @@ -1348,7 +1356,7 @@ void fuse_uring_queue_fuse_req(struct fuse_iqueue *=
+fiq, struct fuse_req *req)
+>         int err;
+>
+>         err =3D -EINVAL;
+> -       queue =3D fuse_uring_task_to_queue(ring);
+> +       queue =3D fuse_uring_select_queue(ring);
+>         if (!queue)
+>                 goto err;
+>
+> @@ -1392,7 +1400,7 @@ bool fuse_uring_queue_bq_req(struct fuse_req *req)
+>         struct fuse_ring_queue *queue;
+>         struct fuse_ring_ent *ent =3D NULL;
+>
+> -       queue =3D fuse_uring_task_to_queue(ring);
+> +       queue =3D fuse_uring_select_queue(ring);
+>         if (!queue)
+>                 return false;
+>
