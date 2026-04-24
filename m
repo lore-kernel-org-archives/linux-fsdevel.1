@@ -1,194 +1,187 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A09E7324B1F
-	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 19:35:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777059327; cv=pass; b=ukO/NRnKaJhrR4y3c3+f+FgP6Ls88ndJrwkfXb9M59icHtiXxM9A8fe5gvVDG+tt/oODrGbDvFiggorF/GegI+MdsXJTBP3wWMbMQ90KUkOjDcPWsr0evgkISIW3oHwXX0WMX5uWBMYcbQ4fJI0/NTD8q+SxOiDEAtVcIL82FVU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777059327; c=relaxed/simple;
-	bh=XElxRcerJmnCKIblVnqHS44guv+hwYgsYsWQaeadyj8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HQyYhnmwgS9agS5IQxswIpRVWjW1MA4EKzRDXLYFmyyvSPxMwng7N3doxUUzs/Ru1p4wLFyOtgcTsdLORJyvJNO50zKSagbRoPOHW6xIbB4r8SST13P0hSF7wn3g6GVW+MqQj7o+v1l8BfxoaAmb80oqrWjQHKS9u5d6R64mLxA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O2sBM4np; arc=pass smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9457A36C59E
+	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 19:39:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777059543; cv=none; b=QtMpIyTlr5WtfglqJtpKDuIyKmNGdDo41ykQwgJywTseXUFVwVRYl1FakpX6w9Vx3mcCYUXZoCeeoAAIRZP/xqDFrCuUDEvB0uUZIm48VbBWfGZCs5ZvLdQGP5Ljxq+2Sx/aH/sBkTw96s1BgWXgCL7x6vmDnMDwJVEuSNhWSaU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777059543; c=relaxed/simple;
+	bh=lPqFX0Yy0XAE/Rw/BAATs7v0SQyiUopmPVCSq+WVYWw=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=qKmaKgfncZ4WgigWeSqtGG21960XNSX4e3M5MXNzkbr8uYg+as0eUQ4NFtKE0gAsmozrjLlfszk9JUEeU0e9NUR+cfRsF3yzNHYTkxPd0O5nziztPbubzJsTDyk0ib3fxcSGXE55xBHXkr0uxwZ3073M9HuwRogH4mCPoQJwfb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WsXb92nE; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=qEPdFLqk; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O2sBM4np"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-43d77f60944so6323406f8f.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 12:35:25 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777059324; cv=none;
-        d=google.com; s=arc-20240605;
-        b=TZLPsjraSP9EQjirJtWWH+JfOt3arzEqVeL9ZBwtzamaenhpa5nCvcyILKcXcI0kms
-         s7/9lOY0DyKL02NDgfP7MJzVUkTo4Q849k8cvcGumcRsPm54JUqQMlfCW64XAm3HDyjd
-         S6+O3hC3uX7ReFW11aa2X7xkqAPJV1KHqvrczherQ2xuQy2cUtwlIH42CXldm8IVY8pr
-         p3M84cUYwTJEZI10+HbmSvuuSTeMBKVUnC7zvgSWZRRCee0puJGpk6KhDfC9uM4X9Mls
-         ITRAK6/wOYH2YjIgg/H9aWVXf64LmfEgKmbvjxxNimmwdgICtW/YWnfvxuzw9BBZWmzt
-         8qUQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=yxEqdpB/RW+s8Eu203oUw9sq4uNdIu3N2g0iYn9nQ8c=;
-        fh=aDwzz02DKZ2SUGqxFtvwJ6PB366EDURdszkdlv/uhW0=;
-        b=ldVMpqFncl0U/OU+p8zJgpeERlF2dgUmfjmjmKpA2SifiG9+cCfZsc3JPXFavHFuvG
-         g5WqEztVv0MrpMFoOnxUnYAqSK0b5gy+UOiJLtUhxNRqIi2sfHToulgNMQT3/unRLfTs
-         d1uoa2HrKFhGCRUXZ3I/37l0XZ/AFrwu3J5TUUdH+vZFQMDaPCucC2bTzTfGJ2xXLj6W
-         iQrXsk9ENyPsU1SyxrxL2Yjns2QlbgagyFB9qtU86Y1/4Ve4hRSAk9z9lh49/xIsOgyX
-         8/Ns4P9krYARPr8sPgbJhJc863+xYIxHthrLMKUEPrpSLLaSrVh+h+82Z3G+SN8HOkYE
-         rSFw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WsXb92nE";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="qEPdFLqk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1777059539;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=G7VaufB6w1dJvFuFr1EOIEp5Ep8hIo8a4pkkuPUO7RM=;
+	b=WsXb92nEOJ9HkExeul423+sDA7os96dgPrkCXQmxveCuJb+wmOxRiD93otNnevNdHdLgCh
+	dkBIYKELH5EYvDn8NYeO+VxkbbtNsTtiGxzDelYIAXX72ctbkvteghblFjV96DXY3QydUq
+	CAhs06hS82sAwy/kAka5tJjX1E5QKbk=
+Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com
+ [209.85.167.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-680-urfK3O_cOuysJuljbLXpUw-1; Fri, 24 Apr 2026 15:38:57 -0400
+X-MC-Unique: urfK3O_cOuysJuljbLXpUw-1
+X-Mimecast-MFC-AGG-ID: urfK3O_cOuysJuljbLXpUw_1777059537
+Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-47bd318565dso1368135b6e.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 12:38:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777059324; x=1777664124; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yxEqdpB/RW+s8Eu203oUw9sq4uNdIu3N2g0iYn9nQ8c=;
-        b=O2sBM4npEVrZnbbACWUSGpytJw7re5Lw8XBr03xRsYnKeHw4QGzx8QjSmOVpPileY8
-         RQbkngi9Eze/2Cllw+FJzmUEd+0Xn4WgrUGFNSRMuTKjvBVY5uTTP0dbz7iwWm5a7+0t
-         WooUGEvZ5APBkooqLoL3f5x0COac+VYdft5Qswrxcx8vOmFyi99PzRGqns8YGLkeJoVM
-         pGLLSOldo4oFFnEtxBms1Nli8O3Pp9i++gXZ4oxZDPFYjK3YwpEwMU/yAbi5DfOcLoZQ
-         QynmhgS91S/JQvAKSan6D9lZSqLUfNFD7u/AVurCUaaSKUNUexdjUkICKmLYtiyk+fsE
-         qWsQ==
+        d=redhat.com; s=google; t=1777059537; x=1777664337; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=G7VaufB6w1dJvFuFr1EOIEp5Ep8hIo8a4pkkuPUO7RM=;
+        b=qEPdFLqkQKnMCygqdPDxs0pjT5dW8R7Vka6thdHdveudGlN4UzQY9rEHbhy/Qo6f1S
+         eW0FFClkUi2Vh01mrLMTOT6eEdP82seWaxfpjf9+jzobIE4hktIA/KKSeX7PWm0TBpRO
+         jIaUiuSaAK3TYaLF5gGxdMGkp6H/lKOY6aU1rvKwimaQlWExj96/4hi5aX0Yl28smVVG
+         DRZeH6KqQNkt5DVREpL6xbX7yl2iGjO/+uHqVBE4Bsn7zvZfqWfhItbJsPQnr/eIc5OR
+         CRMCfKPGFsScH7tcygq33zsa53GWDg+C+WV8KtT1pseXztBAxnQ7oyUKjAjw8lWRkDMy
+         niwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777059324; x=1777664124;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=yxEqdpB/RW+s8Eu203oUw9sq4uNdIu3N2g0iYn9nQ8c=;
-        b=TS3uUJOoeExIAIbNBOn8PnjiY3ByUDPzK1VNwuXpJ5g2sJDqMH2P95GJF3hqAjBOLc
-         Okkz+TTPlijNIsZRbBtAh+YFt4ep0AAjQb3jk+v3n3v5RGXGEPvuaMaMxsKjQN4iMjiC
-         d5UdbxAE3vW50Yy0iN46OCUrJVxoke+i5+NGz51sIxTA66AdhkaQxEpNVF5t69DGndGn
-         4E9GrfNJKAmd8Xm+v0mvuju4YDzzXOxC2dRfIW5tqAmv6makd1iJLdPxnqn5snIinSmx
-         LGRQ7gr1/pUt+GlacWfzMO8FvGTRU74BrHDJ9OhCfmTaduCcfqaFxqQQlPoQ5Yb1BhAU
-         LfXA==
-X-Forwarded-Encrypted: i=1; AFNElJ+PNRkpyY9bQVyHoW0uVFkcStr1XFmCG3QF56K8ifZHTffzN1GIv0yaWe/cHHRHphXvCQvP4XR/6fpQZXBn@vger.kernel.org
-X-Gm-Message-State: AOJu0YzjyRG4Exqgz5sHv7fkBFBDkVVrCKjC+q0xtlMBKMbVRW1kqmAD
-	d7BJdVoQIEilv4PlpTLXt+ZVxvoY9MO/OU1doyEqjnVJx0LtFnriaulrHJ6t6DKIXTyasbN8FlW
-	9uWYetphufLzdqxBQmT7aq+UsfZvyAnY=
-X-Gm-Gg: AeBDietPWvkQWc2O3iqek/Ob5M/J8w5Ko2A1lc+KiYLrqu/G53urmybaU/qbOQ0I7gO
-	N0BpuNZn8rEg8w+YBVhLK06/UewU6c5bTj3ZEgSu60XcwDG/yDiQmVtrjM34wUC6Nhz9uAqHHmb
-	4zXkNbxHSlR2SviMZJujt7Tjv3P7rG6IaVsr/v+gLkcFHWBWfFXjVLcySOkF1Nyr9bdnZdI6OCq
-	esJ5f6zPObgkQNm9Fcma2hiNT3LbJUYBVIZE0iTWjnSYMZ7vCTvQHbXllWq1HHl5UA0i+l5x8c/
-	aUwKs8iJU3luGsf+5h7nh6PTb9mXAWbzQFse8/ihC8wl
-X-Received: by 2002:a05:6000:22c3:b0:43c:cf25:f29a with SMTP id
- ffacd0b85a97d-43fe3dc819amr52741755f8f.8.1777059323757; Fri, 24 Apr 2026
- 12:35:23 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1777059537; x=1777664337;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=G7VaufB6w1dJvFuFr1EOIEp5Ep8hIo8a4pkkuPUO7RM=;
+        b=goS0T9+ZyfVrRCixbOiqGkujRocUkQJopbcF83zm3E+UgeKSRlk4SmzUBVE9rEDp65
+         erIMcCyxQff6/gSqtdyDPIiop/qYBI0mC+NEz3h8xUcusIt5ZXdFCBnsmq0o/MBM8V1b
+         0djAXbuMfHhBdrpxuc2CXyyyaMt7eRYWFJo7b1LwT1F6p040wAL9Se4ERFi9oVax5/Mg
+         BLI/3bGeLvamlknMoLjsIASzZyOLjYkLDWv+5V6sHmYad3g6UWu3Uhk9qUsLC14ZnOYx
+         F9oJeERDRYmtM/6MlA/8sCfIpz3Y1dSL4ux1nR0HgRlMxGyWcyT/XfXQFwVUk0MCBFhi
+         YOJg==
+X-Gm-Message-State: AOJu0Ywqoq3q+AH4YubkKkvP2JL/ijqD5DksT/LK7wDjj3DLOTqxEFA3
+	HNWONmxJvF8OHUNT76IlRg/04H5ey2EY5GK8dIUD73Nlpb858us8T0JJ9hrYPK1qTDGkNDN1JEd
+	ugUoHZ2fQwi6oPhbmyEbOKV3HDrZ5ktFnIt0ZWGrwpQBqXCWYClgS5bbdWCPKthBJUBw=
+X-Gm-Gg: AeBDietXdqA6TEKFEVKo/qCnanHSeR3+UW856aLLbGfb1ZmS0zfdTC+ZfL2tT05PgUl
+	78cWPeRubJhBFcqWy//LH4fRe8TCi6epnJXLI9yYDmoWua0UnxSt0gucgmXwAfgLnPNpSOVRjVQ
+	ZZNJecIv/dtWZKqTA9wLu5V8ugmCsiWimLJLIr+qyrI8EJQQjT+mfqUYRtc2anTFlxQJEfp93v7
+	YSac7rk3rBzevL/3URkak/7t3Se6r13IKOeAJzQMYPttD6GAIhArs1EWhFMmNgXgqfaH5AmKYXE
+	i5+HYOc4qabdoKU8aZDDehoYSBNH07p92NzRJeiUMeTApC5F5UEUzUPjgzOWsCCoR8VgIOC7sb0
+	31oVwjRLZO7cgCB1sH4jbfqCsI+A2xNY2Jlhv0o+6VgmP0HhvLA4T3K1HwjFYxoQ=
+X-Received: by 2002:a05:6808:2e43:b0:479:f0a2:d23c with SMTP id 5614622812f47-479f0a2e5e2mr10848520b6e.27.1777059537138;
+        Fri, 24 Apr 2026 12:38:57 -0700 (PDT)
+X-Received: by 2002:a05:6808:2e43:b0:479:f0a2:d23c with SMTP id 5614622812f47-479f0a2e5e2mr10848501b6e.27.1777059536668;
+        Fri, 24 Apr 2026 12:38:56 -0700 (PDT)
+Received: from li-4c4c4544-0032-4210-804c-c3c04f423534.ibm.com ([2600:1700:6476:1430::29])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-479a02097b6sm16156094b6e.14.2026.04.24.12.38.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Apr 2026 12:38:56 -0700 (PDT)
+Message-ID: <a4d47cc47de0b887202fd73cb93bc02bff4095c8.camel@redhat.com>
+Subject: Re: [PATCH] hfsplus: replace unbounded sprintf() in
+ hfsplus_{lookup,link,unlink}
+From: Viacheslav Dubeyko <vdubeyko@redhat.com>
+To: Thorsten Blum <thorsten.blum@linux.dev>, Viacheslav Dubeyko	
+ <slava@dubeyko.com>, John Paul Adrian Glaubitz
+ <glaubitz@physik.fu-berlin.de>,  Yangtao Li <frank.li@vivo.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Fri, 24 Apr 2026 12:38:54 -0700
+In-Reply-To: <20260424090633.307300-3-thorsten.blum@linux.dev>
+References: <20260424090633.307300-3-thorsten.blum@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43app2) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260424134935.16161-1-luis@igalia.com>
-In-Reply-To: <20260424134935.16161-1-luis@igalia.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Fri, 24 Apr 2026 12:35:11 -0700
-X-Gm-Features: AQROBzCQ83cKY4X4yuJlNSKnj6BsTQpURZVqjwRIosP6JkzbGG96ZJHWvJ1Jq8w
-Message-ID: <CAJnrk1bv4NK7MF4msYMAmbS=+vL=k8NLoLiNyM4QB+amccpOww@mail.gmail.com>
-Subject: Re: [PATCH] fuse: fix race between inode/dentry invalidation and readdir
-To: Luis Henriques <luis@igalia.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Matt Harvey <mharvey@jumptrading.com>, kernel-dev@igalia.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 24, 2026 at 6:53=E2=80=AFAM Luis Henriques <luis@igalia.com> wr=
-ote:
->
-> When there's a readdir in progress, doing a FUSE_NOTIFY_INVAL_{INODE,ENTR=
-Y}
-> on an inode or dentry may result in stale directory info being cached.  T=
-his
-> is because the invalidation does not reset the readdir cache.
->
-> This patch fixes this issue by adding a call to fuse_rdc_reset() (modifie=
-d
-> to include the required locking) to these two operations, allowing the
-> readdir cache to be invalidated while it's being filled-in.
+On Fri, 2026-04-24 at 11:06 +0200, Thorsten Blum wrote:
+> While the current code works correctly, replace unbounded sprintf()
+> calls with the safer scnprintf() in hfsplus_lookup(), hfsplus_link(),
+> and hfsplus_unlink() to follow secure coding best practices.
 
-Hi Luis,
+The patch makes sense. But I would like to request some refactoring work he=
+re.
+:)
 
-Just curious, are you hitting this issue in practice or is this mostly
-theoretical?
-
-afaict for fuse_notify_inval_entry(), it calls into
-fuse_reverse_inval_entry() -> fuse_dir_changed(parent), which calls
-inode_maybe_inc_iversion(). afaict, this actually increments i_version
-(since I_VERSION_QUERIED flag was set when the cache's iversion was
-initialized with inode_query_iversion() in fuse_readdir_cached()),
-which means the next readdir call will detect this version change and
-call fuse_rdc_reset() (in fuse_readdir_cached()). I'm not sure I see
-how this leads to stale directory info lingering in the cache after a
-concurrent fuse_notify_inval_entry()?
-
-For teh fuse_notify_inval_inode() case, which I'm assuming is the case
-you're running into where the directory is the inode being
-invalidated, I see the call to fuse_reverse_inval_inode() which calls
-invalidate_inode_pages2_range() if the offset was non-negative, which
-will invalidate the readdir cache's pages, which means on the next
-readdir call, will already call fuse_rdc_reset() when it detects the
-missing page in the cache (in fuse_readdir_cached()). So I'm not
-really seeing how this can happen either for the
-fuse_notify_inval_inode() case? Unless you are passing a negative
-offset, but as I understand it, passing a negative offset is used only
-if the server wants attributes invalidated [1], not any data.
-
-afaics, the onlyy stale directory info returned would be for the case
-for a concurrent readdir that has already passed the pos =3D=3D 0
-iversion/mtime check when the invalidation arrives, but that seems
-like a server synchronization issue, eg if the server wants uptodate
-data when doing a concurrent readdir and invalidation, they have to
-order that themselves. ANy fresh lookup after that though, I think
-wouldalways return fresh/non-stale data for the reasons mentioned
-above.
-
-Does this align with what you're seeing in the code or am I missing
-something here?
-
->
-> Assisted-by: Claude:claude-opus-4-5
-> Signed-off-by: Luis Henriques <luis@igalia.com>
+>=20
+> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
 > ---
->  fs/fuse/dir.c     |  5 +++--
->  fs/fuse/fuse_i.h  | 13 +++++++++++++
->  fs/fuse/inode.c   |  1 +
->  fs/fuse/readdir.c |  6 +++---
->  4 files changed, 20 insertions(+), 5 deletions(-)
->
-> diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
-> index 7ac6b232ef12..6e5851de3613 100644
-> --- a/fs/fuse/dir.c
-> +++ b/fs/fuse/dir.c
-> @@ -1615,6 +1615,7 @@ int fuse_reverse_inval_entry(struct fuse_conn *fc, =
-u64 parent_nodeid,
->         if (!(flags & FUSE_EXPIRE_ONLY))
->                 d_invalidate(entry);
->         fuse_invalidate_entry_cache(entry);
-> +       fuse_rdc_reset(entry->d_inode);
+>  fs/hfsplus/dir.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/fs/hfsplus/dir.c b/fs/hfsplus/dir.c
+> index 47194370c2c5..ff976995ef58 100644
+> --- a/fs/hfsplus/dir.c
+> +++ b/fs/hfsplus/dir.c
+> @@ -98,7 +98,7 @@ static struct dentry *hfsplus_lookup(struct inode *dir,=
+ struct dentry *dentry,
+>  				dentry->d_fsdata =3D (void *)(unsigned long)cnid;
+>  				linkid =3D
+>  					be32_to_cpu(entry.file.permissions.dev);
+> -				str.len =3D sprintf(name, "iNode%d", linkid);
+> +				str.len =3D scnprintf(name, sizeof(name), "iNode%d", linkid);
+>  				str.name =3D name;
+>  				err =3D hfsplus_cat_build_key(sb, fd.search_key,
+>  					HFSPLUS_SB(sb)->hidden_dir->i_ino,
 
-Hmm... I think this resets the child's readdir cache but it's the
-parent's readdir cache that would have to be invalidated, so would
-this have to be fuse_rdc_reset(parent)?
+This piece of code looks like a static inline function. Could we rework thi=
+s
+piece of code?
+
+char name[32];
+
+This declaration looks not very well. I think we need to introduce some nam=
+ed
+constant for hardcoded 32 value. Could you please rework it?
+
+> @@ -322,7 +322,7 @@ static int hfsplus_link(struct dentry *src_dentry, st=
+ruct inode *dst_dir,
+>  			get_random_bytes(&id, sizeof(cnid));
+>  			id &=3D 0x3fffffff;
+>  			str.name =3D name;
+> -			str.len =3D sprintf(name, "iNode%d", id);
+> +			str.len =3D scnprintf(name, sizeof(name), "iNode%d", id);
+>  			res =3D hfsplus_rename_cat(inode->i_ino,
+>  						 src_dir, &src_dentry->d_name,
+>  						 sbi->hidden_dir, &str);
+
+The same issue with name declaration here:
+
+char name[32];
+
+Also, I think it makes sense to initialize the local variables:
+
+char name[32] =3D {0};
+
+Maybe it makes sense to introduce some small function that execute this:
+
+str.len =3D sprintf(name, "iNode%d", linkid);
+str.name =3D name;
+
+Something like this:
+
+str =3D hfsplus_qstr_init(<arguments>);
+
+What do you think?
+
+> @@ -393,7 +393,7 @@ static int hfsplus_unlink(struct inode *dir, struct d=
+entry *dentry)
+>  	if (inode->i_ino =3D=3D cnid &&
+>  	    atomic_read(&HFSPLUS_I(inode)->opencnt)) {
+>  		str.name =3D name;
+> -		str.len =3D sprintf(name, "temp%llu", inode->i_ino);
+> +		str.len =3D scnprintf(name, sizeof(name), "temp%llu", inode->i_ino);
+>  		res =3D hfsplus_rename_cat(inode->i_ino,
+>  					 dir, &dentry->d_name,
+>  					 sbi->hidden_dir, &str);
+
+The same issues here too.
 
 Thanks,
-Joanne
+Slava.
 
-[1] https://libfuse.github.io/doxygen/fuse__lowlevel_8h.html#a9cb974af97452=
-94ff446d11cba2422f1
+[1] https://elixir.bootlin.com/linux/v7.0/source/fs/hfsplus/dir.c#L87
 
->
->         if (child_nodeid !=3D 0) {
->                 inode_lock(d_inode(entry));
-> @@ -1637,7 +1638,7 @@ int fuse_reverse_inval_entry(struct fuse_conn *fc, =
-u64 parent_nodeid,
->                 dont_mount(entry);
->                 clear_nlink(d_inode(entry));
->                 err =3D 0;
-> - badentry:
-> +badentry:
->                 inode_unlock(d_inode(entry));
->                 if (!err)
->                         d_delete(entry);
