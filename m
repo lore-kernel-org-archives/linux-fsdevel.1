@@ -1,140 +1,149 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89A01366DCF;
-	Fri, 24 Apr 2026 06:55:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777013707; cv=none; b=kDvV6+8FQENEmkGyXkTc3liOPQBatubktjamPs1YdJCTtKgcES2AsZVvUe4fkO0fgg3I5oepzKjRFShHs8AX9cPEMJ/T8kA2xeKZRaX534coShaXolS21h3Uo2xK/R4jq1caqbgvoFidru1lWqeaEOMUVyGKo0Ik+3JeA5S5/hQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777013707; c=relaxed/simple;
-	bh=YqWoWua2/Wc7PHuce4f8sh3BLnmIUCvUaupWZksb8eQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=raHNO+A1AcCOwQS1EavqdFoiydrCNdQ6YNE/mN8QtPVcAXPX2tJ193lTsPyd16B/ohKKunPmRN+a2H/bTm56U4IhM79m2Gy5YiZAhuPBN9UwlDr+JIgFQl7/rq6wpf0Dswn1zwwdzFNSsI26et09AGSzRC3EX8p9AJSpxnPEvfQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=XW7ENsMR; arc=none smtp.client-ip=220.197.31.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30BEC32FA18
+	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 06:57:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777013855; cv=pass; b=fLVzXPXg/DIJLKCf7zfhwzJk2CGxAxqKZWsgSADVwvQctlEOmYqlDkW9yvTtx1YrcLC08/MPPAwYVhBWN77z+WcXnO41ig4+WtIiGJep/UNYhh0mGKVCwAEuvG4C3pWhdLh+hW4N3o6a/6XXOH2Plo//nLPT2FWKwlcYeHmq8Gc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777013855; c=relaxed/simple;
+	bh=4GwIzdJUx2Kcw3exRRGxOr0HKxo9w+nymN/e/RTmPds=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Tcd/25K0PR+juigrGyJNt29jaAg7OaSq7AlVbIWhC70QaU2GhwYJfshfC2C3+VKsw2TwJ7FzNefe1qPzoat/Kn8T/XBJzcGQGHDzIo9J1CLI9l0xDiMaR0rqPK9IJf8b9z8XL6+NR2YCG06nUNULCSuMTM6YYDYiQXQqtBRgHug=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vceu4Ny8; arc=pass smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="XW7ENsMR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Message-ID:Date:MIME-Version:Subject:To:From:
-	Content-Type; bh=fJGZRW6SJwvAmPVVxVjo5olSr7jogTPEZBPW//VV6+4=;
-	b=XW7ENsMRoP5RA5dPhXrgveLwXiFnuho2tQqrc77d/oS4mtmqRz+Us+sVMUv8GD
-	na1NSzm7RVUqIXwZW+c/eBvv/zWp6EuRlb+k8EFCpNrAMVlQyoHg3dhNABg500Nm
-	kLf8uX1Tm3MpJt1/9r4lrj5gL84ZIgZ0djet9BLKwuG+w=
-Received: from [192.168.56.68] (unknown [])
-	by gzsmtp5 (Coremail) with SMTP id QCgvCgB3eeuFE+tpeZn3BA--.109S2;
-	Fri, 24 Apr 2026 14:54:04 +0800 (CST)
-Message-ID: <255bdd69-e0f0-4300-864a-15fd077ea748@163.com>
-Date: Fri, 24 Apr 2026 14:53:54 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vceu4Ny8"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-671c24f23b1so10854119a12.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 23 Apr 2026 23:57:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777013852; cv=none;
+        d=google.com; s=arc-20240605;
+        b=RyBML7/M70EoWg2SjNxVf2bjfA/JkHdoZs+IJI8/x9KPXsSZENdFU2MOaiYYflmnP1
+         HKGmL9Tz86h/gjeza9j4c0pdRichcXudl5c+5TXFzDVUBXWxqDX4L+/NmHsYClnwbplr
+         syDeJ6cTjHGOqA/zyiEtqViAAWs3t1uJFBLpS8s1C6HsbOLHlg8si6Smet54P3NYaxCH
+         uPVsFZcGnLfWyYpqVOvYOhYj3uttqpbAitushCh7+TAOCEpJGbqzqW14KITNmjTlJubd
+         33wmpnN+2OwOJc1+EgMdM99XiiYed9vHiz92By7XCvGj/IN+JFKAxrQf/9eCuM/2b3Dz
+         j++g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=1xbLIQ5Fuluw6Mpoy6KL9m+Q4rOLvVceUe/0sWgR12M=;
+        fh=6iB5tNjJMvntNZ4IO1EFE3HTaWz/q2NY5+ZxsNUaXHI=;
+        b=Cd1mgLQhziECwM7T4IwyMStosmM/RA/vYfpl/VRM+GTcQqpmwt7czIXYl9Ux+BrHKd
+         AhfqLAl/2fWTzgBiZyvOI/tHnfhQH4XfzFDWfciW2lGral60FhW056bIzmSbCx4V+j+5
+         u1i3AIwVvO/z9Enrt/3yG7Uv3chMftOy1bloTHDyrqHs1WcappqEKkaYgQqtkOgi+iUI
+         d7tQwlSZgRhmrMPOksKuHYMvrT5SqiUWOLeTdtpn4oiy9+1x/drcDquWaNnV42AtcbFl
+         F75YeIT66Vf3xfmHQsBkcCrporMVGSWccKLYR0KSKkzZneoRnJ7cgyAFOfVufNmQbhBp
+         nZUw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777013852; x=1777618652; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1xbLIQ5Fuluw6Mpoy6KL9m+Q4rOLvVceUe/0sWgR12M=;
+        b=Vceu4Ny8UZu8PbfbIEgniftLgcdI2HzgBkg9IeOIuXmIHPnIteJYqtKU4sQV0jmLiz
+         lC3GOlIwWtYDlCQ7l6L1o9uAWFpkoVaDOAarneBeRRJjhajystXP17BP9/0KYxc+ssZz
+         iTnyzlt27dNoBBys2Mhh+4BqWUpl0x/k7Sa74ADLZEoP0WEZChfL4RrOw6T6o71qnAtA
+         S5wyo3h+OOYkD1G73vqyf1AzL2709mN0PKIccT6j8b2XcluVMuSYmdY/4S3B9viK3Hu8
+         9FUbmj1z7KG+Cq391gWwBmy3ctuLf2P3jqNZ0yiM9MpBXo/gSTLjeXFTveh6hpoKaLI/
+         +7bg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777013852; x=1777618652;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=1xbLIQ5Fuluw6Mpoy6KL9m+Q4rOLvVceUe/0sWgR12M=;
+        b=gtdagLc48iBKAxLnvAZxQpUusL47razMvifLjsYaGtdLoSj85i1jSUvJSlR6R27Qwb
+         NC8mEAsN7ejEAP2VZuiOqY+qpmm2WJAdu/6eJHm03aXI3k7bBOqp4QSVTK8Ukc9kXXTh
+         LQW2LBQ+Gy1F8y0dxGw6V2ySr0uazrXwXJV9Xj+VpVKfoeZQ7MD/9127GPk0NmmGnwWi
+         UPu8TfhcAKvir/5XJ8Q3OILiC8a2I6hywafzExBZbHJjA7Ks/tAlLxM9LeIQ7+U6LXnV
+         GED7BPkSFMgUZhB101RH615DMBHw2t6otUd5y6IrtnmUg8XqVF7uUHxb/3UDzn9InQJf
+         ztRw==
+X-Forwarded-Encrypted: i=1; AFNElJ9R6OLk/r0fFcMBnSLSM/qJppvKL6/pCM//m6PvN7VzEBXviP6+cBk9uU1SUPfKuuktAFNi45I8OPxBPRn0@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJyZEEeKBniHuTr/Jp9pIFBkPj2r8tBXlH+7Hc1/hvvreuyRkM
+	LlaWwj+lt285CjsCA/fWmzhB+GrHN5N99Tb5GKMgFf+2XZQwcHEqGPc8+SqhIyW0VNPi+/uAuU/
+	BjX/JwT49NdiIpXe6zQWTHsXBthYd92w=
+X-Gm-Gg: AeBDieuVCHnzF0CdWSSiYbd+t6wJ1K79xx8fizTWpyccz59AD7NBRg5xMszZcZvNPjt
+	Br+P2qRVkNyo4ekNvqrCAL+ctHuVKDiCsFSqF5gkW68OeHRuW9aDTTZgsaiB9PqVZLU4FAztRIJ
+	GEUHrM31CzCw0n66Ib0mgjYbCWmqcArH5d+gyzu35MTogJvNtuWzW67wtRU0YHvElf019DcB44Y
+	5C46etLtVWzkQ61igWVagemcJizGF5sJs7gMbFu96gnkQpgHrQbcYuTvvGe+fSYcoSKQ93fZ6zP
+	oZeBQ2CHjjY2jJA2w3TdxhQJTj8Z+mvMBtf16zqX+BF188fxhH6OQAyoQPWA3B0=
+X-Received: by 2002:a17:907:97ca:b0:b9f:9e7a:bcd2 with SMTP id
+ a640c23a62f3a-ba41a632e8cmr1588080466b.38.1777013852060; Thu, 23 Apr 2026
+ 23:57:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 v1] Documentation: proc: fix ext4 section numbering in
- table of contents
-To: Randy Dunlap <rdunlap@infradead.org>, corbet@lwn.net,
- skhan@linuxfoundation.org, surenb@google.com, cyphar@cyphar.com,
- witcher@wiredspace.de
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-doc@vger.kernel.org, wangguanyu@vivo.com,
- Baolin Liu <liubaolin@kylinos.cn>
-References: <20260423065642.11218-1-liubaolin12138@163.com>
- <e1a0e7ab-8cdb-4c60-abcd-82c4e0be6e97@infradead.org>
- <1c59927a-2768-472e-bf89-34133a03749e@163.com>
- <8668e0f3-49c1-4748-97ab-00ee2befde10@infradead.org>
-From: liubaolin <liubaolin12138@163.com>
-In-Reply-To: <8668e0f3-49c1-4748-97ab-00ee2befde10@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:QCgvCgB3eeuFE+tpeZn3BA--.109S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxWFyxXr4kXr4xWF47Xw1DZFb_yoW5Cr1fpF
-	W5J3W3ta1UGF1UGrnrKw1xZr4qya4xtayUWFnFg34Igr90ywnagr43tF15uF97Gr18Jay0
-	qr17Ka43Zry3AFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07U5sqAUUUUU=
-X-CM-SenderInfo: xolxutxrol0iasrtmqqrwthudrp/xtbC6gw9CGnrE4yxZQAA3a
+References: <d0c4d95b-8064-4a7e-996d-7ad40eb4976b@linux.dev>
+ <wlxxrx10.ritesh.list@gmail.com> <aer0wd2Ig0hjN3R0@casper.infradead.org> <v7dhrmgc.ritesh.list@gmail.com>
+In-Reply-To: <v7dhrmgc.ritesh.list@gmail.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Fri, 24 Apr 2026 08:57:18 +0200
+X-Gm-Features: AQROBzA7au-Rxnv_gU_TeRNbE7y_vZ61_PUN4YtNXKiJVY5WHIMs7q432z4NtWM
+Message-ID: <CAOQ4uxi0bTwj7oCWR1iOhqzPkB94cVgh=9Prh1kHxnObuLCz0g@mail.gmail.com>
+Subject: Re: [LSF/MM/BPF TOPIC] Buffered atomic writes
+To: Ritesh Harjani <ritesh.list@gmail.com>, Matthew Wilcox <willy@infradead.org>
+Cc: Christian Brauner <brauner@kernel.org>, lsf-pc@lists.linux-foundation.org, 
+	Jan Kara <jack@suse.cz>, Ojaswin Mujoo <ojaswin@linux.ibm.com>, 
+	Pankaj Raghav <pankaj.raghav@linux.dev>, Andres Freund <andres@anarazel.de>, djwong@kernel.org, 
+	john.g.garry@oracle.com, hch@lst.de, Luis Chamberlain <mcgrof@kernel.org>, 
+	dchinner@redhat.com, Javier Gonzalez <javier.gonz@samsung.com>, gost.dev@samsung.com, 
+	tytso@mit.edu, p.raghav@samsung.com, vi.shah@samsung.com, 
+	linux-xfs@vger.kernel.org, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, Apr 24, 2026 at 7:07=E2=80=AFAM Ritesh Harjani <ritesh.list@gmail.c=
+om> wrote:
+>
+> Matthew Wilcox <willy@infradead.org> writes:
+>
+> > On Fri, Apr 24, 2026 at 06:32:03AM +0530, Ritesh Harjani wrote:
+> >> We were thinking if it is possible to extend the Buffered Atomic Write
+> >> session into two "continuous" halves of 30mins each (total of 60mins)?
+> >
+> > This is painful because you've requested me, plus both Storage and FS.
+> > FS has lots of space, but I don't, and Storage is also pretty full.
+>
+> I see, sorry about making your (and PC) life difficult here. I know it's
+> a lot of planning :(
+>
+> I think, both FS+IO folks will be interested to discuss both of these
+> topics. Do you think breaking this into two discontiguous session help
+> us plan better maybe? In case if we don't have any continuous slot, then
+> maybe we can split those into two.
+>
 
+I scheduled the two sessions as you requested 9:30-10:30
+for FS+IO and moved Parallel Writeback to Wednesday
+across the MM CXL session.
 
-在 2026/4/24 10:54, Randy Dunlap 写道:
-> 
-> 
-> On 4/23/26 7:44 PM, liubaolin wrote:
->>
->>
->> 在 2026/4/23 23:55, Randy Dunlap 写道:
->>> Hi--
->>>
->>> Why is "ext4" in the Subject?
->>> Probably just drop that word?
+> >
+> > Do you need me for the full hour or just half of it?
+>
+> Although I understand buffered writethrough is an FS related area, but I
+> am sure a new writethrough I/O path is an overlap for you in page cache
+> as well :)  So, yes, it will be good to have your feedback on the second
+> part of this discussion which is - buffered write-through for buffered
+> atomic writes.
+>
 
-Dear Randy Dunlap,
-    I apologize for missing the first part of your email. You're right, 
-the commit message title should remove the word"ext4". I will submit a 
-v2 patch to fix this error later. Thank you for your review.
+Matthew,
+
+I don't know why Parallel Writeback was scheduled as an MM session,
+but if you think it should include MM, could you move the CXL session
+to the now free MM slot on Monday 9:30, so that we can extend
+Parallel Writeback into MM?
+
+This will allow you to participate in the atomic buffered write sessions.
 
 Thanks,
-Baolin
-
->>>
->>>
->>> On 4/22/26 11:56 PM, Baolin Liu wrote:
->>>> From: Baolin Liu <liubaolin@kylinos.cn>
->>>>
->>>> Commit e24ccaaf7ec4 ("block: remove last remaining traces of IDE
->>>> documentation") removed the IDE section but left its table of
->>>> contents entry behind.
->>>> Fix the stale entry and renumber the following sections.
->>>>
->>>> Fixes: e24ccaaf7ec4 ("block: remove last remaining traces of IDE documentation")
->>>> Signed-off-by: Baolin Liu <liubaolin@kylinos.cn>
->>>> ---
->>>>    Documentation/filesystems/proc.rst | 14 +++++++-------
->>>>    1 file changed, 7 insertions(+), 7 deletions(-)
->>>>
->>>> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
->>>> index 7ce02573a3d9..70db35987ee1 100644
->>>> --- a/Documentation/filesystems/proc.rst
->>>> +++ b/Documentation/filesystems/proc.rst
->>>> @@ -23,13 +23,13 @@ fixes/update part 1.1  Stefani Seibold <stefani@seibold.net>    June 9 2009
->>>>      1    Collecting System Information
->>>>      1.1    Process-Specific Subdirectories
->>>>      1.2    Kernel data
->>>> -  1.3    IDE devices in /proc/ide
->>>> -  1.4    Networking info in /proc/net
->>>> -  1.5    SCSI info
->>>> -  1.6    Parallel port info in /proc/parport
->>>> -  1.7    TTY info in /proc/tty
->>>> -  1.8    Miscellaneous kernel statistics in /proc/stat
->>>> -  1.9    Ext4 file system parameters
->>>> +  1.3    Networking info in /proc/net
->>>> +  1.4    SCSI info
->>>> +  1.5    Parallel port info in /proc/parport
->>>> +  1.6    TTY info in /proc/tty
->>>> +  1.7    Miscellaneous kernel statistics in /proc/stat
->>>> +  1.8    Ext4 file system parameters
->>>> +  1.9    /proc/consoles - Shows registered system consoles
->>>>        2    Modifying System Parameters
->>>>    
->>>
->>> Where/how is this Table of Contents used?
->>>
->>> But yes, the intent of the patch is good.
->>> Thanks.
->>>
->> Hello, this directory contains the subsequent content of the file proc.rst.
->>
->> My modification is due to a previous commit e24ccaaf7ec4 ("block: remove last remaining traces of IDE documentation")
->> which removed "1.3 IDE devices in /proc/ide" from the subsequent content and modified the labels of the various items.
->> However, this previous commit forgot to remove "1.3 IDE devices in /proc/ide" from the directory itself.
->> This caused a misalignment between the directory entry and the actual subsequent content items.
->>
->> My modification is to remove the "1.3 IDE devices in /proc/ide" that was forgotten in the previous commit and correct the labels of the other subsequent items.
-> 
-> Yes, I understood all of that, but I had questions (which you ignored).
-> 
-
-
+Amir.
