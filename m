@@ -1,186 +1,221 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 167FB1B6CE9
-	for <linux-fsdevel@vger.kernel.org>; Fri, 24 Apr 2026 16:45:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61BF933E355;
+	Fri, 24 Apr 2026 16:51:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777049152; cv=none; b=QLfWZGoH2rj+avhPsh/Kdt4w5NNoJypccBB0hVBbF6DBCbGgWXkCATc/tO4NFkqcwasctcdV5AT2yT7+59KmmEpMvxXcOhA+qVV7MrOK0b3RJEit1kntdeYfYd/+IUzD9LR6so7fRWBvsspjlzHWET3cWb1XzKm2fq/kl8AEQ2I=
+	t=1777049496; cv=none; b=Jz45WcWuqI2zC8HpY//Rv0fYwdioOd3TUhNOkESXbdRkxlGT5ujsbbUYZG9ML45qKQ1TR14el8iWDLSQu/C8DNl7IP2dZZoVE0v/8X2rWuN1X//UTHP8FowoLpFzd342smU0LykIepsy4Qinu0VNSELiwar3zQKtWfovSl1PsFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777049152; c=relaxed/simple;
-	bh=Y8AHqu6a4Yb3YgxGWRJLwqQMJXLTiHTWCk7CQwDT0dg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LCOB+94rKwC8EZf4rJskPD445DmzZSRlShfus4njsleqA/gZa3EoFBWpYzFitLcAwendjoKcaDv4+dkyQOwC4Lpt1BWbCkDLYrIHM/aMYDDLmgDo4rFNVUEeRpCGO9Q0YHJP4TEIw1iyGjg9phZnrlyppIriiFxTeAeN64iPROQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=JIWAhgVJ; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1777049496; c=relaxed/simple;
+	bh=H33Ls5pcEb9yVpjrsIIokmBmIDGsoErkqLOTcwUdbMs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Y0E+oeO7jL1h8QgD3mVFY3MeEHzCJFW4Gy31Tz78mZ+JYt5sLRfznf1uMz7HNHCTE3FhBAMUJ/1opYkmABK4wK7WxMNseVc9Fe6FKNUC+jv4vnjiwVovb202gJcLtlNDWMCpDVeXomGzyqH1x0q9JctgUkPKdohXDi9vSOwk/k0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RAAAQkrf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="JIWAhgVJ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=6MuIhTKn81QH0/FznwtFyEBRCGi6RLudX/kQq6UY2bI=; b=JIWAhgVJoTGgF90npbxq2/cgHu
-	bq4/mViVjxtLFxXB4EYuCD23xBVkNFN+87L+NhL7/n1LhEjcZEjh8cQn6oPfv4XaneT3X0KX7SPIZ
-	XyfWL+Vgqhxr799qOpfDwagohch91PzE49v7rQFd7ProqwXXwti9g7HwZ4EA7iRWoU7jvx7fwV/Wk
-	d69Q/ENZoGIA7KCwgp25vZqr/PjbmR3uQ7ToDHdLCTzgZy4xMZ+Gg693EKUYBLR97VZam/opyuSX3
-	3ePKpH17x4xNeRTyyiGI9mfdqg3HUAY64eV6ZW+DOOqJ0UjEDGGZ7oO5sU89wZWsHlKtQGW30BJPU
-	4GZVdjnA==;
-Received: from [38.23.173.23] (helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wGJet-0000000DT0j-0FcI;
-	Fri, 24 Apr 2026 16:45:39 +0000
-Date: Fri, 24 Apr 2026 12:45:32 -0400
-From: "Liam R. Howlett" <liam@infradead.org>
-To: Johannes Weiner <hannes@cmpxchg.org>
-Cc: Matthew Wilcox <willy@infradead.org>, 
-	lsf-pc@lists.linux-foundation.org, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
-	David Hildenbrand <david@kernel.org>, Jan Kara <jack@suse.cz>, Ryan Roberts <ryan.roberts@arm.com>, 
-	Christian Brauner <brauner@kernel.org>
-Subject: Re: [LSF/MM/BPF TOPIC] Page cache tracking with the Maple Tree
-Message-ID: <oi2kit3a2qulr53c7j3h4g3cjjgbss4kd2djdqota2sriiaaov@7uewnraaq4gk>
-References: <biynsvpcamct5fva5nxxdvc3q43dqi72jotpyasvrk3pumdz2w@7okprmuwznlo>
- <aeKO6bKupHa2bgWt@casper.infradead.org>
- <aeaKAxrAUtfwM9ns@cmpxchg.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RAAAQkrf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9E8DC19425;
+	Fri, 24 Apr 2026 16:51:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777049496;
+	bh=H33Ls5pcEb9yVpjrsIIokmBmIDGsoErkqLOTcwUdbMs=;
+	h=From:To:Cc:Subject:Date:From;
+	b=RAAAQkrfj5d21vWPedH3peKTh0F+ICh0aFRvtsZjOr9eS9YVlpIIW9IE74pTQZvsD
+	 hpdJaEJPyFeD1nHKj+i3R7RZ1+Y/ytJIGPfAiVrpTFZH2hWS0KfsiBotOpyz3vMxv4
+	 SYmeyxdkX3QrzsIlDxtw/9vZHTHLIC2HkOZqv8JNWwC7DAYEw864EJ/BrP2ahvInVN
+	 Fz3dtSQXh0i+OqOlT2AbQZ09teEDwQZ4jR1oX5QpDhjicVtSA7lt06Et8+LyCeDsuW
+	 v3zn18Qut0ly8NuQn3a6Ctca9EzoQ6Zpr2RbEfDOFD1FYICfruurPXFa93N1Jp6PJf
+	 lgCEBV+ZLD8CA==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-api@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	workflows@vger.kernel.org,
+	tools@kernel.org,
+	x86@kernel.org,
+	Thomas Gleixner <tglx@kernel.org>,
+	"Paul E . McKenney" <paulmck@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Cyril Hrubis <chrubis@suse.cz>,
+	Kees Cook <kees@kernel.org>,
+	Jake Edge <jake@lwn.net>,
+	David Laight <david.laight.linux@gmail.com>,
+	Askar Safin <safinaskar@zohomail.com>,
+	Gabriele Paoloni <gpaoloni@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH v3 0/9] Kernel API Specification Framework
+Date: Fri, 24 Apr 2026 12:51:20 -0400
+Message-ID: <20260424165130.2306833-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aeaKAxrAUtfwM9ns@cmpxchg.org>
+Content-Transfer-Encoding: 8bit
 
-On 26/04/20 04:18PM, Johannes Weiner wrote:
-> On Fri, Apr 17, 2026 at 08:50:01PM +0100, Matthew Wilcox wrote:
-> > On Tue, Feb 24, 2026 at 12:10:26PM -0500, Liam R. Howlett wrote:
-> > > The Maple Tree needs some enhancements:
-> > >  - Support for purging shadow entries from the page cache
-> > 
-> > Liam and I hd some preliminary discussions yesterday around this
-> > and we'd like some feedback if anyone has time before LSFMM.
-> > 
-> > For those who aren't aware, when a folio falls off the end of the
-> > LRU list, we store a shadow entry in the page cache in its place
-> > so that if we access that page again, we know where to put its folio in
-> > the LRU list.
-> > 
-> > But this creates a problem (documented in mm/workingset.c) where
-> > we can fill up memory with shadow entries.  Currently, we embed a
-> > list_head in xa_node and add nodes which contain only shadow entries
-> > to a list which can be walked by a shrinker when we're low on memory.
-> > Ideally we wouldn't do that with the maple tree.  There are a few
-> > options.
-> > 
-> > The first question we have is whether it's best to keep nodes around to
-> > wait for a shrinker to kick in.  Was any experimentation done to
-> > see whether eagerly freeing a node that contains only shadow entries
-> > has a bad effect on performance?
-> 
-> Hm, I'm not sure how that could work.
-> 
-> The LRU order created by readahead makes it highly likely that all the
-> folios in a cache node are reclaimed/made non-resident at once. Going
-> this route would destroy a large part of the non-resident cache the
-> moment it is created.
+This proposal introduces machinery for documenting kernel APIs, addressing the
+long-standing challenge of maintaining stable interfaces between the kernel and
+user-space programs. Despite the kernel's commitment to never breaking user
+space, the lack of machine-readable API specifications has led to breakages
+across kernel interfaces.
 
-Not the moment it is created, but the moment the entire node only has
-NULLs or shadow entries.  Meaning it's removed the moment the last
-entry becomes a shadow entry.
+Specifications can document parameter types, valid ranges, constraints, and
+alignment requirements. They capture return value semantics including success
+conditions and error codes with their meaning. Execution context requirements,
+capabilities, locking constraints, signal handling behavior, and side effects
+can all be formally specified.
 
-Still much sooner, but not as extreme as just dropping them immediately.
+These specifications live alongside the code they document and are both
+human-readable and machine-parseable. They can be validated at runtime when
+CONFIG_KAPI_RUNTIME_CHECKS is enabled, exported via debugfs for userspace
+tools, and extracted from either vmlinux or source code.
 
-> 
-> The goal is to garbage-collect the oldest shadow entries whose
-> distances are too long to be actionable at this point. Specifically,
-> their distance to lruvec->nonresident_age (per-cgroup, per-node).
-> 
-> In the current scheme, we just go in the order in which nodes became
-> all-shadow - oldest first. And we only do so lazily when the
-> non-resident cache is far into that territory (cache set vastly larger
-> than available memory). That gives us confidence that we're mostly
-> dropping very old entries without having to look at them one by one.
-> 
-> We don't have to stick with that design, but whatever replaces it
-> should meet the goal, or approximate it well enough.
+This enables static analysis tools to verify userspace API usage at compile
+time, test generation based on formal specifications, consistent error handling
+validation, automated documentation generation, and formal verification of
+kernel interfaces.
 
-The goal of garbage collecting the oldest shadow entries based on the
-nonresident_age.  That's a broad target, which I think is made more
-specific within the implementation to 'groupings of 64 shadow entries',
-which I bring up later.
+The implementation includes a core framework with ELF section storage,
+kerneldoc integration for inline specification, a debugfs interface for runtime
+querying, and a Rust-based extraction tool (tools/kapi) supporting JSON, RST,
+and plain text output formats. Example specifications are provided for the four
+fundamental file syscalls (sys_open, sys_close, sys_read, sys_write). The
+series also includes a KUnit test suite with 27 tests and a runtime
+verification selftest with 29 TAP tests.
 
-Besides the locking improvements that we can bring, is there anything
-that you have found doesn't work optimal in the current solution that
-may be nice to fix?
+The series with runtime testing enabled (CONFIG_KAPI_RUNTIME_CHECKS=y)
+currently survives LTP tests in a KVM VM.
 
-> 
-> > The second idea we talked about is that the maple tree is much more
-> > flexible than the radix tree.  Having even a single folio in a node pins
-> > the entire node, so it's "free" to keep the shadow entries in that node
-> > around.  But with the maple tree, we can be much more granular and
-> > delete shadow entries in arbitrary positions.  So we could (for example)
-> > keep track of inodes which contain shadow entries and purge shadow
-> > entries when they reach, say, 10% of the number of pages.  Or 1000
-> > entries, or some other threshold.
-> 
-> It's not the volume or the concentration of shadows, it's their age
-> that makes them good candidates for garbage collection.
+Changes since v2:
 
-Maybe I'm reading this wrong but it seems workingset_update_node() adds
-nodes to the list that is composed of all shadow entries (or removes it
-if we have changed one to resident).
+- Replace statically sized arrays in the spec structs with const char *
+  pointers to reduce memory footprint and remove string truncation.
 
-Doesn't that mean there is a concentration of shadow entries since the
-entries in the tree are in order?
+- Simplify the kerneldoc DSL to short tokens (e.g. `type: uint, input`,
+  `contexts: process, softirq`, `constraint-type: range(0, KMAX)`,
+  `side-effect: alloc_memory`) in place of raw KAPI_* enum names.
 
-That is, reclaim is at node level granularity, and the nodes are sorted
-sets.  I think, sibling entries aside, it's fair to call that a grouping
-of 64 shadow entries?
+- tools/kapi: commit Cargo.lock for reproducible offline builds, add a
+  Makefile and README, expand the kerneldoc parser to cover the full
+  DSL, and refactor the vmlinux extractor for the const-pointer layout.
 
-This also means that with today's code we are keeping older entries over
-newer entries because the node has at least one resident entry.  But
-that's fine, because we can't gain anything by removing them today.
+- tools/lib/python/kdoc/kdoc_apispec.py expanded to match the DSL so
+  scripts/kernel-doc --apispec emits the structure the extractor consumes.
 
-So, we can change this behaviour to something new if we want, if 64
-shadow entries are too many to accumulate before removal, or too small.
+References:
 
-> 
-> Searching the tree for all-shadow nodes should be possible, but you'd
-> still have to filter for age. Naively, that would be unpack_shadow()
-> -> workingset_test_recent() for each one, but that's likely too heavy.
-> 
-> What might work is a monotonic ID counter for each node that becomes
-> all-shadow, then search the trees with quick comparisons for any IDs
-> below a certain cutoff?
-> 
-> > The third idea is that instead of having an injected list_head that we
-> > keep a tree pointing to inodes (or even just maple tree nodes which
-> > contain a lot of shadow entries).  That's not how list_lru works today,
-> > so a certain amount of development work would need to be done.
-> 
-> Ah, so you don't need storage inside the inode or maple tree node.
-> 
-> That could work well with the monotonic ID counter, you'd just scan
-> and reclaim through that tree, oldest node first.
+  v2: https://lore.kernel.org/all/20260322121026.869758-1-sashal@kernel.org/
+  v1: https://lore.kernel.org/all/20260313150928.2637368-1-sashal@kernel.org/
+  RFC v5: https://lore.kernel.org/lkml/20251218204239.4159453-1-sashal@kernel.org/
+  RFC v4: https://lore.kernel.org/lkml/20250825181434.3340805-1-sashal@kernel.org/
+  RFC v3: https://lore.kernel.org/lkml/20250711114248.2288591-1-sashal@kernel.org/
+  RFC v2: https://lore.kernel.org/lkml/20250624180742.5795-1-sashal@kernel.org/
+  RFC v1: https://lore.kernel.org/lkml/20250614134858.790460-1-sashal@kernel.org/
 
-I think this would end up looking like a linked list with a few extra
-metadata points.  Basically a linked list, node pointer, min of the
-node, maybe a size if we support multiple node types.,
+Sasha Levin (9):
+  kernel/api: introduce kernel API specification framework
+  kernel/api: enable kerneldoc-based API specifications
+  kernel/api: add debugfs interface for kernel API specifications
+  tools/kapi: add kernel API specification extraction tool
+  kernel/api: add API specification for sys_open
+  kernel/api: add API specification for sys_close
+  kernel/api: add API specification for sys_read
+  kernel/api: add API specification for sys_write
+  kernel/api: add runtime verification selftest
 
-I'm not sure the node pointer will do us much good, considering how the
-maple tree node allocation needs to track the tree status on walking to
-minimize allocations.  In fact, if we do a write that rebalances the
-tree, we may have stale pointers.  I don't expect this to happen under
-any normal circumstance - the node would need to be altered, but maybe
-the node type changes..
+ .gitignore                                    |    1 +
+ Documentation/dev-tools/index.rst             |    1 +
+ Documentation/dev-tools/kernel-api-spec.rst   |  704 ++++
+ MAINTAINERS                                   |   11 +
+ arch/x86/include/asm/syscall_wrapper.h        |   40 +
+ fs/open.c                                     |  566 ++++
+ fs/read_write.c                               |  697 ++++
+ include/asm-generic/vmlinux.lds.h             |   28 +
+ include/linux/kernel_api_spec.h               | 1269 ++++++++
+ include/linux/syscalls.h                      |   38 +
+ init/Kconfig                                  |    2 +
+ kernel/Makefile                               |    3 +
+ kernel/api/.gitignore                         |    2 +
+ kernel/api/Kconfig                            |   77 +
+ kernel/api/Makefile                           |   14 +
+ kernel/api/internal.h                         |   21 +
+ kernel/api/kapi_debugfs.c                     |  553 ++++
+ kernel/api/kapi_kunit.c                       |  538 ++++
+ kernel/api/kernel_api_spec.c                  | 1362 ++++++++
+ scripts/Makefile.build                        |   31 +
+ scripts/Makefile.clean                        |    3 +
+ tools/docs/kernel-doc                         |    5 +
+ tools/kapi/.gitignore                         |    4 +
+ tools/kapi/Cargo.lock                         |  679 ++++
+ tools/kapi/Cargo.toml                         |   20 +
+ tools/kapi/Makefile                           |   33 +
+ tools/kapi/README.md                          |   32 +
+ tools/kapi/src/extractor/debugfs.rs           |  849 +++++
+ tools/kapi/src/extractor/kerneldoc_parser.rs  | 2831 +++++++++++++++++
+ tools/kapi/src/extractor/mod.rs               |  388 +++
+ tools/kapi/src/extractor/source_parser.rs     |  415 +++
+ .../src/extractor/vmlinux/binary_utils.rs     |  462 +++
+ .../src/extractor/vmlinux/magic_finder.rs     |  115 +
+ tools/kapi/src/extractor/vmlinux/mod.rs       |  857 +++++
+ tools/kapi/src/formatter/json.rs              |  634 ++++
+ tools/kapi/src/formatter/mod.rs               |  122 +
+ tools/kapi/src/formatter/plain.rs             |  646 ++++
+ tools/kapi/src/formatter/rst.rs               |  726 +++++
+ tools/kapi/src/main.rs                        |  123 +
+ tools/lib/python/kdoc/kdoc_apispec.py         | 1249 ++++++++
+ tools/lib/python/kdoc/kdoc_output.py          |    9 +-
+ tools/lib/python/kdoc/kdoc_parser.py          |   86 +-
+ tools/testing/selftests/Makefile              |    1 +
+ tools/testing/selftests/kapi/Makefile         |    7 +
+ tools/testing/selftests/kapi/kapi_test_util.h |   33 +
+ tools/testing/selftests/kapi/test_kapi.c      | 1096 +++++++
+ 46 files changed, 17378 insertions(+), 5 deletions(-)
+ create mode 100644 Documentation/dev-tools/kernel-api-spec.rst
+ create mode 100644 include/linux/kernel_api_spec.h
+ create mode 100644 kernel/api/.gitignore
+ create mode 100644 kernel/api/Kconfig
+ create mode 100644 kernel/api/Makefile
+ create mode 100644 kernel/api/internal.h
+ create mode 100644 kernel/api/kapi_debugfs.c
+ create mode 100644 kernel/api/kapi_kunit.c
+ create mode 100644 kernel/api/kernel_api_spec.c
+ create mode 100644 tools/kapi/.gitignore
+ create mode 100644 tools/kapi/Cargo.lock
+ create mode 100644 tools/kapi/Cargo.toml
+ create mode 100644 tools/kapi/Makefile
+ create mode 100644 tools/kapi/README.md
+ create mode 100644 tools/kapi/src/extractor/debugfs.rs
+ create mode 100644 tools/kapi/src/extractor/kerneldoc_parser.rs
+ create mode 100644 tools/kapi/src/extractor/mod.rs
+ create mode 100644 tools/kapi/src/extractor/source_parser.rs
+ create mode 100644 tools/kapi/src/extractor/vmlinux/binary_utils.rs
+ create mode 100644 tools/kapi/src/extractor/vmlinux/magic_finder.rs
+ create mode 100644 tools/kapi/src/extractor/vmlinux/mod.rs
+ create mode 100644 tools/kapi/src/formatter/json.rs
+ create mode 100644 tools/kapi/src/formatter/mod.rs
+ create mode 100644 tools/kapi/src/formatter/plain.rs
+ create mode 100644 tools/kapi/src/formatter/rst.rs
+ create mode 100644 tools/kapi/src/main.rs
+ create mode 100644 tools/lib/python/kdoc/kdoc_apispec.py
+ create mode 100644 tools/testing/selftests/kapi/Makefile
+ create mode 100644 tools/testing/selftests/kapi/kapi_test_util.h
+ create mode 100644 tools/testing/selftests/kapi/test_kapi.c
 
-It might be better to just track ranges and the largest (thus newest to
-become a shadow) monotonic ID counter.
+-- 
+2.53.0
 
-There's many ways to do this, but it'd probably be best to decide on a
-size that makes sense (I say size because of the siblings..).  On that
-note, the siblings stuff will go away with the maple tree as well.
-
-Thanks,
-Liam
