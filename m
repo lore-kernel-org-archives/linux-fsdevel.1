@@ -1,128 +1,81 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38EA83093DF;
-	Fri, 24 Apr 2026 02:54:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7021C224FA;
+	Fri, 24 Apr 2026 03:20:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776999300; cv=none; b=IjRofr61dJUij2bZZNGCa44bK0CpbJt1qmPQ4hqca9vP426Av1E1ovYciqSn4L6euuwH9MeTLuvalZixTTs4VRlQHwmOxgnezapNlcxUh7+Q1ttNHSh6d0s5sZiHs0aCBZXvQGCI5V9jJqZJA4+Eu+oec0C2EPlELt75hquGgIo=
+	t=1777000855; cv=none; b=EjIHWlCpXI9mKW2aNKnbfpmgGesfD9tphvjgPKw47lSrjwH02vvgosKOJ/V//a5nKFZ+zY6pbFIFu96sQrSdeaK+hdTH3KfvkSv07JFwwEpXBlQSqTXT6o36G/roj3SP15LL+azfj0un2lQVFAMc/EO6/hH3zeHx/LEb4yllK34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776999300; c=relaxed/simple;
-	bh=OUO7d57LPf+ocH1/dR1ctrSwugmU1d8dUV54pTj7X3k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mA5Z2BZGp5eBRTTzlt+ItqUvyx3qGGmmpy4wbe475JQDUwItuWNpX8VPURa+JBETluTBDO6Z8sI2IBc2Fu045tLaPIMWT5B5TreY53v0+1rDFamUtYAX9qSW75m3hMsOubjSsU1EHHwrqBqfA+ZaTxyGSOUf96F14nN8QxcPfUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ls7kJpsX; arc=none smtp.client-ip=198.137.202.133
+	s=arc-20240116; t=1777000855; c=relaxed/simple;
+	bh=HnbcZuJRm5gwp5waDh2UgtplEn2VXuo2oozw9jzfTd0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s8q9uwBrgY1GNjrdyuzpniia9ftxlMqm5zkH8hu3BYEcvHetHkUEk5KHqmw5aBOIjhzK8xu2qVHYwfDfVeg0JKIpHdEPjCXIPKay37f0vpq/orzp5RuvYMz78ZapJNRd7k9GoXck7lWAxH+0cMUJAnn0wuB9+F8rLGraFlVoVVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=KgS2rpB5; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ls7kJpsX"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="KgS2rpB5"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=g2FcG4fAPXgUXX/2Qa5p13a6LPLKWvMkTIjCnC6WuCE=; b=ls7kJpsXm3dZungX6WstDrkP3N
-	jQtRQddraSIHIhsAC0n3Xkv2CH2DBhaSSD3qsVAZIaXZDYi0Xp+4QSzcdsi9Ud5PO+J7nTwLlhZOq
-	pG7/xCExEVEbAB7BToptIxP8NfwsO847ci8APmceuP+zFyhu0t9eyqka8ACZx2fsk9h5IY5IEE9PI
-	KmULj71JeBADHJt2aXOkYuD/uZQnKeo7QYPUNq6ICMCVktDK+wU1R2STPsH9a+evXbbnY1H0uUM55
-	WaDnYZznvkK1ll9P/4G8tvBKigezI0GL3OTpZ/gOxg4CgEvZo7b/K57NGx/XgDdg+Qi1trymWISs1
-	RLo8b20w==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wG6gq-0000000CXlq-3dL0;
-	Fri, 24 Apr 2026 02:54:48 +0000
-Message-ID: <8668e0f3-49c1-4748-97ab-00ee2befde10@infradead.org>
-Date: Thu, 23 Apr 2026 19:54:48 -0700
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=vF1AU0LXlnhIfmJBF/DVKC/jdqA8hAJ+qqGd+yTOFkg=; b=KgS2rpB5V/NgcXiZBzBut1nFMM
+	VXy6TDHg2uPCUyKs50GnvU925GmHjYdme9k93ETpkPAcMi4yGAcHfoloHON5royLGcfk8+E08UqPw
+	naQHxuP1Ae5cpfKVxnSmm3CrrlOmlG8Z5N2UpAfZUhfEQhojGoZ1YG4o9AYgbK/XNG1c7lR+QYFLS
+	uZVbeirmfMjaa+0naIO+FQir+qgxIig2+vN0cuJ+zvrC9eX/Dm2LJuul3conDsK9cZNJW92dW6eV7
+	C0LLBztiFOrzhZhwKq+Gv6w/0pBl7kmGRUdJhEs2thWxRXXuAoCXgq+y1/NEw8Tua6QB7h3wlsfUh
+	e8zCrlEg==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1wG75r-0000000EUjd-3o1v;
+	Fri, 24 Apr 2026 03:20:40 +0000
+Date: Fri, 24 Apr 2026 04:20:39 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Yibin Liu <liuyibin@hygon.cn>
+Cc: Lorenzo Stoakes <ljs@kernel.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
+	"viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+	"brauner@kernel.org" <brauner@kernel.org>,
+	"mjguzik@gmail.com" <mjguzik@gmail.com>,
+	Jianyong Wu <wujianyong@hygon.cn>, Huangsj <huangsj@hygon.cn>,
+	Yuan Zhong <zhongyuan@hygon.cn>, "jack@suse.cz" <jack@suse.cz>,
+	"jlayton@kernel.org" <jlayton@kernel.org>,
+	"chuck.lever@oracle.com" <chuck.lever@oracle.com>,
+	"alex.aring@gmail.com" <alex.aring@gmail.com>,
+	"vbabka@kernel.org" <vbabka@kernel.org>,
+	"jannh@google.com" <jannh@google.com>,
+	"pfalcato@suse.de" <pfalcato@suse.de>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: =?utf-8?B?562U5aSNOiDnrZTlpI06IFtQQVRD?=
+ =?utf-8?B?SF0gbW06IEFk?= =?utf-8?Q?d?= RWH_RMAP_EXCLUDE flag to exclude
+ files from rmap sharing
+Message-ID: <aerhh_tzSs5XapUz@casper.infradead.org>
+References: <20260421020932.3212532-1-liuyibin@hygon.cn>
+ <aeikm2e5Gh5reJ30@lucifer>
+ <bc514883d6154420b3cfde4ab25a20c7@hygon.cn>
+ <aejzSsiXZBK1emv7@lucifer>
+ <a96c20b74b874248bc0cdc2b926a43fe@hygon.cn>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 v1] Documentation: proc: fix ext4 section numbering in
- table of contents
-To: liubaolin <liubaolin12138@163.com>, corbet@lwn.net,
- skhan@linuxfoundation.org, surenb@google.com, cyphar@cyphar.com,
- witcher@wiredspace.de
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-doc@vger.kernel.org, wangguanyu@vivo.com,
- Baolin Liu <liubaolin@kylinos.cn>
-References: <20260423065642.11218-1-liubaolin12138@163.com>
- <e1a0e7ab-8cdb-4c60-abcd-82c4e0be6e97@infradead.org>
- <1c59927a-2768-472e-bf89-34133a03749e@163.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <1c59927a-2768-472e-bf89-34133a03749e@163.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a96c20b74b874248bc0cdc2b926a43fe@hygon.cn>
 
-
-
-On 4/23/26 7:44 PM, liubaolin wrote:
+On Fri, Apr 24, 2026 at 01:08:35AM +0000, Yibin Liu wrote:
+> On an Intel Emerald Rapids server (112 cores), run the execl benchmark from
+> UnixBench with the command: ./Run -c 220 execl
+> Then perf top shows:
 > 
-> 
-> 在 2026/4/23 23:55, Randy Dunlap 写道:
->> Hi--
->>
->> Why is "ext4" in the Subject?
->> Probably just drop that word?
->>
->>
->> On 4/22/26 11:56 PM, Baolin Liu wrote:
->>> From: Baolin Liu <liubaolin@kylinos.cn>
->>>
->>> Commit e24ccaaf7ec4 ("block: remove last remaining traces of IDE
->>> documentation") removed the IDE section but left its table of
->>> contents entry behind.
->>> Fix the stale entry and renumber the following sections.
->>>
->>> Fixes: e24ccaaf7ec4 ("block: remove last remaining traces of IDE documentation")
->>> Signed-off-by: Baolin Liu <liubaolin@kylinos.cn>
->>> ---
->>>   Documentation/filesystems/proc.rst | 14 +++++++-------
->>>   1 file changed, 7 insertions(+), 7 deletions(-)
->>>
->>> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
->>> index 7ce02573a3d9..70db35987ee1 100644
->>> --- a/Documentation/filesystems/proc.rst
->>> +++ b/Documentation/filesystems/proc.rst
->>> @@ -23,13 +23,13 @@ fixes/update part 1.1  Stefani Seibold <stefani@seibold.net>    June 9 2009
->>>     1    Collecting System Information
->>>     1.1    Process-Specific Subdirectories
->>>     1.2    Kernel data
->>> -  1.3    IDE devices in /proc/ide
->>> -  1.4    Networking info in /proc/net
->>> -  1.5    SCSI info
->>> -  1.6    Parallel port info in /proc/parport
->>> -  1.7    TTY info in /proc/tty
->>> -  1.8    Miscellaneous kernel statistics in /proc/stat
->>> -  1.9    Ext4 file system parameters
->>> +  1.3    Networking info in /proc/net
->>> +  1.4    SCSI info
->>> +  1.5    Parallel port info in /proc/parport
->>> +  1.6    TTY info in /proc/tty
->>> +  1.7    Miscellaneous kernel statistics in /proc/stat
->>> +  1.8    Ext4 file system parameters
->>> +  1.9    /proc/consoles - Shows registered system consoles
->>>       2    Modifying System Parameters
->>>   
->>
->> Where/how is this Table of Contents used?
->>
->> But yes, the intent of the patch is good.
->> Thanks.
->>
-> Hello, this directory contains the subsequent content of the file proc.rst.
-> 
-> My modification is due to a previous commit e24ccaaf7ec4 ("block: remove last remaining traces of IDE documentation")
-> which removed "1.3 IDE devices in /proc/ide" from the subsequent content and modified the labels of the various items.
-> However, this previous commit forgot to remove "1.3 IDE devices in /proc/ide" from the directory itself.
-> This caused a misalignment between the directory entry and the actual subsequent content items.
-> 
-> My modification is to remove the "1.3 IDE devices in /proc/ide" that was forgotten in the previous commit and correct the labels of the other subsequent items.
+>   91.53%  [kernel]                    [k] osq_lock
+>    0.50%  [kernel]                    [k] rwsem_spin_on_owner
 
-Yes, I understood all of that, but I had questions (which you ignored).
-
--- 
-~Randy
-
+OK, but does this represent a realistic workload?  It's pretty easy to
+construct workloads that hammer on particular locks; the question is
+whether it's a relevant performance bottleneck that customers care about.
