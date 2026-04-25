@@ -1,74 +1,77 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB359381B01
-	for <linux-fsdevel@vger.kernel.org>; Sat, 25 Apr 2026 22:08:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96074381B1D
+	for <linux-fsdevel@vger.kernel.org>; Sat, 25 Apr 2026 22:09:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777154941; cv=none; b=RkvHR0cz66Yl3MBGgzqj3LqTdaO5zSZU2XegTs9CIg/74jFsQ56GDqdfxH2JAMuXaroxXX6hg21/SO9QtGp0YTJVgjJYuIDnb4KkiBVDxrvMYIhy61jDkerpX7Wylsb7AXTsw1YekwvfkLESzoLejp7t28aQ3Gr3VB01z/PYfAk=
+	t=1777154943; cv=none; b=mNbEfrd6HEmbuZrdm8IUik/NWNunVu9RNddjlj4Aa70Ppki1zq1WdjF81DJBUStk1RwLutjhN5wrT/r+xwO4VNek9QO0TTiO9+xuX6VG6BQ1V7ETk/8P4KJ4h79BXg4eI9FNuePCI/HFzGpB0pOF6VCb2NuEMxldOhqLQ5LtXOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777154941; c=relaxed/simple;
-	bh=sXJ+slPMLJ9Nq4h3XwfVUMfde/mNfD0bnXs0kmZePnA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dm4dRrk9OU8nKAcBPkKRe2UJf6sqwhbX1W9fwtWiWzcBu60RA3eEOcMyaPLlMvqznfHRLwjGQy9g14PwLg9tEGOXeRQNYxt84fWDre7eHyoiFOdrdZ4lXpnOfEalHpemIzFLHwOtcXZinMJcHkUg1oeb8AimCzjclOMrKrfrgMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=n5VaY2JS; arc=none smtp.client-ip=209.85.128.43
+	s=arc-20240116; t=1777154943; c=relaxed/simple;
+	bh=bPeySIzvwdl59bI8ZI4Nv+mHr412k88Uyp1LoSfzrgk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=nK1/VlCmeN4xabJHpXxp3hekRndv0gshl2P8Wl6o7G19ip8E53c59huqkaeeSHvftrKMd6sttKMHlqpzjV3bVi3vbX40E4KlxfRn0BbXyOLiaYIZ1vaF3htJSu1Xnqw8OHIOf0LdAzKUQe/QwbDqrj1Dx9MQjUR2Q3pcAHJ6Zss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T1aMH6j1; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="n5VaY2JS"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-48909558b3aso87091185e9.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 25 Apr 2026 15:08:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T1aMH6j1"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4852b81c73aso74340475e9.3
+        for <linux-fsdevel@vger.kernel.org>; Sat, 25 Apr 2026 15:09:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777154938; x=1777759738; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4aq4vscdrQ5L+2eiMv5OyfdzLMbZgfj63SCCR74zP4s=;
-        b=n5VaY2JSJz6V7aMFc4rfkr5q1v9vPu/Fn0Dg+cmoKs1y3eBiixNpVdWkXw2bn/7eDK
-         Cqc3ks+4X1qe1MCQcTor6tiCEdnJynH2bOG4NiDeqId7uVNCCMou4Z3o8pHHVW2XIAQE
-         aSawBr+z3uyNECxm8McLGuZ9/c88A0brY6ELcP0C13/fSX2SB0TOv98kZbDA+pZcimUH
-         6KMN/1U2jJNDsrCigdycXW+f7ZQ3aWQK7X3CljrZQ3vwfnVKr4Lr4OvjnllonaVBCv9g
-         oCMzPARDgiaqwms6FL01G8UkF+mwxzrnq+WBagGktiiHHuA32d4dU5jE7UCQ2nzq+yRI
-         bnPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777154938; x=1777759738;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1777154940; x=1777759740; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4aq4vscdrQ5L+2eiMv5OyfdzLMbZgfj63SCCR74zP4s=;
-        b=OOFIMUfpQGnvDZqwOlCrcuOnSvd0xhlik7RFLR+zBf6UiMBE5VyzNncYbzFMSaaPC8
-         BE2L/D65NrxX6shW896w1Yaqu07hS9kb1rlnFJglBTUH2sNM7qPi6ciQyhuC23jew1UO
-         Cb0LESNhi+P40OdqrYcXnxARDf9qdvHZ3LQyg0ttwBnQBtg2Z7gJ5ELdW1HA+Ld1atNd
-         vae5ybfR125ArI5Y8RPRcYQf965x0OyCSmCqeXzPdtO7T0VELK5vPcxZiMsX+TOXgqBH
-         lhqxlb5BsLeQSRrxQjqwWmLdxZMy0liGXhDg0oBmMwI8QhpKjrAtmEGJfZA5k2RtM+0t
-         VEdA==
-X-Forwarded-Encrypted: i=1; AFNElJ+JCbW3XNWriwwLV1HGjpDRwb2gzf9RtQKwTYOlFgjR5XmaZ8zy1PST/oLPwDaFV+RJKvQyLZS0YKKDBxEf@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx7gz5pdUs9ICMIAT0MawfSGA3sGWb5dHMyYiJE+Po4ngFL2gpr
-	DV4PvzEmuX2XwFOhX1OUMYxuA+F1XreNvj1//SHFYZSyQEzreKBRXQdW
-X-Gm-Gg: AeBDieu8JQtDmgQbJlcrYJLLN5vDEdT9nGnFsEqIDFZgXACaVO2PR8jg2C6QWM5yW1O
-	26OOGt5LfmrlmBiRPB5EPw04urmysCvHlKuG6qcQDmCnVmOa2Wco3UP1x/7yoYD+X2C4+G7e8yZ
-	tHHdkyX+9mIXCyLFidckXMxiOBs1zvdBaQ/D6LVvgATG6W4nJyhJcr4EGCYWdCGo5xC7A/i7jLr
-	nELmBJeiuZS1OL3r13Tzo5wA6W8M569mlstidHlyFBdrE1xrqzGJfHcxu4MKJ7w+CuRh8OO+J+I
-	ecAACCqFanPEQPxGrQ6BZLGGAOWu8hjwmuLJQ2jiVAcH0CBcPmakL4BsvPo6n2PvBsd1dhMXKVg
-	j/GtEG9530b9hFGYUXPilDQS6QPnlCGYnsyHBoAJEsWJ2sMPtr4aOAAtagFavjWhM7af9nqeRM5
-	0DqsnuJkegbVLBdRaGNzalyxcLiE1CEdvPtnAhHK9fusc6EPmn+ptMgydtwk3dL56hDkQp10gIJ
-	K8iI3i4ZLQ7/zKU3xOlF2w=
-X-Received: by 2002:a05:600c:621b:b0:487:5c0:671f with SMTP id 5b1f17b1804b1-488fb742e74mr571402565e9.9.1777154937911;
-        Sat, 25 Apr 2026 15:08:57 -0700 (PDT)
+        bh=IjA4suJY50P3hL0eg2zIeJeFSvUg5EcOPNDUedPN0Yo=;
+        b=T1aMH6j1pRhFzmOiZfLxKTGirNYPR2MbKZyoQgBGdDCuBASDFPL6JqKd8E/MrhXUng
+         CpczMJ+2ePsqF8KMc2kBv8gs8mXrBrsRd64MpyFQyzYrq/OLVo371m8X0WVkQ54GeA+x
+         PmymDfU8PD47sOlyH5Y/I+QjHRzpUZUrM5LTbVW+H2nOyaCOuT8T2d01mByskmKxcptR
+         lp6cBdeYqlalwGSsQmuppDVMyQl8AhLcs87bgoKj7ydvOOV+SgXF/6XYfXsvtC2SofvX
+         /8+cNnzrNLhY5GxZS9ujaGRPDD4SL+iq65tMyDFM1mM0A1s7wEp04gPlcsYu5LXmzuEB
+         cnJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777154940; x=1777759740;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=IjA4suJY50P3hL0eg2zIeJeFSvUg5EcOPNDUedPN0Yo=;
+        b=kCYPLmJR+cR5Law7hG39e+/WLdlIO24YiANjyvIYBEd9sligYGxC87fzjJv/E2hAZT
+         qfS/Iwxgg+RxLAlz8EcpFiQNR0/SOqN+KSwniGd6KoqDvFS03HOzuUjkHvsizKxhcDRj
+         psIw8nE2WC0dso8UhhAp87bYBXN8b3J0Wm8Uh0ccDe74G+5+sNVwH+Z+sLBnOs2TeoF0
+         sK4z6UX55l08p1OmxImZIu3EHh8rutBtI6in1d8VoSYZauBR1+QbhUbfrmmZPxoCebpb
+         W7diAJtHN7+Vk/Q9b08oT3GjBTxSPAVU3QOkOpMq3Bx7WZrd5v25UucdD6ahJnSbkMv2
+         hTGg==
+X-Forwarded-Encrypted: i=1; AFNElJ9y/jjLe6unfkfbea7JVjl18zEFrGX2I+4E4tIgM0ora4mVyEuQ+0nYQTSwUSfYiawuz11zfo9QM4oBAl1+@vger.kernel.org
+X-Gm-Message-State: AOJu0YybpOqf/qpHC+gCMa5guR79kdfd+Cko0kD44TRESIZ9dNtZoKQg
+	1HrnIjbAavQm+uw8rTauo0CKOEBpFE9NEYew0vlF+SXgFjBCg/3MCYXO
+X-Gm-Gg: AeBDiesFspeXpx2QipB9tL7nK7pffyYGjYTx+OYq6Ks0S8ocZkIUjaXm5Z2MQaYa/tY
+	DqX+KPnjFoWxaOktWEZJmR050TAaGe2j2Gca6Gx/uH/q0PFrX47e42pLpnXBoFhIqK6byZdAxSR
+	sAQM0bg6/CJjCLBfkbCOptxHgzvKe7Qil/ungA1eYhYshi3s2T++r9ijGWs36+klqDxh1Mg2tZI
+	eyABwxhS+fN3Cwjdj9QradC/2AomAT5ElsP2ouJ2vY4d5Gp2zzRpk9RreAqJK3v1JheEprbe95H
+	tj3NVuCa8CS5FGDinGGPwWXZavscZo+ngu+P0fBoOKYeyHXf7AanD+w5HDVmH2ojea5QgESJccG
+	G6C5dwYoFGTY0vYq4YYwlaAf5dJwXguZeizApQUIKZ0QaOLzOO3MpMJa8DOhbgGL0S+ZTHauSH/
+	zOrMRUfiIc218WPtcQoXqVXnEHHza7c1zp3OZh/GTKtz5/ilGvmTZCUoe38bFwcAeIlKO+4oWW6
+	x1G1q0MDvny
+X-Received: by 2002:a05:600c:4593:b0:488:c120:480a with SMTP id 5b1f17b1804b1-488fb78bf05mr524932765e9.31.1777154939987;
+        Sat, 25 Apr 2026 15:08:59 -0700 (PDT)
 Received: from f.. (cst-prg-93-232.cust.vodafone.cz. [46.135.93.232])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488fc0b4c85sm651984545e9.0.2026.04.25.15.08.55
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488fc0b4c85sm651984545e9.0.2026.04.25.15.08.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Apr 2026 15:08:57 -0700 (PDT)
+        Sat, 25 Apr 2026 15:08:58 -0700 (PDT)
 From: Mateusz Guzik <mjguzik@gmail.com>
 To: brauner@kernel.org
 Cc: viro@zeniv.linux.org.uk,
 	jack@suse.cz,
 	linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
-	adobriyan@gmail.com,
-	Mateusz Guzik <mjguzik@gmail.com>
-Subject: [PATCH v3 0/3] revamp fs/filesystems.c
-Date: Sun, 26 Apr 2026 00:08:41 +0200
-Message-ID: <20260425220844.1763933-1-mjguzik@gmail.com>
+	adobriyan@gmail.com
+Subject: [PATCH v3 1/3] proc: allow to mark /proc files permanent outside of fs/proc/
+Date: Sun, 26 Apr 2026 00:08:42 +0200
+Message-ID: <20260425220844.1763933-2-mjguzik@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260425220844.1763933-1-mjguzik@gmail.com>
+References: <20260425220844.1763933-1-mjguzik@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -77,45 +80,100 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The file is a mess with a hand-rolled linked list in a desperate need of
-a clean up.
+From: Alexey Dobriyan <adobriyan@gmail.com>
 
-The code to emit /proc/filesystems is used frequently because libselinux
-reads the file, which in turn is linked into numerous frequently used
-programs (even ones you would not suspect, like sed!). In order to
-combat that pre-gen the string instead of pointer-chasing and printfing
-one by-one.
+Add proc_make_permanent() function to mark PDE as permanent to speed up
+open/read/close (one alloc/free and lock/unlock less).
 
-open+read+close cycle single-threaded (ops/s):
-before: 442732
-after:  1063462 (+140%)
+Enable it for built-in code and for compiled-in modules.
+This function becomes nop magically in modular code.
 
-Additionally scalability is also improved thanks to bypassing ref
-maintenance on open/close.
+		Note, note, note!
 
-open+read+close cycle with 20 processes (ops/s):
-before: 606177
-after:	3300576 (+444%)
+If built-in code creates and deletes PDEs dynamically (not in init
+hook), then proc_make_permanent() must not be used.
 
-The main bottleneck afterwards is the spurious lockref trip on open.
+It is intended for simple code:
 
-Alexey Dobriyan (1):
-  proc: allow to mark /proc files permanent outside of fs/proc/
+	static int __init xxx_module_init(void)
+	{
+		g_pde = proc_create_single();
+		proc_make_permanent(g_pde);
+		return 0;
+	}
+	static void __exit xxx_module_exit(void)
+	{
+		remove_proc_entry(g_pde);
+	}
 
-Christian Brauner (1):
-  fs: RCU-ify filesystems list
+If module is built-in then exit hook never executed and PDE is
+permanent so it is OK to mark it as such.
 
-Mateusz Guzik (1):
-  fs: cache the string generated by reading /proc/filesystems
+If module is module then rmmod will yank PDE, but proc_make_permanent()
+is nop and core /proc code will do everything right.
 
- fs/filesystems.c        | 332 +++++++++++++++++++++++++++-------------
- fs/ocfs2/super.c        |   1 -
- fs/proc/generic.c       |  12 ++
- fs/proc/internal.h      |   3 +
- include/linux/fs.h      |   2 +-
- include/linux/proc_fs.h |  10 ++
- 6 files changed, 252 insertions(+), 108 deletions(-)
+Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
+---
+ fs/proc/generic.c       | 12 ++++++++++++
+ fs/proc/internal.h      |  3 +++
+ include/linux/proc_fs.h | 10 ++++++++++
+ 3 files changed, 25 insertions(+)
 
+diff --git a/fs/proc/generic.c b/fs/proc/generic.c
+index 3063080f3bb2..497561ee3848 100644
+--- a/fs/proc/generic.c
++++ b/fs/proc/generic.c
+@@ -845,3 +845,15 @@ ssize_t proc_simple_write(struct file *f, const char __user *ubuf, size_t size,
+ 	kfree(buf);
+ 	return ret == 0 ? size : ret;
+ }
++
++/*
++ * Not exported to modules:
++ * modules' /proc files aren't permanent because modules aren't permanent.
++ */
++void impl_proc_make_permanent(struct proc_dir_entry *pde);
++void impl_proc_make_permanent(struct proc_dir_entry *pde)
++{
++	if (pde) {
++		pde_make_permanent(pde);
++	}
++}
+diff --git a/fs/proc/internal.h b/fs/proc/internal.h
+index 64dc44832808..1edbabbdbc5d 100644
+--- a/fs/proc/internal.h
++++ b/fs/proc/internal.h
+@@ -79,8 +79,11 @@ static inline bool pde_is_permanent(const struct proc_dir_entry *pde)
+ 	return pde->flags & PROC_ENTRY_PERMANENT;
+ }
+ 
++/* This is for builtin code, not even for modules which are compiled in. */
+ static inline void pde_make_permanent(struct proc_dir_entry *pde)
+ {
++	/* Ensure magic flag does something. */
++	static_assert(PROC_ENTRY_PERMANENT != 0);
+ 	pde->flags |= PROC_ENTRY_PERMANENT;
+ }
+ 
+diff --git a/include/linux/proc_fs.h b/include/linux/proc_fs.h
+index 19d1c5e5f335..dceccd27a234 100644
+--- a/include/linux/proc_fs.h
++++ b/include/linux/proc_fs.h
+@@ -248,4 +248,14 @@ static inline struct pid_namespace *proc_pid_ns(struct super_block *sb)
+ 
+ bool proc_ns_file(const struct file *file);
+ 
++static inline void proc_make_permanent(struct proc_dir_entry *pde)
++{
++	/* Don't give matches to modules. */
++#if defined CONFIG_PROC_FS && !defined MODULE
++	/* This mess is created by defining "struct proc_dir_entry" elsewhere. */
++	void impl_proc_make_permanent(struct proc_dir_entry *pde);
++	impl_proc_make_permanent(pde);
++#endif
++}
++
+ #endif /* _LINUX_PROC_FS_H */
 -- 
 2.48.1
 
