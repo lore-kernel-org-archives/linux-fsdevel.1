@@ -1,100 +1,189 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011044.outbound.protection.outlook.com [40.107.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 871BD3612CF
-	for <linux-fsdevel@vger.kernel.org>; Sat, 25 Apr 2026 07:32:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777102347; cv=none; b=BmeglIW7y/WxQaJ7L0INE8Ip9+fhXxzAuDfmHZgqc3pjWEAfPpq+ZFJ3FFreCj+8Xmu3iRqzekZX0vaq672j0c9mWFB6ROwCMwsH4gnMbZU4JbPq9wN8vPqxh4wKraxsnlXQ9u3a9h8L1P3HWM2Iyg5WWnzm8hRFMSmu/0Eo4ic=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777102347; c=relaxed/simple;
-	bh=aOTyKsmr6DcOmHXEMYDU1eBTVka0Z6SoSEFZjKZKKJQ=;
-	h=From:To:cc:Subject:MIME-Version:Content-Type:Date:Message-ID; b=ExXiVXUjpzTRiX+6hFNET1wuqAn9SjnDxQv/uF26ZAd0FjXVLXVO/FPf/7t1GEo0yCkDaWUGX+zt++sSjlQLXD93pEzp54CRdWVLKXk3Z2BOA+FZydzTF6M64ci/73/jYMiVznEBGvML+JcCFaGKbAlyjP9TqG7hZUk5DCR/THY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Jm1zHTcy; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5347E48CFC;
+	Sat, 25 Apr 2026 12:00:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777118451; cv=fail; b=OnzfNy5n1yILQQNqYfx8JX5EDxmMA6zh1NDMM/YupyzbFHY50Dz6tWE+jFQoOYEHRQ2yCx8ZlU82pZB5pghivhqDNUlZxPQHp4UPaak2E9eV19+ZoxL7b9lkH1IKp1WA4euiXFZ+vnVgcJ5mVd87tzJ4QIoiGrwo8nNJVfyowoU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777118451; c=relaxed/simple;
+	bh=2zWgXf6bJSYNOSOr3HzyoAmgGdd8J/ZYABWvmgzePOo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=NPYOzZkZwUP0hTbLkswv2VumQFVVsIKt7qE076xRDN586XcWaHbufRb3w3gaM54XJbTB5UzYX7vKkIjhkyQjRSIZKZXb+yNykAl3FaK1d3O0si9cC3vpgMJPsTs9CkxcayrK7QpOrxUVNiRXonq4LZ2N+enRXizL+0UICVRwe3I=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=cG04i6H6; arc=fail smtp.client-ip=40.107.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Jm1zHTcy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1777102345;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=5gzWVQIG73AjHJc00itzUJCP5782HlmTHOQaoGTzA2M=;
-	b=Jm1zHTcyVnHr8dvO2z8LQ83h0EkCoifUzaqAt9iwEsX/LUtG6+yiV2jSRim71Gp90AFV0l
-	USAgVg8vUUYJjEWru7y62qwI5WahdOfssA4yzDBYOVr4dR0htuFrvcX37riaTrHP6vYfNQ
-	WXg71cQyGREfkNETldmAlhYfn6KejoA=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-553-Y-xCKVZrPAimNIw5vkrq9Q-1; Sat,
- 25 Apr 2026 03:32:21 -0400
-X-MC-Unique: Y-xCKVZrPAimNIw5vkrq9Q-1
-X-Mimecast-MFC-AGG-ID: Y-xCKVZrPAimNIw5vkrq9Q_1777102340
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id BB57B1800451;
-	Sat, 25 Apr 2026 07:32:19 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.44.48.17])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 90AEE180047F;
-	Sat, 25 Apr 2026 07:32:17 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-	Kingdom.
-	Registered in England and Wales under Company Registration No. 3798903
-From: David Howells <dhowells@redhat.com>
-To: Christian Brauner <christian@brauner.io>
-cc: dhowells@redhat.com, Paulo Alcantara <pc@manguebit.org>,
-    netfs@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-    linux-kernel@vger.kernel.org
-Subject: [PATCH] netfs: Fix wrong sort of request put in error handling
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="cG04i6H6"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ihNgSU4d5RkozeIubLGYAeijB1N5ZAR0ZfVCJVaNiOLBO2luuGNvFj4s0pJ9MGCX0QJ4qKAch4vybnM+JxzHTjRd9oPwXCH+Rmt2pqew7iTHmJnc/6NUJ6kJqMvsQyUc/LUOy5WGqBobHeJSndlWkO2Foclu13YvmdDN6D8Z2Tc8JBrBXCTGnnVWlnBP6UIz8aMsYGETUa+lyX1AX7V0XbgHAhe8i7ph2JGs8i+QkxEwpfLufx1S45Y504eaCXMPeDVr29HP6jU0LaLtaqt0ecpkkaqLqFQ91NcEdfMb0m75EB4SfYOUDgZ1IpwJ8hxmMwVYRxWxquyFr2w3+rxm+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fHtdjaGcbUjrQWaR2bse8uIiTCMPzar0l7abrB5l0EM=;
+ b=RmnO5OOn38oGjDbtUwBNuZnEv7lJntWYEa1I67aWnXL0tr26BE5XLvzp3uBEw+mp8Sto90xaTpgqxRFbFuKF7YXpsFUxBsVcVCk9I8gDuRmIhfrq3tWqrKEbco7bopSynQi1Dyde5yJTVyzBqDIscJwMXOq8kfCu1uwTQX+pQA0vRqdnXxwYbVR+IF1vmN5wk39N1+ecHjtxPI/Lxacr4UmC1hoXtY5I4PZUuLDV/HQI9H3NRM3v4mf4otVnQtwY0KDHiGX9pe0kgXL7Qx+aLiflS9yuQ4ueXPDk1nhrsDbxgIZ0Tlq3NV5TMhZZYwsJmxikQacQx8muOIiMnp2VhA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fHtdjaGcbUjrQWaR2bse8uIiTCMPzar0l7abrB5l0EM=;
+ b=cG04i6H6p+KQZaWgSORm/HrJloWz2Xy5OpwuPoNvyxBUSV0T4cywCnaN/fCChjzIBBFY/GtG4dZsEoNPKSTSca2zZXS+cwXcb2/kuvCK68zak53cqApI/H/IGZNnQLQ8nApZPk6TXs9ak8IMnfhyft38YROMuehaGjJVJs+bcrn6dO+OzijLi6L9seNyBTTvp/CRQnLd/4bqNB/dg9xOFkKyUcByOoUepa9JBBqDRRE6FKH/uNI6DfQ4KG9YwdAvbcGufZ007tyvYRT5kMOiX7TYuNkVrS7lR9hvSKEemhwa8eU2xDS4QsQYMRXc5vERPgxLmsRsirhvvq3l1JC+dQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
+ IA0PR12MB8376.namprd12.prod.outlook.com (2603:10b6:208:40b::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9870.12; Sat, 25 Apr 2026 12:00:45 +0000
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::f01d:73d2:2dda:c7b2]) by DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::f01d:73d2:2dda:c7b2%4]) with mapi id 15.20.9846.021; Sat, 25 Apr 2026
+ 12:00:44 +0000
+From: Zi Yan <ziy@nvidia.com>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>
+Cc: Song Liu <songliubraving@fb.com>, Chris Mason <clm@fb.com>,
+ David Sterba <dsterba@suse.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Shuah Khan <shuah@kernel.org>, linux-btrfs@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH 7.2 v3 03/12] mm/huge_memory: remove READ_ONLY_THP_FOR_FS
+ from file_thp_enabled()
+Date: Sat, 25 Apr 2026 08:00:41 -0400
+X-Mailer: MailMate (2.0r6290)
+Message-ID: <74D4C50B-CB20-45B3-8E7E-E9A499701F61@nvidia.com>
+In-Reply-To: <20260418024429.4055056-4-ziy@nvidia.com>
+References: <20260418024429.4055056-1-ziy@nvidia.com>
+ <20260418024429.4055056-4-ziy@nvidia.com>
+Content-Type: text/plain
+X-ClientProxiedBy: YQBP288CA0037.CANP288.PROD.OUTLOOK.COM
+ (2603:10b6:c01:9d::14) To DS7PR12MB9473.namprd12.prod.outlook.com
+ (2603:10b6:8:252::5)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <3643631.1777102335.1@warthog.procyon.org.uk>
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 25 Apr 2026 08:32:15 +0100
-Message-ID: <3643632.1777102335@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|IA0PR12MB8376:EE_
+X-MS-Office365-Filtering-Correlation-Id: 479d07ff-e8ed-4640-1400-08dea2c247e2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|7416014|376014|366016|56012099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	ze090QUzkOXdc7WgHm4XPX8N9pz7/I8f+Z/4SXZkAUee7vuiYeo8janGCH/z1a2N0IGBb5CC0u9CSG+Wrvl8kzRepCvH7W1x0AIRAtIiaeg4rcAW00lhwHNIyBLMaIj34XE7rXDfd5qpT5ds+iBDegRfYAnfjxiXlZeWhYaysZTNCUU82rvnHNii4K98kTRBB18M0bQgp3Ws4kSR6ZcehE4SiOjPHPL91hovFRb+Q/w55BGaqNFQwc+rwIoBZ6/xvJzgstiAWnxn8UQOBTkvALOi99Dv7DyWoG1StJScew1KoCdra0G40s7gojVjDw3exLwJrFf8xmwVbHA/w68LzAm6GAzz57SfQ2ds8oCN/8mz73KX/vPP6bVf/xxu0WvZ/UmkvwyLzNnPXSsGaQEoMvwKSqWJHfiQ2Z6jHe6BqsSfKMoy27VUTOvjww9ogY0k1BYLAHMz7rGE++L0NAAbDXpFNXmv/qdf2WFKCSa3FjmyGn3vXWpED9yuFutvzZjDv2qfUomG/cQ24DerVAr/XA2oEO0lxM7thWE8mihZIS0bJW4jEX482Sdmt59FDqmNF4lFQ8KJ/8E18Pg2XfYY1bdIqTCcTN593YP14jtrGXPC7yaY3HaGyxgM8gZqD8HuYHVndnT64fqVEIxY/yuw466mWHcjuSqunXYgoUoB+SVUtc9kW7YZcM/x0cRzdll2yoCpgWNIDaYvyJVmzYQiPXxEONZphzx3AIrvPFg5WF0=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?eQE7NXC5M/d6SkFus6k7pOzf+zitPSSaYT97ssa0WmzOynMtPKVjATLXcbFT?=
+ =?us-ascii?Q?Uu2FEvIOIULiibxvxJy2GIqp0o8XwYC6ppT7UAS01DnBD7RN2iFkwvYB2gXU?=
+ =?us-ascii?Q?n05siePvPeHurAJ3f4nXwiPF8+X47B09/PSh8ubhSru3ydH4ETaBXoY2kr5Y?=
+ =?us-ascii?Q?wbX58DRdtH8D6u5MW4cYemJ688bxjIYFQR9PDnJD9TGqR0JfOInFcB6Wep5j?=
+ =?us-ascii?Q?P5NMDCN7Q+u1z6F2MtOMIVokRWoHpKEIPY6wvXb1GP9vw81pVahsIU5zp6fx?=
+ =?us-ascii?Q?V4FgHU3h1l2eqJN8yEMnXfoCPUNLT5ep+buzPNLQuU/nR3M4KRWl+bPwUX+p?=
+ =?us-ascii?Q?6K3iXTQlaZEGfgGwEeGrI/IPPoKFW/hK7YtpA+zTutDQnh45wBcqRKYngPI2?=
+ =?us-ascii?Q?j+6KMHa7o4QxKGiwMWArizxUcJTg1qrAYKR+sWiV8/qgX9XhnRS6ObrIl/Gk?=
+ =?us-ascii?Q?vfnFtXEYVhXxrR0KQxgvvkGFYB9LLx3XE7ndswTvnAtEsGgZP2oru/BPaXG/?=
+ =?us-ascii?Q?AaEugGzvK9wtATl+00LbOs7Oh0D/yNICuKbOsKuoauHmq6TyA48kVlCuKJgW?=
+ =?us-ascii?Q?vCmJ8lFa8iCU52duZUUF8J0/spWzlrEAYB74ZmKDMF6A2TOLM9QzZ6PlJyTa?=
+ =?us-ascii?Q?r30kVHYRBTlyiPKEFndzaXZrWidKsrFqGntlIMA7TnIx715wDRJh2iKYsoCO?=
+ =?us-ascii?Q?/esGHOQLdSTpSBmmQw6cYMnWjCzaoCDEQi8dcUGf21p9lQzLz+c87D8UvaH8?=
+ =?us-ascii?Q?SqqXmxbVWRdKcU9GQZWIwWDhAZSkCf+y1ssvzXRoUSBC8m6Sq75gQb1WWjsm?=
+ =?us-ascii?Q?QZCqnOgTXsQw2FE9sIcdKEMct1uEZMWukarNpSPm/u8VzghXlad/s4n89Qkl?=
+ =?us-ascii?Q?RC1cqF3rsJBBdAbmQ56iKzgrW1P39bhJw0GnmPh7y83EFEHNhYZ6h+A91Byj?=
+ =?us-ascii?Q?gdr7T5entrO6rJDPz+g+P7TThh7FtbrOh9qG7Kr8JzbtxCzOFBZ4tUebs0Oe?=
+ =?us-ascii?Q?xv+2iM5JzzXI1sCn6HpJHzPf0mGV1+SVKWIGOoQghA/ezTcsEFWfezdAEo/v?=
+ =?us-ascii?Q?sd6UKWdR5N8FjqjNKUJ512Pq78LERIt39qj05HWydij7iyisq4lTXxNYDrya?=
+ =?us-ascii?Q?Xc3ySJJTx04evijrAkvuN8cW9y+OzQS+mr4iYd7HFUfwDOxnjHv3Up+UMCu4?=
+ =?us-ascii?Q?5jNhs2nof6Aoy3uMw7TvtMqefYKv6WXAAkeKfusmZ9IO/phIGgU7QgF6Iz8k?=
+ =?us-ascii?Q?nP6QXt7sgshqoCwvuvQpQd5kzZI5OIwR6lD/ceJ4ipjJcq0EsC5ac9Q8p/Aq?=
+ =?us-ascii?Q?UaPSCQdL8k9LdljbDCTSQd49/yPuXYDGxW+sYg+XNKkX37COdyk7FVivLSEb?=
+ =?us-ascii?Q?besdKumxumIIVN6JKz6g3/521YgrYDEQ4uezwiXOx43QFIVu4y/40RycDRhS?=
+ =?us-ascii?Q?0ofg9ujxWoFH9KDAumBztQJ17yP/2Dz1o61hNHEn9vGRURIfk48g9lYF7dYN?=
+ =?us-ascii?Q?b5otJNSwiy60q62l83s0D66s+lBLHVKwr0aZRKWi2C0I9AW9WZHRAbTLDElJ?=
+ =?us-ascii?Q?DLPxLzUDgJEpFRjoU902II5PmLpp9qkuUCDUIECcWG+iJTKyHw3Kna3KJy7d?=
+ =?us-ascii?Q?bl1tem8km8o8Gf+Znpr7yFXXTzpFZt3XOEP9YGbtrmkEiazam5ufB5E0TPJW?=
+ =?us-ascii?Q?shp1Vl/xvnvFrC5bDGADs7CILMtyZxO2fScG43BFIElnuPzN?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 479d07ff-e8ed-4640-1400-08dea2c247e2
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Apr 2026 12:00:44.8332
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DxjH/k6dtRZPNhiQyHCblIHpahliPXtj7an7Kyf8ozBvDOk8t+wMjeYj8rQRIK3Z
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8376
 
-    =
+On 17 Apr 2026, at 22:44, Zi Yan wrote:
 
-Fix netfs_write_begin() to call netfs_put_request(), not
-netfs_put_failed_request(), if it has already tried to dispatch the
-request.
+> Replace it with a check on the max folio order of the file's address space
+> mapping, making sure PMD THP is supported. Also remove the read-only fd
+> check, since collapse_file() now makes sure all to-be-collapsed folios are
+> clean and the created PMD file THP can be handled by FSes properly.
+>
+> Signed-off-by: Zi Yan <ziy@nvidia.com>
+> ---
+>  mm/huge_memory.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> index 970e077019b7..7e9cf8c0985f 100644
+> --- a/mm/huge_memory.c
+> +++ b/mm/huge_memory.c
+> @@ -86,9 +86,6 @@ static inline bool file_thp_enabled(struct vm_area_struct *vma)
+>  {
+>  	struct inode *inode;
+>
+> -	if (!IS_ENABLED(CONFIG_READ_ONLY_THP_FOR_FS))
+> -		return false;
+> -
+>  	if (!vma->vm_file)
+>  		return false;
+>
+> @@ -97,7 +94,10 @@ static inline bool file_thp_enabled(struct vm_area_struct *vma)
+>  	if (IS_ANON_FILE(inode))
+>  		return false;
+>
+> -	return !inode_is_open_for_write(inode) && S_ISREG(inode->i_mode);
 
-Fixes: 453f1cc34a8f ("netfs: Fix leak of request in netfs_write_begin() er=
-ror handling")
-Signed-off-by: David Howells <dhowells@redhat.com>
-cc: Paulo Alcantara <pc@manguebit.org>
-cc: netfs@lists.linux.dev
-cc: linux-fsdevel@vger.kernel.org
----
- fs/netfs/buffered_read.c |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Hi Matthew, David, and Lorenzo,
 
-diff --git a/fs/netfs/buffered_read.c b/fs/netfs/buffered_read.c
-index 5c78ec14e46b..7e7dacded8f7 100644
---- a/fs/netfs/buffered_read.c
-+++ b/fs/netfs/buffered_read.c
-@@ -693,9 +693,9 @@ int netfs_write_begin(struct netfs_inode *ctx,
- =
+After some discussions on irc, I feel that we probably should not allow
+read-write fd for PMD THP collapse at the moment. Combining with the
+filemap_flush() under folio_dirty() check from collapse_file(), khugepaged
+would become a kwritebackd that scans pagecache folios and writes them back.
+If we limit it to read-only fds, at least khugepaged would only write
+back once for the pagecache folios from these fds.
 
- 	netfs_read_to_pagecache(rreq, NULL);
- 	ret =3D netfs_wait_for_read(rreq);
--	if (ret < 0)
--		goto error_put;
- 	netfs_put_request(rreq, netfs_rreq_trace_put_return);
-+	if (ret < 0)
-+		goto error;
- =
+I am planning to restore inode_is_open_for_write() check in the next version.
+Let me know your thoughts.
 
- have_folio:
- 	ret =3D folio_wait_private_2_killable(folio);
+> +	if (!mapping_pmd_thp_support(inode->i_mapping))
+> +		return false;
+> +
+> +	return S_ISREG(inode->i_mode);
+>  }
+>
+>  /* If returns true, we are unable to access the VMA's folios. */
+> -- 
+> 2.43.0
 
+
+--
+Best Regards,
+Yan, Zi
