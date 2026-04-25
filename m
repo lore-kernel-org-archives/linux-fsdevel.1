@@ -1,732 +1,194 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012050.outbound.protection.outlook.com [40.107.200.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D2A5399354
-	for <linux-fsdevel@vger.kernel.org>; Sat, 25 Apr 2026 12:56:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777121773; cv=none; b=IwsFEvsnPtrtaLprfJHrqXbnc3WGXz8J6q2MX9IDqpom4TH3H2ZT5M3YOxRxfmKMsZznTULNiUcqx0mKDxe1AfMwfKVUObNaq3GW34CxYfgxSFt5hbEzL6kJEp3W81XYcg46jwzPoeyH3iYrVEdGK6c+QJyXaMASxrTRfm3Nos0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777121773; c=relaxed/simple;
-	bh=kw2ph8ABWMFW8tR55XpKSH31TjAqka9pQ8vYplEDMbQ=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4F0D346AD7;
+	Sat, 25 Apr 2026 14:27:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.200.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777127277; cv=fail; b=jp3DsmSMFiyZHhuzXH0iQNgb9Nhk9J8DKWmo1N/hZVb/x6sNQsFSlr3F5wmAVJ4Qm4ek6w4h0gMgqIoat6XukBDjyebnzGBDgG9zKXNgWA67nWp+8Lg1oUtKWi3DLv0fGTBAhZBpcMP+XxS0NEA8icvbK5lUwa7Vkjxc1sE7rAw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777127277; c=relaxed/simple;
+	bh=I9yXbhI+7So4mVwFhSePcNewX8EJ9QVvK3qZiEMgkRQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Dqm7shJ+yNyzi+QfYagOZL6WwO1rbyGTT/E6xc2bI0vsmn8LYfeKixfbv8D1Qxqu5y7KVCuY9JepbmMBvX5aeObpxMqQIzH6qLgYsvUzIabzQpkWGvYR8+Zf1Ch5dU3Hg90aXyAIja2E4ElfTX+0zoqDXUdpzERyxcvFxB9dMTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Xf/9MhIx; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 Content-Type:MIME-Version; b=sQ+vNmtFTUY4o9of7uxnHiC5uFGHZI5D/YPuCMIRvcCLxEy3Bofv/DjYctGAJuaAipo5YX+oFxaC1uFfb5epqUVGyQVlX0Q0UwU5TolsVzh8FINZYpP6Fv3qMIWUVyUJ6CThypvTKJJ+/PSj1n7E+twWmKpENdcSw+4j2j/rKxk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=qsjbG5Id; arc=fail smtp.client-ip=40.107.200.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Xf/9MhIx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1777121770;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IWpVZfCnfPMvlRQ9r7wWIQ56Qq3yXfMQ6qgWCReefRo=;
-	b=Xf/9MhIxICIuddpPNdcr9sSzxgG9OSCT3Fd1hIMmPMIhSe07ceezZ/bjzadc3ll/Wd3JaD
-	HvvhMdfrRYOsssJh2U010QPw99It2sa7XQXwcg3oeeujUrj/DjTxFdBFVNy+FzpZWbLAFD
-	XNlYtUoi/gGsWxvySGCPX2Zj87fb4+M=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-250-zJ_0kpNLMbqgjL8Oyj5Llw-1; Sat,
- 25 Apr 2026 08:56:07 -0400
-X-MC-Unique: zJ_0kpNLMbqgjL8Oyj5Llw-1
-X-Mimecast-MFC-AGG-ID: zJ_0kpNLMbqgjL8Oyj5Llw_1777121765
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 991C319560AF;
-	Sat, 25 Apr 2026 12:56:05 +0000 (UTC)
-Received: from warthog.procyon.org.com (unknown [10.44.48.17])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 953061944CED;
-	Sat, 25 Apr 2026 12:56:02 +0000 (UTC)
-From: David Howells <dhowells@redhat.com>
-To: Christian Brauner <christian@brauner.io>
-Cc: David Howells <dhowells@redhat.com>,
-	Paulo Alcantara <pc@manguebit.org>,
-	netfs@lists.linux.dev,
-	linux-afs@lists.infradead.org,
-	linux-cifs@vger.kernel.org,
-	ceph-devel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Marc Dionne <marc.dionne@auristor.com>
-Subject: [PATCH v3 19/19] afs: Fix RCU handling of symlinks in RCU pathwalk
-Date: Sat, 25 Apr 2026 13:54:23 +0100
-Message-ID: <20260425125426.3855807-20-dhowells@redhat.com>
-In-Reply-To: <20260425125426.3855807-1-dhowells@redhat.com>
-References: <20260425125426.3855807-1-dhowells@redhat.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="qsjbG5Id"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=cedXXabQ8QUaXDc6346OKrOUdb5IS2GVzDliOrowmk0HO2OTeQq2QcI8QIOJtpGcFlOcq+JHEte2zEqQ6ahuMvNWAH1YU2MLfOWpaNhHdBr/QXDe0hYCEzfB0bLbaaBoDxRE4qQHrdegyOd2drd38E0M3/pOLQM5gVLofryXeHV7sMUJBrWyI2sqv761YqYWKprh70psql5IgWAgOO3aL0rfUaRxpDkkIMqKJ2cK1eg1+KdDlG4E5WbQy4uyfr6TtaWKnCSsT46vkt5VHTFIIN4EaoLjzZrRfyXe0nICnb1sttksrUDzk/hAgktuxHHc9mbjd8mWZlLLilQoRRh2Vg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4I7G0gzy28M9M3RWZPsH3WpXWyhbhZOEoZSDRTISK7U=;
+ b=OtONey0yQgp6t3YsNjjTAvBZsUqCLUEX+U7PVAXh+sxI99rrFfsMKjYm2na1NaeacvMTYyLtcbVoAiFNlM5StJoJzJw87F+eH6T93WLLXgzVp7ozThfZjAPrTP3nXFaZR/WdSIoTBvu1Xg8Jq93UhVbo+xzmrvYpffd225e6FuDAhTa66Uylzr+XOeHxpna1/h/cVmTsjWBE6qi7q0bgWAiD8pIpYhlR+GV+rDjU3tkG1jdnOcLaFySA3lDicutsu/tpFdv98RxupNwvHlMAnsrxdZ4IYmck2DEbn07xxzGd7N/gzgPN1d03wp+oaz/59kS1V8jNntj4lOaSVkUiEg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4I7G0gzy28M9M3RWZPsH3WpXWyhbhZOEoZSDRTISK7U=;
+ b=qsjbG5IdBN4s73CRrjIAluHnqkJLa2nwcCJN9HfEug9RPihIWN10qXyo5/WiH66BZSfx0beqvJYCCSu6qvIQPh1JRpsHlshMFlqVfKbeVTvRA2oHRpSpGpebYLd08WvHbrbGk2IxTdfuavNjJ55WgRKHWSXE9NzhjLxDy1ZN0o4UEbh4wUEJij6AeEwrSf+y6JZiNO1dn/xKWVwd/MlBpRUInKw7+QG8rBBLkc8oI9PcTunwt9Lb1MKiu0kzz115+52JdTVoCv6xpEDFrd0tEez+S1RJYG8bxmYu55Skqd30MhUsrUFqJ81yxMrHJu3LNtnsglBt2kjYWLBabO1eSg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
+ PH8PR12MB8430.namprd12.prod.outlook.com (2603:10b6:510:259::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.25; Sat, 25 Apr
+ 2026 14:27:50 +0000
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::f01d:73d2:2dda:c7b2]) by DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::f01d:73d2:2dda:c7b2%4]) with mapi id 15.20.9846.021; Sat, 25 Apr 2026
+ 14:27:50 +0000
+From: Zi Yan <ziy@nvidia.com>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>
+Cc: Song Liu <songliubraving@fb.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Chris Mason <clm@fb.com>,
+ David Sterba <dsterba@suse.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Shuah Khan <shuah@kernel.org>, linux-btrfs@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH 7.2 v4 03/12] mm/huge_memory: remove READ_ONLY_THP_FOR_FS
+ from file_thp_enabled()
+Date: Sat, 25 Apr 2026 10:27:47 -0400
+X-Mailer: MailMate (2.0r6290)
+Message-ID: <DDB6CEDD-116D-48C1-B558-D64CA2F58F55@nvidia.com>
+In-Reply-To: <20260424024915.28758-4-ziy@nvidia.com>
+References: <20260424024915.28758-1-ziy@nvidia.com>
+ <20260424024915.28758-4-ziy@nvidia.com>
+Content-Type: text/plain
+X-ClientProxiedBy: YQZPR01CA0124.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:87::14) To DS7PR12MB9473.namprd12.prod.outlook.com
+ (2603:10b6:8:252::5)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|PH8PR12MB8430:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4a25e2da-e160-4689-463e-08dea2d6d472
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|7416014|1800799024|22082099003|18002099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	bfzVzlEa4RbvTF2Bz1fUktR6oeE5IUKi/hDU/8K380w5dVQJ0c6yElwbg0CZMX5/e93lF46EyJGU3TQv4UwiAs5DQVAVxlg1y38RPzvGhd+OWt6xA84wB+LVbwVarZ+UVwRglk1eozTHVU1phDOHJGkB271QBadXLWx9RLpbabCvLbFsyaxITChxinyaB7ECEIKNtb7VzmjNdlsDByzVjkcnNHQsd4VSiIz0QuYjMGekDSV6c4K5dgYOaTEz1OsRMCEEKsz1QHn+TU3KuLZHanUrzXNkQks4w0x70yZ9Liu/15n8EKkzs4jnUF3HyjySq9NA6Too3J/47viGdEzV/xsehiRdnIP5mb61giqaPJcuFVeZRQiB3wUoJYyDSNE+/bEKNq3z6HhQdA3sIxkenIe8jzH3m1oAkBVtV+FuGXjlb9Jy0c9HLBTmC66TcUWyf2ADLaW1nKAE/es7tSTxZqPCl3VOFi/8169TUatjP/YgbU9W5Ua2n+GUObHIPoBD2s02d9/sMev+6TgjDvF5G1acUws6ywsWf06pW/myohBtDK4SgZ/iJWWOxxbnB10ynQRzNtlQkxP3j1PPU6aNSnCBB5BEMRPasQcrZeaNR06M2S/YqESA5aODIekhWd2HRwRzYgAA5IFUFi+Ixqd5Lr0oIHRpSnXespmhpCByhPKgF/yiCgmStSxGa09p/vqoMo2GSWiHrGKWIqP4tv9GHgi6L2d8avAVup9B1+4sJC4=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?TTMAg4x494vRUiY+0+FGQqTby6tlM66Ytll6qX9q8cMejXqa1Y5uZM4q4Kcd?=
+ =?us-ascii?Q?Ze3RB+x8xx95RvG9hhkq0+2A7wRqYzdn+fMl6g4UVe7SafBwH1Gs/HxajvXU?=
+ =?us-ascii?Q?ClnzN4XbHPB/ftDsxqE7P9/8B6MQhDto/gZ/GSpxVTz4vyBARETpqMrJ/Xx8?=
+ =?us-ascii?Q?JWsvlDwOwy27RQoKR2buOKIz/Oij2seY5cNn4kqKmLqQFJCVx1El4FMRVQB2?=
+ =?us-ascii?Q?46BSQoRyyoLMp0IeXBz9WOrDeNf8IHLL7Ykbs5GS+oARWOqtSfvoNFIHtvtE?=
+ =?us-ascii?Q?q6VsDWqB7+W5znj2F4OoTeUUiSPPqJcnfoGRsO98/rg1swQzeZNIHvUN23Z5?=
+ =?us-ascii?Q?loop4TJRSmWT1V/F4hBcG2N5JqIfPgBV8iy5UKWI2jw0PzpTcChxdDjOrZ6u?=
+ =?us-ascii?Q?PkSOtQ2cfzmaBxBs+fxzAMYjryGuhvQ/SjKa9VGDojPE4eNs4jZlGfR3l85H?=
+ =?us-ascii?Q?qFxQA+3E+FyjPUmnhtBtK5I9NHFBmZ59rqjNwdBFUo/r0ccAsNZ2gjyAqq3s?=
+ =?us-ascii?Q?KoyDX7Bh8BEm+HQo0jQ2nyef6WBqC18rdU/lSkVBFUQoZ27twkfTyos7LNhy?=
+ =?us-ascii?Q?4pTLTuubBhwaPfnxUeWKpH/0yxbu8qou3MWTbJZJPb3bsuddjSrgxFvAE5xD?=
+ =?us-ascii?Q?emg+LzFjYfjulXTgfBYFfz9ljXabWbhLUhpeAs+Gg+EQWxvzwGIce26JCr+Q?=
+ =?us-ascii?Q?Uv723jEIbj1oepkxwmnQm/ZkktizsYen53Xqnm5HQ0P9jOqA1cT3PNOFOkm9?=
+ =?us-ascii?Q?/3G8S3q8CtzDQ70bf+nb4TpezttWMaQ9XJFZ8MzQw0vu9SshZ8L2vEfSxiL+?=
+ =?us-ascii?Q?dA3MQRZ4wvnpHat6fVKy8+Ds68I8wXUI/ke6hxiGwziUZ8Z6so3kQeLWfI95?=
+ =?us-ascii?Q?lU5Dv1Hx+1xA+GLwFFglfv7hqEvqrgZxgZxPn+52+1LN5L+BBLqu5tqIhYUk?=
+ =?us-ascii?Q?KywUNdwhoUe/aTO6pSCGV8jxSW660ndtFySYa9rlUVRfFE/PpWHklU9ji4EZ?=
+ =?us-ascii?Q?j09Hbzbg1gj7Sodx+IaFR0uYndrpnvWWIHPeSykeMbGzm9hdC7dtGtYx9aC6?=
+ =?us-ascii?Q?+3DgIxunZjAOuLtzYr0AHN12WyTHhSjsg+Du92i+L1LQfsC9eoT526+4uy8f?=
+ =?us-ascii?Q?YJxHTpbn1V8Y4wBxvfQE8WRedSOeiXtDb9MUADmINWze6EHxRD7pwntDDZ8E?=
+ =?us-ascii?Q?EyCxetlNB6nLU/nJHor40sniC97UmBnfXmfpxOjytJ6niperoxkvy0hJiMX6?=
+ =?us-ascii?Q?e6Lc8INjOfn8/6RoJGbMkU7W6cHpA0v8ltXmTNVyeX67NSW7dS15aNQF7Uqt?=
+ =?us-ascii?Q?0U4E/XQLfcrcxSAJCX50Qj9SOMALwzqpaQMxATn1ZfyAjvd4DAOood2+/7JJ?=
+ =?us-ascii?Q?XJwy5ki/DOq6M5PIOX4C2dHZ0/b8hLuol1aUWXuRW6NlwYd3pdH+uh6JJhyj?=
+ =?us-ascii?Q?7nLtzBRWYxQ6mHzY/CG9W+HOdAh7L29iRJqeaROFnBhWwMNLvZ2woPW0fnjP?=
+ =?us-ascii?Q?7Vy4uutVGv4gjBOrJG5cIMwr986wthpHjpPpQUOt4RQ3L6/+V6IAWRSYRPwb?=
+ =?us-ascii?Q?haNm/+d4M3G6sJzLBwgFyu9RSOq3XI653iDOBmUkTdBIIXjvYPbTWA/IXrg+?=
+ =?us-ascii?Q?rnsWq1chDAHaYr0t5vFrLFzlQnGPc4ebi7nZiIQRxFFi9BasBqpKJ+MENQWX?=
+ =?us-ascii?Q?jJPAPIZseHdaBEDB1w/xxG5V+Dj9fkWvW+YxNldt0r4ymikg?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4a25e2da-e160-4689-463e-08dea2d6d472
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Apr 2026 14:27:50.5048
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: gidVHB2pNo54iRLERZA+cdXGDs8E9Mj99bqrbrsyBca+reMHUZegluaPrNHDFmKi
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB8430
 
-The afs filesystem in the kernel doesn't handle RCU pathwalk of symlinks
-correctly.  The problem is twofold: firstly, it doesn't treat the buffer
-pointers as RCU pointers with the appropriate barriering; and secondly, it
-can race with another thread updating the contents of the symlink because a
-third party updated it on the server.
+On 23 Apr 2026, at 22:49, Zi Yan wrote:
 
-Fix this by the following means:
+> Replace it with a check on the max folio order of the file's address space
+> mapping, making sure PMD THP is supported. Also remove the read-only fd
+> check, since collapse_file() now makes sure all to-be-collapsed folios are
+> clean and the created PMD file THP can be handled by FSes properly.
+>
+> Signed-off-by: Zi Yan <ziy@nvidia.com>
+> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+> ---
+>  mm/huge_memory.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> index 1f0d0b780943..f0db1390a18f 100644
+> --- a/mm/huge_memory.c
+> +++ b/mm/huge_memory.c
+> @@ -86,9 +86,6 @@ static inline bool file_thp_enabled(struct vm_area_struct *vma)
+>  {
+>  	struct inode *inode;
+>
+> -	if (!IS_ENABLED(CONFIG_READ_ONLY_THP_FOR_FS))
+> -		return false;
+> -
+>  	if (!vma->vm_file)
+>  		return false;
+>
+> @@ -97,7 +94,10 @@ static inline bool file_thp_enabled(struct vm_area_struct *vma)
+>  	if (IS_ANON_FILE(inode))
+>  		return false;
+>
+> -	return !inode_is_open_for_write(inode) && S_ISREG(inode->i_mode);
 
- (1) Keep a separate copy of the symlink contents with an rcu_head.  This
-     is always going to be a lot smaller than a page, so it can be
-     kmalloc'd and save quite a bit of memory.  It also needs a refcount
-     for non-RCU pathwalk.
+(resend to V4, since I accidentally replied to V3, sorry about that)
 
- (2) Split the symlink read and write-to-cache routines in afs from those
-     for directories.
+Hi Matthew, David, and Lorenzo,
 
- (3) Discard the I/O buffer as soon as the write-to-cache completes as this
-     is a full page (plus a folio_queue).
+After some discussions on irc, I feel that we probably should not allow
+read-write fd for PMD THP collapse at the moment. Combining with the
+filemap_flush() under folio_dirty() check from collapse_file(), khugepaged
+would become a kwritebackd that scans pagecache folios and writes them back.
+If we limit it to read-only fds, at least khugepaged would only write
+back once for the pagecache folios from these fds.
 
- (4) If there's no cache, discard the I/O buffer immediately after reading
-     and copying if there is no cache.
+I am planning to restore inode_is_open_for_write() check in the next version.
+Let me know your thoughts.
 
-Fixes: 6698c02d64b2 ("afs: Locally initialise the contents of a new symlink on creation")
-Closes: https://sashiko.dev/#/patchset/20260326104544.509518-1-dhowells%40redhat.com
-Signed-off-by: David Howells <dhowells@redhat.com>
-cc: Marc Dionne <marc.dionne@auristor.com>
-cc: linux-afs@lists.infradead.org
-cc: linux-fsdevel@vger.kernel.org
----
- fs/afs/Makefile    |   1 +
- fs/afs/dir.c       |  33 +++++--
- fs/afs/fsclient.c  |   4 +-
- fs/afs/inode.c     | 105 +-------------------
- fs/afs/internal.h  |  35 +++++--
- fs/afs/symlink.c   | 242 +++++++++++++++++++++++++++++++++++++++++++++
- fs/afs/yfsclient.c |   4 +-
- 7 files changed, 303 insertions(+), 121 deletions(-)
- create mode 100644 fs/afs/symlink.c
 
-diff --git a/fs/afs/Makefile b/fs/afs/Makefile
-index b49b8fe682f3..0d8f1982d596 100644
---- a/fs/afs/Makefile
-+++ b/fs/afs/Makefile
-@@ -30,6 +30,7 @@ kafs-y := \
- 	server.o \
- 	server_list.o \
- 	super.o \
-+	symlink.o \
- 	validation.o \
- 	vlclient.o \
- 	vl_alias.o \
-diff --git a/fs/afs/dir.c b/fs/afs/dir.c
-index aaaa55878ffd..40f6791114ec 100644
---- a/fs/afs/dir.c
-+++ b/fs/afs/dir.c
-@@ -68,7 +68,7 @@ const struct inode_operations afs_dir_inode_operations = {
- };
- 
- const struct address_space_operations afs_dir_aops = {
--	.writepages	= afs_single_writepages,
-+	.writepages	= afs_dir_writepages,
- };
- 
- const struct dentry_operations afs_fs_dentry_operations = {
-@@ -294,7 +294,7 @@ static ssize_t afs_do_read_single(struct afs_vnode *dvnode, struct file *file)
- 	return ret;
- }
- 
--ssize_t afs_read_single(struct afs_vnode *dvnode, struct file *file)
-+static ssize_t afs_read_single(struct afs_vnode *dvnode, struct file *file)
- {
- 	ssize_t ret;
- 
-@@ -1763,13 +1763,20 @@ static int afs_link(struct dentry *from, struct inode *dir,
- 	return ret;
- }
- 
-+static void afs_symlink_put(struct afs_operation *op)
-+{
-+	kfree(op->create.symlink);
-+	op->create.symlink = NULL;
-+	afs_create_put(op);
-+}
-+
- static const struct afs_operation_ops afs_symlink_operation = {
- 	.issue_afs_rpc	= afs_fs_symlink,
- 	.issue_yfs_rpc	= yfs_fs_symlink,
- 	.success	= afs_create_success,
- 	.aborted	= afs_check_for_remote_deletion,
- 	.edit_dir	= afs_create_edit_dir,
--	.put		= afs_create_put,
-+	.put		= afs_symlink_put,
- };
- 
- /*
-@@ -1779,7 +1786,9 @@ static int afs_symlink(struct mnt_idmap *idmap, struct inode *dir,
- 		       struct dentry *dentry, const char *content)
- {
- 	struct afs_operation *op;
-+	struct afs_symlink *symlink;
- 	struct afs_vnode *dvnode = AFS_FS_I(dir);
-+	size_t clen = strlen(content);
- 	int ret;
- 
- 	_enter("{%llx:%llu},{%pd},%s",
-@@ -1791,12 +1800,20 @@ static int afs_symlink(struct mnt_idmap *idmap, struct inode *dir,
- 		goto error;
- 
- 	ret = -EINVAL;
--	if (strlen(content) >= AFSPATHMAX)
-+	if (clen >= AFSPATHMAX)
-+		goto error;
-+
-+	ret = -ENOMEM;
-+	symlink = kmalloc_flex(struct afs_symlink, content, clen + 1, GFP_KERNEL);
-+	if (!symlink)
- 		goto error;
-+	refcount_set(&symlink->ref, 1);
-+	memcpy(symlink->content, content, clen + 1);
- 
- 	op = afs_alloc_operation(NULL, dvnode->volume);
- 	if (IS_ERR(op)) {
- 		ret = PTR_ERR(op);
-+		kfree(symlink);
- 		goto error;
- 	}
- 
-@@ -1808,7 +1825,7 @@ static int afs_symlink(struct mnt_idmap *idmap, struct inode *dir,
- 	op->dentry		= dentry;
- 	op->ops			= &afs_symlink_operation;
- 	op->create.reason	= afs_edit_dir_for_symlink;
--	op->create.symlink	= content;
-+	op->create.symlink	= symlink;
- 	op->mtime		= current_time(dir);
- 	ret = afs_do_sync_operation(op);
- 	afs_dir_unuse_cookie(dvnode, ret);
-@@ -2192,10 +2209,10 @@ static int afs_rename(struct mnt_idmap *idmap, struct inode *old_dir,
- }
- 
- /*
-- * Write the file contents to the cache as a single blob.
-+ * Write the directory contents to the cache as a single blob.
-  */
--int afs_single_writepages(struct address_space *mapping,
--			  struct writeback_control *wbc)
-+int afs_dir_writepages(struct address_space *mapping,
-+		       struct writeback_control *wbc)
- {
- 	struct afs_vnode *dvnode = AFS_FS_I(mapping->host);
- 	struct iov_iter iter;
-diff --git a/fs/afs/fsclient.c b/fs/afs/fsclient.c
-index 95494d5f2b8a..a2ffd60889f8 100644
---- a/fs/afs/fsclient.c
-+++ b/fs/afs/fsclient.c
-@@ -886,7 +886,7 @@ void afs_fs_symlink(struct afs_operation *op)
- 	namesz = name->len;
- 	padsz = (4 - (namesz & 3)) & 3;
- 
--	c_namesz = strlen(op->create.symlink);
-+	c_namesz = strlen(op->create.symlink->content);
- 	c_padsz = (4 - (c_namesz & 3)) & 3;
- 
- 	reqsz = (6 * 4) + namesz + padsz + c_namesz + c_padsz + (6 * 4);
-@@ -910,7 +910,7 @@ void afs_fs_symlink(struct afs_operation *op)
- 		bp = (void *) bp + padsz;
- 	}
- 	*bp++ = htonl(c_namesz);
--	memcpy(bp, op->create.symlink, c_namesz);
-+	memcpy(bp, op->create.symlink->content, c_namesz);
- 	bp = (void *) bp + c_namesz;
- 	if (c_padsz > 0) {
- 		memset(bp, 0, c_padsz);
-diff --git a/fs/afs/inode.c b/fs/afs/inode.c
-index 5207c4a003f6..ff2b8fc7f3df 100644
---- a/fs/afs/inode.c
-+++ b/fs/afs/inode.c
-@@ -25,105 +25,6 @@
- #include "internal.h"
- #include "afs_fs.h"
- 
--void afs_init_new_symlink(struct afs_vnode *vnode, struct afs_operation *op)
--{
--	size_t size = strlen(op->create.symlink) + 1;
--	size_t dsize = 0;
--	char *p;
--
--	if (netfs_alloc_folioq_buffer(NULL, &vnode->directory, &dsize, size,
--				      mapping_gfp_mask(vnode->netfs.inode.i_mapping)) < 0)
--		return;
--
--	vnode->directory_size = dsize;
--	p = kmap_local_folio(folioq_folio(vnode->directory, 0), 0);
--	memcpy(p, op->create.symlink, size);
--	kunmap_local(p);
--	set_bit(AFS_VNODE_DIR_READ, &vnode->flags);
--	netfs_single_mark_inode_dirty(&vnode->netfs.inode);
--}
--
--static void afs_put_link(void *arg)
--{
--	struct folio *folio = virt_to_folio(arg);
--
--	kunmap_local(arg);
--	folio_put(folio);
--}
--
--const char *afs_get_link(struct dentry *dentry, struct inode *inode,
--			 struct delayed_call *callback)
--{
--	struct afs_vnode *vnode = AFS_FS_I(inode);
--	struct folio *folio;
--	char *content;
--	ssize_t ret;
--
--	if (!dentry) {
--		/* RCU pathwalk. */
--		if (!test_bit(AFS_VNODE_DIR_READ, &vnode->flags) || !afs_check_validity(vnode))
--			return ERR_PTR(-ECHILD);
--		goto good;
--	}
--
--	if (test_bit(AFS_VNODE_DIR_READ, &vnode->flags))
--		goto fetch;
--
--	ret = afs_validate(vnode, NULL);
--	if (ret < 0)
--		return ERR_PTR(ret);
--
--	if (!test_and_clear_bit(AFS_VNODE_ZAP_DATA, &vnode->flags) &&
--	    test_bit(AFS_VNODE_DIR_READ, &vnode->flags))
--		goto good;
--
--fetch:
--	if (down_write_killable(&vnode->validate_lock) < 0)
--		return ERR_PTR(-ERESTARTSYS);
--	if (test_and_clear_bit(AFS_VNODE_ZAP_DATA, &vnode->flags) ||
--	    !test_bit(AFS_VNODE_DIR_READ, &vnode->flags)) {
--		ret = afs_read_single(vnode, NULL);
--		if (ret < 0) {
--			up_write(&vnode->validate_lock);
--			return ERR_PTR(ret);
--		}
--		set_bit(AFS_VNODE_DIR_READ, &vnode->flags);
--	}
--
--	up_write(&vnode->validate_lock);
--
--good:
--	folio = folioq_folio(vnode->directory, 0);
--	folio_get(folio);
--	content = kmap_local_folio(folio, 0);
--	set_delayed_call(callback, afs_put_link, content);
--	return content;
--}
--
--int afs_readlink(struct dentry *dentry, char __user *buffer, int buflen)
--{
--	DEFINE_DELAYED_CALL(done);
--	const char *content;
--	int len;
--
--	content = afs_get_link(dentry, d_inode(dentry), &done);
--	if (IS_ERR(content)) {
--		do_delayed_call(&done);
--		return PTR_ERR(content);
--	}
--
--	len = umin(strlen(content), buflen);
--	if (copy_to_user(buffer, content, len))
--		len = -EFAULT;
--	do_delayed_call(&done);
--	return len;
--}
--
--static const struct inode_operations afs_symlink_inode_operations = {
--	.get_link	= afs_get_link,
--	.readlink	= afs_readlink,
--};
--
- static noinline void dump_vnode(struct afs_vnode *vnode, struct afs_vnode *parent_vnode)
- {
- 	static unsigned long once_only;
-@@ -223,7 +124,7 @@ static int afs_inode_init_from_status(struct afs_operation *op,
- 			inode->i_mode	= S_IFLNK | status->mode;
- 			inode->i_op	= &afs_symlink_inode_operations;
- 		}
--		inode->i_mapping->a_ops	= &afs_dir_aops;
-+		inode->i_mapping->a_ops	= &afs_symlink_aops;
- 		inode_nohighmem(inode);
- 		mapping_set_release_always(inode->i_mapping);
- 		break;
-@@ -765,12 +666,14 @@ void afs_evict_inode(struct inode *inode)
- 			.range_end = LLONG_MAX,
- 		};
- 
--		afs_single_writepages(inode->i_mapping, &wbc);
-+		inode->i_mapping->a_ops->writepages(inode->i_mapping, &wbc);
- 	}
- 
- 	netfs_wait_for_outstanding_io(inode);
- 	truncate_inode_pages_final(&inode->i_data);
- 	netfs_free_folioq_buffer(vnode->directory);
-+	if (vnode->symlink)
-+		afs_replace_symlink(vnode, NULL);
- 
- 	afs_set_cache_aux(vnode, &aux);
- 	netfs_clear_inode_writeback(inode, &aux);
-diff --git a/fs/afs/internal.h b/fs/afs/internal.h
-index 599353c33337..c7adc3677e41 100644
---- a/fs/afs/internal.h
-+++ b/fs/afs/internal.h
-@@ -710,6 +710,7 @@ struct afs_vnode {
- #define AFS_VNODE_DIR_READ	11		/* Set if we've read a dir's contents */
- 
- 	struct folio_queue	*directory;	/* Directory contents */
-+	struct afs_symlink __rcu *symlink;	/* Symlink content */
- 	struct list_head	wb_keys;	/* List of keys available for writeback */
- 	struct list_head	pending_locks;	/* locks waiting to be granted */
- 	struct list_head	granted_locks;	/* locks granted on this file */
-@@ -776,6 +777,15 @@ struct afs_permits {
- 	struct afs_permit	permits[] __counted_by(nr_permits);	/* List of permits sorted by key pointer */
- };
- 
-+/*
-+ * Copy of symlink content for normal use.
-+ */
-+struct afs_symlink {
-+	struct rcu_head		rcu;
-+	refcount_t		ref;
-+	char			content[];
-+};
-+
- /*
-  * Error prioritisation and accumulation.
-  */
-@@ -887,7 +897,7 @@ struct afs_operation {
- 		struct {
- 			int	reason;		/* enum afs_edit_dir_reason */
- 			mode_t	mode;
--			const char *symlink;
-+			struct afs_symlink *symlink;
- 		} create;
- 		struct {
- 			bool	need_rehash;
-@@ -1098,13 +1108,12 @@ extern const struct inode_operations afs_dir_inode_operations;
- extern const struct address_space_operations afs_dir_aops;
- extern const struct dentry_operations afs_fs_dentry_operations;
- 
--ssize_t afs_read_single(struct afs_vnode *dvnode, struct file *file);
- ssize_t afs_read_dir(struct afs_vnode *dvnode, struct file *file)
- 	__acquires(&dvnode->validate_lock);
- extern void afs_d_release(struct dentry *);
- extern void afs_check_for_remote_deletion(struct afs_operation *);
--int afs_single_writepages(struct address_space *mapping,
--			  struct writeback_control *wbc);
-+int afs_dir_writepages(struct address_space *mapping,
-+		       struct writeback_control *wbc);
- 
- /*
-  * dir_edit.c
-@@ -1246,10 +1255,6 @@ extern void afs_fs_probe_cleanup(struct afs_net *);
-  */
- extern const struct afs_operation_ops afs_fetch_status_operation;
- 
--void afs_init_new_symlink(struct afs_vnode *vnode, struct afs_operation *op);
--const char *afs_get_link(struct dentry *dentry, struct inode *inode,
--			 struct delayed_call *callback);
--int afs_readlink(struct dentry *dentry, char __user *buffer, int buflen);
- extern void afs_vnode_commit_status(struct afs_operation *, struct afs_vnode_param *);
- extern int afs_fetch_status(struct afs_vnode *, struct key *, bool, afs_access_t *);
- extern int afs_ilookup5_test_by_fid(struct inode *, void *);
-@@ -1599,6 +1604,20 @@ void afs_detach_volume_from_servers(struct afs_volume *volume, struct afs_server
- extern int __init afs_fs_init(void);
- extern void afs_fs_exit(void);
- 
-+/*
-+ * symlink.c
-+ */
-+extern const struct inode_operations afs_symlink_inode_operations;
-+extern const struct address_space_operations afs_symlink_aops;
-+
-+void afs_replace_symlink(struct afs_vnode *vnode, struct afs_symlink *symlink);
-+void afs_init_new_symlink(struct afs_vnode *vnode, struct afs_operation *op);
-+const char *afs_get_link(struct dentry *dentry, struct inode *inode,
-+			 struct delayed_call *callback);
-+int afs_readlink(struct dentry *dentry, char __user *buffer, int buflen);
-+int afs_symlink_writepages(struct address_space *mapping,
-+			   struct writeback_control *wbc);
-+
- /*
-  * validation.c
-  */
-diff --git a/fs/afs/symlink.c b/fs/afs/symlink.c
-new file mode 100644
-index 000000000000..8d2521c5f19d
---- /dev/null
-+++ b/fs/afs/symlink.c
-@@ -0,0 +1,242 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/* AFS filesystem symbolic link handling
-+ *
-+ * Copyright (C) 2026 Red Hat, Inc. All Rights Reserved.
-+ * Written by David Howells (dhowells@redhat.com)
-+ */
-+
-+#include <linux/kernel.h>
-+#include <linux/fs.h>
-+#include <linux/namei.h>
-+#include <linux/pagemap.h>
-+#include <linux/iov_iter.h>
-+#include "internal.h"
-+
-+static void afs_put_symlink(struct afs_symlink *symlink)
-+{
-+	if (refcount_dec_and_test(&symlink->ref))
-+		kfree_rcu(symlink, rcu);
-+}
-+
-+void afs_replace_symlink(struct afs_vnode *vnode, struct afs_symlink *symlink)
-+{
-+	struct afs_symlink *old;
-+
-+	old = rcu_replace_pointer(vnode->symlink, symlink,
-+				  lockdep_is_held(&vnode->validate_lock));
-+	if (old)
-+		afs_put_symlink(old);
-+}
-+
-+/*
-+ * Set up a locally created symlink inode for immediate write to the cache.
-+ */
-+void afs_init_new_symlink(struct afs_vnode *vnode, struct afs_operation *op)
-+{
-+	size_t dsize = 0;
-+	size_t size = strlen(op->create.symlink->content) + 1;
-+	char *p;
-+
-+	rcu_assign_pointer(vnode->symlink, op->create.symlink);
-+	op->create.symlink = NULL;
-+
-+	if (!fscache_cookie_enabled(netfs_i_cookie(&vnode->netfs)))
-+		return;
-+
-+	if (netfs_alloc_folioq_buffer(NULL, &vnode->directory, &dsize, size,
-+				      mapping_gfp_mask(vnode->netfs.inode.i_mapping)) < 0)
-+		return;
-+
-+	vnode->directory_size = dsize;
-+	p = kmap_local_folio(folioq_folio(vnode->directory, 0), 0);
-+	memcpy(p, vnode->symlink, size);
-+	kunmap_local(p);
-+	netfs_single_mark_inode_dirty(&vnode->netfs.inode);
-+}
-+
-+/*
-+ * Read a symlink in a single download.
-+ */
-+static ssize_t afs_do_read_symlink(struct afs_vnode *vnode)
-+{
-+	struct afs_symlink *symlink;
-+	struct iov_iter iter;
-+	ssize_t ret;
-+	loff_t i_size;
-+
-+	i_size = i_size_read(&vnode->netfs.inode);
-+	if (i_size > PAGE_SIZE - 1) {
-+		trace_afs_file_error(vnode, -EFBIG, afs_file_error_dir_big);
-+		return -EFBIG;
-+	}
-+
-+	if (!vnode->directory) {
-+		size_t cur_size = 0;
-+
-+		ret = netfs_alloc_folioq_buffer(NULL,
-+						&vnode->directory, &cur_size, PAGE_SIZE,
-+						mapping_gfp_mask(vnode->netfs.inode.i_mapping));
-+		vnode->directory_size = PAGE_SIZE - 1;
-+		if (ret < 0)
-+			return ret;
-+	}
-+
-+	iov_iter_folio_queue(&iter, ITER_DEST, vnode->directory, 0, 0, PAGE_SIZE);
-+
-+	/* AFS requires us to perform the read of a symlink as a single unit to
-+	 * avoid issues with the content being changed between reads.
-+	 */
-+	ret = netfs_read_single(&vnode->netfs.inode, NULL, &iter);
-+	if (ret >= 0) {
-+		i_size = i_size_read(&vnode->netfs.inode);
-+		if (i_size > PAGE_SIZE - 1) {
-+			trace_afs_file_error(vnode, -EFBIG, afs_file_error_dir_big);
-+			return -EFBIG;
-+		}
-+		vnode->directory_size = i_size;
-+
-+		/* Copy the symlink. */
-+		symlink = kmalloc_flex(struct afs_symlink, content, i_size + 1,
-+				       GFP_KERNEL);
-+		if (!symlink)
-+			return -ENOMEM;
-+
-+		refcount_set(&symlink->ref, 1);
-+		symlink->content[i_size] = 0;
-+
-+		const char *s = kmap_local_folio(folioq_folio(vnode->directory, 0), 0);
-+
-+		memcpy(symlink->content, s, i_size);
-+		kunmap_local(s);
-+
-+		afs_replace_symlink(vnode, symlink);
-+	}
-+
-+	if (!fscache_cookie_enabled(netfs_i_cookie(&vnode->netfs))) {
-+		netfs_free_folioq_buffer(vnode->directory);
-+		vnode->directory = NULL;
-+		vnode->directory_size = 0;
-+	}
-+
-+	return ret;
-+}
-+
-+static ssize_t afs_read_symlink(struct afs_vnode *vnode)
-+{
-+	ssize_t ret;
-+
-+	fscache_use_cookie(afs_vnode_cache(vnode), false);
-+	ret = afs_do_read_symlink(vnode);
-+	fscache_unuse_cookie(afs_vnode_cache(vnode), NULL, NULL);
-+	return ret;
-+}
-+
-+static void afs_put_link(void *arg)
-+{
-+	afs_put_symlink(arg);
-+}
-+
-+const char *afs_get_link(struct dentry *dentry, struct inode *inode,
-+			 struct delayed_call *callback)
-+{
-+	struct afs_symlink *symlink;
-+	struct afs_vnode *vnode = AFS_FS_I(inode);
-+	ssize_t ret;
-+
-+	if (!dentry) {
-+		/* RCU pathwalk. */
-+		if (!vnode->symlink || !afs_check_validity(vnode))
-+			return ERR_PTR(-ECHILD);
-+		set_delayed_call(callback, NULL, NULL);
-+		return rcu_dereference(vnode->symlink)->content;
-+	}
-+
-+	if (vnode->symlink) {
-+		ret = afs_validate(vnode, NULL);
-+		if (ret < 0)
-+			return ERR_PTR(ret);
-+
-+		down_read(&vnode->validate_lock);
-+		if (!test_bit(AFS_VNODE_ZAP_DATA, &vnode->flags))
-+			goto good;
-+		up_read(&vnode->validate_lock);
-+	}
-+
-+	if (down_write_killable(&vnode->validate_lock) < 0)
-+		return ERR_PTR(-ERESTARTSYS);
-+	if (!vnode->symlink ||
-+	    test_and_clear_bit(AFS_VNODE_ZAP_DATA, &vnode->flags)) {
-+		ret = afs_read_symlink(vnode);
-+		if (ret < 0) {
-+			up_write(&vnode->validate_lock);
-+			return ERR_PTR(ret);
-+		}
-+	}
-+
-+	downgrade_write(&vnode->validate_lock);
-+	
-+good:
-+	symlink = rcu_dereference_protected(vnode->symlink,
-+					    lockdep_is_held(&vnode->validate_lock));
-+	refcount_inc(&symlink->ref);
-+	up_read(&vnode->validate_lock);
-+
-+	set_delayed_call(callback, afs_put_link, symlink);
-+	return symlink->content;
-+}
-+
-+int afs_readlink(struct dentry *dentry, char __user *buffer, int buflen)
-+{
-+	DEFINE_DELAYED_CALL(done);
-+	const char *content;
-+	int len;
-+
-+	content = afs_get_link(dentry, d_inode(dentry), &done);
-+	if (IS_ERR(content)) {
-+		do_delayed_call(&done);
-+		return PTR_ERR(content);
-+	}
-+
-+	len = umin(strlen(content), buflen);
-+	if (copy_to_user(buffer, content, len))
-+		len = -EFAULT;
-+	do_delayed_call(&done);
-+	return len;
-+}
-+
-+/*
-+ * Write the symlink contents to the cache as a single blob.  We then throw
-+ * away the page we used to receive it.
-+ */
-+int afs_symlink_writepages(struct address_space *mapping,
-+			   struct writeback_control *wbc)
-+{
-+	struct afs_vnode *vnode = AFS_FS_I(mapping->host);
-+	struct iov_iter iter;
-+	int ret = 0;
-+
-+	down_write(&vnode->validate_lock);
-+
-+	if (vnode->directory &&
-+	    atomic64_read(&vnode->cb_expires_at) != AFS_NO_CB_PROMISE) {
-+		iov_iter_folio_queue(&iter, ITER_SOURCE, vnode->directory, 0, 0,
-+				     i_size_read(&vnode->netfs.inode));
-+		ret = netfs_writeback_single(mapping, wbc, &iter);
-+	}
-+
-+	netfs_free_folioq_buffer(vnode->directory);
-+	vnode->directory = NULL;
-+	vnode->directory_size = 0;
-+
-+	up_write(&vnode->validate_lock);
-+	return ret;
-+}
-+
-+const struct inode_operations afs_symlink_inode_operations = {
-+	.get_link	= afs_get_link,
-+	.readlink	= afs_readlink,
-+};
-+
-+const struct address_space_operations afs_symlink_aops = {
-+	.writepages	= afs_symlink_writepages,
-+};
-diff --git a/fs/afs/yfsclient.c b/fs/afs/yfsclient.c
-index 24fb562ebd33..d941179730a9 100644
---- a/fs/afs/yfsclient.c
-+++ b/fs/afs/yfsclient.c
-@@ -960,7 +960,7 @@ void yfs_fs_symlink(struct afs_operation *op)
- 
- 	_enter("");
- 
--	contents_sz = strlen(op->create.symlink);
-+	contents_sz = strlen(op->create.symlink->content);
- 	call = afs_alloc_flat_call(op->net, &yfs_RXYFSSymlink,
- 				   sizeof(__be32) +
- 				   sizeof(struct yfs_xdr_RPCFlags) +
-@@ -981,7 +981,7 @@ void yfs_fs_symlink(struct afs_operation *op)
- 	bp = xdr_encode_u32(bp, 0); /* RPC flags */
- 	bp = xdr_encode_YFSFid(bp, &dvp->fid);
- 	bp = xdr_encode_name(bp, name);
--	bp = xdr_encode_string(bp, op->create.symlink, contents_sz);
-+	bp = xdr_encode_string(bp, op->create.symlink->content, contents_sz);
- 	bp = xdr_encode_YFSStoreStatus(bp, &mode, &op->mtime);
- 	yfs_check_req(call, bp);
- 
+> +	if (!mapping_pmd_thp_support(inode->i_mapping))
+> +		return false;
+> +
+> +	return S_ISREG(inode->i_mode);
+>  }
+>
+>  /* If returns true, we are unable to access the VMA's folios. */
+> -- 
+> 2.43.0
 
+
+--
+Best Regards,
+Yan, Zi
