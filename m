@@ -1,127 +1,168 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 298E637CD3A
-	for <linux-fsdevel@vger.kernel.org>; Sat, 25 Apr 2026 18:42:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CABFA37F8B6;
+	Sat, 25 Apr 2026 22:01:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777142575; cv=none; b=SyEt0lV8QNMeQ/agw/UHxTD8mMC6UOB8LvVvxXn22ktV07r2LrVwYKT1ixBdc7kFdKvgaZsz+qF2XVVaGvsYvSpre8RI19kyFzbP8H5fDzApJwRXsEFB4hoATcQzDhNL9oRltWCfi3emXU/xMeMg8fB6fdP/MtPIPzcUJk8G19Q=
+	t=1777154492; cv=none; b=Rh72/Xt2i1UUpUGlVaQ+pRua8OCeyo2orfBI7OYYohg6jxef+bsJ3KE20uW1kk2J98Be1kkRKmzUHM/vsMDkU0ICYBr1QWt3CZh8S+9lPDCSXMiuf3CcfM+OJ4DB1PiE5wgJVgbJ07frhPkudnFC1143W4VnfU7Yv/oR630zQZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777142575; c=relaxed/simple;
-	bh=sbgyC0F1QWWxsqlHMSvDUx3fIhaVIHxnzkP3GsRbJtI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=M7zj3+93/AC50MSwuDEjmLYnrxGDjRui6pWiNwcp6QT+U4m7ursnXrWDf2tcjvpL7RyVbEbAUUL45giBFDyW0580aOQKeLA8INOjCPfvAOUPDqJ4zsZZMUSyWCBb9jjHZNSH22sXCbJJ/9HlvdqCqlaCXw/h3IxAvc/8FK62OkI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mg3SoQKp; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777154492; c=relaxed/simple;
+	bh=0NuIDsEyNQ/Ifatv/CQaE7y12IP9xQxKHtJQ4WrtH/U=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=APnSQadpqWUf8ZPh6yHEODqRpS+FcidNzulqmf2Bc2hviSljTkmmZJy/6zNH4beYKOMkGUVZZ6GFQ05Jvyt6lBhP4SfGIJv0nYXsq224iXqVNYTIvQf/xVEwVYJ2eHBiquwpyyuila/3gSi2VBBpuYedR7s15Fuc+23rn+y2jiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=qWwiMSnu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mg3SoQKp"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2ae1255a90bso6770525ad.1
-        for <linux-fsdevel@vger.kernel.org>; Sat, 25 Apr 2026 11:42:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777142573; x=1777747373; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ozsUMKbqTO/Xk5E69vfQ7nhFZDCs1d2jRIQqTzB9tKU=;
-        b=Mg3SoQKp3Zya2ZB9/NL/Vdf/F2LXWV35L0/g4BV+Vv1tX1B5nQa48JJYlT09idTZeH
-         PKgJzzK8WdfFOy+valuQt0IbyRRBBI51Sz344zykfwZTAbA8P4n0tDAtyCiAWODfr9xO
-         GjAsS/5NzXIUXZqSzFNVOeFFJJART8ss6iK5RdnWuD5pHiu4pcBkXbx3IOQdyBbZGmHN
-         0wIyBIIJ1HQsOJJrw0ymxTtHyycwxwqzuCh8DnHLqhE2WQP69L6R2iptvVXGGBiB49kU
-         wPEEC235TCkZp27Sgh6GHDUdrqn1GCA4Z71g+vhIRe9j47PmWBnMRof5WbFGe7oZ+TQA
-         CpYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777142573; x=1777747373;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ozsUMKbqTO/Xk5E69vfQ7nhFZDCs1d2jRIQqTzB9tKU=;
-        b=EYsM3EmDWmraCH6GJReIkdCNXLBPK5F4a3WqklZV8L5hkHejUV/e1uk+GbCKXnsWnT
-         TxreqK3v3wKf7zhp9n9rQog6Anpma3QWqNiCEiTIuNVKFmmr3Kr72AUqA3N6ae5V8QTl
-         5JTgmKLK04S6uo7/BZrZLI/3BEYUXPN7cpN+36YhJqoCJBFp7FARIR+ilOUZj7EtiQDM
-         pxt4oZm22mld5wORCBFvGiJ+APgfCX5PqhGDPV9K+S6G0gBaoMB+NTY58A3+v/HKmN36
-         Dk7TWMY9Nepz56PtflAHS+du19HJV+1uOnf08JYhtVCTQzANk5bbcuOU2IdIlA+A54is
-         mj/Q==
-X-Gm-Message-State: AOJu0YzvQlbYFXh1G9wzRyEWVMoqMIhWQm/FrBu6J8elfLNbAt/7Fmet
-	KE/tgpaKAE7VxNJ2U4uBYQF9IGVH+HsIyJ8VKehfRUPAaueFflAHq8Ce
-X-Gm-Gg: AeBDievtloViwBc6Gy4DoI4EM/dBq0rElxXkeABowNEa4QrQKkQ2he97Lg55JxS3X/+
-	t/v7Js4n0fhPHJXHKcClomACbBY31oJ27mnyTYUIJsmsPcVkgoIa4QGHVE2xN4l5qZkv9s1ILL5
-	dURIBPqKYe56BjfTVOMblBoHJDL7in7xU0gQsVfEtregPjXEbxvQ7R5i1dnqEXm8wu2iKJE8Y0X
-	voh/w9qZhdCMWjNNMEkdTfpXroqgFZho1P1kINAVVTEad+xHByQfIPqSdYK4obNf3Zb4PwnrjK1
-	PCYCEO+zJrry+U8uwPcGm8GO4vZEJXuv7I6Zs9ipD+vHHQ4HdRnBKX+mSO/ffoUNuM5L72RF309
-	ZqcX7eM/D+iE5jm1felzaDAalE+nLSEhayknmQbVnSOqQVWmF5Wh/K6XZTtejhu4JKPz5tiUDuo
-	2y1t8wNHH6ZdSgePqFd6ne7oYE86w=
-X-Received: by 2002:a05:6a21:7001:b0:3a3:1814:20a2 with SMTP id adf61e73a8af0-3a3181421d7mr8896061637.5.1777142573521;
-        Sat, 25 Apr 2026 11:42:53 -0700 (PDT)
-Received: from ser8.. ([221.156.231.192])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f8ebba485sm33975874b3a.38.2026.04.25.11.42.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Apr 2026 11:42:53 -0700 (PDT)
-From: DaeMyung Kang <charsyam@gmail.com>
-To: Namjae Jeon <linkinjeon@kernel.org>,
-	Hyunchul Lee <hyc.lee@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	DaeMyung Kang <charsyam@gmail.com>
-Subject: [PATCH 2/2] ntfs: fix WSL symlink target leak on reparse failure
-Date: Sun, 26 Apr 2026 03:42:43 +0900
-Message-ID: <20260425184243.116396-3-charsyam@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260425184243.116396-1-charsyam@gmail.com>
-References: <20260425184243.116396-1-charsyam@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="qWwiMSnu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94764C2BCB3;
+	Sat, 25 Apr 2026 22:01:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1777154492;
+	bh=0NuIDsEyNQ/Ifatv/CQaE7y12IP9xQxKHtJQ4WrtH/U=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=qWwiMSnupHPl2CqJmPf5mv5cppTi87sHIgN8pIR1OUU5pCHxR6Hc+Oek1h/58ER7s
+	 lIxgZPW9kw83+47mMnBo+ffv2OfnZlPugTdXzLSWW3ze7+vEtzognUMoc2P1bhJb6q
+	 pyfFW6pYNWDsZj+NRecEwCULFziFnLmWvOW5PlxM=
+Date: Sat, 25 Apr 2026 15:01:31 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Zi Yan <ziy@nvidia.com>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>, Song Liu
+ <songliubraving@fb.com>, Chris Mason <clm@fb.com>, David Sterba
+ <dsterba@suse.com>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian
+ Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, David Hildenbrand
+ <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, "Liam R. Howlett"
+ <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>, Ryan Roberts
+ <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song
+ <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, Vlastimil Babka
+ <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan
+ <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Shuah Khan
+ <shuah@kernel.org>, linux-btrfs@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH 7.2 v4 01/12] mm/khugepaged: remove READ_ONLY_THP_FOR_FS
+ check
+Message-Id: <20260425150131.c4b3703b65e6de0fd3893d48@linux-foundation.org>
+In-Reply-To: <20260424024915.28758-2-ziy@nvidia.com>
+References: <20260424024915.28758-1-ziy@nvidia.com>
+	<20260424024915.28758-2-ziy@nvidia.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-ntfs_reparse_set_wsl_symlink() converts the symlink target into an
-allocated NLS string and transfers ownership to ni->target only after
-ntfs_set_ntfs_reparse_data() succeeds. If setting the reparse data fails,
-the converted target is left unreferenced and leaks.
+On Thu, 23 Apr 2026 22:49:04 -0400 Zi Yan <ziy@nvidia.com> wrote:
 
-Free the converted target on the reparse update failure path. Use kfree()
-for the other local failure path as well, matching the ntfs_ucstonls()
-allocation contract.
+> collapse_file() requires FSes supporting large folio with at least
+> PMD_ORDER, so replace the READ_ONLY_THP_FOR_FS check with that.
+> MADV_COLLAPSE ignores shmem huge config, so exclude the check for shmem.
+> 
+> While at it, replace VM_BUG_ON with VM_WARN_ON_ONCE.
+> 
+> Add a helper function mapping_pmd_thp_support() for FSes supporting large
+> folio with at least PMD_ORDER.
 
-Fixes: fc053f05ca28 ("ntfs: add reparse and ea operations")
-Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
+My arm allnoconfig blew up.
+
+> --- a/include/linux/pagemap.h
+> +++ b/include/linux/pagemap.h
+> @@ -513,6 +513,15 @@ static inline bool mapping_large_folio_support(const struct address_space *mappi
+>  	return mapping_max_folio_order(mapping) > 0;
+>  }
+>  
+> +static inline bool mapping_pmd_thp_support(const struct address_space *mapping)
+> +{
+> +	/* AS_FOLIO_ORDER is only reasonable for pagecache folios */
+> +	VM_WARN_ON_ONCE((unsigned long)mapping & FOLIO_MAPPING_ANON);
+> +
+> +	return mapping_max_folio_order(mapping) >= PMD_ORDER;
+> +}
+> +
+> +
+
+- Should it be named "mapping_pmd_thp_supported"?
+
+- What does it actually *do*?  A little comment explaining this would
+  be appropriate.
+
+- Is it appropriate that this be inlined?
+
+I added the below.
+
+
+From: Andrew Morton <akpm@linux-foundation.org>
+Subject: mm-khugepaged-remove-read_only_thp_for_fs-check-fix
+Date: Sat Apr 25 02:54:04 PM PDT 2026
+
+fix arm64 allnoconfig by uninlining mapping_pmd_thp_support()
+
+In file included from ./include/linux/mm.h:31,
+                 from fs/inode.c:9:
+./include/linux/pagemap.h: In function 'mapping_pmd_thp_support':
+./include/linux/pgtable.h:8:26: error: 'PMD_SHIFT' undeclared (first use in this function); did you mean 'PUD_SHIFT'?
+    8 | #define PMD_ORDER       (PMD_SHIFT - PAGE_SHIFT)
+      |                          ^~~~~~~~~
+./include/linux/pagemap.h:521:52: note: in expansion of macro 'PMD_ORDER'
+  521 |         return mapping_max_folio_order(mapping) >= PMD_ORDER;
+      |                                                    ^~~~~~~~~
+./include/linux/pgtable.h:8:26: note: each undeclared identifier is reported only once for each function it appears in
+    8 | #define PMD_ORDER       (PMD_SHIFT - PAGE_SHIFT)
+      |                          ^~~~~~~~~
+./include/linux/pagemap.h:521:52: note: in expansion of macro 'PMD_ORDER'
+  521 |         return mapping_max_folio_order(mapping) >= PMD_ORDER;
+      |                                                    ^~~~~~~~~
+make[3]: *** [scripts/Makefile.build:289: fs/inode.o] Error 1
+make[2]: *** [scripts/Makefile.build:548: fs] Error 2
+make[1]: *** [/usr/src/25/Makefile:2139: .] Error 2
+make: *** [Makefile:248: __sub-make] Error 2
+
+Cc: Zi Yan <ziy@nvidia.com>
+Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
 ---
- fs/ntfs/reparse.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/fs/ntfs/reparse.c b/fs/ntfs/reparse.c
-index 8f60ec6f66c1..74713716813f 100644
---- a/fs/ntfs/reparse.c
-+++ b/fs/ntfs/reparse.c
-@@ -505,7 +505,6 @@ int ntfs_reparse_set_wsl_symlink(struct ntfs_inode *ni,
- 	struct reparse_point *reparse;
- 	struct wsl_link_reparse_data *data;
- 
--	utarget = (char *)NULL;
- 	len = ntfs_ucstonls(ni->vol, target, target_len, &utarget, 0);
- 	if (len <= 0)
- 		return -EINVAL;
-@@ -514,7 +513,7 @@ int ntfs_reparse_set_wsl_symlink(struct ntfs_inode *ni,
- 	reparse = kvzalloc(reparse_len, GFP_NOFS);
- 	if (!reparse) {
- 		err = -ENOMEM;
--		kvfree(utarget);
-+		kfree(utarget);
- 	} else {
- 		data = (struct wsl_link_reparse_data *)reparse->reparse_data;
- 		reparse->reparse_tag = IO_REPARSE_TAG_LX_SYMLINK;
-@@ -528,6 +527,8 @@ int ntfs_reparse_set_wsl_symlink(struct ntfs_inode *ni,
- 		kvfree(reparse);
- 		if (!err)
- 			ni->target = utarget;
-+		else
-+			kfree(utarget);
- 	}
- 	return err;
+ include/linux/pagemap.h |    9 +--------
+ mm/filemap.c            |    8 ++++++++
+ 2 files changed, 9 insertions(+), 8 deletions(-)
+
+--- a/include/linux/pagemap.h~mm-khugepaged-remove-read_only_thp_for_fs-check-fix
++++ a/include/linux/pagemap.h
+@@ -513,14 +513,7 @@ static inline bool mapping_large_folio_s
+ 	return mapping_max_folio_order(mapping) > 0;
  }
--- 
-2.43.0
+ 
+-static inline bool mapping_pmd_thp_support(const struct address_space *mapping)
+-{
+-	/* AS_FOLIO_ORDER is only reasonable for pagecache folios */
+-	VM_WARN_ON_ONCE((unsigned long)mapping & FOLIO_MAPPING_ANON);
+-
+-	return mapping_max_folio_order(mapping) >= PMD_ORDER;
+-}
+-
++bool mapping_pmd_thp_support(const struct address_space *mapping);
+ 
+ /* Return the maximum folio size for this pagecache mapping, in bytes. */
+ static inline size_t mapping_max_folio_size(const struct address_space *mapping)
+--- a/mm/filemap.c~mm-khugepaged-remove-read_only_thp_for_fs-check-fix
++++ a/mm/filemap.c
+@@ -126,6 +126,14 @@
+  *    ->private_lock		(zap_pte_range->block_dirty_folio)
+  */
+ 
++bool mapping_pmd_thp_support(const struct address_space *mapping)
++{
++	/* AS_FOLIO_ORDER is only reasonable for pagecache folios */
++	VM_WARN_ON_ONCE((unsigned long)mapping & FOLIO_MAPPING_ANON);
++
++	return mapping_max_folio_order(mapping) >= PMD_ORDER;
++}
++
+ static void page_cache_delete(struct address_space *mapping,
+ 				   struct folio *folio, void *shadow)
+ {
+_
 
