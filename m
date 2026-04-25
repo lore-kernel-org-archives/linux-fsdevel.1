@@ -1,84 +1,126 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937E634A78F
-	for <linux-fsdevel@vger.kernel.org>; Sat, 25 Apr 2026 15:42:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A49CF54774;
+	Sat, 25 Apr 2026 17:57:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.171.160.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777131765; cv=none; b=ufItC5+qAK9i0TS8XWJqE6wbMKAljBN4jKVEPjMFjLeiQkkyn6P4Xm1wwf7a+RjQV8+jV6zrxIorCWejfCNWl2VtUCLfLwKoVoQASm1WXV9nNNEsbCDUmycRgQUhUlklRqRNOKmvVwXiTDNQvmjLrJQjjx4Eipl8ThJ1/aEUn80=
+	t=1777139858; cv=none; b=bPQIJ/jy9oxMN66TWcxdj2ssNi3PRPuV56yjR+XehAvGoNnOoMuopIllBCyYZ2fD7P0cDRZ+8Jwl+TFc1yA52QCRh74ygWuciudL8DOpXTw+1oM6+doPZ22FBjpmvxDY2jLy3jGUmzc+9qfu3Mgz5z2bDG7Q82ZKTgemGGWJpNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777131765; c=relaxed/simple;
-	bh=KFRIfgmfjM3VnoIPT44Ls619E4DdFbrGJYuXzFbTFH4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UBGirppimHbl+iq/60RVsfYZILgrxb3NY6sSmhaCNOuOs8/0i7Teej7x/kAe08Rq3Ou4WiPmM5S+/lncZzrr+SHbp6ItESrjW+rA9sFSJqX2V2wcfgC2PK+yjGrDA1OODXNX3ls78d+FLqzvhZ8rnckUDYhm9xV/E8ULXfrW4Ag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lejyJzF3; arc=none smtp.client-ip=209.85.167.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777139858; c=relaxed/simple;
+	bh=GnzOu9SH2TbOyx/Ph/gQaFOtG6McerbWyTNYV4GLHic=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=bvKdKH3U66LIYHsg4nZJJMaZshwukOGLPJldsNFpRkgxAvhW4ZPbFE8BhtTDmcZaIJuikdE95n81mYUmbAdT7vyZT2GEf8+bK0l1L5VmIbiG9c/L+2Kw71nAec9S+1Pw+KBnHGk5D5lH/pLHVQrLEYz+lpSarP/Bu6C6F9sFPho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp; spf=pass smtp.mailfrom=parknet.co.jp; dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=tNgWr6Ac; dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=ZkyjhkBv; arc=none smtp.client-ip=210.171.160.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lejyJzF3"
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5a3d1561e38so7318734e87.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 25 Apr 2026 08:42:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777131763; x=1777736563; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=s1Pji+xPwcKNy5aZW1etp5CSTGlupxM5tsrDxbvS93U=;
-        b=lejyJzF3YscDXdSZttm/UD+QIgdFKY+QFnytWUAtrX1Q90F91b1xK8kzE4HXFREFRt
-         6Ly3KzR8KoQ3rukPKkTnxJafIr3qPWKun/dZqzQeFWpkqxFG72njuNs9DkesyloKCWff
-         gBHDxuNwWrZXI2soo+fq7tIqMQt8qHluKCT4LZFWO1L9xCHJt65Vm0drWR9E2KlR9B5x
-         Aflw1FI39MjVTzadhuPzpTXwUu9R0clhD9mI/HrpAk6LVva+wjpZ9NSx9o32yJimSAzk
-         Dh6kRExx4hbWQ2t3r9D+le8E7wJa4g61ff0B7op2nzdxwFtrLEYfMkkrOit1+5wcXF8m
-         3hOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777131763; x=1777736563;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=s1Pji+xPwcKNy5aZW1etp5CSTGlupxM5tsrDxbvS93U=;
-        b=h6t1xD4El2a3V9U8CHxIdstdTmeAFEFDE5Y6WoVpO4+5oOUqh/FIBOArRvqSCRKjCh
-         mNcObIsQCs8ZpUVmAkWBHnLPXqZuThunr+h9p9A2d5lv12uT4H7y92hJV94iO3hr4Txa
-         NLFWEAn8gM4nlyRqYRgT6J2WbsKqZhyBIbg/UGX03rlRphlrTPwAshw2JsgriF22Y2Pz
-         YsjcDuXO6aZ8KGafDkcH9CZMRZVgBoZAwEf0/IoBCXA9ggDfxDC/tfCRlI4fV6+PtJyC
-         iBhYa7ZxdC3fgiKsBNZ4vTcgnRysBWwo2ULIvR89hN8MUSculVTz2oD2KkgTCJ8jzqdJ
-         qI/A==
-X-Gm-Message-State: AOJu0YwkpCZIxFI3TELxNoBsfqIMnzyBSSGXFVxrS2lEB2WW46eFYIjy
-	n5S52LfvNtoR5gYvadcFSzbO3bfkIDUBlDMuo7BsJvJMOOnhck3HmgVSofeL
-X-Gm-Gg: AeBDievOQWgANCV5fECjXBoUsmIqC8EjvnVtsLAZAbpY1rXcVWDixFF5bJyc79C8tmE
-	XDoAjrT1IePLmVa96OW179RLMKYhvHz1hIFwNYorJy++h89A88FZly9rskXE3E7g5x6i+AKurdO
-	cLckxowf5aIwL5mvq5ZfmWm0pqbQtun6ih2LTUlH6rF3UIshwJ6HoHXSjS22WIRxlxFHDakCxd/
-	vpIUsGwNPgnun3vc+332JE48kvfF0iPW5x6ALrJQ+eZcuUUNQmbZsu7tq0WappOZFbZ1y18djSP
-	Wbgnilv+Q0kP6sJnHTSw5fwcGvlUdnYny03EWopXCOFCfouZ8Jie0tU9gXc51pPsOcz+krYMScB
-	DDjAQHcHdBSt/IJKHWnZQdTYAmshTqCP4vuI0IGASYVxpeUe5TCj1+IDiUzX937UpHm11ZTDS0g
-	ypwRbYIfybHt+MtDF3UKjGtW8=
-X-Received: by 2002:a05:6512:3f15:b0:5a2:798e:7dc5 with SMTP id 2adb3069b0e04-5a41730a254mr11733584e87.44.1777131762521;
-        Sat, 25 Apr 2026 08:42:42 -0700 (PDT)
-Received: from p183 ([178.172.147.163])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a63296adb0sm2322023e87.6.2026.04.25.08.42.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Apr 2026 08:42:42 -0700 (PDT)
-Date: Sat, 25 Apr 2026 18:44:53 +0300
-From: Alexey Dobriyan <adobriyan@gmail.com>
-To: Damien Le Moal <dlemoal@kernel.org>,
-	Naohiro Aota <naohiro.aota@wdc.com>,
-	Johannes Thumshirn <jth@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org
-Subject: integer parsing overflow in zonefs_fname_to_fno()
-Message-ID: <a16c4a17-cb72-4e5d-bf8a-7c6ad5482128@p183>
+	dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="tNgWr6Ac";
+	dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="ZkyjhkBv"
+Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
+	by mail.parknet.co.jp (Postfix) with ESMTPSA id 0653826F765A;
+	Sun, 26 Apr 2026 02:57:34 +0900 (JST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
+	s=20250114; t=1777139854;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hLxTrWkBszbrrZBTImfkaBbyPNCVgTJf2HVt7EOUddU=;
+	b=tNgWr6AcG4dENJ0/emFHMzX/12jmcmeiHmZVuJ8SEm08eU4137NczmOnd2K7oU9vXyvFxL
+	3dBUW59BRB21w81/hL3SROy0UiqIb8yHm1FRVVJ+RPwekkAhdeRHnM8yVZokbcD02f680a
+	uyaz2TmeZzsSrcnr1lFthppNrc7ZRnl863MZR1C7tr6+W3w0eO45sqHU55mvN82hEaNATM
+	OV4VRZD6j6u5fZghjacmS9vs/UPZzUVxCpbGqDwwkI3/QM0hYQBEhAidaTvx7XmVMR6g9V
+	lHP3LkV0M2bJZUizyz3tJ7PnYLRUiCjB7Ea5YZuK4NaFEej0A9Iooa0fBYlF6Q==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
+	s=20250114-ed25519; t=1777139854;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hLxTrWkBszbrrZBTImfkaBbyPNCVgTJf2HVt7EOUddU=;
+	b=ZkyjhkBvdmqLkQEWjDJqzcw0bxYK2kC3Zm2dGl8gNiO8Bw2tgZhjqbBkakVktVeGZAU1Uv
+	kSJYhjYsYfin1oBA==
+Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
+	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id 8B6B1E00097;
+	Sun, 26 Apr 2026 02:57:33 +0900 (JST)
+Received: by devron.myhome.or.jp (Postfix, from userid 1000)
+	id 7EE5122000EA; Sun, 26 Apr 2026 02:57:33 +0900 (JST)
+From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Christian Brauner <brauner@kernel.org>, Ziran Zhang
+ <zhangcoder@yeah.net>,  linux-kernel@vger.kernel.org,
+  linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v4] FAT: Allow 0xE9 near jump in fat_read_static_bpb()
+In-Reply-To: <87se90ljcj.fsf@mail.parknet.co.jp>
+References: <87wlyclmvr.fsf@mail.parknet.co.jp>
+	<20260412070109.5197-1-zhangcoder@yeah.net>
+	<87se90ljcj.fsf@mail.parknet.co.jp>
+Date: Sun, 26 Apr 2026 02:57:33 +0900
+Message-ID: <87pl3mc48i.fsf@mail.parknet.co.jp>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain
 
-zonefs_fname_to_fno() does
+OGAWA Hirofumi <hirofumi@mail.parknet.co.jp> writes:
 
-	fno += (c - '0') * shift;
-	shift *= 10;
+Please apply this too.
 
-which is obviously broken because integer overflow and string,
-coming from userspace, can't be trusted.
+Thanks.
 
-Also, zonefs_lookup() could use is_root_inode() helper.
+> Ziran Zhang <zhangcoder@yeah.net> writes:
+>
+>> The fat_read_static_bpb() only accepts a short jump as a valid
+>> bootstrap code signature for DOS 1.x volumes when the dos1xfloppy
+>> mount option is used.
+>>
+>> However, according to the Microsoft fatgen103.doc, the BS_jmpBoot
+>> field has two allowed forms: 0xEB 0x?? 0x90 (short jump + NOP)
+>> and 0xE9 0x?? 0x?? (near jump). The specification explicitly states
+>> that either form is acceptable.
+>>
+>> This patch relaxes the check to also accept 0xE9 as the first byte of
+>> the jump instruction.
+>>
+>> Changes in v4:
+>> - Add original commit log
+>>
+>> Signed-off-by: Ziran Zhang <zhangcoder@yeah.net>
+>
+> Thanks.
+>
+> Acked-by: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+>
+>> ---
+>>
+>>> Could you add original commit log, instead of changelog?
+>>> 
+>>> Thanks.
+>>
+>> Done! Please ignore the earlier erroneous v2 v2 and v3.
+>>
+>>  fs/fat/inode.c | 5 +++--
+>>  1 file changed, 3 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/fs/fat/inode.c b/fs/fat/inode.c
+>> index 28f78df08..0e7d106ea 100644
+>> --- a/fs/fat/inode.c
+>> +++ b/fs/fat/inode.c
+>> @@ -1479,8 +1479,9 @@ static int fat_read_static_bpb(struct super_block *sb,
+>>  	int error = -EINVAL;
+>>  	unsigned i;
+>>  
+>> -	/* 16-bit DOS 1.x reliably wrote bootstrap short-jmp code */
+>> -	if (b->ignored[0] != 0xeb || b->ignored[2] != 0x90) {
+>> +	/* 16-bit DOS 1.x reliably wrote bootstrap short-jmp or near-jmp code */
+>> +	if ((b->ignored[0] != 0xeb || b->ignored[2] != 0x90) &&
+>> +	    (b->ignored[0] != 0xe9)) {
+>>  		if (!silent)
+>>  			fat_msg(sb, KERN_ERR,
+>>  				"%s; no bootstrapping code", notdos1x);
+
+-- 
+OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
