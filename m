@@ -1,150 +1,240 @@
-Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 106F72F8BF0
-	for <linux-fsdevel@vger.kernel.org>; Sun, 26 Apr 2026 21:28:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 526DB31354C
+	for <linux-fsdevel@vger.kernel.org>; Sun, 26 Apr 2026 23:43:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777238895; cv=none; b=LsgLv7t/6il9qO1gw6mFw43ZRxzr1kJ2ORmjQ+e/wBxdPrGA98bEC1JIwRzRNO3yCh3pnb+nBNAFlUN7Yk6VVnNSr3H/G6M8IlEQsjz+d8+jdA25WZMdBiZeSWxCIiQhc2SMlE9VKk9QCx7JhOg61HT0m1AoyZkE/12ReVukp74=
+	t=1777246998; cv=none; b=hyj972txyEvdfAko4pLZMcp5uFrb1q/taEuUUM5AMeurgpkknpX/PV/cFX1HIAH7OWmax8ciHuIIYEUeUQ5lwATUZuS5HYIX0Zw1XuCA0PPpVK9wquwTrGkvL5aZYnwYGZtvl8kV7x+cOneEaCRzFPuK47+ysSEYsmAk9znIesY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777238895; c=relaxed/simple;
-	bh=/avPC3bEQsKT6TxAZf9ekEriJSICHatwfDGpxOPwXj8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rK0uvxUB7kfIWnUMN8VwyiUNoERgU5Ps/cNX5HyR9sg7c9OyiRXLiUkQR4yyMSNq8rdcWOUjD5eyDq6TZj02pBKbkuRUzoS1Ewo+O8qHWKc33uJQ7ehjfPUnU2feRc6eTzrjgQEuX8ZqMyjsso+C9rgEZQS/uTlBLGh+6UrBCGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=gnom8Hh0; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=OiVmc0x/; arc=none smtp.client-ip=103.168.172.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	s=arc-20240116; t=1777246998; c=relaxed/simple;
+	bh=QTqu1wmocWcq6zBzB9KmwmGLME2u4qreqaKpysA/Isk=;
+	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References:
+	 MIME-Version:Content-Type; b=fQTb0nTQZRgxzdC8oDZoNjz1YWfhNA75T7GmBvkyYAr/RpTqoandRCB8rLU6Bh6KT+oulcVFxp8jKfLuUeKTagDn7+Z6Z77S3nlI908siD0YYPE9xgRmh/7Vl0rarZDKmly05jE+ARz5cv4nlv4y8pKIi2Y0QwGeBujcV1z2kUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IeZ2QG3r; arc=none smtp.client-ip=209.85.216.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="gnom8Hh0";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="OiVmc0x/"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 620A11400027;
-	Sun, 26 Apr 2026 17:28:13 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Sun, 26 Apr 2026 17:28:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1777238893;
-	 x=1777325293; bh=ch2r00MgjYtuT/zhU+l8R/mOvWT2LsdN077XGhCbbJ4=; b=
-	gnom8Hh0wsQToUk0qHC83bSpOUJ+WYPi21bjLd7tU5FBk06cXlypJTzh2CJvJx4C
-	Yw4uWawkM9bsP+zHjT8FCxVstTFNw0AWnrXGid8o9Y8ChnFYEN0LvZJdo+46x6CN
-	ng5mxS4wWRsL94kHHDcDCPt2I9BJz/IaYfsSuSiY1a2gJeB5mSeQCkh/3jXBPp+0
-	OeLpafjFD/tl+b0iTyCBQcqsDfyskYWEZpIsJTeoIWVdU8LviPNZJIKLJ41Neszz
-	xchIpJd+UMG9/tV8PBwmAdYdcdnIvNUOzBfSguQwExjDtoOPKyJXxmzBUF+vJEZA
-	oapDM9y+NollSNhJft+yuQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1777238893; x=
-	1777325293; bh=ch2r00MgjYtuT/zhU+l8R/mOvWT2LsdN077XGhCbbJ4=; b=O
-	iVmc0x/SLKBNf8/jEokBdBePk2gWuy/8V66yQkinpWyk9lgimeD6sXYg8HbqdNxh
-	aTNZ9IZKXYiBG7fcFRmtbD93d+AKN8umKO7IsGsAL/VbekbwvlDITYMqK0445Qrw
-	wmTa7s7RC3dc4Thy6sUHRzJ0AQv+c8/V4IRdpEd2ZGvMlkTUZfdPIycrpkPBtVXZ
-	TP+bK0ecGzk2GrPrE+x05UMhGhYl6SDsNj1mBwFq+C9YCMyfT3B8pr6MQbmYDLdr
-	+IHJ0uUDRQ2kCKO2VYvVeDVxtBnDDBfvZaGf1jSwKbUFz0jYJfqv94Erx1yue5lh
-	+Ntpo7IbSTR5x96Txbz1g==
-X-ME-Sender: <xms:bYPuaU2gMxzQlWztJ3IxYvEX8FgVabbkUvXGaPOS9741F7TJqT8yIQ>
-    <xme:bYPuaYbe6dTPzi06QNzIyWqXx_PK9Sn8tXh4bqRiM6HNS-vqO1BtbSa7OVl34qraN
-    iUw9bzLpZa5dN3Kl6LZYAEN8hSUaOSubSGtKSz3zAXwZvuhJzwL>
-X-ME-Received: <xmr:bYPuaULyfYOZT_uwHx7UZrgAYK9osCgMvjR0JBSjHIRzT6RWwP7hTNOQCSPDldj0kH1-IikffWs6fxTDjnQPyyBepJ-3qERbysiutbakUhlSG3ZpNA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdejieekjecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefkffggfgfuvfevfhfhjggtgfesthejredttddvjeenucfhrhhomhepuegvrhhnugcu
-    ufgthhhusggvrhhtuceosggvrhhnugessghssggvrhhnugdrtghomheqnecuggftrfgrth
-    htvghrnhepjefgieelkeehteffudeitdelleeilefffeduheejfefghffhvedvtdfhhfeh
-    iefgnecuffhomhgrihhnpehsohgtkhgvthdrihhnnecuvehluhhsthgvrhfuihiivgeptd
-    enucfrrghrrghmpehmrghilhhfrhhomhepsggvrhhnugessghssggvrhhnugdrtghomhdp
-    nhgspghrtghpthhtohepiedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepughjfi
-    honhhgsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehnvggrlhesghhomhhprgdruggv
-    vhdprhgtphhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvghlrd
-    horhhgpdhrtghpthhtohepjhhorghnnhgvlhhkohhonhhgsehgmhgrihhlrdgtohhmpdhr
-    tghpthhtohepmhhikhhlohhssehsiigvrhgvughirdhhuhdprhgtphhtthhopehfuhhsvg
-    dquggvvhgvlheslhhishhtshdrlhhinhhugidruggvvh
-X-ME-Proxy: <xmx:bYPuafGQT0TuDtwUAFpAR4VAje-kZ3TlTZqNzS37f0dzxGhXaQCDsA>
-    <xmx:bYPuaTuzTTx-jJCrBBMzlViH5kBcNAVx_wDq9yG9nt61ULaCn74t2A>
-    <xmx:bYPuaWtWTt_eioNVQrLvmxz9qE9wUo33WIPlMuNR58MwUGCEvfSszw>
-    <xmx:bYPuaZDJ5tXEu1VNwD-ctfLabY86xrvU-WwLisoBzL_H4L7-J4mgKg>
-    <xmx:bYPuabFz2MWQSs0e_iCV-H2YvD25w8rhAFleH_vCwQe49d3kg8OJmuQN>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 26 Apr 2026 17:28:12 -0400 (EDT)
-Message-ID: <18844024-34a4-4e72-831f-04effc8e1418@bsbernd.com>
-Date: Sun, 26 Apr 2026 23:28:11 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IeZ2QG3r"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3567e2b4159so6453896a91.0
+        for <linux-fsdevel@vger.kernel.org>; Sun, 26 Apr 2026 16:43:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777246997; x=1777851797; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:message-id:date
+         :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GMcuATLy/ginolpQIDJCxy12h57szRVGfrxwU4MqXGI=;
+        b=IeZ2QG3rILzi3aByOUCwZ8Ka2a2cJ+lMDvL56yYWGRDRBNDqDRPFa13Hcz0AvytQoz
+         tJkcBdXGEvuFTydfQ9VBz2G4peixyg6F9A7jHhi0p7R+VnfbmwJq2ihu+YR86hfVKbXB
+         j7aaLDRR0+qZYIE8Y1HUIXN61qQ6s1EZZ2UhW+1PhNt92VILNESxUPYRHLSLI1KnipBH
+         JUoBNSdjrD3hyhBFLWCIlqG3redlpZ9k3Z3DLmE7Ca9p2JqoayfETuzywPVHQBIpp1aY
+         Zq5bLLFIilWjfoDaZWGwCBlawfcTvhbXYXkXeqla+GqcNwhSuRSiA9c/izCve+WV/j+u
+         aNQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777246997; x=1777851797;
+        h=content-transfer-encoding:mime-version:references:message-id:date
+         :in-reply-to:subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=GMcuATLy/ginolpQIDJCxy12h57szRVGfrxwU4MqXGI=;
+        b=JbGEZIi5h2y4pLPqW+JhAh1GXOwGNHZhIQQhIoLx04tXb36i8zIM/njVdwdlVISo+w
+         MLAjOW+HDLXk5swU7k53sGFhxRvQ5rq1a+lgNPJyGgpNa7TYROSBTxUQUk6RD9EFvp2y
+         Y8vG/+kAUa4CfFupa6ROCzi7K/8nl44Tcr3mMGA79Y8noUrYI8UobLY42UVdSPuX3eok
+         nq1UfCKVa797dyk82NKyBtMSqYuS0X+pJIqRV1epui19de2zFVRtmHC/a1h6kN89fh4Z
+         t/e0ZURLX3psx0B9A+ct3y2pxy8r843nJLJwwkaYpa4RrwMz7rEYfiVVTqiMdC41vWTp
+         b7AA==
+X-Gm-Message-State: AOJu0YwBpE7pALCFhVHlN0/QtillDhLXcrSXFZVKJspJLzN5RBD7flnz
+	TDlKtBnlaLgDewKG8WSdCZK+ItaJA32wXVjPZUKk5kUORh6fyBZKAZpZ
+X-Gm-Gg: AeBDietzQNTr16SOUrddq7gaJfOklYNh1lQVHW9eP+MyQXemNsTcMeITF0GF9idvzOh
+	Tvi/68tEgNAvHFFrqhHG6ij/5XalsyhE/xiU8anAHqqaKMOYbpxJS+/BwhGb3oe295agOeiBHjw
+	dh+HcexBOxsQbI0s8MYix4oliQZ1ZvSIQOCHaSgswgqEURTwqQOA32tnbCGWOwKttha04JBGi84
+	nuMFl8J2Uyyyw4jgAHdMUyGQa0y+J6E745QKpQWBNSrrM+gqxhw97qW9TAp5pWuDOShyXNl5RE9
+	NQyHKEsT0tnfB46UMQTohjt7lyNjnNqSGOtMBBIWUBbdMZjKs7Vs4iDHfsVuNCzWirWhjeSf3aA
+	X2dOne6C2JXY8apqwz+mrkUf/RZ9lrpLbK65+/pgH31zCSnv3XutrTUCDLPJNggn+mIBOM9tDfe
+	h9D1Q5FZdEzZSHESkoZs+UD0PkgHCWKuOg
+X-Received: by 2002:a17:90b:5845:b0:35f:c46f:2b0 with SMTP id 98e67ed59e1d1-36140473f70mr42914414a91.14.1777246996503;
+        Sun, 26 Apr 2026 16:43:16 -0700 (PDT)
+Received: from pve-server ([49.205.216.49])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-362b9a79176sm17396721a91.5.2026.04.26.16.43.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Apr 2026 16:43:15 -0700 (PDT)
+From: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
+To: Jeff Layton <jlayton@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Mike Snitzer <snitzer@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+	Christoph Hellwig <hch@infradead.org>, Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Chuck Lever <chuck.lever@oracle.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, Jeff Layton <jlayton@kernel.org>
+Subject: Re: [PATCH v3 2/4] mm: kick writeback flusher for IOCB_DONTCACHE with targeted dirty tracking
+In-Reply-To: <20260426-dontcache-v3-2-79eb37da9547@kernel.org>
+Date: Mon, 27 Apr 2026 04:01:15 +0530
+Message-ID: <qzo1s6a4.ritesh.list@gmail.com>
+References: <20260426-dontcache-v3-0-79eb37da9547@kernel.org> <20260426-dontcache-v3-2-79eb37da9547@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/13] example/service_ll: create a sample systemd service
- fuse server
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: neal@gompa.dev, linux-fsdevel@vger.kernel.org, joannelkoong@gmail.com,
- miklos@szeredi.hu, fuse-devel@lists.linux.dev
-References: <177689988489.3820166.4979104167640003535.stgit@frogsfrogsfrogs>
- <177689988738.3820166.3563042250723069297.stgit@frogsfrogsfrogs>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: fr
-In-Reply-To: <177689988738.3820166.3563042250723069297.stgit@frogsfrogsfrogs>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Jeff Layton <jlayton@kernel.org> writes:
+
+> The IOCB_DONTCACHE writeback path in generic_write_sync() calls
+> filemap_flush_range() on every write, submitting writeback inline in
+> the writer's context.  Perf lock contention profiling shows the
+> performance problem is not lock contention but the writeback submission
+> work itself =E2=80=94 walking the page tree and submitting I/O blocks the=
+ writer
+> for milliseconds, inflating p99.9 latency from 23ms (buffered) to 93ms
+> (dontcache).
+>
+> Replace the inline filemap_flush_range() call with a flusher kick that
+> drains dirty pages in the background.  This moves writeback submission
+> completely off the writer's hot path.
+>
+> To avoid flushing unrelated buffered dirty data, add a dedicated
+> WB_start_dontcache bit and wb_check_start_dontcache() handler that uses
+> the new NR_DONTCACHE_DIRTY counter to determine how many pages to write
+> back.  The flusher writes back that many pages from the oldest dirty
+> inodes (not restricted to dontcache-specific inodes). This helps
+> preserve I/O batching while limiting the scope of expedited writeback.
+>
+
+Yup, so, we wakeup the writeback flusher, which will write those many
+"number" of dirty pages. Those dirty pages written by writeback, can be
+of any type though, can be DONTCACHE or normal (non-dontcache) dirty
+pages. IIUC, writeback doesn't distinguish between them while writing.
 
 
-
-On 4/23/26 01:22, Darrick J. Wong wrote:
-> From: Darrick J. Wong <djwong@kernel.org>
-> 
-> Create a simple fuse server that can be run as a systemd service.
-> I plan to create some more single-file fuse server examples, so most of
-> the boilerplate code goes in a separate file.
-> 
-> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-> ---
->  example/single_file.h        |  153 +++++++++
->  lib/util.h                   |   35 ++
->  example/meson.build          |   14 +
->  example/service_ll.c         |  312 ++++++++++++++++++
->  example/service_ll.socket.in |   15 +
->  example/service_ll@.service  |  102 ++++++
->  example/single_file.c        |  733 ++++++++++++++++++++++++++++++++++++++++++
->  meson.build                  |    1 
->  8 files changed, 1365 insertions(+)
->  create mode 100644 example/single_file.h
->  create mode 100644 example/service_ll.c
->  create mode 100644 example/service_ll.socket.in
->  create mode 100644 example/service_ll@.service
->  create mode 100644 example/single_file.c
-> 
-> 
-> diff --git a/example/single_file.h b/example/single_file.h
-> new file mode 100644
-> index 00000000000000..d8a91adbf875ef
-> --- /dev/null
-> +++ b/example/single_file.h
-> @@ -0,0 +1,153 @@
-> +/*
-> + * FUSE: Filesystem in Userspace
-> + * Copyright (C) 2026 Oracle.
-> + *
-> + * This program can be distributed under the terms of the GNU GPLv2.
-> + * See the file GPL2.txt.
-> + */
-> +#ifndef FUSE_SINGLE_FILE_H_
-> +#define FUSE_SINGLE_FILE_H_
-
-From the name it is kind of impossible to figure out what it is for -
-requires to go through the code. Could you add something like
-
-This is not a standalone file system, but a helper for other file
-systems to expose a single file backed by a physical file or block device.
-
-For both the .h and .c file? Please feel free to make it more verbose.
+IMO, what we could also include in the commit msg is why is this above
+approach taken? IIUC, that is because, by writing NR_DONTCACHE_DIRTY
+pages, it still reduces the page cache pressure and still reduces the
+amount of work that the reclaim has to do, even though some of those
+pages maybe non-dontcache pages, in case if there was a parallel
+buffered write in the system.
 
 
-Thanks,
-Bernd
+Also should the following change be documented somewhere? Like in Man
+page maybe? i.e.
+Earlier RWF_DONTCACHE writes made sure that those dirty pages are
+immediately submitted for writeback and completion would release those
+pages. But now, in certain cases when there is a mixed buffered write in
+the system, those dontcache dirty pages might be written back after a
+delay (whenever the next time writeback kicks in).
+However for RWF_DONTCACHE reads, it should not affect anything.
+
+> Like WB_start_all, the WB_start_dontcache bit coalesces multiple
+> DONTCACHE writes into a single flusher wakeup without per-write
+> allocations.
+>
+> Also add WB_REASON_DONTCACHE as a new writeback reason for tracing
+> visibility, and target the correct cgroup writeback domain via
+> unlocked_inode_to_wb_begin().
+>
+> dontcache-bench results on dual-socket Xeon Gold 6138 (80 CPUs, 256 GB
+> RAM, Samsung MZ1LB1T9HALS 1.7 TB NVMe, local XFS, io_uring, file size
+> ~503 GB, compared to a v6.19-ish baseline):
+>
+
+Can we please also test parallel buffered writes and dontcache writes?=20
+Since this patch series definitely affects that.
+
+BTW - adding these numbers in the commit msg itself is much helpful.
+
+>   Single-client sequential write (MB/s):
+>                        baseline    patched     change
+>   buffered              1449.8     1440.1      -0.7%
+>   dontcache             1347.9     1461.5      +8.4%
+>   direct                1450.0     1440.1      -0.7%
+>
+>   Single-client sequential write latency (us):
+>                        baseline    patched     change
+>   dontcache p50         3031.0    10551.3    +248.1%
+>   dontcache p99        74973.2    21626.9     -71.2%
+>   dontcache p99.9      85459.0    23199.7     -72.9%
+>
+>   Single-client random write (MB/s):
+>                        baseline    patched     change
+>   dontcache              284.2      295.4      +3.9%
+>
+>   Single-client random write p99.9 latency (us):
+>                        baseline    patched     change
+>   dontcache             2277.4      872.4     -61.7%
+>
+>   Multi-writer aggregate throughput (MB/s):
+
+Can you please help describe this test scenario if possible.. In above
+you mentioned we are writing file_size as 2x RAM_SIZE. But your
+multi-client tests says something else..
+
+local num_clients=3D4
++	mem_kb=3D$(awk '/MemTotal/ {print $2}' /proc/meminfo)
++	client_size=3D"$(( mem_kb / 1024 / num_clients ))M"
+
+Also the multi-writer case is spawning parallel fio jobs, and then
+parsing and aggregating the bandwidth results instead of using fio to
+spawn multiple parallel threads... which is ok, but a bit wierd.
+Why not let fio do the aggregate bandwidth, and latency calculation
+instead?
+
+>                        baseline    patched     change
+>   buffered              1619.5     1611.2      -0.5%
+>   dontcache             1281.1     1629.4     +27.2%
+>   direct                1545.4     1609.4      +4.1%
+>
+>   Mixed-mode noisy neighbor (dontcache writer + buffered readers):
+>                        baseline    patched     change
+>   writer (MB/s)         1297.6     1471.1     +13.4%
+>   readers avg (MB/s)     855.0      462.4     -45.9%
+>
+> nfsd-io-bench results on same hardware (XFS on NVMe, NFSv3 via fio
+> NFS engine with libnfs, 1024 NFSD threads, pool_mode=3Dpernode,
+> file size ~502 GB, compared to v6.19-ish baseline):
+>
+>   Single-client sequential write (MB/s):
+>                        baseline    patched     change
+>   buffered              4844.2     4653.4      -3.9%
+>   dontcache             3028.3     3723.1     +22.9%
+>   direct                 957.6      987.8      +3.2%
+>
+>   Single-client sequential write p99.9 latency (us):
+>                        baseline    patched     change
+>   dontcache            759169.0   175112.2     -76.9%
+>
+>   Single-client random write (MB/s):
+>                        baseline    patched     change
+>   dontcache              590.0     1561.0    +164.6%
+>
+>   Multi-writer aggregate throughput (MB/s):
+>                        baseline    patched     change
+>   buffered              9636.3     9422.9      -2.2%
+>   dontcache             1894.9     9442.6    +398.3%
+>   direct                 809.6      975.1     +20.4%
+>
+>   Noisy neighbor (dontcache writer + random readers):
+>                        baseline    patched     change
+>   writer (MB/s)         1854.5     4063.6    +119.1%
+>   readers avg (MB/s)     131.2      101.6     -22.5%
+>
+> The NFS results show even larger improvements than the local benchmarks.
+> Multi-writer dontcache throughput improves nearly 5x, matching buffered
+> I/O. Dirty page footprint drops 85-95% in sequential workloads vs.
+> buffered.
+>
+
+Nice :)
+Some explaination here of why 5x improvement with NFS compared to local
+filesystems please?
+(I am not much aware of NFS side, but a possible reasoning would help)
+
+-ritesh
+
