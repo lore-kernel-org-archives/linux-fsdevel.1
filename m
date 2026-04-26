@@ -1,127 +1,84 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-112.freemail.mail.aliyun.com (out30-112.freemail.mail.aliyun.com [115.124.30.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02F482820A9
-	for <linux-fsdevel@vger.kernel.org>; Sun, 26 Apr 2026 04:02:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 690772556E;
+	Sun, 26 Apr 2026 06:01:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.112
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777176165; cv=none; b=czQFtgecSVN618ufaC8Or3oq29+yZxV7YjFa2O9+K0N87wAU0sa+g7HhqR2UfXEFPnwtchOVK2JcgWGgOvlbaO1BBoKXa43Q7VpkWhz3cdmgmQeuFdR1fuHAG4O+Q5WTIH9yAb4PSthJuPq6ifghPp50UjsIH0/MMVXEzTVUthc=
+	t=1777183299; cv=none; b=Sqblrtt/BmiS9t3LQLxbwtRVfz5hioj6DBtBw88fCZHtwE/2q7v6EEzkMPwKWQMrsREQ6Q9q19+sQAgRU4aPj9ChyCwm6EYGseT9qkHFRmg4f1xLhQ3jGnuusXXyVzBB7HKAS0UJgW+y2nYWUXDOQ4Q+PI3AeN0l5lrOln2S5tg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777176165; c=relaxed/simple;
-	bh=sbgyC0F1QWWxsqlHMSvDUx3fIhaVIHxnzkP3GsRbJtI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YD3eUM7Qa1AImGppTTCKBBkdMZSGXDixMZQ3zdKs8GKbmjXUwLn6XE4dOWshq6uKXe+1bOlmvEYuaNTGWU8Nn87rndA9r8Kt9JKDTI+RCqeTUAnR2a9zFkvuY6w6hqfiZXiITaTsl4uGU/sXawm+30+C9reScsvmUnBeP5sFutw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WUFMMIiy; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777183299; c=relaxed/simple;
+	bh=SY6bpUtbGeACGvwsANX2qd3x5liJRX9jCEOqSHdBstM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SyRPYu3KVhwAFiqypPQ0lPd3OxLddTPMhlDggbhKxvWPTvMoF2EnJaK5YYxwhOLC42aiIlN5dOK35uNvKjJ9q4Q2URAxKhHgbQn18pR2rdYww1mT+NpUxombq/nbcBMmGBjlbD7KESezQb04G5kNLE0dBt6+QG9OkQ3ZS5TbPTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=mD/H9xBA; arc=none smtp.client-ip=115.124.30.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WUFMMIiy"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2b95a78a11dso655495ad.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 25 Apr 2026 21:02:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777176163; x=1777780963; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ozsUMKbqTO/Xk5E69vfQ7nhFZDCs1d2jRIQqTzB9tKU=;
-        b=WUFMMIiyXyKI9wQgnAXw9ooFu/3F6XHH2x9tzWu97ISKWoXU2bZ7NYPWJxYq1Ott/Q
-         L3hx6DaAK1EE8HRLwth+pcaNRYomEobV3/+x3xf6EytuQPQuRc0y86Eu7iL8hK3ed6t6
-         Z0Be4QaY5KEe51iIJNL8cXBwWbQk5EpHp7ERj7zUgWjH0aUggUF9QmCw3pUZkYNqfTi+
-         xWNH4zlgVu0E1EbjeAIdV8P1IZL6YyOOHPgIfYwHHHgBgJeFQ8NgmQ3MqmvFCosYAj5K
-         nilWfwgx+z/We/Ugm8OJt6pzdCySE1r9wTj6tfBVUFv2BRs7YoVRQam4iktSnpsBz7kz
-         Imkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777176163; x=1777780963;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ozsUMKbqTO/Xk5E69vfQ7nhFZDCs1d2jRIQqTzB9tKU=;
-        b=gsw6BQFx6YQtJjbjZn6pxSRISGxnA4zb6Nn1NtVLG0MnUYAJoJMFzR8lW612AXzUXr
-         AVQUr6ZK+rrLg3UeTLtNJPEtoN6xsTmXzmBt2YNHrSDbTJZ9veZdOQyGI3vBNnaQUsea
-         ULZssGqre1DcURg6YPA5yC7AE1WJD+dRtadDP3Xjy7mBUlusPQbkoshLYaS5N/IwWAdm
-         TrowHqErdZ9aA9s+92FEsgWcGx3y8LIOp4xrwlJ8iUjZvjX4kKIMBBPDJGe2XInE++ec
-         XYZXYS2nSIGd9LWCqR85cxtBO0OpWmfFq6REtE9xEaqCzu/dnt4lnlLwp6z7sD/vMzB6
-         cKMA==
-X-Gm-Message-State: AOJu0YyJf9pBgUJ7WZj0kqOAYV9mn+c4sm8B7qSeIhzx9txEl4TdhiDp
-	7kqWa0A18qLTrk7cmV0sHjz50jF+qV+z0V9PbjgLbByi5wcL8jxArci5
-X-Gm-Gg: AeBDietg+cL5Jp78XRAEhi5i1ZFNHLaoyLpuvB7l+XUbdoTYGOo4wvru3Rb76ZTOj8D
-	NkVYuWi4FyuxMCRaFjythqYnwSyOhxTklu+TtWSsH5W3BA08+xjVxaAunEsULJQbQv5P+nwwj9J
-	0SnefkpVFjoEK7DFRSyahUxZROZM3Qu14q4CAmq3rXfAp93hlBu38Ur5CCBU02nQmXDnp5GwUYA
-	vizWFVLpfmRjro3uxTFxAqO6q9nFevq8UdF4Ori1SGrHtYbJ0hpI5jhu49K6mxBekrfP61OdEBS
-	O67FaBTrT1KbZtm/5tuyS7+2XgoWhYlTkTXF00vi0yKrZGf2ixtzgaHRRnlYR1/fmGL7iHgUzj7
-	/+t4wR7ue4DbtkwD2MQucoGetA7ClPZDsudG4NUHGgZmK99Bc6qaunH/zdVViFIl2+dvzPO48nP
-	5UjqIKmmOYfuDevJWcinXhVn/vlpI=
-X-Received: by 2002:a17:902:8d82:b0:2b0:606b:6fc5 with SMTP id d9443c01a7336-2b5f9f7bc6emr145486155ad.3.1777176163267;
-        Sat, 25 Apr 2026 21:02:43 -0700 (PDT)
-Received: from ser8.. ([221.156.231.192])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b5fab0c17esm265149125ad.41.2026.04.25.21.02.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Apr 2026 21:02:42 -0700 (PDT)
-From: DaeMyung Kang <charsyam@gmail.com>
-To: Namjae Jeon <linkinjeon@kernel.org>,
-	Hyunchul Lee <hyc.lee@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	DaeMyung Kang <charsyam@gmail.com>
-Subject: [PATCH v2 2/2] ntfs: fix WSL symlink target leak on reparse failure
-Date: Sun, 26 Apr 2026 13:02:32 +0900
-Message-ID: <e59d3bc4a15adbf6c227a0c62f81362aac8be383.1777175371.git.charsyam@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1777175371.git.charsyam@gmail.com>
-References: <cover.1777175371.git.charsyam@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="mD/H9xBA"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1777183295; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=b+wabLzY7PQDl0SUnNEn2ncKgvz1hAOANX6yNTSodsQ=;
+	b=mD/H9xBAz6Jq09uKI5Ckro26gwVve6ObUrB2+4bVUWfIKZj8AHXTiVjj/ZtstBOzOtzjssmV69JMDZONJiejMv4v+NA9gGsWGxgWxZgjQdTt4A55TLfOzOT/cH2XLbsiDLHmFOTj+aMo0JU5gyCXzKqVeD1RuX6C8ikv0JPV7TI=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R411e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045098064;MF=baolin.wang@linux.alibaba.com;NM=1;PH=DS;RN=27;SR=0;TI=SMTPD_---0X1gM9NY_1777183293;
+Received: from 192.168.0.100(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0X1gM9NY_1777183293 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Sun, 26 Apr 2026 14:01:34 +0800
+Message-ID: <6a6f15ff-233a-4912-8be4-b2a43d442692@linux.alibaba.com>
+Date: Sun, 26 Apr 2026 14:01:32 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 7.2 v4 02/12] mm/khugepaged: add folio dirty check after
+ try_to_unmap()
+To: Zi Yan <ziy@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Song Liu <songliubraving@fb.com>
+Cc: Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Shuah Khan <shuah@kernel.org>, linux-btrfs@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, linux-kselftest@vger.kernel.org
+References: <20260424024915.28758-1-ziy@nvidia.com>
+ <20260424024915.28758-3-ziy@nvidia.com>
+From: Baolin Wang <baolin.wang@linux.alibaba.com>
+In-Reply-To: <20260424024915.28758-3-ziy@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-ntfs_reparse_set_wsl_symlink() converts the symlink target into an
-allocated NLS string and transfers ownership to ni->target only after
-ntfs_set_ntfs_reparse_data() succeeds. If setting the reparse data fails,
-the converted target is left unreferenced and leaks.
 
-Free the converted target on the reparse update failure path. Use kfree()
-for the other local failure path as well, matching the ntfs_ucstonls()
-allocation contract.
 
-Fixes: fc053f05ca28 ("ntfs: add reparse and ea operations")
-Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
----
- fs/ntfs/reparse.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+On 4/24/26 10:49 AM, Zi Yan wrote:
+> This check ensures the correctness of collapse read-only THPs for FSes
+> after READ_ONLY_THP_FOR_FS is enabled by default for all FSes supporting
+> PMD THP pagecache.
+> 
+> READ_ONLY_THP_FOR_FS only supports read-only fd and uses mapping->nr_thps
+> and inode->i_writecount to prevent any write to read-only to-be-collapsed
+> folios. In upcoming commits, READ_ONLY_THP_FOR_FS will be removed and the
+> aforementioned mechanism will go away too. To ensure khugepaged functions
+> as expected after the changes, skip if any folio is dirty after
+> try_to_unmap(), since a dirty folio means this read-only folio
+> got some writes via mmap can happen between try_to_unmap() and
+> try_to_unmap_flush() via cached TLB entries and khugepaged does not support
+> writable pagecache folio collapse yet.
+> 
+> Signed-off-by: Zi Yan <ziy@nvidia.com>
+> ---
 
-diff --git a/fs/ntfs/reparse.c b/fs/ntfs/reparse.c
-index 8f60ec6f66c1..74713716813f 100644
---- a/fs/ntfs/reparse.c
-+++ b/fs/ntfs/reparse.c
-@@ -505,7 +505,6 @@ int ntfs_reparse_set_wsl_symlink(struct ntfs_inode *ni,
- 	struct reparse_point *reparse;
- 	struct wsl_link_reparse_data *data;
- 
--	utarget = (char *)NULL;
- 	len = ntfs_ucstonls(ni->vol, target, target_len, &utarget, 0);
- 	if (len <= 0)
- 		return -EINVAL;
-@@ -514,7 +513,7 @@ int ntfs_reparse_set_wsl_symlink(struct ntfs_inode *ni,
- 	reparse = kvzalloc(reparse_len, GFP_NOFS);
- 	if (!reparse) {
- 		err = -ENOMEM;
--		kvfree(utarget);
-+		kfree(utarget);
- 	} else {
- 		data = (struct wsl_link_reparse_data *)reparse->reparse_data;
- 		reparse->reparse_tag = IO_REPARSE_TAG_LX_SYMLINK;
-@@ -528,6 +527,8 @@ int ntfs_reparse_set_wsl_symlink(struct ntfs_inode *ni,
- 		kvfree(reparse);
- 		if (!err)
- 			ni->target = utarget;
-+		else
-+			kfree(utarget);
- 	}
- 	return err;
- }
--- 
-2.43.0
+LGTM (Thanks to Lance for pointing out the xas lock issue in the 
+previous version). Feel free to add:
 
+Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
