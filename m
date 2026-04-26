@@ -1,82 +1,51 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 526DB31354C
-	for <linux-fsdevel@vger.kernel.org>; Sun, 26 Apr 2026 23:43:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DC7B2C0268;
+	Sun, 26 Apr 2026 23:57:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777246998; cv=none; b=hyj972txyEvdfAko4pLZMcp5uFrb1q/taEuUUM5AMeurgpkknpX/PV/cFX1HIAH7OWmax8ciHuIIYEUeUQ5lwATUZuS5HYIX0Zw1XuCA0PPpVK9wquwTrGkvL5aZYnwYGZtvl8kV7x+cOneEaCRzFPuK47+ysSEYsmAk9znIesY=
+	t=1777247823; cv=none; b=h5VqUIUFjIww87NW+oEeVkA6im71vE5zP2zEsrB40r7TNbViE9Mgz4q4H8tMYL0AR2h03G+5ALcyktIB5vkAIyaaZjaIH+maUucd2RnfCfDHa2/Fa7Y798JGzl8LUh8/GhNrPunDWPfpvy3jmDnoO9YFLG1CnxSZCEe3pjSsyes=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777246998; c=relaxed/simple;
-	bh=QTqu1wmocWcq6zBzB9KmwmGLME2u4qreqaKpysA/Isk=;
-	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References:
-	 MIME-Version:Content-Type; b=fQTb0nTQZRgxzdC8oDZoNjz1YWfhNA75T7GmBvkyYAr/RpTqoandRCB8rLU6Bh6KT+oulcVFxp8jKfLuUeKTagDn7+Z6Z77S3nlI908siD0YYPE9xgRmh/7Vl0rarZDKmly05jE+ARz5cv4nlv4y8pKIi2Y0QwGeBujcV1z2kUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IeZ2QG3r; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IeZ2QG3r"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3567e2b4159so6453896a91.0
-        for <linux-fsdevel@vger.kernel.org>; Sun, 26 Apr 2026 16:43:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777246997; x=1777851797; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:message-id:date
-         :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GMcuATLy/ginolpQIDJCxy12h57szRVGfrxwU4MqXGI=;
-        b=IeZ2QG3rILzi3aByOUCwZ8Ka2a2cJ+lMDvL56yYWGRDRBNDqDRPFa13Hcz0AvytQoz
-         tJkcBdXGEvuFTydfQ9VBz2G4peixyg6F9A7jHhi0p7R+VnfbmwJq2ihu+YR86hfVKbXB
-         j7aaLDRR0+qZYIE8Y1HUIXN61qQ6s1EZZ2UhW+1PhNt92VILNESxUPYRHLSLI1KnipBH
-         JUoBNSdjrD3hyhBFLWCIlqG3redlpZ9k3Z3DLmE7Ca9p2JqoayfETuzywPVHQBIpp1aY
-         Zq5bLLFIilWjfoDaZWGwCBlawfcTvhbXYXkXeqla+GqcNwhSuRSiA9c/izCve+WV/j+u
-         aNQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777246997; x=1777851797;
-        h=content-transfer-encoding:mime-version:references:message-id:date
-         :in-reply-to:subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=GMcuATLy/ginolpQIDJCxy12h57szRVGfrxwU4MqXGI=;
-        b=JbGEZIi5h2y4pLPqW+JhAh1GXOwGNHZhIQQhIoLx04tXb36i8zIM/njVdwdlVISo+w
-         MLAjOW+HDLXk5swU7k53sGFhxRvQ5rq1a+lgNPJyGgpNa7TYROSBTxUQUk6RD9EFvp2y
-         Y8vG/+kAUa4CfFupa6ROCzi7K/8nl44Tcr3mMGA79Y8noUrYI8UobLY42UVdSPuX3eok
-         nq1UfCKVa797dyk82NKyBtMSqYuS0X+pJIqRV1epui19de2zFVRtmHC/a1h6kN89fh4Z
-         t/e0ZURLX3psx0B9A+ct3y2pxy8r843nJLJwwkaYpa4RrwMz7rEYfiVVTqiMdC41vWTp
-         b7AA==
-X-Gm-Message-State: AOJu0YwBpE7pALCFhVHlN0/QtillDhLXcrSXFZVKJspJLzN5RBD7flnz
-	TDlKtBnlaLgDewKG8WSdCZK+ItaJA32wXVjPZUKk5kUORh6fyBZKAZpZ
-X-Gm-Gg: AeBDietzQNTr16SOUrddq7gaJfOklYNh1lQVHW9eP+MyQXemNsTcMeITF0GF9idvzOh
-	Tvi/68tEgNAvHFFrqhHG6ij/5XalsyhE/xiU8anAHqqaKMOYbpxJS+/BwhGb3oe295agOeiBHjw
-	dh+HcexBOxsQbI0s8MYix4oliQZ1ZvSIQOCHaSgswgqEURTwqQOA32tnbCGWOwKttha04JBGi84
-	nuMFl8J2Uyyyw4jgAHdMUyGQa0y+J6E745QKpQWBNSrrM+gqxhw97qW9TAp5pWuDOShyXNl5RE9
-	NQyHKEsT0tnfB46UMQTohjt7lyNjnNqSGOtMBBIWUBbdMZjKs7Vs4iDHfsVuNCzWirWhjeSf3aA
-	X2dOne6C2JXY8apqwz+mrkUf/RZ9lrpLbK65+/pgH31zCSnv3XutrTUCDLPJNggn+mIBOM9tDfe
-	h9D1Q5FZdEzZSHESkoZs+UD0PkgHCWKuOg
-X-Received: by 2002:a17:90b:5845:b0:35f:c46f:2b0 with SMTP id 98e67ed59e1d1-36140473f70mr42914414a91.14.1777246996503;
-        Sun, 26 Apr 2026 16:43:16 -0700 (PDT)
-Received: from pve-server ([49.205.216.49])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-362b9a79176sm17396721a91.5.2026.04.26.16.43.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Apr 2026 16:43:15 -0700 (PDT)
-From: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
-To: Jeff Layton <jlayton@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Mike Snitzer <snitzer@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
-	Christoph Hellwig <hch@infradead.org>, Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Chuck Lever <chuck.lever@oracle.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, Jeff Layton <jlayton@kernel.org>
-Subject: Re: [PATCH v3 2/4] mm: kick writeback flusher for IOCB_DONTCACHE with targeted dirty tracking
-In-Reply-To: <20260426-dontcache-v3-2-79eb37da9547@kernel.org>
-Date: Mon, 27 Apr 2026 04:01:15 +0530
-Message-ID: <qzo1s6a4.ritesh.list@gmail.com>
-References: <20260426-dontcache-v3-0-79eb37da9547@kernel.org> <20260426-dontcache-v3-2-79eb37da9547@kernel.org>
+	s=arc-20240116; t=1777247823; c=relaxed/simple;
+	bh=XmNZ25JviKfT2ppQT+dMiP10WaXoGI2IHIweLZdopcU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qZbNj6v9c8r9tzP1aHv6uMfWLSp4kq34G5s+Jhc0s9pKA0eXU8GO6ELXUYvxfXQNRYstMD0mNSA8w9M48aureahJFe9akOv6fSsMiyjskqk50At6eNwOfDwoKfFw2liQdEnKs/g+Wjd0pg3AtPw+Q/yUOYXb6oSiIHXUCvkHXn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
+Received: from omf11.hostedemail.com (lb01b-stub [10.200.18.250])
+	by unirelay06.hostedemail.com (Postfix) with ESMTP id 10AE51B8C10;
+	Sun, 26 Apr 2026 23:56:57 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf11.hostedemail.com (Postfix) with ESMTPA id 5B3072002A;
+	Sun, 26 Apr 2026 23:56:47 +0000 (UTC)
+Date: Sun, 26 Apr 2026 18:56:46 -0500
+From: John Groves <John@groves.net>
+To: Alison Schofield <alison.schofield@intel.com>
+Cc: John Groves <john@jagalactic.com>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
+	John Groves <jgroves@micron.com>, John Groves <jgroves@fastmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
+	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+	Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, 
+	Josef Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH V4 1/2] daxctl: Add support for famfs mode
+Message-ID: <ae6e9wYqgLkWsS-e@groves.net>
+References: <0100019bd34040d9-0b6e9e4c-ecd4-464d-ab9d-88a251215442-000000@email.amazonses.com>
+ <20260118223629.92852-1-john@jagalactic.com>
+ <0100019bd340cdd5-89036a70-3ef5-4c34-abf8-07a3ea4d9f92-000000@email.amazonses.com>
+ <aaD6yQLiyZznfAxr@aschofie-mobl2.lan>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -84,157 +53,247 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aaD6yQLiyZznfAxr@aschofie-mobl2.lan>
+X-Rspamd-Queue-Id: 5B3072002A
+X-Stat-Signature: r49r8re331sizxziokm115mnz3b1s454
+X-Rspamd-Server: rspamout03
+X-Session-Marker: 6A6F686E4067726F7665732E6E6574
+X-Session-ID: U2FsdGVkX19u7GbFuQadFVki3V8MJh0E+hGt0fj4tgg=
+X-HE-Tag: 1777247807-31514
+X-HE-Meta: U2FsdGVkX1+ejEaOBEq+s20L42bbwXjGwb5g2mDO8CAE5LR6nn/pI2TTWArk1d1VlMhjsWX04EpdjtoUwD57LgCgKVnHXpsVZKTEgMOSQ/eBI1MFhpuilvIWaBO6Wcnp17MglLqJhjpGeab2cDeD4WFI0iypH2q9cWhVwm/XpBe783Ntivguwd4nXQdm1ocjbmt2f024CBQlGpjf5SMh4KYvEvrXnw2sq2Y75LIJj3S/I88WgwIHBBI9v+WZgrGBZG/3kAAoKqDNPoM7SjQvvTn8uDosAos/qF5dEOH642zm8ZtISN7mJ+MLeJ2yC8VY+TbUbtZ5LgrQhfrQcGlN9irbyW7qj5sYw6zYtiYYRgi+TjUq/7K/DG42fl3PLmlmwbhkOLDRwtLdlQg0lM8NpeDPO0xspyl1X1anyB1MiPD+Vua2TkmPKELhBNHbNr4KlDX9+KS8HWBIuShIbY5ocBewvEvFs3on
 
-Jeff Layton <jlayton@kernel.org> writes:
+Maybe I'm overcomplicating things (it's one of the things I do), 
+but I'm still struggling through how to address all these issues. 
+Some comments inline.
 
-> The IOCB_DONTCACHE writeback path in generic_write_sync() calls
-> filemap_flush_range() on every write, submitting writeback inline in
-> the writer's context.  Perf lock contention profiling shows the
-> performance problem is not lock contention but the writeback submission
-> work itself =E2=80=94 walking the page tree and submitting I/O blocks the=
- writer
-> for milliseconds, inflating p99.9 latency from 23ms (buffered) to 93ms
-> (dontcache).
->
-> Replace the inline filemap_flush_range() call with a flusher kick that
-> drains dirty pages in the background.  This moves writeback submission
-> completely off the writer's hot path.
->
-> To avoid flushing unrelated buffered dirty data, add a dedicated
-> WB_start_dontcache bit and wb_check_start_dontcache() handler that uses
-> the new NR_DONTCACHE_DIRTY counter to determine how many pages to write
-> back.  The flusher writes back that many pages from the oldest dirty
-> inodes (not restricted to dontcache-specific inodes). This helps
-> preserve I/O batching while limiting the scope of expedited writeback.
->
+On 26/02/26 06:00PM, Alison Schofield wrote:
+> On Sun, Jan 18, 2026 at 10:36:38PM +0000, John Groves wrote:
+> > From: John Groves <John@Groves.net>
+> > 
+> > Putting a daxdev in famfs mode means binding it to fsdev_dax.ko
+> > (drivers/dax/fsdev.c). Finding a daxdev bound to fsdev_dax means
+> > it is in famfs mode.
+> > 
+> > The test is added to the destructive test suite since it
+> > modifies device modes.
+> 
+> Make it clear that it is added in a separate patch. (and assume you
+> can drop the destructive part too.)
+> 
+> > 
+> > With devdax, famfs, and system-ram modes, the previous logic that assumed
+> > 'not in mode X means in mode Y' needed to get slightly more complicated
+> > 
+> > Add explicit mode detection functions:
+> > - daxctl_dev_is_famfs_mode(): check if bound to fsdev_dax driver
+> > - daxctl_dev_is_devdax_mode(): check if bound to device_dax driver
+> 
+> 
+> The precedence check (ram->famfs->devdax->unknown) now happens in multiple
+> places. How about adding a daxctl_dev_get_mode() helper to centralize that.
+> It could be private for now, unless you expect external users to need it.
+> 
+> daxctl_dev_is_famfs_mode() and _is_devdax_mode() are nearly identical aside
+> from the module name. Refactoring the shared part into a single helper will
+> also make it easier to add a daxctl_dev_get_mode() without duplicating the
+> precedence logic.
+> 
+> > 
+> > Fix mode transition logic in device.c:
+> > - disable_devdax_device(): verify device is actually in devdax mode
+> > - disable_famfs_device(): verify device is actually in famfs mode
+> > - All reconfig_mode_*() functions now explicitly check each mode
+> > - Handle unknown mode with error instead of wrong assumption
+> 
+> Wondering about 'Fix' mode transition logic. Was prior logic broken and
+> should any of these changes be in a precursor patch that is a 'fix'.
+> 
+> 
+> > 
+> > Modify json.c to show 'unknown' if device is not in a recognized mode.
+> 
+> I think this means disabled devices will always look unknown even when
+> the intended mode is devdax or famfs, but disabled. This seems to
+> change the meaning of mode from 'configured' to 'active' personality.
+> Can you detect the configured mode even when disabled?
+> Perhaps a man page change about this new behavior?
 
-Yup, so, we wakeup the writeback flusher, which will write those many
-"number" of dirty pages. Those dirty pages written by writeback, can be
-of any type though, can be DONTCACHE or normal (non-dontcache) dirty
-pages. IIUC, writeback doesn't distinguish between them while writing.
+Good point; before famfs mode there were just 2 modes, and 
+not-system-ram == devdax mode is the current standard, even if no driver 
+is bound. At some level that's a conflation, but I'll revise and stick 
+with that unless you have a better idea.
 
+Is that how you want it? No driver == devdax mode?
 
-IMO, what we could also include in the commit msg is why is this above
-approach taken? IIUC, that is because, by writing NR_DONTCACHE_DIRTY
-pages, it still reduces the page cache pressure and still reduces the
-amount of work that the reclaim has to do, even though some of those
-pages maybe non-dontcache pages, in case if there was a parallel
-buffered write in the system.
+Any thoughts?
 
+> 
+> snip
+> 
+> 
+> >  
+> > @@ -724,11 +767,21 @@ static int reconfig_mode_system_ram(struct daxctl_dev *dev)
+> >  	}
+> >  
+> >  	if (daxctl_dev_is_enabled(dev)) {
+> > -		rc = disable_devdax_device(dev);
+> > -		if (rc < 0)
+> > -			return rc;
+> > -		if (rc > 0)
+> 
+> Please check the return code semantics.
+> This gets rid of the <0 vs >0 distinction. That means a '1' skip
+> becomes an error return to the caller. Is that what you want?
+> 
+> Previously, we had a return 1 from disable_devdax_device for
+> “not applicable / already in other mode” and I think that is now
+> gone.
+> 
+> 
+> > +		if (mem) {
+> > +			/* already in system-ram mode */
+> >  			skip_enable = 1;
+> > +		} else if (daxctl_dev_is_famfs_mode(dev)) {
+> > +			rc = disable_famfs_device(dev);
+> > +			if (rc)
+> > +				return rc;
+> > +		} else if (daxctl_dev_is_devdax_mode(dev)) {
+> > +			rc = disable_devdax_device(dev);
+> > +			if (rc)
+> > +				return rc;
+> > +		} else {
+> > +			fprintf(stderr, "%s: unknown mode\n", devname);
+> > +			return -EINVAL;
+> > +		}
+> >  	}
+> >  
+> 
+> snip
+> 
+> >  static int reconfig_mode_devdax(struct daxctl_dev *dev)
+> >  {
+> > +	struct daxctl_memory *mem = daxctl_dev_get_memory(dev);
+> > +	const char *devname = daxctl_dev_get_devname(dev);
+> >  	int rc;
+> >  
+> >  	if (daxctl_dev_is_enabled(dev)) {
+> > -		rc = disable_system_ram_device(dev);
+> > -		if (rc)
+> > -			return rc;
+> > +		if (mem) {
+> > +			rc = disable_system_ram_device(dev);
+> > +			if (rc)
+> > +				return rc;
+> > +		} else if (daxctl_dev_is_famfs_mode(dev)) {
+> > +			rc = disable_famfs_device(dev);
+> > +			if (rc)
+> > +				return rc;
+> > +		} else if (daxctl_dev_is_devdax_mode(dev)) {
+> > +			/* already in devdax mode, just re-enable */
+> > +			rc = daxctl_dev_disable(dev);
+> > +			if (rc)
+> 
+> disable_* helpers print an error message on disable failure.
+> Seems this should too.
+> 
+> 
+> > +				return rc;
+> > +		} else {
+> > +			fprintf(stderr, "%s: unknown mode\n", devname);
+> > +			return -EINVAL;
+> > +		}
+> >  	}
+> >  
+> >  	rc = daxctl_dev_enable_devdax(dev);
+> > @@ -801,6 +870,40 @@ static int reconfig_mode_devdax(struct daxctl_dev *dev)
+> >  	return 0;
+> >  }
+> >  
+> > +static int reconfig_mode_famfs(struct daxctl_dev *dev)
+> > +{
+> > +	struct daxctl_memory *mem = daxctl_dev_get_memory(dev);
+> > +	const char *devname = daxctl_dev_get_devname(dev);
+> > +	int rc;
+> > +
+> > +	if (daxctl_dev_is_enabled(dev)) {
+> > +		if (mem) {
+> > +			fprintf(stderr,
+> > +				"%s is in system-ram mode, must be in devdax mode to convert to famfs\n",
+> > +				devname);
+> > +			return -EINVAL;
+> > +		} else if (daxctl_dev_is_famfs_mode(dev)) {
+> > +			/* already in famfs mode, just re-enable */
+> > +			rc = daxctl_dev_disable(dev);
+> > +			if (rc)
+> > +				return rc;
+> > +		} else if (daxctl_dev_is_devdax_mode(dev)) {
+> > +			rc = disable_devdax_device(dev);
+> > +			if (rc)
+> 
+> and here too...the disable error message.
+> 
+> 
+> > +				return rc;
+> > +		} else {
+> > +			fprintf(stderr, "%s: unknown mode\n", devname);
+> > +			return -EINVAL;
+> > +		}
+> > +	}
+> > +
+> > +	rc = daxctl_dev_enable_famfs(dev);
+> > +	if (rc)
+> > +		return rc;
+> > +
+> > +	return 0;
+> > +}
+> 
+> snip
+> 
+> > +DAXCTL_EXPORT int daxctl_dev_is_famfs_mode(struct daxctl_dev *dev)
+> > +{
+> > +	const char *devname = daxctl_dev_get_devname(dev);
+> > +	struct daxctl_ctx *ctx = daxctl_dev_get_ctx(dev);
+> > +	char *mod_path, *mod_base;
+> > +	char path[200];
+> 
+> We have PATH_MAX for the above.
 
-Also should the following change be documented somewhere? Like in Man
-page maybe? i.e.
-Earlier RWF_DONTCACHE writes made sure that those dirty pages are
-immediately submitted for writeback and completion would release those
-pages. But now, in certain cases when there is a mixed buffered write in
-the system, those dontcache dirty pages might be written back after a
-delay (whenever the next time writeback kicks in).
-However for RWF_DONTCACHE reads, it should not affect anything.
+Done, thanks...
 
-> Like WB_start_all, the WB_start_dontcache bit coalesces multiple
-> DONTCACHE writes into a single flusher wakeup without per-write
-> allocations.
->
-> Also add WB_REASON_DONTCACHE as a new writeback reason for tracing
-> visibility, and target the correct cgroup writeback domain via
-> unlocked_inode_to_wb_begin().
->
-> dontcache-bench results on dual-socket Xeon Gold 6138 (80 CPUs, 256 GB
-> RAM, Samsung MZ1LB1T9HALS 1.7 TB NVMe, local XFS, io_uring, file size
-> ~503 GB, compared to a v6.19-ish baseline):
->
+> 
+> > +	const int len = sizeof(path);
+> > +
+> > +	if (!device_model_is_dax_bus(dev))
+> > +		return false;
+> > +
+> > +	if (!daxctl_dev_is_enabled(dev))
+> > +		return false;
+> > +
+> > +	if (snprintf(path, len, "%s/driver", dev->dev_path) >= len) {
+> > +		err(ctx, "%s: buffer too small!\n", devname);
+> > +		return false;
+> > +	}
+> > +
+> > +	mod_path = realpath(path, NULL);
+> > +	if (!mod_path)
+> 
+> Maybe a dbg() level err msg here
+> 
+> > +		return false;
+> > +
+> > +	mod_base = basename(mod_path);
+> 
+> Please use path_basename() because of this:
+> https://lore.kernel.org/all/20260116043056.542346-1-alison.schofield@intel.com/
+> 
+> Give me a minute ;) to push that to the pending branch and you can
+> work from there: https://github.com/pmem/ndctl/commits/pending/
+> 
+> snip to end.
 
-Can we please also test parallel buffered writes and dontcache writes?=20
-Since this patch series definitely affects that.
+Done, thanks
 
-BTW - adding these numbers in the commit msg itself is much helpful.
-
->   Single-client sequential write (MB/s):
->                        baseline    patched     change
->   buffered              1449.8     1440.1      -0.7%
->   dontcache             1347.9     1461.5      +8.4%
->   direct                1450.0     1440.1      -0.7%
->
->   Single-client sequential write latency (us):
->                        baseline    patched     change
->   dontcache p50         3031.0    10551.3    +248.1%
->   dontcache p99        74973.2    21626.9     -71.2%
->   dontcache p99.9      85459.0    23199.7     -72.9%
->
->   Single-client random write (MB/s):
->                        baseline    patched     change
->   dontcache              284.2      295.4      +3.9%
->
->   Single-client random write p99.9 latency (us):
->                        baseline    patched     change
->   dontcache             2277.4      872.4     -61.7%
->
->   Multi-writer aggregate throughput (MB/s):
-
-Can you please help describe this test scenario if possible.. In above
-you mentioned we are writing file_size as 2x RAM_SIZE. But your
-multi-client tests says something else..
-
-local num_clients=3D4
-+	mem_kb=3D$(awk '/MemTotal/ {print $2}' /proc/meminfo)
-+	client_size=3D"$(( mem_kb / 1024 / num_clients ))M"
-
-Also the multi-writer case is spawning parallel fio jobs, and then
-parsing and aggregating the bandwidth results instead of using fio to
-spawn multiple parallel threads... which is ok, but a bit wierd.
-Why not let fio do the aggregate bandwidth, and latency calculation
-instead?
-
->                        baseline    patched     change
->   buffered              1619.5     1611.2      -0.5%
->   dontcache             1281.1     1629.4     +27.2%
->   direct                1545.4     1609.4      +4.1%
->
->   Mixed-mode noisy neighbor (dontcache writer + buffered readers):
->                        baseline    patched     change
->   writer (MB/s)         1297.6     1471.1     +13.4%
->   readers avg (MB/s)     855.0      462.4     -45.9%
->
-> nfsd-io-bench results on same hardware (XFS on NVMe, NFSv3 via fio
-> NFS engine with libnfs, 1024 NFSD threads, pool_mode=3Dpernode,
-> file size ~502 GB, compared to v6.19-ish baseline):
->
->   Single-client sequential write (MB/s):
->                        baseline    patched     change
->   buffered              4844.2     4653.4      -3.9%
->   dontcache             3028.3     3723.1     +22.9%
->   direct                 957.6      987.8      +3.2%
->
->   Single-client sequential write p99.9 latency (us):
->                        baseline    patched     change
->   dontcache            759169.0   175112.2     -76.9%
->
->   Single-client random write (MB/s):
->                        baseline    patched     change
->   dontcache              590.0     1561.0    +164.6%
->
->   Multi-writer aggregate throughput (MB/s):
->                        baseline    patched     change
->   buffered              9636.3     9422.9      -2.2%
->   dontcache             1894.9     9442.6    +398.3%
->   direct                 809.6      975.1     +20.4%
->
->   Noisy neighbor (dontcache writer + random readers):
->                        baseline    patched     change
->   writer (MB/s)         1854.5     4063.6    +119.1%
->   readers avg (MB/s)     131.2      101.6     -22.5%
->
-> The NFS results show even larger improvements than the local benchmarks.
-> Multi-writer dontcache throughput improves nearly 5x, matching buffered
-> I/O. Dirty page footprint drops 85-95% in sequential workloads vs.
-> buffered.
->
-
-Nice :)
-Some explaination here of why 5x improvement with NFS compared to local
-filesystems please?
-(I am not much aware of NFS side, but a possible reasoning would help)
-
--ritesh
+Still chewing on the other stuff
 
