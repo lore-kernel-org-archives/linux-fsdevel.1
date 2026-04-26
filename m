@@ -1,84 +1,108 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f73.google.com (mail-dl1-f73.google.com [74.125.82.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3F76199FB0;
-	Sun, 26 Apr 2026 06:10:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB0A213AF2
+	for <linux-fsdevel@vger.kernel.org>; Sun, 26 Apr 2026 06:27:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777183811; cv=none; b=dT+UFTIpFLaZJOcOLjFpRXenxkZIr1ThupGl7huEbvzV7ReSmd3WXH1HM2siyIxQhwF3BSPcHG6O5DGZyMgG8foQcecUOmpC4rLXWuCsmnulW2QwlGtfk97i3c+37w+zvdgXPFB4pyH5XnJ+9up15/euDTjIVB2xNRjvhoi6bfM=
+	t=1777184844; cv=none; b=Gle3eDQJVq266d/tftTQcwdmJg5od0ZljWuMSk3Nz/jA9+QKmB6gur61ROD2KCOHUP2g/z4NQwF0LcfRUZ88KpHLl75i730Rn+e/5CwcxSF982QJYMm7sijzYGORRvkuQQNiEN0bSBx5YKw/NdYR707VEcmPGopzPg51swL3wV4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777183811; c=relaxed/simple;
-	bh=3N3qSO6MSIoGnvIb9NPtscc7rRE2OiowJp5tLfBb7YQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=I3HcaPRwecyaaIzeKastr+vJfb3O8TEVCv61hUiDvaQwehgCSO0wVgmnnvYGYa35gPSayNTs6SHYJntlnIc23f+DrY4jJaRqA52ZKsfgIiY9PjsqWprX4pLCtVFLgt8HPgKV+DbA4un6dPy56J8DhlJC0wibmayBZU5dzPbTu0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=OlCHV83d; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	s=arc-20240116; t=1777184844; c=relaxed/simple;
+	bh=d6Fqfh2sqoz18f6++7aAjNYJmyLc3qb/WJce7os7Ess=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=q/4+YzW5mg5z943ImkApvfSag+bck6FgCphpxdYSnorY15YJp6a07RBYhIPdPRPGkGIgJDiWU67EbgZ/r6AKShm69MwrFnIFEjvJqPD8LSZydpfQdH6SSJB6oE8Ce+5PQOLrhE/1i2HrdimKkMKeoqJTwEaN5nK5rTiRePCo36A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VzUfynWa; arc=none smtp.client-ip=74.125.82.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="OlCHV83d"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:Content-Type:MIME-Version:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=VkekR0ZQnUPB8h/ezh7yPJ5uGQoJ/UJN/CJfNPlzUlA=; b=OlCHV83dFVTNE7YCwNCWT10V6S
-	TLgmd35QRm5CKtkkdiTNBYuhOrC2SGR1GnzRMNWW1yGIZmgdHuOg9JxnejZ8PsY9GR7yTAfS2c579
-	naKT4eS6R90RdrHXmhgYGauZIXVdjLUcubvnGyCEAjSm/+/wfL7ZvTaFUWlwuKOtwZqZXyqACIAlm
-	Pxi85any2T6FsOujDvx85cwSFHjUuOeGuGMcm9WrOHxTfm62PRx/bDtjZ3RUSlvCGeO54ePrxZ5wb
-	FhJYfav4AmH5VMNKE74N7aFJhIaQHmvPytPyBRpp2ENTPGbnygi0w42/LF2sbBC/ONUjdnNks146b
-	Bq4vCbWw==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wGsgz-00000004Hq9-1D63;
-	Sun, 26 Apr 2026 06:10:09 +0000
-Date: Sun, 26 Apr 2026 07:10:09 +0100
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Theodore Ts'o <tytso@mit.edu>
-Cc: linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org
-Subject: why does ext4_sync_parent() bother with d_find_any_alias() at all?
-Message-ID: <20260426061009.GQ3518998@ZenIV>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VzUfynWa"
+Received: by mail-dl1-f73.google.com with SMTP id a92af1059eb24-12c87ba0890so31290615c88.0
+        for <linux-fsdevel@vger.kernel.org>; Sat, 25 Apr 2026 23:27:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1777184842; x=1777789642; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=x3geMF9pl2AS94E2sOaM47L9pSj3O9H8NiYQAnGXwdc=;
+        b=VzUfynWawI8QXb2/9z1QLeEJuf3Tr5JUOJkXItDn6PZwclOwKBQ3KNYnSLI7JGXSFq
+         kZtLppnaK9Wa4y3WLBNYhuNkQrYb6NBlf0pEzbAsuDElY0p0DeN40BjnLZOmqEVgy+fP
+         CzISKx19mZ2JTdpAY/1w0z5Ta9arLygmuW7tgawU2RjdAdVwWT4ptMWYlRwRgaY4YFxG
+         jLBbtY3Bdf+l1T2rnBTiuHC4W2V/XzfDL+I9y6g/bj3cf71bGC7plceqIXgqgkxZzV62
+         7+9eOtvx98/gK5vo5Pgxm0+L2qYDpT7TSCNqNZz/i+ttRFD5YuIEykczfl5NIu7R7AX1
+         MR8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777184842; x=1777789642;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=x3geMF9pl2AS94E2sOaM47L9pSj3O9H8NiYQAnGXwdc=;
+        b=ll4s0txiPx9UY/mdKLip+4f4RdTNWDYboaYwqfdqwz21zoPsj1rXkHm28Nv1frKdGY
+         NeLLrHkmE7hh9SCThC75ezQEAZ2RYVDIpLJ2WBSrkeBsGIIQnzJSj/7Zqxfqq5XFlrer
+         K1Kz+8e8FnGhsp3p9UlD93CKYSYqdbadm2iwAzeUh+RP2U8MJ+0fOTfjd2Yj5H6Akj54
+         jTufNoOLu12FWHIpzWPWyPjv1YCkkZQ/eNPSc7RftTB/FF/diXu/KgpHYRrXk2QFFiT1
+         lHVoZpz2dvjzSWmwcy7GWoIy2Oxo45k4HNSCXMnhaNPmyjEe72SZEFEjgsX+s46fFy9F
+         /WqQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/udi4GhQ/oz4j9GupLOKLWrzTKPIe4q6DxGFQocTpNIZ8+ki3zl5/YGX2fwhk14hhrlhgbXWm5AHRbTq0v@vger.kernel.org
+X-Gm-Message-State: AOJu0YwInqPwSwNMMlbUmPxEDt9a6WMF8RNhraTM+X9JTVGVIjIvB97z
+	Bpcba+Hg2vv9uqwEYHTMzYWCfA/zKPj7rhoTQCuiKDc41yOJjfsfaaQLX5g5tsCtd0oTWbncHOA
+	RXRYRxA==
+X-Received: from dlbur21-n2.prod.google.com ([2002:a05:7022:ea55:20b0:12d:c516:f51])
+ (user=surenb job=prod-delivery.src-stubby-dispatcher) by 2002:a05:7022:11c:b0:12b:ec67:3523
+ with SMTP id a92af1059eb24-12c73f726eamr19447643c88.9.1777184841793; Sat, 25
+ Apr 2026 23:27:21 -0700 (PDT)
+Date: Sat, 25 Apr 2026 23:27:15 -0700
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Sender: Al Viro <viro@ftp.linux.org.uk>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.54.0.545.g6539524ca2-goog
+Message-ID: <20260426062718.1238437-1-surenb@google.com>
+Subject: [PATCH v2 0/3] use vma locks for proc/pid/{smaps|numa_maps} reads
+From: Suren Baghdasaryan <surenb@google.com>
+To: akpm@linux-foundation.org
+Cc: liam@infradead.org, ljs@kernel.org, vbabka@kernel.org, david@redhat.com, 
+	willy@infradead.org, jannh@google.com, paulmck@kernel.org, pfalcato@suse.de, 
+	shuah@kernel.org, hsukrut3@gmail.com, richard.weiyang@gmail.com, 
+	reddybalavignesh9979@gmail.com, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, surenb@google.com
+Content-Type: text/plain; charset="UTF-8"
 
-	The caller has a dentry for that inode, after all...
-Am I missing something there?  IOW, is there anything wrong
-with something like (untested) patch below?
+Use per-vma locks when reading /proc/pid/smaps and /proc/pid/numa_maps
+similar to /proc/pid/maps to reduce contention on central mmap_lock. One
+major difference between maps and smaps/numa_maps reading is that the
+latter executes page table walk which can't be done under RCU due to a
+possibility of sleeping. Therefore we drop RCU read lock before this walk
+while keeping the VMA locked. After the walk we retake RCU read lock,
+reset VMA iterator and proceed with the next VMA.
 
-diff --git a/fs/ext4/fsync.c b/fs/ext4/fsync.c
-index 924726dcc85f..c635cd732c2e 100644
---- a/fs/ext4/fsync.c
-+++ b/fs/ext4/fsync.c
-@@ -43,16 +43,14 @@
-  * the parent directory's parent as well, and so on recursively, if
-  * they are also freshly created.
-  */
--static int ext4_sync_parent(struct inode *inode)
-+static int ext4_sync_parent(struct inode *inode, struct dentry *dentry)
- {
--	struct dentry *dentry, *next;
-+	struct dentry *next;
- 	int ret = 0;
- 
- 	if (!ext4_test_inode_state(inode, EXT4_STATE_NEWENTRY))
- 		return 0;
--	dentry = d_find_any_alias(inode);
--	if (!dentry)
--		return 0;
-+	dget(dentry);
- 	while (ext4_test_inode_state(inode, EXT4_STATE_NEWENTRY)) {
- 		ext4_clear_inode_state(inode, EXT4_STATE_NEWENTRY);
- 
-@@ -99,7 +97,7 @@ static int ext4_fsync_nojournal(struct file *file, loff_t start, loff_t end,
- 	if (ret)
- 		return ret;
- 
--	ret = ext4_sync_parent(inode);
-+	ret = ext4_sync_parent(inode, file->f_path.dentry);
- 
- 	if (test_opt(inode->i_sb, BARRIER))
- 		*needs_barrier = true;
+The last two patches extend /proc/pid/maps test to cover /proc/pid/smaps
+reading during concurrent address space modification.
+
+Changes since v1[1]
+- moved drop_rcu earlied in smap_gather_stats to avoid sleeping under
+RCU lock in shmem_swap_usage(), per Sashiko
+- skip page walks for gate VMA in show_numa_map(), per Sashiko
+- introduced parse_vma_line() and copy_line() helper functions to ensure
+input string passed to sscanf() is always NUL-terminated, per Sashiko
+- used FIXTURE_VARIANT to run both maps and smaps tests in a single
+test run, per Liam R. Howlett
+
+Applies over mm-unstable.
+
+[1] https://lore.kernel.org/all/20260424070234.190145-1-surenb@google.com/
+
+Suren Baghdasaryan (3):
+  fs/proc/task_mmu: read proc/pid/{smaps|numa_maps} under per-vma lock
+  selftests/proc: ensure the test is performed at the right page
+    boundary
+  selftests/proc: add /proc/pid/smaps tearing tests
+
+ fs/proc/task_mmu.c                            | 195 +++++++++---
+ tools/testing/selftests/proc/proc-maps-race.c | 293 ++++++++++++++----
+ 2 files changed, 387 insertions(+), 101 deletions(-)
+
+
+base-commit: 761e9fad336afb6fe2cd488c7bd522e2783064fc
+-- 
+2.54.0.545.g6539524ca2-goog
+
