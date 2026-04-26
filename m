@@ -1,183 +1,176 @@
-Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com [209.85.210.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F6A82459DD
-	for <linux-fsdevel@vger.kernel.org>; Sun, 26 Apr 2026 19:02:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0422F2D1931
+	for <linux-fsdevel@vger.kernel.org>; Sun, 26 Apr 2026 19:35:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777230146; cv=none; b=Lf/9u6AL3aOis9oz3faUVHSDeevB3+1cU7+yVtGl1H6DOxXoBaCIWrqh77sjP7Z2o9uXtntZjy/9TtL2Zm0IhS4/rAnHhcP+5BTY9sUXip7JGztAYAo5tF5ovW4YG4jnLtTOXFDXl+IQbXcrDqOUe7KQCosPEZJv+uG7+nFo5jE=
+	t=1777232135; cv=none; b=ivq/Ft2GBlg1z/FfVGLsux3IdpuIfWgzvSQaB+0ufLdV1DGkeFGzmffKAZ1gBUhaQg4Aa1mKrdzEJCBoa+CyE3AHEqU106PlCLzh5j4ylH+SS9zGvXZVWNzMZ8u4F7mdYhfw0YXbrr90g6I3sq77NZrJeWHdLuUGCPLt7eosnEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777230146; c=relaxed/simple;
-	bh=nsnS5kVmgUe4N7BhSfgQjH9V+srJSYQH6F2ZnVDLXqk=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=nEwKwrz0a3/kE2LYq2IVCx+sMckPeMOuOOUELV+2AbfnfrrYRsXGoIz0Z+eLcD+6xHefetAnWS2gM/sybCgFDMx2Hz/2EmZGlNvXBvnv5MSQCR5IgFkcOGFsFisMBmWCJAWmz6mhA2fLE7pAVusE9Qh7UDWcKux3bgEc7Avvek0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-ot1-f71.google.com with SMTP id 46e09a7af769-7dbe76e3abcso22539904a34.0
-        for <linux-fsdevel@vger.kernel.org>; Sun, 26 Apr 2026 12:02:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777230144; x=1777834944;
-        h=cc:to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2ApE86KdB73UZze872ESq1+IlKWsMYblfjrS0boasGw=;
-        b=jCiEfVzaXT8hRsHOlEbmn/12EzsmfT6oo4DekwWW+jpsY7roewcy6UEDqtTEU6uf6D
-         vZkTNcXMXI9mbn64UMGxsIFGWbj0O9izEXVCW34kX48kc9yw8j+2LO4wSbWwCgN+X2fD
-         XCx0xZs2ydJ+3jNzkyvB5NaJ+RuBlt0QcX0Ev9lWJtAAjTVM24dQkdDV+VVv+0v3PgjE
-         fDVjH6bLwQr3wfKkxDbOhV5SoRpc9Tk95ZX2YcvZ2klDuVh3QH+/2WS+wT9ft1gHbCsW
-         uzsDdpyKZX/tNftVS9wbR3dcm4lAlMrcfluYCfe9pC6YusoQsxHn5TXYR5NqIAvImD/q
-         NQqw==
-X-Forwarded-Encrypted: i=1; AFNElJ9OMnIGru/a2pTUAqmYK4NvrWx5Jjh+zr+HcEolDUZPwnNxRZnPWeYAtsesioYEZYRnXaCvyR6pcC4gJIT+@vger.kernel.org
-X-Gm-Message-State: AOJu0YxMxbkM8EVSXspQi608ZjFJPezWgnjT9QCzBUl5khYsL9Fx7oE4
-	T9xTF7ylVX5BNXOCm4fG3cZzGmkBd5CDcDdK2nRgMYRdSFYqGU9XzMp8ZpJUslRgnqJOsU+3QSg
-	v8LHB89YveN3looA5hV1TIZynnG9Qpnh1dcWBlh0DFDjm1HQfAQRShwathUA=
+	s=arc-20240116; t=1777232135; c=relaxed/simple;
+	bh=nM3rOCWDY5UBLmkGQsMwbjX7IK/9GceP4KJf/6/kQ0Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IMvIUsXEvEZbu9inB2hZADfFw/hgVt298XQWKZTsIjvbvQdVSeEsMjMT0BDaXwbXMuDlDF8boMqxThJrXNsF5GcIm+hUBNXfURBfL9k6/WZAkO3fgeAZgElXRt2RmDuyNwngq1SiFuDfOVujMxkmMELW2pPhD2PnL+BZvxhWXEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=FEknJeXG; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=l2EsCohe; arc=none smtp.client-ip=103.168.172.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="FEknJeXG";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="l2EsCohe"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.phl.internal (Postfix) with ESMTP id 31FF5EC050D;
+	Sun, 26 Apr 2026 15:35:32 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Sun, 26 Apr 2026 15:35:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1777232132;
+	 x=1777318532; bh=zQYcf8MezFUKwGeGOXQz4Q0f6AQzZdnUEomKzCn/Mh8=; b=
+	FEknJeXGxg5liinJuiM/TP84hiLSXYFuqk+vv//gN4Rn6tF8zfMZqqww6Ra4/2w5
+	i0AdqT1lb4/Tk77JY6bt/wJkDy0eoQlbCrZk4EqGXmA2i9Ref0gwHVRipK3nM1jc
+	oZzahak/SIWR0La4o74Ih3iY/JmnEvQ8EIBiqvrCN1ZbuXMLMvUzjK5HJxzEAGyK
+	H6TVsedqZAoQzac0A8gvC1//k2uS3N5ErEMgoYnJv9t+fhF2KyGRisL2tAB9j1pj
+	PCYtl6XB6/31crPUOOVSItkoqGeLVMf2730vTMEYpCVpXz1c+dZQdKCAQJhkL4N3
+	k/muWq+ZLhPYtVhPdao6qw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1777232132; x=
+	1777318532; bh=zQYcf8MezFUKwGeGOXQz4Q0f6AQzZdnUEomKzCn/Mh8=; b=l
+	2EsCohesuH63DNx4DNZ+/DwtrEw0FM7o7JJxFHqurbVHf/QXplCoGYan0aTxJx0e
+	JO6n7jAHA3d5BzyFuS2MlbuAhhoVGMnfaiZgsikNpJVv5XCZhdQiNCzRlBFM0ths
+	qALXWTrymfLtExErpo2tpIJHP5BBkcKMZ0j4mVS3sG/+r5GChFyMBfdv868fuIr1
+	cj/CxARlC7i148nr8nWqONnV9c8vs8RfbMx574BlG0uCV4NKxwQ/sb76JBkhVWPU
+	3GSqNlU1Nlf20niOuck4GkE+6NOXLERGquKkXmRVPB/7oCzFwf1t+Ax0o1cTmgXm
+	hfPYSpVu4VVY5aNNIC6+w==
+X-ME-Sender: <xms:A2nuab3dMz3AfqkwMxf0q7wlYobs5XmFYoqiYM6EL43Q7aF7DikPxw>
+    <xme:A2nuaaylOIeKpLyG4YuGp8kiJsFbKM-ZJNKi6_0rh0KCwOLMTUUESjhzA0nIiaTE2
+    1eyzQeU1ibDr2C90T-XLhaAOUe5q26LnMuuGKmpKJS3Qnw969GQeQ>
+X-ME-Received: <xmr:A2nuaaHmO6LgOwfOR5g1xA6sQLm-dlhRqqSTvw8A1xU4JavCiGyZKpgVPkXGOZizbBu2NYfXiY38bZhf0lwkArMKP4zGmxYTs27QolnLh4jpkSVbsA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdejieeigecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefkffggfgfuvfevfhfhjggtgfesthejredttddvjeenucfhrhhomhepuegvrhhnugcu
+    ufgthhhusggvrhhtuceosggvrhhnugessghssggvrhhnugdrtghomheqnecuggftrfgrth
+    htvghrnhepjefgleejueffhefhueekvdduhfetteehtdehfeejhfevudethefhtdetvdek
+    keevnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
+    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegsvghrnhgusegsshgsvghrnhgurdgtohhm
+    pdhnsggprhgtphhtthhopeejpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegujh
+    ifohhngheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepsghstghhuhgsvghrthesuggu
+    nhdrtghomhdprhgtphhtthhopehnvggrlhesghhomhhprgdruggvvhdprhgtphhtthhope
+    hlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthht
+    ohepjhhorghnnhgvlhhkohhonhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhhikh
+    hlohhssehsiigvrhgvughirdhhuhdprhgtphhtthhopehfuhhsvgdquggvvhgvlheslhhi
+    shhtshdrlhhinhhugidruggvvh
+X-ME-Proxy: <xmx:A2nuaVY4b3G0dfRUuq2WAwX2xB-o0FHjX-2BTCABDIhZ7Lj6e4yPbQ>
+    <xmx:A2nuaUCcGjDIh-i-aamwKxkXj_rn4_cfF55VCE6ED5VI9gKBo0ahZg>
+    <xmx:A2nuaVkCH31Z6LWEQlbzV0Ov0-px8B4gp5Er-4Z9UALE6H2cezLd2Q>
+    <xmx:A2nuadyz6A2RZmDxfoQQbFJeyRYA5TBlkn7jHOggTnwX5arXLCpeRQ>
+    <xmx:BGnuaeah4yWMIGpZ8fRQK4iQmDSfh60N-mg4vXdREEBOyjnZsdfVzCB7>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 26 Apr 2026 15:35:30 -0400 (EDT)
+Message-ID: <665ed148-43e2-4807-b2be-01e82a98d10a@bsbernd.com>
+Date: Sun, 26 Apr 2026 21:35:29 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:620:b0:694:a362:4b86 with SMTP id
- 006d021491bc7-694a3624ce5mr11481191eaf.22.1777230144106; Sun, 26 Apr 2026
- 12:02:24 -0700 (PDT)
-Date: Sun, 26 Apr 2026 12:02:24 -0700
-In-Reply-To: <20260426-dontcache-v3-0-79eb37da9547@kernel.org>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <69ee6140.170a0220.11de9.0011.GAE@google.com>
-Subject: [syzbot ci] Re: mm: improve write performance with RWF_DONTCACHE
-From: syzbot ci <syzbot+ciecac32dcb1f4d0d7@syzkaller.appspotmail.com>
-To: akpm@linux-foundation.org, axboe@kernel.dk, axelrasmussen@google.com, 
-	baohua@kernel.org, brauner@kernel.org, chuck.lever@oracle.com, 
-	david@kernel.org, hch@infradead.org, jack@suse.cz, jlayton@kernel.org, 
-	kasong@tencent.com, liam.howlett@oracle.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-nfs@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, ljs@kernel.org, 
-	mathieu.desnoyers@efficios.com, mhiramat@kernel.org, mhocko@suse.com, 
-	qi.zheng@linux.dev, ritesh.list@gmail.com, rostedt@goodmis.org, 
-	rppt@kernel.org, shakeel.butt@linux.dev, snitzer@kernel.org, 
-	surenb@google.com, vbabka@kernel.org, viro@zeniv.linux.org.uk, 
-	weixugc@google.com, willy@infradead.org, yuanchu@google.com
-Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-
-syzbot ci has tested the following series
-
-[v3] mm: improve write performance with RWF_DONTCACHE
-https://lore.kernel.org/all/20260426-dontcache-v3-0-79eb37da9547@kernel.org
-* [PATCH v3 1/4] mm: add NR_DONTCACHE_DIRTY node page counter
-* [PATCH v3 2/4] mm: kick writeback flusher for IOCB_DONTCACHE with targeted dirty tracking
-* [PATCH v3 3/4] testing: add nfsd-io-bench NFS server benchmark suite
-* [PATCH v3 4/4] testing: add dontcache-bench local filesystem benchmark suite
-
-and found the following issue:
-WARNING in __mod_memcg_lruvec_state
-
-Full report is available here:
-https://ci.syzbot.org/series/e53aef43-ac7a-4cb7-8714-bb927aaee659
-
-***
-
-WARNING in __mod_memcg_lruvec_state
-
-tree:      torvalds
-URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux
-base:      27d128c1cff64c3b8012cc56dd5a1391bb4f1821
-arch:      amd64
-compiler:  Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
-config:    https://ci.syzbot.org/builds/c10ddd10-bb16-48c2-90fb-3625d3b258aa/config
-syz repro: https://ci.syzbot.org/findings/1e8993c1-818b-4ddf-b90b-30f051b3a9d6/syz_repro
-
-------------[ cut here ]------------
-__mod_memcg_lruvec_state: missing stat item 21
-WARNING: mm/memcontrol.c:911 at __mod_memcg_lruvec_state+0x1f3/0x360 mm/memcontrol.c:911, CPU#0: syz.0.17/5831
-Modules linked in:
-CPU: 0 UID: 0 PID: 5831 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-RIP: 0010:__mod_memcg_lruvec_state+0x1fc/0x360 mm/memcontrol.c:911
-Code: 00 11 85 c0 74 31 48 83 c4 08 5b 41 5c 41 5d 41 5e 41 5f 5d e9 95 2e 72 09 cc 48 8d 3d 7d c4 fd 0d 48 c7 c6 5d b4 f5 8d 89 da <67> 48 0f b9 3a eb d5 90 0f 0b 90 eb 90 e8 02 22 fb fe eb c8 48 8d
-RSP: 0018:ffffc900039e7520 EFLAGS: 00010046
-RAX: 0000000000000000 RBX: 0000000000000015 RCX: dffffc0000000000
-RDX: 0000000000000015 RSI: ffffffff8df5b45d RDI: ffffffff90363d90
-RBP: 0000000000000001 R08: ffffffff82388833 R09: ffffffff8e95cd60
-R10: dffffc0000000000 R11: fffff940008c3f49 R12: ffff8881026eee80
-R13: 00000000000000ff R14: 0000000000000001 R15: ffff888173a80e00
-FS:  00007f5f76bca6c0(0000) GS:ffff88818dc95000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 000055d77c624128 CR3: 0000000171fde000 CR4: 00000000000006f0
-Call Trace:
- <TASK>
- mod_memcg_lruvec_state+0xa7/0x220 mm/memcontrol.c:941
- mod_lruvec_state mm/memcontrol.c:964 [inline]
- lruvec_stat_mod_folio+0x239/0x3e0 mm/memcontrol.c:984
- folio_account_dirtied mm/page-writeback.c:2634 [inline]
- __folio_mark_dirty+0x633/0xec0 mm/page-writeback.c:2692
- mark_buffer_dirty+0x261/0x410 fs/buffer.c:1110
- block_commit_write+0x15d/0x270 fs/buffer.c:2115
- block_write_end+0x6e/0xb0 fs/buffer.c:2191
- ext4_write_end+0x27d/0xa30 fs/ext4/inode.c:1458
- ext4_da_write_end+0x86/0xcb0 fs/ext4/inode.c:3296
- generic_perform_write+0x620/0x8f0 mm/filemap.c:4350
- ext4_buffered_write_iter+0xcb/0x370 fs/ext4/file.c:316
- ext4_file_write_iter+0x298/0x1bd0 fs/ext4/file.c:-1
- do_iter_readv_writev+0x619/0x8c0 fs/read_write.c:-1
- vfs_writev+0x33c/0x990 fs/read_write.c:1059
- do_pwritev fs/read_write.c:1155 [inline]
- __do_sys_pwritev2 fs/read_write.c:1213 [inline]
- __se_sys_pwritev2+0x184/0x2a0 fs/read_write.c:1204
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x15f/0xf80 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f5f75d9cdd9
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f5f76bca028 EFLAGS: 00000246 ORIG_RAX: 0000000000000148
-RAX: ffffffffffffffda RBX: 00007f5f76015fa0 RCX: 00007f5f75d9cdd9
-RDX: 0000000000000001 RSI: 00002000000001c0 RDI: 0000000000000004
-RBP: 00007f5f75e32d69 R08: 0000000000000001 R09: 0000000000000081
-R10: 0000000000000003 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f5f76016038 R14: 00007f5f76015fa0 R15: 00007fffe7503ad8
- </TASK>
-----------------
-Code disassembly (best guess):
-   0:	00 11                	add    %dl,(%rcx)
-   2:	85 c0                	test   %eax,%eax
-   4:	74 31                	je     0x37
-   6:	48 83 c4 08          	add    $0x8,%rsp
-   a:	5b                   	pop    %rbx
-   b:	41 5c                	pop    %r12
-   d:	41 5d                	pop    %r13
-   f:	41 5e                	pop    %r14
-  11:	41 5f                	pop    %r15
-  13:	5d                   	pop    %rbp
-  14:	e9 95 2e 72 09       	jmp    0x9722eae
-  19:	cc                   	int3
-  1a:	48 8d 3d 7d c4 fd 0d 	lea    0xdfdc47d(%rip),%rdi        # 0xdfdc49e
-  21:	48 c7 c6 5d b4 f5 8d 	mov    $0xffffffff8df5b45d,%rsi
-  28:	89 da                	mov    %ebx,%edx
-* 2a:	67 48 0f b9 3a       	ud1    (%edx),%rdi <-- trapping instruction
-  2f:	eb d5                	jmp    0x6
-  31:	90                   	nop
-  32:	0f 0b                	ud2
-  34:	90                   	nop
-  35:	eb 90                	jmp    0xffffffc7
-  37:	e8 02 22 fb fe       	call   0xfefb223e
-  3c:	eb c8                	jmp    0x6
-  3e:	48                   	rex.W
-  3f:	8d                   	.byte 0x8d
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHSET v5] libfuse: run fuse servers as a contained service
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: bschubert@ddn.com, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
+ joannelkoong@gmail.com, miklos@szeredi.hu, fuse-devel@lists.linux.dev
+References: <20260422231518.GA7717@frogsfrogsfrogs>
+ <177689988489.3820166.4979104167640003535.stgit@frogsfrogsfrogs>
+ <eed525ff-8f83-4882-a5db-574d2d3a913e@bsbernd.com>
+ <20260426165640.GK7765@frogsfrogsfrogs>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: fr
+In-Reply-To: <20260426165640.GK7765@frogsfrogsfrogs>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
-***
 
-If these findings have caused you to resend the series or submit a
-separate fix, please add the following tag to your commit message:
-  Tested-by: syzbot@syzkaller.appspotmail.com
+On 4/26/26 18:56, Darrick J. Wong wrote:
+> On Sun, Apr 26, 2026 at 06:35:11PM +0200, Bernd Schubert wrote:
+>>
+>>
+>> On 4/23/26 01:18, Darrick J. Wong wrote:
+>>> Hi all,
+>>>
+>>> This patchset defines the necessary communication protocols and library
+>>> code so that users can mount fuse servers that run in unprivileged
+>>> systemd service containers.  That in turn allows unprivileged untrusted
+>>> mounts, because the worst that can happen is that a malicious image
+>>> crashes the fuse server and the mount dies, instead of corrupting the
+>>> kernel's memory.
+>>>
+>>> v5: Refactor socket IO into helpers, tighten the security checks in
+>>>     mount_service.c, always set nosuid/nodev for unprivileged mounts,
+>>>     use posix_spawnp in mount.fuse, restructure sample programs and hl
+>>>     library code to avoid the need for unmounting during startup
+>>> v4.1: fix various cppcheck/codecheck complaints
+>>> v4: fix a large number of security problems that only matter when the
+>>>     mount helper is being run as a setuid program; fix protocol
+>>>     byteswapping problems; add CLOEXEC to all files being traded
+>>>     back and forth; add an umount command; and strengthen mount socket
+>>>     protocol checks.
+>>> v3: refactor the sample code to reduce duplication; fix all the
+>>>     checkpatch complaints; examples actually build standalone;
+>>>     fuservicemount handles utab now; cleaned up meson feature detection;
+>>>     handle MS_ flags that don't translate to MOUNT_ATTR_*
+>>> v2: cleaned up error code handling and logging; add some example fuse
+>>>     service; fuservicemount3 can now be a setuid program to allow
+>>>     unprivileged userspace to fire up a contained filesystem driver.
+>>>     This could be opening Pandora's box...
+>>> v1: detach from fuse-iomap series
+>>>
+>>> If you're going to start using this code, I strongly recommend pulling
+>>> from my git trees, which are linked below.
+>>>
+>>> With a bit of luck, this should all go splendidly.
+>>> Comments and questions are, as always, welcome.
+>>>
+>>> --D
+>>>
+>>> kernel git tree:
+>>> https://git.kernel.org/cgit/linux/kernel/git/djwong/xfs-linux.git/log/?h=fuse-service-container
+>>
+>> Hi Darrick,
+>>
+>> going to look for your previous pull request - kernel tree doesn't help
+>> me for libfuse ;)
+> 
+> Urrk, that wasn't helpful of me. :(
+> 
+> The following changes since commit ff7aa456d426d89eb19661da7b4c171153bac516:
+> 
+> update kernel FUSE io_uring doc URL (2026-04-20 10:34:32 +0200)
+> 
+> are available in the Git repository at:
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/djwong/libfuse.git tags/fuse-service-container_2026-04-22
+> 
+> for you to fetch changes up to 4f47bd86cd84bd511afdeb59fc18994915eb13fa:
+> 
+> nullfs: support fuse systemd service mode (2026-04-22 16:08:25 -0700)
+> 
+> (Sorry for the slow reply, I'm at LinuxFest this weekend.  Hopefully you
+> could construct the path to the 22 April version from the previous PR.)
 
----
-This report is generated by a bot. It may contain errors.
-syzbot ci engineers can be reached at syzkaller@googlegroups.com.
 
-To test a patch for this bug, please reply with `#syz test`
-(should be on a separate line).
+No worries at all. Enjoy LinuxFest! I had taken the
+"fuse-service-container" branch and HEAD points to the tag. Got
+distracted by another issue anyway. Right now I'm trying to look at the
+test failures from your branch, but github seems to be very slow.
 
-The patch should be attached to the email.
-Note: arguments like custom git repos and branches are not supported.
+
+Thanks,
+Bernd
