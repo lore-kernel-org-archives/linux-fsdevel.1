@@ -1,58 +1,67 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 941841643B;
-	Sun, 26 Apr 2026 00:46:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 434ED145355
+	for <linux-fsdevel@vger.kernel.org>; Sun, 26 Apr 2026 01:01:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777164420; cv=none; b=rrM/2sKfMzCRLq/KmWARU+kxbQVm0sHQueG8QjjVD5HwLm1vbUivMIi/xj7E9EZb/KTc6jDEH9vU9hL3HlKlIfp0IPqX3LswOmx7TRUQeEmI/jrO4HJzPY3HGc7FAqav0i+Rcs9EnOPmLJ/LxQrD/2dr3hPE5PssA1tyNdJocNE=
+	t=1777165279; cv=none; b=dK0Il0mJI2gwNCNRypoNov6/yKvKj7kTriOK9Cjx7hjG0xPr+MdoBMy0Dzzm10hD1nXeCr3FUUfRU4CfcZGrtGr/DF1NoGg/4yEHAd0/hVvckZ8CFAMGCsXGJyY2NOkh1eO11x3PvHpqIB+5I9NH6KfjE3o5Aaeo3cG8v198EdQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777164420; c=relaxed/simple;
-	bh=wivrWUKBaG9wBfqHbKGTh0VM6/RwGrg3NL5+VqrkrwI=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qfao/gpQJhyQbiy4FTbKAzfirEqzj2GhkArM80lzlVhkaBVFmCEPBaL3RAVZjMh+0q0LnMTpvyS+JrC66+XcSqaFkL0QCQTmEJLclwxf5wfiej14GwyAQov9ZA7bbtPK0RNvuTRrFFHKTqi4aXsX19OH3446oVd5uVlj6prkVOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=rlRFL6HT; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1777165279; c=relaxed/simple;
+	bh=KjBBTHJ48jLtECghvSsU/coZXLhvqrlZQr8lJLrAMys=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Wja3yeX9i90tzKQ9BkSf9z+3VY04aNMwWNo0xchWh0w5Cz4s1mRFYXc4N6pc/zLY8RUGQMRX7JXfy7K3EGJZ2l8AgK6StM9S9X+mpBCrU2UWPx8pLp5ZPQ4spc2SzKt3QyOwssM+NC/mgFRUM5j/DlvqvKnwS6nVA5RYNXKCNX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jkqdo+JP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rlRFL6HT"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:Message-ID:
-	Subject:To:From:Date:Sender:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:
-	Content-Description:In-Reply-To:References;
-	bh=Zy2DJrRJGdFUsSTr714o7ATNF+h3r8jGyotdyT2gNt0=; b=rlRFL6HTN6Uikbhx9EZ/OEyagX
-	wyGrCyVHAda/E5rVz1TLqfgZKhtonzmjqC2kLwejrmv2h9kN4l0sK3AXW03khsy/p6A1ZBXMUP38U
-	6nN7TnGPbKWp4NrFebCFw26IOvQNc5XZoQhsrAbhxvjZuL2JNfLnWHW/keOxGovt+vH4T1Q7p3qck
-	zzImYw1jm9AZF/7YGYcCRUMNDPtokdd28BAFrrVAt+qgbjnV4itZemlJPiCqryxDln0uBevIeaMl+
-	IWZLqCBSIukbzQ8SVDIq5Clb8tgo1WZKfxR22JmsxuhgsLkxn+qpEWiP+2OJOBQT8zJjmOIK4GDCK
-	q8N0TYLg==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wGne7-0000000HRp9-3JPy;
-	Sun, 26 Apr 2026 00:46:51 +0000
-Date: Sun, 26 Apr 2026 01:46:51 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-block@vger.kernel.org, linux-ide@vger.kernel.org,
-	linux-scsi@vger.kernel.org, linux-nvme@lists.infradead.org,
-	bpf@vger.kernel.org, lsf-pc@lists.linux-foundation.org
-Subject: [LSF/MM/BPF] Running BOF
-Message-ID: <ae1gegHjBsgiMdXY@casper.infradead.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jkqdo+JP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1A22C2BCB0
+	for <linux-fsdevel@vger.kernel.org>; Sun, 26 Apr 2026 01:01:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777165278;
+	bh=KjBBTHJ48jLtECghvSsU/coZXLhvqrlZQr8lJLrAMys=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Jkqdo+JPO7dJLIuj9ndCbPjB1JD4BaDIsOBjmvOh6HQkXaOZK/s0w+nRToM/WwHSx
+	 P40RMP0vhjoHn+J3oz5zKXujpZ7ia2T947wI27+cQ1pxL9swqCiUuzjyKpwvb7KsWB
+	 TiK+PfcupPGUWBxjp9iNxS3lvhRdw5qQpJsmcnRQk+GgNclzXlYk/Yx433Phz/Xn8z
+	 4zYgB9HKLqk3a5prnKWG26qlifGnQU11kHREWltnYM/uQ7/i46mcOvX3kqANag7OT0
+	 bHA8QDpAUEUuStRTvAKC3fsxp5hVFNqqctPMmw4GeccLCqFyosI5evRjaTEc5q24W6
+	 H/D7aheHsaMBw==
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-677f7c29af6so6531957a12.2
+        for <linux-fsdevel@vger.kernel.org>; Sat, 25 Apr 2026 18:01:18 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8K4Nvew5Nv6Vqe4PyLzgmNJtwoNR7KPj+ZLh9VoQFo4pM9nFFqp97b/uTBKgqvRhSzkOI4xGAKQ+M4PzME@vger.kernel.org
+X-Gm-Message-State: AOJu0YxXPe54aWlRULKtF8uRIVXwaAvG+/cDXRgr29sLrtoCShnBxyMv
+	qLDG1rPgeJwDrDqQQS733ojXjy7op70baq3LatNvzmB4Ca/wLZgz5KkKefXbeAMXTH0hnNkJ1pO
+	CHkYLCzAMW6pVi7X8Hs29u+X44bO6Cik=
+X-Received: by 2002:aa7:c391:0:b0:676:d85a:5925 with SMTP id
+ 4fb4d7f45d1cf-676d85a63bfmr6779236a12.27.1777165277492; Sat, 25 Apr 2026
+ 18:01:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20260425184243.116396-1-charsyam@gmail.com> <20260425184243.116396-2-charsyam@gmail.com>
+In-Reply-To: <20260425184243.116396-2-charsyam@gmail.com>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Sun, 26 Apr 2026 10:01:03 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd_EF2iDP_5W54jOtM2cXv62DZ8Sbi5WgNe2TwsEREjAGQ@mail.gmail.com>
+X-Gm-Features: AVHnY4InBUJ2FLCxH3flthELszyGdjFg_oGzSC_-3jS_tOzGNGNWwJkW8TcHjzA
+Message-ID: <CAKYAXd_EF2iDP_5W54jOtM2cXv62DZ8Sbi5WgNe2TwsEREjAGQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] ntfs: fix NULL dereference in ntfs_index_walk_down()
+To: DaeMyung Kang <charsyam@gmail.com>
+Cc: Hyunchul Lee <hyc.lee@gmail.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-I'm going to go for a run each morning.  If you want to come
-with me, meet in the Esplanade Zagreb hotel lobby around 6:45am
-(this should get us back in plenty of time to get to breakfast).
-I've plotted three routes, all based on routes described in
-https://greatruns.com/location/zagreb-croatia/
+> @@ -1991,8 +1995,8 @@ struct index_entry *ntfs_index_walk_down(struct index_entry *ie, struct ntfs_ind
+>                         ictx->entry = ntfs_ie_get_first(&ictx->ib->index);
+>                         entry = ictx->entry;
+>                 } else
+> -                       entry = NULL;
+> -       } while (entry && (entry->flags & INDEX_ENTRY_NODE));
+> +                       entry = ERR_PTR(-EIO);
+> +       } while (!IS_ERR_OR_NULL(entry) && (entry->flags & INDEX_ENTRY_NODE));
+Is there any reason why you use IS_ERR_OR_NULL(), not IS_ERR() ?
 
-Monday: https://connect.garmin.com/modern/course/453744315
-Tuesday: https://connect.garmin.com/modern/course/453746189
-Wednesday: https://connect.garmin.com/modern/course/453747068
-
+Thanks.
