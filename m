@@ -1,91 +1,164 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BE1F17C211
-	for <linux-fsdevel@vger.kernel.org>; Sun, 26 Apr 2026 12:06:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14A9219CD0A;
+	Sun, 26 Apr 2026 12:28:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777205165; cv=none; b=E0+o5ndGtEtDHUGRcBS+PJlqCadhohBpyPpXQyjYTzJrPB2d9HwZ4aMeZH4tg7Dvw3iJTTiT9hOEuQtMVZ6g2nI0rJ4MIZPb6C4E9F+TKtGTPGIIP62iu5GExeBUWsnRd6IaA9yy3b4SJLkZ9lgErMifVmI7XiD6TIxHe+07Rao=
+	t=1777206537; cv=none; b=tSr0y4hVlVD5YGY2W1FMdfAs5nExwfz0pX5DS0cegab9sIjY2JgHsYzZ/fUirtxGkW1slUr0fk7qGLRoXrlxgQYAsiTsAjQloPelPNLFami2aYXBj5Z5YdpOoYGICQ9i6udUMnPwJ7aTX7+i0XAPFdwVxGBuDLU+BDeIYp+L8PM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777205165; c=relaxed/simple;
-	bh=BC9w8CCVLNqAzvDdLE27loBD2Dj5j+TWuqg5hgAg+r4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WjVktomMkw4ZEdVjdhndzxyV8TLHx8T0Hezn7QZjPMCsCxuI01PPT3A4utazfjpPlsb0MDiho2M3kFnV5AztZI5VBHyU8aWoEDgPqVsySJG8LDh2zGs4HSBmqVm91zKGyjLjWSmpmjyO6TEV06IVTrrD0biZ2oggm2A+osmGYS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oe8p+RRS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777206537; c=relaxed/simple;
+	bh=02nQF9ZDfAItP1KXDmKfzZAP87rtizrXoyjxQHVV1Lo=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=C8FJ2K5tJ7+rugjVsJADHwBFqKOztIfzqsx765cathBxSboT9Z9c/MCPLjypOVCWOp4aHgYnsn8M5G2ZPiVWuCU2EFBr8zECC2v6kcIwWM/bqxn5db5Nj26jpYoybcZf/7z0k/0JzD6WvhvHhsRZWDWQEe+20T051VqiFJqHrYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=pd/oI2vF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oe8p+RRS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD242C2BCB9
-	for <linux-fsdevel@vger.kernel.org>; Sun, 26 Apr 2026 12:06:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777205164;
-	bh=BC9w8CCVLNqAzvDdLE27loBD2Dj5j+TWuqg5hgAg+r4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=oe8p+RRS3qHznBoGD/GdEaigaUnFBLnhEwSiCYF2SCERiOQRHeE57xD5FlJZgap9v
-	 eQlYzLdecCbDppdzOg5zbHh+HGE2pQzqtsWi7nae38IeQQRgAPS1uhL3nmZGh3mSok
-	 XW5eBsXs92y2CT9MTpabcpRzXyhO+geyrh0JM+csDIIDFc9A85BYbwF3U5n5imeuZA
-	 Xu0ICNaAdxgFNeCEGutHd9iWNOqo5zwJk8XYMxn7FOwJuvu4L3S/Km75dC2KMLnYxD
-	 VvsQizEwGEQokbhwQjHL/iz6Bffl/kGXIJAaxfihin13tBdFmwrRsOMR/Ecapb+Nkg
-	 C+RGOA5V0emwg==
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-67389cf78b0so16387142a12.2
-        for <linux-fsdevel@vger.kernel.org>; Sun, 26 Apr 2026 05:06:04 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ/JmUW3Q63XvXY5dyxm2Wzyi06lVFH4/B3v+7zqWhbuzjoOBA5QGoKxyezaO1EV7xNfqNIRX/L0ukEOAwCP@vger.kernel.org
-X-Gm-Message-State: AOJu0YyNbWX9UTxTFvCW08YjPUwkfr+lIWmgHJd8+30ahTObrOjk24YF
-	q6Q1BD21Kw4W+yCxhgby5tJp74H+DWscb7USPzV3xj+JjvEIb/ePdx8nPTmo4GR+BI/Pg5KxkRx
-	dYxHIgazp1WoF3NM/WIbTr66+rlYTapA=
-X-Received: by 2002:aa7:d388:0:b0:670:7c64:c24d with SMTP id
- 4fb4d7f45d1cf-672bfd86d7bmr12494498a12.6.1777205163347; Sun, 26 Apr 2026
- 05:06:03 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="pd/oI2vF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC24CC2BCAF;
+	Sun, 26 Apr 2026 12:28:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1777206536;
+	bh=02nQF9ZDfAItP1KXDmKfzZAP87rtizrXoyjxQHVV1Lo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=pd/oI2vFFB+HvfCXWQ9ze+KoA9goPh+V2E3V47FrYlGPUBFTWKP5yPWjE+3q4B+vF
+	 AXILaQ5GKEgCuYadV/AHE82lxQFGnBbR9Xikmm/8GYi6uV9Woh5zSzM5vRlzN3/HTo
+	 /ngwKUrDSYMY+RdfdcklSJdbNM6LMt+yQ530jXA8=
+Date: Sun, 26 Apr 2026 05:28:54 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner
+ <brauner@kernel.org>, Jan Kara <jack@suse.cz>, "Matthew Wilcox (Oracle)"
+ <willy@infradead.org>, David Hildenbrand <david@kernel.org>, Lorenzo
+ Stoakes <ljs@kernel.org>, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Suren
+ Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Mike
+ Snitzer <snitzer@kernel.org>, Jens Axboe <axboe@kernel.dk>, Ritesh Harjani
+ <ritesh.list@gmail.com>, Christoph Hellwig <hch@infradead.org>, Kairui Song
+ <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt
+ <shakeel.butt@linux.dev>, Barry Song <baohua@kernel.org>, Axel Rasmussen
+ <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu
+ <weixugc@google.com>, Steven Rostedt <rostedt@goodmis.org>, Masami
+ Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Chuck Lever <chuck.lever@oracle.com>,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-nfs@vger.kernel.org, linux-mm@kvack.org,
+ linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/4] mm: kick writeback flusher for IOCB_DONTCACHE
+ with targeted dirty tracking
+Message-Id: <20260426052854.8372fb9d4c616f16a8aa0a0f@linux-foundation.org>
+In-Reply-To: <20260426-dontcache-v3-2-79eb37da9547@kernel.org>
+References: <20260426-dontcache-v3-0-79eb37da9547@kernel.org>
+	<20260426-dontcache-v3-2-79eb37da9547@kernel.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <cover.1777175371.git.charsyam@gmail.com>
-In-Reply-To: <cover.1777175371.git.charsyam@gmail.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Sun, 26 Apr 2026 21:05:49 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd-2+T9gQgiGwDckinx1K9Pp5HfmOVD8hmkbWxp3SNwc7A@mail.gmail.com>
-X-Gm-Features: AVHnY4ICok21z4-fUJMPQSRe_Hyv9ykVgYfXbKZobwKgNH9r6exUT_PiEViKAVQ
-Message-ID: <CAKYAXd-2+T9gQgiGwDckinx1K9Pp5HfmOVD8hmkbWxp3SNwc7A@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] ntfs: fix index walk NULL deref and WSL symlink leak
-To: DaeMyung Kang <charsyam@gmail.com>
-Cc: Hyunchul Lee <hyc.lee@gmail.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sun, Apr 26, 2026 at 1:02=E2=80=AFPM DaeMyung Kang <charsyam@gmail.com> =
-wrote:
+Naive questions...
+
+On Sun, 26 Apr 2026 07:56:08 -0400 Jeff Layton <jlayton@kernel.org> wrote:
+
+> The IOCB_DONTCACHE writeback path in generic_write_sync() calls
+> filemap_flush_range() on every write, submitting writeback inline in
+> the writer's context.  Perf lock contention profiling shows the
+> performance problem is not lock contention but the writeback submission
+> work itself — walking the page tree and submitting I/O blocks the writer
+> for milliseconds, inflating p99.9 latency from 23ms (buffered) to 93ms
+> (dontcache).
+
+So in the current case, when generic_write_sync() returns, all that
+memory is written back and clean&reclaimable (or freed?), yes?
+
+> Replace the inline filemap_flush_range() call with a flusher kick that
+> drains dirty pages in the background.  This moves writeback submission
+> completely off the writer's hot path.
+
+Whereas after this change, that pagecache is probably still dirty,
+unreclaimable, waiting for the flusher to do its thing?
+
+So is there potential that the system will get all gummed up with
+dirty, to-be-written-soon pagecache?  Is there something which limits
+this buildup?
+
+> ...
 >
-> v2:
->   - 1/2: switch IS_ERR_OR_NULL() to IS_ERR() in the walk_down loop
->     (Namjae Jeon).
->
-> v1: https://lore.kernel.org/all/20260425184243.116396-1-charsyam@gmail.co=
-m/
->
-> Two independent fixes for the new fs/ntfs/ that landed in v7.1-rc1.
->
->   1/2 fixes a NULL dereference in ntfs_index_walk_down(). When
->       kvzalloc() for ictx->ib fails, or ntfs_ib_read() fails mid
->       traversal, the function previously returned a state that
->       ntfs_index_next() and ntfs_readdir() could not distinguish
->       from end-of-directory, and ntfs_ib_read() itself could write
->       through a NULL ictx->ib. Errors are now propagated as
->       ERR_PTR() through ntfs_index_next() up to ntfs_readdir().
->       Reproduced with failslab fault injection on getdents64; the
->       reproducer is described in the commit log.
->
->   2/2 fixes a target-string leak in ntfs_reparse_set_wsl_symlink()
->       when ntfs_set_ntfs_reparse_data() fails. Also switches the
->       kvfree() on the local failure path to kfree() to match the
->       kmalloc() done by ntfs_ucstonls().
->
-> The two patches are independent and may be applied in any order.
->
-> DaeMyung Kang (2):
->   ntfs: fix NULL dereference in ntfs_index_walk_down()
->   ntfs: fix WSL symlink target leak on reparse failure
-Applied them to #ntfs-next.
-Thanks!
+> dontcache-bench results on dual-socket Xeon Gold 6138 (80 CPUs, 256 GB
+> RAM, Samsung MZ1LB1T9HALS 1.7 TB NVMe, local XFS, io_uring, file size
+> ~503 GB, compared to a v6.19-ish baseline):
+> 
+>   Single-client sequential write (MB/s):
+>                        baseline    patched     change
+>   buffered              1449.8     1440.1      -0.7%
+>   dontcache             1347.9     1461.5      +8.4%
+>   direct                1450.0     1440.1      -0.7%
+> 
+>   Single-client sequential write latency (us):
+>                        baseline    patched     change
+>   dontcache p50         3031.0    10551.3    +248.1%
+>   dontcache p99        74973.2    21626.9     -71.2%
+>   dontcache p99.9      85459.0    23199.7     -72.9%
+> 
+>   Single-client random write (MB/s):
+>                        baseline    patched     change
+>   dontcache              284.2      295.4      +3.9%
+> 
+>   Single-client random write p99.9 latency (us):
+>                        baseline    patched     change
+>   dontcache             2277.4      872.4     -61.7%
+> 
+>   Multi-writer aggregate throughput (MB/s):
+>                        baseline    patched     change
+>   buffered              1619.5     1611.2      -0.5%
+>   dontcache             1281.1     1629.4     +27.2%
+>   direct                1545.4     1609.4      +4.1%
+> 
+>   Mixed-mode noisy neighbor (dontcache writer + buffered readers):
+>                        baseline    patched     change
+>   writer (MB/s)         1297.6     1471.1     +13.4%
+>   readers avg (MB/s)     855.0      462.4     -45.9%
+
+These results look ambiguous.  Sometimes better, sometimes worse?
+
+> nfsd-io-bench results on same hardware (XFS on NVMe, NFSv3 via fio
+> NFS engine with libnfs, 1024 NFSD threads, pool_mode=pernode,
+> file size ~502 GB, compared to v6.19-ish baseline):
+> 
+>   Single-client sequential write (MB/s):
+>                        baseline    patched     change
+>   buffered              4844.2     4653.4      -3.9%
+>   dontcache             3028.3     3723.1     +22.9%
+>   direct                 957.6      987.8      +3.2%
+> 
+>   Single-client sequential write p99.9 latency (us):
+>                        baseline    patched     change
+>   dontcache            759169.0   175112.2     -76.9%
+> 
+>   Single-client random write (MB/s):
+>                        baseline    patched     change
+>   dontcache              590.0     1561.0    +164.6%
+> 
+>   Multi-writer aggregate throughput (MB/s):
+>                        baseline    patched     change
+>   buffered              9636.3     9422.9      -2.2%
+>   dontcache             1894.9     9442.6    +398.3%
+>   direct                 809.6      975.1     +20.4%
+> 
+>   Noisy neighbor (dontcache writer + random readers):
+>                        baseline    patched     change
+>   writer (MB/s)         1854.5     4063.6    +119.1%
+>   readers avg (MB/s)     131.2      101.6     -22.5%
+
+Ditto but less so.
+
+> The NFS results show even larger improvements than the local benchmarks.
+> Multi-writer dontcache throughput improves nearly 5x, matching buffered
+> I/O. Dirty page footprint drops 85-95% in sequential workloads vs.
+> buffered.
+
+It sounds that you like the results, so OK ;)
+
