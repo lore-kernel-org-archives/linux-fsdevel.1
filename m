@@ -1,131 +1,170 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E69A35E92B;
-	Mon, 27 Apr 2026 03:38:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EDA43624D3;
+	Mon, 27 Apr 2026 03:38:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777261080; cv=none; b=f89MNaetJRwwFmN7SnJOmRFb+xGeheb77Qu7mk3lYmABCeGj+sIJhFeQgJ5KIDDdmOFBaWJyejX0yfZ3pyZHOYjwTOqqEaMC2AyjEw006IVhOCYk/u5aPWf58L1ugVQiWiHepdBYs18DOoxH00Lv7CcV+gYaG4ru1rySAbaA3Qw=
+	t=1777261083; cv=none; b=PdztnomfW0JwdkfSe5AOZluMFCNGwH+qqYcwuAKrrRfXIjzfruYlvSdlmNrYk0Yl79Smnx4myVbZqDjoKZ5KDwNIjzT6hec77TQxiPOGrZfJqV+IyxhQZPh/WzVDkAbu6KdlvuIZEgo9YoM9v7iK7txDT7Jlypus/L2j7nkb6qg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777261080; c=relaxed/simple;
-	bh=3lD5uG9ZXrIgOwKv6Um8sK6s94l7Kup9XM0KiGIDbKk=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=JM9WRBd4lay/DMsA2S74RCLPaCyq+mGzAS9Jog94uuZjSLM0cxErLw2sgm3d7on6Cs0Ek0kLp3yU7L/VCIvqmSNM9bNSdjfuTPC/dP23a47kDvpxOHHx/wOKkllDTWlos1UG5notr/0DvWsrb0gyhOj30J8CxD4E45PB04ylEag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ueDIdW2Q; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777261083; c=relaxed/simple;
+	bh=yu2CmD9YSye1yc1J/CJYEDi4OTu8Iv0aFTQqvMYN9v8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=GU/GBaJrSxw2uI3OIjqPc0SUqzI23Ki6WHub8EnBiWjbPuvCqSveYyfUwCpESejZxCCAGqhCyFFn9UHCH45JyE8xANB8Cl27qPT1U0t9qW47YDg8AT7DAgQLzl2SXGPZbAhD6iFXsze4vXcTI9YpxV+2R2H+k15uSBct165AWVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=U5T7rVqi; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=AbXuKpSA; arc=none smtp.client-ip=103.168.172.156
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ueDIdW2Q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A26B3C19425;
-	Mon, 27 Apr 2026 03:37:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777261080;
-	bh=3lD5uG9ZXrIgOwKv6Um8sK6s94l7Kup9XM0KiGIDbKk=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date:From;
-	b=ueDIdW2QNALDTJ/C2+Pao0DLtIk/kUmxy2nFeMoFOMQSyhS2o72k/23L9IoqrjhQ+
-	 eqhnZW+rv6AklFPQbXcCcP+Ra2rzb5EXUrhSUHOn7/4GzJ/n5EjPxiQCPFX4XmJIgl
-	 YxVt1FGwO9KkqD0oEOIyDwqi6ShV5ZPOupOyJ0wnZ3ALzdo2D+8n2rA8d8Kkcgy8Zf
-	 Ceu6H4sb3xZmrZGWLAEND5rlnksFEL/BNJOcHA7m+V8EpsGjqrRXR4/NrasNa7QIs3
-	 IgBVuUGTdkaOD93o8vk5UvMfD5xZ/nJVd7hlni3sZCBTECxNdEiRlPuFBnuin+Upvm
-	 QeVDF4WHotxzA==
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="U5T7rVqi";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="AbXuKpSA"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 9E87C14000C1;
+	Sun, 26 Apr 2026 23:38:01 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Sun, 26 Apr 2026 23:38:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:reply-to:subject:subject:to:to; s=fm2; t=1777261081;
+	 x=1777347481; bh=eWLZ+jMmYCRM3nin9etjMLs+lfC4IZ3wcbDwBF+yVeo=; b=
+	U5T7rVqi926OjIJDYW19XzyjTLe9fbTRexEeZ9yvbjfCY7IHnwWfFqGX2LpxHVSL
+	m0aXLMhKxD7G7yrqcRQNt7dFDiegnrsRL86WlA2HrxH4VV7LCHRjkk7xJQEGVvQa
+	XtunKm5zYG0/0vMr831J70DLcYKcDFqRMqXwu2TyVie6H5XEwDMLydWyQIUO/NS8
+	V1QLdkqatDtqN+yttHuvEeXw3tvbtXLeQ81V/cn5P0nI/LTl9bNLpifVBgE0fYYO
+	AYG99W1iUd65KyZzfanswK+D1VO8ywjW7HJvMz2hWBSHXAqYdM4nWDj5F/j7gNcF
+	n7sGMFrg6TTK+84uomluYA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
+	:x-me-sender:x-sasl-enc; s=fm2; t=1777261081; x=1777347481; bh=e
+	WLZ+jMmYCRM3nin9etjMLs+lfC4IZ3wcbDwBF+yVeo=; b=AbXuKpSAqnnAervuk
+	Wu2IUsvfgu/aUJWHSIApBpdJAtJPgx5uZtCXOGu+PJ1JRqz3rA1YArRjQeAM13wt
+	YXqUSlhASyhtYc7+qgzQFpYE/H2XwHaxb4JQXvfbvt/J/5yyv8leLzgpLG4ri1CT
+	KIiwq8TSa3t8DGbBgjaaFm5tC75k+gAJTy6Rz+B5K+JRl4MtfYGS63EoRvxpmE9I
+	+eF8SYmuMsM8uq3SaIgimb2lkuKPNBoeSkOq3+ZcP+2o+VApmMhRhHvaVA5dG4a9
+	eMwhglhuDEZ+8v1Mb9dia9m1BluYnOCi2aDAkq4Vd7WjIWXJYyeGQA4rSU0Z1gD+
+	jG57w==
+X-ME-Sender: <xms:GdruaVWVXaX7UIt-VIgHeNAt_Pi8voCG9vbMjDxbIG23x1FevuFa7g>
+    <xme:GdruaQTMBACsEbDOBrGOq034XHBFDMdMcNETsemDz2bwu81OiDFiVDPxOb_kOlqhS
+    ntiKZQPzcyac1FybhFM9eMA5R4cOWZqT_0uvXTlv8952o8>
+X-ME-Received: <xmr:GdruaYAoxunOuiaudFZOukvpefjDAu-YG3dS2TX0EqcKsFiCxjvhwpVVyWmnnRHmOcxVbWcQCYENmph7yL1sXPqj8DgFE6o>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdejjeeivdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefhvfevufffkffojghfrhgggfestdekredtredttdenucfhrhhomheppfgvihhluehr
+    ohifnhcuoehnvghilhgssehofihnmhgrihhlrdhnvghtqeenucggtffrrghtthgvrhhnpe
+    evveekffduueevhfeigefhgfdukedtleekjeeitdejudfgueekvdekffdvfedvudenucev
+    lhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehnvghilhgsse
+    hofihnmhgrihhlrdhnvghtpdhnsggprhgtphhtthhopedujedpmhhouggvpehsmhhtphho
+    uhhtpdhrtghpthhtohepvhhirhhoseiivghnihhvrdhlihhnuhigrdhorhhgrdhukhdprh
+    gtphhtthhopehlihhnuhigqdhunhhiohhnfhhssehvghgvrhdrkhgvrhhnvghlrdhorhhg
+    pdhrtghpthhtoheplhhinhhugidqnhhfshesvhhgvghrrdhkvghrnhgvlhdrohhrghdprh
+    gtphhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+    pdhrtghpthhtoheplhhinhhugidqvghfihesvhhgvghrrdhkvghrnhgvlhdrohhrghdprh
+    gtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdprhgtphht
+    thhopehmihhklhhoshesshiivghrvgguihdrhhhupdhrtghpthhtohepjhgrtghksehsuh
+    hsvgdrtgiipdhrtghpthhtohepjhhksehoiihlrggsshdrohhrgh
+X-ME-Proxy: <xmx:GdruaTTa6oQugGWAiFD8H-5cIFxTMmegE3QDIbXs_-czO2Z2DiXzuA>
+    <xmx:GdruaaS_mCIfRcmUsnqi_mJUjcGIaPHRUdu79IY3U4pgf62B_NvkJg>
+    <xmx:GdruaRKIgTxnxbz5pkz_wwrXBF4mT7hHkFYXt8rS9MsWkQ-lgTnUdg>
+    <xmx:GdruaRHbtcv0UHAuebMFtzMLeXXtBKQripKkrIHeXfKFJX2cfIyZww>
+    <xmx:GdruaX7Zmu5qU5CIfZZpEZcSptcsr-EPW44A1OSNnXcLde8n-u5Z6HJ9>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 26 Apr 2026 23:37:56 -0400 (EDT)
+From: NeilBrown <neilb@ownmail.net>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Jeff Layton <jlayton@kernel.org>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Jeremy Kerr <jk@ozlabs.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Christoph Hellwig <hch@infradead.org>
+Cc: linux-efi@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-nfs@vger.kernel.org,
+	linux-unionfs@vger.kernel.org,
+	linux-kernel@vger.kernel
+Subject: [PATCH v2 15/19] nfs: don't d_drop() before d_splice_alias()
+Date: Mon, 27 Apr 2026 13:29:48 +1000
+Message-ID: <20260427033527.773006-16-neilb@ownmail.net>
+X-Mailer: git-send-email 2.50.0.107.gf914562f5916.dirty
+In-Reply-To: <20260427033527.773006-1-neilb@ownmail.net>
+References: <20260427033527.773006-1-neilb@ownmail.net>
+Reply-To: NeilBrown <neil@brown.name>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v3 1/9] kernel/api: introduce kernel API specification
- framework
-From: Nathan Chancellor <nathan@kernel.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: linux-api@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- workflows@vger.kernel.org, tools@kernel.org, x86@kernel.org, 
- Thomas Gleixner <tglx@kernel.org>, "Paul E . McKenney" <paulmck@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Jonathan Corbet <corbet@lwn.net>, Dmitry Vyukov <dvyukov@google.com>, 
- Randy Dunlap <rdunlap@infradead.org>, Cyril Hrubis <chrubis@suse.cz>, 
- Kees Cook <kees@kernel.org>, Jake Edge <jake@lwn.net>, 
- David Laight <david.laight.linux@gmail.com>, 
- Askar Safin <safinaskar@zohomail.com>, 
- Gabriele Paoloni <gpaoloni@redhat.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Christian Brauner <brauner@kernel.org>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- Masahiro Yamada <masahiroy@kernel.org>, 
- Shuah Khan <skhan@linuxfoundation.org>, Ingo Molnar <mingo@redhat.com>, 
- Arnd Bergmann <arnd@arndb.de>
-In-Reply-To: <20260424165130.2306833-2-sashal@kernel.org>
-References: <20260424165130.2306833-1-sashal@kernel.org>
- <20260424165130.2306833-2-sashal@kernel.org>
-Date: Sun, 26 Apr 2026 23:37:45 -0400
-Message-Id: <177726106581.2478607.12645653803520391071.b4-review@b4>
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1542; i=nathan@kernel.org;
- h=from:subject:message-id; bh=3lD5uG9ZXrIgOwKv6Um8sK6s94l7Kup9XM0KiGIDbKk=;
- b=owGbwMvMwCUmm602sfCA1DTG02pJDJnvbgm1r5pyv/K7x/Tv7+cZzqk2VsnvUDl6munyJTXvs
- Koa+1qfjlIWBjEuBlkxRZbqx6rHDQ3nnGW8cWoSzBxWJpAhDFycAjCR/UYMf0U11lj1XX7AtCjO
- fXF2kv/PvgNKjmblB63e8+xfICtkfImRYVLPkjsTOQI7GiX0LqTO2iJ2suHBWkY15dq1Ir8eHhY
- 8wA4A
-X-Developer-Key: i=nathan@kernel.org; a=openpgp;
- fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
+Content-Transfer-Encoding: 8bit
 
-On Fri, 24 Apr 2026 12:51:21 -0400, Sasha Levin <sashal@kernel.org> wrote:
-> diff --git a/kernel/Makefile b/kernel/Makefile
-> index 6785982013dc..564315153643 100644
-> --- a/kernel/Makefile
-> +++ b/kernel/Makefile
-> @@ -59,6 +59,9 @@ obj-y += dma/
->  obj-y += entry/
->  obj-y += unwind/
->  obj-$(CONFIG_MODULES) += module/
-> +obj-$(CONFIG_KAPI_SPEC) += api/
-> +# Ensure api/ is always cleaned even when CONFIG_KAPI_SPEC is not set
-> +obj- += api/
+From: NeilBrown <neil@brown.name>
 
-If $(CONFIG_KAPI_SPEC) is not set, shouldn't
+nfs_add_or_obtain() is used, often via nfs_instantiate(), to attach a
+newly created inode to the appropriate dentry - or to provide an
+alternate dentry.
+It has to drop the dentry first, which is problematic for proposed
+locking changes.
 
-  obj-$(CONFIG_KAPI_SPEC) += api/
+As d_splice_alias() now works with hashed dentries, the d_drop() is no
+longer needed.
 
-evaluate to
+However we still d_drop() on error as the status of the name is
+uncertain.
 
-  obj- += api/
+nfs_open_and_get_state() is only used for files so we should be able to
+use d_instantiate().  However as that depends on the server for
+correctness, it is safer to stay with the current code pattern and use
+d_splice_alias() there too.
 
-anyways? Why the duplication? This is the only place in the kernel where
-this would be needed?
+Signed-off-by: NeilBrown <neil@brown.name>
+---
+ fs/nfs/dir.c      | 3 +--
+ fs/nfs/nfs4proc.c | 1 -
+ 2 files changed, 1 insertion(+), 3 deletions(-)
 
->
-> diff --git a/kernel/api/.gitignore b/kernel/api/.gitignore
-> new file mode 100644
-> index 000000000000..ca2f632621cf
-> --- /dev/null
-> +++ b/kernel/api/.gitignore
-> @@ -0,0 +1,2 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +/generated_api_specs.c
-
-This appears unused?
-
->
-> diff --git a/kernel/api/Kconfig b/kernel/api/Kconfig
-> new file mode 100644
-> index 000000000000..d1072728742a
-> --- /dev/null
-> +++ b/kernel/api/Kconfig
-> @@ -0,0 +1,77 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +#
-> +# Kernel API Specification Framework Configuration
-> +#
-> +
-> +config KAPI_SPEC
-> +	bool "Kernel API Specification Framework"
-> +	default n
-
-I think 'default n' is tautological since 'n' is the default for all
-bool symbols. Consider dropping it on all symbols throughtout this file.
-
+diff --git a/fs/nfs/dir.c b/fs/nfs/dir.c
+index 2c1315a02e52..e1d56400fc6a 100644
+--- a/fs/nfs/dir.c
++++ b/fs/nfs/dir.c
+@@ -2329,8 +2329,6 @@ nfs_add_or_obtain(struct dentry *dentry, struct nfs_fh *fhandle,
+ 	struct dentry *d;
+ 	int error;
+ 
+-	d_drop(dentry);
+-
+ 	if (fhandle->size == 0) {
+ 		error = NFS_PROTO(dir)->lookup(dir, dentry, &dentry->d_name,
+ 					       fhandle, fattr);
+@@ -2351,6 +2349,7 @@ nfs_add_or_obtain(struct dentry *dentry, struct nfs_fh *fhandle,
+ 	dput(parent);
+ 	return d;
+ out_error:
++	d_drop(dentry);
+ 	d = ERR_PTR(error);
+ 	goto out;
+ }
+diff --git a/fs/nfs/nfs4proc.c b/fs/nfs/nfs4proc.c
+index a9b8d482d289..185c933fb54c 100644
+--- a/fs/nfs/nfs4proc.c
++++ b/fs/nfs/nfs4proc.c
+@@ -3099,7 +3099,6 @@ static int _nfs4_open_and_get_state(struct nfs4_opendata *opendata,
+ 	nfs_set_verifier(dentry, dir_verifier);
+ 	if (d_really_is_negative(dentry)) {
+ 		struct dentry *alias;
+-		d_drop(dentry);
+ 		alias = d_splice_alias(igrab(state->inode), dentry);
+ 		/* d_splice_alias() can't fail here - it's a non-directory */
+ 		if (alias) {
 -- 
-Nathan Chancellor <nathan@kernel.org>
+2.50.0.107.gf914562f5916.dirty
+
