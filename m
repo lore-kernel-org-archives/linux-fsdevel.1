@@ -1,95 +1,86 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 977FE3ACA60
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 10:55:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AE363B5318
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 10:58:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777287359; cv=none; b=I9r2L/cNB7sIxk/hTpQKtosMscbLppSJcvPDh7VxaV7C0tkCsmFI/FIqJOC159T0JXDg+Eu95RRXjKg0iervBTvpInQpXxwaRNWdyLfMxrMht5C1aIjiDrH9jYAW/h5FnRJ/x03vb5YaQnkY7NpRauXPM09A42G04tWtuk7bKRE=
+	t=1777287523; cv=none; b=Wzj9xkhgCObedyxcy4Moz7Y3VeCh7KLB1El8/lDruT5Eqa84U4JhNnlb3EZaOWjbI6VqYSkt7QNh+gFXaqdBWSSXog+e3boJUPuUl716vgFNdKqrIiFVfF3gKV/gzUNFVLq8C9WBuiENgVG21cHZklAxf0T7oCosH2vx5kkOvpY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777287359; c=relaxed/simple;
-	bh=3sJXeUMO9jisAeihFbO9SPq83sRF/8ovxEJvWG5d2p4=;
+	s=arc-20240116; t=1777287523; c=relaxed/simple;
+	bh=hMA6U2Q7RE6I0HDNNnPT9I6PVdakaK+F4QpOyZaSSRk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KkJ+GGjjI8tPJqLXfH3hF07SK13tiZaX6yIkPvaPyQzE+uHinb4AXqGhfgl/ZXXFv9dK8VQC4yXstMqlaw6Wcpdfn0uL3bekVv85GHkdtnJhYE9GxPKGfnkyGOgTL3uC75MmBY2X1WAmyhx0d/u0yyNzvFsbsb38oACAqKvE3Z0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=mL3ngl1c; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ILylDamP; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=mL3ngl1c; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ILylDamP; arc=none smtp.client-ip=195.135.223.130
+	 Content-Type:Content-Disposition:In-Reply-To; b=HZ09raFa3wYnb8hLMolM7oC7e+69Bk49JvF5jQpgRFWx+iFtXdZ/n07OGdRLuHOWhCzzQ3lNgGXM3V3mR7ydqzLNf/w9bJCqeW3bpKCYLMKoY+VTB1S0bkma5c+NzEYvViBx5kbqcrus93pFWiTaSBrOYKGngg1YVIrwamkEbz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=P6kmlTS9; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Rp1bCjPB; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=P6kmlTS9; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Rp1bCjPB; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="mL3ngl1c";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ILylDamP";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="mL3ngl1c";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ILylDamP"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="P6kmlTS9";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Rp1bCjPB";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="P6kmlTS9";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Rp1bCjPB"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id DB1DF6A90C;
-	Mon, 27 Apr 2026 10:55:55 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 276FE6A8FE;
+	Mon, 27 Apr 2026 10:58:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1777287355; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1777287520; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7v7Dqr0yFbYHWxuadHzDP6hn5aEfxXOyhRHqVAyeSDA=;
-	b=mL3ngl1cqaRUt8Fn5dYnLoFF2Acv+D9WQtqParWsKqzU/P5IXj0SXcU98WOltiA1mn4zVm
-	BOKmz6VoxTsS6U2V1Z8vMrEHG8P9XabHEblzsATlsxjFsMFI251OYIDwEOn0XYFbgu1xzD
-	uX3AFNBs03zK1OvzoLoIcxzuG1vWQuY=
+	bh=XX2NxFHxauaQXxfrBlC1ECx26qRNAbCeJhn8PWW6alc=;
+	b=P6kmlTS9Pdo3IeIYOwOS2mRmo95a+4+PC8l9ENey6eojwVgNA37n4TzYDC9ryZ/P9CdHr2
+	RpBPODgubspzFXN48MStI6+7vGpj+7IAtTN8dhHWT+jPrTuz0vjWrxdplbvQM0b5tezayM
+	jl5SFsf0ip5riKxJ+Jn/opWZcbtLNds=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1777287355;
+	s=susede2_ed25519; t=1777287520;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7v7Dqr0yFbYHWxuadHzDP6hn5aEfxXOyhRHqVAyeSDA=;
-	b=ILylDamPZoKLtgaAkFGi18Zgg+LC8tTd9UFmlIrhO7AJ1n2wvk+mr09kzXnhdJRJ2siVKG
-	yLiBMSGqbMZCTwBA==
+	bh=XX2NxFHxauaQXxfrBlC1ECx26qRNAbCeJhn8PWW6alc=;
+	b=Rp1bCjPBgA/gpj65Kz8n8JwBj9iUx9Daa///w/Z5pvjFdZLJmH+yibwkuzu5hPpQv2HDXU
+	xs17GC7+VoA3DXDQ==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=mL3ngl1c;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=ILylDamP
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=P6kmlTS9;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=Rp1bCjPB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1777287355; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1777287520; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7v7Dqr0yFbYHWxuadHzDP6hn5aEfxXOyhRHqVAyeSDA=;
-	b=mL3ngl1cqaRUt8Fn5dYnLoFF2Acv+D9WQtqParWsKqzU/P5IXj0SXcU98WOltiA1mn4zVm
-	BOKmz6VoxTsS6U2V1Z8vMrEHG8P9XabHEblzsATlsxjFsMFI251OYIDwEOn0XYFbgu1xzD
-	uX3AFNBs03zK1OvzoLoIcxzuG1vWQuY=
+	bh=XX2NxFHxauaQXxfrBlC1ECx26qRNAbCeJhn8PWW6alc=;
+	b=P6kmlTS9Pdo3IeIYOwOS2mRmo95a+4+PC8l9ENey6eojwVgNA37n4TzYDC9ryZ/P9CdHr2
+	RpBPODgubspzFXN48MStI6+7vGpj+7IAtTN8dhHWT+jPrTuz0vjWrxdplbvQM0b5tezayM
+	jl5SFsf0ip5riKxJ+Jn/opWZcbtLNds=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1777287355;
+	s=susede2_ed25519; t=1777287520;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7v7Dqr0yFbYHWxuadHzDP6hn5aEfxXOyhRHqVAyeSDA=;
-	b=ILylDamPZoKLtgaAkFGi18Zgg+LC8tTd9UFmlIrhO7AJ1n2wvk+mr09kzXnhdJRJ2siVKG
-	yLiBMSGqbMZCTwBA==
+	bh=XX2NxFHxauaQXxfrBlC1ECx26qRNAbCeJhn8PWW6alc=;
+	b=Rp1bCjPBgA/gpj65Kz8n8JwBj9iUx9Daa///w/Z5pvjFdZLJmH+yibwkuzu5hPpQv2HDXU
+	xs17GC7+VoA3DXDQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CACD3593B0;
-	Mon, 27 Apr 2026 10:55:55 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1E069593B0;
+	Mon, 27 Apr 2026 10:58:40 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 0DN3MbtA72lvOAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 27 Apr 2026 10:55:55 +0000
+	id FztLB2BB72nrOgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 27 Apr 2026 10:58:40 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 8ABE3A0AFF; Mon, 27 Apr 2026 12:55:55 +0200 (CEST)
-Date: Mon, 27 Apr 2026 12:55:55 +0200
+	id D6F6CA0AFF; Mon, 27 Apr 2026 12:58:35 +0200 (CEST)
+Date: Mon, 27 Apr 2026 12:58:35 +0200
 From: Jan Kara <jack@suse.cz>
-To: Chuck Lever <cel@kernel.org>
-Cc: Al Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
-	linux-nfs@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-f2fs-devel@lists.sourceforge.net, hirofumi@mail.parknet.co.jp, linkinjeon@kernel.org, 
-	sj1557.seo@samsung.com, yuezhang.mo@sony.com, almaz.alexandrovich@paragon-software.com, 
-	slava@dubeyko.com, glaubitz@physik.fu-berlin.de, frank.li@vivo.com, tytso@mit.edu, 
-	adilger.kernel@dilger.ca, cem@kernel.org, sfrench@samba.org, pc@manguebit.org, 
-	ronniesahlberg@gmail.com, sprasad@microsoft.com, trondmy@kernel.org, anna@kernel.org, 
-	jaegeuk@kernel.org, chao@kernel.org, hansg@kernel.org, senozhatsky@chromium.org, 
-	Chuck Lever <chuck.lever@oracle.com>, "Darrick J. Wong" <djwong@kernel.org>, 
-	Roland Mainz <roland.mainz@nrubsig.org>, Steve French <stfrench@microsoft.com>
-Subject: Re: [PATCH v11 00/15] Exposing case folding behavior
-Message-ID: <yc7ygk6w6zvf46arzzvmxnuoqjrni2dtlhmywaivzmvfxnilf3@xv7tthtrowns>
-References: <20260424-case-sensitivity-v11-0-de5619beddaf@oracle.com>
+To: Ziran Zhang <zhangcoder@yeah.net>
+Cc: Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: isofs: replace dead ECMA-119 FTP link
+Message-ID: <nxtjqejbi3nfnxomztmaeu4zbtgn6d247jtp5462fdl64rl5f6@nl6j6fji7tmu>
+References: <20260425142943.6809-1-zhangcoder@yeah.net>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -98,7 +89,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260424-case-sensitivity-v11-0-de5619beddaf@oracle.com>
+In-Reply-To: <20260425142943.6809-1-zhangcoder@yeah.net>
 X-Rspamd-Action: no action
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Spamd-Result: default: False [-4.01 / 50.00];
@@ -109,50 +100,61 @@ X-Spamd-Result: default: False [-4.01 / 50.00];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCPT_COUNT_TWELVE(0.00)[36];
-	TO_DN_SOME(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	RCVD_COUNT_THREE(0.00)[3];
-	R_RATELIMIT(0.00)[to_ip_from(RLa77mm4gi8mw7uppieotozii3)];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,vger.kernel.org,lists.sourceforge.net,mail.parknet.co.jp,samsung.com,sony.com,paragon-software.com,dubeyko.com,physik.fu-berlin.de,vivo.com,mit.edu,dilger.ca,samba.org,manguebit.org,gmail.com,microsoft.com,chromium.org,oracle.com,nrubsig.org];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Rspamd-Queue-Id: DB1DF6A90C
+	FREEMAIL_TO(0.00)[yeah.net];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[yeah.net];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	HAS_WP_URI(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,ecma.ch:url,suse.com:email,y-adagio.com:url,ecma-international.org:url,suse.cz:dkim,yeah.net:email]
+X-Rspamd-Queue-Id: 276FE6A8FE
 X-Spam-Flag: NO
 X-Spam-Score: -4.01
 X-Spam-Level: 
 
-On Fri 24-04-26 21:53:02, Chuck Lever wrote:
-> Changes since v10:
-> - cifs: Source case-handling flags from the server's cached
->   FS_ATTRIBUTE_INFORMATION reply instead of the nocase mount
->   option, with a nocase fallback when the reply is absent
-> - Address findings from sashiko(gemini-3) and gpt-5.5:
->   - nfs: Skip pathconf case bits on NFSv4 (set via FATTR4_CASE_*
->     instead)
->   - xfs: Hide FS_CASEFOLD_FL from the legacy flags view so
->     chattr round-trips do not hit the setflags whitelist
->   - ext4, f2fs: Drop redundant fileattr_get patches; the
->     FS_CASEFOLD_FL translation in fileattr_fill_flags() already
->     reports FS_XFLAG_CASEFOLD for casefolded directories
+On Sat 25-04-26 22:29:43, Ziran Zhang wrote:
+> The original link is no longer valid. Replace it with the official
+> PDF of the 2nd edition. The new link points to the exact 2nd edition
+> that the existing comment in isofs.rst refers to.
+> 
+> Signed-off-by: Ziran Zhang <zhangcoder@yeah.net>
 
-Err, how is this supposed to work? I wasn't able to find any code
-transforming S_CASEFOLDED inode flag into FS_CASEFOLD_FL on fileattr_get
-path. Sure, fileattr_fill_flags() takes care of setting FS_XFLAG_CASEFOLD
-once FS_CASEFOLD_FL is set. What am I missing?
+Thanks. Added to my tree.
 
 								Honza
 
+> ---
+>  Documentation/filesystems/isofs.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/filesystems/isofs.rst b/Documentation/filesystems/isofs.rst
+> index 08fd46909..2a30999b0 100644
+> --- a/Documentation/filesystems/isofs.rst
+> +++ b/Documentation/filesystems/isofs.rst
+> @@ -57,7 +57,7 @@ Mount options unique to the isofs filesystem.
+>  Recommended documents about ISO 9660 standard are located at:
+>  
+>  - http://www.y-adagio.com/
+> -- ftp://ftp.ecma.ch/ecma-st/Ecma-119.pdf
+> +- https://ecma-international.org/wp-content/uploads/ECMA-119_2nd_edition_december_1987.pdf
+>  
+>  Quoting from the PDF "This 2nd Edition of Standard ECMA-119 is technically
+>  identical with ISO 9660.", so it is a valid and gratis substitute of the
+> -- 
+> 2.43.0
+> 
 -- 
 Jan Kara <jack@suse.com>
 SUSE Labs, CR
