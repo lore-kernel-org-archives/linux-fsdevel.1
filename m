@@ -1,204 +1,271 @@
-Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012012.outbound.protection.outlook.com [52.101.53.12])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4468B311C01;
-	Mon, 27 Apr 2026 11:52:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E5B73B0AD4
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 11:52:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.133.124
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777290753; cv=fail; b=T25/umCWj90ZEDqYmf0QtMYxfjcMeIv9qq0c9R5L5HpBcyxAr86dSJWnKy7qU322j7ym7X0BTSFdRARTczndSbKvzFTblmtDAym1HklCVkGm1EKsB9wPjDZkXEJO8iBmOWgcyTvqi1SsAgryV2coXk/h6GSzb7tiIxFmPWGOswc=
+	t=1777290770; cv=pass; b=W6aGX8aG93y0mRNkCI8LbBwmQFUW2sG5TPVVtTqGVQwCq/uhRRiD06coD5NuLuWD7c4PiGx92Hv7ID1erflyHjfGXZDMH9A1LWZM/ijAOvdvMc5wO+dD870GxoemSvnn2n973KrW61w/ClYQmNxSlnYOUkKKPuAaXM9Fh8y07uA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777290753; c=relaxed/simple;
-	bh=t3TuLNbDYTGiGX9e+iAQpHLJuTRyeI4PiQp/dwryYcg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=cLKzpB/EM5ulOn5+DjhmanJI6+2SPTLDcb6oPBWhmDJMcvW7lKCIWF0vjf1S9qZznVF9LFT93DFFqiu0usFNnBh40aj0f2YRrwUEq8d50UfEE0wPRn563MnQh4VPDSIEqgeKw6bdMl/ZbyNzB93jVeRHixApy2OmZ+NoNTdwwRQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=eS24ZO7r; arc=fail smtp.client-ip=52.101.53.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1777290770; c=relaxed/simple;
+	bh=mW6xfD51fISefd74AaAVXg24MMunDfcHV6tMjic8yZw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=janTfR73Dfa//IiD3z8bn/tPqXjhLTRUwRX1eNT/Cp02v/av+HKC44c+b5bKcVn27XMXlVjG4+L0iHNccBZCU4xMY4+JxlT3WRQSGY0z3L+dpG6uRAyrWadYmQpwasSJ8eD2s2ovdzxi6jI3/2jEXvckPZObNYELa/mwl9rgVM8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=AzvLeAO8; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=IDb3QiyZ; arc=pass smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="eS24ZO7r"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KdWMidZ5ikj/mFl5iBDnyZ7IumX1pZqTAlByos7zWf4awvuXULai8hDVsGtkfcAxkr4/bPZ0/9YapnTkftLfKx7Tr51AotZMARfEq8+6pY+s4JhiwAeohrKd2MJZBYHOCJp/T3BmQzLg9vlFPkOw2elJd/oECW4uXNarSUt/vbG3Os//nwkhUfUB1LSj5lSX50aKfErqN7IUYx1ZWDq5ZIF84caRynHzKLb8IfWGFhuNoclHmGUQDPH0OkV9xFSCoy1iV07Ob2tyjy9kzP7xmAdt8gxXjH8r+KB3tJqURZOeu5UeRZsUIQcqnmLv8dCgIMSEYo8ef/0uapkpIh4Svw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yfRPYwjlCLXyKkLvnkjR9yRNnBMPkjpaeClEfjulULE=;
- b=sDarhPhzJoE8X276i1M0U2RKloijP1WKQg//ZVEHlA0bSKP/tn1PPNzLnwLFgWenJOu0SbwVCjROot5L2+AAu8sS6/yHFZ3ZoJJV38K6iGSje0l6XbWwrpkVwsisBr8UYRhOcy3w/PF96tD8RG2jDO5Widdbq2ZSfSn9MBiRCXpAXHFQpayul8FWLv0DEkmTYl9PIfW2NN1BXoT8uuBO3Fy23c2qWi/HjVv/AJ7AdbNZyDXudurKodBtBWCIUU5QKo2FfXaXZY82N8RQK4czO06O8+FhhIr38mE/gRNLi/kSPMl7+gbsiaoyGZ7NIlv6oaz2MQHZTbbgsz7a4tcOLw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yfRPYwjlCLXyKkLvnkjR9yRNnBMPkjpaeClEfjulULE=;
- b=eS24ZO7rg6St5Hs3hzC74ql9QYi0GF8gao9m6gN3JrJeTPeaUjtzTgC6n5vtdA82TRwy4Oq7c3SrNgM/Xuh+gLPIgPioHMdM0okbaij9XfzBGWyUswNvllBgkpXnZzNOHdY4lqaDFFmQIg3r6y6LY4QqhZHdoVMEF8Ldw6SWh2TC2u8oCAF7ZAHcy/5fdmEM23svfYjg+3moVs1anH8OpCH8xditMPCYcq6zb06dpyJeRGe0EUBgz+nTW2nTY+8lzmVRxZzNV8cvaTkkellnSTvhCS1iFV3T5cG8IWFj1Ghfe1crHraA8rZPe9VxLmhZ907rkIcQkMF9mUXaETDIqQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
- BL1PR12MB5777.namprd12.prod.outlook.com (2603:10b6:208:390::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.15; Mon, 27 Apr
- 2026 11:52:26 +0000
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::f01d:73d2:2dda:c7b2]) by DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::f01d:73d2:2dda:c7b2%4]) with mapi id 15.20.9870.013; Mon, 27 Apr 2026
- 11:52:25 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Lorenzo Stoakes <ljs@kernel.org>, Song Liu <songliubraving@fb.com>,
- Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Andrew Morton <akpm@linux-foundation.org>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Shuah Khan <shuah@kernel.org>, linux-btrfs@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH 7.2 v3 03/12] mm/huge_memory: remove READ_ONLY_THP_FOR_FS
- from file_thp_enabled()
-Date: Mon, 27 Apr 2026 07:52:22 -0400
-X-Mailer: MailMate (2.0r6290)
-Message-ID: <5266C489-F03D-408D-8194-D7A427AEBB72@nvidia.com>
-In-Reply-To: <4899bbfa-4d6e-41ff-9318-1872a6b91afa@kernel.org>
-References: <20260418024429.4055056-1-ziy@nvidia.com>
- <20260418024429.4055056-4-ziy@nvidia.com>
- <74D4C50B-CB20-45B3-8E7E-E9A499701F61@nvidia.com>
- <4899bbfa-4d6e-41ff-9318-1872a6b91afa@kernel.org>
-Content-Type: text/plain
-X-ClientProxiedBy: DM6PR07CA0115.namprd07.prod.outlook.com
- (2603:10b6:5:330::6) To DS7PR12MB9473.namprd12.prod.outlook.com
- (2603:10b6:8:252::5)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AzvLeAO8";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="IDb3QiyZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1777290763;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=35yQ1ZXrLseNUvPdD9JBLV9Gu1c3gObu9vcLmsz8Vt4=;
+	b=AzvLeAO84jgIDB/RqnBh0H/kIMGbQ7gHuzJACeQHoRL6FMmK9dG7QLnIGosC7TyI/PptWX
+	7oDRUhOdJZLkTdNDoSJIpA11A4VrHYptYL/lKCmX5UFTMThSQ3dWa/SDJFZwRkBtwoPaqe
+	UOZqHbZBYmZSoJixXVWqa5LH/rxZHg8=
+Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
+ [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-86-ctMLvwNoNBi0QmZfUP0BeA-1; Mon, 27 Apr 2026 07:52:42 -0400
+X-MC-Unique: ctMLvwNoNBi0QmZfUP0BeA-1
+X-Mimecast-MFC-AGG-ID: ctMLvwNoNBi0QmZfUP0BeA_1777290762
+Received: by mail-ua1-f72.google.com with SMTP id a1e0cc1a2514c-95a78846a1eso3543618241.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 04:52:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777290762; cv=none;
+        d=google.com; s=arc-20240605;
+        b=PjKOApY6MPNKvQzpNX+1G3F1dMgf2HdmBRNMkgSfEiCndYQQFg/HBxf3BMbWovWy9S
+         O4xw2Reb8CiGXHljywfuGKYzIpdkrZbMDW+sqTz2AzTF8ToCrf3e7XKyoS19jKk+HXmU
+         d/OR/yQaEpX0tAdYeRFF0BbNAHya1U7ltQy41fyGgTnTj5l4rdawsB1w7tsJNgjjU6rh
+         8vnrsuwpLT84XM9DkGix+iF+rE2soPgrOG7ERKhpXtzpwKwnboc4mSHjHKJg/IVHs/JM
+         cLUpZIcZ+76i/99iMd2W80vLMnkSkKJ3kFxrK/DX6b7c1+K9OmfBElbTuK9rzYIOq5uo
+         v1iQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=35yQ1ZXrLseNUvPdD9JBLV9Gu1c3gObu9vcLmsz8Vt4=;
+        fh=4YjdnTNsTBCoo8rOtdE79GqRXN6EqY73FzLQoHBH08w=;
+        b=Sk3TuOI1W4kKzh0PEeYzWljs7IBGGiiSfty+UZFdB+PrOm0HT1pokUU7FAkWi59teh
+         CXn5jGoq0e2uPf2hjHFYwF6rqOD4ioXnfKPkdFVStZDdb8OSLw5hXtySfr88YpC3YneS
+         5gnSdxD4yQeVVd3mGK1odj5ymOG/r2CefETVtr8cNifyHPlD6dnMx/B74ZjnztZJMZ5h
+         OYY08ZcqP3WqtjVbP39gVQhQaYC7OMIYVeUhrhv0fATr853GMNgA1I6NMVuGwRbGlHA0
+         q3la+3T56mny+S7bEM6qEbqjZ6nAaiQgYWvvBXHRPKJ+foY2eRVtVV7jknuAA6R1aROo
+         4PDQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1777290762; x=1777895562; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=35yQ1ZXrLseNUvPdD9JBLV9Gu1c3gObu9vcLmsz8Vt4=;
+        b=IDb3QiyZcy2Aq8rf/w+/kgc73GMjy+rO5fj1bSm8VPx+iLLSZ5VckakVZrQVX/0saw
+         pW3BMtKwS7x4BP18i46sWRMKWPFGHsi3WyiRGS4J1og6vFrRZh3jdIBOWkmZgI1g/aC8
+         /sQyoDNr3nCQ7rhKRlgWgTO71MFsZrweGgTRfAPA24Jg7xeRhuxht0G16re0IPFSMmON
+         mSN4fUukc/0fEYVhE81lMjIW4ZygkfGCO+gw2AFePxUikeM8wmaEABu8aDXlVO6nnn1+
+         +jk0y9XTBkKlnDLi888R1AUHg2uV+7aJ5aECwvkD+tt+vuYWQVrilkZdjneUKxKRUgXE
+         vLEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777290762; x=1777895562;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=35yQ1ZXrLseNUvPdD9JBLV9Gu1c3gObu9vcLmsz8Vt4=;
+        b=XFGRZvJRVj+sjLCxK10FRhtw0XnfrzUbZgSp980RqLnlGBlVSv46PMv7+kDDCC6Yd3
+         a2E2KCu8aA3yGQOQGISrnbo/8w7d7W2+cjebzy1oTxveNgXAUcyG3oW15jMClS9Pop4o
+         3LkFuxWi7iwccbSEwfIorf5/rqQ3xpf5IpHX+cSdJuCtqyphKHGVMKE403aDmYdJh37K
+         TxcgWSM7B+J6tG8RJXfiro01CaB12wUarKDTJn0/42LByIaAN9hVHTdfPoJyI7vAg4TB
+         trcF1cQyQX4GTUMi6CCd7QQdw1r8AlXltSsIAONz+yWhHHkRu5TCsRB3Kab1Z06jkr2L
+         Hgzw==
+X-Forwarded-Encrypted: i=1; AFNElJ9w45Yos5QNQnxJrGdmFBz/shaDfDpuYOPLpne2X9smKrxsEEu5hjYx41eFSz/n7wFJ2y/Su4HBAxT8ufoY@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxrss00KYwiVkdB9Qlas55MI73iNp7kE0+/Fv5vfJxloPyQ2CnL
+	Qe2pmthWSC8gfFj0Iqq1vcs2tcjVB64JLpKxOexIJ+sz9tkdZ+GC146GZrqWOuKSch/Gf5Kx2Hj
+	8S7nKrWAb3G1asO7a+X6w+8e/K+iOzezfku7H/eWX2KmYnHnL887gzWWUcztWBEb2p0Z7DekAOw
+	jiAquW0tNyljbp+eIK0iT1WmJcQyHDs2wxLzIJIH7OBw==
+X-Gm-Gg: AeBDiet4Uid5VFQ7VR910Y+IVseRmjf1GfCbRIWWFGh+DWEJ84iUyT5XPufeNo6yvZN
+	YrY6z4H4li6Slv/BT7JVmRhkaKawmOC4xdmR/MKPKnlMxVXjiathiX0GZJahKnTeRZmYCSghzzt
+	JtLTYFO1zU2sbN67DJ1LLSF/wPrfrYt9FlkMyfWlbwiRoEQMijHbnCM2eJShD+QiudKW5mqREw8
+	VVoKOKs337BuMk=
+X-Received: by 2002:a05:6102:8547:20b0:61c:5310:e9d5 with SMTP id ada2fe7eead31-61c5310ed40mr8624251137.20.1777290761555;
+        Mon, 27 Apr 2026 04:52:41 -0700 (PDT)
+X-Received: by 2002:a05:6102:8547:20b0:61c:5310:e9d5 with SMTP id
+ ada2fe7eead31-61c5310ed40mr8624242137.20.1777290761114; Mon, 27 Apr 2026
+ 04:52:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|BL1PR12MB5777:EE_
-X-MS-Office365-Filtering-Correlation-Id: d929f3d7-205d-4175-4c9c-08dea453735b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|7416014|376014|56012099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	3OTdknLnqVL+Z2XaXJtzvRjcLkl+yEwwMkE35ZBMmQ8ZjQSWT6nFZ4i/ol30ZdIyLX5Fw/pAqaW6vin88HbaFZBvpjXH9zqk+M1vDZXTFHP2gv3fObhmMeC7qx9VHN/ckHdNPmYnVJ5bCqjJovcAbA7y43T+Nw8/4uz//txiC4YfIRCkNOJaDb0khchlg/u9KeHKfKnufH+KiX1Q2AB+6irG+ZL9jFua8d+LQR2lnrVHaZeWkBo1H2EL+6Hr9JcYn+zCbvO6LumaOEgE7m859xfdJcd8Y/fyu9U79Ri+E10raY7NLlMxF3J/Q2wAkqkw45iJcXDtNxuzBDGoG7/yh4uJALrnq7l6HY9MWxG6slnp+EmM4MsQ+fizcZaWlK705C1bOo8FyPtToORFwU2RKRgjlIsHv/Rcrfzh398PlD/XM4B0EsmrO7bpXKr01vevC1z1fyScezbF857F9Zs7fawXmiOIIghyKaNqqePRyKCqilve5p6cubwojFD3o0rTwht/Q78Syse2twh3M206qYDwfm+AakTfGAFBvvXI66KdCLkaEcdvtTBgNBkt+dmLV2DTwnh77WnQv4dKR7mPkxZapIfSuQHdrzla1Tw8cMWpC/nEbrldBv3z6mNToaz04O2rF6PoLu5jLcx6/gkJbWvc6+g09r0YjbgfGlvHAnUqtiswva1k0GzaUrIGaLIsMB8g8fNnH0P379f5swhVKxeOYomGFsjCB7RMBy8gE+E=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?IXb7N/zmF6NW0FHb2YytHaU9zVbiRlE+4rTiOAjMRRdDcFkG/PO84P4L6wzr?=
- =?us-ascii?Q?FPtKLRTROra6y4aRot3ZwFzQGVc1LZ8vqC+70cI5ZeQX69p48wkevxmuAURi?=
- =?us-ascii?Q?D9dcNs9vNUtrEwU2i4Xom6u0wWbPGdKByEwpcqdEH0ODqZ25KTEZfUdMZIMk?=
- =?us-ascii?Q?gkuUjkaKdJ+MuI8qd+yieQ318LuwhO0CgdJqAEtE9BfmaIRWZRY5r9t8ClIi?=
- =?us-ascii?Q?E6XgjTds3NRLRRO2TDLcjGaa1XZFzIGFPIDD6FarCsO1UHsabLutkvrz4eCh?=
- =?us-ascii?Q?0fGKpvsol/HRcdfQxpZCf/zRc2hkDLYDS7jj1PxhysECV7/4yGNmHB/GGrWD?=
- =?us-ascii?Q?i5CFUFDwanoQsQlTpxnlzrGVQQty8tR64BMYFMImvl/l83i2oSNfvwjH830t?=
- =?us-ascii?Q?MyOdtw1wSXR4+z6UoeIlXCEJX8CgcaAqRFlVDTHNf7i/F/e820N/pr36deJU?=
- =?us-ascii?Q?+aj7gvAvNqF4XRxX9/m/P0rBO/sU0QzCQdZ9NYhqeRAAygwZvg3iBSxZMY7v?=
- =?us-ascii?Q?5KYCPR619j5vyiYS7WuEkxog3i1vl3ZGbMtXSMBannR802xtGJ5XtQKw3bNY?=
- =?us-ascii?Q?rmFa1Y8VMMvLR7RqezzL1uiO6NqBk7SOKRCV4kqxkXBQyRcq2davKd/uaItG?=
- =?us-ascii?Q?txQN0FHx16CNagfLGLk1BcHXzqprbRDpFnt/D8uX2jsPt4evokTqqXyZUl5z?=
- =?us-ascii?Q?rS02wcK1a6wnMiCvwjlA5pCFnUhMmf/eIRlSSYyPKXBOt2ePq7lY4fr8yMT5?=
- =?us-ascii?Q?5Fr1BNsguKtaNhVtKPkj7X02QKoaY6oHIElpXA6dJIota7Dz/I5tn7yJfJxa?=
- =?us-ascii?Q?7xiosO6HWf2lrAQfdz/WSilYVUczt8Moo6BhHQ7teXmO42I1KobPZB+YcqNA?=
- =?us-ascii?Q?ZESHk4+VCFsh8zmAmEcT4PrppHgEuZaFId20Ro3nJ2kwZBgaQQectnrYsoT0?=
- =?us-ascii?Q?y4B4jVDox5f2V3a+zXeADNYMYqgnh+s3OWqlqsPbrpxhcQsvD/5r4APUpV0W?=
- =?us-ascii?Q?pxppshmMVE2gxTx5Z2Q5H5h1rfyBYTZKFna2EXW4WT7wdYh4VEicfInt6M+/?=
- =?us-ascii?Q?QRfWtzs0mFYai3sabR7bIObCXxrCqlgFdC1BIiSMStbrHo8tBNUX/Q6iYNIr?=
- =?us-ascii?Q?cii5Z7Sd+FGBkCKYH4WLDOia/pbsEhQaF8IqZnABaRTw9p4+3FeOCXwG3Cvj?=
- =?us-ascii?Q?yzS6m477dRU+me7WLFblH08GxnmplkhSpN9ruR3q1C3804Rda6teOsHsk5NE?=
- =?us-ascii?Q?7Au0h/HJvT2CioH3jrvbcJ3j3m6c9t8uWPQPw5KJOvdAPSUlMqfDM0G4raOI?=
- =?us-ascii?Q?SUxkFM1Uv4oTTfQGCA3n6Z85Rn31ffeh7Evw3LlUUrZlNC/HPWa8w4kkPPHY?=
- =?us-ascii?Q?dsyTGd3DUB/4NO46zsZtqS/J7DHFkOjOE4U6Fjai1+nqLv0baeOO0xd3JmuW?=
- =?us-ascii?Q?uWUrMjao8vlbk4OwicWs0xoGsUO2WRWWJqhzAfz7TjTQ2CbYkSYV/V8xf+gp?=
- =?us-ascii?Q?lFsRRiYG6Hu7UHsYC/HUKiwxdTaNHLsQ4aaZ/kHlVhDpn61xum8uocEnbXWZ?=
- =?us-ascii?Q?wULT0ac0iPBXVYmgMs00u4u9P6xPrQfsGFZbOy0pismh2ucNc1MQ/bHYqZtq?=
- =?us-ascii?Q?uq2QprLn452Ccz4zEcTRvI+V7vQbPBPtkhXuFia3zTqrTZgIohc56DPc7ZAA?=
- =?us-ascii?Q?7pfTNnNuqOS2GCzqXTiV1rHAADNsaw2jac5NU73IlEjzO0R6?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d929f3d7-205d-4175-4c9c-08dea453735b
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2026 11:52:25.9161
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZjPtNk953auzQ5fJUw3l7juMSWyGfCs6YCkGapCzZQyYlSQvavMrpQ2HihH+Vq0A
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5777
+References: <20260409200158.318567-2-slava@dubeyko.com>
+In-Reply-To: <20260409200158.318567-2-slava@dubeyko.com>
+From: Alex Markuze <amarkuze@redhat.com>
+Date: Mon, 27 Apr 2026 14:52:30 +0300
+X-Gm-Features: AVHnY4Kh-FaSVSdOgzo_TbYeTU0emEn26bVZMgokMIqeTgeTxafcpLpyoqSGBNY
+Message-ID: <CAO8a2Sgov04JScA4FvXP4cXrTKLbAXqowC9dDsUOxJJzRL2KDg@mail.gmail.com>
+Subject: Re: [PATCH] ceph: fix BUG_ON in __ceph_build_xattrs_blob() due to
+ stale blob size
+To: Viacheslav Dubeyko <slava@dubeyko.com>
+Cc: ceph-devel@vger.kernel.org, idryomov@gmail.com, 
+	linux-fsdevel@vger.kernel.org, pdonnell@redhat.com, Slava.Dubeyko@ibm.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 27 Apr 2026, at 4:06, David Hildenbrand (Arm) wrote:
+Reviewed-by: Alex Markuze <amarkuze@redhat.com>
 
-> On 4/25/26 14:00, Zi Yan wrote:
->> On 17 Apr 2026, at 22:44, Zi Yan wrote:
->>
->>> Replace it with a check on the max folio order of the file's address space
->>> mapping, making sure PMD THP is supported. Also remove the read-only fd
->>> check, since collapse_file() now makes sure all to-be-collapsed folios are
->>> clean and the created PMD file THP can be handled by FSes properly.
->>>
->>> Signed-off-by: Zi Yan <ziy@nvidia.com>
->>> ---
->>>  mm/huge_memory.c | 8 ++++----
->>>  1 file changed, 4 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
->>> index 970e077019b7..7e9cf8c0985f 100644
->>> --- a/mm/huge_memory.c
->>> +++ b/mm/huge_memory.c
->>> @@ -86,9 +86,6 @@ static inline bool file_thp_enabled(struct vm_area_struct *vma)
->>>  {
->>>  	struct inode *inode;
->>>
->>> -	if (!IS_ENABLED(CONFIG_READ_ONLY_THP_FOR_FS))
->>> -		return false;
->>> -
->>>  	if (!vma->vm_file)
->>>  		return false;
->>>
->>> @@ -97,7 +94,10 @@ static inline bool file_thp_enabled(struct vm_area_struct *vma)
->>>  	if (IS_ANON_FILE(inode))
->>>  		return false;
->>>
->>> -	return !inode_is_open_for_write(inode) && S_ISREG(inode->i_mode);
->>
->> Hi Matthew, David, and Lorenzo,
->>
->> After some discussions on irc, I feel that we probably should not allow
->> read-write fd for PMD THP collapse at the moment. Combining with the
->> filemap_flush() under folio_dirty() check from collapse_file(), khugepaged
->> would become a kwritebackd that scans pagecache folios and writes them back.
->> If we limit it to read-only fds, at least khugepaged would only write
->> back once for the pagecache folios from these fds.
+On Thu, Apr 9, 2026 at 11:02=E2=80=AFPM Viacheslav Dubeyko <slava@dubeyko.c=
+om> wrote:
 >
-> Makes sense. The comment above the filemap_flush() is valuable :)
+> From: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
 >
->>
->> I am planning to restore inode_is_open_for_write() check in the next version.
->> Let me know your thoughts.
+> The generic/642 test-case can reproduce the kernel crash:
 >
-> That would be better. Do we plan on handling races with concurrent writable-opening?
+> [40243.605254] ------------[ cut here ]------------
+> [40243.605956] kernel BUG at fs/ceph/xattr.c:918!
+> [40243.607142] Oops: invalid opcode: 0000 [#1] SMP PTI
+> [40243.608067] CPU: 7 UID: 0 PID: 498762 Comm: kworker/7:1 Not tainted 7.=
+0.0-rc7+ #3 PREEMPT(full)
+> [40243.609700] Hardware name: QEMU Ubuntu 25.10 PC v2 (i440FX + PIIX, + 1=
+0.1 machine, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+> [40243.611820] Workqueue: ceph-msgr ceph_con_workfn
+> [40243.612715] RIP: 0010:__ceph_build_xattrs_blob+0x1b8/0x1e0
+> [40243.613731] Code: 0f 84 82 fe ff ff e9 cf 8e 56 ff 48 8d 65 e8 31 c0 5=
+b 41 5c 41 5d 5d 31 d2 31 c9 31 f6 31 ff 45 31 c0 45 31 c9 c3 cc cc cc cc <=
+0f> 0b 4c 8b 62 08 41 8b 85 24 07 00 00 49 83 c4 04 41 89 44 24 fc
+> [40243.616888] RSP: 0018:ffffcc80c4d4b688 EFLAGS: 00010287
+> [40243.617773] RAX: 0000000000010026 RBX: 0000000000000001 RCX: 000000000=
+0000000
+> [40243.618928] RDX: ffff8a773798dee0 RSI: 0000000000000000 RDI: 000000000=
+0000000
+> [40243.620158] RBP: ffffcc80c4d4b6a0 R08: 0000000000000000 R09: 000000000=
+0000000
+> [40243.621573] R10: 0000000000000000 R11: 0000000000000000 R12: ffff8a75f=
+3b58000
+> [40243.622907] R13: ffff8a75f3b58000 R14: 0000000000000080 R15: 000000000=
+000bffd
+> [40243.624054] FS:  0000000000000000(0000) GS:ffff8a787d1b4000(0000) knlG=
+S:0000000000000000
+> [40243.625331] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [40243.626269] CR2: 000072f390b623c0 CR3: 000000011c02a003 CR4: 000000000=
+0372ef0
+> [40243.627408] Call Trace:
+> [40243.627839]  <TASK>
+> [40243.628188]  __prep_cap+0x3fd/0x4a0
+> [40243.628789]  ? do_raw_spin_unlock+0x4e/0xe0
+> [40243.629474]  ceph_check_caps+0x46a/0xc80
+> [40243.630094]  ? __lock_acquire+0x4a2/0x2650
+> [40243.630773]  ? find_held_lock+0x31/0x90
+> [40243.631347]  ? handle_cap_grant+0x79f/0x1060
+> [40243.632068]  ? lock_release+0xd9/0x300
+> [40243.632696]  ? __mutex_unlock_slowpath+0x3e/0x340
+> [40243.633429]  ? lock_release+0xd9/0x300
+> [40243.634052]  handle_cap_grant+0xcf6/0x1060
+> [40243.634745]  ceph_handle_caps+0x122b/0x2110
+> [40243.635415]  mds_dispatch+0x5bd/0x2160
+> [40243.636034]  ? ceph_con_process_message+0x65/0x190
+> [40243.636828]  ? lock_release+0xd9/0x300
+> [40243.637431]  ceph_con_process_message+0x7a/0x190
+> [40243.638184]  ? kfree+0x311/0x4f0
+> [40243.638749]  ? kfree+0x311/0x4f0
+> [40243.639268]  process_message+0x16/0x1a0
+> [40243.639915]  ? sg_free_table+0x39/0x90
+> [40243.640572]  ceph_con_v2_try_read+0xf58/0x2120
+> [40243.641255]  ? lock_acquire+0xc8/0x300
+> [40243.641863]  ceph_con_workfn+0x151/0x820
+> [40243.642493]  process_one_work+0x22f/0x630
+> [40243.643093]  ? process_one_work+0x254/0x630
+> [40243.643770]  worker_thread+0x1e2/0x400
+> [40243.644332]  ? __pfx_worker_thread+0x10/0x10
+> [40243.645020]  kthread+0x109/0x140
+> [40243.645560]  ? __pfx_kthread+0x10/0x10
+> [40243.646125]  ret_from_fork+0x3f8/0x480
+> [40243.646752]  ? __pfx_kthread+0x10/0x10
+> [40243.647316]  ? __pfx_kthread+0x10/0x10
+> [40243.647919]  ret_from_fork_asm+0x1a/0x30
+> [40243.648556]  </TASK>
+> [40243.648902] Modules linked in: overlay hctr2 libpolyval chacha libchac=
+ha adiantum libnh libpoly1305 essiv intel_rapl_msr intel_rapl_common intel_=
+uncore_frequency_common skx_edac_common nfit kvm_intel kvm irqbypass joydev=
+ ghash_clmulni_intel aesni_intel rapl input_leds mac_hid psmouse vga16fb se=
+rio_raw vgastate floppy i2c_piix4 pata_acpi bochs qemu_fw_cfg i2c_smbus sch=
+_fq_codel rbd dm_crypt msr parport_pc ppdev lp parport efi_pstore
+> [40243.654766] ---[ end trace 0000000000000000 ]---
+>
+> Commit d93231a6bc8a ("ceph: prevent a client from exceeding the MDS
+> maximum xattr size") moved the required_blob_size computation to before
+> the __build_xattrs() call, introducing a race.
+>
+> __build_xattrs() releases and reacquires i_ceph_lock during execution.
+> In that window, handle_cap_grant() may update i_xattrs.blob with a
+> newer MDS-provided blob and bump i_xattrs.version.  When
+> __build_xattrs() detects that index_version < version, it destroys and
+> rebuilds the entire xattr rb-tree from the new blob, potentially
+> increasing count, names_size, and vals_size.
+>
+> The prealloc_blob size check that follows still uses the stale
+> required_blob_size computed before the rebuild, so it passes even when
+> prealloc_blob is too small for the now-larger tree. After __set_xattr()
+> adds one more xattr on top, __ceph_build_xattrs_blob() is called from
+> the cap flush path and hits:
+>
+>     BUG_ON(need > ci->i_xattrs.prealloc_blob->alloc_len);
+>
+> Fix this by recomputing required_blob_size after __build_xattrs()
+> returns, using the current tree state. Also re-validate against
+> m_max_xattr_size to fall back to the sync path if the rebuilt tree now
+> exceeds the MDS limit.
+>
+> Fixes: d93231a6bc8a ("ceph: prevent a client from exceeding the MDS maxim=
+um xattr size")
+> Link: https://tracker.ceph.com/issues/55725
+> Signed-off-by: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
+> cc: Alex Markuze <amarkuze@redhat.com>
+> cc: Ilya Dryomov <idryomov@gmail.com>
+> cc: Patrick Donnelly <pdonnell@redhat.com>
+> cc: Ceph Development <ceph-devel@vger.kernel.org>
+> ---
+>  fs/ceph/xattr.c | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+>
+> diff --git a/fs/ceph/xattr.c b/fs/ceph/xattr.c
+> index 5f87f62091a1..31de29629ba8 100644
+> --- a/fs/ceph/xattr.c
+> +++ b/fs/ceph/xattr.c
+> @@ -1254,6 +1254,22 @@ int __ceph_setxattr(struct inode *inode, const cha=
+r *name,
+>               ceph_vinop(inode), name, ceph_cap_string(issued));
+>         __build_xattrs(inode);
+>
+> +       /*
+> +        * __build_xattrs() may have released and reacquired i_ceph_lock,
+> +        * during which handle_cap_grant() could have replaced i_xattrs.b=
+lob
+> +        * with a newer MDS-provided blob and bumped i_xattrs.version. If=
+ that
+> +        * caused __build_xattrs() to rebuild the rb-tree from the new bl=
+ob,
+> +        * count/names_size/vals_size may now be larger than when
+> +        * required_blob_size was computed above. Recompute it here so th=
+e
+> +        * prealloc_blob size check below reflects the current tree state=
+.
+> +        */
+> +       required_blob_size =3D __get_required_blob_size(ci, name_len, val=
+_len);
+> +       if (required_blob_size > mdsc->mdsmap->m_max_xattr_size) {
+> +               doutc(cl, "sync (size too large): %d > %llu\n",
+> +                     required_blob_size, mdsc->mdsmap->m_max_xattr_size)=
+;
+> +               goto do_sync;
+> +       }
+> +
+>         if (!ci->i_xattrs.prealloc_blob ||
+>             required_blob_size > ci->i_xattrs.prealloc_blob->alloc_len) {
+>                 struct ceph_buffer *blob;
+> --
+> 2.53.0
 >
 
-Probably not worth the effort, READ_ONLY_THP_FOR_FS does it using filemap_nr_thps()
-and cost 8B in struct address_space. And read-only -> read->write race window might
-not be that a big issue, since it does not cause repeatedly write back.
-
-> Or could we simply gate the filemap_flush() by a inode_is_open_for_write(), to
-> not have it turn into a kwritebackd()?
-
-This is a great idea. With it, not dirty folios from read-write fds can be collapsed.
-I will do it at the end.
-
-Thanks.
-
-
---
-Best Regards,
-Yan, Zi
