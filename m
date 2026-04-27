@@ -1,186 +1,174 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ACC9352C2C
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 16:23:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF8983CD8AF
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 16:30:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.54
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777306992; cv=pass; b=uZ7fao5hraNz0GWMop7X6s1HokRtx6QGoGsXtux9YQ96AXF1dcnEwZZmgJtgkX7+f0aBqswtd589XN3iZG8s0x8Lg54wzuWZnf1tmBU+0gO9Owq7ntOEC5LETu+FiyO+mMce3LKYLUjUaavMqyH0XrHO1ggJAUD0JATvjafEfZ0=
+	t=1777307461; cv=pass; b=FJCBBH+eX3nhOAK2BpMZGvcMy3hcDcABhudCfwtP2w5lpNw1h1J5kRZsVdzuVXWMLgEid+ZvrdcmPpmcnddgGk+Kx2O5ZaX1EuBoHECIU7GaHVo/i6hnoF7pBgyNlo6czdNlYnZzW5u8CRs5fOpO5K9HEMOU8xVXlVfpPEcjysM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777306992; c=relaxed/simple;
-	bh=+HFdjFqMEmhJ1jK6vhXmVTNc0PNxIZOBPQrKTd7NNGA=;
+	s=arc-20240116; t=1777307461; c=relaxed/simple;
+	bh=idvner3mgft23dklNp8J4rH+ZI4P2VAwnJOBXPrMcrw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BaOWC3sKMLhapnYxN66D9b2L21DKyuoruYN77bQCshIHPXe05hWoZGATAfMLfDBBqZYP/nr4XuwzmGUeizWIeopX9hrPHybE0WeNX1FZ4cUBnPOHULoaRGlAFfhqskjQvyJrsP1Y+PfQaIC/aecnmul3+3ODzdu3TvdIxymv8Ns=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lJCPDVbe; arc=pass smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=krdJwDXM4FFlfUZWb9urLmMR2fWeDrnJ9A/HHcoCuDpW8Sc7KO8/c6oikAFXLz/hDCGeDMgWpttdXYd7B6Qd+P8kCmYWCrCiPcSlB51Sw0Sp4vj0K+mtv8Dwr6KfcCFUhE2JPFxLaWuASAEKLStkXonI9Qac/ufwQyfsJQqkvgc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eLUXXzdF; arc=pass smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lJCPDVbe"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2b243198058so456925ad.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 09:23:11 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777306991; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eLUXXzdF"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-ba67b332bbaso1221150866b.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 09:30:57 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777307455; cv=none;
         d=google.com; s=arc-20240605;
-        b=EZr7cC6awy7vyasSalHpMkHFzQSEegmAmi7mMr4NXF5DRjpVi8tu81RLlPhwI3tjFN
-         O/SjYRBE+S1cE0Vwac2usOUvlNBChNrhh1lfmUDl2LcU2dWCOyn4xwsmuWoZEiqrP85q
-         ilwgu+08FSeK+/xsnvvD/BQKZxOv0TRnBBskTQuDsDIIQQSFIdCixDfdswVGWj6tjXIB
-         2aGVXouigRei2txtEG7KqqXx7H4ckKmu89elbu4jkDJOMUiGQElponVC3tuNia25QwCZ
-         0SfW+4gnFcBRxUgRltMsVA9d48HGD+62E3s1x96ShNyKxBNFM7Qw8R8HbSNA6KamqjTE
-         W/Ow==
+        b=JQhonI0CibnCc5BdFIEBB0YVR9fA0536oyZZHp/T/MdNZcAmE5CZCtUzHqxsPWus96
+         D4I+ZlU5LSoDtfmIejqH+NichRMUaaBRUin3KqpJpIvQfXyOAp3NsHAY9XVlFLu7qz2K
+         DyeDjpWUCeR7kMX0AZFTSlWq7qZDP3EWxs2T7oAXc3d02AmEWj5dPyphVRknhUevQohr
+         khO5N7yYHqm1/N+4S23tXmRGE96IzdcIl95zI7b4h7qbLPZ/gDKhDDFViUinHi6fU0K6
+         wXXQHblsGI5r9Zlbpw5Z1xZkE6lGfmd+2BNMisHnBDDwtQqhPw7t6HxZEnsWQtPVkOqN
+         MUPg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=206Fh4X3dDRStaXDm8n9sC400Cq7S/zIhUvs0OOCjSY=;
-        fh=0Ah3WK9i0iAFJXgobSlhZq+hzLoVBIKTKoHnMleItbI=;
-        b=aRiROCHASRJTu2KnnoHTr7bJVwBUgNrgjs4T5vRhjpiPC9Xj/20MMGWVbWt4L2DmuO
-         VZNeWcqPP6MTPGIH/s8oclSIK91d89OLq6mMkAhPdS+bMf6t2HwXzS/s4mkNyvcXqwBo
-         7ms8CV+B/3zPs2hNIk6iiFtOQT9QBcJOcEMbAaNIUBekxv3y0gcTU5L56AEbec0ShEY9
-         HjKXfq4Xf+LXuwo2Pw3AooJEvrHYDPyZz8w3T0sZIINl6OBmesOLwHxkt2fBHR0qRzl3
-         0uMelLRLJ1gXkHWhFo88Z7O8V+kOkqiqQG6Pt4Z25LjxIputwa40zBB0jOpBdcdFINej
-         pkFg==;
+        bh=B7Z/bR7l35cxDwn9+LDbQum27vsLynWJhwJbt8jzAnU=;
+        fh=YnWKQYPeU4UCKPQCPj6MTwMDnYARn2MKYZLd4FSjnNw=;
+        b=F7uSAalfxkaMRwydi3BN/KduIJjV6zWGVMWaTuCLhKkbed6GGBxWpSSBnmxANSpdCk
+         BZJXofK5m9IC/A1nvpKxbNRtWzmBhho0zStt/2gt/141EcBtzwMAb0paMoV+QsdB8x69
+         as98N958tBwYHC67HAvzktieT2jssne4H92S5fpmViqYRtqx2xYziiN/1Irc9MWOZEZu
+         0Vf9ZR9koz1c8mPGg47C0QsjRtBYV2dN0AudQz6Oro9tUe3FmOS0gaFz3USY52yWeSkg
+         BbqhKYU5wPNTXOgvIHrFIJNypaikTgfXJ8VjMt8IiGJEMgPoz7hv/rvC5Q6gBRC+H78S
+         9SfA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1777306991; x=1777911791; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1777307455; x=1777912255; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=206Fh4X3dDRStaXDm8n9sC400Cq7S/zIhUvs0OOCjSY=;
-        b=lJCPDVbepFSCVqouBBkyQzZBXr360CC/qlmmtGkNwH4+uQKH0YbcZSiapxk+t2IlHB
-         lBGohs8XTeIuZKE9BGoDNzz+PPG60OJw+UZ1KB1Umty5qDSMqRG5ya1LcAvMyv8qyje0
-         dxhqLdVE2qG9l4X2Z316CdCel5vOp+QQnQmvbMT+VRHePUs4GyI6kmikgmHAIbUkhnSC
-         /ccBc2+8fotB+MTD8WY75LrZ97KqBz7Oy5vCwXCJTO5rezcyNtp9B88w21e27pQ7T5Ku
-         YMGpC7E/V9Kt9G5WMPYdF/w7sUlk9KgIEG5H2PSajiHyj5CcgIcr1W6lPqWVO0Ti36+S
-         j9kg==
+        bh=B7Z/bR7l35cxDwn9+LDbQum27vsLynWJhwJbt8jzAnU=;
+        b=eLUXXzdF+kXYoyBc8nSDmCGGAz/1e0/zuWoSv5U3a1szoR5/g7LPlWio54onwM2f8y
+         /8/tfR/sYCe8SLelIiai1EG5uW5dqol5GkS67zuvpg4pUSLy1GZpDgVKF2PlrzVmHTtK
+         Y51i0ML2jdtNzC2eA/n8PcF/oH1X5FdbdqJEwlChduJbJXbDSDV0M3Ope5EchKkgPN41
+         K785yoOePwIMaU9Y4v1u/mdZaL55zPAfLu0oQTHNO1nrB1OKKGUD+NamK0YWeAN22B42
+         jgbE46KOamulWpQfg62tdVOuYSUVuJb/SiK0N3Oyo+s0MYwSchOdV6UihKPkMb5VUJ3q
+         p8jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777306991; x=1777911791;
+        d=1e100.net; s=20251104; t=1777307455; x=1777912255;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=206Fh4X3dDRStaXDm8n9sC400Cq7S/zIhUvs0OOCjSY=;
-        b=ZM23q/gETP8jqlSu4cJa/ei7ES+KGQal3DzJCQQV8v3w4N6vagvt1FC7UYz56soJWW
-         g4Htyt2bCvoU6wUJBWJO48VprOFTR0MnCaMG78aF8YmzDBohBe4SKczNogRO6Tt9niEi
-         KbV1UIgH2YyCoIZv1/9vHcHy8y6FVAcPImA99OEcjhEDfbujauZUNOa8c0o6/EvsY4Ow
-         CLBYIWYMPWhDnbZ5fF7qhjTmQy0n6hU9ntA/vY3jdUzWkWXsHQx53n8uyeOsfPlT+mHd
-         9D4yaoo29X2eB0S+h/c8GtJ449hyH9dIMr+uZ15+EWhKodVENslMwIkptqkgnCxFDZ/k
-         atbg==
-X-Forwarded-Encrypted: i=1; AFNElJ9227KfFL5d7lfgPXo5UVAPHb3z/g3iliYa3MqvkVM+LdipOOjY3p7XanEgGwkkBnvX0Mr/oifG59PgyvHv@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw3yxH21WnJvetzHDjAU5d9+uSX0zbYo/b6Sj1PZ3rY4U6QKsL6
-	RVGjNfEU4NzrE1739p43uqFqAgWdWG2DhHMB9G+gKqhMZA8tHgyCLqmGzYH6mGhShNgBBPFqGvl
-	oF9uavDQJgtZnQw7ZRYQb/mbzNckdXhNOr4XaJsIy
-X-Gm-Gg: AeBDiesfvTvgB1WMdvmquWmSXdZJPjDXoaEMxBwg0+29mFRkBQ2eeqoU77GiR8Q3EiD
-	NE0syhSGblBkak+Z1dnABYnd5fyfix80gtodI/kH1lM/VrWQqvpncbNk24O3ckDg4C2aGlumA+z
-	eMijmWZg2moTnDxgTNJuXM9SyUN2pNmR8/JiCyp5M5YoNVOdznesbPZUA47SB1W/zxerykRFD1x
-	13REw2LR6oAxbMemkxhgePHsdOt/hOnrQQodiSxxmYyop7gN1wtpCmg9Z5BkG6KkIVqhgva1IMX
-	WdvP4YmlXfDlob/elccgIJ/FQPwNGcLbjatIP7Pbv8YmZGEs9fiIJRW8Zg==
-X-Received: by 2002:a17:903:c05:b0:2b4:6529:7bae with SMTP id
- d9443c01a7336-2b97a4e7ca7mr51125ad.17.1777306989849; Mon, 27 Apr 2026
- 09:23:09 -0700 (PDT)
+        bh=B7Z/bR7l35cxDwn9+LDbQum27vsLynWJhwJbt8jzAnU=;
+        b=VrDQZiRgU8O9efycgEwIDwXveTclSbVk7Q7Oh3EGr1TWRoq1HwUjnU8NZJVnyitR6N
+         GU9onaUNRJk3ZwrjoUlXbmbhvi79H5x8E8dlmux0N15kCARi+Hx2RdI3iBOUMLg5uaXH
+         bcfE4WFJg1XO5wyu03f0C82GJ6rF2b32s7Wtd5bKaN8lginD+cPFp6bcfr7njGKJFEa2
+         7C4kojuro7R4I8tAy7ExKSzno7aZ2uPQPJaq3B+aUkbFYMtNpYjnk5YNsREHrcGZMMGO
+         8QUm+jJP+0GhDf08/N+1c1F3x53iDZ6bCCO3oVS6JdDIrWN8vTynfxw2gGD6W3EMiF3Q
+         J6lQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9D4Li5SfaspeHGqI6uVbLcPkxsksOcb5iUoXdGhy8VHWVxEL+oIxK9MdHi4K3KxqMUyu84mv6epV4mO+Xf@vger.kernel.org
+X-Gm-Message-State: AOJu0YxKZN0EtvhZ7oXUnygKP9lv7goiFUju5UMu1g4ydgtp4wan7VK+
+	sgpGegumgii7Qd8DnB5pR8UjDz/N+L5lqaVi72+H//qZ91ZJ7//TqujZBdmlkuWQomD3hnwardY
+	6OlvFfAt0yoHA2eBIjpW0HUfnr1MCwc8=
+X-Gm-Gg: AeBDiet8uQd66Ny5JrgkQkeqh+u493ruLMtKNpJAw5WcHJ6oxLWAUcAYI3egO7CqoWB
+	cW+FEPAHFxlneUFTeaVQBBv3Q2mdmllTGIXjxAvfZdfzhU6p4wjjC0SwKnvAxDooKCSCRx2n5nA
+	DgduwFeCPNddNnAgW4vCYvKklDJu1RPhCWg9Uzh32NSz4yVboVwbqZhrRpIcaje6ouZtVd+chkt
+	lRxfwhzVkIShUBZuAGJ+7K/8H3exg2r9OX5nmDFXK/cJhIvPZnk0FhH1te2c3VEKWSpcPGyyOaj
+	I5eGaLriGN7etL6gd7tEoNmcrr8dSIqD36srRaVtnRR6Jk4X6z+TyByyS2iF
+X-Received: by 2002:a17:906:8e15:b0:b9c:4fa:9141 with SMTP id
+ a640c23a62f3a-ba419077377mr2070161466b.9.1777307454882; Mon, 27 Apr 2026
+ 09:30:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260427030148.653228-1-fmayle@google.com> <c7f94ce6-1dfb-420a-b073-d86abeff1f76@kernel.org>
-In-Reply-To: <c7f94ce6-1dfb-420a-b073-d86abeff1f76@kernel.org>
-From: Kalesh Singh <kaleshsingh@google.com>
-Date: Mon, 27 Apr 2026 09:22:57 -0700
-X-Gm-Features: AVHnY4I1vyG5MhQpN8fAKqxOe-avfjBnum1jR3fQl3SDDHUoZnLZAP_N2GaXCNE
-Message-ID: <CAC_TJvcM11got-LcMo24OTN8uXa01oVvUX6HmVvrWMJWVSgEzQ@mail.gmail.com>
-Subject: Re: [PATCH v2] mm: limit filemap_fault readahead to VMA boundaries
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Frederick Mayle <fmayle@google.com>, Jan Kara <jack@suse.cz>, Lorenzo Stoakes <ljs@kernel.org>, 
-	Matthew Wilcox <willy@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Pedro Falcato <pfalcato@suse.de>, Suren Baghdasaryan <surenb@google.com>, android-mm@google.com, 
-	kernel-team@android.com, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org
+References: <20260412135434.3095416-1-jkoolstra@xs4all.nl> <20260412135434.3095416-2-jkoolstra@xs4all.nl>
+ <5xexygc3rvvlir4smdfn7gndwjgbuijqfummwwumivsnosijux@ygqs3iqxmovh> <20260427-rudel-gipsabdruck-a7884db4ecea@brauner>
+In-Reply-To: <20260427-rudel-gipsabdruck-a7884db4ecea@brauner>
+From: Mateusz Guzik <mjguzik@gmail.com>
+Date: Mon, 27 Apr 2026 18:30:42 +0200
+X-Gm-Features: AVHnY4ISYjfmOuhoMK9ONLGmIrCNFHHU0Ih5PKAcLvuNRoFbTb0DP2K6JgsHNoI
+Message-ID: <CAGudoHFLSHhDZoC6maLsn234dMQVnG4ZbpKXoVrueGujArNF-A@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 1/2] vfs: syscalls: add mkdirat2() that returns an
+ O_DIRECTORY fd
+To: Christian Brauner <brauner@kernel.org>
+Cc: Jori Koolstra <jkoolstra@xs4all.nl>, Andy Lutomirski <luto@kernel.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Arnd Bergmann <arnd@arndb.de>, 
+	"H . Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, Peter Zijlstra <peterz@infradead.org>, 
+	Andrey Albershteyn <aalbersh@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
+	=?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Jeff Layton <jlayton@kernel.org>, 
+	Aleksa Sarai <cyphar@cyphar.com>, cmirabil@redhat.com, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-arch@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 27, 2026 at 5:41=E2=80=AFAM 'David Hildenbrand (Arm)' via
-android-mm <android-mm@google.com> wrote:
+On Mon, Apr 27, 2026 at 5:14=E2=80=AFPM Christian Brauner <brauner@kernel.o=
+rg> wrote:
 >
-> On 4/27/26 05:01, Frederick Mayle wrote:
-> > When a file mapping covers a strict subset of a file, an access to the
-> > mapping can trigger readahead of file pages outside the mapped region.
-> > Readahead is meant to prefetch pages likely to be accessed soon, but
-> > these pages aren't accessible via the same means, so it fair to say we
-> > don't have a good indicator they'll be accessed soon. Take an ELF file
-> > for example: An access to the end of a program's read-only segment isn'=
-t
-> > a sign that nearby file contents will be accessed next (they are likely
-> > to be mapped discontiguously, or not at all). The pressure from loading
-> > these pages into the cache can evict more useful pages.
+> > Things proceed to handle_truncate:
+> >       int error =3D get_write_access(inode);
+> >       if (error)
+> >               return error;
 > >
-> > To improve the behavior, make three changes:
+> >       error =3D security_file_truncate(filp);
+> >       if (!error) {
+> >               error =3D do_truncate(idmap, path->dentry, 0,
+> >                                   ATTR_MTIME|ATTR_CTIME|ATTR_OPEN,
+> >                                   filp);
+> >       }
 > >
-> > * Introduce a new readahead_control field, max_index, as a hard limit o=
-n
-> >   the readahead. The existing file_ra_state->size can't be used as a
-> >   limit, it is more of a hint and can be increased by various
-> >   heuristics.
-> > * Set readahead_control->max_index to the end of the VMA in all of the
-> >   readahead paths that can be triggered from a fault on a file mapping
-> >   (both "sync" and "async" readahead).
-> > * Limit the read-around range start to the VMA's start.
+> > I'm going to ignore the LSM situation and do_truncate failure modes in =
+this one.
 > >
-> > Note that these changes only affect readahead triggered in the context
-> > of a fault, they do not affect readahead triggered by read syscalls. If
-> > a user mixes the two types of accesses, the behavior is expected to be
-> > the following: if a fault causes readahead and places a PG_readahead
-> > marker and then a read(2) syscall hits the PG_readahead marker, the
-> > resulting async readahead *will not* be limited to the VMA end.
-> > Conversely, if a read(2) syscall places a PG_readahead marker and then =
-a
-> > fault hits the marker, the async readahead *will* be limited to the VMA
-> > end.
-> >
-> > There is an edge case that the above motivation glosses over: A single
-> > file mapping might be backed by multiple VMAs. For example, a whole fil=
-e
-> > could be mapped RW, then part of the mapping made RO using mprotect.
-> > This patch would hurt performance of a sequential faulted read of such =
-a
-> > mapping, the degree depending on how fragmented the VMAs are. A usage
-> > pattern like that is likely rare and already suffering from sub-optimal
-> > performance because, e.g., the fragmented VMAs limit the fault-around,
-> > so each VMA boundary in a sequential faulted read would cause a minor
-> > fault. Still, this patch would make it worse. See a previous discussion
-> > of this topic at [1].
+> > AFAICS nothing prevents the same user from racing against file creation=
+ to
+> > execve it, which starts with exe_file_deny_write_access. Should the
+> > other thread win the race, get_write_access will fail and the WARN_ON
+> > splat will be generated. That is definitely a problem.
 >
-> I agree that workloads that do a lot of mprotect() magic likely do not de=
-pend on
-> readahead optimizations.
+> That can't happen:
 >
-> But I'm sure we'll learn quickly if that is not the case :)
-
-Hi David,
-
-There is already this limit for the exec VMAs, so perhaps these use
-cases are in fact rare enough; but we'll need to see ...
-
-https://lore.kernel.org/all/20250609092729.274960-6-ryan.roberts@arm.com/
-
-Frederick, could we also now remove that logic (EXEC mappings)? Maybe
-in a follow up patch.
-
-For this patch: Reviewed-by: Kalesh Singh <kaleshsingh@google.com>
-
-Thanks,
-Kalesh
-
+> static inline int get_write_access(struct inode *inode)
+> {
+>         return atomic_inc_unless_negative(&inode->i_writecount) ? 0 : -ET=
+XTBSY;
+> }
 >
-> --
-> Cheers,
+> and the check is:
 >
-> David
+> error =3D handle_truncate(idmap, file);
+> if (unlikely(error > 0)) {
 >
-> --
-> You received this message because you are subscribed to the Google Groups=
- "android-mm" group.
-> To unsubscribe from this group and stop receiving emails from it, send an=
- email to android-mm+unsubscribe@google.com.
-> To view this discussion visit https://groups.google.com/a/google.com/d/ms=
-gid/android-mm/c7f94ce6-1dfb-420a-b073-d86abeff1f76%40kernel.org.
+> This was a catch all for broken LSM hook or ->open() instance.
+>
+
+So with this prog:
+#include <fcntl.h>
+
+int main(void)
+{
+    open("test", O_TRUNC);
+}
+
+I verified writecount is 0 on entry to handle_truncate like so:
+
+bpftrace -e 'kprobe:security_file_truncate { @[comm, (int64)((struct
+file *)arg0)->f_path.dentry->d_inode->i_writecount.counter] =3D count();
+}'
+
+@[a.out, 1]: 1
+
+i.e., get_write_access in handle_truncate transitioned the count 0 -> 1
+
+but then what prevents the following race:
+
+CPU0                    CPU1
+open("test")            execve("test")
+  handle_truncate         do_open_execat
+                            exe_file_deny_write_access # should
+succeed as count is 0?
+  get_write_access # should fail as the count is now -1?
