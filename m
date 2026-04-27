@@ -1,111 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from abb.hmeau.com (abb.hmeau.com [180.181.231.80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DE1530B533;
-	Mon, 27 Apr 2026 11:31:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36356307494;
+	Mon, 27 Apr 2026 11:35:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=180.181.231.80
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777289511; cv=none; b=bEOF8Zhen54kYCAF6DCiWla+xoZUzM6Ztj2j2onMyU8UYXyFTQRHFP8f/toitWhwcG3dWp8Hjut3ufrNxVusxE9RBsYkox73sDUKLr3c5sMTpnWf1yMoWYFv+U7wwkQxZy7Jy/Z3KF1yW8BA5aGy4YyfdwNM9GjxVjObbx96xg0=
+	t=1777289706; cv=none; b=smB5TGZfZUWbOHrUHWRMJKTZZG/dprlOV7HDnYvUnBGTVZEwmzA8zq0osicV+fXdj2BUgsthlM5zbCSOVkenGw/vI3iDJ52+SlnOTLVbCQG0lC2CfplUWHK9qbMqxEnKT7UszuSWP85ruH7rZAj7H94rO5Z9r8WLH+QL/vp+Bm0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777289511; c=relaxed/simple;
-	bh=iNslZoTyQAg0rKSwDznTtdERDBUeqpLTEMT5UjUqXQ0=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=mQ9RMaq8haWPeov2MSVXH9FjK6XkPS4i86dtaqRGKqu8gFd8Tyi5noxrFAeIGDq8oilat/j1q5L+SGHDp1whwpvAQQoBfSk/ePmf2YA8Zzf+iA0Q+eU1xUPEAKx8wkJIkaheOvbDi0pLQBhT6nz2La9rvVs0N8TRHAbnOMRg6Mo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=YgCAbI5/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777289706; c=relaxed/simple;
+	bh=H1dHoAM4HOsOpa5Ljr+Nts3jk5x2j0G2BqulrmMIUcA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KDjaYcvBlksrJB7YA68mWYlLF6vpNcBuVHcKD6tKYTuMuP4LWyH4s2ifJk5vG8WEwhZk7bJ8XyfNLI7XjDdOCL69Pz25GG9qMogLNXbz/nEeTFHQ+S8y+3QH1fz1ou8CxqWmEHYiWQxB4DCAVBrs6XJb0ND1/Gjt9j0Q0rEF3+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=gondor.apana.org.au header.i=@gondor.apana.org.au header.b=b79Pn0kp; arc=none smtp.client-ip=180.181.231.80
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="YgCAbI5/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57AD5C19425;
-	Mon, 27 Apr 2026 11:31:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1777289510;
-	bh=iNslZoTyQAg0rKSwDznTtdERDBUeqpLTEMT5UjUqXQ0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=YgCAbI5/49351SMViTuoAykJaAlMsQGsGGuhnM1gQBqXu9W/qJxHJse/OfV2NQiKe
-	 r1a1bGncfNUOi3K7DzPUclTfGl5L0gt0BgDd4ieGd6NbozoFUXpgGeb4uRZPu9YXWm
-	 Os/Sya5U/QdzAngUigeVrTP8Zsix0Fm3LC2mF/Bc=
-Date: Mon, 27 Apr 2026 04:31:49 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Thomas Graf <tgraf@suug.ch>, Herbert Xu <herbert@gondor.apana.org.au>,
- Vlastimil Babka <vbabka@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- David Hildenbrand <david@kernel.org>, Suren Baghdasaryan
- <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org,
- syzbot+5af806780f38a5fe691f@syzkaller.appspotmail.com,
- "Uladzislau Rezki (Sony)" <urezki@gmail.com>
+	dkim=pass (2048-bit key) header.d=gondor.apana.org.au header.i=@gondor.apana.org.au header.b="b79Pn0kp"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=gondor.apana.org.au; s=h01; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:cc:to:subject:message-id:date:
+	from:content-type:reply-to; bh=/ZJjWYJEBe1j1UXPI8uSHg2lT/Aimpgb4SQ8c8oJ6jA=; 
+	b=b79Pn0kpRLWY/63lVphIcJgh81kotGsdlZabp4Xawl8+qSo1+NyzQJlU7kvoemOpWdTgKzGwI/t
+	wgi7LvUnMco4NLM3YDYRuTIXCLFLXnlakiNmfixEnHk40bpq1Tgt9Z/U/9ZIhMnM9qf996SCAuvsR
+	dNfwHFO8iOzWKgZXE66RzCJ3AI2hgHED3cCtJqIKwSXkIWRXrzTryrslEEAfS3EHb79OzSa7VLEs+
+	vX44zlPEoW1prpUwCtGlBKdYIwj5CCdNDIdeSiAGi45+/N/fLLTwedF6YCoU5y1B54omfBBHdu0pE
+	56+D43ZBZoy2O3QsMsBTydxB+6ENaKhSASfw==;
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
+	id 1wHKEl-0099Ag-20;
+	Mon, 27 Apr 2026 19:34:52 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Mon, 27 Apr 2026 19:34:51 +0800
+Date: Mon, 27 Apr 2026 19:34:51 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Christian Brauner <brauner@kernel.org>, Thomas Graf <tgraf@suug.ch>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	David Hildenbrand <david@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+	syzbot+5af806780f38a5fe691f@syzkaller.appspotmail.com,
+	"Uladzislau Rezki (Sony)" <urezki@gmail.com>
 Subject: Re: [PATCH] rhashtable: give each instance its own lockdep class
-Message-Id: <20260427043149.e8fe46494d92d561175861ca@linux-foundation.org>
-In-Reply-To: <20260427-work-rhashtable-lockdep-v1-1-f69e8bd91cb2@kernel.org>
+Message-ID: <ae9J29Tjq7wuICT5@gondor.apana.org.au>
 References: <20260427-work-rhashtable-lockdep-v1-1-f69e8bd91cb2@kernel.org>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ <20260427043149.e8fe46494d92d561175861ca@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260427043149.e8fe46494d92d561175861ca@linux-foundation.org>
 
-On Mon, 27 Apr 2026 13:09:57 +0200 Christian Brauner <brauner@kernel.org> wrote:
+On Mon, Apr 27, 2026 at 04:31:49AM -0700, Andrew Morton wrote:
+>
+> Is this related to https://lore.kernel.org/202604211323.fac1b29e-lkp@intel.com
+> 
+> Are we able to identify a Fixes: target?
+> 
+> In the above-linked thread Herbert had
+> Fixes: c6307674ed82 ("mm: kvmalloc: add non-blocking support for vmalloc")
 
-> syzbot reported a possible circular locking dependency between
-> &ht->mutex and fs_reclaim:
-> 
->   CPU0 (kswapd0)                    CPU1 (kworker)
->   --------------                    --------------
->   fs_reclaim                        ht->mutex
->     shmem_evict_inode                 rhashtable_rehash_alloc
->       simple_xattrs_free                bucket_table_alloc(GFP_KERNEL)
->         rhashtable_free_and_destroy       __kvmalloc_node
->           mutex_lock(&ht->mutex)            might_alloc -> fs_reclaim
-> 
-> The two halves of the splat refer to two different events on
-> &ht->mutex.
-> 
-> The kswapd0 path is unambiguous: shmem_evict_inode at mm/shmem.c:1429
-> calls simple_xattrs_free(), which calls rhashtable_free_and_destroy()
-> on the per-inode simple_xattrs rhashtable being torn down with the
-> inode.
-> 
-> The previously-recorded ht->mutex -> fs_reclaim edge comes from
-> rht_deferred_worker -> rhashtable_rehash_alloc ->
-> bucket_table_alloc(GFP_KERNEL) -> __kvmalloc_node ->
-> might_alloc -> fs_reclaim. That stack stops at generic library code:
-> there is no subsystem-specific frame above rht_deferred_worker, so
-> the splat does not identify which rhashtable's worker recorded the
-> edge -- only that some rhashtable in the system did.
-> 
-> Whether or not that recording happened on the same simple_xattrs ht
-> that is now being destroyed, the predicted deadlock cannot occur:
-> rhashtable_free_and_destroy() does cancel_work_sync(&ht->run_work)
-> before taking ht->mutex, so the deferred worker cannot be running on
-> the instance being torn down. If the recording was on a different
-> rhashtable instance, the two ht->mutex acquisitions are on distinct
-> mutex objects and cannot deadlock either.
-> 
-> Lockdep flags a cycle regardless because mutex_init(&ht->mutex) lives
-> on a single source line in rhashtable_init_noprof(), so every
-> ht->mutex in the kernel shares one static lockdep class. Lockdep
-> matches by class, not by instance, and collapses all of these into
-> one node.
-> 
-> Lift the lockdep key out of rhashtable_init_noprof() and into the
-> caller. The user-visible rhashtable_init_noprof() /
-> rhltable_init_noprof() identifiers become macros that declare a
-> per-call-site static lock_class_key.
-> 
-> Reported-by: syzbot+5af806780f38a5fe691f@syzkaller.appspotmail.com
-> Closes: https://lore.kernel.org/69e798fe.050a0220.24bfd3.0032.GAE@google.com
+I think they're two separate issues.  The addition of non-blocking
+support triggered the vfree while atomic issue, while the lockdep
+splat is simply due to the use of rhashtable in fs/core.
 
-Thanks.
-
-Is this related to https://lore.kernel.org/202604211323.fac1b29e-lkp@intel.com
-
-Are we able to identify a Fixes: target?
-
-In the above-linked thread Herbert had
-Fixes: c6307674ed82 ("mm: kvmalloc: add non-blocking support for vmalloc")
-
-
+Cheers,
+-- 
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
