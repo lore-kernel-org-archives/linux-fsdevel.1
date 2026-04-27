@@ -1,212 +1,140 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 795583803DB
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 12:48:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F305312803
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 12:52:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.44
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777294120; cv=pass; b=YyBxUO/WhKL9HdQK3K/hx3gEfZ4ZNPOqRwaDFYO+aCLtyc7mK9O1YXmsbE6O1MLgNKx2enUc1jgh1HJOgGqx5ciWXfiwCd0KctX6FwoaCZMiwaKq9cM6hW3lSV6vXw94eKul7V6UtyxI7QMPBVCv5J65b0iXxSjM6Wxmqi1MhOs=
+	t=1777294324; cv=pass; b=Gfix7Ge/YaRrK9Dpc1mFAZGNOPiozmROrMo76TTdxeZUGoOQ7ekkXs27iVho0COndRYtr8uQiNTiuhUQfcEZZv+WKsAcx/HyMBI5FLi6ZusVPwrlkfWGlvMnNIbb7ulBfmi5MwGgRbIqEbs3cbtWucQyBNGfH5s96gVbuAQlBwI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777294120; c=relaxed/simple;
-	bh=b0Icckm+Plk021xclbvKmb7LSU2YUWfD7jrM6zKcdnQ=;
+	s=arc-20240116; t=1777294324; c=relaxed/simple;
+	bh=EG/J4UGh3eCwSuRcJEkJEJxR7JlBLrl/6GrVtUQBlGs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ElQu1DNwgj9KPbDDBbFn7O2zdC+24eMtOs2YmgdrwEevBSogr7s2rckTCfskRRba0VX140PlsBaUU+4RuHExM40j3WzcGr0f3sP+IQGmgKvqI4Yk0tdMjDKzUQtkd3wldRe/pHkr4HG3Lmjz+j6wRaczgWmdJG5Oyj8SH6mqf/4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fS8cMseG; arc=pass smtp.client-ip=209.85.221.44
+	 To:Cc:Content-Type; b=nTeXAqcXwsN1IAzcnQYto1EmolnpVPqGPQKevpqDrFxmG9TmXwI8nl40X5QXtZTVw9jm8Q1uADOLn+eQ+2QOw44CmmBlqF4pbSIJqZyHvodyG2Knom8x60l9En5qEHyuwS3nGQuxc/0+7i2C5OA25QYvCGivBKrz+jOHlihH5nk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G0Yf1hgu; arc=pass smtp.client-ip=209.85.210.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fS8cMseG"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-43eada6d900so10048012f8f.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 05:48:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777294115; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G0Yf1hgu"
+Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-7de4e6c5a30so2926475a34.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 05:52:03 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777294322; cv=none;
         d=google.com; s=arc-20240605;
-        b=eO1fMXZT9+44UEP2G9uSecplE692nJVwvpThJNaFm9R/dR0PGbcVbeVuGiJI/EIg5R
-         D2fQDyAsCgWjXPdmU+8PlnrPjCa+jKIdq3iz8cUrD0OA2yZdx5kpcBYV7z/7dLtiBpOj
-         y9nd4FLdWZbmr/9mO+mKzcf0Mu4aQmLoDJRBPJNMn6Kfc5SPoN8vJn5ucWcFG7K4sxcc
-         yGaCmkhC5eDKEjSDN1+FgOElw1DeMhF5H0Jne04Z1b/yHdwvioOyqAaaEEG2KXF4zL2o
-         ySkQ5MxWHJnMUMJ2fAkzMzwihOKTYMM/Q9Sk0WubR5v6MbdKhwYq3PzEQSdeiei0wiru
-         vATg==
+        b=KM0aWJJUAHyWI0yrt2hsPXG6iMwu6VtqUWb5aJby1qQKlfG/hk0wUpAGXo4DEtWNkE
+         Tfn21u3qXFyg8h9W7u0w8oUcqd9O1tw99pGamUG4rUE6fOqq6S08tH7Q97ICHHyJ5Za7
+         KXDDrhST10WQVuiNLq3i8/CrsxxU+9gfAoK7+75/XVUheilI2WgynbMPc2obomvkvMij
+         BzKFKjJ7Q9yQyVILOueIkOWId3TzoR3k/J7DM0L6VmakD50SO4d3yqatfQvaYB5XUAQ0
+         04KLbLS6Jz4CDK0Z3lPU+8j0cajZn4Yo7QvAMcJJL4TtmGUHMH6DxvPv1xgj9/62H8fr
+         4VNw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=wWMmBdrmkGuOGSH1/NGgSO4BjSYy8FKRbM9YyJi/QYE=;
-        fh=lvEuGgtL5pHFgOnzSbKpiGYkGjaHbW9Sc71h/445v6k=;
-        b=CjH6I17baKEQxdrxVlvzI/EGCzlHLBzbWXXONswzvf+UiR0PyQ0R0tRawT5dk6pMmR
-         ZNhT6p15XJyNeXGijW5QwFHgVanxUqfoil8jweBHUohdh/qLU95pIu2sPj7kA7uwB/n1
-         brEWiFfcTBAB0SKx5c3u5wWwRyGhY3qK/X0Qjz1AD997hLWyU2LVI7slHaTrznltOWxE
-         /wXqTA3GW1ZT0DdoWs2+mcw5oySnBHTV7uBWxBH4gjKDISzUmAR+/Re9aPTZ9/zVfDkS
-         Wx2oESSUxnG1INZaa0k2WKJR7kEs9PAQ4pSggIpvkvQik1RATs87lhOQKWPLkkKaKvrq
-         axDw==;
+        bh=EG/J4UGh3eCwSuRcJEkJEJxR7JlBLrl/6GrVtUQBlGs=;
+        fh=UruxWHbumpFd+/MpnCcxY3RnDAQiyLjXGS40cA0dSLk=;
+        b=kZ4NAjqcsKxjkUHXcjCJxqJ2hk8Pf/yeEyRJ0klW2Iui397Gnb9Cgqvf1gIR+NuuyG
+         Ke7HyTKZA34AiD9UPyit0/QMyUbd5he0z9G9+1qxF+4O0kThzID2MyDkibsn6cTYlw2q
+         7NEIUqKKA1Tdym/uSw/oD2DHFsQ2ioTSjQ/EVZL388wRJB70v15NrWCg0ViGTaTxp0uG
+         F+d0q9L9Cxy+p73DpzbXuVqEDZAQQ3iQvt/XT5WO5cl4RjTn1KhUNE+hv+aIKKkGCvbp
+         zNE9lgp+Q1FB1hKg67vJ6WoK7BF41Pe2rQj282xB7wgSDnARjNWItpkVEJMAtgdZ5xNn
+         oT/w==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777294115; x=1777898915; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1777294322; x=1777899122; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wWMmBdrmkGuOGSH1/NGgSO4BjSYy8FKRbM9YyJi/QYE=;
-        b=fS8cMseGhTD+deA0WKJglLpxR9+ZM/tzarI8q3Em1X04cGaJWPwwsL/8ib/TWcXz+W
-         T2IyB2EuCIhYfgdqjYt732uKuB8JbBbSYYI8s40WwuyYBMtg7Walt6k8t+bMr4Slhrl+
-         iGgcwZkPeYd4PHg98a8DPf0IKrQ+sAIVnutQPY1zpQQ6dOm2G4RVHPTnJjK4JSrtfrf0
-         pabCaR9GWi9H9sC/zf+r1Y4GUXGBjcQU0nmKq9BAy6jCqZFj3Q2v9YafbK9DdtRIgIRd
-         30oxdth4sNAPwy34XTkWrALRkTirimcUXOdBid7OC5HKU97cpph0evoRBv3To16Gnxvj
-         CQNQ==
+        bh=EG/J4UGh3eCwSuRcJEkJEJxR7JlBLrl/6GrVtUQBlGs=;
+        b=G0Yf1hguojRHNRSWp8/L/SqogjcktqFRhjfMwoq15RF9QTNw0PXp/OhiaDgz+U+OPX
+         0NO9fA8twaLKIluXBPJ6z2lnU7FnvZ1UzhxRYItS48JUIJzPC5jv+ckMkgJLX63hWe7q
+         x4oEeDg5vbWUG4yE4R2Gh8gHrdS4BbgKvLS626KiDGYSTbgltrmcwvV2F6ElONsy/B15
+         13LDOdKutasevGOaCmmzWXE/eF6U8AHJBNFkfv08BBo8izI0BaS6hs52+vyWmrZPmKq1
+         8hz5zOewTuiY2V8hij5CwsqoG2c17ehs2CcEQ8wAFiwocmbto1ezbjOAAyZOeOfxQdyh
+         G2PQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777294115; x=1777898915;
+        d=1e100.net; s=20251104; t=1777294322; x=1777899122;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=wWMmBdrmkGuOGSH1/NGgSO4BjSYy8FKRbM9YyJi/QYE=;
-        b=X4/zi2r4ja4qi31z5RvXV0MW5Ft3mHmFoLY82ls1GrZ2k+SZuKGoPchmfwwCW/vq7s
-         gd/ahByXBTkHjciLQwZyyysdDaDKJlfSS/G0JkF/gSnwCvnA9kznthQdgiCQ2l5xv1r4
-         r6ReLZ6B/BMoxWXG4bLovQWIuv+yCrRminj77+KByCArL8l1jmrJ5fJ0ABqYt4JET07d
-         fXjmwqAhIwMFb6yEO0jWzJyBvOvNidMFX+slwf/jlz5Pg3yEb7tUkskgtsTKIkHgButb
-         zBHfs6qfyU/L7hNgb5xZXjdAxV5t78XIOYJ386qcnmygApJIlpRnbUzSBF5IJtITQ1uA
-         xSNw==
-X-Forwarded-Encrypted: i=1; AFNElJ+13H1J8BPuwmt4QM8Dtj4fB0fcAJ01bRgTHR1PT9qvGdX11lzHBNx9LZwodNCkUAu/D6JXFiSHMssFtp3J@vger.kernel.org
-X-Gm-Message-State: AOJu0YxCYyRoKa4FpJp8+zdiZB7E73czT5ZWfSHG+RE8n8/O1AznshUv
-	IcJrGhYarcEgfJY95XBSptsTtpr3wgYuyvzltrVm4srTf7xJQGRdE2sEUBe/2od4dspiTUjS+BZ
-	0WW1AKC4cWjPgFWCPBlyOqcsLGA2jXHs=
-X-Gm-Gg: AeBDievRq+hZrxUKRngawVJtphUuvNdOEMZJNcz1Snkz8xYC70XoiCxvn1S+vfbEZBn
-	2IdjA7/JYCJ41N6wCSGRMjb5vmRdkT7PksseyFCEiqA8gXNKGo8KGvE/68c2dU0jfc5u9ehw2R2
-	+0CCK2SV5m2lDAY5FSM3ARZ76p2aMyQtZtMbtPdYgr5vCiaDMzCVV6HsEzArPWF/tmJGgrKA97B
-	UL/CfLs1Wc24gLy0JAiRGocjf9t+pC4jRP7hrXs0Tfddksi3kinnmwodZNWJxL17lloh+8dk2hs
-	khR9SUYsZCosBiyjwxhQcHDTcgceSfHyMg==
-X-Received: by 2002:a05:6000:18a3:b0:439:b8b2:fabc with SMTP id
- ffacd0b85a97d-43fe3dd4b7dmr66564872f8f.21.1777294114923; Mon, 27 Apr 2026
- 05:48:34 -0700 (PDT)
+        bh=EG/J4UGh3eCwSuRcJEkJEJxR7JlBLrl/6GrVtUQBlGs=;
+        b=QkRVNMtFfWNxLnfD9TEw32/7y8WJ3dJt2uzaUuPcwUIOYbEpw3TRt84UMJX62ZGJSY
+         7YM3eJZbrAWxLMHdgbrn+mtjYFLNpzjuV9s0lqe8q8/dMqsxBQRvfcUZymIwPipiAUAj
+         AgJdXhpE5hpak2qYaenVKi0/+8syA16zeV8LODF4sgZmyAfz1tkVy6mxB+uyrYwZj7I6
+         XjDp6io+XLJyK6+wmsUYEUy5y/iIJBZxYRIK4Lc55DbcB+ZwFfLi+mBK5gjsJ2YXrFWv
+         v+wzyVgucaaJRGz9p1qvuPDO2dUXT0Fz953s/W92h8El7584IMP2bNqsohzyIhBEGb6E
+         LT3A==
+X-Forwarded-Encrypted: i=1; AFNElJ8XBfgt243iTHHNWaGDFDdeaWz91+OrO7Ie+tuZDi0U7rVyMQmDACb9AvaegQgnuPW4Gc0/CJixLfmUEswR@vger.kernel.org
+X-Gm-Message-State: AOJu0YxSCnKuWqZGTusL4UKlgoVLcvQEIDZFOLKqZyKlx/5PpXb4sFTx
+	w3pb1KgoVe1R/aXInT7AtY9X/FoUkJj78kZTL0YL/hdWNmjsAmf23CME4uENboraxnvMBvyLEQJ
+	nVV1K3UgYQ7x0QwuGphRpc5ePCXTL5kg=
+X-Gm-Gg: AeBDievpADGGkvdy9FIpZyKMbuaBuP84afJN81gr8o3lRGNw9dh//LQMIpkqDdlatJH
+	/HghrU2GQNJMLrXklkLDGYXy6DJfsYOsfsz23uX+6GLNM1Bwj22fFcHzAyO+eYJIQbNNRqoRraS
+	GIQYLpX9M4UPCKd9lxPIWfII/9oq3VqZDjYfncuHHvZCM3MCplfeO+sGi4vMTbZBOJy+Nu4xKUG
+	z/nwpZewlrpThbOITlGUSj3PVe1L8JBTa64Y5fJhWC2Ek16stnp74WCBzAlxaIGRuTyeBa+i8Q0
+	2nW6G+URtZ/iH8y7sexWcOhhprXjhgA=
+X-Received: by 2002:a05:6830:6732:b0:7d7:f638:7a03 with SMTP id
+ 46e09a7af769-7dc950ff385mr27811030a34.10.1777294322529; Mon, 27 Apr 2026
+ 05:52:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260424134935.16161-1-luis@igalia.com> <CAJnrk1bv4NK7MF4msYMAmbS=+vL=k8NLoLiNyM4QB+amccpOww@mail.gmail.com>
- <87mryokb89.fsf@igalia.com>
-In-Reply-To: <87mryokb89.fsf@igalia.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Mon, 27 Apr 2026 13:48:19 +0100
-X-Gm-Features: AVHnY4I2KC03jSnyEaPe91Ov5H2L0IAjkV2v1_J9s7LaLGq7nbWyDrYCpJ4nnL0
-Message-ID: <CAJnrk1ZCyHtL6NEaSuww+RQvNNfAW8NkvRA=+=HXQwdG_4aE_Q@mail.gmail.com>
-Subject: Re: [PATCH] fuse: fix race between inode/dentry invalidation and readdir
-To: Luis Henriques <luis@igalia.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Matt Harvey <mharvey@jumptrading.com>, kernel-dev@igalia.com
+References: <20260427-work-rhashtable-lockdep-v1-1-f69e8bd91cb2@kernel.org>
+ <ae9ItoKFvB12Qimn@gondor.apana.org.au> <20260427-ledig-urform-4719da0a06d2@brauner>
+In-Reply-To: <20260427-ledig-urform-4719da0a06d2@brauner>
+From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Date: Mon, 27 Apr 2026 17:51:51 +0500
+X-Gm-Features: AVHnY4IScH53UaYPIaA6YOC4aKjN9vN_SqKv35Tn7RXxw0SMwzMLtQd2SMg1vdw
+Message-ID: <CABXGCsPtb5dsz9tJFO-42qY4Cqd4MDg=m3g-9CshQgO00keyOA@mail.gmail.com>
+Subject: Re: [PATCH] rhashtable: give each instance its own lockdep class
+To: Christian Brauner <brauner@kernel.org>
+Cc: Herbert Xu <herbert@gondor.apana.org.au>, Thomas Graf <tgraf@suug.ch>, 
+	Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, David Hildenbrand <david@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
+	syzbot+5af806780f38a5fe691f@syzkaller.appspotmail.com, 
+	Jan Kara <jack@suse.cz>, "Darrick J . Wong" <djwong@kernel.org>, linux-crypto@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 27, 2026 at 10:23=E2=80=AFAM Luis Henriques <luis@igalia.com> w=
-rote:
->
-> Hi Joanne!
->
-> On Fri, Apr 24 2026, Joanne Koong wrote:
->
-> > On Fri, Apr 24, 2026 at 6:53=E2=80=AFAM Luis Henriques <luis@igalia.com=
-> wrote:
-> >>
-> >> When there's a readdir in progress, doing a FUSE_NOTIFY_INVAL_{INODE,E=
-NTRY}
-> >> on an inode or dentry may result in stale directory info being cached.=
-  This
-> >> is because the invalidation does not reset the readdir cache.
-> >>
-> >> This patch fixes this issue by adding a call to fuse_rdc_reset() (modi=
-fied
-> >> to include the required locking) to these two operations, allowing the
-> >> readdir cache to be invalidated while it's being filled-in.
+On Mon, Apr 27, 2026 at 5:21=E2=80=AFPM Christian Brauner <brauner@kernel.o=
+rg> wrote:
 > >
-> > Hi Luis,
+> > But could you please try this patch and see if it also fixes
+> > your problem?
 > >
-> > Just curious, are you hitting this issue in practice or is this mostly
-> > theoretical?
-> >
-> > afaict for fuse_notify_inval_entry(), it calls into
-> > fuse_reverse_inval_entry() -> fuse_dir_changed(parent), which calls
-> > inode_maybe_inc_iversion(). afaict, this actually increments i_version
-> > (since I_VERSION_QUERIED flag was set when the cache's iversion was
-> > initialized with inode_query_iversion() in fuse_readdir_cached()),
-> > which means the next readdir call will detect this version change and
-> > call fuse_rdc_reset() (in fuse_readdir_cached()). I'm not sure I see
-> > how this leads to stale directory info lingering in the cache after a
-> > concurrent fuse_notify_inval_entry()?
-> >
-> > For teh fuse_notify_inval_inode() case, which I'm assuming is the case
-> > you're running into where the directory is the inode being
-> > invalidated, I see the call to fuse_reverse_inval_inode() which calls
-> > invalidate_inode_pages2_range() if the offset was non-negative, which
-> > will invalidate the readdir cache's pages, which means on the next
-> > readdir call, will already call fuse_rdc_reset() when it detects the
-> > missing page in the cache (in fuse_readdir_cached()). So I'm not
-> > really seeing how this can happen either for the
-> > fuse_notify_inval_inode() case? Unless you are passing a negative
-> > offset, but as I understand it, passing a negative offset is used only
-> > if the server wants attributes invalidated [1], not any data.
-> >
-> > afaics, the onlyy stale directory info returned would be for the case
-> > for a concurrent readdir that has already passed the pos =3D=3D 0
-> > iversion/mtime check when the invalidation arrives, but that seems
-> > like a server synchronization issue, eg if the server wants uptodate
-> > data when doing a concurrent readdir and invalidation, they have to
-> > order that themselves. ANy fresh lookup after that though, I think
-> > wouldalways return fresh/non-stale data for the reasons mentioned
-> > above.
-> >
-> > Does this align with what you're seeing in the code or am I missing
-> > something here?
-
-Hi Luis,
-
+> > https://patchwork.kernel.org/project/linux-crypto/patch/20260422213349.=
+1345098-2-mikhail.v.gavrilov@gmail.com/
 >
-> First of all, thanks a lot for looking into this and for doing such a
-> great description of the issue.
->
-> So, I did had a report regarding a possible race between a readdir and
-> invalidation when using keep_cache and cache_readdir.  But, unfortunately=
-,
-> I don't have a lot of information regarding the actual issue, and it isn'=
-t
-> something reproducible.
->
-> Then, looking at the code (and, for full-disclosure, I've also looked at =
-a
-> claude analysis that was handed over to me) I could see a race that I'm
-> trying to fix with this patch.  But I believe it's the race that you clai=
-m
-> above that it's a server synchronisation problem.  For example, with a
-> NOTIFY_INVAL_INODE operation, when fuse_reverse_inval_inode() is called
-> while fuse_add_dirent_to_cache() is being executed in parallel, the
-> iversion/mtime update could be missed.
->
-> It is possible to hit this small race by instrumenting the code, and I
-> could occasionally (and momentarily) see stale data while running readdir
-> in such instrumented testing environment.  Do you think that's something
-> inherent to the usage of the INVAL_INODE op, and this race will need to b=
-e
-> handled by user-space?
+> Possibly, I don't have a way to easily reproduce this though.
+> Imho, the right thing would be to have both: actual useful keyed lockdep
+> annotation and - if safe - dropping the mutex.
 
-imo yes, that is not a bug in the kernel and userspace is responsible
-for synchronizing/coordinating that. I think the kernel is just
-responsible for ensuring that any subsequent readdirs are not stale,
-but afaict the existing code handles that.
+Agreed -- the two changes are orthogonal: yours fixes the lockdep
+class collapse, mine removes a mutex acquisition that has been
+unnecessary since cancel_work_sync() was added in front of it.
 
->
-> In fact, the report I got seemed to indicate that the issue was not going
-> away with a fresh lookup (though an 'echo 1 > /proc/sys/vm/drop_cache'
-> would fix it).  But maybe that's another indication that this is a proble=
-m
-> in the user-space server.
+On the safety of dropping the mutex: rhashtable_free_and_destroy()'s
+documented contract already requires the caller to ensure no
+concurrent operations, and cancel_work_sync(&ht->run_work) at the
+top of the function quiesces the only in-library writer (the rehash
+worker). After that, the tables are owned exclusively by this
+function. The walks I switch from rht_dereference() to
+rcu_dereference_raw() were already correct; the lockdep annotation
+was just asking for a lock that no longer needs to be held.
 
-that seems weird to me, maybe there's something else at play here in
-addition to the concurrent race? Is there a repro for where the stale
-data survives a fresh lookup?
+I checked all in-tree callers of rhashtable_free_and_destroy() (and
+of rhashtable_destroy(), which inlines the same teardown) for
+correctness against the contract; none rely on the mutex for
+serialization with anything other than the rehash worker.
 
+I have no objection to either patch order. Happy to rebase mine on
+top of yours, or for it to go in independently via Herbert's tree
+once yours is merged.
+
+--=20
 Thanks,
-Joanne
-
->
-> Cheers,
-
-> --
-> Lu=C3=ADs
+Mikhail
