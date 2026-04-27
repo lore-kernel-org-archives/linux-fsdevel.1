@@ -1,1014 +1,250 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D2682F260C;
-	Mon, 27 Apr 2026 14:40:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FDEF314D26
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 14:42:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777300845; cv=none; b=HNCYvSQWE6vnKc1T3Y+x0ZFDYLQdQFPMLJHGUpnCxY6+gv5zj5WPlnON3LbwvsV6aZbTot0qUkLJv+T22ir8oRulvJ5zwA9KYo8CqXzKhzdHYW0htYh1XCoaSCyEuSZFG2Ygbx6MMJwQrA8oZfitgQaqiomX5rhLPz6+P+tsc5s=
+	t=1777300965; cv=none; b=mV3ZBNB2OjXuWRYGK4L4wnWzlXLN/ZtUjmAEryyg60m+J8Vp5tGsMjVZzBa89BqHog7Kv81/4qYFZ6cXPNssx+gSRmi7IxRKHEEAY9wQGkbnDHyQLqq8pmo/Vz8DfDJboNC9AEsPPuIZkLKNMFXughHSHqjD4u2TG3ojXgPnI4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777300845; c=relaxed/simple;
-	bh=QFvNerRY7BIzBhy2PZNTkwBoL14k2lXXrurCTqlDctc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=THQz7GZtMLEsBF+asrimVwoxI4QNeF5DkVhRaYMLuJ4BOd7OhbTRbPjuk3d1qPoNOY0UggCUsatZfNGDB0hJbC/Qjipf0V+qqLYxA+SJ54QjKXDpIzPlmGNkdTA5WeyYC8AiFPE1jcQzUNLLyQ7POXq0dVN3cgOoMGJAAdRP92c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uttlur5a; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777300965; c=relaxed/simple;
+	bh=pvIo6hOAjV6offkkg8aKHsEBxUguf+foRJ64GmHShRw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=i6AiTYc/N8vWDPNXuplp3im4hrMvhF8e6mTzih0KVeaLnJ0vxv2LAnJ6koQnK0MhQxBi5qYQahb7t/uZdUGFzFHBOkK8WGyjtOykV9KpVxiiIpoKJcPvOaxtFmKhJIiHd+/925W84g32Ujfu/gk8gCV4unq7dtI3L10XCKw3e3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=Knmdc8ur; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=pgZmbg6M; arc=none smtp.client-ip=103.168.172.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uttlur5a"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF9D5C19425;
-	Mon, 27 Apr 2026 14:40:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777300844;
-	bh=QFvNerRY7BIzBhy2PZNTkwBoL14k2lXXrurCTqlDctc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Uttlur5aPxJzGtGwH8rjP4XY8RwhKCJI5I0rtJW4tLR3Ki/glAFxy4/LIBlZb5QO+
-	 RAXlTiuxEOomRhU8/tTarvz0quADCYe0/di/N1L7Di1dSXNS+930WhT9hauGCQ623X
-	 p1QBi4CYb1ztuYt2gKrPjLEm749bO2gHLfX800lIzZRY39j/30itiZakCftUQGBP5B
-	 eh+/qFbQWW4t9GPxLG2ghyNhvXxt1nadqu7LHyH7s7Zs50LGcNVJ8Uk7jYopSBzpo9
-	 qlBO2RT+Iq3ORlvtaTUPHWE7jTH/WabhWklMXISfys3Uxr7VZYP0csDZIXDooPXQHK
-	 Et3wa4Z/5msMg==
-Date: Mon, 27 Apr 2026 07:40:44 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: neal@gompa.dev, linux-fsdevel@vger.kernel.org, joannelkoong@gmail.com,
-	miklos@szeredi.hu, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH 06/13] util: hoist the fuse.conf parsing and setuid mode
- enforcement code
-Message-ID: <20260427144044.GK7739@frogsfrogsfrogs>
-References: <177689988489.3820166.4979104167640003535.stgit@frogsfrogsfrogs>
- <177689988649.3820166.3224389906885819847.stgit@frogsfrogsfrogs>
- <dc82e3b8-09ee-4681-932f-2948d8e9a021@bsbernd.com>
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="Knmdc8ur";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="pgZmbg6M"
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 8E5B2140008B;
+	Mon, 27 Apr 2026 10:42:42 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-06.internal (MEProxy); Mon, 27 Apr 2026 10:42:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1777300962;
+	 x=1777387362; bh=l5o2oQE4bSU2U3LlXPyyeVAXS+3h6XnJoAZvXLHalcg=; b=
+	Knmdc8urJ+Cn2UTlDVGzTeFqiM8E2tZzEcl7FZVGquRhaO0CAhf0I6Dw4EmKOAEw
+	njU4z1CvuoU73YeJGWhzXC1EYiEdvZP9KnJuvLOMU0IMEXAcML5JuvkW54mmGAJS
+	d0xNGsc29LJmRBxg5P3UpH2hyllW21I7lV8fo5hiBuCCilkafdYSlMnknwWMTcqi
+	7E2gQIklVIn2rYncI54HReCTPbRhvm+WHjGMkTh2ltVbHww7cQtpinAyFdUi6Q9j
+	2hytQKZP4QPC/dEyvHsEwB2d3zssFZS5eJBLBXbSp04FztpzDe5BNqUTh6ka6U76
+	MlU8aPcJZ7y8MKIgczvKQQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1777300962; x=
+	1777387362; bh=l5o2oQE4bSU2U3LlXPyyeVAXS+3h6XnJoAZvXLHalcg=; b=p
+	gZmbg6MCce/oIrAOOajmtIATqHx5pi9qminDQqVzO3lwaX5yZELfk9fqG105m2kC
+	nY5CEPySOgDAKtY86pRZPliKzq4lDiKcdgsB6t6hsxFrz/XqsqIntfuTVP2uWdcM
+	PiLJoJWx0ka47zGP19pKdxlVcN4WHXVHu8CvWTT4fa9DjpJpmoMakjX7O7LInzgo
+	QSMfoTkIUWHE/HJotBuAPI6i4+BijELX/Q/17udYU4p4UCXJWY6lbMVaCxS9bIMA
+	bVx69SEkUYpIMEG6H7dWqrN7ykbno+cUW4/wzRyKqWpGHzIlhTsP9nqpbKib1bfX
+	lbzKJGW3wQ7C5+gAzdcvw==
+X-ME-Sender: <xms:4nXvaQ_7q2uLFT4Lsgc26MA4ZiaN41XetvTYOXpBmCywyABuuD-LyA>
+    <xme:4nXvaflFyurTKPEXrJ4HiW-y6SYK7CL8-qlFWCPHo-8InJE7LZLuhEg304C6GiHuS
+    GBSwoEyVZB9Jz0IOosahlwTdp18le3dR9fQnwHRDqkCzgmvAa4>
+X-ME-Received: <xmr:4nXvaeUTnMXujklbxB9C8017EeOulSjkzF-7VL5sAuhaaI0lrcn5swOCHFDM_KJsnf6GnVkzHlTsfvDXFLrAuruUpK36rCi6Q2Oe4gZRIZdtRkSmXQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdejkeeliecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeenucfhrhhomhepuegvrhhnugcu
+    ufgthhhusggvrhhtuceosggvrhhnugessghssggvrhhnugdrtghomheqnecuggftrfgrth
+    htvghrnhepfeeggeefffekudduleefheelleehgfffhedujedvgfetvedvtdefieehfeel
+    gfdvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsg
+    gvrhhnugessghssggvrhhnugdrtghomhdpnhgspghrtghpthhtohephedpmhhouggvpehs
+    mhhtphhouhhtpdhrtghpthhtohepjhhorghnnhgvlhhkohhonhhgsehgmhgrihhlrdgtoh
+    hmpdhrtghpthhtohepmhhikhhlohhssehsiigvrhgvughirdhhuhdprhgtphhtthhopehl
+    ihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoh
+    eplhhuihhssehighgrlhhirgdrtghomhdprhgtphhtthhopegutghhghdvtddttdesghhm
+    rghilhdrtghomh
+X-ME-Proxy: <xmx:4nXvacFgEdAFJWkn23VPSPOThoh9YB-bRqT9rV7dl3esPsLCYr3mLw>
+    <xmx:4nXvaSdVVfmDLwG0tYBx4HyIld5f_5zsLPJwkhBuLSgxJCQ1IJvGZw>
+    <xmx:4nXvaVKlxin-56NJfyOTyotYTaARjXX2RKVsFlajbeeKfh7-6SHtfA>
+    <xmx:4nXvafFX7RvSSx0LfvkO17HPVmYgxo-0B2sFryfUmbFEUx6QVRp_Cg>
+    <xmx:4nXvadGH2jBXw1-qE5aoJSdTd-OlcINiEM11ZRvBgTnYQyoP0tJiah-T>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 27 Apr 2026 10:42:41 -0400 (EDT)
+Message-ID: <981c9f40-5555-4f3c-89c0-cd120c6fc768@bsbernd.com>
+Date: Mon, 27 Apr 2026 16:42:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <dc82e3b8-09ee-4681-932f-2948d8e9a021@bsbernd.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 5/8] fuse: {io-uring} Allow reduced number of ring
+ queues
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ Luis Henriques <luis@igalia.com>, Gang He <dchg2000@gmail.com>
+References: <20260413-reduced-nr-ring-queues_3-v4-0-982b6414b723@bsbernd.com>
+ <20260413-reduced-nr-ring-queues_3-v4-5-982b6414b723@bsbernd.com>
+ <CAJnrk1aYYSVU-AdxRoqC5H8xk+4rt9Tf=3BPphsw4vvNxjpEyA@mail.gmail.com>
+ <b7e93b2a-7096-4957-bf75-38e096a9dd3e@ddn.com>
+ <CAJnrk1aL7xW1Z+=ns=zaOtjcUvOZMRR9icz72B9Ye7d0jYgDeQ@mail.gmail.com>
+ <e5a181d4-635f-4b91-b49a-e8d34b16f495@bsbernd.com>
+ <CAJnrk1Z1HgPXLzfcKMhOKjdZzcjuXbRH4de+4zQpoqvhSB=A-g@mail.gmail.com>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: fr
+In-Reply-To: <CAJnrk1Z1HgPXLzfcKMhOKjdZzcjuXbRH4de+4zQpoqvhSB=A-g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sun, Apr 26, 2026 at 10:42:51PM +0200, Bernd Schubert wrote:
-> 
-> 
-> On 4/23/26 01:20, Darrick J. Wong wrote:
-> > From: Darrick J. Wong <djwong@kernel.org>
-> > 
-> > Move all the code that parses fuse.conf into a separate file in util/ so
-> > that fuservicemount can read the same file, then add the security checks
-> > that occur when fusermount is trying to start up a filesystem but is not
-> > running as root.  We'll want that for fusermount in a moment.
-> > 
-> > Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-> > ---
-> >  util/fuser_conf.h |   61 ++++++++
-> >  util/fuser_conf.c |  381 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-> >  util/fusermount.c |  358 +-------------------------------------------------
-> >  util/meson.build  |    6 -
-> >  4 files changed, 453 insertions(+), 353 deletions(-)
-> >  create mode 100644 util/fuser_conf.h
-> >  create mode 100644 util/fuser_conf.c
-> > 
-> > 
-> > diff --git a/util/fuser_conf.h b/util/fuser_conf.h
-> > new file mode 100644
-> > index 00000000000000..5afe70709c5152
-> > --- /dev/null
-> > +++ b/util/fuser_conf.h
-> > @@ -0,0 +1,61 @@
-> > +/*
-> > + * FUSE: Filesystem in Userspace
-> > + * Copyright (C) 2001-2007  Miklos Szeredi <miklos@szeredi.hu>
-> > + *
-> > + * This program can be distributed under the terms of the GNU LGPLv2.
-> > + * See the file LGPL2.txt.
-> > + */
-> > +#ifndef FUSER_CONF_H_
-> > +#define FUSER_CONF_H_
-> > +
-> > +#include <sys/vfs.h>
-> > +#include <sys/stat.h>
-> > +
-> > +extern int user_allow_other;
-> > +extern int mount_max;
-> > +
-> > +void unescape(char *buf);
-> > +
-> > +#ifdef GETMNTENT_NEEDS_UNESCAPING
-> > +#include <stdio.h>
-> > +#include <mntent.h>
-> > +
-> > +static inline struct mntent *GETMNTENT(FILE *stream)
-> > +{
-> > +	struct mntent *entp = getmntent(stream);
-> > +	if(entp != NULL) {
-> > +		unescape(entp->mnt_fsname);
-> > +		unescape(entp->mnt_dir);
-> > +		unescape(entp->mnt_type);
-> > +		unescape(entp->mnt_opts);
-> > +	}
-> > +	return entp;
-> > +}
-> > +#else
-> > +#define GETMNTENT getmntent
-> > +#endif // GETMNTENT_NEEDS_UNESCAPING
-> > +
-> > +int count_fuse_fs(const char *progname);
-> > +
-> > +void read_conf(const char *progname);
-> > +
-> > +void drop_privs(void);
-> > +void restore_privs(void);
-> > +
-> > +int check_nonroot_mount_count(const char *progname);
-> > +
-> > +int check_nonroot_dir_access(const char *progname, const char *origmnt,
-> > +			     const char *mnt, const struct stat *stbuf);
-> > +
-> > +int check_nonroot_fstype(const char *progname, const struct statfs *fs_buf);
-> > +
-> > +struct mount_flags {
-> > +	const char *opt;
-> > +	unsigned long flag;
-> > +	int on;
-> > +	int safe;
-> > +};
-> > +
-> > +extern const struct mount_flags mount_flags[];
-> > +
-> > +#endif /* FUSER_CONF_H_ */
-> > diff --git a/util/fuser_conf.c b/util/fuser_conf.c
-> > new file mode 100644
-> > index 00000000000000..dd60afaad31a0f
-> > --- /dev/null
-> > +++ b/util/fuser_conf.c
-> > @@ -0,0 +1,381 @@
-> > +/*
-> > + * FUSE: Filesystem in Userspace
-> > + * Copyright (C) 2001-2007  Miklos Szeredi <miklos@szeredi.hu>
-> > + *
-> > + * This program can be distributed under the terms of the GNU GPLv2.
-> > + * See the file GPL2.txt.
-> > + */
-> > +/* This program parses fuse.conf */
-> > +#define _GNU_SOURCE
-> > +#include "fuse_config.h"
-> > +#include "mount_util.h"
-> > +#include "util.h"
-> > +#include "fuser_conf.h"
-> 
-> #include "fuse_mount_compat.h"
-> 
-> otherwise fails to compile
-> 
-> etc/fuse.conf"' -MD -MQ util/fusermount3.p/fuser_conf.c.o -MF
-> util/fusermount3.p/fuser_conf.c.o.d -o util/fusermount3.p/fuser_conf.c.o
-> -c ../util/fuser_conf.c
-> ../util/fuser_conf.c:357:13: error: use of undeclared identifier 'MS_RDONLY'
->   357 |         {"rw",      MS_RDONLY,      0, 1},
->       |                     ^
-> ../util/fuser_conf.c:358:13: error: use of undeclared identifier 'MS_RDONLY'
->   358 |         {"ro",      MS_RDONLY,      1, 1},
 
-Fixed in my branch now too.
 
---D
+On 4/27/26 16:10, Joanne Koong wrote:
+> On Mon, Apr 27, 2026 at 2:49 PM Bernd Schubert <bernd@bsbernd.com> wrote:
+>>
+>> On 4/27/26 15:10, Joanne Koong wrote:
+>>> On Fri, Apr 24, 2026 at 11:01 PM Bernd Schubert <bschubert@ddn.com> wrote:
+>>>>
+>>>> On 4/24/26 20:28, Joanne Koong wrote:
+>>>>> On Mon, Apr 13, 2026 at 2:41 AM Bernd Schubert via B4 Relay
+>>>>> <devnull+bernd.bsbernd.com@kernel.org> wrote:
+>>>>>>
+>>>>>> From: Bernd Schubert <bschubert@ddn.com>
+>>>>>>
+>>>>>> Queues selection (fuse_uring_get_queue) can handle reduced number
+>>>>>> queues - using io-uring is possible now even with a single
+>>>>>> queue and entry.
+>>>>>>
+>>>>>> The FUSE_URING_REDUCED_Q flag is being introduce tell fuse server that
+>>>>>> reduced queues are possible, i.e. if the flag is set, fuse server
+>>>>>> is free to reduce number queues.
+>>>>>>
+>>>>>> Signed-off-by: Bernd Schubert <bschubert@ddn.com>
+>>>>>> ---
+>>>>>>  fs/fuse/dev_uring.c       | 160 ++++++++++++++++++++++++----------------------
+>>>>>>  fs/fuse/inode.c           |   2 +-
+>>>>>>  include/uapi/linux/fuse.h |   3 +
+>>>>>>  3 files changed, 88 insertions(+), 77 deletions(-)
+>>>>>>
+>>>>>> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
+>>>>>> index 9dcbc39531f0e019e5abf58a29cdf6c75fafdca1..e68089babaf89fb81741e4a5e605c6e36a137f9e 100644
+>>>>>> --- a/fs/fuse/dev_uring.c
+>>>>>> +++ b/fs/fuse/dev_uring.c
+>>>>>>
+>>>>>> -static struct fuse_ring_queue *fuse_uring_task_to_queue(struct fuse_ring *ring)
+>>>>>> +static struct fuse_ring_queue *fuse_uring_select_queue(struct fuse_ring *ring)
+>>>>>>  {
+>>>>>>         unsigned int qid;
+>>>>>> -       struct fuse_ring_queue *queue;
+>>>>>> +       int node;
+>>>>>> +       unsigned int nr_queues;
+>>>>>> +       unsigned int cpu = task_cpu(current);
+>>>>>>
+>>>>>> -       qid = task_cpu(current);
+>>>>>> +       cpu = cpu % ring->max_nr_queues;
+>>>>>>
+>>>>>> -       if (WARN_ONCE(qid >= ring->max_nr_queues,
+>>>>>> -                     "Core number (%u) exceeds nr queues (%zu)\n", qid,
+>>>>>> -                     ring->max_nr_queues))
+>>>>>> -               qid = 0;
+>>>>>> +       /* numa local registered queue bitmap */
+>>>>>> +       node = cpu_to_node(cpu);
+>>>>>> +       if (WARN_ONCE(node >= ring->nr_numa_nodes,
+>>>>>> +                     "Node number (%d) exceeds nr nodes (%d)\n",
+>>>>>> +                     node, ring->nr_numa_nodes)) {
+>>>>>> +               node = 0;
+>>>>>> +       }
+>>>>>>
+>>>>>> -       queue = ring->queues[qid];
+>>>>>> -       WARN_ONCE(!queue, "Missing queue for qid %d\n", qid);
+>>>>>> +       nr_queues = READ_ONCE(ring->numa_q_map[node].nr_queues);
+>>>>>> +       if (nr_queues) {
+>>>>>> +               qid = ring->numa_q_map[node].cpu_to_qid[cpu];
+>>>>>> +               if (WARN_ON_ONCE(qid >= ring->max_nr_queues))
+>>>>>> +                       return NULL;
+>>>>>> +               return READ_ONCE(ring->queues[qid]);
+>>>>>> +       }
+>>>>>
+>>>>> Hi Bernd,
+>>>>>
+>>>>> Thanks for making the changes on this - I really like how much simpler
+>>>>> the logic is now.
+>>>>>
+>>>>> I'm looking through how the block multiqueue code works
+>>>>> (block/blk-mq.c and block/blk-mq-cpumap.c) because I think they
+>>>>> basically have to do the same thing with figuring out which cpu to
+>>>>> dispatch a request to.
+>>>>>
+>>>>> It looks like what they do is use group_cpus_evenly(), which as I
+>>>>> understand it, will partition CPUs taking into account numa nodes (as
+>>>>> well as clustering and SMT siblings). I think if we use this for fuse
+>>>>> io-uring, it will make things a lot simpler and we could get rid of
+>>>>> the per-numa state tracking (eg numa_q_map, registered_q_mask,
+>>>>> nr_numa_nodes)  and simplify queue selection where now that can just
+>>>>> be a cpu to qid lookup instead of a two-level
+>>>>> numa-then-global-fallback lookup.
+>>>>>
+>>>>> Do you think something like this makes sense?
+>>>>
+>>>> Maybe, I need to check that code. However, does this really need to be
+>>>> done right now? This cannot be updated later? For me it looks a bit like
+>>>> we are going to replace one code by another, without a clear advantage.
+>>>> I can look into group_cpus_evenly(), but I cannot promise you when that
+>>>> will happen.
+>>>> My personal preference would be to work on real issue, like getting rid
+>>>> of two locks (queue->lock and bg->lock) and distribute max_bg accross
+>>>> queues. And that probably requires the distribution across queues, which
+>>>> you didn't like in the previous series. Anway, already finding the time
+>>>> for that is hard.
+>>>
+>>> Ok, we should go with what you have then and I'll submit changes as a
+>>> separate patch.
+>>>
+>>>>
+>>>> My personal opinion is that queue selection needs to return the qid, so
+>>>> that the function can be overriden with eBPF. I didn't have time yet to
+>>>> try that out.
+>>>>
+>>>>>
+>>>>> Additionally, as I understand it, in this series, the ring->q_map
+>>>>> mapping has to get rebuilt every time a new queue gets created. What
+>>>>> do you think about just having the server declare the total queue
+>>>>> count upfront and then the mapping can just get established at ring
+>>>>> creation time? group_cpus_evenly() would only need to be called once,
+>>>>> the cpu_to_qid map would only have to be built once, and we could
+>>>>> avoid the rebuild-on-each-queue-creation complexity entirely. Do you
+>>>>> think something like this makes sense?
+>>>>
+>>>> That is why I said in another mail that a config SQE would make to some
+>>>> extend sense. However, the part where I disagree is that we could make
+>>>> it all entirely dynamic with the current approach.
+>>>> Only the logic for that in libfuse is missing. I.e. it _could_ start
+>>>> with a single queue or one queue per numa and one ring entry. Basically
+>>>> no memory usage then.
+>>>> And now libfuse could add logic - many small requests - set up ring
+>>>> entries with smaller payload size (or smaller pBuf). Many large requests
+>>>> - add more requests with larger payload size. And with the current
+>>>> approach queues can be added dynamically.
+>>>
+>>> For registered buffers and zero copy, the queue count is needed up
+>>> front at registration time. imo it would be nice to have the
+>>> registration interface for these things be cohesive. Dynamic queues
+>>> could still be added in the future (eg server sends a new uring cmd to
+>>> add a queue, kernel rebuilds mapping, etc).
+>>
+>> And that cannot be _max_ number of queues for registered buffers?
+> 
+> For registered buffers / zero copy, the buffer is contiguously
+> allocated by the server up front, passed to the kernel, and then
+> pinned. Our servers want to use registered buffers/zero copy with less
+> queues than the number of cpus on the machine.
 
-> > +
-> > +#include <string.h>
-> > +#include <stddef.h>
-> > +#include <ctype.h>
-> > +#include <stdio.h>
-> > +#include <stdlib.h>
-> > +#include <errno.h>
-> > +#include <mntent.h>
-> > +#include <unistd.h>
-> > +#include <sys/fsuid.h>
-> > +
-> > +#if defined HAVE_LISTMOUNT
-> > +#include <linux/mount.h>
-> > +#include <syscall.h>
-> > +#include <stdint.h>
-> > +#endif
-> > +
-> > +int user_allow_other = 0;
-> > +int mount_max = 1000;
-> > +static uid_t oldfsuid;
-> > +static gid_t oldfsgid;
-> > +
-> > +// Older versions of musl libc don't unescape entries in /etc/mtab
-> > +
-> > +// unescapes octal sequences like \040 in-place
-> > +// That's ok, because unescaping can not extend the length of the string.
-> > +void unescape(char *buf)
-> > +{
-> > +	char *src = buf;
-> > +	char *dest = buf;
-> > +	while (1) {
-> > +		char *next_src = strchrnul(src, '\\');
-> > +		int offset = next_src - src;
-> > +		memmove(dest, src, offset);
-> > +		src = next_src;
-> > +		dest += offset;
-> > +
-> > +		if(*src == '\0') {
-> > +			*dest = *src;
-> > +			return;
-> > +		}
-> > +		src++;
-> > +
-> > +		if('0' <= src[0] && src[0] < '2' &&
-> > +		   '0' <= src[1] && src[1] < '8' &&
-> > +		   '0' <= src[2] && src[2] < '8') {
-> > +			*dest++ = (src[0] - '0') << 6
-> > +			        | (src[1] - '0') << 3
-> > +			        | (src[2] - '0') << 0;
-> > +			src += 3;
-> > +		} else if (src[0] == '\\') {
-> > +			*dest++ = '\\';
-> > +			src += 1;
-> > +		} else {
-> > +			*dest++ = '\\';
-> > +		}
-> > +	}
-> > +}
-> > +
-> > +#ifndef IGNORE_MTAB
-> > +static int count_fuse_fs_mtab(const char *progname)
-> > +{
-> > +	const struct mntent *entp;
-> > +	int count = 0;
-> > +	const char *mtab = _PATH_MOUNTED;
-> > +	FILE *fp = setmntent(mtab, "r");
-> > +	if (fp == NULL) {
-> > +		fprintf(stderr, "%s: failed to open %s: %s\n", progname, mtab,
-> > +			strerror(errno));
-> > +		return -1;
-> > +	}
-> > +	while ((entp = GETMNTENT(fp)) != NULL) {
-> > +		if (strcmp(entp->mnt_type, "fuse") == 0 ||
-> > +		    strncmp(entp->mnt_type, "fuse.", 5) == 0)
-> > +			count ++;
-> > +	}
-> > +	endmntent(fp);
-> > +	return count;
-> > +}
-> > +
-> > +#ifdef HAVE_LISTMOUNT
-> > +static int count_fuse_fs_ls_mnt(const char *progname)
-> > +{
-> > +	#define SMBUF_SIZE 1024
-> > +	#define MNT_ID_LEN 128
-> > +
-> > +	int fuse_count = 0;
-> > +	int n_mounts = 0;
-> > +	int ret = 0;
-> > +	uint64_t mnt_ids[MNT_ID_LEN];
-> > +	unsigned char smbuf[SMBUF_SIZE];
-> > +	struct mnt_id_req req = {
-> > +		.size = sizeof(struct mnt_id_req),
-> > +	};
-> > +	struct statmount *sm;
-> > +
-> > +	for (;;) {
-> > +		req.mnt_id = LSMT_ROOT;
-> > +
-> > +		n_mounts = syscall(SYS_listmount, &req, &mnt_ids, MNT_ID_LEN, 0);
-> > +		if (n_mounts == -1) {
-> > +			if (errno != ENOSYS) {
-> > +				fprintf(stderr, "%s: failed to list mounts: %s\n", progname,
-> > +					strerror(errno));
-> > +			}
-> > +			return -1;
-> > +		}
-> > +
-> > +		for (int i = 0; i < n_mounts; i++) {
-> > +			req.mnt_id = mnt_ids[i];
-> > +			req.param = STATMOUNT_FS_TYPE;
-> > +			ret = syscall(SYS_statmount, &req, &smbuf, SMBUF_SIZE, 0);
-> > +			if (ret) {
-> > +				if (errno == ENOENT)
-> > +					continue;
-> > +
-> > +				fprintf(stderr, "%s: failed to stat mount %lld: %s\n", progname,
-> > +					req.mnt_id, strerror(errno));
-> > +				return -1;
-> > +			}
-> > +
-> > +			sm = (struct statmount *)smbuf;
-> > +			if (sm->mask & STATMOUNT_FS_TYPE &&
-> > +			    strcmp(&sm->str[sm->fs_type], "fuse") == 0)
-> > +				fuse_count++;
-> > +		}
-> > +
-> > +		if (n_mounts < MNT_ID_LEN)
-> > +			break;
-> > +		req.param = mnt_ids[MNT_ID_LEN - 1];
-> > +	}
-> > +	return fuse_count;
-> > +}
-> > +
-> > +int count_fuse_fs(const char *progname)
-> > +{
-> > +	int count = count_fuse_fs_ls_mnt(progname);
-> > +
-> > +	return count >= 0 ? count : count_fuse_fs_mtab(progname);
-> > +}
-> > +#else
-> > +int count_fuse_fs(const char *progname)
-> > +{
-> > +	return count_fuse_fs_mtab(progname);
-> > +}
-> > +#endif /* HAVE_LISTMOUNT */
-> > +#else
-> > +int count_fuse_fs(const char *progname)
-> > +{
-> > +	return 0;
-> > +}
-> > +#endif /* !IGNORE_MTAB */
-> > +
-> > +static void strip_line(char *line)
-> > +{
-> > +	char *s = strchr(line, '#');
-> > +	if (s != NULL)
-> > +		s[0] = '\0';
-> > +	for (s = line + strlen(line) - 1;
-> > +	     s >= line && isspace((unsigned char) *s); s--);
-> > +	s[1] = '\0';
-> > +	for (s = line; isspace((unsigned char) *s); s++);
-> > +	if (s != line)
-> > +		memmove(line, s, strlen(s)+1);
-> > +}
-> > +
-> > +static void parse_line(const char *line, int linenum, const char *progname)
-> > +{
-> > +	int tmp;
-> > +	if (strcmp(line, "user_allow_other") == 0)
-> > +		user_allow_other = 1;
-> > +	else if (sscanf(line, "mount_max = %i", &tmp) == 1)
-> > +		mount_max = tmp;
-> > +	else if(line[0])
-> > +		fprintf(stderr,
-> > +			"%s: unknown parameter in %s at line %i: '%s'\n",
-> > +			progname, FUSE_CONF, linenum, line);
-> > +}
-> > +
-> > +void read_conf(const char *progname)
-> > +{
-> > +	FILE *fp = fopen(FUSE_CONF, "r");
-> > +	if (fp != NULL) {
-> > +		int linenum = 1;
-> > +		char line[256];
-> > +		int isnewline = 1;
-> > +		while (fgets(line, sizeof(line), fp) != NULL) {
-> > +			if (isnewline) {
-> > +				if (line[strlen(line)-1] == '\n') {
-> > +					strip_line(line);
-> > +					parse_line(line, linenum, progname);
-> > +				} else {
-> > +					isnewline = 0;
-> > +				}
-> > +			} else if(line[strlen(line)-1] == '\n') {
-> > +				fprintf(stderr, "%s: reading %s: line %i too long\n", progname, FUSE_CONF, linenum);
-> > +
-> > +				isnewline = 1;
-> > +			}
-> > +			if (isnewline)
-> > +				linenum ++;
-> > +		}
-> > +		if (!isnewline) {
-> > +			fprintf(stderr, "%s: reading %s: missing newline at end of file\n", progname, FUSE_CONF);
-> > +
-> > +		}
-> > +		if (ferror(fp)) {
-> > +			fprintf(stderr, "%s: reading %s: read failed\n", progname, FUSE_CONF);
-> > +			exit(1);
-> > +		}
-> > +		fclose(fp);
-> > +	} else if (errno != ENOENT) {
-> > +		bool fatal = (errno != EACCES && errno != ELOOP &&
-> > +			      errno != ENAMETOOLONG && errno != ENOTDIR &&
-> > +			      errno != EOVERFLOW);
-> > +		fprintf(stderr, "%s: failed to open %s: %s\n",
-> > +			progname, FUSE_CONF, strerror(errno));
-> > +		if (fatal)
-> > +			exit(1);
-> > +	}
-> > +}
-> > +
-> > +void drop_privs(void)
-> > +{
-> > +	if (getuid() != 0) {
-> > +		oldfsuid = setfsuid(getuid());
-> > +		oldfsgid = setfsgid(getgid());
-> > +	}
-> > +}
-> > +
-> > +void restore_privs(void)
-> > +{
-> > +	if (getuid() != 0) {
-> > +		setfsuid(oldfsuid);
-> > +		setfsgid(oldfsgid);
-> > +	}
-> > +}
-> > +
-> > +int check_nonroot_mount_count(const char *progname)
-> > +{
-> > +	if (mount_max == -1)
-> > +		return 0;
-> > +
-> > +	int mount_count = count_fuse_fs(progname);
-> > +
-> > +	if (mount_count >= mount_max) {
-> > +		fprintf(stderr,
-> > +"%s: too many FUSE filesystems mounted; mount_max=N can be set in %s\n",
-> > +			progname, FUSE_CONF);
-> > +		return -1;
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +int check_nonroot_dir_access(const char *progname, const char *origmnt,
-> > +			     const char *mnt, const struct stat *stbuf)
-> > +{
-> > +	int res;
-> > +
-> > +	if ((stbuf->st_mode & S_ISVTX) && stbuf->st_uid != getuid()) {
-> > +		fprintf(stderr, "%s: mountpoint %s not owned by user\n",
-> > +			progname, origmnt);
-> > +		return -1;
-> > +	}
-> > +
-> > +	res = access(mnt, W_OK);
-> > +	if (res == -1) {
-> > +		fprintf(stderr, "%s: user has no write access to mountpoint %s\n",
-> > +			progname, origmnt);
-> > +		return -1;
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +int check_nonroot_fstype(const char *progname, const struct statfs *fs_buf)
-> > +{
-> > +	size_t i;
-> > +
-> > +	/* Do not permit mounting over anything in procfs - it has a couple
-> > +	 * places to which we have "write access" without being supposed to be
-> > +	 * able to just put anything we want there.
-> > +	 * Luckily, without allow_other, we can't get other users to actually
-> > +	 * use any fake information we try to put there anyway.
-> > +	 * Use a whitelist to be safe. */
-> > +
-> > +	/* Define permitted filesystems for the mount target. This was
-> > +	 * originally the same list as used by the ecryptfs mount helper
-> > +	 * (https://bazaar.launchpad.net/~ecryptfs/ecryptfs/trunk/view/head:/src/utils/mount.ecryptfs_private.c#L225)
-> > +	 * but got expanded as we found more filesystems that needed to be
-> > +	 * overlaid. */
-> > +	typeof(fs_buf->f_type) f_type_whitelist[] = {
-> > +		0x61756673 /* AUFS_SUPER_MAGIC */,
-> > +		0x00000187 /* AUTOFS_SUPER_MAGIC */,
-> > +		0xCA451A4E /* BCACHEFS_STATFS_MAGIC */,
-> > +		0x9123683E /* BTRFS_SUPER_MAGIC */,
-> > +		0x00C36400 /* CEPH_SUPER_MAGIC */,
-> > +		0xFF534D42 /* CIFS_MAGIC_NUMBER */,
-> > +		0x0000F15F /* ECRYPTFS_SUPER_MAGIC */,
-> > +		0X2011BAB0 /* EXFAT_SUPER_MAGIC */,
-> > +		0x0000EF53 /* EXT[234]_SUPER_MAGIC */,
-> > +		0xF2F52010 /* F2FS_SUPER_MAGIC */,
-> > +		0x65735546 /* FUSE_SUPER_MAGIC */,
-> > +		0x01161970 /* GFS2_MAGIC */,
-> > +		0x47504653 /* GPFS_SUPER_MAGIC */,
-> > +		0x0000482b /* HFSPLUS_SUPER_MAGIC */,
-> > +		0x000072B6 /* JFFS2_SUPER_MAGIC */,
-> > +		0x3153464A /* JFS_SUPER_MAGIC */,
-> > +		0x0BD00BD0 /* LL_SUPER_MAGIC */,
-> > +		0X00004D44 /* MSDOS_SUPER_MAGIC */,
-> > +		0x0000564C /* NCP_SUPER_MAGIC */,
-> > +		0x00006969 /* NFS_SUPER_MAGIC */,
-> > +		0x00003434 /* NILFS_SUPER_MAGIC */,
-> > +		0x5346544E /* NTFS_SB_MAGIC */,
-> > +		0x7366746E /* NTFS3_SUPER_MAGIC */,
-> > +		0x5346414f /* OPENAFS_SUPER_MAGIC */,
-> > +		0x794C7630 /* OVERLAYFS_SUPER_MAGIC */,
-> > +		0xAAD7AAEA /* PANFS_SUPER_MAGIC */,
-> > +		0x52654973 /* REISERFS_SUPER_MAGIC */,
-> > +		0xFE534D42 /* SMB2_SUPER_MAGIC */,
-> > +		0x73717368 /* SQUASHFS_MAGIC */,
-> > +		0x01021994 /* TMPFS_MAGIC */,
-> > +		0x24051905 /* UBIFS_SUPER_MAGIC */,
-> > +		0x18031977 /* WEKAFS_SUPER_MAGIC */,
-> > +#if __SIZEOF_LONG__ > 4
-> > +		0x736675005346544e /* UFSD */,
-> > +#endif
-> > +		0x58465342 /* XFS_SB_MAGIC */,
-> > +		0x2FC12FC1 /* ZFS_SUPER_MAGIC */,
-> > +		0x858458f6 /* RAMFS_MAGIC */,
-> > +	};
-> > +	for (i = 0; i < sizeof(f_type_whitelist)/sizeof(f_type_whitelist[0]); i++) {
-> > +		if (f_type_whitelist[i] == fs_buf->f_type)
-> > +			return 0;
-> > +	}
-> > +
-> > +	fprintf(stderr, "%s: mounting over filesystem type %#010lx is forbidden\n",
-> > +		progname, (unsigned long)fs_buf->f_type);
-> > +	return -1;
-> > +}
-> > +
-> > +const struct mount_flags mount_flags[] = {
-> > +	{"rw",	    MS_RDONLY,	    0, 1},
-> > +	{"ro",	    MS_RDONLY,	    1, 1},
-> > +	{"suid",    MS_NOSUID,	    0, 0},
-> > +	{"nosuid",  MS_NOSUID,	    1, 1},
-> > +	{"dev",	    MS_NODEV,	    0, 0},
-> > +	{"nodev",   MS_NODEV,	    1, 1},
-> > +	{"exec",    MS_NOEXEC,	    0, 1},
-> > +	{"noexec",  MS_NOEXEC,	    1, 1},
-> > +	{"async",   MS_SYNCHRONOUS, 0, 1},
-> > +	{"sync",    MS_SYNCHRONOUS, 1, 1},
-> > +	{"atime",   MS_NOATIME,	    0, 1},
-> > +	{"noatime", MS_NOATIME,	    1, 1},
-> > +	{"diratime",        MS_NODIRATIME,  0, 1},
-> > +	{"nodiratime",      MS_NODIRATIME,  1, 1},
-> > +	{"lazytime",        MS_LAZYTIME,    1, 1},
-> > +	{"nolazytime",      MS_LAZYTIME,    0, 1},
-> > +	{"relatime",        MS_RELATIME,    1, 1},
-> > +	{"norelatime",      MS_RELATIME,    0, 1},
-> > +	{"strictatime",     MS_STRICTATIME, 1, 1},
-> > +	{"nostrictatime",   MS_STRICTATIME, 0, 1},
-> > +	{"dirsync", MS_DIRSYNC,	    1, 1},
-> > +	{"symfollow",       MS_NOSYMFOLLOW, 0, 1},
-> > +	{"nosymfollow",     MS_NOSYMFOLLOW, 1, 1},
-> > +	{NULL,	    0,		    0, 0}
-> > +};
-> > diff --git a/util/fusermount.c b/util/fusermount.c
-> > index 68370468140a59..c7905d58a85e32 100644
-> > --- a/util/fusermount.c
-> > +++ b/util/fusermount.c
-> > @@ -11,6 +11,7 @@
-> >  #include "fuse_config.h"
-> >  #include "mount_util.h"
-> >  #include "util.h"
-> > +#include "fuser_conf.h"
-> >  
-> >  #include <stdio.h>
-> >  #include <stdlib.h>
-> > @@ -50,63 +51,8 @@
-> >  
-> >  static const char *progname;
-> >  
-> > -static int user_allow_other = 0;
-> > -static int mount_max = 1000;
-> > -
-> >  static int auto_unmount = 0;
-> >  
-> > -#ifdef GETMNTENT_NEEDS_UNESCAPING
-> > -// Older versions of musl libc don't unescape entries in /etc/mtab
-> > -
-> > -// unescapes octal sequences like \040 in-place
-> > -// That's ok, because unescaping can not extend the length of the string.
-> > -static void unescape(char *buf) {
-> > -	char *src = buf;
-> > -	char *dest = buf;
-> > -	while (1) {
-> > -		char *next_src = strchrnul(src, '\\');
-> > -		int offset = next_src - src;
-> > -		memmove(dest, src, offset);
-> > -		src = next_src;
-> > -		dest += offset;
-> > -
-> > -		if(*src == '\0') {
-> > -			*dest = *src;
-> > -			return;
-> > -		}
-> > -		src++;
-> > -
-> > -		if('0' <= src[0] && src[0] < '2' &&
-> > -		   '0' <= src[1] && src[1] < '8' &&
-> > -		   '0' <= src[2] && src[2] < '8') {
-> > -			*dest++ = (src[0] - '0') << 6
-> > -			        | (src[1] - '0') << 3
-> > -			        | (src[2] - '0') << 0;
-> > -			src += 3;
-> > -		} else if (src[0] == '\\') {
-> > -			*dest++ = '\\';
-> > -			src += 1;
-> > -		} else {
-> > -			*dest++ = '\\';
-> > -		}
-> > -	}
-> > -}
-> > -
-> > -static struct mntent *GETMNTENT(FILE *stream)
-> > -{
-> > -	struct mntent *entp = getmntent(stream);
-> > -	if(entp != NULL) {
-> > -		unescape(entp->mnt_fsname);
-> > -		unescape(entp->mnt_dir);
-> > -		unescape(entp->mnt_type);
-> > -		unescape(entp->mnt_opts);
-> > -	}
-> > -	return entp;
-> > -}
-> > -#else
-> > -#define GETMNTENT getmntent
-> > -#endif // GETMNTENT_NEEDS_UNESCAPING
-> > -
-> >  /*
-> >   * Take a ',' separated option string and extract "x-" options
-> >   */
-> > @@ -188,25 +134,6 @@ static const char *get_user_name(void)
-> >  	}
-> >  }
-> >  
-> > -static uid_t oldfsuid;
-> > -static gid_t oldfsgid;
-> > -
-> > -static void drop_privs(void)
-> > -{
-> > -	if (getuid() != 0) {
-> > -		oldfsuid = setfsuid(getuid());
-> > -		oldfsgid = setfsgid(getgid());
-> > -	}
-> > -}
-> > -
-> > -static void restore_privs(void)
-> > -{
-> > -	if (getuid() != 0) {
-> > -		setfsuid(oldfsuid);
-> > -		setfsgid(oldfsgid);
-> > -	}
-> > -}
-> > -
-> >  #ifndef IGNORE_MTAB
-> >  /*
-> >   * Make sure that /etc/mtab is checked and updated atomically
-> > @@ -568,100 +495,7 @@ static int unmount_fuse(const char *mnt, int quiet, int lazy)
-> >  
-> >  	return res;
-> >  }
-> > -
-> > -static int count_fuse_fs_mtab(void)
-> > -{
-> > -	const struct mntent *entp;
-> > -	int count = 0;
-> > -	const char *mtab = _PATH_MOUNTED;
-> > -	FILE *fp = setmntent(mtab, "r");
-> > -	if (fp == NULL) {
-> > -		fprintf(stderr, "%s: failed to open %s: %s\n", progname, mtab,
-> > -			strerror(errno));
-> > -		return -1;
-> > -	}
-> > -	while ((entp = GETMNTENT(fp)) != NULL) {
-> > -		if (strcmp(entp->mnt_type, "fuse") == 0 ||
-> > -		    strncmp(entp->mnt_type, "fuse.", 5) == 0)
-> > -			count ++;
-> > -	}
-> > -	endmntent(fp);
-> > -	return count;
-> > -}
-> > -
-> > -#ifdef HAVE_LISTMOUNT
-> > -static int count_fuse_fs_ls_mnt(void)
-> > -{
-> > -	#define SMBUF_SIZE 1024
-> > -	#define MNT_ID_LEN 128
-> > -
-> > -	int fuse_count = 0;
-> > -	int n_mounts = 0;
-> > -	int ret = 0;
-> > -	uint64_t mnt_ids[MNT_ID_LEN];
-> > -	unsigned char smbuf[SMBUF_SIZE];
-> > -	struct mnt_id_req req = {
-> > -		.size = sizeof(struct mnt_id_req),
-> > -	};
-> > -	struct statmount *sm;
-> > -
-> > -	for (;;) {
-> > -		req.mnt_id = LSMT_ROOT;
-> > -
-> > -		n_mounts = syscall(SYS_listmount, &req, &mnt_ids, MNT_ID_LEN, 0);
-> > -		if (n_mounts == -1) {
-> > -			if (errno != ENOSYS) {
-> > -				fprintf(stderr, "%s: failed to list mounts: %s\n", progname,
-> > -					strerror(errno));
-> > -			}
-> > -			return -1;
-> > -		}
-> > -
-> > -		for (int i = 0; i < n_mounts; i++) {
-> > -			req.mnt_id = mnt_ids[i];
-> > -			req.param = STATMOUNT_FS_TYPE;
-> > -			ret = syscall(SYS_statmount, &req, &smbuf, SMBUF_SIZE, 0);
-> > -			if (ret) {
-> > -				if (errno == ENOENT)
-> > -					continue;
-> > -
-> > -				fprintf(stderr, "%s: failed to stat mount %lld: %s\n", progname,
-> > -					req.mnt_id, strerror(errno));
-> > -				return -1;
-> > -			}
-> > -
-> > -			sm = (struct statmount *)smbuf;
-> > -			if (sm->mask & STATMOUNT_FS_TYPE &&
-> > -			    strcmp(&sm->str[sm->fs_type], "fuse") == 0)
-> > -				fuse_count++;
-> > -		}
-> > -
-> > -		if (n_mounts < MNT_ID_LEN)
-> > -			break;
-> > -		req.param = mnt_ids[MNT_ID_LEN - 1];
-> > -	}
-> > -	return fuse_count;
-> > -}
-> > -
-> > -static int count_fuse_fs(void)
-> > -{
-> > -	int count = count_fuse_fs_ls_mnt();
-> > -
-> > -	return count >= 0 ? count : count_fuse_fs_mtab();
-> > -}
-> > -#else
-> > -static int count_fuse_fs(void)
-> > -{
-> > -	return count_fuse_fs_mtab();
-> > -}
-> > -#endif
-> > -
-> >  #else /* IGNORE_MTAB */
-> > -static int count_fuse_fs(void)
-> > -{
-> > -	return 0;
-> > -}
-> > -
-> >  static int add_mount(const char *source, const char *mnt, const char *type,
-> >  		     const char *opts)
-> >  {
-> > @@ -679,75 +513,6 @@ static int unmount_fuse(const char *mnt, int quiet, int lazy)
-> >  }
-> >  #endif /* IGNORE_MTAB */
-> >  
-> > -static void strip_line(char *line)
-> > -{
-> > -	char *s = strchr(line, '#');
-> > -	if (s != NULL)
-> > -		s[0] = '\0';
-> > -	for (s = line + strlen(line) - 1;
-> > -	     s >= line && isspace((unsigned char) *s); s--);
-> > -	s[1] = '\0';
-> > -	for (s = line; isspace((unsigned char) *s); s++);
-> > -	if (s != line)
-> > -		memmove(line, s, strlen(s)+1);
-> > -}
-> > -
-> > -static void parse_line(const char *line, int linenum)
-> > -{
-> > -	int tmp;
-> > -	if (strcmp(line, "user_allow_other") == 0)
-> > -		user_allow_other = 1;
-> > -	else if (sscanf(line, "mount_max = %i", &tmp) == 1)
-> > -		mount_max = tmp;
-> > -	else if(line[0])
-> > -		fprintf(stderr,
-> > -			"%s: unknown parameter in %s at line %i: '%s'\n",
-> > -			progname, FUSE_CONF, linenum, line);
-> > -}
-> > -
-> > -static void read_conf(void)
-> > -{
-> > -	FILE *fp = fopen(FUSE_CONF, "r");
-> > -	if (fp != NULL) {
-> > -		int linenum = 1;
-> > -		char line[256];
-> > -		int isnewline = 1;
-> > -		while (fgets(line, sizeof(line), fp) != NULL) {
-> > -			if (isnewline) {
-> > -				if (line[strlen(line)-1] == '\n') {
-> > -					strip_line(line);
-> > -					parse_line(line, linenum);
-> > -				} else {
-> > -					isnewline = 0;
-> > -				}
-> > -			} else if(line[strlen(line)-1] == '\n') {
-> > -				fprintf(stderr, "%s: reading %s: line %i too long\n", progname, FUSE_CONF, linenum);
-> > -
-> > -				isnewline = 1;
-> > -			}
-> > -			if (isnewline)
-> > -				linenum ++;
-> > -		}
-> > -		if (!isnewline) {
-> > -			fprintf(stderr, "%s: reading %s: missing newline at end of file\n", progname, FUSE_CONF);
-> > -
-> > -		}
-> > -		if (ferror(fp)) {
-> > -			fprintf(stderr, "%s: reading %s: read failed\n", progname, FUSE_CONF);
-> > -			exit(1);
-> > -		}
-> > -		fclose(fp);
-> > -	} else if (errno != ENOENT) {
-> > -		bool fatal = (errno != EACCES && errno != ELOOP &&
-> > -			      errno != ENAMETOOLONG && errno != ENOTDIR &&
-> > -			      errno != EOVERFLOW);
-> > -		fprintf(stderr, "%s: failed to open %s: %s\n",
-> > -			progname, FUSE_CONF, strerror(errno));
-> > -		if (fatal)
-> > -			exit(1);
-> > -	}
-> > -}
-> > -
-> >  static int begins_with(const char *s, const char *beg)
-> >  {
-> >  	if (strncmp(s, beg, strlen(beg)) == 0)
-> > @@ -756,40 +521,6 @@ static int begins_with(const char *s, const char *beg)
-> >  		return 0;
-> >  }
-> >  
-> > -struct mount_flags {
-> > -	const char *opt;
-> > -	unsigned long flag;
-> > -	int on;
-> > -	int safe;
-> > -};
-> > -
-> > -static struct mount_flags mount_flags[] = {
-> > -	{"rw",	    MS_RDONLY,	    0, 1},
-> > -	{"ro",	    MS_RDONLY,	    1, 1},
-> > -	{"suid",    MS_NOSUID,	    0, 0},
-> > -	{"nosuid",  MS_NOSUID,	    1, 1},
-> > -	{"dev",	    MS_NODEV,	    0, 0},
-> > -	{"nodev",   MS_NODEV,	    1, 1},
-> > -	{"exec",    MS_NOEXEC,	    0, 1},
-> > -	{"noexec",  MS_NOEXEC,	    1, 1},
-> > -	{"async",   MS_SYNCHRONOUS, 0, 1},
-> > -	{"sync",    MS_SYNCHRONOUS, 1, 1},
-> > -	{"atime",   MS_NOATIME,	    0, 1},
-> > -	{"noatime", MS_NOATIME,	    1, 1},
-> > -	{"diratime",        MS_NODIRATIME,  0, 1},
-> > -	{"nodiratime",      MS_NODIRATIME,  1, 1},
-> > -	{"lazytime",        MS_LAZYTIME,    1, 1},
-> > -	{"nolazytime",      MS_LAZYTIME,    0, 1},
-> > -	{"relatime",        MS_RELATIME,    1, 1},
-> > -	{"norelatime",      MS_RELATIME,    0, 1},
-> > -	{"strictatime",     MS_STRICTATIME, 1, 1},
-> > -	{"nostrictatime",   MS_STRICTATIME, 0, 1},
-> > -	{"dirsync", MS_DIRSYNC,	    1, 1},
-> > -	{"symfollow",       MS_NOSYMFOLLOW, 0, 1},
-> > -	{"nosymfollow",     MS_NOSYMFOLLOW, 1, 1},
-> > -	{NULL,	    0,		    0, 0}
-> > -};
-> > -
-> >  static int find_mount_flag(const char *s, unsigned len, int *on, int *flag)
-> >  {
-> >  	int i;
-> > @@ -1096,7 +827,6 @@ static int check_perm(const char **mntp, struct stat *stbuf, int *mountpoint_fd)
-> >  	const char *mnt = *mntp;
-> >  	const char *origmnt = mnt;
-> >  	struct statfs fs_buf;
-> > -	size_t i;
-> >  
-> >  	res = lstat(mnt, stbuf);
-> >  	if (res == -1) {
-> > @@ -1126,18 +856,9 @@ static int check_perm(const char **mntp, struct stat *stbuf, int *mountpoint_fd)
-> >  			return -1;
-> >  		}
-> >  
-> > -		if ((stbuf->st_mode & S_ISVTX) && stbuf->st_uid != getuid()) {
-> > -			fprintf(stderr, "%s: mountpoint %s not owned by user\n",
-> > -				progname, origmnt);
-> > -			return -1;
-> > -		}
-> > -
-> > -		res = access(mnt, W_OK);
-> > -		if (res == -1) {
-> > -			fprintf(stderr, "%s: user has no write access to mountpoint %s\n",
-> > -				progname, origmnt);
-> > -			return -1;
-> > -		}
-> > +		res = check_nonroot_dir_access(progname, origmnt, mnt, stbuf);
-> > +		if (res)
-> > +			return res;
-> >  	} else if (S_ISREG(stbuf->st_mode)) {
-> >  		static char procfile[256];
-> >  		*mountpoint_fd = open(mnt, O_WRONLY);
-> > @@ -1169,71 +890,13 @@ static int check_perm(const char **mntp, struct stat *stbuf, int *mountpoint_fd)
-> >  		return -1;
-> >  	}
-> >  
-> > -	/* Do not permit mounting over anything in procfs - it has a couple
-> > -	 * places to which we have "write access" without being supposed to be
-> > -	 * able to just put anything we want there.
-> > -	 * Luckily, without allow_other, we can't get other users to actually
-> > -	 * use any fake information we try to put there anyway.
-> > -	 * Use a whitelist to be safe. */
-> >  	if (statfs(*mntp, &fs_buf)) {
-> >  		fprintf(stderr, "%s: failed to access mountpoint %s: %s\n",
-> >  			progname, mnt, strerror(errno));
-> >  		return -1;
-> >  	}
-> >  
-> > -	/* Define permitted filesystems for the mount target. This was
-> > -	 * originally the same list as used by the ecryptfs mount helper
-> > -	 * (https://bazaar.launchpad.net/~ecryptfs/ecryptfs/trunk/view/head:/src/utils/mount.ecryptfs_private.c#L225)
-> > -	 * but got expanded as we found more filesystems that needed to be
-> > -	 * overlaid. */
-> > -	typeof(fs_buf.f_type) f_type_whitelist[] = {
-> > -		0x61756673 /* AUFS_SUPER_MAGIC */,
-> > -		0x00000187 /* AUTOFS_SUPER_MAGIC */,
-> > -		0xCA451A4E /* BCACHEFS_STATFS_MAGIC */,
-> > -		0x9123683E /* BTRFS_SUPER_MAGIC */,
-> > -		0x00C36400 /* CEPH_SUPER_MAGIC */,
-> > -		0xFF534D42 /* CIFS_MAGIC_NUMBER */,
-> > -		0x0000F15F /* ECRYPTFS_SUPER_MAGIC */,
-> > -		0X2011BAB0 /* EXFAT_SUPER_MAGIC */,
-> > -		0x0000EF53 /* EXT[234]_SUPER_MAGIC */,
-> > -		0xF2F52010 /* F2FS_SUPER_MAGIC */,
-> > -		0x65735546 /* FUSE_SUPER_MAGIC */,
-> > -		0x01161970 /* GFS2_MAGIC */,
-> > -		0x47504653 /* GPFS_SUPER_MAGIC */,
-> > -		0x0000482b /* HFSPLUS_SUPER_MAGIC */,
-> > -		0x000072B6 /* JFFS2_SUPER_MAGIC */,
-> > -		0x3153464A /* JFS_SUPER_MAGIC */,
-> > -		0x0BD00BD0 /* LL_SUPER_MAGIC */,
-> > -		0X00004D44 /* MSDOS_SUPER_MAGIC */,
-> > -		0x0000564C /* NCP_SUPER_MAGIC */,
-> > -		0x00006969 /* NFS_SUPER_MAGIC */,
-> > -		0x00003434 /* NILFS_SUPER_MAGIC */,
-> > -		0x5346544E /* NTFS_SB_MAGIC */,
-> > -		0x7366746E /* NTFS3_SUPER_MAGIC */,
-> > -		0x5346414f /* OPENAFS_SUPER_MAGIC */,
-> > -		0x794C7630 /* OVERLAYFS_SUPER_MAGIC */,
-> > -		0xAAD7AAEA /* PANFS_SUPER_MAGIC */,
-> > -		0x52654973 /* REISERFS_SUPER_MAGIC */,
-> > -		0xFE534D42 /* SMB2_SUPER_MAGIC */,
-> > -		0x73717368 /* SQUASHFS_MAGIC */,
-> > -		0x01021994 /* TMPFS_MAGIC */,
-> > -		0x24051905 /* UBIFS_SUPER_MAGIC */,
-> > -		0x18031977 /* WEKAFS_SUPER_MAGIC */,
-> > -#if __SIZEOF_LONG__ > 4
-> > -		0x736675005346544e /* UFSD */,
-> > -#endif
-> > -		0x58465342 /* XFS_SB_MAGIC */,
-> > -		0x2FC12FC1 /* ZFS_SUPER_MAGIC */,
-> > -		0x858458f6 /* RAMFS_MAGIC */,
-> > -	};
-> > -	for (i = 0; i < sizeof(f_type_whitelist)/sizeof(f_type_whitelist[0]); i++) {
-> > -		if (f_type_whitelist[i] == fs_buf.f_type)
-> > -			return 0;
-> > -	}
-> > -
-> > -	fprintf(stderr, "%s: mounting over filesystem type %#010lx is forbidden\n",
-> > -		progname, (unsigned long)fs_buf.f_type);
-> > -	return -1;
-> > +	return check_nonroot_fstype(progname, &fs_buf);
-> >  }
-> >  
-> >  static int open_fuse_device(const char *dev)
-> > @@ -1273,15 +936,10 @@ static int mount_fuse(const char *mnt, const char *opts, const char **type)
-> >  		return -1;
-> >  
-> >  	drop_privs();
-> > -	read_conf();
-> > +	read_conf(progname);
-> >  
-> > -	if (getuid() != 0 && mount_max != -1) {
-> > -		int mount_count = count_fuse_fs();
-> > -		if (mount_count >= mount_max) {
-> > -			fprintf(stderr, "%s: too many FUSE filesystems mounted; mount_max=N can be set in %s\n", progname, FUSE_CONF);
-> > -			goto fail_close_fd;
-> > -		}
-> > -	}
-> > +	if (getuid() != 0 && check_nonroot_mount_count(progname) != 0)
-> > +		goto fail_close_fd;
-> >  
-> >  	// Extract any options starting with "x-"
-> >  	res= extract_x_options(opts, &do_mount_opts, &x_opts);
-> > diff --git a/util/meson.build b/util/meson.build
-> > index 04ea5ac201340d..aa646ef3c77d16 100644
-> > --- a/util/meson.build
-> > +++ b/util/meson.build
-> > @@ -1,18 +1,18 @@
-> >  fuseconf_path = join_paths(get_option('prefix'), get_option('sysconfdir'), 'fuse.conf')
-> >  
-> > -executable('fusermount3', ['fusermount.c', '../lib/mount_util.c', '../lib/util.c'],
-> > +executable('fusermount3', ['fusermount.c', '../lib/mount_util.c', '../lib/util.c', 'fuser_conf.c'],
-> >             include_directories: include_dirs,
-> >             install: true,
-> >             install_dir: get_option('bindir'),
-> >             c_args: '-DFUSE_CONF="@0@"'.format(fuseconf_path))
-> >  
-> >  if private_cfg.get('HAVE_SERVICEMOUNT', false)
-> > -  executable('fuservicemount3', ['mount_service.c', 'fuservicemount.c', '../lib/mount_util.c'],
-> > +  executable('fuservicemount3', ['mount_service.c', 'fuservicemount.c', '../lib/mount_util.c', 'fuser_conf.c'],
-> >               include_directories: include_dirs,
-> >               link_with: [ libfuse ],
-> >               install: true,
-> >               install_dir: get_option('sbindir'),
-> > -             c_args: '-DFUSE_USE_VERSION=319')
-> > +             c_args: ['-DFUSE_USE_VERSION=319', '-DFUSE_CONF="@0@"'.format(fuseconf_path)])
-> >  endif
-> >  
-> >  executable('mount.fuse3', ['mount.fuse.c'],
-> > 
-> 
-> 
+If the buffer is associated with queue, queues still can be registered
+dynamically? I don't say that your should be forced to do dynamic
+queues, it is just that the current reduced queue patches allow to have
+that. And with pBuf I don't see why it shouldn't work either.
+
+Thanks,
+Bernd
