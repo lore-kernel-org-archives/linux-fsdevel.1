@@ -1,91 +1,79 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85D8A3A0E8E
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 15:48:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC6FE351C3C
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 15:52:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777304934; cv=none; b=P7MMQ8KQ8CPvpNKxtdMt/tmTTfvaaq9uJ4K3AT8tZrEZkF8T04ps2oMWtrZSOydVG67S+NCY+rUHiEDzS8uSIiH7NCoaxdlGhdUskBRyyV/EgOLeWec25PeO77EMckjB8BAmbb3Dqe8WizwKmXAQyJ78WMHgecmvSU+cQ3B+bjU=
+	t=1777305140; cv=none; b=JoRUjeYYY+mFfDj6gBlTJqMOp1e4x98CGvSAtn6y697B0tLmkHSD7AvA/jVrCMPUI6abwKciuiWhYXsMqisHhiQOcry6WfF0ppGKBLmDv+E6st7oIO4Coit6IV7/b3oL5vB3ly03dwVwYblN58SN0Bsab1T82Fx0cRNJSwZRQYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777304934; c=relaxed/simple;
-	bh=lhnFbD125D2reDakn2eFfMkXdMsj9+IvMHimzDLmwCo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FxAtefDSmQqZ2iCQdul+YIfLrLnxL+0cujxhomEbfhORp2UBBRCOoawbebOTu50pLbFoPZCpPBB6hkx/XXeibu2sL5/liLDso/RPwAfe0DFsACbFx+G5uJJzloIRYMuwrpikCWQ1+MBt2P/evTuXk8aCIoljX4UobPsseHMDKoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=qdfCxdGe; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=x4NWsmlg; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=qdfCxdGe; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=x4NWsmlg; arc=none smtp.client-ip=195.135.223.131
+	s=arc-20240116; t=1777305140; c=relaxed/simple;
+	bh=eTk+lxFizvk5OH9bvq2BhLcOTQzxzjd9be9uN6z10uY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=eN8wkVPzgmBr+JY1vajljnRcYM83sQeHuk8Bz7S/JVfRYaIfWYIr12IjiHBkYhbGAQLDIVz+nVWZk0+zW3/5LNXV/5Zsqba7DXjfynE5RnmZhjGK7HDGZakVm4b3HbheAxM2RSc1sGylLtj8npwQbYsVGFo7wMlkeiQmZjsTzZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=BHgCZT8h; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=wOfo/rQ0; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=T1mr9ZIz; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=+iLU1mmz; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="qdfCxdGe";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="x4NWsmlg";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="qdfCxdGe";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="x4NWsmlg"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="BHgCZT8h";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="wOfo/rQ0";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="T1mr9ZIz";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="+iLU1mmz"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B90EB5BCD3;
-	Mon, 27 Apr 2026 15:48:51 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 1FC706A83F;
+	Mon, 27 Apr 2026 15:52:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1777304931; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OwIgqre0nNuSkcqjiOhDGxy5g/yN/3PgWU55rx1sZ9s=;
-	b=qdfCxdGeEeT9YjaU224+6JN2zCF73PorLqXEtxnbYdTc5I+R7cL1oCZyMsCnVwIst5VLNs
-	I4ZDFZSEnl1DvnyeMInpH+t5+Jd8j2JTmKFL4apqbRo95kaH6eqeWK6ODjQwZym2qqJUTO
-	m/9Xurnha/o7ToPzjJvUg66wsZTpHAE=
+	t=1777305137; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=ueMDijM+KRNJ7u8kxNsJ1ttF7vmElxins719UzGE0nA=;
+	b=BHgCZT8hIQt6oruZ7YJdfEYxlA58bX7+4ZJCFuAHk6Cu5Kja7fdEbfUGHO2mrmFc2k5QyI
+	59yX6/6XOGJujKTVKMHbDby/y8mCRzZvmFQLBpsqvUXNhmKmfQmLDyotHWGdtQ0Go/ZE3h
+	6/UjqtCcbptXYHgS5/b/xS773yAwSUM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1777304931;
+	s=susede2_ed25519; t=1777305137;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OwIgqre0nNuSkcqjiOhDGxy5g/yN/3PgWU55rx1sZ9s=;
-	b=x4NWsmlgPPFrHUMRI6NSW0MfhoV81JbjqTNmQxfHcUmB9ndCgM32r2xYBfA7EXUUg4V5GH
-	tyZMz46zJ0+R2+DA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=qdfCxdGe;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=x4NWsmlg
+	 mime-version:mime-version:content-type:content-type;
+	bh=ueMDijM+KRNJ7u8kxNsJ1ttF7vmElxins719UzGE0nA=;
+	b=wOfo/rQ0qfFBQFchwNWt0j1dUIhz+WYuBA8gpoHBZKk18uMlXI+wOQ4Q3emUop6eu4QEKT
+	qrizkOyb/Nz/K8Bg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=T1mr9ZIz;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=+iLU1mmz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1777304931; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OwIgqre0nNuSkcqjiOhDGxy5g/yN/3PgWU55rx1sZ9s=;
-	b=qdfCxdGeEeT9YjaU224+6JN2zCF73PorLqXEtxnbYdTc5I+R7cL1oCZyMsCnVwIst5VLNs
-	I4ZDFZSEnl1DvnyeMInpH+t5+Jd8j2JTmKFL4apqbRo95kaH6eqeWK6ODjQwZym2qqJUTO
-	m/9Xurnha/o7ToPzjJvUg66wsZTpHAE=
+	t=1777305136; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=ueMDijM+KRNJ7u8kxNsJ1ttF7vmElxins719UzGE0nA=;
+	b=T1mr9ZIzA6rvgH1yFa9DN/IMW3bahSxzhV6iwlJMkW5jX6UDElvKDDHoIvfqAUAAjElO9c
+	5otyAzcBfP7LQZg2hUMQMlJgTBchxYi/Ukxi26BXzV7LT/7dVPc0f2UkhMhO4TT/dbPRVo
+	Ev0wc1lbXnVXzlu40qnO+ipghD52LQU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1777304931;
+	s=susede2_ed25519; t=1777305136;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OwIgqre0nNuSkcqjiOhDGxy5g/yN/3PgWU55rx1sZ9s=;
-	b=x4NWsmlgPPFrHUMRI6NSW0MfhoV81JbjqTNmQxfHcUmB9ndCgM32r2xYBfA7EXUUg4V5GH
-	tyZMz46zJ0+R2+DA==
+	 mime-version:mime-version:content-type:content-type;
+	bh=ueMDijM+KRNJ7u8kxNsJ1ttF7vmElxins719UzGE0nA=;
+	b=+iLU1mmzYp10OUXYTuiYwS8Ia9cXDTn9fYEF02xXGFFHFQmcUlmog6BMNqXLhoj24yw6sb
+	4FrtTVA8r1ax7xCw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A8828593B0;
-	Mon, 27 Apr 2026 15:48:51 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 17460593B0;
+	Mon, 27 Apr 2026 15:52:16 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id L/4dKWOF72kaaAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 27 Apr 2026 15:48:51 +0000
+	id /ASmBTCG72kcawAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 27 Apr 2026 15:52:16 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 6B0EFA0B3C; Mon, 27 Apr 2026 17:48:51 +0200 (CEST)
-Date: Mon, 27 Apr 2026 17:48:51 +0200
+	id CEB5AA0B3C; Mon, 27 Apr 2026 17:52:07 +0200 (CEST)
+Date: Mon, 27 Apr 2026 17:52:07 +0200
 From: Jan Kara <jack@suse.cz>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Jan Kara <jack@suse.cz>, Chao Shi <coshi036@gmail.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, Sungwoo Kim <iam@sung-woo.kim>, 
-	Dave Tian <daveti@purdue.edu>, Weidong Zhu <weizhu@fiu.edu>
-Subject: Re: [RFC PATCH] fs/buffer: serialize set_buffer_uptodate against
- concurrent clears
-Message-ID: <kg3c4sksgnhhjk3wbag4qbsm6rxuxisbbhu6eqlynbmzknt4oo@tkdynt4h2bq2>
-References: <20260426020137.1221985-1-coshi036@gmail.com>
- <ae17nszpQA7Eqbc6@casper.infradead.org>
- <mxlij3dhmnqnile7hm2t4ixomaumibooydo6puym3edt2o2zyg@toyj4j5yid2e>
- <ae9owdaK6f-wFgom@casper.infradead.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linux-fsdevel@vger.kernel.org
+Subject: [GIT PULL] Fsnotify fixes for 7.1-rc2
+Message-ID: <fpk463rrvt2yisauvvxmwnsboigqh6rj4wokkee4xkezzdlqvr@nixbnm5cx2ia>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -94,7 +82,8 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ae9owdaK6f-wFgom@casper.infradead.org>
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Spamd-Result: default: False [-4.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
@@ -103,117 +92,59 @@ X-Spamd-Result: default: False [-4.01 / 50.00];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
+	RCPT_COUNT_TWO(0.00)[2];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FROM_HAS_DN(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
 	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	MISSING_XM_UA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_CC(0.00)[suse.cz,gmail.com,zeniv.linux.org.uk,kernel.org,vger.kernel.org,sung-woo.kim,purdue.edu,fiu.edu];
 	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:email,suse.cz:dkim]
-X-Rspamd-Action: no action
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.cz:dkim,suse.com:email]
+X-Rspamd-Queue-Id: 1FC706A83F
 X-Spam-Flag: NO
 X-Spam-Score: -4.01
 X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: B90EB5BCD3
 
-On Mon 27-04-26 14:46:41, Matthew Wilcox wrote:
-> On Mon, Apr 27, 2026 at 01:24:45PM +0200, Jan Kara wrote:
-> > On Sun 26-04-26 03:42:38, Matthew Wilcox wrote:
-> > > Why are we calling clear_buffer_uptodate() in end_buffer_async_read()?
-> > > If the buffer is uptodate, we shouldn't be reading into it.  If it's
-> > > not uptodate, we don't need to clear the uptodate flag because it's
-> > > already clear.
-> > > 
-> > > I've been deleting calls to ClearPageUptodate and folio_clear_uptodate()
-> > > from filesystems; it's almost always the wrong thing to do.  But the
-> > > buffer cache does have slightly different rules from the page cache,
-> > > so this may not translate well.
-> > 
-> > Right, I think the clear_buffer_uptodate() call in end_buffer_async_read()
-> > is indeed superfluous and we can just remove it - possibly replace with
-> > WARN_ON_ONCE(buffer_uptodate(bh)) - to deal with this race.
-> > 
-> > That being said block_commit_write() could possibly race with
-> > end_buffer_write_sync() as well and there the clear_buffer_uptodate()
-> > should stay (well, unless we want to do a serious rework of IO error bh
-> > handling). So the changes to block_commit_write() might still be needed.
-> 
-> Well, I don't want to do a serious rework of io error bh handling, but
-> I do have questions!  Let's say we take this patch, so we do:
-> 
-> 	lock_buffer(bh);
-> 	set_buffer_uptodate(bh);
-> 	mark_buffer_dirty(bh);
-> 	unlock_buffer(bh);
-> 
-> That means we don't hit the warning, but we do hit an error in
-> end_buffer_write_sync() anyway:
-> 
-> 	mark_buffer_write_io_error(bh);
-> 	clear_buffer_uptodate(bh);
-> 	unlock_buffer(bh);
-> 
-> We now have a buffer which is marked as write_io_error, dirty and
-> !uptodate.  That's a logically incoherent state -- dirty means "is
-> newer than what is on disc" and !uptodate means "on disc is newer
-> than this buffer".  I don't know if we have any assertions that
-> check for this, but we probably should?
+  Hello Linus,
 
-So I tend to agree with you that clearing buffer_uptodate bit on write IO
-error (as much as it goes back many many years) is wrong. When I tried to
-fix that some 20 years ago, Linus was against it arguing that uptodate
-means "it matches the on-disk content unless dirty is set" so we just
-worked-around it in ext3 / ext4. Fixing this was the "serious rework" I was
-alluding to but these days we probably have less code depending on uptodate
-bit getting cleared on write IO error than back then. So maybe it will be
-mostly smooth.
+  could you please pull from
 
-> So I think what we need here is (in addition to this patch):
-> 
-> +++ b/fs/buffer.c
-> @@ -169,7 +169,8 @@ void end_buffer_write_sync(struct buffer_head *bh, int uptodate)
->         } else {
->                 buffer_io_error(bh, ", lost sync page write");
->                 mark_buffer_write_io_error(bh);
-> -               clear_buffer_uptodate(bh);
-> +               if (!buffer_dirty(bh)
-> +                       clear_buffer_uptodate(bh);
+git://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git fsnotify_for_v7.1-rc2
 
-Well, if we touch this code, I'd just remove the clearing altogether.
+to get three fixes for fsnotify / fanotify.
 
->         }
->         unlock_buffer(bh);
->         put_bh(bh);
-> 
-> This makes sense to me since we need to retry the write anyway.
-> 
-> And of course, now I'm looking at buffer.c, I found another whoopsie.
-> Remember 7375f22495e7 where we called put_bh() on a stack buffer
-> after unlocking it?  Don't we have the same problem in
-> end_buffer_write_sync()?  I can't find anyone calling it with a
-> BH that's on the stack, but it's a bit of a nasty footgun.
+Top of the tree is 4aca914ac152. The full shortlog is:
 
-Yes, I'm not aware of any such place either. Culprit of this is that struct
-buffer_head is used both as a structure attached to a folio caching mapping
-information (perfectly fine to submit for IO) and structure to pass around
-mapping information which gets sometimes also abused to submit IO and then
-there are issues. We are getting rid of this second use but it's slow.
+Amir Goldstein (1):
+      fsnotify: fix inode reference leak in fsnotify_recalc_mask()
 
+Ethan Carter Edwards (1):
+      fanotify: Fix spelling mistake "enforecement" -> "enforcement"
+
+Miklos Szeredi (1):
+      fanotify: fix false positive on permission events
+
+The diffstat is
+
+ fs/notify/fanotify/fanotify.c    |  2 +-
+ fs/notify/fsnotify.c             |  2 +-
+ fs/notify/mark.c                 | 57 +++++++++++++++++++++++++++++++++-------
+ include/linux/fsnotify_backend.h |  1 +
+ 4 files changed, 50 insertions(+), 12 deletions(-)
+
+							Thanks
 								Honza
+
+
 -- 
 Jan Kara <jack@suse.com>
 SUSE Labs, CR
