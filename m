@@ -1,175 +1,229 @@
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D99B3194AE6;
-	Mon, 27 Apr 2026 17:06:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7460E29405;
+	Mon, 27 Apr 2026 17:16:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777309595; cv=none; b=t0jdSXsXk/FmnVZrDmHFP1u14KxECLncc4ni+IvbKrXGqkAWO1rdcUq71ugXmXMaoAUsxyq5BqKKESLEEskYX1W2iMk3WzIj2QtU7uRHKrLWuCQy3HRPrR5x4/QvvoLVQ+D71SU02jC727ljYvWVHPRVsfbPmtQA0WHKHMSaqX0=
+	t=1777310219; cv=none; b=lnKg7BoxsEj+KpDcf/oALBrXT1ccTPBpkTI3ECVX2s5+j9fNGEdNiRPFZQ8HHDtmvwK+7jcFnrgXz6RbeU/6P/VLAj5z8DPYqKu0fs6R/6tWQQ0otKZOoYGLjzORJyOu7yinHhzzi5Rz3N/XoPqxUmBTM7+3NcZDBN5Fa5hGw78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777309595; c=relaxed/simple;
-	bh=01cUK7UA+m9F6zPUzY2XDWJ76JJL4AGjYttD+zNk2oY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=D2ELPHKfQmGDu8/iVXj8hZWMVZpG9EV4z9a4Lc2kf3RndCXQ5LrN1fuJv6kz9w/SOdhAS1X0mtlPbIhu+GcrRkj71aetdhCSf6LmE/txAE/l8zUISfwUk2YHgMSUdR3CsHH+t9XOT+eEk8zyX4nAzn2YseIwjt72bm0ayYRU5i0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=RGP8B60o; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	s=arc-20240116; t=1777310219; c=relaxed/simple;
+	bh=Gdo90UdOw5JDNcbBc6CTpgqBoS99tJWdzzhKt47HDkg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QCWJwhkgyQIPBwW36YBLsUTxKenVr8c/dnY28kBLLI5w/jdSgmUcTrI8h7IRMX6fYYCmnIiH5daNsx88sS8N05ODBVdWNquhCzzZoTW7kiY+fqoobv6Du/Xc5AYtVrf7QCsNShxs3Cx0dwSSwP+bsgcv8u6JdQAck3yTm/GilNE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U2+LLE02; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="RGP8B60o"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
-	Date:References:In-Reply-To:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=V1BYaeG1CPEO9Nyv3+iMz7bAU/ipwECWMbDgGE7j0OI=; b=RGP8B60o7qwFqmccFm9pbLant2
-	bgf+tgzFaCau0a8eIfaUzS2lJRTvx3R8lxYUMAdL+s1buqbADO2FAgOhy/LIDIIW3Fz3yhH6PoeVD
-	f1fToPz3Fqjt7j0i9sf+XAWQd4exSyEWAHLtldeJQSbMOdoqXEhWPtZRjdHh0qLGkwNFTMm0jYEus
-	v/XD0lERgRX4S4CL33K0qTzLtUfiWCxnmwY7H/WAOwP8sTAEoftivxKy6WcMKl/luJOKj7MHFEB+Y
-	WOwsxEQ/3eTThRuljOn7p6ErPHHOo7BNLmbeZdblmAPnpJl/+swyF3iKlHJzXBgiqj4GjnUK0lcZO
-	mmjZxf2w==;
-Received: from bl16-24-16.dsl.telepac.pt ([188.81.24.16] helo=localhost)
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1wHPPf-0031De-MQ; Mon, 27 Apr 2026 19:06:26 +0200
-From: Luis Henriques <luis@igalia.com>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>,  fuse-devel@lists.linux.dev,
-  linux-fsdevel@vger.kernel.org,  linux-kernel@vger.kernel.org,  Matt
- Harvey <mharvey@jumptrading.com>,  kernel-dev@igalia.com
-Subject: Re: [PATCH] fuse: fix race between inode/dentry invalidation and
- readdir
-In-Reply-To: <CAJnrk1ZCyHtL6NEaSuww+RQvNNfAW8NkvRA=+=HXQwdG_4aE_Q@mail.gmail.com>
-	(Joanne Koong's message of "Mon, 27 Apr 2026 13:48:19 +0100")
-References: <20260424134935.16161-1-luis@igalia.com>
-	<CAJnrk1bv4NK7MF4msYMAmbS=+vL=k8NLoLiNyM4QB+amccpOww@mail.gmail.com>
-	<87mryokb89.fsf@igalia.com>
-	<CAJnrk1ZCyHtL6NEaSuww+RQvNNfAW8NkvRA=+=HXQwdG_4aE_Q@mail.gmail.com>
-Date: Mon, 27 Apr 2026 18:06:21 +0100
-Message-ID: <87ik9cjpte.fsf@igalia.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U2+LLE02"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87FE1C2BCB4;
+	Mon, 27 Apr 2026 17:16:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777310218;
+	bh=Gdo90UdOw5JDNcbBc6CTpgqBoS99tJWdzzhKt47HDkg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=U2+LLE02v2RJdGrHn64GqYJdP4+hDdO9CRQcGon9U+fg19LBxhX5PBepS5h9HJCqe
+	 szqGGe/Sn0Ja8ufrVfKBRayklpg7ZNqhD3AjlJFyhWTD2cy+E9nyVtxoXvU6RVePwS
+	 nC/EKNFwPrGycTqEuaSwxvd9NLoS3iznsIjTk0KPgTVc+veLovfoR+uQQZvkXu6BEL
+	 XY5HSP+s8CkmcaZnZCCWlv0qtPkuKqPRoos+3EvmYxD3lbF+eVbofOW/u0ribOc9N6
+	 46gB4iCE7qS4DHXiu+LbPED9AO2rWWkmtG0xffEU92OaQJ+vWiy9PumgjbDE3AiKLE
+	 isfjlgjrnrghg==
+From: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+To: Yury Norov <ynorov@nvidia.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	David Laight <david.laight.linux@gmail.com>,
+	Thomas Gleixner <tglx@linutronix.de>
+Cc: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	linux-alpha@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mips@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	kvm@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org,
+	sparclinux@vger.kernel.org,
+	linux-um@lists.infradead.org,
+	dmaengine@vger.kernel.org,
+	linux-efi@vger.kernel.org,
+	linux-fsi@lists.ozlabs.org,
+	amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org,
+	linux-wpan@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	linux-spi@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-serial@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	xen-devel@lists.xenproject.org,
+	linux-fsdevel@vger.kernel.org,
+	ocfs2-devel@lists.linux.dev,
+	bpf@vger.kernel.org,
+	kasan-dev@googlegroups.com,
+	linux-mm@kvack.org,
+	linux-x25@vger.kernel.org,
+	rust-for-linux@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	sound-open-firmware@alsa-project.org,
+	linux-csky@vger.kernel.org,
+	linux-hexagon@vger.kernel.org,
+	loongarch@lists.linux.dev,
+	linux-m68k@lists.linux-m68k.org,
+	linux-openrisc@vger.kernel.org,
+	linux-parisc@vger.kernel.org,
+	linux-sh@vger.kernel.org,
+	linux-arch@vger.kernel.org
+Subject: [RFC PATCH v1 0/9] uaccess: Convert small fixed size copy_{to/from}_user() to scoped user access
+Date: Mon, 27 Apr 2026 19:13:41 +0200
+Message-ID: <cover.1777306795.git.chleroy@kernel.org>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7253; i=chleroy@kernel.org; h=from:subject:message-id; bh=Gdo90UdOw5JDNcbBc6CTpgqBoS99tJWdzzhKt47HDkg=; b=owGbwMvMwCV2d0KB2p7V54MZT6slMWS+nxkaMinl/6P42P3bc0Qj3v7nk1G4YbGg/rEse+BPv 7e7BNgWdJSyMIhxMciKKbIc/8+9a0bXl9T8qbv0YeawMoEMYeDiFICJRDExMmwV0vIK89sWnHjX Y4WN3O+gaTyvmP0m2koKTvi9YNORsocM/wPkn2xoM0q8N63lWvLNy/m/speGuG7LLGiQ1I6bVSB dxgQA
+X-Developer-Key: i=chleroy@kernel.org; a=openpgp; fpr=10FFE6F8B390DE17ACC2632368A92FEB01B8DD78
+Content-Transfer-Encoding: 8bit
 
-On Mon, Apr 27 2026, Joanne Koong wrote:
+A lot of copy_from_user() and copy_to_user() perform copies of small
+fixed size pieces of data between kernel and userspace, and don't
+care about partial copies.
 
-> On Mon, Apr 27, 2026 at 10:23=E2=80=AFAM Luis Henriques <luis@igalia.com>=
- wrote:
->>
->> Hi Joanne!
->>
->> On Fri, Apr 24 2026, Joanne Koong wrote:
->>
->> > On Fri, Apr 24, 2026 at 6:53=E2=80=AFAM Luis Henriques <luis@igalia.co=
-m> wrote:
->> >>
->> >> When there's a readdir in progress, doing a FUSE_NOTIFY_INVAL_{INODE,=
-ENTRY}
->> >> on an inode or dentry may result in stale directory info being cached=
-.  This
->> >> is because the invalidation does not reset the readdir cache.
->> >>
->> >> This patch fixes this issue by adding a call to fuse_rdc_reset() (mod=
-ified
->> >> to include the required locking) to these two operations, allowing the
->> >> readdir cache to be invalidated while it's being filled-in.
->> >
->> > Hi Luis,
->> >
->> > Just curious, are you hitting this issue in practice or is this mostly
->> > theoretical?
->> >
->> > afaict for fuse_notify_inval_entry(), it calls into
->> > fuse_reverse_inval_entry() -> fuse_dir_changed(parent), which calls
->> > inode_maybe_inc_iversion(). afaict, this actually increments i_version
->> > (since I_VERSION_QUERIED flag was set when the cache's iversion was
->> > initialized with inode_query_iversion() in fuse_readdir_cached()),
->> > which means the next readdir call will detect this version change and
->> > call fuse_rdc_reset() (in fuse_readdir_cached()). I'm not sure I see
->> > how this leads to stale directory info lingering in the cache after a
->> > concurrent fuse_notify_inval_entry()?
->> >
->> > For teh fuse_notify_inval_inode() case, which I'm assuming is the case
->> > you're running into where the directory is the inode being
->> > invalidated, I see the call to fuse_reverse_inval_inode() which calls
->> > invalidate_inode_pages2_range() if the offset was non-negative, which
->> > will invalidate the readdir cache's pages, which means on the next
->> > readdir call, will already call fuse_rdc_reset() when it detects the
->> > missing page in the cache (in fuse_readdir_cached()). So I'm not
->> > really seeing how this can happen either for the
->> > fuse_notify_inval_inode() case? Unless you are passing a negative
->> > offset, but as I understand it, passing a negative offset is used only
->> > if the server wants attributes invalidated [1], not any data.
->> >
->> > afaics, the onlyy stale directory info returned would be for the case
->> > for a concurrent readdir that has already passed the pos =3D=3D 0
->> > iversion/mtime check when the invalidation arrives, but that seems
->> > like a server synchronization issue, eg if the server wants uptodate
->> > data when doing a concurrent readdir and invalidation, they have to
->> > order that themselves. ANy fresh lookup after that though, I think
->> > wouldalways return fresh/non-stale data for the reasons mentioned
->> > above.
->> >
->> > Does this align with what you're seeing in the code or am I missing
->> > something here?
->
-> Hi Luis,
->
->>
->> First of all, thanks a lot for looking into this and for doing such a
->> great description of the issue.
->>
->> So, I did had a report regarding a possible race between a readdir and
->> invalidation when using keep_cache and cache_readdir.  But, unfortunatel=
-y,
->> I don't have a lot of information regarding the actual issue, and it isn=
-'t
->> something reproducible.
->>
->> Then, looking at the code (and, for full-disclosure, I've also looked at=
- a
->> claude analysis that was handed over to me) I could see a race that I'm
->> trying to fix with this patch.  But I believe it's the race that you cla=
-im
->> above that it's a server synchronisation problem.  For example, with a
->> NOTIFY_INVAL_INODE operation, when fuse_reverse_inval_inode() is called
->> while fuse_add_dirent_to_cache() is being executed in parallel, the
->> iversion/mtime update could be missed.
->>
->> It is possible to hit this small race by instrumenting the code, and I
->> could occasionally (and momentarily) see stale data while running readdir
->> in such instrumented testing environment.  Do you think that's something
->> inherent to the usage of the INVAL_INODE op, and this race will need to =
-be
->> handled by user-space?
->
-> imo yes, that is not a bug in the kernel and userspace is responsible
-> for synchronizing/coordinating that. I think the kernel is just
-> responsible for ensuring that any subsequent readdirs are not stale,
-> but afaict the existing code handles that.
+copy_from_user() and copy_to_user() are big functions optimised for
+copying large amount of data, with cache management, etc ... This is
+often overkill for small copies that could just be inlined instead.
 
-Ack, thanks.
+What makes things a bit more tricky is that those copy functions
+are designed to handle partial copies in case of page fault. But among
+the 6000 callers of those functions, only 2% really care about the
+quantity of no-copied data that those functions return. All other ones
+fails as soon as the returned value is not 0, returning -EACCESS.
 
->> In fact, the report I got seemed to indicate that the issue was not going
->> away with a fresh lookup (though an 'echo 1 > /proc/sys/vm/drop_cache'
->> would fix it).  But maybe that's another indication that this is a probl=
-em
->> in the user-space server.
->
-> that seems weird to me, maybe there's something else at play here in
-> addition to the concurrent race? Is there a repro for where the stale
-> data survives a fresh lookup?
+So first step in this series is to introduce variants called
+copy_from_user_partial() and copy_to_user_partial() which will be
+called by the 2% users that care about the partial copy, then the
+original copy_from_user() and copy_to_user() are changed to return
+-EFAULT when the copy fails.
 
-Unfortunately no, I do not have any reproducer.  And from looking at the
-code I couldn't find anything else.  I'll have to look closer into the
-user-space code doing the invalidation to try to understand what else
-could be at play here.  And again, thank you for your feedback, Joanne.
+Then the second step is to implement copy of small fixed-size data
+with scoped user access instead of calling the arch specific heavy
+user copy functions.
 
-Cheers,
---=20
-Lu=C3=ADs
+Patch 5, can be split in different patches for each archicture or
+subsystem, but let's get a first feedback and agree on the principle.
+
+Christophe Leroy (CS GROUP) (9):
+  uaccess: Split check_zeroed_user() out of usercopy.c
+  uaccess: Convert INLINE_COPY_{TO/FROM}_USER to kconfig and reduce
+    ifdefery
+  x86/umip: Be stricter in fixup_umip_exception()
+  uaccess: Introduce copy_{to/from}_user_partial()
+  uaccess: Switch to copy_{to/from}_user_partial() when relevant
+  uaccess: Change copy_{to/from}_user to return -EFAULT
+  x86: Add unsafe_copy_from_user()
+  arm64: Add unsafe_copy_from_user()
+  uaccess: Convert small fixed size copy_{to/from}_user() to scoped user
+    access
+
+ arch/alpha/Kconfig                            |   1 +
+ arch/alpha/kernel/osf_sys.c                   |   4 +-
+ arch/alpha/kernel/termios.c                   |   2 +-
+ arch/arc/include/asm/uaccess.h                |   3 -
+ arch/arc/kernel/disasm.c                      |   2 +-
+ arch/arm/include/asm/uaccess.h                |   2 -
+ arch/arm64/include/asm/gcs.h                  |   2 +-
+ arch/arm64/include/asm/uaccess.h              |  30 +++--
+ arch/arm64/kernel/signal32.c                  |   2 +-
+ arch/csky/Kconfig                             |   1 +
+ arch/hexagon/include/asm/uaccess.h            |   3 -
+ arch/loongarch/include/asm/uaccess.h          |   3 -
+ arch/m68k/include/asm/uaccess.h               |   3 -
+ arch/microblaze/include/asm/uaccess.h         |   2 -
+ arch/mips/include/asm/uaccess.h               |   3 -
+ arch/mips/kernel/rtlx.c                       |   8 +-
+ arch/mips/kernel/vpe.c                        |   2 +-
+ arch/nios2/include/asm/uaccess.h              |   2 -
+ arch/openrisc/include/asm/uaccess.h           |   2 -
+ arch/parisc/include/asm/uaccess.h             |   3 -
+ arch/powerpc/Kconfig                          |   1 +
+ arch/powerpc/kvm/book3s_64_mmu_hv.c           |   4 +-
+ arch/powerpc/kvm/book3s_64_mmu_radix.c        |   4 +-
+ arch/powerpc/kvm/book3s_hv.c                  |   2 +-
+ arch/riscv/Kconfig                            |   1 +
+ arch/riscv/kernel/signal.c                    |   2 +-
+ arch/s390/include/asm/idals.h                 |   8 +-
+ arch/s390/include/asm/uaccess.h               |   3 -
+ arch/sh/include/asm/uaccess.h                 |   2 -
+ arch/sparc/include/asm/uaccess_32.h           |   3 -
+ arch/sparc/include/asm/uaccess_64.h           |   2 -
+ arch/sparc/kernel/termios.c                   |   2 +-
+ arch/um/include/asm/uaccess.h                 |   3 -
+ arch/um/kernel/process.c                      |   2 +-
+ arch/x86/Kconfig                              |   1 +
+ arch/x86/include/asm/uaccess.h                |  29 ++++-
+ arch/x86/kernel/umip.c                        |   2 +-
+ arch/x86/lib/insn-eval.c                      |   2 +-
+ arch/x86/um/signal.c                          |   2 +-
+ arch/xtensa/include/asm/uaccess.h             |   2 -
+ drivers/android/binder_alloc.c                |   2 +-
+ drivers/comedi/comedi_fops.c                  |   4 +-
+ drivers/dma/idxd/cdev.c                       |   2 +-
+ drivers/firmware/efi/test/efi_test.c          |   2 +-
+ drivers/fsi/fsi-scom.c                        |   2 +-
+ .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c |   2 +-
+ drivers/gpu/drm/i915/gt/intel_sseu.c          |   4 +-
+ drivers/gpu/drm/i915/i915_gem.c               |   4 +-
+ drivers/hwtracing/intel_th/msu.c              |   2 +-
+ drivers/misc/ibmvmc.c                         |   2 +-
+ drivers/misc/vmw_vmci/vmci_host.c             |   2 +-
+ drivers/most/most_cdev.c                      |   2 +-
+ drivers/net/ieee802154/ca8210.c               |   4 +-
+ drivers/net/wireless/ath/wil6210/debugfs.c    |   2 +-
+ .../intel/iwlwifi/pcie/gen1_2/trans.c         |   2 +-
+ drivers/net/wireless/ti/wlcore/debugfs.c      |   2 +-
+ drivers/ps3/ps3-lpm.c                         |   2 +-
+ drivers/s390/crypto/zcrypt_api.h              |   4 +-
+ drivers/spi/spidev.c                          |   2 +-
+ .../staging/media/atomisp/pci/atomisp_cmd.c   |   8 +-
+ drivers/tty/tty_ioctl.c                       |  14 +--
+ drivers/tty/vt/vc_screen.c                    |   4 +-
+ drivers/usb/gadget/function/f_hid.c           |   4 +-
+ drivers/usb/gadget/function/f_printer.c       |   2 +-
+ drivers/vfio/vfio_iommu_type1.c               |   4 +-
+ drivers/xen/xenbus/xenbus_dev_frontend.c      |   2 +-
+ fs/namespace.c                                |   2 +-
+ fs/ocfs2/dlmfs/dlmfs.c                        |   2 +-
+ fs/proc/base.c                                |   4 +-
+ include/asm-generic/uaccess.h                 |   2 -
+ include/linux/bpfptr.h                        |   2 +-
+ include/linux/sockptr.h                       |   4 +-
+ include/linux/uaccess.h                       | 107 ++++++++++++++----
+ ipc/msg.c                                     |   8 +-
+ ipc/sem.c                                     |   8 +-
+ ipc/shm.c                                     |  18 +--
+ kernel/regset.c                               |   2 +-
+ kernel/sys.c                                  |   4 +-
+ lib/Kconfig                                   |   3 +
+ lib/Makefile                                  |   4 +-
+ lib/kfifo.c                                   |   8 +-
+ lib/{usercopy.c => usercheck.c}               |  22 ----
+ lib/usercopy.c                                |  66 -----------
+ mm/kasan/kasan_test_c.c                       |   4 +-
+ mm/memory.c                                   |   2 +-
+ net/x25/af_x25.c                              |   2 +-
+ rust/helpers/uaccess.c                        |   6 +-
+ sound/pci/emu10k1/emufx.c                     |   4 +-
+ sound/pci/rme9652/hdsp.c                      |   6 +-
+ sound/soc/intel/avs/probes.c                  |   6 +-
+ sound/soc/sof/compress.c                      |  12 +-
+ sound/soc/sof/sof-client-probes.c             |   6 +-
+ 92 files changed, 269 insertions(+), 288 deletions(-)
+ copy lib/{usercopy.c => usercheck.c} (73%)
+
+-- 
+2.49.0
+
