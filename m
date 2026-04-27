@@ -1,301 +1,119 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E681337F009
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 21:29:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4FA83537FF
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 21:45:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777325364; cv=none; b=Azi97cf0GZ069SvYfcnAwxF7PZaJPn7QXcJbFv90SbMqxQWGSeoiAEQEu7g80Q+pudNd68Sb7fSdGD3oQcCDiCwhM3w6BdtIPens9gBX7FCPRF4hHqY0rNp4dWVC9yFSp4kVRhVAJdm+Mqu5Npm7rdjOyVCl3VE704eu9C0moHs=
+	t=1777326327; cv=none; b=PphI7CC0zc8rLDCfClQ7ZgBLv0jO+IUGrKnFbOh43MtLuv8e/wCqIXLbYqUi8rWiCvcwRE5Q3c3yO5kJ7db9nCjDgcyrww8tvLaIkq0WNEUp/fXtjtPQB9GdBb8muqvuxe4cpztZzK9he0mJcuG5TrGlWi1mzihas9pG1dOQuCQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777325364; c=relaxed/simple;
-	bh=c8Xs8XIDe+SZyyGBpFGQP0PqyLAvYREVB87ThsvQG6c=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RQK5vzAcVQJrmszIfBmXug9UmX7HI5Jyvpt25lVcjz/+Uf3kI7VH47waACTAc1rqFrg4b5PA5EkB0psCxBFfeoABwf9KzyLFlVsaTqTH5v0mLMLlfBzsF+1HjOAF5X63Ua7btTOD5EzZTl6HD/wYxEB50pirv5fc2gfj0/6xB4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pM4bEk+K; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777326327; c=relaxed/simple;
+	bh=i/k46YQbNxc6jmDhpSrBTZQploRe2hY24KQV/uGHVj8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Mp8hfjXrA50Kg2QMn3d4BOHTFr7geGYIkQPkA0Ivimqr3jRk0V8NJWYO6HdXTHqjOZcyA26n6ADLRPezRHvq5ca/Af6WOSSYBPehlUTnvy7bUYN3NpG5dK1JkPiAF9jPmY6qc86njUzB3KYPaO3OOJM/dQROSVVmojLtP39PTfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=PU4P791G; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pM4bEk+K"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-488a8ca4aadso148971765e9.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 14:29:19 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="PU4P791G"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b8f97c626aaso849387066b.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 14:45:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777325358; x=1777930158; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ebg5+i/pOUuQx7xxuERTUppaj1qL6vIxTxgv86V/NC0=;
-        b=pM4bEk+KWuVJs1U70UMTYiYKMTMTofFbWReYwBWyqhmru6Y2DXeQu1JWql0TDyt+VP
-         KU6iTZ27w00J1ijxYV/Il69CxIz0aEodyojX5hvux8QzDCUptjfpO0GxqEopdd5J7LQe
-         xWtNPQshDR5+AecefO+G7XCDnANkqrKF5HDpjRP71LYSISipG8uBZw3Llvrz/plVREw8
-         7hx+6bhgCNzpupXctGieSqZ7959V9vurIkn5LhYgBA0CLbIQE+NEBCLE9iwlyuxnjMVK
-         9ppisP58FPLXgdtkUISOXdh0pbxdbVuAXmsLhiX5O1W4051+CXyd/ZZNlvvioVVvo0G7
-         77DA==
+        d=linux-foundation.org; s=google; t=1777326324; x=1777931124; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=DjF1Jdn4Kp6xFyaBmAP2391GfFF2q7kuOVlruTChM90=;
+        b=PU4P791GVmxInFDdnWyF07mbS4dSuamQe9U1QkjtnM+Yy1xs3QoZmDzllDpm2LHfcr
+         fhpdObzK4oFiECfbzAFS2Fz8a0bd69boxd3H+ndr6wp+BopMwXEmUsXPxD1+0QJqVOOj
+         aqlEp/HcxtCLt2zZ0Hrpc7BITZhmvjUV6EU28=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777325358; x=1777930158;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Ebg5+i/pOUuQx7xxuERTUppaj1qL6vIxTxgv86V/NC0=;
-        b=HyXtJL+nDcm6Ql+dS4m5e0E65PkDz9Iey2fmmccTv7WZ1BkwicscFZVt4NW1gC1fQ5
-         Re9Y/SbtB5iWX9x1HUVVVLyJw1Isyq7TuLgf4IAqp0mynPdkYuTmm0W8mX5IDx4hq1N/
-         6qP7DaGVS6dyK2glkhDKV4BB47N4Rmn9csjltz1b1tpWRaiEJgKG36rjKsKcSejnt/TP
-         nVrMkrYULl0G8IIABjwp3LgSCumRuxOyjQKM8xLSG1SDvSElhwWN8rXsYprwdYJvjfMd
-         nItB46Lw/TpvHADYskApd9fxzSvjiPW2A0TgV7cXsR0G98C+9BpyXSYBcCWg5OkWWOK5
-         jsOw==
-X-Forwarded-Encrypted: i=1; AFNElJ9D00wzH0zX4ZhAmIgx8irzKyalhV3xgcXJzn9QtB6qD2abMjTmfpV0w8ury4oH6FzHwoPC5kjDhfdePfG+@vger.kernel.org
-X-Gm-Message-State: AOJu0YzseKKRyMpnxUatYjFQJzT6QsnbCPAgY5VbaTWSnXjuhUmGrTn/
-	8FrM2oqXCQFdxW6K1yg1bXFmcrpZKLjtmNt7khqiayfUquJFchPQrplm
-X-Gm-Gg: AeBDiesfR2MAi1NETja1RHJLdl9HGFHCFKL24Tox6toCER+73VzADLa4HVJ6xr0quFb
-	ZX9PhubGoTJOJJIcgnklVbDRhS+fCcIyHBP0DSM+QwIemRTTY0dv8qUMlScnfNcQmLBnxxRzDVh
-	EBPxOnHBuGu2erxI3YfkPYe+Sr87f1g7DRyWCWkoJmLBTvfNBbBUCIwjSmExaJqqEzNXrX0G5ca
-	/X4/ZVWTy9HfZsLNBePxqQujUnQm5TMQGqV0hVxv2ZyVvPQbQ1W8ydbNSF+eyHOAs/7r2zDZveg
-	1WQDlp2h8+2/tX2c8QSkGmsm9kU44+Xm+rIGSsattYawk9NsgdLXBidSj5Rgh1GPnV3vvB+vYNK
-	P/9E/nJaMZCRcrlb69I40qpB51+KrhH2Trv2y93R9f+tQAbX0ZkrbuHOrNVX/zyYrQ6e0hWUEa0
-	MEdoIbokDHZzCEJIXuuVtRFlpDr8HhWC/Tn2Lzie2TP7kptPeDMiec6LnMOQvg+Ah6WUWBXmEcl
-	fhK33d7hxdBhw==
-X-Received: by 2002:a05:6000:3109:b0:43d:7d6f:f531 with SMTP id ffacd0b85a97d-44649ba1f4amr816127f8f.30.1777325358072;
-        Mon, 27 Apr 2026 14:29:18 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4463d02f270sm1120515f8f.9.2026.04.27.14.29.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Apr 2026 14:29:17 -0700 (PDT)
-Date: Mon, 27 Apr 2026 22:29:14 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Yury Norov
- <ynorov@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>, Thomas
- Gleixner <tglx@linutronix.de>, linux-alpha@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
- dmaengine@vger.kernel.org, linux-efi@vger.kernel.org,
- linux-fsi@lists.ozlabs.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-wpan@vger.kernel.org, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux-spi@vger.kernel.org,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
- xen-devel@lists.xenproject.org, linux-fsdevel@vger.kernel.org,
- ocfs2-devel@lists.linux.dev, bpf@vger.kernel.org,
- kasan-dev@googlegroups.com, linux-mm@kvack.org, linux-x25@vger.kernel.org,
- rust-for-linux@vger.kernel.org, linux-sound@vger.kernel.org,
- sound-open-firmware@alsa-project.org, linux-csky@vger.kernel.org,
- linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev,
- linux-m68k@lists.linux-m68k.org, linux-openrisc@vger.kernel.org,
- linux-parisc@vger.kernel.org, linux-sh@vger.kernel.org,
- linux-arch@vger.kernel.org
-Subject: Re: [RFC PATCH v1 5/9] uaccess: Switch to
- copy_{to/from}_user_partial() when relevant
-Message-ID: <20260427222914.1cb2dd3b@pumpkin>
-In-Reply-To: <CAHk-=whC1DZojwdMB1=sJWG2=dsCdfyU8N6tDE1qx50HRZ-WJQ@mail.gmail.com>
-References: <cover.1777306795.git.chleroy@kernel.org>
-	<289b424e243ba2c4139ea04009cf8b9c448a87ff.1777306795.git.chleroy@kernel.org>
-	<CAHk-=whC1DZojwdMB1=sJWG2=dsCdfyU8N6tDE1qx50HRZ-WJQ@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+        d=1e100.net; s=20251104; t=1777326324; x=1777931124;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DjF1Jdn4Kp6xFyaBmAP2391GfFF2q7kuOVlruTChM90=;
+        b=IVAlXc+w+Y7Cexh21rXX193eeVbRczJiFIaznf1yo+iIlp7k7qUA6cTtMa8KRQj1CZ
+         wNcyWDkGLoe3n30THw4elPsFul+YvXE2OiiGbCGmZfWovntC36DTXerYvKuJ2WMgH8gq
+         0hAaRazZ4FlLccAKKOFqmeKe1P/IKJrsdXaELNYl4+VDGzoBXURlARtPn/Zoe+R7INTe
+         Ng8nqigEvqo+1t+7qApKeaqneXyazIS/TOk93NApa6JWss9wZMkiZKrQpGBYN4NKL7uN
+         EFHB3nVsP4plXWjC69aDH128BreNQNimnuLdUJZKVlRd1Z0+ROIyRtltmeBXFjLP5Kf2
+         ozWQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9k7+6VC0FcYb96E57X864flU8YK/AeJl6G2KnfYJDLJfEUjaMb6+SYtIdGnTaAaSWIIiVsB39l6eh+4SEG@vger.kernel.org
+X-Gm-Message-State: AOJu0YwLUyYk6kBjY/2HUfPK7dIeejgBpQLBBFNf/mvta9MZfEZaUAL8
+	3jcbzmYaWUAykRt/NJ3WngQWA1O2CvnYEtEOsdHGTuNl/n4rDkTLPni8J0GRAUWtysQvR27sxuB
+	WZon4ubBmeQ==
+X-Gm-Gg: AeBDieuQhXISkZg8sNJIC/K/dbg9qV/63NlGrN0gms8ajEY0ic7mGFlkJ6cWDdtQ4sx
+	qUMaCudPFvVPOpCyxLsjrhy6zF8zP22/L3l6NRGIOBKzXuiS8aqniLvjPjn1f0N9IE5ykbo0oSl
+	nFQqRC+08D3Pram0SO90CgblsEC6ebp82uVuPq5Zb6DWfZKBzOml4zsyOhB0jLG2DxI8RUpLL3t
+	pXivfWIPw/2TKpPFebwHTuPm6quO5oVWSg52ltwobdJQdUEDFt6kuUTRiSqyf9Y2C++RFS9sdKN
+	a5L6xfbEpGqCzjuAOiBfLhFn7PBgJKT6O/5/vERszC7GWfVep3oeBBuNjbBR51m6AEsAhuN860X
+	dBudsD7Di7fEbiSVKxrSEIKm7j/zLDAwFGTYgSl9HKYj0iU/ZnA7tGqI5h0ou8m4YUl/19xsMGa
+	A3lVhFCooChlmFe0LH/+/0TsnzKDWShKcj/WpXcvxOdANpdww1aDEKOw9qsxrjYACgxze5ZlvJ9
+	/WFbMtU0sI=
+X-Received: by 2002:a17:906:ba89:b0:bad:a28:e09 with SMTP id a640c23a62f3a-bb804d28002mr29771466b.41.1777326324033;
+        Mon, 27 Apr 2026 14:45:24 -0700 (PDT)
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com. [209.85.208.54])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bb80bd91f49sm9528866b.51.2026.04.27.14.45.23
+        for <linux-fsdevel@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Apr 2026 14:45:23 -0700 (PDT)
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-678adefbd26so5632196a12.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 14:45:23 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+5R+ZPY6eRS7zZW9UgRdhakaCzrd/8RgNnjGCP61OfNueyvITKGv3OKrurfD1/j+3hZjkCQLeUFd9ZEnS9@vger.kernel.org
+X-Received: by 2002:a05:6402:5216:b0:679:1f4f:9d30 with SMTP id
+ 4fb4d7f45d1cf-679bb04c1a2mr179970a12.4.1777325976937; Mon, 27 Apr 2026
+ 14:39:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <cover.1777306795.git.chleroy@kernel.org> <289b424e243ba2c4139ea04009cf8b9c448a87ff.1777306795.git.chleroy@kernel.org>
+ <CAHk-=whC1DZojwdMB1=sJWG2=dsCdfyU8N6tDE1qx50HRZ-WJQ@mail.gmail.com> <20260427222914.1cb2dd3b@pumpkin>
+In-Reply-To: <20260427222914.1cb2dd3b@pumpkin>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Mon, 27 Apr 2026 14:39:20 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wg0SGbRYhdZ1kvJUTv1HEvmRJyQauFtBGV_fMcZVF8UpQ@mail.gmail.com>
+X-Gm-Features: AVHnY4I-AxqvQRk42MegvhKMp_z4sSEpEzhzpgw2GyV2bV8dezSPoI0JTlwB18Y
+Message-ID: <CAHk-=wg0SGbRYhdZ1kvJUTv1HEvmRJyQauFtBGV_fMcZVF8UpQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v1 5/9] uaccess: Switch to copy_{to/from}_user_partial()
+ when relevant
+To: David Laight <david.laight.linux@gmail.com>
+Cc: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Yury Norov <ynorov@nvidia.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	kvm@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, 
+	linux-um@lists.infradead.org, dmaengine@vger.kernel.org, 
+	linux-efi@vger.kernel.org, linux-fsi@lists.ozlabs.org, 
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+	intel-gfx@lists.freedesktop.org, linux-wpan@vger.kernel.org, 
+	netdev@vger.kernel.org, linux-wireless@vger.kernel.org, 
+	linux-spi@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-serial@vger.kernel.org, 
+	linux-usb@vger.kernel.org, xen-devel@lists.xenproject.org, 
+	linux-fsdevel@vger.kernel.org, ocfs2-devel@lists.linux.dev, 
+	bpf@vger.kernel.org, kasan-dev@googlegroups.com, linux-mm@kvack.org, 
+	linux-x25@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	linux-sound@vger.kernel.org, sound-open-firmware@alsa-project.org, 
+	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org, 
+	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org, 
+	linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	linux-sh@vger.kernel.org, linux-arch@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 27 Apr 2026 12:01:23 -0700
-Linus Torvalds <torvalds@linux-foundation.org> wrote:
+On Mon, 27 Apr 2026 at 14:29, David Laight <david.laight.linux@gmail.com> wrote:
+>
+> I think there is a slight difference in that the normal copy_to_user()
+> will determine the exact offset of the error by retrying with byte copies.
 
-> On Mon, 27 Apr 2026 at 10:18, Christophe Leroy (CS GROUP)
-> <chleroy@kernel.org> wrote:
-> >
-> > In a subsequent patch, copy_{to/from}_user() will be modified to
-> > return -EFAULT when copy fails.  
-> 
-> Please don't do this.
-> 
-> This is a maintenance nightmare, and changes pretty much three decades
-> of semantics, and will cause *very* subtle backporting issues if
-> somebody happens to rely on the old / new behavior.
-> 
-> I understand the reasoning for the change, but I really don't think
-> the pain of creating yet another user copy interface is worth it.
-> 
-> We already have a lot of different versions of user copies for
-> different reasons, and while they all tend to have a good reason (and
-> some not-so-good, but historical reasons) for existing, this one
-> doesn't seem worth it.
-> 
-> The main - perhaps only - reason for this "partial" version is that
-> you want to do that "automatically inlined and optimized fixed-sized
-> case".
-> 
-> But here's the thing: I think you can already do that. Yes, it
-> requires some improvements to unsafe_copy_from_user(), but *that*
-> interface doesn't have three decades of history associated with it,
-> _and_ you're extending on that one anyway in this series.
-> 
-> "unsafe_copy_from_user()" is very odd, is meant only for small simple
-> copies that can be inlined and it's special-cased for 'objtool' anyway
-> (because objtool would have complained about an out-of-line call,
-> although it could have been special-cased other ways).
-> 
-> In other words: unsafe_copy_from_user() is *very* close to what you
-> want for that "Oh, I noticed that it's a small fixed-size copy, so I
-> want to special-case copy-from-user for that".
-> 
-> The _only_ issue with unsafe_copy_from_user() is that you can't see
-> that there were partial successes. But if *that* was fixed, then this
-> whole "create a new copy_from_user interface" issue would just go
-> away.
-> 
-> So please - let's just change unsafe_copy_from_user() to be usable for
-> the partial case.
-> 
-> And the thing is, all the existing unsafe_copy_from_user()
-> implementations already effectively *have* the "how much did I not
-> copy" internally, and they actually do extra work to hide it, ie they
-> have things like that
-> 
->         int _i;
-> 
-> that is "how many bytes have I copied" in the powerpc implementation,
-> or the x86 code does
-> 
->         size_t __ucu_len = (_len);
-> 
-> where that "ucu_len" is updated as you go along and is literally the
-> "how many bytes are left to copy" return value that is missing from
-> this interface.
-> 
-> So what I would suggest is
-> 
->  - introduce a new user accessor helper that is used for *both*
-> unsafe_copy_to/from_user() *and* the "inline small constant-sized
-> normal copy_to/from_user()" calls
-> 
->  - it's the same thing as the existing  unsafe_copy_to/from_user()
-> implementation, except it exposes how many bytes are left to be copied
-> to the exception label.
+I have this dim memory that we decided that you can't reply on byte
+exactness anyway, because not all architectures gave that guarantee
+for the user copies.
 
-I think there is a slight difference in that the normal copy_to_user()
-will determine the exact offset of the error by retrying with byte copies.
+But that thing came up many years ago, I might mis-remember.
 
-There is also the issue of misaligned copies.
-
-Then there is the 'bugbear' of hardened user copies.
-Chasing down the stack to find whether the kernel buffer crosses
-a stack frame is probably more expensive than the copy for the typically
-small copies that will use on-stack buffers.
-
-	David
-
-> 
-> IOW, it would look something like
-> 
->      #define unsafe_copy_to_user_outlen(_dst,_src,_len,label)...
-> 
-> which is exactly the same as the current unsafe_copy_to_user(),
-> *except* it changes "_len" as it does along.
-> 
-> And then you use that for both the "real" unsafe_copy_user and for the
-> "small constant values" case.
-> 
-> Just as an example, attached is a completely stupid rough draft of a
-> patch that does this for x86 and only for unsafe_copy_to_user().
-> 
-> And I made a very very hacky change to kernel/sys.c to see what the
-> code generation looks like.
-> 
-> This is what it results in on x86 with clang (with all the magic
-> .section data edited out):
-> 
->         ... edited out the code to generate the times
->         ... this is the actual user copy:
->         # HERE!
->         movabsq $81985529216486895, %rcx        # imm = 0x123456789ABCDEF
->         cmpq    %rcx, %rbx
->         cmovaq  %rcx, %rbx
->         stac
->         movq    %r13, (%rbx)                    # exception to .LBB45_8
->         movq    %r14, 8(%rbx)                   # exception to .LBB45_8
->         movq    %r15, 16(%rbx)                  # exception to .LBB45_8
->         movq    %rax, 24(%rbx)                  # exception to .LBB45_8
->         clac
-> .LBB45_6:
->         movq    jiffies(%rip), %rdi
->         callq   jiffies_64_to_clock_t
-> .LBB45_7:
->         addq    $16, %rsp
->         popq    %rbx
->         popq    %r12
->         popq    %r13
->         popq    %r14
->         popq    %r15
->         retq
-> .LBB45_8:
->         clac
->         movq    $-14, %rax
->         jmp     .LBB45_7
-> 
-> and notice how the compiler noticed that the 'outlen' isn't actually
-> used, and turned the exception label into just a "return -EFAULT" and
-> never actually generated any code for updating remaining lengths?
-> 
-> That actually looks pretty much optimal for a 32-byte user copy.
-> 
-> And it didn't involve changing the semantics at all.
-> 
-> Just to check, I changed that "times()" system call to return the
-> number of bytes uncopied instead (to emulate the "I actually want to
-> know what's left" case), and it generated this:
-> 
->         # HERE!
->         movabsq $81985529216486895, %rcx        # imm = 0x123456789ABCDEF
->         cmpq    %rcx, %rbx
->         cmovaq  %rcx, %rbx
->         stac
->         movl    $32, %ecx
->         movq    %r13, (%rbx)                    # exception to .LBB45_7
->         movl    $24, %ecx
->         movq    %r15, 8(%rbx)                   # exception to .LBB45_7
->         movl    $16, %ecx
->         movq    %r14, 16(%rbx)                  # exception to .LBB45_7
->         movl    $8, %ecx
->         movq    %rax, 24(%rbx)                  # exception to .LBB45_7
->         clac
->         xorl    %ecx, %ecx
-> .LBB45_8:
->         movq    %rcx, %rax
->         addq    $16, %rsp
->         popq    %rbx
->         popq    %r12
->         popq    %r13
->         popq    %r14
->         popq    %r15
->         retq
-> .LBB45_6:
->         movq    jiffies(%rip), %rdi
->         jmp     jiffies_64_to_clock_t           # TAILCALL
-> .LBB45_7:
->         clac
->         jmp     .LBB45_8
-> 
-> so it all seems to work - although obviously the above is *not* the normal case.
-> 
-> NOTE NOTE NOTE! The attached patch is entirely untested. I obviously
-> did some "test code generation" with it, but I only *looked* at the
-> result, and maybe it has some fundamental problem that I just didn't
-> notice. So treat this as a "how about this approach" patch, not as
-> anything more serious than that.
-> 
-> And the kerrnel/sys.c hack is very obviously just that: a complate
-> hack for testing.
-> 
-> A real patch would do that "for small constant-sized copies, turn
-> copy_to_user() automatically into "_small_copy_to_user()".
-> 
-> The attached is *not* a real patch. Treat it with the contempt it deserves.
-> 
->              Linus
-
+            Linus
