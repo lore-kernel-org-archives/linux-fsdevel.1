@@ -1,53 +1,78 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B4E321CC59;
-	Mon, 27 Apr 2026 15:56:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C3B521D3F5
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 15:56:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777305397; cv=none; b=QNB0L4eL2xB9xYFy66yOXgQMuFQZIFC8QlVjQOMwoDnEs3I7E40KZIKsIvaylSu2Sjro7hEujLdSezpbTz9E1a+pLGI5trS5Z9xDdl1xGRW8vo5fc1d94G5Y2bUjjTuhxYn6E6T1OqGszFudNSyTfzNuO0VR4R89tG8t+2oINdI=
+	t=1777305418; cv=none; b=SGrALqyIZiP8KwS6xbU6M5VZc5TtIzquN6AgQ5JB4YAjshT/yIf/tHDMtASNZr3Gmb82C+LIgu3nQM7d1mC4vPEdhgX/O6+dJ6XYfrdcWD+4TSU+2gw4GGpbhcXryDI5V7lDIyT1rQqFWgRGDlDdrfStnULPxklQmcnNCdkYAHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777305397; c=relaxed/simple;
-	bh=Zz8Qb+L+a6t6/LZ2gpOvq36I/oARw1YWvWvpPUd8Taw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oOpdp36HoZdgMwlAgYgOCHxD4aTB7C+9ksTZ6mJ86TiNIPmcDpj/phOt76V2uJ07EanV5pZthIdN7lB1yKmLp7L8emLkJ3yQaUZSXB86o087ZAR3Zj73ewjt9+IC3Fok4gaPXVO0hH3/FpRBHskD08RexNDeTMcB7bgCP3S062E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KuiMFGhh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777305418; c=relaxed/simple;
+	bh=kmRDzuzSxUzmKbGRzP/3VYwZcxOwjNUmYMw9sfTlkzA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=nAzri7/kncvBmFd90CuApXLNJEKuTnT5SkV/2GwI7TXeFj/pVDRr/pCl+delgkzv5qEwQ10Sis7VdfEPSzr7O20GEKgcnUBqGegxnQRMurqs4jXLYvJgESumO0sCxxmUAKxqI0umuAH673hRQh4LRZypBivblI1Fp2VmZjzn/JQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=2Nv+7Nsx; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=0GJ5ZZo8; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=2Nv+7Nsx; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=0GJ5ZZo8; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KuiMFGhh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2ADFC19425;
-	Mon, 27 Apr 2026 15:56:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777305397;
-	bh=Zz8Qb+L+a6t6/LZ2gpOvq36I/oARw1YWvWvpPUd8Taw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KuiMFGhhZMhfF4cpbnvg34N+nWG4ckxtWlgEsSJSo8lrJn1WrrC21FCMUKvoWHc6a
-	 VXNYvv+TI2vivTAogG5fVhZZm8Q6m/XaHPK2M0KNeItNGc2tDUwxnimhGxrQ55KmBk
-	 QV1jyEdOnMUUXPAM3CdguB9xwM8gMnmibDlfd4POipt7r20r4s/VkjQg3sdKEqY3JB
-	 iyQwLnIFPdI37sq0FnlfBjRf5o8IcNj9c1F7hl3FZJcF0uWsyGShf28J5+euuE7Ea+
-	 +GQ3062oVXFnCblu3RlRACujnsY5albUCT4Pkla85PEJfP6zv/KSvZM4Ne/B6iDEpg
-	 Rf9Usmw5ML5vw==
-Date: Mon, 27 Apr 2026 08:56:36 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Chuck Lever <cel@kernel.org>
-Cc: Al Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
-	linux-xfs@vger.kernel.org, linux-cifs@vger.kernel.org,
-	linux-nfs@vger.kernel.org, linux-api@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net, hirofumi@mail.parknet.co.jp,
-	linkinjeon@kernel.org, sj1557.seo@samsung.com, yuezhang.mo@sony.com,
-	almaz.alexandrovich@paragon-software.com, slava@dubeyko.com,
-	glaubitz@physik.fu-berlin.de, frank.li@vivo.com, tytso@mit.edu,
-	adilger.kernel@dilger.ca, cem@kernel.org, sfrench@samba.org,
-	pc@manguebit.org, ronniesahlberg@gmail.com, sprasad@microsoft.com,
-	trondmy@kernel.org, anna@kernel.org, jaegeuk@kernel.org,
-	chao@kernel.org, hansg@kernel.org, senozhatsky@chromium.org,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Roland Mainz <roland.mainz@nrubsig.org>
-Subject: Re: [PATCH v11 08/15] xfs: Report case sensitivity in fileattr_get
-Message-ID: <20260427155636.GC7751@frogsfrogsfrogs>
-References: <20260424-case-sensitivity-v11-0-de5619beddaf@oracle.com>
- <20260424-case-sensitivity-v11-8-de5619beddaf@oracle.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="2Nv+7Nsx";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="0GJ5ZZo8";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="2Nv+7Nsx";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="0GJ5ZZo8"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id BECFE5BD1F;
+	Mon, 27 Apr 2026 15:56:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1777305415; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=Y9EH/uVh6foaQdx7xGTFQeZ639ICswCMWcDrbZZ2M4Y=;
+	b=2Nv+7NsxahHbskHdBs6uL9Yh2qRrtam3Msl0OB/UPmf7VgapI1i6uy/OMS0h9MKbo8WvDe
+	qcreDWfLbmhdvYe89u1j2+PRZkXz2+ZxYNLiN1smB1iEnBohtGagUTR73Ficvax4Mc46b5
+	LkYE22EeM7zoZ5MvtAR6ai7HRBnlXtI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1777305415;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=Y9EH/uVh6foaQdx7xGTFQeZ639ICswCMWcDrbZZ2M4Y=;
+	b=0GJ5ZZo8nKxFiG1LKHK9COLYrlYu1SDpYThPWqjpu6j66mAZupndIWLTCdQpqTQKfVBDx2
+	zMj3cDh8KcicHOCw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1777305415; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=Y9EH/uVh6foaQdx7xGTFQeZ639ICswCMWcDrbZZ2M4Y=;
+	b=2Nv+7NsxahHbskHdBs6uL9Yh2qRrtam3Msl0OB/UPmf7VgapI1i6uy/OMS0h9MKbo8WvDe
+	qcreDWfLbmhdvYe89u1j2+PRZkXz2+ZxYNLiN1smB1iEnBohtGagUTR73Ficvax4Mc46b5
+	LkYE22EeM7zoZ5MvtAR6ai7HRBnlXtI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1777305415;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=Y9EH/uVh6foaQdx7xGTFQeZ639ICswCMWcDrbZZ2M4Y=;
+	b=0GJ5ZZo8nKxFiG1LKHK9COLYrlYu1SDpYThPWqjpu6j66mAZupndIWLTCdQpqTQKfVBDx2
+	zMj3cDh8KcicHOCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B78AA593B2;
+	Mon, 27 Apr 2026 15:56:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id xQzWLEeH72mmbwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 27 Apr 2026 15:56:55 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 754E4A0B3C; Mon, 27 Apr 2026 17:56:51 +0200 (CEST)
+Date: Mon, 27 Apr 2026 17:56:51 +0200
+From: Jan Kara <jack@suse.cz>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linux-fsdevel@vger.kernel.org
+Subject: [GIT PULL] isofs and udf fixes for 7.1-rc2
+Message-ID: <wh5wtvlsfd62xo3dbar5wgp3wz25gzqq6hruqpotis6xt2bg6o@o7kjkqne5uco>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -56,77 +81,63 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260424-case-sensitivity-v11-8-de5619beddaf@oracle.com>
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCPT_COUNT_TWO(0.00)[2];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
+X-Spam-Flag: NO
+X-Spam-Score: -3.80
+X-Spam-Level: 
 
-On Fri, Apr 24, 2026 at 09:53:10PM -0400, Chuck Lever wrote:
-> From: Chuck Lever <chuck.lever@oracle.com>
-> 
-> Upper layers such as NFSD need to query whether a filesystem
-> is case-sensitive. Add FS_XFLAG_CASEFOLD to xfs_ip2xflags()
-> when the filesystem is formatted with the ASCIICI feature
-> flag. This serves both FS_IOC_FSGETXATTR (via xfs_fill_fsxattr() in
-> xfs_fileattr_get()) and XFS_IOC_BULKSTAT (which populates bs_xflags
-> directly from xfs_ip2xflags()), so bulkstat consumers and per-inode
-> queries see a consistent view of the filesystem's case-folding
-> behavior.
-> 
-> XFS always preserves case. XFS is case-sensitive by default, but
-> supports ASCII case-insensitive lookups when formatted with the
-> ASCIICI feature flag.
-> 
-> Reviewed-by: Roland Mainz <roland.mainz@nrubsig.org>
-> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
-> ---
->  fs/xfs/libxfs/xfs_inode_util.c | 2 ++
->  fs/xfs/xfs_ioctl.c             | 7 +++++++
->  2 files changed, 9 insertions(+)
-> 
-> diff --git a/fs/xfs/libxfs/xfs_inode_util.c b/fs/xfs/libxfs/xfs_inode_util.c
-> index 551fa51befb6..82be54b6f8d3 100644
-> --- a/fs/xfs/libxfs/xfs_inode_util.c
-> +++ b/fs/xfs/libxfs/xfs_inode_util.c
-> @@ -130,6 +130,8 @@ xfs_ip2xflags(
->  
->  	if (xfs_inode_has_attr_fork(ip))
->  		flags |= FS_XFLAG_HASATTR;
-> +	if (xfs_has_asciici(ip->i_mount))
-> +		flags |= FS_XFLAG_CASEFOLD;
->  	return flags;
->  }
->  
-> diff --git a/fs/xfs/xfs_ioctl.c b/fs/xfs/xfs_ioctl.c
-> index ed9b4846c05f..5a58fb0bad2b 100644
-> --- a/fs/xfs/xfs_ioctl.c
-> +++ b/fs/xfs/xfs_ioctl.c
-> @@ -472,6 +472,13 @@ xfs_fill_fsxattr(
->  
->  	fileattr_fill_xflags(fa, xfs_ip2xflags(ip));
->  
-> +	/*
-> +	 * FS_XFLAG_CASEFOLD is read-only; hide it from the legacy
-> +	 * flags view so chattr's RMW cycle does not pass it back to
-> +	 * xfs_fileattr_set().
-> +	 */
-> +	fa->flags &= ~FS_CASEFOLD_FL;
+  Hello Linus,
 
-I don't understand this at all.  Yes, FS_XFLAG_CASEFOLD is readonly, but
-how does clearing FS_CASEFOLD_FL from the fileattr_get output (without
-clearing XFLAG_CASEFOLD!) solve anything?  This makes the reported
-output inconsistent between fsgetxattr and getflags -- one reports case
-folding, the other reports no casefolding.
+  could you please pull from
 
-If you want to avoid fileattr_set returning EINVAL when setting
-attributes due to the casefold flag, then don't you want to check the
-flag state vs. xfs_has_asciici() in the *fileattr_set* path?
+git://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git fs_for_v7.1-rc2
 
---D
+to get several isofs and udf fixes.
 
-> +
->  	if (ip->i_diflags & XFS_DIFLAG_EXTSIZE) {
->  		fa->fsx_extsize = XFS_FSB_TO_B(mp, ip->i_extsize);
->  	} else if (ip->i_diflags & XFS_DIFLAG_EXTSZINHERIT) {
-> 
-> -- 
-> 2.53.0
-> 
-> 
+Top of the tree is 13917f71a95a. The full shortlog is:
+
+Michael Bommarito (3):
+      isofs: validate Rock Ridge CE continuation extent against volume size
+      isofs: validate block number from NFS file handle in isofs_export_iget
+      udf: reject descriptors with oversized CRC length
+
+Thorsten Blum (1):
+      isofs: use QSTR_LEN() in isofs_cmp
+
+Ziran Zhang (1):
+      docs: isofs: replace dead ECMA-119 FTP link
+
+The diffstat is
+
+ Documentation/filesystems/isofs.rst |  2 +-
+ fs/isofs/export.c                   |  2 +-
+ fs/isofs/namei.c                    | 11 ++---------
+ fs/isofs/rock.c                     |  9 +++++++++
+ fs/udf/misc.c                       |  8 ++++++--
+ 5 files changed, 19 insertions(+), 13 deletions(-)
+
+							Thanks
+								Honza
+
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
