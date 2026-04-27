@@ -1,85 +1,235 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B859F40DFCC
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 00:01:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777248106; cv=none; b=KWtVYQ0Us4TpjxiLYcSFKs43qEwne/IOeE6qnrYf5RkodjA9mYHDZ2dBn4jWxZi8IyIiBHHowkZLrMdvmt8hE+IbSXK1hxQm5QYbq8v9Ak6JI+Tpt7Ldje+Ea6yu40NoimngGYGrpESi/bqtcsg6Yqb2tRn7/u55vI6lWb9svSg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777248106; c=relaxed/simple;
-	bh=m+OcXCtyDOvxnxJBKahNiKM8NtlieJ6bMOjObt0m7n8=;
-	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References; b=B+kdj/54Uv5SobcW3cL2PtKgYA4udBthyi7e7qpR1MkcD0+QaTOIXGgmE8QF2qm7mF6Bstn7GgtLwekQ6XzhVg6YblCYwCPIVBheffuNrZPh9/Psj/lLD7wnBNxB9igfUXO+6QvFjw0HQBXQSN/og2Z8vDSduP5QQVdaXu/h/Oc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WjbZtCb8; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C295149C7B
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 00:10:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777248641; cv=pass; b=W+PojzIPwvlOH66Kf+f/1yAfCCr4G4YIYaMF8/c8IXjcbNp8eCL1rGg4Y0ovyHRvZaZThgz6bSyB8iAnozwTicm4oclHrJm55xFZ6AO8+pfmTZ53IiX2v2NRI00FQlUGgSkaJMaSc/tPh1ngWz1fskKS0GDyLyllsR5x5kZ30n0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777248641; c=relaxed/simple;
+	bh=MHTVAJv6FlMpGvRAwYwT9xDNR8SkKPgAojjNoi07w4c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AsN+JREofd5W4neBVgc4do1fVfm/5PV+a6ZdpEzw1SMrsCsrGJRGrUOz3lFd78/HDuX59NcLtLTbycx7AiZrOeZZObaa9uN80UEq9I64vytQvEsG9zznvF962Irdb3MTYU9GF59EZ+moNwLRJcIYTyDC3bRa00zUsXq4Mfo9nc4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YIvkddrq; arc=pass smtp.client-ip=209.85.167.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WjbZtCb8"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-82f4a53ae20so6997583b3a.3
-        for <linux-fsdevel@vger.kernel.org>; Sun, 26 Apr 2026 17:01:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YIvkddrq"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5a2c500750dso10709887e87.1
+        for <linux-fsdevel@vger.kernel.org>; Sun, 26 Apr 2026 17:10:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777248638; cv=none;
+        d=google.com; s=arc-20240605;
+        b=H4KhcBaSYPMug+ENUvZScW/lUBcFm7Ex+J2qfp0Z4Ncr+S8vwJz3Q+/qsbmbiAVQWF
+         2oh9OvEqcdka14SIUORvDg0LNhFWOKUCEPiXfKG3LpaCXAl9+TDDM4UR5B6m9f1HUmm+
+         ocIkEcAauUBgJuuBzDSCbC4MlG7PGzDbc/LgD6Jctcrv1DN3i9fk6Kp9/qjoOs6HavRD
+         mLMDMcbzMp5v9RBBNc8LaD1YUefQwHiGsUpobeeyGKSAKab8u7yVmFrJ5QBQgMUM8hwK
+         nRCpbqKJfpB/pTljutjTYuTMfycW2Brr0NqDQHUUuxYXzWnuMHepE853qSBKl+7nL6x9
+         BbWw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=mKp47mgGQeukavo3+uQ/EV+Ph3dbIu5QR2SgCaoFgIM=;
+        fh=m8TMeprvXKpltQwC/Zn58FnQJnMKszdY6fY3tFphBdA=;
+        b=R38TvBU8160/fbB5lpfwgroFvgLT0Jgzt3HW8WVLjlObIv9zIrTAZT/FaC7darDlro
+         4rkcrSubiHxXb+C3eXqhdAdKIXuN2CgnnD7O5H1/mB1DddwYqKyQKDoovN8jn/YspKSu
+         O6LpBdVwWbNw+ub8RmsBOiJbSpKKTi+DwIqizkgZefXiEq03xz1h2UGyhj9cN9HLk8Fu
+         u7hl41SzGTVSnr6s+BExrInozOOAhlU9wsjCpuA4ONcEt/7nuYQybUj66ie46oyKKweG
+         mJI0qNH93Vl5CQ8Rws30ONu70MTFYZvyMwk0ljeszS0DyBIsIycjtmaDTacqXwMKXKA9
+         3WEg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777248105; x=1777852905; darn=vger.kernel.org;
-        h=references:message-id:date:in-reply-to:subject:cc:to:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=m+OcXCtyDOvxnxJBKahNiKM8NtlieJ6bMOjObt0m7n8=;
-        b=WjbZtCb8F2KkTx258M02IMTdboaHnREo5WqpcnNtVrHN6cVu6Ll5hDmprGY4IKyM4M
-         rs6hywfA56DJRK+hzIjcnzg34Br2GThGQpgb4lb8ykVrenT7TsnPz5ThBSKTvgRCz4yr
-         WSt7QYVCVvsDnqfILnv+YKRfzSJ8MmLQvZqsKWLhJBbWwMaVLcTv73VsvWu+WpvtvrX9
-         CHQyZ72LHQTYDdxkejEKqov6FCDzEDsu8a+/+i8HE6eqaeI4Eh+tZHdLM1GZC7WlcwK0
-         flMS5Sr+eYtdZRmqnde/9XSNG5eOQ3ZBxl5sfR1MNKjaWgKj29F/JXC0VHVdc1IUtyRK
-         Qo0g==
+        d=gmail.com; s=20251104; t=1777248638; x=1777853438; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mKp47mgGQeukavo3+uQ/EV+Ph3dbIu5QR2SgCaoFgIM=;
+        b=YIvkddrqkAFO8GPLuTNVxvB+9/GMMsCQUf1TjRwVpr20gIm2oMj63yOKmhnp32bkei
+         UW9m4D5wpW3C8KxrHzqf69IjWKsqF7isQPChOx+HQaNKCrU++wS/rrOWAR6xUyKGVApJ
+         oq8C2Bs9fHzFuFr9xuqPucdZOo1KhpyH4OWoLpeZ+MYFBtpjBg7EDf5filnYHsd2Z459
+         PFw11+2SQvky9WqptyJoKeF29A2rjxgFuZUyUZK11GcwW7Q19Z6OsPcxFY50YcATRT6t
+         nOGiQjiWoyaUwvuZtuRJ4L4mzWZ9atcaZDrAd7gtDwlE39QtOWORcZGgsb5gK3yDjynI
+         lTtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777248105; x=1777852905;
-        h=references:message-id:date:in-reply-to:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=m+OcXCtyDOvxnxJBKahNiKM8NtlieJ6bMOjObt0m7n8=;
-        b=CPXNRLX96yttGuQbJ30VZB7jctJJpKiYK64C5UbqgAPBkMAS4lJjLWncQ6FOwuktyJ
-         MAZ2UnFpfyZNS3nELI4AaFhqPFYSCwWNjE/r3UwmCofusZLFZU8yrM8Bu4kmeJ/f4pN+
-         y/Ita0rQJZPR/wHFhzUWNKaq6xYjkH7XH9FtUT/if2wgsb6KYQNU3PICiYr0B9vzQOoS
-         mv/1gjDB2iQu3LLyvR78bnZBQIAbW/fIuyaZvVXAOOSiLdzpcX5+XlGuYb+UJOjFdPx+
-         XZDqdNcqOpn6KfhmS48kUbfY9HbKFBG5foosAkGax8B1oKzs/UW7YLjPH+9Hn2oaGOut
-         n1IQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/Hj5ZfvWWq2kd4ocSEbGsPVVmnThWYrv2r+3HND0sB4aM0n5yzR7tepUGH984KyA+PHnOKF1wv7GUjwgXc@vger.kernel.org
-X-Gm-Message-State: AOJu0YyeiVgknPFj1tbd/NmKwvGyuaBhiNQ1ubwridYK9Yvzc9zd6P0U
-	Brf3PJq07C+Ig2wDf7JFMmMVIHd34gxzuOHBIBMdpIUJgKEvX/zflwrZ
-X-Gm-Gg: AeBDieuA67+1Oam+yu0XrBEPFXo/IfIjAZ+Sj3o0yd5dI4ZBZ9rrr7SXhrdM9lUbrPQ
-	yzi0vWsv4E6qhPaKi9M4CcN30qXFs8+OSEbNCx6CyZ0e3qqUTxZcKKelDcZWXaymP58BfsL1f3e
-	m8E4QjMPNbUHWvHzSdqG6yGHUeRr6M1K2eehHKV956aBIlz5E8J0x/S47QI37BXwNqkXXAAsIzf
-	Ya2ZbCFVBN2dlw7gGXTYqs5zQd7UaevWiPXuozpwUhrhhWx3mfqcgDtqQUbXyo8Z9vp6OFQK4vA
-	nH5JwJtCP7CzXojnFOpMdWHwL35qYY6WSUM/jLF6cYcSv5uWmKOccqhWc7BqUwC8iqNwQfJZDlz
-	s0XjA2LoUKdv+vfkUsRSs5Hhlu4UHq7yO3E6kSb+mHKj7D7PLM07GHncLAKu28pFPw6NApX5tUI
-	YFK1lB44ijF59dc2wKfhESSK66OXWbmZI0iPuzDD9UvVQ=
-X-Received: by 2002:a05:6a20:1588:b0:3a2:d629:16b3 with SMTP id adf61e73a8af0-3a2d6291cbemr35605566637.34.1777248104974;
-        Sun, 26 Apr 2026 17:01:44 -0700 (PDT)
-Received: from pve-server ([49.205.216.49])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f8e982fd3sm37959290b3a.10.2026.04.26.17.01.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Apr 2026 17:01:44 -0700 (PDT)
-From: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
-To: Jeff Layton <jlayton@kernel.org>, Andrew Morton <akpm@linux-foundation.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, David Hildenbrand <david@kernel.org>, Lorenzo
- Stoakes <ljs@kernel.org>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Mike Snitzer <snitzer@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@infradead.org>, Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>, Shakeel
- Butt <shakeel.butt@linux.dev>, Barry Song <baohua@kernel.org>, Axel
- Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Steven Rostedt <rostedt@goodmis.org>, Masami
- Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Chuck Lever <chuck.lever@oracle.com>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, Zorro Lang <zlang@kernel.org>
-Subject: Re: [PATCH v3 3/4] testing: add nfsd-io-bench NFS server benchmark suite
-In-Reply-To: <a1e784d7006fe5d4331d41a0638be117ac67fb21.camel@kernel.org>
-Date: Mon, 27 Apr 2026 05:24:15 +0530
-Message-ID: <mryps2fs.ritesh.list@gmail.com>
-References: <20260426-dontcache-v3-0-79eb37da9547@kernel.org> <20260426-dontcache-v3-3-79eb37da9547@kernel.org> <20260426053455.4c06140446976964e6fbb8ab@linux-foundation.org> <a1e784d7006fe5d4331d41a0638be117ac67fb21.camel@kernel.org>
+        d=1e100.net; s=20251104; t=1777248638; x=1777853438;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=mKp47mgGQeukavo3+uQ/EV+Ph3dbIu5QR2SgCaoFgIM=;
+        b=aU5wgJ5a1+KzXZx4IUhOHbBEeI+WTYMeRYEMcYwiPoXnnolNZRa5QTGROVADsUcxlk
+         N/w/3XfJmjpqqbToh9e6Ln1ZI1ZvoDInasdQdS6xRXcaPw0HuKFF0fIVJrvC7aD4anpj
+         yWSzTfkmGNaym1drtE/w43NUKvb7BNpHEPI8k6NuaEUrPBjB1/dwUpoS/0yycOIR3ukY
+         uasUf982NQHmRmZQs02R9yUxP1uK5e0RoA4xzlmLwlYxq1il1Rex9VAp9+VNk9wdZ2zQ
+         kBJ19t6ImObplQFyZzKR+wfR3iib2V10jlA3/QgVRKlgy0JbiAdtkT5RLinMYSQpIsRa
+         T4Yg==
+X-Forwarded-Encrypted: i=1; AFNElJ+A3+e0Mr/32Q9hAJi26hFNFopkK4z+KtZJIDaK5KM4knFiH8+Tz6XrofAGwg9LuSfkz2h3Sgjdz6N2V3XW@vger.kernel.org
+X-Gm-Message-State: AOJu0YyioMRibGXxaKj7Ay3hrALtnj+mmJE6t1nbu6k2ifSVrx28m0JN
+	VuZZA008qwt57A885kjR2ohBkUCITrFVnAkGRCIfhx/zGNz17sS0kgl5KphXse1Nzw7O8DW4Vao
+	b8bPjW4RTL8L9IKZO2p/KnidgJouV7JYql7Ih
+X-Gm-Gg: AeBDiesMi726f33/luAfqbd+84olwP2l/li4hUliKHsM4Iq5d9xjJ/ENj8iArTzpTUF
+	Qmu9Mls/N4WRn3FTaDf5uUmp3CrQitoQnFPdmHjubv6aLqTODvyOSz4dnhcty7ooAzcrvZ3hQ+v
+	/5q4uPY2SaGIMkhX+Gzc3dvirWcL5mTRtg937LM35vMECnXNKHvMuztxDMiOudqOvBrtqadkSz/
+	EaLh1IyEvQbugtygqEFPJBQJTBXoC51tzSqYMP2TeRInH2puyav++T4MQ7UD40BQgEzUMtmyoAx
+	pjyG4TvzPXz3YqNXBg==
+X-Received: by 2002:a05:6512:39c8:b0:5a4:1145:ce6f with SMTP id
+ 2adb3069b0e04-5a41717fdc8mr10877057e87.0.1777248638053; Sun, 26 Apr 2026
+ 17:10:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <cover.1777175371.git.charsyam@gmail.com> <411dcca8f8b760bf9744a2b590becaf3fb871d84.1777175371.git.charsyam@gmail.com>
+In-Reply-To: <411dcca8f8b760bf9744a2b590becaf3fb871d84.1777175371.git.charsyam@gmail.com>
+From: Hyunchul Lee <hyc.lee@gmail.com>
+Date: Mon, 27 Apr 2026 09:10:26 +0900
+X-Gm-Features: AVHnY4KSDH5bPuSV-jSgfNbypPO8v9mlQUxMDofWXcL0LGKg9GID2x2wkCBwIfU
+Message-ID: <CANFS6baKRDSdKe9v+5N2u_nKGKtrasaBJSTk4LjOS7cGRFY8YQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] ntfs: fix NULL dereference in ntfs_index_walk_down()
+To: DaeMyung Kang <charsyam@gmail.com>
+Cc: Namjae Jeon <linkinjeon@kernel.org>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Jeff Layton <jlayton@kernel.org> writes:
+2026=EB=85=84 4=EC=9B=94 26=EC=9D=BC (=EC=9D=BC) =EC=98=A4=ED=9B=84 1:02, D=
+aeMyung Kang <charsyam@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+>
+> ntfs_index_walk_down() allocates ictx->ib when descending from the root
+> into an index allocation block. If that allocation fails, the old code
+> still passes the NULL buffer to ntfs_ib_read(), which can write through
+> it via ntfs_inode_attr_pread().
+>
+> Allocate the index block into a temporary pointer and return -ENOMEM
+> before changing the index context on allocation failure. Also propagate
+> ERR_PTR() through ntfs_index_next() and ntfs_readdir() so walk-down
+> allocation or index block read failures are not mistaken for normal
+> index iteration inside the filesystem.
+>
+> ntfs_readdir() keeps the existing userspace-visible behavior of
+> suppressing readdir errors after marking end_in_iterate; this change only
+> prevents the walk-down failure path from dereferencing NULL internally.
+>
+> The failure was reproduced with failslab fail-nth injection on getdents64=
+;
+> the original module hits a NULL pointer dereference in memcpy_orig throug=
+h
+> ntfs_ib_read(), while the patched module reaches the same
+> ntfs_index_walk_down() allocation failure without crashing.
+>
+> Fixes: 0a8ac0c1fa0b ("ntfs: update directory operations")
+> Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
 
-> On Sun, 2026-04-26 at 05:34 -0700, Andrew Morton wrote:
->> So how are we to maintain this?
+Looks good to me.
 
-Maybe in xfstests? It has tests/perf/, but that just have 1 test.
-Maybe others can tell whether it make sense to maintain such fio based
-performance benchmarking scripts in there.
+Reviewed-by: Hyunchul Lee <hyc.lee@gmail.com>
 
--ritesh
+> ---
+>  fs/ntfs/dir.c   | 13 ++++++++++---
+>  fs/ntfs/index.c | 17 +++++++++++++----
+>  2 files changed, 23 insertions(+), 7 deletions(-)
+>
+> diff --git a/fs/ntfs/dir.c b/fs/ntfs/dir.c
+> index bfa904d2ce66..20f5c7074bdd 100644
+> --- a/fs/ntfs/dir.c
+> +++ b/fs/ntfs/dir.c
+> @@ -911,8 +911,8 @@ static int ntfs_readdir(struct file *file, struct dir=
+_context *actor)
+>
+>         if (next->flags & INDEX_ENTRY_NODE) {
+>                 next =3D ntfs_index_walk_down(next, ictx);
+> -               if (!next) {
+> -                       err =3D -EIO;
+> +               if (IS_ERR(next)) {
+> +                       err =3D PTR_ERR(next);
+>                         goto out;
+>                 }
+>         }
+> @@ -920,7 +920,14 @@ static int ntfs_readdir(struct file *file, struct di=
+r_context *actor)
+>         if (next && !(next->flags & INDEX_ENTRY_END))
+>                 goto nextdir;
+>
+> -       while ((next =3D ntfs_index_next(next, ictx)) !=3D NULL) {
+> +       while (1) {
+> +               next =3D ntfs_index_next(next, ictx);
+> +               if (IS_ERR(next)) {
+> +                       err =3D PTR_ERR(next);
+> +                       goto out;
+> +               }
+> +               if (!next)
+> +                       break;
+>  nextdir:
+>                 /* Check the consistency of an index entry */
+>                 if (ntfs_index_entry_inconsistent(ictx, vol, next, COLLAT=
+ION_FILE_NAME,
+> diff --git a/fs/ntfs/index.c b/fs/ntfs/index.c
+> index 2080f3969137..a547bdcfa456 100644
+> --- a/fs/ntfs/index.c
+> +++ b/fs/ntfs/index.c
+> @@ -1969,15 +1969,19 @@ int ntfs_index_remove(struct ntfs_inode *dir_ni, =
+const void *key, const u32 keyl
+>  struct index_entry *ntfs_index_walk_down(struct index_entry *ie, struct =
+ntfs_index_context *ictx)
+>  {
+>         struct index_entry *entry;
+> +       struct index_block *ib;
+>         s64 vcn;
+>
+>         entry =3D ie;
+>         do {
+>                 vcn =3D ntfs_ie_get_vcn(entry);
+>                 if (ictx->is_in_root) {
+> +                       ib =3D kvzalloc(ictx->block_size, GFP_NOFS);
+> +                       if (!ib)
+> +                               return ERR_PTR(-ENOMEM);
+>                         /* down from level zero */
+>                         ictx->ir =3D NULL;
+> -                       ictx->ib =3D kvzalloc(ictx->block_size, GFP_NOFS)=
+;
+> +                       ictx->ib =3D ib;
+>                         ictx->pindex =3D 1;
+>                         ictx->is_in_root =3D false;
+>                 } else {
+> @@ -1991,8 +1995,8 @@ struct index_entry *ntfs_index_walk_down(struct ind=
+ex_entry *ie, struct ntfs_ind
+>                         ictx->entry =3D ntfs_ie_get_first(&ictx->ib->inde=
+x);
+>                         entry =3D ictx->entry;
+>                 } else
+> -                       entry =3D NULL;
+> -       } while (entry && (entry->flags & INDEX_ENTRY_NODE));
+> +                       entry =3D ERR_PTR(-EIO);
+> +       } while (!IS_ERR(entry) && (entry->flags & INDEX_ENTRY_NODE));
+>
+>         return entry;
+>  }
+> @@ -2097,10 +2101,15 @@ struct index_entry *ntfs_index_next(struct index_=
+entry *ie, struct ntfs_index_co
+>
+>                 /* walk down if it has a subnode */
+>                 if (flags & INDEX_ENTRY_NODE) {
+> -                       if (!ictx->ia_ni)
+> +                       if (!ictx->ia_ni) {
+>                                 ictx->ia_ni =3D ntfs_ia_open(ictx, ictx->=
+idx_ni);
+> +                               if (!ictx->ia_ni)
+> +                                       return ERR_PTR(-EIO);
+> +                       }
+>
+>                         next =3D ntfs_index_walk_down(next, ictx);
+> +                       if (IS_ERR(next))
+> +                               return next;
+>                 } else {
+>
+>                         /* walk up it has no subnode, nor data */
+> --
+> 2.43.0
+>
+
+
+--=20
+Thanks,
+Hyunchul
