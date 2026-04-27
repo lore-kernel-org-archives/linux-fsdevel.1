@@ -1,291 +1,212 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1294302140
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 12:46:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777293995; cv=none; b=aGtBhJdSOaJwhVsjYkFl++Ve2uUsD2CneegBvs8/6tV4WO5Fcp8NemMArbMTUS3//bEzbttAQR9GAtQHsa4WS94nyu7EZvPe7zmpmXoVRyaV2zdkpzjI7OEGn28DrePuG5XD3b18Pnljyn4+nOfOxDHhgSY7BasWTA6YdJFYRME=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777293995; c=relaxed/simple;
-	bh=v803Hy+eXmXsTRnc66SUY6m83HvnbJSjCcSxePscPBo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tqH8GfBnyBuQh5k9iqzJTvkpSwpKnJGChwfig/iOGWM+8sn+zmhN03joRnYjUjfB+BF0eblYVqMi0jvv9iIiuDhZYjmEf68nPItRIx9V3eM64GVifkf2kdrMnaD4tcUsS2v2YA2JHt00LgICOTjI0hL92SHnj1k+N7d+lHA3ZYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Y6E9ltri; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=0I9oYAuq; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Y6E9ltri; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=0I9oYAuq; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 795583803DB
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 12:48:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777294120; cv=pass; b=YyBxUO/WhKL9HdQK3K/hx3gEfZ4ZNPOqRwaDFYO+aCLtyc7mK9O1YXmsbE6O1MLgNKx2enUc1jgh1HJOgGqx5ciWXfiwCd0KctX6FwoaCZMiwaKq9cM6hW3lSV6vXw94eKul7V6UtyxI7QMPBVCv5J65b0iXxSjM6Wxmqi1MhOs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777294120; c=relaxed/simple;
+	bh=b0Icckm+Plk021xclbvKmb7LSU2YUWfD7jrM6zKcdnQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ElQu1DNwgj9KPbDDBbFn7O2zdC+24eMtOs2YmgdrwEevBSogr7s2rckTCfskRRba0VX140PlsBaUU+4RuHExM40j3WzcGr0f3sP+IQGmgKvqI4Yk0tdMjDKzUQtkd3wldRe/pHkr4HG3Lmjz+j6wRaczgWmdJG5Oyj8SH6mqf/4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fS8cMseG; arc=pass smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Y6E9ltri";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="0I9oYAuq";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Y6E9ltri";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="0I9oYAuq"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 062F26A842;
-	Mon, 27 Apr 2026 12:46:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1777293992; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PD32WU/9Tw1lL09UECl6fy32VpzfuwRNALZweCagXW8=;
-	b=Y6E9ltrict6s8aFYhrzz3ERlVvuCGh8mxmOxpJT2FPmLppe9MeqnK7RvrGqG/i27NViWpQ
-	Gt4styeM+URnFkTLTaxduh9YsvnjDY9wbk8fBRKoD/uq4VVbeG60IumaTYkZN4ivsBCYOV
-	TSTh0U6oo7Yn9JE9OyaMpvJZGvlH5xM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1777293992;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PD32WU/9Tw1lL09UECl6fy32VpzfuwRNALZweCagXW8=;
-	b=0I9oYAuqjRzTzsl/t/DyRx8PNyEbpNgZmExj+2o9yz7U4IZyuh7mDwoTVhNTkxPMpOhAvD
-	OkxSAQLbWvxErwBg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=Y6E9ltri;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=0I9oYAuq
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1777293992; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PD32WU/9Tw1lL09UECl6fy32VpzfuwRNALZweCagXW8=;
-	b=Y6E9ltrict6s8aFYhrzz3ERlVvuCGh8mxmOxpJT2FPmLppe9MeqnK7RvrGqG/i27NViWpQ
-	Gt4styeM+URnFkTLTaxduh9YsvnjDY9wbk8fBRKoD/uq4VVbeG60IumaTYkZN4ivsBCYOV
-	TSTh0U6oo7Yn9JE9OyaMpvJZGvlH5xM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1777293992;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PD32WU/9Tw1lL09UECl6fy32VpzfuwRNALZweCagXW8=;
-	b=0I9oYAuqjRzTzsl/t/DyRx8PNyEbpNgZmExj+2o9yz7U4IZyuh7mDwoTVhNTkxPMpOhAvD
-	OkxSAQLbWvxErwBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E934D593B0;
-	Mon, 27 Apr 2026 12:46:31 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 2pnpOKda72mjKwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 27 Apr 2026 12:46:31 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id A7D6FA0AFF; Mon, 27 Apr 2026 14:46:23 +0200 (CEST)
-Date: Mon, 27 Apr 2026 14:46:23 +0200
-From: Jan Kara <jack@suse.cz>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Mike Snitzer <snitzer@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
-	Ritesh Harjani <ritesh.list@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
-	Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Chuck Lever <chuck.lever@oracle.com>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, 
-	linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/4] mm: kick writeback flusher for IOCB_DONTCACHE
- with targeted dirty tracking
-Message-ID: <7567kwydg2x7lp77xloxk5hjaar3k2xvbqqaro3k4hu4fncww5@yo2rmkrxlhkv>
-References: <20260426-dontcache-v3-0-79eb37da9547@kernel.org>
- <20260426-dontcache-v3-2-79eb37da9547@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fS8cMseG"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-43eada6d900so10048012f8f.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 05:48:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777294115; cv=none;
+        d=google.com; s=arc-20240605;
+        b=eO1fMXZT9+44UEP2G9uSecplE692nJVwvpThJNaFm9R/dR0PGbcVbeVuGiJI/EIg5R
+         D2fQDyAsCgWjXPdmU+8PlnrPjCa+jKIdq3iz8cUrD0OA2yZdx5kpcBYV7z/7dLtiBpOj
+         y9nd4FLdWZbmr/9mO+mKzcf0Mu4aQmLoDJRBPJNMn6Kfc5SPoN8vJn5ucWcFG7K4sxcc
+         yGaCmkhC5eDKEjSDN1+FgOElw1DeMhF5H0Jne04Z1b/yHdwvioOyqAaaEEG2KXF4zL2o
+         ySkQ5MxWHJnMUMJ2fAkzMzwihOKTYMM/Q9Sk0WubR5v6MbdKhwYq3PzEQSdeiei0wiru
+         vATg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=wWMmBdrmkGuOGSH1/NGgSO4BjSYy8FKRbM9YyJi/QYE=;
+        fh=lvEuGgtL5pHFgOnzSbKpiGYkGjaHbW9Sc71h/445v6k=;
+        b=CjH6I17baKEQxdrxVlvzI/EGCzlHLBzbWXXONswzvf+UiR0PyQ0R0tRawT5dk6pMmR
+         ZNhT6p15XJyNeXGijW5QwFHgVanxUqfoil8jweBHUohdh/qLU95pIu2sPj7kA7uwB/n1
+         brEWiFfcTBAB0SKx5c3u5wWwRyGhY3qK/X0Qjz1AD997hLWyU2LVI7slHaTrznltOWxE
+         /wXqTA3GW1ZT0DdoWs2+mcw5oySnBHTV7uBWxBH4gjKDISzUmAR+/Re9aPTZ9/zVfDkS
+         Wx2oESSUxnG1INZaa0k2WKJR7kEs9PAQ4pSggIpvkvQik1RATs87lhOQKWPLkkKaKvrq
+         axDw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777294115; x=1777898915; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wWMmBdrmkGuOGSH1/NGgSO4BjSYy8FKRbM9YyJi/QYE=;
+        b=fS8cMseGhTD+deA0WKJglLpxR9+ZM/tzarI8q3Em1X04cGaJWPwwsL/8ib/TWcXz+W
+         T2IyB2EuCIhYfgdqjYt732uKuB8JbBbSYYI8s40WwuyYBMtg7Walt6k8t+bMr4Slhrl+
+         iGgcwZkPeYd4PHg98a8DPf0IKrQ+sAIVnutQPY1zpQQ6dOm2G4RVHPTnJjK4JSrtfrf0
+         pabCaR9GWi9H9sC/zf+r1Y4GUXGBjcQU0nmKq9BAy6jCqZFj3Q2v9YafbK9DdtRIgIRd
+         30oxdth4sNAPwy34XTkWrALRkTirimcUXOdBid7OC5HKU97cpph0evoRBv3To16Gnxvj
+         CQNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777294115; x=1777898915;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=wWMmBdrmkGuOGSH1/NGgSO4BjSYy8FKRbM9YyJi/QYE=;
+        b=X4/zi2r4ja4qi31z5RvXV0MW5Ft3mHmFoLY82ls1GrZ2k+SZuKGoPchmfwwCW/vq7s
+         gd/ahByXBTkHjciLQwZyyysdDaDKJlfSS/G0JkF/gSnwCvnA9kznthQdgiCQ2l5xv1r4
+         r6ReLZ6B/BMoxWXG4bLovQWIuv+yCrRminj77+KByCArL8l1jmrJ5fJ0ABqYt4JET07d
+         fXjmwqAhIwMFb6yEO0jWzJyBvOvNidMFX+slwf/jlz5Pg3yEb7tUkskgtsTKIkHgButb
+         zBHfs6qfyU/L7hNgb5xZXjdAxV5t78XIOYJ386qcnmygApJIlpRnbUzSBF5IJtITQ1uA
+         xSNw==
+X-Forwarded-Encrypted: i=1; AFNElJ+13H1J8BPuwmt4QM8Dtj4fB0fcAJ01bRgTHR1PT9qvGdX11lzHBNx9LZwodNCkUAu/D6JXFiSHMssFtp3J@vger.kernel.org
+X-Gm-Message-State: AOJu0YxCYyRoKa4FpJp8+zdiZB7E73czT5ZWfSHG+RE8n8/O1AznshUv
+	IcJrGhYarcEgfJY95XBSptsTtpr3wgYuyvzltrVm4srTf7xJQGRdE2sEUBe/2od4dspiTUjS+BZ
+	0WW1AKC4cWjPgFWCPBlyOqcsLGA2jXHs=
+X-Gm-Gg: AeBDievRq+hZrxUKRngawVJtphUuvNdOEMZJNcz1Snkz8xYC70XoiCxvn1S+vfbEZBn
+	2IdjA7/JYCJ41N6wCSGRMjb5vmRdkT7PksseyFCEiqA8gXNKGo8KGvE/68c2dU0jfc5u9ehw2R2
+	+0CCK2SV5m2lDAY5FSM3ARZ76p2aMyQtZtMbtPdYgr5vCiaDMzCVV6HsEzArPWF/tmJGgrKA97B
+	UL/CfLs1Wc24gLy0JAiRGocjf9t+pC4jRP7hrXs0Tfddksi3kinnmwodZNWJxL17lloh+8dk2hs
+	khR9SUYsZCosBiyjwxhQcHDTcgceSfHyMg==
+X-Received: by 2002:a05:6000:18a3:b0:439:b8b2:fabc with SMTP id
+ ffacd0b85a97d-43fe3dd4b7dmr66564872f8f.21.1777294114923; Mon, 27 Apr 2026
+ 05:48:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260426-dontcache-v3-2-79eb37da9547@kernel.org>
-X-Spamd-Result: default: False [-2.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[33];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLwpk7ejmkbtu7htn5w3x34axk)];
-	MISSING_XM_UA(0.00)[];
-	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,infradead.org,linux-foundation.org,oracle.com,google.com,suse.com,kernel.dk,gmail.com,tencent.com,linux.dev,goodmis.org,efficios.com,vger.kernel.org,kvack.org];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.cz:dkim,suse.com:email]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -2.51
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 062F26A842
+References: <20260424134935.16161-1-luis@igalia.com> <CAJnrk1bv4NK7MF4msYMAmbS=+vL=k8NLoLiNyM4QB+amccpOww@mail.gmail.com>
+ <87mryokb89.fsf@igalia.com>
+In-Reply-To: <87mryokb89.fsf@igalia.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Mon, 27 Apr 2026 13:48:19 +0100
+X-Gm-Features: AVHnY4I2KC03jSnyEaPe91Ov5H2L0IAjkV2v1_J9s7LaLGq7nbWyDrYCpJ4nnL0
+Message-ID: <CAJnrk1ZCyHtL6NEaSuww+RQvNNfAW8NkvRA=+=HXQwdG_4aE_Q@mail.gmail.com>
+Subject: Re: [PATCH] fuse: fix race between inode/dentry invalidation and readdir
+To: Luis Henriques <luis@igalia.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Matt Harvey <mharvey@jumptrading.com>, kernel-dev@igalia.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun 26-04-26 07:56:08, Jeff Layton wrote:
-> The IOCB_DONTCACHE writeback path in generic_write_sync() calls
-> filemap_flush_range() on every write, submitting writeback inline in
-> the writer's context.  Perf lock contention profiling shows the
-> performance problem is not lock contention but the writeback submission
-> work itself — walking the page tree and submitting I/O blocks the writer
-> for milliseconds, inflating p99.9 latency from 23ms (buffered) to 93ms
-> (dontcache).
-> 
-> Replace the inline filemap_flush_range() call with a flusher kick that
-> drains dirty pages in the background.  This moves writeback submission
-> completely off the writer's hot path.
-> 
-> To avoid flushing unrelated buffered dirty data, add a dedicated
-> WB_start_dontcache bit and wb_check_start_dontcache() handler that uses
-> the new NR_DONTCACHE_DIRTY counter to determine how many pages to write
-> back.  The flusher writes back that many pages from the oldest dirty
-> inodes (not restricted to dontcache-specific inodes). This helps
-> preserve I/O batching while limiting the scope of expedited writeback.
-> 
-> Like WB_start_all, the WB_start_dontcache bit coalesces multiple
-> DONTCACHE writes into a single flusher wakeup without per-write
-> allocations.
-> 
-> Also add WB_REASON_DONTCACHE as a new writeback reason for tracing
-> visibility, and target the correct cgroup writeback domain via
-> unlocked_inode_to_wb_begin().
-> 
-> dontcache-bench results on dual-socket Xeon Gold 6138 (80 CPUs, 256 GB
-> RAM, Samsung MZ1LB1T9HALS 1.7 TB NVMe, local XFS, io_uring, file size
-> ~503 GB, compared to a v6.19-ish baseline):
-> 
->   Single-client sequential write (MB/s):
->                        baseline    patched     change
->   buffered              1449.8     1440.1      -0.7%
->   dontcache             1347.9     1461.5      +8.4%
->   direct                1450.0     1440.1      -0.7%
-> 
->   Single-client sequential write latency (us):
->                        baseline    patched     change
->   dontcache p50         3031.0    10551.3    +248.1%
->   dontcache p99        74973.2    21626.9     -71.2%
->   dontcache p99.9      85459.0    23199.7     -72.9%
-> 
->   Single-client random write (MB/s):
->                        baseline    patched     change
->   dontcache              284.2      295.4      +3.9%
-> 
->   Single-client random write p99.9 latency (us):
->                        baseline    patched     change
->   dontcache             2277.4      872.4     -61.7%
-> 
->   Multi-writer aggregate throughput (MB/s):
->                        baseline    patched     change
->   buffered              1619.5     1611.2      -0.5%
->   dontcache             1281.1     1629.4     +27.2%
->   direct                1545.4     1609.4      +4.1%
-> 
->   Mixed-mode noisy neighbor (dontcache writer + buffered readers):
->                        baseline    patched     change
->   writer (MB/s)         1297.6     1471.1     +13.4%
->   readers avg (MB/s)     855.0      462.4     -45.9%
-> 
-> nfsd-io-bench results on same hardware (XFS on NVMe, NFSv3 via fio
-> NFS engine with libnfs, 1024 NFSD threads, pool_mode=pernode,
-> file size ~502 GB, compared to v6.19-ish baseline):
-> 
->   Single-client sequential write (MB/s):
->                        baseline    patched     change
->   buffered              4844.2     4653.4      -3.9%
->   dontcache             3028.3     3723.1     +22.9%
->   direct                 957.6      987.8      +3.2%
-> 
->   Single-client sequential write p99.9 latency (us):
->                        baseline    patched     change
->   dontcache            759169.0   175112.2     -76.9%
-> 
->   Single-client random write (MB/s):
->                        baseline    patched     change
->   dontcache              590.0     1561.0    +164.6%
-> 
->   Multi-writer aggregate throughput (MB/s):
->                        baseline    patched     change
->   buffered              9636.3     9422.9      -2.2%
->   dontcache             1894.9     9442.6    +398.3%
->   direct                 809.6      975.1     +20.4%
-> 
->   Noisy neighbor (dontcache writer + random readers):
->                        baseline    patched     change
->   writer (MB/s)         1854.5     4063.6    +119.1%
->   readers avg (MB/s)     131.2      101.6     -22.5%
-> 
-> The NFS results show even larger improvements than the local benchmarks.
-> Multi-writer dontcache throughput improves nearly 5x, matching buffered
-> I/O. Dirty page footprint drops 85-95% in sequential workloads vs.
-> buffered.
-> 
-> Assisted-by: Claude:claude-opus-4-6
-> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+On Mon, Apr 27, 2026 at 10:23=E2=80=AFAM Luis Henriques <luis@igalia.com> w=
+rote:
+>
+> Hi Joanne!
+>
+> On Fri, Apr 24 2026, Joanne Koong wrote:
+>
+> > On Fri, Apr 24, 2026 at 6:53=E2=80=AFAM Luis Henriques <luis@igalia.com=
+> wrote:
+> >>
+> >> When there's a readdir in progress, doing a FUSE_NOTIFY_INVAL_{INODE,E=
+NTRY}
+> >> on an inode or dentry may result in stale directory info being cached.=
+  This
+> >> is because the invalidation does not reset the readdir cache.
+> >>
+> >> This patch fixes this issue by adding a call to fuse_rdc_reset() (modi=
+fied
+> >> to include the required locking) to these two operations, allowing the
+> >> readdir cache to be invalidated while it's being filled-in.
+> >
+> > Hi Luis,
+> >
+> > Just curious, are you hitting this issue in practice or is this mostly
+> > theoretical?
+> >
+> > afaict for fuse_notify_inval_entry(), it calls into
+> > fuse_reverse_inval_entry() -> fuse_dir_changed(parent), which calls
+> > inode_maybe_inc_iversion(). afaict, this actually increments i_version
+> > (since I_VERSION_QUERIED flag was set when the cache's iversion was
+> > initialized with inode_query_iversion() in fuse_readdir_cached()),
+> > which means the next readdir call will detect this version change and
+> > call fuse_rdc_reset() (in fuse_readdir_cached()). I'm not sure I see
+> > how this leads to stale directory info lingering in the cache after a
+> > concurrent fuse_notify_inval_entry()?
+> >
+> > For teh fuse_notify_inval_inode() case, which I'm assuming is the case
+> > you're running into where the directory is the inode being
+> > invalidated, I see the call to fuse_reverse_inval_inode() which calls
+> > invalidate_inode_pages2_range() if the offset was non-negative, which
+> > will invalidate the readdir cache's pages, which means on the next
+> > readdir call, will already call fuse_rdc_reset() when it detects the
+> > missing page in the cache (in fuse_readdir_cached()). So I'm not
+> > really seeing how this can happen either for the
+> > fuse_notify_inval_inode() case? Unless you are passing a negative
+> > offset, but as I understand it, passing a negative offset is used only
+> > if the server wants attributes invalidated [1], not any data.
+> >
+> > afaics, the onlyy stale directory info returned would be for the case
+> > for a concurrent readdir that has already passed the pos =3D=3D 0
+> > iversion/mtime check when the invalidation arrives, but that seems
+> > like a server synchronization issue, eg if the server wants uptodate
+> > data when doing a concurrent readdir and invalidation, they have to
+> > order that themselves. ANy fresh lookup after that though, I think
+> > wouldalways return fresh/non-stale data for the reasons mentioned
+> > above.
+> >
+> > Does this align with what you're seeing in the code or am I missing
+> > something here?
 
-One comment regarding how the writeback is started:
+Hi Luis,
 
-> +static long wb_check_start_dontcache(struct bdi_writeback *wb)
-> +{
-> +	long nr_pages;
-> +
-> +	if (!test_bit(WB_start_dontcache, &wb->state))
-> +		return 0;
-> +
-> +	nr_pages = global_node_page_state(NR_DONTCACHE_DIRTY);
-> +	if (nr_pages) {
-> +		struct wb_writeback_work work = {
-> +			.nr_pages	= wb_split_bdi_pages(wb, nr_pages),
-> +			.sync_mode	= WB_SYNC_NONE,
-> +			.range_cyclic	= 1,
-> +			.reason		= WB_REASON_DONTCACHE,
-> +		};
-> +
-> +		nr_pages = wb_writeback(wb, &work);
-> +	}
-> +
-> +	clear_bit(WB_start_dontcache, &wb->state);
-> +	return nr_pages;
-> +}
+>
+> First of all, thanks a lot for looking into this and for doing such a
+> great description of the issue.
+>
+> So, I did had a report regarding a possible race between a readdir and
+> invalidation when using keep_cache and cache_readdir.  But, unfortunately=
+,
+> I don't have a lot of information regarding the actual issue, and it isn'=
+t
+> something reproducible.
+>
+> Then, looking at the code (and, for full-disclosure, I've also looked at =
+a
+> claude analysis that was handed over to me) I could see a race that I'm
+> trying to fix with this patch.  But I believe it's the race that you clai=
+m
+> above that it's a server synchronisation problem.  For example, with a
+> NOTIFY_INVAL_INODE operation, when fuse_reverse_inval_inode() is called
+> while fuse_add_dirent_to_cache() is being executed in parallel, the
+> iversion/mtime update could be missed.
+>
+> It is possible to hit this small race by instrumenting the code, and I
+> could occasionally (and momentarily) see stale data while running readdir
+> in such instrumented testing environment.  Do you think that's something
+> inherent to the usage of the INVAL_INODE op, and this race will need to b=
+e
+> handled by user-space?
 
-So this will end up splitting NR_DONTCACHE_DIRTY folios among per-cgroup wb
-structures based on their writeback bandwidth. This is a reasonable thing
-for global writeback where the bandwidth more or less corresponds to the
-amount of dirty folios. However with DONTCACHE I expect big differences in
-among NR_DONTCACHE_DIRTY among different cgroups not necessarily
-corresponding to wb throughput. In particular if you do DONTCACHE writes
-from one cgroup and normal writes from another cgroup this will
-systematically underestimate the amount needed to write by a factor of
-about two.
+imo yes, that is not a bug in the kernel and userspace is responsible
+for synchronizing/coordinating that. I think the kernel is just
+responsible for ensuring that any subsequent readdirs are not stale,
+but afaict the existing code handles that.
 
-So I think the stat should be a per bdi_writeback one (instead of a per node
-one) which would avoid the need to split the value to wb here.
+>
+> In fact, the report I got seemed to indicate that the issue was not going
+> away with a fresh lookup (though an 'echo 1 > /proc/sys/vm/drop_cache'
+> would fix it).  But maybe that's another indication that this is a proble=
+m
+> in the user-space server.
 
-								Honza
+that seems weird to me, maybe there's something else at play here in
+addition to the concurrent race? Is there a repro for where the stale
+data survives a fresh lookup?
 
+Thanks,
+Joanne
 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+>
+> Cheers,
+
+> --
+> Lu=C3=ADs
