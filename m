@@ -1,248 +1,215 @@
-Received: from out203-205-221-205.mail.qq.com (out203-205-221-205.mail.qq.com [203.205.221.205])
+Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F17A308F1D;
-	Mon, 27 Apr 2026 10:22:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E5C9245005
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 10:39:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777285374; cv=none; b=QMeTHtd0Be9lVMbCwXLySh1xJTjJp+aImT93PRXsTXWyznRzpKH/NIGnDnSDuf3KzYLWdu8/UCtIi7NJ4UswmGWQ+XJu5YoeRk80kSVgr7h34LiDgI+yl1EM2xUsxRzxk88rfjyDzloF2gp7YP8ZoQ7W/IQOkm/2GRrpXyo4H/M=
+	t=1777286355; cv=none; b=gtD5vI5kewC6TPgWb+fHgItWOX9oOTX+mcBO0KWJVyktsvOcBJAs8CUGmRw/srflcOmjFcapAn7cZHRh9OKrOO8rIDXr2g5GiJkwdqtMwnPe6nQFSR9g1r5zOsFl6IWZvDydiTYpabl7qg9HrKujjA6WrIFmw2qBJ1SlrG5+P9E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777285374; c=relaxed/simple;
-	bh=wu66yk0Ctdm2dmX6qjWGdyKgK5OiSKMs1eBNWianXkM=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=Tizs1fzw33pt1gN1hnyOWSJF52u7j/vsSI0xVjsUFTa64suO28+UssosNoAJ87FJOzGOxCgDobu9uaPzKl0/hbtGNffH+hNKNW6k9zvqQOkwfM+pUsiU0FJXQV4m3OKisOS37fkZQRTRlKlyOGVXKZXL646kmQv3JzOF8ycgCSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=w9JexJFQ; arc=none smtp.client-ip=203.205.221.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1777286355; c=relaxed/simple;
+	bh=rbapMPIfIl4JAW7Oq+iWIdZmzyy9H7c7QWXKQCAWlsg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RYIijtEJXa95EI3va5OjIiOpS7fP1hcY4/y8L429+vAiZi8Mf919A+EKymxROUnSIBzj9w+RyekZcmhPkjmjFA4Bff9zg2DnByaM1T7VSw+6opEpBwNGwcdt+PsTPIrOmTyfBokKzdNOJ0eBtvKCqmDPYI3qGSvBMb/Rh/Oy/DY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=R79BG7cQ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Qrpc2aBS; arc=none smtp.client-ip=103.168.172.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="w9JexJFQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1777285369; bh=aoxJLcqVNjU6TsY+bAss1gfZHTlNWB2CFO4nNazgUic=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=w9JexJFQXXiYqd6RXM1ttSlVzK9p127ucYQfeJO9xlGaMTWTf8l9ab9qcRI3Mwj2m
-	 15Y9+gJteEjqMRd18+2mTIEqcA3qVRGqCBnzCdV0mxGYV4MsmJSKHAdQEpu8sNEUik
-	 mxDM2c7jgtnS2Epwd+/cx6vTL/YV9bxwX/kfl0Cc=
-Received: from node68.. ([166.111.236.25])
-	by newxmesmtplogicsvrsza63-0.qq.com (NewEsmtp) with SMTP
-	id 5AC362AB; Mon, 27 Apr 2026 18:22:44 +0800
-X-QQ-mid: xmsmtpt1777285366tpspfn6ak
-Message-ID: <tencent_3F158B17AE85E73945C5F97D8F8A918F9B07@qq.com>
-X-QQ-XMAILINFO: MDbayGdXPuoetEbV4RYs2SZLJQmVfx8PY6yub6ed+idrQkmcDP4FBdYcmzsLMc
-	 NCq3vqbQ906HVQ1T8yI4ZdW25dvJzx8fKrgcCLEPENvf68TDun9CvHRRPNlb6mAsaAhAyahN21bF
-	 WwVQARB+3n+oatD8/w+e5ch64PiHUyfY8d5FVrSMiROPAnAsbzg7hpkAczNg1O0EsHXHfcmxPoCP
-	 p5Ts71LNRV+paE7GAtVNHzZKvCAemS0858QIQXsn6fTPHMEglHt3eUz6HGeOCDowPuIDnwi0S14Q
-	 ASBtNOBLu93riHvjQw6c6gNubTesHc/p3euKP/3mGxhC2L/6zW6v4BHVwHNc1UbtAVGKY1MLpxNE
-	 gHGlmQUUwR/PQd2MvrO8R+6J30z/65jDC3gdeUTxT0RxgF7XclkE4+iiRia8svjSeiLzl6uL2YD3
-	 I13Sbgr9JHyBVwb7C5qcRWPrcyomxKqC8NZnRRFrl/DIEDHEQSIZ+AypqPdQ5gt4Ymu4GbcNBeja
-	 /5BAaosEqLKiso1MIDxlJ5s+Y6h5XAbc6qTl+g7DtvNTM8kwy6IgDC1+qWdeB4zoVOQiJd94Ofy5
-	 xJQqbPc3sAxkORE5fgabiMk+7Gb3uDc4QQgJnupvr0wT/FcE+rE5DsaGz44U84pieE34VUWO187X
-	 n/Jog4QQEKAzWFl0KiRUMd6YTsu2LYCMEfLkw3p36slWM6yo9ux/WIwNikmVSz3KSXFpESntsSfz
-	 tGGhM/JanKpDBMRFu4qilWc1pwa10aM0pQ83o/8pMB8MhQPtVLTMSS/gNNzYkgFMJkOR55misKk8
-	 2O6d6pnk/VqmKgv/cSUDOaFHBnDv749LZZze4VoTFtkYDJHXnyRtuVXvyFL7Vp40a7+qwPPA/Efr
-	 gf/1YgzyfWdfReZ5BHYamwhJQOu3fJWGE/b/E5GaWtB5qEInifdlpU/nSF+LQ8Qfjy0bfSWVMgX+
-	 a3e+Z3+5eBUqdZzV3NMXfWAb+GGJsE+aoZ7xY0oeUsE29dUnVETE4Rg1ZEvTOBBiKv0cmr/R8Qph
-	 DxS3WVnagP4MPI3sdcbI56lB3mmfZ1wLXCkGk7pQ==
-X-QQ-XMRINFO: Nq+8W0+stu50tPAe92KXseR0ZZmBTk3gLg==
-From: fujunjie <fujunjie1@qq.com>
-To: Matthew Wilcox <willy@infradead.org>,
-	Jan Kara <jack@suse.cz>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Haoran Zhu <zhr1502@sjtu.edu.cn>,
-	fujunjie <fujunjie1@qq.com>
-Subject: [RFC PATCH 1/1] mm/filemap: tighten mmap_miss hit accounting
-Date: Mon, 27 Apr 2026 10:22:43 +0000
-X-OQ-MSGID: <20260427102243.3519326-2-fujunjie1@qq.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260427102243.3519326-1-fujunjie1@qq.com>
-References: <20260427102243.3519326-1-fujunjie1@qq.com>
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="R79BG7cQ";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Qrpc2aBS"
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfout.phl.internal (Postfix) with ESMTP id 7EC39EC15F9;
+	Mon, 27 Apr 2026 06:39:12 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-06.internal (MEProxy); Mon, 27 Apr 2026 06:39:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1777286352;
+	 x=1777372752; bh=C2VHadjbjHlVx9t0S5GzEu/bqAdhtwOjL172S8thqt8=; b=
+	R79BG7cQy6JMUspDNzHbcbLTeki3otTzhoVmntyRWeDF2mTQWKLqUd54IaCV7SgU
+	WJvtBJ/8SkShLUHGGNma3w20RwIejEBeKFPffIK439v2mTPRCmw6duNmTJHwOdYj
+	NHl13ys+Q2yEQ9SxArGqsQ1PEqoPdO//chz8DsqclDtW+tTbykYhFmexYOnp8P0Y
+	HTX6Pxlo8cb8X5rPl0eVtfGDiPySko+57zRWj21b6X54a1wYuWuPtCD+xMg79Z+O
+	fozCtDCQbnqIx87FWG4CTY+ALJ2nZP3qbw3rS8lWvVpdcT2BihxvdSjGdgNuW8Wo
+	HnRmXo7lp4t3G7PUSmtUJA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1777286352; x=
+	1777372752; bh=C2VHadjbjHlVx9t0S5GzEu/bqAdhtwOjL172S8thqt8=; b=Q
+	rpc2aBSsa30xYjTWZLUpNUNfzGzHk0yH4oRNGIPQzvYW5WrCOZd637gAn8uew6IG
+	qHdYUTgoMET3iQ2sRBF4etdln6Kdymx5FWsnH5JE2vZbSOQtJNH6fA5PL7SW2tUF
+	YArPBvuil70Vw+vSawJIj7ADVNb+LdoKhWzNMZ9faDxzqH3Ew0cuJDKtxvXKhCzP
+	SlFCWUJ29RqRJgi0Y98Ja4v4Iger4l9zhJuD+B4xVPmfScosp0Nipq+aES+ErzyA
+	QDujG030MxONGh0ddUbIbeYiY8YOPcLQvaGqbR5vnJHMrNpQTN1ogj/8+58IAnWV
+	1g9kz5L8DJHh+Dk4kabSw==
+X-ME-Sender: <xms:0DzvaXxweFqbOS2YIpvN2LmF1Y8CHf32HX0pPVSm6jSVhTZO511Grg>
+    <xme:0DzvaRhRdfPgHoOiw1jvGeaXUd8t-qc3aNi7xHT0YyLrZICu7Lkx00FvyfeQnnzxr
+    Zgjj8px0CSZC-0k1NaZgYlzD0pr7d0nzti1vOrnd87XWj1LzsQcjw>
+X-ME-Received: <xmr:0DzvaTnzMo1q3KObQlolfdJDyBSaybDQwPv3gKgaU84ojSOog-qeo2bE3Khjf-oyfno28CoxmrIS0dRuwK7jf3c-u4Lvvbr4Q0mdASs97cI_9x_PUg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdejkeegjecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefkffggfgfuvfevfhfhjggtgfesthejredttddvjeenucfhrhhomhepuegvrhhnugcu
+    ufgthhhusggvrhhtuceosggvrhhnugessghssggvrhhnugdrtghomheqnecuggftrfgrth
+    htvghrnhephefhjeeujeelhedtheetfedvgfdtleffuedujefhheegudefvdfhheeuvedu
+    ueegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsg
+    gvrhhnugessghssggvrhhnugdrtghomhdpnhgspghrtghpthhtohepjedpmhhouggvpehs
+    mhhtphhouhhtpdhrtghpthhtoheplhhuihhssehighgrlhhirgdrtghomhdprhgtphhtth
+    hopeguvghvnhhulhhlodgsvghrnhgurdgsshgsvghrnhgurdgtohhmsehkvghrnhgvlhdr
+    ohhrghdprhgtphhtthhopehmihhklhhoshesshiivghrvgguihdrhhhupdhrtghpthhtoh
+    epjhhorghnnhgvlhhkohhonhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhu
+    gidqfhhsuggvvhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegutg
+    hhghdvtddttdesghhmrghilhdrtghomhdprhgtphhtthhopegsshgthhhusggvrhhtsegu
+    ughnrdgtohhm
+X-ME-Proxy: <xmx:0DzvaXgzchp6sE7UNqBY_lU3VcrxJPB5TDckr7LHot81c5Owrtm_GA>
+    <xmx:0DzvaX2OMqeDTlOueLvpntkCMrxzXNTr8bqFpIE1ajy95dxFmlTlgg>
+    <xmx:0DzvaQJZFLC0qmoha8DoEtfz2ifANX_Q7CoHFuhqupYLryXbhbWsYw>
+    <xmx:0DzvaXwNVH6qXbyOVL6Bw_HloYDaThDFWdr5flyTslantireF--tdQ>
+    <xmx:0DzvaSmf5BOHiJbmpNInCQfJwadCCg0TDuNICV0RikTEY4sBV02vX-2W>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 27 Apr 2026 06:39:11 -0400 (EDT)
+Message-ID: <841645f0-60b4-48bb-b213-be0421c0ae80@bsbernd.com>
+Date: Mon, 27 Apr 2026 12:39:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 3/8] fuse: {io-uring} Use bitmaps to track registered
+ queues
+To: Luis Henriques <luis@igalia.com>
+Cc: Bernd Schubert via B4 Relay <devnull+bernd.bsbernd.com@kernel.org>,
+ Miklos Szeredi <miklos@szeredi.hu>, Joanne Koong <joannelkoong@gmail.com>,
+ linux-fsdevel@vger.kernel.org, Gang He <dchg2000@gmail.com>,
+ Bernd Schubert <bschubert@ddn.com>
+References: <20260413-reduced-nr-ring-queues_3-v4-0-982b6414b723@bsbernd.com>
+ <20260413-reduced-nr-ring-queues_3-v4-3-982b6414b723@bsbernd.com>
+ <874il0o0wi.fsf@igalia.com>
+ <859fb89e-81b3-4b49-bd80-532bc7be1395@bsbernd.com>
+ <87v7dckezl.fsf@igalia.com>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: en-US
+In-Reply-To: <87v7dckezl.fsf@igalia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-file->f_ra.mmap_miss is used to stop mmap readahead after repeated
-misses.  filemap_fault() increases it when synchronous mmap readahead is
-needed, while filemap_map_pages() reduces it when fault-around finds
-folios already present in the page cache.
 
-The hit side of that accounting is too generous in two cases.
 
-First, fault-around can install PTEs for multiple pages around the
-faulting address.  The fault only proves that the faulting address was
-accessed, not that the nearby PTEs will be used by the workload.
-Crediting all of those nearby PTEs as mmap hits can make sparse random
-access look like successful mmap readahead and keep mmap readahead
-enabled for longer than intended.
+On 4/27/26 10:02, Luis Henriques wrote:
+> On Fri, Apr 24 2026, Bernd Schubert wrote:
+> 
+>> On 4/24/26 17:04, Luis Henriques wrote:
+>>> On Mon, Apr 13 2026, Bernd Schubert via B4 Relay wrote:
+>>>
+>>>> From: Bernd Schubert <bschubert@ddn.com>
+>>>>
+>>>> Add per-CPU and per-NUMA node bitmasks to track which
+>>>> io-uring queues are registered.
+>>>>
+>>>> Signed-off-by: Bernd Schubert <bschubert@ddn.com>
+>>>> ---
+>>>>  fs/fuse/dev_uring.c   | 73 +++++++++++++++++++++++++++++++++++++++++++++++++++
+>>>>  fs/fuse/dev_uring_i.h | 20 ++++++++++++++
+>>>>  2 files changed, 93 insertions(+)
+>>>>
+>>>> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
+>>>> index 08c49e5b65ee950a9749a034b1e9d0a8883e1d31..1d1305d38efa07641128a865aec1745d2e040b93 100644
+>>>> --- a/fs/fuse/dev_uring.c
+>>>> +++ b/fs/fuse/dev_uring.c
+>>>> @@ -186,6 +186,25 @@ bool fuse_uring_request_expired(struct fuse_conn *fc)
+>>>>  	return false;
+>>>>  }
+>>>>  
+>>>> +static void fuse_ring_destruct_q_map(struct fuse_queue_map *q_map)
+>>>> +{
+>>>> +	free_cpumask_var(q_map->registered_q_mask);
+>>>> +	kfree(q_map->cpu_to_qid);
+>>>> +}
+>>>> +
+>>>> +static void fuse_uring_destruct_q_masks(struct fuse_ring *ring)
+>>>> +{
+>>>> +	int node;
+>>>> +
+>>>> +	fuse_ring_destruct_q_map(&ring->q_map);
+>>>> +
+>>>> +	if (ring->numa_q_map) {
+>>>> +		for (node = 0; node < ring->nr_numa_nodes; node++)
+>>>> +			fuse_ring_destruct_q_map(&ring->numa_q_map[node]);
+>>>> +		kfree(ring->numa_q_map);
+>>>> +	}
+>>>> +}
+>>>> +
+>>>>  void fuse_uring_destruct(struct fuse_conn *fc)
+>>>>  {
+>>>>  	struct fuse_ring *ring = fc->ring;
+>>>> @@ -217,11 +236,44 @@ void fuse_uring_destruct(struct fuse_conn *fc)
+>>>>  		ring->queues[qid] = NULL;
+>>>>  	}
+>>>>  
+>>>> +	fuse_uring_destruct_q_masks(ring);
+>>>>  	kfree(ring->queues);
+>>>>  	kfree(ring);
+>>>>  	fc->ring = NULL;
+>>>>  }
+>>>>  
+>>>> +static int fuse_uring_init_q_map(struct fuse_queue_map *q_map, size_t nr_cpu)
+>>>> +{
+>>>> +	if (!zalloc_cpumask_var(&q_map->registered_q_mask, GFP_KERNEL_ACCOUNT))
+>>>> +		return -ENOMEM;
+>>>> +
+>>>> +	q_map->cpu_to_qid = kzalloc_objs(*q_map->cpu_to_qid, nr_cpu,
+>>>> +					 GFP_KERNEL_ACCOUNT);
+>>>> +
+>>>
+>>> Missing NULL check here (and corresponding call to free_cpumask_var()).
+>>>
+>>>>
+>>>> +	return 0;
+>>>> +}
+>>>> +
+>>>> +static int fuse_uring_create_q_masks(struct fuse_ring *ring)
+>>>> +{
+>>>> +	int err, node;
+>>>> +
+>>>> +	err = fuse_uring_init_q_map(&ring->q_map, ring->max_nr_queues);
+>>>> +	if (err)
+>>>> +		return err;
+>>>> +
+>>>> +	ring->numa_q_map = kzalloc_objs(*ring->numa_q_map, ring->nr_numa_nodes,
+>>>> +					GFP_KERNEL_ACCOUNT);
+>>>> +	if (!ring->numa_q_map)
+>>>> +		return -ENOMEM;
+>>>
+>>> Missing call to fuse_ring_destruct_q_map().
+>>>
+>>>> +	for (node = 0; node < ring->nr_numa_nodes; node++) {
+>>>> +		err = fuse_uring_init_q_map(&ring->numa_q_map[node],
+>>>> +					   ring->max_nr_queues);
+>>>> +		if (err)
+>>>> +			return err;
+>>>
+>>> Cleanup also missing here.
+>>
+>> I don't think so, for either of both, see error handling in
+>> fuse_uring_create_q_masks().
+> 
+> Doh! you're right.  The only fuse_uring_create_q_masks() call site is
+> fuse_uring_create(), which will then call fuse_uring_destruct_q_masks() on
+> error.  Sorry for the noise :-/
 
-Second, a fault that misses in the page cache can start synchronous mmap
-readahead, drop the mmap_lock, and return VM_FAULT_RETRY.  The retry may
-then find the folio that this same fault pulled into the page cache.  If
-filemap_map_pages() credits that retry as a hit, the same miss can
-immediately cancel its own mmap_miss increase.
+Hi Luis,
 
-Only credit one mmap hit when filemap_map_pages() actually maps the
-faulting address.  Also skip the credit on FAULT_FLAG_TRIED retries.
-Keep the existing workingset behavior: recently refaulted folios still
-do not reduce mmap_miss.
+no worries at all and thanks for your review. A bit funny part, I had
+let AI check the code and it also first reported a leak :)
+The reason that the caller cleans it it up is that if any of the
+allocations fails, all the other masks have to freed as well.
 
-Current evidence comes from a local KVM/data-disk microbenchmark using
-mmap_miss_probe.  In an 8 GiB guest with 2 vCPUs, a 20 GiB file,
-8192 KiB read_ahead_kb, cold page cache before each run, and 1% of the
-file accessed, the median of 3 runs changed as follows.  This is file
-cache capacity pressure from the file being larger than guest memory; no
-separate memory hog was used.
-
-mmap_miss_probe is a small userspace benchmark used only for these
-measurements.  It mmap()s a prepared file with MADV_NORMAL and then
-touches one byte at selected base-page offsets; the access order is
-random, sequential, or a fixed page stride.  The harness drops caches
-before each run and samples /proc/vmstat around that access loop.
-
-Each case used a fresh temporary qcow2 data disk, seen by the guest as
-/dev/vda, formatted as ext4 and mounted at /mnt/mmap-matrix.
-
-Each before/after entry is "pgpgin GiB / elapsed seconds".  "pgpgin GiB"
-is the delta of the guest /proc/vmstat pgpgin counter, converted from
-KiB to GiB; I use it as an approximate block input counter, not as
-resident memory or exact application IO.  "Elapsed seconds" is the
-wall-clock runtime of the whole mmap_miss_probe access pass, not
-per-access latency.
-
-        workload       before              after
-        random         223.377 GiB/101.293s 1.010 GiB/4.790s
-        stride1021     204.214 GiB/97.557s 204.208 GiB/108.086s
-        stride2053     409.584 GiB/193.700s 0.970 GiB/3.685s
-        stride4099     406.452 GiB/134.241s 0.975 GiB/3.499s
-        sequential       0.212 GiB/0.050s   0.212 GiB/0.057s
-
-The same 8 GiB guest with a 4 GiB file, so the file fits in memory,
-showed the same direction for sparse random access without file-cache
-reclaim pressure:
-
-        workload       before             after
-        random         3.987 GiB/1.960s   0.980 GiB/1.221s
-        stride1021     4.002 GiB/1.838s   4.002 GiB/1.851s
-        stride2053     3.991 GiB/1.835s   0.811 GiB/0.985s
-        stride4099     4.001 GiB/1.836s   0.819 GiB/1.037s
-        sequential     0.056 GiB/0.013s   0.056 GiB/0.018s
-
-This RFC does not claim to solve every sparse pattern.  In particular,
-the stride1021 rows above are intentionally included: the 20 GiB run is
-still about 204 GiB of pgpgin.
-
-In the table, strideN means that the benchmark advances by N base pages
-between mmap loads.  Thus stride1021 is 1021 * 4 KiB = 4084 KiB.  With
-8192 KiB read_ahead_kb, file->f_ra.ra_pages is 2048 base pages, and
-synchronous mmap read-around uses a 2048-page window centered around the
-fault, i.e. roughly [index - 1024, index + 1023].  A stride1021 access
-therefore lands inside the previous read-around window.  About every
-other access can be a real faulting-address page-cache hit, and the
-other half can each read about 8 MiB.  For about 52k accesses in the
-20 GiB/1% run, half of them times 8 MiB is about 205 GiB, which matches
-the observed 204 GiB.  This first version keeps the scope intentionally
-limited to mmap_miss hit accounting.
-
-Signed-off-by: fujunjie <fujunjie1@qq.com>
----
- mm/filemap.c | 33 ++++++++++++++++-----------------
- 1 file changed, 16 insertions(+), 17 deletions(-)
-
-diff --git a/mm/filemap.c b/mm/filemap.c
-index 4e636647100c1..463cd19c49f09 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -3757,6 +3757,7 @@ static vm_fault_t filemap_map_folio_range(struct vm_fault *vmf,
- 	unsigned int count = 0;
- 	pte_t *old_ptep = vmf->pte;
- 	unsigned long addr0;
-+	bool fault_mapped = false;
- 
- 	/*
- 	 * Map the large folio fully where possible:
-@@ -3780,16 +3781,6 @@ static vm_fault_t filemap_map_folio_range(struct vm_fault *vmf,
- 		if (PageHWPoison(page + count))
- 			goto skip;
- 
--		/*
--		 * If there are too many folios that are recently evicted
--		 * in a file, they will probably continue to be evicted.
--		 * In such situation, read-ahead is only a waste of IO.
--		 * Don't decrease mmap_miss in this scenario to make sure
--		 * we can stop read-ahead.
--		 */
--		if (!folio_test_workingset(folio))
--			(*mmap_miss)++;
--
- 		/*
- 		 * NOTE: If there're PTE markers, we'll leave them to be
- 		 * handled in the specific fault path, and it'll prohibit the
-@@ -3806,8 +3797,10 @@ static vm_fault_t filemap_map_folio_range(struct vm_fault *vmf,
- 			*rss += count;
- 			folio_ref_add(folio, count - ref_from_caller);
- 			ref_from_caller = 0;
--			if (in_range(vmf->address, addr, count * PAGE_SIZE))
-+			if (in_range(vmf->address, addr, count * PAGE_SIZE)) {
- 				ret = VM_FAULT_NOPAGE;
-+				fault_mapped = true;
-+			}
- 		}
- 
- 		count++;
-@@ -3822,8 +3815,10 @@ static vm_fault_t filemap_map_folio_range(struct vm_fault *vmf,
- 		*rss += count;
- 		folio_ref_add(folio, count - ref_from_caller);
- 		ref_from_caller = 0;
--		if (in_range(vmf->address, addr, count * PAGE_SIZE))
-+		if (in_range(vmf->address, addr, count * PAGE_SIZE)) {
- 			ret = VM_FAULT_NOPAGE;
-+			fault_mapped = true;
-+		}
- 	}
- 
- 	vmf->pte = old_ptep;
-@@ -3831,6 +3826,10 @@ static vm_fault_t filemap_map_folio_range(struct vm_fault *vmf,
- 		/* Locked folios cannot get truncated. */
- 		folio_ref_dec(folio);
- 
-+	if (fault_mapped && !(vmf->flags & FAULT_FLAG_TRIED) &&
-+	    !folio_test_workingset(folio))
-+		(*mmap_miss)++;
-+
- 	return ret;
- }
- 
-@@ -3844,10 +3843,6 @@ static vm_fault_t filemap_map_order0_folio(struct vm_fault *vmf,
- 	if (PageHWPoison(page))
- 		goto out;
- 
--	/* See comment of filemap_map_folio_range() */
--	if (!folio_test_workingset(folio))
--		(*mmap_miss)++;
--
- 	/*
- 	 * NOTE: If there're PTE markers, we'll leave them to be
- 	 * handled in the specific fault path, and it'll prohibit
-@@ -3856,8 +3851,12 @@ static vm_fault_t filemap_map_order0_folio(struct vm_fault *vmf,
- 	if (!pte_none(ptep_get(vmf->pte)))
- 		goto out;
- 
--	if (vmf->address == addr)
-+	if (vmf->address == addr) {
- 		ret = VM_FAULT_NOPAGE;
-+		if (!(vmf->flags & FAULT_FLAG_TRIED) &&
-+		    !folio_test_workingset(folio))
-+			(*mmap_miss)++;
-+	}
- 
- 	set_pte_range(vmf, folio, page, 1, addr);
- 	(*rss)++;
--- 
-2.34.1
-
+Thanks,
+Bernd
