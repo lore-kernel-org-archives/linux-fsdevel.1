@@ -1,322 +1,67 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C46513B9D83
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 13:25:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CB2D3CBE7E;
+	Mon, 27 Apr 2026 13:26:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777296325; cv=none; b=iChP0hfMJoGtas0H4Erbvo+N77IUwDsdQZHNt7yfC86AyuFB0Ar6eXp15iwNc9+lCNR88kaXb/xqVx9M7cJfIjscqK9RTq4UE1XIpvByTMPXldyMh2V6vEfxMVhOcPADdoonqMZVw17BKRs7JydhAf989dgdoX12fSlUHVONzjM=
+	t=1777296389; cv=none; b=BRkezHPdPDmzR7FdmTVldr7CbWa8QjgKYqaVmVeGmo50rq1DquqhpS4MbMELNP2XUhs1xHBGZn1R8o3oWjmYmX6PX+ym8ZXImKaKmUWWXaRV7t8kl1zcv8SLMWKNj1NoQhpzB2CxFcuBDUAQJr6VPGn/x2Orpi+J5poaLXdZRPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777296325; c=relaxed/simple;
-	bh=L06s/ZnHk7dN+/8QhFX+smA0G6bNXnBnB3aMWUpp75k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aycJwcytwLVHYkl3CWgjzmRtecsoz7KqXmIHqKAc9vnyPq0GoGh/RxJuM3GilXMCNZI2EyKt2QGUELEfwmfGH2W6uP3Ey1PLGJSJwaa+r0OU5AMD4JM94tf+B+Da6qamTMw//BuIFYHoqIF2Y6t6rACka9LcvIaobsnmLQWdNPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=kfpB1JJ1; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=pGKz+bLm; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=kfpB1JJ1; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=pGKz+bLm; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1777296389; c=relaxed/simple;
+	bh=Z+13z7MHwZRhu2Tz981IPD7nQ3LpfY+RZ5hZB9mpV7k=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Nh+8W21Id8TvGMItItVB1qaCdsafOlogHIa+qtCu2jlGvSKNajVn+FL+9hW6/D0DJGAIvxPmWQhmSdK3eG5PKHRDR+Lcv5btFy77/YO1YsRJxC3VT1zmd4pe0AoWRjzu15UrdBGTSFRm9v4e/6Ks3+6v90cikxT4lJ7XJOgV1uY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uUNwpkgm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="kfpB1JJ1";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="pGKz+bLm";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="kfpB1JJ1";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="pGKz+bLm"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0BE6E5BCD4;
-	Mon, 27 Apr 2026 13:25:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1777296322; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+lCwe8jhmfKWQiton2Foqse5sbsgfeXHo7k8fm/mu9c=;
-	b=kfpB1JJ1SYrVhXxaJGAKFWkwce7fy4OaGvvQrySy91zgvKfRLU+oUm1Tiu6kO91iP3MXyp
-	ojr5F+I1Y/Mu8VWFABkNwM5iBF5iggH914qx9tB3XN9qoRgaIa3UVgtzO+xNTb8dUEmeTp
-	CtikYl4D5XG9CCBgoyAzioFFaydACK0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1777296322;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+lCwe8jhmfKWQiton2Foqse5sbsgfeXHo7k8fm/mu9c=;
-	b=pGKz+bLmZJ2jZgDHyStHSAkxSk1J0e6SiOa+GfOmiq2XzugJQoS1TK7J49xSsREQDv6ACt
-	56WySvR+HdmS8tCg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1777296322; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+lCwe8jhmfKWQiton2Foqse5sbsgfeXHo7k8fm/mu9c=;
-	b=kfpB1JJ1SYrVhXxaJGAKFWkwce7fy4OaGvvQrySy91zgvKfRLU+oUm1Tiu6kO91iP3MXyp
-	ojr5F+I1Y/Mu8VWFABkNwM5iBF5iggH914qx9tB3XN9qoRgaIa3UVgtzO+xNTb8dUEmeTp
-	CtikYl4D5XG9CCBgoyAzioFFaydACK0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1777296322;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+lCwe8jhmfKWQiton2Foqse5sbsgfeXHo7k8fm/mu9c=;
-	b=pGKz+bLmZJ2jZgDHyStHSAkxSk1J0e6SiOa+GfOmiq2XzugJQoS1TK7J49xSsREQDv6ACt
-	56WySvR+HdmS8tCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F24CB593B0;
-	Mon, 27 Apr 2026 13:25:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id jH8jO8Fj72n7UwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 27 Apr 2026 13:25:21 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id B79ADA0B3C; Mon, 27 Apr 2026 15:25:17 +0200 (CEST)
-Date: Mon, 27 Apr 2026 15:25:17 +0200
-From: Jan Kara <jack@suse.cz>
-To: fujunjie <fujunjie1@qq.com>
-Cc: Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Haoran Zhu <zhr1502@sjtu.edu.cn>
-Subject: Re: [RFC PATCH 1/1] mm/filemap: tighten mmap_miss hit accounting
-Message-ID: <qll45txbsmwpkrgzjqpzqh563vwd7dcycfl7beaey5gqh63wfa@y2kqsfvhltca>
-References: <20260427102243.3519326-1-fujunjie1@qq.com>
- <tencent_3F158B17AE85E73945C5F97D8F8A918F9B07@qq.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uUNwpkgm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BB1CC19425;
+	Mon, 27 Apr 2026 13:26:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777296388;
+	bh=Z+13z7MHwZRhu2Tz981IPD7nQ3LpfY+RZ5hZB9mpV7k=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=uUNwpkgmAM07mZNyoLcxMEGMYf2M2rnRsARvw/663swz6oebKcd54rtwPfNw/yAY1
+	 9grknnkPTXrIHvonsMLciCbtp6G9DVHE0yc3Q3w/+nKyOR7uRDJJVm2wnaqjuaVOpL
+	 m1pNvTXmJOMDDgapCojyjOz+pnciHXNytbIEXhl2CaUaZSJCxvQXydhtUP0mL1HCLK
+	 bKNONx14M9CZj+pcOwPne0Mz8ePtLFU06seQ4HbZTJ5X59HjjKr7/yF5WWlIVFxlzq
+	 eFyCYneE/qq31FSlcgyV1HuKAwu8ZAYJW3KPFwpw+uVyeT93Ghx+8k6PyLm2uCpdAq
+	 HP9+BFDUUY3Pg==
+From: Carlos Maiolino <cem@kernel.org>
+To: linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ Ravi Singh <ravising@redhat.com>
+Cc: hch@lst.de, djwong@kernel.org, dchinner@redhat.com, esandeen@redhat.com
+In-Reply-To: <20260422073959.10056-1-ravising@redhat.com>
+References: <20260422073959.10056-1-ravising@redhat.com>
+Subject: Re: [PATCH v3] xfs: flush delalloc blocks on ENOSPC in
+ xfs_trans_alloc_icreate
+Message-Id: <177729638689.100803.1167697667137061012.b4-ty@kernel.org>
+Date: Mon, 27 Apr 2026 15:26:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <tencent_3F158B17AE85E73945C5F97D8F8A918F9B07@qq.com>
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[qq.com];
-	MISSING_XM_UA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[qq.com];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email,qq.com:email]
-X-Spam-Flag: NO
-X-Spam-Score: -3.80
-X-Spam-Level: 
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.3
 
-On Mon 27-04-26 10:22:43, fujunjie wrote:
-> file->f_ra.mmap_miss is used to stop mmap readahead after repeated
-> misses.  filemap_fault() increases it when synchronous mmap readahead is
-> needed, while filemap_map_pages() reduces it when fault-around finds
-> folios already present in the page cache.
+On Wed, 22 Apr 2026 07:39:59 +0000, Ravi Singh wrote:
+> xfs_trans_alloc_icreate() can fail with ENOSPC when delalloc
+> reservations have consumed most of the available block count
+> (fdblocks).  xfs_trans_alloc() already retries internally with
+> xfs_blockgc_flush_all(), but that only trims post-EOF speculative
+> preallocation and may not free enough space for the transaction
+> reservation.
 > 
-> The hit side of that accounting is too generous in two cases.
-> 
-> First, fault-around can install PTEs for multiple pages around the
-> faulting address.  The fault only proves that the faulting address was
-> accessed, not that the nearby PTEs will be used by the workload.
-> Crediting all of those nearby PTEs as mmap hits can make sparse random
-> access look like successful mmap readahead and keep mmap readahead
-> enabled for longer than intended.
-> 
-> Second, a fault that misses in the page cache can start synchronous mmap
-> readahead, drop the mmap_lock, and return VM_FAULT_RETRY.  The retry may
-> then find the folio that this same fault pulled into the page cache.  If
-> filemap_map_pages() credits that retry as a hit, the same miss can
-> immediately cancel its own mmap_miss increase.
-> 
-> Only credit one mmap hit when filemap_map_pages() actually maps the
-> faulting address.  Also skip the credit on FAULT_FLAG_TRIED retries.
-> Keep the existing workingset behavior: recently refaulted folios still
-> do not reduce mmap_miss.
-> 
-> Current evidence comes from a local KVM/data-disk microbenchmark using
-> mmap_miss_probe.  In an 8 GiB guest with 2 vCPUs, a 20 GiB file,
-> 8192 KiB read_ahead_kb, cold page cache before each run, and 1% of the
-> file accessed, the median of 3 runs changed as follows.  This is file
-> cache capacity pressure from the file being larger than guest memory; no
-> separate memory hog was used.
-> 
-> mmap_miss_probe is a small userspace benchmark used only for these
-> measurements.  It mmap()s a prepared file with MADV_NORMAL and then
-> touches one byte at selected base-page offsets; the access order is
-> random, sequential, or a fixed page stride.  The harness drops caches
-> before each run and samples /proc/vmstat around that access loop.
-> 
-> Each case used a fresh temporary qcow2 data disk, seen by the guest as
-> /dev/vda, formatted as ext4 and mounted at /mnt/mmap-matrix.
-> 
-> Each before/after entry is "pgpgin GiB / elapsed seconds".  "pgpgin GiB"
-> is the delta of the guest /proc/vmstat pgpgin counter, converted from
-> KiB to GiB; I use it as an approximate block input counter, not as
-> resident memory or exact application IO.  "Elapsed seconds" is the
-> wall-clock runtime of the whole mmap_miss_probe access pass, not
-> per-access latency.
-> 
->         workload       before              after
->         random         223.377 GiB/101.293s 1.010 GiB/4.790s
->         stride1021     204.214 GiB/97.557s 204.208 GiB/108.086s
->         stride2053     409.584 GiB/193.700s 0.970 GiB/3.685s
->         stride4099     406.452 GiB/134.241s 0.975 GiB/3.499s
->         sequential       0.212 GiB/0.050s   0.212 GiB/0.057s
-> 
-> The same 8 GiB guest with a 4 GiB file, so the file fits in memory,
-> showed the same direction for sparse random access without file-cache
-> reclaim pressure:
-> 
->         workload       before             after
->         random         3.987 GiB/1.960s   0.980 GiB/1.221s
->         stride1021     4.002 GiB/1.838s   4.002 GiB/1.851s
->         stride2053     3.991 GiB/1.835s   0.811 GiB/0.985s
->         stride4099     4.001 GiB/1.836s   0.819 GiB/1.037s
->         sequential     0.056 GiB/0.013s   0.056 GiB/0.018s
-> 
-> This RFC does not claim to solve every sparse pattern.  In particular,
-> the stride1021 rows above are intentionally included: the 20 GiB run is
-> still about 204 GiB of pgpgin.
-> 
-> In the table, strideN means that the benchmark advances by N base pages
-> between mmap loads.  Thus stride1021 is 1021 * 4 KiB = 4084 KiB.  With
-> 8192 KiB read_ahead_kb, file->f_ra.ra_pages is 2048 base pages, and
-> synchronous mmap read-around uses a 2048-page window centered around the
-> fault, i.e. roughly [index - 1024, index + 1023].  A stride1021 access
-> therefore lands inside the previous read-around window.  About every
-> other access can be a real faulting-address page-cache hit, and the
-> other half can each read about 8 MiB.  For about 52k accesses in the
-> 20 GiB/1% run, half of them times 8 MiB is about 205 GiB, which matches
-> the observed 204 GiB.  This first version keeps the scope intentionally
-> limited to mmap_miss hit accounting.
-> 
-> Signed-off-by: fujunjie <fujunjie1@qq.com>
+> [...]
 
-Thanks for the patch! I agree with the changes in the logic. In fact I was
-proposing something very similar some time ago [1] but it wasn't fixing the
-problem reported back then and I never got to checking whether there are
-some other workloads that would benefit. So kudos to you doing that. Some
-comments to implementation:
+Applied to for-next, thanks!
 
-1) These are two separate logical changes - handling of filemap_map_pages()
-and handling of FAULT_FLAG_TRIED. Please create two separate patches for
-them.
+[1/1] xfs: flush delalloc blocks on ENOSPC in xfs_trans_alloc_icreate
+      commit: 87e63466c9fc30c3d95b8741c3df1f1ff01d7f23
 
-2) After changing the mmap_miss logic in filemap_map_pages() there's no
-need for the odd propagation of mmap_miss variable to
-filemap_map_order0_folio() and filemap_map_folio_range(). Now you are
-guaranteed to need to update mmap_miss at by at most 1. So I think you
-should just drop mmap_miss argument, check return value of
-filemap_map_order0_folio() / filemap_map_folio_range() in
-filemap_map_pages() and based on it just update file->f_ra.mmap_miss if
-appropriate. Much simpler.
-
-[1] https://lore.kernel.org/all/20240201173130.frpaqpy7iyzias5j@quack3/
-
-								Honza
-
-> diff --git a/mm/filemap.c b/mm/filemap.c
-> index 4e636647100c1..463cd19c49f09 100644
-> --- a/mm/filemap.c
-> +++ b/mm/filemap.c
-> @@ -3757,6 +3757,7 @@ static vm_fault_t filemap_map_folio_range(struct vm_fault *vmf,
->  	unsigned int count = 0;
->  	pte_t *old_ptep = vmf->pte;
->  	unsigned long addr0;
-> +	bool fault_mapped = false;
->  
->  	/*
->  	 * Map the large folio fully where possible:
-> @@ -3780,16 +3781,6 @@ static vm_fault_t filemap_map_folio_range(struct vm_fault *vmf,
->  		if (PageHWPoison(page + count))
->  			goto skip;
->  
-> -		/*
-> -		 * If there are too many folios that are recently evicted
-> -		 * in a file, they will probably continue to be evicted.
-> -		 * In such situation, read-ahead is only a waste of IO.
-> -		 * Don't decrease mmap_miss in this scenario to make sure
-> -		 * we can stop read-ahead.
-> -		 */
-> -		if (!folio_test_workingset(folio))
-> -			(*mmap_miss)++;
-> -
->  		/*
->  		 * NOTE: If there're PTE markers, we'll leave them to be
->  		 * handled in the specific fault path, and it'll prohibit the
-> @@ -3806,8 +3797,10 @@ static vm_fault_t filemap_map_folio_range(struct vm_fault *vmf,
->  			*rss += count;
->  			folio_ref_add(folio, count - ref_from_caller);
->  			ref_from_caller = 0;
-> -			if (in_range(vmf->address, addr, count * PAGE_SIZE))
-> +			if (in_range(vmf->address, addr, count * PAGE_SIZE)) {
->  				ret = VM_FAULT_NOPAGE;
-> +				fault_mapped = true;
-> +			}
->  		}
->  
->  		count++;
-> @@ -3822,8 +3815,10 @@ static vm_fault_t filemap_map_folio_range(struct vm_fault *vmf,
->  		*rss += count;
->  		folio_ref_add(folio, count - ref_from_caller);
->  		ref_from_caller = 0;
-> -		if (in_range(vmf->address, addr, count * PAGE_SIZE))
-> +		if (in_range(vmf->address, addr, count * PAGE_SIZE)) {
->  			ret = VM_FAULT_NOPAGE;
-> +			fault_mapped = true;
-> +		}
->  	}
->  
->  	vmf->pte = old_ptep;
-> @@ -3831,6 +3826,10 @@ static vm_fault_t filemap_map_folio_range(struct vm_fault *vmf,
->  		/* Locked folios cannot get truncated. */
->  		folio_ref_dec(folio);
->  
-> +	if (fault_mapped && !(vmf->flags & FAULT_FLAG_TRIED) &&
-> +	    !folio_test_workingset(folio))
-> +		(*mmap_miss)++;
-> +
->  	return ret;
->  }
->  
-> @@ -3844,10 +3843,6 @@ static vm_fault_t filemap_map_order0_folio(struct vm_fault *vmf,
->  	if (PageHWPoison(page))
->  		goto out;
->  
-> -	/* See comment of filemap_map_folio_range() */
-> -	if (!folio_test_workingset(folio))
-> -		(*mmap_miss)++;
-> -
->  	/*
->  	 * NOTE: If there're PTE markers, we'll leave them to be
->  	 * handled in the specific fault path, and it'll prohibit
-> @@ -3856,8 +3851,12 @@ static vm_fault_t filemap_map_order0_folio(struct vm_fault *vmf,
->  	if (!pte_none(ptep_get(vmf->pte)))
->  		goto out;
->  
-> -	if (vmf->address == addr)
-> +	if (vmf->address == addr) {
->  		ret = VM_FAULT_NOPAGE;
-> +		if (!(vmf->flags & FAULT_FLAG_TRIED) &&
-> +		    !folio_test_workingset(folio))
-> +			(*mmap_miss)++;
-> +	}
->  
->  	set_pte_range(vmf, folio, page, 1, addr);
->  	(*rss)++;
-> -- 
-> 2.34.1
-> 
+Best regards,
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Carlos Maiolino <cem@kernel.org>
+
