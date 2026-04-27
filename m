@@ -1,93 +1,93 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C295149C7B
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 00:10:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9AD925776
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 00:11:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.53
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777248641; cv=pass; b=W+PojzIPwvlOH66Kf+f/1yAfCCr4G4YIYaMF8/c8IXjcbNp8eCL1rGg4Y0ovyHRvZaZThgz6bSyB8iAnozwTicm4oclHrJm55xFZ6AO8+pfmTZ53IiX2v2NRI00FQlUGgSkaJMaSc/tPh1ngWz1fskKS0GDyLyllsR5x5kZ30n0=
+	t=1777248673; cv=pass; b=qHzBF3f91ll1Ta5p7LHDPeT9L7nhALAs0d0wdzuGfhxJKz7WCUYOQpGU51Fi/JmUwOyUS4BpHljal4NCPmLXPmqbrgL04ADj7XBS6V+VUYD2FAvHtZ1Y2qwiqaI4BRex9hh/A+BxYWxIy3megrvNY2mBbl5faHTdTlunKCDvGnM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777248641; c=relaxed/simple;
-	bh=MHTVAJv6FlMpGvRAwYwT9xDNR8SkKPgAojjNoi07w4c=;
+	s=arc-20240116; t=1777248673; c=relaxed/simple;
+	bh=wIKuMzHeBfCzt70ovbG++ajtRCh6tv8NB6mFqqL7EBg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AsN+JREofd5W4neBVgc4do1fVfm/5PV+a6ZdpEzw1SMrsCsrGJRGrUOz3lFd78/HDuX59NcLtLTbycx7AiZrOeZZObaa9uN80UEq9I64vytQvEsG9zznvF962Irdb3MTYU9GF59EZ+moNwLRJcIYTyDC3bRa00zUsXq4Mfo9nc4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YIvkddrq; arc=pass smtp.client-ip=209.85.167.48
+	 To:Cc:Content-Type; b=rQ3eROsGPvHIdPr/PNWQzrBl5vHxoFG94snggnSTzIv6OiJtJKOo8FmcrB2FgWU5ANVql/1OR7zJ+msezIVFQDoG5Dyww/T1ESkF0EHIZBkolW3oAvaASgXPhmeAkl7Mld1C54gZTxIV73Pnx0W43yjlfNbT8C0QH394MfUrWQw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S4US47rv; arc=pass smtp.client-ip=209.85.167.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YIvkddrq"
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5a2c500750dso10709887e87.1
-        for <linux-fsdevel@vger.kernel.org>; Sun, 26 Apr 2026 17:10:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777248638; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S4US47rv"
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5a40b2bc96dso11202112e87.3
+        for <linux-fsdevel@vger.kernel.org>; Sun, 26 Apr 2026 17:11:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777248670; cv=none;
         d=google.com; s=arc-20240605;
-        b=H4KhcBaSYPMug+ENUvZScW/lUBcFm7Ex+J2qfp0Z4Ncr+S8vwJz3Q+/qsbmbiAVQWF
-         2oh9OvEqcdka14SIUORvDg0LNhFWOKUCEPiXfKG3LpaCXAl9+TDDM4UR5B6m9f1HUmm+
-         ocIkEcAauUBgJuuBzDSCbC4MlG7PGzDbc/LgD6Jctcrv1DN3i9fk6Kp9/qjoOs6HavRD
-         mLMDMcbzMp5v9RBBNc8LaD1YUefQwHiGsUpobeeyGKSAKab8u7yVmFrJ5QBQgMUM8hwK
-         nRCpbqKJfpB/pTljutjTYuTMfycW2Brr0NqDQHUUuxYXzWnuMHepE853qSBKl+7nL6x9
-         BbWw==
+        b=axQENiLRtD/0Cn+aqwaXLjjCuHPKne/F4Bp6kWtmvEo4EOT9X+wUwQXsOEC/giw6YG
+         PVu5wjHiDhsI1iK3qBS5Bg6Vbg0VIqXKXi5ukXt1sA4RRrfT4eFm7OE1T02tmf9t0D/m
+         l7Scjko4rcZ/VP08fiZz4AqYdBLGboObuEpaNz64UbbOuASBirz3G5wIu5EZdaDhobZg
+         DmYWFCpfnpp7muUlaSxwVUsdnmmELT+GelSZo4S2/K+Tj8CYR0CG/uyKCYigyRoPggyx
+         SrfBCYTzRc47NyXYoqZgl4FnWH0OA3muI/pchtv7Y+3lFBWPrUmvziOTbIs8BBAujj1p
+         6g7w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=mKp47mgGQeukavo3+uQ/EV+Ph3dbIu5QR2SgCaoFgIM=;
-        fh=m8TMeprvXKpltQwC/Zn58FnQJnMKszdY6fY3tFphBdA=;
-        b=R38TvBU8160/fbB5lpfwgroFvgLT0Jgzt3HW8WVLjlObIv9zIrTAZT/FaC7darDlro
-         4rkcrSubiHxXb+C3eXqhdAdKIXuN2CgnnD7O5H1/mB1DddwYqKyQKDoovN8jn/YspKSu
-         O6LpBdVwWbNw+ub8RmsBOiJbSpKKTi+DwIqizkgZefXiEq03xz1h2UGyhj9cN9HLk8Fu
-         u7hl41SzGTVSnr6s+BExrInozOOAhlU9wsjCpuA4ONcEt/7nuYQybUj66ie46oyKKweG
-         mJI0qNH93Vl5CQ8Rws30ONu70MTFYZvyMwk0ljeszS0DyBIsIycjtmaDTacqXwMKXKA9
-         3WEg==;
+        bh=eRC2JslG73FK7QhfhRfHpLp/Q557OQnLn32NMzTDYOQ=;
+        fh=o0pjv++B4tlanFtPf66AdYzMG+HllGIbWL+VETLum38=;
+        b=DGVTiNMXBDq8k7sbCnj8+LHB3tvjy0gCYIBtSKQO733DM6ELgZ0j1mAJ3cRgsnQERA
+         tuvUodP7SLM4gex/u2NT64WE2oLHXiu6vfois5kN/TWN1AcvUPhQrE5akhzcOTbs7E2i
+         g2idXdXD7rJ6K42DPyIg5Q6tKAPeGLS3h2tSV/an42YbSMzfos9THI+K//6oSHO0E4gQ
+         iS+0UfvNfmTEYD8VWNQ3tqF+ShZojr0a0/km1LB6HEGFp9063r7Y95aMBdCYF04gVI+m
+         ek+RfTbhJl1DtPQw7Qq1/91OafVnnCF3jEomPdAgZFFlY8Ae9kIGnz2GrITUzVyCiVJC
+         A7gQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777248638; x=1777853438; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1777248670; x=1777853470; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mKp47mgGQeukavo3+uQ/EV+Ph3dbIu5QR2SgCaoFgIM=;
-        b=YIvkddrqkAFO8GPLuTNVxvB+9/GMMsCQUf1TjRwVpr20gIm2oMj63yOKmhnp32bkei
-         UW9m4D5wpW3C8KxrHzqf69IjWKsqF7isQPChOx+HQaNKCrU++wS/rrOWAR6xUyKGVApJ
-         oq8C2Bs9fHzFuFr9xuqPucdZOo1KhpyH4OWoLpeZ+MYFBtpjBg7EDf5filnYHsd2Z459
-         PFw11+2SQvky9WqptyJoKeF29A2rjxgFuZUyUZK11GcwW7Q19Z6OsPcxFY50YcATRT6t
-         nOGiQjiWoyaUwvuZtuRJ4L4mzWZ9atcaZDrAd7gtDwlE39QtOWORcZGgsb5gK3yDjynI
-         lTtQ==
+        bh=eRC2JslG73FK7QhfhRfHpLp/Q557OQnLn32NMzTDYOQ=;
+        b=S4US47rv7MgV40ym4hdqbJWcRjDdBwOqDrT259J8qxqChD5VUrxEoj2tUGGTuekjSi
+         aILHda+JuPfioUJb50CM47ZvSGCNpEgdwae9mQW2BcpkHO8YI5DbgDsD91ltWDnpUGnQ
+         kgzLWmIrELn/jSXoIkoZmBJ3i2eyj8HqV+QPsixeoa/zfMrwNm9kF8Ncv/X5M+Vqe+uK
+         nL+5V+bsFzLqD6Kvgad7zh5fPD4ea0hWjmMys2VUH1Q6PMPMMOXE8H6QoAhwcjxe/Asu
+         I4jQmwkopjzwlh7raCUBmebn7X7nd8TczFvSCyYwP3He+gZ7drxNaEOBvzdARfuT4ReS
+         Sxdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777248638; x=1777853438;
+        d=1e100.net; s=20251104; t=1777248670; x=1777853470;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=mKp47mgGQeukavo3+uQ/EV+Ph3dbIu5QR2SgCaoFgIM=;
-        b=aU5wgJ5a1+KzXZx4IUhOHbBEeI+WTYMeRYEMcYwiPoXnnolNZRa5QTGROVADsUcxlk
-         N/w/3XfJmjpqqbToh9e6Ln1ZI1ZvoDInasdQdS6xRXcaPw0HuKFF0fIVJrvC7aD4anpj
-         yWSzTfkmGNaym1drtE/w43NUKvb7BNpHEPI8k6NuaEUrPBjB1/dwUpoS/0yycOIR3ukY
-         uasUf982NQHmRmZQs02R9yUxP1uK5e0RoA4xzlmLwlYxq1il1Rex9VAp9+VNk9wdZ2zQ
-         kBJ19t6ImObplQFyZzKR+wfR3iib2V10jlA3/QgVRKlgy0JbiAdtkT5RLinMYSQpIsRa
-         T4Yg==
-X-Forwarded-Encrypted: i=1; AFNElJ+A3+e0Mr/32Q9hAJi26hFNFopkK4z+KtZJIDaK5KM4knFiH8+Tz6XrofAGwg9LuSfkz2h3Sgjdz6N2V3XW@vger.kernel.org
-X-Gm-Message-State: AOJu0YyioMRibGXxaKj7Ay3hrALtnj+mmJE6t1nbu6k2ifSVrx28m0JN
-	VuZZA008qwt57A885kjR2ohBkUCITrFVnAkGRCIfhx/zGNz17sS0kgl5KphXse1Nzw7O8DW4Vao
-	b8bPjW4RTL8L9IKZO2p/KnidgJouV7JYql7Ih
-X-Gm-Gg: AeBDiesMi726f33/luAfqbd+84olwP2l/li4hUliKHsM4Iq5d9xjJ/ENj8iArTzpTUF
-	Qmu9Mls/N4WRn3FTaDf5uUmp3CrQitoQnFPdmHjubv6aLqTODvyOSz4dnhcty7ooAzcrvZ3hQ+v
-	/5q4uPY2SaGIMkhX+Gzc3dvirWcL5mTRtg937LM35vMECnXNKHvMuztxDMiOudqOvBrtqadkSz/
-	EaLh1IyEvQbugtygqEFPJBQJTBXoC51tzSqYMP2TeRInH2puyav++T4MQ7UD40BQgEzUMtmyoAx
-	pjyG4TvzPXz3YqNXBg==
-X-Received: by 2002:a05:6512:39c8:b0:5a4:1145:ce6f with SMTP id
- 2adb3069b0e04-5a41717fdc8mr10877057e87.0.1777248638053; Sun, 26 Apr 2026
- 17:10:38 -0700 (PDT)
+        bh=eRC2JslG73FK7QhfhRfHpLp/Q557OQnLn32NMzTDYOQ=;
+        b=sC0wMM0kKrUVYniXLM2y9Lw0D4N6+LChqaUX0W0fDwTxpNvutaN5Yy1dlhkhPR9SJi
+         eu05h1k1XettIV5cP0HU9YbHT8LGwCp69EgAcc+1P/qtvFk6vOXhNjlrW3tUR64BjYZ4
+         JiQGC+/FuWIw6G8feVxWBNz/aoOxwk2pbZlTeufMMJ2RL71dyg2iBvzKtC1CncFUvgMu
+         IIhkpWxiArhwX775saafWlcri1Ukku7ei1WYbEiuzfDhTuOUsyljjZqp36FiBY/DsuDw
+         ZfV9PlQ7JOYWshiC0HGSekQoy2cVbg+/O3KHCqBng5JhQ/qrblBM5frXEexFbH8rcbpH
+         0uJw==
+X-Forwarded-Encrypted: i=1; AFNElJ+OZ1zFxDU1/H+Spw1KV0jFOC56TuxK4y9jeeFPpbom9NRqexUhoacvvwOIySgxxVwgXUzcDw6IESrU5QnE@vger.kernel.org
+X-Gm-Message-State: AOJu0YxnTAlwtw9Oachy7D3QUle+eeJrhLYU/r7DJ5mUY6cK2v0iIxcE
+	zh2qXygrxaqT3D543r/R3FAP096HQA2a/l34M1b7yvrPkblOKkhesSAiD152QI0YZG2sSfJekE/
+	XsxqsOVkcVHUZWvrTRAcKRKbLmXZJo0A=
+X-Gm-Gg: AeBDies5FAAr6JEPsKE97wMqO1B4jVUXl/y/FJ5lTD7o4+qzHFosJYbU8jRzA2C5CTx
+	p/zduhd/VplMefW40C+sKGskheThfJ8kw8DNwGXf6T8/D/h+vZ6Gkwa4XsPWWkIlFGHuiPuuWe7
+	EFSd+uRcV7F26XSNfmqlV6f0ATQNIYc+JaesHFcTqo1FWyfHp6xZF04embhDF8QlGjQmsAaucbn
+	hc0qOfo0XDJGqH0B731SxWSycRaReN8X/FWf9+LYUrnZzMHEwm/SDmVBG3HARi2YcwTx1aaFzCw
+	3jDxu11cgOe7VU4A5Q==
+X-Received: by 2002:a05:6512:2313:b0:5a2:c0c8:52bf with SMTP id
+ 2adb3069b0e04-5a4172c332amr11643855e87.10.1777248669966; Sun, 26 Apr 2026
+ 17:11:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1777175371.git.charsyam@gmail.com> <411dcca8f8b760bf9744a2b590becaf3fb871d84.1777175371.git.charsyam@gmail.com>
-In-Reply-To: <411dcca8f8b760bf9744a2b590becaf3fb871d84.1777175371.git.charsyam@gmail.com>
+References: <cover.1777175371.git.charsyam@gmail.com> <e59d3bc4a15adbf6c227a0c62f81362aac8be383.1777175371.git.charsyam@gmail.com>
+In-Reply-To: <e59d3bc4a15adbf6c227a0c62f81362aac8be383.1777175371.git.charsyam@gmail.com>
 From: Hyunchul Lee <hyc.lee@gmail.com>
-Date: Mon, 27 Apr 2026 09:10:26 +0900
-X-Gm-Features: AVHnY4KSDH5bPuSV-jSgfNbypPO8v9mlQUxMDofWXcL0LGKg9GID2x2wkCBwIfU
-Message-ID: <CANFS6baKRDSdKe9v+5N2u_nKGKtrasaBJSTk4LjOS7cGRFY8YQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] ntfs: fix NULL dereference in ntfs_index_walk_down()
+Date: Mon, 27 Apr 2026 09:10:57 +0900
+X-Gm-Features: AVHnY4J1G9G-04PmflA0rr7tL8zFyxa86sCV8VVpKzmMPtsjqClC9Gr4nPK2iro
+Message-ID: <CANFS6bZUCTmMJh1VbXyBd1RH_sjHcdg2Bj6uiVowS3d4R2TzGA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] ntfs: fix WSL symlink target leak on reparse failure
 To: DaeMyung Kang <charsyam@gmail.com>
 Cc: Namjae Jeon <linkinjeon@kernel.org>, linux-fsdevel@vger.kernel.org, 
 	linux-kernel@vger.kernel.org
@@ -97,29 +97,16 @@ Content-Transfer-Encoding: quoted-printable
 2026=EB=85=84 4=EC=9B=94 26=EC=9D=BC (=EC=9D=BC) =EC=98=A4=ED=9B=84 1:02, D=
 aeMyung Kang <charsyam@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
 >
-> ntfs_index_walk_down() allocates ictx->ib when descending from the root
-> into an index allocation block. If that allocation fails, the old code
-> still passes the NULL buffer to ntfs_ib_read(), which can write through
-> it via ntfs_inode_attr_pread().
+> ntfs_reparse_set_wsl_symlink() converts the symlink target into an
+> allocated NLS string and transfers ownership to ni->target only after
+> ntfs_set_ntfs_reparse_data() succeeds. If setting the reparse data fails,
+> the converted target is left unreferenced and leaks.
 >
-> Allocate the index block into a temporary pointer and return -ENOMEM
-> before changing the index context on allocation failure. Also propagate
-> ERR_PTR() through ntfs_index_next() and ntfs_readdir() so walk-down
-> allocation or index block read failures are not mistaken for normal
-> index iteration inside the filesystem.
+> Free the converted target on the reparse update failure path. Use kfree()
+> for the other local failure path as well, matching the ntfs_ucstonls()
+> allocation contract.
 >
-> ntfs_readdir() keeps the existing userspace-visible behavior of
-> suppressing readdir errors after marking end_in_iterate; this change only
-> prevents the walk-down failure path from dereferencing NULL internally.
->
-> The failure was reproduced with failslab fail-nth injection on getdents64=
-;
-> the original module hits a NULL pointer dereference in memcpy_orig throug=
-h
-> ntfs_ib_read(), while the patched module reaches the same
-> ntfs_index_walk_down() allocation failure without crashing.
->
-> Fixes: 0a8ac0c1fa0b ("ntfs: update directory operations")
+> Fixes: fc053f05ca28 ("ntfs: add reparse and ea operations")
 > Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
 
 Looks good to me.
@@ -127,104 +114,43 @@ Looks good to me.
 Reviewed-by: Hyunchul Lee <hyc.lee@gmail.com>
 
 > ---
->  fs/ntfs/dir.c   | 13 ++++++++++---
->  fs/ntfs/index.c | 17 +++++++++++++----
->  2 files changed, 23 insertions(+), 7 deletions(-)
+>  fs/ntfs/reparse.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 >
-> diff --git a/fs/ntfs/dir.c b/fs/ntfs/dir.c
-> index bfa904d2ce66..20f5c7074bdd 100644
-> --- a/fs/ntfs/dir.c
-> +++ b/fs/ntfs/dir.c
-> @@ -911,8 +911,8 @@ static int ntfs_readdir(struct file *file, struct dir=
-_context *actor)
+> diff --git a/fs/ntfs/reparse.c b/fs/ntfs/reparse.c
+> index 8f60ec6f66c1..74713716813f 100644
+> --- a/fs/ntfs/reparse.c
+> +++ b/fs/ntfs/reparse.c
+> @@ -505,7 +505,6 @@ int ntfs_reparse_set_wsl_symlink(struct ntfs_inode *n=
+i,
+>         struct reparse_point *reparse;
+>         struct wsl_link_reparse_data *data;
 >
->         if (next->flags & INDEX_ENTRY_NODE) {
->                 next =3D ntfs_index_walk_down(next, ictx);
-> -               if (!next) {
-> -                       err =3D -EIO;
-> +               if (IS_ERR(next)) {
-> +                       err =3D PTR_ERR(next);
->                         goto out;
->                 }
+> -       utarget =3D (char *)NULL;
+>         len =3D ntfs_ucstonls(ni->vol, target, target_len, &utarget, 0);
+>         if (len <=3D 0)
+>                 return -EINVAL;
+> @@ -514,7 +513,7 @@ int ntfs_reparse_set_wsl_symlink(struct ntfs_inode *n=
+i,
+>         reparse =3D kvzalloc(reparse_len, GFP_NOFS);
+>         if (!reparse) {
+>                 err =3D -ENOMEM;
+> -               kvfree(utarget);
+> +               kfree(utarget);
+>         } else {
+>                 data =3D (struct wsl_link_reparse_data *)reparse->reparse=
+_data;
+>                 reparse->reparse_tag =3D IO_REPARSE_TAG_LX_SYMLINK;
+> @@ -528,6 +527,8 @@ int ntfs_reparse_set_wsl_symlink(struct ntfs_inode *n=
+i,
+>                 kvfree(reparse);
+>                 if (!err)
+>                         ni->target =3D utarget;
+> +               else
+> +                       kfree(utarget);
 >         }
-> @@ -920,7 +920,14 @@ static int ntfs_readdir(struct file *file, struct di=
-r_context *actor)
->         if (next && !(next->flags & INDEX_ENTRY_END))
->                 goto nextdir;
->
-> -       while ((next =3D ntfs_index_next(next, ictx)) !=3D NULL) {
-> +       while (1) {
-> +               next =3D ntfs_index_next(next, ictx);
-> +               if (IS_ERR(next)) {
-> +                       err =3D PTR_ERR(next);
-> +                       goto out;
-> +               }
-> +               if (!next)
-> +                       break;
->  nextdir:
->                 /* Check the consistency of an index entry */
->                 if (ntfs_index_entry_inconsistent(ictx, vol, next, COLLAT=
-ION_FILE_NAME,
-> diff --git a/fs/ntfs/index.c b/fs/ntfs/index.c
-> index 2080f3969137..a547bdcfa456 100644
-> --- a/fs/ntfs/index.c
-> +++ b/fs/ntfs/index.c
-> @@ -1969,15 +1969,19 @@ int ntfs_index_remove(struct ntfs_inode *dir_ni, =
-const void *key, const u32 keyl
->  struct index_entry *ntfs_index_walk_down(struct index_entry *ie, struct =
-ntfs_index_context *ictx)
->  {
->         struct index_entry *entry;
-> +       struct index_block *ib;
->         s64 vcn;
->
->         entry =3D ie;
->         do {
->                 vcn =3D ntfs_ie_get_vcn(entry);
->                 if (ictx->is_in_root) {
-> +                       ib =3D kvzalloc(ictx->block_size, GFP_NOFS);
-> +                       if (!ib)
-> +                               return ERR_PTR(-ENOMEM);
->                         /* down from level zero */
->                         ictx->ir =3D NULL;
-> -                       ictx->ib =3D kvzalloc(ictx->block_size, GFP_NOFS)=
-;
-> +                       ictx->ib =3D ib;
->                         ictx->pindex =3D 1;
->                         ictx->is_in_root =3D false;
->                 } else {
-> @@ -1991,8 +1995,8 @@ struct index_entry *ntfs_index_walk_down(struct ind=
-ex_entry *ie, struct ntfs_ind
->                         ictx->entry =3D ntfs_ie_get_first(&ictx->ib->inde=
-x);
->                         entry =3D ictx->entry;
->                 } else
-> -                       entry =3D NULL;
-> -       } while (entry && (entry->flags & INDEX_ENTRY_NODE));
-> +                       entry =3D ERR_PTR(-EIO);
-> +       } while (!IS_ERR(entry) && (entry->flags & INDEX_ENTRY_NODE));
->
->         return entry;
+>         return err;
 >  }
-> @@ -2097,10 +2101,15 @@ struct index_entry *ntfs_index_next(struct index_=
-entry *ie, struct ntfs_index_co
->
->                 /* walk down if it has a subnode */
->                 if (flags & INDEX_ENTRY_NODE) {
-> -                       if (!ictx->ia_ni)
-> +                       if (!ictx->ia_ni) {
->                                 ictx->ia_ni =3D ntfs_ia_open(ictx, ictx->=
-idx_ni);
-> +                               if (!ictx->ia_ni)
-> +                                       return ERR_PTR(-EIO);
-> +                       }
->
->                         next =3D ntfs_index_walk_down(next, ictx);
-> +                       if (IS_ERR(next))
-> +                               return next;
->                 } else {
->
->                         /* walk up it has no subnode, nor data */
 > --
 > 2.43.0
 >
