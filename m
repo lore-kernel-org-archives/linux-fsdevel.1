@@ -1,217 +1,90 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E98B32FA18;
-	Mon, 27 Apr 2026 15:13:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EBA3330666;
+	Mon, 27 Apr 2026 15:14:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777302810; cv=none; b=dKhUssmxrNxENU+ZP49WkAqq98Mrc6cfvLtfEnxCCmOJ8ethbBkJaCS7FhJcZCQaOZ/UGveoKKFhQ8ZP6Zy2fhgaiVmuRGWyUJj28IqwpomeFRwm3VQ1UvjCKDWx8qlci3jBoXPhT24E/8RbWU62heiViUh6mT/gVykiwKUeETI=
+	t=1777302866; cv=none; b=XWD0ogx0D2maFpc+Nz2t5gZSEcMfb6SzC1CpBmt+PWoYyIr0ytPcaK/kKre3J4TNO/0Eucn3iwXqS/HvzfYdcCvnHzN/vU7FCiztr6U4asKfvmOEsMxhZI5VDE5/utncCnfMVZ1YM8vudky+BK7hSDytLzcb1YOBK/I7aEbUTRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777302810; c=relaxed/simple;
-	bh=upjI1hr3/O7zacguPqo6Sm+JDnmiwezRdXd0a2nwqyI=;
+	s=arc-20240116; t=1777302866; c=relaxed/simple;
+	bh=09nu0uoPRJgoIgaxQtajrJcBdSLuPwWjML2SaFlroRk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dx4OoEQH5tbEUgBnZWllSqJyW5iZ9lpZhxSKmF0+q3mbhuiIVveHyfmqsXriB7q9ey8rDzpvQD8rbVSDUAv8/DJnJhIz9aP8GJN8DSne/3ucx37HtiA37PPkGgo/HN8y1if7xeUAF2GUNbZdyKkboMthU6qaODm+Gd+cvp6EdPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uNHJNBx+; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=e4pvjeJTkf2+LzkjcJSF/W8kyNTey9ZbRn+euXThJeBbhqdOTn7XpV74tqAyINPqyFkYJUzZzLYXLS+H6SBTJKWgO6GaByU9u3ULqBV97PSws/LyM1/1nkIHf5Lgb4wpsgBZAvR+MRHYjylcftSomK9i002PKba2zcxBbkbZyFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bnHS8Oal; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uNHJNBx+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F067CC19425;
-	Mon, 27 Apr 2026 15:13:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bnHS8Oal"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DCFBC19425;
+	Mon, 27 Apr 2026 15:14:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777302810;
-	bh=upjI1hr3/O7zacguPqo6Sm+JDnmiwezRdXd0a2nwqyI=;
+	s=k20201202; t=1777302866;
+	bh=09nu0uoPRJgoIgaxQtajrJcBdSLuPwWjML2SaFlroRk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uNHJNBx+9drvHPNRPbtYjYXzEllz7MJlKdn7E7BfDno4+fRjcYsFQFUJqU/iCVfRy
-	 ZaiSnX+9ir1qpPQ9iKlmPVb75eeU6DWZV3SnC8KOCsycgC3VYrvEWrTLgoyfVktkBf
-	 v7lbGdk6XzABovNQvxQlT/OHAsYAqnKsmNU93Ot6pCAQqYHhXn/55I5BZgMYsFn03l
-	 GLFmiY8xX5GYYZ0GJNb1xhEYNwh2CT1UPA2nKMotUIEXwwDiqxTZ8uU3Lc+3ztaT7U
-	 4RkcmD+nSTEXOPWuCMsv8iBvdwEgwL4vH4/JEpXv1l3I6aJcMPkG1I4dWlfJsEaibq
-	 9wi7/nksHoizg==
-Date: Mon, 27 Apr 2026 08:13:29 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: neal@gompa.dev, linux-fsdevel@vger.kernel.org, joannelkoong@gmail.com,
-	miklos@szeredi.hu, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH 12/13] example/service: create a sample systemd service
- for a high-level fuse server
-Message-ID: <20260427151329.GN7739@frogsfrogsfrogs>
-References: <177689988489.3820166.4979104167640003535.stgit@frogsfrogsfrogs>
- <177689988756.3820166.5462739027142309789.stgit@frogsfrogsfrogs>
- <5b50e0a7-fe4b-4af4-a765-a91d21ab3852@bsbernd.com>
+	b=bnHS8OallO7vJ8QaAY/UE3xCjHsCLKXHzLvgDvaltM2YcF3vYmlFwviFvRkVwtNo7
+	 EZQjhTQDlTo1u1sOtKKRr1/EUzDaSaJX4wlLT7Vh5JuYjRHOOsGzngAmU3XNNNrwyf
+	 FQqTzDqIgAVarUD0pTHZWM8ZEWPjRdtALirz3Ns8Gr2v1364kTjdybdKApwlIsM7kc
+	 GbDfIeY4xqdgBIy7+vioT7RoES4HxKdxpyKvImzG7e12RGM8Pq2HmSf7CUoQhvQH29
+	 2kJiyEoAcu+XDfoy9bejM6kb72a3gI8gx5elD/a/AiUti+ALLXf0meUPZyqwHHa24B
+	 fvSNpem1fL2Lg==
+Date: Mon, 27 Apr 2026 17:14:18 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Mateusz Guzik <mjguzik@gmail.com>
+Cc: Jori Koolstra <jkoolstra@xs4all.nl>, Andy Lutomirski <luto@kernel.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Arnd Bergmann <arnd@arndb.de>, "H . Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, 
+	Peter Zijlstra <peterz@infradead.org>, Andrey Albershteyn <aalbersh@redhat.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
+	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jeff Layton <jlayton@kernel.org>, Aleksa Sarai <cyphar@cyphar.com>, cmirabil@redhat.com, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-api@vger.kernel.org, linux-arch@vger.kernel.org
+Subject: Re: [RFC PATCH v2 1/2] vfs: syscalls: add mkdirat2() that returns an
+ O_DIRECTORY fd
+Message-ID: <20260427-rudel-gipsabdruck-a7884db4ecea@brauner>
+References: <20260412135434.3095416-1-jkoolstra@xs4all.nl>
+ <20260412135434.3095416-2-jkoolstra@xs4all.nl>
+ <5xexygc3rvvlir4smdfn7gndwjgbuijqfummwwumivsnosijux@ygqs3iqxmovh>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <5b50e0a7-fe4b-4af4-a765-a91d21ab3852@bsbernd.com>
+In-Reply-To: <5xexygc3rvvlir4smdfn7gndwjgbuijqfummwwumivsnosijux@ygqs3iqxmovh>
 
-On Sun, Apr 26, 2026 at 11:21:21PM +0200, Bernd Schubert wrote:
+> Things proceed to handle_truncate:
+> 	int error = get_write_access(inode);
+> 	if (error)
+> 		return error;
 > 
+> 	error = security_file_truncate(filp);
+> 	if (!error) {
+> 		error = do_truncate(idmap, path->dentry, 0,
+> 				    ATTR_MTIME|ATTR_CTIME|ATTR_OPEN,
+> 				    filp);
+> 	}
 > 
-> On 4/23/26 01:22, Darrick J. Wong wrote:
-> > From: Darrick J. Wong <djwong@kernel.org>
-> > 
-> > Create a simple high-level fuse server that can be run as a systemd
-> > service.
-> > 
-> > Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-> > ---
-> >  example/single_file.h        |   38 ++++++
-> >  example/meson.build          |    6 +
-> >  example/service_hl.c         |  224 +++++++++++++++++++++++++++++++++++
-> >  example/service_hl.socket.in |   15 ++
-> >  example/service_hl@.service  |  102 ++++++++++++++++
-> >  example/service_ll.c         |    1 
-> >  example/single_file.c        |  271 +++++++++++++++++++++++++++++++++++++++---
-> >  7 files changed, 640 insertions(+), 17 deletions(-)
-> >  create mode 100644 example/service_hl.c
-> >  create mode 100644 example/service_hl.socket.in
-> >  create mode 100644 example/service_hl@.service
-> > 
-> > 
-> > diff --git a/example/single_file.h b/example/single_file.h
-> > index d8a91adbf875ef..86edb51afb3384 100644
-> > --- a/example/single_file.h
-> > +++ b/example/single_file.h
-> > @@ -124,6 +124,7 @@ ssize_t single_file_pread(char *buf, size_t count, off_t pos);
-> >  
-> >  /* low-level fuse operation handlers */
-> >  
-> > +#ifdef USE_SINGLE_FILE_LL_API
-> >  bool is_single_file_child(fuse_ino_t parent, const char *name);
-> >  bool is_single_file_ino(fuse_ino_t ino);
-> >  
-> > @@ -149,5 +150,42 @@ void single_file_ll_fsync(fuse_req_t req, fuse_ino_t ino, int datasync,
-> >  
-> >  int reply_buf_limited(fuse_req_t req, const char *buf, size_t bufsize,
-> >  		      off_t off, size_t maxsize);
-> > +#endif
-> > +
-> > +/* high-level fuse operation handlers */
-> > +
-> > +#ifdef USE_SINGLE_FILE_HL_API
-> > +bool is_single_open_file_path(const struct fuse_file_info *fi, const char *name);
-> > +
-> > +int single_file_hl_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
-> > +			   off_t offset, struct fuse_file_info *fi,
-> > +			   enum fuse_readdir_flags flags);
-> > +
-> > +int single_file_hl_statfs(const char *path, struct statvfs *buf);
-> > +
-> > +int single_file_hl_statx(const char *path, int statx_flags, int statx_mask,
-> > +			 struct statx *stx, struct fuse_file_info *fi);
-> > +
-> > +int single_file_hl_getattr(const char *path, struct stat *stbuf,
-> > +			   struct fuse_file_info *fi);
-> > +int single_file_hl_chmod(const char *path, mode_t mode,
-> > +			 struct fuse_file_info *fi);
-> > +int single_file_hl_utimens(const char *path, const struct timespec ctv[2],
-> > +			   struct fuse_file_info *fi);
-> > +int single_file_hl_chown(const char *path, uid_t owner, gid_t group,
-> > +			 struct fuse_file_info *fi);
-> > +int single_file_hl_truncate(const char *path, off_t len,
-> > +			    struct fuse_file_info *fi);
-> > +
-> > +int single_file_hl_opendir(const char *path, struct fuse_file_info *fi);
-> > +int single_file_hl_open(const char *path, struct fuse_file_info *fi);
-> > +
-> > +int single_file_hl_fsync(const char *path, int datasync,
-> > +			 struct fuse_file_info *fi);
-> > +#endif
-> > +
-> > +#if !defined(USE_SINGLE_FILE_LL_API) && !defined(USE_SINGLE_FILE_HL_API)
-> > +# warning USE_SINGLE_FILE_[HL]L_API not defined!
-> > +#endif
-> >  
-> >  #endif /* FUSE_SINGLE_FILE_H_ */
-> > diff --git a/example/meson.build b/example/meson.build
-> > index e948f6ba74fdfa..19a383f7cd2c74 100644
-> > --- a/example/meson.build
-> > +++ b/example/meson.build
-> > @@ -19,6 +19,12 @@ if platform.endswith('linux')
-> >      configure_file(input: 'service_ll.socket.in',
-> >                     output: 'service_ll.socket',
-> >                     configuration: private_cfg)
-> > +
-> > +    single_file_examples += [ 'service_hl' ]
-> > +    configure_file(input: 'service_hl.socket.in',
-> > +                   output: 'service_hl.socket',
-> > +                   configuration: private_cfg)
-> > +
-> >  endif
-> >  
-> >  threaded_examples = [ 'notify_inval_inode',
-> > diff --git a/example/service_hl.c b/example/service_hl.c
-> > new file mode 100644
-> > index 00000000000000..9c4f3ae7a6cf3c
-> > --- /dev/null
-> > +++ b/example/service_hl.c
-> > @@ -0,0 +1,224 @@
-> > +/*
-> > + * FUSE: Filesystem in Userspace
-> > + * Copyright (C) 2026 Oracle.
-> > + *
-> > + * This program can be distributed under the terms of the GNU GPLv2.
-> > + * See the file GPL2.txt.
-> > + */
-> > +
-> > +/** @file
-> > + *
-> > + * minimal example filesystem using high-level API and systemd service api
+> I'm going to ignore the LSM situation and do_truncate failure modes in this one.
 > 
-> Could you add a bit more context?
-> 
-> - Shows how to build a high level FUSE filesystems that can be managed
-> by systemd
-> - Enables on-demand filesystem mounting via socket activation
-> - Allows running FUSE servers with minimal privileges (unlike
-> traditional FUSE which needs mount permissions)
+> AFAICS nothing prevents the same user from racing against file creation to
+> execve it, which starts with exe_file_deny_write_access. Should the
+> other thread win the race, get_write_access will fail and the WARN_ON
+> splat will be generated. That is definitely a problem.
 
-I will do that for both service_[hl]l.c files.  Currently I have for the
-lowlevel example:
+That can't happen:
 
- * Minimal example filesystem using low-level API and systemd service API.
- *
- * - Shows how to build a low level FUSE filesystem server that can be managed
- *   by systemd
- * - Enables on-demand filesystem mounting via socket activation
- * - Demonstrates requesting resources from the mount-caller's environment
- * - Allows running FUSE servers with minimal privileges; isolated mount,
- *   network, and pid namespaces; and a separate uid/gid (unlike traditional
- *   FUSE which needs mount permissions and runs in the caller's environment)
- *
- * Compile with:
- *
- *     gcc -Wall single_file.c service_ll.c `pkg-config fuse3 --cflags --libs` -o service_ll
- *
- * Note: If the pkg-config command fails due to the absence of the fuse3.pc
- *     file, you should configure the path to the fuse3.pc file in the
- *     PKG_CONFIG_PATH variable.
- *
- * Change the ExecStart line in service_ll@.service:
- *
- *     ExecStart=/path/to/service_ll
- *
- * to point to the actual path of the service_ll binary.
- *
- * Finally, install the service_ll@.service and service_ll.socket files to the
- * systemd service directory, usually /run/systemd/system.  Run these commands
- * to activate:
- *
- *     systemctl daemon-reload
- *     systemctl start service_ll.socket
- *
- * Then mount with:
- *
- *     mount -t fuse.service_ll /dev/sda /mnt
+static inline int get_write_access(struct inode *inode)
+{
+        return atomic_inc_unless_negative(&inode->i_writecount) ? 0 : -ETXTBSY;
+}
 
-and similar for service_hl.c.
+and the check is:
 
---D
+error = handle_truncate(idmap, file);
+if (unlikely(error > 0)) {
 
-> 
-> Thanks,
-> Bernd
-> 
+This was a catch all for broken LSM hook or ->open() instance.
+
