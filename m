@@ -1,88 +1,148 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7C4F3B3BF1;
-	Mon, 27 Apr 2026 09:55:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 406A53B27E5;
+	Mon, 27 Apr 2026 09:56:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777283725; cv=none; b=P7LIt2+IOMRaAne5UGORXEJoWAJadKricQJwh3YqJX36oY/Jj8JCncSMUyiosAyf2R3Jl6S5UyA3UCgJcfQIUQ+TH9xAgSP4UOthC56xsZuYtbvmODBQZTGyGOszPlYTFUx3gigIuZnpcd2BJ+WGqIDYAm0enjczDyXwEC3u8SM=
+	t=1777283779; cv=none; b=a8D56t5SCnUZnunl5Tjfnuvc56bFlFfICeePyNb9kFaJIKdJ7iFFGpvIYi/UaRlH3JnyaZSuzvzu/WWKMF1zYZ+f72PX7W+YxaC0A6fX82/suJsxp+IqI13cj1qPw2vwtF/AiMeUgL5lo4id15JBjFCellFJ8deWrvpiVcshXLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777283725; c=relaxed/simple;
-	bh=Gs3Vnh3wogGEbNVPT12d/5DdU9NgMe8QcrSMm2+1NSU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=GGwS5NoEU3DKrq/MFI1FnQyBx4rID0f73CqosfNEMq/DAWu+m7Q4w+k1QGh2FzMBOM5ZNSOsBNL3ooP3fjnlDuoUVNJCd4/Cl91nKWNPRphTwWag+4BTSJcer5gCBcaKzHs3sWBjlJKnyXdleBwr25n3QDzSh+sLAhR2MlKumMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=W1Ozqvr4; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="W1Ozqvr4"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8012441098
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1777283724; bh=3H+HsivATr1jIWTDCLVY7dWcY19tKhMTVWTxEh1TFk4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=W1Ozqvr4HKBbuW43otfkbhzgme1bHA8fOGpHs6EL3DT24ihrpvOCxqI5fQMZZO8iG
-	 xi+8e0p6rb8gMH/kDIlOQbvPGeZIvKUY5mSFgz90Fx42X6E3pA50/By+waQL542XXZ
-	 zSyGHskh1o65bpQbokQVUQX7IdXhPEt606x/yrcGxyeRDE9t7a8D2xRTlzushhIWNC
-	 Rl6NocP0QAx+9hDeqWPmQAu1DWqo9xNFtjO1LYoPo5JyKvToUayincR483KKypG4ka
-	 hqSmmloQBV1QrD0u5AP9AI9b/T4apHsoSLK3TlWYRl4/PWTeiK/cMHdaTNeLyFypde
-	 g2P2PTJVaS2Mw==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 8012441098;
-	Mon, 27 Apr 2026 09:55:23 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Randy Dunlap <rdunlap@infradead.org>, Baolin Liu
- <liubaolin12138@163.com>, skhan@linuxfoundation.org, cyphar@cyphar.com,
- vbabka@kernel.org, surenb@google.com
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-doc@vger.kernel.org, Baolin Liu <liubaolin@kylinos.cn>
-Subject: Re: [PATCH v2 v2] Documentation: proc: fix section numbering in
- table of contents
-In-Reply-To: <df3b6729-ed3b-42e3-9a8a-f77ebf827dd7@infradead.org>
-References: <20260424090654.19229-1-liubaolin12138@163.com>
- <df3b6729-ed3b-42e3-9a8a-f77ebf827dd7@infradead.org>
-Date: Mon, 27 Apr 2026 03:55:20 -0600
-Message-ID: <87wlxspw1j.fsf@trenco.lwn.net>
+	s=arc-20240116; t=1777283779; c=relaxed/simple;
+	bh=f6suBYbBCeHoikHlAcfzsdD0ZbplLPgF1eRZyJEd3Cs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=r6UKwRxsN2jj2zpHAySm4bn/VBirrzDywg9yTEFEbk/sv/8hE+B+IcoIkWQLCAF7z9YmWHM5bkGMSSubxEmjqX5joSsGnLyG3JugtieScSwwSPTfl0UyYxXvBaz2AOtCEef3s7b205JhQuynABptcjbfWxPL7/H/LR28EEDdWPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 5096f9de421f11f1aa26b74ffac11d73-20260427
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:648bb190-e3fb-4e9d-a5fb-5d2e0fc392c7,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:e7bac3a,CLOUDID:2fc42c9fce4bd1b9e104f74585c4c8fe,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|898,TC:nil,Content:0|15|
+	50,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0
+	,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 5096f9de421f11f1aa26b74ffac11d73-20260427
+X-User: liwang@kylinos.cn
+Received: from [10.42.16.85] [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <liwang@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
+	with ESMTP id 624601296; Mon, 27 Apr 2026 17:56:08 +0800
+Message-ID: <25e00efd-c0ef-446e-a246-6eebd7a68c9d@kylinos.cn>
+Date: Mon, 27 Apr 2026 17:56:06 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] fuse: optional FORGET delivery over io_uring
+Content-Language: en-GB
+To: Bernd Schubert <bernd@bsbernd.com>, Joanne Koong <joannelkoong@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260403035752.20206-1-liwang@kylinos.cn>
+ <20260423110954.2676-1-liwang@kylinos.cn>
+ <CAJnrk1Zb=+syR_aOLVs4aXMTOUO7BRBi=MU-20xQOcDpf2iQ5g@mail.gmail.com>
+ <1a25fd7d-f122-42b0-91e2-487235263af5@bsbernd.com>
+From: Li Wang <liwang@kylinos.cn>
+In-Reply-To: <1a25fd7d-f122-42b0-91e2-487235263af5@bsbernd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Randy Dunlap <rdunlap@infradead.org> writes:
+Hi Bernd and Joanne,
 
-> On 4/24/26 2:06 AM, Baolin Liu wrote:
->> From: Baolin Liu <liubaolin@kylinos.cn>
->> 
->> Commit e24ccaaf7ec4 ("block: remove last remaining traces of IDE
->> documentation") removed the IDE section but left its table of
->> contents entry behind.
->> Fix the stale entry and renumber the following sections.
->> 
->> Fixes: e24ccaaf7ec4 ("block: remove last remaining traces of IDE documentation")
->> Signed-off-by: Baolin Liu <liubaolin@kylinos.cn>
->
-> LGTM.
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
->
-> I note that the html-generated TOC is already correct;
-> e.g., https://docs.kernel.org/filesystems/proc.html#networking-info-in-proc-net
-> is already section 1.3.
+On 26/04/2026 23:48, Bernd Schubert wrote:
+> 
+> 
+> On 4/24/26 22:38, Joanne Koong wrote:
+>> On Thu, Apr 23, 2026 at 4:11 AM Li Wang <liwang@kylinos.cn> wrote:
+>>>
+>>> Deliver FUSE_FORGET through fuse_uring_queue_fuse_req() when the io_uring
+>>> is ready and userspace has opted in by setting
+>>> FUSE_IO_URING_REGISTER_FORGET_COMMIT in fuse_uring_cmd_req.flags on
+>>> FUSE_IO_URING_CMD_REGISTER. Until any REGISTER
+>>> carries that bit, FORGET continues to use the legacy
+>>> fuse_dev_queue_forget() path even while io_uring is active, so unmodified
+>>> userspace (e.g. libfuse that does not issue a completion SQE for FORGET)
+>>> does not wedge ring entries.
+>>>
+>>> Benefits:
+>>> - FORGET can share the same commit/fetch loop as other opcodes.
+>>> - Reduces split transport for high-volume forgets when the ring is primary.
+>>> - Reuses existing per-queue io-uring machinery and noreply/force
+>>>   request setup.
+>>>
+>>> Signed-off-by: Li Wang <liwang@kylinos.cn>
+>>
+>> Hi Li,
+>>
+>> Thanks for sending this. To be completely honest, I'm not convinced
+>> delivering forget over io-uring is worth the added complexity/cost. In
+>> the /dev/fuse path we rely on forget batching/amoritizing and explicit
+>> scheduling/fairness logic so forget processing makes progress and
+>> doesn't get drowned out by regular requests; I think we'd likely need
+>> something comparable for the io-uring path as well. Additionally,
+>> routing it through io-uring makes forget behave more like a "real"
+>> request on the ring (it needs per-request state to live until
+>> userspace completes and the entry can be recyycled) which introduces
+>> extra allocation/lifetime management on this path and it requires a
+>> uapi change and corresponding libfuse changes.
+>>
+>> Forgets would consume ring entries but they're tiny one-way
+>> notifications and imo I don't think they benefit much from io-uring's
+>> main advantages (eg data-path/zero-copy). I worry theyy could contend
+>> with read-write heavy traffic where ring capacity is more valuable.
+> 
+> I think when FORGET starts to disturb writes or reads, there also must
+> be some metadata load that causes many of these requests. Going via
+> /dev/fuse also includes another two syscalls and cpu task switch to the
+> libfuse thread handling them - that is not for free either.
+> 
+> However, this currently might disturb reads/writes, if the queue depth
+> is limited and memory optimized to carry reads/writes. The missing
+> feature here is to have a multiple request sizes on the same queue.
+> 
+> Btw, syscall overhead is basically the reason why I wouldn't like to
+> have multiple rings per request size, but one ring with entries of
+> different sizes. Will try to respond to the other mail later today.
+> 
+>>
+>> Given that, my preference would be to keep forget/interrupts on the
+>> legacy /dev/fuse path even when io-uring is enabled. Sorry for not
+>> bringing this up earlier in v2. Bernd, I’d also be curious to hear
+>> your perspective on this.
+> 
+> It is certainly not something that I would count as priority. Though I
+> don't think it would hurt either. In the end we might be able to run
+> entirely without /dev/fuse IO and threads and would save a bit resources.
+> 
+> @Li do you see performance improvements with FORGETs through the ring or
+> could you post your underlying motivation?
+> 
+To be honest, my initial motivation for this wasn't necessarily performance, 
+but rather architectural simplicity. Maintaining two separate paths and 
+thread pools for forget/interrupt and I/O requests adds a bit of complexity 
+to the code and introduces relatively higher overhead, as well as some 
+resource redundancy.
 
-There are advantages to having a computer do a job like that :)
+Furthermore, in the current implementation, forget and I/O requests are 
+dispatched through different paths and handled by different sets of threads. 
+This means we cannot guarantee their original priority order upon reception, 
+and it potentially introduces extra context-switching overhead, which 
+impacts the processing efficiency of both.
 
-I do really question the value of these manually maintained TOCs; they
-are always going to be out of date.  But ...
+Theoretically, optimization measures such as batching forget requests can 
+also be implemented via the io_uring path. This would allow us to amortize 
+the state maintenance and completion overhead of forget requests, while also 
+addressing the issue of uniform request sizes within the same ring. I'll 
+get around to running some performance benchmarks.
 
-> AFAICT, this TOC is for users/readers who use an editor or pager
-> to read this file, but the patch is useful in that setting.
-
-Others seem to disagree, so we keep them.
-
-I've applied the patch, thanks.
-
-jon
+Thanks,
+Li
