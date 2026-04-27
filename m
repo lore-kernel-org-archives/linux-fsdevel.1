@@ -1,327 +1,76 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from centos.uba-edv.de (connect.uba-edv.de [91.249.196.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCDD13A16B6
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 22:00:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55ABB2D7DC6
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 22:07:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.249.196.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777327216; cv=none; b=GDljtYaRB6ZuoPn+VPAkwpaHmYUvlNIuDUJ14YEhMcybfS5D30G6f+XdYACVC0PdY+1C2pGuY/rTtUdxxyQCtIX2XohpIH3u00hBNddWsNVhUoIA+fsgsy3DDaANjJjb+dX4i4+6ywDfPw+th3q0r8leeAbyBYpeqS7LdqYY3BQ=
+	t=1777327656; cv=none; b=hZ/BeBrdKUAnMj6r2LvwSh6lhSFtFL85I2cnnXM27cgUT2oVjJN4v4sggiFIU4E2YgEKKIdeX8oyXgYPdlj3U/vBkIoIkXhQqx24rSNqRaAuoPtprZSAa/PtqtGMO2qKsyuvm/wr9qHNzeldqXxdsEfFIYDgzzaS+c1qHw4qdMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777327216; c=relaxed/simple;
-	bh=e63n+1rAZnD7Qdf59l6vprJ4f2AGBjSdcDAeVacg8UA=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=b90mVqqH2EahS4quzoxWpznm+PKDHaeCKbqjdJaXe2okVRiA3TlHGnNbi6qvRyBM1WbOAvKNU5pp3pDACZsqaakRRpaGdxkWhkU1lBmZ/ftHQspHQDP65yM4T1Ap4gc7l3STNAqAliKaXeCj1HVfSvatWCkCEwhDEWD+S8y9oD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dZxJe02F; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=GVq7SS3Q; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dZxJe02F";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="GVq7SS3Q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1777327212;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9P1J0I6C+Y4ucFeQdtSrWCxt3KuQjtdzTVKNGZ573Wc=;
-	b=dZxJe02Fr7ikYrrPHuzQ3Q/A6fuaT6azlLkQvuxLdjWZomqTMfdznYRyeAH7xI1gW9XClW
-	r1ygry9jPFh0qnAJxM6P1L8aGdfxjQUFnQUFmD5SprI0u0ghluGZVGhsyGVvIR3OZa7Yc6
-	yzUuQwCUQfIbbo7NU82/+CsUSuUYSSY=
-Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
- [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-216-TMOOapcEM7KczMNxwtbpjg-1; Mon, 27 Apr 2026 18:00:11 -0400
-X-MC-Unique: TMOOapcEM7KczMNxwtbpjg-1
-X-Mimecast-MFC-AGG-ID: TMOOapcEM7KczMNxwtbpjg_1777327211
-Received: by mail-yw1-f199.google.com with SMTP id 00721157ae682-799001d7289so38963977b3.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 15:00:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1777327211; x=1777932011; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=9P1J0I6C+Y4ucFeQdtSrWCxt3KuQjtdzTVKNGZ573Wc=;
-        b=GVq7SS3QnBbLWLdjh7qqA5UcB5imIOHpQeuo8H32ZZl66l4TLYWTPhkvi50XPy+TSa
-         +S37YFJx3Bp7pypeutri8o2oT46TnTKA4N9z2pe5TJujKaUoHehFf7lXBo2DduVEacDg
-         zPrNJmoo3U4/96NoH+C12po6AevoWCdoS2gaAkgZQFr6xsKYPxDCY7YHFhIu1+CLqnXl
-         VyUOKKK351zJ4fldrxFWgMvbiQ573KEXJvYFC+IP8rJ25rMm5UoA1100lEvn57DuYuel
-         6xfuAzIIuEX6FXJ0bimTuB91Hj4NI1bvC9xMRY3R8m7pBHg9PmKXTlL1V5/17URzVdeo
-         vKHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777327211; x=1777932011;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9P1J0I6C+Y4ucFeQdtSrWCxt3KuQjtdzTVKNGZ573Wc=;
-        b=sVkGrg2GMti5XF9SEjUea7okLaruS4ZiEYAdTKq99jwwk5RdsWsY1rBQ4c9shhkru3
-         +MiA6gdgBP/vQL9MVmJDij/1+AY3MNRIH0zKdC70WxK9pKxKZZ945BfghPV9ihyr8p8q
-         66A9WFJjBzjcH7J0K9LfTDLL1S0gEFESnHWgbGHS8r2vLjmdGK6qhZET5OUB4w+e1ej0
-         SiSWE4eGVPXiq3IyFcBKr1qWNq9DRjWuS+ThLyXR2lfxEUv3X4jZ4sirjOHIlUrg/23w
-         bMSNJPltFVp6oy7YwWh/2ZxK4cbqiPJNtbrX3yPZa0zwxOAT8mmBQJCGMAH04dr8bTeH
-         fOVA==
-X-Forwarded-Encrypted: i=1; AFNElJ9he7PXi27vEBiP8HirFrCh02QQwgvH38faDTFxVBmzBTX4L22EyNQWs8jmjZL1V9brXAfIMDA1iKqZYLt4@vger.kernel.org
-X-Gm-Message-State: AOJu0YyXn/R7jDkeG0Gl/K1VB3glnXIMB0B2oLhD6n+1xjGbEOMf2OxF
-	kA90za/yywBXbP4clW7E9rgkK1G5d+jI2ELRGjGYW+UbUCjPWL8dbRrgsHS+7fh+T8oOChll0/B
-	5W43KsV20F8i12/Z/DJvalbFprwvcWWrkPj3ogOzdzDNFtDvWXmCdwduG5WjRymqkpOk=
-X-Gm-Gg: AeBDietro7O/Lo4G2rWIwuLaAOM1Z5Hh3jF3vMi422sMb6oFfB6wioT8prd18Qyvjf1
-	LtZ/Ul3WqkMqWrdb3OCoSRk/a0rubTsIuw2dggZMpOpjJAl12r8K5PTPkyVuz0rNO8GGjGAbh2N
-	00FU+m0KRQqsn8Y9qKNJlEKwhxStORRUH/RsQO2B6FcZxve+KfPa5evnexI0EeSOD5b+iZZlBAr
-	lZdEItvM6NuU/UPAzw7P/Z1FoqkGia4jYSpR/kj7sBn7Sh87T+rZxfWrooz1vA6c630XUza6pm8
-	HLxWFhgkg41cEVcipri4twbvfErEOV5+aB26VhtRWKaLz3YN06SajspI6zVtCVWP9snJfY5n6dJ
-	Ca59m06kokUTr7MG+R8Xs63WbhNLsMXfT7oLlYRoBDdO5OGgPvp6+vsIQvPlR5c0=
-X-Received: by 2002:a05:690c:1d:b0:7b3:9175:30a4 with SMTP id 00721157ae682-7bcf51fbcedmr4206947b3.15.1777327210579;
-        Mon, 27 Apr 2026 15:00:10 -0700 (PDT)
-X-Received: by 2002:a05:690c:1d:b0:7b3:9175:30a4 with SMTP id 00721157ae682-7bcf51fbcedmr4206487b3.15.1777327209968;
-        Mon, 27 Apr 2026 15:00:09 -0700 (PDT)
-Received: from li-4c4c4544-0032-4210-804c-c3c04f423534.ibm.com ([2600:1700:6476:1430::29])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7bcf0aec5f1sm3361017b3.23.2026.04.27.15.00.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Apr 2026 15:00:09 -0700 (PDT)
-Message-ID: <f2bb92bd6f5b34b92f229a3ec1f2e4fe20931240.camel@redhat.com>
-Subject: Re: [RFC PATCH] ceph: fix kernel memory exposure issue in
- ceph_netfs_issue_op_inline()
-From: Viacheslav Dubeyko <vdubeyko@redhat.com>
-To: Alex Markuze <amarkuze@redhat.com>, Viacheslav Dubeyko
- <slava@dubeyko.com>
-Cc: ceph-devel@vger.kernel.org, idryomov@gmail.com, 
-	linux-fsdevel@vger.kernel.org, pdonnell@redhat.com
-Date: Mon, 27 Apr 2026 15:00:07 -0700
-In-Reply-To: <CAO8a2Sh+=ef4mjp8tOR4HeqY9r4CaPJ7rCq1-WEmO25on7uSRA@mail.gmail.com>
-References: <20260226223042.2027550-1-slava@dubeyko.com>
-	 <CAO8a2ShPx3j4UUwAY404VdzG7wE8O-nGRiv5twwyLek07_RVhA@mail.gmail.com>
-	 <CAO8a2Sh+=ef4mjp8tOR4HeqY9r4CaPJ7rCq1-WEmO25on7uSRA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43app2) 
+	s=arc-20240116; t=1777327656; c=relaxed/simple;
+	bh=woLSws9IdJHrA50z/dhkvn3AbAj8kNuGjLH0y/PLm44=;
+	h=Message-ID:Date:From:To:Mime-Version:Subject:Content-Type; b=brBDb7yO6q5yW0mxszCObMlNoF/qJNWSxlNIbMveCpk8NAFiOo+R7m9gvEC19epH+77LVA+BSt8gphPFMMPLgQz6A+ByGJOHy2Thq2nrYB9UAoKcXSSQsM3mf8hgJ1n84i/0M74NcvNClYqBUttpfdz73f6pVu9iHrFKfcxxsN8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=centos.uba-edv.de; spf=none smtp.mailfrom=centos.uba-edv.de; arc=none smtp.client-ip=91.249.196.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=centos.uba-edv.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=centos.uba-edv.de
+Received: from [192.168.1.3] (50-116-8-51.ip.linodeusercontent.com [50.116.8.51])
+	(authenticated bits=0)
+	by centos.uba-edv.de (8.14.7/8.14.7) with ESMTP id 63RH2OLO008591
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 22:26:09 +0200
+Message-ID: <27042026152603740GGh77pfXqRRd31266@centos.uba-edv.de>
+Date: Mon, 27 Apr 2026 15:26:03 -0500
+Reply-To: cybercindia1@rediffmail.com
+From: =?ISO-8859-1?Q?Cyber_Crime_India?= <admin@centos.uba-edv.de>
+To: linux-fsdevel@vger.kernel.org
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+Mime-Version: 1.0
+Subject: Cyber Crime Compliance Notice
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2026-04-27 at 15:27 +0300, Alex Markuze wrote:
-> Apologies, I acked the wrong patch here.
->=20
-> The Bug is real and needs fixing, but there is a problem:
->=20
->=20
->   1. subreq->start is silently dropped
->=20
->   The original code:
->   len =3D min_t(size_t, iinfo->inline_len - subreq->start, subreq->len);
->   err =3D copy_to_iter(iinfo->inline_data + subreq->start, len, &subreq->=
-io_iter);
+Cyber Crime Cell/Computer Center
+Police Headquarters=2C
+MSO Building=2C JP Estate=2C New Delhi 1100
+Ref=3A No=2E 39724-34-01/ICB-IPHQ/2026
 
-The subreq->start is meaningless here. We cannot use subreq->start at all. =
-We
-need to know the offset inside of inline buffer. Mostly, it should be small
-enough. If we would like to process it in the correct way, probably, we nee=
-d to
-introduce some special field in some structure. But subreq->start is comple=
-tely
-inapplicable in this calculation.
 
-During testing I saw that subreq->start was 0. And I saw subreq->start =3D=
-=3D 32768
-something for the case of issue.
+                             OFFICIAL COURT ORDER
 
->=20
->   The new code:
->   len =3D min_t(size_t, iinfo->inline_len, subreq->len);
->   err =3D copy_to_iter(iinfo->inline_data, len, &subreq->io_iter);
->=20
->   The subreq->start offset is completely removed. If subreq->start > 0
-> with valid inline data, the wrong bytes are copied (always from offset
-> 0 instead of the requested offset).
->    While CephFS inline data is typically small and subreq->start is
-> likely 0 in practice, the fix is still semantically incorrect for the
-> general case.
->=20
->   2. -EFAULT is the wrong error code. When inline_len =3D=3D 0, the data
-> was uninlined; there's no inline payload.
->       Returning -EFAULT signals a user-address fault, which is
-> misleading and will propagate as an I/O error instead of falling back
-> to the OSD path.
->=20
 
-Which error code do you suggest to use here?
+This is an official court order notice issued under the authority of th=
+e Cyber Crime Cell=2C Police Headquarters=2C New Delhi=2E
 
->   3. Coding style violation. The } else without braces:
->       } else
->           err =3D -EFAULT;
->=20
+Credible information has been recorded regarding unlawful activities li=
+nked to an IP address associated with you=2C constituting offence=92s u=
+nder the Information Technology Act=2C 2000=2C and relevant provisions =
+of the Indian Penal Code=2E
 
-I can rework it.
+The matter is under active investigation by the Central Bureau of Inves=
+tigation (CBI)=2C in coordination with Cybercrime Units and other enfor=
+cement agencies=2E Preliminary findings indicate involvement in the acc=
+ess=2C transmission=2C or dissemination of prohibited digital content=2C=
+ including material involving money laundering=2C adults and minors=97c=
+lassified as a serious cognizable offence=2E
 
->   I suggest the following:
->=20
->   A cleaner approach would preserve the offset logic and handle the
-> edge cases properly:
->=20
->   if (iinfo->inline_len =3D=3D 0 || subreq->start >=3D iinfo->inline_len)=
- {
->       /* Nothing to copy; CLEAR_TAIL flag will zero-fill */
->       len =3D 0;
->   } else {
->       len =3D min_t(size_t, iinfo->inline_len - subreq->start, subreq->le=
-n);
->       err =3D copy_to_iter(iinfo->inline_data + subreq->start,
->                          len, &subreq->io_iter);
->       if (err =3D=3D 0)
->           err =3D -EFAULT;
->       else {
->           subreq->transferred +=3D err;
->           err =3D 0;
->       }
->   }
->=20
->   Or alternatively, treat inline_len =3D=3D 0 the same way as
-> inline_version =3D=3D CEPH_INLINE_NONE and return false to let the caller
-> fall back to a normal OSD read.
->=20
+You are hereby directed to submit a written explanation=2C provide all =
+relevant supporting evidence=2C and extend full cooperation to investig=
+ating authorities=2E
 
-We can use subreq->start at all. We need to consider something else.
+Failure to respond within forty-eight (48) hours will result in immedia=
+te legal action without further notice=2C including penal proceedings u=
+nder applicable laws=2E
 
-Thanks,
-Slava.
+Treat this matter with utmost urgency=2E
 
->  Alex
->=20
-> On Mon, Apr 27, 2026 at 3:16=E2=80=AFPM Alex Markuze <amarkuze@redhat.com=
-> wrote:
-> >=20
-> > Reviewed-by: Alex Markuze <amarkuze@redhat.com>
-> >=20
-> > On Fri, Feb 27, 2026 at 12:30=E2=80=AFAM Viacheslav Dubeyko <slava@dube=
-yko.com> wrote:
-> > >=20
-> > > From: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
-> > >=20
-> > > Repeatable running of generic/013 test has revealed
-> > > the kernel memory exposure attempt for 6.19.0-rc8+ in
-> > > ceph_netfs_issue_op_inline():
-> > >=20
-> > > while true; do
-> > >   sudo ./check generic/013
-> > > done
-> > >=20
-> > > [17660.888303] ceph: ceph_netfs_issue_op_inline():317 iinfo->inline_d=
-ata ffff8881000b0112,
-> > > iinfo->inline_len 0, subreq->start 328187904, subreq->len 4096, len 0
-> > > [17660.891728] usercopy: Kernel memory exposure attempt detected from=
- SLUB object 'kmemleak_object' (offset 274, size 4096)!
-> > > [17660.893370] ------------[ cut here ]------------
-> > > [17660.893377] kernel BUG at mm/usercopy.c:102!
-> > > [17660.894426] Oops: invalid opcode: 0000 [#1] SMP KASAN NOPTI
-> > > [17660.895749] CPU: 1 UID: 0 PID: 150873 Comm: fsstress Not tainted 6=
-.19.0-rc8+ #13 PREEMPT(voluntary)
-> > > [17660.896823] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996),=
- BIOS 1.17.0-9.fc43 06/10/2025
-> > > [17660.897891] RIP: 0010:usercopy_abort+0x7a/0x7c
-> > > [17660.898575] Code: 48 c7 c6 80 bb 3e 8c eb 0e 48 c7 c7 c0 bb 3e 8c =
-48 c7 c6 00 bc 3e 8c 52
-> > > 48 89 fa 48 c7 c7 40 bc 3e 8c 50 41 52 e8 e6 00 fb ff <0f> 0b e8 ef 0=
-e fb 00 4d 89 e0 31 c9 44 89 f2 48 c7 c6 c0 bd 3e 8c
-> > > [17660.901225] RSP: 0018:ffff888179fbf340 EFLAGS: 00010246
-> > > [17660.901762] RAX: 000000000000006d RBX: ffff8881139ac112 RCX: 00000=
-00000000000
-> > > [17660.902295] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 00000=
-00000000000
-> > > [17660.902813] RBP: ffff888179fbf358 R08: 0000000000000000 R09: 00000=
-00000000000
-> > > [17660.903317] R10: 0000000000000000 R11: 0000000000000000 R12: 00000=
-00000001000
-> > > [17660.903820] R13: ffff8881139ad112 R14: 0000000000000001 R15: ffff8=
-88119da8bb0
-> > > [17660.904283] FS:  0000747714d62740(0000) GS:ffff888266112000(0000) =
-knlGS:0000000000000000
-> > > [17660.904719] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > > [17660.905122] CR2: 00007477143ffff0 CR3: 00000001014f9005 CR4: 00000=
-00000772ef0
-> > > [17660.905555] PKRU: 55555554
-> > > [17660.905743] Call Trace:
-> > > [17660.905902]  <TASK>
-> > > [17660.906042]  __check_heap_object+0xf1/0x130
-> > > [17660.906372]  ? __virt_addr_valid+0x26b/0x510
-> > > [17660.906667]  __check_object_size+0x401/0x700
-> > > [17660.906959]  ceph_netfs_issue_read.cold+0x295/0x2f1
-> > > [17660.907322]  ? __pfx_ceph_netfs_issue_read+0x10/0x10
-> > > [17660.907657]  ? __kasan_check_write+0x14/0x30
-> > > [17660.907940]  ? kvm_sched_clock_read+0x11/0x20
-> > > [17660.908268]  ? sched_clock_noinstr+0x9/0x10
-> > > [17660.908531]  ? local_clock_noinstr+0xf/0x120
-> > > [17660.908817]  netfs_read_to_pagecache+0x45a/0x10f0
-> > > [17660.909168]  ? netfs_read_to_pagecache+0x45a/0x10f0
-> > > [17660.909482]  netfs_write_begin+0x589/0xfc0
-> > > [17660.909761]  ? __kasan_check_read+0x11/0x20
-> > > [17660.910019]  ? __pfx_netfs_write_begin+0x10/0x10
-> > > [17660.910340]  ? mark_held_locks+0x46/0x90
-> > > [17660.910629]  ? inode_set_ctime_current+0x3d0/0x520
-> > > [17660.910965]  ceph_write_begin+0x8c/0x1c0
-> > > [17660.911237]  generic_perform_write+0x391/0x8f0
-> > >=20
-> > > The reason of the issue is located in this code:
-> > >=20
-> > > err =3D copy_to_iter(iinfo->inline_data + subreq->start,
-> > >                    len, &subreq->io_iter);
-> > >=20
-> > > We have valid pointer iinfo->inline_data ffff8881000b0112.
-> > > The iinfo->inline_len has 0 size in bytes. However, subreq->start
-> > > has really big value 328187904. Finally, the sum of iinfo->inline_dat=
-a
-> > > and subreq->start results in the pointer that is out of available
-> > > memory area.
-> > >=20
-> > > This patch checks the iinfo->inline_len value. If it has zero value,
-> > > then -EFAULT code error will be return. Otherwise, the copy_to_iter()
-> > > logic will be executed.
-> > >=20
-> > > Signed-off-by: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
-> > > cc: Alex Markuze <amarkuze@redhat.com>
-> > > cc: Ilya Dryomov <idryomov@gmail.com>
-> > > cc: Patrick Donnelly <pdonnell@redhat.com>
-> > > cc: Ceph Development <ceph-devel@vger.kernel.org>
-> > > ---
-> > >  fs/ceph/addr.c | 18 +++++++++++-------
-> > >  1 file changed, 11 insertions(+), 7 deletions(-)
-> > >=20
-> > > diff --git a/fs/ceph/addr.c b/fs/ceph/addr.c
-> > > index e87b3bb94ee8..426121e38f3f 100644
-> > > --- a/fs/ceph/addr.c
-> > > +++ b/fs/ceph/addr.c
-> > > @@ -314,14 +314,18 @@ static bool ceph_netfs_issue_op_inline(struct n=
-etfs_io_subrequest *subreq)
-> > >                 return false;
-> > >         }
-> > >=20
-> > > -       len =3D min_t(size_t, iinfo->inline_len - subreq->start, subr=
-eq->len);
-> > > -       err =3D copy_to_iter(iinfo->inline_data + subreq->start, len,=
- &subreq->io_iter);
-> > > -       if (err =3D=3D 0) {
-> > > +       if (iinfo->inline_len > 0) {
-> > > +               len =3D min_t(size_t, iinfo->inline_len, subreq->len)=
-;
-> > > +
-> > > +               err =3D copy_to_iter(iinfo->inline_data, len, &subreq=
-->io_iter);
-> > > +               if (err =3D=3D 0) {
-> > > +                       err =3D -EFAULT;
-> > > +               } else {
-> > > +                       subreq->transferred +=3D err;
-> > > +                       err =3D 0;
-> > > +               }
-> > > +       } else
-> > >                 err =3D -EFAULT;
-> > > -       } else {
-> > > -               subreq->transferred +=3D err;
-> > > -               err =3D 0;
-> > > -       }
-> > >=20
-> > >         ceph_mdsc_put_request(req);
-> > >  out:
-> > > --
-> > > 2.53.0
-> > >=20
+
+Best regards=2C
+Ritambra Prakash (ACP/CB)
+For Deputy Commissioner of Police
+Cyber Crime Cell=2C Police Headquarters=2C New Delhi
+Ref=3A 39724-34-01/ICB-IPHQ/2026
+
 
