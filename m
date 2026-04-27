@@ -1,143 +1,186 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C3B521D3F5
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 15:56:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777305418; cv=none; b=SGrALqyIZiP8KwS6xbU6M5VZc5TtIzquN6AgQ5JB4YAjshT/yIf/tHDMtASNZr3Gmb82C+LIgu3nQM7d1mC4vPEdhgX/O6+dJ6XYfrdcWD+4TSU+2gw4GGpbhcXryDI5V7lDIyT1rQqFWgRGDlDdrfStnULPxklQmcnNCdkYAHQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777305418; c=relaxed/simple;
-	bh=kmRDzuzSxUzmKbGRzP/3VYwZcxOwjNUmYMw9sfTlkzA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nAzri7/kncvBmFd90CuApXLNJEKuTnT5SkV/2GwI7TXeFj/pVDRr/pCl+delgkzv5qEwQ10Sis7VdfEPSzr7O20GEKgcnUBqGegxnQRMurqs4jXLYvJgESumO0sCxxmUAKxqI0umuAH673hRQh4LRZypBivblI1Fp2VmZjzn/JQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=2Nv+7Nsx; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=0GJ5ZZo8; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=2Nv+7Nsx; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=0GJ5ZZo8; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ACC9352C2C
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 16:23:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.169
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777306992; cv=pass; b=uZ7fao5hraNz0GWMop7X6s1HokRtx6QGoGsXtux9YQ96AXF1dcnEwZZmgJtgkX7+f0aBqswtd589XN3iZG8s0x8Lg54wzuWZnf1tmBU+0gO9Owq7ntOEC5LETu+FiyO+mMce3LKYLUjUaavMqyH0XrHO1ggJAUD0JATvjafEfZ0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777306992; c=relaxed/simple;
+	bh=+HFdjFqMEmhJ1jK6vhXmVTNc0PNxIZOBPQrKTd7NNGA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BaOWC3sKMLhapnYxN66D9b2L21DKyuoruYN77bQCshIHPXe05hWoZGATAfMLfDBBqZYP/nr4XuwzmGUeizWIeopX9hrPHybE0WeNX1FZ4cUBnPOHULoaRGlAFfhqskjQvyJrsP1Y+PfQaIC/aecnmul3+3ODzdu3TvdIxymv8Ns=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lJCPDVbe; arc=pass smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="2Nv+7Nsx";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="0GJ5ZZo8";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="2Nv+7Nsx";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="0GJ5ZZo8"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id BECFE5BD1F;
-	Mon, 27 Apr 2026 15:56:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1777305415; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=Y9EH/uVh6foaQdx7xGTFQeZ639ICswCMWcDrbZZ2M4Y=;
-	b=2Nv+7NsxahHbskHdBs6uL9Yh2qRrtam3Msl0OB/UPmf7VgapI1i6uy/OMS0h9MKbo8WvDe
-	qcreDWfLbmhdvYe89u1j2+PRZkXz2+ZxYNLiN1smB1iEnBohtGagUTR73Ficvax4Mc46b5
-	LkYE22EeM7zoZ5MvtAR6ai7HRBnlXtI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1777305415;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=Y9EH/uVh6foaQdx7xGTFQeZ639ICswCMWcDrbZZ2M4Y=;
-	b=0GJ5ZZo8nKxFiG1LKHK9COLYrlYu1SDpYThPWqjpu6j66mAZupndIWLTCdQpqTQKfVBDx2
-	zMj3cDh8KcicHOCw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1777305415; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=Y9EH/uVh6foaQdx7xGTFQeZ639ICswCMWcDrbZZ2M4Y=;
-	b=2Nv+7NsxahHbskHdBs6uL9Yh2qRrtam3Msl0OB/UPmf7VgapI1i6uy/OMS0h9MKbo8WvDe
-	qcreDWfLbmhdvYe89u1j2+PRZkXz2+ZxYNLiN1smB1iEnBohtGagUTR73Ficvax4Mc46b5
-	LkYE22EeM7zoZ5MvtAR6ai7HRBnlXtI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1777305415;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=Y9EH/uVh6foaQdx7xGTFQeZ639ICswCMWcDrbZZ2M4Y=;
-	b=0GJ5ZZo8nKxFiG1LKHK9COLYrlYu1SDpYThPWqjpu6j66mAZupndIWLTCdQpqTQKfVBDx2
-	zMj3cDh8KcicHOCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B78AA593B2;
-	Mon, 27 Apr 2026 15:56:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id xQzWLEeH72mmbwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 27 Apr 2026 15:56:55 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 754E4A0B3C; Mon, 27 Apr 2026 17:56:51 +0200 (CEST)
-Date: Mon, 27 Apr 2026 17:56:51 +0200
-From: Jan Kara <jack@suse.cz>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-fsdevel@vger.kernel.org
-Subject: [GIT PULL] isofs and udf fixes for 7.1-rc2
-Message-ID: <wh5wtvlsfd62xo3dbar5wgp3wz25gzqq6hruqpotis6xt2bg6o@o7kjkqne5uco>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lJCPDVbe"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2b243198058so456925ad.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 09:23:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777306991; cv=none;
+        d=google.com; s=arc-20240605;
+        b=EZr7cC6awy7vyasSalHpMkHFzQSEegmAmi7mMr4NXF5DRjpVi8tu81RLlPhwI3tjFN
+         O/SjYRBE+S1cE0Vwac2usOUvlNBChNrhh1lfmUDl2LcU2dWCOyn4xwsmuWoZEiqrP85q
+         ilwgu+08FSeK+/xsnvvD/BQKZxOv0TRnBBskTQuDsDIIQQSFIdCixDfdswVGWj6tjXIB
+         2aGVXouigRei2txtEG7KqqXx7H4ckKmu89elbu4jkDJOMUiGQElponVC3tuNia25QwCZ
+         0SfW+4gnFcBRxUgRltMsVA9d48HGD+62E3s1x96ShNyKxBNFM7Qw8R8HbSNA6KamqjTE
+         W/Ow==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=206Fh4X3dDRStaXDm8n9sC400Cq7S/zIhUvs0OOCjSY=;
+        fh=0Ah3WK9i0iAFJXgobSlhZq+hzLoVBIKTKoHnMleItbI=;
+        b=aRiROCHASRJTu2KnnoHTr7bJVwBUgNrgjs4T5vRhjpiPC9Xj/20MMGWVbWt4L2DmuO
+         VZNeWcqPP6MTPGIH/s8oclSIK91d89OLq6mMkAhPdS+bMf6t2HwXzS/s4mkNyvcXqwBo
+         7ms8CV+B/3zPs2hNIk6iiFtOQT9QBcJOcEMbAaNIUBekxv3y0gcTU5L56AEbec0ShEY9
+         HjKXfq4Xf+LXuwo2Pw3AooJEvrHYDPyZz8w3T0sZIINl6OBmesOLwHxkt2fBHR0qRzl3
+         0uMelLRLJ1gXkHWhFo88Z7O8V+kOkqiqQG6Pt4Z25LjxIputwa40zBB0jOpBdcdFINej
+         pkFg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1777306991; x=1777911791; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=206Fh4X3dDRStaXDm8n9sC400Cq7S/zIhUvs0OOCjSY=;
+        b=lJCPDVbepFSCVqouBBkyQzZBXr360CC/qlmmtGkNwH4+uQKH0YbcZSiapxk+t2IlHB
+         lBGohs8XTeIuZKE9BGoDNzz+PPG60OJw+UZ1KB1Umty5qDSMqRG5ya1LcAvMyv8qyje0
+         dxhqLdVE2qG9l4X2Z316CdCel5vOp+QQnQmvbMT+VRHePUs4GyI6kmikgmHAIbUkhnSC
+         /ccBc2+8fotB+MTD8WY75LrZ97KqBz7Oy5vCwXCJTO5rezcyNtp9B88w21e27pQ7T5Ku
+         YMGpC7E/V9Kt9G5WMPYdF/w7sUlk9KgIEG5H2PSajiHyj5CcgIcr1W6lPqWVO0Ti36+S
+         j9kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777306991; x=1777911791;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=206Fh4X3dDRStaXDm8n9sC400Cq7S/zIhUvs0OOCjSY=;
+        b=ZM23q/gETP8jqlSu4cJa/ei7ES+KGQal3DzJCQQV8v3w4N6vagvt1FC7UYz56soJWW
+         g4Htyt2bCvoU6wUJBWJO48VprOFTR0MnCaMG78aF8YmzDBohBe4SKczNogRO6Tt9niEi
+         KbV1UIgH2YyCoIZv1/9vHcHy8y6FVAcPImA99OEcjhEDfbujauZUNOa8c0o6/EvsY4Ow
+         CLBYIWYMPWhDnbZ5fF7qhjTmQy0n6hU9ntA/vY3jdUzWkWXsHQx53n8uyeOsfPlT+mHd
+         9D4yaoo29X2eB0S+h/c8GtJ449hyH9dIMr+uZ15+EWhKodVENslMwIkptqkgnCxFDZ/k
+         atbg==
+X-Forwarded-Encrypted: i=1; AFNElJ9227KfFL5d7lfgPXo5UVAPHb3z/g3iliYa3MqvkVM+LdipOOjY3p7XanEgGwkkBnvX0Mr/oifG59PgyvHv@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw3yxH21WnJvetzHDjAU5d9+uSX0zbYo/b6Sj1PZ3rY4U6QKsL6
+	RVGjNfEU4NzrE1739p43uqFqAgWdWG2DhHMB9G+gKqhMZA8tHgyCLqmGzYH6mGhShNgBBPFqGvl
+	oF9uavDQJgtZnQw7ZRYQb/mbzNckdXhNOr4XaJsIy
+X-Gm-Gg: AeBDiesfvTvgB1WMdvmquWmSXdZJPjDXoaEMxBwg0+29mFRkBQ2eeqoU77GiR8Q3EiD
+	NE0syhSGblBkak+Z1dnABYnd5fyfix80gtodI/kH1lM/VrWQqvpncbNk24O3ckDg4C2aGlumA+z
+	eMijmWZg2moTnDxgTNJuXM9SyUN2pNmR8/JiCyp5M5YoNVOdznesbPZUA47SB1W/zxerykRFD1x
+	13REw2LR6oAxbMemkxhgePHsdOt/hOnrQQodiSxxmYyop7gN1wtpCmg9Z5BkG6KkIVqhgva1IMX
+	WdvP4YmlXfDlob/elccgIJ/FQPwNGcLbjatIP7Pbv8YmZGEs9fiIJRW8Zg==
+X-Received: by 2002:a17:903:c05:b0:2b4:6529:7bae with SMTP id
+ d9443c01a7336-2b97a4e7ca7mr51125ad.17.1777306989849; Mon, 27 Apr 2026
+ 09:23:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCPT_COUNT_TWO(0.00)[2];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
-X-Spam-Flag: NO
-X-Spam-Score: -3.80
-X-Spam-Level: 
+References: <20260427030148.653228-1-fmayle@google.com> <c7f94ce6-1dfb-420a-b073-d86abeff1f76@kernel.org>
+In-Reply-To: <c7f94ce6-1dfb-420a-b073-d86abeff1f76@kernel.org>
+From: Kalesh Singh <kaleshsingh@google.com>
+Date: Mon, 27 Apr 2026 09:22:57 -0700
+X-Gm-Features: AVHnY4I1vyG5MhQpN8fAKqxOe-avfjBnum1jR3fQl3SDDHUoZnLZAP_N2GaXCNE
+Message-ID: <CAC_TJvcM11got-LcMo24OTN8uXa01oVvUX6HmVvrWMJWVSgEzQ@mail.gmail.com>
+Subject: Re: [PATCH v2] mm: limit filemap_fault readahead to VMA boundaries
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Frederick Mayle <fmayle@google.com>, Jan Kara <jack@suse.cz>, Lorenzo Stoakes <ljs@kernel.org>, 
+	Matthew Wilcox <willy@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Pedro Falcato <pfalcato@suse.de>, Suren Baghdasaryan <surenb@google.com>, android-mm@google.com, 
+	kernel-team@android.com, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-  Hello Linus,
+On Mon, Apr 27, 2026 at 5:41=E2=80=AFAM 'David Hildenbrand (Arm)' via
+android-mm <android-mm@google.com> wrote:
+>
+> On 4/27/26 05:01, Frederick Mayle wrote:
+> > When a file mapping covers a strict subset of a file, an access to the
+> > mapping can trigger readahead of file pages outside the mapped region.
+> > Readahead is meant to prefetch pages likely to be accessed soon, but
+> > these pages aren't accessible via the same means, so it fair to say we
+> > don't have a good indicator they'll be accessed soon. Take an ELF file
+> > for example: An access to the end of a program's read-only segment isn'=
+t
+> > a sign that nearby file contents will be accessed next (they are likely
+> > to be mapped discontiguously, or not at all). The pressure from loading
+> > these pages into the cache can evict more useful pages.
+> >
+> > To improve the behavior, make three changes:
+> >
+> > * Introduce a new readahead_control field, max_index, as a hard limit o=
+n
+> >   the readahead. The existing file_ra_state->size can't be used as a
+> >   limit, it is more of a hint and can be increased by various
+> >   heuristics.
+> > * Set readahead_control->max_index to the end of the VMA in all of the
+> >   readahead paths that can be triggered from a fault on a file mapping
+> >   (both "sync" and "async" readahead).
+> > * Limit the read-around range start to the VMA's start.
+> >
+> > Note that these changes only affect readahead triggered in the context
+> > of a fault, they do not affect readahead triggered by read syscalls. If
+> > a user mixes the two types of accesses, the behavior is expected to be
+> > the following: if a fault causes readahead and places a PG_readahead
+> > marker and then a read(2) syscall hits the PG_readahead marker, the
+> > resulting async readahead *will not* be limited to the VMA end.
+> > Conversely, if a read(2) syscall places a PG_readahead marker and then =
+a
+> > fault hits the marker, the async readahead *will* be limited to the VMA
+> > end.
+> >
+> > There is an edge case that the above motivation glosses over: A single
+> > file mapping might be backed by multiple VMAs. For example, a whole fil=
+e
+> > could be mapped RW, then part of the mapping made RO using mprotect.
+> > This patch would hurt performance of a sequential faulted read of such =
+a
+> > mapping, the degree depending on how fragmented the VMAs are. A usage
+> > pattern like that is likely rare and already suffering from sub-optimal
+> > performance because, e.g., the fragmented VMAs limit the fault-around,
+> > so each VMA boundary in a sequential faulted read would cause a minor
+> > fault. Still, this patch would make it worse. See a previous discussion
+> > of this topic at [1].
+>
+> I agree that workloads that do a lot of mprotect() magic likely do not de=
+pend on
+> readahead optimizations.
+>
+> But I'm sure we'll learn quickly if that is not the case :)
 
-  could you please pull from
+Hi David,
 
-git://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git fs_for_v7.1-rc2
+There is already this limit for the exec VMAs, so perhaps these use
+cases are in fact rare enough; but we'll need to see ...
 
-to get several isofs and udf fixes.
+https://lore.kernel.org/all/20250609092729.274960-6-ryan.roberts@arm.com/
 
-Top of the tree is 13917f71a95a. The full shortlog is:
+Frederick, could we also now remove that logic (EXEC mappings)? Maybe
+in a follow up patch.
 
-Michael Bommarito (3):
-      isofs: validate Rock Ridge CE continuation extent against volume size
-      isofs: validate block number from NFS file handle in isofs_export_iget
-      udf: reject descriptors with oversized CRC length
+For this patch: Reviewed-by: Kalesh Singh <kaleshsingh@google.com>
 
-Thorsten Blum (1):
-      isofs: use QSTR_LEN() in isofs_cmp
+Thanks,
+Kalesh
 
-Ziran Zhang (1):
-      docs: isofs: replace dead ECMA-119 FTP link
-
-The diffstat is
-
- Documentation/filesystems/isofs.rst |  2 +-
- fs/isofs/export.c                   |  2 +-
- fs/isofs/namei.c                    | 11 ++---------
- fs/isofs/rock.c                     |  9 +++++++++
- fs/udf/misc.c                       |  8 ++++++--
- 5 files changed, 19 insertions(+), 13 deletions(-)
-
-							Thanks
-								Honza
-
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+>
+> --
+> Cheers,
+>
+> David
+>
+> --
+> You received this message because you are subscribed to the Google Groups=
+ "android-mm" group.
+> To unsubscribe from this group and stop receiving emails from it, send an=
+ email to android-mm+unsubscribe@google.com.
+> To view this discussion visit https://groups.google.com/a/google.com/d/ms=
+gid/android-mm/c7f94ce6-1dfb-420a-b073-d86abeff1f76%40kernel.org.
