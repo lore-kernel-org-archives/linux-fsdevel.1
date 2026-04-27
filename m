@@ -1,193 +1,237 @@
-Received: from mail-dl1-f46.google.com (mail-dl1-f46.google.com [74.125.82.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44C123AE1B9
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 22:58:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777330734; cv=pass; b=dhOXNP9s8UxovQtV6LVnmxWae0UIosRgrzSUxg1fstxTCVzHHCbn1T1qUJOAgV7zXmVd2oKHv3GnxEQuo5qiC/oodqGZ0RYqW0mrwRzimL8lhlkk2svZu8R4O+FZPNT1+RF4O+VQnw5uBlZzeXEWXt180huK9gQLUJI5cfdNUJw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777330734; c=relaxed/simple;
-	bh=cyC3J+VH/K8HQzqFUvlj2hiBlDlG7YN1Wfj41a74bn4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bYlU+SVCJo42XLbwcx0d3+ZVsK3SVJ7/GizoCipaVr76eFAovQVJGkgUufx1H+YAyAEcs1f2UgNOfteme7WluohHYgmZPvdfuSijZB2ZEPA+IdGpy/Muj0qfeG2HhT4VvFfjfoGWEA/jUVm05e8YqkYF6HiCH7h8ZScyJxuoOBk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=JYffDzDC; arc=pass smtp.client-ip=74.125.82.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4AA7175A81;
+	Mon, 27 Apr 2026 23:51:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777333889; cv=none; b=Eds9YJjzG/5C7OnnTf1EdERLenqjYpfg4nMtXsXgwZp/N/APH+Qpp+i2XQKQ1u7GXMOBjR15HovEP1/lySY9HTxIVGyFyZ+B3D+z+o1n+QxrG6sTCAOCwBu3dpTBmB97uV3q5IAbcLb6dbPS08k0oIErN1QAu1v0csX8BoEoYs8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777333889; c=relaxed/simple;
+	bh=mvMicDDfuQ91yWQ6x+2NhBD7HijHVbBp+TrBG6BEalI=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=uaPRhlTm52DZ1ifiwGt9ot8YhKvzZqHN73B4ayF2WEoqkMFadZcjxJLp4zLcD5Ef5+RqITY/Ot+MBGjeWEJrIZFI8tWGSKRwQGYVNeBhdHSVnNqG1KlxLCQZajJsp4753Wh5WekVcuDVUoW9eRya0T2Zh+lCDqB+xu2TEcs61w8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=Lm1wnpTM; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=dKYGQ7x/; arc=none smtp.client-ip=103.168.172.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JYffDzDC"
-Received: by mail-dl1-f46.google.com with SMTP id a92af1059eb24-1270fc2bdf2so5330c88.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 15:58:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777330732; cv=none;
-        d=google.com; s=arc-20240605;
-        b=kuojeoHdjar2NeBrWQJIVFKDilH35Jb3LTIqcjVzAesQHgyp1EXWQUKzjgC8QpBFZP
-         ceUP5xfSPv+zb/1HT/9TQ60UznddSH4s6K0UVYJkScUgNKEvgzfTcFDDiyVBa4YvbvRl
-         owrerOUMgKpDzDIn6kBZJxfrGaS+BXC5rZAqg4xeo/itxwiUxU2m5z7wHPT9srO2MLAy
-         rl9rD4aVA3ppgYLcKZZ4uffLMh4VGYaoecB6qoPD8WK2n/QBpvumlSeqNEmAko1mBpAQ
-         Rs2+XoJxwB94K5k9mS+pNJdnjcLaCTUmtl1uNRUzuK+ONY0Ed4jLWHAU6XFUln51SMU6
-         oe7Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=mFDjDkHXVh2Z+wp+XcjLdnVYy1AJI7gNEwLbuf8ELlk=;
-        fh=55Bg+pl9o9aLMM2/AW8582uhCvEXymVCyYtmw0mOuPY=;
-        b=B5XklyTcJG4tCzpVXaNbVxQQ/PEsqUZTpcI/jnKMOH3mqDnhRoWZYMR4hQMqUqQUbb
-         W/G7SIdTcBcDjZauVnRgAMgxPuyg4teOz6m/9NAmjesJMm+POCzNqzw0J8IU5n8DPGAQ
-         btbj0NddbNJAyzA03POTZY9DS0RmNWaKuj4J0WCbaYA8tHyuJfcgqQXY98HuHc9Ucdtk
-         gguWrbUFvUJQpzjVuXUwQqcdnWmdsvjelDhAJ79ierC3Wt4h1fy8r20jJ8ZRbH9HUPVf
-         Hv0J/hNAHugCo1jTDzO9oxoA4DLjEezOzjLWktRrsGJDcVnnJLnnz1gdcL9Q1MYbHVV7
-         qltA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1777330732; x=1777935532; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mFDjDkHXVh2Z+wp+XcjLdnVYy1AJI7gNEwLbuf8ELlk=;
-        b=JYffDzDCndMCeI4+/tScGcMSPWSv/bd7uXxqBY//2Xt32+BFnC1j/7bGZPxJYozM20
-         kPzMooitA1HkRHyqQEolXIoVw9smcuxLC7Zb/Jubbeq8OCLEuOCQSg4tPjcT6+hJvXFg
-         78v7yl3lNrXpILhkFeCa8E71gGwEuvAoMuziLJGtXi1facdKFdeOv5IbEQdmrsmU1Pjo
-         xu2yTSpuv3oZIiSm7OUL/eV8cOdUjdaS52zF/rgyRLBfIp+pLHl58UkqqOPzSjP8/pG6
-         x81R5oWL4fGGv9OSiFi1h82RvtqlvyQsKNfWMb7k7HHLUe7Ed+Za6kbrmWDKh+yfY9ud
-         ZPLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777330732; x=1777935532;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=mFDjDkHXVh2Z+wp+XcjLdnVYy1AJI7gNEwLbuf8ELlk=;
-        b=Yn6sOHnxAgLkaWdCphEzMtZ/+uidyMKBgp4NcJgpMWlOVAivTJ6r2mX03f0sT4sqEi
-         zKk9Ff15jx+r+QlcDKircYIDg2/Yc5pfWiE0M+kPCY61mbVD7kzQOvFot0mzes5vW7eh
-         77x0ARYwK8TPz6FDSnyRmKv75P9xMMwKlJbpnaKQBm4ORne7ii1xE+wIsNvsFIGV9mPA
-         nW3gX07kAV1Liovh5rMs8nI4j+EH40XHb6yU9+GwwgorqCgAHoIhAMdHqbObjHo53g3T
-         vKUQbgJV7PKmfbtuuti21GY+nJ03/fN3+9hsmtYTw2FkTksA4jQbGkFHGmFOLOsh89PY
-         b8GA==
-X-Forwarded-Encrypted: i=1; AFNElJ/dUqaAFIOg6R6MJW5RGfFDvcC+WGSANIImwE/YLCPoKzOWQX7hUt+irgW4ziEG7enFkIOBTNawqcLUxk38@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx3ionul3hUCGzPzawrqXeVmDgD/Mge/v54ucMqIPY0tUi5jTk6
-	gp7UZ1OJBOEh9FzF0Wt3UBenT7OwsMBL1At9VkIQvRGH4115cXB05o1//Oss0WGRwQ/Os0F7CAa
-	8A9CKkE8gE6NFs653K/X/NUcE+J3r47kIpwA6gtS2
-X-Gm-Gg: AeBDievrZnXAFb48088GIufcJTcrUR9/ozi+KFmQeAFVvH4f97U4cH/4ABzTC+jmhb1
-	6qHQy2VsCfBqb5Hers4txR2PCw00PAJWX4EAoEoFCw8gcuK35eer2qahP3ctqlwZCxJ5rmzApKx
-	rZe74saCeuqsEa6leOpejochsQNLKWUul3gzXwANw4uQAV4dn6/PNcFrksXKRkwYDdV0/DXiuR1
-	aHM1W0PW8ObTuPvdEstyp0FYWKVUx7XcWg+uOPNBrs0YhJ8wmO3vG9cwcG2H/I76uwb/3IsHTCg
-	wfKGNhCjmGnXxy28j+Q3kVk7+fb3FAcEl2GliOQ+
-X-Received: by 2002:a05:7022:e28:b0:11a:b4dc:7773 with SMTP id
- a92af1059eb24-12ddd6002b9mr109501c88.12.1777330731707; Mon, 27 Apr 2026
- 15:58:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="Lm1wnpTM";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="dKYGQ7x/"
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 1041D14000E7;
+	Mon, 27 Apr 2026 19:51:26 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-06.internal (MEProxy); Mon, 27 Apr 2026 19:51:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm2; t=
+	1777333886; x=1777420286; bh=RLnpXWB1C4BSlXHpUNFk6dMCri7Yu5n9eIK
+	TWnvLMwI=; b=Lm1wnpTMcTE7q5vAdvhtp8zdQelEFhi1w2e8B4y/P7tvdwz5FM5
+	+4IyK4sJBaTCLgTZO3BD8o0MpCOFfTr5muLR0IvVeTi5/nSwOilpMuILNadLSto8
+	XxdGfFakL7HXlijpcSWT5Ah9FgDqjuLdMxtWKABgh39Dpx/9TB5yiyIPMtFZNUwo
+	LsAkwHgW+mxLP5Hm/qyjhxyS5hHolETwdVsk0fM8MWmsgSgqWCeclIbddSA3Tgia
+	hL2zDu1FzgTimkpfY+TGG+CMB/lce1IWlPHvNICvwaFtLG6A+Hjs5P4K1D3UpMJE
+	RkuV0HG8SOFCrdKvZ9A+meVUXXtyHMGHliQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1777333886; x=
+	1777420286; bh=RLnpXWB1C4BSlXHpUNFk6dMCri7Yu5n9eIKTWnvLMwI=; b=d
+	KYGQ7x/ahproGJ2u+JGp9LJ89xSesowTB8cc6W4j+Wlws37iLIQBlGDG0rk3h+TX
+	XTFjMA+4KTUQpYiKw0fOJvUk6QbH3V6XeIiWaTn6tZhWV6kMq7PC/xv3ovUQm1tg
+	hqsn19bc+Dygmic/Dk5XqS1cHTSQJz1l/w5diUt/y5XJwTStR1WwgMaS5cgUGgXv
+	Y1JjEFNaBpH4y5N/Wc/DrzZbhnRY51br6polDpCFErdbvhYqW8hFF2rye0Oz8GWj
+	7HA+DkXlESiRoaCVQDdWzhigUSXSPWv2eeZC8l7OZJRMOcDFEMYJxNb59/JM6Buy
+	Vk/1SQVV/u/wJ/3w1yVEA==
+X-ME-Sender: <xms:fPbvaTnCihP-mJr0aqlb_j-TAkfD6bmg2zcl2dbliB__Q5UY58wNEw>
+    <xme:fPbvaTKyoSTHZrPkbeJKTdmuK_xHfY0E13OCQPbGl8MJxs6MS3-smmaFbQIwitXBw
+    iLZVEotKgh5IuA4cQZhm5MloChdKHwEDy9ZPldjFLlOYUFaqg>
+X-ME-Received: <xmr:fPbvabRt_zqGX1B907E9JA12E35RhtkliOdl5FcNkVMkdI1hZkeFvebhefXPKKdPDN8inssPdg-mAvo3C6fEgFG_N61Jf1I>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdektddtiecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpegtgfgghffvvefujghffffkrhesthhqredttddtjeenucfhrhhomheppfgvihhluehr
+    ohifnhcuoehnvghilhgssehofihnmhgrihhlrdhnvghtqeenucggtffrrghtthgvrhhnpe
+    eljedtfeegueekieetudevheduveefffevudetgfetudfhgedvgfdtieeguedujeenucev
+    lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnvghilhgsse
+    hofihnmhgrihhlrdhnvghtpdhnsggprhgtphhtthhopeduiedpmhhouggvpehsmhhtphho
+    uhhtpdhrtghpthhtohepvhhirhhoseiivghnihhvrdhlihhnuhigrdhorhhgrdhukhdprh
+    gtphhtthhopehlihhnuhigqdhunhhiohhnfhhssehvghgvrhdrkhgvrhhnvghlrdhorhhg
+    pdhrtghpthhtoheplhhinhhugidqnhhfshesvhhgvghrrdhkvghrnhgvlhdrohhrghdprh
+    gtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdp
+    rhgtphhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvghlrdhorh
+    hgpdhrtghpthhtoheplhhinhhugidqvghfihesvhhgvghrrdhkvghrnhgvlhdrohhrghdp
+    rhgtphhtthhopehmihhklhhoshesshiivghrvgguihdrhhhupdhrtghpthhtohepjhgrtg
+    hksehsuhhsvgdrtgiipdhrtghpthhtohepjhhksehoiihlrggsshdrohhrgh
+X-ME-Proxy: <xmx:fPbvaYsshh5MXjM7S0dgY5w476poGR35AvRdBarqOKnXoFPZSyd2hg>
+    <xmx:fPbvaW91K-jov4HMgvUgrszUFveKO46PTZLrf-JHMH3USQngYjaHQA>
+    <xmx:fPbvaRaT_IzAZxynMKJK2l8cJvNVFcxtkt2njBgHzlL_u2Z2V08vQQ>
+    <xmx:fPbvaSoXuKyLm_m0FSdIzzZrvnkDMnqskCP4CYtPd6zNbihCyHbSgA>
+    <xmx:fvbvaUXhFFDDGrc0HkM9csP-z7fqgwaB3sZGW9OhgjRDZSLZMKN3KKfE>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 27 Apr 2026 19:51:20 -0400 (EDT)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260427030148.653228-1-fmayle@google.com> <c7f94ce6-1dfb-420a-b073-d86abeff1f76@kernel.org>
- <CAC_TJvcM11got-LcMo24OTN8uXa01oVvUX6HmVvrWMJWVSgEzQ@mail.gmail.com>
-In-Reply-To: <CAC_TJvcM11got-LcMo24OTN8uXa01oVvUX6HmVvrWMJWVSgEzQ@mail.gmail.com>
-From: Frederick Mayle <fmayle@google.com>
-Date: Mon, 27 Apr 2026 15:58:40 -0700
-X-Gm-Features: AVHnY4IRZsDNSD2m-H5xb40HcijzEyG9TEJRAtLxMG16_OmGeOcdmUtyIgLLGcY
-Message-ID: <CAHCxdc7JxwCNjsyyuPxuaVd7njgXyOEHvknCvjSKLvvU7nRAsg@mail.gmail.com>
-Subject: Re: [PATCH v2] mm: limit filemap_fault readahead to VMA boundaries
-To: Kalesh Singh <kaleshsingh@google.com>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>, Jan Kara <jack@suse.cz>, Lorenzo Stoakes <ljs@kernel.org>, 
-	Matthew Wilcox <willy@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Pedro Falcato <pfalcato@suse.de>, Suren Baghdasaryan <surenb@google.com>, android-mm@google.com, 
-	kernel-team@android.com, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, Ryan Roberts <ryan.roberts@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: NeilBrown <neilb@ownmail.net>
+To: "Amir Goldstein" <amir73il@gmail.com>
+Cc: "Linus Torvalds" <torvalds@linux-foundation.org>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
+ "Jeff Layton" <jlayton@kernel.org>, "Trond Myklebust" <trondmy@kernel.org>,
+ "Anna Schumaker" <anna@kernel.org>, "Miklos Szeredi" <miklos@szeredi.hu>,
+ "Jeremy Kerr" <jk@ozlabs.org>, "Ard Biesheuvel" <ardb@kernel.org>,
+ linux-efi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-nfs@vger.kernel.org, linux-unionfs@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 07/19] VFS: Add LOOKUP_SHARED flag.
+In-reply-to:
+ <CAOQ4uxiMUKHuGwpSkD=M4Z_QLxHn7Os9vaaWqAWd36HdfDRYuQ@mail.gmail.com>
+References: <20260427040517.828226-1-neilb@ownmail.net>
+  <20260427040517.828226-8-neilb@ownmail.net>
+  <CAOQ4uxi8rqkbhK4=8N1ncfU1m6bjdHLbinSf=j3k0oVEaSa-wA@mail.gmail.com>
+  <177727962988.1474915.2841674553452335690@noble.neil.brown.name>
+  <CAOQ4uxiMUKHuGwpSkD=M4Z_QLxHn7Os9vaaWqAWd36HdfDRYuQ@mail.gmail.com>
+Date: Tue, 28 Apr 2026 09:51:15 +1000
+Message-id: <177733387513.1474915.8575818212511266099@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-On Mon, Apr 27, 2026 at 9:23=E2=80=AFAM Kalesh Singh <kaleshsingh@google.co=
-m> wrote:
->
-> On Mon, Apr 27, 2026 at 5:41=E2=80=AFAM 'David Hildenbrand (Arm)' via
-> android-mm <android-mm@google.com> wrote:
+On Mon, 27 Apr 2026, Amir Goldstein wrote:
+> On Mon, Apr 27, 2026 at 10:47=E2=80=AFAM NeilBrown <neilb@ownmail.net> wrot=
+e:
 > >
-> > On 4/27/26 05:01, Frederick Mayle wrote:
-> > > When a file mapping covers a strict subset of a file, an access to th=
-e
-> > > mapping can trigger readahead of file pages outside the mapped region=
-.
-> > > Readahead is meant to prefetch pages likely to be accessed soon, but
-> > > these pages aren't accessible via the same means, so it fair to say w=
-e
-> > > don't have a good indicator they'll be accessed soon. Take an ELF fil=
-e
-> > > for example: An access to the end of a program's read-only segment is=
-n't
-> > > a sign that nearby file contents will be accessed next (they are like=
-ly
-> > > to be mapped discontiguously, or not at all). The pressure from loadi=
-ng
-> > > these pages into the cache can evict more useful pages.
+> > On Mon, 27 Apr 2026, Amir Goldstein wrote:
+> > > On Mon, Apr 27, 2026 at 6:06=E2=80=AFAM NeilBrown <neilb@ownmail.net> w=
+rote:
+> > > >
+> > > > From: NeilBrown <neil@brown.name>
+> > > >
+> > > > Some ->lookup handlers will need to drop and retake the parent lock, =
+so
+> > > > they can safely use d_alloc_parallel().
+> > > >
+> > > > ->lookup can be called with the parent lock either exclusive or share=
+d.
+> > > >
+> > > > A new flag, LOOKUP_SHARED, tells ->lookup how the parent is locked.
+> > > >
+> > > > This is rather ugly, but will be gone soon after we move
+> > > > d_alloc_parallel() out of the directory lock as ->lookup() will *alwa=
+ys*
+> > > > called with a shared lock on the parent.
 > > >
-> > > To improve the behavior, make three changes:
+> > > Neil,
 > > >
-> > > * Introduce a new readahead_control field, max_index, as a hard limit=
- on
-> > >   the readahead. The existing file_ra_state->size can't be used as a
-> > >   limit, it is more of a hint and can be increased by various
-> > >   heuristics.
-> > > * Set readahead_control->max_index to the end of the VMA in all of th=
-e
-> > >   readahead paths that can be triggered from a fault on a file mappin=
-g
-> > >   (both "sync" and "async" readahead).
-> > > * Limit the read-around range start to the VMA's start.
-> > >
-> > > Note that these changes only affect readahead triggered in the contex=
-t
-> > > of a fault, they do not affect readahead triggered by read syscalls. =
-If
-> > > a user mixes the two types of accesses, the behavior is expected to b=
-e
-> > > the following: if a fault causes readahead and places a PG_readahead
-> > > marker and then a read(2) syscall hits the PG_readahead marker, the
-> > > resulting async readahead *will not* be limited to the VMA end.
-> > > Conversely, if a read(2) syscall places a PG_readahead marker and the=
-n a
-> > > fault hits the marker, the async readahead *will* be limited to the V=
-MA
-> > > end.
-> > >
-> > > There is an edge case that the above motivation glosses over: A singl=
-e
-> > > file mapping might be backed by multiple VMAs. For example, a whole f=
-ile
-> > > could be mapped RW, then part of the mapping made RO using mprotect.
-> > > This patch would hurt performance of a sequential faulted read of suc=
-h a
-> > > mapping, the degree depending on how fragmented the VMAs are. A usage
-> > > pattern like that is likely rare and already suffering from sub-optim=
-al
-> > > performance because, e.g., the fragmented VMAs limit the fault-around=
-,
-> > > so each VMA boundary in a sequential faulted read would cause a minor
-> > > fault. Still, this patch would make it worse. See a previous discussi=
-on
-> > > of this topic at [1].
+> > > Forgive me for being skeptical about the *always* part.
 > >
-> > I agree that workloads that do a lot of mprotect() magic likely do not =
-depend on
-> > readahead optimizations.
+> > Scepticism should always be encouraged.
 > >
-> > But I'm sure we'll learn quickly if that is not the case :)
->
-> Hi David,
->
-> There is already this limit for the exec VMAs, so perhaps these use
-> cases are in fact rare enough; but we'll need to see ...
->
-> https://lore.kernel.org/all/20250609092729.274960-6-ryan.roberts@arm.com/
->
-> Frederick, could we also now remove that logic (EXEC mappings)? Maybe
-> in a follow up patch.
+> > >
+> > > How long ago did we add ->iterate_shared()?
+> > >
+> > > It's true that Linus eventually got rid of ->iterate(), but we did not
+> > > get rid of the assumption that iterate_shared() might be upgraded
+> > > to exclusive lock.
+> > >
+> > > The obvious reason is that *someone* needs to do this work for
+> > > old filesystems, which are also hard to test and nobody wants to
+> > > touch them.
+> > >
+> > > I have nothing against this patch, but I think it is more realistic
+> > > to state that LOOKUP_SHARED is here to stay, so if you think it
+> > > is too ugly, maybe there is something to be done about it.
+> > > Personally, I do not see the ugliness though.
+> > >
+> > > Am I misjudging the situation of shared lookup wrt old filesystems?
+> >
+> > Yes.
+> > All filesystems must support ->lookup with a shared lock because it is
+> > already the case that with a simple lookup only a shared lock is provided.
+> > A filesystem *could* examine the lookup_flags and deduce if the lock is
+> > actually exclusive (e.g.  if LOOKUP_CREATE is set) and misbehave
+> > accordingly, but a vanishing small number of filesystems  (NFS and ....
+> > I can't think of any others) ever look at the lookup_flags and I'm
+> > certain none do anything so ... creative.
+> >
+> > So I'm certain that it is safe from the filesystem's perspective to always
+> > call with only a shared lock.  All that is needed is to change the VFS
+> > to only ever do that.  That means separating the lock for lookup from
+> > the lock for create/remove/move in directory ops, and one way to view
+> > the current patch set (the complete one, not just this initial set) is
+> > that it does exactly that.
+> >
+>=20
+> I see.
+> I will remain skeptical, because there is always *something* with some
+> special filesystems - think fuse servers (not under your control) which
+> have grown to rely on the kernel to serialize atomic_open() on the director=
+y -
+> but the level of skepticism is lower now ;)
 
-The VM_EXEC branch is still meaningfully different from the read-around bra=
-nch,
-it sets `ra->order =3D exec_folio_order()` and `ra->async_size =3D 0`, but =
-I think
-most of the details could be unified. I can try that in a follow up.
+atomic_open is different from lookup!
+atomic_open already gets an exclusive lock if LOOKUP_CREATE, otherwise a
+shared lock.  That won't change.
+
+So if an atomic_open handler wants to drop and retake the directory
+lock, it can switch on LOOKUP_CREATE.  If it wants to call d_add_ci()
+from atomic_open (which is credible in the non-CREATE case) it would
+need to be careful.
+But no current users of d_add_ci() (xfs and ntfs) support atomic_open.
+
+This proposed practice of dropping and retaking the directory lock is a
+transitional arrangement only.
+Eventually we will get to:
+
+ inode_lock_shared()
+ ->lookup()
+ inode_unlock_shared()
+
+and that will change to simple
+
+  ->lookup()
+
+with
+
+  foo_lookup()
+  {
+     inode_lock_shared(parent)
+
+     do the lookup
+
+     inode_unlock_shared(parent)
+  }
+
+and then if "do the lookup" calls d_add_ci() or otherwise needs to drop
+the lock, the code that needs to be unlocked gets moved after the
+inode_unlock_shared() and we won't need to take the lock again.
+
+So ultimately the fs will be completely responsible for any
+directory-wide locks that it might want to take.
+
+fuse would be well advised to keep the directory exclusive locked across
+upcalls unless the server has advised that the lock isn't needed.
+
+Thanks,
+NeilBrown
+
+
+>=20
+> I mean it would suck pretty badly if locking order would be fs_type dependa=
+pt,
+> but honestly, I do not think we will be able to avoid that, so we need to
+> make sure that humans and lockdep are able to understand the different
+> scopes of vfs locking at least per filesystem type.
+>=20
+> Thanks,
+> Amir.
+>=20
+
