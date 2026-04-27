@@ -1,83 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9720A2248A3
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 13:27:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1184A3C942B
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 13:28:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777296439; cv=none; b=upIE+oncj0P57ZK3sqjSaEMfcEXiMq1lXrb9BbexHwjS9w9detcm0jwLXRdArouzrmxHbRX7+udfNoHO4e8jAuPzZ/SAY5SjI6/QebHHVLrKPOUhBmVpmGrJ3r+SXEQndVQzPW10PZShTlTkquw2t6wmcINq3Y0EuXVs84DwNnc=
+	t=1777296485; cv=none; b=Zz5zmEJ0UDFJZ9vnGRqoGGMf+3t8h03Bvx6twmHuTdCYCb1ZcaQU2ShU2agYtMdU2D4ONCR94Ok4sXg0g5EiGpDLTfBEclkX5X1h5+8ZaU+vy3kVJi9Wrc0Vm+dlF89hhlwtsTqR7cZ4TaC1/yFkEuAoqE0OPFwXLje3vDp4kec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777296439; c=relaxed/simple;
-	bh=Obc9wd2jPawQkjEjm3DG24wgiSd/HZowv02EK7FPh10=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uIznjJ6SbP1VeKApxMmK7cl4Jm5T5+66faMPBAXk5OU/hLJG9aIZrkSopomorV1StVK9+ajsGqKyK1cN+MvEXxJ9F+AhGkfiBromF1MPbWNRtmYnmD0o5BEX7I0RgYGCH0n/YpS2znq1PAkVMST8fHNtl7FK1LuwXZrjJkMTdkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bODD95r7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777296485; c=relaxed/simple;
+	bh=bl50Ep5/p8ND33Uem3F9a2mCUjhFig1ZZdRelrFhzvs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=q7DZrcVebE5i1WLchQRDoTQDMN8gYb6w6GS/cxZss/4r9RGstntHb67/GRYTpopETwSEIyo3/s6jfu6MMWRv57LXB2cQYdNwpHn6AGIxGXfwJgvweWIOcyOHB90a0v+4ohJwyKTRou2SUBmR/WZ8pdHipKTzN4Ur4emVyQB1qJo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=f+Xu28RE; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bODD95r7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E8ECC19425
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 13:27:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777296439;
-	bh=Obc9wd2jPawQkjEjm3DG24wgiSd/HZowv02EK7FPh10=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=bODD95r7culuxRDdpkdfxUJXE02kZy/1qprkQpPSOMWVQscB6rOjkCTizcNX5bwv+
-	 fY1KupvnRF5Id9Ns/8lxAO5+ANzlmEvyT0X7pnwWXkkcfQkrMu2W0hgYe3v4wd+t8v
-	 4kQKs9C9O2FD2ZPp9AurJFqNXgyzdXbZCfYc2/vMtdSTLCozw6CqrQMaS0onxxcZy3
-	 aMUu4hpfQQ9Ah2iYMhpWJq0R4vXYWEfjAHGJ2+T5ehWzDUIMRCX8J1DS8RPmW0Tf2P
-	 OAF0Mg36btI4m1STCo3vDfjMq50juUzn/XmHIbJeQd9owyK1EB3mAWHrxiOgAXXi3K
-	 CS0aRnBjSvzwA==
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b9358bc9c50so1353882666b.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 06:27:19 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+vjlKDwu60L/B5YkGGULwch3AHNMn7SjKFCeTE6asy6feScbaUzo/G32d4tVAIhZmR4B96YpomNkSs5A0e@vger.kernel.org
-X-Gm-Message-State: AOJu0YzuEHYzDal9PuGDLf+k0Lnn8h99f9NqW0qAdvZu4QtL4RkWhO/L
-	8OkSdV33/W+uDeCjjxpz07U8FyrBZtB21kb+tUybNOJn7WEpEfKHJB0LXUQRt3ZJjHbMoE2Mblw
-	xOgPX+95OF/USn4wlaqRLAxS0C8cT5w8=
-X-Received: by 2002:a17:907:cb0a:b0:b9d:4301:be37 with SMTP id
- a640c23a62f3a-ba419077368mr1467054566b.5.1777296438049; Mon, 27 Apr 2026
- 06:27:18 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="f+Xu28RE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1777296481;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eB5Kgu6P3tnZXGszhQUVKu+SbjuqgQqzL2PHunRJg4s=;
+	b=f+Xu28REtVzZTuUMFazq0EYzL+YBinNg4DF18uOv775xVgXSdvwtj4DZt0epG1LWXuUepq
+	XN7+caw6+ioiVyyEiQGs9errGNiUAKhHS5NZUcdqUGWvHq6SNYccnkQbJqd2s+TERVzTZP
+	j6u0rUpD0lZE9J2e4GuGOGr9PEgYZLU=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-358-xvuMkHvJNe-8r8RECjYy7g-1; Mon,
+ 27 Apr 2026 09:27:59 -0400
+X-MC-Unique: xvuMkHvJNe-8r8RECjYy7g-1
+X-Mimecast-MFC-AGG-ID: xvuMkHvJNe-8r8RECjYy7g_1777296475
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 66EE318002C6;
+	Mon, 27 Apr 2026 13:27:53 +0000 (UTC)
+Received: from fweimer-oldenburg.csb.redhat.com (unknown [10.44.48.4])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5C3B3180047F;
+	Mon, 27 Apr 2026 13:27:40 +0000 (UTC)
+From: Florian Weimer <fweimer@redhat.com>
+To: Dorjoy Chowdhury <dorjoychy111@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org,  linux-kernel@vger.kernel.org,
+  linux-api@vger.kernel.org,  ceph-devel@vger.kernel.org,
+  gfs2@lists.linux.dev,  linux-nfs@vger.kernel.org,
+  linux-cifs@vger.kernel.org,  v9fs@lists.linux.dev,
+  linux-kselftest@vger.kernel.org,  viro@zeniv.linux.org.uk,
+  brauner@kernel.org,  jack@suse.cz,  jlayton@kernel.org,
+  chuck.lever@oracle.com,  alex.aring@gmail.com,  arnd@arndb.de,
+  adilger@dilger.ca,  mjguzik@gmail.com,  smfrench@gmail.com,
+  richard.henderson@linaro.org,  mattst88@gmail.com,  linmag7@gmail.com,
+  tsbogend@alpha.franken.de,  James.Bottomley@HansenPartnership.com,
+  deller@gmx.de,  davem@davemloft.net,  andreas@gaisler.com,
+  idryomov@gmail.com,  amarkuze@redhat.com,  slava@dubeyko.com,
+  agruenba@redhat.com,  trondmy@kernel.org,  anna@kernel.org,
+  sfrench@samba.org,  pc@manguebit.org,  ronniesahlberg@gmail.com,
+  sprasad@microsoft.com,  tom@talpey.com,  bharathsm@microsoft.com,
+  shuah@kernel.org,  miklos@szeredi.hu,  hansg@kernel.org
+Subject: Re: [PATCH v6 1/4] openat2: new OPENAT2_REGULAR flag support
+In-Reply-To: <20260328172314.45807-2-dorjoychy111@gmail.com> (Dorjoy
+	Chowdhury's message of "Sat, 28 Mar 2026 23:22:22 +0600")
+References: <20260328172314.45807-1-dorjoychy111@gmail.com>
+	<20260328172314.45807-2-dorjoychy111@gmail.com>
+Date: Mon, 27 Apr 2026 15:27:37 +0200
+Message-ID: <lhuzf2oy1me.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250227224826.GG2023217@ZenIV> <CAKYAXd_-v601SX44WZ970LyZjsCH3L3HFjJXxZH960r1PXo+Bw@mail.gmail.com>
- <CGME20250228160332epcas1p2b177def4195cedc4c122a5f09bb29d2a@epcas1p2.samsung.com>
- <394ca686-a45a-e71c-bc45-33794463b5fc@samsung.com> <29a2901db9414$fcacee50$f606caf0$@samsung.com>
- <20260403195408.GM3836593@ZenIV> <21c1e01dcd3b9$546fb610$fd4f2230$@samsung.com>
-In-Reply-To: <21c1e01dcd3b9$546fb610$fd4f2230$@samsung.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Mon, 27 Apr 2026 22:27:05 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd_C+1_4z5PoHNbqcAMoE5++pEJC80O5=XRmeZjngFE0ZA@mail.gmail.com>
-X-Gm-Features: AVHnY4LYYab6OBaslm8BzQ_YwG-v_eDzevEvAv9KNXMGng3WejTS-0mDOIs5iGA
-Message-ID: <CAKYAXd_C+1_4z5PoHNbqcAMoE5++pEJC80O5=XRmeZjngFE0ZA@mail.gmail.com>
-Subject: Re: [RFC] weird stuff in exfat_lookup()
-To: Sungjong Seo <sj1557.seo@samsung.com>
-Cc: Al Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, 
-	sjdev.seo@gmail.com, cpgs@samsung.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-> > > [PATCH] simplify exfat_lookup()
-> > >
-> > > 1) d_splice_alias() handles ERR_PTR() for inode just fine
-> > > 2) no need to even look for existing aliases in case of directory
-> > > inodes; just punt to d_splice_alias(), it'll do the right thing
-> > > 3) no need to bother with 'd_unhashed(alias)' case - d_find_alias()
-> > > would've returned that only in case of a directory, and
-> > > d_splice_alias() will handle that just fine on its own.
-> > > 4) exfat_d_anon_disconn() is entirely pointless now - we only get to
-> > > evaluating it in case dentry->d_parent == alias->d_parent and alias
-> > > being a non-directory.  But in that case IS_ROOT(alias) can't possibly
-> > > be true - that would've reqiured alias == alias->d_parent, i.e alias
-> > > == dentry->d_parent and dentry->d_parent is guaranteed to be a
-> > > directory.  So exfat_d_anon_disconn() would always return false when
-> > > it's called, which makes && !exfat_d_anon_disconn(alias) a no-op.
-> > >
-> > > Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
->
-> The patch looks good to me and seems to be working as intended.
-> Thank you for your efforts!
->
-> Reviewed-by: Sungjong Seo <sj1557.seo@samsung.com>
-Applied it to #dev.
-Thanks!
+* Dorjoy Chowdhury:
+
+> diff --git a/include/uapi/asm-generic/errno.h b/include/uapi/asm-generic/=
+errno.h
+> index 92e7ae493ee3..bd78e69e0a43 100644
+> --- a/include/uapi/asm-generic/errno.h
+> +++ b/include/uapi/asm-generic/errno.h
+> @@ -122,4 +122,6 @@
+>=20=20
+>  #define EHWPOISON	133	/* Memory page has hardware error */
+>=20=20
+> +#define EFTYPE		134	/* Wrong file type for the intended operation */
+> +
+>  #endif
+
+This is what POSIX says about EFTYPE, in the Rationale for System
+Interfaces:
+
+=E2=80=9C
+[EFTYPE]
+    This error code was proposed in earlier proposals as "Inappropriate
+    operation for file type", meaning that the operation requested is
+    not appropriate for the file specified in the function call. This
+    code was proposed, although the same idea was covered by [ENOTTY],
+    because the connotations of the name would be misleading. It was
+    pointed out that the fcntl() function uses the error code [EINVAL]
+    for this notion, and hence all instances of [EFTYPE] were changed to
+    this code.
+=E2=80=9D
+
+So I'm not sure if reusing this name is a good idea.
+
+Thanks,
+Florian
+
