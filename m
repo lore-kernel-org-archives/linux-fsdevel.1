@@ -1,88 +1,197 @@
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97C6D3ACEE3
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 10:41:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BCBF3B6343
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 10:44:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777286482; cv=none; b=VOvY4UGPnaFg6/v7cRgPMg3HxmfGKpu9BNwz4DRzgC8e2GPFm2ekzF4FXVgd6XKBfDwkdiWGIBY3yZBjlkL46/I4hFfEABbhAtZRVgIUs7i0SJYndYuQGis8tl/axRg7VQ+cCKltTjFfAkVch+zL7zVip9xRqYNK9M2umVVB7fE=
+	t=1777286661; cv=none; b=XiS1TnHcPkIrnrp8vjX9L5wQock7R/3avUdgzSqlTvlJizIJZeyLHRxpwvpvGAXpU17XvOGNxQ7g08sk1ai5rzEn7xAJLm+MiaH1lA6rT9YKSEJTeSwbIRyE0eh8KZLoUJ7JYJ3MPNz0qP2j/xGs+hDC61QMsTIJpDAlRWr7Sak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777286482; c=relaxed/simple;
-	bh=yH1yt0CoI6J8X7bpRyZZ2pRSe3RY9ifAqT9OyjlZIEE=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Content-Type; b=OJHsZR6LySFZXnqriZf4Ojj8zdR8TyHeuUEf0DwbvmYULeIklq4DCb6XtcuX/zj0VHhM5fNhvBSpJZbXdxLxnk7x5DW1lS2H5YRac9F9xVJGoC3zu6nTlU8sMTNiSUV4hCO++vG7EHUs33ZZU7E1eKDaDcfJjdMkzWLXDFrXYg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Js+TMjj8; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1777286661; c=relaxed/simple;
+	bh=EcGL6vvKBbFGlALXRO9vbvgyGx7uQVMTTbnpDYF6cj4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GUawAJIkoNIAVH6wgc+TFtKgI+q0b7nxc1z0hLB+O1jK8twu6XGGC8WJ6g7XmR8Q3N+uJZ6LZzCbPJ2k9lhXxLPcgofrI4KtOHtq6FkxA2giDLvuLnEnm+gqD52Dtx73S9trBALphEQX5ghy9BbqRHgxNuENCvC4Y+E1wHl3+cU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=jGyfSB+0; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=tsHzfwMg; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=jGyfSB+0; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=tsHzfwMg; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Js+TMjj8"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="jGyfSB+0";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="tsHzfwMg";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="jGyfSB+0";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="tsHzfwMg"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4g40V54Zb5z9tkN
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 12:41:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1777286477;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:autocrypt:autocrypt;
-	bh=yH1yt0CoI6J8X7bpRyZZ2pRSe3RY9ifAqT9OyjlZIEE=;
-	b=Js+TMjj8OScIyEO1cjpuQbPwQ61uXemVKOH81nq9v0uHwj+zh6Huiq/EZjZ4s21BlRZmOR
-	3QJMGxZJJ4ki/CCW5sw0z/FTr1q6gT6NrJnybuKCPAUXiDaC7vF7RKgFOk6IHeS5NQR06j
-	wdcDW+aVVYPohhznvAXkBH7nsGsyRGchXPjZtALskFGLUczR9DB6fePMHABwMJJWvogFS0
-	mHwUZUMn5EjInyhxq1bfZT9edQO1ksvdSkM0cdoUsDLM5bT6aDq/1LVEVCPrikELUpf08i
-	DQ3aq1LK5nNBwgk/SA2LB/lQh/lU/WGhMKiT5z/UsWndNQeGxFitruGJZhTwhA==
-Message-ID: <9a7ffc95-077c-473d-9462-a7d4ac58e9ed@mailbox.org>
-Date: Mon, 27 Apr 2026 12:41:16 +0200
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 7BE1B5BCD1;
+	Mon, 27 Apr 2026 10:44:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1777286656; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7es2t5zILoUe2Xa+VUEaztNlgXB3uJkU01uqH8OQu+0=;
+	b=jGyfSB+007IZh5ANgTITYbICaCZ/mmpkLRGaHzvNZs2WLF2cSHpbAveyKv84KFB4G1Vv9Z
+	1fuxiAoFtF+nO5YTy4KQDpY+nPGU3KmlpuIls7Qy9okLIf6OGxNp9zufvgHJkBfUD2UN1X
+	SkJWXYLX6VoGcjm7j+cYrWQ67Radq/s=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1777286656;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7es2t5zILoUe2Xa+VUEaztNlgXB3uJkU01uqH8OQu+0=;
+	b=tsHzfwMgBRnW3DDcT662TObJG38GJs/vt/oMtwoSB6TP7VYJGSPodTxt0fZHmhVwyJHAyf
+	8PLfeIxCQiQTuiCw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=jGyfSB+0;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=tsHzfwMg
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1777286656; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7es2t5zILoUe2Xa+VUEaztNlgXB3uJkU01uqH8OQu+0=;
+	b=jGyfSB+007IZh5ANgTITYbICaCZ/mmpkLRGaHzvNZs2WLF2cSHpbAveyKv84KFB4G1Vv9Z
+	1fuxiAoFtF+nO5YTy4KQDpY+nPGU3KmlpuIls7Qy9okLIf6OGxNp9zufvgHJkBfUD2UN1X
+	SkJWXYLX6VoGcjm7j+cYrWQ67Radq/s=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1777286656;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7es2t5zILoUe2Xa+VUEaztNlgXB3uJkU01uqH8OQu+0=;
+	b=tsHzfwMgBRnW3DDcT662TObJG38GJs/vt/oMtwoSB6TP7VYJGSPodTxt0fZHmhVwyJHAyf
+	8PLfeIxCQiQTuiCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6EE4B593B0;
+	Mon, 27 Apr 2026 10:44:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 8N0NGwA+72mCKQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 27 Apr 2026 10:44:16 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 29DBCA0AFF; Mon, 27 Apr 2026 12:44:08 +0200 (CEST)
+Date: Mon, 27 Apr 2026 12:44:08 +0200
+From: Jan Kara <jack@suse.cz>
+To: Chuck Lever <cel@kernel.org>
+Cc: Al Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
+	linux-nfs@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-f2fs-devel@lists.sourceforge.net, hirofumi@mail.parknet.co.jp, linkinjeon@kernel.org, 
+	sj1557.seo@samsung.com, yuezhang.mo@sony.com, almaz.alexandrovich@paragon-software.com, 
+	slava@dubeyko.com, glaubitz@physik.fu-berlin.de, frank.li@vivo.com, tytso@mit.edu, 
+	adilger.kernel@dilger.ca, cem@kernel.org, sfrench@samba.org, pc@manguebit.org, 
+	ronniesahlberg@gmail.com, sprasad@microsoft.com, trondmy@kernel.org, anna@kernel.org, 
+	jaegeuk@kernel.org, chao@kernel.org, hansg@kernel.org, senozhatsky@chromium.org, 
+	Chuck Lever <chuck.lever@oracle.com>, Roland Mainz <roland.mainz@nrubsig.org>
+Subject: Re: [PATCH v11 12/15] isofs: Implement fileattr_get for case
+ sensitivity
+Message-ID: <isfgwmd5hxjfn7dj7p54yzlhumx2hrkt3zw7fscs2ywm57g3hu@co27drpx24lq>
+References: <20260424-case-sensitivity-v11-0-de5619beddaf@oracle.com>
+ <20260424-case-sensitivity-v11-12-de5619beddaf@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Language: en-US
-From: Zeno Endemann <zeno.endemann@mailbox.org>
-Subject: Meaning of struct statx->stx_blksize field
-Autocrypt: addr=zeno.endemann@mailbox.org; keydata=
- xjMEaQTnsRYJKwYBBAHaRw8BAQdAaM0iP7BM4cim48CUrxLA/GL1pYCCEzcWwMWZpif6rNXN
- M1plbm8gU2ViYXN0aWFuIEVuZGVtYW5uIDx6ZW5vLmVuZGVtYW5uQG1haWxib3gub3JnPsKW
- BBMWCgA+FiEEmC5dRIssSc8usW9ctw5fyLMNvKkFAmkE57ECGwMFCQWjmoAFCwkIBwIGFQoJ
- CAsCBBYCAwECHgECF4AACgkQtw5fyLMNvKlmYgD+LcbsvEZxyegeAcyvZXvpZBEjHXqkdM90
- C9QVC1CsW3IA/jqxTNUPJZ26XR3/d7XcWMFg5JRZyJdL7dP+7crJeMkGzjgEaQTnsRIKKwYB
- BAGXVQEFAQEHQHFzaxdORLfIxXTm1tjSnTbboFXL9tw5GgcNA4Nz0AQiAwEIB8J+BBgWCgAm
- FiEEmC5dRIssSc8usW9ctw5fyLMNvKkFAmkE57ECGwwFCQWjmoAACgkQtw5fyLMNvKmYmgEA
- xY2IpTWenWoXXSyhGUWu/ZfdRUsUBtYM5wSj7XeayCUA/0/dEWSKHsuxuFgvaetZE92+qjb8
- HkxusIwKIh1rafYI
-To: linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: i7yxywojr7qcokbdjsih5ic6eecjbtwn
-X-MBO-RS-ID: 8794de77527b5d71ec8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260424-case-sensitivity-v11-12-de5619beddaf@oracle.com>
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCPT_COUNT_TWELVE(0.00)[34];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	R_RATELIMIT(0.00)[to_ip_from(RLa77mm4gi8mw7uppieotozii3)];
+	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,vger.kernel.org,lists.sourceforge.net,mail.parknet.co.jp,samsung.com,sony.com,paragon-software.com,dubeyko.com,physik.fu-berlin.de,vivo.com,mit.edu,dilger.ca,samba.org,manguebit.org,gmail.com,microsoft.com,chromium.org,oracle.com,nrubsig.org];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nrubsig.org:email,suse.cz:dkim,suse.cz:email,suse.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,oracle.com:email]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -4.01
+X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 7BE1B5BCD1
 
-Hi,
+On Fri 24-04-26 21:53:14, Chuck Lever wrote:
+> From: Chuck Lever <chuck.lever@oracle.com>
+> 
+> Upper layers such as NFSD need a way to query whether a
+> filesystem handles filenames in a case-sensitive manner so
+> they can provide correct semantics to remote clients. Without
+> this information, NFS exports of ISO 9660 filesystems cannot
+> advertise their filename case behavior.
+> 
+> Implement isofs_fileattr_get() to report ISO 9660 case handling
+> behavior via the FS_XFLAG_CASEFOLD flag. The 'check=r' (relaxed)
+> mount option enables case-insensitive lookups, and this setting
+> determines the value reported. By default, Joliet extensions
+> operate in relaxed mode while plain ISO 9660 uses strict
+> (case-sensitive) mode. All ISO 9660 variants are case-preserving,
+> meaning filenames are stored exactly as they appear on the disc.
+> 
+> Case handling is a superblock-wide property, so the callback
+> must report the same value for every inode type. Regular files
+> previously had no inode_operations; introduce
+> isofs_file_inode_operations to carry the callback. Symlinks
+> previously shared page_symlink_inode_operations; introduce
+> isofs_symlink_inode_operations, which wires page_get_link
+> alongside the callback, so that fileattr queries on a symlink
+> reach the isofs implementation instead of returning
+> -ENOIOCTLCMD. The flag is set in both fa->fsx_xflags and
+> fa->flags so FS_IOC_FSGETXATTR and FS_IOC_GETFLAGS agree.
+> 
+> Reviewed-by: Jan Kara <jack@suse.cz>
+> Reviewed-by: Roland Mainz <roland.mainz@nrubsig.org>
+> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
 
-The man page of statx(2) describes the stx_blksize like so:
+...
 
- > The "preferred" block size for efficient filesystem I/O.
- > (Writing to a file in smaller chunks may cause an
- > inefficient read-modify-rewrite.)
+> @@ -281,6 +293,18 @@ const struct file_operations isofs_dir_operations =
+>  const struct inode_operations isofs_dir_inode_operations =
+>  {
+>  	.lookup = isofs_lookup,
+> +	.fileattr_get = isofs_fileattr_get,
+> +};
+> +
+> +const struct inode_operations isofs_file_inode_operations =
+> +{
+> +	.fileattr_get = isofs_fileattr_get,
+> +};
+> +
+> +const struct inode_operations isofs_symlink_inode_operations =
+> +{
+> +	.get_link = page_get_link,
+> +	.fileattr_get = isofs_fileattr_get,
+>  };
 
+Hum, I thought casefolding is a directory attribute. At least I don't see
+a big point in reporting it for regular files or symlinks (and then why not
+report it for device nodes or named pipes?). So why did you decide for this
+change?
 
-However, from observation it rather looks like that field
-is set to the "block size" (meaning the allocation unit) of
-the file system the given file resides on - at least for
-ext4 and vfat.
-
-To my understanding that value is fairly unrelated to a good
-IO transfer size and for the most part not really relevant
-for userspace apps. For avoiding inefficient read-modify
-rewrite the actual relevant thing is writing in multiples of
-the page size (unless the page cache is bypassed, in which
-case I guess stx_dio_offset_align is the value to use).
-
-Can someone confirm my interpretation, so the man page can be
-corrected? Or do I misunderstand or overlook something?
-
-Thanks,
-
-Zeno Endemann
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
