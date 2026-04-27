@@ -1,273 +1,153 @@
-Received: from mail-dy1-f201.google.com (mail-dy1-f201.google.com [74.125.82.201])
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F4D3351C2A
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 03:01:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777258922; cv=none; b=rUKzo4vNc+dgUZqmNrUyid0I6LIfdPdZs0EHdXCW38Rwjxy1BH9/oK72QCY1gMBXVKFZDvYpfzCxHQVP4vmHCKb/hFwfdCyDCYvdlr3eP36VKMqLsPxjmUGiNPYeACPSym9qegole4DF1tf+FvjLciRUc9cZ5NePjhkYT5jdS9Y=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777258922; c=relaxed/simple;
-	bh=p1puO37u8bFWWgJSFzDKpur60Th7Ldl2GpetpbjDBVw=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=XmZ+osuuYYiWvkLTsb2x3A4mBqvBEwnSOXHQdWNte91E3R8/xNgm7mOk82RVY3vMlAMmeoeJ854EJjlJdwztEsGaPenG7n0VCbHUax8es6/PGhlR1lm/GFfNxuMPnCjGiz8P5qqCiALxrL3Cmar4r7cB1Fk1AQ2sezHb7FhmOas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--fmayle.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mVoSxNwi; arc=none smtp.client-ip=74.125.82.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--fmayle.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1578B258EC1
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 03:24:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.182
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777260251; cv=pass; b=kfsMNm2FA0oMsup5OzS1ULZ+VO11yMwKkvQIOvQftGMN7gBUCplhx/gw+VJKnAokledRyieLOhQDjpUj2y7Dnytl/PQbYMG1TBEt5BJ52nllwC2UUgyZUrpa3IMZDKP/TtoV8zKA2ayYf4qBnmI4qObfTF6Cft+wFGgisXBPPJY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777260251; c=relaxed/simple;
+	bh=5scMGizBEZQ+MRt1lEr1zuH+6NL7GMmtobGuYdV0JtQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Clf3q03YlmcLTD7FYQdw8+/bkMGwV/+NtnUTiWQi5m4MaCieHc/H72TCO2EOOMWT2XsprapkqzYV15n4QLfuwijSzBSWVBw34miegpyBq7FbkvLW1V+olZThJ2n81xsICP3TGsMZentkGDk4ZrMTdMTRhTRlIy+ooNSuyLEXyro=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZNefJAuf; arc=pass smtp.client-ip=209.85.160.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mVoSxNwi"
-Received: by mail-dy1-f201.google.com with SMTP id 5a478bee46e88-2bdf6fe90a9so15109741eec.1
-        for <linux-fsdevel@vger.kernel.org>; Sun, 26 Apr 2026 20:01:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZNefJAuf"
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-50e97863425so72845031cf.0
+        for <linux-fsdevel@vger.kernel.org>; Sun, 26 Apr 2026 20:24:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777260249; cv=none;
+        d=google.com; s=arc-20240605;
+        b=fwrxdI4P/M2T7NiTlsbope+f6R74rYBOi2zSFzXCgnL58Hu/3Qg6IKwZOv25n/f5Uq
+         CYrVvBBVnSnksqENTKzpjY6Q4GaodJqEf1UgfD/E+Ks7P/uusi2J4RPFvQOMx3OzyMdX
+         ws2QimXhJHqnRD9JwUL1rL4mdVVd1i9Y7WKqePowkO9JH2eElSHnjdE826vMQ3Ibu09j
+         2xNBIj1JXbLw7y7nWj1PXkXjbkt9jNA0EdIfaA6oCY3lnizZsKWZEii7Bz7UeYNGZO0j
+         Uot/ZhGmFXbVBp9L0gY3ahCCDP57IdiAGxtNx9vGPuIrVP2FanIkmTRKAUPLLynwcRJ6
+         e7sg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=2zE68H0RpKyKb+UxxWIY0vid0AEaBVY0DBcP4n4sG7w=;
+        fh=+YZqLLrNZnSl9o4z1HmCLbJHmz3QXRMXhDotbcByjhE=;
+        b=dqoI6tLODYVxo0sZYtnBJByeNPDd1CaLJn1VnXmh7yhuu2NZxJ7nb7WAaSmn1qfmTW
+         3BD9lWpb2iL3aWOyfoWAOmPnrcd5kN4hySAZIei4SoVwebaw1SyqqjCBoIWOGybmxlwK
+         GJE9ZA766tcd8JtU653nq/WttjA+7SbtpJ7A7u1wHA5IEBRghLhCF/8iG6xJullVGjRG
+         gOG/3GBoR9vH5lCfB1aXBLbz+c8jFtlWotYvakR434LEczK/2xzGyosCr/ZpBkVpcO1k
+         Gn10z9maOIxkFQmH/D09YwU0lpyuIz3VvK1oos9og2qtN7CiLOyZDUaZibWkVs8iuYbq
+         eXmA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1777258919; x=1777863719; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=5ioCKyTrZjs5zhjXH3CtGoC09/oSwp/qrBcKYJ54Avc=;
-        b=mVoSxNwihIx5J3kPsBoPgF7fCdMHzf1+eumWlG+zo440leRqd9YnP0Wmn7w0M5oLTg
-         PBiFNaiK6QDnSJYJaTOq/p6rr/EmvdHbPELUqKkdZ6kFG5aQG7vqEi5y7MRBsZIwa04f
-         hO6ZTFUMvPt/QigUWAlQ8uSGAzvzlmsfLWVqRfFx6PPIxsfuCRwPHkCkgFsMfystYpkc
-         /VcrMpfMVdo5kD0jp8s1s8i9gSibNMJYbeiEIyQfoJGkWsYk3Y50Cr9+ICMlFYEmW8Hr
-         0+auSaEg4674q/YgAdXxz898wxab0IKtgNh8SvZC3mHzC/KRYOBf3/BWQLXav67ptKWO
-         BRdw==
+        d=gmail.com; s=20251104; t=1777260249; x=1777865049; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2zE68H0RpKyKb+UxxWIY0vid0AEaBVY0DBcP4n4sG7w=;
+        b=ZNefJAufyWGznw27IG/u0F3FYcP8TsMm3USawUoCjfR5T+l1F/1NEkjhSgvVKwyg2/
+         VfHTz63Ur+sU67l870IFMK2bB+eqc6pVLKYKhfMWV77p0Ts7Qzpzz8Kvelf9hfETnR7l
+         847n6nL3AuQzLErajeLlQh9jyLgBXDy63+97Z8m/ZqBrv2phit/G9Y0eQCzlulhQ5vja
+         QcoH6gprOgVLQlma6Jyewdgs2SOR27H24qLLbe7WQ54rthMRDjgQ3o4rf9HCZSXZvNJb
+         wsQPBrvg9Gk3sSKAWddauav3oTTSCPJtBHR8hxGrCnjgRXam9Pt+BRdQQIyFZPloxPKO
+         nXLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777258919; x=1777863719;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5ioCKyTrZjs5zhjXH3CtGoC09/oSwp/qrBcKYJ54Avc=;
-        b=KOB6D3MeA0ju10uIKw5Zs7YZdCYJ+WyGT4X+8Ffw0NibYVuPlQ2Ftdwsd9fzcFGWA9
-         vgyVX5SAotHA4BYNifHVHSfXEp0Oed5nOzGWznz9Hg5HGgfBVBIgQNsMR0VQCdaJCaOC
-         2EVh0RFBXT8qv+H91H/VSTcAILwPT60Cqkq8+ScCxRUt/KPTVCEYIcPpG8lAiGD51uVA
-         IqycwoUEmB2ajgz6ZYVuWH+CxzW4d4ySmt54B7av2nm+XdJJSO/1UbJmAUqs7H32h7FS
-         w4igThTa6fRMkIdg4uAFCd9RkxKfGnUAaLG/1eMSXk05p48DyIGcAAiS7QVu7GTGsCic
-         DaZg==
-X-Forwarded-Encrypted: i=1; AFNElJ87xmbTKh1we4Dc0a0xk+7cdaCf3i84obRJFaYxdR3em0NeMvZcbApLBdQgZrNlby1qVQL9gjInTJaa79oT@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw1DwbVN1dNmLJS8pqV9wtmZC9G/+ZrmARHHTjd2R68ihienUbx
-	BW/vLsqmcpoKAlnuWQajlQ2RREXif7Uf0B6U5bTv+dnCyvcSUv4GNHpdoZ+8Vq4NLQKI3iE1V5K
-	X98YmsA==
-X-Received: from dlbqq3.prod.google.com ([2002:a05:7022:ed03:b0:12c:8db5:2517])
- (user=fmayle job=prod-delivery.src-stubby-dispatcher) by 2002:a05:7022:12b:b0:128:cf75:42a3
- with SMTP id a92af1059eb24-12c73f99753mr21738722c88.21.1777258918488; Sun, 26
- Apr 2026 20:01:58 -0700 (PDT)
-Date: Sun, 26 Apr 2026 20:01:47 -0700
+        d=1e100.net; s=20251104; t=1777260249; x=1777865049;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=2zE68H0RpKyKb+UxxWIY0vid0AEaBVY0DBcP4n4sG7w=;
+        b=gJm5Sh65Blky3dcYIlajgVCOuuhAWOqTljgMSTexA53oGVXfhXtrKK51ukhxOspIIs
+         rvBeGpTGJQ8PKZfQziNsYhcwnLRdXJIHux1/HWDRLT7eD90a9FDoPq7Zlldap74zCxQ2
+         o+xLFrxzKGcwrQjnBmEItUDB67fC6hF5qG0PNBow7w2nR2kJ+CITbVfXbg6qU4qDNuHh
+         IQTp3HkyYZoeG2bUfMaOBncRb/Bfuog75vnBPMzyrnXng661pFcN3EArNMQU74/9nD9v
+         pkwmA0S9dzjvKUpNkgTNf9M/qpDrM78WFJ4Ny31U0MLH56uko7bz1JVa61wkW5RWZFnN
+         LEuA==
+X-Forwarded-Encrypted: i=1; AFNElJ9ekIc9EGAK/ZIKDy6S+PscVH9NdWUdRzp7LSvJ63AUJVYdK1N6gWg9cnmor1cpTqSadeJvwAu7RiEX8/mA@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+aN+bP+N7m4ZuWUwCKJZ7D9gjENjFUmmaZxVSc8HUbybvmDui
+	VzlZVEMtKnZtVD1lFHwpxxMYmEgCZ+tNpjTtEVL1GhH6E9dc5lxiB5S3nrtsGsR6HcTjH3/FiPW
+	8zDmkyTGLi4K137gYcHCVlltaf1v/VOI=
+X-Gm-Gg: AeBDievvad3DJlBGZDr5UxEktXQLlnAl6BaR18v+0Je1rNUYhacuyL0uFBh6/YmCrEZ
+	pOxX7nGmM+W69f+tywSAjWhCJztGb5M3fc9/4gHZKrspA7nakHdVnEvuNhck9i52uSPwwmQnz95
+	XWmF/tqsUYx0cGoGSIrTCjGDfiHDMphwHVb4qnS9plM8QtSnB7MPX/LC5Hsgcd4Hmsogd5TcK9J
+	VJ0wAkwTIbAfRVn4ROkRcjsvuk9HIei3NnAyGXGTfX/MiPPQdy2sOz8y5JdnyXPvPWuqKVR7bLv
+	ysewVPPC3x0EgR16RJrnwEqzClkwMybw6K/iDKwqb/aJZ34VwxrFr2NcPm0htw==
+X-Received: by 2002:ac8:7e82:0:b0:50f:c15d:3f65 with SMTP id
+ d75a77b69052e-50fc15d4453mr321942841cf.1.1777260248936; Sun, 26 Apr 2026
+ 20:24:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.54.0.545.g6539524ca2-goog
-Message-ID: <20260427030148.653228-1-fmayle@google.com>
-Subject: [PATCH v2] mm: limit filemap_fault readahead to VMA boundaries
-From: Frederick Mayle <fmayle@google.com>
-To: David Hildenbrand <david@kernel.org>, Jan Kara <jack@suse.cz>, Lorenzo Stoakes <ljs@kernel.org>, 
-	Matthew Wilcox <willy@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Pedro Falcato <pfalcato@suse.de>
-Cc: Frederick Mayle <fmayle@google.com>, Kalesh Singh <kaleshsingh@google.com>, 
-	Suren Baghdasaryan <surenb@google.com>, android-mm@google.com, kernel-team@android.com, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org
+MIME-Version: 1.0
+References: <20260427001602.38353-1-dwindsor@gmail.com> <20260427001602.38353-2-dwindsor@gmail.com>
+ <CAP01T74iuSDJeL6g=5yLdYGb-VcESK1SYY3R1S1r-CtQEsW+oQ@mail.gmail.com>
+In-Reply-To: <CAP01T74iuSDJeL6g=5yLdYGb-VcESK1SYY3R1S1r-CtQEsW+oQ@mail.gmail.com>
+From: David Windsor <dwindsor@gmail.com>
+Date: Sun, 26 Apr 2026 23:23:56 -0400
+X-Gm-Features: AVHnY4LNYufhxdoAmceUuZwiccpvrcrEMwYgU2MUvTWN4N_kz_NZl2ifuCum7P8
+Message-ID: <CAEXv5_heSFK5rZYtaJG70Xgv92Um6Dbq8b95PtnpKy7XFwpKUw@mail.gmail.com>
+Subject: Re: [PATCH bpf-next 1/2] bpf: add bpf_init_inode_xattr kfunc for
+ atomic inode labeling
+To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, KP Singh <kpsingh@kernel.org>, 
+	Matt Bobrowski <mattbobrowski@google.com>, Paul Moore <paul@paul-moore.com>, 
+	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, Song Liu <song@kernel.org>, 
+	Jan Kara <jack@suse.cz>, John Fastabend <john.fastabend@gmail.com>, 
+	Martin KaFai Lau <martin.lau@linux.dev>, Yonghong Song <yonghong.song@linux.dev>, 
+	Jiri Olsa <jolsa@kernel.org>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-security-module@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-When a file mapping covers a strict subset of a file, an access to the
-mapping can trigger readahead of file pages outside the mapped region.
-Readahead is meant to prefetch pages likely to be accessed soon, but
-these pages aren't accessible via the same means, so it fair to say we
-don't have a good indicator they'll be accessed soon. Take an ELF file
-for example: An access to the end of a program's read-only segment isn't
-a sign that nearby file contents will be accessed next (they are likely
-to be mapped discontiguously, or not at all). The pressure from loading
-these pages into the cache can evict more useful pages.
+On Sun, Apr 26, 2026 at 10:57=E2=80=AFPM Kumar Kartikeya Dwivedi
+<memxor@gmail.com> wrote:
+>
+> On Mon, 27 Apr 2026 at 02:16, David Windsor <dwindsor@gmail.com> wrote:
+> >
+> > Add bpf_init_inode_xattr() kfunc for BPF LSM programs to atomically set
+> > xattrs via inode_init_security hook using lsm_get_xattr_slot().
+> >
+> > lsm_get_xattr_slot() claims a slot by writing to xattr_count, which BPF
+> > programs cannot do: hook arguments are not directly writable from BPF.
+> > To hide this, the BPF-facing API is just bpf_init_inode_xattr(name,
+> > value), and the verifier transparently rewrites each call into
+> > bpf_init_inode_xattr_impl(xattrs, xattr_count, name, value). xattrs and
+> > xattr_count are extracted from the hook context, which the verifier
+> > spills to the stack at program entry since R1 is clobbered during norma=
+l
+> > execution.
+> >
+> > A previous attempt [1] required a kmalloc string output protocol for
+> > the xattr name. Since commit 6bcdfd2cac55 ("security: Allow all LSMs to
+> > provide xattrs for inode_init_security hook") [2], the xattr name is no
+> > longer allocated; it is a static constant. We take advantage of this by
+> > passing the name directly. Because we rely on the hook-specific ctx
+> > layout, the kfunc is restricted to lsm/inode_init_security.
+> >
+> > Link: https://kernsec.org/pipermail/linux-security-module-archive/2022-=
+October/034878.html [1]
+> > Link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D6bcdfd2cac55 [2]
+> > Suggested-by: Song Liu <song@kernel.org>
+> > Signed-off-by: David Windsor <dwindsor@gmail.com>
+> > ---
+>
+> The explanation and code make no sense to me. Why not pass xattrs and
+> xattr_count directly as arguments, even if you choose to restrict the
+> kfunc to a specific hook? Why does the verifier core need the hack to
+> spill the context and extract the two arguments?
+>
 
-To improve the behavior, make three changes:
+xattr_count is an output parameter; we cannot currently write to it in
+bpf as there is no verifier support for writing to int *.  xattrs and
+xattr_count can be fixed up by the verifier, so we only require the
+user to pass the name and value.
 
-* Introduce a new readahead_control field, max_index, as a hard limit on
-  the readahead. The existing file_ra_state->size can't be used as a
-  limit, it is more of a hint and can be increased by various
-  heuristics.
-* Set readahead_control->max_index to the end of the VMA in all of the
-  readahead paths that can be triggered from a fault on a file mapping
-  (both "sync" and "async" readahead).
-* Limit the read-around range start to the VMA's start.
-
-Note that these changes only affect readahead triggered in the context
-of a fault, they do not affect readahead triggered by read syscalls. If
-a user mixes the two types of accesses, the behavior is expected to be
-the following: if a fault causes readahead and places a PG_readahead
-marker and then a read(2) syscall hits the PG_readahead marker, the
-resulting async readahead *will not* be limited to the VMA end.
-Conversely, if a read(2) syscall places a PG_readahead marker and then a
-fault hits the marker, the async readahead *will* be limited to the VMA
-end.
-
-There is an edge case that the above motivation glosses over: A single
-file mapping might be backed by multiple VMAs. For example, a whole file
-could be mapped RW, then part of the mapping made RO using mprotect.
-This patch would hurt performance of a sequential faulted read of such a
-mapping, the degree depending on how fragmented the VMAs are. A usage
-pattern like that is likely rare and already suffering from sub-optimal
-performance because, e.g., the fragmented VMAs limit the fault-around,
-so each VMA boundary in a sequential faulted read would cause a minor
-fault. Still, this patch would make it worse. See a previous discussion
-of this topic at [1].
-
-Tested by mapping and reading a small subset of a large file, then using
-the cachestat syscall to verify the number of cached pages didn't exceed
-the mapping size.
-
-In practical scenarios, the effect depends on the specific file and
-usage. Sometimes there is no effect at all, but, for some ELF files in
-Android, we see ~20% fewer pages pull into the cache.
-
-A comprehensive performance evaluation hasn't been done, but, in
-addition to the anecdontal memory savings mentioned above, a benchmark
-was run with fio 3.38, showing neutral looking results:
-
-    /data/local/tmp/fio --version
-
-    fio --name=mmap_test --ioengine=mmap --rw=read --bs=4k \
-        --offset=1G --size=1G --filesize=3G --numjobs=1 \
-        --filename=testfile.bin
-
-        Before: 4366.6 MiB/s (avg of 3459, 4592, 4613, 4697, 4472)
-        After:  4444.0 MiB/s (avg of 4633, 4655, 4511, 4571, 3850)
-                +1.7%
-
-    Same, with --ioengine=mmap --rw=randread
-
-        Before: 445.6 MiB/s  (avg of 446, 447, 442, 452, 441)
-        After:  447.0 MiB/s  (avg of 447, 446, 446, 451, 445)
-                +0.3%
-
-    Same, with --ioengine=psync --rw=read
-
-        Before: 3086.6 MiB/s (avg of 3122, 3094, 3066, 3094, 3057)
-        After:  3084.6 MiB/s (avg of 3039, 3103, 3103, 3084, 3094)
-                -0.06%
-
-    Same, with --ioengine=psync --rw=randread
-
-        Before: 2226.4 MiB/s (avg of 2256, 2183, 2207, 2265, 2221)
-        After:  2231.4 MiB/s (avg of 2236, 2241, 2236, 2193, 2251)
-                +0.2%
-
-[1] https://lore.kernel.org/all/ivnv2crd3et76p2nx7oszuqhzzah756oecn5yuykzqfkqzoygw@yvnlkhjjssoz/
-
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: David Hildenbrand <david@kernel.org>
-Cc: Jan Kara <jack@suse.cz>
-Cc: Kalesh Singh <kaleshsingh@google.com>
-Cc: Lorenzo Stoakes <ljs@kernel.org>
-Cc: Matthew Wilcox <willy@infradead.org>
-Cc: Suren Baghdasaryan <surenb@google.com>
-Cc: android-mm@google.com
-Cc: kernel-team@android.com
-Signed-off-by: Frederick Mayle <fmayle@google.com>
-Reviewed-by: Jan Kara <jack@suse.cz>
----
-
-This is v2 of
-https://lore.kernel.org/r/20260422005608.342028-1-fmayle@google.com/
-
-In v1 of the patch, I made a mistake and accidentally mailed twice it,
-the first time without including get_maintainer.pl output, so the
-mailing lists weren't CC'd. There were replies from Andrew to the first
-email which aren't visible on the mailing list or lore.
-
-Changes in v2:
-  - Add Jan's Reviewed-by tag.
-  - Tweak commit message wording, per Andrew
-  - Change field from `unsigned long max_index` to `pgoff_t _max_index`
-    and move next to `_index`, per Andrew
-  - Avoid min_t, per Andrew
-
-
- include/linux/pagemap.h | 2 ++
- mm/filemap.c            | 4 ++++
- mm/readahead.c          | 6 +++++-
- 3 files changed, 11 insertions(+), 1 deletion(-)
-
-diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
-index ec442af3f886..6fd2a8914073 100644
---- a/include/linux/pagemap.h
-+++ b/include/linux/pagemap.h
-@@ -1361,6 +1361,7 @@ struct readahead_control {
- 	struct file_ra_state *ra;
- /* private: use the readahead_* accessors instead */
- 	pgoff_t _index;
-+	pgoff_t _max_index; /* limit readahead to _max_index, inclusive */
- 	unsigned int _nr_pages;
- 	unsigned int _batch_count;
- 	bool dropbehind;
-@@ -1374,6 +1375,7 @@ struct readahead_control {
- 		.mapping = m,						\
- 		.ra = r,						\
- 		._index = i,						\
-+		._max_index = ULONG_MAX,				\
- 	}
- 
- #define VM_READAHEAD_PAGES	(SZ_128K / PAGE_SIZE)
-diff --git a/mm/filemap.c b/mm/filemap.c
-index 4e636647100c..97772a05a18e 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -3314,6 +3314,8 @@ static struct file *do_sync_mmap_readahead(struct vm_fault *vmf)
- 	bool force_thp_readahead = false;
- 	unsigned short mmap_miss;
- 
-+	ractl._max_index = vmf->vma->vm_pgoff + vma_pages(vmf->vma) - 1;
-+
- 	/* Use the readahead code, even if readahead is disabled */
- 	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) &&
- 	    (vm_flags & VM_HUGEPAGE) && HPAGE_PMD_ORDER <= MAX_PAGECACHE_ORDER)
-@@ -3396,6 +3398,7 @@ static struct file *do_sync_mmap_readahead(struct vm_fault *vmf)
- 		 * mmap read-around
- 		 */
- 		ra->start = max_t(long, 0, vmf->pgoff - ra->ra_pages / 2);
-+		ra->start = max(ra->start, vmf->vma->vm_pgoff);
- 		ra->size = ra->ra_pages;
- 		ra->async_size = ra->ra_pages / 4;
- 		ra->order = 0;
-@@ -3438,6 +3441,7 @@ static struct file *do_async_mmap_readahead(struct vm_fault *vmf,
- 	}
- 
- 	if (folio_test_readahead(folio)) {
-+		ractl._max_index = vmf->vma->vm_pgoff + vma_pages(vmf->vma) - 1;
- 		fpin = maybe_unlock_mmap_for_io(vmf, fpin);
- 		page_cache_async_ra(&ractl, folio, ra->ra_pages);
- 	}
-diff --git a/mm/readahead.c b/mm/readahead.c
-index 7b05082c89ea..8c12b63ccd4a 100644
---- a/mm/readahead.c
-+++ b/mm/readahead.c
-@@ -324,6 +324,8 @@ static void do_page_cache_ra(struct readahead_control *ractl,
- 		return;
- 
- 	end_index = (isize - 1) >> PAGE_SHIFT;
-+	if (end_index > ractl->_max_index)
-+		end_index = ractl->_max_index;
- 	if (index > end_index)
- 		return;
- 	/* Don't read past the page containing the last byte of the file */
-@@ -471,7 +473,7 @@ void page_cache_ra_order(struct readahead_control *ractl,
- 	pgoff_t start = readahead_index(ractl);
- 	pgoff_t index = start;
- 	unsigned int min_order = mapping_min_folio_order(mapping);
--	pgoff_t limit = (i_size_read(mapping->host) - 1) >> PAGE_SHIFT;
-+	pgoff_t limit;
- 	pgoff_t mark = index + ra->size - ra->async_size;
- 	unsigned int nofs;
- 	int err = 0;
-@@ -484,6 +486,8 @@ void page_cache_ra_order(struct readahead_control *ractl,
- 		goto fallback;
- 	}
- 
-+	limit = (i_size_read(mapping->host) - 1) >> PAGE_SHIFT;
-+	limit = min(limit, ractl->_max_index);
- 	limit = min(limit, index + ra->size - 1);
- 
- 	new_order = min(mapping_max_folio_order(mapping), new_order);
-
-base-commit: db2a1695b2b6feb071b47b72e61d0359bf1524bf
--- 
-2.54.0.545.g6539524ca2-goog
-
+> pw-bot: cr
+>
+> >  [...]
