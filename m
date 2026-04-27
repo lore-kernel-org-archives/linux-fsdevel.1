@@ -1,174 +1,202 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from xmbghk7.mail.qq.com (xmbghk7.mail.qq.com [43.163.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF8983CD8AF
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 16:30:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777307461; cv=pass; b=FJCBBH+eX3nhOAK2BpMZGvcMy3hcDcABhudCfwtP2w5lpNw1h1J5kRZsVdzuVXWMLgEid+ZvrdcmPpmcnddgGk+Kx2O5ZaX1EuBoHECIU7GaHVo/i6hnoF7pBgyNlo6czdNlYnZzW5u8CRs5fOpO5K9HEMOU8xVXlVfpPEcjysM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777307461; c=relaxed/simple;
-	bh=idvner3mgft23dklNp8J4rH+ZI4P2VAwnJOBXPrMcrw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=krdJwDXM4FFlfUZWb9urLmMR2fWeDrnJ9A/HHcoCuDpW8Sc7KO8/c6oikAFXLz/hDCGeDMgWpttdXYd7B6Qd+P8kCmYWCrCiPcSlB51Sw0Sp4vj0K+mtv8Dwr6KfcCFUhE2JPFxLaWuASAEKLStkXonI9Qac/ufwQyfsJQqkvgc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eLUXXzdF; arc=pass smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEFE4374E5C;
+	Mon, 27 Apr 2026 16:58:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=43.163.128.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777309087; cv=none; b=Q7ge+bhgp43rFQQ5KEL2SIV7BW6aiyJL76yTNZ02RJHKz0vcNgFB4oujBG8c2sUPqCox0MJhWP75dEHlIUHvm9QlY2HOZiOkSjyVb+w2yOz77xxzmswIpUgieHx4+GEUeWCHCjCBWiQGbZ7EGSII8caifIfIbL8snv74lEfM3aw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777309087; c=relaxed/simple;
+	bh=hUx1Xhz3lO4ZGLf/9+bzT4Hgv7XvTEcHoSSy49gP1zY=;
+	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
+	 MIME-Version; b=OzMD86X3nu8fzv6ytY1WPWilzlq81fhWW1Cm4j61/XgrwzARkeHL5EvqWNMm/i/gLydw19DYDHDpTOd5rucwSWhw9DG6QdAhUNQmyE5UKbRG8s7TcTTs5QyXRF+hi5HXTnPe65/YWCu0cJfwQgdgI4W7AVNCxvge13RpqsOzBX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=gQXLJUyI; arc=none smtp.client-ip=43.163.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eLUXXzdF"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-ba67b332bbaso1221150866b.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 09:30:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777307455; cv=none;
-        d=google.com; s=arc-20240605;
-        b=JQhonI0CibnCc5BdFIEBB0YVR9fA0536oyZZHp/T/MdNZcAmE5CZCtUzHqxsPWus96
-         D4I+ZlU5LSoDtfmIejqH+NichRMUaaBRUin3KqpJpIvQfXyOAp3NsHAY9XVlFLu7qz2K
-         DyeDjpWUCeR7kMX0AZFTSlWq7qZDP3EWxs2T7oAXc3d02AmEWj5dPyphVRknhUevQohr
-         khO5N7yYHqm1/N+4S23tXmRGE96IzdcIl95zI7b4h7qbLPZ/gDKhDDFViUinHi6fU0K6
-         wXXQHblsGI5r9Zlbpw5Z1xZkE6lGfmd+2BNMisHnBDDwtQqhPw7t6HxZEnsWQtPVkOqN
-         MUPg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=B7Z/bR7l35cxDwn9+LDbQum27vsLynWJhwJbt8jzAnU=;
-        fh=YnWKQYPeU4UCKPQCPj6MTwMDnYARn2MKYZLd4FSjnNw=;
-        b=F7uSAalfxkaMRwydi3BN/KduIJjV6zWGVMWaTuCLhKkbed6GGBxWpSSBnmxANSpdCk
-         BZJXofK5m9IC/A1nvpKxbNRtWzmBhho0zStt/2gt/141EcBtzwMAb0paMoV+QsdB8x69
-         as98N958tBwYHC67HAvzktieT2jssne4H92S5fpmViqYRtqx2xYziiN/1Irc9MWOZEZu
-         0Vf9ZR9koz1c8mPGg47C0QsjRtBYV2dN0AudQz6Oro9tUe3FmOS0gaFz3USY52yWeSkg
-         BbqhKYU5wPNTXOgvIHrFIJNypaikTgfXJ8VjMt8IiGJEMgPoz7hv/rvC5Q6gBRC+H78S
-         9SfA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777307455; x=1777912255; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=B7Z/bR7l35cxDwn9+LDbQum27vsLynWJhwJbt8jzAnU=;
-        b=eLUXXzdF+kXYoyBc8nSDmCGGAz/1e0/zuWoSv5U3a1szoR5/g7LPlWio54onwM2f8y
-         /8/tfR/sYCe8SLelIiai1EG5uW5dqol5GkS67zuvpg4pUSLy1GZpDgVKF2PlrzVmHTtK
-         Y51i0ML2jdtNzC2eA/n8PcF/oH1X5FdbdqJEwlChduJbJXbDSDV0M3Ope5EchKkgPN41
-         K785yoOePwIMaU9Y4v1u/mdZaL55zPAfLu0oQTHNO1nrB1OKKGUD+NamK0YWeAN22B42
-         jgbE46KOamulWpQfg62tdVOuYSUVuJb/SiK0N3Oyo+s0MYwSchOdV6UihKPkMb5VUJ3q
-         p8jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777307455; x=1777912255;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=B7Z/bR7l35cxDwn9+LDbQum27vsLynWJhwJbt8jzAnU=;
-        b=VrDQZiRgU8O9efycgEwIDwXveTclSbVk7Q7Oh3EGr1TWRoq1HwUjnU8NZJVnyitR6N
-         GU9onaUNRJk3ZwrjoUlXbmbhvi79H5x8E8dlmux0N15kCARi+Hx2RdI3iBOUMLg5uaXH
-         bcfE4WFJg1XO5wyu03f0C82GJ6rF2b32s7Wtd5bKaN8lginD+cPFp6bcfr7njGKJFEa2
-         7C4kojuro7R4I8tAy7ExKSzno7aZ2uPQPJaq3B+aUkbFYMtNpYjnk5YNsREHrcGZMMGO
-         8QUm+jJP+0GhDf08/N+1c1F3x53iDZ6bCCO3oVS6JdDIrWN8vTynfxw2gGD6W3EMiF3Q
-         J6lQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9D4Li5SfaspeHGqI6uVbLcPkxsksOcb5iUoXdGhy8VHWVxEL+oIxK9MdHi4K3KxqMUyu84mv6epV4mO+Xf@vger.kernel.org
-X-Gm-Message-State: AOJu0YxKZN0EtvhZ7oXUnygKP9lv7goiFUju5UMu1g4ydgtp4wan7VK+
-	sgpGegumgii7Qd8DnB5pR8UjDz/N+L5lqaVi72+H//qZ91ZJ7//TqujZBdmlkuWQomD3hnwardY
-	6OlvFfAt0yoHA2eBIjpW0HUfnr1MCwc8=
-X-Gm-Gg: AeBDiet8uQd66Ny5JrgkQkeqh+u493ruLMtKNpJAw5WcHJ6oxLWAUcAYI3egO7CqoWB
-	cW+FEPAHFxlneUFTeaVQBBv3Q2mdmllTGIXjxAvfZdfzhU6p4wjjC0SwKnvAxDooKCSCRx2n5nA
-	DgduwFeCPNddNnAgW4vCYvKklDJu1RPhCWg9Uzh32NSz4yVboVwbqZhrRpIcaje6ouZtVd+chkt
-	lRxfwhzVkIShUBZuAGJ+7K/8H3exg2r9OX5nmDFXK/cJhIvPZnk0FhH1te2c3VEKWSpcPGyyOaj
-	I5eGaLriGN7etL6gd7tEoNmcrr8dSIqD36srRaVtnRR6Jk4X6z+TyByyS2iF
-X-Received: by 2002:a17:906:8e15:b0:b9c:4fa:9141 with SMTP id
- a640c23a62f3a-ba419077377mr2070161466b.9.1777307454882; Mon, 27 Apr 2026
- 09:30:54 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="gQXLJUyI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1777309075; bh=+1JvSeF30219RBk+xbUaNaVTMY2zuIFNzkHsiaJcAUI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=gQXLJUyIm5qOEHJ/B58iHD/yFGhxGdYsH8j5nwwvG22zXoUskg33/4HdRs/kdT3S+
+	 tZDOyPmdu9ssgKwABbdZChmShvXduyyU26LrQfOJ8MsHIS1a1ZBnHFCxer/s1hmAWA
+	 he/8fyZzErehb86ZA3hajls0D1m2ny5GEnJaQ2QQ=
+Received: from node68.. ([166.111.236.25])
+	by newxmesmtplogicsvrsza73-0.qq.com (NewEsmtp) with SMTP
+	id E73AA4C8; Tue, 28 Apr 2026 00:57:51 +0800
+X-QQ-mid: xmsmtpt1777309073to1iceus8
+Message-ID: <tencent_949F3B157FE71D3C7247AE6FAE2C5AB82809@qq.com>
+X-QQ-XMAILINFO: OIJV+wUmQOUALqh99JbrUzyKqrytGQhvISUP2SJ+lBCQnAMZx+Ah4KMdLXmAp/
+	 CYkVWiEAjpgSPZ+AP27Kda4iF/pd6tMH3yioFtTwwaGx3s1yYPOAmfQDkoclFRWL82QDH7sek5OI
+	 RlUXYkrXU+EPk2Fn3F2Ad6RFJnrQNPq+WlBoy9DQKpgeQ7JtiKwZxQ3S77zt3qpTuVixEnOL5Ss7
+	 SwUgxaq0GaTG2wD5NbrsvNvRGjtDV7cfPTkUqtaGgXkTFLqJkaxcVa5CZYc7noQex/SCI8k6EmIq
+	 VFU8sixXlICQAubYrkZq7IiI4lHlK9SQMeA2C4c8RrC1etJHaN9GuL4ts9qWqGznnZ7ThzpURkOm
+	 3LKl9USwzVyTZSoaGUCWYP+8TzxK6CSUd3xjQKwoGC7S34wm6MHrDI2dO4yr2YHpJ7s6XeeCNR69
+	 xFytxtEqB68URvc3RQjw0pF6YNQC7CxoHtdTdq3ACcmAi2xH83AIgVaJd3GqEjtF+hy9rCgVp0OV
+	 aBj8onayxhOxufZ/dSuJ/nnhJAYPG6NMOcfUE1dTM6vRvUSrZNQU5z+DP78mjnYT53mKwy6/tKJS
+	 ySrMq64g8xcak3JQwQoQtZU9doXWMhw/cMshFi/UmfelF6oPrPoLR1tBpt4D3Bds7vwWTQdnj7xm
+	 A/NQyDr3qDBrJ7HJfM5OYF/zy0wnd9tyT3mZNiOkpVgxl2Ino+ufpN11fC3/QCYYZOGqTqrYGRJH
+	 AMQRXSt+Tvx9TWP/Fmdb8K5qCXX/AqfYRSXCUy+lfPoEYBpPgQGRZdh4mUVFqezHj+v3oCa5v4x+
+	 fypNi9y6QZtU9rRy7UnQTZ1la8CGg7orPL1FkH9XlX7pzITwt1SNmwPxhAne9/+f4VMJBTdR2s0N
+	 kF8QYNU1L7PhX7SknKwCvS3gqNq3lhKIKdY1/V6C71z7IAXFKXfmwc9bm65vZaCH9pVuoSGQyrYa
+	 b0hfD7ZTkK/l8owIE9LwT5MQbKjeK9d15bRKMujp2hsJ+cp6Dt08Pl80LGixqbSPTf5vcw1AhWV6
+	 VGqAOkqNpitWBMzveS
+X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
+From: fujunjie <fujunjie1@qq.com>
+To: Matthew Wilcox <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Haoran Zhu <zhr1502@sjtu.edu.cn>
+Subject: [PATCH v2 1/2] mm/filemap: count only the faulting address as a mmap hit
+Date: Mon, 27 Apr 2026 16:57:50 +0000
+X-OQ-MSGID: <20260427165751.746502-2-fujunjie1@qq.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260427165751.746502-1-fujunjie1@qq.com>
+References: <20260427165751.746502-1-fujunjie1@qq.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260412135434.3095416-1-jkoolstra@xs4all.nl> <20260412135434.3095416-2-jkoolstra@xs4all.nl>
- <5xexygc3rvvlir4smdfn7gndwjgbuijqfummwwumivsnosijux@ygqs3iqxmovh> <20260427-rudel-gipsabdruck-a7884db4ecea@brauner>
-In-Reply-To: <20260427-rudel-gipsabdruck-a7884db4ecea@brauner>
-From: Mateusz Guzik <mjguzik@gmail.com>
-Date: Mon, 27 Apr 2026 18:30:42 +0200
-X-Gm-Features: AVHnY4ISYjfmOuhoMK9ONLGmIrCNFHHU0Ih5PKAcLvuNRoFbTb0DP2K6JgsHNoI
-Message-ID: <CAGudoHFLSHhDZoC6maLsn234dMQVnG4ZbpKXoVrueGujArNF-A@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 1/2] vfs: syscalls: add mkdirat2() that returns an
- O_DIRECTORY fd
-To: Christian Brauner <brauner@kernel.org>
-Cc: Jori Koolstra <jkoolstra@xs4all.nl>, Andy Lutomirski <luto@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Arnd Bergmann <arnd@arndb.de>, 
-	"H . Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, Peter Zijlstra <peterz@infradead.org>, 
-	Andrey Albershteyn <aalbersh@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
-	=?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Jeff Layton <jlayton@kernel.org>, 
-	Aleksa Sarai <cyphar@cyphar.com>, cmirabil@redhat.com, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-arch@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Apr 27, 2026 at 5:14=E2=80=AFPM Christian Brauner <brauner@kernel.o=
-rg> wrote:
->
-> > Things proceed to handle_truncate:
-> >       int error =3D get_write_access(inode);
-> >       if (error)
-> >               return error;
-> >
-> >       error =3D security_file_truncate(filp);
-> >       if (!error) {
-> >               error =3D do_truncate(idmap, path->dentry, 0,
-> >                                   ATTR_MTIME|ATTR_CTIME|ATTR_OPEN,
-> >                                   filp);
-> >       }
-> >
-> > I'm going to ignore the LSM situation and do_truncate failure modes in =
-this one.
-> >
-> > AFAICS nothing prevents the same user from racing against file creation=
- to
-> > execve it, which starts with exe_file_deny_write_access. Should the
-> > other thread win the race, get_write_access will fail and the WARN_ON
-> > splat will be generated. That is definitely a problem.
->
-> That can't happen:
->
-> static inline int get_write_access(struct inode *inode)
-> {
->         return atomic_inc_unless_negative(&inode->i_writecount) ? 0 : -ET=
-XTBSY;
-> }
->
-> and the check is:
->
-> error =3D handle_truncate(idmap, file);
-> if (unlikely(error > 0)) {
->
-> This was a catch all for broken LSM hook or ->open() instance.
->
+filemap_map_pages() reduces file->f_ra.mmap_miss when fault-around maps
+folios that are already present in the page cache.  That hit accounting
+is too generous because fault-around can install PTEs around the
+faulting address even though the fault only proves that the faulting
+address was accessed.
 
-So with this prog:
-#include <fcntl.h>
+Move the mmap_miss update back into filemap_map_pages(), drop the
+mmap_miss argument from the helper functions, and decrement mmap_miss
+only when the helper return value shows that the faulting address was
+mapped.  Keep the existing workingset-folio behavior unchanged.
 
-int main(void)
-{
-    open("test", O_TRUNC);
-}
+Signed-off-by: fujunjie <fujunjie1@qq.com>
+---
+ mm/filemap.c | 55 +++++++++++++++++++++++-----------------------------
+ 1 file changed, 24 insertions(+), 31 deletions(-)
 
-I verified writecount is 0 on entry to handle_truncate like so:
+diff --git a/mm/filemap.c b/mm/filemap.c
+index 4e636647100c1..41ffe9036c96e 100644
+--- a/mm/filemap.c
++++ b/mm/filemap.c
+@@ -3747,8 +3747,7 @@ static struct folio *next_uptodate_folio(struct xa_state *xas,
+ static vm_fault_t filemap_map_folio_range(struct vm_fault *vmf,
+ 			struct folio *folio, unsigned long start,
+ 			unsigned long addr, unsigned int nr_pages,
+-			unsigned long *rss, unsigned short *mmap_miss,
+-			pgoff_t file_end)
++			unsigned long *rss, pgoff_t file_end)
+ {
+ 	struct address_space *mapping = folio->mapping;
+ 	unsigned int ref_from_caller = 1;
+@@ -3780,16 +3779,6 @@ static vm_fault_t filemap_map_folio_range(struct vm_fault *vmf,
+ 		if (PageHWPoison(page + count))
+ 			goto skip;
+ 
+-		/*
+-		 * If there are too many folios that are recently evicted
+-		 * in a file, they will probably continue to be evicted.
+-		 * In such situation, read-ahead is only a waste of IO.
+-		 * Don't decrease mmap_miss in this scenario to make sure
+-		 * we can stop read-ahead.
+-		 */
+-		if (!folio_test_workingset(folio))
+-			(*mmap_miss)++;
+-
+ 		/*
+ 		 * NOTE: If there're PTE markers, we'll leave them to be
+ 		 * handled in the specific fault path, and it'll prohibit the
+@@ -3836,7 +3825,7 @@ static vm_fault_t filemap_map_folio_range(struct vm_fault *vmf,
+ 
+ static vm_fault_t filemap_map_order0_folio(struct vm_fault *vmf,
+ 		struct folio *folio, unsigned long addr,
+-		unsigned long *rss, unsigned short *mmap_miss)
++		unsigned long *rss)
+ {
+ 	vm_fault_t ret = 0;
+ 	struct page *page = &folio->page;
+@@ -3844,10 +3833,6 @@ static vm_fault_t filemap_map_order0_folio(struct vm_fault *vmf,
+ 	if (PageHWPoison(page))
+ 		goto out;
+ 
+-	/* See comment of filemap_map_folio_range() */
+-	if (!folio_test_workingset(folio))
+-		(*mmap_miss)++;
+-
+ 	/*
+ 	 * NOTE: If there're PTE markers, we'll leave them to be
+ 	 * handled in the specific fault path, and it'll prohibit
+@@ -3882,7 +3867,6 @@ vm_fault_t filemap_map_pages(struct vm_fault *vmf,
+ 	vm_fault_t ret = 0;
+ 	unsigned long rss = 0;
+ 	unsigned int nr_pages = 0, folio_type;
+-	unsigned short mmap_miss = 0, mmap_miss_saved;
+ 
+ 	/*
+ 	 * Recalculate end_pgoff based on file_end before calling
+@@ -3921,6 +3905,7 @@ vm_fault_t filemap_map_pages(struct vm_fault *vmf,
+ 	folio_type = mm_counter_file(folio);
+ 	do {
+ 		unsigned long end;
++		vm_fault_t map_ret;
+ 
+ 		addr += (xas.xa_index - last_pgoff) << PAGE_SHIFT;
+ 		vmf->pte += xas.xa_index - last_pgoff;
+@@ -3928,13 +3913,27 @@ vm_fault_t filemap_map_pages(struct vm_fault *vmf,
+ 		end = folio_next_index(folio) - 1;
+ 		nr_pages = min(end, end_pgoff) - xas.xa_index + 1;
+ 
+-		if (!folio_test_large(folio))
+-			ret |= filemap_map_order0_folio(vmf,
+-					folio, addr, &rss, &mmap_miss);
+-		else
+-			ret |= filemap_map_folio_range(vmf, folio,
+-					xas.xa_index - folio->index, addr,
+-					nr_pages, &rss, &mmap_miss, file_end);
++		if (!folio_test_large(folio)) {
++			map_ret = filemap_map_order0_folio(vmf, folio, addr,
++							   &rss);
++		} else {
++			unsigned long start = xas.xa_index - folio->index;
++
++			map_ret = filemap_map_folio_range(vmf, folio, start,
++							  addr, nr_pages, &rss,
++							  file_end);
++		}
++		ret |= map_ret;
++
++		if ((map_ret & VM_FAULT_NOPAGE) &&
++		    !folio_test_workingset(folio)) {
++			unsigned short mmap_miss;
++
++			mmap_miss = READ_ONCE(file->f_ra.mmap_miss);
++			if (mmap_miss)
++				WRITE_ONCE(file->f_ra.mmap_miss,
++					   mmap_miss - 1);
++		}
+ 
+ 		folio_unlock(folio);
+ 	} while ((folio = next_uptodate_folio(&xas, mapping, end_pgoff)) != NULL);
+@@ -3944,12 +3943,6 @@ vm_fault_t filemap_map_pages(struct vm_fault *vmf,
+ out:
+ 	rcu_read_unlock();
+ 
+-	mmap_miss_saved = READ_ONCE(file->f_ra.mmap_miss);
+-	if (mmap_miss >= mmap_miss_saved)
+-		WRITE_ONCE(file->f_ra.mmap_miss, 0);
+-	else
+-		WRITE_ONCE(file->f_ra.mmap_miss, mmap_miss_saved - mmap_miss);
+-
+ 	return ret;
+ }
+ EXPORT_SYMBOL(filemap_map_pages);
+-- 
+2.34.1
 
-bpftrace -e 'kprobe:security_file_truncate { @[comm, (int64)((struct
-file *)arg0)->f_path.dentry->d_inode->i_writecount.counter] =3D count();
-}'
-
-@[a.out, 1]: 1
-
-i.e., get_write_access in handle_truncate transitioned the count 0 -> 1
-
-but then what prevents the following race:
-
-CPU0                    CPU1
-open("test")            execve("test")
-  handle_truncate         do_open_execat
-                            exe_file_deny_write_access # should
-succeed as count is 0?
-  get_write_access # should fail as the count is now -1?
