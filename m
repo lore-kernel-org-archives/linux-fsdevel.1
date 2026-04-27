@@ -1,231 +1,113 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F986350298
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 15:31:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777303864; cv=none; b=EBOQ5zxtF5+pfVagq/qIXKgbFIH+6aFQjuuPhjGCNK6bijQ5UGCmFEgSSVVmzn6ZoBQIbnkGekP6wTBvOb/1OQ0bw0S1NLYPbAox8XtnIsghTvziJTz1PyTZjl208px26z98aljCp+JBXg4Utv5eSvJtcbDltfv9LV9D4zd83gQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777303864; c=relaxed/simple;
-	bh=3qCrcikapOBjDiKHYNn87mJHSh0bvZvMd8FSy9FXXaw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mfYKABD2Yhia+0ym7S6tvaKCUX01hnSTmDSk0IZBAh/mUCI25Nkk79Dd7YmNnbT2JmRAbzNGiVn/XpsFgFvMUt7otbRdMX8AZMkIiLNnX5DPQYXRY+xNkVTFCoj759AdSr4pKOoS9ygl5gFKnwluIhU03lBf518JguNGqiYShME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=T9UxkdyH; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E7823D8906
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 15:35:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777304151; cv=pass; b=MHowxrD+rnzNWB4ftQZC4XSOCp7moZhEimH4N2IoZQ9qGWQv6X68UOMf8zVelmldXXCek7oLbBV/sVzUvSRCCX/xyt8A+jNnfMUi6Z7gbLRkjAKl/onrzY24Gvr914cIYiXvX1uMJoVNNEB2qtLvUEEdN7gGL/FkZ6fYz4gK2bA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777304151; c=relaxed/simple;
+	bh=OJ8C68rHbb+yhqS9Gv7h1e4KYiHPaZDzreANAkGjZB8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kPzIW8WaqFFAjYQ1j0EiT2+E/onflP1mZgMCETYDzQVv9M7sM5VtPGJayb+pAliF4eePTsdwb795gupwt/jgtpRnaOmJBgSgiloJ8RINNUuQMuqj67ijCrnLn3U86akVVlKU2OyCI0VxdAvGLEM0PAfp15LR/VM5nZwwGbdIu9w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P8Xq3IYB; arc=pass smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="T9UxkdyH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1777303861;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3o0bVWAsa0tr+4f6EBlhwvSVQai01iQefbnN9wRCFMY=;
-	b=T9UxkdyHv3PGAW0+WZFyc8B0NE0wQAG0K6N3wBQw08AIfQqTbjWI0t50qa8PglrF0vni8R
-	D9CNucaRMkp0skn5X6GowMMps/muYDhdoaXfAL3AP3mtFswZL4rpLAgBZw+SKB+ZGh4MvG
-	YRkeAmd41BrQLoItSVjrJynsm3jns5I=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-407-rAfHQUhfM9ObR4oNb_o4uA-1; Mon,
- 27 Apr 2026 11:30:56 -0400
-X-MC-Unique: rAfHQUhfM9ObR4oNb_o4uA-1
-X-Mimecast-MFC-AGG-ID: rAfHQUhfM9ObR4oNb_o4uA_1777303855
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D5E261956095;
-	Mon, 27 Apr 2026 15:30:54 +0000 (UTC)
-Received: from warthog.procyon.org.com (unknown [10.44.32.126])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 7F6B5195608E;
-	Mon, 27 Apr 2026 15:30:51 +0000 (UTC)
-From: David Howells <dhowells@redhat.com>
-To: Christian Brauner <christian@brauner.io>
-Cc: David Howells <dhowells@redhat.com>,
-	Paulo Alcantara <pc@manguebit.org>,
-	netfs@lists.linux.dev,
-	linux-afs@lists.infradead.org,
-	linux-cifs@vger.kernel.org,
-	ceph-devel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Matthew Wilcox <willy@infradead.org>
-Subject: [PATCH v4 11/22] netfs: Fix streaming write being overwritten
-Date: Mon, 27 Apr 2026 16:29:38 +0100
-Message-ID: <20260427152953.180038-12-dhowells@redhat.com>
-In-Reply-To: <20260427152953.180038-1-dhowells@redhat.com>
-References: <20260427152953.180038-1-dhowells@redhat.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P8Xq3IYB"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-43d73422431so9665810f8f.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 08:35:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777304149; cv=none;
+        d=google.com; s=arc-20240605;
+        b=URwGXrnFYyC3+eiXO25W0R7MAKfrZzSEVRBXLMC0v8li+kG+oV9dHKR8n5BfAueWKy
+         wxeeUEJ4FZNiDNXp5cId+QUSJ37MSJ9oGZuzH6OYSiSgdJVOwlkaH1NYotTbwYcKquHp
+         IAgFzWpWk/yhuNoGG5TD3L0vWyuqrTWAuD2UNXAjPUgA0KHwIeKHrWqCr2xX/8We4iVw
+         Epd8vyV+H+qTbucwS9zko+45RQR4+5GuElxSxZ4bt+5HJtiGBJhyk+ly3sn9QR/W9oO1
+         8mn06hq/U4GyLSd8lvX0VXoPgFZlaqmnXh1umgCqUF4ZIRL2N7NpJPrW1NlPhaty10pA
+         21+Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=OSaSMqrH5WyzZBVNlDG7oX+MGATMWsNFSbJOtB4IE2A=;
+        fh=+necO+U42X/rhEnDtPD2BKhPAYP4HjZu7v0V3wjQVlY=;
+        b=Wjc+Wk5kDB3tavQLcZ0PwNvJkeOuRcK/JCmasqEZTIBqt9RMuBTuE+TNBXItX3G4u8
+         BCO/KYlKsBlKPblkTlhUJDEtFrRScHCsKxV2UTfF9gQWJk3xIxQq11mItzs2JKYzUNIv
+         8/ZZo6/cRlaYofvEqQeBaS6cxxdlFBwygPtyO2pZKjOwTyvp+g5LgcmvzVejkUeSj2BS
+         ELP0dZjqRXtayOcie7ZpmuRT7VKKpbs3kGHNUhJ5EjER7zOYclo88zGMvGdwJ9WWlQl8
+         9xhNweUMVxv6uzQe5avbCO022DTcd6QttYGfOtCYbpoAhMEQ91nNwCXqT7m9NEfLBXsy
+         86pA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777304149; x=1777908949; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OSaSMqrH5WyzZBVNlDG7oX+MGATMWsNFSbJOtB4IE2A=;
+        b=P8Xq3IYBpt0ULXPSQzs5bmstX4Nf8tMLkvh7Vlh6jsc5iZazFhF1/KK5gyldYWNgwF
+         e0hDE787XYcUqIN+99Iz6g2tNbJPZLPjsPkQto9LqkuDXAuGvW/nh1xve7wdGgFwI/iK
+         JXYke671WcnJpdBOpc0nRE1r6eYVGw2YcS3PaUlUpFautc7D1miNdB4xfyncwBiz9vrt
+         WUiInQpSFveq8VZXdgA7aaTDQS6jw1C/LWccewJYzdCg5/00VtW43TqzO+/zPGviEZhQ
+         bh5jHfb1Do4TfrQeO+3TtJ33cw1rsl1IKr4phifylssFFOwOwSlOisNjSUDXO6E5Ogc/
+         LU/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777304149; x=1777908949;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=OSaSMqrH5WyzZBVNlDG7oX+MGATMWsNFSbJOtB4IE2A=;
+        b=UVbLQS7d2wrjG/B0RIVCDaKkxy+uNyAxkJ402KTYvVz/IvRLGEcgOFBoly1YZlICaq
+         rLBfOPB9ExLa6gronE8j2ITg782rNH0N3B7K2oVqKWAIFT2nD4sq4M2viVUwatzgb+hl
+         9IUdOWKpD3McBZRJ5U1AVJzPSqn94MT3ogJ3WG5ckzmekasHbLZjzNOJX59JLqh0C4h5
+         ML+6PgC7Ns95wEV+lCsTyy7cdESqlsCXPJUPrnFi3Lo+8+DVtrHt9H1TSYqZc26GPqMP
+         H+sT0lEeiNJx6+3EDtGrbY5iVwyQC+JZgbq2rbC7C5YzX1Cesp2Cf6aAhb6LFdmaa3l1
+         XxZQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+ADngFIGfqxgCYTVwn9r2waSabBk/LPeY43FGYnALCKfdivUBWWuIDkttlPLueEWzPyf8v7LhbapVqfen1@vger.kernel.org
+X-Gm-Message-State: AOJu0YzWPmeXLc9MZJKftOgZAakjueqPzCMWiZS/Ek8brz1HfCjeIpO3
+	E9fRX7NbsT2GQgXvVk4ynF49YF8yo3ClzFGNULK2gRFFp5EW213EKi0r8edzMsG9D3qKVJOVvQF
+	y9V2wTrrm2wfE6MLsoP19TGBilb6CZDM=
+X-Gm-Gg: AeBDieuIvMD1zEGEaaRXwEp5mKGPtersGCp6wj1zD1FRN5sbbXZU7L5eRDPOg6lQzpn
+	VTA3O2cET2O3GZuSpBBhBLJpRea+nO3V3+SX7vTJFHHW5Yi0tXeprYHqcoTE9C1KRSpqFQUxtrN
+	nmxiPKbSUtIFHh2Qro+YzQEYXlVBBuE1xQe8ABCuhPbEp0MEGYKeF2EKYnxkggjcys1EjrI3fB/
+	a9bsadcmWQK3MLgDpvbFNhSzILa81kPuEFgfF9LpBCsK4Rq6Bmszsd7LkEKL+d4mHhDhVBQIwZQ
+	CJsCDuVNVAcijajXfimCB/0rk4HoDZakCg==
+X-Received: by 2002:a05:6000:24c7:b0:43c:fe0e:5bb9 with SMTP id
+ ffacd0b85a97d-43fe3dd4ca7mr67804820f8f.12.1777304148368; Mon, 27 Apr 2026
+ 08:35:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+References: <20260413-reduced-nr-ring-queues_3-v4-0-982b6414b723@bsbernd.com> <20260413-reduced-nr-ring-queues_3-v4-2-982b6414b723@bsbernd.com>
+In-Reply-To: <20260413-reduced-nr-ring-queues_3-v4-2-982b6414b723@bsbernd.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Mon, 27 Apr 2026 16:35:36 +0100
+X-Gm-Features: AVHnY4ITUlhMMVKTj9K_yTE69N91M4XPki42fvD4YCQ_wychvf2_XkPg22dllPg
+Message-ID: <CAJnrk1YNXEV_wmN3qCWvVr6xM5fPzxE5E3ry6eA24o7cr+mOUg@mail.gmail.com>
+Subject: Re: [PATCH v4 2/8] fuse: {io-uring} Rename ring->nr_queues to max_nr_queues
+To: bernd@bsbernd.com
+Cc: Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org, 
+	Luis Henriques <luis@igalia.com>, Gang He <dchg2000@gmail.com>, Bernd Schubert <bschubert@ddn.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-In order to avoid reading whilst writing, netfslib will allow "streaming
-writes" in which dirty data is stored directly into folios without reading
-them first.  Such folios are marked dirty but may not be marked uptodate.
-If a folio is entirely written by a streaming write, uptodate will be set,
-otherwise it will have a netfs_folio struct attached to ->private recording
-the dirty region.
+On Mon, Apr 13, 2026 at 10:41=E2=80=AFAM Bernd Schubert via B4 Relay
+<devnull+bernd.bsbernd.com@kernel.org> wrot
+>
+> From: Bernd Schubert <bschubert@ddn.com>
+>
+> This is preparation for follow up commits that allow to run with a
+> reduced number of queues.
+>
+> Signed-off-by: Bernd Schubert <bschubert@ddn.com>
 
-In the event that a partially written streaming write page is to be
-overwritten entirely by a single write(), netfs_perform_write() will try to
-copy over it, but doesn't discard the netfs_folio if it succeeds; further,
-it doesn't correctly handle a partial copy that overwrites some of the
-dirty data.
+Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
 
-Fix this by the following:
-
- (1) If the folio is successfully overwritten, free the netfs_folio struct
-     before marking the page uptodate.
-
- (2) If the copy to the folio partially fails, but short of the dirty data,
-     just ignore the copy.
-
- (3) If the copy partially fails and overwrites some of the dirty data,
-     accept the copy, update the netfs_folio struct to record the new data.
-     If the folio is now filled, free the netfs_folio and set uptodate,
-     otherwise return a partial write.
-
-Found with:
-
-	fsx -q -N 1000000 -p 10000 -o 128000 -l 600000 \
-	  /xfstest.test/junk --replay-ops=junk.fsxops
-
-using the following as junk.fsxops:
-
-	truncate 0x0 0 0x927c0
-	write 0x63fb8 0x53c8 0
-	copy_range 0xb704 0x19b9 0x24429 0x79380
-	write 0x2402b 0x144a2 0x90660 *
-	write 0x204d5 0x140a0 0x927c0 *
-	copy_range 0x1f72c 0x137d0 0x7a906 0x927c0 *
-	read 0x00000 0x20000 0x9157c
-	read 0x20000 0x20000 0x9157c
-	read 0x40000 0x20000 0x9157c
-	read 0x60000 0x20000 0x9157c
-	read 0x7e1a0 0xcfb9 0x9157c
-
-on cifs with the default cache option.
-
-It shows folio 0x24 misbehaving if the FMODE_READ check is commented out in
-netfs_perform_write():
-
-		if (//(file->f_mode & FMODE_READ) ||
-		    netfs_is_cache_enabled(ctx)) {
-
-and no fscache.  This was initially found with the generic/522 xfstest.
-
-Fixes: 8f52de0077ba ("netfs: Reduce number of conditional branches in netfs_perform_write()")
-Signed-off-by: David Howells <dhowells@redhat.com>
-cc: Paulo Alcantara <pc@manguebit.org>
-cc: Matthew Wilcox <willy@infradead.org>
-cc: netfs@lists.linux.dev
-cc: linux-fsdevel@vger.kernel.org
----
- fs/netfs/buffered_write.c    | 47 ++++++++++++++++++++++++++----------
- include/trace/events/netfs.h |  3 +++
- 2 files changed, 37 insertions(+), 13 deletions(-)
-
-diff --git a/fs/netfs/buffered_write.c b/fs/netfs/buffered_write.c
-index 7ac128d0b4e5..25571a570ac9 100644
---- a/fs/netfs/buffered_write.c
-+++ b/fs/netfs/buffered_write.c
-@@ -246,18 +246,38 @@ ssize_t netfs_perform_write(struct kiocb *iocb, struct iov_iter *iter,
- 		/* See if we can write a whole folio in one go. */
- 		if (!maybe_trouble && offset == 0 && part >= flen) {
- 			copied = copy_folio_from_iter_atomic(folio, offset, part, iter);
--			if (unlikely(copied == 0))
-+			if (likely(copied == part)) {
-+				if (finfo) {
-+					trace = netfs_whole_folio_modify_filled;
-+					goto folio_now_filled;
-+				}
-+				__netfs_set_group(folio, netfs_group);
-+				folio_mark_uptodate(folio);
-+				trace = netfs_whole_folio_modify;
-+				goto copied;
-+			}
-+			if (copied == 0)
- 				goto copy_failed;
--			if (unlikely(copied < part)) {
-+			if (!finfo || copied <= finfo->dirty_offset) {
- 				maybe_trouble = true;
- 				iov_iter_revert(iter, copied);
- 				copied = 0;
- 				folio_unlock(folio);
- 				goto retry;
- 			}
--			__netfs_set_group(folio, netfs_group);
--			folio_mark_uptodate(folio);
--			trace = netfs_whole_folio_modify;
-+
-+			/* We overwrote some existing dirty data, so we have to
-+			 * accept the partial write.
-+			 */
-+			finfo->dirty_len += finfo->dirty_offset;
-+			if (finfo->dirty_len == flen) {
-+				trace = netfs_whole_folio_modify_filled_efault;
-+				goto folio_now_filled;
-+			}
-+			if (copied > finfo->dirty_len)
-+				finfo->dirty_len = copied;
-+			finfo->dirty_offset = 0;
-+			trace = netfs_whole_folio_modify_efault;
- 			goto copied;
- 		}
- 
-@@ -327,16 +347,10 @@ ssize_t netfs_perform_write(struct kiocb *iocb, struct iov_iter *iter,
- 				goto copy_failed;
- 			finfo->dirty_len += copied;
- 			if (finfo->dirty_offset == 0 && finfo->dirty_len == flen) {
--				if (finfo->netfs_group)
--					folio_change_private(folio, finfo->netfs_group);
--				else
--					folio_detach_private(folio);
--				folio_mark_uptodate(folio);
--				kfree(finfo);
- 				trace = netfs_streaming_cont_filled_page;
--			} else {
--				trace = netfs_streaming_write_cont;
-+				goto folio_now_filled;
- 			}
-+			trace = netfs_streaming_write_cont;
- 			goto copied;
- 		}
- 
-@@ -350,6 +364,13 @@ ssize_t netfs_perform_write(struct kiocb *iocb, struct iov_iter *iter,
- 			goto out;
- 		continue;
- 
-+	folio_now_filled:
-+		if (finfo->netfs_group)
-+			folio_change_private(folio, finfo->netfs_group);
-+		else
-+			folio_detach_private(folio);
-+		folio_mark_uptodate(folio);
-+		kfree(finfo);
- 	copied:
- 		trace_netfs_folio(folio, trace);
- 		flush_dcache_folio(folio);
-diff --git a/include/trace/events/netfs.h b/include/trace/events/netfs.h
-index 0b702f74aefe..aa9940ba307b 100644
---- a/include/trace/events/netfs.h
-+++ b/include/trace/events/netfs.h
-@@ -177,6 +177,9 @@
- 	EM(netfs_folio_is_uptodate,		"mod-uptodate")	\
- 	EM(netfs_just_prefetch,			"mod-prefetch")	\
- 	EM(netfs_whole_folio_modify,		"mod-whole-f")	\
-+	EM(netfs_whole_folio_modify_efault,	"mod-whole-f!")	\
-+	EM(netfs_whole_folio_modify_filled,	"mod-whole-f+")	\
-+	EM(netfs_whole_folio_modify_filled_efault, "mod-whole-f+!") \
- 	EM(netfs_modify_and_clear,		"mod-n-clear")	\
- 	EM(netfs_streaming_write,		"mod-streamw")	\
- 	EM(netfs_streaming_write_cont,		"mod-streamw+")	\
-
+> ---
+>  fs/fuse/dev_uring.c   | 24 ++++++++++++------------
+>  fs/fuse/dev_uring_i.h |  2 +-
+>  2 files changed, 13 insertions(+), 13 deletions(-)
+>
