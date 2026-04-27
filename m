@@ -1,159 +1,147 @@
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C695B3D34BA
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 14:17:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.176
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777299477; cv=pass; b=hBYsGh6qVmjWkzM+bDQHAMVRhHxatUOCxPU1noUdYxFsLb4pEwjvGjf8oFXrOXUnRFX7l4Fxaec+JVOvwrBeCKvbyjg4lfPiKt2RdbPHbJCVIs29hYE+wxpEdIKUqkmDNkgTZ+V3+digYw9vcPeBIRecv2nSaE65psIFI4WH4xU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777299477; c=relaxed/simple;
-	bh=dCas8RQKsBsKm7RPEue3wRPtJ4lneFcySX6TUqGbvVk=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 842AE3D3CE5
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 14:21:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777299661; cv=none; b=NPcVRC/BQDn5UcPBfD981Qrqb/ufpVAURo171SGflJaVh8O2LNJGYq3UHNYjMsnzl10Y+dPlhqRyLsQIhfdtGvGvh8vfgZ7j8i1VVs1RFUvu6AEN89KWOppFk97vNkzye6IeNsjUrwTVejuLXUP5ohlr1B7f4RE5Q3gh57M3Oc8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777299661; c=relaxed/simple;
+	bh=iYeaM1jIWkQgRPkEZHNaD/j88IYl3E3ZeJw9cZlyYl8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LqZo1as4Kb+WtIp1eWNbvsC9HwMGG6lheEIk6FGLm7hREBvv1i06DCULRfJguUyjYoxzUS3bD9Zdto+CgpsiwleORXzQ0qaDhtETCiwhCDzKdLFVcCDz/MbAuMmUr8U7HLcQkJmk1ATm6nkJ6eCfiGuKTCvYu+uBQz4+uwJcWxk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UV7XlqUV; arc=pass smtp.client-ip=209.85.221.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=sXAb7Uu0SNVyTFxsPwW4w+CPYIULxdpbU0fcWwtPNPeXPGYksobp4m1l/J1SfdNnYdwWewWM25nkLmXChSosgNStzQTIHSIKvL6AvObCEZyBsOtGwD189HFzbjxPhvSxiVmvj/rne8uLlHoqLOnYSbTSsASQBYvPKzKaP97zB3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bD+VTiTp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UV7XlqUV"
-Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-56a86f0a23bso9893344e0c.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 07:17:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777299475; cv=none;
-        d=google.com; s=arc-20240605;
-        b=LTAqBUXMRWU7C238qPQWFRjhU2ePexbcMk7ksTq44spVjhUBdFb6zLPkWehRKMo0nG
-         v/WYy+w5l6ElY54C2Bn6b+CES+8QvGNkdNFp47r/wAheqy/9aM/YqJcxDjCjWvSAF53K
-         1vH3uhjYnJzesi4IJ2HI1+cvYats9ekXfl5cnX9Ime33Wm3vbErsqc4a55kRrAFlPbbb
-         6m8/Ip/T/2zxfoCNMOdoXNHHPg1rE5WF0X4sHR1crZQMKdx1l4l0HxXaXtSDqOREp4OD
-         J8OmFsXeAAIN8FasjY1xLFSAUPVis6QyBpUpehTHtO3MqjnzaXxSEjBYfpxlfFytNYYQ
-         HyHA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=mZ1b/SaO6jwDwL2+8FqnCPqXNKQ2XKB8aPpu8Tl3aso=;
-        fh=wywHasVvklEHKN2GeDyE30ae0YEpphFg845ZFlJnPYk=;
-        b=WnVFHS9MKTEg3Ho/SvS2GJKVMfaoFZSUORiKaNvVu+eEwcxTIlosuxq9ZEJAETr8JA
-         XY9vuyO2NSWwV7b9AgUoPD8324E0Lp6+iIHw2AgTr8al8Hr05y7NzIOpVwoBRibBLylN
-         QgnoaYITR3whT9JEe1En+oslEGbIojolF307YqfrutufJsJoKcXA2GmP476RcdZWp82O
-         U2aP2h01RXEx6f8JC7cxPo8V3MFDyfUCwl6ApcQL1V4k1zR3Ptzcj4RyM7DYNrtgQm66
-         Jd3hff8x5T/k7cuDEWGs6NZJ5UJtlPiN4wrIOQQq7MHp87ZReMrDFrZf0+gZTeLWXWPC
-         DvDw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777299475; x=1777904275; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mZ1b/SaO6jwDwL2+8FqnCPqXNKQ2XKB8aPpu8Tl3aso=;
-        b=UV7XlqUVvinNvlG4ozIHjmCDkWLWkXqWdHVlwKleD4e0udKlFPCyhDThue+4KCSFuf
-         4PPkqV7PBmqSm85u3fIzULTAc9+wtQaK8rViECu4uoP52DqNbn15+/ac4reFdyXrn/B1
-         s3/x0N6JxPqqHQ+SvjX5nH64ret3FMse3JDW0UFDRIL8eY4pp1TNXlldauyddtT20e1L
-         qF3CPo8D4Y7Ek3KN8fARmEEs5LMSb+8CfKYUV0BkpMnaU5nmr2gie+0EpOmT51BfojAE
-         Cr7faIb0pQuMBU6P/HjjO15sUUH7oPx7M3XGM8FLv2JB+tutyWbnxLL5ubYguDpuqSMe
-         bJpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777299475; x=1777904275;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=mZ1b/SaO6jwDwL2+8FqnCPqXNKQ2XKB8aPpu8Tl3aso=;
-        b=CmYy2pi6s0xUuDLr82tQEaU2QPNOKRlEOtui6FTFD/y2j+Dd9/byYSwWyV/ApEZo4v
-         KgM+wPHejQKXntj7J6/tNK0NbGpczlsAoMf3wY+0MjppO418dARVC0XH9dCho5L5yRzv
-         f8YRjJxh7X6cUMpLwBSx/yYawQeM6oyHVNOJUAG2CA0DLcszbMaiksvNWT7HgoM277M6
-         ruPG/T0NRymoxcJN6LuWA28UmlAaN3vWFJEIhROk/tb+FsOI5dRDdNgT8bN4XWE/tbpy
-         MWmkW0xH9M7bSsKwaEa5gWOZ/HqMW2OA9FlcLEgG61XglZASjahZAQpAX6PfUp613OHY
-         L50g==
-X-Gm-Message-State: AOJu0Ywv+J6OJNj+CNK9ywgGKhOpgIP6yfcg9iilOWm1vJiZh1yb8wsw
-	4ATs6FbMVdlAdwxJETE8woghQ0Rgw/gj4Hj12ePf0pCfmpynUwgfWF7j4tSiXUf4nWPCMNIQkQ+
-	mZCzqNobTIui21JHTbFhv0tDrSl4l0nk=
-X-Gm-Gg: AeBDieth3MDvI5WZFQ53TGOBP3I0noe746kzKLowCpeKrNzP9bY5cisDkEJIm9/ciVj
-	dRrwjRA1a0OgnhrD+lrNEi7x4Yx2mSXGwpo3T6tXyHGMoyvdiDn5cT8azRh+RLV5kVVGQasjkrY
-	ONedyp3UTFc0qeaFR1LDvArjU9wSOz5zpzfqMHbmoZaZHHYNOYrxP1uLDfJcww3GPYK3AF74k2i
-	3+IhN6eVUxSxWSN3AcxICzA1xki+yptI7PaMV9Rl3dwBAnFEET4Wm7XQFm8qKvDqeNpewiyJVje
-	xsEGIdANhepZC4oybO1QxoRL9KUTE8dbjspE2DyAqEPC0wWDzEIL
-X-Received: by 2002:a05:6122:8d3:b0:56c:d5cd:1e7c with SMTP id
- 71dfb90a1353d-56fa58856b1mr21307327e0c.5.1777299474612; Mon, 27 Apr 2026
- 07:17:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bD+VTiTp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 691E3C19425
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 14:21:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777299661;
+	bh=iYeaM1jIWkQgRPkEZHNaD/j88IYl3E3ZeJw9cZlyYl8=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=bD+VTiTpIJAQcPm4X7aatvaCwq8cFO3iNoQc+YM/5JtACWc/iHiAr+NYGWnNnGggN
+	 MKnkVL2kS8ZKBXN3QXUG0JeA0ZrPmb2oNLCc4siQCXbSAu/iG4wiWIIKC0daLu6Gll
+	 EEHkgHIQkUOKbDKplFjAkaPl9R9EImDXIcRgkq1POg2FIlwe/AsnoPJC9pQxVIyaEm
+	 OaWyzV19evFKRYRbLDL7CwZDk2F4e9xXwGm20HlyJjnHIpnnCeWTNWx4HMy1CoyV8L
+	 y8mdqxrajutBhr2yB5hUj6RPjX1lZrVZzSZC0EGSHeWvBEpiarE1XxRMzopCJ7K2la
+	 Ok9eTDzPZD2yQ==
+Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-6221c72515fso2452273137.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 07:21:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8jAYbHa2c+MJl46D9cTI4/4yvCHfGYDcZpZuCywT/fmORPeW8NL2yHXVdKMvMzdI6WwHQUpRA97KyoPtdT@vger.kernel.org
+X-Gm-Message-State: AOJu0Yya1Feo8jp2ulrolzrnJuRTAqhjTaQJALCtS7S/IHDLJp1b2mtQ
+	6lng54eF0chlH6+ghLrw/b5Kz1NyQ0WhzT9tlYtZkow38QuUCwB1buLI6K+MJ1guZoP9syR4V19
+	g+3d+Bj/6W2wi69Uu6eje7nfGIoR/YO4=
+X-Received: by 2002:a05:6102:162a:b0:605:5d09:8631 with SMTP id
+ ada2fe7eead31-616f807265emr21177893137.29.1777299660351; Mon, 27 Apr 2026
+ 07:21:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260328172314.45807-1-dorjoychy111@gmail.com>
- <20260328172314.45807-2-dorjoychy111@gmail.com> <lhuzf2oy1me.fsf@oldenburg.str.redhat.com>
-In-Reply-To: <lhuzf2oy1me.fsf@oldenburg.str.redhat.com>
-From: Dorjoy Chowdhury <dorjoychy111@gmail.com>
-Date: Mon, 27 Apr 2026 20:17:43 +0600
-X-Gm-Features: AVHnY4JD2JZaiwDyyuW_kBt_sHjEkoUZKURjGdK7nlj6KmXsjRIqpl4zFGzklnA
-Message-ID: <CAFfO_h5B=Ox9S=Xc=az2vQwowffohch-mkvSggYAfNXaVuv5GA@mail.gmail.com>
-Subject: Re: [PATCH v6 1/4] openat2: new OPENAT2_REGULAR flag support
-To: Florian Weimer <fweimer@redhat.com>, brauner@kernel.org, 
-	Alejandro Colomar <alx@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-api@vger.kernel.org, ceph-devel@vger.kernel.org, gfs2@lists.linux.dev, 
-	linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org, v9fs@lists.linux.dev, 
-	linux-kselftest@vger.kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz, 
-	jlayton@kernel.org, chuck.lever@oracle.com, alex.aring@gmail.com, 
-	arnd@arndb.de, adilger@dilger.ca, mjguzik@gmail.com, smfrench@gmail.com, 
-	richard.henderson@linaro.org, mattst88@gmail.com, linmag7@gmail.com, 
-	tsbogend@alpha.franken.de, James.Bottomley@hansenpartnership.com, 
-	deller@gmx.de, davem@davemloft.net, andreas@gaisler.com, idryomov@gmail.com, 
-	amarkuze@redhat.com, slava@dubeyko.com, agruenba@redhat.com, 
-	trondmy@kernel.org, anna@kernel.org, sfrench@samba.org, pc@manguebit.org, 
-	ronniesahlberg@gmail.com, sprasad@microsoft.com, tom@talpey.com, 
-	bharathsm@microsoft.com, shuah@kernel.org, miklos@szeredi.hu, 
-	hansg@kernel.org
+References: <20260427001602.38353-1-dwindsor@gmail.com> <20260427001602.38353-2-dwindsor@gmail.com>
+ <CAP01T74iuSDJeL6g=5yLdYGb-VcESK1SYY3R1S1r-CtQEsW+oQ@mail.gmail.com>
+ <CAEXv5_heSFK5rZYtaJG70Xgv92Um6Dbq8b95PtnpKy7XFwpKUw@mail.gmail.com>
+ <CAP01T74WBjcMXbWYeaWB-oTk-bUzoxi_EEALDpT1hFUEOovnpw@mail.gmail.com> <ae82Vv0RWzcXqSaz@google.com>
+In-Reply-To: <ae82Vv0RWzcXqSaz@google.com>
+From: Song Liu <song@kernel.org>
+Date: Mon, 27 Apr 2026 07:20:45 -0700
+X-Gmail-Original-Message-ID: <CAPhsuW60SRXZbFYRDm-QaTiB8tTtJD_N4jk1=680x5UsZmpj9w@mail.gmail.com>
+X-Gm-Features: AVHnY4IpuvPbEgxDVLoVsaHhXP3B7YAYoqdEKM5mE-x3NufiAn57piXniLfGauE
+Message-ID: <CAPhsuW60SRXZbFYRDm-QaTiB8tTtJD_N4jk1=680x5UsZmpj9w@mail.gmail.com>
+Subject: Re: [PATCH bpf-next 1/2] bpf: add bpf_init_inode_xattr kfunc for
+ atomic inode labeling
+To: Matt Bobrowski <mattbobrowski@google.com>
+Cc: Kumar Kartikeya Dwivedi <memxor@gmail.com>, David Windsor <dwindsor@gmail.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, KP Singh <kpsingh@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Jan Kara <jack@suse.cz>, 
+	John Fastabend <john.fastabend@gmail.com>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-security-module@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 27, 2026 at 7:28=E2=80=AFPM Florian Weimer <fweimer@redhat.com>=
- wrote:
+On Mon, Apr 27, 2026 at 11:11=E2=80=AFAM Matt Bobrowski
+<mattbobrowski@google.com> wrote:
 >
-> * Dorjoy Chowdhury:
->
-> > diff --git a/include/uapi/asm-generic/errno.h b/include/uapi/asm-generi=
-c/errno.h
-> > index 92e7ae493ee3..bd78e69e0a43 100644
-> > --- a/include/uapi/asm-generic/errno.h
-> > +++ b/include/uapi/asm-generic/errno.h
-> > @@ -122,4 +122,6 @@
+> On Mon, Apr 27, 2026 at 05:32:47AM +0200, Kumar Kartikeya Dwivedi wrote:
+> > On Mon, 27 Apr 2026 at 05:24, David Windsor <dwindsor@gmail.com> wrote:
+> > >
+> > > On Sun, Apr 26, 2026 at 10:57=E2=80=AFPM Kumar Kartikeya Dwivedi
+> > > <memxor@gmail.com> wrote:
+> > > >
+> > > > On Mon, 27 Apr 2026 at 02:16, David Windsor <dwindsor@gmail.com> wr=
+ote:
+> > > > >
+> > > > > Add bpf_init_inode_xattr() kfunc for BPF LSM programs to atomical=
+ly set
+> > > > > xattrs via inode_init_security hook using lsm_get_xattr_slot().
+> > > > >
+> > > > > lsm_get_xattr_slot() claims a slot by writing to xattr_count, whi=
+ch BPF
+> > > > > programs cannot do: hook arguments are not directly writable from=
+ BPF.
+> > > > > To hide this, the BPF-facing API is just bpf_init_inode_xattr(nam=
+e,
+> > > > > value), and the verifier transparently rewrites each call into
+> > > > > bpf_init_inode_xattr_impl(xattrs, xattr_count, name, value). xatt=
+rs and
+> > > > > xattr_count are extracted from the hook context, which the verifi=
+er
+> > > > > spills to the stack at program entry since R1 is clobbered during=
+ normal
+> > > > > execution.
+> > > > >
+> > > > > A previous attempt [1] required a kmalloc string output protocol =
+for
+> > > > > the xattr name. Since commit 6bcdfd2cac55 ("security: Allow all L=
+SMs to
+> > > > > provide xattrs for inode_init_security hook") [2], the xattr name=
+ is no
+> > > > > longer allocated; it is a static constant. We take advantage of t=
+his by
+> > > > > passing the name directly. Because we rely on the hook-specific c=
+tx
+> > > > > layout, the kfunc is restricted to lsm/inode_init_security.
+> > > > >
+> > > > > Link: https://kernsec.org/pipermail/linux-security-module-archive=
+/2022-October/034878.html [1]
+> > > > > Link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/li=
+nux.git/commit/?id=3D6bcdfd2cac55 [2]
+> > > > > Suggested-by: Song Liu <song@kernel.org>
+> > > > > Signed-off-by: David Windsor <dwindsor@gmail.com>
+> > > > > ---
+> > > >
+> > > > The explanation and code make no sense to me. Why not pass xattrs a=
+nd
+> > > > xattr_count directly as arguments, even if you choose to restrict t=
+he
+> > > > kfunc to a specific hook? Why does the verifier core need the hack =
+to
+> > > > spill the context and extract the two arguments?
+> > > >
+> > >
+> > > xattr_count is an output parameter; we cannot currently write to it i=
+n
+> > > bpf as there is no verifier support for writing to int *.  xattrs and
+> > > xattr_count can be fixed up by the verifier, so we only require the
+> > > user to pass the name and value.
 > >
-> >  #define EHWPOISON    133     /* Memory page has hardware error */
-> >
-> > +#define EFTYPE               134     /* Wrong file type for the intend=
-ed operation */
-> > +
-> >  #endif
+> > Sure, but the kfunc can. Did you try passing them in directly?
+> > If that doesn't work for some reason, we should fix it instead.
 >
-> This is what POSIX says about EFTYPE, in the Rationale for System
-> Interfaces:
->
-> =E2=80=9C
-> [EFTYPE]
->     This error code was proposed in earlier proposals as "Inappropriate
->     operation for file type", meaning that the operation requested is
->     not appropriate for the file specified in the function call. This
->     code was proposed, although the same idea was covered by [ENOTTY],
->     because the connotations of the name would be misleading. It was
->     pointed out that the fcntl() function uses the error code [EINVAL]
->     for this notion, and hence all instances of [EFTYPE] were changed to
->     this code.
-> =E2=80=9D
->
-> So I'm not sure if reusing this name is a good idea.
->
+> Hm, perhaps this fixup approach might be the simplest in order to
+> assure the needed safety?
 
-Thanks for pointing this out. I had started out the patch series with
-ENOTREGULAR and it was discussed that EFTYPE was a better and more
-generic error code which is also used in BSD systems like FreeBSD[1]
-and MacOS[2]. I also agree that EFTYPE makes sense. We can of course
-change to something else if everyone agrees.
++1. I think this is the best approach I can think of.
 
-cc Christian Brauner who originally suggested EFTYPE for input on this.
+Thanks,
+Song
 
-[1]: https://man.freebsd.org/cgi/man.cgi?errno(2)
-[2]: https://developer.apple.com/documentation/foundation/posixerror/eftype
-
-Regards,
-Dorjoy
+[...]
