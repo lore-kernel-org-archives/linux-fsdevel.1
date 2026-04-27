@@ -1,128 +1,118 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47A2D3DBD69
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 19:24:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777317879; cv=none; b=p6J2e4yU4fq75IiVd2K+Zfc7a2jmthvf4tzR4n+VR2smjJpAGmbue3/58LTGuj1fOa3GiL/u3pXoSDqLSI9EzGP1bUmYP7tJGu5dpWNgwvZaFyJ/NjiXxnMzr0Obu9kZikqFWa1mg1SD3pt2try3zlnfGWTkUA14m8+WTFbdngs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777317879; c=relaxed/simple;
-	bh=QuUokkY+4Q2XP6vae3Usa4NS9FTMDLDODZzPvq8b1i4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hUThYLOyuOFoxQ7b8uYv2YNagIjEAYwluJeGw8JBHG1VPMsgz3AuOk5NmPsWmaXkZACfGJplKlYGb5pBGYHc6gTfWVpNhCJzBLmJimZmG7x6OwhwdHCY9FVlrtYL1e673FzfXfjqbzNjkFCMU4dEBgrSLtMzPJ6aC81TMISr3UY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cQ/ZVGxg; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CDE140757E
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 19:30:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777318220; cv=pass; b=OS7qxIQwewIixtP99OoXsTUhQ8OJgWIGkva5KX5t85igdbzvY1p4sZ9O0L5UqshjIiaNvWPXNFrk2nYW5xWrqlIfBr1170TyhVYOzESA7MJgGuC4e+rBcE4ZAbQR16bE6NruERl6uaRK6IGDE0Geh7bAAHv4Y2UjyLbDv3opzn4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777318220; c=relaxed/simple;
+	bh=tFwWXFMBRiZ625fBY85CbmrUKBhnr2mQs0FLjof1s+U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=G4hjZXLMlbD+/KriwfTN2fgcqEbOIWflUPGHTxrx+OTRBySKy/bBzpPonAezV0JdBKPzpuxb9A0JasCYRtTS3LyoyBjxtIBgXl5A32m1NfkU1ap1T7J6eQhkmBH1f+F8peADBS0NSmjkCHVTh2rcTABjrEhVnp7B4D1VQdMiRn4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AEJ6siu3; arc=pass smtp.client-ip=209.85.208.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cQ/ZVGxg"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-67389cf78b0so18632613a12.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 12:24:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AEJ6siu3"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-671d60ef9c6so14620238a12.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 12:30:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777318218; cv=none;
+        d=google.com; s=arc-20240605;
+        b=j/tnhdPwBNXl1zLdsd4/ci9y4EVJPV/teQf3E7c1SLo1u54h69Xfu8JQVWD4ikFo6J
+         79EQR9/avrDA5O4zyoB/VQcRvQlMH81h1wQEmVOwVH6MMMy4d3KpBwainbMNStuX1jLy
+         gNOTGS+6nc94+j+f3joFI859PmYgFN8Uyd9KcVduIshsuuHHLSJjZ+w9G/GnwjT6mKJo
+         D0bqJ1Oqa7QqhfEEd7SCOR+iiODRbcuvUPO4cUViwihYvnkpk0GA7Ct15BOijroc2M+Z
+         HzySQGrRMaeOEfp43KvqsRy9HETRLX3AAAcSpqFoIrw0hQupIuEb7aGVM55WUoxAmbsQ
+         eWDA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=EjxomAVUCGQNHhYEOLpf88vdvIXmsFPyPItvbeA3C0s=;
+        fh=96Q/0g+gM3Mvw3WX53ZDrn7XaWPs/rFu4fEawcA+bI8=;
+        b=FEOkMz+zGfoqUex9VOusHogviX37nF5pRK+Lyx2uKoAWt+I+ndxXiXnls6EtQnmgvY
+         MwgygPk63QkKQTPpXaYJNq5nlXdQYnsMhnEUaOncEnErPBhY830jwMfcApYb4MFBnNUm
+         4trJ2T7Vgsag+5VVxz4AyMx1ZFdzECyj4PZBgmPNt5bQIJTMToTw9/fLFYxPwlTnOJG8
+         dbkNtEwocr3pz9XD1a5jUikl3uuPKhKVM9T+su1UA8NNXXtRLKaXYxqauLZ+q0Vgso0b
+         7I3TcG7eArmRbgau9HAGfDHvTFfDPIIA8GbPyz9Z64k5NrGwK3C8R2jwsKxyNrtR02mE
+         lNVA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777317869; x=1777922669; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RV1aio//lRH6vrC7iKsNXbkY/M33Jc85/wH3A0aXXHE=;
-        b=cQ/ZVGxgVTesu2ZOBeUfUNrfJfJHFpWUkS3Xg/XROFSvAW3wEo1WtVwPcC7ZQUxhkA
-         tL0/C7RsxGK6P4GxYs4N0TK+abHQaJ9Bj1vFwQEGJLZsfSF8RJKnKkEtKWK1nSO5Im+m
-         Jq/J4navtMK3APE4c36xXn5/FdTf5Wy9Y48GjC0lwjFziFmJ4P6mVzq/83W7Mv9JjGtv
-         qpvtZmdmcmA30A2C3YssI/XBUS1wyqRoakEYVDcYqv2o5aFDQLBZHaxE/g+sAPw7mS2p
-         xMD4EyqQsXDvXVvibtVy4JNkpzKrLAS4V7uq1eeVS/n7TSZGNig93M4d+imvnrgbqn2l
-         orAw==
+        d=gmail.com; s=20251104; t=1777318218; x=1777923018; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=EjxomAVUCGQNHhYEOLpf88vdvIXmsFPyPItvbeA3C0s=;
+        b=AEJ6siu3gXRhPOEHqAHc5w1xtO0/8quf60bLPA+rXiBYDH7noBtmBT8VXPmOdLnKwD
+         5yQ9uj6SlXOKsYJaJ8kmAfXqFE7MRverlRZ+g2W+rkBUG2tHe2poSr3JoMbF5ijATmwM
+         AwICHBb+toZ9uey82DrRE/naQ7pYqifZQ3ygWQfzP+Bxa6ii1kYZZSRGJ7LlkoqXUC1S
+         4xwL0HEFIDLe+BmJtc0Jh2OnFob4Alv1q4tk1kMSMd5lKFlXXbURkrmpIu05WbKK5aNF
+         i8Rkb0GUrRQiMXV8yVRK2xjGigkC4x0ecEqU9dAUqcKfSkTDXu32SX4stytSZIuTQ+vG
+         H7eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777317869; x=1777922669;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RV1aio//lRH6vrC7iKsNXbkY/M33Jc85/wH3A0aXXHE=;
-        b=dD/WXOWRcXRxbsxD37z2MLa+SpPwVRXlZp2QXslf+I7S6YIgr7n40wxhxvNTJKOCf5
-         cKsHJ7iKO3pzYsthXgel80HOnXLXt1mnCZ8xaEkEq7Z09vIzpZUqijNSFkM8Rdinj93C
-         xC2Bh3ymyCoz/02J2GDdO7XHv46vnzvR0Q26mSPHU4x5pXFSz+Yz35VnYb3RNAenVLdy
-         i9Ib58nQEdyJ/HlIcsO069LLJNmJIDCI0Rjt3s3RUje1VWlJ3Jr44/RkAv8+Ll1W3jb+
-         M/DCi5a/a10wk2zHGtHTPW/Py5fmlayVDhOEwbZftKK0SinmLyNMXH4Oxsxe+dO2JbL6
-         lHvQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+F5Yp4ytcHyHddkFDY+6gheQQMfkTAe822i1HAaNoMTWiH9sgG7cYWhPsPK2hWpitqTGq5wEOxH9fMDt2U@vger.kernel.org
-X-Gm-Message-State: AOJu0YzVG9To12scx4jYuyQjJawvNat5aIy85FVAMZfXfFmukaWUuMJ1
-	h/x0xE/2wRLIg47bzRFOOWZYFEte0XGUROwRJU4Y8aQRu+zNjJ1bTp7S
-X-Gm-Gg: AeBDieuWLKpeWbv+Ze5rzVi55VPkRjotE8H441GgZ45lVdLGaLDdJc5AE+yFj3UDQve
-	zq/OIiZ58cC+96RfyIC5EAZidgFJqX4cr9im1ruDSnJ1dmMGPE/Pkxk1n1qKsMOAxnLSFWITSev
-	sN+1Jx/SFtoV50fsncMoKG+jS4td6WXN7yNZKIMGqSV/Xcubua0Iw5cRyYcnVHGReaPV6V9q3yG
-	XCuKJfxcPEG4O7DWeMGkh99N9o30Y/6LVJzluXGFEtqltZ4Cix6rCP3LK99CnrN9aAl9oe+EliN
-	JuHDYDm2RWkF4BqC9CCI6f7CS0z0MZ/ATfoC0F6HC/C2g2MICYQ//ABOmyO2gvMQYNBssk/Zyb8
-	HUe7RXJan7mch53oKM3/2pXHpmigmMBZEetnDQnxnxt3a3LF0fbfQBbVn4PQ4eU4oEy76p9oB4T
-	hNRzHuif+glniuJXLtFFvRtgmepWGQjKJ2RVa+RwY516iFpRugIwh8h8tPBziqLuwM+NEWgK9iN
-	c4ieIfA0T90JfjUHxyYvqwTnFBRlwhi/VlsL2A=
-X-Received: by 2002:a05:6402:8cf:b0:66a:8002:fe17 with SMTP id 4fb4d7f45d1cf-679b670fc2emr230141a12.13.1777317868371;
-        Mon, 27 Apr 2026 12:24:28 -0700 (PDT)
-Received: from localhost (2001-1c00-570d-ee00-b693-672b-1361-8711.cable.dynamic.v6.ziggo.nl. [2001:1c00:570d:ee00:b693:672b:1361:8711])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-679b68523f3sm69374a12.20.2026.04.27.12.24.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Apr 2026 12:24:27 -0700 (PDT)
-Date: Mon, 27 Apr 2026 21:24:26 +0200
-From: Amir Goldstein <amir73il@gmail.com>
-To: Matan Cohen <matan@matanco.space>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org,
-	fuse-devel@lists.linux.dev
-Subject: Re: [PATCH] fuse: expose backing files in the daemon's fd table
-Message-ID: <ae-36oamXRxbGbbj@amir-ThinkPad-T480>
-References: <20260424144553.6241-1-matan@matanco.space>
+        d=1e100.net; s=20251104; t=1777318218; x=1777923018;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EjxomAVUCGQNHhYEOLpf88vdvIXmsFPyPItvbeA3C0s=;
+        b=IwmgFj+BMC6Vbp57dTCKD//LedLJHYB61ZVeWUqo8Wv+GBUgCubcZqqtCw+pZXrWdD
+         8HvuilaQAj+MYyaqiRnwoyuiWyExVwwmuvQadVw3VBPUzxwG64xmDh8old7+nps074T5
+         D6MU8p801eBCrcMNNmtHIQsTyeXr13QjF/eHQjf9MxVFRDA18zK7WSkkczrfYYmssUK2
+         NiN9aZH598iEhzIAVGi8Ej45GW+wBD+xv87FNVTcBrmfuV3Pio7DhBicdT/s2RQRr29u
+         qBafq3o3ptR38bdLYLDYfr23a1n0bqe5xnVOHdveHjW3hasy1idfzsmq2xCIONvxvzdr
+         oFKQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/ggpifmnZpDkpnnvrgqLyfkoMk5faBLdGNt5dqiatj6W5fqgSoAUBLdNnTQT2NIuElE8uVxlmii+Bjt773@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy0OcGRB1G/ArkUzdlJ/blc8unxWTG/ylcv/oyhqbl9DcmNtIoV
+	VUc94+utUDVr4m6yJ++tzl5Xq9vRPkpf9BMJCHWtjeajqaOdZMeYAiZqNieIp+NbunmaliDsEBe
+	4h/7agV4WBoS1Ugys+EE/KKQVwfbPHUU=
+X-Gm-Gg: AeBDies0e/A7o/qfjdBOZ3RGzpuP+JF/y7moZpj8kExr9RZ4CkA35AlETlZ/h4C2HiA
+	R3Qlp/jiBSQL4wIcYFRYVYCDQyHmLNkw3PNcifFfOTniPj1xLgzw8+X946sKIdyd+Ow1zSBmbRS
+	aX5iAx41yLtP6va1tIve0FKw8JDMQbGcYmLN1jXGpfbxjFbf8oyUPuTfCmSYkucTvnuTXkSPPFP
+	NuilcfKhu9zH/pr+cXNMeadN4FTlykmABvcI5VzXEbMcy0INdqA+yCCGXOuLCkY1xs81RRONn2k
+	xPNAon0/aharf4pRDblxZ4/ATJVA/+3NUJy9u4kpW9HVJtShF9Ox
+X-Received: by 2002:a17:907:1b09:b0:b9c:69df:4d8e with SMTP id
+ a640c23a62f3a-bb804245b53mr7307766b.25.1777318217596; Mon, 27 Apr 2026
+ 12:30:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260424144553.6241-1-matan@matanco.space>
+References: <20260422125212.1743006-1-amir73il@gmail.com> <20260427154818.GL7765@frogsfrogsfrogs>
+In-Reply-To: <20260427154818.GL7765@frogsfrogsfrogs>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Mon, 27 Apr 2026 21:30:06 +0200
+X-Gm-Features: AVHnY4IwMOHJKeGqDPpTyIpVtgoBWooU1GnAjk8YsCWdvO4eXmpSVkRuQnPFzAc
+Message-ID: <CAOQ4uxg=Yi5eOPshMsA9HV6vrs9SnZ3XFvoqjR4s-AJQPX4FSw@mail.gmail.com>
+Subject: Re: [PATCH v3] docs: add guidelines for submitting new filesystems
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Al Viro <viro@zeniv.linux.org.uk>, 
+	linux-fsdevel@vger.kernel.org, Theodore Tso <tytso@mit.edu>, 
+	Christoph Hellwig <hch@lst.de>, Matthew Wilcox <willy@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 
-[removing irrelevant lists]
+> > +Be testable
+> > +  The filesystem must be testable in a meaningful way.  The
+> > +  `fstests <https://git.kernel.org/pub/scm/fs/xfs/xfstests-dev.git>`_
+> > +  framework (also known as xfstests) is the standard testing infrastructure
+>
+> It's been known as 'fstests' (without the leading 'x') ever since other
+> filesystems started using it for their QA.
 
-Hi Matan!
+Sorry, I couldn't parse the requested fix.
+The document already refers to it as 'fstests'.
+I'd rather just drop "(also known as xfstests)".
+The aliases of fstests and their history are  out of scope for this doc.
+The repo URL link does not leave any room for confusion.
 
-On Fri, Apr 24, 2026 at 02:45:53PM +0000, Matan Cohen wrote:
-> FUSE passthrough backing files are currently not installed in the
-> daemon's fd table, making them invisible to lsof(8) and /proc/<pid>/fd.
-> This complicates debugging and is the reason passthrough currently
-> requires CAP_SYS_ADMIN.
-> 
-> Install each backing file into the daemon's fd table on BACKING_OPEN
-> and close it on BACKING_CLOSE.  Add an fd field to struct fuse_backing
-> to carry the installed fd number.
-> 
-> BACKING_CLOSE always runs in the daemon's ioctl context, so close_fd()
-> targets the correct fd table directly.
-> 
-> To handle fds that remain open at connection teardown (e.g. on umount
-> or connection abort without an explicit BACKING_CLOSE), store a
-> reference to the daemon's task_struct in fc->daemon_task on the first
-> BACKING_OPEN.  During teardown, fuse_backing_files_free() schedules a
-> task_work callback on the daemon task that calls close_fd() from the
-> daemon's own context.  If the daemon has already exited (task_work_add
-> returns -ESRCH), its fd table was already cleaned up on exit.
-> 
+Christian, assuming that we all agree on this, could you make this change?
 
-I am sorry but both the approach and the implementation are wrong for
-several different reasons, so I will not start to list them.
-
-Please follow this discussion:
-https://lore.kernel.org/linux-fsdevel/CAJfpegvaCTxS_wC6EGFfh3Gim5DEgOtuju=_=qCsouzkCRvJog@mail.gmail.com/
-
-It does not end with a definite decision on the best way to export
-backing files to lsof, but it does pave the general direction the
-the solution should take.
-
-> This is a prerequisite for relaxing the CAP_SYS_ADMIN requirement on
-> FUSE passthrough; a follow-up patch will drop the capability check now
-> that backing fds are accountable via /proc/<pid>/fd.
-
-This is one prerequisite, not all of them.
-See "Resource Accounting and Visibility" section in
-Documentation/filesystems/fuse/fuse-passthrough.rst
-
-Please CC me and the new fuse-devel list on future attempts to address
-this issue.  There is no need to CC LKML and selftest maintainers.
+>
+> With that fixed,
+> Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
+>
 
 Thanks,
 Amir.
-
