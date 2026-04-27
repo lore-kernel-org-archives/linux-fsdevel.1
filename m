@@ -1,49 +1,51 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B1DA3803DB;
-	Mon, 27 Apr 2026 14:57:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67BAC31F9B9;
+	Mon, 27 Apr 2026 15:03:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777301857; cv=none; b=jy84YlMFi13o6DPkK4o+0RrRsvpaj2KJEK4EqAgwH1zCajTeLAk3Z2qeVf4ZcviY6JfnCPt4AkNGC2V7xsNMP0pZGqPp6/1tyamLS/PpAKc7nf9k8d0QpPOSlLv9u19ZwfXbF/aA1hlN6CrGsRo2Jv4KBAB22WQTd/wTM4xMr/g=
+	t=1777302237; cv=none; b=R5sdzu+k3eyD4a7UmANmV6ySs1q9yADLA1lkWew2z2GQmDpw5+TgbHlioPLvRlKDYM5yL7mNK+qWD2/pnQCaYXdIfN3obC/6yK1zyNtBNox2U/2dFcjt4g42GLqTWA9/Jkgn1ZC7PomlVcknoKovIfAgf6QNzq2fnSgLLfzIiy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777301857; c=relaxed/simple;
-	bh=k54AbQ273apsHSbmihG65p6CQFsiF6CH6TWTe+51Sm4=;
+	s=arc-20240116; t=1777302237; c=relaxed/simple;
+	bh=SKrT35lR/W3/frJ7TULszcx5EQ7A8DuKhwalrY4XnNs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bhhf/ARbjR0Sk23TxbXEQ4bn/6MSfKHLfu/7OHuy+yRK2DHcizOsHOmfWgAjSHSM1TF6DbFvN+IIS0FHWd6IdZvrF0c4/haTQU/DBT6ZAIk/NfuD/hE8MD/yrZF6umvwC6Qn7hemIosbuiYMplj2GozWPV8HG3fx2S9cd+8Wx+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uw09pMTF; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=IJmeB3jq7gFj+nHTgV12sQu6udRsrd7YSyZbDDD70l4oL/0FHIpRsBnyBiT9C2VxU9dzH8g0po8MUEUINlIsuwPIohMQDa/hBvNR32IidEhWSSLxbn4HaArxqGFJk75LbtkWme5pNxbQKw6fdoR5uu7uUqXUSOAkmXq4ksdhvv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EM08tPjL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uw09pMTF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13233C2BCB5;
-	Mon, 27 Apr 2026 14:57:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EM08tPjL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78DA4C19425;
+	Mon, 27 Apr 2026 15:03:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777301857;
-	bh=k54AbQ273apsHSbmihG65p6CQFsiF6CH6TWTe+51Sm4=;
+	s=k20201202; t=1777302237;
+	bh=SKrT35lR/W3/frJ7TULszcx5EQ7A8DuKhwalrY4XnNs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uw09pMTFeSUuI8yA10vV8LDgoUIEivaXgxIYlE6tHuSX25otvKWKs6B4rkqhNbPXh
-	 oA11xKOD4AGSKUFGmnNcUdnxKwq/U77Ok0GeV7/LLHJidJPHKERaYYxWgVmRuqhqGD
-	 KbXHsRIrJN5ikufTMwT6lt5z61XIqcWxqVBPUWxPbnGOsl9Mv/l+6ccZZcO6G/WZmW
-	 spTkQCO80wleTOLGHzYru2IecjWEIuAorsDJVZ79HehbYpTQsPjOzZt1aNm4BIDkVh
-	 55rwSyJhSrK5XNK4q6jp6kkZuTQnq6hxLef4D3J6arNyIhLkS6XqmLo0YkJ9RtM7br
-	 dmfc2AgAAIcOw==
-Date: Mon, 27 Apr 2026 16:57:31 +0200
+	b=EM08tPjLQuXWYB7FCM5uHhrDeffg7oJ2JZ4fh+Mg1pwOhzAIVgVtyUPz5NzQzITVE
+	 yHjY79N5vzDXxcnX3IA7mKo1IIPxkqNrhPb/PrXsLJGcROcMh5ulh9DX6ziMbra5dF
+	 nsWEWsnm+122Ey3baGAa4Ky3gYh9TOfmKIAno6mZWnSw+5ZL8zh6ot4oUS2By9RV54
+	 fxm5gS62PGa0sqlW1V9Ay+crIniHH+JB5V0GMo1jx0SnOMCFhL/HwRwM4MJCjAszpU
+	 C7rc2vqdG0tLGfAevuyRfbKflYcm0+aVOGCSDv/YNORz7rG2g136eXKkQUUi83O+EP
+	 Kt9i+J3v3qEew==
+Date: Mon, 27 Apr 2026 17:03:52 +0200
 From: Christian Brauner <brauner@kernel.org>
-To: Paul Moore <paul@paul-moore.com>
-Cc: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, 
-	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, "Serge E . Hallyn" <serge@hallyn.com>, 
-	Justin Suess <utilityemal77@gmail.com>, Lennart Poettering <lennart@poettering.net>, 
-	Mikhail Ivanov <ivanov.mikhail1@huawei-partners.com>, Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>, 
-	Shervin Oloumi <enlightened@google.com>, Tingmao Wang <m@maowtm.org>, kernel-team@cloudflare.com, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-security-module@vger.kernel.org
-Subject: Re: [RFC PATCH v1 01/11] security: add LSM blob and hooks for
- namespaces
-Message-ID: <20260427-belegen-euren-997f91347820@brauner>
-References: <20260312100444.2609563-1-mic@digikod.net>
- <20260312100444.2609563-2-mic@digikod.net>
- <CAHC9VhT4Cd-FMYhaKgt6Gv-Suu7YJm7YbKZ-vdMwQV7EiWDryA@mail.gmail.com>
- <20260424.ein5Aiwah6Ai@digikod.net>
- <CAHC9VhRcokUR0ZKzCuZnZAyaFEMd6EH93BE3OTTKHY9Mo9pVkQ@mail.gmail.com>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Chuck Lever <cel@kernel.org>, Christoph Hellwig <hch@lst.de>, 
+	NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, 
+	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, linux-nfs@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, Chuck Lever <chuck.lever@oracle.com>, 
+	Amir Goldstein <amir73il@gmail.com>, Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: cleanup block-style layouts exports v2
+Message-ID: <20260427-landhaus-leiblich-cd21a25f741f@brauner>
+References: <20260401144059.160746-1-hch@lst.de>
+ <8bef4d4e-1c0d-451d-8854-ed0cba27ee1f@app.fastmail.com>
+ <20260409-schwalben-neutralisieren-fb5a184e5049@brauner>
+ <20260410111007.GA10292@lst.de>
+ <20260414-ausbrechen-gemixt-ff09f46bdad2@brauner>
+ <20260415052925.GC26559@lst.de>
+ <217438cb-63ff-41d2-8f3c-fbdb1945a670@app.fastmail.com>
+ <683650ce-0585-4607-8d93-9704b179fbd3@app.fastmail.com>
+ <20260421-schusselig-proklamieren-23839cd64bca@brauner>
+ <fb0803567b6176715d00e7c34a3095647f66f8d0.camel@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -52,88 +54,45 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHC9VhRcokUR0ZKzCuZnZAyaFEMd6EH93BE3OTTKHY9Mo9pVkQ@mail.gmail.com>
+In-Reply-To: <fb0803567b6176715d00e7c34a3095647f66f8d0.camel@kernel.org>
 
-On Fri, Apr 24, 2026 at 03:28:44PM -0400, Paul Moore wrote:
-> On Fri, Apr 24, 2026 at 2:56 PM Mickaël Salaün <mic@digikod.net> wrote:
-> > On Wed, Apr 22, 2026 at 08:19:59PM -0400, Paul Moore wrote:
-> > > On Thu, Mar 12, 2026 at 6:05 AM Mickaël Salaün <mic@digikod.net> wrote:
-> > > >
-> > > > From: Christian Brauner <brauner@kernel.org>
-> > > >
-> > > > All namespace types now share the same ns_common infrastructure. Extend
-> > > > this to include a security blob so LSMs can start managing namespaces
-> > > > uniformly without having to add one-off hooks or security fields to
-> > > > every individual namespace type.
-> > > >
-> > > > Add a ns_security pointer to ns_common and the corresponding lbs_ns
-> > > > blob size to lsm_blob_sizes. Allocation and freeing hooks are called
-> > > > from the common __ns_common_init() and __ns_common_free() paths so
-> > > > every namespace type gets covered in one go. All information about the
-> > > > namespace type and the appropriate casting helpers to get at the
-> > > > containing namespace are available via ns_common making it
-> > > > straightforward for LSMs to differentiate when they need to.
-> > > >
-> > > > A namespace_install hook is called from validate_ns() during setns(2)
-> > > > giving LSMs a chance to enforce policy on namespace transitions.
-> > > >
-> > > > Individual namespace types can still have their own specialized security
-> > > > hooks when needed. This is just the common baseline that makes it easy
-> > > > to track and manage namespaces from the security side without requiring
-> > > > every namespace type to reinvent the wheel.
-> > > >
-> > > > Cc: Günther Noack <gnoack@google.com>
-> > > > Cc: Paul Moore <paul@paul-moore.com>
-> > > > Cc: Serge E. Hallyn <serge@hallyn.com>
-> > > > Signed-off-by: Christian Brauner <brauner@kernel.org>
-> > > > Link: https://lore.kernel.org/r/20260216-work-security-namespace-v1-1-075c28758e1f@kernel.org
-> > > > ---
-> > > >  include/linux/lsm_hook_defs.h      |  3 ++
-> > > >  include/linux/lsm_hooks.h          |  1 +
-> > > >  include/linux/ns/ns_common_types.h |  3 ++
-> > > >  include/linux/security.h           | 20 ++++++++
-> > > >  kernel/nscommon.c                  | 12 +++++
-> > > >  kernel/nsproxy.c                   |  8 +++-
-> > > >  security/lsm_init.c                |  2 +
-> > > >  security/security.c                | 76 ++++++++++++++++++++++++++++++
-> > > >  8 files changed, 124 insertions(+), 1 deletion(-)
+On Thu, Apr 23, 2026 at 02:57:05PM -0400, Jeff Layton wrote:
+> On Tue, 2026-04-21 at 14:04 +0200, Christian Brauner wrote:
+> > On Fri, Apr 17, 2026 at 07:52:20AM -0700, Chuck Lever wrote:
+> > > 
+> > > On Wed, Apr 15, 2026, at 7:34 AM, Chuck Lever wrote:
+> > > > On Tue, Apr 14, 2026, at 10:29 PM, Christoph Hellwig wrote:
+> > > > > On Tue, Apr 14, 2026 at 12:01:39PM +0200, Christian Brauner wrote:
+> > > > > > On Fri, Apr 10, 2026 at 01:10:07PM +0200, Christoph Hellwig wrote:
+> > > > > > > On Thu, Apr 09, 2026 at 03:26:09PM +0200, Christian Brauner wrote:
+> > > > > > > > > Christian, are you OK if I take this series through the NFSD tree?
+> > > > > > > > 
+> > > > > > > > Hm, I generally prefer infrastructure to go through the VFS tree.
+> > > > > > > > You can get a stable branch ofc.
+> > > 
+> > > > In this case, pNFS is the only consumer that will notice or use the
+> > > > new "infrastructure" and us NFS experts are the only ones who can test
+> > > > and review it properly. And, the likelihood of conflicts with patches
+> > > > in nfsd-testing is high (in fact we've already had at least one). It
+> > > > makes sense to me to take this series through NFSD.
+> > > 
+> > > I see that Jeff has posted a series that modifies the fs_notify API surface
+> > > to support the NFSv4 CB_NOTIFY operation. That likely counts as an
+> > > infrastructure change.
+> > > 
+> > > To meet you halfway, Christian, you could take Christoph's series and
+> > > Jeff's series into a "vfs.nfsd" tree and I can base my nfsd-next branch
+> > > on that for the NFSD PR 7.2. Building the NFSD PR on that should avoid
+> > > merge conflicts with significant changes I have planned.
+> > 
+> > Sounds perfect. I don't rebase branches unless there's something really
+> > really gnarly to handle and I would ping you in advance if anything like
+> > that were to happen.
 > 
-> ...
-> 
-> > > > diff --git a/kernel/nsproxy.c b/kernel/nsproxy.c
-> > > > index 259c4b4f1eeb..f0b30d1907e7 100644
-> > > > --- a/kernel/nsproxy.c
-> > > > +++ b/kernel/nsproxy.c
-> > > > @@ -379,7 +379,13 @@ static int prepare_nsset(unsigned flags, struct nsset *nsset)
-> > > >
-> > > >  static inline int validate_ns(struct nsset *nsset, struct ns_common *ns)
-> > > >  {
-> > > > -       return ns->ops->install(nsset, ns);
-> > > > +       int ret;
-> > > > +
-> > > > +       ret = ns->ops->install(nsset, ns);
-> > > > +       if (ret)
-> > > > +               return ret;
-> > > > +
-> > > > +       return security_namespace_install(nsset, ns);
-> > > >  }
-> > >
-> > > Do we also want a security_namespace_switch() called from within
-> > > switch_task_namespaces()?  Of course LSMs would not be able to fail or
-> > > return an error at that point, but it seems reasonable that LSMs might
-> > > want to update LSM state associated with the current task once the
-> > > namespaces have been changed.  This is similar to all the "_post_" LSM
-> > > hooks we have for various operations in the VFS and network layers.
-> >
-> > What cannot be infered from security_namespace_install()?
-> 
-> We don't actually know if the namespace is attached to a process until
-> we get to switch_task_namespaces().
-> 
-> Now that I'm looking at this again, why is the
-> security_namespace_install() call placed after the ns->ops->install()
-> call?  From an access control perspective we want the LSM hook before
+> Note that there is a small difference (error-handling fix) between the
+> most-recently posted CB_NOTIFY patchset and what's currently in my
+> tree. You can either pick or pull the series from my tree, or I can re-
+> post. Let me know which you'd prefer:
 
-See https://lore.kernel.org/20260325-filmverleih-auffressen-e897fcf8d3f2@brauner
-where I requested the order to be changed.
+Just repost, if you would be so kind. (I wonder whether we should start
+having a quiet period for new work during the mw like net has.)
