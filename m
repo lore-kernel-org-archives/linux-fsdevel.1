@@ -1,47 +1,48 @@
-Received: from out203-205-221-153.mail.qq.com (out203-205-221-153.mail.qq.com [203.205.221.153])
+Received: from out203-205-221-205.mail.qq.com (out203-205-221-205.mail.qq.com [203.205.221.205])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66768309EE6;
-	Mon, 27 Apr 2026 10:22:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.153
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F17A308F1D;
+	Mon, 27 Apr 2026 10:22:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.205
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777285372; cv=none; b=o5uYQkUGNvycZyOOCdN/qenbC+7gTjBE4QlwgT8TxOFU1iLjlzHvgo8HIBacOx5eQ0CraQW4l9//8UFoFBKFr18HFRGQYmj0JINwR2KLSkXidN+S3HnmNxD/AooY/B3N98rTsj9JzDwEzaTN79sL6YSbw31lySmhbhoZIua/ZIU=
+	t=1777285374; cv=none; b=QMeTHtd0Be9lVMbCwXLySh1xJTjJp+aImT93PRXsTXWyznRzpKH/NIGnDnSDuf3KzYLWdu8/UCtIi7NJ4UswmGWQ+XJu5YoeRk80kSVgr7h34LiDgI+yl1EM2xUsxRzxk88rfjyDzloF2gp7YP8ZoQ7W/IQOkm/2GRrpXyo4H/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777285372; c=relaxed/simple;
-	bh=56JLjlBm3saGp9NeTQ9wLP1PNLQK6CSjVejuEVrflAU=;
-	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=AM5njKlp6nY2R8euivm9mXJMzU9bl5o1nOgAQlXVBEg+3vQfoJzuP6NVlNJwgufG4tUhHnNo0TkMr6bD72DAEpxo8HsgeVdwT779Swv3U/hyzP8IsFToMB4o10wOwejXAiMwH0zbwkAGzgMfKxtIV6nU8suy8LxUJUFltTWXE7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=byyI+l3T; arc=none smtp.client-ip=203.205.221.153
+	s=arc-20240116; t=1777285374; c=relaxed/simple;
+	bh=wu66yk0Ctdm2dmX6qjWGdyKgK5OiSKMs1eBNWianXkM=;
+	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
+	 MIME-Version; b=Tizs1fzw33pt1gN1hnyOWSJF52u7j/vsSI0xVjsUFTa64suO28+UssosNoAJ87FJOzGOxCgDobu9uaPzKl0/hbtGNffH+hNKNW6k9zvqQOkwfM+pUsiU0FJXQV4m3OKisOS37fkZQRTRlKlyOGVXKZXL646kmQv3JzOF8ycgCSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=w9JexJFQ; arc=none smtp.client-ip=203.205.221.205
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="byyI+l3T"
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="w9JexJFQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1777285367; bh=8XjNhBqboQlWA2suiTcgXcRgUWxwvfEb6HIhOTzQk8E=;
-	h=From:To:Cc:Subject:Date;
-	b=byyI+l3TABiGW2A+WHY2809JgzQE8JXjs2mkY/FZogBBlKI74FyEbbMEpJvDbWAlo
-	 spkX5C2utC2MSY9/WwZrQ0tQmK0CMcivdijGLM4oMZZ+9/wLoYPBa1GHDnciIh2xsa
-	 z0T7KZg50+PBaAXYNTuJjGfbcVSJK9pAtisJlR68=
+	t=1777285369; bh=aoxJLcqVNjU6TsY+bAss1gfZHTlNWB2CFO4nNazgUic=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=w9JexJFQXXiYqd6RXM1ttSlVzK9p127ucYQfeJO9xlGaMTWTf8l9ab9qcRI3Mwj2m
+	 15Y9+gJteEjqMRd18+2mTIEqcA3qVRGqCBnzCdV0mxGYV4MsmJSKHAdQEpu8sNEUik
+	 mxDM2c7jgtnS2Epwd+/cx6vTL/YV9bxwX/kfl0Cc=
 Received: from node68.. ([166.111.236.25])
 	by newxmesmtplogicsvrsza63-0.qq.com (NewEsmtp) with SMTP
 	id 5AC362AB; Mon, 27 Apr 2026 18:22:44 +0800
-X-QQ-mid: xmsmtpt1777285364tc7ejmjs1
-Message-ID: <tencent_8D8D38DE345934735D3FCF289ECD6379940A@qq.com>
-X-QQ-XMAILINFO: OQjltBcbYeafGXxklMH76yrpAEjte7amObSCrhyXYbZvJun4Z66Aet3vvmbuQY
-	 BCDkE99jY5DlknH5dx8UzkhDPalKf7AiS55WbtJdKYQpRRTcu7cTY8RFU7WNKUCxam/zIlDlzwco
-	 sGPXLVnNeDjc0UNqJgpHDVhLAV0mqS/GkG8mB9iGaLjDvhQtvz8/3JEhX2PD+gU7tKISDW39yKgx
-	 QLnK/r/C9PQZuGl5AcrUz5t/zO0XsYf4YHSx3arG2uFAgYtLm0G39yJDxLxYVETUnURAFbDfM9fX
-	 NniY2tszeH3/HH7rvJEWKG/EWPf36iDnexOLYE3O2Zy8rjMR5o06TJBAmZ8BjY1lUcC/zrswrKpF
-	 E3Rksii73+xRV2cF4Sw8vp9q38xcEGxLOZY/JhrviXcvYiE5CHHwb77LfqkcbSHgz6fs5xnKk/Bp
-	 TKvLKGM29CeQCRqvYRM7hel8T8/yfXjPkR2W3gwBiuu/zLCpAb9wdonFs4RoN49ZaMMMV4s/cxKb
-	 +oIqt8rIJ/zREzsUuIFBRM52PVLnWE/WTpXl6QHz+z6aP1GYfjZvgN2aiZ4wuHoWi1f5IwG15M8h
-	 kgBPWR72jQ78monMHxs38vaEaUWsNma9EVtSEC9gonK71FsjiRWJujrARNQgSsber29kxRBcjun6
-	 g9WSo4nOOGfr60JC//tTIzxCtY+4faahwig3iiIGa7V8BS4zED3q/t/Z2e1qLVtQqXMBONukJ9DF
-	 auWZOvZEbg91jxgy+q+25gh+ZLzP9gBXj+WgCNVWBIbfU7z0WYthv9gEFh9IzOG2TdA9HkRAWiXZ
-	 fYhnDKZ8a5CBT9lQrOeTjj7bFNvY+RLfsqqkBcgynReYjXu3M2Ro7dztyKlEOa0msV5CY/B81Zqf
-	 xlg/9CcqQWTNbRRCCxqOjg2F41KV96b5UkIvtuly81mxD6V1fCmc8VYGkL0uUCd57iSyk3PvWEp9
-	 +CYBQSy8uLfcMmsb07lN1JMwJAUpiQgvWMmEWy7PK3xTf4twYln5mi4Mp7J5gtlIPFfWCGh73TWF
-	 7rGORCNk2qKMEcjLHEYJfEppWtbvCjYf6pLq/oeg==
-X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
+X-QQ-mid: xmsmtpt1777285366tpspfn6ak
+Message-ID: <tencent_3F158B17AE85E73945C5F97D8F8A918F9B07@qq.com>
+X-QQ-XMAILINFO: MDbayGdXPuoetEbV4RYs2SZLJQmVfx8PY6yub6ed+idrQkmcDP4FBdYcmzsLMc
+	 NCq3vqbQ906HVQ1T8yI4ZdW25dvJzx8fKrgcCLEPENvf68TDun9CvHRRPNlb6mAsaAhAyahN21bF
+	 WwVQARB+3n+oatD8/w+e5ch64PiHUyfY8d5FVrSMiROPAnAsbzg7hpkAczNg1O0EsHXHfcmxPoCP
+	 p5Ts71LNRV+paE7GAtVNHzZKvCAemS0858QIQXsn6fTPHMEglHt3eUz6HGeOCDowPuIDnwi0S14Q
+	 ASBtNOBLu93riHvjQw6c6gNubTesHc/p3euKP/3mGxhC2L/6zW6v4BHVwHNc1UbtAVGKY1MLpxNE
+	 gHGlmQUUwR/PQd2MvrO8R+6J30z/65jDC3gdeUTxT0RxgF7XclkE4+iiRia8svjSeiLzl6uL2YD3
+	 I13Sbgr9JHyBVwb7C5qcRWPrcyomxKqC8NZnRRFrl/DIEDHEQSIZ+AypqPdQ5gt4Ymu4GbcNBeja
+	 /5BAaosEqLKiso1MIDxlJ5s+Y6h5XAbc6qTl+g7DtvNTM8kwy6IgDC1+qWdeB4zoVOQiJd94Ofy5
+	 xJQqbPc3sAxkORE5fgabiMk+7Gb3uDc4QQgJnupvr0wT/FcE+rE5DsaGz44U84pieE34VUWO187X
+	 n/Jog4QQEKAzWFl0KiRUMd6YTsu2LYCMEfLkw3p36slWM6yo9ux/WIwNikmVSz3KSXFpESntsSfz
+	 tGGhM/JanKpDBMRFu4qilWc1pwa10aM0pQ83o/8pMB8MhQPtVLTMSS/gNNzYkgFMJkOR55misKk8
+	 2O6d6pnk/VqmKgv/cSUDOaFHBnDv749LZZze4VoTFtkYDJHXnyRtuVXvyFL7Vp40a7+qwPPA/Efr
+	 gf/1YgzyfWdfReZ5BHYamwhJQOu3fJWGE/b/E5GaWtB5qEInifdlpU/nSF+LQ8Qfjy0bfSWVMgX+
+	 a3e+Z3+5eBUqdZzV3NMXfWAb+GGJsE+aoZ7xY0oeUsE29dUnVETE4Rg1ZEvTOBBiKv0cmr/R8Qph
+	 DxS3WVnagP4MPI3sdcbI56lB3mmfZ1wLXCkGk7pQ==
+X-QQ-XMRINFO: Nq+8W0+stu50tPAe92KXseR0ZZmBTk3gLg==
 From: fujunjie <fujunjie1@qq.com>
 To: Matthew Wilcox <willy@infradead.org>,
 	Jan Kara <jack@suse.cz>,
@@ -52,10 +53,12 @@ Cc: linux-mm@kvack.org,
 	Roman Gushchin <roman.gushchin@linux.dev>,
 	Haoran Zhu <zhr1502@sjtu.edu.cn>,
 	fujunjie <fujunjie1@qq.com>
-Subject: [RFC PATCH 0/1] mm/filemap: tighten mmap_miss hit accounting
-Date: Mon, 27 Apr 2026 10:22:42 +0000
-X-OQ-MSGID: <20260427102243.3519326-1-fujunjie1@qq.com>
+Subject: [RFC PATCH 1/1] mm/filemap: tighten mmap_miss hit accounting
+Date: Mon, 27 Apr 2026 10:22:43 +0000
+X-OQ-MSGID: <20260427102243.3519326-2-fujunjie1@qq.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260427102243.3519326-1-fujunjie1@qq.com>
+References: <20260427102243.3519326-1-fujunjie1@qq.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -64,35 +67,37 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi,
+file->f_ra.mmap_miss is used to stop mmap readahead after repeated
+misses.  filemap_fault() increases it when synchronous mmap readahead is
+needed, while filemap_map_pages() reduces it when fault-around finds
+folios already present in the page cache.
 
-This RFC explores a narrow mmap readahead accounting issue in
-filemap_map_pages().
+The hit side of that accounting is too generous in two cases.
 
-Today, mmap_miss is increased when synchronous mmap readahead is needed,
-and decreased when filemap_map_pages() maps folios that are already in
-the page cache.  The decrease side can over-credit hits in two cases:
+First, fault-around can install PTEs for multiple pages around the
+faulting address.  The fault only proves that the faulting address was
+accessed, not that the nearby PTEs will be used by the workload.
+Crediting all of those nearby PTEs as mmap hits can make sparse random
+access look like successful mmap readahead and keep mmap readahead
+enabled for longer than intended.
 
-  - fault-around installs nearby PTEs even though the fault only proves
-    that the faulting address was accessed;
-  - after synchronous mmap readahead returns VM_FAULT_RETRY, the retry
-    can find the folio brought in by the same miss and immediately
-    cancel that miss.
+Second, a fault that misses in the page cache can start synchronous mmap
+readahead, drop the mmap_lock, and return VM_FAULT_RETRY.  The retry may
+then find the folio that this same fault pulled into the page cache.  If
+filemap_map_pages() credits that retry as a hit, the same miss can
+immediately cancel its own mmap_miss increase.
 
-This first RFC keeps the scope intentionally conservative:
+Only credit one mmap hit when filemap_map_pages() actually maps the
+faulting address.  Also skip the credit on FAULT_FLAG_TRIED retries.
+Keep the existing workingset behavior: recently refaulted folios still
+do not reduce mmap_miss.
 
-  - only credit a hit when filemap_map_pages() maps the actual faulting
-    address;
-  - do not credit FAULT_FLAG_TRIED retries as mmap hits;
-  - keep the existing workingset-folio behavior unchanged;
-  - do not change async mmap readahead hit accounting.
-
-Current evidence supports that the change helps sparse random mmap
-access and sparse strides that do not geometrically overlap with the
-read-around window.  The main data set is a local KVM/data-disk
-microbenchmark using mmap_miss_probe, with an 8 GiB guest, 2 vCPUs,
-8192 KiB read_ahead_kb, cold page cache before each run, and medians
-from 3 runs.
+Current evidence comes from a local KVM/data-disk microbenchmark using
+mmap_miss_probe.  In an 8 GiB guest with 2 vCPUs, a 20 GiB file,
+8192 KiB read_ahead_kb, cold page cache before each run, and 1% of the
+file accessed, the median of 3 runs changed as follows.  This is file
+cache capacity pressure from the file being larger than guest memory; no
+separate memory hog was used.
 
 mmap_miss_probe is a small userspace benchmark used only for these
 measurements.  It mmap()s a prepared file with MADV_NORMAL and then
@@ -100,67 +105,37 @@ touches one byte at selected base-page offsets; the access order is
 random, sequential, or a fixed page stride.  The harness drops caches
 before each run and samples /proc/vmstat around that access loop.
 
-Here "pressure" means file-cache capacity pressure from a 20 GiB file in
-an 8 GiB guest.  It is not an extra memhog workload.  The fit-in-memory
-case uses a 4 GiB file in the same 8 GiB guest.
-
 Each case used a fresh temporary qcow2 data disk, seen by the guest as
 /dev/vda, formatted as ext4 and mounted at /mnt/mmap-matrix.
 
-Each result is "pgpgin GiB / elapsed seconds".  "pgpgin GiB" is the
-delta of the guest /proc/vmstat pgpgin counter, converted from KiB to
-GiB; I use it as an approximate block input counter, not as resident
-memory or exact application IO.  "Elapsed seconds" is the wall-clock
-runtime of the whole mmap_miss_probe access pass, not per-access
-latency.
-
-For the 20 GiB pressure case with 1% of pages accessed:
-
-        workload       before                after
-        random         223.377 GiB/101.293s  1.010 GiB/4.790s
-        stride1021     204.214 GiB/97.557s   204.208 GiB/108.086s
-        stride2053     409.584 GiB/193.700s  0.970 GiB/3.685s
-        stride4099     406.452 GiB/134.241s  0.975 GiB/3.499s
-        sequential       0.212 GiB/0.050s    0.212 GiB/0.057s
-
-For the 4 GiB fit-in-memory case in the same 8 GiB guest:
+Each before/after entry is "pgpgin GiB / elapsed seconds".  "pgpgin GiB"
+is the delta of the guest /proc/vmstat pgpgin counter, converted from
+KiB to GiB; I use it as an approximate block input counter, not as
+resident memory or exact application IO.  "Elapsed seconds" is the
+wall-clock runtime of the whole mmap_miss_probe access pass, not
+per-access latency.
 
         workload       before              after
-        random         3.987 GiB/1.960s    0.980 GiB/1.221s
-        stride1021     4.002 GiB/1.838s    4.002 GiB/1.851s
-        stride2053     3.991 GiB/1.835s    0.811 GiB/0.985s
-        stride4099     4.001 GiB/1.836s    0.819 GiB/1.037s
-        sequential     0.056 GiB/0.013s    0.056 GiB/0.018s
+        random         223.377 GiB/101.293s 1.010 GiB/4.790s
+        stride1021     204.214 GiB/97.557s 204.208 GiB/108.086s
+        stride2053     409.584 GiB/193.700s 0.970 GiB/3.685s
+        stride4099     406.452 GiB/134.241s 0.975 GiB/3.499s
+        sequential       0.212 GiB/0.050s   0.212 GiB/0.057s
 
-The same 8 GiB pressure setup also has an ablation.  P1 is only the
-faulting-address hit accounting change.  P2-only is only the
-FAULT_FLAG_TRIED retry filter.  P1+P2 is this RFC.  A representative
-subset of that ablation is:
+The same 8 GiB guest with a 4 GiB file, so the file fits in memory,
+showed the same direction for sparse random access without file-cache
+reclaim pressure:
 
-        workload    variant   result
-        random      baseline  223.377 GiB/101.293s
-        random      P1        223.268 GiB/98.481s
-        random      P2-only   223.257 GiB/100.091s
-        random      P1+P2     1.010 GiB/4.790s
-        stride2053  baseline  409.584 GiB/193.700s
-        stride2053  P1        409.584 GiB/197.645s
-        stride2053  P2-only   15.722 GiB/5.485s
-        stride2053  P1+P2     0.970 GiB/3.685s
-        sequential  baseline  0.212 GiB/0.050s
-        sequential  P1        0.212 GiB/0.046s
-        sequential  P2-only   0.212 GiB/0.050s
-        sequential  P1+P2     0.212 GiB/0.057s
+        workload       before             after
+        random         3.987 GiB/1.960s   0.980 GiB/1.221s
+        stride1021     4.002 GiB/1.838s   4.002 GiB/1.851s
+        stride2053     3.991 GiB/1.835s   0.811 GiB/0.985s
+        stride4099     4.001 GiB/1.836s   0.819 GiB/1.037s
+        sequential     0.056 GiB/0.013s   0.056 GiB/0.018s
 
-This supports keeping the RFC scoped to the two accounting changes:
-P1 alone was effectively baseline, while P2-only helped large sparse
-strides under pressure but left random access at baseline-level IO.
-I also tried variants that changed async mmap readahead and workingset
-handling; in this data set they tracked P1+P2 closely, so I left them
-out of this RFC.
-
-Current evidence does not establish that this solves every sparse
-pattern.  The stride1021 rows above are intentionally included: the
-20 GiB run still reads about 204 GiB.
+This RFC does not claim to solve every sparse pattern.  In particular,
+the stride1021 rows above are intentionally included: the 20 GiB run is
+still about 204 GiB of pgpgin.
 
 In the table, strideN means that the benchmark advances by N base pages
 between mmap loads.  Thus stride1021 is 1021 * 4 KiB = 4084 KiB.  With
@@ -171,25 +146,103 @@ therefore lands inside the previous read-around window.  About every
 other access can be a real faulting-address page-cache hit, and the
 other half can each read about 8 MiB.  For about 52k accesses in the
 20 GiB/1% run, half of them times 8 MiB is about 205 GiB, which matches
-the observed 204 GiB.
+the observed 204 GiB.  This first version keeps the scope intentionally
+limited to mmap_miss hit accounting.
 
-Feedback on the accounting boundary and on suitable test coverage would
-be useful.
-
-I will be travelling next week, so I may be slow to reply.
-
-Best regards.
-
-fujunjie
-
-fujunjie (1):
-  mm/filemap: tighten mmap_miss hit accounting
-
+Signed-off-by: fujunjie <fujunjie1@qq.com>
+---
  mm/filemap.c | 33 ++++++++++++++++-----------------
  1 file changed, 16 insertions(+), 17 deletions(-)
 
-
-base-commit: 1b55f8358e35a67bf3969339ea7b86988af92f66
+diff --git a/mm/filemap.c b/mm/filemap.c
+index 4e636647100c1..463cd19c49f09 100644
+--- a/mm/filemap.c
++++ b/mm/filemap.c
+@@ -3757,6 +3757,7 @@ static vm_fault_t filemap_map_folio_range(struct vm_fault *vmf,
+ 	unsigned int count = 0;
+ 	pte_t *old_ptep = vmf->pte;
+ 	unsigned long addr0;
++	bool fault_mapped = false;
+ 
+ 	/*
+ 	 * Map the large folio fully where possible:
+@@ -3780,16 +3781,6 @@ static vm_fault_t filemap_map_folio_range(struct vm_fault *vmf,
+ 		if (PageHWPoison(page + count))
+ 			goto skip;
+ 
+-		/*
+-		 * If there are too many folios that are recently evicted
+-		 * in a file, they will probably continue to be evicted.
+-		 * In such situation, read-ahead is only a waste of IO.
+-		 * Don't decrease mmap_miss in this scenario to make sure
+-		 * we can stop read-ahead.
+-		 */
+-		if (!folio_test_workingset(folio))
+-			(*mmap_miss)++;
+-
+ 		/*
+ 		 * NOTE: If there're PTE markers, we'll leave them to be
+ 		 * handled in the specific fault path, and it'll prohibit the
+@@ -3806,8 +3797,10 @@ static vm_fault_t filemap_map_folio_range(struct vm_fault *vmf,
+ 			*rss += count;
+ 			folio_ref_add(folio, count - ref_from_caller);
+ 			ref_from_caller = 0;
+-			if (in_range(vmf->address, addr, count * PAGE_SIZE))
++			if (in_range(vmf->address, addr, count * PAGE_SIZE)) {
+ 				ret = VM_FAULT_NOPAGE;
++				fault_mapped = true;
++			}
+ 		}
+ 
+ 		count++;
+@@ -3822,8 +3815,10 @@ static vm_fault_t filemap_map_folio_range(struct vm_fault *vmf,
+ 		*rss += count;
+ 		folio_ref_add(folio, count - ref_from_caller);
+ 		ref_from_caller = 0;
+-		if (in_range(vmf->address, addr, count * PAGE_SIZE))
++		if (in_range(vmf->address, addr, count * PAGE_SIZE)) {
+ 			ret = VM_FAULT_NOPAGE;
++			fault_mapped = true;
++		}
+ 	}
+ 
+ 	vmf->pte = old_ptep;
+@@ -3831,6 +3826,10 @@ static vm_fault_t filemap_map_folio_range(struct vm_fault *vmf,
+ 		/* Locked folios cannot get truncated. */
+ 		folio_ref_dec(folio);
+ 
++	if (fault_mapped && !(vmf->flags & FAULT_FLAG_TRIED) &&
++	    !folio_test_workingset(folio))
++		(*mmap_miss)++;
++
+ 	return ret;
+ }
+ 
+@@ -3844,10 +3843,6 @@ static vm_fault_t filemap_map_order0_folio(struct vm_fault *vmf,
+ 	if (PageHWPoison(page))
+ 		goto out;
+ 
+-	/* See comment of filemap_map_folio_range() */
+-	if (!folio_test_workingset(folio))
+-		(*mmap_miss)++;
+-
+ 	/*
+ 	 * NOTE: If there're PTE markers, we'll leave them to be
+ 	 * handled in the specific fault path, and it'll prohibit
+@@ -3856,8 +3851,12 @@ static vm_fault_t filemap_map_order0_folio(struct vm_fault *vmf,
+ 	if (!pte_none(ptep_get(vmf->pte)))
+ 		goto out;
+ 
+-	if (vmf->address == addr)
++	if (vmf->address == addr) {
+ 		ret = VM_FAULT_NOPAGE;
++		if (!(vmf->flags & FAULT_FLAG_TRIED) &&
++		    !folio_test_workingset(folio))
++			(*mmap_miss)++;
++	}
+ 
+ 	set_pte_range(vmf, folio, page, 1, addr);
+ 	(*rss)++;
 -- 
 2.34.1
 
