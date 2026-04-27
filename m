@@ -1,212 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out30-98.freemail.mail.aliyun.com (out30-98.freemail.mail.aliyun.com [115.124.30.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95B8D37E2FF;
-	Mon, 27 Apr 2026 11:10:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E52D43B7763;
+	Mon, 27 Apr 2026 11:23:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777288202; cv=none; b=cE5j3gvPoQN1GB17vbqbZWNBOidlSRHnfqnwGBnfnbjwBU/Ey+jLcQ7t1bOzyCC6XuacT7h8w7aEldhMkqpBSZYBAjvWvubWNidQANou/5aWcL93HJlLVY5fRVu0ylCsvLFKhntnYBxdMkXdRlnhEgVBIDGPE6hcm9vHf2VAZF4=
+	t=1777289031; cv=none; b=fib4xNRYtfwgoud5quFVCL8U0CQ9nErUeXIfAj48G058ELMtcDuWyMxnZfW04gFdIUwfO6MJ4azzIPLoDwqXeBHf22l55eM/D/eTAqdZa/U9jj9UnCWqBRs4aR49ImDi/7GUBZlgD5aKgkjWZB4R9b1GAWV2gGxnZuLPUHorq4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777288202; c=relaxed/simple;
-	bh=8fXXEDM6Q9Zfo6VHrdcBAM1RHmR921QpzOhVVp2pVW4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=EmQ69W4EyeUKf2ztfPyWnHFqFKb1c7pmrARh0a04N8eFhZ3zBBxy+h0QEnYZYzuMHWEFLV+ECO0ZGOP3FhoehMJWqWy5V7P7sVucGy4Tw1dAhc1B6Dj7AiYxseSQr+FgX2hG1dNAdVoOwllNEcKb0GBCO7duy4EAZfqvTUPT6gk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c+Ockymm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777289031; c=relaxed/simple;
+	bh=WO5Jr9BznyWMFDn+xDVYRXzM+mUsKH3DU+dM0XCL7kQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mT9i2zIuaaz8drC5BWKM38YXfIMNtg/ut8MJBiRcB9n+ixVfW8g6m4mIypTrL6hvxcoowT5t7xkqz0397K0w3UQUF7Tq+klQKuXDJgJ/Gw1tZeN0bc0yJ10x8uinzPRhJyYa5+nQ7R5un0SG3G7fGIS2IoS00GaUetCpoye8CpM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=kLEKjswr; arc=none smtp.client-ip=115.124.30.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c+Ockymm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 716F0C19425;
-	Mon, 27 Apr 2026 11:09:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777288202;
-	bh=8fXXEDM6Q9Zfo6VHrdcBAM1RHmR921QpzOhVVp2pVW4=;
-	h=From:Date:Subject:To:Cc:From;
-	b=c+OckymmgeKcN9Sb81TLpfXxrm6YvyH+TRG2IgKkVb9vpALpk/v5EGUd3lDp7Sljn
-	 R8wVg7+VRhno4SAnq2PRnMETBPjZCAyn2Jg7nl98oQ0lkDWtIVXUMKrwpk9obHPZgk
-	 XsFUnbblHehRF8p5D/zaNojIJ5GVK+MJGu1/VYoaMnXpfn0VEfpA7kmHd/y5XoP2GN
-	 U+U8fTSqeh0ssdREvs9lbeiVGUZBCbq2W3x9oDWOM9Fb/4YVynmwYp0JibSALMtqQP
-	 uQ8n2KUyCTKGe56oyGGYJDCQs0yAARTTml+PxZ3q4NrIOVQsRgSvIb43CyseeeddsS
-	 WYxfScfJyJmtw==
-From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 27 Apr 2026 13:09:57 +0200
-Subject: [PATCH] rhashtable: give each instance its own lockdep class
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="kLEKjswr"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1777289024; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=UJn4lNe3N+gv4YNs9I/2Ctj5QiiaM6KzePs2I31E4Ec=;
+	b=kLEKjswrqnh+lOQvV315VibgGf1cOH52GBMzDDwUKeZPH9o66vuBv0s+LNvVDv5SHYKdRyF57xrM82+cdXSUyOWnMM3aFQgioWGj8xeC7z/mTYnWX1lhAW7uM+/W4WCgNlLdjf472/DziQhP1f+/4UoFEH1hRIs3azNhok+YvtA=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R921e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045098064;MF=libaokun@linux.alibaba.com;NM=1;PH=DS;RN=13;SR=0;TI=SMTPD_---0X1mqfjD_1777289022;
+Received: from 30.221.131.19(mailfrom:libaokun@linux.alibaba.com fp:SMTPD_---0X1mqfjD_1777289022 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Mon, 27 Apr 2026 19:23:43 +0800
+Message-ID: <3ea5dc18-0ae0-49d3-b89c-f6f9a7c11ab8@linux.alibaba.com>
+Date: Mon, 27 Apr 2026 19:23:42 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ext4: fix LOGFLUSH shutdown ordering to allow
+ ordered-mode data writeback
+To: Zhang Yi <yi.zhang@huaweicloud.com>
+Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca,
+ jack@suse.cz, ojaswin@linux.ibm.com, ritesh.list@gmail.com,
+ yi.zhang@huawei.com, yizhang089@gmail.com, yangerkun@huawei.com,
+ yukuai@fnnas.com
+References: <20260424104201.1930823-1-yi.zhang@huaweicloud.com>
+Content-Language: en-US
+From: Baokun Li <libaokun@linux.alibaba.com>
+In-Reply-To: <20260424104201.1930823-1-yi.zhang@huaweicloud.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260427-work-rhashtable-lockdep-v1-1-f69e8bd91cb2@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAARE72kC/yWMyw6CMBBFf4V0bc3Q2hb8FeNipgy2gkBafCSEf
- xd0eW7uOYvInCJncS4WkfgVcxyHDcpDIXzA4cYyNhsLBcrCSTn5HlMnU8AcZqSeZT/6ruFJegJ
- trLYOnBabPSVu4+dXvlz/nJ90Zz/vuf1BmFlSwsGHfXpgnjkdraktgiIFrqos1wxABKUtvWsbU
- 7eMRnuoSrGuX+GPjzO9AAAA
-X-Change-ID: 20260427-work-rhashtable-lockdep-cb0356367073
-To: Thomas Graf <tgraf@suug.ch>, Herbert Xu <herbert@gondor.apana.org.au>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- Vlastimil Babka <vbabka@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
- David Hildenbrand <david@kernel.org>, 
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
- linux-fsdevel@vger.kernel.org, 
- syzbot+5af806780f38a5fe691f@syzkaller.appspotmail.com, 
- Christian Brauner <brauner@kernel.org>
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5833; i=brauner@kernel.org;
- h=from:subject:message-id; bh=8fXXEDM6Q9Zfo6VHrdcBAM1RHmR921QpzOhVVp2pVW4=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS+d2E3Mj2+ZOdfVbvPmUeTNnZaJS/TNp3o4V21tfuN1
- 5qD8u93dJSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEzkdzMjw9vqn+v2vl13fsNk
- rc7vf1WbCqubX91l0lzSpcKwnb/1aCXDX4EStRn+R5ZtCdph8v+LyJ0P7ot2f7VvU/B1SNlq9fb
- nbGYA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-syzbot reported a possible circular locking dependency between
-&ht->mutex and fs_reclaim:
 
-  CPU0 (kswapd0)                    CPU1 (kworker)
-  --------------                    --------------
-  fs_reclaim                        ht->mutex
-    shmem_evict_inode                 rhashtable_rehash_alloc
-      simple_xattrs_free                bucket_table_alloc(GFP_KERNEL)
-        rhashtable_free_and_destroy       __kvmalloc_node
-          mutex_lock(&ht->mutex)            might_alloc -> fs_reclaim
+On 2026/4/24 18:42, Zhang Yi wrote:
+> From: Zhang Yi <yi.zhang@huawei.com>
+>
+> In EXT4_GOING_FLAGS_LOGFLUSH mode, the EXT4_FLAGS_SHUTDOWN flag was set
+> before calling ext4_force_commit().  This caused ordered-mode data
+> writeback (triggered by journal commit) to fail with -EIO, since
+> ext4_do_writepages() checks for the shutdown flag.  The journal would
+> then be aborted prematurely before the commit could succeed.
+>
+> Fix this by calling ext4_force_commit() first, then setting the
+> shutdown flag, so that pending data can be written back correctly.
+>
+> Note that moving ext4_force_commit() before setting the shutdown flag
+> creates a small window in which new writes may occur and generate new
+> journal transactions.  When the journal is subsequently aborted, the
+> new transactions will not be able to write to disk.  This is intentional
+> because LOGFLUSH's semantics are to flush pre-existing journal entries
+> before shutdown, not to guarantee atomicity for writes that race with
+> the ioctl.
+>
+> Fixes: 783d94854499 ("ext4: add EXT4_IOC_GOINGDOWN ioctl")
+> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
 
-The two halves of the splat refer to two different events on
-&ht->mutex.
+Looks good to me.
 
-The kswapd0 path is unambiguous: shmem_evict_inode at mm/shmem.c:1429
-calls simple_xattrs_free(), which calls rhashtable_free_and_destroy()
-on the per-inode simple_xattrs rhashtable being torn down with the
-inode.
+Reviewed-by: Baokun Li <libaokun@linux.alibaba.com>
 
-The previously-recorded ht->mutex -> fs_reclaim edge comes from
-rht_deferred_worker -> rhashtable_rehash_alloc ->
-bucket_table_alloc(GFP_KERNEL) -> __kvmalloc_node ->
-might_alloc -> fs_reclaim. That stack stops at generic library code:
-there is no subsystem-specific frame above rht_deferred_worker, so
-the splat does not identify which rhashtable's worker recorded the
-edge -- only that some rhashtable in the system did.
-
-Whether or not that recording happened on the same simple_xattrs ht
-that is now being destroyed, the predicted deadlock cannot occur:
-rhashtable_free_and_destroy() does cancel_work_sync(&ht->run_work)
-before taking ht->mutex, so the deferred worker cannot be running on
-the instance being torn down. If the recording was on a different
-rhashtable instance, the two ht->mutex acquisitions are on distinct
-mutex objects and cannot deadlock either.
-
-Lockdep flags a cycle regardless because mutex_init(&ht->mutex) lives
-on a single source line in rhashtable_init_noprof(), so every
-ht->mutex in the kernel shares one static lockdep class. Lockdep
-matches by class, not by instance, and collapses all of these into
-one node.
-
-Lift the lockdep key out of rhashtable_init_noprof() and into the
-caller. The user-visible rhashtable_init_noprof() /
-rhltable_init_noprof() identifiers become macros that declare a
-per-call-site static lock_class_key.
-
-Reported-by: syzbot+5af806780f38a5fe691f@syzkaller.appspotmail.com
-Closes: https://lore.kernel.org/69e798fe.050a0220.24bfd3.0032.GAE@google.com
-Signed-off-by: Christian Brauner <brauner@kernel.org>
----
- include/linux/rhashtable-types.h | 22 ++++++++++++++++++----
- lib/rhashtable.c                 | 17 ++++++++++-------
- 2 files changed, 28 insertions(+), 11 deletions(-)
-
-diff --git a/include/linux/rhashtable-types.h b/include/linux/rhashtable-types.h
-index 015c8298bebc..841021c67d3d 100644
---- a/include/linux/rhashtable-types.h
-+++ b/include/linux/rhashtable-types.h
-@@ -131,12 +131,26 @@ struct rhashtable_iter {
- 	bool end_of_table;
- };
- 
--int rhashtable_init_noprof(struct rhashtable *ht,
--		    const struct rhashtable_params *params);
-+int __rhashtable_init_noprof(struct rhashtable *ht,
-+		    const struct rhashtable_params *params,
-+		    struct lock_class_key *key);
-+#define rhashtable_init_noprof(ht, params)				\
-+({									\
-+	static struct lock_class_key __key;				\
-+									\
-+	__rhashtable_init_noprof(ht, params, &__key);			\
-+})
- #define rhashtable_init(...)	alloc_hooks(rhashtable_init_noprof(__VA_ARGS__))
- 
--int rhltable_init_noprof(struct rhltable *hlt,
--		  const struct rhashtable_params *params);
-+int __rhltable_init_noprof(struct rhltable *hlt,
-+		  const struct rhashtable_params *params,
-+		  struct lock_class_key *key);
-+#define rhltable_init_noprof(hlt, params)				\
-+({									\
-+	static struct lock_class_key __key;				\
-+									\
-+	__rhltable_init_noprof(hlt, params, &__key);			\
-+})
- #define rhltable_init(...)	alloc_hooks(rhltable_init_noprof(__VA_ARGS__))
- 
- #endif /* _LINUX_RHASHTABLE_TYPES_H */
-diff --git a/lib/rhashtable.c b/lib/rhashtable.c
-index 6074ed5f66f3..fb13749d824a 100644
---- a/lib/rhashtable.c
-+++ b/lib/rhashtable.c
-@@ -1025,8 +1025,9 @@ static u32 rhashtable_jhash2(const void *key, u32 length, u32 seed)
-  *	.obj_hashfn = my_hash_fn,
-  * };
-  */
--int rhashtable_init_noprof(struct rhashtable *ht,
--		    const struct rhashtable_params *params)
-+int __rhashtable_init_noprof(struct rhashtable *ht,
-+		    const struct rhashtable_params *params,
-+		    struct lock_class_key *key)
- {
- 	struct bucket_table *tbl;
- 	size_t size;
-@@ -1036,7 +1037,7 @@ int rhashtable_init_noprof(struct rhashtable *ht,
- 		return -EINVAL;
- 
- 	memset(ht, 0, sizeof(*ht));
--	mutex_init(&ht->mutex);
-+	mutex_init_with_key(&ht->mutex, key);
- 	spin_lock_init(&ht->lock);
- 	memcpy(&ht->p, params, sizeof(*params));
- 
-@@ -1087,7 +1088,7 @@ int rhashtable_init_noprof(struct rhashtable *ht,
- 
- 	return 0;
- }
--EXPORT_SYMBOL_GPL(rhashtable_init_noprof);
-+EXPORT_SYMBOL_GPL(__rhashtable_init_noprof);
- 
- /**
-  * rhltable_init - initialize a new hash list table
-@@ -1098,15 +1099,17 @@ EXPORT_SYMBOL_GPL(rhashtable_init_noprof);
-  *
-  * See documentation for rhashtable_init.
-  */
--int rhltable_init_noprof(struct rhltable *hlt, const struct rhashtable_params *params)
-+int __rhltable_init_noprof(struct rhltable *hlt,
-+			   const struct rhashtable_params *params,
-+			   struct lock_class_key *key)
- {
- 	int err;
- 
--	err = rhashtable_init_noprof(&hlt->ht, params);
-+	err = __rhashtable_init_noprof(&hlt->ht, params, key);
- 	hlt->ht.rhlist = true;
- 	return err;
- }
--EXPORT_SYMBOL_GPL(rhltable_init_noprof);
-+EXPORT_SYMBOL_GPL(__rhltable_init_noprof);
- 
- static void rhashtable_free_one(struct rhashtable *ht, struct rhash_head *obj,
- 				void (*free_fn)(void *ptr, void *arg),
-
----
-base-commit: 6596a02b207886e9e00bb0161c7fd59fea53c081
-change-id: 20260427-work-rhashtable-lockdep-cb0356367073
-
+> ---
+> This fix addresses my new generic/970 test, which fails during the file
+> size verification after shutdown and remount.
+>
+>  https://lore.kernel.org/fstests/20260424092228.1396658-1-yi.zhang@huaweicloud.com/
+>
+>  fs/ext4/ioctl.c | 12 +++++++++---
+>  1 file changed, 9 insertions(+), 3 deletions(-)
+>
+> diff --git a/fs/ext4/ioctl.c b/fs/ext4/ioctl.c
+> index 1d0c3d4bdf47..110e3fb194ec 100644
+> --- a/fs/ext4/ioctl.c
+> +++ b/fs/ext4/ioctl.c
+> @@ -830,11 +830,17 @@ int ext4_force_shutdown(struct super_block *sb, u32 flags)
+>  		bdev_thaw(sb->s_bdev);
+>  		break;
+>  	case EXT4_GOING_FLAGS_LOGFLUSH:
+> +		/*
+> +		 * Call ext4_force_commit() before setting EXT4_FLAGS_SHUTDOWN.
+> +		 * This is because in data=ordered mode, journal commit
+> +		 * triggers data writeback which fails if shutdown is already
+> +		 * set, causing the journal to be aborted prematurely before
+> +		 * the commit succeeds.
+> +		 */
+> +		(void) ext4_force_commit(sb);
+>  		set_bit(EXT4_FLAGS_SHUTDOWN, &sbi->s_ext4_flags);
+> -		if (sbi->s_journal && !is_journal_aborted(sbi->s_journal)) {
+> -			(void) ext4_force_commit(sb);
+> +		if (sbi->s_journal && !is_journal_aborted(sbi->s_journal))
+>  			jbd2_journal_abort(sbi->s_journal, -ESHUTDOWN);
+> -		}
+>  		break;
+>  	case EXT4_GOING_FLAGS_NOLOGFLUSH:
+>  		set_bit(EXT4_FLAGS_SHUTDOWN, &sbi->s_ext4_flags);
