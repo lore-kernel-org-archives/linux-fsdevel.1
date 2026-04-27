@@ -1,125 +1,327 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5971376BD9
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 21:58:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCDD13A16B6
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 22:00:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777327089; cv=none; b=Hw5Wqt6atkw2m/KtKHy4ME+qw61mH3Yx0LGmWERQ0rPjNpnxCYvZJagTPZq3/IEDuw9o4iTDh9ex36n4KbsEwWgfcApvg+H7y8mnXgz5wQtgNk1CnjLQaY753VHbP7RtkXdMVVp0W97en7VYMUP53e43vaSear/ewTNeMHcsc8c=
+	t=1777327216; cv=none; b=GDljtYaRB6ZuoPn+VPAkwpaHmYUvlNIuDUJ14YEhMcybfS5D30G6f+XdYACVC0PdY+1C2pGuY/rTtUdxxyQCtIX2XohpIH3u00hBNddWsNVhUoIA+fsgsy3DDaANjJjb+dX4i4+6ywDfPw+th3q0r8leeAbyBYpeqS7LdqYY3BQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777327089; c=relaxed/simple;
-	bh=7P7VU36hQu4iMsGekLZKiPL3rBFQOW0TOaXA+fXfycA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dzHlxJjhiNZQ6BC2qAoI7X3e2wtn/slMUMeO4d3lz1kGFVWQHOPxIhjN0Iv5zAXkesHotQKzt1SJYT75cGigW/uEptlGZKRCZNgV+/CObkAus5P/UaNIhDtj+aMlnwjGZZj4BQyVIXcTatePmLem71sGaIWxz137zQwhSxCb2No=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=YIF0ZCYk; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1777327216; c=relaxed/simple;
+	bh=e63n+1rAZnD7Qdf59l6vprJ4f2AGBjSdcDAeVacg8UA=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=b90mVqqH2EahS4quzoxWpznm+PKDHaeCKbqjdJaXe2okVRiA3TlHGnNbi6qvRyBM1WbOAvKNU5pp3pDACZsqaakRRpaGdxkWhkU1lBmZ/ftHQspHQDP65yM4T1Ap4gc7l3STNAqAliKaXeCj1HVfSvatWCkCEwhDEWD+S8y9oD4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dZxJe02F; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=GVq7SS3Q; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="YIF0ZCYk"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-b9c3a9fe80fso1581880866b.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 14:58:03 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dZxJe02F";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="GVq7SS3Q"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1777327212;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9P1J0I6C+Y4ucFeQdtSrWCxt3KuQjtdzTVKNGZ573Wc=;
+	b=dZxJe02Fr7ikYrrPHuzQ3Q/A6fuaT6azlLkQvuxLdjWZomqTMfdznYRyeAH7xI1gW9XClW
+	r1ygry9jPFh0qnAJxM6P1L8aGdfxjQUFnQUFmD5SprI0u0ghluGZVGhsyGVvIR3OZa7Yc6
+	yzUuQwCUQfIbbo7NU82/+CsUSuUYSSY=
+Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
+ [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-216-TMOOapcEM7KczMNxwtbpjg-1; Mon, 27 Apr 2026 18:00:11 -0400
+X-MC-Unique: TMOOapcEM7KczMNxwtbpjg-1
+X-Mimecast-MFC-AGG-ID: TMOOapcEM7KczMNxwtbpjg_1777327211
+Received: by mail-yw1-f199.google.com with SMTP id 00721157ae682-799001d7289so38963977b3.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 15:00:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1777327082; x=1777931882; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=eodThUBj1SnOvacXe/3ftYxEWQMFbYqc4B0FCa9Alx4=;
-        b=YIF0ZCYk8+ymflCsyK+Npm310RPcZhIhAfSyYLuc4sqLh1cdmALl0Tr+B9e+dHUwuj
-         0tjn+YI0oxWaDKy3baSUjgmm4gyCDg06/YhnrEwyIdVoBlthT1eX9hrhoF89gezmH329
-         H3bRV8bDn+UyAfsDVvhB77gdJ/smRBJyFsnME=
+        d=redhat.com; s=google; t=1777327211; x=1777932011; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=9P1J0I6C+Y4ucFeQdtSrWCxt3KuQjtdzTVKNGZ573Wc=;
+        b=GVq7SS3QnBbLWLdjh7qqA5UcB5imIOHpQeuo8H32ZZl66l4TLYWTPhkvi50XPy+TSa
+         +S37YFJx3Bp7pypeutri8o2oT46TnTKA4N9z2pe5TJujKaUoHehFf7lXBo2DduVEacDg
+         zPrNJmoo3U4/96NoH+C12po6AevoWCdoS2gaAkgZQFr6xsKYPxDCY7YHFhIu1+CLqnXl
+         VyUOKKK351zJ4fldrxFWgMvbiQ573KEXJvYFC+IP8rJ25rMm5UoA1100lEvn57DuYuel
+         6xfuAzIIuEX6FXJ0bimTuB91Hj4NI1bvC9xMRY3R8m7pBHg9PmKXTlL1V5/17URzVdeo
+         vKHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777327082; x=1777931882;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eodThUBj1SnOvacXe/3ftYxEWQMFbYqc4B0FCa9Alx4=;
-        b=iEoOhl93LEUeW3d57zINQcWnwQsug8cEc+8WXZnTH4von+z9EMm4qc4K8LzA4OvHaK
-         I4kIFuXKIr5M1v8+O/KFEcy9H88KnwAXlghwxkxxRB6hGFM+VmiirYIjQXr3R9Lzt79C
-         MXt0lrBietDgFPEJQJfzaUKCd6nTaEQYWyehlzdZNtEv5E8VEEwet6lqQUCgUGKdoa4V
-         V8IeRegoqJ8SIXNOCz5oKdXVTZsPbhpmc3sg6QsxyYHMv2rsBSR172dCn6EyJUcVuZi1
-         QDFPrXKJOehqpbSDkSEe5RjUuXS773om90f6A3TUq6zZS6h3YTxne4BbrlxcjjFaJ+6f
-         N1ng==
-X-Forwarded-Encrypted: i=1; AFNElJ9P0jrCRzMUcaHu6RoFgaEDaUQJlE9F1U4D1OBz9cOHczeRqhNo8Pf/c61Jd+mFUmnvXC+27J/FAXkRuiH0@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx9a+1Te16nV95Sy1GHQqsTw6Un3cCgxEqNwcO53VR7kzVXnr45
-	tGP0GotMKMlzH9NmA8NEb5xqafcMvwcx3fosknNZBjf+fnU0X7YQZN/WMCMiycgLH18VJz5zM7N
-	r7S3OMWykKA==
-X-Gm-Gg: AeBDiesOOQ1qCB7We/eHemAZoypTYFiS9W9QYIzRBdkMpYLda4d4ET1xx5IkAz4kqVf
-	m9nZRvGxbk6KDX07cU5TJiFLspjGN1F08VJ93VPkd5Ydqnz+MZLPLhpSJFoeBZdzknneA3MgGCp
-	nQ0I9LkK+hovYmr1DkpOd8frXohrldTG7Tco4QyAsj0Zc8Uy78rfUrXGwIvelpI20It4NGz3OCf
-	WBbRoTsZUdAJLLRU/KAjcSjP0WC4xrvPYeX5E04UfPd/TvpmkAIOZPRiQCYGKrBH1Da8IYHKjTu
-	urxTVvuNMJYQ19f9Sh4SUTb2xbDkdfLlSwEvYgMFfPxLi8ExRIg4aTyb/WI6AopRnP6Z1naYJrb
-	8S1omyOgksuWNAhr4Bj101Ni0ye329EQuPLIT8vVmmtTyvwucdWpMAXN1zw1lyUaMat/Jgtuqx8
-	a89hUMe7hKZ+Enllastt4Ykc/fAesmrpLHnPpI01Fy7riKSFWbrOTmNCmQ33nXSwjWIqsgdp8px
-	MkGWpHXXRnRui7ot01o5g==
-X-Received: by 2002:a17:907:e84b:b0:ba5:dfa6:1e8e with SMTP id a640c23a62f3a-bb80100e719mr32294666b.5.1777327082271;
-        Mon, 27 Apr 2026 14:58:02 -0700 (PDT)
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com. [209.85.218.54])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bb80b886ff5sm10167166b.45.2026.04.27.14.58.02
-        for <linux-fsdevel@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Apr 2026 14:58:02 -0700 (PDT)
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-ba7a1cc0380so1770652166b.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 14:58:02 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ9zEoVxBClQlbGo0XTXJmuO3NadipQqBf0jn+co6VZBB/2r8+YP9NpmkntMYspMuyo0aEt6k4vCRI1qmc1N@vger.kernel.org
-X-Received: by 2002:a05:6402:35c2:b0:677:270f:6f4b with SMTP id
- 4fb4d7f45d1cf-679bb04a8a7mr185115a12.1.1777326742385; Mon, 27 Apr 2026
- 14:52:22 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1777327211; x=1777932011;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9P1J0I6C+Y4ucFeQdtSrWCxt3KuQjtdzTVKNGZ573Wc=;
+        b=sVkGrg2GMti5XF9SEjUea7okLaruS4ZiEYAdTKq99jwwk5RdsWsY1rBQ4c9shhkru3
+         +MiA6gdgBP/vQL9MVmJDij/1+AY3MNRIH0zKdC70WxK9pKxKZZ945BfghPV9ihyr8p8q
+         66A9WFJjBzjcH7J0K9LfTDLL1S0gEFESnHWgbGHS8r2vLjmdGK6qhZET5OUB4w+e1ej0
+         SiSWE4eGVPXiq3IyFcBKr1qWNq9DRjWuS+ThLyXR2lfxEUv3X4jZ4sirjOHIlUrg/23w
+         bMSNJPltFVp6oy7YwWh/2ZxK4cbqiPJNtbrX3yPZa0zwxOAT8mmBQJCGMAH04dr8bTeH
+         fOVA==
+X-Forwarded-Encrypted: i=1; AFNElJ9he7PXi27vEBiP8HirFrCh02QQwgvH38faDTFxVBmzBTX4L22EyNQWs8jmjZL1V9brXAfIMDA1iKqZYLt4@vger.kernel.org
+X-Gm-Message-State: AOJu0YyXn/R7jDkeG0Gl/K1VB3glnXIMB0B2oLhD6n+1xjGbEOMf2OxF
+	kA90za/yywBXbP4clW7E9rgkK1G5d+jI2ELRGjGYW+UbUCjPWL8dbRrgsHS+7fh+T8oOChll0/B
+	5W43KsV20F8i12/Z/DJvalbFprwvcWWrkPj3ogOzdzDNFtDvWXmCdwduG5WjRymqkpOk=
+X-Gm-Gg: AeBDietro7O/Lo4G2rWIwuLaAOM1Z5Hh3jF3vMi422sMb6oFfB6wioT8prd18Qyvjf1
+	LtZ/Ul3WqkMqWrdb3OCoSRk/a0rubTsIuw2dggZMpOpjJAl12r8K5PTPkyVuz0rNO8GGjGAbh2N
+	00FU+m0KRQqsn8Y9qKNJlEKwhxStORRUH/RsQO2B6FcZxve+KfPa5evnexI0EeSOD5b+iZZlBAr
+	lZdEItvM6NuU/UPAzw7P/Z1FoqkGia4jYSpR/kj7sBn7Sh87T+rZxfWrooz1vA6c630XUza6pm8
+	HLxWFhgkg41cEVcipri4twbvfErEOV5+aB26VhtRWKaLz3YN06SajspI6zVtCVWP9snJfY5n6dJ
+	Ca59m06kokUTr7MG+R8Xs63WbhNLsMXfT7oLlYRoBDdO5OGgPvp6+vsIQvPlR5c0=
+X-Received: by 2002:a05:690c:1d:b0:7b3:9175:30a4 with SMTP id 00721157ae682-7bcf51fbcedmr4206947b3.15.1777327210579;
+        Mon, 27 Apr 2026 15:00:10 -0700 (PDT)
+X-Received: by 2002:a05:690c:1d:b0:7b3:9175:30a4 with SMTP id 00721157ae682-7bcf51fbcedmr4206487b3.15.1777327209968;
+        Mon, 27 Apr 2026 15:00:09 -0700 (PDT)
+Received: from li-4c4c4544-0032-4210-804c-c3c04f423534.ibm.com ([2600:1700:6476:1430::29])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7bcf0aec5f1sm3361017b3.23.2026.04.27.15.00.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Apr 2026 15:00:09 -0700 (PDT)
+Message-ID: <f2bb92bd6f5b34b92f229a3ec1f2e4fe20931240.camel@redhat.com>
+Subject: Re: [RFC PATCH] ceph: fix kernel memory exposure issue in
+ ceph_netfs_issue_op_inline()
+From: Viacheslav Dubeyko <vdubeyko@redhat.com>
+To: Alex Markuze <amarkuze@redhat.com>, Viacheslav Dubeyko
+ <slava@dubeyko.com>
+Cc: ceph-devel@vger.kernel.org, idryomov@gmail.com, 
+	linux-fsdevel@vger.kernel.org, pdonnell@redhat.com
+Date: Mon, 27 Apr 2026 15:00:07 -0700
+In-Reply-To: <CAO8a2Sh+=ef4mjp8tOR4HeqY9r4CaPJ7rCq1-WEmO25on7uSRA@mail.gmail.com>
+References: <20260226223042.2027550-1-slava@dubeyko.com>
+	 <CAO8a2ShPx3j4UUwAY404VdzG7wE8O-nGRiv5twwyLek07_RVhA@mail.gmail.com>
+	 <CAO8a2Sh+=ef4mjp8tOR4HeqY9r4CaPJ7rCq1-WEmO25on7uSRA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43app2) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1777306795.git.chleroy@kernel.org> <0ee46bb228d97163fbdc14f2a7c52b93d8bc34ce.1777306795.git.chleroy@kernel.org>
- <ae-j2_QirCySZD02@yury> <63a4d0f6-0eb3-48cd-9f98-bf7b223b2606@kernel.org> <ae-2yLWSGnfeTvh1@yury>
-In-Reply-To: <ae-2yLWSGnfeTvh1@yury>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Mon, 27 Apr 2026 14:52:05 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgPrLy0FR3sEWBYQuNAac1axDASYMnTuPuxEU0WytzL7w@mail.gmail.com>
-X-Gm-Features: AVHnY4LQUFWo9ODz4M3q2vZC9Gn8nsdYr95Nd4ky5ERVHHxIyN_9ZXY5zjebfdc
-Message-ID: <CAHk-=wgPrLy0FR3sEWBYQuNAac1axDASYMnTuPuxEU0WytzL7w@mail.gmail.com>
-Subject: Re: [RFC PATCH v1 7/9] x86: Add unsafe_copy_from_user()
-To: Yury Norov <ynorov@nvidia.com>
-Cc: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	David Laight <david.laight.linux@gmail.com>, Thomas Gleixner <tglx@linutronix.de>, 
-	linux-alpha@vger.kernel.org, Yury Norov <yury.norov@gmail.com>, 
-	linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-um@lists.infradead.org, 
-	dmaengine@vger.kernel.org, linux-efi@vger.kernel.org, 
-	linux-fsi@lists.ozlabs.org, amd-gfx@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
-	linux-wpan@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-wireless@vger.kernel.org, linux-spi@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-serial@vger.kernel.org, linux-usb@vger.kernel.org, 
-	xen-devel@lists.xenproject.org, linux-fsdevel@vger.kernel.org, 
-	ocfs2-devel@lists.linux.dev, bpf@vger.kernel.org, kasan-dev@googlegroups.com, 
-	linux-mm@kvack.org, linux-x25@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	linux-sound@vger.kernel.org, sound-open-firmware@alsa-project.org, 
-	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org, 
-	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org, 
-	linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	linux-sh@vger.kernel.org, linux-arch@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 27 Apr 2026 at 12:19, Yury Norov <ynorov@nvidia.com> wrote:
->
-> This is what Linus said when added x86 implementation for copy_from_user()
-> in c512c69187197:
+On Mon, 2026-04-27 at 15:27 +0300, Alex Markuze wrote:
+> Apologies, I acked the wrong patch here.
+>=20
+> The Bug is real and needs fixing, but there is a problem:
+>=20
+>=20
+>   1. subreq->start is silently dropped
+>=20
+>   The original code:
+>   len =3D min_t(size_t, iinfo->inline_len - subreq->start, subreq->len);
+>   err =3D copy_to_iter(iinfo->inline_data + subreq->start, len, &subreq->=
+io_iter);
 
-Note that some things have happily changed in the six+ years since...
+The subreq->start is meaningless here. We cannot use subreq->start at all. =
+We
+need to know the offset inside of inline buffer. Mostly, it should be small
+enough. If we would like to process it in the correct way, probably, we nee=
+d to
+introduce some special field in some structure. But subreq->start is comple=
+tely
+inapplicable in this calculation.
 
->   That's partly because we have no current users of it, but also partly
->   because the copy_from_user() case is slightly different and cannot
->   efficiently be implemented in terms of a unsafe_get_user() loop (because
->   gcc can't do asm goto with outputs).
+During testing I saw that subreq->start was 0. And I saw subreq->start =3D=
+=3D 32768
+something for the case of issue.
 
-now everybody can do asm goto with outputs.
+>=20
+>   The new code:
+>   len =3D min_t(size_t, iinfo->inline_len, subreq->len);
+>   err =3D copy_to_iter(iinfo->inline_data, len, &subreq->io_iter);
+>=20
+>   The subreq->start offset is completely removed. If subreq->start > 0
+> with valid inline data, the wrong bytes are copied (always from offset
+> 0 instead of the requested offset).
+>    While CephFS inline data is typically small and subreq->start is
+> likely 0 in practice, the fix is still semantically incorrect for the
+> general case.
+>=20
+>   2. -EFAULT is the wrong error code. When inline_len =3D=3D 0, the data
+> was uninlined; there's no inline payload.
+>       Returning -EFAULT signals a user-address fault, which is
+> misleading and will propagate as an I/O error instead of falling back
+> to the OSD path.
+>=20
 
-Yes, it's disabled on older versions, so it's not *always* available,
-but all modern versions do it. And if you care about performance, you
-won't be using an old compiler.
+Which error code do you suggest to use here?
 
-             Linus
+>   3. Coding style violation. The } else without braces:
+>       } else
+>           err =3D -EFAULT;
+>=20
+
+I can rework it.
+
+>   I suggest the following:
+>=20
+>   A cleaner approach would preserve the offset logic and handle the
+> edge cases properly:
+>=20
+>   if (iinfo->inline_len =3D=3D 0 || subreq->start >=3D iinfo->inline_len)=
+ {
+>       /* Nothing to copy; CLEAR_TAIL flag will zero-fill */
+>       len =3D 0;
+>   } else {
+>       len =3D min_t(size_t, iinfo->inline_len - subreq->start, subreq->le=
+n);
+>       err =3D copy_to_iter(iinfo->inline_data + subreq->start,
+>                          len, &subreq->io_iter);
+>       if (err =3D=3D 0)
+>           err =3D -EFAULT;
+>       else {
+>           subreq->transferred +=3D err;
+>           err =3D 0;
+>       }
+>   }
+>=20
+>   Or alternatively, treat inline_len =3D=3D 0 the same way as
+> inline_version =3D=3D CEPH_INLINE_NONE and return false to let the caller
+> fall back to a normal OSD read.
+>=20
+
+We can use subreq->start at all. We need to consider something else.
+
+Thanks,
+Slava.
+
+>  Alex
+>=20
+> On Mon, Apr 27, 2026 at 3:16=E2=80=AFPM Alex Markuze <amarkuze@redhat.com=
+> wrote:
+> >=20
+> > Reviewed-by: Alex Markuze <amarkuze@redhat.com>
+> >=20
+> > On Fri, Feb 27, 2026 at 12:30=E2=80=AFAM Viacheslav Dubeyko <slava@dube=
+yko.com> wrote:
+> > >=20
+> > > From: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
+> > >=20
+> > > Repeatable running of generic/013 test has revealed
+> > > the kernel memory exposure attempt for 6.19.0-rc8+ in
+> > > ceph_netfs_issue_op_inline():
+> > >=20
+> > > while true; do
+> > >   sudo ./check generic/013
+> > > done
+> > >=20
+> > > [17660.888303] ceph: ceph_netfs_issue_op_inline():317 iinfo->inline_d=
+ata ffff8881000b0112,
+> > > iinfo->inline_len 0, subreq->start 328187904, subreq->len 4096, len 0
+> > > [17660.891728] usercopy: Kernel memory exposure attempt detected from=
+ SLUB object 'kmemleak_object' (offset 274, size 4096)!
+> > > [17660.893370] ------------[ cut here ]------------
+> > > [17660.893377] kernel BUG at mm/usercopy.c:102!
+> > > [17660.894426] Oops: invalid opcode: 0000 [#1] SMP KASAN NOPTI
+> > > [17660.895749] CPU: 1 UID: 0 PID: 150873 Comm: fsstress Not tainted 6=
+.19.0-rc8+ #13 PREEMPT(voluntary)
+> > > [17660.896823] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996),=
+ BIOS 1.17.0-9.fc43 06/10/2025
+> > > [17660.897891] RIP: 0010:usercopy_abort+0x7a/0x7c
+> > > [17660.898575] Code: 48 c7 c6 80 bb 3e 8c eb 0e 48 c7 c7 c0 bb 3e 8c =
+48 c7 c6 00 bc 3e 8c 52
+> > > 48 89 fa 48 c7 c7 40 bc 3e 8c 50 41 52 e8 e6 00 fb ff <0f> 0b e8 ef 0=
+e fb 00 4d 89 e0 31 c9 44 89 f2 48 c7 c6 c0 bd 3e 8c
+> > > [17660.901225] RSP: 0018:ffff888179fbf340 EFLAGS: 00010246
+> > > [17660.901762] RAX: 000000000000006d RBX: ffff8881139ac112 RCX: 00000=
+00000000000
+> > > [17660.902295] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 00000=
+00000000000
+> > > [17660.902813] RBP: ffff888179fbf358 R08: 0000000000000000 R09: 00000=
+00000000000
+> > > [17660.903317] R10: 0000000000000000 R11: 0000000000000000 R12: 00000=
+00000001000
+> > > [17660.903820] R13: ffff8881139ad112 R14: 0000000000000001 R15: ffff8=
+88119da8bb0
+> > > [17660.904283] FS:  0000747714d62740(0000) GS:ffff888266112000(0000) =
+knlGS:0000000000000000
+> > > [17660.904719] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> > > [17660.905122] CR2: 00007477143ffff0 CR3: 00000001014f9005 CR4: 00000=
+00000772ef0
+> > > [17660.905555] PKRU: 55555554
+> > > [17660.905743] Call Trace:
+> > > [17660.905902]  <TASK>
+> > > [17660.906042]  __check_heap_object+0xf1/0x130
+> > > [17660.906372]  ? __virt_addr_valid+0x26b/0x510
+> > > [17660.906667]  __check_object_size+0x401/0x700
+> > > [17660.906959]  ceph_netfs_issue_read.cold+0x295/0x2f1
+> > > [17660.907322]  ? __pfx_ceph_netfs_issue_read+0x10/0x10
+> > > [17660.907657]  ? __kasan_check_write+0x14/0x30
+> > > [17660.907940]  ? kvm_sched_clock_read+0x11/0x20
+> > > [17660.908268]  ? sched_clock_noinstr+0x9/0x10
+> > > [17660.908531]  ? local_clock_noinstr+0xf/0x120
+> > > [17660.908817]  netfs_read_to_pagecache+0x45a/0x10f0
+> > > [17660.909168]  ? netfs_read_to_pagecache+0x45a/0x10f0
+> > > [17660.909482]  netfs_write_begin+0x589/0xfc0
+> > > [17660.909761]  ? __kasan_check_read+0x11/0x20
+> > > [17660.910019]  ? __pfx_netfs_write_begin+0x10/0x10
+> > > [17660.910340]  ? mark_held_locks+0x46/0x90
+> > > [17660.910629]  ? inode_set_ctime_current+0x3d0/0x520
+> > > [17660.910965]  ceph_write_begin+0x8c/0x1c0
+> > > [17660.911237]  generic_perform_write+0x391/0x8f0
+> > >=20
+> > > The reason of the issue is located in this code:
+> > >=20
+> > > err =3D copy_to_iter(iinfo->inline_data + subreq->start,
+> > >                    len, &subreq->io_iter);
+> > >=20
+> > > We have valid pointer iinfo->inline_data ffff8881000b0112.
+> > > The iinfo->inline_len has 0 size in bytes. However, subreq->start
+> > > has really big value 328187904. Finally, the sum of iinfo->inline_dat=
+a
+> > > and subreq->start results in the pointer that is out of available
+> > > memory area.
+> > >=20
+> > > This patch checks the iinfo->inline_len value. If it has zero value,
+> > > then -EFAULT code error will be return. Otherwise, the copy_to_iter()
+> > > logic will be executed.
+> > >=20
+> > > Signed-off-by: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
+> > > cc: Alex Markuze <amarkuze@redhat.com>
+> > > cc: Ilya Dryomov <idryomov@gmail.com>
+> > > cc: Patrick Donnelly <pdonnell@redhat.com>
+> > > cc: Ceph Development <ceph-devel@vger.kernel.org>
+> > > ---
+> > >  fs/ceph/addr.c | 18 +++++++++++-------
+> > >  1 file changed, 11 insertions(+), 7 deletions(-)
+> > >=20
+> > > diff --git a/fs/ceph/addr.c b/fs/ceph/addr.c
+> > > index e87b3bb94ee8..426121e38f3f 100644
+> > > --- a/fs/ceph/addr.c
+> > > +++ b/fs/ceph/addr.c
+> > > @@ -314,14 +314,18 @@ static bool ceph_netfs_issue_op_inline(struct n=
+etfs_io_subrequest *subreq)
+> > >                 return false;
+> > >         }
+> > >=20
+> > > -       len =3D min_t(size_t, iinfo->inline_len - subreq->start, subr=
+eq->len);
+> > > -       err =3D copy_to_iter(iinfo->inline_data + subreq->start, len,=
+ &subreq->io_iter);
+> > > -       if (err =3D=3D 0) {
+> > > +       if (iinfo->inline_len > 0) {
+> > > +               len =3D min_t(size_t, iinfo->inline_len, subreq->len)=
+;
+> > > +
+> > > +               err =3D copy_to_iter(iinfo->inline_data, len, &subreq=
+->io_iter);
+> > > +               if (err =3D=3D 0) {
+> > > +                       err =3D -EFAULT;
+> > > +               } else {
+> > > +                       subreq->transferred +=3D err;
+> > > +                       err =3D 0;
+> > > +               }
+> > > +       } else
+> > >                 err =3D -EFAULT;
+> > > -       } else {
+> > > -               subreq->transferred +=3D err;
+> > > -               err =3D 0;
+> > > -       }
+> > >=20
+> > >         ceph_mdsc_put_request(req);
+> > >  out:
+> > > --
+> > > 2.53.0
+> > >=20
+
