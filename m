@@ -1,167 +1,169 @@
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF0C2329E55
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 03:33:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.68
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777260807; cv=pass; b=MQHjR1m3SQ7/5Zc5LHZ0ctL/KXImjiL6rwHr6XMFAErBrkjIWBXTnV1045EWjIS6VNGQ2iJnG/Vud71Asfs1jkjroLq3egXlhsFaNPem6IXGtC4hfNnn7fprxegai7+d4VOfmnRbU6uM9K9tuPSHqmT9IeDmfWkYoq7YP6xm5Z4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777260807; c=relaxed/simple;
-	bh=FlRySTzL7yR9u6SjPj5k70NdbvHE2bc1gU3Eq2AkLA4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PZEPUwxX6MCeSlkNG4rz63wQ0nnO5W9xe+x0FJLgj7xj6cci3NreHxiRSqqrrCoP86Nn8oFI3KzzFGOaMRkZ5j1DtMBT5BAZh/mlzx43KNXvp5GpqDl7UHK8+UeyEqCWwasvAkL4M/0Rr7Sc8RTiCkGv9uOpxQ6cFaKCloG1kJ8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mLEOZyKX; arc=pass smtp.client-ip=209.85.221.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E13AB246768;
+	Mon, 27 Apr 2026 03:36:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777260979; cv=none; b=GQr1lWIqdfiuOZl1DNft5JTH22otRlNvRs52L+JiJ1w6uQnYmuKqBMEqvLceF16kUm3QyNhMxHZxzdwHeqAt//YIPlBOT0sCpkHRSHjxUcYhCURQXLnZzq/poJoM+MSoVsWEU2bIUBslAuuSIa86p+qq1EgEw7yH9N9hLE9mc64=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777260979; c=relaxed/simple;
+	bh=qSiA65OlAkTnkbcTeNV7mR1EhobDVI0BoCP/VRJI/W4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uVs1SkM5N5KA4DsvyKVBuEtEzrrqnCI7CyV+hk1cTK+iDnnUoDZwyVyPpk4+f+N70O+wS/gi+zc78lDCWYO4QXJDoKh6wIIr8+DFlVzRedFSse13uASuZ/rgfvY5hz1FGPFonNLmRQlD2q9FwuDpWu7PJ4sDzMjI137N3QC2VtM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=EV/B7sz6; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=VBhN6xtx; arc=none smtp.client-ip=103.168.172.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mLEOZyKX"
-Received: by mail-wr1-f68.google.com with SMTP id ffacd0b85a97d-43d70b3e159so5080981f8f.0
-        for <linux-fsdevel@vger.kernel.org>; Sun, 26 Apr 2026 20:33:25 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777260804; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Okh4ap+zncxPDYTZ+BOS7XzSj9zOxntjXeVJ2h0qeTPv4GksAYqubVDH+CaY3kzU4L
-         sqjWEAyQsWkxiUQPJizHzar3ric/2cMHbaUZeNyGFG8uy4mfATKAbDryAOKZ8Npc0zXL
-         4L+7Un5W9XTGmS8ArGFpYH4OQTWC7mWCi8qp6fwE5QyRWevCSGBlUttkWsHdtzr9tOLM
-         VuyB6cOfFmTU05WJD/ERGmKPzubbbhBC8oxd1aRyzPrAc3/75PcTGA5OuxNPIAFDn7hs
-         avXOshazLO2LVibY7pxVPftNaZ4SS/QegqCYeP5Sm3OCbcHxeggI66CFerTPn1CZIn9I
-         TvcQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=FMeRQIgABI0rxTD3+7gFqkezgpUe1NFoTAQ8q5oe/AQ=;
-        fh=q8HI9gF+5ZjFJRXBxTdJkPCZUFIBicgl5BBo8o13tg4=;
-        b=HsWLT+owYJJmaFw43x3w5W2oQcxeybX+xC0GaHeLAbqVSYaOW4boBV7mAP4bS2aO9S
-         495iWGfvOILieSQFi1u93f+iG3fNKIEKTYQtN5FGGezAGmZIKWB+x2NUj7NbMF9Z68sx
-         BpWLS02KXM9AFBp9TeYkf7+KOGJ3IY6mV3EidG8sHiKqJQKlgXVO/TWHLn/w5Irel7qh
-         Mljaa0Sy0e+8xDvKSYoRNuOX7iB92jfc+mVS92hSksWKv24tkepIFLAUZjXBpZA4ehGd
-         U5m/hOJiJpZBxNcDYCTByJ32R8PnJWn9M5AH0ELGlZhWvdePEzt9D7ShAPYvITNdf+6z
-         pbeA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777260804; x=1777865604; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FMeRQIgABI0rxTD3+7gFqkezgpUe1NFoTAQ8q5oe/AQ=;
-        b=mLEOZyKXnYS+/AXRTj6N1BZ0VGl4Ed/G7TH285S63iUPgPatg3vhCvbz0aN7hxLud0
-         Ma7q4vzRFUKNk6su9OsN/BPXTaFyyYUL4Gy5KTgHSS5efyg10XtBkgh6nlbjyuwm2M6r
-         Dv0boad/PpGbwRO+nqBaYXv+JxiMdWuGgGh2/TFP4lgkS+yz0zEzM2MAHRs1dito9ilE
-         8LPgcOpGWijtUyQJM1XCdZVMc+g3+Spv0jMaYBJyYduMrIsFCNnmaet9QGX3tntsK+Bq
-         xJ7qUX/WaYAKexaR92dbqjoMwr99FHKuzsL2dPyhzAw19gB+gUOWnbEIRRniA53D3U4K
-         qFBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777260804; x=1777865604;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=FMeRQIgABI0rxTD3+7gFqkezgpUe1NFoTAQ8q5oe/AQ=;
-        b=oBy0XjyB5z4BReakl5TSBYu5Z1VK0ATGlH41dSsDMjEhcOkpMJ1knw8bq+0S3LeKRi
-         E+aQLw1IcKytxIWyZWv8ihHqz1wCsLVOayuQcu9+XX9858f8P3Ew9m0YXdcN8/lttRy5
-         EJnLQsE+RYSbvsqn0TXrEn8hDo9bVYpBTDuCTKoo7JB0MyZUmDbjxQCRnfSDUAeErA8y
-         eMscCdvJmoZbKWgSps+7B+wgCssdmMyKtAaPDKKrOv8zAF4uVK79OoSsTDdLFCYEjbs3
-         ADn6CZ1xGpdFh+gMWVsecCLsC676wqiyQOLLJdovoaKef3Zcnjts3mKHfiVNoh1xWPTt
-         UOpg==
-X-Forwarded-Encrypted: i=1; AFNElJ9///YndG29iePlGKuoWrIjlFIzc2Xe2Ils2/I97ndh+zcNi9Lz39vJOVdSdWJzjq5KsU2i9kcqIrHEWmF0@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywj9mxy88Ax6wmbj1C5YTmq3FgpO7b6BloEAXNLKfpLjzevT7yE
-	inpQ2VqcpQNLTAdALNWIKZBhFZ4eQ2aae1iGyfLcBTMFiYuGXAoQpeaYeqqDFPpDoeuTqQ9gO7y
-	aEuQurcV0mAZq9TpCPf5iyAeChFYuuVg=
-X-Gm-Gg: AeBDievrsP1nLX9O7NOL/329kSIwlJ7KfAd3Syru84zn+IgmcqzdYf/9zRY39E4kWIt
-	iVcQ3wg6Uc9ZliLTm8tTn0t8/mqk72HkOiHvaB9BXSWJsB2RfgDRmR6wV3h05b4WNjz0eD6qw3p
-	s3G1M+nxWxU4EhhFC1g2Ge2/+TeiXZxu4exaoWGZhv6jHe1mm+gQs86dcm/Q5lKHJtZ1D9wtWrO
-	iSmA7uXHblA9BEhyuVGRoueppxV6At4ALv33wHHgPIbvIPdDhtTepFaROqCyslrM7gQl0TpEey7
-	fmS2zS2ph3kxJrvWw21UVfKR/owYgLtY6rRcsm6aVbULDnwEZzAJUhTs+pG5ua4Jw7dkeG8+tbc
-	zmvr/TAf7hHde/7R8rE6iMwgI/MMRNvK4Bq8dYwsscbx/GWT0701p843kIqZjKN8T1oCH
-X-Received: by 2002:a05:6000:40ca:b0:43d:70de:1c62 with SMTP id
- ffacd0b85a97d-43fe3e120c6mr64592007f8f.45.1777260803470; Sun, 26 Apr 2026
- 20:33:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="EV/B7sz6";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="VBhN6xtx"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.phl.internal (Postfix) with ESMTP id 107DCEC01BC;
+	Sun, 26 Apr 2026 23:36:16 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Sun, 26 Apr 2026 23:36:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:reply-to:subject
+	:subject:to:to; s=fm2; t=1777260976; x=1777347376; bh=+AfzVtcFdv
+	bs3O1oT5LWwepSI/hImgSuRlsSjxTGP/g=; b=EV/B7sz6hnO1bI52+uUOZIoI2w
+	SUjLidWwP3E1D9uD07z74T0evdJmmxhFR8WbD4d9dyQPj+DUhF/x39qqg43ebUNR
+	I4Wef9lmIPKl3dHt6AIb3VbLfrXhyOp0wSul4eDMrmiyNXpPSOyDgrvpNlDcDgNm
+	nukvwX4q4PSpXlBVG23d9i74pFJiOPXGs6SQtWme58kPen26xlw6X1C21Vn+XycH
+	1wMjVsFWDwM3JAHISzGbAZGTAZ//2L8CGbeEOChlJzQiLyQ21I2C7C/1ymltEBgJ
+	p2HEFltuEscBugWNV+7mGkdqVvkdS3WS92UV0XM30KHhjNnTCRzorqeTmNQg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1777260976; x=1777347376; bh=+AfzVtcFdvbs3O1oT5LWwepSI/hI
+	mgSuRlsSjxTGP/g=; b=VBhN6xtxnCpxe9/yuUCvdU1CamGy9W7c17XKEFs3d5yE
+	3LMVehRo/WRGKdqclzc1Mli0lRdJbzUPtZESrl36prLtNFDnWiYt2tcL+n/I4lyN
+	gBMX+iSspfEfl6UeAP6ygM6+1QAOpcHT6YGh8tX/afxGxbNC6BA3qhXhao093+J2
+	siQdZMSHJOuW/9JEjGJ13QgugIMvYUiTj3pDSJrhFptcKBiI5q0zdHbGf8vAAnvB
+	anXhr1bvoHkisUCp0LHEK9haoSrnY1qjOS/5jz+jsQeLm1azUABbE6nh89SFiT+s
+	KbDXFSgtSGJSMkSUp4ywu92bg5ELAB04V+ugRkARSA==
+X-ME-Sender: <xms:rtnuabyEcl926lDXoQ05S3AkJLRXR-e0T3QWn1ReOYTwwd36FeCV6g>
+    <xme:rtnuad9E-Q4DRg7VTp2ryPlpNb-RQLEVYWbXG2Qb6gAxJ5BLi6IfBzl7q-tLVj9MK
+    2zazQQPyCS4VxuiyrTsbP_UTb9y1oJ9f6nBQXyj8UUtkbE>
+X-ME-Received: <xmr:rtnuab9fVkCi4NjnXJIpOT35S9BdWO4B9QL7o9ju9qKDLj_Dxf1lAPiYC8xBBHGX_KIv1VFegNCKgJRM4nBnxyVNNH76WUg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdejjeeivdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefhvfevufffkfforhgggfestdekredtredttdenucfhrhhomheppfgvihhluehrohif
+    nhcuoehnvghilhgssehofihnmhgrihhlrdhnvghtqeenucggtffrrghtthgvrhhnpeegte
+    efgedttddviefggeeuveefleellefgjeeufeeukedtleeiieekvedtleevleenucevlhhu
+    shhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnvghilhgssehofi
+    hnmhgrihhlrdhnvghtpdhnsggprhgtphhtthhopedujedpmhhouggvpehsmhhtphhouhht
+    pdhrtghpthhtohepvhhirhhoseiivghnihhvrdhlihhnuhigrdhorhhgrdhukhdprhgtph
+    htthhopehlihhnuhigqdhunhhiohhnfhhssehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhr
+    tghpthhtoheplhhinhhugidqnhhfshesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtph
+    htthhopehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhr
+    tghpthhtoheplhhinhhugidqvghfihesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtph
+    htthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdprhgtphhtthho
+    pehmihhklhhoshesshiivghrvgguihdrhhhupdhrtghpthhtohepjhgrtghksehsuhhsvg
+    drtgiipdhrtghpthhtohepjhhksehoiihlrggsshdrohhrgh
+X-ME-Proxy: <xmx:rtnuaQf6CIJXgs7MwtyqLd5Rs5vj3APCdsQ3lyLN3Ba3xVDaEPWXvQ>
+    <xmx:rtnuaXveh0lQ8aESqcfzMz4E0dA0aNeSXBNjtwbzbJzEl6a68QKS4g>
+    <xmx:rtnuaZ3TOobK0NBGaMUCiO0HVtXYQ1rLEB9dZ3AwIqNXjc0Dy8vzMQ>
+    <xmx:rtnuaUDnndcrJU6ecu5lEXRMD0n6opFReSunJGtE961ZUTcQwDrj4Q>
+    <xmx:sNnuaQxDW4zaamrwn1UR_gAq5SLznvyiUdMBRbJuGUxUzKE_yfc4RvQr>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 26 Apr 2026 23:36:09 -0400 (EDT)
+From: NeilBrown <neilb@ownmail.net>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Jeff Layton <jlayton@kernel.org>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Jeremy Kerr <jk@ozlabs.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Christoph Hellwig <hch@infradead.org>
+Cc: linux-efi@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-nfs@vger.kernel.org,
+	linux-unionfs@vger.kernel.org,
+	linux-kernel@vger.kernel
+Subject: [PATCH v2 00/19] Prepare to lift lookup out of exclusive lock for directory ops
+Date: Mon, 27 Apr 2026 13:29:33 +1000
+Message-ID: <20260427033527.773006-1-neilb@ownmail.net>
+X-Mailer: git-send-email 2.50.0.107.gf914562f5916.dirty
+Reply-To: NeilBrown <neil@brown.name>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260427001602.38353-1-dwindsor@gmail.com> <20260427001602.38353-2-dwindsor@gmail.com>
- <CAP01T74iuSDJeL6g=5yLdYGb-VcESK1SYY3R1S1r-CtQEsW+oQ@mail.gmail.com> <CAEXv5_heSFK5rZYtaJG70Xgv92Um6Dbq8b95PtnpKy7XFwpKUw@mail.gmail.com>
-In-Reply-To: <CAEXv5_heSFK5rZYtaJG70Xgv92Um6Dbq8b95PtnpKy7XFwpKUw@mail.gmail.com>
-From: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Date: Mon, 27 Apr 2026 05:32:47 +0200
-X-Gm-Features: AVHnY4IWx2cxeZrRnlqhjZ1wcwst3yduTrI_1755npZU2JYycYn4il-T3V10fRY
-Message-ID: <CAP01T74WBjcMXbWYeaWB-oTk-bUzoxi_EEALDpT1hFUEOovnpw@mail.gmail.com>
-Subject: Re: [PATCH bpf-next 1/2] bpf: add bpf_init_inode_xattr kfunc for
- atomic inode labeling
-To: David Windsor <dwindsor@gmail.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, KP Singh <kpsingh@kernel.org>, 
-	Matt Bobrowski <mattbobrowski@google.com>, Paul Moore <paul@paul-moore.com>, 
-	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, Song Liu <song@kernel.org>, 
-	Jan Kara <jack@suse.cz>, John Fastabend <john.fastabend@gmail.com>, 
-	Martin KaFai Lau <martin.lau@linux.dev>, Yonghong Song <yonghong.song@linux.dev>, 
-	Jiri Olsa <jolsa@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-security-module@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, 27 Apr 2026 at 05:24, David Windsor <dwindsor@gmail.com> wrote:
->
-> On Sun, Apr 26, 2026 at 10:57=E2=80=AFPM Kumar Kartikeya Dwivedi
-> <memxor@gmail.com> wrote:
-> >
-> > On Mon, 27 Apr 2026 at 02:16, David Windsor <dwindsor@gmail.com> wrote:
-> > >
-> > > Add bpf_init_inode_xattr() kfunc for BPF LSM programs to atomically s=
-et
-> > > xattrs via inode_init_security hook using lsm_get_xattr_slot().
-> > >
-> > > lsm_get_xattr_slot() claims a slot by writing to xattr_count, which B=
-PF
-> > > programs cannot do: hook arguments are not directly writable from BPF=
-.
-> > > To hide this, the BPF-facing API is just bpf_init_inode_xattr(name,
-> > > value), and the verifier transparently rewrites each call into
-> > > bpf_init_inode_xattr_impl(xattrs, xattr_count, name, value). xattrs a=
-nd
-> > > xattr_count are extracted from the hook context, which the verifier
-> > > spills to the stack at program entry since R1 is clobbered during nor=
-mal
-> > > execution.
-> > >
-> > > A previous attempt [1] required a kmalloc string output protocol for
-> > > the xattr name. Since commit 6bcdfd2cac55 ("security: Allow all LSMs =
-to
-> > > provide xattrs for inode_init_security hook") [2], the xattr name is =
-no
-> > > longer allocated; it is a static constant. We take advantage of this =
-by
-> > > passing the name directly. Because we rely on the hook-specific ctx
-> > > layout, the kfunc is restricted to lsm/inode_init_security.
-> > >
-> > > Link: https://kernsec.org/pipermail/linux-security-module-archive/202=
-2-October/034878.html [1]
-> > > Link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.=
-git/commit/?id=3D6bcdfd2cac55 [2]
-> > > Suggested-by: Song Liu <song@kernel.org>
-> > > Signed-off-by: David Windsor <dwindsor@gmail.com>
-> > > ---
-> >
-> > The explanation and code make no sense to me. Why not pass xattrs and
-> > xattr_count directly as arguments, even if you choose to restrict the
-> > kfunc to a specific hook? Why does the verifier core need the hack to
-> > spill the context and extract the two arguments?
-> >
->
-> xattr_count is an output parameter; we cannot currently write to it in
-> bpf as there is no verifier support for writing to int *.  xattrs and
-> xattr_count can be fixed up by the verifier, so we only require the
-> user to pass the name and value.
+This patch set progresses my effort to improve concurrency of
+directory operations and specifically to allow concurrent updates
+in a given directory.
 
-Sure, but the kfunc can. Did you try passing them in directly?
-If that doesn't work for some reason, we should fix it instead.
+It is a selection of patches from the 53-patch set I posted in March
+which got relatively little response.  Maybe a shorter set will be more
+approachable.
 
->
-> > pw-bot: cr
-> >
-> > >  [...]
+This set:
+ - prepares the VFS in various ways
+ - make use of these preparations in ovl and NFS (the most challenging
+   filesystems for lookup as they do the most interesting things)
+ - make use in efivars and shmem which for different reasons need a small 
+   change that seemed worth including here.
+
+The goal that these patch work towards is moving lookup out of i_rwsem
+on the directory - except for the actual ->lookup call.  This is itself
+a step towards allowing broad concurrency of operations in a given
+directory.
+
+There are two particular requirements before lookup can move outside the lock:
+1/ d_drop() mustn't be used before an operation completes: the dentry being present
+   in the dcache becomes part of the locking protocol.  This in turn requires
+   d_splice_alias() to work with hashed negative dentries.
+2/ d_alloc_parallel() mustn't be called while i_rw_sem is held, as this would
+   result in a lock inversion.  So d_alloc_noblock and others are introduced
+   to handle the various cases.
+   In a few cases we need to drop and re-take i_rw_sem inside ->lookup.
+   As lookup might be called with a shared or exclusive lock this requires
+   a new LOOKUP_SHARED flag which is ugly but can be removed after the
+   lookup is moved out of the lock (then ->lookup will only ever be called
+   with a shared lock).
+
+The full set of patches including these 19 and the rest to complete the
+lifting of lookup out of the exclusive lock can be found at
+   github/neilbrown/linux in branch pdirops
+
+Significant changes since last time are:
+ - use wait_var_event for d_alloc_parallel() rather than effectively
+   duplicating that infrastructure - as suggested by Christop
+ - changes to ovl_readdir handling as discussed with Amir.
+
+Thanks,
+NeilBrown
+
+
+ [PATCH v2 01/19] VFS: fix various typos in documentation for
+ [PATCH v2 02/19] VFS: enhance d_splice_alias() to handle in-lookup
+ [PATCH v2 03/19] VFS: allow d_alloc_name() to be used with ->d_hash
+ [PATCH v2 04/19] VFS: use wait_var_event for waiting in
+ [PATCH v2 05/19] VFS: introduce d_alloc_noblock()
+ [PATCH v2 06/19] VFS: add d_duplicate()
+ [PATCH v2 07/19] VFS: Add LOOKUP_SHARED flag.
+ [PATCH v2 08/19] VFS/xfs/ntfs: drop parent lock across
+ [PATCH v2 09/19] ovl: stop using lookup_one() in iterate_shared()
+ [PATCH v2 10/19] VFS/ovl: add d_alloc_noblock_return()
+ [PATCH v2 11/19] efivarfs: use d_alloc_name()
+ [PATCH v2 12/19] shmem: use d_duplicate()
+ [PATCH v2 13/19] nfs: remove d_drop()/d_alloc_parallel() from
+ [PATCH v2 14/19] nfs: use d_splice_alias() in nfs_link()
+ [PATCH v2 15/19] nfs: don't d_drop() before d_splice_alias()
+ [PATCH v2 16/19] nfs: don't d_drop() before d_splice_alias() in
+ [PATCH v2 17/19] nfs: Use d_alloc_noblock() in nfs_prime_dcache()
+ [PATCH v2 18/19] nfs: use d_alloc_noblock() in silly-rename
+ [PATCH v2 19/19] nfs: use d_duplicate()
