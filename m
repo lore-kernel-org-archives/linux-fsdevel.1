@@ -1,110 +1,86 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A524A3BB9FD;
-	Mon, 27 Apr 2026 14:51:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83FD330E83F;
+	Mon, 27 Apr 2026 14:53:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777301463; cv=none; b=TqFz/1kiuihzYiNozxMqREDdEhCjAi5r8CHQY6EyDEjr9G2eWhMItU4qRDulxDwKeqwr8EpwMgEQdjLME32Zdxj78dmsdORKb6AEulJp6gPuM7rsnqTKOkXC15i14o3NuGTbvJvYYBwu3WyzFfQJSCRKj9SZ31c4xZwIuI+2nEA=
+	t=1777301634; cv=none; b=gXSuOW+mQ8Ver6p40NEB9p71380lY1CwMp1/1YD3jB2f3dpxpwerT9HqIVcaQnrz9LV+txAG+pUylclWV9zDXcculuJbkhG37njpwfoRZD2y1yN5PHQJ2cM4cuHsy/i6wQW0c9dRtryTT4s+7BkNgKE4sTcFtJz+wp+cu4YzCk0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777301463; c=relaxed/simple;
-	bh=2T6S+4TWa48LESOUHSb2tjdOhvJqnrda3WWp6MYczF0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cANBeUhbpOPU6Ghycs8MgsB03diFAwVUbMIirROUchuWmzLstIPl7E/jZdnnDejCpBV0lDi/MGDzfdNWrng0TblMlEUegkH3iNqdDGf1QJbHfJYfp9en+W4Mf002YrmMEttNpUHF0eS9vsrX2VG31g6d5Tw6hD2NLb5qZPJqVtc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jiJWe9RE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777301634; c=relaxed/simple;
+	bh=aKNiFbGZxQCMymCal4u+jq1RFWSn/I0w48kIUCMDXu4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XoKGDh0yVhtkLt/2VMGeaHReIFe0yeIOCl2Yj6LMAqzob9EUcNLRAcHVfHbGz2WKiiVw2wWuUDe6ihjJRXrhPJ9OBH3TreNXmpRGDlYnx38VJVJNIkBYKAD6Mhy6l5Bgn/WLzngbs9q/aX0+i7+dqBcR9s3ptkAGgBKYHHCj1Pk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tvq11jrt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jiJWe9RE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6444C19425;
-	Mon, 27 Apr 2026 14:51:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tvq11jrt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B132C19425;
+	Mon, 27 Apr 2026 14:53:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777301462;
-	bh=2T6S+4TWa48LESOUHSb2tjdOhvJqnrda3WWp6MYczF0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jiJWe9REmolUDjcep/yiG64BN1SY+s9uWzY6hXIsmst9qLA3wZ2ZxzCfREhdjWL90
-	 P2GrP8sc/5VzwtlgRXvsoIVK4dCkmQJbGAK3Ow14WTltFCgvTITjw6KkfP97xmMElp
-	 yG7iZ8pRcyX1Kw/5i+SOpLI2xGJRD4VwNtkBRDoA92XKb4EO1ZryA6oJRp+Ix+k6q1
-	 ao2grgTDqKi+Ysn/+XfPvMUbtweRRtNPCDju742ckoqKqMqWBDQGv8XHNNDyE0qIuh
-	 KkfKDm4thH2V2VDcgYn0PC/TzBKLF1QwFF73gQ1ia91pbPC7IrpJgvyOucJLoJT+ax
-	 6xJ84ZEze4CVQ==
-Date: Mon, 27 Apr 2026 07:51:02 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: neal@gompa.dev, linux-fsdevel@vger.kernel.org, joannelkoong@gmail.com,
-	miklos@szeredi.hu, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH 11/13] example/service_ll: create a sample systemd
- service fuse server
-Message-ID: <20260427145102.GL7739@frogsfrogsfrogs>
-References: <177689988489.3820166.4979104167640003535.stgit@frogsfrogsfrogs>
- <177689988738.3820166.3563042250723069297.stgit@frogsfrogsfrogs>
- <18844024-34a4-4e72-831f-04effc8e1418@bsbernd.com>
+	s=k20201202; t=1777301634;
+	bh=aKNiFbGZxQCMymCal4u+jq1RFWSn/I0w48kIUCMDXu4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Tvq11jrtChVP2yME0PuP3bbDHN4d4nikyAwu0KVUd3zxj25NVhCKSAmi34v0+97dX
+	 3kXlYqI2khn+L8bjWJ7ChBbePySWHfrTmTuHsnRD0bqbxTvj9EKSZxyp1HHIBNJgS8
+	 u91/2LUcipnGBiBkOVgaBeQ5Enjmvr0G9M8DjFOY9J4MWcN6RbWiwIVwZWmQ1he/aD
+	 rLo95NsAwsPSMUiCLDUE0VwFUkS+/UeTxKjkE1axu8Vf4ZXkzYkUwoFSfcCnzxKdu+
+	 nrRQ8TmOdol3navhsGqCenlyokfcOCA2OcCnJEE9O722htV2D+nogml5CvEUzfx1bS
+	 NDdugqYgtRpZg==
+From: Christian Brauner <brauner@kernel.org>
+To: Mateusz Guzik <mjguzik@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	viro@zeniv.linux.org.uk,
+	jack@suse.cz,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	adobriyan@gmail.com
+Subject: Re: [PATCH v3 0/3] revamp fs/filesystems.c
+Date: Mon, 27 Apr 2026 16:53:16 +0200
+Message-ID: <20260427-menschheit-opern-35277662e452@brauner>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260425220844.1763933-1-mjguzik@gmail.com>
+References: <20260425220844.1763933-1-mjguzik@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <18844024-34a4-4e72-831f-04effc8e1418@bsbernd.com>
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1467; i=brauner@kernel.org; h=from:subject:message-id; bh=aKNiFbGZxQCMymCal4u+jq1RFWSn/I0w48kIUCMDXu4=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS+ryiYe2Trqx6DOyqixy+1G8o+lUw4srP02MxbefNeX /t2PoQnraOUhUGMi0FWTJHFod0kXG45T8Vmo0wNmDmsTCBDGLg4BWAi8vYM//3S6nh1PnhbuPxf 6dHue3NJakuNe05E6w7vg7+i2WdVH2L4yRhisPaEo9LCOcVLbXdertso62hYM9Xug8ekG0bfZac lsQMA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-On Sun, Apr 26, 2026 at 11:28:11PM +0200, Bernd Schubert wrote:
+On Sun, 26 Apr 2026 00:08:41 +0200, Mateusz Guzik wrote:
+> The file is a mess with a hand-rolled linked list in a desperate need of
+> a clean up.
 > 
+> The code to emit /proc/filesystems is used frequently because libselinux
+> reads the file, which in turn is linked into numerous frequently used
+> programs (even ones you would not suspect, like sed!). In order to
+> combat that pre-gen the string instead of pointer-chasing and printfing
+> one by-one.
 > 
-> On 4/23/26 01:22, Darrick J. Wong wrote:
-> > From: Darrick J. Wong <djwong@kernel.org>
-> > 
-> > Create a simple fuse server that can be run as a systemd service.
-> > I plan to create some more single-file fuse server examples, so most of
-> > the boilerplate code goes in a separate file.
-> > 
-> > Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-> > ---
-> >  example/single_file.h        |  153 +++++++++
-> >  lib/util.h                   |   35 ++
-> >  example/meson.build          |   14 +
-> >  example/service_ll.c         |  312 ++++++++++++++++++
-> >  example/service_ll.socket.in |   15 +
-> >  example/service_ll@.service  |  102 ++++++
-> >  example/single_file.c        |  733 ++++++++++++++++++++++++++++++++++++++++++
-> >  meson.build                  |    1 
-> >  8 files changed, 1365 insertions(+)
-> >  create mode 100644 example/single_file.h
-> >  create mode 100644 example/service_ll.c
-> >  create mode 100644 example/service_ll.socket.in
-> >  create mode 100644 example/service_ll@.service
-> >  create mode 100644 example/single_file.c
-> > 
-> > 
-> > diff --git a/example/single_file.h b/example/single_file.h
-> > new file mode 100644
-> > index 00000000000000..d8a91adbf875ef
-> > --- /dev/null
-> > +++ b/example/single_file.h
-> > @@ -0,0 +1,153 @@
-> > +/*
-> > + * FUSE: Filesystem in Userspace
-> > + * Copyright (C) 2026 Oracle.
-> > + *
-> > + * This program can be distributed under the terms of the GNU GPLv2.
-> > + * See the file GPL2.txt.
-> > + */
-> > +#ifndef FUSE_SINGLE_FILE_H_
-> > +#define FUSE_SINGLE_FILE_H_
-> 
-> From the name it is kind of impossible to figure out what it is for -
-> requires to go through the code. Could you add something like
-> 
-> This is not a standalone file system, but a helper for other file
-> systems to expose a single file backed by a physical file or block device.
-> 
-> For both the .h and .c file? Please feel free to make it more verbose.
+> [...]
 
-Ok, I have written:
+Applied to the vfs-7.2.procfs branch of the vfs/vfs.git tree.
+Patches in the vfs-7.2.procfs branch should appear in linux-next soon.
 
-"This file is shared library code for example fuse servers that want to
-expose a single regular file that wraps another file in a manner that
-goes beyond simple passthrough.  It is not itself a fuse server."
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
-How does that sound?
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
 
---D
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: master
+
+[1/3] proc: allow to mark /proc files permanent outside of fs/proc/
+      https://git.kernel.org/vfs/vfs/c/b26811a2ab58
+[2/3] fs: RCU-ify filesystems list
+      https://git.kernel.org/vfs/vfs/c/1fe9dc896f66
+[3/3] fs: cache the string generated by reading /proc/filesystems
+      https://git.kernel.org/vfs/vfs/c/3bd2c4fa951a
