@@ -1,66 +1,249 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CD0B39A058;
-	Mon, 27 Apr 2026 10:03:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777284200; cv=none; b=Jx/C00ASb/3rJxH0eH4G3JYJrkNVaIv/zizk+vxHl4GkN/tqvgVOXSFU24NOFp5dCt+mOsvMVS7fYCQ2J/+UeWWD3hLIY/XQklfrI86R9VGPxFoZs2mBH+/D1phLigKKFJ5nQJbI1nTwu2zLN/BJA0JLtk7OWPU0YrzNH/Ye1xg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777284200; c=relaxed/simple;
-	bh=XyNYRoYdwgKbFVrPXjvyBroC5GmpKh3iMSvPNId0JNk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=UO4InfUMoPiycGfkpj7lUJmuRETeRiF1ejdXcJ0futMYCGVF5Tbd2SNQe5MAjIDxzyTYQZha5NNAYqrG4X4I81gsEoJMpl18qjCv3UpykiuYyl6ybV1PurR7NgADDEmVCvNtlf3uuFj2QHeJYfe5BDS5X569r8vRcmVZpB21tJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=XjiFec+S; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61A533B3880
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 10:10:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777284644; cv=pass; b=FrbQt4BqekUwC4aAJY/943ivS+extuISPJGWYUtNuaVKZ76fUw2V0ohPnvtIIuu/oHXnSy2jxedyG/kPCAzN/FRa+KbLpiIw1h3egPRh8UrvKGcVXYCwQeCanW1ec7lWPphC57YeFCETD2SDKdv347c6j6dxNo/NYESFdixuU58=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777284644; c=relaxed/simple;
+	bh=UE+DJnE2oj0vFOXp+m3XTb9AY/fwBqMnmmO9cLxXoJE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DpgPCwBAGNWeXiJ4GZINDMZy/ROHx8c72bfABsE4XscDYyyjdqAp4q0UMiWoyCUanodsWpwugMSXbgzD1qI7Cv8zQ4sbbW7t+/0jqLgAWMnTDSyMD8giWFsm/N9Y9Ly782+mcjt2DfyEGC3yU+5Ygx+hoLhmc56BX0G/NKnHjXw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XWxtLhyu; arc=pass smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="XjiFec+S"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 76C9241098
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1777284199; bh=DEsgJQZ/FcIxBV5HynNEKW8D+865vS9BlRDMv2OrAZg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=XjiFec+SFeHMtnM0vOe4Gxbx5aS9aXGXB97wbwBvAr9dWRpDZu7FzA6IcTqIBlLv0
-	 7nncPkkjms2Tx8YiGHyGxeRxbp9FtZtfyH87c04EkCfBvobKLQ1hkqN6SXo2Z53tf4
-	 GDsVQrthe4nciG2jFkrk0NT8SZqmdrQHH1XuyqsPZfPy4CYkiSfKfYbDonZzegYf2Y
-	 /GvE1AdmOEPIVX8H3jMcfWX3StEZ8zY5dtmfVRT+TgKoBhVOH2Ox7K4hXuG2g6i+E6
-	 WitzJJWruE/7EfGg/H/d6uf18hoC3udMQECaH+P41iMbGdQsbh415Epd7jfwOcOLSM
-	 A8iWZtTR+Mt5g==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 76C9241098;
-	Mon, 27 Apr 2026 10:03:18 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Myro <mirademche@gmail.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, Myro <myro@myromyro.com>
-Subject: Re: [PATCH] docs: proc: fix minor grammar and formatting issues
-In-Reply-To: <20260415175230.46721-1-myro@myromyro.com>
-References: <20260415175230.46721-1-myro@myromyro.com>
-Date: Mon, 27 Apr 2026 04:03:15 -0600
-Message-ID: <87fr4gpvoc.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XWxtLhyu"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-ba36357195bso1189906866b.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 03:10:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777284641; cv=none;
+        d=google.com; s=arc-20240605;
+        b=k/GYA/3+DrKhN7xJ+X4L8sQk4mVNNANncJySglI6jAhVhLKjDKvZ/j23DkogjugoWc
+         feYZjRHn1D7rgl1Rb648rD4uowPNO08BWO4ctmLBe+B5GcIaZRRm2+jdDOJOlT1TqL/h
+         hUhUjC5xxtNZlgtJ0S2UefYYGfUJSXLSROK2PF5OKIdrmoEWMApGXoEf0wqJNpHrVGJJ
+         HJRin7cNPNb3evm00ZiIu8kT/FbYUlsaXEVArjixITj4sBRuhbhTCduRfYXrZkM2swme
+         ynb8BND/jYArsQF8zgfqPhqD+liCIuce4ZFCJzwA/k5QjPs+JiJcW02F60MYzPc26WV4
+         Fccg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=iKRwDoHSf2+oXdi49CMbzE7n/0K7hTCuX9atPHgXxI0=;
+        fh=FLT0cn4bSVbuP4rq8S9JSE75w70KcZUT5ZXok0O9nGY=;
+        b=I6bdZ5q6idJHsF2dIbk8xJSq4qfMk3fffpFpAdHri4wUsJaWyu+tVWCvb1CbtLiqgh
+         VSNKrqpnodUkpfZnUYzMT//MPGPLN88fFJAsOi9e6zV0s/iURDODQUxKzi/xGTvzhS3F
+         qWZMA2ZIbU+Ldm2pzijy404O/hR+2/vYXZ1grQ1RWKffpUxFaJ0rigkUIWlP3SmSEG9H
+         wKYByH1mbmAZeUKbFFlKiXPGVvvp8eePYOndze6qL83dxHl24g+VmD1uFNzDb9VF+HcG
+         HDrP2pwnTUfJhsgKsBzPymC/kYrZyGqr8Sj81v5nQ+lLD4q15P0GHSB5FVT10fNgabJ5
+         YmOw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777284641; x=1777889441; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iKRwDoHSf2+oXdi49CMbzE7n/0K7hTCuX9atPHgXxI0=;
+        b=XWxtLhyuTrbLekIie5/rVrfuMytoMDSx8Qf7TMBgHSgE8ZB91RgoGWETMZ048CaOvO
+         zRby5VgYxvDRqlC0slSCp3xUOQxKpIpyraTPDWyx4j7pKgMz+X4AIJe9p9bu/QmT0pa9
+         hWMF6BwqTU/VU8Qve9jQjiWu/fAcHnNguwdWLxWqzOTTdVOjgaX1HfSfYCuK9xKuMoKW
+         TSVHQqM/r/E2cJF/sJ/iEgAEQ5Z7dK9oi20/j53FD/iTBpQflplhY8FzOHUYOXm/lfyI
+         oK+uT/qR4V0TA1NmHHiYV+LB9zaCzZbTvgs80IfFEkkhO0kMwcoE6NYUbd1kO3Jljq2V
+         u1bA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777284641; x=1777889441;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=iKRwDoHSf2+oXdi49CMbzE7n/0K7hTCuX9atPHgXxI0=;
+        b=a3ei+65eMVCzivIfUj1Mi6EfoKrL0JpXQjkrJ43iztACCYtWs7Yl5/TEYIjjth65kC
+         yOIzF6OCd4osQn2P8W5HQEyB89OdtrKF0GKw3xqHVMbrEKKAnL2NacoyJ80ayrPxqLnJ
+         BF1MPJ0dHy0X1UwGeGR6EI//7vBcoDHHlzAlROzucuyeYiJwCHWPAZr+ct8IgrRxo+6K
+         H/pNsBCjVN1SiNwTmYWLxav6Xm6WQAL0HqdsRcHng75xbmgYycYsQMX1OLPHswCVIKfb
+         B3Wc6oV76DGSPGqDB1WP0/1DkZZci9VpDUyhxqLQ48riEEZv4r5YLn3mlw7K+1MI8O0K
+         sz9Q==
+X-Forwarded-Encrypted: i=1; AFNElJ/9G+OEVarIZidoKOHogd6f2JSzxRuWn4ve4FtiDYAW9Nox8sLq6O2Sy+hliT9iNI7c9N6FsmsuQIFs/i0I@vger.kernel.org
+X-Gm-Message-State: AOJu0YzB1SzT75dfNdblH2z/zgCoUtGPVEHyX7rhVCO9r6qCL2SKOy96
+	QXS9CvozMJrYJQdtYd5XGuRpU68uEYMftrBjjJzp6voh86sqqLuX0ot9ITJs3JFefXVNVZDt3MJ
+	4OsVQZnE44MgTpHpDRwISjGzfcbQLYrE=
+X-Gm-Gg: AeBDiesrE0VyCgMgpsMt+du/9U023sybTtZRkgp4d7pi7ewPJKHGt5nGkimWIGHIVw1
+	rFCHFsNzvR07uQZDuJ8B3M9foSaYoHWjaVVMip3yN9TPyWrTHYjrjFli5cr+VDEDvu7LBaYuZsa
+	2C/xnQHhwCDLsvPrv620c4XO6IAjUNp2LkcR4ThQWngHsfBgfl+dupPd+tAJbVnGKrfL2afJXxW
+	E+hD+ZBdLL+ENUXfzyH50kfMCeq+mhjiNKjF48TIkxFzCIMsC23vKk61mJkJUhlkgRV9uK/AEE7
+	9a1klf0DXqstxtv3FwmAfcPT81h9J9bwj3lwyppVK+x7cdVK1TuqXhqu4ZixuSs=
+X-Received: by 2002:a17:907:806:b0:b9b:4519:7914 with SMTP id
+ a640c23a62f3a-ba41a82618emr2176151966b.33.1777284640148; Mon, 27 Apr 2026
+ 03:10:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20260427040517.828226-1-neilb@ownmail.net> <20260427040517.828226-10-neilb@ownmail.net>
+In-Reply-To: <20260427040517.828226-10-neilb@ownmail.net>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Mon, 27 Apr 2026 12:10:28 +0200
+X-Gm-Features: AVHnY4JedWd56CMn-KycBPWg0ncqD2_jbR4uqG29qEFrdNMohyhNrM6UW-jNm2o
+Message-ID: <CAOQ4uxidCcGpABkCtkn94i3U_u3OWK16zeAVDG2xuhh5e+ws9g@mail.gmail.com>
+Subject: Re: [PATCH v3 09/19] ovl: stop using lookup_one() in iterate_shared() handling.
+To: NeilBrown <neil@brown.name>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Jeff Layton <jlayton@kernel.org>, 
+	Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Jeremy Kerr <jk@ozlabs.org>, Ard Biesheuvel <ardb@kernel.org>, linux-efi@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org, 
+	linux-unionfs@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Myro <mirademche@gmail.com> writes:
-
-> Fix missing "from" in "prevent <pid> --from-- being reused" and
-> add spacing in vm_area_struct range notation for readability.
+On Mon, Apr 27, 2026 at 6:07=E2=80=AFAM NeilBrown <neilb@ownmail.net> wrote=
+:
 >
-> No functional changes. :)
-> ---
->  Documentation/filesystems/proc.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> From: NeilBrown <neil@brown.name>
+>
+> lookup_one() is expected to be removed as it does not fit well with
+> proposed changes to directory locking.
+> Specifically d_alloc_parallel() will be ordered outside of i_rwsem
+> and as iterate_shared() is called with i_rwsem held it is not safe
+> to call d_alloc_parallel().
+>
+> We can instead call d_alloc_noblock() and then call the ->lookup, but
+> that can fail if there is a lookup attempt concurrent with the
+> readdir().
+>
+> ovl cannot afford for the lookup to fail as that could produce incorrect
+> results, and it cannot safely drop i_rwsem temporarily and that could
+> introduce races with handling of the directory cache.
+>
+> Instead we rely on the fact that ovl_iterate() has an exclusive lock on
+> the directory, so any concurrent lookup will wait for the ovl_iterate()
+> call to complete.  We allocate a separate dentry and if the lookup is
+> successful, it is hashed with the result.
+>
+> When the concurrent lookup gets i_rwsem it mustn't do its own lookup -
+> it must use the existing dentry.  This is found, if it exists, using
+> try_lookup_noperm().
 
-The patch seems OK, but it needs a proper Signed-off-by line.
+Hi Niel,
+
+One nit about the subject -
+Please change it to "ovl: stop using lookup_one() in ovl_iterate()"
+
+Apart from that, I let Claude do the review, because it has surpassed
+my abilities in reviewing such subtle api changes.
+
+I will copy its output verbatim, if for nothing else, to encourage you
+to start applying Claude review before sending out your patches...
+
+>
+> Signed-off-by: NeilBrown <neil@brown.name>
+> ---
+>  fs/overlayfs/namei.c   | 12 ++++++++++++
+>  fs/overlayfs/readdir.c | 24 ++++++++++++++++++++++--
+>  2 files changed, 34 insertions(+), 2 deletions(-)
+>
+> diff --git a/fs/overlayfs/namei.c b/fs/overlayfs/namei.c
+> index ca899fdfaafd..69032eb2b1e2 100644
+> --- a/fs/overlayfs/namei.c
+> +++ b/fs/overlayfs/namei.c
+> @@ -1385,6 +1385,7 @@ struct dentry *ovl_lookup(struct inode *dir, struct=
+ dentry *dentry,
+>         struct ovl_fs *ofs =3D OVL_FS(dentry->d_sb);
+>         struct ovl_entry *poe =3D OVL_E(dentry->d_parent);
+>         bool check_redirect =3D (ovl_redirect_follow(ofs) || ofs->numdata=
+layer);
+> +       struct dentry *alias;
+>         int err;
+>         struct ovl_lookup_ctx ctx =3D {
+>                 .dentry =3D dentry,
+> @@ -1399,6 +1400,17 @@ struct dentry *ovl_lookup(struct inode *dir, struc=
+t dentry *dentry,
+>         if (dentry->d_name.len > ofs->namelen)
+>                 return ERR_PTR(-ENAMETOOLONG);
+>
+> +       /*
+> +        * The existance of this in-lookup dentry might have forced
+
+"existance" should be "existence" in the namei.c comment
+
+> +        * readdir to do the lookup with a new dentry.  If so we must
+> +        * return that one.
+> +        */
+> +       alias =3D try_lookup_noperm(&QSTR_LEN(dentry->d_name.name,
+> +                                           dentry->d_name.len),
+> +                                 dentry->d_parent);
+> +       if (alias && !IS_ERR(alias))
+> +               return alias;
+> +
+>         with_ovl_creds(dentry->d_sb)
+>                 err =3D ovl_lookup_layers(&ctx, &d);
+>
+> diff --git a/fs/overlayfs/readdir.c b/fs/overlayfs/readdir.c
+> index 1dcc75b3a90f..e03b32491941 100644
+> --- a/fs/overlayfs/readdir.c
+> +++ b/fs/overlayfs/readdir.c
+> @@ -574,8 +574,28 @@ static int ovl_cache_update(const struct path *path,=
+ struct ovl_cache_entry *p,
+>                 }
+>         }
+>         /* This checks also for xwhiteouts */
+> -       this =3D lookup_one(mnt_idmap(path->mnt), &QSTR_LEN(p->name, p->l=
+en), dir);
+> -       if (IS_ERR_OR_NULL(this) || !this->d_inode) {
+> +       this =3D d_alloc_noblock(dir, &QSTR_LEN(p->name, p->len));
+> +       if (this =3D=3D ERR_PTR(-EWOULDBLOCK)) {
+> +               /*
+> +                * Some other thead is looking up this name and will
+
+"thead" should be "thread" in the readdir.c comment
+
+> +                * block on i_rwsem before it can complete the lookup.
+> +                * We will do the lookup in a new dentry and when that
+> +                * lookup gets a turn it will find and return this
+> +                * dentry.
+> +                */
+> +               this =3D d_alloc_name(dir, p->name);
+
+Claude suggests this as the simplest fix to NULL deref bug below:
+                    if (!this)
+                            this =3D ERR_PTR(-ENOMEM);
+
+> +       }
+> +       if (!IS_ERR(this) && !d_unhashed(this)) {
+> +               /* Either we got an in-lookup or we made our own unhashed=
+ */
+
+The condition should be d_unhashed(this) (without !), matching the comment
+which says "Either we got an in-lookup or we made our own unhashed".
+
+d_alloc_name() calls d_alloc() which returns NULL on allocation failure.
+The original code checked IS_ERR_OR_NULL(this), but the new code only
+checks IS_ERR(this). A NULL this would pass the !IS_ERR(this) check and
+then crash on !d_unhashed(this) (or d_unhashed(this) with the fix).
+
+> +               struct dentry *alias =3D ovl_lookup(dir->d_inode, this, 0=
+);
+> +
+> +               if (alias) {
+> +                       d_lookup_done(this);
+> +                       dput(this);
+> +                       this =3D alias;
+> +               }
+> +       }
+> +       if (IS_ERR(this) || !this->d_inode) {
+>                 /* Mark a stale entry */
+>                 p->is_whiteout =3D true;
+>                 if (IS_ERR(this)) {
+> --
+
+Claude (Opus 4.6) review summary:
+
+The patch has a critical condition inversion (!d_unhashed vs d_unhashed)
+that would break impure readdir entirely and cause use-after-free corruptio=
+n
+in the dcache. It also has a missing NULL check for d_alloc_name() failure.
 
 Thanks,
-
-jon
+Amir.
