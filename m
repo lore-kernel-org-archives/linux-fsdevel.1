@@ -1,77 +1,57 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44CDD2EA749
-	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 13:01:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA8D2318140
+	for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 13:04:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777294904; cv=none; b=pnCakkgUPz7gHXVYxZnW+JHTgi70S9BZIGcEL1Egr4Aa5toQNoXmWQgbzraQDMchkkMQ6lb919BTlMhjro8kOWkTimMO5ixTGJoP2qSzs4iFVRS+TEVjJhNoZakv84LHp1nVLA9Ayu4ceGG4FyNGTcZMXI2JL8hYWXwWlsBgRV4=
+	t=1777295047; cv=none; b=J9dlvfgoFLUBXWAPGsDJGNRUUWpNFvYrKyew5QY00uTMExQE5a6MTEr+xMd2hXOCnQng36u9DBEhkkYpYZ5TDBKMazN+ca55EsiExZOhqEZxjWq5l7oMgzWITaWbNqoUruzSw/RIuqGwrG8q/7P6YH27NqXGxJ8GNO5oF/SfZfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777294904; c=relaxed/simple;
-	bh=S1c9d/jr7w43ANbE7m7+/oGdlxvY8ri7HX7HICnmuTA=;
+	s=arc-20240116; t=1777295047; c=relaxed/simple;
+	bh=ftefCPzON73uT6mWLtTmqAJh+XPIRCzUaFkJLljo0AE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kQaXMRw8IWe+iZHEqtJiqtiBxnde8RTPUoevz5YJnmjT7tHs426OEhMoKE+K+cm88nwqkbpVI3f61gwsn0LdH1WFtq3FgR4SA3IJy0NfJtRi8MEgDswU0HuReDMsl5iEvmIrB/88jRXv1LV2iopwidLLdJc+y4QL5wMx8zM+CsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Q2KYPalb; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=HzgCyj7UXxQdePdIcTOTIWjq+L55m4nV++DHy6HbAP39sdFQxnVzJp7iT0zxRWSmTSMNP2gwDffK5ewXbq772pwj0/A+JkRQkJo0E9gSBZwURHpdDIf41BVgDHiNjr34e58laBawFenYMAGozVUxrjKSPvDRISw3BpnYA806vfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ftDqNzcT; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Q2KYPalb"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-488a88aeec9so127204225e9.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 27 Apr 2026 06:01:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1777294902; x=1777899702; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qKk3ZzGqPoxad8o9BetIXz6fD01VB9XTvLwJqis+UP8=;
-        b=Q2KYPalbQaFr6kkwH2Lnf1ZpKfQ5wZdAgFZ2g2u3jR2bo4vNpxbOimV0gqnWgafB7/
-         knpMqYtKTYIR7X3ejL6Ejhz7zHCEACMju4LyYzrYFUS5mcSitQIGdwO8QhgD8kB8c9Zh
-         1XCTzQMqpdkoqt0U41P/JQhXGts8+ZET61KpiS83XyeSLO/6nbrJIMryuCm5bYQn16S6
-         pPyS+d2mdlFF1D8DphND0ioRa/c1CVuxuq0EgvfFKMeQX79GBoihPYHzw20M25qBx4bE
-         436jQRM6V5PTMk5N2tYOslRz/oNYTKscP6QEhjGc21v2gwgsN+9ik/O+oQYueYie5vxZ
-         7f+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777294902; x=1777899702;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qKk3ZzGqPoxad8o9BetIXz6fD01VB9XTvLwJqis+UP8=;
-        b=ftE5Dvz4fYo1VHx2WdSanyJMkSG3SS0TvW58EMiUW1Yoqt8vLyEOZFRHJORe359ySa
-         6gnwgKCVNSC3X/fl947PG8dkI6GlmVFXjDzq/xR88yM3MKMe8MIdWsiek013PgCXaScl
-         dn/dvxNmhnj4DGVSGb+SDxaCjcdBoyFTc44h+QJQ7m7uSh3yTX8Zwbt6Sm0x0IrXlmIY
-         WNzoBEfjtt6+73booPcBZmvlmuupPjh5/1VFK/99xnKhlHQgjidV7xYPiOa2MvZbwwNV
-         /oZYO+1n4lEjJthqIxJhAANly4TUo6uoGuGRWGB++F6ALATe0PbVmDy3JSJVEJjzpLkx
-         wz6A==
-X-Forwarded-Encrypted: i=1; AFNElJ9eqtyZVNeZFltx0Us9p83MHzGB+OlJdsFohTWOuCuWT2rxzsNmoH0y8j1MleyiQWbeh7FdOMxZ18kqho82@vger.kernel.org
-X-Gm-Message-State: AOJu0YyLtJtrlXdS3PAysHsmtLWvbP4YyZHswcPCvzTTXFFTli2Lpmym
-	Dqv782RQ6XNSJcT0Z1il9amQHT+hEHwUkYL3e2Ow81fDkuaNH/hlEjCdHFGp0YuO0xY=
-X-Gm-Gg: AeBDievDwGXukMpGf+BIiR3SPshkbAE4mPmbBuDC5BV7aaPHODSAkBiZ91jgWro9DK1
-	vbOrDRYgHYqnW7UkL+lpMhspTguf8CmZb7c+vMUsxhJ/Re38DKuUqEFqlkZ91CwILMgox4rLfDf
-	Kj3oGdsORItr8INZx/0ts9oFpTyciakrunYEVpRoRh4+YML7oAsHCQxVyBAVQFW4F7Y5+wBdIJj
-	rXhKI293PaHm6k6v9MWxSH4KW/Z07YrFBO9Q++3NDms95H5U3WvTGwELWYg8OdG1/ZNUh1a2Q+r
-	cHuaggROIImXwybx/rZhN2lUg3m+aEP3yDBev0dnyzKnkBbZMuSdHh2wlZTgtrxmFNPH3itPTS8
-	yyMCx/mWq+EHV0x6eCDNEtzYga5ZpKfp4rpsGuuMSIuIVK/DDIxmFHIHrRwwt5od6AOiipvt3wG
-	Yf1zxD0EJ58esPKE5e7I8KzU9KeR4TDbiQooKe+mPOniRyLZQ=
-X-Received: by 2002:a05:600d:8408:b0:486:ff92:63e5 with SMTP id 5b1f17b1804b1-488fb73dc6fmr477069085e9.6.1777294901488;
-        Mon, 27 Apr 2026 06:01:41 -0700 (PDT)
-Received: from localhost (109-81-17-171.rct.o2.cz. [109.81.17.171])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4cb135asm86264355f8f.6.2026.04.27.06.01.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Apr 2026 06:01:40 -0700 (PDT)
-Date: Mon, 27 Apr 2026 15:01:33 +0200
-From: Michal Hocko <mhocko@suse.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Thomas Graf <tgraf@suug.ch>, Herbert Xu <herbert@gondor.apana.org.au>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	David Hildenbrand <david@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org,
-	syzbot+5af806780f38a5fe691f@syzkaller.appspotmail.com
-Subject: Re: [PATCH] rhashtable: give each instance its own lockdep class
-Message-ID: <ae9eLXK72grTV2wd@tiehlicka>
-References: <20260427-work-rhashtable-lockdep-v1-1-f69e8bd91cb2@kernel.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ftDqNzcT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1777295044;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HkPKwNm5zpZmm5ojCWjKR+dixTTYz4ZCoT2Q6WIOh2s=;
+	b=ftDqNzcTse6nNQfMGIBSV0z365lLwlkvv2eENDpvZiMBb9QJbjmIziEl5oSV/aOwc4P9bt
+	jJyXH43A+Xu8NP9qgLGKMhsi2Ube8J9BbeyHNcT4+3flCncaXCrhnJdzHjR5v/DfMXyoJo
+	CwwwyeUy0v7eBXUYJL71Pc6UdbTqVYU=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-463-LIgn17nRMyS6NqfWRUyOkA-1; Mon,
+ 27 Apr 2026 09:04:01 -0400
+X-MC-Unique: LIgn17nRMyS6NqfWRUyOkA-1
+X-Mimecast-MFC-AGG-ID: LIgn17nRMyS6NqfWRUyOkA_1777295039
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 23AE419560BC;
+	Mon, 27 Apr 2026 13:03:59 +0000 (UTC)
+Received: from bfoster (unknown [10.22.64.88])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 560A73000709;
+	Mon, 27 Apr 2026 13:03:57 +0000 (UTC)
+Date: Mon, 27 Apr 2026 09:03:55 -0400
+From: Brian Foster <bfoster@redhat.com>
+To: Zhang Yi <yi.zhang@huaweicloud.com>
+Cc: fstests@vger.kernel.org, zlang@kernel.org, linux-ext4@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, jack@suse.cz, yi.zhang@huawei.com,
+	yizhang089@gmail.com, yangerkun@huawei.com
+Subject: Re: [PATCH v2] generic/790: test post-EOF gap zeroing persistence
+Message-ID: <ae9euwyg53TRutsK@bfoster>
+References: <20260424092228.1396658-1-yi.zhang@huaweicloud.com>
+ <aetreLr6tt1Vb-GJ@bfoster>
+ <038228d9-8058-43e0-8be9-b8afc9e8397c@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -80,162 +60,301 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260427-work-rhashtable-lockdep-v1-1-f69e8bd91cb2@kernel.org>
+In-Reply-To: <038228d9-8058-43e0-8be9-b8afc9e8397c@huaweicloud.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-On Mon 27-04-26 13:09:57, Christian Brauner wrote:
-> syzbot reported a possible circular locking dependency between
-> &ht->mutex and fs_reclaim:
+On Sat, Apr 25, 2026 at 11:06:27AM +0800, Zhang Yi wrote:
+> On 4/24/2026 9:09 PM, Brian Foster wrote:
+> > On Fri, Apr 24, 2026 at 05:22:28PM +0800, Zhang Yi wrote:
+> >> From: Zhang Yi <yi.zhang@huawei.com>
+> >>
+> >> Test that extending a file past a non-block-aligned EOF correctly
+> >> zero-fills the gap [old_EOF, block_boundary), and that this zeroing
+> >> persists through a filesystem shutdown+remount cycle.
+> >>
+> >> Stale data beyond EOF can persist on disk when append write data blocks
+> >> are flushed before the on-disk file size update, or when concurrent
+> >> append writeback and mmap writes persist non-zero data past EOF.
+> >> Subsequent post-EOF operations (append write, fallocate, truncate up)
+> >> must zero-fill and persist the gap to prevent exposing stale data.
+> >>
+> >> The test pollutes the file's last physical block (via FIEMAP + raw
+> >> device write) with a sentinel pattern beyond i_size, then performs each
+> >> extend operation and verifies the gap is zeroed both in memory and on
+> >> disk.
+> >>
+> >> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+> >> ---
+> >> v1->v2:
+> >>  - Add _require_no_realtime to prevent testing on XFS realtime devices,
+> >>    where file data may reside on $SCRATCH_RTDEV.
+> >>  - Add _exclude_fs btrfs since FIEMAP returns logical addresses, not
+> >>    physical device offsets, writing to these offsets on $SCRATCH_DEV
+> >>    would corrupt the filesystem in multi-device setups. Besides, since
+> >>    btrfs doesn't support shutdown right now, we can support it later.
+> >>  - Add -v flag to od in _check_gap_zero() to prevent line folding of
+> >>    identical consecutive lines.
+> >>  - Add expected_new_sz parameter to _test_eof_zeroing(), verify file
+> >>    size was not rolled back after shutdown+remount cycle, and also drop
+> >>    the unnecessary file size check before the shutdown as well.
+> >>  - Clarify the comment regarding when stale data beyond EOF can persist.
+> >>
+> > 
+> > Thanks for the tweaks. This all LGTM from a review standpoint. I gave it
+> > a quick test on latest master and I see a few failures in a couple runs:
+> > 
+> > - On XFS (mkfs defaults) I saw one unexpected i_size failure and one
+> >   zeroing failure, both on write extension fwiw.
 > 
->   CPU0 (kswapd0)                    CPU1 (kworker)
->   --------------                    --------------
->   fs_reclaim                        ht->mutex
->     shmem_evict_inode                 rhashtable_rehash_alloc
->       simple_xattrs_free                bucket_table_alloc(GFP_KERNEL)
->         rhashtable_free_and_destroy       __kvmalloc_node
->           mutex_lock(&ht->mutex)            might_alloc -> fs_reclaim
+> Previously, I only discovered the zeroing failure of append write. This
+> is because xfs_file_write_checks() -> xfs_file_write_zero_eof() only
+> zeroes the gap range in the page cache, without providing any
+> synchronous or asynchronous persistence (instead, truncate up does
+> synchronously writeback in xfs_vn_setattr_size(), and ext4 achieves
+> persistence via asynchronous writeback in data=ordered mode). So I think
+> this is a XFS problem.
 > 
-> The two halves of the splat refer to two different events on
-> &ht->mutex.
-> 
-> The kswapd0 path is unambiguous: shmem_evict_inode at mm/shmem.c:1429
-> calls simple_xattrs_free(), which calls rhashtable_free_and_destroy()
-> on the per-inode simple_xattrs rhashtable being torn down with the
-> inode.
-> 
-> The previously-recorded ht->mutex -> fs_reclaim edge comes from
-> rht_deferred_worker -> rhashtable_rehash_alloc ->
-> bucket_table_alloc(GFP_KERNEL) -> __kvmalloc_node ->
-> might_alloc -> fs_reclaim. That stack stops at generic library code:
-> there is no subsystem-specific frame above rht_deferred_worker, so
-> the splat does not identify which rhashtable's worker recorded the
-> edge -- only that some rhashtable in the system did.
-> 
-> Whether or not that recording happened on the same simple_xattrs ht
-> that is now being destroyed, the predicted deadlock cannot occur:
-> rhashtable_free_and_destroy() does cancel_work_sync(&ht->run_work)
-> before taking ht->mutex, so the deferred worker cannot be running on
-> the instance being torn down. If the recording was on a different
-> rhashtable instance, the two ht->mutex acquisitions are on distinct
-> mutex objects and cannot deadlock either.
-> 
-> Lockdep flags a cycle regardless because mutex_init(&ht->mutex) lives
-> on a single source line in rhashtable_init_noprof(), so every
-> ht->mutex in the kernel shares one static lockdep class. Lockdep
-> matches by class, not by instance, and collapses all of these into
-> one node.
-> 
-> Lift the lockdep key out of rhashtable_init_noprof() and into the
-> caller. The user-visible rhashtable_init_noprof() /
-> rhltable_init_noprof() identifiers become macros that declare a
-> per-call-site static lock_class_key.
-> 
-> Reported-by: syzbot+5af806780f38a5fe691f@syzkaller.appspotmail.com
-> Closes: https://lore.kernel.org/69e798fe.050a0220.24bfd3.0032.GAE@google.com
-> Signed-off-by: Christian Brauner <brauner@kernel.org>
 
-Acked-by: Michal Hocko <mhocko@suse.com>
-Thanks!
+Ah Ok.. the truncate flush has been there for a while to combat the NULL
+files problem, and the zeroing check ties into that. I suspect the
+reason we don't see this often is typical ascending offset writeback
+order, whereas this test is doing a targeted sync range of a later
+offset in the file (i.e. technically not overlapping with the range that
+was zeroed internally).
 
-> ---
->  include/linux/rhashtable-types.h | 22 ++++++++++++++++++----
->  lib/rhashtable.c                 | 17 ++++++++++-------
->  2 files changed, 28 insertions(+), 11 deletions(-)
-> 
-> diff --git a/include/linux/rhashtable-types.h b/include/linux/rhashtable-types.h
-> index 015c8298bebc..841021c67d3d 100644
-> --- a/include/linux/rhashtable-types.h
-> +++ b/include/linux/rhashtable-types.h
-> @@ -131,12 +131,26 @@ struct rhashtable_iter {
->  	bool end_of_table;
->  };
->  
-> -int rhashtable_init_noprof(struct rhashtable *ht,
-> -		    const struct rhashtable_params *params);
-> +int __rhashtable_init_noprof(struct rhashtable *ht,
-> +		    const struct rhashtable_params *params,
-> +		    struct lock_class_key *key);
-> +#define rhashtable_init_noprof(ht, params)				\
-> +({									\
-> +	static struct lock_class_key __key;				\
-> +									\
-> +	__rhashtable_init_noprof(ht, params, &__key);			\
-> +})
->  #define rhashtable_init(...)	alloc_hooks(rhashtable_init_noprof(__VA_ARGS__))
->  
-> -int rhltable_init_noprof(struct rhltable *hlt,
-> -		  const struct rhashtable_params *params);
-> +int __rhltable_init_noprof(struct rhltable *hlt,
-> +		  const struct rhashtable_params *params,
-> +		  struct lock_class_key *key);
-> +#define rhltable_init_noprof(hlt, params)				\
-> +({									\
-> +	static struct lock_class_key __key;				\
-> +									\
-> +	__rhltable_init_noprof(hlt, params, &__key);			\
-> +})
->  #define rhltable_init(...)	alloc_hooks(rhltable_init_noprof(__VA_ARGS__))
->  
->  #endif /* _LINUX_RHASHTABLE_TYPES_H */
-> diff --git a/lib/rhashtable.c b/lib/rhashtable.c
-> index 6074ed5f66f3..fb13749d824a 100644
-> --- a/lib/rhashtable.c
-> +++ b/lib/rhashtable.c
-> @@ -1025,8 +1025,9 @@ static u32 rhashtable_jhash2(const void *key, u32 length, u32 seed)
->   *	.obj_hashfn = my_hash_fn,
->   * };
->   */
-> -int rhashtable_init_noprof(struct rhashtable *ht,
-> -		    const struct rhashtable_params *params)
-> +int __rhashtable_init_noprof(struct rhashtable *ht,
-> +		    const struct rhashtable_params *params,
-> +		    struct lock_class_key *key)
->  {
->  	struct bucket_table *tbl;
->  	size_t size;
-> @@ -1036,7 +1037,7 @@ int rhashtable_init_noprof(struct rhashtable *ht,
->  		return -EINVAL;
->  
->  	memset(ht, 0, sizeof(*ht));
-> -	mutex_init(&ht->mutex);
-> +	mutex_init_with_key(&ht->mutex, key);
->  	spin_lock_init(&ht->lock);
->  	memcpy(&ht->p, params, sizeof(*params));
->  
-> @@ -1087,7 +1088,7 @@ int rhashtable_init_noprof(struct rhashtable *ht,
->  
->  	return 0;
->  }
-> -EXPORT_SYMBOL_GPL(rhashtable_init_noprof);
-> +EXPORT_SYMBOL_GPL(__rhashtable_init_noprof);
->  
->  /**
->   * rhltable_init - initialize a new hash list table
-> @@ -1098,15 +1099,17 @@ EXPORT_SYMBOL_GPL(rhashtable_init_noprof);
->   *
->   * See documentation for rhashtable_init.
->   */
-> -int rhltable_init_noprof(struct rhltable *hlt, const struct rhashtable_params *params)
-> +int __rhltable_init_noprof(struct rhltable *hlt,
-> +			   const struct rhashtable_params *params,
-> +			   struct lock_class_key *key)
->  {
->  	int err;
->  
-> -	err = rhashtable_init_noprof(&hlt->ht, params);
-> +	err = __rhashtable_init_noprof(&hlt->ht, params, key);
->  	hlt->ht.rhlist = true;
->  	return err;
->  }
-> -EXPORT_SYMBOL_GPL(rhltable_init_noprof);
-> +EXPORT_SYMBOL_GPL(__rhltable_init_noprof);
->  
->  static void rhashtable_free_one(struct rhashtable *ht, struct rhash_head *obj,
->  				void (*free_fn)(void *ptr, void *arg),
-> 
-> ---
-> base-commit: 6596a02b207886e9e00bb0161c7fd59fea53c081
-> change-id: 20260427-work-rhashtable-lockdep-cb0356367073
+I guess the simple thing to do there would be to similarly flush on
+write extension. I'd want to think about that just a bit because we
+haven't historically flushed there and I know the zeroing improvements
+I've made in iomap have caused a couple performance regressions along
+the way related to aggressive flushing that had to be fixed.
 
--- 
-Michal Hocko
-SUSE Labs
+Maybe this is less of an issue now, but regardless if my assumptions are
+correct here than I agree this isn't a test issue.
+
+> Regarding the i_size failure, I did not directly reproduce this issue.
+> After analysis, I believe it is because the test case did not include
+> the -a option in sync_range, meaning it did not wait for IO writeback
+> completion and file size update persistence. I reproduced this issue by
+> adding a delay in the XFS end IO path. This is a problem with the test
+> case, and I will fix it in v3. Thank you for pointing this out.
+> 
+
+Makes sense. It will be interesting to see if we can still reproduce the
+above issue with this change.
+
+> > - On ext4 I saw a few unexpected i_size failures (both with mkfs
+> >   defaults and 1k block size).
+> > 
+> 
+> This is an ext4 issue on the shutdown path. Since ext4 set the shutdown
+> flag too early, it was unable to write back ordered zero data when
+> flushing the journal, which led to a journal abort and prevented the file
+> size update from being persisted. I have submitted a patch to fix this
+> issue. Please see below link for details.
+> 
+>  https://lore.kernel.org/linux-ext4/20260424104201.1930823-1-yi.zhang@huaweicloud.com/
+> 
+
+Ok, thanks.
+
+Brian
+
+> Thanks
+> Yi.
+> 
+> > I haven't dug into anything beyond that. Does this match what you're
+> > seeing on current kernels or are these unexpected failures?
+> > 
+> > Brian
+> > 
+> >>  tests/generic/790     | 164 ++++++++++++++++++++++++++++++++++++++++++
+> >>  tests/generic/790.out |   4 ++
+> >>  2 files changed, 168 insertions(+)
+> >>  create mode 100755 tests/generic/790
+> >>  create mode 100644 tests/generic/790.out
+> >>
+> >> diff --git a/tests/generic/790 b/tests/generic/790
+> >> new file mode 100755
+> >> index 00000000..2adc06f8
+> >> --- /dev/null
+> >> +++ b/tests/generic/790
+> >> @@ -0,0 +1,164 @@
+> >> +#! /bin/bash
+> >> +# SPDX-License-Identifier: GPL-2.0
+> >> +# Copyright (c) 2026 Huawei.  All Rights Reserved.
+> >> +#
+> >> +# FS QA Test No. 790
+> >> +#
+> >> +# Test that extending a file past a non-block-aligned EOF correctly zero-fills
+> >> +# the gap [old_EOF, block_boundary), and that this zeroing persists through a
+> >> +# filesystem shutdown+remount cycle.
+> >> +#
+> >> +# Stale data beyond EOF can persist on disk when:
+> >> +# 1) append write data blocks are flushed before the on-disk file size update,
+> >> +#    and the system crashes in this window.
+> >> +# 2) concurrent append writeback and mmap writes persist non-zero data past EOF.
+> >> +#
+> >> +# Subsequent post-EOF operations (append write, fallocate, truncate up) must
+> >> +# zero-fill and persist the gap to prevent exposing stale data.
+> >> +#
+> >> +# The test pollutes the file's last physical block (via FIEMAP + raw device
+> >> +# write) with a sentinel pattern beyond i_size, then performs each extend
+> >> +# operation and verifies the gap is zeroed both in memory and on disk.
+> >> +#
+> >> +. ./common/preamble
+> >> +_begin_fstest auto quick rw shutdown
+> >> +
+> >> +. ./common/filter
+> >> +
+> >> +_require_scratch
+> >> +_require_block_device $SCRATCH_DEV
+> >> +_require_no_realtime
+> >> +_require_scratch_shutdown
+> >> +_require_metadata_journaling $SCRATCH_DEV
+> >> +
+> >> +# FIEMAP on Btrfs returns logical addresses within the filesystem's address
+> >> +# space, not physical device offsets. Writing to these offsets on $SCRATCH_DEV
+> >> +# would corrupt the filesystem in multi-device setups.
+> >> +_exclude_fs btrfs
+> >> +
+> >> +_require_xfs_io_command "fiemap"
+> >> +_require_xfs_io_command "falloc"
+> >> +_require_xfs_io_command "pwrite"
+> >> +_require_xfs_io_command "truncate"
+> >> +_require_xfs_io_command "sync_range"
+> >> +
+> >> +# Check that gap region [offset, offset+nbytes) is entirely zero
+> >> +_check_gap_zero()
+> >> +{
+> >> +	local file="$1"
+> >> +	local offset="$2"
+> >> +	local nbytes="$3"
+> >> +	local label="$4"
+> >> +	local data
+> >> +	local stripped
+> >> +
+> >> +	data=$(od -A n -t x1 -v -j $offset -N $nbytes "$file" 2>/dev/null)
+> >> +
+> >> +	# Remove whitespace and check if any byte is non-zero
+> >> +	stripped=$(printf '%s' "$data" | tr -d ' \n\t')
+> >> +	if [ -n "$stripped" ] && ! echo "$stripped" | grep -qE "^0+$"; then
+> >> +		echo "FAIL: non-zero data in gap [$offset,$((offset + nbytes))) $label"
+> >> +		_hexdump -N $((offset + nbytes)) "$file"
+> >> +		return 1
+> >> +	fi
+> >> +	return 0
+> >> +}
+> >> +
+> >> +# Get the physical block offset (in bytes) of the file's first block on device
+> >> +_get_phys_offset()
+> >> +{
+> >> +	local file="$1"
+> >> +	local fiemap_output
+> >> +	local phys_blk
+> >> +
+> >> +	fiemap_output=$($XFS_IO_PROG -r -c "fiemap -v" "$file" 2>/dev/null)
+> >> +	phys_blk=$(echo "$fiemap_output" | _filter_xfs_io_fiemap | head -1 | awk '{print $3}')
+> >> +	if [ -z "$phys_blk" ]; then
+> >> +		echo ""
+> >> +		return
+> >> +	fi
+> >> +	# Convert 512-byte blocks to bytes
+> >> +	echo $((phys_blk * 512))
+> >> +}
+> >> +
+> >> +_test_eof_zeroing()
+> >> +{
+> >> +	local test_name="$1"
+> >> +	local extend_cmd="$2"
+> >> +	local expected_new_sz="$3"
+> >> +	local file=$SCRATCH_MNT/testfile_${test_name}
+> >> +
+> >> +	echo "$test_name" | tee -a $seqres.full
+> >> +
+> >> +	# Compute non-block-aligned EOF offset
+> >> +	local gap_bytes=16
+> >> +	local eof_offset=$((blksz - gap_bytes))
+> >> +
+> >> +	# Step 1: Write one full block to ensure the filesystem allocates a
+> >> +	#         physical block for the file instead of using inline data.
+> >> +	$XFS_IO_PROG -f -c "pwrite -S 0x5a 0 $blksz" -c fsync \
+> >> +		"$file" >> $seqres.full 2>&1
+> >> +
+> >> +	# Step 2: Get physical block offset on device via FIEMAP
+> >> +	local phys_offset
+> >> +	phys_offset=$(_get_phys_offset "$file")
+> >> +	if [ -z "$phys_offset" ]; then
+> >> +		_fail "$test_name: failed to get physical block offset via fiemap"
+> >> +	fi
+> >> +
+> >> +	# Step 3: Truncate file to non-block-aligned size and fsync.
+> >> +	#         The on-disk region [eof_offset, blksz) may or may not be
+> >> +	#         zeroed by the filesystem at this point.
+> >> +	$XFS_IO_PROG -c "truncate $eof_offset" -c fsync \
+> >> +		"$file" >> $seqres.full 2>&1
+> >> +
+> >> +	# Step 4: Unmount and restore the physical block to all-0x5a on disk.
+> >> +	#         This bypasses the kernel's pagecache EOF-zeroing to ensure
+> >> +	#         the stale pattern is present on disk. Then remount.
+> >> +	_scratch_unmount
+> >> +	$XFS_IO_PROG -d -c "pwrite -S 0x5a $phys_offset $blksz" \
+> >> +		$SCRATCH_DEV >> $seqres.full 2>&1
+> >> +	_scratch_mount >> $seqres.full 2>&1
+> >> +
+> >> +	# Step 5: Execute the extend operation.
+> >> +	$XFS_IO_PROG -c "$extend_cmd" "$file" >> $seqres.full 2>&1
+> >> +
+> >> +	# Step 6: Verify gap [eof_offset, blksz) is zeroed BEFORE shutdown
+> >> +	_check_gap_zero "$file" $eof_offset $gap_bytes "before shutdown" || return 1
+> >> +
+> >> +	# Step 7: Sync the extended range and shutdown the filesystem with
+> >> +	#         journal flush. This persists the file size extending, and
+> >> +	#         the filesystem should persist the zeroed data in the gap
+> >> +	#         range as well.
+> >> +	if [ "$extend_cmd" != "${extend_cmd#pwrite}" ]; then
+> >> +		$XFS_IO_PROG -c "sync_range -w $blksz $blksz" \
+> >> +			"$file" >> $seqres.full 2>&1
+> >> +	fi
+> >> +	_scratch_shutdown -f
+> >> +
+> >> +	# Step 8: Remount and verify gap is still zeroed
+> >> +	_scratch_cycle_mount
+> >> +
+> >> +	# Verify file size was not rolled back after shutdown+remount
+> >> +	local sz
+> >> +	sz=$(stat -c %s "$file")
+> >> +	if [ "$sz" -ne "$expected_new_sz" ]; then
+> >> +		_fail "$test_name: file size rolled back after shutdown+remount: $sz != $expected_new_sz"
+> >> +	fi
+> >> +
+> >> +	_check_gap_zero "$file" $eof_offset $gap_bytes "after shutdown+remount" || return 1
+> >> +}
+> >> +
+> >> +_scratch_mkfs >> $seqres.full 2>&1
+> >> +_scratch_mount
+> >> +
+> >> +blksz=$(_get_block_size $SCRATCH_MNT)
+> >> +
+> >> +# Test three variants of EOF-extending operations
+> >> +_test_eof_zeroing "append_write" "pwrite -S 0x42 $blksz $blksz" $((blksz * 2))
+> >> +_test_eof_zeroing "truncate_up" "truncate $((blksz * 2))" $((blksz * 2))
+> >> +_test_eof_zeroing "fallocate" "falloc $blksz $blksz" $((blksz * 2))
+> >> +
+> >> +# success, all done
+> >> +status=0
+> >> +exit
+> >> diff --git a/tests/generic/790.out b/tests/generic/790.out
+> >> new file mode 100644
+> >> index 00000000..e5e2cc09
+> >> --- /dev/null
+> >> +++ b/tests/generic/790.out
+> >> @@ -0,0 +1,4 @@
+> >> +QA output created by 790
+> >> +append_write
+> >> +truncate_up
+> >> +fallocate
+> >> -- 
+> >> 2.52.0
+> >>
+> 
+
