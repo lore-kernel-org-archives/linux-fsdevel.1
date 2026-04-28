@@ -1,383 +1,134 @@
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73A353D75D6;
-	Tue, 28 Apr 2026 09:09:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B2A73D7D98
+	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Apr 2026 09:32:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777367357; cv=none; b=nDULmUKZiPVDG0hi8msNJ//dxPEW8eWHLuRig8mbtxCeKVycuMbO1Jz2bWzHo6ATU2OHqd1iN6RGuWe2zp/Wz9RVqQm2bIO65mDfvRSoEv3DhzUSpXSXkaMuFxJXwi906bJXMjA5wz13SdRaep7DLHY+hgv1atMLbNTHSRi1C8U=
+	t=1777368755; cv=none; b=cvfh7gVmgRdixNVJVANrJ/aI8Sm6Ay52BXe9cv2t82H8uMizFfLZK1detaA5PpD7hkqlN+5mcIVNs/x4eiAPtr61gaiGPiULp5QZ7pt/pkr1hjeCapw4xGwXNd+tzDY4WEyOERzQOq9oEoF4nnTWj1EWMuzRTgt2xs3Z8uIOFUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777367357; c=relaxed/simple;
-	bh=7dO8kxAqwen6ZwLHZwgZ8a1/uMCPwzCYzicWNCW6+0Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BV0g3y78MbVO43wrwcfwr9yjxmyyeQuO1fRUOeYuw1G9S++2kXO1aZSCKqLu2oGAtMVOP65kBG07M6c8z30/oa3XZWYc4n+ZGEi6+rvKSdu7jNwwAmydjVNHrloC7TbuGqX4i5apEEbqAQ0ZCdz1jEfcqR+My1GyKE1Y6xYMiUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.170])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4g4Z1P0y0SzKHMZd;
-	Tue, 28 Apr 2026 16:51:53 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 1C93540561;
-	Tue, 28 Apr 2026 16:52:23 +0800 (CST)
-Received: from [10.174.178.253] (unknown [10.174.178.253])
-	by APP4 (Coremail) with SMTP id gCh0CgAHz1pDdfBpnJRfAQ--.9999S3;
-	Tue, 28 Apr 2026 16:52:20 +0800 (CST)
-Message-ID: <3349cfbe-8ffe-4032-8ba9-7f6cf037c020@huaweicloud.com>
-Date: Tue, 28 Apr 2026 16:52:18 +0800
+	s=arc-20240116; t=1777368755; c=relaxed/simple;
+	bh=WZ0dv++aH+AeLwkvbNXxLqu7wJ3mA6GpS63WG1N27Uc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pl+aS1049hao6P5yM75ahAJS1U4rAC5Qyhwzotoks0JGNnJ3iNq8SWteYJ8/TG4qRoXusZuhQFzqdqHyaziK3vWeirk81jFDhAPiVFg5DLwYtoNi59QP3GjeJBH3XODnLBnhyz4I1Grn16DcFIJoRXYf81U8VS54tXLi7/w8SzQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-b8f97c626aaso932685666b.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 28 Apr 2026 02:32:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777368753; x=1777973553;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Al22kA6RCf7FSEzj29cZLSkjdM9EgXxihmBX7/SeSVI=;
+        b=WvOL+3kvr5jUpaa77q3wEztFn1cwoNcpoWCJ42a/WRkfjqSXnkW2lyFnb9dGBknZ0n
+         bBETZ725s3rFAQ1dRDs+9zWhHkwi2Wlzqa2TqSTcb2Ekf0vIDn5EdPwwUmnYiIMFF3Eq
+         wLSj4v8YfbJqBcenBEHdzYp2z3F87M/OpbprIWXUSoOtslj6+d/h3rKT6wLWa7xwj8az
+         gKmbMP1Y336HZwNeGerHx2Ge7cBoyrANiHdrw+oIjBqCVauEouel0q17tCRq0TTnX56J
+         33UT7ybIu1Rk87MmNbyNdNnqBYaPCB3aTFIZy3CEUEHmNDuGMGdKcEXvgryccbUtbi+P
+         cNPw==
+X-Forwarded-Encrypted: i=1; AFNElJ9lRxbn7WYe1brAJ5K+rSxhWEJUHlxSD8xkpVxRnafDcfztuOLFd4lYfz/z6kntgJKenF+MBieZpXQ8vQ6J@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz0eUv1vhRRAGYU0CfmFCkRqPfNJCVdjz5t0N1IYSaYO8dq2E1X
+	EY3PCvdPRSCoHPTFqgwu0oAp4WgPEulej8Pz3vov4/jwWyJCz7ZoWHrvETO/8KHbve8=
+X-Gm-Gg: AeBDiesRRxmx7Cy12yVi3vFa2N+Nh3uwkQPYNzZXMG4Bg4g1yLAl6oLk0bKVsEF0pyZ
+	Tjwykxhh/EkZVjvF1GaXXAWc5JVHyT4IomIXRzFp2x9QzcN/NLmcVuW9QHFzSzivzlBditqq0W0
+	FntQkMia500m1ItTLJJ/IUdG6xYrGn3cUjiIEDhdLUK0S9ie0KWyIIu2GwsxZIKihR9+0clc4wm
+	BK5J8bPglESw/9QRmQIHmGk0eG2h1112kQWz6QQRrctPJpwlHeXJuZlmvPrasSCXaKcDVmvuyIZ
+	8+KPaD2ORGEVlu0zJF7skzl30xxEk7oKDduq7Y8D0LloXlOdds6jg5baDfBycfBEGtSqRKkkTYD
+	hLU7waCIzDQwueHF29TQozDPcVJsoZJAb1eBG3HiQWASlUtQOVaNOK2gMIRVdlcbGtCrnmth0yA
+	6KwNlGmDBxMIWh5LGrvJIjyX/ye2+3zOGkEgPOOe5vlWrySFBCNVRDLyKCfK9OgFJbK8ub6h4=
+X-Received: by 2002:a17:907:8b95:b0:bad:667f:efa3 with SMTP id a640c23a62f3a-bb8026bcbb7mr100887566b.11.1777368752612;
+        Tue, 28 Apr 2026 02:32:32 -0700 (PDT)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com. [209.85.208.46])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bb80c181787sm71553466b.59.2026.04.28.02.32.31
+        for <linux-fsdevel@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Apr 2026 02:32:32 -0700 (PDT)
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-67389cf78b0so19507477a12.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 28 Apr 2026 02:32:31 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+RsPc289bhiQ8eyUZz438JgoVwAGks8ZH5R6ke7/v7PbdB9IFqtertNNFMJEYg4PCP3548IDPAtx2X6bBe@vger.kernel.org
+X-Received: by 2002:a05:6402:5056:b0:676:d8a1:7a04 with SMTP id
+ 4fb4d7f45d1cf-679bb09a4admr915149a12.23.1777368324094; Tue, 28 Apr 2026
+ 02:25:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] generic/790: test post-EOF gap zeroing persistence
-To: Brian Foster <bfoster@redhat.com>
-Cc: fstests@vger.kernel.org, zlang@kernel.org, linux-ext4@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, jack@suse.cz, yi.zhang@huawei.com,
- yizhang089@gmail.com, yangerkun@huawei.com
-References: <20260424092228.1396658-1-yi.zhang@huaweicloud.com>
- <aetreLr6tt1Vb-GJ@bfoster>
- <038228d9-8058-43e0-8be9-b8afc9e8397c@huaweicloud.com>
- <ae9euwyg53TRutsK@bfoster>
-Content-Language: en-US
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-In-Reply-To: <ae9euwyg53TRutsK@bfoster>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:gCh0CgAHz1pDdfBpnJRfAQ--.9999S3
-X-Coremail-Antispam: 1UD129KBjvAXoW3uF13ZFykWr15JFWrur4xXrb_yoW8JF1DWo
-	WfWrW7Xw18Cry8AFn0kayqqryj9anYgF18JFWY9rW5J3WYqa1UCr1xAw18Ja9akr1j9FWD
-	Ja4kKrnxZrWUXF1fn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-	AaLaJ3UjIYCTnIWjp_UUU5K7kC6x804xWl14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK
-	8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4
-	AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF
-	7I0E14v26rxl6s0DM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I
-	0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vI
-	r41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
-	xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0
-	cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
-	AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E
-	14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07UAwIDUUUUU=
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
+References: <cover.1777306795.git.chleroy@kernel.org> <c73b90236f2810edd47c84edd2a8d8e8e0c816da.1777306795.git.chleroy@kernel.org>
+In-Reply-To: <c73b90236f2810edd47c84edd2a8d8e8e0c816da.1777306795.git.chleroy@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 28 Apr 2026 11:25:11 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUvTBWoDN_wUo2n8-gkoheJ+-rbwew53OvoAwo8G5n1qg@mail.gmail.com>
+X-Gm-Features: AVHnY4JEWBVPw4tSjHgbQTia8gZd2WGJ1sv6qLdKJbtvs4hms1blpvc35yb0VWw
+Message-ID: <CAMuHMdUvTBWoDN_wUo2n8-gkoheJ+-rbwew53OvoAwo8G5n1qg@mail.gmail.com>
+Subject: Re: [RFC PATCH v1 4/9] uaccess: Introduce copy_{to/from}_user_partial()
+To: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+Cc: Yury Norov <ynorov@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, David Laight <david.laight.linux@gmail.com>, 
+	Thomas Gleixner <tglx@linutronix.de>, linux-alpha@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-um@lists.infradead.org, 
+	dmaengine@vger.kernel.org, linux-efi@vger.kernel.org, 
+	linux-fsi@lists.ozlabs.org, amd-gfx@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+	linux-wpan@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-wireless@vger.kernel.org, linux-spi@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-serial@vger.kernel.org, linux-usb@vger.kernel.org, 
+	xen-devel@lists.xenproject.org, linux-fsdevel@vger.kernel.org, 
+	ocfs2-devel@lists.linux.dev, bpf@vger.kernel.org, kasan-dev@googlegroups.com, 
+	linux-mm@kvack.org, linux-x25@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	linux-sound@vger.kernel.org, sound-open-firmware@alsa-project.org, 
+	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org, 
+	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org, 
+	linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	linux-sh@vger.kernel.org, linux-arch@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 4/27/2026 9:03 PM, Brian Foster wrote:
-> On Sat, Apr 25, 2026 at 11:06:27AM +0800, Zhang Yi wrote:
->> On 4/24/2026 9:09 PM, Brian Foster wrote:
->>> On Fri, Apr 24, 2026 at 05:22:28PM +0800, Zhang Yi wrote:
->>>> From: Zhang Yi <yi.zhang@huawei.com>
->>>>
->>>> Test that extending a file past a non-block-aligned EOF correctly
->>>> zero-fills the gap [old_EOF, block_boundary), and that this zeroing
->>>> persists through a filesystem shutdown+remount cycle.
->>>>
->>>> Stale data beyond EOF can persist on disk when append write data blocks
->>>> are flushed before the on-disk file size update, or when concurrent
->>>> append writeback and mmap writes persist non-zero data past EOF.
->>>> Subsequent post-EOF operations (append write, fallocate, truncate up)
->>>> must zero-fill and persist the gap to prevent exposing stale data.
->>>>
->>>> The test pollutes the file's last physical block (via FIEMAP + raw
->>>> device write) with a sentinel pattern beyond i_size, then performs each
->>>> extend operation and verifies the gap is zeroed both in memory and on
->>>> disk.
->>>>
->>>> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
->>>> ---
->>>> v1->v2:
->>>>  - Add _require_no_realtime to prevent testing on XFS realtime devices,
->>>>    where file data may reside on $SCRATCH_RTDEV.
->>>>  - Add _exclude_fs btrfs since FIEMAP returns logical addresses, not
->>>>    physical device offsets, writing to these offsets on $SCRATCH_DEV
->>>>    would corrupt the filesystem in multi-device setups. Besides, since
->>>>    btrfs doesn't support shutdown right now, we can support it later.
->>>>  - Add -v flag to od in _check_gap_zero() to prevent line folding of
->>>>    identical consecutive lines.
->>>>  - Add expected_new_sz parameter to _test_eof_zeroing(), verify file
->>>>    size was not rolled back after shutdown+remount cycle, and also drop
->>>>    the unnecessary file size check before the shutdown as well.
->>>>  - Clarify the comment regarding when stale data beyond EOF can persist.
->>>>
->>>
->>> Thanks for the tweaks. This all LGTM from a review standpoint. I gave it
->>> a quick test on latest master and I see a few failures in a couple runs:
->>>
->>> - On XFS (mkfs defaults) I saw one unexpected i_size failure and one
->>>   zeroing failure, both on write extension fwiw.
->>
->> Previously, I only discovered the zeroing failure of append write. This
->> is because xfs_file_write_checks() -> xfs_file_write_zero_eof() only
->> zeroes the gap range in the page cache, without providing any
->> synchronous or asynchronous persistence (instead, truncate up does
->> synchronously writeback in xfs_vn_setattr_size(), and ext4 achieves
->> persistence via asynchronous writeback in data=ordered mode). So I think
->> this is a XFS problem.
->>
-> 
-> Ah Ok.. the truncate flush has been there for a while to combat the NULL
-> files problem, and the zeroing check ties into that. I suspect the
-> reason we don't see this often is typical ascending offset writeback
-> order, whereas this test is doing a targeted sync range of a later
-> offset in the file (i.e. technically not overlapping with the range that
-> was zeroed internally).
+Hi Christophe,
 
-Yes, this use case is quite rare.
+Thanks for your patch!
 
-> 
-> I guess the simple thing to do there would be to similarly flush on
-> write extension. I'd want to think about that just a bit because we
-> haven't historically flushed there and I know the zeroing improvements
-> I've made in iomap have caused a couple performance regressions along
-> the way related to aggressive flushing that had to be fixed.
+On Mon, 27 Apr 2026 at 19:18, Christophe Leroy (CS GROUP)
+<chleroy@kernel.org> wrote:
+> Today there are approximately 3000 calls for copy_to_user() and
+> 3000 calls to copy_from_user().
+>
+> The majority of callers of copy_{to/from}_user() don't care about the
+> return value, they only check whether it is 0 or not, and when it is
+> not 0 they handle it as a -EACCES.
 
-I am also concerned that synchronous write-back might introduce
-performance regressions. Although the probability is relatively low
-(I'm not sure), perhaps some users who use post-EOF writing will
-complain.
+I think the "a" can be dropped.
 
-In this corner case, ext4+iomap also encountered the same dilemma, as it
-can no longer use data=ordered to achieve asynchronous persistence.
+> In order to allow better optimisation of copy_{to/from}_user() when
+> the size of the copy is known at build time, create new fonctions
 
-FYI, the current approach of ext4+iomap is to submit an I/O immediately
-after zeroing the EOF block, but it does not wait for the I/O to
-complete. In the subsequent endio process, it waits for this zero I/O to
-complete before updating i_disksize beyond the end of the gap.
+functions
 
-Best Regards,
-Yi
+> named copy_{to/from}_user_partial() to be used by the few callers
+> that are interested in partial copies and need to now how many
 
-> 
-> Maybe this is less of an issue now, but regardless if my assumptions are
-> correct here than I agree this isn't a test issue.
-> 
->> Regarding the i_size failure, I did not directly reproduce this issue.
->> After analysis, I believe it is because the test case did not include
->> the -a option in sync_range, meaning it did not wait for IO writeback
->> completion and file size update persistence. I reproduced this issue by
->> adding a delay in the XFS end IO path. This is a problem with the test
->> case, and I will fix it in v3. Thank you for pointing this out.
->>
-> 
-> Makes sense. It will be interesting to see if we can still reproduce the
-> above issue with this change.
-> 
->>> - On ext4 I saw a few unexpected i_size failures (both with mkfs
->>>   defaults and 1k block size).
->>>
->>
->> This is an ext4 issue on the shutdown path. Since ext4 set the shutdown
->> flag too early, it was unable to write back ordered zero data when
->> flushing the journal, which led to a journal abort and prevented the file
->> size update from being persisted. I have submitted a patch to fix this
->> issue. Please see below link for details.
->>
->>  https://lore.kernel.org/linux-ext4/20260424104201.1930823-1-yi.zhang@huaweicloud.com/
->>
-> 
-> Ok, thanks.
-> 
-> Brian
-> 
->> Thanks
->> Yi.
->>
->>> I haven't dug into anything beyond that. Does this match what you're
->>> seeing on current kernels or are these unexpected failures?
->>>
->>> Brian
->>>
->>>>  tests/generic/790     | 164 ++++++++++++++++++++++++++++++++++++++++++
->>>>  tests/generic/790.out |   4 ++
->>>>  2 files changed, 168 insertions(+)
->>>>  create mode 100755 tests/generic/790
->>>>  create mode 100644 tests/generic/790.out
->>>>
->>>> diff --git a/tests/generic/790 b/tests/generic/790
->>>> new file mode 100755
->>>> index 00000000..2adc06f8
->>>> --- /dev/null
->>>> +++ b/tests/generic/790
->>>> @@ -0,0 +1,164 @@
->>>> +#! /bin/bash
->>>> +# SPDX-License-Identifier: GPL-2.0
->>>> +# Copyright (c) 2026 Huawei.  All Rights Reserved.
->>>> +#
->>>> +# FS QA Test No. 790
->>>> +#
->>>> +# Test that extending a file past a non-block-aligned EOF correctly zero-fills
->>>> +# the gap [old_EOF, block_boundary), and that this zeroing persists through a
->>>> +# filesystem shutdown+remount cycle.
->>>> +#
->>>> +# Stale data beyond EOF can persist on disk when:
->>>> +# 1) append write data blocks are flushed before the on-disk file size update,
->>>> +#    and the system crashes in this window.
->>>> +# 2) concurrent append writeback and mmap writes persist non-zero data past EOF.
->>>> +#
->>>> +# Subsequent post-EOF operations (append write, fallocate, truncate up) must
->>>> +# zero-fill and persist the gap to prevent exposing stale data.
->>>> +#
->>>> +# The test pollutes the file's last physical block (via FIEMAP + raw device
->>>> +# write) with a sentinel pattern beyond i_size, then performs each extend
->>>> +# operation and verifies the gap is zeroed both in memory and on disk.
->>>> +#
->>>> +. ./common/preamble
->>>> +_begin_fstest auto quick rw shutdown
->>>> +
->>>> +. ./common/filter
->>>> +
->>>> +_require_scratch
->>>> +_require_block_device $SCRATCH_DEV
->>>> +_require_no_realtime
->>>> +_require_scratch_shutdown
->>>> +_require_metadata_journaling $SCRATCH_DEV
->>>> +
->>>> +# FIEMAP on Btrfs returns logical addresses within the filesystem's address
->>>> +# space, not physical device offsets. Writing to these offsets on $SCRATCH_DEV
->>>> +# would corrupt the filesystem in multi-device setups.
->>>> +_exclude_fs btrfs
->>>> +
->>>> +_require_xfs_io_command "fiemap"
->>>> +_require_xfs_io_command "falloc"
->>>> +_require_xfs_io_command "pwrite"
->>>> +_require_xfs_io_command "truncate"
->>>> +_require_xfs_io_command "sync_range"
->>>> +
->>>> +# Check that gap region [offset, offset+nbytes) is entirely zero
->>>> +_check_gap_zero()
->>>> +{
->>>> +	local file="$1"
->>>> +	local offset="$2"
->>>> +	local nbytes="$3"
->>>> +	local label="$4"
->>>> +	local data
->>>> +	local stripped
->>>> +
->>>> +	data=$(od -A n -t x1 -v -j $offset -N $nbytes "$file" 2>/dev/null)
->>>> +
->>>> +	# Remove whitespace and check if any byte is non-zero
->>>> +	stripped=$(printf '%s' "$data" | tr -d ' \n\t')
->>>> +	if [ -n "$stripped" ] && ! echo "$stripped" | grep -qE "^0+$"; then
->>>> +		echo "FAIL: non-zero data in gap [$offset,$((offset + nbytes))) $label"
->>>> +		_hexdump -N $((offset + nbytes)) "$file"
->>>> +		return 1
->>>> +	fi
->>>> +	return 0
->>>> +}
->>>> +
->>>> +# Get the physical block offset (in bytes) of the file's first block on device
->>>> +_get_phys_offset()
->>>> +{
->>>> +	local file="$1"
->>>> +	local fiemap_output
->>>> +	local phys_blk
->>>> +
->>>> +	fiemap_output=$($XFS_IO_PROG -r -c "fiemap -v" "$file" 2>/dev/null)
->>>> +	phys_blk=$(echo "$fiemap_output" | _filter_xfs_io_fiemap | head -1 | awk '{print $3}')
->>>> +	if [ -z "$phys_blk" ]; then
->>>> +		echo ""
->>>> +		return
->>>> +	fi
->>>> +	# Convert 512-byte blocks to bytes
->>>> +	echo $((phys_blk * 512))
->>>> +}
->>>> +
->>>> +_test_eof_zeroing()
->>>> +{
->>>> +	local test_name="$1"
->>>> +	local extend_cmd="$2"
->>>> +	local expected_new_sz="$3"
->>>> +	local file=$SCRATCH_MNT/testfile_${test_name}
->>>> +
->>>> +	echo "$test_name" | tee -a $seqres.full
->>>> +
->>>> +	# Compute non-block-aligned EOF offset
->>>> +	local gap_bytes=16
->>>> +	local eof_offset=$((blksz - gap_bytes))
->>>> +
->>>> +	# Step 1: Write one full block to ensure the filesystem allocates a
->>>> +	#         physical block for the file instead of using inline data.
->>>> +	$XFS_IO_PROG -f -c "pwrite -S 0x5a 0 $blksz" -c fsync \
->>>> +		"$file" >> $seqres.full 2>&1
->>>> +
->>>> +	# Step 2: Get physical block offset on device via FIEMAP
->>>> +	local phys_offset
->>>> +	phys_offset=$(_get_phys_offset "$file")
->>>> +	if [ -z "$phys_offset" ]; then
->>>> +		_fail "$test_name: failed to get physical block offset via fiemap"
->>>> +	fi
->>>> +
->>>> +	# Step 3: Truncate file to non-block-aligned size and fsync.
->>>> +	#         The on-disk region [eof_offset, blksz) may or may not be
->>>> +	#         zeroed by the filesystem at this point.
->>>> +	$XFS_IO_PROG -c "truncate $eof_offset" -c fsync \
->>>> +		"$file" >> $seqres.full 2>&1
->>>> +
->>>> +	# Step 4: Unmount and restore the physical block to all-0x5a on disk.
->>>> +	#         This bypasses the kernel's pagecache EOF-zeroing to ensure
->>>> +	#         the stale pattern is present on disk. Then remount.
->>>> +	_scratch_unmount
->>>> +	$XFS_IO_PROG -d -c "pwrite -S 0x5a $phys_offset $blksz" \
->>>> +		$SCRATCH_DEV >> $seqres.full 2>&1
->>>> +	_scratch_mount >> $seqres.full 2>&1
->>>> +
->>>> +	# Step 5: Execute the extend operation.
->>>> +	$XFS_IO_PROG -c "$extend_cmd" "$file" >> $seqres.full 2>&1
->>>> +
->>>> +	# Step 6: Verify gap [eof_offset, blksz) is zeroed BEFORE shutdown
->>>> +	_check_gap_zero "$file" $eof_offset $gap_bytes "before shutdown" || return 1
->>>> +
->>>> +	# Step 7: Sync the extended range and shutdown the filesystem with
->>>> +	#         journal flush. This persists the file size extending, and
->>>> +	#         the filesystem should persist the zeroed data in the gap
->>>> +	#         range as well.
->>>> +	if [ "$extend_cmd" != "${extend_cmd#pwrite}" ]; then
->>>> +		$XFS_IO_PROG -c "sync_range -w $blksz $blksz" \
->>>> +			"$file" >> $seqres.full 2>&1
->>>> +	fi
->>>> +	_scratch_shutdown -f
->>>> +
->>>> +	# Step 8: Remount and verify gap is still zeroed
->>>> +	_scratch_cycle_mount
->>>> +
->>>> +	# Verify file size was not rolled back after shutdown+remount
->>>> +	local sz
->>>> +	sz=$(stat -c %s "$file")
->>>> +	if [ "$sz" -ne "$expected_new_sz" ]; then
->>>> +		_fail "$test_name: file size rolled back after shutdown+remount: $sz != $expected_new_sz"
->>>> +	fi
->>>> +
->>>> +	_check_gap_zero "$file" $eof_offset $gap_bytes "after shutdown+remount" || return 1
->>>> +}
->>>> +
->>>> +_scratch_mkfs >> $seqres.full 2>&1
->>>> +_scratch_mount
->>>> +
->>>> +blksz=$(_get_block_size $SCRATCH_MNT)
->>>> +
->>>> +# Test three variants of EOF-extending operations
->>>> +_test_eof_zeroing "append_write" "pwrite -S 0x42 $blksz $blksz" $((blksz * 2))
->>>> +_test_eof_zeroing "truncate_up" "truncate $((blksz * 2))" $((blksz * 2))
->>>> +_test_eof_zeroing "fallocate" "falloc $blksz $blksz" $((blksz * 2))
->>>> +
->>>> +# success, all done
->>>> +status=0
->>>> +exit
->>>> diff --git a/tests/generic/790.out b/tests/generic/790.out
->>>> new file mode 100644
->>>> index 00000000..e5e2cc09
->>>> --- /dev/null
->>>> +++ b/tests/generic/790.out
->>>> @@ -0,0 +1,4 @@
->>>> +QA output created by 790
->>>> +append_write
->>>> +truncate_up
->>>> +fallocate
->>>> -- 
->>>> 2.52.0
->>>>
->>
-> 
+know
 
+> bytes remain at the end of the copy.
+>
+> For the time being it is just the same as copy_{to/from}_user().
+>
+> Signed-off-by: Christophe Leroy (CS GROUP) <chleroy@kernel.org>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
