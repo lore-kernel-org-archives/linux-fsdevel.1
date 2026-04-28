@@ -1,115 +1,203 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from hr2.samba.org (hr2.samba.org [144.76.82.148])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 756874657CE
-	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Apr 2026 13:30:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57C5443E9DC;
+	Tue, 28 Apr 2026 13:39:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.76.82.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777383009; cv=none; b=HKiIXBFinpFaBfbEaH506A0yrrE6JXfqotYLS1FMZAp1ZIQ5SM9QSZLcLuBENTYHvxUlsLcbqmJB5DIj8G6upjB4aawpXof3dCXfCh045Qd7ZY7KJc4y7MPfJogBRbZ6ewLLlRkR231Be1bXcXE6Eg2FmyITQYZRt6fLZHpsfSA=
+	t=1777383582; cv=none; b=UOLfRiKXK55uy0s+NzYrOOLSgUpMMEX3mnEkmJZAA0m16EIrkuqtMSnzXd/C4wDqcULG/7UcrWHgCL0J5LJJKrSn2RTXQu1fYwQkx2nHznV3MPIWc2oVXGpqiApsg2gXgX7x4un45c4eA9DBWTXSkTM+qHZ7SqNBRvh99j44pxw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777383009; c=relaxed/simple;
-	bh=9yK3v9zH8UgDPb53CR/yGT07CWFKeF816m2d6kBsu2s=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=l1lgI42nhuQvdPlUNM8Pl37EpoHwkBvCE6iEcd6z60F+4BSzr19X8UeKJ7Qf20wrPT5eTx/hpjF1Mvw9E19L4CiwzedJ0D00x0olLOs422/NJeeNKw+9dLDtxs8p7vFYPlDajsqu55aXPo0zDWb8TQd77T2Wez7dX2/HFWqoMaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=clZinBi0; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777383582; c=relaxed/simple;
+	bh=hDU4MUttEW0KnaBnd6LnHoXpOyYwAYDMSJIVtmGnHQw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hy1N+p4wyT/OoQOZBbDdnXjKsMMRPwQcpRVePJ9wIHJwFyrcgjqND5jU9OiYfEBpy5FTFkExY0kgRChJ6JriOutLFYKPqj0idiunl3FXQso8+eBpci/7q14aeueItWBNcpdKgExHH0X2YYXLwjrS60PwOSHCEBCH/1P8uzJJpzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=samba.org; spf=pass smtp.mailfrom=samba.org; dkim=pass (3072-bit key) header.d=samba.org header.i=@samba.org header.b=1AP2b7xa; arc=none smtp.client-ip=144.76.82.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=samba.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samba.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="clZinBi0"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-43fde5b81a1so8537127f8f.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 28 Apr 2026 06:30:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777383006; x=1777987806; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=m9lH8xObJRXM9pSjbIssvHMZFWL9qCtbRDK/RF4gDf0=;
-        b=clZinBi0YVpj9pN/sFHgKts3T+h6f6q1MLQLnq8Mm2WR6ztd5j4FLpkevRQhDJqq/8
-         wVd0lIo0cmGD4FUnWPnKuTgI0Wgynrg0BWhCPfjTWaoV37cXtQu7HXxtYuLlHacYtO/j
-         fXBbL/tZkvNmJyaAoX/L3imMDsiTUuABYfRqS+od5AOByVW5StMUuCwn5MzFlkZfwKdr
-         D8d5FmibFt7BxQ4H+51z/i5LSzgpd5S+XOERoWxhq5H2i5OGxAyI/ma1uTKNn94T2TN6
-         XvtqZkwTzQkivvjUBM9RdM07NahNq7gJ9c25AQ5ZxbBTiULm+EN/mEoSF56EvY2SwVT5
-         Kw6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777383006; x=1777987806;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=m9lH8xObJRXM9pSjbIssvHMZFWL9qCtbRDK/RF4gDf0=;
-        b=Pa07hH9xCQgpTrvmT6wqQpau4GRIhJszf0kD7gcbENlqGxjpBJp9Qs2HQEp+UpPmFU
-         8rGew8vcR6/4A0QCGvrjkR+qmp9Vd+eN+rhgvkOWyuVgW9bqrQ/uCtViautKspdbWOz4
-         wJ1CIFp2gVgy2hs6XO3u6fsPle+AYEc8XLRHJf1SU0Bqv4TQkC8alKDzGIbbm/Kbkcsp
-         WqV383+R0ddJx+JaSO2usD797sUOPr2zrTfo90SsphZFuLdEmjVKSkpCH1K42S4Zd5yz
-         6NvAfbqUUpBQALH3QQEadBUXLfE1p+HfX4F+StbV4ZAgNJ6DnR8hdxUxIFd9YSnancnb
-         7anA==
-X-Forwarded-Encrypted: i=1; AFNElJ9vTq/QxA5eobJ4mMiGA7sWc2+WTIvXRseTO6MLceeEU1wxBQBuxYy+9eH3SyEafhXRb5Ylz4eWf4wIzfAx@vger.kernel.org
-X-Gm-Message-State: AOJu0YwaEdkNNgDteAamecfsXxZ5E3taqECvlrV+DTwh6F5cZLItwSL+
-	1j3uMf2Cyf/Uclmp9cdUZd4JZ/HaCAQ4ZiQSgkXVdqjG3U12wuUKHtS+
-X-Gm-Gg: AeBDieuGAtmenCNhwh269PSRGRKclFjKY+xxEb/M9fRrulbG0iP3SqLQAu2HKkaTBJ4
-	dTiQQiOELcEQt+PNpH4+TE2puGVmVhMV+b54mFB69dlkNYysoZXcCRejwe/7x+B8q4yqF8g2jz2
-	WSZ8biiEMnobJlF6gWQ3pbvZf9cRjFbzpVxwzu9SFSr1JO90p50d8eXhSXav8QuUcFJCgmNS0D/
-	UFIURqqBmzkf5FfzmnciSEb/Yf2r2ZBQDhrA0+MT273lezfnXy9a0gv7Il43LOJ+5Je7xhhGOqO
-	UjTXYTNCvVTSb1yiJ5b8mF2IGIjrzRyuK5sLV4qdPoMzUwZ8glChBsIJ2+5v6irThQHYwNrJNJ2
-	XFvYpNFG3teTF+r0t5xARD77OtT6/VsWtQvbYqZvFgNWOAL8dzRRuyWGUkmo8vNL+Mfl2ZtTM3x
-	2adw9nB1djtuT6HyT8t8/Y7vabEID0Q8hdFGDVIKcTlEISUN+ftMKAUVuLcdZfZsbNi5uUzcQXf
-	WJhoNMlGsRDcd/hOWSLHoo1lmnM2uQ=
-X-Received: by 2002:a5d:5d05:0:b0:43e:a72e:ec5a with SMTP id ffacd0b85a97d-446487770b2mr5966453f8f.20.1777383005423;
-        Tue, 28 Apr 2026 06:30:05 -0700 (PDT)
-Received: from x250.speedport.ip (p200300c65f496da8f954fc28a74b8004.dip0.t-ipconnect.de. [2003:c6:5f49:6da8:f954:fc28:a74b:8004])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4463cb59e5asm6714024f8f.5.2026.04.28.06.30.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Apr 2026 06:30:05 -0700 (PDT)
-From: Myro <mirademche@gmail.com>
-X-Google-Original-From: Myro <myro@myromyro.com>
-To: corbet@lwn.net
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	Myro Demma <myro@myromyro.com>
-Subject: [PATCH] docs: proc: fix minor grammar and formatting issues
-Date: Tue, 28 Apr 2026 15:30:01 +0200
-Message-ID: <20260428133001.11384-1-myro@myromyro.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (3072-bit key) header.d=samba.org header.i=@samba.org header.b="1AP2b7xa"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=samba.org;
+	s=42; h=From:Cc:To:Date:Message-ID;
+	bh=0W7zglKDGqVRDVGfglSXHf2K1q0kLDe+N944NUpFjqc=; b=1AP2b7xa7UQxNPrsH4I1yXjjL+
+	+jV4ZLG+WTy61CmOx1RtkDmFJyMnV2Eqv2Tv92xgEVYTFU6iBzZioPi8EZ8B4d7a3jxB38v2xuoUg
+	KTXqoNApDciL99qi2A+eWMmc196c53fwbEk2lEKlO/3/Vdf9rI0NtVO65B2TYffe38Z9iBsYrVIzq
+	o5ipCwd1usxu+Tco47qOWyjInQr5ncSvZJOK4AdMRQqFqU1M0s10ZRkcApOtsCZEFG6mvEXNyxBVm
+	qsszHaD3szmXz/qA+c5LUVfQgTIk9me2js68eDEqv4p3a5OWBrHGSVi5ZYg9jWYJFYcAE9fp7Afv3
+	4oAkPmABy7QzPYJwIMD37GaCKk/G5EhHwGZjdbEKo2vXckleKht6co4AAeedVvpIkuIE+r4MK+zXP
+	qHQWL8T7SfPVS7oLTTuWkj7knxbB9AK5RFg29j8WFtR83yGrSbhm1H7JisC+OI5PFSMEfGQdKAHZB
+	9BDZHSqbjvxfFGC7tkhOft5R;
+Received: from [127.0.0.2] (localhost [127.0.0.1])
+	by hr2.samba.org with esmtpsa (TLS1.3:ECDHE_SECP256R1__ECDSA_SECP256R1_SHA256__CHACHA20_POLY1305:256)
+	(Exim)
+	id 1wHies-00000004jms-0tbT;
+	Tue, 28 Apr 2026 13:39:26 +0000
+Message-ID: <b97874a9-9fef-4f7c-8505-cc23e4b45355@samba.org>
+Date: Tue, 28 Apr 2026 15:39:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v2 1/2] vfs: syscalls: add mkdirat2() that returns an
+ O_DIRECTORY fd
+To: Christian Brauner <brauner@kernel.org>,
+ Jori Koolstra <jkoolstra@xs4all.nl>, Jeff Layton <jlayton@kernel.org>
+Cc: Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ Alexander Viro <viro@zeniv.linux.org.uk>, Arnd Bergmann <arnd@arndb.de>,
+ "H . Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Andrey Albershteyn <aalbersh@redhat.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>, Jiri Olsa <jolsa@kernel.org>,
+ =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Aleksa Sarai <cyphar@cyphar.com>, cmirabil@redhat.com,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-arch@vger.kernel.org
+References: <20260412135434.3095416-1-jkoolstra@xs4all.nl>
+ <20260412135434.3095416-2-jkoolstra@xs4all.nl>
+ <20260427-umlegen-aufbau-ee3a97f1528a@brauner>
+Content-Language: en-US
+From: Stefan Metzmacher <metze@samba.org>
+In-Reply-To: <20260427-umlegen-aufbau-ee3a97f1528a@brauner>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Myro Demma <myro@myromyro.com>
+Am 27.04.26 um 17:48 schrieb Christian Brauner:
+> On Sun, Apr 12, 2026 at 03:54:33PM +0200, Jori Koolstra wrote:
+>> Currently there is no way to race-freely create and open a directory.
+>> For regular files we have open(O_CREAT) for creating a new file inode,
+>> and returning a pinning fd to it. The lack of such functionality for
+>> directories means that when populating a directory tree there's always
+>> a race involved: the inodes first need to be created, and then opened
+>> to adjust their permissions/ownership/labels/timestamps/acls/xattrs/...,
+>> but in the time window between the creation and the opening they might
+>> be replaced by something else.
+>>
+>> Addressing this race without proper APIs is possible (by immediately
+>> fstat()ing what was opened, to verify that it has the right inode type),
+>> but difficult to get right. Hence, mkdirat2() that creates a directory
+>> and returns an O_DIRECTORY fd is useful.
+>>
+>> This feature idea (and description) is taken from the UAPI group:
+>> https://github.com/uapi-group/kernel-features?tab=readme-ov-file#race-free-creation-and-opening-of-non-file-inodes
+>>
+>> Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
+>> ---
+>>   arch/x86/entry/syscalls/syscall_64.tbl |  1 +
+>>   fs/internal.h                          |  2 ++
+>>   fs/namei.c                             | 44 +++++++++++++++++++++++---
+>>   include/linux/syscalls.h               |  2 ++
+>>   include/uapi/asm-generic/unistd.h      |  5 ++-
+>>   scripts/syscall.tbl                    |  1 +
+>>   6 files changed, 50 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
+>> index 524155d655da..e200ca2067a4 100644
+>> --- a/arch/x86/entry/syscalls/syscall_64.tbl
+>> +++ b/arch/x86/entry/syscalls/syscall_64.tbl
+>> @@ -396,6 +396,7 @@
+>>   469	common	file_setattr		sys_file_setattr
+>>   470	common	listns			sys_listns
+>>   471	common	rseq_slice_yield	sys_rseq_slice_yield
+>> +472	common	mkdirat2		sys_mkdirat2
+>>   
+>>   #
+>>   # Due to a historical design error, certain syscalls are numbered differently
+>> diff --git a/fs/internal.h b/fs/internal.h
+>> index cbc384a1aa09..c6a79afadacf 100644
+>> --- a/fs/internal.h
+>> +++ b/fs/internal.h
+>> @@ -59,6 +59,8 @@ int may_linkat(struct mnt_idmap *idmap, const struct path *link);
+>>   int filename_renameat2(int olddfd, struct filename *oldname, int newdfd,
+>>   		 struct filename *newname, unsigned int flags);
+>>   int filename_mkdirat(int dfd, struct filename *name, umode_t mode);
+>> +struct file *do_file_mkdirat(int dfd, struct filename *name, umode_t mode,
+>> +		unsigned int flags, bool open);
+>>   int filename_mknodat(int dfd, struct filename *name, umode_t mode, unsigned int dev);
+>>   int filename_symlinkat(struct filename *from, int newdfd, struct filename *to);
+>>   int filename_linkat(int olddfd, struct filename *old, int newdfd,
+>> diff --git a/fs/namei.c b/fs/namei.c
+>> index a880454a6415..6451e96dc225 100644
+>> --- a/fs/namei.c
+>> +++ b/fs/namei.c
+>> @@ -5255,18 +5255,36 @@ struct dentry *vfs_mkdir(struct mnt_idmap *idmap, struct inode *dir,
+>>   }
+>>   EXPORT_SYMBOL(vfs_mkdir);
+>>   
+>> -int filename_mkdirat(int dfd, struct filename *name, umode_t mode)
+>> +static int mkdirat_lookup_flags(unsigned int flags)
+>> +{
+>> +	int lookup_flags = LOOKUP_DIRECTORY;
+>> +
+>> +	if (!(flags & AT_SYMLINK_NOFOLLOW))
+>> +		lookup_flags |= LOOKUP_FOLLOW;
+>> +	if (!(flags & AT_NO_AUTOMOUNT))
+>> +		lookup_flags |= LOOKUP_AUTOMOUNT;
+>> +
+>> +	return lookup_flags;
+>> +}
+>> +
+>> +int filename_mkdirat(int dfd, struct filename *name, umode_t mode) {
+>> +	return PTR_ERR_OR_ZERO(do_file_mkdirat(dfd, name, mode, 0, false));
+>> +}
+>> +
+>> +struct file *do_file_mkdirat(int dfd, struct filename *name, umode_t mode,
+>> +		unsigned int flags, bool open)
+>>   {
+>>   	struct dentry *dentry;
+>>   	struct path path;
+>>   	int error;
+>> -	unsigned int lookup_flags = LOOKUP_DIRECTORY;
+>> +	struct file *filp = NULL;
+>> +	unsigned int lookup_flags = mkdirat_lookup_flags(flags);
+>>   	struct delegated_inode delegated_inode = { };
+>>   
+>>   retry:
+>>   	dentry = filename_create(dfd, name, &path, lookup_flags);
+>>   	if (IS_ERR(dentry))
+>> -		return PTR_ERR(dentry);
+>> +		return ERR_CAST(dentry);
+>>   
+>>   	error = security_path_mkdir(&path, dentry,
+>>   			mode_strip_umask(path.dentry->d_inode, mode));
+>> @@ -5276,6 +5294,10 @@ int filename_mkdirat(int dfd, struct filename *name, umode_t mode)
+>>   		if (IS_ERR(dentry))
+>>   			error = PTR_ERR(dentry);
+>>   	}
+>> +	if (open && !error && !is_delegated(&delegated_inode)) {
+>> +		const struct path new_path = { .mnt = path.mnt, .dentry = dentry };
+>> +		filp = dentry_open(&new_path, O_DIRECTORY, current_cred());
+>> +	}
+> 
+> So definitely a patchset worthing doing but this will be hairy. And
+> Mateusz is right. As written this doesn't work. The canonical pattern
+> how e.g., dentry_open() does it is to preallocate the file.
+> 
+> I do wonder though whether we shouldn't just make O_CREAT | O_DIRECTORY
+> work. I remember that I had a vague comment about this in [1] a few
+> years ago (cf. [1]). It might even be less hairy to get that one right
+> as all the thinking for O_CREAT is already there.
+> 
+> What was the rationale for mkdirat2() instead of threading this through
+> openat()/openat2() with O_CREAT?
+> 
+> And side-question: @Jeff, can nfs atomic open deal with O_CREAT |
+> O_DIRECTORY?
 
-Fix missing "from" in "prevent <pid> being reused" and
-add spacing in vm_area_struct range notation for readability.
+If it helps the SMB2/3 protocol only has a single SMB2 Create operation
+that uses FILE_CREATE+FILE_NON_DIRECTORY_FILE or FILE_CREATE+FILE_DIRECTORY_FILE.
 
-No functional changes.
+Given all the openat() ignores unknown flags or combinations, maybe this
+should be openat2 only and even a new flag (at the for the userspace interface).
+or do_sys_open() will reject it for open and openat.
 
-Signed-off-by: Myro Demma <myro@myromyro.com>
----
- Documentation/filesystems/proc.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+While we're there an O_TMPDIR would also be wonderful to have.
+Currently samba works around it by using a hidden directory name, invisible
+for SMB clients, but nfs and local users see it.
 
-diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-index 873761087f8d..d828006bd91c 100644
---- a/Documentation/filesystems/proc.rst
-+++ b/Documentation/filesystems/proc.rst
-@@ -118,7 +118,7 @@ PTRACE_MODE_ATTACH permissions; CAP_PERFMON capability does not grant access
- to /proc/PID/mem for other processes.
- 
- Note that an open file descriptor to /proc/<pid> or to any of its
--contained files or subdirectories does not prevent <pid> being reused
-+contained files or subdirectories does not prevent <pid> from being reused
- for some other process in the event that <pid> exits. Operations on
- open /proc/<pid> file descriptors corresponding to dead processes
- never act on any new process that the kernel may, through chance, have
-@@ -2199,7 +2199,7 @@ the process is maintaining.  Example output::
-      | lr-------- 1 root root 64 Jan 27 11:24 400000-41a000 -> /usr/bin/ls
- 
- The name of a link represents the virtual memory bounds of a mapping, i.e.
--vm_area_struct::vm_start-vm_area_struct::vm_end.
-+vm_area_struct::vm_start - vm_area_struct::vm_end.
- 
- The main purpose of the map_files is to retrieve a set of memory mapped
- files in a fast way instead of parsing /proc/<pid>/maps or
--- 
-2.54.0
-
+metze
