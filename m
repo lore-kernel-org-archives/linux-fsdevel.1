@@ -1,103 +1,123 @@
-Received: from out203-205-221-155.mail.qq.com (out203-205-221-155.mail.qq.com [203.205.221.155])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 890161D5174;
-	Tue, 28 Apr 2026 01:13:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B72F12BEFED;
+	Tue, 28 Apr 2026 01:15:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777338784; cv=none; b=EDai2ht7y1hWP7HHl6KS+IyUokQhlN6ZfqqbjfTy67qqlgibtkITfvm4jQXYLPA+OyV5LeL6UzTpAlA8vfN0JeWxTP8ei6z8QmNQHFbBLwyuDVE6l9O3R+PAa/+ScV0oIZWszOOzV71Fi90F8l/jIQvOBWQPi1ckKG4482lBZMs=
+	t=1777338910; cv=none; b=VKDxaHLKe9AV0i2ZrbwcSV5a5XNKnYaT1NvBhicsIyyiBMM7zm5TAzEAoMPKMkztVSvo2VPESQRxYCRRKqPdheqACXDOjwWL19V/jsYq8WhbYiT2jHn5WREnohCemjFDMPaVDgJjaEwXr7/GOHGTZwvIr9n3cgVrvefYlJtKGng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777338784; c=relaxed/simple;
-	bh=PU5bsYLUe+TiVpktpinVPwfRPsPVWG9tY+c3tLjwhNk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rPdC4oxbtwBHhla310jtrMEHuTCUULrrlb6boRH6LHumWqjprQc6OaY2iJ8nZyCzxqTiihDzcajnkIgcPSdrFZk8n0Ytkb7JtfnM2Fu53UfoD8FrrbjC//wMyXktdPfNnljyDupbZYeiM1ND+P6KwrpeIR5rg9decC17bmFmNuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=UGWG3Oc3; arc=none smtp.client-ip=203.205.221.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1777338910; c=relaxed/simple;
+	bh=LzUB/ZD604itqaxy/8+N5zkZTGwBL7cXXLe2cPQxQFI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=e2mxJM8ux73u2MzhpH+evoF686LJH9G8CMYbrsw9Ph449fmPeR6XP+HTjPi1egJInJDZolNuYTytV+fv+cAyw8fy/RZzQwFDHFttZxxyzN9uUUkcxkUJnPg81gWrMrYN1/oJMrfs5+yuX1jYYCfi0QVwPQ76+w/eW8sri8pm7/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=oO6Zaq8U; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="UGWG3Oc3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1777338778; bh=TNukEp4Dwl+Oqc1T43hxrWXMq55wH2a1IStVIx5h5BU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=UGWG3Oc30SsO1zquk3Oaj5qOx9LwKsuRD+FfbxQ64Q3lnYQJQb7C30I5DnMyYWcfM
-	 2PCBmRcoWBL6rbHKUnlbrwXHkIePwJm2QTppzXfkH09ZDcI7pT7QWgWDa5l1wsuVAM
-	 4NOZkGnxNXKHpl1xAO7aUfZ2soQtTuSwUAmn8k3o=
-Received: from [10.46.141.45] ([36.112.3.68])
-	by newxmesmtplogicsvrszb51-1.qq.com (NewEsmtp) with SMTP
-	id 3380C219; Tue, 28 Apr 2026 09:12:56 +0800
-X-QQ-mid: xmsmtpt1777338776tlo703va3
-Message-ID: <tencent_6B7B248CE4DD2C5B4471193F7B295ACC1F0A@qq.com>
-X-QQ-XMAILINFO: OeGSc/E1+fkZieFR4/4fnYbmy1HnY6cKD5MsG73FjmptXN344R/7b9ihhpBgX8
-	 BdQWw6ukUuKmJadJm/42i5R4V2iVWPS6PgwZHXXgo2/h7iZqEk/Px9KFotn8NjeqkmfAmT8MNUCL
-	 RB5lIojFgQ4nQ/GbKhdc3HtThIE4uERTcD3uWXuiDugy65MAVNaCKPELqF2onG9kJbwZ4yFhB6xI
-	 bN261YjvNuq85fnz0u+YnkOb0MmHXBpes8GlkTJr7CWYq+HnE7PVrNl7TSW6qWC5nu6nxB5pGhJv
-	 cAq+fv5GaojZ3ANi/SX0n0h8bNKaf2gXOykjwbsF5JWTY8GxlPhrKobMOqUUhWJXi3YEmuM/tVRJ
-	 3zkQOqt59wiJYLTpzZADq4sgOGykHichHbSaWtt/Qwm2GJv4poDvmAkq2vzzfhg03mbqt1k0cxZw
-	 ezgbLXURMVBRqVS7dscMYNZANHdkhcfpiL38KWdxL7gAAx9cFCDloSVGoUblGgGyUv2pCAtSTk36
-	 CS5nn+PJSYXQaktGsyfdCZHbWYEso/vx9vkP1xLiSWpclR1+gaG/XwVH6RuzXnZGjWiXHsSzkEh/
-	 DXLf7vLPpbXGQpY/KvgXBZfTc7O5O+efeWaYzQxqj57a1SDmoIpfJRggYrXIdaTp5iJKgBH9fiqy
-	 RtpdD7lUfDl6mso5e7+0eeF36v3XQBFOnWMy7Ar23pqu7geWIUr7wFTGIOoItR5VhNCbZNkt+Ut0
-	 3HkMNVCBqISTbUOLh5firDmxNyw5kTPLVrjpTmecQ/SjP39o3XH0TwMFZpAYThdfTFUd/uiQe+ep
-	 KXrzliejf3ZUpf07vKLphlKfZLYs0VPSo1s6/09HT5mQ9saEvE7tX8J5etIlxJj2nfPl+cOROD/H
-	 FH5MF5ZRnTSTCjrRSg7IfgCS5CasIRpus3AhgZrfADNPceZnN+z+jOHbRbxd14GbaNDUBdWume5A
-	 NGrzhI4NmEOQbf4Mez+wpTu+naWaiNqZ+8VqKx+i/lHt+uAGqqJZgyLt5zdghTtuW+dBijy5Aoiz
-	 K8mCE/6Qq1GtzU48nDkcseidwGkYKwpB3MnDV/yVH3/MLDkL4scfH1CTljvaBVb5yLRWRQxvExu0
-	 qyqPj0DMMi7ZEg7R8=
-X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
-X-OQ-MSGID: <0d3230ce-1609-44b8-80c4-2e325e9817e8@qq.com>
-Date: Tue, 28 Apr 2026 09:12:56 +0800
+	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="oO6Zaq8U"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4g4MtH5QbTz9t5q;
+	Tue, 28 Apr 2026 03:15:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
+	t=1777338903;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WGPMR8dNcHE5pPzgJKMfmwy/Nz6ESEu5+NAcbwXAYZ4=;
+	b=oO6Zaq8UGDP1hgu8xebfat/qL3xZPidqWDxAE70HKf54Kfe4sIqnrvr8odQHGH5FNayP4f
+	QwMW7v472RogSNwjwVdWTbIXJ/knsHvOT4OLLfZhW0ogs9thnWU2tbGWo8vDHl6We69y7l
+	bH6vRiK1y/s+flwXTUaq266iCS7gthRToROEpu65INbDjqNWP+F2ZKJ/vco9hKMjIEJqJx
+	MoJrYF7HXFG+sI+51+OAFpW1S54cd2seTLg4wNLqBrCfe/5osEYi7U93CRCIX/oKOhE/Rz
+	Dw9sozIhurcnmk5jhXfU068F/t546MGKstbweL/feIcIguixv2GIpvhObeXc4w==
+Date: Tue, 28 Apr 2026 11:14:47 +1000
+From: Aleksa Sarai <cyphar@cyphar.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Jori Koolstra <jkoolstra@xs4all.nl>, Jeff Layton <jlayton@kernel.org>, 
+	Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Arnd Bergmann <arnd@arndb.de>, "H . Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, 
+	Peter Zijlstra <peterz@infradead.org>, Andrey Albershteyn <aalbersh@redhat.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
+	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	cmirabil@redhat.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-arch@vger.kernel.org
+Subject: Re: [RFC PATCH v2 1/2] vfs: syscalls: add mkdirat2() that returns an
+ O_DIRECTORY fd
+Message-ID: <2026-04-28-demur-blocky-boon-prizes-kUj5bz@cyphar.com>
+References: <20260412135434.3095416-1-jkoolstra@xs4all.nl>
+ <20260412135434.3095416-2-jkoolstra@xs4all.nl>
+ <20260427-umlegen-aufbau-ee3a97f1528a@brauner>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] mm/filemap: count only the faulting address as a
- mmap hit
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, Roman Gushchin <roman.gushchin@linux.dev>,
- Haoran Zhu <zhr1502@sjtu.edu.cn>
-References: <20260427165751.746502-1-fujunjie1@qq.com>
- <tencent_949F3B157FE71D3C7247AE6FAE2C5AB82809@qq.com>
- <ae-tkz6qe1zFmXVj@casper.infradead.org>
-From: Fujunjie <fujunjie1@qq.com>
-In-Reply-To: <ae-tkz6qe1zFmXVj@casper.infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="owgh52ziss34ktt4"
+Content-Disposition: inline
+In-Reply-To: <20260427-umlegen-aufbau-ee3a97f1528a@brauner>
 
 
+--owgh52ziss34ktt4
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [RFC PATCH v2 1/2] vfs: syscalls: add mkdirat2() that returns an
+ O_DIRECTORY fd
+MIME-Version: 1.0
 
-On Tue, Apr 28, 2026 at 02:40, Matthew Wilcox wrote:
-> On Mon, Apr 27, 2026 at 04:57:50PM +0000, fujunjie wrote:
->> -		/*
->> -		 * If there are too many folios that are recently evicted
->> -		 * in a file, they will probably continue to be evicted.
->> -		 * In such situation, read-ahead is only a waste of IO.
->> -		 * Don't decrease mmap_miss in this scenario to make sure
->> -		 * we can stop read-ahead.
->> -		 */
-> 
-> I'm sad to lose this comment.  Why not move it to ...
-> 
->> +		ret |= map_ret;
-> 
-> here?
-> 
->> +		if ((map_ret & VM_FAULT_NOPAGE) &&
->> +		    !folio_test_workingset(folio)) {
->> +			unsigned short mmap_miss;
->> +
->> +			mmap_miss = READ_ONCE(file->f_ra.mmap_miss);
->> +			if (mmap_miss)
->> +				WRITE_ONCE(file->f_ra.mmap_miss,
->> +					   mmap_miss - 1);
->> +		}
+On 2026-04-27, Christian Brauner <brauner@kernel.org> wrote:
+> On Sun, Apr 12, 2026 at 03:54:33PM +0200, Jori Koolstra wrote:
+> > +	if (open && !error && !is_delegated(&delegated_inode)) {
+> > +		const struct path new_path =3D { .mnt =3D path.mnt, .dentry =3D dent=
+ry };
+> > +		filp =3D dentry_open(&new_path, O_DIRECTORY, current_cred());
+> > +	}
+>=20
+> So definitely a patchset worthing doing but this will be hairy. And
+> Mateusz is right. As written this doesn't work. The canonical pattern
+> how e.g., dentry_open() does it is to preallocate the file.
+>=20
+> I do wonder though whether we shouldn't just make O_CREAT | O_DIRECTORY
+> work. I remember that I had a vague comment about this in [1] a few
+> years ago (cf. [1]). It might even be less hairy to get that one right
+> as all the thinking for O_CREAT is already there.
 
-Yes, that makes sense. I'll move the comment there in the next version.
+That would be my preference, as it would also allow us to use RESOLVE_*
+flags nicely.
 
-Best regards,
-fujunjie
+> What was the rationale for mkdirat2() instead of threading this through
+> openat()/openat2() with O_CREAT?
 
+Mateusz said that he didn't like the idea of having more branches in
+the open() paths, I think that ship has long since sailed tbh.
+
+> And side-question: @Jeff, can nfs atomic open deal with O_CREAT |
+> O_DIRECTORY?
+>=20
+> [1]: 43b450632676 ("open: return EINVAL for O_DIRECTORY | O_CREAT")
+
+--=20
+Aleksa Sarai
+https://www.cyphar.com/
+
+--owgh52ziss34ktt4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCafAKBxsUgAAAAAAEAA5t
+YW51MiwyLjUrMS4xMiwyLDIACgkQKJf60rfpRG+g4wEAmkPRdHEqyElIHqgSA6IY
+SJNzwTqfXfzPput10NF0VZ4BAJYj8f4QruB+vzgL8MYcgJH1Ah+uJB1qlpY8CdWw
+vFAM
+=X9pH
+-----END PGP SIGNATURE-----
+
+--owgh52ziss34ktt4--
