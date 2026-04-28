@@ -1,110 +1,269 @@
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8832E43D4EF
-	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Apr 2026 13:11:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777381875; cv=pass; b=fgYsVh+kU8AJhwAzsoLyp1huzad8jzZhu4pdnLW7b1Tn1bICea5HGi52tzFCVLzh5ktxqeeU2GgUNu0qqK9QuU0tQFHAv0ZJv2m1npsivGVDvlgqDTGQfRK9fths1U1iwup0d6fJobnvZOwexCLwnJ5yP2gNMVbfukd8afW/O7c=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777381875; c=relaxed/simple;
-	bh=2PXkFh8GWhzh83Kpis/BU/Ka5YuA1wSPtI4Zd+aMZOg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UTVdIpGkZ8ugNRHZZ1K2zB9xIW/o9e2Fodj+huCywtgLlHsxNiL9Qkarbi+TIt/2ltE1P4QSQSCsGo91o6mDFu9WVjp/d0u/n7JrIcrTR/zEU60PwgEaJqGITvbFaPwoehZEw3kIocDCA/PsJ4F2P9MqN9oSsSzrtWGGZBfWgAk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=YoALdveA; arc=pass smtp.client-ip=209.85.219.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91B3244E047
+	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Apr 2026 13:18:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777382329; cv=none; b=RpAVw3uZxllAKotkAMcVdmB9nCf8BS2kz7Hh7fePgBoWQDrDAJI0ue8M/bVSaS7RkYvBkLq5Jx+jx+v12TI16LYzE0op6eiT/fHFRM9L4fCHQcaHe9X8MdNsX1fVJJWHPtEzIJezusuyrSG5S9suSug1UTPEQdwRueTXoiybews=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777382329; c=relaxed/simple;
+	bh=pPM0SJ1S1cvk3LnQV16ZbOsgL0uWCrEXA3zCN4WXIh4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sXgkwahsN+Uik/MerPhlL60EaCTHA5QMO2mBXq/8nQhabd1jBCWbOpZcPgQTUIbysxlruocQ9Rn1GA7LhNe72bH4Bs2cyc8xdab+L0FK313L0FAuD1jw6e9ZKIONz9AV+xlQXgc0zB8Qlp0TmhiihhCp9EdcGUQ8FHZgOeUL6Y0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SyCRS14h; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="YoALdveA"
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-89f87257904so93786846d6.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 28 Apr 2026 06:11:13 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777381872; cv=none;
-        d=google.com; s=arc-20240605;
-        b=FITq+lxZWgBbPfrhsU5KC2Ez+vk1HM7UqR3k6oP4du9Bct987FK4ZpZF0Lf1FozSqE
-         FqHcXlj8+KGdkGGqMYc1Y++hCM/qzslDh2FSuvVWMUncnrwUympfrMny50Pjv1NlcRVb
-         W9akiPdbb9B4zU5wfV2xadH8X/sOZ5NPhE/oNMg9r+VKI6HkCLxdRMJdSgayW/u3MlGY
-         L6OzkpRZVBr+OVk9HI5ZS3ZXwC6jy9m7eT/jfIxNp7WzY5Obx+0PYRqwVNRhlzmfeMMb
-         ugnyMUCuzPbiea4iYjfWKnX88lsWUrba1vHdsMBls5ZIFu2YynDNtj43VLjTmD0O6zlu
-         K0Pw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=sQ0kop8xDcm9PEnIMzOMkspkG4xjsdA7aPahAZouQKg=;
-        fh=3EWIpzooDevRL9PVITMPTxw1OiOoj3cUsyossdXew/E=;
-        b=YoUmrF4wxcMkVQIApplC1sPDfbsAtezESWSZlQI6pCsnL0sh1XZm3SDpQkEWS81bjA
-         ysB2d3vUbRfGaoRtqu2R2sVIZ0fCY5gN7QF1dHPbFxA5c1veqQ9eunosSHaRuu0l7yuB
-         QOTr83INvLAa2fWryGCBrQtn7/YlBW0fTjb7sPltm6e4CGY80Y96zMWiZNBe0amM0q4y
-         nh4lFHH9h6JHavF6MYa8gj0VZq1glRIicj7mXahsNRxlX4Q68vk7YXTE4SiqGkwShsCy
-         u6SyQt4VcA5mlCAnqi5/6S31ZeliBY5SueZTQXpq4u/fvjM0WcEpjfewidQ3BaQ7LCsC
-         uWYA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1777381872; x=1777986672; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=sQ0kop8xDcm9PEnIMzOMkspkG4xjsdA7aPahAZouQKg=;
-        b=YoALdveAEOw7BTjYZrpbBMjAFNKNnYsdEVjNilbDIW0/GTzxRm6NXQ4V00jDWNI/o3
-         X95OVVUSDi7a9bWx230feiuh1mbrf869wmqIoVvpdVUFz8/jUVSRqYCId4cHN3G/zHWT
-         Xvk5iy/ZO1bJ0s+KT4hjEQDMSU5KQ+7aSxwAY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777381872; x=1777986672;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sQ0kop8xDcm9PEnIMzOMkspkG4xjsdA7aPahAZouQKg=;
-        b=VWdje47EL7Vqd2Q78UFdGEsnKrqKUI7KYywn384WL7/j5yJLyFqUBZrzE6ERZpjSxb
-         jA+YAtW1poarjQcKhxvddAkU8KkPC38O0owNRwiO9b8Gh93g6TiDpCZ/XKlFrrNTV/kY
-         HSLsP1UlfAz11JjoqpAufEQP36ZJwE7Y3FwjmhxaDz+XHRL22pcgo5W6vPcXV7JTXwB8
-         xTDfbx6zxJsZnCBxvw4ccPx/nfKa41hEU/WXpqrisax2DXr8wRrgLXpw7dAgvrBrqfCQ
-         9bQRPYu5KUBClBKkltCY6mgpnKYquaokZp4hyhS0aNY3UTkw5tbbAGblsjOZwBuj2CjY
-         TSWw==
-X-Forwarded-Encrypted: i=1; AFNElJ/IFO/TW9jwRiZ8cqqLfRzyOhwFuH8OaebUDYL1M0Aw+XW+ln2CUx8GeNhDCEma1mIIGn4rpRu5YfbYIQTN@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx8FD7oRHPKi4jFNT8TwKxCBYLVxM2Mw1Zcvyk1EWgrfXBFSRXb
-	y4i7Z+beUcQdX3iW8D/JjGbz4nFjCbI4VPWKhhUZUDEMBs70j10h7AqL/Sd1w4K8bmrvrhNpM0o
-	CXtDaiWE9ph/iTAndp6p0fFBN+iUP9Oq9sHRjOtuO9g==
-X-Gm-Gg: AeBDievx/eGo2u5VgnsqrGFmwWj0uFBNzCj2ywkZNO7AWaepUpqEHovYw/a/7tecUfz
-	gYQt5kpG3Br/6/sFQRMtNroVg2xCc5uP3Dpk5E4ys1+KgruXz6MLHds4u/oLqB1QKowyiV3FPtS
-	3b56z+mSQSEOl0XibfvdEEfahXcra6+xyPc0Rsx+YMIwS5ol5ATtSdIOXHYKm5VDyctm4pZHvQR
-	N1avmIjpj19sTkLXa77GDHgmKgdYHDC0RbxvYZBvw3+tVAmoPuIg56gwmycCkDmm+YQnJNQZmvv
-	GcUK7WzaJ5YShCG+JanAytImzFXOyPD7BecQxdjOatZy36biSw4=
-X-Received: by 2002:a05:6214:428b:b0:899:fb4e:47aa with SMTP id
- 6a1803df08f44-8b3e31ac152mr50521376d6.39.1777381872299; Tue, 28 Apr 2026
- 06:11:12 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SyCRS14h"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1777382325;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=zXHGu2pKvh6nQppVcpyB9iSH+ygOF6hMG1YLx9PkNMc=;
+	b=SyCRS14hFZF0Sab/J9PCONF0ZDbq3UfVNh0A0npP8zE9R1gewqaLfiqb+808YBcz0cKj2V
+	uBB2ULOdf3VBscgKKh5ybgKzywbN6rngceN8tvyV+jToN4QjXwhvVjCRBdoQ/T8rZTsKi7
+	aAXD195Q7Nj0MB3oK/Rhrzf5BTwj+2o=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-316-QRUePlQQOV-Vk5ir6dmz8g-1; Tue,
+ 28 Apr 2026 09:18:42 -0400
+X-MC-Unique: QRUePlQQOV-Vk5ir6dmz8g-1
+X-Mimecast-MFC-AGG-ID: QRUePlQQOV-Vk5ir6dmz8g_1777382321
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id AE2DA188263F;
+	Tue, 28 Apr 2026 13:18:02 +0000 (UTC)
+Received: from warthog.procyon.org.com (unknown [10.44.32.126])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 13221180047F;
+	Tue, 28 Apr 2026 13:17:58 +0000 (UTC)
+From: David Howells <dhowells@redhat.com>
+To: Christian Brauner <christian@brauner.io>
+Cc: David Howells <dhowells@redhat.com>,
+	Paulo Alcantara <pc@manguebit.org>,
+	netfs@lists.linux.dev,
+	linux-afs@lists.infradead.org,
+	linux-cifs@vger.kernel.org,
+	ceph-devel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v5 00/24] netfs: Miscellaneous fixes
+Date: Tue, 28 Apr 2026 14:17:30 +0100
+Message-ID: <20260428131756.922303-1-dhowells@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260428021304.2338592-1-mochs@nvidia.com>
-In-Reply-To: <20260428021304.2338592-1-mochs@nvidia.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Tue, 28 Apr 2026 15:11:00 +0200
-X-Gm-Features: AVHnY4KuqhJBOUqh9rg5qsmJEQclZpBku1Uo2RuOKjIVdiI4OqyYu7n23BussEY
-Message-ID: <CAJfpeguzUDE1gegKA3WXCORZZRQrWCRsKe_sdLKtGHqRd_vyyQ@mail.gmail.com>
-Subject: Re: [PATCH] fuse: do not treat unlimited readdir count as a buffer size
-To: "Matthew R. Ochs" <mochs@nvidia.com>
-Cc: Bernd Schubert <bschubert@ddn.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-On Tue, 28 Apr 2026 at 04:13, Matthew R. Ochs <mochs@nvidia.com> wrote:
+Hi Christian,
 
-> For virtiofs, the output kvec is included in the request bounce buffer
-> allocated by copy_args_to_argbuf():
->
->   req->argbuf = kmalloc(len, GFP_ATOMIC);
+Here are the outstanding miscellaneous fixes for netfslib gathered together
+and with some fixes-to-fixes folded down and one rearrangement.  Various
+Sashiko review comments[1][2][3][4] are addressed:
 
-Ugh.   The real bug here is inappropriate use of the bounce buffer.
-fuse_readdir_uncached() should instead supply an array of pages.
+ (1) Fix subrequest cancellation cleanup in DIO read and single-read.
 
-It's a little more complicated, but would fix this properly: overlayfs
-does want to get as much of the directory as possible in one go to be
-most efficient.
+ (2) Fix read and write result collection to use barriering correctly to
+     access a request's subrequest lists without taking a lock.
 
-I'd go with vmalloc -> alloc_pages_bulk, then vm_map_ram() before
-parsing the result.
+     This adds list_add_tail_release() and
+     list_first_entry_or_null_acquire() to appropriate incorporate
+     barriering into some list functions.
+
+ (3) Fix missing locking around retry adding new subrequests.
+
+ (4) Fix netfs_read_to_pagecache() to pause on subrequest I/O failure.
+
+ (5) Fix the potential for 64-bit tearing on a 32-bit machine when reading
+     netfs_inode->remote_i_size and ->zero_point by using much the same
+     mechanism as is used for ->i_size.
+
+ (6) Fix the calculation of zero_point in netfs_release_folio() to limit it
+     to ->remote_i_size, not ->i_size.
+
+ (7) Fix triggering of a VM_BUG_ON_FOLIO() in netfs_write_begin().
+
+ (8) Fix error handling in netfs_extract_user_iter().
+
+ (9) Fix overrun checking in netfs_extract_user_iter().
+
+(10) Fix a potentially uninitialised error value in
+     netfs_extract_user_iter().
+
+(11) Fix netfs_invalidate_folio() to clear the folio dirty bit if all dirty
+     data removed.
+
+(12) Defer the emission of trace_netfs_folio() in netfs_perform_write().
+     This allows the next patch to emit the correct traces.
+
+(13) Fix the handling of a partially failed copy (ie. EFAULT) into a
+     streaming write folio.  Also remove the netfs_folio if a streaming
+     write folio is entirely overwritten.
+
+(14) Fix a potential deadlock in writethrough writing.
+
+(15) Fix netfs_read_gaps() to remove the netfs_folio from a filled folio.
+
+(16) Fix netfs_perform_write() to not disable streaming writes when writing
+     to an fd that's open O_RDWR.
+
+(17) Fix an early put of the sink page used in netfs_read_gaps(), before
+     the request has completed.
+
+(18) Fix request leak in netfs_write_begin() error handling.
+
+(19) Fix a potential UAF in netfs_unlock_abandoned_read_pages() due to
+     trying to check index of each folio we're abandoning to see if that
+     folio is actually owned by the caller (in which case, we're not
+     actually allowed to dereference it).
+
+(20) Fix incorrect adjustment of dirty region when partially invalidating a
+     streaming write folio.
+
+(21) Fix the handling of folio->private in netfs_perform_write() and the
+     attached netfs_folio and/or group when a streaming write folio is
+     modified.
+
+(22) Fix netfs_read_folio() to wait on writeback first (it holds the folio
+     lock) otherwise we aren't allowed to look at the netfs_folio struct as
+     that could be modified at any time by the writeback collector.
+
+(23) Fix write skipping in dir/symlink writepages.
+
+(24) Fix the locking used by afs_get_link().
+
+The patches can also be found here:
+
+	https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git/log/?h=netfs-fixes
 
 Thanks,
-Miklos
+David
+
+[1] https://sashiko.dev/#/patchset/20260414082004.3756080-1-dhowells%40redhat.com
+[2] https://sashiko.dev/#/patchset/20260326104544.509518-1-dhowells%40redhat.com
+[3] https://sashiko.dev/#/patchset/20260425125426.3855807-1-dhowells%40redhat.com
+[4] https://sashiko.dev/#/patchset/20260427154639.180684-1-dhowells%40redhat.com
+
+Changes
+=======
+ver #5)
+- Fix more Sashiko issues[4].
+  - Handle missed cancellations in netfs_read_to_pagecache().
+  - Fixed potential double dio-end/put if no subreqs were submitted in dio
+    read.
+  - In netfs_single_dispatch_read(), cancellation needs to set ALL_QUEUED
+    and invoke the collector.
+  - In read/write retry, lock around deletion of subreqs also.
+  - Renamed list_first_entry_acquire() to
+    list_first_entry_or_null_acquire().
+  - In netfs_push_back_zero_point(), fix use of cmpxchg().
+  - Provide netfs_write_remote_i_size_locked() that can be used by a func
+    holding inode->i_lock (e.g. cifs_fattr_to_inode()).
+  - In netfs_extract_user_iter(), improved overrun checking.
+  - Added a patch to fix a potential deadlock with write-through writes.
+  - In netfs_page_mkwrite(), skip the flush if no group set on the folio.
+  - In the single-write users, mark the inode dirty again if a contended
+    lock was skipped due to WB_SYNC_NONE.
+
+ver #4)
+- Rebase on v7.0-rc1
+- Fix more Sashiko issues[3].
+  - Move the ->subrequests barriering patch up front as it modifies
+    linux/list.h.
+  - Split that barriering patch and make the first patch to harmonise the
+    order of adding a read subreq to the queue, for buffered, dio and
+    single reads and to fix cancellation on prep failure.  The second patch
+    then fixes the barriering.
+  - Lock ->subrequests in retry when adding in extra subreqs.
+  - Use a spinlock as well when modifying ->zero_point with a seq lock.
+  - Atomically check and change ->zero_point when bumping it up.
+  - Merged the two patches sorting out the locking in afs symlink handling,
+    then fixed a number of issues in them.
+- Added a patch to make afs dir and symlink writepages skip if the
+  validate_lock is held and WB_SYNC_NONE is set.
+
+ver #3)
+- Rebase on linus/master.
+- Consolidate the various sets of fixes for reposting.
+- Fold down fixes-to-fixes.
+- Move the tracing change in netfs_perform_write() down to below the patch
+  it primarily affects.
+
+base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
+
+David Howells (22):
+  netfs: Fix cancellation of a DIO and single read subrequests
+  netfs: Fix missing locking around retry adding new subreqs
+  netfs: Fix missing barriers when accessing stream->subrequests
+    locklessly
+  netfs: Fix netfs_read_to_pagecache() to pause on subreq failure
+  netfs: Fix potential for tearing in ->remote_i_size and ->zero_point
+  netfs: Fix zeropoint update where i_size > remote_i_size
+  netfs: Fix overrun check in netfs_extract_user_iter()
+  netfs: Fix potential uninitialised var in netfs_extract_user_iter()
+  netfs: Fix netfs_invalidate_folio() to clear dirty bit if all changes
+    gone
+  netfs: Defer the emission of trace_netfs_folio()
+  netfs: Fix streaming write being overwritten
+  netfs: Fix potential deadlock in write-through mode
+  netfs: Fix read-gaps to remove netfs_folio from filled folio
+  netfs: Fix write streaming disablement if fd open O_RDWR
+  netfs: Fix early put of sink folio in netfs_read_gaps()
+  netfs: Fix leak of request in netfs_write_begin() error handling
+  netfs: Fix potential UAF in netfs_unlock_abandoned_read_pages()
+  netfs: Fix partial invalidation of streaming-write folio
+  netfs: Fix folio->private handling in netfs_perform_write()
+  netfs: Fix netfs_read_folio() to wait on writeback
+  netfs, afs: Fix write skipping in dir/link writepages
+  afs: Fix the locking used by afs_get_link()
+
+Paulo Alcantara (1):
+  netfs: fix error handling in netfs_extract_user_iter()
+
+Viacheslav Dubeyko (1):
+  netfs: fix VM_BUG_ON_FOLIO() issue in netfs_write_begin() call
+
+ fs/9p/vfs_inode.c            |   2 +-
+ fs/9p/vfs_inode_dotl.c       |   4 +-
+ fs/afs/Makefile              |   1 +
+ fs/afs/dir.c                 |  79 ++++----
+ fs/afs/fsclient.c            |   4 +-
+ fs/afs/inode.c               | 104 +---------
+ fs/afs/internal.h            |  34 +++-
+ fs/afs/symlink.c             | 270 ++++++++++++++++++++++++++
+ fs/afs/validation.c          |   8 +-
+ fs/afs/write.c               |   2 +-
+ fs/afs/yfsclient.c           |   4 +-
+ fs/netfs/buffered_read.c     |  71 +++----
+ fs/netfs/buffered_write.c    | 161 ++++++++++------
+ fs/netfs/direct_read.c       |  42 ++--
+ fs/netfs/direct_write.c      |   4 +-
+ fs/netfs/internal.h          |   3 +
+ fs/netfs/iterator.c          |  36 ++--
+ fs/netfs/misc.c              |  22 ++-
+ fs/netfs/read_collect.c      |  19 +-
+ fs/netfs/read_retry.c        |  17 +-
+ fs/netfs/read_single.c       |  23 +--
+ fs/netfs/write_collect.c     |   9 +-
+ fs/netfs/write_issue.c       |  18 +-
+ fs/netfs/write_retry.c       |   6 +-
+ fs/smb/client/cifsfs.c       |  28 +--
+ fs/smb/client/cifssmb.c      |   2 +-
+ fs/smb/client/file.c         |   9 +-
+ fs/smb/client/inode.c        |   9 +-
+ fs/smb/client/readdir.c      |   3 +-
+ fs/smb/client/smb2ops.c      |  16 +-
+ fs/smb/client/smb2pdu.c      |   2 +-
+ include/linux/list.h         |  37 ++++
+ include/linux/netfs.h        | 364 ++++++++++++++++++++++++++++++++++-
+ include/trace/events/netfs.h |   8 +
+ 34 files changed, 1056 insertions(+), 365 deletions(-)
+ create mode 100644 fs/afs/symlink.c
+
