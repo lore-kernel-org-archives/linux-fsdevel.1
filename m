@@ -1,47 +1,47 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 810F3477E2E
-	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Apr 2026 13:19:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95656477E33
+	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Apr 2026 13:19:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777382370; cv=none; b=o8ugrUpdHFQ8KKuBxieObITkjv5dcNVt6ta487XSP0L6MKI70X6cKJ4FZ+tH+lEqx14FSr8XUQLzIoi3YTMvKOms6yVMkxvjYglzDisRXnAv7FWIvAjwF9jwKu/wDz7HOtVggx7vW/rmxo+JZf4me8YBKaJLz9aqgOwe8tzQvWY=
+	t=1777382372; cv=none; b=cLFJfZo163uv0Wuwdf18KOvbCAbdp0UoZ4mOl4bFlhnw1Ox/eyTJEMnUWaJVQMJ5MDGgfFnYZMwpMe8RQwGjyg2DSbB/QYdcR0LOug5JlW8f9JK+Qd5he/DpCQB68K4ug9fqtm9uKykX+5Re3Wqcnz5XjUlFaHl64Vnu75S3PwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777382370; c=relaxed/simple;
-	bh=6aS16OhU7wJB8E9ZvNzMBoTTc64B5xcaExT2qrf2F8c=;
+	s=arc-20240116; t=1777382372; c=relaxed/simple;
+	bh=Hls64bsLlj6noJlM3TRUh03Fmmi4w1KwMCcwqEYCqZ4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MWVozDfK1ap6LYZ7/5puP2hzHFZkX7xSV8FyhgGO7wucFkICtA04SRFJGCy6kf/e4YKcGyjZnBeBxaq+ThLu+EIHPDxafWB267/84dF1y1Ms9hxTXB62PntG3Yd0pBr8+wa9/HtZbIO53IpUgyEpftHyBGvKn4rNIIluOy+OzAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=K95QODXs; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=ZguzFt6xLE75UFqQcV2Oy+yCi3APx7rOdZJTseEttL28rUh82EjMnJWoVPCXQHM82o7dwFXnfCcEw3rTfFSmFvcDoDAhYxV75nNe8qyVixe9VzwOzG0D1YSmiCIZj6NFzZ3nnWwnV377vBNqxfCnezAYf03UVIHRcwpvOFquqKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MmqXiJs+; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="K95QODXs"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MmqXiJs+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1777382367;
+	s=mimecast20190719; t=1777382368;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=bHSQahnA7js1P4paGsZUSZ9WNRs6QCvVJJSxiV11wQI=;
-	b=K95QODXsW5HxGyT+mCNxzzodFOpE/3WaZO/Xa15/Cts4Dv9V+qDROhrql9UuzFEM1pYOtK
-	mGfa/265adeyP5xRl2G3oQMvKFkBD2BitCeFSCkPU8A0yFpZRM9MO8MpMp4zC5ijTgBsZR
-	gHDMc3rQa7VqoVbZUxI5nt4y0QHs8HE=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+	bh=+l6afX5dOckJckSkiMhYLh2ewUrSBegiqJdH6fYSD7g=;
+	b=MmqXiJs+a/RvwzQ5ecPOFyeEEJiZq1nfMHeM1bxK3bfswRpWc6A3xob+srOw5I5zT8Ly2m
+	GHt/RBjQky0geredJxk779adCyQCXS9Qqltd+IxcAcVzIe3vN/XHKBXwE4tW5NPwhqWpYb
+	b6V8eck98Qjpe6nEOac5kFLCe2MIpn4=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-512-4t6aizAbP86H_MufK2aZGw-1; Tue,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-674-zukhUyAOP1yT7An13mJ-dw-1; Tue,
  28 Apr 2026 09:19:24 -0400
-X-MC-Unique: 4t6aizAbP86H_MufK2aZGw-1
-X-Mimecast-MFC-AGG-ID: 4t6aizAbP86H_MufK2aZGw_1777382362
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+X-MC-Unique: zukhUyAOP1yT7An13mJ-dw-1
+X-Mimecast-MFC-AGG-ID: zukhUyAOP1yT7An13mJ-dw_1777382363
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0BC10186057E;
-	Tue, 28 Apr 2026 13:18:47 +0000 (UTC)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B59FE1979047;
+	Tue, 28 Apr 2026 13:19:01 +0000 (UTC)
 Received: from warthog.procyon.org.com (unknown [10.44.32.126])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 5653019560AB;
-	Tue, 28 Apr 2026 13:18:44 +0000 (UTC)
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id A393B3000C22;
+	Tue, 28 Apr 2026 13:18:58 +0000 (UTC)
 From: David Howells <dhowells@redhat.com>
 To: Christian Brauner <christian@brauner.io>
 Cc: David Howells <dhowells@redhat.com>,
@@ -51,10 +51,11 @@ Cc: David Howells <dhowells@redhat.com>,
 	linux-cifs@vger.kernel.org,
 	ceph-devel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v5 09/24] netfs: Fix overrun check in netfs_extract_user_iter()
-Date: Tue, 28 Apr 2026 14:17:39 +0100
-Message-ID: <20260428131756.922303-10-dhowells@redhat.com>
+	linux-kernel@vger.kernel.org,
+	Matthew Wilcox <willy@infradead.org>
+Subject: [PATCH v5 12/24] netfs: Defer the emission of trace_netfs_folio()
+Date: Tue, 28 Apr 2026 14:17:42 +0100
+Message-ID: <20260428131756.922303-13-dhowells@redhat.com>
 In-Reply-To: <20260428131756.922303-1-dhowells@redhat.com>
 References: <20260428131756.922303-1-dhowells@redhat.com>
 Precedence: bulk
@@ -64,59 +65,106 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-Fix netfs_extract_user_iter() so that if iov_iter_extract_pages() overfills
-pages[], then those pages don't get included in the iterator constructed at
-the end of the function.  If there was an overfill, memory corruption has
-already happened.
+Change netfs_perform_write() to keep the netfs_folio trace value in a
+variable and emit it later to make it easier to choose the value displayed.
+This is a prerequisite for a subsequent patch.
 
-Fixes: 85dd2c8ff368 ("netfs: Add a function to extract a UBUF or IOVEC into a BVEC iterator")
-Closes: https://sashiko.dev/#/patchset/20260427154639.180684-1-dhowells%40redhat.com
+Closes: https://sashiko.dev/#/patchset/20260414082004.3756080-1-dhowells%40redhat.com
 Signed-off-by: David Howells <dhowells@redhat.com>
 cc: Paulo Alcantara <pc@manguebit.org>
+cc: Matthew Wilcox <willy@infradead.org>
 cc: netfs@lists.linux.dev
 cc: linux-fsdevel@vger.kernel.org
 ---
- fs/netfs/iterator.c | 21 ++++++++++++---------
- 1 file changed, 12 insertions(+), 9 deletions(-)
+ fs/netfs/buffered_write.c | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
 
-diff --git a/fs/netfs/iterator.c b/fs/netfs/iterator.c
-index adca78747f23..932f745fa3b5 100644
---- a/fs/netfs/iterator.c
-+++ b/fs/netfs/iterator.c
-@@ -72,21 +72,24 @@ ssize_t netfs_extract_user_iter(struct iov_iter *orig, size_t orig_len,
- 			break;
+diff --git a/fs/netfs/buffered_write.c b/fs/netfs/buffered_write.c
+index fc94eb1ef27b..7ac128d0b4e5 100644
+--- a/fs/netfs/buffered_write.c
++++ b/fs/netfs/buffered_write.c
+@@ -149,6 +149,7 @@ ssize_t netfs_perform_write(struct kiocb *iocb, struct iov_iter *iter,
+ 	}
+ 
+ 	do {
++		enum netfs_folio_trace trace;
+ 		struct netfs_folio *finfo;
+ 		struct netfs_group *group;
+ 		unsigned long long fpos;
+@@ -222,7 +223,7 @@ ssize_t netfs_perform_write(struct kiocb *iocb, struct iov_iter *iter,
+ 			if (unlikely(copied == 0))
+ 				goto copy_failed;
+ 			netfs_set_group(folio, netfs_group);
+-			trace_netfs_folio(folio, netfs_folio_is_uptodate);
++			trace = netfs_folio_is_uptodate;
+ 			goto copied;
  		}
  
--		if (ret > count) {
--			pr_err("get_pages rc=%zd more than %zu\n", ret, count);
-+		if (WARN(ret > count,
-+			 "%s: extract_pages overrun %zd > %zu bytes\n",
-+			 __func__, ret, count)) {
-+			ret = -EIO;
- 			break;
+@@ -238,7 +239,7 @@ ssize_t netfs_perform_write(struct kiocb *iocb, struct iov_iter *iter,
+ 			folio_zero_segment(folio, offset + copied, flen);
+ 			__netfs_set_group(folio, netfs_group);
+ 			folio_mark_uptodate(folio);
+-			trace_netfs_folio(folio, netfs_modify_and_clear);
++			trace = netfs_modify_and_clear;
+ 			goto copied;
  		}
  
--		count -= ret;
--		ret += offset;
--		cur_npages = DIV_ROUND_UP(ret, PAGE_SIZE);
--
--		if (npages + cur_npages > max_pages) {
--			pr_err("Out of bvec array capacity (%u vs %u)\n",
--			       npages + cur_npages, max_pages);
-+		cur_npages = DIV_ROUND_UP(offset + ret, PAGE_SIZE);
-+		if (WARN(cur_npages > max_pages - npages,
-+			 "%s: extract_pages overrun %u > %u pages\n",
-+			 __func__, npages + cur_npages, max_pages)) {
-+			ret = -EIO;
- 			break;
+@@ -256,7 +257,7 @@ ssize_t netfs_perform_write(struct kiocb *iocb, struct iov_iter *iter,
+ 			}
+ 			__netfs_set_group(folio, netfs_group);
+ 			folio_mark_uptodate(folio);
+-			trace_netfs_folio(folio, netfs_whole_folio_modify);
++			trace = netfs_whole_folio_modify;
+ 			goto copied;
  		}
  
-+		count -= ret;
-+		ret += offset;
-+
- 		for (i = 0; i < cur_npages; i++) {
- 			len = ret > PAGE_SIZE ? PAGE_SIZE : ret;
- 			bvec_set_page(bv + npages + i, *pages++, len - offset, offset);
+@@ -283,7 +284,7 @@ ssize_t netfs_perform_write(struct kiocb *iocb, struct iov_iter *iter,
+ 			if (unlikely(copied == 0))
+ 				goto copy_failed;
+ 			netfs_set_group(folio, netfs_group);
+-			trace_netfs_folio(folio, netfs_just_prefetch);
++			trace = netfs_just_prefetch;
+ 			goto copied;
+ 		}
+ 
+@@ -297,7 +298,7 @@ ssize_t netfs_perform_write(struct kiocb *iocb, struct iov_iter *iter,
+ 			if (offset == 0 && copied == flen) {
+ 				__netfs_set_group(folio, netfs_group);
+ 				folio_mark_uptodate(folio);
+-				trace_netfs_folio(folio, netfs_streaming_filled_page);
++				trace = netfs_streaming_filled_page;
+ 				goto copied;
+ 			}
+ 
+@@ -312,7 +313,7 @@ ssize_t netfs_perform_write(struct kiocb *iocb, struct iov_iter *iter,
+ 			finfo->dirty_len = copied;
+ 			folio_attach_private(folio, (void *)((unsigned long)finfo |
+ 							     NETFS_FOLIO_INFO));
+-			trace_netfs_folio(folio, netfs_streaming_write);
++			trace = netfs_streaming_write;
+ 			goto copied;
+ 		}
+ 
+@@ -332,9 +333,9 @@ ssize_t netfs_perform_write(struct kiocb *iocb, struct iov_iter *iter,
+ 					folio_detach_private(folio);
+ 				folio_mark_uptodate(folio);
+ 				kfree(finfo);
+-				trace_netfs_folio(folio, netfs_streaming_cont_filled_page);
++				trace = netfs_streaming_cont_filled_page;
+ 			} else {
+-				trace_netfs_folio(folio, netfs_streaming_write_cont);
++				trace = netfs_streaming_write_cont;
+ 			}
+ 			goto copied;
+ 		}
+@@ -350,6 +351,7 @@ ssize_t netfs_perform_write(struct kiocb *iocb, struct iov_iter *iter,
+ 		continue;
+ 
+ 	copied:
++		trace_netfs_folio(folio, trace);
+ 		flush_dcache_folio(folio);
+ 
+ 		/* Update the inode size if we moved the EOF marker */
 
