@@ -1,257 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 474403CFF44;
-	Tue, 28 Apr 2026 07:12:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E41A93D410C;
+	Tue, 28 Apr 2026 08:18:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777360354; cv=none; b=Al/YWEvK60x8syK/MmaHRlBR3RgfPKYFx0dGNXa6BJ1jyyMxqjtoTSDruLRW1gr22AyqHpb0vFqLc094BvL6eK8Z6O3tadv0tLlCtIx8IVPKZmSTXhbgn1c0ao1VZNcBjrCAY0bf996t84Fqc3+phnYfjWDC8NeoR7U5iTy/SY0=
+	t=1777364324; cv=none; b=fiW+n6j0FWhCYX2vnBsiO/AU7YYPicE//heezHMUdfu7w0apYUPHKGgL3ZO3XrC4d4E8pIHxvJ+Gk5h+nbt07es5yDa4RAZ0ujt0Blu4lQ1bW+lya1GpCsILqpPv/INVq5hArOEdzdURGM19oE8VmhyeZMn75LJMcXLk4kf7Tok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777360354; c=relaxed/simple;
-	bh=n7GdOLLaGScAngpOva5caCcXl1A9DB2/nfeO+8CVTPU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=AnHt3BU7cFEIPiYZphVpcrUwxATKv/MmmpTODcb/S9a3gw2g+B1LeICgSgxpPVYFLDnEUkIqOmX9MF/Gz4Fk5YnBAUpRNVkCVoQBuovvvN+6z8XUhAwn3JqV/jg+VlxrGGo0Z6HQ0zyL++OTEKuJ70lT5+xaCLJrtvMWE8Gv9V4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qTjvE2vl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777364324; c=relaxed/simple;
+	bh=Pifngnls7yzoEeGxFyOD4KN5JPXem2G0mv34DhxL2U4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NIGXKZnetv2hunI1l2fFARZ/Z9UVD32velKq/DYiU88Uo+yRaK6oI/C//bs/ghc+SHef/w6Bscz1mbnXv34YNQZ9cdjfPHgmU1UVWKz4GEFlkKEWLB0JhVquTypE46Mp4CIJYJHoXiUoKHRCWNvYMRQokadLhjUBWHhTWfi/BSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hm3p1uM1; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qTjvE2vl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F00B4C2BCB6;
-	Tue, 28 Apr 2026 07:12:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777360354;
-	bh=n7GdOLLaGScAngpOva5caCcXl1A9DB2/nfeO+8CVTPU=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=qTjvE2vl9NTM6X/sSrSMTSYv4O9H/7JNqp9pke581D5n2G8MCv6l327mGjmx1AYNd
-	 OOIrDoiEGx1wwS9Z0TYXvmO4Fxzd7NB4JI9l11XXmYnuBy7hL/s6YxZwWDIrmQhtTZ
-	 x97RL7k+SatUC2+jrsR5ig2x8kA13pPCbdvtIryhKwLM3Mxbo/N4fIdscpI4lL+p2j
-	 Le33GM9WaR1cKbC9mesn/YHKKyPDKFElHznCftDlGmoQeX9rgWe17WxWLx1Y1PFXa4
-	 miNcWDx5qewn9DYBNigCQIyHgeAPTdUJHdPjh3+r6ghcCicsqigOYMbxpFX+DpuIht
-	 WxqY8J8RY8Bjw==
-From: Jeff Layton <jlayton@kernel.org>
-Date: Tue, 28 Apr 2026 08:10:12 +0100
-Subject: [PATCH v3 28/28] nfsd: add support to CB_NOTIFY for dir attribute
- changes
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hm3p1uM1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777364323; x=1808900323;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Pifngnls7yzoEeGxFyOD4KN5JPXem2G0mv34DhxL2U4=;
+  b=Hm3p1uM1+tvfRNCsy0Uq0I9ke6UaxYWA7xZz+nFchpcuaLASgIJFyc+Y
+   AdyIBxO5sXM3D9z01lwGfX8s+3gYSpkMnKCEL1tCmEXaCgW4mWWBjYNkk
+   R3cTxLnrlMJLQkF1DHrFpMgefOKyKCibJ0tDzJ2iziWD9qorpCUDgLqPU
+   74LcNaY+ZLE+8RILxqx8TfRukHmAP/ILNQ7njwmZwh207gXswMTGP8iWZ
+   h6e7DbZQZFqy1Pb/E2VezrneWM58djLL71K/bWgVZXvAN7zxUmRUs16/J
+   oYhE7dVHGSTA343CEbBCIbhl339dfXCjZ4daqGL2kEFp8KvfBJHe/zoVd
+   w==;
+X-CSE-ConnectionGUID: t9cZ2wxETYGCFdC6ZVYaVQ==
+X-CSE-MsgGUID: Lbpyce14QCKja7QDSkw7lw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11769"; a="89646037"
+X-IronPort-AV: E=Sophos;i="6.23,203,1770624000"; 
+   d="scan'208";a="89646037"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 01:18:42 -0700
+X-CSE-ConnectionGUID: fZiFiA1hTKiicJQRYZmMvQ==
+X-CSE-MsgGUID: 2F5PYIEZSF+KN/QYJ3BUQQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,203,1770624000"; 
+   d="scan'208";a="264273755"
+Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 28 Apr 2026 01:18:41 -0700
+Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wHdeP-000000009eS-2hEf;
+	Tue, 28 Apr 2026 08:18:37 +0000
+Date: Tue, 28 Apr 2026 16:17:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: Matan Cohen <matan@matanco.space>, Miklos Szeredi <miklos@szeredi.hu>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Matan Cohen <matan@matanco.space>
+Subject: Re: [PATCH] fuse: expose backing files in the daemon's fd table
+Message-ID: <202604281646.PF70aaEU-lkp@intel.com>
+References: <20260424144553.6241-1-matan@matanco.space>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260428-dir-deleg-v3-28-5a0780ba9def@kernel.org>
-References: <20260428-dir-deleg-v3-0-5a0780ba9def@kernel.org>
-In-Reply-To: <20260428-dir-deleg-v3-0-5a0780ba9def@kernel.org>
-To: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Chuck Lever <chuck.lever@oracle.com>, 
- Alexander Aring <alex.aring@gmail.com>, 
- Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>, 
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, 
- Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
- Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
- Amir Goldstein <amir73il@gmail.com>
-Cc: Calum Mackay <calum.mackay@oracle.com>, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-nfs@vger.kernel.org, 
- Jeff Layton <jlayton@kernel.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6108; i=jlayton@kernel.org;
- h=from:subject:message-id; bh=n7GdOLLaGScAngpOva5caCcXl1A9DB2/nfeO+8CVTPU=;
- b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBp8F1VHt9GAAJhBiVzD5jvGxxI3FTEFiOwGx4nh
- Su7jWNAD7uJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCafBdVQAKCRAADmhBGVaC
- FbfjEADBe7PvfHWU5fC99nWsu80EifSmzJlkeDlt/wfTqGsYSxLv9E6/EKzQ/+0mAOGyRSVujKR
- xoggJ77lPm7P6H78lxNwU37jPXypeJq7BoNYwkDpL2jmcwnhOVb9hMjHxOeDiry7n3+UnHCgxD4
- YQmn9AuwyPpTXA/GzRvu2yaEpIHlMpGZ/ltV3BS7BFCcjRBuwMbxcoPwesn0vf6/bxA0xs9abcW
- K2lPLRpp7QQFSjrDwup8ftGlDge5oTaTgdOZiVzKhw8tRT8J6oyETGyiYJw+oI3aHVQXqh2GyPf
- qpkeR/i9rrYmiidy2JN0fX9IYwnW34SNG+0cnHmGu+9O7/Opi6rqa3Fge4uGzred3drSXPierg4
- 6n8gEoX/bMc2kknxjVFYRpNZaUThAAk85CRWMIPGqKjwYKAelr8BRTpKUMLS/V1Og/ULzRjCtX9
- xHeT1iE20bb9PNoRWctfkj7eTKu0OVjtcvvshmWaz3P4owZUTLo3vmVimlU6PvaPn6gfpcFYZLn
- SOm1RqTdUWyNR9gZODNkMqPo2TnJZjlIyhX79fA/eEvi3hxkysXLXMeegLEn2nNL0JAUEeby5pI
- KlXIDubBdmojT6UJqLvG8vCROIpNmdKOT8iWpHLz3rOsExuC8IUGWlE6HB45kFGaWftDxqMM7D6
- s3D+OiXHbLTj/WQ==
-X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
- fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260424144553.6241-1-matan@matanco.space>
 
-If the client requested dir attribute change notifications, send those
-alongside any set of add/remove/rename events. Note that the server will
-still recall the delegation on a SETATTR, so these are only sent for
-changes to child dirents.
+Hi Matan,
 
-Signed-off-by: Jeff Layton <jlayton@kernel.org>
----
- fs/nfsd/nfs4state.c | 25 ++++++++++++++++++++--
- fs/nfsd/nfs4xdr.c   | 61 +++++++++++++++++++++++++++++++++++++++++++++--------
- fs/nfsd/xdr4.h      |  2 ++
- 3 files changed, 77 insertions(+), 11 deletions(-)
+kernel test robot noticed the following build errors:
 
-diff --git a/fs/nfsd/nfs4state.c b/fs/nfsd/nfs4state.c
-index b60aa2cf1eba..bb9093e3933f 100644
---- a/fs/nfsd/nfs4state.c
-+++ b/fs/nfsd/nfs4state.c
-@@ -3479,10 +3479,15 @@ nfsd4_cb_notify_prepare(struct nfsd4_callback *cb)
- 	struct nfsd_notify_event *events[NOTIFY4_EVENT_QUEUE_SIZE];
- 	struct xdr_buf xdr = { .buflen = PAGE_SIZE * NOTIFY4_PAGE_ARRAY_SIZE,
- 			       .pages  = ncn->ncn_pages };
-+	int limit = NOTIFY4_EVENT_QUEUE_SIZE;
- 	struct xdr_stream stream;
- 	struct nfsd_file *nf;
--	int count, i;
- 	bool error = false;
-+	int count, i;
-+
-+	/* Save a slot for dir attr update if requested */
-+	if (dp->dl_notify_mask & BIT(NOTIFY4_CHANGE_DIR_ATTRS))
-+		--limit;
- 
- 	xdr_init_encode_pages(&stream, &xdr);
- 
-@@ -3496,7 +3501,7 @@ nfsd4_cb_notify_prepare(struct nfsd4_callback *cb)
- 	}
- 
- 	/* we can't keep up! */
--	if (count > NOTIFY4_EVENT_QUEUE_SIZE) {
-+	if (count > limit) {
- 		spin_unlock(&ncn->ncn_lock);
- 		goto out_recall;
- 	}
-@@ -3543,6 +3548,22 @@ nfsd4_cb_notify_prepare(struct nfsd4_callback *cb)
- 		nfsd_notify_event_put(nne);
- 	}
- 	if (!error) {
-+		if (dp->dl_notify_mask & BIT(NOTIFY4_CHANGE_DIR_ATTRS)) {
-+			u32 *maskp = (u32 *)xdr_reserve_space(&stream, sizeof(*maskp));
-+
-+			if (maskp) {
-+				u8 *p = nfsd4_encode_dir_attr_change(&stream, dp, nf);
-+
-+				if (p) {
-+					*maskp = BIT(NOTIFY4_CHANGE_DIR_ATTRS);
-+					ncn->ncn_nf[count].notify_mask.count = 1;
-+					ncn->ncn_nf[count].notify_mask.element = maskp;
-+					ncn->ncn_nf[count].notify_vals.data = p;
-+					ncn->ncn_nf[count].notify_vals.len = (u8 *)stream.p - p;
-+					++count;
-+				}
-+			}
-+		}
- 		ncn->ncn_nf_cnt = count;
- 		nfsd_file_put(nf);
- 		return true;
-diff --git a/fs/nfsd/nfs4xdr.c b/fs/nfsd/nfs4xdr.c
-index bd1142590d2b..73f2fdf929ed 100644
---- a/fs/nfsd/nfs4xdr.c
-+++ b/fs/nfsd/nfs4xdr.c
-@@ -4152,11 +4152,11 @@ nfsd4_setup_notify_entry4(struct notify_entry4 *ne, struct xdr_stream *xdr,
- 			  struct nfsd_file *nf, char *name, u32 namelen)
- {
- 	struct nfs4_file *fi = dp->dl_stid.sc_file;
--	struct path path =  { .mnt = nf->nf_file->f_path.mnt,
--			      .dentry = dentry };
-+	struct path path = nf->nf_file->f_path;
- 	struct nfsd4_fattr_args args = { };
- 	uint32_t *attrmask;
- 	__be32 status;
-+	bool parent;
- 	int ret;
- 
- 	/* Reserve space for attrmask */
-@@ -4168,6 +4168,9 @@ nfsd4_setup_notify_entry4(struct notify_entry4 *ne, struct xdr_stream *xdr,
- 	ne->ne_file.len = namelen;
- 	ne->ne_attrs.attrmask.element = attrmask;
- 
-+	parent = (dentry == path.dentry);
-+	path.dentry = dentry;
-+
- 	/* FIXME: d_find_alias for inode ? */
- 	if (!path.dentry || !d_inode(path.dentry))
- 		goto noattrs;
-@@ -4183,15 +4186,20 @@ nfsd4_setup_notify_entry4(struct notify_entry4 *ne, struct xdr_stream *xdr,
- 
- 	args.change_attr = nfsd4_change_attribute(&args.stat);
- 
--	attrmask[0] = dp->dl_child_attrs[0];
--	attrmask[1] = dp->dl_child_attrs[1];
--	attrmask[2] = 0;
-+	if (parent) {
-+		attrmask[0] = dp->dl_dir_attrs[0];
-+		attrmask[1] = dp->dl_dir_attrs[1];
-+	} else {
-+		attrmask[0] = dp->dl_child_attrs[0];
-+		attrmask[1] = dp->dl_child_attrs[1];
- 
--	if (!setup_notify_fhandle(dentry, fi, nf, &args))
--		attrmask[0] &= ~FATTR4_WORD0_FILEHANDLE;
-+		if (!setup_notify_fhandle(dentry, fi, nf, &args))
-+			attrmask[0] &= ~FATTR4_WORD0_FILEHANDLE;
- 
--	if (!(args.stat.result_mask & STATX_BTIME))
--		attrmask[1] &= ~FATTR4_WORD1_TIME_CREATE;
-+		if (!(args.stat.result_mask & STATX_BTIME))
-+			attrmask[1] &= ~FATTR4_WORD1_TIME_CREATE;
-+	}
-+	attrmask[2] = 0;
- 
- 	ne->ne_attrs.attrmask.count = 2;
- 	ne->ne_attrs.attr_vals.data = (u8 *)xdr->p;
-@@ -4308,6 +4316,41 @@ u8 *nfsd4_encode_notify_event(struct xdr_stream *xdr, struct nfsd_notify_event *
- 	return NULL;
- }
- 
-+/**
-+ * nfsd4_encode_dir_attr_change
-+ * @xdr: stream to which to encode the fattr4
-+ * @dp: delegation where the event occurred
-+ * @nf: nfsd_file opened on the directory
-+ *
-+ * Encode a dir attr change event.
-+ */
-+u8 *nfsd4_encode_dir_attr_change(struct xdr_stream *xdr, struct nfs4_delegation *dp,
-+				 struct nfsd_file *nf)
-+{
-+	struct dentry *dentry = nf->nf_file->f_path.dentry;
-+	struct notify_attr4 na = { };
-+	struct name_snapshot n;
-+	bool ret;
-+	u8 *p = NULL;
-+
-+	if (!(dp->dl_notify_mask & BIT(NOTIFY4_CHANGE_DIR_ATTRS)))
-+		return NULL;
-+
-+	take_dentry_name_snapshot(&n, dentry);
-+	ret = nfsd4_setup_notify_entry4(&na.na_changed_entry, xdr,
-+					dentry, dp, nf, (char *)n.name.name,
-+					n.name.len);
-+
-+	/* Don't bother with the event if we're not encoding attrs */
-+	if (ret && na.na_changed_entry.ne_attrs.attr_vals.len) {
-+		p = (u8 *)xdr->p;
-+		if (!xdrgen_encode_notify_attr4(xdr, &na))
-+			p = NULL;
-+	}
-+	release_dentry_name_snapshot(&n);
-+	return p;
-+}
-+
- static void svcxdr_init_encode_from_buffer(struct xdr_stream *xdr,
- 				struct xdr_buf *buf, __be32 *p, int bytes)
- {
-diff --git a/fs/nfsd/xdr4.h b/fs/nfsd/xdr4.h
-index d276840aca50..cf7f0df68d63 100644
---- a/fs/nfsd/xdr4.h
-+++ b/fs/nfsd/xdr4.h
-@@ -958,6 +958,8 @@ __be32 nfsd4_encode_fattr_to_buf(__be32 **p, int words,
- u8 *nfsd4_encode_notify_event(struct xdr_stream *xdr, struct nfsd_notify_event *nne,
- 			      struct nfs4_delegation *dd, struct nfsd_file *nf,
- 			      u32 *notify_mask);
-+u8 *nfsd4_encode_dir_attr_change(struct xdr_stream *xdr, struct nfs4_delegation *dp,
-+				 struct nfsd_file *nf);
- extern __be32 nfsd4_setclientid(struct svc_rqst *rqstp,
- 		struct nfsd4_compound_state *, union nfsd4_op_u *u);
- extern __be32 nfsd4_setclientid_confirm(struct svc_rqst *rqstp,
+[auto build test ERROR on v7.0]
+[also build test ERROR on linus/master next-20260427]
+[cannot apply to mszeredi-fuse/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Matan-Cohen/fuse-expose-backing-files-in-the-daemon-s-fd-table/20260426-193147
+base:   v7.0
+patch link:    https://lore.kernel.org/r/20260424144553.6241-1-matan%40matanco.space
+patch subject: [PATCH] fuse: expose backing files in the daemon's fd table
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260428/202604281646.PF70aaEU-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260428/202604281646.PF70aaEU-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604281646.PF70aaEU-lkp@intel.com/
+
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+>> ERROR: modpost: "task_work_add" [fs/fuse/fuse.ko] undefined!
 
 -- 
-2.54.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
