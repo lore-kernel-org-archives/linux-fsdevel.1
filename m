@@ -1,315 +1,162 @@
-Received: from mail-dl1-f46.google.com (mail-dl1-f46.google.com [74.125.82.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013052.outbound.protection.outlook.com [40.93.201.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B88853B1B3
-	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Apr 2026 22:34:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5CBE3B1B3;
+	Tue, 28 Apr 2026 22:36:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.52
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777415689; cv=pass; b=D5BxyzGWRQl22vGkbG/9dcrHuGTtuJCZBV7zT4nx044c6ZmH8G2q+zOrj3DbK03/Cc2s9nS9eTvzC+Z7iDtbTTs4ryl6ph2qdxCCgWncZKS1MgS685qYT6lcGhq/g+sJgQBZzHgflfcZBsZSVGD/rMujBQ1pV7xQJooyhKTQuQ0=
+	t=1777415811; cv=fail; b=sbdNrigx0KLN4PMOql37XaB0FJh/VsIlr7igbJj9BuSOCOz3i0yDPyMvH8RvZp4NXufr7nn+2bE3s91/ndmjywXUg7YokTomfUy9sYqQQFY/jwZkG5VpzYbTbnB3k6FbvLbSzbvv+4VARC89nTbOi+8iFx4Kp/gaxOQZrCQyPpk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777415689; c=relaxed/simple;
-	bh=yKoOiPmhcRtpX0I6DLS42A+1exFXEhNhbZxwynXSpRs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jS077zcuMYHCNbyOWf7HYV7orsy4FMQD0Vec7ghEIHtVWUIM68d/qddRaJoQFq+gzRW08Wfo5zc7eNVGQAHjBKbgNDZ0BYBrT8s40Ap8Fiu+4npxAoOPwkaq5GB7gANQw82zzpujMV6xF1O+w/71g7/U0X+KL010aUrPuJ19WBY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NBN14k86; arc=pass smtp.client-ip=74.125.82.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777415811; c=relaxed/simple;
+	bh=SxIQA504hip6mnG7svtrMKsf00bKYXX601Y8eDYATZw=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=s5VVA/ciQBAxFKVbEURUr1oCduvl3OkQPiq6eERjQG+HlIB+B+8ID7i/2agiBIcDCmL9twzfChpu9uII+dTx+/0ABh7S9ZVB+Xep4wxMkYYEcAr37C0h023r1c82TlpTI7Vf2ncw67ppPooAF+pBsvzJNMYMvmans0AqKwxJVcE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=rIS2fmI4; arc=fail smtp.client-ip=40.93.201.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NBN14k86"
-Received: by mail-dl1-f46.google.com with SMTP id a92af1059eb24-12c7212836bso3686615c88.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 28 Apr 2026 15:34:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777415687; cv=none;
-        d=google.com; s=arc-20240605;
-        b=aLGAWGkMqY13PcInZvW2tiiI6bZIVFXcsAAkd+lSfvN3ab0CsBVJfaSS42t1/C9hHc
-         9djzycoNI6hv/WPyYQDuW7lvb+ImpymxnQFjlTOHYVC6a4lORW9DbTqpb3Y3DScIRLPK
-         rLtV2yWGSH5JrH3/ZXgqi7xd6mxVCWbDR25B09y18qI7zYZHi/9bejVqrw0vWr9Ma/Ve
-         5QEIuzypGsMnmfNwZmQl0p29LRBRV6oLk5sLI1QZYUGndlrRmegaUk+5C2Hj4TD1dIFH
-         ZGlvjfjcNGvnQjoGbngwopT/yUlFYzhglUOMqoQFelR/m0dq3sE2AKi+lRCyTU7zt823
-         K7+g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=eAmVh6YDfejT/E2URYUh9RId3WZuUlsUzlWuUv497GI=;
-        fh=786LQ/xpFZm4YfC17knqI9pFjEuPAbYEHXMWp3O3j7g=;
-        b=Fz6Wdy9HXbkuVzFyOJ+6Mg5hMd1wmaYbDeo4J5eJK6UV3lKSfxKDf/u+urSL1DZhdm
-         bAsEuRuKcTmha5z9WKGhA424IojNz4yUC++7sqEAh5QYvR2/e9d2fw72GDpG5jyaqdP+
-         Y0pUG8IWag/7RCWKj+OYcNxzK9bsXImC2t0s1Iz4jE5lcsbacy/BoE8SsvkISUSkGIU/
-         hzhtxvmyvBmgUYnGvAjQ5whdmiurgKGCt/9+xTywXOeD07ascsGkpup4lgFB02rF9FWq
-         PIHjnR9qP6MPoAr2dAhwSefgr8qK0GlR6gWV82QdYHv6YzW7W16u5K5C+0nZNTGgUOIi
-         BpBA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777415687; x=1778020487; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eAmVh6YDfejT/E2URYUh9RId3WZuUlsUzlWuUv497GI=;
-        b=NBN14k86u+BNzr96dt6+6B0+N0VrAfH/dC2hYY3+h5D7Ey+17cDlFYXOC8A+fbD1uK
-         krdi5fI0r+O9nz+rUgOWq9ywqv2xm76RhiPzPCGIrpjGcRrtKgTzhepGUjOsAovpWLae
-         fTXm79+xoTaiOkGi11djfHiXmoSqVnWvuq9KIagYelBWspvjEauZExtdsuJv/t5o8rae
-         t4/yWbKC1F/zhiGL2l1k5PzjW93gGZLMO6J3qaHyMLF1wJaw250rzjx/9VCiHp44RW6y
-         QXUdXbcPvCyXD6ZMAlyOaBnAco6fRx/6YsqEgNmALSGt02MD46gsK5QirDPSrfXrQZp8
-         2d7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777415687; x=1778020487;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=eAmVh6YDfejT/E2URYUh9RId3WZuUlsUzlWuUv497GI=;
-        b=I+1wtOZTw1L1+vKHHHrVrvKqOweIGq5Zb8UWh9/r3ADshYYl2J9qnXZCDxGcFpgffu
-         tmm5J7+mZH+V5mb8a3Fu3803km7T3Gr8xjpXI8k95orx9x2rNDNJy5RfIgD6eMt44SMJ
-         tlIgxSd3gcyhdWMTBnzQR0qqqRdAYmeh2P98cLZbimPKiVrdNFsugiTlFEXMx6t2ZoO0
-         qGKzLoCoE0fopvyUMpvxr/mLXtUll5Yv3ac2PHgJ5iSVCzoytu6PZnX1ujRPJ2Cp0kcZ
-         7jxHcBA64qiXgxNNIvjAKnYktiDNQIyI8+N+WgujpCx1uC/xOGVMzq1OFLrxqaf2HNkn
-         MDtQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/QqUMZSfMaFUZBIuszhHIv0oW6zCdjIi8GC+gyQq5SucAZzm6JyNlw0fKLiNP3bh810p/nvjoCknx1hqIS@vger.kernel.org
-X-Gm-Message-State: AOJu0YwhHHsGUZ6mU+/hrpzEW8S5F7j+n2oxSFGzIvsO2fKzn5QtGFqN
-	Sw1m28UxQeXVcvtDSNy2GNYOUf4d9b5rc4slB8u/R4JIoVbPssd6Y35V4uaH31itdyM2QjaxzB4
-	EurbQ8hs27mZR7oI8Y7zD3GRzLAv6YuQ=
-X-Gm-Gg: AeBDieur9I+RZp51XSreYhQ3ZtpqrL7F0LPEBKVx2MbY/PkVR2oX5uYWQ0hh9+g91pi
-	L8u0OGNt2QKq8ryF57xQKnZ7mjvTGGsoRyCjEbSVKqJlHmAvgvffjOpUSqIm1HuMEhjUJ0ExoCc
-	GTGOik9JCud5wJRH5K0b2djFXwEtSuVZ4ljhSbTYDVgBiVvs7eMl+WTs0UGXDOkWBxXQxIhIRDr
-	H12Pe+mdm7eh3gvZRMMCGnLFAebENZZoakEPSa++MsPs6NUQwa6AsSz2qrc0FXONjHc7DB3I1Dj
-	z/YJDkA3mip2M2hEqw==
-X-Received: by 2002:a05:7022:6706:b0:12d:ce34:3f92 with SMTP id
- a92af1059eb24-12ddd9ae28dmr2409836c88.31.1777415686775; Tue, 28 Apr 2026
- 15:34:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="rIS2fmI4"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Q3ddbfKvxqhnQBFBG8z4Bh8njLa4yEPQUQOxjwf555yiee8gwLL7zevAVhims784irNtBat1MZCp3WiPipLvM10GKwyBSoaH4pZLYU3BXEXeVhSvkX9O2mWl4Hrdoqv+llvIS3TlAUUhMlBPD3M51yrQ0kZFHMejyD5AExZWoQpo/tAtIcWduqbryZBiqszbUHSafjRKZiUa+X8vw6Q386/zAqpYNAkh5qb/atYea09cfKY2hjbpmwkqoyg5V+Umqzr0k64K6P3+lKeDQMp5JMpM6Ctu2kX1UG9XWtnawK0qZf0Ehjug0T+7YOHkU7WkzUx9nwJYFIOPbzyq3/isMQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SxIQA504hip6mnG7svtrMKsf00bKYXX601Y8eDYATZw=;
+ b=DdK79MdguMgUKFc/e7Pvoqq49rkPCaLXOlI18E+vTO9OjHE2wUDbsXkWsYJNWyVuehPnpwcZd4/3qQ4gMYjPrQ95V2UTWGDriE4X7KDiNzFFVLZNLYgpGyx2ZHfMow4+WPnEdjFYSJENbXGIj/Y1McIC94HUqPMs+qzvp0LsYE5F6hHjY+5DxAt79UDtzhcDLkWikey9mhoXpatvMYBYm0Atxfsnv7uQQXo8KOGLYASplyQzf/bRuMJhzp64a4qLHiiammeQ8x1jiFgrs9Tv5iD9OnaWLP3W52GHl1rulN7W2eqq5G2GVP+yGoeXlxRZsBB07F15kt2K05l2fH+bUQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SxIQA504hip6mnG7svtrMKsf00bKYXX601Y8eDYATZw=;
+ b=rIS2fmI4Fgdg6kjfqUl3auG/4FoFLi0brK7ZCIbtYvpRFCFsppySdWrJToYh+MzHVkXH2G0UirsEqkXSA3uQZA/DO40JCHZ2628SxI4l+bpEG61fSPZZ68B5o1u6btp1Pac6Io1MDkdkOJUzhPT04ZoGX6/s7zCVrMXf2vMGBYiUwCM70WO8rg7brPW4YhLjxIstxyp/93oaDz/R7Hs+GpN4Jcny0ch1WjDPFEar1QgrgEnrzVGzygUSc9TqKxENMY+54LC691YWeaaWt5IsSRN/dm7bOqxrKydSOJ0uVN9BJD+jh0ig61sKJwK78/6T1yP8uG7rUJgBGrb+hjhz8A==
+Received: from DS0PR12MB8442.namprd12.prod.outlook.com (2603:10b6:8:125::12)
+ by MN2PR12MB4061.namprd12.prod.outlook.com (2603:10b6:208:19a::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.18; Tue, 28 Apr
+ 2026 22:36:46 +0000
+Received: from DS0PR12MB8442.namprd12.prod.outlook.com
+ ([fe80::c4df:b439:571:4591]) by DS0PR12MB8442.namprd12.prod.outlook.com
+ ([fe80::c4df:b439:571:4591%6]) with mapi id 15.20.9870.013; Tue, 28 Apr 2026
+ 22:36:46 +0000
+From: Matt Ochs <mochs@nvidia.com>
+To: Miklos Szeredi <miklos@szeredi.hu>
+CC: Bernd Schubert <bschubert@ddn.com>, "linux-fsdevel@vger.kernel.org"
+	<linux-fsdevel@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "stable@vger.kernel.org"
+	<stable@vger.kernel.org>
+Subject: Re: [PATCH] fuse: do not treat unlimited readdir count as a buffer
+ size
+Thread-Topic: [PATCH] fuse: do not treat unlimited readdir count as a buffer
+ size
+Thread-Index: AQHc1rSMighJT3Mvr065eteq/+op6LX0c4EAgACeBYA=
+Date: Tue, 28 Apr 2026 22:36:46 +0000
+Message-ID: <B851F08C-3A33-4366-A114-0CC657097B21@nvidia.com>
+References: <20260428021304.2338592-1-mochs@nvidia.com>
+ <CAJfpeguzUDE1gegKA3WXCORZZRQrWCRsKe_sdLKtGHqRd_vyyQ@mail.gmail.com>
+In-Reply-To:
+ <CAJfpeguzUDE1gegKA3WXCORZZRQrWCRsKe_sdLKtGHqRd_vyyQ@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DS0PR12MB8442:EE_|MN2PR12MB4061:EE_
+x-ms-office365-filtering-correlation-id: f7e3aa09-4565-413c-47b2-08dea576a148
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|366016|376014|38070700021|56012099003|18002099003|22082099003;
+x-microsoft-antispam-message-info:
+ HYbCmRNjY7TFlqsbDHBHw7jPfqoEs5/t1lhuXmRQCdQoAts47ae6aME6bbIh5NFJGq5B/jR74649e/z/xLTCkv0P7lDzhJQkeMoSVU+xNsZTywNUcMwwSYvXaPlLHDB9eLpPtMfCP+/jVHiaBPfAyf4dRUAjz3C0j316LAwK5Jl5gcysJjenx5SenxgpbbVYlj03QznEkiNtRQJsqSpFdfQubzF6gSptUvLReeSID7KW/iL063tonm9Y1ci+b0iKyKeOkkrBvwX+Wk4K7ygJutk3VbYitgza1cCRxB5YsI2zuP+tij+XDEaEg+qvvLH5+/sMwXjmG1sdZIAjrXfTj0FoE5+5283kcUAiPlkp2eTTEajf0aN5Lc9on+utr+aokrHyBCstcfyS0kA3Aj80er76VlW5dUodLFlIMGQrVYkoCERMTxU2IbkPxDQzKoMH+H8zOPKYYCdDN9d5PPvbiIGnQa0c7Rf+5eYtUrjbeOFfXeciLQD4zAlWzJnbeFUAz7ufF1jHO6arArFtxkLn78OWd4U05yZtTNlpYuJMnzOkUcq0zpepUhwJjhWi2MwzDDun2h4+7NissgrKBZOjTUv0//fnNKksWyZL6MSadjI46KBivcDFcPzFy9qb8GKA9JdLPfm+fNrlrteTy+qkZzTWdu/OWxhb47zstCmKsp/8wi9FlkjhfhwgHBkJcgG6A6WDWbRVR4CeTTiCZUgwnIcvfGzJWHP1jXnypPOEsS2TiOC4fDOY2qU/aKafbtfzyyYlEik9J4EYGNE38QGJMEB9bWR/y77bvKOm/0k6Yxc=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB8442.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700021)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?Tlp1MXlBYU1VUXlzNVFKZ1FlZmNaelJDY0NucE5QTDRMS1VCUFJMVEYyYlBS?=
+ =?utf-8?B?cWFrZ2tMZHV6cVY1bkNuOTNQRlJTcHpmYUs5aXJRTHFZcGFod0g4dlNQSnBO?=
+ =?utf-8?B?bHZnbmVKdmU2TlVHWmVLVXZsSEpJcmVNTElyaS94RkMrTC9vYk9IM2FYUGEy?=
+ =?utf-8?B?aXBvODI4a3ZBcnhGcmt6RTZMam9TbmpnQnpoUDhYVGJxWUFzblJWb2MxL011?=
+ =?utf-8?B?VlYxUVZRbnRWam5OTHZFc3gyNm80WnVSSldiWUpYVVh5QXMxSUhnbm9yRWFL?=
+ =?utf-8?B?VTFEWEU0YlNhdzZSak5xRmVzZTdDVVBtVTBQR2lrL3BDRE5Bd0pmYUFDazVV?=
+ =?utf-8?B?Nk91UW9qNDAvN0NHdVpGY0NIYTFQL29yRWRwQnNobWRjbXpsOGo4VGFuSnhC?=
+ =?utf-8?B?aEtpNzdoY0xncFo5V253dTEwRVFrQWt0NzFzKzNJdGxKQjhhQlZ1dnBnSEV2?=
+ =?utf-8?B?eDVJVHRRZzVUVXNTTkc2TXhGODRsdHlmcHh5Q0hKa2VZSkV1WTgrc0VIOEl3?=
+ =?utf-8?B?RmZYS3NGUDJsOUx6eFZObUQrL2JqZUtrTTJQV1k1bld5Yis1aEJDMTlYZWpx?=
+ =?utf-8?B?UWsvS0JyUVNDSXoxbWJWSXZtY3hpcnJmeld6UGJyajJBUXNqQUw5c2xwOFUw?=
+ =?utf-8?B?QVQvdnhqa2dTOVBqaWZMRXY3MlArYTBkZUZ6OS9DR2NYU0J6YUk2dTJBZDg4?=
+ =?utf-8?B?bUN4N0NOL2xKZDUrdStYTXBXZ3Z2Nm5FOWs4aUZQc2ttYmw1SnpLUUVKc09q?=
+ =?utf-8?B?ZU4vWlhpU2c4V081WUQ4UjE0bDQ2WUc4elQ3cnY5d2pqdDNkMTc2UVRIZmxC?=
+ =?utf-8?B?eUhpbnFycW03VmhtaHhCdVF5VXdmVmJXV0hUaGxVc0Z0MkhQdWxCWGJxM1N6?=
+ =?utf-8?B?K0xyM0lQeUlETnUrMU5JRDhOQ0RjOGxyc2xpbVlRNmMvcU81YXJQcmlON3JT?=
+ =?utf-8?B?K2hNSytubk5tUVFzOUVMQVllcDhHcWg0Ni9UYkhBLzcyMEZyWGFXYXpaV2VC?=
+ =?utf-8?B?L1RkUGNhVnhXdUE1dEFkWEV6NVJHUjhDdkRkV2VUenp5VVd4T1FhYWFxK1N2?=
+ =?utf-8?B?SXJHUTNJb1Z0MUtQUkx4QWNBWmU5KzlTMmUwbVBrak1GRGR0cks1WTJQSnE3?=
+ =?utf-8?B?QVNvM2xGUXhuZmkyNXQ2UTNwbnNvYkZhaGFlM0hVek9Vc1R6c3BZTnZ4NVMz?=
+ =?utf-8?B?YytmTkswN0lQTTJZcDc2NEpGMkhSOWl3RVk1NURZNFhsaGk0QVp4WENqUEox?=
+ =?utf-8?B?WW5ocy9hVFdXUUJwQ0d0VFBXY3JJamVpTkkxemgvYjNPMkI0blRCUFU0VStU?=
+ =?utf-8?B?Uk4rOE4xMG9iU3B0WXFTNzZzbFpSem9GaWJld0ZvWnNld1dsWnZTZTBjbmQv?=
+ =?utf-8?B?SmZsSndVRU40L254VkdlWTNIVWJ0Mld0SEZCc3JhTDFkajlQc1dkNjJIVGpO?=
+ =?utf-8?B?SDljU1BlQjhPY3drV3NNcW1iOU80V0w4Q3hHNUNyTVU5bC9xQ0FBb2lGSldj?=
+ =?utf-8?B?R3FQemlOZXlETUhzbnl3Ly9kVUcvOWV1N0hRRllHM2NZdUhFSjBGaUpVajFN?=
+ =?utf-8?B?T0c1cjhYQWxuczd2SjZVOGZUNGJWRWVFdi8yMGVHOXl4L1p6WSsvRHpQVWFK?=
+ =?utf-8?B?bHJseG1YWUJTUGhGdjlQdkQxN0tCWURiT0NJeEhsK2JTa0RqaTFKVVF0eEs4?=
+ =?utf-8?B?OHN1TmFDUjlzSnc3NkFPYzZVaTBHckRXYzU3MklIT1F2bU94TkJaMzNrNjl3?=
+ =?utf-8?B?b0c5eERjMTcrM3VhYXRLRk43M01tUmZ3SFprNE80QWh3cDJJUGM3bXZhbUo5?=
+ =?utf-8?B?VzlCYTlwSXVhenFqMm9xL3FaWVdFRTltRjJJWHdoam0zODh1anpKOUpFV2ha?=
+ =?utf-8?B?OUIvOFlHWFY3VTl5ajNqQ3ZtU1RxUFB0Nk1abjBUY2hlWHJlY0xna1Y0UVdI?=
+ =?utf-8?B?K2VVNjlxejJ3UTlrL2RGcG1TWEZwZDI3cE84alVQY1QxbVZVUDE0TDhQeFBL?=
+ =?utf-8?B?Njh0U1lLdGRqeEU5cWpyRmVJbHA1WE5DSll4VEtQejhZd0JyRlU2QlMwcHMx?=
+ =?utf-8?B?QkkydnE3dXhHbG9zS1AzUmVlR2kySEd1UHhnTStDb2xaNVF5RGd0V0UzMXRW?=
+ =?utf-8?B?S0xoUWphcmdGRGhhL3B5RDZudnNidmhOdDRCWlphR0NMcVpJS01UYVB4eS9Z?=
+ =?utf-8?B?N3AyL29nYTRzYW9EZ2tuRDZWVjk2UEJ2MTQrWkc4VEtoWk9YMjFKd2lFdGlx?=
+ =?utf-8?B?U1k2N3dVMFFwYUEvcDRGRHBmY29kRE5HM25QbnFlcy84bDFPQld0YlduRmZG?=
+ =?utf-8?B?OEZGRUNRYytZTUR1OHZLSkpYVHhrTUlMOWtsOE5Gc3VhNmZzbUdQQT09?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <8C51771064D82248A68F91348287066F@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260226223042.2027550-1-slava@dubeyko.com> <CAO8a2ShPx3j4UUwAY404VdzG7wE8O-nGRiv5twwyLek07_RVhA@mail.gmail.com>
- <CAO8a2Sh+=ef4mjp8tOR4HeqY9r4CaPJ7rCq1-WEmO25on7uSRA@mail.gmail.com>
-In-Reply-To: <CAO8a2Sh+=ef4mjp8tOR4HeqY9r4CaPJ7rCq1-WEmO25on7uSRA@mail.gmail.com>
-From: Ilya Dryomov <idryomov@gmail.com>
-Date: Wed, 29 Apr 2026 00:34:34 +0200
-X-Gm-Features: AVHnY4LpsUYfIo17tkzDzwjEMMBNEEXetao_2GCk-Cw8QjStyfVLY7UzMpRZiLo
-Message-ID: <CAOi1vP9myLQWxNaqVGU__oPFO7gV=A-Jj15WShaWJ-iFd=36ww@mail.gmail.com>
-Subject: Re: [RFC PATCH] ceph: fix kernel memory exposure issue in ceph_netfs_issue_op_inline()
-To: Alex Markuze <amarkuze@redhat.com>
-Cc: Viacheslav Dubeyko <slava@dubeyko.com>, ceph-devel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, pdonnell@redhat.com, Slava.Dubeyko@ibm.com, 
-	vdubeyko@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB8442.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f7e3aa09-4565-413c-47b2-08dea576a148
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Apr 2026 22:36:46.3496
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: EgWPvdWjocHPw6lVrxPisYI/5ZVFRVZj1ltDJ0iYjCr5/1ce+LOAcQamr0Ly1+ubxyEp8VRnzv/C9vhgdgV5Ow==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4061
 
-On Mon, Apr 27, 2026 at 2:27=E2=80=AFPM Alex Markuze <amarkuze@redhat.com> =
-wrote:
->
-> Apologies, I acked the wrong patch here.
->
-> The Bug is real and needs fixing, but there is a problem:
->
->
->   1. subreq->start is silently dropped
->
->   The original code:
->   len =3D min_t(size_t, iinfo->inline_len - subreq->start, subreq->len);
->   err =3D copy_to_iter(iinfo->inline_data + subreq->start, len, &subreq->=
-io_iter);
->
->   The new code:
->   len =3D min_t(size_t, iinfo->inline_len, subreq->len);
->   err =3D copy_to_iter(iinfo->inline_data, len, &subreq->io_iter);
->
->   The subreq->start offset is completely removed. If subreq->start > 0
-> with valid inline data, the wrong bytes are copied (always from offset
-> 0 instead of the requested offset).
->    While CephFS inline data is typically small and subreq->start is
-> likely 0 in practice, the fix is still semantically incorrect for the
-> general case.
->
->   2. -EFAULT is the wrong error code. When inline_len =3D=3D 0, the data
-> was uninlined; there's no inline payload.
->       Returning -EFAULT signals a user-address fault, which is
-> misleading and will propagate as an I/O error instead of falling back
-> to the OSD path.
->
->   3. Coding style violation. The } else without braces:
->       } else
->           err =3D -EFAULT;
->
->   I suggest the following:
->
->   A cleaner approach would preserve the offset logic and handle the
-> edge cases properly:
->
->   if (iinfo->inline_len =3D=3D 0 || subreq->start >=3D iinfo->inline_len)=
- {
->       /* Nothing to copy; CLEAR_TAIL flag will zero-fill */
->       len =3D 0;
->   } else {
->       len =3D min_t(size_t, iinfo->inline_len - subreq->start, subreq->le=
-n);
->       err =3D copy_to_iter(iinfo->inline_data + subreq->start,
->                          len, &subreq->io_iter);
->       if (err =3D=3D 0)
->           err =3D -EFAULT;
->       else {
->           subreq->transferred +=3D err;
->           err =3D 0;
->       }
->   }
->
->   Or alternatively, treat inline_len =3D=3D 0 the same way as
-> inline_version =3D=3D CEPH_INLINE_NONE and return false to let the caller
-> fall back to a normal OSD read.
-
-Hi Slava, Alex,
-
-I'd suggest digging into why ceph_netfs_issue_op_inline() got invoked
-in the first place instead, in a vein similar to my comments on
-"[PATCH] ceph: fix generic/639 xfstests failure".  The call appears to
-be conditioned on ceph_has_inline_data() so it won't be exactly the
-same root cause but there is _got_ to be something else going on here.
-I don't see how a file created by generic/013 (i.e. fsstress) on top of
-the kernel client can legitimately have ceph_has_inline_data() return
-false.
-
-Thanks,
-
-                Ilya
-
->
->  Alex
->
-> On Mon, Apr 27, 2026 at 3:16=E2=80=AFPM Alex Markuze <amarkuze@redhat.com=
-> wrote:
-> >
-> > Reviewed-by: Alex Markuze <amarkuze@redhat.com>
-> >
-> > On Fri, Feb 27, 2026 at 12:30=E2=80=AFAM Viacheslav Dubeyko <slava@dube=
-yko.com> wrote:
-> > >
-> > > From: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
-> > >
-> > > Repeatable running of generic/013 test has revealed
-> > > the kernel memory exposure attempt for 6.19.0-rc8+ in
-> > > ceph_netfs_issue_op_inline():
-> > >
-> > > while true; do
-> > >   sudo ./check generic/013
-> > > done
-> > >
-> > > [17660.888303] ceph: ceph_netfs_issue_op_inline():317 iinfo->inline_d=
-ata ffff8881000b0112,
-> > > iinfo->inline_len 0, subreq->start 328187904, subreq->len 4096, len 0
-> > > [17660.891728] usercopy: Kernel memory exposure attempt detected from=
- SLUB object 'kmemleak_object' (offset 274, size 4096)!
-> > > [17660.893370] ------------[ cut here ]------------
-> > > [17660.893377] kernel BUG at mm/usercopy.c:102!
-> > > [17660.894426] Oops: invalid opcode: 0000 [#1] SMP KASAN NOPTI
-> > > [17660.895749] CPU: 1 UID: 0 PID: 150873 Comm: fsstress Not tainted 6=
-.19.0-rc8+ #13 PREEMPT(voluntary)
-> > > [17660.896823] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996),=
- BIOS 1.17.0-9.fc43 06/10/2025
-> > > [17660.897891] RIP: 0010:usercopy_abort+0x7a/0x7c
-> > > [17660.898575] Code: 48 c7 c6 80 bb 3e 8c eb 0e 48 c7 c7 c0 bb 3e 8c =
-48 c7 c6 00 bc 3e 8c 52
-> > > 48 89 fa 48 c7 c7 40 bc 3e 8c 50 41 52 e8 e6 00 fb ff <0f> 0b e8 ef 0=
-e fb 00 4d 89 e0 31 c9 44 89 f2 48 c7 c6 c0 bd 3e 8c
-> > > [17660.901225] RSP: 0018:ffff888179fbf340 EFLAGS: 00010246
-> > > [17660.901762] RAX: 000000000000006d RBX: ffff8881139ac112 RCX: 00000=
-00000000000
-> > > [17660.902295] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 00000=
-00000000000
-> > > [17660.902813] RBP: ffff888179fbf358 R08: 0000000000000000 R09: 00000=
-00000000000
-> > > [17660.903317] R10: 0000000000000000 R11: 0000000000000000 R12: 00000=
-00000001000
-> > > [17660.903820] R13: ffff8881139ad112 R14: 0000000000000001 R15: ffff8=
-88119da8bb0
-> > > [17660.904283] FS:  0000747714d62740(0000) GS:ffff888266112000(0000) =
-knlGS:0000000000000000
-> > > [17660.904719] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > > [17660.905122] CR2: 00007477143ffff0 CR3: 00000001014f9005 CR4: 00000=
-00000772ef0
-> > > [17660.905555] PKRU: 55555554
-> > > [17660.905743] Call Trace:
-> > > [17660.905902]  <TASK>
-> > > [17660.906042]  __check_heap_object+0xf1/0x130
-> > > [17660.906372]  ? __virt_addr_valid+0x26b/0x510
-> > > [17660.906667]  __check_object_size+0x401/0x700
-> > > [17660.906959]  ceph_netfs_issue_read.cold+0x295/0x2f1
-> > > [17660.907322]  ? __pfx_ceph_netfs_issue_read+0x10/0x10
-> > > [17660.907657]  ? __kasan_check_write+0x14/0x30
-> > > [17660.907940]  ? kvm_sched_clock_read+0x11/0x20
-> > > [17660.908268]  ? sched_clock_noinstr+0x9/0x10
-> > > [17660.908531]  ? local_clock_noinstr+0xf/0x120
-> > > [17660.908817]  netfs_read_to_pagecache+0x45a/0x10f0
-> > > [17660.909168]  ? netfs_read_to_pagecache+0x45a/0x10f0
-> > > [17660.909482]  netfs_write_begin+0x589/0xfc0
-> > > [17660.909761]  ? __kasan_check_read+0x11/0x20
-> > > [17660.910019]  ? __pfx_netfs_write_begin+0x10/0x10
-> > > [17660.910340]  ? mark_held_locks+0x46/0x90
-> > > [17660.910629]  ? inode_set_ctime_current+0x3d0/0x520
-> > > [17660.910965]  ceph_write_begin+0x8c/0x1c0
-> > > [17660.911237]  generic_perform_write+0x391/0x8f0
-> > >
-> > > The reason of the issue is located in this code:
-> > >
-> > > err =3D copy_to_iter(iinfo->inline_data + subreq->start,
-> > >                    len, &subreq->io_iter);
-> > >
-> > > We have valid pointer iinfo->inline_data ffff8881000b0112.
-> > > The iinfo->inline_len has 0 size in bytes. However, subreq->start
-> > > has really big value 328187904. Finally, the sum of iinfo->inline_dat=
-a
-> > > and subreq->start results in the pointer that is out of available
-> > > memory area.
-> > >
-> > > This patch checks the iinfo->inline_len value. If it has zero value,
-> > > then -EFAULT code error will be return. Otherwise, the copy_to_iter()
-> > > logic will be executed.
-> > >
-> > > Signed-off-by: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
-> > > cc: Alex Markuze <amarkuze@redhat.com>
-> > > cc: Ilya Dryomov <idryomov@gmail.com>
-> > > cc: Patrick Donnelly <pdonnell@redhat.com>
-> > > cc: Ceph Development <ceph-devel@vger.kernel.org>
-> > > ---
-> > >  fs/ceph/addr.c | 18 +++++++++++-------
-> > >  1 file changed, 11 insertions(+), 7 deletions(-)
-> > >
-> > > diff --git a/fs/ceph/addr.c b/fs/ceph/addr.c
-> > > index e87b3bb94ee8..426121e38f3f 100644
-> > > --- a/fs/ceph/addr.c
-> > > +++ b/fs/ceph/addr.c
-> > > @@ -314,14 +314,18 @@ static bool ceph_netfs_issue_op_inline(struct n=
-etfs_io_subrequest *subreq)
-> > >                 return false;
-> > >         }
-> > >
-> > > -       len =3D min_t(size_t, iinfo->inline_len - subreq->start, subr=
-eq->len);
-> > > -       err =3D copy_to_iter(iinfo->inline_data + subreq->start, len,=
- &subreq->io_iter);
-> > > -       if (err =3D=3D 0) {
-> > > +       if (iinfo->inline_len > 0) {
-> > > +               len =3D min_t(size_t, iinfo->inline_len, subreq->len)=
-;
-> > > +
-> > > +               err =3D copy_to_iter(iinfo->inline_data, len, &subreq=
-->io_iter);
-> > > +               if (err =3D=3D 0) {
-> > > +                       err =3D -EFAULT;
-> > > +               } else {
-> > > +                       subreq->transferred +=3D err;
-> > > +                       err =3D 0;
-> > > +               }
-> > > +       } else
-> > >                 err =3D -EFAULT;
-> > > -       } else {
-> > > -               subreq->transferred +=3D err;
-> > > -               err =3D 0;
-> > > -       }
-> > >
-> > >         ceph_mdsc_put_request(req);
-> > >  out:
-> > > --
-> > > 2.53.0
-> > >
->
+PiBPbiBBcHIgMjgsIDIwMjYsIGF0IDA4OjExLCBNaWtsb3MgU3plcmVkaSA8bWlrbG9zQHN6ZXJl
+ZGkuaHU+IHdyb3RlOg0KPiANCj4gT24gVHVlLCAyOCBBcHIgMjAyNiBhdCAwNDoxMywgTWF0dGhl
+dyBSLiBPY2hzIDxtb2Noc0BudmlkaWEuY29tPiB3cm90ZToNCj4gDQo+PiBGb3IgdmlydGlvZnMs
+IHRoZSBvdXRwdXQga3ZlYyBpcyBpbmNsdWRlZCBpbiB0aGUgcmVxdWVzdCBib3VuY2UgYnVmZmVy
+DQo+PiBhbGxvY2F0ZWQgYnkgY29weV9hcmdzX3RvX2FyZ2J1ZigpOg0KPj4gDQo+PiAgcmVxLT5h
+cmdidWYgPSBrbWFsbG9jKGxlbiwgR0ZQX0FUT01JQyk7DQo+IA0KPiBVZ2guICAgVGhlIHJlYWwg
+YnVnIGhlcmUgaXMgaW5hcHByb3ByaWF0ZSB1c2Ugb2YgdGhlIGJvdW5jZSBidWZmZXIuDQo+IGZ1
+c2VfcmVhZGRpcl91bmNhY2hlZCgpIHNob3VsZCBpbnN0ZWFkIHN1cHBseSBhbiBhcnJheSBvZiBw
+YWdlcy4NCj4gDQo+IEl0J3MgYSBsaXR0bGUgbW9yZSBjb21wbGljYXRlZCwgYnV0IHdvdWxkIGZp
+eCB0aGlzIHByb3Blcmx5OiBvdmVybGF5ZnMNCj4gZG9lcyB3YW50IHRvIGdldCBhcyBtdWNoIG9m
+IHRoZSBkaXJlY3RvcnkgYXMgcG9zc2libGUgaW4gb25lIGdvIHRvIGJlDQo+IG1vc3QgZWZmaWNp
+ZW50Lg0KPiANCj4gSSdkIGdvIHdpdGggdm1hbGxvYyAtPiBhbGxvY19wYWdlc19idWxrLCB0aGVu
+IHZtX21hcF9yYW0oKSBiZWZvcmUNCj4gcGFyc2luZyB0aGUgcmVzdWx0Lg0KPiANCg0KVGhhbmtz
+LCB0aGF0IG1ha2VzIHNlbnNlLiBJIHJld29ya2VkIHRoZSBmaXggYWxvbmcgdGhvc2UgbGluZXM6
+IHVuY2FjaGVkDQpyZWFkZGlyIG5vdyBzdXBwbGllcyBvdXRwdXQgcGFnZXMgdmlhIG91dF9wYWdl
+cyBhbmQgdXNlcyB2bV9tYXBfcmFtKCkgb25seQ0KZm9yIHRoZSBleGlzdGluZyBwYXJzZXIuDQoN
+ClRlc3RpbmcgYWxzbyBzaG93ZWQgdGhhdCB0aGUgcmVxdWVzdCBzaXplIG5lZWRzIHRvIGJlIGNh
+cHBlZCBieQ0KZmMtPm1heF93cml0ZSBhcyB3ZWxsIGFzIGZjLT5tYXhfcGFnZXMuIGZjLT5tYXhf
+cGFnZXMgaXMgYSBwYWdlLWNvdW50DQpsaW1pdCwgYW5kIHdpdGggYSA0SyBob3N0IC8gNjRLIGd1
+ZXN0IHZpcnRpb2ZzZCBhZHZlcnRpc2VkIDEyNCBwYWdlcywNCndoaWNoIHRoZSBndWVzdCB0dXJu
+ZWQgaW50byBhbiB+OCBNaUIgUkVBRERJUi4gdmlydGlvZnNkJ3MgYnl0ZS1zaXplZA0KcGF5bG9h
+ZCBsaW1pdCB3YXMgMSBNaUIsIHNvIHRoZSBwYWdlLWJhY2tlZCB2ZXJzaW9uIHN0aWxsIGZhaWxl
+ZCB1bnRpbCB0aGUNCmZjLT5tYXhfd3JpdGUgY2FwIHdhcyBhZGRlZC4NCg0KSeKAmWxsIHNlbmQg
+b3V0IGEgdjIgc2hvcnRseS4NCg0KDQotbWF0dA0KDQo=
