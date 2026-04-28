@@ -1,321 +1,240 @@
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013018.outbound.protection.outlook.com [40.107.162.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A1151ADC7E;
-	Tue, 28 Apr 2026 16:27:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA3C832FA1B
+	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Apr 2026 16:33:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.67
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777393630; cv=fail; b=STbb0WdeLWi7kLZwCF400lRVSfdg45s8YbIg6DQaMu48s9fxHiTTfHf+y2mjBVoOXrjkDQeJw+Xe/ln1eZzn4Vt7ei/whVz4VY+JCF8K22zlxXK73zdTtrWO77rfSzqQR6a2vfz72O6ZUjcDC9/0VPGAT6hPbeqlFIuYOrocfKY=
+	t=1777394040; cv=pass; b=VnPPnjQ9v4IrKUwapkQ1OFv+Su2lgRGz/vmonQBBE49eleNromdGT/TQh4otLGf8ZGpyO4+IHgP8fF/Vhkp7b/qFwk0SKsy43UKdgkSNYQY7+wd8A5BCCOfG/US1c9z0dWPvJ8l+8gU8lzY11/La3QFAuui1q73d/cJIYHPYs0U=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777393630; c=relaxed/simple;
-	bh=czkuRTCbXbBTjUssA7PNwnP3nQDZCmLwMQETFvf6abQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=WEEbAAFl8cQ2O9wpNHkpw1nun6oFceG6LHXmRlaLSlcbAGkteiFZl91PMTuk0l0/BM5juOmYsTfeab5uCCv8y6OjrqdXj2OW2ilQ1neLx8BOfmc02gN0Duk6fvpsSqaM99qoSCbvtXinJznMA0xl22BroYV6pLo3q4yQ5HrO5T0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=est.tech; spf=pass smtp.mailfrom=est.tech; dkim=pass (2048-bit key) header.d=est.tech header.i=@est.tech header.b=HC5SaI20; arc=fail smtp.client-ip=40.107.162.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=est.tech
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=est.tech
+	s=arc-20240116; t=1777394040; c=relaxed/simple;
+	bh=52MdagQnrh3ZadMCj+Aj5TQ5SCuB+VKPYF2izc01Hgg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uI/8U8BjkmYfWY4ajukMS2tHgoHzeqLZMOBxktpgyD3KWntMH5HFz8zetYyjkw1bCmYQEXQJIEV0+7nSsE4nxxMPSH+0EDQ8cHyaVuHHkZVnR6PYKxQZzq700Nh53ekD9ADE8Y4dAneyYzZnkw+WzPUcKLc+LOhyySQQh3Vxzog=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gOq5rH3q; arc=pass smtp.client-ip=209.85.128.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=est.tech header.i=@est.tech header.b="HC5SaI20"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UxYMXwWTW4zb1QsFuyoQrTHJnsUhHxVP7BD4tjOnv4tB64w9Kg2A5EdQhQ2D91tbAYfR1GdsTTUGIUg8eoeEx5/SzNygCwJEAA3hyiYIcTQtz93YuBHYj5BBjD4LrI69o9vNnSqkM0TWzLYVsUSFGMOauvRxzc/fS4IzhIEx7gW7c+kfVV2PMQuHc6H/Dtl1fknoERVGjhB5YN0U+ms39XAUGejZtWlcr+QbR1ZhptX5TtKGc3h8Uw1W33bQs/X92mfaJIpWv7crTRVk71EhVxsLx3WwHsghob8UviMKnwJgGRVYDwufdNpivS/o2Fh/OmE/OWZvhvHIoNxTx5H2Gg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+Ww3rMVFVCESbkNYlfhduIl3KcVpeXojhIB9Dy7bdGg=;
- b=eN0mvJGkfT+d4yp3ze5S10aVDX1QhKF83hT7YsWcNmte3XuImRH0XEkCJ1Gb4cPxHG8k2AiREVXBWC3KeXR1Cbwhs8NI9wOdVXgVT4+/Xkh/nJKoerUvsMnvBshJxmJL/c7d4LPKYm8hzmLHIKEnKjJwc/6Y6TqbvOddzq27hi+9zoh+T6mfMctSvKgK44rXQE8MHrdoWRrBmKH13CosxiIfCaEHSSeusQsBiVdrZoc50j0ZwPbeEBXsoFDcJrzi26lKSESoF8kVDJt8tGmfqk/mY4EQSILZqButGkN+ar2SsK7+3qodOJaQnf9cigBQ3l6xs4OSUo/G4RrLzfDtCg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+Ww3rMVFVCESbkNYlfhduIl3KcVpeXojhIB9Dy7bdGg=;
- b=HC5SaI201ITeqNkG6K00qF3Q2S52XtVIN4kKsLWLu1mnMGNf/O+Xhi8AHsNBuJyCEgf6yj6PPCq5uuAgZ+7b2YX75S6BuTbesQDcWx4rALEybQeBjFIDu+GpW6JVtTe+HHCCRI5L1XjJarihsRcbW69BwTmZuPPG0mqKmgxqVpg43eEGWkOdGzzdEacvcVQlToRi3WQlMdAfpK2LO9Du7DWicmvwVjMoGnN9FqDrB2odBy9gS8M1dPrbXDFApXMATesWjKHfrbmXE1bYiaDD6/F9wnMfomuMWCwRxQGXgHMzuF43LIIe2SaQcQlA6xcCJ1S7zBwnymjMSSZF94TuhA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from AS8P189MB1752.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:39b::19)
- by DU7PPF6FE197BF0.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.26; Tue, 28 Apr
- 2026 16:27:03 +0000
-Received: from AS8P189MB1752.EURP189.PROD.OUTLOOK.COM
- ([fe80::69fc:c4d4:200b:e4b4]) by AS8P189MB1752.EURP189.PROD.OUTLOOK.COM
- ([fe80::69fc:c4d4:200b:e4b4%7]) with mapi id 15.20.9846.025; Tue, 28 Apr 2026
- 16:27:03 +0000
-From: Yunseong Kim <yunseong.kim@est.tech>
-To: bagasdotme@gmail.com
-Cc: 2407018371@qq.com,
-	Dai.Ngo@oracle.com,
-	Liam.Howlett@oracle.com,
-	a.hindborg@kernel.org,
-	ada.coupriediaz@arm.com,
-	adilger.kernel@dilger.ca,
-	akpm@linux-foundation.org,
-	alex.gaynor@gmail.com,
-	alexander.shishkin@linux.intel.com,
-	aliceryhl@google.com,
-	amir73il@gmail.com,
-	andi.shyti@kernel.org,
-	andrii@kernel.org,
-	anna@kernel.org,
-	arnd@arndb.de,
-	ast@kernel.org,
-	baolin.wang@linux.alibaba.com,
-	bigeasy@linutronix.de,
-	bjorn3_gh@protonmail.com,
-	boqun.feng@gmail.com,
-	bp@alien8.de,
-	brauner@kernel.org,
-	broonie@kernel.org,
-	bsegall@google.com,
-	byungchul@sk.com,
-	catalin.marinas@arm.com,
-	chenhuacai@kernel.org,
-	chris.p.wilson@intel.com,
-	christian.koenig@amd.com,
-	chuck.lever@oracle.com,
-	cl@linux.com,
-	clrkwllms@kernel.org,
-	corbet@lwn.net,
-	da.gomez@kernel.org,
-	dakr@kernel.org,
-	damien.lemoal@opensource.wdc.com,
-	dan.j.williams@intel.com,
-	daniel.vetter@ffwll.ch,
-	dave.hansen@intel.com,
-	david@fromorbit.com,
-	dennis@kernel.org,
-	dietmar.eggemann@arm.com,
-	djwong@kernel.org,
-	dri-devel@lists.freedesktop.org,
-	duyuyang@gmail.com,
-	dwmw@amazon.co.uk,
-	francesco@valla.it,
-	frederic@kernel.org,
-	gary@garyguo.net,
-	geert+renesas@glider.be,
-	geert@linux-m68k.org,
-	gregkh@linuxfoundation.org,
-	guoweikang.kernel@gmail.com,
-	gustavo@padovan.org,
-	gwan-gyeong.mun@intel.com,
-	hamohammed.sa@gmail.com,
-	hannes@cmpxchg.org,
-	harry.yoo@oracle.com,
-	hch@infradead.org,
-	her0gyugyu@gmail.com,
-	hpa@zytor.com,
-	jack@suse.cz,
-	jglisse@redhat.com,
-	jiangshanlai@gmail.com,
-	jlayton@kernel.org,
-	joel.granados@kernel.org,
-	joel@joelfernandes.org,
-	joelagnelf@nvidia.com,
-	johannes.berg@intel.com,
-	josef@toxicpanda.com,
-	josh@joshtriplett.org,
-	jpoimboe@kernel.org,
-	juri.lelli@redhat.com,
-	kees@kernel.org,
-	kernel-team@lge.com,
-	kernel_team@skhynix.com,
-	kevin.brodsky@arm.com,
-	kristina.martsenko@arm.com,
-	lillian@star-ark.net,
-	linaro-mm-sig@lists.linaro.org,
-	link@vivo.com,
-	linux-arch@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-block@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-ext4@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-i2c@vger.kernel.org,
-	linux-ide@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-modules@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	linux@treblig.org,
-	longman@redhat.com,
-	lorenzo.stoakes@oracle.com,
-	lossin@kernel.org,
-	luto@kernel.org,
-	mark.rutland@arm.com,
-	masahiroy@kernel.org,
-	mathieu.desnoyers@efficios.com,
-	matthew.brost@intel.com,
-	max.byungchul.park@gmail.com,
-	mcgrof@kernel.org,
-	melissa.srw@gmail.com,
-	mgorman@suse.de,
-	mhocko@kernel.org,
-	miguel.ojeda.sandonis@gmail.com,
-	minchan@kernel.org,
-	mingo@redhat.com,
-	mjguzik@gmail.com,
-	neeraj.upadhyay@kernel.org,
-	neil@brown.name,
-	neilb@ownmail.net,
-	netdev@vger.kernel.org,
-	ngupta@vflare.org,
-	ojeda@kernel.org,
-	okorniev@redhat.com,
-	oleg@redhat.com,
-	paulmck@kernel.org,
-	penberg@kernel.org,
-	peterz@infradead.org,
-	petr.pavlu@suse.com,
-	qiang.zhang@linux.dev,
-	rcu@vger.kernel.org,
-	richard.weiyang@gmail.com,
-	rientjes@google.com,
-	rodrigosiqueiramelo@gmail.com,
-	rostedt@goodmis.org,
-	rppt@kernel.org,
-	rust-for-linux@vger.kernel.org,
-	samitolvanen@google.com,
-	sashal@kernel.org,
-	shakeel.butt@linux.dev,
-	sj@kernel.org,
-	sumit.semwal@linaro.org,
-	surenb@google.com,
-	tglx@linutronix.de,
-	thomas.weissschuh@linutronix.de,
-	tim.c.chen@linux.intel.com,
-	tj@kernel.org,
-	tmgross@umich.edu,
-	tom@talpey.com,
-	torvalds@linux-foundation.org,
-	trondmy@kernel.org,
-	tytso@mit.edu,
-	urezki@gmail.com,
-	usamaarif642@gmail.com,
-	vbabka@suse.cz,
-	vdavydov.dev@gmail.com,
-	vincent.guittot@linaro.org,
-	vschneid@redhat.com,
-	wangfushuai@baidu.com,
-	wangkefeng.wang@huawei.com,
-	will@kernel.org,
-	willy@infradead.org,
-	wsa+renesas@sang-engineering.com,
-	x86@kernel.org,
-	yeoreum.yun@arm.com,
-	ysk@kzalloc.com,
-	yunseong.kim@ericsson.com,
-	yuzhao@google.com,
-	ziy@nvidia.com,
-	Yunseong Kim <yunseong.kim@est.tech>
-Subject: [PATCH] dept: update documentation function names to match implementation
-Date: Tue, 28 Apr 2026 18:26:15 +0200
-Message-ID: <20260428162614.786365-2-yunseong.kim@est.tech>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <aTN38kJjBftxnjm9@archie.me>
-References: <aTN38kJjBftxnjm9@archie.me>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: DU2PR04CA0057.eurprd04.prod.outlook.com
- (2603:10a6:10:234::32) To AS8P189MB1752.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:39b::19)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gOq5rH3q"
+Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-48909558b3aso116658505e9.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 28 Apr 2026 09:33:57 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777394036; cv=none;
+        d=google.com; s=arc-20240605;
+        b=AjzabbwCo8t9j4jbuo0zCMmgAMMEvwhR0SxXlQDUflUOV038Ir/8a4i8p3AcrVpXAG
+         NWqAZZq1nJI+X0W7ra8k6sVysK3jajDpNtS6PdRGrNi4hTzqRTBGNumyyvR7/lcgD0o+
+         tZEOAOSjZzvXDjcKuuykZneZKCIbitif0HAa109ZfcWt69fWOMYflVTQUlWSFQT3cjDV
+         ka0Mxo6VmRKYOvngCs9kj8wQieYVsn2OxNL2xh5Yun3gDFqFpO+uK5exP9e/n+irPEP2
+         1VOodbXv5S7SdF5jmjL9Z3zXvMgqhtNPB22MQiWSglwinV2PTUbbRYkTV7ta6/l8AgrI
+         j0/A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=H4tL94f/+zrQ9tmGfQ35+hzuIQymZx/bUR4W9C2f3sk=;
+        fh=kQUdZUQzhk5oTUQ9xZp2cgnayPRBqYaw3P7FHSBZPHo=;
+        b=QsLTGvGqNdFvc52KDJK3/O7LG2vKyZomdJnhOfOSLPoNxYszltXHakELij1txG+E1A
+         XqrjeAWYjQ2q3Pdp51Aa8POJG3EjqNadoIGKQmu775Q6RlLGjXRK42uzAoGbB/y1+Okc
+         PQ6IKxU2gZ3t6l+luJqrllOrYDIJQNCxNQnWUFfeEiiF0lAuXBpkfeQJThRlRFZsmzKb
+         BOQk4IlL1ARcR/lbSVhkFEFO9gITyyzmJ2xa+DKr+9lOawavO/zBOphAVWxJofN6yhrv
+         r8FC4SxSfmEcIENIMy/K+PciBxMU4t3rBCRKWPlpGxgwixg1YBRSyfW7P0/auIMmSn1A
+         ywdQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777394036; x=1777998836; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=H4tL94f/+zrQ9tmGfQ35+hzuIQymZx/bUR4W9C2f3sk=;
+        b=gOq5rH3q1hO6smyOz5GzqsPvxPNLDz3e/MlvRz5dyyg0/MnMIvzOWGlOBynkUz6bQB
+         l/Oi6SUp1x+0mOtg7NTulQSbwDWDik7w/N4axau/LqIf9ZdF7JeWdEX7v4r26ewv4z3e
+         fX7xTBb/NjxY2OdM9axpZruwB2LphvNJOwDJOcDUvympYS4DrBJbv0fXzsvJYbPC4Y+h
+         n5grZAEZeYcHy326JARFl4XHpajn2scsSbcTzYR1E1jC6I/mdZMKrYtukmwZhize6Y0R
+         csIqvJZCB6+vRcboClVSHD9IyGs+6KOBRDdE+Ay/2h+oJ6KxhDjW3pDzfMak6C31RPoX
+         v9fQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777394036; x=1777998836;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=H4tL94f/+zrQ9tmGfQ35+hzuIQymZx/bUR4W9C2f3sk=;
+        b=oyFNx6gaIodWkaeYDqpZc7lfnj4QgAAI62rxGhw9rgl06pNa4gRICbGtdyiV0l6ALP
+         SNuQbczulzhY0GI2vJdY6rYnyVX6JN81OsPf2JSfVFAmdBe87H9RDYl6FpmvZ+NUeJQh
+         G1X/wx58KA9wXnMyIjh47jhAS+W3ZZSummIbhcm/5lUNwFJEHpYUNrTXdSbtx0gGOV+a
+         mOkDYk5sPFl9HVtEZS1052xTdONDsyyo5OHanL0bHO3nAPtL8Ruq4HHkmZDXPJ2LaaIf
+         qiay4x15/Jodvp540dURvidMY1Pc8ts9VOREL5qQ3Hq7QE2L+QJ0s/mjBxjK+vnT3IiL
+         utzA==
+X-Forwarded-Encrypted: i=1; AFNElJ9Zz6ENfdqHLkcyLRvy5xITlPFLysyCl/6+QbOA1lncJByNRvHCXWuEQKvXcNfRRP2R1FPc+gj97IZTDbWA@vger.kernel.org
+X-Gm-Message-State: AOJu0YwSjW/a2w/jW38wJUjEsn7Y2fFWMsebPuuX6yAbjoQ1Izem5Kfx
+	ToJTwWPX5xd9G9t4O8lIkYamkhwJWVg9CuuxFdM0fOAoYfE0KmujLHQxkhf4QasNSxGaFrfm6KC
+	tz8w0jeKdzZUAYyB5eKjHruxSlEl5xn4=
+X-Gm-Gg: AeBDievdl+Z4vq9Z78UjN/fXYGSq+uAlPp6EQCHr4Na09vG4UgOmCjFXXdeYiBLpYLO
+	Iq2DNIHEkKBrQEm4hG4UkwSp1plCER6DZ1J2XhI+lXtTeWhfp33SnyMaxxyqolNVhNVDcI+087E
+	iR6eRSXssVxNDB1fJZynt+C/ZdbwdpMBuDAoDMUGv3vuytRxBRHzS+MFCwaFSLgcCDx2PY7gwa9
+	BWGAnW8A9iaSeJpsRVmv+juGcpvYQXNeWjsou9ZWfSbSCkfWhSQs99/man8FnNp8tqsrKehkfK8
+	AQVvEd7uvRCcbJKefiXTGwVchHt530CnLeeid09veK32B7LrGIRJD4vgATnC5RG7YYSOx4OEFjt
+	N29eDjgIuZYOT7lHWl91d8t2kXhXP9qZY6NAcGWkifgAaFmR9tUTY52Yf96STtFG/zrFC
+X-Received: by 2002:a05:6000:2905:b0:43f:e94a:e777 with SMTP id
+ ffacd0b85a97d-4464a070b10mr6490623f8f.37.1777394036183; Tue, 28 Apr 2026
+ 09:33:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8P189MB1752:EE_|DU7PPF6FE197BF0:EE_
-X-MS-Office365-Filtering-Correlation-Id: 24ef4166-f10b-4680-89f8-08dea542fb08
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|366016|376014|1800799024|56012099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	ZrBrcEqsBxWaUtIkXBuaZbiJkK9T5hpQaWEJenFKgDIBh6LrXwWxkyLRJH1vf4sr5zaPWTzey3hnne3VTwhRcxxajiKakAhXivYPo2g4XlUdNm7fGZXcF78ZP34FvcYEqv9CYMVn6pIhJ+gXPPL69jFIxnu8Tld32UK8Gxd71d8EcxG1rBvCLk/45b55qUy4OJygtEZ/t477YXSPOTsvzdQ8z/ANM8X01HY9GGWvjzYMWHLdKv+a34GtB6DE67wWNazWVD2pv0OLmgXR60cqQId/p7xGpeNMcWhL3BYwrLVrgJ+V+f/35BwSUeN6Q6z7NZgIWuBFU79mhlK13giRF2ot65ymf4NtY6IRHobog38B6tXLRPtuJoY520bmhHuPbwV84dxn5Hts0Ho3xepGc650awz9Oe+vK//oKqYgcKSsrbSb8okgfww9Qk4Jo3V2cgq2OiaG8pbFTvkWqzJTsYO71pq3FQqLRmFKH8/0ShJqW1UZJYVw0pqslhPHCuKwUx+UmU0Mk7tCrKh6h7wIvV1GjMiTlt1d/3SE6p97PaxuaEgI9apsXW8h85aaCGcyXi6E1tHAiAZaRZt44JB9QmNJBB4WEaZcf5p0ig0+7iz+o/o2soO4COJM9yAQTk+F2rGoqMlyt2G4iFSaGNGAfkPDcWqrZFyh8V/ld2hO9WAZd0T2C0etisEzEiiSFYtx368RxXq08NgemHMnrEpRZcTZ3zWe0GjGaDHUkt8wo8Q=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8P189MB1752.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(376014)(1800799024)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?91lmgw6PEF3mTxhj5DqxcL15nmLUTHzQFIuHDYIUWoBFqaq+zm8el+evrjdn?=
- =?us-ascii?Q?28UDQtpT9yMQl/4XvNpKrehMmjAJv9Sv06+FzCWMe3UH/3RLjmX72RZB0vhT?=
- =?us-ascii?Q?uk4lmif8aByQ3rDvrf9NInOdoEqEHnYtAyhwkYwyI1Nx+1TJrPqhDnxuVRpk?=
- =?us-ascii?Q?ZSeu1m2jm0XUDXHoSe+YitRU9kLjswco1ZtUcQwKLR3RCq5AXJy6IL90BVkK?=
- =?us-ascii?Q?bvRrGITo8It7tx06lZpCQanDaFJ15Px/eQ/7MS7lh98Vs1F5fif17yAr/6eO?=
- =?us-ascii?Q?mxKZjPZVl2Hy6xLJCNxxKJ914rtvTUARnDXbnOBcUyfXwdT4lWw9pNuQlH2B?=
- =?us-ascii?Q?Co6c5czkVD2bG6l1OVDFTHjzroTXMRCoOPDjTvSIJkTpL6QKgC8JEB96BQwG?=
- =?us-ascii?Q?a4FfmfSsicuXtzk11YYEKedZnuxf8vRNhXBUPY2tttFDv8/07HGLxXI4RQMk?=
- =?us-ascii?Q?7DwXCtza1Rx07hRCucCpJrN5UPwnNoCRUrrM51ilSH/h5QNQ40nXo5R98Ndj?=
- =?us-ascii?Q?0C2p8wQr0crqrXiZ1O4ycyAJ5d2ztkOseAHyB2+UMUr/mhL2GEem1Jh79U7v?=
- =?us-ascii?Q?4wxUz+3HBJspZBgccLAg2b+hkv54Q6hiXrfGcfr/PgdxHxKsKLY9dUULN2mN?=
- =?us-ascii?Q?9Wrx7oSuyqrA17QZ8JlJ9qZC6BnK+mJZDv+uvE4+Z/Fy/w3NFfvA6mUIDRmb?=
- =?us-ascii?Q?xreACR6m0rirPMF03dVrreoM+EWueapkk7x2GNLywR5mqikiRaCA7v+xNPmW?=
- =?us-ascii?Q?lEeDpHNh3IQaP3en7zooZnBg0JRQfvSo7WteU32/b9v7fDqiID2Dk2Qbvmcb?=
- =?us-ascii?Q?qgpwU8QBW0lsiyDdB5RQjETR0tfOxSSKBHQhaikCScpcTfmT7AassI9mo8df?=
- =?us-ascii?Q?6r7z4Cy00m3cD3KfzL54WaRsD/jLUr5IwRgE5bPCfBXWQ+DSWSLwFb1If6Q4?=
- =?us-ascii?Q?+XW8twg73C4YKlaE59jX6i60Kc0ECEknZwJefqO8n1xryCKMF+jguOgm3a/p?=
- =?us-ascii?Q?HCzF7Has/7RJW2j06k4oiZhcknZ51J9YGm44jBtvV58AXifV27DtookFdCSw?=
- =?us-ascii?Q?b7AI7xBNgosz47FWC8tHwMPw2zUdTJchuIG6I8XC3WQswZh73akCdp1RY9CL?=
- =?us-ascii?Q?EyxfXpSSWBMTwwkRI1OjYVsxzK14cZ69mWQ7tDZCsu/UTF2dDWyXjwqMqIRY?=
- =?us-ascii?Q?AZAY4BSPVq+Jf/DqjUU6V2u4AYVkwo6HteAXHdgIL+OdXvmCCW/sqlHV93nC?=
- =?us-ascii?Q?Lft+jRNp8ER49Q1ol0SuwJZBrndRZ0mDcqvJYzkhIe/BIVMk+XevvBmuKXbM?=
- =?us-ascii?Q?rjh7SjXVQ4LzcyjloG7PWe9ChgjpZKWY7E2SrQ3iLAhQJE26f3EV/RRJpwD1?=
- =?us-ascii?Q?zje3l86FJW4KOKGNQ7lRjeQX/W9BV6da016hiAyvi/wBTQR7JORi8MeiMxIX?=
- =?us-ascii?Q?KgF+v11h/9wcFra4DuO0IUGJlO9BbTTAcHM+I5Rngoc6pSiljdD1CZc3Fy3j?=
- =?us-ascii?Q?K+2dJGvfIannhR/K1qnUOVwuqSX7oi8Gzt1KJFBjSQqGzt5c0mdcv0C7jLqX?=
- =?us-ascii?Q?xtm5znIZ13MienE9ICAHRhO87N1G2tvs22yrzi8rEXjgo8EEBu8Hl3HS4hbh?=
- =?us-ascii?Q?SVhWyWfgQfd8jaHowzNwmhBhzAZB2c0CfbxxY+qYh/fDLryznsybdO7P3fSy?=
- =?us-ascii?Q?m6hyBEaNJXry1TVAjUZmvRaBunN96OEkbL9EJelsHAOHz0ZuLGc+lH89G5y+?=
- =?us-ascii?Q?+okl/obTCA=3D=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 24ef4166-f10b-4680-89f8-08dea542fb08
-X-MS-Exchange-CrossTenant-AuthSource: AS8P189MB1752.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2026 16:27:03.2904
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kt3ldRAB6jTICdoR8HAa2yj+Tdv/0cT0k0yKTjliKpO5aSo52R1DNrgIjXb36qyHw7G7gL8UZwLChVuUFUNobw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU7PPF6FE197BF0
+References: <20260427001602.38353-1-dwindsor@gmail.com> <20260427001602.38353-2-dwindsor@gmail.com>
+ <CAP01T74iuSDJeL6g=5yLdYGb-VcESK1SYY3R1S1r-CtQEsW+oQ@mail.gmail.com>
+ <CAEXv5_heSFK5rZYtaJG70Xgv92Um6Dbq8b95PtnpKy7XFwpKUw@mail.gmail.com>
+ <CAP01T74WBjcMXbWYeaWB-oTk-bUzoxi_EEALDpT1hFUEOovnpw@mail.gmail.com>
+ <ae82Vv0RWzcXqSaz@google.com> <CAPhsuW60SRXZbFYRDm-QaTiB8tTtJD_N4jk1=680x5UsZmpj9w@mail.gmail.com>
+ <CAP01T75SBw6NNvBKyPW11JSYY2oh449yoBsWi_GOBR5Kq1ykmw@mail.gmail.com> <afCUADdbNrpbEPMa@google.com>
+In-Reply-To: <afCUADdbNrpbEPMa@google.com>
+From: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Date: Tue, 28 Apr 2026 18:33:18 +0200
+X-Gm-Features: AVHnY4I9zeiNlmD4AyDEKEpxt8mFMp29ig53d2G_1svR9xHiMr5JdVGll07goQM
+Message-ID: <CAP01T76ipTgY3EM8uMSXymdO4co3AWZeXqwV3amqDnHiFXhrTw@mail.gmail.com>
+Subject: Re: [PATCH bpf-next 1/2] bpf: add bpf_init_inode_xattr kfunc for
+ atomic inode labeling
+To: Matt Bobrowski <mattbobrowski@google.com>
+Cc: Song Liu <song@kernel.org>, David Windsor <dwindsor@gmail.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, KP Singh <kpsingh@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Jan Kara <jack@suse.cz>, 
+	John Fastabend <john.fastabend@gmail.com>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-security-module@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Synchronize function names in the documentation with the actual
-implementation to fix naming inconsistencies.
+On Tue, 28 Apr 2026 at 13:03, Matt Bobrowski <mattbobrowski@google.com> wro=
+te:
+>
+> On Mon, Apr 27, 2026 at 04:33:18PM +0200, Kumar Kartikeya Dwivedi wrote:
+> > On Mon, 27 Apr 2026 at 16:21, Song Liu <song@kernel.org> wrote:
+> > >
+> > > On Mon, Apr 27, 2026 at 11:11=E2=80=AFAM Matt Bobrowski
+> > > <mattbobrowski@google.com> wrote:
+> n> > >
+> > > > On Mon, Apr 27, 2026 at 05:32:47AM +0200, Kumar Kartikeya Dwivedi w=
+rote:
+> > > > > On Mon, 27 Apr 2026 at 05:24, David Windsor <dwindsor@gmail.com> =
+wrote:
+> > > > > >
+> > > > > > On Sun, Apr 26, 2026 at 10:57=E2=80=AFPM Kumar Kartikeya Dwived=
+i
+> > > > > > <memxor@gmail.com> wrote:
+> > > > > > >
+> > > > > > > On Mon, 27 Apr 2026 at 02:16, David Windsor <dwindsor@gmail.c=
+om> wrote:
+> > > > > > > >
+> > > > > > > > Add bpf_init_inode_xattr() kfunc for BPF LSM programs to at=
+omically set
+> > > > > > > > xattrs via inode_init_security hook using lsm_get_xattr_slo=
+t().
+> > > > > > > >
+> > > > > > > > lsm_get_xattr_slot() claims a slot by writing to xattr_coun=
+t, which BPF
+> > > > > > > > programs cannot do: hook arguments are not directly writabl=
+e from BPF.
+> > > > > > > > To hide this, the BPF-facing API is just bpf_init_inode_xat=
+tr(name,
+> > > > > > > > value), and the verifier transparently rewrites each call i=
+nto
+> > > > > > > > bpf_init_inode_xattr_impl(xattrs, xattr_count, name, value)=
+. xattrs and
+> > > > > > > > xattr_count are extracted from the hook context, which the =
+verifier
+> > > > > > > > spills to the stack at program entry since R1 is clobbered =
+during normal
+> > > > > > > > execution.
+> > > > > > > >
+> > > > > > > > A previous attempt [1] required a kmalloc string output pro=
+tocol for
+> > > > > > > > the xattr name. Since commit 6bcdfd2cac55 ("security: Allow=
+ all LSMs to
+> > > > > > > > provide xattrs for inode_init_security hook") [2], the xatt=
+r name is no
+> > > > > > > > longer allocated; it is a static constant. We take advantag=
+e of this by
+> > > > > > > > passing the name directly. Because we rely on the hook-spec=
+ific ctx
+> > > > > > > > layout, the kfunc is restricted to lsm/inode_init_security.
+> > > > > > > >
+> > > > > > > > Link: https://kernsec.org/pipermail/linux-security-module-a=
+rchive/2022-October/034878.html [1]
+> > > > > > > > Link: https://git.kernel.org/pub/scm/linux/kernel/git/torva=
+lds/linux.git/commit/?id=3D6bcdfd2cac55 [2]
+> > > > > > > > Suggested-by: Song Liu <song@kernel.org>
+> > > > > > > > Signed-off-by: David Windsor <dwindsor@gmail.com>
+> > > > > > > > ---
+> > > > > > >
+> > > > > > > The explanation and code make no sense to me. Why not pass xa=
+ttrs and
+> > > > > > > xattr_count directly as arguments, even if you choose to rest=
+rict the
+> > > > > > > kfunc to a specific hook? Why does the verifier core need the=
+ hack to
+> > > > > > > spill the context and extract the two arguments?
+> > > > > > >
+> > > > > >
+> > > > > > xattr_count is an output parameter; we cannot currently write t=
+o it in
+> > > > > > bpf as there is no verifier support for writing to int *.  xatt=
+rs and
+> > > > > > xattr_count can be fixed up by the verifier, so we only require=
+ the
+> > > > > > user to pass the name and value.
+> > > > >
+> > > > > Sure, but the kfunc can. Did you try passing them in directly?
+> > > > > If that doesn't work for some reason, we should fix it instead.
+> > > >
+> > > > Hm, perhaps this fixup approach might be the simplest in order to
+> > > > assure the needed safety?
+> > >
+> > > +1. I think this is the best approach I can think of.
+> >
+> > We're not going to add more and more special cases to the verifier.
+> > The whole approach is unscalable.
+>
+> Totally fair of you to push back here. I'm also agreement with you on
+> the fact that extending the BPF verifier with such special casing
+> doesn't scale all that well.
+>
+> > If the concern is that int xattr_count passed for xattrs can be
+> > unrelated int pointer obtained from elsewhere, can we pack the xattrs
+> > and xattr_count into a struct and pass it as an argument to the LSM?
+> > Then the pair struct can be passed in directly, ensuring both
+> > originate from the arguments passed to the LSM. That should eliminate
+> > concerns about either being out of sync if obtained from different
+> > sources.
+>
+> This could work, but we'd also need to modify all the other
+> pre-existing hook implementations along with the core
+> security_inode_init_security() LSM hook itself. I don't think that'd
+> be an issue. The biggest hurdle here I think would be convincing the
+> LSM maintainers themselves.
 
-Signed-off-by: Yunseong Kim <yunseong.kim@est.tech>
----
- Documentation/dev-tools/dept.rst     | 2 +-
- Documentation/dev-tools/dept_api.rst | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Yeah, when these parameters were introduced, we changed all LSMs, so I
+don't see why we cannot adjust things again to benefit this use case.
 
-diff --git a/Documentation/dev-tools/dept.rst b/Documentation/dev-tools/dept.rst
-index 333166464543..31b2fe629fab 100644
---- a/Documentation/dev-tools/dept.rst
-+++ b/Documentation/dev-tools/dept.rst
-@@ -97,7 +97,7 @@ No.  What about the following?
- 
- 			   mutex_lock A
-    mutex_lock A <- DEADLOCK
--			   wait_for_complete B <- DEADLOCK
-+			   wait_for_completion B <- DEADLOCK
-    complete B
- 			   mutex_unlock A
-    mutex_unlock A
-diff --git a/Documentation/dev-tools/dept_api.rst b/Documentation/dev-tools/dept_api.rst
-index 409116a62849..74e7b1424ad5 100644
---- a/Documentation/dev-tools/dept_api.rst
-+++ b/Documentation/dev-tools/dept_api.rst
-@@ -113,7 +113,7 @@ Do not use these APIs directly.  The raw APIs of dept are:
-    dept_stage_wait(map, key, ip, wait_func, time);
-    dept_request_event_wait_commit();
-    dept_clean_stage();
--   dept_stage_event(task, ip);
-+   dept_ttwu_stage_wait(task, ip);
-    dept_ecxt_enter(map, evt_flags, ip, ecxt_func, evt_func, sub_local);
-    dept_ecxt_holding(map, evt_flags);
-    dept_request_event(map, ext_wgen);
--- 
-2.53.0
+>
+> > Even if we wanted to ensure argument provenance was stuff loaded from
+> > context, the right solution would be some kfunc flag that constraints
+> > the argument to be derived by following the ctx pointer, not whatever
+> > is done in this patch.
+>
+> OK, so it is provenance-like tracking which you were initially kinda
+> alluding to here. Currently, I don't believe that PTR_TO_CTX is
+> preserved upon any subsequent R1 (ctx) dereferences, so we'd need to
+> think about how this type could be preserved such that we can enforce
+> this kinda constraint (__ctx) at the time which the new BPF kfunc is
+> called. Do you have any ideas on how to do this?
 
+I think we'll have to track in the register whether the PTR_TO_BTF_ID
+came from a PTR_TO_CTX load. That said, I still prefer changing the
+prototype to pack the array and its output size parameter together. It
+is even clearer to have a well named type than int *xattr_count in the
+prototype.
