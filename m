@@ -1,162 +1,425 @@
-Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013052.outbound.protection.outlook.com [40.93.201.52])
+Received: from fout-a7-smtp.messagingengine.com (fout-a7-smtp.messagingengine.com [103.168.172.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5CBE3B1B3;
-	Tue, 28 Apr 2026 22:36:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777415811; cv=fail; b=sbdNrigx0KLN4PMOql37XaB0FJh/VsIlr7igbJj9BuSOCOz3i0yDPyMvH8RvZp4NXufr7nn+2bE3s91/ndmjywXUg7YokTomfUy9sYqQQFY/jwZkG5VpzYbTbnB3k6FbvLbSzbvv+4VARC89nTbOi+8iFx4Kp/gaxOQZrCQyPpk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777415811; c=relaxed/simple;
-	bh=SxIQA504hip6mnG7svtrMKsf00bKYXX601Y8eDYATZw=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=s5VVA/ciQBAxFKVbEURUr1oCduvl3OkQPiq6eERjQG+HlIB+B+8ID7i/2agiBIcDCmL9twzfChpu9uII+dTx+/0ABh7S9ZVB+Xep4wxMkYYEcAr37C0h023r1c82TlpTI7Vf2ncw67ppPooAF+pBsvzJNMYMvmans0AqKwxJVcE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=rIS2fmI4; arc=fail smtp.client-ip=40.93.201.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 129F5347FEE;
+	Tue, 28 Apr 2026 23:16:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777418207; cv=none; b=hdj2ONJiNCU/bP9z3jMDzXGJZ2QgWRfkCY4ZcmZyJ8euq2f1KBsowLoCvY8gU0bmFTf9Bb9QCrTYUULbaa/GPAKQPyGns9VPtYvN37lVoc0tNIc2EriAVFrQZvdSUpuajTJ+6BTAuB0wDKtdIyNcOxWigApVXL8NOqOwg4XLehk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777418207; c=relaxed/simple;
+	bh=BVUs7NKnkqnc1zWTHXfBd6sWaPeKbt10jWX1tTXKcsU=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=LjnjMGsv4XAsnc+acCpD+PMLPlfdSUWDyg219AzeZAwNQiW5flhfbV9sb4xtUmSNtCBZezw3tIhIyz8+5h2S/pwxWs8CqOaD0IDdcvsxkMi1TjPr6ZuZFJ7BvVoIN4LpDgyhFLvPOi5aDyHLWMKjSZwKWHQgkfmVfO8eR4UPCrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=rsSpqRWR; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=T4f3I+Nv; arc=none smtp.client-ip=103.168.172.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="rIS2fmI4"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Q3ddbfKvxqhnQBFBG8z4Bh8njLa4yEPQUQOxjwf555yiee8gwLL7zevAVhims784irNtBat1MZCp3WiPipLvM10GKwyBSoaH4pZLYU3BXEXeVhSvkX9O2mWl4Hrdoqv+llvIS3TlAUUhMlBPD3M51yrQ0kZFHMejyD5AExZWoQpo/tAtIcWduqbryZBiqszbUHSafjRKZiUa+X8vw6Q386/zAqpYNAkh5qb/atYea09cfKY2hjbpmwkqoyg5V+Umqzr0k64K6P3+lKeDQMp5JMpM6Ctu2kX1UG9XWtnawK0qZf0Ehjug0T+7YOHkU7WkzUx9nwJYFIOPbzyq3/isMQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SxIQA504hip6mnG7svtrMKsf00bKYXX601Y8eDYATZw=;
- b=DdK79MdguMgUKFc/e7Pvoqq49rkPCaLXOlI18E+vTO9OjHE2wUDbsXkWsYJNWyVuehPnpwcZd4/3qQ4gMYjPrQ95V2UTWGDriE4X7KDiNzFFVLZNLYgpGyx2ZHfMow4+WPnEdjFYSJENbXGIj/Y1McIC94HUqPMs+qzvp0LsYE5F6hHjY+5DxAt79UDtzhcDLkWikey9mhoXpatvMYBYm0Atxfsnv7uQQXo8KOGLYASplyQzf/bRuMJhzp64a4qLHiiammeQ8x1jiFgrs9Tv5iD9OnaWLP3W52GHl1rulN7W2eqq5G2GVP+yGoeXlxRZsBB07F15kt2K05l2fH+bUQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SxIQA504hip6mnG7svtrMKsf00bKYXX601Y8eDYATZw=;
- b=rIS2fmI4Fgdg6kjfqUl3auG/4FoFLi0brK7ZCIbtYvpRFCFsppySdWrJToYh+MzHVkXH2G0UirsEqkXSA3uQZA/DO40JCHZ2628SxI4l+bpEG61fSPZZ68B5o1u6btp1Pac6Io1MDkdkOJUzhPT04ZoGX6/s7zCVrMXf2vMGBYiUwCM70WO8rg7brPW4YhLjxIstxyp/93oaDz/R7Hs+GpN4Jcny0ch1WjDPFEar1QgrgEnrzVGzygUSc9TqKxENMY+54LC691YWeaaWt5IsSRN/dm7bOqxrKydSOJ0uVN9BJD+jh0ig61sKJwK78/6T1yP8uG7rUJgBGrb+hjhz8A==
-Received: from DS0PR12MB8442.namprd12.prod.outlook.com (2603:10b6:8:125::12)
- by MN2PR12MB4061.namprd12.prod.outlook.com (2603:10b6:208:19a::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.18; Tue, 28 Apr
- 2026 22:36:46 +0000
-Received: from DS0PR12MB8442.namprd12.prod.outlook.com
- ([fe80::c4df:b439:571:4591]) by DS0PR12MB8442.namprd12.prod.outlook.com
- ([fe80::c4df:b439:571:4591%6]) with mapi id 15.20.9870.013; Tue, 28 Apr 2026
- 22:36:46 +0000
-From: Matt Ochs <mochs@nvidia.com>
-To: Miklos Szeredi <miklos@szeredi.hu>
-CC: Bernd Schubert <bschubert@ddn.com>, "linux-fsdevel@vger.kernel.org"
-	<linux-fsdevel@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "stable@vger.kernel.org"
-	<stable@vger.kernel.org>
-Subject: Re: [PATCH] fuse: do not treat unlimited readdir count as a buffer
- size
-Thread-Topic: [PATCH] fuse: do not treat unlimited readdir count as a buffer
- size
-Thread-Index: AQHc1rSMighJT3Mvr065eteq/+op6LX0c4EAgACeBYA=
-Date: Tue, 28 Apr 2026 22:36:46 +0000
-Message-ID: <B851F08C-3A33-4366-A114-0CC657097B21@nvidia.com>
-References: <20260428021304.2338592-1-mochs@nvidia.com>
- <CAJfpeguzUDE1gegKA3WXCORZZRQrWCRsKe_sdLKtGHqRd_vyyQ@mail.gmail.com>
-In-Reply-To:
- <CAJfpeguzUDE1gegKA3WXCORZZRQrWCRsKe_sdLKtGHqRd_vyyQ@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DS0PR12MB8442:EE_|MN2PR12MB4061:EE_
-x-ms-office365-filtering-correlation-id: f7e3aa09-4565-413c-47b2-08dea576a148
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|366016|376014|38070700021|56012099003|18002099003|22082099003;
-x-microsoft-antispam-message-info:
- HYbCmRNjY7TFlqsbDHBHw7jPfqoEs5/t1lhuXmRQCdQoAts47ae6aME6bbIh5NFJGq5B/jR74649e/z/xLTCkv0P7lDzhJQkeMoSVU+xNsZTywNUcMwwSYvXaPlLHDB9eLpPtMfCP+/jVHiaBPfAyf4dRUAjz3C0j316LAwK5Jl5gcysJjenx5SenxgpbbVYlj03QznEkiNtRQJsqSpFdfQubzF6gSptUvLReeSID7KW/iL063tonm9Y1ci+b0iKyKeOkkrBvwX+Wk4K7ygJutk3VbYitgza1cCRxB5YsI2zuP+tij+XDEaEg+qvvLH5+/sMwXjmG1sdZIAjrXfTj0FoE5+5283kcUAiPlkp2eTTEajf0aN5Lc9on+utr+aokrHyBCstcfyS0kA3Aj80er76VlW5dUodLFlIMGQrVYkoCERMTxU2IbkPxDQzKoMH+H8zOPKYYCdDN9d5PPvbiIGnQa0c7Rf+5eYtUrjbeOFfXeciLQD4zAlWzJnbeFUAz7ufF1jHO6arArFtxkLn78OWd4U05yZtTNlpYuJMnzOkUcq0zpepUhwJjhWi2MwzDDun2h4+7NissgrKBZOjTUv0//fnNKksWyZL6MSadjI46KBivcDFcPzFy9qb8GKA9JdLPfm+fNrlrteTy+qkZzTWdu/OWxhb47zstCmKsp/8wi9FlkjhfhwgHBkJcgG6A6WDWbRVR4CeTTiCZUgwnIcvfGzJWHP1jXnypPOEsS2TiOC4fDOY2qU/aKafbtfzyyYlEik9J4EYGNE38QGJMEB9bWR/y77bvKOm/0k6Yxc=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB8442.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700021)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?Tlp1MXlBYU1VUXlzNVFKZ1FlZmNaelJDY0NucE5QTDRMS1VCUFJMVEYyYlBS?=
- =?utf-8?B?cWFrZ2tMZHV6cVY1bkNuOTNQRlJTcHpmYUs5aXJRTHFZcGFod0g4dlNQSnBO?=
- =?utf-8?B?bHZnbmVKdmU2TlVHWmVLVXZsSEpJcmVNTElyaS94RkMrTC9vYk9IM2FYUGEy?=
- =?utf-8?B?aXBvODI4a3ZBcnhGcmt6RTZMam9TbmpnQnpoUDhYVGJxWUFzblJWb2MxL011?=
- =?utf-8?B?VlYxUVZRbnRWam5OTHZFc3gyNm80WnVSSldiWUpYVVh5QXMxSUhnbm9yRWFL?=
- =?utf-8?B?VTFEWEU0YlNhdzZSak5xRmVzZTdDVVBtVTBQR2lrL3BDRE5Bd0pmYUFDazVV?=
- =?utf-8?B?Nk91UW9qNDAvN0NHdVpGY0NIYTFQL29yRWRwQnNobWRjbXpsOGo4VGFuSnhC?=
- =?utf-8?B?aEtpNzdoY0xncFo5V253dTEwRVFrQWt0NzFzKzNJdGxKQjhhQlZ1dnBnSEV2?=
- =?utf-8?B?eDVJVHRRZzVUVXNTTkc2TXhGODRsdHlmcHh5Q0hKa2VZSkV1WTgrc0VIOEl3?=
- =?utf-8?B?RmZYS3NGUDJsOUx6eFZObUQrL2JqZUtrTTJQV1k1bld5Yis1aEJDMTlYZWpx?=
- =?utf-8?B?UWsvS0JyUVNDSXoxbWJWSXZtY3hpcnJmeld6UGJyajJBUXNqQUw5c2xwOFUw?=
- =?utf-8?B?QVQvdnhqa2dTOVBqaWZMRXY3MlArYTBkZUZ6OS9DR2NYU0J6YUk2dTJBZDg4?=
- =?utf-8?B?bUN4N0NOL2xKZDUrdStYTXBXZ3Z2Nm5FOWs4aUZQc2ttYmw1SnpLUUVKc09q?=
- =?utf-8?B?ZU4vWlhpU2c4V081WUQ4UjE0bDQ2WUc4elQ3cnY5d2pqdDNkMTc2UVRIZmxC?=
- =?utf-8?B?eUhpbnFycW03VmhtaHhCdVF5VXdmVmJXV0hUaGxVc0Z0MkhQdWxCWGJxM1N6?=
- =?utf-8?B?K0xyM0lQeUlETnUrMU5JRDhOQ0RjOGxyc2xpbVlRNmMvcU81YXJQcmlON3JT?=
- =?utf-8?B?K2hNSytubk5tUVFzOUVMQVllcDhHcWg0Ni9UYkhBLzcyMEZyWGFXYXpaV2VC?=
- =?utf-8?B?L1RkUGNhVnhXdUE1dEFkWEV6NVJHUjhDdkRkV2VUenp5VVd4T1FhYWFxK1N2?=
- =?utf-8?B?SXJHUTNJb1Z0MUtQUkx4QWNBWmU5KzlTMmUwbVBrak1GRGR0cks1WTJQSnE3?=
- =?utf-8?B?QVNvM2xGUXhuZmkyNXQ2UTNwbnNvYkZhaGFlM0hVek9Vc1R6c3BZTnZ4NVMz?=
- =?utf-8?B?YytmTkswN0lQTTJZcDc2NEpGMkhSOWl3RVk1NURZNFhsaGk0QVp4WENqUEox?=
- =?utf-8?B?WW5ocy9hVFdXUUJwQ0d0VFBXY3JJamVpTkkxemgvYjNPMkI0blRCUFU0VStU?=
- =?utf-8?B?Uk4rOE4xMG9iU3B0WXFTNzZzbFpSem9GaWJld0ZvWnNld1dsWnZTZTBjbmQv?=
- =?utf-8?B?SmZsSndVRU40L254VkdlWTNIVWJ0Mld0SEZCc3JhTDFkajlQc1dkNjJIVGpO?=
- =?utf-8?B?SDljU1BlQjhPY3drV3NNcW1iOU80V0w4Q3hHNUNyTVU5bC9xQ0FBb2lGSldj?=
- =?utf-8?B?R3FQemlOZXlETUhzbnl3Ly9kVUcvOWV1N0hRRllHM2NZdUhFSjBGaUpVajFN?=
- =?utf-8?B?T0c1cjhYQWxuczd2SjZVOGZUNGJWRWVFdi8yMGVHOXl4L1p6WSsvRHpQVWFK?=
- =?utf-8?B?bHJseG1YWUJTUGhGdjlQdkQxN0tCWURiT0NJeEhsK2JTa0RqaTFKVVF0eEs4?=
- =?utf-8?B?OHN1TmFDUjlzSnc3NkFPYzZVaTBHckRXYzU3MklIT1F2bU94TkJaMzNrNjl3?=
- =?utf-8?B?b0c5eERjMTcrM3VhYXRLRk43M01tUmZ3SFprNE80QWh3cDJJUGM3bXZhbUo5?=
- =?utf-8?B?VzlCYTlwSXVhenFqMm9xL3FaWVdFRTltRjJJWHdoam0zODh1anpKOUpFV2ha?=
- =?utf-8?B?OUIvOFlHWFY3VTl5ajNqQ3ZtU1RxUFB0Nk1abjBUY2hlWHJlY0xna1Y0UVdI?=
- =?utf-8?B?K2VVNjlxejJ3UTlrL2RGcG1TWEZwZDI3cE84alVQY1QxbVZVUDE0TDhQeFBL?=
- =?utf-8?B?Njh0U1lLdGRqeEU5cWpyRmVJbHA1WE5DSll4VEtQejhZd0JyRlU2QlMwcHMx?=
- =?utf-8?B?QkkydnE3dXhHbG9zS1AzUmVlR2kySEd1UHhnTStDb2xaNVF5RGd0V0UzMXRW?=
- =?utf-8?B?S0xoUWphcmdGRGhhL3B5RDZudnNidmhOdDRCWlphR0NMcVpJS01UYVB4eS9Z?=
- =?utf-8?B?N3AyL29nYTRzYW9EZ2tuRDZWVjk2UEJ2MTQrWkc4VEtoWk9YMjFKd2lFdGlx?=
- =?utf-8?B?U1k2N3dVMFFwYUEvcDRGRHBmY29kRE5HM25QbnFlcy84bDFPQld0YlduRmZG?=
- =?utf-8?B?OEZGRUNRYytZTUR1OHZLSkpYVHhrTUlMOWtsOE5Gc3VhNmZzbUdQQT09?=
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="rsSpqRWR";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="T4f3I+Nv"
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfout.phl.internal (Postfix) with ESMTP id 41520EC0067;
+	Tue, 28 Apr 2026 19:16:42 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-03.internal (MEProxy); Tue, 28 Apr 2026 19:16:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm2; t=
+	1777418202; x=1777504602; bh=2PsI7as0Qba7iKClReUmQkoQrvVIaZ5w6LS
+	NOzLnAt8=; b=rsSpqRWRBbqfEtcPlisK+r585MsWDUbef1NLPW4N9wA/ZYT2Cpd
+	oFFnaPiJHM9twXOUt0c8N0ncRlx9p71je4MRT+h2xZ//ZLZxWOFBYe0Ap+HcOVYF
+	kergRe4lKj7hQrZQHFUM/Hxw2uecYiD3+2/AybGAXXUZ/QkXptGzDgpeQZzfSxhu
+	PSkAiWND+tVMiGPejiGTjF4IcV0pJDtJKcFIrmxY4FBczqj4zbOx9f68nhXATIpj
+	e0uPsJYWefZ3yOqvSSbaIMSL7YzFLX++vJ2qW4lsJ5VFBYKGlGmIB3FyAtyAnGaq
+	zOzngQH7f0+FloVeE/M5lY8/wM/Qr/JbssA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1777418202; x=
+	1777504602; bh=2PsI7as0Qba7iKClReUmQkoQrvVIaZ5w6LSNOzLnAt8=; b=T
+	4f3I+Nvu1zumOzh4OpeSnjrr0//CgzlAQGdJm2ZuLS9w3D3BbfeKt9VK/nHn6mH7
+	newfS8c5OmFK3FjQKtFLy2SUfgoky2E/lrWKxhwAJA3MrEzSlaeOJHXMpj3rRZCM
+	WZiY0wWaavqhBgbIbNjCgnypOcQt0W7ZZNg/M7FHClWhU7nORtqe5IRGbKR1RnI5
+	wdg/oLtAL1T5KIRWDqwmTXHoXHskV1f6dPI2yu47F5goC881RSt+F9Dm9HsBJxcD
+	DCif/v1yziF+U6wKfAsI3alyfn3rM+jU5NvLx8Xh1BG1+4DAaboQIjOsIxeYqhSR
+	KT0nkyaLC+LanLTG7XEUQ==
+X-ME-Sender: <xms:2T_xablog8JhNQ9sIe9J-DQePqqv8-M-Z21TyhuDviUMGHlfRLXdPQ>
+    <xme:2T_xaV5j8ZoeWfBRvmxrK88fnX_5saCU3zwgHSj9tdAF-QpeXzC7osH1PsGbDbmiv
+    bkTxEP3-l25o9E0dDnFkGyzxFSkmtMQLjvoJplB2zL74w9BrA>
+X-ME-Received: <xmr:2T_xaZXkfwBbTfPybFII00jueLsDLqGPe07Ojin2YEd-yuAJYTvZrkKES-ka4kbiQK2PZH_ObeFAWhlX5zcPaV5zK7fg4yI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdekvdekiecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecunecujfgurheptgfgggfhvfevufgjfhffkfhrsehtqhertd
+    dttdejnecuhfhrohhmpefpvghilheurhhofihnuceonhgvihhlsgesohifnhhmrghilhdr
+    nhgvtheqnecuggftrfgrthhtvghrnhepkeekfefhkeevjeegheelfeetgeejvdfghedttd
+    ffjeejlefhieejgfekudffvefhnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpshih
+    iigsohhtrdhorhhgpdhgohhoghhlvghsohhurhgtvgdrtghomhenucevlhhushhtvghruf
+    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnvghilhgssehofihnmhgrihhl
+    rdhnvghtpdhnsggprhgtphhtthhopeduledpmhhouggvpehsmhhtphhouhhtpdhrtghpth
+    htohepvhhirhhoseiivghnihhvrdhlihhnuhigrdhorhhgrdhukhdprhgtphhtthhopehl
+    ihhnuhigqdhunhhiohhnfhhssehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoh
+    eplhhinhhugidqnhhfshesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehl
+    ihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhope
+    hlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthht
+    oheplhhinhhugidqvghfihesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhope
+    hmihhklhhoshesshiivghrvgguihdrhhhupdhrtghpthhtohepshihiigsohhtodgtihel
+    udeitgeitdgsugeftgegvddvudelieesshihiihkrghllhgvrhdrrghpphhsphhothhmrg
+    hilhdrtghomhdprhgtphhtthhopehjrggtkhesshhushgvrdgtii
+X-ME-Proxy: <xmx:2T_xaZ_lPNfYq_-Z3Jo3iII9ZjYS0317Xb5VwN7lmL49lf5EdV6hAg>
+    <xmx:2T_xaWisiGovvRwQpYF8bsaNgOd-7ZXKLIE-8QCDw_xQCDVJJwwljg>
+    <xmx:2T_xaYWJyORIjwwy9OUpVve5lZYR3X_a60kB6HRfXOCJsJYn8W3MJg>
+    <xmx:2T_xaSsQu0zXo17oVe8aGrzQ7D3nC83CWUsXls-oq2rQSTeQRufc0g>
+    <xmx:2j_xaf04wm1vIaTkszZd97TEL8owPzAUrDjItPJ-3oJNd6LIspIdcGc9>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 28 Apr 2026 19:16:36 -0400 (EDT)
 Content-Type: text/plain; charset="utf-8"
-Content-ID: <8C51771064D82248A68F91348287066F@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB8442.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f7e3aa09-4565-413c-47b2-08dea576a148
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Apr 2026 22:36:46.3496
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: EgWPvdWjocHPw6lVrxPisYI/5ZVFRVZj1ltDJ0iYjCr5/1ce+LOAcQamr0Ly1+ubxyEp8VRnzv/C9vhgdgV5Ow==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4061
+From: NeilBrown <neilb@ownmail.net>
+To: "syzbot ci" <syzbot+ci916c60bd3c422196@syzkaller.appspotmail.com>
+Cc: amir73il@gmail.com, anna@kernel.org, ardb@kernel.org, brauner@kernel.org,
+ jack@suse.cz, jk@ozlabs.org, jlayton@kernel.org, linux-efi@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-nfs@vger.kernel.org, linux-unionfs@vger.kernel.org, miklos@szeredi.hu,
+ torvalds@linux-foundation.org, trondmy@kernel.org, viro@zeniv.linux.org.uk,
+ syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Subject: Re: [syzbot ci] Re: Prepare to lift lookup out of exclusive lock for
+ directory ops
+In-reply-to: <69ef2169.a00a0220.316485.000b.GAE@google.com>
+References: <20260427040517.828226-1-neilb@ownmail.net>
+  <69ef2169.a00a0220.316485.000b.GAE@google.com>
+Date: Wed, 29 Apr 2026 09:16:32 +1000
+Message-id: <177741819272.1474915.16232905294067712018@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-PiBPbiBBcHIgMjgsIDIwMjYsIGF0IDA4OjExLCBNaWtsb3MgU3plcmVkaSA8bWlrbG9zQHN6ZXJl
-ZGkuaHU+IHdyb3RlOg0KPiANCj4gT24gVHVlLCAyOCBBcHIgMjAyNiBhdCAwNDoxMywgTWF0dGhl
-dyBSLiBPY2hzIDxtb2Noc0BudmlkaWEuY29tPiB3cm90ZToNCj4gDQo+PiBGb3IgdmlydGlvZnMs
-IHRoZSBvdXRwdXQga3ZlYyBpcyBpbmNsdWRlZCBpbiB0aGUgcmVxdWVzdCBib3VuY2UgYnVmZmVy
-DQo+PiBhbGxvY2F0ZWQgYnkgY29weV9hcmdzX3RvX2FyZ2J1ZigpOg0KPj4gDQo+PiAgcmVxLT5h
-cmdidWYgPSBrbWFsbG9jKGxlbiwgR0ZQX0FUT01JQyk7DQo+IA0KPiBVZ2guICAgVGhlIHJlYWwg
-YnVnIGhlcmUgaXMgaW5hcHByb3ByaWF0ZSB1c2Ugb2YgdGhlIGJvdW5jZSBidWZmZXIuDQo+IGZ1
-c2VfcmVhZGRpcl91bmNhY2hlZCgpIHNob3VsZCBpbnN0ZWFkIHN1cHBseSBhbiBhcnJheSBvZiBw
-YWdlcy4NCj4gDQo+IEl0J3MgYSBsaXR0bGUgbW9yZSBjb21wbGljYXRlZCwgYnV0IHdvdWxkIGZp
-eCB0aGlzIHByb3Blcmx5OiBvdmVybGF5ZnMNCj4gZG9lcyB3YW50IHRvIGdldCBhcyBtdWNoIG9m
-IHRoZSBkaXJlY3RvcnkgYXMgcG9zc2libGUgaW4gb25lIGdvIHRvIGJlDQo+IG1vc3QgZWZmaWNp
-ZW50Lg0KPiANCj4gSSdkIGdvIHdpdGggdm1hbGxvYyAtPiBhbGxvY19wYWdlc19idWxrLCB0aGVu
-IHZtX21hcF9yYW0oKSBiZWZvcmUNCj4gcGFyc2luZyB0aGUgcmVzdWx0Lg0KPiANCg0KVGhhbmtz
-LCB0aGF0IG1ha2VzIHNlbnNlLiBJIHJld29ya2VkIHRoZSBmaXggYWxvbmcgdGhvc2UgbGluZXM6
-IHVuY2FjaGVkDQpyZWFkZGlyIG5vdyBzdXBwbGllcyBvdXRwdXQgcGFnZXMgdmlhIG91dF9wYWdl
-cyBhbmQgdXNlcyB2bV9tYXBfcmFtKCkgb25seQ0KZm9yIHRoZSBleGlzdGluZyBwYXJzZXIuDQoN
-ClRlc3RpbmcgYWxzbyBzaG93ZWQgdGhhdCB0aGUgcmVxdWVzdCBzaXplIG5lZWRzIHRvIGJlIGNh
-cHBlZCBieQ0KZmMtPm1heF93cml0ZSBhcyB3ZWxsIGFzIGZjLT5tYXhfcGFnZXMuIGZjLT5tYXhf
-cGFnZXMgaXMgYSBwYWdlLWNvdW50DQpsaW1pdCwgYW5kIHdpdGggYSA0SyBob3N0IC8gNjRLIGd1
-ZXN0IHZpcnRpb2ZzZCBhZHZlcnRpc2VkIDEyNCBwYWdlcywNCndoaWNoIHRoZSBndWVzdCB0dXJu
-ZWQgaW50byBhbiB+OCBNaUIgUkVBRERJUi4gdmlydGlvZnNkJ3MgYnl0ZS1zaXplZA0KcGF5bG9h
-ZCBsaW1pdCB3YXMgMSBNaUIsIHNvIHRoZSBwYWdlLWJhY2tlZCB2ZXJzaW9uIHN0aWxsIGZhaWxl
-ZCB1bnRpbCB0aGUNCmZjLT5tYXhfd3JpdGUgY2FwIHdhcyBhZGRlZC4NCg0KSeKAmWxsIHNlbmQg
-b3V0IGEgdjIgc2hvcnRseS4NCg0KDQotbWF0dA0KDQo=
+
+This crash suggests an in-lookup dentry was dput() without
+d_lookup_done() being called first.  That results in ->waiters being
+used without being initialised.
+
+The inverted  test on d_unhashed() in
+  [PATCH v3 09/19] ovl: stop using lookup_one() in iterate_shared()
+  handling.
+
+could easily cause that to happen.
+
+So I believe this is now fixed.
+
+Thanks,
+NeilBrown
+
+
+On Mon, 27 Apr 2026, syzbot ci wrote:
+> syzbot ci has tested the following series
+>=20
+> [v3] Prepare to lift lookup out of exclusive lock for directory ops
+> https://lore.kernel.org/all/20260427040517.828226-1-neilb@ownmail.net
+> * [PATCH v3 01/19] VFS: fix various typos in documentation for start_creati=
+ng start_removing etc
+> * [PATCH v3 02/19] VFS: enhance d_splice_alias() to handle in-lookup dentri=
+es
+> * [PATCH v3 03/19] VFS: allow d_alloc_name() to be used with ->d_hash
+> * [PATCH v3 04/19] VFS: use wait_var_event for waiting in d_alloc_parallel()
+> * [PATCH v3 05/19] VFS: introduce d_alloc_noblock()
+> * [PATCH v3 06/19] VFS: add d_duplicate()
+> * [PATCH v3 07/19] VFS: Add LOOKUP_SHARED flag.
+> * [PATCH v3 08/19] VFS/xfs/ntfs: drop parent lock across d_alloc_parallel()=
+ in d_add_ci()
+> * [PATCH v3 09/19] ovl: stop using lookup_one() in iterate_shared() handlin=
+g.
+> * [PATCH v3 10/19] VFS/ovl: add d_alloc_noblock_return()
+> * [PATCH v3 11/19] efivarfs: use d_alloc_name()
+> * [PATCH v3 12/19] shmem: use d_duplicate()
+> * [PATCH v3 13/19] nfs: remove d_drop()/d_alloc_parallel() from nfs_atomic_=
+open()
+> * [PATCH v3 14/19] nfs: use d_splice_alias() in nfs_link()
+> * [PATCH v3 15/19] nfs: don't d_drop() before d_splice_alias()
+> * [PATCH v3 16/19] nfs: don't d_drop() before d_splice_alias() in atomic_cr=
+eate.
+> * [PATCH v3 17/19] nfs: Use d_alloc_noblock() in nfs_prime_dcache()
+> * [PATCH v3 18/19] nfs: use d_alloc_noblock() in silly-rename
+> * [PATCH v3 19/19] nfs: use d_duplicate()
+>=20
+> and found the following issues:
+> * KASAN: slab-out-of-bounds Read in __dentry_kill
+> * WARNING in __d_instantiate
+>=20
+> Full report is available here:
+> https://ci.syzbot.org/series/9ec82ecc-cc80-4fe2-b595-e5c9d7c49aae
+>=20
+> ***
+>=20
+> KASAN: slab-out-of-bounds Read in __dentry_kill
+>=20
+> tree:      torvalds
+> URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvald=
+s/linux
+> base:      254f49634ee16a731174d2ae34bc50bd5f45e731
+> arch:      amd64
+> compiler:  Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp=
+1~20251221153213.50), Debian LLD 21.1.8
+> config:    https://ci.syzbot.org/builds/01f9ecd4-e5ae-4e96-aff5-2636e33c052=
+8/config
+> syz repro: https://ci.syzbot.org/findings/ef8289e5-b522-4c69-bed5-f7be42e03=
+5c2/syz_repro
+>=20
+> overlayfs: "xino" feature enabled using 3 upper inode bits.
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> BUG: KASAN: slab-out-of-bounds in __raw_spin_lock_irqsave include/linux/spi=
+nlock_api_smp.h:132 [inline]
+> BUG: KASAN: slab-out-of-bounds in _raw_spin_lock_irqsave+0x40/0x60 kernel/l=
+ocking/spinlock.c:166
+> Read of size 1 at addr ffff888119c6e5b8 by task syz.0.17/5869
+>=20
+> CPU: 0 UID: 0 PID: 5869 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(ful=
+l)=20
+> Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16=
+.2-1 04/01/2014
+> Call Trace:
+>  <TASK>
+>  dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+>  print_address_description+0x55/0x1e0 mm/kasan/report.c:378
+>  print_report+0x58/0x70 mm/kasan/report.c:482
+>  kasan_report+0x117/0x150 mm/kasan/report.c:595
+>  __kasan_check_byte+0x2a/0x40 mm/kasan/common.c:574
+>  kasan_check_byte include/linux/kasan.h:402 [inline]
+>  lock_acquire+0x84/0x350 kernel/locking/lockdep.c:5842
+>  __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:132 [inline]
+>  _raw_spin_lock_irqsave+0x40/0x60 kernel/locking/spinlock.c:166
+>  complete_with_flags kernel/sched/completion.c:25 [inline]
+>  complete+0x28/0x1b0 kernel/sched/completion.c:52
+>  d_complete_waiters fs/dcache.c:651 [inline]
+>  dentry_unlist fs/dcache.c:664 [inline]
+>  __dentry_kill+0x552/0x690 fs/dcache.c:733
+>  finish_dput+0xc9/0x480 fs/dcache.c:928
+>  ovl_cache_update+0x68e/0xc30 fs/overlayfs/readdir.c:643
+>  ovl_iterate_merged fs/overlayfs/readdir.c:882 [inline]
+>  ovl_iterate+0x686/0x21a0 fs/overlayfs/readdir.c:930
+>  wrap_directory_iterator+0x96/0xe0 fs/readdir.c:67
+>  iterate_dir+0x399/0x570 fs/readdir.c:110
+>  __do_sys_getdents64 fs/readdir.c:399 [inline]
+>  __se_sys_getdents64+0xf1/0x280 fs/readdir.c:384
+>  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+>  do_syscall_64+0x15f/0xf80 arch/x86/entry/syscall_64.c:94
+>  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> RIP: 0033:0x7f7aa699cdd9
+> Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 =
+48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff =
+73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+> RSP: 002b:00007f7aa780a028 EFLAGS: 00000246 ORIG_RAX: 00000000000000d9
+> RAX: ffffffffffffffda RBX: 00007f7aa6c15fa0 RCX: 00007f7aa699cdd9
+> RDX: 0000000000001000 RSI: 0000200000000400 RDI: 0000000000000003
+> RBP: 00007f7aa6a32d69 R08: 0000000000000000 R09: 0000000000000000
+> R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+> R13: 00007f7aa6c16038 R14: 00007f7aa6c15fa0 R15: 00007ffce28f8638
+>  </TASK>
+>=20
+> Allocated by task 5869:
+>  kasan_save_stack mm/kasan/common.c:57 [inline]
+>  kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
+>  unpoison_slab_object mm/kasan/common.c:340 [inline]
+>  __kasan_slab_alloc+0x6c/0x80 mm/kasan/common.c:366
+>  kasan_slab_alloc include/linux/kasan.h:253 [inline]
+>  slab_post_alloc_hook mm/slub.c:4569 [inline]
+>  slab_alloc_node mm/slub.c:4898 [inline]
+>  kmem_cache_alloc_lru_noprof+0x2b8/0x640 mm/slub.c:4917
+>  __d_alloc+0x37/0x6f0 fs/dcache.c:1808
+>  __d_alloc_parallel+0xe3/0x1660 fs/dcache.c:2758
+>  ovl_cache_update+0x2c4/0xc30 fs/overlayfs/readdir.c:577
+>  ovl_iterate_merged fs/overlayfs/readdir.c:882 [inline]
+>  ovl_iterate+0x686/0x21a0 fs/overlayfs/readdir.c:930
+>  wrap_directory_iterator+0x96/0xe0 fs/readdir.c:67
+>  iterate_dir+0x399/0x570 fs/readdir.c:110
+>  __do_sys_getdents64 fs/readdir.c:399 [inline]
+>  __se_sys_getdents64+0xf1/0x280 fs/readdir.c:384
+>  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+>  do_syscall_64+0x15f/0xf80 arch/x86/entry/syscall_64.c:94
+>  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+>=20
+> Last potentially related work creation:
+>  kasan_save_stack+0x3e/0x60 mm/kasan/common.c:57
+>  kasan_record_aux_stack+0xbd/0xd0 mm/kasan/generic.c:556
+>  __call_rcu_common kernel/rcu/tree.c:3131 [inline]
+>  call_rcu+0xee/0x890 kernel/rcu/tree.c:3251
+>  __dentry_kill+0x4a9/0x690 fs/dcache.c:738
+>  finish_dput+0xc9/0x480 fs/dcache.c:928
+>  ovl_cache_update+0x68e/0xc30 fs/overlayfs/readdir.c:643
+>  ovl_iterate_merged fs/overlayfs/readdir.c:882 [inline]
+>  ovl_iterate+0x686/0x21a0 fs/overlayfs/readdir.c:930
+>  wrap_directory_iterator+0x96/0xe0 fs/readdir.c:67
+>  iterate_dir+0x399/0x570 fs/readdir.c:110
+>  __do_sys_getdents64 fs/readdir.c:399 [inline]
+>  __se_sys_getdents64+0xf1/0x280 fs/readdir.c:384
+>  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+>  do_syscall_64+0x15f/0xf80 arch/x86/entry/syscall_64.c:94
+>  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+>=20
+> The buggy address belongs to the object at ffff888119c6e468
+>  which belongs to the cache dentry of size 312
+> The buggy address is located 24 bytes to the right of
+>  allocated 312-byte region [ffff888119c6e468, ffff888119c6e5a0)
+>=20
+> The buggy address belongs to the physical page:
+> page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x119c6e
+> head: order:1 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+> memcg:ffff888119c6fed9
+> flags: 0x17ff00000000040(head|node=3D0|zone=3D2|lastcpupid=3D0x7ff)
+> page_type: f5(slab)
+> raw: 017ff00000000040 ffff888160417140 dead000000000100 dead000000000122
+> raw: 0000000000000000 0000000800150015 00000000f5000000 ffff888119c6fed9
+> head: 017ff00000000040 ffff888160417140 dead000000000100 dead000000000122
+> head: 0000000000000000 0000000800150015 00000000f5000000 ffff888119c6fed9
+> head: 017ff00000000001 ffffffffffffff81 00000000ffffffff 00000000ffffffff
+> head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000000002
+> page dumped because: kasan: bad access detected
+> page_owner tracks the page as allocated
+> page last allocated via order 1, migratetype Reclaimable, gfp_mask 0xd20d0(=
+__GFP_RECLAIMABLE|__GFP_IO|__GFP_FS|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__G=
+FP_NOMEMALLOC), pid 5645, tgid 5645 (syz-executor), ts 69015847006, free_ts 0
+>  set_page_owner include/linux/page_owner.h:32 [inline]
+>  post_alloc_hook+0x231/0x280 mm/page_alloc.c:1858
+>  prep_new_page mm/page_alloc.c:1866 [inline]
+>  get_page_from_freelist+0x24ba/0x2540 mm/page_alloc.c:3946
+>  __alloc_frozen_pages_noprof+0x18d/0x380 mm/page_alloc.c:5226
+>  alloc_slab_page mm/slub.c:3278 [inline]
+>  allocate_slab+0x77/0x660 mm/slub.c:3467
+>  new_slab mm/slub.c:3525 [inline]
+>  refill_objects+0x339/0x3d0 mm/slub.c:7251
+>  refill_sheaf mm/slub.c:2816 [inline]
+>  __pcs_replace_empty_main+0x321/0x720 mm/slub.c:4651
+>  alloc_from_pcs mm/slub.c:4749 [inline]
+>  slab_alloc_node mm/slub.c:4883 [inline]
+>  kmem_cache_alloc_lru_noprof+0x37c/0x640 mm/slub.c:4917
+>  __d_alloc+0x37/0x6f0 fs/dcache.c:1808
+>  d_alloc+0x4b/0x190 fs/dcache.c:1887
+>  lookup_one_qstr_excl+0xd8/0x360 fs/namei.c:1801
+>  __start_dirop fs/namei.c:2915 [inline]
+>  start_dirop fs/namei.c:2937 [inline]
+>  filename_create+0x20e/0x370 fs/namei.c:4949
+>  filename_mkdirat+0xd2/0x510 fs/namei.c:5286
+>  __do_sys_mkdirat fs/namei.c:5314 [inline]
+>  __se_sys_mkdirat+0x35/0x150 fs/namei.c:5311
+>  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+>  do_syscall_64+0x15f/0xf80 arch/x86/entry/syscall_64.c:94
+>  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> page_owner free stack trace missing
+>=20
+> Memory state around the buggy address:
+>  ffff888119c6e480: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>  ffff888119c6e500: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> >ffff888119c6e580: 00 00 00 00 fc fc fc fc fc fc fc fc fa fb fb fb
+>                                         ^
+>  ffff888119c6e600: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>  ffff888119c6e680: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+>=20
+> ***
+>=20
+> WARNING in __d_instantiate
+>=20
+> tree:      torvalds
+> URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvald=
+s/linux
+> base:      254f49634ee16a731174d2ae34bc50bd5f45e731
+> arch:      amd64
+> compiler:  Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp=
+1~20251221153213.50), Debian LLD 21.1.8
+> config:    https://ci.syzbot.org/builds/01f9ecd4-e5ae-4e96-aff5-2636e33c052=
+8/config
+> syz repro: https://ci.syzbot.org/findings/f4cad05d-60bf-4656-a4e7-27c99f4f0=
+56b/syz_repro
+>=20
+> loop2: detected capacity change from 0 to 16
+> erofs (device loop2): mounted with root inode @ nid 36.
+> ------------[ cut here ]------------
+> d_in_lookup(dentry)
+> WARNING: fs/dcache.c:2112 at __d_instantiate+0x3ea/0x6e0 fs/dcache.c:2112, =
+CPU#0: syz.2.19/5857
+> Modules linked in:
+> CPU: 0 UID: 0 PID: 5857 Comm: syz.2.19 Not tainted syzkaller #0 PREEMPT(ful=
+l)=20
+> Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16=
+.2-1 04/01/2014
+> RIP: 0010:__d_instantiate+0x3ea/0x6e0 fs/dcache.c:2112
+> Code: 03 41 80 f6 01 41 0f b6 ce c1 e1 0d 09 c1 89 0b 48 83 c4 10 5b 41 5c =
+41 5d 41 5e 41 5f 5d e9 7d 25 61 09 cc e8 87 21 7c ff 90 <0f> 0b 90 e9 7f fd =
+ff ff e8 79 21 7c ff 41 81 cc 00 00 01 00 e9 34
+> RSP: 0018:ffffc900038274a0 EFLAGS: 00010293
+> RAX: ffffffff82498229 RBX: ffff888114bb8a48 RCX: ffff88810b5e9d80
+> RDX: 0000000000000000 RSI: 0000000001000000 RDI: 0000000000000000
+> RBP: 0000000001000000 R08: 0000000000000003 R09: 0000000000000004
+> R10: dffffc0000000000 R11: fffff52000704e8c R12: 0000000000280000
+> R13: dffffc0000000000 R14: ffff888113d61960 R15: ffff888113d61964
+> FS:  00007fadb922c6c0(0000) GS:ffff88818dc93000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 00007fadb8272700 CR3: 000000016d53e000 CR4: 00000000000006f0
+> Call Trace:
+>  <TASK>
+>  d_make_persistent+0x8e/0x180 fs/dcache.c:3068
+>  shmem_mknod+0x2ea/0x360 mm/shmem.c:3881
+>  shmem_whiteout mm/shmem.c:4012 [inline]
+>  shmem_rename2+0x265/0x430 mm/shmem.c:4052
+>  vfs_rename+0xa96/0xeb0 fs/namei.c:6053
+>  ovl_do_rename_rd fs/overlayfs/overlayfs.h:372 [inline]
+>  ovl_check_rename_whiteout fs/overlayfs/super.c:593 [inline]
+>  ovl_make_workdir fs/overlayfs/super.c:713 [inline]
+>  ovl_get_workdir fs/overlayfs/super.c:836 [inline]
+>  ovl_fill_super_creds fs/overlayfs/super.c:1449 [inline]
+>  ovl_fill_super+0x46b7/0x5e20 fs/overlayfs/super.c:1560
+>  vfs_get_super fs/super.c:1327 [inline]
+>  get_tree_nodev+0xbb/0x150 fs/super.c:1346
+>  vfs_get_tree+0x92/0x2a0 fs/super.c:1754
+>  fc_mount fs/namespace.c:1193 [inline]
+>  do_new_mount_fc fs/namespace.c:3758 [inline]
+>  do_new_mount+0x341/0xd30 fs/namespace.c:3834
+>  do_mount fs/namespace.c:4167 [inline]
+>  __do_sys_mount fs/namespace.c:4383 [inline]
+>  __se_sys_mount+0x31d/0x420 fs/namespace.c:4360
+>  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+>  do_syscall_64+0x15f/0xf80 arch/x86/entry/syscall_64.c:94
+>  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> RIP: 0033:0x7fadb839cdd9
+> Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 =
+48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff =
+73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+> RSP: 002b:00007fadb922c028 EFLAGS: 00000246 ORIG_RAX: 00000000000000a5
+> RAX: ffffffffffffffda RBX: 00007fadb8615fa0 RCX: 00007fadb839cdd9
+> RDX: 0000200000000340 RSI: 00002000000000c0 RDI: 0000000000000000
+> RBP: 00007fadb8432d69 R08: 0000200000000380 R09: 0000000000000000
+> R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+> R13: 00007fadb8616038 R14: 00007fadb8615fa0 R15: 00007ffe45be7c28
+>  </TASK>
+>=20
+>=20
+> ***
+>=20
+> If these findings have caused you to resend the series or submit a
+> separate fix, please add the following tag to your commit message:
+>   Tested-by: syzbot@syzkaller.appspotmail.com
+>=20
+> ---
+> This report is generated by a bot. It may contain errors.
+> syzbot ci engineers can be reached at syzkaller@googlegroups.com.
+>=20
+> To test a patch for this bug, please reply with `#syz test`
+> (should be on a separate line).
+>=20
+> The patch should be attached to the email.
+> Note: arguments like custom git repos and branches are not supported.
+>=20
+>=20
+
