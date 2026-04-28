@@ -1,127 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CB0D3D9DDE;
-	Tue, 28 Apr 2026 08:55:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6566B284B4F;
+	Tue, 28 Apr 2026 08:57:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777366526; cv=none; b=OwYtnFC0XJLTPG7l/axj7+9E9GrP/oB0zML3isM9jHtypHhIZCoE7gJBL+dCaV/bvY/Gs0N3LZnNJrFb9dYCMn/DfONglqxl7Vml4EMzhjgiZ0L0QtFkCpRZ7at+GWjXzf33PPSQg/jMmL0Oc9FVDHI1yr5FiT26R4kvJMEbBOc=
+	t=1777366648; cv=none; b=ri/6bpLNA19xwqpF7/w5MMuBNMxFDZW6VY9nPpGSuTQIq3Auww9O4qPT1LpF3Dt2dV78ukQ8gxHJ+tVZCXD4ziM5p9azv3W2pcC9ogRoUcNvoyBz4+pb6ep2vc/TdG2g9L25p5AggXgHvG6Up6Vkbi6aJKOZasllkpqnzm1Xw20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777366526; c=relaxed/simple;
-	bh=yNHjOgj0lHYbRohpDEFZC+8Hn3fGX3Sp9ArYLyuvzj4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NDRU+yfF+NBkwT+BCh3AMc9TuyUfGcfQzmLkmnANdg6cRzEUxwLsG66M+3X2RYd50fp+pTGmO6tvkpjpDs/ic2ibt3Lvfzxw39XquJS6sNt7vMrm79NV0C8aqnhT4wcDDzezkmp0Go5iARrwtAsRXb7LAs0zWdSGngi5307WYk0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n7Q94D6b; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777366648; c=relaxed/simple;
+	bh=xclQQIL8NwuCclPKqefRCZG1sgW2GMTH0/6VLG41tk0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=kShRGl4p8JtaRwQ8PcuMXLGrdF3+SVZDdYJ66uSCRg66jGq3u67WxDWpd9Rn0AqiXFhxsm/ag7C8ovFbzdlB9yk6oKJLUFWHnMfJHE3cHzgrgP4LuYsOcfl9DE6V2eHZGra+TYMWZOU/gy8EpLSddkJaRjl1vks/cI1V4P0uktM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=OPaA5HaP; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n7Q94D6b"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74246C2BCB5;
-	Tue, 28 Apr 2026 08:55:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777366526;
-	bh=yNHjOgj0lHYbRohpDEFZC+8Hn3fGX3Sp9ArYLyuvzj4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=n7Q94D6bcmzAY7l3bw7ZxQq1YiLwkR9zbSrwN/XaH3a3+/rgFcPETePHwPfC/K3Nx
-	 ObDjANW77xQ5wVR0FiYdt27AIiOVVVBBM/g8AiQxUx3EERJUub+whwBRLdb8eaC0QX
-	 1CQfDvM1eEliP1Hu7wsBK+SsRmhzDNPKpLo0CHYT9Ei9zdDrVvLVXYG45P0VlLHVQE
-	 8HN5YqRi1cXOki0HS7C3pvLF7RIe1YmbKWGnJ7eSPLHwc+9+d/cwkxjiUEhYEAc3cj
-	 UXUwVR6KcbWc1DNiyZsE9veE6+n40xUvfGKusx6iPjwhA7xsNUVy2jWY23GVzSYWIi
-	 1Uxxb8PBY4FEA==
-Date: Tue, 28 Apr 2026 10:55:17 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Mateusz Guzik <mjguzik@gmail.com>
-Cc: Jori Koolstra <jkoolstra@xs4all.nl>, Andy Lutomirski <luto@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Arnd Bergmann <arnd@arndb.de>, "H . Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, 
-	Peter Zijlstra <peterz@infradead.org>, Andrey Albershteyn <aalbersh@redhat.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
-	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jeff Layton <jlayton@kernel.org>, Aleksa Sarai <cyphar@cyphar.com>, cmirabil@redhat.com, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-api@vger.kernel.org, linux-arch@vger.kernel.org
-Subject: Re: [RFC PATCH v2 1/2] vfs: syscalls: add mkdirat2() that returns an
- O_DIRECTORY fd
-Message-ID: <20260428-zoodirektor-latten-e412db97141d@brauner>
-References: <20260412135434.3095416-1-jkoolstra@xs4all.nl>
- <20260412135434.3095416-2-jkoolstra@xs4all.nl>
- <5xexygc3rvvlir4smdfn7gndwjgbuijqfummwwumivsnosijux@ygqs3iqxmovh>
- <20260427-rudel-gipsabdruck-a7884db4ecea@brauner>
- <CAGudoHFLSHhDZoC6maLsn234dMQVnG4ZbpKXoVrueGujArNF-A@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="OPaA5HaP"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3DFEA41098
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1777366646; bh=2GBDkqjHSnTS09OIQycXaS4NTzGlXa4b7R9ZaH54qp0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=OPaA5HaPKyEEhkwgoQarllDv6r+yLwuNpS24o5MUQ7cX8nklezUw3jBop0y0PXlPJ
+	 wKN3+hjVnlxtHecOFJO/+gpjtqZCkAhBCVd2qDRgUVZdQ+o1xzc9CnZ91idwnxR6il
+	 FhKbVbJUoiZAOTpq7cDd8/UyrO4fyNX0379ZLEAItBm6Z4WGCyF888IeFFX4/7Eq3e
+	 tMmeXpf2WbvGXln0lTJ3BuvhB9UeUFXbWN5E6h1e724jMC7Gcu107CRc2ckKYT59Fh
+	 lgE1/4NNWnOPmPzmlh8aHWyehdQh9QPfBRnBr4G2uwrJDskeeB98KBGvzSRQX9Q44P
+	 Z6vG5eRjZhv8w==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 3DFEA41098;
+	Tue, 28 Apr 2026 08:57:25 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: liubaolin <liubaolin12138@163.com>, Randy Dunlap
+ <rdunlap@infradead.org>, skhan@linuxfoundation.org, cyphar@cyphar.com,
+ vbabka@kernel.org, surenb@google.com
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Baolin Liu <liubaolin@kylinos.cn>
+Subject: Re: [PATCH v2 v2] Documentation: proc: fix section numbering in
+ table of contents
+In-Reply-To: <9455d5d6-80b7-4c0a-a569-fef3bd9f1529@163.com>
+References: <20260424090654.19229-1-liubaolin12138@163.com>
+ <df3b6729-ed3b-42e3-9a8a-f77ebf827dd7@infradead.org>
+ <87wlxspw1j.fsf@trenco.lwn.net>
+ <9455d5d6-80b7-4c0a-a569-fef3bd9f1529@163.com>
+Date: Tue, 28 Apr 2026 02:57:22 -0600
+Message-ID: <87ik9bmphp.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGudoHFLSHhDZoC6maLsn234dMQVnG4ZbpKXoVrueGujArNF-A@mail.gmail.com>
+Content-Type: text/plain
 
-On Mon, Apr 27, 2026 at 06:30:42PM +0200, Mateusz Guzik wrote:
-> On Mon, Apr 27, 2026 at 5:14 PM Christian Brauner <brauner@kernel.org> wrote:
-> >
-> > > Things proceed to handle_truncate:
-> > >       int error = get_write_access(inode);
-> > >       if (error)
-> > >               return error;
-> > >
-> > >       error = security_file_truncate(filp);
-> > >       if (!error) {
-> > >               error = do_truncate(idmap, path->dentry, 0,
-> > >                                   ATTR_MTIME|ATTR_CTIME|ATTR_OPEN,
-> > >                                   filp);
-> > >       }
-> > >
-> > > I'm going to ignore the LSM situation and do_truncate failure modes in this one.
-> > >
-> > > AFAICS nothing prevents the same user from racing against file creation to
-> > > execve it, which starts with exe_file_deny_write_access. Should the
-> > > other thread win the race, get_write_access will fail and the WARN_ON
-> > > splat will be generated. That is definitely a problem.
-> >
-> > That can't happen:
-> >
-> > static inline int get_write_access(struct inode *inode)
-> > {
-> >         return atomic_inc_unless_negative(&inode->i_writecount) ? 0 : -ETXTBSY;
-> > }
-> >
-> > and the check is:
-> >
-> > error = handle_truncate(idmap, file);
-> > if (unlikely(error > 0)) {
-> >
-> > This was a catch all for broken LSM hook or ->open() instance.
-> >
-> 
-> So with this prog:
-> #include <fcntl.h>
-> 
-> int main(void)
-> {
->     open("test", O_TRUNC);
-> }
-> 
-> I verified writecount is 0 on entry to handle_truncate like so:
-> 
-> bpftrace -e 'kprobe:security_file_truncate { @[comm, (int64)((struct
-> file *)arg0)->f_path.dentry->d_inode->i_writecount.counter] = count();
-> }'
-> 
-> @[a.out, 1]: 1
-> 
-> i.e., get_write_access in handle_truncate transitioned the count 0 -> 1
-> 
-> but then what prevents the following race:
-> 
-> CPU0                    CPU1
-> open("test")            execve("test")
->   handle_truncate         do_open_execat
->                             exe_file_deny_write_access # should
-> succeed as count is 0?
->   get_write_access # should fail as the count is now -1?
+Your use of HTML email almost certainly prevents your messages from
+making it onto the lists; you need to stop doing that.
 
-I'm not arguing that get_write_access() cannot fail. I'm arguing that it
-cannot hit that WARN_ON() as you said above because get_write_access()
-returns either 0 or -ETXTBUSY.
+liubaolin <liubaolin12138@163.com> writes:
+
+>         I mainly work on ext4 kernel development. Recently, I've been
+> implementing a feature that changes the usage of the ext4 proc
+> parameter mb_stats, which requires updating the ext4 proc parameter
+> documentation.  Currently, the ext4 proc parameter documentation is
+> explained in two files: "Documentation/admin-guide/ext4.rst" and
+> "Documentation/filesystems/proc.rst".
+>
+>         However, I found that only the ext4 file system describes the
+> proc parameters in proc.rst, while other file systems such as btrfs
+> and xfs do not describe the proc parameters they use in the file.
+> Personally, I also feel that it is unnecessary to explain the ext4
+> proc parameters in proc.rst.
+>
+>         Therefore, I want to make a change by deleting the "Ext4 file
+> system parameters" section from the proc.rst file.  After
+> modification, the usage and explanation of ext4 proc parameters will
+> only be provided in Documentation/admin-guide/ext4.rst.
+
+Documenting things twice is obviously not ideal; readers will wonder
+about the truth when they inevitably go out of sync.
+
+>         If you agree, I will submit a patch to remove the "Ext4 file
+> system parameters" section.  If you disagree, my subsequent
+> modifications to the ext4 proc parameters will be made simultaneously
+> to the two documents: Documentation/admin-guide/ext4.rst and
+> Documentation/filesystems/proc.rst.  I look forward to your comments
+> and replies.
+
+I think that having a single location for that documentation makes
+sense.  Whether it's in the individual filesystem docs or centrally
+located is up to the filesystem maintainers in the end.  If you move
+that documentation out of Documentation/filesystems/proc.rst, it would
+be good to add links to the filesystem-specific parameters in its place,
+though.
+
+Longer term, it seems to me that much of what's in that file really
+belongs in the admin guide, though.
+
+Thanks,
+
+jon
