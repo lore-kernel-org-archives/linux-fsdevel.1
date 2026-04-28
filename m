@@ -1,60 +1,56 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF18434D91F;
-	Tue, 28 Apr 2026 06:49:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C1F370D44;
+	Tue, 28 Apr 2026 07:01:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777358956; cv=none; b=L4e2RL+sthERGGCCmiPiSk2btRZnC65jVGRjgpc2bl+LqCQimH7RLdPe+OGoUtXzf2bbCBbmbTIOsA3XJQyfL35FY4m3yKRG59VPiTYhs5afvtKjQINHSgAYHCdhTCKRI2TbUvIfXII2bimlYJ2JSDgSdvIZFwCd+19d9PcbT+k=
+	t=1777359688; cv=none; b=C0VRepABoW86BA+BmY9WjbKoAcSDHaKhLZmBMkGOHBgfeLQXhmofu7ZaqxkKgBxCfknTzV+M+gawaEQxlDrS1M95hGLmW15t+f5EfpHHjPhtkbilN7rCim1tB46g7Q3KLY9oX5EykX+9UHc1smQ/9g9l9jfN0FqNDvYgXVAOyGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777358956; c=relaxed/simple;
-	bh=O6Tl5uKBi0wzghvUNws6dob3i+/LXRVGkMCIkzps4sM=;
+	s=arc-20240116; t=1777359688; c=relaxed/simple;
+	bh=Q+fnLr4bTuGEEXUIfbiQXXTjnYu9s+P4pBU0HyJ5CM0=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=TWbqBgCMRVjVtjnYXplI+Y9tbY8fO8IDPAjjRe8Ieu9UudeMeWv4U08A6mmcIyML7ZwvnIhqasLzXlTQbpnV92P94yjxT29FGMMhWVjOoBb1OKJ1UXSdEUS5DW/7zcwPLHorUu/Bouxmpfod7axrVskFPtwbL5zKjcrKJo7NmcU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=esWUtAvA; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=meqAueDksAvkljjMJvZkXWyO1dwXOAUQCvZwT5Kdk7gSZhBBCun3d7PACI20hS0aNOG35bBAekBSYtBRYxfaso7ujDBmHhzmEQ++veF+LN2CjuvDjVUF2bcxaUzFeFrc9j4bEJ1lRN+k4mNxEWN+aaydgY8/IbfQZ9d2MVBeNe8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ckcZvxvt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="esWUtAvA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F094C2BCAF;
-	Tue, 28 Apr 2026 06:49:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ckcZvxvt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF9D6C2BCAF;
+	Tue, 28 Apr 2026 07:01:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777358956;
-	bh=O6Tl5uKBi0wzghvUNws6dob3i+/LXRVGkMCIkzps4sM=;
+	s=k20201202; t=1777359688;
+	bh=Q+fnLr4bTuGEEXUIfbiQXXTjnYu9s+P4pBU0HyJ5CM0=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=esWUtAvAg85xffSclXJ2spbcOZo6K08t3Py1mIcO1/GgcDIRe38KSZ/eqYq2nCQt5
-	 G+aK0NhDAR7gRI/kyn/5t1uB66kWlYEPKC/0aMPiz+Lb/fEimsbnnAEY1emOCyyD+t
-	 yIjw8WkYSFa/Cei9Fzr6TLMqTVTHteiCS9W/ZzZNWQqb+MPoEMEUT3+RiI2czfnCoa
-	 ESjtUACghBgogglewSRom0JMpIpJwdDmVXy1TvXcI6t76m0vvfQouy1coW27925dwR
-	 n+OSne1CqBKIt6vaO0F/ny/bqKMgIE8zd1GyXj5ydLj4eD3rqeniTsfsFANTgEDZWl
-	 DtkosIk/qNTKw==
-Message-ID: <7a5bfc91266c4432e0b21eb98e2e1087936cb657.camel@kernel.org>
-Subject: Re: [PATCH v3 2/4] mm: kick writeback flusher for IOCB_DONTCACHE
- with targeted dirty tracking
+	b=ckcZvxvtp+m0nlGQxDKN6G0mPK+76DduEJLsVPKl0X9ixhhro+jgwuv5nsdMN7m3k
+	 DNlbVNc7Nk3buRDa6kbJ3Hz5/NEYJjRo1866QT4cXLTbqaXXLRbGYarCJJ7MEMnrEp
+	 00ziu6yzQ9LrIkyGyMwVvPa80PhK5d2eQpUztbajJwLs2S8ugAWMri4O9a3CeDhX6+
+	 rA7GLDCqa9f6w0rIQSdBEEGPQiBYKLx9bvyTe+FuW8dxYKmxYp68lGpKTOHQyIc3st
+	 rAnplVrjEiZXtC21RW4MuhQaJNwiKpdSHEpckrIxzZSyjN6IOYnITDaNBcvR/CeKv3
+	 KNLJ/CJhNK/vQ==
+Message-ID: <086f5ae7e60bae7942831ee4c9915683c4ccc46f.camel@kernel.org>
+Subject: Re: [RFC PATCH v2 1/2] vfs: syscalls: add mkdirat2() that returns
+ an O_DIRECTORY fd
 From: Jeff Layton <jlayton@kernel.org>
-To: Ritesh Harjani <ritesh.list@gmail.com>, Alexander Viro	
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara
-	 <jack@suse.cz>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Andrew
- Morton	 <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>,
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett"
- <Liam.Howlett@oracle.com>, Vlastimil Babka	 <vbabka@kernel.org>, Mike
- Rapoport <rppt@kernel.org>, Suren Baghdasaryan	 <surenb@google.com>, Michal
- Hocko <mhocko@suse.com>, Mike Snitzer	 <snitzer@kernel.org>, Jens Axboe
- <axboe@kernel.dk>, Christoph Hellwig	 <hch@infradead.org>, Kairui Song
- <kasong@tencent.com>, Qi Zheng	 <qi.zheng@linux.dev>, Shakeel Butt
- <shakeel.butt@linux.dev>, Barry Song	 <baohua@kernel.org>, Axel Rasmussen
- <axelrasmussen@google.com>, Yuanchu Xie	 <yuanchu@google.com>, Wei Xu
- <weixugc@google.com>, Steven Rostedt	 <rostedt@goodmis.org>, Masami
- Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Chuck Lever <chuck.lever@oracle.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-nfs@vger.kernel.org, linux-mm@kvack.org, 
-	linux-trace-kernel@vger.kernel.org
-Date: Tue, 28 Apr 2026 07:49:08 +0100
-In-Reply-To: <jytsrnn1.ritesh.list@gmail.com>
-References: <20260426-dontcache-v3-0-79eb37da9547@kernel.org>
-	 <20260426-dontcache-v3-2-79eb37da9547@kernel.org>
-	 <qzo1s6a4.ritesh.list@gmail.com>
-	 <bb418f9a7bfcabc3070b412c745c5b6456d592b9.camel@kernel.org>
-	 <jytsrnn1.ritesh.list@gmail.com>
+To: Christian Brauner <brauner@kernel.org>, Jori Koolstra
+ <jkoolstra@xs4all.nl>
+Cc: Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
+ <dave.hansen@linux.intel.com>, 	x86@kernel.org, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Arnd Bergmann	 <arnd@arndb.de>, "H . Peter
+ Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>,  Peter Zijlstra
+ <peterz@infradead.org>, Andrey Albershteyn <aalbersh@redhat.com>, Masami
+ Hiramatsu	 <mhiramat@kernel.org>, Jiri Olsa <jolsa@kernel.org>, Thomas
+ =?ISO-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>, Mathieu
+ Desnoyers <mathieu.desnoyers@efficios.com>, Aleksa Sarai	
+ <cyphar@cyphar.com>, cmirabil@redhat.com, Greg Kroah-Hartman	
+ <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-arch@vger.kernel.org
+Date: Tue, 28 Apr 2026 08:01:22 +0100
+In-Reply-To: <0028f90b0d06cdfcf6b306941fdc3dcbe6c6ab0d.camel@kernel.org>
+References: <20260412135434.3095416-1-jkoolstra@xs4all.nl>
+		 <20260412135434.3095416-2-jkoolstra@xs4all.nl>
+		 <20260427-umlegen-aufbau-ee3a97f1528a@brauner>
+	 <0028f90b0d06cdfcf6b306941fdc3dcbe6c6ab0d.camel@kernel.org>
 Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
  keydata=mQINBE6V0TwBEADXhJg7s8wFDwBMEvn0qyhAnzFLTOCHooMZyx7XO7dAiIhDSi7G1NPxw
  n8jdFUQMCR/GlpozMFlSFiZXiObE7sef9rTtM68ukUyZM4pJ9l0KjQNgDJ6Fr342Htkjxu/kFV1Wv
@@ -139,46 +135,28 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-On Tue, 2026-04-28 at 04:56 +0530, Ritesh Harjani wrote:
+On Tue, 2026-04-28 at 07:39 +0100, Jeff Layton wrote:
+> On Mon, 2026-04-27 at 17:48 +0200, Christian Brauner wrote:
+> >=20
+> >=20
+> > And side-question: @Jeff, can nfs atomic open deal with O_CREAT |
+> > O_DIRECTORY?
 > >=20
 >=20
-> I guess you missed answering this. The reason why I was asking about this=
- is....
->=20
+> No, it can't. OPEN calls only work on regular files. This is why
+> O_DIRECTORY works on NFS. If we end up issuing an OPEN against a
+> directory, it'll fail, which is what we want in that situation.
 
-Oops, sorry...
+To be clear, we could make that work by sending a second RPC:
 
-> > > >                        baseline    patched     change
-> > > >   buffered              1619.5     1611.2      -0.5%
-> > > >   dontcache             1281.1     1629.4     +27.2%
-> > > >   direct                1545.4     1609.4      +4.1%
-> > > >=20
->=20
-> ... If we see the performace of buffered and dontcache in baseline case,
-> then we don't see dontcache doing any good. Even the patched version is
-> just slightly better compared to buffered case.
->=20
-> But IIUC, dontcache should really shine in cases where we have buffered
-> writers dirtying the page cache pages which can overflow the RAM size
-> [1]. The reason why dontcache should show benefit there is, because we
-> don't see any page cache pressure, since after writeback the pages gets
-> evicted. Also earlier in the unpatched version, the I/O submission
-> happens immediately in the same context.
->=20
-> So, I guess, isn't it better to evaluate those scenarios as well with
-> the patched version - since this series affects those code paths now?
->=20
-> [1]: https://lore.kernel.org/all/20241110152906.1747545-11-axboe@kernel.d=
-k/
->=20
-> >=20
+    PUTFH+OPEN+....   (OPEN fails with NFS4ERR_ISDIR)
 
-Ok, that's a good point. I'll have Claude recreate a benchmark that
-mirrors what Jens did in the original posting and make sure the
-behavior of that test doesn't regress (at least not significantly).
+...and then send:
 
-I'll try to get this done before LSF/MM, but we'll see.
+    PUTFH+CREATE...
 
-Cheers,
+...for a directory (which is how mkdir works in v4). If the calls race
+with something else being created in its place, we could just open it
+if it's a directory, or fail.
 --=20
 Jeff Layton <jlayton@kernel.org>
