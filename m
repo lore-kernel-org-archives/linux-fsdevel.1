@@ -1,132 +1,156 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a7-smtp.messagingengine.com (fout-a7-smtp.messagingengine.com [103.168.172.150])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F59F481FC0
-	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Apr 2026 23:25:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AF8139BFE8;
+	Tue, 28 Apr 2026 23:27:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777418731; cv=none; b=kjqIArOKDpuwZ+Db9ZYKQxoeG4UvBxWq7lNuTlMOemCyAVE3gFC8mfJ9k+CNTYzUrCT1+qAKiQLpJuDSL4yIsMw11KB9ImDNvuq5nqUPYGkJBj9AHiAIoM2CHXmY6NrTdYto1/kABdw66XESLw/1huS1zXa+++/IyiFPALEGFRY=
+	t=1777418826; cv=none; b=pwIEnSngWaMKmjsWXxj425oqpFL9t4V12q7pOBFCb8CIPk7y4cQ7Lkg2UL9dk1HAvmEW7MmqqxyzMcFhN8wMWGCfwNAx4+eRauK9+EEJxXN7N4QbjnunDrPSVkNf2xC970lpQVijdVkCBB72bMyRFLciFeEN8ZxFJdZG1TZv190=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777418731; c=relaxed/simple;
-	bh=R6cQfvSjsIKmI/Y08xsoDpxCht3Jq53qKnqck3FE+rk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fBno4BMjXHt0TyIYIQ02NK4KOAkd61z8osuql1oXMNRfS9RFQ+UPiEsg8Qt76tRIZ7bduaQRkf99h09RNAuyBIt0b9M8636WLePbiBDkyEhhSEfOGLLvqtIH86acrwFy6wtkFh/1QnpXOfTZfRFasHcYyv2+QU2ZSzwA82bQrd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GMLm+pI/; arc=none smtp.client-ip=209.85.216.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777418826; c=relaxed/simple;
+	bh=H83mUExKMOJ9QVnA/PT+IyVVWp9gs26S0cQ2MWYxix0=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=ADtp/abKTJD6P19OvCKEAr0Y+I4GdtSMqaQrEEnC2OJ0ZFYZpl8cVVujBA7ViDoOcYvR7kdEdQT6NbiyevRMfUMjV8RkQFIoQBg6f4RDWVsUaVPadiTQJlnNhgO0HA/kCQMa5i2AiacXDwqd1P6+6Bv0xBNkdGKaqS22QvjmHJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=SERDNOiD; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=r6HyJ9i3; arc=none smtp.client-ip=103.168.172.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GMLm+pI/"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-362bb3260f1so6006658a91.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 28 Apr 2026 16:25:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777418729; x=1778023529; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tOJluPxYzNGos+SwkCBaicu5SwImO2KTCLCxq5NtkQk=;
-        b=GMLm+pI/TVwFbWofeaJallLHwv/cLzYJZoyurNSaTjZAxnf5QMDFJIMdvgjbrvC5vx
-         EdX6jV1ukWB+qWpkZvX7xafRXY4IZlY8x+18rR/DquRVGrhjYwsUS8yYRqz678Wlhy4f
-         eALVaWZAHLhlzp5AEM+1rwvxf/5I1mUvhfWFGSGrz21ns6r88Vfg2IvbIKiwAo54MYl6
-         G6siiuef2y9YavoX2iPMxrwfMoi+VcNF3zYk8nl34D4iIl2mlEuROZC6W92JlChl5Uep
-         Gb7MPeVE7i0kP7bNnT/+dYhXxifE7lz/9Q60kqO2TLsaXBIGtua3VNHbb4W/t2gsPT5O
-         0Stw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777418729; x=1778023529;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tOJluPxYzNGos+SwkCBaicu5SwImO2KTCLCxq5NtkQk=;
-        b=B3fHgDjx2NQtd9rgHO0kSM3bvk5pt5Hun4+bqYfc5rNFp8I3zs0XNuCT26SPX4Kf/c
-         mAtBHwEzJKtDSOyzQXeWBB1rKdTVM9BqKw4ktlSU+FFmrDBZA7ZZfhYhNIjyp+qu0NSk
-         y416JRVxrwyl2y71ygP0kjeWXRbCxKNsOfw8I3j6exku/imcg2YRN0LTkwlSgHg6xumU
-         Gi9ZGDNmPQejA9U78ywHuQNwuYUdQRzHIto8Se+MEDxU/xMCnkeSAy77FAbxexDFGE/H
-         a5vF2a7b08SiQ3sqC1finTz4YaZ3PbUyWnETg+XYl//xUDXmlO/xzBlom6+/k6GEOgoe
-         SWTA==
-X-Forwarded-Encrypted: i=1; AFNElJ8Lv9gF8rAgcD6yzu3DCviKW5stk49D/3yQLyB3hdk13O7Ox6E92w/0Uym99PUHKcLNFkYTLzobLIFw+CvW@vger.kernel.org
-X-Gm-Message-State: AOJu0YwV2uShndh0tcjQzZVzhh7+DuPO97Jr8gncvKralgkTOLbEDhud
-	3z2+H7bfBDDmwS+6u9ONFnUwQgA56STHFE9HTguuOX7sQaDTYRpztYob
-X-Gm-Gg: AeBDievpWd9WzdGTm9Yh02kgYqJOC20svyYIs/HNajdgIvpqoxqwvW66fSH8cZBXoZC
-	WPomOzjRvVS3CmLpUlIoUCwtmxkcVjd3bHM3zEFgRbdecbLbUk2Acgm3YPCDM8spEjIpWLZBjte
-	bYCPfSLLv5m8TmGR6Te9aF+mxpefqkNIUymk7dmfcZjEMgVUvJnLY/Lg6PlAgH+jo2E1hTQHlD9
-	sZhs5BKgHh+KSr2E5DTtyRRDj7jZSwrNaJLYddIB4KexGOQR0Yba69QasepfL0xTrMQOCm/q1EU
-	ot+5Qc7hQrUye586UX8Hm0gyI6vDVFtrZgVFkrqae+BaUWJuGu0SlyPqCjKV639LH86fNt3+zHs
-	tI+/houKm66fJ20MEf59n3M+4M9KinmkTHM4rJQCK46Bw2lrLIj22VCfkvGgpRdpHdIsxLsAxKt
-	5G3WmZm3OdtpXNMvfWD3Gq6i55
-X-Received: by 2002:a17:90b:264c:b0:35b:a418:698c with SMTP id 98e67ed59e1d1-364a0b82c88mr1309297a91.12.1777418729293;
-        Tue, 28 Apr 2026 16:25:29 -0700 (PDT)
-Received: from localhost ([27.122.242.71])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-364a0115274sm803468a91.2.2026.04.28.16.25.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Apr 2026 16:25:28 -0700 (PDT)
-Date: Wed, 29 Apr 2026 08:25:26 +0900
-From: Hyunchul Lee <hyc.lee@gmail.com>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Namjae Jeon <linkinjeon@kernel.org>,
-	Zhan Xusheng <zhanxusheng@xiaomi.com>,
-	linux-fsdevel@vger.kernel.org, llvm@lists.linux.dev,
-	patches@lists.linux.dev
-Subject: Re: [PATCH] ntfs: Use return instead of goto in
- ntfs_mapping_pairs_decompress()
-Message-ID: <afFB5jP8Wer3MYRp@hyunchul-PC02>
-References: <20260428-ntfs-fix-sometimes-uninit-rl-v1-1-31e0c8025430@kernel.org>
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="SERDNOiD";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="r6HyJ9i3"
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfout.phl.internal (Postfix) with ESMTP id 306A4EC0129;
+	Tue, 28 Apr 2026 19:27:02 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Tue, 28 Apr 2026 19:27:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm2; t=
+	1777418822; x=1777505222; bh=at/a6IqJDyCCIZdrIl3n76yHV6BWGZ2EUYj
+	l3mPQ+fc=; b=SERDNOiDle0vCp609KWqlYsQQFrEXAL85Bk39reBC8w74xyf2WT
+	MMDif7fmPWa3l4q9hsYTJs45IrPdzCYurQg5kA9RGEqNn6kW7lVDnHFzi6ehO953
+	dkwcFeCNOsIsXoxc3Ia42rCy8+8BetAzRUdhyQY+5/G6ptowgOLHFmLbr8UQBXRV
+	838SRHKQylJDtwI6Hq8Ge1qtrPZ8yZ7fQOsEo8L1o31H6hXaO10I5oqrk/rSCHVi
+	+dGpNAQ2H2VhWbcW1lAuRubZvdvNG4ohp4OXP79eUHawOkw2wIP90YVWUhi2TC46
+	TtH6cVN76SSXWMI/r3XvN8eEHpposQceN2A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1777418822; x=
+	1777505222; bh=at/a6IqJDyCCIZdrIl3n76yHV6BWGZ2EUYjl3mPQ+fc=; b=r
+	6HyJ9i3TZwRKv1XLp1D7bPNclNrhDHj+zdG2klB09MHuMw95eXc+ouZFdUFnIQ4e
+	rROlBeSyfgsFGQU3Bkt+PGC5bW8Y38ziOTzy2rCdzbCIPCQG8oS2SoNXdNMyd7rF
+	QlnICR1J1Ya03hCALU3PtrrSAKOkirpLQeLI7i9edxbYhE9J70vezuxf61JUIRRo
+	h7icrpeFL0yUxHKnUf67x/RQ5IDZNSZOvqSuVWNQr3wwsuQteO9Q8DVUmuq3b45k
+	yIX7B1W82UUWrFWv+lewOqaoj1kSCZF6ECF1O6SWG+iXht39enlo4ClhP+F7520e
+	x7S6/0LvJOZlrJwzrMonw==
+X-ME-Sender: <xms:RULxaQzRCQyZrVTAI9K4LF-ayzqIH5tdx0Czi3e-a4fiWDc34182sA>
+    <xme:RULxaQmUkL4KsmjNACuNx-2nyXlB1eo8DSN_kb4AHd6LhJ7HOUhqAi4ZvKOkevj2o
+    4Eggi55w2leZoMQ_cK9EBOasEbYJEbKQ1pEK77UjwUKmg-T>
+X-ME-Received: <xmr:RULxaT_A0Aj8ivIzKyW6AnfX6XUWJpHiFwcr5wEIYemS_s_zWEP6FeCH8EO6YLGLmGZcb3IubPN-tHUH__2KeowqZa2G-78>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdekvdekkecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpegtgfgghffvvefujghffffkrhesthhqredttddtjeenucfhrhhomheppfgvihhluehr
+    ohifnhcuoehnvghilhgssehofihnmhgrihhlrdhnvghtqeenucggtffrrghtthgvrhhnpe
+    eljedtfeegueekieetudevheduveefffevudetgfetudfhgedvgfdtieeguedujeenucev
+    lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnvghilhgsse
+    hofihnmhgrihhlrdhnvghtpdhnsggprhgtphhtthhopeduiedpmhhouggvpehsmhhtphho
+    uhhtpdhrtghpthhtohepvhhirhhoseiivghnihhvrdhlihhnuhigrdhorhhgrdhukhdprh
+    gtphhtthhopehlihhnuhigqdhunhhiohhnfhhssehvghgvrhdrkhgvrhhnvghlrdhorhhg
+    pdhrtghpthhtoheplhhinhhugidqnhhfshesvhhgvghrrdhkvghrnhgvlhdrohhrghdprh
+    gtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdp
+    rhgtphhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvghlrdhorh
+    hgpdhrtghpthhtoheplhhinhhugidqvghfihesvhhgvghrrdhkvghrnhgvlhdrohhrghdp
+    rhgtphhtthhopehmihhklhhoshesshiivghrvgguihdrhhhupdhrtghpthhtohepjhgrtg
+    hksehsuhhsvgdrtgiipdhrtghpthhtohepjhhksehoiihlrggsshdrohhrgh
+X-ME-Proxy: <xmx:RULxaboz83LYCvdTLUtmgkqGguz2I8kX4N_4jfZRyYoe52aBC6GgiA>
+    <xmx:RULxaXK-XzAU_sGbQYmFiAiHmI8OHsNtaBPuBKFmVMpURLmxRpzvqw>
+    <xmx:RULxaV1bnC2HzAjr7fEl0M2lF5tuDCo9UwPOE5jfuTU9PjQyMKzFmg>
+    <xmx:RULxaWUnJNJmgjOJRIk0qZskktslDTA1IsYTsCdeqjkYzRcW75wK5Q>
+    <xmx:RkLxaS6Bf5OdNQlmr0DZKgYdh4VPbqbELTEXHU_aXr06uqJ97FRksb9p>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 28 Apr 2026 19:26:57 -0400 (EDT)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260428-ntfs-fix-sometimes-uninit-rl-v1-1-31e0c8025430@kernel.org>
+From: NeilBrown <neilb@ownmail.net>
+To: "Al Viro" <viro@zeniv.linux.org.uk>
+Cc: "Linus Torvalds" <torvalds@linux-foundation.org>,
+ "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
+ "Jeff Layton" <jlayton@kernel.org>, "Trond Myklebust" <trondmy@kernel.org>,
+ "Anna Schumaker" <anna@kernel.org>, "Miklos Szeredi" <miklos@szeredi.hu>,
+ "Amir Goldstein" <amir73il@gmail.com>, "Jeremy Kerr" <jk@ozlabs.org>,
+ "Ard Biesheuvel" <ardb@kernel.org>, linux-efi@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org,
+ linux-unionfs@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 04/19] VFS: use wait_var_event for waiting in
+ d_alloc_parallel()
+In-reply-to: <20260428142225.GX3518998@ZenIV>
+References: <20260427040517.828226-1-neilb@ownmail.net>
+  <20260427040517.828226-5-neilb@ownmail.net>
+  <20260428033738.GV3518998@ZenIV>
+  <177737511992.1474915.1952404144121931523@noble.neil.brown.name>
+  <20260428142225.GX3518998@ZenIV>
+Date: Wed, 29 Apr 2026 09:26:54 +1000
+Message-id: <177741881482.1474915.12527082398060370192@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-On Tue, Apr 28, 2026 at 03:21:38PM -0400, Nathan Chancellor wrote:
-> Clang warns (or errors with CONFIG_WERROR=y / W=e):
-> 
->   fs/ntfs/runlist.c:755:6: error: variable 'rl' is used uninitialized whenever 'if' condition is true [-Werror,-Wsometimes-uninitialized]
->     755 |         if (overflows_type(lowest_vcn, vcn)) {
->         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->   ...
->   fs/ntfs/runlist.c:971:9: note: uninitialized use occurs here
->     971 |         kvfree(rl);
->         |                ^~
->   ...
-> 
-> rl has not been allocated at this point so the 'goto err_out' should
-> really just be a return of the error pointer -EIO.
-> 
-> Fixes: cad7c6f0a514 ("ntfs: fix VCN overflow in ntfs_mapping_pairs_decompress()")
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+On Wed, 29 Apr 2026, Al Viro wrote:
+> On Tue, Apr 28, 2026 at 09:18:39PM +1000, NeilBrown wrote:
+> > > d_must_wait() conditional, though - ->d_flags and ->d_lock are in diffe=
+rent
+> > > cachelines and there's no need to dirty both every time we are called.
+> > > IOW, have d_must_wait() do this:
+> > > 	if (!d_in_lookup(dentry))
+> > > 		return false;
+> > > 	if (!(dentry->d_flags & DCACHE_LOCK_WAITER))
+> > > 		dentry->d_flags |=3D DCACHE_LOCK_WAITER;
+> > > 	return true;
+> >=20
+> > The only time that DCACHE_LOCK_WAITER will already be set is when there
+> > are two (or more) waiters as well as the thread they are waiting on.
+> > That means three (or more) threads all accessing the same name at the
+> > same time.  How often does that happen?  Is the micro-optimisation worth
+> > the small increase in code size?
+>=20
+> Depends upon the load, obviously - a bunch of threads hitting the same
+> pathname at the same time... not impossible.
+>=20
+> More to the point, why not set DCACHE_LOCK_WAITER as soon as we grab ->d_lo=
+ck
+> there?  Then waiting becomes simply "wait until !d_in_lookup()".  Sure, we
+> might end up setting DCACHE_LOCK_WAITER on a dentry that has just dropped
+> DCACHE_PAR_LOOKUP - who cares?
+>=20
+> While we are at it, do we need to drop it when we clear PAR_LOOKUP?  Because
+> if we do not, the whole "what do we return from __d_lookup_unhash()" thing
+> disappears - we simply pass the dentry to end_dir_add() and have it check
+> ->d_flags & DCACHE_LOCK_WAITER to decide whether to bother with wakeup.
+>=20
 
-Thank you for this patch.
+Yes, your are right.
 
-Reviewed-by: Hyunchul Lee <hyc.lee@gmail.com>
+I've been thinking of this mostly in the context of locking the dentry for
+directory ops, for which lookup is just one special case.
+In that context the dentry can be locked and unlocked multiple time so
+we really want to clear DCACHE_LOCK_WAITERS on each unlock.
 
-> ---
->  fs/ntfs/runlist.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/fs/ntfs/runlist.c b/fs/ntfs/runlist.c
-> index be6ca3d374bb..da21dbeaaf66 100644
-> --- a/fs/ntfs/runlist.c
-> +++ b/fs/ntfs/runlist.c
-> @@ -754,7 +754,7 @@ struct runlist_element *ntfs_mapping_pairs_decompress(const struct ntfs_volume *
->  	/* Validate lowest_vcn from on-disk metadata to ensure it is sane. */
->  	if (overflows_type(lowest_vcn, vcn)) {
->  		ntfs_error(vol->sb, "Invalid lowest_vcn in mapping pairs.");
-> -		goto err_out;
-> +		return ERR_PTR(-EIO);
->  	}
->  	/* Start at vcn = lowest_vcn and lcn 0. */
->  	vcn = lowest_vcn;
-> 
-> ---
-> base-commit: d986ba0329dcca102e227995371135c9bbcefb6b
-> change-id: 20260428-ntfs-fix-sometimes-uninit-rl-cfe3c6a9c34e
-> 
-> Best regards,
-> --  
-> Nathan Chancellor <nathan@kernel.org>
-> 
+However in the current code it is only used for lookup which only
+happens once on a given dentry so we never need to clear
+DCACHE_LOCK_WAITERS.
 
--- 
+On the basis that we shouldn't add complexity until we actually need it,
+I'll rename DCACHE_LOCK_WAITERS to DCACHE_LOOKUP_WAITERS and never clear
+it, as you suggest.
+
 Thanks,
-Hyunchul
+NeilBrown
