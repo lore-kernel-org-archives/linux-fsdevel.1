@@ -1,85 +1,127 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 358BA3D648F;
-	Tue, 28 Apr 2026 08:35:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CB0D3D9DDE;
+	Tue, 28 Apr 2026 08:55:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777365301; cv=none; b=hxrA1xYkBA23cD/RAmv59F6th2aIvTYKwBnfUTYLTpwpZwuRGy0yUA64CHSnpB0axCyCMhjKDmPD4+U1FV+K+jZpisSYeK9CXZ+bs3OePu77pC8gTED0Uc0nqinuJ9qP9jRhlnIdQrFWr1w7ijhc8PvIq/7TWx02FGp6FR30HqM=
+	t=1777366526; cv=none; b=OwYtnFC0XJLTPG7l/axj7+9E9GrP/oB0zML3isM9jHtypHhIZCoE7gJBL+dCaV/bvY/Gs0N3LZnNJrFb9dYCMn/DfONglqxl7Vml4EMzhjgiZ0L0QtFkCpRZ7at+GWjXzf33PPSQg/jMmL0Oc9FVDHI1yr5FiT26R4kvJMEbBOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777365301; c=relaxed/simple;
-	bh=ED63hkK8etbxautcxx1u5AO9FSZT6ssFdgXiGIlo5Yc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ro84F+A6JIUVvIdVjARQsWgs+s0fzKp/DyFtWz1ahi10iBIRcB4RokkurZJCipKRFlOTCfQl15X2en81nmb2Gnr88kRyLTH4/CINVUmgnhVZ3ryEQ+q9hV1UDA0Mr2fAyszXvb892RQm8vXK5vV56WsW7Kar24vEtOOj3eSrI94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ur86l8qH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777366526; c=relaxed/simple;
+	bh=yNHjOgj0lHYbRohpDEFZC+8Hn3fGX3Sp9ArYLyuvzj4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NDRU+yfF+NBkwT+BCh3AMc9TuyUfGcfQzmLkmnANdg6cRzEUxwLsG66M+3X2RYd50fp+pTGmO6tvkpjpDs/ic2ibt3Lvfzxw39XquJS6sNt7vMrm79NV0C8aqnhT4wcDDzezkmp0Go5iARrwtAsRXb7LAs0zWdSGngi5307WYk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n7Q94D6b; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ur86l8qH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 498E0C2BCB5;
-	Tue, 28 Apr 2026 08:34:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n7Q94D6b"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74246C2BCB5;
+	Tue, 28 Apr 2026 08:55:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777365300;
-	bh=ED63hkK8etbxautcxx1u5AO9FSZT6ssFdgXiGIlo5Yc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ur86l8qHsHNK/DsGAq+jbCQjcJQbpchNoy0cCg4If3r2vIi6XG2QODPglvVCfby8Y
-	 FvtRBT5whNcm+bTJ0HZxIC6orB9MjuEv2lb4uTaqYjVhGEWs8NYQKO/VaAYY4cK586
-	 JBzciAtfyNrhQ2XD9vzAe9ezw+p4Dz9n9wmQKvOchqG7x4j+MrLockxQWBLlKiIeeH
-	 Qtnkpz/MHG44v0qLmehZDRvwQ4j9Ugtge+Cwyc5Q0p0+24mNPgsGWIMCValX9hVTi2
-	 PHcuJpIv37fuA4k3S3UqDfewFJrSqRqoDLHa2mgrdxGK/+2JPK5Y2eUpa+zCAVbGa5
-	 iWIK5zjNRl6rQ==
-From: Andrey Albershteyn <aalbersh@kernel.org>
-To: linux-xfs@vger.kernel.org,
-	fsverity@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	ebiggers@kernel.org
-Cc: Andrey Albershteyn <aalbersh@kernel.org>,
-	hch@lst.de,
-	linux-ext4@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net,
-	linux-btrfs@vger.kernel.org,
-	linux-unionfs@vger.kernel.org,
-	djwong@kernel.org
-Subject: [PATCH v9 22/22] xfs: enable ro-compat fs-verity flag
-Date: Tue, 28 Apr 2026 10:33:28 +0200
-Message-ID: <20260428083332.768693-23-aalbersh@kernel.org>
-X-Mailer: git-send-email 2.51.2
-In-Reply-To: <20260428083332.768693-1-aalbersh@kernel.org>
-References: <20260428083332.768693-1-aalbersh@kernel.org>
+	s=k20201202; t=1777366526;
+	bh=yNHjOgj0lHYbRohpDEFZC+8Hn3fGX3Sp9ArYLyuvzj4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=n7Q94D6bcmzAY7l3bw7ZxQq1YiLwkR9zbSrwN/XaH3a3+/rgFcPETePHwPfC/K3Nx
+	 ObDjANW77xQ5wVR0FiYdt27AIiOVVVBBM/g8AiQxUx3EERJUub+whwBRLdb8eaC0QX
+	 1CQfDvM1eEliP1Hu7wsBK+SsRmhzDNPKpLo0CHYT9Ei9zdDrVvLVXYG45P0VlLHVQE
+	 8HN5YqRi1cXOki0HS7C3pvLF7RIe1YmbKWGnJ7eSPLHwc+9+d/cwkxjiUEhYEAc3cj
+	 UXUwVR6KcbWc1DNiyZsE9veE6+n40xUvfGKusx6iPjwhA7xsNUVy2jWY23GVzSYWIi
+	 1Uxxb8PBY4FEA==
+Date: Tue, 28 Apr 2026 10:55:17 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Mateusz Guzik <mjguzik@gmail.com>
+Cc: Jori Koolstra <jkoolstra@xs4all.nl>, Andy Lutomirski <luto@kernel.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Arnd Bergmann <arnd@arndb.de>, "H . Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, 
+	Peter Zijlstra <peterz@infradead.org>, Andrey Albershteyn <aalbersh@redhat.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
+	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jeff Layton <jlayton@kernel.org>, Aleksa Sarai <cyphar@cyphar.com>, cmirabil@redhat.com, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-api@vger.kernel.org, linux-arch@vger.kernel.org
+Subject: Re: [RFC PATCH v2 1/2] vfs: syscalls: add mkdirat2() that returns an
+ O_DIRECTORY fd
+Message-ID: <20260428-zoodirektor-latten-e412db97141d@brauner>
+References: <20260412135434.3095416-1-jkoolstra@xs4all.nl>
+ <20260412135434.3095416-2-jkoolstra@xs4all.nl>
+ <5xexygc3rvvlir4smdfn7gndwjgbuijqfummwwumivsnosijux@ygqs3iqxmovh>
+ <20260427-rudel-gipsabdruck-a7884db4ecea@brauner>
+ <CAGudoHFLSHhDZoC6maLsn234dMQVnG4ZbpKXoVrueGujArNF-A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAGudoHFLSHhDZoC6maLsn234dMQVnG4ZbpKXoVrueGujArNF-A@mail.gmail.com>
 
-Finalize fs-verity integration in XFS by making kernel fs-verity
-aware with ro-compat flag.
+On Mon, Apr 27, 2026 at 06:30:42PM +0200, Mateusz Guzik wrote:
+> On Mon, Apr 27, 2026 at 5:14 PM Christian Brauner <brauner@kernel.org> wrote:
+> >
+> > > Things proceed to handle_truncate:
+> > >       int error = get_write_access(inode);
+> > >       if (error)
+> > >               return error;
+> > >
+> > >       error = security_file_truncate(filp);
+> > >       if (!error) {
+> > >               error = do_truncate(idmap, path->dentry, 0,
+> > >                                   ATTR_MTIME|ATTR_CTIME|ATTR_OPEN,
+> > >                                   filp);
+> > >       }
+> > >
+> > > I'm going to ignore the LSM situation and do_truncate failure modes in this one.
+> > >
+> > > AFAICS nothing prevents the same user from racing against file creation to
+> > > execve it, which starts with exe_file_deny_write_access. Should the
+> > > other thread win the race, get_write_access will fail and the WARN_ON
+> > > splat will be generated. That is definitely a problem.
+> >
+> > That can't happen:
+> >
+> > static inline int get_write_access(struct inode *inode)
+> > {
+> >         return atomic_inc_unless_negative(&inode->i_writecount) ? 0 : -ETXTBSY;
+> > }
+> >
+> > and the check is:
+> >
+> > error = handle_truncate(idmap, file);
+> > if (unlikely(error > 0)) {
+> >
+> > This was a catch all for broken LSM hook or ->open() instance.
+> >
+> 
+> So with this prog:
+> #include <fcntl.h>
+> 
+> int main(void)
+> {
+>     open("test", O_TRUNC);
+> }
+> 
+> I verified writecount is 0 on entry to handle_truncate like so:
+> 
+> bpftrace -e 'kprobe:security_file_truncate { @[comm, (int64)((struct
+> file *)arg0)->f_path.dentry->d_inode->i_writecount.counter] = count();
+> }'
+> 
+> @[a.out, 1]: 1
+> 
+> i.e., get_write_access in handle_truncate transitioned the count 0 -> 1
+> 
+> but then what prevents the following race:
+> 
+> CPU0                    CPU1
+> open("test")            execve("test")
+>   handle_truncate         do_open_execat
+>                             exe_file_deny_write_access # should
+> succeed as count is 0?
+>   get_write_access # should fail as the count is now -1?
 
-Reviewed-by: Darrick J. Wong <djwong@kernel.org>
-[djwong: add spaces]
-Signed-off-by: Darrick J. Wong <djwong@kernel.org>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
----
- fs/xfs/libxfs/xfs_format.h | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/fs/xfs/libxfs/xfs_format.h b/fs/xfs/libxfs/xfs_format.h
-index 4dff29659e40..0ce46c234b9c 100644
---- a/fs/xfs/libxfs/xfs_format.h
-+++ b/fs/xfs/libxfs/xfs_format.h
-@@ -378,8 +378,9 @@ xfs_sb_has_compat_feature(
- #define XFS_SB_FEAT_RO_COMPAT_ALL \
- 		(XFS_SB_FEAT_RO_COMPAT_FINOBT | \
- 		 XFS_SB_FEAT_RO_COMPAT_RMAPBT | \
--		 XFS_SB_FEAT_RO_COMPAT_REFLINK| \
--		 XFS_SB_FEAT_RO_COMPAT_INOBTCNT)
-+		 XFS_SB_FEAT_RO_COMPAT_REFLINK | \
-+		 XFS_SB_FEAT_RO_COMPAT_INOBTCNT | \
-+		 XFS_SB_FEAT_RO_COMPAT_VERITY)
- #define XFS_SB_FEAT_RO_COMPAT_UNKNOWN	~XFS_SB_FEAT_RO_COMPAT_ALL
- static inline bool
- xfs_sb_has_ro_compat_feature(
--- 
-2.51.2
-
+I'm not arguing that get_write_access() cannot fail. I'm arguing that it
+cannot hit that WARN_ON() as you said above because get_write_access()
+returns either 0 or -ETXTBUSY.
