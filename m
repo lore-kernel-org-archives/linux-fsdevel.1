@@ -1,169 +1,200 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out162-62-57-137.mail.qq.com (out162-62-57-137.mail.qq.com [162.62.57.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 228611FDA61;
-	Tue, 28 Apr 2026 01:32:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FC9629E11D;
+	Tue, 28 Apr 2026 01:57:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777339946; cv=none; b=mXbaMEbJSXUOyX3ZIl0igT5+DXrIZ2/War7ajcoT6KzgBUY4GhpWzBkdwt692lOll1emEFzrE/mL9/0k3DgGTJXGKG9Eh2BDDwkspSX/lKIE5N64GX4miirElAWzTFAUB6ItC6HBovsdRhkgpughLCMwGYiu4TMhYqPYMcXjhT0=
+	t=1777341454; cv=none; b=I6bazv8gFVWE4FSUPHRtoyshwEGeykDOb6cYN/CjkSS2XVKyAfMXzRVuFxKqgFsFNHcvGcqgLpWsPyibfMuBz5WBSURGZ1gdM+ZFfjjLWan3JdfyP4tBmZ/AWasWs9fBUB+RjvAhtCAZ9tFPunB0HOzVA+3wcuO1H9MGcE7xUBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777339946; c=relaxed/simple;
-	bh=wHz+5U7YZ1YUh8S3O/ePJZetSOyRqZDheoo8PdaQubw=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=N2jpiuN9jPABaedwxyU7PmstflMduKRDTmshwNjcUJ2ZPyjg5EPE2bz1k5nDcnlc3plx33Iymgo2Ly3/qibxjcknLJ52QVAzBtZlqTkk5XO7qClWlFl9VxHVHkPbk37mp9BgrQvv6qpZYYEhAD7gp125gSwqd/pxmhY+8RThD6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TOhfDvzD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777341454; c=relaxed/simple;
+	bh=u84ZJcRDp05LWhpqZuw08ObPZrQJa8JCizTOvaNPFF8=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=oO929rKFJo8Kh32HlpSj3rXnoTNbvghBgokyPWdZuRKfBnq+duS1LHO/qu87CPqVKCLANsL2Ouo+lojNx3Dk8bA0lU2KcRdTaTSWPohyiXaurfr7Tqa9JQy71XaJkg8YoPJxWgJlt/XCRFsqKuxNGPxa6lRAYX/U4K+II55lCc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=lMI77BP8; arc=none smtp.client-ip=162.62.57.137
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TOhfDvzD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26348C4AF09;
-	Tue, 28 Apr 2026 01:32:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777339946;
-	bh=wHz+5U7YZ1YUh8S3O/ePJZetSOyRqZDheoo8PdaQubw=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=TOhfDvzDaluU/j7Kds/kem7583xdqoHSELQ2x559IB9y0NQQNXIyzGBe6Fqbj/oYL
-	 HDM4jXg3bM9cjeEpaA6UdmNgruCW0rC5TyBRUOno+ir17RijO8NOgZqdoGNXn7XgIT
-	 EdF6NZGZUZgLwy74Fuq0NNuvvlu+7UwuiRf7BFCJxWEqwH0d15FUxo9qcUscCUFGNc
-	 BxRVwKIgWZ0PBiiG0NR9CjyM58Mb8CgM5Pj5NpqM0ptb7OY+g2TosBdIJpj7xTYFjv
-	 57pFveojlFHAesXaWck2CXVYspyIEIQiLPiM41p2XnkyOFZoB0mLHGNy9v7h0INder
-	 MX09Rw2Na6AMQ==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 0EEA6F4006D;
-	Mon, 27 Apr 2026 21:32:24 -0400 (EDT)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Mon, 27 Apr 2026 21:32:24 -0400
-X-ME-Sender: <xms:Jw7waTdxAlNGjpqkcmYs-AuhVm8o6a2ys9cH7oPKakERIjM35CzggQ>
-    <xme:Jw7waUByBHZtpz_cO4UMWr0VoT7wNaP3SOQWx1_VsC9VZI3f0qKIOJlPWIqNFK_qx
-    eTGs3Us4qmDCHQRAYK3eICv5OzGaEwL7XdPlGXhSJQN84a8D--lFa4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdektddvhecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefoggffhffvvefkjghfufgtgfesthhqredtredtjeenucfhrhhomhepfdevhhhutghk
-    ucfnvghvvghrfdcuoegtvghlsehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvghrnh
-    eptdduhfeuteeileehtdegledvhfdvieefveelleeludelfeetvdfhteetjeetffdvnecu
-    ffhomhgrihhnpehsrghshhhikhhordguvghvnecuvehluhhsthgvrhfuihiivgeptdenuc
-    frrghrrghmpehmrghilhhfrhhomheptghhuhgtkhhlvghvvghrodhmvghsmhhtphgruhht
-    hhhpvghrshhonhgrlhhithihqdduieefgeelleelheelqdefvdelkeeggedvfedqtggvlh
-    eppehkvghrnhgvlhdrohhrghesfhgrshhtmhgrihhlrdgtohhmpdhnsggprhgtphhtthho
-    peefgedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepshgvnhhoiihhrghtshhkhi
-    estghhrhhomhhiuhhmrdhorhhgpdhrtghpthhtoheprgguihhlghgvrhdrkhgvrhhnvghl
-    seguihhlghgvrhdrtggrpdhrtghpthhtohepshhlrghvrgesughusggvhihkohdrtghomh
-    dprhgtphhtthhopehrohhnnhhivghsrghhlhgsvghrghesghhmrghilhdrtghomhdprhgt
-    phhtthhopegrnhhnrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepsghrrghunhgvrh
-    eskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptggvmheskhgvrhhnvghlrdhorhhgpdhr
-    tghpthhtoheptghhrghosehkvghrnhgvlhdrohhrghdprhgtphhtthhopegujhifohhngh
-    eskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:Jw7waQ4Xow-t11J593OXzv-Gwl0Byd6MFv6z4UpYTD9UNKvdBWnqag>
-    <xmx:KA7waYbam4XDlg9sbJKf1HWcmAANgKgDVgaJ3EUUVdDrsHM_F7ioEA>
-    <xmx:KA7waSoQNfBCkKag9VRPAnKAGom1WVXc4rDrBOYssIOmltGlTsaAYg>
-    <xmx:KA7wafIyNoQwaeh8KjYI0_7YlZVPbx8Hm9QpSej1pjj1LmcPjLYiZA>
-    <xmx:KA7wadZV4ms4hY1uafi9BlfHPsflm006PYfpHyB8gesdt20AVsIDU3u9>
-Feedback-ID: ifa6e4810:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id D0C61780075; Mon, 27 Apr 2026 21:32:23 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="lMI77BP8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1777341446; bh=73mUVB0SU1+y2tdFcAaGVu6KuNfJfyDpo9D8I7WdLQA=;
+	h=From:To:Cc:Subject:Date;
+	b=lMI77BP8cwH48F+SgHOs3WTTSzuhBNHFcXhQAvNDbSH1EH7CoWXVLMGz4OCKdwsHZ
+	 xoenKNMUNumObkheDO2cEixOR+f2Ts/Bs93EbV3SodWIfYdnLZJ9oXrSWtb6zYttDA
+	 Kpu4td+zvGDfJE+fYsBfMb06yxIWayYuDLZOJWIg=
+Received: from node68.. ([166.111.236.25])
+	by newxmesmtplogicsvrsza73-0.qq.com (NewEsmtp) with SMTP
+	id E5690EDA; Tue, 28 Apr 2026 09:57:22 +0800
+X-QQ-mid: xmsmtpt1777341442tcrjydyx6
+Message-ID: <tencent_AA501E9A238337BD167E5C2ACF948A1AF308@qq.com>
+X-QQ-XMAILINFO: NnYhxYSyuBnL4+7omke2R7OZlKh08Uyt8A9dZq32a3ObS0LilS+sUOt1LczsON
+	 8qrI+J7UEV3CrsQxN8AwVwGeQRsrJX394YCDA5H5Xj0DqwOuQ2j+B0iyMEp9vSoaTigXZvAIvh1f
+	 uBwL7PZw5C0gELWVXCUwqrxYZq8gfy0bTYgM6Sd5KdDcH1ZY7L/t1DeY1YispKrFupAyvED9MMgo
+	 6y716L6WniRi052xDEbsrQLv/krlEAZhxhTT68m0Cj1gdQP9ezbO4OvPXc1pbDoO/Xd76QSHeEei
+	 HfGIOGiqK3G6r9sZWLuPUme+fYG+aGToZHGqF4PC4BvhtL/rMj7SW9+TBAkUEKH+3xxqPEYaVQCT
+	 pwTqdO1jeXbFVTba/0VKAxc68JTRQHOZR8q+FuIvdyxwKOZrwoWjc5V8n+ZkTVNAUrrQ9ptU6kiz
+	 5paslM9tTVOzWqv5DcF1IqSjV2cLIXqXXnH8sdnmR4wUXe2BVjIGb8NYQCRqL1xFhDPFBN+QREf1
+	 OmJ56qT2m3cTyY8r1AxNERUEs4y+5PLDrWFRHcnKwv5MuCMo/XUl/+P82wHWCyk5TJ4v1whUV8iK
+	 vOjjNKY1wArQGbsCxR1LGbF1qstBvB6EjKqNjttU+xgkrxg5+U4l90ylrP0PHhVhASsZxKS4Iert
+	 g2jso76V28FaEWZ/aILsvzi1qEQFT9suq9aUZysMNEhN1vIZuzeSPdceXjsIFweYuRJUtn65J9tL
+	 CNAwtY/C8ZbsN1hmlqtQsx7R9quppvPRFdnLj6P1GOW7cQZrWATIBjVapm8L7zENDXD7GdOvsn/C
+	 8JOdrEb0F0OWMWBykaqGtVERvlvZRgMKwmP1eL3hBNEOxisnfgH/+HHpInsFSJnHfldmDxM6vXGB
+	 6hSciyk+h+L45se6bczXfDjpuY7Ryky1Xl1ZMyRNq35BOtHySjeP3221SyECm3Nm5k90RiIxQJnJ
+	 9TKBk7V85D42TDs+qzGzTsVWGPpItpVdaC1ufVpOQFDighPtI4N0Hfyqx/CCJUxK1MPT6/e4e00w
+	 PzB+q5VYqtQOkMFobRfBI5RwJyX9ZMKcAwCx5T9uMzsIKq+rbj
+X-QQ-XMRINFO: MPJ6Tf5t3I/ylTmHUqvI8+Wpn+Gzalws3A==
+From: fujunjie <fujunjie1@qq.com>
+To: Matthew Wilcox <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Haoran Zhu <zhr1502@sjtu.edu.cn>
+Subject: [PATCH v3 0/2] mm/filemap: tighten mmap_miss hit accounting
+Date: Tue, 28 Apr 2026 01:57:22 +0000
+X-OQ-MSGID: <20260428015722.2592705-1-fujunjie1@qq.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Mon, 27 Apr 2026 21:32:03 -0400
-From: "Chuck Lever" <cel@kernel.org>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
- linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
- linux-xfs@vger.kernel.org, linux-cifs@vger.kernel.org,
- linux-nfs@vger.kernel.org, linux-api@vger.kernel.org,
- linux-f2fs-devel@lists.sourceforge.net,
- "OGAWA Hirofumi" <hirofumi@mail.parknet.co.jp>,
- "Namjae Jeon" <linkinjeon@kernel.org>,
- "Sungjong Seo" <sj1557.seo@samsung.com>,
- "Yuezhang Mo" <yuezhang.mo@sony.com>,
- almaz.alexandrovich@paragon-software.com,
- "Viacheslav Dubeyko" <slava@dubeyko.com>,
- "John Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>,
- frank.li@vivo.com, "Theodore Tso" <tytso@mit.edu>,
- adilger.kernel@dilger.ca, "Carlos Maiolino" <cem@kernel.org>,
- "Steve French" <sfrench@samba.org>, "Paulo Alcantara" <pc@manguebit.org>,
- "Ronnie Sahlberg" <ronniesahlberg@gmail.com>,
- "Shyam Prasad N" <sprasad@microsoft.com>,
- "Trond Myklebust" <trondmy@kernel.org>,
- "Anna Schumaker" <anna@kernel.org>, "Jaegeuk Kim" <jaegeuk@kernel.org>,
- "Chao Yu" <chao@kernel.org>, "Hans de Goede" <hansg@kernel.org>,
- senozhatsky@chromium.org, "Chuck Lever" <chuck.lever@oracle.com>,
- "Roland Mainz" <roland.mainz@nrubsig.org>
-Message-Id: <3fd6dcbf-ece6-459e-b114-1d8b95035acf@app.fastmail.com>
-In-Reply-To: <20260427155636.GC7751@frogsfrogsfrogs>
-References: <20260424-case-sensitivity-v11-0-de5619beddaf@oracle.com>
- <20260424-case-sensitivity-v11-8-de5619beddaf@oracle.com>
- <20260427155636.GC7751@frogsfrogsfrogs>
-Subject: Re: [PATCH v11 08/15] xfs: Report case sensitivity in fileattr_get
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
 
+This is v3 of the mmap_miss hit-accounting change.  v1 was sent as an
+RFC.  The accounting logic is unchanged from v2, but patch 1 now keeps
+the workingset mmap_miss comment near the new accounting block as
+Matthew requested.
 
-On Mon, Apr 27, 2026, at 11:56 AM, Darrick J. Wong wrote:
-> On Fri, Apr 24, 2026 at 09:53:10PM -0400, Chuck Lever wrote:
->> From: Chuck Lever <chuck.lever@oracle.com>
->>=20
->> Upper layers such as NFSD need to query whether a filesystem
->> is case-sensitive. Add FS_XFLAG_CASEFOLD to xfs_ip2xflags()
->> when the filesystem is formatted with the ASCIICI feature
->> flag. This serves both FS_IOC_FSGETXATTR (via xfs_fill_fsxattr() in
->> xfs_fileattr_get()) and XFS_IOC_BULKSTAT (which populates bs_xflags
->> directly from xfs_ip2xflags()), so bulkstat consumers and per-inode
->> queries see a consistent view of the filesystem's case-folding
->> behavior.
->>=20
->> XFS always preserves case. XFS is case-sensitive by default, but
->> supports ASCII case-insensitive lookups when formatted with the
->> ASCIICI feature flag.
->>=20
->> Reviewed-by: Roland Mainz <roland.mainz@nrubsig.org>
->> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
->> ---
+  - patch 1 limits fault-around hit accounting to the faulting address;
+  - patch 2 stops FAULT_FLAG_TRIED retries from decrementing mmap_miss.
 
-> I don't understand this at all.  Yes, FS_XFLAG_CASEFOLD is readonly,
-> but how does clearing FS_CASEFOLD_FL from the fileattr_get output
-> (without clearing XFLAG_CASEFOLD!) solve anything?  This makes the
-> reported output inconsistent between fsgetxattr and getflags -- one
-> reports case folding, the other reports no casefolding.
+Patch 1 also follows Jan's implementation suggestion: the helper
+functions no longer propagate a mmap_miss variable, and
+filemap_map_pages() updates file->f_ra.mmap_miss based on whether the
+helper mapped the actual faulting address.
 
-The masking is a misplaced reaction to a sashiko review on the
-v9 predecessor of this patch [1], which pointed out that v9 set
-FS_XFLAG_CASEFOLD in fa->fsx_xflags after xfs_fill_fsxattr() had
-already synced fa->flags, leaving the two views inconsistent in
-the other direction, and that bulkstat would miss the flag for
-the same reason. Moving the injection into xfs_ip2xflags() fixed
-both gaps -- but it also surfaced FS_CASEFOLD_FL on the legacy
-view, so chattr's RMW through FS_IOC_SETFLAGS hits the EOPNOTSUPP
-gate at the top of xfs_fileattr_set(). Hiding it from getflags
-was the wrong place to address that.
+mmap_miss is increased when synchronous mmap readahead is needed, and
+decreased when filemap_map_pages() maps folios that are already in the
+page cache.  The decrease side can over-credit hits in two cases:
 
-> If you want to avoid fileattr_set returning EINVAL when setting
-> attributes due to the casefold flag, then don't you want to check
-> the flag state vs. xfs_has_asciici() in the *fileattr_set* path?
+  - fault-around installs nearby PTEs even though the fault only proves
+    that the faulting address was accessed;
+  - after synchronous mmap readahead returns VM_FAULT_RETRY, the retry
+    can find the folio brought in by the same miss and immediately
+    cancel that miss.
 
-Yep. For v12 I=E2=80=99ll drop the fa->flags mask and add FS_CASEFOLD_FL
-to the allowlist in xfs_fileattr_set(), gated on xfs_has_asciici(mp).
-xfs_flags2diflags() already has no clause for CASEFOLD, so the
-FSSETXATTR path silently no-ops it the same way it does for
-FS_XFLAG_HASATTR, and FS_XFLAG_CASEFOLD is in FS_XFLAG_RDONLY_MASK
-so FSSETXATTR strips it centrally. Both views then agree, and a
-chattr round-trip is accepted as a no-op.
+Current evidence comes from a local KVM/data-disk microbenchmark using
+mmap_miss_probe, with an 8 GiB guest, 2 vCPUs, 8192 KiB read_ahead_kb,
+cold page cache before each run, 1% of the file accessed, and medians of
+3 runs.
 
-The hfsplus patch in this series carries the same pattern --
-FS_XFLAG_CASEFOLD is set after fileattr_fill_flags() so that
-FS_CASEFOLD_FL stays out of fa->flags and dodges the EOPNOTSUPP
-gate in hfsplus_fileattr_set(). I will fix it the same way.
+mmap_miss_probe mmap()s a prepared file with MADV_NORMAL and then
+touches one byte at selected base-page offsets.  The access order is
+random, sequential, or a fixed page stride.  The harness drops caches
+before each run and samples /proc/vmstat around that access loop.
 
-Thanks for the catch!
+The 20 GiB case below is a larger-than-memory file case in an 8 GiB
+guest.  No separate memory hog was used.  The 4 GiB case uses the same
+8 GiB guest but keeps the file fit-in-memory.
 
-[1] https://sashiko.dev/#/patchset/20260422-case-sensitivity-v9-0-be023c=
-c070e2@oracle.com?part=3D9
+Each case used a fresh temporary qcow2 data disk, seen by the guest as
+/dev/vda, formatted as ext4 and mounted at /mnt/mmap-matrix.
+
+Each result is "pgpgin GiB / elapsed seconds".  "pgpgin GiB" is the
+delta of the guest /proc/vmstat pgpgin counter, converted from KiB to
+GiB; it is used here as an approximate block input counter, not as
+resident memory or exact application IO.  "Elapsed seconds" is the
+wall-clock runtime of the whole mmap_miss_probe access pass, not
+per-access latency.
+
+For the 20 GiB larger-than-memory case:
+
+        workload       before                after
+        random         223.377 GiB/101.293s  1.010 GiB/4.790s
+        stride1021     204.214 GiB/97.557s   204.208 GiB/108.086s
+        stride2053     409.584 GiB/193.700s  0.970 GiB/3.685s
+        stride4099     406.452 GiB/134.241s  0.975 GiB/3.499s
+        sequential       0.212 GiB/0.050s    0.212 GiB/0.057s
+
+For the 4 GiB fit-in-memory case:
+
+        workload       before              after
+        random         3.987 GiB/1.960s    0.980 GiB/1.221s
+        stride1021     4.002 GiB/1.838s    4.002 GiB/1.851s
+        stride2053     3.991 GiB/1.835s    0.811 GiB/0.985s
+        stride4099     4.001 GiB/1.836s    0.819 GiB/1.037s
+        sequential     0.056 GiB/0.013s    0.056 GiB/0.018s
+
+The 20 GiB setup also has an ablation.  P1 is only the faulting-address
+hit accounting change.  P2-only is only the FAULT_FLAG_TRIED retry
+filter.  P1+P2 is the combined accounting change:
+
+        workload    variant   result
+        random      baseline  223.377 GiB/101.293s
+        random      P1        223.268 GiB/98.481s
+        random      P2-only   223.257 GiB/100.091s
+        random      P1+P2     1.010 GiB/4.790s
+        stride2053  baseline  409.584 GiB/193.700s
+        stride2053  P1        409.584 GiB/197.645s
+        stride2053  P2-only   15.722 GiB/5.485s
+        stride2053  P1+P2     0.970 GiB/3.685s
+        sequential  baseline  0.212 GiB/0.050s
+        sequential  P1        0.212 GiB/0.046s
+        sequential  P2-only   0.212 GiB/0.050s
+        sequential  P1+P2     0.212 GiB/0.057s
+
+After the v2 implementation refactor, only the final P1+P2 shape was
+rerun in the same setup.  The numbers stayed in line with the v1 P1+P2
+rows above:
+
+        workload       larger-than-memory case    fit-in-memory case
+                       20 GiB file, 1% access    4 GiB file, 1% access
+        random           1.010 GiB/4.383s          0.980 GiB/1.088s
+        stride1021     204.216 GiB/105.601s        4.001 GiB/1.783s
+        stride2053       0.970 GiB/3.760s          0.810 GiB/0.908s
+        stride4099       0.975 GiB/3.410s          0.818 GiB/0.870s
+        sequential       0.212 GiB/0.060s          0.056 GiB/0.016s
+
+This does not claim to solve every sparse pattern.  The stride1021 rows
+are intentionally shown as a boundary: with 8192 KiB read_ahead_kb,
+file->f_ra.ra_pages is 2048 base pages, and synchronous mmap
+read-around uses a 2048-page window centered around the fault, roughly
+[index - 1024, index + 1023].  stride1021 is 1021 * 4 KiB = 4084 KiB,
+so the next access lands inside the previous read-around window.  About
+every other access can be a real faulting-address page-cache hit, and
+the other half can each read about 8 MiB.  For about 52k accesses in the
+20 GiB/1% run, half of them times 8 MiB is about 205 GiB, matching the
+observed 204 GiB.
+
+---
+v3:
+- move the workingset mmap_miss comment to the new accounting block in
+  filemap_map_pages().
+- no new performance run; v3 only moves a comment and does not change
+  executable code from v2.
+
+v2: https://lore.kernel.org/r/tencent_4EDE373816615C46CFD48A6EF3B61E232308@qq.com
+v1: https://lore.kernel.org/r/tencent_3F158B17AE85E73945C5F97D8F8A918F9B07@qq.com
+
+v2 changes:
+- split the original patch into two patches;
+- move mmap_miss updating back into filemap_map_pages();
+- drop the mmap_miss argument from filemap_map_order0_folio() and
+  filemap_map_folio_range();
+
+fujunjie (2):
+  mm/filemap: count only the faulting address as a mmap hit
+  mm/filemap: do not count FAULT_FLAG_TRIED retries as mmap hits
+
+ mm/filemap.c | 63 ++++++++++++++++++++++++++++++------------------------------
+ 1 file changed, 32 insertions(+), 31 deletions(-)
 
 
---=20
-Chuck Lever
+base-commit: 1b55f8358e35a67bf3969339ea7b86988af92f66
+-- 
+2.34.1
+
