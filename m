@@ -1,205 +1,144 @@
-Received: from out162-62-57-87.mail.qq.com (out162-62-57-87.mail.qq.com [162.62.57.87])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 169E5392C2F;
-	Tue, 28 Apr 2026 02:37:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.87
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F22031F98D;
+	Tue, 28 Apr 2026 03:37:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777343859; cv=none; b=qDq8QNzlnpt8YwV5nJ0sV/dE1qsUA+5tlrM7I9jhxHLMQ4GU3jNLo3o9akTVBi9rps7izugYRN4PKum3aeHOpT5NPT4QXCKpxw02ikSNied/2ehOefNA39JhPWTMQD5Y2Ju7Aw5FwkgUtNuevfgSp28sghIHSxtnnqRpNK8e7+I=
+	t=1777347458; cv=none; b=GU+kTLnsh+at7eQV5zHXtokIbLYMsfS4QbaCZq8RWWcMSZvvqp+5UDSP/7sJeRh2a6AfyIwakMfwXhjTrUu5Xvh46aOxnB/IXzH4OPWDYWMuMrZfOCdN1KaHYT1Aq83F0sb5c7gs2ohehY5DwtQHsDd1pxLiTAq2kqT2DLfM8rs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777343859; c=relaxed/simple;
-	bh=45H8MTsBPReQ4m1IV4CQokbkzjyqAw91hi3MnXz+FO8=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=Z0N/fv6kzPKN8CAqUiOP6kG+yXx2smyM27u5dX57eXxCdwYXPz/qxnWiwn11TM308ERkBMU2DM9Awj4SkPXyY8G6B6o0sYL2ILdO6tyL0/GdvPO4+I6PIu+EXmiagTJyRnUZ6I0GE3bJwX7JCzGcaAHvjiTU1WNGAaDvisqQ8Ds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=jA4LS1MB; arc=none smtp.client-ip=162.62.57.87
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1777347458; c=relaxed/simple;
+	bh=jRZUhaw6I6JKjtSbmXkgMFwHVUmUhcQq+J3lvty82Bc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ef0PyIhY7gJT7pIofXk3x4W0GQwfpmF5i8Aelz5q7mw6KmwH7AKenAjr/yEUkfN9dRDpH6XlUFUL9aROE9tRGo+TzVjcO7Av3H3E+Otue95uDzXku/GglDefV00q9TjD2ESXF/rSs7SiCnDRksVj2HwAqRHeEhdElHQZCu1AVeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=pNJkmPDM; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="jA4LS1MB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1777343850; bh=WLhWSfcx/PJyCpxEm0wlVtmU0n2dQqT54ad8Bmx2+n0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=jA4LS1MBdzfcYa8Xo9oea8Ly+Ni58AQHghuuILdOqP+vz4a5qQOXttqiTY6nnwknv
-	 ibtnkn0YmRk+qI67PM27TBlu7z75ZzObChLGlSntYkgFBHIzbZr1+Zlwhr43e7i9Nz
-	 cUfVRvZnzYdlv7TJEu85Pd1NQYCizPCUFRenc5EI=
-Received: from lxu-ped-host.. ([111.198.231.89])
-	by newxmesmtplogicsvrsza73-0.qq.com (NewEsmtp) with SMTP
-	id 95AB2A6E; Tue, 28 Apr 2026 10:37:26 +0800
-X-QQ-mid: xmsmtpt1777343846tfmzkfeq3
-Message-ID: <tencent_E61C2526BAF4BB9C33139E9E1B3A4BBA1B08@qq.com>
-X-QQ-XMAILINFO: MllZffuBkEb5HkqrhEAx1xU7zVoHdFhzUw1QXhaopUBiakBtLwNUF/J0bqSlYe
-	 6nBx0T1oLp/GqeAr8ROlN95ctRMNDq11v9GEmImpMkOuDtPkysX+nq37M2IUvjDwoLxd9CCA9SZx
-	 mHmmI+kQf+3l9nf//iueazB98Na+/7Yua0I1/mRrJx0lPKEoxX0RTxbG0YB79dhvBtq/Vc+sLHsF
-	 p/biQ8D86FFChFtoPZADqZ2NIQzyRcP/60s6P88jpYHtVn8eRAtWSwue4qWmQAjslu4jNf0ATaO+
-	 DIaRR024R305fJWtDobJNZO+puXQUyB7Uz9+C9k9hSIhXgknDV+gtrPpvi+VTJSw4OlJ+2ecQ/70
-	 t2XCAQFNDNI7cd+lo+f5bE1OeAvEpm61ks7mmWjMolIQ8McgQ2AxPbeH5eEvBwODYC4dsZO/NylO
-	 F9GQgnmLvJcnt02mT61sjPlFzWZanv4VfAyiaxWWQch5nbmfrUxDs86ZP8FOy1rPXFzdrzyILA16
-	 LtwRgZY4oF8bN0Gr3nL/V0Ey3roXn8zqGlVN0AiHHlQAi5O9SwyU/FhEK9Lr9boz+0YH1YXDDdF5
-	 GDXxQVtN5wi/Wb8NaJSmJ0fCxiEWYnWH/Nl+TQr20OIkKaK/jSKKA+ow65Dc+tZxVFu/7nA6fEbC
-	 KdCq9tKbdoHKHjiNDHWSycBLfVhUNpf0O+Vg2gvfvSwPz4kErdrwsSTbV0RTV7zwCCHQJJKIZaOq
-	 2vt6Dogw3ZLikWEn6UYI3DVAa6cySeS/5/v26WTnN4g0IX88qP0CxvD6UaBFwQoI0ty1S+AjlTno
-	 kzg5rTvrG7IzhJMvSwlnZll1TPUhooLzOYGZDIjATAuhNR74dPzz0rbZ5q4mgQqH5t87I7mdXJV3
-	 RKhy67jVeCRg9MUztAkZGJK96GYIYT9ZETMHNHL/RAe/uN2HjaTWOF5/wv7bliTWAH0AcZ/6+TIF
-	 2L7mFOUblCiET3i2KW8omdOipTMkAGkYPQfuY6fUlkYJslNOLqtTDo5y43cZczT2mxBN6uolJTCP
-	 Euewsvng==
-X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
-From: Edward Adam Davis <eadavis@qq.com>
-To: vdubeyko@redhat.com
-Cc: eadavis@qq.com,
-	frank.li@vivo.com,
-	glaubitz@physik.fu-berlin.de,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	slava@dubeyko.com,
-	syzbot+98547b0428b6a6a3467c@syzkaller.appspotmail.com,
-	syzkaller-bugs@googlegroups.com
-Subject: Re: [PATCH] hfsplus: Supports freeing newly created tree head
-Date: Tue, 28 Apr 2026 10:37:27 +0800
-X-OQ-MSGID: <20260428023726.231215-2-eadavis@qq.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <39b283f4e3fe75a8b9ee324e5906c6635aafed40.camel@redhat.com>
-References: <39b283f4e3fe75a8b9ee324e5906c6635aafed40.camel@redhat.com>
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="pNJkmPDM"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=nbdvP6Vp/f9SvqO0OehGGDrf6DYlJHxQbEKPQveBRSk=; b=pNJkmPDME6sL6Pq/UqtEz3kn1s
+	808HcB7Qb9udSSzfx6CwlyQrWlcwL87/iyq2GuBZm2D8Uvpy4i/AbKlBCa4NjsbwO6TGdczFo0V5j
+	T+D5FecpsVCMwo/d53MwDYtNCbCqFzrI6SOM0kbeMXvZ+qYejnJvWiF3S43E59kVJOl106Ry7vfoI
+	4lw+c4lAR4fsYht8rJthGQdxFgWVaV2CB/Lh7Zb/yQoxabj0Rxy8tpRhDCmk/brcrviSQuJtBEftO
+	N5mHv2fBc6DbqgbBwKn3b3CHqo143XlGnlsPKVCVSO4/5xGuXZluK1l3Lp0hRxX8jaF2itA8NMqBH
+	M4hOEy9w==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wHZGU-0000000GEnv-0FCz;
+	Tue, 28 Apr 2026 03:37:38 +0000
+Date: Tue, 28 Apr 2026 04:37:38 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: NeilBrown <neil@brown.name>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Jeff Layton <jlayton@kernel.org>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Amir Goldstein <amir73il@gmail.com>, Jeremy Kerr <jk@ozlabs.org>,
+	Ard Biesheuvel <ardb@kernel.org>, linux-efi@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org,
+	linux-unionfs@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 04/19] VFS: use wait_var_event for waiting in
+ d_alloc_parallel()
+Message-ID: <20260428033738.GV3518998@ZenIV>
+References: <20260427040517.828226-1-neilb@ownmail.net>
+ <20260427040517.828226-5-neilb@ownmail.net>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260427040517.828226-5-neilb@ownmail.net>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-Hi Viacheslav Dubeyko,
-Apologies for the late reply.
+On Mon, Apr 27, 2026 at 02:01:22PM +1000, NeilBrown wrote:
+> From: NeilBrown <neil@brown.name>
+> 
+> d_alloc_parallel() currently requires a wait_queue_head to be passed in.
+> This must have a life time which extends until the lookup is completed.
+> 
+> This makes it awkward to use and particularly make it hard to use in
+> lookup_one_qstr_excl() which I hope to do in the future.
+> 
+> This patch changes d_alloc_parallel() to use wake_up_var_locked() to
+> wake up waiters, and wait_var_event_spinlock() to wait.  dentry->d_lock
+> is used for synchronisation as it is already held and the relevant
+> times.
+> 
+> In most cases there will be no waiters so the wake_up_var_locked()
+> call is a complete waste.  To optimise this a new ->d_flags flag is
+> added: DCACHE_LOCK_WAITERS.  This is set whenever any thread prepares to
+> wait for the dentry, and if it isn't set when DCACHE_PAR_LOOKUP is
+> cleared, no wakeup is sent.
+> (The name is deliberately generic as I plan to replace DCACHE_PAR_LOOKUP
+> with more generic per-dentry locking in the future).
+> 
+> __d_lookup_unhash() now returns a bool rather than a wq.  This is true
+> if DCACHE_LOCK_WAITERS was sent and is used to decide to send the wake
+> up.  It would be easier to send the wakeup immediately when clearing
+> DCACHE_LOCK_WAITERS, but then the waiter could wake a bit earlier and
+> then spend time spinning on ->d_lock.  I don't know if that cost is
+> interesting.
 
-On Wed, 22 Apr 2026 11:19:10 -0700, Viacheslav Dubeyko wrote:
-> On Sat, 2026-04-18 at 17:37 +0800, Edward Adam Davis wrote:
-> > On Fri, 17 Apr 2026 15:03:17 -0700, Viacheslav Dubeyko wrote:
-> > > > hfs_bnode_put() does not support deallocating a newly created btree
-> > > > head node; therefore, regardless of whether hfsplus_bnode_find() succeeds
-> > > > or fails, it cannot effectively reclaim the memory allocated for a newly
-> > > > created head node.
-> > > >
-> > > > When finding a head node, if the node is a newly created one, we can use
-> > > > hfs_bnode_free() to reclaim its memory.
-> > > >
-> > > > [1]
-> > > > BUG: memory leak
-> > > > unreferenced object 0xffff88811cabc840 (size 96):
-> > > >   backtrace (crc 3e2dadb7):
-> > > >     __hfs_bnode_create+0x59/0x310 fs/hfsplus/bnode.c:469
-> > > >     hfsplus_bnode_find+0x13e/0x580 fs/hfsplus/bnode.c:547
-> > > >     hfsplus_btree_open+0x2fa/0x6d0 fs/hfsplus/btree.c:382
-> > > >     hfsplus_fill_super+0x272/0x880 fs/hfsplus/super.c:548
-> > >
-> > > I need slightly more detailed and clear explanation how the issue has been
-> > > happened and why we need to fix it in a such way. Currently, I don't have the
-> > > complete picture how this happened. I am sure that you have the complete
-> > > picture. :) Could you please share what you have in your mind? :) Don't hide the
-> > > wisdom. ;)
-> >     fc_mount()
-> >      vfs_get_tree()
-> >       get_tree_bdev_flags()
-> >        hfsplus_fill_super()
-> 
-> We have multiple calls of hfsplus_btree_open(). Which particular b-tree do you
-> mean here?
-> 
-> >         hfsplus_btree_open()
-> 
-> I assume that you mean hfs_btree_open().
-> 
-> >          hfsplus_bnode_find(tree, HFSPLUS_TREE_HEAD)
-> >
-> 
-> We call hfs_bnode_find() here.
-> 
-> >
-> >           __hfs_bnode_create()
-> > 	   ...
-> > 	   node->this = cnid; // cnid is HFSPLUS_TREE_HEAD, it is 0
-> > 	   ...
-> > 	  ...
-> > 	  desc = (struct hfs_bnode_desc *)(kmap_local_page(node->page[0])
-> > 	  node->type = desc->type;
-> > 	  switch (node->type) {
-> > 	  ...
-> > 	  default:  // because node->type is 127, so run here
-Following "default," the comment I added clearly indicates that the
-issue stems from the `type` value being 127.
-> > 	  	goto node_error;
-> 
-> I think, maybe, we need to add some error message(s) when some error is
-> happened. What do you think?
-> 
-> > 	  ...
-> > 	  hfs_bnode_put()
-> > 	   ...
-> > 	   if (test_bit(HFS_BNODE_DELETED, &node->flags)) { /* head node not set HFS_BNODE_DELETED flag
-> > 							     * so, the node will never be freed.
-> > 							     * Furthermore, even if the node were marked
-> > 							     * with the HFS_BNODE_DELETED flag, hfs_bmap_free()
-> > 							     * would still trigger BUG_ON(!node->this).
-Please note the comments I added above.
-> > 	   						     */
-> 
->  node_error:
->  	set_bit(HFS_BNODE_ERROR, &node->flags);
-> -	clear_bit(HFS_BNODE_NEW, &node->flags);
-> -	wake_up(&node->lock_wq);
-> +	if (num != HFSPLUS_TREE_HEAD) {
-> 
-> Why do we need to distinguish is it HFSPLUS_TREE_HEAD or not? I don't see any
-> difference in node processing.
-> 
-> +		clear_bit(HFS_BNODE_NEW, &node->flags);
-> 
-> I think that we don't need to clear the HFS_BNODE_NEW. Because, we need to
-> analyze HFS_BNODE_ERROR in hfs_bnode_put().
-> 
-> +		wake_up(&node->lock_wq);
-> 
-> I assume that wake_up() should be called anyway. Why have you removed this call
-> for HFSPLUS_TREE_HEAD case?
-Based on my analysis, hfs_bnode_find() does not support searching for
-HFSPLUS_TREE_HEAD.
-> 
-> +	}
->  	hfs_bnode_put(node);
->  	return ERR_PTR(-EIO);
-> 
-> @@ -694,6 +698,10 @@ void hfs_bnode_put(struct hfs_bnode *node)
->  			hfs_bnode_free(node);
->  			return;
->  		}
-> +		if (test_bit(HFS_BNODE_NEW, &node->flags)) {
-> 
-> I suggest to analyze HFS_BNODE_ERROR here.
-Only the new head node will reach this point, no further analysis is
-required.
-> 
-> +			hfs_bnode_unhash(node);
-> +			hfs_bnode_free(node);
-> +		}
-> 
-> @@ -598,14 +598,18 @@ struct hfs_bnode *hfs_bnode_find(struct hfs_btree *tree,
-> u32 num)
->  		if (key_size >= entry_size || key_size & 1)
->  			goto node_error;
->  	}
-> -	clear_bit(HFS_BNODE_NEW, &node->flags);
-> -	wake_up(&node->lock_wq);
-> +	if (num != HFSPLUS_TREE_HEAD) {
-> +		clear_bit(HFS_BNODE_NEW, &node->flags);
-> +		wake_up(&node->lock_wq);
-> 
-> What the point in this code? Why have you change the logic here?
-To support tree head.
-> 
-> +	}
->  	return node;
-> 
-> And, could you please add these new details into the commit message?
-OK.
+I definitely like the calling conventions change, so much that I'd be glad
+to pick that one Right Fucking Now.  I'd probably make the store in
+d_must_wait() conditional, though - ->d_flags and ->d_lock are in different
+cachelines and there's no need to dirty both every time we are called.
+IOW, have d_must_wait() do this:
+	if (!d_in_lookup(dentry))
+		return false;
+	if (!(dentry->d_flags & DCACHE_LOCK_WAITER))
+		dentry->d_flags |= DCACHE_LOCK_WAITER;
+	return true;
+Not sure if it would flow better with return values inverted (and
+negation removed from wait_var_event_spinlock(), that is)...
 
-Edward
-BR
+>  static inline void end_dir_add(struct inode *dir, unsigned int n,
+> -			       wait_queue_head_t *d_wait)
+> +			       bool do_wake, struct dentry *de)
+>  {
+>  	smp_store_release(&dir->i_dir_seq, n + 2);
+>  	preempt_enable_nested();
+> -	if (wq_has_sleeper(d_wait))
+> -		wake_up_all(d_wait);
+> +	if (do_wake)
+> +		wake_up_var_locked(&de->d_flags, &de->d_lock);
+>  }
 
+This calling conventions change, OTOH, I don't like at all.  I mean,
+(dir, n, false, unused) vs. (dir, n, true, never_NULL) is seriously
+asking to be reduced to (dir, n, NULL) vs. (dir, n, never_NULL).
+
+> @@ -2800,29 +2793,29 @@ EXPORT_SYMBOL(d_alloc_parallel);
+>   * - Retrieve and clear the waitqueue head in dentry
+>   * - Return the waitqueue head
+
+... not anymore.  The entire comment needs replacement, TBH - 2 lines of
+3 are stale with that patch and remaining one is... ambiguous, since
+there are *two* hashes around and "Unhash the dentry" usually refers to
+the other one.
+
+Something like
+
+/*
+ * Move dentry from in-lookup state to busy-negative one.
+ *
+ * From now on d_in_lookup(dentry) will return false and dentry is gone from
+ * in-lookup hash.
+ *
+ * Anyone who had been waiting on it in d_alloc_parallel() is free to
+ * proceed after that.  Note that waking such waiters up is left to
+ * the callers; we might be called in write-side critical area for ->i_dir_seq,
+ * and PREEMPT_RT kernels can't have that wakeup done in those.
+ *
+ * Returns whether there are waiters to be woken up.
+ */
+
+perhaps?
