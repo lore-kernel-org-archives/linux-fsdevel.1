@@ -1,38 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76683330662;
-	Wed, 29 Apr 2026 14:32:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 512573570C8;
+	Wed, 29 Apr 2026 14:32:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777473123; cv=none; b=rC3DImnOjCegrMHQukV7TlGzlod/EVKagH0gMKBb0OQ64II5odxTmnT/csz9Ix7X9HHt1z+KQD482wxgxQpREG3+wrrWFDWZ/4fChr4uRD6znNyNPYoxdLSYeOfySv03Bh9booqrpLGXtiz1HJAV75trFWL2cqHQwzO9YBET3OA=
+	t=1777473139; cv=none; b=uzszTbOiVilb5BuDT+z24XogLh9SuF3Z/q7rQs0NVAOXihwhmcGDqF5c+6rSGg/5CLhxPR+ZeTIm4sqakcNS9zCDfLIgxXZlPpJ0YKiPEg6RK5+SUi21m7TOhuRZp1tC/u39em32RvXs2l1/xUdDcZdfMDYF2kKC95SO8KQklq4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777473123; c=relaxed/simple;
-	bh=ihPeJSPeV5CcVHFUBS2wW+9UUrvBdcKsD4PxxSE5qUc=;
+	s=arc-20240116; t=1777473139; c=relaxed/simple;
+	bh=/EjUVAzqvG20L5hJLEffN9YKFet57EeOLeC91uwL2XI=;
 	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=edWc46RGPH3miyyF3OBLvgP0AjQAk2p780cfF73Jf6NevbQ0PZwGKlDOpu6ZTt5RUyM/mHvzFmu7YREI73pb3bRWuf81lK88SSIQL5EQ5Pm6qwphOM5ZP4jTrHfrZAfqQdzJeoOwLFDL6UBECYnjxb2JNI6rZ6+Wn4vqQ9ze2Kc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ss1yx218; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=U/iHeyXz8yR9wXAURZi4Ksx27czW+OBxqQRHMCsQecZrBA3ySsXG4r1mEaVsEG2jdSOpVm6I/g/E1BNTBmJu2/wurQDozbCbit/MnCiGOloGC+CIjHQdPB+PLYkrMFrbRk9TJykRHkPzaNoJnhUr/bzxgeoYAIk0yCl2S/dZx+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k9nNqmQt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ss1yx218"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F311C19425;
-	Wed, 29 Apr 2026 14:32:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k9nNqmQt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B734EC19425;
+	Wed, 29 Apr 2026 14:32:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777473123;
-	bh=ihPeJSPeV5CcVHFUBS2wW+9UUrvBdcKsD4PxxSE5qUc=;
+	s=k20201202; t=1777473138;
+	bh=/EjUVAzqvG20L5hJLEffN9YKFet57EeOLeC91uwL2XI=;
 	h=Date:Subject:From:To:Cc:In-Reply-To:References:From;
-	b=ss1yx218tGintF68DnJBohUSfHF3vO/YgEX9Fqv+eYIH8UcEbzEaYc+gSTSBamqct
-	 7/JsalKtiyKYhYqY7RtB7GCoLIUHP4+S2rKP4sRUqc53jQlqTiN5KuQWPqD6yg+5yZ
-	 KPw7rOSkJI2JUoNNitBWWayLC8/Cd9ltFCeOnNf+B2NOL8dOAKXbgxK2iGVSqQs6Vq
-	 2sq96En0NY0C0lHhXl8T9J5x16GBHzZcEij4X+dG8v+lqKNZ9pO8DKiVY2Ed/GZiUu
-	 a6guX9JaKuut+pl/NrTV0Ahdt+LBt8XtpEss7NmW/Rj198/VrHmnKx6sBPgKa9e9FM
-	 WNFQNQ2YDo+dQ==
-Date: Wed, 29 Apr 2026 07:32:02 -0700
-Subject: [PATCH 32/33] fuse: enable swapfile activation on iomap
+	b=k9nNqmQtpSaKC/7cVVdhxsD6pnHM83/KbHVm4GO9q89+uPjVGo4PjfAYZ/4do92sO
+	 Yub8NpR/E93mTOqLcMe142Is5abmaxXtg0D+5A19WrlMUy9iDaXGDoUf/aigo7RdXX
+	 UMJzSn/w0AQZYwM4OkRpH6Zx1oZs+5AuvGfJdYa/wpSpD/O3WOXr98dxmqgXTx0JRB
+	 0EQaFmf6+8uTBlNNn8MFSkwYqji0g7ekiDnBeumCAvO1gQEQvWCgCnPSQHGUX1YTbG
+	 s7vnrFNuKTGU8JE639Gd20ba3iTSi+8bgbnarttnw2O3dWXefdQsESc2vPWjJcJcOO
+	 kxmrLOpMxyDww==
+Date: Wed, 29 Apr 2026 07:32:18 -0700
+Subject: [PATCH 33/33] fuse: implement freeze and shutdowns for iomap
+ filesystems
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: djwong@kernel.org, miklos@szeredi.hu
 Cc: joannelkoong@gmail.com, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
  bernd@bsbernd.com, fuse-devel@lists.linux.dev
-Message-ID: <177747205834.4101881.6028637441703823637.stgit@frogsfrogsfrogs>
+Message-ID: <177747205856.4101881.10694466069338531152.stgit@frogsfrogsfrogs>
 In-Reply-To: <177747204948.4101881.16044986246405634629.stgit@frogsfrogsfrogs>
 References: <177747204948.4101881.16044986246405634629.stgit@frogsfrogsfrogs>
 Precedence: bulk
@@ -46,149 +47,135 @@ Content-Transfer-Encoding: 7bit
 
 From: Darrick J. Wong <djwong@kernel.org>
 
-It turns out that fuse supports swapfile activation, so let's enable
-that.
+Implement filesystem freezing and block device shutdown notifications
+for iomap-based servers
 
 Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 ---
- fs/fuse/fuse_trace.h      |    1 +
- include/uapi/linux/fuse.h |    5 ++++
- fs/fuse/fuse_iomap.c      |   54 ++++++++++++++++++++++++++++++++++++++++++++-
- 3 files changed, 59 insertions(+), 1 deletion(-)
+ include/uapi/linux/fuse.h |   12 +++++++
+ fs/fuse/inode.c           |   73 +++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 85 insertions(+)
 
 
-diff --git a/fs/fuse/fuse_trace.h b/fs/fuse/fuse_trace.h
-index de7d483d4b0f34..63cc1496ee5ca1 100644
---- a/fs/fuse/fuse_trace.h
-+++ b/fs/fuse/fuse_trace.h
-@@ -300,6 +300,7 @@ struct iomap;
- 	{ FUSE_IOMAP_OP_DAX,			"fsdax" }, \
- 	{ FUSE_IOMAP_OP_ATOMIC,			"atomic" }, \
- 	{ FUSE_IOMAP_OP_DONTCACHE,		"dontcache" }, \
-+	{ FUSE_IOMAP_OP_SWAPFILE,		"swapfile" }, \
- 	{ FUSE_IOMAP_OP_WRITEBACK,		"writeback" }
- 
- #define FUSE_IOMAP_TYPE_STRINGS \
 diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
-index 9e59fba64f48d9..5f3724f36f764a 100644
+index 5f3724f36f764a..b6fa828776b82f 100644
 --- a/include/uapi/linux/fuse.h
 +++ b/include/uapi/linux/fuse.h
-@@ -1406,6 +1406,9 @@ struct fuse_uring_cmd_req {
- #define FUSE_IOMAP_OP_ATOMIC		(1U << 9)
- #define FUSE_IOMAP_OP_DONTCACHE		(1U << 10)
+@@ -695,6 +695,10 @@ enum fuse_opcode {
+ 	FUSE_STATX		= 52,
+ 	FUSE_COPY_FILE_RANGE_64	= 53,
  
-+/* swapfile config operation */
-+#define FUSE_IOMAP_OP_SWAPFILE		(1U << 30)
++	FUSE_FREEZE_FS		= 4089,
++	FUSE_UNFREEZE_FS	= 4090,
++	FUSE_SHUTDOWN_FS	= 4091,
 +
- /* pagecache writeback operation */
- #define FUSE_IOMAP_OP_WRITEBACK		(1U << 31)
+ 	FUSE_IOMAP_CONFIG	= 4092,
+ 	FUSE_IOMAP_IOEND	= 4093,
+ 	FUSE_IOMAP_BEGIN	= 4094,
+@@ -1257,6 +1261,14 @@ struct fuse_syncfs_in {
+ 	uint64_t	padding;
+ };
  
-@@ -1460,6 +1463,8 @@ struct fuse_iomap_end_in {
- #define FUSE_IOMAP_IOEND_APPEND		(1U << 4)
- /* is pagecache writeback */
- #define FUSE_IOMAP_IOEND_WRITEBACK	(1U << 5)
-+/* swapfile deactivation */
-+#define FUSE_IOMAP_IOEND_SWAPOFF	(1U << 6)
- 
- struct fuse_iomap_ioend_in {
- 	uint32_t flags;		/* FUSE_IOMAP_IOEND_* */
-diff --git a/fs/fuse/fuse_iomap.c b/fs/fuse/fuse_iomap.c
-index 1e01e0011a412d..cf52e2747e7f7f 100644
---- a/fs/fuse/fuse_iomap.c
-+++ b/fs/fuse/fuse_iomap.c
-@@ -8,6 +8,7 @@
- #include <linux/pagemap.h>
- #include <linux/falloc.h>
- #include <linux/fadvise.h>
-+#include <linux/swap.h>
- #include "fuse_i.h"
- #include "fuse_trace.h"
- #include "fuse_iomap.h"
-@@ -202,13 +203,16 @@ static inline uint16_t fuse_iomap_flags_from_server(uint16_t fuse_f_flags)
- #undef XMAP2
- #undef XMAP
- 
-+#define FUSE_IOMAP_PRIVATE_OPS	(FUSE_IOMAP_OP_WRITEBACK | \
-+				 FUSE_IOMAP_OP_SWAPFILE)
-+
- /* Convert IOMAP_* operation flags to FUSE_IOMAP_OP_* */
- #define XMAP(word) \
- 	if (iomap_op_flags & IOMAP_##word) \
- 		ret |= FUSE_IOMAP_OP_##word
- static inline uint32_t fuse_iomap_op_to_server(unsigned iomap_op_flags)
- {
--	uint32_t ret = iomap_op_flags & FUSE_IOMAP_OP_WRITEBACK;
-+	uint32_t ret = iomap_op_flags & FUSE_IOMAP_PRIVATE_OPS;
- 
- 	XMAP(WRITE);
- 	XMAP(ZERO);
-@@ -757,6 +761,13 @@ fuse_should_send_iomap_ioend(const struct fuse_mount *fm,
- 	if (inarg->error)
- 		return true;
- 
-+	/*
-+	 * Always send an ioend for swapoff to let the fuse server know the
-+	 * long term layout "lease" is over.
-+	 */
-+	if (inarg->flags & FUSE_IOMAP_IOEND_SWAPOFF)
-+		return true;
-+
- 	/* Send an ioend if we performed an IO involving metadata changes. */
- 	return inarg->written > 0 &&
- 	       (inarg->flags & (FUSE_IOMAP_IOEND_SHARED |
-@@ -1801,6 +1812,43 @@ static void fuse_iomap_readahead(struct readahead_control *rac)
- 	iomap_bio_readahead(rac, &fuse_iomap_ops);
- }
- 
-+#ifdef CONFIG_SWAP
-+static int fuse_iomap_swapfile_begin(struct inode *inode, loff_t pos,
-+				     loff_t count, unsigned opflags,
-+				     struct iomap *iomap, struct iomap *srcmap)
-+{
-+	return fuse_iomap_begin(inode, pos, count,
-+				FUSE_IOMAP_OP_SWAPFILE | opflags, iomap,
-+				srcmap);
-+}
-+
-+static const struct iomap_ops fuse_iomap_swapfile_ops = {
-+	.iomap_begin		= fuse_iomap_swapfile_begin,
++struct fuse_freezefs_in {
++	uint64_t	unlinked;
 +};
 +
-+static int fuse_iomap_swap_activate(struct swap_info_struct *sis,
-+				    struct file *swap_file, sector_t *span)
-+{
-+	int ret;
++struct fuse_shutdownfs_in {
++	uint64_t	flags;
++};
 +
-+	/* obtain the block device from the header iomapping */
-+	sis->bdev = NULL;
-+	ret = iomap_swapfile_activate(sis, swap_file, span,
-+				      &fuse_iomap_swapfile_ops);
-+	if (ret < 0)
-+		fuse_iomap_ioend(file_inode(swap_file), 0, 0, ret,
-+				 FUSE_IOMAP_IOEND_SWAPOFF, NULL,
-+				 FUSE_IOMAP_NULL_ADDR);
-+	return ret;
-+}
-+
-+static void fuse_iomap_swap_deactivate(struct file *file)
-+{
-+	fuse_iomap_ioend(file_inode(file), 0, 0, 0, FUSE_IOMAP_IOEND_SWAPOFF,
-+			 NULL, FUSE_IOMAP_NULL_ADDR);
-+}
-+#endif
-+
- static const struct address_space_operations fuse_iomap_aops = {
- 	.read_folio		= fuse_iomap_read_folio,
- 	.readahead		= fuse_iomap_readahead,
-@@ -1811,6 +1859,10 @@ static const struct address_space_operations fuse_iomap_aops = {
- 	.migrate_folio		= filemap_migrate_folio,
- 	.is_partially_uptodate  = iomap_is_partially_uptodate,
- 	.error_remove_folio	= generic_error_remove_folio,
-+#ifdef CONFIG_SWAP
-+	.swap_activate		= fuse_iomap_swap_activate,
-+	.swap_deactivate	= fuse_iomap_swap_deactivate,
-+#endif
+ /*
+  * For each security context, send fuse_secctx with size of security context
+  * fuse_secctx will be followed by security context name and this in turn
+diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+index f6ec67a8eb86a2..6d4ff08ad3069a 100644
+--- a/fs/fuse/inode.c
++++ b/fs/fuse/inode.c
+@@ -1264,6 +1264,74 @@ static struct dentry *fuse_get_parent(struct dentry *child)
+ 	return parent;
+ }
  
- 	/* These aren't pagecache operations per se */
- 	.bmap			= fuse_bmap,
++#ifdef CONFIG_FUSE_IOMAP
++/*
++ * Second stage of a freeze. The data is already frozen so we only
++ * need to take care of the fuse server.
++ */
++static int fuse_freeze_fs(struct super_block *sb)
++{
++	struct fuse_mount *fm = get_fuse_mount_super(sb);
++	struct fuse_conn *fc = get_fuse_conn_super(sb);
++	struct fuse_freezefs_in inarg = {
++		.unlinked = atomic_long_read(&sb->s_remove_count),
++	};
++	FUSE_ARGS(args);
++	int err;
++
++	if (!fc->iomap)
++		return -EOPNOTSUPP;
++
++	args.opcode = FUSE_FREEZE_FS;
++	args.nodeid = get_node_id(sb->s_root->d_inode);
++	args.in_numargs = 1;
++	args.in_args[0].size = sizeof(inarg);
++	args.in_args[0].value = &inarg;
++	err = fuse_simple_request(fm, &args);
++	if (err == -ENOSYS)
++		err = -EOPNOTSUPP;
++	return err;
++}
++
++static int fuse_unfreeze_fs(struct super_block *sb)
++{
++	struct fuse_mount *fm = get_fuse_mount_super(sb);
++	struct fuse_conn *fc = get_fuse_conn_super(sb);
++	FUSE_ARGS(args);
++	int err;
++
++	if (!fc->iomap)
++		return 0;
++
++	args.opcode = FUSE_UNFREEZE_FS;
++	args.nodeid = get_node_id(sb->s_root->d_inode);
++	err = fuse_simple_request(fm, &args);
++	if (err == -ENOSYS)
++		err = 0;
++	return err;
++}
++
++static void fuse_shutdown_fs(struct super_block *sb)
++{
++	struct fuse_mount *fm = get_fuse_mount_super(sb);
++	struct fuse_conn *fc = get_fuse_conn_super(sb);
++	struct fuse_shutdownfs_in inarg = {
++		.flags = 0,
++	};
++	FUSE_ARGS(args);
++
++	if (!fc->iomap)
++		return;
++
++	args.opcode = FUSE_SHUTDOWN_FS;
++	args.nodeid = get_node_id(sb->s_root->d_inode);
++	args.in_numargs = 1;
++	args.in_args[0].size = sizeof(inarg);
++	args.in_args[0].value = &inarg;
++	fuse_simple_request(fm, &args);
++}
++#endif /* CONFIG_FUSE_IOMAP */
++
+ /* only for fid encoding; no support for file handle */
+ static const struct export_operations fuse_export_fid_operations = {
+ 	.encode_fh	= fuse_encode_fh,
+@@ -1286,6 +1354,11 @@ static const struct super_operations fuse_super_operations = {
+ 	.statfs		= fuse_statfs,
+ 	.sync_fs	= fuse_sync_fs,
+ 	.show_options	= fuse_show_options,
++#ifdef CONFIG_FUSE_IOMAP
++	.freeze_fs	= fuse_freeze_fs,
++	.unfreeze_fs	= fuse_unfreeze_fs,
++	.shutdown	= fuse_shutdown_fs,
++#endif
+ };
+ 
+ static void sanitize_global_limit(unsigned int *limit)
 
