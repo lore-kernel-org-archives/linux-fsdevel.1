@@ -1,62 +1,64 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D01C037C93F
-	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Apr 2026 15:26:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B7D937F015
+	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Apr 2026 15:26:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777476384; cv=none; b=LiprKBMR3Z5PNklLoJ6Oejey12BF0RSpwOJ6OWE/aMcjNxsHauiSdBSPMomv9IQ7b/NFyzTYEFFrJ1lm/GQDl3Jg+9YNqWE6tmcmRv+DByfJmpYpe1rpxVo9ZrzK4xw2+uymhMOQdGOCfWNj44FJnTwOORVUkO119WWvWbVR88o=
+	t=1777476387; cv=none; b=OGyIcf7T5PawvXbSgJcFIXqtPbRWLk+viObBv5BcXfjhKCnS7yDiUYyPQuPRPei4wo1+b7lZQqIqRjftZ6gg8BSe0iDrTrgCJqyD7LIvsZelz/brcEEN4RPQbl9FMCNS369iqJsDYdrv8vFf4JYU+9SydQopBkuEATO3Dou4dUM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777476384; c=relaxed/simple;
-	bh=hELMxdIqirWfZE9lS3jphk/Hs00RokLAMWOkF4lalT0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qP51ntkOfh2qYQi3UOU2bPflTfWbWlX0thiYseOidIAWInnjMtpV3Bn8x8HaFbk71sYk5613eJAkx3X0VJPQiT96hUJQwpbKN/mHvgNpG2WPlRLc4lNXazWGKSZY6eU9H3oIbYcVuuNlvUhU1zRsC5g3v6zCcftmpv3DYsJgNm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XWB8xc98; arc=none smtp.client-ip=209.85.128.47
+	s=arc-20240116; t=1777476387; c=relaxed/simple;
+	bh=dwXXUn2/AXYocQMBrxdXlK4QY//00n+FpUG8ksJYzZ4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=F/CgsZBXttdgqBRuFIGRvhXxvTZX+KSgGE6jDmJ9DIbBMpQIf2ZcB6jO37DS1dau7sfSnrXlmTy6GFR9ncoNvdiNukhRd3VuZ+NqLDvKqSP9xTzcppZg82xBfL6W7VsTxWsLV79COmZXvA3zNpuTREBcirQ+Wvec5KB7ceZ5OE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q//38A29; arc=none smtp.client-ip=209.85.128.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XWB8xc98"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-488a9033b2cso133240695e9.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 29 Apr 2026 08:26:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q//38A29"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-488b150559bso99675165e9.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 29 Apr 2026 08:26:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777476378; x=1778081178; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=G9kqbgnidQC23bEvrBAVDYa4e7L0vOouqvUY0ysfe8Y=;
-        b=XWB8xc98up29GzY7kFjywBjNyG9lgycOlMLs1dHgrQ32RQEWjh6cxO4yMt8G/UntSC
-         4kksswLeJ03wupTCWEvdS7ZG2if40crUlus2GT8pR5xWNiEWI/uiK7N0mIrzbrNFKnOL
-         PySlG5myV9tLCrrkUmRq49nU7xHF8nIgRKHwlG1Qw6DzKvYg+kl+vYewodjHeZ/fQUEU
-         HY93XBkBemETwZXXuPpu1nm9a0NV/vd06xGE571ZmDtPeca3KlAnQ65PZTTkTqnPOBbw
-         REGD+nzd0M52LFRdTDuoc0l8KZasOYu1p3bNIERwFJvAJXQABZDlS0H/3MO75ARW9ztW
-         V5ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777476378; x=1778081178;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1777476383; x=1778081183; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=G9kqbgnidQC23bEvrBAVDYa4e7L0vOouqvUY0ysfe8Y=;
-        b=MrjuqAELBJ7MG35tiZdI6d8DIPr0Kr7wUX9DqbejbXoff++bRaGvyLUEBTKqMqCBLo
-         ZJbjJXBWTjUwenMH0MLbvxhu24aBDVg+9U+Se4Xse+18DpAJaXYJFc0bfI/9iuj1HgAa
-         OosFTZ9VBiisX1fLJA/IUm69V2k6ev6arV98p/nhI2O5DpG2tByhUHY4ODiOda7jj7gH
-         kyioSI0TsckyI80qTKoubsIzj+CCIY+i2AxadmcI5z7y2/F5fEMCRhFYkeBviz8A+zgw
-         NW1QOsaqjw5MbnpAlwZWUhnCdeAduy5n846ljxUL7w+tHhExtQHY3AjjeM9t++dCkfxU
-         ecgQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8GDOs8xrcg5HQzlhFSMAjll/UHJP+HMQXUT2rUBETYf0F2HaY2jvjxM4zVZsUZeQ3h14eDZMQDNCyrULdZ@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx68EgxcWyKRjGiySibG7C1EVyHnZW982NhE4L0WzXttoasA/t1
-	OuK04yXun7xIxoCo2T6Y+hs3Nbv48PBnKL3fxQDnwBTuhJd80PF3dkU+
-X-Gm-Gg: AeBDiesDY9cL1+rCROgGcZTGllGIiZwNmbBsVo4GciXdUSFjcs3XK2uAYuI+HjFt3aW
-	yl9iqnx14SEBf904kJ5R2QU633JsJwje7B40dOfNpOQXLH7STlMj8YKISI+2tKRqSs2H9jvwI01
-	Ul2cWbb6e/KTFmm4+Af/6l/j0oRt8dMakiemXjIdu1JrGGKO7J5p1VrkjOiLXrHERjPG6rmFJ+f
-	H+4IWEvyahWPxjkNzFGV7RncYTlP1j31jZYhG+ItSEXyJiQuaIO8vT+WmyH1suiCoasp6c+Q37F
-	QondMx/hUbTuX3/lR6bp+Cpi8jHtPvVZeDUaUmkeYp1IhRl3d/4RO/PQn51gJX1Ok2hTgsGpyC6
-	0G/LPppkRZxqVbCyowW8FvxGbMLypy8Qoje4mzErKVw4PQLmKrKhqtn9cHzLnESMdYzuzyuQ08q
-	drhEO/Fh43+hOvHkhR2iUmymYghEd2+TgFFmhtVS871eENa24EBaIrsNNB3fwrHGkQkhd401Jlx
-	7m8P4FJsCVA9fYjG4zzmhgFV+jFJtKxCrvz0YIODjVs
-X-Received: by 2002:a05:600c:4f92:b0:489:1ff1:74df with SMTP id 5b1f17b1804b1-48a77ae5430mr125646225e9.1.1777476377153;
-        Wed, 29 Apr 2026 08:26:17 -0700 (PDT)
+        bh=Bz5U140iikgjy9qkhQv9ANNAasoYi2fY/CedhAQlGZc=;
+        b=Q//38A29BIyAwvgVfxuarwdkkCIkYkoEgnlCZ1ZWTVC9bBGBlbwjWMLO+PCyW3pZb3
+         /pU/BZg1FEtUrImeH+eXGiGHqna2ZvIWgk+L6yR86y2B0VdaVlYkeMunR7khoFxE4S8J
+         0FNUd76MGFcBRZ5OxoP4ajvEzZZMXCSTkGLykLqyP0Ab+gFIXaGbWxh2fVbPdhx2Z9ZJ
+         KEn1sba+9jRPPUOBVsvW0+1xOMEdWejyHJKwKElkTfsdDWcEYtTzEgQw3k+6VtHwcQUk
+         tNSQwq6YhbSfLlBF0fbYnD0bGUK6JS4s8nem1hUMV56iM3cdlycEqDt4GJcUEtO5p6XO
+         1Mlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777476383; x=1778081183;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Bz5U140iikgjy9qkhQv9ANNAasoYi2fY/CedhAQlGZc=;
+        b=BG8blcn9pcfR/uhcYTeNgTgjvlIGmEW+zUaOacYdVcHvCia9By8PP5Ww0QhAYD6eSg
+         Xpl05paGlwyXhb27Xyj4SPzdBkf8SlKqJXwvF4mxEo3iMQVp8837FjZF2lAe+iq582Cj
+         BWGVluNW3T7X7rgq4potWq3hXFkk/51qY4yqdTA9dLv5Pwybwdi5T4Z89Z5K6fCMoTjp
+         Rg4VIdmht9DIytDby8YvuQItUsk1LIXJJhJ+mRUBDO1JxyWzV0aBEMPB4JOpj2Jxj/TY
+         rvRg3k26HI4nMQvDIanyqLYAD7BNRBTwGDOTWvGJ6hON5P9YO/dkEbF7yyU80r2VYI/+
+         xImg==
+X-Forwarded-Encrypted: i=1; AFNElJ8zKlsd5ja2cBSvnPOcjTWD3N7eEUgLt0eaa/3WD2QfPTMHK1iZJDdKJuk20hncUY73YkpgM3F54IQ6h2iQ@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz/qULEntOd3q6EKzsLfrf4Ye/ONrU6zr7HvAkzCfHRN2pVV5C8
+	XF7/xhXj9U8kZZwTiS1fHQ3tqbiO9U/kNh36dXForTLCJai2Dv61dwzH
+X-Gm-Gg: AeBDievPPosZEPq06FarutB3w9j0g3W9mjw2cfnflLGClHdhMtw04rjre8cKd88eInD
+	BPnpo0b738ydoaeuTArN0cD/u9yimey01VzjaQV3D2P2cxsjdP5REd0B17DxHAIsPgKShdxbul9
+	CxSTZSDo6gNibEeaea3mtunZ0focBFHtdSZNq7V0xPzqN18vcUIL1CR2fqeScTVSwheWqCNisCV
+	9OwYgbrVDYzJoNfL700YHAhle7EGAkFLVWgFZoTQzuS8CXHTE3Oc/ku5+/qzaIB+F/eLBKVmHYC
+	3ZpUj+TSEyLSF2EusMlqi6Pv7WWAvpP+gTjbCEt9KAAbSxVr4kM4rL4iuBjhEp+xoZIuBZp2TuG
+	e34gJHqwFNPcP2gaxTFbzqywMCDhZRgonYqi33bAJD0uG58QRpwg2pYSi0GPgOdK/NfYWms8rSE
+	anxdKcqbehVti3YTppHf2c4P4zG4np0AizWvwXxNRfgQOqHbqty67gQi6s2udlWkmqW4Op5VJcR
+	tgAKTs8moX4We6MdsLrAifL5rJNp2fxe8gT/oC6wKd8
+X-Received: by 2002:a05:600c:3b13:b0:48a:52ee:5776 with SMTP id 5b1f17b1804b1-48a77ae049fmr129049305e9.11.1777476382406;
+        Wed, 29 Apr 2026 08:26:22 -0700 (PDT)
 Received: from 127.0.0.1localhost ([82.132.184.31])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-447b76e5c22sm6382951f8f.28.2026.04.29.08.26.13
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-447b76e5c22sm6382951f8f.28.2026.04.29.08.26.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Apr 2026 08:26:16 -0700 (PDT)
+        Wed, 29 Apr 2026 08:26:21 -0700 (PDT)
 From: Pavel Begunkov <asml.silence@gmail.com>
 To: Jens Axboe <axboe@kernel.dk>,
 	Keith Busch <kbusch@kernel.org>,
@@ -83,10 +85,12 @@ Cc: asml.silence@gmail.com,
 	William Power <william.power@intel.com>,
 	Phil Cayton <phil.cayton@intel.com>,
 	Jason Gunthorpe <jgg@nvidia.com>
-Subject: [PATCH v3 00/10] Add dmabuf read/write via io_uring
-Date: Wed, 29 Apr 2026 16:25:46 +0100
-Message-ID: <cover.1777475843.git.asml.silence@gmail.com>
+Subject: [PATCH v3 01/10] file: add callback for creating long-term dmabuf maps
+Date: Wed, 29 Apr 2026 16:25:47 +0100
+Message-ID: <ae941457cf6cacb9d4c16b6ec904da9ef7fed97f.1777475843.git.asml.silence@gmail.com>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <cover.1777475843.git.asml.silence@gmail.com>
+References: <cover.1777475843.git.asml.silence@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -95,89 +99,36 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The patch set allows to register a dmabuf to an io_uring instance for
-a specified file and use it with io_uring read / write requests. The
-infrastructure is not tied to io_uring and there could be more users
-in the future. A similar idea was attempted some years ago by Keith [1],
-from where I borrowed a good number of changes, and later was brough up
-by Tushar and Vishal from Intel.
+Introduce a new file callback that allows creating long-term dma
+mapping. All necessary information together with a dmabuf will be passed
+in the second argument of type struct io_dmabuf_token, which will be
+defined in following patches.
 
-It's an opt-in feature for files, and they need to implement a new
-file operation to use it. Only NVMe block devices are supported in this
-series. The user API is built on top of io_uring's "registered buffers",
-where a dmabuf is registered in a special way, but after it can be used
-as any other "registered buffer" with IORING_OP_{READ,WRITE}_FIXED
-requests. It's created via a new file operation and the resulted map is
-then passed through the I/O stack in a new iterator type. There is some
-additional infrastructure to bind it all, which also counts requests
-using a dmabuf map and managing lifetimes, which is used to implement
-map invalidation.
+Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
+---
+ include/linux/fs.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-It was tested for GPU <-> NVMe transfers. Also, as it maintains a
-long-term dma mapping, it helps with the IOMMU cost. The numbers
-below are for udmabuf reads previously run by Anuj for different
-IOMMU modes:
-
-- STRICT: before = 570 KIOPS, after = 5.01 MIOPS
-- LAZY: before = 1.93 MIOPS, after = 5.01 MIOPS
-- PASSTHROUGH: before = 5.01 MIOPS, after = 5.01 MIOPS
-
-There are some liburing tests that can serve as an example:
-git: https://github.com/isilence/liburing.git rw-dmabuf-tests-v3
-url: https://github.com/isilence/liburing/tree/rw-dmabuf-tests-v3
-
-[1] https://lore.kernel.org/io-uring/20220805162444.3985535-1-kbusch@fb.com/
-
-v3: - Rework io_uring registration
-    - Move token/map infrastructure code out of blk-mq
-    - Simplify callbacks: remove a separate blk-mq table, which was
-      mostly just forwarding calls (to nvme).
-    - Don't skip dma sync depending on request direction
-    - Fix a couple of hangs
-    - Rename s/dma/dmabuf/
-    - Other small changes
-
-v2: - Don't pass raw dma addresses, wrap it into a driver specific object
-    - Split into two objects: token and map
-    - Implement move_notify
-
-Pavel Begunkov (10):
-  file: add callback for creating long-term dmabuf maps
-  iov_iter: add iterator type for dmabuf maps
-  block: move bvec init into __bio_clone
-  block: introduce dma map backed bio type
-  lib: add dmabuf token infrastructure
-  block: forward create_dmabuf_token to drivers
-  nvme-pci: implement dma_token backed requests
-  io_uring/rsrc: introduce buf registration structure
-  io_uring/rsrc: extend buffer update
-  io_uring/rsrc: add dmabuf backed registered buffers
-
- block/bio.c                     |  28 +++-
- block/blk-merge.c               |  14 ++
- block/blk.h                     |   3 +-
- block/fops.c                    |  16 ++
- drivers/nvme/host/pci.c         | 282 ++++++++++++++++++++++++++++++++
- include/linux/bio.h             |  19 ++-
- include/linux/blk-mq.h          |   9 +
- include/linux/blk_types.h       |   8 +-
- include/linux/fs.h              |   2 +
- include/linux/io_dmabuf_token.h |  92 +++++++++++
- include/linux/io_uring_types.h  |   5 +
- include/linux/uio.h             |  11 ++
- include/uapi/linux/io_uring.h   |  31 +++-
- io_uring/io_uring.c             |   3 +-
- io_uring/rsrc.c                 | 266 +++++++++++++++++++++++++-----
- io_uring/rsrc.h                 |  30 +++-
- io_uring/rw.c                   |   4 +-
- lib/Kconfig                     |   4 +
- lib/Makefile                    |   2 +
- lib/io_dmabuf_token.c           | 272 ++++++++++++++++++++++++++++++
- lib/iov_iter.c                  |  29 +++-
- 21 files changed, 1071 insertions(+), 59 deletions(-)
- create mode 100644 include/linux/io_dmabuf_token.h
- create mode 100644 lib/io_dmabuf_token.c
-
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index b5b01bb22d12..c5558aab4628 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -1920,6 +1920,7 @@ struct dir_context {
+ 
+ struct io_uring_cmd;
+ struct offset_ctx;
++struct io_dmabuf_token;
+ 
+ typedef unsigned int __bitwise fop_flags_t;
+ 
+@@ -1967,6 +1968,7 @@ struct file_operations {
+ 	int (*uring_cmd_iopoll)(struct io_uring_cmd *, struct io_comp_batch *,
+ 				unsigned int poll_flags);
+ 	int (*mmap_prepare)(struct vm_area_desc *);
++	int (*create_dmabuf_token)(struct file *, struct io_dmabuf_token *);
+ } __randomize_layout;
+ 
+ /* Supports async buffered reads */
 -- 
 2.53.0
 
