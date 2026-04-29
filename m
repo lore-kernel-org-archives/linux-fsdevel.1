@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 024B12D8DD6;
-	Wed, 29 Apr 2026 14:37:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 908B019D093;
+	Wed, 29 Apr 2026 14:37:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777473452; cv=none; b=CJe2RWuox6CcYtAiUUcTJOiBHqKc2NgS149rrUy9M6S+w/k0bdrZUF0NnB6bC57SCMpKlYo6LPpY3mVvIBMmHVjx9mLxw9tAysRfdr2KwraFI1D4wT0XBfluP+ZUh8OpGUIJo+3VePwpBbn0FQRKsePTdADsSafLFsfVfLGWvaM=
+	t=1777473467; cv=none; b=FU4zAiaGP4FmLFVnUyB+DWmZTLmo27hBfZ4+qLgP7rLIgVroYu3vPXps22d83/ZPSrc0oZ3OFgDG4YBittBIpb2OOCTPZLh2Q9Z2ibi2gowF3ymY/i75pl87m6321nGe2WgjNKD/huv+bqDLjqkvJzT+avAwEh6P0tqHyzQp7Fw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777473452; c=relaxed/simple;
-	bh=UsN13AakElsARPlSi9oeUBmDEkHmLt3qtF9vmDtAO5I=;
+	s=arc-20240116; t=1777473467; c=relaxed/simple;
+	bh=EFEJlrdJhGBJ95UEGaq8j27+PMsTkUoj5eDlcnVqAO8=;
 	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=f6Dee+UTBZecToKOyLhk8N/PBCYz8nyX867y7KoYoDGQ7josBiFZO9JgN9tYlkdLxltD2wpWOl2v8cVynDv67UfHYD7kriC0+uLDmGgTYKuPASQGa5k0YV6yChZ0qaQ+lcj8JfZ2ItELJY8AJiLI7SIygavt6pLM7zZfI6ebKJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fwyt7xIr; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=I4u6rN8Ih8vXBHwO+ToQJwq3wx6DFd6cgXqQvzqaSKmedzBeoD/rmC3kKHs5L45LC7jClr8jwMZDzQKvqC0UPok1/JqgttCqY6z/tjbKopGJWQFa/nNqgdcw8IwhF7LeTSJUSzaop8su/5JBq6LkNH63H3p/dwat2WDwOnlWhQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qh9zKIKh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fwyt7xIr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 920BFC19425;
-	Wed, 29 Apr 2026 14:37:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qh9zKIKh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C2EAC19425;
+	Wed, 29 Apr 2026 14:37:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777473451;
-	bh=UsN13AakElsARPlSi9oeUBmDEkHmLt3qtF9vmDtAO5I=;
+	s=k20201202; t=1777473467;
+	bh=EFEJlrdJhGBJ95UEGaq8j27+PMsTkUoj5eDlcnVqAO8=;
 	h=Date:Subject:From:To:Cc:In-Reply-To:References:From;
-	b=fwyt7xIr5WH5A3vAlr9nKS4jVNGHQwKKzFxGH21ZA9t93EdSEjroGOwRBf5Ah2pPm
-	 WZI6WxKITNPPykBcP3uqoOuKnnoSIw6dX4EhzO1wJRsVtmccdE8hI7TORYulaLXwYQ
-	 JtjrgwijFZCBfE3NzeET2NDzSYUMVMtmaWnDHQeBpzCX+hnWuPq/UO5oNF6ZGVhsJq
-	 +S+drUo+i+x6wmV7YErbRg2+GJk9uRzQBWNYrwyYlR4vA1W2hn2goxMo89AEuqKnHd
-	 CFpiGpiIDdM0Vb46VkzC2FVQrtLH4e3YYClnZEfmsqzuMs/xkAPtMVP/H4rl6Wb6JS
-	 5UjH7V3Axf/eg==
-Date: Wed, 29 Apr 2026 07:37:31 -0700
-Subject: [PATCH 08/12] fuse_trace: enable iomap cache management
+	b=qh9zKIKhFMVeQy87N2i5cEsjJctbH5vxlO1quJv9vWFtHJ9sVSa6Ijgh+dnq18knn
+	 Vj6h8kqe67fRxvmxGwtNnpZP66ce+iiDcWbqLVLMQGWxlxD6T7MQn1qqSADvYpa0aG
+	 Fst5nklgX4bBNFjOmT0sooIl7bgwuGmPxBIiRfa3j4c9acdMTlDRdYci71rX3GDDfm
+	 FL01S2w4OsH+SrPlUpd+dbirAX+6YxfSEXiTSNz7HmA/y+q+sFQd2uEmsNdi9zadhv
+	 lOinMIzMSii5iKucntQ4DkciiUFmtMCANXyggARsh+ZR9hkvJPd+lR1lOlpIqyTnjD
+	 /+LdOMo4IRAlg==
+Date: Wed, 29 Apr 2026 07:37:46 -0700
+Subject: [PATCH 09/12] fuse: overlay iomap inode info in struct fuse_inode
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: djwong@kernel.org, miklos@szeredi.hu
 Cc: joannelkoong@gmail.com, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
  bernd@bsbernd.com, fuse-devel@lists.linux.dev
-Message-ID: <177747207170.4103699.16847913218365817386.stgit@frogsfrogsfrogs>
+Message-ID: <177747207191.4103699.9258306494086144653.stgit@frogsfrogsfrogs>
 In-Reply-To: <177747206929.4103699.18256961856283014867.stgit@frogsfrogsfrogs>
 References: <177747206929.4103699.18256961856283014867.stgit@frogsfrogsfrogs>
 Precedence: bulk
@@ -46,120 +46,42 @@ Content-Transfer-Encoding: 7bit
 
 From: Darrick J. Wong <djwong@kernel.org>
 
-Add tracepoints for the previous patch.
+It's not possible for a regular file to use iomap mode and writeback
+caching at the same time, so we can save some memory in struct
+fuse_inode by overlaying them in the union.  This is a separate patch
+because C unions are rather unsafe and I prefer any errors to be
+bisectable to this patch.
 
 Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 ---
- fs/fuse/fuse_trace.h |   67 ++++++++++++++++++++++++++++++++++++++++++++++++++
- fs/fuse/fuse_iomap.c |    4 +++
- 2 files changed, 71 insertions(+)
+ fs/fuse/fuse_i.h |    5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 
-diff --git a/fs/fuse/fuse_trace.h b/fs/fuse/fuse_trace.h
-index ddcbefd33a4024..09da9bce61b98c 100644
---- a/fs/fuse/fuse_trace.h
-+++ b/fs/fuse/fuse_trace.h
-@@ -405,6 +405,7 @@ struct fuse_iomap_lookup;
- #define FUSE_IOMAP_TYPE_STRINGS \
- 	{ FUSE_IOMAP_TYPE_PURE_OVERWRITE,	"overwrite" }, \
- 	{ FUSE_IOMAP_TYPE_RETRY_CACHE,		"retry" }, \
-+	{ FUSE_IOMAP_TYPE_NOCACHE,		"nocache" }, \
- 	{ FUSE_IOMAP_TYPE_HOLE,			"hole" }, \
- 	{ FUSE_IOMAP_TYPE_DELALLOC,		"delalloc" }, \
- 	{ FUSE_IOMAP_TYPE_MAPPED,		"mapped" }, \
-@@ -1563,6 +1564,72 @@ TRACE_EVENT(fuse_iomap_invalid,
- 		  __entry->old_validity_cookie,
- 		  __entry->validity_cookie)
- );
-+
-+TRACE_EVENT(fuse_iomap_upsert_mappings,
-+	TP_PROTO(const struct inode *inode,
-+		 const struct fuse_iomap_upsert_mappings_out *outarg),
-+	TP_ARGS(inode, outarg),
-+
-+	TP_STRUCT__entry(
-+		FUSE_INODE_FIELDS
-+		__field(uint64_t,		attr_ino)
-+
-+		FUSE_IOMAP_MAP_FIELDS(read)
-+		FUSE_IOMAP_MAP_FIELDS(write)
-+	),
-+
-+	TP_fast_assign(
-+		FUSE_INODE_ASSIGN(inode, fi, fm);
-+		__entry->attr_ino	=	outarg->attr_ino;
-+		__entry->readoffset	=	outarg->read.offset;
-+		__entry->readlength	=	outarg->read.length;
-+		__entry->readaddr	=	outarg->read.addr;
-+		__entry->readtype	=	outarg->read.type;
-+		__entry->readflags	=	outarg->read.flags;
-+		__entry->readdev	=	outarg->read.dev;
-+		__entry->writeoffset	=	outarg->write.offset;
-+		__entry->writelength	=	outarg->write.length;
-+		__entry->writeaddr	=	outarg->write.addr;
-+		__entry->writetype	=	outarg->write.type;
-+		__entry->writeflags	=	outarg->write.flags;
-+		__entry->writedev	=	outarg->write.dev;
-+	),
-+
-+	TP_printk(FUSE_INODE_FMT " attr_ino 0x%llx" FUSE_IOMAP_MAP_FMT("read") FUSE_IOMAP_MAP_FMT("write"),
-+		  FUSE_INODE_PRINTK_ARGS,
-+		  __entry->attr_ino,
-+		  FUSE_IOMAP_MAP_PRINTK_ARGS(read),
-+		  FUSE_IOMAP_MAP_PRINTK_ARGS(write))
-+);
-+
-+TRACE_EVENT(fuse_iomap_inval_mappings,
-+	TP_PROTO(const struct inode *inode,
-+		 const struct fuse_iomap_inval_mappings_out *outarg),
-+	TP_ARGS(inode, outarg),
-+
-+	TP_STRUCT__entry(
-+		FUSE_INODE_FIELDS
-+		__field(uint64_t,		attr_ino)
-+
-+		FUSE_FILE_RANGE_FIELDS(read)
-+		FUSE_FILE_RANGE_FIELDS(write)
-+	),
-+
-+	TP_fast_assign(
-+		FUSE_INODE_ASSIGN(inode, fi, fm);
-+		__entry->attr_ino	=	outarg->attr_ino;
-+		__entry->readoffset	=	outarg->read.offset;
-+		__entry->readlength	=	outarg->read.length;
-+		__entry->writeoffset	=	outarg->write.offset;
-+		__entry->writelength	=	outarg->write.length;
-+	),
-+
-+	TP_printk(FUSE_INODE_FMT " attr_ino 0x%llx" FUSE_FILE_RANGE_FMT("read") FUSE_FILE_RANGE_FMT("write"),
-+		  FUSE_INODE_PRINTK_ARGS,
-+		  __entry->attr_ino,
-+		  FUSE_FILE_RANGE_PRINTK_ARGS(read),
-+		  FUSE_FILE_RANGE_PRINTK_ARGS(write))
-+);
- #endif /* CONFIG_FUSE_IOMAP */
+diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+index 1bf5dd373153e5..c6a7ca4f1df76c 100644
+--- a/fs/fuse/fuse_i.h
++++ b/fs/fuse/fuse_i.h
+@@ -188,8 +188,11 @@ struct fuse_inode {
  
- #endif /* _TRACE_FUSE_H */
-diff --git a/fs/fuse/fuse_iomap.c b/fs/fuse/fuse_iomap.c
-index 8e747084d81b28..075fa62f856495 100644
---- a/fs/fuse/fuse_iomap.c
-+++ b/fs/fuse/fuse_iomap.c
-@@ -2792,6 +2792,8 @@ int fuse_iomap_upsert_mappings(struct fuse_conn *fc,
- 		goto out_sb;
- 	}
+ 			/* waitq for direct-io completion */
+ 			wait_queue_head_t direct_io_waitq;
++		};
  
-+	trace_fuse_iomap_upsert_mappings(inode, outarg);
-+
- 	fi = get_fuse_inode(inode);
- 	if (BAD_DATA(fi->orig_ino != outarg->attr_ino)) {
- 		ret = -EINVAL;
-@@ -2879,6 +2881,8 @@ int fuse_iomap_inval_mappings(struct fuse_conn *fc,
- 		goto out_sb;
- 	}
+ #ifdef CONFIG_FUSE_IOMAP
++		/* regular file iomap mode */
++		struct {
+ 			/* file size as reported by fuse server */
+ 			loff_t i_disk_size;
  
-+	trace_fuse_iomap_inval_mappings(inode, outarg);
-+
- 	fi = get_fuse_inode(inode);
- 	if (BAD_DATA(fi->orig_ino != outarg->attr_ino)) {
- 		ret = -EINVAL;
+@@ -200,8 +203,8 @@ struct fuse_inode {
+ 
+ 			/* cached iomap mappings */
+ 			struct fuse_iomap_cache *cache;
+-#endif
+ 		};
++#endif
+ 
+ 		/* readdir cache (directory only) */
+ 		struct {
 
