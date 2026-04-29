@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2A75364943;
-	Wed, 29 Apr 2026 14:35:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73C1A378813;
+	Wed, 29 Apr 2026 14:36:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777473357; cv=none; b=cSmrB3fR713a8J5nO9Y5bBaitmTi9FY7YNV26ySNhQmVM0k47DIM+7bsusNYpBLQZJs8COn61NPGe5dUx02Lw8bC7fQ4OaSSIZm5YvWRxa0QcxZwQZHSQRPreDbgbMvL8uZAiAi8g367wH2d60DVeaTveuNdezJH6g66tftfmUQ=
+	t=1777473373; cv=none; b=qMKYaRZzy1WGT5vuGcOLEA+xfb8UCzXAwKWCxCzO+y5XkPjqrqusbHLonboMJh/C5fGhw5dylpgCTtDHFnot94huio9iQ1zRGRSnJG6tZJjigZFSW3c+MTNIX7T8EPIDjYcftqn5JueCgJJMZXBmyBT4hNVN3Q68TXkgDSXI2xk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777473357; c=relaxed/simple;
-	bh=8iALD6p+3FkyRBaGjffwvYOynWo9FQpetTvtSvmEwk4=;
+	s=arc-20240116; t=1777473373; c=relaxed/simple;
+	bh=wGx3bC2TqLtXOaYhgyJvROkvVtH0S3Zdk89Sxog3+/I=;
 	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aoMnS2T97oxjvf4hM0JmnSk6jOUpa7IUm+Q8sJ1lkwxRBuMH/xw9KgmnFbKHfEgm+g8mPgJaIvjJECmNPJKcEdZY4y5o+LieimXB1VHELD1jMguWkgJ9DPVrOK4hbZMztYqlHEgIIWMb+xeFDi6K+SNglRiDO4x5sawaEIwnmA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DBGW7LiT; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=mTaaFJsdd5CxbIOgVjzktEd3iooMjr/RQbW5eUZUBsUB7NmtJepLI+d0LuhBGA1R0grsAyHJRB/TDiJbmBrecV38oM03tAXX0TMtc0mMTPJX4OQ3uR7ekpXCEQdYLQpzNB2vjOjN9r2qJkASHzK9aO/+nqqgrhJNduU9ZuQNbUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RITQoFN6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DBGW7LiT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F6C4C19425;
-	Wed, 29 Apr 2026 14:35:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RITQoFN6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CF19C2BCB8;
+	Wed, 29 Apr 2026 14:36:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777473357;
-	bh=8iALD6p+3FkyRBaGjffwvYOynWo9FQpetTvtSvmEwk4=;
+	s=k20201202; t=1777473373;
+	bh=wGx3bC2TqLtXOaYhgyJvROkvVtH0S3Zdk89Sxog3+/I=;
 	h=Date:Subject:From:To:Cc:In-Reply-To:References:From;
-	b=DBGW7LiTa74jxBiBthwbmeOoSPA1rqBUkbl787vg8fa+p7tVmkzi7FXKTyuuzmOA+
-	 Ajn9Iu6rzPcCzUIcC99W0FV5sd7VmAonGB82cuiqa/WvaxekpEuLrukpfp3NHgYpau
-	 8MXWcp4mHzamc7U96EvjYpdrBih4/XVLzg+MQBblxoEhzIdGrb+0wV59QOibkNsYvC
-	 GeGgd+4TPNurC6G5MgaBPgFfx1B+s0EELgihg2JYCYnag1Z+/EO9tNSkoeSsKl24Ko
-	 Zlgo+6FFtH9/7nc1f9uaMMiOW4wogBMTxnNtL4FB3exU/PshjN6fuJQGjC0ayRjrR7
-	 Mzcg2N6A8nIew==
-Date: Wed, 29 Apr 2026 07:35:57 -0700
-Subject: [PATCH 02/12] fuse_trace: cache iomaps
+	b=RITQoFN6WT8BrqIllltLQsySgxbr8t8BvKnUc43crXibnXnNlBSmURtvMCT+Pf2O3
+	 zNgL4RhGGZ842PkbhPZsvDXRH2PWELAHoohNxJvmKPJ9Ff4AvzF3rp7/2IdKl49OfK
+	 iUtC4eQDC7k3gd4XGyNF2PGVx+M1Xqpv3a96Hsh4wM5hIZC+N45Hu69MVic1/4+ux+
+	 DYtiUGUrxHD/Q/QWzqSPVEF05lRRdLF6qWoE7xGK6SDTGK1oAbPTthIe2ZIfZyXFnL
+	 4Pwl0Do2rrbm68SWRtRR4RRuvdBsA1nN/bEgVRB5OS4o1PP73a5AZ83ormPJTtpyyp
+	 W/thxGgh7tJzA==
+Date: Wed, 29 Apr 2026 07:36:12 -0700
+Subject: [PATCH 03/12] fuse: use the iomap cache for iomap_begin
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: djwong@kernel.org, miklos@szeredi.hu
 Cc: joannelkoong@gmail.com, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
  bernd@bsbernd.com, fuse-devel@lists.linux.dev
-Message-ID: <177747207043.4103699.319723140074970036.stgit@frogsfrogsfrogs>
+Message-ID: <177747207064.4103699.12261865047428291333.stgit@frogsfrogsfrogs>
 In-Reply-To: <177747206929.4103699.18256961856283014867.stgit@frogsfrogsfrogs>
 References: <177747206929.4103699.18256961856283014867.stgit@frogsfrogsfrogs>
 Precedence: bulk
@@ -46,482 +46,359 @@ Content-Transfer-Encoding: 7bit
 
 From: Darrick J. Wong <djwong@kernel.org>
 
-Add tracepoints for the previous patch.
+Look inside the iomap cache to try to satisfy iomap_begin.
 
 Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 ---
- fs/fuse/fuse_trace.h       |  293 ++++++++++++++++++++++++++++++++++++++++++++
- fs/fuse/fuse_iomap_cache.c |   36 +++++
- 2 files changed, 329 insertions(+)
+ fs/fuse/fuse_iomap_cache.h |    5 +
+ fs/fuse/fuse_iomap.c       |  221 +++++++++++++++++++++++++++++++++++++++++++-
+ fs/fuse/fuse_iomap_cache.c |    7 +
+ 3 files changed, 228 insertions(+), 5 deletions(-)
 
 
-diff --git a/fs/fuse/fuse_trace.h b/fs/fuse/fuse_trace.h
-index a6374d64a62357..697289c82d0dad 100644
---- a/fs/fuse/fuse_trace.h
-+++ b/fs/fuse/fuse_trace.h
-@@ -318,6 +318,8 @@ DEFINE_FUSE_BACKING_EVENT(fuse_backing_close);
- struct iomap_writepage_ctx;
- struct iomap_ioend;
- struct iomap;
-+struct fuse_iext_cursor;
-+struct fuse_iomap_lookup;
+diff --git a/fs/fuse/fuse_iomap_cache.h b/fs/fuse/fuse_iomap_cache.h
+index 922ca182357aa7..dcd52c183f22ab 100644
+--- a/fs/fuse/fuse_iomap_cache.h
++++ b/fs/fuse/fuse_iomap_cache.h
+@@ -53,6 +53,11 @@ bool fuse_iext_get_extent(const struct fuse_iext_root *ir,
+ 			  const struct fuse_iext_cursor *cur,
+ 			  struct fuse_iomap_io *gotp);
  
- /* tracepoint boilerplate so we don't have to keep doing this */
- #define FUSE_IOMAP_OPFLAGS_FIELD \
-@@ -348,6 +350,16 @@ struct iomap;
- 		__entry->prefix##addr, \
- 		__print_flags(__entry->prefix##flags, "|", FUSE_IOMAP_F_STRINGS)
- 
-+#define FUSE_IOMAP_IODIR_FIELD \
-+		__field(unsigned int,	iodir)
++/* iomaps that come direct from the fuse server are presumed to be valid */
++#define FUSE_IOMAP_ALWAYS_VALID	((uint64_t)0)
++/* set initial iomap cookie value to avoid ALWAYS_VALID */
++#define FUSE_IOMAP_INIT_COOKIE	((uint64_t)1)
 +
-+#define FUSE_IOMAP_IODIR_FMT \
-+		 " iodir %s"
-+
-+#define FUSE_IOMAP_IODIR_PRINTK_ARGS \
-+		  __print_symbolic(__entry->iodir, FUSE_IOMAP_FORK_STRINGS)
-+
-+
- /* combinations of boilerplate to reduce typing further */
- #define FUSE_IOMAP_OP_FIELDS(prefix) \
- 		FUSE_INODE_FIELDS \
-@@ -445,6 +457,22 @@ TRACE_DEFINE_ENUM(FUSE_I_ATOMIC);
- 	{ FUSE_IOMAP_CONFIG_TIME,		"time" }, \
- 	{ FUSE_IOMAP_CONFIG_MAXBYTES,		"maxbytes" }
- 
-+TRACE_DEFINE_ENUM(READ_MAPPING);
-+TRACE_DEFINE_ENUM(WRITE_MAPPING);
-+
-+#define FUSE_IOMAP_FORK_STRINGS \
-+	{ READ_MAPPING,				"read" }, \
-+	{ WRITE_MAPPING,			"write" }
-+
-+#define FUSE_IEXT_STATE_STRINGS \
-+	{ FUSE_IEXT_LEFT_CONTIG,		"l_cont" }, \
-+	{ FUSE_IEXT_RIGHT_CONTIG,		"r_cont" }, \
-+	{ FUSE_IEXT_LEFT_FILLING,		"l_fill" }, \
-+	{ FUSE_IEXT_RIGHT_FILLING,		"r_fill" }, \
-+	{ FUSE_IEXT_LEFT_VALID,			"l_valid" }, \
-+	{ FUSE_IEXT_RIGHT_VALID,		"r_valid" }, \
-+	{ FUSE_IEXT_WRITE_MAPPING,		"write" }
-+
- DECLARE_EVENT_CLASS(fuse_iomap_check_class,
- 	TP_PROTO(const char *func, int line, const char *condition),
- 
-@@ -727,6 +755,8 @@ DEFINE_EVENT(fuse_inode_state_class, name,	\
- 	TP_ARGS(inode))
- DEFINE_FUSE_INODE_STATE_EVENT(fuse_iomap_init_inode);
- DEFINE_FUSE_INODE_STATE_EVENT(fuse_iomap_evict_inode);
-+DEFINE_FUSE_INODE_STATE_EVENT(fuse_iomap_cache_alloc);
-+DEFINE_FUSE_INODE_STATE_EVENT(fuse_iomap_cache_free);
- 
- TRACE_EVENT(fuse_iomap_fiemap,
- 	TP_PROTO(const struct inode *inode, u64 start, u64 count,
-@@ -1216,6 +1246,269 @@ DEFINE_FUSE_IOMAP_INLINE_EVENT(fuse_iomap_inline_read);
- DEFINE_FUSE_IOMAP_INLINE_EVENT(fuse_iomap_inline_write);
- DEFINE_FUSE_IOMAP_INLINE_EVENT(fuse_iomap_set_inline_iomap);
- DEFINE_FUSE_IOMAP_INLINE_EVENT(fuse_iomap_set_inline_srcmap);
-+
-+DECLARE_EVENT_CLASS(fuse_iext_class,
-+	TP_PROTO(const struct inode *inode, const struct fuse_iext_cursor *cur,
-+		 int state, unsigned long caller_ip),
-+
-+	TP_ARGS(inode, cur, state, caller_ip),
-+
-+	TP_STRUCT__entry(
-+		FUSE_INODE_FIELDS
-+		FUSE_IOMAP_MAP_FIELDS(map)
-+		__field(void *,			leaf)
-+		__field(int,			pos)
-+		__field(int,			iext_state)
-+		__field(unsigned long,		caller_ip)
-+	),
-+	TP_fast_assign(
-+		const struct fuse_iext_root *ir;
-+		struct fuse_iomap_io r = { };
-+		FUSE_INODE_ASSIGN(inode, fi, fm);
-+
-+		if (state & FUSE_IEXT_WRITE_MAPPING)
-+			ir = &fi->cache->ic_write;
-+		else
-+			ir = &fi->cache->ic_read;
-+		if (ir)
-+			fuse_iext_get_extent(ir, cur, &r);
-+
-+		__entry->mapoffset	=	r.offset;
-+		__entry->mapaddr	=	r.addr;
-+		__entry->maplength	=	r.length;
-+		__entry->mapdev		=	r.dev;
-+		__entry->maptype	=	r.type;
-+		__entry->mapflags	=	r.flags;
-+
-+		__entry->leaf		=	cur->leaf;
-+		__entry->pos		=	cur->pos;
-+
-+		__entry->iext_state	=	state;
-+		__entry->caller_ip	=	caller_ip;
-+	),
-+	TP_printk(FUSE_INODE_FMT " state (%s) cur %p/%d " FUSE_IOMAP_MAP_FMT() " caller %pS",
-+		  FUSE_INODE_PRINTK_ARGS,
-+		  __print_flags(__entry->iext_state, "|", FUSE_IEXT_STATE_STRINGS),
-+		  __entry->leaf,
-+		  __entry->pos,
-+		  FUSE_IOMAP_MAP_PRINTK_ARGS(map),
-+		  (void *)__entry->caller_ip)
-+)
-+
-+#define DEFINE_IEXT_EVENT(name) \
-+DEFINE_EVENT(fuse_iext_class, name, \
-+	TP_PROTO(const struct inode *inode, const struct fuse_iext_cursor *cur, \
-+		 int state, unsigned long caller_ip), \
-+	TP_ARGS(inode, cur, state, caller_ip))
-+DEFINE_IEXT_EVENT(fuse_iext_insert);
-+DEFINE_IEXT_EVENT(fuse_iext_remove);
-+DEFINE_IEXT_EVENT(fuse_iext_pre_update);
-+DEFINE_IEXT_EVENT(fuse_iext_post_update);
-+
-+TRACE_EVENT(fuse_iext_update_class,
-+	TP_PROTO(const struct inode *inode, uint32_t iext_state,
-+		 const struct fuse_iomap_io *map),
-+	TP_ARGS(inode, iext_state, map),
-+
-+	TP_STRUCT__entry(
-+		FUSE_INODE_FIELDS
-+		FUSE_IOMAP_MAP_FIELDS(map)
-+		__field(uint32_t,		iext_state)
-+	),
-+
-+	TP_fast_assign(
-+		FUSE_INODE_ASSIGN(inode, fi, fm);
-+		__entry->mapoffset	=	map->offset;
-+		__entry->maplength	=	map->length;
-+		__entry->maptype	=	map->type;
-+		__entry->mapflags	=	map->flags;
-+		__entry->mapdev		=	map->dev;
-+		__entry->mapaddr	=	map->addr;
-+
-+		__entry->iext_state	=	iext_state;
-+	),
-+
-+	TP_printk(FUSE_INODE_FMT " state (%s)" FUSE_IOMAP_MAP_FMT(),
-+		  FUSE_INODE_PRINTK_ARGS,
-+		  __print_flags(__entry->iext_state, "|", FUSE_IEXT_STATE_STRINGS),
-+		  FUSE_IOMAP_MAP_PRINTK_ARGS(map))
-+);
-+#define DEFINE_IEXT_UPDATE_EVENT(name) \
-+DEFINE_EVENT(fuse_iext_update_class, name, \
-+	TP_PROTO(const struct inode *inode, uint32_t iext_state, \
-+		 const struct fuse_iomap_io *map), \
-+	TP_ARGS(inode, iext_state, map))
-+DEFINE_IEXT_UPDATE_EVENT(fuse_iext_del_mapping);
-+DEFINE_IEXT_UPDATE_EVENT(fuse_iext_add_mapping);
-+
-+TRACE_EVENT(fuse_iext_alt_update_class,
-+	TP_PROTO(const struct inode *inode, const struct fuse_iomap_io *map),
-+	TP_ARGS(inode, map),
-+
-+	TP_STRUCT__entry(
-+		FUSE_INODE_FIELDS
-+		FUSE_IOMAP_MAP_FIELDS(map)
-+	),
-+
-+	TP_fast_assign(
-+		FUSE_INODE_ASSIGN(inode, fi, fm);
-+
-+		__entry->mapoffset	=	map->offset;
-+		__entry->maplength	=	map->length;
-+		__entry->maptype	=	map->type;
-+		__entry->mapflags	=	map->flags;
-+		__entry->mapdev		=	map->dev;
-+		__entry->mapaddr	=	map->addr;
-+	),
-+
-+	TP_printk(FUSE_INODE_FMT FUSE_IOMAP_MAP_FMT(),
-+		  FUSE_INODE_PRINTK_ARGS,
-+		  FUSE_IOMAP_MAP_PRINTK_ARGS(map))
-+);
-+#define DEFINE_IEXT_ALT_UPDATE_EVENT(name) \
-+DEFINE_EVENT(fuse_iext_alt_update_class, name, \
-+	TP_PROTO(const struct inode *inode, const struct fuse_iomap_io *map), \
-+	TP_ARGS(inode, map))
-+DEFINE_IEXT_ALT_UPDATE_EVENT(fuse_iext_del_mapping_got);
-+DEFINE_IEXT_ALT_UPDATE_EVENT(fuse_iext_add_mapping_left);
-+DEFINE_IEXT_ALT_UPDATE_EVENT(fuse_iext_add_mapping_right);
-+
-+TRACE_EVENT(fuse_iomap_cache_remove,
-+	TP_PROTO(const struct inode *inode, unsigned int iodir,
-+		 loff_t offset, uint64_t length, unsigned long caller_ip),
-+	TP_ARGS(inode, iodir, offset, length, caller_ip),
-+
-+	TP_STRUCT__entry(
-+		FUSE_IO_RANGE_FIELDS()
-+		FUSE_IOMAP_IODIR_FIELD
-+		__field(unsigned long,		caller_ip)
-+	),
-+
-+	TP_fast_assign(
-+		FUSE_INODE_ASSIGN(inode, fi, fm);
-+		__entry->iodir		=	iodir;
-+		__entry->offset		=	offset;
-+		__entry->length		=	length;
-+		__entry->caller_ip	=	caller_ip;
-+	),
-+
-+	TP_printk(FUSE_IO_RANGE_FMT() FUSE_IOMAP_IODIR_FMT " caller %pS",
-+		  FUSE_IO_RANGE_PRINTK_ARGS(),
-+		  FUSE_IOMAP_IODIR_PRINTK_ARGS,
-+		  (void *)__entry->caller_ip)
-+);
-+
-+TRACE_EVENT(fuse_iomap_cached_mapping_class,
-+	TP_PROTO(const struct inode *inode, unsigned int iodir,
-+		 const struct fuse_iomap_io *map, unsigned long caller_ip),
-+	TP_ARGS(inode, iodir, map, caller_ip),
-+
-+	TP_STRUCT__entry(
-+		FUSE_INODE_FIELDS
-+		FUSE_IOMAP_IODIR_FIELD
-+		FUSE_IOMAP_MAP_FIELDS(map)
-+		__field(unsigned long,		caller_ip)
-+	),
-+
-+	TP_fast_assign(
-+		FUSE_INODE_ASSIGN(inode, fi, fm);
-+		__entry->iodir		=	iodir;
-+
-+		__entry->mapoffset	=	map->offset;
-+		__entry->maplength	=	map->length;
-+		__entry->maptype	=	map->type;
-+		__entry->mapflags	=	map->flags;
-+		__entry->mapdev		=	map->dev;
-+		__entry->mapaddr	=	map->addr;
-+
-+		__entry->caller_ip	=	caller_ip;
-+	),
-+
-+	TP_printk(FUSE_INODE_FMT FUSE_IOMAP_IODIR_FMT FUSE_IOMAP_MAP_FMT() " caller %pS",
-+		  FUSE_INODE_PRINTK_ARGS,
-+		  FUSE_IOMAP_IODIR_PRINTK_ARGS,
-+		  FUSE_IOMAP_MAP_PRINTK_ARGS(map),
-+		  (void *)__entry->caller_ip)
-+);
-+#define DEFINE_FUSE_IOMAP_CACHED_MAPPING_EVENT(name) \
-+DEFINE_EVENT(fuse_iomap_cached_mapping_class, name, \
-+	TP_PROTO(const struct inode *inode, unsigned int iodir, \
-+		 const struct fuse_iomap_io *map, unsigned long caller_ip), \
-+	TP_ARGS(inode, iodir, map, caller_ip))
-+DEFINE_FUSE_IOMAP_CACHED_MAPPING_EVENT(fuse_iomap_cache_add);
-+DEFINE_FUSE_IOMAP_CACHED_MAPPING_EVENT(fuse_iext_check_mapping);
-+
-+TRACE_EVENT(fuse_iomap_cache_lookup,
-+	TP_PROTO(const struct inode *inode, unsigned int iodir,
-+		 loff_t pos, uint64_t count, unsigned long caller_ip),
-+	TP_ARGS(inode, iodir, pos, count, caller_ip),
-+
-+	TP_STRUCT__entry(
-+		FUSE_IO_RANGE_FIELDS()
-+		FUSE_IOMAP_IODIR_FIELD
-+		__field(unsigned long,		caller_ip)
-+	),
-+
-+	TP_fast_assign(
-+		FUSE_INODE_ASSIGN(inode, fi, fm);
-+		__entry->iodir		=	iodir;
-+		__entry->offset		=	pos;
-+		__entry->length		=	count;
-+		__entry->caller_ip	=	caller_ip;
-+	),
-+
-+	TP_printk(FUSE_IO_RANGE_FMT() FUSE_IOMAP_IODIR_FMT " caller %pS",
-+		  FUSE_IO_RANGE_PRINTK_ARGS(),
-+		  FUSE_IOMAP_IODIR_PRINTK_ARGS,
-+		  (void *)__entry->caller_ip)
-+);
-+
-+TRACE_EVENT(fuse_iomap_cache_lookup_result,
-+	TP_PROTO(const struct inode *inode, unsigned int iodir,
-+		 loff_t pos, uint64_t count, const struct fuse_iomap_io *got,
-+		 const struct fuse_iomap_lookup *map),
-+	TP_ARGS(inode, iodir, pos, count, got, map),
-+
-+	TP_STRUCT__entry(
-+		FUSE_IO_RANGE_FIELDS()
-+
-+		FUSE_IOMAP_MAP_FIELDS(got)
-+		FUSE_IOMAP_MAP_FIELDS(map)
-+
-+		FUSE_IOMAP_IODIR_FIELD
-+		__field(uint64_t,		validity_cookie)
-+	),
-+
-+	TP_fast_assign(
-+		FUSE_INODE_ASSIGN(inode, fi, fm);
-+		__entry->iodir		=	iodir;
-+		__entry->offset		=	pos;
-+		__entry->length		=	count;
-+
-+		__entry->gotoffset	=	got->offset;
-+		__entry->gotlength	=	got->length;
-+		__entry->gottype	=	got->type;
-+		__entry->gotflags	=	got->flags;
-+		__entry->gotdev		=	got->dev;
-+		__entry->gotaddr	=	got->addr;
-+
-+		__entry->mapoffset	=	map->map.offset;
-+		__entry->maplength	=	map->map.length;
-+		__entry->maptype	=	map->map.type;
-+		__entry->mapflags	=	map->map.flags;
-+		__entry->mapdev		=	map->map.dev;
-+		__entry->mapaddr	=	map->map.addr;
-+
-+		__entry->validity_cookie=	map->validity_cookie;
-+	),
-+
-+	TP_printk(FUSE_IO_RANGE_FMT() FUSE_IOMAP_IODIR_FMT FUSE_IOMAP_MAP_FMT("map") FUSE_IOMAP_MAP_FMT("got") " cookie 0x%llx",
-+		  FUSE_IO_RANGE_PRINTK_ARGS(),
-+		  FUSE_IOMAP_IODIR_PRINTK_ARGS,
-+		  FUSE_IOMAP_MAP_PRINTK_ARGS(map),
-+		  FUSE_IOMAP_MAP_PRINTK_ARGS(got),
-+		  __entry->validity_cookie)
-+);
- #endif /* CONFIG_FUSE_IOMAP */
- 
- #endif /* _TRACE_FUSE_H */
-diff --git a/fs/fuse/fuse_iomap_cache.c b/fs/fuse/fuse_iomap_cache.c
-index 35384df09b9200..1608e96984bb38 100644
---- a/fs/fuse/fuse_iomap_cache.c
-+++ b/fs/fuse/fuse_iomap_cache.c
-@@ -763,6 +763,7 @@ fuse_iext_insert(
- 	struct fuse_iext_root		*ir = fuse_iext_state_to_fork(ic, state);
- 
- 	fuse_iext_insert_raw(ic, ir, cur, irec);
-+	trace_fuse_iext_insert(ic->ic_inode, cur, state, _RET_IP_);
- }
- 
- static struct fuse_iext_node *
-@@ -970,6 +971,8 @@ fuse_iext_remove(
- 	ASSERT(ir->ir_data != NULL);
- 	ASSERT(fuse_iext_valid(ir, cur));
- 
-+	trace_fuse_iext_remove(ic->ic_inode, cur, state, _RET_IP_);
-+
- 	fuse_iext_inc_seq(ic);
- 
- 	nr_entries = fuse_iext_leaf_nr_entries(ir, leaf, cur->pos) - 1;
-@@ -1088,7 +1091,9 @@ fuse_iext_update_extent(
- 		}
+ static inline uint64_t fuse_iext_read_seq(struct fuse_iomap_cache *ic)
+ {
+ 	return (uint64_t)READ_ONCE(ic->ic_seq);
+diff --git a/fs/fuse/fuse_iomap.c b/fs/fuse/fuse_iomap.c
+index bb47b4c7f7eabc..8b37c2f5cbdb2b 100644
+--- a/fs/fuse/fuse_iomap.c
++++ b/fs/fuse/fuse_iomap.c
+@@ -131,6 +131,7 @@ static inline bool fuse_iomap_check_type(uint16_t fuse_type)
+ 	case FUSE_IOMAP_TYPE_UNWRITTEN:
+ 	case FUSE_IOMAP_TYPE_INLINE:
+ 	case FUSE_IOMAP_TYPE_PURE_OVERWRITE:
++	case FUSE_IOMAP_TYPE_RETRY_CACHE:
+ 		return true;
  	}
  
-+	trace_fuse_iext_pre_update(ic->ic_inode, cur, state, _RET_IP_);
- 	fuse_iext_set(cur_rec(cur), new);
-+	trace_fuse_iext_post_update(ic->ic_inode, cur, state, _RET_IP_);
- }
+@@ -239,9 +240,21 @@ static inline bool fuse_iomap_check_mapping(const struct inode *inode,
+ 	const unsigned int blocksize = i_blocksize(inode);
+ 	uint64_t end;
  
- /*
-@@ -1180,17 +1185,26 @@ static void fuse_iext_check_mappings(struct fuse_iomap_cache *ic,
- 	struct inode		*inode = ic->ic_inode;
- 	struct fuse_inode	*fi = get_fuse_inode(inode);
- 	unsigned long long	nr = 0;
-+	enum fuse_iomap_iodir	iodir;
+-	/* Type and flags must be known */
++	/*
++	 * Type and flags must be known.  Mapping type "retry cache" doesn't
++	 * use any of the other fields.
++	 */
+ 	if (BAD_DATA(!fuse_iomap_check_type(map->type)))
+ 		return false;
++	if (map->type == FUSE_IOMAP_TYPE_RETRY_CACHE) {
++		/*
++		 * We only accept cache retries if we have a cache to query.
++		 * There must not be a device addr.
++		 */
++		if (BAD_DATA(!fuse_inode_caches_iomaps(inode)))
++			return false;
++		return true;
++	}
+ 	if (BAD_DATA(!fuse_iomap_check_flags(map->flags)))
+ 		return false;
  
- 	if (ir->ir_bytes < 0 || !static_branch_unlikely(&fuse_iomap_debug))
- 		return;
- 
-+	if (ir == &ic->ic_write)
-+		iodir = WRITE_MAPPING;
-+	else
-+		iodir = READ_MAPPING;
-+
- 	fuse_iext_first(ir, &icur);
- 	if (!fuse_iext_get_extent(ir, &icur, &prev))
- 		return;
-+	trace_fuse_iext_check_mapping(ic->ic_inode, iodir, &prev, _RET_IP_);
- 	nr++;
- 
- 	fuse_iext_next(ir, &icur);
- 	while (fuse_iext_get_extent(ir, &icur, &got)) {
-+		trace_fuse_iext_check_mapping(ic->ic_inode, iodir, &got,
-+					      _RET_IP_);
- 		if (got.length == 0 ||
- 		    got.offset < prev.offset + prev.length ||
- 		    fuse_iomap_can_merge(&prev, &got)) {
-@@ -1249,6 +1263,9 @@ fuse_iext_del_mapping(
- 	if (got_endoff == del_endoff)
- 		state |= FUSE_IEXT_RIGHT_FILLING;
- 
-+	trace_fuse_iext_del_mapping(ic->ic_inode, state, del);
-+	trace_fuse_iext_del_mapping_got(ic->ic_inode, got);
-+
- 	switch (state & (FUSE_IEXT_LEFT_FILLING | FUSE_IEXT_RIGHT_FILLING)) {
- 	case FUSE_IEXT_LEFT_FILLING | FUSE_IEXT_RIGHT_FILLING:
- 		/*
-@@ -1313,6 +1330,8 @@ fuse_iomap_cache_remove(
- 
- 	assert_cache_locked(ic);
- 
-+	trace_fuse_iomap_cache_remove(&fi->inode, iodir, start, len, _RET_IP_);
-+
- 	/* Fork is not active or has zero mappings */
- 	if (ir->ir_bytes < 0 || fuse_iext_count(ir) == 0)
- 		return 0;
-@@ -1458,6 +1477,12 @@ fuse_iext_add_mapping(
- 	     fuse_iomap_can_merge3(&left, new, &right)))
- 		state |= FUSE_IEXT_RIGHT_CONTIG;
- 
-+	trace_fuse_iext_add_mapping(ic->ic_inode, state, new);
-+	if (state & FUSE_IEXT_LEFT_VALID)
-+		trace_fuse_iext_add_mapping_left(ic->ic_inode, &left);
-+	if (state & FUSE_IEXT_RIGHT_VALID)
-+		trace_fuse_iext_add_mapping_right(ic->ic_inode, &right);
-+
- 	/*
- 	 * Select which case we're in here, and implement it.
- 	 */
-@@ -1526,6 +1551,8 @@ fuse_iomap_cache_add(
- 	ASSERT(new->length > 0);
- 	ASSERT(new->offset < inode->i_sb->s_maxbytes);
- 
-+	trace_fuse_iomap_cache_add(&fi->inode, iodir, new, _RET_IP_);
-+
- 	/* Mark this fork as being in use */
- 	if (ir->ir_bytes < 0)
- 		ir->ir_bytes = 0;
-@@ -1563,8 +1590,10 @@ int fuse_iomap_cache_alloc(struct inode *inode)
- 	if (!try_cmpxchg(&fi->cache, &old, ic)) {
- 		/* Someone created mapping cache before us? Free ours... */
- 		kfree(ic);
-+		return 0;
- 	}
- 
-+	trace_fuse_iomap_cache_alloc(inode);
+@@ -286,6 +299,7 @@ static inline bool fuse_iomap_check_mapping(const struct inode *inode,
+ 		if (BAD_DATA(iodir != WRITE_MAPPING))
+ 			return false;
+ 		break;
++	case FUSE_IOMAP_TYPE_RETRY_CACHE:
+ 	default:
+ 		/* should have been caught already */
+ 		ASSERT(0);
+@@ -561,6 +575,157 @@ static int fuse_iomap_set_inline(struct inode *inode, unsigned opflags,
  	return 0;
  }
  
-@@ -1579,6 +1608,8 @@ void fuse_iomap_cache_free(struct inode *inode)
- 	struct fuse_inode *fi = get_fuse_inode(inode);
- 	struct fuse_iomap_cache *ic = fi->cache;
- 
-+	trace_fuse_iomap_cache_free(inode);
++/* Convert a mapping from the cache into something the kernel can use */
++static int fuse_iomap_from_cache(struct inode *inode, struct iomap *iomap,
++				 const struct fuse_iomap_lookup *lmap)
++{
++	struct fuse_mount *fm = get_fuse_mount(inode);
++	struct fuse_backing *fb;
 +
- 	/*
- 	 * This is only called from eviction, so we cannot be racing to set or
- 	 * clear the pointer.
-@@ -1665,6 +1696,8 @@ fuse_iomap_cache_lookup(
- 
- 	assert_cache_locked_shared(ic);
- 
-+	trace_fuse_iomap_cache_lookup(ic->ic_inode, iodir, off, len, _RET_IP_);
++	fb = fuse_iomap_find_dev(fm->fc, &lmap->map);
++	if (IS_ERR(fb))
++		return PTR_ERR(fb);
 +
- 	if (ir->ir_bytes < 0) {
- 		/*
- 		 * No write fork at all means this filesystem doesn't do out of
-@@ -1691,5 +1724,8 @@ fuse_iomap_cache_lookup(
- 
- 	/* Found a mapping in the cache, return it */
- 	fuse_iomap_trim(fi, mval, &got, off, len);
++	fuse_iomap_from_server(iomap, fb, &lmap->map);
++	iomap->validity_cookie = lmap->validity_cookie;
 +
-+	trace_fuse_iomap_cache_lookup_result(inode, iodir, off, len, &got,
-+					     mval);
- 	return LOOKUP_HIT;
++	fuse_backing_put(fb);
++	return 0;
++}
++
++#if IS_ENABLED(CONFIG_FUSE_IOMAP_DEBUG)
++static inline int
++fuse_iomap_cached_validate(const struct inode *inode,
++			   enum fuse_iomap_iodir dir,
++			   const struct fuse_iomap_lookup *lmap)
++{
++	if (!static_branch_unlikely(&fuse_iomap_debug))
++		return 0;
++
++	/* Make sure the mappings aren't garbage */
++	if (!fuse_iomap_check_mapping(inode, &lmap->map, dir))
++		return -EFSCORRUPTED;
++
++	/* The cache should not be storing "retry cache" mappings */
++	if (BAD_DATA(lmap->map.type == FUSE_IOMAP_TYPE_RETRY_CACHE))
++		return -EFSCORRUPTED;
++
++	return 0;
++}
++#else
++# define fuse_iomap_cached_validate(...)	(0)
++#endif
++
++/*
++ * Look up iomappings from the cache.  Returns 1 if iomap and srcmap were
++ * satisfied from cache; 0 if not; or a negative errno.
++ */
++static int fuse_iomap_try_cache(struct inode *inode, loff_t pos, loff_t count,
++				unsigned opflags, struct iomap *iomap,
++				struct iomap *srcmap)
++{
++	struct fuse_iomap_lookup lmap;
++	struct iomap *dest = iomap;
++	enum fuse_iomap_lookup_result res;
++	int ret;
++
++	if (!fuse_inode_caches_iomaps(inode))
++		return 0;
++
++	fuse_iomap_cache_lock_shared(inode);
++
++	if (fuse_is_iomap_file_write(opflags)) {
++		res = fuse_iomap_cache_lookup(inode, WRITE_MAPPING, pos, count,
++					      &lmap);
++		switch (res) {
++		case LOOKUP_HIT:
++			ret = fuse_iomap_cached_validate(inode, WRITE_MAPPING,
++					&lmap);
++			if (ret)
++				goto out_unlock;
++
++			if (lmap.map.type != FUSE_IOMAP_TYPE_PURE_OVERWRITE) {
++				ret = fuse_iomap_from_cache(inode, dest, &lmap);
++				if (ret)
++					goto out_unlock;
++
++				dest = srcmap;
++			}
++			fallthrough;
++		case LOOKUP_NOFORK:
++			/* move on to the read fork */
++			break;
++		case LOOKUP_MISS:
++			ret = 0;
++			goto out_unlock;
++		}
++	}
++
++	res = fuse_iomap_cache_lookup(inode, READ_MAPPING, pos, count, &lmap);
++	switch (res) {
++	case LOOKUP_HIT:
++		break;
++	case LOOKUP_NOFORK:
++		ASSERT(res != LOOKUP_NOFORK);
++		ret = -EFSCORRUPTED;
++		goto out_unlock;
++	case LOOKUP_MISS:
++		ret = 0;
++		goto out_unlock;
++	}
++
++	ret = fuse_iomap_cached_validate(inode, READ_MAPPING, &lmap);
++	if (ret)
++		goto out_unlock;
++
++	ret = fuse_iomap_from_cache(inode, dest, &lmap);
++	if (ret)
++		goto out_unlock;
++
++	if (fuse_is_iomap_file_write(opflags)) {
++		switch (iomap->type) {
++		case IOMAP_HOLE:
++			if (opflags & (IOMAP_ZERO | IOMAP_UNSHARE))
++				ret = 1;
++			else
++				ret = 0;
++			break;
++		case IOMAP_DELALLOC:
++			if (opflags & (IOMAP_DIRECT | FUSE_IOMAP_OP_WRITEBACK))
++				ret = 0;
++			else
++				ret = 1;
++			break;
++		default:
++			ret = 1;
++			break;
++		}
++	} else {
++		ret = 1;
++	}
++
++out_unlock:
++	fuse_iomap_cache_unlock_shared(inode);
++	if (ret < 1)
++		return ret;
++
++	if (iomap->type == IOMAP_INLINE || srcmap->type == IOMAP_INLINE) {
++		ret = fuse_iomap_set_inline(inode, opflags, pos, count, iomap,
++					    srcmap);
++		if (ret)
++			return ret;
++	}
++	return 1;
++}
++
++/*
++ * For atomic writes we must always query the server because that might require
++ * assistance from the fuse server.  For swapfiles we always query the server
++ * because we have no idea if the server actually wants to support that.
++ */
++#define FUSE_IOMAP_OP_NOCACHE	(FUSE_IOMAP_OP_ATOMIC | \
++				 FUSE_IOMAP_OP_SWAPFILE)
++
+ static int fuse_iomap_begin(struct inode *inode, loff_t pos, loff_t count,
+ 			    unsigned opflags, struct iomap *iomap,
+ 			    struct iomap *srcmap)
+@@ -581,6 +746,20 @@ static int fuse_iomap_begin(struct inode *inode, loff_t pos, loff_t count,
+ 
+ 	trace_fuse_iomap_begin(inode, pos, count, opflags);
+ 
++	/*
++	 * Try to read mappings from the cache; if we find something then use
++	 * it; otherwise we upcall the fuse server.
++	 */
++	if (!(opflags & FUSE_IOMAP_OP_NOCACHE)) {
++		err = fuse_iomap_try_cache(inode, pos, count, opflags, iomap,
++					   srcmap);
++		if (err < 0)
++			return err;
++		if (err == 1)
++			return 0;
++	}
++
++retry:
+ 	args.opcode = FUSE_IOMAP_BEGIN;
+ 	args.nodeid = get_node_id(inode);
+ 	args.in_numargs = 1;
+@@ -602,6 +781,24 @@ static int fuse_iomap_begin(struct inode *inode, loff_t pos, loff_t count,
+ 	if (err)
+ 		return err;
+ 
++	/*
++	 * If the fuse server tells us it populated the cache, we'll try the
++	 * cache lookup again.  Note that we dropped the cache lock, so it's
++	 * entirely possible that another thread could have invalidated the
++	 * cache -- if the cache misses, we'll call the server again.
++	 */
++	if (outarg.read.type == FUSE_IOMAP_TYPE_RETRY_CACHE) {
++		err = fuse_iomap_try_cache(inode, pos, count, opflags, iomap,
++					   srcmap);
++		if (err < 0)
++			return err;
++		if (err == 1)
++			return 0;
++		if (signal_pending(current))
++			return -EINTR;
++		goto retry;
++	}
++
+ 	read_dev = fuse_iomap_find_dev(fm->fc, &outarg.read);
+ 	if (IS_ERR(read_dev))
+ 		return PTR_ERR(read_dev);
+@@ -629,6 +826,8 @@ static int fuse_iomap_begin(struct inode *inode, loff_t pos, loff_t count,
+ 		 */
+ 		fuse_iomap_from_server(iomap, read_dev, &outarg.read);
+ 	}
++	iomap->validity_cookie = FUSE_IOMAP_ALWAYS_VALID;
++	srcmap->validity_cookie = FUSE_IOMAP_ALWAYS_VALID;
+ 
+ 	if (iomap->type == IOMAP_INLINE || srcmap->type == IOMAP_INLINE) {
+ 		err = fuse_iomap_set_inline(inode, opflags, pos, count, iomap,
+@@ -1372,7 +1571,21 @@ static const struct iomap_dio_ops fuse_iomap_dio_write_ops = {
+ 	.end_io		= fuse_iomap_dio_write_end_io,
+ };
+ 
++static bool fuse_iomap_revalidate(struct inode *inode,
++				  const struct iomap *iomap)
++{
++	struct fuse_inode *fi = get_fuse_inode(inode);
++	uint64_t validity_cookie;
++
++	if (iomap->validity_cookie == FUSE_IOMAP_ALWAYS_VALID)
++		return true;
++
++	validity_cookie = fuse_iext_read_seq(fi->cache);
++	return iomap->validity_cookie == validity_cookie;
++}
++
+ static const struct iomap_write_ops fuse_iomap_write_ops = {
++	.iomap_valid		= fuse_iomap_revalidate,
+ };
+ 
+ static int
+@@ -1658,14 +1871,14 @@ static void fuse_iomap_end_bio(struct bio *bio)
+  * mapping is valid, false otherwise.
+  */
+ static bool fuse_iomap_revalidate_writeback(struct iomap_writepage_ctx *wpc,
++					    struct inode *inode,
+ 					    loff_t offset)
+ {
+ 	if (offset < wpc->iomap.offset ||
+ 	    offset >= wpc->iomap.offset + wpc->iomap.length)
+ 		return false;
+ 
+-	/* XXX actually use revalidation cookie */
+-	return true;
++	return fuse_iomap_revalidate(inode, &wpc->iomap);
  }
+ 
+ /*
+@@ -1719,7 +1932,7 @@ static ssize_t fuse_iomap_writeback_range(struct iomap_writepage_ctx *wpc,
+ 
+ 	trace_fuse_iomap_writeback_range(inode, offset, len, end_pos);
+ 
+-	if (!fuse_iomap_revalidate_writeback(wpc, offset)) {
++	if (!fuse_iomap_revalidate_writeback(wpc, inode, offset)) {
+ 		struct iomap_iter fake_iter = { };
+ 		struct iomap *write_iomap = &fake_iter.iomap;
+ 
+diff --git a/fs/fuse/fuse_iomap_cache.c b/fs/fuse/fuse_iomap_cache.c
+index 1608e96984bb38..ea63a12a01c1fe 100644
+--- a/fs/fuse/fuse_iomap_cache.c
++++ b/fs/fuse/fuse_iomap_cache.c
+@@ -706,7 +706,11 @@ fuse_iext_realloc_root(
+  */
+ static inline void fuse_iext_inc_seq(struct fuse_iomap_cache *ic)
+ {
+-	WRITE_ONCE(ic->ic_seq, READ_ONCE(ic->ic_seq) + 1);
++	uint64_t new_val = READ_ONCE(ic->ic_seq) + 1;
++
++	if (new_val == FUSE_IOMAP_ALWAYS_VALID)
++		new_val++;
++	WRITE_ONCE(ic->ic_seq, new_val);
+ }
+ 
+ static void
+@@ -1584,6 +1588,7 @@ int fuse_iomap_cache_alloc(struct inode *inode)
+ 
+ 	/* Only the write mapping cache can return NOFORK */
+ 	ic->ic_write.ir_bytes = -1;
++	ic->ic_seq = FUSE_IOMAP_INIT_COOKIE;
+ 	ic->ic_inode = inode;
+ 	init_rwsem(&ic->ic_lock);
+ 
 
