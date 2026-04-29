@@ -1,38 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA4BD37649A;
-	Wed, 29 Apr 2026 14:34:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DEE3378D74;
+	Wed, 29 Apr 2026 14:34:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777473264; cv=none; b=kg8d8hlc8ISGk9+NeOOhCkKsUKj+fZz1A1OMbS4jifbxf961pg6g1IoimHgXJcp/HmYkj9RSB3JEv9NmWfyKdIqAbF0OibwCxptToT+oX0cZSvw+ceISMw6eBeHvIMye0of+5wiCydQfNBho7Dq4x1yPewX/atVKmDjLcexnZq8=
+	t=1777473279; cv=none; b=He6s3p+8lwip0NQF7Nvh+SSSQC+/5XdX7CJqSWIcKZZnEbTr32de0PyCm1TbVXtHpB3ECNNPkG9eYJeFpzoyP/BPDmg8kNA7OR8Pzx0w0YWzgydU8BrjOZgSSOIs7+u/+rx6lFqJ3l/1JBDV06Q51p6g/BHq98Yeonh80ja3C/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777473264; c=relaxed/simple;
-	bh=V64Phx8gsGWg8LYyRTi5OM0+IR4FMh53y3aEjJUsgic=;
+	s=arc-20240116; t=1777473279; c=relaxed/simple;
+	bh=vVvSMyMRCvVs+sLH80p/HpgTudAsyqqUjKlVPeklRDw=;
 	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YVvUQRLaMwjTzeVEjaA1Mz1ehc+sh38I+JHtU9tQC3Ht7zIgB46ZpN2NOcXH/qOeooQiwSfGP+x5tG1C7DcYTkNM0y4Olcm8g9DhpI3ypOcBiCw2tG/FeWBl/rqyxWiLPpXDeCOh8zklvZ8LAxj0g0JbHbMtMjBmf15ZjrGiA2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SOsTE2d5; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=AI06JellZ1ypN/Q7No4xmkU8BlzTxmRF1LLW6LztM/eATYHw81vxPsyeeO+O1TMzgLzAHeL7PHjh++9/PbJQ/grXVz5ZRF179YZbzPXDHiGAzPGx5y35tRw1qICUFJBb2buO32T6N13SMWdo4NR1lGBiLN5YrYinE2jmhGQ+cLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VJEW4ePw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SOsTE2d5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D8A3C2BCF4;
-	Wed, 29 Apr 2026 14:34:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VJEW4ePw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43375C2BCC7;
+	Wed, 29 Apr 2026 14:34:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777473263;
-	bh=V64Phx8gsGWg8LYyRTi5OM0+IR4FMh53y3aEjJUsgic=;
+	s=k20201202; t=1777473279;
+	bh=vVvSMyMRCvVs+sLH80p/HpgTudAsyqqUjKlVPeklRDw=;
 	h=Date:Subject:From:To:Cc:In-Reply-To:References:From;
-	b=SOsTE2d5FhhxZVG+hhBg1ROi6HRMAuTP+0B9R4JjJOiE46qws4vv7nuJKh1FS+J1/
-	 v4t0Clbj2+5BPu4jPY/GXOtsw5iheM+QO1vERGtHXJOLz8S/ht6UyfCguSdt5ufx5G
-	 bwJeSqGc1lCtd66BuYFfdcWJY8uEHI4tC2be5TakOPEOmW+eJT7tcBsjWheqU2toc+
-	 mhI0y13mjTNIji6rcHZg1BkOSR5wG9VxkK112HPdQ7ZqBlZ4K2BBPfqagaDIBYgJRm
-	 nbDj8hbhmMhpuzdcVYjdItAis3Ds0XaB/D5OF2EXE6FRlUqxS9VjgX6N/jG/mO292b
-	 6m+iaEd6I3wag==
-Date: Wed, 29 Apr 2026 07:34:22 -0700
-Subject: [PATCH 5/9] fuse: cache atime when in iomap mode
+	b=VJEW4ePwo3oQXszBtf0IcFwYj8NgfPksZCJ9+bnm1eiNYh76zx/91J6apJAgA8mhH
+	 kmqwamnSlS012/GJTzPdnBVqNYAds/Z5Y4IVYiC+hkaNpeYjVa3IEjYT/UFQ9/WpZf
+	 938g/iGIl5q64iwExHv5edaNtUJTuj1KKm+aFI3WisY6T0BoIo8SaF0sqMV13EqWO2
+	 nZAw5uJXl9XXg8lXjMtPCJJuZyVnFQzL7Qr9EeX89boo4TqGwPtDV5Iur0fl5VIC8P
+	 1CCau3ONv/ieTy+nVeXVaE7L4vKH+83cziB/2xFOrJp7SmTR+hAxk4S63UUF0bZ9W8
+	 7/2W7RgKU/CzA==
+Date: Wed, 29 Apr 2026 07:34:38 -0700
+Subject: [PATCH 6/9] fuse: let the kernel handle KILL_SUID/KILL_SGID for iomap
+ filesystems
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: djwong@kernel.org, miklos@szeredi.hu
 Cc: joannelkoong@gmail.com, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
  bernd@bsbernd.com, fuse-devel@lists.linux.dev
-Message-ID: <177747206595.4103309.11659424316192000821.stgit@frogsfrogsfrogs>
+Message-ID: <177747206617.4103309.9491664333731079107.stgit@frogsfrogsfrogs>
 In-Reply-To: <177747206436.4103309.9048553717124547447.stgit@frogsfrogsfrogs>
 References: <177747206436.4103309.9048553717124547447.stgit@frogsfrogsfrogs>
 Precedence: bulk
@@ -46,77 +47,50 @@ Content-Transfer-Encoding: 7bit
 
 From: Darrick J. Wong <djwong@kernel.org>
 
-When we're running in iomap mode, allow the kernel to cache the access
-timestamp to further reduce the number of roundtrips to the fuse server.
+Let the kernel handle killing the suid/sgid bits because the
+write/falloc/truncate/chown code already does this, and we don't have to
+worry about external modifications that are only visible to the fuse
+server (i.e. we're not a cluster fs).
 
 Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 ---
- fs/fuse/dir.c        |    5 +++++
- fs/fuse/fuse_iomap.c |    6 ++++++
- fs/fuse/inode.c      |   11 ++++++++---
- 3 files changed, 19 insertions(+), 3 deletions(-)
+ fs/fuse/dir.c |   11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
 
 diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
-index 53fda7f63b11c8..61015e83888ee4 100644
+index 61015e83888ee4..e664a60200ee26 100644
 --- a/fs/fuse/dir.c
 +++ b/fs/fuse/dir.c
-@@ -2236,6 +2236,11 @@ int fuse_flush_times(struct inode *inode, struct fuse_file *ff)
- 		inarg.ctime = inode_get_ctime_sec(inode);
- 		inarg.ctimensec = inode_get_ctime_nsec(inode);
- 	}
-+	if (fuse_inode_has_iomap(inode)) {
-+		inarg.valid |= FATTR_ATIME;
-+		inarg.atime = inode_get_atime_sec(inode);
-+		inarg.atimensec = inode_get_atime_nsec(inode);
-+	}
- 	if (ff) {
- 		inarg.valid |= FATTR_FH;
- 		inarg.fh = ff->fh;
-diff --git a/fs/fuse/fuse_iomap.c b/fs/fuse/fuse_iomap.c
-index a39370b97ca508..9278e2e399ba9b 100644
---- a/fs/fuse/fuse_iomap.c
-+++ b/fs/fuse/fuse_iomap.c
-@@ -1169,6 +1169,12 @@ void fuse_iomap_init_inode(struct inode *inode, struct fuse_attr *attr)
- 	if (attr->flags & FUSE_ATTR_ATOMIC)
- 		fuse_inode_set_atomic(inode);
- 
-+	/*
-+	 * iomap caches atime too, so we must load it from the fuse server
-+	 * at instantiation time.
-+	 */
-+	inode_set_atime(inode, attr->atime, attr->atimensec);
-+
- 	trace_fuse_iomap_init_inode(inode);
- }
- 
-diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-index aa9f880b9a2ea6..1a09b9e1446919 100644
---- a/fs/fuse/inode.c
-+++ b/fs/fuse/inode.c
-@@ -266,7 +266,8 @@ void fuse_change_attributes_common(struct inode *inode, struct fuse_attr *attr,
- 	attr->mtimensec = min_t(u32, attr->mtimensec, NSEC_PER_SEC - 1);
- 	attr->ctimensec = min_t(u32, attr->ctimensec, NSEC_PER_SEC - 1);
- 
--	inode_set_atime(inode, attr->atime, attr->atimensec);
-+	if (!(cache_mask & STATX_ATIME))
-+		inode_set_atime(inode, attr->atime, attr->atimensec);
- 	/* mtime from server may be stale due to local buffered write */
- 	if (!(cache_mask & STATX_MTIME)) {
- 		inode_set_mtime(inode, attr->mtime, attr->mtimensec);
-@@ -331,8 +332,12 @@ u32 fuse_get_cache_mask(struct inode *inode)
- {
+@@ -2477,6 +2477,7 @@ static int fuse_setattr(struct mnt_idmap *idmap, struct dentry *entry,
+ 	struct inode *inode = d_inode(entry);
  	struct fuse_conn *fc = get_fuse_conn(inode);
+ 	struct file *file = (attr->ia_valid & ATTR_FILE) ? attr->ia_file : NULL;
++	const bool is_iomap = fuse_inode_has_iomap(inode);
+ 	int ret;
  
--	if (S_ISREG(inode->i_mode) &&
--	    (fuse_inode_has_iomap(inode) || fc->writeback_cache))
-+	if (!S_ISREG(inode->i_mode))
-+		return 0;
-+
-+	if (fuse_inode_has_iomap(inode))
-+		return STATX_MTIME | STATX_CTIME | STATX_ATIME | STATX_SIZE;
-+	if (fc->writeback_cache)
- 		return STATX_MTIME | STATX_CTIME | STATX_SIZE;
+ 	if (fuse_is_bad(inode))
+@@ -2485,15 +2486,19 @@ static int fuse_setattr(struct mnt_idmap *idmap, struct dentry *entry,
+ 	if (!fuse_allow_current_process(get_fuse_conn(inode)))
+ 		return -EACCES;
  
- 	return 0;
+-	if (attr->ia_valid & (ATTR_KILL_SUID | ATTR_KILL_SGID)) {
++	if (!is_iomap &&
++	    (attr->ia_valid & (ATTR_KILL_SUID | ATTR_KILL_SGID))) {
+ 		attr->ia_valid &= ~(ATTR_KILL_SUID | ATTR_KILL_SGID |
+ 				    ATTR_MODE);
+ 
+ 		/*
+ 		 * The only sane way to reliably kill suid/sgid is to do it in
+-		 * the userspace filesystem
++		 * the userspace filesystem if this isn't an iomap file.  For
++		 * iomap filesystems we let the kernel kill the setuid/setgid
++		 * bits.
+ 		 *
+-		 * This should be done on write(), truncate() and chown().
++		 * This should be done on write(), truncate(), chown(), and
++		 * fallocate().
+ 		 */
+ 		if (!fc->handle_killpriv && !fc->handle_killpriv_v2) {
+ 			/*
 
