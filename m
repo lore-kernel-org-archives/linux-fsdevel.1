@@ -1,39 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D85A2FD696;
-	Wed, 29 Apr 2026 14:45:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E32161E25F9;
+	Wed, 29 Apr 2026 14:45:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777473921; cv=none; b=clKfxkYpS9IHsH4yNTIFVXtoa/COugvxdnAlkgBbMIVR2A6CR3wmwRzTyu7dAFN5j1Xyi2QmYbV+xu1zk6Atymz7g/SYeS6oVsyCEBJbMZs7G3DnqiYVbSquIhQO4LWTORf3G13ujF+icOUXN4TqWFPAVgrMvNjnC8ucuNQUfrs=
+	t=1777473937; cv=none; b=JBd4EtbyGZbvIhMBRd0W7AVAkntecXu78nCv9IVEuObKHTA9zEuwmGcY4RPbzFtu/aX2GShSoTbmD7GRFexNmXgnKpt5nP2UuAC1Nm3sRTDAXodtED+ETWGd4whM9yV/2LZDA5i+USD4yhHKtsqzylT3reghu+3kZhTtvRMalis=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777473921; c=relaxed/simple;
-	bh=/H3ANPRVEyub7H1k4ivlFHexARrRlz1Jbdm6kHAHTZQ=;
+	s=arc-20240116; t=1777473937; c=relaxed/simple;
+	bh=6AITz2ZpiR8Z6a8fghsdmWNH/OAWuJSBSoafDVi77X4=;
 	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=k+eXaFi2EKRjHWBMrmVezUC9l1VJi2BC2VDXTXw6pIpYZkOjp0G4GH+3aqPjPzHOBtcWW74zAbM6kaBNKHBakmtrwMz0RO5oEz83fr1pbDLG5MD7xUQsoZgo9fNJwgkMG1wI+0yDyXCiH4DqllCY4/OAM6ylixwKiypK64IaEgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aND3BVhF; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=unnHsotlbJxQMp78KN0dfunHDFd8wMHkCxpgQuzuJZnYSB0AoMpEiLm3vfxFd9yKsg+3U4JirisuQbglrdROOlk9SV5y8fQeA65H3oYfmgLbyVS3uYMaVHYITQjRRk5p0vV+gjhKqtmlOi3dwDBRbN1k+Z7XjcSG7bSDuy0rjG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dycj56jf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aND3BVhF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0EC1C19425;
-	Wed, 29 Apr 2026 14:45:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dycj56jf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E6F7C19425;
+	Wed, 29 Apr 2026 14:45:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777473921;
-	bh=/H3ANPRVEyub7H1k4ivlFHexARrRlz1Jbdm6kHAHTZQ=;
+	s=k20201202; t=1777473936;
+	bh=6AITz2ZpiR8Z6a8fghsdmWNH/OAWuJSBSoafDVi77X4=;
 	h=Date:Subject:From:To:Cc:In-Reply-To:References:From;
-	b=aND3BVhFlAuzI1/8aIpbgf0b5KPBtdYddVHtTjkMPDkjZAN3k7BEgLw7pbavFKKOB
-	 SVyxKfcPecZq3W97Dkbq7GRfbLPPdIVSLlLQtkjtvdBrOvoThJjO2Mj65IKeAu4kjS
-	 8n3X9BgdXgRVltq0FNfPjEKpdxWBziN1zu+4m5XOWz7apIRpre4o988PYsM6ygSTKZ
-	 SYLxod77A+EUvLrbZNOh7xSVQALjsHHdg+fRUsnXojvR2VhHSb1DU18NVIdVjUWo5b
-	 VNBQKZCxnMGeJ3QXIfd/STUfbrm9NCP8Vte09BdA0FTZaOVerQTKxhNWssJwulhgAJ
-	 j3uaFRihpYYQg==
-Date: Wed, 29 Apr 2026 07:45:20 -0700
-Subject: [PATCH 24/25] libfuse: add lower-level filesystem freeze, thaw,
- and shutdown requests
+	b=Dycj56jf8vAIukQusKcxlXV19X0f1guZF1iEPiu60/TJRZac/tShBEeenPpTO32e+
+	 rJl4JVSM2THnwfC7pj9Sd61asaHoSvzNEDApHwcxTuQuw7gt25qGfQIDTM0YArhHZp
+	 clZqhDWR+pxcwMyPQWbQgv3pt5YgEAU1UCsEfi8nZPJb1+a4EBIOyuOpsKtRoQ2j4p
+	 Mx+WtZecrhCN/LJnyUg3nkDxxTBKj0S5UcEm/KASFJzeQOVt3mGicJNO0JnXI6XG+F
+	 Jp0Igq6iFArHIxLp1vT1QKIYmv4L7ifWonIb6VNfy8guIHqkDajGWMb4MKYmXlXvYJ
+	 Drdx5b+dBRbjA==
+Date: Wed, 29 Apr 2026 07:45:36 -0700
+Subject: [PATCH 25/25] libfuse: add upper-level filesystem freeze, thaw,
+ and shutdown events
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: djwong@kernel.org, bernd@bsbernd.com
 Cc: miklos@szeredi.hu, linux-fsdevel@vger.kernel.org,
  fuse-devel@lists.linux.dev, joannelkoong@gmail.com, neal@gompa.dev
-Message-ID: <177747211997.4104686.4153206543454693365.stgit@frogsfrogsfrogs>
+Message-ID: <177747212015.4104686.5558489638360590214.stgit@frogsfrogsfrogs>
 In-Reply-To: <177747211463.4104686.1151865355399948078.stgit@frogsfrogsfrogs>
 References: <177747211463.4104686.1151865355399948078.stgit@frogsfrogsfrogs>
 Precedence: bulk
@@ -47,176 +47,161 @@ Content-Transfer-Encoding: 7bit
 
 From: Darrick J. Wong <djwong@kernel.org>
 
-Pass the kernel's filesystem freeze, thaw, and shutdown requests through
-to low level fuse servers.
+Pass filesystem freeze, thaw, and shutdown requests from the low level
+library to the upper level library so that those fuse servers can handle
+the events.
 
 Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 ---
- include/fuse_kernel.h   |   12 +++++++++
- include/fuse_lowlevel.h |   35 +++++++++++++++++++++++++++
- lib/fuse_lowlevel.c     |   60 +++++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 107 insertions(+)
+ include/fuse.h |   15 +++++++++
+ lib/fuse.c     |   95 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 110 insertions(+)
 
 
-diff --git a/include/fuse_kernel.h b/include/fuse_kernel.h
-index 0779e3917a1e8f..ff21973e1c88f7 100644
---- a/include/fuse_kernel.h
-+++ b/include/fuse_kernel.h
-@@ -682,6 +682,10 @@ enum fuse_opcode {
- 	FUSE_STATX		= 52,
- 	FUSE_COPY_FILE_RANGE_64	= 53,
- 
-+	FUSE_FREEZE_FS		= 4089,
-+	FUSE_UNFREEZE_FS	= 4090,
-+	FUSE_SHUTDOWN_FS	= 4091,
-+
- 	FUSE_IOMAP_CONFIG	= 4092,
- 	FUSE_IOMAP_IOEND	= 4093,
- 	FUSE_IOMAP_BEGIN	= 4094,
-@@ -1238,6 +1242,14 @@ struct fuse_syncfs_in {
- 	uint64_t	padding;
- };
- 
-+struct fuse_freezefs_in {
-+	uint64_t	unlinked;
-+};
-+
-+struct fuse_shutdownfs_in {
-+	uint64_t	flags;
-+};
-+
- /*
-  * For each security context, send fuse_secctx with size of security context
-  * fuse_secctx will be followed by security context name and this in turn
-diff --git a/include/fuse_lowlevel.h b/include/fuse_lowlevel.h
-index bc720564d828cd..bac627bb9038c6 100644
---- a/include/fuse_lowlevel.h
-+++ b/include/fuse_lowlevel.h
-@@ -1440,6 +1440,41 @@ struct fuse_lowlevel_ops {
- 	void (*iomap_config)(fuse_req_t req,
- 			     const struct fuse_iomap_config_params *p,
- 			     size_t psize);
+diff --git a/include/fuse.h b/include/fuse.h
+index d68feb7ccfa84c..2717e654e92071 100644
+--- a/include/fuse.h
++++ b/include/fuse.h
+@@ -925,6 +925,21 @@ struct fuse_operations {
+ 	 */
+ 	int (*iomap_config)(const struct fuse_iomap_config_params *p,
+ 			    size_t psize, struct fuse_iomap_config *cfg);
 +
 +	/**
 +	 * Freeze the filesystem
-+	 *
-+	 * Valid replies:
-+	 *   fuse_reply_err
-+	 *
-+	 * @param req request handle
-+	 * @param ino the root inode number
-+	 * @param unlinked count of open unlinked inodes
 +	 */
-+	void (*freezefs)(fuse_req_t req, fuse_ino_t ino, uint64_t unlinked);
++	int (*freezefs)(const char *path, uint64_t unlinked_files);
 +
 +	/**
 +	 * Thaw the filesystem
-+	 *
-+	 * Valid replies:
-+	 *   fuse_reply_err
-+	 *
-+	 * @param req request handle
-+	 * @param ino the root inode number
 +	 */
-+	void (*unfreezefs)(fuse_req_t req, fuse_ino_t ino);
++	int (*unfreezefs)(const char *path);
 +
 +	/**
 +	 * Shut down the filesystem
-+	 *
-+	 * Valid replies:
-+	 *   fuse_reply_err
-+	 *
-+	 * @param req request handle
-+	 * @param ino the root inode number
-+	 * @param flags zero, currently
 +	 */
-+	void (*shutdownfs)(fuse_req_t req, fuse_ino_t ino, uint64_t flags);
++	int (*shutdownfs)(const char *path, uint64_t flags);
  };
  
- /**
-diff --git a/lib/fuse_lowlevel.c b/lib/fuse_lowlevel.c
-index e4b9ce2e4d2f08..9aa7730db39ac6 100644
---- a/lib/fuse_lowlevel.c
-+++ b/lib/fuse_lowlevel.c
-@@ -2919,6 +2919,60 @@ static void do_iomap_config(fuse_req_t req, const fuse_ino_t nodeid,
- 	_do_iomap_config(req, nodeid, inarg, NULL);
+ /** Extra context that may be needed by some filesystems
+diff --git a/lib/fuse.c b/lib/fuse.c
+index ddf9b4044b8952..b43a336d7530bb 100644
+--- a/lib/fuse.c
++++ b/lib/fuse.c
+@@ -2989,6 +2989,38 @@ static int fuse_fs_iomap_config(struct fuse_fs *fs,
+ 	return fs->op.iomap_config(p, psize, cfg);
  }
  
-+static void _do_freezefs(fuse_req_t req, const fuse_ino_t nodeid,
-+			 const void *op_in, const void *in_payload)
++static int fuse_fs_freezefs(struct fuse_fs *fs, const char *path,
++			    uint64_t unlinked)
 +{
-+	const struct fuse_freezefs_in *inarg = op_in;
-+	(void)in_payload;
-+
-+	if (req->se->op.freezefs)
-+		req->se->op.freezefs(req, nodeid, inarg->unlinked);
-+	else
-+		fuse_reply_err(req, ENOSYS);
++	fuse_get_context()->private_data = fs->user_data;
++	if (!fs->op.freezefs)
++		return -ENOSYS;
++	if (fs->debug)
++		fuse_log(FUSE_LOG_DEBUG, "freezefs[%s]\n", path);
++	return fs->op.freezefs(path, unlinked);
 +}
 +
-+static void do_freezefs(fuse_req_t req, const fuse_ino_t nodeid,
-+			const void *inarg)
++static int fuse_fs_unfreezefs(struct fuse_fs *fs, const char *path)
 +{
-+	_do_freezefs(req, nodeid, inarg, NULL);
++	fuse_get_context()->private_data = fs->user_data;
++	if (!fs->op.unfreezefs)
++		return -ENOSYS;
++	if (fs->debug)
++		fuse_log(FUSE_LOG_DEBUG, "unfreezefs[%s]\n", path);
++	return fs->op.unfreezefs(path);
 +}
 +
-+static void _do_unfreezefs(fuse_req_t req, const fuse_ino_t nodeid,
-+			 const void *op_in, const void *in_payload)
++static int fuse_fs_shutdownfs(struct fuse_fs *fs, const char *path,
++			      uint64_t flags)
 +{
-+	(void)op_in;
-+	(void)in_payload;
-+
-+	if (req->se->op.unfreezefs)
-+		req->se->op.unfreezefs(req, nodeid);
-+	else
-+		fuse_reply_err(req, ENOSYS);
++	fuse_get_context()->private_data = fs->user_data;
++	if (!fs->op.shutdownfs)
++		return -ENOSYS;
++	if (fs->debug)
++		fuse_log(FUSE_LOG_DEBUG, "shutdownfs[%s]\n", path);
++	return fs->op.shutdownfs(path, flags);
 +}
 +
-+static void do_unfreezefs(fuse_req_t req, const fuse_ino_t nodeid,
-+			const void *inarg)
-+{
-+	_do_unfreezefs(req, nodeid, inarg, NULL);
-+}
-+
-+static void _do_shutdownfs(fuse_req_t req, const fuse_ino_t nodeid,
-+			 const void *op_in, const void *in_payload)
-+{
-+	const struct fuse_shutdownfs_in *inarg = op_in;
-+	(void)in_payload;
-+
-+	if (req->se->op.shutdownfs)
-+		req->se->op.shutdownfs(req, nodeid, inarg->flags);
-+	else
-+		fuse_reply_err(req, ENOSYS);
-+}
-+
-+static void do_shutdownfs(fuse_req_t req, const fuse_ino_t nodeid,
-+			const void *inarg)
-+{
-+	_do_shutdownfs(req, nodeid, inarg, NULL);
-+}
-+
- static bool want_flags_valid(uint64_t capable, uint64_t want)
+ static void fuse_lib_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
+ 			     int valid, struct fuse_file_info *fi)
  {
- 	uint64_t unknown_flags = want & (~capable);
-@@ -3934,6 +3988,9 @@ static struct {
- 	[FUSE_LSEEK]	   = { do_lseek,       "LSEEK"	     },
- 	[FUSE_SYNCFS]	   = { do_syncfs,      "SYNCFS"      },
- 	[FUSE_STATX]	   = { do_statx,       "STATX"	     },
-+	[FUSE_FREEZE_FS]   = { do_freezefs,	"FREEZE"     },
-+	[FUSE_UNFREEZE_FS] = { do_unfreezefs,	"UNFREEZE"   },
-+	[FUSE_SHUTDOWN_FS] = { do_shutdownfs,	"SHUTDOWN"   },
- 	[FUSE_IOMAP_CONFIG] = { do_iomap_config, "IOMAP_CONFIG" },
- 	[FUSE_IOMAP_BEGIN] = { do_iomap_begin,	"IOMAP_BEGIN" },
- 	[FUSE_IOMAP_END]   = { do_iomap_end,	"IOMAP_END" },
-@@ -3995,6 +4052,9 @@ static struct {
- 	[FUSE_LSEEK]		= { _do_lseek,		"LSEEK" },
- 	[FUSE_SYNCFS]		= { _do_syncfs,		"SYNCFS" },
- 	[FUSE_STATX]		= { _do_statx,		"STATX" },
-+	[FUSE_FREEZE_FS]	= { _do_freezefs,	"FREEZE" },
-+	[FUSE_UNFREEZE_FS]	= { _do_unfreezefs,	"UNFREEZE" },
-+	[FUSE_SHUTDOWN_FS]	= { _do_shutdownfs,	"SHUTDOWN" },
- 	[FUSE_IOMAP_CONFIG]	= { _do_iomap_config,	"IOMAP_CONFIG" },
- 	[FUSE_IOMAP_BEGIN]	= { _do_iomap_begin,	"IOMAP_BEGIN" },
- 	[FUSE_IOMAP_END]	= { _do_iomap_end,	"IOMAP_END" },
+@@ -4887,6 +4919,66 @@ static void fuse_lib_iomap_config(fuse_req_t req,
+ 	fuse_reply_iomap_config(req, &cfg);
+ }
+ 
++static void fuse_lib_freezefs(fuse_req_t req, fuse_ino_t ino, uint64_t unlinked)
++{
++	struct fuse *f = req_fuse_prepare(req);
++	struct fuse_intr_data d;
++	char *path;
++	int err;
++
++	err = get_path(f, ino, &path);
++	if (err) {
++		reply_err(req, err);
++		return;
++	}
++
++	fuse_prepare_interrupt(f, req, &d);
++	err = fuse_fs_freezefs(f->fs, path, unlinked);
++	fuse_finish_interrupt(f, req, &d);
++	free_path(f, ino, path);
++	reply_err(req, err);
++}
++
++static void fuse_lib_unfreezefs(fuse_req_t req, fuse_ino_t ino)
++{
++	struct fuse *f = req_fuse_prepare(req);
++	struct fuse_intr_data d;
++	char *path;
++	int err;
++
++	err = get_path(f, ino, &path);
++	if (err) {
++		reply_err(req, err);
++		return;
++	}
++
++	fuse_prepare_interrupt(f, req, &d);
++	err = fuse_fs_unfreezefs(f->fs, path);
++	fuse_finish_interrupt(f, req, &d);
++	free_path(f, ino, path);
++	reply_err(req, err);
++}
++
++static void fuse_lib_shutdownfs(fuse_req_t req, fuse_ino_t ino, uint64_t flags)
++{
++	struct fuse *f = req_fuse_prepare(req);
++	struct fuse_intr_data d;
++	char *path;
++	int err;
++
++	err = get_path(f, ino, &path);
++	if (err) {
++		reply_err(req, err);
++		return;
++	}
++
++	fuse_prepare_interrupt(f, req, &d);
++	err = fuse_fs_shutdownfs(f->fs, path, flags);
++	fuse_finish_interrupt(f, req, &d);
++	free_path(f, ino, path);
++	reply_err(req, err);
++}
++
+ static int clean_delay(struct fuse *f)
+ {
+ 	/*
+@@ -4989,6 +5081,9 @@ static struct fuse_lowlevel_ops fuse_path_ops = {
+ 	.statx = fuse_lib_statx,
+ #endif
+ 	.syncfs = fuse_lib_syncfs,
++	.freezefs = fuse_lib_freezefs,
++	.unfreezefs = fuse_lib_unfreezefs,
++	.shutdownfs = fuse_lib_shutdownfs,
+ 	.iomap_begin = fuse_lib_iomap_begin,
+ 	.iomap_end = fuse_lib_iomap_end,
+ 	.iomap_ioend = fuse_lib_iomap_ioend,
 
