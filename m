@@ -1,188 +1,224 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E58B23D16EE;
-	Wed, 29 Apr 2026 13:10:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B320A3FE657;
+	Wed, 29 Apr 2026 13:41:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777468208; cv=none; b=dbYF6Rl6G3M3ri7pKOOSK0/iIesj0GCF0HMwGRyGINMi/pjnJ6EVLG09Nn6pt6iVRzaMNUGH1BSJrl3lBBJ6S7JYqqQlPv2pqgek1sVTXSmxeErIGhZKtpdcSlGDxiIhx5o9xYzEVNRD/XVh+wSetfmXyHMKZiQdTgfoI81epFc=
+	t=1777470095; cv=none; b=Ot3OBr5E4Duy7pDZLKgQYUAv6Pj34qNSbR3C+wi0aJ17LYaAlAzabmD8yschlrZdhqE/dtl7TbYOe1LC7wXuEM07jpljZqWyH9IkjF8KZ1kqMViEAjJph3KdHJ3tU/LmZnWMUJu+5kg2c4RwqzM+0oBiEhbDSS0IRADRPj+fLcA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777468208; c=relaxed/simple;
-	bh=jM/IH8EGk8YBTvxYomCFRlziNoxfG/zfVtakC3ySAAs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=tOfKMm0yIVE7MUh16IUJLEQIFFAH42qW6pkUj0JjQqwduTgyQ+nokUfthze0iUjTiPUi8MOpqK6XSmYvzAQSPT87o5NyQMnbT7M1ghuqZXweJCDTFzJG+/0M0eg+E29ss0Vw2FHkNrZcm7H2bs0u2J5gLHNuR6WRU2wYosZCSiw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=CiqIHIyF; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
+	s=arc-20240116; t=1777470095; c=relaxed/simple;
+	bh=AbmPDiLMo35LZVw+xaDp8x+ViqIl5t2Bms1xbcVtE5U=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=CXvzoI2CWoF0PqdHpSJ1g8BhPzmOAlMZYbd4UraLZ6oEfpSs1vfmmtuEv/dG1POUN+XzAAdc5VKo/miNCR/IGf6NP6f5BFlkYSrUotw2OlgpZGweP8gt0TBILZWBnf4wX309A1XfqKCQ7B5ovg7hkvNeQ9vJHKsa4pAZp2MBpjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YZquV9jf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="CiqIHIyF"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:Message-Id:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:
-	Reply-To:Content-ID:Content-Description:In-Reply-To:References;
-	bh=UXuuHBRP8owgfwIPvEe0xduBiSTsteD0ztA0DdCM02Y=; b=CiqIHIyFWyZ2GkBnwiX6T2oA+z
-	2Chg7bLJMZTDzFm0tKWDBZFsqEkFmr22IblxZxqIIXWayHcGebq4ZWQd9g7FWyV3va7gjcr9z6Wij
-	1E7KfJpWpnMXivzaLO9WZMbRcGROllQPOf0EbigWuEpdEUbFOwTyXsxMWGV9WmBDB2hRAsgQsqkzA
-	Khlgv4JhPv+WQVYw4bXxbmi2VBOQoAUMcaIqG2rHTvNJ4T8CRRoNtu/kPegXBnf5c66OXZ+85mLXl
-	0Sbn/ZDnTqstMKKEuJoHL5/+kJ5qBwaAcdzkbW09T1rVpFXJTXM9a6wixeKC8+qwzhzhLV8BY/8w7
-	rZpmJYww==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wI4fp-0072u1-1X;
-	Wed, 29 Apr 2026 13:09:53 +0000
-From: Breno Leitao <leitao@debian.org>
-Date: Wed, 29 Apr 2026 06:09:37 -0700
-Subject: [PATCH] fs/select: reject negative timeval components in
- kern_select()
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YZquV9jf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59ABAC4AF09;
+	Wed, 29 Apr 2026 13:41:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777470095;
+	bh=AbmPDiLMo35LZVw+xaDp8x+ViqIl5t2Bms1xbcVtE5U=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=YZquV9jfYH5w/wC+soXVf/JNKI1K/XIJ7I5XCZeIS8sbSDkkcAS5x2bjz/5lBH2wx
+	 CttusplS+qBnECTLYYroEskGaCL0cn9jlR8axH5hyNqLqaAHfZ7J/IA3rhde03+lrd
+	 odfq7O2lJzSJYgCKohpnkQHgDjyt7IQy9gyjFWrt8F3c8QICs83ZAGM1uA8wBLOZhN
+	 JE0SWAWeZcHsV0W/mkgOCU2tHtwT+9b0YkPTguPMOIzHBj9Rwhbb+rTIuUKlcH3prB
+	 70KsjJEuKx16+kvJzKXvy3irgRCsD3xJct0cGHe7SdGu8nHDSektshBNW2VZvFD33c
+	 uUwrWimLZP1Dg==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 460EDF40068;
+	Wed, 29 Apr 2026 09:41:33 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Wed, 29 Apr 2026 09:41:33 -0400
+X-ME-Sender: <xms:jQryaSQHFzntyBx-jomblrJhtzbOen6R4iuCOpHPo4gRNj7tinAEDQ>
+    <xme:jQryaSk296dZuhIQkQEK_f2EHNBkX-7riWofWTk0phchaKd_qiSHmKhkEBLEn8DYN
+    RzhRn1CjoxbnJJ-CuJKnYNccFjRUAF0IuxJIZSZwqFQEHFhVLs1_vKH>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdekgeehkecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdevhhhutghk
+    ucfnvghvvghrfdcuoegtvghlsehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvghrnh
+    epjeevhfduheeltedvjefhjeevgffhleegjeevvdfgudeuffefgedtjeeuhfeiudeknecu
+    ffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurf
+    grrhgrmhepmhgrihhlfhhrohhmpegthhhutghklhgvvhgvrhdomhgvshhmthhprghuthhh
+    phgvrhhsohhnrghlihhthidqudeifeegleelleehledqfedvleekgeegvdefqdgtvghlpe
+    epkhgvrhhnvghlrdhorhhgsehfrghsthhmrghilhdrtghomhdpnhgspghrtghpthhtohep
+    vdegpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehnvghilhessghrohifnhdrnh
+    grmhgvpdhrtghpthhtohepmhgrthhhihgvuhdruggvshhnohihvghrshesvghffhhitghi
+    ohhsrdgtohhmpdhrtghpthhtoheprghlvgigrdgrrhhinhhgsehgmhgrihhlrdgtohhmpd
+    hrtghpthhtoheprghmihhrjeefihhlsehgmhgrihhlrdgtohhmpdhrtghpthhtoheprhho
+    shhtvgguthesghhoohgumhhishdrohhrghdprhgtphhtthhopegrnhhnrgeskhgvrhhnvg
+    hlrdhorhhgpdhrtghpthhtohepsghrrghunhgvrheskhgvrhhnvghlrdhorhhgpdhrtghp
+    thhtohepjhhlrgihthhonheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhhhihhrrg
+    hmrghtsehkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:jQryaVDlYB1TdmPkCsoSJMtD1Ig_-AZ56-UySqiHekH40H-tO8fn3w>
+    <xmx:jQryaVMeZOkGKSqz9lA7BTw-KSyhBXPKuzUADcnv-56s0PwVNstu2A>
+    <xmx:jQryaUAsYj5qYDg8Vog6nLLy0ykeKPf5gOJIUECayWL1fUV4BEWXPg>
+    <xmx:jQryaflM_WfAdEBfMGiT-NJ4_MKWpMtzj9f-vCyESEoteRVvmjCMwQ>
+    <xmx:jQryaQrZ-cFoNbjEtfFW9cbVymZSHRFDPz8LkrLDkvlbMNV-i6QvRLaI>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 198F0780070; Wed, 29 Apr 2026 09:41:33 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+X-ThreadId: AJifn_5JDXrR
+Date: Wed, 29 Apr 2026 09:41:12 -0400
+From: "Chuck Lever" <cel@kernel.org>
+To: "Jeff Layton" <jlayton@kernel.org>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
+ "Chuck Lever" <chuck.lever@oracle.com>,
+ "Alexander Aring" <alex.aring@gmail.com>,
+ "Steven Rostedt" <rostedt@goodmis.org>,
+ "Masami Hiramatsu" <mhiramat@kernel.org>,
+ "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>,
+ NeilBrown <neil@brown.name>, "Olga Kornievskaia" <okorniev@redhat.com>,
+ "Dai Ngo" <Dai.Ngo@oracle.com>, "Tom Talpey" <tom@talpey.com>,
+ "Trond Myklebust" <trondmy@kernel.org>, "Anna Schumaker" <anna@kernel.org>,
+ "Amir Goldstein" <amir73il@gmail.com>
+Cc: "Calum Mackay" <calum.mackay@oracle.com>, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-nfs@vger.kernel.org
+Message-Id: <d6e54da6-3f7f-4c56-b08a-5b14beecaa48@app.fastmail.com>
+In-Reply-To: <20260428-dir-deleg-v3-0-5a0780ba9def@kernel.org>
+References: <20260428-dir-deleg-v3-0-5a0780ba9def@kernel.org>
+Subject: Re: [PATCH v3 00/28] vfs/nfsd: add support for CB_NOTIFY callbacks in
+ directory delegations
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260429-timeval-v1-1-4448e2588bbf@debian.org>
-X-B4-Tracking: v=1; b=H4sIABAD8mkC/yXMSwqDMBRG4a1c/rEBTYM12Yo4SM21XvFFYqUg7
- l1qh2fwnQOJo3CCowORd0myzHBUZIS29/OblQQ4gs51mRtt1SYT735UlX8YW4XA5mmREdbInXz
- vU938O31eA7fbj+M8L9aeHNZrAAAA
-X-Change-ID: 20260429-timeval-8a3498dde479
-To: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Arjan van de Ven <arjan@linux.intel.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
- clm@meta.com, kernel-team@meta.com, Breno Leitao <leitao@debian.org>
-X-Mailer: b4 0.16-dev-453a6
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4424; i=leitao@debian.org;
- h=from:subject:message-id; bh=jM/IH8EGk8YBTvxYomCFRlziNoxfG/zfVtakC3ySAAs=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBp8gMd6eZ/YZh+FO6ax9Us6QgbjYDKSBIomDhuR
- lOKIXGlx+qJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCafIDHQAKCRA1o5Of/Hh3
- bUllD/9umOrXK7AZBUqiwDRGgWPgi+Os/o3rDHJonF0W1W3jMsh1z+CVfoIV+xuVqC56YPzdlAm
- 2n+ta9QyESMXbQWBaA1NUWK7oAOcLHt+egc6Sd53uCFk7zDQHsrc43DnRStXbdIkNRG+9yqpfnQ
- tgSfkblW91oNr4J7xGHlEt/NLgm2/B35G9Qe6wU3FZ+mDMITj3Nu14hJ6rtU6/6jc3walngJXKZ
- sc0G4D0RnZe5zhDq/gNbZ1TJf4KxyxrggMfJ41fXWkySzXm430wSsLF/FvF2iidAW8piWwR0v3c
- xQR3+46Ax8wrg2R2eT9tJCl9if+IIeiUbTCjhWFzTzX04en6WD7aN1Drjbo9CJv+aXlXu9o0e70
- 9Zm2G5vHbWAmUIPbCsS0Svb/nL44XU7vjfu9RC3xpS3fW4dzKEI88Na8wdqh40F2Wyp7EdMaQ8E
- 7vs1wFc84AQo0gEX/DlPUsV7S7//Yxe7Kzn2qqE3nm0LNIRm20rb7CZ+sriMkj3SK1aIOOiuRrV
- V65dRg1R9p/IPwFNP6L1bfgq8pxLihHT802V2ii80s14dRDgDCzIwsDXc3P11Ink8l2WB/BFme4
- te8w1BDfmeJe5r4ZA9zUmoOjOS8JoPUMNrnP0BpztWsZa2M86PueCeneB/CqHIsdl1/GsjULHqQ
- rkkNx6b1NefvW5g==
-X-Developer-Key: i=leitao@debian.org; a=openpgp;
- fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
-X-Debian-User: leitao
 
-kern_select() normalises the user-supplied struct __kernel_old_timeval
-with
 
-	tv.tv_sec + (tv.tv_usec / USEC_PER_SEC)
-	(tv.tv_usec % USEC_PER_SEC) * NSEC_PER_USEC
 
-before calling poll_select_set_timeout() -> timespec64_valid().  Both
-operands of the seconds sum are unbounded user-controlled signed long.
-A crafted pair where tv_usec is a negative multiple of USEC_PER_SEC
-drives the sum across the wrap boundary - e.g.
+On Tue, Apr 28, 2026, at 3:09 AM, Jeff Layton wrote:
+> Re-posting the set per Christian's request. The only difference in this
+> version is a small error handling fix in alloc_init_dir_deleg(). The old
+> version could crash since release_pages() can't handle an array with
+> NULL pointers in it.
+>
+> ---------------------------------8<------------------------------------
+>
+> This patchset builds on the directory delegation work we did a few
+> months ago, to add support for CB_NOTIFY callbacks for some events. In
+> particular, creates, unlinks and renames. The server also sends updated
+> directory attributes in the notifications. With this support, the client
+> can register interest in a directory and get notifications about changes
+> within it without losing its lease.
+>
+> The series starts with patches to allow the vfs to ignore certain types
+> of events on directories. nfsd can then request these sorts of
+> delegations on directories, and then set up inotify watches on the
+> directory to trigger sending CB_NOTIFY events.
+>
+> This has mainly been tested with pynfs, with some new testcases that
+> I'll be posting soon. They seem to work fine with those tests, but I
+> don't think we'll want to merge these until we have a complete
+> client-side implementation to test against.
+>
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> ---
+> Changes in v3:
+> - Fix error handling in alloc_init_dir_deleg()
+> - Link to v2: 
+> https://lore.kernel.org/r/20260416-dir-deleg-v2-0-851426a550f6@kernel.org
+>
+> Changes in v2:
+> - Fix __break_lease handling with different lease types on flc_lease 
+> list
+> - Add FSNOTIFY_EVENT_RENAME data type to properly handle 
+> cross-directory rename events
+> - Display fsnotify mask symbolically in tracepoints
+> - New tracepoint in fsnotify()
+> - Recalc fsnotify mask after unlocking lease instead of before
+> - Don't notify client that is making the changes
+> - After sending CB_NOTIFY, requeue if new events came in while running
+> - Document removal of NFS4_VERIFIER_SIZE/NFS4_FHSIZE from UAPI headers
+> - Properly release nfsd_dir_fsnotify_group on server shutdown
+> - Link to v1: 
+> https://lore.kernel.org/r/20260407-dir-deleg-v1-0-aaf68c478abd@kernel.org
+>
+> ---
+> Jeff Layton (28):
+>       filelock: pass current blocking lease to 
+> trace_break_lease_block() rather than "new_fl"
+>       filelock: add support for ignoring deleg breaks for dir change 
+> events
+>       filelock: add a tracepoint to start of break_lease()
+>       filelock: add an inode_lease_ignore_mask helper
+>       fsnotify: new tracepoint in fsnotify()
+>       fsnotify: add fsnotify_modify_mark_mask()
+>       fsnotify: add FSNOTIFY_EVENT_RENAME data type
+>       nfsd: check fl_lmops in nfsd_breaker_owns_lease()
+>       nfsd: add protocol support for CB_NOTIFY
+>       nfs_common: add new NOTIFY4_* flags proposed in RFC8881bis
+>       nfsd: allow nfsd to get a dir lease with an ignore mask
+>       nfsd: update the fsnotify mark when setting or removing a dir 
+> delegation
+>       nfsd: make nfsd4_callback_ops->prepare operation bool return
+>       nfsd: add callback encoding and decoding linkages for CB_NOTIFY
+>       nfsd: use RCU to protect fi_deleg_file
+>       nfsd: add data structures for handling CB_NOTIFY
+>       nfsd: add notification handlers for dir events
+>       nfsd: add tracepoint to dir_event handler
+>       nfsd: apply the notify mask to the delegation when requested
+>       nfsd: add helper to marshal a fattr4 from completed args
+>       nfsd: allow nfsd4_encode_fattr4_change() to work with no export
+>       nfsd: send basic file attributes in CB_NOTIFY
+>       nfsd: allow encoding a filehandle into fattr4 without a svc_fh
+>       nfsd: add a fi_connectable flag to struct nfs4_file
+>       nfsd: add the filehandle to returned attributes in CB_NOTIFY
+>       nfsd: properly track requested child attributes
+>       nfsd: track requested dir attributes
+>       nfsd: add support to CB_NOTIFY for dir attribute changes
+>
+>  Documentation/sunrpc/xdr/nfs4_1.x    | 264 ++++++++++++++-
+>  fs/attr.c                            |   2 +-
+>  fs/locks.c                           | 118 +++++--
+>  fs/namei.c                           |  31 +-
+>  fs/nfsd/filecache.c                  |  70 +++-
+>  fs/nfsd/nfs4callback.c               |  60 +++-
+>  fs/nfsd/nfs4layouts.c                |   5 +-
+>  fs/nfsd/nfs4proc.c                   |  17 +
+>  fs/nfsd/nfs4state.c                  | 551 ++++++++++++++++++++++++++++----
+>  fs/nfsd/nfs4xdr.c                    | 323 +++++++++++++++++--
+>  fs/nfsd/nfs4xdr_gen.c                | 601 ++++++++++++++++++++++++++++++++++-
+>  fs/nfsd/nfs4xdr_gen.h                |  20 +-
+>  fs/nfsd/state.h                      |  72 ++++-
+>  fs/nfsd/trace.h                      |  23 ++
+>  fs/nfsd/xdr4.h                       |   5 +
+>  fs/nfsd/xdr4cb.h                     |  12 +
+>  fs/notify/fsnotify.c                 |   5 +
+>  fs/notify/mark.c                     |  29 ++
+>  fs/posix_acl.c                       |   4 +-
+>  fs/xattr.c                           |   4 +-
+>  include/linux/filelock.h             |  54 +++-
+>  include/linux/fsnotify.h             |   8 +-
+>  include/linux/fsnotify_backend.h     |  21 ++
+>  include/linux/nfs4.h                 | 127 --------
+>  include/linux/sunrpc/xdrgen/nfs4_1.h | 291 ++++++++++++++++-
+>  include/trace/events/filelock.h      |  38 ++-
+>  include/trace/events/fsnotify.h      |  51 +++
+>  include/trace/misc/fsnotify.h        |  35 ++
+>  include/uapi/linux/nfs4.h            |   2 -
+>  29 files changed, 2519 insertions(+), 324 deletions(-)
+> ---
+> base-commit: f4d71dd7fd9cec357c32431fa55c107b96008312
+> change-id: 20260325-dir-deleg-339066dd1017
+>
+> Best regards,
+> -- 
+> Jeff Layton <jlayton@kernel.org>
 
-	{ .tv_sec = LONG_MIN, .tv_usec = -1000000 }
+For the series:
 
-yields sec = LONG_MAX, nsec = 0, which passes timespec64_valid() and
-then flows through timespec64_add_safe(), which saturates the absolute
-deadline to TIME64_MAX (clamped further to KTIME_MAX downstream).
-select(2) therefore blocks effectively forever instead of returning
--EINVAL as POSIX requires for a negative timeout.
+Acked-by: Chuck Lever <chuck.lever@oracle.com>
 
-Only the legacy __NR_select syscall takes this path.  pselect6, ppoll,
-poll and epoll_pwait2 all hand the user's two fields directly to
-poll_select_set_timeout(), which validates *before* doing any
-arithmetic:
 
-	/* fs/select.c:271 -- the validator */
-	int poll_select_set_timeout(struct timespec64 *to, time64_t sec, long nsec)
-	{
-		struct timespec64 ts = {.tv_sec = sec, .tv_nsec = nsec};
-		if (!timespec64_valid(&ts))
-			return -EINVAL;
-		...
-	}
-
-	/* include/linux/time64.h:97 -- timespec64_valid */
-	if (ts->tv_sec < 0)                              return false;
-	if ((unsigned long)ts->tv_nsec >= NSEC_PER_SEC)  return false;
-
-	/* fs/select.c:744  do_pselect() (pselect6, pselect6_time32) */
-	if (get_timespec64(&ts, tsp)) return -EFAULT;
-	if (poll_select_set_timeout(to, ts.tv_sec, ts.tv_nsec)) return -EINVAL;
-
-	/* fs/select.c:1097 ppoll */
-	if (get_timespec64(&ts, tsp)) return -EFAULT;
-	if (poll_select_set_timeout(to, ts.tv_sec, ts.tv_nsec)) return -EINVAL;
-
-	/* fs/select.c:1065 poll -- timeout_msecs is int; >= 0 gates the math */
-	if (timeout_msecs >= 0)
-		poll_select_set_timeout(to, timeout_msecs / MSEC_PER_SEC,
-		                        NSEC_PER_MSEC * (timeout_msecs % MSEC_PER_SEC));
-
-	/* fs/eventpoll.c:2512 epoll_pwait2 */
-	if (get_timespec64(&ts, timeout)) return -EFAULT;
-	if (poll_select_set_timeout(to, ts.tv_sec, ts.tv_nsec)) return -EINVAL;
-
-In every one of these the wrap-prone arithmetic from kern_select()
-simply does not exist; the user fields reach timespec64_valid()
-unmodified.  glibc routes the C-library select() through pselect6,
-so the bug is reachable only via a direct syscall(__NR_select, ...).
-
-The pre-validation negative check that used to live here was lost
-when the syscall was switched to the poll_select_set_timeout() helper.
-Restore it: reject tv_sec < 0 || tv_usec < 0 up front, mirroring what
-glibc does in userspace.  do_compat_select() has the same arithmetic
-pattern but is only reachable on 32-bit compat and from a different
-syscall entry; left for a follow-up so this change stays minimal.
-
-Reproducer (returns -1/EINVAL on a fixed kernel; blocks indefinitely
-on an unfixed one):
-
-	struct timeval tv = { .tv_sec = LONG_MIN, .tv_usec = -1000000 };
-	fd_set r;
-	int pfd[2];
-	pipe(pfd);
-	FD_ZERO(&r);
-	FD_SET(pfd[0], &r);
-	syscall(__NR_select, pfd[0] + 1, &r, NULL, NULL, &tv);
-
-Fixes: 4d36a9e65d49 ("select: deal with math overflow from borderline valid userland data")
-Signed-off-by: Breno Leitao <leitao@debian.org>
----
- fs/select.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/fs/select.c b/fs/select.c
-index 75978b18f48f8..bf71c9838dfe1 100644
---- a/fs/select.c
-+++ b/fs/select.c
-@@ -708,6 +708,17 @@ static int kern_select(int n, fd_set __user *inp, fd_set __user *outp,
- 		if (copy_from_user(&tv, tvp, sizeof(tv)))
- 			return -EFAULT;
- 
-+		/*
-+		 * Reject negative components before normalisation. The seconds
-+		 * sum below is performed in signed long and a crafted negative
-+		 * timeval can wrap to a positive value that passes
-+		 * timespec64_valid() and turns into an effectively-infinite
-+		 * deadline via timespec64_add_safe()'s saturation, instead of
-+		 * the -EINVAL POSIX requires for negative timeouts.
-+		 */
-+		if (tv.tv_sec < 0 || tv.tv_usec < 0)
-+			return -EINVAL;
-+
- 		to = &end_time;
- 		if (poll_select_set_timeout(to,
- 				tv.tv_sec + (tv.tv_usec / USEC_PER_SEC),
-
----
-base-commit: 9974969c14031a097d6b45bcb7a06bb4aa525c40
-change-id: 20260429-timeval-8a3498dde479
-
-Best regards,
---  
-Breno Leitao <leitao@debian.org>
-
+-- 
+Chuck Lever
