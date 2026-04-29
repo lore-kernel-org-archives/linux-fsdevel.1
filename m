@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E3D723EAB7;
-	Wed, 29 Apr 2026 14:49:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40B533254B8;
+	Wed, 29 Apr 2026 14:49:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777474171; cv=none; b=Rwp0H4hhT5xoFIGPwG6y493yZLGjPK3B1UrHPRRzeXDyn2Cs5PTI42WTsQ1I7SJA6au1ME5Up37QyQc28p/ePwECd7xTI46Kj3qWn/WKvR6/wVn3xZR97fMWRDadNKEXtD+KFLckg2K+MwzwqWUACKUne0dWiPvvNLbGqa3+ssw=
+	t=1777474187; cv=none; b=dLzb0KQVuMAhD6QskQM6IzNpGoNAPxfJ363uIEuIEYmMErvJXWD9GbW2mCUF0ZfFpf5K0iVRLtvAZNh+GbuNf/0sFvClTL/h2OI7n8iDZoYSdglc9OeZiIWMrVw8AcB0gV/eBuFUq7xk20elLPSdvhiKQmodO7PGdSn0a3AWxB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777474171; c=relaxed/simple;
-	bh=Lze0ZWN3GgTg0tStvKqM+3UWIGHDAZ6uAXyxZZyGsK0=;
+	s=arc-20240116; t=1777474187; c=relaxed/simple;
+	bh=lRbf2/Scxk2lvkgZ2rhV9XSkmhoobFuJ/847hCJ9BJc=;
 	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HFzDCEAzAhLdx6yiK/5I1f5Ui6XX6z33WpEsQ8n+4dqBXuY7ltfnz+uCFc+x+OKLKTt7k9RSqO05VnXXi6Ig5AYYlrWXvo8a4NL1qrq3ZCfnhEr9cM5SJV0wg8Emztzfj+hQ1f5OppvBYu5QQ6P0MvYk7rMT2IK6pZbifP/vwa4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VGqyHWyi; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=gTwbfj/FalL3rqFLGPdLUpojgdkkmY5eMVfMnHB2UV8JlXqWhvjmeFTOmE8mkWfu1MyyyOTJouMxRFIF1KlcV/Y0SIKxPByeBsf0n7UU2MPB7tfLZekqjYn7IBpTya4Nd2J1kmS0DyDNond4aEzp4C65uqfjflcXZniPXphq9Ao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pWi0rW1Q; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VGqyHWyi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F32D2C19425;
-	Wed, 29 Apr 2026 14:49:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pWi0rW1Q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F8CFC19425;
+	Wed, 29 Apr 2026 14:49:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777474171;
-	bh=Lze0ZWN3GgTg0tStvKqM+3UWIGHDAZ6uAXyxZZyGsK0=;
+	s=k20201202; t=1777474186;
+	bh=lRbf2/Scxk2lvkgZ2rhV9XSkmhoobFuJ/847hCJ9BJc=;
 	h=Date:Subject:From:To:Cc:In-Reply-To:References:From;
-	b=VGqyHWyi4lKuVNvYDMh76PAhjcrwQMzp2dbva0tTFxPO/o/OB79urAshx9VST/r6I
-	 YABWG4lBNkRsqdJkvY2i2pip/4jNtLyyV5Wz2bNrKDbNo+Oi4jm5kIUECbZJBu4IgT
-	 YOKbXOnwvVwlvTY+hhX7WXpecoQr4Huhdopi/VKDD01JXjcP9o8KBnKl73KPUf8r36
-	 BzBHtyU6+h2C2lZkrzt7vKF8TE1K9EuVTDReKehwFTgRHZ26gO32/MmZ1SJQFW3EKm
-	 1uXybFlzM7pDwbnfgFtogl8uUXYizgqg5rvB3DgswhjRC8v7BxUO9H7x/kd+hRohrJ
-	 3MlOkCbI5oPOQ==
-Date: Wed, 29 Apr 2026 07:49:30 -0700
-Subject: [PATCH 2/9] libfuse: add upper-level iomap cache management
+	b=pWi0rW1Qc1eksrgmzkg8cisDpbnbL0tAN/GXHc3XSBERqqE+RwhDJyS67xSMSo/h7
+	 BO28eqnu8skuK1UQ9745SxYMDDzWlCG4MQnE8makHLhEBE2qm6WgBhNRElB04FVHok
+	 P4LbqVUozWCuwid7kKHAeR2S5wN6G2rtpkVgDBMlbwIbIz5RVYNRyDtUWn9Hy6DA5F
+	 j4nBWtrUiowfW95214jhxj4fufTQZkVsG/xKq9ijZdzIF0sNrNa7RODQDaGJUtQdk7
+	 HYlEKuE0ojTPX0zzJj+v3MD6h4SXVdy5hkDgCA9mHL0DXV6xwSbcBoGiGigPoqOQpo
+	 U4jOk5xBbVgqw==
+Date: Wed, 29 Apr 2026 07:49:46 -0700
+Subject: [PATCH 3/9] libfuse: allow constraining of iomap mapping cache size
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: djwong@kernel.org, bernd@bsbernd.com
 Cc: miklos@szeredi.hu, linux-fsdevel@vger.kernel.org,
  fuse-devel@lists.linux.dev, joannelkoong@gmail.com, neal@gompa.dev
-Message-ID: <177747213282.4106384.9379656306051445909.stgit@frogsfrogsfrogs>
+Message-ID: <177747213300.4106384.11857681307635538525.stgit@frogsfrogsfrogs>
 In-Reply-To: <177747213211.4106384.5167047581302637277.stgit@frogsfrogsfrogs>
 References: <177747213211.4106384.5167047581302637277.stgit@frogsfrogsfrogs>
 Precedence: bulk
@@ -46,110 +46,109 @@ Content-Transfer-Encoding: 7bit
 
 From: Darrick J. Wong <djwong@kernel.org>
 
-Make it so that upper-level fuse servers can use the iomap cache too.
+Allow the fuse server to constrain the maximum size of each iomap
+mapping cache.
 
 Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 ---
- include/fuse.h         |   31 +++++++++++++++++++++++++++++++
- lib/fuse.c             |   30 ++++++++++++++++++++++++++++++
- lib/fuse_versionscript |    2 ++
- 3 files changed, 63 insertions(+)
+ include/fuse_common.h |    7 ++++++-
+ include/fuse_kernel.h |    6 +++++-
+ lib/fuse_lowlevel.c   |    9 +++++++--
+ 3 files changed, 18 insertions(+), 4 deletions(-)
 
 
-diff --git a/include/fuse.h b/include/fuse.h
-index 2717e654e92071..54803803beb5cb 100644
---- a/include/fuse.h
-+++ b/include/fuse.h
-@@ -1522,6 +1522,37 @@ bool fuse_fs_can_enable_iomap(const struct stat *stbuf);
-  */
- bool fuse_fs_can_enable_iomapx(const struct statx *statxbuf);
+diff --git a/include/fuse_common.h b/include/fuse_common.h
+index 76c65f7e79179e..3a8fc7ea78bcc7 100644
+--- a/include/fuse_common.h
++++ b/include/fuse_common.h
+@@ -1266,11 +1266,14 @@ static inline bool fuse_iomap_need_write_allocate(unsigned int opflags,
+ #define FUSE_IOMAP_CONFIG_MAX_LINKS	(1 << 3ULL)
+ #define FUSE_IOMAP_CONFIG_TIME		(1 << 4ULL)
+ #define FUSE_IOMAP_CONFIG_MAXBYTES	(1 << 5ULL)
++#define FUSE_IOMAP_CONFIG_CACHE_MAXBYTES (1 << 6ULL)
  
-+/*
-+ * Upsert some file mapping information into the kernel.  This is necessary
-+ * for filesystems that require coordination of mapping state changes between
-+ * buffered writes and writeback, and desirable for better performance
-+ * elsewhere.
-+ *
-+ * @param nodeid the inode number
-+ * @param attr_ino inode number as told by fuse_attr::ino
-+ * @param read mapping information for file reads
-+ * @param write mapping information for file writes
-+ * @return zero for success, -errno for failure
-+ */
-+int fuse_fs_iomap_upsert(uint64_t nodeid, uint64_t attr_ino,
-+			 const struct fuse_file_iomap *read,
-+			 const struct fuse_file_iomap *write);
-+
-+/**
-+ * Invalidate some file mapping information in the kernel.
-+ *
-+ * @param nodeid the inode number
-+ * @param attr_ino inode number as told by fuse_attr::ino
-+ * @param read_off start of the range of read mappings to invalidate
-+ * @param read_len length of the range of read mappings to invalidate
-+ * @param write_off start of the range of write mappings to invalidate
-+ * @param write_len length of the range of write mappings to invalidate
-+ * @return zero for success, -errno for failure
-+ */
-+int fuse_fs_iomap_inval(uint64_t nodeid, uint64_t attr_ino, loff_t read_off,
-+			uint64_t read_len, loff_t write_off,
-+			uint64_t write_len);
-+
- int fuse_notify_poll(struct fuse_pollhandle *ph);
+ struct fuse_iomap_config_params {
+ 	uint64_t flags;		/* supported FUSE_IOMAP_CONFIG_* flags */
+ 	int64_t maxbytes;	/* max supported file size */
+-	uint64_t padding[6];	/* zero */
++	uint32_t cache_maxbytes; /* mapping cache maxbytes */
++	uint32_t zero;		/* zero */
++	uint64_t padding[5];	/* zero */
+ };
  
- /**
-diff --git a/lib/fuse.c b/lib/fuse.c
-index b43a336d7530bb..9ca3ed7d92bfde 100644
---- a/lib/fuse.c
-+++ b/lib/fuse.c
-@@ -3021,6 +3021,36 @@ static int fuse_fs_shutdownfs(struct fuse_fs *fs, const char *path,
- 	return fs->op.shutdownfs(path, flags);
+ struct fuse_iomap_config {
+@@ -1294,6 +1297,8 @@ struct fuse_iomap_config {
+ 	int64_t s_time_max;
+ 
+ 	int64_t s_maxbytes;	/* max file size */
++
++	uint32_t cache_maxbytes; /* mapping cache maximum size */
+ };
+ 
+ /* invalidate to end of file */
+diff --git a/include/fuse_kernel.h b/include/fuse_kernel.h
+index 115c8a228e765a..d9b65fe2395bde 100644
+--- a/include/fuse_kernel.h
++++ b/include/fuse_kernel.h
+@@ -1433,7 +1433,9 @@ struct fuse_iomap_ioend_out {
+ struct fuse_iomap_config_in {
+ 	uint64_t flags;		/* supported FUSE_IOMAP_CONFIG_* flags */
+ 	int64_t maxbytes;	/* max supported file size */
+-	uint64_t padding[6];	/* zero */
++	uint32_t cache_maxbytes; /* mapping cache maxbytes */
++	uint32_t zero;		/* zero */
++	uint64_t padding[5];	/* zero */
+ };
+ 
+ struct fuse_iomap_config_out {
+@@ -1457,6 +1459,8 @@ struct fuse_iomap_config_out {
+ 	int64_t s_time_max;
+ 
+ 	int64_t s_maxbytes;	/* max file size */
++
++	uint32_t cache_maxbytes; /* mapping cache maximum size */
+ };
+ 
+ struct fuse_range {
+diff --git a/lib/fuse_lowlevel.c b/lib/fuse_lowlevel.c
+index 6e8d2a7d74201b..4af2ed8380f5ac 100644
+--- a/lib/fuse_lowlevel.c
++++ b/lib/fuse_lowlevel.c
+@@ -2851,7 +2851,8 @@ static void do_iomap_ioend(fuse_req_t req, const fuse_ino_t nodeid,
+ 			      FUSE_IOMAP_CONFIG_BLOCKSIZE | \
+ 			      FUSE_IOMAP_CONFIG_MAX_LINKS | \
+ 			      FUSE_IOMAP_CONFIG_TIME | \
+-			      FUSE_IOMAP_CONFIG_MAXBYTES)
++			      FUSE_IOMAP_CONFIG_MAXBYTES | \
++			      FUSE_IOMAP_CONFIG_CACHE_MAXBYTES)
+ 
+ #define FUSE_IOMAP_CONFIG_ALL (FUSE_IOMAP_CONFIG_V1)
+ 
+@@ -2860,7 +2861,7 @@ static ssize_t iomap_config_reply_size(const struct fuse_iomap_config *cfg)
+ 	if (cfg->flags & ~FUSE_IOMAP_CONFIG_ALL)
+ 		return -EINVAL;
+ 
+-	return offsetofend(struct fuse_iomap_config_out, s_maxbytes);
++	return offsetofend(struct fuse_iomap_config_out, cache_maxbytes);
  }
  
-+int fuse_fs_iomap_upsert(uint64_t nodeid, uint64_t attr_ino,
-+			 const struct fuse_file_iomap *read,
-+			 const struct fuse_file_iomap *write)
-+{
-+	struct fuse_context *ctxt = fuse_get_context();
-+	struct fuse_session *se = fuse_get_session(ctxt->fuse);
-+
-+	return fuse_lowlevel_iomap_upsert_mappings(se, nodeid, attr_ino, read,
-+						   write);
-+}
-+
-+int fuse_fs_iomap_inval(uint64_t nodeid, uint64_t attr_ino,
-+			loff_t read_off, uint64_t read_len,
-+			loff_t write_off, uint64_t write_len)
-+{
-+	struct fuse_context *ctxt = fuse_get_context();
-+	struct fuse_session *se = fuse_get_session(ctxt->fuse);
-+	struct fuse_file_range read = {
-+		.offset = read_off,
-+		.length = read_len,
-+	};
-+	struct fuse_file_range write = {
-+		.offset = write_off,
-+		.length = write_len,
-+	};
-+
-+	return fuse_lowlevel_iomap_inval_mappings(se, nodeid, attr_ino, &read,
-+						  &write);
-+}
-+
- static void fuse_lib_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
- 			     int valid, struct fuse_file_info *fi)
- {
-diff --git a/lib/fuse_versionscript b/lib/fuse_versionscript
-index 41e0193708e57d..f5a2fcb3621d90 100644
---- a/lib/fuse_versionscript
-+++ b/lib/fuse_versionscript
-@@ -274,6 +274,8 @@ FUSE_3.99 {
- 		fuse_lowlevel_iomap_set_blocksize;
- 		fuse_lowlevel_iomap_upsert_mappings;
- 		fuse_lowlevel_iomap_inval_mappings;
-+		fuse_fs_iomap_upsert;
-+		fuse_fs_iomap_inval;
- } FUSE_3.19;
+ int fuse_reply_iomap_config(fuse_req_t req, const struct fuse_iomap_config *cfg)
+@@ -2898,6 +2899,9 @@ int fuse_reply_iomap_config(fuse_req_t req, const struct fuse_iomap_config *cfg)
+ 	if (cfg->flags & FUSE_IOMAP_CONFIG_MAXBYTES)
+ 		arg.s_maxbytes = cfg->s_maxbytes;
  
- # Local Variables:
++	if (cfg->flags & FUSE_IOMAP_CONFIG_CACHE_MAXBYTES)
++		arg.cache_maxbytes = cfg->cache_maxbytes;
++
+ 	return send_reply_ok(req, &arg, reply_size);
+ }
+ 
+@@ -2908,6 +2912,7 @@ static void _do_iomap_config(fuse_req_t req, const fuse_ino_t nodeid,
+ 	struct fuse_iomap_config_params p = {
+ 		.flags = arg->flags & FUSE_IOMAP_CONFIG_ALL,
+ 		.maxbytes = arg->maxbytes,
++		.cache_maxbytes = arg->cache_maxbytes,
+ 	};
+ 
+ 	(void)nodeid;
 
