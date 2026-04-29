@@ -1,42 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36F4D37CD30
-	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Apr 2026 11:52:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D57437F746
+	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Apr 2026 12:05:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777463563; cv=none; b=PIU+X+KZf/dSVHsrve4UkFjnjIDWVtC3zME5UVpHouEkxm6FG5sO4Du+Th7nBVWfcSAjZpOpsSpMZMDhFmD5eN3AdXfZ2UCK6JwNCXv3WioTfSLz8lKpMJ/L8D5TkK1B80gBgXiRjPOVUZE0fBMdqt6HGus548E7oZNN1Go47yM=
+	t=1777464348; cv=none; b=GbNQIPC6KxhVxBJGzxpKxVUSjxJekA7mcrwvFggRXLKDzq9wQmlRRr1x66erahY7S6aOFKsy6mfJWU9JwIZQ6kGF0KdbzgDgqMYVHccBHmSaZC8JF057OaqNBDqrJlXAwwZIALsrIfgN8o97DV/0ydcpzMh/EvVaaKsSIXGlHDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777463563; c=relaxed/simple;
-	bh=wVkhVrfvM9E/BUt7Vn33EFYqrgZoPkyecU+8+z6L2/c=;
+	s=arc-20240116; t=1777464348; c=relaxed/simple;
+	bh=lDT4S/AuwZ6TsFKgk9G44d9KOdZYOUMOlGaigIMW/nc=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=VEjeokluf4E0lJsBQVvqpgb0Xc+IxVKMF8Sk1ec7XsTb0bwdb91r2OZF8VVru1OzcwyOxW1ttVmKSxAcCZUpgCMtZIIW/MmByJ31OEPXeKShjliZlMlkKY7pZlXff1RJFOVc4TNC/YvKVvy4iGPsh07528fyQ8/KtvcUOk6j4cQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cuVaetLZ; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=H4Bv5vjPRBZiZkC8S1SIbrVHt1411XnfiTamZxTGEHCbw6qLThadhjNSVGluhMY0lZGyE3uzIu2Gon0jb/3/JyRgJPiTdvJ5eoZv+Dh63JztBAgM1mQAAvBXb0GrMpOLDhntyTu+izLT8GimYdydtTjUHVkE3RhgEl086GUNKlE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HfSshKmP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cuVaetLZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B50FC19425;
-	Wed, 29 Apr 2026 11:52:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HfSshKmP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6FEBC19425;
+	Wed, 29 Apr 2026 12:05:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777463562;
-	bh=wVkhVrfvM9E/BUt7Vn33EFYqrgZoPkyecU+8+z6L2/c=;
+	s=k20201202; t=1777464348;
+	bh=lDT4S/AuwZ6TsFKgk9G44d9KOdZYOUMOlGaigIMW/nc=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=cuVaetLZqHGmPgtk8Vl4qkxcOg23HVANjuvKEzgGa/xWqsxD+4/naKI8Sfrhjq9kL
-	 nq4cGBnD0zSoddJ0Gh8znXc+oiVIR91u4HOXfn8pOheW9jJAmZgJNatsR6MRLsNqSB
-	 JqfwOzuiQ+4MSUk7SRMwQ/gpXK3F/YUTcFyT2E0by3v5tk6ClQJUvM6B9f875zkMHJ
-	 cJZbm2dUCjcYXo89tSm9/voT8piOImKs+Jcs6oKO/6GU3kjXNdbSipkxEcovkw+jin
-	 QodOp06fSrWMdzkWvx+fghikM/sbvC758Z/WBAJyp4GeUorMt7pCg3sppwhBe8u/p9
-	 lmRIxZOUjdu/g==
-Message-ID: <3ae57112d7ea646e955a33a2466b94a2b6d7c8ef.camel@kernel.org>
-Subject: Re: [PATCH v2 01/14] fuse: separate next request fetching from
- sending logic
+	b=HfSshKmP8PkS9yABqijBeC6dg0vzxkTFmaXkiArvd2RSEooA/IYfcU+C+DwDGbbvY
+	 ru6BrWz5v5r6PcM66bnjsXSgjUh+sG9+LvWcvpcWHacByxRF5kH1lAzb0GV2g3Ysjb
+	 +E146Dw+NB2eWwzOis6xvgRdH9eNMCl6UEA7QjTFYPlJY16sKpHTLjORwCC0rumEeL
+	 xuO+c5DBoxYIMgTAc57RjZBbFddE/lVjVBp3RayBly8EHrDCENBq5W9cu1BfiHsXc3
+	 LkLxNzg4edVDDehfRkzH3NdyNn9FvhWcPWvRlm4sImovxjWkszHdMcEcCCJAEGbuc1
+	 /8f0W/feloXQw==
+Message-ID: <37d1e78ae830fdb0e6bfeae9e0d18f91fb671a55.camel@kernel.org>
+Subject: Re: [PATCH v2 02/14] fuse: refactor io-uring header copying to ring
 From: Jeff Layton <jlayton@kernel.org>
 To: Joanne Koong <joannelkoong@gmail.com>, miklos@szeredi.hu
 Cc: bernd@bsbernd.com, axboe@kernel.dk, linux-fsdevel@vger.kernel.org, Bernd
  Schubert <bschubert@ddn.com>
-Date: Wed, 29 Apr 2026 12:52:39 +0100
-In-Reply-To: <20260402162840.2989717-2-joannelkoong@gmail.com>
+Date: Wed, 29 Apr 2026 13:05:44 +0100
+In-Reply-To: <20260402162840.2989717-3-joannelkoong@gmail.com>
 References: <20260402162840.2989717-1-joannelkoong@gmail.com>
-	 <20260402162840.2989717-2-joannelkoong@gmail.com>
+	 <20260402162840.2989717-3-joannelkoong@gmail.com>
 Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
  keydata=mQINBE6V0TwBEADXhJg7s8wFDwBMEvn0qyhAnzFLTOCHooMZyx7XO7dAiIhDSi7G1NPxw
  n8jdFUQMCR/GlpozMFlSFiZXiObE7sef9rTtM68ukUyZM4pJ9l0KjQNgDJ6Fr342Htkjxu/kFV1Wv
@@ -122,164 +121,92 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
 On Thu, 2026-04-02 at 09:28 -0700, Joanne Koong wrote:
-> Simplify the logic for fetching + sending off the next request.
->=20
-> This gets rid of fuse_uring_send_next_to_ring() which contained
-> duplicated logic from fuse_uring_send(). This decouples request fetching
-> from the send operation, which makes the control flow clearer and
-> reduces unnecessary parameter passing.
+> Move header copying to ring logic into a new copy_header_to_ring()
+> function. This makes the copy_to_user() logic more clear and centralizes
+> error handling / rate-limited logging.
 >=20
 > Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
 > Reviewed-by: Bernd Schubert <bschubert@ddn.com>
 > ---
->  fs/fuse/dev_uring.c | 78 ++++++++++++++++-----------------------------
->  1 file changed, 28 insertions(+), 50 deletions(-)
+>  fs/fuse/dev_uring.c | 39 +++++++++++++++++++++------------------
+>  1 file changed, 21 insertions(+), 18 deletions(-)
 >=20
 > diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-> index 3a38b61aac26..54436d3fda4d 100644
+> index 54436d3fda4d..5fc8ca330595 100644
 > --- a/fs/fuse/dev_uring.c
 > +++ b/fs/fuse/dev_uring.c
-> @@ -714,34 +714,6 @@ static int fuse_uring_prepare_send(struct fuse_ring_=
-ent *ent,
+> @@ -575,6 +575,18 @@ static int fuse_uring_out_header_has_err(struct fuse=
+_out_header *oh,
 >  	return err;
 >  }
 > =20
-> -/*
-> - * Write data to the ring buffer and send the request to userspace,
-> - * userspace will read it
-> - * This is comparable with classical read(/dev/fuse)
-> - */
-> -static int fuse_uring_send_next_to_ring(struct fuse_ring_ent *ent,
-> -					struct fuse_req *req,
-> -					unsigned int issue_flags)
-> -{
-> -	struct fuse_ring_queue *queue =3D ent->queue;
-> -	int err;
-> -	struct io_uring_cmd *cmd;
-> -
-> -	err =3D fuse_uring_prepare_send(ent, req);
-> -	if (err)
-> -		return err;
-> -
-> -	spin_lock(&queue->lock);
-> -	cmd =3D ent->cmd;
-> -	ent->cmd =3D NULL;
-> -	ent->state =3D FRRS_USERSPACE;
-> -	list_move_tail(&ent->list, &queue->ent_in_userspace);
-> -	spin_unlock(&queue->lock);
-> -
-> -	io_uring_cmd_done(cmd, 0, issue_flags);
-> -	return 0;
-> -}
-> -
->  /*
->   * Make a ring entry available for fuse_req assignment
->   */
-> @@ -838,11 +810,13 @@ static void fuse_uring_commit(struct fuse_ring_ent =
-*ent, struct fuse_req *req,
->  }
-> =20
->  /*
-> - * Get the next fuse req and send it
-> + * Get the next fuse req.
-> + *
-> + * Returns true if the next fuse request has been assigned to the ent.
-> + * Else, there is no next fuse request and this returns false.
->   */
-> -static void fuse_uring_next_fuse_req(struct fuse_ring_ent *ent,
-> -				     struct fuse_ring_queue *queue,
-> -				     unsigned int issue_flags)
-> +static bool fuse_uring_get_next_fuse_req(struct fuse_ring_ent *ent,
-> +					 struct fuse_ring_queue *queue)
->  {
->  	int err;
->  	struct fuse_req *req;
-> @@ -854,10 +828,12 @@ static void fuse_uring_next_fuse_req(struct fuse_ri=
-ng_ent *ent,
->  	spin_unlock(&queue->lock);
-> =20
->  	if (req) {
-> -		err =3D fuse_uring_send_next_to_ring(ent, req, issue_flags);
-> +		err =3D fuse_uring_prepare_send(ent, req);
->  		if (err)
->  			goto retry;
->  	}
-> +
-> +	return req !=3D NULL;
->  }
-> =20
->  static int fuse_ring_ent_set_commit(struct fuse_ring_ent *ent)
-> @@ -875,6 +851,20 @@ static int fuse_ring_ent_set_commit(struct fuse_ring=
-_ent *ent)
->  	return 0;
->  }
-> =20
-> +static void fuse_uring_send(struct fuse_ring_ent *ent, struct io_uring_c=
-md *cmd,
-> +			    ssize_t ret, unsigned int issue_flags)
+> +static __always_inline int copy_header_to_ring(void __user *ring,
+> +					       const void *header,
+> +					       size_t header_size)
 > +{
-> +	struct fuse_ring_queue *queue =3D ent->queue;
+> +	if (copy_to_user(ring, header, header_size)) {
+> +		pr_info_ratelimited("Copying header to ring failed.\n");
+> +		return -EFAULT;
+> +	}
 > +
-> +	spin_lock(&queue->lock);
-> +	ent->state =3D FRRS_USERSPACE;
-> +	list_move_tail(&ent->list, &queue->ent_in_userspace);
-> +	ent->cmd =3D NULL;
-> +	spin_unlock(&queue->lock);
-> +
-> +	io_uring_cmd_done(cmd, ret, issue_flags);
+> +	return 0;
 > +}
 > +
->  /* FUSE_URING_CMD_COMMIT_AND_FETCH handler */
->  static int fuse_uring_commit_fetch(struct io_uring_cmd *cmd, int issue_f=
-lags,
->  				   struct fuse_conn *fc)
-> @@ -947,7 +937,8 @@ static int fuse_uring_commit_fetch(struct io_uring_cm=
-d *cmd, int issue_flags,
->  	 * and fetching is done in one step vs legacy fuse, which has separated
->  	 * read (fetch request) and write (commit result).
->  	 */
-> -	fuse_uring_next_fuse_req(ent, queue, issue_flags);
-> +	if (fuse_uring_get_next_fuse_req(ent, queue))
-> +		fuse_uring_send(ent, cmd, 0, issue_flags);
->  	return 0;
->  }
-> =20
-> @@ -1196,20 +1187,6 @@ int fuse_uring_cmd(struct io_uring_cmd *cmd, unsig=
-ned int issue_flags)
->  	return -EIOCBQUEUED;
->  }
-> =20
-> -static void fuse_uring_send(struct fuse_ring_ent *ent, struct io_uring_c=
-md *cmd,
-> -			    ssize_t ret, unsigned int issue_flags)
-> -{
-> -	struct fuse_ring_queue *queue =3D ent->queue;
-> -
-> -	spin_lock(&queue->lock);
-> -	ent->state =3D FRRS_USERSPACE;
-> -	list_move_tail(&ent->list, &queue->ent_in_userspace);
-> -	ent->cmd =3D NULL;
-> -	spin_unlock(&queue->lock);
-> -
-> -	io_uring_cmd_done(cmd, ret, issue_flags);
-> -}
-> -
->  /*
->   * This prepares and sends the ring request in fuse-uring task context.
->   * User buffers are not mapped yet - the application does not have permi=
-ssion
-> @@ -1226,8 +1203,9 @@ static void fuse_uring_send_in_task(struct io_tw_re=
-q tw_req, io_tw_token_t tw)
->  	if (!tw.cancel) {
->  		err =3D fuse_uring_prepare_send(ent, ent->fuse_req);
->  		if (err) {
-> -			fuse_uring_next_fuse_req(ent, queue, issue_flags);
-> -			return;
-> +			if (!fuse_uring_get_next_fuse_req(ent, queue))
-> +				return;
-> +			err =3D 0;
+>  static int fuse_uring_copy_from_ring(struct fuse_ring *ring,
+>  				     struct fuse_req *req,
+>  				     struct fuse_ring_ent *ent)
+> @@ -637,13 +649,11 @@ static int fuse_uring_args_to_ring(struct fuse_ring=
+ *ring, struct fuse_req *req,
+>  		 * Some op code have that as zero size.
+>  		 */
+>  		if (args->in_args[0].size > 0) {
+> -			err =3D copy_to_user(&ent->headers->op_in, in_args->value,
+> -					   in_args->size);
+> -			if (err) {
+> -				pr_info_ratelimited(
+> -					"Copying the header failed.\n");
+> -				return -EFAULT;
+> -			}
+> +			err =3D copy_header_to_ring(&ent->headers->op_in,
+> +						  in_args->value,
+> +						  in_args->size);
+> +			if (err)
+> +				return err;
 >  		}
->  	} else {
->  		err =3D -ECANCELED;
+>  		in_args++;
+>  		num_args--;
+> @@ -659,9 +669,8 @@ static int fuse_uring_args_to_ring(struct fuse_ring *=
+ring, struct fuse_req *req,
+>  	}
+> =20
+>  	ent_in_out.payload_sz =3D cs.ring.copied_sz;
+> -	err =3D copy_to_user(&ent->headers->ring_ent_in_out, &ent_in_out,
+> -			   sizeof(ent_in_out));
+> -	return err ? -EFAULT : 0;
+> +	return copy_header_to_ring(&ent->headers->ring_ent_in_out, &ent_in_out,
+> +				   sizeof(ent_in_out));
+>  }
+> =20
+>  static int fuse_uring_copy_to_ring(struct fuse_ring_ent *ent,
+> @@ -690,14 +699,8 @@ static int fuse_uring_copy_to_ring(struct fuse_ring_=
+ent *ent,
+>  	}
+> =20
+>  	/* copy fuse_in_header */
+> -	err =3D copy_to_user(&ent->headers->in_out, &req->in.h,
+> -			   sizeof(req->in.h));
+> -	if (err) {
+> -		err =3D -EFAULT;
+> -		return err;
+> -	}
+> -
+> -	return 0;
+> +	return copy_header_to_ring(&ent->headers->in_out, &req->in.h,
+> +				   sizeof(req->in.h));
+>  }
+> =20
+>  static int fuse_uring_prepare_send(struct fuse_ring_ent *ent,
+
+Nice little cleanup.
 
 Reviewed-by: Jeff Layton <jlayton@kernel.org>
