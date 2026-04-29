@@ -1,387 +1,300 @@
-Received: from mail-43103.protonmail.ch (mail-43103.protonmail.ch [185.70.43.103])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A91E23CA499;
-	Wed, 29 Apr 2026 14:06:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.103
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0B952D8370;
+	Wed, 29 Apr 2026 14:11:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777471609; cv=none; b=VinkItYxrzVSmjcvarJfScQo26nSvZx5Mbm6lIe2oSnRtMI54iVJ5bznUZy8vOsvPGGdpJZ/jFnPgxMrq67U2o+gDQg61nYJzkzzYNokcIGN2F0J/gF2e4LbjsaFRrd/+5NwMgdOZnDmV41F6lZplJJIsvTeLAiAvmEFaoqJt3g=
+	t=1777471881; cv=none; b=TwKiK72u8+UJy3iIonyuMxfdWfmZ0O4ci/aToXLVfSGv+5Hr8PrhQwVNsikpsfr23dHN5Jvg5u2kwdm8DcYo2vUP2fjg8PeK1J/CGSwbE46HI5C3wfmao1KL4WXxjQlgE5+RR0VQP/mpY0RN2Gu3HV6S+4cA8NS1ISCLD3Y9OHA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777471609; c=relaxed/simple;
-	bh=0bz579IvEUf6wQQ8QwAkzsHzce7laJ7pZy5Cef6UX4E=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jExDGMRz65cJLZFlQM7yYemnHzDHbcc7ZpeNjJf1TRZZ+hvfZY/tozI0qHAWnbkEzqGCfJcF3vFgUZZSUJF1pXXEb6Y1p26EzalNWdNVD+naXugKJr17qW6Xgfu2/2yPhO5jY13frWyM8cj14jL4uJoatkVDALiowgYCwBnYcbo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=B1fA/R3q; arc=none smtp.client-ip=185.70.43.103
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
+	s=arc-20240116; t=1777471881; c=relaxed/simple;
+	bh=1CmkhIiS7kL6nQ3kOxg8HXKWwOrySXOJzZZWLN+AYvI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RxTNVpeBiM/qOykMHPWvgSpwegbptuQ3Dz0f230FGsqtb4kTwfyH+Hx++TCb6c+iWj1C8gU2qfzEjN/nqGXeqBQKU2bzqLcpgZNJWqDxJ60KFfDz5i9VUtvgvcZa+id7rZ/vpdbRxdzjIu8RI4Y8hdRs4OpK9RpRBQgt7DrAg+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p4ziPV/5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="B1fA/R3q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1777471596; x=1777730796;
-	bh=7DOkn+9afRhfc2Ljr8j52XHhIDMy0kdBxSIBwkNERy0=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=B1fA/R3qOXCglArY3RTAhkNb1CZF59B7o2Lz8fD8Mvjwsolhie4YfJmZtSvcypyDD
-	 Wz+fjwjrDcqtY7OpRrFhVm3xkAu6rsIXlrONpmbodMEzvoUdrz3vIctsURgeIgGcQ7
-	 8QFnDsUKLoKSU7JgaF8LCCczIyewnJF1hphXOb594y17fWpJ2Yd8XgKsYwzcX2potr
-	 33Ksl1Xx0UW/jNYIm3ibyT2pDNq7bOyxcqDnr17pNUKuxIlBqGJXfsGtWrdpbXH6eM
-	 GhNUsgEyhAnhetDZ6xU0QPNdPBhNrC7C7SVdhxabDFa/f1xPkkxOy+hvTj41gQ6W1i
-	 nwRn8d2eAcMdw==
-Date: Wed, 29 Apr 2026 14:06:30 +0000
-To: david.laight.linux@gmail.com, riel@surriel.com, perry.yuan@amd.com, jgross@suse.com, ljs@kernel.org, justinstitt@google.com, hpa@zytor.com, shuah@kernel.org, nathan@kernel.org, sohil.mehta@intel.com, mathieu.desnoyers@efficios.com, brauner@kernel.org, ethantidmore06@gmail.com, dave.hansen@linux.intel.com, maciej.wieczor-retman@intel.com, mingo@redhat.com, bp@alien8.de, akpm@linux-foundation.org, peterz@infradead.org, viro@zeniv.linux.org.uk, superman.xpt@gmail.com, rdunlap@infradead.org, aliceryhl@google.com, ilpo.jarvinen@linux.intel.com, david@kernel.org, xin@zytor.com, seanjc@google.com, tglx@kernel.org, houwenlong.hwl@antgroup.com, yury.norov@gmail.com, rppt@kernel.org, oleg@redhat.com, nick.desaulniers+lkml@gmail.com, vmalik@redhat.com, morbo@google.com, ryan.roberts@arm.com, kees@kernel.org
-From: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
-Cc: linux-kselftest@vger.kernel.org, linux-fsdevel@vger.kernel.org, x86@kernel.org, llvm@lists.linux.dev, linux-kernel@vger.kernel.org, m.wieczorretman@pm.me
-Subject: [PATCH v7 4/4] selftests/lam: Update LAM tag width and cleanup names
-Message-ID: <8f65d56f08fd55e6c170c39d574b7e975ff8f10a.1777470980.git.m.wieczorretman@pm.me>
-In-Reply-To: <cover.1777470980.git.m.wieczorretman@pm.me>
-References: <cover.1777470980.git.m.wieczorretman@pm.me>
-Feedback-ID: 164464600:user:proton
-X-Pm-Message-ID: 3bca0fb51058fe36a70a3835ef79f5413eab7cdf
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p4ziPV/5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5201EC19425;
+	Wed, 29 Apr 2026 14:11:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777471881;
+	bh=1CmkhIiS7kL6nQ3kOxg8HXKWwOrySXOJzZZWLN+AYvI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=p4ziPV/5hqwzP48/EXr/uu+qc0gSsubRd4qPwbj0ygD9wYZaWlfyvOv6LpcYWAXSI
+	 uQjg47q4NevZuWsV/4YsP4S/CN0YmlsBVSuR5NIiUZtKqXc4wMe7VofIgxepp8bJJI
+	 JcCkRLMqUT5YB1Lu+0VrQNTJQ/acbFk+B3jpOZzSdXyMGt43VQNBsf/U3DQ0KnU3bl
+	 jZwmwkF/nlbVY4LXCQr5ow8Ne2zeX7vPD4nuhlEjOB/o9FEyfWjHJVzKvymAuqBPB9
+	 YDi4usCawhTIDL0AEE/USERewjz9LE7cL2syzg/r5ixMfWXq1vicM2tk6XaZcxuicW
+	 1wJqcqu+VbMww==
+Date: Wed, 29 Apr 2026 07:11:20 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+	linux-ext4 <linux-ext4@vger.kernel.org>,
+	fuse-devel <fuse-devel@lists.linux.dev>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Bernd Schubert <bernd@bsbernd.com>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	Theodore Ts'o <tytso@mit.edu>, Neal Gompa <neal@gompa.dev>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Christian Brauner <brauner@kernel.org>
+Subject: [PATCHBLIZZARD v8] fuse/libfuse/e2fsprogs: faster file IO for
+ containerized ext4 servers
+Message-ID: <20260429141120.GD3778109@frogsfrogsfrogs>
+References: <20260223224617.GA2390314@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260223224617.GA2390314@frogsfrogsfrogs>
 
-From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+Hi everyone,
 
-After the tag width in LAM (Linear Address Masking) is set to 4 bits,
-the value isn't strictly related to the CPU features like LAM_U57 or
-LAM_U48. To emphasise this, remove mentions of _U57 from the selftest
-and update the tag width.
+This is the eighth public draft of a prototype to connect the Linux
+fuse driver to fs-iomap for regular file IO operations to and from files
+whose contents persist to locally attached storage devices.  With this
+release, I show that it's possible to build a fuse server for a real
+filesystem (ext4) that runs entirely in userspace yet maintains most of
+its performance.
 
-Define GENMASK() so the selftest defines can match the kernel ones. That
-way it's easier to find or synchronize the two sets of values.
+This effort is now separate from the one to run fuse servers in a
+constrained environment via systemd.  Putting fuse servers in a
+container gets you all the blast radii reduction advantages and provides
+a pathway to removing less popular filesystem drivers to reduce
+maintenance work in the kernel; now we want trade relaxation of that
+isolation for better performance.
 
-Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-Reviewed-by: Sohil Mehta <sohil.mehta@intel.com>
----
-Changelog v7:
-- Apply Sohil's suggestions to LAM_UNTAG_MASK and to defining GENMASK.
-- Add Sohil's Reviewed-by tag.
+The fuse command plumbing is very simple -- the ->iomap_begin,
+->iomap_end, and iomap ->ioend calls within iomap are turned into
+upcalls to the fuse server via a trio of new fuse commands.  Pagecache
+writeback is now a directio write.  The fuse server can upsert mappings
+into the kernel for cached access (== zero upcalls for rereads and pure
+overwrites!) and the iomap cache revalidation code works.
 
-Changelog v6:
-- Update the patch subject that was not accurate after debugfs part got
-  removed.
-- Fix one comment I missed.
-- Define GENMASK() and change defined constants so they match the ones
-  in the kernel (from patch 1/3).
+At this stage I still get about 95% of the kernel ext4 driver's
+streaming directio performance on streaming IO, and 110% of its
+streaming buffered IO performance.  Random buffered IO is about 85% as
+fast as the kernel.  Random direct IO is about 80% as fast as the
+kernel; see the cover letter for the fuse2fs iomap changes for more
+details.  Unwritten extent conversions on random direct writes are
+especially painful for fuse+iomap (~90% more overhead) due to upcall
+overhead.  And that's with (now dynamic) debugging turned on!
 
-Changelog v4:
-- Remove the 'default' wording.
+This series has been rebased to 7.1-rc1 since the seventh RFC, but it
+has not otherwise changed much.  Most changes happened in userspace:
 
-Changelog v3:
-- Redo the patch after the removal of the debugfs part.
+1. I've written some example fuse-iomap servers, so I now have a vehicle
+   for testing that out of place writes works (they do) and that inline
+   data works.
 
- tools/testing/selftests/x86/lam.c | 94 ++++++++++++++++---------------
- 1 file changed, 49 insertions(+), 45 deletions(-)
+2. Ted has started merging the very large quantity of fuse2fs
+   improvements into e2fsprogs.
 
-diff --git a/tools/testing/selftests/x86/lam.c b/tools/testing/selftests/x8=
-6/lam.c
-index 1919fa6daec0..4c0cadea80cc 100644
---- a/tools/testing/selftests/x86/lam.c
-+++ b/tools/testing/selftests/x86/lam.c
-@@ -18,17 +18,21 @@
-=20
- #include <sys/uio.h>
- #include <linux/io_uring.h>
-+#include <linux/const.h>
-+#include <linux/bits.h>
- #include "kselftest.h"
-=20
- #ifndef __x86_64__
- # error This test is 64-bit only
- #endif
-=20
-+#define GENMASK(h, l)=09=09__GENMASK(h, l)
-+
- /* LAM modes, these definitions were copied from kernel code */
- #define LAM_NONE                0
--#define LAM_U57_BITS            6
-+#define LAM_TAG_BITS=09=094
-+#define LAM_UNTAG_MASK=09=09~GENMASK(60, 57)
-=20
--#define LAM_U57_MASK            (0x3fULL << 57)
- /* arch prctl for LAM */
- #define ARCH_GET_UNTAG_MASK     0x4001
- #define ARCH_ENABLE_TAGGED_ADDR 0x4002
-@@ -51,8 +55,8 @@
- #define GET_USER_KERNEL         3
-=20
- #define TEST_MASK               0x7f
--#define L5_SIGN_EXT_MASK        (0xFFUL << 56)
--#define L4_SIGN_EXT_MASK        (0x1FFFFUL << 47)
-+#define L5_SIGN_EXT_MASK        GENMASK(63, 56)
-+#define L4_SIGN_EXT_MASK        GENMASK(63, 47)
-=20
- #define LOW_ADDR                (0x1UL << 30)
- #define HIGH_ADDR               (0x3UL << 48)
-@@ -175,7 +179,7 @@ static int set_lam(unsigned long lam)
- =09int ret =3D 0;
- =09uint64_t ptr =3D 0;
-=20
--=09if (lam !=3D LAM_U57_BITS && lam !=3D LAM_NONE)
-+=09if (lam !=3D LAM_TAG_BITS && lam !=3D LAM_NONE)
- =09=09return -1;
-=20
- =09/* Skip check return */
-@@ -185,8 +189,8 @@ static int set_lam(unsigned long lam)
- =09syscall(SYS_arch_prctl, ARCH_GET_UNTAG_MASK, &ptr);
-=20
- =09/* Check mask returned is expected */
--=09if (lam =3D=3D LAM_U57_BITS)
--=09=09ret =3D (ptr !=3D ~(LAM_U57_MASK));
-+=09if (lam =3D=3D LAM_TAG_BITS)
-+=09=09ret =3D (ptr !=3D LAM_UNTAG_MASK);
- =09else if (lam =3D=3D LAM_NONE)
- =09=09ret =3D (ptr !=3D -1ULL);
-=20
-@@ -204,8 +208,8 @@ static unsigned long get_default_tag_bits(void)
- =09=09perror("Fork failed.");
- =09} else if (pid =3D=3D 0) {
- =09=09/* Set LAM mode in child process */
--=09=09if (set_lam(LAM_U57_BITS) =3D=3D 0)
--=09=09=09lam =3D LAM_U57_BITS;
-+=09=09if (set_lam(LAM_TAG_BITS) =3D=3D 0)
-+=09=09=09lam =3D LAM_TAG_BITS;
- =09=09else
- =09=09=09lam =3D LAM_NONE;
- =09=09exit(lam);
-@@ -230,8 +234,8 @@ static int get_lam(void)
- =09=09return -1;
-=20
- =09/* Check mask returned is expected */
--=09if (ptr =3D=3D ~(LAM_U57_MASK))
--=09=09ret =3D LAM_U57_BITS;
-+=09if (ptr =3D=3D LAM_UNTAG_MASK)
-+=09=09ret =3D LAM_TAG_BITS;
- =09else if (ptr =3D=3D -1ULL)
- =09=09ret =3D LAM_NONE;
-=20
-@@ -247,10 +251,10 @@ static uint64_t set_metadata(uint64_t src, unsigned l=
-ong lam)
- =09srand(time(NULL));
-=20
- =09switch (lam) {
--=09case LAM_U57_BITS: /* Set metadata in bits 62:57 */
-+=09case LAM_TAG_BITS: /* Set metadata in bits 60:57 */
- =09=09/* Get a random non-zero value as metadata */
--=09=09metadata =3D (rand() % ((1UL << LAM_U57_BITS) - 1) + 1) << 57;
--=09=09metadata |=3D (src & ~(LAM_U57_MASK));
-+=09=09metadata =3D (rand() % ((1UL << LAM_TAG_BITS) - 1) + 1) << 57;
-+=09=09metadata |=3D (src & LAM_UNTAG_MASK);
- =09=09break;
- =09default:
- =09=09metadata =3D src;
-@@ -291,7 +295,7 @@ int handle_max_bits(struct testcases *test)
- =09unsigned long bits =3D 0;
-=20
- =09if (exp_bits !=3D LAM_NONE)
--=09=09exp_bits =3D LAM_U57_BITS;
-+=09=09exp_bits =3D LAM_TAG_BITS;
-=20
- =09/* Get LAM max tag bits */
- =09if (syscall(SYS_arch_prctl, ARCH_GET_MAX_TAG_BITS, &bits) =3D=3D -1)
-@@ -719,8 +723,8 @@ int do_uring(unsigned long lam)
- =09=09=09uint64_t addr =3D ((uint64_t)fi->iovecs[i].iov_base);
-=20
- =09=09=09switch (lam) {
--=09=09=09case LAM_U57_BITS: /* Clear bits 62:57 */
--=09=09=09=09addr =3D (addr & ~(LAM_U57_MASK));
-+=09=09=09case LAM_TAG_BITS: /* Clear bits 60:57 */
-+=09=09=09=09addr =3D (addr & LAM_UNTAG_MASK);
- =09=09=09=09break;
- =09=09=09}
- =09=09=09free((void *)addr);
-@@ -937,14 +941,14 @@ static void run_test(struct testcases *test, int coun=
-t)
- static struct testcases uring_cases[] =3D {
- =09{
- =09=09.later =3D 0,
--=09=09.lam =3D LAM_U57_BITS,
-+=09=09.lam =3D LAM_TAG_BITS,
- =09=09.test_func =3D handle_uring,
--=09=09.msg =3D "URING: LAM_U57. Dereferencing pointer with metadata\n",
-+=09=09.msg =3D "URING: LAM. Dereferencing pointer with metadata\n",
- =09},
- =09{
- =09=09.later =3D 1,
- =09=09.expected =3D 1,
--=09=09.lam =3D LAM_U57_BITS,
-+=09=09.lam =3D LAM_TAG_BITS,
- =09=09.test_func =3D handle_uring,
- =09=09.msg =3D "URING:[Negative] Disable LAM. Dereferencing pointer with m=
-etadata.\n",
- =09},
-@@ -953,14 +957,14 @@ static struct testcases uring_cases[] =3D {
- static struct testcases malloc_cases[] =3D {
- =09{
- =09=09.later =3D 0,
--=09=09.lam =3D LAM_U57_BITS,
-+=09=09.lam =3D LAM_TAG_BITS,
- =09=09.test_func =3D handle_malloc,
--=09=09.msg =3D "MALLOC: LAM_U57. Dereferencing pointer with metadata\n",
-+=09=09.msg =3D "MALLOC: LAM. Dereferencing pointer with metadata\n",
- =09},
- =09{
- =09=09.later =3D 1,
- =09=09.expected =3D 2,
--=09=09.lam =3D LAM_U57_BITS,
-+=09=09.lam =3D LAM_TAG_BITS,
- =09=09.test_func =3D handle_malloc,
- =09=09.msg =3D "MALLOC:[Negative] Disable LAM. Dereferencing pointer with =
-metadata.\n",
- =09},
-@@ -976,41 +980,41 @@ static struct testcases bits_cases[] =3D {
- static struct testcases syscall_cases[] =3D {
- =09{
- =09=09.later =3D 0,
--=09=09.lam =3D LAM_U57_BITS,
-+=09=09.lam =3D LAM_TAG_BITS,
- =09=09.test_func =3D handle_syscall,
--=09=09.msg =3D "SYSCALL: LAM_U57. syscall with metadata\n",
-+=09=09.msg =3D "SYSCALL: LAM. syscall with metadata\n",
- =09},
- =09{
- =09=09.later =3D 1,
- =09=09.expected =3D 1,
--=09=09.lam =3D LAM_U57_BITS,
-+=09=09.lam =3D LAM_TAG_BITS,
- =09=09.test_func =3D handle_syscall,
- =09=09.msg =3D "SYSCALL:[Negative] Disable LAM. Dereferencing pointer with=
- metadata.\n",
- =09},
- =09{
- =09=09.later =3D GET_USER_USER,
--=09=09.lam =3D LAM_U57_BITS,
-+=09=09.lam =3D LAM_TAG_BITS,
- =09=09.test_func =3D get_user_syscall,
- =09=09.msg =3D "GET_USER: get_user() and pass a properly tagged user point=
-er.\n",
- =09},
- =09{
- =09=09.later =3D GET_USER_KERNEL_TOP,
- =09=09.expected =3D 1,
--=09=09.lam =3D LAM_U57_BITS,
-+=09=09.lam =3D LAM_TAG_BITS,
- =09=09.test_func =3D get_user_syscall,
- =09=09.msg =3D "GET_USER:[Negative] get_user() with a kernel pointer and t=
-he top bit cleared.\n",
- =09},
- =09{
- =09=09.later =3D GET_USER_KERNEL_BOT,
- =09=09.expected =3D 1,
--=09=09.lam =3D LAM_U57_BITS,
-+=09=09.lam =3D LAM_TAG_BITS,
- =09=09.test_func =3D get_user_syscall,
- =09=09.msg =3D "GET_USER:[Negative] get_user() with a kernel pointer and t=
-he bottom sign-extension bit cleared.\n",
- =09},
- =09{
- =09=09.later =3D GET_USER_KERNEL,
- =09=09.expected =3D 1,
--=09=09.lam =3D LAM_U57_BITS,
-+=09=09.lam =3D LAM_TAG_BITS,
- =09=09.test_func =3D get_user_syscall,
- =09=09.msg =3D "GET_USER:[Negative] get_user() and pass a kernel pointer.\=
-n",
- =09},
-@@ -1020,60 +1024,60 @@ static struct testcases mmap_cases[] =3D {
- =09{
- =09=09.later =3D 1,
- =09=09.expected =3D 0,
--=09=09.lam =3D LAM_U57_BITS,
-+=09=09.lam =3D LAM_TAG_BITS,
- =09=09.addr =3D HIGH_ADDR,
- =09=09.test_func =3D handle_mmap,
--=09=09.msg =3D "MMAP: First mmap high address, then set LAM_U57.\n",
-+=09=09.msg =3D "MMAP: First mmap high address, then set LAM.\n",
- =09},
- =09{
- =09=09.later =3D 0,
- =09=09.expected =3D 0,
--=09=09.lam =3D LAM_U57_BITS,
-+=09=09.lam =3D LAM_TAG_BITS,
- =09=09.addr =3D HIGH_ADDR,
- =09=09.test_func =3D handle_mmap,
--=09=09.msg =3D "MMAP: First LAM_U57, then High address.\n",
-+=09=09.msg =3D "MMAP: First LAM, then High address.\n",
- =09},
- =09{
- =09=09.later =3D 0,
- =09=09.expected =3D 0,
--=09=09.lam =3D LAM_U57_BITS,
-+=09=09.lam =3D LAM_TAG_BITS,
- =09=09.addr =3D LOW_ADDR,
- =09=09.test_func =3D handle_mmap,
--=09=09.msg =3D "MMAP: First LAM_U57, then Low address.\n",
-+=09=09.msg =3D "MMAP: First LAM, then Low address.\n",
- =09},
- };
-=20
- static struct testcases inheritance_cases[] =3D {
- =09{
- =09=09.expected =3D 0,
--=09=09.lam =3D LAM_U57_BITS,
-+=09=09.lam =3D LAM_TAG_BITS,
- =09=09.test_func =3D handle_inheritance,
--=09=09.msg =3D "FORK: LAM_U57, child process should get LAM mode same as p=
-arent\n",
-+=09=09.msg =3D "FORK: LAM, child process should get LAM mode same as paren=
-t\n",
- =09},
- =09{
- =09=09.expected =3D 0,
--=09=09.lam =3D LAM_U57_BITS,
-+=09=09.lam =3D LAM_TAG_BITS,
- =09=09.test_func =3D handle_thread,
--=09=09.msg =3D "THREAD: LAM_U57, child thread should get LAM mode same as =
-parent\n",
-+=09=09.msg =3D "THREAD: LAM, child thread should get LAM mode same as pare=
-nt\n",
- =09},
- =09{
- =09=09.expected =3D 1,
--=09=09.lam =3D LAM_U57_BITS,
-+=09=09.lam =3D LAM_TAG_BITS,
- =09=09.test_func =3D handle_thread_enable,
- =09=09.msg =3D "THREAD: [NEGATIVE] Enable LAM in child.\n",
- =09},
- =09{
- =09=09.expected =3D 1,
- =09=09.later =3D 1,
--=09=09.lam =3D LAM_U57_BITS,
-+=09=09.lam =3D LAM_TAG_BITS,
- =09=09.test_func =3D handle_thread,
- =09=09.msg =3D "THREAD: [NEGATIVE] Enable LAM in parent after thread creat=
-ed.\n",
- =09},
- =09{
- =09=09.expected =3D 0,
--=09=09.lam =3D LAM_U57_BITS,
-+=09=09.lam =3D LAM_TAG_BITS,
- =09=09.test_func =3D handle_execve,
--=09=09.msg =3D "EXECVE: LAM_U57, child process should get disabled LAM mod=
-e\n",
-+=09=09.msg =3D "EXECVE: LAM, child process should get disabled LAM mode\n"=
-,
- =09},
- };
-=20
-@@ -1224,7 +1228,7 @@ int handle_pasid(struct testcases *test)
- =09=09if (tmp & 0x1) {
- =09=09=09/* run set lam mode*/
- =09=09=09if ((runed & 0x1) =3D=3D 0)=09{
--=09=09=09=09err =3D set_lam(LAM_U57_BITS);
-+=09=09=09=09err =3D set_lam(LAM_TAG_BITS);
- =09=09=09=09runed =3D runed | 0x1;
- =09=09=09} else
- =09=09=09=09err =3D 1;
---=20
-2.53.0
+3. I reordered the systemd service container patchset towards master
+   because the maintainer indicated that he wanted to merge it.
 
+There are some questions remaining:
 
+a. I would like to continue the discussion about how the design review
+   of this code should be structured, and how might I go about creating
+   new userspace filesystem servers -- lightweight new ones based off
+   the existing userspace tools?  Or by merging lklfuse?
+
+b. fuse2fs doesn't support the ext4 journal.  Urk.
+
+c. I've dropped the fstests and BPF parts of the patchbomb because v7
+   was just way too long.  I'm also not including some extra
+   enhancements to fuse4fs, also for brevity.
+
+I would like to get the main parts of this submission reviewed for 7.2
+now that this has been collecting comments and tweaks in non-rfc status
+for 5.5 months.
+
+Kernel:
+https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git/log/?h=fuse-service-container
+
+libfuse:
+https://git.kernel.org/pub/scm/linux/kernel/git/djwong/libfuse.git/log/?h=fuse-iomap-cache
+
+e2fsprogs:
+https://git.kernel.org/pub/scm/linux/kernel/git/djwong/e2fsprogs.git/log/?h=fuse4fs-memory-reclaim
+
+fstests:
+https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfstests-dev.git/log/?h=fuse2fs
+
+--Darrick
+
+Unreviewed patches:
+
+[PATCHSET v8 1/8] fuse: general bug fixes
+  [PATCH 3/4] fuse: update file mode when updating acls
+  [PATCH 4/4] fuse: propagate default and file acls on creation
+[PATCHSET v8 2/8] iomap: cleanups ahead of adding fuse support
+  [PATCH 2/2] iomap: allow NULL swap info bdev when activating swapfile
+[PATCHSET v8 3/8] fuse: cleanups ahead of adding fuse support
+  [PATCH 1/2] fuse: move the passthrough-specific code back to
+[PATCHSET v8 4/8] fuse: allow servers to use iomap for better file IO
+  [PATCH 01/33] fuse: implement the basic iomap mechanisms
+  [PATCH 02/33] fuse_trace: implement the basic iomap mechanisms
+  [PATCH 03/33] fuse: make debugging configurable at runtime
+  [PATCH 04/33] fuse: adapt FUSE_DEV_IOC_BACKING_{OPEN,CLOSE} to add
+  [PATCH 05/33] fuse_trace: adapt FUSE_DEV_IOC_BACKING_{OPEN,CLOSE} to
+  [PATCH 06/33] fuse: enable SYNCFS and ensure we flush everything
+  [PATCH 07/33] fuse: clean up per-file type inode initialization
+  [PATCH 08/33] fuse: create a per-inode flag for setting exclusive
+  [PATCH 10/33] fuse_trace: create a per-inode flag for toggling iomap
+  [PATCH 11/33] fuse: isolate the other regular file IO paths from
+  [PATCH 12/33] fuse: implement basic iomap reporting such as FIEMAP
+  [PATCH 13/33] fuse_trace: implement basic iomap reporting such as
+  [PATCH 14/33] fuse: implement direct IO with iomap
+  [PATCH 15/33] fuse_trace: implement direct IO with iomap
+  [PATCH 16/33] fuse: implement buffered IO with iomap
+  [PATCH 17/33] fuse_trace: implement buffered IO with iomap
+  [PATCH 18/33] fuse: use an unrestricted backing device with iomap
+  [PATCH 20/33] fuse: advertise support for iomap
+  [PATCH 21/33] fuse: query filesystem geometry when using iomap
+  [PATCH 22/33] fuse_trace: query filesystem geometry when using iomap
+  [PATCH 23/33] fuse: implement fadvise for iomap files
+  [PATCH 24/33] fuse: invalidate ranges of block devices being used for
+  [PATCH 25/33] fuse_trace: invalidate ranges of block devices being
+  [PATCH 26/33] fuse: implement inline data file IO via iomap
+  [PATCH 27/33] fuse_trace: implement inline data file IO via iomap
+  [PATCH 28/33] fuse: allow more statx fields
+  [PATCH 29/33] fuse: support atomic writes with iomap
+  [PATCH 30/33] fuse_trace: support atomic writes with iomap
+  [PATCH 31/33] fuse: disable direct fs reclaim for any fuse server
+  [PATCH 32/33] fuse: enable swapfile activation on iomap
+  [PATCH 33/33] fuse: implement freeze and shutdowns for iomap
+[PATCHSET v8 5/8] fuse: allow servers to specify root node id
+  [PATCH 1/3] fuse: make the root nodeid dynamic
+  [PATCH 2/3] fuse_trace: make the root nodeid dynamic
+  [PATCH 3/3] fuse: allow setting of root nodeid
+[PATCHSET v8 6/8] fuse: handle timestamps and ACLs correctly when
+  [PATCH 1/9] fuse: enable caching of timestamps
+  [PATCH 2/9] fuse: force a ctime update after a fileattr_set call when
+  [PATCH 3/9] fuse: allow local filesystems to set some VFS iflags
+  [PATCH 4/9] fuse_trace: allow local filesystems to set some VFS
+  [PATCH 5/9] fuse: cache atime when in iomap mode
+  [PATCH 6/9] fuse: let the kernel handle KILL_SUID/KILL_SGID for iomap
+  [PATCH 7/9] fuse_trace: let the kernel handle KILL_SUID/KILL_SGID for
+  [PATCH 8/9] fuse: update ctime when updating acls on an iomap inode
+  [PATCH 9/9] fuse: always cache ACLs when using iomap
+[PATCHSET v8 7/8] fuse: cache iomap mappings for even better file IO
+  [PATCH 01/12] fuse: cache iomaps
+  [PATCH 02/12] fuse_trace: cache iomaps
+  [PATCH 03/12] fuse: use the iomap cache for iomap_begin
+  [PATCH 04/12] fuse_trace: use the iomap cache for iomap_begin
+  [PATCH 05/12] fuse: invalidate iomap cache after file updates
+  [PATCH 06/12] fuse_trace: invalidate iomap cache after file updates
+  [PATCH 07/12] fuse: enable iomap cache management
+  [PATCH 08/12] fuse_trace: enable iomap cache management
+  [PATCH 09/12] fuse: overlay iomap inode info in struct fuse_inode
+  [PATCH 10/12] fuse: constrain iomap mapping cache size
+  [PATCH 11/12] fuse_trace: constrain iomap mapping cache size
+  [PATCH 12/12] fuse: enable iomap
+[PATCHSET v8 8/8] fuse: run fuse servers as a contained service
+  [PATCH 1/2] fuse: allow privileged mount helpers to pre-approve iomap
+  [PATCH 2/2] fuse: set iomap backing device block size
+[PATCHSET v8 1/6] libfuse: allow servers to use iomap for better file
+  [PATCH 01/25] libfuse: bump kernel and library ABI versions
+  [PATCH 02/25] libfuse: wait in do_destroy until all open files are
+  [PATCH 03/25] libfuse: add kernel gates for FUSE_IOMAP
+  [PATCH 04/25] libfuse: add fuse commands for iomap_begin and end
+  [PATCH 05/25] libfuse: add upper level iomap commands
+  [PATCH 06/25] libfuse: add a lowlevel notification to add a new
+  [PATCH 07/25] libfuse: add upper-level iomap add device function
+  [PATCH 08/25] libfuse: add iomap ioend low level handler
+  [PATCH 09/25] libfuse: add upper level iomap ioend commands
+  [PATCH 10/25] libfuse: add a reply function to send FUSE_ATTR_* to
+  [PATCH 11/25] libfuse: connect high level fuse library to
+  [PATCH 12/25] libfuse: support enabling exclusive mode for files
+  [PATCH 13/25] libfuse: support direct I/O through iomap
+  [PATCH 14/25] libfuse: don't allow hardlinking of iomap files in the
+  [PATCH 15/25] libfuse: allow discovery of the kernel's iomap
+  [PATCH 16/25] libfuse: add lower level iomap_config implementation
+  [PATCH 17/25] libfuse: add upper level iomap_config implementation
+  [PATCH 18/25] libfuse: add low level code to invalidate iomap block
+  [PATCH 19/25] libfuse: add upper-level API to invalidate parts of an
+  [PATCH 20/25] libfuse: add atomic write support
+  [PATCH 21/25] libfuse: allow disabling of fs memory reclaim and write
+  [PATCH 22/25] libfuse: create a helper to transform an open regular
+  [PATCH 23/25] libfuse: add swapfile support for iomap files
+  [PATCH 24/25] libfuse: add lower-level filesystem freeze, thaw,
+  [PATCH 25/25] libfuse: add upper-level filesystem freeze, thaw,
+[PATCHSET v8 2/6] libfuse: allow servers to specify root node id
+  [PATCH 1/1] libfuse: allow root_nodeid mount option
+[PATCHSET v8 3/6] libfuse: implement syncfs
+  [PATCH 1/2] libfuse: add strictatime/lazytime mount options
+  [PATCH 2/2] libfuse: set sync, immutable,
+[PATCHSET v8 4/6] libfuse: add some service helper commands for iomap
+  [PATCH 1/3] mount_service: delegate iomap privilege from
+  [PATCH 2/3] libfuse: enable setting iomap block device block size
+  [PATCH 3/3] mount_service: create loop devices for regular files
+[PATCHSET v8 5/6] fuse: add sample iomap fuse servers
+  [PATCH 1/7] example/iomap_ll: create a simple iomap server
+  [PATCH 2/7] example/iomap_ll: track block state
+  [PATCH 3/7] example/iomap_ll: implement atomic writes
+  [PATCH 4/7] example/iomap_inline_ll: create a simple server to test
+  [PATCH 5/7] example/iomap_ow_ll: create a simple iomap out of place
+  [PATCH 6/7] example/iomap_ow_ll: implement atomic writes
+  [PATCH 7/7] example/iomap_service_ll: create a sample systemd service
+[PATCHSET v8 6/6] libfuse: cache iomap mappings for even better file
+  [PATCH 1/9] libfuse: enable iomap cache management for lowlevel fuse
+  [PATCH 2/9] libfuse: add upper-level iomap cache management
+  [PATCH 3/9] libfuse: allow constraining of iomap mapping cache size
+  [PATCH 4/9] libfuse: add upper-level iomap mapping cache constraint
+  [PATCH 5/9] libfuse: enable iomap
+  [PATCH 6/9] example/iomap_ll: cache mappings for later
+  [PATCH 7/9] example/iomap_inline_ll: cache iomappings in the kernel
+  [PATCH 8/9] example/iomap_ow_ll: cache iomappings in the kernel
+  [PATCH 9/9] example/iomap_service_ll: cache iomappings in the kernel
+[PATCHSET v8 1/6] libext2fs: refactoring for fuse2fs iomap support
+  [PATCH 1/5] libext2fs: invalidate cached blocks when freeing them
+  [PATCH 2/5] libext2fs: only flush affected blocks in unix_write_byte
+  [PATCH 3/5] libext2fs: allow unix_write_byte when the write would be
+  [PATCH 4/5] libext2fs: allow clients to ask to write full superblocks
+  [PATCH 5/5] libext2fs: allow callers to disallow I/O to file data
+[PATCHSET v8 2/6] fuse2fs: use fuse iomap data paths for better file
+  [PATCH 01/19] fuse2fs: implement bare minimum iomap for file mapping
+  [PATCH 02/19] fuse2fs: add iomap= mount option
+  [PATCH 03/19] fuse2fs: implement iomap configuration
+  [PATCH 04/19] fuse2fs: register block devices for use with iomap
+  [PATCH 05/19] fuse2fs: implement directio file reads
+  [PATCH 06/19] fuse2fs: add extent dump function for debugging
+  [PATCH 07/19] fuse2fs: implement direct write support
+  [PATCH 08/19] fuse2fs: turn on iomap for pagecache IO
+  [PATCH 09/19] fuse2fs: don't zero bytes in punch hole
+  [PATCH 10/19] fuse2fs: don't do file data block IO when iomap is
+  [PATCH 11/19] fuse2fs: try to create loop device when ext4 device is
+  [PATCH 12/19] fuse2fs: enable file IO to inline data files
+  [PATCH 13/19] fuse2fs: set iomap-related inode flags
+  [PATCH 14/19] fuse2fs: configure block device block size
+  [PATCH 15/19] fuse4fs: separate invalidation
+  [PATCH 16/19] fuse2fs: implement statx
+  [PATCH 17/19] fuse2fs: enable atomic writes
+  [PATCH 18/19] fuse4fs: disable fs reclaim and write throttling
+  [PATCH 19/19] fuse2fs: implement freeze and shutdown requests
+[PATCHSET v8 3/6] fuse4fs: adapt iomap for fuse services
+  [PATCH 1/3] fuse4fs: configure iomap when running as a service
+  [PATCH 2/3] fuse4fs: set iomap backing device blocksize
+  [PATCH 3/3] fuse4fs: ask for loop devices when opening via
+[PATCHSET v8 4/6] fuse4fs: specify the root node id
+  [PATCH 1/1] fuse4fs: don't use inode number translation when possible
+[PATCHSET v8 5/6] fuse2fs: handle timestamps and ACLs correctly when
+  [PATCH 01/10] fuse2fs: add strictatime/lazytime mount options
+  [PATCH 02/10] fuse2fs: skip permission checking on utimens when iomap
+  [PATCH 03/10] fuse2fs: let the kernel tell us about acl/mode updates
+  [PATCH 04/10] fuse2fs: better debugging for file mode updates
+  [PATCH 05/10] fuse2fs: debug timestamp updates
+  [PATCH 06/10] fuse2fs: use coarse timestamps for iomap mode
+  [PATCH 07/10] fuse2fs: add tracing for retrieving timestamps
+  [PATCH 08/10] fuse2fs: enable syncfs
+  [PATCH 09/10] fuse2fs: set sync, immutable,
+  [PATCH 10/10] fuse4fs: increase attribute timeout in iomap mode
+[PATCHSET v8 6/6] fuse2fs: cache iomap mappings for even better file
+  [PATCH 1/4] fuse2fs: enable caching of iomaps
+  [PATCH 2/4] fuse2fs: constrain iomap mapping cache size
+  [PATCH 3/4] fuse4fs: upsert first file mapping to kernel on open
+  [PATCH 4/4] fuse2fs: enable iomap
