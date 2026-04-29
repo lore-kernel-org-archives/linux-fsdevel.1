@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F3362765D7;
-	Wed, 29 Apr 2026 14:19:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60042277C9D;
+	Wed, 29 Apr 2026 14:19:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777472356; cv=none; b=mxGtU7M+D4d8vw8kYWU342n1WVtf+F9N4URY/ZGvKVjNcYgn3JbRSY/aKqtLDR0RLuGFJ8TowaTWFi2bki7CeP68N2mKoJpyddXOeObuX2pM8C+DltsUM8Ff+ZTlclrNne7+q8aLzupL0iPbSxAvhVpLsa0wqc1lohcuX7HI5jw=
+	t=1777472372; cv=none; b=Z9VsHa4W0dy6QXvlQckd9yjh+V0kroMY639e0FyjoNYKZnGtUopBp8mGfi5QFE9ebLl/kw8opAOIRRqn/hwc1v8vYMq7bsj35q4QgmcBg21n7EkPjgdTHVVAnEguT23J3iYHhvAAI/ca6T2kiH3juO5mgtULMPYd1ItBE2gcoNM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777472356; c=relaxed/simple;
-	bh=nBmgSK/pTCxYxvFQYpx3+CfAJ/Lu2x2u+09EFQAN7l0=;
+	s=arc-20240116; t=1777472372; c=relaxed/simple;
+	bh=/nVcpwnyFbjxldB444KbpIXwlBaCAl5v4S3AiO8gVp8=;
 	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=T2w5sqTebg7kAMVtuVqcVZ5JiI7ADbwa5S+ACtzzn1aAM5vHOq+BPUJ+rWWAKcRsbNHC+FGbjccBdG5h+VWrPLWOmAdARNn1dyJ2ZznI1mw8J7WsQeECUVTfDjllbNiz6llLtSp499ayMuQq7tdM7W43jP4c3XOk3vSwV4XjrGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pLNE//De; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=B9AkcUdtLFQj2zotCtVxJnm2gTxRhcegUPOJ/Vexh9jV7ve/J0zMRHo/z9RwWzHvEQ20i2K0GOLW9iuVtXjb/+rrrPXbdebjA6BbEsPU/WNKSDakB2btrRBuRcQanIvzkzbnZ6gs6xqSiDDMSZ2ypkI6G4MBjEfd1VgtNqYYneI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d6/99oLz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pLNE//De"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A137C19425;
-	Wed, 29 Apr 2026 14:19:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d6/99oLz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16179C19425;
+	Wed, 29 Apr 2026 14:19:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777472356;
-	bh=nBmgSK/pTCxYxvFQYpx3+CfAJ/Lu2x2u+09EFQAN7l0=;
+	s=k20201202; t=1777472372;
+	bh=/nVcpwnyFbjxldB444KbpIXwlBaCAl5v4S3AiO8gVp8=;
 	h=Date:Subject:From:To:Cc:In-Reply-To:References:From;
-	b=pLNE//De76RMUOv6JVdQc4ThTMqdjgeZm8c4AYrgU7ekwUvhGtU6PZqAg41VD41L2
-	 C6ds4QiwntSOKx+XcqAOP9L5tZektJfTsYhixE7e21VJoFIki7kQJ7rUf5Y7v6U7Wl
-	 StyTeZZehQTQ1AnfFK92FBQtJm9YTI8Fm5GEJXBjuwSky2EvG5+JEJSOx80SSwk8RQ
-	 /ioOJaNdso1zcTaKBB5pnTFobdTEp56PKAwNDe8B1IRbCzdLNXX+9T3RkgQbyxVVrw
-	 xELbebnIQAzxV9wTm21ShTIxYlXiQP/ViCNWH7zcspzOcReeUkhsSSL3WpiBV898Ey
-	 C/PaAmRN1YpVg==
-Date: Wed, 29 Apr 2026 07:19:16 -0700
-Subject: [PATCHSET v8 3/6] libfuse: implement syncfs
+	b=d6/99oLzWcV5mJ7MZ7MmLX0r0M19HwKuMDLxA8dU5omP2mO6U9s6cjN9JUNMl56AD
+	 gKs9lOwm6kSCwGVV6+50b7rvnAcEzVmBqK57R8wo/05TYp87946FRoprN+Dk24+jsW
+	 NFuBMIc/sdqhmj4F7136IXaisPcYKSdJkI6zp6SkzsB/V6Wzi4AatccWMBygPncizU
+	 dC9LmeKrjhljJk2Psew1r9hl5rVy5wnFLArCtURTvrdu67cu/TWjXFUF/aicdO+sQW
+	 oHj5BECLLDv0nnauTLDmg1ughjLFDtbq3u+zFkX4NIFXjs1OK4hv/wAWV1BWBsDJKH
+	 jLt/fZavZ+wmg==
+Date: Wed, 29 Apr 2026 07:19:31 -0700
+Subject: [PATCHSET v8 4/6] libfuse: add some service helper commands for iomap
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: djwong@kernel.org, bernd@bsbernd.com
 Cc: miklos@szeredi.hu, linux-fsdevel@vger.kernel.org,
  fuse-devel@lists.linux.dev, joannelkoong@gmail.com, neal@gompa.dev
-Message-ID: <177747212442.4105754.7242835990761551019.stgit@frogsfrogsfrogs>
+Message-ID: <177747212630.4105892.8288935565208062403.stgit@frogsfrogsfrogs>
 In-Reply-To: <20260429141253.GQ7739@frogsfrogsfrogs>
 References: <20260429141253.GQ7739@frogsfrogsfrogs>
 Precedence: bulk
@@ -46,29 +46,33 @@ Content-Transfer-Encoding: 7bit
 
 Hi all,
 
-Implement syncfs in libfuse so that iomap-compatible fuse servers can
-receive syncfs commands, and enable fuse servers to transmit inode
-flags to the kernel so that it can enforce sync, immutable, and append.
-Also enable some of the timestamp update mount options.
-
-If you're going to start using this code, I strongly recommend pulling
-from my git trees, which are linked below.
+There are a few privileges that fuse-iomap servers need to ask of the
+kernel, such as asking for iomap support, being able to configure loop
+devices if a passed in filesystem path actually points to a regular
+file, and setting the block size once we've parsed the superblock.
+Because fuse-iomap services are supposed to run with zero privileges,
+these three things must be performed by the fuservicemount program,
+which presumably has more privilege (and the correct mount ns) than
+the fuse server itself.
 
 With a bit of luck, this should all go splendidly.
 Comments and questions are, as always, welcome.
 
 --D
-
-kernel git tree:
-https://git.kernel.org/cgit/linux/kernel/git/djwong/xfs-linux.git/log/?h=fuse-iomap-attrs
 ---
 Commits in this patchset:
- * libfuse: add strictatime/lazytime mount options
- * libfuse: set sync, immutable, and append when loading files
+ * mount_service: delegate iomap privilege from mount.service to fuse services
+ * libfuse: enable setting iomap block device block size
+ * mount_service: create loop devices for regular files
 ---
- include/fuse_common.h |    6 ++++++
- include/fuse_kernel.h |    8 ++++++++
- lib/fuse_lowlevel.c   |    6 ++++++
- lib/mount.c           |   10 ++++++++--
- 4 files changed, 28 insertions(+), 2 deletions(-)
+ include/fuse_kernel.h       |    8 +++
+ include/fuse_lowlevel.h     |   22 ++++++++
+ include/fuse_service.h      |   17 ++++++
+ include/fuse_service_priv.h |   14 +++++
+ lib/fuse_lowlevel.c         |   19 +++++++
+ lib/fuse_service.c          |   48 +++++++++++++++++
+ lib/fuse_service_stub.c     |    6 ++
+ lib/fuse_versionscript      |    3 +
+ util/mount_service.c        |  119 +++++++++++++++++++++++++++++++++++++++++++
+ 9 files changed, 254 insertions(+), 2 deletions(-)
 
