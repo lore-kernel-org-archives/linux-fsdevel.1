@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A53FD364943;
-	Wed, 29 Apr 2026 14:38:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 596AE3358AF;
+	Wed, 29 Apr 2026 14:38:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777473498; cv=none; b=ue4aCwTSHb18Cl232GdmY+Okw919Ks+jgoGmd9j9RWComC6SQWYWZhez1rkvsdZJ9z/kdFCgWjg0nLNky57c7knDTGMptrkHO4XaFN1gVVOhq/eg14WavNgm5BgzbM7KKwGQ31fSY71CUTeDvQ1awQjfwGo0e3vH+cXlTk2wWEA=
+	t=1777473514; cv=none; b=QWkiduhvT0xIOPqFi4tIjaq8v+xoI7IW8G5hep6d+O5ra38EqIqcMLayGWx5kM2uwFNLexf/ueKmp5qKKiYwgrPr0PenTF6kIcn+Lo8eWyOKHzQQ0DaCUSH+OzVM4iPi2gXiZRselR7RMOQcHfUDoy4LMlYsqpzvNj6IC7i83yk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777473498; c=relaxed/simple;
-	bh=S19pAX2lS+vcYY+j+5PunGgSCqVXP40C4zl+xs3ZcTQ=;
+	s=arc-20240116; t=1777473514; c=relaxed/simple;
+	bh=97pc/0Wkg+J0ciSwRkg/WskJVDLD4Ya4OreHxRwbXTw=;
 	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TPE/7yqFugCY6Gr6Ses0sZLdXX6ZOZcrC+twA+8FPCXytjmATcE7IurSGdUuBDHsfK4e2ovUc6ZC+G/KUuXOPWi3fsTiFBgv5udUE3StjSEFIFkede/BeiGQuPu5rHMBFzLY1MW6C3q4ziBXilpC6+/yBNAvbuJLPUgiTT/HkEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eqEFjjvG; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=GwZ1nLYljQgRA/qtJkQnaUaLeQwvzd0U06+IP7GaBPi5pBT33c1omXLd8bFyLoG2jDkRZSfEw0MiqeHpDVtBKb0gY5qTgPOFmwcLSD6T/jvJnVtJmuNgyZImp+vmoTvLe53TLOMh7UJi7oqt77wDOafSU/BSw6ZDpQh5a3c0/bk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QUJ9fIC+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eqEFjjvG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E82FC19425;
-	Wed, 29 Apr 2026 14:38:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QUJ9fIC+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04AF2C19425;
+	Wed, 29 Apr 2026 14:38:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777473498;
-	bh=S19pAX2lS+vcYY+j+5PunGgSCqVXP40C4zl+xs3ZcTQ=;
+	s=k20201202; t=1777473514;
+	bh=97pc/0Wkg+J0ciSwRkg/WskJVDLD4Ya4OreHxRwbXTw=;
 	h=Date:Subject:From:To:Cc:In-Reply-To:References:From;
-	b=eqEFjjvGYiMu3QDzCb/sjG/Z4w9YhhdafR//G6URrW7YfIXsbKHlK2SWuaYx8BVoL
-	 J6FOlJ24T/BFESWBGhkQg3rnzsiNeNzBuepllpkj8zv8QbrCl3us7Gdx8D9JDEaRcj
-	 UApK6SqGak/22yB9RO7+OFKtniRjZ7Ad4nvqk31rA5pXlxfGS5d2Ih5IDrTdvHiwPy
-	 0jLXyGdpF3aLCA2IjfknNip6YE0sP9z/VRtichZboz4CcCdvJYgXnL84sjWA8hgyhk
-	 lZJAMvOZ5uI4NUc0jPFV0yG+zQUzvZIeNEkI81ES0nx1QOPLFOM3VRMVhkVG73dseI
-	 vJrUPk7XDWEJg==
-Date: Wed, 29 Apr 2026 07:38:17 -0700
-Subject: [PATCH 11/12] fuse_trace: constrain iomap mapping cache size
+	b=QUJ9fIC+VU/8xR2b86Th989dFKGG94oAayCboyXJxQv8SqYI/R7r/TTwGifZESVvC
+	 I7Dss4AWCcfGW+IXJbX/oQDH69Kbu80OurV8fmRqn1mCVgfZhTp6aDMpnNf7OE5yXd
+	 lS6TSbuTGBbfFjuwKToW4ZWjshQy/0ZX6zLafpKZLphMTmnZCaoDCmkvLZkZqzNDrs
+	 L32E1lE7YKob4BYXBRasl/qgIZCfz9YuLZXk9mSrilsueq/petjFiNAmTE3ZASUE+l
+	 WXBzAe7u89XiCdHgnn7lLD5xdh1wZgNeOwZnb6qvJWdNSPfChqUMUNt+WYrFfKTlui
+	 lu1SPzQiKjPIA==
+Date: Wed, 29 Apr 2026 07:38:33 -0700
+Subject: [PATCH 12/12] fuse: enable iomap
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: djwong@kernel.org, miklos@szeredi.hu
 Cc: joannelkoong@gmail.com, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
  bernd@bsbernd.com, fuse-devel@lists.linux.dev
-Message-ID: <177747207234.4103699.923541684990110487.stgit@frogsfrogsfrogs>
+Message-ID: <177747207255.4103699.2745457382232000914.stgit@frogsfrogsfrogs>
 In-Reply-To: <177747206929.4103699.18256961856283014867.stgit@frogsfrogsfrogs>
 References: <177747206929.4103699.18256961856283014867.stgit@frogsfrogsfrogs>
 Precedence: bulk
@@ -46,98 +46,26 @@ Content-Transfer-Encoding: 7bit
 
 From: Darrick J. Wong <djwong@kernel.org>
 
-Add tracepoints for the previous patch.
+Remove the guard that we used to avoid bisection problems.
 
 Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 ---
- fs/fuse/fuse_trace.h       |   31 +++++++++++++++++++++++++++++--
- fs/fuse/fuse_iomap_cache.c |    4 +++-
- 2 files changed, 32 insertions(+), 3 deletions(-)
+ fs/fuse/fuse_iomap.c |    3 ---
+ 1 file changed, 3 deletions(-)
 
 
-diff --git a/fs/fuse/fuse_trace.h b/fs/fuse/fuse_trace.h
-index 09da9bce61b98c..aa2d5ca88c9d40 100644
---- a/fs/fuse/fuse_trace.h
-+++ b/fs/fuse/fuse_trace.h
-@@ -320,6 +320,7 @@ struct iomap_ioend;
- struct iomap;
- struct fuse_iext_cursor;
- struct fuse_iomap_lookup;
-+struct fuse_iext_root;
+diff --git a/fs/fuse/fuse_iomap.c b/fs/fuse/fuse_iomap.c
+index 22b23a3fa2ae2c..8d3c7273dda810 100644
+--- a/fs/fuse/fuse_iomap.c
++++ b/fs/fuse/fuse_iomap.c
+@@ -70,9 +70,6 @@ MODULE_PARM_DESC(debug_iomap, "Enable debugging of fuse iomap");
  
- /* tracepoint boilerplate so we don't have to keep doing this */
- #define FUSE_IOMAP_OPFLAGS_FIELD \
-@@ -1157,6 +1158,8 @@ TRACE_EVENT(fuse_iomap_config,
- 		__field(int64_t,		time_max)
- 		__field(int64_t,		maxbytes)
- 		__field(uint8_t,		uuid_len)
-+
-+		__field(uint32_t,		cache_maxbytes)
- 	),
- 
- 	TP_fast_assign(
-@@ -1170,14 +1173,15 @@ TRACE_EVENT(fuse_iomap_config,
- 		__entry->time_max	=	outarg->s_time_max;
- 		__entry->maxbytes	=	outarg->s_maxbytes;
- 		__entry->uuid_len	=	outarg->s_uuid_len;
-+		__entry->cache_maxbytes	=	outarg->cache_maxbytes;
- 	),
- 
--	TP_printk("connection %u root_ino 0x%llx flags (%s) blocksize 0x%x max_links %u time_gran %u time_min %lld time_max %lld maxbytes 0x%llx uuid_len %u",
-+	TP_printk("connection %u root_ino 0x%llx flags (%s) blocksize 0x%x max_links %u time_gran %u time_min %lld time_max %lld maxbytes 0x%llx uuid_len %u cache_maxbytes %u",
- 		  __entry->connection, __entry->root_nodeid,
- 		  __print_flags(__entry->flags, "|", FUSE_IOMAP_CONFIG_STRINGS),
- 		  __entry->blocksize, __entry->max_links, __entry->time_gran,
- 		  __entry->time_min, __entry->time_max, __entry->maxbytes,
--		  __entry->uuid_len)
-+		  __entry->uuid_len, __entry->cache_maxbytes)
- );
- 
- TRACE_EVENT(fuse_iomap_dev_inval,
-@@ -1395,6 +1399,29 @@ DEFINE_IEXT_ALT_UPDATE_EVENT(fuse_iext_del_mapping_got);
- DEFINE_IEXT_ALT_UPDATE_EVENT(fuse_iext_add_mapping_left);
- DEFINE_IEXT_ALT_UPDATE_EVENT(fuse_iext_add_mapping_right);
- 
-+TRACE_EVENT(fuse_iomap_cache_cleanup,
-+	TP_PROTO(const struct inode *inode, unsigned int iodir,
-+		 struct fuse_iext_root *ir),
-+	TP_ARGS(inode, iodir, ir),
-+
-+	TP_STRUCT__entry(
-+		FUSE_IO_RANGE_FIELDS()
-+		FUSE_IOMAP_IODIR_FIELD
-+		__field(unsigned long long,	bytes)
-+	),
-+
-+	TP_fast_assign(
-+		FUSE_INODE_ASSIGN(inode, fi, fm);
-+		__entry->iodir		=	iodir;
-+		__entry->bytes		=	ir->ir_bytes;
-+	),
-+
-+	TP_printk(FUSE_IO_RANGE_FMT() FUSE_IOMAP_IODIR_FMT " bytes 0x%llx",
-+		  FUSE_IO_RANGE_PRINTK_ARGS(),
-+		  FUSE_IOMAP_IODIR_PRINTK_ARGS,
-+		  __entry->bytes)
-+);
-+
- TRACE_EVENT(fuse_iomap_cache_remove,
- 	TP_PROTO(const struct inode *inode, unsigned int iodir,
- 		 loff_t offset, uint64_t length, unsigned long caller_ip),
-diff --git a/fs/fuse/fuse_iomap_cache.c b/fs/fuse/fuse_iomap_cache.c
-index a8e16302ce4405..66739ec59e9c8b 100644
---- a/fs/fuse/fuse_iomap_cache.c
-+++ b/fs/fuse/fuse_iomap_cache.c
-@@ -1672,8 +1672,10 @@ fuse_iomap_cache_cleanup(
- 	struct fuse_mount	*fm = get_fuse_mount(inode);
- 	struct fuse_iext_root	*ir = fuse_iext_root_ptr(fi->cache, iodir);
- 
--	if (ir && ir->ir_bytes > fm->fc->iomap_conn.cache_maxbytes)
-+	if (ir && ir->ir_bytes > fm->fc->iomap_conn.cache_maxbytes) {
-+		trace_fuse_iomap_cache_cleanup(inode, iodir, ir);
- 		fuse_iext_destroy(ir);
-+	}
- }
- 
- int
+ bool fuse_iomap_enabled(void)
+ {
+-	/* Don't let anyone touch iomap until the end of the patchset. */
+-	return false;
+-
+ 	/*
+ 	 * There are fears that a fuse+iomap server could somehow DoS the
+ 	 * system by doing things like going out to lunch during a writeback
 
