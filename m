@@ -1,39 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33576330662;
-	Wed, 29 Apr 2026 14:26:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD9ED33263B;
+	Wed, 29 Apr 2026 14:26:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777472794; cv=none; b=ol6kP10153VmZb14hwyaJe1GQGW++N3N3NnLPw+jB/wh3zapOo8i7UORfk5l5GFoeg2AIXulbX65ooQyHwt0BBhih/bMZmEyBmjeRsrKr3mzRs5dDBpneJlwAfU4lzLSVX1z2h+OmiP/2kMJI9TStVRr5UcMO/ANit740EDmywI=
+	t=1777472809; cv=none; b=ccNdyRL09vav8EDgd73lsGzSyqvAmHgL8cg7K0DrOKbkheY+LKC5F6EwEdtBzBRsiynUdupFeznKh0PpkA3OG+kPh0MJyCGhHydfVe+8dzRfBtG08aKM67NotBhSHQmr/4uT7kybvsRwmaqNZx6ZC4VP4TGZw9G0ihb/y4plFLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777472794; c=relaxed/simple;
-	bh=B6r2FGnwRHFJyvsHuB+KJBOa7vXGk9+G9xObb2a8ymA=;
+	s=arc-20240116; t=1777472809; c=relaxed/simple;
+	bh=zeIuPvnii97QgDztQoCVq/ooEukGqqtRzTzQWaXkqVE=;
 	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qqQ5huQGV1rJOcPLQPJW1EWyAHKpze2l/K6G2Kmo0w8fdiSGcrS2BOgtf7GLMpY6DXl5T299fvb1xVeK39BEyejCO/hhezO3h0A65uJcrOl5co7JntKpVMg8SaH1ompkSfn9TDBe79wy14QW+wlHfzA/VbFhYKGfJF/sZ804bKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nfek5dfo; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=EQ2cDIYSB/FrM9SWJhU58LnuCMSyCn6FAEfi7OZ7O5CWLOdpLJh0vOquTLMqZSSTiA6ruM7J/eTRmo8+8IYFg9O/T7w5bSOEZWu0Sr3MMVD5amOqE2rn8uMCOr+l6depX8RPwBHhfDrdDSoQdvso+UoSGJaz1EqEhQ1l1v5Fgk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O9KBTudV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nfek5dfo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FA03C19425;
-	Wed, 29 Apr 2026 14:26:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O9KBTudV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D660C19425;
+	Wed, 29 Apr 2026 14:26:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777472794;
-	bh=B6r2FGnwRHFJyvsHuB+KJBOa7vXGk9+G9xObb2a8ymA=;
+	s=k20201202; t=1777472809;
+	bh=zeIuPvnii97QgDztQoCVq/ooEukGqqtRzTzQWaXkqVE=;
 	h=Date:Subject:From:To:Cc:In-Reply-To:References:From;
-	b=Nfek5dfolKoB+Gu/LCzUAGyui17Yhmhs0ZejyrbQVTUg9FOjqi0vEneXcTD14wBq5
-	 9M8YlNF7MGIybAa+6/C0snBtuoGSfXECrBA++LJQkZEUQtE1bjpRsA756+GjItJ85+
-	 XaOGdjbE4wtMg8PbZffYWy4f52vZKmwTzxq6+KQwoSqE8Z5I0DLSiQgEgx1u1IDZjG
-	 8IYrxUFzoDkd5Po4WLCDFJhrfh3uIP58nfuznFU+sS2jwh6gpr6YRZPyVZgMEHKngr
-	 2RjtVh1hV/2RaeiYUiqqPMxJ8N/I5Lpl6guuX5xEGrpC2BuLDOY8U+OXgNUP8HCj3k
-	 Y5Gnavy3Qn5VA==
-Date: Wed, 29 Apr 2026 07:26:33 -0700
-Subject: [PATCH 11/33] fuse: isolate the other regular file IO paths from
- iomap
+	b=O9KBTudV15fil2remvVsICyFCgJqztx8hUani/8TK1uo1JwXLIfNs5O4TC4kAySeH
+	 wsYwiC+w+Je9RB2GU+OYhh1vJr+1IoAR+Rzgmc+drmRRmfrU5f8Drc1CwsFbw8XJJi
+	 evC+Y3QbhS+VaADNuKEXbhbowU0oProPEeNjLF1A300K0WGVS4IkCS3kCjEH1dB3HZ
+	 g1mKWbQDYe/S7e482qzVjJf3hZtJH3g+NTaA6qJyXeOAZrcEdhOpLwd95ChKf9azdO
+	 2SQzcwhQzGcIEP5OA9WAHfIW78DxSlAtQPGMjZTelezriAPiOgxVLYPKAYcJQyAQDH
+	 rNO0Yt3RGR3Vw==
+Date: Wed, 29 Apr 2026 07:26:49 -0700
+Subject: [PATCH 12/33] fuse: implement basic iomap reporting such as FIEMAP
+ and SEEK_{DATA,HOLE}
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: djwong@kernel.org, miklos@szeredi.hu
 Cc: joannelkoong@gmail.com, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
  bernd@bsbernd.com, fuse-devel@lists.linux.dev
-Message-ID: <177747205386.4101881.2569175274476427605.stgit@frogsfrogsfrogs>
+Message-ID: <177747205408.4101881.8022593459391808175.stgit@frogsfrogsfrogs>
 In-Reply-To: <177747204948.4101881.16044986246405634629.stgit@frogsfrogsfrogs>
 References: <177747204948.4101881.16044986246405634629.stgit@frogsfrogsfrogs>
 Precedence: bulk
@@ -47,177 +47,175 @@ Content-Transfer-Encoding: 7bit
 
 From: Darrick J. Wong <djwong@kernel.org>
 
-iomap completely takes over all regular file IO, so we don't need to
-access any of the other mechanisms at all.  Gate them off so that we can
-eventually overlay them with a union to save space in struct fuse_inode.
+Implement the basic file mapping reporting functions like FIEMAP, BMAP,
+and SEEK_DATA/HOLE.
 
 Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 ---
- fs/fuse/dir.c    |   14 +++++++++-----
- fs/fuse/file.c   |   18 +++++++++++++-----
- fs/fuse/inode.c  |    3 ++-
- fs/fuse/iomode.c |    3 ++-
- 4 files changed, 26 insertions(+), 12 deletions(-)
+ fs/fuse/fuse_iomap.h |    8 ++++++
+ fs/fuse/dir.c        |    1 +
+ fs/fuse/file.c       |   13 ++++++++++
+ fs/fuse/fuse_iomap.c |   68 +++++++++++++++++++++++++++++++++++++++++++++++++-
+ 4 files changed, 89 insertions(+), 1 deletion(-)
 
 
+diff --git a/fs/fuse/fuse_iomap.h b/fs/fuse/fuse_iomap.h
+index 34f2c75416eb62..8ba30a496545f5 100644
+--- a/fs/fuse/fuse_iomap.h
++++ b/fs/fuse/fuse_iomap.h
+@@ -33,6 +33,11 @@ static inline bool fuse_inode_has_iomap(const struct inode *inode)
+ 
+ 	return test_bit(FUSE_I_IOMAP, &fi->state);
+ }
++
++int fuse_iomap_fiemap(struct inode *inode, struct fiemap_extent_info *fieinfo,
++		      u64 start, u64 length);
++loff_t fuse_iomap_lseek(struct file *file, loff_t offset, int whence);
++sector_t fuse_iomap_bmap(struct address_space *mapping, sector_t block);
+ #else
+ # define fuse_iomap_enabled(...)		(false)
+ # define fuse_has_iomap(...)			(false)
+@@ -41,6 +46,9 @@ static inline bool fuse_inode_has_iomap(const struct inode *inode)
+ # define fuse_iomap_init_inode(...)		((void)0)
+ # define fuse_iomap_evict_inode(...)		((void)0)
+ # define fuse_inode_has_iomap(...)		(false)
++# define fuse_iomap_fiemap			NULL
++# define fuse_iomap_lseek(...)			(-ENOSYS)
++# define fuse_iomap_bmap(...)			(-ENOSYS)
+ #endif /* CONFIG_FUSE_IOMAP */
+ 
+ #endif /* _FS_FUSE_IOMAP_H */
 diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
-index 996d81f263d637..1bb0302f7ce8bb 100644
+index 1bb0302f7ce8bb..2ed19e21d90702 100644
 --- a/fs/fuse/dir.c
 +++ b/fs/fuse/dir.c
-@@ -2200,6 +2200,7 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
- 	FUSE_ARGS(args);
- 	struct fuse_setattr_in inarg;
- 	struct fuse_attr_out outarg;
-+	const bool is_iomap = fuse_inode_has_iomap(inode);
- 	bool is_truncate = false;
- 	bool is_wb = fc->writeback_cache && S_ISREG(inode->i_mode);
- 	loff_t oldsize;
-@@ -2257,12 +2258,15 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
- 		if (err)
- 			return err;
+@@ -2505,6 +2505,7 @@ static const struct inode_operations fuse_common_inode_operations = {
+ 	.set_acl	= fuse_set_acl,
+ 	.fileattr_get	= fuse_fileattr_get,
+ 	.fileattr_set	= fuse_fileattr_set,
++	.fiemap		= fuse_iomap_fiemap,
+ };
  
--		fuse_set_nowrite(inode);
--		fuse_release_nowrite(inode);
-+		if (!is_iomap) {
-+			fuse_set_nowrite(inode);
-+			fuse_release_nowrite(inode);
-+		}
- 	}
- 
- 	if (is_truncate) {
--		fuse_set_nowrite(inode);
-+		if (!is_iomap)
-+			fuse_set_nowrite(inode);
- 		set_bit(FUSE_I_SIZE_UNSTABLE, &fi->state);
- 		if (trust_local_cmtime && attr->ia_size != inode->i_size)
- 			attr->ia_valid |= ATTR_MTIME | ATTR_CTIME;
-@@ -2334,7 +2338,7 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
- 	if (!is_wb || is_truncate)
- 		i_size_write(inode, outarg.attr.size);
- 
--	if (is_truncate) {
-+	if (is_truncate && !is_iomap) {
- 		/* NOTE: this may release/reacquire fi->lock */
- 		__fuse_release_nowrite(inode);
- 	}
-@@ -2358,7 +2362,7 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
- 	return 0;
- 
- error:
--	if (is_truncate)
-+	if (is_truncate && !is_iomap)
- 		fuse_release_nowrite(inode);
- 
- 	clear_bit(FUSE_I_SIZE_UNSTABLE, &fi->state);
+ static const struct inode_operations fuse_symlink_inode_operations = {
 diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-index 8d55d2f4dd4cc9..2a807c49792d53 100644
+index 2a807c49792d53..67cb0844181851 100644
 --- a/fs/fuse/file.c
 +++ b/fs/fuse/file.c
-@@ -257,6 +257,7 @@ static int fuse_open(struct inode *inode, struct file *file)
- 	struct fuse_conn *fc = fm->fc;
- 	struct fuse_file *ff;
- 	int err;
-+	const bool is_iomap = fuse_inode_has_iomap(inode);
- 	bool is_truncate = (file->f_flags & O_TRUNC) && fc->atomic_o_trunc;
- 	bool is_wb_truncate = is_truncate && fc->writeback_cache;
- 	bool dax_truncate = is_truncate && FUSE_IS_DAX(inode);
-@@ -278,7 +279,7 @@ static int fuse_open(struct inode *inode, struct file *file)
- 			goto out_inode_unlock;
- 	}
- 
--	if (is_wb_truncate || dax_truncate)
-+	if ((is_wb_truncate || dax_truncate) && !is_iomap)
- 		fuse_set_nowrite(inode);
- 
- 	err = fuse_do_open(fm, get_node_id(inode), file, false);
-@@ -291,7 +292,7 @@ static int fuse_open(struct inode *inode, struct file *file)
- 			fuse_truncate_update_attr(inode, file);
- 	}
- 
--	if (is_wb_truncate || dax_truncate)
-+	if ((is_wb_truncate || dax_truncate) && !is_iomap)
- 		fuse_release_nowrite(inode);
- 	if (!err) {
- 		if (is_truncate)
-@@ -539,12 +540,14 @@ static int fuse_fsync(struct file *file, loff_t start, loff_t end,
- {
- 	struct inode *inode = file->f_mapping->host;
- 	struct fuse_conn *fc = get_fuse_conn(inode);
-+	const bool need_sync_writes = !fuse_inode_has_iomap(inode);
+@@ -2593,6 +2593,12 @@ static sector_t fuse_bmap(struct address_space *mapping, sector_t block)
+ 	struct fuse_bmap_out outarg;
  	int err;
  
- 	if (fuse_is_bad(inode))
- 		return -EIO;
- 
--	inode_lock(inode);
-+	if (need_sync_writes)
-+		inode_lock(inode);
- 
- 	/*
- 	 * Start writeback against all dirty pages of the inode, then
-@@ -555,7 +558,8 @@ static int fuse_fsync(struct file *file, loff_t start, loff_t end,
- 	if (err)
- 		goto out;
- 
--	fuse_sync_writes(inode);
-+	if (need_sync_writes)
-+		fuse_sync_writes(inode);
- 
- 	/*
- 	 * Due to implementation of fuse writeback
-@@ -579,7 +583,8 @@ static int fuse_fsync(struct file *file, loff_t start, loff_t end,
- 		err = 0;
- 	}
- out:
--	inode_unlock(inode);
-+	if (need_sync_writes)
-+		inode_unlock(inode);
- 
- 	return err;
- }
-@@ -2015,6 +2020,9 @@ static struct fuse_file *__fuse_write_file_get(struct fuse_inode *fi)
- {
- 	struct fuse_file *ff;
- 
-+	if (fuse_inode_has_iomap(&fi->inode))
-+		return NULL;
++	if (fuse_inode_has_iomap(inode)) {
++		sector_t alt_sec = fuse_iomap_bmap(mapping, block);
++		if (alt_sec > 0)
++			return alt_sec;
++	}
 +
- 	spin_lock(&fi->lock);
- 	ff = list_first_entry_or_null(&fi->write_files, struct fuse_file,
- 				      write_entry);
-diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-index f8e5c03580e56b..3cb2ef161ef7c5 100644
---- a/fs/fuse/inode.c
-+++ b/fs/fuse/inode.c
-@@ -192,7 +192,8 @@ static void fuse_evict_inode(struct inode *inode)
- 		if (inode->i_nlink > 0)
- 			atomic64_inc(&fc->evict_ctr);
- 	}
--	if (S_ISREG(inode->i_mode) && !fuse_is_bad(inode)) {
-+	if (S_ISREG(inode->i_mode) && !fuse_is_bad(inode) &&
-+	    !fuse_inode_has_iomap(inode)) {
- 		WARN_ON(fi->iocachectr != 0);
- 		WARN_ON(!list_empty(&fi->write_files));
- 		WARN_ON(!list_empty(&fi->queued_writes));
-diff --git a/fs/fuse/iomode.c b/fs/fuse/iomode.c
-index 3728933188f307..9be9ae3520003e 100644
---- a/fs/fuse/iomode.c
-+++ b/fs/fuse/iomode.c
-@@ -6,6 +6,7 @@
-  */
- 
- #include "fuse_i.h"
-+#include "fuse_iomap.h"
- 
- #include <linux/kernel.h>
- #include <linux/sched.h>
-@@ -203,7 +204,7 @@ int fuse_file_io_open(struct file *file, struct inode *inode)
- 	 * io modes are not relevant with DAX and with server that does not
- 	 * implement open.
- 	 */
--	if (FUSE_IS_DAX(inode) || !ff->args)
-+	if (fuse_inode_has_iomap(inode) || FUSE_IS_DAX(inode) || !ff->args)
+ 	if (!inode->i_sb->s_bdev || fm->fc->no_bmap)
  		return 0;
  
- 	/*
+@@ -2628,6 +2634,13 @@ static loff_t fuse_lseek(struct file *file, loff_t offset, int whence)
+ 	struct fuse_lseek_out outarg;
+ 	int err;
+ 
++	if (fuse_inode_has_iomap(inode)) {
++		loff_t alt_pos = fuse_iomap_lseek(file, offset, whence);
++
++		if (alt_pos != -ENOSYS)
++			return alt_pos;
++	}
++
+ 	if (fm->fc->no_lseek)
+ 		goto fallback;
+ 
+diff --git a/fs/fuse/fuse_iomap.c b/fs/fuse/fuse_iomap.c
+index dccfc9a2c9847c..32ddf2fa6bdf78 100644
+--- a/fs/fuse/fuse_iomap.c
++++ b/fs/fuse/fuse_iomap.c
+@@ -4,6 +4,7 @@
+  * Author: Darrick J. Wong <djwong@kernel.org>
+  */
+ #include <linux/iomap.h>
++#include <linux/fiemap.h>
+ #include "fuse_i.h"
+ #include "fuse_trace.h"
+ #include "fuse_iomap.h"
+@@ -539,7 +540,7 @@ static int fuse_iomap_end(struct inode *inode, loff_t pos, loff_t count,
+ 	return 0;
+ }
+ 
+-const struct iomap_ops fuse_iomap_ops = {
++static const struct iomap_ops fuse_iomap_ops = {
+ 	.iomap_begin		= fuse_iomap_begin,
+ 	.iomap_end		= fuse_iomap_end,
+ };
+@@ -669,3 +670,68 @@ void fuse_iomap_evict_inode(struct inode *inode)
+ 
+ 	fuse_inode_clear_iomap(inode);
+ }
++
++int fuse_iomap_fiemap(struct inode *inode, struct fiemap_extent_info *fieinfo,
++		      u64 start, u64 count)
++{
++	struct fuse_conn *fc = get_fuse_conn(inode);
++	int error;
++
++	/*
++	 * We are called directly from the vfs so we need to check per-inode
++	 * support here explicitly.
++	 */
++	if (!fuse_inode_has_iomap(inode))
++		return -EOPNOTSUPP;
++
++	if (fieinfo->fi_flags & FIEMAP_FLAG_XATTR)
++		return -EOPNOTSUPP;
++
++	if (fuse_is_bad(inode))
++		return -EIO;
++
++	if (!fuse_allow_current_process(fc))
++		return -EACCES;
++
++	inode_lock_shared(inode);
++	error = iomap_fiemap(inode, fieinfo, start, count, &fuse_iomap_ops);
++	inode_unlock_shared(inode);
++
++	return error;
++}
++
++sector_t fuse_iomap_bmap(struct address_space *mapping, sector_t block)
++{
++	ASSERT(fuse_inode_has_iomap(mapping->host));
++
++	return iomap_bmap(mapping, block, &fuse_iomap_ops);
++}
++
++loff_t fuse_iomap_lseek(struct file *file, loff_t offset, int whence)
++{
++	struct inode *inode = file->f_mapping->host;
++	struct fuse_conn *fc = get_fuse_conn(inode);
++
++	ASSERT(fuse_inode_has_iomap(inode));
++
++	if (fuse_is_bad(inode))
++		return -EIO;
++
++	if (!fuse_allow_current_process(fc))
++		return -EACCES;
++
++	switch (whence) {
++	case SEEK_HOLE:
++		offset = iomap_seek_hole(inode, offset, &fuse_iomap_ops);
++		break;
++	case SEEK_DATA:
++		offset = iomap_seek_data(inode, offset, &fuse_iomap_ops);
++		break;
++	default:
++		return generic_file_llseek(file, offset, whence);
++	}
++
++	if (offset < 0)
++		return offset;
++	return vfs_setpos(file, offset, inode->i_sb->s_maxbytes);
++}
 
