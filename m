@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C066311967;
-	Wed, 29 Apr 2026 14:19:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F3362765D7;
+	Wed, 29 Apr 2026 14:19:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777472341; cv=none; b=NnP0liIj9SKoFz5aFPzHNEBHSuSDLNoz1ZLZ/bpgNMfS0gyeb/F7rbSY48lxbWm/a9DtWBZXIwMGi3zDGUsqYyIQVMz+6goNrKijon9EkMboEq2A+sNyxSTjpSQNPgm5/0joPZ8qcTtzIIazS6//sIu1iMtCATm7tBqVcToGvaU=
+	t=1777472356; cv=none; b=mxGtU7M+D4d8vw8kYWU342n1WVtf+F9N4URY/ZGvKVjNcYgn3JbRSY/aKqtLDR0RLuGFJ8TowaTWFi2bki7CeP68N2mKoJpyddXOeObuX2pM8C+DltsUM8Ff+ZTlclrNne7+q8aLzupL0iPbSxAvhVpLsa0wqc1lohcuX7HI5jw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777472341; c=relaxed/simple;
-	bh=tMckVzM+U76f+ySQKaU0rilZc9MmkTLaj6sBiJ3Bgx8=;
+	s=arc-20240116; t=1777472356; c=relaxed/simple;
+	bh=nBmgSK/pTCxYxvFQYpx3+CfAJ/Lu2x2u+09EFQAN7l0=;
 	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=orJ3YZvDmAVC1iBFXjlaD/jgOiMLcAasBNiACjHuAz9n4aH6WqhcjHeg7IlhQwfnASKSlRGtyMQIjc1gy6UbPSb/IwMf3Eww37tkVDnh0J0qxf0QdCTpFwupvny/tLt7nM5LCHcFy61x1flwSUq16COrKFNnlw/6ZO0S+XcMbF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RAINlS08; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=T2w5sqTebg7kAMVtuVqcVZ5JiI7ADbwa5S+ACtzzn1aAM5vHOq+BPUJ+rWWAKcRsbNHC+FGbjccBdG5h+VWrPLWOmAdARNn1dyJ2ZznI1mw8J7WsQeECUVTfDjllbNiz6llLtSp499ayMuQq7tdM7W43jP4c3XOk3vSwV4XjrGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pLNE//De; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RAINlS08"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC5CAC19425;
-	Wed, 29 Apr 2026 14:19:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pLNE//De"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A137C19425;
+	Wed, 29 Apr 2026 14:19:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777472340;
-	bh=tMckVzM+U76f+ySQKaU0rilZc9MmkTLaj6sBiJ3Bgx8=;
+	s=k20201202; t=1777472356;
+	bh=nBmgSK/pTCxYxvFQYpx3+CfAJ/Lu2x2u+09EFQAN7l0=;
 	h=Date:Subject:From:To:Cc:In-Reply-To:References:From;
-	b=RAINlS085cFyw3kbd0vaaoYnqkQHQYRRSQPxEolIaE4F9IHu2ZErNrCFKBtKDMDf1
-	 BcWU362oh+Ax2UYMhRiyYQG1EeQVDBspA7Za//rg0Pw7eBCHQ68MrYLgQ1i61otuTs
-	 exppNfbz98zwvxO4JiSHsHwfLOJ+qm9tJ2+eGqrjqqoBfACpmVOI9X3UyvA+hQNc7C
-	 7jycTwIPEMs10X07yObY+F8qdrWa+IphjT7LDMSALHBk7JZpXGwC9kQZ5+XOnM6hqW
-	 cgNR2ujjRPSJH+fo+pNrmGM2slJVb+xGFXzwk1Hm2AkFPjBEPlNSgkOTbgwrF4ytSI
-	 25LdTPwA5ayVQ==
-Date: Wed, 29 Apr 2026 07:19:00 -0700
-Subject: [PATCHSET v8 2/6] libfuse: allow servers to specify root node id
+	b=pLNE//De76RMUOv6JVdQc4ThTMqdjgeZm8c4AYrgU7ekwUvhGtU6PZqAg41VD41L2
+	 C6ds4QiwntSOKx+XcqAOP9L5tZektJfTsYhixE7e21VJoFIki7kQJ7rUf5Y7v6U7Wl
+	 StyTeZZehQTQ1AnfFK92FBQtJm9YTI8Fm5GEJXBjuwSky2EvG5+JEJSOx80SSwk8RQ
+	 /ioOJaNdso1zcTaKBB5pnTFobdTEp56PKAwNDe8B1IRbCzdLNXX+9T3RkgQbyxVVrw
+	 xELbebnIQAzxV9wTm21ShTIxYlXiQP/ViCNWH7zcspzOcReeUkhsSSL3WpiBV898Ey
+	 C/PaAmRN1YpVg==
+Date: Wed, 29 Apr 2026 07:19:16 -0700
+Subject: [PATCHSET v8 3/6] libfuse: implement syncfs
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: djwong@kernel.org, bernd@bsbernd.com
 Cc: miklos@szeredi.hu, linux-fsdevel@vger.kernel.org,
  fuse-devel@lists.linux.dev, joannelkoong@gmail.com, neal@gompa.dev
-Message-ID: <177747212220.4105652.10875200461200906124.stgit@frogsfrogsfrogs>
+Message-ID: <177747212442.4105754.7242835990761551019.stgit@frogsfrogsfrogs>
 In-Reply-To: <20260429141253.GQ7739@frogsfrogsfrogs>
 References: <20260429141253.GQ7739@frogsfrogsfrogs>
 Precedence: bulk
@@ -46,10 +46,10 @@ Content-Transfer-Encoding: 7bit
 
 Hi all,
 
-This series grants fuse servers full control over the entire node id
-address space by allowing them to specify the nodeid of the root
-directory.  With this new feature, fuse4fs will not have to translate
-node ids.
+Implement syncfs in libfuse so that iomap-compatible fuse servers can
+receive syncfs commands, and enable fuse servers to transmit inode
+flags to the kernel so that it can enforce sync, immutable, and append.
+Also enable some of the timestamp update mount options.
 
 If you're going to start using this code, I strongly recommend pulling
 from my git trees, which are linked below.
@@ -60,12 +60,15 @@ Comments and questions are, as always, welcome.
 --D
 
 kernel git tree:
-https://git.kernel.org/cgit/linux/kernel/git/djwong/xfs-linux.git/log/?h=fuse-root-nodeid
+https://git.kernel.org/cgit/linux/kernel/git/djwong/xfs-linux.git/log/?h=fuse-iomap-attrs
 ---
 Commits in this patchset:
- * libfuse: allow root_nodeid mount option
+ * libfuse: add strictatime/lazytime mount options
+ * libfuse: set sync, immutable, and append when loading files
 ---
- lib/mount.c       |    1 +
- util/fusermount.c |    3 ++-
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ include/fuse_common.h |    6 ++++++
+ include/fuse_kernel.h |    8 ++++++++
+ lib/fuse_lowlevel.c   |    6 ++++++
+ lib/mount.c           |   10 ++++++++--
+ 4 files changed, 28 insertions(+), 2 deletions(-)
 
