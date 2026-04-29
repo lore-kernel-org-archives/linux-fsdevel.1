@@ -1,145 +1,63 @@
 Received: from embla.dev.snart.me (embla.dev.snart.me [54.252.183.203])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D80513909A8
-	for <linux-fsdevel@vger.kernel.org>; Tue, 28 Apr 2026 23:56:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99323175A5
+	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Apr 2026 00:00:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.252.183.203
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777420576; cv=none; b=Bb4YHDd/29RWut/E5dzq9PWrsh5hne2yJXodxURYwPpBmeDsD11n+mBLQF/4mE3en7zXkmG4XMMSqN3DB2yKN/A3NR2cVrl+fYC7CAJ/2sf6Oon6zGHSnjDij2jVlmcsaasrsbgXMFaeZJQY3veSgjZMtdEWoalZVG7xWxlijAE=
+	t=1777420827; cv=none; b=mYFMX1B7cUU1Iao6KxddNe5MgG/dZTVgVH7PjZtWi6B70oPT48fStDfDt2XCdzjlcxKYtVzu4bz9SWrvCmPNb9145yy7jnHRM6AQSoITGxTpAtb6Zo2/v1qKCyV4VTDtG1HtV9dMJ8oTNHbykQ7JuRg2FQjgMBSMCM2aIf3gEBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777420576; c=relaxed/simple;
-	bh=9qLrUHPFT8GCWG6o5eRuiZhoPW4eTTmMA7NsU5V/B8U=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RkasPnG2Dbyd8M8TTI1qzFcLv+WxLwqrg7YEIrazon9oz38dkM0krsjtZz7ykhFdO5h+o35rvBfXyu4G+d+IqgwdOyRIumwzBHOlwIaNk64JbxGp0Nyf8yw37oyzEjUNa1vjLZYmD+3/Sz5QwUm8tujcwTFjSfkCaFxxkraYTx4=
+	s=arc-20240116; t=1777420827; c=relaxed/simple;
+	bh=hM/bjbjhv+YWxdis7J7z05w7xoc3hP28qvSLaFrSXbY=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=b3E6dHBJM8N80dYUU35dBm4+8YgXswq7qzGIbN5G4HwvdL3XpEvaDRyY8FY+br01O91KdvmewOqjehtRd+YoGyX5u1kDXHtFFT2tyHwgMHM4bR2m9EB5IZYd3pbnduULtzbd+oQfgrUT2scA35DGOk3DeEHx5x7kn6oOz+2u3RE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me; spf=pass smtp.mailfrom=dev.snart.me; arc=none smtp.client-ip=54.252.183.203
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dev.snart.me
 Received: from embla.dev.snart.me (localhost [IPv6:::1])
-	by embla.dev.snart.me (Postfix) with ESMTP id 113D61CBE6;
-	Tue, 28 Apr 2026 23:51:05 +0000 (UTC)
-Received: from maya.d.snart.me ([182.226.25.243])
+	by embla.dev.snart.me (Postfix) with ESMTP id 72D891D459;
+	Wed, 29 Apr 2026 00:00:24 +0000 (UTC)
+Received: from [192.168.1.18] ([182.226.25.243])
 	by embla.dev.snart.me with ESMTPSA
-	id i9TZBuRH8WmjWgUA8KYfjw:T5
-	(envelope-from <dxdt@dev.snart.me>); Tue, 28 Apr 2026 23:51:05 +0000
-From: David Timber <dxdt@dev.snart.me>
-To: Namjae Jeon <linkinjeon@kernel.org>,
-	Sungjong Seo <sj1557.seo@samsung.com>,
-	Yuezhang Mo <yuezhang.mo@sony.com>
-Cc: linux-fsdevel@vger.kernel.org,
-	David Timber <dxdt@dev.snart.me>
-Subject: [PATCH v1 4/4] exfat: more pedantic upcase table validity check
-Date: Wed, 29 Apr 2026 08:50:37 +0900
-Message-ID: <20260428235038.93816-5-dxdt@dev.snart.me>
-X-Mailer: git-send-email 2.53.0.1.ga224b40d3f.dirty
-In-Reply-To: <20260428235038.93816-1-dxdt@dev.snart.me>
-References: <20260428235038.93816-1-dxdt@dev.snart.me>
+	id 2dByCRhK8WlwWwUA8KYfjw
+	(envelope-from <dxdt@dev.snart.me>); Wed, 29 Apr 2026 00:00:24 +0000
+Message-ID: <c6c4e93a-83c3-4a07-ace4-6262cdc0542b@dev.snart.me>
+Date: Wed, 29 Apr 2026 09:00:20 +0900
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+From: David Timber <dxdt@dev.snart.me>
+Subject: Host exfatprogs repo on git.kernel.org?
+Content-Language: en-US, ko
+Autocrypt: addr=dxdt@dev.snart.me; keydata=
+ xjMEYmJg1hYJKwYBBAHaRw8BAQdAf5E+ri1XLtjqYbZdHOyc8oS+1/XJ5bSlbx5WHXmVBZzN
+ IERhdmlkIFRpbWJlciA8ZHhkdEBkZXYuc25hcnQubWU+wpQEExYKADwWIQQn/Jn96EMUaIoF
+ X+T/ldyyrZpWaAUCYmJg1gIbAwULCQgHAgMiAgEGFQoJCAsCBBYCAwECHgcCF4AACgkQ/5Xc
+ sq2aVmjJZwD8COjPlUwccrlRvbNQ6f87DWchtYO0o8W2DNRM3RLps0EA/jEhIbRV6AsyC8jr
+ 30Ut3aJ3/mO/6G4sLj7OvkEEBH0MzjgEYmJg1hIKKwYBBAGXVQEFAQEHQFpgtIgaByv9lIEY
+ EmpavMO0pYjtu7TMJynwdnGYkN9LAwEIB8J4BBgWCgAgFiEEJ/yZ/ehDFGiKBV/k/5Xcsq2a
+ VmgFAmJiYNYCGwwACgkQ/5Xcsq2aVmhFCwEA0kM9VyYB4bLCM7+SuXUUH+5Ec99Nj4RXxFad
+ Key9GuwA/2BZK6bNyrLSfEk2JDRoskqf7OIL0wa6JOD5SrBnMe8E
+To: Namjae Jeon <linkinjeon@kernel.org>, Sungjong Seo
+ <sj1557.seo@samsung.com>, Yuezhang Mo <yuezhang.mo@sony.com>
+Cc: linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-It is observed that most exFAT implementations reject a volume with an
-upcase table whose index of the last entry is not 0xFFFF and treat the
-volume as damaged.
+Hello maintainers,
 
-Upon encoutering an incomplete or malformed upcase table:
+After the recent Github incident, it came to my attention that the
+critial companion of exfat fs, exfatprogs, is only hosted on Github. I'd
+like to voice my opinion that the repo also has to be hosted elsewhere,
+preferably on git.kernel.org like the other fs util projects.
 
-  - whose the index of last entry is not 0xFFFF
-  - that has extra data after the end of the table
+I don't think it really has to be git.kernel.org, as long as the main
+one(Github repo) and the secondary repos are synced simultaneously.
 
-Raise exfat_fs_error() to mark the volume read-only.
+Sorry if it's already hosted elsewhere other than Github.
 
-Signed-off-by: David Timber <dxdt@dev.snart.me>
----
- fs/exfat/nls.c | 26 ++++++++++++++------------
- 1 file changed, 14 insertions(+), 12 deletions(-)
-
-diff --git a/fs/exfat/nls.c b/fs/exfat/nls.c
-index c56d501659b3..3ce5165094bf 100644
---- a/fs/exfat/nls.c
-+++ b/fs/exfat/nls.c
-@@ -260,17 +260,16 @@ int exfat_nls_to_utf16(struct super_block *sb, const unsigned char *p_cstring,
- }
- 
- static int exfat_load_upcase_table(struct super_block *sb,
--		sector_t sector, unsigned long long num_sectors,
--		unsigned int utbl_checksum)
-+		unsigned long long tbl_size, sector_t sector,
-+		unsigned long long num_sectors, unsigned int utbl_checksum)
- {
- 	struct exfat_sb_info *sbi = EXFAT_SB(sb);
- 	unsigned int sect_size = sb->s_blocksize;
- 	unsigned int i, index = 0;
- 	u32 chksum = 0;
--	unsigned char skip = false;
-+	bool skip = false, is_default = true;
- 	struct exfat_upcase_ptable *upcase_table;
- 	unsigned short def_upcase;
--	bool is_default;
- 	unsigned int entries = 0;
- 	int ret = -EINVAL;
- 
-@@ -279,9 +278,8 @@ static int exfat_load_upcase_table(struct super_block *sb,
- 		return -ENOMEM;
- 
- 	num_sectors += sector;
--	is_default = sector < num_sectors;
- 
--	while (sector < num_sectors) {
-+	while (tbl_size > 1 && sector < num_sectors) {
- 		struct buffer_head *bh;
- 
- 		bh = sb_bread(sb, sector);
-@@ -292,7 +290,8 @@ static int exfat_load_upcase_table(struct super_block *sb,
- 			goto err;
- 		}
- 		sector++;
--		for (i = 0; i < sect_size && index <= 0xFFFF; i += 2) {
-+		for (i = 0; i < sect_size && index <= 0xFFFF && tbl_size > 1;
-+				i += 2, tbl_size -= 2) {
- 			unsigned short uni = get_unaligned_le16(bh->b_data + i);
- 
- 			if (skip) {
-@@ -319,9 +318,13 @@ static int exfat_load_upcase_table(struct super_block *sb,
- 		}
- 		chksum = exfat_calc_chksum32(bh->b_data, i, chksum, CS_DEFAULT);
- 		brelse(bh);
-+
-+		/* the contents of the table went out of bounds with still more data to read */
-+		if (tbl_size > 0 && index >= 0x10000)
-+			goto err;
- 	}
- 
--	if (index >= 0xFFFF && utbl_checksum == chksum) {
-+	if (index == 0x10000 && utbl_checksum == chksum) {
- 		/*
- 		 * is_default being set does not necessarily mean the contents are exact same as the
- 		 * upcase table loaded from the volume may be missing some entries. The checksum
-@@ -339,10 +342,9 @@ static int exfat_load_upcase_table(struct super_block *sb,
- 		return 0;
- 	}
- 
--	exfat_err(sb, "failed to load upcase table (idx : 0x%08x, chksum : 0x%08x, utbl_chksum : 0x%08x)",
--		  index, chksum, utbl_checksum);
--
- err:
-+	exfat_fs_error(sb, "damaged upcase table. Please run fsck (idx : 0x%08x, chksum : 0x%08x, utbl_chksum : 0x%08x)",
-+		       index, chksum, utbl_checksum);
- 	exfat_free_upcase_ptable(upcase_table);
- 	kvfree(upcase_table);
- 
-@@ -390,7 +392,7 @@ int exfat_create_upcase_table(struct super_block *sb)
- 			if (tbl_size) {
- 				sector = exfat_cluster_to_sector(sbi, tbl_clu);
- 				num_sectors = ((tbl_size - 1) >> blksize_bits) + 1;
--				ret = exfat_load_upcase_table(sb, sector, num_sectors,
-+				ret = exfat_load_upcase_table(sb, tbl_size, sector, num_sectors,
- 					le32_to_cpu(ep->dentry.upcase.checksum));
- 			} else
- 				exfat_fs_error(sb,
--- 
-2.53.0.1.ga224b40d3f.dirty
-
+Regards,
+Davo
