@@ -1,39 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D7D435CB87;
-	Wed, 29 Apr 2026 14:44:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEAB826F288;
+	Wed, 29 Apr 2026 14:44:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777473842; cv=none; b=MKsOzVOKaucOtnG00Zlbl9xpmpIX+EWiTe0xXrwWLdruoXKk8vaR9Kiv2ZfdRz5LMyL1mSBdvJLkUC+3BwO9uwE1H5SRqC7jrhOz2H2kWXdCwk8cqUC7Emusk7OqaZj76xVDrSG2nAVYI9O4vjcDcXTZc8IXalR97CUTHJKfDXw=
+	t=1777473858; cv=none; b=gfkAFPdrEqgWVr/bPZhyJfOG77Si4fwv8nv6F7HaUDi+iaecTx6RojqKjhn/TVwE8f0WNVavEvXjvX48jl3rtR0bjCTvzRjJbLKU+lnD9bEJW8+SMYj0V8iz5zMmpNXOx/MzUQamw+Z875rejrbK44uOPWg1qXMpm+Nyi8y3Ndg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777473842; c=relaxed/simple;
-	bh=7NBz9IFwNqiA8p6vcGVQR+DVBpYqkWjz8NLSxgGNNxA=;
+	s=arc-20240116; t=1777473858; c=relaxed/simple;
+	bh=R8al2JxuEggCMrLogMp0qlEZQI4s/GFgZwssLcdFFko=;
 	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QthEus+R6gFP0Us8CCq9KJ4l2oZIt30JS3RW0tjfvJpHFYDX8zptTb4GIiLBC1sKln7kl4qMMPAui0DLoejjfKag9NYIkqmtLVPSV7eMuWp2H/Z9MQdfmoE+lKNTUSCguNHyg6lZ1PhPCkBHqmZMTSOTQLONCdc1kCuwZgF3BG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SC/tS6Ev; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=uTPSWEi1F6kLIAgTu0LQ9pcoq7dhISLYM+k9OuRHDnwW/AgPCID8iTvLAyLE+zDhERpbg2LRsYhK1g9yAId6FBa68wDE3d0OWj6RegHbgdqzfoY483W8NWgAOlGhphcZGD97rnai0jNu2DCmDPfdSZZ5iDM2v2nOBLRrLXgnU8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QaJZl3Hz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SC/tS6Ev"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CF3FC19425;
-	Wed, 29 Apr 2026 14:44:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QaJZl3Hz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C3EEC19425;
+	Wed, 29 Apr 2026 14:44:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777473842;
-	bh=7NBz9IFwNqiA8p6vcGVQR+DVBpYqkWjz8NLSxgGNNxA=;
+	s=k20201202; t=1777473858;
+	bh=R8al2JxuEggCMrLogMp0qlEZQI4s/GFgZwssLcdFFko=;
 	h=Date:Subject:From:To:Cc:In-Reply-To:References:From;
-	b=SC/tS6EvdKoY6iQTuO30UChsSiuzdhV830yktTlTolt2SRKoKsxe/ZowJIVZ5OQyu
-	 HNjqD4DGkBYkuLIwz6LzDiQgsDhITy0dh/4K1XoIqQmskf4J0LSlnqRLuBGK21nf13
-	 mYxWUEs/eamrgKuyeJnZOOpMGWrkq0PYddwUFhGYLWBoPLd4VeVB40a2gKkcPr8baN
-	 ST/Nt/AtIIoS6RfE8N2F8ASm+PPTqsE7Tfnizzk+vQdSR0lI4ewG86zn5ftPNtE+nT
-	 ob+h/J0E8CoTXWB3toMnlqHryRq09nWPMh7oORicRp0VNs1GqDx06pTJN1+8YxdUBX
-	 V+Nu+3iGdXWfw==
-Date: Wed, 29 Apr 2026 07:44:01 -0700
-Subject: [PATCH 19/25] libfuse: add upper-level API to invalidate parts of an
- iomap block device
+	b=QaJZl3HzKtcTKaYZ10z1sXcc7CcwdUiddp3pIMMpJRtUc20RLoIgW1BNwaMvBJMsD
+	 GdbJ3Fq4ZJ4jK2XiY9Nmfs740isY5oI34TFhZQBRpYIK72gQni4bTtOvePi9m5Emyg
+	 Dp1gmOWMvTIBiCMmoRaWhiYkMlFBfMwq0UrsBgUVVA5+lqaQhqWdWotD/7uTQ59Rs5
+	 wNQi4SJsO0j3goKUukH9+P6QqoAG79rP9mcWR3Tg3Z1yGXkc8klgjsgz/NCO0Ctmh0
+	 M0AQRHcXeXEOjZCNM7kKzOLtyngiSqnOT2K4ZxprHPn5GrKzXZPF4r0r6qRkf+FTxT
+	 XQeKh/o3xf8JQ==
+Date: Wed, 29 Apr 2026 07:44:17 -0700
+Subject: [PATCH 20/25] libfuse: add atomic write support
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: djwong@kernel.org, bernd@bsbernd.com
 Cc: miklos@szeredi.hu, linux-fsdevel@vger.kernel.org,
  fuse-devel@lists.linux.dev, joannelkoong@gmail.com, neal@gompa.dev
-Message-ID: <177747211908.4104686.12939387012874574582.stgit@frogsfrogsfrogs>
+Message-ID: <177747211925.4104686.10991092606385686467.stgit@frogsfrogsfrogs>
 In-Reply-To: <177747211463.4104686.1151865355399948078.stgit@frogsfrogsfrogs>
 References: <177747211463.4104686.1151865355399948078.stgit@frogsfrogsfrogs>
 Precedence: bulk
@@ -47,68 +46,76 @@ Content-Transfer-Encoding: 7bit
 
 From: Darrick J. Wong <djwong@kernel.org>
 
-Wire up the upper-level wrappers to
-fuse_lowlevel_iomap_invalidate_device.
+Add the single flag that we need to turn on atomic write support in
+fuse.
 
 Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 ---
- include/fuse.h         |   10 ++++++++++
- lib/fuse.c             |    9 +++++++++
- lib/fuse_versionscript |    1 +
- 3 files changed, 20 insertions(+)
+ include/fuse_common.h |    4 ++++
+ include/fuse_kernel.h |    3 +++
+ lib/fuse_lowlevel.c   |    2 ++
+ 3 files changed, 9 insertions(+)
 
 
-diff --git a/include/fuse.h b/include/fuse.h
-index 8b6cd7e3cf9f84..d68feb7ccfa84c 100644
---- a/include/fuse.h
-+++ b/include/fuse.h
-@@ -1479,6 +1479,16 @@ int fuse_fs_iomap_device_add(int fd, unsigned int flags);
+diff --git a/include/fuse_common.h b/include/fuse_common.h
+index 2f0aff038c3ece..7c34dcf3b90754 100644
+--- a/include/fuse_common.h
++++ b/include/fuse_common.h
+@@ -545,6 +545,8 @@ struct fuse_loop_config_v1 {
+  * FUSE_IOMAP_SUPPORT_FILEIO: basic file I/O functionality through iomap
   */
- int fuse_fs_iomap_device_remove(int device_id);
+ #define FUSE_IOMAP_SUPPORT_FILEIO	(1ULL << 0)
++/* untorn writes through iomap */
++#define FUSE_IOMAP_SUPPORT_ATOMIC	(1ULL << 1)
  
-+/**
-+ * Invalidate any pagecache for the given iomap (block) device.
-+ *
-+ * @param device_id device index as returned by fuse_lowlevel_iomap_device_add
-+ * @param offset starting offset of the range to invalidate
-+ * @param length the length of the range to invalidate
-+ * @return 0 on success, or negative errno on failure
-+ */
-+int fuse_fs_iomap_device_invalidate(int device_id, off_t offset, off_t length);
-+
  /**
-  * Decide if we can enable iomap mode for a particular file for an upper-level
-  * fuse server.
-diff --git a/lib/fuse.c b/lib/fuse.c
-index 2d9a49c16c25ff..ddf9b4044b8952 100644
---- a/lib/fuse.c
-+++ b/lib/fuse.c
-@@ -2941,6 +2941,15 @@ int fuse_fs_iomap_device_remove(int device_id)
- 	return fuse_lowlevel_iomap_device_remove(se, device_id);
+  * Connection information, passed to the ->init() method
+@@ -1239,6 +1241,8 @@ static inline bool fuse_iomap_need_write_allocate(unsigned int opflags,
+ #define FUSE_IFLAG_EXCLUSIVE		(1U << 1)
+ /* use iomap for this inode */
+ #define FUSE_IFLAG_IOMAP		(1U << 2)
++/* enable untorn writes */
++#define FUSE_IFLAG_ATOMIC		(1U << 3)
+ 
+ /* Which fields are set in fuse_iomap_config_out? */
+ #define FUSE_IOMAP_CONFIG_SID		(1 << 0ULL)
+diff --git a/include/fuse_kernel.h b/include/fuse_kernel.h
+index 1e7c9d8082cf23..71a6a92b4b4a65 100644
+--- a/include/fuse_kernel.h
++++ b/include/fuse_kernel.h
+@@ -248,6 +248,7 @@
+  *  - add FUSE_ATTR_IOMAP to enable iomap for specific inodes
+  *  - add FUSE_IOMAP_CONFIG so the fuse server can configure more fs geometry
+  *  - add FUSE_NOTIFY_IOMAP_DEV_INVAL to invalidate iomap bdev ranges
++ *  - add FUSE_ATTR_ATOMIC for single-fsblock atomic write support
+  */
+ 
+ #ifndef _LINUX_FUSE_H
+@@ -591,11 +592,13 @@ struct fuse_file_lock {
+  * FUSE_ATTR_EXCLUSIVE: This file can only be modified by this mount, so the
+  * kernel can use cached attributes more aggressively (e.g. ACL inheritance)
+  * FUSE_ATTR_IOMAP: Use iomap for this inode
++ * FUSE_ATTR_ATOMIC: Enable untorn writes
+  */
+ #define FUSE_ATTR_SUBMOUNT      (1 << 0)
+ #define FUSE_ATTR_DAX		(1 << 1)
+ #define FUSE_ATTR_EXCLUSIVE	(1 << 2)
+ #define FUSE_ATTR_IOMAP		(1 << 3)
++#define FUSE_ATTR_ATOMIC	(1 << 4)
+ 
+ /**
+  * Open flags
+diff --git a/lib/fuse_lowlevel.c b/lib/fuse_lowlevel.c
+index 2d3e0b49c5a50f..6c300c39ece52c 100644
+--- a/lib/fuse_lowlevel.c
++++ b/lib/fuse_lowlevel.c
+@@ -168,6 +168,8 @@ static void convert_stat(const struct stat *stbuf, struct fuse_attr *attr,
+ 		attr->flags |= FUSE_ATTR_EXCLUSIVE;
+ 	if (iflags & FUSE_IFLAG_IOMAP)
+ 		attr->flags |= FUSE_ATTR_IOMAP;
++	if (iflags & FUSE_IFLAG_ATOMIC)
++		attr->flags |= FUSE_ATTR_ATOMIC;
  }
  
-+int fuse_fs_iomap_device_invalidate(int device_id, off_t offset, off_t length)
-+{
-+	struct fuse_context *ctxt = fuse_get_context();
-+	struct fuse_session *se = fuse_get_session(ctxt->fuse);
-+
-+	return fuse_lowlevel_iomap_device_invalidate(se, device_id, offset,
-+						     length);
-+}
-+
- static int fuse_fs_iomap_ioend(struct fuse_fs *fs, const char *path,
- 			       uint64_t nodeid, uint64_t attr_ino, off_t pos,
- 			       uint64_t written, uint32_t ioendflags, int error,
-diff --git a/lib/fuse_versionscript b/lib/fuse_versionscript
-index 43bef1cd1c5076..7f14aadff9fe72 100644
---- a/lib/fuse_versionscript
-+++ b/lib/fuse_versionscript
-@@ -266,6 +266,7 @@ FUSE_3.99 {
- 		fuse_service_discover_iomap;
- 		fuse_reply_iomap_config;
- 		fuse_lowlevel_iomap_device_invalidate;
-+		fuse_fs_iomap_device_invalidate;
- } FUSE_3.19;
- 
- # Local Variables:
+ static void convert_attr(const struct fuse_setattr_in *attr, struct stat *stbuf)
 
