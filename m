@@ -1,41 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 512573570C8;
-	Wed, 29 Apr 2026 14:32:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A498D34D91F;
+	Wed, 29 Apr 2026 14:32:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777473139; cv=none; b=uzszTbOiVilb5BuDT+z24XogLh9SuF3Z/q7rQs0NVAOXihwhmcGDqF5c+6rSGg/5CLhxPR+ZeTIm4sqakcNS9zCDfLIgxXZlPpJ0YKiPEg6RK5+SUi21m7TOhuRZp1tC/u39em32RvXs2l1/xUdDcZdfMDYF2kKC95SO8KQklq4=
+	t=1777473154; cv=none; b=QWtT39u4vMiiJNc64kXTEo27yhJ3565elaxpm3y6B+X2U/1q+GzlSBrRcv8gY2UhKTwOLtWXqcBvqgLeIGdKrarHAQEBtfGN2PK4I8CEOX4KtWm5TWali3cNd941eOi9B4uAEu32NwTIEqsTYj0M0+/L48StEFa+xlJotkRAxoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777473139; c=relaxed/simple;
-	bh=/EjUVAzqvG20L5hJLEffN9YKFet57EeOLeC91uwL2XI=;
+	s=arc-20240116; t=1777473154; c=relaxed/simple;
+	bh=4uF1VqMN5mpag+SGsBr52egen7racNg7zyQUdveh2lo=;
 	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=U/iHeyXz8yR9wXAURZi4Ksx27czW+OBxqQRHMCsQecZrBA3ySsXG4r1mEaVsEG2jdSOpVm6I/g/E1BNTBmJu2/wurQDozbCbit/MnCiGOloGC+CIjHQdPB+PLYkrMFrbRk9TJykRHkPzaNoJnhUr/bzxgeoYAIk0yCl2S/dZx+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k9nNqmQt; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=cgnBtB/LbD1uva2GYQKxtwwQAFpI+I687SZnnfaTLzjDuvaWbAcb8RyFrrpR5/tMwsmU0lT3ywLMs6kEmzPhc5ew5LG4JHbqdAnuGDTWbMyclt14R53O2tXEAXQG6nvWMtbO6HuxzlbEZMPDODNaa9iPxM4QqgplVPgbLk+WpoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=maELAELv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k9nNqmQt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B734EC19425;
-	Wed, 29 Apr 2026 14:32:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="maELAELv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50EA4C19425;
+	Wed, 29 Apr 2026 14:32:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777473138;
-	bh=/EjUVAzqvG20L5hJLEffN9YKFet57EeOLeC91uwL2XI=;
+	s=k20201202; t=1777473154;
+	bh=4uF1VqMN5mpag+SGsBr52egen7racNg7zyQUdveh2lo=;
 	h=Date:Subject:From:To:Cc:In-Reply-To:References:From;
-	b=k9nNqmQtpSaKC/7cVVdhxsD6pnHM83/KbHVm4GO9q89+uPjVGo4PjfAYZ/4do92sO
-	 Yub8NpR/E93mTOqLcMe142Is5abmaxXtg0D+5A19WrlMUy9iDaXGDoUf/aigo7RdXX
-	 UMJzSn/w0AQZYwM4OkRpH6Zx1oZs+5AuvGfJdYa/wpSpD/O3WOXr98dxmqgXTx0JRB
-	 0EQaFmf6+8uTBlNNn8MFSkwYqji0g7ekiDnBeumCAvO1gQEQvWCgCnPSQHGUX1YTbG
-	 s7vnrFNuKTGU8JE639Gd20ba3iTSi+8bgbnarttnw2O3dWXefdQsESc2vPWjJcJcOO
-	 kxmrLOpMxyDww==
-Date: Wed, 29 Apr 2026 07:32:18 -0700
-Subject: [PATCH 33/33] fuse: implement freeze and shutdowns for iomap
- filesystems
+	b=maELAELvUAl5meJLSd5hm57u4DSd+xVWH5NA2j67mdlKljX31Oo4J9QUppxO+iZQZ
+	 spGQUnNR9cD/ZGumAMnx7zgaKRtPFdVvC+N+JDxY4koaPBMkXgFbtZy92E2nChrKeH
+	 JgAjbGl8iIrB9q4waVPJ0IP6Bo0Fj3LMZXiur20Me4wc8JX7UjurXtp3xhdXj4osq5
+	 iAqM1zcXTEQd2LC4ttZSZl1v4vVXg3b1TpkFnnDUv6Cr0h2XLXw960e9r6URwu49ag
+	 1MIvNxqFed8b/IPov/aKL3T15GDNccpuzYUzdPNFDBpzVD8hCniuW5xdlBmIthdaVj
+	 RtQaZoxnu43Rg==
+Date: Wed, 29 Apr 2026 07:32:33 -0700
+Subject: [PATCH 1/3] fuse: make the root nodeid dynamic
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: djwong@kernel.org, miklos@szeredi.hu
 Cc: joannelkoong@gmail.com, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
  bernd@bsbernd.com, fuse-devel@lists.linux.dev
-Message-ID: <177747205856.4101881.10694466069338531152.stgit@frogsfrogsfrogs>
-In-Reply-To: <177747204948.4101881.16044986246405634629.stgit@frogsfrogsfrogs>
-References: <177747204948.4101881.16044986246405634629.stgit@frogsfrogsfrogs>
+Message-ID: <177747206145.4103135.16263150644393951842.stgit@frogsfrogsfrogs>
+In-Reply-To: <177747206108.4103135.16385179491642925149.stgit@frogsfrogsfrogs>
+References: <177747206108.4103135.16385179491642925149.stgit@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -47,135 +46,153 @@ Content-Transfer-Encoding: 7bit
 
 From: Darrick J. Wong <djwong@kernel.org>
 
-Implement filesystem freezing and block device shutdown notifications
-for iomap-based servers
+Change this from a hardcoded constant to a dynamic field so that fuse
+servers don't need to translate.
 
 Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 ---
- include/uapi/linux/fuse.h |   12 +++++++
- fs/fuse/inode.c           |   73 +++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 85 insertions(+)
+ fs/fuse/fuse_i.h  |    7 +++++--
+ fs/fuse/dir.c     |   10 ++++++----
+ fs/fuse/inode.c   |   11 +++++++----
+ fs/fuse/readdir.c |   10 +++++-----
+ 4 files changed, 23 insertions(+), 15 deletions(-)
 
 
-diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
-index 5f3724f36f764a..b6fa828776b82f 100644
---- a/include/uapi/linux/fuse.h
-+++ b/include/uapi/linux/fuse.h
-@@ -695,6 +695,10 @@ enum fuse_opcode {
- 	FUSE_STATX		= 52,
- 	FUSE_COPY_FILE_RANGE_64	= 53,
+diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+index c7c7f2e888bb8b..a9ca0e936524e7 100644
+--- a/fs/fuse/fuse_i.h
++++ b/fs/fuse/fuse_i.h
+@@ -701,6 +701,9 @@ struct fuse_conn {
  
-+	FUSE_FREEZE_FS		= 4089,
-+	FUSE_UNFREEZE_FS	= 4090,
-+	FUSE_SHUTDOWN_FS	= 4091,
-+
- 	FUSE_IOMAP_CONFIG	= 4092,
- 	FUSE_IOMAP_IOEND	= 4093,
- 	FUSE_IOMAP_BEGIN	= 4094,
-@@ -1257,6 +1261,14 @@ struct fuse_syncfs_in {
- 	uint64_t	padding;
- };
+ 	struct rcu_head rcu;
  
-+struct fuse_freezefs_in {
-+	uint64_t	unlinked;
-+};
++	/* node id of the root directory */
++	u64 root_nodeid;
 +
-+struct fuse_shutdownfs_in {
-+	uint64_t	flags;
-+};
-+
- /*
-  * For each security context, send fuse_secctx with size of security context
-  * fuse_secctx will be followed by security context name and this in turn
-diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-index f6ec67a8eb86a2..6d4ff08ad3069a 100644
---- a/fs/fuse/inode.c
-+++ b/fs/fuse/inode.c
-@@ -1264,6 +1264,74 @@ static struct dentry *fuse_get_parent(struct dentry *child)
- 	return parent;
+ 	/** The user id for this mount */
+ 	kuid_t user_id;
+ 
+@@ -1116,9 +1119,9 @@ static inline u64 get_node_id(struct inode *inode)
+ 	return get_fuse_inode(inode)->nodeid;
  }
  
-+#ifdef CONFIG_FUSE_IOMAP
-+/*
-+ * Second stage of a freeze. The data is already frozen so we only
-+ * need to take care of the fuse server.
-+ */
-+static int fuse_freeze_fs(struct super_block *sb)
-+{
-+	struct fuse_mount *fm = get_fuse_mount_super(sb);
-+	struct fuse_conn *fc = get_fuse_conn_super(sb);
-+	struct fuse_freezefs_in inarg = {
-+		.unlinked = atomic_long_read(&sb->s_remove_count),
-+	};
-+	FUSE_ARGS(args);
-+	int err;
-+
-+	if (!fc->iomap)
-+		return -EOPNOTSUPP;
-+
-+	args.opcode = FUSE_FREEZE_FS;
-+	args.nodeid = get_node_id(sb->s_root->d_inode);
-+	args.in_numargs = 1;
-+	args.in_args[0].size = sizeof(inarg);
-+	args.in_args[0].value = &inarg;
-+	err = fuse_simple_request(fm, &args);
-+	if (err == -ENOSYS)
-+		err = -EOPNOTSUPP;
-+	return err;
-+}
-+
-+static int fuse_unfreeze_fs(struct super_block *sb)
-+{
-+	struct fuse_mount *fm = get_fuse_mount_super(sb);
-+	struct fuse_conn *fc = get_fuse_conn_super(sb);
-+	FUSE_ARGS(args);
-+	int err;
-+
-+	if (!fc->iomap)
-+		return 0;
-+
-+	args.opcode = FUSE_UNFREEZE_FS;
-+	args.nodeid = get_node_id(sb->s_root->d_inode);
-+	err = fuse_simple_request(fm, &args);
-+	if (err == -ENOSYS)
-+		err = 0;
-+	return err;
-+}
-+
-+static void fuse_shutdown_fs(struct super_block *sb)
-+{
-+	struct fuse_mount *fm = get_fuse_mount_super(sb);
-+	struct fuse_conn *fc = get_fuse_conn_super(sb);
-+	struct fuse_shutdownfs_in inarg = {
-+		.flags = 0,
-+	};
-+	FUSE_ARGS(args);
-+
-+	if (!fc->iomap)
-+		return;
-+
-+	args.opcode = FUSE_SHUTDOWN_FS;
-+	args.nodeid = get_node_id(sb->s_root->d_inode);
-+	args.in_numargs = 1;
-+	args.in_args[0].size = sizeof(inarg);
-+	args.in_args[0].value = &inarg;
-+	fuse_simple_request(fm, &args);
-+}
-+#endif /* CONFIG_FUSE_IOMAP */
-+
- /* only for fid encoding; no support for file handle */
- static const struct export_operations fuse_export_fid_operations = {
- 	.encode_fh	= fuse_encode_fh,
-@@ -1286,6 +1354,11 @@ static const struct super_operations fuse_super_operations = {
- 	.statfs		= fuse_statfs,
- 	.sync_fs	= fuse_sync_fs,
- 	.show_options	= fuse_show_options,
-+#ifdef CONFIG_FUSE_IOMAP
-+	.freeze_fs	= fuse_freeze_fs,
-+	.unfreeze_fs	= fuse_unfreeze_fs,
-+	.shutdown	= fuse_shutdown_fs,
-+#endif
- };
+-static inline int invalid_nodeid(u64 nodeid)
++static inline int invalid_nodeid(const struct fuse_conn *fc, u64 nodeid)
+ {
+-	return !nodeid || nodeid == FUSE_ROOT_ID;
++	return !nodeid || nodeid == fc->root_nodeid;
+ }
  
- static void sanitize_global_limit(unsigned int *limit)
+ static inline u64 fuse_get_attr_version(struct fuse_conn *fc)
+diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+index 2db88bc364bb50..3a76eea04c6425 100644
+--- a/fs/fuse/dir.c
++++ b/fs/fuse/dir.c
+@@ -584,7 +584,7 @@ int fuse_lookup_name(struct super_block *sb, u64 nodeid, const struct qstr *name
+ 	err = -EIO;
+ 	if (fuse_invalid_attr(&outarg->attr))
+ 		goto out_put_forget;
+-	if (outarg->nodeid == FUSE_ROOT_ID && outarg->generation != 0) {
++	if (outarg->nodeid == fm->fc->root_nodeid && outarg->generation != 0) {
+ 		pr_warn_once("root generation should be zero\n");
+ 		outarg->generation = 0;
+ 	}
+@@ -634,7 +634,7 @@ static struct dentry *fuse_lookup(struct inode *dir, struct dentry *entry,
+ 		goto out_err;
+ 
+ 	err = -EIO;
+-	if (inode && get_node_id(inode) == FUSE_ROOT_ID)
++	if (inode && get_node_id(inode) == fc->root_nodeid)
+ 		goto out_iput;
+ 
+ 	newent = d_splice_alias(inode, entry);
+@@ -885,7 +885,8 @@ static int fuse_create_open(struct mnt_idmap *idmap, struct inode *dir,
+ 		goto out_free_ff;
+ 
+ 	err = -EIO;
+-	if (!S_ISREG(outentry.attr.mode) || invalid_nodeid(outentry.nodeid) ||
++	if (!S_ISREG(outentry.attr.mode) ||
++	    invalid_nodeid(fm->fc, outentry.nodeid) ||
+ 	    fuse_invalid_attr(&outentry.attr))
+ 		goto out_free_ff;
+ 
+@@ -1032,7 +1033,8 @@ static struct dentry *create_new_entry(struct mnt_idmap *idmap, struct fuse_moun
+ 		goto out_put_forget_req;
+ 
+ 	err = -EIO;
+-	if (invalid_nodeid(outarg.nodeid) || fuse_invalid_attr(&outarg.attr))
++	if (invalid_nodeid(fm->fc, outarg.nodeid) ||
++	    fuse_invalid_attr(&outarg.attr))
+ 		goto out_put_forget_req;
+ 
+ 	if ((outarg.attr.mode ^ mode) & S_IFMT)
+diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+index 6d4ff08ad3069a..d883c9e3543f5c 100644
+--- a/fs/fuse/inode.c
++++ b/fs/fuse/inode.c
+@@ -1059,6 +1059,7 @@ void fuse_conn_init(struct fuse_conn *fc, struct fuse_mount *fm,
+ 	fc->max_pages_limit = fuse_max_pages_limit;
+ 	fc->name_max = FUSE_NAME_LOW_MAX;
+ 	fc->timeout.req_timeout = 0;
++	fc->root_nodeid = FUSE_ROOT_ID;
+ 
+ 	if (IS_ENABLED(CONFIG_FUSE_BACKING))
+ 		fuse_backing_files_init(fc);
+@@ -1116,12 +1117,14 @@ EXPORT_SYMBOL_GPL(fuse_conn_get);
+ static struct inode *fuse_get_root_inode(struct super_block *sb, unsigned int mode)
+ {
+ 	struct fuse_attr attr;
++	struct fuse_conn *fc = get_fuse_conn_super(sb);
++
+ 	memset(&attr, 0, sizeof(attr));
+ 
+ 	attr.mode = mode;
+-	attr.ino = FUSE_ROOT_ID;
++	attr.ino = fc->root_nodeid;
+ 	attr.nlink = 1;
+-	return fuse_iget(sb, FUSE_ROOT_ID, 0, &attr, 0, 0, 0);
++	return fuse_iget(sb, fc->root_nodeid, 0, &attr, 0, 0, 0);
+ }
+ 
+ struct fuse_inode_handle {
+@@ -1165,7 +1168,7 @@ static struct dentry *fuse_get_dentry(struct super_block *sb,
+ 		goto out_iput;
+ 
+ 	entry = d_obtain_alias(inode);
+-	if (!IS_ERR(entry) && get_node_id(inode) != FUSE_ROOT_ID)
++	if (!IS_ERR(entry) && get_node_id(inode) != fc->root_nodeid)
+ 		fuse_invalidate_entry_cache(entry);
+ 
+ 	return entry;
+@@ -1258,7 +1261,7 @@ static struct dentry *fuse_get_parent(struct dentry *child)
+ 	}
+ 
+ 	parent = d_obtain_alias(inode);
+-	if (!IS_ERR(parent) && get_node_id(inode) != FUSE_ROOT_ID)
++	if (!IS_ERR(parent) && get_node_id(inode) != fc->root_nodeid)
+ 		fuse_invalidate_entry_cache(parent);
+ 
+ 	return parent;
+diff --git a/fs/fuse/readdir.c b/fs/fuse/readdir.c
+index db5ae8ec10305a..5ba19ca9d8a949 100644
+--- a/fs/fuse/readdir.c
++++ b/fs/fuse/readdir.c
+@@ -189,12 +189,12 @@ static int fuse_direntplus_link(struct file *file,
+ 			return 0;
+ 	}
+ 
+-	if (invalid_nodeid(o->nodeid))
+-		return -EIO;
+-	if (fuse_invalid_attr(&o->attr))
+-		return -EIO;
+-
+ 	fc = get_fuse_conn(dir);
++	if (invalid_nodeid(fc, o->nodeid))
++		return -EIO;
++	if (fuse_invalid_attr(&o->attr))
++		return -EIO;
++
+ 	epoch = atomic_read(&fc->epoch);
+ 
+ 	name.hash = full_name_hash(parent, name.name, name.len);
 
