@@ -1,161 +1,103 @@
-Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB5B2393DE8;
-	Wed, 29 Apr 2026 10:25:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777458347; cv=none; b=qx81TDlDWNZjYGBbzLHARsUDL9KkKDX8D8K8DvIHfPxF4oNtstkFJQSF1OJ680+qTY+8lWKRnqDvtz59rqx9RRrik/0Pa8dqFUqUfwePkxSghlK9GeXOvbkEgz8TOwkezbFHvmE7Mm7ouYknMUOr5CuQ/beIg7Q2XVat+l80MuE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777458347; c=relaxed/simple;
-	bh=uKx2BLK4SWtORQ3Y1X9QU+u3JmhryAfpmr007sf8OrM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Okk7xSo1DqiJWQ4y5ORbmodxvUqt3z7zCtusOnpvcI6F+PKzYOfkQFTyBq3bN+8mArFQu4WO1DwLu+GdJknoq6ExMfWw+ey3SzI8ikmr2WKk5gRRAHG4shfZhm7eYpkB/Od0XNzPxS+ybyprXAmLoGJxmb/B8NXg7JdOVW6Hp/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=syDuJ2eb; arc=none smtp.client-ip=95.215.58.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29DA03ECBD4
+	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Apr 2026 10:39:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777459149; cv=pass; b=K0xx7lHCDoCT4GpbBwtEbp0bmE5hSJc44EZT5SL7T6Jcwqv2EXuh1HUheKFNx7cxF9kLoriwadfiXMwvdlRWq3QKY0JDO21rF1ksQZiCqFI/IICnaLbf7RJqy75k9YmcSGqHchiE2wfORk/7hNuK7BcVN6l57OV3pJWmcWMjAxA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777459149; c=relaxed/simple;
+	bh=Z9tsSuHSkDSWGixPHFfe4+4WvZp+mB7T5Yz1aRjO6E0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JNYVCR0f4Xm+iIcyci+/s/H4jSL8GAV/g4XlbkZ+sIjnaIepqRO6cxY2/AfcO7HuwF1CZIJXeU4mXQP/Cw9ZnKzVM6GUS31wvIxfgHTQM/kehdXOTALtQik3l8XTWx/0x+9L0SnIHPw6xzwxDaWD9PJ6svd9mESLhy6yGHRjKbM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=BcZ9MuMQ; arc=pass smtp.client-ip=209.85.219.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="syDuJ2eb"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1777458333;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0ubnPqyEuUH+bb9tWP9+TOUp+n6C5onOR58LCuBDEiw=;
-	b=syDuJ2ebh9z2sjffREH58o0aT6Ajjew8W5I8ReEUtvp2EQkdghmYv8iT9JcU1iX87oMIbX
-	D+xmbMoFNHgWVKDoL6XEe6kPFjJgAeA5FQrv1tK/6uUbSyjmFqItMdxDS/n3eJA5ihtrWC
-	pDy1LXDxeyfrSgRVjezaD0bM6Fa+Scc=
-From: Usama Arif <usama.arif@linux.dev>
-To: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
-Cc: Usama Arif <usama.arif@linux.dev>,
-	Yury Norov <ynorov@nvidia.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	David Laight <david.laight.linux@gmail.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	linux-alpha@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mips@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	kvm@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org,
-	sparclinux@vger.kernel.org,
-	linux-um@lists.infradead.org,
-	dmaengine@vger.kernel.org,
-	linux-efi@vger.kernel.org,
-	linux-fsi@lists.ozlabs.org,
-	amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org,
-	linux-wpan@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org,
-	linux-spi@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-serial@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	xen-devel@lists.xenproject.org,
-	linux-fsdevel@vger.kernel.org,
-	ocfs2-devel@lists.linux.dev,
-	bpf@vger.kernel.org,
-	kasan-dev@googlegroups.com,
-	linux-mm@kvack.org,
-	linux-x25@vger.kernel.org,
-	rust-for-linux@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	sound-open-firmware@alsa-project.org,
-	linux-csky@vger.kernel.org,
-	linux-hexagon@vger.kernel.org,
-	loongarch@lists.linux.dev,
-	linux-m68k@lists.linux-m68k.org,
-	linux-openrisc@vger.kernel.org,
-	linux-parisc@vger.kernel.org,
-	linux-sh@vger.kernel.org,
-	linux-arch@vger.kernel.org
-Subject: Re: [RFC PATCH v1 7/9] x86: Add unsafe_copy_from_user()
-Date: Wed, 29 Apr 2026 03:25:19 -0700
-Message-ID: <20260429102520.1617327-1-usama.arif@linux.dev>
-In-Reply-To: <0ee46bb228d97163fbdc14f2a7c52b93d8bc34ce.1777306795.git.chleroy@kernel.org>
-References: 
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="BcZ9MuMQ"
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-8a3970f1a0eso130111286d6.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 29 Apr 2026 03:39:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777459147; cv=none;
+        d=google.com; s=arc-20240605;
+        b=FOIXsYzmyKuvOGhObZWKI0Zqp85QSVxL99RNd11crEADgcFse00pwTmTPxOZLbp4zc
+         hpCVtOlVr19cwjzqPLrhadOYM6KugRSQhoyx736q08Vx97QlE0j4LwjRIDCl3ToOSauU
+         PQG3txrl+UoMHiWoODiCJlxhjecfyyCa+7PD40Hwc9AdeUGnXhkxOYRIxe0EOCQX5uLV
+         PsO4svTgMdxXyaG5Bil094J5/3gJ3lBHne1qDFEemiDSrbNck38QmmaVBoc9EYm9gWl0
+         MNOl/dXCuxBQn0ERoXHozrx55lqDc7bFwKRc2X6acVbI0COvKKg+Avfe+PwiIVne+VPU
+         qI0w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=ZVQ38JXCQPX1zKNdB3s531A3ZBEl2/YN5m92yOfvAjM=;
+        fh=+PCXOpEwNFguUMwQVaYRhIP1MgwQlEqYD2iMqmgtYGE=;
+        b=hI3PTErL2BFS11P7zG2GOk/JddeXbTRJM0ORt46jZWo707fwpzWRgKWjJdH+FFQGnF
+         u+W4DK6ECTP6zOB0NUSnnahYhSeQMnb31jLtrwc0OcX2UnSE+r9M0unypRmkWxXk4/Mu
+         ND9Liel1aSN15yG3X5RAYO2Y6yUscqw97GaKKxzowq9jgQv9oAfYGyHuSRoh+COcMUtK
+         1b6IvJVZR+nEWcFdSzpit+6wn0F8ticMxxtfrSBBA9ih8FmwmxJ0t08vAgskgMrwK/Yp
+         dbRHD6TNFrd5gsfUuUiOTGTXVr59s71yAVlLEWg8O5ffSnzNLbAZ81oloCMUIWlj9VMI
+         nGHA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1777459147; x=1778063947; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZVQ38JXCQPX1zKNdB3s531A3ZBEl2/YN5m92yOfvAjM=;
+        b=BcZ9MuMQ6Q+2WG8wSzqCSgLQXhW4YW+NW+ONhw25jdpM35y2i1nUU8bqi+ClwG5rBG
+         GiWDlE5i+VoJAfMDk2ZbsokMOKMJlcfiOjm+utsp4u0Kv4AhvpvJI9qb7C+vh4ZwxgCD
+         Ne6ZE9nMD9CV5I3xJDybP47JYVGxa3QNvHPHM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777459147; x=1778063947;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZVQ38JXCQPX1zKNdB3s531A3ZBEl2/YN5m92yOfvAjM=;
+        b=Oh5zm0qS1WSPQo6NKl60TZqsmvGzfZYPDDtpYbUeDQzWydgLPHdYym7Qo8sj9Jyi0g
+         98ot+dKi/GMye86Zoobd4kYx4JAxY6pY83oWiVWm1vbO36VT1FW9uZIiQTRg71gxXgZy
+         Db7QHk/+ddTdmeX/lhYxdiMlCxF3rwFUu/aETwJt9Rg924BehHCs3NBeA8XiMlqPCw02
+         J8DHiHhxsa4uFrQDA8ImTLXfRNL65a4NLK0j+Vlf2F/32jIDbk7xySK4tHJcfZLRxsqe
+         vB8epbMkaOSX6X3ccChzGYz3xHQFlG5iAw6K5BHwODFGZv1pD1QRS1i5mlK1nZXfEI+W
+         akVg==
+X-Forwarded-Encrypted: i=1; AFNElJ99AfCFiVMNJjrw5QB9DCNd4YhDPaqruU9LEDPxkMiuPqZ08vBecVxjbth8qDWG7FP1djt85gAK/iXWbHPd@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxi4snrIplgi5+exTEkPj2LwzMqK8z4OkxkhjEftXYPdRVIvUNa
+	qEB45JGPpwXIIdIhtKQBDDiMLfv92NgoSAcHOjx4L3wWFSTxUE51MqgMyWnS3lPKtMizFtZ4zxM
+	fv5V35w9P7n4gpJvDhf4OAvcUG1yV6JNuQYQkPCcDrjoWaC09w0qf
+X-Gm-Gg: AeBDievIWPMkGMVISYqoFVpvvmgppHQ8dMUH+5uwZ6LkAo4MS4WRN2WNQav7591iD0X
+	fnffIlUfY5tB/+9J84SYbZBM7NbVWRHBQRmZYHhCmna/jsOOUkeXK7mMkwXFAE5sD/CSXCTyAfe
+	Gza80+1nc8jABIGtwSrhpsJnmDeSFFGQEAWC3GfsKhWgsPlGeoJTA6WXvqyhPHJ0m0oZMvxBxRk
+	n8n5+fCltaIBpYOpgKQNr/F9XGAUjMYdmJ78+AACOtNQAjHA9+eKvw9vv4lXB2n5WtzHYvJIalp
+	M7i4Naewpr9Ko7zttL0/JrU8VLZT1SlKk/Y2+f/FQ23RXOxPteM=
+X-Received: by 2002:a05:6214:4187:b0:8ad:d530:34b9 with SMTP id
+ 6a1803df08f44-8b3e3208c6emr120424996d6.34.1777459147103; Wed, 29 Apr 2026
+ 03:39:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+References: <20260428233028.2747981-1-mochs@nvidia.com> <3e889026-de19-4238-ad5a-6d7b31845603@ddn.com>
+In-Reply-To: <3e889026-de19-4238-ad5a-6d7b31845603@ddn.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Wed, 29 Apr 2026 12:38:55 +0200
+X-Gm-Features: AVHnY4JVx_Zw_oX_K70r-oCxF4tHsePbAIvh2QbkJRti-_8qcVM7ZUwCq-I-Mso
+Message-ID: <CAJfpegti_MFgBie0=gX0RfZ7yQTtfzUMaUk6o+qunO9cuOeE4A@mail.gmail.com>
+Subject: Re: [PATCH v2] fuse: back uncached readdir buffers with pages
+To: Bernd Schubert <bschubert@ddn.com>
+Cc: "Matthew R. Ochs" <mochs@nvidia.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Joanne Koong <joannelkoong@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 27 Apr 2026 19:13:48 +0200 "Christophe Leroy (CS GROUP)" <chleroy@kernel.org> wrote:
+On Wed, 29 Apr 2026 at 11:29, Bernd Schubert <bschubert@ddn.com> wrote:
 
-> At the time being, x86 and arm64 are missing unsafe_copy_from_user().
-> 
-> Add it.
-> 
-> Signed-off-by: Christophe Leroy (CS GROUP) <chleroy@kernel.org>
-> ---
->  arch/x86/include/asm/uaccess.h | 29 ++++++++++++++++++++++++-----
->  1 file changed, 24 insertions(+), 5 deletions(-)
-> 
-> diff --git a/arch/x86/include/asm/uaccess.h b/arch/x86/include/asm/uaccess.h
-> index 3a0dd3c2b233..10c458ffa399 100644
-> --- a/arch/x86/include/asm/uaccess.h
-> +++ b/arch/x86/include/asm/uaccess.h
-> @@ -598,7 +598,7 @@ _label:									\
->   * We want the unsafe accessors to always be inlined and use
->   * the error labels - thus the macro games.
->   */
-> -#define unsafe_copy_loop(dst, src, len, type, label)				\
-> +#define unsafe_put_loop(dst, src, len, type, label)				\
->  	while (len >= sizeof(type)) {						\
->  		unsafe_put_user(*(type *)(src),(type __user *)(dst),label);	\
->  		dst += sizeof(type);						\
-> @@ -611,10 +611,29 @@ do {									\
->  	char __user *__ucu_dst = (_dst);				\
->  	const char *__ucu_src = (_src);					\
->  	size_t __ucu_len = (_len);					\
-> -	unsafe_copy_loop(__ucu_dst, __ucu_src, __ucu_len, u64, label);	\
-> -	unsafe_copy_loop(__ucu_dst, __ucu_src, __ucu_len, u32, label);	\
-> -	unsafe_copy_loop(__ucu_dst, __ucu_src, __ucu_len, u16, label);	\
-> -	unsafe_copy_loop(__ucu_dst, __ucu_src, __ucu_len, u8, label);	\
-> +	unsafe_put_loop(__ucu_dst, __ucu_src, __ucu_len, u64, label);	\
-> +	unsafe_put_loop(__ucu_dst, __ucu_src, __ucu_len, u32, label);	\
-> +	unsafe_put_loop(__ucu_dst, __ucu_src, __ucu_len, u16, label);	\
-> +	unsafe_put_loop(__ucu_dst, __ucu_src, __ucu_len, u8, label);	\
-> +} while (0)
-> +
-> +#define unsafe_get_loop(dst, src, len, type, label)				\
-> +	while (len >= sizeof(type)) {						\
-> +		unsafe_get_user(*(type __user *)(src),(type *)(dst),label);	\
+> Josef and Joanne had spent quite some time to allow to use large folios
+> - maybe we should make use of it? Attached is a totally untested patch
+> and that ignores all of Miklos' comments for now. Also cannot be that
+> easily back ported
 
-Hi,
+I'd be happier if the VM infrastructure for folio arrays was available
+first, then used in fuse.  Not the other way round.
 
-Just wanted to check if src and dst need to be swapped? Same for arm64 patch.
-
-> +		dst += sizeof(type);						\
-> +		src += sizeof(type);						\
-> +		len -= sizeof(type);						\
-> +	}
-> +
-> +#define unsafe_copy_from_user(_dst,_src,_len,label)			\
-> +do {									\
-> +	char *__ucu_dst = (_dst);					\
-> +	const char __user *__ucu_src = (_src);				\
-> +	size_t __ucu_len = (_len);					\
-> +	unsafe_get_loop(__ucu_dst, __ucu_src, __ucu_len, u64, label);	\
-> +	unsafe_get_loop(__ucu_dst, __ucu_src, __ucu_len, u32, label);	\
-> +	unsafe_get_loop(__ucu_dst, __ucu_src, __ucu_len, u16, label);	\
-> +	unsafe_get_loop(__ucu_dst, __ucu_src, __ucu_len, u8, label);	\
->  } while (0)
->  
->  #ifdef CONFIG_CC_HAS_ASM_GOTO_OUTPUT
-> -- 
-> 2.49.0
-> 
-> 
+Thanks,
+Miklos
