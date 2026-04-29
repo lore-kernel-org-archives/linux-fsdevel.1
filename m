@@ -1,39 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 742C530CD81;
-	Wed, 29 Apr 2026 14:20:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DC972765D7;
+	Wed, 29 Apr 2026 14:20:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777472403; cv=none; b=cX6witbM/RJ0u6Lvn0X2RfIxV0b8VVVwmaKxiFaSJhBr13EPt1sjPxj8Iy2l8BTb/TtaQOLPFaQ6qPX0EnyLEIYUgdLeWzAPgcQDH8KgdTnUGTDlCDrqtrLWyzR5oFEBSvuSu50m/gw6M3j5wud2z0e5JEpFyWMmWH/QNaSLoe0=
+	t=1777472419; cv=none; b=mI9JEdpq5bI3R7fVAQrt7GvixC0woKqvdrdrz43ab2lodt/bg73kpEN+/9wvm8mlNvgFt+xoGtEMbgI6DS8/OpTFdmZX5TMLs8Ltb5ioMN7KkAwt7S8ATxz2EzmEt5AAGQGq0TJaY6r0VQRd4OAQ7Zv+vqbE8m67zH1+SHY2Dwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777472403; c=relaxed/simple;
-	bh=gxCpwqQ5z6e9sCNxXJF3lQB3qgoU8diorYjoFyBfxeU=;
+	s=arc-20240116; t=1777472419; c=relaxed/simple;
+	bh=b/O9O3XMV/qSeGbrmi+yNvZdXxn6s3RgbEGRrCR9E9U=;
 	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MKQ++U+7GaJ9LGCTcWj4lIUcfO7gAZ+maufuQYYXyGNXkq+QlCp/DaqAK+iNv+YfObNds4rePQqzYXDt6LG2hjvGhhOdvz5maN6v3VQmj2J+gvYrthNndPodgjTn8A76bIGH340rVZtwIe1bAy38MF1CxXDkcCdYNUpb6nhWrjA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hdmtRwzX; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=A6hhRc5tVNNS1i+Yj+LZl5HQZxyBcGerI0EjlczAfdT5wAclsXyin9lR0RcrJ07KJuT5O3NNSToWGN1QC5TjsuU7rY0DbUYNgC8QOVz/UE2BfTDmHVKViY1yPHiwJJkt0zUl6nCNxgVLiBVyiwhUC1l/sj4OSqpkooUROUF+qSU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a7PwkUO6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hdmtRwzX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48C87C19425;
-	Wed, 29 Apr 2026 14:20:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a7PwkUO6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3B6CC19425;
+	Wed, 29 Apr 2026 14:20:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777472403;
-	bh=gxCpwqQ5z6e9sCNxXJF3lQB3qgoU8diorYjoFyBfxeU=;
+	s=k20201202; t=1777472419;
+	bh=b/O9O3XMV/qSeGbrmi+yNvZdXxn6s3RgbEGRrCR9E9U=;
 	h=Date:Subject:From:To:Cc:In-Reply-To:References:From;
-	b=hdmtRwzXZ4pvCrf60btI8YAToflfIRvL+CDs/+wGo2rC/t1ryy3BPmBIIdCkCzeMO
-	 DU6BTe9dH5SX62HzGntsf7J8HmB+MZGqT0ohsr4lzM07VdwWX8U6m025l2/tBHLDVo
-	 e9T01CXo/zOQ+4xrBo5iHteSU4EVe8A72GHZlT5aItB4Iula9xF+3M+JVmVwrtDGNp
-	 VNuj8JuqvQY98k78+yAZdeWdrE/6H5QTfq0cbOt+BLn1PbpDdYURDzFz9UX6WKAxmh
-	 dqIOK9fWEPFlaGUzqMzYjJtSvaQAaSzpOGZenKyuWb/G/vsutlzoE36rVEFSC0VX9Z
-	 zOGWv4k3Oy4uA==
-Date: Wed, 29 Apr 2026 07:20:02 -0700
-Subject: [PATCHSET v8 6/6] libfuse: cache iomap mappings for even better file
- IO performance
+	b=a7PwkUO6p6crrruJ2cRftQNcueiz0o0NujNGMB7UHvy5HcoYO7xLKJzP0hK7Fjtbt
+	 iy/6YtV9B06AsLADTpR27/cQxzBx+hMw+BsxRg43pufxd0tGuzRo0a3KBBFzqWxHk0
+	 wrpfp9OKCu6thiPT5MUYasP/3eCNwzwx5bDfcG2tT/L7AoUA8tMQyATzd0qemO1Ckd
+	 qbMdZbmRCS0EpzpzLGI9CvuXv97ZYZuN71VdSdXQOfRz5IRoge/RpfSlQujDKXwISL
+	 yfSUTnkRrLbwof3ycMasT+jGO8qdX6t3MXjztHBfZuxJTPA+0fDQnbleCka40lbR38
+	 Zt9EBhEv/MV+A==
+Date: Wed, 29 Apr 2026 07:20:18 -0700
+Subject: [PATCHSET v8 1/6] libext2fs: refactoring for fuse2fs iomap support
 From: "Darrick J. Wong" <djwong@kernel.org>
-To: djwong@kernel.org, bernd@bsbernd.com
-Cc: miklos@szeredi.hu, linux-fsdevel@vger.kernel.org,
- fuse-devel@lists.linux.dev, joannelkoong@gmail.com, neal@gompa.dev
-Message-ID: <177747213211.4106384.5167047581302637277.stgit@frogsfrogsfrogs>
+To: tytso@mit.edu
+Cc: bernd@bsbernd.com, miklos@szeredi.hu, linux-ext4@vger.kernel.org,
+ neal@gompa.dev, linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev,
+ joannelkoong@gmail.com
+Message-ID: <177747214224.4107228.16300103064218258692.stgit@frogsfrogsfrogs>
 In-Reply-To: <20260429141253.GQ7739@frogsfrogsfrogs>
 References: <20260429141253.GQ7739@frogsfrogsfrogs>
 Precedence: bulk
@@ -47,48 +47,42 @@ Content-Transfer-Encoding: 7bit
 
 Hi all,
 
-This series improves the performance (and correctness for some
-filesystems) by adding the ability to cache iomap mappings in the
-kernel.  For filesystems that can change mapping states during pagecache
-writeback (e.g. unwritten extent conversion) this is absolutely
-necessary to deal with races with writes to the pagecache because
-writeback does not take i_rwsem.  For everyone else, it simply
-eliminates roundtrips to userspace.
+In preparation for connecting fuse, iomap, and fuse2fs for a much more
+performant file IO path, make some changes to the Unix IO manager in
+libext2fs so that we can have better IO.  First we start by making
+filesystem flushes a lot more efficient by eliding fsyncs when they're
+not necessary, and allowing library clients to turn off the racy code
+that writes the superblock byte by byte but exposes stale checksums.
+
+XXX: The second part of this series adds IO tagging so that we could tag
+IOs by inode number to distinguish file data blocks in cache from
+everything else.  This is temporary scaffolding whilst we're in the
+middle adding directio and later buffered writes.  Once we can use the
+pagecache for all file IO activity I think we could drop the back half
+of this series.
 
 If you're going to start using this code, I strongly recommend pulling
 from my git trees, which are linked below.
 
-With a bit of luck, this should all go splendidly.
 Comments and questions are, as always, welcome.
 
---D
-
-kernel git tree:
-https://git.kernel.org/cgit/linux/kernel/git/djwong/xfs-linux.git/log/?h=fuse-iomap-cache
+e2fsprogs git tree:
+https://git.kernel.org/cgit/linux/kernel/git/djwong/e2fsprogs.git/log/?h=libext2fs-iomap-prep
 ---
 Commits in this patchset:
- * libfuse: enable iomap cache management for lowlevel fuse
- * libfuse: add upper-level iomap cache management
- * libfuse: allow constraining of iomap mapping cache size
- * libfuse: add upper-level iomap mapping cache constraint code
- * libfuse: enable iomap
- * example/iomap_ll: cache mappings for later
- * example/iomap_inline_ll: cache iomappings in the kernel
- * example/iomap_ow_ll: cache iomappings in the kernel
- * example/iomap_service_ll: cache iomappings in the kernel
+ * libext2fs: invalidate cached blocks when freeing them
+ * libext2fs: only flush affected blocks in unix_write_byte
+ * libext2fs: allow unix_write_byte when the write would be aligned
+ * libext2fs: allow clients to ask to write full superblocks
+ * libext2fs: allow callers to disallow I/O to file data blocks
 ---
- example/single_file.h      |    7 +++-
- include/fuse.h             |   31 ++++++++++++++++
- include/fuse_common.h      |   19 +++++++++-
- include/fuse_kernel.h      |   33 ++++++++++++++++-
- include/fuse_lowlevel.h    |   52 ++++++++++++++++++++++++++
- example/iomap_inline_ll.c  |   16 ++++++++
- example/iomap_ll.c         |   16 ++++++++
- example/iomap_ow_ll.c      |   17 +++++++++
- example/iomap_service_ll.c |   16 ++++++++
- example/single_file.c      |    7 ++++
- lib/fuse.c                 |   35 +++++++++++++++++-
- lib/fuse_lowlevel.c        |   88 ++++++++++++++++++++++++++++++++++++++++++--
- lib/fuse_versionscript     |    4 ++
- 13 files changed, 332 insertions(+), 9 deletions(-)
+ lib/ext2fs/ext2_io.h         |    8 ++++++-
+ lib/ext2fs/ext2fs.h          |    4 +++
+ debian/libext2fs2t64.symbols |    1 +
+ lib/ext2fs/alloc_stats.c     |    6 +++++
+ lib/ext2fs/closefs.c         |    7 ++++++
+ lib/ext2fs/fileio.c          |   12 +++++++++-
+ lib/ext2fs/io_manager.c      |    9 +++++++
+ lib/ext2fs/unix_io.c         |   51 ++++++++++++++++++++++++++++++++++++++++--
+ 8 files changed, 93 insertions(+), 5 deletions(-)
 
