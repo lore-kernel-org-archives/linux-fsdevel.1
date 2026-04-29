@@ -1,373 +1,307 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA0A13BA25B
-	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Apr 2026 18:01:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C09FE38D688;
+	Wed, 29 Apr 2026 18:07:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777485689; cv=none; b=ldjm1tDBgihYSJXWHTN5onkdBUHpO1oiE2ZsjyV+LHhbhcIiBX9jtkVeRuhT8tCzlq+iAK0E0AmoaosRKN1L3E75lOg5/MLPyoSFEOt8stJuAksmAKJxwxBanBWTwiYCkwEfNTBIDNp8/D8m0p1vJUanLkpF4G0B8VtNUqi2eTU=
+	t=1777486048; cv=none; b=RyGTXhMc24N+39SgumPPRZnRu6+oGMlZOw8NfBvnD2MKQy4E6tWZ68BpInvkgRR4loOUdINtK2KKIl2i+C+3gZedlpA1h4kMH2Pph4G8uRwpR2BWhe7iE0gGYw+TaKLxJn9WzRVWdXrF2zSFab8IcFAKiIoKwVVHvxXTxhXwGcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777485689; c=relaxed/simple;
-	bh=gsWzr+H1ymTOyBF3QVYLRNhN+/vGEl5Nzp/a3LYbOlQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AHLbSTOTS1+TnqNN8HTx5E2ogJIZpY6/EpAvg61WN1BhTm9NSxiuVP+Up8imR7gXO9M0tjjNOwEPXH+FMrTE0wiKgiATTT1p+oSh5LZ/hACXfha5Q44Iqvo4UELZ9jP1KNkvAqi7LSew/fZMjFbCROd2ry9ktl1dUECq0MabnFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=CvYCDdqp; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=k4qN3aKj; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=CvYCDdqp; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=k4qN3aKj; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1777486048; c=relaxed/simple;
+	bh=nGIAvTon0zs9b1xP0r8i5cYHOhAA/ZjGGgXeoFYtSA0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=pp5p6l9o7NcThaY3K07xtIu2tgMorrCrjj9U69RgbmnmNB01aBC0wEBMUtkj4bHDr/CrfWPm3FQr6VzkJL5ml06UP4/g8r++2vQV4cR0PNSo7HOWSiAJ+kNGwwSl2Q4C24yIg0+xOnsbtq1F1/81QI1Oqrg5qy3PzgxiCWOaB5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rbpvfHDM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="CvYCDdqp";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="k4qN3aKj";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="CvYCDdqp";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="k4qN3aKj"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 269E65BD69;
-	Wed, 29 Apr 2026 18:01:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1777485673; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cklHMklyuItTZV8ao77zjF0U5CZlwBoE5/zLT3mlMFU=;
-	b=CvYCDdqpvzHqpz2CdBqdHqqOJvGOBCQikaWV/6+iJrKt04keMqXZq0HYu/CVngOCiz3lYJ
-	otybJ9y69h4RqGmEBtps77mTpiQeOl9DyrrgU94u7Xm+VLYhgiv8opMCvZkxOTrgBGRm+h
-	12CRgek6ZcEAedLC0+qOJ3yoZ4GAjS8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1777485673;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cklHMklyuItTZV8ao77zjF0U5CZlwBoE5/zLT3mlMFU=;
-	b=k4qN3aKjrfCgc04jBjoeWs8I1KDD5NlcFheP+LM8oMy49tfRhS03N9BfTf69kre49B01iS
-	SvKEIFAcuTcRPXCw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1777485673; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cklHMklyuItTZV8ao77zjF0U5CZlwBoE5/zLT3mlMFU=;
-	b=CvYCDdqpvzHqpz2CdBqdHqqOJvGOBCQikaWV/6+iJrKt04keMqXZq0HYu/CVngOCiz3lYJ
-	otybJ9y69h4RqGmEBtps77mTpiQeOl9DyrrgU94u7Xm+VLYhgiv8opMCvZkxOTrgBGRm+h
-	12CRgek6ZcEAedLC0+qOJ3yoZ4GAjS8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1777485673;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cklHMklyuItTZV8ao77zjF0U5CZlwBoE5/zLT3mlMFU=;
-	b=k4qN3aKjrfCgc04jBjoeWs8I1KDD5NlcFheP+LM8oMy49tfRhS03N9BfTf69kre49B01iS
-	SvKEIFAcuTcRPXCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 11285593B3;
-	Wed, 29 Apr 2026 18:01:13 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id LtDRA2lH8mnWOwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 29 Apr 2026 18:01:13 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id C2E23A0B77; Wed, 29 Apr 2026 20:01:04 +0200 (CEST)
-From: Jan Kara <jack@suse.cz>
-To: <linux-fsdevel@vger.kernel.org>
-Cc: <linux-mm@kvack.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Jan Kara <jack@suse.cz>
-Subject: [PATCH 3/4] fs: Add throttling to deferred inode reclaim
-Date: Wed, 29 Apr 2026 20:00:53 +0200
-Message-ID: <20260429180056.29598-7-jack@suse.cz>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260429174850.18223-1-jack@suse.cz>
-References: <20260429174850.18223-1-jack@suse.cz>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rbpvfHDM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFD87C19425;
+	Wed, 29 Apr 2026 18:07:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777486048;
+	bh=nGIAvTon0zs9b1xP0r8i5cYHOhAA/ZjGGgXeoFYtSA0=;
+	h=From:Subject:Date:To:Cc:From;
+	b=rbpvfHDMiWhiox01PdHgWiDajLy46O57SvBnNBUKJF5rY7CeK0XMvUpeyCnSZtD+M
+	 czBdnUPUXQOZ8uTgetzcOdw5qA0Jyqmrqvmm69zYx8CO/MWX4988jXwneseeqF8bjn
+	 XCMhT4tBKBbrBzBZdyo1qKAxI99stL20jhATDEAmstQIXnBprsZkztF8pyvQBib75J
+	 zIyZ/hBX6tDWqbnzD17epgB7MmmPW/apvdI7qTiqpwWXQIYur6AeEImgwRMtkhXTEc
+	 9CJLuov5syAnb6Sgzi0tx+YofaHT22pMRWsrlgDwL79ATA0hdKElKNIdYNYhU8HQra
+	 d6ImeZTBwVbkg==
+From: Chuck Lever <cel@kernel.org>
+Subject: [PATCH v12 00/15] Exposing case folding behavior
+Date: Wed, 29 Apr 2026 14:07:11 -0400
+Message-Id: <20260429-case-sensitivity-v12-0-8057123bebe0@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7925; i=jack@suse.cz; h=from:subject; bh=gsWzr+H1ymTOyBF3QVYLRNhN+/vGEl5Nzp/a3LYbOlQ=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBp8kdag706q4HDCNkOexUtc77pH3FYK1VOsHkZ4 UU3n1wCkX2JATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCafJHWgAKCRCcnaoHP2RA 2Z+ZCACKGQXldhrF1YN4QvqGicFOR2Xgx+RpXCQ4+8ucHwiHmzGJZUklNN9VjIz9+K4wfZ/u5HS vw6qBigtVLZ9hy5CiKcayhfyupef39C06zMpDK6UsLuzXNM4IFq8fegp9PYgYVvHLPUzStS1uJX qUIFA0cNogFooKozQHBjK0M5NwNKT/bVMSQD0m1ZyoxJPklSOkIoLZ9XlOtOYr9Kjd3ONwh2P1E e2XN8g93pPnvas9unvyu6M0tm6Xxi0famIzlm0RhESTjYxKzYyEXesjqSaOQ504cGLn8u6C2Vhh jHPiLZgcz+DHi2YtQPyPO+F0MEIUOd5Xtce0IReamQUmpNee
-X-Developer-Key: i=jack@suse.cz; a=openpgp; fpr=93C6099A142276A28BBE35D815BC833443038D8C
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-6.80 / 50.00];
-	REPLY(-4.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCPT_COUNT_THREE(0.00)[4];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:mid,suse.cz:email]
-X-Spam-Flag: NO
-X-Spam-Score: -6.80
-X-Spam-Level: 
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAM9I8mkC/33OTW7DIBAF4KtErIsL2Pgnq96j6gKGoZ4qMRG4q
+ FHkuxeSTaJGXcxiRm8+vQtLGAkT2+8uLGKmRGEpi1QvOwazWT6RkysHpoTqRacUB5OQJ1wSrZR
+ pPXMN1nsYvdR6ZOXtFNHTz9V8/7jt6dt+IazVqQlbCRvNAnM9ZZ9ey/ChUU3VfTi4GpsprSGer
+ 93yVLl/WuSJC25RqBZADALVW4gGDthAOLJaI0txT7RPCCmKAe2oXT90pgf/15D3RvfMkMVwqHs
+ 5WXTOPBrbtv0CS7SfZ3MBAAA=
+X-Change-ID: 20260422-case-sensitivity-5cbffc8f1558
+To: Al Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
+Cc: linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org, 
+ linux-xfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
+ linux-nfs@vger.kernel.org, linux-api@vger.kernel.org, 
+ linux-f2fs-devel@lists.sourceforge.net, hirofumi@mail.parknet.co.jp, 
+ linkinjeon@kernel.org, sj1557.seo@samsung.com, yuezhang.mo@sony.com, 
+ almaz.alexandrovich@paragon-software.com, slava@dubeyko.com, 
+ glaubitz@physik.fu-berlin.de, frank.li@vivo.com, tytso@mit.edu, 
+ adilger.kernel@dilger.ca, cem@kernel.org, sfrench@samba.org, 
+ pc@manguebit.org, ronniesahlberg@gmail.com, sprasad@microsoft.com, 
+ trondmy@kernel.org, anna@kernel.org, jaegeuk@kernel.org, chao@kernel.org, 
+ hansg@kernel.org, senozhatsky@chromium.org, 
+ Chuck Lever <chuck.lever@oracle.com>, "Darrick J. Wong" <djwong@kernel.org>, 
+ Roland Mainz <roland.mainz@nrubsig.org>, 
+ Steve French <stfrench@microsoft.com>
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=10117;
+ i=chuck.lever@oracle.com; h=from:subject:message-id;
+ bh=nGIAvTon0zs9b1xP0r8i5cYHOhAA/ZjGGgXeoFYtSA0=;
+ b=owEBbQKS/ZANAwAKATNqszNvZn+XAcsmYgBp8kjUruCj6HSCo8h/ROV63cWR/oVu16zwqghlT
+ mPK1ER4ZuWJAjMEAAEKAB0WIQQosuWwEobfJDzyPv4zarMzb2Z/lwUCafJI1AAKCRAzarMzb2Z/
+ l60jD/wOFP5Liv/4++jhg7MCr4gC8zrGZH6SLe53mUycIA01Yl4fSZlymrf+2x/ZbrtzvPJsQMz
+ tdRHlxlJVf7t8N03MaxrwXGis+ciyJyJhjg1WTVKRHhNdGC+eOEpX1ptetE0rU8axoVTge0c+1a
+ 4qjf9lDvy70V8AStRqezRJn51vNjMt14XBRWo+R6HmKVpnM0GPzEj5oPWs+Vu74/d0hNN9cV5if
+ U/e/a9AnV8vm40EmwIHtrgf3DwEdM8kdPu/3seRyspTFDMLuyixZ+4YZaMyF/ruCDI0F/e9g6Rn
+ GO+bAmOEvn4VLXQfEgcAO1lfzIyShSsB7uqAUhDkLaUiGNeRLZE3/oVUzcS3+AuC8ov0rEHAAhZ
+ uEmvXxjJsHL1ESfV6YkxDRWu/a+WmwTwPy0xQ8LwghSSFL80RuuLk1kfW06IxH5jJYnzYMpny4g
+ SX3mKds5MKYu2sO4xjkIKJA9mY9KDBBV3tRZiMZch2buj60MPlW0f7Fe4KxwSS3WN8HxSEC5OIB
+ 5nOiMO2L87RiuMda0PTn7Yb9iH8mEOzsX6omLFnC8m4Zm40B5xG3PlEfNsqOAM7O/nVlKUFShNZ
+ kHL6rF/gMEfTqQmJIXDy/ARe6JSajQpZmtQtQrPJSaG8UnV4pgb354onxVVMYdBXi+i+eZerZL1
+ DfDyZzX3FJpTM7Q==
+X-Developer-Key: i=chuck.lever@oracle.com; a=openpgp;
+ fpr=28B2E5B01286DF243CF23EFE336AB3336F667F97
 
-Deferring difficult inode reclaim from prune_icache_sb() to a workqueue
-removes the natural feedback loop of blocking tasks in direct reclaim
-until they make space for new allocations. This can result in the list
-of deferred inodes to grow beyond any bounds and possibly push the
-machine to a reclaim storm or OOM.
+Following on from:
 
-Add a throttling mechanism slowing down tasks in
-mark_inode_reclaim_deferred() if the list of deferred inodes to reclaim
-grows over limit. We measure average time it takes to reclaim inode on
-deferred list and block tasks proportionally to that.
+https://lore.kernel.org/linux-nfs/20251021-zypressen-bazillus-545a44af57fd@brauner/T/#m0ba197d75b7921d994cf284f3cef3a62abb11aaa
 
-Signed-off-by: Jan Kara <jack@suse.cz>
+I'm attempting to implement enough support in the Linux VFS to
+enable file services like NFSD and ksmbd (and user space
+equivalents) to provide the actual status of case folding support
+in local file systems. The default behavior for local file systems
+not explicitly supported in this series is to reflect the usual
+POSIX behaviors:
+
+  case-insensitive = false
+  case-nonpreserving = false
+
+The case-insensitivity and case-nonpreserving booleans can be
+consumed immediately by NFSD. These two attributes have been part of
+the NFSv3 and NFSv4 protocols for decades, in order to support NFS
+client implementations on non-POSIX systems.
+
+Support for user space file servers is why this series exposes case
+folding information via a user-space API. I don't know of any other
+category of user-space application that requires access to case
+folding info.
+
+The Linux NFS community has a growing interest in supporting NFS
+clients on Windows and MacOS platforms, where file name behavior does
+not align with traditional POSIX semantics.
+
+One example of a Windows-based NFS client is [1]. This client
+implementation explicitly requires servers to report
+FATTR4_WORD0_CASE_INSENSITIVE = TRUE for proper operation, a hard
+requirement for Windows client interoperability because Windows
+applications expect case-insensitive behavior. When an NFS client
+knows the server is case-insensitive, it can avoid issuing multiple
+LOOKUP/READDIR requests to search for case variants, and applications
+like Win32 programs work correctly without manual workarounds or
+code changes.
+
+Even the Linux client can take advantage of this information. Trond
+merged patches 4 years ago [2] that introduce support for case
+insensitivity, in support of the Hammerspace NFS server. In
+particular, when a client detects a case-insensitive NFS share,
+negative dentry caching must be disabled (a lookup for "FILE.TXT"
+failing shouldn't cache a negative entry when "file.txt" exists)
+and directory change invalidation must clear all cached case-folded
+file name variants.
+
+Hammerspace servers and several other NFS server implementations
+operate in multi-protocol environments, where a single file service
+instance caters to both NFS and SMB clients. In those cases, things
+work more smoothly for everyone when the NFS client can see and adapt
+to the case folding behavior that SMB users rely on and expect. NFSD
+needs to support the case-insensitivity and case-nonpreserving
+booleans properly in order to participate as a first-class citizen
+in such environments.
+
+[1] https://github.com/kofemann/ms-nfs41-client
+
+[2] https://patchwork.kernel.org/project/linux-nfs/cover/20211217203658.439352-1-trondmy@kernel.org/
+
 ---
- fs/inode.c                       | 94 +++++++++++++++++++++++++++++---
- include/linux/fs/super_types.h   |  2 +
- include/trace/events/writeback.h | 51 +++++++++++++++++
- 3 files changed, 139 insertions(+), 8 deletions(-)
+Changes since v11:
+- isofs: Wire .fileattr_get only on directory inodes, since
+  NFSD and ksmbd query casefolding on directories (Jan Kara)
+- xfs, hfsplus: Drop the FS_CASEFOLD_FL fileattr_get mask;
+  admit the bit through fileattr_set's allowlist instead
+- Address findings from sashiko(gemini-3) and gpt-5.5:
+  - cifs: Wire .fileattr_get on cifs_namespace_inode_operations
+    so DFS referral / automount directories report case handling
+  - fat, ntfs3: Fill FS_IMMUTABLE_FL in fileattr_get
+  - hfsplus: Hide FS_CASEFOLD_FL from the legacy flags view so
+    chattr round-trips do not hit the setflags whitelist
+  - nfs: Clear NFS_CAP_CASE_INSENSITIVE and
+    NFS_CAP_CASE_NONPRESERVING before re-OR'ing in the v3 and
+    v4 probe paths so re-probe / TSM does not retain stale caps
+  - nfsd: Switch nfsd_get_case_info() to errno return so
+    v3 PATHCONF and v4 GETATTR can apply version-appropriate
+    policy on failure
+  - nfsd: Use dget_parent() in v4 case-attr probe to keep
+    the parent dentry referenced across the query
+  - isofs: Report FS_XFLAG_CASENONPRESERVING for map=n/map=a
 
-diff --git a/fs/inode.c b/fs/inode.c
-index 448e3d7ee48e..fe39f96fbc80 100644
---- a/fs/inode.c
-+++ b/fs/inode.c
-@@ -941,6 +941,7 @@ EXPORT_SYMBOL_GPL(evict_inodes);
- struct inodes_to_prune {
- 	struct list_head freeable;
- 	struct list_head deferred;
-+	int deferred_count;
- };
- 
- /*
-@@ -1013,9 +1014,10 @@ static enum lru_status inode_lru_isolate(struct list_head *item,
- 	WARN_ON(inode_state_read(inode) & I_NEW);
- 	inode_state_set(inode, I_FREEING);
- 	/* Inode will take long time to cleanup. Offload that to worker. */
--	if (inode_state_read(inode) & I_DEFER_RECLAIM)
-+	if (inode_state_read(inode) & I_DEFER_RECLAIM) {
- 		list_lru_isolate_move(lru, &inode->i_lru, &lists->deferred);
--	else
-+		lists->deferred_count++;
-+	} else
- 		list_lru_isolate_move(lru, &inode->i_lru, &lists->freeable);
- 	spin_unlock(&inode->i_lock);
- 
-@@ -1052,27 +1054,58 @@ long prune_icache_sb(struct super_block *sb, struct shrink_control *sc)
- 		if (list_empty(&reclaim->list))
- 			queue_work(system_dfl_wq, &reclaim->work);
- 		list_splice_tail(&lists.deferred, &reclaim->list);
-+		reclaim->len += lists.deferred_count;
- 		spin_unlock(&reclaim->lock);
- 	}
- 	return freed;
- }
- 
-+static void inode_reclaim_update_stat(struct inode_deferred_reclaim *reclaim,
-+				      struct super_block *sb, unsigned int n,
-+				      u64 start)
-+{
-+	u64 end = ktime_get_ns();
-+	u32 delay;
-+
-+	delay = div_u64(end - start, n);
-+	/* Smooth delay updates with exponential moving average */
-+	reclaim->delay = (63 * (u64)reclaim->delay + delay) / 64;
-+
-+	trace_inode_reclaim_update_stat(sb, n, delay, reclaim->delay);
-+}
-+
- static void inode_reclaim_deferred(struct work_struct *work)
- {
- 	struct inode_deferred_reclaim *reclaim =
- 		container_of(work, struct inode_deferred_reclaim, work);
-+	struct super_block *sb = NULL;
- 	struct inode *inode;
-+	u64 start;
-+	unsigned int batch = 0;
- 
- 	spin_lock(&reclaim->lock);
- 	while (!list_empty(&reclaim->list)) {
- 		inode = list_first_entry(&reclaim->list, struct inode, i_lru);
- 		list_del_init(&inode->i_lru);
-+		reclaim->len--;
- 		spin_unlock(&reclaim->lock);
-+		if (!sb)
-+			sb = inode->i_sb;
-+		if (!batch)
-+			start = ktime_get_ns();
- 		evict(inode);
-+		batch++;
-+		/* Batch stat updates to avoid excessive computations */
-+		if (batch >= 64 || need_resched()) {
-+			inode_reclaim_update_stat(reclaim, sb, batch, start);
-+			batch = 0;
-+		}
- 		cond_resched();
- 		spin_lock(&reclaim->lock);
- 	}
- 	spin_unlock(&reclaim->lock);
-+	if (batch)
-+		inode_reclaim_update_stat(reclaim, sb, batch, start);
- }
- 
- static struct inode_deferred_reclaim *inode_deferred_reclaim_alloc(
-@@ -1091,20 +1124,65 @@ static struct inode_deferred_reclaim *inode_deferred_reclaim_alloc(
- 	return sb->s_inode_reclaim;
- }
- 
-+/*
-+ * Size of deferred reclaim list from which we start throttling tasks creating
-+ * inodes marked for deferred reclaim.
-+ */
-+#define INODE_DEFERRED_RECLAIM_LIMIT 8192
-+
-+static void throttle_inode_deferred_reclaim(struct inode *inode)
-+{
-+	unsigned int len;
-+	struct inode_deferred_reclaim *reclaim =
-+				READ_ONCE(inode->i_sb->s_inode_reclaim);
-+
-+	if (!reclaim)
-+		reclaim = inode_deferred_reclaim_alloc(inode->i_sb);
-+
-+	/*
-+	 * If inodes with deferred reclaim are accumulating too much, slow down
-+	 * tasks creating them. This doesn't provide any kind of guarantee on
-+	 * the length of the deferred list since lots of inodes with
-+	 * I_DEFER_RECLAIM can be already present in the inode cache and we
-+	 * have no control when they reach the deferred list. But if the
-+	 * pressure on the deferred list is sustained, the balance should
-+	 * eventually be established.
-+	 */
-+	len = READ_ONCE(reclaim->len);
-+	if (len > INODE_DEFERRED_RECLAIM_LIMIT) {
-+		u64 delay = READ_ONCE(reclaim->delay);
-+
-+		if (!delay)
-+			return;
-+		/*
-+		 * Scale the delay based on how much we exceed the limit. Wait
-+		 * at most 4x as long as estimated time to reclaim the inode.
-+		 */
-+		len = min(len, 5 * INODE_DEFERRED_RECLAIM_LIMIT);
-+		delay = div_u64(delay * (len - INODE_DEFERRED_RECLAIM_LIMIT),
-+				INODE_DEFERRED_RECLAIM_LIMIT);
-+		trace_mark_inode_reclaim_deferred_throttle(inode, len, delay);
-+
-+		schedule_timeout_killable(nsecs_to_jiffies(delay));
-+	}
-+}
-+
- void mark_inode_reclaim_deferred(struct inode *inode)
- {
--	struct inode_deferred_reclaim *reclaim;
-+	bool throttle = false;
- 
- 	if (inode_state_read_once(inode) & I_DEFER_RECLAIM)
- 		return;
- 
--	reclaim = READ_ONCE(inode->i_sb->s_inode_reclaim);
--	if (!reclaim)
--		reclaim = inode_deferred_reclaim_alloc(inode->i_sb);
--
- 	spin_lock(&inode->i_lock);
--	inode_state_set(inode, I_DEFER_RECLAIM);
-+	if (!(inode_state_read(inode) & I_DEFER_RECLAIM)) {
-+		inode_state_set(inode, I_DEFER_RECLAIM);
-+		throttle = true;
-+	}
- 	spin_unlock(&inode->i_lock);
-+
-+	if (throttle)
-+		throttle_inode_deferred_reclaim(inode);
- }
- EXPORT_SYMBOL_GPL(mark_inode_reclaim_deferred);
- 
-diff --git a/include/linux/fs/super_types.h b/include/linux/fs/super_types.h
-index 00744ae5be18..533256892550 100644
---- a/include/linux/fs/super_types.h
-+++ b/include/linux/fs/super_types.h
-@@ -133,6 +133,8 @@ struct inode_deferred_reclaim {
- 	struct list_head	list;
- 	struct work_struct	work;
- 	spinlock_t		lock;
-+	unsigned int		len;
-+	u32			delay;
- };
- 
- struct super_block {
-diff --git a/include/trace/events/writeback.h b/include/trace/events/writeback.h
-index bdac0d685a98..c0ae39b4dc7b 100644
---- a/include/trace/events/writeback.h
-+++ b/include/trace/events/writeback.h
-@@ -879,6 +879,57 @@ DEFINE_EVENT(writeback_inode_template, sb_clear_inode_writeback,
- 	TP_ARGS(inode)
- );
- 
-+TRACE_EVENT(inode_reclaim_update_stat,
-+	TP_PROTO(
-+		struct super_block *sb,
-+		unsigned int n,
-+		u32 batch_delay,
-+		u32 avg_delay
-+	),
-+	TP_ARGS(sb, n, batch_delay, avg_delay),
-+
-+	TP_STRUCT__entry(
-+		__field(dev_t,		dev)
-+		__field(unsigned int,	n)
-+		__field(u32,		batch_delay)
-+		__field(u32,		avg_delay)
-+	),
-+
-+	TP_fast_assign(
-+		__entry->dev = sb->s_dev;
-+		__entry->n = n;
-+		__entry->batch_delay = batch_delay;
-+		__entry->avg_delay = avg_delay;
-+	),
-+
-+	TP_printk("dev %d,%d batch size %u batch delay %u ns avg delay %u ns",
-+		  MAJOR(__entry->dev), MINOR(__entry->dev), __entry->n,
-+		  __entry->batch_delay, __entry->avg_delay)
-+);
-+
-+TRACE_EVENT(mark_inode_reclaim_deferred_throttle,
-+	TP_PROTO(struct inode *inode, unsigned int len, u64 delay),
-+	TP_ARGS(inode, len, delay),
-+
-+	TP_STRUCT__entry(
-+		__field(u64,		ino)
-+		__field(dev_t,		dev)
-+		__field(unsigned int,	len)
-+		__field(u64,		delay)
-+	),
-+
-+	TP_fast_assign(
-+		__entry->ino = inode->i_ino;
-+		__entry->dev = inode->i_sb->s_dev;
-+		__entry->len = len;
-+		__entry->delay = delay;
-+	),
-+
-+	TP_printk("dev %d,%d ino %llu deferred list len %u delay %llu ns",
-+		  MAJOR(__entry->dev), MINOR(__entry->dev),
-+		  __entry->ino, __entry->len, __entry->delay)
-+);
-+
- #endif /* _TRACE_WRITEBACK_H */
- 
- /* This part must be outside protection */
--- 
-2.51.0
+Changes since v10:
+- cifs: Source case-handling flags from the server's cached
+  FS_ATTRIBUTE_INFORMATION reply instead of the nocase mount
+  option, with a nocase fallback when the reply is absent
+- Address findings from sashiko(gemini-3) and gpt-5.5:
+  - nfs: Skip pathconf case bits on NFSv4 (set via FATTR4_CASE_*
+    instead)
+  - xfs: Hide FS_CASEFOLD_FL from the legacy flags view so
+    chattr round-trips do not hit the setflags whitelist
+  - ext4, f2fs: Drop redundant fileattr_get patches; the
+    FS_CASEFOLD_FL translation in fileattr_fill_flags() already
+    reports FS_XFLAG_CASEFOLD for casefolded directories
+  - nfsd: Report FATTR4_HOMOGENEOUS = FALSE when the exported
+    filesystem has a Unicode encoding, since per-directory
+    casefold makes the fs-scoped case attributes inhomogeneous
+  - nfsd: Document in nfsd_get_case_info() why -ENOIOCTLCMD and
+    -ENOTTY are swallowed while other errors propagate
+  - fat: Honor vfat 'check=strict' when reporting FS_XFLAG_CASEFOLD
+  - Set FS_CASEFOLD_FL so FS_IOC_GETFLAGS reflects case-insensitive
+    mount
+  - isofs: Register fileattr_get on regular file and symlink inodes,
+    not just directories
+  - nfsd: Query NFSv4 FATTR4_CASE_* from the parent directory for
+    non-directory objects, since casefold lives on the directory
+
+Changes since v9:
+- nfs: always probe PATHCONF for case caps. Default to case-
+  preserving when the server does not report case_preserving
+- nfsd, ksmbd: tolerate -ENOTTY from vfs_fileattr_get() so
+  overlayfs exports on backing filesystems without fileattr_get
+  do not fail the RPC
+- xfs: map FS_XFLAG_CASEFOLD inside xfs_ip2xflags() so BULKSTAT
+  and FS_IOC_FSGETXATTR report the flag consistently
+- vboxsf: reject a short host reply to SHFL_INFO_VOLUME before
+  trusting volinfo.properties.case_sensitive
+
+Changes since v8:
+- Rebase on v7.0-rc1
+
+Changes since v7:
+- Split file_attr initialization changes into a separate patch
+
+Changes since v6:
+- Remove the memset from vfs_fileattr_get
+
+Changes since v5:
+- Finish the conversion to FS_XFLAGs
+- NFSv4 GETATTR now clears the attr mask bit if nfsd_get_case_info()
+  fails
+
+Changes since v4:
+- Observe the MSDOS "nocase" mount option
+- Define new FS_XFLAGs for the user API
+
+Changes since v3:
+- Change fa->case_preserving to fa_case_nonpreserving
+- VFAT is case preserving
+- Make new fields available to user space
+
+Changes since v2:
+- Remove unicode labels
+- Replace vfs_get_case_info
+- Add support for several more local file system implementations
+- Add support for in-kernel SMB server
+
+Changes since RFC:
+- Use file_getattr instead of statx
+- Postpone exposing Unicode version until later
+- Support NTFS and ext4 in addition to FAT
+- Support NFSv4 fattr4 in addition to NFSv3 PATHCONF
+
+---
+Chuck Lever (15):
+      fs: Move file_kattr initialization to callers
+      fs: Add case sensitivity flags to file_kattr
+      fat: Implement fileattr_get for case sensitivity
+      exfat: Implement fileattr_get for case sensitivity
+      ntfs3: Implement fileattr_get for case sensitivity
+      hfs: Implement fileattr_get for case sensitivity
+      hfsplus: Report case sensitivity in fileattr_get
+      xfs: Report case sensitivity in fileattr_get
+      cifs: Implement fileattr_get for case sensitivity
+      nfs: Implement fileattr_get for case sensitivity
+      vboxsf: Implement fileattr_get for case sensitivity
+      isofs: Implement fileattr_get for case sensitivity
+      nfsd: Report export case-folding via NFSv3 PATHCONF
+      nfsd: Implement NFSv4 FATTR4_CASE_INSENSITIVE and FATTR4_CASE_PRESERVING
+      ksmbd: Report filesystem case sensitivity via FS_ATTRIBUTE_INFORMATION
+
+ fs/exfat/exfat_fs.h            |  2 ++
+ fs/exfat/file.c                | 18 +++++++++--
+ fs/exfat/namei.c               |  1 +
+ fs/fat/fat.h                   |  3 ++
+ fs/fat/file.c                  | 36 +++++++++++++++++++++
+ fs/fat/namei_msdos.c           |  1 +
+ fs/fat/namei_vfat.c            |  1 +
+ fs/file_attr.c                 | 16 +++++-----
+ fs/hfs/dir.c                   |  1 +
+ fs/hfs/hfs_fs.h                |  2 ++
+ fs/hfs/inode.c                 | 14 ++++++++
+ fs/hfsplus/inode.c             | 16 +++++++++-
+ fs/isofs/dir.c                 | 16 ++++++++++
+ fs/isofs/isofs.h               |  3 ++
+ fs/nfs/client.c                | 25 +++++++++++----
+ fs/nfs/inode.c                 | 15 +++++++++
+ fs/nfs/internal.h              |  3 ++
+ fs/nfs/namespace.c             |  2 ++
+ fs/nfs/nfs3proc.c              |  2 ++
+ fs/nfs/nfs3xdr.c               |  7 ++--
+ fs/nfs/nfs4proc.c              | 10 ++++--
+ fs/nfs/proc.c                  |  3 ++
+ fs/nfs/symlink.c               |  3 ++
+ fs/nfsd/nfs3proc.c             | 36 ++++++++++++++++-----
+ fs/nfsd/nfs4xdr.c              | 52 ++++++++++++++++++++++++++++--
+ fs/nfsd/vfs.c                  | 72 ++++++++++++++++++++++++++++++++++++++++++
+ fs/nfsd/vfs.h                  |  3 ++
+ fs/nfsd/xdr3.h                 |  4 +--
+ fs/ntfs3/file.c                | 29 +++++++++++++++++
+ fs/ntfs3/inode.c               |  1 +
+ fs/ntfs3/namei.c               |  2 ++
+ fs/ntfs3/ntfs_fs.h             |  1 +
+ fs/smb/client/cifsfs.c         | 41 ++++++++++++++++++++++++
+ fs/smb/client/cifsfs.h         |  3 ++
+ fs/smb/client/namespace.c      |  1 +
+ fs/smb/server/smb2pdu.c        | 30 ++++++++++++++----
+ fs/vboxsf/dir.c                |  1 +
+ fs/vboxsf/file.c               |  6 ++--
+ fs/vboxsf/super.c              |  7 ++++
+ fs/vboxsf/utils.c              | 30 ++++++++++++++++++
+ fs/vboxsf/vfsmod.h             |  6 ++++
+ fs/xfs/libxfs/xfs_inode_util.c |  2 ++
+ fs/xfs/xfs_ioctl.c             | 22 ++++++++++---
+ include/linux/fileattr.h       |  3 +-
+ include/linux/nfs_fs_sb.h      |  2 +-
+ include/linux/nfs_xdr.h        |  2 ++
+ include/uapi/linux/fs.h        |  7 ++++
+ 47 files changed, 513 insertions(+), 50 deletions(-)
+---
+base-commit: 6596a02b207886e9e00bb0161c7fd59fea53c081
+change-id: 20260422-case-sensitivity-5cbffc8f1558
+
+Best regards,
+--  
+Chuck Lever
 
