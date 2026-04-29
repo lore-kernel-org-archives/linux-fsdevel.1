@@ -1,64 +1,64 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B38B37EFF8
-	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Apr 2026 15:26:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F8B63815E4
+	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Apr 2026 15:26:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777476412; cv=none; b=hz1ZKEYY5Sy1Z87ypnwgCnLOWdtafFvIbyR9V/cATspRkDuFRPizCvXfYMQl6oh9xHc9rZWvEBUuXR1U0X0ct9T0hwRvaJGLs04dIPbxjzUtSIMqZGQs0lJBU+1J6Qz96suJpRXIf5pD8/LW+PpRNqHIKRnQfFjln2KqFNMG+PE=
+	t=1777476416; cv=none; b=e4lU5FQskGK8tczyPobyEpKPnLEgllrH3D5GIj1By2KoPJ1xg12lhGGQ02F8DSVvt6lxKEobYGbwI8V51ZjR1bss5+eRlr20uyEzCiFmNzRvErUNe3dhWFzXlhyvvzHMdeNscOBQ1TwaMO7sGByyQNw6jcOp4398SXC8xus8Mbs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777476412; c=relaxed/simple;
-	bh=oJzJ3baWzxt8SL6mu8Gavx3suCHTBf+39zFidf5RUps=;
+	s=arc-20240116; t=1777476416; c=relaxed/simple;
+	bh=DL12ZWqeJwgmWM4073U0nNO7Rud8B90RO8c36PxK6lA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IDQV0Re1HLeXv2Y1L+jytP2w2wQQMVKBEkI9E5PU36lsvpSOjM6ey/MahiQiPXi3CmufNWOPqvOcsVi/v/W/XENj5qHp2/oAs3gxQkgXvZadF/D+rrQqHHrwmTrJR3beYSNAiFrKfLUpEpLGTnTUk2muxKlVWC1D3RvMKVDM7uo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CLVtxWJW; arc=none smtp.client-ip=209.85.128.41
+	 MIME-Version; b=J4QpblFNddbcusYIMOvdiQAR6+Ma+ZSLRQJ0HDQwH5lRtPcSTGUVtChnqaSnY6DpfMNrK33RZhuy2DNqi0sg40al6HlfRIYWR+Pe3jDfW0rxtjzErocCb49frtihkTq8kECNsDnCvLz5AgJsJxf2KDk7SFVEtgJGbTL5aCeC0eo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EevxMA7L; arc=none smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CLVtxWJW"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-488b0e1b870so220292995e9.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 29 Apr 2026 08:26:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EevxMA7L"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-43fde5b81a1so9453292f8f.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 29 Apr 2026 08:26:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777476404; x=1778081204; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1777476409; x=1778081209; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=GR5ndKNNRfx4IwKN9v/ALZWj8JN4jvbZ2IeaIPIqzHs=;
-        b=CLVtxWJWfeNWeCrzX9F9I0ZmyXB0gr603IqxKmnWTFVghLEhS7tnDd1f+lOQxwXf81
-         MRSgmnfdj/uV2WEnhotAe8tOPhYvREqgsFGQz3aRHcAtcMSE74Van6p77iVoJK04ovyg
-         Z7FtaDnhPivvUiqRzi0smFLQRt7kv0DtaqlrP0vRg0t8iYGQLHy5cSuTc4oGrDt4tiHx
-         0KQADqrNORUTaCq5p+P9Fd4kMmu4OUrawXSe5ndeiubJYFDb0vBBOZ+7rpCqNoHJFPyD
-         X3+lWxlrHwS2Vl7/eX+TtF/OIZVN9MdItFB/S1zbXCHdjHWpgi9+Rod5goHoDA0wbAD0
-         lkxg==
+        bh=Pdajlfqb0Mkqw7FfTkWcBSlkNtUxKMEiU4sOjeajLqA=;
+        b=EevxMA7LPtKpXQoHdd237w6Vc8pJbzdxm6cjW6PNSoDJlLosPzx0qIFsRDgPYNbdG7
+         mexMEQ4B7y3zWxfct269nOC9bu4er8Y6GvfmyrrJRneIVajWkRzJhh1B0Y8Rak9y6l8U
+         JBBZfSuG7lH+3EHCHD3CbnDANBUEW90SUEboSu1+/E8aF9lElvHqUuTUTUWwSCv0jTek
+         eB4W4U2CzXvdYQJ0yK9hi/Fd/NnwU9NR9zcOpQpDQbD7Ksp9i/dB9dfdeVbtLEAivF1p
+         rPNP2fBYkQWVm+FyjgRqQaI8WlJvCVhPpVCW/tZ0pIGGuC7zB+WQvEfLOHlCqhvGkBt3
+         yoHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777476404; x=1778081204;
+        d=1e100.net; s=20251104; t=1777476409; x=1778081209;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=GR5ndKNNRfx4IwKN9v/ALZWj8JN4jvbZ2IeaIPIqzHs=;
-        b=DU2wEFK+wXrgxIsA5CPJRHV8eR0xlxWBYSPZjeEfDX23P8LUStWE2BYACVyUZI2eR8
-         ytN2gMfk/wSeIGWUszHkHoXAfYdY67Fbh3kfk+K2wcnj7AzKdahSVgeyms/PRH7bJHOO
-         6kBiWaclQu9LfgZuljotbdK6nWACledx3ad4M96No6Ga0KHWmixDiV9sH/Dll7O/HSiP
-         1s3ksRZYg2+eaJTvZnXHwgGlP9SCexWUmQ/eDQcLDvX71SG02Yq805j/daD2TN94hLM0
-         Tj1QIe/vTPEdkk6XdspnGsvAHDhSMcRPpnawhOGGz4VonGNIntlo2V7XJXwt4sKTGAJO
-         PTfw==
-X-Forwarded-Encrypted: i=1; AFNElJ9FB7c8YcEyKlVUalf++iFkXZ2p2gUH22v1R40UIHxs/0jkee5bafXTUk0coFLCg8+HdYuMIY85SGx3XPJB@vger.kernel.org
-X-Gm-Message-State: AOJu0YwWTFTZuOmHL+kVpNgxq3jGDxrQc9HmcBYClivEWsL4nTQBHWIz
-	Uc4QH+kwhAvVia400lCYYqAgmwtzAr0naQ090n/ElI39+QVv6aORwKOR
-X-Gm-Gg: AeBDietrTKCmZhfab96tq8vxiSGJq8LyOKON+flfBQQTnModTuBBol2iqTRgX5MJeHG
-	kvQT9qxk6FHcN+aDQDzlKCKRIyFr3siKN+P0VS5KIWo0uovtCwjIONvBOD3BZSsmILfqCvVonzk
-	ZpkovWfWOhvcBPdjkx0kw78YB/YHt5AUBgBLioYNFpUcmJbTx3rkGURlETIDhQYckctm2HMUkLD
-	EvAGTpRJw4hCKVZTlwjbHggQXm+0TR5fUDzLw/SNt/0GiibCLM9HLEWOcGntYCjQcpaCBxBBPDu
-	WVu2RmhL0mHxNUBhFoSdj0AdMN8iAX4ZvYsQrnYLz+HOOZYHSuKr2JPrL6tbgRB/NBYTH5pO0v5
-	oLhdrOI1yl3GvQ3AKhOYtb6xcEcjzjIsqLOGG2NQbap882IYO2jZ7rXRIZLTUwc8pxfNAp201HX
-	9xdWbk55BWaietDhT3nIFTd/WI3c8AjmH2czSgbIaKRN1DMZxOUUyHoeBtnUrQi6MLltlZFsFvN
-	ZhFa4Xt3DfzvC2Q9cV+VDMJBKv/FGkF4DS2SqECvXke
-X-Received: by 2002:a05:6000:2681:b0:441:1ca1:6404 with SMTP id ffacd0b85a97d-4478ee6236amr7736191f8f.18.1777476403705;
-        Wed, 29 Apr 2026 08:26:43 -0700 (PDT)
+        bh=Pdajlfqb0Mkqw7FfTkWcBSlkNtUxKMEiU4sOjeajLqA=;
+        b=JV65FV0sRZKVNcYP8LW9fRatMgDzNSmM+XrzWPY1PkhrgrezW1krF9lPKFmbu0m886
+         VLtBdC4qpAC6L3xwzgM9YHmT4dZLuvLuhqPA3IYuvaxpEP+lWcY0PoaDWElMG9rt1/81
+         WUkF7uDl9wJlyLJLrPrfYXoJnR+fNGVi0D5A7k8pwoAk/XVXIQXyTXZItM/Rriy60GB9
+         sFETI38NgwWlyx2bVDC/BYGL4S1KsBonNLotruD7xmDmwFONGb4EenBRNlGhWuuDOkEa
+         bqaLBUwk4vpzQi3adDHcgyIvSfI52qoX2wUs5SYnJ0fbDnt6y4AeUqJzxFB9wYDwmon5
+         GYmw==
+X-Forwarded-Encrypted: i=1; AFNElJ/4HEHmc6KIlLrqfqoLDaTlYipCw/ejy89lwUvNhcCmOsLlWmmP/k3DGVT6oaOZ0UMOGTcrZrR1cBDSCwcj@vger.kernel.org
+X-Gm-Message-State: AOJu0YyZFCC8nMBgmdHFlVh0ErdsxLyvk4AK3j+VfW9cUQ/lXSc0iZT1
+	5jKaT1tvrJVz4/exksYB2Y3Osnizs1oCm1xuwmJ8/CZghnYTcLgZTcP+
+X-Gm-Gg: AeBDiesaHA9ZPkMD/NEdv1c6ngLhvnIaMeJdIYpBqzVfBEwMwngXPVQH+PDOY12McSK
+	/mgTu0n+blxZZtVrKDbm4d2esTn/SO6+6VtHUsEyVzrvd0jJcZnuLgqOd+RitbIjXm5sNL+H9N2
+	mqhKpIErniLrodAbZj1GTdJKNU4FI2UhB95j7dTVF/VLbXuwNuzF2xtdXrTPyMzS7WzuhfD4nj1
+	ZaoZ01B83tMqhDzBrcfNcrcsuAqyupv/1rTzN2/vtDnVtEF9ms7ZJbM1lsDTLuz0KKgtC8D6Z5z
+	O3XapJTTfF8hxV7jlVyBxFIraPlNuHi6xMX/L/esfOnTZVwtIV7VvJL3EDESyDybz4a3Rd1gAhx
+	BD1qkDunyBQ1Zcs6Ca8gMLAMq37BDotw+Jkf/I5/x54rHAwKWmq71uEf0QR1FXbF6U6dmYwhZEU
+	iAGEJgKXzpu2Hyavq+H9a3TLwkqgt/9mm/1CYUkkkRU2s0b91pSpi1CUBA7yL8fXn7Lf6qQuEIc
+	Ptfy2+d6LLwlkiGX05PsrqqD1xepg3wSfJtOvG/6K56
+X-Received: by 2002:a05:6000:2002:b0:43f:e9ee:5610 with SMTP id ffacd0b85a97d-44790d12be0mr7198547f8f.43.1777476408973;
+        Wed, 29 Apr 2026 08:26:48 -0700 (PDT)
 Received: from 127.0.0.1localhost ([82.132.184.31])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-447b76e5c22sm6382951f8f.28.2026.04.29.08.26.38
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-447b76e5c22sm6382951f8f.28.2026.04.29.08.26.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Apr 2026 08:26:43 -0700 (PDT)
+        Wed, 29 Apr 2026 08:26:48 -0700 (PDT)
 From: Pavel Begunkov <asml.silence@gmail.com>
 To: Jens Axboe <axboe@kernel.dk>,
 	Keith Busch <kbusch@kernel.org>,
@@ -85,9 +85,9 @@ Cc: asml.silence@gmail.com,
 	William Power <william.power@intel.com>,
 	Phil Cayton <phil.cayton@intel.com>,
 	Jason Gunthorpe <jgg@nvidia.com>
-Subject: [PATCH v3 05/10] lib: add dmabuf token infrastructure
-Date: Wed, 29 Apr 2026 16:25:51 +0100
-Message-ID: <c61e6d928f86f4cb253ae350272e6039faefd3a6.1777475843.git.asml.silence@gmail.com>
+Subject: [PATCH v3 06/10] block: forward create_dmabuf_token to drivers
+Date: Wed, 29 Apr 2026 16:25:52 +0100
+Message-ID: <559756c5e22dcfa183080a979de039910d1b896d.1777475843.git.asml.silence@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <cover.1777475843.git.asml.silence@gmail.com>
 References: <cover.1777475843.git.asml.silence@gmail.com>
@@ -99,444 +99,75 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-There are two main objects. struct io_dmabuf_token and struct
-io_dmabuf_map. The token is used during initial registration and serves
-as an interface between the upper layer user like io_uring and to the
-importer subsystem / driver. io_dmabuf_map represens the actual dma map
-established for the target device[s] with dma_buf_map_attachment() and
-stored in a device specific format.
-
-The separation into two different objects exists to support map
-invalidation (see dma_buf_invalidate_mappings()). A token can create
-multiple maps during its lifetime, but there can only be one (active)
-map attached to it. It's aslo possible to not have an active map.
-Invalidation drops the active map if present, and the next map will
-only be attempted to be created once there is a new request that
-wants to use the token.
-
-The primary task of the io_dmabuf_map object is to count all requests
-currently using it, which is done with percpu refcounts. When a map is
-invalidated, we remove it from the token, so there can be no new
-requests, then it adds a fence to the dmabuf reservation object. Once
-all the requests complete, we signal the fence and unmap it.
-
-[un]mapping and any work with dma addresses is delegated to the
-importer driver via an ops table stored in the token, see struct
-io_dmabuf_token_dev_ops. That's required because the generic layer
-doesn't have knowledge about the device it's going to be use with,
-and there will be more complex use cases with multiple devices.
+Add a trivial implementation of the create_dmabuf_token call for
+block devices that forwards the call to a new blk-mq callback if it's
+available.
 
 Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
 ---
- include/linux/io_dmabuf_token.h |  92 +++++++++++
- lib/Kconfig                     |   4 +
- lib/Makefile                    |   2 +
- lib/io_dmabuf_token.c           | 272 ++++++++++++++++++++++++++++++++
- 4 files changed, 370 insertions(+)
- create mode 100644 include/linux/io_dmabuf_token.h
- create mode 100644 lib/io_dmabuf_token.c
+ block/fops.c           | 14 ++++++++++++++
+ include/linux/blk-mq.h |  9 +++++++++
+ 2 files changed, 23 insertions(+)
 
-diff --git a/include/linux/io_dmabuf_token.h b/include/linux/io_dmabuf_token.h
-new file mode 100644
-index 000000000000..b94bda684812
---- /dev/null
-+++ b/include/linux/io_dmabuf_token.h
-@@ -0,0 +1,92 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef _LINUX_DMA_TOKEN_H
-+#define _LINUX_DMA_TOKEN_H
-+
-+#include <linux/dma-buf.h>
-+
-+struct io_dmabuf_fence;
-+struct io_dmabuf_token;
-+struct io_dmabuf_map;
-+
-+struct io_dmabuf_token_dev_ops {
-+	/*
-+	 * Create a new map for the given token. It should be initialised
-+	 * with io_dmabuf_init_map(). The callback is executed with the
-+	 * reservation lock held.
-+	 */
-+	struct io_dmabuf_map *(*map)(struct io_dmabuf_token *);
-+
-+	/*
-+	 * Clean up device specific parts of the map. The callback is
-+	 * executed with the reservation lock held.
-+	 */
-+	void (*unmap)(struct io_dmabuf_token *, struct io_dmabuf_map *);
-+
-+	/*
-+	 * The user tries to destroy the token. Release all device specific
-+	 * parts of the token.
-+	 */
-+	void (*release)(struct io_dmabuf_token *);
-+};
-+
-+struct io_dmabuf_map {
-+	/*
-+	 * Counts attached requests and other users. Device specific unmapping
-+	 * is deferred until all refs are dropped.
-+	 */
-+	struct percpu_ref		refs;
-+
-+	struct work_struct		release_work;
-+	struct io_dmabuf_fence		*fence;
-+	struct io_dmabuf_token		*token;
-+};
-+
-+struct io_dmabuf_token {
-+	struct io_dmabuf_map __rcu	*map;
-+	struct dma_buf			*dmabuf;
-+	enum dma_data_direction		dir;
-+
-+	atomic_t			fence_seq;
-+	u64				fence_ctx;
-+	struct work_struct		release_work;
-+	refcount_t			refs;
-+
-+	void					*dev_priv;
-+	const struct io_dmabuf_token_dev_ops	*dev_ops;
-+};
-+
-+int io_dmabuf_token_create(struct file *file,
-+			   struct io_dmabuf_token *token,
-+			   struct dma_buf *dmabuf,
-+			   enum dma_data_direction dir);
-+void io_dmabuf_token_release(struct io_dmabuf_token *token);
-+
-+struct io_dmabuf_map *io_dmabuf_create_map(struct io_dmabuf_token *token);
-+
-+static inline struct io_dmabuf_map *io_dmabuf_get_map(struct io_dmabuf_token *token)
-+{
-+	struct io_dmabuf_map *map;
-+
-+	guard(rcu)();
-+
-+	map = rcu_dereference(token->map);
-+	if (unlikely(!map || !percpu_ref_tryget_live_rcu(&map->refs)))
-+		return NULL;
-+
-+	return map;
-+}
-+
-+static inline void io_dmabuf_map_drop(struct io_dmabuf_map *map)
-+{
-+	percpu_ref_put(&map->refs);
-+}
-+
-+/*
-+ * Device API
-+ */
-+
-+void io_dmabuf_token_invalidate_mappings(struct io_dmabuf_token *token);
-+int io_dmabuf_init_map(struct io_dmabuf_token *token, struct io_dmabuf_map *map);
-+
-+
-+#endif
-diff --git a/lib/Kconfig b/lib/Kconfig
-index 0f2fb9610647..853f10bf8e1a 100644
---- a/lib/Kconfig
-+++ b/lib/Kconfig
-@@ -636,3 +636,7 @@ config UNION_FIND
+diff --git a/block/fops.c b/block/fops.c
+index 713a3ba3f457..3d8a48a7d645 100644
+--- a/block/fops.c
++++ b/block/fops.c
+@@ -951,6 +951,19 @@ static int blkdev_mmap_prepare(struct vm_area_desc *desc)
+ 	return generic_file_mmap_prepare(desc);
+ }
  
- config MIN_HEAP
- 	bool
-+
-+config DMABUF_TOKEN
-+	def_bool y
-+	depends on DMA_SHARED_BUFFER
-diff --git a/lib/Makefile b/lib/Makefile
-index ea660cca04f4..4a42cfcaa80c 100644
---- a/lib/Makefile
-+++ b/lib/Makefile
-@@ -246,6 +246,8 @@ obj-$(CONFIG_IRQ_POLL) += irq_poll.o
- 
- obj-$(CONFIG_POLYNOMIAL) += polynomial.o
- 
-+obj-$(CONFIG_DMABUF_TOKEN) += io_dmabuf_token.o
-+
- # stackdepot.c should not be instrumented or call instrumented functions.
- # Prevent the compiler from calling builtins like memcmp() or bcmp() from this
- # file.
-diff --git a/lib/io_dmabuf_token.c b/lib/io_dmabuf_token.c
-new file mode 100644
-index 000000000000..808b5ad33dbc
---- /dev/null
-+++ b/lib/io_dmabuf_token.c
-@@ -0,0 +1,272 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Common infrastructure for supporing dma-buf in the I/O path.
-+ *
-+ * Copyright (C) 2026 Pavel Begunkov <asml.silence@gmail.com>
-+ */
-+#include <linux/io_dmabuf_token.h>
-+#include <linux/dma-resv.h>
-+
-+struct io_dmabuf_fence {
-+	struct dma_fence base;
-+	spinlock_t lock;
-+};
-+
-+static const char *io_dmabuf_fence_drv_name(struct dma_fence *fence)
++static int blkdev_create_dmabuf_token(struct file *file,
++				      struct io_dmabuf_token *token)
 +{
-+	/* default fence release kfree's the base pointer */
-+	BUILD_BUG_ON(offsetof(struct io_dmabuf_fence, base));
++	struct request_queue *q = bdev_get_queue(file_bdev(file));
 +
-+	return "DMABUF token";
-+}
-+
-+static const char *io_dmabuf_fence_timeline_name(struct dma_fence *fence)
-+{
-+	return "DMABUF token";
-+}
-+
-+const struct dma_fence_ops io_dmabuf_fence_ops = {
-+	.get_driver_name = io_dmabuf_fence_drv_name,
-+	.get_timeline_name = io_dmabuf_fence_timeline_name,
-+};
-+
-+static void io_dmabuf_token_destroy_work(struct work_struct *work)
-+{
-+	struct io_dmabuf_token *token = container_of(work, struct io_dmabuf_token,
-+				  release_work);
-+
-+	if (WARN_ON_ONCE(refcount_read(&token->refs)))
-+		return;
-+
-+	token->dev_ops->release(token);
-+	dma_buf_put(token->dmabuf);
-+	kfree(token);
-+}
-+
-+static void io_dmabuf_map_release_work(struct work_struct *work)
-+{
-+	struct io_dmabuf_map *map = container_of(work, struct io_dmabuf_map,
-+					         release_work);
-+	struct io_dmabuf_fence *fence = map->fence;
-+	struct io_dmabuf_token *token = map->token;
-+	struct dma_buf *dmabuf = token->dmabuf;
-+
-+	/* the release path must wait for fences */
-+	if (WARN_ON_ONCE(refcount_read(&token->refs) == 0))
-+		return;
-+
-+	/* Prevent from destoying the token while unmapping */
-+	refcount_inc(&token->refs);
-+
-+	/*
-+	 * There are no more requests using the map, we can signal the fence.
-+	 * It should be done before taking the resv lock as someone could be
-+	 * waiting for the fence while holding the lock.
-+	 */
-+	dma_fence_signal(&fence->base);
-+
-+	dma_resv_lock(dmabuf->resv, NULL);
-+	token->dev_ops->unmap(token, map);
-+	dma_resv_unlock(dmabuf->resv);
-+
-+	dma_fence_put(&fence->base);
-+	percpu_ref_exit(&map->refs);
-+	kfree(map);
-+
-+	if (refcount_dec_and_test(&token->refs)) {
-+		/*
-+		 * Destruction needs to wait for I/O and dma fences. Defer it to
-+		 * simplify locking.
-+		 */
-+		INIT_WORK(&token->release_work, io_dmabuf_token_destroy_work);
-+		queue_work(system_wq, &token->release_work);
-+	}
-+}
-+
-+static void io_dmabuf_map_refs_release(struct percpu_ref *ref)
-+{
-+	struct io_dmabuf_map *map = container_of(ref, struct io_dmabuf_map, refs);
-+
-+	/* might sleep, use a worker */
-+	INIT_WORK(&map->release_work, io_dmabuf_map_release_work);
-+	queue_work(system_wq, &map->release_work);
-+}
-+
-+int io_dmabuf_init_map(struct io_dmabuf_token *token, struct io_dmabuf_map *map)
-+{
-+	struct io_dmabuf_fence *fence = NULL;
-+	int ret;
-+
-+	fence = kzalloc(sizeof(*fence), GFP_KERNEL);
-+	if (!fence)
-+		return -ENOMEM;
-+
-+	ret = percpu_ref_init(&map->refs, io_dmabuf_map_refs_release, 0, GFP_KERNEL);
-+	if (ret) {
-+		kfree(fence);
-+		return ret;
-+	}
-+
-+	spin_lock_init(&fence->lock);
-+	dma_fence_init(&fence->base, &io_dmabuf_fence_ops, &fence->lock,
-+			token->fence_ctx, atomic_inc_return(&token->fence_seq));
-+	map->fence = fence;
-+	map->token = token;
-+	return 0;
-+}
-+EXPORT_SYMBOL_NS_GPL(io_dmabuf_init_map, "DMA_BUF");
-+
-+struct io_dmabuf_map *io_dmabuf_create_map(struct io_dmabuf_token *token)
-+{
-+	struct dma_buf *dmabuf = token->dmabuf;
-+	struct io_dmabuf_map *map;
-+	long ret;
-+
-+retry:
-+	/*
-+	 * ->dmabuf_map() will be calling dma_buf_map_attachment(), for which
-+	 * we'll need to wait for fences. Do a bit nicer and try to wait
-+	 * without the resv lock first.
-+	 */
-+	ret = dma_resv_wait_timeout(dmabuf->resv, DMA_RESV_USAGE_KERNEL,
-+				    true, MAX_SCHEDULE_TIMEOUT);
-+	if (!ret)
-+		ret = -EAGAIN;
-+	if (ret < 0)
-+		return ERR_PTR(ret);
-+
-+	dma_resv_lock(dmabuf->resv, NULL);
-+	map = io_dmabuf_get_map(token);
-+	if (map) {
-+		ret = 0;
-+		goto out;
-+	}
-+
-+	if (dma_resv_wait_timeout(dmabuf->resv, DMA_RESV_USAGE_KERNEL,
-+				  true, 0) < 0) {
-+		dma_resv_unlock(dmabuf->resv);
-+		goto retry;
-+	}
-+
-+	map = token->dev_ops->map(token);
-+	if (IS_ERR(map)) {
-+		ret = PTR_ERR(map);
-+		goto out;
-+	}
-+
-+	percpu_ref_get(&map->refs);
-+	rcu_assign_pointer(token->map, map);
-+out:
-+	dma_resv_unlock(dmabuf->resv);
-+	if (ret < 0)
-+		return ERR_PTR(ret);
-+	return map;
-+}
-+
-+static void io_dmabuf_drop_map(struct io_dmabuf_token *token)
-+{
-+	struct dma_buf *dmabuf = token->dmabuf;
-+	struct io_dmabuf_map *map;
-+	int ret;
-+
-+	dma_resv_assert_held(dmabuf->resv);
-+
-+	map = rcu_dereference_protected(token->map,
-+					dma_resv_held(dmabuf->resv));
-+	if (!map)
-+		return;
-+	rcu_assign_pointer(token->map, NULL);
-+
-+	ret = dma_resv_reserve_fences(dmabuf->resv, 1);
-+	if (WARN_ON_ONCE(ret)) {
-+		struct dma_fence *fence = &map->fence->base;
-+
-+		dma_fence_get(fence);
-+		percpu_ref_kill(&map->refs);
-+		dma_fence_wait(fence, false);
-+		dma_fence_put(fence);
-+		return;
-+	}
-+
-+	dma_resv_add_fence(dmabuf->resv, &map->fence->base,
-+			   DMA_RESV_USAGE_KERNEL);
-+	/*
-+	 * Delay destruction until all inflight requests using the map are
-+	 * gone. It'll also signal the fence then.
-+	 */
-+	percpu_ref_kill(&map->refs);
-+}
-+
-+void io_dmabuf_token_invalidate_mappings(struct io_dmabuf_token *token)
-+{
-+	io_dmabuf_drop_map(token);
-+}
-+EXPORT_SYMBOL_NS_GPL(io_dmabuf_token_invalidate_mappings, "DMA_BUF");
-+
-+static void io_dmabuf_token_release_work(struct work_struct *work)
-+{
-+	struct io_dmabuf_token *token = container_of(work, struct io_dmabuf_token,
-+						  release_work);
-+	struct dma_buf *dmabuf = token->dmabuf;
-+	long ret;
-+
-+	dma_resv_lock(dmabuf->resv, NULL);
-+	/* Remove the last map, there should be no new ones going forward. */
-+	io_dmabuf_drop_map(token);
-+	dma_resv_unlock(dmabuf->resv);
-+
-+	/* Wait until all maps are destroyed. */
-+	ret = dma_resv_wait_timeout(dmabuf->resv, DMA_RESV_USAGE_KERNEL,
-+				    false, MAX_SCHEDULE_TIMEOUT);
-+
-+	if (WARN_ON_ONCE(ret <= 0))
-+		return;
-+	if (WARN_ON_ONCE(rcu_dereference_protected(token->map, true)))
-+		return;
-+
-+	if (refcount_dec_and_test(&token->refs))
-+		io_dmabuf_token_destroy_work(&token->release_work);
-+}
-+
-+void io_dmabuf_token_release(struct io_dmabuf_token *token)
-+{
-+	/*
-+	 * Destruction needs to wait for I/O and dma fences. Defer it to
-+	 * simplify locking.
-+	 */
-+	INIT_WORK(&token->release_work, io_dmabuf_token_release_work);
-+	queue_work(system_wq, &token->release_work);
-+}
-+
-+int io_dmabuf_token_create(struct file *file,
-+			   struct io_dmabuf_token *token,
-+			   struct dma_buf *dmabuf,
-+			   enum dma_data_direction dir)
-+{
-+	int ret;
-+
-+	if (!file->f_op->create_dmabuf_token)
-+		return -EOPNOTSUPP;
-+
-+	memset(token, 0, sizeof(*token));
-+	token->fence_ctx = dma_fence_context_alloc(1);
-+	token->dir = dir;
-+	token->dmabuf = dmabuf;
-+	refcount_set(&token->refs, 1);
-+	get_dma_buf(dmabuf);
-+
-+	ret = file->f_op->create_dmabuf_token(file, token);
-+	if (ret) {
-+		memset(token, 0, sizeof(*token));
-+		dma_buf_put(dmabuf);
-+		return ret;
-+	}
-+
-+	if (WARN_ON_ONCE(!token->dev_ops ||
-+			 !token->dev_ops->map ||
-+			 !token->dev_ops->unmap ||
-+			 !token->dev_ops->release))
++	if (!(file->f_flags & O_DIRECT))
++		return -EINVAL;
++	if (!q->mq_ops || !q->mq_ops->create_dmabuf_token)
 +		return -EINVAL;
 +
-+	return ret;
++	return q->mq_ops->create_dmabuf_token(q, token);
 +}
++
+ const struct file_operations def_blk_fops = {
+ 	.open		= blkdev_open,
+ 	.release	= blkdev_release,
+@@ -969,6 +982,7 @@ const struct file_operations def_blk_fops = {
+ 	.fallocate	= blkdev_fallocate,
+ 	.uring_cmd	= blkdev_uring_cmd,
+ 	.fop_flags	= FOP_BUFFER_RASYNC,
++	.create_dmabuf_token = blkdev_create_dmabuf_token,
+ };
+ 
+ static __init int blkdev_init(void)
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index 18a2388ba581..ee31fb3ada10 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -15,6 +15,8 @@ struct blk_mq_tags;
+ struct blk_flush_queue;
+ struct io_comp_batch;
+ 
++struct io_dmabuf_token;
++
+ #define BLKDEV_MIN_RQ	4
+ #define BLKDEV_DEFAULT_RQ	128
+ 
+@@ -684,6 +686,13 @@ struct blk_mq_ops {
+ 	 */
+ 	void (*show_rq)(struct seq_file *m, struct request *rq);
+ #endif
++
++	/**
++	 * @create_dma_token: Create a dma token, which will be using to map
++	 * a dmabuf for IO requests.
++	 */
++	int (*create_dmabuf_token)(struct request_queue *,
++				   struct io_dmabuf_token *token);
+ };
+ 
+ /* Keep hctx_flag_name[] in sync with the definitions below */
 -- 
 2.53.0
 
