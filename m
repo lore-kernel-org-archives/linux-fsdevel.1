@@ -1,224 +1,155 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-106119.protonmail.ch (mail-106119.protonmail.ch [79.135.106.119])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B320A3FE657;
-	Wed, 29 Apr 2026 13:41:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A853E3A8FF7
+	for <linux-fsdevel@vger.kernel.org>; Wed, 29 Apr 2026 14:06:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.119
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777470095; cv=none; b=Ot3OBr5E4Duy7pDZLKgQYUAv6Pj34qNSbR3C+wi0aJ17LYaAlAzabmD8yschlrZdhqE/dtl7TbYOe1LC7wXuEM07jpljZqWyH9IkjF8KZ1kqMViEAjJph3KdHJ3tU/LmZnWMUJu+5kg2c4RwqzM+0oBiEhbDSS0IRADRPj+fLcA=
+	t=1777471571; cv=none; b=DJzlNA6YDkX9Eyhh3Rw5FAbxt1dXKZy+PkAgw6/WKHHyxnchP1pbjqnL2iKBq84PspM89CqvqcwnXRyBx0E4e6rAicvO1HcTcE5cs33OcLI3OFQjHlqBDCh+eCLhk3a/laKu4bwJF4+cNnZr/BZr1sHWkcuM7+k0ivXA6ngSoYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777470095; c=relaxed/simple;
-	bh=AbmPDiLMo35LZVw+xaDp8x+ViqIl5t2Bms1xbcVtE5U=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=CXvzoI2CWoF0PqdHpSJ1g8BhPzmOAlMZYbd4UraLZ6oEfpSs1vfmmtuEv/dG1POUN+XzAAdc5VKo/miNCR/IGf6NP6f5BFlkYSrUotw2OlgpZGweP8gt0TBILZWBnf4wX309A1XfqKCQ7B5ovg7hkvNeQ9vJHKsa4pAZp2MBpjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YZquV9jf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777471571; c=relaxed/simple;
+	bh=uExTrrXv2ZF9hJiGpeUeEqQ4gYyS1a0Vzka3f+QUJXw=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=U4H6Jq0mT6auyLE4LQkMBYCEaDAvExWdow2MIQxBSCRr8ISX+g0HDCWm6JSx4KP562MfadlrCW1D+H10WYQm/d3iQyek0azCrQgP7xMAUZU4yVsDCWeazU9gJKS4V2w1oGMkO3aDkEFH89xk3vyhDB29xZ2y31x2MxdzXy2c9oA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=PMsvEJkb; arc=none smtp.client-ip=79.135.106.119
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YZquV9jf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59ABAC4AF09;
-	Wed, 29 Apr 2026 13:41:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777470095;
-	bh=AbmPDiLMo35LZVw+xaDp8x+ViqIl5t2Bms1xbcVtE5U=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=YZquV9jfYH5w/wC+soXVf/JNKI1K/XIJ7I5XCZeIS8sbSDkkcAS5x2bjz/5lBH2wx
-	 CttusplS+qBnECTLYYroEskGaCL0cn9jlR8axH5hyNqLqaAHfZ7J/IA3rhde03+lrd
-	 odfq7O2lJzSJYgCKohpnkQHgDjyt7IQy9gyjFWrt8F3c8QICs83ZAGM1uA8wBLOZhN
-	 JE0SWAWeZcHsV0W/mkgOCU2tHtwT+9b0YkPTguPMOIzHBj9Rwhbb+rTIuUKlcH3prB
-	 70KsjJEuKx16+kvJzKXvy3irgRCsD3xJct0cGHe7SdGu8nHDSektshBNW2VZvFD33c
-	 uUwrWimLZP1Dg==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 460EDF40068;
-	Wed, 29 Apr 2026 09:41:33 -0400 (EDT)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Wed, 29 Apr 2026 09:41:33 -0400
-X-ME-Sender: <xms:jQryaSQHFzntyBx-jomblrJhtzbOen6R4iuCOpHPo4gRNj7tinAEDQ>
-    <xme:jQryaSk296dZuhIQkQEK_f2EHNBkX-7riWofWTk0phchaKd_qiSHmKhkEBLEn8DYN
-    RzhRn1CjoxbnJJ-CuJKnYNccFjRUAF0IuxJIZSZwqFQEHFhVLs1_vKH>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdekgeehkecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdevhhhutghk
-    ucfnvghvvghrfdcuoegtvghlsehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvghrnh
-    epjeevhfduheeltedvjefhjeevgffhleegjeevvdfgudeuffefgedtjeeuhfeiudeknecu
-    ffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurf
-    grrhgrmhepmhgrihhlfhhrohhmpegthhhutghklhgvvhgvrhdomhgvshhmthhprghuthhh
-    phgvrhhsohhnrghlihhthidqudeifeegleelleehledqfedvleekgeegvdefqdgtvghlpe
-    epkhgvrhhnvghlrdhorhhgsehfrghsthhmrghilhdrtghomhdpnhgspghrtghpthhtohep
-    vdegpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehnvghilhessghrohifnhdrnh
-    grmhgvpdhrtghpthhtohepmhgrthhhihgvuhdruggvshhnohihvghrshesvghffhhitghi
-    ohhsrdgtohhmpdhrtghpthhtoheprghlvgigrdgrrhhinhhgsehgmhgrihhlrdgtohhmpd
-    hrtghpthhtoheprghmihhrjeefihhlsehgmhgrihhlrdgtohhmpdhrtghpthhtoheprhho
-    shhtvgguthesghhoohgumhhishdrohhrghdprhgtphhtthhopegrnhhnrgeskhgvrhhnvg
-    hlrdhorhhgpdhrtghpthhtohepsghrrghunhgvrheskhgvrhhnvghlrdhorhhgpdhrtghp
-    thhtohepjhhlrgihthhonheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhhhihhrrg
-    hmrghtsehkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:jQryaVDlYB1TdmPkCsoSJMtD1Ig_-AZ56-UySqiHekH40H-tO8fn3w>
-    <xmx:jQryaVMeZOkGKSqz9lA7BTw-KSyhBXPKuzUADcnv-56s0PwVNstu2A>
-    <xmx:jQryaUAsYj5qYDg8Vog6nLLy0ykeKPf5gOJIUECayWL1fUV4BEWXPg>
-    <xmx:jQryaflM_WfAdEBfMGiT-NJ4_MKWpMtzj9f-vCyESEoteRVvmjCMwQ>
-    <xmx:jQryaQrZ-cFoNbjEtfFW9cbVymZSHRFDPz8LkrLDkvlbMNV-i6QvRLaI>
-Feedback-ID: ifa6e4810:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 198F0780070; Wed, 29 Apr 2026 09:41:33 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="PMsvEJkb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
+	s=protonmail3; t=1777471557; x=1777730757;
+	bh=HBA+prfYWAXuk4JZntWYfoOHN1pxfrVekP+qEbg6iDY=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=PMsvEJkbQaYqAVIwHRtjSMFXJxBZAQ4RTAisXPFiCkx9YCdWUTEexdcpwx8xGzWh/
+	 brNk05b31Xe7CGpfSC5wrXfxTIIrWxmLJKf6XpK9vRjXzN85GkC0+eurqqvVfmMqMm
+	 eKNjvagdnr/4TdtGjRcqSxXyBz2r8uKHtqg9gL8TbMpmgC7G1QStKh14kmLlOur1M8
+	 X6RHaz7d+CTEf9Q0bfGCW+CfN+EkgvMFH5wdP+Bu2Y0kFXvQnxovZgxCmAgCUGfQxp
+	 mORv1K5HWK/QGxXCRelqzyQqnBOWhxnSBi/ZmjQn5UbzGYMUEFzKBzMZ4+uMf4drqp
+	 /uyDWp3Sgte7Q==
+Date: Wed, 29 Apr 2026 14:05:48 +0000
+To: david.laight.linux@gmail.com, riel@surriel.com, perry.yuan@amd.com, jgross@suse.com, ljs@kernel.org, justinstitt@google.com, hpa@zytor.com, shuah@kernel.org, nathan@kernel.org, sohil.mehta@intel.com, mathieu.desnoyers@efficios.com, brauner@kernel.org, ethantidmore06@gmail.com, dave.hansen@linux.intel.com, maciej.wieczor-retman@intel.com, mingo@redhat.com, bp@alien8.de, akpm@linux-foundation.org, peterz@infradead.org, viro@zeniv.linux.org.uk, superman.xpt@gmail.com, rdunlap@infradead.org, aliceryhl@google.com, ilpo.jarvinen@linux.intel.com, david@kernel.org, xin@zytor.com, seanjc@google.com, tglx@kernel.org, houwenlong.hwl@antgroup.com, yury.norov@gmail.com, rppt@kernel.org, oleg@redhat.com, nick.desaulniers+lkml@gmail.com, vmalik@redhat.com, morbo@google.com, ryan.roberts@arm.com, kees@kernel.org
+From: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
+Cc: linux-kselftest@vger.kernel.org, linux-fsdevel@vger.kernel.org, x86@kernel.org, llvm@lists.linux.dev, linux-kernel@vger.kernel.org, m.wieczorretman@pm.me
+Subject: [PATCH v7 0/4] x86: Simplifying LAM
+Message-ID: <cover.1777470980.git.m.wieczorretman@pm.me>
+Feedback-ID: 164464600:user:proton
+X-Pm-Message-ID: 5d54fa1e5d74e57302a3cd6663e845502b4d8fb5
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AJifn_5JDXrR
-Date: Wed, 29 Apr 2026 09:41:12 -0400
-From: "Chuck Lever" <cel@kernel.org>
-To: "Jeff Layton" <jlayton@kernel.org>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
- "Chuck Lever" <chuck.lever@oracle.com>,
- "Alexander Aring" <alex.aring@gmail.com>,
- "Steven Rostedt" <rostedt@goodmis.org>,
- "Masami Hiramatsu" <mhiramat@kernel.org>,
- "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>,
- "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>,
- NeilBrown <neil@brown.name>, "Olga Kornievskaia" <okorniev@redhat.com>,
- "Dai Ngo" <Dai.Ngo@oracle.com>, "Tom Talpey" <tom@talpey.com>,
- "Trond Myklebust" <trondmy@kernel.org>, "Anna Schumaker" <anna@kernel.org>,
- "Amir Goldstein" <amir73il@gmail.com>
-Cc: "Calum Mackay" <calum.mackay@oracle.com>, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-nfs@vger.kernel.org
-Message-Id: <d6e54da6-3f7f-4c56-b08a-5b14beecaa48@app.fastmail.com>
-In-Reply-To: <20260428-dir-deleg-v3-0-5a0780ba9def@kernel.org>
-References: <20260428-dir-deleg-v3-0-5a0780ba9def@kernel.org>
-Subject: Re: [PATCH v3 00/28] vfs/nfsd: add support for CB_NOTIFY callbacks in
- directory delegations
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+After ChkTag [1] announcement, it's worth preparing a stable x86 linear
+address masking (lam) user interface. One important aspect of lam is the
+tag width, and aligning it with other industry solutions can provide a
+more popular, generalized interface that other technologies could
+utilize.
+
+ChkTag will use 4-bit tags and since that's the direction other memory
+tagging implementations seem to be taking too (for example Arm's MTE)
+it's reasonable to converge lam in linux to the same specification. Even
+though x86's LAM supports 6-bit tags it is beneficial to shorten lam to
+4 bits as ChkTag will likely be the main user of the interface and such
+connection should simplify things in the long run.
+
+Change in the interface tries to cover the three following aspects:
+=09- Have the kernel use the same tag width as the underlying
+=09  hardware does. This should ensure consistent treatment of user
+=09  pointers across various user/kernel interfaces.
+=09- Present the user with a stable tag width value not dependent
+=09  on the maximum capabilities of the hardware used. This should
+=09  prevent any backward capability issues in case there are any
+=09  hardware changes in the future.
+=09- Export the hardware tag width through procfs for programs that
+=09  need to recreate kernel's treatment of user pointers
+=09  accurately such as gdb.
+
+Changing the tag width at the moment has no effect on userspace
+programs. Due to LAM being disabled until LASS is fully supported in the
+kernel there are yet no userspace projects relying on a specific LAM tag
+width. One known exception is the clang compiler and its hwasan support.
+It is however not a problem since there are both no users of hwasan on
+x86 yet and upon closer inspection (when working on x86 KASAN software
+tag-based mode) I found it's not working correctly and needs to be
+patched.
+
+The patchset also cleans up some comments referencing LAM_U48 which was
+not implemented in the kernel and the comments shouldn't imply it can be
+enabled.
+
+Patches are based on v7.1-rc1
+
+Changelog v7:
+- Redid quite a bit after Rick Edgecombe pointing out the inconsistent
+  treatment of user pointers internally.
+- Cover letter:
+=09- Added the third paragraph to the cover letter summarizing expected
+  =09  results of the interface changes.
+- 1/4:
+=09- Redid the untag mask handling and syscall return. Updated last
+=09  paragraph of the patch message.
+- 2/4:
+=09- Added a procfs patch to help make gdb like programs work with
+=09  LAM.
+- 3/4:
+=09- No changes
+- 4/4:
+=09- Made the selftest constants analogous to the kernel ones.
+
+Changelog v6:
+- 1/3
+=09- Change define names so they match the arch_prctl() cases for
+=09  LAM.
+=09- Add more defines so they build into the GENMASK() more
+=09  properly.
+- 2/3
+=09- Add one reviewed-by.
+- 3/3
+=09- Update the patch subject after removing additional test cases
+=09  during v3.
+=09- Change bit width and untag mask defines so they match the
+=09  kernel ones in name and add GENMASK() to x86 selftests so
+=09  they match the kernel in form. Update the patch description.
+
+Changelog v5:
+- Rebase onto v7.0-rc7.
+
+Changelog v4:
+- Remove the 'default' wording from the cover letter and patch messages.
+- Add a paragraph to the cover letter about userspace impact.
+
+Changelog v3:
+- Remove the debugfs part and update the rest of the code and patch
+  messages accordingly.
+
+Changelog v2:
+- Extend a char buffer in debugfs read callback to fit the format
+  string.
+
+[1] https://community.intel.com/t5/Blogs/Tech-Innovation/open-intel/ChkTag-=
+x86-Memory-Safety/post/1721490
+
+Maciej Wieczor-Retman (4):
+  x86/process: Shorten the LAM tag width
+  x86/process: Add a procfs file with hardware address masking
+  x86/mm: Cleanup comments where LAM_U48 is mentioned
+  selftests/lam: Update LAM tag width and cleanup names
+
+ arch/x86/Kconfig                  |  1 +
+ arch/x86/include/asm/mmu.h        |  2 +-
+ arch/x86/include/asm/tlbflush.h   |  2 +-
+ arch/x86/kernel/process_64.c      | 30 ++++++++--
+ fs/proc/Kconfig                   |  4 ++
+ fs/proc/base.c                    |  6 ++
+ include/linux/uaccess.h           |  5 ++
+ tools/testing/selftests/x86/lam.c | 94 ++++++++++++++++---------------
+ 8 files changed, 92 insertions(+), 52 deletions(-)
+
+--=20
+2.53.0
 
 
-
-On Tue, Apr 28, 2026, at 3:09 AM, Jeff Layton wrote:
-> Re-posting the set per Christian's request. The only difference in this
-> version is a small error handling fix in alloc_init_dir_deleg(). The old
-> version could crash since release_pages() can't handle an array with
-> NULL pointers in it.
->
-> ---------------------------------8<------------------------------------
->
-> This patchset builds on the directory delegation work we did a few
-> months ago, to add support for CB_NOTIFY callbacks for some events. In
-> particular, creates, unlinks and renames. The server also sends updated
-> directory attributes in the notifications. With this support, the client
-> can register interest in a directory and get notifications about changes
-> within it without losing its lease.
->
-> The series starts with patches to allow the vfs to ignore certain types
-> of events on directories. nfsd can then request these sorts of
-> delegations on directories, and then set up inotify watches on the
-> directory to trigger sending CB_NOTIFY events.
->
-> This has mainly been tested with pynfs, with some new testcases that
-> I'll be posting soon. They seem to work fine with those tests, but I
-> don't think we'll want to merge these until we have a complete
-> client-side implementation to test against.
->
-> Signed-off-by: Jeff Layton <jlayton@kernel.org>
-> ---
-> Changes in v3:
-> - Fix error handling in alloc_init_dir_deleg()
-> - Link to v2: 
-> https://lore.kernel.org/r/20260416-dir-deleg-v2-0-851426a550f6@kernel.org
->
-> Changes in v2:
-> - Fix __break_lease handling with different lease types on flc_lease 
-> list
-> - Add FSNOTIFY_EVENT_RENAME data type to properly handle 
-> cross-directory rename events
-> - Display fsnotify mask symbolically in tracepoints
-> - New tracepoint in fsnotify()
-> - Recalc fsnotify mask after unlocking lease instead of before
-> - Don't notify client that is making the changes
-> - After sending CB_NOTIFY, requeue if new events came in while running
-> - Document removal of NFS4_VERIFIER_SIZE/NFS4_FHSIZE from UAPI headers
-> - Properly release nfsd_dir_fsnotify_group on server shutdown
-> - Link to v1: 
-> https://lore.kernel.org/r/20260407-dir-deleg-v1-0-aaf68c478abd@kernel.org
->
-> ---
-> Jeff Layton (28):
->       filelock: pass current blocking lease to 
-> trace_break_lease_block() rather than "new_fl"
->       filelock: add support for ignoring deleg breaks for dir change 
-> events
->       filelock: add a tracepoint to start of break_lease()
->       filelock: add an inode_lease_ignore_mask helper
->       fsnotify: new tracepoint in fsnotify()
->       fsnotify: add fsnotify_modify_mark_mask()
->       fsnotify: add FSNOTIFY_EVENT_RENAME data type
->       nfsd: check fl_lmops in nfsd_breaker_owns_lease()
->       nfsd: add protocol support for CB_NOTIFY
->       nfs_common: add new NOTIFY4_* flags proposed in RFC8881bis
->       nfsd: allow nfsd to get a dir lease with an ignore mask
->       nfsd: update the fsnotify mark when setting or removing a dir 
-> delegation
->       nfsd: make nfsd4_callback_ops->prepare operation bool return
->       nfsd: add callback encoding and decoding linkages for CB_NOTIFY
->       nfsd: use RCU to protect fi_deleg_file
->       nfsd: add data structures for handling CB_NOTIFY
->       nfsd: add notification handlers for dir events
->       nfsd: add tracepoint to dir_event handler
->       nfsd: apply the notify mask to the delegation when requested
->       nfsd: add helper to marshal a fattr4 from completed args
->       nfsd: allow nfsd4_encode_fattr4_change() to work with no export
->       nfsd: send basic file attributes in CB_NOTIFY
->       nfsd: allow encoding a filehandle into fattr4 without a svc_fh
->       nfsd: add a fi_connectable flag to struct nfs4_file
->       nfsd: add the filehandle to returned attributes in CB_NOTIFY
->       nfsd: properly track requested child attributes
->       nfsd: track requested dir attributes
->       nfsd: add support to CB_NOTIFY for dir attribute changes
->
->  Documentation/sunrpc/xdr/nfs4_1.x    | 264 ++++++++++++++-
->  fs/attr.c                            |   2 +-
->  fs/locks.c                           | 118 +++++--
->  fs/namei.c                           |  31 +-
->  fs/nfsd/filecache.c                  |  70 +++-
->  fs/nfsd/nfs4callback.c               |  60 +++-
->  fs/nfsd/nfs4layouts.c                |   5 +-
->  fs/nfsd/nfs4proc.c                   |  17 +
->  fs/nfsd/nfs4state.c                  | 551 ++++++++++++++++++++++++++++----
->  fs/nfsd/nfs4xdr.c                    | 323 +++++++++++++++++--
->  fs/nfsd/nfs4xdr_gen.c                | 601 ++++++++++++++++++++++++++++++++++-
->  fs/nfsd/nfs4xdr_gen.h                |  20 +-
->  fs/nfsd/state.h                      |  72 ++++-
->  fs/nfsd/trace.h                      |  23 ++
->  fs/nfsd/xdr4.h                       |   5 +
->  fs/nfsd/xdr4cb.h                     |  12 +
->  fs/notify/fsnotify.c                 |   5 +
->  fs/notify/mark.c                     |  29 ++
->  fs/posix_acl.c                       |   4 +-
->  fs/xattr.c                           |   4 +-
->  include/linux/filelock.h             |  54 +++-
->  include/linux/fsnotify.h             |   8 +-
->  include/linux/fsnotify_backend.h     |  21 ++
->  include/linux/nfs4.h                 | 127 --------
->  include/linux/sunrpc/xdrgen/nfs4_1.h | 291 ++++++++++++++++-
->  include/trace/events/filelock.h      |  38 ++-
->  include/trace/events/fsnotify.h      |  51 +++
->  include/trace/misc/fsnotify.h        |  35 ++
->  include/uapi/linux/nfs4.h            |   2 -
->  29 files changed, 2519 insertions(+), 324 deletions(-)
-> ---
-> base-commit: f4d71dd7fd9cec357c32431fa55c107b96008312
-> change-id: 20260325-dir-deleg-339066dd1017
->
-> Best regards,
-> -- 
-> Jeff Layton <jlayton@kernel.org>
-
-For the series:
-
-Acked-by: Chuck Lever <chuck.lever@oracle.com>
-
-
--- 
-Chuck Lever
