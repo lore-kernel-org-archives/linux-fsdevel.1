@@ -1,39 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1523B298CA5;
-	Wed, 29 Apr 2026 14:21:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 779C33148D2;
+	Wed, 29 Apr 2026 14:22:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777472513; cv=none; b=Gk0lWacTyPT9WZy/YtPWbXOvj46wldPWRjCstGcac5n24gf86SvaeoyCt2oBsMtMoqblWaeDE6oXyr3nZbTPAwrpzrHQ4wdkyrHNgbh+JgBkTjADEqb3H0Xb5EFUDAd1g/CazQsCAs0IlhlBaijJP6I2ykG2ug/ldso4wsz88VI=
+	t=1777472528; cv=none; b=pUTinK6YnTvkQL7xTZW0b9S+lj8e6JymsG7eqFiDV+7uSfuoC5puP4oSLieivntGwXcTWY8mlrbJxNZsmIWHVgCTF15PudQJQm5szVDYl85f206xlkqCdDiUgVXBRLD53Jy1vog1TDXiuM6ClImSUH7jlICthQf+1Jwc3gKQUnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777472513; c=relaxed/simple;
-	bh=z5rYkdnrSYr1cJN0VdBRoqEf8lHJTx3beUWkK3c3G2w=;
+	s=arc-20240116; t=1777472528; c=relaxed/simple;
+	bh=9jtBS8CXvHaFbfP5UuRRYl8IEFEBKYq+HvyPZkUOsuo=;
 	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Y17oRPujYYYCHQmerFd4Yt7BNY4IVJZ9oqyB3GnszR5aROJqWdK7jC6Ztj2bNJX9WevVxKg8RpNwOkcm9x1ukKOWtNLdgqqN2BuqlSbO6X83MxIoZvvw2UX4xmyzYmGOt8EBBLgWup1MGtE+WhvDrl1VLdKcnzDVTHqH23Yp/a0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BVDXqMgZ; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=njkaCsk0azuJq74KxQqTY65mTIPoGXTJrvWvReY63ymWqpGHFb54iKddo9xKzMoAoLFp+UvY/PpYLsse/UXsbQnHOdRGiVkoI3fstaKa6b9aeLWPTeQ2CCe68zyy6z1dX69dLTPyW3jE8WHUH3OkHPMG0zLhQE6HA6sR2NvZDIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E8DRqkA6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BVDXqMgZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC400C2BCB8;
-	Wed, 29 Apr 2026 14:21:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E8DRqkA6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55FAFC19425;
+	Wed, 29 Apr 2026 14:22:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777472512;
-	bh=z5rYkdnrSYr1cJN0VdBRoqEf8lHJTx3beUWkK3c3G2w=;
+	s=k20201202; t=1777472528;
+	bh=9jtBS8CXvHaFbfP5UuRRYl8IEFEBKYq+HvyPZkUOsuo=;
 	h=Date:Subject:From:To:Cc:In-Reply-To:References:From;
-	b=BVDXqMgZqS4MB4GQBArLRqnO+UQEiVpZ8s77TU0NeIHfM5jECR8RAzRox4oKMzH/M
-	 kPFgNI1tQTYBkHPm8aQzUHoegTWYkM3APldan62Uzy/RBW0a9P6MmlJpE7BKAzscT0
-	 oKMOiAlW+6s0OhEzA2OD1lfVS2cwxmExkYJG8dsqL0+wCh84tZQGpvxpvXw2msF7SZ
-	 OEWV1py+/Yn0+EAi4P13yYLJUgJ2lI9TfWZ9re21EY3nsWebf5kZKEeklcU/F+VjhP
-	 3RzWTKGGPYD6SkNMV/KhKhpSzV/jbYdm4z6gHIcOoKmqsQFB6ARuTy+QHBG+IAJRPS
-	 BIaxkEEduC3Gg==
-Date: Wed, 29 Apr 2026 07:21:52 -0700
-Subject: [PATCH 1/4] fuse: flush pending FUSE_RELEASE requests before sending
- FUSE_DESTROY
+	b=E8DRqkA6JD0KdAfv7k5UG3x2b14+4hZbWxt5ql60hqSe5YKvccxwKQqp3RiAyKXJv
+	 B9jATBhK5QBdSHkJLr9CHVtHmMmQ2ujI4PX0doXZhy0+/9DulByQaX+EBZrg9owmTw
+	 WJzPjGAYKh1MiLgjttyxywLEpgGMUofv86HUT0JMQZfpMJsUlTSgj7ML31rUtIzUO4
+	 iqW+fzlV09FpefDGf6n699YMq3uIPil/AJargVXv5duRdr2JnsKs95LnYLVtNmdlnj
+	 Xy/QKJqgUcn5bHzayV52afIhl9c38TiZkVY2tdzUXXBU3dhA+50Tq8Yld8wU+h1ts8
+	 sYCPeBhD8B+NA==
+Date: Wed, 29 Apr 2026 07:22:07 -0700
+Subject: [PATCH 2/4] fuse: implement file attributes mask for statx
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: djwong@kernel.org, miklos@szeredi.hu
 Cc: joannelkoong@gmail.com, joannelkoong@gmail.com, neal@gompa.dev,
  linux-fsdevel@vger.kernel.org, bernd@bsbernd.com, fuse-devel@lists.linux.dev
-Message-ID: <177747204010.4101397.3285870017286262302.stgit@frogsfrogsfrogs>
+Message-ID: <177747204030.4101397.6386153472001458944.stgit@frogsfrogsfrogs>
 In-Reply-To: <177747203969.4101397.1905820467457875817.stgit@frogsfrogsfrogs>
 References: <177747203969.4101397.1905820467457875817.stgit@frogsfrogsfrogs>
 Precedence: bulk
@@ -47,123 +46,108 @@ Content-Transfer-Encoding: 7bit
 
 From: Darrick J. Wong <djwong@kernel.org>
 
-generic/488 fails with fuse2fs in the following fashion:
-
-generic/488       _check_generic_filesystem: filesystem on /dev/sdf is inconsistent
-(see /var/tmp/fstests/generic/488.full for details)
-
-This test opens a large number of files, unlinks them (which really just
-renames them to fuse hidden files), closes the program, unmounts the
-filesystem, and runs fsck to check that there aren't any inconsistencies
-in the filesystem.
-
-Unfortunately, the 488.full file shows that there are a lot of hidden
-files left over in the filesystem, with incorrect link counts.  Tracing
-fuse_request_* shows that there are a large number of FUSE_RELEASE
-commands that are queued up on behalf of the unlinked files at the time
-that fuse_conn_destroy calls fuse_abort_conn.  Had the connection not
-aborted, the fuse server would have responded to the RELEASE commands by
-removing the hidden files; instead they stick around.
-
-For upper-level fuse servers that don't use fuseblk mode this isn't a
-problem because libfuse responds to the connection going down by pruning
-its inode cache and calling the fuse server's ->release for any open
-files before calling the server's ->destroy function.
-
-For fuseblk servers this is a problem, however, because the kernel sends
-FUSE_DESTROY to the fuse server, and the fuse server has to write all of
-its pending changes to the block device before replying to the DESTROY
-request because the kernel releases its O_EXCL hold on the block device.
-This means that the kernel must flush all pending FUSE_RELEASE requests
-before issuing FUSE_DESTROY.
-
-For fuse-iomap servers this will also be a problem because iomap servers
-are expected to release all exclusively-held resources before unmount
-returns from the kernel.
-
-Create a function to push all the background requests to the queue
-before sending FUSE_DESTROY.  That way, all the pending file release
-events are processed by the fuse server before it tears itself down, and
-we don't end up with a corrupt filesystem.
-
-Note that multithreaded fuse servers will need to track the number of
-open files and defer a FUSE_DESTROY request until that number reaches
-zero.  An earlier version of this patch made the kernel wait for the
-RELEASE acknowledgements before sending DESTROY, but the kernel people
-weren't comfortable with adding blocking waits to unmount.
+Actually copy the attributes/attributes_mask from userspace.  Ignore
+file attributes bits that the VFS sets (or doesn't set) on its own.
 
 Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
 ---
- fs/fuse/fuse_i.h |    3 +++
- fs/fuse/dev.c    |   18 ++++++++++++++++++
- fs/fuse/inode.c  |   10 +++++++++-
- 3 files changed, 30 insertions(+), 1 deletion(-)
+ fs/fuse/fuse_i.h |   37 +++++++++++++++++++++++++++++++++++++
+ fs/fuse/dir.c    |    4 ++++
+ fs/fuse/inode.c  |    4 ++++
+ 3 files changed, 45 insertions(+)
 
 
 diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-index 17423d4e3cfa67..f83bd090ca28ea 100644
+index f83bd090ca28ea..4c135a7edf54ac 100644
 --- a/fs/fuse/fuse_i.h
 +++ b/fs/fuse/fuse_i.h
-@@ -1286,6 +1286,9 @@ void fuse_request_end(struct fuse_req *req);
- void fuse_abort_conn(struct fuse_conn *fc);
- void fuse_wait_aborted(struct fuse_conn *fc);
+@@ -147,6 +147,10 @@ struct fuse_inode {
+ 	/** Version of last attribute change */
+ 	u64 attr_version;
  
-+/* Flush all pending requests but do not wait for them. */
-+void fuse_flush_requests(struct fuse_conn *fc);
++	/** statx file attributes */
++	u64 statx_attributes;
++	u64 statx_attributes_mask;
 +
- /* Check if any requests timed out */
- void fuse_check_timeout(struct work_struct *work);
- 
-diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-index 5dda7080f4a909..2ff09d9f101d00 100644
---- a/fs/fuse/dev.c
-+++ b/fs/fuse/dev.c
-@@ -2436,6 +2436,24 @@ static void end_polls(struct fuse_conn *fc)
- 	}
- }
+ 	union {
+ 		/* read/write io cache (regular file only) */
+ 		struct {
+@@ -1235,6 +1239,39 @@ void fuse_change_attributes_common(struct inode *inode, struct fuse_attr *attr,
+ 				   u64 attr_valid, u32 cache_mask,
+ 				   u64 evict_ctr);
  
 +/*
-+ * Flush all pending requests but do not wait for them.  Only call this
-+ * function when it is no longer possible for other threads to add requests.
++ * These statx attribute flags are set by the VFS so mask them out of replies
++ * from the fuse server for local filesystems.  Nonlocal filesystems are
++ * responsible for enforcing and advertising these flags themselves.
 + */
-+void fuse_flush_requests(struct fuse_conn *fc)
++#define FUSE_STATX_LOCAL_VFS_ATTRIBUTES (STATX_ATTR_IMMUTABLE | \
++					 STATX_ATTR_APPEND)
++
++/*
++ * These statx attribute flags are set by the VFS so mask them out of replies
++ * from the fuse server.
++ */
++#define FUSE_STATX_VFS_ATTRIBUTES (STATX_ATTR_AUTOMOUNT | STATX_ATTR_DAX | \
++				   STATX_ATTR_MOUNT_ROOT)
++
++static inline u64 fuse_statx_attributes_mask(const struct inode *inode,
++					     const struct fuse_statx *sx)
 +{
-+	spin_lock(&fc->lock);
-+	spin_lock(&fc->bg_lock);
-+	if (fc->connected) {
-+		/* Push all the background requests to the queue. */
-+		fc->blocked = 0;
-+		fc->max_background = UINT_MAX;
-+		flush_bg_queue(fc);
-+	}
-+	spin_unlock(&fc->bg_lock);
-+	spin_unlock(&fc->lock);
++	if (fuse_inode_is_exclusive(inode))
++		return sx->attributes_mask & ~(FUSE_STATX_VFS_ATTRIBUTES |
++					       FUSE_STATX_LOCAL_VFS_ATTRIBUTES);
++	return sx->attributes_mask & ~FUSE_STATX_VFS_ATTRIBUTES;
 +}
 +
- /*
-  * Abort all requests.
-  *
++static inline u64 fuse_statx_attributes(const struct inode *inode,
++					const struct fuse_statx *sx)
++{
++	if (fuse_inode_is_exclusive(inode))
++		return sx->attributes & ~(FUSE_STATX_VFS_ATTRIBUTES |
++					  FUSE_STATX_LOCAL_VFS_ATTRIBUTES);
++	return sx->attributes & ~FUSE_STATX_VFS_ATTRIBUTES;
++}
++
+ u32 fuse_get_cache_mask(struct inode *inode);
+ 
+ /**
+diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+index b658b6baf72fe9..5d9466c7fd464e 100644
+--- a/fs/fuse/dir.c
++++ b/fs/fuse/dir.c
+@@ -1468,6 +1468,8 @@ static int fuse_do_statx(struct mnt_idmap *idmap, struct inode *inode,
+ 		stat->result_mask = sx->mask & (STATX_BASIC_STATS | STATX_BTIME);
+ 		stat->btime.tv_sec = sx->btime.tv_sec;
+ 		stat->btime.tv_nsec = min_t(u32, sx->btime.tv_nsec, NSEC_PER_SEC - 1);
++		stat->attributes |= fuse_statx_attributes(inode, sx);
++		stat->attributes_mask |= fuse_statx_attributes_mask(inode, sx);
+ 		fuse_fillattr(idmap, inode, &attr, stat);
+ 		stat->result_mask |= STATX_TYPE;
+ 	}
+@@ -1572,6 +1574,8 @@ static int fuse_update_get_attr(struct mnt_idmap *idmap, struct inode *inode,
+ 			stat->btime = fi->i_btime;
+ 			stat->result_mask |= STATX_BTIME;
+ 		}
++		stat->attributes |= fi->statx_attributes;
++		stat->attributes_mask |= fi->statx_attributes_mask;
+ 	}
+ 
+ 	return err;
 diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-index deddfffb037fb8..21e55080faee2d 100644
+index 21e55080faee2d..b43e4bf4a1c117 100644
 --- a/fs/fuse/inode.c
 +++ b/fs/fuse/inode.c
-@@ -2113,8 +2113,16 @@ void fuse_conn_destroy(struct fuse_mount *fm)
- {
- 	struct fuse_conn *fc = fm->fc;
+@@ -286,6 +286,10 @@ void fuse_change_attributes_common(struct inode *inode, struct fuse_attr *attr,
+ 			fi->i_btime.tv_sec = sx->btime.tv_sec;
+ 			fi->i_btime.tv_nsec = sx->btime.tv_nsec;
+ 		}
++
++		fi->statx_attributes = fuse_statx_attributes(inode, sx);
++		fi->statx_attributes_mask = fuse_statx_attributes_mask(inode,
++								       sx);
+ 	}
  
--	if (fc->destroy)
-+	if (fc->destroy) {
-+		/*
-+		 * Flush all pending requests before sending FUSE_DESTROY.  The
-+		 * fuse server must reply to the flushed requests before
-+		 * handling FUSE_DESTROY because unmount is about to release
-+		 * its O_EXCL hold on the block device.
-+		 */
-+		fuse_flush_requests(fc);
- 		fuse_send_destroy(fm);
-+	}
- 
- 	fuse_abort_conn(fc);
- 	fuse_wait_aborted(fc);
+ 	if (attr->blksize)
 
