@@ -1,248 +1,109 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 997761FA272;
-	Thu, 30 Apr 2026 11:35:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA9261FA272;
+	Thu, 30 Apr 2026 11:38:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777548927; cv=none; b=sZf5nB58+0aFInq8RyuLvlngCxYHeD7bZ4OFRX4wmBciHRznL3yXFBBgD3P1QUX74isVFYRqKwSI1mOoiO6Jjb5evcSl4caFTPO0KkVJTgTLUJRqy6J7QHyi+liPNaCMLXwGNahii6bun5no9gKa4nqmIGBFifuMApjCgRvd/Og=
+	t=1777549086; cv=none; b=jdPCI/rvZyuOFpjuVIbIn02XY2gISkSPNGfFQiyxiBn3SJlOzPAh5DKK956s2eUsO7BncEuKA5jOmZZ0OEa3lNDjnxkVuhc82nLHepjb3eJAR3sZrgzUnWYl1D6vOBaoYrV4wxpVAaeVsbqjnD4iBvzS/72b57BvXi3lfiSiJ70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777548927; c=relaxed/simple;
-	bh=bisZnB1OIt5GIX54D6y0n4Kk5oWYXeYGQtm/I2nETOw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=B6p5+sR+O9YfJfUOwQI3Wotvk1G1mrLceDlo5eSBoDO3h8sJd0HIIXtuERS7YUsnHVQ6P0OwzhnqmjpF6cfp1WraRGpf92YrW0fwOU1ZSUeYlxTjmdjnfmxG08CU5V7clc1e8N+aKAvc+W7i1ceq6vr2w0A0saj3064CnixYFt4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IX7NHood; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777549086; c=relaxed/simple;
+	bh=pdTtFTvRthhjTyLnstPF8Gjyp9WZtjRHT+8bsADDfQs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OBoeRuCDAx1MzaP4xjl/QMVp+8F+NqWg6MEpaDD+FSoFR5X5ssOJ5Q1bFJzps7GZ1NLYSo7t1OtaLb/bT2yxcSFoAtGfygxlrkTqR8w0FnGzJ0lWeHGVnhhPXJK6oqonPiXeOc30S04OoQkP371/Ude2tUkZ9JefIx4/HrhJANA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fqsPm/rK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IX7NHood"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 127F1C2BCB4;
-	Thu, 30 Apr 2026 11:35:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fqsPm/rK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9D60C2BCB4;
+	Thu, 30 Apr 2026 11:38:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777548926;
-	bh=bisZnB1OIt5GIX54D6y0n4Kk5oWYXeYGQtm/I2nETOw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=IX7NHoodLLg0dGiTyVYt9H9YfLJOCH4NlBZZzkdOwmyBN6XzfYNywvIAWNfRyEwM8
-	 NLLIJQrM8tHvvk+CzwKIIyrGfqAu0yNtZ5r3xF2QwkDfGXPInSTPd8jqiYRPOeE4r+
-	 U95kWfcDOBUkGJlmmQqRZepGt/HoiWvKf6Lu3aou7A1WtVK1yP6hgOz9kEjPYb55mw
-	 MNBzqVHMMvQygmzCf45orrd6109MeQJemSZkZ9NEhmQAm7241maVM9xm2lfyJkrZ5W
-	 XdNABd5FOByoIzzgCabKxA46asJSyutcg4cxltqKk7h5/84IMruzC/1lETnTTw5XWE
-	 4NPyQqyYjxW0w==
-From: Mike Rapoport <rppt@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	David Hildenbrand <david@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Mike Rapoport <rppt@kernel.org>,
-	Peter Xu <peterx@redhat.com>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [PATCH 2/2] userfaultfd: make functions that are not used outside uffd static
-Date: Thu, 30 Apr 2026 14:35:12 +0300
-Message-ID: <20260430113512.115938-3-rppt@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260430113512.115938-1-rppt@kernel.org>
-References: <20260430113512.115938-1-rppt@kernel.org>
+	s=k20201202; t=1777549086;
+	bh=pdTtFTvRthhjTyLnstPF8Gjyp9WZtjRHT+8bsADDfQs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=fqsPm/rKBAqvXQoV32YglHso24WGilNTSccNOexAFSTCJarqJCupiBRZa2mEA5Oam
+	 G3huydp2vrKXxy5YNxNXVScLV2HeUjKZjnz/7oBdOSrR3YDh4LnR0o5YzrmHJa4bCM
+	 MqjbDHn2ravvfE4EfTb4Q3jDiW9Ie8wVRuwUV40X3byWEYCzgs8UUPzEoelSVZxh2b
+	 wnTM0jjLDkpJ5ceSM6H72sOdUG/FN2MZU5uP3yhocis7BoCie8xKKg5ty+AgYBdegn
+	 8TsaY133uEBqX08D1YKHMxaIAm4Zqb68wTsB9dtC6froCE79VuefMzN6ZZDFGAPKVa
+	 ZakioZ4idttnQ==
+Message-ID: <d5f17a01-4504-4a7b-b58d-c183cedc37f1@kernel.org>
+Date: Thu, 30 Apr 2026 13:38:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] userfaultfd: merge fs/userfaultfd.c into
+ mm/userfaultfd.c
+To: Mike Rapoport <rppt@kernel.org>, Andrew Morton <akpm@linux-foundation.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Peter Xu <peterx@redhat.com>, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org
+References: <20260430113512.115938-1-rppt@kernel.org>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260430113512.115938-1-rppt@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+On 4/30/26 13:35, Mike Rapoport wrote:
+> From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+> 
+> Hi,
+> 
+> These patches merge fs/userfaultfd.c into mm/userfaultfd.c and make
+> functions used only inside mm/userfaultfd.c static.
 
-After merging fs/userfaultfd.c into mm/userfaultfd.c, several functions
-that were previously shared between the two files are now only used within
-mm/userfaultfd.c.
+Yeah, makes sense to me!
 
-Make them static and remove their declarations from
-include/linux/userfaultfd_k.h.
-
-Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-Assisted-by: Copilot:claude-opus-4-6
----
- include/linux/userfaultfd_k.h | 36 -----------------------------------
- mm/userfaultfd.c              | 24 +++++++++++------------
- 2 files changed, 12 insertions(+), 48 deletions(-)
-
-diff --git a/include/linux/userfaultfd_k.h b/include/linux/userfaultfd_k.h
-index d2920f98ab86..3ec8e1071673 100644
---- a/include/linux/userfaultfd_k.h
-+++ b/include/linux/userfaultfd_k.h
-@@ -147,26 +147,12 @@ static inline uffd_flags_t uffd_flags_set_mode(uffd_flags_t flags, enum mfill_at
- /* Flags controlling behavior. These behavior changes are mode-independent. */
- #define MFILL_ATOMIC_WP MFILL_ATOMIC_FLAG(0)
- 
--extern ssize_t mfill_atomic_copy(struct userfaultfd_ctx *ctx, unsigned long dst_start,
--				 unsigned long src_start, unsigned long len,
--				 uffd_flags_t flags);
--extern ssize_t mfill_atomic_zeropage(struct userfaultfd_ctx *ctx,
--				     unsigned long dst_start,
--				     unsigned long len);
--extern ssize_t mfill_atomic_continue(struct userfaultfd_ctx *ctx, unsigned long dst_start,
--				     unsigned long len, uffd_flags_t flags);
--extern ssize_t mfill_atomic_poison(struct userfaultfd_ctx *ctx, unsigned long start,
--				   unsigned long len, uffd_flags_t flags);
--extern int mwriteprotect_range(struct userfaultfd_ctx *ctx, unsigned long start,
--			       unsigned long len, bool enable_wp);
- extern long uffd_wp_range(struct vm_area_struct *vma,
- 			  unsigned long start, unsigned long len, bool enable_wp);
- 
- /* move_pages */
- void double_pt_lock(spinlock_t *ptl1, spinlock_t *ptl2);
- void double_pt_unlock(spinlock_t *ptl1, spinlock_t *ptl2);
--ssize_t move_pages(struct userfaultfd_ctx *ctx, unsigned long dst_start,
--		   unsigned long src_start, unsigned long len, __u64 flags);
- int move_pages_huge_pmd(struct mm_struct *mm, pmd_t *dst_pmd, pmd_t *src_pmd, pmd_t dst_pmdval,
- 			struct vm_area_struct *dst_vma,
- 			struct vm_area_struct *src_vma,
-@@ -239,9 +225,6 @@ static inline bool userfaultfd_armed(struct vm_area_struct *vma)
- 	return vma->vm_flags & __VM_UFFD_FLAGS;
- }
- 
--bool vma_can_userfault(struct vm_area_struct *vma, vm_flags_t vm_flags,
--		       bool wp_async);
--
- static inline bool vma_has_uffd_without_event_remap(struct vm_area_struct *vma)
- {
- 	struct userfaultfd_ctx *uffd_ctx = vma->vm_userfaultfd_ctx.ctx;
-@@ -271,25 +254,6 @@ extern void userfaultfd_unmap_complete(struct mm_struct *mm,
- extern bool userfaultfd_wp_unpopulated(struct vm_area_struct *vma);
- extern bool userfaultfd_wp_async(struct vm_area_struct *vma);
- 
--void userfaultfd_reset_ctx(struct vm_area_struct *vma);
--
--struct vm_area_struct *userfaultfd_clear_vma(struct vma_iterator *vmi,
--					     struct vm_area_struct *prev,
--					     struct vm_area_struct *vma,
--					     unsigned long start,
--					     unsigned long end);
--
--int userfaultfd_register_range(struct userfaultfd_ctx *ctx,
--			       struct vm_area_struct *vma,
--			       vm_flags_t vm_flags,
--			       unsigned long start, unsigned long end,
--			       bool wp_async);
--
--void userfaultfd_release_new(struct userfaultfd_ctx *ctx);
--
--void userfaultfd_release_all(struct mm_struct *mm,
--			     struct userfaultfd_ctx *ctx);
--
- static inline bool userfaultfd_wp_use_markers(struct vm_area_struct *vma)
- {
- 	/* Only wr-protect mode uses pte markers */
-diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
-index d0cf44aec1c4..f089ffa39722 100644
---- a/mm/userfaultfd.c
-+++ b/mm/userfaultfd.c
-@@ -958,7 +958,7 @@ static __always_inline ssize_t mfill_atomic(struct userfaultfd_ctx *ctx,
- 	return copied ? copied : err;
- }
- 
--ssize_t mfill_atomic_copy(struct userfaultfd_ctx *ctx, unsigned long dst_start,
-+static ssize_t mfill_atomic_copy(struct userfaultfd_ctx *ctx, unsigned long dst_start,
- 			  unsigned long src_start, unsigned long len,
- 			  uffd_flags_t flags)
- {
-@@ -966,7 +966,7 @@ ssize_t mfill_atomic_copy(struct userfaultfd_ctx *ctx, unsigned long dst_start,
- 			    uffd_flags_set_mode(flags, MFILL_ATOMIC_COPY));
- }
- 
--ssize_t mfill_atomic_zeropage(struct userfaultfd_ctx *ctx,
-+static ssize_t mfill_atomic_zeropage(struct userfaultfd_ctx *ctx,
- 			      unsigned long start,
- 			      unsigned long len)
- {
-@@ -974,7 +974,7 @@ ssize_t mfill_atomic_zeropage(struct userfaultfd_ctx *ctx,
- 			    uffd_flags_set_mode(0, MFILL_ATOMIC_ZEROPAGE));
- }
- 
--ssize_t mfill_atomic_continue(struct userfaultfd_ctx *ctx, unsigned long start,
-+static ssize_t mfill_atomic_continue(struct userfaultfd_ctx *ctx, unsigned long start,
- 			      unsigned long len, uffd_flags_t flags)
- {
- 
-@@ -990,7 +990,7 @@ ssize_t mfill_atomic_continue(struct userfaultfd_ctx *ctx, unsigned long start,
- 			    uffd_flags_set_mode(flags, MFILL_ATOMIC_CONTINUE));
- }
- 
--ssize_t mfill_atomic_poison(struct userfaultfd_ctx *ctx, unsigned long start,
-+static ssize_t mfill_atomic_poison(struct userfaultfd_ctx *ctx, unsigned long start,
- 			    unsigned long len, uffd_flags_t flags)
- {
- 	return mfill_atomic(ctx, start, 0, len,
-@@ -1026,7 +1026,7 @@ long uffd_wp_range(struct vm_area_struct *dst_vma,
- 	return ret;
- }
- 
--int mwriteprotect_range(struct userfaultfd_ctx *ctx, unsigned long start,
-+static int mwriteprotect_range(struct userfaultfd_ctx *ctx, unsigned long start,
- 			unsigned long len, bool enable_wp)
- {
- 	struct mm_struct *dst_mm = ctx->mm;
-@@ -1856,7 +1856,7 @@ static void uffd_move_unlock(struct vm_area_struct *dst_vma,
-  * in the regions or not, but preventing the risk of having to split
-  * the hugepmd during the remap.
-  */
--ssize_t move_pages(struct userfaultfd_ctx *ctx, unsigned long dst_start,
-+static ssize_t move_pages(struct userfaultfd_ctx *ctx, unsigned long dst_start,
- 		   unsigned long src_start, unsigned long len, __u64 mode)
- {
- 	struct mm_struct *mm = ctx->mm;
-@@ -2031,7 +2031,7 @@ ssize_t move_pages(struct userfaultfd_ctx *ctx, unsigned long dst_start,
- 	return moved ? moved : err;
- }
- 
--bool vma_can_userfault(struct vm_area_struct *vma, vm_flags_t vm_flags,
-+static bool vma_can_userfault(struct vm_area_struct *vma, vm_flags_t vm_flags,
- 		       bool wp_async)
- {
- 	const struct vm_uffd_ops *ops = vma_uffd_ops(vma);
-@@ -2088,12 +2088,12 @@ static void userfaultfd_set_ctx(struct vm_area_struct *vma,
- 				 (vma->vm_flags & ~__VM_UFFD_FLAGS) | vm_flags);
- }
- 
--void userfaultfd_reset_ctx(struct vm_area_struct *vma)
-+static void userfaultfd_reset_ctx(struct vm_area_struct *vma)
- {
- 	userfaultfd_set_ctx(vma, NULL, 0);
- }
- 
--struct vm_area_struct *userfaultfd_clear_vma(struct vma_iterator *vmi,
-+static struct vm_area_struct *userfaultfd_clear_vma(struct vma_iterator *vmi,
- 					     struct vm_area_struct *prev,
- 					     struct vm_area_struct *vma,
- 					     unsigned long start,
-@@ -2132,7 +2132,7 @@ struct vm_area_struct *userfaultfd_clear_vma(struct vma_iterator *vmi,
- }
- 
- /* Assumes mmap write lock taken, and mm_struct pinned. */
--int userfaultfd_register_range(struct userfaultfd_ctx *ctx,
-+static int userfaultfd_register_range(struct userfaultfd_ctx *ctx,
- 			       struct vm_area_struct *vma,
- 			       vm_flags_t vm_flags,
- 			       unsigned long start, unsigned long end,
-@@ -2196,7 +2196,7 @@ int userfaultfd_register_range(struct userfaultfd_ctx *ctx,
- 	return 0;
- }
- 
--void userfaultfd_release_new(struct userfaultfd_ctx *ctx)
-+static void userfaultfd_release_new(struct userfaultfd_ctx *ctx)
- {
- 	struct mm_struct *mm = ctx->mm;
- 	struct vm_area_struct *vma;
-@@ -2211,7 +2211,7 @@ void userfaultfd_release_new(struct userfaultfd_ctx *ctx)
- 	mmap_write_unlock(mm);
- }
- 
--void userfaultfd_release_all(struct mm_struct *mm,
-+static void userfaultfd_release_all(struct mm_struct *mm,
- 			     struct userfaultfd_ctx *ctx)
- {
- 	struct vm_area_struct *vma, *prev;
 -- 
-2.53.0
+Cheers,
 
+David
