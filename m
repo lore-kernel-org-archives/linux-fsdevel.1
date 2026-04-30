@@ -1,155 +1,137 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1585738F643
-	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 21:30:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75AB12D0617;
+	Thu, 30 Apr 2026 21:34:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777584644; cv=none; b=ecotQ3480Z+Y9mwmG3fGijXPmO4GezIdxida+pkYXQ+KLJnqNdzLlEChQNIWLpBDj0j04vHjWmvHT5gbMN+16BAShO48rTyvpNHzHVeEAcvEH+cM7pmnEvBSb6+Bx41BSrX/1IAFtB50obRetVmDcIXmiQDxY88bykeebqtoI90=
+	t=1777584852; cv=none; b=Zha0PIcvRKHOb/LUKSYSt5HmrqDFxJlU3D677UB04XHLGpJx1Dnk1ajEqlB5ICgx7+o6W00qD1h6mUVZZwnoDNG781jJ0oZF/ZWFsipaWyMCchk55Een9AJdSFHCx0cYQC/3BWIMXkyYb0pCFa9xbrRRSUIY3qed+MMnHjAGexw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777584644; c=relaxed/simple;
-	bh=ZrM6lFX2UCFPg5Kjyem9LHqjHIVlenZXidp39hyYm1w=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=DdBiin22hnoSWkCrhNA2HAgG7KPX7Wf6KV60pRg6MT7IaR2FT51J8GlKOz7T9oq6D8g93BO0AdPstlD2ULjIRgFqKedUf+zK7jDfzXrbaMyb0jVRxh2g049MCyxc6+D/5iKFs0lGBSXR7Zpyz7osdzDG5WRIZqWere+o8411ZhE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=GwRk+e9C; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=UeV+B5Nq; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1777584852; c=relaxed/simple;
+	bh=1YNIl7WpHSPFiOaH3ewl0blRSkIt9nnFe7esKq+WYaI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RnWSEBTih5RewG0R4eagJWA6G4rm3jHzC23FThI4M9L7sMbARSfwrVrTrUi8QXjjn8XtAmT/w0NzvES4MqnsZZfHJZmUs10uamaOoLS1X7R1L5ZqWXnk6eWXqYVNe5zd4g0ZQAejemz9nWPcjkqPUVmurApAmSFnbplXbLOCl9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=BLMGq8R1; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=koXWvG+I; arc=none smtp.client-ip=103.168.172.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="GwRk+e9C";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="UeV+B5Nq"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63UIcBXt1953348
-	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 21:30:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	EYg1mHZ78qeUHVxwPW5soi9NfELbaGNPD7XescIFQxE=; b=GwRk+e9C/NctBONv
-	CIKu36r0sw9XwAGbMoUqHqk8F3VsXA1Z1IX+hsOk3wgNN/JYTVQvbelDoTs3yzuo
-	w8ezTKWH7Cya2BXuC44TAdPlRU8SQmaJcMNXiKYwjOFvyRGDKVQfv7I2qgynfWTY
-	r3EApPmP70ekVWgvhzJfgC6bVqHdGWbty3vae3lGMFqfi8tOR8I2JqlQts85BqhM
-	8out9exLsmmNUug79lT5bf9BYWkq6CJsA+vrOol8mk12K5q2bS7qoM5EkB+ewhcY
-	Vr6TDrt5AHoCmUfADKd0AGe5/EbNQ87zJKvejDFn3FAwN2iZke4/njr9CTXoUrl3
-	5870vQ==
-Received: from mail-dy1-f197.google.com (mail-dy1-f197.google.com [74.125.82.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dvchk8n3r-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 21:30:42 +0000 (GMT)
-Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-2ee34588671so656240eec.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 14:30:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1777584641; x=1778189441; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EYg1mHZ78qeUHVxwPW5soi9NfELbaGNPD7XescIFQxE=;
-        b=UeV+B5NqiCZ/BrFv0CvfbpPzVZQ86lsYxKf4hOOSM5SIVWZtzfUI6P5HqNvtbyG/rB
-         agi/3g6jUssY+cpiirMKM+luydqqrlO49iEDyQqXj/ein/yWTUFJz2cG0MGDg4M6NXrJ
-         ZVU3MnU8ls1A2DKFZaf52TzwZBci8k9zscVKvViafw5abb0BV4IBECuQShC7nF3f3H9T
-         rs6lj02yBk/bSSGL/02yoPaR18wVY7bZXdEAuIwemUDcjs3mFR8P2Ko5RQfrzC+AgZ6/
-         GxdPGT30+zPeMYFx4cUhfVvBXcp2kGCEu1JKbKIJIkzEIJ/UWa9vSsZRoytmto3PWAvH
-         qvaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777584641; x=1778189441;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=EYg1mHZ78qeUHVxwPW5soi9NfELbaGNPD7XescIFQxE=;
-        b=GyG1ryakFCYTtZNQNRRwgThpbbxdRpPbpRzTUwByvBlTnfXDnd7NgMdR5i0TuoXrPT
-         D2D47OFcxESuFvUO28R0G3K9PNIvwZFVtEX1iB7qyp4Xc1dqfjKCZmAjF9dcb/aqRPqr
-         TEdibQC/RNT4ShKF17Ka5FloeF0V1cZxzFoPM+eVtaD14hmLcGPvGoAsbO26098dKBEE
-         QaW4ejXIRJy6ek0SwK7WSjRRLsm4oawlwHATEz/tpBoONPcJTxGuOVK1UNduQQ1PYPuA
-         pVPLCd/lk4J6SCgW10j0d28tcptDNleVmbz6AbjV5PBPNVS4Td7vLtSU/hcHPcR+Fujd
-         NkqQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9siDlG4kX51EE/DP2OQ5lY5YBkuxolN7Gf//Yp1xvX8u5X4o7SQfJAvF1jz3z2mBN11iEACQ2wmfdflApP@vger.kernel.org
-X-Gm-Message-State: AOJu0YxKHFEM867O+sREcaR2AYuWnfLxPmq65ppAFfr3uxbEf0sCfS1o
-	9+co6Wh/EY/wb6fbWYymv/BzBB0RaAPpfnFPZ50TFdKbo0Plj+F4/Ue+KuorcIFYteaY+Un07+T
-	c4CXHNCe1fCVg0fAQrOA9tWKSCLVD2GKH6ELgPOicXFhwCP8To9lXFjx4MtlPRUKZRI4e
-X-Gm-Gg: AeBDieuuqhfy0VkOrhRZRE/86eI1SYHqS448/AkpSk4B9IsT70wwH9wHb3La8UczfxW
-	EQoYaCIAclng+3oEUSWTB/MMthk3obOu7hllDJFyjE04afAHHjsfSIaR/EDcfN2I+R7sqSH653n
-	hLYR2YrUO/hzPTbj0vJa0TmH11SPhLYUsD2l3EvNSzemmczTeT4keXJ7t9fzMv+hTY2YjbGm2GR
-	3XLsdsxKIzJywQvzfSMDJEFc1OaTKp98mCs6E734YZCPOJ3KboEINa9+wWsnVLLvSl3gshnsJUS
-	iRUaATC/HP/BqB/O6Iz9tE0crM4GYXYjCpVpR/sHNXeVN1abHPcsNh+KwfEK3f6JG2zTabWyAYh
-	sKzSGvB86IxQhbvdWJEr1ZgjaWKiedVkr7m1JcVCk+KnrsASd/PlLo5O5VBRFTfexJ0pinqWHOp
-	LtlfwP3YHOj2g=
-X-Received: by 2002:a05:7300:e402:b0:2dd:6937:79d5 with SMTP id 5a478bee46e88-2ed3d5c6b8fmr2496713eec.8.1777584641143;
-        Thu, 30 Apr 2026 14:30:41 -0700 (PDT)
-X-Received: by 2002:a05:7300:e402:b0:2dd:6937:79d5 with SMTP id 5a478bee46e88-2ed3d5c6b8fmr2496677eec.8.1777584640462;
-        Thu, 30 Apr 2026 14:30:40 -0700 (PDT)
-Received: from hu-jjohnson-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ee38d79eb9sm2504861eec.8.2026.04.30.14.30.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Apr 2026 14:30:39 -0700 (PDT)
-From: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
-To: tj@kernel.org, tony.luck@intel.com, jani.nikula@linux.intel.com,
-        ap420073@gmail.com, jv@jvosburgh.net, freude@linux.ibm.com,
-        bcrl@kvack.org, trondmy@kernel.org, longman@redhat.com,
-        kees@kernel.org, pengdonglin <dolinux.peng@gmail.com>
-Cc: bigeasy@linutronix.de, hdanton@sina.com, paulmck@kernel.org,
-        linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-        linux-nfs@vger.kernel.org, linux-aio@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org,
-        netdev@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-        linux-wireless@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-s390@vger.kernel.org, cgroups@vger.kernel.org
-In-Reply-To: <20250916044735.2316171-1-dolinux.peng@gmail.com>
-References: <20250916044735.2316171-1-dolinux.peng@gmail.com>
-Subject: Re: (subset) [PATCH v3 00/14] Remove redundant
- rcu_read_lock/unlock() in spin_lock
-Message-Id: <177758463946.1848985.4916088351427792183.b4-ty@oss.qualcomm.com>
-Date: Thu, 30 Apr 2026 14:30:39 -0700
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="BLMGq8R1";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="koXWvG+I"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.phl.internal (Postfix) with ESMTP id A7494EC0166;
+	Thu, 30 Apr 2026 17:34:09 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Thu, 30 Apr 2026 17:34:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1777584849;
+	 x=1777671249; bh=mbufzZ7doPbWjQ2uTA/b9Zpwi5k8zjyCRmxP5d68Zfg=; b=
+	BLMGq8R1I5vJ8Vm9q3fcVdQ8LN8H47pd4WoV6azNiWymV39rtpJq4TbXvcVIvf7J
+	UmGysD7yVo6/EDm/7sjtWt0INhlEbO+bFdYJdtoT8b0cHU0KINHy783pKvLHw5v7
+	JvVS+yNJ4aSsLiRIRlcWpm2ac/ZlasAAgvPWXO9hwirne8h1PNORzBBRT1qeNobK
+	mRORfeg6yumsKeK3ecnXKXz08UnqKa1URl0mweMEe628+1h9TQqBFBnrxAB0inhO
+	YKAkjg6/3UBQgMSka5iMs6zTF7ETGcEYLtYeJErERNQhknvqIIDCA5bPAh4aBsuK
+	5J6F69jdG1e/RWAxxzFy8w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1777584849; x=
+	1777671249; bh=mbufzZ7doPbWjQ2uTA/b9Zpwi5k8zjyCRmxP5d68Zfg=; b=k
+	oXWvG+I/RNXBihidXwjeBnp3yp7nFxnAFtR/iXn+zTb6P6vHKf/ivaut6kfUuWtt
+	5m37KMMKOFqo2Micd4YPVKxpdjTmp6Rg1GycdQNmOY+S/nRvZw/kL0DJjWS4X4Ac
+	LyJ0felJKmxR5O7DSS3RsRhJAp8E80ZlLSEA3vgS16TL9V2MGMG7C6z/vqUPhM+c
+	xq01kTnR9wYKZinu3C576tYiR0u2u+4RtC9LXEJiZTNnd7spgIXg06qioGqkKkga
+	hL3fFRhOxRPlRn4h7RhZFYqzXEe95L8N3ljeu7wYUVistmvWpGOlyJaswtvojoGY
+	RcYuHvug3WGIebzyYOKag==
+X-ME-Sender: <xms:0crzaUdjtJCUUNpZ6nzXqfM7w8-Me08UKl0bBgdIYnASeJnNcx6prA>
+    <xme:0crzaQRvwReNq7FPFPuhxZxUT4BioB-R9tLkykCyBawe6ILQNHgZOa8miEzbjxpyQ
+    SzINKBPiUTUKOko5Gr3jbwLHIM1qbmQmC-Xh5z9paQVvs4kyZcM>
+X-ME-Received: <xmr:0crzaVY4pCpFwgAqELh7q9qgQzq2Xibr4os-IbQKdyewFBzOkKFzbE9rJex8u_9IIzkhnORWW1j-NzlXY66NkmVChYw5tQDx6ECait3Ra-5gCsp1iA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdekkeegudcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefkffggfgfuvfevfhfhjggtgfesthejredttddvjeenucfhrhhomhepuegvrhhnugcu
+    ufgthhhusggvrhhtuceosggvrhhnugessghssggvrhhnugdrtghomheqnecuggftrfgrth
+    htvghrnhephefhjeeujeelhedtheetfedvgfdtleffuedujefhheegudefvdfhheeuvedu
+    ueegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsg
+    gvrhhnugessghssggvrhhnugdrtghomhdpnhgspghrtghpthhtohepjedpmhhouggvpehs
+    mhhtphhouhhtpdhrtghpthhtohepughjfihonhhgsehkvghrnhgvlhdrohhrghdprhgtph
+    htthhopehfuhhsvgdquggvvhgvlheslhhishhtshdrlhhinhhugidruggvvhdprhgtphht
+    thhopehjohgrnhhnvghlkhhoohhnghesghhmrghilhdrtghomhdprhgtphhtthhopehlih
+    hnuhigqdgvgihtgeesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhn
+    uhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmh
+    hikhhlohhssehsiigvrhgvughirdhhuhdprhgtphhtthhopehnvggrlhesghhomhhprgdr
+    uggvvh
+X-ME-Proxy: <xmx:0crzabc7OsRu1G0_2H2XL-cwg5G2rN58UXu4l4sC9bkDHLiKx-c-tw>
+    <xmx:0crzaeKUsjAGZ-twz5G0rGA2rIhAOLxnxIYxG30R6Dc5QmFRfpdaeA>
+    <xmx:0crzaQKODd-3-piOR9sUeZH7f7IXo47UU3Uqyii1JIgztu17sPbSrQ>
+    <xmx:0crzaVXRcfTwB8v2H_9A-zEvdSjayLz9Xc-8tZhfHWP1LRxdS-5zNQ>
+    <xmx:0crzaZUQ0k_fGDu-4sTSMWu_-DrpJ-5cueI78kI6MbIKIvDhW5DCIAzY>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 30 Apr 2026 17:34:08 -0400 (EDT)
+Message-ID: <9c920b17-81a8-4c1e-921e-4c08cc290cb5@bsbernd.com>
+Date: Thu, 30 Apr 2026 23:34:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [GIT PULL v5.1] libfuse: run fuse servers as a contained service
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: fuse-devel@lists.linux.dev, joannelkoong@gmail.com,
+ linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ miklos@szeredi.hu, neal@gompa.dev
+References: <177758364789.1315233.15610945404741826500.stg-ugh@frogsfrogsfrogs>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: fr
+In-Reply-To: <177758364789.1315233.15610945404741826500.stg-ugh@frogsfrogsfrogs>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDMwMDIyMiBTYWx0ZWRfXzxNL8wTmdbS1
- J5swR28fj1hWajfF+pCGCrxT3QrenlG8t2OKi1XN5mgYb6inZYuz8fEZ3pzE0eG7M6lL6mhStCX
- NT1eSP8FURsqR5dOKDWnANriTLzTmFCNIWUwfenlcNjcKglIxREJlgFzrkVpT1j6wyherAKmNKw
- W/Ay7WsSse87AIPA9yd4x81F49638O8gn4nxwhkFcmKuVXJ0fuYC9pgiA5uD42nukRESaoffX2j
- b8CzAyZRcxNagHfXo/3qzSuC0xl0DrHYDyUZbigIc95RybtONppsgTGpgWWfV1/YpibP8/sikVP
- 8pOTkvKyNhzh1xZqhyAKW74ep+5yn6lcKp4d0JElpO+jitQE0Qelx9AfVDMW9/Rc9bqD8W/hERJ
- 2bMZ2DkXH24JrHCAuWkjsG4TC129kBGrW4WDoPo54TIg4Tf5n6MbQdXWnjqM2NzOft4xfhvTac3
- D8FJcYukBrXVP2xSWAw==
-X-Authority-Analysis: v=2.4 cv=Zdkt8MVA c=1 sm=1 tr=0 ts=69f3ca02 cx=c_pps
- a=Uww141gWH0fZj/3QKPojxA==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22
- a=EUspDBNiAAAA:8 a=R8he2_Gm4Sd0DFq6ycoA:9 a=QEXdDO2ut3YA:10
- a=PxkB5W3o20Ba91AHUih5:22
-X-Proofpoint-ORIG-GUID: 6_GgmDSLKs9ATuqe4k4SqQEJtPkXfa-l
-X-Proofpoint-GUID: 6_GgmDSLKs9ATuqe4k4SqQEJtPkXfa-l
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-30_06,2026-04-30_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 spamscore=0 clxscore=1011 lowpriorityscore=0 impostorscore=0
- bulkscore=0 suspectscore=0 malwarescore=0 priorityscore=1501 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2604300222
 
+Hi Darrick,
 
-On Tue, 16 Sep 2025 12:47:21 +0800, pengdonglin wrote:
-> Since commit a8bb74acd8efe ("rcu: Consolidate RCU-sched update-side function definitions")
-> there is no difference between rcu_read_lock(), rcu_read_lock_bh() and
-> rcu_read_lock_sched() in terms of RCU read section and the relevant grace
-> period. That means that spin_lock(), which implies rcu_read_lock_sched(),
-> also implies rcu_read_lock().
+On 4/30/26 23:18, Darrick J. Wong wrote:
+> Hi Bernd,
 > 
-> There is no need no explicitly start a RCU read section if one has already
-> been started implicitly by spin_lock().
+> Please pull this branch with changes for libfuse.
 > 
-> [...]
+> As usual, I did a test-merge with the main upstream branch as of a few
+> minutes ago, and didn't see any conflicts.  Please let me know if you
+> encounter any problems.
 
-Applied, thanks!
+pushed to my github branch. BSD build fails with
 
-[14/14] wifi: ath9k: Remove redundant rcu_read_lock/unlock() in spin_lock
-        commit: c4f518736472c8cfbf1d304e01c631babd2bbf34
+2026-04-30T21:25:16.3874802Z FAILED: [code=1] lib/libfuse3.so.3.19.0 
+2026-04-30T21:25:16.3906762Z cc  -o lib/libfuse3.so.3.19.0 lib/libfuse3.so.3.19.0.p/fuse.c.o lib/libfuse3.so.3.19.0.p/fuse_loop.c.o lib/libfuse3.so.3.19.0.p/fuse_loop_mt.c.o lib/libfuse3.so.3.19.0.p/fuse_lowlevel.c.o lib/libfuse3.so.3.19.0.p/fuse_opt.c.o lib/libfuse3.so.3.19.0.p/fuse_signals.c.o lib/libfuse3.so.3.19.0.p/buffer.c.o lib/libfuse3.so.3.19.0.p/cuse_lowlevel.c.o lib/libfuse3.so.3.19.0.p/helper.c.o lib/libfuse3.so.3.19.0.p/modules_subdir.c.o lib/libfuse3.so.3.19.0.p/mount_util.c.o lib/libfuse3.so.3.19.0.p/fuse_log.c.o lib/libfuse3.so.3.19.0.p/compat.c.o lib/libfuse3.so.3.19.0.p/util.c.o lib/libfuse3.so.3.19.0.p/mount_bsd.c.o lib/libfuse3.so.3.19.0.p/fuse_service_stub.c.o lib/libfuse3.so.3.19.0.p/modules_iconv.c.o -Wl,--as-needed -Wl,--no-undefined -shared -fPIC -Wl,-soname,libfuse3.so.4 -Wl,--version-script,/home/runner/work/libfuse/libfuse/lib/fuse_versionscript -pthread -Wl,--start-group -ldl -lrt -Wl,--end-group
+2026-04-30T21:25:16.3939590Z ld: error: version script assignment of 'FUSE_3.19' to symbol 'fuse_service_can_allow_other' failed: symbol not defined
+2026-04-30T21:25:16.3951874Z cc: error: linker command failed with exit code 1 (use -v to see invocation)
+2026-04-30T21:25:16.4291582Z [44/82] cc -Itest/test_teardown_watchdog.p -Itest -I../test -Iinclude -I../include -Ilib -I../lib -I. -I.. -fdiagnostics-color=always -
 
-Best regards,
--- 
-Jeff Johnson <jeff.johnson@oss.qualcomm.com>
 
+checkpatch, CodeChecker-cppcheck, CodeChecker-gcc also all fail. This CodeQL
+report is funny
+
+> int mount_service_main(int argc, char *argv[])
+> Warning
+> Poorly documented large function
+> Poorly documented function: fewer than 2% comments for a function of 113 lines.
+> CodeQL
+
+
+
+I think I'm going to merge my sync fuse init series tomorrow. Are you ok if 
+skip posting another version of the series? Or do you prefer to review the
+recent changes and last piece I'm going to do tomorrow?
+
+Basically my goal is to rebase your series against it immediately and to
+merge your series during the next few days.
+
+
+Cheers,
+Bernd
