@@ -1,42 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FC6A1E1DE5
-	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 08:06:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 184FE23AB81
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 08:19:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777536405; cv=none; b=G5wLTD5bbRJ6eY3tdLuy8jKDT+PQax7p/iR2bm8mf4lDD1MrW1I23dTWQXf2zYcXMlHV6zu7W+H+3HkxBzsEluZZm6hmcA+v7LwxceaLOLZMVvjCLAQmL3CU4u688gLC0MmtE/Ls90uZmEEFjjW2AQDQSkPCARgNIOQZ6jcCF/s=
+	t=1777537150; cv=none; b=jcwVAJftY3bCivhwAIuy2/1EtYuMNhx0HtDVcoq+SkS8zGipki/xt38L+9LSCYMwehuWGQUgPipeZNPSZa+yeLVhBHye+JB4Bem7m83reolhsnIgB6nwcQCku9Na7yvXmbNtMuYzRthrlKsvYuTK93CA8+c5EwZRNIiL2cjiY6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777536405; c=relaxed/simple;
-	bh=bMDGgvTwgAh4n6XGYjcgbGMrn5kxuhRrzjeAhmIiUuA=;
+	s=arc-20240116; t=1777537150; c=relaxed/simple;
+	bh=nHo+/9OPreuHPaTVBBmuUZuduI9RsjnvcQGNAo1H/A8=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=esVtCxv3G/8cSwAjCVqmwiq4zQ+4gRZTq10k8bC+ngkV8Gvt+RqhTE4CvsX0tttBMO4WNz/bcSCSXUleLJQs8CsIfGQbHVNrBDizRrEoBtwxmw7AtQtFdkZFJivk8+hw116ZkyytYdhL+7HoWnlgRrAdecx1ba2+bBWlTloUti0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Eu9nmh4/; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=a5VQuOL4+ZWAA5JU6CXse81bUhrdTJYHtqYcJqZhrF/ZSmQeN+eWD9RM6pBIJFG/2iakRc5/eaLDBijfRkWvdG+6Swb8bljKaiebiDJfMPJoGSZi0L5ZRP4lP0rdzOVnLJ9tgtIyQTKNwDWQyjJb/ERWyITvISNmapCC2+ycWTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oUyT0Aiu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Eu9nmh4/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 827D9C2BCC4;
-	Thu, 30 Apr 2026 08:06:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oUyT0Aiu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3069AC2BCB3;
+	Thu, 30 Apr 2026 08:19:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777536404;
-	bh=bMDGgvTwgAh4n6XGYjcgbGMrn5kxuhRrzjeAhmIiUuA=;
+	s=k20201202; t=1777537149;
+	bh=nHo+/9OPreuHPaTVBBmuUZuduI9RsjnvcQGNAo1H/A8=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=Eu9nmh4/7FRCiiiH0EaOpsr89CwoaGchVmEdOJJ0+G9UyotiwI9C/Nu0nz1TigTSH
-	 pag5XZcz+qcEX51A7UvKwR5Ulg3/7D2mXwUqZ3kNdroOZjXKj8qaR7J6S+sZn/81IU
-	 nSYHiPsQM93mUdxAl7Oa5EKgYPRhlZIX2FHCwHB1JTh1xZnm9VO8eiO3GWwUFzIMY2
-	 O7TNgxJfyuBoWIkpoh5QNZd9j68QCPbBkx4tZ60CCSzA7K3wHSW06SofmgD1DS0624
-	 89+qEcavP2x6ec5+iU5v+uky8XvjS5pZFzV9DMvefseZGdQg+sTbZLMKa2/GMTou3D
-	 KLPzJEFaRPNAA==
-Message-ID: <f342121e0f2acaa54de47b13fc9dc2b48a9c1d94.camel@kernel.org>
-Subject: Re: [PATCH v2 05/14] fuse: refactor setting up copy state for
- payload copying
+	b=oUyT0AiukyQBBiEZUD9dk9O1uQNxm1iMwZMUbugSEDv4lTUURMgsCt/wiKrq4AbCI
+	 hl89tvrv+KeSHmTnI2NOQ03xzOkQnaCYF87hM9AprlCeUO1gQDtwnr5XGlJSGZjVwt
+	 3us/nx2CDtc29VCApFFNHXgug94dpssqcynS5W1s01JajmkuXd/UbrDYkSxtOYlHTn
+	 CBQLMolK0zXK0BJQ+PJ8EP5zUIDrBu0FmiQYLDnqQaqI8eNBDg1dWbMdAT8KFw9TUA
+	 37V7303pLmIA2Hn6FDZ32FJheLOzbZXSFyBMOJ6G4Hvs4Jte28ePBS+M+39vCmlriw
+	 cxhAnX5oux4jw==
+Message-ID: <98de5c670d5b46c294513f10d698039a0b061459.camel@kernel.org>
+Subject: Re: [PATCH v2 06/14] fuse: support buffer copying for kernel
+ addresses
 From: Jeff Layton <jlayton@kernel.org>
 To: Joanne Koong <joannelkoong@gmail.com>, miklos@szeredi.hu
-Cc: bernd@bsbernd.com, axboe@kernel.dk, linux-fsdevel@vger.kernel.org, Bernd
- Schubert <bschubert@ddn.com>
-Date: Thu, 30 Apr 2026 09:06:41 +0100
-In-Reply-To: <20260402162840.2989717-6-joannelkoong@gmail.com>
+Cc: bernd@bsbernd.com, axboe@kernel.dk, linux-fsdevel@vger.kernel.org
+Date: Thu, 30 Apr 2026 09:19:05 +0100
+In-Reply-To: <20260402162840.2989717-7-joannelkoong@gmail.com>
 References: <20260402162840.2989717-1-joannelkoong@gmail.com>
-	 <20260402162840.2989717-6-joannelkoong@gmail.com>
+	 <20260402162840.2989717-7-joannelkoong@gmail.com>
 Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
  keydata=mQINBE6V0TwBEADXhJg7s8wFDwBMEvn0qyhAnzFLTOCHooMZyx7XO7dAiIhDSi7G1NPxw
  n8jdFUQMCR/GlpozMFlSFiZXiObE7sef9rTtM68ukUyZM4pJ9l0KjQNgDJ6Fr342Htkjxu/kFV1Wv
@@ -122,87 +121,99 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
 On Thu, 2026-04-02 at 09:28 -0700, Joanne Koong wrote:
-> Add a new helper function setup_fuse_copy_state() to contain the logic
-> for setting up the copy state for payload copying.
+> This is a preparatory patch needed to support pinned buffers in
+> fuse-over-io-uring. For pinned buffers, we get the vmapped address of
+> the buffer, which we can directly use with memcpy.
+>=20
+> Currently, buffer copying in fuse only supports extracting underlying
+> pages from an iov iter and kmapping them. This commit allows buffer
+> copying to work directly on a kaddr.
 >=20
 > Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
-> Reviewed-by: Bernd Schubert <bschubert@ddn.com>
+> Reviewed-by: Bernd Schubert <bernd@bsbernd.com>
 > ---
->  fs/fuse/dev_uring.c | 38 ++++++++++++++++++++++++--------------
->  1 file changed, 24 insertions(+), 14 deletions(-)
+>  fs/fuse/dev.c        | 23 +++++++++++++++++++----
+>  fs/fuse/fuse_dev_i.h |  7 ++++++-
+>  2 files changed, 25 insertions(+), 5 deletions(-)
 >=20
-> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-> index cca795dd72e1..045394a7ae41 100644
-> --- a/fs/fuse/dev_uring.c
-> +++ b/fs/fuse/dev_uring.c
-> @@ -639,6 +639,27 @@ static int copy_header_from_ring(struct fuse_ring_en=
-t *ent,
->  	return 0;
->  }
-> =20
-> +static int setup_fuse_copy_state(struct fuse_copy_state *cs,
-> +				 struct fuse_ring *ring, struct fuse_req *req,
-> +				 struct fuse_ring_ent *ent, int dir,
-> +				 struct iov_iter *iter)
-> +{
-> +	int err;
+> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+> index 0b0241f47170..a87939eaa103 100644
+> --- a/fs/fuse/dev.c
+> +++ b/fs/fuse/dev.c
+> @@ -848,6 +848,9 @@ void fuse_copy_init(struct fuse_copy_state *cs, bool =
+write,
+>  /* Unmap and put previous page of userspace buffer */
+>  void fuse_copy_finish(struct fuse_copy_state *cs)
+>  {
+> +	if (cs->is_kaddr)
+> +		return;
 > +
-> +	err =3D import_ubuf(dir, ent->payload, ring->max_payload_sz, iter);
-> +	if (err) {
-> +		pr_info_ratelimited("fuse: Import of user buffer failed\n");
-> +		return err;
+>  	if (cs->currbuf) {
+>  		struct pipe_buffer *buf =3D cs->currbuf;
+> =20
+> @@ -873,6 +876,12 @@ static int fuse_copy_fill(struct fuse_copy_state *cs=
+)
+>  	struct page *page;
+>  	int err;
+> =20
+> +	if (cs->is_kaddr) {
+> +		if (!cs->len)
+> +			return -ENOBUFS;
+> +		return 0;
 > +	}
 > +
-> +	fuse_copy_init(cs, dir =3D=3D ITER_DEST, iter);
-> +
-> +	cs->is_uring =3D true;
-> +	cs->req =3D req;
-> +
-> +	return 0;
-> +}
-> +
->  static int fuse_uring_copy_from_ring(struct fuse_ring *ring,
->  				     struct fuse_req *req,
->  				     struct fuse_ring_ent *ent)
-> @@ -654,15 +675,10 @@ static int fuse_uring_copy_from_ring(struct fuse_ri=
-ng *ring,
+>  	err =3D unlock_request(cs->req);
 >  	if (err)
 >  		return err;
+> @@ -931,15 +940,21 @@ static int fuse_copy_do(struct fuse_copy_state *cs,=
+ void **val, unsigned *size)
+>  {
+>  	unsigned ncpy =3D min(*size, cs->len);
+>  	if (val) {
+> -		void *pgaddr =3D kmap_local_page(cs->pg);
+> -		void *buf =3D pgaddr + cs->offset;
+> +		void *pgaddr, *buf;
+> +
+> +		if (!cs->is_kaddr) {
+> +			pgaddr =3D kmap_local_page(cs->pg);
+> +			buf =3D pgaddr + cs->offset;
+> +		} else {
+> +			buf =3D cs->kaddr + cs->offset;
+> +		}
 > =20
-> -	err =3D import_ubuf(ITER_SOURCE, ent->payload, ring->max_payload_sz,
-> -			  &iter);
-> +	err =3D setup_fuse_copy_state(&cs, ring, req, ent, ITER_SOURCE, &iter);
->  	if (err)
->  		return err;
-> =20
-> -	fuse_copy_init(&cs, false, &iter);
-> -	cs.is_uring =3D true;
-> -	cs.req =3D req;
+>  		if (cs->write)
+>  			memcpy(buf, *val, ncpy);
+>  		else
+>  			memcpy(*val, buf, ncpy);
 > -
->  	err =3D fuse_copy_out_args(&cs, args, ring_in_out.payload_sz);
->  	fuse_copy_finish(&cs);
->  	return err;
-> @@ -685,15 +701,9 @@ static int fuse_uring_args_to_ring(struct fuse_ring =
-*ring, struct fuse_req *req,
->  		.commit_id =3D req->in.h.unique,
->  	};
-> =20
-> -	err =3D import_ubuf(ITER_DEST, ent->payload, ring->max_payload_sz, &ite=
-r);
-> -	if (err) {
-> -		pr_info_ratelimited("fuse: Import of user buffer failed\n");
-> +	err =3D setup_fuse_copy_state(&cs, ring, req, ent, ITER_DEST, &iter);
-> +	if (err)
->  		return err;
-> -	}
-> -
-> -	fuse_copy_init(&cs, true, &iter);
-> -	cs.is_uring =3D true;
-> -	cs.req =3D req;
-> =20
->  	if (num_args > 0) {
->  		/*
-
-Nice cleanup.
+> -		kunmap_local(pgaddr);
+> +		if (!cs->is_kaddr)
+> +			kunmap_local(pgaddr);
+>  		*val +=3D ncpy;
+>  	}
+>  	*size -=3D ncpy;
+> diff --git a/fs/fuse/fuse_dev_i.h b/fs/fuse/fuse_dev_i.h
+> index 134bf44aff0d..aa1d25421054 100644
+> --- a/fs/fuse/fuse_dev_i.h
+> +++ b/fs/fuse/fuse_dev_i.h
+> @@ -28,12 +28,17 @@ struct fuse_copy_state {
+>  	struct pipe_buffer *currbuf;
+>  	struct pipe_inode_info *pipe;
+>  	unsigned long nr_segs;
+> -	struct page *pg;
+> +	union {
+> +		struct page *pg;
+> +		void *kaddr;
+> +	};
+>  	unsigned int len;
+>  	unsigned int offset;
+>  	bool write:1;
+>  	bool move_folios:1;
+>  	bool is_uring:1;
+> +	/* if set, use kaddr; otherwise use pg */
+> +	bool is_kaddr:1;
+>  	struct {
+>  		unsigned int copied_sz; /* copied size into the user buffer */
+>  	} ring;
 
 Reviewed-by: Jeff Layton <jlayton@kernel.org>
