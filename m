@@ -1,68 +1,68 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 349F046AF21
-	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 18:18:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB76B47CC84
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 18:33:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777573130; cv=none; b=n5JCcQvQNv5i32XGRgBESB+L935D2XZMFib+2WdBAGC5z7l8+UkFxL9zFA5dUZtmLMKJjEQ6lmUPbzBAF+9IpZTZloBITlyupTNliBFIIUefTimwxWTGj4ydR9SfJgrkc/581djxYSHWE18db8lfayCF/ZF62fjPDb3eSpjJE2k=
+	t=1777574038; cv=none; b=TTfwYTyeyonJmK7rIpsTTd5f6gQHlV41Qp81Z4WCoMf6nEbfiWvDwePNG4h7zvKh1DfFMlIii0eF9pQHYxTvp86A1O+FacjH7zRpoW27pX55zHuDnpvpDJIobccmIjQoe+CQC4EEkUIq+Pco0Eo80VGR1Vym4dIee8WBGUWqoEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777573130; c=relaxed/simple;
-	bh=ML7iINJjRH4Gzjw9niY8gGNr83rzlZiUCq+9OWPM3vM=;
+	s=arc-20240116; t=1777574038; c=relaxed/simple;
+	bh=/jhj+TskCXODG9hKampnDGfknOGVmEGixC/boL6nPuc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dLOh2VK4C9uFqf2Ou0Z+XUpLfK8Ilc/V997t/rr6jIpQAM/mm2o8lVZnY83o1fJ10guk3VUoi5/hYGivQbQOahZDw3TG6gnvuBapEvMcPDPZ9aKchnPNJjn8klExIMjwmJaO4xiL29E/a+aBP6uswvojUZcUSL9lR6zYfNV2AsA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M6ffAm8E; arc=none smtp.client-ip=209.85.128.43
+	 In-Reply-To:Content-Type; b=hW8Dip1bPHFThC6u+/vEB2pOAHxyaHB5Nkv3HFPb61R/fVj62iusIZfiwefNLC76X69HdOfWYGmkUUdgRs5uk3AIOrBOtiC7DW8JNF6tFDVO1EYruD65Q9GmfxvJ/Bb4Ymjdn2RstOA1w2pKHES9LMjcae6L1RDu6Aih8/SJrYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IKYNxebG; arc=none smtp.client-ip=209.85.221.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M6ffAm8E"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4838c15e3cbso10933035e9.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 11:18:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IKYNxebG"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-445795cf6f1so825304f8f.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 11:33:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777573126; x=1778177926; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1777574035; x=1778178835; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=+sxVPeWzK/5JcscdkmY85m6FCWps4Q/alwynbpD7Pbo=;
-        b=M6ffAm8E/r1bGQBMqCF1p483D6nCifjpf3Dvf/n5RLt7zojYsQeA4OkChPnvHkN1lR
-         a/6W5fxkqPhlx1cTIQIvj+kwr/YERqxCSmggYnfZOmvTiFFIQ09v5D/CoEZBzgMO6W7l
-         wn/udkFL9WkaeKjnCg73Jk9aWL+NBuCULSuqKPsA8/Rb/vS4o8DysSNwn8cfMAYzW6yd
-         X1HitFTmsQJkPmyznFkdxs1S/tUG9VypPy0YaqJtPIN7czKDfbiZxZOTdZsnx619bJMN
-         eRGaG4gfwCPfDx1J+URaLMlTdez3lJyDuydWgmUqksjNcPWygKvXXhxdpjRQ1PikurOf
-         IqzQ==
+        bh=NXLg+nrr3M9M+FT0+QCr6ZD6pc/R7QelMFoBuHbRWoU=;
+        b=IKYNxebG99rJmgJdnK+STw62yP2P2cdaJBZG/cigckDb5MYyuKKqqi+dTFU2d9cFZy
+         qhJhEBM2t2gYyYxeD5XqrpJttoMPpfwDkqQGaWge8r5FKsdQAdayH4cS/hC2kxIHEYq6
+         tGmHwVFWfDn2FZp49tR0EcsXlAigU9Sqe8yADo0AbxH22Zw75c684dLC6hfRE0EgxQSm
+         HB1ngLvlfAIWqWDd9zNtUSfCDyoND4JMJTyGyjU3XxM4J+M97HrqUqLRf+QYygwaj1mC
+         Ogr8gZjOmeYK1nNMGlcIaHaGVz3S2JshItziqGxqT+GC883q+Byb/VWR9AJNIaDrVgN5
+         mk/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777573126; x=1778177926;
+        d=1e100.net; s=20251104; t=1777574035; x=1778178835;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+sxVPeWzK/5JcscdkmY85m6FCWps4Q/alwynbpD7Pbo=;
-        b=fa/pKnefqplE/2/p1gmoMg94Wx+eBOLwyv3fvtXJOaAChpANfR8vYIauIb7JYp08CG
-         fxXxmDLJusKonFOiBgV0FssS99j3Lb+UfoOUoaWFhC7tfOzsiiLLLFXf7N7zldhK18Bk
-         56Aue5IjDzCRpq2qyMGrO801lTkw9NjDkcWxjtAjZibLsUidNDXCxf5gGRJEY+hCdnmM
-         ICSBq6hRvNaqkQFLsgxh6Sm2drStDzPOh2Y40cH5ohYES//gdgr/e9XMH8knbMBToXTq
-         9WJecIUmf+zi+rqCjpIK/AXodb9aRZwRCC/ndQ24iFUK8ce9AJz+xcHCiEBTZrVWom7l
-         0GGA==
-X-Forwarded-Encrypted: i=1; AFNElJ/9anfDHrhYYryUtmr9+b5ZVChf+KhD6SExxgBIr6DFQCicgEo9Fon1kSOHAEERr37gxJh6JuS106gia/cU@vger.kernel.org
-X-Gm-Message-State: AOJu0YxxCAHLGzLZsT0Mg17LDDxY7gkVIM/9XzyVEXCPrJWHQn+UXaDC
-	jHwws2sCPMvOSOHL0jR58rtX9WVl+J8UhSaXSqsQ26WB9tzMKNP8ssf8
-X-Gm-Gg: AeBDieswE6b0wt8WUrTB4x1Cf21Kam0B9TWwmA4y1ctPyvEWyY1lgSZX07lFux5etHq
-	ICkkzKZp49M+D8yPcODVB3mfq/jsKcrgnCIDbjw3C2SBmvmmvfu8Z70eVLBKGT75rc+ABQksNxj
-	2gL3XT8CnY5GBbwGUSQnO9Ar3eICaDhV7wVqr8csJr4KbMPpFauTSYqdZew1r9GgypeCSLYCTMB
-	yY3ODCtSsnBAJL8LeIqBCredC7MhacXHUZaXlkCebOz7XytaATopQKxoGHYqwfdjKKkghqXujQf
-	c/EQb9eWMA3YIBR+6QfiZY37A+67jENa0wGRnN0hwnUIzyIECoIUYBRDWVaJt9grLt3KqXoykYA
-	3tqhREadJQTvxlDx4HakPwPW/Ct1LWKRw7hGWHao7QxXtG1BX0SQzvaUtbvjK1mOriXO6F63gBH
-	wJ5Xclm+hcVdmC08yQW+51PuZKteBehzd7IYNzm7MdLKC8yTJcS9CO8ZEEsQhqnLzp7kuG7LKBi
-	nvRHfi14PVNTuud2+rBj5FbFrEueeSMUPa8E02LM+fmUHmPOApYXZZ15kOm722VRhI7tWCYU11+
-	MQ==
-X-Received: by 2002:a05:600c:3495:b0:48a:5339:ef0e with SMTP id 5b1f17b1804b1-48a83d62ffbmr66464485e9.3.1777573126483;
-        Thu, 30 Apr 2026 11:18:46 -0700 (PDT)
+        bh=NXLg+nrr3M9M+FT0+QCr6ZD6pc/R7QelMFoBuHbRWoU=;
+        b=dxE2TciQJRd9Bv9n3jlaM2JEMB2Sar2Y7I31AIOdUZ2QCyCNNZAjA6D4yHn3T7k30V
+         NRFRORsynAzYDKp057sULqq0diPABGcUkJCvVI5MyuYzyt94gEJy4Y5DnV4mtfMuAvsE
+         9wdUJoLDENgxUH5kOOj8FqKghcXnFVlgo+x1utSKm1fO8EOugN6wya2Ptx4lznTW9Kby
+         ng6mvM+NhXsjYR+MLbjuhf05w+Y9lUYxEUsQahDFYtO0FEQIueMaXNR4pQZ54bdExZWA
+         j72p63LV0Y+igxh88dBWbr5X+R083nLNTtEiDwllCyj8lX+GJQFEfX9zW2/m8oNz3hKm
+         4E0g==
+X-Forwarded-Encrypted: i=1; AFNElJ+SX6oCZuyQaafW70qE6AycTXSQHlq7l9MMPsox+N8lP7/aRpZxbIi505j5HmxzAl71HTsHVOETylKuJqT6@vger.kernel.org
+X-Gm-Message-State: AOJu0YwHpwXbBpOw6lkLRKd2wh34pERPeT3W1JhZIDYqixXkuoQbcDgS
+	okareCPgxWFvl7PzIIA0sWASmCruqc4eulpSsEKinCt8jDhnp1h70eUJ
+X-Gm-Gg: AeBDietJSfkjhJXP9YlpWWrX01o19YOoDX6uaikm7PRWKbpUltMfKnOiHHTfGbXbGHl
+	iIfXi/v5Jub2DDqpLqmEBnfdnamTQZ0APRIqGes5gEBQyd8XctT4I9JDSPbryIUdoPxMHOFA4D3
+	/Hc2TPd+eY5tbBzuXk1usJ2pWsYKG4Tc6srX8mnlphyYFU6oQJrqE9IjZ4bgKz5RwuXV1ip9emn
+	jP/2ny90+rxabIjewLyJLMrVyf1uRKbPgrLmAyHLn3q5Zxs56tF9gBKjNTe81LOF7JuYqbAIo1o
+	8cVo3byZ3+qqKTbMU2RelxggYTf9fr9hKvmrxyLg2ueUxKp9/JXYSuOcxRL2VvByHY+vjCH44gP
+	nWUEs5M7JUdU6uIYxmxFx/YZyTU87QvSyjUyldowL9tN/XdUB99+UDyyMmVK21V7rQT3miGo5jk
+	hlyI76j0LoHgoLF0JylbINWaD9kLt2I0Zj8vXdxk7maIiyKh7PHWbflm0qgN56aBjo7b0ZUdP0Q
+	2sq6Ps46ei//3e2/TJOm22E26cXQAGWjSMNJfJvw63RR3lL5ryhdwWk1V7sJUNbKIIUuIDbGqZa
+	ew==
+X-Received: by 2002:a05:6000:1a8a:b0:43d:77a8:3baf with SMTP id ffacd0b85a97d-4493fa01beamr7079438f8f.32.1777574035154;
+        Thu, 30 Apr 2026 11:33:55 -0700 (PDT)
 Received: from [10.109.92.8] (net-2-37-141-89.cust.vodafonedsl.it. [2.37.141.89])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a8d15fdedsm3944495e9.4.2026.04.30.11.18.44
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-447b4216eecsm13579672f8f.9.2026.04.30.11.33.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Apr 2026 11:18:45 -0700 (PDT)
-Message-ID: <7f091660-2e60-4de5-a3b7-7b8d206fd6ab@gmail.com>
-Date: Thu, 30 Apr 2026 19:18:44 +0100
+        Thu, 30 Apr 2026 11:33:54 -0700 (PDT)
+Message-ID: <6cce2f4d-7400-4618-82ce-cbd5004c92a4@gmail.com>
+Date: Thu, 30 Apr 2026 19:33:39 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -70,57 +70,54 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 07/10] nvme-pci: implement dma_token backed requests
-To: Maurizio Lombardi <mlombard@arkamax.eu>, Jens Axboe <axboe@kernel.dk>,
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Alexander Viro <viro@zeniv.linux.org.uk>,
+Subject: Re: [PATCH v3 01/10] file: add callback for creating long-term dmabuf
+ maps
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
  Christian Brauner <brauner@kernel.org>,
  Andrew Morton <akpm@linux-foundation.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- io-uring@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
 Cc: Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi
  <joshi.k@samsung.com>, Anuj Gupta <anuj20.g@samsung.com>,
  Tushar Gohad <tushar.gohad@intel.com>,
  William Power <william.power@intel.com>, Phil Cayton
  <phil.cayton@intel.com>, Jason Gunthorpe <jgg@nvidia.com>
 References: <cover.1777475843.git.asml.silence@gmail.com>
- <5cecb1157ab784f9f303a91449fdf11b03aa6002.1777475843.git.asml.silence@gmail.com>
- <DI5RO76D5IWR.19K0ES58HUIVS@arkamax.eu>
+ <ae941457cf6cacb9d4c16b6ec904da9ef7fed97f.1777475843.git.asml.silence@gmail.com>
+ <f0dd8f89-835e-4331-b593-4405ec59f4fe@amd.com>
 Content-Language: en-US
 From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <DI5RO76D5IWR.19K0ES58HUIVS@arkamax.eu>
+In-Reply-To: <f0dd8f89-835e-4331-b593-4405ec59f4fe@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 4/29/26 17:07, Maurizio Lombardi wrote:
-> On Wed Apr 29, 2026 at 5:25 PM CEST, Pavel Begunkov wrote:
->> Enable BIO_DMABUF_MAP backed requests. It creates a prp list for the
->> dmabuf when it's mapped, which is then used to initialise requests.
->>
->> Suggested-by: Keith Busch <kbusch@kernel.org>
->> Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
->> ---
-...>> +
->> +static int nvme_create_dmabuf_token(struct request_queue *q,
->> +				 struct io_dmabuf_token *token)
->> +{
->> +	struct nvme_dmabuf_token *data;
->> +	struct dma_buf_attachment *attach;
->> +	struct nvme_ns *ns = q->queuedata;
->> +	struct nvme_dev *dev = to_nvme_dev(ns->ctrl);
->> +	struct dma_buf *dmabuf = token->dmabuf;
->> +
->> +	data = kzalloc(sizeof(data), GFP_KERNEL);
->> +	if (!data)
->> +		return -ENOMEM;
+On 4/30/26 07:03, Christian König wrote:
+> On 4/29/26 17:25, Pavel Begunkov wrote:
+>> Introduce a new file callback that allows creating long-term dma
+>> mapping. All necessary information together with a dmabuf will be passed
+>> in the second argument of type struct io_dmabuf_token, which will be
+>> defined in following patches.
 > 
-> Shouldn't this be kzalloc(sizeof(*data)...) ?
+> Well first of all the naming is probably not the best. Maybe rather call that dma-buf attachment or context or mappping.
 
-Good catch, I'll apply it all for next version
+"Mapping" or "attachment" would be confusing as maps are created lazily
+together with struct io_dmabuf_map. I can name it create_dmabuf_ctx(),
+but I decided to use "token" not to collide with dmabuf terminology.
+e.g. I wouldn't be surprised to see some dmabuf ctx in the dmabuf
+implementation code. Maybe "*io_ctx" would be better.
+
+> Then the patch should probably define the full interface and not just add the callback here and then the structure in a follow up patch.
+
+I strongly prefer splitting patches so that they touch one tree at
+a time whenever possible. tbh, I don't see much of a problem it being
+not defined as it's just forwarded in first patches, but I can shuffle
+it around in the series so that definitions come first.
 
 -- 
 Pavel Begunkov
