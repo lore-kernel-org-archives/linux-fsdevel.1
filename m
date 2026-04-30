@@ -1,223 +1,200 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3668413FEE
-	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 04:16:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777522600; cv=none; b=acYXzv4uRevSxiqhgf/Mo5OGpGmlcg7FmSH1fdwPbV+AH9mYBVQol7PAtPAMF74Rb8UCmIAJH5x1jewxdgybvjf4McGTzv01i4pLxnL6fZUOEX636nicygeSzURZhQ4kp7tVjyerH6m+EjqGGX6Ysxp6lR6AETluO9dDHXRV7oI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777522600; c=relaxed/simple;
-	bh=O21kEOhjfByN54UZLdtuPwdAy6O3ToGBKeQrdJ/Hi38=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=twgsAoaUtsoZLnoSOweR9WW5f1KGJtEv5irxbQizhB/LmdfK4MB+p7+gTwLoQglsglO65QPIkJyTaKPVRQdxG9W2aT6y1XHxmc5qHlfzgcdgWEXQzX97yAbF4Un5Fr0I3TF+AobgIHmuFh4SqqCb5O02vTl4iMH0VxM+qlKVpZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EHmkXUeW; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C190C40DFD7
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 04:33:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777523641; cv=pass; b=EAs7Cxs+7VqrmS5w/zTgETQKZ5sllh4hjMH5F0i+zBa+cK4PMURxU+HfDBs+RPwtgtFQRGtNCXauq/YCwNf2yiyFkKBg58dLmxcSv9e0RLAlqE4AvOFwPUel7SZ66iBsrS3eZPP7Y+gu0c9P5rujj0Y9HPx28uu2DCAdgUuUl2I=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777523641; c=relaxed/simple;
+	bh=GUdIAWCWBvZ87PdCZf77qJNo0fjqOsqh1svrUL2Ht70=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=iGha/P5yBzMGuzlbzTr9LX1xuzYvUTRcQeb6qZ+1wqGNraLxdT5qiCm2IUYNXXtG3z0C0dUG+wnxQtJ96GJYGFfILyZjBq3mGsIpJVMD1k73rjuSEhFi2bOnANWybkIHgsBNpFKTs/OARCAXHTdCa2nya7A9wup8QHRo4hLHbZM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BEWSnfZn; arc=pass smtp.client-ip=74.125.224.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EHmkXUeW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB7B6C2BCB8;
-	Thu, 30 Apr 2026 04:16:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777522599;
-	bh=O21kEOhjfByN54UZLdtuPwdAy6O3ToGBKeQrdJ/Hi38=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EHmkXUeWUXdhYMqEwBbHkbhAeTRWh8sTUkj1HhgLzrq58N9144BeEo9Z/zGyuQOxr
-	 XME9HbIPfJAYnBEYQJG/22JD8DvB34/evbrmR8COkLN+hW1uwMEH1Q43JTW4mdJi9N
-	 xWy1wVNNP+H3mV6HzjLcHtKl7zsjMGmQJnOvEd0TWhKibdf5AU+Q8Zed3SZwxTLWe3
-	 aUf/tSlYKYS39k1km1XuF4zVkL5lB1+tLVyb/ai9lGKH+/lTm0IPnjJ0OgG+cTutA+
-	 d3tH1OTKU9MnkiZFX8Xtyek0aUp5uZiWOgC1jlDOVHoOn1AdrebluAJDWhTXZISAJy
-	 8rfvMWAbqkQxg==
-Date: Wed, 29 Apr 2026 21:16:39 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Bernd Schubert <bschubert@ddn.com>,
-	"bernd@bsbernd.com" <bernd@bsbernd.com>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	Luis Henriques <luis@igalia.com>, Gang He <dchg2000@gmail.com>
-Subject: Re: [PATCH v4 5/8] fuse: {io-uring} Allow reduced number of ring
- queues
-Message-ID: <20260430041639.GF3778109@frogsfrogsfrogs>
-References: <20260413-reduced-nr-ring-queues_3-v4-0-982b6414b723@bsbernd.com>
- <20260413-reduced-nr-ring-queues_3-v4-5-982b6414b723@bsbernd.com>
- <CAJnrk1aYYSVU-AdxRoqC5H8xk+4rt9Tf=3BPphsw4vvNxjpEyA@mail.gmail.com>
- <b7e93b2a-7096-4957-bf75-38e096a9dd3e@ddn.com>
- <CAJnrk1by9O1JBH5W9jvkgYcBZK_t7nxzeSsmxm65jb4=wv-ikQ@mail.gmail.com>
- <0a56969c-7fe6-428a-8eb5-6df5e61ff03f@ddn.com>
- <CAJnrk1ZFPr5AKULqMwz2ym3i9W9cJCQU7pFzF=FwOb-TtA8fxA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BEWSnfZn"
+Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-656d749109cso249729d50.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 29 Apr 2026 21:33:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777523638; cv=none;
+        d=google.com; s=arc-20240605;
+        b=W2ok+Hed5FoLBOZbzjMO06lhhUzpcaS/lqevQqn3P0WQAvaRSH5LQ+TQR2N/0Ui/XP
+         5VPI1gvAp+MGrh/yzCqMNCC37ZgXdYQVTBiZ6FErUgMdn1bcko+jzsYOTo1eY4b45OtA
+         WbvVVJ6EyD/wIKlMtYmRtlt+hbTHmZWk86RzTPvFp2rb3e1hLs25ulFFKHlIBL5YMnk6
+         Y59Mv+pfBSLiJMzhXl5Ui8cS/xJRP2ezzH6meyuUZMC4188nvITVHAC8KAIkVQ4OCXf5
+         gY/E818tGVbgJlyb3wLOfjWzcI6Ovhm0f9/EpQsVOE+znWDnwuqz9Rb20nrMc51Molhm
+         fACQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=ReTcQ8WomYbvcLoKBR3DjWCQ3wtT0PpRDdgNLjlgfSQ=;
+        fh=7yzVB5GHoApDxsP1Y24r6qzk2eDCEJTTJVIlHqll2/I=;
+        b=bqw6arT6XYaFy5ylM6u5tL0YPykv+KdWC1wFXwlfnJjiXRfKR8QugrpHBZXnZ/D2pI
+         Qs5cA759+wGWzz0ptvazvBNE4pIAN+fDMTiQXop7gBanD8GJ20Q+SdD3CpByy80XwW72
+         Lp5f+abqeQzFd3b8Jr8hb9vePw52+bfe53xHSa/IksPZbJKx5eeSF6z5DpBw7l17xqgv
+         p4bjanlHVSJJIR5/GZnzbKjbzFq5Zf+Ku1UcTz/QwkCGuEnZIw3OLh/ttOuGZTkB4OVp
+         BHGBt9LokOng+khYgdnW6Sw+hs8K+RUlV/seBV620CYkPvlLDlMezxgp5FtMMvH0AJ60
+         mvXQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777523638; x=1778128438; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=ReTcQ8WomYbvcLoKBR3DjWCQ3wtT0PpRDdgNLjlgfSQ=;
+        b=BEWSnfZndXsfv/6Uwwh/9J9CK5ihUZmPUFZ9GyZGrN6Srt4o49FGsGe8HylfX2FL/b
+         XVSMPwr34l6g+kkDYg1mdE5ITZ+PaL+K8pao5JsyX1v9lPpnnqTTT3GzjSkircnbN4GK
+         XreBD5kYKP8A2qLJ/e2IQQ80X/Sni5w/vgY8nKHQ38VKIyxKDLNOXUqM0HaoZKL9u4Ht
+         BovF6av9bNT3lJ63zdzrbCBgs3hKwS3Y3vNr2pyhP8JcKwhYu3+T30w7AsQok1Nsdw3k
+         Hk0L+KmtwNpgh3pKLTPGO+Ljt5FTrBqhep7YdIuxVdVF/OAvc7a+A7c986bp3SoAxKxu
+         SEnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777523638; x=1778128438;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ReTcQ8WomYbvcLoKBR3DjWCQ3wtT0PpRDdgNLjlgfSQ=;
+        b=Qg16wimhKiRKh1j5OhaRhXGbdi1Pf2VAMOd7hpw0Ov+0nqP2VgfHA8LVjAeu5DXumy
+         6MqRaXMQadHHriJpoQtmMs0LLKXXBh+yROlTBukPW6QB4TXC4QyUKGunZTJ6HMo8xdrc
+         Hv8nuF5ZGpKLpf3y6/wOtqIcVX1meC1h2vUl9Vmx5JKQuCo9dxQH08p9Nkx36WHCfkh/
+         PD+LYKEiAde5h83LPxHJoRnx47xq/LurGvNwOMu8YDcwt8ZLD2/ii8UHH5IKJcUGBK+0
+         T4VZyeTAz6YQJqve4CkEfIGzbz3ASwhK34LtOJM5FyJPWD2AZ2dxB4+S3otaG+ByJZG6
+         Gpnw==
+X-Gm-Message-State: AOJu0YzU9ZyqhgBUtPsn5YK3QWPs9vkoMTylxinfOggGnHfFQmbSXY6F
+	nH7rhL+Wj1ATL9SnmFkkTt//QWPQqu20hqOvyWvlHd9dEdB9cu7PW6OkkHtLPU4wQKQ1Lk7/jNC
+	P/1wCAamCCvIlgi8nYPoONk4SkeE0qtutkNRA
+X-Gm-Gg: AeBDievu+6E/RF+n8+9d7DNdX/LUT1tRkr7tH+ismobQRVl5SUEEKpdJIUIqiKHKnQM
+	lKMsYL5zmKLFerITwNVzIROR/2aNKKF1sWkfy8Uq0gbexFik0wiRhiM1sFKUY/+JcdgBDbHF+Xs
+	KVXFoQIUlXAQmp+CrF316FImm9fxsENk+gSLZbREenOy9M4NtgdcDmo8FEcfa1Y8EJAq7jBxEpH
+	j5yPcq74HhuPmOD4FfsHsIcXZrCkHsZDxRLo5/2EvvQ20a9jOtMqGw2HJRRRWL8FKa/BrQYH+un
+	mj0SsZWSTpIUtbzguWvRk1AkM5MbweT35p54iG5ryTKhNmECDR5WSiol7tozVSInQegNzxw4ZEO
+	CQetlD6E=
+X-Received: by 2002:a05:690e:134f:b0:651:b728:6f49 with SMTP id
+ 956f58d0204a3-65c18f7f291mr894763d50.49.1777523638313; Wed, 29 Apr 2026
+ 21:33:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJnrk1ZFPr5AKULqMwz2ym3i9W9cJCQU7pFzF=FwOb-TtA8fxA@mail.gmail.com>
+From: Gabriel Sakash <gabrielsakash@gmail.com>
+Date: Thu, 30 Apr 2026 00:33:47 -0400
+X-Gm-Features: AVHnY4I5krczZC4JxofcXK_rmS1EozxPAjbo8i5jIpJKtTz_T6KvLE4l8wu1glY
+Message-ID: <CA+PzELx7nhdo9XAJ7v3mb3hzK2LLTv6OOCHNdfnKJojX1ijoaQ@mail.gmail.com>
+Subject: Faulty interaction between open_tree_clone and OPEN_TREE_NAMESPACE?
+To: linux-fsdevel@vger.kernel.org
+Cc: brauner@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Apr 29, 2026 at 05:32:27PM +0100, Joanne Koong wrote:
-> On Wed, Apr 29, 2026 at 5:24 PM Bernd Schubert <bschubert@ddn.com> wrote:
-> >
-> >
-> >
-> > On 4/29/26 18:10, Joanne Koong wrote:
-> > > On Fri, Apr 24, 2026 at 11:01 PM Bernd Schubert <bschubert@ddn.com> wrote:
-> > >>
-> > >> On 4/24/26 20:28, Joanne Koong wrote:
-> > >>> On Mon, Apr 13, 2026 at 2:41 AM Bernd Schubert via B4 Relay
-> > >>> <devnull+bernd.bsbernd.com@kernel.org> wrote:
-> > >>>>
-> > >>>> From: Bernd Schubert <bschubert@ddn.com>
-> > >>>>
-> > >>>> Queues selection (fuse_uring_get_queue) can handle reduced number
-> > >>>> queues - using io-uring is possible now even with a single
-> > >>>> queue and entry.
-> > >>>>
-> > >>>> The FUSE_URING_REDUCED_Q flag is being introduce tell fuse server that
-> > >>>> reduced queues are possible, i.e. if the flag is set, fuse server
-> > >>>> is free to reduce number queues.
-> > >>>>
-> > >>>> Signed-off-by: Bernd Schubert <bschubert@ddn.com>
-> > >>>> ---
-> > >>>>  fs/fuse/dev_uring.c       | 160 ++++++++++++++++++++++++----------------------
-> > >>>>  fs/fuse/inode.c           |   2 +-
-> > >>>>  include/uapi/linux/fuse.h |   3 +
-> > >>>>  3 files changed, 88 insertions(+), 77 deletions(-)
-> > >>>>
-> > >>>> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-> > >>>> index 9dcbc39531f0e019e5abf58a29cdf6c75fafdca1..e68089babaf89fb81741e4a5e605c6e36a137f9e 100644
-> > >>>> --- a/fs/fuse/dev_uring.c
-> > >>>> +++ b/fs/fuse/dev_uring.c
-> > >>>>
-> > >>>> -static struct fuse_ring_queue *fuse_uring_task_to_queue(struct fuse_ring *ring)
-> > >>>> +static struct fuse_ring_queue *fuse_uring_select_queue(struct fuse_ring *ring)
-> > >>>>  {
-> > >>>>         unsigned int qid;
-> > >>>> -       struct fuse_ring_queue *queue;
-> > >>>> +       int node;
-> > >>>> +       unsigned int nr_queues;
-> > >>>> +       unsigned int cpu = task_cpu(current);
-> > >>>>
-> > >>>> -       qid = task_cpu(current);
-> > >>>> +       cpu = cpu % ring->max_nr_queues;
-> > >>>>
-> > >>>> -       if (WARN_ONCE(qid >= ring->max_nr_queues,
-> > >>>> -                     "Core number (%u) exceeds nr queues (%zu)\n", qid,
-> > >>>> -                     ring->max_nr_queues))
-> > >>>> -               qid = 0;
-> > >>>> +       /* numa local registered queue bitmap */
-> > >>>> +       node = cpu_to_node(cpu);
-> > >>>> +       if (WARN_ONCE(node >= ring->nr_numa_nodes,
-> > >>>> +                     "Node number (%d) exceeds nr nodes (%d)\n",
-> > >>>> +                     node, ring->nr_numa_nodes)) {
-> > >>>> +               node = 0;
-> > >>>> +       }
-> > >>>>
-> > >>>> -       queue = ring->queues[qid];
-> > >>>> -       WARN_ONCE(!queue, "Missing queue for qid %d\n", qid);
-> > >>>> +       nr_queues = READ_ONCE(ring->numa_q_map[node].nr_queues);
-> > >>>> +       if (nr_queues) {
-> > >>>> +               qid = ring->numa_q_map[node].cpu_to_qid[cpu];
-> > >>>> +               if (WARN_ON_ONCE(qid >= ring->max_nr_queues))
-> > >>>> +                       return NULL;
-> > >>>> +               return READ_ONCE(ring->queues[qid]);
-> > >>>> +       }
-> > >>>
-> > >>> Hi Bernd,
-> > >>>
-> > >>> Thanks for making the changes on this - I really like how much simpler
-> > >>> the logic is now.
-> > >>>
-> > >>> I'm looking through how the block multiqueue code works
-> > >>> (block/blk-mq.c and block/blk-mq-cpumap.c) because I think they
-> > >>> basically have to do the same thing with figuring out which cpu to
-> > >>> dispatch a request to.
-> > >>>
-> > >>> It looks like what they do is use group_cpus_evenly(), which as I
-> > >>> understand it, will partition CPUs taking into account numa nodes (as
-> > >>> well as clustering and SMT siblings). I think if we use this for fuse
-> > >>> io-uring, it will make things a lot simpler and we could get rid of
-> > >>> the per-numa state tracking (eg numa_q_map, registered_q_mask,
-> > >>> nr_numa_nodes)  and simplify queue selection where now that can just
-> > >>> be a cpu to qid lookup instead of a two-level
-> > >>> numa-then-global-fallback lookup.
-> > >>>
-> > >>> Do you think something like this makes sense?
-> > >>
-> > >> Maybe, I need to check that code. However, does this really need to be
-> > >> done right now? This cannot be updated later? For me it looks a bit like
-> > >> we are going to replace one code by another, without a clear advantage.
-> > >> I can look into group_cpus_evenly(), but I cannot promise you when that
-> > >> will happen.
-> > >> My personal preference would be to work on real issue, like getting rid
-> > >> of two locks (queue->lock and bg->lock) and distribute max_bg accross
-> > >> queues. And that probably requires the distribution across queues, which
-> > >> you didn't like in the previous series. Anway, already finding the time
-> > >> for that is hard.
-> > >>
-> > >> My personal opinion is that queue selection needs to return the qid, so
-> > >> that the function can be overriden with eBPF. I didn't have time yet to
-> > >> try that out.
-> > >>
-> > >>>
-> > >>> Additionally, as I understand it, in this series, the ring->q_map
-> > >>> mapping has to get rebuilt every time a new queue gets created. What
-> > >>> do you think about just having the server declare the total queue
-> > >>> count upfront and then the mapping can just get established at ring
-> > >>> creation time? group_cpus_evenly() would only need to be called once,
-> > >>> the cpu_to_qid map would only have to be built once, and we could
-> > >>> avoid the rebuild-on-each-queue-creation complexity entirely. Do you
-> > >>> think something like this makes sense?
-> > >>
-> > >> That is why I said in another mail that a config SQE would make to some
-> > >> extend sense. However, the part where I disagree is that we could make
-> > >> it all entirely dynamic with the current approach.
-> > >> Only the logic for that in libfuse is missing. I.e. it _could_ start
-> > >> with a single queue or one queue per numa and one ring entry. Basically
-> > >> no memory usage then.
-> > >> And now libfuse could add logic - many small requests - set up ring
-> > >> entries with smaller payload size (or smaller pBuf). Many large requests
-> > >> - add more requests with larger payload size. And with the current
-> > >> approach queues can be added dynamically.
-> > >
-> > > Bernd, looking through this series some more, I still think it would
-> > > be preferable if userspace passed in the number of queues upfront at
-> > > registration time and requests are gated until all those queues have
-> > > completed set up. I think this makes races a lot simpler. Even without
-> > > configurable queues, there are already tricky races to reason about in
-> > > the dispatch and abort/teardown paths, and with configurable queues
-> > > that can now handle/submit requests while other queues are not yet set
-> > > up, there are now races against both request submission and
-> > > potentially concurrent queue registration, as well as races with
-> > > mappings that can reference queues in any state. I think it'd be
-> > > preferable to try to keep things as simple as possible, and have
-> > > dynamic queue addition added/supported later through a new uring cmd
-> > > if needed.
-> > >
-> > > What are your thoughts on this?
-> >
-> > Can we defer this to v6? I.e. v5 goes out on Friday with minimal fix
-> > changes and then we discuss with Miklos about it next week? In the end I
-> > had all these things initially entirely static and had an io-uring
-> > config ioctl. In the mean time I see a good reason to have it dynamic,
-> > mainly to keep memory usage low, but I also see the possible races, of
-> > course (although I hope that I didn't introduce new ones).
-> >
-> > In principle we would need at least monthly meeting to synchronize and
-> > agree on design choices. If I understand Darrick right ext4 has that.
+Hello.
 
-ext4 and xfs each have a weekly community conference call.
+Christian Brauner, I have CC'd you since you're the author of
+https://lore.kernel.org/all/20251229-work-empty-namespace-v1-0-
+bfb24c7b061f@kernel.org/.
 
-> That sounds great! I agree it'll be a lot quicker to discuss this in
-> person :D Looking forward to seeing you next week.
+Due to Arch Linux updating the kernel to 7.0.2 today, I have been able to test
+the new OPEN_TREE_NAMESPACE open_tree flag on my main workstation.
+However, I have found that it and open_tree_attr do not work together.
 
-Me likewise!
+At the end is the C program I used to test the following.
+I expect that the output is something like:
+TARGET SOURCE                    FSTYPE OPTIONS PROPAGATION
+/               /dev/nvme0n1p2[/@] btrfs         <options> private
+But I get:
+open_tree_attr /: Operation not permitted
 
---D
+Using "plain" open_tree works as expected. I have narrowed down 3 issues:
 
-> Thanks,
-> Joanne
-> >
-> > Thanks,
-> > Bernd
-> 
+1:
+fs/namespace.c:5196 => wants_mount_setattr(...) to check if the attribute
+changes are sound.
+fs/namespace.c:5101 => may_mount() to check if the permission are met
+
+may_mount is:
+return ns_capable(current->nsproxy->mnt_ns->user_ns, CAP_SYS_ADMIN);
+
+Because this is from open_tree_attr, the process has not entered the new mount
+namespace yet. This will check if the process has CAP_SYS_ADMIN in the init
+user namespace, which it won't.
+
+2:
+fs/namespace.c:5198 => do_mount_setattr(&file->f_path, ...)
+fs/namespace.c:5198 => path_mounted(path)
+
+This attempts to make the mount attribute changes on the path of the namespace
+"file", and not to the (root) mount in the new mount namespace. It will fail on
+path_mounted because the namespace "file" won't be the root of the NS FS.
+
+3:
+fs/namespace.c:4952 => !anon_ns_root(mnt) && !check_mnt(mnt)
+
+This checks if the mount is anonymous (it won't be), and if not,that
+it's in the same
+mount namespace as the process (also false).
+It appears that the current mount attribute calls aren't set up to handle
+mount namespaces different from that of the current process.
+
+This issue is still prevalent when running a VM with a kernel built off of
+Linus's master branch. Apologies if this is already known about.
+
+Thank you for your time and good day.
+
+
+
+C code to reproduce:
+==================================================
+#include <fcntl.h>
+#include <linux/mount.h>
+#include <sched.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/mount.h>
+#include <syscall.h>
+#include <unistd.h>
+
+// linux-api-headers on Arch is only up to 6.19 so /usr/include/linux/mount.h
+// doesn't have this constant yet
+#define OPEN_TREE_NAMESPACE (1 << 1)
+
+int open_tree_attr(int dirfd, const char *path, unsigned int flags,
+                   struct mount_attr *attr) {
+    return (int) syscall(SYS_open_tree_attr, dirfd, path, flags, attr,
+                         sizeof(struct mount_attr));
+}
+
+int main(void) {
+    if (unshare(CLONE_NEWUSER) != 0) {
+        perror("unsharing user namespace");
+        return EXIT_FAILURE;
+    }
+
+    struct mount_attr attrs = {.propagation = MS_PRIVATE};
+
+    const int namespace_fd = open_tree_attr(AT_FDCWD, "/",
+        OPEN_TREE_CLOEXEC | OPEN_TREE_NAMESPACE, &attrs);
+
+    if (namespace_fd < 0) {
+        perror("open_tree_attr /");
+        return EXIT_FAILURE;
+    }
+
+    if (setns(namespace_fd, CLONE_NEWNS) != 0) {
+        perror("setns");
+        return EXIT_FAILURE;
+    }
+
+    close(namespace_fd);
+
+    char *args[] = {
+        "/usr/bin/findmnt",
+        "--kernel=listmount", // Needed due to proc not being mounted
+        "-o", "+PROPAGATION",
+        NULL
+    };
+
+    execv(args[0], args);
+
+    perror("exec");
+    return EXIT_FAILURE;
+}
+==================================================
